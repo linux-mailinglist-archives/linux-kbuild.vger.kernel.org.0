@@ -2,310 +2,100 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CE4A0787991
-	for <lists+linux-kbuild@lfdr.de>; Thu, 24 Aug 2023 22:49:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 164F47879B8
+	for <lists+linux-kbuild@lfdr.de>; Thu, 24 Aug 2023 22:56:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243400AbjHXUs5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 24 Aug 2023 16:48:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38208 "EHLO
+        id S243605AbjHXUzc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 24 Aug 2023 16:55:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243601AbjHXUsu (ORCPT
+        with ESMTP id S243610AbjHXUzR (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 24 Aug 2023 16:48:50 -0400
-Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com [IPv6:2607:f8b0:4864:20::1149])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34CD81991
-        for <linux-kbuild@vger.kernel.org>; Thu, 24 Aug 2023 13:48:47 -0700 (PDT)
-Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-58d37b541a2so3805327b3.2
-        for <linux-kbuild@vger.kernel.org>; Thu, 24 Aug 2023 13:48:47 -0700 (PDT)
+        Thu, 24 Aug 2023 16:55:17 -0400
+Received: from mail-qv1-xf34.google.com (mail-qv1-xf34.google.com [IPv6:2607:f8b0:4864:20::f34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF38B1BD8
+        for <linux-kbuild@vger.kernel.org>; Thu, 24 Aug 2023 13:55:14 -0700 (PDT)
+Received: by mail-qv1-xf34.google.com with SMTP id 6a1803df08f44-649a653479bso1625116d6.0
+        for <linux-kbuild@vger.kernel.org>; Thu, 24 Aug 2023 13:55:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1692910126; x=1693514926;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=M0yJZryWMYeO3ru4SL2etFZxtb/uTR0NYnDC6wqAIp0=;
-        b=O5lPfwxP2ZX5jRGZtkaXjoT01H5GZ0XSxuBn6tH/X6Eqc9pJ76hJE1kD86PTMk1ST6
-         8a5RMLvAcD0wH6ztd12HemFXEaxCCZxqESTRS+g0K8q+BDz9KUMW8vDVowHPv2C1gHpF
-         +cJ+sGBPRaB4phgQNWNLZjWGi5tuowVrTp/xey1jD/oLwUTKaBOs7WCiDQZwZPKDcsfm
-         PFebf5R2z/yVO03WpAePC/zYGH6tc4Y/uJxMbQNvGqlWuGWqCwpERL0EBDp/2EmK3cic
-         XtizBsVi1mzhQ7rpheyzqKRrH1TixpnXkyREJNr4cwfGmm0eLuqAyfA6Ze02loN9wpgQ
-         YdIA==
+        d=google.com; s=20221208; t=1692910514; x=1693515314;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=P9veUMJ/z882K9hkHEmh4pAoTDmJO4VmWvc8gTfMi6Q=;
+        b=cNir2zO4Jw1bY15AO+BvLzyudCZQgZOZ6wmKu3gTiOE6O5d8uld/TL1ezLjaI6QYbm
+         WOGGPHYDU/pK4dxlnF7Ms+FTC/sMRd3w0UHs5vWl7Ok8xxNThnUi40LTsEqvRgt612yt
+         78aWAjEVTurY9yP/vzKIVztJ70N6XuOBe4TzTTYoIN4ZaN51LMOSChOtgvQbcVaqgblP
+         cXZz8KRbjOvTDGzMC8MqwpETfoHXd3UWkIm9s5iVgENo6DP/sbX4cOh9u7J1okj8PlZZ
+         BokMSSDN911JlFclyP8hVqyb+sA6fCfvwhQTmJ3jDmPDMIreFp+riuf57qJzWHHRcB6x
+         9FPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692910126; x=1693514926;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=M0yJZryWMYeO3ru4SL2etFZxtb/uTR0NYnDC6wqAIp0=;
-        b=PHm5srGGFRiUNSKAUiIMkaoWKR0tNz1LJHa/b4YtJJBjviAGX3ARZdkkVW+vXuiuEJ
-         ychVK8aR9WdCs3eya6cYtcGb48WuBA+j+vcLIE+8tuiXmdefwRaN4ZCy0L0AsVKdq0Fz
-         hjugCK9XCteDEo4T/LsCf/XoITth0P+oMNz6/c1movUAaIxCR8LnZjglfpRgG07EO4DA
-         b7Dp+CcD4PzH43F9khLRmpEtCcyNGPptjhM63743+nKhkMxViV5lnNMo5sdR7byYob76
-         ze30x13X2cMTdqAuEoZblUwR9X/Oo0WqTV0qrC+RCdW4Pe701B358tX6ATV8/GG3X8jC
-         ujEg==
-X-Gm-Message-State: AOJu0Yx2ISVKjP83Jwpk1MemjHC3zZQ+IJIEvuVWfQDh6duTYTh5DCN6
-        5TsC00/CQb4dPDF/B7A/hYG8+5L4tED7zNJyKP4=
-X-Google-Smtp-Source: AGHT+IHSSvrHDyjia7HhrvF+NQ3tP9byLcqc5+0hCYuVncXYTIcVK7jaYqoyK5t55SBOOuPSFQPjEC5/8v9cDVOwv7Y=
-X-Received: from ndesaulniers-desktop.svl.corp.google.com ([2620:15c:2d1:203:63f7:38ec:c0bd:8830])
- (user=ndesaulniers job=sendgmr) by 2002:a05:6902:290:b0:d48:c04:f256 with
- SMTP id v16-20020a056902029000b00d480c04f256mr264462ybh.11.1692910126508;
- Thu, 24 Aug 2023 13:48:46 -0700 (PDT)
-Date:   Thu, 24 Aug 2023 13:48:43 -0700
-Mime-Version: 1.0
-X-B4-Tracking: v=1; b=H4sIACrC52QC/13MQQ7CIBCF4as0sxbDUC3ElfcwXVQYKIl2GjBE0
- 3B3sUuX/8vLt0GmFCnDpdsgUYk58tJCHTqw87QEEtG1BiVVL406Ccc2C4t6OjvSHmUP7bom8vG 9M7ex9Rzzi9NnVwv+1j+goEAxaJIDKm3uxl8Dc3jQ0fITxlrrF25UWUaZAAAA
-X-Developer-Key: i=ndesaulniers@google.com; a=ed25519; pk=eMOZeIQ4DYNKvsNmDNzVbQZqpdex34Aww3b8Ah957X4=
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1692910124; l=8692;
- i=ndesaulniers@google.com; s=20230823; h=from:subject:message-id;
- bh=tF1NWDJnkZ9aR4MO1fxhjTI93RQpM0ZUl3wqcpY3mfQ=; b=RwPBFc3vurwU8C0ZNuw/kt5+Fi47JNw4+LMM4uD5X2F3Kqo9o3U1G3+rwNVyOeuAsmSnfsqtg
- w4kxoYGWLrFDA9cZ39ON8h8rVoSU6SFjdF2RPXbp4D0skkbHGU3lWeK
-X-Mailer: b4 0.12.3
-Message-ID: <20230824-docs-v2-1-848abf651184@google.com>
-Subject: [PATCH v2] Documentation/llvm: refresh docs
-From:   ndesaulniers@google.com
-To:     Nathan Chancellor <nathan@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Tom Rix <trix@redhat.com>, Nicolas Schier <nicolas@fjasle.eu>,
+        d=1e100.net; s=20221208; t=1692910514; x=1693515314;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=P9veUMJ/z882K9hkHEmh4pAoTDmJO4VmWvc8gTfMi6Q=;
+        b=e83h2hKIvPXt/SihOnx5pq48wInyKdGPDt2DmlcJ8WzZWOGkqdBnJwBioMqfIS2Riv
+         0ZaoUWXHFDsaA+iYBxsWLmGGS6GELEj9tkcvdWjzu1ZEUKMsNNDbdpg7eel3q0USAbI+
+         wGUmEMnTj4fDtCAvfxOPiHOEG+HFcZeiA+3mRcAg2uODc1AJOvGS4C4qsIc+jt/2EhGD
+         ueZsFY5HO1bnIvMCp4fV0YzDB1yXHeqi4ZzUVz2YWLupMuJIYO/u0+exuQNR0MAX6vnz
+         8C/WYoq66x109IYKLOiDtMoSJYlEEdJVhEN2BjoKIovS3XmXKV2LMVbf5QQNgEvleupV
+         VgLw==
+X-Gm-Message-State: AOJu0YwUfyS3jYMaQyaIVjwWtXJHzz18FuKhlftvm+RbzXz6s3rWdBFT
+        36EAhl34JfvlKYqiBoIt+HTxSsfn34edv7wZZsJiTpQXOFltMZI4x3I=
+X-Google-Smtp-Source: AGHT+IGp1K8B09Bdl+oZ3RkqbVetgjSDMnQuEIy2o3NTYbqmOnwJtltpQ9JU5CwHn6kcCYZRMLaYXjyuarXlr9l4qDA=
+X-Received: by 2002:a0c:e2ca:0:b0:64f:3b07:c50a with SMTP id
+ t10-20020a0ce2ca000000b0064f3b07c50amr13629295qvl.58.1692910513818; Thu, 24
+ Aug 2023 13:55:13 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230824-docs-v1-1-67e061278b8f@google.com> <20230824184910.GA2015748@dev-arch.thelio-3990X>
+In-Reply-To: <20230824184910.GA2015748@dev-arch.thelio-3990X>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Thu, 24 Aug 2023 13:55:03 -0700
+Message-ID: <CAKwvOdkas2gmcyVKSp0DSXC56jxUB1HW8XRYKVBfS0sz3MSi5w@mail.gmail.com>
+Subject: Re: [PATCH] Documentation/llvm: refresh docs
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>, Tom Rix <trix@redhat.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
         Jonathan Corbet <corbet@lwn.net>,
         Paul Walmsley <paul.walmsley@sifive.com>,
         Palmer Dabbelt <palmer@dabbelt.com>,
         Albert Ou <aou@eecs.berkeley.edu>, llvm@lists.linux.dev,
         linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-        Nick Desaulniers <ndesaulniers@google.com>
-Content-Type: text/plain; charset="utf-8"
-X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Recent fixes for an embargoed hardware security vulnerability failed to
-link with ld.lld (LLVM's linker).  [0]  To be fair, our documentation
-mentions ``CC=clang`` foremost with ``LLVM=1`` being buried "below the
-fold."
+On Thu, Aug 24, 2023 at 11:49=E2=80=AFAM Nathan Chancellor <nathan@kernel.o=
+rg> wrote:
+>
+> On Thu, Aug 24, 2023 at 11:03:17AM -0700, ndesaulniers@google.com wrote:
+> > -We provide prebuilt stable versions of LLVM on `kernel.org <https://ke=
+rnel.org/pub/tools/llvm/>`_.
+> > -Below are links that may be useful for building LLVM from source or pr=
+ocuring
+> > -it through a distribution's package manager.
+> > +We provide prebuilt stable versions of LLVM on `kernel.org
+> > +<https://kernel.org/pub/tools/llvm/>`_. These have been optimized with=
+ profile
+> > +data for building Linux kernels. Below are links that may be useful fo=
+r
+>
+> Maybe make a note of why this matters? ", which should lower kernel
+> build times compared to non-optimized LLVM toolchains."?
 
-We want to encourage the use of ``LLVM=1`` rather than just
-``CC=clang``. Make that suggestion "above the fold" and "front and
-center" in our docs.
+Oh, I forgot to address this in v2. Will send a v3.
 
-While here, the following additional changes were made:
-- remove the bit about CROSS_COMPILE setting --target=, that's no longer
-  true.
-- Add ARCH=loongarch to the list of maintained targets (though we're
-  still working on getting defconfig building cleanly at the moment;
-  we're pretty close).
-- Bump ARCH=powerpc from CC=clang to LLVM=1 status.
-- Promote ARCH=riscv from being Maintained to being Supported. Android
-  is working towards supporting RISC-V, and we have excellent support
-  from multiple companies in this regard.
-- Note that the toolchain distribution on kernel.org has been built with
-  profile data from kernel builds.
-
-Link: https://github.com/ClangBuiltLinux/linux/issues/1907 [0]
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
----
-Changes in v2:
-- Commit message changes:
-  - Put SOB tag above the fold.
-  - Mention PPC change in commit message.
-  - Fix typos in commit message.
-  - Add Nathan's RB tag to commit message.
-- Fix kernel doc warnings
-- Reword s390 example under `The LLVM= argument`.
-- Reword and add examples to `The LLVM_IAS= argument`.
-- Link to v1: https://lore.kernel.org/r/20230824-docs-v1-1-67e061278b8f@google.com
----
- Documentation/kbuild/llvm.rst | 115 +++++++++++++++++++++++++-----------------
- 1 file changed, 68 insertions(+), 47 deletions(-)
-
-diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-index c3851fe1900d..1bfcadc41e7d 100644
---- a/Documentation/kbuild/llvm.rst
-+++ b/Documentation/kbuild/llvm.rst
-@@ -25,50 +25,38 @@ objects <https://www.aosabook.org/en/llvm.html>`_. Clang is a front-end to LLVM
- that supports C and the GNU C extensions required by the kernel, and is
- pronounced "klang," not "see-lang."
- 
--Clang
-------
--
--The compiler used can be swapped out via ``CC=`` command line argument to ``make``.
--``CC=`` should be set when selecting a config and during a build. ::
--
--	make CC=clang defconfig
--
--	make CC=clang
--
--Cross Compiling
-----------------
-+Building with LLVM
-+------------------
- 
--A single Clang compiler binary will typically contain all supported backends,
--which can help simplify cross compiling. ::
-+Invoke ``make`` via::
- 
--	make ARCH=arm64 CC=clang CROSS_COMPILE=aarch64-linux-gnu-
-+	make LLVM=1
- 
--``CROSS_COMPILE`` is not used to prefix the Clang compiler binary, instead
--``CROSS_COMPILE`` is used to set a command line flag: ``--target=<triple>``. For
--example: ::
-+to compile for the host target. For cross compiling::
- 
--	clang --target=aarch64-linux-gnu foo.c
-+	make LLVM=1 ARCH=arm64
- 
--LLVM Utilities
----------------
-+The LLVM= argument
-+------------------
- 
--LLVM has substitutes for GNU binutils utilities. They can be enabled individually.
--The full list of supported make variables::
-+LLVM has substitutes for GNU binutils utilities. They can be enabled
-+individually. The full list of supported make variables::
- 
- 	make CC=clang LD=ld.lld AR=llvm-ar NM=llvm-nm STRIP=llvm-strip \
- 	  OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump READELF=llvm-readelf \
- 	  HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar HOSTLD=ld.lld
- 
--To simplify the above command, Kbuild supports the ``LLVM`` variable::
--
--	make LLVM=1
-+``LLVM=1`` expands to the above.
- 
- If your LLVM tools are not available in your PATH, you can supply their
- location using the LLVM variable with a trailing slash::
- 
- 	make LLVM=/path/to/llvm/
- 
--which will use ``/path/to/llvm/clang``, ``/path/to/llvm/ld.lld``, etc.
-+which will use ``/path/to/llvm/clang``, ``/path/to/llvm/ld.lld``, etc. The
-+following may also be used::
-+
-+	PATH=/path/to/llvm:$PATH make LLVM=1
- 
- If your LLVM tools have a version suffix and you want to test with that
- explicit version rather than the unsuffixed executables like ``LLVM=1``, you
-@@ -78,31 +66,59 @@ can pass the suffix using the ``LLVM`` variable::
- 
- which will use ``clang-14``, ``ld.lld-14``, etc.
- 
-+To support combinations of out of tree paths with version suffixes, we
-+recommend::
-+
-+	PATH=/path/to/llvm/:$PATH make LLVM=-14
-+
- ``LLVM=0`` is not the same as omitting ``LLVM`` altogether, it will behave like
--``LLVM=1``. If you only wish to use certain LLVM utilities, use their respective
--make variables.
-+``LLVM=1``. If you only wish to use certain LLVM utilities, use their
-+respective make variables.
- 
--The integrated assembler is enabled by default. You can pass ``LLVM_IAS=0`` to
--disable it.
-+The same value used for ``LLVM=`` should be set for each invocation of ``make``
-+if configuring and building via distinct commands. ``LLVM=`` should also be set
-+as an environment variable when running scripts that will eventually run
-+``make``.
- 
--Omitting CROSS_COMPILE
------------------------
-+Cross Compiling
-+---------------
-+
-+A single Clang compiler binary (and corresponding LLVM utilities) will
-+typically contain all supported back ends, which can help simplify cross
-+compiling especially when ``LLVM=1`` is used. If you use only LLVM tools,
-+``CROSS_COMPILE`` or target-triple-prefixes become unnecessary. Example::
-+
-+	make LLVM=1 ARCH=arm64
- 
--As explained above, ``CROSS_COMPILE`` is used to set ``--target=<triple>``.
-+As an example of mixing LLVM and GNU utilities, for a target like ``ARCH=s390``
-+which does not yet have ``ld.lld`` or ``llvm-objcopy`` support, you could
-+invoke ``make`` via::
- 
--If ``CROSS_COMPILE`` is not specified, the ``--target=<triple>`` is inferred
--from ``ARCH``.
-+	make LLVM=1 ARCH=s390 LD=s390x-linux-gnu-ld.bfd \
-+	  OBJCOPY=s390x-linux-gnu-objcopy
- 
--That means if you use only LLVM tools, ``CROSS_COMPILE`` becomes unnecessary.
-+This example will invoke ``s390x-linux-gnu-ld.bfd`` as the linker and
-+``s390x-linux-gnu-objcopy``, so ensure those are reachable in your ``$PATH``.
-+
-+``CROSS_COMPILE`` is not used to prefix the Clang compiler binary (or
-+corresponding LLVM utilities) as is the case for GNU utilities when ``LLVM=1``
-+is not set.
-+
-+The LLVM_IAS= argument
-+----------------------
- 
--For example, to cross-compile the arm64 kernel::
-+Clang can assemble assembler code. You can pass ``LLVM_IAS=0`` to disable this
-+behavior and have Clang invoke the corresponding non-integrated assembler
-+instead. Example::
- 
--	make ARCH=arm64 LLVM=1
-+	make LLVM=1 LLVM_IAS=0
- 
--If ``LLVM_IAS=0`` is specified, ``CROSS_COMPILE`` is also used to derive
--``--prefix=<path>`` to search for the GNU assembler and linker. ::
-+``CROSS_COMPILE`` is necessary when cross compiling and ``LLVM_IAS=0``
-+is used in order to set ``--prefix=`` for the compiler to find the
-+corresponding non-integrated assembler (typically, you don't want to use the
-+system assembler when targeting another architecture). Example::
- 
--	make ARCH=arm64 LLVM=1 LLVM_IAS=0 CROSS_COMPILE=aarch64-linux-gnu-
-+	make LLVM=1 ARCH=arm LLVM_IAS=0 CROSS_COMPILE=arm-linux-gnueabi-
- 
- Supported Architectures
- -----------------------
-@@ -135,14 +151,17 @@ yet. Bug reports are always welcome at the issue tracker below!
-    * - hexagon
-      - Maintained
-      - ``LLVM=1``
-+   * - loongarch
-+     - Maintained
-+     - ``LLVM=1``
-    * - mips
-      - Maintained
-      - ``LLVM=1``
-    * - powerpc
-      - Maintained
--     - ``CC=clang``
-+     - ``LLVM=1``
-    * - riscv
--     - Maintained
-+     - Supported
-      - ``LLVM=1``
-    * - s390
-      - Maintained
-@@ -171,9 +190,11 @@ Getting Help
- Getting LLVM
- -------------
- 
--We provide prebuilt stable versions of LLVM on `kernel.org <https://kernel.org/pub/tools/llvm/>`_.
--Below are links that may be useful for building LLVM from source or procuring
--it through a distribution's package manager.
-+We provide prebuilt stable versions of LLVM on `kernel.org
-+<https://kernel.org/pub/tools/llvm/>`_. These have been optimized with profile
-+data for building Linux kernels. Below are links that may be useful for
-+building LLVM from source or procuring it through a distribution's package
-+manager.
- 
- - https://releases.llvm.org/download.html
- - https://github.com/llvm/llvm-project
-
----
-base-commit: 93f5de5f648d2b1ce3540a4ac71756d4a852dc23
-change-id: 20230824-docs-c17a5de7f103
-
-Best regards,
--- 
-Nick Desaulniers <ndesaulniers@google.com>
-
+--=20
+Thanks,
+~Nick Desaulniers
