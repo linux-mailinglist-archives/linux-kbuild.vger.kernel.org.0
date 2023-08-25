@@ -2,143 +2,94 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6258D787F9D
-	for <lists+linux-kbuild@lfdr.de>; Fri, 25 Aug 2023 08:12:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 98A36788022
+	for <lists+linux-kbuild@lfdr.de>; Fri, 25 Aug 2023 08:43:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236559AbjHYGMZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 25 Aug 2023 02:12:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51628 "EHLO
+        id S232051AbjHYGmw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 25 Aug 2023 02:42:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52692 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241612AbjHYGMF (ORCPT
+        with ESMTP id S242638AbjHYGmj (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 25 Aug 2023 02:12:05 -0400
-Received: from gandalf.ozlabs.org (mail.ozlabs.org [IPv6:2404:9400:2221:ea00::3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA0291FFB;
-        Thu, 24 Aug 2023 23:12:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
-        s=201909; t=1692943919;
-        bh=Cc2wNrVySgQWB1oZUr5oEwkwqvGvweIc8X/OBtG4+Wg=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=iXSFfKONhaS61Wio3k/V1b70XjLLTQdt8vrEOUswdKDp7oPYD+2VsdrF14uK01p64
-         XXlT9K+fMxudJ8FOKNRLR6XGVcf35t4ZKkoKMI8rzvIHhKUlVXdEuAhvNneqf/3BKB
-         zxIP+l0zO05GipBAPeUhsSs3ZPmmChBaE4wXoIVUixOzyK7TIexFrSpeC7Sl9v0kGz
-         q8BWc/9IsPu+6fJocKU/6khYcBr1rEVzf06tM/e4KaUSImp+IRv5bY+pH9J7IsQG/j
-         dkA4oO/aRIG2l8rjLjajtdwh4qjdqeh8OAtvDnuqzZ5Yrqcq5mhGzx+uYqjvY3iwzJ
-         sDFScRxVAy46g==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.ozlabs.org (Postfix) with ESMTPSA id 4RX8jp5yZWz4wxR;
-        Fri, 25 Aug 2023 16:11:58 +1000 (AEST)
-From:   Michael Ellerman <mpe@ellerman.id.au>
-To:     Kees Cook <keescook@chromium.org>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Kees Cook <keescook@chromium.org>, x86@kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-        linux-s390@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH] kbuild: Show Kconfig fragments in "help"
-In-Reply-To: <20230824223606.never.762-kees@kernel.org>
-References: <20230824223606.never.762-kees@kernel.org>
-Date:   Fri, 25 Aug 2023 16:11:58 +1000
-Message-ID: <87a5ufvefl.fsf@mail.lhotse>
+        Fri, 25 Aug 2023 02:42:39 -0400
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 631B9CF1
+        for <linux-kbuild@vger.kernel.org>; Thu, 24 Aug 2023 23:42:37 -0700 (PDT)
+Received: by mail-lf1-x12f.google.com with SMTP id 2adb3069b0e04-4ff8f2630e3so852254e87.1
+        for <linux-kbuild@vger.kernel.org>; Thu, 24 Aug 2023 23:42:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1692945755; x=1693550555;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Fw/TPy5PPNB4EMsxpIFEVOsKZ2VJzxUxBznQoDOdffI=;
+        b=UpxJmUF5ambajGRTOkN70yPHL9WD3P4M00wxtszch4r34Y3zKyy3MNF19DHwqfQgU9
+         TXYXZP3K7RtbK4KFKv8BQS0u6JO3qLOS216LBWWumkrYfk71SUfTKETOMXMj/zINbqWX
+         vEgDNbqMMHcdcTCYLgjAmu73yBeTjdlxK+kf4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692945755; x=1693550555;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Fw/TPy5PPNB4EMsxpIFEVOsKZ2VJzxUxBznQoDOdffI=;
+        b=NpMTccs5wvBQxnpqBUr22ek1UXQeGnmvoPXBPu8jsZZyVz9BRTqY8ZRgLszhNhjy47
+         kS80zcOSvwkSCkytai73mMe42u763cg/rZeTyz4SxL16IpLNsI40yLLIvympGNSHUvSt
+         uTZmBTpOn2myENpBCpZO8b8v1PkzrA7m09OBkim3EzbE3J6iV7YXzWK8v69ruB6wlSD4
+         MUUNfeshM8eNdC84Vh1Ntd5tGkCH7K0d/dWCdZj9qkvBtUNi8pmZQmInUQgekwyUsrjK
+         dLmS2WL8RDKyiCP12HOETWdG8vcMTx7zaJcY24xip4UNvrPY1y/4jUyJKonMBHCLYAxl
+         h8Jw==
+X-Gm-Message-State: AOJu0YzfaCSykJ9QkH/1Gt2NHL5LrTOt48cyZ7Fsd+JgfLwjgfvrxLBs
+        g7buQrmFq5hhbHk9C+wyHtqtVdCEa+DRLp15+RAmZA==
+X-Google-Smtp-Source: AGHT+IG6FUhjuS7jGvtYJp+Y5GnZ7JsUtK1au0ormYeBwz788UQ8ga8VspmYencK/Tf/1SwCV45MsdoGiS/GWSizaYU=
+X-Received: by 2002:ac2:4c52:0:b0:4fe:7e1f:766a with SMTP id
+ o18-20020ac24c52000000b004fe7e1f766amr17087918lfk.24.1692945755226; Thu, 24
+ Aug 2023 23:42:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20230822065256.163660-1-denik@chromium.org> <20230822174835.253469-1-denik@chromium.org>
+ <CAFP8O3KunP9CzT_U2cj1_oysojTxCNJRWX_kvvu_wOx4tbYHug@mail.gmail.com>
+ <CAK7LNASstNj2HEfJHcRzqt7hay65T-yEgzaAuXbEQPuCS+yC6w@mail.gmail.com>
+ <CADDJ8CWdm+cWt4UBTae0sCQ8ZDWhbMuozqqq59R+EtvMHere0g@mail.gmail.com>
+ <CAFP8O3+3++awDi9uZueFC_xi+KAud0Ds3k3vdd_ruVngOEOKiw@mail.gmail.com> <CAK7LNAQcUkr8Phtj_cv6vD-QUvjO+7LEsQ5Tx+AuPAB1rbTU9w@mail.gmail.com>
+In-Reply-To: <CAK7LNAQcUkr8Phtj_cv6vD-QUvjO+7LEsQ5Tx+AuPAB1rbTU9w@mail.gmail.com>
+From:   Denis Nikitin <denik@chromium.org>
+Date:   Thu, 24 Aug 2023 23:42:23 -0700
+Message-ID: <CADDJ8CUfOqKJpoiDurdbm6suZmqmn5qL6EwE_6xXhxh5pdy3Uw@mail.gmail.com>
+Subject: Re: [PATCH v2] modpost: Skip .llvm.call-graph-profile section check
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Fangrui Song <maskray@google.com>, linux-kbuild@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
+        linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+        Douglas Anderson <dianders@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Kees Cook <keescook@chromium.org> writes:
-> Doing a "make help" would show only hard-coded Kconfig targets and
-> depended on the archhelp target to include ".config" targets. There was
-> nothing showing global kernel/configs/ targets. Solve this by walking
-> the wildcard list and include them in the output, using the first comment
-> line as the help text.
 >
-> Update all Kconfig fragments to include help text and adjust archhelp
-> targets to avoid redundancy.
+> Thanks, Fangrui.
 >
-> Adds the following section to "help" target output:
 >
-> Configuration fragment targets (for enabling various Kconfig items):
->   debug.config         - Debugging for CI systems and finding regressions
->   kvm_guest.config     - Bootable as a KVM guest
->   nopm.config          - Disable Power Management
->   rust.config          - Enable Rust
->   tiny-base.config     - Minimal options for tiny systems
->   tiny.config          - Smallest possible kernel image
->   x86_debug.config     - Debugging options for tip tree testing
->   xen.config           - Bootable as a Xen guest
->   tiny.config          - x86-specific options for a small kernel image
->   xen.config           - x86-specific options for a Xen virtualization guest
+> I'd like the commit log to record the use of REL for
+> .llvm.call-graph-profile is intentional.
+>
+>
+> Denis, could you add some more comments?
+>
 
-I think we need a way to opt some files out.
+Sure, I will send a new version.
 
-It's a bit ugly on powerpc because there are so many fragments:
+Thanks,
+Denis
 
-Configuration fragment targets (for enabling various Kconfig items):
-  debug.config         - Debugging for CI systems and finding regressions
-  kvm_guest.config     - Bootable as a KVM guest
-  nopm.config          - Disable Power Management
-  rust.config          - Enable Rust
-  tiny-base.config     - Minimal options for tiny systems
-  tiny.config          - Smallest possible kernel image
-  x86_debug.config     - Debugging options for tip tree testing
-  xen.config           - Bootable as a Xen guest
-  32-bit.config        - Build a 32-bit image
-  64-bit.config        - Build a 64-bit image
-  85xx-32bit.config    - Build a 32-bit 85xx image
-  85xx-64bit.config    - Build a 64-bit 85xx image
-  85xx-hw.config       - Base hardware support for 86xx
-  85xx-smp.config      - Enable SMP on 85xx
-  86xx-hw.config       - Base hardware support for 86xx
-  86xx-smp.config      - Enable SMP on 86xx
-  altivec.config       - Enable Altivec support
-  be.config            - Enable Big Endian mode
-  book3s_32.config     - Base support for Book3s
-  corenet_base.config  - Base support for corenet
-  debug.config         - Enable PowerPC specific debug options
-  disable-werror.config - Disable -Werror
-  dpaa.config          - Base suppot for DPPA
-  fsl-emb-nonhw.config - Non-hardware options common to 85xx and corenet
-  guest.config         - PowerPC specific virtualization guest options
-  kvm_guest.config     - Bootable as a KVM guest
-  le.config            - Enable Little Endian mode
-  mpc85xx_base.config  - Base mpc85xxx support
-  mpc86xx_base.config  - Base mpc85xxx support
-  ppc64le.config       - Enable ppc64le mode
-  security.config      - Common security options for PowerPC builds
-
-And some of those are not intended for use with "make foo.config",
-they're used internally for generating our "normal" defconfigs and they
-don't necessarily work on their own.
-
-Also I'd like to add more fragments in future, to the point where nearly
-all our configs are generated by them.
-
-Can we have some way to differentiate fragments that are intended to be
-used with "make foo.config" vs just being used internally to generate
-other configs.
-
-The obvious thing would be to use a different suffix, eg. "foo.fragment"
-for internal use fragments. That would require changing
-merge_into_defconfig and merge_into_defconfig_override to not assume the
-.config suffix, and update the users in arm, arm64 and powerpc.
-
-The other option would be to ignore .config files starting with eg. "_".
-
-+       @$(foreach c, $(filter-out $(call configfiles,_*.config),$(call configfiles,*.config)), \
-+               printf "  %-20s - %s\\n" \
-+                       $(shell basename $(c)) \
-+                       "$(subst # ,,$(shell grep -m1 '^# ' $(c)))";)
-
-Not sure which is preferable.
-
-cheers
+>
+>
+> --
+> Best Regards
+> Masahiro Yamada
