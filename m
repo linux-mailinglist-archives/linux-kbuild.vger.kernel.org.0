@@ -2,53 +2,119 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 65E63787C60
-	for <lists+linux-kbuild@lfdr.de>; Fri, 25 Aug 2023 02:05:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BC75787CDE
+	for <lists+linux-kbuild@lfdr.de>; Fri, 25 Aug 2023 03:14:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239325AbjHYAEn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 24 Aug 2023 20:04:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53644 "EHLO
+        id S237991AbjHYBOA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 24 Aug 2023 21:14:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230167AbjHYAEM (ORCPT
+        with ESMTP id S236757AbjHYBNs (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 24 Aug 2023 20:04:12 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FA0019B4;
-        Thu, 24 Aug 2023 17:04:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=vmLNsvDlbkyIYpEkO8eNcxoQJchqhoHOSemi0JGSdvc=; b=NZRmeKsAfkmgAA6LpunC8rC5Dc
-        6TMSKwMSi9DIBtwAzrZChPIPgpzg2Qu1o7mmwg+gO61ze0Wdv/Yb/RdjCPLaMcWBOS5iX2MvgYBpy
-        AZe8Y7MRVMO2tuVm64QfKEmy2CgUQ1KNk/oxulmE7B9tP+D/TEuDM09pN8zO7x04G0HWkhM50K14O
-        oE++tlkqDVIVJwwqmxqut6MrPcMvArkX49RuaV/dMvFulx+2JQEYazuuTQN0YrMRu7j8aby1dAdj7
-        XbAkwelcoGM6/fSREBI/linqqEd4CVW/VQEAa6il6B3j+vSldg3Aq16jPWpAYkNn4ICmSZmwTIWRd
-        koqOHYpw==;
-Received: from [2601:1c2:980:9ec0::2764]
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qZKJ2-0040rp-0h;
-        Fri, 25 Aug 2023 00:04:04 +0000
-Message-ID: <21193a52-0425-f5ae-90f0-10e4c578ae90@infradead.org>
-Date:   Thu, 24 Aug 2023 17:04:02 -0700
+        Thu, 24 Aug 2023 21:13:48 -0400
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 724A51BF1;
+        Thu, 24 Aug 2023 18:13:46 -0700 (PDT)
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37OJEN3l010276;
+        Fri, 25 Aug 2023 01:13:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=corp-2023-03-30;
+ bh=uhEjckime6bsF1xq0dmnY+LwEHiDmuGwjHJQ7hVpFpk=;
+ b=xT4JwIyBXmmvopnLoTqXTVQDIyq4jGSov+rjFGn7JrEsFJ0nGwiZ57rChZOcNtxS8gnd
+ 32i9D/0gBNdAu6wmrSv4Tj5XGTtiOMTcrD7d8d7sIx9zu+UBUHmYA/WieiP0xKAeu3gF
+ eHe1MsKPNrAZDzygQo0FmmEXELlSaZ2xMctwoLvlgndq1xchpQqBIi92sT4g6z/NC03I
+ Sq45+sJdryY0Xt3UtsdNEeUPJQQwXRC0pKx/6zSsrk8N0z228cv46+9188htxHxgrJuH
+ O19AK6RPcqphkoDDRpvAZZx3qvPOulLbxkXwvTBtVM7s38ELpJEo9mWBxT45N4g00a45 fg== 
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3sn1yv5ft9-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 25 Aug 2023 01:13:38 +0000
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+        by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 37P03oRV035625;
+        Fri, 25 Aug 2023 01:13:37 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+        by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3sn1ywqfhw-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 25 Aug 2023 01:13:37 +0000
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 37P1DVDv019787;
+        Fri, 25 Aug 2023 01:13:36 GMT
+Received: from ca-mkp2.ca.oracle.com.com (mpeterse-ol9.allregionaliads.osdevelopmeniad.oraclevcn.com [100.100.251.135])
+        by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 3sn1ywqf8n-3;
+        Fri, 25 Aug 2023 01:13:36 +0000
+From:   "Martin K. Petersen" <martin.petersen@oracle.com>
+To:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>
+Cc:     "Martin K . Petersen" <martin.petersen@oracle.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Matt Turner <mattst88@gmail.com>,
+        Vineet Gupta <vgupta@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>,
+        Brian Cain <bcain@quicinc.com>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        WANG Xuerui <kernel@xen0n.name>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Michal Simek <monstr@monstr.eu>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Dinh Nguyen <dinguyen@kernel.org>,
+        Jonas Bonn <jonas@southpole.se>,
+        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+        Stafford Horne <shorne@gmail.com>,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+        x86@kernel.org, Borislav Petkov <bp@alien8.de>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        Jens Axboe <axboe@kernel.dk>,
+        Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        linux-next@vger.kernel.org, linux-alpha@vger.kernel.org,
+        linux-snps-arc@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
+        linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
+        loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+        linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-scsi@vger.kernel.org,
+        linux-mtd@lists.infradead.org, linux-trace-kernel@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-kbuild@vger.kernel.org
+Subject: Re: (subset) [PATCH 00/17] -Wmissing-prototype warning fixes
+Date:   Thu, 24 Aug 2023 21:12:49 -0400
+Message-Id: <169292577153.789945.11297239773543112051.b4-ty@oracle.com>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230810141947.1236730-1-arnd@kernel.org>
+References: <20230810141947.1236730-1-arnd@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH] kbuild: Show Kconfig fragments in "help"
-Content-Language: en-US
-To:     Kees Cook <keescook@chromium.org>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Cc:     x86@kernel.org, linux-arm-kernel@lists.infradead.org,
-        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-        linux-s390@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-hardening@vger.kernel.org
-References: <20230824223606.never.762-kees@kernel.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230824223606.never.762-kees@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.601,FMLib:17.11.176.26
+ definitions=2023-08-25_01,2023-08-24_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 suspectscore=0
+ malwarescore=0 spamscore=0 phishscore=0 mlxlogscore=763 adultscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2308100000 definitions=main-2308250009
+X-Proofpoint-GUID: X2SaJXDprf48MqrqrcFkis4RNSuOroKu
+X-Proofpoint-ORIG-GUID: X2SaJXDprf48MqrqrcFkis4RNSuOroKu
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,
         SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -56,42 +122,26 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Kees,
+On Thu, 10 Aug 2023 16:19:18 +0200, Arnd Bergmann wrote:
 
-On 8/24/23 15:36, Kees Cook wrote:
-> Doing a "make help" would show only hard-coded Kconfig targets and
-> depended on the archhelp target to include ".config" targets. There was
-> nothing showing global kernel/configs/ targets. Solve this by walking
-> the wildcard list and include them in the output, using the first comment
-> line as the help text.
+> Most of the patches I sent so far for the -Wmissing-prototype warnings
+> have made it into linux-next now. There are a few that I'm resending
+> now as nobody has picked them up, and then a number of fixes that I
+> found while test-building across all architectures rather than just the
+> ones I usually test.
 > 
-> Update all Kconfig fragments to include help text and adjust archhelp
-> targets to avoid redundancy.
+> The first 15 patches in this series should be uncontroversial, so
+> I expect that either a subsystem maintainer or Andrew Morton can
+> apply these directly.
 > 
-> Adds the following section to "help" target output:
-> 
-> Configuration fragment targets (for enabling various Kconfig items):
->   debug.config         - Debugging for CI systems and finding regressions
->   kvm_guest.config     - Bootable as a KVM guest
->   nopm.config          - Disable Power Management
->   rust.config          - Enable Rust
->   tiny-base.config     - Minimal options for tiny systems
->   tiny.config          - Smallest possible kernel image
->   x86_debug.config     - Debugging options for tip tree testing
->   xen.config           - Bootable as a Xen guest
->   tiny.config          - x86-specific options for a small kernel image
->   xen.config           - x86-specific options for a Xen virtualization guest
+> [...]
 
-ISTM that you are missing the "why" part of this change in the commit
-description.
+Applied to 6.6/scsi-queue, thanks!
 
-"make tinyconfig" is the real target here.  The other (tiny.) files are just
-implementation details.
-We can't put all implementation details into help messages and it's not
-difficult to find that the (tiny.) config files are merged to make the
-final .config file.
-
-So what is it that you are trying to solve?
+[07/17] scsi: qlogicpti: mark qlogicpti_info() static
+        https://git.kernel.org/mkp/scsi/c/71cc486335c4
+[11/17] scsi: gvp11: remove unused gvp11_setup() function
+        https://git.kernel.org/mkp/scsi/c/bfaa4a0ce1bb
 
 -- 
-~Randy
+Martin K. Petersen	Oracle Linux Engineering
