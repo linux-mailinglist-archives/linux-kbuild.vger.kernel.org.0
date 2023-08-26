@@ -2,120 +2,63 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DAB077891DF
-	for <lists+linux-kbuild@lfdr.de>; Sat, 26 Aug 2023 00:45:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 110E878929F
+	for <lists+linux-kbuild@lfdr.de>; Sat, 26 Aug 2023 02:07:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230272AbjHYWo5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 25 Aug 2023 18:44:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40634 "EHLO
+        id S230399AbjHZAHM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 25 Aug 2023 20:07:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230153AbjHYWok (ORCPT
+        with ESMTP id S230439AbjHZAHA (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 25 Aug 2023 18:44:40 -0400
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A203269F;
-        Fri, 25 Aug 2023 15:44:38 -0700 (PDT)
-Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-1bdbbede5d4so11971175ad.2;
-        Fri, 25 Aug 2023 15:44:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693003477; x=1693608277;
-        h=content-transfer-encoding:in-reply-to:mime-version:user-agent:date
-         :message-id:subject:from:references:cc:to:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+EfHZKV5Rs50FUqRYXClC9vzZD5WlxrYeYbs3IamXT4=;
-        b=YxGLOPcaOZR604IVjJRcGcoKnB33IZ0CTfYuHyWKXt+0pInUOQSMoNyJ0dS6B1KmgY
-         cxaBOMvor3UlQ6MZnz8hco99YltIQ+TVGTfUiOj3M6EtIom4aLy5Ogu10qSlU6URXk+W
-         RnRGmXEhLIg0POh+PDKptxk33OVTKsM2/52zz5494dr8R8CSNGpoqbrRI3gpmS9Q+cTN
-         hJYUsHOFyiz+AcMtmJLq8rt6PHOWgX+jhYTNJt4ghkMZ1YZYHd+UADqGIVtKxfSRzrdW
-         eHx1TWLsT9QLE3Re7SH9KzLMTXlxKvezJrH+R76CylIu77symnMHbROv+J2zJ4UP/BTK
-         7yuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693003477; x=1693608277;
-        h=content-transfer-encoding:in-reply-to:mime-version:user-agent:date
-         :message-id:subject:from:references:cc:to:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=+EfHZKV5Rs50FUqRYXClC9vzZD5WlxrYeYbs3IamXT4=;
-        b=cp1KRCgcYkUTSF2D8a/65bm9gqUzQihVnP8c6wC6//KEb6d0JIiky/UAp7xRjHFcih
-         8s1FHO+UQbhcKHIGH6ZyjVwvqRLBbhsB1N1lNaZ9FL0owO1HKhy/Fwso4Cvtq+DxE50o
-         vA7XJSYq98tq7HF5W5D9gEn1VMwaEF0hgGVUNno9jMKLX7vah3BgtHwPV9vdnNbsncU0
-         TFZg16oEAiXNzdM5iLR35aiSR8KTJ8GuInan1PFH3GSggW5Y8J+wCiQEH3fo8NVkPoAi
-         od40573Ua718hlQrOtxancrF5a/ztQX6HBg4R5oi+P8L7kdh3pR2ZE6vtGyfLme3mm8e
-         BgfA==
-X-Gm-Message-State: AOJu0Yx8RZpbLX9s4Wh8CoyI+NHVzTMAIgKR8W9FocKvYDSC9GX2MXs6
-        LP3g7lpzxzcizs6KrVtcVCocaJKsEpB/tg==
-X-Google-Smtp-Source: AGHT+IHfISCtSa05UGz9PT6tDA2qtVyoG70cJPjb2fBEQ6/U+mzxDHROeZB/hJ4FR5D+DwWhbVxiGA==
-X-Received: by 2002:a17:903:25d4:b0:1bd:bbc3:c87b with SMTP id jc20-20020a17090325d400b001bdbbc3c87bmr18047490plb.41.1693003477133;
-        Fri, 25 Aug 2023 15:44:37 -0700 (PDT)
-Received: from Schmitz-MacBook-Pro.local (125-236-136-221-fibre.sparkbb.co.nz. [125.236.136.221])
-        by smtp.googlemail.com with ESMTPSA id b1-20020a170902d50100b001adf6b21c77sm2280761plg.107.2023.08.25.15.44.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 25 Aug 2023 15:44:36 -0700 (PDT)
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Matt Turner <mattst88@gmail.com>,
-        Vineet Gupta <vgupta@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>,
-        Brian Cain <bcain@quicinc.com>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        WANG Xuerui <kernel@xen0n.name>,
-        Michal Simek <monstr@monstr.eu>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Dinh Nguyen <dinguyen@kernel.org>,
-        Jonas Bonn <jonas@southpole.se>,
-        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
-        Stafford Horne <shorne@gmail.com>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-        x86@kernel.org, Borislav Petkov <bp@alien8.de>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Jens Axboe <axboe@kernel.dk>,
-        Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        linux-next@vger.kernel.org, linux-alpha@vger.kernel.org,
-        linux-snps-arc@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
-        linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
-        loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
-        linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-scsi@vger.kernel.org,
-        linux-mtd@lists.infradead.org, linux-trace-kernel@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-kbuild@vger.kernel.org
-References: <20230810141947.1236730-1-arnd@kernel.org>
- <169292577153.789945.11297239773543112051.b4-ty@oracle.com>
- <3956e2a4-c545-1212-e95f-3cf61a60d6a4@gmail.com>
- <CAMuHMdWC2S330_Vb_NTHTDC=BakBsw4ouP-eFJv0erV1-jmvTQ@mail.gmail.com>
-From:   Michael Schmitz <schmitzmic@gmail.com>
-Subject: Re: (subset) [PATCH 00/17] -Wmissing-prototype warning fixes
-Message-ID: <130b3b57-edb0-184d-5b5f-69b013715773@gmail.com>
-Date:   Sat, 26 Aug 2023 10:44:13 +1200
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:78.0)
- Gecko/20100101 Thunderbird/78.14.0
+        Fri, 25 Aug 2023 20:07:00 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92D0EE7F;
+        Fri, 25 Aug 2023 17:06:57 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2534A618F3;
+        Sat, 26 Aug 2023 00:06:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EBF1C433CB;
+        Sat, 26 Aug 2023 00:06:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1693008416;
+        bh=0I+nmCUUlRbQL6fHjG3Kk241/Nft9HAKiAuAaOFovII=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=grYuwKBDDg5AXMPD5U5r5hpdECrYSp40tsRPPcV3UxrVy6WF5V8cXoG+G0IEjmItc
+         k6GVU3nC6f+RPrIXPv0V4tuSnydQzKZtMfnLoRIEa7HARK2UIXTz87DppNfL4JaIF2
+         qOzmYW5mBB3AYzBD5QodqXETg/jeO0tbTkV5+LzuElvfBVWBpsrzzColkiYJ64oNKz
+         Lls4BzAUBprxGAtAzq8hwMO5wm34OBVAZ4ZZnx1YrVhiebYSnF3NoUDxtM6MhtKEtv
+         4WkIt/RGpUmqecpMBIo9ReQKlwrcSmj24otDNlIogf21NDBmNj29jN6LKWyIDG8cwm
+         jMfeBHzsqhzVw==
+Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-1cccbd43250so943621fac.1;
+        Fri, 25 Aug 2023 17:06:56 -0700 (PDT)
+X-Gm-Message-State: AOJu0YwH+oFXZ1SslC5YLT3i1hzGxjOl9gGorM+Uzes6xcAUUnawuBaq
+        FKfEnZA7caNNMUCjI7iChVazDKtuQEvwFDgrO48=
+X-Google-Smtp-Source: AGHT+IFZpVK5GnkYhM/8wtJ4p9ZRo3OeRG84hFfiBMe2971d/dMyGvPOJwdznzfMcdomnPHv+Lw4dBpslALgGP8Eysg=
+X-Received: by 2002:a05:6870:5693:b0:1be:dbd9:dd21 with SMTP id
+ p19-20020a056870569300b001bedbd9dd21mr4457808oao.48.1693008415716; Fri, 25
+ Aug 2023 17:06:55 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAMuHMdWC2S330_Vb_NTHTDC=BakBsw4ouP-eFJv0erV1-jmvTQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
+References: <20230823120816.824352-1-masahiroy@kernel.org> <20230823202040.GA2236267@dev-arch.thelio-3990X>
+ <20230824185930.GA2025001@dev-arch.thelio-3990X> <CAKwvOdm+oPs1kV+RCa0Y_v95dfUuvYCGAGE-HDASq8ajE56uDg@mail.gmail.com>
+In-Reply-To: <CAKwvOdm+oPs1kV+RCa0Y_v95dfUuvYCGAGE-HDASq8ajE56uDg@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sat, 26 Aug 2023 09:06:18 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQZUYjhFeXip3m5NrNOUBZ93pHdL+qrn-M4OeRpC5q9LA@mail.gmail.com>
+Message-ID: <CAK7LNAQZUYjhFeXip3m5NrNOUBZ93pHdL+qrn-M4OeRpC5q9LA@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: get lib-y objects back to static library
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Nathan Chancellor <nathan@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-3.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -123,67 +66,149 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Geert,
-
-Am 25.08.23 um 19:39 schrieb Geert Uytterhoeven:
-> Hi Michael,
+On Sat, Aug 26, 2023 at 6:45=E2=80=AFAM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
 >
-> On Fri, Aug 25, 2023 at 3:31=E2=80=AFAM Michael Schmitz <schmitzmic@gma=
-il.com> wrote:
->> On 25/08/23 13:12, Martin K. Petersen wrote:
->>> [11/17] scsi: gvp11: remove unused gvp11_setup() function
->>>          https://git.kernel.org/mkp/scsi/c/bfaa4a0ce1bb
->> I somehow missed that one ...
->>
->> The gvp11_setup() function was probably a relic from the times before
->> module parameters.
->>
->> Since gvp11_xfer_mask appears to be required for some Amiga systems to=
-
->> set the DMA mask, I'd best send a patch to add such a module parameter=
- ...
->>
->> Do you know any details around the use of DMA masks for Amiga WD33C93
->> drivers, Geert?
-> Doh, it's been a while, and I never had an affected system.
-> Probably it's needed on A2000 with an accelerator card and GVP II SCSI,=
-
-> to prevent DMA to RAM banks that do not support fast DMA cycles.
-
-Thanks, that's good enough for me.
-
-Linux 2.0 had this comment:
-
-|/* * DMA transfer mask for GVP Series II SCSI controller. * Some
-versions can only DMA into the 24 bit address space * (0->16M). Others
-can DMA into the full 32 bit address * space. The default is to only
-allow DMA into the 24 bit * address space. The "gvp11=3D0xFFFFFFFE" setup=
-
-parameter can * be supplied to force an alternate (32 bit) mask. */ |
-
-|We now handle that (since 2.6.35) through masks defined in
-gvp11_zorro_tbl[] (though I note these don't account for unaligned
-addresses such as implied by the example in the comment. Are unaligned
-DMA buffers still possible today?). Would that cover the 'A2000 with
-accelerator' case?
-|
-
-||
-
-I'm happy to send a patch if an override to the device default DMA mask
-is still necessary.
-
-(Incidentally - did you ever publish the m68k full history tree anywhere
-in git?)
-
-Cheers,
-
-=C2=A0=C2=A0=C2=A0 Michael
-
-
+> On Thu, Aug 24, 2023 at 11:59=E2=80=AFAM Nathan Chancellor <nathan@kernel=
+.org> wrote:
+> >
+> > On Wed, Aug 23, 2023 at 01:20:42PM -0700, Nathan Chancellor wrote:
+> > > Hi Masahiro,
+> > >
+> > > On Wed, Aug 23, 2023 at 09:08:16PM +0900, Masahiro Yamada wrote:
+> > > > Revert the following two commits:
+> > > >
+> > > >  - 7273ad2b08f8 ("kbuild: link lib-y objects to vmlinux forcibly wh=
+en CONFIG_MODULES=3Dy")
+> > > >  - 7f2084fa55e6 ("[kbuild] handle exports in lib-y objects reliably=
+")
+> > > >
+> > > > Now, lib-y is back to static library again, and the link order is
+> > > > consistent w/wo CONFIG_MODULES.
+> > > >
+> > > > Since commit ddb5cdbafaaa ("kbuild: generate KSYMTAB entries by
+> > > > modpost"), .vmlinux.export.c contains references to exported symbol=
+s.
+> > > > If a symbol in a lib-y object is exported, that object is always li=
+nked
+> > > > even without any explicit user in vmlinux.
+> > > >
+> > > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > > > ---
+> > > >
+> > > >  Makefile | 5 -----
+> > > >  1 file changed, 5 deletions(-)
+> > > >
+> > > > diff --git a/Makefile b/Makefile
+> > > > index 87a9eef3fb4b..71e9c65d9eae 100644
+> > > > --- a/Makefile
+> > > > +++ b/Makefile
+> > > > @@ -1113,12 +1113,7 @@ export ARCH_DRIVERS  :=3D $(drivers-y) $(dri=
+vers-m)
+> > > >  # Externally visible symbols (used by link-vmlinux.sh)
+> > > >
+> > > >  KBUILD_VMLINUX_OBJS :=3D ./built-in.a
+> > > > -ifdef CONFIG_MODULES
+> > > > -KBUILD_VMLINUX_OBJS +=3D $(patsubst %/, %/lib.a, $(filter %/, $(li=
+bs-y)))
+> > > > -KBUILD_VMLINUX_LIBS :=3D $(filter-out %/, $(libs-y))
+> > > > -else
+> > > >  KBUILD_VMLINUX_LIBS :=3D $(patsubst %/,%/lib.a, $(libs-y))
+> > > > -endif
+> > > >
+> > > >  export KBUILD_VMLINUX_LIBS
+> > > >  export KBUILD_LDS          :=3D arch/$(SRCARCH)/kernel/vmlinux.lds
+> > > > --
+> > > > 2.39.2
+> > > >
+> > >
+> > > The build error that prompted 7273ad2b08f8 from [1] appears to return
+> > > with this patch, for example:
+> > >
+> > > $ make -skj"$(nproc)" ARCH=3Darm64 LLVM=3D1 O=3Dbuild mrproper virtco=
+nfig all
+> > > ...
+> > > ERROR: modpost: "__memcat_p" [drivers/hwtracing/stm/stm_core.ko] unde=
+fined!
+> > > ...
+> > >
+> > > [1]: https://github.com/ClangBuiltLinux/linux/issues/515
+> >
+> > One thing I forgot to note with this is this occurs when targeting arm,
+> > arm64, hexagon, i386, powerpc, s390, and x86_64 with various in-tree
+> > configurations (I can provide a list if necessary).
 >
-> Gr{oetje,eeting}s,
+> shot in the dark here, but does this help? (Nathan indicates it does,
+> at least for `ARCH=3Darm64 virtconfig`)
+> ```
+> diff --git a/lib/Makefile b/lib/Makefile
+> index 1ffae65bb7ee..289ab15f8659 100644
+> --- a/lib/Makefile
+> +++ b/lib/Makefile
+> @@ -33,9 +33,11 @@ lib-y :=3D ctype.o string.o vsprintf.o cmdline.o \
+>          flex_proportions.o ratelimit.o \
+>          is_single_threaded.o plist.o decompress.o kobject_uevent.o \
+>          earlycpio.o seq_buf.o siphash.o dec_and_lock.o \
+> -        nmi_backtrace.o win_minmax.o memcat_p.o \
+> +        nmi_backtrace.o win_minmax.o \
+>          buildid.o
 >
->                         Geert
->
+> +obj-y  +=3D memcat_p.o
+> +
 
+
+No. it is not a solution.
+
+We will end up with a whack-a-mole game
+because this kind of issue (EXPORT_SYMBOL from lib-y)
+happens in general.
+
+
+
+
+
+
+>  lib-$(CONFIG_PRINTK) +=3D dump_stack.o
+>  lib-$(CONFIG_SMP) +=3D cpumask.o
+>
+> ```
+> Masahiro,
+> I don't fully understand "when to use obj-y vs lib-y" in a kernel
+> Makefile.  I've read Documentation/kbuild/makefiles.rst and I still
+> don't get it.  Is this answered elsewhere in the docs? Can you explain
+> it to me?  Do we need to update the docs?
+
+
+The original intention (that existed before I became the Kbuild maintainer)=
+ was:
+
+ obj-y     linked to vmlinux unconditionally
+
+ lib-y  :  the compiled object goes into a static library. Hence,
+conditionally linked.
+           (If no symbol in lib-y object is referenced, it is not linked at=
+ all)
+
+
+
+
+
+If ARCH supports CONFIG_LD_DEAD_CODE_DATA_ELIMINATION,
+it is more optimal.
+
+
+With lib-y, objects are conditionally linked.
+
+With CONFIG_LD_DEAD_CODE_DATA_ELIMINATION,
+symbols are conditionally linked.
+
+
+
+
+
+One solution could be to delete lib-y entirely.
+
+
+--=20
+Best Regards
+Masahiro Yamada
