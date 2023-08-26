@@ -2,63 +2,70 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 110E878929F
-	for <lists+linux-kbuild@lfdr.de>; Sat, 26 Aug 2023 02:07:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4BFFA7892D3
+	for <lists+linux-kbuild@lfdr.de>; Sat, 26 Aug 2023 02:56:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230399AbjHZAHM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 25 Aug 2023 20:07:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39070 "EHLO
+        id S231493AbjHZAzl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 25 Aug 2023 20:55:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230439AbjHZAHA (ORCPT
+        with ESMTP id S231603AbjHZAzi (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 25 Aug 2023 20:07:00 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92D0EE7F;
-        Fri, 25 Aug 2023 17:06:57 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2534A618F3;
-        Sat, 26 Aug 2023 00:06:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EBF1C433CB;
-        Sat, 26 Aug 2023 00:06:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1693008416;
-        bh=0I+nmCUUlRbQL6fHjG3Kk241/Nft9HAKiAuAaOFovII=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=grYuwKBDDg5AXMPD5U5r5hpdECrYSp40tsRPPcV3UxrVy6WF5V8cXoG+G0IEjmItc
-         k6GVU3nC6f+RPrIXPv0V4tuSnydQzKZtMfnLoRIEa7HARK2UIXTz87DppNfL4JaIF2
-         qOzmYW5mBB3AYzBD5QodqXETg/jeO0tbTkV5+LzuElvfBVWBpsrzzColkiYJ64oNKz
-         Lls4BzAUBprxGAtAzq8hwMO5wm34OBVAZ4ZZnx1YrVhiebYSnF3NoUDxtM6MhtKEtv
-         4WkIt/RGpUmqecpMBIo9ReQKlwrcSmj24otDNlIogf21NDBmNj29jN6LKWyIDG8cwm
-         jMfeBHzsqhzVw==
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-1cccbd43250so943621fac.1;
-        Fri, 25 Aug 2023 17:06:56 -0700 (PDT)
-X-Gm-Message-State: AOJu0YwH+oFXZ1SslC5YLT3i1hzGxjOl9gGorM+Uzes6xcAUUnawuBaq
-        FKfEnZA7caNNMUCjI7iChVazDKtuQEvwFDgrO48=
-X-Google-Smtp-Source: AGHT+IFZpVK5GnkYhM/8wtJ4p9ZRo3OeRG84hFfiBMe2971d/dMyGvPOJwdznzfMcdomnPHv+Lw4dBpslALgGP8Eysg=
-X-Received: by 2002:a05:6870:5693:b0:1be:dbd9:dd21 with SMTP id
- p19-20020a056870569300b001bedbd9dd21mr4457808oao.48.1693008415716; Fri, 25
- Aug 2023 17:06:55 -0700 (PDT)
+        Fri, 25 Aug 2023 20:55:38 -0400
+Received: from mail-qv1-xf2f.google.com (mail-qv1-xf2f.google.com [IPv6:2607:f8b0:4864:20::f2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65E582701
+        for <linux-kbuild@vger.kernel.org>; Fri, 25 Aug 2023 17:55:36 -0700 (PDT)
+Received: by mail-qv1-xf2f.google.com with SMTP id 6a1803df08f44-64bd231c95cso8739756d6.1
+        for <linux-kbuild@vger.kernel.org>; Fri, 25 Aug 2023 17:55:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1693011335; x=1693616135;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=u6RkCT9rSkVySeF7oK32PT66QhgnsW86j3bNSp8S/GY=;
+        b=oAj0Xhbjf5yTdOKB1WAuycTN/SiUDJiYSaForBGRHveSaa1gUDjG6VYsXQR3xdvfoF
+         IMpgq6iEHpbd3nJierI1qjyRZaxBO9bbMwWcUXejJCMk74ZSLWWxMbY3ZPlWNN8HK2qw
+         8SnjTssCUoOhklQqSABflyTLibAolFIK5lBh3lxqt48jQ4HiuRAn2sl3e91ACzJZf5q0
+         nd0o/0nzQBuPRBIrqwtSdfYkym4tGBLP4w39p42PfntgUIybb+FMvHUIeCXiPDe6Bl1v
+         djPvg9DwK7a4G++u4njNdtDg01ygFdeHYff7MA9K4McOAa8tKRKAXhuwXpa2QPHq/9XM
+         b7ww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693011335; x=1693616135;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=u6RkCT9rSkVySeF7oK32PT66QhgnsW86j3bNSp8S/GY=;
+        b=WKu9yvTH7PfjRSPPM1S8PzWPE8b4++o/nqXJeZRkA2HIOMe1+StCl3Rr9Luvgt9Lvm
+         tc+Rcc0wyAW5KOl6EQkAlhD2k4Y4k8+TMr27Km/9amF3heSRzXe8TYWNvwbMyMiWo185
+         9sjX751o+PVvh/lcQQWnTnCZff65FIY9WAnyt+AXJPPCx3/l35JZg5y7XxxM0D+YsFQn
+         OOOXzWQ1fTO57wLeyjB3aPB+Xplpc9KvL48fMX2NUyb21ArmsxeFP8FkxAVBpDIJ0pl+
+         71kkNJ+H1Uzv24lIux2l95I5wfwFYi1pK9+lRyzq4Q3DuW5qrK8vCwQqQ4l94i63O7xN
+         f2Lw==
+X-Gm-Message-State: AOJu0YwhUxxSTFWsBDoscotOOpB5MWjYqVv7XYSP0lxNe8Sjr+Ha5jlN
+        5Yu/zu8+L93Db/wPuTfOhUOygiLtbAp9SXuBlH66kQ==
+X-Google-Smtp-Source: AGHT+IFLB1bjlJLhl8Cis3kA4nw6Sw4NujbX0ssLjzbI1Xc2l6Fjhy/GE40WLmn4n4sqIqEyWGILiCE6/hm1g+CmAL4=
+X-Received: by 2002:a0c:f049:0:b0:63f:87a5:63cd with SMTP id
+ b9-20020a0cf049000000b0063f87a563cdmr21773814qvl.7.1693011335411; Fri, 25 Aug
+ 2023 17:55:35 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230823120816.824352-1-masahiroy@kernel.org> <20230823202040.GA2236267@dev-arch.thelio-3990X>
  <20230824185930.GA2025001@dev-arch.thelio-3990X> <CAKwvOdm+oPs1kV+RCa0Y_v95dfUuvYCGAGE-HDASq8ajE56uDg@mail.gmail.com>
-In-Reply-To: <CAKwvOdm+oPs1kV+RCa0Y_v95dfUuvYCGAGE-HDASq8ajE56uDg@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 26 Aug 2023 09:06:18 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQZUYjhFeXip3m5NrNOUBZ93pHdL+qrn-M4OeRpC5q9LA@mail.gmail.com>
-Message-ID: <CAK7LNAQZUYjhFeXip3m5NrNOUBZ93pHdL+qrn-M4OeRpC5q9LA@mail.gmail.com>
+ <CAK7LNAQZUYjhFeXip3m5NrNOUBZ93pHdL+qrn-M4OeRpC5q9LA@mail.gmail.com>
+In-Reply-To: <CAK7LNAQZUYjhFeXip3m5NrNOUBZ93pHdL+qrn-M4OeRpC5q9LA@mail.gmail.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Fri, 25 Aug 2023 17:55:23 -0700
+Message-ID: <CAKwvOdmDZ2Af8ZHCpsN2M=SCJknPOy7dW=1tiMS6TENxp-D3Vw@mail.gmail.com>
 Subject: Re: [PATCH] kbuild: get lib-y objects back to static library
-To:     Nick Desaulniers <ndesaulniers@google.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Nicolas Schier <nicolas@fjasle.eu>,
         Nathan Chancellor <nathan@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -66,149 +73,166 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Aug 26, 2023 at 6:45=E2=80=AFAM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
+On Fri, Aug 25, 2023 at 5:06=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.o=
+rg> wrote:
 >
-> On Thu, Aug 24, 2023 at 11:59=E2=80=AFAM Nathan Chancellor <nathan@kernel=
-.org> wrote:
+> On Sat, Aug 26, 2023 at 6:45=E2=80=AFAM Nick Desaulniers
+> <ndesaulniers@google.com> wrote:
 > >
-> > On Wed, Aug 23, 2023 at 01:20:42PM -0700, Nathan Chancellor wrote:
-> > > Hi Masahiro,
+> > On Thu, Aug 24, 2023 at 11:59=E2=80=AFAM Nathan Chancellor <nathan@kern=
+el.org> wrote:
 > > >
-> > > On Wed, Aug 23, 2023 at 09:08:16PM +0900, Masahiro Yamada wrote:
-> > > > Revert the following two commits:
+> > > On Wed, Aug 23, 2023 at 01:20:42PM -0700, Nathan Chancellor wrote:
+> > > > Hi Masahiro,
 > > > >
-> > > >  - 7273ad2b08f8 ("kbuild: link lib-y objects to vmlinux forcibly wh=
-en CONFIG_MODULES=3Dy")
-> > > >  - 7f2084fa55e6 ("[kbuild] handle exports in lib-y objects reliably=
-")
+> > > > On Wed, Aug 23, 2023 at 09:08:16PM +0900, Masahiro Yamada wrote:
+> > > > > Revert the following two commits:
+> > > > >
+> > > > >  - 7273ad2b08f8 ("kbuild: link lib-y objects to vmlinux forcibly =
+when CONFIG_MODULES=3Dy")
+> > > > >  - 7f2084fa55e6 ("[kbuild] handle exports in lib-y objects reliab=
+ly")
+> > > > >
+> > > > > Now, lib-y is back to static library again, and the link order is
+> > > > > consistent w/wo CONFIG_MODULES.
+> > > > >
+> > > > > Since commit ddb5cdbafaaa ("kbuild: generate KSYMTAB entries by
+> > > > > modpost"), .vmlinux.export.c contains references to exported symb=
+ols.
+> > > > > If a symbol in a lib-y object is exported, that object is always =
+linked
+> > > > > even without any explicit user in vmlinux.
+> > > > >
+> > > > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > > > > ---
+> > > > >
+> > > > >  Makefile | 5 -----
+> > > > >  1 file changed, 5 deletions(-)
+> > > > >
+> > > > > diff --git a/Makefile b/Makefile
+> > > > > index 87a9eef3fb4b..71e9c65d9eae 100644
+> > > > > --- a/Makefile
+> > > > > +++ b/Makefile
+> > > > > @@ -1113,12 +1113,7 @@ export ARCH_DRIVERS  :=3D $(drivers-y) $(d=
+rivers-m)
+> > > > >  # Externally visible symbols (used by link-vmlinux.sh)
+> > > > >
+> > > > >  KBUILD_VMLINUX_OBJS :=3D ./built-in.a
+> > > > > -ifdef CONFIG_MODULES
+> > > > > -KBUILD_VMLINUX_OBJS +=3D $(patsubst %/, %/lib.a, $(filter %/, $(=
+libs-y)))
+> > > > > -KBUILD_VMLINUX_LIBS :=3D $(filter-out %/, $(libs-y))
+> > > > > -else
+> > > > >  KBUILD_VMLINUX_LIBS :=3D $(patsubst %/,%/lib.a, $(libs-y))
+> > > > > -endif
+> > > > >
+> > > > >  export KBUILD_VMLINUX_LIBS
+> > > > >  export KBUILD_LDS          :=3D arch/$(SRCARCH)/kernel/vmlinux.l=
+ds
+> > > > > --
+> > > > > 2.39.2
+> > > > >
 > > > >
-> > > > Now, lib-y is back to static library again, and the link order is
-> > > > consistent w/wo CONFIG_MODULES.
+> > > > The build error that prompted 7273ad2b08f8 from [1] appears to retu=
+rn
+> > > > with this patch, for example:
 > > > >
-> > > > Since commit ddb5cdbafaaa ("kbuild: generate KSYMTAB entries by
-> > > > modpost"), .vmlinux.export.c contains references to exported symbol=
-s.
-> > > > If a symbol in a lib-y object is exported, that object is always li=
-nked
-> > > > even without any explicit user in vmlinux.
+> > > > $ make -skj"$(nproc)" ARCH=3Darm64 LLVM=3D1 O=3Dbuild mrproper virt=
+config all
+> > > > ...
+> > > > ERROR: modpost: "__memcat_p" [drivers/hwtracing/stm/stm_core.ko] un=
+defined!
+> > > > ...
 > > > >
-> > > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > > > ---
-> > > >
-> > > >  Makefile | 5 -----
-> > > >  1 file changed, 5 deletions(-)
-> > > >
-> > > > diff --git a/Makefile b/Makefile
-> > > > index 87a9eef3fb4b..71e9c65d9eae 100644
-> > > > --- a/Makefile
-> > > > +++ b/Makefile
-> > > > @@ -1113,12 +1113,7 @@ export ARCH_DRIVERS  :=3D $(drivers-y) $(dri=
-vers-m)
-> > > >  # Externally visible symbols (used by link-vmlinux.sh)
-> > > >
-> > > >  KBUILD_VMLINUX_OBJS :=3D ./built-in.a
-> > > > -ifdef CONFIG_MODULES
-> > > > -KBUILD_VMLINUX_OBJS +=3D $(patsubst %/, %/lib.a, $(filter %/, $(li=
-bs-y)))
-> > > > -KBUILD_VMLINUX_LIBS :=3D $(filter-out %/, $(libs-y))
-> > > > -else
-> > > >  KBUILD_VMLINUX_LIBS :=3D $(patsubst %/,%/lib.a, $(libs-y))
-> > > > -endif
-> > > >
-> > > >  export KBUILD_VMLINUX_LIBS
-> > > >  export KBUILD_LDS          :=3D arch/$(SRCARCH)/kernel/vmlinux.lds
-> > > > --
-> > > > 2.39.2
-> > > >
+> > > > [1]: https://github.com/ClangBuiltLinux/linux/issues/515
 > > >
-> > > The build error that prompted 7273ad2b08f8 from [1] appears to return
-> > > with this patch, for example:
-> > >
-> > > $ make -skj"$(nproc)" ARCH=3Darm64 LLVM=3D1 O=3Dbuild mrproper virtco=
-nfig all
-> > > ...
-> > > ERROR: modpost: "__memcat_p" [drivers/hwtracing/stm/stm_core.ko] unde=
-fined!
-> > > ...
-> > >
-> > > [1]: https://github.com/ClangBuiltLinux/linux/issues/515
+> > > One thing I forgot to note with this is this occurs when targeting ar=
+m,
+> > > arm64, hexagon, i386, powerpc, s390, and x86_64 with various in-tree
+> > > configurations (I can provide a list if necessary).
 > >
-> > One thing I forgot to note with this is this occurs when targeting arm,
-> > arm64, hexagon, i386, powerpc, s390, and x86_64 with various in-tree
-> > configurations (I can provide a list if necessary).
+> > shot in the dark here, but does this help? (Nathan indicates it does,
+> > at least for `ARCH=3Darm64 virtconfig`)
+> > ```
+> > diff --git a/lib/Makefile b/lib/Makefile
+> > index 1ffae65bb7ee..289ab15f8659 100644
+> > --- a/lib/Makefile
+> > +++ b/lib/Makefile
+> > @@ -33,9 +33,11 @@ lib-y :=3D ctype.o string.o vsprintf.o cmdline.o \
+> >          flex_proportions.o ratelimit.o \
+> >          is_single_threaded.o plist.o decompress.o kobject_uevent.o \
+> >          earlycpio.o seq_buf.o siphash.o dec_and_lock.o \
+> > -        nmi_backtrace.o win_minmax.o memcat_p.o \
+> > +        nmi_backtrace.o win_minmax.o \
+> >          buildid.o
+> >
+> > +obj-y  +=3D memcat_p.o
+> > +
 >
-> shot in the dark here, but does this help? (Nathan indicates it does,
-> at least for `ARCH=3Darm64 virtconfig`)
-> ```
-> diff --git a/lib/Makefile b/lib/Makefile
-> index 1ffae65bb7ee..289ab15f8659 100644
-> --- a/lib/Makefile
-> +++ b/lib/Makefile
-> @@ -33,9 +33,11 @@ lib-y :=3D ctype.o string.o vsprintf.o cmdline.o \
->          flex_proportions.o ratelimit.o \
->          is_single_threaded.o plist.o decompress.o kobject_uevent.o \
->          earlycpio.o seq_buf.o siphash.o dec_and_lock.o \
-> -        nmi_backtrace.o win_minmax.o memcat_p.o \
-> +        nmi_backtrace.o win_minmax.o \
->          buildid.o
 >
-> +obj-y  +=3D memcat_p.o
-> +
-
-
-No. it is not a solution.
-
-We will end up with a whack-a-mole game
-because this kind of issue (EXPORT_SYMBOL from lib-y)
-happens in general.
-
-
-
-
-
-
->  lib-$(CONFIG_PRINTK) +=3D dump_stack.o
->  lib-$(CONFIG_SMP) +=3D cpumask.o
+> No. it is not a solution.
 >
-> ```
-> Masahiro,
-> I don't fully understand "when to use obj-y vs lib-y" in a kernel
-> Makefile.  I've read Documentation/kbuild/makefiles.rst and I still
-> don't get it.  Is this answered elsewhere in the docs? Can you explain
-> it to me?  Do we need to update the docs?
+> We will end up with a whack-a-mole game
+> because this kind of issue (EXPORT_SYMBOL from lib-y)
+> happens in general.
+>
+>
+>
+>
+>
+>
+> >  lib-$(CONFIG_PRINTK) +=3D dump_stack.o
+> >  lib-$(CONFIG_SMP) +=3D cpumask.o
+> >
+> > ```
+> > Masahiro,
+> > I don't fully understand "when to use obj-y vs lib-y" in a kernel
+> > Makefile.  I've read Documentation/kbuild/makefiles.rst and I still
+> > don't get it.  Is this answered elsewhere in the docs? Can you explain
+> > it to me?  Do we need to update the docs?
+>
+>
+> The original intention (that existed before I became the Kbuild maintaine=
+r) was:
+>
+>  obj-y     linked to vmlinux unconditionally
+>
+>  lib-y  :  the compiled object goes into a static library. Hence,
+> conditionally linked.
+>            (If no symbol in lib-y object is referenced, it is not linked =
+at all)
+>
+>
+>
+>
+>
+> If ARCH supports CONFIG_LD_DEAD_CODE_DATA_ELIMINATION,
+> it is more optimal.
+>
+>
+> With lib-y, objects are conditionally linked.
 
+Then wrt. memcat_p, it sounds like there should be a Kconfig for that
+that drivers such as drivers/hwtracing/stm/stm_core.ko can express a
+dependency on. Yeah?
 
-The original intention (that existed before I became the Kbuild maintainer)=
- was:
+>
+> With CONFIG_LD_DEAD_CODE_DATA_ELIMINATION,
+> symbols are conditionally linked.
+>
+>
+>
+>
+>
+> One solution could be to delete lib-y entirely.
+>
+>
+> --
+> Best Regards
+> Masahiro Yamada
 
- obj-y     linked to vmlinux unconditionally
-
- lib-y  :  the compiled object goes into a static library. Hence,
-conditionally linked.
-           (If no symbol in lib-y object is referenced, it is not linked at=
- all)
-
-
-
-
-
-If ARCH supports CONFIG_LD_DEAD_CODE_DATA_ELIMINATION,
-it is more optimal.
-
-
-With lib-y, objects are conditionally linked.
-
-With CONFIG_LD_DEAD_CODE_DATA_ELIMINATION,
-symbols are conditionally linked.
-
-
-
-
-
-One solution could be to delete lib-y entirely.
 
 
 --=20
-Best Regards
-Masahiro Yamada
+Thanks,
+~Nick Desaulniers
