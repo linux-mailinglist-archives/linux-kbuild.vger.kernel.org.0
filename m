@@ -2,65 +2,59 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F88678942C
-	for <lists+linux-kbuild@lfdr.de>; Sat, 26 Aug 2023 09:15:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C27AE7896ED
+	for <lists+linux-kbuild@lfdr.de>; Sat, 26 Aug 2023 15:38:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231598AbjHZHOe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 26 Aug 2023 03:14:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40462 "EHLO
+        id S232029AbjHZNhm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 26 Aug 2023 09:37:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230296AbjHZHOK (ORCPT
+        with ESMTP id S230085AbjHZNhQ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 26 Aug 2023 03:14:10 -0400
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B85AF2133
-        for <linux-kbuild@vger.kernel.org>; Sat, 26 Aug 2023 00:14:07 -0700 (PDT)
-Received: by mail-pl1-x62b.google.com with SMTP id d9443c01a7336-1bf7423ef3eso11629705ad.3
-        for <linux-kbuild@vger.kernel.org>; Sat, 26 Aug 2023 00:14:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1693034047; x=1693638847;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=bw2vMsREcv77KurmsfcR7swCy8AJPq+KbriFrDX4PYQ=;
-        b=D5u2AjQcDsFKZ6gyFgKYdA9ekITPYtKILfZSMR7BD+CCW7jwDfa4AJNc3myvWKf/5h
-         6Vqhap2NyOYTqzndBtHoV97TuEvbpv8noHIpPRD6OEJ9n/iM/N4z6Co6mVNFwrmNcuwo
-         WbqCmVPC42aUHOiNMQpu7109NZzp6PnpR9pdw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693034047; x=1693638847;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bw2vMsREcv77KurmsfcR7swCy8AJPq+KbriFrDX4PYQ=;
-        b=Pu3PcplSlZrm8cvE/jXfggovaWM6lXB+RyIMj2NlaYWHoUGk9RniXaHuo2GBDtTLcZ
-         J9FBYINF0Xv3IU+hIK51newnlda8rhh1xOKAlRgI1mHcQv2nWamONkc9IP4dx3JT6YpV
-         6TvImg7BY8X+i7JfVS0HfEgMsmSfR9V8mfZgP8qIibORK+r4oCoLDjH7ZWhDWbDk4f7L
-         8tjmSaOJ0PSDEPD9NeS2ghG1a1J4jC5Jc0lRb9JYsVoqHFSao0cpFZ2BlKJlB5GEcfD8
-         nxmAhfSoN1WLTwYEBidnV5lZSNFb8OhOTp/vXFH+WT+Wx9zm7A7f57taZL3SCWQlBILE
-         eq8w==
-X-Gm-Message-State: AOJu0YyTQRW/lVxqAcTRZ3Rh46fz0eoB7u8E29MSLJtP6Lj52VtjdXj0
-        IfwbYQJZqCWJL7v1uad8qXZ+4A==
-X-Google-Smtp-Source: AGHT+IEPE5/mQHDL2cI1rWkGWf1H9bzL0SNhk927KOlXZzcOKt4MQ0Y+aaiCAigt2QWS9leNJjdupA==
-X-Received: by 2002:a17:902:e888:b0:1bd:edac:af44 with SMTP id w8-20020a170902e88800b001bdedacaf44mr21152605plg.51.1693034047207;
-        Sat, 26 Aug 2023 00:14:07 -0700 (PDT)
-Received: from tigerii.tok.corp.google.com ([2401:fa00:8f:203:e5a4:5dc1:67ab:c8f5])
-        by smtp.gmail.com with ESMTPSA id d10-20020a170902654a00b001bc68602e54sm2986168pln.142.2023.08.26.00.14.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Aug 2023 00:14:06 -0700 (PDT)
-From:   Sergey Senozhatsky <senozhatsky@chromium.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Tomasz Figa <tfiga@chromium.org>, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Sergey Senozhatsky <senozhatsky@chromium.org>
-Subject: [PATCH] kconfig: add warn-unknown-symbols sanity check
-Date:   Sat, 26 Aug 2023 16:13:52 +0900
-Message-ID: <20230826071359.2060501-1-senozhatsky@chromium.org>
-X-Mailer: git-send-email 2.42.0.rc2.253.gd59a3bf2b4-goog
+        Sat, 26 Aug 2023 09:37:16 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 478BA2110;
+        Sat, 26 Aug 2023 06:37:12 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id D8C3A60B75;
+        Sat, 26 Aug 2023 13:37:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41616C433C8;
+        Sat, 26 Aug 2023 13:37:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1693057031;
+        bh=Yjot58EN/PcW8NWCaNBETGf3vpDyS4GUtPxgy1hzJ2k=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=KYVv62a381GOARTsNKTXZ7BWkPsJEbyK5MgezkePOBgYtX/vEC8Zgt7wc0746hdcN
+         U2u5qNBguRblg1uihlQduv/naSlHuA7IAAHRl21js8KuBoJ1671igyIy+crAiI/sHN
+         Z7QgsE/x22o3CCLnTgYMNj8ykjed7IwybCWGk/Kv8utHVXWHX19kpnoS0dnVmi3NL3
+         94XNJMIgbCc4XEe+D3OqvDzy2wXznvsslsx4hQ8rbLdpgIWqY35FxSVuqIUkS4ppC4
+         srgnlRSQUmizs9YfMsDRbJITbYSaMwdFkRMqCps83XK3Mrj3TXGFCdRHKEcwDoV6F1
+         1I/2JSbwMXukw==
+Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-5732481b22eso1207658eaf.3;
+        Sat, 26 Aug 2023 06:37:11 -0700 (PDT)
+X-Gm-Message-State: AOJu0YyoySp0fCXunUIyo4pGKuo4d0+ubXq09RJl2YFm15rqc/y8pH1L
+        l+aWPVfD8/IL8UohSAVVz89xJfETtvQS6/5uKAg=
+X-Google-Smtp-Source: AGHT+IG0stkT42MZncUBT20W1nnM7Tt0CvOWlJQqce/1P6wn6R8ddbf55t4GzNTMAo8OxUxMgkRwg1D7v0BCSUeiiSg=
+X-Received: by 2002:a4a:91c7:0:b0:56e:4dea:bc5c with SMTP id
+ e7-20020a4a91c7000000b0056e4deabc5cmr7497675ooh.8.1693057030546; Sat, 26 Aug
+ 2023 06:37:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230823115048.823011-1-masahiroy@kernel.org> <ZOZjmLPxwWik/YOz@bergen.fjasle.eu>
+In-Reply-To: <ZOZjmLPxwWik/YOz@bergen.fjasle.eu>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sat, 26 Aug 2023 22:36:33 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASE+C17fr5u5ouq36fEjXiQxpwfEx3UjhzXE0Qt-OEifw@mail.gmail.com>
+Message-ID: <CAK7LNASE+C17fr5u5ouq36fEjXiQxpwfEx3UjhzXE0Qt-OEifw@mail.gmail.com>
+Subject: Re: [PATCH 1/8] kbuild: do not run depmod for 'make modules_sign'
+To:     Nicolas Schier <nicolas@fjasle.eu>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -71,102 +65,61 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Introduce KCONFIG_WARN_UNKNOWN_SYMBOLS environment variable,
-which makes Kconfig warn about unknown .config symbols.
+On Fri, Aug 25, 2023 at 2:55=E2=80=AFPM Nicolas Schier <nicolas@fjasle.eu> =
+wrote:
+>
+> On Wed 23 Aug 2023 20:50:41 GMT, Masahiro Yamada wrote:
+> > Commit 961ab4a3cd66 ("kbuild: merge scripts/Makefile.modsign to
+> > scripts/Makefile.modinst") started to run depmod at the end of
+> > 'make modules_sign'.
+> >
+> > Move the depmod rule to scripts/Makefile.modinst and run it only when
+> > $(modules_sign_only) is empty.
+>
+> Moving the depmod rule is in patch 3/8, first half of the sentence
+> seems to be left over?
 
-This is especially useful for continuous kernel uprevs when
-some symbols can be either removed or renamed between kernel
-releases (which can go unnoticed otherwise).
 
-By default KCONFIG_WARN_UNKNOWN_SYMBOLS generates warnings,
-which are non-terminal. There is an additional environment
-variable KCONFIG_WERROR that overrides this behaviour and
-turns warnings into errors.
+Theoretically, 1/8 and 3/8 can be squashed together, but
+3/8 is too big to be back-ported.
 
-Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
----
- Documentation/kbuild/kconfig.rst | 11 +++++++++++
- scripts/kconfig/confdata.c       | 23 +++++++++++++++++++++++
- 2 files changed, 34 insertions(+)
+1/8 was split out for easy back-porting.
 
-diff --git a/Documentation/kbuild/kconfig.rst b/Documentation/kbuild/kconfig.rst
-index 6530ecd99da3..4de1f5435b7b 100644
---- a/Documentation/kbuild/kconfig.rst
-+++ b/Documentation/kbuild/kconfig.rst
-@@ -56,6 +56,17 @@ KCONFIG_OVERWRITECONFIG
- If you set KCONFIG_OVERWRITECONFIG in the environment, Kconfig will not
- break symlinks when .config is a symlink to somewhere else.
- 
-+KCONFIG_WARN_UNKNOWN_SYMBOLS
-+----------------------------
-+This environment variable makes Kconfig warn about all unrecognized
-+symbols in the .config file.
-+
-+KCONFIG_WERROR
-+--------------
-+If set, Kconfig will treat `KCONFIG_WARN_UNKNOWN_SYMBOLS` warnings as
-+errors.
-+
-+
- `CONFIG_`
- ---------
- If you set `CONFIG_` in the environment, Kconfig will prefix all symbols
-diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
-index 992575f1e976..c24f637827fe 100644
---- a/scripts/kconfig/confdata.c
-+++ b/scripts/kconfig/confdata.c
-@@ -349,7 +349,12 @@ int conf_read_simple(const char *name, int def)
- 	char *p, *p2;
- 	struct symbol *sym;
- 	int i, def_flags;
-+	bool found_unknown = false;
-+	const char *warn_unknown;
-+	const char *werror;
- 
-+	warn_unknown = getenv("KCONFIG_WARN_UNKNOWN_SYMBOLS");
-+	werror = getenv("KCONFIG_WERROR");
- 	if (name) {
- 		in = zconf_fopen(name);
- 	} else {
-@@ -437,6 +442,13 @@ int conf_read_simple(const char *name, int def)
- 			if (def == S_DEF_USER) {
- 				sym = sym_find(line + 2 + strlen(CONFIG_));
- 				if (!sym) {
-+					if (warn_unknown) {
-+						conf_warning("unknown symbol: %s",
-+							     line + 2 + strlen(CONFIG_));
-+						found_unknown = true;
-+						continue;
-+					}
-+
- 					conf_set_changed(true);
- 					continue;
- 				}
-@@ -471,6 +483,13 @@ int conf_read_simple(const char *name, int def)
- 
- 			sym = sym_find(line + strlen(CONFIG_));
- 			if (!sym) {
-+				if (warn_unknown && def != S_DEF_AUTO) {
-+					conf_warning("unknown symbol: %s",
-+						     line + strlen(CONFIG_));
-+					found_unknown = true;
-+					continue;
-+				}
-+
- 				if (def == S_DEF_AUTO)
- 					/*
- 					 * Reading from include/config/auto.conf
-@@ -519,6 +538,10 @@ int conf_read_simple(const char *name, int def)
- 	}
- 	free(line);
- 	fclose(in);
-+
-+	if (found_unknown && werror)
-+		exit(1);
-+
- 	return 0;
- }
- 
--- 
-2.42.0.rc2.253.gd59a3bf2b4-goog
 
+
+
+
+
+> Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
+>
+> >
+> > Fixes: 961ab4a3cd66 ("kbuild: merge scripts/Makefile.modsign to scripts=
+/Makefile.modinst")
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > ---
+> >
+> >  Makefile | 2 ++
+> >  1 file changed, 2 insertions(+)
+> >
+> > diff --git a/Makefile b/Makefile
+> > index e0d52539a0f1..7d54a0700c6e 100644
+> > --- a/Makefile
+> > +++ b/Makefile
+> > @@ -1877,7 +1877,9 @@ quiet_cmd_depmod =3D DEPMOD  $(MODLIB)
+> >
+> >  modules_install:
+> >       $(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modinst
+> > +ifndef modules_sign_only
+> >       $(call cmd,depmod)
+> > +endif
+> >
+> >  else # CONFIG_MODULES
+> >
+> > --
+> > 2.39.2
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
