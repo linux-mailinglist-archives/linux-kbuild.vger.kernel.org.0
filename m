@@ -2,78 +2,65 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 67F097893F9
-	for <lists+linux-kbuild@lfdr.de>; Sat, 26 Aug 2023 07:54:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F88678942C
+	for <lists+linux-kbuild@lfdr.de>; Sat, 26 Aug 2023 09:15:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229518AbjHZFxj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 26 Aug 2023 01:53:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39444 "EHLO
+        id S231598AbjHZHOe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 26 Aug 2023 03:14:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40462 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230344AbjHZFxb (ORCPT
+        with ESMTP id S230296AbjHZHOK (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 26 Aug 2023 01:53:31 -0400
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F40C26A5
-        for <linux-kbuild@vger.kernel.org>; Fri, 25 Aug 2023 22:53:28 -0700 (PDT)
-Received: by mail-pl1-x632.google.com with SMTP id d9443c01a7336-1bdca7cc28dso13432465ad.1
-        for <linux-kbuild@vger.kernel.org>; Fri, 25 Aug 2023 22:53:28 -0700 (PDT)
+        Sat, 26 Aug 2023 03:14:10 -0400
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B85AF2133
+        for <linux-kbuild@vger.kernel.org>; Sat, 26 Aug 2023 00:14:07 -0700 (PDT)
+Received: by mail-pl1-x62b.google.com with SMTP id d9443c01a7336-1bf7423ef3eso11629705ad.3
+        for <linux-kbuild@vger.kernel.org>; Sat, 26 Aug 2023 00:14:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1693029208; x=1693634008;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8a8yRHibxZaMQvp8EuhSuU+8SaRLddJ0DMHrupkDBok=;
-        b=GjP+E8MXeN21Nul3dWASH87dmTBT6gsSnR60OTl16V9oleYd7rPu9Z3KvsUuectm4G
-         9A7AbakZbHykqI2zkLqfFnNVIzrQjl14tbuV4vjAT6d7qFKQ2ucP0tao/lhQq7eI4WUW
-         67OxTAvIdz24IBVov+9wc4hEo3/y2uNOy7T2Q=
+        d=chromium.org; s=google; t=1693034047; x=1693638847;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=bw2vMsREcv77KurmsfcR7swCy8AJPq+KbriFrDX4PYQ=;
+        b=D5u2AjQcDsFKZ6gyFgKYdA9ekITPYtKILfZSMR7BD+CCW7jwDfa4AJNc3myvWKf/5h
+         6Vqhap2NyOYTqzndBtHoV97TuEvbpv8noHIpPRD6OEJ9n/iM/N4z6Co6mVNFwrmNcuwo
+         WbqCmVPC42aUHOiNMQpu7109NZzp6PnpR9pdw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693029208; x=1693634008;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8a8yRHibxZaMQvp8EuhSuU+8SaRLddJ0DMHrupkDBok=;
-        b=Tiao25ilyFYxaS4DBd86Xl2hCJnUeuqu9u0TD2flrzn1cfqJivV1E8XJpE052mlguK
-         z515nDdm5JTlsqutXZE9pQv2YPgxjimsaXKWAc3tDwBshenO6yYDTuNFWTQGbwNUk2ww
-         zLb43AqCiqDQIHPP90Mte/mQLe4itPr0qLh4Qzzhrjx0yuDpwKNqdZlEBoFBDOxxZO6s
-         cPw/ZxSX7/Axa6/1ttKDC2RG3zSkITcJGdCWmSF2DRD3ZgfBZO9JMOwQjvpH6ZprchsM
-         grAh051Ug03cYpfrgXfCdfQIJsGivv5u7Q2QQoSXnoq1wkHAS4UDy087VtNGAOZXK+Ry
-         TqbA==
-X-Gm-Message-State: AOJu0YyBTtNfJnvMyKXc6fbWU1hPk7ng0deyfqZzObC+NZrovURTShd6
-        M4b5AKvF9DJUVEjBeAoUkbX2HQ==
-X-Google-Smtp-Source: AGHT+IF++SrkXFK38Qj/F9y/LukAEEKLFdwReys5NfnrdSUHs8pNQlTgTge+TbQzhGVzZyJoZBj/Yw==
-X-Received: by 2002:a17:902:e5cd:b0:1b0:f8:9b2d with SMTP id u13-20020a170902e5cd00b001b000f89b2dmr23972880plf.29.1693029207746;
-        Fri, 25 Aug 2023 22:53:27 -0700 (PDT)
-Received: from google.com (KD124209188001.ppp-bb.dion.ne.jp. [124.209.188.1])
-        by smtp.gmail.com with ESMTPSA id f11-20020a170902ce8b00b001b694140d96sm2776475plg.170.2023.08.25.22.53.24
+        d=1e100.net; s=20221208; t=1693034047; x=1693638847;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bw2vMsREcv77KurmsfcR7swCy8AJPq+KbriFrDX4PYQ=;
+        b=Pu3PcplSlZrm8cvE/jXfggovaWM6lXB+RyIMj2NlaYWHoUGk9RniXaHuo2GBDtTLcZ
+         J9FBYINF0Xv3IU+hIK51newnlda8rhh1xOKAlRgI1mHcQv2nWamONkc9IP4dx3JT6YpV
+         6TvImg7BY8X+i7JfVS0HfEgMsmSfR9V8mfZgP8qIibORK+r4oCoLDjH7ZWhDWbDk4f7L
+         8tjmSaOJ0PSDEPD9NeS2ghG1a1J4jC5Jc0lRb9JYsVoqHFSao0cpFZ2BlKJlB5GEcfD8
+         nxmAhfSoN1WLTwYEBidnV5lZSNFb8OhOTp/vXFH+WT+Wx9zm7A7f57taZL3SCWQlBILE
+         eq8w==
+X-Gm-Message-State: AOJu0YyTQRW/lVxqAcTRZ3Rh46fz0eoB7u8E29MSLJtP6Lj52VtjdXj0
+        IfwbYQJZqCWJL7v1uad8qXZ+4A==
+X-Google-Smtp-Source: AGHT+IEPE5/mQHDL2cI1rWkGWf1H9bzL0SNhk927KOlXZzcOKt4MQ0Y+aaiCAigt2QWS9leNJjdupA==
+X-Received: by 2002:a17:902:e888:b0:1bd:edac:af44 with SMTP id w8-20020a170902e88800b001bdedacaf44mr21152605plg.51.1693034047207;
+        Sat, 26 Aug 2023 00:14:07 -0700 (PDT)
+Received: from tigerii.tok.corp.google.com ([2401:fa00:8f:203:e5a4:5dc1:67ab:c8f5])
+        by smtp.gmail.com with ESMTPSA id d10-20020a170902654a00b001bc68602e54sm2986168pln.142.2023.08.26.00.14.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Aug 2023 22:53:27 -0700 (PDT)
-Date:   Sat, 26 Aug 2023 14:53:21 +0900
+        Sat, 26 Aug 2023 00:14:06 -0700 (PDT)
 From:   Sergey Senozhatsky <senozhatsky@chromium.org>
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Ying Sun <sunying@nj.iscas.ac.cn>,
-        Jesse T <mr.bossman075@gmail.com>,
-        Nathan Chancellor <nathan@kernel.org>,
+Cc:     Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Nicolas Schier <nicolas@fjasle.eu>,
         Jonathan Corbet <corbet@lwn.net>,
         Tomasz Figa <tfiga@chromium.org>, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC][PATCH] kconfig: introduce listunknownconfig
-Message-ID: <20230826055321.GF3913@google.com>
-References: <20230820024519.GK907732@google.com>
- <CAK7LNAS9KC1GjPgadMEivSpy4TMYU8mQ+BrtfJpNs2kvhK18yA@mail.gmail.com>
- <20230820072119.GM907732@google.com>
- <20230820073332.GN907732@google.com>
- <CAK7LNARTZXvWD8PrA3bC+Ok7LK85qO=pkMs4kOPGn90OBooL6w@mail.gmail.com>
- <20230822061203.GA610023@google.com>
- <CAK7LNAS0qEZk+xAq84=7SuJSQz5F3dNBjYKPoeKTd_caq-QMKg@mail.gmail.com>
- <20230824012027.GD3913@google.com>
- <CAK7LNATvDBwN7X8X0mVqcQn6dKxGFhkgt9Qb5CZ6p+6Eafxd0w@mail.gmail.com>
- <CAK7LNARMOpzpr6E6XG-ro5dUgFWMP9r5rqET1WquOvvsckbKyA@mail.gmail.com>
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Sergey Senozhatsky <senozhatsky@chromium.org>
+Subject: [PATCH] kconfig: add warn-unknown-symbols sanity check
+Date:   Sat, 26 Aug 2023 16:13:52 +0900
+Message-ID: <20230826071359.2060501-1-senozhatsky@chromium.org>
+X-Mailer: git-send-email 2.42.0.rc2.253.gd59a3bf2b4-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK7LNARMOpzpr6E6XG-ro5dUgFWMP9r5rqET1WquOvvsckbKyA@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -84,43 +71,102 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On (23/08/26 14:38), Masahiro Yamada wrote:
-> > I am fine with implementing both.
-> >
-> > But, I'd like to implement them as separate options.
-> > (one option for warn unknown symbols,
-> > another for for turning warnings into errors)
-> >
-> >
-> >
-> > As I replied to Tomasz, I am considering about
-> > env variables vs command line options associated with W= option.
-> 
-> 
-> 
-> With a little more thought, the command line option approach
-> would require more code changes and efforts.
-> 
+Introduce KCONFIG_WARN_UNKNOWN_SYMBOLS environment variable,
+which makes Kconfig warn about unknown .config symbols.
 
-Sounds good.
+This is especially useful for continuous kernel uprevs when
+some symbols can be either removed or renamed between kernel
+releases (which can go unnoticed otherwise).
 
-> So, I am OK with adding new env variables.
-> Could you add two env variables?
+By default KCONFIG_WARN_UNKNOWN_SYMBOLS generates warnings,
+which are non-terminal. There is an additional environment
+variable KCONFIG_WERROR that overrides this behaviour and
+turns warnings into errors.
 
-Absolutely.
+Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+---
+ Documentation/kbuild/kconfig.rst | 11 +++++++++++
+ scripts/kconfig/confdata.c       | 23 +++++++++++++++++++++++
+ 2 files changed, 34 insertions(+)
 
-> I think
-> 
-> the first two hunks (show warnings for symbols not found in Kconfig)
->         -> KCONFIG_WARN_UNKNOWN_SYMBOLS
-> 
-> the last hunk (turn warnings into errors)
->         -> KCONFIG_WERROR
-> 
-> (You can suggest a better naming if you have, but I guess
-> KCONFIG_WARN_*  will be consistent in case
-> more warning requests come up.)
+diff --git a/Documentation/kbuild/kconfig.rst b/Documentation/kbuild/kconfig.rst
+index 6530ecd99da3..4de1f5435b7b 100644
+--- a/Documentation/kbuild/kconfig.rst
++++ b/Documentation/kbuild/kconfig.rst
+@@ -56,6 +56,17 @@ KCONFIG_OVERWRITECONFIG
+ If you set KCONFIG_OVERWRITECONFIG in the environment, Kconfig will not
+ break symlinks when .config is a symlink to somewhere else.
+ 
++KCONFIG_WARN_UNKNOWN_SYMBOLS
++----------------------------
++This environment variable makes Kconfig warn about all unrecognized
++symbols in the .config file.
++
++KCONFIG_WERROR
++--------------
++If set, Kconfig will treat `KCONFIG_WARN_UNKNOWN_SYMBOLS` warnings as
++errors.
++
++
+ `CONFIG_`
+ ---------
+ If you set `CONFIG_` in the environment, Kconfig will prefix all symbols
+diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
+index 992575f1e976..c24f637827fe 100644
+--- a/scripts/kconfig/confdata.c
++++ b/scripts/kconfig/confdata.c
+@@ -349,7 +349,12 @@ int conf_read_simple(const char *name, int def)
+ 	char *p, *p2;
+ 	struct symbol *sym;
+ 	int i, def_flags;
++	bool found_unknown = false;
++	const char *warn_unknown;
++	const char *werror;
+ 
++	warn_unknown = getenv("KCONFIG_WARN_UNKNOWN_SYMBOLS");
++	werror = getenv("KCONFIG_WERROR");
+ 	if (name) {
+ 		in = zconf_fopen(name);
+ 	} else {
+@@ -437,6 +442,13 @@ int conf_read_simple(const char *name, int def)
+ 			if (def == S_DEF_USER) {
+ 				sym = sym_find(line + 2 + strlen(CONFIG_));
+ 				if (!sym) {
++					if (warn_unknown) {
++						conf_warning("unknown symbol: %s",
++							     line + 2 + strlen(CONFIG_));
++						found_unknown = true;
++						continue;
++					}
++
+ 					conf_set_changed(true);
+ 					continue;
+ 				}
+@@ -471,6 +483,13 @@ int conf_read_simple(const char *name, int def)
+ 
+ 			sym = sym_find(line + strlen(CONFIG_));
+ 			if (!sym) {
++				if (warn_unknown && def != S_DEF_AUTO) {
++					conf_warning("unknown symbol: %s",
++						     line + strlen(CONFIG_));
++					found_unknown = true;
++					continue;
++				}
++
+ 				if (def == S_DEF_AUTO)
+ 					/*
+ 					 * Reading from include/config/auto.conf
+@@ -519,6 +538,10 @@ int conf_read_simple(const char *name, int def)
+ 	}
+ 	free(line);
+ 	fclose(in);
++
++	if (found_unknown && werror)
++		exit(1);
++
+ 	return 0;
+ }
+ 
+-- 
+2.42.0.rc2.253.gd59a3bf2b4-goog
 
-Looks good.
-
-I'll send a patch in the coming days.
