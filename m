@@ -2,202 +2,140 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 307DD78937A
-	for <lists+linux-kbuild@lfdr.de>; Sat, 26 Aug 2023 04:38:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DBF77893F6
+	for <lists+linux-kbuild@lfdr.de>; Sat, 26 Aug 2023 07:40:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230189AbjHZCho (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 25 Aug 2023 22:37:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54730 "EHLO
+        id S229563AbjHZFj0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 26 Aug 2023 01:39:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231375AbjHZCh1 (ORCPT
+        with ESMTP id S229518AbjHZFjB (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 25 Aug 2023 22:37:27 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FC9E269E;
-        Fri, 25 Aug 2023 19:37:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1693017444; x=1724553444;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=k8Zff2hBZ0UqOg+mI0sHcTv5cgn12WHRknGtb6k3+4o=;
-  b=dJkPLTbloKTEkbD4LTNwp8nXLkbl2zH+q5UREoeK/F2n7ECfGPjOKHOv
-   NMq3VOZyuQqYevZuXJu4iYs5PdAwNOLyLBpaGLUZt2tWo6PAl1bIBzNfT
-   QVzKjtddLgv5IsQnxfTiwv2bbp/wWExsdL9WO6dDSol7/5s72vQuPiBPS
-   D9ztu6lG0cn5zo/RTUhlQoNdnJRhL6wwEdoAO1XHEMLBXUez6xQzu0P30
-   RizuN6euy0OKVQXI7n6pqsx5Zm2d8nKbKdo+DKRUzg4tXoxQQ0REhCNrm
-   2ZzEsWCpYBM53wGjdbAK7Nb6VnKurOSjH0/NhoQ5qrIIO4pZx874k3Kjk
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="441188287"
-X-IronPort-AV: E=Sophos;i="6.02,202,1688454000"; 
-   d="scan'208";a="441188287"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2023 19:37:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10813"; a="740805544"
-X-IronPort-AV: E=Sophos;i="6.02,202,1688454000"; 
-   d="scan'208";a="740805544"
-Received: from lkp-server02.sh.intel.com (HELO daf8bb0a381d) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 25 Aug 2023 19:37:21 -0700
-Received: from kbuild by daf8bb0a381d with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qZjAu-0004GZ-1f;
-        Sat, 26 Aug 2023 02:37:20 +0000
-Date:   Sat, 26 Aug 2023 10:37:16 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org
-Cc:     oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
+        Sat, 26 Aug 2023 01:39:01 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60AB0268F;
+        Fri, 25 Aug 2023 22:38:58 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id EEDD5624C9;
+        Sat, 26 Aug 2023 05:38:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5568AC433CC;
+        Sat, 26 Aug 2023 05:38:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1693028337;
+        bh=Ff+w4unXcyWxKJf/xFhZoCcGgfpukrGhib7/Mm9VbU4=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=mP8PtUpKrPQNIu5CTYPuLMve3p24Mb1rz5TA6UAP496G7Ppl8x+d3u+izvoaRP+55
+         IjXrKVqe1iO/RH6D2w7UzBepezInElvWXTaVIN/4KG5E3/ia0a028a0cIKrOwg9r2o
+         L/G2E7z+/OyNCQPpPqi+5D3jvaUlOcW3ezku1BMx5SBQJi56u6sgO33Gh71peEqu6b
+         WlcselPAGIwW6rZud8oYuiD76FQBCYRD3nX7U+5sDw6EmqFgiO57kHpLHDxaewV8t9
+         1vrEQuu8CmrOIGAfE5diX0CYszp/76807UhCcYirGIwyfs6N9l1SJ6p7EEjRkLMtTs
+         Ww/3CbBXw3uVg==
+Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-6bca3588edbso1123649a34.0;
+        Fri, 25 Aug 2023 22:38:57 -0700 (PDT)
+X-Gm-Message-State: AOJu0YypAPDSCkUvKfwQhiEYCIrNpdZI60IC8Tc3CrPZlg3cRwdU+PkD
+        cbwDyWi7lzX4QwGph5UwNL3nzCcpBXbTCpUaWI0=
+X-Google-Smtp-Source: AGHT+IGHMUNZvYZiv+FVl9g5GzqXimaanOxBwjsWql3Vi+JFrQBO/HjvjkEpzIgr+endMg8gfK9L8f8wx+HNE/vQtQs=
+X-Received: by 2002:a05:6870:d106:b0:1bb:a468:9e6c with SMTP id
+ e6-20020a056870d10600b001bba4689e6cmr5349648oac.23.1693028336518; Fri, 25 Aug
+ 2023 22:38:56 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230817012007.131868-1-senozhatsky@chromium.org>
+ <CAK7LNASJWKSsdzn5ccgWaC35-XvHGU7pnE6C=eZFDbqrrghtdQ@mail.gmail.com>
+ <20230820024519.GK907732@google.com> <CAK7LNAS9KC1GjPgadMEivSpy4TMYU8mQ+BrtfJpNs2kvhK18yA@mail.gmail.com>
+ <20230820072119.GM907732@google.com> <20230820073332.GN907732@google.com>
+ <CAK7LNARTZXvWD8PrA3bC+Ok7LK85qO=pkMs4kOPGn90OBooL6w@mail.gmail.com>
+ <20230822061203.GA610023@google.com> <CAK7LNAS0qEZk+xAq84=7SuJSQz5F3dNBjYKPoeKTd_caq-QMKg@mail.gmail.com>
+ <20230824012027.GD3913@google.com> <CAK7LNATvDBwN7X8X0mVqcQn6dKxGFhkgt9Qb5CZ6p+6Eafxd0w@mail.gmail.com>
+In-Reply-To: <CAK7LNATvDBwN7X8X0mVqcQn6dKxGFhkgt9Qb5CZ6p+6Eafxd0w@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sat, 26 Aug 2023 14:38:20 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARMOpzpr6E6XG-ro5dUgFWMP9r5rqET1WquOvvsckbKyA@mail.gmail.com>
+Message-ID: <CAK7LNARMOpzpr6E6XG-ro5dUgFWMP9r5rqET1WquOvvsckbKyA@mail.gmail.com>
+Subject: Re: [RFC][PATCH] kconfig: introduce listunknownconfig
+To:     Sergey Senozhatsky <senozhatsky@chromium.org>
+Cc:     Ying Sun <sunying@nj.iscas.ac.cn>,
+        Jesse T <mr.bossman075@gmail.com>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>
-Subject: Re: [PATCH] kbuild: get lib-y objects back to static library
-Message-ID: <202308261038.mYLTBV2P-lkp@intel.com>
-References: <20230823120816.824352-1-masahiroy@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230823120816.824352-1-masahiroy@kernel.org>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Tomasz Figa <tfiga@chromium.org>, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Masahiro,
+On Sat, Aug 26, 2023 at 10:12=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.=
+org> wrote:
+>
+> On Thu, Aug 24, 2023 at 7:50=E2=80=AFPM Sergey Senozhatsky
+> <senozhatsky@chromium.org> wrote:
+> >
+> > On (23/08/24 10:00), Masahiro Yamada wrote:
+> >
+> > > For the MFD_RK808 case particularly,
+> > > I believe Kconfig showed MFD_RK8XX_I2C
+> > > as a new option.
+> >
+> > I think there were some other unmet dependencies for MFD_RK8XX_I2C and
+> > I don't think the new config was shown. But even if it was, we still
+> > would have no idea that this meant "MFD_RK808 is not available anymore
+> > and the corresponding code won't get compiled". So the "this is not
+> > recognized anymore" is still needed and is quite helpful.
+> >
+> > Would you be OK with "list missing" being a warning (not a terminal
+> > condition)?
+>
+>
+> I am fine with implementing both.
+>
+> But, I'd like to implement them as separate options.
+> (one option for warn unknown symbols,
+> another for for turning warnings into errors)
+>
+>
+>
+> As I replied to Tomasz, I am considering about
+> env variables vs command line options associated with W=3D option.
 
-kernel test robot noticed the following build errors:
 
-[auto build test ERROR on masahiroy-kbuild/for-next]
-[also build test ERROR on masahiroy-kbuild/fixes linus/master v6.5-rc7 next-20230825]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Masahiro-Yamada/kbuild-get-lib-y-objects-back-to-static-library/20230823-201119
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git for-next
-patch link:    https://lore.kernel.org/r/20230823120816.824352-1-masahiroy%40kernel.org
-patch subject: [PATCH] kbuild: get lib-y objects back to static library
-config: m68k-randconfig-r011-20230823 (https://download.01.org/0day-ci/archive/20230826/202308261038.mYLTBV2P-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230826/202308261038.mYLTBV2P-lkp@intel.com/reproduce)
+With a little more thought, the command line option approach
+would require more code changes and efforts.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308261038.mYLTBV2P-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+So, I am OK with adding new env variables.
+Could you add two env variables?
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-npgtech.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-odroid.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pctv-sedna.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pine64.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pinnacle-color.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pinnacle-grey.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pinnacle-pctv-hd.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pixelview-002t.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pixelview-mk12.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pixelview-new.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pixelview.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-powercolor-real-angel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-proteus-2309.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-purpletv.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pv951.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-rc6-mce.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-real-audio-220-32-keys.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-reddo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-snapstream-firefly.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-streamzap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-su3000.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-tanix-tx3mini.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-tanix-tx5max.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-tbs-nec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-technisat-ts35.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-technisat-usb2.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-terratec-cinergy-c-pci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-terratec-cinergy-s2-hd.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-terratec-cinergy-xs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-terratec-slim-2.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-terratec-slim.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-tevii-nec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-tivo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-total-media-in-hand-02.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-total-media-in-hand.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-trekstor.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-tt-1500.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-twinhan1027.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-twinhan-dtv-cab-ci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-vega-s9x.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-videomate-m1f.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-videomate-s350.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-videomate-tv-pvr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-videostrong-kii-pro.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-wetek-hub.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-wetek-play2.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-winfast.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-winfast-usbii-deluxe.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-x96max.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-xbox-360.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-xbox-dvd.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-zx-irdec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/dvb-frontends/au8522_decoder.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/dvb-frontends/mb86a16.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-async.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-fwnode.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/watchdog/menz69_wdt.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/mmc_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/sdio_uart.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-belkin.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-vivaldi-common.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-keytouch.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-lenovo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-mf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-microsoft.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-monterey.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-ortek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-pl.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-primax.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-sjoy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-speedlink.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-topseed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-xinmo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hid/hid-zydacron.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-bootrom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-light.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-power-supply.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-audio-manager.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-gbphy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-sdio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-uart.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwtracing/intel_th/intel_th_msu_sink.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_cmdset_0020.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/maps/map_funcs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/greybus/greybus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/core/snd-pcm-dmaengine.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-sigmadsp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/codecs/snd-soc-wm-adsp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/soc/xilinx/snd-soc-xlnx-i2s.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in sound/ac97_bus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/8021q/8021q.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xdp/xsk_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/atm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_usb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nfc_digital.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/hsr/hsr.o
->> ERROR: modpost: "__lshrdi3" [drivers/mtd/nand/raw/nand.ko] undefined!
->> ERROR: modpost: "__lshrdi3" [drivers/mtd/nand/raw/diskonchip.ko] undefined!
->> ERROR: modpost: "__lshrdi3" [drivers/mtd/nand/raw/nandsim.ko] undefined!
->> ERROR: modpost: "__memcat_p" [drivers/hwtracing/stm/stm_core.ko] undefined!
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I think
+
+the first two hunks (show warnings for symbols not found in Kconfig)
+        -> KCONFIG_WARN_UNKNOWN_SYMBOLS
+
+the last hunk (turn warnings into errors)
+        -> KCONFIG_WERROR
+
+
+(You can suggest a better naming if you have, but I guess
+KCONFIG_WARN_*  will be consistent in case
+more warning requests come up.)
+
+
+
+
+
+--
+Best Regards
+Masahiro Yamada
