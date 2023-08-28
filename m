@@ -2,72 +2,72 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 47BFC78B308
-	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Aug 2023 16:27:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 920B778B333
+	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Aug 2023 16:32:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230338AbjH1O06 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 28 Aug 2023 10:26:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60928 "EHLO
+        id S229950AbjH1OcU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 28 Aug 2023 10:32:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41722 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230290AbjH1O0b (ORCPT
+        with ESMTP id S230296AbjH1OcJ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 28 Aug 2023 10:26:31 -0400
+        Mon, 28 Aug 2023 10:32:09 -0400
 Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94515CC;
-        Mon, 28 Aug 2023 07:26:20 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F22C9CC;
+        Mon, 28 Aug 2023 07:31:58 -0700 (PDT)
 Received: from leknes.fjasle.eu ([46.142.49.250]) by mrelayeu.kundenserver.de
- (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1N7yz7-1pgAmN3NmF-0154E0; Mon, 28 Aug 2023 16:25:49 +0200
+ (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1N3bCH-1pbkpe3pHH-010car; Mon, 28 Aug 2023 16:31:30 +0200
 Received: from localhost.fjasle.eu (kirkenes.fjasle.eu [10.10.0.5])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (Client did not present a certificate)
-        by leknes.fjasle.eu (Postfix) with ESMTPS id 987753C183;
-        Mon, 28 Aug 2023 16:25:40 +0200 (CEST)
+        by leknes.fjasle.eu (Postfix) with ESMTPS id 183793C183;
+        Mon, 28 Aug 2023 16:31:25 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
-        t=1693232741; bh=NvZaUvsorX4VIRxpke/fs3TMHLz0h+URZisExrF6BDk=;
+        t=1693233085; bh=Ydm2kf81Qq6R56WZXeYcVK7H9JA303Wow6gBMrBPSNc=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=xM9V80mbCRaH1el6Y/BVjxiqxOhIoAMOGz71C1CKgeS450zt/WOqqAmqjSB0fC33H
-         LS3kcgyK/JChPsC0ROIewUoJnIhi0E/65ul1MqST30HnZlBlrLLGxOpTPmDcNRiPv9
-         3f1yNaaa5eYMaErbDU8LJq2uPZt917V2N06Wr7Ic=
+        b=TH5EDg/S7StiKSZc+6JRbzwXfPJp/SNef3o9rZjFMyHOAZkxplbtuLiC20fUUL52n
+         E6IjnFnzXJ5O+f5fro9yA9HUeX+Nn/1rwtPeZPdvaFLDBkcqU21d7rQrSxSXqbC9Mz
+         ntPhqQIGMQy27ocbWztdSAEGV80jLSoUulEHa0O8=
 Received: by localhost.fjasle.eu (Postfix, from userid 1000)
-        id 3A0C92902; Mon, 28 Aug 2023 16:25:39 +0200 (CEST)
-Date:   Mon, 28 Aug 2023 16:25:39 +0200
+        id 2DE575DE3; Mon, 28 Aug 2023 16:31:24 +0200 (CEST)
+Date:   Mon, 28 Aug 2023 16:31:24 +0200
 From:   Nicolas Schier <nicolas@fjasle.eu>
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>
-Subject: Re: [PATCH 6/8] kbuild: move more module installation code to
- scripts/Makefile.modinst
-Message-ID: <ZOyuY5XCfYEV8fW6@bergen.fjasle.eu>
+Subject: Re: [PATCH 7/8] kbuild: support 'make modules_sign' with
+ CONFIG_MODULE_SIG_ALL=n
+Message-ID: <ZOyvvDDiLSFJZG0G@bergen.fjasle.eu>
 References: <20230823115048.823011-1-masahiroy@kernel.org>
- <20230823115048.823011-6-masahiroy@kernel.org>
+ <20230823115048.823011-7-masahiroy@kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="jHQU5YkOQa07pdOM"
+        protocol="application/pgp-signature"; boundary="J9Yc45GIQDHZ4LYD"
 Content-Disposition: inline
-In-Reply-To: <20230823115048.823011-6-masahiroy@kernel.org>
+In-Reply-To: <20230823115048.823011-7-masahiroy@kernel.org>
 X-Operating-System: Debian GNU/Linux trixie/sid
-Organization: AVM GmbH
-X-Provags-ID: V03:K1:Pc3uj8UdP6K/LD4c3ghg6fvpojZYQCA4ISSh9zIH4aaSv7VpzLl
- r/VvmPj6b7TH1SE49dcjqh1LDnE41TFBqQzHMJX8e2ZoKFkFvlM4AF4Th0ANImLU0SBNLjl
- Czhacvlm4+Z/Z73e/CspVcgIId/YlXgPpIXqhltO9aQFV2E6K9zcau6b3PQiR2EC7/g7+u/
- L/bvNzPaBBPrB3W9dYMZA==
-UI-OutboundReport: notjunk:1;M01:P0:ScLm8CEonbs=;ENLiye7BA92ZYsDEuwz1SBWsLHg
- FpfSE7fSN+OJHsOfJtTv2ddrqymqj4DlkxYVWxMfx21ADV+1OAtAXDzBMjNWczunhYsWCsJ0G
- YRL9Qwt68jcxHexuPBpl3RgyQTMicEbgZfTJoXYnrp0tS2C/KzlE1BSJNJs7t/jlx1WNsQyx8
- umyoxAmo6jAnaOUGCx+ws6wO2tu9/iGJZSDWN2GOxA4uQhXiVSp3LyS5+nNVyznorEi5EEAiQ
- KlUAx7vCymFFfWnGadgTj+F9qrBc1Wzz9RZeb6qgKWWhImvLD6izKk9i4PwFqRoYKh19MQbs7
- 71/f56ndm36rUyd7zESl/YRotFc2/0/txZglUG5SyFTw7yUR+Xx6gEl4JuSN73RdUyFgwousV
- 1+USup13nOsmDegEpnDe4g5i19KimhkezV+qbUPR0fHaRHAb2yBmSdp+Wq/Pyd8pZgvfAZ/al
- M1pTZVfbYWxZKAUjLKYmQj0a1nZzd2NkuKQeEC04VwAs2bzi5T21DgIEnA3BVzEsM+9rGDHmA
- 2wYJU63bqGvuwECrhHY+M0E+G+C3IieumXTafqS7Ow3u9N+SgXfMvqIlyrN0TlUlJLQ0+/4Ut
- LXN6eA5Z3txBM11ZRorJGkvP8kdI4FfsW406fs/bQGBCOMqQItBJS4yeMVOgsrc9TRk2Wzjmo
- 0bngAPWgIoDNyOdq0HRz+3TfooVHXpd2abj5zE27c9fW+08l6ERNbeDYob9Rx9kGzXLNvePIs
- CkAWY/FdPfmepC1syAaGyDhBQLcDh8j95U9Sb6IkL1MvCFj2PNImmMBclZoZ7gStqak39jcnf
- EcvWke/TKiIBvmWvo9a8PqzOqcqoh6VwKp6rVkYD9cEk+7VH2HME3+WbGWeX92LhAEpbLLy1l
- JHicYEhpUSq03ZQ==
+Jabber-ID: nicolas@jabber.no
+X-Provags-ID: V03:K1:PN/JmjeLv1gMquQ6WBkR4gxEX51LAwz7PVOZ8K7QAiNlaRbjia8
+ xAz0fYnBuscYQWoj/jK4Si8uiluFDnL1hpEw4QwXxSHevCe4WSsd++qrz9Fp/HtOtvQGNMf
+ f1hhPj0Wojgflsp4aWN0rJzJOWUoAK+UEBykuSlP9mVNyXsNqRyxFF7J7FPJ0Ir0J5wM0Je
+ suQ5MaGA6+rw51CykdEZA==
+UI-OutboundReport: notjunk:1;M01:P0:h8O/pTqSieI=;c47Nw4wXAFRZI+fPuyMPrza0Gmy
+ 0vrxpb1eXvofzTGYaLiIYwnrqXkR9fa30pCXRCUdAbAt/i5KOGJ6zcCUaddK5S1hL6eubSYcZ
+ kUcbXxDrJdt5rDPcmCuBWb4n03DrOHfYSmUThAo5lyU/wAehb3mkCHkq5iyd5/+91m1ay53aY
+ OIB/98sr8oH3qnyO4KFwNGAq1OsTyfCPR3cueDahl3VzPK3P7ONuuJ3mHGaRYA/rbazeuFlBK
+ bZRRBTGemW/ugJ9sILIVGwQYPyoLwr2+QMsJvIALYEwvCD9dJ594Fv6VJBQhq32D3pv2HsB9e
+ HdvwpacrluoH5xT3LB4Z0enrbjwmrGF4KJCUQWAyeXnly9G5R9mzJZ4aCg41iI7ohPsC90eeh
+ sCs9M9NtT272XA1oNIYl8yRLqzCSAIThkT67TXyx7z8EsoFe/rU9Hs/XUTHr2UYyjhmW70ND1
+ LxxDHsqbNDOMyHNHRxVJFYzeObjCN+dWsAYj4d646Dv9ZFDTaCmj6vzXcq/CRfLWogZaFk98z
+ lbOLVkHSADK6oHNBJSb0ntEGOamQ8e8p8PVk0Rcif53YEPT/BN5n3INb2BU4zy2sKKg26jbbA
+ PZvuFL2WjsoBgPuj9Vl0nw3C70Dm8O2qDpfap65eywF03Lb5X1gIkma6FqslQjuQU8PAJu1kr
+ XyiaXn8UE6tghABqR7+YYEULt8XwEwoQzhCVbwXEDOLcRsJLfZIF7ibT/dIjKH2GY7ypKdvaI
+ 0cig5G8NzOa4IV6/Eb2GdjjU9RG3vknaTA6H3XJEknS2J8HeA7G222h1HGhhpUKdoozwWl0yZ
+ 6QiIlIrkgvbhtMUaCZxB9qciZ6E6KqrqwB28Jcqo/x6on4hQpp2P9X+XUKaj7vCdJrq8NQEeE
+ 7aG2xb7dhhRovDg==
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -79,214 +79,102 @@ List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
 
---jHQU5YkOQa07pdOM
-Content-Type: text/plain; charset=iso-8859-1
+--J9Yc45GIQDHZ4LYD
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed 23 Aug 2023 20:50:46 GMT, Masahiro Yamada wrote:
-> Move more relevant code to scripts/Makefile.modinst.
+On Wed 23 Aug 2023 20:50:47 GMT, Masahiro Yamada wrote:
+> Commit d890f510c8e4 ("MODSIGN: Add modules_sign make target") introduced
+> 'make modules_sign' to manually sign modules.
+>=20
+> Some time later, commit d9d8d7ed498e ("MODSIGN: Add option to not sign
+> modules during modules_install") introduced CONFIG_MODULE_SIG_ALL.
+> If it was disabled, mod_sign_cmd was set to no-op ('true' command).
+> It affected not only 'make modules_install' but also 'make modules_sign'.
+> With CONFIG_MODULE_SIG_ALL=3Dn, 'make modules_install' did not sign modul=
+es
+> and 'make modules_sign' could not sign modules either.
+>=20
+> Kbuild has kept that behavior, and nobody has complained about it, but
+> I think it is weird.
+>=20
+> CONFIG_MODULE_SIG_ALL=3Dn should turn off signing only for modules_instal=
+l.
+> If users want to sign modules manually, they should be allowed to use
+> 'make modules_sign'.
 >=20
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > ---
->=20
->  Makefile                 | 34 +++++++--------------------------
->  scripts/Makefile.modinst | 41 +++++++++++++++++++++++++++++++++++++---
->  2 files changed, 45 insertions(+), 30 deletions(-)
->=20
-> diff --git a/Makefile b/Makefile
-> index 7d9cab3d2186..82d22debf6c9 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1477,24 +1477,6 @@ endif
-> =20
->  endif # CONFIG_MODULES
-> =20
-> -modinst_pre :=3D
-> -ifneq ($(filter modules_install,$(MAKECMDGOALS)),)
-> -modinst_pre :=3D __modinst_pre
-> -endif
-> -
-> -modules_install: $(modinst_pre)
-> -PHONY +=3D __modinst_pre
-> -__modinst_pre:
-> -	@rm -rf $(MODLIB)/kernel
-> -	@rm -f $(MODLIB)/build
-> -	@mkdir -p $(MODLIB)
-> -ifdef CONFIG_MODULES
-> -	@ln -s $(CURDIR) $(MODLIB)/build
-> -	@sed 's:^\(.*\)\.o$$:kernel/\1.ko:' modules.order > $(MODLIB)/modules.o=
-rder
-> -endif
-> -	@cp -f modules.builtin $(MODLIB)/
-> -	@cp -f $(objtree)/modules.builtin.modinfo $(MODLIB)/
-> -
->  ###
->  # Cleaning is done on three levels.
->  # make clean     Delete most generated files
-> @@ -1836,12 +1818,15 @@ help:
->  	@echo  '  clean           - remove generated files in module directory =
-only'
->  	@echo  ''
-> =20
-> +ifndef CONFIG_MODULES
-> +modules modules_install: __external_modules_error
->  __external_modules_error:
->  	@echo >&2 '***'
->  	@echo >&2 '*** The present kernel disabled CONFIG_MODULES.'
->  	@echo >&2 '*** You cannot build or install external modules.'
->  	@echo >&2 '***'
->  	@false
-> +endif
-> =20
->  endif # KBUILD_EXTMOD
-> =20
-> @@ -1850,6 +1835,9 @@ endif # KBUILD_EXTMOD
-> =20
->  PHONY +=3D modules modules_install modules_prepare
-> =20
-> +modules_install:
-> +	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modinst
-
-I was a bit surprised to see 'modules_install' being allowed=20
-unconditionally for in-tree usage (thus, even if CONFIG_MODULES=3Dn), but=
-=20
-then realised that this is the same behaviour as we had before.  Out of=20
-curiosity:  _why_ do we need to install=20
-$(MODLIB)/modules.builtin{,.modinfo} also for configs w/=20
-CONFIG_MODULES=3Dn?
-
-> +
->  ifdef CONFIG_MODULES
-> =20
->  $(MODORDER): $(build-dir)
-> @@ -1866,17 +1854,9 @@ PHONY +=3D modules_check
->  modules_check: $(MODORDER)
->  	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/modules-check.sh $<
-> =20
-> -modules_install:
-> -	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modinst
-> -
->  else # CONFIG_MODULES
-> =20
-> -# Modules not configured
-> -# ----------------------------------------------------------------------=
------
-> -
-> -PHONY +=3D __external_modules_error
-> -
-> -modules modules_install: __external_modules_error
-> +modules:
->  	@:
-> =20
->  KBUILD_MODULES :=3D
-> diff --git a/scripts/Makefile.modinst b/scripts/Makefile.modinst
-> index 5d687a453d90..dc7c54669082 100644
-> --- a/scripts/Makefile.modinst
-> +++ b/scripts/Makefile.modinst
-> @@ -13,9 +13,41 @@ install-y :=3D
-> =20
->  PHONY +=3D prepare
-> =20
-> +ifeq ($(KBUILD_EXTMOD)$(modules_sign_only),)
-> +
-> +# Install more files for in-tree modules_install
-> +
-> +prepare:
-> +	$(Q)rm -fr $(MODLIB)/kernel $(MODLIB)/build
-> +	$(Q)mkdir -p $(sort $(dir $(install-y)))
-> +
-> +install-$(CONFIG_MODULES) +=3D $(addprefix $(MODLIB)/, build modules.ord=
-er)
-> +
-> +$(MODLIB)/build: FORCE
-> +	$(call cmd,symlink)
-> +
-> +quiet_cmd_symlink =3D SYMLINK $@
-> +      cmd_symlink =3D ln -s $(CURDIR) $@
-> +
-> +$(MODLIB)/modules.order: modules.order FORCE
-> +	$(call cmd,install_modorder)
-> +
-> +quiet_cmd_install_modorder =3D INSTALL $@
-> +      cmd_install_modorder =3D sed 's:^\(.*\)\.o$$:kernel/\1.ko:' $< > $@
-> +
-> +# Install modules.builtin(.modinfo) even when CONFIG_MODULES is disabled.
-> +install-y +=3D $(addprefix $(MODLIB)/, modules.builtin modules.builtin.m=
-odinfo)
-> +
-> +$(addprefix $(MODLIB)/, modules.builtin modules.builtin.modinfo): $(MODL=
-IB)/%: % FORCE
-> +	$(call cmd,install)
-> +
-> +else
-> +
->  prepare:
->  	$(Q)mkdir -p $(sort $(dir $(install-y)))
-> =20
-> +endif
-> +
->  modules :=3D $(call read-file, $(MODORDER))
-> =20
->  ifeq ($(KBUILD_EXTMOD),)
-> @@ -34,9 +66,10 @@ suffix-$(CONFIG_MODULE_COMPRESS_XZ)	:=3D .xz
->  suffix-$(CONFIG_MODULE_COMPRESS_ZSTD)	:=3D .zst
-> =20
->  modules :=3D $(patsubst $(extmod_prefix)%.o, $(dst)/%.ko$(suffix-y), $(m=
-odules))
-> -install-y +=3D $(modules)
-> =20
-> -__modinst: $(modules)
-> +install-$(CONFIG_MODULES) +=3D $(modules)
-> +
-> +__modinst: $(install-y)
->  	@:
-> =20
->  #
-> @@ -94,14 +127,16 @@ $(dst)/%.ko: $(extmod_prefix)%.ko FORCE
->  	$(call cmd,strip)
->  	$(call cmd,sign)
-> =20
-> +ifdef CONFIG_MODULES
->  __modinst: depmod
-> =20
->  PHONY +=3D depmod
-> -depmod: $(modules)
-> +depmod: $(install-y)
->  	$(call cmd,depmod)
-> =20
->  quiet_cmd_depmod =3D DEPMOD  $(MODLIB)
->        cmd_depmod =3D $(srctree)/scripts/depmod.sh $(KERNELRELEASE)
-> +endif
-> =20
->  $(install-y): prepare
-> =20
-> --=20
-> 2.39.2
-
-Thanks for cleaning up.  For me, the new rules look better than the=20
-original ones.
 
 Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
 
---jHQU5YkOQa07pdOM
+>=20
+>  scripts/Makefile.modinst | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/scripts/Makefile.modinst b/scripts/Makefile.modinst
+> index dc7c54669082..33d424a3f265 100644
+> --- a/scripts/Makefile.modinst
+> +++ b/scripts/Makefile.modinst
+> @@ -106,7 +106,6 @@ endif
+>  # Signing
+>  # Don't stop modules_install even if we can't sign external modules.
+>  #
+> -ifeq ($(CONFIG_MODULE_SIG_ALL),y)
+>  ifeq ($(filter pkcs11:%, $(CONFIG_MODULE_SIG_KEY)),)
+>  sig-key :=3D $(if $(wildcard $(CONFIG_MODULE_SIG_KEY)),,$(srctree)/)$(CO=
+NFIG_MODULE_SIG_KEY)
+>  else
+> @@ -115,13 +114,15 @@ endif
+>  quiet_cmd_sign =3D SIGN    $@
+>        cmd_sign =3D scripts/sign-file $(CONFIG_MODULE_SIG_HASH) "$(sig-ke=
+y)" certs/signing_key.x509 $@ \
+>                   $(if $(KBUILD_EXTMOD),|| true)
+> -else
+> +
+> +ifeq ($(modules_sign_only),)
+> +
+> +# During modules_install, modules are signed only when CONFIG_MODULE_SIG=
+_ALL=3Dy.
+> +ifndef CONFIG_MODULE_SIG_ALL
+>  quiet_cmd_sign :=3D
+>        cmd_sign :=3D :
+>  endif
+> =20
+> -ifeq ($(modules_sign_only),)
+> -
+>  $(dst)/%.ko: $(extmod_prefix)%.ko FORCE
+>  	$(call cmd,install)
+>  	$(call cmd,strip)
+> --=20
+> 2.39.2
+
+--=20
+Nicolas Schier
+=20
+epost|xmpp: nicolas@fjasle.eu          irc://oftc.net/nsc
+=E2=86=B3 gpg: 18ed 52db e34f 860e e9fb  c82b 7d97 0932 55a0 ce7f
+     -- frykten for herren er opphav til kunnskap --
+
+--J9Yc45GIQDHZ4LYD
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmTsrl0ACgkQB1IKcBYm
-EmmMVA//QjbsbmxrdTu9JUUuuiBzBkqreXFTnr4TSQKQoQHPyxkfctElHUfwx037
-4Wt417eXZlgMKDDTFQjVCvkXy/TZCe5w7m2FioxScbT/4WXHhCR8qZIsZGcHcTcp
-oxfyryr9BVhWnT444ohRD91uLsiwbWs/tGfDlh80Vhx/yc7VM6bDApdEIv6lQhyZ
-TOVV5rr1QPdykpnhY3grfK6tvNS8yAEtMuAK4DJOg1PjFEYhlugJTp53U90Sf87+
-bqC5psMJ+2pO+Oa48RyOnhecT6wfjqj/rbvw4a54gM6xYgwqjHqdh+JO3hS4iq7L
-3Of/IwQ9Clnh8o+eCi33w31z7yqNXK+wiZ/v8tw009JiPtEs228puNlb+iNg/9Ib
-m9F89K1Ypq7SKUfxt3SZiBbNdOmU827f8OuOCEa+wpxbSGcEUnEM4H2CSrDnbn6D
-QWhTp3DoTNUkW1379/XYhAYVqA2H2aeR/zG/cOWO63Kxl4UU0OWF0AWiSHaRMFTT
-TuaXn00im+V7go4V4EW2GlYnht1hg8rZdYu3IRE29+gfuHiwXwQAaaXuFvyPW7nX
-UhxjC4c6CUFs0GHUQBEOys2glR+cOo4a5AMao9zzxkAFuex3bgvz+CKtYmtyE5KJ
-Vwc5xVBzZwVQ1p1J7ohShGOimJ+9Fm4MZOHlVSNMU7Eq26dZAAU=
-=U2yF
+iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmTsr7sACgkQB1IKcBYm
+Emkj8hAA2HJkjOFbQMPevgiZ/EBZhHtWCk26FuAM0QTZPex/NYy/YfsRD9jtiRxd
+eiJ4kUu6g5v5bJxcwj9kxIyXr9IyTj+tfroNCK2XXFwx5neAOb0Xd/wW6BFthcNi
+x/I5cQCQrQHMvcXDBKJXTfPoZFT90mDB3Qm5VuSFJvRUTFq9o9lSoESIcnEVL24f
+AtYBxZ1XEGuS7YIOscvsIeMcFhn5WtKZHGJVr0IqrSl16Vl4z62nlbGTSNBSNunC
+xFtg+LxzOOw+nYX6aQwL1hcGaTJSM+8Smpl9vhTJA1Y8GtUtcQ6V/OC68Ln37TM5
+E2ReF21AG8aeBVh1Z6+9oOgyxOooPmC+tQy8/UeEzroEauyGFnRkIViWgAtXRypl
+2QcJq4xdSZE2mkU4P5CGiXJ79+UIp1ngpQBLhb4iHw+51zsk0RXtBjWBERH3LlIc
+0BSchArQj9+noiOKweL9o/PgJS9KEsBSKZarHmU0/AXloDBLpf2yL8kplMoWxaMV
+A/V/qu6nPNj/UEfkRiwEyYDlYfPchy34/w8kpPYRhLXThTLEdkgGXPXN6MeOQkfO
+kK90outqxzFXwmU8+BO7tJZSqVERMSHqe/6R8SDEVHEOmYeNOlJjKhlRXB8SovNl
+e/rE3F9I4nq/0RzcwjS+QwQzbt23Ll5MCHN/HMdSenEg+v9mmlk=
+=93K9
 -----END PGP SIGNATURE-----
 
---jHQU5YkOQa07pdOM--
+--J9Yc45GIQDHZ4LYD--
