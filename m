@@ -2,122 +2,75 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B0A3F78A733
-	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Aug 2023 10:09:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 47BFC78B308
+	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Aug 2023 16:27:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229950AbjH1IJI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 28 Aug 2023 04:09:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55294 "EHLO
+        id S230338AbjH1O06 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 28 Aug 2023 10:26:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229937AbjH1IIj (ORCPT
+        with ESMTP id S230290AbjH1O0b (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 28 Aug 2023 04:08:39 -0400
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 391921BB;
-        Mon, 28 Aug 2023 01:08:02 -0700 (PDT)
-Received: by mail-pl1-x629.google.com with SMTP id d9443c01a7336-1bf1935f6c2so19085105ad.1;
-        Mon, 28 Aug 2023 01:08:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693210077; x=1693814877;
-        h=content-transfer-encoding:in-reply-to:mime-version:user-agent:date
-         :message-id:from:cc:references:to:subject:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pnrE6dyfVAprK/xFUC60jFewyVljQRt3NNtTMulp0V0=;
-        b=LVg55P2ejT0BJXH9H1+hgJHcBL2A+IF5g+KpwZsnJ2WoqXmcrL9ZfEfa3T6fNEdxE+
-         ga2nqaZ+gZjmffBcNuVnaXDtmvodkJeUEflTba5i6j/rIlhBduWdBgZRPVnHwy+erFMo
-         Q2sF5ZgAuDt+03EKZEd8qEogPdBU5cTg8EccDlTx6cSnC2QLYfomUfDCZyZGJl19L0Ry
-         zfDO9BgqWN0KlkikpK3fWA7KZvQWChySAj+L6JXiUhVTo7xH2gRnW3f4Al2lAGJTZzAW
-         5ZruNkogVGDYB3ptB7Tk7PeewBGyh+fZdTDyBJ7/jPzoGq3RnYeGV17VCUydj0j+5OXO
-         MJDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693210077; x=1693814877;
-        h=content-transfer-encoding:in-reply-to:mime-version:user-agent:date
-         :message-id:from:cc:references:to:subject:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=pnrE6dyfVAprK/xFUC60jFewyVljQRt3NNtTMulp0V0=;
-        b=kx2AbQTuZzgjqeFlKchv8jO7AJiM7c3VlC8NfaV+q52q9T+J75VLbGGUz5p1FsAl6M
-         /1UmeHL7uXBzA4bhtcaDeQ5M2p/QC2/RjV8f3Ggekio2VHKQrQ/fMVVdVob1tp/nPETL
-         aaV3cMvyHQ9X3cxTrAvdEUIi2Mwh4dHPjNQdAWloEG87p0SAw9gwcJhOE9t8TbSEHqAQ
-         /MjskPjAjLoKi64Vc2l/+8ISC0SUk5acxV0xnIXImrtLWQYon8khxhuWz3lx0t1GoaDM
-         1gKRsR04XkdyvcqBlD3sIQSj8s3DReR/TCbdQLODL4RCOKBX61FDo4x0nMIu3/ij/ynI
-         KPVQ==
-X-Gm-Message-State: AOJu0YxXEuACwavoq7XtdyCkfFO+zXU8Ht0PMWp6kK2NrFqIyFDMqx0o
-        80v+MhYvCUFcG6ybUpGrgxBDzLvYkMTO1A==
-X-Google-Smtp-Source: AGHT+IHEN6rjlzubXIy3DuU1iYHuYGfJmUDj7MCrRMJIjxExjNAtfO/xrf/2cugqJ3sCcKtAmuhffg==
-X-Received: by 2002:a17:903:41d1:b0:1bf:193a:70b6 with SMTP id u17-20020a17090341d100b001bf193a70b6mr38374653ple.5.1693210077452;
-        Mon, 28 Aug 2023 01:07:57 -0700 (PDT)
-Received: from [10.1.1.24] (125-236-136-221-fibre.sparkbb.co.nz. [125.236.136.221])
-        by smtp.gmail.com with ESMTPSA id x19-20020a170902ea9300b001bc445e2497sm6610519plb.79.2023.08.28.01.07.30
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 28 Aug 2023 01:07:57 -0700 (PDT)
-Subject: Re: (subset) [PATCH 00/17] -Wmissing-prototype warning fixes
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-References: <20230810141947.1236730-1-arnd@kernel.org>
- <169292577153.789945.11297239773543112051.b4-ty@oracle.com>
- <3956e2a4-c545-1212-e95f-3cf61a60d6a4@gmail.com>
- <CAMuHMdWC2S330_Vb_NTHTDC=BakBsw4ouP-eFJv0erV1-jmvTQ@mail.gmail.com>
- <130b3b57-edb0-184d-5b5f-69b013715773@gmail.com>
- <CAMuHMdUkZmkBSksvaGcDCKz2tsgkwyWgDa+WwCJm2UxFMCj1jw@mail.gmail.com>
-Cc:     "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Matt Turner <mattst88@gmail.com>,
-        Vineet Gupta <vgupta@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>,
-        Brian Cain <bcain@quicinc.com>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        WANG Xuerui <kernel@xen0n.name>,
-        Michal Simek <monstr@monstr.eu>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Dinh Nguyen <dinguyen@kernel.org>,
-        Jonas Bonn <jonas@southpole.se>,
-        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
-        Stafford Horne <shorne@gmail.com>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-        x86@kernel.org, Borislav Petkov <bp@alien8.de>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Jens Axboe <axboe@kernel.dk>,
-        Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
+        Mon, 28 Aug 2023 10:26:31 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94515CC;
+        Mon, 28 Aug 2023 07:26:20 -0700 (PDT)
+Received: from leknes.fjasle.eu ([46.142.49.250]) by mrelayeu.kundenserver.de
+ (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1N7yz7-1pgAmN3NmF-0154E0; Mon, 28 Aug 2023 16:25:49 +0200
+Received: from localhost.fjasle.eu (kirkenes.fjasle.eu [10.10.0.5])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        by leknes.fjasle.eu (Postfix) with ESMTPS id 987753C183;
+        Mon, 28 Aug 2023 16:25:40 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
+        t=1693232741; bh=NvZaUvsorX4VIRxpke/fs3TMHLz0h+URZisExrF6BDk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=xM9V80mbCRaH1el6Y/BVjxiqxOhIoAMOGz71C1CKgeS450zt/WOqqAmqjSB0fC33H
+         LS3kcgyK/JChPsC0ROIewUoJnIhi0E/65ul1MqST30HnZlBlrLLGxOpTPmDcNRiPv9
+         3f1yNaaa5eYMaErbDU8LJq2uPZt917V2N06Wr7Ic=
+Received: by localhost.fjasle.eu (Postfix, from userid 1000)
+        id 3A0C92902; Mon, 28 Aug 2023 16:25:39 +0200 (CEST)
+Date:   Mon, 28 Aug 2023 16:25:39 +0200
+From:   Nicolas Schier <nicolas@fjasle.eu>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        linux-next@vger.kernel.org, linux-alpha@vger.kernel.org,
-        linux-snps-arc@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
-        linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
-        loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
-        linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-scsi@vger.kernel.org,
-        linux-mtd@lists.infradead.org, linux-trace-kernel@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-kbuild@vger.kernel.org
-From:   Michael Schmitz <schmitzmic@gmail.com>
-Message-ID: <dbed3311-6b8e-a396-7e9e-2747902c5d6a@gmail.com>
-Date:   Mon, 28 Aug 2023 20:07:27 +1200
-User-Agent: Mozilla/5.0 (X11; Linux ppc; rv:45.0) Gecko/20100101
- Icedove/45.4.0
+        Nick Desaulniers <ndesaulniers@google.com>
+Subject: Re: [PATCH 6/8] kbuild: move more module installation code to
+ scripts/Makefile.modinst
+Message-ID: <ZOyuY5XCfYEV8fW6@bergen.fjasle.eu>
+References: <20230823115048.823011-1-masahiroy@kernel.org>
+ <20230823115048.823011-6-masahiroy@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <CAMuHMdUkZmkBSksvaGcDCKz2tsgkwyWgDa+WwCJm2UxFMCj1jw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="jHQU5YkOQa07pdOM"
+Content-Disposition: inline
+In-Reply-To: <20230823115048.823011-6-masahiroy@kernel.org>
+X-Operating-System: Debian GNU/Linux trixie/sid
+Organization: AVM GmbH
+X-Provags-ID: V03:K1:Pc3uj8UdP6K/LD4c3ghg6fvpojZYQCA4ISSh9zIH4aaSv7VpzLl
+ r/VvmPj6b7TH1SE49dcjqh1LDnE41TFBqQzHMJX8e2ZoKFkFvlM4AF4Th0ANImLU0SBNLjl
+ Czhacvlm4+Z/Z73e/CspVcgIId/YlXgPpIXqhltO9aQFV2E6K9zcau6b3PQiR2EC7/g7+u/
+ L/bvNzPaBBPrB3W9dYMZA==
+UI-OutboundReport: notjunk:1;M01:P0:ScLm8CEonbs=;ENLiye7BA92ZYsDEuwz1SBWsLHg
+ FpfSE7fSN+OJHsOfJtTv2ddrqymqj4DlkxYVWxMfx21ADV+1OAtAXDzBMjNWczunhYsWCsJ0G
+ YRL9Qwt68jcxHexuPBpl3RgyQTMicEbgZfTJoXYnrp0tS2C/KzlE1BSJNJs7t/jlx1WNsQyx8
+ umyoxAmo6jAnaOUGCx+ws6wO2tu9/iGJZSDWN2GOxA4uQhXiVSp3LyS5+nNVyznorEi5EEAiQ
+ KlUAx7vCymFFfWnGadgTj+F9qrBc1Wzz9RZeb6qgKWWhImvLD6izKk9i4PwFqRoYKh19MQbs7
+ 71/f56ndm36rUyd7zESl/YRotFc2/0/txZglUG5SyFTw7yUR+Xx6gEl4JuSN73RdUyFgwousV
+ 1+USup13nOsmDegEpnDe4g5i19KimhkezV+qbUPR0fHaRHAb2yBmSdp+Wq/Pyd8pZgvfAZ/al
+ M1pTZVfbYWxZKAUjLKYmQj0a1nZzd2NkuKQeEC04VwAs2bzi5T21DgIEnA3BVzEsM+9rGDHmA
+ 2wYJU63bqGvuwECrhHY+M0E+G+C3IieumXTafqS7Ow3u9N+SgXfMvqIlyrN0TlUlJLQ0+/4Ut
+ LXN6eA5Z3txBM11ZRorJGkvP8kdI4FfsW406fs/bQGBCOMqQItBJS4yeMVOgsrc9TRk2Wzjmo
+ 0bngAPWgIoDNyOdq0HRz+3TfooVHXpd2abj5zE27c9fW+08l6ERNbeDYob9Rx9kGzXLNvePIs
+ CkAWY/FdPfmepC1syAaGyDhBQLcDh8j95U9Sb6IkL1MvCFj2PNImmMBclZoZ7gStqak39jcnf
+ EcvWke/TKiIBvmWvo9a8PqzOqcqoh6VwKp6rVkYD9cEk+7VH2HME3+WbGWeX92LhAEpbLLy1l
+ JHicYEhpUSq03ZQ==
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -125,28 +78,215 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Geert,
 
-Am 28.08.2023 um 18:42 schrieb Geert Uytterhoeven:
-> On Sat, Aug 26, 2023 at 12:44 AM Michael Schmitz <schmitzmic@gmail.com> wrote:
->> (Incidentally - did you ever publish the m68k full history tree anywhere
->> in git?)
->
-> You mean the gitified version of the Linux/m68k CVS tree Ralf created
-> for me because my machine wasn't powerful enough?
+--jHQU5YkOQa07pdOM
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The very same ...
+On Wed 23 Aug 2023 20:50:46 GMT, Masahiro Yamada wrote:
+> Move more relevant code to scripts/Makefile.modinst.
+>=20
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+>=20
+>  Makefile                 | 34 +++++++--------------------------
+>  scripts/Makefile.modinst | 41 +++++++++++++++++++++++++++++++++++++---
+>  2 files changed, 45 insertions(+), 30 deletions(-)
+>=20
+> diff --git a/Makefile b/Makefile
+> index 7d9cab3d2186..82d22debf6c9 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -1477,24 +1477,6 @@ endif
+> =20
+>  endif # CONFIG_MODULES
+> =20
+> -modinst_pre :=3D
+> -ifneq ($(filter modules_install,$(MAKECMDGOALS)),)
+> -modinst_pre :=3D __modinst_pre
+> -endif
+> -
+> -modules_install: $(modinst_pre)
+> -PHONY +=3D __modinst_pre
+> -__modinst_pre:
+> -	@rm -rf $(MODLIB)/kernel
+> -	@rm -f $(MODLIB)/build
+> -	@mkdir -p $(MODLIB)
+> -ifdef CONFIG_MODULES
+> -	@ln -s $(CURDIR) $(MODLIB)/build
+> -	@sed 's:^\(.*\)\.o$$:kernel/\1.ko:' modules.order > $(MODLIB)/modules.o=
+rder
+> -endif
+> -	@cp -f modules.builtin $(MODLIB)/
+> -	@cp -f $(objtree)/modules.builtin.modinfo $(MODLIB)/
+> -
+>  ###
+>  # Cleaning is done on three levels.
+>  # make clean     Delete most generated files
+> @@ -1836,12 +1818,15 @@ help:
+>  	@echo  '  clean           - remove generated files in module directory =
+only'
+>  	@echo  ''
+> =20
+> +ifndef CONFIG_MODULES
+> +modules modules_install: __external_modules_error
+>  __external_modules_error:
+>  	@echo >&2 '***'
+>  	@echo >&2 '*** The present kernel disabled CONFIG_MODULES.'
+>  	@echo >&2 '*** You cannot build or install external modules.'
+>  	@echo >&2 '***'
+>  	@false
+> +endif
+> =20
+>  endif # KBUILD_EXTMOD
+> =20
+> @@ -1850,6 +1835,9 @@ endif # KBUILD_EXTMOD
+> =20
+>  PHONY +=3D modules modules_install modules_prepare
+> =20
+> +modules_install:
+> +	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modinst
 
-> No, and I should look into doing that...
+I was a bit surprised to see 'modules_install' being allowed=20
+unconditionally for in-tree usage (thus, even if CONFIG_MODULES=3Dn), but=
+=20
+then realised that this is the same behaviour as we had before.  Out of=20
+curiosity:  _why_ do we need to install=20
+$(MODLIB)/modules.builtin{,.modinfo} also for configs w/=20
+CONFIG_MODULES=3Dn?
 
-No pressure!
+> +
+>  ifdef CONFIG_MODULES
+> =20
+>  $(MODORDER): $(build-dir)
+> @@ -1866,17 +1854,9 @@ PHONY +=3D modules_check
+>  modules_check: $(MODORDER)
+>  	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/modules-check.sh $<
+> =20
+> -modules_install:
+> -	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modinst
+> -
+>  else # CONFIG_MODULES
+> =20
+> -# Modules not configured
+> -# ----------------------------------------------------------------------=
+-----
+> -
+> -PHONY +=3D __external_modules_error
+> -
+> -modules modules_install: __external_modules_error
+> +modules:
+>  	@:
+> =20
+>  KBUILD_MODULES :=3D
+> diff --git a/scripts/Makefile.modinst b/scripts/Makefile.modinst
+> index 5d687a453d90..dc7c54669082 100644
+> --- a/scripts/Makefile.modinst
+> +++ b/scripts/Makefile.modinst
+> @@ -13,9 +13,41 @@ install-y :=3D
+> =20
+>  PHONY +=3D prepare
+> =20
+> +ifeq ($(KBUILD_EXTMOD)$(modules_sign_only),)
+> +
+> +# Install more files for in-tree modules_install
+> +
+> +prepare:
+> +	$(Q)rm -fr $(MODLIB)/kernel $(MODLIB)/build
+> +	$(Q)mkdir -p $(sort $(dir $(install-y)))
+> +
+> +install-$(CONFIG_MODULES) +=3D $(addprefix $(MODLIB)/, build modules.ord=
+er)
+> +
+> +$(MODLIB)/build: FORCE
+> +	$(call cmd,symlink)
+> +
+> +quiet_cmd_symlink =3D SYMLINK $@
+> +      cmd_symlink =3D ln -s $(CURDIR) $@
+> +
+> +$(MODLIB)/modules.order: modules.order FORCE
+> +	$(call cmd,install_modorder)
+> +
+> +quiet_cmd_install_modorder =3D INSTALL $@
+> +      cmd_install_modorder =3D sed 's:^\(.*\)\.o$$:kernel/\1.ko:' $< > $@
+> +
+> +# Install modules.builtin(.modinfo) even when CONFIG_MODULES is disabled.
+> +install-y +=3D $(addprefix $(MODLIB)/, modules.builtin modules.builtin.m=
+odinfo)
+> +
+> +$(addprefix $(MODLIB)/, modules.builtin modules.builtin.modinfo): $(MODL=
+IB)/%: % FORCE
+> +	$(call cmd,install)
+> +
+> +else
+> +
+>  prepare:
+>  	$(Q)mkdir -p $(sort $(dir $(install-y)))
+> =20
+> +endif
+> +
+>  modules :=3D $(call read-file, $(MODORDER))
+> =20
+>  ifeq ($(KBUILD_EXTMOD),)
+> @@ -34,9 +66,10 @@ suffix-$(CONFIG_MODULE_COMPRESS_XZ)	:=3D .xz
+>  suffix-$(CONFIG_MODULE_COMPRESS_ZSTD)	:=3D .zst
+> =20
+>  modules :=3D $(patsubst $(extmod_prefix)%.o, $(dst)/%.ko$(suffix-y), $(m=
+odules))
+> -install-y +=3D $(modules)
+> =20
+> -__modinst: $(modules)
+> +install-$(CONFIG_MODULES) +=3D $(modules)
+> +
+> +__modinst: $(install-y)
+>  	@:
+> =20
+>  #
+> @@ -94,14 +127,16 @@ $(dst)/%.ko: $(extmod_prefix)%.ko FORCE
+>  	$(call cmd,strip)
+>  	$(call cmd,sign)
+> =20
+> +ifdef CONFIG_MODULES
+>  __modinst: depmod
+> =20
+>  PHONY +=3D depmod
+> -depmod: $(modules)
+> +depmod: $(install-y)
+>  	$(call cmd,depmod)
+> =20
+>  quiet_cmd_depmod =3D DEPMOD  $(MODLIB)
+>        cmd_depmod =3D $(srctree)/scripts/depmod.sh $(KERNELRELEASE)
+> +endif
+> =20
+>  $(install-y): prepare
+> =20
+> --=20
+> 2.39.2
 
-Cheers,
+Thanks for cleaning up.  For me, the new rules look better than the=20
+original ones.
 
-	Michael
+Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
 
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
+--jHQU5YkOQa07pdOM
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmTsrl0ACgkQB1IKcBYm
+EmmMVA//QjbsbmxrdTu9JUUuuiBzBkqreXFTnr4TSQKQoQHPyxkfctElHUfwx037
+4Wt417eXZlgMKDDTFQjVCvkXy/TZCe5w7m2FioxScbT/4WXHhCR8qZIsZGcHcTcp
+oxfyryr9BVhWnT444ohRD91uLsiwbWs/tGfDlh80Vhx/yc7VM6bDApdEIv6lQhyZ
+TOVV5rr1QPdykpnhY3grfK6tvNS8yAEtMuAK4DJOg1PjFEYhlugJTp53U90Sf87+
+bqC5psMJ+2pO+Oa48RyOnhecT6wfjqj/rbvw4a54gM6xYgwqjHqdh+JO3hS4iq7L
+3Of/IwQ9Clnh8o+eCi33w31z7yqNXK+wiZ/v8tw009JiPtEs228puNlb+iNg/9Ib
+m9F89K1Ypq7SKUfxt3SZiBbNdOmU827f8OuOCEa+wpxbSGcEUnEM4H2CSrDnbn6D
+QWhTp3DoTNUkW1379/XYhAYVqA2H2aeR/zG/cOWO63Kxl4UU0OWF0AWiSHaRMFTT
+TuaXn00im+V7go4V4EW2GlYnht1hg8rZdYu3IRE29+gfuHiwXwQAaaXuFvyPW7nX
+UhxjC4c6CUFs0GHUQBEOys2glR+cOo4a5AMao9zzxkAFuex3bgvz+CKtYmtyE5KJ
+Vwc5xVBzZwVQ1p1J7ohShGOimJ+9Fm4MZOHlVSNMU7Eq26dZAAU=
+=U2yF
+-----END PGP SIGNATURE-----
+
+--jHQU5YkOQa07pdOM--
