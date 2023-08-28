@@ -2,58 +2,63 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BD1C9789704
-	for <lists+linux-kbuild@lfdr.de>; Sat, 26 Aug 2023 15:51:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C2AC378A3C0
+	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Aug 2023 03:05:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229623AbjHZNu7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 26 Aug 2023 09:50:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52182 "EHLO
+        id S229445AbjH1BEo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 27 Aug 2023 21:04:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232787AbjHZNun (ORCPT
+        with ESMTP id S229460AbjH1BEN (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 26 Aug 2023 09:50:43 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9AC8196;
-        Sat, 26 Aug 2023 06:50:40 -0700 (PDT)
+        Sun, 27 Aug 2023 21:04:13 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FDFCF4;
+        Sun, 27 Aug 2023 18:04:11 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 48A2761C4E;
-        Sat, 26 Aug 2023 13:50:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5C8BC433C9;
-        Sat, 26 Aug 2023 13:50:39 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A8D8A61A98;
+        Mon, 28 Aug 2023 01:04:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E1A1C433D9;
+        Mon, 28 Aug 2023 01:04:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1693057839;
-        bh=Fx0ykHx0pNDD6niOOrl/sUxUuuQvr/tZR+BnAAo15pE=;
+        s=k20201202; t=1693184650;
+        bh=7d6QsySf2gd+L+AO0DGE52ifXzUav4vvh3Pzbz+MguI=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=sVWksqEXMcOZHqAzP3hwx55a4FWSXBrtQM4h9F13aAQTvoa0rvIoPATu5gD9OQieY
-         FoYG5ziwaHcpEViM2bkKLJXViWtldKs/ochrhENAf5qWYSf/KgGnCKsO+n20t/7ZFb
-         ivbhm+wfYyHpJrsMdXYxZIcf8tjWJ+ttQhqvFEiDIA722Jcsexkx0hQu3ICSYDpZIT
-         nMXyg2j605Ol1Fy9M243y2dIroGotP/YVzTmA6L+U3AXsTR20LDE9wH44/2Z8h+quf
-         o0Be6iEJciebsD+2Wr275qA9viHMal82jNf2clSQu9Wt2bVLyTuhOb6HIBqgwTJ08u
-         lZ/9Yqt012ZKw==
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-1c4de3b9072so1235471fac.3;
-        Sat, 26 Aug 2023 06:50:39 -0700 (PDT)
-X-Gm-Message-State: AOJu0YzlkGUlPvohBKCNhL355/OZYbIDd8yVz1Yw/D4Egdf3sS1VhiSD
-        rZsvlnYIcn4H+kWfkSNTg+I16F3dCH98rktwXs8=
-X-Google-Smtp-Source: AGHT+IHHPY9IRXlBGirs7lut2lBPwktP6EwURIokVBDmgUIv1M4UrdgI+HYxT+L4ICOlTdMYJ6Rgj3aoGq+81wK+cEw=
-X-Received: by 2002:a05:6870:d18a:b0:1c8:bf19:e1df with SMTP id
- a10-20020a056870d18a00b001c8bf19e1dfmr7298050oac.13.1693057838939; Sat, 26
- Aug 2023 06:50:38 -0700 (PDT)
+        b=h9r8Xs18EEJZy6xGdnpurwAcC4dI8Zo0XkCbPLZsQfEZ8h+twtCBqTaZN+iKLUk/F
+         ZOv1YpC6wlvRCCWCXaGzPtMX/B//7KpYhatc4+ErFMHjQMEznee9wzgYHonoMV0A8b
+         hV7Cih9zxqMGSVPWJf92hQOnVHToGZzWH5KjTLGRDclwMuFLPS7gJYd3voFEElpxhY
+         wQkve6zevEN4Cit56v6svNMujPuQ/xxnYkjcqgKt0CAwBy2ENQf/6YXKuk5h6nOrTU
+         Suvfx/Byjw5Z/LbQFR5+DPpXbv8KS32TrAD8jVFsmU4EOFvxtZnQEIRyCgB6ACgOv/
+         Ri/nBxhUeeqew==
+Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-1ccb58b0099so1868910fac.0;
+        Sun, 27 Aug 2023 18:04:10 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yz7azUPfiruzySZqwFYH5soEkq50mkGLwamGlVHBUfkr3nQl9PE
+        bb2Pkjw6dg0q163DOtYnNV8Kfj2jFgPRJpAIIs4=
+X-Google-Smtp-Source: AGHT+IEak5zcXFSIFNfF8EdO9/s3v9inAZbyIexqYgsn9SCfLTxxBE6ChlOh4wUhzQSAPtM3t40DM0c5ZfD6PzA7Hog=
+X-Received: by 2002:a05:6870:b523:b0:1c8:b870:4e55 with SMTP id
+ v35-20020a056870b52300b001c8b8704e55mr10551563oap.49.1693184649240; Sun, 27
+ Aug 2023 18:04:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230823115048.823011-1-masahiroy@kernel.org> <20230823115048.823011-3-masahiroy@kernel.org>
- <ZOZjq4dl0hthWaVT@bergen.fjasle.eu>
-In-Reply-To: <ZOZjq4dl0hthWaVT@bergen.fjasle.eu>
+References: <20230825194329.gonna.911-kees@kernel.org>
+In-Reply-To: <20230825194329.gonna.911-kees@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 26 Aug 2023 22:50:02 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASK9cHsf2qPpFKzQ+dMyucF9xR7V2xd3HwLeffmEJn+og@mail.gmail.com>
-Message-ID: <CAK7LNASK9cHsf2qPpFKzQ+dMyucF9xR7V2xd3HwLeffmEJn+og@mail.gmail.com>
-Subject: Re: [PATCH 3/8] kbuild: move depmod rule to scripts/Makefile.modinst
-To:     Nicolas Schier <nicolas@fjasle.eu>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>
+Date:   Mon, 28 Aug 2023 10:03:32 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATcTw+btQVri7SBA8gFbDNMYz7D2gMQaoZp9sQGFjCw8Q@mail.gmail.com>
+Message-ID: <CAK7LNATcTw+btQVri7SBA8gFbDNMYz7D2gMQaoZp9sQGFjCw8Q@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] kbuild: Show Kconfig fragments in "help"
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Michael Ellerman <mpe@ellerman.id.au>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-kernel@vger.kernel.org, x86@kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+        linux-s390@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-hardening@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -66,140 +71,141 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Aug 24, 2023 at 8:30=E2=80=AFAM Nicolas Schier <nicolas@fjasle.eu> =
-wrote:
+On Sat, Aug 26, 2023 at 4:55=E2=80=AFAM Kees Cook <keescook@chromium.org> w=
+rote:
 >
-> On Wed 23 Aug 2023 20:50:43 GMT, Masahiro Yamada wrote:
-> > depmod is a part of the module installation.
-> >
-> > scripts/Makefile.modinst is a better place to run it.
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > ---
-> >
-> >  Makefile                 |  8 --------
-> >  scripts/Makefile.modinst |  9 +++++++++
-> >  scripts/depmod.sh        | 10 ++++++----
-> >  3 files changed, 15 insertions(+), 12 deletions(-)
-> >
-> > diff --git a/Makefile b/Makefile
-> > index e2dfa3b994f7..c9c8019e4720 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -509,7 +509,6 @@ LEX               =3D flex
-> >  YACC         =3D bison
-> >  AWK          =3D awk
-> >  INSTALLKERNEL  :=3D installkernel
-> > -DEPMOD               =3D depmod
-> >  PERL         =3D perl
-> >  PYTHON3              =3D python3
-> >  CHECK                =3D sparse
-> > @@ -1871,15 +1870,8 @@ PHONY +=3D modules_check
-> >  modules_check: $(MODORDER)
-> >       $(Q)$(CONFIG_SHELL) $(srctree)/scripts/modules-check.sh $<
-> >
-> > -quiet_cmd_depmod =3D DEPMOD  $(MODLIB)
-> > -      cmd_depmod =3D $(CONFIG_SHELL) $(srctree)/scripts/depmod.sh $(DE=
-PMOD) \
-> > -                   $(KERNELRELEASE)
-> > -
-> >  modules_install:
-> >       $(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modinst
-> > -ifndef modules_sign_only
-> > -     $(call cmd,depmod)
-> > -endif
-> >
-> >  else # CONFIG_MODULES
-> >
-> > diff --git a/scripts/Makefile.modinst b/scripts/Makefile.modinst
-> > index ab0c5bd1a60f..7a64ece9b826 100644
-> > --- a/scripts/Makefile.modinst
-> > +++ b/scripts/Makefile.modinst
-> > @@ -86,6 +86,15 @@ $(dst)/%.ko: $(extmod_prefix)%.ko FORCE
-> >       $(call cmd,strip)
-> >       $(call cmd,sign)
-> >
-> > +__modinst: depmod
-> > +
-> > +PHONY +=3D depmod
-> > +depmod: $(modules)
-> > +     $(call cmd,depmod)
-> > +
-> > +quiet_cmd_depmod =3D DEPMOD  $(MODLIB)
-> > +      cmd_depmod =3D $(srctree)/scripts/depmod.sh $(KERNELRELEASE)
+> Hi,
 >
-> Did you remove the $(CONFIG_SHELL) by intention?
-
-
-Yes.
-I do not know why $(CONFIG_SHELL) is needed.
-
-I remove $(CONFIG_SHELL) when I have a chance to touch the line.
-
-
-> > +
-> >  else
-> >
-> >  $(dst)/%.ko: FORCE
-> > diff --git a/scripts/depmod.sh b/scripts/depmod.sh
-> > index fca689ba4f21..ee771ccb1f9c 100755
-> > --- a/scripts/depmod.sh
-> > +++ b/scripts/depmod.sh
-> > @@ -3,12 +3,14 @@
-> >  #
-> >  # A depmod wrapper used by the toplevel Makefile
+> This is my series to show *.config targets in the "help" target so these
+> various topics can be more easily discoverd.
 >
-> toplevel Makefile -> scripts/Makefile.modinst
+> v2:
+>  - split .fragment from .config to hide "internal" fragments
+
+Please do not do this churn.
 
 
-Good catch.
-I will fix it.
+Like Randy, I did not get "why" part quiet well,
+but if you are eager about this,
+you can show help message only when the following
+("# Help:" prefix for example) is found in the first line.
 
 
-> >
-> > -if test $# -ne 2; then
-> > -     echo "Usage: $0 /sbin/depmod <kernelrelease>" >&2
-> > +if test $# -ne 1; then
-> > +     echo "Usage: $0 <kernelrelease>" >&2
-> >       exit 1
-> >  fi
-> > -DEPMOD=3D$1
-> > -KERNELRELEASE=3D$2
-> > +
-> > +KERNELRELEASE=3D$1
-> > +
-> > +: ${DEPMOD:=3Ddepmod}
-> >
-> >  if ! test -r System.map ; then
-> >       echo "Warning: modules_install: missing 'System.map' file. Skippi=
-ng depmod." >&2
-> > --
-> > 2.39.2
+# Help: blah blah
+# other comment
+
+
+
+
+
+
+
+
+>  - fix various typos
+>  - avoid duplicate entries
+> v1: https://lore.kernel.org/all/20230824223606.never.762-kees@kernel.org
 >
-> A minor observation: with this patch, the "quiet_cmd_*" examples in
-> Makefile and in Documentation/kbuild/makefiles.rst become out-dated.
-
-
-I was opposed to eb38f37c3cee08a0197bdc7bbb9b4e02e40e2300
-
-The section "Script invocation" is not what I ack'ed.
-
-That is what Kees Cook and Andrew Morton did.
-
-
-
-
-
-
-
-
-
+> Thanks!
 >
-> But technically, it looks good to me, thus:
-> Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
+> -Kees
+>
+> Kees Cook (2):
+>   kbuild: Show Kconfig fragments in "help"
+>   kbuild: Split internal config targets from .config into .fragment
+>
+>  Makefile                                      |  1 -
+>  arch/arm/configs/dram_0x00000000.config       |  1 +
+>  arch/arm/configs/dram_0xc0000000.config       |  1 +
+>  arch/arm/configs/dram_0xd0000000.config       |  1 +
+>  arch/arm/configs/lpae.config                  |  1 +
+>  arch/arm64/configs/virt.config                |  1 +
+>  arch/powerpc/Makefile                         | 26 +++++++++----------
+>  .../{32-bit.config =3D> 32-bit.fragment}        |  1 +
+>  arch/powerpc/configs/64-bit.config            |  1 -
+>  arch/powerpc/configs/64-bit.fragment          |  2 ++
+>  ...{85xx-32bit.config =3D> 85xx-32bit.fragment} |  1 +
+>  ...{85xx-64bit.config =3D> 85xx-64bit.fragment} |  1 +
+>  .../{85xx-hw.config =3D> 85xx-hw.fragment}      |  1 +
+>  .../{85xx-smp.config =3D> 85xx-smp.fragment}    |  1 +
+>  .../{86xx-hw.config =3D> 86xx-hw.fragment}      |  1 +
+>  .../{86xx-smp.config =3D> 86xx-smp.fragment}    |  1 +
+>  arch/powerpc/configs/altivec.config           |  1 -
+>  arch/powerpc/configs/altivec.fragment         |  2 ++
+>  arch/powerpc/configs/be.config                |  1 -
+>  arch/powerpc/configs/be.fragment              |  2 ++
+>  .../{book3s_32.config =3D> book3s_32.fragment}  |  1 +
+>  ...enet_base.config =3D> corenet_base.fragment} |  1 +
+>  arch/powerpc/configs/debug.config             |  1 +
+>  arch/powerpc/configs/disable-werror.config    |  1 +
+>  .../configs/{dpaa.config =3D> dpaa.fragment}    |  1 +
+>  ...mb-nonhw.config =3D> fsl-emb-nonhw.fragment} |  1 +
+>  .../configs/{guest.config =3D> guest.fragment}  |  1 +
+>  arch/powerpc/configs/le.config                |  1 -
+>  arch/powerpc/configs/le.fragment              |  2 ++
+>  ...85xx_base.config =3D> mpc85xx_base.fragment} |  1 +
+>  ...86xx_base.config =3D> mpc86xx_base.fragment} |  1 +
+>  .../{ppc64le.config =3D> ppc64le.fragment}      |  1 +
+>  arch/powerpc/configs/security.config          |  4 ++-
+>  arch/riscv/configs/32-bit.config              |  1 +
+>  arch/riscv/configs/64-bit.config              |  1 +
+>  arch/s390/configs/btf.config                  |  1 +
+>  arch/s390/configs/kasan.config                |  1 +
+>  arch/x86/Makefile                             |  4 ---
+>  arch/x86/configs/tiny.config                  |  2 ++
+>  {kernel =3D> arch/x86}/configs/x86_debug.config |  1 +
+>  arch/x86/configs/xen.config                   |  2 ++
+>  kernel/configs/debug.config                   |  2 ++
+>  kernel/configs/kvm_guest.config               |  1 +
+>  kernel/configs/nopm.config                    |  2 ++
+>  kernel/configs/rust.config                    |  1 +
+>  kernel/configs/tiny-base.config               |  1 -
+>  kernel/configs/tiny-base.fragment             |  2 ++
+>  kernel/configs/tiny.config                    |  2 ++
+>  kernel/configs/xen.config                     |  2 ++
+>  scripts/Makefile.defconf                      | 12 ++++++---
+>  scripts/kconfig/Makefile                      | 16 +++++++++---
+>  51 files changed, 87 insertions(+), 32 deletions(-)
+>  rename arch/powerpc/configs/{32-bit.config =3D> 32-bit.fragment} (53%)
+>  delete mode 100644 arch/powerpc/configs/64-bit.config
+>  create mode 100644 arch/powerpc/configs/64-bit.fragment
+>  rename arch/powerpc/configs/{85xx-32bit.config =3D> 85xx-32bit.fragment}=
+ (76%)
+>  rename arch/powerpc/configs/{85xx-64bit.config =3D> 85xx-64bit.fragment}=
+ (78%)
+>  rename arch/powerpc/configs/{85xx-hw.config =3D> 85xx-hw.fragment} (98%)
+>  rename arch/powerpc/configs/{85xx-smp.config =3D> 85xx-smp.fragment} (59=
+%)
+>  rename arch/powerpc/configs/{86xx-hw.config =3D> 86xx-hw.fragment} (98%)
+>  rename arch/powerpc/configs/{86xx-smp.config =3D> 86xx-smp.fragment} (58=
+%)
+>  delete mode 100644 arch/powerpc/configs/altivec.config
+>  create mode 100644 arch/powerpc/configs/altivec.fragment
+>  delete mode 100644 arch/powerpc/configs/be.config
+>  create mode 100644 arch/powerpc/configs/be.fragment
+>  rename arch/powerpc/configs/{book3s_32.config =3D> book3s_32.fragment} (=
+52%)
+>  rename arch/powerpc/configs/{corenet_base.config =3D> corenet_base.fragm=
+ent} (64%)
+>  rename arch/powerpc/configs/{dpaa.config =3D> dpaa.fragment} (80%)
+>  rename arch/powerpc/configs/{fsl-emb-nonhw.config =3D> fsl-emb-nonhw.fra=
+gment} (98%)
+>  rename arch/powerpc/configs/{guest.config =3D> guest.fragment} (85%)
+>  delete mode 100644 arch/powerpc/configs/le.config
+>  create mode 100644 arch/powerpc/configs/le.fragment
+>  rename arch/powerpc/configs/{mpc85xx_base.config =3D> mpc85xx_base.fragm=
+ent} (94%)
+>  rename arch/powerpc/configs/{mpc86xx_base.config =3D> mpc86xx_base.fragm=
+ent} (86%)
+>  rename arch/powerpc/configs/{ppc64le.config =3D> ppc64le.fragment} (65%)
+>  rename {kernel =3D> arch/x86}/configs/x86_debug.config (90%)
+>  delete mode 100644 kernel/configs/tiny-base.config
+>  create mode 100644 kernel/configs/tiny-base.fragment
+>
+> --
+> 2.34.1
+>
 
 
-
---
+--=20
 Best Regards
 Masahiro Yamada
