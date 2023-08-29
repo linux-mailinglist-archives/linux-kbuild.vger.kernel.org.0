@@ -2,113 +2,162 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7301B78B65E
-	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Aug 2023 19:25:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8775C78BCE0
+	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Aug 2023 04:37:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230302AbjH1RZR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 28 Aug 2023 13:25:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46224 "EHLO
+        id S230317AbjH2Cgb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 28 Aug 2023 22:36:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58328 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232798AbjH1RZB (ORCPT
+        with ESMTP id S233143AbjH2CgW (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 28 Aug 2023 13:25:01 -0400
-Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81D5EE1
-        for <linux-kbuild@vger.kernel.org>; Mon, 28 Aug 2023 10:24:58 -0700 (PDT)
-Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-58d37b541a2so51067657b3.2
-        for <linux-kbuild@vger.kernel.org>; Mon, 28 Aug 2023 10:24:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1693243498; x=1693848298;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=/oLxkqcj6idE2RAd7eB+LLnuv7c2HnjVXYsMqqnGgg8=;
-        b=Q3kdIiExrixB0kXpfSIkMi+WUhVxAjzZp1Gb0Pv92AW7RoauqfxFtrlVmmUAgDr92G
-         YT3v72v+p4ZdtUIfnVnnt4izhXVNFK2RaLOtbuijsYwyUD4zlE5ZbDmmOGaAteX6o2I0
-         rjeRnbkLNa7xN4WC/7Tk4ej57vemznhk7e5+sQX87NqNVIdfOnOonenrEBGV5LTpv70m
-         EOK8gmCgoWq+WNRgfDYABZPBFV68uSsbt77FNJ7F9JS4Xut8mVJOPGih8H/fPSEU0DjS
-         zU3AeR8ISUVZQ07y8530/l9a8o/ybm02tigJ6dk72/7WTDAqn5kOIPfrsnSyTGte3I4b
-         8nDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693243498; x=1693848298;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/oLxkqcj6idE2RAd7eB+LLnuv7c2HnjVXYsMqqnGgg8=;
-        b=WpDsn/kopfLX9dF3YwKyDgK6BHRp0AgjAyIvw0ftArbbZ73bFM8xBe52oBe8H84rdf
-         GGGGZR5CQkI/0qnxPpL4l03OHFoH5MumH1aYrLawLOwSjD8DhpNoiMuVO9YpRrKWVtvB
-         ByyVz+P8v/VeQHx1b5lmsxvO7Yp4jsd23AxYulFPtRd+dIJRh+aYxIeB/UI5NkWaEEUC
-         yvbqj1H/hvj6NKTsIy4HXGXkx59Dq36EwUWWgJUILl9J1R5I3zuITc2CAuiwvxfN3kdi
-         kRBwdlwShqd9y1JdZfpMRcZfj8ka9V2JDYUlnjoE293LYcAFWCoTP6hB8akuwVUkyFfb
-         di8A==
-X-Gm-Message-State: AOJu0YwFbcBcV/Geyo88ymokluBzxAHobYy3k09XfciCVkCmTl2jz39V
-        lSVs9sNn5fR5Wn3KDDI+A6mBsQRvJLpdnoG0wGE=
-X-Google-Smtp-Source: AGHT+IGK2UAO+x9AivLfeQCbe/oWqNS//H5fFRBkRtH1NHfK+e8tED1exgd39eYPQHfAxiWZ7GpFXPzi/ILoF0aXDNM=
-X-Received: from ndesaulniers-desktop.svl.corp.google.com ([2620:15c:2d1:203:b64:7817:9989:9eba])
- (user=ndesaulniers job=sendgmr) by 2002:a25:d809:0:b0:d01:60ec:d0e with SMTP
- id p9-20020a25d809000000b00d0160ec0d0emr864417ybg.9.1693243497711; Mon, 28
- Aug 2023 10:24:57 -0700 (PDT)
-Date:   Mon, 28 Aug 2023 10:24:56 -0700
-Mime-Version: 1.0
-X-B4-Tracking: v=1; b=H4sIAGfY7GQC/x2MQQqAIBAAvyJ7TjBFkL4SEaJr7UVFKQLp7y0dh
- 2FmQMdG2GERAxre1KlkhnkSEE6fD5QUmUErbZTTTsYS+p7ouaqMxhtrfUwuKeCgNmTxz9btfT+ CiCgEXAAAAA==
-X-Developer-Key: i=ndesaulniers@google.com; a=ed25519; pk=eMOZeIQ4DYNKvsNmDNzVbQZqpdex34Aww3b8Ah957X4=
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1693243496; l=1285;
- i=ndesaulniers@google.com; s=20230823; h=from:subject:message-id;
- bh=zCJ5iDIwWerWby5h6qezWElTcBWFCjLXZm+/Emze4k4=; b=Be7HD5ZZzeKJKDc7FCdvIqAeEUnkF5wWw4dcsSwn+XM/KS7qdTk8/xSGsBu46LPiDpE8tF4YV
- kYUBq67QmrBC/DHsEyUTt2eT9Z3C+LmJgo+FpAyYBzTdDk7AxcVeK1l
-X-Mailer: b4 0.12.3
-Message-ID: <20230828-docs_fixup-v1-1-cc78af124667@google.com>
-Subject: [PATCH] Documentation/llvm: fix typo in link
-From:   ndesaulniers@google.com
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Nathan Chancellor <nathan@kernel.org>, Tom Rix <trix@redhat.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Jonathan Corbet <corbet@lwn.net>, llvm@lists.linux.dev,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Mon, 28 Aug 2023 22:36:22 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C670A139;
+        Mon, 28 Aug 2023 19:36:19 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5ADB260CEC;
+        Tue, 29 Aug 2023 02:36:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2D5DC433C8;
+        Tue, 29 Aug 2023 02:36:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1693276578;
+        bh=GR786N1WG+6u7KDhtMNYzwV4w0yqeHQX13Xo8ZwlNKM=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=VTYmWKaKevaNznKPQb9Vg7GxV+IYK9Q/oOWrANVXZ8QqcKjfp5UVpPO9rTa/fvTI0
+         jA7TlguM070y8otXRlyzzCXMZaxYq1VF2X8krusAMXIQXiTJyEpyLisAwb1eW/OpYs
+         eevNj4V7nkF8zbQsbovIUotdETdxsJypRuTNNcpnVlTJE3n3qVpKt5be3GTZ5GTEWF
+         LVBjTiYfs/hzqoFQ6EuSIDtLxBe2N9z0lRl7tt/TFxworkx4DKU9+8ve9o+iWXt4Ob
+         GhubYAPtXO/SXU3SLcdOpCCG6+5o7CUw9ozmx+he7cV/XTv0MuQXwyMrIcjXROGxoI
+         xPDd8/4/PQw3g==
+Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-571194584e2so2480763eaf.3;
+        Mon, 28 Aug 2023 19:36:18 -0700 (PDT)
+X-Gm-Message-State: AOJu0YzNRMaz7pRJ05uzMogC9aWFQrkxzGzzEa9iRan8C0m6PwLR/ce3
+        KtOy3sz5avqkGNS9fC1p92/okkyZ89CU91q75LY=
+X-Google-Smtp-Source: AGHT+IHFjR4ul+Tuk0znXoAjKIj9khNjYdgRNj3UF0yVzWH/x+XiTMfPP0bSIc8TlR7+ojMzA6QjyUL1FIMVk3hZlwM=
+X-Received: by 2002:a4a:ea3b:0:b0:56d:e6:21bf with SMTP id y27-20020a4aea3b000000b0056d00e621bfmr13266092ood.0.1693276577944;
+ Mon, 28 Aug 2023 19:36:17 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230823115048.823011-1-masahiroy@kernel.org> <20230823115048.823011-6-masahiroy@kernel.org>
+ <ZOyuY5XCfYEV8fW6@bergen.fjasle.eu>
+In-Reply-To: <ZOyuY5XCfYEV8fW6@bergen.fjasle.eu>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 29 Aug 2023 11:35:41 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ=5x+zOApY95Oqen0tyfVthb7QYjeskgQmUqGBDtSoiw@mail.gmail.com>
+Message-ID: <CAK7LNAQ=5x+zOApY95Oqen0tyfVthb7QYjeskgQmUqGBDtSoiw@mail.gmail.com>
+Subject: Re: [PATCH 6/8] kbuild: move more module installation code to scripts/Makefile.modinst
+To:     Nicolas Schier <nicolas@fjasle.eu>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>
-Content-Type: text/plain; charset="utf-8"
-X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
-        autolearn=ham autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Fixes the following observed build failure from `make htmldocs`:
-  Documentation/kbuild/llvm.rst:127: ERROR: Unknown target name:
-  "reprocible_builds".
+On Tue, Aug 29, 2023 at 11:15=E2=80=AFAM Nicolas Schier <nicolas@fjasle.eu>=
+ wrote:
+>
+> On Wed 23 Aug 2023 20:50:46 GMT, Masahiro Yamada wrote:
+> > Move more relevant code to scripts/Makefile.modinst.
+> >
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > ---
+> >
+> >  Makefile                 | 34 +++++++--------------------------
+> >  scripts/Makefile.modinst | 41 +++++++++++++++++++++++++++++++++++++---
+> >  2 files changed, 45 insertions(+), 30 deletions(-)
+> >
+> > diff --git a/Makefile b/Makefile
+> > index 7d9cab3d2186..82d22debf6c9 100644
+> > --- a/Makefile
+> > +++ b/Makefile
+> > @@ -1477,24 +1477,6 @@ endif
+> >
+> >  endif # CONFIG_MODULES
+> >
+> > -modinst_pre :=3D
+> > -ifneq ($(filter modules_install,$(MAKECMDGOALS)),)
+> > -modinst_pre :=3D __modinst_pre
+> > -endif
+> > -
+> > -modules_install: $(modinst_pre)
+> > -PHONY +=3D __modinst_pre
+> > -__modinst_pre:
+> > -     @rm -rf $(MODLIB)/kernel
+> > -     @rm -f $(MODLIB)/build
+> > -     @mkdir -p $(MODLIB)
+> > -ifdef CONFIG_MODULES
+> > -     @ln -s $(CURDIR) $(MODLIB)/build
+> > -     @sed 's:^\(.*\)\.o$$:kernel/\1.ko:' modules.order > $(MODLIB)/mod=
+ules.order
+> > -endif
+> > -     @cp -f modules.builtin $(MODLIB)/
+> > -     @cp -f $(objtree)/modules.builtin.modinfo $(MODLIB)/
+> > -
+> >  ###
+> >  # Cleaning is done on three levels.
+> >  # make clean     Delete most generated files
+> > @@ -1836,12 +1818,15 @@ help:
+> >       @echo  '  clean           - remove generated files in module dire=
+ctory only'
+> >       @echo  ''
+> >
+> > +ifndef CONFIG_MODULES
+> > +modules modules_install: __external_modules_error
+> >  __external_modules_error:
+> >       @echo >&2 '***'
+> >       @echo >&2 '*** The present kernel disabled CONFIG_MODULES.'
+> >       @echo >&2 '*** You cannot build or install external modules.'
+> >       @echo >&2 '***'
+> >       @false
+> > +endif
+> >
+> >  endif # KBUILD_EXTMOD
+> >
+> > @@ -1850,6 +1835,9 @@ endif # KBUILD_EXTMOD
+> >
+> >  PHONY +=3D modules modules_install modules_prepare
+> >
+> > +modules_install:
+> > +     $(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modinst
+>
+> I was a bit surprised to see 'modules_install' being allowed
+> unconditionally for in-tree usage (thus, even if CONFIG_MODULES=3Dn), but
+> then realised that this is the same behaviour as we had before.  Out of
+> curiosity:  _why_ do we need to install
+> $(MODLIB)/modules.builtin{,.modinfo} also for configs w/
+> CONFIG_MODULES=3Dn?
 
-Fixes: bda09c0e14a4 ("Documentation/llvm: refresh docs")
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Closes: https://lore.kernel.org/linux-next/20230828145737.6ff53bc9@canb.auug.org.au/
-Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
----
- Documentation/kbuild/llvm.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-index 384622dd36b7..b1d97fafddcf 100644
---- a/Documentation/kbuild/llvm.rst
-+++ b/Documentation/kbuild/llvm.rst
-@@ -126,7 +126,7 @@ Ccache
- 
- ``ccache`` can be used with ``clang`` to improve subsequent builds, (though
- KBUILD_BUILD_TIMESTAMP_ should be set to a deterministic value between builds
--in order to avoid 100% cache misses, see Reprocible_builds_ for more info):
-+in order to avoid 100% cache misses, see Reproducible_builds_ for more info):
- 
- 	KBUILD_BUILD_TIMESTAMP='' make LLVM=1 CC="ccache clang"
- 
+I see your tags in commit
+8ae071fc216a25f4f797f33c56857f4dd6b4408e    :)
 
----
-base-commit: 2ee82481c392eec06a7ef28df61b7f0d8e45be2e
-change-id: 20230828-docs_fixup-d3a355adf8f0
 
-Best regards,
--- 
-Nick Desaulniers <ndesaulniers@google.com>
+Some drivers need to load firmware.
 
+To make such drivers working in initrd,
+mkinitramfs needs to copy necessary firmware files
+into the initrd.
+So, the tool needs to know which drivers are enabled.
+
+That is my understanding why modules.builtin(.modinfo)
+is needed even with CONFIG_MODULES=3Dn.
+
+
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
