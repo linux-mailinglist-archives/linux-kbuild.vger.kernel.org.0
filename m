@@ -2,173 +2,135 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 64DAC79029B
-	for <lists+linux-kbuild@lfdr.de>; Fri,  1 Sep 2023 21:50:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F10057902FD
+	for <lists+linux-kbuild@lfdr.de>; Fri,  1 Sep 2023 22:54:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350671AbjIATuf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 1 Sep 2023 15:50:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33256 "EHLO
+        id S234866AbjIAUyE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 1 Sep 2023 16:54:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46226 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239166AbjIATuf (ORCPT
+        with ESMTP id S234636AbjIAUyD (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 1 Sep 2023 15:50:35 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EC7B10FC
-        for <linux-kbuild@vger.kernel.org>; Fri,  1 Sep 2023 12:50:31 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id d9443c01a7336-1c06f6f98c0so19459375ad.3
-        for <linux-kbuild@vger.kernel.org>; Fri, 01 Sep 2023 12:50:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1693597831; x=1694202631; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=TnGlOgpcJfhSyX3oWtweduRxRFI+vcvjVBEfz8W6REE=;
-        b=fthS1VCzHXcUTE00n6Svm+w9LyBnWbPXRCnrtKgX+lTjv3pVBau3i2G6Pvfs8DVQzU
-         /nfveQ+9ZqExXKHzR6oyct+mYWKIOxeSp3O/Vx8676FV08K0KqjBfMlfIm31/aag0RFb
-         yo7ea3ltuXO9s6NKx5UR7Anzy/EYzDLZSjHfI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693597831; x=1694202631;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TnGlOgpcJfhSyX3oWtweduRxRFI+vcvjVBEfz8W6REE=;
-        b=eGMsHNiQ2pqZb+UqZlqZvs8izb9a0cAGxOKWVafIrngMNIWSojm2HR+Gu0ewlAJzGx
-         mCc09xSMZ2lNdXrRSLC/N684/bEW4ecpOhmDmKekhXvX0yqfVNVMiQpS4N6Gfx5lx5Mu
-         yZnyweWXMA5pYiO4KuTktN7+njvfyzx5N7IaXzlOlJ38Xomt42tR/ZvoTIL1kvf92l+e
-         KizAs1carLETVket3OZa3mViIorjIDcbzlXjlCpIIfPtiVuNBQECNej4+Qv74FE1qJdS
-         nsOGBl9HL0qkwRdunkrMYcE7lFM/C2dBDhDf6ZzVTGb+JgutpN41u5kfKsXic2hxEikL
-         Pf9w==
-X-Gm-Message-State: AOJu0YzT17Mi7JXfKeMhiB+IymcAmHXmP0iYZFVfxTtd+Kd89JHjDkrd
-        7OLj9wTM2wGZRyVgmi81NljJ9Q==
-X-Google-Smtp-Source: AGHT+IFLMLtB06xgjItzzUv50zhsXFZ37ehwBfgJSIF2V6heU41cis1M/xhTkDTyzQL7J2okpu7MHw==
-X-Received: by 2002:a17:902:f682:b0:1c0:b7f4:5b86 with SMTP id l2-20020a170902f68200b001c0b7f45b86mr3871500plg.65.1693597830846;
-        Fri, 01 Sep 2023 12:50:30 -0700 (PDT)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id d10-20020a170902654a00b001b8b2b95068sm3397478pln.204.2023.09.01.12.50.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Sep 2023 12:50:30 -0700 (PDT)
-Date:   Fri, 1 Sep 2023 12:50:29 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Nicolas Schier <nicolas@fjasle.eu>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-kernel@vger.kernel.org, x86@kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-        linux-s390@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v3] kbuild: Show marked Kconfig fragments in "help"
-Message-ID: <202309011250.AB0DAA03@keescook>
-References: <20230831191335.give.534-kees@kernel.org>
- <CAK7LNATENQQy6LrWS10S-EXsyAvTraSj2WA=O7rFsS9Ht6a+3g@mail.gmail.com>
+        Fri, 1 Sep 2023 16:54:03 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D17110F3
+        for <linux-kbuild@vger.kernel.org>; Fri,  1 Sep 2023 13:54:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1693601641; x=1725137641;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=0cRLekUmVWg+ro4nwPBrrYb3uUdo+NkSZMIGVTKr4tQ=;
+  b=DIwYjgL4aYnPa+oaUi2iI5J6N7yqop/jbGAXb8cDfb6fYwxY71XjOccf
+   hFKtFC0r5H3NWrgTGO1HFCrAEtS2l7uIgvXVNSWOjsUIu3pM+o93lfRdJ
+   Q/b/gb/g/0/42aD/zCJO6JGOhcVuUCWbV/5B0bcv1ft9IqYNUkA1M8Zgp
+   2O6fvb3PJjZlEc/fAF++Q9LV3zizzTMuq0JXlU7+c8ByEQBB4R8KKZ1zj
+   l53OoQa13F2eSVwViPJ6fSuxWhXmAjLIwnxrSt8cwzkHRXnA2IYj+FKfW
+   VT3EzUgzFCKUYWPsdVBADh3htaojC+WNMaL4HJRm4oMlEoA8HMPhRwRkq
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="376233560"
+X-IronPort-AV: E=Sophos;i="6.02,220,1688454000"; 
+   d="scan'208";a="376233560"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2023 13:53:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10819"; a="883321443"
+X-IronPort-AV: E=Sophos;i="6.02,220,1688454000"; 
+   d="scan'208";a="883321443"
+Received: from lkp-server01.sh.intel.com (HELO 5d8055a4f6aa) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 01 Sep 2023 13:53:55 -0700
+Received: from kbuild by 5d8055a4f6aa with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qcB9L-0001dD-0K;
+        Fri, 01 Sep 2023 20:53:51 +0000
+Date:   Sat, 2 Sep 2023 04:53:23 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     oe-kbuild-all@lists.linux.dev, linux-kbuild@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>
+Subject: [masahiroy-kbuild:kbuild 39/61]
+ include/linux/fortify-string.h:57:33: warning: '__builtin_memcpy' accessing
+ 129 or more bytes at offsets 328 and 200 overlaps 1 or more bytes at offset
+ 328
+Message-ID: <202309020449.BhSynlbq-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK7LNATENQQy6LrWS10S-EXsyAvTraSj2WA=O7rFsS9Ht6a+3g@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Sep 01, 2023 at 04:58:37PM +0900, Masahiro Yamada wrote:
-> On Fri, Sep 1, 2023 at 4:13 AM Kees Cook <keescook@chromium.org> wrote:
-> >
-> > Currently the Kconfig fragments in kernel/configs and arch/*/configs
-> > that aren't used internally aren't discoverable through "make help",
-> > which consists of hard-coded lists of config fragments. Instead, list
-> > all the fragment targets that have a "# Help: " comment prefix so the
-> > targets can be generated dynamically.
-> >
-> > Add logic to the Makefile to search for and display the fragment and
-> > comment. Add comments to fragments that are intended to be direct targets.
-> >
-> > Cc: Nicolas Schier <nicolas@fjasle.eu>
-> > Cc: Michael Ellerman <mpe@ellerman.id.au>
-> > Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
-> > Cc: Randy Dunlap <rdunlap@infradead.org>
-> > Cc: linux-kernel@vger.kernel.org
-> > Cc: x86@kernel.org
-> > Cc: linux-arm-kernel@lists.infradead.org
-> > Cc: linuxppc-dev@lists.ozlabs.org
-> > Cc: linux-riscv@lists.infradead.org
-> > Cc: linux-s390@vger.kernel.org
-> > Cc: linux-kbuild@vger.kernel.org
-> > Cc: linux-hardening@vger.kernel.org
-> > Signed-off-by: Kees Cook <keescook@chromium.org>
-> > Co-developed-by: Masahiro Yamada <masahiroy@kernel.org>
-> > ---
-> > v3:
-> > - Use Makefile logic from Masahiro Yamada
-> > - Use "# Help: " prefix, but only on desired fragment targets
-> > v2: https://lore.kernel.org/all/20230825194329.gonna.911-kees@kernel.org
-> > v1: https://lore.kernel.org/all/20230824223606.never.762-kees@kernel.org
-> > ---
-> >  Makefile                                   |  1 -
-> >  arch/arm/configs/dram_0x00000000.config    |  1 +
-> >  arch/arm/configs/dram_0xc0000000.config    |  1 +
-> >  arch/arm/configs/dram_0xd0000000.config    |  1 +
-> >  arch/arm/configs/lpae.config               |  1 +
-> >  arch/arm64/configs/virt.config             |  1 +
-> >  arch/powerpc/configs/disable-werror.config |  1 +
-> >  arch/powerpc/configs/security.config       |  4 +++-
-> >  arch/riscv/configs/32-bit.config           |  1 +
-> >  arch/riscv/configs/64-bit.config           |  1 +
-> >  arch/s390/configs/btf.config               |  1 +
-> >  arch/s390/configs/kasan.config             |  1 +
-> >  arch/x86/Makefile                          |  4 ----
-> >  kernel/configs/debug.config                |  2 ++
-> >  kernel/configs/kvm_guest.config            |  1 +
-> >  kernel/configs/nopm.config                 |  2 ++
-> >  kernel/configs/rust.config                 |  1 +
-> >  kernel/configs/tiny.config                 |  2 ++
-> >  kernel/configs/x86_debug.config            |  1 +
-> >  kernel/configs/xen.config                  |  2 ++
-> >  scripts/kconfig/Makefile                   | 15 ++++++++++++---
-> >  21 files changed, 36 insertions(+), 9 deletions(-)
-> >
-> 
-> 
-> Just one thing.
-> 
-> 
-> 
-> 
-> 
-> > diff --git a/kernel/configs/tiny.config b/kernel/configs/tiny.config
-> > index 00009f7d0835..60a4b6d80b36 100644
-> > --- a/kernel/configs/tiny.config
-> > +++ b/kernel/configs/tiny.config
-> > @@ -1,3 +1,5 @@
-> > +# Help: Size-optimized kernel image
-> 
-> 
-> I will drop this.
-> 
-> 
-> We already have a hard-coded help message.
-> 
->   tinyconfig   - Configure the tiniest possible kernel
-> 
-> 
-> 
-> 
-> Then, some lines below, again.
-> 
->   tiny.config               - Size-optimized kernel image
-> 
-> 
-> 
-> tiny.config is for internal use for tinyconfig.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git kbuild
+head:   a44a596c5b5b8acce9521c409cc4deb312b71ffc
+commit: 26030cb984dd65e0cb2d0c2489d94941cf8897b4 [39/61] extrawarn: move -Wrestrict into W=1 warnings
+config: loongarch-randconfig-r013-20230902 (https://download.01.org/0day-ci/archive/20230902/202309020449.BhSynlbq-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230902/202309020449.BhSynlbq-lkp@intel.com/reproduce)
 
-Shall I send a v4, or did you fix this up already?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309020449.BhSynlbq-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/crypto/atmel-sha.c:34:
+   include/crypto/scatterwalk.h: In function 'scatterwalk_pagedone':
+   include/crypto/scatterwalk.h:76:30: warning: variable 'page' set but not used [-Wunused-but-set-variable]
+      76 |                 struct page *page;
+         |                              ^~~~
+   In file included from include/linux/string.h:254,
+                    from include/linux/bitmap.h:11,
+                    from include/linux/cpumask.h:12,
+                    from include/linux/mm_types_task.h:14,
+                    from include/linux/mm_types.h:5,
+                    from include/linux/buildid.h:5,
+                    from include/linux/module.h:14,
+                    from drivers/crypto/atmel-sha.c:15:
+   drivers/crypto/atmel-sha.c: In function 'atmel_sha_hmac_compute_ipad_hash':
+>> include/linux/fortify-string.h:57:33: warning: '__builtin_memcpy' accessing 129 or more bytes at offsets 328 and 200 overlaps 1 or more bytes at offset 328 [-Wrestrict]
+      57 | #define __underlying_memcpy     __builtin_memcpy
+         |                                 ^
+   include/linux/fortify-string.h:648:9: note: in expansion of macro '__underlying_memcpy'
+     648 |         __underlying_##op(p, q, __fortify_size);                        \
+         |         ^~~~~~~~~~~~~
+   include/linux/fortify-string.h:693:26: note: in expansion of macro '__fortify_memcpy_chk'
+     693 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+         |                          ^~~~~~~~~~~~~~~~~~~~
+   drivers/crypto/atmel-sha.c:1773:9: note: in expansion of macro 'memcpy'
+    1773 |         memcpy(hmac->opad, hmac->ipad, bs);
+         |         ^~~~~~
+
+
+vim +/__builtin_memcpy +57 include/linux/fortify-string.h
+
+78a498c3a227f2 Alexander Potapenko 2022-10-24  46  
+78a498c3a227f2 Alexander Potapenko 2022-10-24  47  #if defined(__SANITIZE_MEMORY__)
+78a498c3a227f2 Alexander Potapenko 2022-10-24  48  /*
+78a498c3a227f2 Alexander Potapenko 2022-10-24  49   * For KMSAN builds all memcpy/memset/memmove calls should be replaced by the
+78a498c3a227f2 Alexander Potapenko 2022-10-24  50   * corresponding __msan_XXX functions.
+78a498c3a227f2 Alexander Potapenko 2022-10-24  51   */
+78a498c3a227f2 Alexander Potapenko 2022-10-24  52  #include <linux/kmsan_string.h>
+78a498c3a227f2 Alexander Potapenko 2022-10-24  53  #define __underlying_memcpy	__msan_memcpy
+78a498c3a227f2 Alexander Potapenko 2022-10-24  54  #define __underlying_memmove	__msan_memmove
+78a498c3a227f2 Alexander Potapenko 2022-10-24  55  #define __underlying_memset	__msan_memset
+78a498c3a227f2 Alexander Potapenko 2022-10-24  56  #else
+a28a6e860c6cf2 Francis Laniel      2021-02-25 @57  #define __underlying_memcpy	__builtin_memcpy
+a28a6e860c6cf2 Francis Laniel      2021-02-25  58  #define __underlying_memmove	__builtin_memmove
+a28a6e860c6cf2 Francis Laniel      2021-02-25  59  #define __underlying_memset	__builtin_memset
+78a498c3a227f2 Alexander Potapenko 2022-10-24  60  #endif
+78a498c3a227f2 Alexander Potapenko 2022-10-24  61  
+
+:::::: The code at line 57 was first introduced by commit
+:::::: a28a6e860c6cf231cf3c5171c75c342adcd00406 string.h: move fortified functions definitions in a dedicated header.
+
+:::::: TO: Francis Laniel <laniel_francis@privacyrequired.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
-Kees Cook
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
