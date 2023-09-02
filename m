@@ -2,40 +2,57 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 940D47904A6
-	for <lists+linux-kbuild@lfdr.de>; Sat,  2 Sep 2023 03:37:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B37D979058E
+	for <lists+linux-kbuild@lfdr.de>; Sat,  2 Sep 2023 08:18:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351450AbjIBBhk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 1 Sep 2023 21:37:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51732 "EHLO
+        id S235604AbjIBGSW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 2 Sep 2023 02:18:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229489AbjIBBhj (ORCPT
+        with ESMTP id S231330AbjIBGSV (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 1 Sep 2023 21:37:39 -0400
-Received: from gandalf.ozlabs.org (mail.ozlabs.org [IPv6:2404:9400:2221:ea00::3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CDF8E54;
-        Fri,  1 Sep 2023 18:37:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
-        s=201909; t=1693618650;
-        bh=jmoXZU5xgGIhtHU0V+fopcmXqY/zvLC3ThLQUQfiwJA=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=ir9Ia+KMa8kP3kdjlB5RMtlq7/v/ajVVR1JjU3X+NDfK2jZtkWp71i2BMrrmrHuTC
-         AddeqMlhnxIfrzRwERIHysj3MX3YJGMlfMNcR57BGQXWeQYzUj3uF1XAhH89IkG6dm
-         I6W9lGIMowGFf+2IxcKKUFCEd6s+R+Yk4UQqLEfc4O/sitzlFK3BL/f1gdWF36+8Ui
-         rzUHl/92BtSgVZ9kFuIMFUoWS5tyMbLRLiY/oQo+vhxhMp79ubNgi6FU3nMCXk6ubl
-         5Y7eQUUwhFvCrKh/SaFIHHeJ31a15epIyw+hxi+2pFBgByIlG8S40jCeU05uaGsl+H
-         fDSRcsD8tyoIg==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+        Sat, 2 Sep 2023 02:18:21 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96EBD10F8;
+        Fri,  1 Sep 2023 23:18:18 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by mail.ozlabs.org (Postfix) with ESMTPSA id 4RcyFJ6359z4wxR;
-        Sat,  2 Sep 2023 11:37:24 +1000 (AEST)
-From:   Michael Ellerman <mpe@ellerman.id.au>
-To:     Kees Cook <keescook@chromium.org>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Nicolas Schier <nicolas@fjasle.eu>,
+        by sin.source.kernel.org (Postfix) with ESMTPS id BA757CE225B;
+        Sat,  2 Sep 2023 06:18:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0ED04C433CD;
+        Sat,  2 Sep 2023 06:18:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1693635495;
+        bh=S2JjhDQaQjCUBS5BoHwvNrpSReY7nD+6fFAceggH5L4=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=hIUKwpwmhpYMtn3fTmQXOATMfWHK5+QPj14H0A97QXLXMppSSF9eVXCHQIGuGPsDY
+         JjzSpA3VOzM9M2jNUI1NrIRu8zgcBXHLxoQM6oHLaopiRUU3znUlfC12Ro9UhBiyLx
+         uQT/EorLWHbocPK7E0C1R7T0Ceo4xuq7MBqd0VBTtdv+WbnaPLX7CNg9/sp8uC4d1q
+         E6nGabVyu+eSwVBRG+WRXgYyuhhV+6YVwCc4NAO2vfjaKe5QtdE0vr3jDD9pYrofL/
+         ZGRbk7ZUIJXJ2i3EKLtq2t4f9yRJMYPM7drBRGh6gbPpID1D4FJKbE/iBAkuyvuhrL
+         efRJeyXUxdCfw==
+Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-6bcae8c4072so1931529a34.1;
+        Fri, 01 Sep 2023 23:18:14 -0700 (PDT)
+X-Gm-Message-State: AOJu0YxDSsylHmwCYai1W/I+hc50aaWYMP32RmgjbCMXiOuCCNuAL7sP
+        Bh9IYxck226B/lNitJdBZS55tag09a6YtdsmwEk=
+X-Google-Smtp-Source: AGHT+IESGICPQ/WBafsIpCkqlmLOntDrnFZ4mcqJsB8bb0Bsgx61YqGasOzlsnoQknaLtIFXHXJ++FKkRqersGaIAOU=
+X-Received: by 2002:a05:6870:ac12:b0:1b7:3f07:e431 with SMTP id
+ kw18-20020a056870ac1200b001b73f07e431mr5406945oab.54.1693635494264; Fri, 01
+ Sep 2023 23:18:14 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230831191335.give.534-kees@kernel.org> <CAK7LNATENQQy6LrWS10S-EXsyAvTraSj2WA=O7rFsS9Ht6a+3g@mail.gmail.com>
+ <202309011250.AB0DAA03@keescook>
+In-Reply-To: <202309011250.AB0DAA03@keescook>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sat, 2 Sep 2023 15:17:37 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQgcdwg_3Mtu_ZQYWLKPf5Pzm9syQkqxEDPmD6tic3J6A@mail.gmail.com>
+Message-ID: <CAK7LNAQgcdwg_3Mtu_ZQYWLKPf5Pzm9syQkqxEDPmD6tic3J6A@mail.gmail.com>
+Subject: Re: [PATCH v3] kbuild: Show marked Kconfig fragments in "help"
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Nicolas Schier <nicolas@fjasle.eu>,
+        Michael Ellerman <mpe@ellerman.id.au>,
         Christophe Leroy <christophe.leroy@csgroup.eu>,
         Randy Dunlap <rdunlap@infradead.org>,
         linux-kernel@vger.kernel.org, x86@kernel.org,
@@ -43,62 +60,127 @@ Cc:     Kees Cook <keescook@chromium.org>,
         linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
         linux-s390@vger.kernel.org, linux-kbuild@vger.kernel.org,
         linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v3] kbuild: Show marked Kconfig fragments in "help"
-In-Reply-To: <20230831191335.give.534-kees@kernel.org>
-References: <20230831191335.give.534-kees@kernel.org>
-Date:   Sat, 02 Sep 2023 11:37:22 +1000
-Message-ID: <87fs3xicdp.fsf@mail.lhotse>
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Kees Cook <keescook@chromium.org> writes:
-> Currently the Kconfig fragments in kernel/configs and arch/*/configs
-> that aren't used internally aren't discoverable through "make help",
-> which consists of hard-coded lists of config fragments. Instead, list
-> all the fragment targets that have a "# Help: " comment prefix so the
-> targets can be generated dynamically.
+On Sat, Sep 2, 2023 at 4:50=E2=80=AFAM Kees Cook <keescook@chromium.org> wr=
+ote:
 >
-> Add logic to the Makefile to search for and display the fragment and
-> comment. Add comments to fragments that are intended to be direct targets.
+> On Fri, Sep 01, 2023 at 04:58:37PM +0900, Masahiro Yamada wrote:
+> > On Fri, Sep 1, 2023 at 4:13=E2=80=AFAM Kees Cook <keescook@chromium.org=
+> wrote:
+> > >
+> > > Currently the Kconfig fragments in kernel/configs and arch/*/configs
+> > > that aren't used internally aren't discoverable through "make help",
+> > > which consists of hard-coded lists of config fragments. Instead, list
+> > > all the fragment targets that have a "# Help: " comment prefix so the
+> > > targets can be generated dynamically.
+> > >
+> > > Add logic to the Makefile to search for and display the fragment and
+> > > comment. Add comments to fragments that are intended to be direct tar=
+gets.
+> > >
+> > > Cc: Nicolas Schier <nicolas@fjasle.eu>
+> > > Cc: Michael Ellerman <mpe@ellerman.id.au>
+> > > Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
+> > > Cc: Randy Dunlap <rdunlap@infradead.org>
+> > > Cc: linux-kernel@vger.kernel.org
+> > > Cc: x86@kernel.org
+> > > Cc: linux-arm-kernel@lists.infradead.org
+> > > Cc: linuxppc-dev@lists.ozlabs.org
+> > > Cc: linux-riscv@lists.infradead.org
+> > > Cc: linux-s390@vger.kernel.org
+> > > Cc: linux-kbuild@vger.kernel.org
+> > > Cc: linux-hardening@vger.kernel.org
+> > > Signed-off-by: Kees Cook <keescook@chromium.org>
+> > > Co-developed-by: Masahiro Yamada <masahiroy@kernel.org>
+> > > ---
+> > > v3:
+> > > - Use Makefile logic from Masahiro Yamada
+> > > - Use "# Help: " prefix, but only on desired fragment targets
+> > > v2: https://lore.kernel.org/all/20230825194329.gonna.911-kees@kernel.=
+org
+> > > v1: https://lore.kernel.org/all/20230824223606.never.762-kees@kernel.=
+org
+> > > ---
+> > >  Makefile                                   |  1 -
+> > >  arch/arm/configs/dram_0x00000000.config    |  1 +
+> > >  arch/arm/configs/dram_0xc0000000.config    |  1 +
+> > >  arch/arm/configs/dram_0xd0000000.config    |  1 +
+> > >  arch/arm/configs/lpae.config               |  1 +
+> > >  arch/arm64/configs/virt.config             |  1 +
+> > >  arch/powerpc/configs/disable-werror.config |  1 +
+> > >  arch/powerpc/configs/security.config       |  4 +++-
+> > >  arch/riscv/configs/32-bit.config           |  1 +
+> > >  arch/riscv/configs/64-bit.config           |  1 +
+> > >  arch/s390/configs/btf.config               |  1 +
+> > >  arch/s390/configs/kasan.config             |  1 +
+> > >  arch/x86/Makefile                          |  4 ----
+> > >  kernel/configs/debug.config                |  2 ++
+> > >  kernel/configs/kvm_guest.config            |  1 +
+> > >  kernel/configs/nopm.config                 |  2 ++
+> > >  kernel/configs/rust.config                 |  1 +
+> > >  kernel/configs/tiny.config                 |  2 ++
+> > >  kernel/configs/x86_debug.config            |  1 +
+> > >  kernel/configs/xen.config                  |  2 ++
+> > >  scripts/kconfig/Makefile                   | 15 ++++++++++++---
+> > >  21 files changed, 36 insertions(+), 9 deletions(-)
+> > >
+> >
+> >
+> > Just one thing.
+> >
+> >
+> >
+> >
+> >
+> > > diff --git a/kernel/configs/tiny.config b/kernel/configs/tiny.config
+> > > index 00009f7d0835..60a4b6d80b36 100644
+> > > --- a/kernel/configs/tiny.config
+> > > +++ b/kernel/configs/tiny.config
+> > > @@ -1,3 +1,5 @@
+> > > +# Help: Size-optimized kernel image
+> >
+> >
+> > I will drop this.
+> >
+> >
+> > We already have a hard-coded help message.
+> >
+> >   tinyconfig   - Configure the tiniest possible kernel
+> >
+> >
+> >
+> >
+> > Then, some lines below, again.
+> >
+> >   tiny.config               - Size-optimized kernel image
+> >
+> >
+> >
+> > tiny.config is for internal use for tinyconfig.
 >
-> Cc: Nicolas Schier <nicolas@fjasle.eu>
-> Cc: Michael Ellerman <mpe@ellerman.id.au>
-> Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
-> Cc: Randy Dunlap <rdunlap@infradead.org>
-> Cc: linux-kernel@vger.kernel.org
-> Cc: x86@kernel.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linuxppc-dev@lists.ozlabs.org
-> Cc: linux-riscv@lists.infradead.org
-> Cc: linux-s390@vger.kernel.org
-> Cc: linux-kbuild@vger.kernel.org
-> Cc: linux-hardening@vger.kernel.org
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-> Co-developed-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
-> v3:
-> - Use Makefile logic from Masahiro Yamada
-> - Use "# Help: " prefix, but only on desired fragment targets
-> v2: https://lore.kernel.org/all/20230825194329.gonna.911-kees@kernel.org
-> v1: https://lore.kernel.org/all/20230824223606.never.762-kees@kernel.org
-> ---
->  Makefile                                   |  1 -
->  arch/arm/configs/dram_0x00000000.config    |  1 +
->  arch/arm/configs/dram_0xc0000000.config    |  1 +
->  arch/arm/configs/dram_0xd0000000.config    |  1 +
->  arch/arm/configs/lpae.config               |  1 +
->  arch/arm64/configs/virt.config             |  1 +
->  arch/powerpc/configs/disable-werror.config |  1 +
->  arch/powerpc/configs/security.config       |  4 +++-
-  
-Acked-by: Michael Ellerman <mpe@ellerman.id.au> (powerpc)
+> Shall I send a v4, or did you fix this up already?
 
-cheers
+
+Locally fixed-up.
+
+If nobody points out anything else,
+you do not need to send v4.
+
+
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
