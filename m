@@ -2,92 +2,82 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DA59F7929C2
-	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Sep 2023 18:57:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E335A792D7E
+	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Sep 2023 20:41:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352584AbjIEQ1q (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 5 Sep 2023 12:27:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59976 "EHLO
+        id S233532AbjIESla (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 5 Sep 2023 14:41:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354162AbjIEJ71 (ORCPT
+        with ESMTP id S241742AbjIESk1 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 5 Sep 2023 05:59:27 -0400
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBC8118C;
-        Tue,  5 Sep 2023 02:59:23 -0700 (PDT)
-Received: from lhrpeml500004.china.huawei.com (unknown [172.18.147.226])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Rg1CY4m95z6D8dW;
-        Tue,  5 Sep 2023 17:58:01 +0800 (CST)
-Received: from mscphis00759.huawei.com (10.123.66.134) by
- lhrpeml500004.china.huawei.com (7.191.163.9) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.31; Tue, 5 Sep 2023 10:59:20 +0100
-From:   Konstantin Meskhidze <konstantin.meskhidze@huawei.com>
-To:     <masahiroy@kernel.org>
-CC:     <linux-kbuild@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <yusongping@huawei.com>, <artem.kuzin@huawei.com>
-Subject: [PATCH] kconfig: fix possible buffer overflow
-Date:   Tue, 5 Sep 2023 17:59:14 +0800
-Message-ID: <20230905095914.1699335-1-konstantin.meskhidze@huawei.com>
-X-Mailer: git-send-email 2.25.1
+        Tue, 5 Sep 2023 14:40:27 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8084DCA;
+        Tue,  5 Sep 2023 11:39:46 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 63522B811F0;
+        Tue,  5 Sep 2023 17:01:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF91EC433C9;
+        Tue,  5 Sep 2023 17:01:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1693933317;
+        bh=mThYv1c/WI3ngnEzjtqtEjf2q7BjLiPOQqRT8IGrZOg=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=RcbSxa3jHO8JUcpi+WHHVSy/m6ZYdQiKimofL7kfdfqHUZ+TrAsRdEGOY3EIFpGjv
+         zMy9pCsxQXD+//9DJ9RvNQcvi7xkruPsSkfuKdL1hRq1aZOjS8CRIIHCbhK28k80s1
+         fxG+sycfULbyqNQWEm5dXJA/65lQhr0Cp5ldiIyr95BfUoe+SwLhioyMlCSyCk6756
+         48RTssiFRCztDtkPCjH87wfyHvQ8L5An0w8fLIDb1kp2AWB8mphF03UjNPJJQEl44b
+         Px0RT45NDY7vzyzqTf/XO9THN+m6AngW1SRBLxpbivox+wSl0kI8qQN+9NHaJiiUS3
+         3bMzZ2LQDCePQ==
+Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-5739965a482so25036eaf.0;
+        Tue, 05 Sep 2023 10:01:57 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yz1159ubDxukKAZD7OU2Anp3tkFj6eTZ2qEsB8yb6ye02BYEg1p
+        MdwZfumninS0xVAZevV6SpKpry4oiTDiz5EI5+M=
+X-Google-Smtp-Source: AGHT+IFAK4dtzb++2HWZ/ZhTysfNhvI2JjVyiO8c/8f7djVX6k7wZRKWpl70eMohMUoV3D551VrrLyaf4jZm6Hk8nPU=
+X-Received: by 2002:a4a:db95:0:b0:56c:a9fe:f701 with SMTP id
+ s21-20020a4adb95000000b0056ca9fef701mr9856349oou.3.1693933317136; Tue, 05 Sep
+ 2023 10:01:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.123.66.134]
-X-ClientProxiedBy: mscpeml100002.china.huawei.com (7.188.26.75) To
- lhrpeml500004.china.huawei.com (7.191.163.9)
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20230905095914.1699335-1-konstantin.meskhidze@huawei.com>
+In-Reply-To: <20230905095914.1699335-1-konstantin.meskhidze@huawei.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 6 Sep 2023 02:01:20 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQif7ka6agzEFikiDSHYT_y-Q6dwegjcbhuQj_GPmDXiQ@mail.gmail.com>
+Message-ID: <CAK7LNAQif7ka6agzEFikiDSHYT_y-Q6dwegjcbhuQj_GPmDXiQ@mail.gmail.com>
+Subject: Re: [PATCH] kconfig: fix possible buffer overflow
+To:     Konstantin Meskhidze <konstantin.meskhidze@huawei.com>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        yusongping@huawei.com, artem.kuzin@huawei.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Buffer 'new_argv' is accessed without bound check after accessing with
-bound check via 'new_argc' index.
+On Tue, Sep 5, 2023 at 6:59=E2=80=AFPM Konstantin Meskhidze
+<konstantin.meskhidze@huawei.com> wrote:
+>
+> Buffer 'new_argv' is accessed without bound check after accessing with
+> bound check via 'new_argc' index.
+>
+> Fixes: e298f3b49def ("kconfig: add built-in function support")
+> Co-developed-by: Ivanov Mikhail <ivanov.mikhail1@huawei-partners.com>
+> Signed-off-by: Konstantin Meskhidze <konstantin.meskhidze@huawei.com>
+> ---
 
-Fixes: e298f3b49def ("kconfig: add built-in function support")
-Co-developed-by: Ivanov Mikhail <ivanov.mikhail1@huawei-partners.com>
-Signed-off-by: Konstantin Meskhidze <konstantin.meskhidze@huawei.com>
----
- scripts/kconfig/preprocess.c | 3 +++
- 1 file changed, 3 insertions(+)
 
-diff --git a/scripts/kconfig/preprocess.c b/scripts/kconfig/preprocess.c
-index 748da578b418..d1f5bcff4b62 100644
---- a/scripts/kconfig/preprocess.c
-+++ b/scripts/kconfig/preprocess.c
-@@ -387,24 +387,27 @@ static char *eval_clause(const char *str, size_t len, int argc, char *argv[])
- 			if (new_argc >= FUNCTION_MAX_ARGS)
- 				pperror("too many function arguments");
- 			new_argv[new_argc++] = prev;
- 			prev = p + 1;
- 		} else if (*p == '(') {
- 			nest++;
- 		} else if (*p == ')') {
- 			nest--;
- 		}
- 
- 		p++;
- 	}
-+
-+	if (new_argc >= FUNCTION_MAX_ARGS)
-+		pperror("too many function arguments");
- 	new_argv[new_argc++] = prev;
- 
- 	/*
- 	 * Shift arguments
- 	 * new_argv[0] represents a function name or a variable name.  Put it
- 	 * into 'name', then shift the rest of the arguments.  This simplifies
- 	 * 'const' handling.
- 	 */
- 	name = expand_string_with_args(new_argv[0], argc, argv);
- 	new_argc--;
- 	for (i = 0; i < new_argc; i++)
- 		new_argv[i] = expand_string_with_args(new_argv[i + 1],
--- 
-2.34.1
+Applied to linux-kbuild.
+Thanks.
 
+--=20
+Best Regards
+Masahiro Yamada
