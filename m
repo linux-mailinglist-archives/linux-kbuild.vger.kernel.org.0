@@ -2,44 +2,52 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A4404792FB1
-	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Sep 2023 22:14:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B77DB792FAA
+	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Sep 2023 22:14:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231669AbjIEUOi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 5 Sep 2023 16:14:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42902 "EHLO
+        id S242642AbjIEUOH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 5 Sep 2023 16:14:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42604 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243229AbjIEUOJ (ORCPT
+        with ESMTP id S243729AbjIEUOD (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 5 Sep 2023 16:14:09 -0400
-X-Greylist: delayed 309 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 05 Sep 2023 13:13:47 PDT
+        Tue, 5 Sep 2023 16:14:03 -0400
+X-Greylist: delayed 302 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 05 Sep 2023 13:13:40 PDT
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6549C113;
-        Tue,  5 Sep 2023 13:13:47 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C022C433BC;
-        Tue,  5 Sep 2023 19:08:38 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAA7819A4;
+        Tue,  5 Sep 2023 13:13:40 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E7741C4AF6F;
+        Tue,  5 Sep 2023 19:42:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1693940920;
-        bh=odwCFoRqriyJMZJrebmLnyD9HgaYVBoEzbQlKC/Vgpg=;
-        h=From:To:Cc:Subject:Date:From;
-        b=YKMBKsPSFKtFPv5MEheuC31zhPo4TBoTqN/xXx4sMBGIsnBAaDGg1q4r5Dc6MujZb
-         HfH+pwUFiH7j9iuWoVWnTXdZTrZ4lBwuNmVmcx1ARg4CrBIQY44REJNeYJXC2+QN0P
-         4IGmU06qzeg9HYhiSrYbfAODaeypqb3JHZhMl9JWrlZEY9MGbllG0fNXRkhfZ6hFQw
-         nQV1tPFMmr6Gce5ImEaWjhLpmpW0n7fWMUxtaKkLSwnProe9ELQIg9rEO0q84JLSE7
-         HowNLOZWJbuuIAZMxF8tH6FoSB+3Ie1QgzQknqiCwJGfFcl6TuTa6H8CeJqUdKkpMi
-         UrUa3ehP3iJKQ==
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-parisc@vger.kernel.org, Helge Deller <deller@gmx.de>,
-        John David Anglin <dave.anglin@bell.net>
-Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Subject: [PATCH] linux/export: fix reference to exported functions for parisc64
-Date:   Wed,  6 Sep 2023 04:08:28 +0900
-Message-Id: <20230905190828.790400-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.39.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        s=k20201202; t=1693942954;
+        bh=rziMwMIsAP1Tb/iS24XtDeUNevgeMvkQqFaKzJyfpLo=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=tu+3B5WjO/mCftkMt7SrQJP/U9Y23iuVs7DWm5NySD8uqGLg3nnvPIi0YU0GNEf4t
+         bGltfHLcAwXPQC6m+NgC2vwzTv8R/7pY1ONdkjeqIiZ++88bzspzBkd+dd9QHrxJnp
+         gjtXv71qQM2me3sJ/VYQRhYzpIEJb9WAVlbjkm4QDyefIDe+EA8IZG75ZCD1dlFxNX
+         iJ0yU4rWao+HJ766H5WBCadAgEoY9DyDYBrAbYbQH3v7cfh8h/iX1c9bqqv9wW2QJO
+         IYtYrQj6I/rkpZhd3Z169WPIcJ4eb+mUjhNlLGewQzJTCfnmxEbxfP1b9H8OP49iHA
+         VD9md51ges66A==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id C277AC04E24;
+        Tue,  5 Sep 2023 19:42:34 +0000 (UTC)
+Subject: Re: [GIT PULL] Kbuild updates for v6.6-rc1
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <CAK7LNASaAwVGhOFnpGWrUhYu2uXPi3Oc0zAfnoTswmjYb7k=1Q@mail.gmail.com>
+References: <CAK7LNASaAwVGhOFnpGWrUhYu2uXPi3Oc0zAfnoTswmjYb7k=1Q@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAK7LNASaAwVGhOFnpGWrUhYu2uXPi3Oc0zAfnoTswmjYb7k=1Q@mail.gmail.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-v6.6
+X-PR-Tracked-Commit-Id: a3b7039bb2b22fcd2ad20d59c00ed4e606ce3754
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 61401a8724c2ce912b243ef95427a9b2e5a1ed50
+Message-Id: <169394295477.11207.12603485901623917296.pr-tracker-bot@kernel.org>
+Date:   Tue, 05 Sep 2023 19:42:34 +0000
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -50,39 +58,15 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-John David Anglin reported parisc has been broken since commit
-ddb5cdbafaaa ("kbuild: generate KSYMTAB entries by modpost").
+The pull request you sent on Wed, 6 Sep 2023 02:14:18 +0900:
 
-I checked the assembler output, and noticed function references are
-prefixed with P%, so the situation in parisc64 is similar to ia64.
+> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-v6.6
 
-Fixes: ddb5cdbafaaa ("kbuild: generate KSYMTAB entries by modpost")
-Reported-by: John David Anglin <dave.anglin@bell.net>
-Closes: https://lore.kernel.org/linux-parisc/1901598a-e11d-f7dd-a5d9-9a69d06e6b6e@bell.net/T/#u
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/61401a8724c2ce912b243ef95427a9b2e5a1ed50
 
-I just checked the assembler output, and I created this patch
-based on my best guess. Only compile-tested.
-I hope somebody will run-test this patch.
+Thank you!
 
-
- include/linux/export-internal.h | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/include/linux/export-internal.h b/include/linux/export-internal.h
-index 1c849db953a5..45fca09b2319 100644
---- a/include/linux/export-internal.h
-+++ b/include/linux/export-internal.h
-@@ -52,6 +52,8 @@
- 
- #ifdef CONFIG_IA64
- #define KSYM_FUNC(name)		@fptr(name)
-+#elif defined(CONFIG_PARISC) && defined(CONFIG_64BIT)
-+#define KSYM_FUNC(name)		P%name
- #else
- #define KSYM_FUNC(name)		name
- #endif
 -- 
-2.39.2
-
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
