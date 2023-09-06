@@ -2,55 +2,81 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 239EB7932C1
-	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Sep 2023 01:59:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 70095793987
+	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Sep 2023 12:09:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233191AbjIEX7L (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 5 Sep 2023 19:59:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52212 "EHLO
+        id S236866AbjIFKJz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 6 Sep 2023 06:09:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233081AbjIEX7L (ORCPT
+        with ESMTP id S229947AbjIFKJz (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 5 Sep 2023 19:59:11 -0400
-Received: from cmx-mtlrgo001.bell.net (mta-mtl-003.bell.net [209.71.208.13])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CE0C1AB;
-        Tue,  5 Sep 2023 16:59:07 -0700 (PDT)
-X-RG-CM-BuS: 0
-X-RG-CM-SC: 0
-X-RG-CM: Clean
-X-Originating-IP: [142.198.135.111]
-X-RG-Env-Sender: dave.anglin@bell.net
-X-RG-Rigid: 64C35282037E9D70
-X-CM-Envelope: MS4xfMZOeoLC1ZyliLnrYcNL8rcSX1FQsv+QSr6yamJep8J7IwEiRAkfqllSJj3Ix6RpB1xKWd2XrR9/bCNq7Aeleqvp5UIlNwIgtVf0/AkBYTYb2o7PdI+f
- RPZICdLhonibeHz/wwBMuYmMz9e/WQKef6q4uzZspV6P0juaFtiIaPTmxnZRa8TO62joNFQUCm1PTMrlZ65XSvKhbIYsylQmM2JyVCymqohqTUCWTtTmnEBR
- dw/Kob9iWsFlnP0iFd1iI8Yz6WYwlnOB4mTLVA5VSsspRQop+RMOpXv4gN2NU3kh3NuNnc9QUICJolQ5eE34/DA+cYx7ba/X+m0oUd6XjFCBgaKmC2A3OAKD
- W0OT18Uxw9nEXZz4N4P+HDCUNQKhOeeD2yQzxCZTyaLj1Pgu+/KiDgkUU14ocOkKN1yf91qKEuzwI/7pj6kkhJHEysK/sA==
-X-CM-Analysis: v=2.4 cv=W7Nb6Tak c=1 sm=1 tr=0 ts=64f7c0c5
- a=m0hBPjpnfWKpZW+YOe+Hqw==:117 a=m0hBPjpnfWKpZW+YOe+Hqw==:17
- a=IkcTkHD0fZMA:10 a=FBHGMhGWAAAA:8 a=sxHeeXqbiIlOdLNL7AwA:9 a=QEXdDO2ut3YA:10
- a=9gvnlMMaQFpL9xblJ6ne:22
-Received: from [192.168.2.49] (142.198.135.111) by cmx-mtlrgo001.bell.net (5.8.814) (authenticated as dave.anglin@bell.net)
-        id 64C35282037E9D70; Tue, 5 Sep 2023 19:59:01 -0400
-Message-ID: <c6568683-86b4-c48d-ed37-f1f87677eb44@bell.net>
-Date:   Tue, 5 Sep 2023 19:59:01 -0400
+        Wed, 6 Sep 2023 06:09:55 -0400
+Received: from mail-oo1-xc32.google.com (mail-oo1-xc32.google.com [IPv6:2607:f8b0:4864:20::c32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D87A79E;
+        Wed,  6 Sep 2023 03:09:50 -0700 (PDT)
+Received: by mail-oo1-xc32.google.com with SMTP id 006d021491bc7-5738cb00eebso2198025eaf.2;
+        Wed, 06 Sep 2023 03:09:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1693994990; x=1694599790; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1hB+PvGMU7bVonbgCU3v3Efy35gCAE3hYixxnZD/At8=;
+        b=dhF5NVxd+uiDT2QxuQsvKzqriKnOY/RST9IuW1hSKt6jbyfr0SeJSwRr9oa8Det382
+         YcJyO5ieoCu33zEkibhMuSBwZSif6Y4ctnd591ajw17ZXSHwNrcXxmpvZSbJP3ijQimW
+         1JEvXoCGcFpxa0B11+m57Inz8KqfntFVoVx7m8zeZz8pdP/kd6uUpSeT/ywhM4VkoXNA
+         F1y8NJeNGmP1QttwuJ5tYAXn1Hj5GfvHw1q81wgY/HLfhHJPO5TkWKe1jMHhJ++VR8MB
+         GVNEkpACNKxvXzhhdRFMYj1oAo23c2RzXps7rAYPa8ulkNxCUT4EsDj1In9bjnMcIy7Q
+         VW4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693994990; x=1694599790;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1hB+PvGMU7bVonbgCU3v3Efy35gCAE3hYixxnZD/At8=;
+        b=kMtyZSNQawjRq78RsR+lCO3b5S6EBkBAEipSLbENN8BIY0z1XCJ5BXUj2UzaHQe7ht
+         6Ay1fOka6fTa7QzLbBQs5SuGmZsf9PdUaibI5hJq7jydnJu0BcGheyVcsLKkjszvE1nC
+         D13QYmSpRzDrX2VM1MEVpeusaza3SPJWDTJzEKUeq5OIh1eFXHApJVlbkWwHJBzaEJtJ
+         9SACKNDuaZro1xyEab0caluGREwGC0eygcNo0QTYpmDQIaJ+a2NWq5Oxgd7S/Y8koPJ5
+         P3mUYgSb4NaQtZT+JvBta8A5hlRpogmEZ6QDT8mtZqZND4IVK3wGx34ktCOqlz/4dh9s
+         ah3w==
+X-Gm-Message-State: AOJu0YxZQuS4mYYNXA8I5ENW4jD3cHvzUTRm4Rr5VW4qxnX1HuOCKYX4
+        b8x59kw8QSoWGYnpggPXyj/G9M9eNbLR57ATMPo=
+X-Google-Smtp-Source: AGHT+IGsVIO3Wdlzdu5IoNPsgfuXEEegjy8jw54qEODMt1x9AhK2XQp2UlXOyvRNEqjuDd11FqPfJpy8H/Hf20nIUGU=
+X-Received: by 2002:a05:6820:284:b0:571:aceb:26ce with SMTP id
+ q4-20020a056820028400b00571aceb26cemr14312637ood.1.1693994989962; Wed, 06 Sep
+ 2023 03:09:49 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH] linux/export: fix reference to exported functions for
- parisc64
-Content-Language: en-US
-From:   John David Anglin <dave.anglin@bell.net>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-parisc@vger.kernel.org, Helge Deller <deller@gmx.de>
-Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>
-References: <20230905190828.790400-1-masahiroy@kernel.org>
- <c8a92dc8-de78-7484-bcc8-d4a91bec77de@bell.net>
-In-Reply-To: <c8a92dc8-de78-7484-bcc8-d4a91bec77de@bell.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS autolearn=ham
+References: <20230828080423.3539686-1-alessandro.carminati@gmail.com> <CAK7LNATf5zQH=qOX3HCcAoaccK1KTjoGNuXc-d2-FM-japABoQ@mail.gmail.com>
+In-Reply-To: <CAK7LNATf5zQH=qOX3HCcAoaccK1KTjoGNuXc-d2-FM-japABoQ@mail.gmail.com>
+From:   Alessandro Carminati <alessandro.carminati@gmail.com>
+Date:   Wed, 6 Sep 2023 12:09:13 +0200
+Message-ID: <CAPp5cGQgn0kfxPc+pmLMEJmHzOJ2HQQbsWSE0LFsxi4bigHOdQ@mail.gmail.com>
+Subject: Re: [PATCH v3] scripts/link-vmlinux.sh: Add alias to duplicate
+ symbols for kallsyms
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Masami Hiramatsu <mhiramat@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Daniel Bristot de Oliveira <bristot@kernel.org>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Alexander Lobakin <aleksander.lobakin@intel.com>,
+        Nick Alcock <nick.alcock@oracle.com>,
+        Kris Van Hees <kris.van.hees@oracle.com>,
+        Eugene Loh <eugene.loh@oracle.com>,
+        Francis Laniel <flaniel@linux.microsoft.com>,
+        Viktor Malik <vmalik@redhat.com>, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+        live-patching@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -58,77 +84,225 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 2023-09-05 5:57 p.m., John David Anglin wrote:
-> I'll check ddb5cdbafaaa.
-Similar fault with ddb5cdbafaaa:
+Hello Masahiro,
 
-sata_sil24 0000:00:01.0: Applying completion IRQ loss on PCI-X errata fix
-Backtrace:
-scsi host2: sata_sil24
-  [<0000000040bf2c00>] mutex_lock+0x48/0xc8
-  [<000000004023d370>] cpu_hotplug_disable+0x80/0x98
-scsi host3: sata_sil24
-  [<0000000040792314>] pci_device_probe+0x144/0x2a8
-  [<00000000408af87c>] really_probe+0x12c/0x5a8
-scsi host4: sata_sil24
-  [<00000000408afd7c>] __driver_probe_device+0x84/0x1a0
-  [<00000000408aff44>] driver_probe_device+0xac/0x260
-scsi host5: sata_sil24
-  [<00000000408b0684>] __driver_attach_async_helper+0x8c/0x160
-  [<000000004028043c>] async_run_entry_fn+0x64/0x1d0
-ata3: SATA max UDMA/100 host m128@0xffffffff80088000 port 0xffffffff80080000 ir6
-  [<0000000040269c88>] process_one_work+0x238/0x520
-  [<000000004026a184>] worker_thread+0x214/0x770
-ata4: SATA max UDMA/100 host m128@0xffffffff80088000 port 0xffffffff80082000 ir6
-  [<00000000402788d4>] kthread+0x274/0x280
-ata5: SATA max UDMA/100 host m128@0xffffffff80088000 port 0xffffffff80084000 ir6
-  [<0000000040202020>] ret_from_kernel_thread+0x20/0x28
-ata6: SATA max UDMA/100 host m128@0xffffffff80088000 port 0xffffffff80086000 ir6
+Thank you for your suggestions,
+Il giorno sab 2 set 2023 alle ore 08:36 Masahiro Yamada
+<masahiroy@kernel.org> ha scritto:
+>
+> On Mon, Aug 28, 2023 at 8:45=E2=80=AFPM Alessandro Carminati (Red Hat)
+> <alessandro.carminati@gmail.com> wrote:
+> >
+> > From: Alessandro Carminati <alessandro.carminati@gmail.com>
+> >
+> > It is not uncommon for drivers or modules related to similar peripheral=
+s
+> > to have symbols with the exact same name.
+> > While this is not a problem for the kernel's binary itself, it becomes =
+an
+> > issue when attempting to trace or probe specific functions using
+> > infrastructure like ftrace or kprobe.
+> >
+> > The tracing subsystem relies on the `nm -n vmlinux` output, which provi=
+des
+> > symbol information from the kernel's ELF binary. However, when multiple
+> > symbols share the same name, the standard nm output does not differenti=
+ate
+> > between them. This can lead to confusion and difficulty when trying to
+> > probe the intended symbol.
+> >
+> >  ~ # cat /proc/kallsyms | grep " name_show"
+> >  ffffffff8c4f76d0 t name_show
+> >  ffffffff8c9cccb0 t name_show
+> >  ffffffff8cb0ac20 t name_show
+> >  ffffffff8cc728c0 t name_show
+> >  ffffffff8ce0efd0 t name_show
+> >  ffffffff8ce126c0 t name_show
+> >  ffffffff8ce1dd20 t name_show
+> >  ffffffff8ce24e70 t name_show
+> >  ffffffff8d1104c0 t name_show
+> >  ffffffff8d1fe480 t name_show
+> >
+> > **kas_alias** addresses this challenge by extending the symbol names wi=
+th
+> > unique suffixes during the kernel build process.
+> > The newly created aliases for these duplicated symbols are unique names
+> > that can be fed to the ftracefs interface. By doing so, it enables
+> > previously unreachable symbols to be probed.
+> >
+> >  ~ # cat /proc/kallsyms | grep " name_show"
+> >  ffffffff974f76d0 t name_show
+> >  ffffffff974f76d0 t name_show__alias__6340
+> >  ffffffff979cccb0 t name_show
+> >  ffffffff979cccb0 t name_show__alias__6341
+> >  ffffffff97b0ac20 t name_show
+> >  ffffffff97b0ac20 t name_show__alias__6342
+> >  ffffffff97c728c0 t name_show
+> >  ffffffff97c728c0 t name_show__alias__6343
+> >  ffffffff97e0efd0 t name_show
+> >  ffffffff97e0efd0 t name_show__alias__6344
+> >  ffffffff97e126c0 t name_show
+> >  ffffffff97e126c0 t name_show__alias__6345
+> >  ffffffff97e1dd20 t name_show
+> >  ffffffff97e1dd20 t name_show__alias__6346
+> >  ffffffff97e24e70 t name_show
+> >  ffffffff97e24e70 t name_show__alias__6347
+> >  ffffffff981104c0 t name_show
+> >  ffffffff981104c0 t name_show__alias__6348
+> >  ffffffff981fe480 t name_show
+> >  ffffffff981fe480 t name_show__alias__6349
+> >  ~ # echo "p:kprobes/evnt1 name_show__alias__6349" \
+> >  > >/sys/kernel/tracing/kprobe_events
+> >  ~ # cat /sys/kernel/tracing/kprobe_events
+> >  p:kprobes/evnt1 name_show__alias__6349
+> >
+> > Changes from v1:
+> > - Integrated changes requested by Masami to exclude symbols with prefix=
+es
+> >   "_cfi" and "_pfx".
+> > - Introduced a small framework to handle patterns that need to be exclu=
+ded
+> >   from the alias production.
+> > - Excluded other symbols using the framework.
+> > - Introduced the ability to discriminate between text and data symbols.
+> > - Added two new config symbols in this version: CONFIG_KALLSYMS_ALIAS_D=
+ATA,
+> >   which allows data for data, and CONFIG_KALLSYMS_ALIAS_DATA_ALL, which
+> >   excludes all filters and provides an alias for each duplicated symbol=
+.
+> >
+> > https://lore.kernel.org/all/20230711151925.1092080-1-alessandro.carmina=
+ti@gmail.com/
+> >
+> > Changes from v2:
+> > - Alias tags are created by querying DWARF information from the vmlinux=
+.
+> > - The filename + line number is normalized and appended to the original=
+ name.
+> > - The tag begins with '@' to indicate the symbol source.
+> > - Not a change, but worth mentioning, since the alias is added to the e=
+xisting
+> >   list, the old duplicated name is preserved, and the livepatch way of =
+dealing
+> >   with duplicates is maintained.
+> > - Acknowledging the existence of scenarios where inlined functions decl=
+ared in
+> >   header files may result in multiple copies due to compiler behavior, =
+though
+> >    it is not actionable as it does not pose an operational issue.
+> > - Highlighting a single exception where the same name refers to differe=
+nt
+> >   functions: the case of "compat_binfmt_elf.c," which directly includes
+> >   "binfmt_elf.c" producing identical function copies in two separate
+> >   modules.
+> >
+> > sample from new v3
+> >
+> >  ~ # cat /proc/kallsyms | grep gic_mask_irq
+> >  ffffd0b03c04dae4 t gic_mask_irq
+> >  ffffd0b03c04dae4 t gic_mask_irq@_drivers_irqchip_irq-gic_c_167
+> >  ffffd0b03c050960 t gic_mask_irq
+> >  ffffd0b03c050960 t gic_mask_irq@_drivers_irqchip_irq-gic-v3_c_404
+> >  ~ #
+> >
+> > https://lore.kernel.org/all/20230714150326.1152359-1-alessandro.carmina=
+ti@gmail.com/
+> >
+> > Signed-off-by: Alessandro Carminati (Red Hat) <alessandro.carminati@gma=
+il.com>
+> > ---
+> >  init/Kconfig                        |  36 ++++
+> >  scripts/Makefile                    |   4 +
+> >  scripts/kas_alias/Makefile          |   4 +
+> >  scripts/kas_alias/a2l.c             | 268 ++++++++++++++++++++++++++++
+> >  scripts/kas_alias/a2l.h             |  32 ++++
+> >  scripts/kas_alias/duplicates_list.c |  70 ++++++++
+> >  scripts/kas_alias/duplicates_list.h |  15 ++
+> >  scripts/kas_alias/item_list.c       | 230 ++++++++++++++++++++++++
+> >  scripts/kas_alias/item_list.h       |  26 +++
+> >  scripts/kas_alias/kas_alias.c       | 217 ++++++++++++++++++++++
+> >  scripts/link-vmlinux.sh             |  11 +-
+> >  11 files changed, 910 insertions(+), 3 deletions(-)
+>
+>
+> I added some review comments in another thread, but
+> one of the biggest concerns might be "910 insertions".
+>
+>
+> What this program does is quite simple,
+> "find duplicated names, and call addr2line".
+>
+>
+>
+> You wrote a lot of code to self-implement these:
+>
+>  - sort function
+>  - parse PATH env variable to find addr2line
+>  - fork addr2line to establish pipe communications
+>
+>
+>
+> Have you considered writing the code in Python (or Perl)?
+> Is it too slow?
 
+I have attempted to incorporate all your suggestions.
+I refactored the C code to utilize hashing instead of sorting, and I
+completely re-implemented the entire thing in Python for the purpose of
+comparison.
 
-Page fault: no context: Code=6 (Instruction TLB miss fault) at addr 0b3a029a8348
-CPU: 0 PID: 10 Comm: kworker/u64:0 Not tainted 6.4.0-rc2+ #1
-Hardware name: 9000/785/C8000
-Workqueue: events_unbound async_run_entry_fn
+You are correct;
+the C version is indeed faster, but the difference is negligible when
+considering the use case and code maintainability.
 
-      YZrvWESTHLNXBCVMcbcbcbcbOGFRQPDI
-PSW: 00001000000001001111111100001111 Not tainted
-r00-03  000000ff0804ff0f 0b3a029a83406038 0000000000010770 0000000050d94c50
-r04-07  0000000000010000 0000000053a97000 00000000515398b0 0000000000000000
-r08-11  0000000051539800 0000000053a97800 0000000053a97120 00000000515398b0
-r12-15  0000000050c10000 0000000000000002 0000000040d54d60 0000000000000001
-r16-19  0000000040ca1d20 0000000050ce46c0 0000000050d56150 0000000000020000
-r20-23  000000007f41c000 000000000000000f 0002000000000002 0000000000044b38
-r24-27  0000000000000000 0000000000000003 0000000000000002 0000000000010000
-r28-31  0000000000002395 0000000050d94d60 0000000050d94d00 0000000000001033
-sr00-03  00000000000c7000 0000000000000000 0000000000000000 00000000000c5c00
-sr04-07  0000000000000000 0000000000000000 0000000000000000 0000000000000000
+Here's a direct comparison of the two.
+```
+~ $ time ./kas_alias.py -a /usr/bin/aarch64-linux-gnu-addr2line \
+                      -n linux-6.5/.tmp_vmlinux.kallsyms1.syms \
+                      -v linux-6.5/.tmp_vmlinux.kallsyms1 \
+                      -o output_py
 
-IASQ: 000000000b3a029a 000000000b3a029a IAOQ: 0b3a029a83406038 0b3a029a8340603c
-  IIR: 43ffff80    ISR: 0000000000000dc0  IOR: 00000000402849ac
-  CPU:        0   CR30: 0000000050d56150 CR31: ffffffffffffffff
-  ORIG_R28: 0000000000000080
-  IAOQ[0]: 0xb3a029a83406038
-  IAOQ[1]: 0xb3a029a8340603c
-  RP(r2): ehci_pci_setup+0x100/0x780 [ehci_pci]
-Backtrace:
-  [<0000000040bf2c00>] mutex_lock+0x48/0xc8
-  [<000000004023d370>] cpu_hotplug_disable+0x80/0x98
-  [<0000000040792314>] pci_device_probe+0x144/0x2a8
-  [<00000000408af87c>] really_probe+0x12c/0x5a8
-  [<00000000408afd7c>] __driver_probe_device+0x84/0x1a0
-  [<00000000408aff44>] driver_probe_device+0xac/0x260
-  [<00000000408b0684>] __driver_attach_async_helper+0x8c/0x160
-  [<000000004028043c>] async_run_entry_fn+0x64/0x1d0
-  [<0000000040269c88>] process_one_work+0x238/0x520
-  [<000000004026a184>] worker_thread+0x214/0x770
-  [<00000000402788d4>] kthread+0x274/0x280
-  [<0000000040202020>] ret_from_kernel_thread+0x20/0x28
+real    0m1.626s
+user    0m1.436s
+sys     0m0.185s
+$ cat kas_alias.py | wc -l
+133
+~ $ time ./kas_alias -a /usr/bin/aarch64-linux-gnu-addr2line \
+                   -v linux-6.5/.tmp_vmlinux.kallsyms1 \
+                   -n linux-6.5/.tmp_vmlinux.kallsyms1.syms \
+                   -o output_c
 
-Kernel panic - not syncing: Page fault: no context
+real    0m1.418s
+user    0m1.262s
+sys     0m0.162s
+~ $ cat a2l.c a2l.h conf.c conf.h item_list.c item_list.h kas_alias.c | wc =
+-l
+742
+~ $ diff output_py output_c
+~ $
+```
+C version is 7/10% faster but is more than 5 times in terms of code size.
 
-Dave
+>
+> Most of the functions you implemented are already
+> available in script languages.
+>
+>
+>
+> I am not sure if "@<file-path>" is a good solution,
+> but the amount of the added code looks too much to me.
 
--- 
-John David Anglin  dave.anglin@bell.net
+I followed Francis's suggestion and made the separator between
+<symbol name> and <normalized filename> an argument that you can select
+using the command line. Since I'm not aware of a better choice, I set the
+default value to '@'.
 
+>
+>
+>
+>
+> --
+> Best Regards
+> Masahiro Yamada
+
+Best regards
+Alessandro Carminati
