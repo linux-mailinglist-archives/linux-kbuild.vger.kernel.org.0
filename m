@@ -2,71 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 40D39793FEE
-	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Sep 2023 17:07:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BB36797E87
+	for <lists+linux-kbuild@lfdr.de>; Fri,  8 Sep 2023 00:02:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242350AbjIFPHD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 6 Sep 2023 11:07:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43174 "EHLO
+        id S239057AbjIGWCU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 7 Sep 2023 18:02:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242358AbjIFPHC (ORCPT
+        with ESMTP id S239005AbjIGWCT (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 6 Sep 2023 11:07:02 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02B941990;
-        Wed,  6 Sep 2023 08:06:52 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F7DDC433CD;
-        Wed,  6 Sep 2023 15:06:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694012811;
-        bh=8R4kzh3nTSqACHjy9Igl6y50DXqOQIL6KrU6Xizd5vw=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=AhWcnUbZ+xiAHtObPOonQ+/3NaC1cqET1bOPJgIMdhVZyxeUDtximhNM1VeLq7jJO
-         WnDoh+ChzesxUgRi5ykHRvVdLBWFOGdUWnPjrryEYomWsbfusvvHlA1i83vtKsTuVf
-         O9w2nvS6DEojbkdATDQsk/fE7QZ8yg6rLJjsOdcn+4cUcL+aYiqxqzckDGluhSe99a
-         d3rXta069sDO3orkisIZR+unsGClW+oAJbgSUvK6bVcgm2R1EMAsl+d6bMKRwTnDbZ
-         cC6SL+MhYSdCQdGMILC4dnTWs52jBbJdujfzVSsSW+qQSiBENhmxlL+D8S6lijxtlS
-         y3yvYICVYFdVw==
-Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-5733bcf6eb6so2049257eaf.0;
-        Wed, 06 Sep 2023 08:06:51 -0700 (PDT)
-X-Gm-Message-State: AOJu0Yx+PRNKN3vmGnmbPuw3OUU3liDjPr3gWw1SCkP0vepCz8YMS/Cm
-        w/YhrAI0IhWNWADed5g6K407AVgkS3ltjVqL968=
-X-Google-Smtp-Source: AGHT+IHs9MYVYX/hL5BllUuyFYnsWzXobUhMf+WTR4jpf255UF4qgkKxgbZrXP3NqiWFcMlEU6SXSZNicl0p1mJq7Xo=
-X-Received: by 2002:a4a:6c11:0:b0:573:4e21:5d25 with SMTP id
- q17-20020a4a6c11000000b005734e215d25mr12858374ooc.9.1694012810670; Wed, 06
- Sep 2023 08:06:50 -0700 (PDT)
+        Thu, 7 Sep 2023 18:02:19 -0400
+Received: from cmx-torrgo001.bell.net (mta-tor-003.bell.net [209.71.212.30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DE6E1BC9;
+        Thu,  7 Sep 2023 15:02:15 -0700 (PDT)
+X-RG-CM-BuS: 0
+X-RG-CM-SC: 0
+X-RG-CM: Clean
+X-Originating-IP: [142.198.135.111]
+X-RG-Env-Sender: dave.anglin@bell.net
+X-RG-Rigid: 64E88507015705AD
+X-CM-Envelope: MS4xfMguLgi8rgOYYRlMsto9Ayq2NmgVNKUBCk79F5EH/AZzO9PbzVP60RGbo6lhY50wZggkSlued0wG6DvohA9+cVvfARViIVUuVLeie9x+Xaf2mDG22QRw
+ OtW06eMfh4QsRO6opGDu1t6o3s8gGeNcxWlsZ0DjOhmxbgL51jpqwjsmQVxrN8B0q9h/FCRmPz3CuG5A6gjT53x/gffyZfl2ss+jup9tYYjOjZLUSQjXoaa+
+ sYHh1OHSyhR57ikVoyPflIo3+CuiiH/XOvuTxDES2/araKc5rxiMIR7iNwLpkCReGpVso0dhaR+c7kJOQde8+XFeEysNyh8a3tt5eiCAtqDSdDHZ2R0thMeJ
+ gzalX9fVnO7FRTwrPs00vHxHNfzvBs5ffIZUej6SiMpvYQgIO2wnZczH32oJUnC9eSgMZ1ezlwTJJsdk+DbrWt4G9QvrkQ==
+X-CM-Analysis: v=2.4 cv=UM++oATy c=1 sm=1 tr=0 ts=64fa485d
+ a=m0hBPjpnfWKpZW+YOe+Hqw==:117 a=m0hBPjpnfWKpZW+YOe+Hqw==:17
+ a=IkcTkHD0fZMA:10 a=FBHGMhGWAAAA:8 a=0AOgk2NmGiZ_o05NmboA:9 a=QEXdDO2ut3YA:10
+ a=9gvnlMMaQFpL9xblJ6ne:22
+Received: from [192.168.2.49] (142.198.135.111) by cmx-torrgo001.bell.net (5.8.814) (authenticated as dave.anglin@bell.net)
+        id 64E88507015705AD; Thu, 7 Sep 2023 18:02:05 -0400
+Message-ID: <97859bf1-c8c3-7294-8322-b0c9c408ba5e@bell.net>
+Date:   Thu, 7 Sep 2023 18:02:06 -0400
 MIME-Version: 1.0
-References: <20230828080423.3539686-1-alessandro.carminati@gmail.com>
- <CAK7LNATf5zQH=qOX3HCcAoaccK1KTjoGNuXc-d2-FM-japABoQ@mail.gmail.com> <CAPp5cGQgn0kfxPc+pmLMEJmHzOJ2HQQbsWSE0LFsxi4bigHOdQ@mail.gmail.com>
-In-Reply-To: <CAPp5cGQgn0kfxPc+pmLMEJmHzOJ2HQQbsWSE0LFsxi4bigHOdQ@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 7 Sep 2023 00:06:14 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATRCcQ7yBjoBiq8remJtVA0hfSr=yW-oY1_m9WneQuvQQ@mail.gmail.com>
-Message-ID: <CAK7LNATRCcQ7yBjoBiq8remJtVA0hfSr=yW-oY1_m9WneQuvQQ@mail.gmail.com>
-Subject: Re: [PATCH v3] scripts/link-vmlinux.sh: Add alias to duplicate
- symbols for kallsyms
-To:     Alessandro Carminati <alessandro.carminati@gmail.com>
-Cc:     Masami Hiramatsu <mhiramat@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Daniel Bristot de Oliveira <bristot@kernel.org>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Alexander Lobakin <aleksander.lobakin@intel.com>,
-        Nick Alcock <nick.alcock@oracle.com>,
-        Kris Van Hees <kris.van.hees@oracle.com>,
-        Eugene Loh <eugene.loh@oracle.com>,
-        Francis Laniel <flaniel@linux.microsoft.com>,
-        Viktor Malik <vmalik@redhat.com>, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-        live-patching@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH] linux/export: fix reference to exported functions for
+ parisc64
+From:   John David Anglin <dave.anglin@bell.net>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-parisc@vger.kernel.org, Helge Deller <deller@gmx.de>
+Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>
+References: <20230905190828.790400-1-masahiroy@kernel.org>
+ <c8a92dc8-de78-7484-bcc8-d4a91bec77de@bell.net>
+ <c6568683-86b4-c48d-ed37-f1f87677eb44@bell.net>
+Content-Language: en-US
+In-Reply-To: <c6568683-86b4-c48d-ed37-f1f87677eb44@bell.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -74,259 +59,42 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Sep 6, 2023 at 7:09=E2=80=AFPM Alessandro Carminati
-<alessandro.carminati@gmail.com> wrote:
->
-> Hello Masahiro,
->
-> Thank you for your suggestions,
-> Il giorno sab 2 set 2023 alle ore 08:36 Masahiro Yamada
-> <masahiroy@kernel.org> ha scritto:
-> >
-> > On Mon, Aug 28, 2023 at 8:45=E2=80=AFPM Alessandro Carminati (Red Hat)
-> > <alessandro.carminati@gmail.com> wrote:
-> > >
-> > > From: Alessandro Carminati <alessandro.carminati@gmail.com>
-> > >
-> > > It is not uncommon for drivers or modules related to similar peripher=
-als
-> > > to have symbols with the exact same name.
-> > > While this is not a problem for the kernel's binary itself, it become=
-s an
-> > > issue when attempting to trace or probe specific functions using
-> > > infrastructure like ftrace or kprobe.
-> > >
-> > > The tracing subsystem relies on the `nm -n vmlinux` output, which pro=
-vides
-> > > symbol information from the kernel's ELF binary. However, when multip=
-le
-> > > symbols share the same name, the standard nm output does not differen=
-tiate
-> > > between them. This can lead to confusion and difficulty when trying t=
-o
-> > > probe the intended symbol.
-> > >
-> > >  ~ # cat /proc/kallsyms | grep " name_show"
-> > >  ffffffff8c4f76d0 t name_show
-> > >  ffffffff8c9cccb0 t name_show
-> > >  ffffffff8cb0ac20 t name_show
-> > >  ffffffff8cc728c0 t name_show
-> > >  ffffffff8ce0efd0 t name_show
-> > >  ffffffff8ce126c0 t name_show
-> > >  ffffffff8ce1dd20 t name_show
-> > >  ffffffff8ce24e70 t name_show
-> > >  ffffffff8d1104c0 t name_show
-> > >  ffffffff8d1fe480 t name_show
-> > >
-> > > **kas_alias** addresses this challenge by extending the symbol names =
-with
-> > > unique suffixes during the kernel build process.
-> > > The newly created aliases for these duplicated symbols are unique nam=
-es
-> > > that can be fed to the ftracefs interface. By doing so, it enables
-> > > previously unreachable symbols to be probed.
-> > >
-> > >  ~ # cat /proc/kallsyms | grep " name_show"
-> > >  ffffffff974f76d0 t name_show
-> > >  ffffffff974f76d0 t name_show__alias__6340
-> > >  ffffffff979cccb0 t name_show
-> > >  ffffffff979cccb0 t name_show__alias__6341
-> > >  ffffffff97b0ac20 t name_show
-> > >  ffffffff97b0ac20 t name_show__alias__6342
-> > >  ffffffff97c728c0 t name_show
-> > >  ffffffff97c728c0 t name_show__alias__6343
-> > >  ffffffff97e0efd0 t name_show
-> > >  ffffffff97e0efd0 t name_show__alias__6344
-> > >  ffffffff97e126c0 t name_show
-> > >  ffffffff97e126c0 t name_show__alias__6345
-> > >  ffffffff97e1dd20 t name_show
-> > >  ffffffff97e1dd20 t name_show__alias__6346
-> > >  ffffffff97e24e70 t name_show
-> > >  ffffffff97e24e70 t name_show__alias__6347
-> > >  ffffffff981104c0 t name_show
-> > >  ffffffff981104c0 t name_show__alias__6348
-> > >  ffffffff981fe480 t name_show
-> > >  ffffffff981fe480 t name_show__alias__6349
-> > >  ~ # echo "p:kprobes/evnt1 name_show__alias__6349" \
-> > >  > >/sys/kernel/tracing/kprobe_events
-> > >  ~ # cat /sys/kernel/tracing/kprobe_events
-> > >  p:kprobes/evnt1 name_show__alias__6349
-> > >
-> > > Changes from v1:
-> > > - Integrated changes requested by Masami to exclude symbols with pref=
-ixes
-> > >   "_cfi" and "_pfx".
-> > > - Introduced a small framework to handle patterns that need to be exc=
-luded
-> > >   from the alias production.
-> > > - Excluded other symbols using the framework.
-> > > - Introduced the ability to discriminate between text and data symbol=
-s.
-> > > - Added two new config symbols in this version: CONFIG_KALLSYMS_ALIAS=
-_DATA,
-> > >   which allows data for data, and CONFIG_KALLSYMS_ALIAS_DATA_ALL, whi=
-ch
-> > >   excludes all filters and provides an alias for each duplicated symb=
-ol.
-> > >
-> > > https://lore.kernel.org/all/20230711151925.1092080-1-alessandro.carmi=
-nati@gmail.com/
-> > >
-> > > Changes from v2:
-> > > - Alias tags are created by querying DWARF information from the vmlin=
-ux.
-> > > - The filename + line number is normalized and appended to the origin=
-al name.
-> > > - The tag begins with '@' to indicate the symbol source.
-> > > - Not a change, but worth mentioning, since the alias is added to the=
- existing
-> > >   list, the old duplicated name is preserved, and the livepatch way o=
-f dealing
-> > >   with duplicates is maintained.
-> > > - Acknowledging the existence of scenarios where inlined functions de=
-clared in
-> > >   header files may result in multiple copies due to compiler behavior=
-, though
-> > >    it is not actionable as it does not pose an operational issue.
-> > > - Highlighting a single exception where the same name refers to diffe=
-rent
-> > >   functions: the case of "compat_binfmt_elf.c," which directly includ=
-es
-> > >   "binfmt_elf.c" producing identical function copies in two separate
-> > >   modules.
-> > >
-> > > sample from new v3
-> > >
-> > >  ~ # cat /proc/kallsyms | grep gic_mask_irq
-> > >  ffffd0b03c04dae4 t gic_mask_irq
-> > >  ffffd0b03c04dae4 t gic_mask_irq@_drivers_irqchip_irq-gic_c_167
-> > >  ffffd0b03c050960 t gic_mask_irq
-> > >  ffffd0b03c050960 t gic_mask_irq@_drivers_irqchip_irq-gic-v3_c_404
-> > >  ~ #
-> > >
-> > > https://lore.kernel.org/all/20230714150326.1152359-1-alessandro.carmi=
-nati@gmail.com/
-> > >
-> > > Signed-off-by: Alessandro Carminati (Red Hat) <alessandro.carminati@g=
-mail.com>
-> > > ---
-> > >  init/Kconfig                        |  36 ++++
-> > >  scripts/Makefile                    |   4 +
-> > >  scripts/kas_alias/Makefile          |   4 +
-> > >  scripts/kas_alias/a2l.c             | 268 ++++++++++++++++++++++++++=
-++
-> > >  scripts/kas_alias/a2l.h             |  32 ++++
-> > >  scripts/kas_alias/duplicates_list.c |  70 ++++++++
-> > >  scripts/kas_alias/duplicates_list.h |  15 ++
-> > >  scripts/kas_alias/item_list.c       | 230 ++++++++++++++++++++++++
-> > >  scripts/kas_alias/item_list.h       |  26 +++
-> > >  scripts/kas_alias/kas_alias.c       | 217 ++++++++++++++++++++++
-> > >  scripts/link-vmlinux.sh             |  11 +-
-> > >  11 files changed, 910 insertions(+), 3 deletions(-)
-> >
-> >
-> > I added some review comments in another thread, but
-> > one of the biggest concerns might be "910 insertions".
-> >
-> >
-> > What this program does is quite simple,
-> > "find duplicated names, and call addr2line".
-> >
-> >
-> >
-> > You wrote a lot of code to self-implement these:
-> >
-> >  - sort function
-> >  - parse PATH env variable to find addr2line
-> >  - fork addr2line to establish pipe communications
-> >
-> >
-> >
-> > Have you considered writing the code in Python (or Perl)?
-> > Is it too slow?
->
-> I have attempted to incorporate all your suggestions.
-> I refactored the C code to utilize hashing instead of sorting, and I
-> completely re-implemented the entire thing in Python for the purpose of
-> comparison.
->
-> You are correct;
-> the C version is indeed faster, but the difference is negligible when
-> considering the use case and code maintainability.
+On 2023-09-05 7:59 p.m., John David Anglin wrote:
+> On 2023-09-05 5:57 p.m., John David Anglin wrote:
+>> I'll check ddb5cdbafaaa.
+> Similar fault with ddb5cdbafaaa:
+The alignment of the __kstrtab_ symbols in vmlinux seems wrong.  I'm fairly certain that function
+references prefixed with P% on hppa64 need 8 byte alignment.
 
+81662: 0000000040ea4358     0 NOTYPE  LOCAL  DEFAULT   16 __kstrtab_system[...]
+  81663: 0000000040ea4748     0 NOTYPE  LOCAL  DEFAULT   16 __kstrtabns_syst[...]
+  81664: 0000000040e8e830     0 NOTYPE  LOCAL  DEFAULT   14 __ksymtab_system[...]
+  81665: 0000000040ea4365     0 NOTYPE  LOCAL  DEFAULT   16 __kstrtab_static[...]
+  81666: 0000000040ea4748     0 NOTYPE  LOCAL  DEFAULT   16 __kstrtabns_stat[...]
+  81667: 0000000040ea1640     0 NOTYPE  LOCAL  DEFAULT   15 __ksymtab_static[...]
+  81668: 0000000040ea437c     0 NOTYPE  LOCAL  DEFAULT   16 __kstrtab_reset_[...]
+  81669: 0000000040ea4748     0 NOTYPE  LOCAL  DEFAULT   16 __kstrtabns_rese[...]
+  81670: 0000000040e8bbc0     0 NOTYPE  LOCAL  DEFAULT   14 __ksymtab_reset_[...]
+  81671: 0000000040ea438a     0 NOTYPE  LOCAL  DEFAULT   16 __kstrtab_loops_[...]
+  81672: 0000000040ea4748     0 NOTYPE  LOCAL  DEFAULT   16 __kstrtabns_loop[...]
+  81673: 0000000040e86610     0 NOTYPE  LOCAL  DEFAULT   14 __ksymtab_loops_[...]
+  81674: 0000000040ea439a     0 NOTYPE  LOCAL  DEFAULT   16 __kstrtab_init_uts_ns
+  81675: 0000000040ea4748     0 NOTYPE  LOCAL  DEFAULT   16 __kstrtabns_init[...]
+  81676: 0000000040e99180     0 NOTYPE  LOCAL  DEFAULT   15 __ksymtab_init_uts_ns
+  81677: 0000000040ea43a6     0 NOTYPE  LOCAL  DEFAULT   16 __kstrtab_name_t[...]
+  81678: 0000000040ea4748     0 NOTYPE  LOCAL  DEFAULT   16 __kstrtabns_name[...]
+  81679: 0000000040e9b340     0 NOTYPE  LOCAL  DEFAULT   15 __ksymtab_name_t[...]
+  81680: 0000000040ea43b4     0 NOTYPE  LOCAL  DEFAULT   16 __kstrtab_wait_f[...]
+  81681: 0000000040ea4748     0 NOTYPE  LOCAL  DEFAULT   16 __kstrtabns_wait[...]
+  81682: 0000000040ea3638     0 NOTYPE  LOCAL  DEFAULT   15 __ksymtab_wait_f[...]
+  81683: 0000000040ea43c7     0 NOTYPE  LOCAL  DEFAULT   16 __kstrtab_init_task
+[...]
 
-Nice. Then, I prefer shorter code.
+I'm not sure how we get symbols that aren't 8 byte aligned.  The ".balign 4" directive
+in __KSYMTAB doesn't seem correct but it's not the whole problem.
 
-The Python implementation is 0.2 sec slower
-(given the script is executed three times, 0.6 sec cost in total)
-but it is not a big issue, I think.
+Dave
 
-Thanks.
+-- 
+John David Anglin  dave.anglin@bell.net
 
-
-
-
-
-
-
-
-
->
-> Here's a direct comparison of the two.
-> ```
-> ~ $ time ./kas_alias.py -a /usr/bin/aarch64-linux-gnu-addr2line \
->                       -n linux-6.5/.tmp_vmlinux.kallsyms1.syms \
->                       -v linux-6.5/.tmp_vmlinux.kallsyms1 \
->                       -o output_py
->
-> real    0m1.626s
-> user    0m1.436s
-> sys     0m0.185s
-> $ cat kas_alias.py | wc -l
-> 133
-> ~ $ time ./kas_alias -a /usr/bin/aarch64-linux-gnu-addr2line \
->                    -v linux-6.5/.tmp_vmlinux.kallsyms1 \
->                    -n linux-6.5/.tmp_vmlinux.kallsyms1.syms \
->                    -o output_c
->
-> real    0m1.418s
-> user    0m1.262s
-> sys     0m0.162s
-> ~ $ cat a2l.c a2l.h conf.c conf.h item_list.c item_list.h kas_alias.c | w=
-c -l
-> 742
-> ~ $ diff output_py output_c
-> ~ $
-> ```
-> C version is 7/10% faster but is more than 5 times in terms of code size.
->
-> >
-> > Most of the functions you implemented are already
-> > available in script languages.
-> >
-> >
-> >
-> > I am not sure if "@<file-path>" is a good solution,
-> > but the amount of the added code looks too much to me.
->
-> I followed Francis's suggestion and made the separator between
-> <symbol name> and <normalized filename> an argument that you can select
-> using the command line. Since I'm not aware of a better choice, I set the
-> default value to '@'.
->
-> >
-> >
-> >
-> >
-> > --
-> > Best Regards
-> > Masahiro Yamada
->
-> Best regards
-> Alessandro Carminati
-
-
-
---=20
-Best Regards
-Masahiro Yamada
