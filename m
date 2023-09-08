@@ -2,99 +2,97 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BB36797E87
-	for <lists+linux-kbuild@lfdr.de>; Fri,  8 Sep 2023 00:02:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A9856797FA9
+	for <lists+linux-kbuild@lfdr.de>; Fri,  8 Sep 2023 02:27:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239057AbjIGWCU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 7 Sep 2023 18:02:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39688 "EHLO
+        id S237875AbjIHA1r (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 7 Sep 2023 20:27:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239005AbjIGWCT (ORCPT
+        with ESMTP id S234910AbjIHA1n (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 7 Sep 2023 18:02:19 -0400
-Received: from cmx-torrgo001.bell.net (mta-tor-003.bell.net [209.71.212.30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DE6E1BC9;
-        Thu,  7 Sep 2023 15:02:15 -0700 (PDT)
-X-RG-CM-BuS: 0
-X-RG-CM-SC: 0
-X-RG-CM: Clean
-X-Originating-IP: [142.198.135.111]
-X-RG-Env-Sender: dave.anglin@bell.net
-X-RG-Rigid: 64E88507015705AD
-X-CM-Envelope: MS4xfMguLgi8rgOYYRlMsto9Ayq2NmgVNKUBCk79F5EH/AZzO9PbzVP60RGbo6lhY50wZggkSlued0wG6DvohA9+cVvfARViIVUuVLeie9x+Xaf2mDG22QRw
- OtW06eMfh4QsRO6opGDu1t6o3s8gGeNcxWlsZ0DjOhmxbgL51jpqwjsmQVxrN8B0q9h/FCRmPz3CuG5A6gjT53x/gffyZfl2ss+jup9tYYjOjZLUSQjXoaa+
- sYHh1OHSyhR57ikVoyPflIo3+CuiiH/XOvuTxDES2/araKc5rxiMIR7iNwLpkCReGpVso0dhaR+c7kJOQde8+XFeEysNyh8a3tt5eiCAtqDSdDHZ2R0thMeJ
- gzalX9fVnO7FRTwrPs00vHxHNfzvBs5ffIZUej6SiMpvYQgIO2wnZczH32oJUnC9eSgMZ1ezlwTJJsdk+DbrWt4G9QvrkQ==
-X-CM-Analysis: v=2.4 cv=UM++oATy c=1 sm=1 tr=0 ts=64fa485d
- a=m0hBPjpnfWKpZW+YOe+Hqw==:117 a=m0hBPjpnfWKpZW+YOe+Hqw==:17
- a=IkcTkHD0fZMA:10 a=FBHGMhGWAAAA:8 a=0AOgk2NmGiZ_o05NmboA:9 a=QEXdDO2ut3YA:10
- a=9gvnlMMaQFpL9xblJ6ne:22
-Received: from [192.168.2.49] (142.198.135.111) by cmx-torrgo001.bell.net (5.8.814) (authenticated as dave.anglin@bell.net)
-        id 64E88507015705AD; Thu, 7 Sep 2023 18:02:05 -0400
-Message-ID: <97859bf1-c8c3-7294-8322-b0c9c408ba5e@bell.net>
-Date:   Thu, 7 Sep 2023 18:02:06 -0400
+        Thu, 7 Sep 2023 20:27:43 -0400
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 825F31BD7
+        for <linux-kbuild@vger.kernel.org>; Thu,  7 Sep 2023 17:27:38 -0700 (PDT)
+Received: by mail-pj1-x1030.google.com with SMTP id 98e67ed59e1d1-2685bcd046eso1079482a91.3
+        for <linux-kbuild@vger.kernel.org>; Thu, 07 Sep 2023 17:27:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1694132858; x=1694737658; darn=vger.kernel.org;
+        h=to:subject:message-id:date:from:sender:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ThJt1M7ME2yNWaBDeE2oHIMrUhxdt6uGEqSizM4hY4U=;
+        b=Yi1raqdTG8+osFWNQ6blpCesbMXMBDwjRo/LP2z2mKT5bIqNufDtq/Po9Tthl/fFcq
+         u4RZakRjWU3RqdeFw1gXk8LCbSO3/tEIlArjxJyBshOBXXQrKkZkx3QncRNtZK9l1c0P
+         iNiHbzRMAHeTmjR9Kl2W7a3i1VYDiQ5CaI00JOVr7R1f4aRUJGVuIFXViNkg3xKJWJqO
+         X8UEjLELwhilyXxbq3ZeLMNBcfW49PFSPQLfGUM2k9mSFzYm7MGazqR2MklFB1SolcCe
+         NgC1tise2eugmRHOUw4S18/FdcjxmzUoPx7fm+KV3wVukzZeLo9NN2k4NKGgH46Imsxv
+         bxsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694132858; x=1694737658;
+        h=to:subject:message-id:date:from:sender:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ThJt1M7ME2yNWaBDeE2oHIMrUhxdt6uGEqSizM4hY4U=;
+        b=os1OOIT5HtET2QYLj1owSiRZrHEnMP+friblvHILiIZl9/t4+sTW/W9x7+H/0J7aI2
+         g+5MzmDOSxqhCtrjbCPF1nQkZD9iA4zVzNtkq0RbvbBkjHSMAiIlUlVHn9rmY4Hw4yRK
+         jXRtGKQgyEFEJ7/lm4oJKu5rzb6U6eaBST45ArZr1x1nE1pZrOBM8P6SofCIWD+L1O31
+         pRTeac/WEcmdOQ0MofydVhofR0JAtgkGXfOVh/Moxuah8TYk94dn5sPaIh2KAo+OQp/s
+         mN+E6TOo83Jck8WIYjjUSjpo58hePe8BTufct3eD0Uwmgaup9IrJr70Rit0nTsNL0uoN
+         CvhA==
+X-Gm-Message-State: AOJu0YwiVN7fm+9Pa/KQi5RMHTsZAoB6K637sCRp/g4NDtiMZ7RRNB5D
+        C1OhIT4iU0Y/VZXp1S9uvdUi9Q/waVUKW9bISGs=
+X-Google-Smtp-Source: AGHT+IEiRgG7CWaBBmhsDr//XWv37/F6IHtKs7GWFkrkNjhR9PGvDVL2VW20jFylgOsgsouUxg2+XUkqQXKtfvuYBaU=
+X-Received: by 2002:a17:90b:684:b0:267:eeee:ab17 with SMTP id
+ m4-20020a17090b068400b00267eeeeab17mr1086045pjz.45.1694132857942; Thu, 07 Sep
+ 2023 17:27:37 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH] linux/export: fix reference to exported functions for
- parisc64
-From:   John David Anglin <dave.anglin@bell.net>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-parisc@vger.kernel.org, Helge Deller <deller@gmx.de>
-Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>
-References: <20230905190828.790400-1-masahiroy@kernel.org>
- <c8a92dc8-de78-7484-bcc8-d4a91bec77de@bell.net>
- <c6568683-86b4-c48d-ed37-f1f87677eb44@bell.net>
-Content-Language: en-US
-In-Reply-To: <c6568683-86b4-c48d-ed37-f1f87677eb44@bell.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS autolearn=ham
+Sender: annavanessaci@gmail.com
+Received: by 2002:a05:6a20:7620:b0:137:6958:9b4e with HTTP; Thu, 7 Sep 2023
+ 17:27:37 -0700 (PDT)
+From:   Olga Jean-Louis <jeanlouisolga6@gmail.com>
+Date:   Fri, 8 Sep 2023 00:27:37 +0000
+X-Google-Sender-Auth: XKQ8SPGwH2P_Jq5-qkmPshawSPs
+Message-ID: <CABpNhj25F8USoDb7DYP=nf+UgPQsM7CbWR3QhrfQNMezkhDxCw@mail.gmail.com>
+Subject: Hello, I Am Miss. Olga Jean-Louis.
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=5.4 required=5.0 tests=BAYES_50,DEAR_SOMETHING,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,UNDISC_MONEY autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Report: *  0.0 RCVD_IN_DNSWL_BLOCKED RBL: ADMINISTRATOR NOTICE: The query to
+        *      DNSWL was blocked.  See
+        *      http://wiki.apache.org/spamassassin/DnsBlocklists#dnsbl-block
+        *      for more information.
+        *      [2607:f8b0:4864:20:0:0:0:1030 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [annavanessaci[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  2.0 DEAR_SOMETHING BODY: Contains 'Dear (something)'
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  2.8 UNDISC_MONEY Undisclosed recipients + money/fraud signs
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 2023-09-05 7:59 p.m., John David Anglin wrote:
-> On 2023-09-05 5:57 p.m., John David Anglin wrote:
->> I'll check ddb5cdbafaaa.
-> Similar fault with ddb5cdbafaaa:
-The alignment of the __kstrtab_ symbols in vmlinux seems wrong.  I'm fairly certain that function
-references prefixed with P% on hppa64 need 8 byte alignment.
-
-81662: 0000000040ea4358     0 NOTYPE  LOCAL  DEFAULT   16 __kstrtab_system[...]
-  81663: 0000000040ea4748     0 NOTYPE  LOCAL  DEFAULT   16 __kstrtabns_syst[...]
-  81664: 0000000040e8e830     0 NOTYPE  LOCAL  DEFAULT   14 __ksymtab_system[...]
-  81665: 0000000040ea4365     0 NOTYPE  LOCAL  DEFAULT   16 __kstrtab_static[...]
-  81666: 0000000040ea4748     0 NOTYPE  LOCAL  DEFAULT   16 __kstrtabns_stat[...]
-  81667: 0000000040ea1640     0 NOTYPE  LOCAL  DEFAULT   15 __ksymtab_static[...]
-  81668: 0000000040ea437c     0 NOTYPE  LOCAL  DEFAULT   16 __kstrtab_reset_[...]
-  81669: 0000000040ea4748     0 NOTYPE  LOCAL  DEFAULT   16 __kstrtabns_rese[...]
-  81670: 0000000040e8bbc0     0 NOTYPE  LOCAL  DEFAULT   14 __ksymtab_reset_[...]
-  81671: 0000000040ea438a     0 NOTYPE  LOCAL  DEFAULT   16 __kstrtab_loops_[...]
-  81672: 0000000040ea4748     0 NOTYPE  LOCAL  DEFAULT   16 __kstrtabns_loop[...]
-  81673: 0000000040e86610     0 NOTYPE  LOCAL  DEFAULT   14 __ksymtab_loops_[...]
-  81674: 0000000040ea439a     0 NOTYPE  LOCAL  DEFAULT   16 __kstrtab_init_uts_ns
-  81675: 0000000040ea4748     0 NOTYPE  LOCAL  DEFAULT   16 __kstrtabns_init[...]
-  81676: 0000000040e99180     0 NOTYPE  LOCAL  DEFAULT   15 __ksymtab_init_uts_ns
-  81677: 0000000040ea43a6     0 NOTYPE  LOCAL  DEFAULT   16 __kstrtab_name_t[...]
-  81678: 0000000040ea4748     0 NOTYPE  LOCAL  DEFAULT   16 __kstrtabns_name[...]
-  81679: 0000000040e9b340     0 NOTYPE  LOCAL  DEFAULT   15 __ksymtab_name_t[...]
-  81680: 0000000040ea43b4     0 NOTYPE  LOCAL  DEFAULT   16 __kstrtab_wait_f[...]
-  81681: 0000000040ea4748     0 NOTYPE  LOCAL  DEFAULT   16 __kstrtabns_wait[...]
-  81682: 0000000040ea3638     0 NOTYPE  LOCAL  DEFAULT   15 __ksymtab_wait_f[...]
-  81683: 0000000040ea43c7     0 NOTYPE  LOCAL  DEFAULT   16 __kstrtab_init_task
-[...]
-
-I'm not sure how we get symbols that aren't 8 byte aligned.  The ".balign 4" directive
-in __KSYMTAB doesn't seem correct but it's not the whole problem.
-
-Dave
-
--- 
-John David Anglin  dave.anglin@bell.net
-
+Dear Sir,
+Please can I trust you? to assist me to invest my inheritance fund in
+your country? and to help me to come over to your country for the
+betterment of my life and continue my education. Please Can you help
+me?
+Best regards,
+Miss. Olga Jean-Louis.
