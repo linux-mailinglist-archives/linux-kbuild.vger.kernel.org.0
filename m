@@ -2,76 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C314799673
-	for <lists+linux-kbuild@lfdr.de>; Sat,  9 Sep 2023 07:28:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D17E4799A38
+	for <lists+linux-kbuild@lfdr.de>; Sat,  9 Sep 2023 19:15:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239515AbjIIF2b (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 9 Sep 2023 01:28:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53356 "EHLO
+        id S236256AbjIIRQA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 9 Sep 2023 13:16:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229925AbjIIF2a (ORCPT
+        with ESMTP id S230504AbjIIRP7 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 9 Sep 2023 01:28:30 -0400
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C14B11BD3;
-        Fri,  8 Sep 2023 22:28:26 -0700 (PDT)
-Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-68a529e1974so2328132b3a.3;
-        Fri, 08 Sep 2023 22:28:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694237306; x=1694842106; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=AhGcYIVxPZwLXUPMQ7arLtBywPpQ4z3xctSy6TWk6XU=;
-        b=qzkiSbkk044CfPpNTsN4hI8HDDas2kRjLqqMQzopziv/4dbduQAGTjcbzAvMbt6Iqu
-         /dGSBOwG6FBBBaz/xz2cDsH4kvT/AyYmyhglWwXhQ52opY0ZOJk9XPpMQSMMjaUQrr37
-         qMQlIiZvnBm1y93+P4rFRWL2CRmqdBmiRqa7QJW1fJQUKntVpWlR145arqdRYuHqkF5/
-         leACPU0cf5WS2+kORfjx1J8Ne1tHPoxTjgT2NNME8WU+luGfDrwlysJCYj+3pSePLtxn
-         n0T3qnrPnVMbkleIw3hvwcVtw750eRz/ZhK7i3suk6PFIIXeynP9h0ZHAC8Qc8H3KgBS
-         /1DA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694237306; x=1694842106;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AhGcYIVxPZwLXUPMQ7arLtBywPpQ4z3xctSy6TWk6XU=;
-        b=j8Hk0jHMnImoTIBWrNq08mycoXelz/3GpB02NFd/wkwcM01b7UJ63lBeAV4xgAP991
-         5zLQoURigmg2lK5u0nnvQUsV+rOAqir4bu2qiLvx7TiJ3DGakbkuGfzddh1c/AxwsMqd
-         Q8E5bxUzbyclnET6wEtIiOb68cXu0CFgL8zB9PvUAuzIGhzmtAA3bWYoeoFlIYKwdT5q
-         zq0Yt0cNDu/6mibpC7wv61TFRVGqtEGZ6vTGgmaBhhrr2M3QNSjpIAeEbbm0sPMUO3e4
-         Yd+7Jy8fpODvU3QKMUcfaC3V1P5Kehg7FNDJI/Z3fpK/za02veQTCpshQ/xXWL6Dlqd9
-         /FzQ==
-X-Gm-Message-State: AOJu0YzMBTYCBrnSoEqq8Tn6iZKJg7sDA3upgKIzQyvM/SvjO7qbSXej
-        +48tzxAh5muosGHmRtDZAms=
-X-Google-Smtp-Source: AGHT+IGw0ulupui94qNdMz252mwrFm6dOVwPF7ntkmtDhRPf3eauIShtH1mkNSqQIgh2r194qOvtMA==
-X-Received: by 2002:a05:6a00:15ca:b0:68a:4dfa:ea63 with SMTP id o10-20020a056a0015ca00b0068a4dfaea63mr4581797pfu.19.1694237306156;
-        Fri, 08 Sep 2023 22:28:26 -0700 (PDT)
-Received: from debian.me ([103.124.138.83])
-        by smtp.gmail.com with ESMTPSA id n26-20020aa78a5a000000b006828e49c04csm2088013pfa.75.2023.09.08.22.28.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Sep 2023 22:28:25 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id 89ED6803A58F; Sat,  9 Sep 2023 12:28:21 +0700 (WIB)
-Date:   Sat, 9 Sep 2023 12:28:21 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Marcel Holtmann <marcel@holtmann.org>,
-        Johan Hedberg <johan.hedberg@gmail.com>,
-        Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-        TatriX <tatrics@gmail.com>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Regressions <regressions@lists.linux.dev>,
-        Linux Bluetooth <linux-bluetooth@vger.kernel.org>,
-        Linux Kernel Build System <linux-kbuild@vger.kernel.org>
-Subject: Re: Fwd: Bluetooth LE scan doesn't show device name
-Message-ID: <ZPwCdd6lnOTbcDS0@debian.me>
-References: <97224321-c839-c0a7-52dd-3fb6e52fc15e@gmail.com>
+        Sat, 9 Sep 2023 13:15:59 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA7EDC7;
+        Sat,  9 Sep 2023 10:15:55 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67B15C433C9;
+        Sat,  9 Sep 2023 17:15:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1694279755;
+        bh=KhtWGf2zPoyiuxjJnXbblI6vUKh1wZS3V87vTaTu1Ak=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=orQqJHz5NHPU9U9e8TwVINUBcesVcDAxcGwZJFOGPzVl/1QfguH4sjWojoPNDENhn
+         DN9JYIKOzELAOjDg2ULxs17pWQceUPZom7GFWsnzwT3Zs3ptPQpFzlLU9i5lA4GAlk
+         wsmLUPJkUsvTlleAwfHbOgfD2RDCAhR+0SC7lj8mfXwETlfcX19Xk+9pSkuPwhEzH7
+         5KuiXaKwaZT82PEgw8F6/uDg8D/QxeULK5DLxhZ4LOD3Ce6D8LaVRMIikTw+s3h0CY
+         CiPBrDBhCz7uBMIQ5FTJvPIYDlQIa+8d2n9oJcUD0eYniyKfmlI0vexUL0FJr3ss/E
+         8hfdVRhwCupAQ==
+Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-1c504386370so2149444fac.1;
+        Sat, 09 Sep 2023 10:15:55 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yx78ceyapgzytwt9pj+vRHGTMEvtpISlAPfdoUK6H1Qz4dshvh+
+        3rzlQOZRzBGpye0McjSagebml+fUS9Pnfrr2kko=
+X-Google-Smtp-Source: AGHT+IFB4QMpozMyQcYYqjROcK1d0b9AZciucdiHOYXeCZaSUKBl9wA+yiE9RsjNLUevb72OKpxlQpU6vZOn2MWqVuI=
+X-Received: by 2002:a05:6870:41cf:b0:1b7:27cf:9709 with SMTP id
+ z15-20020a05687041cf00b001b727cf9709mr7079226oac.43.1694279754787; Sat, 09
+ Sep 2023 10:15:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="yHJYS4swNGsW/wbV"
-Content-Disposition: inline
-In-Reply-To: <97224321-c839-c0a7-52dd-3fb6e52fc15e@gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+References: <20230905190828.790400-1-masahiroy@kernel.org> <1MbRk3-1q6Cp42Bcv-00bwDk@mail.gmx.net>
+In-Reply-To: <1MbRk3-1q6Cp42Bcv-00bwDk@mail.gmx.net>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sun, 10 Sep 2023 02:15:18 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASqCukUFNjT5NOfc7eT6isvh6K70DpMmCu3YkukbA9Tmw@mail.gmail.com>
+Message-ID: <CAK7LNASqCukUFNjT5NOfc7eT6isvh6K70DpMmCu3YkukbA9Tmw@mail.gmail.com>
+Subject: Re: [PATCH] linux/export: fix reference to exported functions for parisc64
+To:     Helge Deller <deller@gmx.de>
+Cc:     linux-parisc@vger.kernel.org,
+        John David Anglin <dave.anglin@bell.net>,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -80,31 +60,71 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+On Wed, Sep 6, 2023 at 4:26=E2=80=AFAM Helge Deller <deller@gmx.de> wrote:
+>
+> I think ppc64 is affected too.
 
---yHJYS4swNGsW/wbV
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 08, 2023 at 08:44:36PM +0700, Bagas Sanjaya wrote:
-> #regzbot introduced: v5.9..v6.4 https://bugzilla.kernel.org/show_bug.cgi?=
-id=3D217773
->=20
+I tested ppc64 ABI v1, but did not see a breakage.
 
-#regzbot fix: 52bf4fd43f759a
+
+
+
+
+> Search for dereference_function_descriptor() in kernel sources, e.g.
+> https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg1494564.html
+> Helge
+>
+> -------- Urspr=C3=BCngliche Nachricht --------
+> Von: Masahiro Yamada <masahiroy@kernel.org>
+> Datum: 05.09.23 21:08 (GMT+01:00)
+> An: linux-parisc@vger.kernel.org, Helge Deller <deller@gmx.de>, John Davi=
+d Anglin <dave.anglin@bell.net>
+> Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, Masahiro =
+Yamada <masahiroy@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>
+> Betreff: [PATCH] linux/export: fix reference to exported functions for pa=
+risc64
+>
+> John David Anglin reported parisc has been broken since commit
+> ddb5cdbafaaa ("kbuild: generate KSYMTAB entries by modpost").
+>
+> I checked the assembler output, and noticed function references are
+> prefixed with P%, so the situation in parisc64 is similar to ia64.
+>
+> Fixes: ddb5cdbafaaa ("kbuild: generate KSYMTAB entries by modpost")
+> Reported-by: John David Anglin <dave.anglin@bell.net>
+> Closes: https://lore.kernel.org/linux-parisc/1901598a-e11d-f7dd-a5d9-9a69=
+d06e6b6e@bell.net/T/#u
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+>
+> I just checked the assembler output, and I created this patch
+> based on my best guess. Only compile-tested.
+> I hope somebody will run-test this patch.
+>
+>
+> include/linux/export-internal.h | 2 ++
+> 1 file changed, 2 insertions(+)
+>
+> diff --git a/include/linux/export-internal.h b/include/linux/export-inter=
+nal.h
+> index 1c849db953a5..45fca09b2319 100644
+> --- a/include/linux/export-internal.h
+> +++ b/include/linux/export-internal.h
+> @@ -52,6 +52,8 @@
+>
+> #ifdef CONFIG_IA64
+> #define KSYM_FUNC(name) @fptr(name)
+> +#elif defined(CONFIG_PARISC) && defined(CONFIG_64BIT)
+> +#define KSYM_FUNC(name) P%name
+> #else
+> #define KSYM_FUNC(name) name
+> #endif
+> --
+> 2.39.2
+>
+
 
 --=20
-An old man doll... just what I always wanted! - Clara
-
---yHJYS4swNGsW/wbV
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZPwCbwAKCRD2uYlJVVFO
-o3YPAQCu8g+OeR/FT4e0bLiH5epWupufFcZnNZzU0y5VYqsNqQD/Zy1WqYyTeb3n
-nOxfRLCWsV9IJ3KNPiTfR0i2jHbzKwU=
-=TM2y
------END PGP SIGNATURE-----
-
---yHJYS4swNGsW/wbV--
+Best Regards
+Masahiro Yamada
