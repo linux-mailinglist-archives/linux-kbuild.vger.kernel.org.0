@@ -2,97 +2,109 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A9856797FA9
-	for <lists+linux-kbuild@lfdr.de>; Fri,  8 Sep 2023 02:27:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C314799673
+	for <lists+linux-kbuild@lfdr.de>; Sat,  9 Sep 2023 07:28:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237875AbjIHA1r (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 7 Sep 2023 20:27:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46878 "EHLO
+        id S239515AbjIIF2b (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 9 Sep 2023 01:28:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53356 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234910AbjIHA1n (ORCPT
+        with ESMTP id S229925AbjIIF2a (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 7 Sep 2023 20:27:43 -0400
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 825F31BD7
-        for <linux-kbuild@vger.kernel.org>; Thu,  7 Sep 2023 17:27:38 -0700 (PDT)
-Received: by mail-pj1-x1030.google.com with SMTP id 98e67ed59e1d1-2685bcd046eso1079482a91.3
-        for <linux-kbuild@vger.kernel.org>; Thu, 07 Sep 2023 17:27:38 -0700 (PDT)
+        Sat, 9 Sep 2023 01:28:30 -0400
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C14B11BD3;
+        Fri,  8 Sep 2023 22:28:26 -0700 (PDT)
+Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-68a529e1974so2328132b3a.3;
+        Fri, 08 Sep 2023 22:28:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1694132858; x=1694737658; darn=vger.kernel.org;
-        h=to:subject:message-id:date:from:sender:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ThJt1M7ME2yNWaBDeE2oHIMrUhxdt6uGEqSizM4hY4U=;
-        b=Yi1raqdTG8+osFWNQ6blpCesbMXMBDwjRo/LP2z2mKT5bIqNufDtq/Po9Tthl/fFcq
-         u4RZakRjWU3RqdeFw1gXk8LCbSO3/tEIlArjxJyBshOBXXQrKkZkx3QncRNtZK9l1c0P
-         iNiHbzRMAHeTmjR9Kl2W7a3i1VYDiQ5CaI00JOVr7R1f4aRUJGVuIFXViNkg3xKJWJqO
-         X8UEjLELwhilyXxbq3ZeLMNBcfW49PFSPQLfGUM2k9mSFzYm7MGazqR2MklFB1SolcCe
-         NgC1tise2eugmRHOUw4S18/FdcjxmzUoPx7fm+KV3wVukzZeLo9NN2k4NKGgH46Imsxv
-         bxsg==
+        d=gmail.com; s=20221208; t=1694237306; x=1694842106; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=AhGcYIVxPZwLXUPMQ7arLtBywPpQ4z3xctSy6TWk6XU=;
+        b=qzkiSbkk044CfPpNTsN4hI8HDDas2kRjLqqMQzopziv/4dbduQAGTjcbzAvMbt6Iqu
+         /dGSBOwG6FBBBaz/xz2cDsH4kvT/AyYmyhglWwXhQ52opY0ZOJk9XPpMQSMMjaUQrr37
+         qMQlIiZvnBm1y93+P4rFRWL2CRmqdBmiRqa7QJW1fJQUKntVpWlR145arqdRYuHqkF5/
+         leACPU0cf5WS2+kORfjx1J8Ne1tHPoxTjgT2NNME8WU+luGfDrwlysJCYj+3pSePLtxn
+         n0T3qnrPnVMbkleIw3hvwcVtw750eRz/ZhK7i3suk6PFIIXeynP9h0ZHAC8Qc8H3KgBS
+         /1DA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694132858; x=1694737658;
-        h=to:subject:message-id:date:from:sender:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ThJt1M7ME2yNWaBDeE2oHIMrUhxdt6uGEqSizM4hY4U=;
-        b=os1OOIT5HtET2QYLj1owSiRZrHEnMP+friblvHILiIZl9/t4+sTW/W9x7+H/0J7aI2
-         g+5MzmDOSxqhCtrjbCPF1nQkZD9iA4zVzNtkq0RbvbBkjHSMAiIlUlVHn9rmY4Hw4yRK
-         jXRtGKQgyEFEJ7/lm4oJKu5rzb6U6eaBST45ArZr1x1nE1pZrOBM8P6SofCIWD+L1O31
-         pRTeac/WEcmdOQ0MofydVhofR0JAtgkGXfOVh/Moxuah8TYk94dn5sPaIh2KAo+OQp/s
-         mN+E6TOo83Jck8WIYjjUSjpo58hePe8BTufct3eD0Uwmgaup9IrJr70Rit0nTsNL0uoN
-         CvhA==
-X-Gm-Message-State: AOJu0YwiVN7fm+9Pa/KQi5RMHTsZAoB6K637sCRp/g4NDtiMZ7RRNB5D
-        C1OhIT4iU0Y/VZXp1S9uvdUi9Q/waVUKW9bISGs=
-X-Google-Smtp-Source: AGHT+IEiRgG7CWaBBmhsDr//XWv37/F6IHtKs7GWFkrkNjhR9PGvDVL2VW20jFylgOsgsouUxg2+XUkqQXKtfvuYBaU=
-X-Received: by 2002:a17:90b:684:b0:267:eeee:ab17 with SMTP id
- m4-20020a17090b068400b00267eeeeab17mr1086045pjz.45.1694132857942; Thu, 07 Sep
- 2023 17:27:37 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1694237306; x=1694842106;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AhGcYIVxPZwLXUPMQ7arLtBywPpQ4z3xctSy6TWk6XU=;
+        b=j8Hk0jHMnImoTIBWrNq08mycoXelz/3GpB02NFd/wkwcM01b7UJ63lBeAV4xgAP991
+         5zLQoURigmg2lK5u0nnvQUsV+rOAqir4bu2qiLvx7TiJ3DGakbkuGfzddh1c/AxwsMqd
+         Q8E5bxUzbyclnET6wEtIiOb68cXu0CFgL8zB9PvUAuzIGhzmtAA3bWYoeoFlIYKwdT5q
+         zq0Yt0cNDu/6mibpC7wv61TFRVGqtEGZ6vTGgmaBhhrr2M3QNSjpIAeEbbm0sPMUO3e4
+         Yd+7Jy8fpODvU3QKMUcfaC3V1P5Kehg7FNDJI/Z3fpK/za02veQTCpshQ/xXWL6Dlqd9
+         /FzQ==
+X-Gm-Message-State: AOJu0YzMBTYCBrnSoEqq8Tn6iZKJg7sDA3upgKIzQyvM/SvjO7qbSXej
+        +48tzxAh5muosGHmRtDZAms=
+X-Google-Smtp-Source: AGHT+IGw0ulupui94qNdMz252mwrFm6dOVwPF7ntkmtDhRPf3eauIShtH1mkNSqQIgh2r194qOvtMA==
+X-Received: by 2002:a05:6a00:15ca:b0:68a:4dfa:ea63 with SMTP id o10-20020a056a0015ca00b0068a4dfaea63mr4581797pfu.19.1694237306156;
+        Fri, 08 Sep 2023 22:28:26 -0700 (PDT)
+Received: from debian.me ([103.124.138.83])
+        by smtp.gmail.com with ESMTPSA id n26-20020aa78a5a000000b006828e49c04csm2088013pfa.75.2023.09.08.22.28.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Sep 2023 22:28:25 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id 89ED6803A58F; Sat,  9 Sep 2023 12:28:21 +0700 (WIB)
+Date:   Sat, 9 Sep 2023 12:28:21 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Marcel Holtmann <marcel@holtmann.org>,
+        Johan Hedberg <johan.hedberg@gmail.com>,
+        Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+        TatriX <tatrics@gmail.com>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Regressions <regressions@lists.linux.dev>,
+        Linux Bluetooth <linux-bluetooth@vger.kernel.org>,
+        Linux Kernel Build System <linux-kbuild@vger.kernel.org>
+Subject: Re: Fwd: Bluetooth LE scan doesn't show device name
+Message-ID: <ZPwCdd6lnOTbcDS0@debian.me>
+References: <97224321-c839-c0a7-52dd-3fb6e52fc15e@gmail.com>
 MIME-Version: 1.0
-Sender: annavanessaci@gmail.com
-Received: by 2002:a05:6a20:7620:b0:137:6958:9b4e with HTTP; Thu, 7 Sep 2023
- 17:27:37 -0700 (PDT)
-From:   Olga Jean-Louis <jeanlouisolga6@gmail.com>
-Date:   Fri, 8 Sep 2023 00:27:37 +0000
-X-Google-Sender-Auth: XKQ8SPGwH2P_Jq5-qkmPshawSPs
-Message-ID: <CABpNhj25F8USoDb7DYP=nf+UgPQsM7CbWR3QhrfQNMezkhDxCw@mail.gmail.com>
-Subject: Hello, I Am Miss. Olga Jean-Louis.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=5.4 required=5.0 tests=BAYES_50,DEAR_SOMETHING,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,UNDISC_MONEY autolearn=no
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="yHJYS4swNGsW/wbV"
+Content-Disposition: inline
+In-Reply-To: <97224321-c839-c0a7-52dd-3fb6e52fc15e@gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
-X-Spam-Report: *  0.0 RCVD_IN_DNSWL_BLOCKED RBL: ADMINISTRATOR NOTICE: The query to
-        *      DNSWL was blocked.  See
-        *      http://wiki.apache.org/spamassassin/DnsBlocklists#dnsbl-block
-        *      for more information.
-        *      [2607:f8b0:4864:20:0:0:0:1030 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [annavanessaci[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  2.0 DEAR_SOMETHING BODY: Contains 'Dear (something)'
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  2.8 UNDISC_MONEY Undisclosed recipients + money/fraud signs
-X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Dear Sir,
-Please can I trust you? to assist me to invest my inheritance fund in
-your country? and to help me to come over to your country for the
-betterment of my life and continue my education. Please Can you help
-me?
-Best regards,
-Miss. Olga Jean-Louis.
+
+--yHJYS4swNGsW/wbV
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Aug 08, 2023 at 08:44:36PM +0700, Bagas Sanjaya wrote:
+> #regzbot introduced: v5.9..v6.4 https://bugzilla.kernel.org/show_bug.cgi?=
+id=3D217773
+>=20
+
+#regzbot fix: 52bf4fd43f759a
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--yHJYS4swNGsW/wbV
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZPwCbwAKCRD2uYlJVVFO
+o3YPAQCu8g+OeR/FT4e0bLiH5epWupufFcZnNZzU0y5VYqsNqQD/Zy1WqYyTeb3n
+nOxfRLCWsV9IJ3KNPiTfR0i2jHbzKwU=
+=TM2y
+-----END PGP SIGNATURE-----
+
+--yHJYS4swNGsW/wbV--
