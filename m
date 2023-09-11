@@ -2,144 +2,116 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B230B79BD50
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Sep 2023 02:15:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1800C79C2A2
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Sep 2023 04:20:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240414AbjIKVtQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 11 Sep 2023 17:49:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44170 "EHLO
+        id S236855AbjILCUa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 11 Sep 2023 22:20:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244293AbjIKT4p (ORCPT
+        with ESMTP id S237363AbjILCUQ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 11 Sep 2023 15:56:45 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE9D41A7;
-        Mon, 11 Sep 2023 12:56:40 -0700 (PDT)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id 693161F88C;
-        Mon, 11 Sep 2023 19:56:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1694462199; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=f/nZkdclC8N0AmmXEFCRJO8MtC0Z8ZAPugiL8rL00Ks=;
-        b=mvHWRKfFiFdjA+RAqKXUbxbczOMFEUGNmKIv4pgCPbjU+NQjcayZrqHnwQ24ez9LMAkZ5n
-        60VC/RsscTdhpHKoAJIEiGU0Yij2Slr0UbNidGNubILeJYqrxhEczPdptLSPVgDmOgczZ2
-        FrOHhRFt2ooaYPq/ydzs0UGcEY4Iij0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1694462199;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=f/nZkdclC8N0AmmXEFCRJO8MtC0Z8ZAPugiL8rL00Ks=;
-        b=jlb2xG4flSJUd9PhiC8ngVWDKpjClKpX+MUcZZ+sInXANl2y52lciL898ZK0jKOBXOcSNw
-        GdL0P8f7cirE6NDQ==
-Received: from kitsune.suse.cz (kitsune.suse.cz [10.100.12.127])
-        by relay2.suse.de (Postfix) with ESMTP id 0F1872C143;
-        Mon, 11 Sep 2023 19:56:39 +0000 (UTC)
-From:   Michal Suchanek <msuchanek@suse.de>
-To:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Michal Suchanek <msuchanek@suse.de>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        linux-modules@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
-        Lucas De Marchi <lucas.de.marchi@gmail.com>,
-        =?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
-        Jiri Slaby <jslaby@suse.com>, Jan Engelhardt <jengelh@inai.de>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Subject: [PATCH] kbuild: rpm-pkg: Fix build with non-default MODLIB
-Date:   Mon, 11 Sep 2023 21:56:18 +0200
-Message-ID: <20230911195621.15198-1-msuchanek@suse.de>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <CAK7LNAT6mQ0EpwmKUCBhv9Acaf_qyGq4hu=XvSWRuZ-pNAFWVw@mail.gmail.com>
-References: <CAK7LNAT6mQ0EpwmKUCBhv9Acaf_qyGq4hu=XvSWRuZ-pNAFWVw@mail.gmail.com>
+        Mon, 11 Sep 2023 22:20:16 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 244B7141938;
+        Mon, 11 Sep 2023 18:43:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=o91i0BrRYW6i4ggXpHFxM6+k8TqRwA2kmbfi7bWB11I=; b=jtOtBkVi85VfoTYtK70HkFQRhV
+        7n1exiuutzIDGv0/lTYyDrXxLtRiyFs8vVVQiPwvxfGaHKcUS5fwsX/80Lm6JEH8l4+uWkSQYHUsS
+        f/TLIAunPWJqd2nMjW2U4mbs3tL7bIi1bCXAnBtel9fmVehJDx0/8xZF8xtdzqvOXt7XDKQoXdVUT
+        NNWBdJHbG1Rc+uGGzV17Xp15A1LuIAjVfvT2hiW8XHgn/lvlEjQyqF/NLy1OHl5SUmX8QH1KsBZ/e
+        YQpQBAYQGc1C3qON0ke0vT+ov5P/V2dHPc73RvV+WTvSiVzv9wMXgCPdFJADLBU4ZDfrYvsJteYfx
+        I0O2cwjg==;
+Received: from [2601:1c2:980:9ec0::9fed]
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1qfp2e-001SmM-1a;
+        Mon, 11 Sep 2023 22:06:00 +0000
+Message-ID: <85563fd1-b9c1-60a9-24bc-4e5f7ee3bea4@infradead.org>
+Date:   Mon, 11 Sep 2023 15:05:56 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
-X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
-        lindbergh.monkeyblade.net
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: [RFC PATCH 1/1] scripts: Introduce a default git.orderFile
+Content-Language: en-US
+To:     Leonardo Bras <leobras@redhat.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
+References: <20230911193752.27642-2-leobras@redhat.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20230911193752.27642-2-leobras@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The default MODLIB value is composed of two variables and the hardcoded
-string '/lib/modules/'.
 
-MODLIB = $(INSTALL_MOD_PATH)/lib/modules/$(KERNELRELEASE)
 
-Defining this middle part as a variable was rejected on the basis that
-users can pass the whole MODLIB to make, such as
+On 9/11/23 12:37, Leonardo Bras wrote:
+> When reviewing patches, it looks much nicer to have some changes shown
+> before others, which allow better understanding of the patch before the
+> the .c files reviewing.
+> 
+> Introduce a default git.orderFile, in order to help developers getting the
+> best ordering easier.
+> 
+> Signed-off-by: Leonardo Bras <leobras@redhat.com>
+> ---
+> 
+> Please provide feedback on what else to add / remove / reorder here!
+> 
+>  scripts/git.orderFile | 31 +++++++++++++++++++++++++++++++
+>  1 file changed, 31 insertions(+)
+>  create mode 100644 scripts/git.orderFile
+> 
+> diff --git a/scripts/git.orderFile b/scripts/git.orderFile
+> new file mode 100644
+> index 000000000000..3434028be2f2
+> --- /dev/null
+> +++ b/scripts/git.orderFile
+> @@ -0,0 +1,31 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +
+> +# order file for git, to produce patches which are easier to review
+> +# by diffing the important stuff like header changes first.
+> +#
+> +# one-off usage:
+> +#   git diff -O scripts/git.orderfile ...
+> +#
+> +# add to git config:
+> +#   git config diff.orderFile scripts/git.orderfile
+> +#
+> +
+> +MAINTAINERS
+> +
+> +# Documentation
+> +Documentation/*
+> +*.rst
+> +
+> +# build system
+> +Kbuild
+> +Makefile*
+> +*.mak
 
-make 'MODLIB=$(INSTALL_MOD_PATH)/usr/lib/modules/$(KERNELRELEASE)'
+Can we have Kconfig* here also?
+thanks.
 
-However, this middle part of MODLIB is independently hardcoded by
-rpm-pkg, and when the user alters MODLIB this is not reflected when
-building the package.
+> +
+> +# semantic patches
+> +*.cocci
+> +
+> +# headers
+> +*.h
+> +
+> +# code
+> +*.c
 
-Given that $(INSTALL_MOD_PATH) is overridden during the rpm package build
-it is likely going to be empty. Then MODLIB can be passed to the rpm
-package, and used in place of the whole
-/usr/lib/modules/$(KERNELRELEASE) part.
-
-Signed-off-by: Michal Suchanek <msuchanek@suse.de>
----
- scripts/package/kernel.spec | 14 +++++++-------
- scripts/package/mkspec      |  1 +
- 2 files changed, 8 insertions(+), 7 deletions(-)
-
-diff --git a/scripts/package/kernel.spec b/scripts/package/kernel.spec
-index ac3f2ee6d7a0..1a727f636f67 100644
---- a/scripts/package/kernel.spec
-+++ b/scripts/package/kernel.spec
-@@ -67,8 +67,8 @@ cp $(%{make} %{makeflags} -s image_name) %{buildroot}/boot/vmlinuz-%{KERNELRELEA
- %{make} %{makeflags} INSTALL_HDR_PATH=%{buildroot}/usr headers_install
- cp System.map %{buildroot}/boot/System.map-%{KERNELRELEASE}
- cp .config %{buildroot}/boot/config-%{KERNELRELEASE}
--ln -fns /usr/src/kernels/%{KERNELRELEASE} %{buildroot}/lib/modules/%{KERNELRELEASE}/build
--ln -fns /usr/src/kernels/%{KERNELRELEASE} %{buildroot}/lib/modules/%{KERNELRELEASE}/source
-+ln -fns /usr/src/kernels/%{KERNELRELEASE} %{buildroot}%{MODLIB}/build
-+ln -fns /usr/src/kernels/%{KERNELRELEASE} %{buildroot}%{MODLIB}/source
- %if %{with_devel}
- %{make} %{makeflags} run-command KBUILD_RUN_COMMAND='${srctree}/scripts/package/install-extmod-build %{buildroot}/usr/src/kernels/%{KERNELRELEASE}'
- %endif
-@@ -99,9 +99,9 @@ fi
- 
- %files
- %defattr (-, root, root)
--/lib/modules/%{KERNELRELEASE}
--%exclude /lib/modules/%{KERNELRELEASE}/build
--%exclude /lib/modules/%{KERNELRELEASE}/source
-+%{MODLIB}
-+%exclude %{MODLIB}/build
-+%exclude %{MODLIB}/source
- /boot/*
- 
- %files headers
-@@ -112,6 +112,6 @@ fi
- %files devel
- %defattr (-, root, root)
- /usr/src/kernels/%{KERNELRELEASE}
--/lib/modules/%{KERNELRELEASE}/build
--/lib/modules/%{KERNELRELEASE}/source
-+%{MODLIB}/build
-+%{MODLIB}/source
- %endif
-diff --git a/scripts/package/mkspec b/scripts/package/mkspec
-index d41608efb747..d41b2e5304ac 100755
---- a/scripts/package/mkspec
-+++ b/scripts/package/mkspec
-@@ -18,6 +18,7 @@ fi
- cat<<EOF
- %define ARCH ${ARCH}
- %define KERNELRELEASE ${KERNELRELEASE}
-+%define MODLIB ${MODLIB}
- %define pkg_release $("${srctree}/init/build-version")
- EOF
- 
 -- 
-2.41.0
-
+~Randy
