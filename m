@@ -2,28 +2,28 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A2FB79B861
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Sep 2023 02:08:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0DF5E79B7C1
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Sep 2023 02:07:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241942AbjIKVtU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 11 Sep 2023 17:49:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34240 "EHLO
+        id S239364AbjIKVtR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 11 Sep 2023 17:49:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50608 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239431AbjIKOUY (ORCPT
+        with ESMTP id S242251AbjIKPZ4 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 11 Sep 2023 10:20:24 -0400
+        Mon, 11 Sep 2023 11:25:56 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23189DE;
-        Mon, 11 Sep 2023 07:20:20 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40CB2C433C9;
-        Mon, 11 Sep 2023 14:20:19 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCD99D8;
+        Mon, 11 Sep 2023 08:25:51 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECF2CC433C8;
+        Mon, 11 Sep 2023 15:25:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1694442019;
-        bh=JpP4gv6uEdrlOpykRilY6IteShTWWrRS6fPBzRzDhlo=;
+        s=korg; t=1694445951;
+        bh=8/6+KG0FZJN+OPTG6EeDl2K5ZOjK3JRC0tgCXBuvO+Q=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=k4RQXLvaOUJnISX/OR2Sf9Bzsr18ukNxpfucYz6N5aV91fbWfUQM8Rxx2EKmuWHlc
-         In78hfPIaRxa1vfJvsiv3YYk8JWxytbviWufSwdp/HmVWsK6HHoaG+TQyw7dj1ONfA
-         QvUd/AWSZ3w6N8Ma1TXERcaxeiQrnolLbq9T//4E=
+        b=VkBdJh42eC9h8RmLKS2c6TnRAgYNSEOhP9000lCHnKhz+YdxZpmYYySN0WjHGc/w3
+         /UJEupLvL+kU/vViOMNNTxF+yf/Wjjfph6vXsMffq5kdbzzrEJD6XcoT8JVl63DPQD
+         fR7lyROg5+jCuMUdyfGWL93rF5FaBTsGjiuW655s=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     stable@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -40,12 +40,12 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Nicolas Schier <nicolas@fjasle.eu>,
         linux-kbuild@vger.kernel.org, alsa-devel@alsa-project.org,
         Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 6.5 618/739] um: Fix hostaudio build errors
-Date:   Mon, 11 Sep 2023 15:46:57 +0200
-Message-ID: <20230911134708.362272167@linuxfoundation.org>
+Subject: [PATCH 6.1 512/600] um: Fix hostaudio build errors
+Date:   Mon, 11 Sep 2023 15:49:05 +0200
+Message-ID: <20230911134648.730492117@linuxfoundation.org>
 X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20230911134650.921299741@linuxfoundation.org>
-References: <20230911134650.921299741@linuxfoundation.org>
+In-Reply-To: <20230911134633.619970489@linuxfoundation.org>
+References: <20230911134633.619970489@linuxfoundation.org>
 User-Agent: quilt/0.67
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -61,7 +61,7 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-6.5-stable review patch.  If anyone has any objections, please let me know.
+6.1-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
@@ -124,10 +124,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  5 files changed, 7 insertions(+), 15 deletions(-)
 
 diff --git a/arch/um/configs/i386_defconfig b/arch/um/configs/i386_defconfig
-index 630be793759e2..e543cbac87925 100644
+index c0162286d68b7..c33a6880a437a 100644
 --- a/arch/um/configs/i386_defconfig
 +++ b/arch/um/configs/i386_defconfig
-@@ -34,6 +34,7 @@ CONFIG_TTY_CHAN=y
+@@ -35,6 +35,7 @@ CONFIG_TTY_CHAN=y
  CONFIG_XTERM_CHAN=y
  CONFIG_CON_CHAN="pts"
  CONFIG_SSL_CHAN="pts"
@@ -136,10 +136,10 @@ index 630be793759e2..e543cbac87925 100644
  CONFIG_DEVTMPFS=y
  CONFIG_DEVTMPFS_MOUNT=y
 diff --git a/arch/um/configs/x86_64_defconfig b/arch/um/configs/x86_64_defconfig
-index 8540d33702726..939cb12318cae 100644
+index bec6e5d956873..df29f282b6ac2 100644
 --- a/arch/um/configs/x86_64_defconfig
 +++ b/arch/um/configs/x86_64_defconfig
-@@ -32,6 +32,7 @@ CONFIG_TTY_CHAN=y
+@@ -33,6 +33,7 @@ CONFIG_TTY_CHAN=y
  CONFIG_XTERM_CHAN=y
  CONFIG_CON_CHAN="pts"
  CONFIG_SSL_CHAN="pts"
@@ -148,7 +148,7 @@ index 8540d33702726..939cb12318cae 100644
  CONFIG_DEVTMPFS=y
  CONFIG_DEVTMPFS_MOUNT=y
 diff --git a/arch/um/drivers/Kconfig b/arch/um/drivers/Kconfig
-index 36911b1fddcf0..b94b2618e7d84 100644
+index 5903e2b598aae..fe0210eaf9bb6 100644
 --- a/arch/um/drivers/Kconfig
 +++ b/arch/um/drivers/Kconfig
 @@ -111,24 +111,14 @@ config SSL_CHAN
@@ -180,7 +180,7 @@ index 36911b1fddcf0..b94b2618e7d84 100644
  
  menu "UML Network Devices"
 diff --git a/arch/um/drivers/Makefile b/arch/um/drivers/Makefile
-index a461a950f0518..0e6af81096fd5 100644
+index 65b449c992d2c..079556ec044b8 100644
 --- a/arch/um/drivers/Makefile
 +++ b/arch/um/drivers/Makefile
 @@ -54,7 +54,7 @@ obj-$(CONFIG_UML_NET) += net.o
@@ -193,7 +193,7 @@ index a461a950f0518..0e6af81096fd5 100644
  obj-$(CONFIG_PORT_CHAN) += port.o
  obj-$(CONFIG_PTY_CHAN) += pty.o
 diff --git a/sound/Kconfig b/sound/Kconfig
-index 0ddfb717b81dc..466e848689bd1 100644
+index e56d96d2b11ca..1903c35d799e1 100644
 --- a/sound/Kconfig
 +++ b/sound/Kconfig
 @@ -1,7 +1,7 @@
