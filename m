@@ -2,82 +2,157 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EA80B79D41B
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Sep 2023 16:53:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E7BB479D543
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Sep 2023 17:48:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232192AbjILOxe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 12 Sep 2023 10:53:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58102 "EHLO
+        id S229661AbjILPsq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 12 Sep 2023 11:48:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51766 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229835AbjILOxd (ORCPT
+        with ESMTP id S230510AbjILPsp (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 12 Sep 2023 10:53:33 -0400
-Received: from cmx-torrgo002.bell.net (mta-tor-005.bell.net [209.71.212.37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1BADB115;
-        Tue, 12 Sep 2023 07:53:29 -0700 (PDT)
-X-RG-CM-BuS: 0
-X-RG-CM-SC: 0
-X-RG-CM: Clean
-X-Originating-IP: [174.88.80.174]
-X-RG-Env-Sender: dave.anglin@bell.net
-X-RG-Rigid: 64C351170481E878
-X-CM-Envelope: MS4xfCmkAkW7W9v4MCwkU99pydEEZuIfDBpw5wY41n/g4Ig8ymFil3yAGTxtX2+qFi78Yef/k0DfKSja6LECxgBDsEpSMVicOHEV0eD0pkA2lOu004THcs2v
- BM0DT7xy8MzSsNUsSSsrItf+I5hz+jYCxtIRYZpsazlKvTA8aMzEf37Qq6FtgXKJ7jwdFuH2Fda+6gbb2SlOzagVW2FZvKl+yVrfWo/oT9im/QivGj0fkW4f
- z6pwuqmgBQ6SvP625dCnXZesy/PJs7PPB9XHo7ahTG5w5uAP1oQd5BAlfQOaUK58+wipU24THlKNqsW/qNCclqpcz1n4dS7b2EeYHKcLfqgLfbEqUbvw3SEi
- kf/+VX0bf1hQ2JINkLQJAC8v/2hGbTQr0VV5c37uHKsZamMQzqDUKPUGkNWsaqSs+bsgCgZ7hLfOvs9euf4ZCKsKn7wc1A==
-X-CM-Analysis: v=2.4 cv=GskhRm5C c=1 sm=1 tr=0 ts=65007b5d
- a=NkkRUIc9Fga6GQ4JCcDOLQ==:117 a=NkkRUIc9Fga6GQ4JCcDOLQ==:17
- a=IkcTkHD0fZMA:10 a=_A5TAQVKAAAA:8 a=FBHGMhGWAAAA:8 a=C-rdEVRR2vpOvYCaZmQA:9
- a=QEXdDO2ut3YA:10 a=ypw9U9_ytwuNp2HAL0_X:22 a=9gvnlMMaQFpL9xblJ6ne:22
-Received: from [192.168.2.49] (174.88.80.174) by cmx-torrgo002.bell.net (5.8.814) (authenticated as dave.anglin@bell.net)
-        id 64C351170481E878; Tue, 12 Sep 2023 10:53:17 -0400
-Message-ID: <bac3d143-7730-c406-14e0-72a7dfbc8d7b@bell.net>
-Date:   Tue, 12 Sep 2023 10:53:14 -0400
+        Tue, 12 Sep 2023 11:48:45 -0400
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62E1410E5
+        for <linux-kbuild@vger.kernel.org>; Tue, 12 Sep 2023 08:48:41 -0700 (PDT)
+Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-401f68602a8so63283395e9.3
+        for <linux-kbuild@vger.kernel.org>; Tue, 12 Sep 2023 08:48:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1694533720; x=1695138520; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qir5/GADT6C25YxBC4a/ulJ8wEdWqJzoZGXrPaN77dA=;
+        b=XJAkfePDn+MX+A31Y49f0pL933m81jNQXt2Lbq0qmwK5AhKfTG1i2RgdDoQDgciLL9
+         +iQh4Dc0TwNfFmq5Q2xrTqe4IWaB+xTUgY/lzlhOnZlaom0U1E7Vn/xBNvNXKbWVQY2I
+         1/24XnCj1xt25VtZFeq9Q9JpZJXTTjGJVmlVxPhEu1XD77qGplzSAwavz6ZblekH7AGg
+         RjjXPUe99iaspZdN3vk6rKPo3aMe+euCe+kYSm6iTWy8JuRX3MjSZsLlsfQgAK80tcfa
+         cIKrO8ZAEvQ+kKhDU/fcqSC8/PBxMJQfb3Bj+8buijvLO1Xya8JPSfI3s53mzE8Hknfk
+         3jHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694533720; x=1695138520;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qir5/GADT6C25YxBC4a/ulJ8wEdWqJzoZGXrPaN77dA=;
+        b=hdN4CTDC1CgP/Fz6zxA1i90tdA2d50/Pp6CbOXl92T2LB6WQNikk+px5gLg+Pe0y3B
+         +b5f83bCorD+5boQEPlfkAE4zfvmXYFA4l4wRtmUISvXQMF9bVuRmOTixz05DUGtxvAC
+         qoDYFIzrNaMZ3B8F7im0RBHDIS5t2QDRJ+HU0ITKFl+p13XipHwG3C7LFbegQzlyDKxV
+         JUN99778ttkX+IvVn1WDkLZhWPBWTm0lceMZGLjdCXMZAcesw0/AtnP2q4/EvXXBtQ/d
+         MZ2Z1guferUyu/LvR/qXuieF5BD8vUZd5fSSDQZbWvO70Y7t44dLvh7Kzqtp/79HCfH2
+         /zBA==
+X-Gm-Message-State: AOJu0YzQWzz9lkiQsktqcGZmaiEgAnrFXKllTgheDXb/C8ExTk3/JEiO
+        sq+ptms0KJSYufZi1w1+INvq3HhDVltgCykoLVo=
+X-Google-Smtp-Source: AGHT+IEVTKA0CaBtBFNx8PXTtui/wqeMjFQcOulAVIdtRSIn30x+cSy9hnqedOue5NJNNf5+OioREw==
+X-Received: by 2002:a5d:4f0c:0:b0:317:e68d:f862 with SMTP id c12-20020a5d4f0c000000b00317e68df862mr9826813wru.37.1694533719832;
+        Tue, 12 Sep 2023 08:48:39 -0700 (PDT)
+Received: from P-ASN-ECS-830T8C3.numericable.fr ([89.159.1.53])
+        by smtp.gmail.com with ESMTPSA id o21-20020adfa115000000b0031f9bdb79dasm7717445wro.61.2023.09.12.08.48.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Sep 2023 08:48:39 -0700 (PDT)
+From:   Yoann Congal <yoann.congal@smile.fr>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        Yoann Congal <yoann.congal@smile.fr>
+Subject: [PATCH v3] kconfig: avoid an infinite loop in oldconfig/syncconfig
+Date:   Tue, 12 Sep 2023 17:48:11 +0200
+Message-Id: <20230912154811.1338390-1-yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH] linux/export: fix reference to exported functions for
- parisc64
-Content-Language: en-US
-To:     Helge Deller <deller@gmx.de>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-parisc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>
-References: <20230905190828.790400-1-masahiroy@kernel.org>
- <c8a92dc8-de78-7484-bcc8-d4a91bec77de@bell.net>
- <c6568683-86b4-c48d-ed37-f1f87677eb44@bell.net>
- <97859bf1-c8c3-7294-8322-b0c9c408ba5e@bell.net>
- <CAK7LNAR_4rVgAQToSoYmbgYnWoSpowcrKi2ciiH9HyhJUGdmWg@mail.gmail.com>
- <CAK7LNAQQ1Vp4YtvU8Bq9aE+NWxnnOTX2dcZ5Gc9fC+vjRmCe4w@mail.gmail.com>
- <CAK7LNATktSBFe=7cE8kHEGx2R90iVV6AJsCfgg5ZD2+ssMmzow@mail.gmail.com>
- <040a0941-936b-87ab-aedd-5a933383b500@bell.net>
- <2eb1f861-d66f-edb3-17cd-84c90d92083d@gmx.de>
- <d04d6acf-ad2c-e93d-9927-f1e937c7f1e5@bell.net>
- <1870f4dc-fba4-26e9-6ec8-43e23cdeef12@gmx.de>
-From:   John David Anglin <dave.anglin@bell.net>
-In-Reply-To: <1870f4dc-fba4-26e9-6ec8-43e23cdeef12@gmx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 2023-09-12 10:05 a.m., Helge Deller wrote:
-> On 9/12/23 15:20, John David Anglin wrote:
->> It occurs consistently on my c8000 but I'm having difficulty bisecting it.  Trying a bisect
->> with --first-parent.
->
-> I just tried to boot the v6.6-rc1 with Masahiro's patch on c8000, and it succeeds as well.
-> I've copied my pre-built kernel here:
-> http://backup.parisc-linux.org/kernel/linux-image-6.6.0-rc1-dirty_6.6.0-rc1-250_hppa.deb
->
-> So, I think Masahiro's patch is basically ok and probably isn't the root cause
-> for your udev issues below.
-I agree.  I see the udev issue with the above kernel.  Continuing to bisect mainline.
+Exit on error when asking for value and reading stdin returns an error
+(mainly if it has reached EOF or is closed).
 
-Dave
+This infinite loop happens in particular for hex/int configs without an
+explicit default value.
 
+Previously, this case would loop:
+* oldconfig prompts for the value but stdin has reached EOF
+* It gets the global default value : an empty string
+* This is not a valid hex/int value so it prompts again, hence the
+  infinite loop.
+
+This case happens with a configuration like this (a hex config without a
+valid default value):
+  config TEST_KCONFIG
+       hex "Test KConfig"
+       # default 0x0
+
+And using:
+  make oldconfig < /dev/null
+
+This was discovered when working on Yocto bug[0] on a downstream
+kconfig user (U-boot)
+
+[0]: https://bugzilla.yoctoproject.org/show_bug.cgi?id=14136
+
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+---
+v2->v3:
+ * Simplify the patch by fusing comments of :
+   * Masahiro Yamada : Exit as soon as reading stdin hits an error
+   * Randy Dunlap : Display the name of the currently read symbol
+
+v1->v2:
+ * Improve coding style
+ * Put more info in the commit message 
+
+ scripts/kconfig/conf.c | 19 +++++++++++++++----
+ 1 file changed, 15 insertions(+), 4 deletions(-)
+
+diff --git a/scripts/kconfig/conf.c b/scripts/kconfig/conf.c
+index 33d19e419908b..68f0c649a805e 100644
+--- a/scripts/kconfig/conf.c
++++ b/scripts/kconfig/conf.c
+@@ -74,13 +74,17 @@ static void strip(char *str)
+ }
+ 
+ /* Helper function to facilitate fgets() by Jean Sacren. */
+-static void xfgets(char *str, int size, FILE *in)
++static int xfgets(char *str, int size, FILE *in)
+ {
++	int ret = 0;
++
+ 	if (!fgets(str, size, in))
+-		fprintf(stderr, "\nError in reading or end of file.\n");
++		ret = -1;
+ 
+ 	if (!tty_stdio)
+ 		printf("%s", str);
++
++	return ret;
+ }
+ 
+ static void set_randconfig_seed(void)
+@@ -339,7 +343,10 @@ static int conf_askvalue(struct symbol *sym, const char *def)
+ 		/* fall through */
+ 	default:
+ 		fflush(stdout);
+-		xfgets(line, sizeof(line), stdin);
++		if (xfgets(line, sizeof(line), stdin) != 0) {
++			fprintf(stderr, "Error while reading value of symbol \"%s\"\n", sym->name);
++			exit(1);
++		}
+ 		break;
+ 	}
+ 
+@@ -521,7 +528,11 @@ static int conf_choice(struct menu *menu)
+ 			/* fall through */
+ 		case oldaskconfig:
+ 			fflush(stdout);
+-			xfgets(line, sizeof(line), stdin);
++			if (xfgets(line, sizeof(line), stdin) != 0) {
++				fprintf(stderr, "Error while reading value of symbol \"%s\"\n",
++						sym->name);
++				exit(1);
++			}
+ 			strip(line);
+ 			if (line[0] == '?') {
+ 				print_help(menu);
 -- 
-John David Anglin  dave.anglin@bell.net
+2.30.2
 
