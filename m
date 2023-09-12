@@ -2,153 +2,254 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ECDD779C7BA
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Sep 2023 09:09:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3835A79C8B9
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Sep 2023 09:53:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231229AbjILHJS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 12 Sep 2023 03:09:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55034 "EHLO
+        id S231774AbjILHxy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 12 Sep 2023 03:53:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230182AbjILHJR (ORCPT
+        with ESMTP id S231186AbjILHxx (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 12 Sep 2023 03:09:17 -0400
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B66BFC4;
-        Tue, 12 Sep 2023 00:09:13 -0700 (PDT)
-Received: from kwepemd500002.china.huawei.com (unknown [172.30.72.56])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4RlF5H1z05zrSjt;
-        Tue, 12 Sep 2023 15:07:15 +0800 (CST)
-Received: from [10.40.193.166] (10.40.193.166) by
- kwepemd500002.china.huawei.com (7.221.188.104) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.1258.23; Tue, 12 Sep 2023 15:09:10 +0800
-Subject: Re: [PATCH 11/19] kbuild: rpm-pkg: use a dummy string for _arch when
- undefined
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        <linux-kbuild@vger.kernel.org>
-References: <20230722044806.3867434-1-masahiroy@kernel.org>
- <20230722044806.3867434-11-masahiroy@kernel.org>
-CC:     <linux-kernel@vger.kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>
-From:   "chenxiang (M)" <chenxiang66@hisilicon.com>
-Message-ID: <4780dc94-653b-7ae4-0f50-45af625726e7@hisilicon.com>
-Date:   Tue, 12 Sep 2023 15:09:10 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.2.0
+        Tue, 12 Sep 2023 03:53:53 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95739E78;
+        Tue, 12 Sep 2023 00:53:49 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E5E2C433CA;
+        Tue, 12 Sep 2023 07:53:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1694505229;
+        bh=vzB3LIA1z0/wCi7ZCm6mXrxoTMuvofC+wO3dSIHccsE=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Yb4nyA3w6L2SD5tDqPRSE1ZjRvoycS+xtXqC9g4eaOZ1mIkaNpX3+EjgDOISNCIY8
+         zgIyhHLSwotiKtgRSkQxBvO1UejGTZtX+61C62kLa9QvfX/ofOfLMGI1+T/XcKD8/M
+         szfWHOCaLdlHGjERQ6KVhPd7m4yZc4wEFO/az6f7p26LhJzCjSJhuRv7K2TxbBa29p
+         h2CE9QcEOuH9B2ztIYZ2Om1+G55eo3xDb/hUP0pe2C2GfBmS87c/42kScxPjqlXz3O
+         uuDEzz2xqxJ3s/JU/uPNm2PL7ug0RY/7MC0NnbQ8DFWN8/vPvOHcmMoGmU39jEXCqL
+         qRXyCCXS6lMNg==
+Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-3aa1446066aso3690877b6e.1;
+        Tue, 12 Sep 2023 00:53:49 -0700 (PDT)
+X-Gm-Message-State: AOJu0YwejhdR7YSId9kinMg93W8uKobdAydS1e5UcHF4Cd9LFq+qBCCD
+        KxWml2t4n6kOijkO84YGKnjoTBLKCNR1RoAod4k=
+X-Google-Smtp-Source: AGHT+IE6EiAkzrS51ztkq9S+4sGhkm7OjLRVelglK7j4MmP6A4JqcM3HPvNuTjHMSpQFeUi95/Hw0Iy5OEq47LgMaJ8=
+X-Received: by 2002:a05:6870:d114:b0:1bf:61d1:a4d4 with SMTP id
+ e20-20020a056870d11400b001bf61d1a4d4mr15117181oac.6.1694505228587; Tue, 12
+ Sep 2023 00:53:48 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20230722044806.3867434-11-masahiroy@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.40.193.166]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- kwepemd500002.china.huawei.com (7.221.188.104)
-X-CFilter-Loop: Reflected
+References: <20230911234418.38154-2-leobras@redhat.com>
+In-Reply-To: <20230911234418.38154-2-leobras@redhat.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 12 Sep 2023 16:53:11 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASKRoxLwz1jvsbbxv0=JQtySG4O7eN2+_PT6q20G7YT9g@mail.gmail.com>
+Message-ID: <CAK7LNASKRoxLwz1jvsbbxv0=JQtySG4O7eN2+_PT6q20G7YT9g@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 1/1] scripts: Introduce a default git.orderFile
+To:     Leonardo Bras <leobras@redhat.com>
+Cc:     Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi,
-
-I build the latest kernel (6.6-rc1) for arm64 platform on x86 server 
-(with cross complile), and the complile command is as following:
-
-export 
-PATH=$PATH:/opt/gcc-linaro-7.4.1-2019.02-x86_64_aarch64-linux-gnu/bin/
-export ARCH=arm64
-export CROSS_COMPILE=aarch64-linux-gnu-
-
-make -j64 Image (ok)
-
-make binrpm-pkg -j64 (failed)
-
-But when complile binrpm-pkg, it is failed and the error info is as 
-following:
-
-rpmbuild -bb kernel.spec --define='_topdir 
-/home/chenxiang/kernel/mainline/linux-next/rpmbuild' --target 
-aarch64-linux --build-in-place --noprep --define='_smp_mflags %{nil}' 
-$(rpm -q rpm >/dev/null 2>&1 || echo --nodeps) --without devel
-rpmbuild: --build-in-place: unknown option
-make[2]: *** [scripts/Makefile.package:92: binrpm-pkg] Error 1
-make[1]: *** [/home/chenxiang/kernel/mainline/linux-next/Makefile:1538: 
-binrpm-pkg] Error 2
-make: *** [Makefile:234: __sub-make] Error 2
-
-But it is ok with v6.5-rc7, so i bisect the kernel code and find the 
-patch (kbuild: rpm-pkg: use a dummy string for _arch when undefined):
-
-706a741595047797872e (v6.6-rc1) good
-0bb80ecc33a8fb5a6（v6.5-rc7） bad
-[461f35f014466c4e26dca6be0f431f57297df3f2] Merge tag 
-'drm-next-2023-08-30' of git://anongit.freedesktop.org/drm/drm good
-[e925992671907314b7db6793a28eb39b36bc21a4] Merge tag 'staging-6.6-rc1' 
-of git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging good
-[3c31041e37324e143bee98604bb31481e905b4b3] Merge tag 'printk-for-6.6' of 
-git://git.kernel.org/pub/scm/linux/kernel/git/printk/linux    good
-[4a0fc73da97efd23a383ca839e6fe86410268f6b] Merge tag 's390-6.6-2' of 
-git://git.kernel.org/pub/scm/linux/kernel/git/s390/linux bad
-[61401a8724c2ce912b243ef95427a9b2e5a1ed50] Merge tag 'kbuild-v6.6' of 
-git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild bad
-[2be6bc48df59c99d35aab16a51d4a814e9bb8c35] Merge tag 'leds-next-6.6' of 
-git://git.kernel.org/pub/scm/linux/kernel/git/lee/leds        good
-[3f86ed6ec0b390c033eae7f9c487a3fea268e027] Merge tag 'arc-6.6-rc1' of 
-git://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc good
-[4cdb71b6ba3283fb2b7eaccc333f8f2c5b81797b] sparc: replace #include 
-<asm/export.h> with #include <linux/export.h> bad
-[975667d02d134f7b48d15ee7ff0d49e69a6774cf] kbuild: rpm-pkg: rename 
-binkernel.spec to kernel.spec        bad
-[a06d9ef897d59f719102e2890abd8a2b91e29a60] kbuild: rpm-pkg: record ARCH 
-option in spec file    good
-[d5d2d4cc60888f02dd4a6b2bfb03ff2fd7be4fc2] kbuild: rpm-pkg: derive the 
-Version from %{KERNELRELEASE}    good
-[b537925fdd689ca33b6d9eed4569bc625550b3ef] kbuild: rpm-pkg: run 
-modules_install for non-modular kernel    bad
-[1789fc9125414bd9ca4d50a8966752ee6103d547] kbuild: rpm-pkg: invoke the 
-kernel build from rpmbuild for binrpm-pkg bad
-[d4f651277e9208b580b55da212e17ddd309c91e7] kbuild: rpm-pkg: use a dummy 
-string for _arch when undefined
-
-
-Do you have any idea about this issue?
-
-
-Thanks
-
-Xiang Chen
-
-在 2023/7/22 星期六 12:47, Masahiro Yamada 写道:
-> If this affects only %{buildroot}, it should be enough to use a fixed
-> string for _arch when it is undefined.
+On Tue, Sep 12, 2023 at 8:45=E2=80=AFAM Leonardo Bras <leobras@redhat.com> =
+wrote:
 >
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> When reviewing patches, it looks much nicer to have some changes shown
+> before others, which allow better understanding of the patch before the
+> the .c files reviewing.
+>
+> Introduce a default git.orderFile, in order to help developers getting th=
+e
+> best ordering easier.
+>
+> Signed-off-by: Leonardo Bras <leobras@redhat.com>
 > ---
 >
->   scripts/package/mkspec | 5 ++---
->   1 file changed, 2 insertions(+), 3 deletions(-)
+> Please provide feedback on what else to add / remove / reorder here!
 >
-> diff --git a/scripts/package/mkspec b/scripts/package/mkspec
-> index 783e1997d94a..22b980cf3d00 100755
-> --- a/scripts/package/mkspec
-> +++ b/scripts/package/mkspec
-> @@ -36,6 +36,8 @@ sed -e '/^DEL/d' -e 's/^\t*//' <<EOF
->   %define ARCH ${ARCH}
->   %define KERNELRELEASE ${KERNELRELEASE}
->   
-> +# _arch is undefined if /usr/lib/rpm/platform/*/macros was not included.
-> +%{!?_arch: %define _arch dummy}
->   %{!?make: %define make make}
->   %define makeflags %{?_smp_mflags} ARCH=%{ARCH}
->   
-> @@ -55,9 +57,6 @@ $S	BuildRequires: bc binutils bison dwarves
->   $S	BuildRequires: (elfutils-libelf-devel or libelf-devel) flex
->   $S	BuildRequires: gcc make openssl openssl-devel perl python3 rsync
->   
-> -	# $UTS_MACHINE as a fallback of _arch in case
-> -	# /usr/lib/rpm/platform/*/macros was not included.
-> -	%{!?_arch: %define _arch $UTS_MACHINE}
->   	%define __spec_install_post /usr/lib/rpm/brp-compress || :
->   	%define debug_package %{nil}
->   
+> Changes since RFCv1:
+> - Added Kconfig* (thanks Randy Dunlap!)
+> - Changed Kbuild to Kbuild* (improve matching)
+>
+>  scripts/git.orderFile | 32 ++++++++++++++++++++++++++++++++
+>  1 file changed, 32 insertions(+)
+>  create mode 100644 scripts/git.orderFile
+>
+> diff --git a/scripts/git.orderFile b/scripts/git.orderFile
+> new file mode 100644
+> index 000000000000..819f0a957fe3
+> --- /dev/null
+> +++ b/scripts/git.orderFile
+> @@ -0,0 +1,32 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +
 
+
+Please use "# SPDX-License-Identifier: GPL-2.0".
+
+/* ... */ is not a valid comment style for the orderfile.
+
+
+
+
+> +# order file for git, to produce patches which are easier to review
+> +# by diffing the important stuff like header changes first.
+> +#
+> +# one-off usage:
+> +#   git diff -O scripts/git.orderfile ...
+> +#
+> +# add to git config:
+> +#   git config diff.orderFile scripts/git.orderfile
+
+
+These comments are bogus.
+
+
+I guess this comment header was copied from QEMU,
+but you changed the file path
+from scripts/git.orderfile to scripts/git.orderFile.
+
+
+You need to adjust the comment lines to
+
+
+    git diff -O scripts/git.orderFile ...
+
+    git config diff.orderFile scripts/git.orderFile
+
+
+
+Or, you need to get the file path back to scripts/git.orderfile
+
+
+
+
+
+
+
+
+> +#
+> +
+> +MAINTAINERS
+> +
+> +# Documentation
+> +Documentation/*
+> +*.rst
+> +
+> +# build system
+> +Kbuild*
+> +Kconfig*
+> +Makefile*
+
+
+Kbuild* and Makefile* are interchangeable.
+(both are for GNU Make)
+
+Kconfig* are different types.
+
+
+Better to arrange the order to
+
+Kconfig*
+Kbuild*
+Makefile*
+
+
+
+
+
+> +*.mak
+
+QEMU consistently uses only *.mak.
+
+I just realized the kernel tree uses both *.mak and *.mk
+
+masahiro@zoe:~/ref/linux(master)$ find .  -name '*.mak'
+./tools/scripts/utilities.mak
+masahiro@zoe:~/ref/linux(master)$ find .  -name '*.mk'
+./tools/testing/selftests/lib.mk
+./tools/testing/selftests/ptp/testptp.mk
+
+
+
+
+
+BTW, I quickly tested this, but
+it did not work as I expected.
+
+
+
+
+
+masahiro@zoe:~/ref/linux(aaa)$ git diff --name-only d34599b^..d34599b
+MAINTAINERS
+drivers/Kconfig
+drivers/Makefile
+drivers/cache/Kconfig
+drivers/cache/Makefile
+drivers/cache/ax45mp_cache.c
+
+masahiro@zoe:~/ref/linux(aaa)$ git diff --name-only -O
+scripts/git.orderFile d34599b^..d34599b
+MAINTAINERS
+drivers/cache/ax45mp_cache.c
+drivers/Kconfig
+drivers/Makefile
+drivers/cache/Kconfig
+drivers/cache/Makefile
+
+masahiro@zoe:~/ref/linux(aaa)$ git diff --name-only -O
+scripts/git.orderFile d34599b..d34599b^
+MAINTAINERS
+drivers/cache/ax45mp_cache.c
+drivers/Kconfig
+drivers/Makefile
+drivers/cache/Kconfig
+drivers/cache/Makefile
+
+
+
+
+
+My expectation was the following:
+
+MAINTAINERS
+drivers/Kconfig
+drivers/cache/Kconfig
+drivers/Makefile
+drivers/cache/Makefile
+drivers/cache/ax45mp_cache.c
+
+
+It did not work like that.
+Am I missing something?
+
+
+
+
+
+> +
+> +# semantic patches
+> +*.cocci
+> +
+> +# headers
+> +*.h
+> +
+> +# code
+> +*.c
+> --
+> 2.42.0
+>
+
+
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
