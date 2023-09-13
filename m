@@ -2,175 +2,163 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A3F479E176
-	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Sep 2023 10:06:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8952679E3DF
+	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Sep 2023 11:37:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231742AbjIMIGX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 13 Sep 2023 04:06:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33254 "EHLO
+        id S239287AbjIMJh0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 13 Sep 2023 05:37:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58264 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238803AbjIMIGT (ORCPT
+        with ESMTP id S239027AbjIMJhZ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 13 Sep 2023 04:06:19 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B4A2198A;
-        Wed, 13 Sep 2023 01:06:15 -0700 (PDT)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out1.suse.de (Postfix) with ESMTP id 3AEA9215EE;
-        Wed, 13 Sep 2023 08:06:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1694592374; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
+        Wed, 13 Sep 2023 05:37:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id ACBD819AD
+        for <linux-kbuild@vger.kernel.org>; Wed, 13 Sep 2023 02:36:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1694597798;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=UVXZO7W2/QCPPSKGU4H/Fe8rerhR3cSJZGyrzhYOvmk=;
-        b=c03TtHJub3JTBDiTKedrTnB0QDOzSi2Gsnh8FR5Ihkc9N8R+HeZbMLOSnj0ZzzdNveD47f
-        5cMbweHy0EppeoPtIdyuib6XERK/XWEoh8bu7YFwf1zvUvNCT3Hqj4lP6BhKSkJ/01PqUb
-        Jga5QzIe7QA9YgzG9VuBwblqEZY0XkE=
-Received: from suse.cz (pmladek.udp.ovpn2.prg.suse.de [10.100.201.202])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 5A20E2C146;
-        Wed, 13 Sep 2023 08:06:12 +0000 (UTC)
-Date:   Wed, 13 Sep 2023 10:06:12 +0200
-From:   Petr Mladek <pmladek@suse.com>
-To:     Alessandro Carminati <alessandro.carminati@gmail.com>
-Cc:     Alexander Lobakin <aleksander.lobakin@intel.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Daniel Bristot de Oliveira <bristot@kernel.org>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Luis Chamberlain <mcgrof@kernel.org>,
+        bh=DJ+QIh3H2QPLinO4CDP/6iKCpBl9xv64ep1natwynMA=;
+        b=X6CIjgD96s3Drp0rOP402PbxAojpwCXAUKzgcPNzTFTM4lAHC6PcEDGp3Ce6KxyBcr+WsS
+        xVqd34Ppdc6oq4vNSWpkKC6QNvg2YZqKGY5eNgmiwTdEUFD2KGHb+RCj83kiIpLx159bhn
+        QyNjBQpuzf94T5rYcNDuPsqzALKkW0Y=
+Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com
+ [209.85.167.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-250-8yz22NuaM7Gc9_TpKBGp_g-1; Wed, 13 Sep 2023 05:36:37 -0400
+X-MC-Unique: 8yz22NuaM7Gc9_TpKBGp_g-1
+Received: by mail-oi1-f198.google.com with SMTP id 5614622812f47-3ac97b9577cso1494952b6e.2
+        for <linux-kbuild@vger.kernel.org>; Wed, 13 Sep 2023 02:36:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694597797; x=1695202597;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DJ+QIh3H2QPLinO4CDP/6iKCpBl9xv64ep1natwynMA=;
+        b=RlZ1RyXFknxkk9OYkElcb8kugCXv9pTRgVrIaTklPKmL+Rv7aBMXJETHdzjjaAczDp
+         dEDbbxTnYogleGRo2enHF5qF6z2Ri3QzHb/jXcfLz3M4M/0O7jtditi1+2s27R6pNZ4l
+         ENjLK4+rx1NXDsVkPE8/EBkuog71KxCF8HO+k7+/5Bx305fK0Y+/YwCy0YPXbAzi4kdy
+         slYi2hJ5HxeL8HczOeZtnqsN7u1bCuPouFMbfXnhezjWOl6BvfwT8yoSt5J3fpn4ollT
+         G5gO7r9KbU8YM4vvTUummv46aRuaQzLS9hgGy+sNABGZgohwVkKDXg29zHaX/mjrpJSZ
+         KQnQ==
+X-Gm-Message-State: AOJu0YwK2TBW2x/UBF11v0Uv+PTuFjzGik/W7ajxQOyYPcfrv/jnLszV
+        2tgpwaPvElVxqL3j95XlO/G0IaLoDtup5UUb2SvhGDUTwcmafIHorvdJxuiJYSBW5s22h2MqMME
+        xDsJtcCaXZ+DEgKh4Wd+HlKqH
+X-Received: by 2002:a05:6808:3ce:b0:3a7:4914:23ce with SMTP id o14-20020a05680803ce00b003a7491423cemr2063426oie.18.1694597796841;
+        Wed, 13 Sep 2023 02:36:36 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHvjKOmMhtyjJ532/geuZfUf3OFFZTDFonEaSQPBLq+sck2pHXEaLfPfI857g5j08bJ8heIFQ==
+X-Received: by 2002:a05:6808:3ce:b0:3a7:4914:23ce with SMTP id o14-20020a05680803ce00b003a7491423cemr2063411oie.18.1694597796633;
+        Wed, 13 Sep 2023 02:36:36 -0700 (PDT)
+Received: from redhat.com ([2804:1b3:a803:4ff9:7c29:fe41:6aa7:43df])
+        by smtp.gmail.com with ESMTPSA id a11-20020a05680802cb00b003a1d29f0549sm4978523oid.15.2023.09.13.02.36.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Sep 2023 02:36:36 -0700 (PDT)
+Date:   Wed, 13 Sep 2023 06:36:31 -0300
+From:   Leonardo Bras <leobras@redhat.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Nicolas Schier <nicolas@fjasle.eu>,
-        Nick Alcock <nick.alcock@oracle.com>,
-        Kris Van Hees <kris.van.hees@oracle.com>,
-        Eugene Loh <eugene.loh@oracle.com>,
-        Francis Laniel <flaniel@linux.microsoft.com>,
-        Viktor Malik <vmalik@redhat.com>, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-        live-patching@vger.kernel.org
-Subject: Re: [PATCH v3] scripts/link-vmlinux.sh: Add alias to duplicate
- symbols for kallsyms
-Message-ID: <ZQFtdJEKJ9taYpA0@alley>
-References: <20230828080423.3539686-1-alessandro.carminati@gmail.com>
- <d385548e-9788-2814-05c9-bb0f275b233f@intel.com>
- <CAPp5cGSHdU6z2J=bUYkXMOakFzSWzjeCznTsV=DrTSvWmaqStA@mail.gmail.com>
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
+Subject: Re: [RFC PATCH v4 1/1] scripts: Introduce a default git.orderFile
+Message-ID: <ZQGCnwDMTQ6cH2ZJ@redhat.com>
+References: <20230913075550.90934-2-leobras@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAPp5cGSHdU6z2J=bUYkXMOakFzSWzjeCznTsV=DrTSvWmaqStA@mail.gmail.com>
+In-Reply-To: <20230913075550.90934-2-leobras@redhat.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue 2023-09-12 16:18:00, Alessandro Carminati wrote:
-> <aleksander.lobakin@intel.com> ha scritto:
-> > From: Alessandro Carminati (Red Hat) <alessandro.carminati@gmail.com>
-> > > sample from new v3
-> > >
-> > >  ~ # cat /proc/kallsyms | grep gic_mask_irq
-> > >  ffffd0b03c04dae4 t gic_mask_irq
-> > >  ffffd0b03c04dae4 t gic_mask_irq@_drivers_irqchip_irq-gic_c_167
-> > >  ffffd0b03c050960 t gic_mask_irq
-> > >  ffffd0b03c050960 t gic_mask_irq@_drivers_irqchip_irq-gic-v3_c_404
-> >
-> > BTW, why normalize them? Why not just
-> >
-> > gic_mask_irq@drivers/irqchip/...
-> >
-> > Aaaaand why line number? Line numbers break reproducible builds and also
-> > would make it harder to refer to a particular symbol by its path and
-> > name since we also have to pass its line number which may change once
-> > you add a debug print there, for example.
-> > OTOH there can't be 2 symbols with the same name within one file, so
-> > just path + name would be enough. Or not?
-
-I am afraid that there can be more symbols with the same name in a
-single source file. For example, static variables defined inside
-functions:
-
-$> cat >test-duplicate-symbols.c <<EOT
-#include <stdio.h>
-
-void a(void)
-{
-	static int duplicate_var = 100;
-
-	printf("%s: %d\n", __func__, duplicate_var);
-}
-
-void b(void)
-{
-	static int duplicate_var = 200;
-
-	printf("%s: %d\n", __func__, duplicate_var);
-}
-
-int main(int argc, char *argv)
-{
-	a();
-	b();
-}
-EOT
-
-$> gcc -o test-duplicate-symbols test-duplicate-symbols.c
-
-$> ./test-duplicate-symbols 
-a: 100
-b: 200
-
-$> objdump -t test-duplicate-symbols | grep duplicate
-test-duplicate-symbols:     file format elf64-x86-64
-0000000000000000 l    df *ABS*  0000000000000000              test-duplicate-symbols.c
-0000000000402018 l     O .data  0000000000000004              duplicate_var.2190
-000000000040201c l     O .data  0000000000000004              duplicate_var.2195
+CC: linux-kbuild@vger.kernel.org
+(typo on the original Cc: line)
 
 
-> Regarding the use of full file paths and line numbers for symbol decoration,
-> it indeed provides the highest level of uniqueness for each symbol.
-> However, I understand your point that this level of detail might be more than
-> necessary.
+On Wed, Sep 13, 2023 at 04:55:50AM -0300, Leonardo Bras wrote:
+> When reviewing patches, it looks much nicer to have some changes shown
+> before others, which allow better understanding of the patch before the
+> the .c files reviewing.
 > 
-> This approach was implemented in response to a specific request expressed in
-> the live-patching list, and I wanted to ensure we met those requirements.
-> I am open to revisiting this aspect, and I am willing to accommodate changes
-> based on feedback.
+> Introduce a default git.orderFile, in order to help developers getting the
+> best ordering easier.
+> 
+> Signed-off-by: Leonardo Bras <leobras@redhat.com>
+> Acked-by: Randy Dunlap <rdunlap@infradead.org>
+> ---
+> 
+> Please provide feedback on what else to add / remove / reorder here!
+> 
+> Changes since RFCv3:
+> - Added "*types.h" matching so type headers appear before reguler headers
+> - Removed line ends ($) in patterns: they previously provided a 
+>   false-positive
+> - Fixed build patterns to allow matching Kconfig, Kbuild & Makefile
+>   in any subdirectory
+> 
+> Changes since RFCv2:
+> - Fixed licence comment to from /**/ to #
+> - Fixed filename in how-to comment
+> - Fix build order: Kconfig -> Kbuild -> Makefile
+> - Add *.mk extension 
+> - Add line-ends ($) to make sure and get the correct extensions
+> - Thanks Masahiro Yamada for above suggestions!
+> - 1 Ack, thanks Randy!
+> 
+> Changes since RFCv1:
+> - Added Kconfig* (thanks Randy Dunlap!)
+> - Changed Kbuild to Kbuild* (improve matching)
+> 
+> 
+>  scripts/git.orderFile | 34 ++++++++++++++++++++++++++++++++++
+>  1 file changed, 34 insertions(+)
+>  create mode 100644 scripts/git.orderFile
+> 
+> diff --git a/scripts/git.orderFile b/scripts/git.orderFile
+> new file mode 100644
+> index 000000000000..7cef02cbba3c
+> --- /dev/null
+> +++ b/scripts/git.orderFile
+> @@ -0,0 +1,34 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +
+> +# order file for git, to produce patches which are easier to review
+> +# by diffing the important stuff like header changes first.
+> +#
+> +# one-off usage:
+> +#   git diff -O scripts/git.orderFile ...
+> +#
+> +# add to git config:
+> +#   git config diff.orderFile scripts/git.orderFile
+> +#
+> +
+> +MAINTAINERS
+> +
+> +# Documentation
+> +Documentation/*
+> +*.rst
+> +
+> +# build system
+> +*Kconfig*
+> +*Kbuild*
+> +*Makefile*
+> +*.mak
+> +*.mk
+> +
+> +# semantic patches
+> +*.cocci
+> +
+> +# headers
+> +*types.h
+> +*.h
+> +
+> +# code
+> +*.c
+> -- 
+> 2.42.0
+> 
 
-Yeah, livepatching needs to be able to find any symbol which might
-need to be accessed from the livepatch.
-
-The line number is perfectly fine for livepatching because there
-is 1:1:1 relationship between the kernel sources, binary, and
-livepatch.
-
-And it might be even useful for the tracing. It helps to find
-and investigate the traced code easily.
-
-Hmm, I understand that it complicates the live for the trace
-tooling. I wonder if we could allow searching the symbols
-with a pattern, e.g. the bash style
-"duplicated_symbol_name-source_file_c*"
-
-
-> If you believe that simplifying the format to just path + name would be more
-> practical, or if you think that eliminating line numbers is a better choice
-> to avoid potential issues while debugging builds, I'm open to considering
-> these adjustments.
-> Additionally, I've interpreted and implemented Francis's suggestion as making
-> the separator a configurable option, but maybe a proper format string here,
-> would be more appropriate.
-
-Please, do not make the format configurable. I think that it will
-cause more harm than good. It would make the life more complicated
-for developing tracing tools.
-
-The tools would need to support all the formats as well. Or they
-would support only some and will not be able to trace kernels
-with the others. Both is bad.
-
-Anyway, thanks a lot for working on this.
-
-Best Regards,
-Petr
