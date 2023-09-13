@@ -2,63 +2,71 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D64279EAFF
-	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Sep 2023 16:26:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 31B5C79EE0B
+	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Sep 2023 18:11:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230467AbjIMO0F (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 13 Sep 2023 10:26:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50594 "EHLO
+        id S229830AbjIMQLb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 13 Sep 2023 12:11:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232025AbjIMO0E (ORCPT
+        with ESMTP id S229437AbjIMQLb (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 13 Sep 2023 10:26:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4256391
-        for <linux-kbuild@vger.kernel.org>; Wed, 13 Sep 2023 07:25:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1694615118;
+        Wed, 13 Sep 2023 12:11:31 -0400
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D293EE54;
+        Wed, 13 Sep 2023 09:11:26 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (dkzdf0gkyyyyyyyyyyyyt-3.rev.dnainternet.fi [IPv6:2001:14ba:4506:4f15::1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4Rm56g4ffDz49Q8K;
+        Wed, 13 Sep 2023 19:11:23 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1694621484;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=i1FsUnDJXEh3xrup97UKPyi5G29wmRkoOl4jHD/nSRg=;
-        b=BebGtRFZaDxf8v1/Xc6D2VgbyXXjbwFZTAQloOXB9JjdAlV3jJB5sKjPhQhf/3UIU1qDnD
-        25v4FBwjHMMP0t6FRM73DqMGwx8PxFNu/aI35/0iBWgTjuJrB4etv6PYT50fqchxlq5c//
-        dot1BKBEFz5SxJcKcZ4+dC99nuRqBxo=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-621-MGPLC2rcMpG2riZRJCzUwg-1; Wed, 13 Sep 2023 10:25:17 -0400
-X-MC-Unique: MGPLC2rcMpG2riZRJCzUwg-1
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4011fa32e99so51997045e9.0
-        for <linux-kbuild@vger.kernel.org>; Wed, 13 Sep 2023 07:25:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694615115; x=1695219915;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=i1FsUnDJXEh3xrup97UKPyi5G29wmRkoOl4jHD/nSRg=;
-        b=bZuosFm/KvH6cbEk1ZqKGQKRKdD5jcypR/zGHepzSPNsIvbGEojutRWGS0Rr2Rl2Pp
-         aRE4akDSIsuHsv3+d96xInJ5dbPQN+jhCYqN4OjqCxjWvCiQSk+yjP1y099r3AVD/FLA
-         4zBm7IwN17yfRYhl3/SoRZt9huo3+fxT5NxiC8KuW6/lsJwANWmACYwkfGPIYpuu5aI4
-         4P939+FhPap3w4dOHUzdQjYZUjDt8DysHvG+qnBusoUNhVX4o4JwA2Q/GdMAA9KY+CyK
-         A8iY3ZQafsf/xMowp7btpiLawj9foxlR5BTTSs3T1Kw1PvVtfVMAFiOJKudSNMrr3nLE
-         apbw==
-X-Gm-Message-State: AOJu0YxjwzLWIEces9D8oX5xsfa+Cm8IM3MrK6MACGBE8OkNy/2YKq6H
-        3SkKZcgTRyM4WHmPG1YoepgOAVqDO0Ta7bO+zSrS1+5XRwfhFxPF651bHqPthLx5Tk+KWm+vfWj
-        iv0tew/j3tzBVBgXaYMS50UmVBvgOqgQX
-X-Received: by 2002:a05:600c:3b10:b0:402:eab6:e704 with SMTP id m16-20020a05600c3b1000b00402eab6e704mr2127403wms.29.1694615115676;
-        Wed, 13 Sep 2023 07:25:15 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGN0t8yz3+zH7LDMFjVxmF3tnVkdjJhcoCATJjm6CztmjCnnjLfigAOYlLj+//qxaHPIO3cjg==
-X-Received: by 2002:a05:600c:3b10:b0:402:eab6:e704 with SMTP id m16-20020a05600c3b1000b00402eab6e704mr2127388wms.29.1694615115372;
-        Wed, 13 Sep 2023 07:25:15 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id l14-20020a1c790e000000b003fe4ca8decdsm2186260wme.31.2023.09.13.07.25.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Sep 2023 07:25:15 -0700 (PDT)
-From:   Javier Martinez Canillas <javierm@redhat.com>
-To:     Arnd Bergmann <arnd@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>, Arnd Bergmann <arnd@arndb.de>,
+        bh=h7a8ucP8OlgMP9E+mR6T6bGim5pEzo2GJ/i2Eh3LWM0=;
+        b=dvuZb93e7L3oxNJKpK86FYe3Xqe7STvJcUGiX+Igo/U8tYiTgjBA0Y+F2dkMxFXsWo/URB
+        kmPiKE51biJGIjoBc72Kfs5FCZaGA+jnxXJ3ZgrleyLMIw4+nZsIQcxQFKv6d/wJFRlw8l
+        8nrWr7ikzP0xxUhOQ9k05xtKjNSc3Hcneb8GK+Dt6ESBSK6nGp6G8J4SoRwdfiAn1q62eS
+        B0UUrfp2s1EafjsWJIQpwUz+ySkgZIk2qssn2Mp/mxgfvkGwQ0SG514L6tEvD4v7jGifG6
+        sdGZvmdnE+yH/TO78TD/pJ/2MGgMED9soYro+53O0+cA/dF47/Q280kZcLu0CA==
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1694621484; a=rsa-sha256;
+        cv=none;
+        b=jw3c6YFGnkevAnDThOYIu3Zo0N4jiwrMZcjTHHYhmsPxLdLkGHLebwr1O/GYMZq1TUcUgw
+        DUK0U31dCqX9DLRlnFIzr4zL1aho/6JERXKNlXAHLWfArktmZ2T1tE0bk7v2CB9Np1ICRf
+        KePK2sFvnIE7auSMApr8LanjjCjvg3yFbjUmeLAq09Zo4R3yDXw6kslWu/U04q8YI5Pefo
+        Hk6XSGs3R04kCtgHTIbGsAwVRq6GljZA6riiSBZA0EaoYmCmOtNnM94fjR9E/LG1cNDrs1
+        ZCL0CDyW3FSKN+IP3wifDnCD9NcupJlgIqkJ24F+++undg4ZZr0wssO93Cg/2g==
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1694621484;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=h7a8ucP8OlgMP9E+mR6T6bGim5pEzo2GJ/i2Eh3LWM0=;
+        b=P90duSPX7iW+S1/qtb3uibnavvblmKeGv0mI0Gy8iTFO0jNYtubY8STk4RTdjdFs7Lwuwk
+        GsEz7ukF7u/o5za9pxkN5tFG8UeUYnB5r6Epr7y3bvveeJXn0CTjeOkg6lrXJ4t65MlqJY
+        Po3DS9yUDRKwszN9dRW3cJiAfqUv55Ogxs2pmI26+7V1VHkXsy4TfWKovK92GofXmMlvTf
+        D0ICv/qSy76MI/1dyIUFWmWNVaCaABlvWwUuFPESddK1EW0r8ZxSRHDPPRL2pe1spuhGj3
+        ToZfWIMbzVqNsXQlr7Fxu6AvcdMePHRfdMUEzozkEI5Gu7B71sJZI0cU3M3Hkw==
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 1805A634C93;
+        Wed, 13 Sep 2023 19:11:23 +0300 (EEST)
+Date:   Wed, 13 Sep 2023 16:11:22 +0000
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Arnd Bergmann <arnd@kernel.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Nicolas Schier <nicolas@fjasle.eu>,
@@ -66,41 +74,29 @@ Cc:     Sakari Ailus <sakari.ailus@iki.fi>, Arnd Bergmann <arnd@arndb.de>,
         linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] Documentation: kbuild: explain handling optional
  dependencies
-In-Reply-To: <20230913113801.1901152-1-arnd@kernel.org>
+Message-ID: <ZQHfKuGcX07/xW2k@valkosipuli.retiisi.eu>
 References: <20230913113801.1901152-1-arnd@kernel.org>
-Date:   Wed, 13 Sep 2023 16:25:14 +0200
-Message-ID: <878r9a1779.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230913113801.1901152-1-arnd@kernel.org>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Arnd Bergmann <arnd@kernel.org> writes:
-
-Hello Arnd,
-
+On Wed, Sep 13, 2023 at 01:37:52PM +0200, Arnd Bergmann wrote:
 > From: Arnd Bergmann <arnd@arndb.de>
->
+> 
 > This problem frequently comes up in randconfig testing, with
 > drivers failing to link because of a dependency on an optional
 > feature.
->
+> 
 > The Kconfig language for this is very confusing, so try to
 > document it in "Kconfig hints" section.
->
+> 
 > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
 
-Thanks for writing this since as you mention that Kconfig idiom is not
-intuitive. The docs looks great to me!
-
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+Sakari Ailus
