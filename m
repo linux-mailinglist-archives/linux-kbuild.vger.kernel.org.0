@@ -2,288 +2,167 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EF5D679F0BA
-	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Sep 2023 19:59:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D0F8679F25C
+	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Sep 2023 21:50:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230301AbjIMR7D (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 13 Sep 2023 13:59:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45668 "EHLO
+        id S230146AbjIMTuI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 13 Sep 2023 15:50:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34338 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231288AbjIMR7C (ORCPT
+        with ESMTP id S229642AbjIMTuH (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 13 Sep 2023 13:59:02 -0400
-Received: from cmx-torrgo001.bell.net (mta-tor-005.bell.net [209.71.212.37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5738819AE;
-        Wed, 13 Sep 2023 10:58:58 -0700 (PDT)
-X-RG-CM-BuS: 0
-X-RG-CM-SC: 0
-X-RG-CM: Clean
-X-Originating-IP: [142.126.114.79]
-X-RG-Env-Sender: dave.anglin@bell.net
-X-RG-Rigid: 64E8850702155EF7
-X-CM-Envelope: MS4xfJR4UwFrrXPfSVf1tW21nqw4GOtI07UJpBtO4Y9gQAa466he4fgDzzdGZbOUKKq2Sw8yeGzmrigtEVDhWHZHKpuFyrMjL+HRuL7YInssIf/sfmWUr4je
- JNvH3zCZs6EXlkzTaaMk4WRkWgBAgJLJ5OCRLGJxYU6JK4b4Nu/49J5HM7R+ujTxg9M4CIkprB/v5ZSZ63tkbXcjsOo7Knw20zaEOc8FpbUY+zAkpJLkuS0a
- vUruOz3kCuKpT5WYxS1ngmjiByv1UVN1xPHPIIj6Anxt5weD31puaBfM6MgkcXfkVolifcBTsDKUNzX6+wH5j04NAsd53oRYdgP2uWgZFqKuhoPWWxg9n+b1
- btx80CJOh90acLNxx+bbKU27HQ/7VGSyWiQ+gkSrYNePB6GFWtJlvbOftWeGLBJtnxtx5Iv5gqE3xhH7F9cOlByR9j+SrYB8yNbnHkaM5DzrvB612X+qYbst
- G0mTHl2lMJh+IMGK
-X-CM-Analysis: v=2.4 cv=UM++oATy c=1 sm=1 tr=0 ts=6501f850
- a=qwLmA0wx3TwW38sY+xTbUA==:117 a=qwLmA0wx3TwW38sY+xTbUA==:17
- a=IkcTkHD0fZMA:10 a=Z4Rwk6OoAAAA:8 a=VwQbUJbxAAAA:8 a=JF9118EUAAAA:8
- a=58xqZnKBAAAA:8 a=yPCof4ZbAAAA:8 a=FBHGMhGWAAAA:8 a=xnLxSwGL0S8bTUT4AxgA:9
- a=QEXdDO2ut3YA:10 a=HkZW87K1Qel5hWWM3VKY:22 a=AjGcO6oz07-iQ99wixmX:22
- a=xVlTc564ipvMDusKsbsT:22 a=ys0uu9INkvWFKRHAnSH-:22
- a=9gvnlMMaQFpL9xblJ6ne:22
-Received: from [192.168.2.49] (142.126.114.79) by cmx-torrgo001.bell.net (5.8.814) (authenticated as dave.anglin@bell.net)
-        id 64E8850702155EF7; Wed, 13 Sep 2023 13:58:40 -0400
-Message-ID: <4fee8886-daa3-fb03-f9e7-89358fb5fc38@bell.net>
-Date:   Wed, 13 Sep 2023 13:58:40 -0400
+        Wed, 13 Sep 2023 15:50:07 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A61B3B7;
+        Wed, 13 Sep 2023 12:50:01 -0700 (PDT)
+Received: from leknes.fjasle.eu ([46.142.99.40]) by mrelayeu.kundenserver.de
+ (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1N4yuK-1rhSFF1ufU-010y5j; Wed, 13 Sep 2023 21:48:45 +0200
+Received: by leknes.fjasle.eu (Postfix, from userid 1000)
+        id 96B483E928; Wed, 13 Sep 2023 21:48:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
+        t=1694634522; bh=dNCzMB7kZKbtu0SVV6D5vezQPGOeLJzdXPIlY9nn0HY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=geeh/i7seOFMHSGVnQ+Sj/uRyKKjwcvJl5CNhOXyrSrFDp6gwJvkdktKjxdM1rF6b
+         X7smwIJYI2wKSqnwC9zKw/vql8yLkMlXw1WEr6FhD3NTpbxsrtPqt7orN/y5DktjwA
+         3AEXv8Dw7URUCG3krehbxcFdeomCZq3ShPrvM4jQ=
+Date:   Wed, 13 Sep 2023 21:48:42 +0200
+From:   Nicolas Schier <nicolas@fjasle.eu>
+To:     Arnd Bergmann <arnd@kernel.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: kbuild: explain handling optional
+ dependencies
+Message-ID: <ZQISGujwlH00B8KJ@fjasle.eu>
+References: <20230913113801.1901152-1-arnd@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH] linux/export: fix reference to exported functions for
- parisc64
-Content-Language: en-US
-From:   John David Anglin <dave.anglin@bell.net>
-To:     Helge Deller <deller@gmx.de>,
-        James Bottomley <James.Bottomley@HansenPartnership.com>,
-        Damien Le Moal <dlemoal@kernel.org>
-Cc:     linux-parisc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>
-References: <20230905190828.790400-1-masahiroy@kernel.org>
- <c8a92dc8-de78-7484-bcc8-d4a91bec77de@bell.net>
- <c6568683-86b4-c48d-ed37-f1f87677eb44@bell.net>
- <97859bf1-c8c3-7294-8322-b0c9c408ba5e@bell.net>
- <CAK7LNAR_4rVgAQToSoYmbgYnWoSpowcrKi2ciiH9HyhJUGdmWg@mail.gmail.com>
- <CAK7LNAQQ1Vp4YtvU8Bq9aE+NWxnnOTX2dcZ5Gc9fC+vjRmCe4w@mail.gmail.com>
- <CAK7LNATktSBFe=7cE8kHEGx2R90iVV6AJsCfgg5ZD2+ssMmzow@mail.gmail.com>
- <040a0941-936b-87ab-aedd-5a933383b500@bell.net>
- <b919c7fd-babb-5557-dd8d-c2b8bb428d54@bell.net>
-In-Reply-To: <b919c7fd-babb-5557-dd8d-c2b8bb428d54@bell.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="qj5NqfuKdfJbnsCm"
+Content-Disposition: inline
+In-Reply-To: <20230913113801.1901152-1-arnd@kernel.org>
+X-Provags-ID: V03:K1:iov+urfCVmemenuqZraQFTvmuNIwec5MwwsVygNgb5VgPZRcRFa
+ QM7bFZWPE2qmRpIDd0eXsnnlb0iTv65I3DihInST+a7rHu/LeYuiHMMEwa0F8tszNYw4nP2
+ ZO8hNBGZ/ApwY2MFMNkWF3pWdG0/SEZvHWo2PjPA5F7uQETqlzVhEuLTMB9MZmWXvRUk0nZ
+ 1+aq6jXzluTS8bI2UHYfA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:CgZAQY0OLjY=;Fux1I7niPh29pTUhtkaavJ0GIgG
+ 1ZW4aV3JsJVWnnhLwRAeoPRf0iV8ppt8mqVghSTfBi+CB0zKLHEb1jfMSgEySlzkjRmCLQjaz
+ bGCy1mls/cUX2U7q7+tPxUhJNhSM18BVXhSqoyEy2ndim2Z3MZ1voCGJVMjDjCAn8IJO7D+IJ
+ SkdJIMTJRD4mzRAlrEF6ELnn2b77lFISbroBuPWjflMDLUbk/wHEaMcyzESOC8MF+/p5zr2j2
+ KqJcozzCNqYGhCxL1AJ5ueT0a6x0wET9kxU1z3WbLCR9J4ogoSdXVvFSvAHUwZLHLqXleCfMR
+ RCSVkR1I9kt44BWTU5nl9Zq0uJMRJ+7gxn3+d9Nn/xtR1delOlpdAuF277Hn0kI7B9rDEixVi
+ uUkg8C3ChBNnX7CgIe7xgkDQjPDDQ+0kF4I/xKgKBFC9C2+tfPjha1ePzXWh7axftF6XWOsa/
+ hS+a/taZnDdp+83ue0nMOA3BGJUw/IFdquZevOXIiz8UJXwxDN+EUUqIdSt/SxZOPnFI3qSpe
+ wWS+8hiEAyq4dSMqR8diz2pqmPqTi87m/mxxafXM+C5ZZzTfbfhES/5WnJ5dcNE1hL6elPAGG
+ qDgnPIgIQUK1s/UXEBhhC9xuC4YLijg7UIMJILzQnilLODThDEuJ/7MHnItTJeL0U6lmTVmRH
+ p+eAzwAoAy4rzr2ruE6/n7gaalR0/dWF5gAqdu5gVrzbnypB8GobaJgdy89FCQkjp3txggNP6
+ zD78D9wcdShhomR6V5qtKCwnpVTKbjbTdwmquL3gn2GbHxao/ui/waNDHlDqDks4qIvEUs4Al
+ 9ElJI9WOLEHdsKv4v3fKluIRIlVhOGO5pd5m54eM93PWxRCatw/G5fPkmAHERb7neOWPWTRnj
+ 4iY0Iv74ZqrC+iA==
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 2023-09-12 5:53 p.m., John David Anglin wrote:
-> On 2023-09-10 5:30 p.m., John David Anglin wrote:
->> Hi Masahiro,
->>
->> The attached change fixed boot at ddb5cdbafaaa 😁
->>
->> However, v6.5.x boot is still broken:
->>
->> Run /init as init process
->> process '/usr/bin/sh' started with executable stack
->> Loading, please wait...
->> Starting systemd-udevd version 254.1-3
->> e1000 alternatives: applied 0 out of 569 patches
->> e1000: Intel(R) PRO/1000 Network Driver
->> e1000: Copyright (c) 1999-2006 Intel Corporation.
->> scsi_mod alternatives: applied 0 out of 7 patches
->> SCSI subsystem initialized
->> usbcore alternatives: applied 0 out of 18 patches
->> usbcore: registered new interface driver usbfs
->> libata alternatives: applied 0 out of 3 patches
->> usbcore: registered new interface driver hub
->> usbcore: registered new device driver usb
->> mptbase alternatives: applied 0 out of 73 patches
->> ehci_hcd alternatives: applied 0 out of 114 patches
->> sata_sil24 alternatives: applied 0 out of 56 patches
->> Fusion MPT base driver 3.04.20
->> Copyright (c) 1999-2008 LSI Corporation
->> sata_sil24 0000:00:01.0: Applying completion IRQ loss on PCI-X errata fix
->> scsi host0: sata_sil24
->> scsi host1: sata_sil24
->> pata_sil680 0000:60:02.0: sil680: 133MHz clock.
->> scsi host2: sata_sil24
->> ehci_pci alternatives: applied 0 out of 2 patches
->> ohci_hcd alternatives: applied 0 out of 144 patches
->> ehci-pci 0000:60:01.2: EHCI Host Controller
->> scsi host3: pata_sil680
->> ehci-pci 0000:60:01.2: new USB bus registered, assigned bus number 1
->> scsi host4: sata_sil24
->> ata1: SATA max UDMA/100 host m128@0xffffffff80088000 port 0xffffffff80080000 ir6
->> ata2: SATA max UDMA/100 host m128@0xffffffff80088000 port 0xffffffff80082000 ir6
->> ata3: SATA max UDMA/100 host m128@0xffffffff80088000 port 0xffffffff80084000 ir6
->> ata4: SATA max UDMA/100 host m128@0xffffffff80088000 port 0xffffffff80086000 ir6
->> e1000 0000:60:03.0 eth0: (PCI:33MHz:32-bit) 00:11:0a:31:8a:77
->> ehci-pci 0000:60:01.2: irq 71, io mem 0xffffffffb00a1000
->> scsi host5: pata_sil680
->> ata5: PATA max UDMA/133 cmd 0x26058 ctl 0x26064 bmdma 0x26040 irq 72
->> ata6: PATA max UDMA/133 cmd 0x26050 ctl 0x26060 bmdma 0x26048 irq 72
->> e1000 0000:60:03.0 eth0: Intel(R) PRO/1000 Network Connection
->> ehci-pci 0000:60:01.2: USB 2.0 started, EHCI 0.95
->> usb usb1: New USB device found, idVendor=1d6b, idProduct=0002, bcdDevice= 6.05
->> usb usb1: New USB device strings: Mfr=3, Product=2, SerialNumber=1
->> usb usb1: Product: EHCI Host Controller
->> usb usb1: Manufacturer: Linux 6.5.2-dirty ehci_hcd
->> usb usb1: SerialNumber: 0000:60:01.2
->> hub 1-0:1.0: USB hub found
->> hub 1-0:1.0: 5 ports detected
->> ata1: SATA link down (SStatus 0 SControl 0)
->> ata2: SATA link down (SStatus 0 SControl 0)
->> ata3: SATA link down (SStatus 0 SControl 0)
->> ata4: SATA link up 3.0 Gbps (SStatus 123 SControl 0)
->> ata4.00: ATA-10: ST4000VN008-2DR166, SC60, max UDMA/133
->> ata4.00: 7814037168 sectors, multi 0: LBA48 NCQ (depth 31/32)
->> ata4.00: configured for UDMA/100
->> scsi 4:0:0:0: Direct-Access     ATA      ST4000VN008-2DR1 SC60 PQ: 0 ANSI: 5
->> ata6.00: ATAPI: HL-DT-STDVD+-RW GSA-H21L, 1.04, max UDMA/44
->> scsi 5:0:0:0: CD-ROM            HL-DT-ST DVD+-RW GSA-H21L 1.04 PQ: 0 ANSI: 5
->> random: crng init done
->> Timed out for waiting the udev queue being empty.
->> Begin: Loading essential drivers ... done.
->> Begin: Running /scripts/init-premount ... done.
->> Begin: Mounting root file system ... Begin: Running /scripts/local-top ... done.
->> Begin: Running /scripts/local-premount ... done.
->> Timed out for waiting the udev queue being empty.
->> Begin: Waiting for root file system ... Begin: Running /scripts/local-block ....
->> Begin: Running /scripts/local-block ... done.
->> Begin: Running /scripts/local-block ... done.
->> Begin: Running /scripts/local-block ... done.
->> Begin: Running /scripts/local-block ... done.
->> Begin: Running /scripts/local-block ... done.
->> Begin: Running /scripts/local-block ... done.
->> Begin: Running /scripts/local-block ... done.
->> Begin: Running /scripts/local-block ... done.
->> Begin: Running /scripts/local-block ... done.
->> Begin: Running /scripts/local-block ... done.
->> Begin: Running /scripts/local-block ... done.
->> Begin: Running /scripts/local-block ... done.
->> Begin: Running /scripts/local-block ... done.
->> Begin: Running /scripts/local-block ... done.
->> Begin: Running /scripts/local-block ... done.
->> Begin: Running /scripts/local-block ... done.
->> Begin: Running /scripts/local-block ... done.
->> Begin: Running /scripts/local-block ... done.
->> done.
->> Gave up waiting for root file system device.  Common problems:
->>  - Boot args (cat /proc/cmdline)
->>    - Check rootdelay= (did the system wait long enough?)
->>  - Missing modules (cat /proc/modules; ls /dev)
->> ALERT!  LABEL=ROOT does not exist.  Dropping to a shell!
->> Rebooting automatically due to panic= boot argument
->>
->> I'll see if I can find the commit that breaks 6.5.
-> I've traced this to the following merge commit:
->
-> dave@atlas:~/linux/linux$ git bisect good
-> ca7ce08d6a063e0ccb91dc57f9bc213120d0d1a7 is the first bad commit
-> commit ca7ce08d6a063e0ccb91dc57f9bc213120d0d1a7
-> Merge: 1546cd4bfda4 af92c02fb209
-> Author: Linus Torvalds <torvalds@linux-foundation.org>
-> Date:   Fri Jun 30 11:57:07 2023 -0700
->
->     Merge tag 'scsi-misc' of git://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi
->
->     Pull SCSI updates from James Bottomley:
->      "Updates to the usual drivers (ufs, pm80xx, libata-scsi, smartpqi,
->       lpfc, qla2xxx).
->
->       We have a couple of major core changes impacting other systems:
->
->        - Command Duration Limits, which spills into block and ATA
->
->        - block level Persistent Reservation Operations, which touches block,
->          nvme, target and dm
->
->       Both of these are added with merge commits containing a cover letter
->       explaining what's going on"
->
->     * tag 'scsi-misc' of git://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi: (187 commits)
->       scsi: core: Improve warning message in scsi_device_block()
->       scsi: core: Replace scsi_target_block() with scsi_block_targets()
->       scsi: core: Don't wait for quiesce in scsi_device_block()
->       scsi: core: Don't wait for quiesce in scsi_stop_queue()
->       scsi: core: Merge scsi_internal_device_block() and device_block()
->       scsi: sg: Increase number of devices
->       scsi: bsg: Increase number of devices
->       scsi: qla2xxx: Remove unused nvme_ls_waitq wait queue
->       scsi: ufs: ufs-pci: Add support for Intel Arrow Lake
->       scsi: sd: sd_zbc: Use PAGE_SECTORS_SHIFT
->       scsi: ufs: wb: Add explicit flush_threshold sysfs attribute
->       scsi: ufs: ufs-qcom: Switch to the new ICE API
->       scsi: ufs: dt-bindings: qcom: Add ICE phandle
->       scsi: ufs: ufs-mediatek: Set UFSHCD_QUIRK_MCQ_BROKEN_RTC quirk
->       scsi: ufs: ufs-mediatek: Set UFSHCD_QUIRK_MCQ_BROKEN_INTR quirk
->       scsi: ufs: core: Add host quirk UFSHCD_QUIRK_MCQ_BROKEN_RTC
->       scsi: ufs: core: Add host quirk UFSHCD_QUIRK_MCQ_BROKEN_INTR
->       scsi: ufs: core: Remove dedicated hwq for dev command
->       scsi: ufs: core: mcq: Fix the incorrect OCS value for the device command
->       scsi: ufs: dt-bindings: samsung,exynos: Drop unneeded quotes
->       ...
->
-> dave@atlas:~/linux/linux$ lspci
-> 00:01.0 RAID bus controller: Silicon Image, Inc. SiI 3124 PCI-X Serial ATA Controller (rev 02)
-> 40:01.0 SCSI storage controller: Broadcom / LSI 53c1030 PCI-X Fusion-MPT Dual Ultra320 SCSI (rev 07)
-> 40:01.1 SCSI storage controller: Broadcom / LSI 53c1030 PCI-X Fusion-MPT Dual Ultra320 SCSI (rev 07)
-> 60:01.0 USB controller: NEC Corporation OHCI USB Controller (rev 41)
-> 60:01.1 USB controller: NEC Corporation OHCI USB Controller (rev 41)
-> 60:01.2 USB controller: NEC Corporation uPD72010x USB 2.0 Controller (rev 02)
-> 60:02.0 IDE interface: Silicon Image, Inc. PCI0680 Ultra ATA-133 Host Controller (rev 02)
-> 60:03.0 Ethernet controller: Intel Corporation 82540EM Gigabit Ethernet Controller (rev 02)
-This was introduced by the following commit:
 
-dave@atlas:~/linux/linux$ git bisect good
-624885209f31eb9985bf51abe204ecbffe2fdeea is the first bad commit
-commit 624885209f31eb9985bf51abe204ecbffe2fdeea
-Author: Damien Le Moal <dlemoal@kernel.org>
-Date:   Thu May 11 03:13:41 2023 +0200
+--qj5NqfuKdfJbnsCm
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-     scsi: core: Detect support for command duration limits
+On Wed, Sep 13, 2023 at 01:37:52PM +0200 Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+>=20
+> This problem frequently comes up in randconfig testing, with
+> drivers failing to link because of a dependency on an optional
+> feature.
+>=20
+> The Kconfig language for this is very confusing, so try to
+> document it in "Kconfig hints" section.
+>=20
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
 
-     Introduce the function scsi_cdl_check() to detect if a device supports
-     command duration limits (CDL). Support for the READ 16, WRITE 16, READ 32
-     and WRITE 32 commands are checked using the function scsi_report_opcode()
-     to probe the rwcdlp and cdlp bits as they indicate the mode page defining
-     the command duration limits descriptors that apply to the command being
-     tested.
+Hi Arnd,
 
-     If any of these commands support CDL, the field cdl_supported of struct
-     scsi_device is set to 1 to indicate that the device supports CDL.
+thanks for documenting this!  Three questions below:
 
-     Support for CDL for a device is advertizes through sysfs using the new
-     cdl_supported device attribute. This attribute value is 1 for a device
-     supporting CDL and 0 otherwise.
+>  Documentation/kbuild/kconfig-language.rst | 26 +++++++++++++++++++++++
+>  1 file changed, 26 insertions(+)
+>=20
+> diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kb=
+uild/kconfig-language.rst
+> index 858ed5d80defe..89dea587a469a 100644
+> --- a/Documentation/kbuild/kconfig-language.rst
+> +++ b/Documentation/kbuild/kconfig-language.rst
+> @@ -573,6 +573,32 @@ above, leading to:
+>  	bool "Support for foo hardware"
+>  	depends on ARCH_FOO_VENDOR || COMPILE_TEST
+> =20
+> +Optional dependencies
+> +~~~~~~~~~~~~~~~~~~~~~
+> +
+> +Some drivers are able to optionally use a feature from another module
+> +or build cleanly with that module disabled, but cause a link failure
+> +when trying to use that loadable module from a built-in driver.
+> +
+> +The most common way to express this optional dependency in Kconfig logic
+> +uses the slighly counterintuitive
 
-     Signed-off-by: Damien Le Moal <dlemoal@kernel.org>
-     Reviewed-by: Hannes Reinecke <hare@suse.de>
-     Co-developed-by: Niklas Cassel <niklas.cassel@wdc.com>
-     Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
-     Link: https://lore.kernel.org/r/20230511011356.227789-9-nks@flawful.org
-     Signed-off-by: Martin K. Petersen <martin.petersen@oracle.com>
+slighly -> slightly
 
-  Documentation/ABI/testing/sysfs-block-device |  9 ++++
-  drivers/scsi/scsi.c                          | 81 ++++++++++++++++++++++++++++
-  drivers/scsi/scsi_scan.c                     |  3 ++
-  drivers/scsi/scsi_sysfs.c                    |  2 +
-  include/scsi/scsi_device.h                   |  3 ++
-  5 files changed, 98 insertions(+)
+For better RST compliance: could you explicitly start the code block e.g. by
+appending '::' as in "... counterintuitive::"?
 
-Sometimes I see when booting a bad commit:
-[...]
-Begin: Running /scripts/local-block ... done.
-Begin: Running /scripts/local-block ... done.
-Begin: Running /scripts/local-block ... done.
-done.
-Gave up waiting for root file system device.  Common problems:
-  - Boot args (cat /proc/cmdline)
-    - Check rootdelay= (did the system wait long enough?)
-  - Missing modules (cat /proc/modules; ls /dev)
-ALERT!  LABEL=ROOT does not exist.  Dropping to a shell!
-Rebooting automatically due to panic= boot argument
-ata4: SATA link down (SStatus 0 SControl 0)
-ata5: SATA link down (SStatus 0 SControl 0)
-ata6: SATA link up 3.0 Gbps (SStatus 123 SControl 0)
-ata6.00: ATA-10: ST4000VN008-2DR166, SC60, max UDMA/133
-ata6.00: 7814037168 sectors, multi 0: LBA48 NCQ (depth 31/32)
-ata6.00: configured for UDMA/100
-scsi 5:0:0:0: Direct-Access     ATA      ST4000VN008-2DR1 SC60 PQ: 0 ANSI: 5
+> +
+> +  config FOO
+> +	bool "Support for foo hardware"
+> +	depends on BAR || !BAR
 
-Dave
+are you sure that this is enough?  While testing, I needed to explicitly use
+=3Dy|=3Dn:
 
--- 
-John David Anglin  dave.anglin@bell.net
+    depends on BAR=3Dy || BAR=3Dn
 
+to prevent FOO to be selectable iff BAR=3Dm.
+
+> +
+> +This means that there is either a dependency on BAR that disallows
+> +the combination of FOO=3Dy with BAR=3Dm, or BAR is completely disabled.
+
+For me, this sentence is hard to parse (but I am not a native speaker); what
+about something like this:
+
+This means that FOO can only be enabled, iff BAR is either built-in or
+completely disabled.  If BAR is built as a module, FOO cannot be enabled.
+
+Kind regards,
+Nicolas
+
+--qj5NqfuKdfJbnsCm
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmUCEhkACgkQB1IKcBYm
+EmmgJA/+Juye9CK9p1ddXxiVaMgnc0h6bNPW2duYWRcI3EvdQmVnb6RO0Obvf62D
+fp/lSkg4z6DIGnW3/LKEcx/3AAi6bjSF/TLgrURxUY6gHnRwgkj0NWR067iAXLkJ
+vXlzAOk6eNLk6NvewHxeLtsBK32lInNbHfg3hw3GpP20DY9HFevVVe/painn/a9r
+9TM9XVjwdxMsWLgTvc5s7JicyDMk/PdW2ByZVFINZ7Q/86E9z1eeS5SvUszxsgX5
+gZp2C8nKx90/nuT4Sif9EOMvqjRZvtXuQew8TYVh195J0Fry+zPMjcOyKOSv8Fub
+SRKsPg8hheICkmD3tHFxprKbRash+TgUGEo1+Vzi1p/NhASH5kzLGxKadvy+54Z/
+DJWPlMr6ZSj9vUJngeyqFxvwTVnts2i9oJpRpkQs9qcpmxyg84k5IDlCZxTAnNmp
+1wmAtNH/F2LfQaybnFHshNDDgK+0b6Vz6cSyj2V3godwdsB4Ecq7wqpbKdE6ioeH
+x78t0sWS7eeYcZmduJKxbspuAJ2KwUFZZjMPPwaFXvwNeetM8BsDwZ9Dqyv5owZI
+DTCagFieqmdvIg+jy8KVkAk2BoR0+STsTTFpf5wDtvXYFZIk2/0aq02moN7snAbm
+k23lPOWs9h/sRhXxXW+Hg5D10Jhh5zSqf1Fk0ba3SZb+nZbIT10=
+=N9EP
+-----END PGP SIGNATURE-----
+
+--qj5NqfuKdfJbnsCm--
