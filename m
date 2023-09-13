@@ -2,163 +2,103 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8952679E3DF
-	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Sep 2023 11:37:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A18D79E6F7
+	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Sep 2023 13:38:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239287AbjIMJh0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 13 Sep 2023 05:37:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58264 "EHLO
+        id S240268AbjIMLiO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 13 Sep 2023 07:38:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239027AbjIMJhZ (ORCPT
+        with ESMTP id S237669AbjIMLiN (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 13 Sep 2023 05:37:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id ACBD819AD
-        for <linux-kbuild@vger.kernel.org>; Wed, 13 Sep 2023 02:36:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1694597798;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=DJ+QIh3H2QPLinO4CDP/6iKCpBl9xv64ep1natwynMA=;
-        b=X6CIjgD96s3Drp0rOP402PbxAojpwCXAUKzgcPNzTFTM4lAHC6PcEDGp3Ce6KxyBcr+WsS
-        xVqd34Ppdc6oq4vNSWpkKC6QNvg2YZqKGY5eNgmiwTdEUFD2KGHb+RCj83kiIpLx159bhn
-        QyNjBQpuzf94T5rYcNDuPsqzALKkW0Y=
-Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com
- [209.85.167.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-250-8yz22NuaM7Gc9_TpKBGp_g-1; Wed, 13 Sep 2023 05:36:37 -0400
-X-MC-Unique: 8yz22NuaM7Gc9_TpKBGp_g-1
-Received: by mail-oi1-f198.google.com with SMTP id 5614622812f47-3ac97b9577cso1494952b6e.2
-        for <linux-kbuild@vger.kernel.org>; Wed, 13 Sep 2023 02:36:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694597797; x=1695202597;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DJ+QIh3H2QPLinO4CDP/6iKCpBl9xv64ep1natwynMA=;
-        b=RlZ1RyXFknxkk9OYkElcb8kugCXv9pTRgVrIaTklPKmL+Rv7aBMXJETHdzjjaAczDp
-         dEDbbxTnYogleGRo2enHF5qF6z2Ri3QzHb/jXcfLz3M4M/0O7jtditi1+2s27R6pNZ4l
-         ENjLK4+rx1NXDsVkPE8/EBkuog71KxCF8HO+k7+/5Bx305fK0Y+/YwCy0YPXbAzi4kdy
-         slYi2hJ5HxeL8HczOeZtnqsN7u1bCuPouFMbfXnhezjWOl6BvfwT8yoSt5J3fpn4ollT
-         G5gO7r9KbU8YM4vvTUummv46aRuaQzLS9hgGy+sNABGZgohwVkKDXg29zHaX/mjrpJSZ
-         KQnQ==
-X-Gm-Message-State: AOJu0YwK2TBW2x/UBF11v0Uv+PTuFjzGik/W7ajxQOyYPcfrv/jnLszV
-        2tgpwaPvElVxqL3j95XlO/G0IaLoDtup5UUb2SvhGDUTwcmafIHorvdJxuiJYSBW5s22h2MqMME
-        xDsJtcCaXZ+DEgKh4Wd+HlKqH
-X-Received: by 2002:a05:6808:3ce:b0:3a7:4914:23ce with SMTP id o14-20020a05680803ce00b003a7491423cemr2063426oie.18.1694597796841;
-        Wed, 13 Sep 2023 02:36:36 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHvjKOmMhtyjJ532/geuZfUf3OFFZTDFonEaSQPBLq+sck2pHXEaLfPfI857g5j08bJ8heIFQ==
-X-Received: by 2002:a05:6808:3ce:b0:3a7:4914:23ce with SMTP id o14-20020a05680803ce00b003a7491423cemr2063411oie.18.1694597796633;
-        Wed, 13 Sep 2023 02:36:36 -0700 (PDT)
-Received: from redhat.com ([2804:1b3:a803:4ff9:7c29:fe41:6aa7:43df])
-        by smtp.gmail.com with ESMTPSA id a11-20020a05680802cb00b003a1d29f0549sm4978523oid.15.2023.09.13.02.36.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Sep 2023 02:36:36 -0700 (PDT)
-Date:   Wed, 13 Sep 2023 06:36:31 -0300
-From:   Leonardo Bras <leobras@redhat.com>
+        Wed, 13 Sep 2023 07:38:13 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F4200173E;
+        Wed, 13 Sep 2023 04:38:09 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F97FC433C7;
+        Wed, 13 Sep 2023 11:38:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1694605089;
+        bh=NjwWLoIbmcBjw9qBYI11QfNE6lfJieDTK6MDYKZZGNE=;
+        h=From:To:Cc:Subject:Date:From;
+        b=gZFTatLF1uEsqurqOmmsA3CNkNaxJ0Zw84AnKKp0Lrc864Z/PUFoh0Ngvx5V4G0b4
+         V2BLSg7cbESyA9rSQmqum8mFtbLKnIv/F+l4pICNh8DEmr2RjeAcCO1QyRjhKmOF8+
+         wb5RBUhl6bqGOBLyihYqygeQLm1JYJ5DnNqlmH0th6wKpU5WIxiE4TLvW+4yBA56z1
+         xTU1GKqAbPMKyBtO+vNh5hmQA4Quqbw69FEjrhkJj/uswOEKCnLqMyF+3Ml8zW1vh7
+         fJBjlqnca0EpQ1pRZsG77TESna82DFx9gCdOBc+MFHTct2AQy4h+3IrceCKtLge7wx
+         /wB+YDct+56Jg==
+From:   Arnd Bergmann <arnd@kernel.org>
 To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Nicolas Schier <nicolas@fjasle.eu>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
-Subject: Re: [RFC PATCH v4 1/1] scripts: Introduce a default git.orderFile
-Message-ID: <ZQGCnwDMTQ6cH2ZJ@redhat.com>
-References: <20230913075550.90934-2-leobras@redhat.com>
+        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] Documentation: kbuild: explain handling optional dependencies
+Date:   Wed, 13 Sep 2023 13:37:52 +0200
+Message-Id: <20230913113801.1901152-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230913075550.90934-2-leobras@redhat.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-CC: linux-kbuild@vger.kernel.org
-(typo on the original Cc: line)
+From: Arnd Bergmann <arnd@arndb.de>
 
+This problem frequently comes up in randconfig testing, with
+drivers failing to link because of a dependency on an optional
+feature.
 
-On Wed, Sep 13, 2023 at 04:55:50AM -0300, Leonardo Bras wrote:
-> When reviewing patches, it looks much nicer to have some changes shown
-> before others, which allow better understanding of the patch before the
-> the .c files reviewing.
-> 
-> Introduce a default git.orderFile, in order to help developers getting the
-> best ordering easier.
-> 
-> Signed-off-by: Leonardo Bras <leobras@redhat.com>
-> Acked-by: Randy Dunlap <rdunlap@infradead.org>
-> ---
-> 
-> Please provide feedback on what else to add / remove / reorder here!
-> 
-> Changes since RFCv3:
-> - Added "*types.h" matching so type headers appear before reguler headers
-> - Removed line ends ($) in patterns: they previously provided a 
->   false-positive
-> - Fixed build patterns to allow matching Kconfig, Kbuild & Makefile
->   in any subdirectory
-> 
-> Changes since RFCv2:
-> - Fixed licence comment to from /**/ to #
-> - Fixed filename in how-to comment
-> - Fix build order: Kconfig -> Kbuild -> Makefile
-> - Add *.mk extension 
-> - Add line-ends ($) to make sure and get the correct extensions
-> - Thanks Masahiro Yamada for above suggestions!
-> - 1 Ack, thanks Randy!
-> 
-> Changes since RFCv1:
-> - Added Kconfig* (thanks Randy Dunlap!)
-> - Changed Kbuild to Kbuild* (improve matching)
-> 
-> 
->  scripts/git.orderFile | 34 ++++++++++++++++++++++++++++++++++
->  1 file changed, 34 insertions(+)
->  create mode 100644 scripts/git.orderFile
-> 
-> diff --git a/scripts/git.orderFile b/scripts/git.orderFile
-> new file mode 100644
-> index 000000000000..7cef02cbba3c
-> --- /dev/null
-> +++ b/scripts/git.orderFile
-> @@ -0,0 +1,34 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +# order file for git, to produce patches which are easier to review
-> +# by diffing the important stuff like header changes first.
-> +#
-> +# one-off usage:
-> +#   git diff -O scripts/git.orderFile ...
-> +#
-> +# add to git config:
-> +#   git config diff.orderFile scripts/git.orderFile
-> +#
-> +
-> +MAINTAINERS
-> +
-> +# Documentation
-> +Documentation/*
-> +*.rst
-> +
-> +# build system
-> +*Kconfig*
-> +*Kbuild*
-> +*Makefile*
-> +*.mak
-> +*.mk
-> +
-> +# semantic patches
-> +*.cocci
-> +
-> +# headers
-> +*types.h
-> +*.h
-> +
-> +# code
-> +*.c
-> -- 
-> 2.42.0
-> 
+The Kconfig language for this is very confusing, so try to
+document it in "Kconfig hints" section.
+
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ Documentation/kbuild/kconfig-language.rst | 26 +++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
+
+diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
+index 858ed5d80defe..89dea587a469a 100644
+--- a/Documentation/kbuild/kconfig-language.rst
++++ b/Documentation/kbuild/kconfig-language.rst
+@@ -573,6 +573,32 @@ above, leading to:
+ 	bool "Support for foo hardware"
+ 	depends on ARCH_FOO_VENDOR || COMPILE_TEST
+ 
++Optional dependencies
++~~~~~~~~~~~~~~~~~~~~~
++
++Some drivers are able to optionally use a feature from another module
++or build cleanly with that module disabled, but cause a link failure
++when trying to use that loadable module from a built-in driver.
++
++The most common way to express this optional dependency in Kconfig logic
++uses the slighly counterintuitive
++
++  config FOO
++	bool "Support for foo hardware"
++	depends on BAR || !BAR
++
++This means that there is either a dependency on BAR that disallows
++the combination of FOO=y with BAR=m, or BAR is completely disabled.
++For a more formalized approach if there are multiple drivers that have
++the same dependency, a helper symbol can be used, like
++
++  config FOO
++	bool "Support for foo hardware"
++	depends on BAR_OPTIONAL
++
++  config BAR_OPTIONAL
++	def_tristate BAR || !BAR
++
+ Kconfig recursive dependency limitations
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+-- 
+2.39.2
 
