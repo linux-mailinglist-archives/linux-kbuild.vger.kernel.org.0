@@ -2,144 +2,106 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0368879F93C
-	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Sep 2023 05:57:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BAC979F9AF
+	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Sep 2023 06:59:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234408AbjIND5Q (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 13 Sep 2023 23:57:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47748 "EHLO
+        id S233817AbjINE7K (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 14 Sep 2023 00:59:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36954 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234382AbjIND5Q (ORCPT
+        with ESMTP id S233796AbjINE7J (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 13 Sep 2023 23:57:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1BAE3E6C
-        for <linux-kbuild@vger.kernel.org>; Wed, 13 Sep 2023 20:56:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1694663785;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=63bCgZyJPHacFd5KYq5Eqq1cMFHgnlGhz4az2hRkdwo=;
-        b=T+Er4ggfSw7IiZxRi0ucFtMbOQ7AwSDgbG1mgamrTPn/jkHxF+d3HSS/O6EQFMzZi1lr+6
-        88T9vzU8KAf25T3EzL2k+0SQENgRiPsyRQu2+OwiMnXnF9hH9EcEUh2Z+JDfY8xDGdbu9o
-        TUn7HVzd3ANmj4j8raHsHNhRq1kz41g=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-79-gECRpoQeMCWBJbYLOqCYGg-1; Wed, 13 Sep 2023 23:56:23 -0400
-X-MC-Unique: gECRpoQeMCWBJbYLOqCYGg-1
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-317d5b38194so213460f8f.0
-        for <linux-kbuild@vger.kernel.org>; Wed, 13 Sep 2023 20:56:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694663782; x=1695268582;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=63bCgZyJPHacFd5KYq5Eqq1cMFHgnlGhz4az2hRkdwo=;
-        b=mN98KJTgE0m+9XiE5QigVp4Exr8Dzl0i3EwREOxXE9ThC1W26ntzuBiC+YmQ3NBZkr
-         Vl6vdQo0Kh2Xpst+/K8133flAvjU415l1kZytMr83m7nyhLzvK+6u481rkJOpPl8Pvzk
-         1JcnrS8liAOpXdF1Fu4dRor+sxvzrDS05nKnrU2cv/mznSGaji+V1fGEtZbDVrDbDMTY
-         a2Uu3g07/j1+CnHfeOCXwmqNZ6dcyidN0/vdOP+EM5JKL9vdlJsu2oDb5/X92DHQUT0t
-         bfX/TpWnXC2X0H15ys3TYDwou8Da7KO1ndRMoB1bcr9G4x31q9ULhxJL3yAcsYuPsBiK
-         rIXw==
-X-Gm-Message-State: AOJu0Yw6+9agYLOTG3W8grzUkIX2klHuawD/r7q0/B9cDHPz+UY2Z9z+
-        hSyZtFMRBuL0VqL290QNQzmK/2D8SDRdc3ZNqZkh37r7bLtYFcCbyg9/QNvupbmC3qc4Idh/Zqb
-        yTtFVc0izspXqpLDyegh0FhNa
-X-Received: by 2002:a5d:4d48:0:b0:317:59a6:6f68 with SMTP id a8-20020a5d4d48000000b0031759a66f68mr368722wru.0.1694663782439;
-        Wed, 13 Sep 2023 20:56:22 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG5SPDX1hcn5laq1RA9p9XOS8/g3DnQpW7eGWgRtECgwIvYuRxdyOibR3jv6pK73OtAV++HJw==
-X-Received: by 2002:a5d:4d48:0:b0:317:59a6:6f68 with SMTP id a8-20020a5d4d48000000b0031759a66f68mr368709wru.0.1694663782027;
-        Wed, 13 Sep 2023 20:56:22 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id s1-20020a5d4ec1000000b0031fbbe347e1sm529465wrv.65.2023.09.13.20.56.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Sep 2023 20:56:21 -0700 (PDT)
-From:   Javier Martinez Canillas <javierm@redhat.com>
-To:     Arnd Bergmann <arnd@arndb.de>, Nicolas Schier <nicolas@fjasle.eu>
-Cc:     Arnd Bergmann <arnd@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
+        Thu, 14 Sep 2023 00:59:09 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 657641BCA;
+        Wed, 13 Sep 2023 21:59:03 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E41CBC433CB;
+        Thu, 14 Sep 2023 04:59:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1694667542;
+        bh=wLkWD04B2xa7TQx0D5bra1Q6voiVSSnJawGwOHhDU5o=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=p/CeThb8Ogiec2Ix26s9RcxL50HMIXOLb/uw3MU/sv5Zm3HvbEDs7imVbs+V5VeBM
+         V27rUnWRAGwzPbXCnfU/eC0NWDhruNVLl4YeuTTpDLswR7GsFVSm9UTR13JdVIs9b7
+         jbwsbvsmNG2Kdx4qxRU6iCeQ/lmgYY6lWE6N9DHX+U5RU2oagTTEwxSnaihF/v4sEL
+         dQzLhktxDTY1TLGY3Fdzb2Uw57oDwqtNhvb8DfyFnlIxyiRvv6LNeqDSt60xtAAxBK
+         D6wJT9A8GOnbUf/wKWjOaZ1ncIf6XjoantUNdbLV7L4rnEs2xdPe5ZxGzfJeUSB/Jg
+         ChhJiIWTe8FPw==
+Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-3a9f87adfe1so317842b6e.1;
+        Wed, 13 Sep 2023 21:59:02 -0700 (PDT)
+X-Gm-Message-State: AOJu0YxDpz0yL/QoYqXyAtLFxDWIpXMuXAauyCrbYQGidqqB048P3EPd
+        q0KxpeRu0UnAAa1w7Ux/VaSGaxcH6QVJsAo3R2Q=
+X-Google-Smtp-Source: AGHT+IHZXwwODW3Y9+QVD8PZUEWVkMRt30jsX95KeliUBIRj3Lz5NQiQAY870OUDAhQW02cRCea/+dky6t2nPwzEVpA=
+X-Received: by 2002:a05:6870:9726:b0:1d5:b9e1:d378 with SMTP id
+ n38-20020a056870972600b001d5b9e1d378mr5460840oaq.24.1694667542260; Wed, 13
+ Sep 2023 21:59:02 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230722044806.3867434-1-masahiroy@kernel.org>
+ <20230722044806.3867434-11-masahiroy@kernel.org> <4780dc94-653b-7ae4-0f50-45af625726e7@hisilicon.com>
+In-Reply-To: <4780dc94-653b-7ae4-0f50-45af625726e7@hisilicon.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 14 Sep 2023 13:58:25 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASvgVBZ+zdPX4ExjbYc9rzSFm-VNoN_L=Q2aWj+t_mrnA@mail.gmail.com>
+Message-ID: <CAK7LNASvgVBZ+zdPX4ExjbYc9rzSFm-VNoN_L=Q2aWj+t_mrnA@mail.gmail.com>
+Subject: Re: [PATCH 11/19] kbuild: rpm-pkg: use a dummy string for _arch when undefined
+To:     "chenxiang (M)" <chenxiang66@hisilicon.com>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: kbuild: explain handling optional
- dependencies
-In-Reply-To: <c7c6de7b-4adf-4625-8f09-8f419869161d@app.fastmail.com>
-References: <20230913113801.1901152-1-arnd@kernel.org>
- <ZQISGujwlH00B8KJ@fjasle.eu>
- <b234530c-88fe-4a2a-993c-f1733fe4d0c1@app.fastmail.com>
- <ZQIcuVgaDmA+VdV0@fjasle.eu>
- <c7c6de7b-4adf-4625-8f09-8f419869161d@app.fastmail.com>
-Date:   Thu, 14 Sep 2023 05:56:20 +0200
-Message-ID: <874jjx1k7v.fsf@minerva.mail-host-address-is-not-set>
-MIME-Version: 1.0
-Content-Type: text/plain
+        Nicolas Schier <nicolas@fjasle.eu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-"Arnd Bergmann" <arnd@arndb.de> writes:
-
-Hello Nicolas,
-
-> On Wed, Sep 13, 2023, at 22:34, Nicolas Schier wrote:
->> On Wed, Sep 13, 2023 at 09:55:36PM +0200 Arnd Bergmann wrote:
+On Tue, Sep 12, 2023 at 4:09=E2=80=AFPM chenxiang (M) <chenxiang66@hisilico=
+n.com> wrote:
 >
-
-[...]
-
->> I can choose between:
->>
->> BAR=y  => FOO={N/m/y}
->> BAR=m  => FOO is not selectable
->> BAR=n  => FOO={N/m/y}
+> Hi,
 >
-> That is indeed the point: if BAR=m, we want to be able to pick FOO=m
-> here, otherwise it is impossible to enabled everything as modules.
+> I build the latest kernel (6.6-rc1) for arm64 platform on x86 server
+> (with cross complile), and the complile command is as following:
 >
-> Another correct way to express the same thing as the first would
-> be 
+> export
+> PATH=3D$PATH:/opt/gcc-linaro-7.4.1-2019.02-x86_64_aarch64-linux-gnu/bin/
+> export ARCH=3Darm64
+> export CROSS_COMPILE=3Daarch64-linux-gnu-
 >
-> config FOO
->       tristate "Support for foo hardware"
->       depends on !BAR=m || m
+> make -j64 Image (ok)
 >
-> which I find even more confusing than the 'BAR || !BAR'
-> convention, though we have that in a couple of places.
+> make binrpm-pkg -j64 (failed)
 >
-> I just found another variant that I had not seen before:
+> But when complile binrpm-pkg, it is failed and the error info is as
+> following:
 >
->> (Re-checked with BAR=IPV6 and FOO=WIREGUARD; CONFIG_WIREGUARD as 'depends on
->> IPV6 || !IPV6' in its kconfig definition, and both are tristate kconfig
->> symbols.)
->>
+> rpmbuild -bb kernel.spec --define=3D'_topdir
+> /home/chenxiang/kernel/mainline/linux-next/rpmbuild' --target
+> aarch64-linux --build-in-place --noprep --define=3D'_smp_mflags %{nil}'
+> $(rpm -q rpm >/dev/null 2>&1 || echo --nodeps) --without devel
+> rpmbuild: --build-in-place: unknown option
 
-Which is correct because WIREGUARD can be built with IPV6 disabled, but
-if both options are enabled then WIREGUARD can only be built-in if the
-IPV6 option is also built-in.
 
-WIREGUARD must be a module if IPV6 is also a module, but can still be a
-module if IPV6 is built-in.
+I cannot reproduce it on my build environment,
+but the error message:
 
-In other words, what this idiom express is that the following configs
-are possible:
+  rpmbuild: --build-in-place: unknown option
 
- IPV6=n => WIREGUARD=y
- IPV6=n => WIREGUARD=m
- IPV6=y => WIREGUARD=y
- IPV6=y => WIREGUARD=m
- IPV6=m => WIREGUARD=m
+describes the issue.
 
-but the following option is not possible:
 
- IPV6=m => WIREGUARD=y
+Which version of rpmbuild did you use?
 
--- 
-Best regards,
+Using a newer version fixes the issue?
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
 
+
+
+
+
+
+
+
+--
+Best Regards
+Masahiro Yamada
