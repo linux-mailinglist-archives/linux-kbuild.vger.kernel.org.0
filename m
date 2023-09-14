@@ -2,106 +2,116 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BAC979F9AF
-	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Sep 2023 06:59:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 46F1E79F9BE
+	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Sep 2023 07:05:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233817AbjINE7K (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 14 Sep 2023 00:59:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36954 "EHLO
+        id S234197AbjINFF6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 14 Sep 2023 01:05:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233796AbjINE7J (ORCPT
+        with ESMTP id S233781AbjINFF5 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 14 Sep 2023 00:59:09 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 657641BCA;
-        Wed, 13 Sep 2023 21:59:03 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E41CBC433CB;
-        Thu, 14 Sep 2023 04:59:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694667542;
-        bh=wLkWD04B2xa7TQx0D5bra1Q6voiVSSnJawGwOHhDU5o=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=p/CeThb8Ogiec2Ix26s9RcxL50HMIXOLb/uw3MU/sv5Zm3HvbEDs7imVbs+V5VeBM
-         V27rUnWRAGwzPbXCnfU/eC0NWDhruNVLl4YeuTTpDLswR7GsFVSm9UTR13JdVIs9b7
-         jbwsbvsmNG2Kdx4qxRU6iCeQ/lmgYY6lWE6N9DHX+U5RU2oagTTEwxSnaihF/v4sEL
-         dQzLhktxDTY1TLGY3Fdzb2Uw57oDwqtNhvb8DfyFnlIxyiRvv6LNeqDSt60xtAAxBK
-         D6wJT9A8GOnbUf/wKWjOaZ1ncIf6XjoantUNdbLV7L4rnEs2xdPe5ZxGzfJeUSB/Jg
-         ChhJiIWTe8FPw==
-Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-3a9f87adfe1so317842b6e.1;
-        Wed, 13 Sep 2023 21:59:02 -0700 (PDT)
-X-Gm-Message-State: AOJu0YxDpz0yL/QoYqXyAtLFxDWIpXMuXAauyCrbYQGidqqB048P3EPd
-        q0KxpeRu0UnAAa1w7Ux/VaSGaxcH6QVJsAo3R2Q=
-X-Google-Smtp-Source: AGHT+IHZXwwODW3Y9+QVD8PZUEWVkMRt30jsX95KeliUBIRj3Lz5NQiQAY870OUDAhQW02cRCea/+dky6t2nPwzEVpA=
-X-Received: by 2002:a05:6870:9726:b0:1d5:b9e1:d378 with SMTP id
- n38-20020a056870972600b001d5b9e1d378mr5460840oaq.24.1694667542260; Wed, 13
- Sep 2023 21:59:02 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230722044806.3867434-1-masahiroy@kernel.org>
- <20230722044806.3867434-11-masahiroy@kernel.org> <4780dc94-653b-7ae4-0f50-45af625726e7@hisilicon.com>
-In-Reply-To: <4780dc94-653b-7ae4-0f50-45af625726e7@hisilicon.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 14 Sep 2023 13:58:25 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASvgVBZ+zdPX4ExjbYc9rzSFm-VNoN_L=Q2aWj+t_mrnA@mail.gmail.com>
-Message-ID: <CAK7LNASvgVBZ+zdPX4ExjbYc9rzSFm-VNoN_L=Q2aWj+t_mrnA@mail.gmail.com>
-Subject: Re: [PATCH 11/19] kbuild: rpm-pkg: use a dummy string for _arch when undefined
-To:     "chenxiang (M)" <chenxiang66@hisilicon.com>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Thu, 14 Sep 2023 01:05:57 -0400
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A50A798;
+        Wed, 13 Sep 2023 22:05:53 -0700 (PDT)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+        by mailout.nyi.internal (Postfix) with ESMTP id DFAAA5C0261;
+        Thu, 14 Sep 2023 01:05:52 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute6.internal (MEProxy); Thu, 14 Sep 2023 01:05:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :cc:content-type:content-type:date:date:from:from:in-reply-to
+        :in-reply-to:message-id:mime-version:references:reply-to:sender
+        :subject:subject:to:to; s=fm1; t=1694667952; x=1694754352; bh=r+
+        8a9VVUj2+14lVyHMEam/cUuRe70jim+0p47BeFLEo=; b=Z+7/WfF47uX4rMiGTP
+        BKb5hgzeV8oSsQZXaP9YScBOcQQSRMJU5zaMimcqYwGFzGYSOhUo0UNIpR4IDdic
+        DU7vdcKaGttl7h3PVaZGUvlS1s9pgoMiKaeeeHue20FuaBbPV2kyFIWdYGMf5S6s
+        zZ/2TIB+wZqdlEsv9PrRq3iUQanKCcnHUOdpzbkW4AFi8z8GtID5J+A1GQjd8int
+        owBpw09EKPYQ3FpgV+/B7JpVq18h4l6zBg1CUf0M+bBR7AaJzk1kwFCilk4b/DnY
+        DnYHmdF6qMdOI3BWSEPKB+2lT2Fb+wJvXRrcFXhI44JkImI6GRaAJb4dEaXkAGw4
+        Nymg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:content-type:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm2; t=1694667952; x=1694754352; bh=r+8a9VVUj2+14
+        lVyHMEam/cUuRe70jim+0p47BeFLEo=; b=Tqvu/v3f27xMzAX2a3I635BaKPhVm
+        XxB0STDguy2nwdAKjrj6PC4bTMsDnWwJGOnBZIZFfZhpP4+AeRN1ZuGm1lS5KU5A
+        5i7Gv0R1g6NDtsMiqMNduPN5XlvhBq7t9lJ7JK8BBGN4BkvEYefL4GD2luuWgHAB
+        hZwG4C3lGXKVUDZoK2BTKyFnwWfFUcrWx0JIAUxI1hBTItpes8ZslN8ElI2k13ph
+        f4BSB/rp3s0eX2wvZteO1KxiP2asuwWCnI6IdnXeVH6KDl4OEYNEHTUU2QXwkpGM
+        1DGe7FDdCCEt/X7+0V1t9UIGv8NN57UCrd2bl7T0/OUZWAA2erQshbd0w==
+X-ME-Sender: <xms:sJQCZbVjdHvnk_y5ZhCNzItfpRkrlaRFR7juq1dVnIekICAOcn5Ulg>
+    <xme:sJQCZTku9Up6M9Xy8VuMzF8L9JSEhMeG8Cxu4JM-5tcKmq4-3tsp0VrqdyHlZhmit
+    mvkVjYpnYyViWsysFM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrudeiledgkeelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
+    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+    hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:sJQCZXY82DOye0Fvun6cebJSaGPrTcRqlFXXy1wy0BNxwjANoAyY9A>
+    <xmx:sJQCZWUuD6-If8jHENHwGXPz9681UYFjnEo4GUH0ThBWrZB90kP1_A>
+    <xmx:sJQCZVlDhcS3p7JtF8sxq55vZniiP9tCeGcr1IHMFMFcWv55SiOUyQ>
+    <xmx:sJQCZX4uh7fgGWKnss4HJWk2Xy-hUQSRBm5eSW5h_lqjY_0jDj1DFg>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 09712B60089; Thu, 14 Sep 2023 01:05:51 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-745-g95dd7bea33-fm-20230905.001-g95dd7bea
+Mime-Version: 1.0
+Message-Id: <82dfa2eb-1867-4cdc-b7b8-918d426575ed@app.fastmail.com>
+In-Reply-To: <ZQKDRANlIWGqTA/9@bergen.fjasle.eu>
+References: <20230913113801.1901152-1-arnd@kernel.org>
+ <ZQISGujwlH00B8KJ@fjasle.eu>
+ <b234530c-88fe-4a2a-993c-f1733fe4d0c1@app.fastmail.com>
+ <ZQIcuVgaDmA+VdV0@fjasle.eu>
+ <c7c6de7b-4adf-4625-8f09-8f419869161d@app.fastmail.com>
+ <ZQKDRANlIWGqTA/9@bergen.fjasle.eu>
+Date:   Thu, 14 Sep 2023 07:05:31 +0200
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     "Nicolas Schier" <nicolas@fjasle.eu>
+Cc:     "Arnd Bergmann" <arnd@kernel.org>,
+        "Masahiro Yamada" <masahiroy@kernel.org>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "Sakari Ailus" <sakari.ailus@iki.fi>,
+        "Javier Martinez Canillas" <javierm@redhat.com>,
+        "Nathan Chancellor" <nathan@kernel.org>,
+        "Nick Desaulniers" <ndesaulniers@google.com>,
+        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: kbuild: explain handling optional dependencies
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Sep 12, 2023 at 4:09=E2=80=AFPM chenxiang (M) <chenxiang66@hisilico=
-n.com> wrote:
+On Thu, Sep 14, 2023, at 05:51, Nicolas Schier wrote:
+> On Wed 13 Sep 2023 23:16:47 GMT, Arnd Bergmann wrote:
+>> On Wed, Sep 13, 2023, at 22:34, Nicolas Schier wrote:
+>> >
+>> > BAR=y  => FOO={N/m/y}
+>> > BAR=m  => FOO is not selectable
+>> > BAR=n  => FOO={N/m/y}
+>> 
+>> That is indeed the point: if BAR=m, we want to be able to pick FOO=m
+>> here, otherwise it is impossible to enabled everything as modules.
 >
-> Hi,
+> oh, I misinterpreted your very first sentence; thanks for clarifying it to me
+> and sorry for the noise.
+> With the minor fixes:
 >
-> I build the latest kernel (6.6-rc1) for arm64 platform on x86 server
-> (with cross complile), and the complile command is as following:
+> Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
 >
-> export
-> PATH=3D$PATH:/opt/gcc-linaro-7.4.1-2019.02-x86_64_aarch64-linux-gnu/bin/
-> export ARCH=3Darm64
-> export CROSS_COMPILE=3Daarch64-linux-gnu-
->
-> make -j64 Image (ok)
->
-> make binrpm-pkg -j64 (failed)
->
-> But when complile binrpm-pkg, it is failed and the error info is as
-> following:
->
-> rpmbuild -bb kernel.spec --define=3D'_topdir
-> /home/chenxiang/kernel/mainline/linux-next/rpmbuild' --target
-> aarch64-linux --build-in-place --noprep --define=3D'_smp_mflags %{nil}'
-> $(rpm -q rpm >/dev/null 2>&1 || echo --nodeps) --without devel
-> rpmbuild: --build-in-place: unknown option
 
+Ok, thanks!
 
-I cannot reproduce it on my build environment,
-but the error message:
+I understand that the text is still confusing, so if anyone has an
+idea for how to improve it further, let me know, otherwise
+I'll send what I have now with type fixes as v2.
 
-  rpmbuild: --build-in-place: unknown option
-
-describes the issue.
-
-
-Which version of rpmbuild did you use?
-
-Using a newer version fixes the issue?
-
-
-
-
-
-
-
-
-
---
-Best Regards
-Masahiro Yamada
+     Arnd
