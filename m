@@ -2,103 +2,139 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CE8B7A052D
-	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Sep 2023 15:12:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC9A77A06B4
+	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Sep 2023 15:59:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238939AbjINNMr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 14 Sep 2023 09:12:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44254 "EHLO
+        id S232813AbjINN7k (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 14 Sep 2023 09:59:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38368 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238893AbjINNMp (ORCPT
+        with ESMTP id S231720AbjINN7j (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 14 Sep 2023 09:12:45 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B6C11FF1;
-        Thu, 14 Sep 2023 06:12:39 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96983C43391;
-        Thu, 14 Sep 2023 13:12:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694697159;
-        bh=+CC9mobcRwM0GI3pQyWvu824yuFZxFQDNxuC0AREltc=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=rh9n+ug2kScz3yTqHUkPgPjvCjkx4S/ESBNOk02rQwKEHvq48uXx7cN5RxyCz961R
-         X/cJo4S2Ko87mLy6MmGcz+LhdL0SkclPFAMnmToQou7Wbl3Xl0EMylAK9neGmURSKz
-         ZhpT/PN/UIxjEzZcCJKoMIiHysCIOwx9hRZtgOWrmGL0adb487gjLHyBnSZBkH9oqY
-         aGezo9Ac7ZH2Pj6hPp4lNGkVicoq0NXHvm5BkQ+l4wPzMsVY2veiTzljEJqTL3ua37
-         FW+MpvSwOX/D0/Xl3qP8p0H1c85okL4bIHh0Z0RpMZJLVT7LUDkeTcm2VjaO8Pkwbn
-         YZ2Df+iBETITA==
-From:   Will Deacon <will@kernel.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     kernel-team@android.com, Will Deacon <will@kernel.org>,
+        Thu, 14 Sep 2023 09:59:39 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E9461BE;
+        Thu, 14 Sep 2023 06:59:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694699975; x=1726235975;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=M9/pjtPgrCPB3pKfZPcjSZj8sNqVAWupOs4Vq63aUF0=;
+  b=dK3Ka0Bt8SpiQICGk+guBf++P+yNwT0g8WiZ1Qnn5KKj8XQvNzztz5xq
+   lojyMZnGLPt8RRVcNb2weSdIkea6mQzMsEDSkZVd/boK9oCpfEcFF7Qy+
+   BQ77PH/rnfNPZVGHTXqdp3dUGXM5zG60VHbZxHiuegd/BUBwhT0iq/yJU
+   AqsmGqwXxlSj4e+wQNQLVIO6p8DH2XGKgfoTVamhICquJmnn5qZ1nkrbV
+   EDS4qhhNv8G0MgbxQqZBCyQY+d6SGmm8LnZN0clAez5g/vo/bYa46Orbl
+   3eLRYiaeBMIQJnXJ8o109fXZY0xX3nbaaGbq0aTHZRPyEjB3/pgW31Gh6
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="364002912"
+X-IronPort-AV: E=Sophos;i="6.02,146,1688454000"; 
+   d="scan'208";a="364002912"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 06:43:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10833"; a="991391112"
+X-IronPort-AV: E=Sophos;i="6.02,146,1688454000"; 
+   d="scan'208";a="991391112"
+Received: from jnikula-mobl4.fi.intel.com (HELO localhost) ([10.237.66.162])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2023 06:42:58 -0700
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Arnd Bergmann <arnd@kernel.org>,
         Masahiro Yamada <masahiroy@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Nicolas Schier <nicolas@fjasle.eu>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        John Stultz <jstultz@google.com>, linux-kbuild@vger.kernel.org
-Subject: [PATCH v4 3/3] scripts/faddr2line: Skip over mapping symbols in output from readelf
-Date:   Thu, 14 Sep 2023 14:12:25 +0100
-Message-Id: <20230914131225.13415-4-will@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20230914131225.13415-1-will@kernel.org>
-References: <20230914131225.13415-1-will@kernel.org>
+        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: kbuild: explain handling optional
+ dependencies
+In-Reply-To: <20230913113801.1901152-1-arnd@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230913113801.1901152-1-arnd@kernel.org>
+Date:   Thu, 14 Sep 2023 16:42:55 +0300
+Message-ID: <874jjwx44g.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Mapping symbols emitted in the readelf output can confuse the
-'faddr2line' symbol size calculation, resulting in the erroneous
-rejection of valid offsets. This is especially prevalent when building
-an arm64 kernel with CONFIG_CFI_CLANG=y, where most functions are
-prefixed with a 32-bit data value in a '$d.n' section. For example:
+On Wed, 13 Sep 2023, Arnd Bergmann <arnd@kernel.org> wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> This problem frequently comes up in randconfig testing, with
+> drivers failing to link because of a dependency on an optional
+> feature.
+>
+> The Kconfig language for this is very confusing, so try to
+> document it in "Kconfig hints" section.
 
-447538: ffff800080014b80   548 FUNC    GLOBAL DEFAULT    2 do_one_initcall
-   104: ffff800080014c74     0 NOTYPE  LOCAL  DEFAULT    2 $x.73
-   106: ffff800080014d30     0 NOTYPE  LOCAL  DEFAULT    2 $x.75
-   111: ffff800080014da4     0 NOTYPE  LOCAL  DEFAULT    2 $d.78
-   112: ffff800080014da8     0 NOTYPE  LOCAL  DEFAULT    2 $x.79
-    36: ffff800080014de0   200 FUNC    LOCAL  DEFAULT    2 run_init_process
+Thanks for doing this.
 
-Adding a warning to do_one_initcall() results in:
+>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  Documentation/kbuild/kconfig-language.rst | 26 +++++++++++++++++++++++
+>  1 file changed, 26 insertions(+)
+>
+> diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
+> index 858ed5d80defe..89dea587a469a 100644
+> --- a/Documentation/kbuild/kconfig-language.rst
+> +++ b/Documentation/kbuild/kconfig-language.rst
+> @@ -573,6 +573,32 @@ above, leading to:
+>  	bool "Support for foo hardware"
+>  	depends on ARCH_FOO_VENDOR || COMPILE_TEST
+>  
+> +Optional dependencies
+> +~~~~~~~~~~~~~~~~~~~~~
+> +
+> +Some drivers are able to optionally use a feature from another module
+> +or build cleanly with that module disabled, but cause a link failure
+> +when trying to use that loadable module from a built-in driver.
+> +
+> +The most common way to express this optional dependency in Kconfig logic
+> +uses the slighly counterintuitive
+> +
+> +  config FOO
+> +	bool "Support for foo hardware"
+> +	depends on BAR || !BAR
 
-  | WARNING: CPU: 0 PID: 1 at init/main.c:1236 do_one_initcall+0xf4/0x260
+	depends on BAR || BAR=n
 
-Which 'faddr2line' refuses to accept:
+seems to be an alternative that's about as common:
 
-$ ./scripts/faddr2line vmlinux do_one_initcall+0xf4/0x260
-skipping do_one_initcall address at 0xffff800080014c74 due to size mismatch (0x260 != 0x224)
-no match for do_one_initcall+0xf4/0x260
+$ git grep "depends on \([A-Z0-9_]\+\) || \!\1" | wc -l
+109
+$ git grep "depends on \([A-Z0-9_]\+\) || \1=n" | wc -l
+107
 
-Filter out these entries from readelf using a shell reimplementation of
-is_mapping_symbol(), so that the size of a symbol is calculated as a
-delta to the next symbol present in ksymtab.
+Maybe worth mentioning both?
 
-Cc: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: John Stultz <jstultz@google.com>
-Suggested-by: Masahiro Yamada <masahiroy@kernel.org>
-Signed-off-by: Will Deacon <will@kernel.org>
----
- scripts/faddr2line | 5 +++++
- 1 file changed, 5 insertions(+)
 
-diff --git a/scripts/faddr2line b/scripts/faddr2line
-index 6b8206802157..20d9b3d37843 100755
---- a/scripts/faddr2line
-+++ b/scripts/faddr2line
-@@ -179,6 +179,11 @@ __faddr2line() {
- 			local cur_sym_elf_size=${fields[2]}
- 			local cur_sym_name=${fields[7]:-}
- 
-+			# is_mapping_symbol(cur_sym_name)
-+			if [[ ${cur_sym_name} =~ ^((\.L)|(L0)|(\$[adtx](\.|$))) ]]; then
-+				continue
-+			fi
-+
- 			if [[ $cur_sym_addr = $sym_addr ]] &&
- 			   [[ $cur_sym_elf_size = $sym_elf_size ]] &&
- 			   [[ $cur_sym_name = $sym_name ]]; then
+BR,
+Jani.
+
+
+> +
+> +This means that there is either a dependency on BAR that disallows
+> +the combination of FOO=y with BAR=m, or BAR is completely disabled.
+> +For a more formalized approach if there are multiple drivers that have
+> +the same dependency, a helper symbol can be used, like
+> +
+> +  config FOO
+> +	bool "Support for foo hardware"
+> +	depends on BAR_OPTIONAL
+> +
+> +  config BAR_OPTIONAL
+> +	def_tristate BAR || !BAR
+> +
+>  Kconfig recursive dependency limitations
+>  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 -- 
-2.42.0.283.g2d96d420d3-goog
-
+Jani Nikula, Intel
