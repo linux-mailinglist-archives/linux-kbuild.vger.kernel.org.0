@@ -2,155 +2,160 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 13F1F79F7EF
-	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Sep 2023 04:24:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DBDC879F930
+	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Sep 2023 05:53:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233869AbjINCYv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 13 Sep 2023 22:24:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40460 "EHLO
+        id S234340AbjINDxv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 13 Sep 2023 23:53:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50016 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233483AbjINCYu (ORCPT
+        with ESMTP id S234300AbjINDxu (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 13 Sep 2023 22:24:50 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EC9A198;
-        Wed, 13 Sep 2023 19:24:46 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F841C433C7;
-        Thu, 14 Sep 2023 02:24:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694658286;
-        bh=traoJTyA0GnqPdbwWPW0u5/RrCWzv703PFaKmzg6di8=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=dRyHjGtNk/YMdNs8cVw1m1xwaSlfoX1FLI8mKGuHqKbRjvbl4DsL2zH6HzoVPPOK+
-         Y3kbkTH0465sd9jTzj1fnMgYYfrZNzpdnS65gTYg1/4mC/Q2wZNOCtVyRvHhE4Gs/r
-         SGGnfV9OS4/KHHw3o9ShXK8Gk3DaYWqvLYSaWxO8JJp2ZU6WxCK3k3tPN5Dbt5FCGe
-         y2L2/rYF69Wmi4xPHXT3gvEdF+xXlVakk7qi1SGYP2grIzBgU0su9DNxezx0fzkVoc
-         I/7lxFn4d0T1jyDaIxdv0YMv7hgn8RehOIPVL0yOQb3H16ydC3h9lwSv2YxNy+zd2a
-         eURdy2kSPknlg==
-Content-Type: multipart/mixed; boundary="------------zPUgE2h3WJYekH07ls6McJAe"
-Message-ID: <bed98fc9-fb84-4912-6c73-5b7db575c375@kernel.org>
-Date:   Thu, 14 Sep 2023 11:24:43 +0900
+        Wed, 13 Sep 2023 23:53:50 -0400
+X-Greylist: delayed 29023 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 13 Sep 2023 20:53:44 PDT
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B392193;
+        Wed, 13 Sep 2023 20:53:44 -0700 (PDT)
+Received: from leknes.fjasle.eu ([46.142.48.206]) by mrelayeu.kundenserver.de
+ (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MZTyo-1rC6bK2p78-00WWJr; Thu, 14 Sep 2023 05:52:36 +0200
+Received: from localhost.fjasle.eu (kirkenes.fjasle.eu [10.10.0.5])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        by leknes.fjasle.eu (Postfix) with ESMTPS id B8A673E872;
+        Thu, 14 Sep 2023 05:52:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
+        t=1694663538; bh=vDgINWPBzUIAWMngiKJuCoKZEkx2uCiwIU+aazJc+bA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=WHCWCn54HMtTPGfYRBRLjNfPFGwAEBwM+V3IyM0gxSoUWQa2H1UFe2/k0ERiYWDsh
+         RVJt71evYpv1PLxrVFa+0B8L6AM6qhsERl1pvE43i3sh4mWISDr+nlabZzS5tMascS
+         3SL9LcDQip3ceE56BxDie69X6vae38J56VNTcQjs=
+Received: by localhost.fjasle.eu (Postfix, from userid 1000)
+        id 3539A5EC7; Thu, 14 Sep 2023 05:51:32 +0200 (CEST)
+Date:   Thu, 14 Sep 2023 05:51:32 +0200
+From:   Nicolas Schier <nicolas@fjasle.eu>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Arnd Bergmann <arnd@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: kbuild: explain handling optional
+ dependencies
+Message-ID: <ZQKDRANlIWGqTA/9@bergen.fjasle.eu>
+References: <20230913113801.1901152-1-arnd@kernel.org>
+ <ZQISGujwlH00B8KJ@fjasle.eu>
+ <b234530c-88fe-4a2a-993c-f1733fe4d0c1@app.fastmail.com>
+ <ZQIcuVgaDmA+VdV0@fjasle.eu>
+ <c7c6de7b-4adf-4625-8f09-8f419869161d@app.fastmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] linux/export: fix reference to exported functions for
- parisc64
-Content-Language: en-US
-To:     John David Anglin <dave.anglin@bell.net>,
-        Helge Deller <deller@gmx.de>,
-        James Bottomley <James.Bottomley@HansenPartnership.com>
-Cc:     linux-parisc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>
-References: <20230905190828.790400-1-masahiroy@kernel.org>
- <c8a92dc8-de78-7484-bcc8-d4a91bec77de@bell.net>
- <c6568683-86b4-c48d-ed37-f1f87677eb44@bell.net>
- <97859bf1-c8c3-7294-8322-b0c9c408ba5e@bell.net>
- <CAK7LNAR_4rVgAQToSoYmbgYnWoSpowcrKi2ciiH9HyhJUGdmWg@mail.gmail.com>
- <CAK7LNAQQ1Vp4YtvU8Bq9aE+NWxnnOTX2dcZ5Gc9fC+vjRmCe4w@mail.gmail.com>
- <CAK7LNATktSBFe=7cE8kHEGx2R90iVV6AJsCfgg5ZD2+ssMmzow@mail.gmail.com>
- <040a0941-936b-87ab-aedd-5a933383b500@bell.net>
- <b919c7fd-babb-5557-dd8d-c2b8bb428d54@bell.net>
- <4fee8886-daa3-fb03-f9e7-89358fb5fc38@bell.net>
- <b9ceba24-345e-20dc-783b-3759a9819359@bell.net>
- <10887293-fa2e-83e1-9305-487905a8afd2@kernel.org>
- <3e4040cf-bb54-7652-72cc-0ad2d1288cb8@bell.net>
-From:   Damien Le Moal <dlemoal@kernel.org>
-Organization: Western Digital Research
-In-Reply-To: <3e4040cf-bb54-7652-72cc-0ad2d1288cb8@bell.net>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="pW/TkBCfOsDP79g/"
+Content-Disposition: inline
+In-Reply-To: <c7c6de7b-4adf-4625-8f09-8f419869161d@app.fastmail.com>
+X-Operating-System: Debian GNU/Linux trixie/sid
+Jabber-ID: nicolas@jabber.no
+X-Provags-ID: V03:K1:NQOG6acG2KtKAphjAf5wLhsuAeUmx+UQJc8yzRv/bAiDUqlhDVD
+ rJR/D0nu2J7U15lU3cYa4knT2VyzkcBRwYINNqADEGRJXEk90V1y9KhjmusLAJm3P1CXGoG
+ bcrSXFpa4Mycx6RsPgVtEyyLmtuCGIUaS7GMxL6oAmRHCZgXCB9zaJMztIrPLJRX+H7JtKK
+ dplgWqKfZqhq68CfREnGA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:cYlRSzQeoEk=;R8YmYFFRVt0iX/LhPKlkynWkg5A
+ KKHFL1uoVjR/t6W9IWXvAJ/QFoUEOZW6P0tgrJa3IneOrx0ybe/uocPnb9eFi2LqQkEW7ptBg
+ wu15F2sFlgu6gLoVgLs8WwDDlP62iLouuZ2GDoGbg58ukC+598jZu3Ik4bF8gGZ+BatMUrl/Q
+ gIoX/W+zbmGpy4se0c3JsCEODieSYgnDqqk8NJOX/QKxaKIyK0b6WSv6U3hlGsfID6RRfLLvU
+ N3LImeOhpPmdRmVN87D0ddbaZ9/EqREWFiC4xJvgdeYeCUCV0UcRsbaSQFJMxnlzLyeFw1Tf7
+ 4/t68+EIg9zClvSWWzHc8KNZna0h/5vr9RxGbY29/tHCkVjkmBxHMO7oXyP12lzZeaPo5zygy
+ 576IE4raeyckPVTM6Z3sbS2KDnI4B2/BwRs01nOWjz4sOSMlyt+O0mPIEAgnFUzO5/pzyCLYv
+ YBjeAS7QugN2rvIjk3K4s/1xFI+/Rl3ttARYe30G+cuOK3/c9H9SZLd+tYVxIADOG5SWj4p0s
+ iEMhzrrVag0lgHsi/jjkL6FqW5fElDXIiEfYQu+ewn8nCXQnVHeqOKFA0KA5wDZdH/F+jvhVk
+ 1cxWHuymiDRJHV8NbTzvc+Pk5HSpIt2ffYt/JvAjTQjFc7qR3Hd9ANcyafKb2380ns9o6ytEz
+ sUfOnkLArbAftD1u1V0zT20WiavDMpXQeff6scXziLUGW1+/zcMdn8gRvd8J6ldv11CqxTR2A
+ NhIaJ1HSkfH0M1ewhLzLy6hrk5rj+X5xov3Zqq8YjgRypalXCVIi62uVAv/juQbUPeS9QIKq8
+ l5nUHt0rYqa3saJpDQ02f5X5yS70MMCeDjPbluOH5zpax0LidOyCEtnrtbweMbxDew9ArWwJi
+ aqN2aVQa2MrMh7Q==
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-This is a multi-part message in MIME format.
---------------zPUgE2h3WJYekH07ls6McJAe
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-On 9/14/23 09:29, John David Anglin wrote:
-> I think the issue is with the root ST373207LW drive.  The console output indicates that the
-> ROOT drive doesn't exist when the boot fails.
-> 
-> Your change only appeared to affect actual SCSI drives.  That's why I tried disabling CDL.
->>
->> Could you send a full dmesg output for a clean boot and for a failed one so that
->> I can compare ?
-> I'll try to get this together tomorrow.
+--pW/TkBCfOsDP79g/
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Please try the attached patch. That should address the issue with your drive.
+On Wed 13 Sep 2023 23:16:47 GMT, Arnd Bergmann wrote:
+> On Wed, Sep 13, 2023, at 22:34, Nicolas Schier wrote:
+> > On Wed, Sep 13, 2023 at 09:55:36PM +0200 Arnd Bergmann wrote:
+>=20
+> >>    config FOO
+> >> -       bool "Support for foo hardware"
+> >> +       tristate "Support for foo hardware"
+> >>         depends on BAR || !BAR
+> >
+> > ah, thanks, tristate kconfig symbols are really more interesting.  But =
+I am
+> > still not sure, whether this works as proposed:
+> >
+> > With the 'config FOO' above and
+> >
+> >   config BAR
+> >   	tristate "Support for bar feature"
+> >
+> > kconfig allows me to choose between these:
+> >
+> > BAR=3Dy  =3D> FOO=3D{N/m/y}
+> > BAR=3Dm  =3D> FOO=3D{N/m}
+> > BAR=3Dn  =3D> FOO=3D{N/m/y}
+> >
+> > But with
+> >
+> >   config FOO
+> >   	tristate "Support for foo hardware"
+> >   	depends on !BAR=3Dm
+> >
+> > I can choose between:
+> >
+> > BAR=3Dy  =3D> FOO=3D{N/m/y}
+> > BAR=3Dm  =3D> FOO is not selectable
+> > BAR=3Dn  =3D> FOO=3D{N/m/y}
+>=20
+> That is indeed the point: if BAR=3Dm, we want to be able to pick FOO=3Dm
+> here, otherwise it is impossible to enabled everything as modules.
 
+oh, I misinterpreted your very first sentence; thanks for clarifying it to =
+me
+and sorry for the noise.
+With the minor fixes:
 
--- 
-Damien Le Moal
-Western Digital Research
+Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
 
---------------zPUgE2h3WJYekH07ls6McJAe
-Content-Type: text/x-patch; charset=UTF-8;
- name="0001-scsi-Do-no-try-to-probe-for-CDL-on-old-drives.patch"
-Content-Disposition: attachment;
- filename="0001-scsi-Do-no-try-to-probe-for-CDL-on-old-drives.patch"
-Content-Transfer-Encoding: base64
+Kind regards,
+Nicolas
 
-RnJvbSA5NGQwNWNlNTFkNWM4YTZmNDczODNhZmQxNDEzNGYzYzc3OWQ4OWUyIE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBEYW1pZW4gTGUgTW9hbCA8ZGxlbW9hbEBrZXJuZWwu
-b3JnPgpEYXRlOiBUaHUsIDE0IFNlcCAyMDIzIDExOjA4OjU4ICswOTAwClN1YmplY3Q6IFtQ
-QVRDSF0gc2NzaTogRG8gbm8gdHJ5IHRvIHByb2JlIGZvciBDREwgb24gb2xkIGRyaXZlcwoK
-U29tZSBvbGQgZHJpdmVzIChlLmcuIGFuIFVsdHJhMzIwIFNDU0kgZGlzayBhcyByZXBvcnRl
-ZCBieSBKb2huKSBkbyBub3QKc2VlbSB0byBleGVjdXRlIE1BSU5URU5BTkNFX0lOIC8gTUlf
-UkVQT1JUX1NVUFBPUlRFRF9PUEVSQVRJT05fQ09ERVMKY29tbWFuZHMgY29ycmVjdGx5IGFu
-ZCBoYW5nIHdoZW4gYSBub24temVybyBzZXJ2aWNlIGFjdGlvbiBpcyBzcGVjaWZpZWQKKG9u
-ZSBjb21tYW5kIGZvcm1hdCB3aXRoIHNlcnZpY2UgYWN0aW9uIGNhc2UgaW4gc2NzaV9yZXBv
-cnRfb3Bjb2RlKCkpLgoKQ3VycmVudGx5LCBDREwgcHJvYmluZyB3aXRoIHNjc2lfY2RsX2No
-ZWNrX2NtZCgpIGlzIHRoZSBvbmx5IGNhbGxlcgp1c2luZyBhIG5vbiB6ZXJvIHNlcnZpY2Ug
-YWN0aW9uIGZvciBzY3NpX3JlcG9ydF9vcGNvZGUoKS4gVG8gYXZvaWQKaXNzdWVzIHdpdGgg
-dGhlc2Ugb2xkIGRyaXZlcywgZG8gbm90IGF0dGVtcHQgQ0RMIHByb2JlIGlmIHRoZSBkZXZp
-Y2UKcmVwb3J0cyBzdXBwb3J0IGZvciBhbiBTUEMgdmVyc2lvbiBsb3dlciB0aGFuIDUgKENE
-TCB3YXMgaW50cm9kdWNlZCBpbgpTUEMtNSkuIFRvIGtlZXAgdGhpbmdzIHdvcmtpbmcgd2l0
-aCBBVEEgZGV2aWNlcyB3aGljaCBwcm9iZSBmb3IgdGhlIENETApUMkEgYW5kIFQyQiBwYWdl
-cyBpbnRyb2R1Y2VkIHdpdGggU1BDLTYsIG1vZGlmeSBhdGFfc2NzaW9wX2lucV9zdGQoKSB0
-bwpjbGFpbSBTUEMtNiB2ZXJzaW9uIGNvbXBhdGliaWxpdHkgZm9yIEFUQSBkcml2ZXMgc3Vw
-cG9ydGluZyBDREwuCgppbmNsdWRlL3Njc2kvc2NzaS5oIGlzIGFsc28gbW9kaWZpZWQgdG8g
-YWRkIHRoZSBtaXNzaW5nIGRlZmluaXRpb25zIGZvcgp0aGUgU0NTSV9TUENfNCBhbmQgU0NT
-SV9TUENfNSB2ZXJzaW9ucy4gU0NTSV9TUENfNiBpcyBub3QgYWRkZWQgYXMsCm9kZGx5LCB0
-aGUgbGF0ZXN0IFNQQy02IHNwZWNpZmljYXRpb24gZGVmaW5lcyB0aGUgc2FtZSA3aCB2ZXJz
-aW9uIGNvZGUKYXMgU1BDLTUuCgpSZXBvcnRlZC1ieTogSm9obiBEYXZpZCBBbmdsaW4gPGRh
-dmUuYW5nbGluQGJlbGwubmV0PgpGaXhlczogNjI0ODg1MjA5ZjMxICgic2NzaTogY29yZTog
-RGV0ZWN0IHN1cHBvcnQgZm9yIGNvbW1hbmQgZHVyYXRpb24gbGltaXRzIikKQ2M6IHN0YWJs
-ZUB2Z2VyLmtlcm5lbC5vcmcKU2lnbmVkLW9mZi1ieTogRGFtaWVuIExlIE1vYWwgPGRsZW1v
-YWxAa2VybmVsLm9yZz4KLS0tCiBkcml2ZXJzL2F0YS9saWJhdGEtc2NzaS5jIHwgIDMgKysr
-CiBkcml2ZXJzL3Njc2kvc2NzaS5jICAgICAgIHwgMTEgKysrKysrKysrKysKIGluY2x1ZGUv
-c2NzaS9zY3NpLmggICAgICAgfCAgMiArKwogMyBmaWxlcyBjaGFuZ2VkLCAxNiBpbnNlcnRp
-b25zKCspCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9hdGEvbGliYXRhLXNjc2kuYyBiL2RyaXZl
-cnMvYXRhL2xpYmF0YS1zY3NpLmMKaW5kZXggOTJhZTRiNGYzMGFjLi42NTRlZTlhMGMwNjQg
-MTAwNjQ0Ci0tLSBhL2RyaXZlcnMvYXRhL2xpYmF0YS1zY3NpLmMKKysrIGIvZHJpdmVycy9h
-dGEvbGliYXRhLXNjc2kuYwpAQCAtMTgyOCw2ICsxODI4LDkgQEAgc3RhdGljIHVuc2lnbmVk
-IGludCBhdGFfc2NzaW9wX2lucV9zdGQoc3RydWN0IGF0YV9zY3NpX2FyZ3MgKmFyZ3MsIHU4
-ICpyYnVmKQogCQloZHJbMl0gPSAweDc7IC8qIGNsYWltIFNQQy01IHZlcnNpb24gY29tcGF0
-aWJpbGl0eSAqLwogCX0KIAorCWlmIChhcmdzLT5kZXYtPmZsYWdzICYgQVRBX0RGTEFHX0NE
-TCkKKwkJaGRyWzJdID0gMHg3OyAvKiBjbGFpbSBTUEMtNiB2ZXJzaW9uIGNvbXBhdGliaWxp
-dHkgKi8KKwogCW1lbWNweShyYnVmLCBoZHIsIHNpemVvZihoZHIpKTsKIAltZW1jcHkoJnJi
-dWZbOF0sICJBVEEgICAgICIsIDgpOwogCWF0YV9pZF9zdHJpbmcoYXJncy0+aWQsICZyYnVm
-WzE2XSwgQVRBX0lEX1BST0QsIDE2KTsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvc2NzaS9zY3Np
-LmMgYi9kcml2ZXJzL3Njc2kvc2NzaS5jCmluZGV4IGQwOTExYmMyODY2My4uODkzNjdjNGJm
-MGVmIDEwMDY0NAotLS0gYS9kcml2ZXJzL3Njc2kvc2NzaS5jCisrKyBiL2RyaXZlcnMvc2Nz
-aS9zY3NpLmMKQEAgLTYxMyw2ICs2MTMsMTcgQEAgdm9pZCBzY3NpX2NkbF9jaGVjayhzdHJ1
-Y3Qgc2NzaV9kZXZpY2UgKnNkZXYpCiAJYm9vbCBjZGxfc3VwcG9ydGVkOwogCXVuc2lnbmVk
-IGNoYXIgKmJ1ZjsKIAorCS8qCisJICogU3VwcG9ydCBmb3IgQ0RMIHdhcyBkZWZpbmVkIGlu
-IFNQQy01LiBJZ25vcmUgZGV2aWNlcyByZXBvcnRpbmcgYW4KKwkgKiBsb3dlciBTUEMgdmVy
-c2lvbi4gVGhpcyBhbHNvIGF2b2lkcyBwcm9ibGVtcyB3aXRoIG9sZCBkcml2ZXMgY2hva2lu
-ZworCSAqIG9uIE1BSU5URU5BTkNFX0lOIC8gTUlfUkVQT1JUX1NVUFBPUlRFRF9PUEVSQVRJ
-T05fQ09ERVMgd2l0aCBhCisJICogc2VydmljZSBhY3Rpb24gc3BlY2lmaWVkLCBhcyBkb25l
-IGluIHNjc2lfY2RsX2NoZWNrX2NtZCgpLgorCSAqLworCWlmIChzZGV2LT5zY3NpX2xldmVs
-IDwgU0NTSV9TUENfNSkgeworCQlzZGV2LT5jZGxfc3VwcG9ydGVkID0gMDsKKwkJcmV0dXJu
-OworCX0KKwogCWJ1ZiA9IGttYWxsb2MoU0NTSV9DRExfQ0hFQ0tfQlVGX0xFTiwgR0ZQX0tF
-Uk5FTCk7CiAJaWYgKCFidWYpIHsKIAkJc2Rldi0+Y2RsX3N1cHBvcnRlZCA9IDA7CmRpZmYg
-LS1naXQgYS9pbmNsdWRlL3Njc2kvc2NzaS5oIGIvaW5jbHVkZS9zY3NpL3Njc2kuaAppbmRl
-eCBlYzA5MzU5NGJhNTMuLjM5ZjZiYzdiZmYwZiAxMDA2NDQKLS0tIGEvaW5jbHVkZS9zY3Np
-L3Njc2kuaAorKysgYi9pbmNsdWRlL3Njc2kvc2NzaS5oCkBAIC0xNTcsNiArMTU3LDggQEAg
-ZW51bSBzY3NpX2Rpc3Bvc2l0aW9uIHsKICNkZWZpbmUgU0NTSV8zICAgICAgICAgIDQgICAg
-ICAgIC8qIFNQQyAqLwogI2RlZmluZSBTQ1NJX1NQQ18yICAgICAgNQogI2RlZmluZSBTQ1NJ
-X1NQQ18zICAgICAgNgorI2RlZmluZSBTQ1NJX1NQQ180CTcKKyNkZWZpbmUgU0NTSV9TUENf
-NQk4CiAKIC8qCiAgKiBJTlEgUEVSSVBIRVJBTCBRVUFMSUZJRVJTCi0tIAoyLjQxLjAKCg==
+--pW/TkBCfOsDP79g/
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
---------------zPUgE2h3WJYekH07ls6McJAe--
+iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmUCg0MACgkQB1IKcBYm
+EmkqMQ//eGegldi6pmfGsvc81ltTfQrq+D5tVf/nFo5oL2HbSXPIlZ627OGtC/hv
+v9mD91mEB3m/WQG+E/22Y/enjvscqBWpTrJRp4su43U8y6mQcQWZ6QotZgk5YLg4
+7k4pZNPkjC2rCTPodec+bKgd1ZIVOCP3xWAY9GTaK08nON2tz/FWppNbRMS6L8De
+08y8GqMDn6BT+b0Q89XumCWfemvSzMK7odGAnUbWEfDn9s5wmUDzvdW8PnuOpFGC
+fq82cJA75xO+TOTwGCqednstyEPov6LLFfEKdOzAwCjGg7sGO7EFUDvo6JuH7YHN
+K4lmUQ+uq8c8XmMSQ3nceEEy/pZ+qgtVNDDSedJey8p3INkU/A41uQ6LcNq7oFTV
+3oW22kTJf3T/MiD+eo5cIjJazKmK9WGOaHgceNWmbVG08TRHeGhriIlvOjPl1JPP
+3IC+Ww1mpNTCOktMxUHEpzwjhDgMEKGPmIz3NaULe3NFPNBIpD9+KW/8lMLc9r3Q
+X0IbqIeRgHG7jjZprzaLlBrDQVO/f2Xmp+5qTKQlQLP9p00plp6AuD+BEp1z/51Y
+Ydu1SL2+6ocM43a0kgIQ+rjPBMxlPhIs11EKvvU8Kh/hspt/xo2csi6thdlKIseC
+8E58CQwd9ysL25IDcq4wpGwgkZ2b2Ie7t7MVoBsC/s1z2QAwyis=
+=uyPd
+-----END PGP SIGNATURE-----
+
+--pW/TkBCfOsDP79g/--
