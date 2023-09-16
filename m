@@ -2,55 +2,49 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E16D7A313F
-	for <lists+linux-kbuild@lfdr.de>; Sat, 16 Sep 2023 17:56:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 773C07A314C
+	for <lists+linux-kbuild@lfdr.de>; Sat, 16 Sep 2023 18:06:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235085AbjIPP4F (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 16 Sep 2023 11:56:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33538 "EHLO
+        id S230396AbjIPQF4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 16 Sep 2023 12:05:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233029AbjIPPzi (ORCPT
+        with ESMTP id S237427AbjIPQFi (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 16 Sep 2023 11:55:38 -0400
+        Sat, 16 Sep 2023 12:05:38 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EECBDF7;
-        Sat, 16 Sep 2023 08:55:33 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AFD6C433CD;
-        Sat, 16 Sep 2023 15:55:33 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E5A6CEA;
+        Sat, 16 Sep 2023 09:05:34 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B214CC433C8;
+        Sat, 16 Sep 2023 16:05:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1694879733;
-        bh=ZY2cAb1W6cjpppzMyn+14W1CgRCu210r+XVVtUOwwKs=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=gmqJKfpvSmqL4tw5rTeaNKxgBmXs0Wqq//Osd6MWQOZ4OCUKHa8THhHtFyp4onno+
-         lbzj4iA+g0AtSl9+c6G8YIIDU/zCQdIbAPFfZD0wMrsRSnvz+WAajOjFbK7JyNwCRT
-         XX1VUpTII13Qe8BlNUeVrZzueEUauqYOLeURiz+jxLySxE9021gT30a67s5QtBWnlf
-         P5I6bSqCRCJyMSyuX7P0k6DAmc2AJJVA8/HQRz5Cm7KcIAwWg9VGAQsVmN7/+D0wMY
-         Y3xEtspEo4P0rWe0g0YG4xmlVmNHZ9L+ocOoDNXERGRJBQw9RFj6S4fvafvxLRTjtf
-         iu/HQysYTuD3g==
-Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-3adba522a5dso637522b6e.2;
-        Sat, 16 Sep 2023 08:55:33 -0700 (PDT)
-X-Gm-Message-State: AOJu0YzpElqZiDzijEwZPudDWcCTD1z/5ZKS/SLF9Wg9Txa7TZVGOgYZ
-        sHqbXNu9sp7Z6/NTaN6aJzUZt1L7NkxzIn8bSgk=
-X-Google-Smtp-Source: AGHT+IF88S2QLX44swt2RNrINmE4POOQwsa0NGIJBJ65q287dC2YJ/yh9EsEYy+jpPU3BV0W+MXtW0uZLCg9Sw7rqaU=
-X-Received: by 2002:a05:6871:611:b0:1c8:d72a:d6ba with SMTP id
- w17-20020a056871061100b001c8d72ad6bamr5793850oan.45.1694879732849; Sat, 16
- Sep 2023 08:55:32 -0700 (PDT)
+        s=k20201202; t=1694880333;
+        bh=S2qkbqJUN4xM/JqgxAIPcZ9QPqdw1x0qxbnAG6qi9SI=;
+        h=From:Date:Subject:To:Cc:From;
+        b=AWe8B/ueBK2t4UyYJddPWXmVuk9ze7vxupYeN2zuT+AI49rY0QZe9Yrz88KgFsbiW
+         nsQ0bsj0JuVew2/V8lik3fscX9UKl6IOuWEsTpYJj1glg4Q3YiRDSaMBiH2lCswJVM
+         /0LqUFW/VXal2PcqsZaRuu32A5RtlPSt3XpTyQMgLUyxysY3wbFF2Rdv6IFsRwuBBe
+         nci3hFlACwWUDei4sruRZ8yFmViC42w+kKET1iNGRLbfkWzqfh8kg46dM2rcGrcJOF
+         zI9I5H4KOU3/tV22VOBBKKzKogVMeZvllB4NWLYewJOYk2saZmGZSZBVaL5LddiNzC
+         p1eE1p85fl8/w==
+Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-1cca0a1b3c7so1875801fac.2;
+        Sat, 16 Sep 2023 09:05:33 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yzv1CP1sErJ+gK2BgyemJUuNyJqtGnpUpJA5zZHz0fnZocZTiJs
+        M2aSiYVqmZwop48PfwJgHgNobwt1P4DDVFmdiL4=
+X-Google-Smtp-Source: AGHT+IFcpWqM0FMulwBLx6nLMKbGzaLif3RRVnEQhzhZWUhK2fWkZwISYWXv5CtVXyWeS5Coolp8iG284TNHVQNxTzo=
+X-Received: by 2002:a05:6870:58a5:b0:1be:d9cc:d902 with SMTP id
+ be37-20020a05687058a500b001bed9ccd902mr5272238oab.57.1694880333068; Sat, 16
+ Sep 2023 09:05:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230916-nolibc-initramfs-v1-0-4416ecedca6d@weissschuh.net> <20230916-nolibc-initramfs-v1-1-4416ecedca6d@weissschuh.net>
-In-Reply-To: <20230916-nolibc-initramfs-v1-1-4416ecedca6d@weissschuh.net>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 17 Sep 2023 00:54:56 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATru0tQYF+Kehb33pJV8xQKBCUEHcoC_M3EX8xCrzQ-NA@mail.gmail.com>
-Message-ID: <CAK7LNATru0tQYF+Kehb33pJV8xQKBCUEHcoC_M3EX8xCrzQ-NA@mail.gmail.com>
-Subject: Re: [PATCH RFC 1/3] kbuild: add toplevel target for usr/gen_init_cpio
-To:     =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Cc:     Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>, Willy Tarreau <w@1wt.eu>,
-        Shuah Khan <shuah@kernel.org>, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Date:   Sun, 17 Sep 2023 01:04:57 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATCV9WGKeDyR+ymZsq5QBbNVU3bqS_0U230BTpRLFcnBw@mail.gmail.com>
+Message-ID: <CAK7LNATCV9WGKeDyR+ymZsq5QBbNVU3bqS_0U230BTpRLFcnBw@mail.gmail.com>
+Subject: [GIT PULL] Kbuild fixes for v6.6-rc2
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -61,66 +55,48 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Sep 16, 2023 at 4:13=E2=80=AFPM Thomas Wei=C3=9Fschuh <linux@weisss=
-chuh.net> wrote:
->
-> The nolibc testsuite wants to generate an initrams without linking it
-> into the kernel for which it needs access to gen_init_cpio.
-> Add a new toplevel target for it so it can be built standalone.
->
-> Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
->
-> ---
->
-> Kbuild maintainers:
->
-> If there is a way that does not require modification of the toplevel
-> Makefile that would be nice, too.
-> I followed the example of the "scripts_unifdef" target.
+Hello Linus,
 
-
-This worked for me.
-
-
-masahiro@zoe:~/ref/linux$ make -s mrproper
-masahiro@zoe:~/ref/linux$ make -s defconfig
-masahiro@zoe:~/ref/linux$ make run-command KBUILD_RUN_COMMAND=3D'$(MAKE)
-$(build)=3Dusr usr/gen_init_cpio'
-  HOSTCC  usr/gen_init_cpio
+Please pull Kbuild fixes for v6.6-rc2.
+Thank you.
 
 
 
+The following changes since commit 0bb80ecc33a8fb5a682236443c1e740d5c917d1d:
+
+  Linux 6.6-rc1 (2023-09-10 16:28:41 -0700)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+tags/kbuild-fixes-v6.6
+
+for you to fetch changes up to 552c5013f2bc648611395ea80df6250aa4fe28f6:
+
+  kbuild: avoid long argument lists in make modules_install
+(2023-09-15 02:39:24 +0900)
+
+----------------------------------------------------------------
+Kbuild fixes for v6.6
+
+ - Fix kernel-devel RPM and linux-headers Deb package
+
+ - Fix too long argument list error in 'make modules_install'
+
+----------------------------------------------------------------
+Masahiro Yamada (1):
+      kbuild: fix kernel-devel RPM package and linux-headers Deb package
+
+Michal Kubecek (1):
+      kbuild: avoid long argument lists in make modules_install
+
+ scripts/Makefile.modinst             | 2 +-
+ scripts/package/install-extmod-build | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
 
 
 
-
-> ---
->  Makefile | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/Makefile b/Makefile
-> index ceb23eed4dce..1caa4429eceb 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1812,6 +1812,10 @@ endif
->
->  endif # KBUILD_EXTMOD
->
-> +PHONY +=3D usr_gen_init_cpio
-> +usr_gen_init_cpio:
-> +       $(Q)$(MAKE) $(build)=3Dusr usr/gen_init_cpio
-> +
->  # ----------------------------------------------------------------------=
------
->  # Modules
->
->
-> --
-> 2.42.0
->
-
-
---=20
+-- 
 Best Regards
 Masahiro Yamada
