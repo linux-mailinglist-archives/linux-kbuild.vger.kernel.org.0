@@ -2,211 +2,215 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 022E77A3C8E
-	for <lists+linux-kbuild@lfdr.de>; Sun, 17 Sep 2023 22:33:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E36BA7A4C5C
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Sep 2023 17:32:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241015AbjIQUdF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 17 Sep 2023 16:33:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38848 "EHLO
+        id S229504AbjIRPcJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 18 Sep 2023 11:32:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35698 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241110AbjIQUcm (ORCPT
+        with ESMTP id S229700AbjIRPcB (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 17 Sep 2023 16:32:42 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EDD5115;
-        Sun, 17 Sep 2023 13:32:22 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A3C8C433CA;
-        Sun, 17 Sep 2023 20:32:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1694982741;
-        bh=LA5dzD2L3YHuhGexc8xd6TfJQbIj4PlVNa2HI4ZpbfM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=AaNISD6+AwGGns6CQeZkqfo67OyVA6LDknpk3BWJjFCtWatuFDt8NxrukRj7e1ohc
-         3rSrvR9jNwdEKJIvmAw1l9WHN36Y5EKsNDced6wGDOslYRga/MUaQBjrpyvTOnpJBy
-         7ARWj+E288t5bRPxF3vBFXpsEBegMS3Tn5Qnx6qM=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     stable@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        patches@lists.linux.dev, Randy Dunlap <rdunlap@infradead.org>,
-        kernel test robot <lkp@intel.com>,
-        Richard Weinberger <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        linux-um@lists.infradead.org, Tejun Heo <tj@kernel.org>,
-        Takashi Iwai <tiwai@suse.de>, Jaroslav Kysela <perex@perex.cz>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        linux-kbuild@vger.kernel.org, alsa-devel@alsa-project.org,
-        Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 5.15 312/511] um: Fix hostaudio build errors
-Date:   Sun, 17 Sep 2023 21:12:19 +0200
-Message-ID: <20230917191121.358402280@linuxfoundation.org>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20230917191113.831992765@linuxfoundation.org>
-References: <20230917191113.831992765@linuxfoundation.org>
-User-Agent: quilt/0.67
-X-stable: review
-X-Patchwork-Hint: ignore
+        Mon, 18 Sep 2023 11:32:01 -0400
+Received: from mail-qv1-xf2e.google.com (mail-qv1-xf2e.google.com [IPv6:2607:f8b0:4864:20::f2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93E292722
+        for <linux-kbuild@vger.kernel.org>; Mon, 18 Sep 2023 08:27:52 -0700 (PDT)
+Received: by mail-qv1-xf2e.google.com with SMTP id 6a1803df08f44-656262cd5aeso23055606d6.3
+        for <linux-kbuild@vger.kernel.org>; Mon, 18 Sep 2023 08:27:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1695050706; x=1695655506; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ys8ZuxyrYrmqdRpBskmFPDEMMgzPmmgYAlaMVeRpyj0=;
+        b=OoL/LYepxyn7fq5yLXK7HVkQfKnaUwW9v7EAHw+0/BqIW7xpbUjv7ImzN6RRGVYvBB
+         LSdoSk7MN1Ly/fxCL2Y+SuTUqfpymM3UYxEVBUYNPrhkZrNlO9wu7rUVv2pvoCMzyVxE
+         lqdjza/DAyPELaLP1pYEw+LeIWLv11GbQ2egzU6IRqNBc62NBRHAdMpApbZdmVlFFCoF
+         d8W+M6cPzASeKEaoqBllc/rxOVBmpUfz8Y77v6srfgZOmmN8fm/gEYSlNKFE1RQdM1ot
+         eNYjvKobxwT0l37bAa4e5JlrJAiplopZCJ5kKeqzSHt8SVT4iMcKpjQp8MDiDn8CNUuy
+         rSwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695050706; x=1695655506;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ys8ZuxyrYrmqdRpBskmFPDEMMgzPmmgYAlaMVeRpyj0=;
+        b=AE4EKBnhp6MquhahJVp2oV/VfJPf/Aqy/kLjG/IUhClhdBovXu//fd2emO55UPtQQk
+         1MeaLIrY1yn0loOB15toSSTXI9h7gP4ll8FBeso8VMXEQMknA9F5n+1ZuqvOjf/BuAeO
+         8mc2c2g8dB+MIB6eCdWNoawDdY3x1h4xMNW7cEfUSTuSxuXdY347HV7RVluZE85p4u/j
+         dKJNqTU9ksZNHJ+xS1QPHyiYgfPmozvjAuQwU0asJ7I0yznsmbd5TaED7uRst21DvVok
+         e0PCPAAQ8oSEZtq/69HdYkr9kNYEZTCzIt0TAisvXjKZPexCv4kO8M1By7C515uCB78K
+         hJpA==
+X-Gm-Message-State: AOJu0Yyk7VaVeV3ahTlDTVM4ANft9eeBCwPb9yK8MCOo87EngtIfYhlM
+        QvQNJCbpWObOEULNl8WLY5XJnuIHuFFIL5kpa6lamw==
+X-Google-Smtp-Source: AGHT+IH9LLqV92rpZ5LSrWwBipB0Ihf+9x9uQ6G4zR4uCe4P2fA/teIqsQ/gOUdead92SW7V7k086l24NnhTpkdsTVY=
+X-Received: by 2002:ad4:4c48:0:b0:64f:3bec:9b29 with SMTP id
+ cs8-20020ad44c48000000b0064f3bec9b29mr10357719qvb.39.1695050705847; Mon, 18
+ Sep 2023 08:25:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20230915172900.3784163-1-mmaurer@google.com> <9966E047-44E7-4665-9628-169F3EBE2F06@kloenk.dev>
+ <SLZSYLg5E9OQKI546K87wxTYYLNlT1xM-LhC4W1JFhIate6PFsKq27RcBNhSjUkErYDlzsZB4F2Vc2KOP9tDThg58_tXycWn3K29mQXlFtU=@protonmail.com>
+ <0561303E-2089-43FC-AA31-836C7BB844B7@kloenk.dev> <CAGSQo02p0LWZgV8oVidwvN6X__rv3-rj+ZVg9SaZ5Kx+zYahYQ@mail.gmail.com>
+In-Reply-To: <CAGSQo02p0LWZgV8oVidwvN6X__rv3-rj+ZVg9SaZ5Kx+zYahYQ@mail.gmail.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Mon, 18 Sep 2023 08:24:51 -0700
+Message-ID: <CAKwvOdnUdFjN+aCDrHKP6RzZCFB033ycN_KkB1WKucGd6VzUSg@mail.gmail.com>
+Subject: Re: [PATCH] rust: Respect HOSTCC when linking for host
+To:     Matthew Maurer <mmaurer@google.com>
+Cc:     Finn Behrens <me@kloenk.dev>,
+        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        Benno Lossin <benno.lossin@proton.me>,
+        Andreas Hindborg <a.hindborg@samsung.com>,
+        Alice Ryhl <aliceryhl@google.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-5.15-stable review patch.  If anyone has any objections, please let me know.
+On Sat, Sep 16, 2023 at 12:54=E2=80=AFPM Matthew Maurer <mmaurer@google.com=
+> wrote:
+>
+> On Sat, Sep 16, 2023 at 11:07=E2=80=AFAM Finn Behrens <me@kloenk.dev> wro=
+te:
+> >
+> >
+> >
+> > On 16 Sep 2023, at 19:53, Bj=C3=B6rn Roy Baron wrote:
+> >
+> > > On Saturday, September 16th, 2023 at 18:52, Finn Behrens <me@kloenk.d=
+ev> wrote:
+> > >
+> > >>
+> > >> On 15 Sep 2023, at 19:28, Matthew Maurer wrote:
+> > >>
+> > >>> Currently, rustc defaults to invoking `cc`, even if `HOSTCC` is def=
+ined,
+> > >>> resulting in build failures in hermetic environments where `cc` doe=
+s not
+> > >>> exist. This includes both hostprogs and proc-macros.
+> > >>>
+> > >>> Since we are setting the linker to `HOSTCC`, we set the linker flav=
+or to
+> > >>> `gcc` explicitly.
+> > >> But as `HOSTCC` could also be clang, the linker flavor would then be=
+ wrong, would that create a problem?
+> > >
+> > > Rustc uses the gcc linker flavor for clang too. There has been a prop=
+osal to split it up, but I'm not sure of the status of that. In any case cl=
+ang's cli is similar enough to gcc that it works fine to use the gcc linker=
+ flavor.
+> > >
+> > In that case this looks very reasonable.
+> >
+> > Second thing I noticed is that `HOSTCC` could be the wrong variable, an=
+d `HOSTLD` would make more sense as we look for the linker and not the gene=
+ral C compiler.
+> >
+> Yes, thanks Bjorn - "gcc" is the linker flavor used for "Use the C
+> compiler as a linker".
+>
+> With regards to HOSTLD, I was trying to make the minimum possible
+> change. Currently, it is using the command `cc` as a linker, so this
+> would preserve existing behavior when HOSTCC is unset.
 
-------------------
+Hey! Isn't HOSTCC always set? Top level Makefile lines 442-445?
 
-From: Randy Dunlap <rdunlap@infradead.org>
+What happens if you invoke the linker directly?
 
-[ Upstream commit db4bfcba7bb8d10f00bba2a3da6b9a9c2a1d7b71 ]
+Generally, the kernel either invokes the compiler or the linker
+directly. (For assembler, it is typically preprocessed, as are linker
+scripts!)  So invoking the linker directly is a common pattern in
+kbuild.  It also makes me slightly sad if the rust compiler ends up
+invoking a c compiler, even if it's simply to drive the linker.
 
-Use "select" to ensure that the required kconfig symbols are set
-as expected.
-Drop HOSTAUDIO since it is now equivalent to UML_SOUND.
+I'm concerned that while this might invoke $HOSTCC, it probably won't
+do so with any of the $KBUILD_HOSTCFLAGS set.  That's generally been a
+problem in the past.
 
-Set CONFIG_SOUND=m in ARCH=um defconfig files to maintain the
-status quo of the default configs.
+For example, Android carries a downstream patch to set `-fuse-ld=3Dlld`
+for $KBUILD_HOSTCFLAGS, because its build environment doesn't contain
+GNU binutils ("guilty, officer").
 
-Allow SOUND with UML regardless of HAS_IOMEM. Otherwise there is a
-kconfig warning for unmet dependencies. (This was not an issue when
-SOUND was defined in arch/um/drivers/Kconfig. I have done 50 randconfig
-builds and didn't find any issues.)
+So if you set `rustc` to use `clang` as the linker, how do you
+guarantee that `-fuse-ld=3Dlld` or any of the upstream
+$KBUILD_HOSTCFLAGS get used?
 
-This fixes build errors when CONFIG_SOUND is not set:
+Android also sets `--sysroot` for the $KBUILD_HOSTCFLAGS to guarantee
+that the UAPI header tests can be built against bionic (Android's
+libc).
 
-ld: arch/um/drivers/hostaudio_kern.o: in function `hostaudio_cleanup_module':
-hostaudio_kern.c:(.exit.text+0xa): undefined reference to `unregister_sound_mixer'
-ld: hostaudio_kern.c:(.exit.text+0x15): undefined reference to `unregister_sound_dsp'
-ld: arch/um/drivers/hostaudio_kern.o: in function `hostaudio_init_module':
-hostaudio_kern.c:(.init.text+0x19): undefined reference to `register_sound_dsp'
-ld: hostaudio_kern.c:(.init.text+0x31): undefined reference to `register_sound_mixer'
-ld: hostaudio_kern.c:(.init.text+0x49): undefined reference to `unregister_sound_dsp'
+Or is that handled elsewhere in rust/Makefile already?
 
-and this kconfig warning:
-WARNING: unmet direct dependencies detected for SOUND
+Also, if this is your first kernel patch, nice job! Welcome!
 
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Fixes: d886e87cb82b ("sound: make OSS sound core optional")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: lore.kernel.org/r/202307141416.vxuRVpFv-lkp@intel.com
-Cc: Richard Weinberger <richard@nod.at>
-Cc: Anton Ivanov <anton.ivanov@cambridgegreys.com>
-Cc: Johannes Berg <johannes@sipsolutions.net>
-Cc: linux-um@lists.infradead.org
-Cc: Tejun Heo <tj@kernel.org>
-Cc: Takashi Iwai <tiwai@suse.de>
-Cc: Jaroslav Kysela <perex@perex.cz>
-Cc: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>
-Cc: Nick Desaulniers <ndesaulniers@google.com>
-Cc: Nicolas Schier <nicolas@fjasle.eu>
-Cc: linux-kbuild@vger.kernel.org
-Cc: alsa-devel@alsa-project.org
-Reviewed-by: Masahiro Yamada <masahiroy@kernel.org>
-Signed-off-by: Richard Weinberger <richard@nod.at>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- arch/um/configs/i386_defconfig   |  1 +
- arch/um/configs/x86_64_defconfig |  1 +
- arch/um/drivers/Kconfig          | 16 +++-------------
- arch/um/drivers/Makefile         |  2 +-
- sound/Kconfig                    |  2 +-
- 5 files changed, 7 insertions(+), 15 deletions(-)
-
-diff --git a/arch/um/configs/i386_defconfig b/arch/um/configs/i386_defconfig
-index fb51bd206dbed..4d7f99a02c1eb 100644
---- a/arch/um/configs/i386_defconfig
-+++ b/arch/um/configs/i386_defconfig
-@@ -35,6 +35,7 @@ CONFIG_TTY_CHAN=y
- CONFIG_XTERM_CHAN=y
- CONFIG_CON_CHAN="pts"
- CONFIG_SSL_CHAN="pts"
-+CONFIG_SOUND=m
- CONFIG_UML_SOUND=m
- CONFIG_DEVTMPFS=y
- CONFIG_DEVTMPFS_MOUNT=y
-diff --git a/arch/um/configs/x86_64_defconfig b/arch/um/configs/x86_64_defconfig
-index 477b873174243..4bdd83008f623 100644
---- a/arch/um/configs/x86_64_defconfig
-+++ b/arch/um/configs/x86_64_defconfig
-@@ -33,6 +33,7 @@ CONFIG_TTY_CHAN=y
- CONFIG_XTERM_CHAN=y
- CONFIG_CON_CHAN="pts"
- CONFIG_SSL_CHAN="pts"
-+CONFIG_SOUND=m
- CONFIG_UML_SOUND=m
- CONFIG_DEVTMPFS=y
- CONFIG_DEVTMPFS_MOUNT=y
-diff --git a/arch/um/drivers/Kconfig b/arch/um/drivers/Kconfig
-index f145842c40b94..3dd74d369f995 100644
---- a/arch/um/drivers/Kconfig
-+++ b/arch/um/drivers/Kconfig
-@@ -104,24 +104,14 @@ config SSL_CHAN
- 
- config UML_SOUND
- 	tristate "Sound support"
-+	depends on SOUND
-+	select SOUND_OSS_CORE
- 	help
- 	  This option enables UML sound support.  If enabled, it will pull in
--	  soundcore and the UML hostaudio relay, which acts as a intermediary
-+	  the UML hostaudio relay, which acts as a intermediary
- 	  between the host's dsp and mixer devices and the UML sound system.
- 	  It is safe to say 'Y' here.
- 
--config SOUND
--	tristate
--	default UML_SOUND
--
--config SOUND_OSS_CORE
--	bool
--	default UML_SOUND
--
--config HOSTAUDIO
--	tristate
--	default UML_SOUND
--
- endmenu
- 
- menu "UML Network Devices"
-diff --git a/arch/um/drivers/Makefile b/arch/um/drivers/Makefile
-index cd1a58bb3e9cd..dc0e6fe77de10 100644
---- a/arch/um/drivers/Makefile
-+++ b/arch/um/drivers/Makefile
-@@ -54,7 +54,7 @@ obj-$(CONFIG_UML_NET) += net.o
- obj-$(CONFIG_MCONSOLE) += mconsole.o
- obj-$(CONFIG_MMAPPER) += mmapper_kern.o 
- obj-$(CONFIG_BLK_DEV_UBD) += ubd.o 
--obj-$(CONFIG_HOSTAUDIO) += hostaudio.o
-+obj-$(CONFIG_UML_SOUND) += hostaudio.o
- obj-$(CONFIG_NULL_CHAN) += null.o 
- obj-$(CONFIG_PORT_CHAN) += port.o
- obj-$(CONFIG_PTY_CHAN) += pty.o
-diff --git a/sound/Kconfig b/sound/Kconfig
-index e56d96d2b11ca..1903c35d799e1 100644
---- a/sound/Kconfig
-+++ b/sound/Kconfig
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only
- menuconfig SOUND
- 	tristate "Sound card support"
--	depends on HAS_IOMEM
-+	depends on HAS_IOMEM || UML
- 	help
- 	  If you have a sound card in your computer, i.e. if it can say more
- 	  than an occasional beep, say Y.
--- 
-2.40.1
+>
+> If we would prefer `HOSTLD` instead we can do that, but we would need
+> to additionally inspect `LLVM` to set the linker flavor accordingly
+> (e.g. set ld vs ld.lld).
+>
+> Do folks have strong opinions between these? My primary concern is to
+> avoid calling programs by foo when their HOSTFOO variable is set.
+>
+> See https://doc.rust-lang.org/rustc/codegen-options/index.html#linker-fla=
+vor
+> for details on linker flavor settings.
+> > >>>
+> > >>> Signed-off-by: Matthew Maurer <mmaurer@google.com>
+> > >>> ---
+> > >>>  rust/Makefile         | 1 +
+> > >>>  scripts/Makefile.host | 1 +
+> > >>>  2 files changed, 2 insertions(+)
+> > >>>
+> > >>> diff --git a/rust/Makefile b/rust/Makefile
+> > >>> index 87958e864be0..2a2352638f11 100644
+> > >>> --- a/rust/Makefile
+> > >>> +++ b/rust/Makefile
+> > >>> @@ -383,6 +383,7 @@ $(obj)/exports_kernel_generated.h: $(obj)/kerne=
+l.o FORCE
+> > >>>  quiet_cmd_rustc_procmacro =3D $(RUSTC_OR_CLIPPY_QUIET) P $@
+> > >>>        cmd_rustc_procmacro =3D \
+> > >>>     $(RUSTC_OR_CLIPPY) $(rust_common_flags) \
+> > >>> +           -C linker-flavor=3Dgcc -C linker=3D$(HOSTCC) \
+> > >>>             --emit=3Ddep-info=3D$(depfile) --emit=3Dlink=3D$@ --ext=
+ern proc_macro \
+> > >>>             --crate-type proc-macro \
+> > >>>             --crate-name $(patsubst lib%.so,%,$(notdir $@)) $<
+> > >>> diff --git a/scripts/Makefile.host b/scripts/Makefile.host
+> > >>> index 8f7f842b54f9..0aa95a3af1c4 100644
+> > >>> --- a/scripts/Makefile.host
+> > >>> +++ b/scripts/Makefile.host
+> > >>> @@ -91,6 +91,7 @@ hostcxx_flags  =3D -Wp,-MMD,$(depfile) \
+> > >>>  # current working directory, which may be not accessible in the ou=
+t-of-tree
+> > >>>  # modules case.
+> > >>>  hostrust_flags =3D --out-dir $(dir $@) --emit=3Ddep-info=3D$(depfi=
+le) \
+> > >>> +            -C linker-flavor=3Dgcc -C linker=3D$(HOSTCC) \
+> > >>>                   $(KBUILD_HOSTRUSTFLAGS) $(HOST_EXTRARUSTFLAGS) \
+> > >>>                   $(HOSTRUSTFLAGS_$(target-stem))
+> > >>>
+> > >>> --
+> > >>> 2.42.0.459.ge4e396fd5e-goog
 
 
 
+--=20
+Thanks,
+~Nick Desaulniers
