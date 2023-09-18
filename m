@@ -2,62 +2,62 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 04E7B7A4FE2
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Sep 2023 18:55:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5FECA7A523F
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Sep 2023 20:43:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231278AbjIRQzz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 18 Sep 2023 12:55:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33760 "EHLO
+        id S229718AbjIRSnY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 18 Sep 2023 14:43:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34740 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231281AbjIRQzr (ORCPT
+        with ESMTP id S229654AbjIRSnW (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 18 Sep 2023 12:55:47 -0400
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D1AC3A91
-        for <linux-kbuild@vger.kernel.org>; Mon, 18 Sep 2023 09:38:34 -0700 (PDT)
-Received: by mail-ed1-x531.google.com with SMTP id 4fb4d7f45d1cf-529fa243739so275a12.0
-        for <linux-kbuild@vger.kernel.org>; Mon, 18 Sep 2023 09:38:34 -0700 (PDT)
+        Mon, 18 Sep 2023 14:43:22 -0400
+Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com [IPv6:2607:f8b0:4864:20::f2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE35C10E
+        for <linux-kbuild@vger.kernel.org>; Mon, 18 Sep 2023 11:43:16 -0700 (PDT)
+Received: by mail-qv1-xf2d.google.com with SMTP id 6a1803df08f44-65649c60858so13007826d6.3
+        for <linux-kbuild@vger.kernel.org>; Mon, 18 Sep 2023 11:43:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1695055113; x=1695659913; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1695062596; x=1695667396; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=u3SM+9HHyctg6dKNxTmfV4NWzrd21mc1tYe06HY4Uio=;
-        b=2PqZkzd9k7yBu34EVfNCf8J6+6m/vsWIg4rJL7U3M9ow79SIAsFITTQXWMjXHbRIYA
-         LgdfxIAQQ4Ci1bQPYWbFYeDacaQNXgV2+kqwZTC7d1qCvQQbJPd2xAi1PzvoaJOLTFAO
-         vRqsonoxnMFxWfXPE7uvJ5fOPRAtOKkxZLN4rMeUBZ4OA9Mt4ryiJRL3RS4PfMxxkNaR
-         1HQMokVsnjPzJQtJOgQt/6EBIIIZmhLOsR1y4dOLr7kWhzFWkP9/EUmkOEv6shzrYIYh
-         mzDzGrmtK3rDN1l4usNiDS/I0dMJ1Hjc6+XjNMxJueKGgRbhWucVN//rP0b9YnsWkMye
-         B1EQ==
+        bh=kGggz20caFzafUF2A1Vven9jC5oystZUe3kde8zcZIk=;
+        b=UJ/SEvC+s0+IOOpfEqqte5BgzI0WhzEiFo0xQfPJmft7acj9spen6qLOjiN1RLfqP/
+         NbkifY6t6Kb79lJZSxqYLPb9s5W7/MHrdPm2ygkAB/IvHBe/JjTu/rJHAOAsfBqW4lD8
+         dA3xRq1oQP9zMoQXf7PrUj30V6pI6p+Xean6RiFt7gYsa3F0R+ZaBj1t5WwwwdJE20Z5
+         2wlhqwYSXQGne81UesPlktyMugoQwBpzwLXHGvIMyV3aEOQs/ZcDSqJViYtP+A5R63JP
+         0xVDxWx5KFWxNAp6sf+LYAdNfseFdOEcZrqfkMgMyd+d7q/jPncEpIdF0sQUGGCIScqn
+         Ln4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695055113; x=1695659913;
+        d=1e100.net; s=20230601; t=1695062596; x=1695667396;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=u3SM+9HHyctg6dKNxTmfV4NWzrd21mc1tYe06HY4Uio=;
-        b=uFe2kHqC+9VjP6zQKJgcK4CEv1Q8bQDvRQ4rUTaMArx0xRtI9jHmPd4cjQY9CKiWF/
-         HOGFD6e4/xPLtB68mG75b5+tJ1lgPBASF587hPApSiRF3h8iarytHYpVaOihc7MAw8zO
-         z1uqxkWYtTxh/HL8EO0rvmeb09dZtt8XOU9VbIxqHwlalTHeju3Y5cTeQdlXB0YNWOWZ
-         0spVIKYUCT3msbgm9UoFyiiBZjaGr+OJAYICJdY7LWdjpgYV+YS59MADWerv45/aWIiN
-         BbVzu2QoA+SVge1Qa9nDHrogma891oeiIDl7ZiC+zuVcDg3Xz/808eX9vVGKma9khR59
-         nKhA==
-X-Gm-Message-State: AOJu0YyZVTPQCRhjDaLQhu/43SRpoHU5XhQOcNq7IzYUqsOtDIcMKA0V
-        A1kHZ/gOSO+TYMVqeVAwW4jMsbhCDf8hUKF6ysUb0A==
-X-Google-Smtp-Source: AGHT+IHoLERiM3cMevc6mq/BS8ZB7t5xuKPbZa6EUFkApsAcotBY6AOUXKnzZeo1Kdr1U6VYWmeaT73kPqlHXyf8HiA=
-X-Received: by 2002:a50:8d19:0:b0:523:b133:57fe with SMTP id
- s25-20020a508d19000000b00523b13357femr160405eds.1.1695055112581; Mon, 18 Sep
- 2023 09:38:32 -0700 (PDT)
+        bh=kGggz20caFzafUF2A1Vven9jC5oystZUe3kde8zcZIk=;
+        b=jitdfWwRm2MiFDbxI38QirDJeE1sTkRhDQmYbok+ckClK4yxqrfdwRZ/IFBMaQuFMi
+         eG6ZFy6rQ6BO2ynr8E2PTNN4zZa+GtXoA8YcAJTrWHqtsyN5dhIHG//5W6MqQgqtUYWE
+         8fER/0EKlpFGzv8nRTtcnaKOkEEylCK5GqEzf1/t1fm3JAOs0CUVma5dAIAE1OQbyPgI
+         8Fesr+9qPV5BM8yQzidddfJGx6cO+0QRY7KzpnC9gE2qcr49zvRnHKEnVH8E7CI38nXT
+         SM4wzoFgC9XO+ayA4/W4mMN6UXuvTxF22PiBullaZylrP8PnrN9iEHOBaxWDCSRlXYkP
+         BWrw==
+X-Gm-Message-State: AOJu0YyUx0AXZsU7wUqeR1Tq1ar8ukpP8OSpi3VQ5kLcKAjpw25NCLlb
+        2E4NSYg82PbwrIKtz2cQskgN7Qnh5MeAItTGQL+9WQ==
+X-Google-Smtp-Source: AGHT+IHV+FMHOEi1fylsCDFa56Jd5WNqYXUftZ6W7AQ+3/RiLXdRp2eDi4GA/Tl08EGbjP+C7u7pahdCxIZtO1dcdog=
+X-Received: by 2002:a0c:c985:0:b0:658:2f85:29ce with SMTP id
+ b5-20020a0cc985000000b006582f8529cemr2054758qvk.58.1695062595805; Mon, 18 Sep
+ 2023 11:43:15 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230915172900.3784163-1-mmaurer@google.com> <9966E047-44E7-4665-9628-169F3EBE2F06@kloenk.dev>
  <SLZSYLg5E9OQKI546K87wxTYYLNlT1xM-LhC4W1JFhIate6PFsKq27RcBNhSjUkErYDlzsZB4F2Vc2KOP9tDThg58_tXycWn3K29mQXlFtU=@protonmail.com>
  <0561303E-2089-43FC-AA31-836C7BB844B7@kloenk.dev> <CAGSQo02p0LWZgV8oVidwvN6X__rv3-rj+ZVg9SaZ5Kx+zYahYQ@mail.gmail.com>
- <CAKwvOdnUdFjN+aCDrHKP6RzZCFB033ycN_KkB1WKucGd6VzUSg@mail.gmail.com>
-In-Reply-To: <CAKwvOdnUdFjN+aCDrHKP6RzZCFB033ycN_KkB1WKucGd6VzUSg@mail.gmail.com>
-From:   Matthew Maurer <mmaurer@google.com>
-Date:   Mon, 18 Sep 2023 09:38:19 -0700
-Message-ID: <CAGSQo00E1Wtg=f9SAcB2na69r4ASJ1L40ASPCyZV9FX+81uJCw@mail.gmail.com>
+ <CAKwvOdnUdFjN+aCDrHKP6RzZCFB033ycN_KkB1WKucGd6VzUSg@mail.gmail.com> <CAGSQo00E1Wtg=f9SAcB2na69r4ASJ1L40ASPCyZV9FX+81uJCw@mail.gmail.com>
+In-Reply-To: <CAGSQo00E1Wtg=f9SAcB2na69r4ASJ1L40ASPCyZV9FX+81uJCw@mail.gmail.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Mon, 18 Sep 2023 11:43:04 -0700
+Message-ID: <CAKwvOdnbbStoEeykYnx0jbnR=TAmmcdnOXbbA4Fx0BneFW8Fsg@mail.gmail.com>
 Subject: Re: [PATCH] rust: Respect HOSTCC when linking for host
-To:     Nick Desaulniers <ndesaulniers@google.com>
+To:     Matthew Maurer <mmaurer@google.com>
 Cc:     Finn Behrens <me@kloenk.dev>,
         =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
         Miguel Ojeda <ojeda@kernel.org>,
@@ -85,164 +85,76 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Sep 18, 2023 at 8:25=E2=80=AFAM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
+On Mon, Sep 18, 2023 at 9:38=E2=80=AFAM Matthew Maurer <mmaurer@google.com>=
+ wrote:
 >
-> On Sat, Sep 16, 2023 at 12:54=E2=80=AFPM Matthew Maurer <mmaurer@google.c=
-om> wrote:
+> On Mon, Sep 18, 2023 at 8:25=E2=80=AFAM Nick Desaulniers
+> <ndesaulniers@google.com> wrote:
 > >
-> > On Sat, Sep 16, 2023 at 11:07=E2=80=AFAM Finn Behrens <me@kloenk.dev> w=
-rote:
-> > >
-> > >
-> > >
-> > > On 16 Sep 2023, at 19:53, Bj=C3=B6rn Roy Baron wrote:
-> > >
-> > > > On Saturday, September 16th, 2023 at 18:52, Finn Behrens <me@kloenk=
-.dev> wrote:
-> > > >
-> > > >>
-> > > >> On 15 Sep 2023, at 19:28, Matthew Maurer wrote:
-> > > >>
-> > > >>> Currently, rustc defaults to invoking `cc`, even if `HOSTCC` is d=
-efined,
-> > > >>> resulting in build failures in hermetic environments where `cc` d=
-oes not
-> > > >>> exist. This includes both hostprogs and proc-macros.
-> > > >>>
-> > > >>> Since we are setting the linker to `HOSTCC`, we set the linker fl=
-avor to
-> > > >>> `gcc` explicitly.
-> > > >> But as `HOSTCC` could also be clang, the linker flavor would then =
-be wrong, would that create a problem?
-> > > >
-> > > > Rustc uses the gcc linker flavor for clang too. There has been a pr=
-oposal to split it up, but I'm not sure of the status of that. In any case =
-clang's cli is similar enough to gcc that it works fine to use the gcc link=
-er flavor.
-> > > >
-> > > In that case this looks very reasonable.
-> > >
-> > > Second thing I noticed is that `HOSTCC` could be the wrong variable, =
-and `HOSTLD` would make more sense as we look for the linker and not the ge=
-neral C compiler.
-> > >
-> > Yes, thanks Bjorn - "gcc" is the linker flavor used for "Use the C
-> > compiler as a linker".
-> >
-> > With regards to HOSTLD, I was trying to make the minimum possible
-> > change. Currently, it is using the command `cc` as a linker, so this
-> > would preserve existing behavior when HOSTCC is unset.
->
-> Hey! Isn't HOSTCC always set? Top level Makefile lines 442-445?
-Yes, you're correct. What I was trying to express was that this keeps
-the build process the same as when `cc=3DHOSTCC` today, which while not
-required is frequently true.
->
-> What happens if you invoke the linker directly?
-Rust unfortunately currently doesn't support invoking the linker
-directly: https://github.com/rust-lang/rust/issues/73632
-We work around this for kernel level code by manually providing
-expected symbols/stubs normally injected by rustc during linking
-because it is critical to use the kernel linking infrastructure there,
-but this doesn't seem as important on host unless I've missed
-something. While we could do that, it would add nontrivial complexity
-for minimal gain.
-A nontrivial chunk of rust/Makefile is currently spent working around
-this lack of support for non-rustc-managed link stages.
->
-> Generally, the kernel either invokes the compiler or the linker
-> directly. (For assembler, it is typically preprocessed, as are linker
-> scripts!)  So invoking the linker directly is a common pattern in
-> kbuild.  It also makes me slightly sad if the rust compiler ends up
-> invoking a c compiler, even if it's simply to drive the linker.
-As mentioned earlier, we could pass $HOSTLD, but if the linker isn't
-named something accurate (e.g. if the linker is not named lld, but is
-lld), we need to know how to pass a flavor:
+> > What happens if you invoke the linker directly?
+> Rust unfortunately currently doesn't support invoking the linker
+> directly: https://github.com/rust-lang/rust/issues/73632
+
+Wait; does Rust have its own linker? It doesn't use the system linker?
+ Perhaps that's necessary for the rust module format? If so, TIL.
+
+> > Generally, the kernel either invokes the compiler or the linker
+> > directly. (For assembler, it is typically preprocessed, as are linker
+> > scripts!)  So invoking the linker directly is a common pattern in
+> > kbuild.  It also makes me slightly sad if the rust compiler ends up
+> > invoking a c compiler, even if it's simply to drive the linker.
+> As mentioned earlier, we could pass $HOSTLD, but if the linker isn't
+> named something accurate (e.g. if the linker is not named lld, but is
+> lld), we need to know how to pass a flavor:
+> https://doc.rust-lang.org/rustc/codegen-options/index.html#linker-flavor
+> Would it be appropriate to just assume the linker is named correctly?
+
+If it were not, what does failure look like?
+
+command not found: asdfadfasdf
+
+Seems fine to me. If the user mis-specifies HOSTLD=3D, then they will
+get a similar error, which should be prescriptive enough for them to
+figure out how exactly they're "holding it wrong."
+
+> > For example, Android carries a downstream patch to set `-fuse-ld=3Dlld`
+> > for $KBUILD_HOSTCFLAGS, because its build environment doesn't contain
+> > GNU binutils ("guilty, officer").
+> Oddly, the Android kernel environment (Kleaf) is the one that I needed
+> this patch to build in, but it seemed to be working without a manual
+> KBUILD_HOSTCFLAGS forwarding.
+
+Surprising that worked.
+
+> Overall, it sounds like you'd prefer if I set this to use
+> `KBUILD_HOSTLD` and `KBUILD_HOSTLDFLAGS`, and leave the linker flavor
+> to autodetect?
+
+Yes for the first two.
+
+Dunno, what precisely is a linker flavor?  Is that like a flavor of ice cre=
+am?
+Oh, right looking at your link:
 https://doc.rust-lang.org/rustc/codegen-options/index.html#linker-flavor
-Would it be appropriate to just assume the linker is named correctly?
->
-> I'm concerned that while this might invoke $HOSTCC, it probably won't
-> do so with any of the $KBUILD_HOSTCFLAGS set.  That's generally been a
-> problem in the past.
-This would not work correctly with my patch. Once we decide which of
-the two linkage strategies we want (using $HOSTCC or $HOSTLD) I'll
-send a new patch that forwards the flags along.
->
-> For example, Android carries a downstream patch to set `-fuse-ld=3Dlld`
-> for $KBUILD_HOSTCFLAGS, because its build environment doesn't contain
-> GNU binutils ("guilty, officer").
-Oddly, the Android kernel environment (Kleaf) is the one that I needed
-this patch to build in, but it seemed to be working without a manual
-KBUILD_HOSTCFLAGS forwarding.
->
-> So if you set `rustc` to use `clang` as the linker, how do you
-> guarantee that `-fuse-ld=3Dlld` or any of the upstream
-> $KBUILD_HOSTCFLAGS get used?
->
-> Android also sets `--sysroot` for the $KBUILD_HOSTCFLAGS to guarantee
-> that the UAPI header tests can be built against bionic (Android's
-> libc).
->
-> Or is that handled elsewhere in rust/Makefile already?
->
-> Also, if this is your first kernel patch, nice job! Welcome!
->
-Overall, it sounds like you'd prefer if I set this to use
-`KBUILD_HOSTLD` and `KBUILD_HOSTLDFLAGS`, and leave the linker flavor
-to autodetect?
-> >
-> > If we would prefer `HOSTLD` instead we can do that, but we would need
-> > to additionally inspect `LLVM` to set the linker flavor accordingly
-> > (e.g. set ld vs ld.lld).
-> >
-> > Do folks have strong opinions between these? My primary concern is to
-> > avoid calling programs by foo when their HOSTFOO variable is set.
-> >
-> > See https://doc.rust-lang.org/rustc/codegen-options/index.html#linker-f=
-lavor
-> > for details on linker flavor settings.
-> > > >>>
-> > > >>> Signed-off-by: Matthew Maurer <mmaurer@google.com>
-> > > >>> ---
-> > > >>>  rust/Makefile         | 1 +
-> > > >>>  scripts/Makefile.host | 1 +
-> > > >>>  2 files changed, 2 insertions(+)
-> > > >>>
-> > > >>> diff --git a/rust/Makefile b/rust/Makefile
-> > > >>> index 87958e864be0..2a2352638f11 100644
-> > > >>> --- a/rust/Makefile
-> > > >>> +++ b/rust/Makefile
-> > > >>> @@ -383,6 +383,7 @@ $(obj)/exports_kernel_generated.h: $(obj)/ker=
-nel.o FORCE
-> > > >>>  quiet_cmd_rustc_procmacro =3D $(RUSTC_OR_CLIPPY_QUIET) P $@
-> > > >>>        cmd_rustc_procmacro =3D \
-> > > >>>     $(RUSTC_OR_CLIPPY) $(rust_common_flags) \
-> > > >>> +           -C linker-flavor=3Dgcc -C linker=3D$(HOSTCC) \
-> > > >>>             --emit=3Ddep-info=3D$(depfile) --emit=3Dlink=3D$@ --e=
-xtern proc_macro \
-> > > >>>             --crate-type proc-macro \
-> > > >>>             --crate-name $(patsubst lib%.so,%,$(notdir $@)) $<
-> > > >>> diff --git a/scripts/Makefile.host b/scripts/Makefile.host
-> > > >>> index 8f7f842b54f9..0aa95a3af1c4 100644
-> > > >>> --- a/scripts/Makefile.host
-> > > >>> +++ b/scripts/Makefile.host
-> > > >>> @@ -91,6 +91,7 @@ hostcxx_flags  =3D -Wp,-MMD,$(depfile) \
-> > > >>>  # current working directory, which may be not accessible in the =
-out-of-tree
-> > > >>>  # modules case.
-> > > >>>  hostrust_flags =3D --out-dir $(dir $@) --emit=3Ddep-info=3D$(dep=
-file) \
-> > > >>> +            -C linker-flavor=3Dgcc -C linker=3D$(HOSTCC) \
-> > > >>>                   $(KBUILD_HOSTRUSTFLAGS) $(HOST_EXTRARUSTFLAGS) =
-\
-> > > >>>                   $(HOSTRUSTFLAGS_$(target-stem))
-> > > >>>
-> > > >>> --
-> > > >>> 2.42.0.459.ge4e396fd5e-goog
->
->
->
-> --
-> Thanks,
-> ~Nick Desaulniers
+Seems like if `LLVM=3D1` is set, or `LD=3Dld.lld`, or CONFIG_LD_IS_LLD, the=
+n
+the flavor should be set to ld.lld, else ld.  Then the
+KBUILD_HOSTLDFLAGS need to be passed, probably.
+
+But how are there "linker flavors" like ld or ld.lld if you just said
+"Rust unfortunately currently doesn't support invoking the linker
+directly: https://github.com/rust-lang/rust/issues/73632".  I'm having
+trouble reconciling the two.
+
+Can we do something more like the below?
+
+ifdef CONFIG_LD_IS_LLD
+hostrust_flags +=3D -C linker-flavor=3Dld.lld
+else
+hostrust_flags +=3D -C linker-flavor=3Dld
+endif
+hostrust_flags +=3D -C linker=3D$(HOSTLD) <todo: figure out how to pass
+KBUILD_HOSTLDFLAGS>
+--=20
+Thanks,
+~Nick Desaulniers
