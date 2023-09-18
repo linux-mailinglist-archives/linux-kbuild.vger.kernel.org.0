@@ -2,81 +2,72 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E36BA7A4C5C
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Sep 2023 17:32:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A8E37A4D8A
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Sep 2023 17:52:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229504AbjIRPcJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 18 Sep 2023 11:32:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35698 "EHLO
+        id S229726AbjIRPwv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 18 Sep 2023 11:52:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229700AbjIRPcB (ORCPT
+        with ESMTP id S229734AbjIRPwq (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 18 Sep 2023 11:32:01 -0400
-Received: from mail-qv1-xf2e.google.com (mail-qv1-xf2e.google.com [IPv6:2607:f8b0:4864:20::f2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93E292722
-        for <linux-kbuild@vger.kernel.org>; Mon, 18 Sep 2023 08:27:52 -0700 (PDT)
-Received: by mail-qv1-xf2e.google.com with SMTP id 6a1803df08f44-656262cd5aeso23055606d6.3
-        for <linux-kbuild@vger.kernel.org>; Mon, 18 Sep 2023 08:27:52 -0700 (PDT)
+        Mon, 18 Sep 2023 11:52:46 -0400
+Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com [IPv6:2607:f8b0:4864:20::72f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1A4FCE7
+        for <linux-kbuild@vger.kernel.org>; Mon, 18 Sep 2023 08:51:21 -0700 (PDT)
+Received: by mail-qk1-x72f.google.com with SMTP id af79cd13be357-76f2843260bso308064885a.3
+        for <linux-kbuild@vger.kernel.org>; Mon, 18 Sep 2023 08:51:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1695050706; x=1695655506; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1695051996; x=1695656796; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ys8ZuxyrYrmqdRpBskmFPDEMMgzPmmgYAlaMVeRpyj0=;
-        b=OoL/LYepxyn7fq5yLXK7HVkQfKnaUwW9v7EAHw+0/BqIW7xpbUjv7ImzN6RRGVYvBB
-         LSdoSk7MN1Ly/fxCL2Y+SuTUqfpymM3UYxEVBUYNPrhkZrNlO9wu7rUVv2pvoCMzyVxE
-         lqdjza/DAyPELaLP1pYEw+LeIWLv11GbQ2egzU6IRqNBc62NBRHAdMpApbZdmVlFFCoF
-         d8W+M6cPzASeKEaoqBllc/rxOVBmpUfz8Y77v6srfgZOmmN8fm/gEYSlNKFE1RQdM1ot
-         eNYjvKobxwT0l37bAa4e5JlrJAiplopZCJ5kKeqzSHt8SVT4iMcKpjQp8MDiDn8CNUuy
-         rSwA==
+        bh=eSP+16G1Bwl8A9IxgIP/Sa5BiOxstbUYl8oEInDZp+w=;
+        b=txqFLE+MS1O0Bp7OnBjkA3p+ajO0hNQdaN+PLm2WUvcPzKQvXyQC6oMnVYaaZpcABt
+         NXC3G+Dz0RhnO7X5bBeuZVSr0WpSxLu84maUJN39GHh07inBahBrRmF9233eb87K19Xf
+         nR3m49yrcdkHHmLcHKzlUozy75I/X+oK5spNKnxoBMCUaXYgiAicPp39BFMX3nfoNJdW
+         mYlO3aR11caVCuf7bn8w/VwWm5phZkzMcRlEaT/bfWmoHUMtg4CGcJdWENTYZC9LaLfc
+         J/zGsqPp6H3wKS86PSAei6YuqFtjh21AxR0Z0mUXvvDxLvaeknLekTPNTK1dRQrrVZcH
+         e3LQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695050706; x=1695655506;
+        d=1e100.net; s=20230601; t=1695051996; x=1695656796;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ys8ZuxyrYrmqdRpBskmFPDEMMgzPmmgYAlaMVeRpyj0=;
-        b=AE4EKBnhp6MquhahJVp2oV/VfJPf/Aqy/kLjG/IUhClhdBovXu//fd2emO55UPtQQk
-         1MeaLIrY1yn0loOB15toSSTXI9h7gP4ll8FBeso8VMXEQMknA9F5n+1ZuqvOjf/BuAeO
-         8mc2c2g8dB+MIB6eCdWNoawDdY3x1h4xMNW7cEfUSTuSxuXdY347HV7RVluZE85p4u/j
-         dKJNqTU9ksZNHJ+xS1QPHyiYgfPmozvjAuQwU0asJ7I0yznsmbd5TaED7uRst21DvVok
-         e0PCPAAQ8oSEZtq/69HdYkr9kNYEZTCzIt0TAisvXjKZPexCv4kO8M1By7C515uCB78K
-         hJpA==
-X-Gm-Message-State: AOJu0Yyk7VaVeV3ahTlDTVM4ANft9eeBCwPb9yK8MCOo87EngtIfYhlM
-        QvQNJCbpWObOEULNl8WLY5XJnuIHuFFIL5kpa6lamw==
-X-Google-Smtp-Source: AGHT+IH9LLqV92rpZ5LSrWwBipB0Ihf+9x9uQ6G4zR4uCe4P2fA/teIqsQ/gOUdead92SW7V7k086l24NnhTpkdsTVY=
-X-Received: by 2002:ad4:4c48:0:b0:64f:3bec:9b29 with SMTP id
- cs8-20020ad44c48000000b0064f3bec9b29mr10357719qvb.39.1695050705847; Mon, 18
- Sep 2023 08:25:05 -0700 (PDT)
+        bh=eSP+16G1Bwl8A9IxgIP/Sa5BiOxstbUYl8oEInDZp+w=;
+        b=XFq+qZRUCHZibz3aW65PbRYOB/oEgLEs8/79th/csxD2tt1xBNbHxe0uFHSYyIxv+b
+         WlmFSUdrA07+hv7F6zF+wTc7lXyIyaxBMFn6R1Fp+w22LuwyaqfXbf+eAGPiN0N4q4+V
+         gyq+LxmZNrdETJwExDKxESnz7ybDzDAKbyVNt4P7PhpCa012gLdSfm0mf/4kDZXrosSX
+         reM4yYScTv8ynjYWn/TqczEjMyu+olk3S7ZSXpblAU3e1qXwZiPb+Hm1rH9ReIDTIA4w
+         xU+Mczc+syaf42rW2uDabU2ypne1o7YQosm8MImvfpBK7sh4+gpe4vn3qJRICgXATXTh
+         VwXQ==
+X-Gm-Message-State: AOJu0Yxm2W46N0wuqV42Lc3g8yU7qFlNxCi/QIK0Wf08Y3jhEKP8Lj7o
+        1MeHCU16GXWkdufBVKz/jsW+pDgkwUB4kSZq7kioGg==
+X-Google-Smtp-Source: AGHT+IGSUULgLx9FvIM2G5gEeM7ybNMOW2H+dM1B3pvbSlmQSrVHa/ewZDJJ/XayWLE5Hm+MVwugsUEgSOjdjnGSzrQ=
+X-Received: by 2002:a0c:e38f:0:b0:64f:539b:f52a with SMTP id
+ a15-20020a0ce38f000000b0064f539bf52amr9516982qvl.20.1695051996407; Mon, 18
+ Sep 2023 08:46:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230915172900.3784163-1-mmaurer@google.com> <9966E047-44E7-4665-9628-169F3EBE2F06@kloenk.dev>
- <SLZSYLg5E9OQKI546K87wxTYYLNlT1xM-LhC4W1JFhIate6PFsKq27RcBNhSjUkErYDlzsZB4F2Vc2KOP9tDThg58_tXycWn3K29mQXlFtU=@protonmail.com>
- <0561303E-2089-43FC-AA31-836C7BB844B7@kloenk.dev> <CAGSQo02p0LWZgV8oVidwvN6X__rv3-rj+ZVg9SaZ5Kx+zYahYQ@mail.gmail.com>
-In-Reply-To: <CAGSQo02p0LWZgV8oVidwvN6X__rv3-rj+ZVg9SaZ5Kx+zYahYQ@mail.gmail.com>
+References: <20230914131225.13415-1-will@kernel.org> <20230914131225.13415-4-will@kernel.org>
+In-Reply-To: <20230914131225.13415-4-will@kernel.org>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 18 Sep 2023 08:24:51 -0700
-Message-ID: <CAKwvOdnUdFjN+aCDrHKP6RzZCFB033ycN_KkB1WKucGd6VzUSg@mail.gmail.com>
-Subject: Re: [PATCH] rust: Respect HOSTCC when linking for host
-To:     Matthew Maurer <mmaurer@google.com>
-Cc:     Finn Behrens <me@kloenk.dev>,
-        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
+Date:   Mon, 18 Sep 2023 08:46:22 -0700
+Message-ID: <CAKwvOd=gDX4ebkyHyqr276nrZVuRaoJG9Ptofpq8WjejD3s5AA@mail.gmail.com>
+Subject: Re: [PATCH v4 3/3] scripts/faddr2line: Skip over mapping symbols in
+ output from readelf
+To:     Will Deacon <will@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, kernel-team@android.com,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        Benno Lossin <benno.lossin@proton.me>,
-        Andreas Hindborg <a.hindborg@samsung.com>,
-        Alice Ryhl <aliceryhl@google.com>,
         Nathan Chancellor <nathan@kernel.org>,
         Nicolas Schier <nicolas@fjasle.eu>,
-        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        John Stultz <jstultz@google.com>, linux-kbuild@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -84,131 +75,95 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Sep 16, 2023 at 12:54=E2=80=AFPM Matthew Maurer <mmaurer@google.com=
-> wrote:
+On Thu, Sep 14, 2023 at 6:12=E2=80=AFAM Will Deacon <will@kernel.org> wrote=
+:
 >
-> On Sat, Sep 16, 2023 at 11:07=E2=80=AFAM Finn Behrens <me@kloenk.dev> wro=
-te:
-> >
-> >
-> >
-> > On 16 Sep 2023, at 19:53, Bj=C3=B6rn Roy Baron wrote:
-> >
-> > > On Saturday, September 16th, 2023 at 18:52, Finn Behrens <me@kloenk.d=
-ev> wrote:
-> > >
-> > >>
-> > >> On 15 Sep 2023, at 19:28, Matthew Maurer wrote:
-> > >>
-> > >>> Currently, rustc defaults to invoking `cc`, even if `HOSTCC` is def=
-ined,
-> > >>> resulting in build failures in hermetic environments where `cc` doe=
-s not
-> > >>> exist. This includes both hostprogs and proc-macros.
-> > >>>
-> > >>> Since we are setting the linker to `HOSTCC`, we set the linker flav=
-or to
-> > >>> `gcc` explicitly.
-> > >> But as `HOSTCC` could also be clang, the linker flavor would then be=
- wrong, would that create a problem?
-> > >
-> > > Rustc uses the gcc linker flavor for clang too. There has been a prop=
-osal to split it up, but I'm not sure of the status of that. In any case cl=
-ang's cli is similar enough to gcc that it works fine to use the gcc linker=
- flavor.
-> > >
-> > In that case this looks very reasonable.
-> >
-> > Second thing I noticed is that `HOSTCC` could be the wrong variable, an=
-d `HOSTLD` would make more sense as we look for the linker and not the gene=
-ral C compiler.
-> >
-> Yes, thanks Bjorn - "gcc" is the linker flavor used for "Use the C
-> compiler as a linker".
+> Mapping symbols emitted in the readelf output can confuse the
+> 'faddr2line' symbol size calculation, resulting in the erroneous
+> rejection of valid offsets. This is especially prevalent when building
+> an arm64 kernel with CONFIG_CFI_CLANG=3Dy, where most functions are
+> prefixed with a 32-bit data value in a '$d.n' section. For example:
 >
-> With regards to HOSTLD, I was trying to make the minimum possible
-> change. Currently, it is using the command `cc` as a linker, so this
-> would preserve existing behavior when HOSTCC is unset.
-
-Hey! Isn't HOSTCC always set? Top level Makefile lines 442-445?
-
-What happens if you invoke the linker directly?
-
-Generally, the kernel either invokes the compiler or the linker
-directly. (For assembler, it is typically preprocessed, as are linker
-scripts!)  So invoking the linker directly is a common pattern in
-kbuild.  It also makes me slightly sad if the rust compiler ends up
-invoking a c compiler, even if it's simply to drive the linker.
-
-I'm concerned that while this might invoke $HOSTCC, it probably won't
-do so with any of the $KBUILD_HOSTCFLAGS set.  That's generally been a
-problem in the past.
-
-For example, Android carries a downstream patch to set `-fuse-ld=3Dlld`
-for $KBUILD_HOSTCFLAGS, because its build environment doesn't contain
-GNU binutils ("guilty, officer").
-
-So if you set `rustc` to use `clang` as the linker, how do you
-guarantee that `-fuse-ld=3Dlld` or any of the upstream
-$KBUILD_HOSTCFLAGS get used?
-
-Android also sets `--sysroot` for the $KBUILD_HOSTCFLAGS to guarantee
-that the UAPI header tests can be built against bionic (Android's
-libc).
-
-Or is that handled elsewhere in rust/Makefile already?
-
-Also, if this is your first kernel patch, nice job! Welcome!
-
+> 447538: ffff800080014b80   548 FUNC    GLOBAL DEFAULT    2 do_one_initcal=
+l
+>    104: ffff800080014c74     0 NOTYPE  LOCAL  DEFAULT    2 $x.73
+>    106: ffff800080014d30     0 NOTYPE  LOCAL  DEFAULT    2 $x.75
+>    111: ffff800080014da4     0 NOTYPE  LOCAL  DEFAULT    2 $d.78
+>    112: ffff800080014da8     0 NOTYPE  LOCAL  DEFAULT    2 $x.79
+>     36: ffff800080014de0   200 FUNC    LOCAL  DEFAULT    2 run_init_proce=
+ss
 >
-> If we would prefer `HOSTLD` instead we can do that, but we would need
-> to additionally inspect `LLVM` to set the linker flavor accordingly
-> (e.g. set ld vs ld.lld).
+> Adding a warning to do_one_initcall() results in:
 >
-> Do folks have strong opinions between these? My primary concern is to
-> avoid calling programs by foo when their HOSTFOO variable is set.
+>   | WARNING: CPU: 0 PID: 1 at init/main.c:1236 do_one_initcall+0xf4/0x260
 >
-> See https://doc.rust-lang.org/rustc/codegen-options/index.html#linker-fla=
-vor
-> for details on linker flavor settings.
-> > >>>
-> > >>> Signed-off-by: Matthew Maurer <mmaurer@google.com>
-> > >>> ---
-> > >>>  rust/Makefile         | 1 +
-> > >>>  scripts/Makefile.host | 1 +
-> > >>>  2 files changed, 2 insertions(+)
-> > >>>
-> > >>> diff --git a/rust/Makefile b/rust/Makefile
-> > >>> index 87958e864be0..2a2352638f11 100644
-> > >>> --- a/rust/Makefile
-> > >>> +++ b/rust/Makefile
-> > >>> @@ -383,6 +383,7 @@ $(obj)/exports_kernel_generated.h: $(obj)/kerne=
-l.o FORCE
-> > >>>  quiet_cmd_rustc_procmacro =3D $(RUSTC_OR_CLIPPY_QUIET) P $@
-> > >>>        cmd_rustc_procmacro =3D \
-> > >>>     $(RUSTC_OR_CLIPPY) $(rust_common_flags) \
-> > >>> +           -C linker-flavor=3Dgcc -C linker=3D$(HOSTCC) \
-> > >>>             --emit=3Ddep-info=3D$(depfile) --emit=3Dlink=3D$@ --ext=
-ern proc_macro \
-> > >>>             --crate-type proc-macro \
-> > >>>             --crate-name $(patsubst lib%.so,%,$(notdir $@)) $<
-> > >>> diff --git a/scripts/Makefile.host b/scripts/Makefile.host
-> > >>> index 8f7f842b54f9..0aa95a3af1c4 100644
-> > >>> --- a/scripts/Makefile.host
-> > >>> +++ b/scripts/Makefile.host
-> > >>> @@ -91,6 +91,7 @@ hostcxx_flags  =3D -Wp,-MMD,$(depfile) \
-> > >>>  # current working directory, which may be not accessible in the ou=
-t-of-tree
-> > >>>  # modules case.
-> > >>>  hostrust_flags =3D --out-dir $(dir $@) --emit=3Ddep-info=3D$(depfi=
-le) \
-> > >>> +            -C linker-flavor=3Dgcc -C linker=3D$(HOSTCC) \
-> > >>>                   $(KBUILD_HOSTRUSTFLAGS) $(HOST_EXTRARUSTFLAGS) \
-> > >>>                   $(HOSTRUSTFLAGS_$(target-stem))
-> > >>>
-> > >>> --
-> > >>> 2.42.0.459.ge4e396fd5e-goog
+> Which 'faddr2line' refuses to accept:
+>
+> $ ./scripts/faddr2line vmlinux do_one_initcall+0xf4/0x260
+> skipping do_one_initcall address at 0xffff800080014c74 due to size mismat=
+ch (0x260 !=3D 0x224)
+> no match for do_one_initcall+0xf4/0x260
+>
+> Filter out these entries from readelf using a shell reimplementation of
+> is_mapping_symbol(), so that the size of a symbol is calculated as a
+> delta to the next symbol present in ksymtab.
+>
+> Cc: Josh Poimboeuf <jpoimboe@kernel.org>
+> Cc: John Stultz <jstultz@google.com>
+> Suggested-by: Masahiro Yamada <masahiroy@kernel.org>
+> Signed-off-by: Will Deacon <will@kernel.org>
+> ---
+>  scripts/faddr2line | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/scripts/faddr2line b/scripts/faddr2line
+> index 6b8206802157..20d9b3d37843 100755
+> --- a/scripts/faddr2line
+> +++ b/scripts/faddr2line
+> @@ -179,6 +179,11 @@ __faddr2line() {
+>                         local cur_sym_elf_size=3D${fields[2]}
+>                         local cur_sym_name=3D${fields[7]:-}
+>
+> +                       # is_mapping_symbol(cur_sym_name)
+> +                       if [[ ${cur_sym_name} =3D~ ^((\.L)|(L0)|(\$[adtx]=
+(\.|$))) ]]; then
 
+Thanks for the patch!
+
+I'm curious about the `|$` in the final part of the regex.  IIUC that
+will match something like
+$a
+Do we have any such symbols without `.<n>` suffixes?
+
+With aarch64 defconfig + cfi:
+$ llvm-readelf -s vmlinux | grep '\$' | rev | cut -d ' ' -f 1 | rev | sort =
+-u
+I only see $d.<n> and $x.<n> where the initial value of <n> is zero
+(as opposed to no `.<n>` suffix).
+Can we tighten up that last part of the regex to be `\$[adtx]\.[0-9]+$` ?
+Or perhaps you've observed mapping symbols use another convention than
+what clang is doing?
+
+https://sourceware.org/binutils/docs/as/AArch64-Mapping-Symbols.html
+also only mentions $d and $x. Ah,
+https://developer.arm.com/documentation/dui0803/a/Accessing-and-managing-sy=
+mbols-with-armlink/About-mapping-symbols
+mentions $a for A32 and $t for T32.
+Consider adding a link to the ARM documentation on mapping symbols in
+the commit message?
+
+(Curiously, `llvm-nm` does not print these symbols, but `llvm-readelf -s` d=
+oes).
+
+> +                               continue
+> +                       fi
+> +
+>                         if [[ $cur_sym_addr =3D $sym_addr ]] &&
+>                            [[ $cur_sym_elf_size =3D $sym_elf_size ]] &&
+>                            [[ $cur_sym_name =3D $sym_name ]]; then
+> --
+> 2.42.0.283.g2d96d420d3-goog
+>
 
 
 --=20
