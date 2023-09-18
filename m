@@ -2,59 +2,59 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A8E37A4D8A
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Sep 2023 17:52:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 799847A4DA7
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Sep 2023 17:57:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229726AbjIRPwv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 18 Sep 2023 11:52:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48858 "EHLO
+        id S229436AbjIRP5C (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 18 Sep 2023 11:57:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229734AbjIRPwq (ORCPT
+        with ESMTP id S229723AbjIRP5B (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 18 Sep 2023 11:52:46 -0400
-Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com [IPv6:2607:f8b0:4864:20::72f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1A4FCE7
-        for <linux-kbuild@vger.kernel.org>; Mon, 18 Sep 2023 08:51:21 -0700 (PDT)
-Received: by mail-qk1-x72f.google.com with SMTP id af79cd13be357-76f2843260bso308064885a.3
-        for <linux-kbuild@vger.kernel.org>; Mon, 18 Sep 2023 08:51:21 -0700 (PDT)
+        Mon, 18 Sep 2023 11:57:01 -0400
+Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com [IPv6:2607:f8b0:4864:20::f35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F27F92721
+        for <linux-kbuild@vger.kernel.org>; Mon, 18 Sep 2023 08:55:09 -0700 (PDT)
+Received: by mail-qv1-xf35.google.com with SMTP id 6a1803df08f44-65641c171cbso12495816d6.3
+        for <linux-kbuild@vger.kernel.org>; Mon, 18 Sep 2023 08:55:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1695051996; x=1695656796; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1695052284; x=1695657084; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=eSP+16G1Bwl8A9IxgIP/Sa5BiOxstbUYl8oEInDZp+w=;
-        b=txqFLE+MS1O0Bp7OnBjkA3p+ajO0hNQdaN+PLm2WUvcPzKQvXyQC6oMnVYaaZpcABt
-         NXC3G+Dz0RhnO7X5bBeuZVSr0WpSxLu84maUJN39GHh07inBahBrRmF9233eb87K19Xf
-         nR3m49yrcdkHHmLcHKzlUozy75I/X+oK5spNKnxoBMCUaXYgiAicPp39BFMX3nfoNJdW
-         mYlO3aR11caVCuf7bn8w/VwWm5phZkzMcRlEaT/bfWmoHUMtg4CGcJdWENTYZC9LaLfc
-         J/zGsqPp6H3wKS86PSAei6YuqFtjh21AxR0Z0mUXvvDxLvaeknLekTPNTK1dRQrrVZcH
-         e3LQ==
+        bh=npyytzb/8fGfFOzFWav6JIpKQnixl0/mUAWigmTXJoE=;
+        b=pwG63Xk23VdqZ7u9D2/IWBTeABvxM5ciAeSxi1rfBQpOn5ucFfYdFOmKTCwneWV+Qd
+         NKteIAQw70u6cb+NaG+aGuvmnGbdixQYXP8hNb/O6QNQwNSQxYHRI0oqRdT9NtmkSqhe
+         jklnyTeS16nLMXn397JLt3fZKw3Fe1pm49ek7R1SEQxwOx1yOObn1XWGjFI+XzH3zRs/
+         V0ym0pSR+yzOhr631juER/y2C626qiz7zEok0+Dxnb5JW6i8SjG6zKVhInERdCYoQWbw
+         lFuz79wnIjizUNfLTetwYZq/sLiHYPEHT7HMnbD0BlfWbQry3R1ELJ2syRjLD6mlu2hI
+         lUnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695051996; x=1695656796;
+        d=1e100.net; s=20230601; t=1695052284; x=1695657084;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=eSP+16G1Bwl8A9IxgIP/Sa5BiOxstbUYl8oEInDZp+w=;
-        b=XFq+qZRUCHZibz3aW65PbRYOB/oEgLEs8/79th/csxD2tt1xBNbHxe0uFHSYyIxv+b
-         WlmFSUdrA07+hv7F6zF+wTc7lXyIyaxBMFn6R1Fp+w22LuwyaqfXbf+eAGPiN0N4q4+V
-         gyq+LxmZNrdETJwExDKxESnz7ybDzDAKbyVNt4P7PhpCa012gLdSfm0mf/4kDZXrosSX
-         reM4yYScTv8ynjYWn/TqczEjMyu+olk3S7ZSXpblAU3e1qXwZiPb+Hm1rH9ReIDTIA4w
-         xU+Mczc+syaf42rW2uDabU2ypne1o7YQosm8MImvfpBK7sh4+gpe4vn3qJRICgXATXTh
-         VwXQ==
-X-Gm-Message-State: AOJu0Yxm2W46N0wuqV42Lc3g8yU7qFlNxCi/QIK0Wf08Y3jhEKP8Lj7o
-        1MeHCU16GXWkdufBVKz/jsW+pDgkwUB4kSZq7kioGg==
-X-Google-Smtp-Source: AGHT+IGSUULgLx9FvIM2G5gEeM7ybNMOW2H+dM1B3pvbSlmQSrVHa/ewZDJJ/XayWLE5Hm+MVwugsUEgSOjdjnGSzrQ=
-X-Received: by 2002:a0c:e38f:0:b0:64f:539b:f52a with SMTP id
- a15-20020a0ce38f000000b0064f539bf52amr9516982qvl.20.1695051996407; Mon, 18
- Sep 2023 08:46:36 -0700 (PDT)
+        bh=npyytzb/8fGfFOzFWav6JIpKQnixl0/mUAWigmTXJoE=;
+        b=bK0dEM6xcI9M0EYyx0oze8zYbN5BWCo8aHZIBvnxYeMqZiiZlJGZxoeJTlMp6RLOVC
+         qpKUknH60DHz7tkL2RCYUHgAd9g/VOpxpijaO3/X1qqPV3OJ3z+/adU9kDFmA4JzaGq5
+         CU/8JqwaB8+3Wo0qkU97OQuF36/9yQo37Ul4l6Vh5HZXU3alR7HdHIAloJ2ZMJxb4HsM
+         bGP/D3DX7txI9W5p/+xAD+saYKvbmbYpQzedmqdx4+zVXp9k/asWSG71Kc30N/mIaJX8
+         MQxbiB6VQGwuTbNspbMQb+jk57lb3HhS/VhpLTEqIww2ZA9mUwO+oWwbeme0PrG2b0Jw
+         QqQQ==
+X-Gm-Message-State: AOJu0YxFJtc9BX8yUFhutfjaM+cCaAP+A64h5xVJ2qusmSvDd6KieLJm
+        5RNn/ASkrTUHnt4ZfO8gtDJhMOkwMpKdclgMx6e8FQ==
+X-Google-Smtp-Source: AGHT+IHPaIO4FZQQUgcCagLrdno/prKFPjefmt9O/XHrjrH4UUIZ2xFroktRxa6d4bksnAf1hANZGczmFQi2ZOdIueE=
+X-Received: by 2002:a0c:f547:0:b0:63c:fbd0:6361 with SMTP id
+ p7-20020a0cf547000000b0063cfbd06361mr9120163qvm.37.1695052283895; Mon, 18 Sep
+ 2023 08:51:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230914131225.13415-1-will@kernel.org> <20230914131225.13415-4-will@kernel.org>
-In-Reply-To: <20230914131225.13415-4-will@kernel.org>
+References: <20230914131225.13415-1-will@kernel.org> <20230914131225.13415-2-will@kernel.org>
+In-Reply-To: <20230914131225.13415-2-will@kernel.org>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 18 Sep 2023 08:46:22 -0700
-Message-ID: <CAKwvOd=gDX4ebkyHyqr276nrZVuRaoJG9Ptofpq8WjejD3s5AA@mail.gmail.com>
-Subject: Re: [PATCH v4 3/3] scripts/faddr2line: Skip over mapping symbols in
- output from readelf
+Date:   Mon, 18 Sep 2023 08:51:13 -0700
+Message-ID: <CAKwvOdmJa5WFLw=YZWAEu=o+3dkUgVNrwNWDZLC=k2Be=Bcy3Q@mail.gmail.com>
+Subject: Re: [PATCH v4 1/3] scripts/faddr2line: Don't filter out non-function
+ symbols from readelf
 To:     Will Deacon <will@kernel.org>
 Cc:     linux-kernel@vger.kernel.org, kernel-team@android.com,
         Masahiro Yamada <masahiroy@kernel.org>,
@@ -64,13 +64,6 @@ Cc:     linux-kernel@vger.kernel.org, kernel-team@android.com,
         John Stultz <jstultz@google.com>, linux-kbuild@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
-        autolearn_force=no version=3.4.6
-X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
-        lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
@@ -78,89 +71,47 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 On Thu, Sep 14, 2023 at 6:12=E2=80=AFAM Will Deacon <will@kernel.org> wrote=
 :
 >
-> Mapping symbols emitted in the readelf output can confuse the
-> 'faddr2line' symbol size calculation, resulting in the erroneous
-> rejection of valid offsets. This is especially prevalent when building
-> an arm64 kernel with CONFIG_CFI_CLANG=3Dy, where most functions are
-> prefixed with a 32-bit data value in a '$d.n' section. For example:
+> As Josh points out in 20230724234734.zy67gm674vl3p3wv@treble:
+
+Perhaps a suggested-by tag would be appropriate then? Next time.
+
 >
-> 447538: ffff800080014b80   548 FUNC    GLOBAL DEFAULT    2 do_one_initcal=
-l
->    104: ffff800080014c74     0 NOTYPE  LOCAL  DEFAULT    2 $x.73
->    106: ffff800080014d30     0 NOTYPE  LOCAL  DEFAULT    2 $x.75
->    111: ffff800080014da4     0 NOTYPE  LOCAL  DEFAULT    2 $d.78
->    112: ffff800080014da8     0 NOTYPE  LOCAL  DEFAULT    2 $x.79
->     36: ffff800080014de0   200 FUNC    LOCAL  DEFAULT    2 run_init_proce=
-ss
+> > Problem is, I think the kernel's symbol printing code prints the
+> > nearest kallsyms symbol, and there are some valid non-FUNC code
+> > symbols.  For example, syscall_return_via_sysret.
 >
-> Adding a warning to do_one_initcall() results in:
+> so we shouldn't be considering only 'FUNC'-type symbols in the output
+> from readelf.
 >
->   | WARNING: CPU: 0 PID: 1 at init/main.c:1236 do_one_initcall+0xf4/0x260
->
-> Which 'faddr2line' refuses to accept:
->
-> $ ./scripts/faddr2line vmlinux do_one_initcall+0xf4/0x260
-> skipping do_one_initcall address at 0xffff800080014c74 due to size mismat=
-ch (0x260 !=3D 0x224)
-> no match for do_one_initcall+0xf4/0x260
->
-> Filter out these entries from readelf using a shell reimplementation of
-> is_mapping_symbol(), so that the size of a symbol is calculated as a
-> delta to the next symbol present in ksymtab.
+> Drop the function symbol type filtering from the faddr2line outer loop.
 >
 > Cc: Josh Poimboeuf <jpoimboe@kernel.org>
 > Cc: John Stultz <jstultz@google.com>
-> Suggested-by: Masahiro Yamada <masahiroy@kernel.org>
+> Link: https://lore.kernel.org/r/20230724234734.zy67gm674vl3p3wv@treble
 > Signed-off-by: Will Deacon <will@kernel.org>
+
+LGTM; thanks for the patch!
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+
 > ---
->  scripts/faddr2line | 5 +++++
->  1 file changed, 5 insertions(+)
+>  scripts/faddr2line | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
 > diff --git a/scripts/faddr2line b/scripts/faddr2line
-> index 6b8206802157..20d9b3d37843 100755
+> index 0e73aca4f908..a35a420d0f26 100755
 > --- a/scripts/faddr2line
 > +++ b/scripts/faddr2line
-> @@ -179,6 +179,11 @@ __faddr2line() {
->                         local cur_sym_elf_size=3D${fields[2]}
->                         local cur_sym_name=3D${fields[7]:-}
+> @@ -260,7 +260,7 @@ __faddr2line() {
 >
-> +                       # is_mapping_symbol(cur_sym_name)
-> +                       if [[ ${cur_sym_name} =3D~ ^((\.L)|(L0)|(\$[adtx]=
-(\.|$))) ]]; then
-
-Thanks for the patch!
-
-I'm curious about the `|$` in the final part of the regex.  IIUC that
-will match something like
-$a
-Do we have any such symbols without `.<n>` suffixes?
-
-With aarch64 defconfig + cfi:
-$ llvm-readelf -s vmlinux | grep '\$' | rev | cut -d ' ' -f 1 | rev | sort =
--u
-I only see $d.<n> and $x.<n> where the initial value of <n> is zero
-(as opposed to no `.<n>` suffix).
-Can we tighten up that last part of the regex to be `\$[adtx]\.[0-9]+$` ?
-Or perhaps you've observed mapping symbols use another convention than
-what clang is doing?
-
-https://sourceware.org/binutils/docs/as/AArch64-Mapping-Symbols.html
-also only mentions $d and $x. Ah,
-https://developer.arm.com/documentation/dui0803/a/Accessing-and-managing-sy=
-mbols-with-armlink/About-mapping-symbols
-mentions $a for A32 and $t for T32.
-Consider adding a link to the ARM documentation on mapping symbols in
-the commit message?
-
-(Curiously, `llvm-nm` does not print these symbols, but `llvm-readelf -s` d=
-oes).
-
-> +                               continue
-> +                       fi
-> +
->                         if [[ $cur_sym_addr =3D $sym_addr ]] &&
->                            [[ $cur_sym_elf_size =3D $sym_elf_size ]] &&
->                            [[ $cur_sym_name =3D $sym_name ]]; then
+>                 DONE=3D1
+>
+> -       done < <(${READELF} --symbols --wide $objfile | sed 's/\[.*\]//' =
+| ${AWK} -v fn=3D$sym_name '$4 =3D=3D "FUNC" && $8 =3D=3D fn')
+> +       done < <(${READELF} --symbols --wide $objfile | sed 's/\[.*\]//' =
+| ${AWK} -v fn=3D$sym_name '$8 =3D=3D fn')
+>  }
+>
+>  [[ $# -lt 2 ]] && usage
 > --
 > 2.42.0.283.g2d96d420d3-goog
 >
