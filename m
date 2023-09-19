@@ -2,57 +2,57 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EC157A6BB5
-	for <lists+linux-kbuild@lfdr.de>; Tue, 19 Sep 2023 21:44:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9BCB47A6BFA
+	for <lists+linux-kbuild@lfdr.de>; Tue, 19 Sep 2023 22:03:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232909AbjISToe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 19 Sep 2023 15:44:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38498 "EHLO
+        id S233026AbjISUDI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 19 Sep 2023 16:03:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33946 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232922AbjISTod (ORCPT
+        with ESMTP id S232960AbjISUDH (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 19 Sep 2023 15:44:33 -0400
-Received: from mail-vs1-xe36.google.com (mail-vs1-xe36.google.com [IPv6:2607:f8b0:4864:20::e36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3D4AE1
-        for <linux-kbuild@vger.kernel.org>; Tue, 19 Sep 2023 12:44:26 -0700 (PDT)
-Received: by mail-vs1-xe36.google.com with SMTP id ada2fe7eead31-4526c6579afso118472137.0
-        for <linux-kbuild@vger.kernel.org>; Tue, 19 Sep 2023 12:44:26 -0700 (PDT)
+        Tue, 19 Sep 2023 16:03:07 -0400
+Received: from mail-qv1-xf2e.google.com (mail-qv1-xf2e.google.com [IPv6:2607:f8b0:4864:20::f2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34306EA
+        for <linux-kbuild@vger.kernel.org>; Tue, 19 Sep 2023 13:03:01 -0700 (PDT)
+Received: by mail-qv1-xf2e.google.com with SMTP id 6a1803df08f44-65635b46f1aso21065526d6.2
+        for <linux-kbuild@vger.kernel.org>; Tue, 19 Sep 2023 13:03:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1695152666; x=1695757466; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1695153780; x=1695758580; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QiKc36SyKHESSsQhenaXrpw2Mp7z+R70C2lZ6X9q9Pg=;
-        b=c/eClF5eozlmFoLiWQEOaPfhBFu/BJGgBqJAjp6ENFSQHogFLXbBxMFIOaBvsFXutQ
-         YgN1iwYlLg1xGqGkN4BQE45OBUjpZflQvqBGNf1O+7O+35R51Sx/Sszv3pqBwWOcKmfd
-         nwYad5nsg6GcA/O/z6FY3/iEpqoYnpcvGKx1yB3IkWNoSV4aVF9/QYU4XnbQiQDP/Z81
-         cRRWnaWmR/CySN3TcfyaZdCqiFuOyfYjgCQe7TTWJcfbby6PD+rgjgXVdncMhK/MM8nn
-         VWbS7bwQfyq7pAbSMlzmD2k0y4ZiXzUVBBX6Kcrhi5lKrNe7lRuwVo1bfiUi0HqXL2Qm
-         5iyA==
+        bh=+l4uEd0cg+MK1zLuMTcTMLF2fu+76E8W8FTaKs4YQfM=;
+        b=pEM5lbOD0gL3PxI5i7i3zQpeJMr8WxD9QgkyW8ay96xWhiiAdDj7Pw7UcHAbvrzg1w
+         uS1HJLCpvkCYT7uiC4kMFKNG0ZmXjCbRgHKvGmFb1J+zkYmeQlavPJr5CvCuEF3AJt6g
+         SMYQQGV+e4YMOhjAqAANbKp9b5p8uhVwaBcrJpq+OPMrOHlh0JvbG25vKOCmxEb22IQ+
+         u3Sy8zD6jDfFDijAYjutAZ+kTqs1fQj1wPllcoOhkLoZumwLSdpLgX/of5bA8zyHb+qX
+         87CZeLbmdSyVii/0gmi2zj6XQ/GHWfM7L1TbDOdEYPHK2d61YJDqrjsvfOChwg4vBelH
+         MGmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695152666; x=1695757466;
+        d=1e100.net; s=20230601; t=1695153780; x=1695758580;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=QiKc36SyKHESSsQhenaXrpw2Mp7z+R70C2lZ6X9q9Pg=;
-        b=bApvuXZLnde8Fu7Vt6T4CiAvjRPLX8MQxruSY9aic26rbiDhgCkakFrc2hogqWRMsb
-         roT5prkQwLDpMcdq/p9bfyg+XmMNzeglUUaGiq/SEnOyZx7Noc3IE6WG+CR6TLbTop45
-         vgc1dYHexqQ4i7tJpEC2eKAIZY9B6cBXGnot1BJvGmcU3ht9d4uS1TlP7XJwVn1rlJ5o
-         1AD1OG0q8aaJX/Ir8KjYijeRcEWM+eOUSQMSqIEGThLNZRfSE2c4K0pusQ14+TziY1y1
-         zxZQfgHXgyJjnGbY9P7OjFz0Ask0kjMC2tHB3h3Zi35PyAb2uMQXUppI1Pulu7GrswyW
-         7C8g==
-X-Gm-Message-State: AOJu0YyhyRhSgY0YVYVI8+2T7VdkdUWe+BQnlf6rTKJtD2a5mz6Rohym
-        hlMS5mbhSba/l9+xSS1jYc1kNXdbEmtXut9LE7fJKFmzQXz5ceszueQ=
-X-Google-Smtp-Source: AGHT+IGBVHqkqtQlPF8qBlSmXV3/FZ7czBxLNbksB4YaG/ipYuIEVUvfF2iODtAvNpAGbyZoSFERxdqT4Ark6Z02HVk=
-X-Received: by 2002:a05:6102:1522:b0:452:6834:b8f6 with SMTP id
- f34-20020a056102152200b004526834b8f6mr2060855vsv.3.1695152665688; Tue, 19 Sep
- 2023 12:44:25 -0700 (PDT)
+        bh=+l4uEd0cg+MK1zLuMTcTMLF2fu+76E8W8FTaKs4YQfM=;
+        b=EGPSNdFIk8u7cLWnIwZDVCfvs2qwJtAWbzEozyS25mrbwyqbUzYqTVNCIchPo4QFOj
+         xfeSYD3719RLq2L5Uxl1PegTqTRdHAI1lZc3L26/ePRZZF3RzmJSBxgbKaFUTc5S3Pke
+         Q+ZyD8dbKYqOJe0BVhYpR2rTd8Nkknk4FX9W02rs2VMGXigr6PKbOwnIMpcOjVWY1FxF
+         KFvLySKRJudBlcD3yPmMnAc9alXNckcpbtzzbunjR+wRdhFTXhcJDcUjVcqlJK7zz/Yq
+         HY9zTHisltVBq4pvgW3Ase6726kEteQyQYu++0g4SlCYJ3XDeMHDF1Y1JkNAzxrkxZit
+         oNlw==
+X-Gm-Message-State: AOJu0YxvEtMrJlkMd5drtfoQEotrpDspfeOrsEESY/EKlNm4iOI6sosz
+        sPQWcGUQ+0HkSPNqYajaKaQtZpHcGYhDtnHjaXL5Lg==
+X-Google-Smtp-Source: AGHT+IEg4YYJXSRCJjiZztWRLMA06g93UiRXI+JvX82ar2KRzox8IysEDd0GPASOHXXhqXoVCo+bagkSzIQDpfu/hfI=
+X-Received: by 2002:a0c:e448:0:b0:64f:69a3:af3f with SMTP id
+ d8-20020a0ce448000000b0064f69a3af3fmr358512qvm.39.1695153780151; Tue, 19 Sep
+ 2023 13:03:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230918234412.363087-2-mmaurer@google.com>
-In-Reply-To: <20230918234412.363087-2-mmaurer@google.com>
+References: <20230918234412.363087-2-mmaurer@google.com> <CAKwvOdmsNwszu4Vk1K7e39hencNcjEmjr5q7EbTJCjdY5TDsFA@mail.gmail.com>
+In-Reply-To: <CAKwvOdmsNwszu4Vk1K7e39hencNcjEmjr5q7EbTJCjdY5TDsFA@mail.gmail.com>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 19 Sep 2023 12:44:14 -0700
-Message-ID: <CAKwvOdmsNwszu4Vk1K7e39hencNcjEmjr5q7EbTJCjdY5TDsFA@mail.gmail.com>
+Date:   Tue, 19 Sep 2023 13:02:45 -0700
+Message-ID: <CAKwvOdmanTTOmmwSMn2rQa5Ri_TpTTp7XMXZQfVh_GA694VvAA@mail.gmail.com>
 Subject: Re: [PATCH v2] rust: Respect HOSTCC when linking for host
 To:     Matthew Maurer <mmaurer@google.com>
 Cc:     Miguel Ojeda <ojeda@kernel.org>,
@@ -72,7 +72,7 @@ Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
         USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -81,87 +81,115 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Sep 18, 2023 at 4:44=E2=80=AFPM Matthew Maurer <mmaurer@google.com>=
- wrote:
+On Tue, Sep 19, 2023 at 12:44=E2=80=AFPM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
 >
-> Currently, rustc defaults to invoking `cc`, even if `HOSTCC` is defined,
-> resulting in build failures in hermetic environments where `cc` does not
-> exist. This includes both hostprogs and proc-macros.
+> On Mon, Sep 18, 2023 at 4:44=E2=80=AFPM Matthew Maurer <mmaurer@google.co=
+m> wrote:
+> >
+> > Currently, rustc defaults to invoking `cc`, even if `HOSTCC` is defined=
+,
+> > resulting in build failures in hermetic environments where `cc` does no=
+t
+> > exist. This includes both hostprogs and proc-macros.
+> >
+> > Since we are setting the linker to `HOSTCC`, we set the linker flavor t=
+o
+> > `gcc` explicitly.
+> >
+> > Signed-off-by: Matthew Maurer <mmaurer@google.com>
+> > ---
+> >
+> > Updated the patch to reflect Nick's comment that KBUILD_HOSTLDFLAGS
+> > should be respected as well.
+> >
+> > I did not switch it to use HOSTLD for two reasons:
+> > * That variable is not globally defined - it is only available in two
+> >   subdirectories of tools/
+> > * C host scripts are linked by HOSTCC as well, even when linking a
+> >   collection of object files. It *prints* HOSTLD, but invokes HOSTCC.
+> >   See scripts/Makefile.host cmd_host-cmulti for an example.
 >
-> Since we are setting the linker to `HOSTCC`, we set the linker flavor to
-> `gcc` explicitly.
+> Sure, that makes sense to me, thanks for pointing that out.
 >
-> Signed-off-by: Matthew Maurer <mmaurer@google.com>
-> ---
+> >
+> >  rust/Makefile         | 4 ++++
+> >  scripts/Makefile.host | 4 ++++
+> >  2 files changed, 8 insertions(+)
+> >
+> > diff --git a/rust/Makefile b/rust/Makefile
+> > index 87958e864be0..b60b7eb8c5a0 100644
+> > --- a/rust/Makefile
+> > +++ b/rust/Makefile
+> > @@ -380,9 +380,13 @@ $(obj)/exports_bindings_generated.h: $(obj)/bindin=
+gs.o FORCE
+> >  $(obj)/exports_kernel_generated.h: $(obj)/kernel.o FORCE
+> >         $(call if_changed,exports)
+> >
+> > +KBUILD_HOSTLDFLAGS_SQ =3D '$(subst ','\'',$(KBUILD_HOSTLDFLAGS))'
 >
-> Updated the patch to reflect Nick's comment that KBUILD_HOSTLDFLAGS
-> should be respected as well.
->
-> I did not switch it to use HOSTLD for two reasons:
-> * That variable is not globally defined - it is only available in two
->   subdirectories of tools/
-> * C host scripts are linked by HOSTCC as well, even when linking a
->   collection of object files. It *prints* HOSTLD, but invokes HOSTCC.
->   See scripts/Makefile.host cmd_host-cmulti for an example.
+> I don't think we need to do this kind of escaping. If a linker flag is
+> passed to the linker directly as the driver has spaces such as `-z
+> relro`, if it is instead passed to the compiler as the driver will not
+> contain spaces (`-Wl,-z,relro`). As such, I don't think we need this
+> escaping (famous last words).  Mind submitting a v3 without it?
 
-Sure, that makes sense to me, thanks for pointing that out.
+Thanks for clarifying off list that:
+```
+It's not escaping the spaces, it's escaping any quotes
+example: -Clink-args=3D'-Wl,-z,relro -Wl,-linker-plugin-lto'
+Without the quote, the second one would go to rustc rather than the linker
+```
+
+Sorry for misunderstanding what exactly we were escaping here and why;
+thanks for implementing my suggestion of passing along
+KBUILD_HOSTLDFLAGS though.  That will avoid issues for Android
+downstream.
+
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
 >
->  rust/Makefile         | 4 ++++
->  scripts/Makefile.host | 4 ++++
->  2 files changed, 8 insertions(+)
+> > +
+> >  quiet_cmd_rustc_procmacro =3D $(RUSTC_OR_CLIPPY_QUIET) P $@
+> >        cmd_rustc_procmacro =3D \
+> >         $(RUSTC_OR_CLIPPY) $(rust_common_flags) \
+> > +               -Clinker-flavor=3Dgcc -Clinker=3D$(HOSTCC) \
+> > +               -Clink-args=3D$(KBUILD_HOSTLDFLAGS_SQ) \
+> >                 --emit=3Ddep-info=3D$(depfile) --emit=3Dlink=3D$@ --ext=
+ern proc_macro \
+> >                 --crate-type proc-macro \
+> >                 --crate-name $(patsubst lib%.so,%,$(notdir $@)) $<
+> > diff --git a/scripts/Makefile.host b/scripts/Makefile.host
+> > index 8f7f842b54f9..dc0410cae5ca 100644
+> > --- a/scripts/Makefile.host
+> > +++ b/scripts/Makefile.host
+> > @@ -87,10 +87,14 @@ hostcxx_flags  =3D -Wp,-MMD,$(depfile) \
+> >                   $(KBUILD_HOSTCXXFLAGS) $(HOST_EXTRACXXFLAGS) \
+> >                   $(HOSTCXXFLAGS_$(target-stem).o)
+> >
+> > +KBUILD_HOSTLDFLAGS_SQ =3D '$(subst ','\'',$(KBUILD_HOSTLDFLAGS))'
+> > +
+> >  # `--out-dir` is required to avoid temporaries being created by `rustc=
+` in the
+> >  # current working directory, which may be not accessible in the out-of=
+-tree
+> >  # modules case.
+> >  hostrust_flags =3D --out-dir $(dir $@) --emit=3Ddep-info=3D$(depfile) =
+\
+> > +                -Clinker-flavor=3Dgcc -Clinker=3D$(HOSTCC) \
+> > +                -Clink-args=3D$(KBUILD_HOSTLDFLAGS_SQ) \
+> >                   $(KBUILD_HOSTRUSTFLAGS) $(HOST_EXTRARUSTFLAGS) \
+> >                   $(HOSTRUSTFLAGS_$(target-stem))
+> >
+> > --
+> > 2.42.0.459.ge4e396fd5e-goog
+> >
 >
-> diff --git a/rust/Makefile b/rust/Makefile
-> index 87958e864be0..b60b7eb8c5a0 100644
-> --- a/rust/Makefile
-> +++ b/rust/Makefile
-> @@ -380,9 +380,13 @@ $(obj)/exports_bindings_generated.h: $(obj)/bindings=
-.o FORCE
->  $(obj)/exports_kernel_generated.h: $(obj)/kernel.o FORCE
->         $(call if_changed,exports)
->
-> +KBUILD_HOSTLDFLAGS_SQ =3D '$(subst ','\'',$(KBUILD_HOSTLDFLAGS))'
-
-I don't think we need to do this kind of escaping. If a linker flag is
-passed to the linker directly as the driver has spaces such as `-z
-relro`, if it is instead passed to the compiler as the driver will not
-contain spaces (`-Wl,-z,relro`). As such, I don't think we need this
-escaping (famous last words).  Mind submitting a v3 without it?
-
-> +
->  quiet_cmd_rustc_procmacro =3D $(RUSTC_OR_CLIPPY_QUIET) P $@
->        cmd_rustc_procmacro =3D \
->         $(RUSTC_OR_CLIPPY) $(rust_common_flags) \
-> +               -Clinker-flavor=3Dgcc -Clinker=3D$(HOSTCC) \
-> +               -Clink-args=3D$(KBUILD_HOSTLDFLAGS_SQ) \
->                 --emit=3Ddep-info=3D$(depfile) --emit=3Dlink=3D$@ --exter=
-n proc_macro \
->                 --crate-type proc-macro \
->                 --crate-name $(patsubst lib%.so,%,$(notdir $@)) $<
-> diff --git a/scripts/Makefile.host b/scripts/Makefile.host
-> index 8f7f842b54f9..dc0410cae5ca 100644
-> --- a/scripts/Makefile.host
-> +++ b/scripts/Makefile.host
-> @@ -87,10 +87,14 @@ hostcxx_flags  =3D -Wp,-MMD,$(depfile) \
->                   $(KBUILD_HOSTCXXFLAGS) $(HOST_EXTRACXXFLAGS) \
->                   $(HOSTCXXFLAGS_$(target-stem).o)
->
-> +KBUILD_HOSTLDFLAGS_SQ =3D '$(subst ','\'',$(KBUILD_HOSTLDFLAGS))'
-> +
->  # `--out-dir` is required to avoid temporaries being created by `rustc` =
-in the
->  # current working directory, which may be not accessible in the out-of-t=
-ree
->  # modules case.
->  hostrust_flags =3D --out-dir $(dir $@) --emit=3Ddep-info=3D$(depfile) \
-> +                -Clinker-flavor=3Dgcc -Clinker=3D$(HOSTCC) \
-> +                -Clink-args=3D$(KBUILD_HOSTLDFLAGS_SQ) \
->                   $(KBUILD_HOSTRUSTFLAGS) $(HOST_EXTRARUSTFLAGS) \
->                   $(HOSTRUSTFLAGS_$(target-stem))
 >
 > --
-> 2.42.0.459.ge4e396fd5e-goog
->
+> Thanks,
+> ~Nick Desaulniers
+
 
 
 --=20
