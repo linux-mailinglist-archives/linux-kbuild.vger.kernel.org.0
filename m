@@ -2,70 +2,78 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B131A7A6BAD
-	for <lists+linux-kbuild@lfdr.de>; Tue, 19 Sep 2023 21:40:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4EC157A6BB5
+	for <lists+linux-kbuild@lfdr.de>; Tue, 19 Sep 2023 21:44:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232827AbjISTkd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 19 Sep 2023 15:40:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43206 "EHLO
+        id S232909AbjISToe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 19 Sep 2023 15:44:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232400AbjISTkc (ORCPT
+        with ESMTP id S232922AbjISTod (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 19 Sep 2023 15:40:32 -0400
-Received: from mail-vk1-xa30.google.com (mail-vk1-xa30.google.com [IPv6:2607:f8b0:4864:20::a30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC2E29D
-        for <linux-kbuild@vger.kernel.org>; Tue, 19 Sep 2023 12:40:25 -0700 (PDT)
-Received: by mail-vk1-xa30.google.com with SMTP id 71dfb90a1353d-4962c3588a3so2282395e0c.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 19 Sep 2023 12:40:25 -0700 (PDT)
+        Tue, 19 Sep 2023 15:44:33 -0400
+Received: from mail-vs1-xe36.google.com (mail-vs1-xe36.google.com [IPv6:2607:f8b0:4864:20::e36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3D4AE1
+        for <linux-kbuild@vger.kernel.org>; Tue, 19 Sep 2023 12:44:26 -0700 (PDT)
+Received: by mail-vs1-xe36.google.com with SMTP id ada2fe7eead31-4526c6579afso118472137.0
+        for <linux-kbuild@vger.kernel.org>; Tue, 19 Sep 2023 12:44:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1695152425; x=1695757225; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1695152666; x=1695757466; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=b55LLDU+JPS5dVBBhaMn22hJgg2JySbWjWj3gYvRiO4=;
-        b=qjxIjtB7HUB6i0nMjawWvyoKR8l+fz4LWFz42jAuNiKMdevWxMBu+6Av7CvB84T46l
-         V1nanrqAqaxf08GaTfp3qHISB3uegeD6drsRVHFQC16pHyUfwpECE0dzG9J304lytcvX
-         YE4nrsUmud8clmjjSK9LxUOHBsHjTZ6tmC6+6D2mGw5nRJhhSI9U22BzK0qmduTYtIOf
-         +dVnXrQM0rC4E9TPm+m6mT8ID1TmC5o+8txpXJhKdHLpbwctDU2sCKvbhgaBfXsH2aMk
-         h/2niCkhZHuokhthPHnPL6GWZ/tlkCdEP5VoBvY2QxFhuEpO6T/tVQ/pSTYhbKgTWVQ/
-         lV8Q==
+        bh=QiKc36SyKHESSsQhenaXrpw2Mp7z+R70C2lZ6X9q9Pg=;
+        b=c/eClF5eozlmFoLiWQEOaPfhBFu/BJGgBqJAjp6ENFSQHogFLXbBxMFIOaBvsFXutQ
+         YgN1iwYlLg1xGqGkN4BQE45OBUjpZflQvqBGNf1O+7O+35R51Sx/Sszv3pqBwWOcKmfd
+         nwYad5nsg6GcA/O/z6FY3/iEpqoYnpcvGKx1yB3IkWNoSV4aVF9/QYU4XnbQiQDP/Z81
+         cRRWnaWmR/CySN3TcfyaZdCqiFuOyfYjgCQe7TTWJcfbby6PD+rgjgXVdncMhK/MM8nn
+         VWbS7bwQfyq7pAbSMlzmD2k0y4ZiXzUVBBX6Kcrhi5lKrNe7lRuwVo1bfiUi0HqXL2Qm
+         5iyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695152425; x=1695757225;
+        d=1e100.net; s=20230601; t=1695152666; x=1695757466;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=b55LLDU+JPS5dVBBhaMn22hJgg2JySbWjWj3gYvRiO4=;
-        b=C6fVTNyWyYZ50HWeBQjois6/z3NnBCArEsfE66L2tEEOT/j01avNQH8tHBmKj+k2zl
-         9auM1eOzLQAXNiUvVWwlm56/0IN6sizrSyuoJBKf4W7zwyp5nyI9tEOvvBy7zttGQvuJ
-         S7S8fZPb74oHHaJQmdmKnylrCuQuyVvMsyPoAZCvhTWpgZfGmL5UqWwQlwF9Mq2E10cN
-         oD2Blgfx/bWjf4q6YZXuqW+HZ9OYsip8GRgpuJ9LbFarVSCFf4VbxKVu8jNFUx1kGeAZ
-         d7yulJlFXz2VDY87glJT1/YsYl6Hu92htKPVwHfqx3MkJKE19lt8xtkbL/z9v7cIJvRN
-         3VrA==
-X-Gm-Message-State: AOJu0Yx+nGgj14kFJyXWBkdiGC2E9uxyatFR3QLewTme3n/faW6Zo5EZ
-        TgYVCp4lKKSUiXB4e6USWQJGw+sWw4BR8H8oREecMg==
-X-Google-Smtp-Source: AGHT+IFQd8u59vp+CaoBmYTXFraY3VNIeSrY1FkD5+TXqw3O3B9AGau9M0l1j7ihEX/0TTjaXCt8CZHUPVks+syzd0c=
-X-Received: by 2002:a1f:e2c3:0:b0:496:a303:a321 with SMTP id
- z186-20020a1fe2c3000000b00496a303a321mr858379vkg.8.1695152424769; Tue, 19 Sep
- 2023 12:40:24 -0700 (PDT)
+        bh=QiKc36SyKHESSsQhenaXrpw2Mp7z+R70C2lZ6X9q9Pg=;
+        b=bApvuXZLnde8Fu7Vt6T4CiAvjRPLX8MQxruSY9aic26rbiDhgCkakFrc2hogqWRMsb
+         roT5prkQwLDpMcdq/p9bfyg+XmMNzeglUUaGiq/SEnOyZx7Noc3IE6WG+CR6TLbTop45
+         vgc1dYHexqQ4i7tJpEC2eKAIZY9B6cBXGnot1BJvGmcU3ht9d4uS1TlP7XJwVn1rlJ5o
+         1AD1OG0q8aaJX/Ir8KjYijeRcEWM+eOUSQMSqIEGThLNZRfSE2c4K0pusQ14+TziY1y1
+         zxZQfgHXgyJjnGbY9P7OjFz0Ask0kjMC2tHB3h3Zi35PyAb2uMQXUppI1Pulu7GrswyW
+         7C8g==
+X-Gm-Message-State: AOJu0YyhyRhSgY0YVYVI8+2T7VdkdUWe+BQnlf6rTKJtD2a5mz6Rohym
+        hlMS5mbhSba/l9+xSS1jYc1kNXdbEmtXut9LE7fJKFmzQXz5ceszueQ=
+X-Google-Smtp-Source: AGHT+IGBVHqkqtQlPF8qBlSmXV3/FZ7czBxLNbksB4YaG/ipYuIEVUvfF2iODtAvNpAGbyZoSFERxdqT4Ark6Z02HVk=
+X-Received: by 2002:a05:6102:1522:b0:452:6834:b8f6 with SMTP id
+ f34-20020a056102152200b004526834b8f6mr2060855vsv.3.1695152665688; Tue, 19 Sep
+ 2023 12:44:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230918210631.3882376-1-jbrennen@google.com>
-In-Reply-To: <20230918210631.3882376-1-jbrennen@google.com>
+References: <20230918234412.363087-2-mmaurer@google.com>
+In-Reply-To: <20230918234412.363087-2-mmaurer@google.com>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 19 Sep 2023 12:40:09 -0700
-Message-ID: <CAKwvOd=knPrBkk+QdAs_Wih8bUbsvCjWXWWuTmOUUOGGh7-f2w@mail.gmail.com>
-Subject: Re: [PATCH] modpost: Optimize symbol search from linear to binary search
-To:     Jack Brennen <jbrennen@google.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+Date:   Tue, 19 Sep 2023 12:44:14 -0700
+Message-ID: <CAKwvOdmsNwszu4Vk1K7e39hencNcjEmjr5q7EbTJCjdY5TDsFA@mail.gmail.com>
+Subject: Re: [PATCH v2] rust: Respect HOSTCC when linking for host
+To:     Matthew Maurer <mmaurer@google.com>
+Cc:     Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+        Benno Lossin <benno.lossin@proton.me>,
+        Andreas Hindborg <a.hindborg@samsung.com>,
+        Alice Ryhl <aliceryhl@google.com>,
         Nathan Chancellor <nathan@kernel.org>,
-        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        llvm@lists.linux.dev
+        Nicolas Schier <nicolas@fjasle.eu>,
+        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,483 +81,84 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Sep 18, 2023 at 2:06=E2=80=AFPM Jack Brennen <jbrennen@google.com> =
-wrote:
+On Mon, Sep 18, 2023 at 4:44=E2=80=AFPM Matthew Maurer <mmaurer@google.com>=
+ wrote:
 >
-> Modify modpost to use binary search for converting addresses back
-> into symbol references.  Previously it used linear search.
+> Currently, rustc defaults to invoking `cc`, even if `HOSTCC` is defined,
+> resulting in build failures in hermetic environments where `cc` does not
+> exist. This includes both hostprogs and proc-macros.
 >
-> This change saves a few seconds of wall time for defconfig builds,
-> but can save several minutes on allyesconfigs.
+> Since we are setting the linker to `HOSTCC`, we set the linker flavor to
+> `gcc` explicitly.
 >
-> Before:
-> $ make LLVM=3D1 -j128 allyesconfig vmlinux -s KCFLAGS=3D"-Wno-error"
->         Elapsed (wall clock) time (h:mm:ss or m:ss): 13:30.31
->
-> After:
-> $ make LLVM=3D1 -j128 allyesconfig vmlinux -s KCFLAGS=3D"-Wno-error"
->         Elapsed (wall clock) time (h:mm:ss or m:ss): 11:43.43
->
-> Signed-off-by: Jack Brennen <jbrennen@google.com>
-> Tested-by: Nick Desaulniers <ndesaulniers@google.com>
-
-Jack, if this is your first kernel patch, it's a nice one! And
-welcome!  Thanks for your work on this.
-
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-
-Some ideas for future improvement.
-
-I noticed we make 2 trips through the symbol table checking
-is_sym_searchable twice.  We could probably skip one trip and just
-malloc the full size of the symbol table, even if this is technically
-larger than absolutely needed.  Guessing that might save us repeated
-strlen calls on every symbol in the table.
-
-Also, if qsort shows up in any profile, it's pretty well known why
-std::sort beats qsort; there's potential for more speed there, but I
-didn't profile so IDK.
-
+> Signed-off-by: Matthew Maurer <mmaurer@google.com>
 > ---
->  scripts/mod/Makefile    |   4 +-
->  scripts/mod/modpost.c   |  60 +----------
->  scripts/mod/modpost.h   |  25 +++++
->  scripts/mod/symsearch.c | 233 ++++++++++++++++++++++++++++++++++++++++
->  4 files changed, 265 insertions(+), 57 deletions(-)
->  create mode 100644 scripts/mod/symsearch.c
 >
-> diff --git a/scripts/mod/Makefile b/scripts/mod/Makefile
-> index c9e38ad937fd..3c54125eb373 100644
-> --- a/scripts/mod/Makefile
-> +++ b/scripts/mod/Makefile
-> @@ -5,7 +5,7 @@ CFLAGS_REMOVE_empty.o +=3D $(CC_FLAGS_LTO)
->  hostprogs-always-y     +=3D modpost mk_elfconfig
->  always-y               +=3D empty.o
+> Updated the patch to reflect Nick's comment that KBUILD_HOSTLDFLAGS
+> should be respected as well.
 >
-> -modpost-objs   :=3D modpost.o file2alias.o sumversion.o
-> +modpost-objs   :=3D modpost.o file2alias.o sumversion.o symsearch.o
+> I did not switch it to use HOSTLD for two reasons:
+> * That variable is not globally defined - it is only available in two
+>   subdirectories of tools/
+> * C host scripts are linked by HOSTCC as well, even when linking a
+>   collection of object files. It *prints* HOSTLD, but invokes HOSTCC.
+>   See scripts/Makefile.host cmd_host-cmulti for an example.
+
+Sure, that makes sense to me, thanks for pointing that out.
+
 >
->  devicetable-offsets-file :=3D devicetable-offsets.h
+>  rust/Makefile         | 4 ++++
+>  scripts/Makefile.host | 4 ++++
+>  2 files changed, 8 insertions(+)
 >
-> @@ -16,7 +16,7 @@ targets +=3D $(devicetable-offsets-file) devicetable-of=
-fsets.s
+> diff --git a/rust/Makefile b/rust/Makefile
+> index 87958e864be0..b60b7eb8c5a0 100644
+> --- a/rust/Makefile
+> +++ b/rust/Makefile
+> @@ -380,9 +380,13 @@ $(obj)/exports_bindings_generated.h: $(obj)/bindings=
+.o FORCE
+>  $(obj)/exports_kernel_generated.h: $(obj)/kernel.o FORCE
+>         $(call if_changed,exports)
 >
->  # dependencies on generated files need to be listed explicitly
+> +KBUILD_HOSTLDFLAGS_SQ =3D '$(subst ','\'',$(KBUILD_HOSTLDFLAGS))'
+
+I don't think we need to do this kind of escaping. If a linker flag is
+passed to the linker directly as the driver has spaces such as `-z
+relro`, if it is instead passed to the compiler as the driver will not
+contain spaces (`-Wl,-z,relro`). As such, I don't think we need this
+escaping (famous last words).  Mind submitting a v3 without it?
+
+> +
+>  quiet_cmd_rustc_procmacro =3D $(RUSTC_OR_CLIPPY_QUIET) P $@
+>        cmd_rustc_procmacro =3D \
+>         $(RUSTC_OR_CLIPPY) $(rust_common_flags) \
+> +               -Clinker-flavor=3Dgcc -Clinker=3D$(HOSTCC) \
+> +               -Clink-args=3D$(KBUILD_HOSTLDFLAGS_SQ) \
+>                 --emit=3Ddep-info=3D$(depfile) --emit=3Dlink=3D$@ --exter=
+n proc_macro \
+>                 --crate-type proc-macro \
+>                 --crate-name $(patsubst lib%.so,%,$(notdir $@)) $<
+> diff --git a/scripts/Makefile.host b/scripts/Makefile.host
+> index 8f7f842b54f9..dc0410cae5ca 100644
+> --- a/scripts/Makefile.host
+> +++ b/scripts/Makefile.host
+> @@ -87,10 +87,14 @@ hostcxx_flags  =3D -Wp,-MMD,$(depfile) \
+>                   $(KBUILD_HOSTCXXFLAGS) $(HOST_EXTRACXXFLAGS) \
+>                   $(HOSTCXXFLAGS_$(target-stem).o)
 >
-> -$(obj)/modpost.o $(obj)/file2alias.o $(obj)/sumversion.o: $(obj)/elfconf=
-ig.h
-> +$(obj)/modpost.o $(obj)/file2alias.o $(obj)/sumversion.o $(obj)/symsearc=
-h.o: $(obj)/elfconfig.h
->  $(obj)/file2alias.o: $(obj)/$(devicetable-offsets-file)
+> +KBUILD_HOSTLDFLAGS_SQ =3D '$(subst ','\'',$(KBUILD_HOSTLDFLAGS))'
+> +
+>  # `--out-dir` is required to avoid temporaries being created by `rustc` =
+in the
+>  # current working directory, which may be not accessible in the out-of-t=
+ree
+>  # modules case.
+>  hostrust_flags =3D --out-dir $(dir $@) --emit=3Ddep-info=3D$(depfile) \
+> +                -Clinker-flavor=3Dgcc -Clinker=3D$(HOSTCC) \
+> +                -Clink-args=3D$(KBUILD_HOSTLDFLAGS_SQ) \
+>                   $(KBUILD_HOSTRUSTFLAGS) $(HOST_EXTRARUSTFLAGS) \
+>                   $(HOSTRUSTFLAGS_$(target-stem))
 >
->  quiet_cmd_elfconfig =3D MKELF   $@
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index de499dce5265..975f235aca2c 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -22,7 +22,6 @@
->  #include <errno.h>
->  #include "modpost.h"
->  #include "../../include/linux/license.h"
-> -#include "../../include/linux/module_symbol.h"
->
->  static bool module_enabled;
->  /* Are we using CONFIG_MODVERSIONS? */
-> @@ -577,11 +576,14 @@ static int parse_elf(struct elf_info *info, const c=
-har *filename)
->                         *p =3D TO_NATIVE(*p);
->         }
->
-> +       symsearch_init(info);
-> +
->         return 1;
->  }
->
->  static void parse_elf_finish(struct elf_info *info)
->  {
-> +       symsearch_finish(info);
->         release_file(info->hdr, info->size);
->  }
->
-> @@ -1039,65 +1041,13 @@ static int secref_whitelist(const char *fromsec, =
-const char *fromsym,
->         return 1;
->  }
->
-> -/*
-> - * If there's no name there, ignore it; likewise, ignore it if it's
-> - * one of the magic symbols emitted used by current tools.
-> - *
-> - * Otherwise if find_symbols_between() returns those symbols, they'll
-> - * fail the whitelist tests and cause lots of false alarms ... fixable
-> - * only by merging __exit and __init sections into __text, bloating
-> - * the kernel (which is especially evil on embedded platforms).
-> - */
-> -static inline int is_valid_name(struct elf_info *elf, Elf_Sym *sym)
-> -{
-> -       const char *name =3D elf->strtab + sym->st_name;
-> -
-> -       if (!name || !strlen(name))
-> -               return 0;
-> -       return !is_mapping_symbol(name);
-> -}
-> -
->  /* Look up the nearest symbol based on the section and the address */
->  static Elf_Sym *find_nearest_sym(struct elf_info *elf, Elf_Addr addr,
->                                  unsigned int secndx, bool allow_negative=
-,
->                                  Elf_Addr min_distance)
->  {
-> -       Elf_Sym *sym;
-> -       Elf_Sym *near =3D NULL;
-> -       Elf_Addr sym_addr, distance;
-> -       bool is_arm =3D (elf->hdr->e_machine =3D=3D EM_ARM);
-> -
-> -       for (sym =3D elf->symtab_start; sym < elf->symtab_stop; sym++) {
-> -               if (get_secindex(elf, sym) !=3D secndx)
-> -                       continue;
-> -               if (!is_valid_name(elf, sym))
-> -                       continue;
-> -
-> -               sym_addr =3D sym->st_value;
-> -
-> -               /*
-> -                * For ARM Thumb instruction, the bit 0 of st_value is se=
-t
-> -                * if the symbol is STT_FUNC type. Mask it to get the add=
-ress.
-> -                */
-> -               if (is_arm && ELF_ST_TYPE(sym->st_info) =3D=3D STT_FUNC)
-> -                        sym_addr &=3D ~1;
-> -
-> -               if (addr >=3D sym_addr)
-> -                       distance =3D addr - sym_addr;
-> -               else if (allow_negative)
-> -                       distance =3D sym_addr - addr;
-> -               else
-> -                       continue;
-> -
-> -               if (distance <=3D min_distance) {
-> -                       min_distance =3D distance;
-> -                       near =3D sym;
-> -               }
-> -
-> -               if (min_distance =3D=3D 0)
-> -                       break;
-> -       }
-> -       return near;
-> +       return symsearch_find_nearest(elf, addr, secndx,
-> +                                     allow_negative, min_distance);
->  }
->
->  static Elf_Sym *find_fromsym(struct elf_info *elf, Elf_Addr addr,
-> diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
-> index 5f94c2c9f2d9..6413f26fcb6b 100644
-> --- a/scripts/mod/modpost.h
-> +++ b/scripts/mod/modpost.h
-> @@ -10,6 +10,7 @@
->  #include <fcntl.h>
->  #include <unistd.h>
->  #include <elf.h>
-> +#include "../../include/linux/module_symbol.h"
->
->  #include "list.h"
->  #include "elfconfig.h"
-> @@ -128,6 +129,8 @@ struct elf_info {
->          * take shndx from symtab_shndx_start[N] instead */
->         Elf32_Word   *symtab_shndx_start;
->         Elf32_Word   *symtab_shndx_stop;
-> +
-> +       struct symsearch *symsearch;
->  };
->
->  /* Accessor for sym->st_shndx, hides ugliness of "64k sections" */
-> @@ -154,6 +157,28 @@ static inline unsigned int get_secindex(const struct=
- elf_info *info,
->         return index;
->  }
->
-> +/*
-> + * If there's no name there, ignore it; likewise, ignore it if it's
-> + * one of the magic symbols emitted used by current tools.
-> + *
-> + * Internal symbols created by tools should be ignored by modpost.
-> + */
-> +static inline int is_valid_name(struct elf_info *elf, Elf_Sym *sym)
-> +{
-> +       const char *name =3D elf->strtab + sym->st_name;
-> +
-> +       if (!name || !strlen(name))
-> +               return 0;
-> +       return !is_mapping_symbol(name);
-> +}
-> +
-> +/* symsearch.c */
-> +void symsearch_init(struct elf_info *elf);
-> +void symsearch_finish(struct elf_info *elf);
-> +Elf_Sym *symsearch_find_nearest(struct elf_info *elf, Elf_Addr addr,
-> +                               unsigned int secndx, bool allow_negative,
-> +                               Elf_Addr min_distance);
-> +
->  /* file2alias.c */
->  void handle_moddevtable(struct module *mod, struct elf_info *info,
->                         Elf_Sym *sym, const char *symname);
-> diff --git a/scripts/mod/symsearch.c b/scripts/mod/symsearch.c
-> new file mode 100644
-> index 000000000000..aab79262512b
-> --- /dev/null
-> +++ b/scripts/mod/symsearch.c
-> @@ -0,0 +1,233 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +/* Helper functions for finding the symbol in an ELF which is "nearest"
-> + * to a given address.
-> + */
-> +
-> +#include "modpost.h"
-> +
-> +/* Struct used for binary search. */
-> +struct syminfo {
-> +       unsigned int symbol_index;
-> +       unsigned int section_index;
-> +       Elf_Addr addr;
-> +};
-> +
-> +/* Container used to hold an entire binary search table.
-> + * Entries in table are ascending, sorted first by section_index,
-> + * then by addr, and last by symbol_index.  The sorting by
-> + * symbol_index is used to duplicate the quirks of the prior
-> + * find_nearest_sym() function, where exact matches to an address
-> + * return the first symtab entry seen, but near misses return the
-> + * last symtab entry seen.
-> + * The first and last entries of the table are sentinels and their
-> + * values only matter in two places:  when we sort the table, and
-> + * on lookups, the end sentinel should not have an addr field which
-> + * matches its immediate predecessor.  To meet these requirements,
-> + * we initialize them to (0,0,0) and (max,max,max), and then after
-> + * sorting, we tweak the end sentinel's addr field accordingly.
-> + */
-> +struct symsearch {
-> +       size_t table_size;
-> +       struct syminfo table[];
-> +};
-> +
-> +static inline bool is_sym_searchable(struct elf_info *elf, Elf_Sym *sym)
-> +{
-> +       return is_valid_name(elf, sym) !=3D 0;
-> +}
-> +
-> +static int syminfo_compare(const void *s1, const void *s2)
-> +{
-> +       const struct syminfo *sym1 =3D s1;
-> +       const struct syminfo *sym2 =3D s2;
-> +
-> +       if (sym1->section_index > sym2->section_index)
-> +               return 1;
-> +       if (sym1->section_index < sym2->section_index)
-> +               return -1;
-> +       if (sym1->addr > sym2->addr)
-> +               return 1;
-> +       if (sym1->addr < sym2->addr)
-> +               return -1;
-> +       if (sym1->symbol_index > sym2->symbol_index)
-> +               return 1;
-> +       if (sym1->symbol_index < sym2->symbol_index)
-> +               return -1;
-> +       return 0;
-> +}
-> +
-> +static size_t symbol_count(struct elf_info *elf)
-> +{
-> +       size_t result =3D 0;
-> +
-> +       for (Elf_Sym *sym =3D elf->symtab_start; sym < elf->symtab_stop; =
-sym++) {
-> +               if (is_sym_searchable(elf, sym))
-> +                       result++;
-> +       }
-> +       return result;
-> +}
-> +
-> +/* Populate the search array that we just allocated.
-> + * Be slightly paranoid here.  If the ELF file changes during processing=
-,
-> + * or if the behavior of is_sym_searchable() changes during processing,
-> + * we want to catch it; neither of those is acceptable.
-> + */
-> +static void symsearch_populate(struct elf_info *elf,
-> +                              struct syminfo *table,
-> +                              size_t table_size)
-> +{
-> +       bool is_arm =3D (elf->hdr->e_machine =3D=3D EM_ARM);
-> +
-> +       /* Start sentinel */
-> +       if (table_size-- =3D=3D 0)
-> +               fatal("%s: size mismatch\n", __func__);
-> +       table->symbol_index =3D 0;
-> +       table->section_index =3D 0;
-> +       table->addr =3D 0;
-> +       table++;
-> +
-> +       for (Elf_Sym *sym =3D elf->symtab_start; sym < elf->symtab_stop; =
-sym++) {
-> +               if (is_sym_searchable(elf, sym)) {
-> +                       if (table_size-- =3D=3D 0)
-> +                               fatal("%s: size mismatch\n", __func__);
-> +                       table->symbol_index =3D sym - elf->symtab_start;
-> +                       table->section_index =3D get_secindex(elf, sym);
-> +                       table->addr =3D sym->st_value;
-> +
-> +                       /*
-> +                        * For ARM Thumb instruction, the bit 0 of st_val=
-ue is
-> +                        * set if the symbol is STT_FUNC type. Mask it to=
- get
-> +                        * the address.
-> +                        */
-> +                       if (is_arm && ELF_ST_TYPE(sym->st_info) =3D=3D ST=
-T_FUNC)
-> +                               table->addr &=3D ~1;
-> +
-> +                       table++;
-> +               }
-> +       }
-> +
-> +       /* End sentinel; all values are unsigned so -1 wraps to max */
-> +       if (table_size !=3D 1)
-> +               fatal("%s: size mismatch\n", __func__);
-> +       table->symbol_index =3D -1;
-> +       table->section_index =3D -1;
-> +       table->addr =3D -1;
-> +}
-> +
-> +void symsearch_init(struct elf_info *elf)
-> +{
-> +       /* +2 here to allocate space for the start and end sentinels */
-> +       size_t table_size =3D symbol_count(elf) + 2;
-> +
-> +       elf->symsearch =3D NOFAIL(malloc(
-> +                                       sizeof(struct symsearch) +
-> +                                       sizeof(struct syminfo) * table_si=
-ze));
-> +       elf->symsearch->table_size =3D table_size;
-> +
-> +       symsearch_populate(elf, elf->symsearch->table, table_size);
-> +       qsort(elf->symsearch->table, table_size,
-> +             sizeof(struct syminfo), syminfo_compare);
-> +
-> +       /* A bit of paranoia; make sure that the end sentinel's address i=
-s
-> +        * different than its predecessor.  Not doing this could cause
-> +        * possible undefined behavior if anybody ever inserts a symbol
-> +        * with section_index and addr both at their max values.
-> +        * Doing this little bit of defensive programming is more efficie=
-nt
-> +        * than checking for array overruns later.
-> +        */
-> +       elf->symsearch->table[table_size - 1].addr =3D
-> +               elf->symsearch->table[table_size - 2].addr + 1;
-> +}
-> +
-> +void symsearch_finish(struct elf_info *elf)
-> +{
-> +       free(elf->symsearch);
-> +       elf->symsearch =3D NULL;
-> +}
-> +
-> +/* Find the syminfo which is in secndx and "nearest" to addr.
-> + * allow_negative: allow returning a symbol whose address is > addr.
-> + * min_distance: ignore symbols which are further away than this.
-> + *
-> + * Returns a nonzero index into the symsearch table for success.
-> + * Returns NULL if no legal symbol is found within the requested range.
-> + */
-> +static size_t symsearch_find_impl(struct elf_info *elf, Elf_Addr addr,
-> +                                 unsigned int secndx, bool allow_negativ=
-e,
-> +                                 Elf_Addr min_distance)
-> +{
-> +       /* Find the target in the array; it will lie between two elements=
-.
-> +        * Invariant here: table[lo] < target <=3D table[hi]
-> +        * For the purposes of search, exact hits in the search array are
-> +        * considered greater than the target.  This means that if we do
-> +        * get an exact hit, then once the search terminates, table[hi]
-> +        * will be the exact match which has the lowest symbol index.
-> +        */
-> +       struct syminfo *table =3D elf->symsearch->table;
-> +       size_t hi =3D elf->symsearch->table_size - 1;
-> +       size_t lo =3D 0;
-> +       bool hi_is_usable =3D false;
-> +       bool lo_is_usable =3D false;
-> +       Elf_Addr hi_distance =3D -1;  // max Elf_Addr
-> +       Elf_Addr lo_distance =3D -1;  // max Elf_Addr
-> +       Elf_Addr min_distance_lo =3D min_distance;
-> +       Elf_Addr min_distance_hi =3D allow_negative ? min_distance : 0;
-> +
-> +       for (;;) {
-> +               size_t mid;
-> +
-> +               mid =3D lo + (hi - lo) / 2;
-> +               if (mid =3D=3D lo)
-> +                       break;
-> +               if (secndx > table[mid].section_index) {
-> +                       lo =3D mid;
-> +               } else if (secndx < table[mid].section_index) {
-> +                       hi =3D mid;
-> +               } else if (addr > table[mid].addr) {
-> +                       lo =3D mid;
-> +                       lo_distance =3D addr - table[mid].addr;
-> +                       lo_is_usable =3D (lo_distance <=3D min_distance_l=
-o);
-> +               } else {
-> +                       hi =3D mid;
-> +                       hi_distance =3D table[mid].addr - addr;
-> +                       hi_is_usable =3D (hi_distance <=3D min_distance_h=
-i);
-> +               }
-> +       }
-> +
-> +       if (hi_is_usable && lo_is_usable) {
-> +               lo_is_usable =3D (lo_distance <=3D hi_distance);
-> +               hi_is_usable =3D (hi_distance <=3D lo_distance);
-> +       }
-> +
-> +       if (!hi_is_usable)
-> +               return lo_is_usable ? lo : 0;
-> +
-> +       if (hi_distance =3D=3D 0)
-> +               return hi;
-> +
-> +       /* Match quirks of existing behavior.  Advance hi to the last
-> +        * matching entry in the search table.  We don't need to worry
-> +        * about running off the end of the array due to the sentinel.
-> +        */
-> +       while (table[hi+1].addr =3D=3D table[hi].addr &&
-> +              table[hi+1].section_index =3D=3D table[hi].section_index) =
-{
-> +               hi++;
-> +       }
-> +
-> +       return (lo_is_usable &&
-> +               table[lo].symbol_index > table[hi].symbol_index) ? lo : h=
-i;
-> +}
-> +
-> +Elf_Sym *symsearch_find_nearest(struct elf_info *elf, Elf_Addr addr,
-> +                               unsigned int secndx, bool allow_negative,
-> +                               Elf_Addr min_distance)
-> +{
-> +       size_t result =3D symsearch_find_impl(elf, addr, secndx,
-> +                                           allow_negative, min_distance)=
-;
-> +
-> +       if (result =3D=3D 0)
-> +               return NULL;
-> +
-> +       return &elf->symtab_start[elf->symsearch->table[result].symbol_in=
-dex];
-> +}
 > --
 > 2.42.0.459.ge4e396fd5e-goog
 >
