@@ -2,208 +2,609 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F10217A836D
-	for <lists+linux-kbuild@lfdr.de>; Wed, 20 Sep 2023 15:30:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE9057A8B17
+	for <lists+linux-kbuild@lfdr.de>; Wed, 20 Sep 2023 20:05:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234835AbjITNa4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 20 Sep 2023 09:30:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38066 "EHLO
+        id S229573AbjITSF1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 20 Sep 2023 14:05:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41836 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235050AbjITNa4 (ORCPT
+        with ESMTP id S229540AbjITSF1 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 20 Sep 2023 09:30:56 -0400
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34268D7;
-        Wed, 20 Sep 2023 06:30:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eI3YMOsqL6ELdn7rxHgMUiW07n4rkfnpKa8F4ucADaGxGYC9JWj88EJes+iJq754EJBlTosC3EubTFIVYfI8QFVm60TO1Xi00Xp8+P2e/EPaK3nPJe3OfpjRrmg3pgVVl+5z3FVoL75ANX02xr+dAe4FVLLD/oC+Y9iPf5a6KxNpgjkiapKLYkQ1TCnAb8ZCtdaXukDbjzaIjXmi0Ikp4+qn3YBLv74S6ljCA/FxaWAtr93vRjnQ9+4QHuRfptdAS/kR/yVQUpv3Y6JDDX9EnnqHcE8CIRk52fBQ+l4QCiK41PiuLQw3fQtD9MD7Bf1yJLKXXSIY+raaDEjfKOxxBA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=788qhL1zjY4VG56iI2o5ae9pKwUoREfZ6b4eOJdzhVE=;
- b=G1jTPjoTmGlX+70KDZbtytzhyGyd3Xwq/k8HVwj7LB8EP3jPfhrf4v4zhvX8fYpLyirqzGvYVuArm+/SDqSnhNecO6X1yhj3wA/HbukZ1UBydpwfFdDk7kwOnb+xO2PRib3rKBrBVkSIw+ih7Rh1PdEHA5lUoVKVLFlDKeT1KjoyDpMykrd0bRo3iuHELlsXJxNa2kIJexICYEPlz0vaSAbOeiIEpNGDicCX1X+3MfjyrRqa3pDvV2fJx7jUmW8lQWGQI4iFju7D5J4/xjML6asnNApdZXpQhB6UDCCF10c+AwgInOPz7IqW/nU0njEXDSVStyd4Yn/5dPUxy7f4YA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=788qhL1zjY4VG56iI2o5ae9pKwUoREfZ6b4eOJdzhVE=;
- b=VJZ/39+JQfxPOX2elHC57qN63nVu9JuMJUC86Z18uEeji6r+ajT52x5f2oszyoQewEWPRaMhInp4LprdYO5mT8rObTzF5IaFX27hEOY5Wxu73HhVZHVL+3zdCyO2guI7gR5UjxQ0y32FscEvvjtycruE5okAIB1s7W1GSIhXc9c=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CH3PR12MB9194.namprd12.prod.outlook.com (2603:10b6:610:19f::7)
- by IA0PR12MB8905.namprd12.prod.outlook.com (2603:10b6:208:484::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6792.28; Wed, 20 Sep
- 2023 13:30:45 +0000
-Received: from CH3PR12MB9194.namprd12.prod.outlook.com
- ([fe80::16da:8b28:d454:ad5a]) by CH3PR12MB9194.namprd12.prod.outlook.com
- ([fe80::16da:8b28:d454:ad5a%3]) with mapi id 15.20.6792.026; Wed, 20 Sep 2023
- 13:30:44 +0000
-Message-ID: <a6a90c61-e884-4b18-83b7-ca3d2e0378e7@amd.com>
-Date:   Wed, 20 Sep 2023 23:30:36 +1000
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH kernel] kbuild: get rid of unwanted "+" when
- CONFIG_LOCALVERSION is set
-Content-Language: en-US
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nathan Chancellor <nathan@kernel.org>
-References: <20230920015559.1877441-1-aik@amd.com>
- <CAK7LNARrb_NLpBL19LHEdg0WJKsncaUPQLk-wxhR+Rh8sps3jQ@mail.gmail.com>
-From:   Alexey Kardashevskiy <aik@amd.com>
-In-Reply-To: <CAK7LNARrb_NLpBL19LHEdg0WJKsncaUPQLk-wxhR+Rh8sps3jQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SA0PR11CA0201.namprd11.prod.outlook.com
- (2603:10b6:806:1bc::26) To CH3PR12MB9194.namprd12.prod.outlook.com
- (2603:10b6:610:19f::7)
+        Wed, 20 Sep 2023 14:05:27 -0400
+Received: from mail-oo1-xc2a.google.com (mail-oo1-xc2a.google.com [IPv6:2607:f8b0:4864:20::c2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86FDDB9;
+        Wed, 20 Sep 2023 11:05:19 -0700 (PDT)
+Received: by mail-oo1-xc2a.google.com with SMTP id 006d021491bc7-57b3b486f98so81254eaf.2;
+        Wed, 20 Sep 2023 11:05:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1695233118; x=1695837918; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=S4Ln3euR7SRigSQl8mVYSUbuGX7czfGSSGnI68EYUXA=;
+        b=f4nt4J0NJSvQrHbwNY7RaxuA/jhOACOSHl/fkCEr5zGxKU9r34N3k9PPW9clwq/p/f
+         M9aGP3Kg4TZ0icXVEkK6UVnhVacQK9qjlcgunpNEl7f+RaDKNmiORZsQmGLHa1BVlX7A
+         AxJzLj8wO1rEpw+SZEGVSLOOnxhiV+uM17Kp47jsArM0BFQfOAYPDfcozYwMYykENkZk
+         HrcQhKJlEQ6kYucBts1DWUg1GoXTQeSniChr0NsZdFZHSRuWh7UgoKrq6GlJcT5O0GQI
+         r/wUoJBQ3sm0RvsT3ecAFsYmCPzIBEsl0Vmqkqt+MHwC2nVa2/yhDol1voMTUoTAM+69
+         lKYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695233118; x=1695837918;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=S4Ln3euR7SRigSQl8mVYSUbuGX7czfGSSGnI68EYUXA=;
+        b=hGB5yh03qkbRoQUI1DqmJdQ+DBf12RuDX5H17xFhvNJOIwVtWf+X8bHE69Xk8Gvg45
+         ABcYqUBVSEnE+bvyiVBZydIbHHzWMP4ex3LAXazYg2soFa+pjnIUsC/nhz+Rib81CY1v
+         KlCRkFN7975SIc8wXEiLNFlUPYCRHG6wAMGCqIdfl3Lz+Y7AqHTRSAz8OCUqTIjEOzjv
+         EuiIlO72w2SrjimNgdq3MK8EIER7SuSIZXyga2XsyJrbXhuG0dns+Oq8F+FL9cbX163T
+         ljbNH6VZHqkjaN/O9NEd1nJNhn3WZTC262MMEanmnbnLWNp9I3FBiFotrAISRma22l4N
+         5BRA==
+X-Gm-Message-State: AOJu0YzWM0d6GvJ//R136xY/OubyD5oNhvn1Qbl3rXM1lif54eZW8/vI
+        pCesJY8C7G5vEK4yxyeJDhE8eqsH6FbHMxb1BJ2/AN0XQQ4a2g==
+X-Google-Smtp-Source: AGHT+IFcj9pJCXLFTe1Vl5NhryQtnEa1p4B+acFEw43OOIDAH+svKv6RJkaS65JwKp0PjzszHc74aKy6l7cJWteDyQM=
+X-Received: by 2002:a4a:750d:0:b0:571:28d5:2c71 with SMTP id
+ j13-20020a4a750d000000b0057128d52c71mr3334009ooc.2.1695233118403; Wed, 20 Sep
+ 2023 11:05:18 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB9194:EE_|IA0PR12MB8905:EE_
-X-MS-Office365-Filtering-Correlation-Id: 50678f50-3b5a-4cd8-b34d-08dbb9ddcac7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: B3asJVLGr+nOBgZFij0fiJYWsjh40HODy52Sd0soekNdli2E/IiLFcLBmKO3bMv+yD86OwTuiTgfquAKV4kmQ6TWVtjvF0wCtQIN5qURQNV2veRBUzlDktfiSZR0jGD6FUTjJ/SVkhaZ1x+TMxgdrYwzncBGyyXiOag6A9frgic1EFTg9qkCdO0bIpzqLBkzmwQS3eQxnXvRNTNHnzxhB54VZ8iaVQKJcZqG3ylW6z9iopi5WyMxxHpMS3LVK4K50ZnMfou2PCd6YkdSfEfqFnSABKAok6tuWme87DB904HiXxYpgGSFYCM+cJO/pwHDJo5sL71s5EW9rUdGp5mWQQT7mVfOIliEIW42/ub9rqvCtLedktCPz2QyntylBnO6tf84HympsWQgPBtfmvkkjkHb7t9qW1/uqX203ZHD4oBKGIYopgZm/yeamjgSlXYPjFRJ3d2T8vLE5xwpu7R5NtrwfOIH/iJA45gDStrsWYoQu36a1geEEbYxpWnWZcpHlMjzybZBezUfDLnKPck6sBlW8KEiosUjLxHkXhgeCUqqGc3ir1lfbMIKckdTdZDl4qoL4EgyroTg6A8qmGboZoI5mAVZL+L8grxSHKL81p1WkPpIsudRdVx7feJwGme4XVzKXd8BeZnGOytyl9txxrI/sLgqAoWuzZPt0TfmAu/SNQbek1LHEzFSYTh3LWzl
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB9194.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(136003)(366004)(376002)(346002)(396003)(186009)(451199024)(1800799009)(6486002)(53546011)(6666004)(6506007)(6512007)(83380400001)(478600001)(26005)(2906002)(2616005)(66946007)(66556008)(66476007)(54906003)(8676002)(4326008)(5660300002)(41300700001)(8936002)(316002)(6916009)(31696002)(36756003)(38100700002)(31686004)(26583001)(26123001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MjM5eWJGSzJqaEFNci9YbXl6YnVLalVLdC83OEFDOFZaTW8wYndUZUlEQ2Rh?=
- =?utf-8?B?dHhIRHZQd3ZZUHo3bUNiTjUzMTc1TytnK2F0YUt4ZTd1VFJMZXpOK3FCeUdX?=
- =?utf-8?B?Y2Y2VFRFM3ZxRVVKL1pnc1NMb0hWV3lVQWRyUzgreGhzR1Nmd2E5aHpBblZ6?=
- =?utf-8?B?MlZhWkE0eWl2V1E5NHVoSVZFRVIyc2JqaTJqN3djZmZJWTBQUXQvTDJidHNK?=
- =?utf-8?B?M0ltQVFsNUo4ZFgwcjNZNDF3dTNEd0VEeElRRjNHNjA0SUtBd2h0QmhOOWRS?=
- =?utf-8?B?UUc4UW8xQklDMzNqRkZTYnJEaVpCRVBFaHB1czVZbkI0RFZWajVnZWd0dXpY?=
- =?utf-8?B?MjBPRWFockVrbUgrWFJyM2xTUFpkNDBWV3BqUW1qMHIzUzBMNXdDY2lzMXpa?=
- =?utf-8?B?citzUEN2ajFNd2tpQ3I5d3Yybk82a0dVZHRIVEs2blAxVEt6OW84am1BVkda?=
- =?utf-8?B?MldYaEZLRkdvVktMYXF2cXdReU02a1hlUkVWSEkzV01GTU0wazVuT3h3dmlR?=
- =?utf-8?B?YStYcUNidi80dlkxMUdIYWNSbWxPU25qVGRNWUpGTHlmd0ViNG1IdjNsNVNU?=
- =?utf-8?B?RHVIeVpoTEtkbjJmL0F1UFppSE9vTjVwTk1wbjJjMi9sYk1sV01NdGNJMklN?=
- =?utf-8?B?bUg3NEp0c3pIQ3piWVhFWExGUVZneGg2UXJUbE1venN1Tm9VVUh5QVJQZ0Iy?=
- =?utf-8?B?aVVicVFyellST2VuelpFakM0eUFUMnN5RzRnU2dSNVlUL1FUN3JqRWZ3d0ZL?=
- =?utf-8?B?NUhYNEpIM3BPRGVieHR2eWdwSnJaTzR2L2VldTlqUnhzTThFNTJMNFo2OG9V?=
- =?utf-8?B?YldvWXlKVlV5THhRNFNFREM3NXVIVWh2anpmR3ZEeEk5TTBwc3BpZDJ6VUtY?=
- =?utf-8?B?RCttZ0hHaEZhRHN0d1JpRHVSMmVwckRna2NzbCsrVy9yclVhaTd4dWpKcVRV?=
- =?utf-8?B?djNsM0IyV0pzNnlHR2hCU1hZdU1mdXROZVBoUEF2aVVoYzlnaFVidkRWc0Zn?=
- =?utf-8?B?ZnNEcHU5cllSUUhpQzY1R0dyb0lxTThJRE5jWEtKQmFJSWlxZmd2dG9Da3dG?=
- =?utf-8?B?Q0lCczdJS1RkVk9CYzdKZ3FqZVRKYy9vdUtETkhxM0ZJSUVhZnRVaXA0bUw3?=
- =?utf-8?B?NnAybUxKL2s3QzhhZkdzRW82Qk14dWtVR1ZMMGN1OEdjbThLUG02SEZvNndQ?=
- =?utf-8?B?YU1EMTYrU2pmdHJEM1ZLZTFobDBrQTZtWElWbFdxMkJWczlQeTBNUU5ZVzg3?=
- =?utf-8?B?UjdoUjdrd1UwVUVMOHUyUXdGNSszbmtLYW5ONG9BVXpYdzAvMmxQTENHWC9R?=
- =?utf-8?B?K1JDblJJMFBYa3ZPN0xyVEprYVl6b2dJd0VpOE5iamNBK3k4bXZiaDhXT0NH?=
- =?utf-8?B?dGRjSXdyY2syN0JtMzd6Q1JtanZpMVhVYXRhejJxRm5VTlRRQkp5MVlLZ0pl?=
- =?utf-8?B?bzdqN2toc3RWTkxRZys5b3AxR0Qzd29lOTdDbXVva3hGNG9adERqa2EvMnVs?=
- =?utf-8?B?RjlyNHhzSHBQcy9pYmcxSnRoUGNWNHZHS3ZHbHJTeE85N1k1UHdMTkNicXY3?=
- =?utf-8?B?OEZGVm5EWjFzR1JMY0lCYWdXNGcvYng3UmdUejF6YWJ4RW0rVXQ5a0YzRGN3?=
- =?utf-8?B?SHJxQnVCeCtuMklqT3BRQUV6alZTdWVTTFJOSmpLcDZ2VmdsMjFwUVpmeFc3?=
- =?utf-8?B?b20rdW9EUWFVckZ4dzJodWFEb2s0b2xpZ25FYkppSWxnZ1lsTkhPVkZ2cTFV?=
- =?utf-8?B?M0ZWa0tIVmw0cWxVcldVZktRbG1IcEJFKzdvUVJ6cDZBWXlPVnRYTUtIUmM4?=
- =?utf-8?B?Y3dVOGtQNFU4SGNFU0d0MGZLdkdKaVdJbnprTEZlNWVHSWN3bTVrWGxZVm5C?=
- =?utf-8?B?d3EzNW9jbEtVZmJxL1JmVFFzdUgrU00vRDJaeW5JYlJiMVB5OU1WQTlOSVE0?=
- =?utf-8?B?cHJnZFYrcllyT1F5ZlBObndrZUdXRW1vQ3lkdm5jOG5xeGpXSWk3MWFLQWdi?=
- =?utf-8?B?SHJ1U3RPOHZtZmEwMnJ4Y2VZNzFka2I2ZVRFSE91bTFFRm5DdUJUWXJKYS9r?=
- =?utf-8?B?Y2JsTllXQjIwUythK1dsK21rY2Z3WHhDa3NvdVVlbVpiYTI3ZG5RRHQySEYv?=
- =?utf-8?Q?eu/sGLRpuOMRsLX1xsmhflCJn?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 50678f50-3b5a-4cd8-b34d-08dbb9ddcac7
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB9194.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Sep 2023 13:30:44.5434
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WwIc9nNxblpc7SxZwxGLJpd+PZQxDqlU1EMT1A+Lz97oKHH1onYTEo2Y2psLtXSeRPXgkEiyCoX1Q6js02CIZw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8905
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE
-        autolearn=no autolearn_force=no version=3.4.6
+References: <20230919193948.465340-1-alessandro.carminati@gmail.com> <4833924.GXAFRqVoOG@pwmachine>
+In-Reply-To: <4833924.GXAFRqVoOG@pwmachine>
+From:   Alessandro Carminati <alessandro.carminati@gmail.com>
+Date:   Wed, 20 Sep 2023 20:04:42 +0200
+Message-ID: <CAPp5cGQH1QYM6fr_TRqh6BJDgYS89ncPzx3que5q92o2b0gmLw@mail.gmail.com>
+Subject: Re: [PATCH v4] scripts/link-vmlinux.sh: Add alias to duplicate
+ symbols for kallsyms
+To:     Francis Laniel <flaniel@linux.microsoft.com>
+Cc:     Masami Hiramatsu <mhiramat@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Daniel Bristot de Oliveira <bristot@kernel.org>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Alexander Lobakin <aleksander.lobakin@intel.com>,
+        Nick Alcock <nick.alcock@oracle.com>,
+        Kris Van Hees <kris.van.hees@oracle.com>,
+        Eugene Loh <eugene.loh@oracle.com>,
+        Viktor Malik <vmalik@redhat.com>,
+        Petr Mladek <pmladek@suse.com>, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+Hello Francis,
 
-On 20/9/23 21:59, Masahiro Yamada wrote:
-> On Wed, Sep 20, 2023 at 10:56 AM Alexey Kardashevskiy <aik@amd.com> wrote:
->>
->> The scripts/setlocalversion script correctly tries not adding "+" when
->> CONFIG_LOCALVERSION is defined.
-> 
-> I am afraid you are misunderstanding the script.
+Thanks a lot for the review.
 
-Possibly :) I should have read of "+set"... sorry :-/ Thanks for 
-spending time looking at this.
+Il giorno mer 20 set 2023 alle ore 12:53 Francis Laniel
+<flaniel@linux.microsoft.com> ha scritto:
+>
+> Hi.
+>
+> Le mardi 19 septembre 2023, 22:39:48 EEST Alessandro Carminati (Red Hat) =
+a
+> =C3=A9crit :
+> > It is not uncommon for drivers or modules related to similar peripheral=
+s
+> > to have symbols with the exact same name.
+> > While this is not a problem for the kernel's binary itself, it becomes =
+an
+> > issue when attempting to trace or probe specific functions using
+> > infrastructure like ftrace or kprobe.
+> >
+> > The tracing subsystem relies on the `nm -n vmlinux` output, which provi=
+des
+> > symbol information from the kernel's ELF binary. However, when multiple
+> > symbols share the same name, the standard nm output does not differenti=
+ate
+> > between them. This can lead to confusion and difficulty when trying to
+> > probe the intended symbol.
+> >
+> >  ~ # cat /proc/kallsyms | grep " name_show"
+> >  ffffffff8c4f76d0 t name_show
+> >  ffffffff8c9cccb0 t name_show
+> >  ffffffff8cb0ac20 t name_show
+> >  ffffffff8cc728c0 t name_show
+> >  ffffffff8ce0efd0 t name_show
+> >  ffffffff8ce126c0 t name_show
+> >  ffffffff8ce1dd20 t name_show
+> >  ffffffff8ce24e70 t name_show
+> >  ffffffff8d1104c0 t name_show
+> >  ffffffff8d1fe480 t name_show
+> >
+> > kas_alias addresses this challenge by enhancing symbol names with
+> > meaningful suffixes generated from the source file and line number
+> > during the kernel build process.
+> > These newly generated aliases provide tracers with the ability to
+> > comprehend the symbols they are interacting with when utilizing the
+> > ftracefs interface.
+> > This approach may also allow for the probing by name of previously
+> > inaccessible symbols.
+> >
+> >  ~ # cat /proc/kallsyms | grep gic_mask_irq
+> >  ffffd15671e505ac t gic_mask_irq
+> >  ffffd15671e505ac t gic_mask_irq@drivers_irqchip_irq_gic_c_167
+> >  ffffd15671e532a4 t gic_mask_irq
+> >  ffffd15671e532a4 t gic_mask_irq@drivers_irqchip_irq_gic_v3_c_407
+> >  ~ #
+> >
+> > Changes from v1:
+> > - Integrated changes requested by Masami to exclude symbols with prefix=
+es
+> >   "_cfi" and "_pfx".
+> > - Introduced a small framework to handle patterns that need to be exclu=
+ded
+> >   from the alias production.
+> > - Excluded other symbols using the framework.
+> > - Introduced the ability to discriminate between text and data symbols.
+> > - Added two new config symbols in this version: CONFIG_KALLSYMS_ALIAS_D=
+ATA,
+> >   which allows data for data, and CONFIG_KALLSYMS_ALIAS_DATA_ALL, which
+> >   excludes all filters and provides an alias for each duplicated symbol=
+.
+> >
+> > https://lore.kernel.org/all/20230711151925.1092080-1-alessandro.carmina=
+ti@gm
+> > ail.com/
+> >
+> > Changes from v2:
+> > - Alias tags are created by querying DWARF information from the vmlinux=
+.
+> > - The filename + line number is normalized and appended to the original
+> >   name.
+> > - The tag begins with '@' to indicate the symbol source.
+> > - Not a change, but worth mentioning, since the alias is added to the
+> >   existing list, the old duplicated name is preserved, and the livepatc=
+h
+> >   way of dealing with duplicates is maintained.
+> > - Acknowledging the existence of scenarios where inlined functions
+> >   declared in header files may result in multiple copies due to compile=
+r
+> >   behavior, though it is not actionable as it does not pose an operatio=
+nal
+> >   issue.
+> > - Highlighting a single exception where the same name refers to differe=
+nt
+> >   functions: the case of "compat_binfmt_elf.c," which directly includes
+> >   "binfmt_elf.c" producing identical function copies in two separate
+> >   modules.
+> >
+> > https://lore.kernel.org/all/20230714150326.1152359-1-alessandro.carmina=
+ti@gm
+> > ail.com/
+> >
+> > Changes from v3:
+> > - kas_alias was rewritten in Python to create a more concise and
+> >   maintainable codebase.
+> > - The previous automation process used by kas_alias to locate the vmlin=
+ux
+> >   and the addr2line has been replaced with an explicit command-line swi=
+tch
+> >   for specifying these requirements.
+> > - addr2line has been added into the main Makefile.
+> > - A new command-line switch has been introduced, enabling users to exte=
+nd
+> >   the alias to global data names.
+> >
+> > https://lore.kernel.org/all/20230828080423.3539686-1-alessandro.carmina=
+ti@gm
+> > ail.com/
+> >
+> > NOTE:
+> > About the symbols name duplication that happens as consequence of the
+> > inclusion compat_binfmt_elf.c does, it is evident that this corner is
+> > inherently challenging the addr2line approach.
+> > Attempting to conceal this limitation would be counterproductive.
+> >
+> > compat_binfmt_elf.c includes directly binfmt_elf.c, addr2line can't hel=
+p
+> > but report all functions and data declared by that file, coming from
+> > binfmt_elf.c.
+> >
+> > My position is that, rather than producing a more complicated pipeline
+> > to handle this corner case, it is better to fix the compat_binfmt_elf.c
+> > anomaly.
+> >
+> > This patch does not deal with the two potentially problematic symbols
+> > defined by compat_binfmt_elf.c
+>
+> First, thank you for the v4, you will find in the remaining of the messag=
+es
+> some comments but for now, I did not test it (this is planned).
+> On a general way, using python really helps here as the code is more
+> straightforward, thank you for this change.
+>
+> Regarding the problem with compat_binfmt_elf.c, do you have any idea on h=
+ow to
+> address it?
+> I can maybe take a look at it but I would like to avoid breaking everythi=
+ng.
 
-> CONFIG_LOCALVERSION and the "+" sign is unrelated.
+compat_binfmt_elf.c is a clever hack that enables sharing source code
+between two different modules while allowing for command differences throug=
+h
+config macros [1] [2].
+The key lies in the fact they have only few differences.
 
-How come?
+In my view, a good approach would be to refactor both compat_binfmt_elf.c a=
+nd
+binfmt_elf.c, extracting common code and accessing it through wrappers.
+This way, anyone looking to explore the functionality provided by either mo=
+dule
+would have distinct symbols to work with.
+Consolidating the two functions into one also seems beneficial, including i=
+n
+contexts like livepatch scenarios.
 
-scripts/setlocalversion -> if [ "${LOCALVERSION+set}" != "set" ] -> 
-scm_version --short -> echo "+".
+The trade-off here is that the modifications currently made using macros wo=
+uld
+need to be done at runtime.
+Fortunately, from what I see in the code, these changes appear to be relati=
+vely
+modest, and the functions don't seem to be critical loops.
+Therefore, sacrificing a few cycles to evaluate a flag doesn't appear to be=
+ a
+game-changer.
 
-Where is that LOCALVERSION supposed to come from, and when? Is not 
-LOCALVERSION related to CONFIG_LOCALVERSION?
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
+/fs/binfmt_elf.c#n754
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
+/fs/binfmt_elf.c#n1317
 
->> However, instead of grepping for it
->> (as it is done for CONFIG_LOCALVERSION_AUTO=y), it relies on LOCALVERSION
->> set in the shell which is not.
->>
->> Export LOCALVERSION so scripts/setlocalversion could see it and not add
->> unwanted "+" at the end of the kernelrelease.
->>
->> Signed-off-by: Alexey Kardashevskiy <aik@amd.com>
-> 
-> 
-> So, scripts/setlocalversion will always see
-> defined LOCALVERSION.
-> 
-> With your patch, LOCALVERSION would be set to an empty value,
-> which would make the following condition always false.
-> 
-> elif [ "${LOCALVERSION+set}" != "set" ]; then
-> 
-> 
-> Your patch is equivalent to deleting
-> line 175-183 of scripts/setlocalversion.
-> 
-> Of course, that is wrong and unacceptable.
+>
+> > Signed-off-by: Alessandro Carminati (Red Hat)
+> > <alessandro.carminati@gmail.com> ---
+> >  Makefile                |   4 +-
+> >  init/Kconfig            |  22 +++++++
+> >  scripts/kas_alias.py    | 132 ++++++++++++++++++++++++++++++++++++++++
+> >  scripts/link-vmlinux.sh |  20 +++++-
+> >  4 files changed, 175 insertions(+), 3 deletions(-)
+> >  create mode 100755 scripts/kas_alias.py
+> >
+> > diff --git a/Makefile b/Makefile
+> > index 4f283d915e54..f33c179f4cc3 100644
+> > --- a/Makefile
+> > +++ b/Makefile
+> > @@ -488,6 +488,7 @@ OBJCOPY           =3D $(LLVM_PREFIX)llvm-objcopy$
+> (LLVM_SUFFIX)
+> >  OBJDUMP              =3D $(LLVM_PREFIX)llvm-objdump$(LLVM_SUFFIX)
+> >  READELF              =3D $(LLVM_PREFIX)llvm-readelf$(LLVM_SUFFIX)
+> >  STRIP                =3D $(LLVM_PREFIX)llvm-strip$(LLVM_SUFFIX)
+> > +ADDR2LINE    =3D $(LLVM_PREFIX)llvm-addr2line$(LLVM_SUFFIX)
+> >  else
+> >  CC           =3D $(CROSS_COMPILE)gcc
+> >  LD           =3D $(CROSS_COMPILE)ld
+> > @@ -497,6 +498,7 @@ OBJCOPY           =3D $(CROSS_COMPILE)objcopy
+> >  OBJDUMP              =3D $(CROSS_COMPILE)objdump
+> >  READELF              =3D $(CROSS_COMPILE)readelf
+> >  STRIP                =3D $(CROSS_COMPILE)strip
+> > +ADDR2LINE    =3D $(CROSS_COMPILE)addr2line
+> >  endif
+> >  RUSTC                =3D rustc
+> >  RUSTDOC              =3D rustdoc
+> > @@ -611,7 +613,7 @@ export RUSTC_BOOTSTRAP :=3D 1
+> >  export ARCH SRCARCH CONFIG_SHELL BASH HOSTCC KBUILD_HOSTCFLAGS
+> > CROSS_COMPILE LD CC HOSTPKG_CONFIG export RUSTC RUSTDOC RUSTFMT
+> > RUSTC_OR_CLIPPY_QUIET RUSTC_OR_CLIPPY BINDGEN CARGO export HOSTRUSTC
+> > KBUILD_HOSTRUSTFLAGS
+> > -export CPP AR NM STRIP OBJCOPY OBJDUMP READELF PAHOLE RESOLVE_BTFIDS L=
+EX
+> > YACC AWK INSTALLKERNEL +export CPP AR NM STRIP OBJCOPY OBJDUMP READELF
+> > ADDR2LINE PAHOLE RESOLVE_BTFIDS LEX YACC AWK INSTALLKERNEL export PERL
+> > PYTHON3 CHECK CHECKFLAGS MAKE UTS_MACHINE HOSTCXX
+> >  export KGZIP KBZIP2 KLZOP LZMA LZ4 XZ ZSTD
+> >  export KBUILD_HOSTCXXFLAGS KBUILD_HOSTLDFLAGS KBUILD_HOSTLDLIBS
+> > LDFLAGS_MODULE diff --git a/init/Kconfig b/init/Kconfig
+> > index 6d35728b94b2..d45dd423e1ec 100644
+> > --- a/init/Kconfig
+> > +++ b/init/Kconfig
+> > @@ -1738,6 +1738,28 @@ config KALLSYMS_BASE_RELATIVE
+> >         time constants, and no relocation pass is required at runtime t=
+o fix
+> >         up the entries based on the runtime load address of the kernel.
+> >
+> > +config KALLSYMS_ALIAS_SRCLINE
+> > +     bool "Produces alias for duplicated text symbols" if EXPERT
+> > +     depends on KALLSYMS && DEBUG_INFO && !DEBUG_INFO_SPLIT
+> > +     help
+> > +       It is not uncommon for drivers or modules related to similar
+> > +       peripherals to have symbols with the exact same name.
+> > +       While this is not a problem for the kernel's binary itself, it
+> > +       becomes an issue when attempting to trace or probe specific
+> > +       functions using infrastructure like ftrace or kprobe.
+> > +
+> > +       This option addresses this challenge, producing alias for text
+> > +       symbol names that include the file name and line where the symb=
+ols
+> > +       are defined in the source code.
+> > +
+> > +config KALLSYMS_ALIAS_SRCLINE_DATA
+> > +     bool "Produces alias also for global variables names"
+> > +     depends on KALLSYMS_ALIAS_SRCLINE
+> > +     help
+> > +       Sometimes it can be useful to refer to global vars by name. Sin=
+ce
+> > +       they suffer the same issue as text symbols, this config option
+> > +       allows having aliases for global variables names too.
+> > +
+> >  # end of the "standard kernel features (expert users)" menu
+> >
+> >  # syscall, maps, verifier
+> > diff --git a/scripts/kas_alias.py b/scripts/kas_alias.py
+> > new file mode 100755
+> > index 000000000000..8cc2a2178da6
+> > --- /dev/null
+> > +++ b/scripts/kas_alias.py
+> > @@ -0,0 +1,132 @@
+> > +#!/usr/bin/env python3
+> > +# SPDX-License-Identifier: GPL-2.0-only
+> > +#
+> > +# Copyright (C) 2023 Red Hat, Inc. Alessandro Carminati
+> > <alessandro.carminati@gmail.com> +#
+> > +# kas_alias: Adds alias to duplicate symbols in the kallsyms output.
+> > +
+> > +import subprocess
+> > +import sys
+> > +import os
+> > +import argparse
+> > +import re
+> > +from collections import namedtuple
+> > +
+> > +regex_filter =3D [
+> > +        "^__compound_literal\\.[0-9]+$",
+> > +        "^__[wm]*key\\.[0-9]+$",
+> > +        "^_*TRACE_SYSTEM.*$",
+> > +        "^__already_done\\.[0-9]+$",
+> > +        "^__msg\\.[0-9]+$",
+> > +        "^__func__\\.[0-9]+$",
+> > +        "^CSWTCH\\.[0-9]+$",
+> > +        "^_rs\\.[0-9]+$",
+> > +        "^___tp_str\\.[0-9]+$",
+> > +        "^__flags\\.[0-9]+$",
+> > +        "^___done\\.[0-9]+$",
+> > +        "^__print_once\\.[0-9]+$",
+> > +        "^___once_key\\.[0-9]+$",
+> > +        "^__pfx_.*$",
+> > +        "^__cfi_.*$"
+> > +        ]
+> > +
+> > +class SeparatorType:
+> > +    def __call__(self, separator):
+> > +        if len(separator) !=3D 1:
+> > +            raise argparse.ArgumentTypeError("Separator must be a sing=
+le
+> > character") +        return separator
+> > +
+> > +Line =3D namedtuple('Line', ['address', 'type', 'name'])
+> > +
+> > +def parse_file(filename):
+> > +    symbol_list =3D []
+> > +    name_occurrences =3D {}
+> > +
+> > +    with open(filename, 'r') as file:
+> > +        for line in file:
+> > +            fields =3D line.strip().split()
+> > +
+> > +            if len(fields) >=3D 3:
+> > +                address, type, name =3D fields[0], fields[1], '
+> > '.join(fields[2:]) +                symbol_list.append(Line(address, ty=
+pe,
+> > name))
+> > +                name_occurrences[name] =3D name_occurrences.get(name, =
+0) + 1
+> > +
+> > +    return symbol_list, name_occurrences
+> > +
+> > +def find_duplicate(symbol_list, name_occurrences):
+> > +    name_to_lines =3D {}
+> > +    duplicate_lines =3D []
+> > +
+> > +    for line in symbol_list:
+> > +        if line.name in name_to_lines:
+> > +            first_occurrence =3D name_to_lines[line.name]
+> > +            duplicate_lines.extend([first_occurrence, line])
+> > +        else:
+> > +            name_to_lines[line.name] =3D line
+> > +
+> > +    return duplicate_lines
+> > +
+> > +def start_addr2line_process(binary_file, addr2line_file):
+> > +    try:
+> > +        addr2line_process =3D subprocess.Popen([addr2line_file, '-fe',
+> > binary_file], +
+> > stdin=3Dsubprocess.PIPE, +
+> > stdout=3Dsubprocess.PIPE, +
+> > stderr=3Dsubprocess.PIPE, +
+> > text=3DTrue)
+> > +        return addr2line_process
+> > +    except Exception as e:
+> > +        print(f"Error starting addr2line process: {str(e)}")
+> > +        return None
+>
+> Here, you can raise another exception, otherwise this error message will =
+be
+> printed on stdout as you use print().
+>
+> > +
+> > +def addr2line_fetch_address(addr2line_process, address):
+> > +    try:
+> > +        addr2line_process.stdin.write(address + '\n')
+> > +        addr2line_process.stdin.flush()
+> > +        addr2line_process.stdout.readline().strip()
+> > +        output =3D addr2line_process.stdout.readline().strip()
+> > +
+> > +        return os.path.normpath(output)
+> > +    except Exception as e:
+> > +        print(f"Error communicating with addr2line: {str(e)}")
+> > +        return None
+>
+> Same comment than above.
+>
+Hmm, you might be onto something there.
+The issue here is that I probably shouldn't return at all and should just
+go ahead and terminate the program. I mean, if I hit this exception, it
+means I couldn't spawn addr2line or fetch results from it.
+In that case, I can't provide the functionality anyway.
+When I initially wrote the function, my idea was to prevent the kernel
+build pipeline from failing completely by taking the input and pushing it
+to the output (even though the application wouldn't provide the
+functionality).
+But now I started thinking about it from the perspective of a user who
+really needs that functionality.
+Despite having to enable it, it does not present itself.
+That way I'm just complicating the debug.
 
-Ok. What is the right way of getting rid of the "+"? Thanks,
+I came to the conclusion that it's best to just crash the application and
+halt the pipeline if either of the two fails.
+I will change it accordingly.
 
-
-> 
-> 
-> 
-> 
-> 
-> 
-> 
->> ---
->>   Makefile | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/Makefile b/Makefile
->> index 57698d048e2c..fc45bed69790 100644
->> --- a/Makefile
->> +++ b/Makefile
->> @@ -368,7 +368,7 @@ include $(srctree)/scripts/Kbuild.include
->>   # Read KERNELRELEASE from include/config/kernel.release (if it exists)
->>   KERNELRELEASE = $(call read-file, include/config/kernel.release)
->>   KERNELVERSION = $(VERSION)$(if $(PATCHLEVEL),.$(PATCHLEVEL)$(if $(SUBLEVEL),.$(SUBLEVEL)))$(EXTRAVERSION)
->> -export VERSION PATCHLEVEL SUBLEVEL KERNELRELEASE KERNELVERSION
->> +export VERSION PATCHLEVEL SUBLEVEL KERNELRELEASE KERNELVERSION LOCALVERSION
->>
->>   include $(srctree)/scripts/subarch.include
->>
->> --
->> 2.41.0
->>
-> 
-> 
-
-
+> > +def process_line(line, config):
+>
+> line should be named obj here.
+fair.
+>
+> > +    if config:
+> > +        return not (any(re.match(regex, obj.name) for regex in
+> > regex_filter)) +    else:
+> > +        return obj.type in {"T", "t"}
+> > +if __name__ =3D=3D "__main__":
+> > +    parser =3D argparse.ArgumentParser(description=3D'Add alias to mul=
+tiple
+> > occurring symbols name in kallsyms') +    parser.add_argument('-a',
+> > "--addr2line", dest=3D"addr2line_file", required=3DTrue) +
+> > parser.add_argument('-v', "--vmlinux", dest=3D"vmlinux_file", required=
+=3DTrue)
+> > +    parser.add_argument('-o', "--outfile", dest=3D"output_file",
+> > required=3DTrue) +    parser.add_argument('-n', "--nmdata",
+> > dest=3D"nm_data_file", required=3DTrue) +    parser.add_argument('-s',
+> > "--separator", dest=3D"separator", required=3DFalse, default=3D"@",
+> > type=3DSeparatorType()) +    parser.add_argument('-d', "--data",
+> > dest=3D"include_data", required=3DFalse, action=3D'store_true') +    co=
+nfig =3D
+> > parser.parse_args()
+> > +
+> > +    try:
+> > +        config.linux_base_dir =3D os.getcwd()+"/"
+> > +        symbol_list, name_occurrences =3D parse_file(config.nm_data_fi=
+le)
+> > +        addr2line_process =3D start_addr2line_process(config.vmlinux_f=
+ile,
+> > config.addr2line_file) +
+> > +        with open(config.output_file, 'w') as file:
+> > +            for obj in symbol_list:
+> > +                file.write("{} {} {}\n".format(obj.address, obj.type,
+> > obj.name))
+>
+> I am not a python expert but is there something which prevents using f-st=
+ring
+> here?
+Agree, best to have a single style.
+>
+> > +                if (name_occurrences[obj.name] > 1) and
+> > process_line(obj, config.include_data) : +                    output =
+=3D
+> > addr2line_fetch_address(addr2line_process, obj.address) +
+> >  decoration =3D config.separator + "".join(
+> > +                        "_" if not c.isalnum() else c for c in
+> > output.replace(config.linux_base_dir, "") +                    )
+>
+> Cannot the above be simplified to:
+> decoration =3D config.separator + config.linux_base_dir + ("_" if not c.i=
+salnum()
+> else c for c in output)
+>
+> > +                    if decoration !=3D config.separator + "____":
+>
+> Why exactly "____" and not "_+" (+ in the regex meaning of {1, n})?
+The reason for using "____" is because when addr2line emits the special
+string "?:??" its normalized version becomes "____" .
+"?:??" occurs when addr2line can not find the specified address in the
+DWARF section, which is typical of symbols introduced by the compiler.
+In such cases, emitting an alias wouldn't make sense, so I skip it.
+>
+> > +                        file.write("{} {} {}\n".format(obj.address,
+> > obj.type, obj.name + decoration)) +
+> > +        addr2line_process.stdin.close()
+> > +        addr2line_process.stdout.close()
+> > +        addr2line_process.stderr.close()
+> > +        addr2line_process.wait()
+> > +
+> > +    except Exception as e:
+> > +        print(f"An error occurred: {str(e)}")
+> > +        raise SystemExit("Script terminated due to an error")
+>
+> Maybe you can fuse the two:
+> raise SystemExit(f"Script terminated due to an error: {str(e)}")
+Got it, thanks
+>
+> > diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
+> > index a432b171be82..7cc24fd5f6b4 100755
+> > --- a/scripts/link-vmlinux.sh
+> > +++ b/scripts/link-vmlinux.sh
+> > @@ -91,7 +91,12 @@ vmlinux_link()
+> >
+> >       # The kallsyms linking does not need debug symbols included.
+> >       if [ "$output" !=3D "${output#.tmp_vmlinux.kallsyms}" ] ; then
+> > -             ldflags=3D"${ldflags} ${wl}--strip-debug"
+> > +             # The kallsyms linking does not need debug symbols includ=
+ed,
+> > +             # unless the KALLSYMS_ALIAS_SRCLINE.
+> > +             if ! is_enabled CONFIG_KALLSYMS_ALIAS_SRCLINE && \
+> > +                [ "$output" !=3D "${output#.tmp_vmlinux.kallsyms}" ] ;=
+ then
+> > +                     ldflags=3D"${ldflags} ${wl}--strip-debug"
+> > +             fi
+> >       fi
+> >
+> >       if is_enabled CONFIG_VMLINUX_MAP; then
+> > @@ -161,7 +166,18 @@ kallsyms()
+> >       fi
+> >
+> >       info KSYMS ${2}
+> > -     scripts/kallsyms ${kallsymopt} ${1} > ${2}
+> > +     ALIAS=3D""
+> > +     KAS_DATA=3D""
+> > +     if is_enabled CONFIG_KALLSYMS_ALIAS_SRCLINE_DATA; then
+> > +             KAS_DATA=3D"-d"
+> > +     fi
+> > +     if is_enabled CONFIG_KALLSYMS_ALIAS_SRCLINE; then
+> > +             ALIAS=3D".alias"
+> > +             scripts/kas_alias.py \
+> > +                     -a ${ADDR2LINE} -v ${kallsyms_vmlinux} -n ${1} \
+> > +                     -o ${1}${ALIAS} -s @ ${KAS_DATA}
+>
+> The separator can indeed be set for the python script but is hardcoded fr=
+om
+> the kernel point of view as there are no corresponding CONFIG_.
+> This is totally fine for me, as if someone wants a specific separator he/=
+she can
+> edit this file, but was it your goal?
+Indeed.
+While your earlier point made sense to me, Petr's arguments were quite
+convincing.
+So, the kernel does hardcode the separator, but if someone really wants
+to change it, they can simply edit a character in the
+scripts/link-vmlinux.sh file.
+>
+> > +     fi
+> > +     scripts/kallsyms ${kallsymopt} ${1}${ALIAS} > ${2}
+> >  }
+> >
+> >  # Perform one step in kallsyms generation, including temporary linking=
+ of
+>
+> Best regards.
+>
+>
