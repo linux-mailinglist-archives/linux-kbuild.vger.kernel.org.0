@@ -2,209 +2,93 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DE19E7A746F
-	for <lists+linux-kbuild@lfdr.de>; Wed, 20 Sep 2023 09:40:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D097D7A74E3
+	for <lists+linux-kbuild@lfdr.de>; Wed, 20 Sep 2023 09:52:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233902AbjITHkj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 20 Sep 2023 03:40:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56554 "EHLO
+        id S232251AbjITHwv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 20 Sep 2023 03:52:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233845AbjITHkZ (ORCPT
+        with ESMTP id S231929AbjITHwu (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 20 Sep 2023 03:40:25 -0400
-Received: from mail-oo1-xc2a.google.com (mail-oo1-xc2a.google.com [IPv6:2607:f8b0:4864:20::c2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29ED5130;
-        Wed, 20 Sep 2023 00:40:19 -0700 (PDT)
-Received: by mail-oo1-xc2a.google.com with SMTP id 006d021491bc7-5712b68dbc0so3735386eaf.1;
-        Wed, 20 Sep 2023 00:40:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695195618; x=1695800418; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=y//mcqepO87JWsJ0Vw521wL8mh9/ml4p7g1NN9TJbSU=;
-        b=GTXFsL/MDi3BqfWLcElBespBNa1+U6yYKpB/tS+6kE+bKn0vZnfAz1+4M1qmhXLpiM
-         RliQTATfRlOiTa0lkSmBpnwY9tLiXWra2VOPUEzm8seDUBZFgEXKRPcWJWEfsbrFwPLM
-         2ChAkV/5S0uyUxy6Rapl84cEgCqRSNbIEPaZB067IU0KTqyw3EoWriuJ+ZNJRq2cECQ8
-         S7JGiRtQPh7JoJy101ATamfDTiD1phGGTlozYoGyH6IFm/svZeDohB2irbNLi2pvSjgU
-         TLVaJxXk6FVbFf/6PUHOfHeemXAPXxKYN7WRlyB4b8RUmLNW6R3LfdIsUIuxmKlqU+Lv
-         9kkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695195618; x=1695800418;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=y//mcqepO87JWsJ0Vw521wL8mh9/ml4p7g1NN9TJbSU=;
-        b=Uaj4Nya6xMxPfKYsHjIwU0F9A7zqnh2ata79U7rEvgomPo7An7yAwhwLjaSQXqp5YT
-         b8ftzCLcN0fbFj7X79bPnvzAtzUaL8DS2zL+ezJ13cvXrJD/0nZehr+Rho6i6ljraoFG
-         4B3qy83Bp9w8Bn5ygrYUsX2OkYReO4uoZaJXH9/hYYxbWtnmuJSzMK0uFztKcF02mMh1
-         b85cF0PN9cEQeDc7zs6dv6yoXVqd9CBWxkOVxqKe3re0FpDJE2LcXjL3AX3RrO6ah4PE
-         Pb8szI5xhT1qi5PITCc8zY46+0dAx3CXtGA8weSSkKKANUuZYcu+vAluw4t6LQXxoIsK
-         Egng==
-X-Gm-Message-State: AOJu0Yz6G4U9lWM4CPz7bRbcoAa9VvXzbQ41XspCfm+xeSwr7BtNwj0x
-        tO0yUGC0XRiQyNRj5COqtlf/KqGxQ2BE+j9aibM=
-X-Google-Smtp-Source: AGHT+IGrC9bHvDUlxweLsvu/t9RjF0z84NqFOkkMPAU5RvInLk2ooXy9TaJ/PgC9TCQSq+ILRXuDc/Ka6TVeMFlqWSc=
-X-Received: by 2002:a4a:2a55:0:b0:570:fdf2:41f0 with SMTP id
- x21-20020a4a2a55000000b00570fdf241f0mr1844775oox.1.1695195617965; Wed, 20 Sep
- 2023 00:40:17 -0700 (PDT)
+        Wed, 20 Sep 2023 03:52:50 -0400
+X-Greylist: delayed 381 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 20 Sep 2023 00:52:45 PDT
+Received: from mail.venturelinkage.com (mail.venturelinkage.com [80.211.143.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D9579D
+        for <linux-kbuild@vger.kernel.org>; Wed, 20 Sep 2023 00:52:45 -0700 (PDT)
+Received: by mail.venturelinkage.com (Postfix, from userid 1002)
+        id 6F585827FC; Wed, 20 Sep 2023 09:46:19 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=venturelinkage.com;
+        s=mail; t=1695195983;
+        bh=7iowqdzve/IIiUUjcEwx8j3uMrVqqiE7R9zbOCKRV9Q=;
+        h=Date:From:To:Subject:From;
+        b=OmBW/agTbz2XE8nCa5WIjgp+tkTUG+pJhOhoVJiuV2I4ihm9aGqaJtZEdFBSEYb0W
+         53fMlA1M4aysMhup5DMU6CjwAIQhK/KDHqxdxeFhMjgictSvrV9OohS28Io68zQS/A
+         YesTl8448Bw50m7ph+Bkt2ROnneIrUrbv9/46/7TBlktMsBO3odEBEV/I86raX9KRl
+         BIsQFF1OWEsXlsG498UJ2Hef9zsfrsxfhl8AU7An6kWnhIEMek+33iB49GqNOH3bdW
+         q5rUM+P4p0idPG1irczck1KHx3O254QoOF+7G7Qf2aIbOh6QKRz3Epmy9LgCAa56eU
+         6z7zmrf5cc4DA==
+Received: by mail.venturelinkage.com for <linux-kbuild@vger.kernel.org>; Wed, 20 Sep 2023 07:46:15 GMT
+Message-ID: <20230920084500-0.1.l.11xx.0.oarzhnhx46@venturelinkage.com>
+Date:   Wed, 20 Sep 2023 07:46:15 GMT
+From:   "Lukas Varga" <lukas.varga@venturelinkage.com>
+To:     <linux-kbuild@vger.kernel.org>
+Subject: =?UTF-8?Q?Popt=C3=A1vka?=
+X-Mailer: mail.venturelinkage.com
 MIME-Version: 1.0
-References: <20230919193948.465340-1-alessandro.carminati@gmail.com> <20230920085251.a4e68173ee2539f695182810@kernel.org>
-In-Reply-To: <20230920085251.a4e68173ee2539f695182810@kernel.org>
-From:   Alessandro Carminati <alessandro.carminati@gmail.com>
-Date:   Wed, 20 Sep 2023 09:39:41 +0200
-Message-ID: <CAPp5cGS96hcv3GK5n4EdvA9eGf3YnzkCqL01eZPw_RzHMhPoyQ@mail.gmail.com>
-Subject: Re: [PATCH v4] scripts/link-vmlinux.sh: Add alias to duplicate
- symbols for kallsyms
-To:     Masami Hiramatsu <mhiramat@kernel.org>
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
-        Daniel Bristot de Oliveira <bristot@kernel.org>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Alexander Lobakin <aleksander.lobakin@intel.com>,
-        Nick Alcock <nick.alcock@oracle.com>,
-        Kris Van Hees <kris.van.hees@oracle.com>,
-        Eugene Loh <eugene.loh@oracle.com>,
-        Francis Laniel <flaniel@linux.microsoft.com>,
-        Viktor Malik <vmalik@redhat.com>,
-        Petr Mladek <pmladek@suse.com>, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: Yes, score=6.0 required=5.0 tests=BAYES_05,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FROM_FMBLA_NEWDOM28,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS,
+        URIBL_CSS_A,URIBL_DBL_SPAM autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Report: *  2.5 URIBL_DBL_SPAM Contains a spam URL listed in the Spamhaus DBL
+        *      blocklist
+        *      [URIs: venturelinkage.com]
+        *  3.3 RCVD_IN_SBL_CSS RBL: Received via a relay in Spamhaus SBL-CSS
+        *      [80.211.143.151 listed in zen.spamhaus.org]
+        *  0.1 URIBL_CSS_A Contains URL's A record listed in the Spamhaus CSS
+        *      blocklist
+        *      [URIs: venturelinkage.com]
+        *  0.0 RCVD_IN_DNSWL_BLOCKED RBL: ADMINISTRATOR NOTICE: The query to
+        *      DNSWL was blocked.  See
+        *      http://wiki.apache.org/spamassassin/DnsBlocklists#dnsbl-block
+        *      for more information.
+        *      [80.211.143.151 listed in list.dnswl.org]
+        * -0.5 BAYES_05 BODY: Bayes spam probability is 1 to 5%
+        *      [score: 0.0137]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        *  0.8 FROM_FMBLA_NEWDOM28 From domain was registered in last 14-28
+        *      days
+X-Spam-Level: ******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello Masami,
+Dobr=C3=A9 r=C3=A1no,
 
-Thank you for the feedback.
+Dovolil jsem si V=C3=A1s kontaktovat, proto=C5=BEe m=C3=A1m z=C3=A1jem ov=
+=C4=9B=C5=99it mo=C5=BEnost nav=C3=A1z=C3=A1n=C3=AD spolupr=C3=A1ce.
+
+Podporujeme firmy p=C5=99i z=C3=ADsk=C3=A1v=C3=A1n=C3=AD nov=C3=BDch obch=
+odn=C3=ADch z=C3=A1kazn=C3=ADk=C5=AF.
+
+M=C5=AF=C5=BEeme si promluvit a poskytnout podrobnosti?
+
+V p=C5=99=C3=ADpad=C4=9B z=C3=A1jmu V=C3=A1s bude kontaktovat n=C3=A1=C5=A1=
+ anglicky mluv=C3=ADc=C3=AD z=C3=A1stupce.
 
 
-Il giorno mer 20 set 2023 alle ore 01:52 Masami Hiramatsu
-<mhiramat@kernel.org> ha scritto:
->
-> On Tue, 19 Sep 2023 19:39:48 +0000
-> "Alessandro Carminati (Red Hat)" <alessandro.carminati@gmail.com> wrote:
->
-> > It is not uncommon for drivers or modules related to similar peripherals
-> > to have symbols with the exact same name.
-> > While this is not a problem for the kernel's binary itself, it becomes an
-> > issue when attempting to trace or probe specific functions using
-> > infrastructure like ftrace or kprobe.
-> >
-> > The tracing subsystem relies on the `nm -n vmlinux` output, which provides
-> > symbol information from the kernel's ELF binary. However, when multiple
-> > symbols share the same name, the standard nm output does not differentiate
-> > between them. This can lead to confusion and difficulty when trying to
-> > probe the intended symbol.
-> >
-> >  ~ # cat /proc/kallsyms | grep " name_show"
-> >  ffffffff8c4f76d0 t name_show
-> >  ffffffff8c9cccb0 t name_show
-> >  ffffffff8cb0ac20 t name_show
-> >  ffffffff8cc728c0 t name_show
-> >  ffffffff8ce0efd0 t name_show
-> >  ffffffff8ce126c0 t name_show
-> >  ffffffff8ce1dd20 t name_show
-> >  ffffffff8ce24e70 t name_show
-> >  ffffffff8d1104c0 t name_show
-> >  ffffffff8d1fe480 t name_show
-> >
-> > kas_alias addresses this challenge by enhancing symbol names with
-> > meaningful suffixes generated from the source file and line number
-> > during the kernel build process.
-> > These newly generated aliases provide tracers with the ability to
-> > comprehend the symbols they are interacting with when utilizing the
-> > ftracefs interface.
-> > This approach may also allow for the probing by name of previously
-> > inaccessible symbols.
-> >
-> >  ~ # cat /proc/kallsyms | grep gic_mask_irq
-> >  ffffd15671e505ac t gic_mask_irq
-> >  ffffd15671e505ac t gic_mask_irq@drivers_irqchip_irq_gic_c_167
-> >  ffffd15671e532a4 t gic_mask_irq
-> >  ffffd15671e532a4 t gic_mask_irq@drivers_irqchip_irq_gic_v3_c_407
-> >  ~ #
-> >
-> > Changes from v1:
-> > - Integrated changes requested by Masami to exclude symbols with prefixes
-> >   "_cfi" and "_pfx".
-> > - Introduced a small framework to handle patterns that need to be excluded
-> >   from the alias production.
-> > - Excluded other symbols using the framework.
-> > - Introduced the ability to discriminate between text and data symbols.
-> > - Added two new config symbols in this version: CONFIG_KALLSYMS_ALIAS_DATA,
-> >   which allows data for data, and CONFIG_KALLSYMS_ALIAS_DATA_ALL, which
-> >   excludes all filters and provides an alias for each duplicated symbol.
-> >
-> > https://lore.kernel.org/all/20230711151925.1092080-1-alessandro.carminati@gmail.com/
-> >
-> > Changes from v2:
-> > - Alias tags are created by querying DWARF information from the vmlinux.
-> > - The filename + line number is normalized and appended to the original
-> >   name.
-> > - The tag begins with '@' to indicate the symbol source.
-> > - Not a change, but worth mentioning, since the alias is added to the
-> >   existing list, the old duplicated name is preserved, and the livepatch
-> >   way of dealing with duplicates is maintained.
-> > - Acknowledging the existence of scenarios where inlined functions
-> >   declared in header files may result in multiple copies due to compiler
-> >   behavior, though it is not actionable as it does not pose an operational
-> >   issue.
-> > - Highlighting a single exception where the same name refers to different
-> >   functions: the case of "compat_binfmt_elf.c," which directly includes
-> >   "binfmt_elf.c" producing identical function copies in two separate
-> >   modules.
-> >
-> > https://lore.kernel.org/all/20230714150326.1152359-1-alessandro.carminati@gmail.com/
-> >
-> > Changes from v3:
-> > - kas_alias was rewritten in Python to create a more concise and
-> >   maintainable codebase.
-> > - The previous automation process used by kas_alias to locate the vmlinux
-> >   and the addr2line has been replaced with an explicit command-line switch
-> >   for specifying these requirements.
-> > - addr2line has been added into the main Makefile.
-> > - A new command-line switch has been introduced, enabling users to extend
-> >   the alias to global data names.
-> >
-> > https://lore.kernel.org/all/20230828080423.3539686-1-alessandro.carminati@gmail.com/
-> >
-> > NOTE:
-> > About the symbols name duplication that happens as consequence of the
-> > inclusion compat_binfmt_elf.c does, it is evident that this corner is
-> > inherently challenging the addr2line approach.
-> > Attempting to conceal this limitation would be counterproductive.
-> >
-> > compat_binfmt_elf.c includes directly binfmt_elf.c, addr2line can't help
-> > but report all functions and data declared by that file, coming from
-> > binfmt_elf.c.
-> >
-> > My position is that, rather than producing a more complicated pipeline
-> > to handle this corner case, it is better to fix the compat_binfmt_elf.c
-> > anomaly.
-> >
-> > This patch does not deal with the two potentially problematic symbols
-> > defined by compat_binfmt_elf.c
->
-> Hi, it looks good but if I build with O=<build dir>, I have this error.
->
-> /ksrc/linux/scripts/link-vmlinux.sh: 176: scripts/kas_alias.py: not found
->
-> Maybe something wrong with setting the path?
-
-You're spot on.
-Switching from C to Python for kas_alias has this little quirk where it
-doesn't end up in the target script directory anymore. So, if you're using
-a specific target build directory, you'll have to hunt down the script in
-the source tree. I'll sort this out once I've collected all the feedback.
-
-Regards
-Alessandro
+Pozdravy
+Lukas Varga
