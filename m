@@ -2,59 +2,75 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 662067AA0CF
-	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Sep 2023 22:49:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC15D7AA384
+	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Sep 2023 23:51:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232573AbjIUUtI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 21 Sep 2023 16:49:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53580 "EHLO
+        id S232851AbjIUVvT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 21 Sep 2023 17:51:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232468AbjIUUsb (ORCPT
+        with ESMTP id S232919AbjIUVvC (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 21 Sep 2023 16:48:31 -0400
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id EC7E890F0D;
-        Thu, 21 Sep 2023 10:47:21 -0700 (PDT)
-Received: from pwmachine.localnet (unknown [84.232.150.101])
-        by linux.microsoft.com (Postfix) with ESMTPSA id 15678212C5B7;
-        Thu, 21 Sep 2023 04:48:32 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 15678212C5B7
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-        s=default; t=1695296917;
-        bh=eiwknSMO6gOPG6GXnXGJVCG4zh6xm5v/whvqYJur2mE=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=coX0ubyyQrBiwakCvl4pVGhl4hemBcb+4RptEFBWnrE9r3RiHFpLhQcCq4QYgtYjk
-         L0U22UOUDZsFH4rd02W4E6IKE6FoKu0AaJZATuImixC/ssoSnqVT3yxQljL1VIDJG3
-         aqIYhtbcUPG1F5LFVdjL+ZmbyWzoHys5ioumcymk=
-From:   Francis Laniel <flaniel@linux.microsoft.com>
-To:     Alessandro Carminati <alessandro.carminati@gmail.com>
-Cc:     Masami Hiramatsu <mhiramat@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Daniel Bristot de Oliveira <bristot@kernel.org>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Thu, 21 Sep 2023 17:51:02 -0400
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1AE088AEC
+        for <linux-kbuild@vger.kernel.org>; Thu, 21 Sep 2023 10:39:26 -0700 (PDT)
+Received: by mail-wr1-x42c.google.com with SMTP id ffacd0b85a97d-3224c229d31so142110f8f.0
+        for <linux-kbuild@vger.kernel.org>; Thu, 21 Sep 2023 10:39:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1695317965; x=1695922765; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=j6Pwn3by93Z9GDq57MINmnt8aTafU+8q1HtF6GDtpyE=;
+        b=B9zFtCWNQRjC8Q9/lzVuYqLVMiP+Emqyj2HoiTyo86cFCMkpfFxJ4tRMhWBDqWKpHx
+         O/dD2HkV0gG8yqNAjaM2xgb5gPZKg1K/glvX9rmbElujdMxHjXwjTp4g0AfKZWGBZ4g2
+         gXfqrx+dku49AquzdULkXNNKtjZi1JJTJvWxczoKGHi5XGpcCLesI2PqF9+oGuPKjINQ
+         QXzlCjUtVQ1X9i4q6Wb2oGu2ttA6TN1Cbc5F/Xa8ENsebvSGxH2bu/NllDjVYwMzdRtY
+         BO5BoaNUKtnl1+T+wVuR0hIgmwZeWQ8wY5Ce2gms5bfWeorV2uBA9AmOc4Ocm4TIIQx4
+         lSAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695317965; x=1695922765;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=j6Pwn3by93Z9GDq57MINmnt8aTafU+8q1HtF6GDtpyE=;
+        b=aGgmbv8BtmpB1E2XfRNefJcCQnLVdlVuQec2l4B3lz0X8U8ZWPmOwPUdU3PCwFS+tU
+         cRiTysOzJ6cBxlRGhvrlex7MP0EkuJ+AeXAg2ls+8SZtS1skGg2IS1XGWO7qrzclTgO0
+         8mDQNaDEszdZqOZRDhffe8JD9djB1wql+fbZooqALkQDPjBV6jlIidU3WXR1uARcNvKp
+         yEvVUA2mRBe2hu63u6drFmhsZO5lwudSkSLrbYvEEXqKcpCqD1ufDMlLN68mnvOhTbSq
+         HO3sBqfpSaV1iGsWrmtKZuF6n+2DK1ajS03hnTh9p4DhrPJrhdseV/JMuNNXxI6SG0QE
+         mBYg==
+X-Gm-Message-State: AOJu0Yw/mDVk5tjzEXq0fEWPoj09vCZl+XQkS5eYHUDyL3Wh7it0GfBM
+        ci0DLYQEDOXEbjqlf/je2T4ciDXIYdS8vxCb4tDHZw==
+X-Google-Smtp-Source: AGHT+IEBIFRPkyDzHQ+D2KJkz18KzRNTaqV/8CZsW2pJNGAvO8T0fP0Rc50Y752EiUbJgZslkUV0uw==
+X-Received: by 2002:a05:600c:1c08:b0:3fe:d637:7b25 with SMTP id j8-20020a05600c1c0800b003fed6377b25mr5052674wms.0.1695298059836;
+        Thu, 21 Sep 2023 05:07:39 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:999:a3a0:7398:c156:422c:6091? ([2a01:e0a:999:a3a0:7398:c156:422c:6091])
+        by smtp.gmail.com with ESMTPSA id 12-20020a05600c240c00b003fc02e8ea68sm4642695wmp.13.2023.09.21.05.07.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 21 Sep 2023 05:07:39 -0700 (PDT)
+Message-ID: <4d1102d9-ebea-4cb2-a510-3a40be7a3cb6@rivosinc.com>
+Date:   Thu, 21 Sep 2023 14:07:38 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] modpost: Optimize symbol search from linear to binary
+ search
+To:     Jack Brennen <jbrennen@google.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Luis Chamberlain <mcgrof@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Alexander Lobakin <aleksander.lobakin@intel.com>,
-        Nick Alcock <nick.alcock@oracle.com>,
-        Kris Van Hees <kris.van.hees@oracle.com>,
-        Eugene Loh <eugene.loh@oracle.com>,
-        Viktor Malik <vmalik@redhat.com>,
-        Petr Mladek <pmladek@suse.com>, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] scripts/link-vmlinux.sh: Add alias to duplicate symbols for kallsyms
-Date:   Thu, 21 Sep 2023 14:48:29 +0300
-Message-ID: <5711978.DvuYhMxLoT@pwmachine>
-In-Reply-To: <CAPp5cGQH1QYM6fr_TRqh6BJDgYS89ncPzx3que5q92o2b0gmLw@mail.gmail.com>
-References: <20230919193948.465340-1-alessandro.carminati@gmail.com> <4833924.GXAFRqVoOG@pwmachine> <CAPp5cGQH1QYM6fr_TRqh6BJDgYS89ncPzx3que5q92o2b0gmLw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-X-Spam-Status: No, score=-17.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,ENV_AND_HDR_SPF_MATCH,SPF_HELO_PASS,SPF_PASS,
-        URIBL_BLOCKED,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        llvm@lists.linux.dev, Palmer Dabbelt <palmer@rivosinc.com>
+References: <20230918210631.3882376-1-jbrennen@google.com>
+Content-Language: en-US
+From:   =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
+In-Reply-To: <20230918210631.3882376-1-jbrennen@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -62,611 +78,469 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi.
+Hi Jack,
 
-Le mercredi 20 septembre 2023, 21:04:42 EEST Alessandro Carminati a =E9crit=
- :
-> Hello Francis,
->=20
-> Thanks a lot for the review.
+On RISC-V builds, we noticed a recent slow down after commit
+ddb5cdbafaaa ("kbuild: generate KSYMTAB entries by modpost") was
+introduced. We tracked it down to find_nearest_sym() being called a lot
+and more specifically since we have a lot of local symbols that are
+generated as part of PCREL accesses (even more when building in debug
+mode, measured a count of 12964362 symbols in one vmlinux.o).
 
-You are welcome.
-I also tested it and it works well:
-root@vm-amd64:~# grep ' name_show' /proc/kallsyms | head -6
-ffffffff810fa070 t name_show
-ffffffff810fa070 t name_show@kernel_irq_irqdesc_c_264
-ffffffff815e67c0 t name_show
-ffffffff815e67c0 t name_show@drivers_pnp_card_c_186
-ffffffff81728bb0 t name_show
-ffffffff81728bb0 t name_show@drivers_gpu_drm_i915_gt_sysfs_engines_c_26
+Without your changes, a typical riscv defconfig build + debug, modpost
+took the following amount of time:
 
-> Il giorno mer 20 set 2023 alle ore 12:53 Francis Laniel
->=20
-> <flaniel@linux.microsoft.com> ha scritto:
-> > Hi.
-> >=20
-> > Le mardi 19 septembre 2023, 22:39:48 EEST Alessandro Carminati (Red Hat=
-) a
-> >=20
-> > =E9crit :
-> > > It is not uncommon for drivers or modules related to similar peripher=
-als
-> > > to have symbols with the exact same name.
-> > > While this is not a problem for the kernel's binary itself, it becomes
-> > > an
-> > > issue when attempting to trace or probe specific functions using
-> > > infrastructure like ftrace or kprobe.
-> > >=20
-> > > The tracing subsystem relies on the `nm -n vmlinux` output, which
-> > > provides
-> > > symbol information from the kernel's ELF binary. However, when multip=
-le
-> > > symbols share the same name, the standard nm output does not
-> > > differentiate
-> > > between them. This can lead to confusion and difficulty when trying to
-> > > probe the intended symbol.
-> > >=20
-> > >  ~ # cat /proc/kallsyms | grep " name_show"
-> > >  ffffffff8c4f76d0 t name_show
-> > >  ffffffff8c9cccb0 t name_show
-> > >  ffffffff8cb0ac20 t name_show
-> > >  ffffffff8cc728c0 t name_show
-> > >  ffffffff8ce0efd0 t name_show
-> > >  ffffffff8ce126c0 t name_show
-> > >  ffffffff8ce1dd20 t name_show
-> > >  ffffffff8ce24e70 t name_show
-> > >  ffffffff8d1104c0 t name_show
-> > >  ffffffff8d1fe480 t name_show
-> > >=20
-> > > kas_alias addresses this challenge by enhancing symbol names with
-> > > meaningful suffixes generated from the source file and line number
-> > > during the kernel build process.
-> > > These newly generated aliases provide tracers with the ability to
-> > > comprehend the symbols they are interacting with when utilizing the
-> > > ftracefs interface.
-> > > This approach may also allow for the probing by name of previously
-> > > inaccessible symbols.
-> > >=20
-> > >  ~ # cat /proc/kallsyms | grep gic_mask_irq
-> > >  ffffd15671e505ac t gic_mask_irq
-> > >  ffffd15671e505ac t gic_mask_irq@drivers_irqchip_irq_gic_c_167
-> > >  ffffd15671e532a4 t gic_mask_irq
-> > >  ffffd15671e532a4 t gic_mask_irq@drivers_irqchip_irq_gic_v3_c_407
-> > >  ~ #
-> > >=20
-> > > Changes from v1:
-> > > - Integrated changes requested by Masami to exclude symbols with
-> > > prefixes
-> > >=20
-> > >   "_cfi" and "_pfx".
-> > >=20
-> > > - Introduced a small framework to handle patterns that need to be
-> > > excluded
-> > >=20
-> > >   from the alias production.
-> > >=20
-> > > - Excluded other symbols using the framework.
-> > > - Introduced the ability to discriminate between text and data symbol=
-s.
-> > > - Added two new config symbols in this version:
-> > > CONFIG_KALLSYMS_ALIAS_DATA,
-> > >=20
-> > >   which allows data for data, and CONFIG_KALLSYMS_ALIAS_DATA_ALL, whi=
-ch
-> > >   excludes all filters and provides an alias for each duplicated symb=
-ol.
-> > >=20
-> > > https://lore.kernel.org/all/20230711151925.1092080-1-alessandro.carmi=
-nat
-> > > i@gm ail.com/
-> > >=20
-> > > Changes from v2:
-> > > - Alias tags are created by querying DWARF information from the vmlin=
-ux.
-> > > - The filename + line number is normalized and appended to the origin=
-al
-> > >=20
-> > >   name.
-> > >=20
-> > > - The tag begins with '@' to indicate the symbol source.
-> > > - Not a change, but worth mentioning, since the alias is added to the
-> > >=20
-> > >   existing list, the old duplicated name is preserved, and the livepa=
-tch
-> > >   way of dealing with duplicates is maintained.
-> > >=20
-> > > - Acknowledging the existence of scenarios where inlined functions
-> > >=20
-> > >   declared in header files may result in multiple copies due to compi=
-ler
-> > >   behavior, though it is not actionable as it does not pose an
-> > >   operational
-> > >   issue.
-> > >=20
-> > > - Highlighting a single exception where the same name refers to
-> > > different
-> > >=20
-> > >   functions: the case of "compat_binfmt_elf.c," which directly includ=
-es
-> > >   "binfmt_elf.c" producing identical function copies in two separate
-> > >   modules.
-> > >=20
-> > > https://lore.kernel.org/all/20230714150326.1152359-1-alessandro.carmi=
-nat
-> > > i@gm ail.com/
-> > >=20
-> > > Changes from v3:
-> > > - kas_alias was rewritten in Python to create a more concise and
-> > >=20
-> > >   maintainable codebase.
-> > >=20
-> > > - The previous automation process used by kas_alias to locate the
-> > > vmlinux
-> > >=20
-> > >   and the addr2line has been replaced with an explicit command-line
-> > >   switch
-> > >   for specifying these requirements.
-> > >=20
-> > > - addr2line has been added into the main Makefile.
-> > > - A new command-line switch has been introduced, enabling users to
-> > > extend
-> > >=20
-> > >   the alias to global data names.
-> > >=20
-> > > https://lore.kernel.org/all/20230828080423.3539686-1-alessandro.carmi=
-nat
-> > > i@gm ail.com/
-> > >=20
-> > > NOTE:
-> > > About the symbols name duplication that happens as consequence of the
-> > > inclusion compat_binfmt_elf.c does, it is evident that this corner is
-> > > inherently challenging the addr2line approach.
-> > > Attempting to conceal this limitation would be counterproductive.
-> > >=20
-> > > compat_binfmt_elf.c includes directly binfmt_elf.c, addr2line can't h=
-elp
-> > > but report all functions and data declared by that file, coming from
-> > > binfmt_elf.c.
-> > >=20
-> > > My position is that, rather than producing a more complicated pipeline
-> > > to handle this corner case, it is better to fix the compat_binfmt_elf=
-=2Ec
-> > > anomaly.
-> > >=20
-> > > This patch does not deal with the two potentially problematic symbols
-> > > defined by compat_binfmt_elf.c
-> >=20
-> > First, thank you for the v4, you will find in the remaining of the
-> > messages
-> > some comments but for now, I did not test it (this is planned).
-> > On a general way, using python really helps here as the code is more
-> > straightforward, thank you for this change.
-> >=20
-> > Regarding the problem with compat_binfmt_elf.c, do you have any idea on
-> > how to address it?
-> > I can maybe take a look at it but I would like to avoid breaking
-> > everything.
-> compat_binfmt_elf.c is a clever hack that enables sharing source code
-> between two different modules while allowing for command differences thro=
-ugh
-> config macros [1] [2].
-> The key lies in the fact they have only few differences.
->=20
-> In my view, a good approach would be to refactor both compat_binfmt_elf.c
-> and binfmt_elf.c, extracting common code and accessing it through wrapper=
-s.
-> This way, anyone looking to explore the functionality provided by either
-> module would have distinct symbols to work with.
-> Consolidating the two functions into one also seems beneficial, including=
- in
-> contexts like livepatch scenarios.
->=20
-> The trade-off here is that the modifications currently made using macros
-> would need to be done at runtime.
-> Fortunately, from what I see in the code, these changes appear to be
-> relatively modest, and the functions don't seem to be critical loops.
-> Therefore, sacrificing a few cycles to evaluate a flag doesn't appear to =
-be
-> a game-changer.
+$ time scripts/mod/modpost -M -o Module.symvers -T modules.order vmlinux.o
+real    4m21,976s
+user    4m21,803s
+sys     0m0,100s
 
-Thank you for all this information, I will take a deeper look at it but can=
-not=20
-guarantee I will come back with something.
+With your changes:
 
-> [1]
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/f=
-s/
-> binfmt_elf.c#n754 [2]
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/f=
-s/
-> binfmt_elf.c#n1317
-> > > Signed-off-by: Alessandro Carminati (Red Hat)
-> > > <alessandro.carminati@gmail.com> ---
-> > >=20
-> > >  Makefile                |   4 +-
-> > >  init/Kconfig            |  22 +++++++
-> > >  scripts/kas_alias.py    | 132 ++++++++++++++++++++++++++++++++++++++=
-++
-> > >  scripts/link-vmlinux.sh |  20 +++++-
-> > >  4 files changed, 175 insertions(+), 3 deletions(-)
-> > >  create mode 100755 scripts/kas_alias.py
-> > >=20
-> > > diff --git a/Makefile b/Makefile
-> > > index 4f283d915e54..f33c179f4cc3 100644
-> > > --- a/Makefile
-> > > +++ b/Makefile
-> > > @@ -488,6 +488,7 @@ OBJCOPY           =3D $(LLVM_PREFIX)llvm-objcopy$
-> >=20
-> > (LLVM_SUFFIX)
-> >=20
-> > >  OBJDUMP              =3D $(LLVM_PREFIX)llvm-objdump$(LLVM_SUFFIX)
-> > >  READELF              =3D $(LLVM_PREFIX)llvm-readelf$(LLVM_SUFFIX)
-> > >  STRIP                =3D $(LLVM_PREFIX)llvm-strip$(LLVM_SUFFIX)
-> > >=20
-> > > +ADDR2LINE    =3D $(LLVM_PREFIX)llvm-addr2line$(LLVM_SUFFIX)
-> > >=20
-> > >  else
-> > >  CC           =3D $(CROSS_COMPILE)gcc
-> > >  LD           =3D $(CROSS_COMPILE)ld
-> > >=20
-> > > @@ -497,6 +498,7 @@ OBJCOPY           =3D $(CROSS_COMPILE)objcopy
-> > >=20
-> > >  OBJDUMP              =3D $(CROSS_COMPILE)objdump
-> > >  READELF              =3D $(CROSS_COMPILE)readelf
-> > >  STRIP                =3D $(CROSS_COMPILE)strip
-> > >=20
-> > > +ADDR2LINE    =3D $(CROSS_COMPILE)addr2line
-> > >=20
-> > >  endif
-> > >  RUSTC                =3D rustc
-> > >  RUSTDOC              =3D rustdoc
-> > >=20
-> > > @@ -611,7 +613,7 @@ export RUSTC_BOOTSTRAP :=3D 1
-> > >=20
-> > >  export ARCH SRCARCH CONFIG_SHELL BASH HOSTCC KBUILD_HOSTCFLAGS
-> > >=20
-> > > CROSS_COMPILE LD CC HOSTPKG_CONFIG export RUSTC RUSTDOC RUSTFMT
-> > > RUSTC_OR_CLIPPY_QUIET RUSTC_OR_CLIPPY BINDGEN CARGO export HOSTRUSTC
-> > > KBUILD_HOSTRUSTFLAGS
-> > > -export CPP AR NM STRIP OBJCOPY OBJDUMP READELF PAHOLE RESOLVE_BTFIDS
-> > > LEX
-> > > YACC AWK INSTALLKERNEL +export CPP AR NM STRIP OBJCOPY OBJDUMP READELF
-> > > ADDR2LINE PAHOLE RESOLVE_BTFIDS LEX YACC AWK INSTALLKERNEL export PERL
-> > > PYTHON3 CHECK CHECKFLAGS MAKE UTS_MACHINE HOSTCXX
-> > >=20
-> > >  export KGZIP KBZIP2 KLZOP LZMA LZ4 XZ ZSTD
-> > >  export KBUILD_HOSTCXXFLAGS KBUILD_HOSTLDFLAGS KBUILD_HOSTLDLIBS
-> > >=20
-> > > LDFLAGS_MODULE diff --git a/init/Kconfig b/init/Kconfig
-> > > index 6d35728b94b2..d45dd423e1ec 100644
-> > > --- a/init/Kconfig
-> > > +++ b/init/Kconfig
-> > > @@ -1738,6 +1738,28 @@ config KALLSYMS_BASE_RELATIVE
-> > >=20
-> > >         time constants, and no relocation pass is required at runtime=
- to
-> > >         fix
-> > >         up the entries based on the runtime load address of the kerne=
-l.
-> > >=20
-> > > +config KALLSYMS_ALIAS_SRCLINE
-> > > +     bool "Produces alias for duplicated text symbols" if EXPERT
-> > > +     depends on KALLSYMS && DEBUG_INFO && !DEBUG_INFO_SPLIT
-> > > +     help
-> > > +       It is not uncommon for drivers or modules related to similar
-> > > +       peripherals to have symbols with the exact same name.
-> > > +       While this is not a problem for the kernel's binary itself, it
-> > > +       becomes an issue when attempting to trace or probe specific
-> > > +       functions using infrastructure like ftrace or kprobe.
-> > > +
-> > > +       This option addresses this challenge, producing alias for text
-> > > +       symbol names that include the file name and line where the
-> > > symbols
-> > > +       are defined in the source code.
-> > > +
-> > > +config KALLSYMS_ALIAS_SRCLINE_DATA
-> > > +     bool "Produces alias also for global variables names"
-> > > +     depends on KALLSYMS_ALIAS_SRCLINE
-> > > +     help
-> > > +       Sometimes it can be useful to refer to global vars by name.
-> > > Since
-> > > +       they suffer the same issue as text symbols, this config option
-> > > +       allows having aliases for global variables names too.
-> > > +
-> > >=20
-> > >  # end of the "standard kernel features (expert users)" menu
-> > > =20
-> > >  # syscall, maps, verifier
-> > >=20
-> > > diff --git a/scripts/kas_alias.py b/scripts/kas_alias.py
-> > > new file mode 100755
-> > > index 000000000000..8cc2a2178da6
-> > > --- /dev/null
-> > > +++ b/scripts/kas_alias.py
-> > > @@ -0,0 +1,132 @@
-> > > +#!/usr/bin/env python3
-> > > +# SPDX-License-Identifier: GPL-2.0-only
-> > > +#
-> > > +# Copyright (C) 2023 Red Hat, Inc. Alessandro Carminati
-> > > <alessandro.carminati@gmail.com> +#
-> > > +# kas_alias: Adds alias to duplicate symbols in the kallsyms output.
-> > > +
-> > > +import subprocess
-> > > +import sys
-> > > +import os
-> > > +import argparse
-> > > +import re
-> > > +from collections import namedtuple
-> > > +
-> > > +regex_filter =3D [
-> > > +        "^__compound_literal\\.[0-9]+$",
-> > > +        "^__[wm]*key\\.[0-9]+$",
-> > > +        "^_*TRACE_SYSTEM.*$",
-> > > +        "^__already_done\\.[0-9]+$",
-> > > +        "^__msg\\.[0-9]+$",
-> > > +        "^__func__\\.[0-9]+$",
-> > > +        "^CSWTCH\\.[0-9]+$",
-> > > +        "^_rs\\.[0-9]+$",
-> > > +        "^___tp_str\\.[0-9]+$",
-> > > +        "^__flags\\.[0-9]+$",
-> > > +        "^___done\\.[0-9]+$",
-> > > +        "^__print_once\\.[0-9]+$",
-> > > +        "^___once_key\\.[0-9]+$",
-> > > +        "^__pfx_.*$",
-> > > +        "^__cfi_.*$"
-> > > +        ]
-> > > +
-> > > +class SeparatorType:
-> > > +    def __call__(self, separator):
-> > > +        if len(separator) !=3D 1:
-> > > +            raise argparse.ArgumentTypeError("Separator must be a
-> > > single
-> > > character") +        return separator
-> > > +
-> > > +Line =3D namedtuple('Line', ['address', 'type', 'name'])
-> > > +
-> > > +def parse_file(filename):
-> > > +    symbol_list =3D []
-> > > +    name_occurrences =3D {}
-> > > +
-> > > +    with open(filename, 'r') as file:
-> > > +        for line in file:
-> > > +            fields =3D line.strip().split()
-> > > +
-> > > +            if len(fields) >=3D 3:
-> > > +                address, type, name =3D fields[0], fields[1], '
-> > > '.join(fields[2:]) +                symbol_list.append(Line(address,
-> > > type,
-> > > name))
-> > > +                name_occurrences[name] =3D name_occurrences.get(name=
-, 0)
-> > > + 1
-> > > +
-> > > +    return symbol_list, name_occurrences
-> > > +
-> > > +def find_duplicate(symbol_list, name_occurrences):
-> > > +    name_to_lines =3D {}
-> > > +    duplicate_lines =3D []
-> > > +
-> > > +    for line in symbol_list:
-> > > +        if line.name in name_to_lines:
-> > > +            first_occurrence =3D name_to_lines[line.name]
-> > > +            duplicate_lines.extend([first_occurrence, line])
-> > > +        else:
-> > > +            name_to_lines[line.name] =3D line
-> > > +
-> > > +    return duplicate_lines
-> > > +
-> > > +def start_addr2line_process(binary_file, addr2line_file):
-> > > +    try:
-> > > +        addr2line_process =3D subprocess.Popen([addr2line_file, '-fe=
-',
-> > > binary_file], +
-> > > stdin=3Dsubprocess.PIPE, +
-> > > stdout=3Dsubprocess.PIPE, +
-> > > stderr=3Dsubprocess.PIPE, +
-> > > text=3DTrue)
-> > > +        return addr2line_process
-> > > +    except Exception as e:
-> > > +        print(f"Error starting addr2line process: {str(e)}")
-> > > +        return None
-> >=20
-> > Here, you can raise another exception, otherwise this error message will
-> > be
-> > printed on stdout as you use print().
-> >=20
-> > > +
-> > > +def addr2line_fetch_address(addr2line_process, address):
-> > > +    try:
-> > > +        addr2line_process.stdin.write(address + '\n')
-> > > +        addr2line_process.stdin.flush()
-> > > +        addr2line_process.stdout.readline().strip()
-> > > +        output =3D addr2line_process.stdout.readline().strip()
-> > > +
-> > > +        return os.path.normpath(output)
-> > > +    except Exception as e:
-> > > +        print(f"Error communicating with addr2line: {str(e)}")
-> > > +        return None
-> >=20
-> > Same comment than above.
->=20
-> Hmm, you might be onto something there.
-> The issue here is that I probably shouldn't return at all and should just
-> go ahead and terminate the program. I mean, if I hit this exception, it
-> means I couldn't spawn addr2line or fetch results from it.
-> In that case, I can't provide the functionality anyway.
-> When I initially wrote the function, my idea was to prevent the kernel
-> build pipeline from failing completely by taking the input and pushing it
-> to the output (even though the application wouldn't provide the
-> functionality).
-> But now I started thinking about it from the perspective of a user who
-> really needs that functionality.
-> Despite having to enable it, it does not present itself.
-> That way I'm just complicating the debug.
->=20
-> I came to the conclusion that it's best to just crash the application and
-> halt the pipeline if either of the two fails.
-> I will change it accordingly.
->=20
-> > > +def process_line(line, config):
-> > line should be named obj here.
->=20
-> fair.
->=20
-> > > +    if config:
-> > > +        return not (any(re.match(regex, obj.name) for regex in
-> > > regex_filter)) +    else:
-> > > +        return obj.type in {"T", "t"}
-> > > +if __name__ =3D=3D "__main__":
-> > > +    parser =3D argparse.ArgumentParser(description=3D'Add alias to m=
-ultiple
-> > > occurring symbols name in kallsyms') +    parser.add_argument('-a',
-> > > "--addr2line", dest=3D"addr2line_file", required=3DTrue) +
-> > > parser.add_argument('-v', "--vmlinux", dest=3D"vmlinux_file",
-> > > required=3DTrue)
-> > > +    parser.add_argument('-o', "--outfile", dest=3D"output_file",
-> > > required=3DTrue) +    parser.add_argument('-n', "--nmdata",
-> > > dest=3D"nm_data_file", required=3DTrue) +    parser.add_argument('-s',
-> > > "--separator", dest=3D"separator", required=3DFalse, default=3D"@",
-> > > type=3DSeparatorType()) +    parser.add_argument('-d', "--data",
-> > > dest=3D"include_data", required=3DFalse, action=3D'store_true') +    =
-config =3D
-> > > parser.parse_args()
-> > > +
-> > > +    try:
-> > > +        config.linux_base_dir =3D os.getcwd()+"/"
-> > > +        symbol_list, name_occurrences =3D parse_file(config.nm_data_=
-file)
-> > > +        addr2line_process =3D
-> > > start_addr2line_process(config.vmlinux_file,
-> > > config.addr2line_file) +
-> > > +        with open(config.output_file, 'w') as file:
-> > > +            for obj in symbol_list:
-> > > +                file.write("{} {} {}\n".format(obj.address, obj.type,
-> > > obj.name))
-> >=20
-> > I am not a python expert but is there something which prevents using
-> > f-string here?
->=20
-> Agree, best to have a single style.
->=20
-> > > +                if (name_occurrences[obj.name] > 1) and
-> > > process_line(obj, config.include_data) : +                    output =
-=3D
-> > > addr2line_fetch_address(addr2line_process, obj.address) +
-> > >=20
-> > >  decoration =3D config.separator + "".join(
-> > >=20
-> > > +                        "_" if not c.isalnum() else c for c in
-> > > output.replace(config.linux_base_dir, "") +                    )
-> >=20
-> > Cannot the above be simplified to:
-> > decoration =3D config.separator + config.linux_base_dir + ("_" if not
-> > c.isalnum() else c for c in output)
-> >=20
-> > > +                    if decoration !=3D config.separator + "____":
-> > Why exactly "____" and not "_+" (+ in the regex meaning of {1, n})?
->=20
-> The reason for using "____" is because when addr2line emits the special
-> string "?:??" its normalized version becomes "____" .
-> "?:??" occurs when addr2line can not find the specified address in the
-> DWARF section, which is typical of symbols introduced by the compiler.
-> In such cases, emitting an alias wouldn't make sense, so I skip it.
+$ time scripts/mod/modpost -M -o Module.symvers -T modules.order vmlinux.o
+real    0m1,077s
+user    0m0,980s
+sys     0m0,095s
 
-OK, this makes sense!
-I am wondering nonetheless what do you think about adding a comment which=20
-would indicate that "____" is the translation of "?:??"? This would be usef=
-ul=20
-for people, like me, who does not have a great knowledge about addr2line.
+I guess you could further optimize it by allocating a binary tree for
+each section since find_nearest_sym() searches for symbols in a specific
+section, that would save a few comparisons. Not sure it will be way
+faster nor simpler to implement though.
 
-> > > +                        file.write("{} {} {}\n".format(obj.address,
-> > > obj.type, obj.name + decoration)) +
-> > > +        addr2line_process.stdin.close()
-> > > +        addr2line_process.stdout.close()
-> > > +        addr2line_process.stderr.close()
-> > > +        addr2line_process.wait()
-> > > +
-> > > +    except Exception as e:
-> > > +        print(f"An error occurred: {str(e)}")
-> > > +        raise SystemExit("Script terminated due to an error")
-> >=20
-> > Maybe you can fuse the two:
-> > raise SystemExit(f"Script terminated due to an error: {str(e)}")
->=20
-> Got it, thanks
->=20
-> > > diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-> > > index a432b171be82..7cc24fd5f6b4 100755
-> > > --- a/scripts/link-vmlinux.sh
-> > > +++ b/scripts/link-vmlinux.sh
-> > > @@ -91,7 +91,12 @@ vmlinux_link()
-> > >=20
-> > >       # The kallsyms linking does not need debug symbols included.
-> > >       if [ "$output" !=3D "${output#.tmp_vmlinux.kallsyms}" ] ; then
-> > >=20
-> > > -             ldflags=3D"${ldflags} ${wl}--strip-debug"
-> > > +             # The kallsyms linking does not need debug symbols
-> > > included,
-> > > +             # unless the KALLSYMS_ALIAS_SRCLINE.
-> > > +             if ! is_enabled CONFIG_KALLSYMS_ALIAS_SRCLINE && \
-> > > +                [ "$output" !=3D "${output#.tmp_vmlinux.kallsyms}" ]=
- ;
-> > > then
-> > > +                     ldflags=3D"${ldflags} ${wl}--strip-debug"
-> > > +             fi
-> > >=20
-> > >       fi
-> > >      =20
-> > >       if is_enabled CONFIG_VMLINUX_MAP; then
-> > >=20
-> > > @@ -161,7 +166,18 @@ kallsyms()
-> > >=20
-> > >       fi
-> > >      =20
-> > >       info KSYMS ${2}
-> > >=20
-> > > -     scripts/kallsyms ${kallsymopt} ${1} > ${2}
-> > > +     ALIAS=3D""
-> > > +     KAS_DATA=3D""
-> > > +     if is_enabled CONFIG_KALLSYMS_ALIAS_SRCLINE_DATA; then
-> > > +             KAS_DATA=3D"-d"
-> > > +     fi
-> > > +     if is_enabled CONFIG_KALLSYMS_ALIAS_SRCLINE; then
-> > > +             ALIAS=3D".alias"
-> > > +             scripts/kas_alias.py \
-> > > +                     -a ${ADDR2LINE} -v ${kallsyms_vmlinux} -n ${1} \
-> > > +                     -o ${1}${ALIAS} -s @ ${KAS_DATA}
-> >=20
-> > The separator can indeed be set for the python script but is hardcoded
-> > from
-> > the kernel point of view as there are no corresponding CONFIG_.
-> > This is totally fine for me, as if someone wants a specific separator
-> > he/she can edit this file, but was it your goal?
->=20
-> Indeed.
-> While your earlier point made sense to me, Petr's arguments were quite
-> convincing.
-> So, the kernel does hardcode the separator, but if someone really wants
-> to change it, they can simply edit a character in the
-> scripts/link-vmlinux.sh file.
+FWIW: Tested-by: Clément Léger <cleger@rivosinc.com>
 
-I totally agree with Petr's comment.
-I think adding a format or other complicated stuff is just a remix of "the=
-=20
-highway to hell is paved with good intentions".
-So better to let it as it, and expert users can just edit the script.
+Thanks,
 
-> > > +     fi
-> > > +     scripts/kallsyms ${kallsymopt} ${1}${ALIAS} > ${2}
-> > >=20
-> > >  }
-> > > =20
-> > >  # Perform one step in kallsyms generation, including temporary linki=
-ng
-> > >  of
-> >=20
-> > Best regards.
+Clément
 
-Best regards.
-
-
+On 18/09/2023 23:06, Jack Brennen wrote:
+> Modify modpost to use binary search for converting addresses back
+> into symbol references.  Previously it used linear search.
+> 
+> This change saves a few seconds of wall time for defconfig builds,
+> but can save several minutes on allyesconfigs.
+> 
+> Before:
+> $ make LLVM=1 -j128 allyesconfig vmlinux -s KCFLAGS="-Wno-error"
+>         Elapsed (wall clock) time (h:mm:ss or m:ss): 13:30.31
+> 
+> After:
+> $ make LLVM=1 -j128 allyesconfig vmlinux -s KCFLAGS="-Wno-error"
+>         Elapsed (wall clock) time (h:mm:ss or m:ss): 11:43.43
+> 
+> Signed-off-by: Jack Brennen <jbrennen@google.com>
+> Tested-by: Nick Desaulniers <ndesaulniers@google.com>
+> ---
+>  scripts/mod/Makefile    |   4 +-
+>  scripts/mod/modpost.c   |  60 +----------
+>  scripts/mod/modpost.h   |  25 +++++
+>  scripts/mod/symsearch.c | 233 ++++++++++++++++++++++++++++++++++++++++
+>  4 files changed, 265 insertions(+), 57 deletions(-)
+>  create mode 100644 scripts/mod/symsearch.c
+> 
+> diff --git a/scripts/mod/Makefile b/scripts/mod/Makefile
+> index c9e38ad937fd..3c54125eb373 100644
+> --- a/scripts/mod/Makefile
+> +++ b/scripts/mod/Makefile
+> @@ -5,7 +5,7 @@ CFLAGS_REMOVE_empty.o += $(CC_FLAGS_LTO)
+>  hostprogs-always-y	+= modpost mk_elfconfig
+>  always-y		+= empty.o
+>  
+> -modpost-objs	:= modpost.o file2alias.o sumversion.o
+> +modpost-objs	:= modpost.o file2alias.o sumversion.o symsearch.o
+>  
+>  devicetable-offsets-file := devicetable-offsets.h
+>  
+> @@ -16,7 +16,7 @@ targets += $(devicetable-offsets-file) devicetable-offsets.s
+>  
+>  # dependencies on generated files need to be listed explicitly
+>  
+> -$(obj)/modpost.o $(obj)/file2alias.o $(obj)/sumversion.o: $(obj)/elfconfig.h
+> +$(obj)/modpost.o $(obj)/file2alias.o $(obj)/sumversion.o $(obj)/symsearch.o: $(obj)/elfconfig.h
+>  $(obj)/file2alias.o: $(obj)/$(devicetable-offsets-file)
+>  
+>  quiet_cmd_elfconfig = MKELF   $@
+> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> index de499dce5265..975f235aca2c 100644
+> --- a/scripts/mod/modpost.c
+> +++ b/scripts/mod/modpost.c
+> @@ -22,7 +22,6 @@
+>  #include <errno.h>
+>  #include "modpost.h"
+>  #include "../../include/linux/license.h"
+> -#include "../../include/linux/module_symbol.h"
+>  
+>  static bool module_enabled;
+>  /* Are we using CONFIG_MODVERSIONS? */
+> @@ -577,11 +576,14 @@ static int parse_elf(struct elf_info *info, const char *filename)
+>  			*p = TO_NATIVE(*p);
+>  	}
+>  
+> +	symsearch_init(info);
+> +
+>  	return 1;
+>  }
+>  
+>  static void parse_elf_finish(struct elf_info *info)
+>  {
+> +	symsearch_finish(info);
+>  	release_file(info->hdr, info->size);
+>  }
+>  
+> @@ -1039,65 +1041,13 @@ static int secref_whitelist(const char *fromsec, const char *fromsym,
+>  	return 1;
+>  }
+>  
+> -/*
+> - * If there's no name there, ignore it; likewise, ignore it if it's
+> - * one of the magic symbols emitted used by current tools.
+> - *
+> - * Otherwise if find_symbols_between() returns those symbols, they'll
+> - * fail the whitelist tests and cause lots of false alarms ... fixable
+> - * only by merging __exit and __init sections into __text, bloating
+> - * the kernel (which is especially evil on embedded platforms).
+> - */
+> -static inline int is_valid_name(struct elf_info *elf, Elf_Sym *sym)
+> -{
+> -	const char *name = elf->strtab + sym->st_name;
+> -
+> -	if (!name || !strlen(name))
+> -		return 0;
+> -	return !is_mapping_symbol(name);
+> -}
+> -
+>  /* Look up the nearest symbol based on the section and the address */
+>  static Elf_Sym *find_nearest_sym(struct elf_info *elf, Elf_Addr addr,
+>  				 unsigned int secndx, bool allow_negative,
+>  				 Elf_Addr min_distance)
+>  {
+> -	Elf_Sym *sym;
+> -	Elf_Sym *near = NULL;
+> -	Elf_Addr sym_addr, distance;
+> -	bool is_arm = (elf->hdr->e_machine == EM_ARM);
+> -
+> -	for (sym = elf->symtab_start; sym < elf->symtab_stop; sym++) {
+> -		if (get_secindex(elf, sym) != secndx)
+> -			continue;
+> -		if (!is_valid_name(elf, sym))
+> -			continue;
+> -
+> -		sym_addr = sym->st_value;
+> -
+> -		/*
+> -		 * For ARM Thumb instruction, the bit 0 of st_value is set
+> -		 * if the symbol is STT_FUNC type. Mask it to get the address.
+> -		 */
+> -		if (is_arm && ELF_ST_TYPE(sym->st_info) == STT_FUNC)
+> -			 sym_addr &= ~1;
+> -
+> -		if (addr >= sym_addr)
+> -			distance = addr - sym_addr;
+> -		else if (allow_negative)
+> -			distance = sym_addr - addr;
+> -		else
+> -			continue;
+> -
+> -		if (distance <= min_distance) {
+> -			min_distance = distance;
+> -			near = sym;
+> -		}
+> -
+> -		if (min_distance == 0)
+> -			break;
+> -	}
+> -	return near;
+> +	return symsearch_find_nearest(elf, addr, secndx,
+> +				      allow_negative, min_distance);
+>  }
+>  
+>  static Elf_Sym *find_fromsym(struct elf_info *elf, Elf_Addr addr,
+> diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
+> index 5f94c2c9f2d9..6413f26fcb6b 100644
+> --- a/scripts/mod/modpost.h
+> +++ b/scripts/mod/modpost.h
+> @@ -10,6 +10,7 @@
+>  #include <fcntl.h>
+>  #include <unistd.h>
+>  #include <elf.h>
+> +#include "../../include/linux/module_symbol.h"
+>  
+>  #include "list.h"
+>  #include "elfconfig.h"
+> @@ -128,6 +129,8 @@ struct elf_info {
+>  	 * take shndx from symtab_shndx_start[N] instead */
+>  	Elf32_Word   *symtab_shndx_start;
+>  	Elf32_Word   *symtab_shndx_stop;
+> +
+> +	struct symsearch *symsearch;
+>  };
+>  
+>  /* Accessor for sym->st_shndx, hides ugliness of "64k sections" */
+> @@ -154,6 +157,28 @@ static inline unsigned int get_secindex(const struct elf_info *info,
+>  	return index;
+>  }
+>  
+> +/*
+> + * If there's no name there, ignore it; likewise, ignore it if it's
+> + * one of the magic symbols emitted used by current tools.
+> + *
+> + * Internal symbols created by tools should be ignored by modpost.
+> + */
+> +static inline int is_valid_name(struct elf_info *elf, Elf_Sym *sym)
+> +{
+> +	const char *name = elf->strtab + sym->st_name;
+> +
+> +	if (!name || !strlen(name))
+> +		return 0;
+> +	return !is_mapping_symbol(name);
+> +}
+> +
+> +/* symsearch.c */
+> +void symsearch_init(struct elf_info *elf);
+> +void symsearch_finish(struct elf_info *elf);
+> +Elf_Sym *symsearch_find_nearest(struct elf_info *elf, Elf_Addr addr,
+> +				unsigned int secndx, bool allow_negative,
+> +				Elf_Addr min_distance);
+> +
+>  /* file2alias.c */
+>  void handle_moddevtable(struct module *mod, struct elf_info *info,
+>  			Elf_Sym *sym, const char *symname);
+> diff --git a/scripts/mod/symsearch.c b/scripts/mod/symsearch.c
+> new file mode 100644
+> index 000000000000..aab79262512b
+> --- /dev/null
+> +++ b/scripts/mod/symsearch.c
+> @@ -0,0 +1,233 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +/* Helper functions for finding the symbol in an ELF which is "nearest"
+> + * to a given address.
+> + */
+> +
+> +#include "modpost.h"
+> +
+> +/* Struct used for binary search. */
+> +struct syminfo {
+> +	unsigned int symbol_index;
+> +	unsigned int section_index;
+> +	Elf_Addr addr;
+> +};
+> +
+> +/* Container used to hold an entire binary search table.
+> + * Entries in table are ascending, sorted first by section_index,
+> + * then by addr, and last by symbol_index.  The sorting by
+> + * symbol_index is used to duplicate the quirks of the prior
+> + * find_nearest_sym() function, where exact matches to an address
+> + * return the first symtab entry seen, but near misses return the
+> + * last symtab entry seen.
+> + * The first and last entries of the table are sentinels and their
+> + * values only matter in two places:  when we sort the table, and
+> + * on lookups, the end sentinel should not have an addr field which
+> + * matches its immediate predecessor.  To meet these requirements,
+> + * we initialize them to (0,0,0) and (max,max,max), and then after
+> + * sorting, we tweak the end sentinel's addr field accordingly.
+> + */
+> +struct symsearch {
+> +	size_t table_size;
+> +	struct syminfo table[];
+> +};
+> +
+> +static inline bool is_sym_searchable(struct elf_info *elf, Elf_Sym *sym)
+> +{
+> +	return is_valid_name(elf, sym) != 0;
+> +}
+> +
+> +static int syminfo_compare(const void *s1, const void *s2)
+> +{
+> +	const struct syminfo *sym1 = s1;
+> +	const struct syminfo *sym2 = s2;
+> +
+> +	if (sym1->section_index > sym2->section_index)
+> +		return 1;
+> +	if (sym1->section_index < sym2->section_index)
+> +		return -1;
+> +	if (sym1->addr > sym2->addr)
+> +		return 1;
+> +	if (sym1->addr < sym2->addr)
+> +		return -1;
+> +	if (sym1->symbol_index > sym2->symbol_index)
+> +		return 1;
+> +	if (sym1->symbol_index < sym2->symbol_index)
+> +		return -1;
+> +	return 0;
+> +}
+> +
+> +static size_t symbol_count(struct elf_info *elf)
+> +{
+> +	size_t result = 0;
+> +
+> +	for (Elf_Sym *sym = elf->symtab_start; sym < elf->symtab_stop; sym++) {
+> +		if (is_sym_searchable(elf, sym))
+> +			result++;
+> +	}
+> +	return result;
+> +}
+> +
+> +/* Populate the search array that we just allocated.
+> + * Be slightly paranoid here.  If the ELF file changes during processing,
+> + * or if the behavior of is_sym_searchable() changes during processing,
+> + * we want to catch it; neither of those is acceptable.
+> + */
+> +static void symsearch_populate(struct elf_info *elf,
+> +			       struct syminfo *table,
+> +			       size_t table_size)
+> +{
+> +	bool is_arm = (elf->hdr->e_machine == EM_ARM);
+> +
+> +	/* Start sentinel */
+> +	if (table_size-- == 0)
+> +		fatal("%s: size mismatch\n", __func__);
+> +	table->symbol_index = 0;
+> +	table->section_index = 0;
+> +	table->addr = 0;
+> +	table++;
+> +
+> +	for (Elf_Sym *sym = elf->symtab_start; sym < elf->symtab_stop; sym++) {
+> +		if (is_sym_searchable(elf, sym)) {
+> +			if (table_size-- == 0)
+> +				fatal("%s: size mismatch\n", __func__);
+> +			table->symbol_index = sym - elf->symtab_start;
+> +			table->section_index = get_secindex(elf, sym);
+> +			table->addr = sym->st_value;
+> +
+> +			/*
+> +			 * For ARM Thumb instruction, the bit 0 of st_value is
+> +			 * set if the symbol is STT_FUNC type. Mask it to get
+> +			 * the address.
+> +			 */
+> +			if (is_arm && ELF_ST_TYPE(sym->st_info) == STT_FUNC)
+> +				table->addr &= ~1;
+> +
+> +			table++;
+> +		}
+> +	}
+> +
+> +	/* End sentinel; all values are unsigned so -1 wraps to max */
+> +	if (table_size != 1)
+> +		fatal("%s: size mismatch\n", __func__);
+> +	table->symbol_index = -1;
+> +	table->section_index = -1;
+> +	table->addr = -1;
+> +}
+> +
+> +void symsearch_init(struct elf_info *elf)
+> +{
+> +	/* +2 here to allocate space for the start and end sentinels */
+> +	size_t table_size = symbol_count(elf) + 2;
+> +
+> +	elf->symsearch = NOFAIL(malloc(
+> +					sizeof(struct symsearch) +
+> +					sizeof(struct syminfo) * table_size));
+> +	elf->symsearch->table_size = table_size;
+> +
+> +	symsearch_populate(elf, elf->symsearch->table, table_size);
+> +	qsort(elf->symsearch->table, table_size,
+> +	      sizeof(struct syminfo), syminfo_compare);
+> +
+> +	/* A bit of paranoia; make sure that the end sentinel's address is
+> +	 * different than its predecessor.  Not doing this could cause
+> +	 * possible undefined behavior if anybody ever inserts a symbol
+> +	 * with section_index and addr both at their max values.
+> +	 * Doing this little bit of defensive programming is more efficient
+> +	 * than checking for array overruns later.
+> +	 */
+> +	elf->symsearch->table[table_size - 1].addr =
+> +		elf->symsearch->table[table_size - 2].addr + 1;
+> +}
+> +
+> +void symsearch_finish(struct elf_info *elf)
+> +{
+> +	free(elf->symsearch);
+> +	elf->symsearch = NULL;
+> +}
+> +
+> +/* Find the syminfo which is in secndx and "nearest" to addr.
+> + * allow_negative: allow returning a symbol whose address is > addr.
+> + * min_distance: ignore symbols which are further away than this.
+> + *
+> + * Returns a nonzero index into the symsearch table for success.
+> + * Returns NULL if no legal symbol is found within the requested range.
+> + */
+> +static size_t symsearch_find_impl(struct elf_info *elf, Elf_Addr addr,
+> +				  unsigned int secndx, bool allow_negative,
+> +				  Elf_Addr min_distance)
+> +{
+> +	/* Find the target in the array; it will lie between two elements.
+> +	 * Invariant here: table[lo] < target <= table[hi]
+> +	 * For the purposes of search, exact hits in the search array are
+> +	 * considered greater than the target.	This means that if we do
+> +	 * get an exact hit, then once the search terminates, table[hi]
+> +	 * will be the exact match which has the lowest symbol index.
+> +	 */
+> +	struct syminfo *table = elf->symsearch->table;
+> +	size_t hi = elf->symsearch->table_size - 1;
+> +	size_t lo = 0;
+> +	bool hi_is_usable = false;
+> +	bool lo_is_usable = false;
+> +	Elf_Addr hi_distance = -1;  // max Elf_Addr
+> +	Elf_Addr lo_distance = -1;  // max Elf_Addr
+> +	Elf_Addr min_distance_lo = min_distance;
+> +	Elf_Addr min_distance_hi = allow_negative ? min_distance : 0;
+> +
+> +	for (;;) {
+> +		size_t mid;
+> +
+> +		mid = lo + (hi - lo) / 2;
+> +		if (mid == lo)
+> +			break;
+> +		if (secndx > table[mid].section_index) {
+> +			lo = mid;
+> +		} else if (secndx < table[mid].section_index) {
+> +			hi = mid;
+> +		} else if (addr > table[mid].addr) {
+> +			lo = mid;
+> +			lo_distance = addr - table[mid].addr;
+> +			lo_is_usable = (lo_distance <= min_distance_lo);
+> +		} else {
+> +			hi = mid;
+> +			hi_distance = table[mid].addr - addr;
+> +			hi_is_usable = (hi_distance <= min_distance_hi);
+> +		}
+> +	}
+> +
+> +	if (hi_is_usable && lo_is_usable) {
+> +		lo_is_usable = (lo_distance <= hi_distance);
+> +		hi_is_usable = (hi_distance <= lo_distance);
+> +	}
+> +
+> +	if (!hi_is_usable)
+> +		return lo_is_usable ? lo : 0;
+> +
+> +	if (hi_distance == 0)
+> +		return hi;
+> +
+> +	/* Match quirks of existing behavior.  Advance hi to the last
+> +	 * matching entry in the search table.	We don't need to worry
+> +	 * about running off the end of the array due to the sentinel.
+> +	 */
+> +	while (table[hi+1].addr == table[hi].addr &&
+> +	       table[hi+1].section_index == table[hi].section_index) {
+> +		hi++;
+> +	}
+> +
+> +	return (lo_is_usable &&
+> +		table[lo].symbol_index > table[hi].symbol_index) ? lo : hi;
+> +}
+> +
+> +Elf_Sym *symsearch_find_nearest(struct elf_info *elf, Elf_Addr addr,
+> +				unsigned int secndx, bool allow_negative,
+> +				Elf_Addr min_distance)
+> +{
+> +	size_t result = symsearch_find_impl(elf, addr, secndx,
+> +					    allow_negative, min_distance);
+> +
+> +	if (result == 0)
+> +		return NULL;
+> +
+> +	return &elf->symtab_start[elf->symsearch->table[result].symbol_index];
+> +}
