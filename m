@@ -2,96 +2,186 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EE11C7AADA7
-	for <lists+linux-kbuild@lfdr.de>; Fri, 22 Sep 2023 11:16:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E6D3F7AAFCB
+	for <lists+linux-kbuild@lfdr.de>; Fri, 22 Sep 2023 12:44:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229572AbjIVJQ4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 22 Sep 2023 05:16:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40970 "EHLO
+        id S233448AbjIVKme (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 22 Sep 2023 06:42:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229636AbjIVJQx (ORCPT
+        with ESMTP id S233427AbjIVKmT (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 22 Sep 2023 05:16:53 -0400
-Received: from mail.avm.de (mail.avm.de [IPv6:2001:bf0:244:244::119])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D269BCA
-        for <linux-kbuild@vger.kernel.org>; Fri, 22 Sep 2023 02:16:46 -0700 (PDT)
-Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [212.42.244.71])
-        by mail.avm.de (Postfix) with ESMTPS;
-        Fri, 22 Sep 2023 11:16:33 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
-        t=1695374193; bh=LtM687oI9TFrYjIfRJXzHSYw7X0NRDTTPtB/S1Bg2W0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hoCOuDrzKh4zqLMGadFkno5hxDh0k+e57tQ8xBuyXabTB30GvYpf834/8jAkI8u+Z
-         7jQvWkWY46vyzwF+KwMR2eiMhiP3Y0/ulQ6hjg9YvXN4hhK56HH/UCM6xDq9xiawf+
-         nA1urMKKbcLTlxTy7XtH33lU+Ymcd1+9lVdRC1iE=
-Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
-        by mail-auth.avm.de (Postfix) with ESMTPA id BAD0080A71;
-        Fri, 22 Sep 2023 11:16:32 +0200 (CEST)
-Received: by buildd.core.avm.de (Postfix, from userid 1000)
-        id ADFE71813CA; Fri, 22 Sep 2023 11:16:32 +0200 (CEST)
-Date:   Fri, 22 Sep 2023 11:16:32 +0200
-From:   Nicolas Schier <n.schier@avm.de>
-To:     Martin Nybo Andersen <tweek@tweek.dk>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nick Terrell <terrelln@fb.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-modules@vger.kernel.org
-Subject: Re: [PATCH] Use CRC32 and a 1MiB dictionary for XZ compressed modules
-Message-ID: <ZQ1bcIEECHEvK09c@buildd.core.avm.de>
-Mail-Followup-To: Martin Nybo Andersen <tweek@tweek.dk>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nick Terrell <terrelln@fb.com>, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org
-References: <3d34a965-ab9c-d549-0c63-c717ab5d2edc@tweek.dk>
+        Fri, 22 Sep 2023 06:42:19 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1113AAC;
+        Fri, 22 Sep 2023 03:42:14 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFC69C433CB;
+        Fri, 22 Sep 2023 10:42:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1695379333;
+        bh=ORm7kuwlD/Fvo8ESZ1v+JAsTRK52tEMMlKCCDrA0YY8=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=TXhsDQUfnwx6RyV9NNuadjwzrT2EUkn+EwKJevn77xA6Wd7mRdf2ZNwVAjCLB2c8v
+         9RHXdZLvEOvr84+SkxV/2USZTmYChZiOnyuPSQjPMcsxKIfgULhiMSj1CqUCcG8aHz
+         iO+AK058Ic2GveDrdS12CWQIljFXvSl7FY+18Dg2LB4z7+4zhniLtLnRMv7FjfUlnd
+         GZRZ+FjxXL0xnhMpUbJLdm9bZ6FJ78cK1orQhshDSp8S79bnx4ka8GEkrxtMhL4qo6
+         mseuLCdeXRUeGw2Cr4WJltzc0jZ4EhrYD1Y9eYF75qlxjmarYl5Ycuy2JMnOjac1Uh
+         KPdbzMdtH7ypw==
+Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-57b2e23de65so993535eaf.1;
+        Fri, 22 Sep 2023 03:42:13 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yy8qORikjsl5XsKogyUgzCAd38gkQoHhMWkUgaqZmpTb8C/Yz9m
+        z9/lHEy9i07Qges7Jv0whCjtfKjNufyoMW3LiKg=
+X-Google-Smtp-Source: AGHT+IGE4IEqCwRq4hFD60gv0+WMRiqrWPruMG4GYnR6vNmZUl9HsLYfswyLN4S34COv4gRYMRyem9VswuhCXNx5bfg=
+X-Received: by 2002:a05:6870:891a:b0:1bf:1a58:c50 with SMTP id
+ i26-20020a056870891a00b001bf1a580c50mr8773299oao.9.1695379333035; Fri, 22 Sep
+ 2023 03:42:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <3d34a965-ab9c-d549-0c63-c717ab5d2edc@tweek.dk>
-X-purgate-ID: 149429::1695374193-9A4019BA-C47752C9/0/0
-X-purgate-type: clean
-X-purgate-size: 1000
-X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
-X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
-X-purgate: clean
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+References: <3d34a965-ab9c-d549-0c63-c717ab5d2edc@tweek.dk>
+ <c2b92ff2-d077-4588-9d5c-93dfec0037ee@mailbox.org> <b85bf040-f6be-ef12-5b33-6d41991e4d97@tweek.dk>
+In-Reply-To: <b85bf040-f6be-ef12-5b33-6d41991e4d97@tweek.dk>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Fri, 22 Sep 2023 19:41:36 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQVuKQ34xK8AA9M0dytb1zNpE+rUYDhi6kGDO60SYBpyw@mail.gmail.com>
+Message-ID: <CAK7LNAQVuKQ34xK8AA9M0dytb1zNpE+rUYDhi6kGDO60SYBpyw@mail.gmail.com>
+Subject: Re: [PATCH] Use CRC32 and a 1MiB dictionary for XZ compressed modules
+To:     Martin Nybo Andersen <tweek@tweek.dk>
+Cc:     Tor Vic <torvic9@mailbox.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Nick Terrell <terrelln@fb.com>, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Lucas De Marchi <lucas.de.marchi@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-In linux-modules@v.k.o probably some more experts can comment on this:
+On Fri, Sep 22, 2023 at 5:52=E2=80=AFPM Martin Nybo Andersen <tweek@tweek.d=
+k> wrote:
+>
+> On Fri, 22 Sep 2023, Tor Vic wrote:
+>
+> >>
+> >> Hello?
+> >
+> > Hello,
+>
+> :)
+>
+> >> Anyone?
+> >>
+> >> Best regards,
+> >> - Martin
+> >>
+> >> On Fri, 15 Sep 2023, Martin Nybo Andersen wrote:
+> >>
+> >>> Kmod is now using the kernel decompressor which doesn't handle CRC64
+> >>> and dictionaries larger than 1MiB.
+> >>>
+> >>> Fixes: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D1050582
+> >>> Signed-off-by: Martin Nybo Andersen <tweek@tweek.dk>
+> >>> ---
+> >>> scripts/Makefile.modinst | 2 +-
+> >>> 1 file changed, 1 insertion(+), 1 deletion(-)
+> >>>
+> >>> diff --git a/scripts/Makefile.modinst b/scripts/Makefile.modinst
+> >>> index c59cc57286ba..ffbafbd3aeea 100644
+> >>> --- a/scripts/Makefile.modinst
+> >>> +++ b/scripts/Makefile.modinst
+> >>> @@ -144,7 +144,7 @@ endif
+> >>> quiet_cmd_gzip =3D GZIP    $@
+> >>>       cmd_gzip =3D $(KGZIP) -n -f $<
+> >>> quiet_cmd_xz =3D XZ      $@
+> >>> -      cmd_xz =3D $(XZ) --lzma2=3Ddict=3D2MiB -f $<
+> >>> +      cmd_xz =3D $(XZ) --check=3Dcrc32 --lzma2=3Ddict=3D1MiB -f $<
+> >
+> > I wonder whether it should be guarded with
+> >    ifdef CONFIG_MODULE_DECOMPRESS
+> >
+> > But on the other hand, the difference between 1M and 2M is likely very =
+small
+> > in terms of compression ratio.
+>
+> That would work, since kmod decompress the modules in userspace if
+> CONFIG_MODULE_DECOMPRESS if off.
+>
+> What I'm aiming for is just that the kernel should be able to decompress
+> its own modules, when it advertises it.
 
-On Fri, Sep 15, 2023 at 12:15:39PM +0200, Martin Nybo Andersen wrote:
-> Kmod is now using the kernel decompressor which doesn't handle CRC64
-> and dictionaries larger than 1MiB.
-> 
-> Fixes: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1050582
-> Signed-off-by: Martin Nybo Andersen <tweek@tweek.dk>
-> ---
->  scripts/Makefile.modinst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/scripts/Makefile.modinst b/scripts/Makefile.modinst
-> index c59cc57286ba..ffbafbd3aeea 100644
-> --- a/scripts/Makefile.modinst
-> +++ b/scripts/Makefile.modinst
-> @@ -144,7 +144,7 @@ endif
->  quiet_cmd_gzip = GZIP    $@
->        cmd_gzip = $(KGZIP) -n -f $<
->  quiet_cmd_xz = XZ      $@
-> -      cmd_xz = $(XZ) --lzma2=dict=2MiB -f $<
-> +      cmd_xz = $(XZ) --check=crc32 --lzma2=dict=1MiB -f $<
->  quiet_cmd_zstd = ZSTD    $@
->        cmd_zstd = $(ZSTD) -T0 --rm -f -q $<
-> 
-> --
-> 2.40.1
+
+Hello, sorry for the delay.
+
+I am OK with picking the patch to my tree.
+
+
+I think we can use --check=3Dcrc32 --lzma2=3Ddict=3D1MiB
+unconditionally.
+
+(But, if the in-kernel decompressor is improved
+to understand CRC64 in the future, we can loosen
+this restriction again.)
+
+
+
+Just small change requests.
+
+Please do not use the Fixes tag to point at the Debian bug tracker.
+
+
+Instead, you can do
+
+Link: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D1050582
+
+   or
+
+Closes: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D1050582
+
+
+
+Also, mention that this change happened in
+
+kmod commit 09c9f8c5df04 ("libkmod: Use kernel decompression when available=
+")
+
+in the commit description might be helpful.
+
+
+
+
+I added Lukas to CC.
+He is the author of the change on kmod side.
+
+
+
+
+
+
+> Cheers,
+> Martin
+>
+> > Cheers,
+> > Tor Vic
+> >
+> >>> quiet_cmd_zstd =3D ZSTD    $@
+> >>>       cmd_zstd =3D $(ZSTD) -T0 --rm -f -q $<
+> >>>
+> >>> --
+> >>> 2.40.1
+> >>>
+> >>>
+> >>
+> >
+> >
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
