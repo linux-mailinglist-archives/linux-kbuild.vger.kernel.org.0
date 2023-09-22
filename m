@@ -2,138 +2,85 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E27877AAA44
-	for <lists+linux-kbuild@lfdr.de>; Fri, 22 Sep 2023 09:32:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C8C57AAAAB
+	for <lists+linux-kbuild@lfdr.de>; Fri, 22 Sep 2023 09:47:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230508AbjIVHcO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 22 Sep 2023 03:32:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35890 "EHLO
+        id S229647AbjIVHqe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 22 Sep 2023 03:46:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230220AbjIVHcO (ORCPT
+        with ESMTP id S232003AbjIVHqS (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 22 Sep 2023 03:32:14 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 548D8C2;
-        Fri, 22 Sep 2023 00:32:08 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F13C3C433CA;
-        Fri, 22 Sep 2023 07:32:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695367928;
-        bh=ZzFUdwOJ/4dChLS6pmbmyN8T4P/gwsea0R+6/2tRYDk=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Z+Zl2/DcTiNDkxO/lhZc4YEOSJ/FKxAqvtLnSQ6EeRiINUkrCIquncRml6G4VzalL
-         KxHQdmohDSBYO8LfKnEYBXG9fSeefZwMVz/A+giydPQf0sMtfsWO5Cn4wHwB4hR96a
-         meoNXhstXNLaQASbSeLkMp9p1DouAXdDwZE652E0620jzhsFUaqm5lvxF3AbHwdVky
-         2k7aRfoZW0KRo0AVXUSopSNVl5qbxly1qwkfWzY7LMvzTSlAjQQyDhqrqMG60CKos7
-         AF4R+9HnQC0QLWbdBVfbeU8Ra9WU3474DUqrZslR2DivigDQIMUDlqh41IG5oeDkQ4
-         H/BAA1ur6f4aw==
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-1d6b5292aebso977281fac.1;
-        Fri, 22 Sep 2023 00:32:07 -0700 (PDT)
-X-Gm-Message-State: AOJu0Yyu7vrOcQthX8suRe1Yw7+5jJV98+4ziZMHuTfvWa4QbN3Q7dK6
-        g2sdjxXp1/6rFFHkT8vVjn9D/an/L68nVKwgQFQ=
-X-Google-Smtp-Source: AGHT+IHeKkYqD4nlPbgVB+0ToS/Nb6BY3zOzZgdAKplen4/uCBshYWYMZWCTQrZ7agNTYabicYhPwYzrPyhY3RcDXEQ=
-X-Received: by 2002:a05:6870:3293:b0:1be:ccce:7991 with SMTP id
- q19-20020a056870329300b001beccce7991mr7920824oac.13.1695367927311; Fri, 22
- Sep 2023 00:32:07 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230920015559.1877441-1-aik@amd.com> <CAK7LNARrb_NLpBL19LHEdg0WJKsncaUPQLk-wxhR+Rh8sps3jQ@mail.gmail.com>
- <a6a90c61-e884-4b18-83b7-ca3d2e0378e7@amd.com> <1f9ca335-4d34-4871-856e-e6aa8e2bc16d@amd.com>
-In-Reply-To: <1f9ca335-4d34-4871-856e-e6aa8e2bc16d@amd.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 22 Sep 2023 16:31:30 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARTQ1GANx2ZA1UHThOEXrtYyiAV94bwhrADFfKsKdc0Jg@mail.gmail.com>
-Message-ID: <CAK7LNARTQ1GANx2ZA1UHThOEXrtYyiAV94bwhrADFfKsKdc0Jg@mail.gmail.com>
-Subject: Re: [PATCH kernel] kbuild: get rid of unwanted "+" when
- CONFIG_LOCALVERSION is set
-To:     Alexey Kardashevskiy <aik@amd.com>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nicolas Schier <nicolas@fjasle.eu>,
+        Fri, 22 Sep 2023 03:46:18 -0400
+Received: from mx.tweek.dk (mx.tweek.dk [13.53.76.2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D7CB10C3;
+        Fri, 22 Sep 2023 00:45:27 -0700 (PDT)
+Received: from tweek.dk ([192.168.170.2] helo=odin.tweek.dk)
+        by mx.tweek.dk with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.96)
+        (envelope-from <tweek@tweek.dk>)
+        id 1qjaqk-000Agi-0R;
+        Fri, 22 Sep 2023 09:45:18 +0200
+Received: from tweek (helo=localhost)
+        by odin.tweek.dk with local-esmtp (Exim 4.97-RC0)
+        (envelope-from <tweek@tweek.dk>)
+        id 1qjaqj-00000002GCu-3jDz;
+        Fri, 22 Sep 2023 09:45:17 +0200
+Date:   Fri, 22 Sep 2023 09:45:17 +0200 (CEST)
+From:   Martin Nybo Andersen <tweek@tweek.dk>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Nathan Chancellor <nathan@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Nick Terrell <terrelln@fb.com>, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Use CRC32 and a 1MiB dictionary for XZ compressed
+ modules
+In-Reply-To: <3d34a965-ab9c-d549-0c63-c717ab5d2edc@tweek.dk>
+Message-ID: <1bf10ec1-c154-52f3-79dd-7ec5380aa159@tweek.dk>
+References: <3d34a965-ab9c-d549-0c63-c717ab5d2edc@tweek.dk>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Sep 22, 2023 at 9:59=E2=80=AFAM Alexey Kardashevskiy <aik@amd.com> =
-wrote:
+Hello?
+Anyone?
+
+Best regards,
+- Martin
+
+On Fri, 15 Sep 2023, Martin Nybo Andersen wrote:
+
+> Kmod is now using the kernel decompressor which doesn't handle CRC64
+> and dictionaries larger than 1MiB.
+>
+> Fixes: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1050582
+> Signed-off-by: Martin Nybo Andersen <tweek@tweek.dk>
+> ---
+> scripts/Makefile.modinst | 2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/scripts/Makefile.modinst b/scripts/Makefile.modinst
+> index c59cc57286ba..ffbafbd3aeea 100644
+> --- a/scripts/Makefile.modinst
+> +++ b/scripts/Makefile.modinst
+> @@ -144,7 +144,7 @@ endif
+> quiet_cmd_gzip = GZIP    $@
+>       cmd_gzip = $(KGZIP) -n -f $<
+> quiet_cmd_xz = XZ      $@
+> -      cmd_xz = $(XZ) --lzma2=dict=2MiB -f $<
+> +      cmd_xz = $(XZ) --check=crc32 --lzma2=dict=1MiB -f $<
+> quiet_cmd_zstd = ZSTD    $@
+>       cmd_zstd = $(ZSTD) -T0 --rm -f -q $<
+>
+> --
+> 2.40.1
 >
 >
-> On 20/9/23 23:30, Alexey Kardashevskiy wrote:
-> >
-> > On 20/9/23 21:59, Masahiro Yamada wrote:
-> >> On Wed, Sep 20, 2023 at 10:56=E2=80=AFAM Alexey Kardashevskiy <aik@amd=
-.com>
-> >> wrote:
-> >>>
-> >>> The scripts/setlocalversion script correctly tries not adding "+" whe=
-n
-> >>> CONFIG_LOCALVERSION is defined.
-> >>
-> >> I am afraid you are misunderstanding the script.
-> >
-> > Possibly :) I should have read of "+set"... sorry :-/ Thanks for
-> > spending time looking at this.
-> >
-> >> CONFIG_LOCALVERSION and the "+" sign is unrelated.
-> >
-> > How come?
-> >
-> > scripts/setlocalversion -> if [ "${LOCALVERSION+set}" !=3D "set" ] ->
-> > scm_version --short -> echo "+".
-> >
-> > Where is that LOCALVERSION supposed to come from, and when? Is not
-> > LOCALVERSION related to CONFIG_LOCALVERSION?
-> >
-> >>> However, instead of grepping for it
-> >>> (as it is done for CONFIG_LOCALVERSION_AUTO=3Dy), it relies on
-> >>> LOCALVERSION
-> >>> set in the shell which is not.
-> >>>
-> >>> Export LOCALVERSION so scripts/setlocalversion could see it and not a=
-dd
-> >>> unwanted "+" at the end of the kernelrelease.
-> >>>
-> >>> Signed-off-by: Alexey Kardashevskiy <aik@amd.com>
-> >>
-> >>
-> >> So, scripts/setlocalversion will always see
-> >> defined LOCALVERSION.
-> >>
-> >> With your patch, LOCALVERSION would be set to an empty value,
-> >> which would make the following condition always false.
-> >>
-> >> elif [ "${LOCALVERSION+set}" !=3D "set" ]; then
-> >>
-> >>
-> >> Your patch is equivalent to deleting
-> >> line 175-183 of scripts/setlocalversion.
-> >>
-> >> Of course, that is wrong and unacceptable.
-> >
-> > Ok. What is the right way of getting rid of the "+"? Thanks,
->
->
-> make LOCALVERSION=3D"" ...
-> seems to be the only way, is that right? I thought CONFIG_LOCALVERSION
-> is good enough for not having "+", hmm.
-
-
-Correct.
-
-Reading the commit description of
-5df99bec210a2cf89dd91e52f0d0a714bf4cd96a
-makes it clearer.
-
-
-
-
-
-Best Regards
-Masahiro Yamada
