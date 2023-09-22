@@ -2,545 +2,190 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DC15D7AA384
-	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Sep 2023 23:51:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 044E47AA640
+	for <lists+linux-kbuild@lfdr.de>; Fri, 22 Sep 2023 02:59:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232851AbjIUVvT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 21 Sep 2023 17:51:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34486 "EHLO
+        id S229780AbjIVA7q (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 21 Sep 2023 20:59:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232919AbjIUVvC (ORCPT
+        with ESMTP id S229452AbjIVA7p (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 21 Sep 2023 17:51:02 -0400
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1AE088AEC
-        for <linux-kbuild@vger.kernel.org>; Thu, 21 Sep 2023 10:39:26 -0700 (PDT)
-Received: by mail-wr1-x42c.google.com with SMTP id ffacd0b85a97d-3224c229d31so142110f8f.0
-        for <linux-kbuild@vger.kernel.org>; Thu, 21 Sep 2023 10:39:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1695317965; x=1695922765; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=j6Pwn3by93Z9GDq57MINmnt8aTafU+8q1HtF6GDtpyE=;
-        b=B9zFtCWNQRjC8Q9/lzVuYqLVMiP+Emqyj2HoiTyo86cFCMkpfFxJ4tRMhWBDqWKpHx
-         O/dD2HkV0gG8yqNAjaM2xgb5gPZKg1K/glvX9rmbElujdMxHjXwjTp4g0AfKZWGBZ4g2
-         gXfqrx+dku49AquzdULkXNNKtjZi1JJTJvWxczoKGHi5XGpcCLesI2PqF9+oGuPKjINQ
-         QXzlCjUtVQ1X9i4q6Wb2oGu2ttA6TN1Cbc5F/Xa8ENsebvSGxH2bu/NllDjVYwMzdRtY
-         BO5BoaNUKtnl1+T+wVuR0hIgmwZeWQ8wY5Ce2gms5bfWeorV2uBA9AmOc4Ocm4TIIQx4
-         lSAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695317965; x=1695922765;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=j6Pwn3by93Z9GDq57MINmnt8aTafU+8q1HtF6GDtpyE=;
-        b=aGgmbv8BtmpB1E2XfRNefJcCQnLVdlVuQec2l4B3lz0X8U8ZWPmOwPUdU3PCwFS+tU
-         cRiTysOzJ6cBxlRGhvrlex7MP0EkuJ+AeXAg2ls+8SZtS1skGg2IS1XGWO7qrzclTgO0
-         8mDQNaDEszdZqOZRDhffe8JD9djB1wql+fbZooqALkQDPjBV6jlIidU3WXR1uARcNvKp
-         yEvVUA2mRBe2hu63u6drFmhsZO5lwudSkSLrbYvEEXqKcpCqD1ufDMlLN68mnvOhTbSq
-         HO3sBqfpSaV1iGsWrmtKZuF6n+2DK1ajS03hnTh9p4DhrPJrhdseV/JMuNNXxI6SG0QE
-         mBYg==
-X-Gm-Message-State: AOJu0Yw/mDVk5tjzEXq0fEWPoj09vCZl+XQkS5eYHUDyL3Wh7it0GfBM
-        ci0DLYQEDOXEbjqlf/je2T4ciDXIYdS8vxCb4tDHZw==
-X-Google-Smtp-Source: AGHT+IEBIFRPkyDzHQ+D2KJkz18KzRNTaqV/8CZsW2pJNGAvO8T0fP0Rc50Y752EiUbJgZslkUV0uw==
-X-Received: by 2002:a05:600c:1c08:b0:3fe:d637:7b25 with SMTP id j8-20020a05600c1c0800b003fed6377b25mr5052674wms.0.1695298059836;
-        Thu, 21 Sep 2023 05:07:39 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:999:a3a0:7398:c156:422c:6091? ([2a01:e0a:999:a3a0:7398:c156:422c:6091])
-        by smtp.gmail.com with ESMTPSA id 12-20020a05600c240c00b003fc02e8ea68sm4642695wmp.13.2023.09.21.05.07.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Sep 2023 05:07:39 -0700 (PDT)
-Message-ID: <4d1102d9-ebea-4cb2-a510-3a40be7a3cb6@rivosinc.com>
-Date:   Thu, 21 Sep 2023 14:07:38 +0200
-MIME-Version: 1.0
+        Thu, 21 Sep 2023 20:59:45 -0400
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2082.outbound.protection.outlook.com [40.107.92.82])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 837FF122;
+        Thu, 21 Sep 2023 17:59:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cxyNs4ETdZAzyMXO4cd/Zsc1ZapvhqGhZyzVH5o/3pfUUC9vw1CrNDeu2ZTvm5MZXcLig7ZL4K3IwNBligw5ihmHqjHwlg2RkKWvGkLJx7Z4T0y4UnTwfeGCTpH/9pknGGf1dNxELlnQYsrlaCOAC7YwPstsp3XMrgYtlkCP7JVj/zRWqLf0Zp22STzLA0zSvle1/patu/7fHEYR3UNQRsxdGbyZ4A9bXRWpmtr/08QWHd9RJroNWZiYjXy2FSnxd4tAaGZDlJ7SOsxzV5ndSQPw2XTwD5BFcVctddm53i9IMvnNNf8Fi2VP6GySkcEUTxX9MERHRegjFkyNrSMiGQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WUNXSxC8DXjza6N5j2gV4sEimSAnirltAfdi6N8Gfig=;
+ b=eRPmp3P1nrBZVyrfbxF1W/T7iyLUEQ/Mgs+YP3Zz+4TOrWnu/f3tbtNuUmpJ1TEfk73fQYfeV8yv0PtXD5OutczVEwHlublEdLIBCgrkF8szh3hMp/2Ca2pXcmQ/PCGYKvGcUad4Ixi4kbB8rERadEU9/SwgPeWgublgIDTRw4xrYO7/Kwghj0FGDIVQjzVkpYQ9eYKr5Lo0VpqU4L+PV2b/wb9gPFEufP7rdadPjzpHpfbqkxLtlivPYwM+Dnsla7+kupqssldxVqHVthYwfYE4lktny9OR6np+QUk4YgOitViLn54roUzzgui+SiJJLoQ1sDxtjzqtJ2s6oR2y7A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WUNXSxC8DXjza6N5j2gV4sEimSAnirltAfdi6N8Gfig=;
+ b=iw5Z3SIj86Ah5MftYrMuyOxJt9f5A/1pYpdDdlrLTsHc/qBPeT84QpUcP2a8Ft3yPrA4czZYb/7vh9uFfjd+nngh/87EO7CFJeBeZspvffIG+MVT6KaDZ1IykOn9m2epezH3sjpd4EeBmnUT4IEpuUzbEVPlRJbrLRie9x9I8dA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from LV3PR12MB9213.namprd12.prod.outlook.com (2603:10b6:408:1a6::20)
+ by DM6PR12MB4942.namprd12.prod.outlook.com (2603:10b6:5:1be::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.21; Fri, 22 Sep
+ 2023 00:59:37 +0000
+Received: from LV3PR12MB9213.namprd12.prod.outlook.com
+ ([fe80::76c7:5892:d546:3880]) by LV3PR12MB9213.namprd12.prod.outlook.com
+ ([fe80::76c7:5892:d546:3880%7]) with mapi id 15.20.6813.017; Fri, 22 Sep 2023
+ 00:59:36 +0000
+Message-ID: <1f9ca335-4d34-4871-856e-e6aa8e2bc16d@amd.com>
+Date:   Fri, 22 Sep 2023 10:59:28 +1000
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] modpost: Optimize symbol search from linear to binary
- search
-To:     Jack Brennen <jbrennen@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        llvm@lists.linux.dev, Palmer Dabbelt <palmer@rivosinc.com>
-References: <20230918210631.3882376-1-jbrennen@google.com>
+Subject: Re: [PATCH kernel] kbuild: get rid of unwanted "+" when
+ CONFIG_LOCALVERSION is set
 Content-Language: en-US
-From:   =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
-In-Reply-To: <20230918210631.3882376-1-jbrennen@google.com>
-Content-Type: text/plain; charset=UTF-8
+From:   Alexey Kardashevskiy <aik@amd.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nathan Chancellor <nathan@kernel.org>
+References: <20230920015559.1877441-1-aik@amd.com>
+ <CAK7LNARrb_NLpBL19LHEdg0WJKsncaUPQLk-wxhR+Rh8sps3jQ@mail.gmail.com>
+ <a6a90c61-e884-4b18-83b7-ca3d2e0378e7@amd.com>
+In-Reply-To: <a6a90c61-e884-4b18-83b7-ca3d2e0378e7@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-ClientProxiedBy: SA1P222CA0157.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:806:3c3::24) To LV3PR12MB9213.namprd12.prod.outlook.com
+ (2603:10b6:408:1a6::20)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV3PR12MB9213:EE_|DM6PR12MB4942:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1d6b2ac0-d837-471f-9247-08dbbb073105
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: dYeuIHFbG6MufulRRGeO6KHrjLuicAMyQRJmdQvp7T2PXOL/MR7IhQmtEvhfS5mgFCsBe8UjHG7QawUstWd++IyJ1pkeXph1W7NUD0UBOkOBIK4c4V/vbtGJ2CZdUCZheJEoW+/rdzo2OECJejXMyH1cYwgZtXTm0RGMZ9e/h8EBybffVgv3YsbqyRtmB5cW6LTr9IyPQJbZO1bt9x5seDwB0uowOKUk0x9atI/tZ99TnBeK0T3Q/WMFA8YWsnkm4KyokPpn7J9BlqlHmUafIvsigfALT3L5UKmzixog+z/s0HqT9hZcX3Pj6yerLXExe2tiO38sMaBRdBUEsGYBn6KlbfkMQ0ksUZQ7/Vb0zcnUkkp3sjyCS7Bz62O7wbetp4VMk/5vo4xkng095H6aDNaf+KQRBcMyfq1KRW6hx5m6EanqJjgubM3aX/pt0aV/4p2+3yA2AWNjn8Cl40bXskRhayRW21lfCn4TZBrKhAmNqIetaTTK8FcZfH5PcRayuXidTpo6AWhC2x4Jtr2bryu3HQslLHcRFXn96lAyvO/J9XbenBVtkMEKKaKLtY4Vsopw7zrQWzxyBmyKZl8XncDTzAgtdvQ+btEkEUOKpcDICLjZ6fJ6BKKrcjgdqWv23B09uTb4opeQf4qd2DMdxFC452vjwG9P84rL8klzYTUNRhsvSevNZBoAee5jzWFS
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9213.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(346002)(39860400002)(136003)(396003)(376002)(451199024)(186009)(1800799009)(2906002)(5660300002)(26005)(66946007)(41300700001)(54906003)(316002)(6916009)(66476007)(66556008)(478600001)(8676002)(31686004)(8936002)(4326008)(6506007)(6486002)(6512007)(53546011)(36756003)(2616005)(6666004)(38100700002)(31696002)(26583001)(26123001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Uy8yaE16VEc2MG9yaE5EQjBoeXFXSFpBR0ZUTjR6bjFkV2YrZHBPVm45NzE3?=
+ =?utf-8?B?VktMR3ArNlNWV2Y2TVVYdENnL0VqU00xMkpvWXhqSlRpVm1MZkhpWnJJUDcr?=
+ =?utf-8?B?STh6WTJ2YlNGV0RSS0ZRVEJrTnZVbzVkZVZ3d2RzWVdtOVVkTHFIZDlkUzln?=
+ =?utf-8?B?cjlFZTAyRzJla1lBL2pzekVSeFFYZ3Bybm5BRnlhNWUwa0dHRnhkdmRBbm50?=
+ =?utf-8?B?bTRQQ2lMUE5OdmNMeXRZeDJxdEd4aWdldHdveWl6SVVMTGVRQXlKaXArUmQv?=
+ =?utf-8?B?K2xXQnNPdlIyYVRKa3oyOFh5MjFIRExrWXBvcnFHNmdNT2FBREZ5WjZmZFMw?=
+ =?utf-8?B?R3dBRUYrMzZUYWNpYk5xeTF6NzFsRUpZbnNCQTFuTm43c3phSjl3eUpJaGZV?=
+ =?utf-8?B?aVZIaUNyNnpsOUZwWWQ0K2dGNmc0MGduY2xzeVoxT2RQQVlBOHVCcGUxM0pt?=
+ =?utf-8?B?U25wRERSL0VOWExaMTN0VGZpeEpaS1VvSy9YU05ZV1VDYnhqb2RCNjFsZU5n?=
+ =?utf-8?B?WXRBckNpeHNicWFTYXU2c3ZmR1VyOGZpUnZFU3lEallHRGMrQjg4M0RxVmhU?=
+ =?utf-8?B?S3czN21sdmVvTGVucXJ1SENhMC9tYVQvbzVPYXBhTVBUdHF3bitvbHZKN3o3?=
+ =?utf-8?B?ZmJmeC9EQVphUjJNVUNPZXJ0K2htMFpGUTNTZEFIbnR5NUhnTlc5cDF1a1hx?=
+ =?utf-8?B?M0Q1RVNBUG5HL09Edm94QXdKdTRlV2E1ME9OTEphdnlVRDdnWXRnRTcrYmRq?=
+ =?utf-8?B?U1NUek5TYlU3VHBzYjRXZEs5eHJFMFErcy9IVUZlakFkV0wwZGxaRXg4dnE0?=
+ =?utf-8?B?ajdaTzFPZWFGQlZnOWttNTRLcDgzT2lVMkR2cU9scWtlZHRRZXpYTjA4N2pi?=
+ =?utf-8?B?S2xLRlNDU1ZyRDByU0JqK0w0QnlJdmdCbEpJTU9lWlhkTDdhelZ0SkFuenVT?=
+ =?utf-8?B?bUN6UnBzc2dtTWIyR2dXWVljcFBrYkx0WmVXckZqeTRqb3FRZ0ZIdzczKzYw?=
+ =?utf-8?B?Z0R0ZnJRQXlPZmJuYmdodmRKNGRuOFdtc1lXdVQ0dC9uUERINGJWN0NpM2pI?=
+ =?utf-8?B?Z21RVElVVHdRQVJlQnhQWkptS1VJZTU2dnZKdm1acmFNTW9iR0ZkdUFoK2hW?=
+ =?utf-8?B?MHNjS1hyNzJvSmpKRFlQUkpudi8zMEN4QlhMVmdNZU4xVGx3dkxuVU1nVUlq?=
+ =?utf-8?B?Ty9vM2pHU3lUS0dtL0RkYzFRZ0FtMlFKTTVNeFFBMmxza2NVUExZTG44ZVQr?=
+ =?utf-8?B?eUJCNW9QeHQ1WGdzZVJpVUdPNVFRMndqZGpoWkRJdUNZcFgrN2luWUNLYVJu?=
+ =?utf-8?B?Y0lka0Vydy9YeXlKVFc3SVl1aFZVWlEzNVJVTk5ROHd5UHlrZFcvUU5PMHVN?=
+ =?utf-8?B?ZDZpZFcrUTNxOFA5cVV2MzFlWnlRcnkxVnhVeHowMnJvcHhCOCtoYmpJbFdn?=
+ =?utf-8?B?Z04wUXEwb1IrS1NwUFQzZEJtVHJjU1NTVU40eHBiY1pCbHZaN25EdWFkLytS?=
+ =?utf-8?B?QjYyNldmR3J6NWtEeW9ZaENrMHFCQWpXSmM2V3lmR0R3SUhxRUZIMGUvekZH?=
+ =?utf-8?B?YWVOM1ZxRXQxcktZWGNpOGY0b0w3b29LZXFtYTV2cW9yamhpOGxWSklRTW05?=
+ =?utf-8?B?SktTYlRQbnp6cEJ2YkJiYzB6eU5zMFBLVzdZTmNXVmxUMURWbDlybkdlaEVK?=
+ =?utf-8?B?L2FONmVyTDZ6S3JoRzViL3BTdHoxS0RkdTRGcG9CNHBINnQ2OFAzT1JlWmlX?=
+ =?utf-8?B?T0ZWNnZ5Sld2ZVdBc3BtWDNsTDJleS96cWFMVGkvdVNCY25ZS1VQQ0JPY2ZM?=
+ =?utf-8?B?ZzF4NzFkSUxYNHVrY1ZUWU9tanhpUUVjS0UrV0wzdjI4SnRvcUlHUGttWjNS?=
+ =?utf-8?B?cHNYZjJudk1RTFA0b0hteEh3Qjg1MWNJK2RvUkRoeTNMUDdqMlVpSDZuNXdS?=
+ =?utf-8?B?b2EvSWxZMzlqSHh2WURqV2gzSEM1eFVzbThsVjZFcWxiaUhWNkRGL0R6QmVB?=
+ =?utf-8?B?K25lTy9zQ3AzK0tUT0FLZ2s5N1J5d0RxdHZyazBpUHRPZmI1ZEFLWlQ0SlZI?=
+ =?utf-8?B?M29UM3IyNlUwNE9GN1J2TG1GQldxSmowMHVKNno3MlQrMFlnM3dNQ2MrZUNU?=
+ =?utf-8?Q?iGYxPJysDj+ejQG/PhO3jmIDP?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1d6b2ac0-d837-471f-9247-08dbbb073105
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9213.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2023 00:59:36.5439
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: RBsQkPPcGdxyDU64FuyKQeJ3BW2N9laRjLFsBiqvrnA56nutCd8taIRcAlIaBVOOxsySlTnDlRxfjjpj+5/gog==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4942
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE,
+        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Jack,
 
-On RISC-V builds, we noticed a recent slow down after commit
-ddb5cdbafaaa ("kbuild: generate KSYMTAB entries by modpost") was
-introduced. We tracked it down to find_nearest_sym() being called a lot
-and more specifically since we have a lot of local symbols that are
-generated as part of PCREL accesses (even more when building in debug
-mode, measured a count of 12964362 symbols in one vmlinux.o).
-
-Without your changes, a typical riscv defconfig build + debug, modpost
-took the following amount of time:
-
-$ time scripts/mod/modpost -M -o Module.symvers -T modules.order vmlinux.o
-real    4m21,976s
-user    4m21,803s
-sys     0m0,100s
-
-With your changes:
-
-$ time scripts/mod/modpost -M -o Module.symvers -T modules.order vmlinux.o
-real    0m1,077s
-user    0m0,980s
-sys     0m0,095s
-
-I guess you could further optimize it by allocating a binary tree for
-each section since find_nearest_sym() searches for symbols in a specific
-section, that would save a few comparisons. Not sure it will be way
-faster nor simpler to implement though.
-
-FWIW: Tested-by: Clément Léger <cleger@rivosinc.com>
-
-Thanks,
-
-Clément
-
-On 18/09/2023 23:06, Jack Brennen wrote:
-> Modify modpost to use binary search for converting addresses back
-> into symbol references.  Previously it used linear search.
+On 20/9/23 23:30, Alexey Kardashevskiy wrote:
 > 
-> This change saves a few seconds of wall time for defconfig builds,
-> but can save several minutes on allyesconfigs.
+> On 20/9/23 21:59, Masahiro Yamada wrote:
+>> On Wed, Sep 20, 2023 at 10:56 AM Alexey Kardashevskiy <aik@amd.com> 
+>> wrote:
+>>>
+>>> The scripts/setlocalversion script correctly tries not adding "+" when
+>>> CONFIG_LOCALVERSION is defined.
+>>
+>> I am afraid you are misunderstanding the script.
 > 
-> Before:
-> $ make LLVM=1 -j128 allyesconfig vmlinux -s KCFLAGS="-Wno-error"
->         Elapsed (wall clock) time (h:mm:ss or m:ss): 13:30.31
+> Possibly :) I should have read of "+set"... sorry :-/ Thanks for 
+> spending time looking at this.
 > 
-> After:
-> $ make LLVM=1 -j128 allyesconfig vmlinux -s KCFLAGS="-Wno-error"
->         Elapsed (wall clock) time (h:mm:ss or m:ss): 11:43.43
+>> CONFIG_LOCALVERSION and the "+" sign is unrelated.
 > 
-> Signed-off-by: Jack Brennen <jbrennen@google.com>
-> Tested-by: Nick Desaulniers <ndesaulniers@google.com>
-> ---
->  scripts/mod/Makefile    |   4 +-
->  scripts/mod/modpost.c   |  60 +----------
->  scripts/mod/modpost.h   |  25 +++++
->  scripts/mod/symsearch.c | 233 ++++++++++++++++++++++++++++++++++++++++
->  4 files changed, 265 insertions(+), 57 deletions(-)
->  create mode 100644 scripts/mod/symsearch.c
+> How come?
 > 
-> diff --git a/scripts/mod/Makefile b/scripts/mod/Makefile
-> index c9e38ad937fd..3c54125eb373 100644
-> --- a/scripts/mod/Makefile
-> +++ b/scripts/mod/Makefile
-> @@ -5,7 +5,7 @@ CFLAGS_REMOVE_empty.o += $(CC_FLAGS_LTO)
->  hostprogs-always-y	+= modpost mk_elfconfig
->  always-y		+= empty.o
->  
-> -modpost-objs	:= modpost.o file2alias.o sumversion.o
-> +modpost-objs	:= modpost.o file2alias.o sumversion.o symsearch.o
->  
->  devicetable-offsets-file := devicetable-offsets.h
->  
-> @@ -16,7 +16,7 @@ targets += $(devicetable-offsets-file) devicetable-offsets.s
->  
->  # dependencies on generated files need to be listed explicitly
->  
-> -$(obj)/modpost.o $(obj)/file2alias.o $(obj)/sumversion.o: $(obj)/elfconfig.h
-> +$(obj)/modpost.o $(obj)/file2alias.o $(obj)/sumversion.o $(obj)/symsearch.o: $(obj)/elfconfig.h
->  $(obj)/file2alias.o: $(obj)/$(devicetable-offsets-file)
->  
->  quiet_cmd_elfconfig = MKELF   $@
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index de499dce5265..975f235aca2c 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -22,7 +22,6 @@
->  #include <errno.h>
->  #include "modpost.h"
->  #include "../../include/linux/license.h"
-> -#include "../../include/linux/module_symbol.h"
->  
->  static bool module_enabled;
->  /* Are we using CONFIG_MODVERSIONS? */
-> @@ -577,11 +576,14 @@ static int parse_elf(struct elf_info *info, const char *filename)
->  			*p = TO_NATIVE(*p);
->  	}
->  
-> +	symsearch_init(info);
-> +
->  	return 1;
->  }
->  
->  static void parse_elf_finish(struct elf_info *info)
->  {
-> +	symsearch_finish(info);
->  	release_file(info->hdr, info->size);
->  }
->  
-> @@ -1039,65 +1041,13 @@ static int secref_whitelist(const char *fromsec, const char *fromsym,
->  	return 1;
->  }
->  
-> -/*
-> - * If there's no name there, ignore it; likewise, ignore it if it's
-> - * one of the magic symbols emitted used by current tools.
-> - *
-> - * Otherwise if find_symbols_between() returns those symbols, they'll
-> - * fail the whitelist tests and cause lots of false alarms ... fixable
-> - * only by merging __exit and __init sections into __text, bloating
-> - * the kernel (which is especially evil on embedded platforms).
-> - */
-> -static inline int is_valid_name(struct elf_info *elf, Elf_Sym *sym)
-> -{
-> -	const char *name = elf->strtab + sym->st_name;
-> -
-> -	if (!name || !strlen(name))
-> -		return 0;
-> -	return !is_mapping_symbol(name);
-> -}
-> -
->  /* Look up the nearest symbol based on the section and the address */
->  static Elf_Sym *find_nearest_sym(struct elf_info *elf, Elf_Addr addr,
->  				 unsigned int secndx, bool allow_negative,
->  				 Elf_Addr min_distance)
->  {
-> -	Elf_Sym *sym;
-> -	Elf_Sym *near = NULL;
-> -	Elf_Addr sym_addr, distance;
-> -	bool is_arm = (elf->hdr->e_machine == EM_ARM);
-> -
-> -	for (sym = elf->symtab_start; sym < elf->symtab_stop; sym++) {
-> -		if (get_secindex(elf, sym) != secndx)
-> -			continue;
-> -		if (!is_valid_name(elf, sym))
-> -			continue;
-> -
-> -		sym_addr = sym->st_value;
-> -
-> -		/*
-> -		 * For ARM Thumb instruction, the bit 0 of st_value is set
-> -		 * if the symbol is STT_FUNC type. Mask it to get the address.
-> -		 */
-> -		if (is_arm && ELF_ST_TYPE(sym->st_info) == STT_FUNC)
-> -			 sym_addr &= ~1;
-> -
-> -		if (addr >= sym_addr)
-> -			distance = addr - sym_addr;
-> -		else if (allow_negative)
-> -			distance = sym_addr - addr;
-> -		else
-> -			continue;
-> -
-> -		if (distance <= min_distance) {
-> -			min_distance = distance;
-> -			near = sym;
-> -		}
-> -
-> -		if (min_distance == 0)
-> -			break;
-> -	}
-> -	return near;
-> +	return symsearch_find_nearest(elf, addr, secndx,
-> +				      allow_negative, min_distance);
->  }
->  
->  static Elf_Sym *find_fromsym(struct elf_info *elf, Elf_Addr addr,
-> diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
-> index 5f94c2c9f2d9..6413f26fcb6b 100644
-> --- a/scripts/mod/modpost.h
-> +++ b/scripts/mod/modpost.h
-> @@ -10,6 +10,7 @@
->  #include <fcntl.h>
->  #include <unistd.h>
->  #include <elf.h>
-> +#include "../../include/linux/module_symbol.h"
->  
->  #include "list.h"
->  #include "elfconfig.h"
-> @@ -128,6 +129,8 @@ struct elf_info {
->  	 * take shndx from symtab_shndx_start[N] instead */
->  	Elf32_Word   *symtab_shndx_start;
->  	Elf32_Word   *symtab_shndx_stop;
-> +
-> +	struct symsearch *symsearch;
->  };
->  
->  /* Accessor for sym->st_shndx, hides ugliness of "64k sections" */
-> @@ -154,6 +157,28 @@ static inline unsigned int get_secindex(const struct elf_info *info,
->  	return index;
->  }
->  
-> +/*
-> + * If there's no name there, ignore it; likewise, ignore it if it's
-> + * one of the magic symbols emitted used by current tools.
-> + *
-> + * Internal symbols created by tools should be ignored by modpost.
-> + */
-> +static inline int is_valid_name(struct elf_info *elf, Elf_Sym *sym)
-> +{
-> +	const char *name = elf->strtab + sym->st_name;
-> +
-> +	if (!name || !strlen(name))
-> +		return 0;
-> +	return !is_mapping_symbol(name);
-> +}
-> +
-> +/* symsearch.c */
-> +void symsearch_init(struct elf_info *elf);
-> +void symsearch_finish(struct elf_info *elf);
-> +Elf_Sym *symsearch_find_nearest(struct elf_info *elf, Elf_Addr addr,
-> +				unsigned int secndx, bool allow_negative,
-> +				Elf_Addr min_distance);
-> +
->  /* file2alias.c */
->  void handle_moddevtable(struct module *mod, struct elf_info *info,
->  			Elf_Sym *sym, const char *symname);
-> diff --git a/scripts/mod/symsearch.c b/scripts/mod/symsearch.c
-> new file mode 100644
-> index 000000000000..aab79262512b
-> --- /dev/null
-> +++ b/scripts/mod/symsearch.c
-> @@ -0,0 +1,233 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +/* Helper functions for finding the symbol in an ELF which is "nearest"
-> + * to a given address.
-> + */
-> +
-> +#include "modpost.h"
-> +
-> +/* Struct used for binary search. */
-> +struct syminfo {
-> +	unsigned int symbol_index;
-> +	unsigned int section_index;
-> +	Elf_Addr addr;
-> +};
-> +
-> +/* Container used to hold an entire binary search table.
-> + * Entries in table are ascending, sorted first by section_index,
-> + * then by addr, and last by symbol_index.  The sorting by
-> + * symbol_index is used to duplicate the quirks of the prior
-> + * find_nearest_sym() function, where exact matches to an address
-> + * return the first symtab entry seen, but near misses return the
-> + * last symtab entry seen.
-> + * The first and last entries of the table are sentinels and their
-> + * values only matter in two places:  when we sort the table, and
-> + * on lookups, the end sentinel should not have an addr field which
-> + * matches its immediate predecessor.  To meet these requirements,
-> + * we initialize them to (0,0,0) and (max,max,max), and then after
-> + * sorting, we tweak the end sentinel's addr field accordingly.
-> + */
-> +struct symsearch {
-> +	size_t table_size;
-> +	struct syminfo table[];
-> +};
-> +
-> +static inline bool is_sym_searchable(struct elf_info *elf, Elf_Sym *sym)
-> +{
-> +	return is_valid_name(elf, sym) != 0;
-> +}
-> +
-> +static int syminfo_compare(const void *s1, const void *s2)
-> +{
-> +	const struct syminfo *sym1 = s1;
-> +	const struct syminfo *sym2 = s2;
-> +
-> +	if (sym1->section_index > sym2->section_index)
-> +		return 1;
-> +	if (sym1->section_index < sym2->section_index)
-> +		return -1;
-> +	if (sym1->addr > sym2->addr)
-> +		return 1;
-> +	if (sym1->addr < sym2->addr)
-> +		return -1;
-> +	if (sym1->symbol_index > sym2->symbol_index)
-> +		return 1;
-> +	if (sym1->symbol_index < sym2->symbol_index)
-> +		return -1;
-> +	return 0;
-> +}
-> +
-> +static size_t symbol_count(struct elf_info *elf)
-> +{
-> +	size_t result = 0;
-> +
-> +	for (Elf_Sym *sym = elf->symtab_start; sym < elf->symtab_stop; sym++) {
-> +		if (is_sym_searchable(elf, sym))
-> +			result++;
-> +	}
-> +	return result;
-> +}
-> +
-> +/* Populate the search array that we just allocated.
-> + * Be slightly paranoid here.  If the ELF file changes during processing,
-> + * or if the behavior of is_sym_searchable() changes during processing,
-> + * we want to catch it; neither of those is acceptable.
-> + */
-> +static void symsearch_populate(struct elf_info *elf,
-> +			       struct syminfo *table,
-> +			       size_t table_size)
-> +{
-> +	bool is_arm = (elf->hdr->e_machine == EM_ARM);
-> +
-> +	/* Start sentinel */
-> +	if (table_size-- == 0)
-> +		fatal("%s: size mismatch\n", __func__);
-> +	table->symbol_index = 0;
-> +	table->section_index = 0;
-> +	table->addr = 0;
-> +	table++;
-> +
-> +	for (Elf_Sym *sym = elf->symtab_start; sym < elf->symtab_stop; sym++) {
-> +		if (is_sym_searchable(elf, sym)) {
-> +			if (table_size-- == 0)
-> +				fatal("%s: size mismatch\n", __func__);
-> +			table->symbol_index = sym - elf->symtab_start;
-> +			table->section_index = get_secindex(elf, sym);
-> +			table->addr = sym->st_value;
-> +
-> +			/*
-> +			 * For ARM Thumb instruction, the bit 0 of st_value is
-> +			 * set if the symbol is STT_FUNC type. Mask it to get
-> +			 * the address.
-> +			 */
-> +			if (is_arm && ELF_ST_TYPE(sym->st_info) == STT_FUNC)
-> +				table->addr &= ~1;
-> +
-> +			table++;
-> +		}
-> +	}
-> +
-> +	/* End sentinel; all values are unsigned so -1 wraps to max */
-> +	if (table_size != 1)
-> +		fatal("%s: size mismatch\n", __func__);
-> +	table->symbol_index = -1;
-> +	table->section_index = -1;
-> +	table->addr = -1;
-> +}
-> +
-> +void symsearch_init(struct elf_info *elf)
-> +{
-> +	/* +2 here to allocate space for the start and end sentinels */
-> +	size_t table_size = symbol_count(elf) + 2;
-> +
-> +	elf->symsearch = NOFAIL(malloc(
-> +					sizeof(struct symsearch) +
-> +					sizeof(struct syminfo) * table_size));
-> +	elf->symsearch->table_size = table_size;
-> +
-> +	symsearch_populate(elf, elf->symsearch->table, table_size);
-> +	qsort(elf->symsearch->table, table_size,
-> +	      sizeof(struct syminfo), syminfo_compare);
-> +
-> +	/* A bit of paranoia; make sure that the end sentinel's address is
-> +	 * different than its predecessor.  Not doing this could cause
-> +	 * possible undefined behavior if anybody ever inserts a symbol
-> +	 * with section_index and addr both at their max values.
-> +	 * Doing this little bit of defensive programming is more efficient
-> +	 * than checking for array overruns later.
-> +	 */
-> +	elf->symsearch->table[table_size - 1].addr =
-> +		elf->symsearch->table[table_size - 2].addr + 1;
-> +}
-> +
-> +void symsearch_finish(struct elf_info *elf)
-> +{
-> +	free(elf->symsearch);
-> +	elf->symsearch = NULL;
-> +}
-> +
-> +/* Find the syminfo which is in secndx and "nearest" to addr.
-> + * allow_negative: allow returning a symbol whose address is > addr.
-> + * min_distance: ignore symbols which are further away than this.
-> + *
-> + * Returns a nonzero index into the symsearch table for success.
-> + * Returns NULL if no legal symbol is found within the requested range.
-> + */
-> +static size_t symsearch_find_impl(struct elf_info *elf, Elf_Addr addr,
-> +				  unsigned int secndx, bool allow_negative,
-> +				  Elf_Addr min_distance)
-> +{
-> +	/* Find the target in the array; it will lie between two elements.
-> +	 * Invariant here: table[lo] < target <= table[hi]
-> +	 * For the purposes of search, exact hits in the search array are
-> +	 * considered greater than the target.	This means that if we do
-> +	 * get an exact hit, then once the search terminates, table[hi]
-> +	 * will be the exact match which has the lowest symbol index.
-> +	 */
-> +	struct syminfo *table = elf->symsearch->table;
-> +	size_t hi = elf->symsearch->table_size - 1;
-> +	size_t lo = 0;
-> +	bool hi_is_usable = false;
-> +	bool lo_is_usable = false;
-> +	Elf_Addr hi_distance = -1;  // max Elf_Addr
-> +	Elf_Addr lo_distance = -1;  // max Elf_Addr
-> +	Elf_Addr min_distance_lo = min_distance;
-> +	Elf_Addr min_distance_hi = allow_negative ? min_distance : 0;
-> +
-> +	for (;;) {
-> +		size_t mid;
-> +
-> +		mid = lo + (hi - lo) / 2;
-> +		if (mid == lo)
-> +			break;
-> +		if (secndx > table[mid].section_index) {
-> +			lo = mid;
-> +		} else if (secndx < table[mid].section_index) {
-> +			hi = mid;
-> +		} else if (addr > table[mid].addr) {
-> +			lo = mid;
-> +			lo_distance = addr - table[mid].addr;
-> +			lo_is_usable = (lo_distance <= min_distance_lo);
-> +		} else {
-> +			hi = mid;
-> +			hi_distance = table[mid].addr - addr;
-> +			hi_is_usable = (hi_distance <= min_distance_hi);
-> +		}
-> +	}
-> +
-> +	if (hi_is_usable && lo_is_usable) {
-> +		lo_is_usable = (lo_distance <= hi_distance);
-> +		hi_is_usable = (hi_distance <= lo_distance);
-> +	}
-> +
-> +	if (!hi_is_usable)
-> +		return lo_is_usable ? lo : 0;
-> +
-> +	if (hi_distance == 0)
-> +		return hi;
-> +
-> +	/* Match quirks of existing behavior.  Advance hi to the last
-> +	 * matching entry in the search table.	We don't need to worry
-> +	 * about running off the end of the array due to the sentinel.
-> +	 */
-> +	while (table[hi+1].addr == table[hi].addr &&
-> +	       table[hi+1].section_index == table[hi].section_index) {
-> +		hi++;
-> +	}
-> +
-> +	return (lo_is_usable &&
-> +		table[lo].symbol_index > table[hi].symbol_index) ? lo : hi;
-> +}
-> +
-> +Elf_Sym *symsearch_find_nearest(struct elf_info *elf, Elf_Addr addr,
-> +				unsigned int secndx, bool allow_negative,
-> +				Elf_Addr min_distance)
-> +{
-> +	size_t result = symsearch_find_impl(elf, addr, secndx,
-> +					    allow_negative, min_distance);
-> +
-> +	if (result == 0)
-> +		return NULL;
-> +
-> +	return &elf->symtab_start[elf->symsearch->table[result].symbol_index];
-> +}
+> scripts/setlocalversion -> if [ "${LOCALVERSION+set}" != "set" ] -> 
+> scm_version --short -> echo "+".
+> 
+> Where is that LOCALVERSION supposed to come from, and when? Is not 
+> LOCALVERSION related to CONFIG_LOCALVERSION?
+> 
+>>> However, instead of grepping for it
+>>> (as it is done for CONFIG_LOCALVERSION_AUTO=y), it relies on 
+>>> LOCALVERSION
+>>> set in the shell which is not.
+>>>
+>>> Export LOCALVERSION so scripts/setlocalversion could see it and not add
+>>> unwanted "+" at the end of the kernelrelease.
+>>>
+>>> Signed-off-by: Alexey Kardashevskiy <aik@amd.com>
+>>
+>>
+>> So, scripts/setlocalversion will always see
+>> defined LOCALVERSION.
+>>
+>> With your patch, LOCALVERSION would be set to an empty value,
+>> which would make the following condition always false.
+>>
+>> elif [ "${LOCALVERSION+set}" != "set" ]; then
+>>
+>>
+>> Your patch is equivalent to deleting
+>> line 175-183 of scripts/setlocalversion.
+>>
+>> Of course, that is wrong and unacceptable.
+> 
+> Ok. What is the right way of getting rid of the "+"? Thanks,
+
+
+make LOCALVERSION="" ...
+seems to be the only way, is that right? I thought CONFIG_LOCALVERSION 
+is good enough for not having "+", hmm.
+
+
+-- 
+Alexey
+
