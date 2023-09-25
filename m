@@ -2,58 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 96F837AD10B
-	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Sep 2023 09:06:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 18D787AD114
+	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Sep 2023 09:07:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232374AbjIYHGU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 25 Sep 2023 03:06:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36236 "EHLO
+        id S232402AbjIYHH0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 25 Sep 2023 03:07:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232353AbjIYHGT (ORCPT
+        with ESMTP id S229619AbjIYHHY (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 25 Sep 2023 03:06:19 -0400
+        Mon, 25 Sep 2023 03:07:24 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B2BCBC;
-        Mon, 25 Sep 2023 00:06:13 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1728C433C9;
-        Mon, 25 Sep 2023 07:06:12 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19A3EB8;
+        Mon, 25 Sep 2023 00:07:18 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6EC2C433AB;
+        Mon, 25 Sep 2023 07:07:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695625572;
-        bh=TTDK7Zmf03yl+dmjIqFNQYtRIfdHLTb5AwQJJMW/zdA=;
+        s=k20201202; t=1695625637;
+        bh=N6mc0aHWFcgFpRtTDCT4En17AvKws6F8YqHYyIo0PVA=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=UvTXQ8O2v2WCIuSiD3YtW867B12zqSN+ZfvKJgYoFYUbS6RPeehL79EXjZpUqV7+A
-         UqzL20btkmoR1/+3ZcH4Sf/wlksrMpETZQJ8TgdOiRu0/IBWwa7NBA210tjFoMPlY+
-         PARa1MnumtZ8D3yykbsunGJqaW5LrKoKLJbwpM5nzi+qaqz9C/6bn1LZEBzxj0fyns
-         NPqJynU0fNIlv3e0knUHK/p4fTtIMcwM/CWBOULuimeoJhkQ8SKMXtj7+DVz8WoiWY
-         /zC5mlo4CyGOR9CgISTO/3i33focxJWmlqEsNGTJrhmwJ2wopIX+h2dK9ZS19Sa5jV
-         1TU9rou+NsTDA==
-Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-57bbb38d5d4so972958eaf.2;
-        Mon, 25 Sep 2023 00:06:12 -0700 (PDT)
-X-Gm-Message-State: AOJu0YzJeURcxZ/aQg+b77YigwnzD5Hkl1DGQw0jPefV73QLEkP1HWDC
-        3vpgte/2HaIuGIuu775LDuVxhtn+cDchUhCEEt8=
-X-Google-Smtp-Source: AGHT+IGI3lC4C49LN60RC9+EwUh4h9zC8sfV5QdyxOlzFnDL0/pbcVNmsrc757XG7ZHIPlX6Zh44+/4AZp/sllXMnas=
-X-Received: by 2002:a05:6870:a986:b0:1c8:b715:6c81 with SMTP id
- ep6-20020a056870a98600b001c8b7156c81mr7247538oab.55.1695625572240; Mon, 25
- Sep 2023 00:06:12 -0700 (PDT)
+        b=EJg7YRnVisvyUzgHs4WBxIniT1IJDwEy6XObQxoKvCu57smDV/VI2w/4wvqXYb646
+         5HbENKBosu5cJNA8yuuQlmfvl/bDgpeDmTJ5kvlvlTEUHQm//dEAGkjdqNn5G/wYrO
+         b86cuv0u6SL1g4f20UEklBvwfTewc79tPkoGe4SQW7C3SsOo55AnWxkfuanyhzFNJG
+         QgV0jpbGzz+Mdz0Ig6rXmqaYBVHjt1aU63Lxew3TCiEy4n++110O1MO5WFSLguEgUL
+         ISw6WqBkWvXYjQ3PRrw0J0Y1asVuaxDJ1Tsu4HOiJU9okjR1t9rcYPCT9XL1MUs5rQ
+         G8ikFLRv3NPJw==
+Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-1dceaa7aeffso1392523fac.0;
+        Mon, 25 Sep 2023 00:07:17 -0700 (PDT)
+X-Gm-Message-State: AOJu0YyCQ7TRFsjRELyg2hKJ7YD14yKwpUp6zl99nxRrnRfH/v2aghsV
+        W2JZoyWcCZ42/Hp//BAUirGtdAfrS3pJULx3lvE=
+X-Google-Smtp-Source: AGHT+IFOiFhdrZ+lis0uTmihuJ6U+6yVA37X3fAFpdu3ZIZOBY5MUlSCRDTCFZM//OsshohPaGi280ujFMXNeCI4jsw=
+X-Received: by 2002:a05:6870:2328:b0:1d5:cdf7:bdbc with SMTP id
+ w40-20020a056870232800b001d5cdf7bdbcmr3661140oao.2.1695625637184; Mon, 25 Sep
+ 2023 00:07:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <3d34a965-ab9c-d549-0c63-c717ab5d2edc@tweek.dk>
- <c2b92ff2-d077-4588-9d5c-93dfec0037ee@mailbox.org> <b85bf040-f6be-ef12-5b33-6d41991e4d97@tweek.dk>
- <CAK7LNAQVuKQ34xK8AA9M0dytb1zNpE+rUYDhi6kGDO60SYBpyw@mail.gmail.com>
- <d0016504-af19-eab5-8898-f51a8c8abdcd@tweek.dk> <CAK7LNARKiu54dRK9y8aRRFC_UrurE_qumXdv6TRJpzQ_AS1dwQ@mail.gmail.com>
-In-Reply-To: <CAK7LNARKiu54dRK9y8aRRFC_UrurE_qumXdv6TRJpzQ_AS1dwQ@mail.gmail.com>
+References: <20230917192009.254979-1-arnd@kernel.org>
+In-Reply-To: <20230917192009.254979-1-arnd@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 25 Sep 2023 16:05:35 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQf6YVF6yCi3tRHE9Rf0o3g2MLqfiLxyJg4-fiM6ZmBZQ@mail.gmail.com>
-Message-ID: <CAK7LNAQf6YVF6yCi3tRHE9Rf0o3g2MLqfiLxyJg4-fiM6ZmBZQ@mail.gmail.com>
-Subject: Re: [PATCH] Use CRC32 and a 1MiB dictionary for XZ compressed modules
-To:     Martin Nybo Andersen <tweek@tweek.dk>
-Cc:     Tor Vic <torvic9@mailbox.org>,
+Date:   Mon, 25 Sep 2023 16:06:41 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASua5xkkg84s4o4GZ00hFRc10V9BmqyxfWfPi=JVFYC8g@mail.gmail.com>
+Message-ID: <CAK7LNASua5xkkg84s4o4GZ00hFRc10V9BmqyxfWfPi=JVFYC8g@mail.gmail.com>
+Subject: Re: [PATCH] [v2] Documentation: kbuild: explain handling optional dependencies
+To:     Arnd Bergmann <arnd@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Arnd Bergmann <arnd@arndb.de>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Nick Terrell <terrelln@fb.com>, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Lucas De Marchi <lucas.de.marchi@gmail.com>
+        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -66,73 +64,27 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Sep 22, 2023 at 10:34=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.=
-org> wrote:
+On Mon, Sep 18, 2023 at 4:20=E2=80=AFAM Arnd Bergmann <arnd@kernel.org> wro=
+te:
 >
-> On Fri, Sep 22, 2023 at 8:04=E2=80=AFPM Martin Nybo Andersen <tweek@tweek=
-.dk> wrote:
-> >
-> >
-> > On Fri, 22 Sep 2023, Masahiro Yamada wrote:
-> >
-> > [...]
-> >
-> > > Hello, sorry for the delay.
-> > >
-> > > I am OK with picking the patch to my tree.
-> >
-> > Hi,
-> >
-> > That sound great :)
-> >
-> > > I think we can use --check=3Dcrc32 --lzma2=3Ddict=3D1MiB
-> > > unconditionally.
-> > >
-> > > (But, if the in-kernel decompressor is improved
-> > > to understand CRC64 in the future, we can loosen
-> > > this restriction again.)
-> >
-> > Of course.
-> >
-> > > Just small change requests.
-> > >
-> > > Please do not use the Fixes tag to point at the Debian bug tracker.
-> > >
-> > >
-> > > Instead, you can do
-> > >
-> > > Link: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D1050582
-> > >
-> > >   or
-> > >
-> > > Closes: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D1050582
-> > >
-> > >
-> > >
-> > > Also, mention that this change happened in
-> > >
-> > > kmod commit 09c9f8c5df04 ("libkmod: Use kernel decompression when ava=
-ilable")
-> > >
-> > > in the commit description might be helpful.
-> > >
-> > >
-> > >
-> > >
-> > > I added Lukas to CC.
-> > > He is the author of the change on kmod side.
-> >
-> > Is this ok?
+> From: Arnd Bergmann <arnd@arndb.de>
 >
+> This problem frequently comes up in randconfig testing, with
+> drivers failing to link because of a dependency on an optional
+> feature.
 >
-> Yes, perfect!
+> The Kconfig language for this is very confusing, so try to
+> document it in "Kconfig hints" section.
 >
-> Thanks.
->
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+> Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+> v2: fix typos pointed out by Nicolas Schier
 
 
 Applied to linux-kbuild. Thanks.
-
 
 
 
