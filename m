@@ -2,92 +2,241 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 18D787AD114
-	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Sep 2023 09:07:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F6BD7AD68B
+	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Sep 2023 13:00:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232402AbjIYHH0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 25 Sep 2023 03:07:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32810 "EHLO
+        id S229537AbjIYLAo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 25 Sep 2023 07:00:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45076 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229619AbjIYHHY (ORCPT
+        with ESMTP id S229726AbjIYLAn (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 25 Sep 2023 03:07:24 -0400
+        Mon, 25 Sep 2023 07:00:43 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19A3EB8;
-        Mon, 25 Sep 2023 00:07:18 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6EC2C433AB;
-        Mon, 25 Sep 2023 07:07:17 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BEBADF;
+        Mon, 25 Sep 2023 04:00:35 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCEB0C433C7;
+        Mon, 25 Sep 2023 11:00:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695625637;
-        bh=N6mc0aHWFcgFpRtTDCT4En17AvKws6F8YqHYyIo0PVA=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=EJg7YRnVisvyUzgHs4WBxIniT1IJDwEy6XObQxoKvCu57smDV/VI2w/4wvqXYb646
-         5HbENKBosu5cJNA8yuuQlmfvl/bDgpeDmTJ5kvlvlTEUHQm//dEAGkjdqNn5G/wYrO
-         b86cuv0u6SL1g4f20UEklBvwfTewc79tPkoGe4SQW7C3SsOo55AnWxkfuanyhzFNJG
-         QgV0jpbGzz+Mdz0Ig6rXmqaYBVHjt1aU63Lxew3TCiEy4n++110O1MO5WFSLguEgUL
-         ISw6WqBkWvXYjQ3PRrw0J0Y1asVuaxDJ1Tsu4HOiJU9okjR1t9rcYPCT9XL1MUs5rQ
-         G8ikFLRv3NPJw==
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-1dceaa7aeffso1392523fac.0;
-        Mon, 25 Sep 2023 00:07:17 -0700 (PDT)
-X-Gm-Message-State: AOJu0YyCQ7TRFsjRELyg2hKJ7YD14yKwpUp6zl99nxRrnRfH/v2aghsV
-        W2JZoyWcCZ42/Hp//BAUirGtdAfrS3pJULx3lvE=
-X-Google-Smtp-Source: AGHT+IFOiFhdrZ+lis0uTmihuJ6U+6yVA37X3fAFpdu3ZIZOBY5MUlSCRDTCFZM//OsshohPaGi280ujFMXNeCI4jsw=
-X-Received: by 2002:a05:6870:2328:b0:1d5:cdf7:bdbc with SMTP id
- w40-20020a056870232800b001d5cdf7bdbcmr3661140oao.2.1695625637184; Mon, 25 Sep
- 2023 00:07:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230917192009.254979-1-arnd@kernel.org>
-In-Reply-To: <20230917192009.254979-1-arnd@kernel.org>
+        s=k20201202; t=1695639634;
+        bh=84hvPXw6iAXu1PbGDLhgI9L5n7h+cC9DkQZ2j0wuemA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=aCRE5gKyEiZ3lSkRbUNu7HTla1Z5G/EDreRHgDr58UGzk/VyZAKSvOe5eI2H47jKI
+         kFVF67meReH9cmeXbNEYcj9KLIzrxEyDAGEbRU2XNNaHbMsr6q7BlkFxGqrkAzteGh
+         DFX3cCc4ukMpzm71m6OnjQW1bJ3J4uHhUmt4dT7NHl+J4BILm5C/Gm9v5n1CgG2ZaZ
+         cDP4H/fJuXG2hOIvOuYeaE/Z8BFkucn4KJSpeN8FMF3qaxcYQXkulU7fwXfwQKTnI/
+         vh0h6vJSzugsojun9BVk3ZWwiYLqwVsp3N5tO2cYODEoNGJOxKk8dCzGRq1kx/YEtC
+         mAUNQJt3aeojA==
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 25 Sep 2023 16:06:41 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASua5xkkg84s4o4GZ00hFRc10V9BmqyxfWfPi=JVFYC8g@mail.gmail.com>
-Message-ID: <CAK7LNASua5xkkg84s4o4GZ00hFRc10V9BmqyxfWfPi=JVFYC8g@mail.gmail.com>
-Subject: Re: [PATCH] [v2] Documentation: kbuild: explain handling optional dependencies
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Arnd Bergmann <arnd@arndb.de>,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Nathan Chancellor <nathan@kernel.org>,
+To:     linux-arm-kernel@lists.infradead.org,
+        Russell King <linux@armlinux.org.uk>
+Cc:     linux-kernel@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>,
+        linux-kbuild@vger.kernel.org,
         Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH] ARM: fix get_user() broken with veneer
+Date:   Mon, 25 Sep 2023 20:00:23 +0900
+Message-Id: <20230925110023.1796789-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.39.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Sep 18, 2023 at 4:20=E2=80=AFAM Arnd Bergmann <arnd@kernel.org> wro=
-te:
->
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> This problem frequently comes up in randconfig testing, with
-> drivers failing to link because of a dependency on an optional
-> feature.
->
-> The Kconfig language for this is very confusing, so try to
-> document it in "Kconfig hints" section.
->
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-> Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
-> v2: fix typos pointed out by Nicolas Schier
+The 32-bit ARM kernel stops working when it exceeds a certain size
+threshold.
+
+This problem can occur, for instance, when enabling certain debug CONFIG
+options or when linking numerous drivers as builtins, but reproducing
+it primarily depends on the kernel size. To demonstrate this, I wrote a
+debug Makefile code.
+
+The following debug code generates and links drivers/dummy-*.S. The
+NR_DUMMY_FILES variable specifies the number of dummy-*.S files to link.
+The added code should be harmless except growing the kernel, as it
+introduces unused symbols, dummy_0, dummy_1, and so on, each of which
+occupies 64K code.
+
+[Applying debug Makefile code]
+
+Run the following code.
+
+$ cat <<'EOF' >> drivers/Makefile
+
+dummy-sources := $(shell i=0; while [ "$$i" -lt "$(NR_DUMMY_FILES)" ]; do echo dummy-$$i.S; i=$$(( i + 1 )); done)
+targets += $(dummy-sources)
+obj-y += $(patsubst %.S,%.o,$(dummy-sources))
+
+quiet_cmd_gen_dummy = GEN   $@
+      cmd_gen_dummy = { \
+          echo '\#include <linux/linkage.h>'; \
+          echo '.section ".text","ax"'; \
+          echo "ENTRY(dummy_$*)"; \
+          echo ".fill 65536, 1, 0"; \
+          echo "ENDPROC(dummy_$*)"; \
+      } > $@
+
+$(obj)/dummy-%.S: FORCE; $(call if_changed,gen_dummy)
+EOF
+
+[Build result]
+
+You can easily increase the .text section by giving NR_DUMMY_FILES from
+the build command.
+
+ [1] ARM defconfig + NR_DUMMY_FILES=250
+
+  This inserts (64K * 250) dummy code on top of defconfig.
+  The kernel boots.
+
+  $ make -j$(nproc) ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- NR_DUMMY_FILES=250 defconfig all
+  $ arm-linux-gnueabihf-size vmlinux
+  text      data     bss     dec       hex      filename
+  33361996  9278130  427088  43067214  291274e  vmlinux
+  $ arm-linux-gnueabihf-nm vmlinux | grep ' [tT] ' | grep __get_user_4
+  c20e5dbc T __get_user_4
+
+ [2] ARM defconfig + NR_DUMMY_FILES=350
+
+  This inserts (64K * 350) dummy code on top of defconfig.
+  The kernel does not boot any more.
+
+  $ make -j$(nproc) ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- NR_DUMMY_FILES=350 defconfig all
+  $ arm-linux-gnueabihf-size vmlinux
+  text      data     bss     dec       hex      filename
+  39946652  9282226  427088  49655966  2f5b09e  vmlinux
+  $ arm-linux-gnueabihf-nm vmlinux | grep ' [tT] ' | grep __get_user_4
+  c272931c T __get_user_4
+  c06f6b10 t ____get_user_4_veneer
+  c0aef930 t ____get_user_4_veneer
+
+I noticed ____get_user_4_veneer was causing the issue.
+
+After commit 02e541db0540 ("ARM: 8323/1: force linker to use PIC veneers"),
+veneers use the ip (= r12) register.
+
+The disassembly of the veneer looks as follows:
+
+  c06f6b10 <____get_user_4_veneer>:
+  c06f6b10:       e59fc000        ldr     ip, [pc]        @ c06f6b18 <____get_user_4_veneer+0x8>
+  c06f6b14:       e08ff00c        add     pc, pc, ip
+  c06f6b18:       02032800        .word   0x02032800
+
+When a routine is called via a veneer, the ip register is destroyed.
+
+It is absolutely fine.
+
+AAPCS32 [1] says:
+
+ "Register r12 (IP) may be used by a linker as a scratch register between
+  a routine and any subroutine it calls. It can also be used within a
+  routine to hold intermediate values between subroutine calls."
+
+Of course, the compiler knows it, but the problem here is, the compiler
+cannot notice the 'bl' instruction inside the inline asm.
+
+In __get_user_check(), uaccess_save_and_enable() and uaccess_restore()
+functions read and restore the value of the DACR register. There is no
+obvious function call between them because __get_user_x() is a macro.
+However, there is a branch to __get_user_4 buried within inline asm,
+which the compiler is not aware of. Because only "lr" and "cc" are
+listed in the clobber, the compiler considers it safe to use the ip
+register to hold __ua_flags.
+
+The disassembly of do_undefinstr() looks as follows:
+
+  c030b2bc <do_undefinstr>:
+    [snip]
+  c030b3d8:       e1a01006        mov     r1, r6
+  c030b3dc:       e306077c        movw    r0, #26492        @ 0x677c
+  c030b3e0:       e34c02c5        movt    r0, #49861        @ 0xc2c5
+  c030b3e4:       e3a02000        mov     r2, #0
+  c030b3e8:       e8bd41f0        pop     {r4, r5, r6, r7, r8, lr}
+  c030b3ec:       eafffe2e        b       c030acac <die>
+  c030b3f0:       ee13cf10        mrc     15, 0, ip, cr3, cr0, {0}          <== DACR is loaded to ip
+  c030b3f4:       e3cc300c        bic     r3, ip, #12
+  c030b3f8:       e1a00007        mov     r0, r7
+  c030b3fc:       e3833004        orr     r3, r3, #4
+  c030b400:       e3e01441        mvn     r1, #1090519040        @ 0x41000000
+  c030b404:       ee033f10        mcr     15, 0, r3, cr3, cr0, {0}
+  c030b408:       f57ff06f        isb     sy
+  c030b40c:       eb0fadbf        bl      c06f6b10 <____get_user_4_veneer>  <== ip is destroyed here
+  c030b410:       ee03cf10        mcr     15, 0, ip, cr3, cr0, {0}          <== ip is written back to DACR
+  c030b414:       f57ff06f        isb     sy
+  c030b418:       e3500000        cmp     r0, #0
+
+Add "ip" to the clobber list to inform the compiler that it may be
+destroyed if we end up with a veneer.
+
+[1]: https://github.com/ARM-software/abi-aa/blob/2023Q1/aapcs32/aapcs32.rst
+
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+I did not check the entire ARM code to seek for a similar pattern,
+but I confirmed  __put_user_check() had "ip" "lr" "cc" in the clobber
+list.
+
+Perhaps, another way is to list out all registers not guaranteed
+in the spec.
+
+AAPCS32 says, "A subroutine must preserve the contents of the registers
+r4-r8, r10, r11 and SP".
+
+The others might be clobbered. Of course, clobbered registers are
+predicable as we write the subroutines in assembly code (only ip is
+conditionally clobbered if veneers are generated), but it will be
+safe in case we change the assembly code.
 
 
-Applied to linux-kbuild. Thanks.
+ arch/arm/include/asm/uaccess.h | 14 ++------------
+ 1 file changed, 2 insertions(+), 12 deletions(-)
 
+diff --git a/arch/arm/include/asm/uaccess.h b/arch/arm/include/asm/uaccess.h
+index bb5c81823117..c28f5ec21e41 100644
+--- a/arch/arm/include/asm/uaccess.h
++++ b/arch/arm/include/asm/uaccess.h
+@@ -109,16 +109,6 @@ extern int __get_user_64t_1(void *);
+ extern int __get_user_64t_2(void *);
+ extern int __get_user_64t_4(void *);
+ 
+-#define __GUP_CLOBBER_1	"lr", "cc"
+-#ifdef CONFIG_CPU_USE_DOMAINS
+-#define __GUP_CLOBBER_2	"ip", "lr", "cc"
+-#else
+-#define __GUP_CLOBBER_2 "lr", "cc"
+-#endif
+-#define __GUP_CLOBBER_4	"lr", "cc"
+-#define __GUP_CLOBBER_32t_8 "lr", "cc"
+-#define __GUP_CLOBBER_8	"lr", "cc"
+-
+ #define __get_user_x(__r2, __p, __e, __l, __s)				\
+ 	   __asm__ __volatile__ (					\
+ 		__asmeq("%0", "r0") __asmeq("%1", "r2")			\
+@@ -126,7 +116,7 @@ extern int __get_user_64t_4(void *);
+ 		"bl	__get_user_" #__s				\
+ 		: "=&r" (__e), "=r" (__r2)				\
+ 		: "0" (__p), "r" (__l)					\
+-		: __GUP_CLOBBER_##__s)
++		: "ip", "lr", "cc")
+ 
+ /* narrowing a double-word get into a single 32bit word register: */
+ #ifdef __ARMEB__
+@@ -148,7 +138,7 @@ extern int __get_user_64t_4(void *);
+ 		"bl	__get_user_64t_" #__s				\
+ 		: "=&r" (__e), "=r" (__r2)				\
+ 		: "0" (__p), "r" (__l)					\
+-		: __GUP_CLOBBER_##__s)
++		: "ip", "lr", "cc")
+ #else
+ #define __get_user_x_64t __get_user_x
+ #endif
+-- 
+2.39.2
 
-
---=20
-Best Regards
-Masahiro Yamada
