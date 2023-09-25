@@ -2,56 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 079587AE076
-	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Sep 2023 22:53:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A22A7AE085
+	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Sep 2023 22:59:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232170AbjIYUxM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 25 Sep 2023 16:53:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51722 "EHLO
+        id S232902AbjIYU7o (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 25 Sep 2023 16:59:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54518 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229481AbjIYUxK (ORCPT
+        with ESMTP id S233410AbjIYU7o (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 25 Sep 2023 16:53:10 -0400
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 627F9BE
-        for <linux-kbuild@vger.kernel.org>; Mon, 25 Sep 2023 13:53:03 -0700 (PDT)
-Received: by mail-yb1-xb4a.google.com with SMTP id 3f1490d57ef6-d81646fcf3eso11084060276.0
-        for <linux-kbuild@vger.kernel.org>; Mon, 25 Sep 2023 13:53:03 -0700 (PDT)
+        Mon, 25 Sep 2023 16:59:44 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C929F10A
+        for <linux-kbuild@vger.kernel.org>; Mon, 25 Sep 2023 13:59:36 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id 3f1490d57ef6-d8153284d6eso11082404276.3
+        for <linux-kbuild@vger.kernel.org>; Mon, 25 Sep 2023 13:59:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1695675182; x=1696279982; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1695675576; x=1696280376; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Myj9iDtNAdIE/bmrhBJHHFtjtbCpCNOFCA8LLFkob60=;
-        b=sqKIx4zJo2CE76mzi4MDSa2Ci2v2BhF3azROPzOMaJsy2jZ150DqqmfAlL+TIZnxd7
-         chzOl8AxhsQgkfK7ac5fuBcdxjMBlySabaM9tILvSiZegGS0h60kTxleeHynlWDUtHW4
-         bJ/1kQ3hiNatNDBFx/3NOAnjIKI/ujzMjbxExLjXnO8w6BkJHROrDm1QZbpoUip4lFmS
-         twyV0XW7xo6ijopvnbOF0ZwbYkidp7NONY0vDl8jRmvyfhsZk6Z2jojE9URoiqjsfrzt
-         E3/v//lQP58Ih5EfEnKJN2fDnk9v6et6ulXobk7ybCIM+lelNm4eT6GeRZjuW7seMyUe
-         0ZJg==
+        bh=MoZzNLwBFXZ6zs3u7oISPENUKQPc243bPRqXjWkDxms=;
+        b=aiuA/KHaVz2P0SFxZCAbocXrMOEnUGhV6rg+YNdlmGO8kOiknYdGP2IB2j3MuaaeYC
+         +RPxsAchEJi7qiptO5Y46XukkdmP5VrGL93cXC//qQ2IkOBxrqq5br7ZJ41hLLK27fLA
+         QafM787weWBQmu1a3Nhk4/06UJO+i0YtAxyFLmZuBd9K2qJPXqQzx7TYdYxNlWbhhOJx
+         iCNMgb0yGCrgFC1UpCn2iys1EWSayWRU3QgIb4LiDDMe6QhXKdkWtGcljKABMzkzfK+X
+         +EY/1+VebH2D0qi4GVCKjX8pmzIiQiAEKHzz0HfALfQywpyeAId+LN9DkPnLUtmvhQcU
+         wTeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695675182; x=1696279982;
+        d=1e100.net; s=20230601; t=1695675576; x=1696280376;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Myj9iDtNAdIE/bmrhBJHHFtjtbCpCNOFCA8LLFkob60=;
-        b=Lx9qGgaUq6DiomOqfuvjUc/TXHSZ2PtWdkP84uJW2BPLkldQaHnzqlRqAQj2Uz2tHI
-         st0eDm+JvopAC5s4FBwXylgIPtm3+8ra6ZxnKrpPMVyKs9yh6gK7y6zT5HXzX2A4180I
-         1NaCZu5owx6Cx48nfSTupEvoIwNZcvC9dH3J5rw36xo7o49ufIy8JNdxeWgjqnp31z/D
-         u9NfoO4oVM0chBYTds1dnOIKE4T8o6hjI+ks/9RgalTDnu7zp8EwGqb7IuFbWmmmeYJW
-         G7oIkz/6Vok17iQNjs0acHCFU8nhpFhkU+FyL8lJBkoDnNlxAC+P30Keo92z+zpZq6y2
-         1ZSg==
-X-Gm-Message-State: AOJu0YzfZFL7vQn0red/ASM079egGWxKHhSo1T7eqgh6qGk4onoXS97a
-        6MXgTVraegc/4maM7imQe6hiKI3jZTDODQ==
-X-Google-Smtp-Source: AGHT+IHSVoyC9w9hW6EaLAkpRg+cHZ13evFqudtLhQqO9hGKEHMyCN/8KuNDtceVtFyLSIN5MTBJdFOnY41nMQ==
+        bh=MoZzNLwBFXZ6zs3u7oISPENUKQPc243bPRqXjWkDxms=;
+        b=R66RD65e4kGN4KYf9aUF4zaC+3Rg1WUIIsXVF4CKzH6tL1jtzSFbY4u1emqZXSHH1j
+         s18tI5pvUlijVn8PyTPdtPh0BDLn/uhiZeew6AO1aCxgKnqYtjmPalJsr7AeUReVfz5V
+         EvVEuFc4Z0TIh9kZYytbrtWTcwsIxFwFgvoxtwWcRTFTlA3qUulNGsrRvbm8BzvJoWRy
+         zxDc1XJo83Xjl1gY3qArVz7kL/yM2z9xW2rogg+VwqWoagwW0jIyITGC3GuSs7KmUmOd
+         f3QrgHSxqIzc+azLbNk4oJM6VMWar3grIqA2Iv1a4FoQibxOjxqXMVohEHMsV2qMhBYd
+         H2Kg==
+X-Gm-Message-State: AOJu0YzI85xWFyGZuxwXa4D6ILhpaEI1Q9t8cGT3KttQbUohfHl5G8CI
+        v+86HPZ3YpL4TaBM6cq3lgdV8SrwGeXTwA==
+X-Google-Smtp-Source: AGHT+IHdrr6tSey1pmQ9IHmrjfquvimOCsUsp/iXLhTEaTToLfmFLDla8oEmmq54xm8c8sbrIyzx4O48+isiaw==
 X-Received: from jbrennen.c.googlers.com ([fda3:e722:ac3:cc00:2b:7d90:c0a8:3c2a])
- (user=jbrennen job=sendgmr) by 2002:a25:2f52:0:b0:d80:eb4:9ca with SMTP id
- v79-20020a252f52000000b00d800eb409camr82048ybv.0.1695675182607; Mon, 25 Sep
- 2023 13:53:02 -0700 (PDT)
-Date:   Mon, 25 Sep 2023 16:52:32 -0400
+ (user=jbrennen job=sendgmr) by 2002:a25:e713:0:b0:d81:89e9:9f46 with SMTP id
+ e19-20020a25e713000000b00d8189e99f46mr81683ybh.13.1695675576077; Mon, 25 Sep
+ 2023 13:59:36 -0700 (PDT)
+Date:   Mon, 25 Sep 2023 16:59:33 -0400
 In-Reply-To: <20230918210631.3882376-1-jbrennen@google.com>
 Mime-Version: 1.0
 References: <20230918210631.3882376-1-jbrennen@google.com>
 X-Mailer: git-send-email 2.42.0.515.g380fc7ccd1-goog
-Message-ID: <20230925205232.2866876-1-jbrennen@google.com>
+Message-ID: <20230925205933.2869049-1-jbrennen@google.com>
 Subject: [PATCH] modpost: Optimize symbol search from linear to binary search
 From:   Jack Brennen <jbrennen@google.com>
 To:     Masahiro Yamada <masahiroy@kernel.org>,
@@ -94,8 +94,8 @@ Tested-by: Nick Desaulniers <ndesaulniers@google.com>
  scripts/mod/Makefile    |   4 +-
  scripts/mod/modpost.c   |  70 ++------------
  scripts/mod/modpost.h   |  25 +++++
- scripts/mod/symsearch.c | 198 ++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 231 insertions(+), 66 deletions(-)
+ scripts/mod/symsearch.c | 200 ++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 233 insertions(+), 66 deletions(-)
  create mode 100644 scripts/mod/symsearch.c
 
 diff --git a/scripts/mod/Makefile b/scripts/mod/Makefile
@@ -121,7 +121,7 @@ index c9e38ad937fd..3c54125eb373 100644
  
  quiet_cmd_elfconfig = MKELF   $@
 diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index de499dce5265..79ee46f0e683 100644
+index de499dce5265..71ddce212538 100644
 --- a/scripts/mod/modpost.c
 +++ b/scripts/mod/modpost.c
 @@ -22,7 +22,6 @@
@@ -226,7 +226,7 @@ index de499dce5265..79ee46f0e683 100644
  	 */
 -	return find_nearest_sym(elf, addr, get_secindex(elf, sym), true, 20);
 +	return symsearch_find_nearest(elf, addr, get_secindex(elf, sym),
-+                                      true, 20);
++				      true, 20);
  }
  
  static bool is_executable_section(struct elf_info *elf, unsigned int secndx)
@@ -282,10 +282,10 @@ index 5f94c2c9f2d9..6413f26fcb6b 100644
  			Elf_Sym *sym, const char *symname);
 diff --git a/scripts/mod/symsearch.c b/scripts/mod/symsearch.c
 new file mode 100644
-index 000000000000..fbe3b1ff3c34
+index 000000000000..174e88686418
 --- /dev/null
 +++ b/scripts/mod/symsearch.c
-@@ -0,0 +1,198 @@
+@@ -0,0 +1,200 @@
 +// SPDX-License-Identifier: GPL-2.0
 +
 +/*
@@ -447,16 +447,17 @@ index 000000000000..fbe3b1ff3c34
 +	size_t lo = 0;
 +	struct syminfo *table = elf->symsearch->table;
 +	struct syminfo target;
++
 +	target.addr = addr;
 +	target.section_index = secndx;
 +	target.symbol_index = ~0;  /* compares greater than any actual index */
 +	while (hi > lo) {
 +		size_t mid = lo + (hi-lo)/2;   /* Avoids potential overflow */
-+		if (syminfo_compare(&table[mid], &target) > 0) {
++
++		if (syminfo_compare(&table[mid], &target) > 0)
 +			hi = mid;
-+		} else {
++		else
 +			lo = mid+1;
-+		}
 +	}
 +
 +	/*
@@ -470,6 +471,7 @@ index 000000000000..fbe3b1ff3c34
 +	 * prefer the symbol with the lower address.
 +	 */
 +	Elf_Sym *result = NULL;
++
 +	if (allow_negative &&
 +	    hi < elf->symsearch->table_size &&
 +	    table[hi].section_index == secndx &&
