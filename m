@@ -2,241 +2,244 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F6BD7AD68B
-	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Sep 2023 13:00:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E75F7ADA04
+	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Sep 2023 16:24:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229537AbjIYLAo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 25 Sep 2023 07:00:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45076 "EHLO
+        id S232204AbjIYOYt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 25 Sep 2023 10:24:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51256 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229726AbjIYLAn (ORCPT
+        with ESMTP id S232223AbjIYOYr (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 25 Sep 2023 07:00:43 -0400
+        Mon, 25 Sep 2023 10:24:47 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BEBADF;
-        Mon, 25 Sep 2023 04:00:35 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCEB0C433C7;
-        Mon, 25 Sep 2023 11:00:32 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA5B8C0;
+        Mon, 25 Sep 2023 07:24:40 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4ED8C433C7;
+        Mon, 25 Sep 2023 14:24:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695639634;
-        bh=84hvPXw6iAXu1PbGDLhgI9L5n7h+cC9DkQZ2j0wuemA=;
-        h=From:To:Cc:Subject:Date:From;
-        b=aCRE5gKyEiZ3lSkRbUNu7HTla1Z5G/EDreRHgDr58UGzk/VyZAKSvOe5eI2H47jKI
-         kFVF67meReH9cmeXbNEYcj9KLIzrxEyDAGEbRU2XNNaHbMsr6q7BlkFxGqrkAzteGh
-         DFX3cCc4ukMpzm71m6OnjQW1bJ3J4uHhUmt4dT7NHl+J4BILm5C/Gm9v5n1CgG2ZaZ
-         cDP4H/fJuXG2hOIvOuYeaE/Z8BFkucn4KJSpeN8FMF3qaxcYQXkulU7fwXfwQKTnI/
-         vh0h6vJSzugsojun9BVk3ZWwiYLqwVsp3N5tO2cYODEoNGJOxKk8dCzGRq1kx/YEtC
-         mAUNQJt3aeojA==
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-arm-kernel@lists.infradead.org,
-        Russell King <linux@armlinux.org.uk>
-Cc:     linux-kernel@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>,
-        linux-kbuild@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH] ARM: fix get_user() broken with veneer
-Date:   Mon, 25 Sep 2023 20:00:23 +0900
-Message-Id: <20230925110023.1796789-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.39.2
+        s=k20201202; t=1695651877;
+        bh=xoy/PRtJGyTbhpbADl4SNs8tYLCaI3ks/iyqy+0+WbE=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=BPQAoa25D+eDfXxxIHJECqiejVL/kWK0sBraMw0QMOx3LGicl/aw0gQ9Ok+XFfD7Q
+         C8tuT3YLfzmYNKL1Hb3KqQMMZLKnwszqNrUs5vh/xO0gj6+//CxcMpe9/4sqyUPNpi
+         TP4Q504evYfajlNyyZqfERgGEemINs+32IbrpR9qrFJG6n7WaNW0rLuZetgl7LMlHD
+         0HBmYQEVVZyy5wA/trEoJWFkWyAFOagNLlYeRQvklF6i2rqLOs0RIlgKzna77JjKb0
+         D85alCi+tOOs06NdIprgUVoGlf0v9QG33zONO4HRzXW282havsH/h7rU/VfONEErUp
+         seNGczH19I09g==
+Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-1dd5b98d9aeso225125fac.0;
+        Mon, 25 Sep 2023 07:24:37 -0700 (PDT)
+X-Gm-Message-State: AOJu0YzjEvEZQWotLeJCrgTBu+gbpNVnGHElutzLdxVduSJFzZctUrAv
+        cjcAjhuCvcpnCahEgO0x9Wn4Jjwkuu5RPX1I/ak=
+X-Google-Smtp-Source: AGHT+IH6fd4r3hn1r8JFtfJHlpX3dqpD6ut4fpumAnhPM5D4ZV1DRZoLfhx0jdrga/RpH8ZxGlBsfemxsNY8LGiFtpg=
+X-Received: by 2002:a05:6870:a408:b0:1d6:5f77:5127 with SMTP id
+ m8-20020a056870a40800b001d65f775127mr6061901oal.5.1695651876433; Mon, 25 Sep
+ 2023 07:24:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20230918210631.3882376-1-jbrennen@google.com> <CAK7LNASSgCFYequw+0zQpUC-9yLHvJLHZ97Ko1ejUYZVTkM81w@mail.gmail.com>
+ <CAF5hLgJOMJ70whVsPhZgsiVGYv10S8mpXvzY1HnreV6X4oZg4A@mail.gmail.com>
+In-Reply-To: <CAF5hLgJOMJ70whVsPhZgsiVGYv10S8mpXvzY1HnreV6X4oZg4A@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Mon, 25 Sep 2023 23:23:59 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATHTjzU4dG8ES6BjtUQv-vq50Lh1ZmBW3kv4K3zkF-SGg@mail.gmail.com>
+Message-ID: <CAK7LNATHTjzU4dG8ES6BjtUQv-vq50Lh1ZmBW3kv4K3zkF-SGg@mail.gmail.com>
+Subject: Re: [PATCH] modpost: Optimize symbol search from linear to binary search
+To:     Jack Brennen <jbrennen@google.com>
+Cc:     Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The 32-bit ARM kernel stops working when it exceeds a certain size
-threshold.
-
-This problem can occur, for instance, when enabling certain debug CONFIG
-options or when linking numerous drivers as builtins, but reproducing
-it primarily depends on the kernel size. To demonstrate this, I wrote a
-debug Makefile code.
-
-The following debug code generates and links drivers/dummy-*.S. The
-NR_DUMMY_FILES variable specifies the number of dummy-*.S files to link.
-The added code should be harmless except growing the kernel, as it
-introduces unused symbols, dummy_0, dummy_1, and so on, each of which
-occupies 64K code.
-
-[Applying debug Makefile code]
-
-Run the following code.
-
-$ cat <<'EOF' >> drivers/Makefile
-
-dummy-sources := $(shell i=0; while [ "$$i" -lt "$(NR_DUMMY_FILES)" ]; do echo dummy-$$i.S; i=$$(( i + 1 )); done)
-targets += $(dummy-sources)
-obj-y += $(patsubst %.S,%.o,$(dummy-sources))
-
-quiet_cmd_gen_dummy = GEN   $@
-      cmd_gen_dummy = { \
-          echo '\#include <linux/linkage.h>'; \
-          echo '.section ".text","ax"'; \
-          echo "ENTRY(dummy_$*)"; \
-          echo ".fill 65536, 1, 0"; \
-          echo "ENDPROC(dummy_$*)"; \
-      } > $@
-
-$(obj)/dummy-%.S: FORCE; $(call if_changed,gen_dummy)
-EOF
-
-[Build result]
-
-You can easily increase the .text section by giving NR_DUMMY_FILES from
-the build command.
-
- [1] ARM defconfig + NR_DUMMY_FILES=250
-
-  This inserts (64K * 250) dummy code on top of defconfig.
-  The kernel boots.
-
-  $ make -j$(nproc) ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- NR_DUMMY_FILES=250 defconfig all
-  $ arm-linux-gnueabihf-size vmlinux
-  text      data     bss     dec       hex      filename
-  33361996  9278130  427088  43067214  291274e  vmlinux
-  $ arm-linux-gnueabihf-nm vmlinux | grep ' [tT] ' | grep __get_user_4
-  c20e5dbc T __get_user_4
-
- [2] ARM defconfig + NR_DUMMY_FILES=350
-
-  This inserts (64K * 350) dummy code on top of defconfig.
-  The kernel does not boot any more.
-
-  $ make -j$(nproc) ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- NR_DUMMY_FILES=350 defconfig all
-  $ arm-linux-gnueabihf-size vmlinux
-  text      data     bss     dec       hex      filename
-  39946652  9282226  427088  49655966  2f5b09e  vmlinux
-  $ arm-linux-gnueabihf-nm vmlinux | grep ' [tT] ' | grep __get_user_4
-  c272931c T __get_user_4
-  c06f6b10 t ____get_user_4_veneer
-  c0aef930 t ____get_user_4_veneer
-
-I noticed ____get_user_4_veneer was causing the issue.
-
-After commit 02e541db0540 ("ARM: 8323/1: force linker to use PIC veneers"),
-veneers use the ip (= r12) register.
-
-The disassembly of the veneer looks as follows:
-
-  c06f6b10 <____get_user_4_veneer>:
-  c06f6b10:       e59fc000        ldr     ip, [pc]        @ c06f6b18 <____get_user_4_veneer+0x8>
-  c06f6b14:       e08ff00c        add     pc, pc, ip
-  c06f6b18:       02032800        .word   0x02032800
-
-When a routine is called via a veneer, the ip register is destroyed.
-
-It is absolutely fine.
-
-AAPCS32 [1] says:
-
- "Register r12 (IP) may be used by a linker as a scratch register between
-  a routine and any subroutine it calls. It can also be used within a
-  routine to hold intermediate values between subroutine calls."
-
-Of course, the compiler knows it, but the problem here is, the compiler
-cannot notice the 'bl' instruction inside the inline asm.
-
-In __get_user_check(), uaccess_save_and_enable() and uaccess_restore()
-functions read and restore the value of the DACR register. There is no
-obvious function call between them because __get_user_x() is a macro.
-However, there is a branch to __get_user_4 buried within inline asm,
-which the compiler is not aware of. Because only "lr" and "cc" are
-listed in the clobber, the compiler considers it safe to use the ip
-register to hold __ua_flags.
-
-The disassembly of do_undefinstr() looks as follows:
-
-  c030b2bc <do_undefinstr>:
-    [snip]
-  c030b3d8:       e1a01006        mov     r1, r6
-  c030b3dc:       e306077c        movw    r0, #26492        @ 0x677c
-  c030b3e0:       e34c02c5        movt    r0, #49861        @ 0xc2c5
-  c030b3e4:       e3a02000        mov     r2, #0
-  c030b3e8:       e8bd41f0        pop     {r4, r5, r6, r7, r8, lr}
-  c030b3ec:       eafffe2e        b       c030acac <die>
-  c030b3f0:       ee13cf10        mrc     15, 0, ip, cr3, cr0, {0}          <== DACR is loaded to ip
-  c030b3f4:       e3cc300c        bic     r3, ip, #12
-  c030b3f8:       e1a00007        mov     r0, r7
-  c030b3fc:       e3833004        orr     r3, r3, #4
-  c030b400:       e3e01441        mvn     r1, #1090519040        @ 0x41000000
-  c030b404:       ee033f10        mcr     15, 0, r3, cr3, cr0, {0}
-  c030b408:       f57ff06f        isb     sy
-  c030b40c:       eb0fadbf        bl      c06f6b10 <____get_user_4_veneer>  <== ip is destroyed here
-  c030b410:       ee03cf10        mcr     15, 0, ip, cr3, cr0, {0}          <== ip is written back to DACR
-  c030b414:       f57ff06f        isb     sy
-  c030b418:       e3500000        cmp     r0, #0
-
-Add "ip" to the clobber list to inform the compiler that it may be
-destroyed if we end up with a veneer.
-
-[1]: https://github.com/ARM-software/abi-aa/blob/2023Q1/aapcs32/aapcs32.rst
-
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
-I did not check the entire ARM code to seek for a similar pattern,
-but I confirmed  __put_user_check() had "ip" "lr" "cc" in the clobber
-list.
-
-Perhaps, another way is to list out all registers not guaranteed
-in the spec.
-
-AAPCS32 says, "A subroutine must preserve the contents of the registers
-r4-r8, r10, r11 and SP".
-
-The others might be clobbered. Of course, clobbered registers are
-predicable as we write the subroutines in assembly code (only ip is
-conditionally clobbered if veneers are generated), but it will be
-safe in case we change the assembly code.
+On Sun, Sep 24, 2023 at 2:21=E2=80=AFAM Jack Brennen <jbrennen@google.com> =
+wrote:
+>
+> Mainly just clarifying that we're willing to change the behavior in corne=
+r
+> cases?
 
 
- arch/arm/include/asm/uaccess.h | 14 ++------------
- 1 file changed, 2 insertions(+), 12 deletions(-)
+Yes.
 
-diff --git a/arch/arm/include/asm/uaccess.h b/arch/arm/include/asm/uaccess.h
-index bb5c81823117..c28f5ec21e41 100644
---- a/arch/arm/include/asm/uaccess.h
-+++ b/arch/arm/include/asm/uaccess.h
-@@ -109,16 +109,6 @@ extern int __get_user_64t_1(void *);
- extern int __get_user_64t_2(void *);
- extern int __get_user_64t_4(void *);
- 
--#define __GUP_CLOBBER_1	"lr", "cc"
--#ifdef CONFIG_CPU_USE_DOMAINS
--#define __GUP_CLOBBER_2	"ip", "lr", "cc"
--#else
--#define __GUP_CLOBBER_2 "lr", "cc"
--#endif
--#define __GUP_CLOBBER_4	"lr", "cc"
--#define __GUP_CLOBBER_32t_8 "lr", "cc"
--#define __GUP_CLOBBER_8	"lr", "cc"
--
- #define __get_user_x(__r2, __p, __e, __l, __s)				\
- 	   __asm__ __volatile__ (					\
- 		__asmeq("%0", "r0") __asmeq("%1", "r2")			\
-@@ -126,7 +116,7 @@ extern int __get_user_64t_4(void *);
- 		"bl	__get_user_" #__s				\
- 		: "=&r" (__e), "=r" (__r2)				\
- 		: "0" (__p), "r" (__l)					\
--		: __GUP_CLOBBER_##__s)
-+		: "ip", "lr", "cc")
- 
- /* narrowing a double-word get into a single 32bit word register: */
- #ifdef __ARMEB__
-@@ -148,7 +138,7 @@ extern int __get_user_64t_4(void *);
- 		"bl	__get_user_64t_" #__s				\
- 		: "=&r" (__e), "=r" (__r2)				\
- 		: "0" (__p), "r" (__l)					\
--		: __GUP_CLOBBER_##__s)
-+		: "ip", "lr", "cc")
- #else
- #define __get_user_x_64t __get_user_x
- #endif
--- 
-2.39.2
+I do not see a sensible reason in the previous quirk
+(take the first for the exact match, but the last for others).
 
+
+
+
+> The existing behavior has one set of quirks about which symtab entry
+> is returned, and your proposed behavior has another different set of quir=
+ks.
+>
+> It's probably OK to break builds which have an undocumented assumption
+> about the order of symtab entries; personally, I'd rather not risk that m=
+yself,
+> but if somebody with more experience is willing to back that decision, I'=
+m
+> OK with it.
+>
+> Also, there's an alternative approach that uses bsearch from the standard
+> library and a common comparison function between qsort and bsearch. I
+> considered this alternative earlier; maybe you would prefer it because it
+> eliminates having to reimplement a binary search algorithm.
+> I chose not to do it this way because of trying to duplicate the quirks.
+> If no duplication of the quirks is needed, this becomes easier.
+>
+> The idea for that is to build a sorted array of syminfo that look like th=
+is:
+>
+> (section_index, addr_lo, addr_hi, sym_lo, sym_hi)
+>
+> What this represents is the situation where for any lookup in the
+> range from (section_index, addr_lo) to (section_index, addr_hi)
+> inclusive, the nearest symbol will be either sym_lo or sym_hi.
+> There are four different meanings for (sym_lo, sym_hi):
+>
+> (sym_lo =3D 0)
+> This is a placeholder for a duplicated address, and it cannot
+> compare equal to anything. After we sort the array, we set all
+> of the duplicated addresses except for the last one to sym_lo =3D 0.
+>
+> (sym_lo =3D MAX_SYM)
+> This is used to designate an address being looked up. When this
+> is seen, it compares equal to any other syminfo that has an
+> overlapping range.
+>
+> (sym_lo !=3D 0, sym_hi =3D 0)
+> This represents the last range in a section. There's no following
+> address that could match. Should also have addr_hi =3D MAX.
+>
+> (sym_lo !=3D 0, sym_hi !=3D 0)
+> This represents a range in a section that's not the last range.
+> sym_hi may be usable to satisfy the lookup, but only if it's
+> closer than sym_lo and if allow_negative is true. Note that
+> the address of sym_hi will be addr_hi+1, so we don't need any
+> additional code to fetch that address.
+>
+> Here's a sample comparison function:
+> int syminfo_compare(const void *a, const void *b) {
+>   const struct syminfo *sym1 =3D a;
+>   const struct syminfo *sym2 =3D b;
+>
+>   if (sym1->section_index > sym2->section_index)
+>     return 1;
+>   if (sym1->section_index < sym2->section_index)
+>     return -1;
+>   if ((sym1->sym_lo =3D=3D MAX_SYM && sym2->sym_lo !=3D 0) ||
+>       (sym2->sym_lo =3D=3D MAX_SYM && sym1->sym_lo !=3D 0)) {
+>     /* Overlap is equality - test for it */
+>     if (sym1->addr_hi >=3D sym2->addr_lo &&
+>         sym2->addr_hi >=3D sym1->addr_lo) {
+>       return 0;
+>     }
+>     /* No overlap, fall through */
+>   }
+>   if (sym1->addr_lo > sym2->addr_lo)
+>     return 1;
+>   if (sym1->addr_lo < sym2->addr_lo)
+>     return -1;
+>   /* Note that if we are comparing a lookup (MAX_SYM) with
+>      a placeholder (0), the lookup always compares greater.
+>      This causes us to search to the "right" of the placeholder
+>      for a match, which is what we want. */
+>   if (sym1->sym_lo > sym2->sym_lo)
+>     return 1;
+>   if (sym1->sym_lo < sym2->sym_lo)
+>     return -1;
+>   return 0;
+> }
+>
+> So this greatly simplifies the back-end searching. It's a bsearch()
+> which gives you either a miss, or one or two alternatives for the result.
+> On the front end, you have an extra step after sorting which massages the
+> search array into the right configuration.  There's actually not much cod=
+e
+> needed to do that.
+>
+> Is that of interest?  The leveraging of bsearch() in that way?
+
+
+I am curious about how to use bsearch() if the whole implementation
+is short, but I could not understand that logic fully.
+
+
+
+
+> A few other responses below...
+>
+> On Sat, Sep 23, 2023 at 4:50=E2=80=AFAM Masahiro Yamada <masahiroy@kernel=
+.org> wrote:
+> > > +/* Populate the search array that we just allocated.
+> > > + * Be slightly paranoid here.  If the ELF file changes during proces=
+sing,
+> >
+> > I could not understand. In which case, the ELF file changes?
+> >
+> > modpost loads the entire file to memory first..
+> >
+> > In which scenario, the memory content changes?
+> >
+>
+> modpost doesn't load the entire file, it uses mmap to map it into the
+> address space.The easiest way to imagine this being an issue is that some
+> buggy parallelization happens and something is modifying vmlinux.o while
+> modpost is processing it.  Of course it's probably acceptable to say,
+> "Don't do that!"
+>
+> There are two alternatives here: actually read in the entire file, which
+> is certainly suboptimal, or just live with the fact that mmap makes no
+> guarantees about whether changes in the file are reflected in the memory =
+map.
+
+You are right. I missed the fact that grab_file() used mmap.
+
+I am OK with the careful check.
+
+Yet another possible alternative is, as Nick suggested, cut the first loop.
+Use realloc() to grow the array as needed, but this is also suboptimal
+if memory copy occurs.
+
+
+
+
+> > > +       /* A bit of paranoia; make sure that the end sentinel's addre=
+ss is
+> > > +        * different than its predecessor.  Not doing this could caus=
+e
+> > > +        * possible undefined behavior if anybody ever inserts a symb=
+ol
+> > > +        * with section_index and addr both at their max values.
+> >
+> > I could not understand this comment.
+> >
+> > If section_index and addr both at their max values at [table_size - 2],
+> > ->table[table_size - 2].addr + 1 wraps to zero.
+> >
+> > The table is not sorted any longer?
+> >
+>
+> That's correct, the table would not be sorted any longer. But by design,
+> we never do a relational comparison against the end sentinel. But if
+> we rework the search, either by your suggestion or by using bsearch(),
+> this sentinel goes away.
+
+Understood.
+With mid =3D lo + (hi - lo) / 2,
+the last sentinel is never set as mid.
+
+
+
+--
+Best Regards
+Masahiro Yamada
