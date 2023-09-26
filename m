@@ -2,64 +2,58 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 183187AF154
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Sep 2023 18:52:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A6867AF184
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Sep 2023 19:03:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235491AbjIZQwp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 26 Sep 2023 12:52:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35134 "EHLO
+        id S229587AbjIZRDY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 26 Sep 2023 13:03:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235477AbjIZQwl (ORCPT
+        with ESMTP id S229486AbjIZRDY (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 26 Sep 2023 12:52:41 -0400
+        Tue, 26 Sep 2023 13:03:24 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA07DCC8;
-        Tue, 26 Sep 2023 09:52:29 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5237EC433CC;
-        Tue, 26 Sep 2023 16:52:29 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 048A3E5;
+        Tue, 26 Sep 2023 10:03:17 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B072C433C8;
+        Tue, 26 Sep 2023 17:03:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695747149;
-        bh=jZbXXpwO2YkG3T9wZrnoHzJGOBu0lJuRvun8uFcnm80=;
+        s=k20201202; t=1695747796;
+        bh=9mED4eKpjj9Ur/PRuc7rWRlqyOXRaHWAX1hUU0+idIU=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=oYeTi4U8bH1QgNPCJZfgga1Ep2Fw8dnKEc4zzysoAF/WId14gbXUq04eYGPcRBO7S
-         FlQcf8Nf+p2nibebaTC8w/6Ed/QArZ/uzFAOrTxEjrRz/gHfCl+e9ojgGlP1d2Sdbr
-         vVxN/bGTx3OQMuSrPbHgoeYC1Y+xyqt+AuiBbJSeJ4baDWlq7Ot29AeVSNds+guWkk
-         l4+0XuqmFSlbmwCZeGBodUp4jF+ER0UjTkIKBElMi7zjjQ7AoBLJTZoZIoZAGB216J
-         h/dA0bM8QDfTV2CGJIPt7hQusZhS7opBogPLS8fOvfum5eoCddyy00890+uYuCUi0L
-         1vO3vWgNjJ4jg==
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-1dd54aca17cso1754644fac.3;
-        Tue, 26 Sep 2023 09:52:29 -0700 (PDT)
-X-Gm-Message-State: AOJu0YxGXmLAX8ESTdru+aGegIHe3BBLBAzwuoLnYDot0CVEk/+Omptg
-        TB88zmJhTByumHCnOsLesnKmiefAcGUSEfWXXm8=
-X-Google-Smtp-Source: AGHT+IGbDG6S94fbs66+E4Tj3DnXfB6VaDwQ0LhZUy+fsFfEeskapXLg2Vlht97zugGWE0UNsteaNj4DynwIk415vo8=
-X-Received: by 2002:a05:6870:2d5:b0:1d5:b0b9:f6f1 with SMTP id
- r21-20020a05687002d500b001d5b0b9f6f1mr12460899oaf.8.1695747148628; Tue, 26
- Sep 2023 09:52:28 -0700 (PDT)
+        b=QsvWBg2Qg19IjleOTBaFPabO854Zm8nRsbavEKImofml1Am9jaKk+r4Wo7KtJVuQH
+         II2CzL6fTXLhu7E0iSpDMgwFIF/gFy+ixfvjihZK6115TmJWA2769Op3c9BYAHl7iS
+         u9C8Rpu1G8TkJOVsuuKtuWmBsWnNG9qMqJMIkbKTZLL/n1oMCxZF4eI1XpNNsMnZYG
+         We375T4Fa/hH6R2ZPzlDNC+d67g8TegHruArCnAEFySuWz+gdx4HGnc9WFvfwg5+73
+         zO9+pYp2W+K3m8JlfFXDPb9scUYaQ6eaOmgKzQz0wHTyVY48eSJjWa5AWnl6GqQ5tk
+         wvd8LSElf4j8A==
+Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-1dce01b6f2eso3811266fac.1;
+        Tue, 26 Sep 2023 10:03:16 -0700 (PDT)
+X-Gm-Message-State: AOJu0Ywo7uiiMZwngvKueu2n5VW1nlh4Bp72efj5teEXF09DEaRm19z+
+        251wuaMcHSCSt8OhPA8k/cywnWFGTCRncK3VeEE=
+X-Google-Smtp-Source: AGHT+IG+sT59maIGuNwoFZzYMqgI+S6gDycz3usM1ScV1MgM9a8oIP9swU2ktS554Ry8Hxb/WwjaOqBVOxK/uZEYOIk=
+X-Received: by 2002:a05:6870:ac91:b0:1dd:7f3a:ad11 with SMTP id
+ ns17-20020a056870ac9100b001dd7f3aad11mr1645598oab.17.1695747795976; Tue, 26
+ Sep 2023 10:03:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230915172900.3784163-1-mmaurer@google.com> <9966E047-44E7-4665-9628-169F3EBE2F06@kloenk.dev>
- <SLZSYLg5E9OQKI546K87wxTYYLNlT1xM-LhC4W1JFhIate6PFsKq27RcBNhSjUkErYDlzsZB4F2Vc2KOP9tDThg58_tXycWn3K29mQXlFtU=@protonmail.com>
- <0561303E-2089-43FC-AA31-836C7BB844B7@kloenk.dev> <CAGSQo02p0LWZgV8oVidwvN6X__rv3-rj+ZVg9SaZ5Kx+zYahYQ@mail.gmail.com>
- <CAKwvOdnUdFjN+aCDrHKP6RzZCFB033ycN_KkB1WKucGd6VzUSg@mail.gmail.com>
- <CAGSQo00E1Wtg=f9SAcB2na69r4ASJ1L40ASPCyZV9FX+81uJCw@mail.gmail.com>
- <CAKwvOdnbbStoEeykYnx0jbnR=TAmmcdnOXbbA4Fx0BneFW8Fsg@mail.gmail.com> <CAGSQo01jMFVeqa=99Ne7tDXeOShcHWHBPgyiwZ+tm6x9qRJOfg@mail.gmail.com>
-In-Reply-To: <CAGSQo01jMFVeqa=99Ne7tDXeOShcHWHBPgyiwZ+tm6x9qRJOfg@mail.gmail.com>
+References: <20230918234412.363087-2-mmaurer@google.com>
+In-Reply-To: <20230918234412.363087-2-mmaurer@google.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 27 Sep 2023 01:51:51 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATH59wQxaMRur9S5=HCi4bo9pREWK5LQjnNwZ5uOt7g=A@mail.gmail.com>
-Message-ID: <CAK7LNATH59wQxaMRur9S5=HCi4bo9pREWK5LQjnNwZ5uOt7g=A@mail.gmail.com>
-Subject: Re: [PATCH] rust: Respect HOSTCC when linking for host
+Date:   Wed, 27 Sep 2023 02:02:39 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQNwHPR7nPjLff2Gos2tTgDz6m_NYwBOB8U0tq+odZufQ@mail.gmail.com>
+Message-ID: <CAK7LNAQNwHPR7nPjLff2Gos2tTgDz6m_NYwBOB8U0tq+odZufQ@mail.gmail.com>
+Subject: Re: [PATCH v2] rust: Respect HOSTCC when linking for host
 To:     Matthew Maurer <mmaurer@google.com>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Finn Behrens <me@kloenk.dev>,
-        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
+Cc:     Miguel Ojeda <ojeda@kernel.org>,
         Alex Gaynor <alex.gaynor@gmail.com>,
         Wedson Almeida Filho <wedsonaf@gmail.com>,
         Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
         Benno Lossin <benno.lossin@proton.me>,
         Andreas Hindborg <a.hindborg@samsung.com>,
         Alice Ryhl <aliceryhl@google.com>,
         Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
         Nicolas Schier <nicolas@fjasle.eu>,
         rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-kbuild@vger.kernel.org
@@ -75,110 +69,117 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Sep 19, 2023 at 3:55=E2=80=AFAM Matthew Maurer <mmaurer@google.com>=
+On Tue, Sep 19, 2023 at 8:44=E2=80=AFAM Matthew Maurer <mmaurer@google.com>=
  wrote:
 >
-> On Mon, Sep 18, 2023 at 11:43=E2=80=AFAM Nick Desaulniers
-> <ndesaulniers@google.com> wrote:
-> >
-> > On Mon, Sep 18, 2023 at 9:38=E2=80=AFAM Matthew Maurer <mmaurer@google.=
-com> wrote:
-> > >
-> > > On Mon, Sep 18, 2023 at 8:25=E2=80=AFAM Nick Desaulniers
-> > > <ndesaulniers@google.com> wrote:
-> > > >
-> > > > What happens if you invoke the linker directly?
-> > > Rust unfortunately currently doesn't support invoking the linker
-> > > directly: https://github.com/rust-lang/rust/issues/73632
-> >
-> > Wait; does Rust have its own linker? It doesn't use the system linker?
-> >  Perhaps that's necessary for the rust module format? If so, TIL.
-> It does use the system linker (this is what -C linker is controlling),
-> but the command line passed to the linker may change, extra object
-> files may be added to the command line, etc.
-> >
-> > > > Generally, the kernel either invokes the compiler or the linker
-> > > > directly. (For assembler, it is typically preprocessed, as are link=
-er
-> > > > scripts!)  So invoking the linker directly is a common pattern in
-> > > > kbuild.  It also makes me slightly sad if the rust compiler ends up
-> > > > invoking a c compiler, even if it's simply to drive the linker.
-> > > As mentioned earlier, we could pass $HOSTLD, but if the linker isn't
-> > > named something accurate (e.g. if the linker is not named lld, but is
-> > > lld), we need to know how to pass a flavor:
-> > > https://doc.rust-lang.org/rustc/codegen-options/index.html#linker-fla=
-vor
-> > > Would it be appropriate to just assume the linker is named correctly?
-> >
-> > If it were not, what does failure look like?
-> That depends. I think it will usually look like "unrecognized flag:
-> blah blah", but that's not guaranteed.
-> >
-> > command not found: asdfadfasdf
-> This isn't about command-not-found, it's about "I set
-> HOSTLD=3Dfoo/bar/weirdname, and it is an lld-like linker. rustc invoked
-> it assuming it is an ld-like linker."
-> >
-> > Seems fine to me. If the user mis-specifies HOSTLD=3D, then they will
-> > get a similar error, which should be prescriptive enough for them to
-> > figure out how exactly they're "holding it wrong."
-> >
-> > > > For example, Android carries a downstream patch to set `-fuse-ld=3D=
-lld`
-> > > > for $KBUILD_HOSTCFLAGS, because its build environment doesn't conta=
-in
-> > > > GNU binutils ("guilty, officer").
-> > > Oddly, the Android kernel environment (Kleaf) is the one that I neede=
-d
-> > > this patch to build in, but it seemed to be working without a manual
-> > > KBUILD_HOSTCFLAGS forwarding.
-> >
-> > Surprising that worked.
-> >
-> > > Overall, it sounds like you'd prefer if I set this to use
-> > > `KBUILD_HOSTLD` and `KBUILD_HOSTLDFLAGS`, and leave the linker flavor
-> > > to autodetect?
-> >
-> > Yes for the first two.
-> >
-> > Dunno, what precisely is a linker flavor?  Is that like a flavor of ice=
- cream?
-> > Oh, right looking at your link:
-> > https://doc.rust-lang.org/rustc/codegen-options/index.html#linker-flavo=
-r
-> > Seems like if `LLVM=3D1` is set, or `LD=3Dld.lld`, or CONFIG_LD_IS_LLD,=
- then
-> > the flavor should be set to ld.lld, else ld.  Then the
-> > KBUILD_HOSTLDFLAGS need to be passed, probably.
-> >
-> > But how are there "linker flavors" like ld or ld.lld if you just said
-> > "Rust unfortunately currently doesn't support invoking the linker
-> > directly: https://github.com/rust-lang/rust/issues/73632".  I'm having
-> > trouble reconciling the two.
-> Yes, what I meant by that is that *rustc* wants to invoke the linker,
-> rather than having the surrounding build system invoke the linker. The
-> exact command line passed to the linker in the final link, including
-> potential synthetic objects, is considered an internal detail.
-> >
-> > Can we do something more like the below?
-> >
-> > ifdef CONFIG_LD_IS_LLD
-> > hostrust_flags +=3D -C linker-flavor=3Dld.lld
-> > else
-> > hostrust_flags +=3D -C linker-flavor=3Dld
-> > endif
-> > hostrust_flags +=3D -C linker=3D$(HOSTLD) <todo: figure out how to pass
-> > KBUILD_HOSTLDFLAGS>
-> Yes, I can make host linking use `$(HOSTLD)` and pass the flavor based
-> on CONFIG_LD_IS_LLD. I'll send a variant that does that this
-> afternoon.
+> Currently, rustc defaults to invoking `cc`, even if `HOSTCC` is defined,
+> resulting in build failures in hermetic environments where `cc` does not
+> exist. This includes both hostprogs and proc-macros.
+>
+> Since we are setting the linker to `HOSTCC`, we set the linker flavor to
+> `gcc` explicitly.
 
 
-CONFIG_LD_IS_LLD=3Dy states that the linker for the
-kernel space is LLD.
+This sentence is unclear to me because it does not explain
+why we need both despite the spec mentions
+'linker-flavor' is inferred from the value of 'linker'.
 
-Host programs should not be affected.
 
+
+The answer exists in this thread.
+"
+As mentioned earlier, we could pass $HOSTLD, but if the linker isn't
+named something accurate (e.g. if the linker is not named lld, but is
+lld), we need to know how to pass a flavor:
+"
+
+Maybe it is worthing menting that HOSTCC may not be properly named.
+
+
+
+
+
+
+
+>
+> Signed-off-by: Matthew Maurer <mmaurer@google.com>
+> ---
+>
+> Updated the patch to reflect Nick's comment that KBUILD_HOSTLDFLAGS
+> should be respected as well.
+>
+> I did not switch it to use HOSTLD for two reasons:
+> * That variable is not globally defined - it is only available in two
+>   subdirectories of tools/
+> * C host scripts are linked by HOSTCC as well, even when linking a
+>   collection of object files. It *prints* HOSTLD, but invokes HOSTCC.
+>   See scripts/Makefile.host cmd_host-cmulti for an example.
+>
+>  rust/Makefile         | 4 ++++
+>  scripts/Makefile.host | 4 ++++
+>  2 files changed, 8 insertions(+)
+>
+> diff --git a/rust/Makefile b/rust/Makefile
+> index 87958e864be0..b60b7eb8c5a0 100644
+> --- a/rust/Makefile
+> +++ b/rust/Makefile
+> @@ -380,9 +380,13 @@ $(obj)/exports_bindings_generated.h: $(obj)/bindings=
+.o FORCE
+>  $(obj)/exports_kernel_generated.h: $(obj)/kernel.o FORCE
+>         $(call if_changed,exports)
+>
+> +KBUILD_HOSTLDFLAGS_SQ =3D '$(subst ','\'',$(KBUILD_HOSTLDFLAGS))'
+
+
+
+This is equivalent to a macro in scripts/Kbuild.include
+
+  escsq =3D $(subst $(squote),'\$(squote)',$1)
+
+
+
+
+
+I would write it directly in cmd_rustc_procmacro.
+
+
+
+
+
+> +
+>  quiet_cmd_rustc_procmacro =3D $(RUSTC_OR_CLIPPY_QUIET) P $@
+>        cmd_rustc_procmacro =3D \
+>         $(RUSTC_OR_CLIPPY) $(rust_common_flags) \
+> +               -Clinker-flavor=3Dgcc -Clinker=3D$(HOSTCC) \
+> +               -Clink-args=3D$(KBUILD_HOSTLDFLAGS_SQ) \
+>                 --emit=3Ddep-info=3D$(depfile) --emit=3Dlink=3D$@ --exter=
+n proc_macro \
+>                 --crate-type proc-macro \
+>                 --crate-name $(patsubst lib%.so,%,$(notdir $@)) $<
+> diff --git a/scripts/Makefile.host b/scripts/Makefile.host
+> index 8f7f842b54f9..dc0410cae5ca 100644
+> --- a/scripts/Makefile.host
+> +++ b/scripts/Makefile.host
+> @@ -87,10 +87,14 @@ hostcxx_flags  =3D -Wp,-MMD,$(depfile) \
+>                   $(KBUILD_HOSTCXXFLAGS) $(HOST_EXTRACXXFLAGS) \
+>                   $(HOSTCXXFLAGS_$(target-stem).o)
+>
+> +KBUILD_HOSTLDFLAGS_SQ =3D '$(subst ','\'',$(KBUILD_HOSTLDFLAGS))'
+> +
+>  # `--out-dir` is required to avoid temporaries being created by `rustc` =
+in the
+>  # current working directory, which may be not accessible in the out-of-t=
+ree
+>  # modules case.
+>  hostrust_flags =3D --out-dir $(dir $@) --emit=3Ddep-info=3D$(depfile) \
+> +                -Clinker-flavor=3Dgcc -Clinker=3D$(HOSTCC) \
+> +                -Clink-args=3D$(KBUILD_HOSTLDFLAGS_SQ) \
+>                   $(KBUILD_HOSTRUSTFLAGS) $(HOST_EXTRARUSTFLAGS) \
+>                   $(HOSTRUSTFLAGS_$(target-stem))
+>
+> --
+> 2.42.0.459.ge4e396fd5e-goog
+>
 
 
 --=20
