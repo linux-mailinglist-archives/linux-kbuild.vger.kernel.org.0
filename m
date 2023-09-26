@@ -2,149 +2,106 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F6D77AE63A
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Sep 2023 08:47:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 655367AE6E3
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Sep 2023 09:33:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230178AbjIZGrl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 26 Sep 2023 02:47:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47776 "EHLO
+        id S232037AbjIZHdl convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-kbuild@lfdr.de>); Tue, 26 Sep 2023 03:33:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46014 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229685AbjIZGrj (ORCPT
+        with ESMTP id S229776AbjIZHdk (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 26 Sep 2023 02:47:39 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5E5CF0;
-        Mon, 25 Sep 2023 23:47:32 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B431C433C9;
-        Tue, 26 Sep 2023 06:47:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1695710852;
-        bh=EpiMNFOkYkDOeMwbYg/ulEJB/BqynJtMsZS3NTt9cNk=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=tyt0CDhTAcvO8jkf0Y+qTkM3gD7vsNHS4Sfv4nb88M9oZOlQDg+bumEwn3rg8jeeq
-         le2o9tlQHVZn+gVyxEvt++HJCb+xynuNIAx+uebkCetr0OBqjIwh8Ad/Ewli9yHc4U
-         uWDIse6RlWT3DPrI4d46jT/2YucQeuVsJM6m76p7pjj+X6mZf4kkwv3bPa1MtijDbd
-         g8yY8Fi+58RAb7cS9HYBRsHGa6nG1orTTgHEbpYyaWOfYmZQsJ8YgyHGd0+ecdjiiM
-         42/bZZ+pb2p9TrsAtlnpV0Wc81RaEPEMMw/x8T+K6hTpXRN2ReRTnqO/6MPd2+xjmF
-         7Vvc/VQbAt4Hw==
-Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-3ae55c2e12bso325526b6e.0;
-        Mon, 25 Sep 2023 23:47:32 -0700 (PDT)
-X-Gm-Message-State: AOJu0Yzs1B/YDZBXT6FjusZTbhcHmqnEyBoepgogWIs8SPLmnerZ3Gdx
-        yT2W+Er2Yandt3ww/ROK1tnzsGaGMFkSD2YumRM=
-X-Google-Smtp-Source: AGHT+IF3+503yqRdlbZyIRHn/ymw+oUqCL66Ups8UAnN04Ljl5HJjVNQIj6RFfBSjDsY/evEZl6HTU2QNeYqSI5In9E=
-X-Received: by 2002:a05:6870:a901:b0:1b7:670e:ad7a with SMTP id
- eq1-20020a056870a90100b001b7670ead7amr10629531oab.43.1695710851933; Mon, 25
- Sep 2023 23:47:31 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230918210631.3882376-1-jbrennen@google.com> <20230925205933.2869049-1-jbrennen@google.com>
-In-Reply-To: <20230925205933.2869049-1-jbrennen@google.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 26 Sep 2023 15:46:53 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARd_pRWWso49C4MoahFAM9idyOFC+9ZFYdpS87CA4UTqQ@mail.gmail.com>
-Message-ID: <CAK7LNARd_pRWWso49C4MoahFAM9idyOFC+9ZFYdpS87CA4UTqQ@mail.gmail.com>
-Subject: Re: [PATCH] modpost: Optimize symbol search from linear to binary search
-To:     Jack Brennen <jbrennen@google.com>
+        Tue, 26 Sep 2023 03:33:40 -0400
+X-Greylist: delayed 570 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 26 Sep 2023 00:33:33 PDT
+Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com [216.40.44.16])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4978DC
+        for <linux-kbuild@vger.kernel.org>; Tue, 26 Sep 2023 00:33:33 -0700 (PDT)
+Received: from omf11.hostedemail.com (a10.router.float.18 [10.200.18.1])
+        by unirelay08.hostedemail.com (Postfix) with ESMTP id CA9F0140761;
+        Tue, 26 Sep 2023 07:24:01 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf11.hostedemail.com (Postfix) with ESMTPA id CB4CA2002C;
+        Tue, 26 Sep 2023 07:23:58 +0000 (UTC)
+Message-ID: <f0de36d5f8f3687c873616ac3bae698f2aa61020.camel@perches.com>
+Subject: Re: [PATCH] modpost: Optimize symbol search from linear to binary
+ search
+From:   Joe Perches <joe@perches.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Jack Brennen <jbrennen@google.com>
 Cc:     Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
         linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
         llvm@lists.linux.dev, maskray@google.com, cleger@rivosinc.com,
-        kernel-team@android.com, Joe Perches <joe@perches.com>
+        kernel-team@android.com
+Date:   Tue, 26 Sep 2023 00:23:57 -0700
+In-Reply-To: <CAK7LNARd_pRWWso49C4MoahFAM9idyOFC+9ZFYdpS87CA4UTqQ@mail.gmail.com>
+References: <20230918210631.3882376-1-jbrennen@google.com>
+         <20230925205933.2869049-1-jbrennen@google.com>
+         <CAK7LNARd_pRWWso49C4MoahFAM9idyOFC+9ZFYdpS87CA4UTqQ@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+MIME-Version: 1.0
+X-Rspamd-Server: rspamout03
+X-Rspamd-Queue-Id: CB4CA2002C
+X-Stat-Signature: y9s3jquo39tzmxs37yi73zyeiazbpeb4
+X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_PASS,SPF_NONE,UNPARSEABLE_RELAY autolearn=no
+        autolearn_force=no version=3.4.6
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1+khqWz5TU1xoTnJNYXZ46+Dt8aB1w98N0=
+X-HE-Tag: 1695713038-119367
+X-HE-Meta: U2FsdGVkX18QhCLbRGcDW559Kb8YTNrEohGutUbc4O+Pvg+b4aqU91yYlhADoZCgd9f/jp28+UHLUpE4ffKbbEmduuSR+WqZN+KdDlN2LwZbUKM8HG66edbia7pEkhExngeVwVl9dbASKITDgflHX2EMdjkgv/VJklMzWrUldVIl2x4c4iII9r9uunhdyqJQJ6yEBzPrguKiVLf9Tjuy/cChnp1fqpcSaIIoDKBnPTtgUQNUj9xtosuHHcvhSB9ntT5Ls1dFXK4YT4xEy+qNzt7a03laYkj3k0c0YUNXOXPKQ3CmR/tSS1tKYwzF9V9epRqeYFdSMEYKHDnk0j5yJWNMyrWc++SZsezDyAr+vtvYIkeTJEQ5bC97lyBnCr+uFfUi7KWT310=
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Sep 26, 2023 at 5:59=E2=80=AFAM Jack Brennen <jbrennen@google.com> =
-wrote:
+On Tue, 2023-09-26 at 15:46 +0900, Masahiro Yamada wrote:
+> On Tue, Sep 26, 2023 at 5:59 AM Jack Brennen <jbrennen@google.com> wrote:
+> 
+> > +Elf_Sym *symsearch_find_nearest(struct elf_info *elf, Elf_Addr addr,
+> > +                               unsigned int secndx, bool allow_negative,
+> > +                               Elf_Addr min_distance)
+> > +{
+> > +       size_t hi = elf->symsearch->table_size;
+> > +       size_t lo = 0;
+> > +       struct syminfo *table = elf->symsearch->table;
+> > +       struct syminfo target;
+> > +
+> > +       target.addr = addr;
+> > +       target.section_index = secndx;
+> > +       target.symbol_index = ~0;  /* compares greater than any actual index */
+> > +       while (hi > lo) {
+> > +               size_t mid = lo + (hi-lo)/2;   /* Avoids potential overflow */
+> > +
+> > +               if (syminfo_compare(&table[mid], &target) > 0)
+> > +                       hi = mid;
+> > +               else
+> > +                       lo = mid+1;
+> 
+> My preference is "low = mid + 1" over "low = mid+1"
+> 
+> Documentation/process/coding-style.rst suggests spaces
+> around binary operators.
+> 
+> "
+> Use one space around (on each side of) most binary and ternary operators,
+> such as any of these::
+> 
+>         =  +  -  <  >  *  /  %  |  &  ^  <=  >=  ==  !=  ?  :
+> "
+> 
+> I can see the corresponding line in the checkpatch tool:
+> 
+> https://github.com/torvalds/linux/blob/v6.5/scripts/checkpatch.pl#L5330
+> 
+> 
+> I wonder why the checkpatch did not detect it.
+> 
+> Maybe, Joe Perches may know the reason.
 
-> +Elf_Sym *symsearch_find_nearest(struct elf_info *elf, Elf_Addr addr,
-> +                               unsigned int secndx, bool allow_negative,
-> +                               Elf_Addr min_distance)
-> +{
-> +       size_t hi =3D elf->symsearch->table_size;
-> +       size_t lo =3D 0;
-> +       struct syminfo *table =3D elf->symsearch->table;
-> +       struct syminfo target;
-> +
-> +       target.addr =3D addr;
-> +       target.section_index =3D secndx;
-> +       target.symbol_index =3D ~0;  /* compares greater than any actual =
-index */
-> +       while (hi > lo) {
-> +               size_t mid =3D lo + (hi-lo)/2;   /* Avoids potential over=
-flow */
-> +
-> +               if (syminfo_compare(&table[mid], &target) > 0)
-> +                       hi =3D mid;
-> +               else
-> +                       lo =3D mid+1;
+checkpatch requires --strict to emit that message.
 
-
-My preference is "low =3D mid + 1" over "low =3D mid+1"
-
-
-Documentation/process/coding-style.rst suggests spaces
-around binary operators.
-
-"
-Use one space around (on each side of) most binary and ternary operators,
-such as any of these::
-
-        =3D  +  -  <  >  *  /  %  |  &  ^  <=3D  >=3D  =3D=3D  !=3D  ?  :
-"
-
-
-
-
-I can see the corresponding line in the checkpatch tool:
-
-https://github.com/torvalds/linux/blob/v6.5/scripts/checkpatch.pl#L5330
-
-
-I wonder why the checkpatch did not detect it.
-
-Maybe, Joe Perches may know the reason.
-
-
-
-
-
-
-
-My previous question about the type inconsistency
-was not addressed.
-
-syminfo::symbol_index is unsigned int
-symsearch::table_size is size_t
-
-
-If we encountered a situation where size_t is
-really needed for the table_size
-(that is, the number of entries does not fit in 32-bit),
-syminfo::symbol_index would wrap around.
-
-So, there is no point to use size_t for one,
-and (unsigned int) for the other.
-
-
-In my opinion, (unsigned int) would be enough to count
-numbers or index here.
-
-size_t might be 32-bit or 64-bit depending
-on the build host architecture.
-That is not related to the target architecture
-of ELF being processed.
-
-
-
-
---
-Best Regards
-Masahiro Yamada
