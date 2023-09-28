@@ -2,130 +2,126 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7FEBF7B116F
-	for <lists+linux-kbuild@lfdr.de>; Thu, 28 Sep 2023 06:16:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 45E127B2619
+	for <lists+linux-kbuild@lfdr.de>; Thu, 28 Sep 2023 21:48:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229493AbjI1EQl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 28 Sep 2023 00:16:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35758 "EHLO
+        id S232052AbjI1TsN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 28 Sep 2023 15:48:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229547AbjI1EQk (ORCPT
+        with ESMTP id S231426AbjI1TsM (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 28 Sep 2023 00:16:40 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A883114;
-        Wed, 27 Sep 2023 21:16:30 -0700 (PDT)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38S3MqXC030058;
-        Thu, 28 Sep 2023 04:16:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=qcppdkim1;
- bh=6CCI68ah3xAwytDjix9FVL7747Qa3cO2Y4a+ve6LKqU=;
- b=bxFSBGfXly2sog6YXCOpnnwDd26AHN5G3T0OYBo9MNI0NFSWvT7N7Ex8Z+7iOyl/gsRH
- Ga59q8t9fY/Hw/7zx0rF9fUbPCrrruFEL6m1IULKm89fuf33SPbXXw2f/kOc2R9xgjB/
- 2S1HqexMM8mbMJJnamsRx5WxTW5b9je4+z1LYlCNDSQrjfOAywt/geSATCNLtfqUpiVl
- vU6MsC3wcktirJjFDfz1nHTXzet8GR+qG6024nShIBhgzfBQovwPKg4u3vsbL6edUg5Y
- +Xkl8pbZpfueE2WtuwIPqwN5A8MUTGRni/pBt+3XYEwK7U0J6QiDPZu+QktMoZ11kasv eA== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tcmqe9u1a-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 28 Sep 2023 04:16:18 +0000
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-        by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 38S4GHo2020993
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 28 Sep 2023 04:16:17 GMT
-Received: from hu-jiangenj-sha.qualcomm.com (10.80.80.8) by
- nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.30; Wed, 27 Sep 2023 21:16:13 -0700
-From:   Joey Jiao <quic_jiangenj@quicinc.com>
-To:     <kasan-dev@googlegroups.com>
-CC:     <quic_jiangenj@quicinc.com>, <quic_likaid@quicinc.com>,
-        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-        Alexander Potapenko <glider@google.com>,
-        "Andrey Konovalov" <andreyknvl@gmail.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Thu, 28 Sep 2023 15:48:12 -0400
+Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42B611A2
+        for <linux-kbuild@vger.kernel.org>; Thu, 28 Sep 2023 12:48:10 -0700 (PDT)
+Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-5a22eb73cb3so15635767b3.3
+        for <linux-kbuild@vger.kernel.org>; Thu, 28 Sep 2023 12:48:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1695930489; x=1696535289; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=8iFw0tvjrP+bKthnM1Ar6RitIykCJfydYWlbU6QKJSo=;
+        b=d/ucrjuXJ2acKPT9XyrckOG9VoH40jdz8VyKFE7DQXm2BED4MRhVmA2So4637mpIeb
+         xkrOHP2k0Cl1rBg8EO6FsWtuNo8jp/D0f8/dUuvdQACV7IRF2yCgsslE3aAmjPnVwqnC
+         5F5RhgoQT3hBr4pPQpPudmqNfnY3xCgUYPo2f7zK6tvfLKxQaDcqYwtQh/CUmq+vke4F
+         V4KY7H5Xh7kCf2LpE3ANnCpTDdEAEQBHsrKlE+L8X4NXYt4kOr2iGy54wxX9oEwftqtt
+         s8RqlnxQqt4lHkirnVXAtmo+iok4JQqf84L4UITpyK3RJukCQZd7GDIYdJHmCHMibs6I
+         rlxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695930489; x=1696535289;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8iFw0tvjrP+bKthnM1Ar6RitIykCJfydYWlbU6QKJSo=;
+        b=XYo3U9YS9o4YsFclwaVnDyPkTu686ZsHBoyLp36Cab4shxivoRXc6+te+IVJiiaqHG
+         Y86LiETunvzuXJH3kvtR8pab8rll95k0aASWaOHAt81Gd4bLRUJwyReVYQfOIDCgWZNu
+         NiA+tzHFen9YOHueWvwsTyil5LAmwGZPTfAR94psbkDbmLe1VOq2nEAHXHdlo4+j57TJ
+         8V1CCN2RlWHNbMrZljaA68mSOZmISdlags2qEkC6LDmdx22g3+UKbgBbx8DQjzDSB5vn
+         qr4XHaami1uHTK9wnIuSWT1BvrUuZbum+eqCD3EJVunQhas1pm1k2GF/KAvu7nkdxDrF
+         zcnQ==
+X-Gm-Message-State: AOJu0YzOcPonuFoDM8yYBFH2ETlJugC8qWcVR0a268qXlmf/hdxCmeeP
+        mMHbZ4UNHKwYYziZ49DYBZTihYw7Fc7P
+X-Google-Smtp-Source: AGHT+IHmbhxmxw0u7t9poI7VDoNjrSv2+5OQoPENUEo3sqSzgMufa0dh2YWPxi+AEsKixH41b4COj6rIWJJN
+X-Received: from anyblade.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:1791])
+ (user=mmaurer job=sendgmr) by 2002:a81:440d:0:b0:59b:ebe0:9fd3 with SMTP id
+ r13-20020a81440d000000b0059bebe09fd3mr29132ywa.7.1695930489339; Thu, 28 Sep
+ 2023 12:48:09 -0700 (PDT)
+Date:   Thu, 28 Sep 2023 19:48:01 +0000
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.42.0.582.g8ccd20d70d-goog
+Message-ID: <20230928194801.2278999-1-mmaurer@google.com>
+Subject: [PATCH v3] rust: Respect HOSTCC when linking for host
+From:   Matthew Maurer <mmaurer@google.com>
+To:     Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
-        "Nick Desaulniers" <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        <linux-kernel@vger.kernel.org>, <linux-kbuild@vger.kernel.org>
-Subject: [PATCH] kasan: Add CONFIG_KASAN_WHITELIST_ONLY mode
-Date:   Thu, 28 Sep 2023 09:45:59 +0530
-Message-ID: <20230928041600.15982-1-quic_jiangenj@quicinc.com>
-X-Mailer: git-send-email 2.42.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: GpCpWJnb2Fhr6tVP9PFPXQ5MhDfiNxpf
-X-Proofpoint-GUID: GpCpWJnb2Fhr6tVP9PFPXQ5MhDfiNxpf
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-09-27_17,2023-09-27_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 impostorscore=0
- mlxscore=0 malwarescore=0 mlxlogscore=849 spamscore=0 lowpriorityscore=0
- adultscore=0 phishscore=0 bulkscore=0 priorityscore=1501 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2309180000
- definitions=main-2309280036
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Matthew Maurer <mmaurer@google.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        "=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?=" <bjorn3_gh@protonmail.com>,
+        Benno Lossin <benno.lossin@proton.me>,
+        Andreas Hindborg <a.hindborg@samsung.com>,
+        Alice Ryhl <aliceryhl@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
+        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Fow low memory device, full enabled kasan just not work.
-Set KASAN_SANITIZE to n when CONFIG_KASAN_WHITELIST_ONLY=y.
-So we can enable kasan for single file or module.
+Currently, rustc defaults to invoking `cc`, even if `HOSTCC` is defined,
+resulting in build failures in hermetic environments where `cc` does not
+exist. This includes both hostprogs and proc-macros.
 
-Signed-off-by: Joey Jiao <quic_jiangenj@quicinc.com>
+Since we are setting the linker to `HOSTCC`, we set the linker flavor to
+`gcc` explicitly. The linker-flavor selects both which linker to search
+for if the linker is unset, and which kind of linker flags to pass.
+Without this flag, `rustc` would attempt to determine which flags to
+pass based on the name of the binary passed as `HOSTCC`. `gcc` is the
+name of the linker-flavor used by `rustc` for all C compilers, including
+both `gcc` and `clang`.
+
+Signed-off-by: Matthew Maurer <mmaurer@google.com>
 ---
- lib/Kconfig.kasan    | 8 ++++++++
- scripts/Makefile.lib | 3 +++
- 2 files changed, 11 insertions(+)
+ rust/Makefile         | 2 ++
+ scripts/Makefile.host | 2 ++
+ 2 files changed, 4 insertions(+)
 
-diff --git a/lib/Kconfig.kasan b/lib/Kconfig.kasan
-index fdca89c05745..1cec4e204831 100644
---- a/lib/Kconfig.kasan
-+++ b/lib/Kconfig.kasan
-@@ -153,6 +153,14 @@ config KASAN_INLINE
+diff --git a/rust/Makefile b/rust/Makefile
+index 87958e864be0..da664d7aed51 100644
+--- a/rust/Makefile
++++ b/rust/Makefile
+@@ -383,6 +383,8 @@ $(obj)/exports_kernel_generated.h: $(obj)/kernel.o FORCE
+ quiet_cmd_rustc_procmacro = $(RUSTC_OR_CLIPPY_QUIET) P $@
+       cmd_rustc_procmacro = \
+ 	$(RUSTC_OR_CLIPPY) $(rust_common_flags) \
++		-Clinker-flavor=gcc -Clinker=$(HOSTCC) \
++		-Clink-args='$(subst ','\'',$(KBUILD_HOSTLDFLAGS))' \
+ 		--emit=dep-info=$(depfile) --emit=link=$@ --extern proc_macro \
+ 		--crate-type proc-macro \
+ 		--crate-name $(patsubst lib%.so,%,$(notdir $@)) $<
+diff --git a/scripts/Makefile.host b/scripts/Makefile.host
+index 8f7f842b54f9..08d83d9db31a 100644
+--- a/scripts/Makefile.host
++++ b/scripts/Makefile.host
+@@ -91,6 +91,8 @@ hostcxx_flags  = -Wp,-MMD,$(depfile) \
+ # current working directory, which may be not accessible in the out-of-tree
+ # modules case.
+ hostrust_flags = --out-dir $(dir $@) --emit=dep-info=$(depfile) \
++		 -Clinker-flavor=gcc -Clinker=$(HOSTCC) \
++		 -Clink-args='$(call escsq,$(KBUILD_HOSTLDFLAGS))' \
+                  $(KBUILD_HOSTRUSTFLAGS) $(HOST_EXTRARUSTFLAGS) \
+                  $(HOSTRUSTFLAGS_$(target-stem))
  
- endchoice
- 
-+config KASAN_WHITELIST_ONLY
-+	bool "Whitelist only KASAN"
-+	depends on KASAN && !KASAN_HW_TAGS
-+	default n
-+	help
-+	  Say Y here to only enable KASAN for module or files which has explicitly
-+	  set KASAN_SANITIZE:=y which is helpful especially for memory limited devices.
-+
- config KASAN_STACK
- 	bool "Stack instrumentation (unsafe)" if CC_IS_CLANG && !COMPILE_TEST
- 	depends on KASAN_GENERIC || KASAN_SW_TAGS
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index 68d0134bdbf9..e8d608ea369c 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -158,6 +158,9 @@ endif
- #
- ifeq ($(CONFIG_KASAN),y)
- ifneq ($(CONFIG_KASAN_HW_TAGS),y)
-+ifeq ($(CONFIG_KASAN_WHITELIST_ONLY),y)
-+KASAN_SANITIZE ?= n
-+endif
- _c_flags += $(if $(patsubst n%,, \
- 		$(KASAN_SANITIZE_$(basetarget).o)$(KASAN_SANITIZE)y), \
- 		$(CFLAGS_KASAN), $(CFLAGS_KASAN_NOSANITIZE))
 -- 
-2.38.1
+2.42.0.582.g8ccd20d70d-goog
 
