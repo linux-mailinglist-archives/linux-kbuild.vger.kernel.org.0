@@ -2,97 +2,140 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 437877B343B
-	for <lists+linux-kbuild@lfdr.de>; Fri, 29 Sep 2023 16:06:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BD467B34A3
+	for <lists+linux-kbuild@lfdr.de>; Fri, 29 Sep 2023 16:15:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232925AbjI2OG0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 29 Sep 2023 10:06:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50284 "EHLO
+        id S233362AbjI2OPd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 29 Sep 2023 10:15:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233112AbjI2OGZ (ORCPT
+        with ESMTP id S233477AbjI2OPU (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 29 Sep 2023 10:06:25 -0400
-Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com [IPv6:2607:f8b0:4864:20::f29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0977B1AE
-        for <linux-kbuild@vger.kernel.org>; Fri, 29 Sep 2023 07:06:24 -0700 (PDT)
-Received: by mail-qv1-xf29.google.com with SMTP id 6a1803df08f44-65b05a45046so56118466d6.2
-        for <linux-kbuild@vger.kernel.org>; Fri, 29 Sep 2023 07:06:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1695996383; x=1696601183; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=g1Xb6/JdWi+Gm2zCwL2CbD8VY1Bh4rRC3O4UR/n/oiI=;
-        b=uUClNBpQfbI6iDWPLeDQxy8pNQlW2g8GsA2k3aOPq3+1Q8hUVU6wtSDvfnE8m28NV7
-         9yowYITwdqDJv9b5nsl1y2yh28HCZ9kYyj7cD8HLKH8PpCQJn5xvQml2i1wlib+ggp5/
-         Lb/HhJPJg8CVku+ccoJo+ezzh/E+IMlOenKnrJU65WB0XYGeZxSPha0d3VOy0s5DXT+r
-         A6AdpUzMjMXs7JTUMYaEH+9fROV4OFk6BcUKf1KxRiZH+vztg34e1mMWjMUMp4zK6LWs
-         A4sZvMj80D1AdF1ZYt13H03rXonGroOQK+2vmifwwvIeN+fRe/i6GIJzcO9ef9xhrG0d
-         dB1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695996383; x=1696601183;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=g1Xb6/JdWi+Gm2zCwL2CbD8VY1Bh4rRC3O4UR/n/oiI=;
-        b=bO5fvVunmyG/nlgJus/NO8SXXFLax6lPrtdmQRK5L8L5iKsfCoNcGwVGSx2AN+tQaE
-         +ruTBzJ6n5gP8cEWX00ATDfxgbOaj4C3+s/p7yFn3nwdEr3TANYJpugXaRvBSoeEqaGY
-         Rf4OnJ4OWqfFY+7Yo97oGG5Ncjh958IsAlvtXyDGpbD+HqVZiowyrvsaIGBIkOUMHOVq
-         /fMDq1c+EsF2cN9zDwtbVDbc9HNaxtIIBSYuedTUSjeSJjKwDSWgTVUIPMdBFXB0y80R
-         ZpFOigeNOKBAdkvFJc9EFEBQXwtUHG67ussHzj0ijx6UdtWPhiM25hnOSOP9yl78oj+G
-         VGMw==
-X-Gm-Message-State: AOJu0YxB1Cd5yLfy1k5bkKG4PAX0XSE+A/4DgMrBur4fMjth+bn6VpdB
-        md9vxpWwaxul+O1zhGm+ElY4EbRIyws79+NhUlKLaw==
-X-Google-Smtp-Source: AGHT+IGqz8qj2DE+Vfn/7gI0HBb5U5qoik8FjRizk8QN7UC21V3bQ4x5xTGmKs2+BhUVKTgunPRJ1auc8M82HaQ+0Bs=
-X-Received: by 2002:a0c:a791:0:b0:65b:e04:e0a2 with SMTP id
- v17-20020a0ca791000000b0065b0e04e0a2mr3663653qva.28.1695996382933; Fri, 29
- Sep 2023 07:06:22 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230928041600.15982-1-quic_jiangenj@quicinc.com>
-In-Reply-To: <20230928041600.15982-1-quic_jiangenj@quicinc.com>
-From:   Alexander Potapenko <glider@google.com>
-Date:   Fri, 29 Sep 2023 16:05:42 +0200
-Message-ID: <CAG_fn=V9FXGpqceojn0UGiPi7gFbDbRnObc-N5a55Qk=XQy=kg@mail.gmail.com>
-Subject: Re: [PATCH] kasan: Add CONFIG_KASAN_WHITELIST_ONLY mode
-To:     Joey Jiao <quic_jiangenj@quicinc.com>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Cc:     kasan-dev@googlegroups.com, quic_likaid@quicinc.com,
-        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-        Andrey Konovalov <andreyknvl@gmail.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Fri, 29 Sep 2023 10:15:20 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A37510C7;
+        Fri, 29 Sep 2023 07:15:15 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFAF3C433C7;
+        Fri, 29 Sep 2023 14:15:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1695996914;
+        bh=PrGEd+n3I9phoCJZQNjyU2lIksSp10nLF/ZgSuI2swc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=RYzFpFqpLu2iW64GmDGSknW1Yg8vM6E1OvMKcmto2zqTCOxpw5jTs1TganR82f5Kp
+         Vi5dYEPzkDVoK8NHCpQ6YvJEwkwH41OXv3md4Q4WQ/QmD6jFqJnR6KD+N2Ski/WqKN
+         eCjgxUK2ipKQQRheaBEbKO2NI97YP/y8vT35HUCae4Vka+IrLmgCxPY7PrmA0CSiBw
+         hjbVFAkkrm9iC91ag8Ea5ezqf44U+dCkJg/Zyx/LYWsuc2yUZcCJyYwZ7geDMhNyOr
+         L3hLrkRibsCAw/IidOxaaUe5xQTO2i56gVvKUc1t5R6XyDGw6+wo2GsLrAoeLyYbxK
+         SRugZ0OekOFoA==
+Date:   Fri, 29 Sep 2023 15:15:09 +0100
+From:   Will Deacon <will@kernel.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, kernel-team@android.com,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Nicolas Schier <nicolas@fjasle.eu>,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
-        autolearn_force=no version=3.4.6
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        John Stultz <jstultz@google.com>, linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH v4 3/3] scripts/faddr2line: Skip over mapping symbols in
+ output from readelf
+Message-ID: <20230929141508.GA30367@willie-the-truck>
+References: <20230914131225.13415-1-will@kernel.org>
+ <20230914131225.13415-4-will@kernel.org>
+ <CAK7LNAQimVFOofEN5dNtPMWZ1m0Jh_3KawNU04kpmnSaUn3MKQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK7LNAQimVFOofEN5dNtPMWZ1m0Jh_3KawNU04kpmnSaUn3MKQ@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-(CC Masahiro Yamada)
+On Tue, Sep 26, 2023 at 01:50:20AM +0900, Masahiro Yamada wrote:
+> On Thu, Sep 14, 2023 at 10:12 PM Will Deacon <will@kernel.org> wrote:
+> >
+> > Mapping symbols emitted in the readelf output can confuse the
+> > 'faddr2line' symbol size calculation, resulting in the erroneous
+> > rejection of valid offsets. This is especially prevalent when building
+> > an arm64 kernel with CONFIG_CFI_CLANG=y, where most functions are
+> > prefixed with a 32-bit data value in a '$d.n' section. For example:
+> >
+> > 447538: ffff800080014b80   548 FUNC    GLOBAL DEFAULT    2 do_one_initcall
+> >    104: ffff800080014c74     0 NOTYPE  LOCAL  DEFAULT    2 $x.73
+> >    106: ffff800080014d30     0 NOTYPE  LOCAL  DEFAULT    2 $x.75
+> >    111: ffff800080014da4     0 NOTYPE  LOCAL  DEFAULT    2 $d.78
+> >    112: ffff800080014da8     0 NOTYPE  LOCAL  DEFAULT    2 $x.79
+> >     36: ffff800080014de0   200 FUNC    LOCAL  DEFAULT    2 run_init_process
+> >
+> > Adding a warning to do_one_initcall() results in:
+> >
+> >   | WARNING: CPU: 0 PID: 1 at init/main.c:1236 do_one_initcall+0xf4/0x260
+> >
+> > Which 'faddr2line' refuses to accept:
+> >
+> > $ ./scripts/faddr2line vmlinux do_one_initcall+0xf4/0x260
+> > skipping do_one_initcall address at 0xffff800080014c74 due to size mismatch (0x260 != 0x224)
+> > no match for do_one_initcall+0xf4/0x260
+> >
+> > Filter out these entries from readelf using a shell reimplementation of
+> > is_mapping_symbol(), so that the size of a symbol is calculated as a
+> > delta to the next symbol present in ksymtab.
+> >
+> > Cc: Josh Poimboeuf <jpoimboe@kernel.org>
+> > Cc: John Stultz <jstultz@google.com>
+> > Suggested-by: Masahiro Yamada <masahiroy@kernel.org>
+> > Signed-off-by: Will Deacon <will@kernel.org>
+> > ---
+> >  scripts/faddr2line | 5 +++++
+> >  1 file changed, 5 insertions(+)
+> >
+> > diff --git a/scripts/faddr2line b/scripts/faddr2line
+> > index 6b8206802157..20d9b3d37843 100755
+> > --- a/scripts/faddr2line
+> > +++ b/scripts/faddr2line
+> > @@ -179,6 +179,11 @@ __faddr2line() {
+> >                         local cur_sym_elf_size=${fields[2]}
+> >                         local cur_sym_name=${fields[7]:-}
+> >
+> > +                       # is_mapping_symbol(cur_sym_name)
+> > +                       if [[ ${cur_sym_name} =~ ^((\.L)|(L0)|(\$[adtx](\.|$))) ]]; then
+> > +                               continue
+> > +                       fi
+> > +
+> 
+> 
+> Too many parentheses.
 
-On Thu, Sep 28, 2023 at 6:16=E2=80=AFAM Joey Jiao <quic_jiangenj@quicinc.co=
-m> wrote:
->
-> Fow low memory device, full enabled kasan just not work.
-> Set KASAN_SANITIZE to n when CONFIG_KASAN_WHITELIST_ONLY=3Dy.
-> So we can enable kasan for single file or module.
+Ha, well _that_ is subjective! I really think they help when it comes to
+regex syntax. However...
 
-I don't have technical objections here, but it bothers me a bit that
-we are adding support for KASAN_SANITIZE:=3Dy, although nobody will be
-adding KASAN_SANITIZE:=3Dy to upstream Makefiles - only development
-kernels when debugging on low-end devices.
+> The latest include/linux/module_symbol.h looks like this.
+> 
+> static inline int is_mapping_symbol(const char *str)
+> {
+>         if (str[0] == '.' && str[1] == 'L')
+>                 return true;
+>         if (str[0] == 'L' && str[1] == '0')
+>                 return true;
+>         return str[0] == '$';
+> }
 
-Masahiro, is this something worth having in upstream Kconfig code?
+...oh, nice, that got simplified a whole lot by ff09f6fd2972 ("modpost,
+kallsyms: Treat add '$'-prefixed symbols as mapping symbols") in the
+recent merge window, so I can definitely simplify the regex.
 
-> Signed-off-by: Joey Jiao <quic_jiangenj@quicinc.com>
-Reviewed-by: Alexander Potapenko <glider@google.com>
+> Does this work?
+> 
+> if [[ ${cur_sym_name} =~ ^(\.L|L0|\$) ]]; then
+>         continue
+> fi
+
+Looks about right.
+
+Will
