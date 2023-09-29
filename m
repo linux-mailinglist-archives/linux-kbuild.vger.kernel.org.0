@@ -2,108 +2,120 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A79DE7B271E
-	for <lists+linux-kbuild@lfdr.de>; Thu, 28 Sep 2023 23:07:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BFBB7B2D94
+	for <lists+linux-kbuild@lfdr.de>; Fri, 29 Sep 2023 10:16:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230523AbjI1VHg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 28 Sep 2023 17:07:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54496 "EHLO
+        id S232798AbjI2IQG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 29 Sep 2023 04:16:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45436 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230325AbjI1VHf (ORCPT
+        with ESMTP id S232663AbjI2IQG (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 28 Sep 2023 17:07:35 -0400
-Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com [IPv6:2607:f8b0:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42E84B7;
-        Thu, 28 Sep 2023 14:07:34 -0700 (PDT)
-Received: by mail-oi1-x234.google.com with SMTP id 5614622812f47-3ae0135c4deso7715463b6e.3;
-        Thu, 28 Sep 2023 14:07:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695935253; x=1696540053; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qIlKEJnw0fFoB8aDGwN3C/vOYWFmYPRhpPxSRX2qmyg=;
-        b=mrVe/8GS0+AGXo7bS4iO83gLxZFHgUceu6SGPlv3+TYdxLtcJXgmgG0hZFRVqgWuei
-         hFwj86nOxFyI1Ce21kFa24SHoHXrWyaOFn6xPYN+sewkxjeNUT4PV02UZFw1Wy2IlBGd
-         JaS2nElVhJA48t1IaMyfm7pIe+Flvp1v9XIXb/KBPDeCx1iQet8SdndPfGPiiF+x2KpF
-         2iI6k49ZpJYMsnKpllK5ijZBruXPzByyk9XLCFFn2B3T+Mf/GKRDHmykBQshUpEnYZLi
-         3l7Rb9RBATxyKkFkVLUz3zJBnwtnLE6op9TpaT2PSotsKIHYLBP8wexJNmaZbqxizUU0
-         B0uQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695935253; x=1696540053;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qIlKEJnw0fFoB8aDGwN3C/vOYWFmYPRhpPxSRX2qmyg=;
-        b=hhEZ8z5tqEsdc1hVOQk1NqoRiHvuh/uP+3wj0TKJFMVtGhstYWXOuVq5D0d6vpdeb/
-         v8UycFjVAsJq0MOdpqeXHoNEiKK1gF71m3B1gyuOcYwlhCD9l4WwlLHFbqFbJ+MOPOus
-         icCz01mGKPkCn9BT0rqq6NIi8Of6lJz9mtXms8PN8F50gbC28plFKUytGhioy+5ZILvK
-         FE/f+4pL2/nZdeDFyU8lwgDDK1ZNOmwYBh/tgnZkTlA4zZBqsZya8C8wgB+1LUdeqm8v
-         lv2KJnKKE4uhc8QB17E9VhMfuJ9/cCN/xuDvNU0ZSHNLH/CEKBhoqkf70tikqUuDuVTk
-         b+eA==
-X-Gm-Message-State: AOJu0Yz4RVEsrIo7Py1WVzo+punqVDobK+FmKCsH8mscb85n4RVLLxYs
-        QcZ6jW64m76ICFl3r5tgITs=
-X-Google-Smtp-Source: AGHT+IG/wdC9TA1MZk6fSBU2RRw1BACeiIsuv/wTqo+LvBSGWzHVlF55AtGJGT7QdWxF+oHCueXdoQ==
-X-Received: by 2002:a05:6808:1450:b0:3a7:5309:f1f with SMTP id x16-20020a056808145000b003a753090f1fmr2846373oiv.45.1695935253446;
-        Thu, 28 Sep 2023 14:07:33 -0700 (PDT)
-Received: from [192.168.54.90] (static.220.238.itcsa.net. [190.15.220.238])
-        by smtp.gmail.com with ESMTPSA id k12-20020aa7820c000000b0068fda1db80bsm13766692pfi.75.2023.09.28.14.07.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Sep 2023 14:07:32 -0700 (PDT)
-Message-ID: <91c25e18-ff97-46a2-a50a-493c00bbc156@gmail.com>
-Date:   Thu, 28 Sep 2023 18:02:59 -0300
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] rust: Respect HOSTCC when linking for host
-To:     Matthew Maurer <mmaurer@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
+        Fri, 29 Sep 2023 04:16:06 -0400
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98B211A5
+        for <linux-kbuild@vger.kernel.org>; Fri, 29 Sep 2023 01:16:01 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qm8f4-0004kR-Bq; Fri, 29 Sep 2023 10:15:46 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qm8f0-009lpW-Fs; Fri, 29 Sep 2023 10:15:42 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qm8f0-005rq0-6K; Fri, 29 Sep 2023 10:15:42 +0200
+Date:   Fri, 29 Sep 2023 10:15:40 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-arm-kernel@lists.infradead.org,
         Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-        Benno Lossin <benno.lossin@proton.me>,
-        Andreas Hindborg <a.hindborg@samsung.com>,
-        Alice Ryhl <aliceryhl@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
-        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
-References: <20230928194801.2278999-1-mmaurer@google.com>
-Content-Language: en-US
-From:   Martin Rodriguez Reboredo <yakoyoku@gmail.com>
-In-Reply-To: <20230928194801.2278999-1-mmaurer@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        linux-kbuild@vger.kernel.org,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        James Clark <james.clark@arm.com>,
+        Leo Yan <leo.yan@linaro.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        coresight@lists.linaro.org, kernel@pengutronix.de,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: section mismatch test doesn't work reliably on arm64
+Message-ID: <20230929081540.yija47lsj35xtj4v@pengutronix.de>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="vzh3zilouipaaja3"
+Content-Disposition: inline
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-kbuild@vger.kernel.org
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 9/28/23 16:48, Matthew Maurer wrote:
-> Currently, rustc defaults to invoking `cc`, even if `HOSTCC` is defined,
-> resulting in build failures in hermetic environments where `cc` does not
-> exist. This includes both hostprogs and proc-macros.
-> 
-> Since we are setting the linker to `HOSTCC`, we set the linker flavor to
-> `gcc` explicitly. The linker-flavor selects both which linker to search
-> for if the linker is unset, and which kind of linker flags to pass.
-> Without this flag, `rustc` would attempt to determine which flags to
-> pass based on the name of the binary passed as `HOSTCC`. `gcc` is the
-> name of the linker-flavor used by `rustc` for all C compilers, including
-> both `gcc` and `clang`.
-> 
-> Signed-off-by: Matthew Maurer <mmaurer@google.com>
-> ---
 
-Psst, next time I'd recommend putting patch version to version changes
-here. Still, LGTM.
+--vzh3zilouipaaja3
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> [...]
-Reviewed-by: Martin Rodriguez Reboredo <yakoyoku@gmail.com>
+Hello,
+
+by manual inspection I found a section mismatch in
+drivers/hwtracing/coresight/coresight-etm4x-core.c where
+etm4_platform_driver (which lives in ".data") contains a reference to
+etm4_remove_platform_dev() (which lives in ".exit.text").
+
+However building with CONFIG_DEBUG_SECTION_MISMATCH=3Dy +
+CONFIG_CORESIGHT_SOURCE_ETM4X=3Dy doesn't warn about that one.
+
+	$ objdump -Dr drivers/hwtracing/coresight/coresight-etm4x-core.o | grep -A=
+7 etm4_platform_driver
+	0000000000000158 <etm4_platform_driver>:
+		...
+				158: R_AARCH64_ABS64	.text+0x2524
+				160: R_AARCH64_ABS64	.exit.text+0x124
+				188: R_AARCH64_ABS64	.rodata.str1.8+0x2e0
+	 1a8:	00000001 	udf	#1
+		...
+				1b0: R_AARCH64_ABS64	.rodata+0x2ae8
+
+A similar issue in the same file is etm4x_amba_driver referencing
+etm4_remove_amba().
+
+I guess the problem is that the information about the reference is only
+stored in the relocation entry?! I shortly looked at modpost.c, but I
+don't know enough about elf and that code to fix that.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--vzh3zilouipaaja3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmUWh6wACgkQj4D7WH0S
+/k6Qowf/f+iowNrFUS33oPp1p7qNnqGX8tNSukoaVXel4FIBmtrdIWmFUyxeaX3g
+Y1TVuthP6pM/Sg2kFTpmF/oqFCasg5FJQFukHEpMtI/DZSWr6aRGGXdFjtlOBDFc
+XHJLFBJ0R11EYO/8iTqNow9x7ItpM19sETFBq+oXtwvOnw6FEBhrOJJM6BuBsK3v
+FpsFn6lfVYvej3Kfy8XrW3jw+uR2dbugZKA3PIvxOpiiz/btOtBDApicR8qicAZJ
+TJcyixYtdhRsiuYvXzJ49kcwFMVJ48fvuxLN5cZWESgiNyZbOHnE9rFcVvwetFfd
+yGj5V36VxP4GZg1/VBcQRxE9pLFrig==
+=cbX9
+-----END PGP SIGNATURE-----
+
+--vzh3zilouipaaja3--
