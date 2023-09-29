@@ -2,35 +2,49 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EB077B390C
-	for <lists+linux-kbuild@lfdr.de>; Fri, 29 Sep 2023 19:41:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CFFB7B3AC2
+	for <lists+linux-kbuild@lfdr.de>; Fri, 29 Sep 2023 21:43:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233051AbjI2RlQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 29 Sep 2023 13:41:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42122 "EHLO
+        id S233058AbjI2Tnm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 29 Sep 2023 15:43:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42190 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233082AbjI2RlP (ORCPT
+        with ESMTP id S233215AbjI2Tnl (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 29 Sep 2023 13:41:15 -0400
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D6501B2
-        for <linux-kbuild@vger.kernel.org>; Fri, 29 Sep 2023 10:41:13 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qmHUB-0006Ph-07; Fri, 29 Sep 2023 19:41:07 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qmHU8-009rm0-SX; Fri, 29 Sep 2023 19:41:04 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qmHU8-0061xc-Ig; Fri, 29 Sep 2023 19:41:04 +0200
-Date:   Fri, 29 Sep 2023 19:41:01 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Masahiro Yamada <masahiroy@kernel.org>
+        Fri, 29 Sep 2023 15:43:41 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89F5B113
+        for <linux-kbuild@vger.kernel.org>; Fri, 29 Sep 2023 12:43:39 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20058C433CB
+        for <linux-kbuild@vger.kernel.org>; Fri, 29 Sep 2023 19:43:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1696016619;
+        bh=SoA6lkrsebMj+dlIDifDtkzkR4JooNbk27hCmXKcOOw=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=YEb5epIkMfCSmwkrsl6Sk1GNje81Z9apDDHF1c13Jt0PqztyYAOl368vdqA4NmwFd
+         OWgUYPGQs66TF13KAMqWy15unc1ZxO7C10oQoeUfAVKhH/ZVEwEOw/Xmf/QYPHlLMe
+         SKbeWF2J0laTVhB3FJACJViecFaIdz0+dqWU1FQ/vFgmX73Xoi+uZw15uikLfk23vy
+         uzbjG0WdAvuwbbv3EEo3wKv3Xynh7E0xYbwP48A+2+q3xe7896hpozAV+02wnpK5IU
+         JoiE/OioHpAHC8ROCs6ReXvpS9HDJbtDz7nuyIxw4KAZ0P1tp4idYRBQeKqeiGdzcY
+         aoszBxcyndo4w==
+Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-1dd1714b9b6so5157536fac.0
+        for <linux-kbuild@vger.kernel.org>; Fri, 29 Sep 2023 12:43:39 -0700 (PDT)
+X-Gm-Message-State: AOJu0YxEDcgBFOv3NZR5bRPw75T2V7s0dsATvqBKTILEjGEGxQZ4RpR1
+        jovrJr89jt20h22KYUZCnwHCiirx0Apg7XHeAI8=
+X-Google-Smtp-Source: AGHT+IH3Keg5kU7m/cTIZdgld0EFau6l0CJbglyq++wuq6fZoQj8z9oo4qJi5Y66CDXRT3snl4fcZKYjb0Z2iBep/JE=
+X-Received: by 2002:a05:6870:230d:b0:1dc:6f48:504e with SMTP id
+ w13-20020a056870230d00b001dc6f48504emr5760370oao.8.1696016618473; Fri, 29 Sep
+ 2023 12:43:38 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230929081540.yija47lsj35xtj4v@pengutronix.de> <20230929174101.3oqx7yxskneuj4gs@pengutronix.de>
+In-Reply-To: <20230929174101.3oqx7yxskneuj4gs@pengutronix.de>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sat, 30 Sep 2023 04:43:01 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQegXeep+8fWCLH4TBGFah20kUcdHGn5sOeXS3L533egg@mail.gmail.com>
+Message-ID: <CAK7LNAQegXeep+8fWCLH4TBGFah20kUcdHGn5sOeXS3L533egg@mail.gmail.com>
+Subject: Re: section mismatch test doesn't work reliably on arm64
+To:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
 Cc:     Nicolas Schier <nicolas@fjasle.eu>,
         Mathieu Poirier <mathieu.poirier@linaro.org>,
         Suzuki K Poulose <suzuki.poulose@arm.com>,
@@ -44,19 +58,10 @@ Cc:     Nicolas Schier <nicolas@fjasle.eu>,
         linux-arm-kernel@lists.infradead.org,
         Mike Leach <mike.leach@linaro.org>,
         Arnd Bergmann <arnd@arndb.de>
-Subject: Re: section mismatch test doesn't work reliably on arm64
-Message-ID: <20230929174101.3oqx7yxskneuj4gs@pengutronix.de>
-References: <20230929081540.yija47lsj35xtj4v@pengutronix.de>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="gyhzqoavgo4uhstj"
-Content-Disposition: inline
-In-Reply-To: <20230929081540.yija47lsj35xtj4v@pengutronix.de>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-kbuild@vger.kernel.org
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -64,75 +69,75 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+On Sat, Sep 30, 2023 at 2:41=E2=80=AFAM Uwe Kleine-K=C3=B6nig
+<u.kleine-koenig@pengutronix.de> wrote:
+>
+> Hello,
+>
+> On Fri, Sep 29, 2023 at 10:15:40AM +0200, Uwe Kleine-K=C3=B6nig wrote:
+> > by manual inspection I found a section mismatch in
+> > drivers/hwtracing/coresight/coresight-etm4x-core.c where
+> > etm4_platform_driver (which lives in ".data") contains a reference to
+> > etm4_remove_platform_dev() (which lives in ".exit.text").
+> >
+> > However building with CONFIG_DEBUG_SECTION_MISMATCH=3Dy +
+> > CONFIG_CORESIGHT_SOURCE_ETM4X=3Dy doesn't warn about that one.
+>
+> Arnd had the right hint in irc: If I do
+>
+> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> index 34a5386d444a..070e53be1ea2 100644
+> --- a/scripts/mod/modpost.c
+> +++ b/scripts/mod/modpost.c
+> @@ -1017,7 +1017,7 @@ static int secref_whitelist(const char *fromsec, co=
+nst char *fromsym,
+>
+>         /* symbols in data sections that may refer to meminit/exit sectio=
+ns */
+>         if (match(fromsec, PATTERNS(DATA_SECTIONS)) &&
+> -           match(tosec, PATTERNS(ALL_XXXINIT_SECTIONS, ALL_EXIT_SECTIONS=
+)) &&
+> +           match(tosec, PATTERNS(ALL_XXXINIT_SECTIONS, ALL_XXXEXIT_SECTI=
+ONS)) &&
+>             match(fromsym, PATTERNS("*driver")))
+>                 return 0;
+>
+> I get a mismatch warning:
+>
+> WARNING: modpost: vmlinux: section mismatch in reference: etm4x_amba_driv=
+er+0x98 (section: .data) -> etm4_remove_amba (section: .exit.text)
+> WARNING: modpost: vmlinux: section mismatch in reference: etm4_platform_d=
+river+0x8 (section: .data) -> etm4_remove_platform_dev (section: .exit.text=
+)
+> ERROR: modpost: Section mismatches detected.
+>
+> I remember that back in the times of CONFIG_HOTPLUG references to
+> ".devinit.text" and ".devexit.text" were ok. Is a reference to
+> .exit.text ever ok?
 
---gyhzqoavgo4uhstj
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hello,
+No. I do not think it has ever been OK.
 
-On Fri, Sep 29, 2023 at 10:15:40AM +0200, Uwe Kleine-K=F6nig wrote:
-> by manual inspection I found a section mismatch in
-> drivers/hwtracing/coresight/coresight-etm4x-core.c where
-> etm4_platform_driver (which lives in ".data") contains a reference to
-> etm4_remove_platform_dev() (which lives in ".exit.text").
->=20
-> However building with CONFIG_DEBUG_SECTION_MISMATCH=3Dy +
-> CONFIG_CORESIGHT_SOURCE_ETM4X=3Dy doesn't warn about that one.
+I guess this issue has been hidden for a long time.
 
-Arnd had the right hint in irc: If I do
 
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index 34a5386d444a..070e53be1ea2 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -1017,7 +1017,7 @@ static int secref_whitelist(const char *fromsec, cons=
-t char *fromsym,
-=20
- 	/* symbols in data sections that may refer to meminit/exit sections */
- 	if (match(fromsec, PATTERNS(DATA_SECTIONS)) &&
--	    match(tosec, PATTERNS(ALL_XXXINIT_SECTIONS, ALL_EXIT_SECTIONS)) &&
-+	    match(tosec, PATTERNS(ALL_XXXINIT_SECTIONS, ALL_XXXEXIT_SECTIONS)) &&
- 	    match(fromsym, PATTERNS("*driver")))
- 		return 0;
-=20
-I get a mismatch warning:
+The following commit disallows the reference to .init.*
+but nothing happened to .exit.*
 
-WARNING: modpost: vmlinux: section mismatch in reference: etm4x_amba_driver=
-+0x98 (section: .data) -> etm4_remove_amba (section: .exit.text)
-WARNING: modpost: vmlinux: section mismatch in reference: etm4_platform_dri=
-ver+0x8 (section: .data) -> etm4_remove_platform_dev (section: .exit.text)
-ERROR: modpost: Section mismatches detected.
 
-I remember that back in the times of CONFIG_HOTPLUG references to
-".devinit.text" and ".devexit.text" were ok. Is a reference to
-=2Eexit.text ever ok?
 
-I started an allyesconfig build on a few archs with the above patch
-applied. This will take some time, when it's done I will report what it
-found.
+commit 0db252452378aa7a9e001a13226e1cd1dc61453d
+Author: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+Date:   Sat Jan 30 21:14:23 2010 +0100
 
-Best regards
-Uwe
+    modpost: don't allow *driver to reference .init.*
+
+    Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+
+
+
+
 
 --=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---gyhzqoavgo4uhstj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmUXDC0ACgkQj4D7WH0S
-/k6oGAf8CC809zwNNm6dHi+DVcoNDLQ+Hm4ZolSzMp/3H+7aZ003A2k2nNKCq93j
-2n/PxxGFu6jPvsa3Hd9S8GRvurxkV8a3H9zSVhSWHKM0Us9Pj3x/BFOhUsRMR/fZ
-WM83zlvAemiqpcOGXhhXT+8z08li1Mijh1vj3Pd7e/44+gdlDg3pnvdwzSv/klYy
-8K3nInqRV1qTsKm4dXx5CgO3zElbmrdffHDNvVieCE7NZWWV2h64dvJwwY9MXHc6
-MITXFSbJIk6vaA5hkWwMULGSstVCdjwGPsirQpoueG2OBV/dHekKKfLctU+CGtZe
-3gSqZcWfNE68887NsNdE8r0Z/3Tjkg==
-=IIWw
------END PGP SIGNATURE-----
-
---gyhzqoavgo4uhstj--
+Best Regards
+Masahiro Yamada
