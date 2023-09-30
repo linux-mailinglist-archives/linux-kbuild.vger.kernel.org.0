@@ -2,142 +2,138 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6CFFB7B3AC2
-	for <lists+linux-kbuild@lfdr.de>; Fri, 29 Sep 2023 21:43:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D6D37B3E89
+	for <lists+linux-kbuild@lfdr.de>; Sat, 30 Sep 2023 07:59:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233058AbjI2Tnm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 29 Sep 2023 15:43:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42190 "EHLO
+        id S229929AbjI3F7Z (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 30 Sep 2023 01:59:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233215AbjI2Tnl (ORCPT
+        with ESMTP id S229766AbjI3F7Y (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 29 Sep 2023 15:43:41 -0400
+        Sat, 30 Sep 2023 01:59:24 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89F5B113
-        for <linux-kbuild@vger.kernel.org>; Fri, 29 Sep 2023 12:43:39 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20058C433CB
-        for <linux-kbuild@vger.kernel.org>; Fri, 29 Sep 2023 19:43:39 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2FB51AB;
+        Fri, 29 Sep 2023 22:59:21 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36A14C43395;
+        Sat, 30 Sep 2023 05:59:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696016619;
-        bh=SoA6lkrsebMj+dlIDifDtkzkR4JooNbk27hCmXKcOOw=;
+        s=k20201202; t=1696053561;
+        bh=fEN/S6mVsSDNV0g4PBlvUaE2VUJdNNjgVZ+Xtar4unE=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=YEb5epIkMfCSmwkrsl6Sk1GNje81Z9apDDHF1c13Jt0PqztyYAOl368vdqA4NmwFd
-         OWgUYPGQs66TF13KAMqWy15unc1ZxO7C10oQoeUfAVKhH/ZVEwEOw/Xmf/QYPHlLMe
-         SKbeWF2J0laTVhB3FJACJViecFaIdz0+dqWU1FQ/vFgmX73Xoi+uZw15uikLfk23vy
-         uzbjG0WdAvuwbbv3EEo3wKv3Xynh7E0xYbwP48A+2+q3xe7896hpozAV+02wnpK5IU
-         JoiE/OioHpAHC8ROCs6ReXvpS9HDJbtDz7nuyIxw4KAZ0P1tp4idYRBQeKqeiGdzcY
-         aoszBxcyndo4w==
-Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-1dd1714b9b6so5157536fac.0
-        for <linux-kbuild@vger.kernel.org>; Fri, 29 Sep 2023 12:43:39 -0700 (PDT)
-X-Gm-Message-State: AOJu0YxEDcgBFOv3NZR5bRPw75T2V7s0dsATvqBKTILEjGEGxQZ4RpR1
-        jovrJr89jt20h22KYUZCnwHCiirx0Apg7XHeAI8=
-X-Google-Smtp-Source: AGHT+IH3Keg5kU7m/cTIZdgld0EFau6l0CJbglyq++wuq6fZoQj8z9oo4qJi5Y66CDXRT3snl4fcZKYjb0Z2iBep/JE=
-X-Received: by 2002:a05:6870:230d:b0:1dc:6f48:504e with SMTP id
- w13-20020a056870230d00b001dc6f48504emr5760370oao.8.1696016618473; Fri, 29 Sep
- 2023 12:43:38 -0700 (PDT)
+        b=jr7i7wgkNdL6Y8zEWyvi5nBrCFgRd7bSuk6cLgxK67kkorEKo48vijY4DenStKNc9
+         pwG5cS56mxBLCh8ucvI8a1Mzidbx+V4E2jQahFgerDpxwNk2vfOsYpKDpqsbnO4F5s
+         Z3OkmpQepD5VNw99P29rkUOriPTvtdRrW7pbWN+r6VirTBO+Qc3bB9Kai6EWixggKW
+         qf6CyA1Nzqy3OO831ByicN9VkrFBzv/su7MdxK4cYLZyVAS6HDX7qLKfujLpoKdoCn
+         Sx8ellEqDgmvSxdf6blQmCx5l6XA7V13adGOZUMnOdTxunY3IECNF5FzQreRYG11Hw
+         HabW0qll/rgNg==
+Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-1dce0c05171so6648989fac.3;
+        Fri, 29 Sep 2023 22:59:21 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yzd2TqML4IZCZRj6k5n2ENUh3AF/E1d35FRRqbSH/1/Qr1q7eNA
+        73CttS6kUF4debVsepqNWuXs16rklq56ClWSLNk=
+X-Google-Smtp-Source: AGHT+IFKcDm5fCe1sGczV8wBd4zz/FAmio9dMBK8EbaraHgpWebWUkbRDlLwZeet8rw3+QxNOAa9smfzO/vfW/H4jC8=
+X-Received: by 2002:a05:6870:2216:b0:1c0:937:455d with SMTP id
+ i22-20020a056870221600b001c00937455dmr6904202oaf.47.1696053560507; Fri, 29
+ Sep 2023 22:59:20 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230929081540.yija47lsj35xtj4v@pengutronix.de> <20230929174101.3oqx7yxskneuj4gs@pengutronix.de>
-In-Reply-To: <20230929174101.3oqx7yxskneuj4gs@pengutronix.de>
+References: <20230928194801.2278999-1-mmaurer@google.com>
+In-Reply-To: <20230928194801.2278999-1-mmaurer@google.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 30 Sep 2023 04:43:01 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQegXeep+8fWCLH4TBGFah20kUcdHGn5sOeXS3L533egg@mail.gmail.com>
-Message-ID: <CAK7LNAQegXeep+8fWCLH4TBGFah20kUcdHGn5sOeXS3L533egg@mail.gmail.com>
-Subject: Re: section mismatch test doesn't work reliably on arm64
-To:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     Nicolas Schier <nicolas@fjasle.eu>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        coresight@lists.linaro.org, linux-kbuild@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
+Date:   Sat, 30 Sep 2023 14:58:43 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQP9FVCArnw=JDBbtbu-3bxx162kqT24bUbffPtwE18uA@mail.gmail.com>
+Message-ID: <CAK7LNAQP9FVCArnw=JDBbtbu-3bxx162kqT24bUbffPtwE18uA@mail.gmail.com>
+Subject: Re: [PATCH v3] rust: Respect HOSTCC when linking for host
+To:     Matthew Maurer <mmaurer@google.com>
+Cc:     Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
         Nathan Chancellor <nathan@kernel.org>,
-        James Clark <james.clark@arm.com>, kernel@pengutronix.de,
-        Leo Yan <leo.yan@linaro.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Mike Leach <mike.leach@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+        Benno Lossin <benno.lossin@proton.me>,
+        Andreas Hindborg <a.hindborg@samsung.com>,
+        Alice Ryhl <aliceryhl@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
+        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Sep 30, 2023 at 2:41=E2=80=AFAM Uwe Kleine-K=C3=B6nig
-<u.kleine-koenig@pengutronix.de> wrote:
+On Fri, Sep 29, 2023 at 4:48=E2=80=AFAM Matthew Maurer <mmaurer@google.com>=
+ wrote:
 >
-> Hello,
+> Currently, rustc defaults to invoking `cc`, even if `HOSTCC` is defined,
+> resulting in build failures in hermetic environments where `cc` does not
+> exist. This includes both hostprogs and proc-macros.
 >
-> On Fri, Sep 29, 2023 at 10:15:40AM +0200, Uwe Kleine-K=C3=B6nig wrote:
-> > by manual inspection I found a section mismatch in
-> > drivers/hwtracing/coresight/coresight-etm4x-core.c where
-> > etm4_platform_driver (which lives in ".data") contains a reference to
-> > etm4_remove_platform_dev() (which lives in ".exit.text").
-> >
-> > However building with CONFIG_DEBUG_SECTION_MISMATCH=3Dy +
-> > CONFIG_CORESIGHT_SOURCE_ETM4X=3Dy doesn't warn about that one.
+> Since we are setting the linker to `HOSTCC`, we set the linker flavor to
+> `gcc` explicitly. The linker-flavor selects both which linker to search
+> for if the linker is unset, and which kind of linker flags to pass.
+> Without this flag, `rustc` would attempt to determine which flags to
+> pass based on the name of the binary passed as `HOSTCC`. `gcc` is the
+> name of the linker-flavor used by `rustc` for all C compilers, including
+> both `gcc` and `clang`.
 >
-> Arnd had the right hint in irc: If I do
+> Signed-off-by: Matthew Maurer <mmaurer@google.com>
+> ---
+>  rust/Makefile         | 2 ++
+>  scripts/Makefile.host | 2 ++
+>  2 files changed, 4 insertions(+)
 >
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index 34a5386d444a..070e53be1ea2 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -1017,7 +1017,7 @@ static int secref_whitelist(const char *fromsec, co=
-nst char *fromsym,
+> diff --git a/rust/Makefile b/rust/Makefile
+> index 87958e864be0..da664d7aed51 100644
+> --- a/rust/Makefile
+> +++ b/rust/Makefile
+> @@ -383,6 +383,8 @@ $(obj)/exports_kernel_generated.h: $(obj)/kernel.o FO=
+RCE
+>  quiet_cmd_rustc_procmacro =3D $(RUSTC_OR_CLIPPY_QUIET) P $@
+>        cmd_rustc_procmacro =3D \
+>         $(RUSTC_OR_CLIPPY) $(rust_common_flags) \
+> +               -Clinker-flavor=3Dgcc -Clinker=3D$(HOSTCC) \
+> +               -Clink-args=3D'$(subst ','\'',$(KBUILD_HOSTLDFLAGS))' \
+
+
+
+Why not consistently use the escsq macro here too ?
+
+
+
+
+
+
+>                 --emit=3Ddep-info=3D$(depfile) --emit=3Dlink=3D$@ --exter=
+n proc_macro \
+>                 --crate-type proc-macro \
+>                 --crate-name $(patsubst lib%.so,%,$(notdir $@)) $<
+> diff --git a/scripts/Makefile.host b/scripts/Makefile.host
+> index 8f7f842b54f9..08d83d9db31a 100644
+> --- a/scripts/Makefile.host
+> +++ b/scripts/Makefile.host
+> @@ -91,6 +91,8 @@ hostcxx_flags  =3D -Wp,-MMD,$(depfile) \
+>  # current working directory, which may be not accessible in the out-of-t=
+ree
+>  # modules case.
+>  hostrust_flags =3D --out-dir $(dir $@) --emit=3Ddep-info=3D$(depfile) \
+> +                -Clinker-flavor=3Dgcc -Clinker=3D$(HOSTCC) \
+> +                -Clink-args=3D'$(call escsq,$(KBUILD_HOSTLDFLAGS))' \
+>                   $(KBUILD_HOSTRUSTFLAGS) $(HOST_EXTRARUSTFLAGS) \
+>                   $(HOSTRUSTFLAGS_$(target-stem))
 >
->         /* symbols in data sections that may refer to meminit/exit sectio=
-ns */
->         if (match(fromsec, PATTERNS(DATA_SECTIONS)) &&
-> -           match(tosec, PATTERNS(ALL_XXXINIT_SECTIONS, ALL_EXIT_SECTIONS=
-)) &&
-> +           match(tosec, PATTERNS(ALL_XXXINIT_SECTIONS, ALL_XXXEXIT_SECTI=
-ONS)) &&
->             match(fromsym, PATTERNS("*driver")))
->                 return 0;
+> --
+> 2.42.0.582.g8ccd20d70d-goog
 >
-> I get a mismatch warning:
->
-> WARNING: modpost: vmlinux: section mismatch in reference: etm4x_amba_driv=
-er+0x98 (section: .data) -> etm4_remove_amba (section: .exit.text)
-> WARNING: modpost: vmlinux: section mismatch in reference: etm4_platform_d=
-river+0x8 (section: .data) -> etm4_remove_platform_dev (section: .exit.text=
-)
-> ERROR: modpost: Section mismatches detected.
->
-> I remember that back in the times of CONFIG_HOTPLUG references to
-> ".devinit.text" and ".devexit.text" were ok. Is a reference to
-> .exit.text ever ok?
 
 
-No. I do not think it has ever been OK.
-
-I guess this issue has been hidden for a long time.
-
-
-The following commit disallows the reference to .init.*
-but nothing happened to .exit.*
-
-
-
-commit 0db252452378aa7a9e001a13226e1cd1dc61453d
-Author: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
-Date:   Sat Jan 30 21:14:23 2010 +0100
-
-    modpost: don't allow *driver to reference .init.*
-
-    Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
-
-
-
-
-
---=20
+--
 Best Regards
 Masahiro Yamada
