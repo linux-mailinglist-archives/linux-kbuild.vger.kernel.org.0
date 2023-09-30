@@ -2,49 +2,35 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 985BD7B4392
-	for <lists+linux-kbuild@lfdr.de>; Sat, 30 Sep 2023 22:34:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A587A7B43AB
+	for <lists+linux-kbuild@lfdr.de>; Sat, 30 Sep 2023 22:48:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230029AbjI3Uem (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 30 Sep 2023 16:34:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40248 "EHLO
+        id S232072AbjI3Usw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 30 Sep 2023 16:48:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55148 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229535AbjI3Uel (ORCPT
+        with ESMTP id S231197AbjI3Usv (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 30 Sep 2023 16:34:41 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DFD7C4;
-        Sat, 30 Sep 2023 13:34:32 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C03ABC433C9;
-        Sat, 30 Sep 2023 20:34:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696106071;
-        bh=WBx4sFK18Fvo2S9P2auh13kr8VRYgzO7eZmEq+kqyWo=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=j1nqOqtt6jC1dwe86YXIZVFQZsG2VmabaoizcZO21AvbJ1GyOBSwJhPE2j2eioK0T
-         BH3jsQxXJG7ekz5TgA5O5JTiWcZSMFvHpbT+wcAKNd5Wl64NqMBCso7diExqTAe/ws
-         xZ792XGOnFE1xHUcIEGrbfK+/pjJolhA777/W13okG7w/HSFHgK6k7md2x1HuwVPMz
-         82/OwS1gcm9EPH1hDPCSNOp/M7q0vptm5oiZWB0sLmX+qdbKguY1tLFkMFt6lqTXWj
-         c/UD9AIokH4NhelkduRGDgQ5pJ9sDjae8g73/4whKzCSFuoU45UND29AfVz5DjmRFE
-         wFxRSd5s/mmlg==
-Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-6c4bad60a1aso6904636a34.2;
-        Sat, 30 Sep 2023 13:34:31 -0700 (PDT)
-X-Gm-Message-State: AOJu0YzeBMIIawbyWIqXo4YC/tcKvWQSV/s6+GyTmJ+9M7j+6EkPlGS/
-        6iVyMddMrCJwQAXS7OG8BD6dLhYIJ19+VHtobNM=
-X-Google-Smtp-Source: AGHT+IHrXBSzbwXTQkT3E30hfUQzyDv378uXN61B0R/8LnQAs5ioVJp/xHOUWBfyHzX9U7bIpOu33vkZBhijouDtbXs=
-X-Received: by 2002:a05:6870:611f:b0:1be:e6d6:15c4 with SMTP id
- s31-20020a056870611f00b001bee6d615c4mr8149346oae.9.1696106071106; Sat, 30 Sep
- 2023 13:34:31 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230930165204.2478282-1-u.kleine-koenig@pengutronix.de>
-In-Reply-To: <20230930165204.2478282-1-u.kleine-koenig@pengutronix.de>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 1 Oct 2023 05:33:54 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATyRg6Hc-fnTETERj-tdMFGaBDt0Fyhy9+jKCzAvzQ6Pg@mail.gmail.com>
-Message-ID: <CAK7LNATyRg6Hc-fnTETERj-tdMFGaBDt0Fyhy9+jKCzAvzQ6Pg@mail.gmail.com>
-Subject: Re: [PATCH v2] modpost: Don't let "driver"s reference .exit.*
-To:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
+        Sat, 30 Sep 2023 16:48:51 -0400
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98DDACF
+        for <linux-kbuild@vger.kernel.org>; Sat, 30 Sep 2023 13:48:49 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qmgtE-0001gM-7D; Sat, 30 Sep 2023 22:48:40 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qmgtA-00A82J-9I; Sat, 30 Sep 2023 22:48:36 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qmgt9-006ecY-Uj; Sat, 30 Sep 2023 22:48:35 +0200
+Date:   Sat, 30 Sep 2023 22:48:35 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     Mathieu Poirier <mathieu.poirier@linaro.org>,
         Arnd Bergmann <arnd@arndb.de>, linux-kbuild@vger.kernel.org,
         Alexander Shishkin <alexander.shishkin@linux.intel.com>,
@@ -56,13 +42,23 @@ Cc:     Mathieu Poirier <mathieu.poirier@linaro.org>,
         Nathan Chancellor <nathan@kernel.org>,
         James Clark <james.clark@arm.com>, kernel@pengutronix.de,
         Leo Yan <leo.yan@linaro.org>,
-        Nicolas Schier <nicolas@fjasle.eu>,
+        Mike Leach <mike.leach@linaro.org>,
         linux-arm-kernel@lists.infradead.org,
-        Mike Leach <mike.leach@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        Nicolas Schier <nicolas@fjasle.eu>
+Subject: Re: [PATCH v2] modpost: Don't let "driver"s reference .exit.*
+Message-ID: <20230930204835.fbgl5pko2emgewqd@pengutronix.de>
+References: <20230930165204.2478282-1-u.kleine-koenig@pengutronix.de>
+ <CAK7LNATyRg6Hc-fnTETERj-tdMFGaBDt0Fyhy9+jKCzAvzQ6Pg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="rt2n5oc2fzud6qqb"
+Content-Disposition: inline
+In-Reply-To: <CAK7LNATyRg6Hc-fnTETERj-tdMFGaBDt0Fyhy9+jKCzAvzQ6Pg@mail.gmail.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-kbuild@vger.kernel.org
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -70,39 +66,40 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Oct 1, 2023 at 1:52=E2=80=AFAM Uwe Kleine-K=C3=B6nig
-<u.kleine-koenig@pengutronix.de> wrote:
->
-> Drivers must not reference functions marked with __exit as these likely
-> are not available when the code is built-in.
->
-> There are few creative offenders uncovered for example in ARCH=3Damd64
-> allmodconfig builds. So only trigger the section mismatch warning for
-> W=3D1 builds.
->
-> The dual rule that drivers must not reference .init.* is implemented
-> since commit 0db252452378 ("modpost: don't allow *driver to reference
-> .init.*") which however missed that .exit.* should be handled in the
-> same way.
->
-> Thanks to Masahiro Yamada and Arnd Bergmann who gave valuable hints to
-> find this improvement.
->
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
 
+--rt2n5oc2fzud6qqb
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks.
+Hello Masahiro,
 
-If there is no objection from anybody, I will apply this
-to my fixes branch and send a pull request.
+On Sun, Oct 01, 2023 at 05:33:54AM +0900, Masahiro Yamada wrote:
+> Then, I hope you (or somebody) will volunteer to fix broken drivers.
 
+I already added that to my todo list. However it's otherwise non-empty,
+so I won't promise to tackle that quickly.
 
-Then, I hope you (or somebody) will volunteer to fix broken drivers.
+Best regards
+Uwe
 
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
+--rt2n5oc2fzud6qqb
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmUYiaIACgkQj4D7WH0S
+/k7XYQf/fdqfsNpiGYsX2MPI2hlnSDbHGBRX4S1z81iV32Ou6avCBuXREuxqYBWI
+98Kh3waniSh05EeoTI5On+EucLGRn9bb51oZrEqF9YXZvI34RInl9YXH4kaQ8B9E
+B44F7i8s4l1KvkxL6gdCdbiKzPOvbV7WBLhUCgpGWXhb+8i9/OikEH9qB4U5saHw
+P8PiBlkqNSF4M+OeunZSK8TEKnk1yV2dmgTzHprpSJGRJYP5ZMrRB4xWCsGtTQl2
+sIw+lUzHkeCpF1ZEeOAJAVdaVP11fEbSTiJgvaarxaHvAUHIZmSk80vCtWC7COki
+da0CjSPQIRO7bzER/3yePc61gdyMOw==
+=w15k
+-----END PGP SIGNATURE-----
 
---
-Best Regards
-Masahiro Yamada
+--rt2n5oc2fzud6qqb--
