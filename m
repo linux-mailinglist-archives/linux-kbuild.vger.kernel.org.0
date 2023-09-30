@@ -2,63 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 09C297B4259
-	for <lists+linux-kbuild@lfdr.de>; Sat, 30 Sep 2023 18:52:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD17A7B4321
+	for <lists+linux-kbuild@lfdr.de>; Sat, 30 Sep 2023 20:54:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234496AbjI3QwX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 30 Sep 2023 12:52:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35354 "EHLO
+        id S231996AbjI3SyF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 30 Sep 2023 14:54:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60324 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229788AbjI3QwX (ORCPT
+        with ESMTP id S231603AbjI3SyF (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 30 Sep 2023 12:52:23 -0400
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6280DAB
-        for <linux-kbuild@vger.kernel.org>; Sat, 30 Sep 2023 09:52:21 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qmdCQ-00083K-Ew; Sat, 30 Sep 2023 18:52:14 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qmdCN-00A5ig-54; Sat, 30 Sep 2023 18:52:11 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qmdCM-006YZS-RT; Sat, 30 Sep 2023 18:52:10 +0200
-From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>, linux-kbuild@vger.kernel.org,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        coresight@lists.linaro.org,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kernel@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        James Clark <james.clark@arm.com>, kernel@pengutronix.de,
-        Leo Yan <leo.yan@linaro.org>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        linux-arm-kernel@lists.infradead.org,
-        Mike Leach <mike.leach@linaro.org>
-Subject: [PATCH v2] modpost: Don't let "driver"s reference .exit.*
-Date:   Sat, 30 Sep 2023 18:52:04 +0200
-Message-Id: <20230930165204.2478282-1-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.40.1
+        Sat, 30 Sep 2023 14:54:05 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34C9CC4
+        for <linux-kbuild@vger.kernel.org>; Sat, 30 Sep 2023 11:54:02 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AAD13C433CB
+        for <linux-kbuild@vger.kernel.org>; Sat, 30 Sep 2023 18:54:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1696100041;
+        bh=31LcEEpwE3rDkMPwBfcNGNCszhEr+OdofdTb+GCBUHE=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=KdW2b/exfJNw2+bePwn7Rgfazhcb/oiTiq75o0PdITbd241tJssqarpSk3MdybKDQ
+         2buQU2Gcviay/JkFDpq38zb4c8rIJ0UtXn4LCbhd4Hy7Rlx/LGkR3Eh09f/PHop1gL
+         9x/9otuQ3+VsOxSLKdjZDteZg2OdZ/IzrLUdCLt5uLVRbR3ph9GLl3CHS42R7+yECy
+         SXw6h+DWaibMy7A96tMUPP5bdvpDJOoJnIrhqF/KUkLnttfaRzTI4QuVthMGRlt7tb
+         o1xzIftU+LLjE462aNfnu940yVQL8+rwmCHcryptUpJP0eeLCEe/qFipPOVFH5NdOF
+         h0tHg2HRycH/w==
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-1dd830ed844so3497688fac.2
+        for <linux-kbuild@vger.kernel.org>; Sat, 30 Sep 2023 11:54:01 -0700 (PDT)
+X-Gm-Message-State: AOJu0YyQha8EAqswx6R9mtkaImZ2vNTWYY0JfTVMmKYR/MKQvZsx04bn
+        ZRbCoXakW8lQiwltzeSqKd5hVzGoKIRsxalH72E=
+X-Google-Smtp-Source: AGHT+IFsQ7f9notd4NyWZ4DNR8CreL7RXuPJfDPBJnCNsuY+ySjjRq4q/FaWmA799u/IYPxZOy4LXHx2kJPkMwU/vOU=
+X-Received: by 2002:a05:6870:6489:b0:1c8:bf19:e1df with SMTP id
+ cz9-20020a056870648900b001c8bf19e1dfmr9339820oab.13.1696100041052; Sat, 30
+ Sep 2023 11:54:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2253; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=ExAgENbFDy79YPL9zwkhUwd58OR3hIj9/ep56FwARBs=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlGFIw1iaUvqRkXmdHEuuytknWrwe98MGZS0mOe bymTwqIL/yJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZRhSMAAKCRCPgPtYfRL+ Tv2wB/9TZ6zWLaUiIJNkMCcwv2THuCRjyXxDTrBVdfE1pAaQc617coqXgFNc7JgziISZgwDoeQn 0N0zbxBSZ4GXFF6OfcZjqkucea+mDp0ik+Sbg27CFFJ+Pyi5pHvL5i6dVVL6vN1InUzbb0H1st8 dklibia6QN0FCthvN90MIxGzMrOhC9U8gpr5PZmCxEVRAoaSGQXKVS7gM4WCEkdiIkGERLVB2IL IR8Uqxa6jU1N8yGa7W51ySmyi3jyEsy2PhKcePHHw2kaR+xNNht1mvi1ynAgo+jh2o9kohc+ruD dYXXkixPCno0nGA21I1gAeRFGZGhuzvqIGzcCtj2GGKLyFJL
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-kbuild@vger.kernel.org
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+References: <20230928202807.1765918-1-mfo@canonical.com>
+In-Reply-To: <20230928202807.1765918-1-mfo@canonical.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sun, 1 Oct 2023 03:53:24 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATS+Xg-BF6LaUs8TsC1CKvMO1n0h6T962uB_uaaM6q1fA@mail.gmail.com>
+Message-ID: <CAK7LNATS+Xg-BF6LaUs8TsC1CKvMO1n0h6T962uB_uaaM6q1fA@mail.gmail.com>
+Subject: Re: [PATCH] modpost: add missing else to the "of" check
+To:     Mauricio Faria de Oliveira <mfo@canonical.com>
+Cc:     linux-kbuild@vger.kernel.org,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -66,68 +59,41 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Drivers must not reference functions marked with __exit as these likely
-are not available when the code is built-in.
+On Fri, Sep 29, 2023 at 5:29=E2=80=AFAM Mauricio Faria de Oliveira
+<mfo@canonical.com> wrote:
+>
+> Without this 'else' statement, an "usb" name goes into two handlers:
+> the first/previous 'if' statement _AND_ the for-loop over 'devtable',
+> but the latter is useless as it has no 'usb' device_id entry anyway.
+>
+> Tested with allmodconfig before/after patch; no changes to *.mod.c:
+>
+>     git checkout v6.6-rc3
+>     make -j$(nproc) allmodconfig
+>     make -j$(nproc) olddefconfig
+>
+>     make -j$(nproc)
+>     find . -name '*.mod.c' | cpio -pd /tmp/before
+>
+>     # apply patch
+>
+>     make -j$(nproc)
+>     find . -name '*.mod.c' | cpio -pd /tmp/after
+>
+>     diff -r /tmp/before/ /tmp/after/
+>     # no difference
+>
+> Fixes: acbef7b76629 ("modpost: fix module autoloading for OF devices with=
+ generic compatible property")
+> Signed-off-by: Mauricio Faria de Oliveira <mfo@canonical.com>
+> ---
 
-There are few creative offenders uncovered for example in ARCH=amd64
-allmodconfig builds. So only trigger the section mismatch warning for
-W=1 builds.
 
-The dual rule that drivers must not reference .init.* is implemented
-since commit 0db252452378 ("modpost: don't allow *driver to reference
-.init.*") which however missed that .exit.* should be handled in the
-same way.
+Applied to linux-kbuild/fixes.
+Thanks.
 
-Thanks to Masahiro Yamada and Arnd Bergmann who gave valuable hints to
-find this improvement.
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
-Hello,
 
-changes since (implicit) v1, sent with Message-Id:
-20230930140601.2457711-1-u.kleine-koenig@pengutronix.de:
-
- - enable the warning about .data -> .exit.* only in W=1 builds to keep
-   normal builds without warnings. *sigh*
- - improved commit log and mention the above item.
- - updated the code comment to match the code
-
-Thanks
-Uwe
-
- scripts/mod/modpost.c | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
-
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index de499dce5265..b3dee80497cb 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -1015,9 +1015,20 @@ static int secref_whitelist(const char *fromsec, const char *fromsym,
- 				    "*_console")))
- 		return 0;
- 
--	/* symbols in data sections that may refer to meminit/exit sections */
-+	/* symbols in data sections that may refer to meminit sections */
- 	if (match(fromsec, PATTERNS(DATA_SECTIONS)) &&
--	    match(tosec, PATTERNS(ALL_XXXINIT_SECTIONS, ALL_EXIT_SECTIONS)) &&
-+	    match(tosec, PATTERNS(ALL_XXXINIT_SECTIONS, ALL_XXXEXIT_SECTIONS)) &&
-+	    match(fromsym, PATTERNS("*driver")))
-+		return 0;
-+
-+	/*
-+	 * symbols in data sections must not refer to .exit.*, but there are
-+	 * quite a few offenders, so hide these unless for W=1 builds until
-+	 * these are fixed.
-+	 */
-+	if (!extra_warn &&
-+	    match(fromsec, PATTERNS(DATA_SECTIONS)) &&
-+	    match(tosec, PATTERNS(EXIT_SECTIONS)) &&
- 	    match(fromsym, PATTERNS("*driver")))
- 		return 0;
- 
-
-base-commit: 6465e260f48790807eef06b583b38ca9789b6072
--- 
-2.40.1
-
+--
+Best Regards
+Masahiro Yamada
