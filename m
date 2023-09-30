@@ -2,58 +2,58 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F7497B41F0
-	for <lists+linux-kbuild@lfdr.de>; Sat, 30 Sep 2023 18:04:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 09C297B4259
+	for <lists+linux-kbuild@lfdr.de>; Sat, 30 Sep 2023 18:52:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231715AbjI3QEb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 30 Sep 2023 12:04:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49382 "EHLO
+        id S234496AbjI3QwX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 30 Sep 2023 12:52:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35354 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234460AbjI3QEb (ORCPT
+        with ESMTP id S229788AbjI3QwX (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 30 Sep 2023 12:04:31 -0400
+        Sat, 30 Sep 2023 12:52:23 -0400
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7969CB3
-        for <linux-kbuild@vger.kernel.org>; Sat, 30 Sep 2023 09:04:28 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6280DAB
+        for <linux-kbuild@vger.kernel.org>; Sat, 30 Sep 2023 09:52:21 -0700 (PDT)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1qmcS1-0006PE-Tj; Sat, 30 Sep 2023 18:04:17 +0200
+        id 1qmdCQ-00083K-Ew; Sat, 30 Sep 2023 18:52:14 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1qmcRy-00A5Xv-7C; Sat, 30 Sep 2023 18:04:14 +0200
+        id 1qmdCN-00A5ig-54; Sat, 30 Sep 2023 18:52:11 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1qmcRx-006XI8-TQ; Sat, 30 Sep 2023 18:04:13 +0200
-Date:   Sat, 30 Sep 2023 18:04:13 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+        id 1qmdCM-006YZS-RT; Sat, 30 Sep 2023 18:52:10 +0200
+From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Nicolas Schier <nicolas@fjasle.eu>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
+Cc:     Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>, linux-kbuild@vger.kernel.org,
         Alexander Shishkin <alexander.shishkin@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        coresight@lists.linaro.org, linux-kbuild@vger.kernel.org,
+        coresight@lists.linaro.org,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
         Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kernel@vger.kernel.org,
         Nathan Chancellor <nathan@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
         James Clark <james.clark@arm.com>, kernel@pengutronix.de,
         Leo Yan <leo.yan@linaro.org>,
+        Nicolas Schier <nicolas@fjasle.eu>,
         linux-arm-kernel@lists.infradead.org,
         Mike Leach <mike.leach@linaro.org>
-Subject: Re: section mismatch test doesn't work reliably on arm64
-Message-ID: <20230930160413.an3xoejevwl73gkk@pengutronix.de>
-References: <20230929081540.yija47lsj35xtj4v@pengutronix.de>
- <20230929174101.3oqx7yxskneuj4gs@pengutronix.de>
- <CAK7LNASkRnJsBdOaXdVizVWHLqYWoJWdzthuSNNEwhYLNYM2cw@mail.gmail.com>
+Subject: [PATCH v2] modpost: Don't let "driver"s reference .exit.*
+Date:   Sat, 30 Sep 2023 18:52:04 +0200
+Message-Id: <20230930165204.2478282-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="tcvnxsb3736tyzob"
-Content-Disposition: inline
-In-Reply-To: <CAK7LNASkRnJsBdOaXdVizVWHLqYWoJWdzthuSNNEwhYLNYM2cw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2253; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=ExAgENbFDy79YPL9zwkhUwd58OR3hIj9/ep56FwARBs=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlGFIw1iaUvqRkXmdHEuuytknWrwe98MGZS0mOe bymTwqIL/yJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZRhSMAAKCRCPgPtYfRL+ Tv2wB/9TZ6zWLaUiIJNkMCcwv2THuCRjyXxDTrBVdfE1pAaQc617coqXgFNc7JgziISZgwDoeQn 0N0zbxBSZ4GXFF6OfcZjqkucea+mDp0ik+Sbg27CFFJ+Pyi5pHvL5i6dVVL6vN1InUzbb0H1st8 dklibia6QN0FCthvN90MIxGzMrOhC9U8gpr5PZmCxEVRAoaSGQXKVS7gM4WCEkdiIkGERLVB2IL IR8Uqxa6jU1N8yGa7W51ySmyi3jyEsy2PhKcePHHw2kaR+xNNht1mvi1ynAgo+jh2o9kohc+ruD dYXXkixPCno0nGA21I1gAeRFGZGhuzvqIGzcCtj2GGKLyFJL
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
 X-SA-Exim-Mail-From: ukl@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
@@ -66,135 +66,68 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+Drivers must not reference functions marked with __exit as these likely
+are not available when the code is built-in.
 
---tcvnxsb3736tyzob
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+There are few creative offenders uncovered for example in ARCH=amd64
+allmodconfig builds. So only trigger the section mismatch warning for
+W=1 builds.
 
+The dual rule that drivers must not reference .init.* is implemented
+since commit 0db252452378 ("modpost: don't allow *driver to reference
+.init.*") which however missed that .exit.* should be handled in the
+same way.
+
+Thanks to Masahiro Yamada and Arnd Bergmann who gave valuable hints to
+find this improvement.
+
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
 Hello,
 
-On Sat, Sep 30, 2023 at 08:08:05PM +0900, Masahiro Yamada wrote:
-> On Sat, Sep 30, 2023 at 2:41=E2=80=AFAM Uwe Kleine-K=C3=B6nig
-> <u.kleine-koenig@pengutronix.de> wrote:
-> >
-> > Hello,
-> >
-> > On Fri, Sep 29, 2023 at 10:15:40AM +0200, Uwe Kleine-K=C3=B6nig wrote:
-> > > by manual inspection I found a section mismatch in
-> > > drivers/hwtracing/coresight/coresight-etm4x-core.c where
-> > > etm4_platform_driver (which lives in ".data") contains a reference to
-> > > etm4_remove_platform_dev() (which lives in ".exit.text").
-> > >
-> > > However building with CONFIG_DEBUG_SECTION_MISMATCH=3Dy +
-> > > CONFIG_CORESIGHT_SOURCE_ETM4X=3Dy doesn't warn about that one.
-> >
-> > Arnd had the right hint in irc: If I do
-> >
-> > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> > index 34a5386d444a..070e53be1ea2 100644
-> > --- a/scripts/mod/modpost.c
-> > +++ b/scripts/mod/modpost.c
-> > @@ -1017,7 +1017,7 @@ static int secref_whitelist(const char *fromsec, =
-const char *fromsym,
-> >
-> >         /* symbols in data sections that may refer to meminit/exit sect=
-ions */
-> >         if (match(fromsec, PATTERNS(DATA_SECTIONS)) &&
-> > -           match(tosec, PATTERNS(ALL_XXXINIT_SECTIONS, ALL_EXIT_SECTIO=
-NS)) &&
-> > +           match(tosec, PATTERNS(ALL_XXXINIT_SECTIONS, ALL_XXXEXIT_SEC=
-TIONS)) &&
-> >             match(fromsym, PATTERNS("*driver")))
-> >                 return 0;
-> >
-> > I get a mismatch warning:
-> >
-> > WARNING: modpost: vmlinux: section mismatch in reference: etm4x_amba_dr=
-iver+0x98 (section: .data) -> etm4_remove_amba (section: .exit.text)
-> > WARNING: modpost: vmlinux: section mismatch in reference: etm4_platform=
-_driver+0x8 (section: .data) -> etm4_remove_platform_dev (section: .exit.te=
-xt)
-> > ERROR: modpost: Section mismatches detected.
-> >
-> > I remember that back in the times of CONFIG_HOTPLUG references to
-> > ".devinit.text" and ".devexit.text" were ok. Is a reference to
-> > .exit.text ever ok?
-> >
-> > I started an allyesconfig build on a few archs with the above patch
-> > applied. This will take some time, when it's done I will report what it
-> > found.
->=20
->=20
->=20
-> allmodconfig on x86 detects several issues.
->=20
-> [...]
-> WARNING: modpost: sound/soc/codecs/snd-soc-tlv320adc3xxx: section
-> mismatch in reference: adc3xxx_i2c_driver+0x10 (section: .data) ->
-> adc3xxx_i2c_remove (section: .exit.text)
+changes since (implicit) v1, sent with Message-Id:
+20230930140601.2457711-1-u.kleine-koenig@pengutronix.de:
 
-I checked just one of those, this is also a valid warning:
+ - enable the warning about .data -> .exit.* only in W=1 builds to keep
+   normal builds without warnings. *sigh*
+ - improved commit log and mention the above item.
+ - updated the code comment to match the code
 
-	static void __exit adc3xxx_i2c_remove(struct i2c_client *client)
-	{
-		...
-	}
-
-	static struct i2c_driver adc3xxx_i2c_driver =3D {
-		...
-		.remove =3D __exit_p(adc3xxx_i2c_remove),
-		...
-	};
-
-so if adc3xxx_i2c_remove is discarded (happens with
-CONFIG_SND_SOC_TLV320ADC3XXX=3Dy) no warning happens, but .remove is just
-NULL and so if the driver is unbound no code runs and so it leaks
-resources. My thought was that allyesconfig would catch all problems,
-didn't consider driver authors to be that creative :-)
-
-$(git grep -E '\.remove\s*=3D\s*__exit') suggests there are quite a few of
-these ...
-
-> Linus requires zero warning, so we cannot enable the modpost warning
-> unless we fix all the sources of the warnings.
-> That will need one or two dev cycles.
-> =20
-> If you want to turn on the warning now, you can surround the check
-> with 'if (extra_warn) '.
-
-OK, extra_warn is a nice compromise. Just keeping the build silent about
-these real problems to allow a warning-free build sounds a bit like an
-instance of Goodhart's law[1].
-
-> Since commit 20ff36856fe00879f82de71fe6f1482ca1b72334
-> it is possible to enable a modpost warning only under W=3D1 builds.
-
-OK, I will rework the patch to only trigger on W=3D1.
-
-Best regards
+Thanks
 Uwe
 
-[1] https://en.wikipedia.org/wiki/Goodhart%27s_law
+ scripts/mod/modpost.c | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig         =
-   |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index de499dce5265..b3dee80497cb 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -1015,9 +1015,20 @@ static int secref_whitelist(const char *fromsec, const char *fromsym,
+ 				    "*_console")))
+ 		return 0;
+ 
+-	/* symbols in data sections that may refer to meminit/exit sections */
++	/* symbols in data sections that may refer to meminit sections */
+ 	if (match(fromsec, PATTERNS(DATA_SECTIONS)) &&
+-	    match(tosec, PATTERNS(ALL_XXXINIT_SECTIONS, ALL_EXIT_SECTIONS)) &&
++	    match(tosec, PATTERNS(ALL_XXXINIT_SECTIONS, ALL_XXXEXIT_SECTIONS)) &&
++	    match(fromsym, PATTERNS("*driver")))
++		return 0;
++
++	/*
++	 * symbols in data sections must not refer to .exit.*, but there are
++	 * quite a few offenders, so hide these unless for W=1 builds until
++	 * these are fixed.
++	 */
++	if (!extra_warn &&
++	    match(fromsec, PATTERNS(DATA_SECTIONS)) &&
++	    match(tosec, PATTERNS(EXIT_SECTIONS)) &&
+ 	    match(fromsym, PATTERNS("*driver")))
+ 		return 0;
+ 
 
---tcvnxsb3736tyzob
-Content-Type: application/pgp-signature; name="signature.asc"
+base-commit: 6465e260f48790807eef06b583b38ca9789b6072
+-- 
+2.40.1
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmUYRvwACgkQj4D7WH0S
-/k6qdwf8DlWZf4o8fcdshlCsg6EuuLhuiOQGAV72uMlHpAREDhrXO81aFFp1ixQd
-yNX1BNHhcf5ZJuyq/nVIMlDZQYA+bRVu0Dt0bZvoe0Nc6eKRvIF7f6l+r72hOzNI
-s+mNIZ+UajU3/ZmNjVSXsUSXXs6M+MVglPyty/3uwDM8KkdaCog7dXmGAD/QCNek
-hBKhC7TpzVzZ+sE0PKbTVMqFeZkuQUO6N4KajAxpAhzMxhkqPjRwp8Q7mbgXhS6o
-Ldz3zI6RQZghFNByVslesKG+pKq500z7MzrheMYo4EE2BpP2AJ5gz1B8s9/4QFR4
-DD7+rjs4oG7tz+v8WvsbDEz2NdUeAw==
-=shmm
------END PGP SIGNATURE-----
-
---tcvnxsb3736tyzob--
