@@ -2,103 +2,121 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 753957B47C9
-	for <lists+linux-kbuild@lfdr.de>; Sun,  1 Oct 2023 16:03:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 149CE7B48AC
+	for <lists+linux-kbuild@lfdr.de>; Sun,  1 Oct 2023 18:56:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234285AbjJAODt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 1 Oct 2023 10:03:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36094 "EHLO
+        id S235209AbjJAQ45 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 1 Oct 2023 12:56:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57758 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231216AbjJAODs (ORCPT
+        with ESMTP id S235184AbjJAQ44 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 1 Oct 2023 10:03:48 -0400
+        Sun, 1 Oct 2023 12:56:56 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 619E29F;
-        Sun,  1 Oct 2023 07:03:46 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67E2FC433C7;
-        Sun,  1 Oct 2023 14:03:44 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32C8EC9;
+        Sun,  1 Oct 2023 09:56:54 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2739C433C9;
+        Sun,  1 Oct 2023 16:56:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696169025;
-        bh=3LIpQH6MN3tTgISuUJS+MrG+dyX1WcYUgjAL90yBmcw=;
-        h=From:To:Cc:Subject:Date:From;
-        b=diyT5n3Erw4CBxvvAhE+uw79QY8yXl0wxr2XxAzsWWWiMipbv6ppyuz5whMdCsAzZ
-         P4Nq21lPh8xZiSKO6NxWsc4gugxca7mbR0ZZINH1tOYgfRyWIHTYTtSjHshhDVn+38
-         8ooR2zg12DbTUWM1+B0jyDxB1inkTxlJsV+1uybnHNOKtIRDn2nhrSLJjwhJ7T51a/
-         vC+QpSxSj3PEXq/JcT13CtDF2ylIoQZ/z4LorY5tw+ohaUgDac48L6WhDDA3gMlXGk
-         ltnt3GNKP0aZRONOw6c7fDJaybnwWVOzcogt7DAk5o6Flko8fYBqLObBc6fTXNecRt
-         Z0GkUNbHqQGUA==
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>
-Subject: [PATCH] kbuild: remove stale code for 'source' symlink in packaging scripts
-Date:   Sun,  1 Oct 2023 23:03:39 +0900
-Message-Id: <20231001140339.1707548-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.39.2
+        s=k20201202; t=1696179413;
+        bh=7GEDIDM2CZQfuVWXUXqevuu15Za7aaDemQVmFgqIfXA=;
+        h=From:Date:Subject:To:Cc:From;
+        b=q0WITblhD5KBMSq3YbwJNwOHysFE4C1KmUM2jGFd6AxEihFOzVFj88vIiEgE2Z90L
+         /KycVIuGwwWJ1L+HiTkphNuoSWIt35drXifY7kzY2SBX+6FZPIQW0RhHve9wA0up9+
+         YBxVF7jqFp+Yc+bWa5qght38hCkSxoDbrtMCVePYGCt1kM6pvBBn40H3mcEPsAUZmv
+         yQdpWQVYvdhoC3AXddN/R1cmzjjmy9oFgY0/pVDKhozuiZFlgg84usL1blZM6is+JB
+         LYFWldf/Bnkk+s2cKxHkTDk07XQHi0fH0R1yT/ak2KfY7Hi7FgIiMMF3FQ3uZGwQID
+         aTyohGFCchejA==
+Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-1dce0c05171so7318070fac.3;
+        Sun, 01 Oct 2023 09:56:53 -0700 (PDT)
+X-Gm-Message-State: AOJu0YwxqHu2/y8BDxKbRHzKSbV+apKdpf8foh6E7ir59fFrPAIWcPOY
+        rUqppuwrlx9Op4ylKgNk43bW9JsNL+oKkmvOD/k=
+X-Google-Smtp-Source: AGHT+IFWDvaN11V5bbggOPZp8I8yT6LNbYShxtKNldE0YAjtAKJqdS3PZVO9kXHnZDC1PNYfjJ4o4JEB4Fi9df2a+xE=
+X-Received: by 2002:a05:6871:8ac:b0:1b7:308e:6cd9 with SMTP id
+ r44-20020a05687108ac00b001b7308e6cd9mr12554195oaq.5.1696179413218; Sun, 01
+ Oct 2023 09:56:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Mon, 2 Oct 2023 01:56:16 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAToVL02t9rApELSbCFfA=PYbgDzyLsJO+J3RV0h0Ry2hA@mail.gmail.com>
+Message-ID: <CAK7LNAToVL02t9rApELSbCFfA=PYbgDzyLsJO+J3RV0h0Ry2hA@mail.gmail.com>
+Subject: [GIT PULL] Kbuild fixes for v6.6-rc4
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Since commit d8131c2965d5 ("kbuild: remove $(MODLIB)/source symlink"),
-modules_install does not create the 'source' symlink.
+Hello Linus,
 
-Remove the stale code from builddeb and kernel.spec.
+Please pull Kbuild fixes for v6.6-rc4.
+Thank you.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
 
- scripts/package/builddeb    | 1 -
- scripts/package/kernel.spec | 3 ---
- 2 files changed, 4 deletions(-)
+The following changes since commit 6465e260f48790807eef06b583b38ca9789b6072=
+:
 
-diff --git a/scripts/package/builddeb b/scripts/package/builddeb
-index bf3f8561aa68..d7dd0d04c70c 100755
---- a/scripts/package/builddeb
-+++ b/scripts/package/builddeb
-@@ -64,7 +64,6 @@ install_linux_image () {
- 
- 	${MAKE} -f ${srctree}/Makefile INSTALL_MOD_PATH="${pdir}" modules_install
- 	rm -f "${pdir}/lib/modules/${KERNELRELEASE}/build"
--	rm -f "${pdir}/lib/modules/${KERNELRELEASE}/source"
- 
- 	# Install the kernel
- 	if [ "${ARCH}" = um ] ; then
-diff --git a/scripts/package/kernel.spec b/scripts/package/kernel.spec
-index ac3f2ee6d7a0..3eee0143e0c5 100644
---- a/scripts/package/kernel.spec
-+++ b/scripts/package/kernel.spec
-@@ -68,7 +68,6 @@ cp $(%{make} %{makeflags} -s image_name) %{buildroot}/boot/vmlinuz-%{KERNELRELEA
- cp System.map %{buildroot}/boot/System.map-%{KERNELRELEASE}
- cp .config %{buildroot}/boot/config-%{KERNELRELEASE}
- ln -fns /usr/src/kernels/%{KERNELRELEASE} %{buildroot}/lib/modules/%{KERNELRELEASE}/build
--ln -fns /usr/src/kernels/%{KERNELRELEASE} %{buildroot}/lib/modules/%{KERNELRELEASE}/source
- %if %{with_devel}
- %{make} %{makeflags} run-command KBUILD_RUN_COMMAND='${srctree}/scripts/package/install-extmod-build %{buildroot}/usr/src/kernels/%{KERNELRELEASE}'
- %endif
-@@ -101,7 +100,6 @@ fi
- %defattr (-, root, root)
- /lib/modules/%{KERNELRELEASE}
- %exclude /lib/modules/%{KERNELRELEASE}/build
--%exclude /lib/modules/%{KERNELRELEASE}/source
- /boot/*
- 
- %files headers
-@@ -113,5 +111,4 @@ fi
- %defattr (-, root, root)
- /usr/src/kernels/%{KERNELRELEASE}
- /lib/modules/%{KERNELRELEASE}/build
--/lib/modules/%{KERNELRELEASE}/source
- %endif
--- 
-2.39.2
+  Linux 6.6-rc3 (2023-09-24 14:31:13 -0700)
 
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+tags/kbuild-fixes-v6.6-2
+
+for you to fetch changes up to 2d7d1bc119a4d7f54cfe0b1be480c34e8c712d06:
+
+  kbuild: remove stale code for 'source' symlink in packaging scripts
+(2023-10-01 23:06:06 +0900)
+
+----------------------------------------------------------------
+Kbuild fixes for v6.6 (2nd)
+
+ - Fix the module compression with xz so the in-kernel decompressor works
+
+ - Document a kconfig idiom to express an optional dependency between
+   modules
+
+ - Make modpost, when W=3D1 is given, detect broken drivers that reference
+   .exit.* sections
+
+ - Remove unused code
+
+----------------------------------------------------------------
+Arnd Bergmann (1):
+      Documentation: kbuild: explain handling optional dependencies
+
+Martin Nybo Andersen (1):
+      kbuild: Use CRC32 and a 1MiB dictionary for XZ compressed modules
+
+Masahiro Yamada (2):
+      vmlinux.lds.h: remove unused CPU_KEEP and CPU_DISCARD macros
+      kbuild: remove stale code for 'source' symlink in packaging scripts
+
+Mauricio Faria de Oliveira (1):
+      modpost: add missing else to the "of" check
+
+Uwe Kleine-K=C3=B6nig (1):
+      modpost: Don't let "driver"s reference .exit.*
+
+ Documentation/kbuild/kconfig-language.rst | 26 ++++++++++++++++++++++++++
+ include/asm-generic/vmlinux.lds.h         |  7 -------
+ scripts/Makefile.modinst                  |  2 +-
+ scripts/mod/file2alias.c                  |  2 +-
+ scripts/mod/modpost.c                     | 15 +++++++++++++--
+ scripts/package/builddeb                  |  1 -
+ scripts/package/kernel.spec               |  3 ---
+ 7 files changed, 41 insertions(+), 15 deletions(-)
+
+
+--=20
+Best Regards
+Masahiro Yamada
