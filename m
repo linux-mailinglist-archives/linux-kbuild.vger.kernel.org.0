@@ -2,31 +2,31 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 10F0C7B4775
-	for <lists+linux-kbuild@lfdr.de>; Sun,  1 Oct 2023 14:38:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 753957B47C9
+	for <lists+linux-kbuild@lfdr.de>; Sun,  1 Oct 2023 16:03:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234896AbjJAMid (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 1 Oct 2023 08:38:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55816 "EHLO
+        id S234285AbjJAODt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 1 Oct 2023 10:03:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229556AbjJAMid (ORCPT
+        with ESMTP id S231216AbjJAODs (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 1 Oct 2023 08:38:33 -0400
+        Sun, 1 Oct 2023 10:03:48 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D70C94;
-        Sun,  1 Oct 2023 05:38:31 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17380C433C7;
-        Sun,  1 Oct 2023 12:38:28 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 619E29F;
+        Sun,  1 Oct 2023 07:03:46 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67E2FC433C7;
+        Sun,  1 Oct 2023 14:03:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696163910;
-        bh=KEq0sb1sATCnOmr6JZBWJrk3Ia06CKo6O9cePk2xNA0=;
+        s=k20201202; t=1696169025;
+        bh=3LIpQH6MN3tTgISuUJS+MrG+dyX1WcYUgjAL90yBmcw=;
         h=From:To:Cc:Subject:Date:From;
-        b=fpPkvQIzkuzvHKi+AOjEeMXdXpMfDC0HgQdMe1hoXfco2RpUEnMf+W5uJFjTxGQlQ
-         +aufWVlwkDD0KcCEaX2WtRRDkvK+dTa0fNob1KSzxPZIrP8WM+47xVcrUh3vnFMGej
-         hprruBaBT+wAdHU+e8/sTZoQaYbXQ9+5oWDHF6R+HlgTO1K2ofYlGl9Gk0vYgxlJhc
-         HBdBwn2QvZM2ym6GVNHE0HOlXU1plMPUZmMI6lpQNwwVH/1WVDgC5yY8zZiFfv1zZN
-         mGnRvxM+Ef3OwF4yUN7eAB+SzmbgDzMhZfMIJ67LccNThKW4AO7pVZ5r77IR0AJ1+A
-         0WU9RB1mhTI8w==
+        b=diyT5n3Erw4CBxvvAhE+uw79QY8yXl0wxr2XxAzsWWWiMipbv6ppyuz5whMdCsAzZ
+         P4Nq21lPh8xZiSKO6NxWsc4gugxca7mbR0ZZINH1tOYgfRyWIHTYTtSjHshhDVn+38
+         8ooR2zg12DbTUWM1+B0jyDxB1inkTxlJsV+1uybnHNOKtIRDn2nhrSLJjwhJ7T51a/
+         vC+QpSxSj3PEXq/JcT13CtDF2ylIoQZ/z4LorY5tw+ohaUgDac48L6WhDDA3gMlXGk
+         ltnt3GNKP0aZRONOw6c7fDJaybnwWVOzcogt7DAk5o6Flko8fYBqLObBc6fTXNecRt
+         Z0GkUNbHqQGUA==
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org,
@@ -34,9 +34,9 @@ Cc:     linux-kernel@vger.kernel.org,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Nicolas Schier <nicolas@fjasle.eu>
-Subject: [PATCH] kbuild: make binrpm-pkg always produce kernel-devel package
-Date:   Sun,  1 Oct 2023 21:38:22 +0900
-Message-Id: <20231001123822.1659773-1-masahiroy@kernel.org>
+Subject: [PATCH] kbuild: remove stale code for 'source' symlink in packaging scripts
+Date:   Sun,  1 Oct 2023 23:03:39 +0900
+Message-Id: <20231001140339.1707548-1-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -49,39 +49,56 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The generation of the kernel-devel package is disabled for binrpm-pkg
-presumably because it was quite big (>= 200MB) and took a long time to
-package.
+Since commit d8131c2965d5 ("kbuild: remove $(MODLIB)/source symlink"),
+modules_install does not create the 'source' symlink.
 
-Commit fe66b5d2ae72 ("kbuild: refactor kernel-devel RPM package and
-linux-headers Deb package") reduced the package size to 12MB, and now
-it is quick to build. It won't hurt to have binrpm-pkg generate it by
-default.
-
-If you want to skip the kernel-devel package generation, you can pass
-RPMOPTS='--without devel':
-
-  $ make binrpm-pkg RPMOPTS='--without devel'
+Remove the stale code from builddeb and kernel.spec.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/Makefile.package | 2 --
- 1 file changed, 2 deletions(-)
+ scripts/package/builddeb    | 1 -
+ scripts/package/kernel.spec | 3 ---
+ 2 files changed, 4 deletions(-)
 
-diff --git a/scripts/Makefile.package b/scripts/Makefile.package
-index 05b8c3e29aac..3addd1c0b989 100644
---- a/scripts/Makefile.package
-+++ b/scripts/Makefile.package
-@@ -94,8 +94,6 @@ rpm-pkg srcrpm-pkg binrpm-pkg: rpmbuild/SPECS/kernel.spec
- 	$(if $(filter a b, $(build-type)), \
- 		--target $(UTS_MACHINE)-linux --build-in-place --noprep --define='_smp_mflags %{nil}' \
- 		$$(rpm -q rpm >/dev/null 2>&1 || echo --nodeps)) \
--	$(if $(filter b, $(build-type)), \
--		--without devel) \
- 	$(RPMOPTS))
+diff --git a/scripts/package/builddeb b/scripts/package/builddeb
+index bf3f8561aa68..d7dd0d04c70c 100755
+--- a/scripts/package/builddeb
++++ b/scripts/package/builddeb
+@@ -64,7 +64,6 @@ install_linux_image () {
  
- # deb-pkg srcdeb-pkg bindeb-pkg
+ 	${MAKE} -f ${srctree}/Makefile INSTALL_MOD_PATH="${pdir}" modules_install
+ 	rm -f "${pdir}/lib/modules/${KERNELRELEASE}/build"
+-	rm -f "${pdir}/lib/modules/${KERNELRELEASE}/source"
+ 
+ 	# Install the kernel
+ 	if [ "${ARCH}" = um ] ; then
+diff --git a/scripts/package/kernel.spec b/scripts/package/kernel.spec
+index ac3f2ee6d7a0..3eee0143e0c5 100644
+--- a/scripts/package/kernel.spec
++++ b/scripts/package/kernel.spec
+@@ -68,7 +68,6 @@ cp $(%{make} %{makeflags} -s image_name) %{buildroot}/boot/vmlinuz-%{KERNELRELEA
+ cp System.map %{buildroot}/boot/System.map-%{KERNELRELEASE}
+ cp .config %{buildroot}/boot/config-%{KERNELRELEASE}
+ ln -fns /usr/src/kernels/%{KERNELRELEASE} %{buildroot}/lib/modules/%{KERNELRELEASE}/build
+-ln -fns /usr/src/kernels/%{KERNELRELEASE} %{buildroot}/lib/modules/%{KERNELRELEASE}/source
+ %if %{with_devel}
+ %{make} %{makeflags} run-command KBUILD_RUN_COMMAND='${srctree}/scripts/package/install-extmod-build %{buildroot}/usr/src/kernels/%{KERNELRELEASE}'
+ %endif
+@@ -101,7 +100,6 @@ fi
+ %defattr (-, root, root)
+ /lib/modules/%{KERNELRELEASE}
+ %exclude /lib/modules/%{KERNELRELEASE}/build
+-%exclude /lib/modules/%{KERNELRELEASE}/source
+ /boot/*
+ 
+ %files headers
+@@ -113,5 +111,4 @@ fi
+ %defattr (-, root, root)
+ /usr/src/kernels/%{KERNELRELEASE}
+ /lib/modules/%{KERNELRELEASE}/build
+-/lib/modules/%{KERNELRELEASE}/source
+ %endif
 -- 
 2.39.2
 
