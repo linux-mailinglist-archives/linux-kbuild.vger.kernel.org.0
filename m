@@ -2,48 +2,74 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 35CD97B4573
-	for <lists+linux-kbuild@lfdr.de>; Sun,  1 Oct 2023 07:47:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 957D07B45B8
+	for <lists+linux-kbuild@lfdr.de>; Sun,  1 Oct 2023 08:59:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234323AbjJAFrt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 1 Oct 2023 01:47:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60416 "EHLO
+        id S234351AbjJAG7L (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 1 Oct 2023 02:59:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229455AbjJAFrr (ORCPT
+        with ESMTP id S229635AbjJAG7L (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 1 Oct 2023 01:47:47 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA651C6;
-        Sat, 30 Sep 2023 22:47:44 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF09CC433C8;
-        Sun,  1 Oct 2023 05:47:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696139264;
-        bh=88KKkoAPRDO23nRFoIefVOhrftazGGYp+0IoLxHUnW0=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=hmQ/1YooZLswpEixBNq286dO6GF8BLA9gFrJZfBsiUw8SWMJTOYaDd7K1wHFVpGDf
-         0wJrqILpcxhWPakn1KOvo6ewMQ4Q7F9XMdENYBmEO+b/mFM6qFcEj8k9DXSIsv02Js
-         WLoejLmTkxMnFQDAZsL6d89Ku2Tn4yzLGxpngKraRf5gXurOnIOJqC3b+Ynf1E4FNs
-         pX4SwLayvaVM2pzHJgml05npjdbicunDFhv+b8sTxNhP1FgpinUPcVNkVRbKoPkBzg
-         /rqAE/uovPfnn8GzT4dUbEEnfdEg/LhouUleLGO7ZelUVqfqfgyhdEO4fqjjmvr6kX
-         Ns/lX/DRhhA9Q==
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
+        Sun, 1 Oct 2023 02:59:11 -0400
+Received: from mail-qv1-xf2c.google.com (mail-qv1-xf2c.google.com [IPv6:2607:f8b0:4864:20::f2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 637819F;
+        Sat, 30 Sep 2023 23:59:08 -0700 (PDT)
+Received: by mail-qv1-xf2c.google.com with SMTP id 6a1803df08f44-668d9c1f70fso375996d6.3;
+        Sat, 30 Sep 2023 23:59:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1696143547; x=1696748347; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iFogJBniBFn6caNvLOi/GkfLB5jlxKmfjfT3DU/VTrs=;
+        b=LmFlY+vb2sPDIOPT/zPMZFEYX5ymLOZB4OMlSPuxNTGwUxcifB7b3XjptFbxUn/6ML
+         K7hgODB/KevWyolh2APc/ad7WvMePnbcxYOsJor5UX+/XHnbZEoxs6/IH5yBqA/BVgbb
+         owXbTX3F+WZ3YX/uotAW1a0d8vX7hSRZKjPwgWpgWIfvgWTRtloUw3gk0gBMJ5aPgPxk
+         jve+FWN0nfgqgYzXqrMZuI658ZrzI8v+TDKgcU/gkpqb6T5YZzQKZErhGOr5L9XghTEU
+         5bPCqtSmMf5ad+JKK7XX3X1aFCzdLhDDbD3gQVj96gGBssFNuUXPT9YGi0/wqwuomGVx
+         cZig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696143547; x=1696748347;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iFogJBniBFn6caNvLOi/GkfLB5jlxKmfjfT3DU/VTrs=;
+        b=VA+d12y63tIYWA8HW30QmM3nShh1w298z35xDvlAzkXYoRnsOE9dt1w4wi0I9XAPKJ
+         SsxZFgRUfzdKNdKBBm6w6ylGtT1N7TqVrfa22U/lCxAcWCiOj166g4ot8CnNn96F4nz2
+         5EsEwu50J9lFhRNVCOluP07hBkDmBdSa+kabvWs7vzpsL+hki6YlCp0DbyufycJxW7Wx
+         mpb8h/tq2isp/04O1BmXxgdj7aPlXrQG5F3+Azx3iLI65EbP9O28NHlKUjbxfrAra+zE
+         kR0bbO8QCpjwIL5//zdmTyGSyyOWPu37YVLH2/mtxaQ2HI/3bEyGvgavSS6Zb7yZULCS
+         ozGg==
+X-Gm-Message-State: AOJu0YxzLL+nU5Hpj9McpiNfA0CHswx8JDV7cb2nBYrdRLKDUJDtLLml
+        xRZ4i52xUHHWoV8c7BRtwL76tIMhe/fVfU3iV98=
+X-Google-Smtp-Source: AGHT+IEDqx5jMt8NqHx7dN34nsB6P6Z72VHmZfl6fhmpQu5lKy26iZ4Uo7oU/tzxZ45ynGgotZmRMoWORQflbF2C7fw=
+X-Received: by 2002:a05:620a:f81:b0:775:66c1:7f94 with SMTP id
+ b1-20020a05620a0f8100b0077566c17f94mr7526632qkn.39.1696143547468; Sat, 30 Sep
+ 2023 23:59:07 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230928041600.15982-1-quic_jiangenj@quicinc.com>
+ <CAG_fn=V9FXGpqceojn0UGiPi7gFbDbRnObc-N5a55Qk=XQy=kg@mail.gmail.com> <CAK7LNASfdQYy7ON011jQxqd4Bz98CJuvDNCUp2NRrHcK29x3zA@mail.gmail.com>
+In-Reply-To: <CAK7LNASfdQYy7ON011jQxqd4Bz98CJuvDNCUp2NRrHcK29x3zA@mail.gmail.com>
+From:   Andrey Konovalov <andreyknvl@gmail.com>
+Date:   Sun, 1 Oct 2023 08:58:55 +0200
+Message-ID: <CA+fCnZe809yDRNQ_sQHenOE8idBDLDk_p=PG1-_O2NK7bMVxwQ@mail.gmail.com>
+Subject: Re: [PATCH] kasan: Add CONFIG_KASAN_WHITELIST_ONLY mode
+To:     Joey Jiao <quic_jiangenj@quicinc.com>
+Cc:     Alexander Potapenko <glider@google.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
+        kasan-dev@googlegroups.com, quic_likaid@quicinc.com,
+        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>
-Subject: [PATCH 2/2] modpost: factor out the common boilerplate of section_rel(a)
-Date:   Sun,  1 Oct 2023 14:47:36 +0900
-Message-Id: <20231001054736.1586001-2-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231001054736.1586001-1-masahiroy@kernel.org>
-References: <20231001054736.1586001-1-masahiroy@kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -52,97 +78,35 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The first few lines of section_rel() and section_rela() are the same.
-They both retrieve the index of the section to which the relocaton
-applies, and skip known-good sections. This common code should be moved
-to check_sec_ref().
+On Sat, Sep 30, 2023 at 12:13=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.=
+org> wrote:
+>
+> On Fri, Sep 29, 2023 at 11:06=E2=80=AFPM Alexander Potapenko <glider@goog=
+le.com> wrote:
+> >
+> > (CC Masahiro Yamada)
+> >
+> > On Thu, Sep 28, 2023 at 6:16=E2=80=AFAM Joey Jiao <quic_jiangenj@quicin=
+c.com> wrote:
+> > >
+> > > Fow low memory device, full enabled kasan just not work.
+> > > Set KASAN_SANITIZE to n when CONFIG_KASAN_WHITELIST_ONLY=3Dy.
+> > > So we can enable kasan for single file or module.
+> >
+> > I don't have technical objections here, but it bothers me a bit that
+> > we are adding support for KASAN_SANITIZE:=3Dy, although nobody will be
+> > adding KASAN_SANITIZE:=3Dy to upstream Makefiles - only development
+> > kernels when debugging on low-end devices.
+> >
+> > Masahiro, is this something worth having in upstream Kconfig code?
+>
+>
+> Even if we apply this patch to the upstream,
+> you will end up with adding 'KASAN_SANITIZE :=3Dy'
+> to the single file/Makefile.
+>
+> I am not convinced with this patch
+> since this nod is not so useful standalone.
 
-Avoid ugly casts when computing 'start' and 'stop', and also make the
-Elf_Rel and Elf_Rela pointers const.
-
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
- scripts/mod/modpost.c | 50 ++++++++++++++++++++++---------------------
- 1 file changed, 26 insertions(+), 24 deletions(-)
-
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index 15d78fe152ac..0e18fe617ed1 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -1425,17 +1425,10 @@ static void get_rel_type_and_sym(struct elf_info *elf, uint64_t r_info,
- }
- 
- static void section_rela(struct module *mod, struct elf_info *elf,
--			 Elf_Shdr *sechdr)
-+			 unsigned int fsecndx, const char *fromsec,
-+			 const Elf_Rela *start, const Elf_Rela *stop)
- {
--	Elf_Rela *rela;
--	unsigned int fsecndx = sechdr->sh_info;
--	const char *fromsec = sec_name(elf, fsecndx);
--	Elf_Rela *start = (void *)elf->hdr + sechdr->sh_offset;
--	Elf_Rela *stop  = (void *)start + sechdr->sh_size;
--
--	/* if from section (name) is know good then skip it */
--	if (match(fromsec, section_white_list))
--		return;
-+	const Elf_Rela *rela;
- 
- 	for (rela = start; rela < stop; rela++) {
- 		Elf_Addr taddr, r_offset;
-@@ -1465,17 +1458,10 @@ static void section_rela(struct module *mod, struct elf_info *elf,
- }
- 
- static void section_rel(struct module *mod, struct elf_info *elf,
--			Elf_Shdr *sechdr)
-+			unsigned int fsecndx, const char *fromsec,
-+			const Elf_Rel *start, const Elf_Rel *stop)
- {
--	Elf_Rel *rel;
--	unsigned int fsecndx = sechdr->sh_info;
--	const char *fromsec = sec_name(elf, fsecndx);
--	Elf_Rel *start = (void *)elf->hdr + sechdr->sh_offset;
--	Elf_Rel *stop  = (void *)start + sechdr->sh_size;
--
--	/* if from section (name) is know good then skip it */
--	if (match(fromsec, section_white_list))
--		return;
-+	const Elf_Rel *rel;
- 
- 	for (rel = start; rel < stop; rel++) {
- 		Elf_Sym *tsym;
-@@ -1530,10 +1516,26 @@ static void check_sec_ref(struct module *mod, struct elf_info *elf)
- 
- 		check_section(mod->name, elf, sechdr);
- 		/* We want to process only relocation sections and not .init */
--		if (sechdr->sh_type == SHT_RELA)
--			section_rela(mod, elf, sechdr);
--		else if (sechdr->sh_type == SHT_REL)
--			section_rel(mod, elf, sechdr);
-+		if (sechdr->sh_type == SHT_REL || sechdr->sh_type == SHT_RELA) {
-+			/* section to which the relocation applies */
-+			unsigned int secndx = sechdr->sh_info;
-+			const char *secname = sec_name(elf, secndx);
-+			const void *start, *stop;
-+
-+			/* If the section is known good, skip it */
-+			if (match(secname, section_white_list))
-+				continue;
-+
-+			start = sym_get_data_by_offset(elf, i, 0);
-+			stop = start + sechdr->sh_size;
-+
-+			if (sechdr->sh_type == SHT_RELA)
-+				section_rela(mod, elf, secndx, secname,
-+					     start, stop);
-+			else
-+				section_rel(mod, elf, secndx, secname,
-+					    start, stop);
-+		}
- 	}
- }
- 
--- 
-2.39.2
-
+Yeah, I agree here, I don't think this change belongs as is in the
+upstream KASAN code.
