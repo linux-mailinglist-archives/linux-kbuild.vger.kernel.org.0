@@ -2,58 +2,58 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C3E87B5720
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Oct 2023 18:12:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B6F057B5774
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Oct 2023 18:13:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238035AbjJBPzd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 2 Oct 2023 11:55:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43966 "EHLO
+        id S238360AbjJBQBo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 2 Oct 2023 12:01:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238061AbjJBPzc (ORCPT
+        with ESMTP id S238359AbjJBQBn (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 2 Oct 2023 11:55:32 -0400
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC7C0BD
-        for <linux-kbuild@vger.kernel.org>; Mon,  2 Oct 2023 08:55:29 -0700 (PDT)
-Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-40566f8a093so136678785e9.3
-        for <linux-kbuild@vger.kernel.org>; Mon, 02 Oct 2023 08:55:29 -0700 (PDT)
+        Mon, 2 Oct 2023 12:01:43 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 305A4BD
+        for <linux-kbuild@vger.kernel.org>; Mon,  2 Oct 2023 09:01:40 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id ffacd0b85a97d-3215f19a13aso16676603f8f.3
+        for <linux-kbuild@vger.kernel.org>; Mon, 02 Oct 2023 09:01:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1696262128; x=1696866928; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1696262498; x=1696867298; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DYqu+Z03Xs4vwbPIqLMKJ2TemUcRXbZ6I5tCtedOo4s=;
-        b=FWtggO99PQSK2nGMN3C5JHznPWC7lUUrN/x0Qe3/bqyLbnp4b7WViuxpaR7tApjNJj
-         WjWuVtBg00l0e4vJQ/ADSARhOglIWpJiyK/oBEm+DmRMJVhXTveK8tAKONrP+/2sZlbP
-         dO7T1MbZc8nXrout82zE9gxoB8E3y7+i5Pha/EgNjF+p43PRyk25hAdVVxYk0nO+fDeQ
-         8Z95jZRHeAJgnLDGAl3AwSuJ8uQlaQzazyq8C7+t7+xV5ssIXdbXm5zC4VV68fRpgBte
-         0flM+CF6tA/pmYxVoRxiYoFIJd6Dsea0uXMWi5tpBnKK/MhXm0JgM9kKk2zT7V1e/ZuP
-         FAXA==
+        bh=pJAfxKKIDOmNQ6NAPWDPTRLLaIM+b+cKty2EQafbHM8=;
+        b=hPjtMehO/f1RvGT0ZqMSgIN6v9zpED8cVW6ReBE6U1MWLUlG2M594f55fEb0tiZVJF
+         V8hTLD1ldbrPMwf25Gsa/bpQRf7l+hjFZ9RTDxMpFgV4NBkUVaUuxBBqKeTSUNOi+7gv
+         k7XU0gdiycEx6DcG4h/BP8CDt/gCirVk7wufVOdybLQUhY/ekA+YOemUSOeF6pF6IukC
+         IO8BXwmc0fBrkreBK8tG3c3zQmSAV5NKtXsx5gfJlAlypnjsGEtQYG2B2WY4QUsi0E4u
+         VQFykO4+HH1tCQDRWXR1LN1DNryDDQgIYV7L594V1w9Wc9BsXN6Dgtks/qmOOWOup5zR
+         Fkvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696262128; x=1696866928;
+        d=1e100.net; s=20230601; t=1696262498; x=1696867298;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=DYqu+Z03Xs4vwbPIqLMKJ2TemUcRXbZ6I5tCtedOo4s=;
-        b=dLBJl7DadFx0BtD7dRy8RBF1Wcx5ZXQhoRPVBmfXqPslfH4wMd40IfSaQ5ViZ8pdKL
-         2adRwsFD2opi/rQyWp3K5/lSn9gYF4S2hXuamAECz3U2lzyUpBl2jDUhWSbrkJ/8EMSr
-         8jWcfHA3tGQNkfyBRLYquve5B52j0qezBpnyowAfb4ckXUWOvMPYvsf0K7V0z/P/mPMV
-         Pf4rJC1PwyXjQYGliYkLxJGiLS1nLmssgAJ1oP1Ag5xXS7eDL3oH94UPJUGzXgwWxsSn
-         piwCONgRvinRhZcNX1C1z4RzlE9Ua6KtFsUlhg9YoaImCRC7Rp6fb/qgqGm+85vZrhw8
-         0qRg==
-X-Gm-Message-State: AOJu0YxljXkuErHTWplizQUl3I2lq3lh/daK1Z+a9/fiI22MDKaULw4m
-        6l/3dRaOrPKsbHBFPAbKknR/VOQkM/oSiihWQBWJSflRr9MjrqdOTSc=
-X-Google-Smtp-Source: AGHT+IFVXU7IFndvdZU7z42hZeKuGZo++DuxGIRlYbMuWWtegb7plk58/lpwS7uOgelf+I2qCurYgUPaHDWOngFOhBs=
-X-Received: by 2002:a05:600c:2146:b0:405:458d:d54 with SMTP id
- v6-20020a05600c214600b00405458d0d54mr10914294wml.33.1696262127926; Mon, 02
- Oct 2023 08:55:27 -0700 (PDT)
+        bh=pJAfxKKIDOmNQ6NAPWDPTRLLaIM+b+cKty2EQafbHM8=;
+        b=GJIMYrBB0KimkSecw2qAl77wOFqaGkr7Kk97vRpzysOopyV9VNK1unxYmwOcHq2kfk
+         zOZkoNXiDApPDRbfJ4sznMoLPZjdVsE1VlA4iS5Ldlv08aB7RcYgBHRxI96MTAI/9eB9
+         CTmVsucvGpKh84ya8Cm1+WKiAA+fDWJGCxezojgi9rml/5lqU65mgablE/Phb3OqEEPg
+         +q8FMpk3Kt0pLAm7Fp5kisKYUsbbGiV/N/JCPQgEzc344dB5O0KMLc0AUDfCOlsC3hXz
+         zQ/wIm3w7jxRiPE+0oyjQzFd1EPmlwzPwApiH1nnWyJ08DxTx7BFdOkTnUWxPXFkM8Fc
+         c2Aw==
+X-Gm-Message-State: AOJu0YwgteML6wsAoBfu5TeLE+Orjo6zV4dyZBaehF+E9aHMBUS1uyv6
+        JTHXYQnrsv8t8ZfF4wfopw+QuIdZWuGX4LLG17jB3IF2+377lmTOWX4=
+X-Google-Smtp-Source: AGHT+IF0MKq8zjm7nEkLpSEZkTwv4am93fXUVvTJEiuy0/9vuHRcYymFNLwbX38U5gcNPeG59alk7KP1CtIwCy/wdUk=
+X-Received: by 2002:a5d:674a:0:b0:324:7a6b:d4fe with SMTP id
+ l10-20020a5d674a000000b003247a6bd4femr11097545wrw.9.1696262498408; Mon, 02
+ Oct 2023 09:01:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <20231001054736.1586001-1-masahiroy@kernel.org>
-In-Reply-To: <20231001054736.1586001-1-masahiroy@kernel.org>
+References: <20231001054736.1586001-1-masahiroy@kernel.org> <20231001054736.1586001-2-masahiroy@kernel.org>
+In-Reply-To: <20231001054736.1586001-2-masahiroy@kernel.org>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 2 Oct 2023 08:55:13 -0700
-Message-ID: <CAKwvOd=9vxXWwtDxuAmhBO_-c9vhF1rwYyOo8e9EY2x2B1m-iQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] modpost: refactor check_sec_ref()
+Date:   Mon, 2 Oct 2023 09:01:27 -0700
+Message-ID: <CAKwvOdk=dpEzqzyNvKuUaev+qJ4gyhXnhuFDgF+dxSqMkVfpcw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] modpost: factor out the common boilerplate of section_rel(a)
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Nathan Chancellor <nathan@kernel.org>,
@@ -62,7 +62,7 @@ Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
         USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -74,10 +74,16 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 On Sat, Sep 30, 2023 at 10:47=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.=
 org> wrote:
 >
-> We can replace &elf->sechdrs[i] with &sechdrs[i] to slightly shorten
-> the code because we already have the local variable 'sechdrs'.
+> The first few lines of section_rel() and section_rela() are the same.
+> They both retrieve the index of the section to which the relocaton
+
+s/relocaton/relocation/
+
+> applies, and skip known-good sections. This common code should be moved
+> to check_sec_ref().
 >
-> However, defining 'sechdr' instead shortens the code further.
+> Avoid ugly casts when computing 'start' and 'stop', and also make the
+> Elf_Rel and Elf_Rela pointers const.
 >
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
@@ -86,36 +92,88 @@ Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
 > ---
 >
->  scripts/mod/modpost.c | 13 +++++++------
->  1 file changed, 7 insertions(+), 6 deletions(-)
+>  scripts/mod/modpost.c | 50 ++++++++++++++++++++++---------------------
+>  1 file changed, 26 insertions(+), 24 deletions(-)
 >
 > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index 2f3b0fe6f68d..15d78fe152ac 100644
+> index 15d78fe152ac..0e18fe617ed1 100644
 > --- a/scripts/mod/modpost.c
 > +++ b/scripts/mod/modpost.c
-> @@ -1523,16 +1523,17 @@ static void section_rel(struct module *mod, struc=
-t elf_info *elf,
->  static void check_sec_ref(struct module *mod, struct elf_info *elf)
->  {
->         int i;
-> -       Elf_Shdr *sechdrs =3D elf->sechdrs;
+> @@ -1425,17 +1425,10 @@ static void get_rel_type_and_sym(struct elf_info =
+*elf, uint64_t r_info,
+>  }
 >
->         /* Walk through all sections */
->         for (i =3D 0; i < elf->num_sections; i++) {
-> -               check_section(mod->name, elf, &elf->sechdrs[i]);
-> +               Elf_Shdr *sechdr =3D &elf->sechdrs[i];
-> +
-> +               check_section(mod->name, elf, sechdr);
+>  static void section_rela(struct module *mod, struct elf_info *elf,
+> -                        Elf_Shdr *sechdr)
+> +                        unsigned int fsecndx, const char *fromsec,
+> +                        const Elf_Rela *start, const Elf_Rela *stop)
+>  {
+> -       Elf_Rela *rela;
+> -       unsigned int fsecndx =3D sechdr->sh_info;
+> -       const char *fromsec =3D sec_name(elf, fsecndx);
+> -       Elf_Rela *start =3D (void *)elf->hdr + sechdr->sh_offset;
+> -       Elf_Rela *stop  =3D (void *)start + sechdr->sh_size;
+> -
+> -       /* if from section (name) is know good then skip it */
+> -       if (match(fromsec, section_white_list))
+> -               return;
+> +       const Elf_Rela *rela;
+>
+>         for (rela =3D start; rela < stop; rela++) {
+>                 Elf_Addr taddr, r_offset;
+> @@ -1465,17 +1458,10 @@ static void section_rela(struct module *mod, stru=
+ct elf_info *elf,
+>  }
+>
+>  static void section_rel(struct module *mod, struct elf_info *elf,
+> -                       Elf_Shdr *sechdr)
+> +                       unsigned int fsecndx, const char *fromsec,
+> +                       const Elf_Rel *start, const Elf_Rel *stop)
+>  {
+> -       Elf_Rel *rel;
+> -       unsigned int fsecndx =3D sechdr->sh_info;
+> -       const char *fromsec =3D sec_name(elf, fsecndx);
+> -       Elf_Rel *start =3D (void *)elf->hdr + sechdr->sh_offset;
+> -       Elf_Rel *stop  =3D (void *)start + sechdr->sh_size;
+> -
+> -       /* if from section (name) is know good then skip it */
+> -       if (match(fromsec, section_white_list))
+> -               return;
+> +       const Elf_Rel *rel;
+>
+>         for (rel =3D start; rel < stop; rel++) {
+>                 Elf_Sym *tsym;
+> @@ -1530,10 +1516,26 @@ static void check_sec_ref(struct module *mod, str=
+uct elf_info *elf)
+>
+>                 check_section(mod->name, elf, sechdr);
 >                 /* We want to process only relocation sections and not .i=
 nit */
-> -               if (sechdrs[i].sh_type =3D=3D SHT_RELA)
-> -                       section_rela(mod, elf, &elf->sechdrs[i]);
-> -               else if (sechdrs[i].sh_type =3D=3D SHT_REL)
-> -                       section_rel(mod, elf, &elf->sechdrs[i]);
-> +               if (sechdr->sh_type =3D=3D SHT_RELA)
-> +                       section_rela(mod, elf, sechdr);
-> +               else if (sechdr->sh_type =3D=3D SHT_REL)
-> +                       section_rel(mod, elf, sechdr);
+> -               if (sechdr->sh_type =3D=3D SHT_RELA)
+> -                       section_rela(mod, elf, sechdr);
+> -               else if (sechdr->sh_type =3D=3D SHT_REL)
+> -                       section_rel(mod, elf, sechdr);
+> +               if (sechdr->sh_type =3D=3D SHT_REL || sechdr->sh_type =3D=
+=3D SHT_RELA) {
+> +                       /* section to which the relocation applies */
+> +                       unsigned int secndx =3D sechdr->sh_info;
+> +                       const char *secname =3D sec_name(elf, secndx);
+> +                       const void *start, *stop;
+> +
+> +                       /* If the section is known good, skip it */
+> +                       if (match(secname, section_white_list))
+> +                               continue;
+> +
+> +                       start =3D sym_get_data_by_offset(elf, i, 0);
+> +                       stop =3D start + sechdr->sh_size;
+> +
+> +                       if (sechdr->sh_type =3D=3D SHT_RELA)
+> +                               section_rela(mod, elf, secndx, secname,
+> +                                            start, stop);
+> +                       else
+> +                               section_rel(mod, elf, secndx, secname,
+> +                                           start, stop);
+> +               }
 >         }
 >  }
 >
