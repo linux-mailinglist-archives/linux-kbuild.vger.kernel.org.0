@@ -2,69 +2,100 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 26C117B49AA
-	for <lists+linux-kbuild@lfdr.de>; Sun,  1 Oct 2023 23:15:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3826D7B4CB9
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Oct 2023 09:42:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235400AbjJAVPW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 1 Oct 2023 17:15:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35476 "EHLO
+        id S229712AbjJBHmo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 2 Oct 2023 03:42:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235399AbjJAVPV (ORCPT
+        with ESMTP id S229709AbjJBHmn (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 1 Oct 2023 17:15:21 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AE00CE;
-        Sun,  1 Oct 2023 14:15:19 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 40B16C433C8;
-        Sun,  1 Oct 2023 21:15:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696194919;
-        bh=QPO1+1OVr/oT5EV2wN7AMqhxI3EhE6LePqC9WtxwhGA=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=d1Gvb66Sb+DYgvNt9NevoMaDwvTWHQrcGCFo2tMrp9dXRfNZ1xBjbh2eJUqp65Fhb
-         RcKj42V6Uei5OlmVqF4zslHsC8APSjG+YOQg3effBh8smkmtCPlE/0GhKw8mKDG26r
-         +gs3GZ/YQdLi0SzGnlrH/3oztsklliBLaE9Gws4FqsZLoE+rrUjN0qOha62hDCOiDp
-         wqQG4SgsKtwKyaVonSPcbSE0d6pCSw59M7cDG5vzKP/nDOYUeLDXAx3pbiU6P14UXT
-         lEXpB6eQ5TiCygewvnxDBe5zT3Fk3HQpIDnW53oRUIkjlwdjDur9RwYtEutApPcsG7
-         HkUNgL1HYvG+A==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 21FA6C43170;
-        Sun,  1 Oct 2023 21:15:19 +0000 (UTC)
-Subject: Re: [GIT PULL] Kbuild fixes for v6.6-rc4
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <CAK7LNAToVL02t9rApELSbCFfA=PYbgDzyLsJO+J3RV0h0Ry2hA@mail.gmail.com>
-References: <CAK7LNAToVL02t9rApELSbCFfA=PYbgDzyLsJO+J3RV0h0Ry2hA@mail.gmail.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAK7LNAToVL02t9rApELSbCFfA=PYbgDzyLsJO+J3RV0h0Ry2hA@mail.gmail.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v6.6-2
-X-PR-Tracked-Commit-Id: 2d7d1bc119a4d7f54cfe0b1be480c34e8c712d06
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: e81a2dabc3f3faa0d96808708a8dc2025f2bdde3
-Message-Id: <169619491913.22414.2256666820104535823.pr-tracker-bot@kernel.org>
-Date:   Sun, 01 Oct 2023 21:15:19 +0000
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Mon, 2 Oct 2023 03:42:43 -0400
+Received: from mail-vk1-xa32.google.com (mail-vk1-xa32.google.com [IPv6:2607:f8b0:4864:20::a32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BC12AB
+        for <linux-kbuild@vger.kernel.org>; Mon,  2 Oct 2023 00:42:40 -0700 (PDT)
+Received: by mail-vk1-xa32.google.com with SMTP id 71dfb90a1353d-49a319c9e17so4769947e0c.1
+        for <linux-kbuild@vger.kernel.org>; Mon, 02 Oct 2023 00:42:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1696232559; x=1696837359; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vSh85qp98TAtPCnT67pcz20dczDxxqTD4YcLwPP44io=;
+        b=kCNawjjI/f4n+biV+vLjAA/Cfl6jcOXHeKOk6l1DA+XWCEw7e9oVx73OoewqH0LByQ
+         +bzuu0sAWaZYVwCLahYw+AukSMGBd7pll8bDsGEWTI0KsZB6jskePOTvjQBwKXBM0XAB
+         bwFAZNoS3nvrC759EuJ9C5P8R/AeSST675QPXxop/lqONFbnhx4tzfwsP+2aS1+tuq9y
+         3g6AnYWtZMCAniGXwxEg8IO43lILdpQBB9hVZ0p68LFPBqFrN+OuQWhR6tJLKxp804S+
+         +SjVQNgF7PS52qa5Lel7ragBcrINhcf0LT7zRq7aGv2DSQI47Hl5DsAw6T4OaJg6tGqm
+         l/cA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696232559; x=1696837359;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vSh85qp98TAtPCnT67pcz20dczDxxqTD4YcLwPP44io=;
+        b=s7k0AVy1QBF5037QXQxTlqjZXkQaI1chKoQ4PN/ppp9bwejg+Ov4maLljdXLMgklUP
+         4+e4hi/ax+DMsaFZGNhHYl3WFqZWRhSVSNR3M3X/qWvmDIjLI6hzHLgVAZYTw05iXJYC
+         o2WuPURAp7jOWQ30BQ1TNleoass+n9oUW7P6fhayJZ4aCSoFgEBI2mlghBIrUnrpsplY
+         arQBfiBUK4QzVlCZ2KZF7V/4fNtMMhedlhf4G/edDFC2Wqvtz1EdyTkS6F/CP8FVyN1C
+         RO6ejk2xzaPDrmERhyfg0F9mcJW90lWWtjBGRSV9FB2HwdMpEW1dAc0sFSXLSiaOzU5o
+         ue9Q==
+X-Gm-Message-State: AOJu0Yynf9hAsXqe8ro2PlGUTNixX41XMQfaudet4Hp6msnVUzh1SG/d
+        uaPcGGPCfyYl5iHLL7kKoc3TDmRt4MMRlo5/b0FpBQ==
+X-Google-Smtp-Source: AGHT+IHiH489RsoEvG5mrvyEeCxTptwArpNqWcQAsB6rSnXOWlpgRvQ3FVsqD93DxR1muZRoq/7CFunpI/fq4emM2Mw=
+X-Received: by 2002:a1f:ca82:0:b0:496:f00a:88b2 with SMTP id
+ a124-20020a1fca82000000b00496f00a88b2mr6397262vkg.7.1696232559619; Mon, 02
+ Oct 2023 00:42:39 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230928194801.2278999-1-mmaurer@google.com>
+In-Reply-To: <20230928194801.2278999-1-mmaurer@google.com>
+From:   Alice Ryhl <aliceryhl@google.com>
+Date:   Mon, 2 Oct 2023 09:42:28 +0200
+Message-ID: <CAH5fLgjUa+TRO_xOQp-uRo5wC8+iVgSh+MA573EjfFtiHbA4mg@mail.gmail.com>
+Subject: Re: [PATCH v3] rust: Respect HOSTCC when linking for host
+To:     Matthew Maurer <mmaurer@google.com>
+Cc:     Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+        Benno Lossin <benno.lossin@proton.me>,
+        Andreas Hindborg <a.hindborg@samsung.com>,
+        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
+        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The pull request you sent on Mon, 2 Oct 2023 01:56:16 +0900:
+On Thu, Sep 28, 2023 at 9:48=E2=80=AFPM Matthew Maurer <mmaurer@google.com>=
+ wrote:
+>
+> Currently, rustc defaults to invoking `cc`, even if `HOSTCC` is defined,
+> resulting in build failures in hermetic environments where `cc` does not
+> exist. This includes both hostprogs and proc-macros.
+>
+> Since we are setting the linker to `HOSTCC`, we set the linker flavor to
+> `gcc` explicitly. The linker-flavor selects both which linker to search
+> for if the linker is unset, and which kind of linker flags to pass.
+> Without this flag, `rustc` would attempt to determine which flags to
+> pass based on the name of the binary passed as `HOSTCC`. `gcc` is the
+> name of the linker-flavor used by `rustc` for all C compilers, including
+> both `gcc` and `clang`.
+>
+> Signed-off-by: Matthew Maurer <mmaurer@google.com>
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v6.6-2
-
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/e81a2dabc3f3faa0d96808708a8dc2025f2bdde3
-
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Tested-by: Alice Ryhl <aliceryhl@google.com>
