@@ -2,144 +2,99 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B91E7B58DC
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Oct 2023 19:42:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CE6A97B59CD
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Oct 2023 20:11:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238552AbjJBRCd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 2 Oct 2023 13:02:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39358 "EHLO
+        id S238677AbjJBR6v (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 2 Oct 2023 13:58:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47692 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238397AbjJBRCc (ORCPT
+        with ESMTP id S238669AbjJBR6u (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 2 Oct 2023 13:02:32 -0400
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BFABB4
-        for <linux-kbuild@vger.kernel.org>; Mon,  2 Oct 2023 10:02:29 -0700 (PDT)
-Received: by mail-wr1-x436.google.com with SMTP id ffacd0b85a97d-3231dff4343so2043566f8f.0
-        for <linux-kbuild@vger.kernel.org>; Mon, 02 Oct 2023 10:02:28 -0700 (PDT)
+        Mon, 2 Oct 2023 13:58:50 -0400
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9966FC9
+        for <linux-kbuild@vger.kernel.org>; Mon,  2 Oct 2023 10:58:46 -0700 (PDT)
+Received: by mail-pj1-x1041.google.com with SMTP id 98e67ed59e1d1-279013f9875so28658a91.2
+        for <linux-kbuild@vger.kernel.org>; Mon, 02 Oct 2023 10:58:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1696266147; x=1696870947; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+        d=happybizdata-com.20230601.gappssmtp.com; s=20230601; t=1696269526; x=1696874326; darn=vger.kernel.org;
+        h=content-transfer-encoding:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6fBgZzG8H8L+RMO629wwCt+NqtJpm6mxiNYmYMNrioQ=;
-        b=wRcHmiNtZkoDucBVwQH7YeY2ld2BHTYYbcx0DukRKcgCeWkZ+G3d4daBtvISZUVOfl
-         FI7SK0p/lL7ipw8MtWYoWO7rJ/GFmvY5PyC2/sDLvT3sLmjNbEbi5cmzLrF3un/bo8Bp
-         3th1WTBVCI4fVYvAbBuhkjqDWdTJmVyQTXVuEHvJ8SETWgPG6JKxVpfP7O9hXsbWii4d
-         aasBE/o3ssBS0G4YiPgcVGo1xl6aB1IiRkDIR/mmwTv9oOCqhI+cVxSc6rpa5Gfva5ky
-         JBEpwtpW72i0OVLzGdaF1WoL6uKIJxfyQAZb6tn142L0kCMgKxeIaHncczcVq3rZFnR2
-         gktw==
+        bh=Lx3rGq7xkfpJfugVxIhCG8q+j0sp54c0pLA6F3q0y6Y=;
+        b=HbUzHZWKilX0D/60gIOZxxJEoFaLfrX2GW6B4u996Q+PCgymab2fDqHCfyxW39rZbD
+         j2ykBHnlXNe6eC3LxHYdsumI/gLRqdOu1m4beuM33KEdT+tCBu+hljDV/8mlVgaxBmia
+         Mj0XsTSctZDLyB6TwO94Kd+H/RTHCP5Ok3A/zBnoSIIO8x5bG7H2C2KKE98pM3xDKbE0
+         1H0a2Uzg81xhtdXX1poYasKxR+EqzyW6OHj+GNiA84kMow//590J/BmsSm9GiNDDBcmI
+         2r2R45mimlqOfAC2HJHx02VAEwH2IzURuX146ic7k2ZYfWBqs4+8hranBB+G43BZagMT
+         dm8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696266147; x=1696870947;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+        d=1e100.net; s=20230601; t=1696269526; x=1696874326;
+        h=content-transfer-encoding:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6fBgZzG8H8L+RMO629wwCt+NqtJpm6mxiNYmYMNrioQ=;
-        b=W4OgBL/WcpgSks4mtfC2yZ+fK+YlV8LkUJnfllbA93HvJw28ZAYJs7rTHZXIrUTFuM
-         VXJsvIK447CUYxv87+4meaVE54W0XHwPB+hH3mtmTmZzLLzJ81yfGOxI77w3wIlRQCzf
-         qRZGqhyHz5BDBxu6dhoPIkHZRtqEPgpa5YDGCc2ev8qFp5JGF02k3smdT+0A/2P8GwHA
-         QBZ6VUpWx1w0lFY/4mx/LspCw2sgA+CHZnjPWib/E2ZmyA1Do3RukKBec4froSfvOpkW
-         4pQ4mH4oKk3vWxnu6ZigGCNEjqE79ElaArKLUAnC/+7D8AZFRSLBfjwTtEPFA6TJiyGI
-         PTTQ==
-X-Gm-Message-State: AOJu0YyFYpBOsmLEcJJ0Xj5u98DktrVrPOzosQoCaG5dfXOOMzVzVWjQ
-        VohAsKLgAuA3iEIMfgKQMLIqsynGOdFXYvGnH6snbQ==
-X-Google-Smtp-Source: AGHT+IHAgIMir4wwCM6XdRGvOWBdNLdGzUBf9zrpeeFrzoDCpgeqJzSybRFIgRtYZEdM3xBYZynrqbZu/R1kiLzJi7Y=
-X-Received: by 2002:a05:6000:1050:b0:323:1e69:7b4 with SMTP id
- c16-20020a056000105000b003231e6907b4mr132794wrx.31.1696266147248; Mon, 02 Oct
- 2023 10:02:27 -0700 (PDT)
+        bh=Lx3rGq7xkfpJfugVxIhCG8q+j0sp54c0pLA6F3q0y6Y=;
+        b=pZMeDaKM2y8MfA7rBM48En6n/TvSswbMUUm1sW57zIXgJKIm7rEUgBOS7sFf6b8l7H
+         1Th137RnmSm4KGlXgHa/B85RlimJpLexvKPNYjdXduj1HY8aU9/c+ef+SNEaA57S89t7
+         j6L9z5XmC/1zFn15pISqNaiff+JT+Mgaw8Iqf8KwGjYKrUwH9Y/QMgb2MzFsXFLGwE+H
+         au0N3jyQrJoTj+LHD2FUtgGau5L+QVrcjSKa98cpLFRl1XHG0yH7hY0dfGVnN9xmZPuJ
+         cr8KRcIu7yiQj1anHaORTBrAKrImvCzGbkVPeFDrkjRlrm59IfNNwGxDpI3JXVF7AjIu
+         zWEA==
+X-Gm-Message-State: AOJu0YylaQV3bb19qbpRrWIVRhZtzNn1hMqE76ilzcSw2ysKgP/8pE0/
+        QZwa8/ee3VgKm8wSbc3KDsFk1dOt1JeXTyDyx/M69A==
+X-Google-Smtp-Source: AGHT+IE/Laa7rLx2V594Ztsf6S+kH7UMPiw7qk2OQu47pnit9fNeS16w6+MRe0gQQcYoWY2gBXGHDUy5vXGR7pHloMA=
+X-Received: by 2002:a17:90a:3dc5:b0:274:c284:c83c with SMTP id
+ i63-20020a17090a3dc500b00274c284c83cmr9756264pjc.48.1696269526133; Mon, 02
+ Oct 2023 10:58:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20231002165750.1661-1-will@kernel.org> <20231002165750.1661-4-will@kernel.org>
-In-Reply-To: <20231002165750.1661-4-will@kernel.org>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 2 Oct 2023 10:02:16 -0700
-Message-ID: <CAKwvOdmZrU90+jA4ugbqiT=VxvsEdTqwmvo7hk-HEocd8xJbmQ@mail.gmail.com>
-Subject: Re: [PATCH v5 3/3] scripts/faddr2line: Skip over mapping symbols in
- output from readelf
-To:     Will Deacon <will@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, kernel-team@android.com,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        John Stultz <jstultz@google.com>, linux-kbuild@vger.kernel.org
+References: <CAMh3ZMJ_yEt0YCimcbJ+BwwJSX+PGktO6dGS1gmSQ1snAUqVpg@mail.gmail.com>
+In-Reply-To: <CAMh3ZMJ_yEt0YCimcbJ+BwwJSX+PGktO6dGS1gmSQ1snAUqVpg@mail.gmail.com>
+From:   Sofia Gonzales <sofia@happybizdata.com>
+Date:   Mon, 2 Oct 2023 12:58:34 -0500
+Message-ID: <CAMh3ZMJhP9rjxpdYwOiBRfg+0x40EutyKKhst9CWvKC2voHLtA@mail.gmail.com>
+Subject: Re: HIMSS Global Health Conference Email List 2023
+To:     Sofia Gonzales <sofia@happybizdata.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=0.0 required=5.0 tests=BAYES_40,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Oct 2, 2023 at 9:58=E2=80=AFAM Will Deacon <will@kernel.org> wrote:
->
-> Mapping symbols emitted in the readelf output can confuse the
-> 'faddr2line' symbol size calculation, resulting in the erroneous
-> rejection of valid offsets. This is especially prevalent when building
-> an arm64 kernel with CONFIG_CFI_CLANG=3Dy, where most functions are
-> prefixed with a 32-bit data value in a '$d.n' section. For example:
->
-> 447538: ffff800080014b80   548 FUNC    GLOBAL DEFAULT    2 do_one_initcal=
-l
->    104: ffff800080014c74     0 NOTYPE  LOCAL  DEFAULT    2 $x.73
->    106: ffff800080014d30     0 NOTYPE  LOCAL  DEFAULT    2 $x.75
->    111: ffff800080014da4     0 NOTYPE  LOCAL  DEFAULT    2 $d.78
->    112: ffff800080014da8     0 NOTYPE  LOCAL  DEFAULT    2 $x.79
->     36: ffff800080014de0   200 FUNC    LOCAL  DEFAULT    2 run_init_proce=
-ss
->
-> Adding a warning to do_one_initcall() results in:
->
->   | WARNING: CPU: 0 PID: 1 at init/main.c:1236 do_one_initcall+0xf4/0x260
->
-> Which 'faddr2line' refuses to accept:
->
-> $ ./scripts/faddr2line vmlinux do_one_initcall+0xf4/0x260
-> skipping do_one_initcall address at 0xffff800080014c74 due to size mismat=
-ch (0x260 !=3D 0x224)
-> no match for do_one_initcall+0xf4/0x260
->
-> Filter out these entries from readelf using a shell reimplementation of
-> is_mapping_symbol(), so that the size of a symbol is calculated as a
-> delta to the next symbol present in ksymtab.
->
-> Cc: Josh Poimboeuf <jpoimboe@kernel.org>
-> Cc: John Stultz <jstultz@google.com>
-> Suggested-by: Masahiro Yamada <masahiroy@kernel.org>
-> Signed-off-by: Will Deacon <will@kernel.org>
+Hi,
 
-Thanks for the patch!
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+How you=E2=80=99re doing today? Did you have the chance to review my previo=
+us
+email with the follow up below request, I am wondering if it actually
+reached you.
 
-> ---
->  scripts/faddr2line | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/scripts/faddr2line b/scripts/faddr2line
-> index 6b8206802157..587415a52b6f 100755
-> --- a/scripts/faddr2line
-> +++ b/scripts/faddr2line
-> @@ -179,6 +179,11 @@ __faddr2line() {
->                         local cur_sym_elf_size=3D${fields[2]}
->                         local cur_sym_name=3D${fields[7]:-}
->
-> +                       # is_mapping_symbol(cur_sym_name)
-> +                       if [[ ${cur_sym_name} =3D~ ^(\.L|L0|\$) ]]; then
-> +                               continue
-> +                       fi
-> +
->                         if [[ $cur_sym_addr =3D $sym_addr ]] &&
->                            [[ $cur_sym_elf_size =3D $sym_elf_size ]] &&
->                            [[ $cur_sym_name =3D $sym_name ]]; then
-> --
-> 2.42.0.582.g8ccd20d70d-goog
->
+Kindly let me know your interest on this
 
+Thanks and waiting for your response.
 
---=20
-Thanks,
-~Nick Desaulniers
+Kind Regards,
+Sofia Gonzales
+Marketing Coordinator
+
+On Mon, 25 Sept 2023 at 10:14, Sofia Gonzales <sofia@happybizdata.com> wrot=
+e:
+>
+> Hi,
+>
+> Would you be interested in acquiring the Healthcare Information and
+> Management Systems Society Email List?
+>
+> Number of Contacts: 45,486
+> Cost: $1,918
+>
+> Interested? Email me back; I would love to provide more information on th=
+e list.
+>
+> Kind Regards,
+> Sofia Gonzales
+> Marketing Coordinator
