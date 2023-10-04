@@ -2,49 +2,73 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 370157B7FAD
-	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Oct 2023 14:48:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A4387B8D92
+	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Oct 2023 21:44:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242515AbjJDMsy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 4 Oct 2023 08:48:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57526 "EHLO
+        id S233525AbjJDTpA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 4 Oct 2023 15:45:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242491AbjJDMsw (ORCPT
+        with ESMTP id S233505AbjJDTo7 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 4 Oct 2023 08:48:52 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1335693;
-        Wed,  4 Oct 2023 05:48:49 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00C65C433C9;
-        Wed,  4 Oct 2023 12:48:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696423728;
-        bh=GCXPtG2gS4xIl3E4smfsoQMIyJon1TmicxEyAyK0wVg=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=cXzreQBMuuF74CBgHzSwEN2XP6h0oZD0m2xCM0zXXfhTbBayi7b7BfShjv/w/GuwX
-         dcleLXW/kTjBlrlwrCkSAwOnrkrUMQ8ZPR+MPv8maO0c5cpLYMSxcSCA3hTnnBG3fx
-         FpSawKI8+A2WhDqTGl1Sqqb7u0eQJa82fgEHccU6kdfKq3uCPVskQmzIqGFrXPeZgE
-         Tl0+U0BvwXOvIl0LC2W7igEasQ2LnMESCOjarMQOSEaItwmZXGox9RenhfWE5waGQq
-         5Bys358TN2G57KT8cRrUbO9E8U3MPS1t45ikV712Dys5mBOly9cdjewrOSjsULg9Zv
-         VWHL+PeaBg7Hw==
-From:   =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@kernel.org>
-To:     linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org, Shuah Khan <shuah@kernel.org>
-Cc:     =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@rivosinc.com>,
-        bpf@vger.kernel.org, netdev@vger.kernel.org
-Subject: [PATCH 2/2] kbuild: Merge per-arch config for kselftest-merge target
-Date:   Wed,  4 Oct 2023 14:48:37 +0200
-Message-Id: <20231004124837.56536-3-bjorn@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231004124837.56536-1-bjorn@kernel.org>
-References: <20231004124837.56536-1-bjorn@kernel.org>
+        Wed, 4 Oct 2023 15:44:59 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B63AC9E;
+        Wed,  4 Oct 2023 12:44:48 -0700 (PDT)
+Received: from leknes.fjasle.eu ([46.142.97.63]) by mrelayeu.kundenserver.de
+ (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1N6bo8-1rgQo01axi-017zCF; Wed, 04 Oct 2023 21:44:26 +0200
+Received: from localhost.fjasle.eu (kirkenes.fjasle.eu [10.10.0.5])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (Client did not present a certificate)
+        by leknes.fjasle.eu (Postfix) with ESMTPS id 578EB3F7AC;
+        Wed,  4 Oct 2023 21:44:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
+        t=1696448664; bh=+sOJ5EgHxT5wYCGHn/JIgpODGmW+glQm+GGjb9pnf38=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=y2SOzJeM3K50BDYibD/1g609pjzGbIKU84OU5hSiEKDmCX/AHd7B34YEHGlI1Sonf
+         kHGlWYKw9RuTRfiakIXPjlxYDnQAqrRpTzAORA/q8T5GKX+F4OemH1pRI5vyYMVuCr
+         /F95d4NFX3XEDIYYydkJSHkBsGBF/5fqhlRcXaAE=
+Received: by localhost.fjasle.eu (Postfix, from userid 1000)
+        id 10CBF160; Wed,  4 Oct 2023 21:44:24 +0200 (CEST)
+Date:   Wed, 4 Oct 2023 21:44:23 +0200
+From:   Nicolas Schier <nicolas@fjasle.eu>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>
+Subject: Re: [PATCH] kbuild: remove stale code for 'source' symlink in
+ packaging scripts
+Message-ID: <ZR3Al3I1wPtCrnjy@bergen.fjasle.eu>
+References: <20231001140339.1707548-1-masahiroy@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <20231001140339.1707548-1-masahiroy@kernel.org>
+X-Operating-System: Debian GNU/Linux trixie/sid
+Jabber-ID: nicolas@jabber.no
+X-Provags-ID: V03:K1:ainBqd464cZx/Vb+DbKDXyh/8FTURjYbPAn6Vi/aJzpbT36WvtU
+ YB13HhnH6Cc+RSOTdJJTe5a/kieF/SCG+mg1RYGshArt8dVuwgHoiLXfyBQOgsX2w2FU807
+ bDi1bS1G/aa4jnou2KqWQZHTsFqt5liOXwuad/1KU3UyvjLMwyew7ITIh9tWQBk37vURkmH
+ x/ozET5dABZQB7N6TvUPQ==
+UI-OutboundReport: notjunk:1;M01:P0:SoTilS0CwDU=;iMXsUyCHU6UypIwJEWNKk3NkZqI
+ oYm/GGDwTVRcJX1vhY06Ol3gcsduqTQAk2jG2OERZ1/lKuczHbMzKtUtl74DVX2NJYo3oEeNA
+ RJF6NzDRgZjBrK5e9M2QG/kFW+YrpRdomjVKU/GkkKdgx7AuJiSVm3p9/SE/TMeprb8NUj6XM
+ SzPFa7duOlyLbTYzsadbpjkvE+Izp4xdGgtUqNWZq4WRplyoRrX15kCo40WtO/r46loBvvm2/
+ KyGzUbFcXzWaSpUMvD0oTZ76e82GMFXjBwwCHKC0bOGwKDKmrNiZFlugHf63wb5xva/tAiQQI
+ x3VlUdv1lxkj1a0VjBLe92G5j/S/ulw82oUUsalEX9evfspGcxdXr9nSyYeDskhYxz6Atb+q5
+ /YRFOJxmJNkTAskKCl5c2CT/N+ZC8l7uXm0u0mEA+NJ0hLpC+VOnYnCTzSJbvOHjSSYd68r1T
+ WsHaEhaGSOh3zrGa6Y4p06yOhETwmRl8sVOfZiylCScfCLuQWSfvQ/IuacNgVP3wdyKtxUVLR
+ GEcr5k1OY8gqfHkKvKiyCbyBVsR0ep7yfqsqjGW05/tXYxfGZxqX+Z1S8L8GX7ctgwHD8TtB6
+ ElpK5oDsBUzCNrIS6x0uF39GfM/buFrxsyc2AuEYdIebsXj8Y6lmTuIExjrshQ0Xzkus8XAtM
+ nwCWYPJXAggBh2Nen8NsW8pBLRJzmRkbZL+G6TIvHqXQ6lHIpmEyFmMQyMQp7zF4WMUITuvfr
+ UtYO9rrIMpcxN+jaK5VV2yCuOpLmK2Muir0hxFIu9iJ5ilkM4TEkGZd352r0OjxrK9aebBYXw
+ XL67WTu188+KBgMmw8Bz8ckhO9JoyDPS2yHDD6T5lhxJNc6I4LSzsqnJLQbVOIA+6Fiewu37c
+ ks40rsDdP6X9xtQ==
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,URIBL_BLOCKED autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -52,31 +76,58 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Björn Töpel <bjorn@rivosinc.com>
+On Sun 01 Oct 2023 23:03:39 GMT, Masahiro Yamada wrote:
+> Since commit d8131c2965d5 ("kbuild: remove $(MODLIB)/source symlink"),
+> modules_install does not create the 'source' symlink.
+> 
+> Remove the stale code from builddeb and kernel.spec.
+> 
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+> 
+>  scripts/package/builddeb    | 1 -
+>  scripts/package/kernel.spec | 3 ---
+>  2 files changed, 4 deletions(-)
+> 
+> diff --git a/scripts/package/builddeb b/scripts/package/builddeb
+> index bf3f8561aa68..d7dd0d04c70c 100755
+> --- a/scripts/package/builddeb
+> +++ b/scripts/package/builddeb
+> @@ -64,7 +64,6 @@ install_linux_image () {
+>  
+>  	${MAKE} -f ${srctree}/Makefile INSTALL_MOD_PATH="${pdir}" modules_install
+>  	rm -f "${pdir}/lib/modules/${KERNELRELEASE}/build"
+> -	rm -f "${pdir}/lib/modules/${KERNELRELEASE}/source"
+>  
+>  	# Install the kernel
+>  	if [ "${ARCH}" = um ] ; then
+> diff --git a/scripts/package/kernel.spec b/scripts/package/kernel.spec
+> index ac3f2ee6d7a0..3eee0143e0c5 100644
+> --- a/scripts/package/kernel.spec
+> +++ b/scripts/package/kernel.spec
+> @@ -68,7 +68,6 @@ cp $(%{make} %{makeflags} -s image_name) %{buildroot}/boot/vmlinuz-%{KERNELRELEA
+>  cp System.map %{buildroot}/boot/System.map-%{KERNELRELEASE}
+>  cp .config %{buildroot}/boot/config-%{KERNELRELEASE}
+>  ln -fns /usr/src/kernels/%{KERNELRELEASE} %{buildroot}/lib/modules/%{KERNELRELEASE}/build
+> -ln -fns /usr/src/kernels/%{KERNELRELEASE} %{buildroot}/lib/modules/%{KERNELRELEASE}/source
+>  %if %{with_devel}
+>  %{make} %{makeflags} run-command KBUILD_RUN_COMMAND='${srctree}/scripts/package/install-extmod-build %{buildroot}/usr/src/kernels/%{KERNELRELEASE}'
+>  %endif
+> @@ -101,7 +100,6 @@ fi
+>  %defattr (-, root, root)
+>  /lib/modules/%{KERNELRELEASE}
+>  %exclude /lib/modules/%{KERNELRELEASE}/build
+> -%exclude /lib/modules/%{KERNELRELEASE}/source
+>  /boot/*
+>  
+>  %files headers
+> @@ -113,5 +111,4 @@ fi
+>  %defattr (-, root, root)
+>  /usr/src/kernels/%{KERNELRELEASE}
+>  /lib/modules/%{KERNELRELEASE}/build
+> -/lib/modules/%{KERNELRELEASE}/source
+>  %endif
+> -- 
+> 2.39.2
 
-Some kselftests has a per-arch config,
-e.g. tools/testing/selftests/bpf/config.s390x.
-
-Make sure these configs are picked up by the kselftest-merge target.
-
-Signed-off-by: Björn Töpel <bjorn@rivosinc.com>
----
- Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Makefile b/Makefile
-index 170fb2f5e378..0303acb311cc 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1367,7 +1367,7 @@ kselftest-%: headers FORCE
- PHONY += kselftest-merge
- kselftest-merge:
- 	$(if $(wildcard $(objtree)/.config),, $(error No .config exists, config your kernel first!))
--	$(Q)find $(srctree)/tools/testing/selftests -name config | \
-+	$(Q)find $(srctree)/tools/testing/selftests -name config -o -name config.$(UTS_MACHINE) | \
- 		xargs $(srctree)/scripts/kconfig/merge_config.sh -y -m $(objtree)/.config
- 	$(Q)$(MAKE) -f $(srctree)/Makefile olddefconfig
- 
--- 
-2.39.2
-
+Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
