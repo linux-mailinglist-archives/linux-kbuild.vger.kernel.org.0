@@ -2,49 +2,47 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 277CE7BBD5B
-	for <lists+linux-kbuild@lfdr.de>; Fri,  6 Oct 2023 18:58:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB3477BBD6C
+	for <lists+linux-kbuild@lfdr.de>; Fri,  6 Oct 2023 19:02:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232198AbjJFQ6T (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 6 Oct 2023 12:58:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33384 "EHLO
+        id S232627AbjJFRCf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 6 Oct 2023 13:02:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56706 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231666AbjJFQ6T (ORCPT
+        with ESMTP id S232198AbjJFRCe (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 6 Oct 2023 12:58:19 -0400
+        Fri, 6 Oct 2023 13:02:34 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9928BAD;
-        Fri,  6 Oct 2023 09:58:18 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3B1CC433C8;
-        Fri,  6 Oct 2023 16:58:17 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF143AD
+        for <linux-kbuild@vger.kernel.org>; Fri,  6 Oct 2023 10:02:33 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E759C433C7;
+        Fri,  6 Oct 2023 17:02:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696611498;
-        bh=W/PV9BEnW7qV8HRBjAeCSKH71F8YRJwxXRxGjI45a6Q=;
+        s=k20201202; t=1696611753;
+        bh=HIXbEAQXZMXkQa+jO400Hayzx5KeK6Nh8H1aDdCu7/U=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=QtctmrP7HPX723W0dFuw/syZx1G3b4jfABirVj7JKuUFR4u0ANnNX9D9WFqmGsizJ
-         iomwfbA3VchilnHSRmBdJbSjGjzv5uZ49OeA095CjlXG8M7ItBd8qPL9QMUK/QrZ65
-         tnkIn0MBo8NLpb3kkkez6smKI0yHnyR3oxGlCH7Tw/BF5baOzK8QzamZtZYZ52UHfJ
-         yuPotqd/7l+OL/s5ThUw+Zlv1HX02eOtqk4dWMHcHjngAb1dbCohYH2U37ymWy+5oD
-         qVCziJ7OACmhP86Vhm0WeDvNsTJ8c6ZOUc6cwNYampiMTHyv1l+aZYg0NdiQL/F+lj
-         fowcyiaLg/Xng==
-Date:   Fri, 6 Oct 2023 09:58:15 -0700
+        b=bnwRqAYU0jPW/TY0l2yFi4v4toPK3o3abv0TSN5DduVTRkgxmnD5xT2MIG1eV1huc
+         zy9WkyDOuKtaPK2e9RnAdHIaGovn6fMwbj5W0PwyCttIPFYn3ZtIbxh9HsN/Acaygl
+         D0BLlzCcKDeC+F/LlcEQSowH/hus6uhq92xPhwYH+NEUahnRWFCwqrP1f+qGqWcanN
+         JdOhnrwt9V/6B/vbDGir1FnhhyzUYROPnKzD3N1KKbUn9tPEZl5zcsR3UT89aFKKqt
+         eQZS73dvzgGWspb7BiDMruZq8Dyb2QC395a/gcIBUeVGzztx/NuqpupgMkqbqFR9Vn
+         QsT/WA8Y9M8Nw==
+Date:   Fri, 6 Oct 2023 10:02:31 -0700
 From:   Nathan Chancellor <nathan@kernel.org>
-To:     Michal Suchanek <msuchanek@suse.de>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        linux-modules@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
-        Lucas De Marchi <lucas.de.marchi@gmail.com>,
-        Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-        Jiri Slaby <jslaby@suse.com>, Jan Engelhardt <jengelh@inai.de>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Subject: Re: [PATCH rebased] kbuild: rpm-pkg: Fix build with non-default
- MODLIB
-Message-ID: <20231006165815.GA3359308@dev-arch.thelio-3990X>
-References: <20231005150728.3429-1-msuchanek@suse.de>
+To:     Jani Nikula <jani.nikula@intel.com>
+Cc:     intel-gfx@lists.freedesktop.org, linux-kbuild@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Subject: Re: [PATCH 1/2] drm/i915: drop -Wall and related disables from
+ cflags as redundant
+Message-ID: <20231006170231.GB3359308@dev-arch.thelio-3990X>
+References: <cover.1696595500.git.jani.nikula@intel.com>
+ <48f11648d7169687e7242e4c9b4694a0c03c4263.1696595500.git.jani.nikula@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231005150728.3429-1-msuchanek@suse.de>
+In-Reply-To: <48f11648d7169687e7242e4c9b4694a0c03c4263.1696595500.git.jani.nikula@intel.com>
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -54,80 +52,60 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Oct 05, 2023 at 05:07:28PM +0200, Michal Suchanek wrote:
-> The default MODLIB value is composed of two variables and the hardcoded
-> string '/lib/modules/'.
+On Fri, Oct 06, 2023 at 03:34:46PM +0300, Jani Nikula wrote:
+> The kernel top level Makefile, and recently scripts/Makefile.extrawarn,
+> have included -Wall, and the disables -Wno-format-security and
+> $(call cc-disable-warning,frame-address,) for a very long time. They're
+> redundant in our local subdir-ccflags-y and can be dropped.
 > 
-> MODLIB = $(INSTALL_MOD_PATH)/lib/modules/$(KERNELRELEASE)
-> 
-> Defining this middle part as a variable was rejected on the basis that
-> users can pass the whole MODLIB to make, such as
-> 
-> make 'MODLIB=$(INSTALL_MOD_PATH)/usr/lib/modules/$(KERNELRELEASE)'
-> 
-> However, this middle part of MODLIB is independently hardcoded by
-> rpm-pkg, and when the user alters MODLIB this is not reflected when
-> building the package.
-> 
-> Given that $(INSTALL_MOD_PATH) is overridden during the rpm package build
-> it is likely going to be empty. Then MODLIB can be passed to the rpm
-> package, and used in place of the whole
-> /usr/lib/modules/$(KERNELRELEASE) part.
-> 
-> Signed-off-by: Michal Suchanek <msuchanek@suse.de>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: Nick Desaulniers <ndesaulniers@google.com>
+> Cc: Nathan Chancellor <nathan@kernel.org>
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
-This appears to work for me.
+Yeah, this seems totally reasonable. I always assumed the intention of
+-Wall was to re-enable some warnings that the rest of the kernel had
+turned off but I think we are getting better about auditing what
+warnings are explicitly turned off and getting some of those turned back
+on for the whole kernel, so I expect this to basically be a no-op.
 
 Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
 > ---
->  scripts/package/kernel.spec | 8 ++++----
->  scripts/package/mkspec      | 1 +
->  2 files changed, 5 insertions(+), 4 deletions(-)
+>  drivers/gpu/drm/i915/Makefile | 8 +++-----
+>  1 file changed, 3 insertions(+), 5 deletions(-)
 > 
-> diff --git a/scripts/package/kernel.spec b/scripts/package/kernel.spec
-> index 3eee0143e0c5..15f49c5077db 100644
-> --- a/scripts/package/kernel.spec
-> +++ b/scripts/package/kernel.spec
-> @@ -67,7 +67,7 @@ cp $(%{make} %{makeflags} -s image_name) %{buildroot}/boot/vmlinuz-%{KERNELRELEA
->  %{make} %{makeflags} INSTALL_HDR_PATH=%{buildroot}/usr headers_install
->  cp System.map %{buildroot}/boot/System.map-%{KERNELRELEASE}
->  cp .config %{buildroot}/boot/config-%{KERNELRELEASE}
-> -ln -fns /usr/src/kernels/%{KERNELRELEASE} %{buildroot}/lib/modules/%{KERNELRELEASE}/build
-> +ln -fns /usr/src/kernels/%{KERNELRELEASE} %{buildroot}%{MODLIB}/build
->  %if %{with_devel}
->  %{make} %{makeflags} run-command KBUILD_RUN_COMMAND='${srctree}/scripts/package/install-extmod-build %{buildroot}/usr/src/kernels/%{KERNELRELEASE}'
->  %endif
-> @@ -98,8 +98,8 @@ fi
+> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+> index dec78efa452a..623f81217442 100644
+> --- a/drivers/gpu/drm/i915/Makefile
+> +++ b/drivers/gpu/drm/i915/Makefile
+> @@ -5,22 +5,20 @@
 >  
->  %files
->  %defattr (-, root, root)
-> -/lib/modules/%{KERNELRELEASE}
-> -%exclude /lib/modules/%{KERNELRELEASE}/build
-> +%{MODLIB}
-> +%exclude %{MODLIB}/build
->  /boot/*
+>  # Add a set of useful warning flags and enable -Werror for CI to prevent
+>  # trivial mistakes from creeping in. We have to do this piecemeal as we reject
+> -# any patch that isn't warning clean, so turning on -Wall -Wextra (or W=1) we
+> +# any patch that isn't warning clean, so turning on -Wextra (or W=1) we
+>  # need to filter out dubious warnings.  Still it is our interest
+>  # to keep running locally with W=1 C=1 until we are completely clean.
+>  #
+> -# Note the danger in using -Wall -Wextra is that when CI updates gcc we
+> +# Note the danger in using -Wextra is that when CI updates gcc we
+>  # will most likely get a sudden build breakage... Hopefully we will fix
+>  # new warnings before CI updates!
+> -subdir-ccflags-y := -Wall -Wextra
+> -subdir-ccflags-y += -Wno-format-security
+> +subdir-ccflags-y := -Wextra
+>  subdir-ccflags-y += -Wno-unused-parameter
+>  subdir-ccflags-y += -Wno-type-limits
+>  subdir-ccflags-y += -Wno-missing-field-initializers
+>  subdir-ccflags-y += -Wno-sign-compare
+>  subdir-ccflags-y += -Wno-shift-negative-value
+>  subdir-ccflags-y += $(call cc-option, -Wunused-but-set-variable)
+> -subdir-ccflags-y += $(call cc-disable-warning, frame-address)
+>  subdir-ccflags-$(CONFIG_DRM_I915_WERROR) += -Werror
 >  
->  %files headers
-> @@ -110,5 +110,5 @@ fi
->  %files devel
->  %defattr (-, root, root)
->  /usr/src/kernels/%{KERNELRELEASE}
-> -/lib/modules/%{KERNELRELEASE}/build
-> +%{MODLIB}/build
->  %endif
-> diff --git a/scripts/package/mkspec b/scripts/package/mkspec
-> index d41608efb747..d41b2e5304ac 100755
-> --- a/scripts/package/mkspec
-> +++ b/scripts/package/mkspec
-> @@ -18,6 +18,7 @@ fi
->  cat<<EOF
->  %define ARCH ${ARCH}
->  %define KERNELRELEASE ${KERNELRELEASE}
-> +%define MODLIB ${MODLIB}
->  %define pkg_release $("${srctree}/init/build-version")
->  EOF
->  
+>  # Fine grained warnings disable
 > -- 
-> 2.42.0
+> 2.39.2
 > 
