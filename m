@@ -2,49 +2,78 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 14DCB7BBDEF
-	for <lists+linux-kbuild@lfdr.de>; Fri,  6 Oct 2023 19:45:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8CEE67BC07A
+	for <lists+linux-kbuild@lfdr.de>; Fri,  6 Oct 2023 22:39:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233058AbjJFRp4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 6 Oct 2023 13:45:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58364 "EHLO
+        id S233510AbjJFUja (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 6 Oct 2023 16:39:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233079AbjJFRpy (ORCPT
+        with ESMTP id S233483AbjJFUja (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 6 Oct 2023 13:45:54 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C393D8
-        for <linux-kbuild@vger.kernel.org>; Fri,  6 Oct 2023 10:45:52 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5457C433C8;
-        Fri,  6 Oct 2023 17:45:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696614352;
-        bh=jBKBLIb5gtXFkRdhknEB7nTah9CF01q9K0zVTAHqY/M=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=HxnfSB9dVqwi5mV+4hZM76JLrZd89qAHAUFLJugE3i3Dm5zvjoOmFhu3ijHqpvsli
-         wpO2dWNmy1sJ716bmq+pna3I6nNXVFQr9bRCGd7lBwkhQNJh8sPC4CmwsI5xKwN5R9
-         KwHE1xcY9V9N9FTZRZPBxXD00ylZCe9/yD3qKo8ExyIrbg8XZg3DLotTLQjoOKtqWF
-         NQs3CrgmkIiHF8m/dgvxV86cpnWggbu3J2Yo7ANzSaRZdWlmlnKk1NTW5MwGIXOrWH
-         u0Kv3P6Q0sKOUfkctZP9IqsqBTvVQvbFRgLntf8QnAdakvpX0tsWV+Qv/8au0gmk5k
-         dnYW+ttD7h+XQ==
-Date:   Fri, 6 Oct 2023 10:45:50 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Jani Nikula <jani.nikula@intel.com>
-Cc:     intel-gfx@lists.freedesktop.org, linux-kbuild@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Subject: Re: [PATCH 2/2] drm/i915: enable W=1 warnings by default
-Message-ID: <20231006174550.GC3359308@dev-arch.thelio-3990X>
-References: <cover.1696595500.git.jani.nikula@intel.com>
- <f50c8ea0e63615aea28fe7f6049703e1d28ba7eb.1696595500.git.jani.nikula@intel.com>
+        Fri, 6 Oct 2023 16:39:30 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2EAFBD
+        for <linux-kbuild@vger.kernel.org>; Fri,  6 Oct 2023 13:39:27 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id ffacd0b85a97d-32487efc319so2440197f8f.1
+        for <linux-kbuild@vger.kernel.org>; Fri, 06 Oct 2023 13:39:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1696624766; x=1697229566; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vBnY223+UcCK7rzFoc5ulYVlozys8xUWOd34LCUCsy4=;
+        b=dc2v+PVJvVr0uoQ1UKJpUoQvg0hKyxhQJnGZOMO31fdSqSocFG5hozuNR+OPpAouoZ
+         EslfSr5iHQagc1GQ/3slV9tHwSD4px1Ppk9fOInBW1Yg1uD0Oqoxn4SbEngrmMrupRfq
+         8ARNyZh65P7T06uk7eFwWmPmhUq0EBtZq4PmHBDiMGcQm10jqFfHwJSl7H+fZcwPMqgo
+         ST5jJO9mRJi8Pl/2L4iLOiPiRp9LihXWTtAD/kLam685elHMJoRbjoQHwxppRwAbwXdU
+         NbTYOlzNwhgfpO4hIgNNKqmPZPYAZlxgXpqu/HfGWUJdV0DsWwXTY5SSfjZk6KNwGA0t
+         bx+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696624766; x=1697229566;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vBnY223+UcCK7rzFoc5ulYVlozys8xUWOd34LCUCsy4=;
+        b=ZBOn/P7UwSngogJJS2MXFfaLKG1BNY2rwx7YUBMJoqyXKB4WTC+pszSrz3k9EJHMbn
+         Tqmdy2lywa8XbE5kHkzHEiIbQzwA9G8UBBJqqH6MeY+ph7CH4plTIjZFJaP1frGARy40
+         XwIKCXiqGPVzfW70tHGE6zSGISEKTUNhztT0JK0cwlCWoRY70xMY98bv8CpQQH61gcpm
+         tCOmJXaTZr8RFuBwi3wf8ivsGSiqb5ufK6Q+Q2DQ3P3X9vLo0hLoLG6poHqZWXT7s9eO
+         U3dN0z2gaZNe6DU9HMkbXKY4fyZaGXZi7OjL07oep6/VeTVwrfL7llLwr7gRAUuLxX1W
+         uATw==
+X-Gm-Message-State: AOJu0YyJ40Qj4WKncn2HOr2r/MLvs2GGOO2Ek7kRvHW+7XlRHYM+RApL
+        I0eQgJRwhAnW0Lihi4qtRkDv/kTY9RREoqzNAnKVjA==
+X-Google-Smtp-Source: AGHT+IHzDNuNkLetmngGytv8DBCjIwTFYkdYhI5xAmjMNGnAyOVLiTphU/0Zdm665xGK7Wdop5gObd6L4XgXt6BqlkA=
+X-Received: by 2002:a5d:58f2:0:b0:31f:f326:766b with SMTP id
+ f18-20020a5d58f2000000b0031ff326766bmr7910442wrd.6.1696624765796; Fri, 06 Oct
+ 2023 13:39:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f50c8ea0e63615aea28fe7f6049703e1d28ba7eb.1696595500.git.jani.nikula@intel.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+References: <20231005214057.759089-1-mmaurer@google.com>
+In-Reply-To: <20231005214057.759089-1-mmaurer@google.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Fri, 6 Oct 2023 13:39:11 -0700
+Message-ID: <CAKwvOdnWc6b9-XwC56ADXx6K2XCzrUPc_VMsAt=syKsp_b6ZSg@mail.gmail.com>
+Subject: Re: [PATCH v4] rust: Respect HOSTCC when linking for host
+To:     Matthew Maurer <mmaurer@google.com>
+Cc:     Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+        Benno Lossin <benno.lossin@proton.me>,
+        Andreas Hindborg <a.hindborg@samsung.com>,
+        Alice Ryhl <aliceryhl@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
+        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -52,137 +81,69 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Oct 06, 2023 at 03:34:47PM +0300, Jani Nikula wrote:
-> We enable a bunch more compiler warnings than the kernel
-> defaults. However, they've drifted to become a unique set of warnings,
-> and have increasingly fallen behind from the W=1 set.
-> 
-> Align with the W=1 warnings from scripts/Makefile.extrawarn for clarity,
-> by copy-pasting them with s/KBUILD_CFLAGS/subdir-ccflags-y/ to make it
-> easier to compare in the future.
-> 
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: Nick Desaulniers <ndesaulniers@google.com>
-> Cc: Nathan Chancellor <nathan@kernel.org>
-> Cc: Masahiro Yamada <masahiroy@kernel.org>
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-
-One meta comment and review comment below. Feel free to carry forward
-
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-
-on future revisions.
-
+On Thu, Oct 5, 2023 at 2:41=E2=80=AFPM Matthew Maurer <mmaurer@google.com> =
+wrote:
+>
+> Currently, rustc defaults to invoking `cc`, even if `HOSTCC` is defined,
+> resulting in build failures in hermetic environments where `cc` does not
+> exist. This includes both hostprogs and proc-macros.
+>
+> Since we are setting the linker to `HOSTCC`, we set the linker flavor to
+> `gcc` explicitly. The linker-flavor selects both which linker to search
+> for if the linker is unset, and which kind of linker flags to pass.
+> Without this flag, `rustc` would attempt to determine which flags to
+> pass based on the name of the binary passed as `HOSTCC`. `gcc` is the
+> name of the linker-flavor used by `rustc` for all C compilers, including
+> both `gcc` and `clang`.
+>
+> Signed-off-by: Matthew Maurer <mmaurer@google.com>
 > ---
-> 
-> An alternative or future option would be to have Makefile.extrawarn
-> assign W=1 etc. flags to intermediate variables, say KBUILD_CFLAGS_W1,
-> like this:
-> 
-> KBUILD_CFLAGS_W1 += -Wextra -Wunused -Wno-unused-parameter
-> etc...
-> 
-> export KBUILD_CFLAGS_W1
-> 
-> ifneq ($(findstring 1, $(KBUILD_EXTRA_WARN)),)
-> 
-> KBUILD_CFLAGS += $(KBUILD_CFLAGS_W1)
-> 
-> else
-> etc...
-> 
-> and then drivers and subsystems could simply use:
-> 
-> subdir-ccflags-y += $(KBUILD_CFLAGS_W1)
-> 
-> to enable and remain up-to-date with W=1 warnings.
+>
+> Edited to use escsq in both Makefiles, as per Masahiro Yamada's
+> suggestion.
 
-This has definitely come up a few times and while I am generally in
-favor of something like this, it makes adding warnings to W=1 a little
-bit harder because when we add warnings to W=1, we typically are not
-concerned with breaking the build, as W=1 is not the default build. If a
-subsystem has opted into "whatever the current W=1 is" by default,
-changes to W=1 will have to be reviewed/tested within a normal build.
+That looks better; thanks Matthew!
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
-Doing something like this patch with a more regular cadence (maybe every
-update after the merge window) seems like a reasonable compromise to me,
-although I know that means more work for individual subsystem
-maintainers.
+>
+>  rust/Makefile         | 2 ++
+>  scripts/Makefile.host | 2 ++
+>  2 files changed, 4 insertions(+)
+>
+> diff --git a/rust/Makefile b/rust/Makefile
+> index 87958e864be0..2ddd821d9435 100644
+> --- a/rust/Makefile
+> +++ b/rust/Makefile
+> @@ -383,6 +383,8 @@ $(obj)/exports_kernel_generated.h: $(obj)/kernel.o FO=
+RCE
+>  quiet_cmd_rustc_procmacro =3D $(RUSTC_OR_CLIPPY_QUIET) P $@
+>        cmd_rustc_procmacro =3D \
+>         $(RUSTC_OR_CLIPPY) $(rust_common_flags) \
+> +               -Clinker-flavor=3Dgcc -Clinker=3D$(HOSTCC) \
+> +               -Clink-args=3D'$(call escsq,$(KBUILD_HOSTLDFLAGS))' \
+>                 --emit=3Ddep-info=3D$(depfile) --emit=3Dlink=3D$@ --exter=
+n proc_macro \
+>                 --crate-type proc-macro \
+>                 --crate-name $(patsubst lib%.so,%,$(notdir $@)) $<
+> diff --git a/scripts/Makefile.host b/scripts/Makefile.host
+> index 8f7f842b54f9..08d83d9db31a 100644
+> --- a/scripts/Makefile.host
+> +++ b/scripts/Makefile.host
+> @@ -91,6 +91,8 @@ hostcxx_flags  =3D -Wp,-MMD,$(depfile) \
+>  # current working directory, which may be not accessible in the out-of-t=
+ree
+>  # modules case.
+>  hostrust_flags =3D --out-dir $(dir $@) --emit=3Ddep-info=3D$(depfile) \
+> +                -Clinker-flavor=3Dgcc -Clinker=3D$(HOSTCC) \
+> +                -Clink-args=3D'$(call escsq,$(KBUILD_HOSTLDFLAGS))' \
+>                   $(KBUILD_HOSTRUSTFLAGS) $(HOST_EXTRARUSTFLAGS) \
+>                   $(HOSTRUSTFLAGS_$(target-stem))
+>
+> --
+> 2.42.0.609.gbb76f46606-goog
+>
 
-> ---
->  drivers/gpu/drm/i915/Makefile | 33 ++++++++++++++++++---------------
->  1 file changed, 18 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-> index 623f81217442..0485157054fc 100644
-> --- a/drivers/gpu/drm/i915/Makefile
-> +++ b/drivers/gpu/drm/i915/Makefile
-> @@ -3,22 +3,25 @@
->  # Makefile for the drm device driver.  This driver provides support for the
->  # Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.
->  
-> -# Add a set of useful warning flags and enable -Werror for CI to prevent
-> -# trivial mistakes from creeping in. We have to do this piecemeal as we reject
-> -# any patch that isn't warning clean, so turning on -Wextra (or W=1) we
-> -# need to filter out dubious warnings.  Still it is our interest
-> -# to keep running locally with W=1 C=1 until we are completely clean.
-> -#
-> -# Note the danger in using -Wextra is that when CI updates gcc we
-> -# will most likely get a sudden build breakage... Hopefully we will fix
-> -# new warnings before CI updates!
-> -subdir-ccflags-y := -Wextra
-> -subdir-ccflags-y += -Wno-unused-parameter
-> -subdir-ccflags-y += -Wno-type-limits
-> -subdir-ccflags-y += -Wno-missing-field-initializers
-> -subdir-ccflags-y += -Wno-sign-compare
-> -subdir-ccflags-y += -Wno-shift-negative-value
 
-As the test robot points out, you'll want to keep these four, as they
-are only enabled for W=2 or W=3. With this diff on top of these two
-patches:
-
-diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-index 0485157054fc..9c4e09c8aa4e 100644
---- a/drivers/gpu/drm/i915/Makefile
-+++ b/drivers/gpu/drm/i915/Makefile
-@@ -21,6 +21,12 @@ subdir-ccflags-y += $(call cc-option, -Wstringop-overflow)
- subdir-ccflags-y += $(call cc-option, -Wstringop-truncation)
- # --- end copy-paste
- 
-+# The following turn off the warnings enabled by -Wextra
-+subdir-ccflags-y += -Wno-type-limits
-+subdir-ccflags-y += -Wno-missing-field-initializers
-+subdir-ccflags-y += -Wno-sign-compare
-+subdir-ccflags-y += -Wno-shift-negative-value
-+
- # Enable -Werror in CI and development
- subdir-ccflags-$(CONFIG_DRM_I915_WERROR) += -Werror
- 
-I can continue to build i915 warning free with ARCH=x86_64 allmodconfig
-using all supported versions of LLVM for building the kernel.
-
-> +# Unconditionally enable W=1 warnings locally
-> +# --- begin copy-paste W=1 warnings from scripts/Makefile.extrawarn
-> +subdir-ccflags-y += -Wextra -Wunused -Wno-unused-parameter
-> +subdir-ccflags-y += -Wmissing-declarations
-> +subdir-ccflags-y += $(call cc-option, -Wrestrict)
-> +subdir-ccflags-y += -Wmissing-format-attribute
-> +subdir-ccflags-y += -Wmissing-prototypes
-> +subdir-ccflags-y += -Wold-style-definition
-> +subdir-ccflags-y += -Wmissing-include-dirs
->  subdir-ccflags-y += $(call cc-option, -Wunused-but-set-variable)
-> +subdir-ccflags-y += $(call cc-option, -Wunused-const-variable)
-> +subdir-ccflags-y += $(call cc-option, -Wpacked-not-aligned)
-> +subdir-ccflags-y += $(call cc-option, -Wformat-overflow)
-> +subdir-ccflags-y += $(call cc-option, -Wformat-truncation)
-> +subdir-ccflags-y += $(call cc-option, -Wstringop-overflow)
-> +subdir-ccflags-y += $(call cc-option, -Wstringop-truncation)
-> +# --- end copy-paste
-> +
-> +# Enable -Werror in CI and development
->  subdir-ccflags-$(CONFIG_DRM_I915_WERROR) += -Werror
->  
->  # Fine grained warnings disable
-> -- 
-> 2.39.2
-> 
+--=20
+Thanks,
+~Nick Desaulniers
