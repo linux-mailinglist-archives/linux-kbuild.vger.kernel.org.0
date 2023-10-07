@@ -2,70 +2,72 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 48F2B7BC100
-	for <lists+linux-kbuild@lfdr.de>; Fri,  6 Oct 2023 23:12:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 08F4A7BC84B
+	for <lists+linux-kbuild@lfdr.de>; Sat,  7 Oct 2023 16:14:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233585AbjJFVMQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 6 Oct 2023 17:12:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47796 "EHLO
+        id S229824AbjJGOOe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 7 Oct 2023 10:14:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233637AbjJFVMQ (ORCPT
+        with ESMTP id S229586AbjJGOOd (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 6 Oct 2023 17:12:16 -0400
-Received: from mail-vs1-xe33.google.com (mail-vs1-xe33.google.com [IPv6:2607:f8b0:4864:20::e33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 337F6C2
-        for <linux-kbuild@vger.kernel.org>; Fri,  6 Oct 2023 14:12:14 -0700 (PDT)
-Received: by mail-vs1-xe33.google.com with SMTP id ada2fe7eead31-4527d436ddfso1146687137.1
-        for <linux-kbuild@vger.kernel.org>; Fri, 06 Oct 2023 14:12:14 -0700 (PDT)
+        Sat, 7 Oct 2023 10:14:33 -0400
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9290B6;
+        Sat,  7 Oct 2023 07:14:32 -0700 (PDT)
+Received: by mail-pf1-x42d.google.com with SMTP id d2e1a72fcca58-69101d33315so2483490b3a.3;
+        Sat, 07 Oct 2023 07:14:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1696626733; x=1697231533; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZbAwly3dikrgqzK4k8R0+8k+e23Msjxly1PWuzBfu1g=;
-        b=FbWMHimh2utW/vedRQM5Ae0xDDihyylbElg84FiE0WVDXsZjCNw6Q8H5wI+Qz5qlu5
-         rHZU/HvmtkOaTcxLwp0Hn9coI4OzDtSY5gS+SS2Gy/FJ8CbwJ7z1lDNDC39grIr3vCKc
-         gmso65j5osaiD64l0/IhniRBeI/VyKW9wA/FjvVFR559jceCiqANo073WPG2MGqsHBBU
-         bL0moRIB56mdVq68LuUIS9wvVEdRqH31OTHL7Wcpw/OuLK0i0A8V878Sm099QGEWaxY2
-         /TFWmarN2kSBw1Ye/wzunLaLEezPWxVpdEhPJgLlqJ4AAJZob3sGVdOUFMh4o/3Ey64J
-         FsHw==
+        d=gmail.com; s=20230601; t=1696688072; x=1697292872; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=QbaOkN11ShFjp3tT/ZrL3/V4ETkntY0iC/qweNkeDQE=;
+        b=Cbnq2JQGcy5g2I4zwkXkAHvIzJXGP+UZxZ6gA7hHMsKK7j8ZRZQ/Z6dEhH+W1hfkss
+         bfQH9dAdsEW/Ke6psstGn8mHVoj3B3kyJoSXhgmwkhbDcdg6TsqsttHFuUMHJwZn//wb
+         gTCcdlKlq0BX0etqU0BbYURziFaP8HR8YNFlOlL2c3qKms/GeSlzmeHJkD3O9pVk4hS7
+         ZPnS1zK649KEN5ztjoTPprwL7MZmDKCp27RHg+jLn/Gh7+BK9rAd9zdx0rQ0mtAvP7e7
+         RBaeYrddw6MOZr2ouYR6pT6SQO2tqGyEmF8LeP4jVmuGi7x7cBJJhy07BA9wRR8N0U3n
+         uSFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696626733; x=1697231533;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZbAwly3dikrgqzK4k8R0+8k+e23Msjxly1PWuzBfu1g=;
-        b=f6mqIJ04FmHQILsYd4BNTq6ejpZ8KGfWny6BnT2ouxOEQMF3vMBDiAjHfhYKjWjKfn
-         tQpuEJj/2vRE56h338xuD6qB7gIzMIS04Jyu8diXqwy3oo8ClfmUyXEgGNJ8NPfMcq8c
-         jXoWfVw3lXySwNmePnmTlRfZme6sJd8BzIKvJOLnn3LKvuSWvxc4F5dV0MUlbAyn7NCy
-         s6NmlQs5m20fpctFUM6nOiVfhiy0uE0UcN0GqotrTvQFKVSlDlFqZDwqjvviRUUoSBH/
-         i6pKYC5xxIfAb/7ugDcui44uaEudaf+3E8LsjqlC9cfGmd8M2TjNzCohnGcuCVBF648G
-         vI5Q==
-X-Gm-Message-State: AOJu0YzvQaJsop1FX7ARC6ADLM3XAwf6PVLhsKv/6NMEjnWJKYlcBb9j
-        PYs0/YPBUpkhwi4h01emL1HkHGg77Qgtvr5D7ETqkllo3ieDV2UubYU=
-X-Google-Smtp-Source: AGHT+IFEBXD2wp73cuO/Du0AW1Z2vCNdjoG5TcUTWAONcm55bIcnRmUJtJBUTyJn8wz0plhuvSLhqTMfe4pKQMBO4Sc=
-X-Received: by 2002:a67:f754:0:b0:452:7f81:1502 with SMTP id
- w20-20020a67f754000000b004527f811502mr8785778vso.26.1696626732971; Fri, 06
- Oct 2023 14:12:12 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1696688072; x=1697292872;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QbaOkN11ShFjp3tT/ZrL3/V4ETkntY0iC/qweNkeDQE=;
+        b=TXZtLbZ10GXhjxG7+qv+MNznB39XnINgelxiJpOxeuYCWYaFHM3l3dofXKPgwlEUOU
+         tUz2TNHJ08PKE/iQI9FiJn8T+SqY0goVsirjr/fbRPAGsElej4FfuiPCzacAgkdttH31
+         eaZc+5vhwtiZZZDUo4h0QtOAAC7qkJQHKlA/nVSvBpl4XUjTc8IFrOYB3LsW8K2E9g15
+         hnQdOHYbElTpeHf5dL5B1QsQcUXLs/b72SS3MXEfV4XNQshXdbhsRdfTsxSwQarBuu6H
+         pjnvovo/3WdeZWKxtXJINNhrRkuwadpIiXIBxvwXK70xjuHsrFzW12xUh3QxLBvVwKjN
+         XVqQ==
+X-Gm-Message-State: AOJu0YxoXJsAnXRw1fHWqANUKSDNx8Jay7FiwQtzjC+FXiw8JfysT3IC
+        91dZfsziRvDJBl+fjJYDsmt3PSYlbt4=
+X-Google-Smtp-Source: AGHT+IE1R8llrP0TWOY82g3RLZePSlPEl4OgvLzr13DUw8DNopmWh1YqFvllsyWFlIxDOLYj3zMKxw==
+X-Received: by 2002:a05:6a20:7f83:b0:15e:b8a1:57b9 with SMTP id d3-20020a056a207f8300b0015eb8a157b9mr13659474pzj.24.1696688071887;
+        Sat, 07 Oct 2023 07:14:31 -0700 (PDT)
+Received: from debian.me ([103.131.18.64])
+        by smtp.gmail.com with ESMTPSA id z9-20020aa785c9000000b006926e3dc2besm3227082pfn.108.2023.10.07.07.14.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 07 Oct 2023 07:14:31 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id 1E08481C636A; Sat,  7 Oct 2023 21:14:23 +0700 (WIB)
+Date:   Sat, 7 Oct 2023 21:14:23 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Calvince Otieno <calvncce@gmail.com>,
+        Linux Outreachy <outreachy@lists.linux.dev>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kernel Build System <linux-kbuild@vger.kernel.org>
+Subject: Re: Unable to make file
+Message-ID: <ZSFnvwvXMiisHOJ7@debian.me>
+References: <CADFX3OQ1rdnR=ONu5wufAYN0NrvMkaveQ_Y9z_1K8m9Dzz3SPA@mail.gmail.com>
 MIME-Version: 1.0
-References: <cover.1696595500.git.jani.nikula@intel.com> <48f11648d7169687e7242e4c9b4694a0c03c4263.1696595500.git.jani.nikula@intel.com>
-In-Reply-To: <48f11648d7169687e7242e4c9b4694a0c03c4263.1696595500.git.jani.nikula@intel.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Fri, 6 Oct 2023 14:12:00 -0700
-Message-ID: <CAKwvOdkWX9GU_kvpqjRDgMuB_91RJTLZND+aDVh2tTEq3eK=Tg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/i915: drop -Wall and related disables from cflags
- as redundant
-To:     Jani Nikula <jani.nikula@intel.com>
-Cc:     intel-gfx@lists.freedesktop.org, linux-kbuild@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=ham
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="8tSXnb0WXi8G6rnk"
+Content-Disposition: inline
+In-Reply-To: <CADFX3OQ1rdnR=ONu5wufAYN0NrvMkaveQ_Y9z_1K8m9Dzz3SPA@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,70 +75,47 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Oct 6, 2023 at 5:35=E2=80=AFAM Jani Nikula <jani.nikula@intel.com> =
-wrote:
->
-> The kernel top level Makefile, and recently scripts/Makefile.extrawarn,
-> have included -Wall, and the disables -Wno-format-security and
-> $(call cc-disable-warning,frame-address,) for a very long time. They're
-> redundant in our local subdir-ccflags-y and can be dropped.
->
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: Nick Desaulniers <ndesaulniers@google.com>
-> Cc: Nathan Chancellor <nathan@kernel.org>
-> Cc: Masahiro Yamada <masahiroy@kernel.org>
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
-I didn't carefully cross reference these specific flags so I provide
-and ack rather than RB, but the logic in the description checks out
-IMO.
+--8tSXnb0WXi8G6rnk
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Acked-by: Nick Desaulniers <ndesaulniers@google.com>
+On Sat, Oct 07, 2023 at 04:50:32PM +0300, Calvince Otieno wrote:
+> Hello team!
+>=20
+> I have a problem. I tried running the Make file and I got this error mess=
+age:
+>=20
+> make[3]: *** No rule to make target 'debian/canonical-certs.pem',
+> needed by 'certs/x509_certificate_list'.  Stop.
+>=20
+> make[2]: *** [scripts/Makefile.build:480: certs] Error 2
+>=20
+> make[1]: *** [/home/calvince/Documents/labs/git/kernels/staging/Makefile:=
+1913:
+> .] Error 2
+>=20
+> make: *** [Makefile:234: __sub-make] Error 2
 
-> ---
->  drivers/gpu/drm/i915/Makefile | 8 +++-----
->  1 file changed, 3 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefil=
-e
-> index dec78efa452a..623f81217442 100644
-> --- a/drivers/gpu/drm/i915/Makefile
-> +++ b/drivers/gpu/drm/i915/Makefile
-> @@ -5,22 +5,20 @@
->
->  # Add a set of useful warning flags and enable -Werror for CI to prevent
->  # trivial mistakes from creeping in. We have to do this piecemeal as we =
-reject
-> -# any patch that isn't warning clean, so turning on -Wall -Wextra (or W=
-=3D1) we
-> +# any patch that isn't warning clean, so turning on -Wextra (or W=3D1) w=
-e
->  # need to filter out dubious warnings.  Still it is our interest
->  # to keep running locally with W=3D1 C=3D1 until we are completely clean=
-.
->  #
-> -# Note the danger in using -Wall -Wextra is that when CI updates gcc we
-> +# Note the danger in using -Wextra is that when CI updates gcc we
->  # will most likely get a sudden build breakage... Hopefully we will fix
->  # new warnings before CI updates!
-> -subdir-ccflags-y :=3D -Wall -Wextra
-> -subdir-ccflags-y +=3D -Wno-format-security
-> +subdir-ccflags-y :=3D -Wextra
->  subdir-ccflags-y +=3D -Wno-unused-parameter
->  subdir-ccflags-y +=3D -Wno-type-limits
->  subdir-ccflags-y +=3D -Wno-missing-field-initializers
->  subdir-ccflags-y +=3D -Wno-sign-compare
->  subdir-ccflags-y +=3D -Wno-shift-negative-value
->  subdir-ccflags-y +=3D $(call cc-option, -Wunused-but-set-variable)
-> -subdir-ccflags-y +=3D $(call cc-disable-warning, frame-address)
->  subdir-ccflags-$(CONFIG_DRM_I915_WERROR) +=3D -Werror
->
->  # Fine grained warnings disable
-> --
-> 2.39.2
->
+If you need to keep your modules signed, you have to generate your own
+certificate. See Documentation/admin-guide/module-signing.rst in the kernel
+sources for how to do that.
 
+Thanks.
 
 --=20
-Thanks,
-~Nick Desaulniers
+An old man doll... just what I always wanted! - Clara
+
+--8tSXnb0WXi8G6rnk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZSFnuwAKCRD2uYlJVVFO
+o0OkAPwPchkMkTBT3AxCpEroXdS8Ox5JUG6RzzP/QodpsAkSDgD/ToBsBxmcybnx
+mg6cl2QWRnmmCE+rKF/nEOfGni+HLA8=
+=5xRX
+-----END PGP SIGNATURE-----
+
+--8tSXnb0WXi8G6rnk--
