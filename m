@@ -2,74 +2,73 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E36C37BCFEB
-	for <lists+linux-kbuild@lfdr.de>; Sun,  8 Oct 2023 21:59:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0762B7BCFF3
+	for <lists+linux-kbuild@lfdr.de>; Sun,  8 Oct 2023 22:02:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344532AbjJHT76 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 8 Oct 2023 15:59:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52230 "EHLO
+        id S1344570AbjJHUCH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 8 Oct 2023 16:02:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229945AbjJHT75 (ORCPT
+        with ESMTP id S1344550AbjJHUCH (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 8 Oct 2023 15:59:57 -0400
-Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com [IPv6:2607:f8b0:4864:20::1130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41476AC;
-        Sun,  8 Oct 2023 12:59:56 -0700 (PDT)
-Received: by mail-yw1-x1130.google.com with SMTP id 00721157ae682-5a4c073cc06so41275997b3.1;
-        Sun, 08 Oct 2023 12:59:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696795195; x=1697399995; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sdYr4d7gBllm6mIyE1rAZ7SVZ/Nyogo/s69v4RDk5B8=;
-        b=cha8+LDw4aMkCO6hjm09g8T226yl4MGnFIol8lBX6uMZNi5leWnxF1DDW0b0GkM8PL
-         2zmdBFvJ/+zS/ajjATQ17eG4835GxHkYAjGay+F55agCapR+yAYiN4KI93iQTiqNNAE+
-         I3Xs8WP34IfK/cOu9t8sD2s3lZeGdvQTDgYd0f1lUm36ME+adHxEM5cU4d/g8/XduWOd
-         v97gwkfiG8j25Dk6XAI3/UZTQe41D+gF6gTmzBCSSskPZdmqZB3HBBTRUza9/hOm4BH2
-         8NKJOvR49wHrwzLeSTyhCs2+iZUEkxsR3+i3QFrssJAM7CAWF/cOgyCZ3JHkhhocca6c
-         jbnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696795195; x=1697399995;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sdYr4d7gBllm6mIyE1rAZ7SVZ/Nyogo/s69v4RDk5B8=;
-        b=WP8/qTmfYfjrKD3BikmJRXhdGLH6LHBhb6lAI3ZskFYVNpZzoZHbbapeKEklRaL/tR
-         LWOC7uCbHqmZR7JGARVEbOteeLlLFgB8x2nzWcPJBeJVIczLvSIGgyC62H10jQ8Twcm2
-         0NAQWFDpoHgm6MtABYYnN717YUtfozcxfl1KtYzE5Ds4R8LTPRzbto91w1UyJqWEKR3o
-         /mCYTpXtYOTc1OCkXbOBxfdeUC5XgUEjvyfAxgTOTDJFKA+5oUrvn+Q9gQNrlC9aY8Z7
-         dfX1uH2Iyn8iyOPU1v8RBdMISWn4WvTV0zZz6YM2QoDXFAM9VcP/kQSRBnEdAoa8zBPv
-         ikRg==
-X-Gm-Message-State: AOJu0YyX1ulIxyidTGF63m6E9bL9Atw1qZau2bYv6W86T9gu+ZVb0IgA
-        a2PmFjpDbsKoEcBJAQhimRCet+h9QlZnO4dkRJY=
-X-Google-Smtp-Source: AGHT+IHyfN0gqXCS8NjyFGxv3STLk4oQJvMKyqZ3FwpKgQpMbwp4UeIAm4Andx8CtEUJbebwzLVG5y2mGYYplpwjJls=
-X-Received: by 2002:a81:6086:0:b0:59f:6440:7eff with SMTP id
- u128-20020a816086000000b0059f64407effmr7234775ywb.15.1696795195430; Sun, 08
- Oct 2023 12:59:55 -0700 (PDT)
+        Sun, 8 Oct 2023 16:02:07 -0400
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63C54AC
+        for <linux-kbuild@vger.kernel.org>; Sun,  8 Oct 2023 13:02:05 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qpZyS-0001Rz-A6; Sun, 08 Oct 2023 22:02:00 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qpZyL-000Ez8-3z; Sun, 08 Oct 2023 22:01:53 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qpZyK-00Bezw-PY; Sun, 08 Oct 2023 22:01:52 +0200
+From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>
+Cc:     David Woodhouse <David.Woodhouse@intel.com>,
+        Atsushi Nemoto <anemo@mba.ocn.ne.jp>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-mtd@lists.infradead.org, kernel@pengutronix.de,
+        linux-kbuild@vger.kernel.org,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        Joern Engel <joern@lazybastard.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        linuxppc-dev@lists.ozlabs.org, Yangtao Li <frank.li@vivo.com>,
+        Rob Herring <robh@kernel.org>, Li Zetao <lizetao1@huawei.com>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Tudor Ambarus <tudor.ambarus@linaro.org>,
+        Hui Tang <tanghui20@huawei.com>,
+        Zheng Yongjun <zhengyongjun3@huawei.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Pratyush Yadav <pratyush@kernel.org>,
+        Michael Walle <michael@walle.cc>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        linux-arm-kernel@lists.infradead.org
+Subject: [PATCH 00/20] mtd: Convert to platform remove callback returning void
+Date:   Sun,  8 Oct 2023 22:01:23 +0200
+Message-Id: <20231008200143.196369-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-References: <20230815065346.131387-1-andrea.righi@canonical.com>
-In-Reply-To: <20230815065346.131387-1-andrea.righi@canonical.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Sun, 8 Oct 2023 21:59:44 +0200
-Message-ID: <CANiq72=t3H7FseigxjMywwAWr2hM5YKZPqJMO_0dH86WwirtEg@mail.gmail.com>
-Subject: Re: [PATCH] rust: fix bindgen build error with fstrict-flex-arrays
-To:     Andrea Righi <andrea.righi@canonical.com>
-Cc:     Miguel Ojeda <ojeda@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-        Benno Lossin <benno.lossin@proton.me>,
-        "Gustavo A . R . Silva" <gustavoars@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4139; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=aa6SE3gWpaHTuyfq4v/sxGd7EehqufNhl2EDrrsJWOQ=; b=owGbwMvMwMXY3/A7olbonx/jabUkhlRlrnLPoKUeQvyaTxuFWZ/OXFizKe5m/A+PtikJ0Ukdr qwXpBI6GY1ZGBi5GGTFFFnsG9dkWlXJRXau/XcZZhArE8gUBi5OAZiISDD7PyWTOakmExfPWSyu v9voS6C7FXdan5pmyQrjiye/v9j25eHul21Nr2RPvF76tXMKo7r99v6sA01L3h1JfFq5xXyKZmz nubtHmtecskjM6rgf+/OK9MalV7taHt85zWKwpYQ3O960UJNNvLPf4JKPp3xLzIVQ2ZltTqVbmL xX9YS5JehVlj55ynxmpmKm2jJreyNnmeueYaK7xPdoyE9a7fj14LSCk9xc86dd8zDZ8vlH9/aa9 JRi9qb7k79lncjhuLcg5IK1HNunIy3HVfa4JC4ubfZ2MmYt/LjfwOmxmAOH2Y4T1mGGdafFjjme 2fEw+XFkwDdzR96WbSda7tWGiq1heTfNPzBV0e5R8Kt5AA==
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-kbuild@vger.kernel.org
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -78,23 +77,91 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Aug 15, 2023 at 8:54=E2=80=AFAM Andrea Righi <andrea.righi@canonica=
-l.com> wrote:
->
-> Commit df8fc4e934c1 ("kbuild: Enable -fstrict-flex-arrays=3D3") enabled
-> '-fstrict-flex-arrays=3D3' globally, but bindgen does not recognized this
-> compiler option, triggering the following build error:
->
->  error: unknown argument: '-fstrict-flex-arrays=3D3', err: true
->
-> Add '-fstrict-flex-arrays' to the list of cflags that should be ignored
-> by bindgen.
->
-> Fixes: df8fc4e934c1 ("kbuild: Enable -fstrict-flex-arrays=3D3")
-> Signed-off-by: Andrea Righi <andrea.righi@canonical.com>
+Hello,
 
-Applied to `rust-fixes` (with an extra summary of the discussion in
-the list), thanks everyone!
+this series converts all platform drivers below drivers/mtd to use the
+.remove_new() callback. Compared to the traditional .remove() callback
+.remove_new() returns no value. This is a good thing because the driver
+core doesn't (and cannot) cope for errors during remove. The only effect
+of a non-zero return value in .remove() is that the driver core emits a
+warning. The device is removed anyhow and an early return from .remove()
+usually yields resource leaks and/or use-after-free bugs.
 
-Cheers,
-Miguel
+All drivers touched here returned zero unconditionally in their remove
+callback, so they could all be converted trivially to .remove_new().
+
+See commit 5c5a7680e67b ("platform: Provide a remove callback that
+returns no value") for an extended explanation and the eventual goal.
+
+As an added bonus the series starts with a minor fix and a
+simplification of the txx9ndfmc driver.
+
+The only interdependencies in this series is between the three txx9ndfmc
+patches. As there are still quite a few drivers to convert, I'm happy
+about every patch that makes it in. So even if there is a merge conflict
+with one patch until you apply (or a different concern that doesn't
+apply to all patches), please apply the remainder of this series anyhow.
+I'll come back to the part that you (maybe) skipped at a later point.
+
+Best regards
+Uwe
+
+Uwe Kleine-König (20):
+  mtd: rawnand: txx9ndfmc: Mark driver struct with __refdata to prevent
+    section mismatch warning
+  mtd: rawnand: txx9ndfmc: Drop if block with always false condition
+  mtd: bcm47xxsflash: Convert to platform remove callback returning void
+  mtd: docg3: Convert to platform remove callback returning void
+  mtd: phram: Convert to platform remove callback returning void
+  mtd: powernv_flash: Convert to platform remove callback returning void
+  mtd: spear_smi: Convert to platform remove callback returning void
+  mtd: st_spi_fsm: Convert to platform remove callback returning void
+  mtd: hyperbus: hbmc-am654: Convert to platform remove callback
+    returning void
+  mtd: hyperbus: rpc-if: Convert to platform remove callback returning
+    void
+  mtd: lpddr2_nvm: Convert to platform remove callback returning void
+  mtd: maps: lantiq-flash: Convert to platform remove callback returning
+    void
+  mtd: maps: physmap-core: Convert to platform remove callback returning
+    void
+  mtd: maps: plat-ram: Convert to platform remove callback returning
+    void
+  mtd: maps: pxa2xx-flash: Convert to platform remove callback returning
+    void
+  mtd: maps: sa1100-flash: Convert to platform remove callback returning
+    void
+  mtd: maps: sun_uflash: Convert to platform remove callback returning
+    void
+  mtd: rawnand: txx9ndfmc: Convert to platform remove callback returning
+    void
+  mtd: spi-nor: hisi-sfc: Convert to platform remove callback returning
+    void
+  mtd: spi-nor: nxp-spifi: Convert to platform remove callback returning
+    void
+
+ drivers/mtd/devices/bcm47xxsflash.c         |  6 ++----
+ drivers/mtd/devices/docg3.c                 |  5 ++---
+ drivers/mtd/devices/phram.c                 |  6 ++----
+ drivers/mtd/devices/powernv_flash.c         |  6 ++----
+ drivers/mtd/devices/spear_smi.c             |  6 ++----
+ drivers/mtd/devices/st_spi_fsm.c            |  6 ++----
+ drivers/mtd/hyperbus/hbmc-am654.c           |  6 ++----
+ drivers/mtd/hyperbus/rpc-if.c               |  6 ++----
+ drivers/mtd/lpddr/lpddr2_nvm.c              |  6 ++----
+ drivers/mtd/maps/lantiq-flash.c             |  6 ++----
+ drivers/mtd/maps/physmap-core.c             |  5 ++---
+ drivers/mtd/maps/plat-ram.c                 |  8 +++-----
+ drivers/mtd/maps/pxa2xx-flash.c             |  5 ++---
+ drivers/mtd/maps/sa1100-flash.c             |  6 ++----
+ drivers/mtd/maps/sun_uflash.c               |  6 ++----
+ drivers/mtd/nand/raw/txx9ndfmc.c            | 15 +++++++++------
+ drivers/mtd/spi-nor/controllers/hisi-sfc.c  |  5 ++---
+ drivers/mtd/spi-nor/controllers/nxp-spifi.c |  6 ++----
+ 18 files changed, 44 insertions(+), 71 deletions(-)
+
+
+base-commit: 0bb80ecc33a8fb5a682236443c1e740d5c917d1d
+-- 
+2.40.1
+
