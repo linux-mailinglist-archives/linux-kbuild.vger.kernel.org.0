@@ -2,91 +2,67 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 74A017BD309
-	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Oct 2023 08:07:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 59B3B7BD358
+	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Oct 2023 08:27:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345152AbjJIGHc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 9 Oct 2023 02:07:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35914 "EHLO
+        id S1345217AbjJIG1O (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 9 Oct 2023 02:27:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345128AbjJIGHb (ORCPT
+        with ESMTP id S1345176AbjJIG1O (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 9 Oct 2023 02:07:31 -0400
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAE599E
-        for <linux-kbuild@vger.kernel.org>; Sun,  8 Oct 2023 23:07:29 -0700 (PDT)
-Received: by mail-lf1-x135.google.com with SMTP id 2adb3069b0e04-50336768615so5363318e87.0
-        for <linux-kbuild@vger.kernel.org>; Sun, 08 Oct 2023 23:07:29 -0700 (PDT)
+        Mon, 9 Oct 2023 02:27:14 -0400
+Received: from mail-ua1-x933.google.com (mail-ua1-x933.google.com [IPv6:2607:f8b0:4864:20::933])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A572CA6
+        for <linux-kbuild@vger.kernel.org>; Sun,  8 Oct 2023 23:27:12 -0700 (PDT)
+Received: by mail-ua1-x933.google.com with SMTP id a1e0cc1a2514c-7ab5150a7b5so3568497241.0
+        for <linux-kbuild@vger.kernel.org>; Sun, 08 Oct 2023 23:27:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1696831648; x=1697436448; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3jQSsnNPGoLekEfxryi1OyAWP3eYL96XguQhMUQ9k7M=;
-        b=jNZRda37RJ5hX97I0RJ7kHkTsKEjZi8bJsRfTW6pzXd7Ux1rl79pKKEGa77k1XOL58
-         KpTsiXm//YmKeS5+m/WX8w3rdgJKp1f7e9iwws315iatF2RUO5vx51SrGQiHQ6L6p/P+
-         mXA21cVrLLDyS0ZYVcCP9Ghs+0LA1p0kHpoCBHoH70SgIMDTXowG0mernRddVzXuHhK3
-         9sbOqfiA6JwqJ38XS5EJqr0wK7W7t5mnufdw4coRf+aKe0ZSWntYZD3jNbtwq8R9sGyi
-         yapV0+whklhVhVoRLDQWqjwiHX1Kan8ubvzAeDQ7YJ6dTKCijc+Z9I1GdwgsSGg97ZbR
-         XohA==
+        d=linaro.org; s=google; t=1696832832; x=1697437632; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=H2fxCUSPL89877g5I8VIeATWezF+t3F3yjBwJkxQ/GY=;
+        b=OFgJ68XmziJUX3RXCZnLMAjcLe7TuG6xSpg20meNsf+7h8IKj1FIvXEY3quFRinjuC
+         XuDkfeszFUOOCIjMWYUQ7YvOeiaT7/eVxB/TwVVO1l9PZAvhZ82H4YxasJrHV2mACXNj
+         Inli+K8fmUERGnPUw7HWDgK+Yz0lsP3xYYgPRw/TGZDnbgKOT1AuGjihxDo80kUMvkEn
+         71GiI9g7HzRVBg8rL91do+OJQNAZHRH4uOJ9et1g58mb1z3jWJO6l7zz8tWjdhA9IIGT
+         Rxkf7lQsPCBOr7KIarWD11RUQ3p28sjxUOwlR5DygNsWIw05E0n8rYEKjh8rMqRY5ow/
+         21oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696831648; x=1697436448;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3jQSsnNPGoLekEfxryi1OyAWP3eYL96XguQhMUQ9k7M=;
-        b=FYKqJ+TkRZxcSae74QxeA13jAe8qvHkdSRU81GA432dw81lQZAMKVolRoUB4S21myY
-         RnOsia7Fx572eehlTl8sytHWQe4pwvlbs21KUR3nDFVrO5j2dUaQCm/SsiK2T0eVp44d
-         XmGtBagQ0lnZzeRHjrLeVm9i1HfDe1Vh1OW6OAnkr/8/WSCC0zuheEpjhfZjSjkefqCf
-         /fTjw9hD1rJ0gRw9HSfcmCch/QZUKpcMh+2e3Z691oBUhVHR20lsXXE3mjRbu0CT9wmx
-         pewYZ4AQxzgu0prVkSEvJzvYv9Wo/GgFu+ey2Fl75OQ0fbVWFwiI9+xHiUDeReqHNvs5
-         fUQg==
-X-Gm-Message-State: AOJu0YwYgfrAMQ1K8FnHL7CFKnJMIPt4R+LwkAWzJgKG0LbsF2Ch96+4
-        6v10WVcGMyjJBBh+hAhowuZcQA==
-X-Google-Smtp-Source: AGHT+IEulPl8s4i0M+Zi/sk4AKTnELItj8JoKzhnPWHm3t1wWVYt1qRXTgDtyk/ECIXgf4klmNEzyw==
-X-Received: by 2002:a19:5050:0:b0:503:31dc:7d64 with SMTP id z16-20020a195050000000b0050331dc7d64mr12856772lfj.21.1696831645881;
-        Sun, 08 Oct 2023 23:07:25 -0700 (PDT)
-Received: from [192.168.2.107] ([79.115.63.123])
-        by smtp.gmail.com with ESMTPSA id v2-20020a1cf702000000b00405d9a950a2sm12438473wmh.28.2023.10.08.23.07.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 08 Oct 2023 23:07:25 -0700 (PDT)
-Message-ID: <19a98e1d-583b-4057-bdbe-895402ab4143@linaro.org>
-Date:   Mon, 9 Oct 2023 07:07:22 +0100
+        d=1e100.net; s=20230601; t=1696832832; x=1697437632;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=H2fxCUSPL89877g5I8VIeATWezF+t3F3yjBwJkxQ/GY=;
+        b=h/4Bw30Kj1KtjbbXpBJZbpv76rBjVndbDk7/GphPGs5bJRxuVKC/qlun119R3s+JZd
+         BUd1UqJbYva24AEMgiI8KOySRkx81fp2OTix9mZBS1JiLpfbP+i5pj5yW0GsF2VH5PJi
+         UZSrtfZZKtcl4k2jzRXNWGoCGoHbjCOHygWMTP2UbHiMcU2IZH87F0bFz4JgOxe7tILC
+         VP+c6ZV/WvIC13UaT2RFMhnwNFdhyb74eJOfYjPjPGMUOhzyG624QLvSlrgLOFMk74PE
+         nLhH0DInM0Zz3N9Yo2VdWJ81gBJeTo+UDVeKpmGShyasiNaS1+lUuhBC16p76aeOxCkB
+         2vag==
+X-Gm-Message-State: AOJu0Yxoc7GY4+AYg+rOBUSB9yxdh+bImQNHMDDQYRNoytJWtGzFIR/I
+        lhZ3ftE0hDNrvRl9c79+iTGVTxQFM5sAA44osr8rAQ==
+X-Google-Smtp-Source: AGHT+IHFuxIhjnW/F72VTuEWd0kd22F+rcKApMM/YlpphAXb/O+8udGUreXU3bqh1QrPTD1qFcFbPYCafuFoSOTuE2c=
+X-Received: by 2002:a67:f656:0:b0:452:61fa:1e04 with SMTP id
+ u22-20020a67f656000000b0045261fa1e04mr5510020vso.9.1696832831704; Sun, 08 Oct
+ 2023 23:27:11 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/20] mtd: Convert to platform remove callback returning
- void
-Content-Language: en-US
-To:     =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>
-Cc:     David Woodhouse <David.Woodhouse@intel.com>,
-        Atsushi Nemoto <anemo@mba.ocn.ne.jp>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-mtd@lists.infradead.org, kernel@pengutronix.de,
-        linux-kbuild@vger.kernel.org,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        Joern Engel <joern@lazybastard.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        linuxppc-dev@lists.ozlabs.org, Yangtao Li <frank.li@vivo.com>,
-        Rob Herring <robh@kernel.org>, Li Zetao <lizetao1@huawei.com>,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        Hui Tang <tanghui20@huawei.com>,
-        Zheng Yongjun <zhengyongjun3@huawei.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Pratyush Yadav <pratyush@kernel.org>,
-        Michael Walle <michael@walle.cc>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        linux-arm-kernel@lists.infradead.org
-References: <20231008200143.196369-1-u.kleine-koenig@pengutronix.de>
-From:   Tudor Ambarus <tudor.ambarus@linaro.org>
-In-Reply-To: <20231008200143.196369-1-u.kleine-koenig@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20231007170448.505487-1-masahiroy@kernel.org>
+In-Reply-To: <20231007170448.505487-1-masahiroy@kernel.org>
+From:   Sumit Garg <sumit.garg@linaro.org>
+Date:   Mon, 9 Oct 2023 11:57:00 +0530
+Message-ID: <CAFA6WYNqe-e_ZqbxXW5BcmMOxQr42mdJV-o4W4U4XcOsPe0P+Q@mail.gmail.com>
+Subject: Re: [PATCH 1/5] modpost: fix tee MODULE_DEVICE_TABLE built on big
+ endian host
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Bhupesh Sharma <bhsharma@redhat.com>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -96,24 +72,83 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+Hi Masahiro,
 
+On Sat, 7 Oct 2023 at 22:34, Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> When MODULE_DEVICE_TABLE(tee, ) is built on a host with a different
+> endianness from the target architecture, it results in an incorrect
+> MODULE_ALIAS().
+>
+> For example, see a case where drivers/char/hw_random/optee-rng.c
+> is built as a module.
+>
+> If you build it on a little endian host, you will get the correct
+> MODULE_ALIAS:
+>
+>     $ grep MODULE_ALIAS drivers/char/hw_random/optee-rng.mod.c
+>     MODULE_ALIAS("tee:ab7a617c-b8e7-4d8f-8301-d09b61036b64*");
+>
+> However, if you build it on a big endian host, you will get a wrong
+> MODULE_ALIAS:
+>
+>     $ grep MODULE_ALIAS drivers/char/hw_random/optee-rng.mod.c
+>     MODULE_ALIAS("tee:646b0361-9bd0-0183-8f4d-e7b87c617aab*");
+>
+> This issue has been unnoticed because the ARM kernel is most likely built
+> on a little endian host (cross-build on x86 or native-build on ARM).
+>
+> The uuid field must not be reversed because uuid_t is an array of __u8.
+>
 
-On 10/8/23 21:01, Uwe Kleine-König wrote:
-> Hello,
-> 
-> this series converts all platform drivers below drivers/mtd to use the
-> .remove_new() callback. Compared to the traditional .remove() callback
-> .remove_new() returns no value. This is a good thing because the driver
-> core doesn't (and cannot) cope for errors during remove. The only effect
-> of a non-zero return value in .remove() is that the driver core emits a
-> warning. The device is removed anyhow and an early return from .remove()
-> usually yields resource leaks and/or use-after-free bugs.
-> 
-> All drivers touched here returned zero unconditionally in their remove
-> callback, so they could all be converted trivially to .remove_new().
-> 
-> See commit 5c5a7680e67b ("platform: Provide a remove callback that
-> returns no value") for an extended explanation and the eventual goal.
-> 
+To me it wasn't obvious that DEF_FIELD() has certain endianness limitations.
 
-Acked-by: Tudor Ambarus <tudor.ambarus@linaro.org>
+> Fixes: 0fc1db9d1059 ("tee: add bus driver framework for TEE based devices")
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+>
+>  scripts/mod/file2alias.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
+> index 7056751c29b1..70bf6a2f585c 100644
+> --- a/scripts/mod/file2alias.c
+> +++ b/scripts/mod/file2alias.c
+> @@ -1348,13 +1348,13 @@ static int do_typec_entry(const char *filename, void *symval, char *alias)
+>  /* Looks like: tee:uuid */
+>  static int do_tee_entry(const char *filename, void *symval, char *alias)
+>  {
+> -       DEF_FIELD(symval, tee_client_device_id, uuid);
+
+As you have mentioned in patch #3: the limitations of TO_NATIVE(), if
+you can update comments for DEF_FIELD() as well to make it clear that
+it doesn't support byte arrays/strings would be helpful. I think the
+following check that you have introduced in patch #3 can still be
+bypassed for byte arrays/strings.
+
++ _Static_assert(sizeof(x) == 1 || sizeof(x) == 2 || \
++       sizeof(x) == 4 || sizeof(x) == 8, "bug");
+
+BTW, for this fix feel free to add:
+
+Reviewed-by: Sumit Garg <sumit.garg@linaro.org>
+
+-Sumit
+
+> +       DEF_FIELD_ADDR(symval, tee_client_device_id, uuid);
+>
+>         sprintf(alias, "tee:%02x%02x%02x%02x-%02x%02x-%02x%02x-%02x%02x-%02x%02x%02x%02x%02x%02x",
+> -               uuid.b[0], uuid.b[1], uuid.b[2], uuid.b[3], uuid.b[4],
+> -               uuid.b[5], uuid.b[6], uuid.b[7], uuid.b[8], uuid.b[9],
+> -               uuid.b[10], uuid.b[11], uuid.b[12], uuid.b[13], uuid.b[14],
+> -               uuid.b[15]);
+> +               uuid->b[0], uuid->b[1], uuid->b[2], uuid->b[3], uuid->b[4],
+> +               uuid->b[5], uuid->b[6], uuid->b[7], uuid->b[8], uuid->b[9],
+> +               uuid->b[10], uuid->b[11], uuid->b[12], uuid->b[13], uuid->b[14],
+> +               uuid->b[15]);
+>
+>         add_wildcard(alias);
+>         return 1;
+> --
+> 2.39.2
+>
