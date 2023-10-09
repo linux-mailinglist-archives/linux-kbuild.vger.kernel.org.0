@@ -2,132 +2,142 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A71E7BDCAF
-	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Oct 2023 14:46:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5EDBE7BDCFF
+	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Oct 2023 15:01:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346437AbjJIMqT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 9 Oct 2023 08:46:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55524 "EHLO
+        id S1376561AbjJINBn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 9 Oct 2023 09:01:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346553AbjJIMqS (ORCPT
+        with ESMTP id S1376530AbjJINBn (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 9 Oct 2023 08:46:18 -0400
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::225])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C13DF93
-        for <linux-kbuild@vger.kernel.org>; Mon,  9 Oct 2023 05:46:16 -0700 (PDT)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 464A51C0003;
-        Mon,  9 Oct 2023 12:46:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1696855574;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=7Q066ZPCeTQl4OjuzYK2I3npDxEu3BEi0dRV7tfy/7E=;
-        b=mJJhnmBmUJ+qr4E/zJLlgC+ow2VGssAKIjSwLC57tAVfpQaLJ/2dTw2XrsMrFlhu9DrK98
-        6/eBmQR/i+Aya0dfv5DeK4ZO4CmTQSCr3dsndhmPNuWirP3Ru4aiyU1xwCICZ6ofeBNBzo
-        yorzlFgxgardXGff7OzlBCxdXKW/DSi41ue3NoNYSdpK6oiKe7YQ+aUbSzggYX1mq8fI3c
-        KuUIlKnrqWqwjEMywJQywZ+DJNoreUK7M3AKOmjfMal2XZWwMkl5qa5CID8Zj7QmY1tqmM
-        Plj6qgq7J7LJ6thGgrctBxMDqcV7vmb1j+BoFtvE53UtTHIf1MmiJ+QyPZ0XNw==
-Date:   Mon, 9 Oct 2023 14:46:10 +0200
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        linux-kbuild@vger.kernel.org, Richard Weinberger <richard@nod.at>,
-        Atsushi Nemoto <anemo@mba.ocn.ne.jp>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-mtd@lists.infradead.org,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>
-Subject: Re: [PATCH 01/20] mtd: rawnand: txx9ndfmc: Mark driver struct with
- __refdata to prevent section mismatch warning
-Message-ID: <20231009144610.4ff82afa@xps-13>
-In-Reply-To: <20231009103037.j44gkzqv7cpn4zpu@pengutronix.de>
-References: <20231008200143.196369-1-u.kleine-koenig@pengutronix.de>
-        <20231008200143.196369-2-u.kleine-koenig@pengutronix.de>
-        <CAK7LNASB2HhO6iWNnG-tAzs9wu9mV2PLRf-brnNGkSJj+W23Vw@mail.gmail.com>
-        <e38b8a8e-5bd6-41e2-87a1-3b2d23b68bc0@app.fastmail.com>
-        <20231009103037.j44gkzqv7cpn4zpu@pengutronix.de>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+        Mon, 9 Oct 2023 09:01:43 -0400
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CC808F
+        for <linux-kbuild@vger.kernel.org>; Mon,  9 Oct 2023 06:01:42 -0700 (PDT)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.west.internal (Postfix) with ESMTP id 99C6D3200A73;
+        Mon,  9 Oct 2023 09:01:40 -0400 (EDT)
+Received: from imap50 ([10.202.2.100])
+  by compute5.internal (MEProxy); Mon, 09 Oct 2023 09:01:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :cc:content-transfer-encoding:content-type:content-type:date
+        :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+        :references:reply-to:sender:subject:subject:to:to; s=fm2; t=
+        1696856500; x=1696942900; bh=+HqiSDOtGV7pVYCmWD6TeVp+aZyfN+epDEj
+        dzDSwCc8=; b=q5Gwt06ooVR8QVXl6tJx68BvzKrEjhAiclQoQzjChzVB08CuqM3
+        tJAza/SKAbt57OOc4ea888Ndd58nO+yhUSwNlQZvZ+HznFaX3Dl/IiFiLhDYjMck
+        s03XnUc+Mt5tevQOkurdm3rV094HYZvmGyET9WcKSo4Cx+hn8HmNHut342JPLf1m
+        NlzVh7OLn2NWXI4HoeCxoEgwW4L5AUNlQYUitroo8rqWuQucK7n3a4GXlymIRqY3
+        Fw3AqTr/cN1JF5wVeslICCo+tXfy+3LRi+V/nUBl3jDIsKwCDax3Fw32j6YFwSFE
+        MNsEz1ORaTjwYpJWIRWlOhPqAtLT0//2PVw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding
+        :content-type:content-type:date:date:feedback-id:feedback-id
+        :from:from:in-reply-to:in-reply-to:message-id:mime-version
+        :references:reply-to:sender:subject:subject:to:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+        1696856500; x=1696942900; bh=+HqiSDOtGV7pVYCmWD6TeVp+aZyfN+epDEj
+        dzDSwCc8=; b=Qe8ZzvlJ1ZdMACxOexpk/lvAlE5NiIwUz2za4IpIRCImS+7GoRa
+        UX3GD9OzqjAsOLaB9yX0QpslMHTokgZiPjsQQl5Xl0I0l2lbs5DSlaqVVQez9WDz
+        lvyFBgWk5jZBAOQM9UbAdotbcaOv00/qhgzo4UwfS9Jo8K6kWFEewyd91edHgqcQ
+        xAP8iqNyoGPxlebzkAo7KPyyNxTNdG9QMyJ8CxTsAmsA+G8SDrlMbUFMOpCx+pTi
+        oRM0SwqHuyij1KaQ1CnRATyBKQutxzsXToVZB0w4Fi2L2Z/GB4z8KdqKcmXyKxKV
+        nFbTodBcm67uzZezDwsi1DT9rT9khMCGLWg==
+X-ME-Sender: <xms:svkjZRJroI60BZgal-hTyKkctb2vrRgDA2Khpso2MCPxSNLsY4jb9Q>
+    <xme:svkjZdLeDXNQYzkB3Y8K9UnGkyHAMbHkVZHlel-69P37IfGqRtiyxZlDQYDAP14lP
+    qC79kMd6UjY-jnLQbs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrheefgdehlecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvvefutgfgsehtqhertderreejnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepgeefjeehvdelvdffieejieejiedvvdfhleeivdelveehjeelteegudektdfg
+    jeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+    hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:svkjZZvjEPDBbUZtfUHCE1Q8O0AYquBWXPSeSZXSd3tG3XnSeOYe1A>
+    <xmx:svkjZSaXdeXSLHo1hBY2NI33MH5OgJszZTnsaMhlKrxdE6oKbMl8yg>
+    <xmx:svkjZYZDKeBoCGqK3P8FSJtMXcUFWvw2VMjwaK_0wkklZjbigL2jzA>
+    <xmx:tPkjZWnNVgj5vT105OkT5ZHrbSKbUZvcSCgEeOUxd2-cv_Bevpp2Yw>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id DC4D91700090; Mon,  9 Oct 2023 09:01:37 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-958-g1b1b911df8-fm-20230927.002-g1b1b911d
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Message-Id: <55a03e14-7a92-4cf0-82d4-5cbde64d69db@app.fastmail.com>
+In-Reply-To: <20231009144610.4ff82afa@xps-13>
+References: <20231008200143.196369-1-u.kleine-koenig@pengutronix.de>
+ <20231008200143.196369-2-u.kleine-koenig@pengutronix.de>
+ <CAK7LNASB2HhO6iWNnG-tAzs9wu9mV2PLRf-brnNGkSJj+W23Vw@mail.gmail.com>
+ <e38b8a8e-5bd6-41e2-87a1-3b2d23b68bc0@app.fastmail.com>
+ <20231009103037.j44gkzqv7cpn4zpu@pengutronix.de>
+ <20231009144610.4ff82afa@xps-13>
+Date:   Mon, 09 Oct 2023 15:01:17 +0200
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     "Miquel Raynal" <miquel.raynal@bootlin.com>,
+        =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc:     "Masahiro Yamada" <masahiroy@kernel.org>,
+        "David Woodhouse" <dwmw2@infradead.org>,
+        linux-kbuild@vger.kernel.org,
+        "Richard Weinberger" <richard@nod.at>,
+        "Atsushi Nemoto" <anemo@mba.ocn.ne.jp>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        linux-mtd@lists.infradead.org,
+        "Pengutronix Kernel Team" <kernel@pengutronix.de>,
+        "Andrew Morton" <akpm@linux-foundation.org>,
+        "Vignesh Raghavendra" <vigneshr@ti.com>
+Subject: Re: [PATCH 01/20] mtd: rawnand: txx9ndfmc: Mark driver struct with __refdata
+ to prevent section mismatch warning
+Content-Type: text/plain;charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello,
+On Mon, Oct 9, 2023, at 14:46, Miquel Raynal wrote:
+>> On Mon, Oct 09, 2023 at 10:43:46AM +0200, Arnd Bergmann wrote:
+>> > On Mon, Oct 9, 2023, at 09:22, Masahiro Yamada wrote: =20
+>> > > On Mon, Oct 9, 2023 at 5:02=E2=80=AFAM Uwe Kleine-K=C3=B6nig <u.k=
+leine-koenig@pengutronix.de> > Can we instead question the use of module=
+_platform_driver_probe()?
+> I don't have the history in mind, but why not just switch to regular
+> module_platform_driver() registration instead? It seems like the
+> original authors just did not care about the remove path and were
+> happy to skip its implementation.
+>
+> On mtd devices one can argue that the flash underlying stores the
+> rootfs and thus cannot be removed, but I believe today this is a
+> questionable (software) design.
 
-u.kleine-koenig@pengutronix.de wrote on Mon, 9 Oct 2023 12:30:37 +0200:
+It was changed to module_platform_driver_probe() in commit
+3a2a13fa902d2 ("mtd: txx9ndfmc: use module_platform_driver_probe()")
+with a short changelog text:
 
-> Hello,
->=20
-> [Changed email address for David Woodhouse from intel to infradead]
->=20
-> On Mon, Oct 09, 2023 at 10:43:46AM +0200, Arnd Bergmann wrote:
-> > On Mon, Oct 9, 2023, at 09:22, Masahiro Yamada wrote: =20
-> > > On Mon, Oct 9, 2023 at 5:02=E2=80=AFAM Uwe Kleine-K=C3=B6nig <u.klein=
-e-koenig@pengutronix.de> wrote: =20
-> > >>
-> > >> As described in the added code comment, a reference to .exit.text is=
- ok
-> > >> for drivers registered via module_platform_driver_probe(). Make this
-> > >> explicit to prevent a section mismatch warning with =20
-> >  =20
-> > >
-> > > We have thousands of module_platform_drivers.
-> > > I would be scared if they started to add __refdata.
-> > >
-> > > I am not sure if this is the right direction. =20
-> >=20
-> > For a normal module_platform_driver(), this would indeed be
-> > wrong, but as Uwe said above there is a special case for
-> > module_platform_driver_probe(), which implicitly sets the
-> > drv->driver.suppress_bind_attrs=3Dtrue flag.
-> >  =20
-> > > In my understanding of the current DT overlay,
-> > > there is no way to create/remove a platform device dynamically.
-> > > I do not know if that will happen in the future. =20
-> >=20
-> > For drivers without suppress_bind_attrs, you can manually
-> > unbind the device from a driver, which in case of a loadable
-> > module ends up calling the .remove callback (this is fine),
-> > but in a built-in driver this would use a NULL pointer for
-> > .remove and cause unexpected behavior. =20
->=20
-> only a slight correction: As not having a remove callback can be fine
-> and platform_remove() only calls .remove (or .remove_new) when non-NULL
-> we're not hitting a NULL pointer dereference in the presence of
->=20
-> 	.remove =3D __exit_p(somefunc),
->=20
-> But a problem can arise later if some resource isn't properly freed and
-> so it might be used at a later point in time which then most likely
-> oopses.
->=20
-> I didn't double check Arnd's list, but otherwise I agree to his
-> analysis.
+commit 3a2a13fa902d232a1e56582647aed6cb2591349b
+Author: Jingoo Han <jg1.han@samsung.com>
+Date:   Tue Mar 5 13:31:24 2013 +0900
 
-Can we instead question the use of module_platform_driver_probe()?
-I don't have the history in mind, but why not just switch to regular
-module_platform_driver() registration instead? It seems like the
-original authors just did not care about the remove path and were
-happy to skip its implementation.
+    mtd: txx9ndfmc: use module_platform_driver_probe()
+   =20
+    This patch uses module_platform_driver_probe() macro which makes
+    the code smaller and simpler.
+   =20
+    Signed-off-by: Jingoo Han <jg1.han@samsung.com>
+    Signed-off-by: Artem Bityutskiy <artem.bityutskiy@linux.intel.com>
+    Signed-off-by: David Woodhouse <David.Woodhouse@intel.com>
 
-On mtd devices one can argue that the flash underlying stores the
-rootfs and thus cannot be removed, but I believe today this is a
-questionable (software) design.
+Instead of just simplifying the code, I think that was actually
+a bugfix because it prevented both the probe and remove callbacks
+from getting called after getting dropped (deferred probe or
+unbind/rebind). Using module_platform_driver() is probably
+even better here, but then we need to remove both the __init
+and __exit annotations.
 
-Thanks,
-Miqu=C3=A8l
+      Arnd
