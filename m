@@ -2,107 +2,130 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B66107BCFF5
-	for <lists+linux-kbuild@lfdr.de>; Sun,  8 Oct 2023 22:02:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 06F2E7BD1BA
+	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Oct 2023 03:14:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344508AbjJHUCT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 8 Oct 2023 16:02:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59594 "EHLO
+        id S231742AbjJIBO5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 8 Oct 2023 21:14:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344421AbjJHUCR (ORCPT
+        with ESMTP id S232267AbjJIBO4 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 8 Oct 2023 16:02:17 -0400
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 063D9AC
-        for <linux-kbuild@vger.kernel.org>; Sun,  8 Oct 2023 13:02:16 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qpZyN-0001S4-Rx; Sun, 08 Oct 2023 22:01:55 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qpZyL-000EzB-BW; Sun, 08 Oct 2023 22:01:53 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qpZyL-00Bezz-2C; Sun, 08 Oct 2023 22:01:53 +0200
-From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>
-Cc:     David Woodhouse <David.Woodhouse@intel.com>,
-        Atsushi Nemoto <anemo@mba.ocn.ne.jp>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-mtd@lists.infradead.org, kernel@pengutronix.de,
-        linux-kbuild@vger.kernel.org
-Subject: [PATCH 01/20] mtd: rawnand: txx9ndfmc: Mark driver struct with __refdata to prevent section mismatch warning
-Date:   Sun,  8 Oct 2023 22:01:24 +0200
-Message-Id: <20231008200143.196369-2-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20231008200143.196369-1-u.kleine-koenig@pengutronix.de>
-References: <20231008200143.196369-1-u.kleine-koenig@pengutronix.de>
+        Sun, 8 Oct 2023 21:14:56 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1CEFAB;
+        Sun,  8 Oct 2023 18:14:54 -0700 (PDT)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3991BwBe027666;
+        Mon, 9 Oct 2023 01:14:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=qcppdkim1;
+ bh=bqKwEEDSZeu3XWsBzxAeh+cU4hhpiMZzmCfjh4Tm36c=;
+ b=Zi1FKHcay3lumEj/HBQFHoXymqxPq4MK6j61RigHcQD0RE+6pWOx2MBmw7XgnEiUkrs6
+ h51dWY5/bOYguNfieT1rKFHruLKiBWgAUsSAhPMN/vgCCHrEEsGuipfEgyuR3J33Jlbn
+ qZFfNIAhKAuUDsRsGJuQhZXsvbjwSeO0FUd/1AwBqb2GY4X1/rXTFX7PNLwH1BJ2XE3n
+ 1alQZTCuEZPOioKxXrTcFYmYSAWqBj6HdMDA9QEodSljPLJdaSZNWQxZ0zD1BCiSeP9Q
+ xRXJB+A3Ci3ERo/P0MoGplYUo2bCrJV6ARzCwG2vEYnJ3klx84WKNO+RpP9th9rzzSDk 4Q== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tkh6g19m9-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 09 Oct 2023 01:14:32 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+        by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3991EVDw002833
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 9 Oct 2023 01:14:31 GMT
+Received: from nalasex01c.na.qualcomm.com (10.47.97.35) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.36; Sun, 8 Oct 2023 18:14:31 -0700
+Received: from nalasex01c.na.qualcomm.com ([fe80::6c73:4982:d918:fc9e]) by
+ nalasex01c.na.qualcomm.com ([fe80::6c73:4982:d918:fc9e%11]) with mapi id
+ 15.02.1118.030; Sun, 8 Oct 2023 18:14:31 -0700
+From:   "Joey Jiao (QUIC)" <quic_jiangenj@quicinc.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Alexander Potapenko <glider@google.com>
+CC:     "kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>,
+        "Kevin Ding (QUIC)" <quic_likaid@quicinc.com>,
+        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+        Andrey Konovalov <andreyknvl@gmail.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        "Nicolas Schier" <nicolas@fjasle.eu>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+        "Changmin Liu (QUIC)" <quic_changmil@quicinc.com>
+Subject: RE: [PATCH] kasan: Add CONFIG_KASAN_WHITELIST_ONLY mode
+Thread-Topic: [PATCH] kasan: Add CONFIG_KASAN_WHITELIST_ONLY mode
+Thread-Index: AQHZ8cKGhLNei3YqKk6uH8pD4/r18bAyTeQAgAFRKACADRj7EA==
+Date:   Mon, 9 Oct 2023 01:14:31 +0000
+Message-ID: <11e5eafbf8ac42fd90491e09e96d8eea@quicinc.com>
+References: <20230928041600.15982-1-quic_jiangenj@quicinc.com>
+ <CAG_fn=V9FXGpqceojn0UGiPi7gFbDbRnObc-N5a55Qk=XQy=kg@mail.gmail.com>
+ <CAK7LNASfdQYy7ON011jQxqd4Bz98CJuvDNCUp2NRrHcK29x3zA@mail.gmail.com>
+In-Reply-To: <CAK7LNASfdQYy7ON011jQxqd4Bz98CJuvDNCUp2NRrHcK29x3zA@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.239.132.37]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1681; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=HCTLmKUM6J3s+U8+meq2ryRrLbcxRn94rcRCl9GrZF4=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlIwp5T8JGhAN448mWVi6r0ql9MAkFkY7cHU62g Y+eHndKpviJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZSMKeQAKCRCPgPtYfRL+ ToeyB/9QNdWwPK2QFim3ThZYyJ4M+3DAU9OP7Wn96T5Rc68p/BsG0o6Co8IQG8J3PHulnFVrmv1 2lfvDiAQFjGX8tsDUGywbAvL7iKLvCVGhtjNEVYHNp5fchQ2rvdzOemgn9BQmmLaiWysMsYKRjs cKKy5h4fPWElhre0NZ64Wsl1O3ybsZTMJPqVru4OJHbJmaSbkinIoHdMb1Neefph/PHSP3myx3o woq3GoTMA4NpqprTsJEQfYrZDAPJGCSKrhMvPlUZx253H95gKjsF+IrVFauhspwb/sIS19wgYei NiMoeV06pKGco1cAmOg3+tw+R+IZ2bAsSGnE8L7E3VvaATrb
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-kbuild@vger.kernel.org
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: rrhB8qCbGW6xgOd3duwbO0qi0XsUyDXW
+X-Proofpoint-ORIG-GUID: rrhB8qCbGW6xgOd3duwbO0qi0XsUyDXW
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-09_01,2023-10-06_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 spamscore=0
+ clxscore=1015 mlxlogscore=883 bulkscore=0 lowpriorityscore=0 phishscore=0
+ mlxscore=0 adultscore=0 priorityscore=1501 malwarescore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2309180000
+ definitions=main-2310090009
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-As described in the added code comment, a reference to .exit.text is ok
-for drivers registered via module_platform_driver_probe(). Make this
-explicit to prevent a section mismatch warning with
-CONFIG_MTD_NAND_TXX9NDFMC=m:
-
-	WARNING: modpost: drivers/mtd/nand/raw/txx9ndfmc: section mismatch in reference: txx9ndfmc_driver+0x4 (section: .data) -> txx9ndfmc_remove (section: .exit.text)
-
-Fixes: 64fb65baffa5 ("[MTD] TXx9 SoC NAND Flash Memory Controller driver")
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
-Hello,
-
-note this warning only triggers with f177cd0c15fc ("modpost: Don't let
-"driver"s reference .exit.*") that currently waits in next for the next
-merge window + building with W=1.
-
-Best regards
-Uwe
-
- drivers/mtd/nand/raw/txx9ndfmc.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/mtd/nand/raw/txx9ndfmc.c b/drivers/mtd/nand/raw/txx9ndfmc.c
-index eddcc0728a67..aff9d6f16851 100644
---- a/drivers/mtd/nand/raw/txx9ndfmc.c
-+++ b/drivers/mtd/nand/raw/txx9ndfmc.c
-@@ -406,7 +406,13 @@ static int txx9ndfmc_resume(struct platform_device *dev)
- #define txx9ndfmc_resume NULL
- #endif
- 
--static struct platform_driver txx9ndfmc_driver = {
-+/*
-+ * txx9ndfmc_remove() lives in .exit.text. For drivers registered via
-+ * module_platform_driver_probe() this is ok because they cannot get unbound at
-+ * runtime. So mark the driver struct with __refdata to prevent modpost
-+ * triggering a section mismatch warning.
-+ */
-+static struct platform_driver txx9ndfmc_driver __refdata = {
- 	.remove		= __exit_p(txx9ndfmc_remove),
- 	.resume		= txx9ndfmc_resume,
- 	.driver		= {
--- 
-2.40.1
-
+UmlnaHQsIGl0IHdpbGwgYmUgb25seSB1c2VmdWwgZm9yIGxvdyBtZW1vcnkga2VybmVsIHdoZXJl
+ICdLQVNBTl9TQU5JVElaRSA6PXknIGhhcyB0byBiZSBhZGRlZCBleHBsaWNpdGx5IGluIGxvY2Fs
+IGFzIGhvdGZpeC4NCg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IE1hc2FoaXJv
+IFlhbWFkYSA8bWFzYWhpcm95QGtlcm5lbC5vcmc+IA0KU2VudDogU2F0dXJkYXksIFNlcHRlbWJl
+ciAzMCwgMjAyMyA2OjEyIFBNDQpUbzogQWxleGFuZGVyIFBvdGFwZW5rbyA8Z2xpZGVyQGdvb2ds
+ZS5jb20+DQpDYzogSm9leSBKaWFvIChRVUlDKSA8cXVpY19qaWFuZ2VuakBxdWljaW5jLmNvbT47
+IGthc2FuLWRldkBnb29nbGVncm91cHMuY29tOyBLZXZpbiBEaW5nIChRVUlDKSA8cXVpY19saWth
+aWRAcXVpY2luYy5jb20+OyBBbmRyZXkgUnlhYmluaW4gPHJ5YWJpbmluLmEuYUBnbWFpbC5jb20+
+OyBBbmRyZXkgS29ub3ZhbG92IDxhbmRyZXlrbnZsQGdtYWlsLmNvbT47IERtaXRyeSBWeXVrb3Yg
+PGR2eXVrb3ZAZ29vZ2xlLmNvbT47IFZpbmNlbnpvIEZyYXNjaW5vIDx2aW5jZW56by5mcmFzY2lu
+b0Bhcm0uY29tPjsgTmF0aGFuIENoYW5jZWxsb3IgPG5hdGhhbkBrZXJuZWwub3JnPjsgTmljayBE
+ZXNhdWxuaWVycyA8bmRlc2F1bG5pZXJzQGdvb2dsZS5jb20+OyBOaWNvbGFzIFNjaGllciA8bmlj
+b2xhc0BmamFzbGUuZXU+OyBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnOyBsaW51eC1rYnVp
+bGRAdmdlci5rZXJuZWwub3JnDQpTdWJqZWN0OiBSZTogW1BBVENIXSBrYXNhbjogQWRkIENPTkZJ
+R19LQVNBTl9XSElURUxJU1RfT05MWSBtb2RlDQoNCk9uIEZyaSwgU2VwIDI5LCAyMDIzIGF0IDEx
+OjA24oCvUE0gQWxleGFuZGVyIFBvdGFwZW5rbyA8Z2xpZGVyQGdvb2dsZS5jb20+IHdyb3RlOg0K
+Pg0KPiAoQ0MgTWFzYWhpcm8gWWFtYWRhKQ0KPg0KPiBPbiBUaHUsIFNlcCAyOCwgMjAyMyBhdCA2
+OjE24oCvQU0gSm9leSBKaWFvIDxxdWljX2ppYW5nZW5qQHF1aWNpbmMuY29tPiB3cm90ZToNCj4g
+Pg0KPiA+IEZvdyBsb3cgbWVtb3J5IGRldmljZSwgZnVsbCBlbmFibGVkIGthc2FuIGp1c3Qgbm90
+IHdvcmsuDQo+ID4gU2V0IEtBU0FOX1NBTklUSVpFIHRvIG4gd2hlbiBDT05GSUdfS0FTQU5fV0hJ
+VEVMSVNUX09OTFk9eS4NCj4gPiBTbyB3ZSBjYW4gZW5hYmxlIGthc2FuIGZvciBzaW5nbGUgZmls
+ZSBvciBtb2R1bGUuDQo+DQo+IEkgZG9uJ3QgaGF2ZSB0ZWNobmljYWwgb2JqZWN0aW9ucyBoZXJl
+LCBidXQgaXQgYm90aGVycyBtZSBhIGJpdCB0aGF0IA0KPiB3ZSBhcmUgYWRkaW5nIHN1cHBvcnQg
+Zm9yIEtBU0FOX1NBTklUSVpFOj15LCBhbHRob3VnaCBub2JvZHkgd2lsbCBiZSANCj4gYWRkaW5n
+IEtBU0FOX1NBTklUSVpFOj15IHRvIHVwc3RyZWFtIE1ha2VmaWxlcyAtIG9ubHkgZGV2ZWxvcG1l
+bnQgDQo+IGtlcm5lbHMgd2hlbiBkZWJ1Z2dpbmcgb24gbG93LWVuZCBkZXZpY2VzLg0KPg0KPiBN
+YXNhaGlybywgaXMgdGhpcyBzb21ldGhpbmcgd29ydGggaGF2aW5nIGluIHVwc3RyZWFtIEtjb25m
+aWcgY29kZT8NCg0KDQpFdmVuIGlmIHdlIGFwcGx5IHRoaXMgcGF0Y2ggdG8gdGhlIHVwc3RyZWFt
+LCB5b3Ugd2lsbCBlbmQgdXAgd2l0aCBhZGRpbmcgJ0tBU0FOX1NBTklUSVpFIDo9eScNCnRvIHRo
+ZSBzaW5nbGUgZmlsZS9NYWtlZmlsZS4NCg0KSSBhbSBub3QgY29udmluY2VkIHdpdGggdGhpcyBw
+YXRjaA0Kc2luY2UgdGhpcyBub2QgaXMgbm90IHNvIHVzZWZ1bCBzdGFuZGFsb25lLg0KDQoNCg0K
+PiA+IFNpZ25lZC1vZmYtYnk6IEpvZXkgSmlhbyA8cXVpY19qaWFuZ2VuakBxdWljaW5jLmNvbT4N
+Cj4gUmV2aWV3ZWQtYnk6IEFsZXhhbmRlciBQb3RhcGVua28gPGdsaWRlckBnb29nbGUuY29tPg0K
+DQoNCg0KLS0NCkJlc3QgUmVnYXJkcw0KTWFzYWhpcm8gWWFtYWRhDQo=
