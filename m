@@ -2,56 +2,60 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D8487BD3ED
-	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Oct 2023 08:57:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 611E87BD432
+	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Oct 2023 09:23:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345347AbjJIG5w (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 9 Oct 2023 02:57:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40270 "EHLO
+        id S234360AbjJIHXH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 9 Oct 2023 03:23:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37256 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344922AbjJIG5w (ORCPT
+        with ESMTP id S232625AbjJIHXH (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 9 Oct 2023 02:57:52 -0400
+        Mon, 9 Oct 2023 03:23:07 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A47A1A3;
-        Sun,  8 Oct 2023 23:57:50 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CF25C433CB;
-        Mon,  9 Oct 2023 06:57:50 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4198DAB
+        for <linux-kbuild@vger.kernel.org>; Mon,  9 Oct 2023 00:23:05 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C479EC43395
+        for <linux-kbuild@vger.kernel.org>; Mon,  9 Oct 2023 07:23:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696834670;
-        bh=WfMc89OGvQiyW+o0qptkoI9flKRYwOtSlIq18M32yQI=;
+        s=k20201202; t=1696836184;
+        bh=gxed+PyPlKV1EIYLptm+8d9sgxEnTJLr23xR3gzhbgc=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=KkRUwOLfzXI9SPkP6GKCIofqMZ9JKj9RkT0DMadrPpl3bjV6JbA/zcOpCXIXD3HCr
-         DbRul+e5KyKUQO+sNeN/G6t/G1NjW/SW6cEnkXryMN1F6YZQc/k4Z/MIE6F9md3DZJ
-         FtckpgMJZK9nydDjH6/TXXNajXBFd3zZbOz9nE0nRWGeZL/94n3p2k7V9AB1mrEsgh
-         GPWkf1Y0ZQLRDr0bOPF5G0+OHglejBFDgHrJwT6/i7quzXCbjiWIhwEVTpCRDOIfbu
-         kPbRwQk6EXagdLs7nzkQ8D2AxQ51pOwNUWcJUPO3Dee3WrzWl1FNC8YuYkMcx7xRgq
-         Vn58dKBusd7hQ==
-Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-6c67060fdfaso2949751a34.2;
-        Sun, 08 Oct 2023 23:57:50 -0700 (PDT)
-X-Gm-Message-State: AOJu0Yzw4hZpTvXPz9NtDl/8E1PmPR8HMSyeOIKMEWaPbKupGp9RpYbx
-        0TrnnT9bEHqKwxdr67/ZOAqPUz5d6KFfXH764Y8=
-X-Google-Smtp-Source: AGHT+IGMOGZBw2soP3TkVZNtoWBL1sfXMy+9ml8XcydjSeLYM7BQdD/aczv6M2evuS8JB4Kh1OcM12cPDT01T+L1m8I=
-X-Received: by 2002:a05:6870:56ac:b0:1d5:a3b5:d89c with SMTP id
- p44-20020a05687056ac00b001d5a3b5d89cmr16414304oao.3.1696834669675; Sun, 08
- Oct 2023 23:57:49 -0700 (PDT)
+        b=d/lhPhMr4x42+7y8aq89/c0rprEwKUVbxa5Ur1Nh1DFZ4u/66qF5vIF5wls6iWdIl
+         ICRPra29pQgSxKM2N1um+JM2mqWH3Tq4x8N6U28J6J0qkjL4uzXkb4l6PiDRY/5GAp
+         BUrkk1IUoa96SomdslV1Zw5js6zAPA2Q7TcQmN5d2C4+XZGxkN3xM05UwGFLLGLMWH
+         2I/ZDAAOjUkxeakzvHb+MLzCCxjmAVoK+kS9Nog0pSjqpW2gnfEZInCVQzhcMXCIYL
+         ZRNNgNdt0UjduXXFywSq+Jp7yivSVlN/r8lErbUQ8rjJxLD+z2hQ1hdLpoND073zne
+         sRFvyJqJzeqjA==
+Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-3ae5ee80c0dso2950673b6e.3
+        for <linux-kbuild@vger.kernel.org>; Mon, 09 Oct 2023 00:23:04 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yx62f1krTUdXU6bMCkLDi6GUwk5AIqf6R2imrI9qL3K68T8FyUv
+        Gu2gFci9lWD6Ik22Hwe0fnow4LtvEr8fS71xCbU=
+X-Google-Smtp-Source: AGHT+IERynuZ0eRpygHJOJnip83U36ywByKOuj2HMyABKFQ7nt7kfo6a/OqTQJYxIrevx6ZT6gO2J1vlmEOZcYtctXs=
+X-Received: by 2002:a05:6870:2b0f:b0:1e1:fe79:6831 with SMTP id
+ ld15-20020a0568702b0f00b001e1fe796831mr15440541oab.57.1696836184084; Mon, 09
+ Oct 2023 00:23:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <20231007170448.505487-1-masahiroy@kernel.org> <CAFA6WYNqe-e_ZqbxXW5BcmMOxQr42mdJV-o4W4U4XcOsPe0P+Q@mail.gmail.com>
-In-Reply-To: <CAFA6WYNqe-e_ZqbxXW5BcmMOxQr42mdJV-o4W4U4XcOsPe0P+Q@mail.gmail.com>
+References: <20231008200143.196369-1-u.kleine-koenig@pengutronix.de> <20231008200143.196369-2-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20231008200143.196369-2-u.kleine-koenig@pengutronix.de>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 9 Oct 2023 15:57:13 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASAPYAUQsKEp9Z-Bm=wJgb_Cebg02K26XGNz=j2Rgajag@mail.gmail.com>
-Message-ID: <CAK7LNASAPYAUQsKEp9Z-Bm=wJgb_Cebg02K26XGNz=j2Rgajag@mail.gmail.com>
-Subject: Re: [PATCH 1/5] modpost: fix tee MODULE_DEVICE_TABLE built on big
- endian host
-To:     Sumit Garg <sumit.garg@linaro.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Bhupesh Sharma <bhsharma@redhat.com>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>
+Date:   Mon, 9 Oct 2023 16:22:27 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASB2HhO6iWNnG-tAzs9wu9mV2PLRf-brnNGkSJj+W23Vw@mail.gmail.com>
+Message-ID: <CAK7LNASB2HhO6iWNnG-tAzs9wu9mV2PLRf-brnNGkSJj+W23Vw@mail.gmail.com>
+Subject: Re: [PATCH 01/20] mtd: rawnand: txx9ndfmc: Mark driver struct with
+ __refdata to prevent section mismatch warning
+To:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        David Woodhouse <David.Woodhouse@intel.com>,
+        Atsushi Nemoto <anemo@mba.ocn.ne.jp>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-mtd@lists.infradead.org, kernel@pengutronix.de,
+        linux-kbuild@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -64,126 +68,73 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Oct 9, 2023 at 3:27=E2=80=AFPM Sumit Garg <sumit.garg@linaro.org> w=
-rote:
+On Mon, Oct 9, 2023 at 5:02=E2=80=AFAM Uwe Kleine-K=C3=B6nig
+<u.kleine-koenig@pengutronix.de> wrote:
 >
-> Hi Masahiro,
+> As described in the added code comment, a reference to .exit.text is ok
+> for drivers registered via module_platform_driver_probe(). Make this
+> explicit to prevent a section mismatch warning with
+> CONFIG_MTD_NAND_TXX9NDFMC=3Dm:
 >
-> On Sat, 7 Oct 2023 at 22:34, Masahiro Yamada <masahiroy@kernel.org> wrote=
-:
-> >
-> > When MODULE_DEVICE_TABLE(tee, ) is built on a host with a different
-> > endianness from the target architecture, it results in an incorrect
-> > MODULE_ALIAS().
-> >
-> > For example, see a case where drivers/char/hw_random/optee-rng.c
-> > is built as a module.
-> >
-> > If you build it on a little endian host, you will get the correct
-> > MODULE_ALIAS:
-> >
-> >     $ grep MODULE_ALIAS drivers/char/hw_random/optee-rng.mod.c
-> >     MODULE_ALIAS("tee:ab7a617c-b8e7-4d8f-8301-d09b61036b64*");
-> >
-> > However, if you build it on a big endian host, you will get a wrong
-> > MODULE_ALIAS:
-> >
-> >     $ grep MODULE_ALIAS drivers/char/hw_random/optee-rng.mod.c
-> >     MODULE_ALIAS("tee:646b0361-9bd0-0183-8f4d-e7b87c617aab*");
-> >
-> > This issue has been unnoticed because the ARM kernel is most likely bui=
-lt
-> > on a little endian host (cross-build on x86 or native-build on ARM).
-> >
-> > The uuid field must not be reversed because uuid_t is an array of __u8.
-> >
+>         WARNING: modpost: drivers/mtd/nand/raw/txx9ndfmc: section mismatc=
+h in reference: txx9ndfmc_driver+0x4 (section: .data) -> txx9ndfmc_remove (=
+section: .exit.text)
 >
-> To me it wasn't obvious that DEF_FIELD() has certain endianness limitatio=
-ns.
+> Fixes: 64fb65baffa5 ("[MTD] TXx9 SoC NAND Flash Memory Controller driver"=
+)
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+> ---
+> Hello,
 >
-> > Fixes: 0fc1db9d1059 ("tee: add bus driver framework for TEE based devic=
-es")
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > ---
-> >
-> >  scripts/mod/file2alias.c | 10 +++++-----
-> >  1 file changed, 5 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
-> > index 7056751c29b1..70bf6a2f585c 100644
-> > --- a/scripts/mod/file2alias.c
-> > +++ b/scripts/mod/file2alias.c
-> > @@ -1348,13 +1348,13 @@ static int do_typec_entry(const char *filename,=
- void *symval, char *alias)
-> >  /* Looks like: tee:uuid */
-> >  static int do_tee_entry(const char *filename, void *symval, char *alia=
-s)
-> >  {
-> > -       DEF_FIELD(symval, tee_client_device_id, uuid);
+> note this warning only triggers with f177cd0c15fc ("modpost: Don't let
+> "driver"s reference .exit.*") that currently waits in next for the next
+> merge window + building with W=3D1.
 >
-> As you have mentioned in patch #3: the limitations of TO_NATIVE(), if
-> you can update comments for DEF_FIELD() as well to make it clear that
-> it doesn't support byte arrays/strings would be helpful. I think the
-> following check that you have introduced in patch #3 can still be
-> bypassed for byte arrays/strings.
+> Best regards
+> Uwe
 >
-> + _Static_assert(sizeof(x) =3D=3D 1 || sizeof(x) =3D=3D 2 || \
-> +       sizeof(x) =3D=3D 4 || sizeof(x) =3D=3D 8, "bug");
-
-
-
-
-I am afraid you missed the point.
-
-bswap_2, bswap_4, bswap_8 do not take a pointer.
-
-If you pass an array or a string,
-it will result in a build error
-due to the compiler's prototype checking.
-
-The kbuild test robot will catch a build error anyway.
-
-
-"You cannot build it in the first place"
-is better than a comment.
-
-
-
-
-
-
-
-
-
-
-> BTW, for this fix feel free to add:
+>  drivers/mtd/nand/raw/txx9ndfmc.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
 >
-> Reviewed-by: Sumit Garg <sumit.garg@linaro.org>
+> diff --git a/drivers/mtd/nand/raw/txx9ndfmc.c b/drivers/mtd/nand/raw/txx9=
+ndfmc.c
+> index eddcc0728a67..aff9d6f16851 100644
+> --- a/drivers/mtd/nand/raw/txx9ndfmc.c
+> +++ b/drivers/mtd/nand/raw/txx9ndfmc.c
+> @@ -406,7 +406,13 @@ static int txx9ndfmc_resume(struct platform_device *=
+dev)
+>  #define txx9ndfmc_resume NULL
+>  #endif
 >
-> -Sumit
+> -static struct platform_driver txx9ndfmc_driver =3D {
+> +/*
+> + * txx9ndfmc_remove() lives in .exit.text. For drivers registered via
+> + * module_platform_driver_probe() this is ok because they cannot get unb=
+ound at
+> + * runtime. So mark the driver struct with __refdata to prevent modpost
+> + * triggering a section mismatch warning.
+> + */
+> +static struct platform_driver txx9ndfmc_driver __refdata =3D {
+>         .remove         =3D __exit_p(txx9ndfmc_remove),
+>         .resume         =3D txx9ndfmc_resume,
+>         .driver         =3D {
+> --
+> 2.40.1
 >
-> > +       DEF_FIELD_ADDR(symval, tee_client_device_id, uuid);
-> >
-> >         sprintf(alias, "tee:%02x%02x%02x%02x-%02x%02x-%02x%02x-%02x%02x=
--%02x%02x%02x%02x%02x%02x",
-> > -               uuid.b[0], uuid.b[1], uuid.b[2], uuid.b[3], uuid.b[4],
-> > -               uuid.b[5], uuid.b[6], uuid.b[7], uuid.b[8], uuid.b[9],
-> > -               uuid.b[10], uuid.b[11], uuid.b[12], uuid.b[13], uuid.b[=
-14],
-> > -               uuid.b[15]);
-> > +               uuid->b[0], uuid->b[1], uuid->b[2], uuid->b[3], uuid->b=
-[4],
-> > +               uuid->b[5], uuid->b[6], uuid->b[7], uuid->b[8], uuid->b=
-[9],
-> > +               uuid->b[10], uuid->b[11], uuid->b[12], uuid->b[13], uui=
-d->b[14],
-> > +               uuid->b[15]);
-> >
-> >         add_wildcard(alias);
-> >         return 1;
-> > --
-> > 2.39.2
-> >
+
+
+We have thousands of module_platform_drivers.
+I would be scared if they started to add __refdata.
+
+I am not sure if this is the right direction.
+
+I added Greg and Arnd to CC.
+
+
+
+In my understanding of the current DT overlay,
+there is no way to create/remove a platform device dynamically.
+I do not know if that will happen in the future.
 
 
 
