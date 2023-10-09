@@ -2,122 +2,162 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CA6D67BE6CB
-	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Oct 2023 18:44:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD3997BE6FC
+	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Oct 2023 18:51:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377292AbjJIQo2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 9 Oct 2023 12:44:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51078 "EHLO
+        id S1377797AbjJIQu7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 9 Oct 2023 12:50:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46424 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1377138AbjJIQo2 (ORCPT
+        with ESMTP id S1377340AbjJIQux (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 9 Oct 2023 12:44:28 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 219D49C;
-        Mon,  9 Oct 2023 09:44:27 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F078CC433C9;
-        Mon,  9 Oct 2023 16:44:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1696869866;
-        bh=hih2ojuht8Q/T9suSdsZNAYc2MUvDRpGqPW8913YgAY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Fv81rrzfBlhmCSyzSbFm4f8JmVVlagKhI0OSyXRpR9/9h6b+FdXcgjHwMZf+cp2su
-         mbqmY3gelrBeruWabdjhdJ7id0I+kYb4WQts1gPqLjS+3CJCbaChYfdPpuALshd0S2
-         D0ujnmXLy7Y+ZKbyA/zoyhV0p0PlZ4oe0eSIh2/bG/xa0s8wb7AWDZcGyWM51/JUlA
-         zGbn0/kqtcasGNaUv9ytjnTsHF9fztBTPtXE3lvmuDEhMnXarop6rBifKltQEQZBbh
-         6dACfPxTF0tS/Qi+1I18u2riwu+RYVcpIqDkoZorHn1XiP07DP4IBEhM9xHDO58CAb
-         sMMh+aXVY62tA==
-Date:   Mon, 9 Oct 2023 09:44:24 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
+        Mon, 9 Oct 2023 12:50:53 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AA10101;
+        Mon,  9 Oct 2023 09:50:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1696870251; x=1728406251;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:content-transfer-encoding:mime-version;
+  bh=b9iN2UIUY+MXlviHrRmhLSxxQW0LQqi0mfJzqOW6BhY=;
+  b=PW49u8fot8c3hLC3gTN7UY41gWcXUNCk7NDCFPkLFEqWo4B5HM94Lo8+
+   V4BQ0MUN7m03eOBVhMJYOcSPOA+b51KCYqbVTT2TlZ3OT47Zlfjdr8FKf
+   SuvqBbCAewEyjJQFrGYKELaEm+SuQL+ZChYv+oIjeQlKYLEfwoquPVwpu
+   vmufQxykvNMSkIe/BnYjoZgv/RxFO0OIO0cAiXakB5hr4y0K3FecWkPYD
+   9/4csnT8ABQMCwbYNuWgAs67YrAjvqw/vYyS2GIHcQfntzXvW/7MxCLMK
+   QHcNw1QlZ2fbUISa/haI/XcfyuVfrGHA7L6kvEz6xt1A8Sle+y2mnnSqM
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="2782000"
+X-IronPort-AV: E=Sophos;i="6.03,210,1694761200"; 
+   d="scan'208";a="2782000"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2023 09:50:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="788228855"
+X-IronPort-AV: E=Sophos;i="6.03,210,1694761200"; 
+   d="scan'208";a="788228855"
+Received: from spandruv-desk1.amr.corp.intel.com ([10.209.103.6])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2023 09:50:49 -0700
+Message-ID: <8fa4856c8511d9aaae386e8074c7782733e61c46.camel@linux.intel.com>
+Subject: Re: [PATCH 2/5] modpost: fix ishtp MODULE_DEVICE_TABLE built on big
+ endian host
+From:   srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     Thomas =?ISO-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+        Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-s390@vger.kernel.org, linux-um@lists.infradead.org,
-        loongarch@lists.linux.dev, sparclinux@vger.kernel.org,
-        x86@kernel.org, Nick Desaulniers <ndesaulniers@google.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Jiri Kosina <jkosina@suse.cz>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
         Nicolas Schier <nicolas@fjasle.eu>
-Subject: Re: [PATCH 5/5] kbuild: unify no-compiler-targets and
- no-sync-config-targets
-Message-ID: <20231009164424.GB1153868@dev-arch.thelio-3990X>
-References: <20231009124210.1064021-1-masahiroy@kernel.org>
- <20231009124210.1064021-5-masahiroy@kernel.org>
+Date:   Mon, 09 Oct 2023 09:50:49 -0700
+In-Reply-To: <79f74670-768b-46f7-b484-a45ddcd9dc6f@t-8ch.de>
+References: <20231007170448.505487-1-masahiroy@kernel.org>
+         <20231007170448.505487-2-masahiroy@kernel.org>
+         <79f74670-768b-46f7-b484-a45ddcd9dc6f@t-8ch.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231009124210.1064021-5-masahiroy@kernel.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Oct 09, 2023 at 09:42:10PM +0900, Masahiro Yamada wrote:
-> Now that vdso_install does not depend on any in-tree build artifact,
-> it no longer invokes a compiler, making no-compiler-targets the same
-> as no-sync-config-targets.
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
-> 
->  Makefile | 13 +------------
->  1 file changed, 1 insertion(+), 12 deletions(-)
-> 
-> diff --git a/Makefile b/Makefile
-> index 2170d56630e8..982b1ad33287 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -277,10 +277,6 @@ no-dot-config-targets := $(clean-targets) \
->  			 $(version_h) headers headers_% archheaders archscripts \
->  			 %asm-generic kernelversion %src-pkg dt_binding_check \
->  			 outputmakefile rustavailable rustfmt rustfmtcheck
-> -# Installation targets should not require compiler. Unfortunately, vdso_install
-> -# is an exception where build artifacts may be updated. This must be fixed.
-> -no-compiler-targets := $(no-dot-config-targets) install dtbs_install \
-> -			headers_install modules_install modules_sign kernelrelease image_name
->  no-sync-config-targets := $(no-dot-config-targets) %install modules_sign kernelrelease \
->  			  image_name
->  single-targets := %.a %.i %.ko %.lds %.ll %.lst %.mod %.o %.rsi %.s %.symtypes %/
-> @@ -288,7 +284,6 @@ single-targets := %.a %.i %.ko %.lds %.ll %.lst %.mod %.o %.rsi %.s %.symtypes %
->  config-build	:=
->  mixed-build	:=
->  need-config	:= 1
-> -need-compiler	:= 1
->  may-sync-config	:= 1
->  single-build	:=
->  
-> @@ -298,12 +293,6 @@ ifneq ($(filter $(no-dot-config-targets), $(MAKECMDGOALS)),)
->  	endif
->  endif
->  
-> -ifneq ($(filter $(no-compiler-targets), $(MAKECMDGOALS)),)
-> -	ifeq ($(filter-out $(no-compiler-targets), $(MAKECMDGOALS)),)
-> -		need-compiler :=
-> -	endif
-> -endif
-> -
+On Sun, 2023-10-08 at 09:51 +0200, Thomas Wei=C3=9Fschuh wrote:
+> On 2023-10-08 02:04:45+0900, Masahiro Yamada wrote:
+> > When MODULE_DEVICE_TABLE(ishtp, ) is built on a host with a
+> > different
+> > endianness from the target architecture, it results in an incorrect
+> > MODULE_ALIAS().
+> >=20
+> > For example, see a case where
+> > drivers/platform/x86/intel/ishtp_eclite.c
+> > is built as a module.
+>=20
+> Nitpick:
+>=20
+> ... [as a module] for x86.
+>=20
+> So the statements below can be interpreted correctly.
+>=20
+> >=20
+> > If you build it on a little endian host, you will get the correct
+> > MODULE_ALIAS:
+> >=20
+> > =C2=A0=C2=A0=C2=A0 $ grep MODULE_ALIAS
+> > drivers/platform/x86/intel/ishtp_eclite.mod.c
+> > =C2=A0=C2=A0=C2=A0 MODULE_ALIAS("ishtp:{6A19CC4B-D760-4DE3-B14D-F25EBD0=
+FBCD9}");
+> >=20
+> > However, if you build it on a big endian host, you will get a wrong
+> > MODULE_ALIAS:
+> >=20
+> > =C2=A0=C2=A0=C2=A0 $ grep MODULE_ALIAS
+> > drivers/platform/x86/intel/ishtp_eclite.mod.c
+> > =C2=A0=C2=A0=C2=A0 MODULE_ALIAS("ishtp:{BD0FBCD9-F25E-B14D-4DE3-D7606A1=
+9CC4B}");
+> >=20
+> > This issue has been unnoticed because the x86 kernel is most likely
+> > built
+> > natively on an x86 host.
+> >=20
+> > The guid field must not be reversed because guid_t is an array of
+> > __u8.
+> >=20
+> > Fixes: fa443bc3c1e4 ("HID: intel-ish-hid: add support for
+> > MODULE_DEVICE_TABLE()")
+>=20
+> + Cc: stable@vger.kernel.org
+>=20
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+>=20
+> Reviewed-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
 
-MIPS and LoongArch seem to have grown a usage of need-compiler in
-4fe4a6374c4d ("MIPS: Only fiddle with CHECKFLAGS if `need-compiler'")
-and 54c2c9df083f ("LoongArch: Only fiddle with CHECKFLAGS if
-`need-compiler'"). With this removal, should those be updated as well?
+Tested-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 
->  ifneq ($(filter $(no-sync-config-targets), $(MAKECMDGOALS)),)
->  	ifeq ($(filter-out $(no-sync-config-targets), $(MAKECMDGOALS)),)
->  		may-sync-config :=
-> @@ -675,7 +664,7 @@ endif
->  
->  # Include this also for config targets because some architectures need
->  # cc-cross-prefix to determine CROSS_COMPILE.
-> -ifdef need-compiler
-> +ifdef may-sync-config
->  include $(srctree)/scripts/Makefile.compiler
->  endif
->  
-> -- 
-> 2.39.2
-> 
+Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+
+Thanks,
+Srinivas
+
+>=20
+> Thanks!
+>=20
+> > ---
+> >=20
+> > =C2=A0scripts/mod/file2alias.c | 4 ++--
+> > =C2=A01 file changed, 2 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
+> > index 70bf6a2f585c..6583b36dbe69 100644
+> > --- a/scripts/mod/file2alias.c
+> > +++ b/scripts/mod/file2alias.c
+> > @@ -1401,10 +1401,10 @@ static int do_mhi_ep_entry(const char
+> > *filename, void *symval, char *alias)
+> > =C2=A0/* Looks like: ishtp:{guid} */
+> > =C2=A0static int do_ishtp_entry(const char *filename, void *symval, cha=
+r
+> > *alias)
+> > =C2=A0{
+> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0DEF_FIELD(symval, ishtp_devi=
+ce_id, guid);
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0DEF_FIELD_ADDR(symval, ishtp=
+_device_id, guid);
+> > =C2=A0
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0strcpy(alias, ISHTP_MOD=
+ULE_PREFIX "{");
+> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0add_guid(alias, guid);
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0add_guid(alias, *guid);
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0strcat(alias, "}");
+> > =C2=A0
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return 1;
+> > --=20
+> > 2.39.2
+> >=20
+
