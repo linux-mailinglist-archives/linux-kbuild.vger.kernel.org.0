@@ -2,62 +2,61 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 25E107BD893
-	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Oct 2023 12:30:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F38E27BDC32
+	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Oct 2023 14:34:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345769AbjJIKat (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 9 Oct 2023 06:30:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40790 "EHLO
+        id S1376401AbjJIMex (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 9 Oct 2023 08:34:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345829AbjJIKas (ORCPT
+        with ESMTP id S1346630AbjJIMet (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 9 Oct 2023 06:30:48 -0400
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32812C5
-        for <linux-kbuild@vger.kernel.org>; Mon,  9 Oct 2023 03:30:47 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qpnX6-00029v-Pt; Mon, 09 Oct 2023 12:30:40 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qpnX4-000OLd-4m; Mon, 09 Oct 2023 12:30:38 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qpnX3-00C8Mz-RZ; Mon, 09 Oct 2023 12:30:37 +0200
-Date:   Mon, 9 Oct 2023 12:30:37 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        linux-kbuild@vger.kernel.org, Richard Weinberger <richard@nod.at>,
-        Atsushi Nemoto <anemo@mba.ocn.ne.jp>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-mtd@lists.infradead.org,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>
-Subject: Re: [PATCH 01/20] mtd: rawnand: txx9ndfmc: Mark driver struct with
- __refdata to prevent section mismatch warning
-Message-ID: <20231009103037.j44gkzqv7cpn4zpu@pengutronix.de>
-References: <20231008200143.196369-1-u.kleine-koenig@pengutronix.de>
- <20231008200143.196369-2-u.kleine-koenig@pengutronix.de>
- <CAK7LNASB2HhO6iWNnG-tAzs9wu9mV2PLRf-brnNGkSJj+W23Vw@mail.gmail.com>
- <e38b8a8e-5bd6-41e2-87a1-3b2d23b68bc0@app.fastmail.com>
+        Mon, 9 Oct 2023 08:34:49 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5663DB7;
+        Mon,  9 Oct 2023 05:34:48 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E682EC433CB;
+        Mon,  9 Oct 2023 12:34:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1696854887;
+        bh=1k6rM4lCLYpCX7xu2JGVxkuiNxryABdz8CHGqmNOj/U=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=vDcEaXl9niuNNqo067jjIO6MMpwKln23++Wm9pOabCws7E3hr5AIWzEFJlCZ9aToo
+         t0b3KY2LRdgWtvBVgnxJC2ixXR00E9T+lTYfAWiKF1FyHYWv4enhFQbfzIkOqaD7fW
+         oN8SQBkK3ZHhos/5QrsPoOSKJWM3wNculCFS62bjPwugJrK142pUuXffm5GCRHn3eq
+         LtI6qiI90GRxvQMB6Y7huX7L8gPAZ8KIYl3eeJN51+3TVgCDod6YDgCnyEdyx6NWAV
+         g/2GI/3tqwDWWPUskI+61MgVlLe552Trk1fnHD9Xhzp5QEqrp97iXZEScLHqcGdCqe
+         ApIYm0cmb4ktA==
+Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-6c49f781855so3040053a34.3;
+        Mon, 09 Oct 2023 05:34:47 -0700 (PDT)
+X-Gm-Message-State: AOJu0YzERQ6pbqFvy6DfjKmcvAYSoDFrPtQoHMJqVKZvGnZBHQ/4ANfc
+        Bx86BIeUlVI58Tix7+ZSs1AgqTif/rcybz1RT5U=
+X-Google-Smtp-Source: AGHT+IFIbTz5t8VY6Ya5IBjf6SaeC2Hdeqj8i7oFiUWiND7dZgmlnVzVpWdR/Ce+OQTdLzfG7B4rbmkZQ5DeLtjK5EU=
+X-Received: by 2002:a05:6870:a688:b0:1c8:b715:6c81 with SMTP id
+ i8-20020a056870a68800b001c8b7156c81mr17805871oam.55.1696854887278; Mon, 09
+ Oct 2023 05:34:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="eyfmrlif4aeodefl"
-Content-Disposition: inline
-In-Reply-To: <e38b8a8e-5bd6-41e2-87a1-3b2d23b68bc0@app.fastmail.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-kbuild@vger.kernel.org
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+References: <20231005150728.3429-1-msuchanek@suse.de> <CAK7LNAQh7vCQ859RPkL3SDr2d4ptt5OVCr66fkPKGcvxDUHtkw@mail.gmail.com>
+ <20231009085208.GT6241@kitsune.suse.cz>
+In-Reply-To: <20231009085208.GT6241@kitsune.suse.cz>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Mon, 9 Oct 2023 21:34:10 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASeMEKVi5c0PEow5KSdN7rsm7UYEf2smWOSkYOhr_5fVQ@mail.gmail.com>
+Message-ID: <CAK7LNASeMEKVi5c0PEow5KSdN7rsm7UYEf2smWOSkYOhr_5fVQ@mail.gmail.com>
+Subject: Re: [PATCH rebased] kbuild: rpm-pkg: Fix build with non-default MODLIB
+To:     =?UTF-8?Q?Michal_Such=C3=A1nek?= <msuchanek@suse.de>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        linux-modules@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
+        Lucas De Marchi <lucas.de.marchi@gmail.com>,
+        =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
+        Jiri Slaby <jslaby@suse.com>, Jan Engelhardt <jengelh@inai.de>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -66,80 +65,45 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-
---eyfmrlif4aeodefl
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hello,
-
-[Changed email address for David Woodhouse from intel to infradead]
-
-On Mon, Oct 09, 2023 at 10:43:46AM +0200, Arnd Bergmann wrote:
-> On Mon, Oct 9, 2023, at 09:22, Masahiro Yamada wrote:
-> > On Mon, Oct 9, 2023 at 5:02=E2=80=AFAM Uwe Kleine-K=C3=B6nig <u.kleine-=
-koenig@pengutronix.de> wrote:
-> >>
-> >> As described in the added code comment, a reference to .exit.text is ok
-> >> for drivers registered via module_platform_driver_probe(). Make this
-> >> explicit to prevent a section mismatch warning with
->=20
+On Mon, Oct 9, 2023 at 5:52=E2=80=AFPM Michal Such=C3=A1nek <msuchanek@suse=
+.de> wrote:
+>
+> Hello,
+>
+> On Mon, Oct 09, 2023 at 05:31:02PM +0900, Masahiro Yamada wrote:
+> > On Fri, Oct 6, 2023 at 12:49=E2=80=AFAM Michal Suchanek <msuchanek@suse=
+.de> wrote:
+> > >
+> > > The default MODLIB value is composed of two variables and the hardcod=
+ed
+> > > string '/lib/modules/'.
+> > >
+> > > MODLIB =3D $(INSTALL_MOD_PATH)/lib/modules/$(KERNELRELEASE)
+> > >
+> > > Defining this middle part as a variable was rejected on the basis tha=
+t
+> > > users can pass the whole MODLIB to make, such as
 > >
-> > We have thousands of module_platform_drivers.
-> > I would be scared if they started to add __refdata.
 > >
-> > I am not sure if this is the right direction.
->=20
-> For a normal module_platform_driver(), this would indeed be
-> wrong, but as Uwe said above there is a special case for
-> module_platform_driver_probe(), which implicitly sets the
-> drv->driver.suppress_bind_attrs=3Dtrue flag.
->=20
-> > In my understanding of the current DT overlay,
-> > there is no way to create/remove a platform device dynamically.
-> > I do not know if that will happen in the future.
->=20
-> For drivers without suppress_bind_attrs, you can manually
-> unbind the device from a driver, which in case of a loadable
-> module ends up calling the .remove callback (this is fine),
-> but in a built-in driver this would use a NULL pointer for
-> .remove and cause unexpected behavior.
+> > In other words, do you want to say
+> >
+> > "If defining this middle part as a variable had been accepted,
+> > this patch would have been unneeded." ?
+>
+> If it were accepted I would not have to guess what the middle part is,
+> and could use the variable that unambiguosly defines it instead.
 
-only a slight correction: As not having a remove callback can be fine
-and platform_remove() only calls .remove (or .remove_new) when non-NULL
-we're not hitting a NULL pointer dereference in the presence of
 
-	.remove =3D __exit_p(somefunc),
+How?
 
-But a problem can arise later if some resource isn't properly freed and
-so it might be used at a later point in time which then most likely
-oopses.
+scripts/package/kernel.spec hardcodes 'lib/modules'
+in a couple of places.
 
-I didn't double check Arnd's list, but otherwise I agree to his
-analysis.
+I am asking how to derive the module path.
 
-Best regards
-Uwe
+
+
 
 --=20
-Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig         =
-   |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---eyfmrlif4aeodefl
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmUj1kwACgkQj4D7WH0S
-/k6PWAf/U6JPgHawgWRjbbvmzteonFhuvNF2GMdSZ9xtW5chIxo+H2g0Zwvic4hx
-2ZwF3ewJ9ZtSeMq2JZXlC8WV0RwE+zYoig5IDtf/73kVGS48oFPf7u7bppOaVWAG
-5pCoCYa9p2c3BcXP21362rCufNKiqSNxVpuETfbIWaUYqCV8T+/5mKweFEuJ2TT1
-3gauZoDBNKTNFUvZ3eV1u2m8dFWiqbvLeR1YfS6neIpup2caScqNxsTx+cT2rAJu
-4+HimdiMvjB0oKI8gHOvdbYtbWLp6fM1olaiAYen0Gi7TtBXqKhPrY8OrkCayNOj
-t5xetLTIRPMyd5H1jwQzvHCQTGUy+A==
-=jxi7
------END PGP SIGNATURE-----
-
---eyfmrlif4aeodefl--
+Best Regards
+Masahiro Yamada
