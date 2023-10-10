@@ -2,62 +2,59 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E6557BF5D9
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Oct 2023 10:29:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A05607BF5F9
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Oct 2023 10:33:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1442752AbjJJI3i (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 10 Oct 2023 04:29:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38626 "EHLO
+        id S1442896AbjJJIda (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 10 Oct 2023 04:33:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51206 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1442787AbjJJI3h (ORCPT
+        with ESMTP id S1442890AbjJJId3 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 10 Oct 2023 04:29:37 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04F54C4
-        for <linux-kbuild@vger.kernel.org>; Tue, 10 Oct 2023 01:29:34 -0700 (PDT)
+        Tue, 10 Oct 2023 04:33:29 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FC4FB9
+        for <linux-kbuild@vger.kernel.org>; Tue, 10 Oct 2023 01:33:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1696926575; x=1728462575;
+  t=1696926806; x=1728462806;
   h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version:content-transfer-encoding;
-  bh=A2D0SqTWwvlaPS6v06qytKXFVey++gNz9DKsZnREo9c=;
-  b=B1Qq0H9F87YmSoVWNZSNicBlozJRf4tFzl5YnJPoiw3GVJcgtJBXGD7Q
-   grAy+JjiSAGzbkCoy6PCTy3M40ZTabywegv0t3We33wocnlK7HGc6JiKi
-   GArPeOE/D7w7PCbnf9bB32ovYsXw1tVRRNa1SUM5GFRgk5L2dsYt/OytD
-   OUlbNKYv+LeobkwQgdhVFmyYtsVB1EC+3legq3AYh7LwvR3Ysu5nc+JfR
-   KSuT79lWpaLrXTeVR3iuHtT8HDmlCxegJArNgNvVug1QVQ64gZ07o28oV
-   MWLWyWebnNPSAC6162oEGGqpS529C0BA8t++BaPR6P5tqjJr1lA3f4zIc
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="470604982"
+   message-id:mime-version;
+  bh=NOvBoAi9K1oWrkHF47E77K1AP68uBpBRolEUQjAg7zE=;
+  b=cjfZ6UWgXgqgMsdIdwb1LzCUsx4C8estJdBXIaPIFAlg1/GzkSdwc7Hc
+   5tB5U1wIjwGvdxaZKkecFQxkddIXRGAuLzin8WBKnrrHM9gnvD+zsB7e+
+   dxuK107mqzVc0VQ8x0FFHf4sm0ivgFQ5I2fO1v5+NMzP1ebd5jKvZdLpu
+   CpoOGk2S/a1yNrq+LFBKux1KjM4Nn2kS5GFvc9iSLyc09QDEQvablliYM
+   ulwlJnseuAyHTSjR3WtgqHt6wgcOzn/gRhSVxt1SKP9aWPbdc3ul4xfaa
+   mplO1pemt8qIRS8xivgjVhHliwfQQeaurevctGMP3OxSNgsTB7Xrg/ax2
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="381600014"
 X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; 
-   d="scan'208";a="470604982"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 01:29:34 -0700
+   d="scan'208";a="381600014"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 01:33:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="869587507"
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="819151349"
 X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; 
-   d="scan'208";a="869587507"
+   d="scan'208";a="819151349"
 Received: from pors-mobl3.ger.corp.intel.com (HELO localhost) ([10.252.42.155])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 01:29:32 -0700
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 01:33:23 -0700
 From:   Jani Nikula <jani.nikula@intel.com>
-To:     Nathan Chancellor <nathan@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>
+To:     Nathan Chancellor <nathan@kernel.org>
 Cc:     intel-gfx@lists.freedesktop.org, linux-kbuild@vger.kernel.org,
         Arnd Bergmann <arnd@arndb.de>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Subject: Re: [PATCH 1/2] drm/i915: drop -Wall and related disables from
- cflags as redundant
-In-Reply-To: <20231009163837.GA1153868@dev-arch.thelio-3990X>
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Subject: Re: [PATCH 2/2] drm/i915: enable W=1 warnings by default
+In-Reply-To: <20231006174550.GC3359308@dev-arch.thelio-3990X>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 References: <cover.1696595500.git.jani.nikula@intel.com>
- <48f11648d7169687e7242e4c9b4694a0c03c4263.1696595500.git.jani.nikula@intel.com>
- <CAK7LNAT6MzbcjR7KZMEFUCHkq+WXgTB=Qmp_VD4UC7TvMg+dMg@mail.gmail.com>
- <20231009163837.GA1153868@dev-arch.thelio-3990X>
-Date:   Tue, 10 Oct 2023 11:29:29 +0300
-Message-ID: <87o7h66fti.fsf@intel.com>
+ <f50c8ea0e63615aea28fe7f6049703e1d28ba7eb.1696595500.git.jani.nikula@intel.com>
+ <20231006174550.GC3359308@dev-arch.thelio-3990X>
+Date:   Tue, 10 Oct 2023 11:33:21 +0300
+Message-ID: <87leca6fn2.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED
@@ -68,81 +65,155 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, 09 Oct 2023, Nathan Chancellor <nathan@kernel.org> wrote:
-> On Sun, Oct 08, 2023 at 12:28:46AM +0900, Masahiro Yamada wrote:
->> On Fri, Oct 6, 2023 at 9:35=E2=80=AFPM Jani Nikula <jani.nikula@intel.co=
-m> wrote:
->> >
->> > The kernel top level Makefile, and recently scripts/Makefile.extrawarn,
->> > have included -Wall, and the disables -Wno-format-security and
->> > $(call cc-disable-warning,frame-address,) for a very long time. They're
->> > redundant in our local subdir-ccflags-y and can be dropped.
->> >
->> > Cc: Arnd Bergmann <arnd@arndb.de>
->> > Cc: Nick Desaulniers <ndesaulniers@google.com>
->> > Cc: Nathan Chancellor <nathan@kernel.org>
->> > Cc: Masahiro Yamada <masahiroy@kernel.org>
->> > Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->>=20
->>=20
->> I made a similar suggestion in the past
->> https://lore.kernel.org/dri-devel/20190515043753.9853-1-yamada.masahiro@=
-socionext.com/
->>=20
->> So, I am glad that Intel has decided to de-duplicate the flags.
->>=20
->>=20
->>=20
->> I think you can drop more flags.
->>=20
->> For example,
->>=20
->>  subdir-ccflags-y +=3D -Wno-sign-compare
->>=20
->>=20
->> It is set by scripts/Makefile.extrawarn
->> unless W=3D3 is passed.
->>=20
->>=20
->> If W=3D3 is set by a user, -Wsign-compare should be warned
->> as it is the user's request.
->>=20
->>=20
->> drivers/gpu/drm/i915/Makefile negates W=3D3.
->> There is no good reason to do so.
->>=20
->>=20
->> Same applied to
->>=20
->>=20
->> subdir-ccflags-y +=3D -Wno-shift-negative-value
+On Fri, 06 Oct 2023, Nathan Chancellor <nathan@kernel.org> wrote:
+> On Fri, Oct 06, 2023 at 03:34:47PM +0300, Jani Nikula wrote:
+>> We enable a bunch more compiler warnings than the kernel
+>> defaults. However, they've drifted to become a unique set of warnings,
+>> and have increasingly fallen behind from the W=1 set.
+>> 
+>> Align with the W=1 warnings from scripts/Makefile.extrawarn for clarity,
+>> by copy-pasting them with s/KBUILD_CFLAGS/subdir-ccflags-y/ to make it
+>> easier to compare in the future.
+>> 
+>> Cc: Arnd Bergmann <arnd@arndb.de>
+>> Cc: Nick Desaulniers <ndesaulniers@google.com>
+>> Cc: Nathan Chancellor <nathan@kernel.org>
+>> Cc: Masahiro Yamada <masahiroy@kernel.org>
+>> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 >
-> As I point out in my review of the second patch [1], I am not sure these
-> should be dropped because -Wextra turns these warnings back on, at least
-> for clang according to this build report [2] and my own testing, so they
-> need to be disabled again.
+> One meta comment and review comment below. Feel free to carry forward
+>
+> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+>
+> on future revisions.
 
-Yeah. The focus is on enabling W=3D1 warnings by default for i915. I get
-that the disables we have to add to achieve that also disable some W=3D2
-and W=3D3 warnings. But taking all of that into account requires
-duplicating even more of Makefile.extrawarn (checking for warning
-levels, maintaining parity with the different levels, etc.).
+Thanks!
 
-I guess we could check if KBUILD_EXTRA_WARN does not have any of 1, 2,
-or 3, but very few places outside of the build system look at
-KBUILD_EXTRA_WARN, so feels wrong.
+>
+>> ---
+>> 
+>> An alternative or future option would be to have Makefile.extrawarn
+>> assign W=1 etc. flags to intermediate variables, say KBUILD_CFLAGS_W1,
+>> like this:
+>> 
+>> KBUILD_CFLAGS_W1 += -Wextra -Wunused -Wno-unused-parameter
+>> etc...
+>> 
+>> export KBUILD_CFLAGS_W1
+>> 
+>> ifneq ($(findstring 1, $(KBUILD_EXTRA_WARN)),)
+>> 
+>> KBUILD_CFLAGS += $(KBUILD_CFLAGS_W1)
+>> 
+>> else
+>> etc...
+>> 
+>> and then drivers and subsystems could simply use:
+>> 
+>> subdir-ccflags-y += $(KBUILD_CFLAGS_W1)
+>> 
+>> to enable and remain up-to-date with W=1 warnings.
+>
+> This has definitely come up a few times and while I am generally in
+> favor of something like this, it makes adding warnings to W=1 a little
+> bit harder because when we add warnings to W=1, we typically are not
+> concerned with breaking the build, as W=1 is not the default build. If a
+> subsystem has opted into "whatever the current W=1 is" by default,
+> changes to W=1 will have to be reviewed/tested within a normal build.
+>
+> Doing something like this patch with a more regular cadence (maybe every
+> update after the merge window) seems like a reasonable compromise to me,
+> although I know that means more work for individual subsystem
+> maintainers.
+
+Makes sense.
+
+>
+>> ---
+>>  drivers/gpu/drm/i915/Makefile | 33 ++++++++++++++++++---------------
+>>  1 file changed, 18 insertions(+), 15 deletions(-)
+>> 
+>> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+>> index 623f81217442..0485157054fc 100644
+>> --- a/drivers/gpu/drm/i915/Makefile
+>> +++ b/drivers/gpu/drm/i915/Makefile
+>> @@ -3,22 +3,25 @@
+>>  # Makefile for the drm device driver.  This driver provides support for the
+>>  # Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.
+>>  
+>> -# Add a set of useful warning flags and enable -Werror for CI to prevent
+>> -# trivial mistakes from creeping in. We have to do this piecemeal as we reject
+>> -# any patch that isn't warning clean, so turning on -Wextra (or W=1) we
+>> -# need to filter out dubious warnings.  Still it is our interest
+>> -# to keep running locally with W=1 C=1 until we are completely clean.
+>> -#
+>> -# Note the danger in using -Wextra is that when CI updates gcc we
+>> -# will most likely get a sudden build breakage... Hopefully we will fix
+>> -# new warnings before CI updates!
+>> -subdir-ccflags-y := -Wextra
+>> -subdir-ccflags-y += -Wno-unused-parameter
+>> -subdir-ccflags-y += -Wno-type-limits
+>> -subdir-ccflags-y += -Wno-missing-field-initializers
+>> -subdir-ccflags-y += -Wno-sign-compare
+>> -subdir-ccflags-y += -Wno-shift-negative-value
+>
+> As the test robot points out, you'll want to keep these four, as they
+> are only enabled for W=2 or W=3. With this diff on top of these two
+> patches:
+
+Right. I was confused by the refactoring done in Makefile.extrawarn, and
+didn't notice that the disables were moved to else branches of the
+checks for W=2 and W=3.
 
 BR,
 Jani.
 
-
 >
-> [1]: https://lore.kernel.org/20231006174550.GC3359308@dev-arch.thelio-399=
-0X/
-> [2]: https://lore.kernel.org/202310070011.Fji48IBk-lkp@intel.com/
+> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+> index 0485157054fc..9c4e09c8aa4e 100644
+> --- a/drivers/gpu/drm/i915/Makefile
+> +++ b/drivers/gpu/drm/i915/Makefile
+> @@ -21,6 +21,12 @@ subdir-ccflags-y += $(call cc-option, -Wstringop-overflow)
+>  subdir-ccflags-y += $(call cc-option, -Wstringop-truncation)
+>  # --- end copy-paste
+>  
+> +# The following turn off the warnings enabled by -Wextra
+> +subdir-ccflags-y += -Wno-type-limits
+> +subdir-ccflags-y += -Wno-missing-field-initializers
+> +subdir-ccflags-y += -Wno-sign-compare
+> +subdir-ccflags-y += -Wno-shift-negative-value
+> +
+>  # Enable -Werror in CI and development
+>  subdir-ccflags-$(CONFIG_DRM_I915_WERROR) += -Werror
+>  
+> I can continue to build i915 warning free with ARCH=x86_64 allmodconfig
+> using all supported versions of LLVM for building the kernel.
 >
-> Cheers,
-> Nathan.
+>> +# Unconditionally enable W=1 warnings locally
+>> +# --- begin copy-paste W=1 warnings from scripts/Makefile.extrawarn
+>> +subdir-ccflags-y += -Wextra -Wunused -Wno-unused-parameter
+>> +subdir-ccflags-y += -Wmissing-declarations
+>> +subdir-ccflags-y += $(call cc-option, -Wrestrict)
+>> +subdir-ccflags-y += -Wmissing-format-attribute
+>> +subdir-ccflags-y += -Wmissing-prototypes
+>> +subdir-ccflags-y += -Wold-style-definition
+>> +subdir-ccflags-y += -Wmissing-include-dirs
+>>  subdir-ccflags-y += $(call cc-option, -Wunused-but-set-variable)
+>> +subdir-ccflags-y += $(call cc-option, -Wunused-const-variable)
+>> +subdir-ccflags-y += $(call cc-option, -Wpacked-not-aligned)
+>> +subdir-ccflags-y += $(call cc-option, -Wformat-overflow)
+>> +subdir-ccflags-y += $(call cc-option, -Wformat-truncation)
+>> +subdir-ccflags-y += $(call cc-option, -Wstringop-overflow)
+>> +subdir-ccflags-y += $(call cc-option, -Wstringop-truncation)
+>> +# --- end copy-paste
+>> +
+>> +# Enable -Werror in CI and development
+>>  subdir-ccflags-$(CONFIG_DRM_I915_WERROR) += -Werror
+>>  
+>>  # Fine grained warnings disable
+>> -- 
+>> 2.39.2
+>> 
 
---=20
+-- 
 Jani Nikula, Intel
