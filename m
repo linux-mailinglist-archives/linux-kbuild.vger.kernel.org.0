@@ -2,96 +2,76 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 601E97BEDF4
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Oct 2023 00:00:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D4FB7BF468
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Oct 2023 09:36:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1378321AbjJIWAx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 9 Oct 2023 18:00:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33054 "EHLO
+        id S1442381AbjJJHf4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 10 Oct 2023 03:35:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1378238AbjJIWAx (ORCPT
+        with ESMTP id S1442452AbjJJHfw (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 9 Oct 2023 18:00:53 -0400
-Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com [IPv6:2607:f8b0:4864:20::112c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0320A9;
-        Mon,  9 Oct 2023 15:00:50 -0700 (PDT)
-Received: by mail-yw1-x112c.google.com with SMTP id 00721157ae682-59e88a28b98so43203227b3.1;
-        Mon, 09 Oct 2023 15:00:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696888850; x=1697493650; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YaFaP65UCsCQ7UFZs55oDxqvd/C/aEIgYAqZMLZc35k=;
-        b=QRCJjEXmn2gwi0XYp+xDv/TLLOhjeSuKIRzEfql676/7UqQG7PILVET/iAlqtAPcl0
-         MfofxQ80AXgrsaNe5eOlQypUfTuT0lc4DdrayDWUmLYC7zTEhv4JbFu+pF7gBJ/+NXQq
-         r0e4w+DaVA9E/WWYTKA9zH0EPt7S5wHcb21FnOFPRO8iulFuk0F/4vfYCI9Ha0hty5t/
-         QS5XWTMRsYcd9xxyH6gTD7AaHhJEcajPq35JR5TAao0Q7DMfsKB9RReerKYpR73jyZ91
-         +M08jCMKhTzxedOdyMhbfC6dixEqUVbrf7wOVfRo73ZiVqZLwmRnB9gssZp6bqqxeIg7
-         F+7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696888850; x=1697493650;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YaFaP65UCsCQ7UFZs55oDxqvd/C/aEIgYAqZMLZc35k=;
-        b=APBq+IxXl7DTEFwCoSgHE/WiEzkQL3YksvVmP0iD3l4WI1LoB4kqAJZC3cQq8+339W
-         aGlFfeJJzuZF8s38+o1dj2vHnzYHd6xhHd/bkwoUWwzh5SQQrRmdfaJbvSQNCWSi2GV0
-         Z+gDlvSnEJWlY4Otlhth7F29exn04odnF/11W5/BLalRruEzKZGxR0OQUr4vnHzUD1mA
-         k6Q8X8m0j0j7VBCZgc/xdBwiQ8zAQ2RePjLVS4AbsC+suBBkeCtN1tbyOIMkOR6/aE3o
-         4dxgAnNAH5+UCugJh/WMBnmePnXORcwJNTPOqL0lAMV/JRXVUx719HBIS0Yhk3mU1gcz
-         OdOQ==
-X-Gm-Message-State: AOJu0YxmgL4vA6Afl5gbn7dKXQkdKyGDqxZSU3z2rMis999+s4gKYWFu
-        UoB6gz4ImYY55RjYnR3hGQ9fj41RMoRTW1qR24c=
-X-Google-Smtp-Source: AGHT+IHJn5aLVv8I0nHEAFYZqkKXk9+RdR00KxRNGwBs89E5Tf4VBtacqDxZFEYWVNFBVlRVBv9vOmV6h2CUAHAtCNw=
-X-Received: by 2002:a81:6e44:0:b0:577:3f8c:fc60 with SMTP id
- j65-20020a816e44000000b005773f8cfc60mr8032221ywc.1.1696888850022; Mon, 09 Oct
- 2023 15:00:50 -0700 (PDT)
+        Tue, 10 Oct 2023 03:35:52 -0400
+Received: from mail.venturelinkbiz.com (mail.venturelinkbiz.com [51.195.119.142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7FB79E
+        for <linux-kbuild@vger.kernel.org>; Tue, 10 Oct 2023 00:35:49 -0700 (PDT)
+Received: by mail.venturelinkbiz.com (Postfix, from userid 1002)
+        id A13BF45784; Tue, 10 Oct 2023 07:35:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=venturelinkbiz.com;
+        s=mail; t=1696923347;
+        bh=JBV4b8UUo1MSngn/QBoedt1Dv52bT8rWeq4R22MtJMs=;
+        h=Date:From:To:Subject:From;
+        b=cEQVb3NwJibLrvV4qXwSLB6jArExEDCEpRvTiPtYMhcu3azXgwqFup/xy0oKKtrqE
+         KCCnjNt8ahKUqq0qmgTv6eppCvGlyaaiouE0MVbVZiClvXviyGqY338UnFfIQRn/AO
+         VNeNic9Stb0VuLAnd1fR2PTc6hLgih+rzQFC8eJNlaq6W9Sylx9E5S9xESevH0yg8Y
+         RJbH0zKmdEOhcXUCyXfXu/K40N5qH0fg0mLxT2lK5FI4bq7t8P1504olLFEX4g1hOL
+         GFkU+ajoadhCeb2cQ/93YNJmjfhd3SBZMND3mTKf3VLLnBNm5jBfx5JqsQp3lcLXLp
+         TtW9+Pp8uTY+g==
+Received: by mail.venturelinkbiz.com for <linux-kbuild@vger.kernel.org>; Tue, 10 Oct 2023 07:35:34 GMT
+Message-ID: <20231010064500-0.1.2w.81je.0.ci4c7hl0dk@venturelinkbiz.com>
+Date:   Tue, 10 Oct 2023 07:35:34 GMT
+From:   "Michal Rmoutil" <michal.rmoutil@venturelinkbiz.com>
+To:     <linux-kbuild@vger.kernel.org>
+Subject: =?UTF-8?Q?Efektivn=C3=AD_sledov=C3=A1n=C3=AD_a_optimalizace_v=C3=BDroby_pro_va=C5=A1i_spole=C4=8Dnost?=
+X-Mailer: mail.venturelinkbiz.com
 MIME-Version: 1.0
-References: <20231005214057.759089-1-mmaurer@google.com> <CAK7LNATBBk-a0EJcxpWGJ9n+9BHQUw3a4s41LTtC-R8fYrVMpw@mail.gmail.com>
-In-Reply-To: <CAK7LNATBBk-a0EJcxpWGJ9n+9BHQUw3a4s41LTtC-R8fYrVMpw@mail.gmail.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Tue, 10 Oct 2023 00:00:38 +0200
-Message-ID: <CANiq72=Dsaa77n-OKDZCcv6TWgxZf7R00n=X137WbsUzwgU4RA@mail.gmail.com>
-Subject: Re: [PATCH v4] rust: Respect HOSTCC when linking for host
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Matthew Maurer <mmaurer@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-        Benno Lossin <benno.lossin@proton.me>,
-        Andreas Hindborg <a.hindborg@samsung.com>,
-        Alice Ryhl <aliceryhl@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
-        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H2,RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+        URIBL_CSS_A,URIBL_DBL_SPAM autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Level: ***
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Oct 7, 2023 at 5:38=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.or=
-g> wrote:
->
-> Acked-by: Masahiro Yamada <masahiroy@kernel.org>
->
-> if Miguel picked this up.
->
-> Please let me know if I should pick this up.
+Dobr=C3=A9 r=C3=A1no,
 
-Thanks a lot for taking a look Masahiro -- either way is fine for me.
-If you want to take it, please feel free to add my `Acked-by`.
+m=C3=A1te mo=C5=BEnost sledovat stav ka=C5=BEd=C3=A9ho stroje a v=C3=BDro=
+bn=C3=ADho procesu z kancel=C3=A1=C5=99e, konferen=C4=8Dn=C3=AD m=C3=ADst=
+nosti nebo dokonce z domova =C4=8Di na cest=C3=A1ch =E2=80=93 na va=C5=A1=
+em telefonu?
 
-Cheers,
-Miguel
+Poskytujeme rychle implementovateln=C3=BD a snadno pou=C5=BEiteln=C3=BD n=
+=C3=A1stroj, kter=C3=BD zachyt=C3=AD i n=C4=9Bkolikasekundov=C3=BD mikrop=
+rostoj a okam=C5=BEit=C4=9B p=C5=99epo=C4=8D=C3=ADt=C3=A1 vyu=C5=BEit=C3=AD=
+ stroje v kontextu dan=C3=A9 v=C3=BDrobn=C3=AD zak=C3=A1zky.
+
+Kdykoli vid=C3=ADte stav objedn=C3=A1vky a jste informov=C3=A1ni o p=C5=99=
+=C3=ADpadn=C3=A9m sn=C3=AD=C5=BEen=C3=AD efektivity. Syst=C3=A9m s=C3=A1m=
+ analyzuje data a p=C5=99ipravuje cenn=C3=A9 reporty, co=C5=BE oper=C3=A1=
+tor=C5=AFm umo=C5=BE=C5=88uje soust=C5=99edit se na v=C3=BDrobn=C3=AD c=C3=
+=ADl.
+
+C=C3=ADl je jednoduch=C3=BD: jeden pohled =E2=80=93 cel=C3=A1 tov=C3=A1rn=
+a. =C4=8Cek=C3=A1m na odpov=C4=9B=C4=8F, jestli vid=C3=ADte mo=C5=BEnost =
+vyu=C5=BEit=C3=AD takov=C3=A9ho n=C3=A1stroje ve va=C5=A1=C3=AD firm=C4=9B=
+=2E
+
+
+Pozdravy
+Michal Rmoutil
