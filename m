@@ -2,87 +2,81 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CC2A37C4B8C
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Oct 2023 09:16:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 28F0C7C4BD2
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Oct 2023 09:30:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344434AbjJKHQq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 11 Oct 2023 03:16:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55332 "EHLO
+        id S1345752AbjJKH3x (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 11 Oct 2023 03:29:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229632AbjJKHQp (ORCPT
+        with ESMTP id S1345781AbjJKH3m (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 11 Oct 2023 03:16:45 -0400
-Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DABB198
-        for <linux-kbuild@vger.kernel.org>; Wed, 11 Oct 2023 00:16:42 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:a251:6312:1f1a:2a48])
-        by michel.telenet-ops.be with bizsmtp
-        id wXGe2A0023RY9Je06XGemh; Wed, 11 Oct 2023 09:16:38 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtp (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1qqTSO-0063iR-Fp;
-        Wed, 11 Oct 2023 09:16:38 +0200
-Received: from geert by rox.of.borg with local (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1qqTSQ-00HIng-1m;
-        Wed, 11 Oct 2023 09:16:38 +0200
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-m68k@lists.linux-m68k.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: [PATCH] m68k: lib: Include <linux/libgcc.h> for __muldi3()
-Date:   Wed, 11 Oct 2023 09:16:33 +0200
-Message-Id: <160c1fd14b4798f576d9649334b1d2c77db5cb07.1697008341.git.geert@linux-m68k.org>
-X-Mailer: git-send-email 2.34.1
+        Wed, 11 Oct 2023 03:29:42 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E3801BC1
+        for <linux-kbuild@vger.kernel.org>; Wed, 11 Oct 2023 00:29:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697009352; x=1728545352;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ATpEoKpO3YSPpXOfbJaXNvB0KxrAU0eMnfX4v5Ua/sI=;
+  b=KfchJ/QbAqQRXefbFEd41CWC7P7r/c6tMh9XfuZmBem8/Pwo4L3pCuxB
+   E2NbFoCa9BkVOWlgaE0BZS6GURlzOPJ+lNnbbLwa5puG4jYnj8nOCszzm
+   dFmPWUdfAyaZZxfVrLyTFJzzsvy+AMZR+PoVCaN11X/yyBRt986a8IWlg
+   w13YpSPc6Z7pEbn3h1o+u4UKM9fK7qcnW5zlYhpSOqCON3YFMXiuI8H52
+   zNj++pFr0nYmpdKzxpIF4W3QDJ3v1pb4Ul6sLkDnyh0FzpjwHxxuNnKYF
+   IJtruPmc8sVQ7KGLs/NrWioeoJ1ZTRometK3zXKQVo02RamrpriEbJ1vv
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="3191978"
+X-IronPort-AV: E=Sophos;i="6.03,214,1694761200"; 
+   d="scan'208";a="3191978"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 00:29:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="747352174"
+X-IronPort-AV: E=Sophos;i="6.03,214,1694761200"; 
+   d="scan'208";a="747352174"
+Received: from wprelogx-mobl.ger.corp.intel.com (HELO localhost) ([10.252.56.229])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 00:29:08 -0700
+From:   Jani Nikula <jani.nikula@intel.com>
+To:     intel-gfx@lists.freedesktop.org
+Cc:     linux-kbuild@vger.kernel.org, jani.nikula@intel.com,
+        Arnd Bergmann <arnd@arndb.de>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH v2 0/2] drm/i915: align with W=1 warnings
+Date:   Wed, 11 Oct 2023 10:29:02 +0300
+Message-Id: <cover.1697009258.git.jani.nikula@intel.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-When building with W=1:
+v2 of https://patchwork.freedesktop.org/series/124718/
 
-    arch/m68k/lib/muldi3.c:82:1: warning: no previous prototype for ‘__muldi3’ [-Wmissing-prototypes]
-       82 | __muldi3 (DItype u, DItype v)
-	  | ^~~~~~~~
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Nick Desaulniers <ndesaulniers@google.com>
+Cc: Nathan Chancellor <nathan@kernel.org>
+Cc: Masahiro Yamada <masahiroy@kernel.org>
 
-Fix this by including <linux/libgcc.h>.
+Jani Nikula (2):
+  drm/i915: drop -Wall and related disables from cflags as redundant
+  drm/i915: enable W=1 warnings by default
 
-Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
----
-To bequeued in the m68k for-v6.7 branch.
+ drivers/gpu/drm/i915/Makefile | 44 +++++++++++++++++++++--------------
+ 1 file changed, 27 insertions(+), 17 deletions(-)
 
-Missed before, as "make arch/m68k/" does not (re)build arch/m68k/lib/?
-
-arch/m68k/Makefile has:
-
-    libs-y += arch/m68k/lib/
-
-while all the other subdirs use "obj-y".
----
- arch/m68k/lib/muldi3.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/arch/m68k/lib/muldi3.c b/arch/m68k/lib/muldi3.c
-index eb7d9d86ff6697a5..5012a9b218c7824c 100644
---- a/arch/m68k/lib/muldi3.c
-+++ b/arch/m68k/lib/muldi3.c
-@@ -16,6 +16,7 @@ GNU General Public License for more details. */
- 
- #include <linux/compiler.h>
- #include <linux/export.h>
-+#include <linux/libgcc.h>
- 
- #ifdef CONFIG_CPU_HAS_NO_MULDIV64
- 
 -- 
-2.34.1
+2.39.2
 
