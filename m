@@ -2,106 +2,164 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 93F9A7C5EC0
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Oct 2023 22:54:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 25CB57C655A
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Oct 2023 08:21:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235233AbjJKUyV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 11 Oct 2023 16:54:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39066 "EHLO
+        id S1347050AbjJLGVV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 12 Oct 2023 02:21:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233507AbjJKUyU (ORCPT
+        with ESMTP id S1343510AbjJLGVU (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 11 Oct 2023 16:54:20 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F376E90
-        for <linux-kbuild@vger.kernel.org>; Wed, 11 Oct 2023 13:54:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697057659; x=1728593659;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version:content-transfer-encoding;
-  bh=QNf3Q7ICUXumxY53qJthomE1Ml2suVDO5yj6WJnjsFU=;
-  b=NTGsnnX+JdfuC9OUpv4KLysNohaAIm25GtluEQzDdANT+dEi5IER7WYD
-   8ntBFZBCU+Sb5vMz3Cv7Hfn+9tTFBUZFsUc54ULe79C9Yn1sowUsI6gv5
-   is7rFDtiwrsCHkskeCpbwSXvT9BJ7QviIXbHYyAA3W415zuf9ccoyjqOM
-   dnfzMMjb5MjVF2U1qfEnNkv51ydetg30SviB/7LK8vl67L9E3QCTMu/KE
-   rKKF6IZTSYMS06ffDFa70DtJ7LUpRKLXidnp8z+IMLLpnQKxNCu+fl223
-   L1QuhCo3lYFsnHdB4VMQtx4HPXytXatOvE1Cpkq6OLtyW0x8L+RDExNFm
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="3352203"
-X-IronPort-AV: E=Sophos;i="6.03,217,1694761200"; 
-   d="scan'208";a="3352203"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 13:54:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="897794990"
-X-IronPort-AV: E=Sophos;i="6.03,217,1694761200"; 
-   d="scan'208";a="897794990"
-Received: from lpaczyn-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.57.43])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 13:52:29 -0700
-From:   Jani Nikula <jani.nikula@intel.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     intel-gfx@lists.freedesktop.org, linux-kbuild@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nathan Chancellor <nathan@kernel.org>
-Subject: Re: [PATCH v2 2/2] drm/i915: enable W=1 warnings by default
-In-Reply-To: <CAK7LNAQ1K4X6=jW1b8cyS9vs_hpn+YGzF2qw7YTFawo-bs_9gQ@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1697009258.git.jani.nikula@intel.com>
- <69a812273091b6535ddc7f9346289d71bb30f43d.1697009258.git.jani.nikula@intel.com>
- <CAK7LNAQ1K4X6=jW1b8cyS9vs_hpn+YGzF2qw7YTFawo-bs_9gQ@mail.gmail.com>
-Date:   Wed, 11 Oct 2023 23:54:13 +0300
-Message-ID: <87wmvs3moa.fsf@intel.com>
+        Thu, 12 Oct 2023 02:21:20 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F7A5A9;
+        Wed, 11 Oct 2023 23:21:19 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5ACFC433CD;
+        Thu, 12 Oct 2023 06:21:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1697091678;
+        bh=s6uI62kWxpmT9BzfhoB8YxDyPpu+xLr4/ShPg1QpyT0=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=WiQIwlhLS8bXp+msMDt6HtWr1T26tfn4w3fKoqOTiDGPR/X8vhmm3wd70eY2PB8eE
+         VP2mSP3WUhhNXGnIo64r9818i2nZmyfYofFj6Y+8f/M04/zD+x90U/8EtFjzgzw1LH
+         P4nak5HtVqyUQrH9ejeW5JaFpcilPfuCmRR4x4MlyPyv0Jp//XlSYYw0WXlFnh02tJ
+         CgSCT2TXndecohYXZhukflQAu3v9m9YFGXM8FpROy4zQpaT/qDNr76/3ynKtZZgOoD
+         VNRzW6Dfj2oB4meKo10yzt9RFfc50NjE8uXis0VEAmKjcsWFQxRU9i82uCetg2zv7J
+         UNFWPaJyJ8AFQ==
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-536b39daec1so1040160a12.2;
+        Wed, 11 Oct 2023 23:21:18 -0700 (PDT)
+X-Gm-Message-State: AOJu0YyBMStWlXIb2R8B5+bi7pB0Bp8Pg1zZovC1Ma1P/1/jPXU3Z+DA
+        Ly7VQsMTU+yguhn5mxKz/K7HAB3BJMrNtSiRQU4=
+X-Google-Smtp-Source: AGHT+IHeMn2bhCQxI8gRyeIl8+tWDbyaP2jvXgPlujPGin+1NpHfgUxHO4agK11Du8XZxDTGmxOPLejydycJpfSqufI=
+X-Received: by 2002:a05:6402:27ca:b0:53e:197d:a4d with SMTP id
+ c10-20020a05640227ca00b0053e197d0a4dmr350877ede.4.1697091677060; Wed, 11 Oct
+ 2023 23:21:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20231009124210.1064021-1-masahiroy@kernel.org>
+ <20231009124210.1064021-4-masahiroy@kernel.org> <CAJF2gTTDpGgzsiRk=q6FCdX_g5maY-sT9h0jiW=p6HLziq97yA@mail.gmail.com>
+ <CAK7LNATmaSXQYFMZEw2vpn6td10+huck-vy-Rbo5Brys+j_Stg@mail.gmail.com>
+In-Reply-To: <CAK7LNATmaSXQYFMZEw2vpn6td10+huck-vy-Rbo5Brys+j_Stg@mail.gmail.com>
+From:   Guo Ren <guoren@kernel.org>
+Date:   Thu, 12 Oct 2023 14:21:04 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTS8Gi+gSPhQcpNj2Yjjr0DZLtOy8S18Am8KtCqRbBLRhw@mail.gmail.com>
+Message-ID: <CAJF2gTS8Gi+gSPhQcpNj2Yjjr0DZLtOy8S18Am8KtCqRbBLRhw@mail.gmail.com>
+Subject: Re: [PATCH 4/5] kbuild: unify vdso_install rules
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-s390@vger.kernel.org, linux-um@lists.infradead.org,
+        loongarch@lists.linux.dev, sparclinux@vger.kernel.org,
+        x86@kernel.org, Albert Ou <aou@eecs.berkeley.edu>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        WANG Xuerui <kernel@xen0n.name>, Will Deacon <will@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, 11 Oct 2023, Masahiro Yamada <masahiroy@kernel.org> wrote:
-> On Wed, Oct 11, 2023 at 4:29=E2=80=AFPM Jani Nikula <jani.nikula@intel.co=
-m> wrote:
->>
->> We enable a bunch more compiler warnings than the kernel
->> defaults. However, they've drifted to become a unique set of warnings,
->> and have increasingly fallen behind from the W=3D1 set.
->>
->> Align with the W=3D1 warnings from scripts/Makefile.extrawarn for clarit=
-y,
->> by copy-pasting them with s/KBUILD_CFLAGS/subdir-ccflags-y/ to make it
->> easier to compare in the future.
->>
->> Some of the -Wextra warnings do need to be disabled, just like in
->> Makefile.extrawarn, but take care to not disable them for W=3D2 or W=3D3
->> builds, depending on the warning.
->>
->> v2: Add back some -Wextra warning disables (Nathan)
->>
->> Cc: Arnd Bergmann <arnd@arndb.de>
->> Cc: Nick Desaulniers <ndesaulniers@google.com>
->> Cc: Nathan Chancellor <nathan@kernel.org>
->> Cc: Masahiro Yamada <masahiroy@kernel.org>
->> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
->> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+On Wed, Oct 11, 2023 at 8:53=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.o=
+rg> wrote:
 >
-> Reviewed-by: Masahiro Yamada <masahiroy@kernel.org>
+> On Wed, Oct 11, 2023 at 11:24=E2=80=AFAM Guo Ren <guoren@kernel.org> wrot=
+e:
+> >
+> > On Mon, Oct 9, 2023 at 8:42=E2=80=AFPM Masahiro Yamada <masahiroy@kerne=
+l.org> wrote:
+>
+> > > --- a/arch/riscv/Makefile
+> > > +++ b/arch/riscv/Makefile
+> > > @@ -131,12 +131,6 @@ endif
+> > >  libs-y +=3D arch/riscv/lib/
+> > >  libs-$(CONFIG_EFI_STUB) +=3D $(objtree)/drivers/firmware/efi/libstub=
+/lib.a
+> > >
+> > > -PHONY +=3D vdso_install
+> > > -vdso_install:
+> > > -       $(Q)$(MAKE) $(build)=3Darch/riscv/kernel/vdso $@
+> > > -       $(if $(CONFIG_COMPAT),$(Q)$(MAKE) \
+> > > -               $(build)=3Darch/riscv/kernel/compat_vdso compat_$@)
+> > > -
+> > >  ifeq ($(KBUILD_EXTMOD),)
+> > >  ifeq ($(CONFIG_MMU),y)
+> > >  prepare: vdso_prepare
+> > > @@ -148,6 +142,9 @@ vdso_prepare: prepare0
+> > >  endif
+> > >  endif
+> > >
+> > > +vdso-install-y                 +=3D arch/riscv/kernel/vdso/vdso.so.d=
+bg
+> > > +vdso-install-$(CONFIG_COMPAT)  +=3D arch/riscv/kernel/compat_vdso/co=
+mpat_vdso.so.dbg:../compat_vdso/compat_vdso.so
+> > Why do we need ":../compat_vdso/compat_vdso.so" here?
+>
+>
+>
+>
+> All architectures except riscv install vdso files
+> to /lib/modules/$(uname -r)/vdso/.
+>
+>
+>
+> See the following code in arch/riscv/kernel/compat_vdso/Makefile:
+>
+>
+> quiet_cmd_compat_vdso_install =3D INSTALL $@
+>       cmd_compat_vdso_install =3D cp $(obj)/$@.dbg $(MODLIB)/compat_vdso/=
+$@
+>
+>
+>
+>
+> Riscv copies the compat vdso to
+> /lib/modules/$(uname -r)/compat_vdso/.
+>
+>
+>
+> This commit preserves the current installation path as-is.
+>
+> If the riscv maintainers agree, we can change the
+> installation destination to /lib/modules/$(uname -r)/vdso/
+> for consistency.
+Yes, but it should be another patch. Thx for the clarification.
 
-Thanks for the reviews everyone...
+Reviewed-by: Guo Ren <guoren@kernel.org>
 
-...though we missed some s/KBUILD_CFLAGS/subdir-ccflags-y/ in v2. Fixed
-while applying.
+>
+>
+>
+> --
+> Best Regards
+> Masahiro Yamada
 
-BR,
-Jani.
 
 
 --=20
-Jani Nikula, Intel
+Best Regards
+ Guo Ren
