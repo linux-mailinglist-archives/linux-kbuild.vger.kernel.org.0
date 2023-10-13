@@ -2,124 +2,113 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E27677C6B9C
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Oct 2023 12:56:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4EF5A7C7D23
+	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Oct 2023 07:44:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377922AbjJLK4R (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 12 Oct 2023 06:56:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59732 "EHLO
+        id S229625AbjJMFoU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 13 Oct 2023 01:44:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1377894AbjJLK4Q (ORCPT
+        with ESMTP id S229587AbjJMFoT (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 12 Oct 2023 06:56:16 -0400
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D20B90;
-        Thu, 12 Oct 2023 03:56:15 -0700 (PDT)
-Received: by mail-pl1-x62f.google.com with SMTP id d9443c01a7336-1c9e072472bso3711545ad.2;
-        Thu, 12 Oct 2023 03:56:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697108175; x=1697712975;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:dkim-signature:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=W9Da9MBT9rB+lZA9zm7WjEfc17v4yeizFPCpeNj0xZ0=;
-        b=Ei07dD2m+RTvKQhFedviaU1CsU5TBQ/erBoTMJOHBNfnnycKPjdIy1+kaJ+4DWAfMJ
-         kBe5yBQuv7K4vIqZhY2mryVqSd+ASML7t2cXci4Qjrv0NY/YOwgMGowdIXzdEGSv8+fd
-         Pdn+qdl3Mxuz1s5wFIertknrqDOt970bnc/GBWa2GNSQs+LMZpG/MRumMXXg3Ne1jMA/
-         pNTw+eeeR3oqUZWNedlC94yT416cqbpqwIrCQhN6wxLhBH4lVjDQdcM1ZE+cH7gB/MnN
-         D50pm+hKYJk6EK1TinKUyzHGWj8QuaW/q0dDO+qzSYYbF4JN7HLBf/JtEVahNjyOTrCs
-         cMRA==
-X-Gm-Message-State: AOJu0YxQDamhMNb0DqygyM8iM0bsALWBmPRHUTJnuSFF/Smh+hmU4jGt
-        50OAzBhbYBGMx+iw2M9BUz8=
-X-Google-Smtp-Source: AGHT+IHrukWTPzhOjCyRsKwTW9N1rf4iR43yr7LemfnQgYdFKwX3fykZ3xDPkLmVgn5cqdkN8M/iSQ==
-X-Received: by 2002:a17:902:fa8f:b0:1c9:d948:33d5 with SMTP id lc15-20020a170902fa8f00b001c9d94833d5mr2349432plb.64.1697108174615;
-        Thu, 12 Oct 2023 03:56:14 -0700 (PDT)
-Received: from mail.marliere.net ([24.199.118.162])
-        by smtp.gmail.com with ESMTPSA id a7-20020a170902ecc700b001c3267ae31bsm1642297plh.301.2023.10.12.03.56.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Oct 2023 03:56:13 -0700 (PDT)
-From:   "Ricardo B. Marliere" <ricardo@marliere.net>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marliere.net;
-        s=2023; t=1697108172;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=W9Da9MBT9rB+lZA9zm7WjEfc17v4yeizFPCpeNj0xZ0=;
-        b=p6mRBJRv15x2a8mugD54EELIKpHhGxE1HudINzkmlCUswZguuXtnlCIm/uEwKwVFGZVLJK
-        nYWY3ofQoWfYLeWEKmB7VlsdpqXtvMSIsU6UcKac9GL54ENIO1eIdN7DJjkuzehSfniMDg
-        qORCa7JwERprwg49vaR4XZH3DGZYcOA0iaWdlZhua/wejFBTrv0X29zVCWKoPHxCiZUyj+
-        6m2N1mhjzLGzrd+M41gY1i3BLQ8YfOEO7gI4LQKNrAbrF/BAbWNzNcAJZ6yUKmJvj2rjU8
-        m0xLBNvh1cZcYPP/CDUQ5IFVxGBe/Ql7NmfsVGUjkM9DsgHzdToaow1h361Ndg==
-Authentication-Results: ORIGINATING;
-        auth=pass smtp.auth=ricardo@marliere.net smtp.mailfrom=ricardo@marliere.net
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        "Ricardo B. Marliere" <ricardo@marliere.net>
-Subject: [PATCH] docs: kbuild: add INSTALL_DTBS_PATH
-Date:   Thu, 12 Oct 2023 07:54:21 -0300
-Message-ID: <20231012105420.16779-2-ricardo@marliere.net>
+        Fri, 13 Oct 2023 01:44:19 -0400
+Received: from correo1.cdmx.gob.mx (mtax.cdmx.gob.mx [189.240.235.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71C0EBC
+        for <linux-kbuild@vger.kernel.org>; Thu, 12 Oct 2023 22:44:17 -0700 (PDT)
+Received: from cdmx.gob.mx ([10.250.108.150])
+        by correo1.cdmx.gob.mx  with ESMTP id 39D5b5Iu029850-39D5b5Iw029850
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+        Thu, 12 Oct 2023 23:37:05 -0600
+Received: from cdmx.gob.mx (localhost [127.0.0.1])
+        by cdmx.gob.mx (Postfix) with ESMTPS id C31322483C5;
+        Thu, 12 Oct 2023 18:46:58 -0500 (CDT)
+Received: from localhost (localhost [127.0.0.1])
+        by cdmx.gob.mx (Postfix) with ESMTP id D71102483BC;
+        Thu, 12 Oct 2023 18:46:54 -0500 (CDT)
+DKIM-Filter: OpenDKIM Filter v2.9.2 cdmx.gob.mx D71102483BC
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; d=cdmx.gob.mx; s=DKIM1; c=relaxed/relaxed;
+ h=content-type:mime-version:subject:to:from:date:reply-to:message-id;
+ bh=rbYcnCareEGc9DQgqcyAJTBPPk6/3d1IGHnlf47tJEI=;
+ b=ls1ibPv0HcAq/dnTNyzSh5okcwXNerZ0XjFtb2GpjGhmn3f3MaqOwLSdIpSDqJqFRnOF/wn31CK9
+        GDRILjAITiESilsCN4UWEJ+ilpXkGg4WESfgstCtPHVbgTfXlYkSzMeJRNyoJh+xo8nf7+BitLvN
+        2JjmtYI755U2ks7ZnIjkR5TzjcS26v3CYhIVnLgidJ8gPko0qvxyjNxcvM3svd1dItQxTJ1vH4hQ
+        Yj4feCdaOgTSk6mM2ZA7xs7MnZ7dZWOqr7qPdcOVoHuFAS+J2pCW8Fw9DVvvO7xR4zIohDv72EwR
+        +Xbo5RuzoLG0T7+gGJo0xFLlBLjgjvuPE/odSw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cdmx.gob.mx;
+        s=2020J4N146MXCTY; t=1697154414;
+        bh=R2wviz4IWmGSYPcexBmjsPLV4xkbt9QJD4bg8fJFTP8=;
+        h=Content-Type:MIME-Version:Subject:To:From:Date:Reply-To:
+         Message-Id;
+        b=P5LGnA0Hf28SJGq2QiJB/k+NsuFD17DKZ28SMIqRTUjaUdGeftD1+MSMazIAE5m5l
+         /Pg/DzbzirWwuJvllQu+Qp3dlrwMFRL3rMawZ25ul9vnxqnhvNR7XykkqAoQFNdQrs
+         8FWTg2pbBB0fMXicnmuj2c+ux1HekxgX9XdofzZY=
+X-Virus-Scanned: amavisd-new at cdmx.gob.mx
+Received: from cdmx.gob.mx ([127.0.0.1])
+        by localhost (cdmx.gob.mx [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id uY-L8aBnAixF; Thu, 12 Oct 2023 18:46:54 -0500 (CDT)
+Received: from [192.168.8.123] (unknown [179.61.245.12])
+        by cdmx.gob.mx (Postfix) with ESMTPSA id 8E825246725;
+        Thu, 12 Oct 2023 18:44:08 -0500 (CDT)
+Content-Type: multipart/alternative; boundary="===============0994775564=="
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_INVALID,
-        DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Subject: $4.8 million dollars.
+To:     Recipients <ctrinidad@cdmx.gob.mx>
+From:   "Mr. Dennis Banfield" <ctrinidad@cdmx.gob.mx>
+Date:   Thu, 12 Oct 2023 17:44:32 -0700
+Reply-To: dbanfielddonation@gmail.com
+Message-Id: <20231012234409.8E825246725@cdmx.gob.mx>
+X-Spam-Status: Yes, score=7.0 required=5.0 tests=BAYES_60,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_REPLYTO,
+        HK_NAME_MR_MRS,LOTS_OF_MONEY,MONEY_FREEMAIL_REPTO,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,SUBJ_DOLLARS autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Report: *  0.0 RCVD_IN_DNSWL_BLOCKED RBL: ADMINISTRATOR NOTICE: The query to
+        *      DNSWL was blocked.  See
+        *      http://wiki.apache.org/spamassassin/DnsBlocklists#dnsbl-block
+        *      for more information.
+        *      [189.240.235.197 listed in list.dnswl.org]
+        *  1.5 BAYES_60 BODY: Bayes spam probability is 60 to 80%
+        *      [score: 0.6062]
+        *  0.1 SUBJ_DOLLARS Subject starts with dollar amount
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  1.0 HK_NAME_MR_MRS No description available.
+        *  0.0 LOTS_OF_MONEY Huge... sums of money
+        *  2.5 MONEY_FREEMAIL_REPTO Lots of money from someone using free
+        *      email?
+        *  2.1 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
+X-Spam-Level: ******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The documentation for kbuild and makefiles is missing an explanation of
-a variable important for some architectures.
+You will not see this in a MIME-aware mail reader.
+--===============0994775564==
+Content-Type: text/plain; charset="iso-8859-1"
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
 
-Signed-off-by: Ricardo B. Marliere <ricardo@marliere.net>
----
- Documentation/kbuild/kbuild.rst    | 6 ++++++
- Documentation/kbuild/makefiles.rst | 7 +++++++
- 2 files changed, 13 insertions(+)
+I have a donation of $4,800,000.00 dollars for you, I won the UK lottery Po=
+werball jackpot and I donated a part of it to charities. kindly contact me =
+for your donation via (dbanfielddonation@gmail.com) for your claim.
+--===============0994775564==
+Content-Type: text/plain; charset=utf-8
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
 
-diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
-index bd906407e307..9c8d1d046ea5 100644
---- a/Documentation/kbuild/kbuild.rst
-+++ b/Documentation/kbuild/kbuild.rst
-@@ -243,6 +243,12 @@ The output directory is often set using "O=..." on the commandline.
- 
- The value can be overridden in which case the default value is ignored.
- 
-+INSTALL_DTBS_PATH
-+-----------------
-+INSTALL_DTBS_PATH specifies where to install device tree blobs for
-+relocations required by build roots.  This is not defined in the
-+makefile but the argument can be passed to make if needed.
-+
- KBUILD_ABS_SRCTREE
- --------------------------------------------------
- Kbuild uses a relative path to point to the tree when possible. For instance,
-diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-index e67eb261c9b0..d88d4f0f4f89 100644
---- a/Documentation/kbuild/makefiles.rst
-+++ b/Documentation/kbuild/makefiles.rst
-@@ -1623,6 +1623,13 @@ INSTALL_MOD_STRIP
-   INSTALL_MOD_STRIP value will be used as the option(s) to the strip
-   command.
- 
-+INSTALL_DTBS_PATH
-+  This variable specifies a prefix for relocations required by build
-+  roots. It defines a place for installing the device tree blobs. Like
-+  INSTALL_MOD_PATH, it isn't defined in the Makefile, but can be passed
-+  by the user if desired. Otherwise it defaults to the kernel install
-+  path.
-+
- Makefile language
- =================
- 
--- 
-2.42.0
+I have a donation of $4,800,000.00 dollars for you, I won the UK lottery =
+Powerball jackpot and I donated a part of it to charities. kindly contact=
+ me for your donation via (dbanfielddonation@gmail.com)) for your claim.
 
+--===============0994775564==--
