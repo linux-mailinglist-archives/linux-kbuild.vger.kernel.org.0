@@ -2,50 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8873C7C937F
-	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Oct 2023 10:36:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B44527C9383
+	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Oct 2023 10:42:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232912AbjJNIgg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 14 Oct 2023 04:36:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51694 "EHLO
+        id S229518AbjJNImE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 14 Oct 2023 04:42:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232960AbjJNIgf (ORCPT
+        with ESMTP id S232981AbjJNImE (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 14 Oct 2023 04:36:35 -0400
+        Sat, 14 Oct 2023 04:42:04 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55BF9DC
-        for <linux-kbuild@vger.kernel.org>; Sat, 14 Oct 2023 01:36:32 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F37FC433C7
-        for <linux-kbuild@vger.kernel.org>; Sat, 14 Oct 2023 08:36:31 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26EF8CF;
+        Sat, 14 Oct 2023 01:42:02 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4D53C433CC;
+        Sat, 14 Oct 2023 08:42:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1697272591;
-        bh=aHL/WqlFErNGXGiwapJdKxSDSd48GX2HEHqlCazr7rQ=;
+        s=k20201202; t=1697272921;
+        bh=G4Swg/OELkKA5zlwNUrWJdm9EBLT0JpHuSiYFDVKAVw=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=CpYZoOjnRXP1yrBXijNsvKirhfFG2mvI03A2PxTBMpbuNPWGQEWnBD0bq/1bHL8I+
-         coQfTiqgb5VBL+J8vLuCu5wzQsnJiQK5CmNR95+iXwzdpLXWo4oFIa7n4zoLNyh8Qe
-         s/tj61qE8WMp9tqLmU9JzMOI89Dt6KUfDBnC/nIwEltsL15Yxb/eq6q9Xe6Eg6jhZd
-         6F//ZYz3Ifjw04Na+CCHrGmm1PWKJ+vNXvpwaqiQmG/NZ3fGX7dCPeQBD2ADNjn9V2
-         gY8g9Woj76RjADqV2ADYgfOPO56VGkuB6D1YQ9PFCJCWkH5JzIHJuc3MVtsqC6WK71
-         9HrxWVnqgie7w==
-Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-6c64c2c0f97so1766147a34.3
-        for <linux-kbuild@vger.kernel.org>; Sat, 14 Oct 2023 01:36:31 -0700 (PDT)
-X-Gm-Message-State: AOJu0Yz5ntxj7aYbH0NV86qx7atfve5lhq5WzrU+1R5JkWvLbU8qYuhV
-        QN63p+6m+55wHq8ZiIc4ZeToCWh3vzBQ9Y+ANyc=
-X-Google-Smtp-Source: AGHT+IGbj1ld9sr8d4lmDlrEwBi8vGTv25EDR8SaK89TmW48PEgSXIc43jnAshj7uUlBvrx5LPN0efOnhREzZwNkGBs=
-X-Received: by 2002:a05:6870:ce48:b0:1e9:858e:ff23 with SMTP id
- xd8-20020a056870ce4800b001e9858eff23mr10123367oab.55.1697272590864; Sat, 14
- Oct 2023 01:36:30 -0700 (PDT)
+        b=K+yp/KOZHEM3arVfGghtli0iELZWZqeBdZQjVLVWAUiNiyjaLooZNU+qmDCQBd7ul
+         wJaBzeZOVlPFEUG5h5tlObcnYkX0avwfR0zxFXrVQEiQDnBc/Lml9dt/p9dThylmIB
+         6dy7VAWjVXsKM31JLEaZWzS991xED7EXyxYEqup8PHhHUWT6i4XXZP3blNDWD9gE4P
+         HBZnzVjpf+964c0m1gsJz512u75AQxj5sGo0kVtbsfwjz6xNJ/scm1p3BONbVF4ExA
+         K1tnbxCnRJlB0L9unW/GUHbyPmh79PM5kqNhJnIfBbfDsshHj4MN11rBcR3rT09vWo
+         iM+Y47HqeqnfA==
+Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-1e12f41e496so1689244fac.3;
+        Sat, 14 Oct 2023 01:42:01 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yz4FCxjo8rnzI9SUZWLZiNWUksnpsU8wpWJrHegCFqAKgy8qbpN
+        b6VpC3Sujat6zTsBAlc5WTJ1PeSa0Fe2M75/tcU=
+X-Google-Smtp-Source: AGHT+IEDHn8hDctpEgrOdAxDg4ZGS+fyZbcsCWC8+bRNQUrpKMWoTdaHrZNdtFPEOiGiKHQudHJYv6z04ih1iicSLkY=
+X-Received: by 2002:a05:6870:7687:b0:1e9:d6c8:d031 with SMTP id
+ dx7-20020a056870768700b001e9d6c8d031mr4746345oab.26.1697272921007; Sat, 14
+ Oct 2023 01:42:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <lp2gjgzwxvhluh7fpmmo2drhii7bxcrlvxacclfgsl4ycubjhc@jjq2jfvow4y2>
-In-Reply-To: <lp2gjgzwxvhluh7fpmmo2drhii7bxcrlvxacclfgsl4ycubjhc@jjq2jfvow4y2>
+References: <20231009124210.1064021-1-masahiroy@kernel.org>
+ <20231009124210.1064021-5-masahiroy@kernel.org> <20231009164424.GB1153868@dev-arch.thelio-3990X>
+In-Reply-To: <20231009164424.GB1153868@dev-arch.thelio-3990X>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 14 Oct 2023 17:35:55 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATLv2KSWo0BnFGXi73GVdnvc1EX23TvTkKT1U-krgBnNQ@mail.gmail.com>
-Message-ID: <CAK7LNATLv2KSWo0BnFGXi73GVdnvc1EX23TvTkKT1U-krgBnNQ@mail.gmail.com>
-Subject: Re: # Toplevel Makefile doesn't process module build correctly on
- recursive make calls
-To:     Marcos Paulo de Souza <mpdesouza@suse.de>
-Cc:     linux-kbuild@vger.kernel.org, mbenes@suse.cz
+Date:   Sat, 14 Oct 2023 17:41:25 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASZ78NX13cfGiCeXGxB7A_2CasuAgNv-XzyWM79PD2NwA@mail.gmail.com>
+Message-ID: <CAK7LNASZ78NX13cfGiCeXGxB7A_2CasuAgNv-XzyWM79PD2NwA@mail.gmail.com>
+Subject: Re: [PATCH 5/5] kbuild: unify no-compiler-targets and no-sync-config-targets
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-s390@vger.kernel.org, linux-um@lists.infradead.org,
+        loongarch@lists.linux.dev, sparclinux@vger.kernel.org,
+        x86@kernel.org, Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -58,96 +64,82 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Oct 10, 2023 at 5:43=E2=80=AFAM Marcos Paulo de Souza <mpdesouza@su=
-se.de> wrote:
+On Tue, Oct 10, 2023 at 1:44=E2=80=AFAM Nathan Chancellor <nathan@kernel.or=
+g> wrote:
 >
-> Hi all,
+> On Mon, Oct 09, 2023 at 09:42:10PM +0900, Masahiro Yamada wrote:
+> > Now that vdso_install does not depend on any in-tree build artifact,
+> > it no longer invokes a compiler, making no-compiler-targets the same
+> > as no-sync-config-targets.
+> >
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > ---
+> >
+> >  Makefile | 13 +------------
+> >  1 file changed, 1 insertion(+), 12 deletions(-)
+> >
+> > diff --git a/Makefile b/Makefile
+> > index 2170d56630e8..982b1ad33287 100644
+> > --- a/Makefile
+> > +++ b/Makefile
+> > @@ -277,10 +277,6 @@ no-dot-config-targets :=3D $(clean-targets) \
+> >                        $(version_h) headers headers_% archheaders archs=
+cripts \
+> >                        %asm-generic kernelversion %src-pkg dt_binding_c=
+heck \
+> >                        outputmakefile rustavailable rustfmt rustfmtchec=
+k
+> > -# Installation targets should not require compiler. Unfortunately, vds=
+o_install
+> > -# is an exception where build artifacts may be updated. This must be f=
+ixed.
+> > -no-compiler-targets :=3D $(no-dot-config-targets) install dtbs_install=
+ \
+> > -                     headers_install modules_install modules_sign kern=
+elrelease image_name
+> >  no-sync-config-targets :=3D $(no-dot-config-targets) %install modules_=
+sign kernelrelease \
+> >                         image_name
+> >  single-targets :=3D %.a %.i %.ko %.lds %.ll %.lst %.mod %.o %.rsi %.s =
+%.symtypes %/
+> > @@ -288,7 +284,6 @@ single-targets :=3D %.a %.i %.ko %.lds %.ll %.lst %=
+.mod %.o %.rsi %.s %.symtypes %
+> >  config-build :=3D
+> >  mixed-build  :=3D
+> >  need-config  :=3D 1
+> > -need-compiler        :=3D 1
+> >  may-sync-config      :=3D 1
+> >  single-build :=3D
+> >
+> > @@ -298,12 +293,6 @@ ifneq ($(filter $(no-dot-config-targets), $(MAKECM=
+DGOALS)),)
+> >       endif
+> >  endif
+> >
+> > -ifneq ($(filter $(no-compiler-targets), $(MAKECMDGOALS)),)
+> > -     ifeq ($(filter-out $(no-compiler-targets), $(MAKECMDGOALS)),)
+> > -             need-compiler :=3D
+> > -     endif
+> > -endif
+> > -
 >
-> I found an issue while moving the livepatch kselftest modules to be built=
- on the
-> fly, instead of building them on kernel building.
->
-> If, for some reason, there is a recursive make invocation that starts fro=
-m the
-> top level Makefile and in the leaf Makefile it tries to build a module (u=
-sing M=3D
-> in the make invocation), it doesn't produce the module. This happens beca=
-use the
-> toplevel Makefile checks for M=3D only once. This is controlled by the
-> sub_make_done variable, which is exported after checking the command line
-> options are passed to the top level Makefile. Once this variable is set i=
-t's
-> the M=3D setting is never checked again on the recursive call.
->
-> This can be observed when cleaning the bpf kselftest dir. When calling
->
->         $ make TARGETS=3D"bpf" SKIP_TARGETS=3D"" kselftest-clean
->
-> What happens:
->
->         1. It checks for some command line settings (like M=3D) was passe=
-d (it wasn't),
->         set some definitions and exports sub_make_done.
->
->         2. Jump into tools/testing/selftests/bpf, and calls the clean tar=
-get.
->
->         3. The clean target is overwritten to remove some files and then =
-jump to
->         bpf_testmod dir and call clean there
->
->         4. On bpf_testmod/Makefile, the clean target will execute
->                 $(Q)make -C $(KDIR) M=3D$(BPF_TESTMOD_DIR) clean
->
->         5. The KDIR is to toplevel dir. The top Makefile will check that =
-sub_make_done was
->         already set, ignoring the M=3D setting.
->
->         6. As M=3D wasn't checked, KBUILD_EXTMOD isn't set, and the clean=
- target applies
->         to the kernel as a whole, making it clean all generated code/obje=
-cts and
->         everything.
->
-> One way to avoid it is to call "unexport sub_make_done" on
-> tools/testing/selftests/bpf/bpf_testmod/Makefile before processing the al=
-l
-> target, forcing the toplevel Makefile to process the M=3D, producing the =
-module
-> file correctly.
->
-> If the M=3Ddir points to /lib/modules/.../build, then it fails with "m2c:=
- No such
-> file", which I already reported here[1]. At the time this problem was tre=
-ated
-> like a problem with kselftest infrastructure.
->
-> Important: The process works fine if the initial make invocation is targe=
-ted to a
-> different directory (using -C), since it doesn't goes through the topleve=
-l
-> Makefile, and sub_make_done variable is not set.
->
-> I attached a minimal reproducer, that can be used to better understand th=
-e
-> problem. The "make testmod" and "make testmod-clean" have the same effect=
- that
-> can be seem with the bpf kselftests. There is a unexport call commented o=
-n
-> test-mods/Makefile, and once that is called the process works as expected=
-.
->
-> Is there a better way to fix this? Is this really a problem, or am I miss=
-ing
-> something?
+> MIPS and LoongArch seem to have grown a usage of need-compiler in
+> 4fe4a6374c4d ("MIPS: Only fiddle with CHECKFLAGS if `need-compiler'")
+> and 54c2c9df083f ("LoongArch: Only fiddle with CHECKFLAGS if
+> `need-compiler'"). With this removal, should those be updated as well?
 
 
-Or, using KBUILD_EXTMOD will work too.
+Right, but may-sync-config and need-compiler are not
+interchangeable due to the following code.
+
+ifneq ($(KBUILD_EXTMOD),)
+        may-sync-config :=3D
+endif
 
 
+I will keep both.
 
 
-
---
+--=20
 Best Regards
 Masahiro Yamada
