@@ -2,60 +2,67 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DD227CC3D4
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Oct 2023 14:58:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 464617CC4A7
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Oct 2023 15:21:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343775AbjJQM6O (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 17 Oct 2023 08:58:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33600 "EHLO
+        id S234986AbjJQNVG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 17 Oct 2023 09:21:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343728AbjJQM6N (ORCPT
+        with ESMTP id S1343660AbjJQNU6 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 17 Oct 2023 08:58:13 -0400
-Received: from mail.avm.de (mail.avm.de [IPv6:2001:bf0:244:244::120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14ED8F5;
-        Tue, 17 Oct 2023 05:58:07 -0700 (PDT)
-Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [212.42.244.71])
-        by mail.avm.de (Postfix) with ESMTPS;
-        Tue, 17 Oct 2023 14:58:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
-        t=1697547483; bh=97MgYvgdqzLPd2gI6ijumoj36CDV9Sd4NpCfimvnEs4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=RUExJXx9XB2uOSEDmLBP3K0Y0F8KDXN5wEAgECdfsh1XstLKc8mJvS8RHdh4Wbv9G
-         nOsWo6BHY+km+JWue3bnVsMHNEGhe54YBj/IOBNEqRGlGmlKwFWr5NwuQMs+yjGgTd
-         5346vq9sz+JI/BZfPKEzjKxpGee/bWEYDnomP1zc=
-Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
-        by mail-auth.avm.de (Postfix) with ESMTPA id 60A8C81EC9;
-        Tue, 17 Oct 2023 14:58:04 +0200 (CEST)
-Received: by buildd.core.avm.de (Postfix, from userid 1000)
-        id 52E5B180CD9; Tue, 17 Oct 2023 14:58:04 +0200 (CEST)
-Date:   Tue, 17 Oct 2023 14:58:04 +0200
-From:   Nicolas Schier <n.schier@avm.de>
+        Tue, 17 Oct 2023 09:20:58 -0400
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBF02121
+        for <linux-kbuild@vger.kernel.org>; Tue, 17 Oct 2023 06:20:55 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qsk09-0004qF-0I; Tue, 17 Oct 2023 15:20:49 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qsk06-002KaW-2x; Tue, 17 Oct 2023 15:20:46 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qsk05-000I6d-Pc; Tue, 17 Oct 2023 15:20:45 +0200
+Date:   Tue, 17 Oct 2023 15:20:45 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>
-Subject: Re: [PATCH 4/4] kbuild: refactor module BTF rule
-Message-ID: <ZS6E3EA68GOjonB8@buildd.core.avm.de>
-Mail-Followup-To: Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>
-References: <20231017103742.130927-1-masahiroy@kernel.org>
- <20231017103742.130927-4-masahiroy@kernel.org>
+Cc:     Vignesh Raghavendra <vigneshr@ti.com>,
+        Arnd Bergmann <arnd@arndb.de>, linux-kbuild@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Atsushi Nemoto <anemo@mba.ocn.ne.jp>,
+        Richard Weinberger <richard@nod.at>,
+        linux-mtd@lists.infradead.org,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>
+Subject: Re: [PATCH 01/20] mtd: rawnand: txx9ndfmc: Mark driver struct with
+ __refdata to prevent section mismatch warning
+Message-ID: <20231017132045.afswdgcv4axjf6jj@pengutronix.de>
+References: <20231008200143.196369-1-u.kleine-koenig@pengutronix.de>
+ <20231008200143.196369-2-u.kleine-koenig@pengutronix.de>
+ <CAK7LNASB2HhO6iWNnG-tAzs9wu9mV2PLRf-brnNGkSJj+W23Vw@mail.gmail.com>
+ <e38b8a8e-5bd6-41e2-87a1-3b2d23b68bc0@app.fastmail.com>
+ <20231009103037.j44gkzqv7cpn4zpu@pengutronix.de>
+ <4c27130c-e924-4f24-b833-794e0acac858@app.fastmail.com>
+ <20231016102134.q6k2jb5ewu3flg6j@pengutronix.de>
+ <CAK7LNARSxEZeKGoFAdGp1uhQVBrdGByDD4cJNMc_HCkmTiFF+g@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="5a3zknif6psykw4d"
 Content-Disposition: inline
-In-Reply-To: <20231017103742.130927-4-masahiroy@kernel.org>
-X-purgate-ID: 149429::1697547482-1BFC5D95-0CF5C96D/0/0
-X-purgate-type: clean
-X-purgate-size: 2447
-X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
-X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
-X-purgate: clean
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+In-Reply-To: <CAK7LNARSxEZeKGoFAdGp1uhQVBrdGByDD4cJNMc_HCkmTiFF+g@mail.gmail.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-kbuild@vger.kernel.org
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -64,75 +71,123 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Oct 17, 2023 at 07:37:42PM +0900, Masahiro Yamada wrote:
-> newer_prereqs_except and if_changed_except are ugly hacks of the
-> newer_prereqs and if_changed in scripts/Kbuild.include.
 
-newer-prereqs
+--5a3zknif6psykw4d
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> Remove.
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
-> 
->  scripts/Makefile.modfinal | 23 +++++------------------
->  1 file changed, 5 insertions(+), 18 deletions(-)
-> 
-> diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
-> index 9fd7a26e4fe9..6ab10dba05c7 100644
-> --- a/scripts/Makefile.modfinal
-> +++ b/scripts/Makefile.modfinal
-> @@ -19,6 +19,9 @@ vmlinux :=
->  ifdef CONFIG_DEBUG_INFO_BTF_MODULES
->  ifneq ($(wildcard vmlinux),)
->  vmlinux := vmlinux
-> +cmd_btf = ; \
+Hello,
 
-while reading, I stumpled over this semicolon, but probably it's a good
-reminder that cmd_btf is only a cmd extension.
+On Tue, Oct 17, 2023 at 07:20:19PM +0900, Masahiro Yamada wrote:
+> On Mon, Oct 16, 2023 at 7:21=E2=80=AFPM Uwe Kleine-K=C3=B6nig
+> <u.kleine-koenig@pengutronix.de> wrote:
+> > On Mon, Oct 16, 2023 at 11:25:44AM +0200, Arnd Bergmann wrote:
+> > > Based on a few days of randconfig build testing, the patch
+> > > below addresses the remaining warnings I get for arm, arm64 and
+> > > x86 on linux-next. This is a shorter list than the ones that
+> > > I found in theory, possibly because some of the other ones
+> > > are only used in built-in code, or because they are never used
+> > > on these three architectures.
+> > >
+> > > Have you already sent patches for (some of) these?
+> > >
+> > >       Arnd
+> > >
+> > >  drivers/char/hw_random/mxc-rnga.c                                 | =
+2 +-
+> > >  drivers/gpu/drm/bridge/ti-tpd12s015.c                             | =
+4 ++--
+> > >  drivers/hwmon/smsc47m1.c                                          | =
+2 +-
+> > >  drivers/hwtracing/coresight/coresight-etm4x-core.c                | =
+8 ++++----
+> > >  drivers/media/i2c/et8ek8/et8ek8_driver.c                          | =
+4 ++--
+> > >  drivers/memory/emif.c                                             | =
+2 +-
+> > >  drivers/mmc/host/davinci_mmc.c                                    | =
+2 +-
+> > >  drivers/mtd/nand/raw/txx9ndfmc.c                                  | =
+2 +-
+> >
+> > The txx9ndfmc driver was fixed as part of this series, but Miqu=C3=A8l =
+didn't
+> > take the patch, I guess because he wants it to be converted to
+> > module_platform_driver().
+>=20
+>=20
+> So, there are two ways for fixing, and it is
+> up to subsystem maintainers?
 
-> +	LLVM_OBJCOPY="$(OBJCOPY)" $(PAHOLE) -J $(PAHOLE_FLAGS) --btf_base vmlinux $@; \
-> +	$(RESOLVE_BTFIDS) -b vmlinux $@
->  else
->  $(warning Skipping BTF generation due to unavailability of vmlinux)
->  endif
-> @@ -41,27 +44,11 @@ quiet_cmd_ld_ko_o = LD [M]  $@
->        cmd_ld_ko_o +=							\
->  	$(LD) -r $(KBUILD_LDFLAGS)					\
->  		$(KBUILD_LDFLAGS_MODULE) $(LDFLAGS_MODULE)		\
-> -		-T scripts/module.lds -o $@ $(filter %.o, $^)
-> +		-T scripts/module.lds -o $@ $(filter %.o, $^)		\
-> +	$(cmd_btf)
->  
-> -quiet_cmd_btf_ko = BTF [M] $@
-> -      cmd_btf_ko = 							\
-> -		LLVM_OBJCOPY="$(OBJCOPY)" $(PAHOLE) -J $(PAHOLE_FLAGS) --btf_base vmlinux $@; \
-> -		$(RESOLVE_BTFIDS) -b vmlinux $@
-> -
-> -# Same as newer-prereqs, but allows to exclude specified extra dependencies
-> -newer_prereqs_except = $(filter-out $(PHONY) $(1),$?)
-> -
-> -# Same as if_changed, but allows to exclude specified extra dependencies
-> -if_changed_except = $(if $(call newer_prereqs_except,$(2))$(cmd-check),      \
-> -	$(cmd);                                                              \
-> -	printf '%s\n' 'savedcmd_$@ := $(make-cmd)' > $(dot-target).cmd, @:)
-> -
-> -# Re-generate module BTFs if either module's .ko or vmlinux changed
->  %.ko: %.o %.mod.o scripts/module.lds $(vmlinux) FORCE
->  	+$(call if_changed_except,ld_ko_o,vmlinux)
+Yes, either you use module_platform_driver_probe() and benefit from
+=2Eprobe in __init and .remove in __exit. Or you use
+module_platform_driver() and benefit from more flexible bind/unbind
+support (probing devices that appear only after boot, hotplugging,
+binding/unbinding via sysfs)
 
-This should probably be:
+> A question is, is module_platform_driver_probe()
+> still worth supporting?
 
-  +$(call if_changed,ld_ko_o)
+If you ask me, module_platform_driver_probe is a thing from the past and
+hardly relevant any more.
 
+The effect of converting drivers/mtd/nand/raw/txx9ndfmc.c (on ARCH=3Darm
+allmodconfig) is:
 
-> -ifdef vmlinux
-> -	+$(if $(newer-prereqs),$(call cmd,btf_ko))
-> -endif
->  
->  targets += $(modules:%.o=%.ko) $(modules:%.o=%.mod.o)
->  
-> -- 
-> 2.40.1
-> 
+add/remove: 0/0 grow/shrink: 1/2 up/down: 12/-16 (-4)
+Function                                     old     new   delta
+txx9ndfmc_remove                             228     240     +12
+txx9ndfmc_driver_init                         48      40      -8
+init_module                                   48      40      -8
+Total: Before=3D5496, After=3D5492, chg -0.07%
+
+I didn't try to understand why the remove callback got bigger.
+
+The section sizes were changed as follows:
+
+	.text:			0xe94 -> 0xf84	( +0xf0)
+	.ARM.exidx:		 0x58 ->  0x60  (  +0x8)
+	.init.text:		0x444 -> 0x43c  (  -0x8)
+	.exit.text		 0xfc ->  0x18  ( -0xe4)
+	.ARM.exidx.exit.text:	0x10 ->    0x8  (  -0x8)
+
+So we're talking about less than 250 bytes that cannot be discarded any
+more with a builtin-driver after boot.
+
+Still I'd expect some resistance if we deprecate it and work on removing
+it.
+
+OTOH:
+
+$ git grep -l module_platform_driver_probe next/master | wc -l
+74
+
+with 19 in drivers/rtc (I added Alexandre to Cc:), 4 in drivers/mtd, 6
+in drivers/usb and otherwise here and there a driver. That doesn't look
+insurmountable.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig         =
+   |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--5a3zknif6psykw4d
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmUuiiwACgkQj4D7WH0S
+/k7m2wf/XqebaGzRxA3UoGglhWWDMaTNlgamMZcDDAarWCm/7tIyhBCYsKwo+1bX
+RXa5dXvOasXlKFSCbDik17TewQ4CNE5tl/qdpW5uGsb+FXuSFBkFRLdMSVTjxpDr
+p/zxnTQluCDFMoPrRyBowjpHhZupldeI7o43pNCWcuhTN84jfrEjLqjC6Rm11hv+
+I4Z9/omcPbvZjJ8odOv9Y4WNI4yahshJ7kNFWVtQHD65ZWEkpT/R+YqKccviIsT/
+IBLHNsrvxZA1xEgMEwdpZKLiwduM9wn1vxPatLIW/Y+KqqU/qJubcRG+MihUDOJW
+Yt2xGRmVgg2SHpO/Gq680vvilkQ9QA==
+=u+Fk
+-----END PGP SIGNATURE-----
+
+--5a3zknif6psykw4d--
