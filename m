@@ -2,171 +2,113 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D77A7CC723
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Oct 2023 17:11:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 196837CC74F
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Oct 2023 17:21:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235064AbjJQPLD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 17 Oct 2023 11:11:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58656 "EHLO
+        id S1344297AbjJQPVX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 17 Oct 2023 11:21:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50352 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344221AbjJQPK6 (ORCPT
+        with ESMTP id S1344100AbjJQPVV (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 17 Oct 2023 11:10:58 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 914B612A;
-        Tue, 17 Oct 2023 08:10:55 -0700 (PDT)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id 5CD661F889;
-        Tue, 17 Oct 2023 15:10:53 +0000 (UTC)
-Received: from kitsune.suse.cz (kitsune.suse.cz [10.100.12.127])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 376892D450;
-        Tue, 17 Oct 2023 15:10:52 +0000 (UTC)
-Date:   Tue, 17 Oct 2023 17:10:50 +0200
-From:   Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
+        Tue, 17 Oct 2023 11:21:21 -0400
+Received: from mail-yw1-x112a.google.com (mail-yw1-x112a.google.com [IPv6:2607:f8b0:4864:20::112a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6A1DFD;
+        Tue, 17 Oct 2023 08:21:19 -0700 (PDT)
+Received: by mail-yw1-x112a.google.com with SMTP id 00721157ae682-5a7c93507d5so69198187b3.2;
+        Tue, 17 Oct 2023 08:21:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1697556079; x=1698160879; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xDhBgsohyNMQvgoVClOoX7HtBV2amiL9Qo+GoP49do4=;
+        b=POQ3QGWumVGouV/dYmG00tv3UOAP+DciRLzg9ErdgnX0rnKVx1lqrc2m3P33fJdipi
+         YXeBa2tlmgJLKGq9WGtF+dg9yogQCjTFIB+RPaF35Lu1cQCI7JYIYPzfOXBg8F9NF2g7
+         88MkjK9jywP5FtCWpoGDW/qqy2F9s8IsGbUJ01eplt67Rit637mdgQ3p9NNjtIJtDUGq
+         KlKjc+4Pj3DZDfP2rbwo5MeL8xGAOm8aq3NqbIh+1OOK+FknvtF0ROsMuySS+CZ0vc5d
+         YBF55K02s09n3P8F+kVYT+x60Qitd31K+IVzJf5gmcVf3i/3sxo1GoE2tQf6wRbOaM1c
+         BQwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697556079; x=1698160879;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xDhBgsohyNMQvgoVClOoX7HtBV2amiL9Qo+GoP49do4=;
+        b=MRILaR+sF9u44l362pyV5xsylP2Y1kp/hM+7qr+SH0ZXi7uA7yanDOCzzfAdDrTuCn
+         Ikh9XyAN9yMgdXezb+6c7fW75UE2Mis/APZejI6R2ewBpaqQrr4TCHlbgHdiyJW7+9Mx
+         SwZgcrKj+X4jXZfGkSzFxZGQwZXV04mt7C0CktXc6WDfTga1smba5fIX0i+ABN1eE512
+         JHpW1trRIo/Yn6bA3yrEq9yDgslwo5L/XPRGqRqT7mT4jAmSr36jtTaRTHE70/5PmwCV
+         phstOP7DUrnJiqpBXEUrCimJnV64p5aK0S8oEVOllZ5iUyExwo/q9RN1AJGJH3Lpm9s3
+         QOcg==
+X-Gm-Message-State: AOJu0Ywd2oIg/xgIJ2stSwG+y51Tng+oaM27DQeS3p5Ig0805BKbtihS
+        n3vxMMaoGqtSXI0hMTzZnehrtHWTPnEG+oeZbgg=
+X-Google-Smtp-Source: AGHT+IFiunQfYo4Ll5L97FADwFB3QhJb7RORPsyhv1/0472jUhiU3gq14vu0tGA4HR7o2Wx5p/KM4it2UpUyOqFosTA=
+X-Received: by 2002:a81:738b:0:b0:59b:e449:2d51 with SMTP id
+ o133-20020a81738b000000b0059be4492d51mr2478947ywc.49.1697556078990; Tue, 17
+ Oct 2023 08:21:18 -0700 (PDT)
+MIME-Version: 1.0
+References: <20231017103742.130927-1-masahiroy@kernel.org> <20231017103742.130927-2-masahiroy@kernel.org>
+In-Reply-To: <20231017103742.130927-2-masahiroy@kernel.org>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Tue, 17 Oct 2023 17:21:07 +0200
+Message-ID: <CANiq72krkL_50wzZeM3C6xk_C-oU1fThykCCAXY07BWbmoxptg@mail.gmail.com>
+Subject: Re: [PATCH 2/4] kbuild: avoid too many execution of scripts/pahole-flags.sh
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        linux-modules@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
-        Lucas De Marchi <lucas.de.marchi@gmail.com>,
-        Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-        Jiri Slaby <jslaby@suse.com>, Jan Engelhardt <jengelh@inai.de>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Alice Ryhl <aliceryhl@google.com>,
+        Andreas Hindborg <a.hindborg@samsung.com>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Benno Lossin <benno.lossin@proton.me>,
+        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Gary Guo <gary@garyguo.net>, Hao Luo <haoluo@google.com>,
+        Jiri Olsa <jolsa@kernel.org>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Martin KaFai Lau <martin.lau@linux.dev>,
+        Miguel Ojeda <ojeda@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Subject: Re: [PATCH rebased] kbuild: rpm-pkg: Fix build with non-default
- MODLIB
-Message-ID: <20231017151050.GJ6241@kitsune.suse.cz>
-References: <20231009085208.GT6241@kitsune.suse.cz>
- <CAK7LNASeMEKVi5c0PEow5KSdN7rsm7UYEf2smWOSkYOhr_5fVQ@mail.gmail.com>
- <20231009140733.GV6241@kitsune.suse.cz>
- <CAK7LNAQQMFUt4R1m_U8kBY5=BvxD_dMuE4MD4kpd48WK1E+AGA@mail.gmail.com>
- <20231010101552.GW6241@kitsune.suse.cz>
- <CAK7LNASX2_-xt3Qvxie_G=Q4fuVYR6eE47QjQ5NZf7QxY-4_tQ@mail.gmail.com>
- <20231017104453.GG6241@kitsune.suse.cz>
- <CAK7LNASKPg0JK0QsLGb1Rfx2ysvHJTm3NFOvtwOpZRz4-20T8w@mail.gmail.com>
- <20231017122747.GH6241@kitsune.suse.cz>
- <CAK7LNAT3N82cJD3GsF+yUBEfPNOBkhzYPk37q3k0HdU7ukz9vQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK7LNAT3N82cJD3GsF+yUBEfPNOBkhzYPk37q3k0HdU7ukz9vQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Level: 
-Authentication-Results: smtp-out2.suse.de;
-        none
-X-Rspamd-Server: rspamd2
-X-Spamd-Result: default: False [-4.00 / 50.00];
-         TAGGED_RCPT(0.00)[];
-         REPLY(-4.00)[]
-X-Spam-Score: -4.00
-X-Rspamd-Queue-Id: 5CD661F889
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>, Song Liu <song@kernel.org>,
+        Stanislav Fomichev <sdf@google.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Yonghong Song <yonghong.song@linux.dev>, bpf@vger.kernel.org,
+        rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Oct 17, 2023 at 11:46:45PM +0900, Masahiro Yamada wrote:
-> On Tue, Oct 17, 2023 at 9:27 PM Michal Suchánek <msuchanek@suse.de> wrote:
-> >
-> > On Tue, Oct 17, 2023 at 09:05:29PM +0900, Masahiro Yamada wrote:
-> > > On Tue, Oct 17, 2023 at 7:44 PM Michal Suchánek <msuchanek@suse.de> wrote:
-> > > >
-> > > > On Tue, Oct 17, 2023 at 07:15:50PM +0900, Masahiro Yamada wrote:
+On Tue, Oct 17, 2023 at 12:38=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.=
+org> wrote:
+>
+> Convert the shell script to a Makefile, which is included only when
+> CONFIG_DEBUG_INFO_BTF=3Dy.
+>
+> [1]: https://savannah.gnu.org/bugs/index.php?64746
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-> > > > > If MOD_PREFIX is given from an env variable or from the command line,
-> > > > > it is respected.
-> > > > >
-> > > > > If "pkg-config --variable=module_prefix libkmod" works,
-> > > > > that configuration is applied.
-> > > > >
-> > > > > Otherwise, MOD_PREFIX is empty, i.e. fall back to the current behavior.
-> > > > >
-> > > > >
-> > > > > I prefer 'MOD_PREFIX' to 'KERNEL_MODULE_DIRECTORY' in your patch [1]
-> > > > > because "|| echo /lib/modules" can be omitted.
-> > > > >
-> > > > > I do not think we will have such a crazy distro that
-> > > > > installs modules under /opt/ directory.
-> > > >
-> > > > However, I can easily imagine a distribution that would want to put
-> > > > modules in /usr/lib-amd64-linux/modules.
-> > >
-> > >
-> > > Sorry, it is not easy for me.
-> > >
-> > > What is the background of your thought?
-> >
-> > That's where every other library and module would go on distributions
-> > that care about ability to install packages for multiple architectures
-> > at the same time. AFAIK the workaround is to inclclude the CPU
-> > architecture in extraversion for the kernel to fit.
-> 
-> 
-> In my system (Ubuntu), I see the directory paths
-> 
-> /usr/aarch64-linux-gnu/lib/
-> /usr/i686-linux-gnu/lib/
-> /usr/x86_64-linux-gnu/lib/
-> 
-> If there were such a crazy distro that supports multiple kernel arches
-> within a single image, modules might be installed:
-> /usr/x86_64-linux-gnu/lib/module/<version>/
+The field in `MAINTAINERS` should be removed:
 
-For me it's /usr/lib/i386-linux-gnu/.
+    F: scripts/pahole-flags.sh
 
-Did they change the scheme at some point?
+But other than that, it looks good to me! I tried it for a given
+config and it does call `pahole` with the same flags.
 
-> > > >
-> > > > > I could not understand why you inserted
-> > > > > "--print-variables kmod 2>/dev/null | grep '^module_directory$$' >/dev/null"
-> > > > > but I guess the reason is the same.
-> > > > > "pkg-config --variable=module_directory kmod" always succeeds,
-> > > > > so "|| echo /lib/modules" is never processed.
-> > > >
-> > > > Yes, that's the semantics of the tool. The jq version was slightly less
-> > > > convoluted but required additional tool for building the kernel.
-> > >
-> > >
-> > > It IS convoluted.
-> >
-> > That's unfortunate result of how the pkgconfig tool works. By now it is
-> > even too late to complain to the tool author because it's been like that
-> > forever, best bet is to to use it as is or pick a different tool for
-> > configuration.
-> 
-> "pkg-config --variable=<name>" returns its value.
-> It is pretty simple, and I do not think it is a big problem.
-> 
-> Your code is long, but the reason is that you implemented
-> it in that way.
-> 
-> 
-> If you go with KERNEL_MODULE_DIRECTORY for max flexibility,
-> 
->   KERNEL_MODULE_DIRECTORY := $(or $(shell pkg-config
-> --variable=module_directory kmod 2>/dev/null),/lib/modules)
-> 
-> should work with less characters and less process forks.
+Tested-by: Miguel Ojeda <ojeda@kernel.org>
+Acked-by: Miguel Ojeda <ojeda@kernel.org>
 
-And assumes that the module_directory cannot be empty.
-
-Which may or may not be a reasonable assumption, the script as proposed
-in the patch does not rely on it.
-
-> But, now I started to prefer confining the long code
-> into the shell script, "scripts/modinst-dir",
-> and calling it where needed.
-
-That's also an option.
-
-Thanks
-
-Michal
-
-> > > > > [1] https://lore.kernel.org/linux-kbuild/20230718120348.383-1-msuchanek@suse.de/
-> > > > > [2] https://github.com/kmod-project/kmod/blob/v31/configure.ac#L295
+Cheers,
+Miguel
