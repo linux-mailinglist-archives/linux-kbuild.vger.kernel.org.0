@@ -2,231 +2,84 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A3FF87CC0E1
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Oct 2023 12:44:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE3607CC21E
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Oct 2023 13:58:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234627AbjJQKo6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 17 Oct 2023 06:44:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49262 "EHLO
+        id S233670AbjJQL6C (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 17 Oct 2023 07:58:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36626 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234605AbjJQKo6 (ORCPT
+        with ESMTP id S234608AbjJQL6B (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 17 Oct 2023 06:44:58 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D084B0;
-        Tue, 17 Oct 2023 03:44:56 -0700 (PDT)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id 1F96B1FF0D;
-        Tue, 17 Oct 2023 10:44:55 +0000 (UTC)
-Received: from kitsune.suse.cz (kitsune.suse.cz [10.100.12.127])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by relay2.suse.de (Postfix) with ESMTPS id 4F7A62D3F2;
-        Tue, 17 Oct 2023 10:44:54 +0000 (UTC)
-Date:   Tue, 17 Oct 2023 12:44:53 +0200
-From:   Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
+        Tue, 17 Oct 2023 07:58:01 -0400
+Received: from mail.avm.de (mail.avm.de [IPv6:2001:bf0:244:244::120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32BB1F1
+        for <linux-kbuild@vger.kernel.org>; Tue, 17 Oct 2023 04:57:58 -0700 (PDT)
+Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [212.42.244.71])
+        by mail.avm.de (Postfix) with ESMTPS;
+        Tue, 17 Oct 2023 13:57:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
+        t=1697543873; bh=osOPrqiiKOprJxC70XFTAVq992xL7ZaM2aZVaEQG2Qc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=LnJgpiNWAMGVc0xEWtD9K4S88LSSPMbgijDz2pOHmBktW2Orxe1PlrhnLTDsBrgGX
+         tfFz/35yEpjsd2lWXJB3L8dxOM1f2ywcRKM8oZxaKD9ofLnmAeJI+8zMVH6ERwT4HW
+         LewlwUwa8Y743N4nthnjDBYgG1826/sWxFei++6o=
+Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
+        by mail-auth.avm.de (Postfix) with ESMTPA id 1002280683;
+        Tue, 17 Oct 2023 13:57:54 +0200 (CEST)
+Received: by buildd.core.avm.de (Postfix, from userid 1000)
+        id 0841B1819FD; Tue, 17 Oct 2023 13:57:54 +0200 (CEST)
+Date:   Tue, 17 Oct 2023 13:57:54 +0200
+From:   Nicolas Schier <n.schier@avm.de>
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        linux-modules@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
-        Lucas De Marchi <lucas.de.marchi@gmail.com>,
-        Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-        Jiri Slaby <jslaby@suse.com>, Jan Engelhardt <jengelh@inai.de>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Subject: Re: [PATCH rebased] kbuild: rpm-pkg: Fix build with non-default
- MODLIB
-Message-ID: <20231017104453.GG6241@kitsune.suse.cz>
-References: <20231005150728.3429-1-msuchanek@suse.de>
- <CAK7LNAQh7vCQ859RPkL3SDr2d4ptt5OVCr66fkPKGcvxDUHtkw@mail.gmail.com>
- <20231009085208.GT6241@kitsune.suse.cz>
- <CAK7LNASeMEKVi5c0PEow5KSdN7rsm7UYEf2smWOSkYOhr_5fVQ@mail.gmail.com>
- <20231009140733.GV6241@kitsune.suse.cz>
- <CAK7LNAQQMFUt4R1m_U8kBY5=BvxD_dMuE4MD4kpd48WK1E+AGA@mail.gmail.com>
- <20231010101552.GW6241@kitsune.suse.cz>
- <CAK7LNASX2_-xt3Qvxie_G=Q4fuVYR6eE47QjQ5NZf7QxY-4_tQ@mail.gmail.com>
+        linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-s390@vger.kernel.org, linux-um@lists.infradead.org,
+        loongarch@lists.linux.dev, sparclinux@vger.kernel.org,
+        x86@kernel.org, Nicolas Schier <nicolas@fjasle.eu>
+Subject: Re: [PATCH v2 2/2] kbuild: unify no-compiler-targets and
+ no-sync-config-targets
+Message-ID: <ZS52wrL9meW8iehZ@buildd.core.avm.de>
+Mail-Followup-To: Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-s390@vger.kernel.org, linux-um@lists.infradead.org,
+        loongarch@lists.linux.dev, sparclinux@vger.kernel.org,
+        x86@kernel.org
+References: <20231014105436.2119702-1-masahiroy@kernel.org>
+ <20231014105436.2119702-2-masahiroy@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAK7LNASX2_-xt3Qvxie_G=Q4fuVYR6eE47QjQ5NZf7QxY-4_tQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Level: 
-Authentication-Results: smtp-out2.suse.de;
-        none
-X-Rspamd-Server: rspamd2
-X-Spamd-Result: default: False [-4.00 / 50.00];
-         TAGGED_RCPT(0.00)[];
-         REPLY(-4.00)[]
-X-Spam-Score: -4.00
-X-Rspamd-Queue-Id: 1F96B1FF0D
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20231014105436.2119702-2-masahiroy@kernel.org>
+X-purgate-ID: 149429::1697543872-187BED95-BE924DB1/0/0
+X-purgate-type: clean
+X-purgate-size: 416
+X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
+X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
+X-purgate: clean
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Oct 17, 2023 at 07:15:50PM +0900, Masahiro Yamada wrote:
-> > >
-> > > Let me add more context to my question.
-> > >
-> > >
-> > > I am interested in the timing when
-> > > 'pkg-config --print-variables kmod | grep module_directory'
-> > > is executed.
-> > >
-> > >
-> > >
-> > > 1.  Build a SRPM on machine A
-> > >
-> > > 2.  Copy the SRPM from machine A to machine B
-> > >
-> > > 3.  Run rpmbuild on machine B to build the SRPM into a RPM
-> > >
-> > > 4.  Copy the RPM from machine B to machine C
-> > >
-> > > 5.  Install the RPM to machine C
-> >
-> > As far as I am aware the typical use case is two step:
-> >
-> > 1. run make rpm-pkg on machine A
-> > 2. install the binary rpm on machine C that might not have build tools
-> >    or powerful enough CPU
-> >
-> > While it's theoretically possible to use the srpm to rebuild the binary
-> > rpm independently of the kernel git tree I am not aware of people
-> > commonly doing this.
+On Sat, Oct 14, 2023 at 07:54:36PM +0900, Masahiro Yamada wrote:
+> Now that vdso_install does not depend on any in-tree build artifact,
+> it no longer needs a compiler, making no-compiler-targets the same
+> as no-sync-config-targets.
 > 
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
 > 
+> Changes in v2:
+>   - Revive need-compiler flag
 > 
-> If I correctly understand commit
-> 8818039f959b2efc0d6f2cb101f8061332f0c77e,
-> those Redhat guys pack a SRPM on a local machine,
-> then send it to their build server called 'koji'.
-> 
-> Otherwise, there is no reason
-> to have 'make srcrpm-pkg'.
-> 
-> 
-> 
-> I believe "A == B" is not always true,
-> but we can assume "distro(A) == distro(B)" is always met
-> for simplicity.
-> 
-> So, I am OK with configuration at the SRPM time.
 
-Even if the distro does not match it will likely work to configure SRPM
-for non-matching distro and then build it on the target distro but I have
-not tested it.
-
-> > If rebuilding the source rpm on a different machine from where the git
-> > tree is located, and possibly on a different distribution is desirable
-> > then the detection of the KERNEL_MODULE_DIRECTORY should be added in the
-> > rpm spec file as well.
-> >
-> > > Of course, we are most interested in the module path
-> > > of machine C, but it is difficult/impossible to
-> > > guess it at the time of building.
-> > >
-> > > We can assume machine B == machine C.
-> > >
-> > > We are the second most interested in the module
-> > > path on machine B.
-> > >
-> > > The module path of machine A is not important.
-> > >
-> > > So, I am asking where you would inject
-> > > 'pkg-config --print-variables kmod | grep module_directory'.
-> >
-> > I don't. I don't think there will be a separate machine B.
-> >
-> > And I can't really either - so far any attempt at adding support for
-> > this has been rejected.
-> >
-> > Technically the KERNEL_MODULE_DIRECTORY could be set in two steps - one
-> > giving the script to run, and one running it, and then it could be run
-> > independently in the SRPM as well.
-> 
-> 
-> At first, I thought your patch [1] was very ugly,
-> but I do not think it is so ugly if cleanly implemented.
-> 
-> It won't hurt to allow users to specify the middle part of MODLIB.
-> 
-> 
-> There are two options.
-> 
-> 
-> [A]  Add 'MOD_PREFIX' to specify the middle part of MODLIB
-> 
-> 
-> The top Makefile will look as follows:
-> 
-> 
-> MODLIB = $(INSTALL_MOD_PATH)$(MOD_PREFIX)/lib/modules/$(KERNELRELEASE)
-> export MODLIB
-> 
-> 
-> It is easier than specifying the entire MODLIB, but you still need
-> to manually pass "MOD_PREFIX=/usr" from an env variable or
-> the command line.
-> 
-> If MOD_PREFIX is not given, MODLIB is the same as the current one.
-> 
-> [B] Support a dynamic configuration as well
-> 
-> 
-> MOD_PREFIX ?= $(shell pkg-config --variable=module_prefix libkmod 2>/dev/null)
-> export MOD_PREFIX
-> 
-> MODLIB = $(INSTALL_MOD_PATH)$(MOD_PREFIX)/lib/modules/$(KERNELRELEASE)
-> export MODLIB
-
-That's basically the same thing as the patch that has been rejected.
-
-I used := to prevent calling pkg-config every time MODLIB is used but it
-might not be the most flexible wrt overrides.
-
-> If MOD_PREFIX is given from an env variable or from the command line,
-> it is respected.
-> 
-> If "pkg-config --variable=module_prefix libkmod" works,
-> that configuration is applied.
-> 
-> Otherwise, MOD_PREFIX is empty, i.e. fall back to the current behavior.
-> 
-> 
-> I prefer 'MOD_PREFIX' to 'KERNEL_MODULE_DIRECTORY' in your patch [1]
-> because "|| echo /lib/modules" can be omitted.
-> 
-> I do not think we will have such a crazy distro that
-> installs modules under /opt/ directory.
-
-However, I can easily imagine a distribution that would want to put
-modules in /usr/lib-amd64-linux/modules.
-
-> I could not understand why you inserted
-> "--print-variables kmod 2>/dev/null | grep '^module_directory$$' >/dev/null"
-> but I guess the reason is the same.
-> "pkg-config --variable=module_directory kmod" always succeeds,
-> so "|| echo /lib/modules" is never processed.
-
-Yes, that's the semantics of the tool. The jq version was slightly less
-convoluted but required additional tool for building the kernel.
-
-> I do not know why you parsed kmod.pc instead of libkmod.pc [2]
-
-Because it's kmod property, not libkmod property.
-
-Distributions would install libkmod.pc only with development files
-whereas the kmod.pc should be installed with the binaries.
-
-Thanks
-
-Michal
-
-> 
-> 
-> [1] https://lore.kernel.org/linux-kbuild/20230718120348.383-1-msuchanek@suse.de/
-> [2] https://github.com/kmod-project/kmod/blob/v31/configure.ac#L295
+Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
