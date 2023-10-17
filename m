@@ -2,60 +2,66 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8ECF17CC06E
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Oct 2023 12:17:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4259E7CC098
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Oct 2023 12:22:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343803AbjJQKRo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 17 Oct 2023 06:17:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32800 "EHLO
+        id S234809AbjJQKWd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 17 Oct 2023 06:22:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234958AbjJQKR0 (ORCPT
+        with ESMTP id S235057AbjJQKWU (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 17 Oct 2023 06:17:26 -0400
+        Tue, 17 Oct 2023 06:22:20 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59618D5E;
-        Tue, 17 Oct 2023 03:16:28 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D21BFC43391;
-        Tue, 17 Oct 2023 10:16:27 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12A512D51
+        for <linux-kbuild@vger.kernel.org>; Tue, 17 Oct 2023 03:20:57 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1B0EC433C9
+        for <linux-kbuild@vger.kernel.org>; Tue, 17 Oct 2023 10:20:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1697537787;
-        bh=swyJ9YtG3EhTopO4DHeUFs2J4cW+GCL7fSY3ViXq+8A=;
+        s=k20201202; t=1697538056;
+        bh=s3ei31bLns3eZrhmZvMizV8gKlFQZLKQttQ5Pkr1EZI=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=gtOnjxYHs0lGdUOB/P3KsMpYneZXC5tUqcF/aCdso/xCjMCaCBMfRk9qPYw8kcXYO
-         VJv1EzbpL63YsFC1F3Nk4n6q0/SSEdgjg2c+k7icq0UtBwlfao+0ksSwWR7eLkWT+x
-         aZEyeL4/lyAOQMY+FWBxkKxly590fnKgeEoTTBVBI5nqdOYIc+NvItjqAOXcNXIwGQ
-         pg9f0P6Ke1De6pPDEYsxMFWMl9MLTV54MbjPnwWDCL6JSYphCVUFPEvSaeUxHE5cac
-         tv1OtOQFCqt4tZPsrcHzOgLNdFMkQJeK460QMb+0sbc643hl0MLwtaulCP9//NyR7r
-         jsrZ1DdSOJl0g==
-Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-6c4f1f0774dso3823727a34.2;
-        Tue, 17 Oct 2023 03:16:27 -0700 (PDT)
-X-Gm-Message-State: AOJu0Yx0u4zyJPLobUHVoEdzXCrn7HbhNqCt57duFSYJMYBf0/MkVNMe
-        1e7LEtacsazZodMgZ3UGK6MOgNLqT9YFqTwZxZ8=
-X-Google-Smtp-Source: AGHT+IG5Pm9ZPhUMcbgBDQ1KvRFJ1BnDq6D287LE9VXt+8p7+OgCUXA3DVQ/ZrLQQmmKI71abhSnJ+RXo2MJIFlQ2aA=
-X-Received: by 2002:a05:6870:2183:b0:1e9:c315:9d66 with SMTP id
- l3-20020a056870218300b001e9c3159d66mr1951983oae.40.1697537787138; Tue, 17 Oct
- 2023 03:16:27 -0700 (PDT)
+        b=rgDnj81X+znbG/PaJ28LA92m/uhZ19YdAh0+dFE4fzRbDxi3Rt8uux5wZx7S8n6FM
+         toDOz9yWVnkJr7V2xqIQjtNkLmvcaRIxso3Hfi/mIaczusyVlx/zfbf1fhzfRywLWE
+         zOwD3L1B6vXd1Omqu44T7iWlclHlR/TQ1lge8HQ9aakpH6gR22hnrgAhrKI//mfi8t
+         VeDPRDGEdWSEgz4GZfklDn/at+mzDhAfEfpO1v3XunNXGWYTVJocOrcZ004q+BnCS4
+         iHHAVc/hyF/Lr4ottw12u40xIZLa7ciJI3iboK8y9AhWxAbnY5C2Ua86xSG2T37dUg
+         48Xlj8hNJ3eBA==
+Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-6bd04558784so3888263a34.3
+        for <linux-kbuild@vger.kernel.org>; Tue, 17 Oct 2023 03:20:56 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yx9noIF8T4+39V/UdMHLfo3RyoOh1tWHuD47k6fdYeM0thcNQAm
+        xKSGs2us3UfUWOBTU5QZxTL/pIWuDLKT7tUqz3M=
+X-Google-Smtp-Source: AGHT+IFgOt6Dj/5n3JHKIf+od7/6gfrvlvgCZOWB83LIMlBeQcFiM3JJJF83K6R2kdngSFg/UscgOSg5/ChMpvqRNgk=
+X-Received: by 2002:a05:6870:1605:b0:1e9:ab99:6b7 with SMTP id
+ b5-20020a056870160500b001e9ab9906b7mr2048546oae.3.1697538056089; Tue, 17 Oct
+ 2023 03:20:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20231005150728.3429-1-msuchanek@suse.de> <CAK7LNAQh7vCQ859RPkL3SDr2d4ptt5OVCr66fkPKGcvxDUHtkw@mail.gmail.com>
- <20231009085208.GT6241@kitsune.suse.cz> <CAK7LNASeMEKVi5c0PEow5KSdN7rsm7UYEf2smWOSkYOhr_5fVQ@mail.gmail.com>
- <20231009140733.GV6241@kitsune.suse.cz> <CAK7LNAQQMFUt4R1m_U8kBY5=BvxD_dMuE4MD4kpd48WK1E+AGA@mail.gmail.com>
- <20231010101552.GW6241@kitsune.suse.cz>
-In-Reply-To: <20231010101552.GW6241@kitsune.suse.cz>
+References: <20231008200143.196369-1-u.kleine-koenig@pengutronix.de>
+ <20231008200143.196369-2-u.kleine-koenig@pengutronix.de> <CAK7LNASB2HhO6iWNnG-tAzs9wu9mV2PLRf-brnNGkSJj+W23Vw@mail.gmail.com>
+ <e38b8a8e-5bd6-41e2-87a1-3b2d23b68bc0@app.fastmail.com> <20231009103037.j44gkzqv7cpn4zpu@pengutronix.de>
+ <4c27130c-e924-4f24-b833-794e0acac858@app.fastmail.com> <20231016102134.q6k2jb5ewu3flg6j@pengutronix.de>
+In-Reply-To: <20231016102134.q6k2jb5ewu3flg6j@pengutronix.de>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 17 Oct 2023 19:15:50 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASX2_-xt3Qvxie_G=Q4fuVYR6eE47QjQ5NZf7QxY-4_tQ@mail.gmail.com>
-Message-ID: <CAK7LNASX2_-xt3Qvxie_G=Q4fuVYR6eE47QjQ5NZf7QxY-4_tQ@mail.gmail.com>
-Subject: Re: [PATCH rebased] kbuild: rpm-pkg: Fix build with non-default MODLIB
-To:     =?UTF-8?Q?Michal_Such=C3=A1nek?= <msuchanek@suse.de>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        linux-modules@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
-        Lucas De Marchi <lucas.de.marchi@gmail.com>,
-        =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
-        Jiri Slaby <jslaby@suse.com>, Jan Engelhardt <jengelh@inai.de>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>
+Date:   Tue, 17 Oct 2023 19:20:19 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARSxEZeKGoFAdGp1uhQVBrdGByDD4cJNMc_HCkmTiFF+g@mail.gmail.com>
+Message-ID: <CAK7LNARSxEZeKGoFAdGp1uhQVBrdGByDD4cJNMc_HCkmTiFF+g@mail.gmail.com>
+Subject: Re: [PATCH 01/20] mtd: rawnand: txx9ndfmc: Mark driver struct with
+ __refdata to prevent section mismatch warning
+To:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        linux-kbuild@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        linux-mtd@lists.infradead.org,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Richard Weinberger <richard@nod.at>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Atsushi Nemoto <anemo@mba.ocn.ne.jp>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -66,168 +72,78 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-> >
-> > Let me add more context to my question.
-> >
-> >
-> > I am interested in the timing when
-> > 'pkg-config --print-variables kmod | grep module_directory'
-> > is executed.
-> >
-> >
-> >
-> > 1.  Build a SRPM on machine A
-> >
-> > 2.  Copy the SRPM from machine A to machine B
-> >
-> > 3.  Run rpmbuild on machine B to build the SRPM into a RPM
-> >
-> > 4.  Copy the RPM from machine B to machine C
-> >
-> > 5.  Install the RPM to machine C
+On Mon, Oct 16, 2023 at 7:21=E2=80=AFPM Uwe Kleine-K=C3=B6nig
+<u.kleine-koenig@pengutronix.de> wrote:
 >
-> As far as I am aware the typical use case is two step:
->
-> 1. run make rpm-pkg on machine A
-> 2. install the binary rpm on machine C that might not have build tools
->    or powerful enough CPU
->
-> While it's theoretically possible to use the srpm to rebuild the binary
-> rpm independently of the kernel git tree I am not aware of people
-> commonly doing this.
-
-
-
-If I correctly understand commit
-8818039f959b2efc0d6f2cb101f8061332f0c77e,
-those Redhat guys pack a SRPM on a local machine,
-then send it to their build server called 'koji'.
-
-Otherwise, there is no reason
-to have 'make srcrpm-pkg'.
-
-
-
-I believe "A == B" is not always true,
-but we can assume "distro(A) == distro(B)" is always met
-for simplicity.
-
-So, I am OK with configuration at the SRPM time.
-
-
-
-
-
-> If rebuilding the source rpm on a different machine from where the git
-> tree is located, and possibly on a different distribution is desirable
-> then the detection of the KERNEL_MODULE_DIRECTORY should be added in the
-> rpm spec file as well.
->
-> > Of course, we are most interested in the module path
-> > of machine C, but it is difficult/impossible to
-> > guess it at the time of building.
+> On Mon, Oct 16, 2023 at 11:25:44AM +0200, Arnd Bergmann wrote:
+> > On Mon, Oct 9, 2023, at 12:30, Uwe Kleine-K=C3=B6nig wrote:
+> > > On Mon, Oct 09, 2023 at 10:43:46AM +0200, Arnd Bergmann wrote:
+> > >
+> > > only a slight correction: As not having a remove callback can be fine
+> > > and platform_remove() only calls .remove (or .remove_new) when non-NU=
+LL
+> > > we're not hitting a NULL pointer dereference in the presence of
+> > >
+> > >     .remove =3D __exit_p(somefunc),
+> > >
+> > > But a problem can arise later if some resource isn't properly freed a=
+nd
+> > > so it might be used at a later point in time which then most likely
+> > > oopses.
+> > >
+> > > I didn't double check Arnd's list, but otherwise I agree to his
+> > > analysis.
 > >
-> > We can assume machine B == machine C.
+> > Hi Uwe,
 > >
-> > We are the second most interested in the module
-> > path on machine B.
+> > Based on a few days of randconfig build testing, the patch
+> > below addresses the remaining warnings I get for arm, arm64 and
+> > x86 on linux-next. This is a shorter list than the ones that
+> > I found in theory, possibly because some of the other ones
+> > are only used in built-in code, or because they are never used
+> > on these three architectures.
 > >
-> > The module path of machine A is not important.
+> > Have you already sent patches for (some of) these?
 > >
-> > So, I am asking where you would inject
-> > 'pkg-config --print-variables kmod | grep module_directory'.
+> >       Arnd
+> >
+> >  drivers/char/hw_random/mxc-rnga.c                                 | 2 =
++-
+> >  drivers/gpu/drm/bridge/ti-tpd12s015.c                             | 4 =
+++--
+> >  drivers/hwmon/smsc47m1.c                                          | 2 =
++-
+> >  drivers/hwtracing/coresight/coresight-etm4x-core.c                | 8 =
+++++----
+> >  drivers/media/i2c/et8ek8/et8ek8_driver.c                          | 4 =
+++--
+> >  drivers/memory/emif.c                                             | 2 =
++-
+> >  drivers/mmc/host/davinci_mmc.c                                    | 2 =
++-
+> >  drivers/mtd/nand/raw/txx9ndfmc.c                                  | 2 =
++-
 >
-> I don't. I don't think there will be a separate machine B.
->
-> And I can't really either - so far any attempt at adding support for
-> this has been rejected.
->
-> Technically the KERNEL_MODULE_DIRECTORY could be set in two steps - one
-> giving the script to run, and one running it, and then it could be run
-> independently in the SRPM as well.
+> The txx9ndfmc driver was fixed as part of this series, but Miqu=C3=A8l di=
+dn't
+> take the patch, I guess because he wants it to be converted to
+> module_platform_driver().
 
 
-At first, I thought your patch [1] was very ugly,
-but I do not think it is so ugly if cleanly implemented.
-
-It won't hurt to allow users to specify the middle part of MODLIB.
-
-
-There are two options.
+So, there are two ways for fixing, and it is
+up to subsystem maintainers?
 
 
 
 
-[A]  Add 'MOD_PREFIX' to specify the middle part of MODLIB
-
-
-The top Makefile will look as follows:
-
-
-MODLIB = $(INSTALL_MOD_PATH)$(MOD_PREFIX)/lib/modules/$(KERNELRELEASE)
-export MODLIB
-
-
-It is easier than specifying the entire MODLIB, but you still need
-to manually pass "MOD_PREFIX=/usr" from an env variable or
-the command line.
-
-If MOD_PREFIX is not given, MODLIB is the same as the current one.
-
-
-
-
-[B] Support a dynamic configuration as well
-
-
-
-MOD_PREFIX ?= $(shell pkg-config --variable=module_prefix libkmod 2>/dev/null)
-export MOD_PREFIX
-
-MODLIB = $(INSTALL_MOD_PATH)$(MOD_PREFIX)/lib/modules/$(KERNELRELEASE)
-export MODLIB
-
-
-
-
-If MOD_PREFIX is given from an env variable or from the command line,
-it is respected.
-
-If "pkg-config --variable=module_prefix libkmod" works,
-that configuration is applied.
-
-Otherwise, MOD_PREFIX is empty, i.e. fall back to the current behavior.
+A question is, is module_platform_driver_probe()
+still worth supporting?
 
 
 
 
 
 
-I prefer 'MOD_PREFIX' to 'KERNEL_MODULE_DIRECTORY' in your patch [1]
-because "|| echo /lib/modules" can be omitted.
-
-I do not think we will have such a crazy distro that
-installs modules under /opt/ directory.
-
-
-
-
-I could not understand why you inserted
-"--print-variables kmod 2>/dev/null | grep '^module_directory$$' >/dev/null"
-but I guess the reason is the same.
-"pkg-config --variable=module_directory kmod" always succeeds,
-so "|| echo /lib/modules" is never processed.
-
-
-I do not know why you parsed kmod.pc instead of libkmod.pc [2]
-
-
-
-[1] https://lore.kernel.org/linux-kbuild/20230718120348.383-1-msuchanek@suse.de/
-[2] https://github.com/kmod-project/kmod/blob/v31/configure.ac#L295
-
-
-
---
+--=20
 Best Regards
 Masahiro Yamada
