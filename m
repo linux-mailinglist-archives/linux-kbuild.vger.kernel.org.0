@@ -2,66 +2,55 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BCF87CE1A8
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Oct 2023 17:49:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A6217CE20E
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Oct 2023 18:02:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232057AbjJRPtz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 18 Oct 2023 11:49:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50996 "EHLO
+        id S231260AbjJRQCG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 18 Oct 2023 12:02:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48352 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231764AbjJRPty (ORCPT
+        with ESMTP id S231488AbjJRQCD (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 18 Oct 2023 11:49:54 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90ABB118;
-        Wed, 18 Oct 2023 08:49:45 -0700 (PDT)
-Received: from leknes.fjasle.eu ([94.134.20.103]) by mrelayeu.kundenserver.de
- (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MsI8Y-1rgyEM38Ru-00tiyo; Wed, 18 Oct 2023 17:49:20 +0200
-Received: by leknes.fjasle.eu (Postfix, from userid 1000)
-        id 517AF3F8DD; Wed, 18 Oct 2023 17:49:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
-        t=1697644159; bh=OH+EicPc7UzPOZaWyDPdScV+4OFzA+p27aCYY2OdDVw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=TDhaXrLVKs6Z73PEcsZiScLBFOKbK3T2aAS5GNhPUaOXRB/yHkF1npRH2+wD2qh75
-         lLuF+dJVqiXlc2iPX+mvlKhqm+VvOb2cVZasXoZ7mlDSIM42UH+CwKnWvboFOMHH5O
-         pRsRVpa5lnsARqIeuLBqMi6j1ZRBCW3oXJml9Z7s=
-Date:   Wed, 18 Oct 2023 17:49:19 +0200
-From:   Nicolas Schier <nicolas@fjasle.eu>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>, bpf@vger.kernel.org
-Subject: Re: [bpf-next PATCH v2 4/4] kbuild: refactor module BTF rule
-Message-ID: <ZS/+f1B049Z03ibU@fjasle.eu>
-References: <20231018151950.205265-1-masahiroy@kernel.org>
- <20231018151950.205265-4-masahiroy@kernel.org>
+        Wed, 18 Oct 2023 12:02:03 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55080122;
+        Wed, 18 Oct 2023 09:02:01 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C014AC433C8;
+        Wed, 18 Oct 2023 16:01:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1697644921;
+        bh=S4u2uK3OTPufLjif5hMUcF3c2nnunc5rUfO81Cu7CWo=;
+        h=From:To:Cc:Subject:Date:From;
+        b=IpcbsVRki8Xu/+UQY9COIpBUPxyOq9Z1B1YEJ4bk8F4OHy9o4mEscn5cYBEbrcjnq
+         2ULnjIzKC6eJ9kPanKoKK5L2Mw8VoTTfPz6GS++BKJqf9MDkFmiMfs4IiXqVNTqtez
+         mbjQDNlV8ajwyy23WpCPN8ahaMp92d1uOfLTvn30LSgmAs5w3gg3mn180TkgE9FdY2
+         SqeHQX6dkPgTa3428Y/E/paUhNaNMz0GaWIoAiyn44H1eBTU3r/94vADWpQJFzprk7
+         UuLrkXO9h2faxgLYYssw/GTwtni4jLG/yG9TyazKI5Vo1SbvPO+pmQlch1nyhRJW+N
+         4VGP7S1ytGK4Q==
+From:   Miguel Ojeda <ojeda@kernel.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Carlos Bilbao <carlos.bilbao@amd.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Alex Gaynor <alex.gaynor@gmail.com>
+Cc:     Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+        Benno Lossin <benno.lossin@proton.me>,
+        Andreas Hindborg <a.hindborg@samsung.com>,
+        Alice Ryhl <aliceryhl@google.com>,
+        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+        patches@lists.linux.dev, Akira Yokosawa <akiyks@gmail.com>,
+        Martin Rodriguez Reboredo <yakoyoku@gmail.com>
+Subject: [PATCH 1/2] docs: rust: update Rust docs output path
+Date:   Wed, 18 Oct 2023 18:01:44 +0200
+Message-ID: <20231018160145.1017340-1-ojeda@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231018151950.205265-4-masahiroy@kernel.org>
-X-Provags-ID: V03:K1:B4LQ7Ajm1gUh2v3KsatjhnDxISg3jTEx6iRLsNOe1KCfA0f33Je
- k7sYIst9yV21BPxNZHntNYoCfMfBn9JJ7u7RJb1MlDLUBJRKI9QHHG/+Qdt8GrCelKyrfoT
- jAaqgNcSyA5D0JtiGfbjKZ8PsxAMMrdWescAdP2w8NPlurLEVthJ35I8ul18GzB7Jp4SHGi
- cEOs6JCOLKzpjMHCAIHZA==
-UI-OutboundReport: notjunk:1;M01:P0:7LyupFVRajo=;HaG9fJQ0BTCv8elAj/oujRlVEed
- H0bsNRk9itF5/r8Z7MKQZ5nkkke+8lKX2mNGRimNJyjPj2+wb4kmr9soUVJ7EGraPNULJhB5S
- 33TbPpaXZ3MrwhO4ndFg6MCPlkP6kbUHRxCKGMBQLAjlpYRri/+98/BiNnEdzvRO6549foUe7
- vYHqrZjzobHfDTxKgOPWqlMzPcztS4UlrK5UDe0h+4H65TL481xSs+7qp0LWpAuEt7IQZvqsS
- vwwv420UzQaor0EoL448LgY4bkrxnNZ/sRXrV/45xec068hK6WXjrLtcUoYhDzKTIBUTmYrxG
- wdD7HhEKjjaOLZyXF4bHHwYFqinUVtqnI4YSBHEI4jDVc5plFaXjI/Fd/j0z9f3yBsw29ZyKQ
- HGfH55Se24rOl8BPiNO0Y9HI0CcAPT9FmoRjWw5wcysXQchLlCIv7vONUa7KtIUHbcG3rTE2J
- heNjHMu2BEDeGfrQj45/1XOQ89K7swRlWArL4nlUfDlqAjUloVkGvLWgxsoeRCgQ7HCbtj0B0
- T5j/Zqdl6wuk8xjRE6dAJ27jcd6AP38w7q9avWbhRBmIAFSmD0Tskbo4+6SftVWVddIIipmKi
- djyogVgs0xacZw6hT1l7nmHcLMipiIGVMYWAD2uFuHpeNTm0J0QPU+tC/v/DuxSEbAq6IIRuM
- lkLbkHb5mmQy6Sh/DvbJvGteEx8SPt5n62yTmQTj+3XVo3ihQmAhJ+9cQAz3ehFvrgRQsaZ6r
- QX3/VudGlm8FD+otBBmuyD+Vmxq3/j9d2iHRlPBXmw0P7BamYAUvZgMdgwaw+Z/mVfT2pMLU/
- vrLnuOZ3u1IykRj7QJ1vzm2lC3lDZmG//7y15JIM4BYATN3gBOM6QTDhHlMoJpljWb8CPNqZ9
- 1RixvbBQ+Wgzb5w==
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE autolearn=ham
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -69,76 +58,30 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Oct 19, 2023 at 12:19:50AM +0900 Masahiro Yamada wrote:
-> newer_prereqs_except and if_changed_except are ugly hacks of the
-> newer-prereqs and if_changed in scripts/Kbuild.include.
-> 
-> Remove.
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
-> 
-> Changes in v2:
->   - Fix if_changed_except to if_changed
+The Rust code documentation output path moved from `rust/doc` to
+`Documentation/output/rust/rustdoc`, thus update the old reference.
 
-thanks
+Fixes: 48fadf440075 ("docs: Move rustdoc output, cross-reference it")
+Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+---
+ Documentation/rust/general-information.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
+diff --git a/Documentation/rust/general-information.rst b/Documentation/rust/general-information.rst
+index 49029ee82e55..081397827a7e 100644
+--- a/Documentation/rust/general-information.rst
++++ b/Documentation/rust/general-information.rst
+@@ -29,7 +29,7 @@ target with the same invocation used for compilation, e.g.::
+ 
+ To read the docs locally in your web browser, run e.g.::
+ 
+-	xdg-open rust/doc/kernel/index.html
++	xdg-open Documentation/output/rust/rustdoc/kernel/index.html
+ 
+ To learn about how to write the documentation, please see coding-guidelines.rst.
+ 
 
-
-
->  scripts/Makefile.modfinal | 25 ++++++-------------------
->  1 file changed, 6 insertions(+), 19 deletions(-)
-> 
-> diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
-> index 9fd7a26e4fe9..fc07854bb7b9 100644
-> --- a/scripts/Makefile.modfinal
-> +++ b/scripts/Makefile.modfinal
-> @@ -19,6 +19,9 @@ vmlinux :=
->  ifdef CONFIG_DEBUG_INFO_BTF_MODULES
->  ifneq ($(wildcard vmlinux),)
->  vmlinux := vmlinux
-> +cmd_btf = ; \
-> +	LLVM_OBJCOPY="$(OBJCOPY)" $(PAHOLE) -J $(PAHOLE_FLAGS) --btf_base vmlinux $@; \
-> +	$(RESOLVE_BTFIDS) -b vmlinux $@
->  else
->  $(warning Skipping BTF generation due to unavailability of vmlinux)
->  endif
-> @@ -41,27 +44,11 @@ quiet_cmd_ld_ko_o = LD [M]  $@
->        cmd_ld_ko_o +=							\
->  	$(LD) -r $(KBUILD_LDFLAGS)					\
->  		$(KBUILD_LDFLAGS_MODULE) $(LDFLAGS_MODULE)		\
-> -		-T scripts/module.lds -o $@ $(filter %.o, $^)
-> +		-T scripts/module.lds -o $@ $(filter %.o, $^)		\
-> +	$(cmd_btf)
->  
-> -quiet_cmd_btf_ko = BTF [M] $@
-> -      cmd_btf_ko = 							\
-> -		LLVM_OBJCOPY="$(OBJCOPY)" $(PAHOLE) -J $(PAHOLE_FLAGS) --btf_base vmlinux $@; \
-> -		$(RESOLVE_BTFIDS) -b vmlinux $@
-> -
-> -# Same as newer-prereqs, but allows to exclude specified extra dependencies
-> -newer_prereqs_except = $(filter-out $(PHONY) $(1),$?)
-> -
-> -# Same as if_changed, but allows to exclude specified extra dependencies
-> -if_changed_except = $(if $(call newer_prereqs_except,$(2))$(cmd-check),      \
-> -	$(cmd);                                                              \
-> -	printf '%s\n' 'savedcmd_$@ := $(make-cmd)' > $(dot-target).cmd, @:)
-> -
-> -# Re-generate module BTFs if either module's .ko or vmlinux changed
->  %.ko: %.o %.mod.o scripts/module.lds $(vmlinux) FORCE
-> -	+$(call if_changed_except,ld_ko_o,vmlinux)
-> -ifdef vmlinux
-> -	+$(if $(newer-prereqs),$(call cmd,btf_ko))
-> -endif
-> +	+$(call if_changed,ld_ko_o)
->  
->  targets += $(modules:%.o=%.ko) $(modules:%.o=%.mod.o)
->  
-> -- 
-> 2.40.1
-
+base-commit: 8a749fd1a8720d4619c91c8b6e7528c0a355c0aa
 -- 
-epost|xmpp: nicolas@fjasle.eu          irc://oftc.net/nsc
-↳ gpg: 18ed 52db e34f 860e e9fb  c82b 7d97 0932 55a0 ce7f
-     -- frykten for herren er opphav til kunnskap --
+2.42.0
+
