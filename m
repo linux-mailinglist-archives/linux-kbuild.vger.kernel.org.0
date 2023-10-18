@@ -2,77 +2,58 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 502E77CE2E4
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Oct 2023 18:36:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CCCBF7CE568
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Oct 2023 19:56:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230025AbjJRQgj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 18 Oct 2023 12:36:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46116 "EHLO
+        id S229447AbjJRR4Q (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 18 Oct 2023 13:56:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56602 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229537AbjJRQgj (ORCPT
+        with ESMTP id S231851AbjJRR4O (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 18 Oct 2023 12:36:39 -0400
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82653AB;
-        Wed, 18 Oct 2023 09:36:37 -0700 (PDT)
-Received: by mail-yb1-xb36.google.com with SMTP id 3f1490d57ef6-d9a7a3e17d1so8240465276.2;
-        Wed, 18 Oct 2023 09:36:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697646996; x=1698251796; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=muPYN+h5m0NQxmc9aOMQOWiJMXRbZ7xmKLB8WJtuUBM=;
-        b=PC5zPG5mS8gCOalC9G7HVItxvmnC+MhUUYuO7NIqT7CwgDDTR8/nJQOe4KGcw8siKr
-         ZxozluAabM7xVpLIs5ioQIFRJzMDGpz5M5eDFEeOOqvz3KNqb6UIjG44xIv4AoorI38Q
-         fQrhMy51y9ZDdFOLmYYxrQ0Unb3F1lEcFbLICSTPkZLsNf6OUQ4o6Gz76aDfzSNMTPaX
-         iT+BWsDGf4bRkbd7yeJ/Tn7jxDq9C7dhvCmolr8Gmnc17n9wiM7HiKfzXl+dW4XX/Xfj
-         bHrGCAFqDXbJpz//nRXwinoHpVTLc0Sm6+F7Ypzlvlotw/afr7BZf5YmgJspXOKACf7H
-         zpGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697646996; x=1698251796;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=muPYN+h5m0NQxmc9aOMQOWiJMXRbZ7xmKLB8WJtuUBM=;
-        b=StuKOFBh71q3j3ik5cpbWcq6jaQbMsrnf9t8nXzrkgiOicATqkQsfOQpxglm6+vRld
-         f0xyWOdPptoNN3qqExUMUGKLxi/TJKwkl18rAaioRA0SZ2kzpLhHquG8OGS48jlP4Adx
-         esnYx67e2rsQZoRcQW+byvs1JCYFhiAcgItrmqCjME/fA+kbQDC7XSiwIvJi7itd2c4M
-         vl+QPpPybX4elsXaOdX7c3kd3Bonl2zPOrj7FWxF8pjN18uYUUwQEICMjv/QlwFGdvD/
-         cmqRxKs63Ii8KeG5ZyXP5+qXihvgWTNWLyixpX2myYgmaElOALSzgFtCGzhTbqoCzLWj
-         r8sQ==
-X-Gm-Message-State: AOJu0Yz0Dx/1Vo4yWSPIQpH+FGncwVK0+dkAcUgMLz5TjMTbMEebkTOf
-        cKkTodVm/sm99BDFsHP4niQk8yVekMadqAFxfmc=
-X-Google-Smtp-Source: AGHT+IFN2ShsAR/vt4lfDeqB/Tiw89GrzRBQZEOB9gpbxR7f/kvg0uhlf4ib/npOczI8Rxj7dDdnVfkQ1znwcC9kr4Y=
-X-Received: by 2002:a25:ab2d:0:b0:d81:754a:7cb8 with SMTP id
- u42-20020a25ab2d000000b00d81754a7cb8mr5743619ybi.65.1697646996757; Wed, 18
- Oct 2023 09:36:36 -0700 (PDT)
-MIME-Version: 1.0
-References: <20231018155527.1015059-1-ojeda@kernel.org>
-In-Reply-To: <20231018155527.1015059-1-ojeda@kernel.org>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Wed, 18 Oct 2023 18:36:25 +0200
-Message-ID: <CANiq72=bEcVgwJ=Cyps1q09V0LYfooizR69fKJxswm=S=_FXhg@mail.gmail.com>
-Subject: Re: [PATCH] rust: docs: fix logo replacement
-To:     Miguel Ojeda <ojeda@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Wed, 18 Oct 2023 13:56:14 -0400
+Received: from mail-40134.protonmail.ch (mail-40134.protonmail.ch [185.70.40.134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42AE2116;
+        Wed, 18 Oct 2023 10:56:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+        s=id5jhg4t6jh75dlqjp6pot5zcy.protonmail; t=1697651770; x=1697910970;
+        bh=+Do60tFHTgD/yzVC6yohA+Xb+DeuzbVb/pyouLR43hE=;
+        h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+         Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+         Message-ID:BIMI-Selector;
+        b=LXdbYs+nAy09u7e3TbPcQo2fVpqLTtG1rOME0Ve16ipPFbaG1XVeNxSqmsqek1QpU
+         ErMTgCXBfV2e57cG3V0+htGeydsqb/fk135HE00P7rjfFyJwrN8kvFLsLiT2wxDG9b
+         HM4sK8FUsKPR2SQpWoNG1m1Ynp0BgeO8Tf2O9p+EHY1zU37qIRPBeVvhA1kzvIjgpf
+         Tmy1VMw8JggmdrPRLfkewxHrp8cWxnRIP6VI28yuyBgt1RYShb4Joc3HkoX7QlIVfG
+         tBPP8Lr0PItp1Z3KVJDNmLyg2JErVyhC9fQTmcGbOmuhuEdMCHeFAnxYL/YrJ8ISLW
+         ogx2NOXKEKIPA==
+Date:   Wed, 18 Oct 2023 17:55:59 +0000
+To:     Miguel Ojeda <ojeda@kernel.org>
+From:   Benno Lossin <benno.lossin@proton.me>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Carlos Bilbao <carlos.bilbao@amd.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
         Alex Gaynor <alex.gaynor@gmail.com>,
         Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-        Benno Lossin <benno.lossin@proton.me>,
+        =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
         Andreas Hindborg <a.hindborg@samsung.com>,
         Alice Ryhl <aliceryhl@google.com>,
+        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
         rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-        patches@lists.linux.dev, stable@vger.kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        patches@lists.linux.dev, Akira Yokosawa <akiyks@gmail.com>,
+        Martin Rodriguez Reboredo <yakoyoku@gmail.com>
+Subject: Re: [PATCH 1/2] docs: rust: update Rust docs output path
+Message-ID: <9zPimFJ-VQdlvUz-8ChRRxxHCJviKOt0uoclPqJzpAL9t_1s7NoPnTzCcHC-0XAbWKoRK_VLIN_duiv09Zrb0EW2rixLUv0cbxBIy6GsG_w=@proton.me>
+In-Reply-To: <20231018160145.1017340-1-ojeda@kernel.org>
+References: <20231018160145.1017340-1-ojeda@kernel.org>
+Feedback-ID: 71780778:user:proton
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H5,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -80,12 +61,15 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Oct 18, 2023 at 5:55=E2=80=AFPM Miguel Ojeda <ojeda@kernel.org> wro=
-te:
->
-> Thus update it to have the Linux logo again in the output.
+On 18.10.23 18:01, Miguel Ojeda wrote:
+> The Rust code documentation output path moved from `rust/doc` to
+> `Documentation/output/rust/rustdoc`, thus update the old reference.
+>=20
+> Fixes: 48fadf440075 ("docs: Move rustdoc output, cross-reference it")
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 
-Cc'ing docs and kbuild, by the way, in case they want to take a look.
+Reviewed-by: Benno Lossin <benno.lossin@proton.me>
 
+--=20
 Cheers,
-Miguel
+Benno
