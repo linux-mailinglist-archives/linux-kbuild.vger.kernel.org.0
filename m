@@ -2,32 +2,32 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CCCBF7CE568
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Oct 2023 19:56:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4742A7CE591
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Oct 2023 19:57:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229447AbjJRR4Q (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 18 Oct 2023 13:56:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56602 "EHLO
+        id S232589AbjJRR5d (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 18 Oct 2023 13:57:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231851AbjJRR4O (ORCPT
+        with ESMTP id S232566AbjJRR5Q (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 18 Oct 2023 13:56:14 -0400
-Received: from mail-40134.protonmail.ch (mail-40134.protonmail.ch [185.70.40.134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42AE2116;
-        Wed, 18 Oct 2023 10:56:12 -0700 (PDT)
+        Wed, 18 Oct 2023 13:57:16 -0400
+Received: from mail-0201.mail-europe.com (mail-0201.mail-europe.com [51.77.79.158])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6311A13A;
+        Wed, 18 Oct 2023 10:57:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-        s=id5jhg4t6jh75dlqjp6pot5zcy.protonmail; t=1697651770; x=1697910970;
-        bh=+Do60tFHTgD/yzVC6yohA+Xb+DeuzbVb/pyouLR43hE=;
+        s=protonmail; t=1697651829; x=1697911029;
+        bh=qg1FOCAW/ZNkhfLQUnB0m1HTCb5NKmRZ0oWQUjY7kLg=;
         h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
          Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
          Message-ID:BIMI-Selector;
-        b=LXdbYs+nAy09u7e3TbPcQo2fVpqLTtG1rOME0Ve16ipPFbaG1XVeNxSqmsqek1QpU
-         ErMTgCXBfV2e57cG3V0+htGeydsqb/fk135HE00P7rjfFyJwrN8kvFLsLiT2wxDG9b
-         HM4sK8FUsKPR2SQpWoNG1m1Ynp0BgeO8Tf2O9p+EHY1zU37qIRPBeVvhA1kzvIjgpf
-         Tmy1VMw8JggmdrPRLfkewxHrp8cWxnRIP6VI28yuyBgt1RYShb4Joc3HkoX7QlIVfG
-         tBPP8Lr0PItp1Z3KVJDNmLyg2JErVyhC9fQTmcGbOmuhuEdMCHeFAnxYL/YrJ8ISLW
-         ogx2NOXKEKIPA==
-Date:   Wed, 18 Oct 2023 17:55:59 +0000
+        b=dRboJLM1CQ7qc7Ug/4scXZzoRb9hNkHsaj9XBRiea/xBLmykdWwbhiKlXU76Dejed
+         VgYNU5sYzH4B9vsaN5hdD4+d+lAh80rnEv6cz39rsAKQmutnyzTZ4mtBY/lP3o2c/5
+         vUHggxRe6+ySvwT4+bhYAsZK2PHJDNsi7kBzDrq8EfjyngIrpl9HeeMCt9lcIhJxev
+         +hQvHB2F4xYhF5QNit1eV/3papqbnSyhxlERLL64JKpA/WMaAj8MPsg0+f3RXGEOJb
+         TcHo76ycjFm4JWw85xzXPrnec1QDUpdtkZ937skpFLg6OgKAyFIknAuF8GfLopu0Ol
+         ZrzHtuXnwUdqg==
+Date:   Wed, 18 Oct 2023 17:56:52 +0000
 To:     Miguel Ojeda <ojeda@kernel.org>
 From:   Benno Lossin <benno.lossin@proton.me>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
@@ -41,20 +41,22 @@ Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Alice Ryhl <aliceryhl@google.com>,
         linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
         rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-        patches@lists.linux.dev, Akira Yokosawa <akiyks@gmail.com>,
-        Martin Rodriguez Reboredo <yakoyoku@gmail.com>
-Subject: Re: [PATCH 1/2] docs: rust: update Rust docs output path
-Message-ID: <9zPimFJ-VQdlvUz-8ChRRxxHCJviKOt0uoclPqJzpAL9t_1s7NoPnTzCcHC-0XAbWKoRK_VLIN_duiv09Zrb0EW2rixLUv0cbxBIy6GsG_w=@proton.me>
-In-Reply-To: <20231018160145.1017340-1-ojeda@kernel.org>
-References: <20231018160145.1017340-1-ojeda@kernel.org>
+        patches@lists.linux.dev, Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Martin Rodriguez Reboredo <yakoyoku@gmail.com>,
+        Akira Yokosawa <akiyks@gmail.com>
+Subject: Re: [PATCH 2/2] kbuild: remove old Rust docs output path
+Message-ID: <c-GFV2p1lETIN6czmE3f0YFrusVTJ6kuiZXx_UA3FC_f6ORK3uGdQ5z_mCxLVkg4xktI79_Df3f-bTwhHUfzocoKJ8Go5TR4GRlcKxxMrrA=@proton.me>
+In-Reply-To: <20231018160145.1017340-2-ojeda@kernel.org>
+References: <20231018160145.1017340-1-ojeda@kernel.org> <20231018160145.1017340-2-ojeda@kernel.org>
 Feedback-ID: 71780778:user:proton
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H5,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS autolearn=unavailable
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -63,7 +65,11 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 On 18.10.23 18:01, Miguel Ojeda wrote:
 > The Rust code documentation output path moved from `rust/doc` to
-> `Documentation/output/rust/rustdoc`, thus update the old reference.
+> `Documentation/output/rust/rustdoc`. The `make cleandocs` target
+> takes care of cleaning it now since it is integrated with the rest
+> of the documentation.
+>=20
+> Thus remove the old reference.
 >=20
 > Fixes: 48fadf440075 ("docs: Move rustdoc output, cross-reference it")
 > Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
