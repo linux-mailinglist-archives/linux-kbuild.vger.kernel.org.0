@@ -2,55 +2,58 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 840597CE0EB
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Oct 2023 17:16:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DA917CE100
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Oct 2023 17:20:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231289AbjJRPQ6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 18 Oct 2023 11:16:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55430 "EHLO
+        id S231344AbjJRPUI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 18 Oct 2023 11:20:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59760 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230426AbjJRPQ6 (ORCPT
+        with ESMTP id S230391AbjJRPUH (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 18 Oct 2023 11:16:58 -0400
+        Wed, 18 Oct 2023 11:20:07 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 998E3F7;
-        Wed, 18 Oct 2023 08:16:54 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36980C433C9;
-        Wed, 18 Oct 2023 15:16:54 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76481EA;
+        Wed, 18 Oct 2023 08:20:04 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9464AC433C8;
+        Wed, 18 Oct 2023 15:20:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1697642214;
-        bh=zILWbUZWgWvkjL/qoUZPxk2/UcFo9fmw3gWAn9a6ZO8=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=FoCb92EQBPiCsDe0inxUw3yngrrSRrhveSk+kjQUZt3uFl+z1NQC9hOtN6oX2rWDq
-         2dMEdjWCMqD+cpbFWCXUJTlRTUf8hx+Tl7V5CvZenjkRbN+5NJSXwbgTjCCNZ0wjjJ
-         WBxi8886bypvtSXkrmJO4sHK/35tSYx6qwEgVrgZVVTE5ipfofWS2YkTF2R24NCY33
-         b6V/apLHxxv6v1I5opkeFbU39xjqP9NpzLHMlbRX6gMppwBEyUu5ZHYMFOdGiTvXvU
-         KRyqch8fdify8JALt2Bt5aP6XzxkmmfpZPYU5vFUOhW/XWVWqPd+4rHs5L0IOfoXDj
-         Y+1aGsG6kyVsg==
-Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-6c49f781855so4564492a34.3;
-        Wed, 18 Oct 2023 08:16:54 -0700 (PDT)
-X-Gm-Message-State: AOJu0YwTKp2AW9dNxVSar5ypJTfy7vkk8ZOojLKvYCElZ7rj/5BzIvH3
-        y4zeP919OE3Wd2w5L6nETzrKPX82g5QIswluS+w=
-X-Google-Smtp-Source: AGHT+IFsaVG/7I++liIoklqxvT40qhKnXCBD3ySPvbVE3LZUDsYsWhwBfvFxWLiEONQpuz+pflh2GaHm59+oRBBziJI=
-X-Received: by 2002:a05:6870:5cc9:b0:1e9:8d44:a5cf with SMTP id
- et9-20020a0568705cc900b001e98d44a5cfmr6090062oab.17.1697642213580; Wed, 18
- Oct 2023 08:16:53 -0700 (PDT)
-MIME-Version: 1.0
-References: <20231017103742.130927-1-masahiroy@kernel.org> <20231017103742.130927-4-masahiroy@kernel.org>
- <ZS6E3EA68GOjonB8@buildd.core.avm.de>
-In-Reply-To: <ZS6E3EA68GOjonB8@buildd.core.avm.de>
+        s=k20201202; t=1697642404;
+        bh=d9q2EGQopnbrrZB9hrsBcWEpKabaAuR6MB/YUqLsU4w=;
+        h=From:To:Cc:Subject:Date:From;
+        b=qWpvifiKtTK5o66piHOruftpghs50wXvOldPydTwAZWMgN9cLJfVLlvGl9Nucou7Q
+         ecBxT7h/Yv5+/t4yVhUiWVSYN2rBDIXXboM51HEDPFpgYttQUCpZdh7en0zSaTHw8E
+         6DyNmXSbBBt1qk2hmpZbB1eXVL2JdOlz+mbtMSfqgaQEaV4axi18xctWfmwJcwc+zu
+         xJI0epn7jgszwmZbLlESdaczmIe7PxrQUmRdpP3sY68RaoSAWPA7WB9shIl++7+0iY
+         ryu+JsPEw+Qu6jMHzajqLcdDgOltoj4CC1agv/doRuOoxHFL9MjV/+ieuT1TzsS8uO
+         IMS1ILXONw1VA==
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 19 Oct 2023 00:16:16 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS4x3DmozW0dhejyL3rt+YATHyVC5Ew_8Je89HMivci9A@mail.gmail.com>
-Message-ID: <CAK7LNAS4x3DmozW0dhejyL3rt+YATHyVC5Ew_8Je89HMivci9A@mail.gmail.com>
-Subject: Re: [PATCH 4/4] kbuild: refactor module BTF rule
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nicolas Schier <n.schier@avm.de>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Borislav Petkov <bp@alien8.de>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
         Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Nicolas Schier <nicolas@fjasle.eu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Nicholas Piggin <npiggin@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Thomas Gleixner <tglx@linutronix.de>, bpf@vger.kernel.org,
+        linux-mips@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linuxppc-dev@lists.ozlabs.org, x86@kernel.org
+Subject: [bpf-next PATCH v2 1/4] kbuild: remove ARCH_POSTLINK from module builds
+Date:   Thu, 19 Oct 2023 00:19:47 +0900
+Message-Id: <20231018151950.205265-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.40.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -61,109 +64,100 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Oct 17, 2023 at 9:58=E2=80=AFPM Nicolas Schier <n.schier@avm.de> wr=
-ote:
->
-> On Tue, Oct 17, 2023 at 07:37:42PM +0900, Masahiro Yamada wrote:
-> > newer_prereqs_except and if_changed_except are ugly hacks of the
-> > newer_prereqs and if_changed in scripts/Kbuild.include.
->
-> newer-prereqs
+The '%.ko' rule in arch/*/Makefile.postlink does nothing but call the
+'true' command.
 
-Yes.
+Remove the meaningless code.
 
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Reviewed-by: Nicolas Schier <n.schier@avm.de>
+---
 
->
-> >
-> > Remove.
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > ---
-> >
-> >  scripts/Makefile.modfinal | 23 +++++------------------
-> >  1 file changed, 5 insertions(+), 18 deletions(-)
-> >
-> > diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
-> > index 9fd7a26e4fe9..6ab10dba05c7 100644
-> > --- a/scripts/Makefile.modfinal
-> > +++ b/scripts/Makefile.modfinal
-> > @@ -19,6 +19,9 @@ vmlinux :=3D
-> >  ifdef CONFIG_DEBUG_INFO_BTF_MODULES
-> >  ifneq ($(wildcard vmlinux),)
-> >  vmlinux :=3D vmlinux
-> > +cmd_btf =3D ; \
->
-> while reading, I stumpled over this semicolon, but probably it's a good
-> reminder that cmd_btf is only a cmd extension.
+(no changes since v1)
 
+ arch/mips/Makefile.postlink    | 3 ---
+ arch/powerpc/Makefile.postlink | 3 ---
+ arch/riscv/Makefile.postlink   | 3 ---
+ arch/x86/Makefile.postlink     | 3 ---
+ scripts/Makefile.modfinal      | 5 +----
+ 5 files changed, 1 insertion(+), 16 deletions(-)
 
-A semicolon is needed as a command separator, but
-the trailing semicolon after the last command.
+diff --git a/arch/mips/Makefile.postlink b/arch/mips/Makefile.postlink
+index 34e3bd71f3b0..6cfdc149d3bc 100644
+--- a/arch/mips/Makefile.postlink
++++ b/arch/mips/Makefile.postlink
+@@ -31,9 +31,6 @@ ifeq ($(CONFIG_RELOCATABLE),y)
+ 	$(call if_changed,relocs)
+ endif
+ 
+-%.ko: FORCE
+-	@true
+-
+ clean:
+ 	@true
+ 
+diff --git a/arch/powerpc/Makefile.postlink b/arch/powerpc/Makefile.postlink
+index 1f860b3c9bec..ae5a4256b03d 100644
+--- a/arch/powerpc/Makefile.postlink
++++ b/arch/powerpc/Makefile.postlink
+@@ -35,9 +35,6 @@ ifdef CONFIG_RELOCATABLE
+ 	$(call if_changed,relocs_check)
+ endif
+ 
+-%.ko: FORCE
+-	@true
+-
+ clean:
+ 	rm -f .tmp_symbols.txt
+ 
+diff --git a/arch/riscv/Makefile.postlink b/arch/riscv/Makefile.postlink
+index a46fc578b30b..829b9abc91f6 100644
+--- a/arch/riscv/Makefile.postlink
++++ b/arch/riscv/Makefile.postlink
+@@ -36,9 +36,6 @@ ifdef CONFIG_RELOCATABLE
+ 	$(call if_changed,relocs_strip)
+ endif
+ 
+-%.ko: FORCE
+-	@true
+-
+ clean:
+ 	@true
+ 
+diff --git a/arch/x86/Makefile.postlink b/arch/x86/Makefile.postlink
+index 936093d29160..fef2e977cc7d 100644
+--- a/arch/x86/Makefile.postlink
++++ b/arch/x86/Makefile.postlink
+@@ -34,9 +34,6 @@ ifeq ($(CONFIG_X86_NEED_RELOCS),y)
+ 	$(call cmd,strip_relocs)
+ endif
+ 
+-%.ko: FORCE
+-	@true
+-
+ clean:
+ 	@rm -f $(OUT_RELOCS)/vmlinux.relocs
+ 
+diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
+index b3a6aa8fbe8c..8568d256d6fb 100644
+--- a/scripts/Makefile.modfinal
++++ b/scripts/Makefile.modfinal
+@@ -28,14 +28,11 @@ quiet_cmd_cc_o_c = CC [M]  $@
+ %.mod.o: %.mod.c FORCE
+ 	$(call if_changed_dep,cc_o_c)
+ 
+-ARCH_POSTLINK := $(wildcard $(srctree)/arch/$(SRCARCH)/Makefile.postlink)
+-
+ quiet_cmd_ld_ko_o = LD [M]  $@
+       cmd_ld_ko_o +=							\
+ 	$(LD) -r $(KBUILD_LDFLAGS)					\
+ 		$(KBUILD_LDFLAGS_MODULE) $(LDFLAGS_MODULE)		\
+-		-T scripts/module.lds -o $@ $(filter %.o, $^);		\
+-	$(if $(ARCH_POSTLINK), $(MAKE) -f $(ARCH_POSTLINK) $@, true)
++		-T scripts/module.lds -o $@ $(filter %.o, $^)
+ 
+ quiet_cmd_btf_ko = BTF [M] $@
+       cmd_btf_ko = 							\
+-- 
+2.40.1
 
-I usually prepend a semicolon to conditional commands.
-
-
->
-> > +     LLVM_OBJCOPY=3D"$(OBJCOPY)" $(PAHOLE) -J $(PAHOLE_FLAGS) --btf_ba=
-se vmlinux $@; \
-> > +     $(RESOLVE_BTFIDS) -b vmlinux $@
-> >  else
-> >  $(warning Skipping BTF generation due to unavailability of vmlinux)
-> >  endif
-> > @@ -41,27 +44,11 @@ quiet_cmd_ld_ko_o =3D LD [M]  $@
-> >        cmd_ld_ko_o +=3D                                                =
- \
-> >       $(LD) -r $(KBUILD_LDFLAGS)                                      \
-> >               $(KBUILD_LDFLAGS_MODULE) $(LDFLAGS_MODULE)              \
-> > -             -T scripts/module.lds -o $@ $(filter %.o, $^)
-> > +             -T scripts/module.lds -o $@ $(filter %.o, $^)           \
-> > +     $(cmd_btf)
-> >
-> > -quiet_cmd_btf_ko =3D BTF [M] $@
-> > -      cmd_btf_ko =3D                                                  =
- \
-> > -             LLVM_OBJCOPY=3D"$(OBJCOPY)" $(PAHOLE) -J $(PAHOLE_FLAGS) =
---btf_base vmlinux $@; \
-> > -             $(RESOLVE_BTFIDS) -b vmlinux $@
-> > -
-> > -# Same as newer-prereqs, but allows to exclude specified extra depende=
-ncies
-> > -newer_prereqs_except =3D $(filter-out $(PHONY) $(1),$?)
-> > -
-> > -# Same as if_changed, but allows to exclude specified extra dependenci=
-es
-> > -if_changed_except =3D $(if $(call newer_prereqs_except,$(2))$(cmd-chec=
-k),      \
-> > -     $(cmd);                                                          =
-    \
-> > -     printf '%s\n' 'savedcmd_$@ :=3D $(make-cmd)' > $(dot-target).cmd,=
- @:)
-> > -
-> > -# Re-generate module BTFs if either module's .ko or vmlinux changed
-> >  %.ko: %.o %.mod.o scripts/module.lds $(vmlinux) FORCE
-> >       +$(call if_changed_except,ld_ko_o,vmlinux)
->
-> This should probably be:
->
->   +$(call if_changed,ld_ko_o)
-
-
-Right. Thanks for catching it.
-
-
->
-> > -ifdef vmlinux
-> > -     +$(if $(newer-prereqs),$(call cmd,btf_ko))
-> > -endif
-> >
-> >  targets +=3D $(modules:%.o=3D%.ko) $(modules:%.o=3D%.mod.o)
-> >
-> > --
-> > 2.40.1
-> >
-
-
-
---=20
-Best Regards
-Masahiro Yamada
