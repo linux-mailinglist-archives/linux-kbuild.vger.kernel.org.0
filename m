@@ -2,59 +2,59 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB41F7CF883
-	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Oct 2023 14:15:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 256907CF828
+	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Oct 2023 14:05:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233125AbjJSMPy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 19 Oct 2023 08:15:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55086 "EHLO
+        id S1345551AbjJSMFQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 19 Oct 2023 08:05:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51230 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235357AbjJSMDZ (ORCPT
+        with ESMTP id S1345537AbjJSMEx (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 19 Oct 2023 08:03:25 -0400
+        Thu, 19 Oct 2023 08:04:53 -0400
 Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B028B182
-        for <linux-kbuild@vger.kernel.org>; Thu, 19 Oct 2023 05:03:09 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F4651FCC
+        for <linux-kbuild@vger.kernel.org>; Thu, 19 Oct 2023 05:03:56 -0700 (PDT)
 Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-        by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20231019120306euoutp01a394fde77920ac629d3c0353eb7f4180~PgJq5DGXG0126001260euoutp01Y
-        for <linux-kbuild@vger.kernel.org>; Thu, 19 Oct 2023 12:03:06 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20231019120306euoutp01a394fde77920ac629d3c0353eb7f4180~PgJq5DGXG0126001260euoutp01Y
+        by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20231019120353euoutp01701dcee22b6c790d7e15d5cf5198e642~PgKXBRrDK0288602886euoutp01_
+        for <linux-kbuild@vger.kernel.org>; Thu, 19 Oct 2023 12:03:53 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20231019120353euoutp01701dcee22b6c790d7e15d5cf5198e642~PgKXBRrDK0288602886euoutp01_
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1697716986;
-        bh=LpU5UTDD6kkn0qMxKSNmVh5Ejl9/sBb0jdJHEpZGTI4=;
+        s=mail20170921; t=1697717033;
+        bh=Pl2pglJ8vteCsuKaY+7utYmmg4JPu8Nl70f+8wtaZdQ=;
         h=From:To:CC:Subject:Date:In-Reply-To:References:From;
-        b=hOdIO8gPSSn8Yo2Er60fQoLfUw/QfNbfYF/pG2Kauc9ZsGE6HKEIMLLd3u+9TGg6f
-         qxTs8rrBdzkluUt1yxqOc7RsBfRub5CXTum5jM6HTUhy/XiGSg3/1WFgfZc55g03J/
-         144xQ7om7DeR2zsE9dcXf7wxE9N5GscaSKidpKuE=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
-        eucas1p1.samsung.com (KnoxPortal) with ESMTP id
-        20231019120306eucas1p1fe7f7431c7f471bd2c741c29e603cd7c~PgJqYxCq80765407654eucas1p1i;
-        Thu, 19 Oct 2023 12:03:06 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
-        eusmges3new.samsung.com (EUCPMTA) with SMTP id EA.19.37758.9FA11356; Thu, 19
-        Oct 2023 13:03:05 +0100 (BST)
+        b=gTYYynkpn9mYsvXRB4aKjQB7P+RJwpcZWIuqgOGon12qu+lhkblxA7FwI6GQi8/YY
+         iSkXk3n0IMwMd/uqAmOUNiw9ey9/ljzmJwudFNi3n2oqOST4wLiCeJe6oTPN0HuXeO
+         q0XbeyUOzUCLzsm0gHMreSmFt/bNZFETHlbAraDA=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+        20231019120353eucas1p2669f0cd91acbdf3258bb0db640d6fb92~PgKWqwaEx0934509345eucas1p23;
+        Thu, 19 Oct 2023 12:03:53 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+        eusmges2new.samsung.com (EUCPMTA) with SMTP id 96.81.11320.92B11356; Thu, 19
+        Oct 2023 13:03:53 +0100 (BST)
 Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
         eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-        20231019120305eucas1p13232bbcd5c6357f4d892ae1527e43447~PgJp-yO120789107891eucas1p1f;
-        Thu, 19 Oct 2023 12:03:05 +0000 (GMT)
+        20231019120353eucas1p1b523f24f9e6b7b2266d7e3fcb7562b43~PgKWL-HNI0542005420eucas1p1m;
+        Thu, 19 Oct 2023 12:03:53 +0000 (GMT)
 Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
         eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
-        20231019120305eusmtrp18877a9a0e2989cf58e25c2bc8880cc82~PgJp7yGQn3232332323eusmtrp1V;
-        Thu, 19 Oct 2023 12:03:05 +0000 (GMT)
-X-AuditID: cbfec7f5-7ffff7000002937e-08-65311af9f569
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
-        eusmgms1.samsung.com (EUCPMTA) with SMTP id 7C.C0.10549.9FA11356; Thu, 19
-        Oct 2023 13:03:05 +0100 (BST)
+        20231019120352eusmtrp1cbd462659d7b33ce018c20526cb28c3f~PgKWFWQe63276532765eusmtrp1q;
+        Thu, 19 Oct 2023 12:03:52 +0000 (GMT)
+X-AuditID: cbfec7f4-993ff70000022c38-99-65311b293796
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+        eusmgms1.samsung.com (EUCPMTA) with SMTP id 4E.E0.10549.82B11356; Thu, 19
+        Oct 2023 13:03:52 +0100 (BST)
 Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
-        eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-        20231019120305eusmtip13c260a0fd0204d287c92715637e2c27c~PgJpsodoE2779827798eusmtip1G;
-        Thu, 19 Oct 2023 12:03:05 +0000 (GMT)
+        eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+        20231019120352eusmtip2a76008e7ee2d0830c48a6ffb97cac334~PgKV2iJxw0457004570eusmtip2w;
+        Thu, 19 Oct 2023 12:03:52 +0000 (GMT)
 Received: from CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348) by
         CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348) with Microsoft SMTP
-        Server (TLS) id 15.0.1497.2; Thu, 19 Oct 2023 13:03:04 +0100
+        Server (TLS) id 15.0.1497.2; Thu, 19 Oct 2023 13:03:52 +0100
 Received: from CAMSVWEXC02.scsc.local ([::1]) by CAMSVWEXC02.scsc.local
         ([fe80::3c08:6c51:fa0a:6384%13]) with mapi id 15.00.1497.012; Thu, 19 Oct
-        2023 13:03:04 +0100
+        2023 13:03:52 +0100
 From:   Andreas Hindborg <a.hindborg@samsung.com>
 To:     Miguel Ojeda <ojeda@kernel.org>
 CC:     Masahiro Yamada <masahiroy@kernel.org>,
@@ -71,14 +71,17 @@ CC:     Masahiro Yamada <masahiroy@kernel.org>,
         "rust-for-linux@vger.kernel.org" <rust-for-linux@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "patches@lists.linux.dev" <patches@lists.linux.dev>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Martin Rodriguez Reboredo <yakoyoku@gmail.com>
-Subject: Re: [PATCH 1/2] docs: rust: update Rust docs output path
-Thread-Topic: [PATCH 1/2] docs: rust: update Rust docs output path
-Thread-Index: AQHaAdxzF0ONNLvru0SJFatPcIFbDLBQ89sA
-Date:   Thu, 19 Oct 2023 12:03:03 +0000
-Message-ID: <87wmviizv2.fsf@samsung.com>
-In-Reply-To: <20231018160145.1017340-1-ojeda@kernel.org>
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        "Nicolas Schier" <nicolas@fjasle.eu>,
+        Martin Rodriguez Reboredo <yakoyoku@gmail.com>,
+        Akira Yokosawa <akiyks@gmail.com>
+Subject: Re: [PATCH 2/2] kbuild: remove old Rust docs output path
+Thread-Topic: [PATCH 2/2] kbuild: remove old Rust docs output path
+Thread-Index: AQHaAdysR6IIS0NbkUKo+EtvDXfUhLBQ9AmA
+Date:   Thu, 19 Oct 2023 12:03:51 +0000
+Message-ID: <87sf66iztq.fsf@samsung.com>
+In-Reply-To: <20231018160145.1017340-2-ojeda@kernel.org>
 Accept-Language: en-US, en-GB
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -89,54 +92,55 @@ x-originating-ip: [106.210.248.240]
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrLKsWRmVeSWpSXmKPExsWy7djPc7o/pQxTDT5etrTYcyzL4u/s7ewW
-        J643sVh8uNbEanHjwn5mizVbGpksJvfNYrJ4cqCd0eLimdeMFgvblrBY/Nm1g8ni8q45bBYP
-        H9xgtVg5fzmjxeUTlxgt1j87zGyxYdlaRosrLe2sDkIerZf+snks6fzF5LFz1l12jwWbSj02
-        repk83ixeSajx+K+yawe39v3sHn0tG1i8vi8SS6AK4rLJiU1J7MstUjfLoEro3dpakEvZ8Xm
-        6xwNjA/Zuxg5OSQETCS2ft7PBmILCaxglLj+JLaLkQvI/sIoseb1XnYI5zOjxJ71JxhhOpbd
-        uguVWM4osbj5OQtEO1DV9lNMEIkzjBJ/DpxhhHBWMkqcnfoYbCGbgL7EtTXXmEFsEQFliYYD
-        r9hAipgFlrBJrJv/kxUkISzgKLH1zltWiCInidP/vkDZRhKN+z+ArWMRUJW4u+0/mM0roCHR
-        trQFbCingIXEx47NYLcyCshKPFr5C2wxs4C4xK0n85kgfhCUWDR7DzOELSbxb9dDNghbR+Ls
-        9SdQfxpIbF26jwXCVpbY/XkOC8QcPYkbU6ewQdjaEssWvmaGuEFQ4uTMJywgz0gIbOSS6JzX
-        BjSIA8hxkZh90QtijrDEq+NboCEvI3F6cg/LBEbtWUjOm4VkxSwkK2YhWbGAkWUVo3hqaXFu
-        emqxcV5quV5xYm5xaV66XnJ+7iZGYIo8/e/41x2MK1591DvEyMTBeIhRgoNZSYRX1cMgVYg3
-        JbGyKrUoP76oNCe1+BCjNAeLkjivaop8qpBAemJJanZqakFqEUyWiYNTqoGpjmeWs+QMUQ2r
-        Vz5a+Vemv2x1T5+lJTCnQl77qsGNGy5unyvOmAQeuxfM4zdL9rQbT43QW5+FQieOSSyYoX91
-        Sa5BiUjTn/Mi2aI7ioSl93OIe53NsMw8dCzj5PmQk+0FbtZWn1llpxtLcMxOfvFgd2vMWvaE
-        Ii82wU+PhO/6TokTUiwRWvH1ibTJo62F15f/DVRQ+abC5uovHOF8LUshb+GxYoWkl8JlJx58
-        rzn1fHJ33/1DR00efdnJtOXhOlWTM3pTjG+KBxisP/pcfvEvo5f2TDrVohM2XlPkPJCrM9/z
-        8KrIE7svXd7yUfvN7pr6YP3S7ybbn55M1b3/XMw3XTtmvdqBJaf93i0zfD1JiaU4I9FQi7mo
-        OBEA96rQSwAEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrDKsWRmVeSWpSXmKPExsVy+t/xu7o/pQxTDXa0SljsOZZl8Xf2dnaL
-        E9ebWCw+XGtitbhxYT+zxZotjUwWk/tmMVk8OdDOaHHxzGtGi4VtS1gs/uzawWRxedccNouH
-        D26wWqycv5zR4vKJS4wW658dZrbYsGwto8WVlnZWByGP1kt/2TyWdP5i8tg56y67x4JNpR6b
-        VnWyebzYPJPRY3HfZFaP7+172Dx62jYxeXzeJBfAFaVnU5RfWpKqkJFfXGKrFG1oYaRnaGmh
-        Z2RiqWdobB5rZWSqpG9nk5Kak1mWWqRvl6CX0bs0taCXs2LzdY4GxofsXYycHBICJhLLbt0F
-        srk4hASWMkpsn9DDDJGQkdj45SorhC0s8edaFxtE0UdGiQttN6GcM4wSJydPh3JWMkq0Hr7P
-        AtLCJqAvcW3NNbBRIgLKEg0HXoEVMQssYZNYd/IwWJGwgKPE1jtvWSGKnCRO//sCZRtJNO7/
-        AFbDIqAqcXfbfzCbV0BDom1pCzPEtm5GiRP9K9hAEpwCFhIfOzYzgtiMArISj1b+AvuOWUBc
-        4taT+UwQTwhILNlzHuo5UYmXj/9BPacjcfb6E0YI20Bi69J9LBC2ssTuz3NYIOboSdyYOoUN
-        wtaWWLbwNTPEQYISJ2c+YZnAKD0LybpZSFpmIWmZhaRlASPLKkaR1NLi3PTcYkO94sTc4tK8
-        dL3k/NxNjMBkt+3Yz807GOe9+qh3iJGJg/EQowQHs5IIr6qHQaoQb0piZVVqUX58UWlOavEh
-        RlNgIE1klhJNzgem27ySeEMzA1NDEzNLA1NLM2MlcV7Pgo5EIYH0xJLU7NTUgtQimD4mDk6p
-        BibZ9T/k399jPdET72+tftg+XrBce0co44yDBs9+5aWxiry6XeEceia4Xbj8xM9r1zMOzV0S
-        Zd4jpSJ312R7Z9bLC2qPriTNLv9vZHRIznhJ9+aS3odPJ8aVZk/YtvB7ysfWN801USJSl/gc
-        bLW2zvutrn/pxM172uarym53p7572dlt+nSC83bmogLXnZubL39S+7CkQzbQ0lTY6ZU9W9Ny
-        ASFuNv/bNYxvl70WOucd+3p6yrlJJ6X2zgt7qPox4faKt1ErH75LnfrlqXeAnOyUk6vXVkw+
-        r5QjJ5qWYmzRmjsp84LTrU3Xrit9P87rn7TAaO/Rj0E/tdr/sviVWjr8P1zP0vX9kqhi+YaY
-        nYeUWIozEg21mIuKEwEcOIRS/wMAAA==
-X-CMS-MailID: 20231019120305eucas1p13232bbcd5c6357f4d892ae1527e43447
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SbUxTZxTHfW5vb29Lai61k2dFIYGQoGzlrZtPFsbUSbxmWaJbdNm+uDpu
+        kK1QbAV1MZMC0vAiY2NMbNlsUSwlMFwtE8qLDJOCAzKhrrCaOiBtU2HxBdStaOlsL0v49jvn
+        /M/5n+fkITkiDSEh8wuPM6pCuSKBEOC/2AO/v74tNp1JC9q2oH775yiov85Do9NlOHrkLOOi
+        mds3OKjDqsFQQ50OQ54hLUCT44sAGSsv4+iFrQdDDlszgeZmZ7hIa/YS6FF9CEO+gVEuMl80
+        AeQYnQKoy3eTg65e6QToToWWu/MV+uxUkKBtw9cI+nLVCkb36tw82mAppi3tVQTtv3YB0Jfq
+        Grj0P9p+gq6ttGD0siVuf9QngqxcRpFfwqhSsz8VHK0q/ZNbpOOfHLQaQSno5VUDPgkpGfT/
+        XcOtBgJSRLUBOLvUgbHBEwADMyZOWCWilgFsevZeNSAjHW0PMlmNCcBv6kI4G7zU/PXtBMEG
+        4wB2V5jW5poBdIw5IqMIKhU6O5wRFlOJsHRoIdLBoYw8+MPEHAgXNlG74G/LQR4r2g0nu6e5
+        YW8xlQFv1UeF0ziVBNt8nUSYhVQydK0+x8LMpxC8+sAVaQXUVjhvXokwh4qBLs9FjH10NGzR
+        93NY3gxXbXMEy6/BiWkPYDkNdrcO4iwnwr7lZpydI4Uzjd8RLKfAK8ZFDrtDNLx1wbOm/0MA
+        55eS2XPtgeWuM2x6E1wYsa7dfQsca6jF60GKbt12unUOunUOunUOBoC3gximWF2Qx6gzCpkT
+        UrW8QF1cmCf9TFlgAS9/6djqyJMeYFp4LB0GGAmGASQ5CWJhEp3GiIS58lNfMirlYVWxglEP
+        g1gST4gRJuXGMyIqT36c+YJhihjV/1WM5EtKsa2XpmqeKjwuc46at3JP1hQ4Fnpr53xRSby+
+        Y+K2uevw18mDS973CfuAf7V3495zA1kbmivifM1+03PaMew8gPWLsxPTgzllkta6SuU+b6bY
+        674eLQzpZUmGPe80Lu24++73eo2pNeUs7+033U994/6bksBiRpSsR5M/9CJE7Wg8T6YeqY2m
+        WyYT263P5oDnxwPMR6eMRq01PrvCe/qO/6dfq6La++4pNp5sGXn1oLA8074r66t/a+pveMZP
+        l3947IQwAN2zmdtk5MO+3DhFr1t65FyyafeG+/s3H7KPGrY/hvcl84f2LvzcWUJ/LGpSnlF2
+        xX7gPM/vvGvI0bzx8GACrj4qT9/OUanl/wGmOjkIFAQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0xTZxjH855zenqQNTlgCe/AyyzDMdHSlsLeOmFs++DBDwZjsmwgKZ2c
+        AAot66FOd8mqGyCwkU7nEqqUdnKxnQwoolw6ZJUIBRcuOsqYkl06xmABSTFmTNhajkv49nsu
+        /+eWh8LDjWQUVaAtYfVaTaGE3EQMrw1M74mLlrOyzkU5ct0+hlYv3hCiQe8ZAj2cOCNAk6M3
+        cXT12mkMna82Y8jXVw7Q2J15gGxl9QR60t2Jobvdl0j0y8+TAlRu/51ED03/Ymjm20EBstc1
+        AXR3cByglplbOGptbAbo3iflgrQIpnR8lWS63e0kU1+xgjFd5gdCxuo0ME5HBcnMttcA5nL1
+        eQHzuNxFMp+WOTHG79yWEZop3afXGUrY5/J1XEmKJEuOFFK5CkkVSpVUnvhS9l5FkiQhdV8u
+        W1hwgtUnpOZI8yuMPwqKzSEne6/ZgBF0CSsBRUFaCa8sJFaCTVQ43QCgyeQjKkFIwL8Fti3/
+        IOB5M3wyUUnySUsA3v/YI+SNOwDOjVhx3rADeMvTti4n6QQ4cXUCD7KYjoHGvrl1OU7bhNA8
+        3CIMBjbTr8Ih/6qQT3oNjnV4BcGZxLQCekyhQTdBx8IrM81kkEV0HJxa+wfjm3UB2OO8iQUD
+        ITSCrQtT63UAvRX+al9ZZ5yOhFO+OozfgYb1rhGc5wj4529rT3fbDb/3+gDPMtjR0Pt0/xjY
+        479E8HWkcPLCFyTP8bDRNo/zA4VBT42PMIFo84Z25g0S8waJeYPECggHELMGriiviJNLOU0R
+        Z9DmSY/qipwg8IrXb//d3gksc0tSN8Ao4AaQwiViUSwjY8NFuZpT77F6nVpvKGQ5N0gKHOlz
+        PCriqC7wy9oStTxZliRXJqtkSarkREmkKL34rCacztOUsMdZtpjV/6/DqJAoI/bMMTGHD1xU
+        niP+EN0vVWeIL/iz3ti/03G9EL719a7Tpob3QabhganU63XUDh20Hm/K2O05tTPXkjaiztac
+        uLe/7lGMhODMzPRoc1ZdlS9tmaM+3IotgvltVnXtgcX5dOZd+ZJRYDly2ZHyna6AOjD0utoy
+        Glf2QWjCCzYytlZzcMtaVWPZ3sX+N3ush3pnv+nHi+N3nK0+HHnyyz6Dq2qHVbKSs6fjUFO0
+        c3lh+2eWmrTpoggiMTznp/GwzrS/slJB8lcuo03r8ttfrHiU0b90rq0zZRjkvvI8puBuHPlo
+        MKz18Xa1aeAd7WwfE5Men61sdLtfVvWPpWQ+e/htY0tg+HyNfBeu5zT/AUxh2agTBAAA
+X-CMS-MailID: 20231019120353eucas1p1b523f24f9e6b7b2266d7e3fcb7562b43
 X-Msg-Generator: CA
-X-RootMTR: 20231018160207eucas1p1db839e2eb9a2ad39013c08c0e6f4624e
+X-RootMTR: 20231018160211eucas1p20859b897fc44428db3ead0809c6d299c
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20231018160207eucas1p1db839e2eb9a2ad39013c08c0e6f4624e
-References: <CGME20231018160207eucas1p1db839e2eb9a2ad39013c08c0e6f4624e@eucas1p1.samsung.com>
-        <20231018160145.1017340-1-ojeda@kernel.org>
+X-CMS-RootMailID: 20231018160211eucas1p20859b897fc44428db3ead0809c6d299c
+References: <20231018160145.1017340-1-ojeda@kernel.org>
+        <CGME20231018160211eucas1p20859b897fc44428db3ead0809c6d299c@eucas1p2.samsung.com>
+        <20231018160145.1017340-2-ojeda@kernel.org>
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
         RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
-        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.6
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -147,32 +151,32 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 Miguel Ojeda <ojeda@kernel.org> writes:
 
 > The Rust code documentation output path moved from `rust/doc` to
-> `Documentation/output/rust/rustdoc`, thus update the old reference.
+> `Documentation/output/rust/rustdoc`. The `make cleandocs` target
+> takes care of cleaning it now since it is integrated with the rest
+> of the documentation.
+>
+> Thus remove the old reference.
 >
 > Fixes: 48fadf440075 ("docs: Move rustdoc output, cross-reference it")
 > Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+>
 
 Reviewed-by: Andreas Hindborg <a.hindborg@samsung.com>
 
-> ---
->  Documentation/rust/general-information.rst | 2 +-
+ ---
+>  Makefile | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/Documentation/rust/general-information.rst b/Documentation/r=
-ust/general-information.rst
-> index 49029ee82e55..081397827a7e 100644
-> --- a/Documentation/rust/general-information.rst
-> +++ b/Documentation/rust/general-information.rst
-> @@ -29,7 +29,7 @@ target with the same invocation used for compilation, e=
-.g.::
+> diff --git a/Makefile b/Makefile
+> index 373649c7374e..040018111f32 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -1474,7 +1474,7 @@ endif # CONFIG_MODULES
+>  # Directories & files removed with 'make clean'
+>  CLEAN_FILES +=3D vmlinux.symvers modules-only.symvers \
+>  	       modules.builtin modules.builtin.modinfo modules.nsdeps \
+> -	       compile_commands.json .thinlto-cache rust/test rust/doc \
+> +	       compile_commands.json .thinlto-cache rust/test \
+>  	       rust-project.json .vmlinux.objs .vmlinux.export.c
 > =20
->  To read the docs locally in your web browser, run e.g.::
-> =20
-> -	xdg-open rust/doc/kernel/index.html
-> +	xdg-open Documentation/output/rust/rustdoc/kernel/index.html
-> =20
->  To learn about how to write the documentation, please see coding-guideli=
-nes.rst.
-> =20
->
-> base-commit: 8a749fd1a8720d4619c91c8b6e7528c0a355c0aa
+>  # Directories & files removed with 'make mrproper'
