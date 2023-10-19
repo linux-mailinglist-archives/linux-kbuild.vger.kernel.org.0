@@ -2,145 +2,94 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 256907CF828
-	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Oct 2023 14:05:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4DA07D0211
+	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Oct 2023 20:50:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345551AbjJSMFQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 19 Oct 2023 08:05:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51230 "EHLO
+        id S1346428AbjJSSuQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 19 Oct 2023 14:50:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345537AbjJSMEx (ORCPT
+        with ESMTP id S1345159AbjJSSuP (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 19 Oct 2023 08:04:53 -0400
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F4651FCC
-        for <linux-kbuild@vger.kernel.org>; Thu, 19 Oct 2023 05:03:56 -0700 (PDT)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-        by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20231019120353euoutp01701dcee22b6c790d7e15d5cf5198e642~PgKXBRrDK0288602886euoutp01_
-        for <linux-kbuild@vger.kernel.org>; Thu, 19 Oct 2023 12:03:53 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20231019120353euoutp01701dcee22b6c790d7e15d5cf5198e642~PgKXBRrDK0288602886euoutp01_
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1697717033;
-        bh=Pl2pglJ8vteCsuKaY+7utYmmg4JPu8Nl70f+8wtaZdQ=;
-        h=From:To:CC:Subject:Date:In-Reply-To:References:From;
-        b=gTYYynkpn9mYsvXRB4aKjQB7P+RJwpcZWIuqgOGon12qu+lhkblxA7FwI6GQi8/YY
-         iSkXk3n0IMwMd/uqAmOUNiw9ey9/ljzmJwudFNi3n2oqOST4wLiCeJe6oTPN0HuXeO
-         q0XbeyUOzUCLzsm0gHMreSmFt/bNZFETHlbAraDA=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
-        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
-        20231019120353eucas1p2669f0cd91acbdf3258bb0db640d6fb92~PgKWqwaEx0934509345eucas1p23;
-        Thu, 19 Oct 2023 12:03:53 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
-        eusmges2new.samsung.com (EUCPMTA) with SMTP id 96.81.11320.92B11356; Thu, 19
-        Oct 2023 13:03:53 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
-        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-        20231019120353eucas1p1b523f24f9e6b7b2266d7e3fcb7562b43~PgKWL-HNI0542005420eucas1p1m;
-        Thu, 19 Oct 2023 12:03:53 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
-        eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
-        20231019120352eusmtrp1cbd462659d7b33ce018c20526cb28c3f~PgKWFWQe63276532765eusmtrp1q;
-        Thu, 19 Oct 2023 12:03:52 +0000 (GMT)
-X-AuditID: cbfec7f4-993ff70000022c38-99-65311b293796
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
-        eusmgms1.samsung.com (EUCPMTA) with SMTP id 4E.E0.10549.82B11356; Thu, 19
-        Oct 2023 13:03:52 +0100 (BST)
-Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
-        eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-        20231019120352eusmtip2a76008e7ee2d0830c48a6ffb97cac334~PgKV2iJxw0457004570eusmtip2w;
-        Thu, 19 Oct 2023 12:03:52 +0000 (GMT)
-Received: from CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348) by
-        CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348) with Microsoft SMTP
-        Server (TLS) id 15.0.1497.2; Thu, 19 Oct 2023 13:03:52 +0100
-Received: from CAMSVWEXC02.scsc.local ([::1]) by CAMSVWEXC02.scsc.local
-        ([fe80::3c08:6c51:fa0a:6384%13]) with mapi id 15.00.1497.012; Thu, 19 Oct
-        2023 13:03:52 +0100
-From:   Andreas Hindborg <a.hindborg@samsung.com>
-To:     Miguel Ojeda <ojeda@kernel.org>
-CC:     Masahiro Yamada <masahiroy@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Carlos Bilbao <carlos.bilbao@amd.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?iso-8859-1?Q?Bj=F6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-        Benno Lossin <benno.lossin@proton.me>,
-        Alice Ryhl <aliceryhl@google.com>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "rust-for-linux@vger.kernel.org" <rust-for-linux@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "patches@lists.linux.dev" <patches@lists.linux.dev>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        "Nicolas Schier" <nicolas@fjasle.eu>,
-        Martin Rodriguez Reboredo <yakoyoku@gmail.com>,
-        Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [PATCH 2/2] kbuild: remove old Rust docs output path
-Thread-Topic: [PATCH 2/2] kbuild: remove old Rust docs output path
-Thread-Index: AQHaAdysR6IIS0NbkUKo+EtvDXfUhLBQ9AmA
-Date:   Thu, 19 Oct 2023 12:03:51 +0000
-Message-ID: <87sf66iztq.fsf@samsung.com>
-In-Reply-To: <20231018160145.1017340-2-ojeda@kernel.org>
-Accept-Language: en-US, en-GB
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [106.210.248.240]
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+        Thu, 19 Oct 2023 14:50:15 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B826318D
+        for <linux-kbuild@vger.kernel.org>; Thu, 19 Oct 2023 11:50:10 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 2DD7721A9A;
+        Thu, 19 Oct 2023 18:50:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1697741409; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=1vodCvbeIpQ75LZbyQYZLBHMqc7+iilOylUz9Ax4Q14=;
+        b=vblQ6+ZYxA/q2WUr2vsppvaTK9TMpifh5Z8YcJ+DBcGljCmVYRqWROTj7bWw//8Cxr9zf2
+        vJ11rp0Y2mypcwqt1U5+10dsSCkNVBfqrgDiCUGKdPyx4TFsDTlECzaRReYjZnqerH7f6Z
+        9+WomWf/ysbqHT/39/aMz0TFkL9xZ4w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1697741409;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=1vodCvbeIpQ75LZbyQYZLBHMqc7+iilOylUz9Ax4Q14=;
+        b=EyXJ+qgGvsqikQqwBLEoz6MbtC6nGqq4oRH0FeOvoTXnwbT5AhdV9AfGsITcdivBfhwfPu
+        a2+/7j1y3+1GT6DQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A6191139C2;
+        Thu, 19 Oct 2023 18:50:08 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id eLV1GmB6MWVqBQAAMHmgww
+        (envelope-from <mpdesouza@suse.com>); Thu, 19 Oct 2023 18:50:08 +0000
+Date:   Thu, 19 Oct 2023 15:50:05 -0300
+From:   Marcos Paulo de Souza <mpdesouza@suse.de>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, mbenes@suse.cz
+Subject: Re: # Toplevel Makefile doesn't process module build correctly on
+ recursive make calls
+Message-ID: <b73okxdwey2s2pdjepb3tbrlk55utqjvnkrhkyx74bvm3tzvfy@kqxltdo7s2sz>
+References: <lp2gjgzwxvhluh7fpmmo2drhii7bxcrlvxacclfgsl4ycubjhc@jjq2jfvow4y2>
+ <CAK7LNATLv2KSWo0BnFGXi73GVdnvc1EX23TvTkKT1U-krgBnNQ@mail.gmail.com>
 MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SbUxTZxTHfW5vb29Lai61k2dFIYGQoGzlrZtPFsbUSbxmWaJbdNm+uDpu
-        kK1QbAV1MZMC0vAiY2NMbNlsUSwlMFwtE8qLDJOCAzKhrrCaOiBtU2HxBdStaOlsL0v49jvn
-        /M/5n+fkITkiDSEh8wuPM6pCuSKBEOC/2AO/v74tNp1JC9q2oH775yiov85Do9NlOHrkLOOi
-        mds3OKjDqsFQQ50OQ54hLUCT44sAGSsv4+iFrQdDDlszgeZmZ7hIa/YS6FF9CEO+gVEuMl80
-        AeQYnQKoy3eTg65e6QToToWWu/MV+uxUkKBtw9cI+nLVCkb36tw82mAppi3tVQTtv3YB0Jfq
-        Grj0P9p+gq6ttGD0siVuf9QngqxcRpFfwqhSsz8VHK0q/ZNbpOOfHLQaQSno5VUDPgkpGfT/
-        XcOtBgJSRLUBOLvUgbHBEwADMyZOWCWilgFsevZeNSAjHW0PMlmNCcBv6kI4G7zU/PXtBMEG
-        4wB2V5jW5poBdIw5IqMIKhU6O5wRFlOJsHRoIdLBoYw8+MPEHAgXNlG74G/LQR4r2g0nu6e5
-        YW8xlQFv1UeF0ziVBNt8nUSYhVQydK0+x8LMpxC8+sAVaQXUVjhvXokwh4qBLs9FjH10NGzR
-        93NY3gxXbXMEy6/BiWkPYDkNdrcO4iwnwr7lZpydI4Uzjd8RLKfAK8ZFDrtDNLx1wbOm/0MA
-        55eS2XPtgeWuM2x6E1wYsa7dfQsca6jF60GKbt12unUOunUOunUOBoC3gximWF2Qx6gzCpkT
-        UrW8QF1cmCf9TFlgAS9/6djqyJMeYFp4LB0GGAmGASQ5CWJhEp3GiIS58lNfMirlYVWxglEP
-        g1gST4gRJuXGMyIqT36c+YJhihjV/1WM5EtKsa2XpmqeKjwuc46at3JP1hQ4Fnpr53xRSby+
-        Y+K2uevw18mDS973CfuAf7V3495zA1kbmivifM1+03PaMew8gPWLsxPTgzllkta6SuU+b6bY
-        674eLQzpZUmGPe80Lu24++73eo2pNeUs7+033U994/6bksBiRpSsR5M/9CJE7Wg8T6YeqY2m
-        WyYT263P5oDnxwPMR6eMRq01PrvCe/qO/6dfq6La++4pNp5sGXn1oLA8074r66t/a+pveMZP
-        l3947IQwAN2zmdtk5MO+3DhFr1t65FyyafeG+/s3H7KPGrY/hvcl84f2LvzcWUJ/LGpSnlF2
-        xX7gPM/vvGvI0bzx8GACrj4qT9/OUanl/wGmOjkIFAQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0xTZxjH855zenqQNTlgCe/AyyzDMdHSlsLeOmFs++DBDwZjsmwgKZ2c
-        AAot66FOd8mqGyCwkU7nEqqUdnKxnQwoolw6ZJUIBRcuOsqYkl06xmABSTFmTNhajkv49nsu
-        /+eWh8LDjWQUVaAtYfVaTaGE3EQMrw1M74mLlrOyzkU5ct0+hlYv3hCiQe8ZAj2cOCNAk6M3
-        cXT12mkMna82Y8jXVw7Q2J15gGxl9QR60t2Jobvdl0j0y8+TAlRu/51ED03/Ymjm20EBstc1
-        AXR3cByglplbOGptbAbo3iflgrQIpnR8lWS63e0kU1+xgjFd5gdCxuo0ME5HBcnMttcA5nL1
-        eQHzuNxFMp+WOTHG79yWEZop3afXGUrY5/J1XEmKJEuOFFK5CkkVSpVUnvhS9l5FkiQhdV8u
-        W1hwgtUnpOZI8yuMPwqKzSEne6/ZgBF0CSsBRUFaCa8sJFaCTVQ43QCgyeQjKkFIwL8Fti3/
-        IOB5M3wyUUnySUsA3v/YI+SNOwDOjVhx3rADeMvTti4n6QQ4cXUCD7KYjoHGvrl1OU7bhNA8
-        3CIMBjbTr8Ih/6qQT3oNjnV4BcGZxLQCekyhQTdBx8IrM81kkEV0HJxa+wfjm3UB2OO8iQUD
-        ITSCrQtT63UAvRX+al9ZZ5yOhFO+OozfgYb1rhGc5wj4529rT3fbDb/3+gDPMtjR0Pt0/xjY
-        479E8HWkcPLCFyTP8bDRNo/zA4VBT42PMIFo84Z25g0S8waJeYPECggHELMGriiviJNLOU0R
-        Z9DmSY/qipwg8IrXb//d3gksc0tSN8Ao4AaQwiViUSwjY8NFuZpT77F6nVpvKGQ5N0gKHOlz
-        PCriqC7wy9oStTxZliRXJqtkSarkREmkKL34rCacztOUsMdZtpjV/6/DqJAoI/bMMTGHD1xU
-        niP+EN0vVWeIL/iz3ti/03G9EL719a7Tpob3QabhganU63XUDh20Hm/K2O05tTPXkjaiztac
-        uLe/7lGMhODMzPRoc1ZdlS9tmaM+3IotgvltVnXtgcX5dOZd+ZJRYDly2ZHyna6AOjD0utoy
-        Glf2QWjCCzYytlZzcMtaVWPZ3sX+N3ush3pnv+nHi+N3nK0+HHnyyz6Dq2qHVbKSs6fjUFO0
-        c3lh+2eWmrTpoggiMTznp/GwzrS/slJB8lcuo03r8ttfrHiU0b90rq0zZRjkvvI8puBuHPlo
-        MKz18Xa1aeAd7WwfE5Men61sdLtfVvWPpWQ+e/htY0tg+HyNfBeu5zT/AUxh2agTBAAA
-X-CMS-MailID: 20231019120353eucas1p1b523f24f9e6b7b2266d7e3fcb7562b43
-X-Msg-Generator: CA
-X-RootMTR: 20231018160211eucas1p20859b897fc44428db3ead0809c6d299c
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20231018160211eucas1p20859b897fc44428db3ead0809c6d299c
-References: <20231018160145.1017340-1-ojeda@kernel.org>
-        <CGME20231018160211eucas1p20859b897fc44428db3ead0809c6d299c@eucas1p2.samsung.com>
-        <20231018160145.1017340-2-ojeda@kernel.org>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/mixed; boundary="f3zuymrle5xnkkxa"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK7LNATLv2KSWo0BnFGXi73GVdnvc1EX23TvTkKT1U-krgBnNQ@mail.gmail.com>
+Authentication-Results: smtp-out1.suse.de;
+        none
+X-Spam-Level: 
+X-Spam-Score: -6.20
+X-Spamd-Result: default: False [-6.20 / 50.00];
+         ARC_NA(0.00)[];
+         RCVD_VIA_SMTP_AUTH(0.00)[];
+         BAYES_HAM(-3.00)[100.00%];
+         FROM_HAS_DN(0.00)[];
+         RCPT_COUNT_THREE(0.00)[3];
+         TO_DN_SOME(0.00)[];
+         TO_MATCH_ENVRCPT_ALL(0.00)[];
+         MIME_GOOD(-0.10)[multipart/mixed,text/plain,text/x-patch];
+         HAS_ATTACHMENT(0.00)[];
+         NEURAL_HAM_LONG(-3.00)[-1.000];
+         DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+         NEURAL_HAM_SHORT(-1.00)[-1.000];
+         FORGED_SENDER(0.30)[mpdesouza@suse.de,mpdesouza@suse.com];
+         MIME_TRACE(0.00)[0:+,1:+,2:+];
+         MID_RHS_NOT_FQDN(0.50)[];
+         RCVD_COUNT_TWO(0.00)[2];
+         FROM_NEQ_ENVFROM(0.10)[mpdesouza@suse.de,mpdesouza@suse.com];
+         RCVD_TLS_ALL(0.00)[]
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -148,35 +97,158 @@ List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
 
-Miguel Ojeda <ojeda@kernel.org> writes:
+--f3zuymrle5xnkkxa
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-> The Rust code documentation output path moved from `rust/doc` to
-> `Documentation/output/rust/rustdoc`. The `make cleandocs` target
-> takes care of cleaning it now since it is integrated with the rest
-> of the documentation.
->
-> Thus remove the old reference.
->
-> Fixes: 48fadf440075 ("docs: Move rustdoc output, cross-reference it")
-> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
->
+On Sat, Oct 14, 2023 at 05:35:55PM +0900, Masahiro Yamada wrote:
+> On Tue, Oct 10, 2023 at 5:43 AM Marcos Paulo de Souza <mpdesouza@suse.de> wrote:
+> >
+> > Hi all,
+> >
+> > I found an issue while moving the livepatch kselftest modules to be built on the
+> > fly, instead of building them on kernel building.
+> >
+> > If, for some reason, there is a recursive make invocation that starts from the
+> > top level Makefile and in the leaf Makefile it tries to build a module (using M=
+> > in the make invocation), it doesn't produce the module. This happens because the
+> > toplevel Makefile checks for M= only once. This is controlled by the
+> > sub_make_done variable, which is exported after checking the command line
+> > options are passed to the top level Makefile. Once this variable is set it's
+> > the M= setting is never checked again on the recursive call.
+> >
+> > This can be observed when cleaning the bpf kselftest dir. When calling
+> >
+> >         $ make TARGETS="bpf" SKIP_TARGETS="" kselftest-clean
+> >
+> > What happens:
+> >
+> >         1. It checks for some command line settings (like M=) was passed (it wasn't),
+> >         set some definitions and exports sub_make_done.
+> >
+> >         2. Jump into tools/testing/selftests/bpf, and calls the clean target.
+> >
+> >         3. The clean target is overwritten to remove some files and then jump to
+> >         bpf_testmod dir and call clean there
+> >
+> >         4. On bpf_testmod/Makefile, the clean target will execute
+> >                 $(Q)make -C $(KDIR) M=$(BPF_TESTMOD_DIR) clean
+> >
+> >         5. The KDIR is to toplevel dir. The top Makefile will check that sub_make_done was
+> >         already set, ignoring the M= setting.
+> >
+> >         6. As M= wasn't checked, KBUILD_EXTMOD isn't set, and the clean target applies
+> >         to the kernel as a whole, making it clean all generated code/objects and
+> >         everything.
+> >
+> > One way to avoid it is to call "unexport sub_make_done" on
+> > tools/testing/selftests/bpf/bpf_testmod/Makefile before processing the all
+> > target, forcing the toplevel Makefile to process the M=, producing the module
+> > file correctly.
+> >
+> > If the M=dir points to /lib/modules/.../build, then it fails with "m2c: No such
+> > file", which I already reported here[1]. At the time this problem was treated
+> > like a problem with kselftest infrastructure.
+> >
+> > Important: The process works fine if the initial make invocation is targeted to a
+> > different directory (using -C), since it doesn't goes through the toplevel
+> > Makefile, and sub_make_done variable is not set.
+> >
+> > I attached a minimal reproducer, that can be used to better understand the
+> > problem. The "make testmod" and "make testmod-clean" have the same effect that
+> > can be seem with the bpf kselftests. There is a unexport call commented on
+> > test-mods/Makefile, and once that is called the process works as expected.
+> >
+> > Is there a better way to fix this? Is this really a problem, or am I missing
+> > something?
+> 
+> 
+> Or, using KBUILD_EXTMOD will work too.
 
-Reviewed-by: Andreas Hindborg <a.hindborg@samsung.com>
+Yes, that works, only if set to /lib/modules:
 
- ---
->  Makefile | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Makefile b/Makefile
-> index 373649c7374e..040018111f32 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1474,7 +1474,7 @@ endif # CONFIG_MODULES
->  # Directories & files removed with 'make clean'
->  CLEAN_FILES +=3D vmlinux.symvers modules-only.symvers \
->  	       modules.builtin modules.builtin.modinfo modules.nsdeps \
-> -	       compile_commands.json .thinlto-cache rust/test rust/doc \
-> +	       compile_commands.json .thinlto-cache rust/test \
->  	       rust-project.json .vmlinux.objs .vmlinux.export.c
-> =20
->  # Directories & files removed with 'make mrproper'
+$ make kselftest TARGETS=bpf SKIP_TARGETS=""
+make[3]: Entering directory '/home/mpdesouza/git/linux/tools/testing/selftests/bpf'
+  MOD      bpf_testmod.ko
+warning: the compiler differs from the one used to build the kernel
+  The kernel was built by: gcc (SUSE Linux) 13.2.1 20230803 [revision cc279d6c64562f05019e1d12d0d825f9391b5553]
+  You are using:           gcc (SUSE Linux) 13.2.1 20230912 [revision b96e66fd4ef3e36983969fb8cdd1956f551a074b]
+  CC [M]  /home/mpdesouza/git/linux/tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.o
+  MODPOST /home/mpdesouza/git/linux/tools/testing/selftests/bpf/bpf_testmod/Module.symvers
+  CC [M]  /home/mpdesouza/git/linux/tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.mod.o
+  LD [M]  /home/mpdesouza/git/linux/tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.ko
+  BTF [M] /home/mpdesouza/git/linux/tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.ko
+Skipping BTF generation for /home/mpdesouza/git/linux/tools/testing/selftests/bpf/bpf_testmod/bpf_testmod.ko due to unavailability of vmlinux
+  BINARY   xdp_synproxy
+...
+
+But if we set the KBUILD_EXTMOD to toplevel Makefile, it fails with a different
+strange issue:
+
+$ make kselftest TARGETS=bpf SKIP_TARGETS=""
+  BINARY   urandom_read
+  MOD      bpf_testmod.ko
+m2c    -o scripts/Makefile.build -e scripts/Makefile.build scripts/Makefile.build.mod
+make[6]: m2c: No such file or directory
+make[6]: *** [<builtin>: scripts/Makefile.build] Error 127
+make[5]: *** [Makefile:1913: /home/mpdesouza/git/linux/tools/testing/selftests/bpf/bpf_testmod] Error 2
+make[4]: *** [Makefile:19: all] Error 2
+make[3]: *** [Makefile:229: /home/mpdesouza/git/linux/tools/testing/selftests/bpf/bpf_testmod.ko] Error 2
+make[3]: Leaving directory '/home/mpdesouza/git/linux/tools/testing/selftests/bpf'
+make[2]: *** [Makefile:175: all] Error 2
+make[1]: *** [/home/mpdesouza/git/linux/Makefile:1362: kselftest] Error 2
+
+I attached a patch that can reproduce the case where it works, and the case
+where it doesn't by changing the value of KDIR.
+
+I understand that KBUILD_EXTMOD, as the name implies, was designed to build
+"external" modules, and not ones that live inside kernel, but how could this be
+solved? For the sake of my initial about livepatch kselftests, KBUILD_EXTMOD
+will suffice, since we will target /lib/modules, but I would like to know what
+we can do in this case. Do you have other suggestions?
+
+Thanks in advance,
+  Marcos
+
+> 
+> 
+> 
+> 
+> 
+> --
+> Best Regards
+> Masahiro Yamada
+
+--f3zuymrle5xnkkxa
+Content-Type: text/x-patch; charset=us-ascii
+Content-Disposition: attachment; filename="bpfmod.diff"
+
+diff --git a/tools/testing/selftests/bpf/bpf_testmod/Makefile b/tools/testing/selftests/bpf/bpf_testmod/Makefile
+index 15cb36c4483a..1dce76f35405 100644
+--- a/tools/testing/selftests/bpf/bpf_testmod/Makefile
++++ b/tools/testing/selftests/bpf/bpf_testmod/Makefile
+@@ -1,5 +1,6 @@
+ BPF_TESTMOD_DIR := $(realpath $(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
+-KDIR ?= $(abspath $(BPF_TESTMOD_DIR)/../../../../..)
++#KDIR ?= $(abspath $(BPF_TESTMOD_DIR)/../../../../..)
++KDIR ?= /lib/modules/$(shell uname -r)/build
+ 
+ ifeq ($(V),1)
+ Q =
+@@ -12,9 +13,10 @@ MODULES = bpf_testmod.ko
+ obj-m += bpf_testmod.o
+ CFLAGS_bpf_testmod.o = -I$(src)
+ 
++export KBUILD_EXTMOD := $(BPF_TESTMOD_DIR)
++
+ all:
+-	+$(Q)make -C $(KDIR) M=$(BPF_TESTMOD_DIR) modules
++	+$(Q)make -C $(KDIR) modules
+ 
+ clean:
+-	+$(Q)make -C $(KDIR) M=$(BPF_TESTMOD_DIR) clean
+-
++	+$(Q)make -C $(KDIR) clean
+
+--f3zuymrle5xnkkxa--
