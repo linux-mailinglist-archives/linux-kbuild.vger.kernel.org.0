@@ -2,71 +2,65 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 512E17D1F19
-	for <lists+linux-kbuild@lfdr.de>; Sat, 21 Oct 2023 21:33:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 65F0F7D2472
+	for <lists+linux-kbuild@lfdr.de>; Sun, 22 Oct 2023 18:22:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229633AbjJUTdZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 21 Oct 2023 15:33:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57732 "EHLO
+        id S232524AbjJVQWi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 22 Oct 2023 12:22:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229478AbjJUTdY (ORCPT
+        with ESMTP id S232605AbjJVQWY (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 21 Oct 2023 15:33:24 -0400
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54E2611B;
-        Sat, 21 Oct 2023 12:33:19 -0700 (PDT)
-Received: by mail-ej1-x62a.google.com with SMTP id a640c23a62f3a-9c41e95efcbso282077866b.3;
-        Sat, 21 Oct 2023 12:33:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697916798; x=1698521598; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EhKBvEwFp6dPng7EMHTDKwHw0rg8boPI6MAVBy/sUeQ=;
-        b=aH2uS3cZctLbvBQCh1MKnA6x2ecVIVqLUhQ4lJhmM20tz+l8sTTVL4hpZRja+XgfQG
-         h09YVgbXdYSH1pdORA6n3JizFLdW7dg7X6EwNPQdZc4zpg5QwCN/YvoFjJBDAJBP6Afs
-         NAj6emWrK3yFYUTo0UsL3rl2wwWw3D8SqfJ4bIt6dMEwgEFPJMT5q/46YOIK8IidWEqs
-         v0ZWU2uFrbgrpOnjQorCA6sUs4S6kVQYkZ1l3mTOdbV+JjcjIfttpwIg0ZySYs79thEL
-         GL6qdwi+qBlL64Hi9KwyR2vnSerzGRpy9Z48aatCQbsClw6HDvoXDftT3QHAMFgcFHnY
-         wqjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697916798; x=1698521598;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EhKBvEwFp6dPng7EMHTDKwHw0rg8boPI6MAVBy/sUeQ=;
-        b=G4KRJvTYoFi3rm4rXIj3DJG1DcpJEGTJhLr3joii548Yyqh9qbqbtJI70iZCCEtIMX
-         PAV87dCNEG7SxX8OlZTdtdmcvUFDlsJlTCB36zBzNtg46tmEPwaDgVQu1MgOG4t6Mxf2
-         C88JVs6IQznmAsE1886Z1+WlocUK1bPLQWljj0hPrGYteAMowrFjMcu9F0GON9TApPTD
-         y9ZxmH9SHR7CPIYGTkh8SjN8C+UmztNdyfED60WoZHpdBpbWEI8OISCuwfpLBX2YdraE
-         tqewwBoDZHX/wJPgXuKDpOGMVlL658myQhzTs8RXveZYnCw1K6aK0f+cVKpuaZAKOzJT
-         3dng==
-X-Gm-Message-State: AOJu0YwarXgVXDITlaUipT6nkS5+30hntNlRnaS+GXTI1SKsnt3R6f77
-        zYSJfs73kCUXEX6+nFtiSvtqLsKD7Cd1V/VWDDU=
-X-Google-Smtp-Source: AGHT+IE5k3rQI3rL00mfGqc4OaA80pAQZr1jIxpO6M2c1lCkOomkJXj0Nd0XChSfc6S694CUjwuDf1zcU6RY1/9TctY=
-X-Received: by 2002:a17:906:dc89:b0:9bf:ad86:ece8 with SMTP id
- cs9-20020a170906dc8900b009bfad86ece8mr4252656ejc.25.1697916797534; Sat, 21
- Oct 2023 12:33:17 -0700 (PDT)
+        Sun, 22 Oct 2023 12:22:24 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29E2619BD;
+        Sun, 22 Oct 2023 09:22:02 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4424EC433BA;
+        Sun, 22 Oct 2023 16:22:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1697991722;
+        bh=EyY6Liyok0DHui9C4VISkQux2t3R8fPcaQ5dO9dxwAA=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=bGb3uP9OsVIlN+2R/fc6MSBPofWuRac66dz91Yx3zTQFh+IUTKsVw5UGuXQjcs1aN
+         OgWOMmUKOOYWAB0dOKYg8vOi+8ZMy2XjFXCfDfEEVXy+1kuOe7gpQM8TqaD1soOFjT
+         yHgFPWXqR//yjQPszWFoWZGn+sSOwA4mu6F5UmVZ3Crece0ABuhaWC/KMdiZIvW8/L
+         opZ9cK0w7+/ngO47KWnoZtg+nOOIbcTxZWY3fU3tY3+DehuQOevaV3SsLFu+2EGlyd
+         iTvPIcC4Fcj/vrpLeNZH44fgseOfKRyvoZ3qHVjH8D+9+MSHS9/DVGMOSS0PYHbv5y
+         bsG2PS2GYi8fQ==
+Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-6ce2bcb131fso1758265a34.1;
+        Sun, 22 Oct 2023 09:22:02 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yyd8RgSN20gqYuRU25l1VcaiwT+xLLU04mpVqKKYgWGG9QrYikz
+        Qom+MmGWSvt3E7QOzFqZDs7m1NxgyfoiJd53xT8=
+X-Google-Smtp-Source: AGHT+IFh2YRM97VqXOgn/xklDlMPFIckjOiqRen7B0reeS6WVLTJ4bVAnrYlwn54DePl+G4BKhCeBd0qthDgq+1bb8g=
+X-Received: by 2002:a05:6870:f212:b0:1e9:e975:4418 with SMTP id
+ t18-20020a056870f21200b001e9e9754418mr9011025oao.53.1697991721487; Sun, 22
+ Oct 2023 09:22:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20231018151950.205265-1-masahiroy@kernel.org> <20231018151950.205265-4-masahiroy@kernel.org>
- <ZTDlrkTXnkVN1cff@krava> <CAEf4BzZm4h4q6k9ZhuT5qiWC9PYA+c7XwVFd68iAq4mtMJ-qhw@mail.gmail.com>
- <CAK7LNAR2kKwbzdFxfVXDxsy8pfyQDCR-BN=zpbcZg0JS9RpsKQ@mail.gmail.com>
- <CAEf4BzbYwEFSNTFjJyhYmOOK5iwHjFAdcArkUbcQz5ntRvOOvA@mail.gmail.com> <CAK7LNAQxFgOpuCBYPSx5Z6aw5MtKzPL39XLUvZuUBSyRGnOZUg@mail.gmail.com>
-In-Reply-To: <CAK7LNAQxFgOpuCBYPSx5Z6aw5MtKzPL39XLUvZuUBSyRGnOZUg@mail.gmail.com>
-From:   Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Date:   Sat, 21 Oct 2023 12:33:05 -0700
-Message-ID: <CAEf4BzZqpqo3j33FkH3QJwezbJwarr1dXs4fCsp5So12_5MmTg@mail.gmail.com>
-Subject: Re: [bpf-next PATCH v2 4/4] kbuild: refactor module BTF rule
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Jiri Olsa <olsajiri@gmail.com>, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
+References: <20231006155739.246381-1-yakoyoku@gmail.com> <20231006155739.246381-2-yakoyoku@gmail.com>
+In-Reply-To: <20231006155739.246381-2-yakoyoku@gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Mon, 23 Oct 2023 01:21:24 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQhPRkSpBQcn44dPMmnBVR=aTxMpG3vS4-=FkgQ5T2PVQ@mail.gmail.com>
+Message-ID: <CAK7LNAQhPRkSpBQcn44dPMmnBVR=aTxMpG3vS4-=FkgQ5T2PVQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/1] scripts: Build per module Rust crates
+To:     Martin Rodriguez Reboredo <yakoyoku@gmail.com>
+Cc:     Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>, bpf@vger.kernel.org
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+        Benno Lossin <benno.lossin@proton.me>,
+        Andreas Hindborg <a.hindborg@samsung.com>,
+        Alice Ryhl <aliceryhl@google.com>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        rust-for-linux@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -75,135 +69,169 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Oct 21, 2023 at 4:38=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
+On Sat, Oct 7, 2023 at 12:57=E2=80=AFAM Martin Rodriguez Reboredo
+<yakoyoku@gmail.com> wrote:
 >
-> On Sat, Oct 21, 2023 at 5:52=E2=80=AFAM Andrii Nakryiko
-> <andrii.nakryiko@gmail.com> wrote:
-> >
-> > On Fri, Oct 20, 2023 at 12:03=E2=80=AFAM Masahiro Yamada <masahiroy@ker=
-nel.org> wrote:
-> > >
-> > > On Fri, Oct 20, 2023 at 7:55=E2=80=AFAM Andrii Nakryiko
-> > > <andrii.nakryiko@gmail.com> wrote:
-> > > >
-> > > > On Thu, Oct 19, 2023 at 1:15=E2=80=AFAM Jiri Olsa <olsajiri@gmail.c=
-om> wrote:
-> > > > >
-> > > > > On Thu, Oct 19, 2023 at 12:19:50AM +0900, Masahiro Yamada wrote:
-> > > > > > newer_prereqs_except and if_changed_except are ugly hacks of th=
-e
-> > > > > > newer-prereqs and if_changed in scripts/Kbuild.include.
-> > > > > >
-> > > > > > Remove.
-> > > > > >
-> > > > > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > > > > > ---
-> > > > > >
-> > > > > > Changes in v2:
-> > > > > >   - Fix if_changed_except to if_changed
-> > > > > >
-> > > > > >  scripts/Makefile.modfinal | 25 ++++++-------------------
-> > > > > >  1 file changed, 6 insertions(+), 19 deletions(-)
-> > > > > >
-> > > > > > diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfi=
-nal
-> > > > > > index 9fd7a26e4fe9..fc07854bb7b9 100644
-> > > > > > --- a/scripts/Makefile.modfinal
-> > > > > > +++ b/scripts/Makefile.modfinal
-> > > > > > @@ -19,6 +19,9 @@ vmlinux :=3D
-> > > > > >  ifdef CONFIG_DEBUG_INFO_BTF_MODULES
-> > > > > >  ifneq ($(wildcard vmlinux),)
-> > > > > >  vmlinux :=3D vmlinux
-> > > > > > +cmd_btf =3D ; \
-> > > > > > +     LLVM_OBJCOPY=3D"$(OBJCOPY)" $(PAHOLE) -J $(PAHOLE_FLAGS) =
---btf_base vmlinux $@; \
-> > > > > > +     $(RESOLVE_BTFIDS) -b vmlinux $@
-> > > > > >  else
-> > > > > >  $(warning Skipping BTF generation due to unavailability of vml=
-inux)
-> > > > > >  endif
-> > > > > > @@ -41,27 +44,11 @@ quiet_cmd_ld_ko_o =3D LD [M]  $@
-> > > > > >        cmd_ld_ko_o +=3D                                        =
-         \
-> > > > > >       $(LD) -r $(KBUILD_LDFLAGS)                               =
-       \
-> > > > > >               $(KBUILD_LDFLAGS_MODULE) $(LDFLAGS_MODULE)       =
-       \
-> > > > > > -             -T scripts/module.lds -o $@ $(filter %.o, $^)
-> > > > > > +             -T scripts/module.lds -o $@ $(filter %.o, $^)    =
-       \
-> > > > > > +     $(cmd_btf)
-> > > > > >
-> > > > > > -quiet_cmd_btf_ko =3D BTF [M] $@
-> > > > >
-> > > > > nit not sure it's intentional but we no longer display 'BTF [M] .=
-..ko' lines,
-> > > > > I don't mind not displaying that, but we should mention that in c=
-hangelog
-> > > > >
-> > > >
-> > > > Thanks for spotting this! I think those messages are useful and
-> > > > important to keep. Masahiro, is it possible to preserve them?
-> > >
-> > >
-> > >
-> > > No, I do not think so.
-> > >
-> >
-> > That's too bad, I think it's a useful one.
+> Enables compiling Rust crates as dependencies of kernel modules.
 >
+> When a composite object depends on an `.rlib` file, which by the way is
+> a current ar archive, Kbuild will compile it from its base Rust source
+> and link it.
 >
+> This makes possible to have Rust bindings for a subsystem that is
+> compiled as a module.
 >
-> I prioritize that the code is correct.
->
-
-Could you please also prioritize not regressing informativeness of a
-build log? With your changes it's not clear now if BTF was generated
-or not for a kernel module, while previously it was obvious and was
-easy to spot if for some reason BTF was not generated. I'd like to
-preserve this
-property, thank you.
-
-E.g, can we still have BTF generation as a separate command and do a
-separate $(call if_changed,btf_ko)? Or something along those lines.
-Would that work?
-
->
->
-> >
-> > > Your code is wrong.
-> > >
-> >
-> > Could be, but note the comment you are removing:
-> >
-> > # Re-generate module BTFs if either module's .ko or vmlinux changed
-> >
-> > BTF has to be re-generated not just when module .ko is regenerated,
-> > but also when the vmlinux image itself changes.
-> >
-> > I don't see where this is done with your changes. Can you please point
-> > it out explicitly?
->
->
->
-> That is too obvious; %.ko depends on $(vmlinux).
-
-Thank you for your gracious answer. We used to not rebuild module's
-.ko's when vmlinux didn't change (but we did regen BTFs), and that's
-why I was confused. Now we forcefully recompile modules, which is a
-change in behavior which would be nice to call out in the commit
-message.
+> Signed-off-by: Martin Rodriguez Reboredo <yakoyoku@gmail.com>
 
 
+I could not understand how this will work because
+there is no explanation how to use *.rlib in the later
+build steps.
+
+If I understand correctly, does this intend to link *.rlib
+as a part of modules?
+
+In C, there was a discussion about
+"that would be nice to be able to link static libraries",
+but we do not do it any more. [1]
+
+Following that discussion, linking libraries does not
+seem what we want to do.
+
+
+[1]: https://lore.kernel.org/lkml/20200106032324.3147-1-masahiroy@kernel.or=
+g/
+
+
+
+
+> ---
+>  Makefile               |  4 ++--
+>  scripts/Makefile.build | 10 +++++++++-
+>  scripts/Makefile.lib   | 19 +++++++++++++------
+>  3 files changed, 24 insertions(+), 9 deletions(-)
 >
+> diff --git a/Makefile b/Makefile
+> index 7d6be12e4c3e..7774c97e8aa0 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -283,7 +283,7 @@ no-compiler-targets :=3D $(no-dot-config-targets) ins=
+tall dtbs_install \
+>                         headers_install modules_install modules_sign kern=
+elrelease image_name
+>  no-sync-config-targets :=3D $(no-dot-config-targets) %install modules_si=
+gn kernelrelease \
+>                           image_name
+> -single-targets :=3D %.a %.i %.ko %.lds %.ll %.lst %.mod %.o %.rsi %.s %.=
+symtypes %/
+> +single-targets :=3D %.a %.i %.ko %.lds %.ll %.lst %.mod %.o %.rlib %.rsi=
+ %.s %.symtypes %/
 >
+>  config-build   :=3D
+>  mixed-build    :=3D
+> @@ -1919,7 +1919,7 @@ $(clean-dirs):
+>  clean: $(clean-dirs)
+>         $(call cmd,rmfiles)
+>         @find $(or $(KBUILD_EXTMOD), .) $(RCS_FIND_IGNORE) \
+> -               \( -name '*.[aios]' -o -name '*.rsi' -o -name '*.ko' -o -=
+name '.*.cmd' \
+> +               \( -name '*.[aios]' -o -name '*.rlib' -o -name '*.rsi' -o=
+ -name '*.ko' -o -name '.*.cmd' \
+>                 -o -name '*.ko.*' \
+>                 -o -name '*.dtb' -o -name '*.dtbo' \
+>                 -o -name '*.dtb.S' -o -name '*.dtbo.S' \
+> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+> index da37bfa97211..627010518b27 100644
+> --- a/scripts/Makefile.build
+> +++ b/scripts/Makefile.build
+> @@ -246,7 +246,9 @@ $(obj)/%.o: $(src)/%.c $(recordmcount_source) FORCE
+>  # To make this rule robust against "Argument list too long" error,
+>  # ensure to add $(obj)/ prefix by a shell command.
+>  cmd_mod =3D printf '%s\n' $(call real-search, $*.o, .o, -objs -y -m) | \
+> -       $(AWK) '!x[$$0]++ { print("$(obj)/"$$0) }' > $@
+> +       $(AWK) '!x[$$0]++ { print("$(obj)/"$$0) }' > $@ && \
+> +       printf '%s\n' $(call real-search, $*.rlib, .rlib, -objs -y -m) | =
+\
+> +       $(AWK) '!x[$$0]++ { print("--library=3D$(obj)/"$$0) }' >> $@
 >
-> %.ko: %.o %.mod.o scripts/module.lds $(vmlinux) FORCE
+>  $(obj)/%.mod: FORCE
+>         $(call if_changed,mod)
+> @@ -291,6 +293,12 @@ quiet_cmd_rustc_o_rs =3D $(RUSTC_OR_CLIPPY_QUIET) $(=
+quiet_modtag) $@
+>  $(obj)/%.o: $(src)/%.rs FORCE
+>         $(call if_changed_dep,rustc_o_rs)
 >
+> +quiet_cmd_rustc_rlib_rs =3D $(RUSTC_OR_CLIPPY_QUIET) $(quiet_modtag) $@
+> +      cmd_rustc_rlib_rs =3D $(rust_common_cmd) -Ccodegen-units=3D1 --emi=
+t=3Dlink=3D$@ $<
+> +
+> +$(obj)/%.rlib: $(src)/%.rs FORCE
+> +       $(call if_changed_dep,rustc_rlib_rs)
+> +
+>  quiet_cmd_rustc_rsi_rs =3D $(RUSTC_OR_CLIPPY_QUIET) $(quiet_modtag) $@
+>        cmd_rustc_rsi_rs =3D \
+>         $(rust_common_cmd) -Zunpretty=3Dexpanded $< >$@; \
+> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> index 68d0134bdbf9..6e8cfbad015d 100644
+> --- a/scripts/Makefile.lib
+> +++ b/scripts/Makefile.lib
+> @@ -53,14 +53,18 @@ multi-search =3D $(sort $(foreach m, $1, $(if $(call =
+suffix-search, $m, $2, $3 -),
+>  real-search =3D $(foreach m, $1, $(if $(call suffix-search, $m, $2, $3 -=
+), $(call suffix-search, $m, $2, $3), $m))
 >
+>  # If $(foo-objs), $(foo-y), $(foo-m), or $(foo-) exists, foo.o is a comp=
+osite object
+> -multi-obj-y :=3D $(call multi-search, $(obj-y), .o, -objs -y)
+> -multi-obj-m :=3D $(call multi-search, $(obj-m), .o, -objs -y -m)
+> +multi-obj-y :=3D $(call multi-search, $(obj-y), .o, -objs -y) \
+> +       $(call multi-search, $(obj-y), .rlib, -objs -y)
+> +multi-obj-m :=3D $(call multi-search, $(obj-m), .o, -objs -y -m) \
+> +       $(call multi-search, $(obj-m), .rlib, -objs -y -m)
+>  multi-obj-ym :=3D $(multi-obj-y) $(multi-obj-m)
 >
+>  # Replace multi-part objects by their individual parts,
+>  # including built-in.a from subdirectories
+> -real-obj-y :=3D $(call real-search, $(obj-y), .o, -objs -y)
+> -real-obj-m :=3D $(call real-search, $(obj-m), .o, -objs -y -m)
+> +real-obj-y :=3D $(call real-search, $(obj-y), .o, -objs -y) \
+> +       $(call real-search, $(obj-y), .rlib, -objs -y)
+> +real-obj-m :=3D $(call real-search, $(obj-m), .o, -objs -y -m) \
+> +       $(call real-search, $(obj-m), .rlib, -objs -y -m)
 >
+>  always-y +=3D $(always-m)
+>
+> @@ -107,7 +111,8 @@ endif
+>  # Finds the multi-part object the current object will be linked into.
+>  # If the object belongs to two or more multi-part objects, list them all=
+.
+>  modname-multi =3D $(sort $(foreach m,$(multi-obj-ym),\
+> -               $(if $(filter $*.o, $(call suffix-search, $m, .o, -objs -=
+y -m)),$(m:.o=3D))))
+> +               $(if $(filter $*.o, $(call suffix-search, $m, .o, -objs -=
+y -m)),$(m:.o=3D)) \
+> +               $(if $(filter $*.rlib, $(call suffix-search, $m, .rlib, -=
+objs -y -m)),$(m:.rlib=3D))))
+>
+>  __modname =3D $(or $(modname-multi),$(basetarget))
+>
+> @@ -210,7 +215,9 @@ _cpp_flags +=3D -I $(srctree)/$(src) -I $(objtree)/$(=
+obj)
+>  endif
+>  endif
+>
+> -part-of-module =3D $(if $(filter $(basename $@).o, $(real-obj-m)),y)
+> +part-of-module =3D                                             \
+> +       $(if $(or $(filter $(basename $@).o, $(real-obj-m)), \
+> +               $(filter $(basename $@).rlib, $(real-obj-m))),y)
+>  quiet_modtag =3D $(if $(part-of-module),[M],   )
+>
+>  modkern_cflags =3D                                          \
 > --
-> Best Regards
-> Masahiro Yamada
+> 2.42.0
+>
+
+
+--
+Best Regards
+Masahiro Yamada
