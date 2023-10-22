@@ -2,90 +2,135 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 035D17D24D2
-	for <lists+linux-kbuild@lfdr.de>; Sun, 22 Oct 2023 19:08:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A50D7D250D
+	for <lists+linux-kbuild@lfdr.de>; Sun, 22 Oct 2023 19:55:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231623AbjJVRIA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 22 Oct 2023 13:08:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53140 "EHLO
+        id S229500AbjJVRzH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 22 Oct 2023 13:55:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39202 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232488AbjJVRGi (ORCPT
+        with ESMTP id S229452AbjJVRzG (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 22 Oct 2023 13:06:38 -0400
+        Sun, 22 Oct 2023 13:55:06 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A3EF10C6;
-        Sun, 22 Oct 2023 10:06:31 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02796C433CB;
-        Sun, 22 Oct 2023 17:06:29 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE394E8;
+        Sun, 22 Oct 2023 10:55:04 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81347C433C7;
+        Sun, 22 Oct 2023 17:55:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1697994391;
-        bh=jurkImcIT4LPjZwhzZI7kbU4mAhyNYbhidKTnt+0gBM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=tH0rGjJC4uaKV5yrD8YmJwuh79Hzuz290OkCqRxKkySACmjziCEns+4wJpIsOdUvI
-         vwU0tvUrp+68CmJwwioLWLvhco++yaxJaZIZMB7vn/ue6jGIykzDIZCNS7s2iqbPuk
-         Df09konjcm4LHj3wJugH4ewZ9dk6FEBC8iltR239qnSeWx9ucIVJZeeaGHa2CmK728
-         4X8wPgGBChW9Zn9ZYbUSiiNrEzcGgqcr7U/rzs1osuW5jgLQLmPVoCwDtXdVrlhUhV
-         5/Q79oI5NOKo0+2MW7BKbAQausgbQkpLFh+WeRxT5y5cf0+J2HoInhhDgMIgTJmo3X
-         Pt+M5EqoBao5w==
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>
-Subject: [PATCH 10/10] modpost: squash ALL_{INIT,EXIT}_TEXT_SECTIONS to ALL_TEXT_SECTIONS
-Date:   Mon, 23 Oct 2023 02:06:13 +0900
-Message-Id: <20231022170613.2072838-10-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20231022170613.2072838-1-masahiroy@kernel.org>
-References: <20231022170613.2072838-1-masahiroy@kernel.org>
+        s=k20201202; t=1697997304;
+        bh=RwTN09OOF3+q/gCRFPuLyVsNrVbvI4OB4BmftOBJWOI=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=VtiyibkxKJoKyM6eoslEdsigREPvsClIaQ9leafyYX28oqTXmcECmeqTUGa9VdVBn
+         /7MOQ0C0u7NGyzki8EqJwzeRJTWhUU7ntYkAqRQMwYpAGx/tUn6SuqGVlsqnbryrYu
+         bpzCkPcCFdv+ZmvBHmCiFwdi9ylPToUCIjH8Svky51tf9APLWkMyRKrMCAie2fxPP/
+         OELmi38W1MdDGfckagp4AvKIRa4W7QBUphN2onI+BJm6K/vrgRtWwRct1wXvdcgBgf
+         N5a9bPGgxfrZELpY+EG0xNZlKuIzMoFytSNtJhV3wguycltbsPQSwYqvA1J31+32gW
+         pNUsXBKyNfkMw==
+Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-1dd5b98d9aeso1366456fac.0;
+        Sun, 22 Oct 2023 10:55:04 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yxhn+RbutDeQFXCIha2tHsEBdTRHnXQmIqwTwPxDoohQNI/kOhh
+        nG+xl/gDq8WiznDLSmYiBUf3rd/wmwZFK3OW0BI=
+X-Google-Smtp-Source: AGHT+IFflmnrimbwd1C7xDN6rUa/dxrRoHjp3Pgelkx9Qh4ZRdVW90MimT27fZV1TreUT1EH6GgU7k5aOq03PnX+akg=
+X-Received: by 2002:a05:6871:70d:b0:1e9:8a35:863d with SMTP id
+ f13-20020a056871070d00b001e98a35863dmr5649897oap.19.1697997303904; Sun, 22
+ Oct 2023 10:55:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20231020161217.255765-1-ak@linux.intel.com>
+In-Reply-To: <20231020161217.255765-1-ak@linux.intel.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Mon, 23 Oct 2023 02:54:27 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAR4Z3O+qZwhc6w7MGEbJsd6B8QZtz1p4_F7OO3jK+aigA@mail.gmail.com>
+Message-ID: <CAK7LNAR4Z3O+qZwhc6w7MGEbJsd6B8QZtz1p4_F7OO3jK+aigA@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: Add inline-account tool
+To:     Andi Kleen <ak@linux.intel.com>
+Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-ALL_INIT_TEXT_SECTIONS and ALL_EXIT_TEXT_SECTIONS are only used in
-the macro definition of ALL_TEXT_SECTIONS.
+On Sat, Oct 21, 2023 at 1:12=E2=80=AFAM Andi Kleen <ak@linux.intel.com> wro=
+te:
+>
+> A common cause of binary code bloat is excessive inlining. Traditional
+> tools (like nm --size-sort -t d) don't address that directly because
+> they only see the final functions, but don't know about inlines.
+>
+> This patch adds inline-account that makes it easy to track that down
+> by accounting code bytes to all functions visible in the debug informatio=
+n,
+> as well as code lines.
+>
+> Here are some examples:
+>
+> Show all inlines that increase code size by >1K in the core scheduler:
+>
+> $ inline-account.py --min-bytes=3D1000 kernel/sched/core.o
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
 
- scripts/mod/modpost.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index e4eb989dc764..f27ea0b8531d 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -795,11 +795,6 @@ static void check_section(const char *modname, struct elf_info *elf,
- 	".init.setup", ".init.rodata", ".meminit.rodata", \
- 	".init.data", ".meminit.data"
- 
--#define ALL_INIT_TEXT_SECTIONS \
--	".init.text", ".meminit.text"
--#define ALL_EXIT_TEXT_SECTIONS \
--	".exit.text"
--
- #define ALL_PCI_INIT_SECTIONS	\
- 	".pci_fixup_early", ".pci_fixup_header", ".pci_fixup_final", \
- 	".pci_fixup_enable", ".pci_fixup_resume", \
-@@ -819,7 +814,7 @@ static void check_section(const char *modname, struct elf_info *elf,
- 
- #define INIT_SECTIONS      ".init.*"
- 
--#define ALL_TEXT_SECTIONS  ALL_INIT_TEXT_SECTIONS, ALL_EXIT_TEXT_SECTIONS, \
-+#define ALL_TEXT_SECTIONS  ".init.text", ".meminit.text", ".exit.text", \
- 		TEXT_SECTIONS, OTHER_TEXT_SECTIONS
- 
- enum mismatch {
--- 
-2.40.1
+How to use this tool?
 
+I did not get any output.
+
+
+
+
+masahiro@zoe:~/workspace/linux-kbuild(a)$ ./scripts/inline-account.py
+--min-bytes=3D1000   kernel/sched/core.o
+Total code bytes seen 0
+
+Code bytes by functions:
+Function                                           Total          Avg   Num
+
+Code bytes by nearby source line blocks:
+prefix
+Line                                               Total
+masahiro@zoe:~/workspace/linux-kbuild(a)$ ./scripts/inline-account.py
+  kernel/sched/core.o
+Total code bytes seen 0
+
+Code bytes by functions:
+Function                                           Total          Avg   Num
+
+Code bytes by nearby source line blocks:
+prefix
+Line                                               Total
+masahiro@zoe:~/workspace/linux-kbuild(a)$ ./scripts/inline-account.py
+  lib/maple_tree.o
+Total code bytes seen 0
+
+Code bytes by functions:
+Function                                           Total          Avg   Num
+
+Code bytes by nearby source line blocks:
+prefix
+Line                                               Total
+
+
+
+
+
+
+
+I do not think this patch is mature enough
+regarding the coding style.
+
+Please polish the code.
+
+
+
+
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
