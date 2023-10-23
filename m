@@ -2,97 +2,81 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 92BBD7D4330
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Oct 2023 01:28:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B4ECD7D4541
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Oct 2023 04:00:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229568AbjJWX2T (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 23 Oct 2023 19:28:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43680 "EHLO
+        id S231916AbjJXCAs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 23 Oct 2023 22:00:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229482AbjJWX2S (ORCPT
+        with ESMTP id S231989AbjJXCAr (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 23 Oct 2023 19:28:18 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6085EDE;
-        Mon, 23 Oct 2023 16:28:17 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5F8AC433C7;
-        Mon, 23 Oct 2023 23:28:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1698103697;
-        bh=6P4ReWHS+myUk2YY4Rx+y5auSUtYo8uMw77/ieje5bU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=GQsh875nTbQaGdexfP8f74K5+5NSqOXtFMfRypG7GfzyOYu3bn8+DJr7lRfVKjhYn
-         VecaNSFENoWHQVEuXz7TMRBPUZBHtkY6HHI+8JHen60tfuU7/XMDMNihzrANDlk1pV
-         hUztLgpSLwWoMI4RP2cZv1iD/sfemiEgIUl35K8dDj05tR5wtmVRjoChkkTnWs41LF
-         2ZOfiSNZg6Z3sMNJw0mOp+STEWvKmm34fRoOLu5M73UYhy8YbPjjifiLSY0NpLc7Yz
-         R9rZaX7mYZNAX69lwdWTZ+3RGCPbjdePSJJ1QPyJ6lciAXkaHcY2JI8tU3kk6DWfVu
-         ETU/bK9Ded25g==
-Date:   Mon, 23 Oct 2023 16:28:14 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>
-Subject: Re: [PATCH 04/10] modpost: remove more symbol patterns from the
- section check whitelist
-Message-ID: <20231023232814.GA3514685@dev-arch.thelio-3990X>
-References: <20231022170613.2072838-1-masahiroy@kernel.org>
- <20231022170613.2072838-4-masahiroy@kernel.org>
+        Mon, 23 Oct 2023 22:00:47 -0400
+X-Greylist: delayed 12122 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 23 Oct 2023 19:00:43 PDT
+Received: from mail.tehinnovacii.ru (mail.tehinnovacii.ru [185.221.212.125])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 996E810C3;
+        Mon, 23 Oct 2023 19:00:41 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.tehinnovacii.ru (Postfix) with ESMTP id 75DB38454F767;
+        Mon, 23 Oct 2023 23:45:19 +0300 (MSK)
+Received: from mail.tehinnovacii.ru ([127.0.0.1])
+        by localhost (mail.tehinnovacii.ru [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id PTSgeIfWcAMU; Mon, 23 Oct 2023 23:45:19 +0300 (MSK)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.tehinnovacii.ru (Postfix) with ESMTP id 2FE888454F80C;
+        Mon, 23 Oct 2023 23:45:16 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.tehinnovacii.ru 2FE888454F80C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tehinnovacii.ru;
+        s=mail; t=1698093916;
+        bh=Ws5TcS6EV4V7aiUY6u9eol5cuGGKUQT0mSrLKF+Le3s=;
+        h=MIME-Version:To:From:Date:Message-Id;
+        b=samxurkQqDJ6Xsxp/BhcYdQtJCsLeTGCGzJGPvf9JWiTZUNYZyXcFYRA9Wlgf7LPl
+         li83AscKNHFyyoA825hnU0wi2VwhDsaNwS8MBXqxXUgtr3FjrtVniLs68JnQVMpbNP
+         GMXv2+MbXhW0OyOlu5lR0Fp8WarLR8BJ0wZC32hlleAc8TPErZc6nk4Dq5BHcQtUFL
+         ++uuERLcQez10t9snuBfc6dsKyQIBUlDahYm2700oRC9PddgjdygEPSE4CJ8risrhN
+         4SSbdBTrV5WeUSZ4JCFQvIG15fFaMIe3UkkBS9Xe1xZvkdC6esPLJNVDr3jI/yzhhO
+         7sW+uDWmY+evQ==
+Received: from mail.tehinnovacii.ru ([127.0.0.1])
+        by localhost (mail.tehinnovacii.ru [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id IcXgPq1LtTP1; Mon, 23 Oct 2023 23:45:16 +0300 (MSK)
+Received: from DESKTOP-0AG4O9B.lan (unknown [41.157.248.166])
+        by mail.tehinnovacii.ru (Postfix) with ESMTPSA id 710AA84AD3D73;
+        Mon, 23 Oct 2023 23:45:01 +0300 (MSK)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231022170613.2072838-4-masahiroy@kernel.org>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: Brauchen Sie einen Kredit?
+To:     Recipients <zp@tehinnovacii.ru>
+From:   Georg Johannes Proksch <zp@tehinnovacii.ru>
+Date:   Mon, 23 Oct 2023 13:44:01 -0700
+Reply-To: kreditschufadeutsch0@gmail.com
+Message-Id: <20231023204501.710AA84AD3D73@mail.tehinnovacii.ru>
+X-Spam-Status: No, score=4.3 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_BL_SPAMCOP_NET,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Oct 23, 2023 at 02:06:07AM +0900, Masahiro Yamada wrote:
-> These symbol patterns were whitelisted to allow them to reference to
-> functions with the old __devinit and __devexit annotations.
-> 
-> We stopped doing this a long time ago, for example, commit 6f039790510f
-> ("Drivers: scsi: remove __dev* attributes.") remove those annotations
-> from the scsi drivers.
-> 
-> Keep *_ops and *_console, otherwise they will really cause section
-> mismatch warnings.
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
-> 
->  scripts/mod/modpost.c | 8 +-------
->  1 file changed, 1 insertion(+), 7 deletions(-)
-> 
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index 792ba9da0f27..19b138664f75 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -997,13 +997,7 @@ static int secref_whitelist(const char *fromsec, const char *fromsym,
->  	/* symbols in data sections that may refer to any init/exit sections */
->  	if (match(fromsec, PATTERNS(DATA_SECTIONS)) &&
->  	    match(tosec, PATTERNS(ALL_INIT_SECTIONS, ALL_EXIT_SECTIONS)) &&
-> -	    match(fromsym, PATTERNS("*_template", // scsi uses *_template a lot
-> -				    "*_timer", // arm uses ops structures named _timer a lot
-> -				    "*_sht", // scsi also used *_sht to some extent
-> -				    "*_ops",
-> -				    "*_probe",
+Brauchen Sie einen Kredit?
+Tr=E4umen Sie davon, ein Unternehmen zu gr=FCnden?
+Sie ben=F6tigen Geld f=FCr Ihre Gesch=E4ftsidee, ben=F6tigen aber eine gro=
+=DFe Finanzierung?
+Besitzen Sie ein Unternehmen und m=F6chten expandieren?
 
-It seems like this one might still be needed. I see this when building
-certain arm64 configurations with clang.
+Wir bieten Gesch=E4ftskredite, Privatkredite, Projektkredite und Autokredit=
+e mit einem Zinssatz von 2 % an.
 
-  WARNING: modpost: vmlinux: section mismatch in reference: qcom_irq_combiner_probe+0x0 (section: .data) -> combiner_probe (section: .init.text)
+Vollst=E4ndiger Name:
+Kreditbetrag:
+Kreditlaufzeit:
+Land:
+Telefonnummer:
 
-> -				    "*_probe_one",
-> -				    "*_console")))
-> +	    match(fromsym, PATTERNS("*_ops", "*_console")))
->  		return 0;
->  
->  	/*
-> -- 
-> 2.40.1
-> 
+Herr Georg Johannes Proksch
+Kreditberater/Berater
