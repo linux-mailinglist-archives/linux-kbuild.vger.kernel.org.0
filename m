@@ -2,97 +2,84 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A2FE97D2784
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Oct 2023 02:34:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D61DD7D2788
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Oct 2023 02:45:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229623AbjJWAeJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 22 Oct 2023 20:34:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48614 "EHLO
+        id S229623AbjJWApt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 22 Oct 2023 20:45:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229574AbjJWAeI (ORCPT
+        with ESMTP id S229574AbjJWAps (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 22 Oct 2023 20:34:08 -0400
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 971AADC;
-        Sun, 22 Oct 2023 17:34:06 -0700 (PDT)
-Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-1c434c33ec0so15272105ad.3;
-        Sun, 22 Oct 2023 17:34:06 -0700 (PDT)
+        Sun, 22 Oct 2023 20:45:48 -0400
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73131E7;
+        Sun, 22 Oct 2023 17:45:46 -0700 (PDT)
+Received: by mail-pf1-x433.google.com with SMTP id d2e1a72fcca58-6b44befac59so2749685b3a.0;
+        Sun, 22 Oct 2023 17:45:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698021246; x=1698626046; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1698021946; x=1698626746; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=Yo6K0bHj9eDw2uCekwr3qyBicYCjBn6A7SQ6ir3tv1I=;
-        b=O1Whmw7m1zgny9j/yIbtZhgZVobvviwXEhNrDgFD2bzH/GvchcPBAR9ziFLUlwOQGe
-         DQGGlZqgxJVzS1KnN4zZOiEuFNPmDt4PYw7E6TREi8p1WG5Rb7b2Z4+sR9WlRZcz3fZQ
-         vSVsmABVpkz052hsjyB6e3A0lHwrowcHWw71u1/DwncJ6Rrhg+PpGJIJ2lSubXiVdCZZ
-         crZerQvr8REz1sWKKqwnpUNLtYZp7WE9IfqjYNZ8mzznB6w+qMPB1tcZp9WfVrVYQ730
-         xy/y2b7PcddXCM1MaB5SgX5EAO0qLJ51dvyK8Dafs2lIUX6uU1gph2xaLzOlYRyy3PYh
-         ATcA==
+        bh=GNPV+1khYPNoiNENeKlZWWTYFEnA3SXV9H6z2dWOrpM=;
+        b=kGwKMs3O/rMJtlcK+naL3fv7yiDiU5S4VOVzL6WHdcNNw3eUhSAHpKiPATv7ZlSfFA
+         q1Xs7CFFDcXXIEuu8afPF+Z+Rzr8XdxSIqJHFDJ+7pFd7rjSSIGGVrJ6JWodaAxrJr+U
+         64w+VQRqDvV9IGYE3iJWX/bfQxGcrduvdsStv5ifECe9O0U+oua+5LT087kjtaU+n3Vf
+         qGN6ExizYQFdswyg/BTwSa2sxbo88njsKQiTXCXuERk/AJPOwwvrCfNxKEyTwBY2z04Z
+         Uur4Tg1PbsD3Go1L7cPVIx77LaK+lDXgYYkln3r2eJweZ9pw1WPf49eCad8ija+BjIC5
+         l97A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698021246; x=1698626046;
+        d=1e100.net; s=20230601; t=1698021946; x=1698626746;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Yo6K0bHj9eDw2uCekwr3qyBicYCjBn6A7SQ6ir3tv1I=;
-        b=vlJqrAsinaiLPVASX8jtiHNb+P8jEJhflBKf6jGkd5UniCRpyB0HjjVj473iM6Mg+f
-         OC74y0kHBH5o+I9/SW2eEP1Mo3XBwTUZp8KkmhfGPdwEprG5+wt18PkMxMaUwIUECeWI
-         EM0UYUM2d2vxBA5fnjPYTs0cA0OQy+teO1WCcGOBhjPRO/YByALPtyjdcgEF3juihntJ
-         uKP7ekZeqSz4lLjEbY3CmX4wOc4PvxGEBvIyp+Qu8OAFSBe4UDyDLZcjJQ4ovVURYEI5
-         4CBNvO7GR+I5rsSWmERWs7ePTJrtMx2VTr1PCrpHgs7SQ607v1iZ3EPYvaVkV8a/nUhn
-         c2Kg==
-X-Gm-Message-State: AOJu0Yz2VXqJiqpFE/ARzQOcG2apj46/mFZzCikWWCgLotOetb3pTXtz
-        CxNMiwWZUKfC9bDpx2lO3pQ=
-X-Google-Smtp-Source: AGHT+IEAAaFlEybSobEedAEEMCSAunEL1L1R+SiHOzUgbtvIQrRdrP7M8FCJ6EQ7WlvROxpGsvhygg==
-X-Received: by 2002:a17:902:d48f:b0:1c9:dff6:58e8 with SMTP id c15-20020a170902d48f00b001c9dff658e8mr5395657plg.54.1698021245856;
-        Sun, 22 Oct 2023 17:34:05 -0700 (PDT)
+        bh=GNPV+1khYPNoiNENeKlZWWTYFEnA3SXV9H6z2dWOrpM=;
+        b=Ee19VpBVaS0VXYB7Jq6YtMKwpDabwQG5FV/FkAWYVWFqd4+160iEHsySXdw3H2VfTZ
+         RFtYiPIeDKDXitQ76+vtD/nfYy1QfN8+0h8BagtzNRC5TluMGdtNu8rf60E3r8LjQK27
+         10t7RwJ1Dci0h8Ux5avvqkjyFeAORmNBF2/4oQxwlcAoHJZzGaAtWZ+CNjpfGTAXTm1w
+         VnJIgrDwI26CozvUltmLeCemUk0X6by1iJO6QXGlCTmxldeffu5R/tJUTSBBmeyJi7ZQ
+         /XvOwDjfPcxah2ghKDIW9dIGYkvtNYJeDNnF+2RVVbUSCZAOtrYmRD49VpZSCFp5nYDe
+         JqOw==
+X-Gm-Message-State: AOJu0YyzAw42nkOUibFbNWgTL3lpil/Cz/pskWQ8WVsVMFFcs0N+A6t5
+        lOp+s6ouZySk//38JIT7Wdk=
+X-Google-Smtp-Source: AGHT+IG8y0/YzjOTgyS/PVsCvncSF0Ip6rs/IDzBlHqt63zc+/GbcNXSo38GekWUOS0KxlNw5D0ShA==
+X-Received: by 2002:a05:6a20:1592:b0:17a:e2b9:77e0 with SMTP id h18-20020a056a20159200b0017ae2b977e0mr9905847pzj.7.1698021945796;
+        Sun, 22 Oct 2023 17:45:45 -0700 (PDT)
 Received: from [192.168.54.90] (static.220.238.itcsa.net. [190.15.220.238])
-        by smtp.gmail.com with ESMTPSA id 2-20020a170902ee4200b001c73d829fb7sm4927232plo.15.2023.10.22.17.33.59
+        by smtp.gmail.com with ESMTPSA id k11-20020a056a00134b00b00692b2a63cccsm4963258pfu.210.2023.10.22.17.45.42
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 22 Oct 2023 17:34:05 -0700 (PDT)
-Message-ID: <4c926cff-a3f2-445e-9ca2-9effad423cb7@gmail.com>
-Date:   Sun, 22 Oct 2023 21:33:58 -0300
+        Sun, 22 Oct 2023 17:45:45 -0700 (PDT)
+Message-ID: <6c7a92d1-fe8e-4d05-854d-127b54907a46@gmail.com>
+Date:   Sun, 22 Oct 2023 21:45:41 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [bpf-next PATCH v2 2/4] kbuild: avoid too many execution of
- scripts/pahole-flags.sh
+Subject: Re: [RFC PATCH 1/1] scripts: Build per module Rust crates
 Content-Language: en-US
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Alan Maguire <alan.maguire@oracle.com>,
-        Nicolas Schier <n.schier@avm.de>,
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
         Miguel Ojeda <ojeda@kernel.org>,
         Alex Gaynor <alex.gaynor@gmail.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Alice Ryhl <aliceryhl@google.com>,
-        Andreas Hindborg <a.hindborg@samsung.com>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Benno Lossin <benno.lossin@proton.me>,
-        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Gary Guo <gary@garyguo.net>, Hao Luo <haoluo@google.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Martin KaFai Lau <martin.lau@linux.dev>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>, Song Liu <song@kernel.org>,
-        Stanislav Fomichev <sdf@google.com>,
         Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Yonghong Song <yonghong.song@linux.dev>, bpf@vger.kernel.org,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+        Benno Lossin <benno.lossin@proton.me>,
+        Andreas Hindborg <a.hindborg@samsung.com>,
+        Alice Ryhl <aliceryhl@google.com>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         rust-for-linux@vger.kernel.org
-References: <20231018151950.205265-1-masahiroy@kernel.org>
- <20231018151950.205265-2-masahiroy@kernel.org>
+References: <20231006155739.246381-1-yakoyoku@gmail.com>
+ <20231006155739.246381-2-yakoyoku@gmail.com>
+ <CAK7LNAQhPRkSpBQcn44dPMmnBVR=aTxMpG3vS4-=FkgQ5T2PVQ@mail.gmail.com>
 From:   Martin Rodriguez Reboredo <yakoyoku@gmail.com>
-In-Reply-To: <20231018151950.205265-2-masahiroy@kernel.org>
+In-Reply-To: <CAK7LNAQhPRkSpBQcn44dPMmnBVR=aTxMpG3vS4-=FkgQ5T2PVQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -100,60 +87,32 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 10/18/23 12:19, Masahiro Yamada wrote:
-> scripts/pahole-flags.sh is executed so many times.
+On 10/22/23 13:21, Masahiro Yamada wrote:
+> On Sat, Oct 7, 2023 at 12:57 AM Martin Rodriguez Reboredo
+> <yakoyoku@gmail.com> wrote:
+>>
+>> Enables compiling Rust crates as dependencies of kernel modules.
+>>
+>> When a composite object depends on an `.rlib` file, which by the way is
+>> a current ar archive, Kbuild will compile it from its base Rust source
+>> and link it.
+>>
+>> This makes possible to have Rust bindings for a subsystem that is
+>> compiled as a module.
+>>
+>> Signed-off-by: Martin Rodriguez Reboredo <yakoyoku@gmail.com>
 > 
-> You can check how many times it is invoked during the build, as follows:
 > 
->    $ cat <<EOF >> scripts/pahole-flags.sh
->    > echo "scripts/pahole-flags.sh was executed" >&2
->    > EOF
+> I could not understand how this will work because
+> there is no explanation how to use *.rlib in the later
+> build steps.
 > 
->    $ make -s
->    scripts/pahole-flags.sh was executed
->    scripts/pahole-flags.sh was executed
->    scripts/pahole-flags.sh was executed
->    scripts/pahole-flags.sh was executed
->    scripts/pahole-flags.sh was executed
->      [ lots of repeated lines suppressed... ]
-> 
-> This scripts is executed more than 20 times during the kernel build
-> because PAHOLE_FLAGS is a recursively expanded variable and exported
-> to sub-processes.
-> 
-> With the GNU Make >= 4.4, it is executed more than 60 times because
-> exported variables are also passed to other $(shell ) invocations.
-> Without careful coding, it is known to cause an exponential fork
-> explosion. [1]
-> 
-> The use of $(shell ) in an exported recursive variable is likely wrong
-> because $(shell ) is always evaluated due to the 'export' keyword, and
-> the evaluation can occur multiple times by the nature of recursive
-> variables.
-> 
-> Convert the shell script to a Makefile, which is included only when
-> CONFIG_DEBUG_INFO_BTF=y.
-> 
-> [1]: https://savannah.gnu.org/bugs/index.php?64746
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> Reviewed-by: Alan Maguire <alan.maguire@oracle.com>
-> Tested-by: Alan Maguire <alan.maguire@oracle.com>
-> Reviewed-by: Nicolas Schier <n.schier@avm.de>
-> Tested-by: Miguel Ojeda <ojeda@kernel.org>
-> Acked-by: Miguel Ojeda <ojeda@kernel.org>
-> ---
-> [...]
-> @@ -1002,6 +999,7 @@ KBUILD_CPPFLAGS += $(call cc-option,-fmacro-prefix-map=$(srctree)/=)
->   # include additional Makefiles when needed
->   include-y			:= scripts/Makefile.extrawarn
->   include-$(CONFIG_DEBUG_INFO)	+= scripts/Makefile.debug
-> +include-$(CONFIG_DEBUG_INFO_BTF)+= scripts/Makefile.btf
+> If I understand correctly, does this intend to link *.rlib
+> as a part of modules?
 
-Would've used a tab, for legibility sake.
+Yes, the purpose of this RFC is to link the *.rlib, its members
+specifically, as part of modules to avoid the scenario of having
+Rust bindings linked statically and their C counterparts dynamically.
 
->   include-$(CONFIG_KASAN)		+= scripts/Makefile.kasan
->   include-$(CONFIG_KCSAN)		+= scripts/Makefile.kcsan
->   include-$(CONFIG_KMSAN)		+= scripts/Makefile.kmsan
-> [...]
-Reviewed-by: Martin Rodriguez Reboredo <yakoyoku@gmail.com>
+I'll write a v2 that'll clarify its usage. I've made more progress
+locally and had run tests with success.
