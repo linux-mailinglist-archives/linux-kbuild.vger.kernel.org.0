@@ -2,81 +2,130 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B4ECD7D4541
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Oct 2023 04:00:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BC957D43D3
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Oct 2023 02:17:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231916AbjJXCAs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 23 Oct 2023 22:00:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53866 "EHLO
+        id S230284AbjJXARx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 23 Oct 2023 20:17:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36694 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231989AbjJXCAr (ORCPT
+        with ESMTP id S230421AbjJXARw (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 23 Oct 2023 22:00:47 -0400
-X-Greylist: delayed 12122 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 23 Oct 2023 19:00:43 PDT
-Received: from mail.tehinnovacii.ru (mail.tehinnovacii.ru [185.221.212.125])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 996E810C3;
-        Mon, 23 Oct 2023 19:00:41 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.tehinnovacii.ru (Postfix) with ESMTP id 75DB38454F767;
-        Mon, 23 Oct 2023 23:45:19 +0300 (MSK)
-Received: from mail.tehinnovacii.ru ([127.0.0.1])
-        by localhost (mail.tehinnovacii.ru [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id PTSgeIfWcAMU; Mon, 23 Oct 2023 23:45:19 +0300 (MSK)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.tehinnovacii.ru (Postfix) with ESMTP id 2FE888454F80C;
-        Mon, 23 Oct 2023 23:45:16 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.tehinnovacii.ru 2FE888454F80C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tehinnovacii.ru;
-        s=mail; t=1698093916;
-        bh=Ws5TcS6EV4V7aiUY6u9eol5cuGGKUQT0mSrLKF+Le3s=;
-        h=MIME-Version:To:From:Date:Message-Id;
-        b=samxurkQqDJ6Xsxp/BhcYdQtJCsLeTGCGzJGPvf9JWiTZUNYZyXcFYRA9Wlgf7LPl
-         li83AscKNHFyyoA825hnU0wi2VwhDsaNwS8MBXqxXUgtr3FjrtVniLs68JnQVMpbNP
-         GMXv2+MbXhW0OyOlu5lR0Fp8WarLR8BJ0wZC32hlleAc8TPErZc6nk4Dq5BHcQtUFL
-         ++uuERLcQez10t9snuBfc6dsKyQIBUlDahYm2700oRC9PddgjdygEPSE4CJ8risrhN
-         4SSbdBTrV5WeUSZ4JCFQvIG15fFaMIe3UkkBS9Xe1xZvkdC6esPLJNVDr3jI/yzhhO
-         7sW+uDWmY+evQ==
-Received: from mail.tehinnovacii.ru ([127.0.0.1])
-        by localhost (mail.tehinnovacii.ru [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id IcXgPq1LtTP1; Mon, 23 Oct 2023 23:45:16 +0300 (MSK)
-Received: from DESKTOP-0AG4O9B.lan (unknown [41.157.248.166])
-        by mail.tehinnovacii.ru (Postfix) with ESMTPSA id 710AA84AD3D73;
-        Mon, 23 Oct 2023 23:45:01 +0300 (MSK)
-Content-Type: text/plain; charset="iso-8859-1"
+        Mon, 23 Oct 2023 20:17:52 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A72DCD6E;
+        Mon, 23 Oct 2023 17:17:50 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D1E0C433C7;
+        Tue, 24 Oct 2023 00:17:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1698106670;
+        bh=3q2j031K9WR3kHW/1FF7tj1iuRrzBeX5gnG1AT3nR1Y=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=rpODxa8UECTDfdDLBH0YAEOpbwm+/Peb8lnyLaiZvd3DVnS/59wGWZBxB5ELOsQD9
+         JHmrPXxQgRqd61scOyaTnP70FnRo1z1sZumm4TF9pKpNk9teazVI+eJ4YPHFt2vZdS
+         d9ObW3lAzZmnwD6Lat1AznDB9VxLd3/E7oVAPj+X2As9JP0naxyxaCiR8bhU67EaZ0
+         GQDxV5gWqUfdkR49U6vrRomDmEap2TKVG6IG7mNhG2EHs1TBpw1kx9D/Urtw4dsbG1
+         h4DGceIPYrBNbMLcjfg9Ny1udZOcgqFRGZKJq/wS9NUkDZg0jlS01Ay3jB+0sUoDmh
+         6O6QpZhuoXaFw==
+Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-5832ea25c7eso1498193eaf.3;
+        Mon, 23 Oct 2023 17:17:50 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yxq3He2kctaS3f5PMHJKRYoLJLyhaf7yclYWKJild14IRfcMseM
+        /olWjfdR/kZeYpog9TXsjPzMi/CaRItQH49m890=
+X-Google-Smtp-Source: AGHT+IGgx+goDYUrN1p4jOx1XaLm71LBGdqMfgjX0cebhoBhJ3O1Fh6oWaEViaqPJey9ObCB46wjaySdsyltD1CqpXo=
+X-Received: by 2002:a05:6870:568a:b0:1d0:f5bd:6e9 with SMTP id
+ p10-20020a056870568a00b001d0f5bd06e9mr10166484oao.22.1698106669621; Mon, 23
+ Oct 2023 17:17:49 -0700 (PDT)
 MIME-Version: 1.0
+References: <20231002165750.1661-1-will@kernel.org> <20231002165750.1661-4-will@kernel.org>
+In-Reply-To: <20231002165750.1661-4-will@kernel.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 24 Oct 2023 09:17:13 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAR-8NA9dG-G6gU3XZnTgo41-5c2v74LsCo18HkGJ-7CbQ@mail.gmail.com>
+Message-ID: <CAK7LNAR-8NA9dG-G6gU3XZnTgo41-5c2v74LsCo18HkGJ-7CbQ@mail.gmail.com>
+Subject: Re: [PATCH v5 3/3] scripts/faddr2line: Skip over mapping symbols in
+ output from readelf
+To:     Will Deacon <will@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, kernel-team@android.com,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        John Stultz <jstultz@google.com>, linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: Brauchen Sie einen Kredit?
-To:     Recipients <zp@tehinnovacii.ru>
-From:   Georg Johannes Proksch <zp@tehinnovacii.ru>
-Date:   Mon, 23 Oct 2023 13:44:01 -0700
-Reply-To: kreditschufadeutsch0@gmail.com
-Message-Id: <20231023204501.710AA84AD3D73@mail.tehinnovacii.ru>
-X-Spam-Status: No, score=4.3 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_BL_SPAMCOP_NET,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Brauchen Sie einen Kredit?
-Tr=E4umen Sie davon, ein Unternehmen zu gr=FCnden?
-Sie ben=F6tigen Geld f=FCr Ihre Gesch=E4ftsidee, ben=F6tigen aber eine gro=
-=DFe Finanzierung?
-Besitzen Sie ein Unternehmen und m=F6chten expandieren?
+On Tue, Oct 3, 2023 at 1:58=E2=80=AFAM Will Deacon <will@kernel.org> wrote:
+>
+> Mapping symbols emitted in the readelf output can confuse the
+> 'faddr2line' symbol size calculation, resulting in the erroneous
+> rejection of valid offsets. This is especially prevalent when building
+> an arm64 kernel with CONFIG_CFI_CLANG=3Dy, where most functions are
+> prefixed with a 32-bit data value in a '$d.n' section. For example:
+>
+> 447538: ffff800080014b80   548 FUNC    GLOBAL DEFAULT    2 do_one_initcal=
+l
+>    104: ffff800080014c74     0 NOTYPE  LOCAL  DEFAULT    2 $x.73
+>    106: ffff800080014d30     0 NOTYPE  LOCAL  DEFAULT    2 $x.75
+>    111: ffff800080014da4     0 NOTYPE  LOCAL  DEFAULT    2 $d.78
+>    112: ffff800080014da8     0 NOTYPE  LOCAL  DEFAULT    2 $x.79
+>     36: ffff800080014de0   200 FUNC    LOCAL  DEFAULT    2 run_init_proce=
+ss
+>
+> Adding a warning to do_one_initcall() results in:
+>
+>   | WARNING: CPU: 0 PID: 1 at init/main.c:1236 do_one_initcall+0xf4/0x260
+>
+> Which 'faddr2line' refuses to accept:
+>
+> $ ./scripts/faddr2line vmlinux do_one_initcall+0xf4/0x260
+> skipping do_one_initcall address at 0xffff800080014c74 due to size mismat=
+ch (0x260 !=3D 0x224)
+> no match for do_one_initcall+0xf4/0x260
+>
+> Filter out these entries from readelf using a shell reimplementation of
+> is_mapping_symbol(), so that the size of a symbol is calculated as a
+> delta to the next symbol present in ksymtab.
+>
+> Cc: Josh Poimboeuf <jpoimboe@kernel.org>
+> Cc: John Stultz <jstultz@google.com>
+> Suggested-by: Masahiro Yamada <masahiroy@kernel.org>
+> Signed-off-by: Will Deacon <will@kernel.org>
+> ---
+>  scripts/faddr2line | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/scripts/faddr2line b/scripts/faddr2line
+> index 6b8206802157..587415a52b6f 100755
+> --- a/scripts/faddr2line
+> +++ b/scripts/faddr2line
+> @@ -179,6 +179,11 @@ __faddr2line() {
+>                         local cur_sym_elf_size=3D${fields[2]}
+>                         local cur_sym_name=3D${fields[7]:-}
+>
+> +                       # is_mapping_symbol(cur_sym_name)
+> +                       if [[ ${cur_sym_name} =3D~ ^(\.L|L0|\$) ]]; then
+> +                               continue
+> +                       fi
+> +
+>                         if [[ $cur_sym_addr =3D $sym_addr ]] &&
+>                            [[ $cur_sym_elf_size =3D $sym_elf_size ]] &&
+>                            [[ $cur_sym_name =3D $sym_name ]]; then
+> --
+> 2.42.0.582.g8ccd20d70d-goog
+>
 
-Wir bieten Gesch=E4ftskredite, Privatkredite, Projektkredite und Autokredit=
-e mit einem Zinssatz von 2 % an.
 
-Vollst=E4ndiger Name:
-Kreditbetrag:
-Kreditlaufzeit:
-Land:
-Telefonnummer:
+Reviewed-by: Masahiro Yamada <masahiroy@kernel.org>
 
-Herr Georg Johannes Proksch
-Kreditberater/Berater
+
+--=20
+Best Regards
+Masahiro Yamada
