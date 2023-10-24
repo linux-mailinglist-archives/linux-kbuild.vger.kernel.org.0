@@ -2,53 +2,61 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E1357D45EC
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Oct 2023 05:28:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A6167D49AC
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Oct 2023 10:15:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230213AbjJXD2e (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 23 Oct 2023 23:28:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59064 "EHLO
+        id S233160AbjJXIPl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 24 Oct 2023 04:15:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229688AbjJXD2d (ORCPT
+        with ESMTP id S232799AbjJXIPk (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 23 Oct 2023 23:28:33 -0400
-X-Greylist: delayed 4817 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 23 Oct 2023 20:28:28 PDT
-Received: from a3.inr.ru (b133.inr.ru [185.207.89.133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E63798
-        for <linux-kbuild@vger.kernel.org>; Mon, 23 Oct 2023 20:28:28 -0700 (PDT)
-Received: from al20.localdomain ([172.20.74.5] helo=al20.inr.ru)
-        by a3.inr.ru with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.96)
-        (envelope-from <gusev@inr.ru>)
-        id 1qv6pe-000rOt-26;
-        Tue, 24 Oct 2023 05:04:11 +0300
-Received: from localhost ([::1] helo=rcmail.inr.ru)
-        by al20.inr.ru with esmtp (Exim 4.92)
-        (envelope-from <gusev@inr.ru>)
-        id 1qv6mB-00053l-Kl; Tue, 24 Oct 2023 05:04:11 +0300
+        Tue, 24 Oct 2023 04:15:40 -0400
+Received: from mail.citycodes.pl (mail.citycodes.pl [158.255.215.195])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9683C8F
+        for <linux-kbuild@vger.kernel.org>; Tue, 24 Oct 2023 01:15:38 -0700 (PDT)
+Received: by mail.citycodes.pl (Postfix, from userid 1001)
+        id 5B4C62177C; Tue, 24 Oct 2023 10:15:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=citycodes.pl; s=mail;
+        t=1698135337; bh=fClkhHu/p6gIm8tbpvFwCqGX3kXIMdqjiuDdSiYGEkk=;
+        h=Date:From:To:Subject:From;
+        b=J4xv2WsSgeYlSikg4BvhIzCbC2ymDoqJtDZ30O56OEWjFR+PgtegmY3FdDqCoKXsL
+         BoCU0fHjV2tvqBh8Bu0VyymS9qGQfbQMiFpS1P/aTudv8iMzoPERLOVe21T3TzgxVn
+         NXXL3AKk0YZW8AhEV2ytKToT3xwWHfNDQZrMBgbe5EqcH+HJAIMHQ57Ey7TTCc/KPE
+         j4wRWri62NF4q8ZnFWfqshKlwI5p9B6nwAYNY5rcBzomvb+huVzp7ypoGyh3hUIl+h
+         0ivKx/hgO1cRWHZTGRxx7HbmK9737DgEDPz00dp/JFehhyz/jdsEO+7xoZtm42D3PL
+         5P7XjMaB8N8Xg==
+Received: by mail.citycodes.pl for <linux-kbuild@vger.kernel.org>; Tue, 24 Oct 2023 08:15:29 GMT
+Message-ID: <20231024084500-0.1.8a.l8k3.0.r1j48ca2q1@citycodes.pl>
+Date:   Tue, 24 Oct 2023 08:15:29 GMT
+From:   "Kamil Lasek" <kamil.lasek@citycodes.pl>
+To:     <linux-kbuild@vger.kernel.org>
+Subject: Wycena paneli fotowoltaicznych
+X-Mailer: mail.citycodes.pl
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Tue, 24 Oct 2023 03:04:11 +0100
-From:   Rowell Hambrick <gusev@inr.ru>
-To:     undisclosed-recipients:;
-Reply-To: rowellhambrick67@gmail.com
-User-Agent: Roundcube Webmail/1.4.2
-Message-ID: <44483b3b2ab3a018d441f2ad48a24634@inr.ru>
-X-Sender: gusev@inr.ru
-X-SA-Exim-Connect-IP: ::1
-X-SA-Exim-Mail-From: gusev@inr.ru
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-X-Spam-Level: ****
-X-Spam-Status: No, score=4.9 required=5.0 tests=BAYES_50,
-        FREEMAIL_FORGED_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,MISSING_SUBJECT,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on al20.inr.ru)
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Do you get my last mail
+Dzie=C5=84 dobry,
+
+dostrzegam mo=C5=BCliwo=C5=9B=C4=87 wsp=C3=B3=C5=82pracy z Pa=C5=84stwa f=
+irm=C4=85.
+
+=C5=9Awiadczymy kompleksow=C4=85 obs=C5=82ug=C4=99 inwestycji w fotowolta=
+ik=C4=99, kt=C3=B3ra obni=C5=BCa koszty energii elektrycznej.
+
+Czy s=C4=85 Pa=C5=84stwo zainteresowani weryfikacj=C4=85 wst=C4=99pnych p=
+ropozycji?
+
+
+Pozdrawiam,
+Kamil Lasek
