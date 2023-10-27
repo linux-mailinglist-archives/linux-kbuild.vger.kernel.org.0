@@ -2,204 +2,142 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 01B0F7D984E
-	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Oct 2023 14:32:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D9567D994D
+	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Oct 2023 15:07:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345740AbjJ0Mcy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 27 Oct 2023 08:32:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39118 "EHLO
+        id S231674AbjJ0NH1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 27 Oct 2023 09:07:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49758 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345689AbjJ0Mcx (ORCPT
+        with ESMTP id S231690AbjJ0NH0 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 27 Oct 2023 08:32:53 -0400
-Received: from icp-osb-irony-out4.external.iinet.net.au (icp-osb-irony-out4.external.iinet.net.au [203.59.1.220])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A4716121;
-        Fri, 27 Oct 2023 05:32:47 -0700 (PDT)
-Received: from gateway.pc5.atmailcloud.com (HELO mqr.i-0d0b1d0ec847e0a83) ([13.54.26.16])
-  by icp-osb-irony-out4.iinet.net.au with ESMTP; 27 Oct 2023 20:32:41 +0800
-Received: from CMR-KAKADU04.i-07b63d9bd7300620c by MQR.i-0d0b1d0ec847e0a83 with esmtps
-        (envelope-from <gregungerer@westnet.com.au>)
-        id 1qwM13-0000eV-0h;
-        Fri, 27 Oct 2023 12:32:41 +0000
-Received: from [203.87.15.156] (helo=[192.168.0.22])
-         by CMR-KAKADU04.i-07b63d9bd7300620c with esmtpsa
-        (envelope-from <gregungerer@westnet.com.au>)
-        id 1qwM12-00052V-2c;
-        Fri, 27 Oct 2023 12:32:40 +0000
-Message-ID: <d1b2a270-7b6b-4e32-8e68-9ee1a2ef6bdf@westnet.com.au>
-Date:   Fri, 27 Oct 2023 22:32:32 +1000
+        Fri, 27 Oct 2023 09:07:26 -0400
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFC82129;
+        Fri, 27 Oct 2023 06:07:22 -0700 (PDT)
+Received: by mail-pj1-x1035.google.com with SMTP id 98e67ed59e1d1-2800dfa0dd6so502186a91.1;
+        Fri, 27 Oct 2023 06:07:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1698412042; x=1699016842; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=VTm3HKZDTpXr+VU+k3Pt24Lznstzm73j1R8bDymP3Wk=;
+        b=GSGns7Tjf7fucutgLUDFZO19+W0BO6jw7n3tFqNSQ29uSY0TzPv3TqU2wnYcgogKpv
+         ceRSiHmBmXSV8P+uLRfSfuGTKdzX3Lvn8FsMDu/61EH6sVP8Llquqct6WP8W8oU8+FM4
+         xwEDeRNCo50y3CLtLzsUm2zLq7QsRgmdeMp7CuumYBE7UeqdB20n2kLAf32V32EVwpY5
+         CO49pFBLFO0m8UBpeP3ft/ggBQdk468bQZc5i+WOUa2FEMQ44Ui9WY9N1WUgospAZaky
+         SrFuveYxLfPH4Nr5lE3OlJAawHe0GSDfJLwH9RQalsSHfw3wzisHfKGCS9t6vLmpzw00
+         SZkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698412042; x=1699016842;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VTm3HKZDTpXr+VU+k3Pt24Lznstzm73j1R8bDymP3Wk=;
+        b=gTmqSvPn1s14mnDoHxjemozk4pMuFUrY0i5gIb0vS/wu2bhlD9e+V8KZl1WI6SrP6/
+         Upim8ku/AVZ4E5CPaJxHMwQWb3qcC2Rb/H0nQX+K01TkRe7ecNR1X9FGB63IiSInV4jS
+         +9gIDi+wQN6gtoxUHv6lmFlPgDG24SxzVEUAPk2aLVPuZxHhLS46/MYq/dtT3xqv6RTG
+         oPq1/vJw44RwsLmGfHiXYcROvIAstg1Ej6wjdDsvXIs36TzOVu1eZHYAJxf0LHUMkDtO
+         R2Bx82HS7izskXR7jnGJZ/pe8bZhBu+liVQfZD0WQhE6C7aIQSPflsz83n+wAQrR8St0
+         pb5w==
+X-Gm-Message-State: AOJu0Yxi5x9MAWd0nLsfmkG9y4Cy/Leqaw8REpaiOhs65dysjddLS8xV
+        jsldcGYaX8+onKfjp40tO2s=
+X-Google-Smtp-Source: AGHT+IF15Rq+MqE77offCAjFJQ4Arvms17cTaQ5u6/PwZPez6e80HdF17UnZWYX0sssEBRHCfqPf+w==
+X-Received: by 2002:a17:90a:357:b0:27d:5964:4eec with SMTP id 23-20020a17090a035700b0027d59644eecmr2455669pjf.1.1698412040581;
+        Fri, 27 Oct 2023 06:07:20 -0700 (PDT)
+Received: from [192.168.54.90] (static.220.238.itcsa.net. [190.15.220.238])
+        by smtp.gmail.com with ESMTPSA id p13-20020a17090a348d00b002609cadc56esm1326781pjb.11.2023.10.27.06.07.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Oct 2023 06:07:20 -0700 (PDT)
+Message-ID: <25158cfc-5a8f-4419-b1ca-08743277ee23@gmail.com>
+Date:   Fri, 27 Oct 2023 10:07:14 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 16/21] kbuild: generate KSYMTAB entries by modpost
+Subject: Re: [RFC PATCH v2 2/2] samples: rust: Add USB sample bindings
 Content-Language: en-US
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Pitre <npitre@baylibre.com>,
-        Nicolas Schier <nicolas@fjasle.eu>
-References: <20230514152739.962109-1-masahiroy@kernel.org>
- <20230514152739.962109-17-masahiroy@kernel.org>
- <1fac9d12-2ec2-4ccb-bb81-34f3fc34789e@westnet.com.au>
- <CAK7LNASQ_W5Yva5a4Xx8E2EYi-tN7x3OHgMFhK+93W+BiX1=9Q@mail.gmail.com>
-From:   Greg Ungerer <gregungerer@westnet.com.au>
-In-Reply-To: <CAK7LNASQ_W5Yva5a4Xx8E2EYi-tN7x3OHgMFhK+93W+BiX1=9Q@mail.gmail.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+        Benno Lossin <benno.lossin@proton.me>,
+        Andreas Hindborg <a.hindborg@samsung.com>,
+        Alice Ryhl <aliceryhl@google.com>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, rust-for-linux@vger.kernel.org
+References: <20231027003504.146703-1-yakoyoku@gmail.com>
+ <20231027003504.146703-3-yakoyoku@gmail.com>
+ <2023102737-juniper-trodden-afb4@gregkh>
+From:   Martin Rodriguez Reboredo <yakoyoku@gmail.com>
+In-Reply-To: <2023102737-juniper-trodden-afb4@gregkh>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Atmail-Id: gregungerer@westnet.com.au
-X-atmailcloud-spam-action: no action
-X-atmailcloud-spam-report: Action: no action
-X-Cm-Analysis: v=2.4 cv=ObheTDfY c=1 sm=1 tr=0 ts=653bade8 a=Qq7imNNZi2wOFNr6RxuhDA==:117 a=Qq7imNNZi2wOFNr6RxuhDA==:17 a=IkcTkHD0fZMA:10 a=bhdUkHdE2iEA:10 a=80-xaVIC0AIA:10 a=x7bEGLp0ZPQA:10 a=8-D65JXZAAAA:8 a=VwQbUJbxAAAA:8 a=FP58Ms26AAAA:8 a=ccNvEddV17TnxeFARSoA:9 a=QEXdDO2ut3YA:10 a=AjGcO6oz07-iQ99wixmX:22
-X-Cm-Envelope: MS4xfFWciNC6NEmBkMzFIH+fk7GHOEKKILrzX3envwWo2snlH95fADdIJk+VvwsMfhokVcSddSOo6qvarE5TLwl8CLT3pDPN4bqpQ+L/I5AkYBB0Y/QrRiHn yBLWXXf3Zij7Xlg9pyWxyrBth3sg8sQfa1RA5pxde/Pvz59rOqGZXXEITaSe3XJrwJ0FECGdclgXYQ==
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-
-On 27/10/23 19:56, Masahiro Yamada wrote:
-> On Fri, Oct 27, 2023 at 1:30 PM Greg Ungerer <gregungerer@westnet.com.au> wrote:
->>
->> Hi Masahiro,
->>
->> On 15/5/23 01:27, Masahiro Yamada wrote:
->>> Commit 7b4537199a4a ("kbuild: link symbol CRCs at final link, removing
->>> CONFIG_MODULE_REL_CRCS") made modpost output CRCs in the same way
->>> whether the EXPORT_SYMBOL() is placed in *.c or *.S.
->>>
->>> This commit applies a similar approach to the entire data structure of
->>> EXPORT_SYMBOL() for further cleanups. The EXPORT_SYMBOL() compilation
->>> is split into two stages.
->>>
->>> When a source file is compiled, EXPORT_SYMBOL() is converted into a
->>> dummy symbol in the .export_symbol section.
->>>
->>> For example,
->>>
->>>       EXPORT_SYMBOL(foo);
->>>       EXPORT_SYMBOL_NS_GPL(bar, BAR_NAMESPACE);
->>>
->>> will be encoded into the following assembly code:
->>>
->>>       .section ".export_symbol","a"
->>>       __export_symbol__foo:
->>>               .asciz ""
->>>               .balign 8
->>>               .quad foo
->>>       .previous
->>>
->>>       .section ".export_symbol","a"
->>>       __export_symbol_gpl_bar:
->>>               .asciz "BAR_NAMESPACE"
->>>               .balign 8
->>>               .quad bar
->>>       .previous
->>>
->>> They are just markers to tell modpost the name, license, and namespace
->>> of the symbols. They will be dropped from the final vmlinux and modules
->>> because the *(.export_symbol) will go into /DISCARD/ in the linker script.
->>>
->>> Then, modpost extracts all the information about EXPORT_SYMBOL() from the
->>> .export_symbol section, and generates C code:
->>>
->>>       KSYMTAB_FUNC(foo, "", "");
->>>       KSYMTAB_FUNC(bar, "_gpl", "BAR_NAMESPACE");
->>>
->>> KSYMTAB_FUNC() (or KSYMTAB_DATA() if it is data) is expanded to struct
->>> kernel_symbol that will be linked to the vmlinux or a module.
->>>
->>> With this change, EXPORT_SYMBOL() works in the same way for *.c and *.S
->>> files, providing the following benefits.
->>>
->>> [1] Deprecate EXPORT_DATA_SYMBOL()
->>>
->>> In the old days, EXPORT_SYMBOL() was only available in C files. To export
->>> a symbol in *.S, EXPORT_SYMBOL() was placed in a separate *.c file.
->>> arch/arm/kernel/armksyms.c is one example written in the classic manner.
->>>
->>> Commit 22823ab419d8 ("EXPORT_SYMBOL() for asm") removed this limitation.
->>> Since then, EXPORT_SYMBOL() can be placed close to the symbol definition
->>> in *.S files. It was a nice improvement.
->>>
->>> However, as that commit mentioned, you need to use EXPORT_DATA_SYMBOL()
->>> for data objects on some architectures.
->>>
->>> In the new approach, modpost checks symbol's type (STT_FUNC or not),
->>> and outputs KSYMTAB_FUNC() or KSYMTAB_DATA() accordingly.
->>>
->>> There are only two users of EXPORT_DATA_SYMBOL:
->>>
->>>     EXPORT_DATA_SYMBOL_GPL(empty_zero_page)    (arch/ia64/kernel/head.S)
->>>     EXPORT_DATA_SYMBOL(ia64_ivt)               (arch/ia64/kernel/ivt.S)
->>>
->>> They are transformed as follows and output into .vmlinux.export.c
->>>
->>>     KSYMTAB_DATA(empty_zero_page, "_gpl", "");
->>>     KSYMTAB_DATA(ia64_ivt, "", "");
->>>
->>> The other EXPORT_SYMBOL users in ia64 assembly are output as
->>> KSYMTAB_FUNC().
->>>
->>> EXPORT_DATA_SYMBOL() is now deprecated.
->>>
->>> [2] merge <linux/export.h> and <asm-generic/export.h>
->>>
->>> There are two similar header implementations:
->>>
->>>     include/linux/export.h        for .c files
->>>     include/asm-generic/export.h  for .S files
->>>
->>> Ideally, the functionality should be consistent between them, but they
->>> tend to diverge.
->>>
->>> Commit 8651ec01daed ("module: add support for symbol namespaces.") did
->>> not support the namespace for *.S files.
->>>
->>> This commit shifts the essential implementation part to C, which supports
->>> EXPORT_SYMBOL_NS() for *.S files.
->>>
->>> <asm/export.h> and <asm-generic/export.h> will remain as a wrapper of
->>> <linux/export.h> for a while.
->>>
->>> They will be removed after #include <asm/export.h> directives are all
->>> replaced with #include <linux/export.h>.
->>>
->>> [3] Implement CONFIG_TRIM_UNUSED_KSYMS in one-pass algorithm (by a later commit)
->>>
->>> When CONFIG_TRIM_UNUSED_KSYMS is enabled, Kbuild recursively traverses
->>> the directory tree to determine which EXPORT_SYMBOL to trim. If an
->>> EXPORT_SYMBOL turns out to be unused by anyone, Kbuild begins the
->>> second traverse, where some source files are recompiled with their
->>> EXPORT_SYMBOL() tuned into a no-op.
->>>
->>> We can do this better now; modpost can selectively emit KSYMTAB entries
->>> that are really used by modules.
->>>
->>> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
->>
->> This breaks building kernels with an m68k-uclinux-gcc toolchain that have
->> modules configured. Before this change they built and ran fine.
->> They build and run fine if CONFIG_MODULES is not set.
->>
->> A few hundred errors like this spew out:
->>
->>       scripts/mod/modpost -o Module.symvers -T modules.order vmlinux.o
->>       ERROR: modpost: vmlinux: .export_symbol section references '', but it does not seem to be an export symbol
->>       ERROR: modpost: vmlinux: .export_symbol section references '', but it does not seem to be an export symbol
->>       ERROR: modpost: vmlinux: .export_symbol section references '', but it does not seem to be an export symbol
->>       ...
+On 10/27/23 04:15, Greg Kroah-Hartman wrote:
+> On Thu, Oct 26, 2023 at 09:34:51PM -0300, Martin Rodriguez Reboredo wrote:
+>> [...]
+>> +
+>> +config USB_RUST
+>> +	bool "Rust USB bindings"
+>> +	depends on USB && RUST
+>> +	default n
 > 
+> Nit, "n" is the default, this line is not needed.
 > 
+> Also, if you want to get really picky, _which_ USB is this for, the
+> "host" apis (you plug a USB device into a Linux maching), or the
+> "gadget" apis (i.e. Linux is running in the device that you plug into a
+> USB host)?  Linux supports both :)
+
+Nice one! I'll probably target host APIs as of now due to what I have in
+my hands.
+
+>> +	help
+>> +	  Enables Rust bindings for USB.
+>> [...]
+>> +//! Rust USB sample.
+>> +
+>> +use kernel::prelude::*;
+>> +
+>> +module! {
+>> +    type: UsbSimple,
+>> +    name: "rust_usb_simple",
+>> +    author: "Martin Rodriguez Reboredo",
+>> +    description: "Rust USB sample",
+>> +    license: "GPL v2",
+>> +}
+>> +
+>> +struct UsbSimple;
 > 
-> Where can I download a prebuilt m68k-uclinux-gcc?
+> "USBSimple" please.
+> 
+>> +
+>> +impl kernel::Module for UsbSimple {
+>> +    fn init(_module: &'static ThisModule) -> Result<Self> {
+>> +        pr_info!("usb enabled: {}", !usb::disabled());
+>> +        Ok(UsbSimple)
+>> +    }
+>> +}
+> 
+> I know this is just a fake patch to test the bindings logic, so sorry
+> for the noise, just wanted to get terminology right :)
+> 
+> thanks,
+> 
+> greg k-h
 
-https://sourceforge.net/projects/uclinux/files/Tools/m68k-uclinux-tools-20231026.tar.xz/download
-
-Regards
-Greg
-
-
+No, you are right. Because Rust uses upper camel case for struct names
+there's the tendency of lowering initialisms, so you can either leave it
+as `USBSimple` or as `UsbSimple`. When I publish my USB host bindings
+I'll take your comment into account for sure.
