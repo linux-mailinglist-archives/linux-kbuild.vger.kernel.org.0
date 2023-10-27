@@ -2,96 +2,224 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 52F127D8D5C
-	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Oct 2023 05:21:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9CC737D8DC5
+	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Oct 2023 06:32:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229644AbjJ0DVQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 26 Oct 2023 23:21:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42948 "EHLO
+        id S229668AbjJ0Ece (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 27 Oct 2023 00:32:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229437AbjJ0DVP (ORCPT
+        with ESMTP id S230079AbjJ0Ecd (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 26 Oct 2023 23:21:15 -0400
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BEDA192;
-        Thu, 26 Oct 2023 20:21:13 -0700 (PDT)
-Received: by mail-pg1-x535.google.com with SMTP id 41be03b00d2f7-5b8f68ba4e5so1378578a12.1;
-        Thu, 26 Oct 2023 20:21:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698376873; x=1698981673; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aOrCwkVqAlNg8XVEkShhR/7wXoZRdI3BqowEgZUE1O4=;
-        b=g0quwld0z1luK9L41eHrVxqC9I4m0j22pE44IL1XxLqhsl99HfJ0vnVRYbIvltD0nl
-         XxreSnJxoi8Q9nnnO0zC11IUcciA1iBiBgfyFJBC4XiT8iKXiZ6Id8N059efF7cS7rST
-         c0LmwVCizpj1YD2Sna9a+l5DKoopY5CMwh1+gEB0h8Pyq/9zDjjU3qaXm2WtxTBpDgCs
-         hdEE5qypBjtxqd5qUkwHT0knkOBIvavm/cpfU6s2e+T6CzpMXqmu1721of0uGAYbJGur
-         EELxlrCTseF/XxKvv3wsBi8WC1ddrgf4QYnITOAQfKGhbMM1ItrTaHNt65pMZNV6sEdx
-         mQNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698376873; x=1698981673;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aOrCwkVqAlNg8XVEkShhR/7wXoZRdI3BqowEgZUE1O4=;
-        b=cBAjNUz5nIqjD1TnWzSPnwX/s9xPR4pWmdxKF72R1icWMeRWAKerekUBPKr1pYPOsz
-         LmFewH4xHIcj8WHg7lq09YLPVt2AcvYmirQz3qHE7wVn+/cOSO8Tm0bRpntRh47S1eQp
-         q7KvGf20g+64/gVailCXZHt7K6EuP4wDMtt8zROMRJk75mhVgE5pImb+9r7+vRJ0jB7S
-         NHw9IbJ5IBniTgdOSsANVKk//sMPNt4J7HQtt3t42EamBdlXBIZmnb8xOJnYw5n4ihzp
-         khF+L1r2Mgprw5c8vGBDQVFANDwaPbRxJBOcuLyWDuiD4tbPlMLU1uBk9oCiwTxQjXaW
-         wGaw==
-X-Gm-Message-State: AOJu0YxMZ7SUljgrfILVV3Blsvy8LYS6eq0ctt9OQ8Z1cx6237ByyTtD
-        CmOBx+LYE7vh7XdPmko5HSc=
-X-Google-Smtp-Source: AGHT+IF8GaXXXaQ/WstxXLpkxPjYdO2zjaPFKSKhpF7yx6Jep1hBAhsv1xFt67SGFv5fu3Se3+hWkg==
-X-Received: by 2002:a05:6a20:8417:b0:16b:f4ca:e3d9 with SMTP id c23-20020a056a20841700b0016bf4cae3d9mr2091859pzd.27.1698376872720;
-        Thu, 26 Oct 2023 20:21:12 -0700 (PDT)
-Received: from tx3000mach.io (static.220.238.itcsa.net. [190.15.220.238])
-        by smtp.gmail.com with ESMTPSA id s2-20020a170902ea0200b001c41e1e9ca7sm409771plg.215.2023.10.26.20.21.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Oct 2023 20:21:12 -0700 (PDT)
-From:   Martin Rodriguez Reboredo <yakoyoku@gmail.com>
-To:     yakoyoku@gmail.com, Miguel Ojeda <ojeda@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-        Benno Lossin <benno.lossin@proton.me>,
-        Andreas Hindborg <a.hindborg@samsung.com>,
-        Alice Ryhl <aliceryhl@google.com>
-Cc:     gregkh@linuxfoundation.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        rust-for-linux@vger.kernel.org,
-        Wedson Almeida Filho <walmeida@microsoft.com>
-Subject: Re: [RFC PATCH v2 2/2] samples: rust: Add USB sample bindings
-Date:   Fri, 27 Oct 2023 00:21:03 -0300
-Message-ID: <20231027032106.155493-1-yakoyoku@gmail.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231027003504.146703-3-yakoyoku@gmail.com>
-References: <20231027003504.146703-3-yakoyoku@gmail.com>
+        Fri, 27 Oct 2023 00:32:33 -0400
+X-Greylist: delayed 187 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 26 Oct 2023 21:32:26 PDT
+Received: from icp-osb-irony-out4.external.iinet.net.au (icp-osb-irony-out4.external.iinet.net.au [203.59.1.220])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 74535186
+        for <linux-kbuild@vger.kernel.org>; Thu, 26 Oct 2023 21:32:25 -0700 (PDT)
+Received: from gateway.pc5.atmailcloud.com (HELO mqr.i-08c0d97331176e550) ([13.54.26.16])
+  by icp-osb-irony-out4.iinet.net.au with ESMTP; 27 Oct 2023 12:29:10 +0800
+Received: from CMR-KAKADU04.i-0d656febc51e9ef2a by MQR.i-08c0d97331176e550 with esmtps
+        (envelope-from <gregungerer@westnet.com.au>)
+        id 1qwET7-0004bJ-2a;
+        Fri, 27 Oct 2023 04:29:09 +0000
+Received: from [203.87.15.156] (helo=[192.168.0.22])
+         by CMR-KAKADU04.i-0d656febc51e9ef2a with esmtpsa
+        (envelope-from <gregungerer@westnet.com.au>)
+        id 1qwET7-0001rV-1E;
+        Fri, 27 Oct 2023 04:29:09 +0000
+Message-ID: <1fac9d12-2ec2-4ccb-bb81-34f3fc34789e@westnet.com.au>
+Date:   Fri, 27 Oct 2023 14:29:02 +1000
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+From:   Greg Ungerer <gregungerer@westnet.com.au>
+Subject: Re: [PATCH v5 16/21] kbuild: generate KSYMTAB entries by modpost
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Pitre <npitre@baylibre.com>,
+        Nicolas Schier <nicolas@fjasle.eu>
+References: <20230514152739.962109-1-masahiroy@kernel.org>
+ <20230514152739.962109-17-masahiroy@kernel.org>
+Content-Language: en-US
+In-Reply-To: <20230514152739.962109-17-masahiroy@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Atmail-Id: gregungerer@westnet.com.au
+X-atmailcloud-spam-action: no action
+X-atmailcloud-spam-report: Action: no action
+X-Cm-Envelope: MS4xfFXufhrbusa9MhPZespdi097ILTbhCSpqqe5PrGfjKRxDAoBGx2Ac1yKFXQMCFCkblxeKpMTZ49iLQgCCFrszvx3D/1h4thdV5c1noeqf7VpBXH+xn3W zPFbk8xXtfPvSgki37eaXj6jTKR33P6VY3sYikH9WrjfjsVqlwbgpXWr9n2J2HawyBgN7or7AJgcVw==
+X-Cm-Analysis: v=2.4 cv=Zs0raf3G c=1 sm=1 tr=0 ts=653b3c95 a=Qq7imNNZi2wOFNr6RxuhDA==:117 a=Qq7imNNZi2wOFNr6RxuhDA==:17 a=IkcTkHD0fZMA:10 a=bhdUkHdE2iEA:10 a=80-xaVIC0AIA:10 a=x7bEGLp0ZPQA:10 a=VwQbUJbxAAAA:8 a=RiFP0eX-WucStWrHcg4A:9 a=QEXdDO2ut3YA:10 a=t4F5_PRhjUa2PXbBaQQF:22 a=AjGcO6oz07-iQ99wixmX:22
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-This was missing in the patch, but you get the point...
+Hi Masahiro,
 
-diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_helper.h
-index c41eaab4ddb2..845cdd856981 100644
---- a/rust/bindings/bindings_helper.h
-+++ b/rust/bindings/bindings_helper.h
-@@ -10,6 +10,7 @@
- #include <linux/errname.h>
- #include <linux/slab.h>
- #include <linux/refcount.h>
-+#include <linux/usb.h>
- #include <linux/wait.h>
- #include <linux/sched.h>
- #include <linux/workqueue.h>
+On 15/5/23 01:27, Masahiro Yamada wrote:
+> Commit 7b4537199a4a ("kbuild: link symbol CRCs at final link, removing
+> CONFIG_MODULE_REL_CRCS") made modpost output CRCs in the same way
+> whether the EXPORT_SYMBOL() is placed in *.c or *.S.
+> 
+> This commit applies a similar approach to the entire data structure of
+> EXPORT_SYMBOL() for further cleanups. The EXPORT_SYMBOL() compilation
+> is split into two stages.
+> 
+> When a source file is compiled, EXPORT_SYMBOL() is converted into a
+> dummy symbol in the .export_symbol section.
+> 
+> For example,
+> 
+>      EXPORT_SYMBOL(foo);
+>      EXPORT_SYMBOL_NS_GPL(bar, BAR_NAMESPACE);
+> 
+> will be encoded into the following assembly code:
+> 
+>      .section ".export_symbol","a"
+>      __export_symbol__foo:
+>              .asciz ""
+>              .balign 8
+>              .quad foo
+>      .previous
+> 
+>      .section ".export_symbol","a"
+>      __export_symbol_gpl_bar:
+>              .asciz "BAR_NAMESPACE"
+>              .balign 8
+>              .quad bar
+>      .previous
+> 
+> They are just markers to tell modpost the name, license, and namespace
+> of the symbols. They will be dropped from the final vmlinux and modules
+> because the *(.export_symbol) will go into /DISCARD/ in the linker script.
+> 
+> Then, modpost extracts all the information about EXPORT_SYMBOL() from the
+> .export_symbol section, and generates C code:
+> 
+>      KSYMTAB_FUNC(foo, "", "");
+>      KSYMTAB_FUNC(bar, "_gpl", "BAR_NAMESPACE");
+> 
+> KSYMTAB_FUNC() (or KSYMTAB_DATA() if it is data) is expanded to struct
+> kernel_symbol that will be linked to the vmlinux or a module.
+> 
+> With this change, EXPORT_SYMBOL() works in the same way for *.c and *.S
+> files, providing the following benefits.
+> 
+> [1] Deprecate EXPORT_DATA_SYMBOL()
+> 
+> In the old days, EXPORT_SYMBOL() was only available in C files. To export
+> a symbol in *.S, EXPORT_SYMBOL() was placed in a separate *.c file.
+> arch/arm/kernel/armksyms.c is one example written in the classic manner.
+> 
+> Commit 22823ab419d8 ("EXPORT_SYMBOL() for asm") removed this limitation.
+> Since then, EXPORT_SYMBOL() can be placed close to the symbol definition
+> in *.S files. It was a nice improvement.
+> 
+> However, as that commit mentioned, you need to use EXPORT_DATA_SYMBOL()
+> for data objects on some architectures.
+> 
+> In the new approach, modpost checks symbol's type (STT_FUNC or not),
+> and outputs KSYMTAB_FUNC() or KSYMTAB_DATA() accordingly.
+> 
+> There are only two users of EXPORT_DATA_SYMBOL:
+> 
+>    EXPORT_DATA_SYMBOL_GPL(empty_zero_page)    (arch/ia64/kernel/head.S)
+>    EXPORT_DATA_SYMBOL(ia64_ivt)               (arch/ia64/kernel/ivt.S)
+> 
+> They are transformed as follows and output into .vmlinux.export.c
+> 
+>    KSYMTAB_DATA(empty_zero_page, "_gpl", "");
+>    KSYMTAB_DATA(ia64_ivt, "", "");
+> 
+> The other EXPORT_SYMBOL users in ia64 assembly are output as
+> KSYMTAB_FUNC().
+> 
+> EXPORT_DATA_SYMBOL() is now deprecated.
+> 
+> [2] merge <linux/export.h> and <asm-generic/export.h>
+> 
+> There are two similar header implementations:
+> 
+>    include/linux/export.h        for .c files
+>    include/asm-generic/export.h  for .S files
+> 
+> Ideally, the functionality should be consistent between them, but they
+> tend to diverge.
+> 
+> Commit 8651ec01daed ("module: add support for symbol namespaces.") did
+> not support the namespace for *.S files.
+> 
+> This commit shifts the essential implementation part to C, which supports
+> EXPORT_SYMBOL_NS() for *.S files.
+> 
+> <asm/export.h> and <asm-generic/export.h> will remain as a wrapper of
+> <linux/export.h> for a while.
+> 
+> They will be removed after #include <asm/export.h> directives are all
+> replaced with #include <linux/export.h>.
+> 
+> [3] Implement CONFIG_TRIM_UNUSED_KSYMS in one-pass algorithm (by a later commit)
+> 
+> When CONFIG_TRIM_UNUSED_KSYMS is enabled, Kbuild recursively traverses
+> the directory tree to determine which EXPORT_SYMBOL to trim. If an
+> EXPORT_SYMBOL turns out to be unused by anyone, Kbuild begins the
+> second traverse, where some source files are recompiled with their
+> EXPORT_SYMBOL() tuned into a no-op.
+> 
+> We can do this better now; modpost can selectively emit KSYMTAB entries
+> that are really used by modules.
+> 
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+
+This breaks building kernels with an m68k-uclinux-gcc toolchain that have
+modules configured. Before this change they built and ran fine.
+They build and run fine if CONFIG_MODULES is not set.
+
+A few hundred errors like this spew out:
+
+     scripts/mod/modpost -o Module.symvers -T modules.order vmlinux.o
+     ERROR: modpost: vmlinux: .export_symbol section references '', but it does not seem to be an export symbol
+     ERROR: modpost: vmlinux: .export_symbol section references '', but it does not seem to be an export symbol
+     ERROR: modpost: vmlinux: .export_symbol section references '', but it does not seem to be an export symbol
+     ...
+
+This is still broken all the way through to the current 6.6-rc7, though the error
+messages are slightly better:
+
+     ERROR: modpost: vmlinux: local symbol 'system_state' was exported
+     ERROR: modpost: vmlinux: local symbol 'static_key_initialized' was exported
+     ERROR: modpost: vmlinux: local symbol 'reset_devices' was exported
+     ...
+
+I tried a bunch of different binutils and gcc versions (binutils-2.251 through
+2.40 and gcc versions 8.3.0 through 12.3.0). If I compile with an m68k-linux
+targeted toolchain then it works - no modpost processing problems.
+
+nm reports the same information for symbols in both cases, eg:
+
+$ m68k-uclinux-nm vmlinux.o | grep system_state
+00000000 r __export_symbol_system_state
+00000008 B system_state
+0000000c d __UNIQUE_ID___addressable_system_state320
+
+$ m68k-linux-nm vmlinux.o | grep system_state
+00000000 r __export_symbol_system_state
+00000008 B system_state
+0000000c d __UNIQUE_ID___addressable_system_state320
+
+Tracing in scripts/mod/modpost.c I see that for this symbol example
+("system_state") that ELF_ST_BIND(sym->st_info) is 0x0 for the
+m68k-uclinux toolchain case, so STB_LOCAL, whereas for the m68k-linux
+case it is 0x1, so STB_GLOBAL.
+
+Any idea what is going on here?
+
+Regards
+Greg
