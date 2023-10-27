@@ -2,81 +2,70 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E9247D871A
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Oct 2023 18:58:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 03E7A7D8C8F
+	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Oct 2023 02:35:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230493AbjJZQ6q (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 26 Oct 2023 12:58:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48630 "EHLO
+        id S229633AbjJ0AfR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 26 Oct 2023 20:35:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229815AbjJZQ6p (ORCPT
+        with ESMTP id S229437AbjJ0AfQ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 26 Oct 2023 12:58:45 -0400
-Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com [IPv6:2607:f8b0:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43F2A187;
-        Thu, 26 Oct 2023 09:58:43 -0700 (PDT)
-Received: by mail-oi1-x22c.google.com with SMTP id 5614622812f47-3b4145e887bso625389b6e.3;
-        Thu, 26 Oct 2023 09:58:43 -0700 (PDT)
+        Thu, 26 Oct 2023 20:35:16 -0400
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBB911B6;
+        Thu, 26 Oct 2023 17:35:12 -0700 (PDT)
+Received: by mail-pf1-x436.google.com with SMTP id d2e1a72fcca58-6b9af7d41d2so1489807b3a.0;
+        Thu, 26 Oct 2023 17:35:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698339522; x=1698944322; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2My7dzj7Sa0rgTJc/yeT+l3xQqlYTaObutNlMsCM2Jk=;
-        b=MnFU/W3vk7jj3RVRK1fLMfji3Dde0bSWQVYdbL9Un1JAhWVkOi38adM9PJ5HWe0bAN
-         mkp2kPFmhLaYBsU1TVchsj5z6Q0sDru4qyLXCYPWbMhRduW28KN9uUYQypCWW6ZyffdT
-         U6hic/0pCB/8ajML6u2TwPoK598yrjbiDeLe/9iaXiuSTC340gf5VSWRXHk8BVJb5Ury
-         d3BMjgi0/S7eP3+4Sm6PwoA9VLPe4pl+Z0M9sOIfYV/ZzOs/q7CAo/Upm6bQrrB9c5yw
-         5qHLyBiX4j+dljsmMr62HlwXHiYFA9POS5jtk/t03HDqAPeAn2TbsNjcbyRixcPkrg0n
-         f/qQ==
+        d=gmail.com; s=20230601; t=1698366912; x=1698971712; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=usbHaxcBxH3v5TUXsmVVZxNrcj87lpTiZe9iPVq/oHc=;
+        b=aRBYX/lB+H0RHOWogdS8RKa99kEzBMZiDlD62iuK36d8oFDXCBpkGNTYjGU55rq/lU
+         tsmL7mEu8hI0wfFPDfTr6FYIjmZbWswBFFIh1Za3wV9bX2NL8idm2gFtMI1RUU9SKW5b
+         dQ4yutTa4uIcvzZVacDjVrzpZAEpgmcPKv/gufNpzwjJKjPj5pYvh2UEjgodrUo9XZGn
+         nerU8QUYrLHC0vOQ4+0LlvtjATdCTVQBQtvMQj+Bi+xqdpHJfgQfYp0euGLrxiz/Ng7y
+         MnZE4puqYICFPnhDFD+/739gBV8I0LfHHxInatCeqSjnMDytI6mHiAzGBoEOn0Hj4xB6
+         /yiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698339522; x=1698944322;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2My7dzj7Sa0rgTJc/yeT+l3xQqlYTaObutNlMsCM2Jk=;
-        b=eaCoRc8UAuGSragxdAUfORnVsP1Vi/+ohvDkE1EbtlHduXtYQEEbvKw2O8ipcWAllD
-         2PBUQTWMzoTzRsIdnQ0MYMC62uRKUIPXROqspRt788CEcaJmPHJ0/ZNVUZj8vHUY9I1X
-         dk43Sa/1x6M6aqMfDPjg1vF28RTgUx8HfuKw4vSJu03TXz11MfodbuMRXPkiS3PJupsX
-         P0j22AMXIeEIdUSHq6+u3Y2Nlj3LzrKxTZ1GPyCmQeJ5zBPOrfRspM2h2EFN9tPec0M+
-         v5P3XnuYnVm8H3nwGGFOLdC1FYScEKQ/Lpy4sJ3D5Yj4uJLSWkbsJxIxQCRSMtnOuJtV
-         b7kQ==
-X-Gm-Message-State: AOJu0YzJxSuDaAE6ffWZOnZNnhGLF16+zI0HKDDjZKTcQhoY1cYstym/
-        bZV5VdDoQGqQgcUU+uX7wgm2/oD1JjRqV1l+HcE=
-X-Google-Smtp-Source: AGHT+IHYIEtTPq49J47m7L+kP4zWLW1jW3174fCj7Z5xpN8ntf/ECHptkhk8TAFzmkQ0ZcFZSrtrZcJRSuTa9xWZ1g0=
-X-Received: by 2002:a05:6808:4d3:b0:3a7:2524:6d3b with SMTP id
- a19-20020a05680804d300b003a725246d3bmr18779047oie.12.1698339522590; Thu, 26
- Oct 2023 09:58:42 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1698366912; x=1698971712;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=usbHaxcBxH3v5TUXsmVVZxNrcj87lpTiZe9iPVq/oHc=;
+        b=Jjgd5qTw8C8DmSKnaIo4eQXUZPG8nDoGrp8SkE6em4Gj/VrlfdzbqNBLW0dos5jBqL
+         CcbzAXEUx5BgimILbYrxvyaNNa75eT8egPTAdF6gFYd7vwcX5JR8ZLwXhBVhU8YBSic8
+         z54P1+8FVww/XfsyMZl5E1fw+2Lu4hBccgn5Tp3+4s0Qb95+OjxcZqKQ8DRS93VRAw5d
+         iGDk23c8jpq8y6k/lSPApKdsHhYaVm78a/X1pXBLZppcdmT9G8Tk12CV5UyX4zQLmDE8
+         0Xx4ajJaioaPxrR4C2PtyEx+TYJ/cR+UJSY8u7nC0prkNzaC2n7758IdvuYloXEMaGOm
+         yjoA==
+X-Gm-Message-State: AOJu0YwYShrKfPixxRdL+sDqo+xZCDFbwCbQKk4Syd6Pjcn/sz7o0YFi
+        dJ/Gpg2ebxHV8lmghhwCjgk=
+X-Google-Smtp-Source: AGHT+IF7e19PsOJXZ79tU9gqfcLbOm3UW/Lf7l3/z0dKRoeJf+SPUfv4Z7C8Gx/vWwd5f4tmdBlzjA==
+X-Received: by 2002:a05:6a00:1810:b0:68e:3bc8:17d1 with SMTP id y16-20020a056a00181000b0068e3bc817d1mr1467842pfa.29.1698366911825;
+        Thu, 26 Oct 2023 17:35:11 -0700 (PDT)
+Received: from tx3000mach.io (static.220.238.itcsa.net. [190.15.220.238])
+        by smtp.gmail.com with ESMTPSA id g21-20020aa78755000000b006be683108cesm183096pfo.213.2023.10.26.17.35.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Oct 2023 17:35:11 -0700 (PDT)
+From:   Martin Rodriguez Reboredo <yakoyoku@gmail.com>
+To:     Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+        Benno Lossin <benno.lossin@proton.me>,
+        Andreas Hindborg <a.hindborg@samsung.com>,
+        Alice Ryhl <aliceryhl@google.com>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        rust-for-linux@vger.kernel.org
+Subject: [RFC PATCH v2 0/2] rust: crates in other kernel directories
+Date:   Thu, 26 Oct 2023 21:34:49 -0300
+Message-ID: <20231027003504.146703-1-yakoyoku@gmail.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-References: <20231024201157.748254-1-alessandro.carminati@gmail.com>
- <5776666.DvuYhMxLoT@pwmachine> <CAPp5cGToUaPCr3Fp2PUQ1yQJ8ci+wTVqgTCEs2OxvR+yTr2oOQ@mail.gmail.com>
- <2162048.irdbgypaU6@pwmachine>
-In-Reply-To: <2162048.irdbgypaU6@pwmachine>
-From:   Alessandro Carminati <alessandro.carminati@gmail.com>
-Date:   Thu, 26 Oct 2023 18:58:06 +0200
-Message-ID: <CAPp5cGQsm9jJw5dktGbM1EpvU1wi1c+Bt2r+Lj=Wn_pBkt6oSw@mail.gmail.com>
-Subject: Re: [PATCH v6] scripts/link-vmlinux.sh: Add alias to duplicate
- symbols for kallsyms
-To:     Francis Laniel <flaniel@linux.microsoft.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Daniel Bristot de Oliveira <bristot@kernel.org>,
-        Josh Poimboeuf <jpoimboe@kernel.org>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Alexander Lobakin <aleksander.lobakin@intel.com>,
-        Nick Alcock <nick.alcock@oracle.com>,
-        Kris Van Hees <kris.van.hees@oracle.com>,
-        Eugene Loh <eugene.loh@oracle.com>,
-        Viktor Malik <vmalik@redhat.com>,
-        Petr Mladek <pmladek@suse.com>, Tom Rix <trix@redhat.com>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-trace-kernel@vger.kernel.org, llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
@@ -87,42 +76,56 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello Francis,
+This RFC provides makes possible to have bindings for kernel subsystems
+that are compiled as modules.
 
+Previously, if you wanted to have Rust bindings for a subsystem, like
+AMBA for example, you had to put it under `rust/kernel/` so it came
+part of the `kernel` crate, but this came with many downsides. Namely
+if you compiled said subsystem as a module you've a dependency on it
+from `kernel`, which is linked directly on `vmlinux`.
 
-Il giorno gio 26 ott 2023 alle ore 18:01 Francis Laniel
-<flaniel@linux.microsoft.com> ha scritto:
->
-> Hi!
->
->
-> Le mercredi 25 octobre 2023, 21:33:43 EEST Alessandro Carminati a =C3=A9c=
-rit :
-> > Hi Francis,
-> > Thanks a lot for your feedback!
->
-> You are welcome!
->
-> > Il giorno mer 25 ott 2023 alle ore 15:21 Francis Laniel
-> >
-> > /* SNIP */
-> > > > debug >=3D DebugLevel.INFO.value:
-> > > Shouldn't this rather test nmdata?
-> >
-> > Not sure to understand this feedback.
->
-> Sorry, this was not clear.
-> Rather than testing vmlinux_file, shouldn't you test nmdata_file?
-Now I see your point.
-If the assumption is that scripts/kas_alias.py is triggered by
-scripts/link-vmlinux.sh I dare to say that it makes no difference.
-But, since the purpose of this work is to manipulate the nmdata_file, using
-it is probably fitting more the use case.
->
->
-> Best regards.
->
->
-Thank you for the precious suggestions.
-Regards
-Alessandro
+So instead of overpopulating `kernel` with a gazillion modules that
+throws you into dire straits you should rather have the bindings in the
+same directory as the subsystem you want to bind with and link it to
+it.
+
+With this patch Rust sources can be compiled into libraries for them to
+be consumed. These libraries are ar archives that follow the `.rlib`
+structure, namely a libfoo.rlib thin archive with a foo.foo.o object
+and a libfoo.rmeta rustc metadata as members. Such Rust crates get
+their symbols exposed and the `bindings` crate is made available for
+them.
+
+Also included there's a sample usage of this in another patch, but it
+is not meant to be merged as it remains as an example.
+
+If you want to use a crate with your Rust module just add a `rust-libs`
+variable in your Makefile with a value of the relative directory of
+said crate plus its name, e.g.
+
+    # Link with the foo crate
+    rust-libs += ../path/to/foo
+
+Martin Rodriguez Reboredo (2):
+  kbuild: Build Rust crates as libraries
+  samples: rust: Add USB sample bindings
+
+ .gitignore                      |  2 ++
+ Makefile                        |  4 +--
+ drivers/usb/core/Kconfig        |  7 +++++
+ drivers/usb/core/Makefile       |  3 ++
+ drivers/usb/core/usb.rs         | 13 +++++++++
+ samples/rust/Kconfig            | 10 +++++++
+ samples/rust/Makefile           |  3 ++
+ samples/rust/rust_usb_simple.rs | 22 +++++++++++++++
+ scripts/Makefile.build          | 49 ++++++++++++++++++++++++++++++---
+ scripts/Makefile.lib            | 18 ++++++++++--
+ scripts/Makefile.modfinal       |  7 ++++-
+ 11 files changed, 128 insertions(+), 10 deletions(-)
+ create mode 100644 drivers/usb/core/usb.rs
+ create mode 100644 samples/rust/rust_usb_simple.rs
+
+-- 
+2.42.0
+
