@@ -2,230 +2,91 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 01C2E7DA753
-	for <lists+linux-kbuild@lfdr.de>; Sat, 28 Oct 2023 15:36:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A7D5B7DA7ED
+	for <lists+linux-kbuild@lfdr.de>; Sat, 28 Oct 2023 18:00:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229553AbjJ1NgO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 28 Oct 2023 09:36:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57938 "EHLO
+        id S229461AbjJ1QAt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 28 Oct 2023 12:00:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39684 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229449AbjJ1NgN (ORCPT
+        with ESMTP id S229446AbjJ1QAs (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 28 Oct 2023 09:36:13 -0400
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A89C6C0;
-        Sat, 28 Oct 2023 06:36:10 -0700 (PDT)
-Received: by mail-lf1-x135.google.com with SMTP id 2adb3069b0e04-507bd644a96so4306385e87.3;
-        Sat, 28 Oct 2023 06:36:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698500169; x=1699104969; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:date:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=AHn8iBxAhpfsJ1tGpFmcP+H91hcjJA0+WNnhiH9LU48=;
-        b=PgJ9+bWagXnWGzpjwDMfcEVaytBCj7iIdiLlLw7/hoKRzeZJCn4vOsfIchS/MobuVM
-         SFvOF6KO73JyFPnAQ8nudaRp1F+fYHrrOMQEoLiZSXmqg2qnWhFvDAaV1nVdxIbQmP10
-         x2u6o1lysyL90am5/HNwq8uITdENS1G7oxa8eP4SbVkTpCPRT0zUJtKo3RM0Y7QOWg48
-         twp7mwZNmuGRCO4497CftP5FyIGVArhdWHJQ7I/a7sLFnN19ntOH8LZIu9EUJwk/zJ2c
-         bmiG1qSRuTjqq/cbtoG6G0pRti2L+gP2XZPLFfsIvcvQ5Aym0RAlzHQFZp9aD8wPo2jk
-         Cs6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698500169; x=1699104969;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:date:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=AHn8iBxAhpfsJ1tGpFmcP+H91hcjJA0+WNnhiH9LU48=;
-        b=B3euwU8e9HBiHPRiiYMVtds4EbpHKPZzlNs42+hV4+nGSR+ckSJtm0KML3pXvTy3Bk
-         nBeVGcKWfqJ1I+r6IcRDKBTrIL/m84pviwZEgAlLcd3jgpvTVewSOg++kMs9RWUIQBKg
-         ZqOFYumvSlAcFD2eMK10hnjXzfRcelpr/MiIHX71vSb+PPF94yMU8/7qC2El7gQmPP/a
-         p6XA3Gy+WejnJZ8RAWYXoVxXmb2vOLNS9S3rETrFC66qxngRmsBjuQFvRHooj7HZiJaN
-         Ay94FSIGqSXA6NmsYFE9rymu6rTbS4oNr03Chi3NoLdteaajwDOAfQXKPwI84xpNTgR7
-         rK4w==
-X-Gm-Message-State: AOJu0YwbsY1Q4tIKgX5eO2Gh8qEkvuHgYrD9dqsP6Qe23IbPo9yEEbfP
-        S5iDPYpKAGmo21QJSwV6elg=
-X-Google-Smtp-Source: AGHT+IHmsoLQdHcXptq9dP2IARH0nCbjdWTuFJVGv/VB4z72AvQ1VBkpNms0j1/bnNmxE5+f6OnzvA==
-X-Received: by 2002:a05:6512:2525:b0:507:b7b7:e740 with SMTP id be37-20020a056512252500b00507b7b7e740mr6506658lfb.43.1698500168527;
-        Sat, 28 Oct 2023 06:36:08 -0700 (PDT)
-Received: from krava (2001-1ae9-1c2-4c00-726e-c10f-8833-ff22.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:726e:c10f:8833:ff22])
-        by smtp.gmail.com with ESMTPSA id t17-20020a50c251000000b0053eb69ca1bcsm2891517edf.92.2023.10.28.06.36.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Oct 2023 06:36:08 -0700 (PDT)
-From:   Jiri Olsa <olsajiri@gmail.com>
-X-Google-Original-From: Jiri Olsa <jolsa@kernel.org>
-Date:   Sat, 28 Oct 2023 15:36:06 +0200
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Andrii Nakryiko <andrii.nakryiko@gmail.com>,
-        Jiri Olsa <olsajiri@gmail.com>, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
+        Sat, 28 Oct 2023 12:00:48 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4C56E1;
+        Sat, 28 Oct 2023 09:00:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=ff4n1jsCiEdyBssR3St9dKCeTqurWLxsez3pEHvyako=; b=NBHBAwGIrKasAi17RFhkFe54G6
+        faZeZiL5C4UvS4Uzd1fynS6/5s3NR3tdz/zW3upxl8/4Lg00JSL7V/YOBU7FnxOI5S1h3Ta3gekEG
+        YcW9111NEF3T6hL+YZ8KC/WKxjejDcbnv3ooamzrZOVsrCCatxhYG7B+l3hR9XmIzkPK88Ht48kbL
+        9jQVPFacWZwslx68bUHddNJcDP7JJBLIm0J/RnnoClgN4ObcsSMKGdpnqOvIQ+E+pr/N/2kIJaeIT
+        WsKS6RewPhu+vB+II0re8sGBYGyvYsao/4h3TobpoVDsCx9VVZj+SZAoqPfQAhBZRwkMcAcIlgHtb
+        flcUkRug==;
+Received: from [50.53.46.231] (helo=[192.168.254.15])
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1qwljo-000d0h-1O;
+        Sat, 28 Oct 2023 16:00:36 +0000
+Message-ID: <8fba0cd3-6666-4ea0-822b-006a457e0101@infradead.org>
+Date:   Sat, 28 Oct 2023 09:00:34 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] kbuild: Correct missing architecture-specific hyphens
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Simon Glass <sjg@chromium.org>
+Cc:     linux-arm-kernel@lists.infradead.org,
+        U-Boot Mailing List <u-boot@lists.denx.de>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>, bpf@vger.kernel.org
-Subject: Re: [bpf-next PATCH v2 4/4] kbuild: refactor module BTF rule
-Message-ID: <ZT0ORoEdTP7DYX6m@krava>
-References: <20231018151950.205265-4-masahiroy@kernel.org>
- <ZTDlrkTXnkVN1cff@krava>
- <CAEf4BzZm4h4q6k9ZhuT5qiWC9PYA+c7XwVFd68iAq4mtMJ-qhw@mail.gmail.com>
- <CAK7LNAR2kKwbzdFxfVXDxsy8pfyQDCR-BN=zpbcZg0JS9RpsKQ@mail.gmail.com>
- <CAEf4BzbYwEFSNTFjJyhYmOOK5iwHjFAdcArkUbcQz5ntRvOOvA@mail.gmail.com>
- <CAK7LNAQxFgOpuCBYPSx5Z6aw5MtKzPL39XLUvZuUBSyRGnOZUg@mail.gmail.com>
- <CAEf4BzZqpqo3j33FkH3QJwezbJwarr1dXs4fCsp5So12_5MmTg@mail.gmail.com>
- <CAK7LNATAuLXCvN5=WiaKv9G4uF-cC2gNe5V-6G55b6fxGNZpeA@mail.gmail.com>
- <CAEf4BzbUqNW5UnhV9bzevtsUUeALca7CthBtzz7NjMCu2ZFmsw@mail.gmail.com>
- <CAK7LNATZJJG1yq1qX7xrvoy4akW2hSAcbrt3mnz=p6F7gMgh1Q@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+        Nicolas Schier <nicolas@fjasle.eu>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20231026072628.4115527-1-sjg@chromium.org>
+ <20231026072628.4115527-2-sjg@chromium.org>
+ <CAK7LNAReQB4KF_Ka=SUWSJ2psvqCrEm=BOkKXCYDK7Ux9uYutg@mail.gmail.com>
+Content-Language: en-US
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <CAK7LNAReQB4KF_Ka=SUWSJ2psvqCrEm=BOkKXCYDK7Ux9uYutg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK7LNATZJJG1yq1qX7xrvoy4akW2hSAcbrt3mnz=p6F7gMgh1Q@mail.gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Oct 28, 2023 at 09:00:11PM +0900, Masahiro Yamada wrote:
-> On Mon, Oct 23, 2023 at 12:19 PM Andrii Nakryiko
-> <andrii.nakryiko@gmail.com> wrote:
-> >
-> > On Sun, Oct 22, 2023 at 1:24 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> > >
-> > > On Sun, Oct 22, 2023 at 4:33 AM Andrii Nakryiko
-> > > <andrii.nakryiko@gmail.com> wrote:
-> > > >
-> > > > On Sat, Oct 21, 2023 at 4:38 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> > > > >
-> > > > > On Sat, Oct 21, 2023 at 5:52 AM Andrii Nakryiko
-> > > > > <andrii.nakryiko@gmail.com> wrote:
-> > > > > >
-> > > > > > On Fri, Oct 20, 2023 at 12:03 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> > > > > > >
-> > > > > > > On Fri, Oct 20, 2023 at 7:55 AM Andrii Nakryiko
-> > > > > > > <andrii.nakryiko@gmail.com> wrote:
-> > > > > > > >
-> > > > > > > > On Thu, Oct 19, 2023 at 1:15 AM Jiri Olsa <olsajiri@gmail.com> wrote:
-> > > > > > > > >
-> > > > > > > > > On Thu, Oct 19, 2023 at 12:19:50AM +0900, Masahiro Yamada wrote:
-> > > > > > > > > > newer_prereqs_except and if_changed_except are ugly hacks of the
-> > > > > > > > > > newer-prereqs and if_changed in scripts/Kbuild.include.
-> > > > > > > > > >
-> > > > > > > > > > Remove.
-> > > > > > > > > >
-> > > > > > > > > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > > > > > > > > > ---
-> > > > > > > > > >
-> > > > > > > > > > Changes in v2:
-> > > > > > > > > >   - Fix if_changed_except to if_changed
-> > > > > > > > > >
-> > > > > > > > > >  scripts/Makefile.modfinal | 25 ++++++-------------------
-> > > > > > > > > >  1 file changed, 6 insertions(+), 19 deletions(-)
-> > > > > > > > > >
-> > > > > > > > > > diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
-> > > > > > > > > > index 9fd7a26e4fe9..fc07854bb7b9 100644
-> > > > > > > > > > --- a/scripts/Makefile.modfinal
-> > > > > > > > > > +++ b/scripts/Makefile.modfinal
-> > > > > > > > > > @@ -19,6 +19,9 @@ vmlinux :=
-> > > > > > > > > >  ifdef CONFIG_DEBUG_INFO_BTF_MODULES
-> > > > > > > > > >  ifneq ($(wildcard vmlinux),)
-> > > > > > > > > >  vmlinux := vmlinux
-> > > > > > > > > > +cmd_btf = ; \
-> > > > > > > > > > +     LLVM_OBJCOPY="$(OBJCOPY)" $(PAHOLE) -J $(PAHOLE_FLAGS) --btf_base vmlinux $@; \
-> > > > > > > > > > +     $(RESOLVE_BTFIDS) -b vmlinux $@
-> > > > > > > > > >  else
-> > > > > > > > > >  $(warning Skipping BTF generation due to unavailability of vmlinux)
-> > > > > > > > > >  endif
-> > > > > > > > > > @@ -41,27 +44,11 @@ quiet_cmd_ld_ko_o = LD [M]  $@
-> > > > > > > > > >        cmd_ld_ko_o +=                                                 \
-> > > > > > > > > >       $(LD) -r $(KBUILD_LDFLAGS)                                      \
-> > > > > > > > > >               $(KBUILD_LDFLAGS_MODULE) $(LDFLAGS_MODULE)              \
-> > > > > > > > > > -             -T scripts/module.lds -o $@ $(filter %.o, $^)
-> > > > > > > > > > +             -T scripts/module.lds -o $@ $(filter %.o, $^)           \
-> > > > > > > > > > +     $(cmd_btf)
-> > > > > > > > > >
-> > > > > > > > > > -quiet_cmd_btf_ko = BTF [M] $@
-> > > > > > > > >
-> > > > > > > > > nit not sure it's intentional but we no longer display 'BTF [M] ...ko' lines,
-> > > > > > > > > I don't mind not displaying that, but we should mention that in changelog
-> > > > > > > > >
-> > > > > > > >
-> > > > > > > > Thanks for spotting this! I think those messages are useful and
-> > > > > > > > important to keep. Masahiro, is it possible to preserve them?
-> > > > > > >
-> > > > > > >
-> > > > > > >
-> > > > > > > No, I do not think so.
-> > > > > > >
-> > > > > >
-> > > > > > That's too bad, I think it's a useful one.
-> > > > >
-> > > > >
-> > > > >
-> > > > > I prioritize that the code is correct.
-> > > > >
-> > > >
-> > > > Could you please also prioritize not regressing informativeness of a
-> > > > build log? With your changes it's not clear now if BTF was generated
-> > > > or not for a kernel module, while previously it was obvious and was
-> > > > easy to spot if for some reason BTF was not generated. I'd like to
-> > > > preserve this
-> > > > property, thank you.
-> > > >
-> > > > E.g, can we still have BTF generation as a separate command and do a
-> > > > separate $(call if_changed,btf_ko)? Or something along those lines.
-> > > > Would that work?
-> > >
-> > > If we have an intermediate file (say, *.no-btf.ko),
-> > > it would make sense to have separate
-> > > $(call if_changed,ld_ko_o) and $(call if_changed,btf_ko).
-> >
-> > Currently we don't generate intermediate files, but we do rewrite
-> > original .ko file as a post-processing step.
-> >
-> > And that rewriting step might not happen depending on Kconfig and
-> > toolchain (e.g., too old pahole makes it impossible to generate kernel
-> > module BTF). And that's why having a separate BTF [M] message in the
-> > build log is important.
-> >
-> > >
-> > >
-> > >            LD                 RESOLVE_BTFIDS
-> > >  *.mod.o  ------> *.no-btf.ko ------------> *.ko
-> > >
-> > >
-> > > When vmlinux is changed, only the second step would
-> > > be re-run, but that would require extra file copy.
-> >
-> > Today we rewrite .ko with a new .ko ELF file which gains a new ELF
-> > section (.BTF), so we already pay this price when BTF is enabled (if
-> > that's your concern).
-> >
-> > >
-> > > Is this what you want to see?
-> >
-> > I don't have strong preferences for exact implementation, but what you
-> > propose will work, I think. What I'd like to avoid is unnecessarily
-> > relinking .ko files if all we need to do is regenerate BTF.
+
+
+On 10/28/23 02:50, Masahiro Yamada wrote:
+> On Thu, Oct 26, 2023 at 4:27 PM Simon Glass <sjg@chromium.org> wrote:
+>>
+>> These should add a hyphen to indicate that it makes a adjective. Fix
+>> them.
+>>
+>> Signed-off-by: Simon Glass <sjg@chromium.org>
+>> ---
 > 
 > 
+> This is trivial.
+> Applied to linux-kbuild. Thanks.
 > 
 > 
-> Is there any way to make pahole/resolve_btfids
-> take separate input and output files
-> instead of in-place modification?
+> git grep -i 'arch specific'
+> 
+>  or
+> 
+> git grep -i 'architecture specific'
+> 
+> finds similar patterns, but presumably we are not
+> keen on fixing them tree-wide.
 
-for pahole I think it'd be possible to get object file with .BTF section
-and just link it with other module objects (it's done like that for vmlinux)
-but I'm not sure which module linking stage this could happen
+or '32 bit', '64 bit', but I agree with "not keen on
+fixing them tree-wide."
 
-for resolve_btfids it's not possible at the moment, it just updates the
-.BTF_ids section in the object file
 
-I'm working on changing resolve_btfids to actually generate separate object
-with .BTF_ids section, which is then link-ed with the final object, but will
-take more time.. especially because I'm not sure where to place this logic
-in module linking ;-)
-
-jirka
+-- 
+~Randy
