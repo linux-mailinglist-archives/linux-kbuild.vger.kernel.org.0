@@ -2,53 +2,59 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D42BB7DA6C8
-	for <lists+linux-kbuild@lfdr.de>; Sat, 28 Oct 2023 13:57:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DE6F7DA6CF
+	for <lists+linux-kbuild@lfdr.de>; Sat, 28 Oct 2023 14:00:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229461AbjJ1L5C (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 28 Oct 2023 07:57:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55084 "EHLO
+        id S230022AbjJ1MAv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 28 Oct 2023 08:00:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229449AbjJ1L5B (ORCPT
+        with ESMTP id S229449AbjJ1MAu (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 28 Oct 2023 07:57:01 -0400
+        Sat, 28 Oct 2023 08:00:50 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A935FEB;
-        Sat, 28 Oct 2023 04:56:59 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 442D5C433C9;
-        Sat, 28 Oct 2023 11:56:59 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 817DAEB;
+        Sat, 28 Oct 2023 05:00:48 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C1DCC433C7;
+        Sat, 28 Oct 2023 12:00:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1698494219;
-        bh=F3UZH5ynEYTHdu9MGAXiLPZY7Z8iM1kzFnZyCVEVYN8=;
+        s=k20201202; t=1698494448;
+        bh=NDYeMPRVIZz698JsT+R8LnMI83Zt/EWY2nxoFqm580c=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=U3Zctb796iHDs9Q4qUhJ94hrVlKygnDfQWMq2ylTkkH1pg26kOdfWgt8JyJMTb/nB
-         XlyrxtBSTjF8emrxktbb5E+MkA80AzhCQtpSQ0HX26FVS/pP5OwuQv66IDJfFFMfuY
-         0VZdOp/iMDI+2BbL75tf8I0nXoQumxlDN3XrhdrbMKpOwQJDkNagtE4ZV8CJXd3sle
-         sWyrdzQQ1mIyDb8N5kVKItKGC8q8kWYlfUPmZu+HrmJGYph8iwEzBWlt3VrPcz2qmb
-         62Ut3ug6LEB/BcVhdXU8a03gyY22m4P8x9c6QPOiSVyFW1iAt2oK2qGRZPJayL5Tiv
-         g4N36J+TqABJw==
-Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-6c4a25f6390so1957904a34.2;
-        Sat, 28 Oct 2023 04:56:59 -0700 (PDT)
-X-Gm-Message-State: AOJu0YyBLIVtkO1yYXQtGeC/jjFCSCKc3KZJsIEWZyz6CrWTLXr+QiwO
-        DhxuWBBR688em7RtS1hy16WcbziSjtesRBn4s3g=
-X-Google-Smtp-Source: AGHT+IEyvyq1GRt6qcOSR9deQPtEthF2apO+P6WkoLcPXNdo+CKPDxPqH5R2N1OzYnbkbBuouyS6v2REs9ii6/WPZQE=
-X-Received: by 2002:a05:6870:5cc6:b0:1e9:a248:b1b6 with SMTP id
- et6-20020a0568705cc600b001e9a248b1b6mr5976887oab.35.1698494218615; Sat, 28
- Oct 2023 04:56:58 -0700 (PDT)
+        b=rxlCZaOmJmY70MKRHjymf2B7cedbaw9IX9qFJSPtCk0aoWz8Ty5+APG/TH07kSU9z
+         VliVCxfQjJDI2O1M2j5uhx+vNxAU3X04lEfokPRhT2s2i+BAZ8QWDYMB8rSVzgHoUp
+         aK6XKdGYQp+ybnxwJAweKUifflgcODEEjaxPgsmvrU4ZTKhFKgttDPPi8SV6BjTvXB
+         gVHh+jswdeYnm5+89yA4yMIpZaL7udwJGsf0ZmNmiEagnXsfTygUTk2DJi0WuwcAHl
+         AFmLDjbqe3ZXkfrh5zVIih1O17/nkXNP+Dzia74MbBg1c0Vq1PNoksgo9kzhd5s9BE
+         Cd4v9LiVjIfOw==
+Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-581ed744114so1580543eaf.0;
+        Sat, 28 Oct 2023 05:00:48 -0700 (PDT)
+X-Gm-Message-State: AOJu0YzoGjSiKwZnok3TdMir2S1wksCS11C758VXVC5/9um3OUS/qEsu
+        TbbarzSRk/rQc1KkN53aJ/XDkSCkZri9Ij7o8/Q=
+X-Google-Smtp-Source: AGHT+IG+2xU/Or55TAC3vgQMu5b2z0oZrGlRxgQwoIkOy4bOeE3S4CWNahsGeJWTR25wZIp8RhGB7o1L63jeZhgyr6M=
+X-Received: by 2002:a05:6871:8198:b0:1e9:858e:ff23 with SMTP id
+ so24-20020a056871819800b001e9858eff23mr4354359oab.55.1698494447492; Sat, 28
+ Oct 2023 05:00:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20231022170613.2072838-1-masahiroy@kernel.org>
- <20231022170613.2072838-4-masahiroy@kernel.org> <20231023232814.GA3514685@dev-arch.thelio-3990X>
-In-Reply-To: <20231023232814.GA3514685@dev-arch.thelio-3990X>
+References: <20231018151950.205265-1-masahiroy@kernel.org> <20231018151950.205265-4-masahiroy@kernel.org>
+ <ZTDlrkTXnkVN1cff@krava> <CAEf4BzZm4h4q6k9ZhuT5qiWC9PYA+c7XwVFd68iAq4mtMJ-qhw@mail.gmail.com>
+ <CAK7LNAR2kKwbzdFxfVXDxsy8pfyQDCR-BN=zpbcZg0JS9RpsKQ@mail.gmail.com>
+ <CAEf4BzbYwEFSNTFjJyhYmOOK5iwHjFAdcArkUbcQz5ntRvOOvA@mail.gmail.com>
+ <CAK7LNAQxFgOpuCBYPSx5Z6aw5MtKzPL39XLUvZuUBSyRGnOZUg@mail.gmail.com>
+ <CAEf4BzZqpqo3j33FkH3QJwezbJwarr1dXs4fCsp5So12_5MmTg@mail.gmail.com>
+ <CAK7LNATAuLXCvN5=WiaKv9G4uF-cC2gNe5V-6G55b6fxGNZpeA@mail.gmail.com> <CAEf4BzbUqNW5UnhV9bzevtsUUeALca7CthBtzz7NjMCu2ZFmsw@mail.gmail.com>
+In-Reply-To: <CAEf4BzbUqNW5UnhV9bzevtsUUeALca7CthBtzz7NjMCu2ZFmsw@mail.gmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 28 Oct 2023 20:56:22 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAREsQ4EUsz33zx8DCixO36QoWgFfZ4SOAeU7LtLbfdj_Q@mail.gmail.com>
-Message-ID: <CAK7LNAREsQ4EUsz33zx8DCixO36QoWgFfZ4SOAeU7LtLbfdj_Q@mail.gmail.com>
-Subject: Re: [PATCH 04/10] modpost: remove more symbol patterns from the
- section check whitelist
-To:     Nathan Chancellor <nathan@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+Date:   Sat, 28 Oct 2023 21:00:11 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATZJJG1yq1qX7xrvoy4akW2hSAcbrt3mnz=p6F7gMgh1Q@mail.gmail.com>
+Message-ID: <CAK7LNATZJJG1yq1qX7xrvoy4akW2hSAcbrt3mnz=p6F7gMgh1Q@mail.gmail.com>
+Subject: Re: [bpf-next PATCH v2 4/4] kbuild: refactor module BTF rule
+To:     Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Cc:     Jiri Olsa <olsajiri@gmail.com>, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>
+        Nicolas Schier <nicolas@fjasle.eu>, bpf@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -61,81 +67,157 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Oct 24, 2023 at 8:28=E2=80=AFAM Nathan Chancellor <nathan@kernel.or=
-g> wrote:
+On Mon, Oct 23, 2023 at 12:19=E2=80=AFPM Andrii Nakryiko
+<andrii.nakryiko@gmail.com> wrote:
 >
-> On Mon, Oct 23, 2023 at 02:06:07AM +0900, Masahiro Yamada wrote:
-> > These symbol patterns were whitelisted to allow them to reference to
-> > functions with the old __devinit and __devexit annotations.
+> On Sun, Oct 22, 2023 at 1:24=E2=80=AFPM Masahiro Yamada <masahiroy@kernel=
+.org> wrote:
 > >
-> > We stopped doing this a long time ago, for example, commit 6f039790510f
-> > ("Drivers: scsi: remove __dev* attributes.") remove those annotations
-> > from the scsi drivers.
+> > On Sun, Oct 22, 2023 at 4:33=E2=80=AFAM Andrii Nakryiko
+> > <andrii.nakryiko@gmail.com> wrote:
+> > >
+> > > On Sat, Oct 21, 2023 at 4:38=E2=80=AFAM Masahiro Yamada <masahiroy@ke=
+rnel.org> wrote:
+> > > >
+> > > > On Sat, Oct 21, 2023 at 5:52=E2=80=AFAM Andrii Nakryiko
+> > > > <andrii.nakryiko@gmail.com> wrote:
+> > > > >
+> > > > > On Fri, Oct 20, 2023 at 12:03=E2=80=AFAM Masahiro Yamada <masahir=
+oy@kernel.org> wrote:
+> > > > > >
+> > > > > > On Fri, Oct 20, 2023 at 7:55=E2=80=AFAM Andrii Nakryiko
+> > > > > > <andrii.nakryiko@gmail.com> wrote:
+> > > > > > >
+> > > > > > > On Thu, Oct 19, 2023 at 1:15=E2=80=AFAM Jiri Olsa <olsajiri@g=
+mail.com> wrote:
+> > > > > > > >
+> > > > > > > > On Thu, Oct 19, 2023 at 12:19:50AM +0900, Masahiro Yamada w=
+rote:
+> > > > > > > > > newer_prereqs_except and if_changed_except are ugly hacks=
+ of the
+> > > > > > > > > newer-prereqs and if_changed in scripts/Kbuild.include.
+> > > > > > > > >
+> > > > > > > > > Remove.
+> > > > > > > > >
+> > > > > > > > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > > > > > > > > ---
+> > > > > > > > >
+> > > > > > > > > Changes in v2:
+> > > > > > > > >   - Fix if_changed_except to if_changed
+> > > > > > > > >
+> > > > > > > > >  scripts/Makefile.modfinal | 25 ++++++-------------------
+> > > > > > > > >  1 file changed, 6 insertions(+), 19 deletions(-)
+> > > > > > > > >
+> > > > > > > > > diff --git a/scripts/Makefile.modfinal b/scripts/Makefile=
+.modfinal
+> > > > > > > > > index 9fd7a26e4fe9..fc07854bb7b9 100644
+> > > > > > > > > --- a/scripts/Makefile.modfinal
+> > > > > > > > > +++ b/scripts/Makefile.modfinal
+> > > > > > > > > @@ -19,6 +19,9 @@ vmlinux :=3D
+> > > > > > > > >  ifdef CONFIG_DEBUG_INFO_BTF_MODULES
+> > > > > > > > >  ifneq ($(wildcard vmlinux),)
+> > > > > > > > >  vmlinux :=3D vmlinux
+> > > > > > > > > +cmd_btf =3D ; \
+> > > > > > > > > +     LLVM_OBJCOPY=3D"$(OBJCOPY)" $(PAHOLE) -J $(PAHOLE_F=
+LAGS) --btf_base vmlinux $@; \
+> > > > > > > > > +     $(RESOLVE_BTFIDS) -b vmlinux $@
+> > > > > > > > >  else
+> > > > > > > > >  $(warning Skipping BTF generation due to unavailability =
+of vmlinux)
+> > > > > > > > >  endif
+> > > > > > > > > @@ -41,27 +44,11 @@ quiet_cmd_ld_ko_o =3D LD [M]  $@
+> > > > > > > > >        cmd_ld_ko_o +=3D                                  =
+               \
+> > > > > > > > >       $(LD) -r $(KBUILD_LDFLAGS)                         =
+             \
+> > > > > > > > >               $(KBUILD_LDFLAGS_MODULE) $(LDFLAGS_MODULE) =
+             \
+> > > > > > > > > -             -T scripts/module.lds -o $@ $(filter %.o, $=
+^)
+> > > > > > > > > +             -T scripts/module.lds -o $@ $(filter %.o, $=
+^)           \
+> > > > > > > > > +     $(cmd_btf)
+> > > > > > > > >
+> > > > > > > > > -quiet_cmd_btf_ko =3D BTF [M] $@
+> > > > > > > >
+> > > > > > > > nit not sure it's intentional but we no longer display 'BTF=
+ [M] ...ko' lines,
+> > > > > > > > I don't mind not displaying that, but we should mention tha=
+t in changelog
+> > > > > > > >
+> > > > > > >
+> > > > > > > Thanks for spotting this! I think those messages are useful a=
+nd
+> > > > > > > important to keep. Masahiro, is it possible to preserve them?
+> > > > > >
+> > > > > >
+> > > > > >
+> > > > > > No, I do not think so.
+> > > > > >
+> > > > >
+> > > > > That's too bad, I think it's a useful one.
+> > > >
+> > > >
+> > > >
+> > > > I prioritize that the code is correct.
+> > > >
+> > >
+> > > Could you please also prioritize not regressing informativeness of a
+> > > build log? With your changes it's not clear now if BTF was generated
+> > > or not for a kernel module, while previously it was obvious and was
+> > > easy to spot if for some reason BTF was not generated. I'd like to
+> > > preserve this
+> > > property, thank you.
+> > >
+> > > E.g, can we still have BTF generation as a separate command and do a
+> > > separate $(call if_changed,btf_ko)? Or something along those lines.
+> > > Would that work?
 > >
-> > Keep *_ops and *_console, otherwise they will really cause section
-> > mismatch warnings.
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > ---
-> >
-> >  scripts/mod/modpost.c | 8 +-------
-> >  1 file changed, 1 insertion(+), 7 deletions(-)
-> >
-> > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> > index 792ba9da0f27..19b138664f75 100644
-> > --- a/scripts/mod/modpost.c
-> > +++ b/scripts/mod/modpost.c
-> > @@ -997,13 +997,7 @@ static int secref_whitelist(const char *fromsec, c=
-onst char *fromsym,
-> >       /* symbols in data sections that may refer to any init/exit secti=
-ons */
-> >       if (match(fromsec, PATTERNS(DATA_SECTIONS)) &&
-> >           match(tosec, PATTERNS(ALL_INIT_SECTIONS, ALL_EXIT_SECTIONS)) =
-&&
-> > -         match(fromsym, PATTERNS("*_template", // scsi uses *_template=
- a lot
-> > -                                 "*_timer", // arm uses ops structures=
- named _timer a lot
-> > -                                 "*_sht", // scsi also used *_sht to s=
-ome extent
-> > -                                 "*_ops",
-> > -                                 "*_probe",
+> > If we have an intermediate file (say, *.no-btf.ko),
+> > it would make sense to have separate
+> > $(call if_changed,ld_ko_o) and $(call if_changed,btf_ko).
 >
-> It seems like this one might still be needed. I see this when building
-> certain arm64 configurations with clang.
+> Currently we don't generate intermediate files, but we do rewrite
+> original .ko file as a post-processing step.
 >
->   WARNING: modpost: vmlinux: section mismatch in reference: qcom_irq_comb=
-iner_probe+0x0 (section: .data) -> combiner_probe (section: .init.text)
-
-
-
-Thanks for comprehensive compile-testing.
-
-
-I will keep "*_probe", but I believe __ref is better
-if this is only the instance that happens to
-have _ops suffix.
-
-
-
-
-
-
-
-
-
-> > -                                 "*_probe_one",
-> > -                                 "*_console")))
-> > +         match(fromsym, PATTERNS("*_ops", "*_console")))
-> >               return 0;
+> And that rewriting step might not happen depending on Kconfig and
+> toolchain (e.g., too old pahole makes it impossible to generate kernel
+> module BTF). And that's why having a separate BTF [M] message in the
+> build log is important.
+>
 > >
-> >       /*
-> > --
-> > 2.40.1
 > >
+> >            LD                 RESOLVE_BTFIDS
+> >  *.mod.o  ------> *.no-btf.ko ------------> *.ko
+> >
+> >
+> > When vmlinux is changed, only the second step would
+> > be re-run, but that would require extra file copy.
+>
+> Today we rewrite .ko with a new .ko ELF file which gains a new ELF
+> section (.BTF), so we already pay this price when BTF is enabled (if
+> that's your concern).
+>
+> >
+> > Is this what you want to see?
+>
+> I don't have strong preferences for exact implementation, but what you
+> propose will work, I think. What I'd like to avoid is unnecessarily
+> relinking .ko files if all we need to do is regenerate BTF.
 
 
 
---=20
+
+Is there any way to make pahole/resolve_btfids
+take separate input and output files
+instead of in-place modification?
+
+Otherwise, explicit "cp *.no-btf.ko *.ko" would be needed.
+
+
+
+
+
+--
 Best Regards
 Masahiro Yamada
