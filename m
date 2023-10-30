@@ -2,102 +2,88 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 26FC87DB906
-	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Oct 2023 12:34:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 546A07DBCC0
+	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Oct 2023 16:36:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232427AbjJ3LeY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 30 Oct 2023 07:34:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45976 "EHLO
+        id S233728AbjJ3PgK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 30 Oct 2023 11:36:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44036 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229456AbjJ3LeX (ORCPT
+        with ESMTP id S233681AbjJ3Pf6 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 30 Oct 2023 07:34:23 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85658C2;
-        Mon, 30 Oct 2023 04:34:21 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A264C433C7;
-        Mon, 30 Oct 2023 11:34:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1698665661;
-        bh=XBOZSHuoRoD8WSPEZTng3lqWdqh+3Xe2FMkuy6z6a5Y=;
-        h=From:To:Cc:Subject:Date:From;
-        b=h7FAyb6L9+v/tF5yELzcBvV8YRsztwzw7cEAW+REYwt+YuHpBEA1E5G5HybX0aB4H
-         /tTM0Vje5C0dQvzg3m736p1/tVI02ubFMfaqlSA0/RirHr2WHX155UHkY+4j0HPgDd
-         sTNChCTbF96Wj3i0V7e92or2k+M4uUh4W9oBbRXGRpEJvPQ9TPEQoi+t9drnIDAsjO
-         6p/x7Nh1CR6ZbvSvZrP17eRbuPh+exeiZfVrGOq4q1Xk8IrH4O55cPYgAmWUhYnEMH
-         425paWxK73OY9a31Kjnv/JUKh5aFni2E0yomCT6+vYMPwKo4L3wGxw7CwjCZ33syVS
-         FvtPW4VgmxnQw==
-From:   "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
-To:     masahiroy@kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        "Jiri Slaby (SUSE)" <jirislaby@kernel.org>,
+        Mon, 30 Oct 2023 11:35:58 -0400
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C5C0B3;
+        Mon, 30 Oct 2023 08:35:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=WE1tsrC5nD1he3EQ3Z3HGaPKaykIF9HkdVI/EJRhi6c=; b=LV7D/IWyq2Mw7vTdVg1EkrxxC1
+        fzJ5yRFzlAYj4fcJjzZtnGfpsXsCDVpO/UNR4YqP7qxjUUybZ7nZGyfZdxNL8kBxxQkTNHp25yUtf
+        2KJzm3FlMnAL5p+Qfjj1+ikr/MrjmBoYN+ASKZakexZnFd/Jo54EhdMWhyKesftBsfU5qrKyX8seW
+        2UDWVakMncsXCtbJFuOdiZGI2aEPV89Xh1oXklyVX3NGQmGLi6KaY+dx3jnwOaLBVjTYN0oid1QbQ
+        0DQd3kQw+sLq/tI01uxlHkEV+3NVgkTq8vOAmgPzCLveX2HVgoTtA134mT1CT67pbwFxd0FsFsTiv
+        mF5Xt6Vw==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:53860)
+        by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.96)
+        (envelope-from <linux@armlinux.org.uk>)
+        id 1qxUIh-0001q0-2T;
+        Mon, 30 Oct 2023 15:35:35 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+        (envelope-from <linux@shell.armlinux.org.uk>)
+        id 1qxUIg-00047C-OV; Mon, 30 Oct 2023 15:35:34 +0000
+Date:   Mon, 30 Oct 2023 15:35:34 +0000
+From:   "Russell King (Oracle)" <linux@armlinux.org.uk>
+To:     Simon Glass <sjg@chromium.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        U-Boot Mailing List <u-boot@lists.denx.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
+        Nick Terrell <terrelln@fb.com>,
         Nicolas Schier <nicolas@fjasle.eu>,
-        linux-kbuild@vger.kernel.org, Naveen N Rao <naveen@kernel.org>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Michael Ellerman <mpe@ellerman.id.au>
-Subject: [PATCH] kbuild: dummy-tools: pretend we understand -fpatchable-function-entry
-Date:   Mon, 30 Oct 2023 12:34:16 +0100
-Message-ID: <20231030113416.5208-1-jirislaby@kernel.org>
-X-Mailer: git-send-email 2.42.0
+        Will Deacon <will@kernel.org>, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] arm64: boot: Support Flat Image Tree
+Message-ID: <ZT/NRvLkvR8uuP5+@shell.armlinux.org.uk>
+References: <20231026072628.4115527-1-sjg@chromium.org>
+ <20231026072628.4115527-4-sjg@chromium.org>
+ <CAK7LNASATGRaS-6QxzqTEq7qNVkZPXOBE8pfRBg=2bQGyy3=yw@mail.gmail.com>
+ <CAFLszThguWT0u0R0EHfpBro0f-pWDwLOGk+5pQZEVhFYNKH8fQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFLszThguWT0u0R0EHfpBro0f-pWDwLOGk+5pQZEVhFYNKH8fQ@mail.gmail.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Commit 0f71dcfb4aef (powerpc/ftrace: Add support for
--fpatchable-function-entry) added a script to check for
--fpatchable-function-entry compiler support. The script expects compiler
-to emit the section __patchable_function_entries and few nops after a
-function entry.
+On Sun, Oct 29, 2023 at 05:46:12AM +1300, Simon Glass wrote:
+> Hi Masahiro,
+> 
+> Sure, but that is a separate issue, isn't it? We already support
+> various boot targets in arm64 but not one that includes the DTs, so
+> far as I can see. The old arm 'uImage' target is pretty out-of-date
+> now.
 
-If the compiler understands and emits the above,
-CONFIG_ARCH_USING_PATCHABLE_FUNCTION_ENTRY is set.
+Does that mean it can be removed? ;)
 
-So teach dummy-tools' gcc about this.
+I've NAK'd FIT support on 32-bit Arm in the past, and I remain of the
+opinion that boot loader specific packaging of the kernel should not
+be in the kernel but should be external to it - even more so given the
+multi-platform nature of 32-bit Arm kernels.
 
-Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>
-Cc: Nick Desaulniers <ndesaulniers@google.com>
-Cc: Nicolas Schier <nicolas@fjasle.eu>
-Cc: linux-kbuild@vger.kernel.org
-Cc: Naveen N Rao <naveen@kernel.org>
-Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc: Michael Ellerman <mpe@ellerman.id.au>
----
- scripts/dummy-tools/gcc | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/scripts/dummy-tools/gcc b/scripts/dummy-tools/gcc
-index 07f6dc4c5cf6..e6c41427c02f 100755
---- a/scripts/dummy-tools/gcc
-+++ b/scripts/dummy-tools/gcc
-@@ -91,6 +91,16 @@ if arg_contain -S "$@"; then
- 		fi
- 		exit 0
- 	fi
-+
-+	# For arch/powerpc/tools/gcc-check-fpatchable-function-entry.sh
-+	if arg_contain -m64 "$@" && arg_contain -fpatchable-function-entry=2 "$@"; then
-+		echo "func:"
-+		echo ".section __patchable_function_entries"
-+		echo ".localentry"
-+		echo "  nop"
-+		echo "  nop"
-+		exit 0
-+	fi
- fi
- 
- # To set GCC_PLUGINS
 -- 
-2.42.0
-
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
