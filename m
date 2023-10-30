@@ -2,71 +2,75 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C3EE47DA81D
-	for <lists+linux-kbuild@lfdr.de>; Sat, 28 Oct 2023 18:46:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8614B7DB52A
+	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Oct 2023 09:32:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229459AbjJ1Qq2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 28 Oct 2023 12:46:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55252 "EHLO
+        id S231789AbjJ3Ice (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 30 Oct 2023 04:32:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229446AbjJ1Qq1 (ORCPT
+        with ESMTP id S229517AbjJ3Icd (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 28 Oct 2023 12:46:27 -0400
-Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com [IPv6:2607:f8b0:4864:20::72b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49CF5E5
-        for <linux-kbuild@vger.kernel.org>; Sat, 28 Oct 2023 09:46:24 -0700 (PDT)
-Received: by mail-qk1-x72b.google.com with SMTP id af79cd13be357-77063481352so337491685a.1
-        for <linux-kbuild@vger.kernel.org>; Sat, 28 Oct 2023 09:46:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1698511583; x=1699116383; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=22XGan4HKJtU6FcQC1HdHff0Q2Vo7FU6YgwNH6XLufw=;
-        b=HiZqnueRo10w0v1X9KZHx5eUa7GYrfxQYl0H7otVWW8HIjalanJFp/cx6bfv/HOimr
-         oXK655ybk/XoIE9Jb1R03xsqk9aoMLV+yV4RJTQBFU+aDx9WR9NnL8524WRnbO5NVDA/
-         xI66w3xujljJqlY+Dq2RuwiT+KtUqW+E5/0+M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698511583; x=1699116383;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=22XGan4HKJtU6FcQC1HdHff0Q2Vo7FU6YgwNH6XLufw=;
-        b=C3mCZvdMVBeM2/yepWQCF7iRmpuxManLB6yZ9jcTbNWHtcS5ndrYZX5XhME8Nbf0wq
-         RWuGw8cdbShAgNDOdqXFCRI51PTksj+jh5HVR7BXYmtc8fFt3q6NEJLXa9Pe1nGDTDRp
-         Fx+OSwv9XTpQtBdfzIMElws8VjIjcaWuitzxUAXgVOLnuoZiRCA/mGhS4BLTh50NGWW7
-         oYjuUK9605UUi0qWYNg4c62orZXaWxa/28fS3JuEoX5QaDuzmlX37sgJZGEttDfPe0J5
-         rCe54AZpM5B8d4z82Fgk1k4YP7eolRzVYyY5kW1DJ9wXl5BxaItqaZb7/9TaC23sXJih
-         EsGQ==
-X-Gm-Message-State: AOJu0Yzz7hI3goAigO0Aoaj7c3QTfZlcfg30ixjRQH3CQlG9quilj8Dw
-        rKoJTJ7vFBkUByVk7BTm7rJASctZ7XpUap7Sii665A==
-X-Google-Smtp-Source: AGHT+IH3Pt+k7jTL8TTDfWmz7Fcz3LXohWw4MApDqxDc7JZby7kT5wcsfygwJ20CX9fAK4x1A6xUCPUDD3JGmwMTf+c=
-X-Received: by 2002:a05:620a:471e:b0:775:c2a1:1821 with SMTP id
- bs30-20020a05620a471e00b00775c2a11821mr10997395qkb.26.1698511583333; Sat, 28
- Oct 2023 09:46:23 -0700 (PDT)
-MIME-Version: 1.0
-References: <20231026072628.4115527-1-sjg@chromium.org> <20231026072628.4115527-4-sjg@chromium.org>
- <CAK7LNASATGRaS-6QxzqTEq7qNVkZPXOBE8pfRBg=2bQGyy3=yw@mail.gmail.com>
-In-Reply-To: <CAK7LNASATGRaS-6QxzqTEq7qNVkZPXOBE8pfRBg=2bQGyy3=yw@mail.gmail.com>
-From:   Simon Glass <sjg@chromium.org>
-Date:   Sun, 29 Oct 2023 05:46:12 +1300
-Message-ID: <CAFLszThguWT0u0R0EHfpBro0f-pWDwLOGk+5pQZEVhFYNKH8fQ@mail.gmail.com>
-Subject: Re: [PATCH 3/3] arm64: boot: Support Flat Image Tree
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-arm-kernel@lists.infradead.org,
-        U-Boot Mailing List <u-boot@lists.denx.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
+        Mon, 30 Oct 2023 04:32:33 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DE51A7;
+        Mon, 30 Oct 2023 01:32:31 -0700 (PDT)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id 88B1E21981;
+        Mon, 30 Oct 2023 08:32:29 +0000 (UTC)
+Received: from kitsune.suse.cz (kitsune.suse.cz [10.100.12.127])
+        by relay2.suse.de (Postfix) with ESMTP id C0B232CAD5;
+        Mon, 30 Oct 2023 08:32:26 +0000 (UTC)
+From:   Michal Suchanek <msuchanek@suse.de>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Michal Suchanek <msuchanek@suse.de>,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Nick Terrell <terrelln@fb.com>,
         Nicolas Schier <nicolas@fjasle.eu>,
-        Will Deacon <will@kernel.org>, linux-kbuild@vger.kernel.org,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Naveen N Rao <naveen@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
         linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,PDS_OTHER_BAD_TLD,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=no
+Subject: [PATCH] kbuild: dummy-tools: Add support for -fpatchable-function-entry
+Date:   Mon, 30 Oct 2023 09:32:18 +0100
+Message-ID: <20231030083222.28509-1-msuchanek@suse.de>
+X-Mailer: git-send-email 2.42.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spamd-Bar: +++++
+Authentication-Results: smtp-out1.suse.de;
+        dkim=none;
+        dmarc=none;
+        spf=softfail (smtp-out1.suse.de: 149.44.160.134 is neither permitted nor denied by domain of msuchanek@suse.de) smtp.mailfrom=msuchanek@suse.de
+X-Rspamd-Server: rspamd2
+X-Spamd-Result: default: False [5.49 / 50.00];
+         ARC_NA(0.00)[];
+         RWL_MAILSPIKE_GOOD(0.00)[149.44.160.134:from];
+         FROM_HAS_DN(0.00)[];
+         TO_DN_SOME(0.00)[];
+         R_MISSING_CHARSET(2.50)[];
+         NEURAL_HAM_LONG(-3.00)[-1.000];
+         MIME_GOOD(-0.10)[text/plain];
+         DMARC_NA(0.20)[suse.de];
+         BROKEN_CONTENT_TYPE(1.50)[];
+         R_SPF_SOFTFAIL(0.60)[~all:c];
+         TO_MATCH_ENVRCPT_SOME(0.00)[];
+         VIOLATED_DIRECT_SPF(3.50)[];
+         MX_GOOD(-0.01)[];
+         NEURAL_HAM_SHORT(-1.00)[-1.000];
+         RCPT_COUNT_SEVEN(0.00)[10];
+         MID_CONTAINS_FROM(1.00)[];
+         RCVD_NO_TLS_LAST(0.10)[];
+         FROM_EQ_ENVFROM(0.00)[];
+         R_DKIM_NA(0.20)[];
+         MIME_TRACE(0.00)[0:+];
+         RCVD_COUNT_TWO(0.00)[2];
+         BAYES_HAM(-0.00)[13.15%]
+X-Spam-Score: 5.49
+X-Rspamd-Queue-Id: 88B1E21981
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -74,188 +78,46 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Masahiro,
+dummy-gcc does not produce the output
+gcc-check-fpatchable-function-entry.sh expects. Add a base64 encoded
+output of the second test.
 
-On Fri, Oct 27, 2023 at 2:25=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
->
-> On Thu, Oct 26, 2023 at 4:28=E2=80=AFPM Simon Glass <sjg@chromium.org> wr=
-ote:
-> >
-> > Add a script which produces a Flat Image Tree (FIT), a single file
-> > containing the built kernel and associated devicetree files.
-> > Compression defaults to gzip which gives a good balance of size and
-> > performance.
-> >
-> > The files compress from about 85MB to 24MB using this approach.
-> >
-> > The FIT can be used by bootloaders which support it, such as U-Boot
-> > and Linuxboot. It permits automatic selection of the correct
-> > devicetree, matching the compatible string of the running board with
-> > the closest compatible string in the FIT. There is no need for
-> > filenames or other workarounds.
-> >
-> > Add a 'make image.fit' build target for arm64, as well.
-> >
-> > The FIT can be examined using 'dumpimage -l'.
-> >
-> > This features requires pylibfdt (use 'pip install libfdt'). It also
-> > requires compression utilities for the algorithm being used. Supported
-> > compression options are the same as the Image.xxx files. For now there
-> > is no way to change the compression other than by editing the rule for
-> > $(obj)/image.fit
-> >
-> > While FIT supports a ramdisk / initrd, no attempt is made to support
-> > this here, since it must be built separately from the Linux build.
->
->
-> Is this useful?
-> For arm64, initrd is likely used.
+Fixes: 0f71dcfb4aef ("powerpc/ftrace: Add support for -fpatchable-function-entry")
+Signed-off-by: Michal Suchanek <msuchanek@suse.de>
+---
+ scripts/dummy-tools/gcc | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-It depends on your kernel configuration, though. I have found it
-convenient to enable the drivers necessary to boot.
+diff --git a/scripts/dummy-tools/gcc b/scripts/dummy-tools/gcc
+index 07f6dc4c5cf6..8ab81a905cc2 100755
+--- a/scripts/dummy-tools/gcc
++++ b/scripts/dummy-tools/gcc
+@@ -73,6 +73,25 @@ if arg_contain -Wa,--version "$@"; then
+ 	exit 0
+ fi
+ 
++if arg_contain -fpatchable-function-entry=2 "$@"; then
++	base64 -d <<-EOF
++	CS5maWxlCSI8c3RkaW4+IgoJLm1hY2hpbmUgcG93ZXI4CgkuYWJpdmVyc2lvbiAyCgkuc2VjdGlv
++	bgkiLnRleHQiCgkuYWxpZ24gMgoJLnAyYWxpZ24gNCwsMTUKCS5nbG9ibCBmdW5jCgkudHlwZQlm
++	dW5jLCBAZnVuY3Rpb24KZnVuYzoKLkxGQjA6CgkuY2ZpX3N0YXJ0cHJvYwouTENGMDoKMDoJYWRk
++	aXMgMiwxMiwuVE9DLi0uTENGMEBoYQoJYWRkaSAyLDIsLlRPQy4tLkxDRjBAbAoJLmxvY2FsZW50
++	cnkJZnVuYywuLWZ1bmMKCS5zZWN0aW9uCV9fcGF0Y2hhYmxlX2Z1bmN0aW9uX2VudHJpZXMsImF3
++	byIsQHByb2diaXRzLC5MUEZFMAoJLmFsaWduIDMKCS44Ynl0ZQkuTFBGRTAKCS5zZWN0aW9uCSIu
++	dGV4dCIKLkxQRkUwOgoJbm9wCglub3AKCWFkZGlzIDksMiwuTEFOQ0hPUjBAdG9jQGhhCglsd2Eg
++	MywuTEFOQ0hPUjBAdG9jQGwoOSkKCWJscgoJLmxvbmcgMAoJLmJ5dGUgMCwwLDAsMCwwLDAsMCww
++	CgkuY2ZpX2VuZHByb2MKLkxGRTA6Cgkuc2l6ZQlmdW5jLC4tZnVuYwoJLmdsb2JsIHgKCS5zZWN0
++	aW9uCSIuYnNzIgoJLmFsaWduIDIKCS5zZXQJLkxBTkNIT1IwLC4gKyAwCgkudHlwZQl4LCBAb2Jq
++	ZWN0Cgkuc2l6ZQl4LCA0Cng6CgkuemVybwk0CgkuaWRlbnQJIkdDQzogKFNVU0UgTGludXgpIDEz
++	LjIuMSAyMDIzMDkxMiBbcmV2aXNpb24gYjk2ZTY2ZmQ0ZWYzZTM2OTgzOTY5ZmI4Y2RkMTk1NmY1
++	NTFhMDc0Yl0iCgkuc2VjdGlvbgkubm90ZS5HTlUtc3RhY2ssIiIsQHByb2diaXRzCg==
++	EOF
++	exit 0
++fi
++
+ if arg_contain -S "$@"; then
+ 	# For scripts/gcc-x86-*-has-stack-protector.sh
+ 	if arg_contain -fstack-protector "$@"; then
+-- 
+2.42.0
 
->
-> FIT should be created in unbrellea projects
-> such as OpenEmbedded,  Buildroot, etc.
-
-Sure, but that is a separate issue, isn't it? We already support
-various boot targets in arm64 but not one that includes the DTs, so
-far as I can see. The old arm 'uImage' target is pretty out-of-date
-now.
-
->
->
->
->
-> > Signed-off-by: Simon Glass <sjg@chromium.org>
-> > ---
-> >
-> >  MAINTAINERS              |   7 +
-> >  arch/arm64/Makefile      |   3 +-
-> >  arch/arm64/boot/Makefile |   8 +-
-> >  scripts/Makefile.lib     |  16 ++-
-> >  scripts/make_fit.py      | 285 +++++++++++++++++++++++++++++++++++++++
-> >  5 files changed, 315 insertions(+), 4 deletions(-)
-> >  create mode 100755 scripts/make_fit.py
-> >
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 2d13bbd69adb..d6955ebc3c24 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -1575,6 +1575,13 @@ F:       Documentation/process/maintainer-soc*.r=
-st
-> >  F:     arch/arm/boot/dts/Makefile
-> >  F:     arch/arm64/boot/dts/Makefile
-> >
-> > +ARM64 FIT SUPPORT
-> > +M:     Simon Glass <sjg@chromium.org>
-> > +L:     linux-arm-kernel@lists.infradead.org (moderated for non-subscri=
-bers)
-> > +S:     Maintained
-> > +F:     arch/arm64/boot/Makefile
-> > +F:     scripts/make_fit.py
-> > +
-> >  ARM ARCHITECTED TIMER DRIVER
-> >  M:     Mark Rutland <mark.rutland@arm.com>
-> >  M:     Marc Zyngier <maz@kernel.org>
-> > diff --git a/arch/arm64/Makefile b/arch/arm64/Makefile
-> > index 7b77b63e978f..d8290dcab6b6 100644
-> > --- a/arch/arm64/Makefile
-> > +++ b/arch/arm64/Makefile
-> > @@ -150,7 +150,7 @@ libs-$(CONFIG_EFI_STUB) +=3D $(objtree)/drivers/fir=
-mware/efi/libstub/lib.a
-> >  # Default target when executing plain make
-> >  boot           :=3D arch/arm64/boot
-> >
-> > -BOOT_TARGETS   :=3D Image.gz vmlinuz.efi
-> > +BOOT_TARGETS   :=3D Image.gz vmlinuz.efi image.fit
-> >
-> >  PHONY +=3D $(BOOT_TARGETS)
-> >
-> > @@ -215,6 +215,7 @@ virtconfig:
-> >  define archhelp
-> >    echo  '* Image.gz      - Compressed kernel image (arch/$(ARCH)/boot/=
-Image.gz)'
-> >    echo  '  Image         - Uncompressed kernel image (arch/$(ARCH)/boo=
-t/Image)'
-> > +$(if $(CONFIG_EFI_ZBOOT),,echo  '  image.fit     - Flat Image Tree (ar=
-ch/$(ARCH)/boot/image.fit)')
-> >    echo  '  install       - Install uncompressed kernel'
-> >    echo  '  zinstall      - Install compressed kernel'
-> >    echo  '                  Install using (your) ~/bin/installkernel or=
-'
-> > diff --git a/arch/arm64/boot/Makefile b/arch/arm64/boot/Makefile
-> > index 1761f5972443..a6e5b20b22bd 100644
-> > --- a/arch/arm64/boot/Makefile
-> > +++ b/arch/arm64/boot/Makefile
-> > @@ -16,7 +16,8 @@
-> >
-> >  OBJCOPYFLAGS_Image :=3D-O binary -R .note -R .note.gnu.build-id -R .co=
-mment -S
-> >
-> > -targets :=3D Image Image.bz2 Image.gz Image.lz4 Image.lzma Image.lzo I=
-mage.zst
-> > +targets :=3D Image Image.bz2 Image.gz Image.lz4 Image.lzma Image.lzo \
-> > +       Image.zst image.fit
-> >
-> >  $(obj)/Image: vmlinux FORCE
-> >         $(call if_changed,objcopy)
-> > @@ -39,6 +40,11 @@ $(obj)/Image.lzo: $(obj)/Image FORCE
-> >  $(obj)/Image.zst: $(obj)/Image FORCE
-> >         $(call if_changed,zstd)
-> >
-> > +ifndef CONFIG_EFI_ZBOOT
-> > +$(obj)/image.fit: $(obj)/Image $(obj)/dts FORCE
->
->
->
-> This is wrong.
->
-> $(obj)/dts is a directory.
->
-> There is no point for comparing timestamps
-> between $(obj)/image.fit and $(obj)/dts.
->
-> Updates of *.dtb do not result in the
-> update of the $(obj)/dts timestamp.
->
->
-> if_changed never works correctly.
-
-Yes I am aware that this doesn't actually deal with changes. I'll see
-if I can figure out another way.
-
->
->
->
->
->
->
->
->
-> > +       $(call if_changed,fit,gzip)
-> > +endif
-> > +
-> >  EFI_ZBOOT_PAYLOAD      :=3D Image
-> >  EFI_ZBOOT_BFD_TARGET   :=3D elf64-littleaarch64
-> >  EFI_ZBOOT_MACH_TYPE    :=3D ARM64
-> > diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> > index 68d0134bdbf9..4e4364ad641a 100644
-> > --- a/scripts/Makefile.lib
-> > +++ b/scripts/Makefile.lib
-> > @@ -487,14 +487,26 @@ UIMAGE_OPTS-y ?=3D
-> >  UIMAGE_TYPE ?=3D kernel
-> >  UIMAGE_LOADADDR ?=3D arch_must_set_this
-> >  UIMAGE_ENTRYADDR ?=3D $(UIMAGE_LOADADDR)
-> > -UIMAGE_NAME ?=3D 'Linux-$(KERNELRELEASE)'
-> > +UIMAGE_NAME ?=3D "Linux-$(KERNELRELEASE)"
->
->
-> Unneeded noise change.
-
-I'll move that to a separate patch. We don't want the single quotes in the =
-name.
-
-Regards,
-Simon
