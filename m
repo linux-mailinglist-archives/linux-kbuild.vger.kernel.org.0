@@ -2,82 +2,64 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B52F7DCC13
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Oct 2023 12:46:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 319687DCCE9
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Oct 2023 13:22:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344051AbjJaLqM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 31 Oct 2023 07:46:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58974 "EHLO
+        id S235745AbjJaMVN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 31 Oct 2023 08:21:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38030 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344046AbjJaLqL (ORCPT
+        with ESMTP id S230497AbjJaMVM (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 31 Oct 2023 07:46:11 -0400
-Received: from mail-qv1-xf32.google.com (mail-qv1-xf32.google.com [IPv6:2607:f8b0:4864:20::f32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7952BE4
-        for <linux-kbuild@vger.kernel.org>; Tue, 31 Oct 2023 04:46:07 -0700 (PDT)
-Received: by mail-qv1-xf32.google.com with SMTP id 6a1803df08f44-66d87554434so38259406d6.2
-        for <linux-kbuild@vger.kernel.org>; Tue, 31 Oct 2023 04:46:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1698752766; x=1699357566; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=7RyJr69Zjkg4/uGgk720yPGxk6Fi/nOg06RfMojBpdE=;
-        b=VXANg8GdP4W9YDhfLRG4D4er9me3m3U8EhriPO3RC6qTU+FruFkF0WpkTvmisDLm7B
-         ZIQUQnjnok8Tu3zhjIypEst+GVp9eMbKIJ24MgvqJEKTD4CV9X39jpNZcgwCT6CMEXac
-         cTi4Yismv4x/EouGK5pDrlekyLv0M+QVSplvo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698752766; x=1699357566;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7RyJr69Zjkg4/uGgk720yPGxk6Fi/nOg06RfMojBpdE=;
-        b=fr/WsohztFexlDaaTdy2Z69QofJXsy1TmBHWSx5GJ1ICHkqrDbEvEYPHK+nltgmSa1
-         m20IlATa0bOr5ewGeykRv0HJ6Dew+KAOWMfNeb/fPfotqTM3pqsCihrnqJFI1zFKbgzI
-         Cx+ogdd4iwvGEP5VGE8EWO7kkn8fQPAET46D9saFdDLBcyRYzJhLFFnTsh33er7KZACA
-         jCo4OMVmycq3BhuD2MkBqkBuz/FMsZIKMUDgZS9Btf1fTsIrXz+l4fxLb5LvUdguQiJu
-         /+SJyYeBFW5jqAYkOijFUYauwUpY5+u2fm7M8qLe2S8nztpOeyLevVisIhPEGBElT7e8
-         kcyA==
-X-Gm-Message-State: AOJu0YywcAHpEsap11U5vF5g7qO2aDzAEzzRayEj9mlw6Noe7txhjttf
-        Ax1UrsJw6e9XtvYBVF+9aMwkxg==
-X-Google-Smtp-Source: AGHT+IFTS994PF2eivbjl4D87zli4XLFKRYnso6wsgAbR5iJm+HvYpJK5Qak0c/vkJYa00RCMxjYZw==
-X-Received: by 2002:ad4:5aa1:0:b0:66d:1b4c:e85e with SMTP id u1-20020ad45aa1000000b0066d1b4ce85emr15585877qvg.4.1698752766592;
-        Tue, 31 Oct 2023 04:46:06 -0700 (PDT)
-Received: from bill-the-cat (2603-6081-7b00-6400-0000-0000-0000-013d.res6.spectrum.com. [2603:6081:7b00:6400::13d])
-        by smtp.gmail.com with ESMTPSA id o5-20020a056214180500b0066d11743b3esm449095qvw.34.2023.10.31.04.46.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Oct 2023 04:46:06 -0700 (PDT)
-Date:   Tue, 31 Oct 2023 07:46:04 -0400
-From:   Tom Rini <trini@konsulko.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     "Russell King (Oracle)" <linux@armlinux.org.uk>,
-        Simon Glass <sjg@chromium.org>,
-        linux-arm-kernel@lists.infradead.org,
-        U-Boot Mailing List <u-boot@lists.denx.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nick Terrell <terrelln@fb.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Will Deacon <will@kernel.org>, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] arm64: boot: Support Flat Image Tree
-Message-ID: <20231031114604.GG496310@bill-the-cat>
-References: <20231026072628.4115527-1-sjg@chromium.org>
- <20231026072628.4115527-4-sjg@chromium.org>
- <CAK7LNASATGRaS-6QxzqTEq7qNVkZPXOBE8pfRBg=2bQGyy3=yw@mail.gmail.com>
- <CAFLszThguWT0u0R0EHfpBro0f-pWDwLOGk+5pQZEVhFYNKH8fQ@mail.gmail.com>
- <ZT/NRvLkvR8uuP5+@shell.armlinux.org.uk>
- <20231030161209.GU496310@bill-the-cat>
- <CAK7LNAQ=K9Az9UN0O-tCC6VFwMWgdNJUcHBmmQTn5-Y7_m8OOQ@mail.gmail.com>
+        Tue, 31 Oct 2023 08:21:12 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BD04A9;
+        Tue, 31 Oct 2023 05:21:10 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 485A7C433D9;
+        Tue, 31 Oct 2023 12:21:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1698754870;
+        bh=PBJz/BrjrQ+BZWJuJDf0iAVLoQB4EhQcSVaeUL/zAL4=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=fvw0pBvBFfSYJREjnnEiNmfvMc2qyBHx2wcaC5c7TD5UqvhGCfjF4UduWgvpg09LE
+         FtyW2AVvu5qPxE98BVJOQVtXQW405pkmtLkM9JQC4N6QKdKMZALUH8fkAjmVwJB+bq
+         0snZ6s/36uo3k8JzSICVJtF+GmNozU4whl13hFQFBLRPRdsKUYDlasmvXf90/I4NMT
+         QeQagMaIOD4xb4hGfMP8++TtkUwONADA10chh3TihRO9EB8dBHE7E/KNlOxbvxI50J
+         4WZQZi6yQKx18lGeg4kKo8/e76h0ivZQL6NcBI1JHZKSrgmWQw3k2jQz3bEsOdaiFU
+         5yhWNsN4hNQpQ==
+Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-6ce291b5df9so3228531a34.2;
+        Tue, 31 Oct 2023 05:21:10 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yy8UvjZskDqgrKlMr2QlqVTuOIKW+gU8DxAsFtTsk3cRacFH+JA
+        1PdemYCnwe7gsfImy4Kp9wvcelzvpG6s+J9CEmY=
+X-Google-Smtp-Source: AGHT+IETEqf6YuW6AZkjv2RszmF+Xdrmt0agc3TBW1ydRAf2ID8dNZyLgzeiGbWZk0+6LpAYjLgxTmoPzKqG8md0kgY=
+X-Received: by 2002:a05:6870:b003:b0:1d0:f5bd:6d2 with SMTP id
+ y3-20020a056870b00300b001d0f5bd06d2mr16369247oae.38.1698754869614; Tue, 31
+ Oct 2023 05:21:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK7LNAQ=K9Az9UN0O-tCC6VFwMWgdNJUcHBmmQTn5-Y7_m8OOQ@mail.gmail.com>
-X-Clacks-Overhead: GNU Terry Pratchett
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+References: <20231031102111.32142-1-jirislaby@kernel.org> <20231031112558.GAZUDkRrkEStZqDnz4@fat_crate.local>
+In-Reply-To: <20231031112558.GAZUDkRrkEStZqDnz4@fat_crate.local>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 31 Oct 2023 21:20:33 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS+Ej9q7Tw7Op8J27KUeFUEg6VvytWm6SXd1qB-ocUJ8A@mail.gmail.com>
+Message-ID: <CAK7LNAS+Ej9q7Tw7Op8J27KUeFUEg6VvytWm6SXd1qB-ocUJ8A@mail.gmail.com>
+Subject: Re: [PATCH] x86: Let AS_WRUSS depend on X86_64
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     "Jiri Slaby (SUSE)" <jirislaby@kernel.org>, peterz@infradead.org,
+        linux-kernel@vger.kernel.org, Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        John Allen <john.allen@amd.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
+        linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -86,56 +68,90 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Oct 31, 2023 at 04:03:18PM +0900, Masahiro Yamada wrote:
-> On Tue, Oct 31, 2023 at 1:12 AM Tom Rini <trini@konsulko.com> wrote:
+On Tue, Oct 31, 2023 at 8:26=E2=80=AFPM Borislav Petkov <bp@alien8.de> wrot=
+e:
+>
+> + linux-kbuild@vger.kernel.org
+>
+> On Tue, Oct 31, 2023 at 11:21:11AM +0100, Jiri Slaby (SUSE) wrote:
+> > Since commit 18e66b695e78 ("x86/shstk: Add Kconfig option for shadow
+> > stack"), AS_WRUSS is set even in 32-bit .configs. It is due to how
+> > Kbuild works. .config is not considered during make oldconfig (and othe=
+r
+> > make *config), so standard (64-bit) gcc is invoked from 'as-instr'
+> > Kbuild tests.
+
+
+
+I do not mind either way.
+
+Please note "depends on X86_64" cannot prevent gcc
+from running here.
+
+$(as-instr,wrussq %rax$(comma)(%rbx)) is replaced with 'y'
+while parsing the Kconfig files.
+
+I want to change it in the future, but that is how Kconfig works now.
+
+You don't save the cost of running the compiler.
+
+
+
+
+
+
+
+> And such gcc indeed reports that wruss is supported, so
+> > AS_WRUSS=3Dy is set.
 > >
-> > On Mon, Oct 30, 2023 at 03:35:34PM +0000, Russell King (Oracle) wrote:
-> > > On Sun, Oct 29, 2023 at 05:46:12AM +1300, Simon Glass wrote:
-> > > > Hi Masahiro,
-> > > >
-> > > > Sure, but that is a separate issue, isn't it? We already support
-> > > > various boot targets in arm64 but not one that includes the DTs, so
-> > > > far as I can see. The old arm 'uImage' target is pretty out-of-date
-> > > > now.
-> > >
-> > > Does that mean it can be removed? ;)
-> > >
-> > > I've NAK'd FIT support on 32-bit Arm in the past, and I remain of the
-> > > opinion that boot loader specific packaging of the kernel should not
-> > > be in the kernel but should be external to it - even more so given the
-> > > multi-platform nature of 32-bit Arm kernels.
+> > Provided the wruss instruction is 64-bit only (and used in pure 64-bit
+> > X86_USER_SHADOW_STACK), it has little sense to have AS_WRUSS=3Dy set on
+> > 32-bit.
 > >
-> > I'll point it out here rather than Simon. As part of
-> > https://github.com/open-source-firmware FIT is a standard and not "boot
-> > loader specific". And one of the points of a FIT image is that you can
-> > easily support multi-platform kernels in a single file (without
-> > optimizing things further, at a cost in tens of milliseconds on a Pi 3
-> > anyhow) and with user-controlled security.
+> > Therefore, make the whole test dependent on X86_64 to ensure it's set
+> > only on 64-bit.
 > >
+> > Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
+> > Cc: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> > Cc: Rick Edgecombe <rick.p.edgecombe@intel.com>
+> > Cc: Dave Hansen <dave.hansen@linux.intel.com>
+> > Cc: Borislav Petkov (AMD) <bp@alien8.de>
+> > Cc: Kees Cook <keescook@chromium.org>
+> > Cc: Mike Rapoport (IBM) <rppt@kernel.org>
+> > Cc: Pengfei Xu <pengfei.xu@intel.com>
+> > Cc: John Allen <john.allen@amd.com>
+> > Cc: Kees Cook <keescook@chromium.org>
+> > Cc: Thomas Gleixner <tglx@linutronix.de>
+> > Cc: Ingo Molnar <mingo@redhat.com>
+> > Cc: "H. Peter Anvin" <hpa@zytor.com>
+> > Cc: x86@kernel.org
+> > ---
+> >  arch/x86/Kconfig.assembler | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/arch/x86/Kconfig.assembler b/arch/x86/Kconfig.assembler
+> > index 8ad41da301e5..a5b5241711e3 100644
+> > --- a/arch/x86/Kconfig.assembler
+> > +++ b/arch/x86/Kconfig.assembler
+> > @@ -27,5 +27,6 @@ config AS_GFNI
+> >
+> >  config AS_WRUSS
+> >       def_bool $(as-instr,wrussq %rax$(comma)(%rbx))
+> > +     depends on X86_64
+> >       help
+> >         Supported by binutils >=3D 2.31 and LLVM integrated assembler
 > > --
-> > Tom
-> 
-> 
-> 
-> It is a copy of the document in U-Boot.
-> 
-> The file was split into two, but the content is the same.
-> 
-> 
-> [original in U-Boot]
-> https://github.com/u-boot/u-boot/blob/v2023.10/doc/usage/fit/source_file_format.rst
-> 
-> 
-> [flat-image-tree]
-> https://github.com/open-source-firmware/flat-image-tree/blob/v0.8/source/chapter1-introduction.rst
-> https://github.com/open-source-firmware/flat-image-tree/blob/v0.8/source/chapter2-source-file-format.rst
+> > 2.42.0
+> >
+>
+> --
+> Regards/Gruss,
+>     Boris.
+>
+> https://people.kernel.org/tglx/notes-about-netiquette
 
-Yes, it would have been a bad idea to change a 15 year old format as
-part of getting it included in some standards, and we'd also recently
-cleaned it up to rST. Similar comments would I expect be true of turning
-grub.cfg in to extlinux.conf and all of the organizations that has moved
-along, and anything else that wasn't developed by committee at some
-Standards organization.
 
--- 
-Tom
+
+--=20
+Best Regards
+Masahiro Yamada
