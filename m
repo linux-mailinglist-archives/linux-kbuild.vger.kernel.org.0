@@ -2,67 +2,72 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B39887DCB9A
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Oct 2023 12:17:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A6717DCBBB
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Oct 2023 12:26:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229791AbjJaLRR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 31 Oct 2023 07:17:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53594 "EHLO
+        id S235313AbjJaL0a (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 31 Oct 2023 07:26:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41450 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230457AbjJaLRR (ORCPT
+        with ESMTP id S235017AbjJaL03 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 31 Oct 2023 07:17:17 -0400
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE394DF
-        for <linux-kbuild@vger.kernel.org>; Tue, 31 Oct 2023 04:17:13 -0700 (PDT)
-Received: by mail-ej1-x62b.google.com with SMTP id a640c23a62f3a-98377c5d53eso826636866b.0
-        for <linux-kbuild@vger.kernel.org>; Tue, 31 Oct 2023 04:17:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1698751032; x=1699355832; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=w4v8a5RiHMYlglwAdgrZyHV3KIcl5PxmltDe1hiSZ5M=;
-        b=WJx19JUvYylr/rePwIlsbglrHYMDlSA5sfnuSL6EmAowSbdSUT3Fd+/XXxlrZfhUsj
-         J/cszZP4AYXS61DCreqXv3AqPWzkPNXFJLT+sT8faZ2ZJy53NwvmO5Hb9ETw4q5MXwNh
-         IbHL3gIWtKxDvqu6hI2qBjZeMd8PGvS0H3eYZ9e/Ss9h/Cxl7Okfl20j9kLYjlb0CPuU
-         PYCJ6a+fnJp6U4VJ5uEK4UrzeNLv89S6hbXx2zHl0lxgp7nk4XNwkyAiWvF1Bye+T5Ni
-         AmBXXyCcp53cjjrigM3chteIjYRIOaYtwOWIVyMhYjj31j2aWLD0l4nuc0Yx5rcOAYNJ
-         HinQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698751032; x=1699355832;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=w4v8a5RiHMYlglwAdgrZyHV3KIcl5PxmltDe1hiSZ5M=;
-        b=B+tlsWDb0PwNGHogdGpqhzO464UBJisdmcz2NETaNouhhqD7U5LxlADTMAQHyvVvXY
-         GE3fuB2vjCtPNgaRHLPkOJlfBLj1e9A5DINRbJZAMroe3s+Jsada9yYWZHdQoAH61cJN
-         EROSiZ/d3xT+7DbGTRptzTlZoGbkXnNgpN4+8UitD0A6/6tt74KRORL1VA6TtymGJI+h
-         A/7EYrUaNepmbGFgOLFElp1OyKN7CZxn39K3vQsSzFL1nTTAX6S3WmFpsQhu/oe3xl/A
-         kC5IomzGqXg+mdIsqEqHBe7Y5NgqG+mrmDD88ufr5TCrpjtKY9jIIgMHZeX1rwj6Hrjj
-         nzKQ==
-X-Gm-Message-State: AOJu0Yzt4eD6Z7xrgdlwTkBy5X6ThxYRVd2UXIBZT2oDFeC+SmwZwo5H
-        bDR0jWIcuoZK24gW/42MeBsrwQ==
-X-Google-Smtp-Source: AGHT+IFfnZRFnEk/ev5++w7OPm0hDm/9kXdKQTzvdxqPuHdb+OE0ib4NmMgw1LQN/uhro1gW0RNYyA==
-X-Received: by 2002:a17:907:2da9:b0:9b2:982e:339a with SMTP id gt41-20020a1709072da900b009b2982e339amr9426712ejc.22.1698751031721;
-        Tue, 31 Oct 2023 04:17:11 -0700 (PDT)
-Received: from P-ASN-ECS-830T8C3.numericable.fr ([89.159.1.53])
-        by smtp.gmail.com with ESMTPSA id oy11-20020a170907104b00b0099cc36c4681sm795606ejb.157.2023.10.31.04.17.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Oct 2023 04:17:11 -0700 (PDT)
-From:   Yoann Congal <yoann.congal@smile.fr>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Tue, 31 Oct 2023 07:26:29 -0400
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C000B97;
+        Tue, 31 Oct 2023 04:26:26 -0700 (PDT)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 882F840E0199;
+        Tue, 31 Oct 2023 11:26:23 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+        header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+        by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id PEu3gr-Fzv-u; Tue, 31 Oct 2023 11:26:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+        t=1698751580; bh=HpQ8ZkAVavcyZf/94v7pvHGWiVGSMkblV18kYeeITcc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=AdR6KpbXenVdYcGY0s5/zFnql2bUXkU7ZJ/pjnbSISP26SIaJHQVYxLUxMiT/Jy9m
+         AFzCk4tft5qFD4R3vL0cfC0YQYYt54nrob0SYZ5UVtK9pUT4VLUoo+lOVvcju8Kw5o
+         TJQfy2BHRr5ROGhBGfy53Hy5a/CzEuq96CciJp7zUG39lbRxldxUvhBEKYdQHloC3c
+         gozROJwGMVBBWH5hg+eJ8tTyu6AXPIGV7G2aJkQ/PQ0kVtxlXjOaHOzxKhPxEVs6JW
+         3YbbsdZ+6DpSzAiLiTacYH2PlHSIeJyVzDCkgAJg4n6DULLNTXLf4irkXK8HORq64f
+         HTHzSCkjtLnM2qZYp6RebhXAt0b2KqRkua1WnKWZPPMBhqKie3ost+cYy0Kd8miE2+
+         9IFf0Uy2h5zwnMcNO+NML1HwgWe/AbLGg5hBZgDWoyIuCjONM+8XEU4bQWntslVr4/
+         JM3q4rZH4rbyG0t1M92Crj3xBqKitxh2IAec1wLsSAyUdkUlb7sJt7mZNAg7n1jyp5
+         dyTmmwvrFDhDmsvk/xUZZLK9vDImChT2R14pIPi8KO0xFEOZgHYMeCAuY7iVhRxEJT
+         0nrz1Feg13Uq0VPggME7XL5Kjne1tiw1BQ19AbrF7OWmKXJS0HaceDhpz1b/Ibn/Bj
+         /4r2Gw3vsVjbpG57sGCLqRbA=
+Received: from zn.tnic (pd95304da.dip0.t-ipconnect.de [217.83.4.218])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+        (No client certificate requested)
+        by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id A369D40E014B;
+        Tue, 31 Oct 2023 11:26:05 +0000 (UTC)
+Date:   Tue, 31 Oct 2023 12:25:58 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
+Cc:     peterz@infradead.org, linux-kernel@vger.kernel.org,
+        Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        John Allen <john.allen@amd.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
         linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
-        Yoann Congal <yoann.congal@smile.fr>,
-        Brandon Maier <brandon.maier@collins.com>
-Subject: [PATCH v4] kconfig: avoid an infinite loop in oldconfig/syncconfig
-Date:   Tue, 31 Oct 2023 12:16:47 +0100
-Message-Id: <20231031111647.111093-1-yoann.congal@smile.fr>
-X-Mailer: git-send-email 2.30.2
+Subject: Re: [PATCH] x86: Let AS_WRUSS depend on X86_64
+Message-ID: <20231031112558.GAZUDkRrkEStZqDnz4@fat_crate.local>
+References: <20231031102111.32142-1-jirislaby@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20231031102111.32142-1-jirislaby@kernel.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -70,97 +75,58 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Exit on error when asking for value and reading stdin returns an error
-(mainly if it has reached EOF or is closed).
++ linux-kbuild@vger.kernel.org
 
-This infinite loop happens in particular for hex/int configs without an
-explicit default value.
+On Tue, Oct 31, 2023 at 11:21:11AM +0100, Jiri Slaby (SUSE) wrote:
+> Since commit 18e66b695e78 ("x86/shstk: Add Kconfig option for shadow
+> stack"), AS_WRUSS is set even in 32-bit .configs. It is due to how
+> Kbuild works. .config is not considered during make oldconfig (and other
+> make *config), so standard (64-bit) gcc is invoked from 'as-instr'
+> Kbuild tests. And such gcc indeed reports that wruss is supported, so
+> AS_WRUSS=y is set.
+> 
+> Provided the wruss instruction is 64-bit only (and used in pure 64-bit
+> X86_USER_SHADOW_STACK), it has little sense to have AS_WRUSS=y set on
+> 32-bit.
+> 
+> Therefore, make the whole test dependent on X86_64 to ensure it's set
+> only on 64-bit.
+> 
+> Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
+> Cc: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> Cc: Rick Edgecombe <rick.p.edgecombe@intel.com>
+> Cc: Dave Hansen <dave.hansen@linux.intel.com>
+> Cc: Borislav Petkov (AMD) <bp@alien8.de>
+> Cc: Kees Cook <keescook@chromium.org>
+> Cc: Mike Rapoport (IBM) <rppt@kernel.org>
+> Cc: Pengfei Xu <pengfei.xu@intel.com>
+> Cc: John Allen <john.allen@amd.com>
+> Cc: Kees Cook <keescook@chromium.org>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Ingo Molnar <mingo@redhat.com>
+> Cc: "H. Peter Anvin" <hpa@zytor.com>
+> Cc: x86@kernel.org
+> ---
+>  arch/x86/Kconfig.assembler | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/arch/x86/Kconfig.assembler b/arch/x86/Kconfig.assembler
+> index 8ad41da301e5..a5b5241711e3 100644
+> --- a/arch/x86/Kconfig.assembler
+> +++ b/arch/x86/Kconfig.assembler
+> @@ -27,5 +27,6 @@ config AS_GFNI
+>  
+>  config AS_WRUSS
+>  	def_bool $(as-instr,wrussq %rax$(comma)(%rbx))
+> +	depends on X86_64
+>  	help
+>  	  Supported by binutils >= 2.31 and LLVM integrated assembler
+> -- 
+> 2.42.0
+> 
 
-Previously, this case would loop:
-* oldconfig prompts for the value but stdin has reached EOF
-* It gets the global default value : an empty string
-* This is not a valid hex/int value so it prompts again, hence the
-  infinite loop.
-
-This case happens with a configuration like this (a hex config without a
-valid default value):
-  config TEST_KCONFIG
-       hex "Test KConfig"
-       # default 0x0
-
-And using:
-  make oldconfig < /dev/null
-
-This was discovered when working on Yocto bug[0] on a downstream
-kconfig user (U-boot)
-
-[0]: https://bugzilla.yoctoproject.org/show_bug.cgi?id=14136
-
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
-Tested-by: Brandon Maier <brandon.maier@collins.com>
----
-v3->v4:
- * Added Brandon Maier's "Tested-by". Thanks!
-v2->v3:
- * Simplify the patch by fusing comments of :
-   * Masahiro Yamada : Exit as soon as reading stdin hits an error
-   * Randy Dunlap : Display the name of the currently read symbol
-v1->v2:
- * Improve coding style
- * Put more info in the commit message
-
- scripts/kconfig/conf.c | 19 +++++++++++++++----
- 1 file changed, 15 insertions(+), 4 deletions(-)
-
-diff --git a/scripts/kconfig/conf.c b/scripts/kconfig/conf.c
-index 33d19e419908..68f0c649a805 100644
---- a/scripts/kconfig/conf.c
-+++ b/scripts/kconfig/conf.c
-@@ -74,13 +74,17 @@ static void strip(char *str)
- }
- 
- /* Helper function to facilitate fgets() by Jean Sacren. */
--static void xfgets(char *str, int size, FILE *in)
-+static int xfgets(char *str, int size, FILE *in)
- {
-+	int ret = 0;
-+
- 	if (!fgets(str, size, in))
--		fprintf(stderr, "\nError in reading or end of file.\n");
-+		ret = -1;
- 
- 	if (!tty_stdio)
- 		printf("%s", str);
-+
-+	return ret;
- }
- 
- static void set_randconfig_seed(void)
-@@ -339,7 +343,10 @@ static int conf_askvalue(struct symbol *sym, const char *def)
- 		/* fall through */
- 	default:
- 		fflush(stdout);
--		xfgets(line, sizeof(line), stdin);
-+		if (xfgets(line, sizeof(line), stdin) != 0) {
-+			fprintf(stderr, "Error while reading value of symbol \"%s\"\n", sym->name);
-+			exit(1);
-+		}
- 		break;
- 	}
- 
-@@ -521,7 +528,11 @@ static int conf_choice(struct menu *menu)
- 			/* fall through */
- 		case oldaskconfig:
- 			fflush(stdout);
--			xfgets(line, sizeof(line), stdin);
-+			if (xfgets(line, sizeof(line), stdin) != 0) {
-+				fprintf(stderr, "Error while reading value of symbol \"%s\"\n",
-+						sym->name);
-+				exit(1);
-+			}
- 			strip(line);
- 			if (line[0] == '?') {
- 				print_help(menu);
 -- 
-2.30.2
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
