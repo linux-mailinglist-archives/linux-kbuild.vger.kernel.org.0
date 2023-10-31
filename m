@@ -2,78 +2,67 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F1B2D7DBD8A
-	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Oct 2023 17:12:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A8497DC5FB
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Oct 2023 06:38:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232492AbjJ3QMQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 30 Oct 2023 12:12:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55048 "EHLO
+        id S229648AbjJaFiR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 31 Oct 2023 01:38:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46492 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231845AbjJ3QMP (ORCPT
+        with ESMTP id S229557AbjJaFiP (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 30 Oct 2023 12:12:15 -0400
-Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com [IPv6:2607:f8b0:4864:20::22a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9903CC5
-        for <linux-kbuild@vger.kernel.org>; Mon, 30 Oct 2023 09:12:12 -0700 (PDT)
-Received: by mail-oi1-x22a.google.com with SMTP id 5614622812f47-3b2e22a4004so3266972b6e.3
-        for <linux-kbuild@vger.kernel.org>; Mon, 30 Oct 2023 09:12:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1698682332; x=1699287132; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=oodQJECNA1emt+ZSe7GuNR9wIJ3mag7w16SqLJjZ1IU=;
-        b=danZmm22xygZLt+rGcfT8IHe1161EDsur1wJbqJYCSstNcK9KxOtHCOfSO5TC7GBNB
-         A9PQTd8R45Cy5ryky3kvpbz0Kmp4jQsKZI/3N4xKpAWwY3EvN6d0aAbWwE87NQMGXbTk
-         zCr6tlTR0HnLUCeY718KXWpSCJASQkbTftaJc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698682332; x=1699287132;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oodQJECNA1emt+ZSe7GuNR9wIJ3mag7w16SqLJjZ1IU=;
-        b=BUQaK1BOpNIbA+Fn73p+e+WN7B9o86Pew9bajQ/gQmXnqnXJ3xSHFYWntFGkqKpmY/
-         mJn3Z82ySSGUt4Ta0gnBp55TxhL/1dTXxPzaw/vreIeDO596kyxiQqP57tqpYeUC0xR6
-         FbMq/Tw95wQTmsQYO/sQ/8MySmcuS+IcFqsQvKjGQ+aLulVGQGMIFq/GU7+WX9oUlQmy
-         GnXEJgqH43j5WwgizPpWOUVZyvth4Dd4wiGe/Ax40/I5FJbGiClj2je2+lgeBuqxlsio
-         5Fl1yv4kKh59p+NOEHmgUGMnaohUg0PT4US29Lm9T3YvHvRX+H+iNuP7nJOPHcoZJMB1
-         vS7g==
-X-Gm-Message-State: AOJu0YyvuxKtfSKVSgmoArRHHE57uVIQDUTxBm0Di6mRzdnYxEeqKjb2
-        Nu/Uqqr7HQPbtJ/i0lguqcep2A==
-X-Google-Smtp-Source: AGHT+IHoT9T9j+/Dof6wA/G/+AhrgWHz86krrYzaeW+fuocGkn8AxQnmYdn2G2hIALD+1WZYwAlU5Q==
-X-Received: by 2002:aca:1816:0:b0:3ae:5743:533a with SMTP id h22-20020aca1816000000b003ae5743533amr10434767oih.47.1698682331961;
-        Mon, 30 Oct 2023 09:12:11 -0700 (PDT)
-Received: from bill-the-cat (2603-6081-7b00-6400-0000-0000-0000-013d.res6.spectrum.com. [2603:6081:7b00:6400::13d])
-        by smtp.gmail.com with ESMTPSA id h19-20020a05620a401300b007778503ebf4sm3427889qko.16.2023.10.30.09.12.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Oct 2023 09:12:11 -0700 (PDT)
-Date:   Mon, 30 Oct 2023 12:12:09 -0400
-From:   Tom Rini <trini@konsulko.com>
-To:     "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc:     Simon Glass <sjg@chromium.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        U-Boot Mailing List <u-boot@lists.denx.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nick Terrell <terrelln@fb.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        Will Deacon <will@kernel.org>, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] arm64: boot: Support Flat Image Tree
-Message-ID: <20231030161209.GU496310@bill-the-cat>
-References: <20231026072628.4115527-1-sjg@chromium.org>
- <20231026072628.4115527-4-sjg@chromium.org>
- <CAK7LNASATGRaS-6QxzqTEq7qNVkZPXOBE8pfRBg=2bQGyy3=yw@mail.gmail.com>
- <CAFLszThguWT0u0R0EHfpBro0f-pWDwLOGk+5pQZEVhFYNKH8fQ@mail.gmail.com>
- <ZT/NRvLkvR8uuP5+@shell.armlinux.org.uk>
+        Tue, 31 Oct 2023 01:38:15 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8DBFDF;
+        Mon, 30 Oct 2023 22:38:12 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79CB3C433C8;
+        Tue, 31 Oct 2023 05:38:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1698730692;
+        bh=74TnMIViJ53aWi+jH3OPEsmr3nmy5Zut75G5OW8eiEA=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=jQ7N8KkeWhaWp0An7PTtL+2hiRHJyCTYTEXmchMOJX89G+zyV3omLOCg0o7nlDndQ
+         c83SvYFbTOEOg65yek326JLs/+T64I02+ymj6L1Qn4zJoTCI+0Zc99/cNZs5jvI5fK
+         ifMJR7DYvefj7vzTlzy/jXVRWhjAU6JpRReHMYtyDrbl5ikiRZ2YaoLa92YykZQzBk
+         CM2HNB8vsyBNUfxsgu2YY4ADtIBZAPoRbmwCcnGisIyhWx+X2yv80oNVocFRqO48ak
+         Zsrz+AdZRwkMia/mOkyVOjongulLkoGPMXB9vmAEblP2JasPxpR5fZdvnOPnP5dnfU
+         KJQyhtq633pwg==
+Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-1eb39505ba4so3528696fac.0;
+        Mon, 30 Oct 2023 22:38:12 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yxu5Y5kML4rV3NlYrXtn6WmEmXvPI+qDli+m1H0ycs69zcOsorc
+        kW+rz+3XbpWc4l42J/ds7yWyHB3cSro0RsWfWN4=
+X-Google-Smtp-Source: AGHT+IHLaZDG+EB683EmjfX64T9gJ5sdGaTxbuxC+FcHcyrmNf41binky8xIbf99uvFODJ8XIFHe6+9HKbEkxNdTan4=
+X-Received: by 2002:a05:6870:90d5:b0:1d0:d9e2:985f with SMTP id
+ s21-20020a05687090d500b001d0d9e2985fmr12476968oab.57.1698730691785; Mon, 30
+ Oct 2023 22:38:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZT/NRvLkvR8uuP5+@shell.armlinux.org.uk>
-X-Clacks-Overhead: GNU Terry Pratchett
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+References: <202310282049.HXCHtgEz-lkp@intel.com> <20231028093605.b516ad5d8ca820ec76da3072@linux-foundation.org>
+In-Reply-To: <20231028093605.b516ad5d8ca820ec76da3072@linux-foundation.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 31 Oct 2023 14:37:35 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATxbwMW0WCAxBfHp6sSiqw+djE8SCGJr2CSeiOp=NDeHQ@mail.gmail.com>
+Message-ID: <CAK7LNATxbwMW0WCAxBfHp6sSiqw+djE8SCGJr2CSeiOp=NDeHQ@mail.gmail.com>
+Subject: Re: [akpm-mm:mm-nonmm-unstable 18/58] ERROR: modpost: vmlinux: local
+ symbol 'kthread_stop_put' was exported
+To:     Andrew Morton <akpm@linux-foundation.org>,
+        "open list:SIFIVE DRIVERS" <linux-riscv@lists.infradead.org>,
+        =?UTF-8?B?Ru+/ve+/ve+/vW5nLXJ177+977+977+9IFPvv73vv73vv71uZw==?= 
+        <maskray@google.com>
+Cc:     kernel test robot <lkp@intel.com>,
+        Andreas Gruenbacher <agruenba@redhat.com>,
+        oe-kbuild-all@lists.linux.dev,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -81,28 +70,167 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Oct 30, 2023 at 03:35:34PM +0000, Russell King (Oracle) wrote:
-> On Sun, Oct 29, 2023 at 05:46:12AM +1300, Simon Glass wrote:
-> > Hi Masahiro,
-> > 
-> > Sure, but that is a separate issue, isn't it? We already support
-> > various boot targets in arm64 but not one that includes the DTs, so
-> > far as I can see. The old arm 'uImage' target is pretty out-of-date
-> > now.
-> 
-> Does that mean it can be removed? ;)
-> 
-> I've NAK'd FIT support on 32-bit Arm in the past, and I remain of the
-> opinion that boot loader specific packaging of the kernel should not
-> be in the kernel but should be external to it - even more so given the
-> multi-platform nature of 32-bit Arm kernels.
+(+CC: RISCV, toolchian folks)
 
-I'll point it out here rather than Simon. As part of
-https://github.com/open-source-firmware FIT is a standard and not "boot
-loader specific". And one of the points of a FIT image is that you can
-easily support multi-platform kernels in a single file (without
-optimizing things further, at a cost in tens of milliseconds on a Pi 3
-anyhow) and with user-controlled security.
+Original Thread:
+https://lore.kernel.org/oe-kbuild-all/202310282049.HXCHtgEz-lkp@intel.com/
 
--- 
-Tom
+
+On Sun, Oct 29, 2023 at 1:36=E2=80=AFAM Andrew Morton <akpm@linux-foundatio=
+n.org> wrote:
+>
+> On Sat, 28 Oct 2023 20:29:18 +0800 kernel test robot <lkp@intel.com> wrot=
+e:
+>
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-=
+nonmm-unstable
+> > head:   d431880137b55533f664056070226a88dba99637
+> > commit: 6309727ef27162deabd5c095c11af24970fba5a2 [18/58] kthread: add k=
+thread_stop_put
+> > config: riscv-randconfig-c033-20221102 (https://download.01.org/0day-ci=
+/archive/20231028/202310282049.HXCHtgEz-lkp@intel.com/config)
+> > compiler: riscv32-linux-gcc (GCC) 13.2.0
+> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
+hive/20231028/202310282049.HXCHtgEz-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202310282049.HXCHtgEz-l=
+kp@intel.com/
+> >
+> > All errors (new ones prefixed by >>, old ones prefixed by <<):
+> >
+> > ERROR: modpost: vmlinux: local symbol 'system_power_efficient_wq' was e=
+xported
+>
+> [ it now proceeds to list 16000 more such "errors" ]
+>
+> I see no error here - these symbols are exported because modules use
+> them.  Unless I misinterpret the intent of this modpost check.
+>
+> Masahiro, could you please take a look?
+
+
+I was able to reproduce the issue even in the mainline kernel.
+
+But, the warnings are not only the export symbols,
+but also a ton of false-positive section mismatch warnings.
+
+To me, the RELA sections look broken when the vmlinux size
+grows to a certain extent.
+
+I suspected a toolchain bug, but I am not 100% sure.
+
+In my investigation, this happens under some conditions.
+
+ - It happens on RISCV 32-bit
+ - It happens with GCC. LLVM is no problem.
+ - It happens when the vmlinux size grows
+
+
+I attached a simple reproducer script at the end of this reply.
+
+
+Please checkout the v6.6 tag.
+Run the reproducer, with the yes2modconfig line commented out.
+
+
+When vmlinux.o is small, the relocation info looks sane.
+For example,
+
+$ riscv64-linux-gnu-size vmlinux.o
+   text    data     bss     dec     hex filename
+10762048 905937 342657 12010642 b74492 vmlinux.o
+$ riscv64-linux-gnu-readelf -r vmlinux.o  | grep -m1 -A10 rela.export_symbo=
+l
+Relocation section '.rela.export_symbol' at offset 0x1d9491d4 contains
+9789 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name + Addend
+00000004  c3130301 R_RISCV_32        00000024   system_state + 0
+00000010  c33b6901 R_RISCV_32        00000018   static_key_initialized + 0
+00000018  c3024d01 R_RISCV_32        00000014   reset_devices + 0
+00000020  c33b9e01 R_RISCV_32        00000008   loops_per_jiffy + 0
+0000002c  c2f57201 R_RISCV_32        00000110   init_uts_ns + 0
+00000038  c3233601 R_RISCV_32        00000354   wait_for_initramfs + 0
+00000040  c2ffff01 R_RISCV_32        00000340   init_task + 0
+00000048  c313fc01 R_RISCV_32        00000b58   riscv_cached_mvendorid + 0
+00000050  c2f78a01 R_RISCV_32        00000b7e   riscv_cached_marchid + 0
+
+
+
+
+
+
+
+Run the reproducer, with the yes2modconfig line in.
+
+vmlinux.o gets bigger, and the relocation info is messed up.
+ELF_R_SYM() starts to point local symbols ".LASF*"
+
+
+$ riscv64-linux-gnu-size vmlinux.o
+   text    data     bss     dec     hex filename
+16831652 1141862 390321 18363835 11835bb vmlinux.o
+
+$ riscv64-linux-gnu-readelf -r vmlinux.o  | grep -A10 rela.export_symbol
+Relocation section '.rela.export_symbol' at offset 0x3201524c contains
+11648 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name + Addend
+00000004  3f41b601 R_RISCV_32        01302449   .LASF1851 + 0
+00000010  3f3f4301 R_RISCV_32        012ffca4   .LASF1225 + 0
+00000018  3f40d201 R_RISCV_32        01300bc1   .LASF1623 + 0
+00000020  3f646a01 R_RISCV_32        01319a43   .LASF5361 + 0
+0000002c  3f2f6201 R_RISCV_32        012f5c1f   .LASF3521 + 0
+00000038  3f168701 R_RISCV_32        012dd796   .LASF4363 + 0
+00000040  3f5d8c01 R_RISCV_32        01319a26   .LASF3685 + 0
+00000048  3f092501 R_RISCV_32        012e5792   .LASF939 + 0
+00000050  3f22b501 R_RISCV_32        012f89a4   .LASF277 + 0
+
+
+
+
+
+This is the reproducer shell script.
+
+------------------->8-----------------------------
+#!/bin/sh
+
+set -e
+
+# I used riscv64-linux-gnu-gcc available on Ubuntu.
+# Instead, you can also use riscv32-linux-gcc, riscv64-linux-gcc, etc.
+# provided by the 0day.
+
+export CROSS_COMPILE=3Driscv64-linux-gnu-
+
+make ARCH=3Driscv defconfig
+
+#
+# Configure for 32-bit
+#
+make ARCH=3Driscv 32-bit.config
+
+#
+# Turn =3Dm into =3Dy in order to grow vmlinux
+#
+make ARCH=3Driscv mod2yesconfig
+
+#
+# Enable DEBUG_INFO
+#
+./scripts/config -d CONFIG_DEBUG_INFO_NONE
+./scripts/config -e CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT
+
+# sync the .config
+make ARCH=3Driscv olddefconfig
+
+make ARCH=3Driscv -j$(nproc) vmlinux_o
+------------------------>8------------------------------------
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
