@@ -2,131 +2,145 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A6717DCBBB
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Oct 2023 12:26:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 506B57DCBC4
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Oct 2023 12:27:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235313AbjJaL0a (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 31 Oct 2023 07:26:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41450 "EHLO
+        id S235475AbjJaL1G (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 31 Oct 2023 07:27:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235017AbjJaL03 (ORCPT
+        with ESMTP id S230457AbjJaL1G (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 31 Oct 2023 07:26:29 -0400
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C000B97;
-        Tue, 31 Oct 2023 04:26:26 -0700 (PDT)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 882F840E0199;
-        Tue, 31 Oct 2023 11:26:23 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-        header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-        by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id PEu3gr-Fzv-u; Tue, 31 Oct 2023 11:26:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-        t=1698751580; bh=HpQ8ZkAVavcyZf/94v7pvHGWiVGSMkblV18kYeeITcc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=AdR6KpbXenVdYcGY0s5/zFnql2bUXkU7ZJ/pjnbSISP26SIaJHQVYxLUxMiT/Jy9m
-         AFzCk4tft5qFD4R3vL0cfC0YQYYt54nrob0SYZ5UVtK9pUT4VLUoo+lOVvcju8Kw5o
-         TJQfy2BHRr5ROGhBGfy53Hy5a/CzEuq96CciJp7zUG39lbRxldxUvhBEKYdQHloC3c
-         gozROJwGMVBBWH5hg+eJ8tTyu6AXPIGV7G2aJkQ/PQ0kVtxlXjOaHOzxKhPxEVs6JW
-         3YbbsdZ+6DpSzAiLiTacYH2PlHSIeJyVzDCkgAJg4n6DULLNTXLf4irkXK8HORq64f
-         HTHzSCkjtLnM2qZYp6RebhXAt0b2KqRkua1WnKWZPPMBhqKie3ost+cYy0Kd8miE2+
-         9IFf0Uy2h5zwnMcNO+NML1HwgWe/AbLGg5hBZgDWoyIuCjONM+8XEU4bQWntslVr4/
-         JM3q4rZH4rbyG0t1M92Crj3xBqKitxh2IAec1wLsSAyUdkUlb7sJt7mZNAg7n1jyp5
-         dyTmmwvrFDhDmsvk/xUZZLK9vDImChT2R14pIPi8KO0xFEOZgHYMeCAuY7iVhRxEJT
-         0nrz1Feg13Uq0VPggME7XL5Kjne1tiw1BQ19AbrF7OWmKXJS0HaceDhpz1b/Ibn/Bj
-         /4r2Gw3vsVjbpG57sGCLqRbA=
-Received: from zn.tnic (pd95304da.dip0.t-ipconnect.de [217.83.4.218])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+        Tue, 31 Oct 2023 07:27:06 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26E2BDB;
+        Tue, 31 Oct 2023 04:27:03 -0700 (PDT)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id D41F321AA3;
+        Tue, 31 Oct 2023 11:27:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1698751621; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=30knWgI7g6iE7LoSoi4ZZIFV7YnKnwQtSASUA8at7Tw=;
+        b=Vym5b+HKQevF4Nz/d/59xFjiHqLQWMpoCkjXMFGkYacikmIDk2iwUaJ/KRmo+twaNgL7t5
+        pjWawntVtuWE0WjXbx6USIJ3ubQSWgWnBGoN9ZZ3yC64p+YhPR4isq74K1xHcQu+FHlyd+
+        Zn+Lu3Lp0L2mUwq34J6qLmY5sTMzDGI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1698751621;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=30knWgI7g6iE7LoSoi4ZZIFV7YnKnwQtSASUA8at7Tw=;
+        b=2bmeYfYw2Ro+UcRyWyN6cx3ub5NYOFwODxXw5/Ue8ZZTMCG/dcqs0nkHDD4MvFJbW5mrEl
+        Bt0Sd/XaYow4euBA==
+Received: from kitsune.suse.cz (kitsune.suse.cz [10.100.12.127])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id A369D40E014B;
-        Tue, 31 Oct 2023 11:26:05 +0000 (UTC)
-Date:   Tue, 31 Oct 2023 12:25:58 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
-Cc:     peterz@infradead.org, linux-kernel@vger.kernel.org,
-        Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        John Allen <john.allen@amd.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
-        linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH] x86: Let AS_WRUSS depend on X86_64
-Message-ID: <20231031112558.GAZUDkRrkEStZqDnz4@fat_crate.local>
-References: <20231031102111.32142-1-jirislaby@kernel.org>
+        by relay2.suse.de (Postfix) with ESMTPS id 4AA242CF31;
+        Tue, 31 Oct 2023 11:26:59 +0000 (UTC)
+Date:   Tue, 31 Oct 2023 12:26:58 +0100
+From:   Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Naveen N Rao <naveen@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kbuild: dummy-tools: Add support for
+ -fpatchable-function-entry
+Message-ID: <20231031112658.GM6241@kitsune.suse.cz>
+References: <20231030083222.28509-1-msuchanek@suse.de>
+ <CAK7LNAQRQ41bXiBFViXE94gObx+3qu5xQxWTXKfO6NYj=v0=9A@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20231031102111.32142-1-jirislaby@kernel.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK7LNAQRQ41bXiBFViXE94gObx+3qu5xQxWTXKfO6NYj=v0=9A@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-+ linux-kbuild@vger.kernel.org
+On Tue, Oct 31, 2023 at 03:08:53PM +0900, Masahiro Yamada wrote:
+> On Mon, Oct 30, 2023 at 5:32 PM Michal Suchanek <msuchanek@suse.de> wrote:
+> >
+> > dummy-gcc does not produce the output
+> > gcc-check-fpatchable-function-entry.sh expects. Add a base64 encoded
+> > output of the second test.
+> >
+> > Fixes: 0f71dcfb4aef ("powerpc/ftrace: Add support for -fpatchable-function-entry")
+> > Signed-off-by: Michal Suchanek <msuchanek@suse.de>
+> > ---
+> 
+> 
+> 
+> I prefer this one
+> https://lore.kernel.org/linux-kbuild/20231030113416.5208-1-jirislaby@kernel.org/T/#u
+> 
+> 
+> Does it work for you?
 
-On Tue, Oct 31, 2023 at 11:21:11AM +0100, Jiri Slaby (SUSE) wrote:
-> Since commit 18e66b695e78 ("x86/shstk: Add Kconfig option for shadow
-> stack"), AS_WRUSS is set even in 32-bit .configs. It is due to how
-> Kbuild works. .config is not considered during make oldconfig (and other
-> make *config), so standard (64-bit) gcc is invoked from 'as-instr'
-> Kbuild tests. And such gcc indeed reports that wruss is supported, so
-> AS_WRUSS=y is set.
+Yes, that also works.
+
+Thanks
+
+Michal
+
 > 
-> Provided the wruss instruction is 64-bit only (and used in pure 64-bit
-> X86_USER_SHADOW_STACK), it has little sense to have AS_WRUSS=y set on
-> 32-bit.
 > 
-> Therefore, make the whole test dependent on X86_64 to ensure it's set
-> only on 64-bit.
 > 
-> Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
-> Cc: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> Cc: Rick Edgecombe <rick.p.edgecombe@intel.com>
-> Cc: Dave Hansen <dave.hansen@linux.intel.com>
-> Cc: Borislav Petkov (AMD) <bp@alien8.de>
-> Cc: Kees Cook <keescook@chromium.org>
-> Cc: Mike Rapoport (IBM) <rppt@kernel.org>
-> Cc: Pengfei Xu <pengfei.xu@intel.com>
-> Cc: John Allen <john.allen@amd.com>
-> Cc: Kees Cook <keescook@chromium.org>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Ingo Molnar <mingo@redhat.com>
-> Cc: "H. Peter Anvin" <hpa@zytor.com>
-> Cc: x86@kernel.org
-> ---
->  arch/x86/Kconfig.assembler | 1 +
->  1 file changed, 1 insertion(+)
 > 
-> diff --git a/arch/x86/Kconfig.assembler b/arch/x86/Kconfig.assembler
-> index 8ad41da301e5..a5b5241711e3 100644
-> --- a/arch/x86/Kconfig.assembler
-> +++ b/arch/x86/Kconfig.assembler
-> @@ -27,5 +27,6 @@ config AS_GFNI
->  
->  config AS_WRUSS
->  	def_bool $(as-instr,wrussq %rax$(comma)(%rbx))
-> +	depends on X86_64
->  	help
->  	  Supported by binutils >= 2.31 and LLVM integrated assembler
+> 
+> >  scripts/dummy-tools/gcc | 19 +++++++++++++++++++
+> >  1 file changed, 19 insertions(+)
+> >
+> > diff --git a/scripts/dummy-tools/gcc b/scripts/dummy-tools/gcc
+> > index 07f6dc4c5cf6..8ab81a905cc2 100755
+> > --- a/scripts/dummy-tools/gcc
+> > +++ b/scripts/dummy-tools/gcc
+> > @@ -73,6 +73,25 @@ if arg_contain -Wa,--version "$@"; then
+> >         exit 0
+> >  fi
+> >
+> > +if arg_contain -fpatchable-function-entry=2 "$@"; then
+> > +       base64 -d <<-EOF
+> > +       CS5maWxlCSI8c3RkaW4+IgoJLm1hY2hpbmUgcG93ZXI4CgkuYWJpdmVyc2lvbiAyCgkuc2VjdGlv
+> > +       bgkiLnRleHQiCgkuYWxpZ24gMgoJLnAyYWxpZ24gNCwsMTUKCS5nbG9ibCBmdW5jCgkudHlwZQlm
+> > +       dW5jLCBAZnVuY3Rpb24KZnVuYzoKLkxGQjA6CgkuY2ZpX3N0YXJ0cHJvYwouTENGMDoKMDoJYWRk
+> > +       aXMgMiwxMiwuVE9DLi0uTENGMEBoYQoJYWRkaSAyLDIsLlRPQy4tLkxDRjBAbAoJLmxvY2FsZW50
+> > +       cnkJZnVuYywuLWZ1bmMKCS5zZWN0aW9uCV9fcGF0Y2hhYmxlX2Z1bmN0aW9uX2VudHJpZXMsImF3
+> > +       byIsQHByb2diaXRzLC5MUEZFMAoJLmFsaWduIDMKCS44Ynl0ZQkuTFBGRTAKCS5zZWN0aW9uCSIu
+> > +       dGV4dCIKLkxQRkUwOgoJbm9wCglub3AKCWFkZGlzIDksMiwuTEFOQ0hPUjBAdG9jQGhhCglsd2Eg
+> > +       MywuTEFOQ0hPUjBAdG9jQGwoOSkKCWJscgoJLmxvbmcgMAoJLmJ5dGUgMCwwLDAsMCwwLDAsMCww
+> > +       CgkuY2ZpX2VuZHByb2MKLkxGRTA6Cgkuc2l6ZQlmdW5jLC4tZnVuYwoJLmdsb2JsIHgKCS5zZWN0
+> > +       aW9uCSIuYnNzIgoJLmFsaWduIDIKCS5zZXQJLkxBTkNIT1IwLC4gKyAwCgkudHlwZQl4LCBAb2Jq
+> > +       ZWN0Cgkuc2l6ZQl4LCA0Cng6CgkuemVybwk0CgkuaWRlbnQJIkdDQzogKFNVU0UgTGludXgpIDEz
+> > +       LjIuMSAyMDIzMDkxMiBbcmV2aXNpb24gYjk2ZTY2ZmQ0ZWYzZTM2OTgzOTY5ZmI4Y2RkMTk1NmY1
+> > +       NTFhMDc0Yl0iCgkuc2VjdGlvbgkubm90ZS5HTlUtc3RhY2ssIiIsQHByb2diaXRzCg==
+> > +       EOF
+> > +       exit 0
+> > +fi
+> > +
+> >  if arg_contain -S "$@"; then
+> >         # For scripts/gcc-x86-*-has-stack-protector.sh
+> >         if arg_contain -fstack-protector "$@"; then
+> > --
+> > 2.42.0
+> >
+> 
+> 
 > -- 
-> 2.42.0
-> 
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+> Best Regards
+> Masahiro Yamada
