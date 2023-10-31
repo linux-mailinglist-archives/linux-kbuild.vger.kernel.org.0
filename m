@@ -2,48 +2,51 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 319687DCCE9
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Oct 2023 13:22:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CFCC77DCDF5
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Oct 2023 14:37:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235745AbjJaMVN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 31 Oct 2023 08:21:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38030 "EHLO
+        id S1344585AbjJaNfS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 31 Oct 2023 09:35:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60208 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230497AbjJaMVM (ORCPT
+        with ESMTP id S1344583AbjJaNfR (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 31 Oct 2023 08:21:12 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BD04A9;
-        Tue, 31 Oct 2023 05:21:10 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 485A7C433D9;
-        Tue, 31 Oct 2023 12:21:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1698754870;
-        bh=PBJz/BrjrQ+BZWJuJDf0iAVLoQB4EhQcSVaeUL/zAL4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=fvw0pBvBFfSYJREjnnEiNmfvMc2qyBHx2wcaC5c7TD5UqvhGCfjF4UduWgvpg09LE
-         FtyW2AVvu5qPxE98BVJOQVtXQW405pkmtLkM9JQC4N6QKdKMZALUH8fkAjmVwJB+bq
-         0snZ6s/36uo3k8JzSICVJtF+GmNozU4whl13hFQFBLRPRdsKUYDlasmvXf90/I4NMT
-         QeQagMaIOD4xb4hGfMP8++TtkUwONADA10chh3TihRO9EB8dBHE7E/KNlOxbvxI50J
-         4WZQZi6yQKx18lGeg4kKo8/e76h0ivZQL6NcBI1JHZKSrgmWQw3k2jQz3bEsOdaiFU
-         5yhWNsN4hNQpQ==
-Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-6ce291b5df9so3228531a34.2;
-        Tue, 31 Oct 2023 05:21:10 -0700 (PDT)
-X-Gm-Message-State: AOJu0Yy8UvjZskDqgrKlMr2QlqVTuOIKW+gU8DxAsFtTsk3cRacFH+JA
-        1PdemYCnwe7gsfImy4Kp9wvcelzvpG6s+J9CEmY=
-X-Google-Smtp-Source: AGHT+IETEqf6YuW6AZkjv2RszmF+Xdrmt0agc3TBW1ydRAf2ID8dNZyLgzeiGbWZk0+6LpAYjLgxTmoPzKqG8md0kgY=
-X-Received: by 2002:a05:6870:b003:b0:1d0:f5bd:6d2 with SMTP id
- y3-20020a056870b00300b001d0f5bd06d2mr16369247oae.38.1698754869614; Tue, 31
- Oct 2023 05:21:09 -0700 (PDT)
-MIME-Version: 1.0
-References: <20231031102111.32142-1-jirislaby@kernel.org> <20231031112558.GAZUDkRrkEStZqDnz4@fat_crate.local>
-In-Reply-To: <20231031112558.GAZUDkRrkEStZqDnz4@fat_crate.local>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 31 Oct 2023 21:20:33 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS+Ej9q7Tw7Op8J27KUeFUEg6VvytWm6SXd1qB-ocUJ8A@mail.gmail.com>
-Message-ID: <CAK7LNAS+Ej9q7Tw7Op8J27KUeFUEg6VvytWm6SXd1qB-ocUJ8A@mail.gmail.com>
-Subject: Re: [PATCH] x86: Let AS_WRUSS depend on X86_64
-To:     Borislav Petkov <bp@alien8.de>
+        Tue, 31 Oct 2023 09:35:17 -0400
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5A50DE;
+        Tue, 31 Oct 2023 06:35:13 -0700 (PDT)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 9A7D540E0199;
+        Tue, 31 Oct 2023 13:35:11 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+        header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+        by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id 5K4SqGA76OhW; Tue, 31 Oct 2023 13:35:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+        t=1698759309; bh=dxj8fhRzPwH8/JFJjxqLFgA5VsrRSPOlPjjVeAxOH84=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=TiUmT2IqFvFQsrHFfFebr3RX8IY65pAta2roA7X2QYyP+qMXF1/9KQRYygqUsbLg7
+         fr3aDvJyezudutupPghVQiRBEdxG/HmbqB9T9PbtOAJ2N5/ic+v78Wnt8J3NHFxK56
+         ucb3W4HPImWYTOkDN2yfAWJR9VKAmcH77cWRstrA9Eh2JMvVUA+YOaMTJkfDygREjB
+         YLnw90DJODFmcgQ2Ggm3V97DUi6+U/jvhNnrzFs5LE5qmEMzb0e8u8McbYsN+rAR+R
+         eXwxkdWDsFh/1YnyoKYMnMh2lrOtLFCkBQarlGOEzmw9GX5xCpC8+jCm4BHcuYksEe
+         OuIz8Bu4ZPmFiarwSC0jfKLBThfhM5rTnZ5XdLQgtQ5op7eLTEujcVoaNk28s29gxX
+         9eBp1KMIoXzN/Q0tuinCXqU9W5qkWhVMaTS6hp0ELKttzcPQ3ZGWx2rlt9AbYuYxRw
+         LAYKjaBi7DS1nPmf+cbq3c3AxunIAfoq1POu6tk0+1EMB26qY8GPuok61oGJvagB/J
+         hGHRomfWYtRPcZwmJEILRiO7eWP8DyWDNcSHdQ8ctxDhaExjaegRnTfRfKA8x9uoT5
+         m1er16Q53gWCgwjvdGdiYUjRpicmBnNNpz6XAQ0aj+/mNA/xRFY6MgiYBGvFEpBlDP
+         LakxItjMf3+p7jylivDzvfdI=
+Received: from zn.tnic (pd95304da.dip0.t-ipconnect.de [217.83.4.218])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+        (No client certificate requested)
+        by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 3840E40E0173;
+        Tue, 31 Oct 2023 13:34:53 +0000 (UTC)
+Date:   Tue, 31 Oct 2023 14:34:47 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     "Jiri Slaby (SUSE)" <jirislaby@kernel.org>, peterz@infradead.org,
         linux-kernel@vger.kernel.org, Yu-cheng Yu <yu-cheng.yu@intel.com>,
         Rick Edgecombe <rick.p.edgecombe@intel.com>,
@@ -56,102 +59,37 @@ Cc:     "Jiri Slaby (SUSE)" <jirislaby@kernel.org>, peterz@infradead.org,
         Ingo Molnar <mingo@redhat.com>,
         "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
         linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Subject: Re: [PATCH] x86: Let AS_WRUSS depend on X86_64
+Message-ID: <20231031133447.GBZUECd12o2sw7E4Re@fat_crate.local>
+References: <20231031102111.32142-1-jirislaby@kernel.org>
+ <20231031112558.GAZUDkRrkEStZqDnz4@fat_crate.local>
+ <CAK7LNAS+Ej9q7Tw7Op8J27KUeFUEg6VvytWm6SXd1qB-ocUJ8A@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAK7LNAS+Ej9q7Tw7Op8J27KUeFUEg6VvytWm6SXd1qB-ocUJ8A@mail.gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Oct 31, 2023 at 8:26=E2=80=AFPM Borislav Petkov <bp@alien8.de> wrot=
-e:
+On Tue, Oct 31, 2023 at 09:20:33PM +0900, Masahiro Yamada wrote:
+> Please note "depends on X86_64" cannot prevent gcc
+> from running here.
+> 
+> $(as-instr,wrussq %rax$(comma)(%rbx)) is replaced with 'y'
+> while parsing the Kconfig files.
 >
-> + linux-kbuild@vger.kernel.org
->
-> On Tue, Oct 31, 2023 at 11:21:11AM +0100, Jiri Slaby (SUSE) wrote:
-> > Since commit 18e66b695e78 ("x86/shstk: Add Kconfig option for shadow
-> > stack"), AS_WRUSS is set even in 32-bit .configs. It is due to how
-> > Kbuild works. .config is not considered during make oldconfig (and othe=
-r
-> > make *config), so standard (64-bit) gcc is invoked from 'as-instr'
-> > Kbuild tests.
+Then what is this fixing?
 
+Jiri, what openSUSE kernel build issues were you referring to on IRC?
 
+-- 
+Regards/Gruss,
+    Boris.
 
-I do not mind either way.
-
-Please note "depends on X86_64" cannot prevent gcc
-from running here.
-
-$(as-instr,wrussq %rax$(comma)(%rbx)) is replaced with 'y'
-while parsing the Kconfig files.
-
-I want to change it in the future, but that is how Kconfig works now.
-
-You don't save the cost of running the compiler.
-
-
-
-
-
-
-
-> And such gcc indeed reports that wruss is supported, so
-> > AS_WRUSS=3Dy is set.
-> >
-> > Provided the wruss instruction is 64-bit only (and used in pure 64-bit
-> > X86_USER_SHADOW_STACK), it has little sense to have AS_WRUSS=3Dy set on
-> > 32-bit.
-> >
-> > Therefore, make the whole test dependent on X86_64 to ensure it's set
-> > only on 64-bit.
-> >
-> > Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
-> > Cc: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> > Cc: Rick Edgecombe <rick.p.edgecombe@intel.com>
-> > Cc: Dave Hansen <dave.hansen@linux.intel.com>
-> > Cc: Borislav Petkov (AMD) <bp@alien8.de>
-> > Cc: Kees Cook <keescook@chromium.org>
-> > Cc: Mike Rapoport (IBM) <rppt@kernel.org>
-> > Cc: Pengfei Xu <pengfei.xu@intel.com>
-> > Cc: John Allen <john.allen@amd.com>
-> > Cc: Kees Cook <keescook@chromium.org>
-> > Cc: Thomas Gleixner <tglx@linutronix.de>
-> > Cc: Ingo Molnar <mingo@redhat.com>
-> > Cc: "H. Peter Anvin" <hpa@zytor.com>
-> > Cc: x86@kernel.org
-> > ---
-> >  arch/x86/Kconfig.assembler | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/arch/x86/Kconfig.assembler b/arch/x86/Kconfig.assembler
-> > index 8ad41da301e5..a5b5241711e3 100644
-> > --- a/arch/x86/Kconfig.assembler
-> > +++ b/arch/x86/Kconfig.assembler
-> > @@ -27,5 +27,6 @@ config AS_GFNI
-> >
-> >  config AS_WRUSS
-> >       def_bool $(as-instr,wrussq %rax$(comma)(%rbx))
-> > +     depends on X86_64
-> >       help
-> >         Supported by binutils >=3D 2.31 and LLVM integrated assembler
-> > --
-> > 2.42.0
-> >
->
-> --
-> Regards/Gruss,
->     Boris.
->
-> https://people.kernel.org/tglx/notes-about-netiquette
-
-
-
---=20
-Best Regards
-Masahiro Yamada
+https://people.kernel.org/tglx/notes-about-netiquette
