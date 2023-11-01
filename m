@@ -2,31 +2,31 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 598647DE32C
-	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Nov 2023 16:36:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C75F07DE392
+	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Nov 2023 16:37:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233064AbjKAPFP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 1 Nov 2023 11:05:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52166 "EHLO
+        id S233104AbjKAPFR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 1 Nov 2023 11:05:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52140 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233002AbjKAPFM (ORCPT
+        with ESMTP id S232591AbjKAPFO (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 1 Nov 2023 11:05:12 -0400
+        Wed, 1 Nov 2023 11:05:14 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2885E12B;
-        Wed,  1 Nov 2023 08:05:03 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B8EEC433C7;
-        Wed,  1 Nov 2023 15:05:01 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC2E9138;
+        Wed,  1 Nov 2023 08:05:04 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20955C433CC;
+        Wed,  1 Nov 2023 15:05:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1698851102;
-        bh=J9TDTTp5Th8l4Sk4Cvv9hQrUXmMuJKZ9hBfQCH+y39o=;
+        s=k20201202; t=1698851104;
+        bh=G5IEU13BAIg0z0NXW6uKOCp7ssGljo/FCvyBke8OHsQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=mForM/ElSg9nfUfHoSsS9u0waPf4ExfykoG7pn8Q3XaEFgsuytu/ouZBmYcqQY8rw
-         mBCLgYXYsf/9nsFDRochpXiVbM1DwA2OtewmFI4or+JDh0c8/cnOXG1n9KvZPrO34R
-         XR3XxeLrPAqnnn3W3aaXyYsWXUdRH2RsWT8+z5XWQAtZ2dFQdViSHXC//r9Aa7d9n/
-         r/L053pdsVpMNa65QHfpWWceGMtD27/WRDnLzz9u1jsm+cnaMmvTfc9ENNegOoaUfY
-         e2eSn8UCofIHVcgoEC8GrhEsPMr5SHW7ge7vA1krBOKkEgAaV+Xi+9vmk0tvA4Kv5C
-         pHhg1GVhlpXWw==
+        b=uE+WrCb7M6EmKJdxJmKMrN/sRX3Hp6ydLqFVsn6B3tVKj8NG2/4jzEs8XIw6a0fn1
+         Sp4SujkKHUgM1mUPTI1vhmZXJie9QgjC5tsgQTfXGtoRnPoYLKfY0EAwkEN6wm9JhJ
+         8N9Ynm2p232u7jxkHH2RclCoFG9YeI5YsPWyvR6CaeSbCgzuM7Nc0iL3PRUYk3XlRf
+         ruf8hY+VoJRLNBPpnEbP90M9csUCKeNRsODr4zHU/3xDNcw8icqhRK9rXOYyGVDbwo
+         MPzL1vCOvE+IQ/x0tzgJO84VwgjEbssQ2IwyFcdPMm727TADppazOgsb1Nc16MPV4b
+         TknK6oyhPTzUA==
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org, Greg Ungerer <gerg@kernel.org>,
@@ -35,9 +35,9 @@ Cc:     linux-kernel@vger.kernel.org, Greg Ungerer <gerg@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Nicolas Schier <nicolas@fjasle.eu>
-Subject: [PATCH 6/7] modpost: add symsearch_find_with_name() helper function
-Date:   Thu,  2 Nov 2023 00:04:03 +0900
-Message-Id: <20231101150404.754108-7-masahiroy@kernel.org>
+Subject: [PATCH 7/7] modpost: look up the correct symbol in check_export_symbol()
+Date:   Thu,  2 Nov 2023 00:04:04 +0900
+Message-Id: <20231101150404.754108-8-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20231101150404.754108-1-masahiroy@kernel.org>
 References: <20231101150404.754108-1-masahiroy@kernel.org>
@@ -53,86 +53,97 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-This helper function searches for a symbol with the provided name.
-The symbol must be located in the specified section and within the
-given distance from the target address.
+Greg Ungerer reported modpost produced false-positive
+"local symbol '...' was exported" errors when m68k-uclinux-gcc is used.
 
-In the expected use case, the min_distance is very small, so the
-linear search will finish within a few iterations.
+I had assumed ELF_R_SYM(Elf_Rela::r_info) pointed to the exported symbol
+itself if it is in the global scope. This assumption worked for many
+toolchains, but as it turned out, it was not true for m68k-uclinux-gcc,
+at least.
 
+If the 'sym' argument passed to check_export_symbol() is not the
+exported symbol, look up the correct one in the symbol table. It incurs
+a search cost, but since we know its section index and address, we can
+exploit the binary search.
+
+Reported-by: Greg Ungerer <gerg@kernel.org>
+Closes: https://lore.kernel.org/all/1fac9d12-2ec2-4ccb-bb81-34f3fc34789e@westnet.com.au/
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/mod/modpost.h   |  3 +++
- scripts/mod/symsearch.c | 44 +++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 47 insertions(+)
+ scripts/mod/modpost.c | 31 ++++++++++++++++++++++---------
+ 1 file changed, 22 insertions(+), 9 deletions(-)
 
-diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
-index 9834ac44846d..43148b1a762b 100644
---- a/scripts/mod/modpost.h
-+++ b/scripts/mod/modpost.h
-@@ -186,6 +186,9 @@ void symsearch_finish(struct elf_info *elf);
- Elf_Sym *symsearch_find_nearest(struct elf_info *elf, Elf_Addr addr,
- 				unsigned int secndx, bool allow_negative,
- 				Elf_Addr min_distance);
-+Elf_Sym *symsearch_find_with_name(struct elf_info *elf, Elf_Addr addr,
-+				  unsigned int secndx, bool allow_negative,
-+				  Elf_Addr min_distance, const char *name);
- 
- /* file2alias.c */
- void handle_moddevtable(struct module *mod, struct elf_info *info,
-diff --git a/scripts/mod/symsearch.c b/scripts/mod/symsearch.c
-index 13464e4f4d72..9101bb9584a4 100644
---- a/scripts/mod/symsearch.c
-+++ b/scripts/mod/symsearch.c
-@@ -240,3 +240,47 @@ Elf_Sym *symsearch_find_nearest(struct elf_info *elf, Elf_Addr addr,
- 	return symsearch_find(elf, addr, secndx, allow_negative, min_distance,
- 			      symsearch_nearest_filter, elf);
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index 896ecfa8483f..ee67bc6d71ee 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -1021,6 +1021,18 @@ static Elf_Sym *find_tosym(struct elf_info *elf, Elf_Addr addr, Elf_Sym *sym)
+ 				      true, 20);
  }
-+
-+struct name_filter_data {
-+	struct elf_info *elf;
-+	const char *name;
-+};
-+
-+static bool symsearch_name_filter(const Elf_Sym *sym1, const Elf_Sym *sym2,
-+				  void *_data)
+ 
++static Elf_Sym *find_tosym_with_name(struct elf_info *elf, Elf_Addr addr,
++				     Elf_Sym *sym, const char *name)
 +{
-+	struct name_filter_data *data = _data;
-+	const char *name;
++	/* If the supplied symbol has the expected name, return it. */
++	if (!strcmp(sym_name(elf, sym), name))
++		return sym;
 +
-+	/* Check the symbol name. */
-+	name = sym_name(data->elf, sym1);
-+	if (strcmp(name, data->name))
-+		return false;
-+
-+	/* If sym2 is NULL, this is the first occurrence, always take it. */
-+	if (!sym2)
-+		return true;
-+
-+	/* Prefer lower address. */
-+	return sym1->st_value < sym2->st_value;
++	/* Look up a symbol with the given name. */
++	return symsearch_find_with_name(elf, addr, get_secindex(elf, sym),
++					true, 20, name);
 +}
 +
-+/*
-+ * Find the symbol which is in secndx and has the given name, and is located
-+ * close enough to the given address.
-+ * allow_negative: allow returning a symbol whose address is > addr.
-+ * min_distance: ignore symbols which are further away than this.
-+ * name: the name of the symbol to search for.
-+ *
-+ * Returns a pointer into the symbol table for success.
-+ * Returns NULL if no legal symbol is found within the requested range.
-+ */
-+Elf_Sym *symsearch_find_with_name(struct elf_info *elf, Elf_Addr addr,
-+				  unsigned int secndx, bool allow_negative,
-+				  Elf_Addr min_distance, const char *name)
-+{
-+	struct name_filter_data data = { .elf = elf, .name = name };
+ static bool is_executable_section(struct elf_info *elf, unsigned int secndx)
+ {
+ 	if (secndx >= elf->num_sections)
+@@ -1079,7 +1091,7 @@ static void default_mismatch_handler(const char *modname, struct elf_info *elf,
+ 
+ static void check_export_symbol(struct module *mod, struct elf_info *elf,
+ 				Elf_Addr faddr, const char *secname,
+-				Elf_Sym *sym)
++				Elf_Sym *sym, Elf_Addr taddr)
+ {
+ 	static const char *prefix = "__export_symbol_";
+ 	const char *label_name, *name, *data;
+@@ -1096,6 +1108,14 @@ static void check_export_symbol(struct module *mod, struct elf_info *elf,
+ 		return;
+ 	}
+ 
++	name = label_name + strlen(prefix);
++	sym = find_tosym_with_name(elf, taddr, sym, name);
++	if (!sym) {
++		error("%s: could not find the the export symbol '%s'\n",
++		      mod->name, name);
++		return;
++	}
 +
-+	return symsearch_find(elf, addr, secndx, allow_negative, min_distance,
-+			      symsearch_name_filter, &data);
-+}
+ 	if (ELF_ST_BIND(sym->st_info) != STB_GLOBAL &&
+ 	    ELF_ST_BIND(sym->st_info) != STB_WEAK) {
+ 		error("%s: local symbol '%s' was exported\n", mod->name,
+@@ -1103,13 +1123,6 @@ static void check_export_symbol(struct module *mod, struct elf_info *elf,
+ 		return;
+ 	}
+ 
+-	name = sym_name(elf, sym);
+-	if (strcmp(label_name + strlen(prefix), name)) {
+-		error("%s: .export_symbol section references '%s', but it does not seem to be an export symbol\n",
+-		      mod->name, name);
+-		return;
+-	}
+-
+ 	data = sym_get_data(elf, label);	/* license */
+ 	if (!strcmp(data, "GPL")) {
+ 		is_gpl = true;
+@@ -1156,7 +1169,7 @@ static void check_section_mismatch(struct module *mod, struct elf_info *elf,
+ 	const struct sectioncheck *mismatch;
+ 
+ 	if (module_enabled && elf->export_symbol_secndx == fsecndx) {
+-		check_export_symbol(mod, elf, faddr, tosec, sym);
++		check_export_symbol(mod, elf, faddr, tosec, sym, taddr);
+ 		return;
+ 	}
+ 
 -- 
 2.40.1
 
