@@ -2,124 +2,99 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 47FFB7DD6FC
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Oct 2023 21:18:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CBB87DE3AA
+	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Nov 2023 16:37:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231810AbjJaUSV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 31 Oct 2023 16:18:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38328 "EHLO
+        id S235662AbjKAObj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 1 Nov 2023 10:31:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37468 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231795AbjJaUSU (ORCPT
+        with ESMTP id S235658AbjKAObi (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 31 Oct 2023 16:18:20 -0400
-Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F037E6
-        for <linux-kbuild@vger.kernel.org>; Tue, 31 Oct 2023 13:18:18 -0700 (PDT)
-Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-5b0c27d504fso1904187b3.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 31 Oct 2023 13:18:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1698783497; x=1699388297; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=ztq39AVKtcPBQkDEgvD9lSUG5ylL2QPNBxZOTT2U9hc=;
-        b=EGHI4CJywkrKHWz4oREJwLIPp6QyfyEiQeyA23EfZYk0zf+UB8FaTgGtnIX4Yz/5zq
-         0wfaPxBX7kOFTa7t8SErD2Hdr9/BpS/09YMO+DydsO14aCCNLpEF5gRDbAdvSyeOlVqc
-         UPdwDfxNFzQZxJxlIYSyVEJZg41aUPEyzyBuf8phKhuMelMvnPjr5Pz6KgLXeK4ZyOyT
-         +hM/LYAkG4A9YLNg1vZwyyDl7cXlnZ1Ny2Pzc8JTvWpSyKt02vk6NaI7jNgmL1ZlNAAc
-         3b2rz5CYEcRrjjIGqzCRVZFOm/ke01G8uUhp01YYpIQ64333Vi174EbMtHL1aCTM9ObF
-         psUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698783497; x=1699388297;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ztq39AVKtcPBQkDEgvD9lSUG5ylL2QPNBxZOTT2U9hc=;
-        b=ajqbotEKYpKAYoK+z7tz/HxLGJfyEWqitWPVveA21VpV0MDkYZkOqmjYb2JowPWt5O
-         ApAall+zx1zyMia2rvIs8SGbidi2VWD1LlCCU6FZ9ZQF5z/OO1Zio4khVSC25gsF3bUF
-         1Wwcp+BRcX3/9rTa5KQO710aEgm/mHZlQH9B11w1ztIoWR2x6i+LZ+d4ArDmDs4z9z1O
-         3+jzoBLkl9Aa7xkd1Z2m3NJPkzN8iM3copM0Ytil1nIxGZdtKMa/E15uwqSX1Yes62ZS
-         PlpTw9K15tdAKuzVHOCMuyqp5NddJztwvv9PQsBUEhcVgVKPSQ4kWGS+vdWpRcrYmq0N
-         FguQ==
-X-Gm-Message-State: AOJu0YxbWP/CtLV9VGgR9kMON4uwE+8fN3fNy08xZV3k9NzjpWOWToE4
-        sAmOCWvf5fV+KOFaNFLxcdU1mu26faHw
-X-Google-Smtp-Source: AGHT+IE8r9R0/YNE2aMmXBt/5jdVEq82GPS8cQwktw+16arRhB9NYq/NvvqS8Dt8j29bFV2jrKzq4QjdO3vj
-X-Received: from anyblade.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:1791])
- (user=mmaurer job=sendgmr) by 2002:a0d:d684:0:b0:58c:e8da:4d1a with SMTP id
- y126-20020a0dd684000000b0058ce8da4d1amr89719ywd.2.1698783497681; Tue, 31 Oct
- 2023 13:18:17 -0700 (PDT)
-Date:   Tue, 31 Oct 2023 20:10:14 +0000
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.42.0.820.g83a721a137-goog
-Message-ID: <20231031201752.1189213-1-mmaurer@google.com>
-Subject: [PATCH] rust: Suppress searching builtin sysroot
-From:   Matthew Maurer <mmaurer@google.com>
-To:     Jamie.Cunliffe@arm.com, Miguel Ojeda <ojeda@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Cc:     will@kernel.org, Matthew Maurer <mmaurer@google.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        "=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?=" <bjorn3_gh@protonmail.com>,
-        Benno Lossin <benno.lossin@proton.me>,
-        Andreas Hindborg <a.hindborg@samsung.com>,
-        Alice Ryhl <aliceryhl@google.com>,
+        Wed, 1 Nov 2023 10:31:38 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23DD5118;
+        Wed,  1 Nov 2023 07:31:34 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCDE2C433C7;
+        Wed,  1 Nov 2023 14:31:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1698849093;
+        bh=S3QnZ5TLVGUDyUEnC8ZSxV6bintznPVwiXrtpENX4kk=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=rQuJq07sv+PfdvWLN44YdKyEL6wCflUbM5/TZ3B5jcrMso4+U/ZyHsv8FeCCjnpe4
+         MuVCOCmuV5m0ZVa2Te+iwRkfo1yFJU2OgGgEHl2V3xTJc0J4tEqLMRv+wTPSrdKuvk
+         YTEKMEhOhIJycU2UlGI6ZcdgpyEYO9KDj5mxHrgxVDc6BjC1DSaZT+uVD2buHy1Hw+
+         qMMAZRYT3feZIljbISqCzhaCQOFTWxVtqJQPpJVLZz29JZnVL2xffF2XBV5qKXj8Sq
+         PqFiE73TKdDlxAFpNgA3r22hhy2s1SaBkdvVlnRTIJpJiU+4wUpNExWSSEyRproy4F
+         Yyn/oCDVbuWuQ==
+Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-1c0fcbf7ae4so4862635fac.0;
+        Wed, 01 Nov 2023 07:31:33 -0700 (PDT)
+X-Gm-Message-State: AOJu0YzTWSos6NMU3a3ZvEaZ09FkGESDcehHWieAZ/mJhu6JH1R2RfCZ
+        9FPdpCzQIIudM491NLoF3ZNZrUm8AUiQE3VkkGI=
+X-Google-Smtp-Source: AGHT+IHqRO7Wo4Mu7rwxew/JPOMjW0zRH1eip+uTa8iUOPpJNc9wAAOWT6Dv3jAxrN/rfK8/HMgXCAox07bvKd9SX/s=
+X-Received: by 2002:a05:6870:709c:b0:1d5:a17e:f62 with SMTP id
+ v28-20020a056870709c00b001d5a17e0f62mr20914715oae.24.1698849093164; Wed, 01
+ Nov 2023 07:31:33 -0700 (PDT)
+MIME-Version: 1.0
+References: <20231030113416.5208-1-jirislaby@kernel.org>
+In-Reply-To: <20231030113416.5208-1-jirislaby@kernel.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 1 Nov 2023 23:30:56 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS2y9v3+VDdz5jYrd69bDfWoS-dOk-G8DRMhkx-==9Ung@mail.gmail.com>
+Message-ID: <CAK7LNAS2y9v3+VDdz5jYrd69bDfWoS-dOk-G8DRMhkx-==9Ung@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: dummy-tools: pretend we understand -fpatchable-function-entry
+To:     "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
+Cc:     linux-kernel@vger.kernel.org,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Nicolas Schier <nicolas@fjasle.eu>,
-        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org
+        linux-kbuild@vger.kernel.org, Naveen N Rao <naveen@kernel.org>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Michael Ellerman <mpe@ellerman.id.au>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-By default, if Rust is passed `--target=foo` rather than a target.json
-file, it will infer a default sysroot if that component is installed. As
-the proposed aarch64 support uses `aarch64-unknown-none` rather than a
-target.json file, this is needed to prevent rustc from being confused
-between the custom kernel sysroot and the pre-installed one.
+On Mon, Oct 30, 2023 at 8:34=E2=80=AFPM Jiri Slaby (SUSE) <jirislaby@kernel=
+.org> wrote:
+>
+> Commit 0f71dcfb4aef (powerpc/ftrace: Add support for
+> -fpatchable-function-entry) added a script to check for
+> -fpatchable-function-entry compiler support. The script expects compiler
+> to emit the section __patchable_function_entries and few nops after a
+> function entry.
+>
+> If the compiler understands and emits the above,
+> CONFIG_ARCH_USING_PATCHABLE_FUNCTION_ENTRY is set.
+>
+> So teach dummy-tools' gcc about this.
+>
+> Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: Nathan Chancellor <nathan@kernel.org>
+> Cc: Nick Desaulniers <ndesaulniers@google.com>
+> Cc: Nicolas Schier <nicolas@fjasle.eu>
+> Cc: linux-kbuild@vger.kernel.org
+> Cc: Naveen N Rao <naveen@kernel.org>
+> Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
+> Cc: Michael Ellerman <mpe@ellerman.id.au>
+> ---
 
-Signed-off-by: Matthew Maurer <mmaurer@google.com>
----
 
-This patch is prompted by the issue I encountered at
-https://lore.kernel.org/all/CAGSQo01pOixiPXkW867h4vPUaAjtKtHGKhkV-rpifJvKxAf4Ww@mail.gmail.com/
-but should be generically more hermetic even if we don't end up landing
-that patch.
+Applied to linux-kbuild.
+Thanks.
 
- rust/Makefile          | 1 +
- scripts/Makefile.build | 1 +
- 2 files changed, 2 insertions(+)
 
-diff --git a/rust/Makefile b/rust/Makefile
-index a27f35f924ec..0403e88e19fd 100644
---- a/rust/Makefile
-+++ b/rust/Makefile
-@@ -400,6 +400,7 @@ quiet_cmd_rustc_library = $(if $(skip_clippy),RUSTC,$(RUSTC_OR_CLIPPY_QUIET)) L
- 		--emit=metadata=$(dir $@)$(patsubst %.o,lib%.rmeta,$(notdir $@)) \
- 		--crate-type rlib -L$(objtree)/$(obj) \
- 		--crate-name $(patsubst %.o,%,$(notdir $@)) $< \
-+		--sysroot=/dev/null \
- 	$(if $(rustc_objcopy),;$(OBJCOPY) $(rustc_objcopy) $@)
- 
- rust-analyzer:
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index 82e3fb19fdaf..6e4ee513cc3c 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -275,6 +275,7 @@ rust_common_cmd = \
- 	--extern alloc --extern kernel \
- 	--crate-type rlib -L $(objtree)/rust/ \
- 	--crate-name $(basename $(notdir $@)) \
-+	--sysroot=/dev/null \
- 	--out-dir $(dir $@) --emit=dep-info=$(depfile)
- 
- # `--emit=obj`, `--emit=asm` and `--emit=llvm-ir` imply a single codegen unit
--- 
-2.42.0.820.g83a721a137-goog
 
+
+--=20
+Best Regards
+Masahiro Yamada
