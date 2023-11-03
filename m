@@ -2,102 +2,194 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 90AFF7DF57F
-	for <lists+linux-kbuild@lfdr.de>; Thu,  2 Nov 2023 16:00:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D1327E0408
+	for <lists+linux-kbuild@lfdr.de>; Fri,  3 Nov 2023 14:54:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232145AbjKBPAm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 2 Nov 2023 11:00:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44022 "EHLO
+        id S230312AbjKCNyW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 3 Nov 2023 09:54:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39338 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229516AbjKBPAl (ORCPT
+        with ESMTP id S229463AbjKCNyV (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 2 Nov 2023 11:00:41 -0400
+        Fri, 3 Nov 2023 09:54:21 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EABD7184;
-        Thu,  2 Nov 2023 08:00:38 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9ECABC433C7;
-        Thu,  2 Nov 2023 15:00:36 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C124DB7;
+        Fri,  3 Nov 2023 06:54:15 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51247C433C8;
+        Fri,  3 Nov 2023 13:54:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1698937238;
-        bh=C88FlU4ouWEmidb+DSCdaONlsanKLO79mrsdvXHGKnU=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=sjasx6dUDDFRcFyfz4G3MFiQcdz2i82tGsb4PhzuLohjSby23cJiAth2xGEQ+hx9V
-         m6YiSBptxEHmopJdOMQDzh1XyZKhmAUfO96YwZOZnRaf8J8IfgadbESicaeyIFfOi/
-         gXht+kb4Pla0icSq11paKKinB9SZ6eo/PlSprqUZtfQNrRRtpTDrcsUMJnNfKfZxYm
-         DO51/FOIX19u9R9OCdeDz+nIISeqO+0aWNuGn6E/X4+gfIAYWhoKtR0sX1LSxmcgHV
-         u1S8SXgcnO2SB4InpiPBmvopFQh+PoDcC9xakjYEIIW8xRwg1pdhCXfMHbICOJtoOZ
-         EKAEfeqlZHFaw==
-Message-ID: <868f4920-190d-4917-ae4e-bd4cbb6de98f@kernel.org>
-Date:   Fri, 3 Nov 2023 01:00:33 +1000
+        s=k20201202; t=1699019655;
+        bh=0DrGIEuc8DuRW/qdldr4ZRCrpYEyWsuudVO69m+wDSg=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=VYVFcCtmyNbRYk9Rnl9YHTe3Re+A4PMEw1GmtlVryAy5+AKq6RCYYsKPNDSBQDbJI
+         OiKth7Zj9H6sKykuMz4iXUOIG338O5cn60GkMlfyv5e1hTBR4H0ungXrv01DuXZdPh
+         t0y4WoFaO3Y1qxiN1Sk0lLdUot868m4XgbPrj2hYVKgfErXJUyFzsNTsvK0wZxciUX
+         Y/gm8IUFUqY7A5iqbf0mR6t1lgV8vQF5nHJaHq0J2WcXQjViUnOeUd2AvcckxlLAny
+         4UgFnbsmAIanQviu5z1sSnKdwl8w1vH2sMc/Je9hARiMN22Gwjn/eql29AywAPLlQP
+         cBR5U2bcFj07g==
+Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-6ce2c5b2154so1224570a34.3;
+        Fri, 03 Nov 2023 06:54:15 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yz54a4MM8udBepc2qmIcD4iTWOoeJfleNwLxSIApVA1+h9FHSPX
+        RHBmd7dljrXga4pmlAewJtgTZoX3+G2xDP2kkVk=
+X-Google-Smtp-Source: AGHT+IEMMMTZTSolnE0bkToCkGoq31vCtq1uaBVbXZyI7uS17JLgXUmvO5AejF+HBZX4OEy1OdZH+TNAQ8ORf0wxIRo=
+X-Received: by 2002:a05:6871:5385:b0:1ea:478c:a26b with SMTP id
+ hy5-20020a056871538500b001ea478ca26bmr30846048oac.9.1699019654718; Fri, 03
+ Nov 2023 06:54:14 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/7] modpost: fix modpost errors for m68k-uclinux-gcc
-Content-Language: en-US
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Jack Brennen <jbrennen@google.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>
-References: <20231101150404.754108-1-masahiroy@kernel.org>
-From:   Greg Ungerer <gerg@kernel.org>
-In-Reply-To: <20231101150404.754108-1-masahiroy@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20231031111647.111093-1-yoann.congal@smile.fr>
+In-Reply-To: <20231031111647.111093-1-yoann.congal@smile.fr>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Fri, 3 Nov 2023 22:53:38 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATaX5S1MwmJ4EGd7YGf3pJ0tEUABcJX6stSxHUsB0ca6w@mail.gmail.com>
+Message-ID: <CAK7LNATaX5S1MwmJ4EGd7YGf3pJ0tEUABcJX6stSxHUsB0ca6w@mail.gmail.com>
+Subject: Re: [PATCH v4] kconfig: avoid an infinite loop in oldconfig/syncconfig
+To:     Yoann Congal <yoann.congal@smile.fr>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Brandon Maier <brandon.maier@collins.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Masahiro,
+On Tue, Oct 31, 2023 at 8:17=E2=80=AFPM Yoann Congal <yoann.congal@smile.fr=
+> wrote:
+>
+> Exit on error when asking for value and reading stdin returns an error
+> (mainly if it has reached EOF or is closed).
+>
+> This infinite loop happens in particular for hex/int configs without an
+> explicit default value.
+>
+> Previously, this case would loop:
+> * oldconfig prompts for the value but stdin has reached EOF
+> * It gets the global default value : an empty string
+> * This is not a valid hex/int value so it prompts again, hence the
+>   infinite loop.
+>
+> This case happens with a configuration like this (a hex config without a
+> valid default value):
+>   config TEST_KCONFIG
+>        hex "Test KConfig"
+>        # default 0x0
+>
+> And using:
+>   make oldconfig < /dev/null
+>
+> This was discovered when working on Yocto bug[0] on a downstream
+> kconfig user (U-boot)
+>
+> [0]: https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14136
+>
+> Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+> Tested-by: Brandon Maier <brandon.maier@collins.com>
+> ---
+> v3->v4:
+>  * Added Brandon Maier's "Tested-by". Thanks!
+> v2->v3:
+>  * Simplify the patch by fusing comments of :
+>    * Masahiro Yamada : Exit as soon as reading stdin hits an error
+>    * Randy Dunlap : Display the name of the currently read symbol
+> v1->v2:
+>  * Improve coding style
+>  * Put more info in the commit message
+>
+>  scripts/kconfig/conf.c | 19 +++++++++++++++----
+>  1 file changed, 15 insertions(+), 4 deletions(-)
+>
+> diff --git a/scripts/kconfig/conf.c b/scripts/kconfig/conf.c
+> index 33d19e419908..68f0c649a805 100644
+> --- a/scripts/kconfig/conf.c
+> +++ b/scripts/kconfig/conf.c
+> @@ -74,13 +74,17 @@ static void strip(char *str)
+>  }
+>
+>  /* Helper function to facilitate fgets() by Jean Sacren. */
+> -static void xfgets(char *str, int size, FILE *in)
+> +static int xfgets(char *str, int size, FILE *in)
+>  {
+> +       int ret =3D 0;
+> +
+>         if (!fgets(str, size, in))
+> -               fprintf(stderr, "\nError in reading or end of file.\n");
+> +               ret =3D -1;
+>
+>         if (!tty_stdio)
+>                 printf("%s", str);
+> +
+> +       return ret;
+>  }
 
-On 2/11/23 01:03, Masahiro Yamada wrote:
-> Greg Ungerer reports building with m68k-uclinux-gcc toolchain is broken:
-> https://lore.kernel.org/linux-kbuild/CAK7LNASQ_W5Yva5a4Xx8E2EYi-tN7x3OHgMFhK+93W+BiX1=9Q@mail.gmail.com/T/#m6ff0364f9ca8483c9f6d162619e5005833d1e887
-> 
-> Usually, we do not need to search for export symbols in the .symtab
-> section, but m68k-uclinux-gcc seems to be an exceptional case.
-> I do not know what makes it different from other toolchains.
-> Also, I do not know there exist other toolchains that work like that.
-> 
-> This series extends the symsearch feature in case we need to explicitly
-> search for export symbols.
-> 
-> Then, the last patch fixes the issue.
-> 
-> This series should be applicable for linux-next.
-> 
-> This series is too late for the current merge window, but I'd like
-> to fix the issue somehow by the next merge window.
-
-Thanks for looking into this.
-I can confirm this series fixes it for me (using linux-next).
 
 
-     Tested-by: Greg Ungerer <gerg@kernel.org>
-
-Regards
-Greg
+This is not what I suggested.
 
 
-> 
-> 
-> Masahiro Yamada (7):
->    modpost: move sym_name() to modpost.h
->    modpost: add const qualifier to syminfo table
->    modpost: add table_size local variable to symsearch_find_nearest()
->    modpost: introduce a filtering feature to symsearch
->    modpost: prefer global symbols in symsearch_find_nearest()
->    modpost: add symsearch_find_with_name() helper function
->    modpost: look up the correct symbol in check_export_symbol()
-> 
->   scripts/mod/modpost.c   |  39 ++++----
->   scripts/mod/modpost.h   |  12 +++
->   scripts/mod/symsearch.c | 205 ++++++++++++++++++++++++++++------------
->   3 files changed, 180 insertions(+), 76 deletions(-)
-> 
+I suggested much simpler code:
+
+https://lore.kernel.org/linux-kbuild/CAK7LNAS8a=3D8n9r7kQrLTPpKwqXG1d1sd0Wj=
+J8PQhOXHXxnSyNQ@mail.gmail.com/
+
+
+It is easy to know the symbol name that is causing the issue;
+it was shown in the prompt just before the failure.
+
+
+
+Also, please note that the 'x' prefix is often used
+for functions that do not require error check.
+(e.g. xmalloc)
+
+
+
+
+
+
+
+
+
+>
+>  static void set_randconfig_seed(void)
+> @@ -339,7 +343,10 @@ static int conf_askvalue(struct symbol *sym, const c=
+har *def)
+>                 /* fall through */
+>         default:
+>                 fflush(stdout);
+> -               xfgets(line, sizeof(line), stdin);
+> +               if (xfgets(line, sizeof(line), stdin) !=3D 0) {
+> +                       fprintf(stderr, "Error while reading value of sym=
+bol \"%s\"\n", sym->name);
+> +                       exit(1);
+> +               }
+>                 break;
+>         }
+>
+> @@ -521,7 +528,11 @@ static int conf_choice(struct menu *menu)
+>                         /* fall through */
+>                 case oldaskconfig:
+>                         fflush(stdout);
+> -                       xfgets(line, sizeof(line), stdin);
+> +                       if (xfgets(line, sizeof(line), stdin) !=3D 0) {
+> +                               fprintf(stderr, "Error while reading valu=
+e of symbol \"%s\"\n",
+> +                                               sym->name);
+> +                               exit(1);
+> +                       }
+>                         strip(line);
+>                         if (line[0] =3D=3D '?') {
+>                                 print_help(menu);
+> --
+> 2.30.2
+>
+
+
+--=20
+Best Regards
+Masahiro Yamada
