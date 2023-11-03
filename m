@@ -2,110 +2,94 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 383677E0C3A
-	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Nov 2023 00:34:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F17627E0C61
+	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Nov 2023 00:43:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229476AbjKCXeE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 3 Nov 2023 19:34:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35270 "EHLO
+        id S229557AbjKCXnZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 3 Nov 2023 19:43:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229461AbjKCXeE (ORCPT
+        with ESMTP id S229476AbjKCXnZ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 3 Nov 2023 19:34:04 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7CB9E3;
-        Fri,  3 Nov 2023 16:34:01 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 39B91C433C7;
-        Fri,  3 Nov 2023 23:34:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1699054441;
-        bh=BlDHKJ8MfuP1syUXuj+F9v0M+e2vkRXHkcoaDgJdNOY=;
-        h=From:Date:Subject:To:Cc:Reply-To:From;
-        b=L7Vq9hxdy9X4SJeQ3HdjBdrgBfG+nIv6yQeBW/MV2Jm3Vb+ymvqEI7lZJ3rJ3wZq3
-         AmcX6RClTFsH/slsJwKv21XfoCc7ihDG7WpvN4nJcPSPrpEwQlthG+NPGrlhXTpxaV
-         G5seE6/1enrLwv2P4xH7scFgpVLSEXxO5U1RzhhUiz50ZOK+2El/wYaorqJqSiji1E
-         bOa4XAbeYNJqKtGBSjbJG5o4vjCb0JWkn/QEUqfjXaQn9Av4kLhC69aCLRPMkr5ClA
-         XEkBJFbv/9HKvvvRT4E1AqmyoEDX1aRwZimiw/FwamOmtX3fU7G9DJ4Zs2O89QvdZA
-         GGnS58hEuvPVg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by smtp.lore.kernel.org (Postfix) with ESMTP id 15F81C4332F;
-        Fri,  3 Nov 2023 23:34:01 +0000 (UTC)
-From:   Davide Cavalca via B4 Relay <devnull+dcavalca.meta.com@kernel.org>
-Date:   Fri, 03 Nov 2023 23:33:42 +0000
-Subject: [PATCH] rpm-pkg: simplify installkernel %post
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20231103-rpmpost-v1-1-9c18afab47f4@meta.com>
-X-B4-Tracking: v=1; b=H4sIAFWDRWUC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI2NDQwNj3aKC3IL84hLdNNNkS0tTUyNLQ8s0JaDqgqLUtMwKsEnRsbW1AG7
- r41lZAAAA
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Davide Cavalca <dcavalca@meta.com>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1699054440; l=1637;
- i=dcavalca@meta.com; s=20231103; h=from:subject:message-id;
- bh=X5JC+W01uXiyXPVwSIF965qjWZWJ67z2pjY23Aa3nRA=;
- b=P/fwUPABI1VqrtkXrn3F4SbHZSLLxC/fFwBtcokkm2L/H4YTgu3ESNj4oYbXwAiF1LqOCDRrJ
- j9Hs9PSf7MaBETvJfqIJnlqTUHIMjYvwf+QJgK6vs4El3C26IFbFvpL
-X-Developer-Key: i=dcavalca@meta.com; a=ed25519;
- pk=9b8tquSs5okUyZ8q4DQqRfT95N/++7b/GgqRBdqUDBU=
-X-Endpoint-Received: by B4 Relay for dcavalca@meta.com/20231103 with auth_id=95
-X-Original-From: Davide Cavalca <dcavalca@meta.com>
-Reply-To: <dcavalca@meta.com>
-X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        Fri, 3 Nov 2023 19:43:25 -0400
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 544C6D48;
+        Fri,  3 Nov 2023 16:43:22 -0700 (PDT)
+Received: by mail-wr1-x432.google.com with SMTP id ffacd0b85a97d-32f8246103cso517499f8f.1;
+        Fri, 03 Nov 2023 16:43:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1699055000; x=1699659800; darn=vger.kernel.org;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fYCqZrVNGN2mIiQCLNklLY55LWgupbs56ES5k10+bBg=;
+        b=izndATHn1TwiU5cxtdKcYqnGZSd8bo17Ne+6X80it3cq75eJPH9DUcs+de/Rvk3OjQ
+         aPNaLRGiGyBMOoFQdU7km4DUSBX9prSXsIO0V/qDAJgLWvsiSY5bGcPx+gKDgFdu9AhQ
+         rO7IepD+0ZBAfydEuYfkAPazx4lYQ8ptPQwzMs7MgwJECiJiS7Hh24QrpGAB8cxXqNxk
+         +ke2u5ssBcnBiGDkQ445mMpx0xWwEsCG1U0mxOtNo+oJIhbNhiIrGDc24oUpiWUtFH5/
+         2QKVWcXvoU+/3WGWqO4ll2i1Qb5Wv813YnNKuWxv2XzdsQQZex9M2YFBpIio08CFypBS
+         ljLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699055000; x=1699659800;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fYCqZrVNGN2mIiQCLNklLY55LWgupbs56ES5k10+bBg=;
+        b=PX0Fctd4iMQUNhI7RaT3Kz8PQSHr74abzjifYiT/shTK/GPAAQ+SKfMQ1X2+mShDv1
+         njn5abTripLp9eWrCjyAqZM+yos+NrmACAvm3JK4GCBZRBYbHJ/lDKhUHwYL92VHgc15
+         4W8uwfjKP3s2aIBrAfzVS0dkUjfS360vEMpE+zVMzJM9LZll+LGLKUToeWbPGeUQifo5
+         sJ/ph9lKQL80xC2BLsxuPoqjjiq+qeiCDRRTBPiwYZCQE8sgpqI4e8NL9Ro0ygRKmnH7
+         yXMRIRPm5wd+4owMsAfAgg068u4Wq0kfuHltroJm66B1NN3+dMryx57blpXhuS6vo88b
+         6LWQ==
+X-Gm-Message-State: AOJu0Yw84nbNbm9/orPbgWPMuneB1kvKvOhurIFSOyh1s2C1B+HbHQLc
+        qPaTYmNkwNYAtC21OkxHJtGeos7iYnlFH9SJ
+X-Google-Smtp-Source: AGHT+IE3UIErq3s44P5X8FLUBvx23u92ky4//OEqSGX6pvS923TCn2oJbN67sSoyczLKMJq/rZDynQ==
+X-Received: by 2002:a5d:6c65:0:b0:32d:eac9:da52 with SMTP id r5-20020a5d6c65000000b0032deac9da52mr16238232wrz.5.1699055000345;
+        Fri, 03 Nov 2023 16:43:20 -0700 (PDT)
+Received: from localhost.localdomain ([94.203.174.192])
+        by smtp.gmail.com with ESMTPSA id p14-20020a5d68ce000000b0032daf848f68sm2993793wrw.59.2023.11.03.16.43.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Nov 2023 16:43:19 -0700 (PDT)
+From:   Dmitrii Bundin <dmitrii.bundin.a@gmail.com>
+To:     linux-kbuild@vger.kernel.org
+Cc:     masahiroy@kernel.org, nathan@kernel.org, ndesaulniers@google.com,
+        nicolas@fjasle.eu, linux-kernel@vger.kernel.org,
+        dmitrii.bundin.a@gmail.com
+Subject: [PATCH] kbuild: deb-pkg: apply short --rules-file option
+Date:   Sat,  4 Nov 2023 02:42:47 +0300
+Message-Id: <20231103234247.4505-1-dmitrii.bundin.a@gmail.com>
+X-Mailer: git-send-email 2.17.1
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Davide Cavalca <dcavalca@meta.com>
+The long --rules-file option might not be available for some older
+versions of dpkg-buildpackage resulting in build failures. The -R option
+has been available since 1.14.17 allowing builds for larger allowing
+builds for larger set of versions of dpkg-buildpackage.
 
-The %post currently does a shuffling dance before calling installkernel.
-This isn't actually necessary afaict, and the current implementation
-ends up triggering downstream issues such as
-https://github.com/systemd/systemd/issues/29568
-
-This commit simplifies the logic to remove the shuffling. For reference,
-the original logic was added in commit 3c9c7a14b627("rpm-pkg: add %post
-section to create initramfs and grub hooks").
-
-Signed-off-by: Davide Cavalca <dcavalca@meta.com>
+Signed-off-by: Dmitrii Bundin <dmitrii.bundin.a@gmail.com>
 ---
- scripts/package/kernel.spec | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ scripts/Makefile.package | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/package/kernel.spec b/scripts/package/kernel.spec
-index 3eee0143e0c5..cc4292c03ea2 100644
---- a/scripts/package/kernel.spec
-+++ b/scripts/package/kernel.spec
-@@ -77,11 +77,7 @@ rm -rf %{buildroot}
+diff --git a/scripts/Makefile.package b/scripts/Makefile.package
+index 2bcab02da965..0afbf5ad2919 100644
+--- a/scripts/Makefile.package
++++ b/scripts/Makefile.package
+@@ -148,7 +148,7 @@ deb-pkg srcdeb-pkg bindeb-pkg:
+ 	$(if $(findstring source, $(build-type)), \
+ 		--unsigned-source --compression=$(KDEB_SOURCE_COMPRESS)) \
+ 	$(if $(findstring binary, $(build-type)), \
+-		--rules-file='$(MAKE) -f debian/rules' --jobs=1 -r$(KBUILD_PKG_ROOTCMD) -a$$(cat debian/arch), \
++		-R'$(MAKE) -f debian/rules' --jobs=1 -r$(KBUILD_PKG_ROOTCMD) -a$$(cat debian/arch), \
+ 		--no-check-builddeps) \
+ 	$(DPKG_FLAGS))
  
- %post
- if [ -x /sbin/installkernel -a -r /boot/vmlinuz-%{KERNELRELEASE} -a -r /boot/System.map-%{KERNELRELEASE} ]; then
--cp /boot/vmlinuz-%{KERNELRELEASE} /boot/.vmlinuz-%{KERNELRELEASE}-rpm
--cp /boot/System.map-%{KERNELRELEASE} /boot/.System.map-%{KERNELRELEASE}-rpm
--rm -f /boot/vmlinuz-%{KERNELRELEASE} /boot/System.map-%{KERNELRELEASE}
--/sbin/installkernel %{KERNELRELEASE} /boot/.vmlinuz-%{KERNELRELEASE}-rpm /boot/.System.map-%{KERNELRELEASE}-rpm
--rm -f /boot/.vmlinuz-%{KERNELRELEASE}-rpm /boot/.System.map-%{KERNELRELEASE}-rpm
-+/sbin/installkernel %{KERNELRELEASE} /boot/vmlinuz-%{KERNELRELEASE} /boot/System.map-%{KERNELRELEASE}
- fi
- 
- %preun
-
----
-base-commit: e392ea4d4d00880bf94550151b1ace4f88a4b17a
-change-id: 20231103-rpmpost-f5c99552919f
-
-Best regards,
 -- 
-Davide Cavalca <dcavalca@meta.com>
+2.17.1
 
