@@ -2,94 +2,70 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F17627E0C61
-	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Nov 2023 00:43:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 01E057E10AC
+	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Nov 2023 20:01:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229557AbjKCXnZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 3 Nov 2023 19:43:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44930 "EHLO
+        id S231558AbjKDTBl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 4 Nov 2023 15:01:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229476AbjKCXnZ (ORCPT
+        with ESMTP id S231405AbjKDTBk (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 3 Nov 2023 19:43:25 -0400
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 544C6D48;
-        Fri,  3 Nov 2023 16:43:22 -0700 (PDT)
-Received: by mail-wr1-x432.google.com with SMTP id ffacd0b85a97d-32f8246103cso517499f8f.1;
-        Fri, 03 Nov 2023 16:43:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699055000; x=1699659800; darn=vger.kernel.org;
-        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fYCqZrVNGN2mIiQCLNklLY55LWgupbs56ES5k10+bBg=;
-        b=izndATHn1TwiU5cxtdKcYqnGZSd8bo17Ne+6X80it3cq75eJPH9DUcs+de/Rvk3OjQ
-         aPNaLRGiGyBMOoFQdU7km4DUSBX9prSXsIO0V/qDAJgLWvsiSY5bGcPx+gKDgFdu9AhQ
-         rO7IepD+0ZBAfydEuYfkAPazx4lYQ8ptPQwzMs7MgwJECiJiS7Hh24QrpGAB8cxXqNxk
-         +ke2u5ssBcnBiGDkQ445mMpx0xWwEsCG1U0mxOtNo+oJIhbNhiIrGDc24oUpiWUtFH5/
-         2QKVWcXvoU+/3WGWqO4ll2i1Qb5Wv813YnNKuWxv2XzdsQQZex9M2YFBpIio08CFypBS
-         ljLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699055000; x=1699659800;
-        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fYCqZrVNGN2mIiQCLNklLY55LWgupbs56ES5k10+bBg=;
-        b=PX0Fctd4iMQUNhI7RaT3Kz8PQSHr74abzjifYiT/shTK/GPAAQ+SKfMQ1X2+mShDv1
-         njn5abTripLp9eWrCjyAqZM+yos+NrmACAvm3JK4GCBZRBYbHJ/lDKhUHwYL92VHgc15
-         4W8uwfjKP3s2aIBrAfzVS0dkUjfS360vEMpE+zVMzJM9LZll+LGLKUToeWbPGeUQifo5
-         sJ/ph9lKQL80xC2BLsxuPoqjjiq+qeiCDRRTBPiwYZCQE8sgpqI4e8NL9Ro0ygRKmnH7
-         yXMRIRPm5wd+4owMsAfAgg068u4Wq0kfuHltroJm66B1NN3+dMryx57blpXhuS6vo88b
-         6LWQ==
-X-Gm-Message-State: AOJu0Yw84nbNbm9/orPbgWPMuneB1kvKvOhurIFSOyh1s2C1B+HbHQLc
-        qPaTYmNkwNYAtC21OkxHJtGeos7iYnlFH9SJ
-X-Google-Smtp-Source: AGHT+IE3UIErq3s44P5X8FLUBvx23u92ky4//OEqSGX6pvS923TCn2oJbN67sSoyczLKMJq/rZDynQ==
-X-Received: by 2002:a5d:6c65:0:b0:32d:eac9:da52 with SMTP id r5-20020a5d6c65000000b0032deac9da52mr16238232wrz.5.1699055000345;
-        Fri, 03 Nov 2023 16:43:20 -0700 (PDT)
-Received: from localhost.localdomain ([94.203.174.192])
-        by smtp.gmail.com with ESMTPSA id p14-20020a5d68ce000000b0032daf848f68sm2993793wrw.59.2023.11.03.16.43.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Nov 2023 16:43:19 -0700 (PDT)
-From:   Dmitrii Bundin <dmitrii.bundin.a@gmail.com>
-To:     linux-kbuild@vger.kernel.org
-Cc:     masahiroy@kernel.org, nathan@kernel.org, ndesaulniers@google.com,
-        nicolas@fjasle.eu, linux-kernel@vger.kernel.org,
-        dmitrii.bundin.a@gmail.com
-Subject: [PATCH] kbuild: deb-pkg: apply short --rules-file option
-Date:   Sat,  4 Nov 2023 02:42:47 +0300
-Message-Id: <20231103234247.4505-1-dmitrii.bundin.a@gmail.com>
-X-Mailer: git-send-email 2.17.1
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        Sat, 4 Nov 2023 15:01:40 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A47411BC;
+        Sat,  4 Nov 2023 12:01:37 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 4150BC433C9;
+        Sat,  4 Nov 2023 19:01:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1699124497;
+        bh=0iBF8JNDUQG9e7wyjbb5dNN0bHGD9z3rewSMcWFt9DU=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=coVpa7rOYwcj2cFWzOUC4N6wtPhHI3vjtTKlqwwBsj3lv4id57H6QHXMhV/6J3QaV
+         RAFKV68BNc6U4dG0I/ZDUvuyg4C/QbLkT4rd8QEwd3OGt01xR7XXyNlLT4+TG+1B7H
+         YowDnk7AgmYwU/HeBQ+bbQDWz7+UwbfwnI8+wn4kUXpbOW5CxJQFtqQFNrBu03Nfx+
+         45Ty4ONgPXHZtInWMXgvpB3rBEMulj7PIE3LtMta8iatlu7L+nnGMB8VfmiT6Cmu/9
+         w1/dFMOxfyeMkRci5JBN4LRZasvmnzKNbkwfkRvSW5awz5ejo0UZcCqBiu/lssQJ4M
+         ZiFWlYs54m+Ng==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 2EE75C4316B;
+        Sat,  4 Nov 2023 19:01:37 +0000 (UTC)
+Subject: Re: [GIT PULL] Kbuild updates for v6.7-rc1
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <CAK7LNATanSD3N_dmwKAGEqEkCLUb7TL2cp67pP-WBWFOWBxG1g@mail.gmail.com>
+References: <CAK7LNATanSD3N_dmwKAGEqEkCLUb7TL2cp67pP-WBWFOWBxG1g@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAK7LNATanSD3N_dmwKAGEqEkCLUb7TL2cp67pP-WBWFOWBxG1g@mail.gmail.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-v6.7
+X-PR-Tracked-Commit-Id: 5f56cb030e4bcf14be2233332d5cd83fff62a376
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 5c5e048b2417a56b7b52bdbb66d4fc99d0c20dd2
+Message-Id: <169912449718.2096.143697306992727298.pr-tracker-bot@kernel.org>
+Date:   Sat, 04 Nov 2023 19:01:37 +0000
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The long --rules-file option might not be available for some older
-versions of dpkg-buildpackage resulting in build failures. The -R option
-has been available since 1.14.17 allowing builds for larger allowing
-builds for larger set of versions of dpkg-buildpackage.
+The pull request you sent on Sat, 4 Nov 2023 01:52:44 +0900:
 
-Signed-off-by: Dmitrii Bundin <dmitrii.bundin.a@gmail.com>
----
- scripts/Makefile.package | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-v6.7
 
-diff --git a/scripts/Makefile.package b/scripts/Makefile.package
-index 2bcab02da965..0afbf5ad2919 100644
---- a/scripts/Makefile.package
-+++ b/scripts/Makefile.package
-@@ -148,7 +148,7 @@ deb-pkg srcdeb-pkg bindeb-pkg:
- 	$(if $(findstring source, $(build-type)), \
- 		--unsigned-source --compression=$(KDEB_SOURCE_COMPRESS)) \
- 	$(if $(findstring binary, $(build-type)), \
--		--rules-file='$(MAKE) -f debian/rules' --jobs=1 -r$(KBUILD_PKG_ROOTCMD) -a$$(cat debian/arch), \
-+		-R'$(MAKE) -f debian/rules' --jobs=1 -r$(KBUILD_PKG_ROOTCMD) -a$$(cat debian/arch), \
- 		--no-check-builddeps) \
- 	$(DPKG_FLAGS))
- 
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/5c5e048b2417a56b7b52bdbb66d4fc99d0c20dd2
+
+Thank you!
+
 -- 
-2.17.1
-
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
