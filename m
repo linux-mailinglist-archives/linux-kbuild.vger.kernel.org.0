@@ -2,135 +2,141 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E5F07E115F
-	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Nov 2023 23:27:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D4867E1270
+	for <lists+linux-kbuild@lfdr.de>; Sun,  5 Nov 2023 08:26:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229749AbjKDW1k (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 4 Nov 2023 18:27:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59380 "EHLO
+        id S229455AbjKEH0u (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 5 Nov 2023 02:26:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60798 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229577AbjKDW1j (ORCPT
+        with ESMTP id S229500AbjKEH0u (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 4 Nov 2023 18:27:39 -0400
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E93BD6A
-        for <linux-kbuild@vger.kernel.org>; Sat,  4 Nov 2023 15:27:36 -0700 (PDT)
-Received: by mail-wr1-x42b.google.com with SMTP id ffacd0b85a97d-32fb95dfe99so1064273f8f.2
-        for <linux-kbuild@vger.kernel.org>; Sat, 04 Nov 2023 15:27:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1699136854; x=1699741654; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=I8s2yoRUeKgroJRQQN5i4eD7t3aini7S28e/D8lZRFg=;
-        b=kNTWNr0Pl+bOZwgBsxm+9ho9fF8l+scaSrbtFziosIhLgnsNJsNyKIbCX6Ws4WXjRm
-         EjZNGcEsYbrwPeB7CmDjoxPAfKC9LOU3dEohA51SMjXNTJlkV4V9sin2GIY2z+ku3pER
-         NqfcujjVH+UI2+vG45hBDL4pVZuWDVhmojKlRGXF+jmcanLC4T4loyM6QRd/7g1oJ+tn
-         unYHP3QfX4oo9mVvqqSuaR1M+U9q2zwAFd7hLou72Qwc6VWmQGYZZ2yao/gyMh7G3L9R
-         w4NZkAvACE5o74YnOKyL7j0Yv44DkuVPrniW0vlZD+faX9dzJIF5uoOmsVcmhph5PhL8
-         rt+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699136854; x=1699741654;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=I8s2yoRUeKgroJRQQN5i4eD7t3aini7S28e/D8lZRFg=;
-        b=kbXZOA41eaKS+ICLyITw+Bb9sPLOtBe5vyysdcKXbo68xANTgNXskKr53/CG0s5sfm
-         7lsbO7ncdPNmT2GYUorqWErwjvdSxuuS84vi1ncoTiodAQPdwvRzotQ3zw1BoYZN5tsN
-         zZzQQIW8kTgGd87J/j908ucdCoNZiP/3GYAkttvyqwQHKXBnAC5URU+aQWIux2bTWY9a
-         ANSGIpTG5ks0JSKCkokHbNhyIL6CcfeX5XtDLOviqspYKJq/lWQlAMlNEMB8z1VQ6IvX
-         ELH0s4/KWyIx0R+CJGW8rm2X+XJC43M/inWT1R7s8E6Sc3Fh5RzbuRKNpa7dsWPpz/AV
-         fhTA==
-X-Gm-Message-State: AOJu0YzW1pt7eyjiAMozixz/YkAvWljtslG6dDqFLwvVdNO7hyKcNC1F
-        5YBMcWyZtUvcHY94OJRmpHf6Fw==
-X-Google-Smtp-Source: AGHT+IGs9hk9yWFiEyPpATtAnF8XYLh+dsKh5fiy0L0GIoiXsPwCpxqwvdwXknjJLgaAoPSnYBo2Mw==
-X-Received: by 2002:a05:6000:2c2:b0:32f:8581:4f8a with SMTP id o2-20020a05600002c200b0032f85814f8amr16908549wry.11.1699136854379;
-        Sat, 04 Nov 2023 15:27:34 -0700 (PDT)
-Received: from P-ASN-ECS-830T8C3.numericable.fr ([89.159.1.53])
-        by smtp.gmail.com with ESMTPSA id f4-20020a5d6644000000b0032da49e18fasm5384724wrw.23.2023.11.04.15.27.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Nov 2023 15:27:34 -0700 (PDT)
-From:   Yoann Congal <yoann.congal@smile.fr>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
-        Yoann Congal <yoann.congal@smile.fr>,
-        Brandon Maier <brandon.maier@collins.com>
-Subject: [PATCH v5] kconfig: avoid an infinite loop in oldconfig/syncconfig
-Date:   Sat,  4 Nov 2023 23:27:15 +0100
-Message-Id: <20231104222715.3967791-1-yoann.congal@smile.fr>
-X-Mailer: git-send-email 2.30.2
+        Sun, 5 Nov 2023 02:26:50 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17661123;
+        Sun,  5 Nov 2023 00:26:46 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0D73C433C8;
+        Sun,  5 Nov 2023 07:26:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1699169206;
+        bh=6/RPGmtF74OYAOj5+K+VLy3tMMPqiKm7Xs8iyq0nqvA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=GaXRtocQAc1Paqxsn6eJGYeevFhJZtamePoCHs5x+2VpxyAkji8CIWA4de+DG3GbZ
+         P6iV5WitOwk+I8IrczfC9K7cn7AvJ39ND41w9YoNCUz6NLnXKckY43H+09VQSEph4i
+         8z5FIUVv+RdRC8FoG1GOk0Drz7As2tylEbJgLTtE=
+Date:   Sun, 5 Nov 2023 08:26:43 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Martin Rodriguez Reboredo <yakoyoku@gmail.com>
+Cc:     Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+        =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+        Benno Lossin <benno.lossin@proton.me>,
+        Andreas Hindborg <a.hindborg@samsung.com>,
+        Alice Ryhl <aliceryhl@google.com>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Wedson Almeida Filho <walmeida@microsoft.com>,
+        linux-usb@vger.kernel.org, rust-for-linux@vger.kernel.org
+Subject: Re: [RFC PATCH v3 2/2] samples: rust: Add USB sample bindings
+Message-ID: <2023110544-nimble-routing-98b6@gregkh>
+References: <20231104211213.225891-1-yakoyoku@gmail.com>
+ <20231104211213.225891-3-yakoyoku@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231104211213.225891-3-yakoyoku@gmail.com>
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Exit on error when asking for value and reading stdin returns an error
-(mainly if it has reached EOF or is closed).
+On Sat, Nov 04, 2023 at 06:11:59PM -0300, Martin Rodriguez Reboredo wrote:
+> This is a demonstration of the capabilities of doing bindings with
+> subsystems that may or may not be statically linked.
+> 
+> Signed-off-by: Martin Rodriguez Reboredo <yakoyoku@gmail.com>
+> ---
+> v2 -> v3:
+> - Generate bindings for USB.
+> v1 -> v2:
+> - Added this patch.
 
-This infinite loop happens in particular for hex/int configs without an
-explicit default value.
+I know you are just using this for an example, but here's some
+USB-specific things that you might want to clean up for when you submit
+this as a "real" binding sometime in the future:
 
-Previously, this case would loop:
-* oldconfig prompts for the value but stdin has reached EOF
-* It gets the global default value : an empty string
-* This is not a valid hex/int value so it prompts again, hence the
-  infinite loop.
+> +config USB_RUST
+> +	bool "Rust USB bindings"
 
-This case happens with a configuration like this (a hex config without a
-valid default value):
-  config TEST_KCONFIG
-       hex "Test KConfig"
-       # default 0x0
+This is a "USB Host" binding.  We have both USB host mode (when you plug
+a USB device into a system running Linux), and USB gadget mode (when
+Linux is running on the USB device you plug into any other USB system).
 
-And using:
-  make oldconfig < /dev/null
+So please be specific here, this should be "USB_HOST_RUST" and then
+later, "USB_GADGET_RUST".
 
-This was discovered when working on Yocto bug[0] on a downstream
-kconfig user (U-boot)
+> +	depends on USB && RUST
+> +	default n
 
-[0]: https://bugzilla.yoctoproject.org/show_bug.cgi?id=14136
+Again, "default n" is the default, never list it again.
 
-CC: Brandon Maier <brandon.maier@collins.com>
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
----
-v4->v5:
- * Switched to Masahiro Yamada's suggested code.
-v3->v4:
- * Added Brandon Maier's "Tested-by". Thanks!
-v2->v3:
- * Simplify the patch by fusing comments of :
-   * Masahiro Yamada : Exit as soon as reading stdin hits an error
-   * Randy Dunlap : Display the name of the currently read symbol
-v1->v2:
- * Improve coding style
- * Put more info in the commit message
----
- scripts/kconfig/conf.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/kconfig/conf.c b/scripts/kconfig/conf.c
-index 33d19e419908..62de1fbaff97 100644
---- a/scripts/kconfig/conf.c
-+++ b/scripts/kconfig/conf.c
-@@ -76,8 +76,10 @@ static void strip(char *str)
- /* Helper function to facilitate fgets() by Jean Sacren. */
- static void xfgets(char *str, int size, FILE *in)
- {
--	if (!fgets(str, size, in))
-+	if (!fgets(str, size, in)) {
- 		fprintf(stderr, "\nError in reading or end of file.\n");
-+		exit(1);
-+	}
- 
- 	if (!tty_stdio)
- 		printf("%s", str);
--- 
-2.30.2
+> +	help
+> +	  Enables Rust bindings for USB.
 
+USB Host, not all of USB.
+
+> diff --git a/drivers/usb/core/Makefile b/drivers/usb/core/Makefile
+> index 7d338e9c0657..00e116913591 100644
+> --- a/drivers/usb/core/Makefile
+> +++ b/drivers/usb/core/Makefile
+> @@ -11,6 +11,7 @@ usbcore-y += phy.o port.o
+>  usbcore-$(CONFIG_OF)		+= of.o
+>  usbcore-$(CONFIG_USB_PCI)		+= hcd-pci.o
+>  usbcore-$(CONFIG_ACPI)		+= usb-acpi.o
+> +usbcore-$(CONFIG_USB_RUST)		+= libusb.rlib
+>  
+>  ifdef CONFIG_USB_ONBOARD_HUB
+>  usbcore-y			+= ../misc/onboard_usb_hub_pdevs.o
+> @@ -18,4 +19,6 @@ endif
+>  
+>  obj-$(CONFIG_USB)		+= usbcore.o
+>  
+> +rust-libs			:= ./usb
+
+Why the "./", why not just ":= usb" ?
+
+> +config SAMPLE_RUST_USB_SIMPLE
+> +	tristate "USB simple device driver"
+> +	help
+> +	  This option builds the Rust USB simple driver sample.
+
+Rust USB simple host driver sample.
+
+>  subdir-$(CONFIG_SAMPLE_RUST_HOSTPROGS)		+= hostprogs
+> diff --git a/samples/rust/rust_usb_simple.rs b/samples/rust/rust_usb_simple.rs
+> new file mode 100644
+> index 000000000000..3523f81d5eb8
+> --- /dev/null
+> +++ b/samples/rust/rust_usb_simple.rs
+> @@ -0,0 +1,22 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +//! Rust USB sample.
+> +
+> +use kernel::prelude::*;
+> +
+> +module! {
+> +    type: UsbSimple,
+
+"USBSimple" please.  I thought I said that before.
+
+thanks,
+
+greg k-h
