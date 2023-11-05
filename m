@@ -2,106 +2,82 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F408A7E15B4
-	for <lists+linux-kbuild@lfdr.de>; Sun,  5 Nov 2023 19:11:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D6047E1708
+	for <lists+linux-kbuild@lfdr.de>; Sun,  5 Nov 2023 22:59:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229475AbjKESLB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 5 Nov 2023 13:11:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55642 "EHLO
+        id S229689AbjKEV7l (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 5 Nov 2023 16:59:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229489AbjKESLA (ORCPT
+        with ESMTP id S229830AbjKEV7l (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 5 Nov 2023 13:11:00 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEA28DD;
-        Sun,  5 Nov 2023 10:10:57 -0800 (PST)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E944DC433C7;
-        Sun,  5 Nov 2023 18:10:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1699207857;
-        bh=mpoFT+sF50Go2QZkoZaiy6iHqvzaLfmudnHNvkJjZ0M=;
-        h=From:To:Cc:Subject:Date:From;
-        b=FF199295T+QngVfe3dCykm2QL3pOi50DD0yTbipcqRTQQMIzaCQERTqwE4jQ3C+cz
-         vgVvm+MNjjXl4RgT2BTIXmECuI28soPzolp4Gj0GyV5njaVRNJvgH76ayat6spDTFe
-         vZMqZEglfRJmpQv7PMZX6HAWAJK70OLWjrPWjt29hPkRzsjnOsfbcxlPXoY6cPgEdN
-         eyZO+V9/rDXq8f2BpfNA0pIdDub7uNrd0UKReIpIf0UPb7zcrt6Y2YNYNTdeaZCIj6
-         zimS/UksCQiryMrjBQrpuJMZGq7DWVTxUxk3/J31LTpoG9fekkiA6aL+zD7bxhJlDr
-         UzP0PfNHsTp5Q==
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH] kconfig: do not clear SYMBOL_DEF_USER when the value is out of range
-Date:   Mon,  6 Nov 2023 03:10:47 +0900
-Message-Id: <20231105181047.159441-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.40.1
+        Sun, 5 Nov 2023 16:59:41 -0500
+X-Greylist: delayed 5153 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 05 Nov 2023 13:59:38 PST
+Received: from SMTP-HCRC-200.brggroup.vn (mail.hcrc.vn [42.112.212.144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5474ABF;
+        Sun,  5 Nov 2023 13:59:38 -0800 (PST)
+Received: from SMTP-HCRC-200.brggroup.vn (localhost [127.0.0.1])
+        by SMTP-HCRC-200.brggroup.vn (SMTP-CTTV) with ESMTP id 6DC2F195C4;
+        Mon,  6 Nov 2023 01:58:07 +0700 (+07)
+Received: from zimbra.hcrc.vn (unknown [192.168.200.66])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by SMTP-HCRC-200.brggroup.vn (SMTP-CTTV) with ESMTPS id 66A4B195C3;
+        Mon,  6 Nov 2023 01:58:07 +0700 (+07)
+Received: from localhost (localhost [127.0.0.1])
+        by zimbra.hcrc.vn (Postfix) with ESMTP id F275C1B82534;
+        Mon,  6 Nov 2023 01:58:08 +0700 (+07)
+Received: from zimbra.hcrc.vn ([127.0.0.1])
+        by localhost (zimbra.hcrc.vn [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id OU1dqR3nZzfm; Mon,  6 Nov 2023 01:58:08 +0700 (+07)
+Received: from localhost (localhost [127.0.0.1])
+        by zimbra.hcrc.vn (Postfix) with ESMTP id C0ED91B8250B;
+        Mon,  6 Nov 2023 01:58:08 +0700 (+07)
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra.hcrc.vn C0ED91B8250B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hcrc.vn;
+        s=64D43D38-C7D6-11ED-8EFE-0027945F1BFA; t=1699210688;
+        bh=WOZURJ77pkiMUL2pPLC14ifVPRvyTQIBEQmxuN1ezAA=;
+        h=MIME-Version:To:From:Date:Message-Id;
+        b=sgfwVA1VgvpnKMMxA+VEFExqWZLut/dPHuFVJavuhO3HU80+Fd3cS927eRDTF3NNI
+         gvwa4kNHLnkvZ6SoX8OnXPnFSUqmTvnWDN9Syoo3diIEYJB956g9Do8uwzMbfoFh+4
+         ilWA/Nak+vE1TZIfZquKO3MJ8vIW2xizmCfMvbGFbg5YI9Zd1VoJbJtiQWBc1QumlK
+         eoJbGcUbY68Ufn3XX87M0GTgYV4vunQIc0Mw4RWpmdbG9JObxUCh2O6EmKrgqK1nAi
+         YVNYpCyjlaAEL7HMww/YoVtaf5xe7mvjLrpWxn16LaPKPu2bbsvb84jLIB9u32Evez
+         uwPy0x6YzH6gQ==
+X-Virus-Scanned: amavisd-new at hcrc.vn
+Received: from zimbra.hcrc.vn ([127.0.0.1])
+        by localhost (zimbra.hcrc.vn [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id VPrz7Q1ftVUF; Mon,  6 Nov 2023 01:58:08 +0700 (+07)
+Received: from [192.168.1.152] (unknown [51.179.100.52])
+        by zimbra.hcrc.vn (Postfix) with ESMTPSA id 654051B8223A;
+        Mon,  6 Nov 2023 01:58:02 +0700 (+07)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: =?utf-8?b?4oKsIDEwMC4wMDAuMDAwPw==?=
+To:     Recipients <ch.31hamnghi@hcrc.vn>
+From:   ch.31hamnghi@hcrc.vn
+Date:   Sun, 05 Nov 2023 19:57:49 +0100
+Reply-To: joliushk@gmail.com
+Message-Id: <20231105185802.654051B8223A@zimbra.hcrc.vn>
+X-Spam-Status: No, score=2.7 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_REPLYTO,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: **
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-When a user-supplied value is out of range, (NEW) and an incorrect default
-value are shown.
+Goededag,
+Ik ben mevrouw Joanna Liu en een medewerker van Citi Bank Hong Kong.
+Kan ik =E2=82=AC 100.000.000 aan u overmaken? Kan ik je vertrouwen
 
-[Test Kconfig]
 
-  config FOO
-          int "foo"
-          range 10 20
-
-[Test .config]
-
-  CONFIG_FOO=30
-
-[Result without this fix]
-
-  $ make config
-  *
-  * Main menu
-  *
-  foo (FOO) [10] (NEW)
-
-[Result with this fix]
-
-  $ make config
-  *
-  * Main menu
-  *
-  foo (FOO) [20]
-
-Currently, the SYMBOL_DEF_USER is cleared if the user input does not
-reside within the range. Kconfig forgets the initial value 30, and
-prints (NEW) and an incorrect default [10].
-
-Kconfig should remember the user's input. The default should be [20]
-because the user's input, 30, is closer to the upper limit of the range.
-
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
- scripts/kconfig/confdata.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
-index 4a6811d77d18..7fca9cc3ae74 100644
---- a/scripts/kconfig/confdata.c
-+++ b/scripts/kconfig/confdata.c
-@@ -594,7 +594,7 @@ int conf_read(const char *name)
- 				/* Reset a string value if it's out of range */
- 				if (sym_string_within_range(sym, sym->def[S_DEF_USER].val))
- 					break;
--				sym->flags &= ~(SYMBOL_VALID|SYMBOL_DEF_USER);
-+				sym->flags &= ~SYMBOL_VALID;
- 				conf_unsaved++;
- 				break;
- 			default:
--- 
-2.40.1
+Ik wacht op jullie reacties
+Met vriendelijke groeten
+mevrouw Joanna Liu
 
