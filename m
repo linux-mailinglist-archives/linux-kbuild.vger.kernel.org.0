@@ -2,134 +2,117 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FCB07E127E
-	for <lists+linux-kbuild@lfdr.de>; Sun,  5 Nov 2023 08:56:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E72F07E1288
+	for <lists+linux-kbuild@lfdr.de>; Sun,  5 Nov 2023 09:08:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229498AbjKEH4k (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 5 Nov 2023 02:56:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45562 "EHLO
+        id S229498AbjKEIJA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 5 Nov 2023 03:09:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229455AbjKEH4j (ORCPT
+        with ESMTP id S229455AbjKEII7 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 5 Nov 2023 02:56:39 -0500
+        Sun, 5 Nov 2023 03:08:59 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7EFAC6;
-        Sun,  5 Nov 2023 00:56:35 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 567B9C433C9;
-        Sun,  5 Nov 2023 07:56:35 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCD49C6;
+        Sun,  5 Nov 2023 01:08:56 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12A1CC433CC;
+        Sun,  5 Nov 2023 08:08:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1699170995;
-        bh=NO/6VdsZWes1wh0lm2MDJmpIOUg5lGll4DVhzAMddw0=;
+        s=k20201202; t=1699171736;
+        bh=5rsA2TtvetTrEVFVX3AW75cMiJr0GflteQegZdR4OPs=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=iydKVa66n3x+i4cKBtqK7tlzbvc9FWDknuBvmYjrV725HFdFBwLym4O0pUEwfKeoa
-         eQWl2FF6cJ7Nihjpe0Yp2IfEkbjQctJG/mn1TNw6HFcSrShNhG7EmR8rRNGSFRc5AY
-         hxIpWOHJE2DWwoUA2nYlXUXojeebu3IBrmuIrFm1aOKpvnD8jg8nNINZO9YmfqdG1o
-         vDzaCzdQUYGuiR7wZA9ZPOnHsZMlAv/y3uk41nH5R2ty/84Kxtdp3WzYGQ9BQLMQS7
-         09t07kj7h4OZBbUXNr8YqFUl+J1IEsktj4uWmzbRfer7Q2LRSaghwthfHzZ0screD5
-         o7sjvjVcF7fVw==
-Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-586beb5e6a7so1972841eaf.1;
-        Sun, 05 Nov 2023 00:56:35 -0700 (PDT)
-X-Gm-Message-State: AOJu0YymA60Nug0TQb8Z6TWDhDhViaujL2/zzpNsiIZN52y6WbR/tWFg
-        H/xrW4duAxFd13A0ozpxpE+ba4jC3oQvfUOUoww=
-X-Google-Smtp-Source: AGHT+IG++9w87RY1dHHpcvCO4X5pGEIM/ClsT6lUOhVDmldwQaBW6YTc58HDJV1lCRaLItSzC8q0pPjFcajMmPtMook=
-X-Received: by 2002:a05:6870:80ce:b0:1ef:b5e9:a4ef with SMTP id
- r14-20020a05687080ce00b001efb5e9a4efmr24255511oab.55.1699170994705; Sun, 05
- Nov 2023 00:56:34 -0700 (PDT)
+        b=XF727T0OxCcRGSuOnzOoEkz8dEeF9lTJr8szeytyoyWHH5DCXo7RT3V7o9szeIe5o
+         jCntxtlbvzq/DqWVIS9w10VSnJbrzo/zfM9LjPw9WFj49Zxipa0l6jtyt+tWXUBdiY
+         X6MSxxl831WoqvGzIOh0zATz+borRXOEaaL2t7x5pcBgSnfDfQ3v/OB3BZnraoiiyd
+         unDP6F4v9ZTKXmsBKKEgHNFeORAaPo+OIpWFsahGYpW1LkJ/nSHZle48Sf9XpSuGYP
+         //phxRl5mntN0QR7lQgw/mIezpFFcuOGasK++z10Zr5KNaBqqEwSDuoRIK3ncGEhqy
+         PD5QDEL+0HQ1Q==
+Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-1f03fdfcfacso2054138fac.0;
+        Sun, 05 Nov 2023 01:08:56 -0700 (PDT)
+X-Gm-Message-State: AOJu0YyPYGCL/u9/nLXwjerOD9dBS9NDAPXrAhWnVBqU/jL6zyALdIes
+        IK1X2A5aPyhZLp8gim0WEB60ZZ8llSZAIkiIvVE=
+X-Google-Smtp-Source: AGHT+IEtYHz1tuPfOm/db76/IguvKKF83pIUjWSw1hHIUZoME/DTiWkaz66bzhGcRm4TGCXqgrDdBprQw/GhB8L8/Zc=
+X-Received: by 2002:a05:6870:1219:b0:1f0:c3c:cb02 with SMTP id
+ 25-20020a056870121900b001f00c3ccb02mr15980242oan.32.1699171735401; Sun, 05
+ Nov 2023 01:08:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <20231104222715.3967791-1-yoann.congal@smile.fr>
-In-Reply-To: <20231104222715.3967791-1-yoann.congal@smile.fr>
+References: <20231103234247.4505-1-dmitrii.bundin.a@gmail.com>
+In-Reply-To: <20231103234247.4505-1-dmitrii.bundin.a@gmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 5 Nov 2023 16:55:57 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS6J5Nh8nOUHbaf123yd1Z-1q--FvB1ok8GQcoNorAROw@mail.gmail.com>
-Message-ID: <CAK7LNAS6J5Nh8nOUHbaf123yd1Z-1q--FvB1ok8GQcoNorAROw@mail.gmail.com>
-Subject: Re: [PATCH v5] kconfig: avoid an infinite loop in oldconfig/syncconfig
-To:     Yoann Congal <yoann.congal@smile.fr>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Brandon Maier <brandon.maier@collins.com>
+Date:   Sun, 5 Nov 2023 17:08:19 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQE=ankopXh_6q=Rw+JA+MVus5jjyuS3YBoJVz4YPDB1A@mail.gmail.com>
+Message-ID: <CAK7LNAQE=ankopXh_6q=Rw+JA+MVus5jjyuS3YBoJVz4YPDB1A@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: deb-pkg: apply short --rules-file option
+To:     Dmitrii Bundin <dmitrii.bundin.a@gmail.com>
+Cc:     linux-kbuild@vger.kernel.org, nathan@kernel.org,
+        ndesaulniers@google.com, nicolas@fjasle.eu,
+        linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Nov 5, 2023 at 7:27=E2=80=AFAM Yoann Congal <yoann.congal@smile.fr>=
- wrote:
+On Sat, Nov 4, 2023 at 8:43=E2=80=AFAM Dmitrii Bundin
+<dmitrii.bundin.a@gmail.com> wrote:
 >
-> Exit on error when asking for value and reading stdin returns an error
-> (mainly if it has reached EOF or is closed).
+> The long --rules-file option might not be available for some older
+> versions of dpkg-buildpackage resulting in build failures. The -R option
+> has been available since 1.14.17 allowing builds for larger allowing
+> builds for larger set of versions of dpkg-buildpackage.
 >
-> This infinite loop happens in particular for hex/int configs without an
-> explicit default value.
->
-> Previously, this case would loop:
-> * oldconfig prompts for the value but stdin has reached EOF
-> * It gets the global default value : an empty string
-> * This is not a valid hex/int value so it prompts again, hence the
->   infinite loop.
->
-> This case happens with a configuration like this (a hex config without a
-> valid default value):
->   config TEST_KCONFIG
->        hex "Test KConfig"
->        # default 0x0
->
-> And using:
->   make oldconfig < /dev/null
->
-> This was discovered when working on Yocto bug[0] on a downstream
-> kconfig user (U-boot)
->
-> [0]: https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14136
->
-> CC: Brandon Maier <brandon.maier@collins.com>
-> Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
-
-Applied to linux-kbuild.
-Thanks.
-
-
+> Signed-off-by: Dmitrii Bundin <dmitrii.bundin.a@gmail.com>
 > ---
-> v4->v5:
->  * Switched to Masahiro Yamada's suggested code.
-> v3->v4:
->  * Added Brandon Maier's "Tested-by". Thanks!
-> v2->v3:
->  * Simplify the patch by fusing comments of :
->    * Masahiro Yamada : Exit as soon as reading stdin hits an error
->    * Randy Dunlap : Display the name of the currently read symbol
-> v1->v2:
->  * Improve coding style
->  * Put more info in the commit message
-> ---
->  scripts/kconfig/conf.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  scripts/Makefile.package | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/scripts/kconfig/conf.c b/scripts/kconfig/conf.c
-> index 33d19e419908..62de1fbaff97 100644
-> --- a/scripts/kconfig/conf.c
-> +++ b/scripts/kconfig/conf.c
-> @@ -76,8 +76,10 @@ static void strip(char *str)
->  /* Helper function to facilitate fgets() by Jean Sacren. */
->  static void xfgets(char *str, int size, FILE *in)
->  {
-> -       if (!fgets(str, size, in))
-> +       if (!fgets(str, size, in)) {
->                 fprintf(stderr, "\nError in reading or end of file.\n");
-> +               exit(1);
-> +       }
+> diff --git a/scripts/Makefile.package b/scripts/Makefile.package
+> index 2bcab02da965..0afbf5ad2919 100644
+> --- a/scripts/Makefile.package
+> +++ b/scripts/Makefile.package
+> @@ -148,7 +148,7 @@ deb-pkg srcdeb-pkg bindeb-pkg:
+>         $(if $(findstring source, $(build-type)), \
+>                 --unsigned-source --compression=3D$(KDEB_SOURCE_COMPRESS)=
+) \
+>         $(if $(findstring binary, $(build-type)), \
+> -               --rules-file=3D'$(MAKE) -f debian/rules' --jobs=3D1 -r$(K=
+BUILD_PKG_ROOTCMD) -a$$(cat debian/arch), \
+> +               -R'$(MAKE) -f debian/rules' --jobs=3D1 -r$(KBUILD_PKG_ROO=
+TCMD) -a$$(cat debian/arch), \
+>                 --no-check-builddeps) \
+>         $(DPKG_FLAGS))
 >
->         if (!tty_stdio)
->                 printf("%s", str);
 > --
-> 2.30.2
+> 2.17.1
 >
+
+
+The replacement is inconsistent because you replaced
+--rule-file, but kept --jobs, both of which are available
+since 1.18.8
+
+
+
+-j, --jobs[=3Djobs|auto]
+   Specifies  the  number  of  jobs  allowed  to be run simultaneously
+   (since dpkg 1.14.7, long option since dpkg 1.18.8).
+
+-R, --rules-file=3Drules=E2=80=90file
+   Building  a  Debian package usually involves invoking debian/rules
+   as a command with several standard parameters (since dpkg 1.14.17,
+   long option since dpkg 1.18.8).
+
+
+I do not think it is a big deal because the version 1.18.8
+was released in 2016.
+
+
 
 
 --=20
