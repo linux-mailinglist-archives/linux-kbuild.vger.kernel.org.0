@@ -2,82 +2,91 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D6047E1708
-	for <lists+linux-kbuild@lfdr.de>; Sun,  5 Nov 2023 22:59:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CAE2E7E16EE
+	for <lists+linux-kbuild@lfdr.de>; Sun,  5 Nov 2023 22:55:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229689AbjKEV7l (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 5 Nov 2023 16:59:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58486 "EHLO
+        id S229451AbjKEVz1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 5 Nov 2023 16:55:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229830AbjKEV7l (ORCPT
+        with ESMTP id S229447AbjKEVz0 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 5 Nov 2023 16:59:41 -0500
-X-Greylist: delayed 5153 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 05 Nov 2023 13:59:38 PST
-Received: from SMTP-HCRC-200.brggroup.vn (mail.hcrc.vn [42.112.212.144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5474ABF;
-        Sun,  5 Nov 2023 13:59:38 -0800 (PST)
-Received: from SMTP-HCRC-200.brggroup.vn (localhost [127.0.0.1])
-        by SMTP-HCRC-200.brggroup.vn (SMTP-CTTV) with ESMTP id 6DC2F195C4;
-        Mon,  6 Nov 2023 01:58:07 +0700 (+07)
-Received: from zimbra.hcrc.vn (unknown [192.168.200.66])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by SMTP-HCRC-200.brggroup.vn (SMTP-CTTV) with ESMTPS id 66A4B195C3;
-        Mon,  6 Nov 2023 01:58:07 +0700 (+07)
-Received: from localhost (localhost [127.0.0.1])
-        by zimbra.hcrc.vn (Postfix) with ESMTP id F275C1B82534;
-        Mon,  6 Nov 2023 01:58:08 +0700 (+07)
-Received: from zimbra.hcrc.vn ([127.0.0.1])
-        by localhost (zimbra.hcrc.vn [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id OU1dqR3nZzfm; Mon,  6 Nov 2023 01:58:08 +0700 (+07)
-Received: from localhost (localhost [127.0.0.1])
-        by zimbra.hcrc.vn (Postfix) with ESMTP id C0ED91B8250B;
-        Mon,  6 Nov 2023 01:58:08 +0700 (+07)
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra.hcrc.vn C0ED91B8250B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hcrc.vn;
-        s=64D43D38-C7D6-11ED-8EFE-0027945F1BFA; t=1699210688;
-        bh=WOZURJ77pkiMUL2pPLC14ifVPRvyTQIBEQmxuN1ezAA=;
-        h=MIME-Version:To:From:Date:Message-Id;
-        b=sgfwVA1VgvpnKMMxA+VEFExqWZLut/dPHuFVJavuhO3HU80+Fd3cS927eRDTF3NNI
-         gvwa4kNHLnkvZ6SoX8OnXPnFSUqmTvnWDN9Syoo3diIEYJB956g9Do8uwzMbfoFh+4
-         ilWA/Nak+vE1TZIfZquKO3MJ8vIW2xizmCfMvbGFbg5YI9Zd1VoJbJtiQWBc1QumlK
-         eoJbGcUbY68Ufn3XX87M0GTgYV4vunQIc0Mw4RWpmdbG9JObxUCh2O6EmKrgqK1nAi
-         YVNYpCyjlaAEL7HMww/YoVtaf5xe7mvjLrpWxn16LaPKPu2bbsvb84jLIB9u32Evez
-         uwPy0x6YzH6gQ==
-X-Virus-Scanned: amavisd-new at hcrc.vn
-Received: from zimbra.hcrc.vn ([127.0.0.1])
-        by localhost (zimbra.hcrc.vn [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id VPrz7Q1ftVUF; Mon,  6 Nov 2023 01:58:08 +0700 (+07)
-Received: from [192.168.1.152] (unknown [51.179.100.52])
-        by zimbra.hcrc.vn (Postfix) with ESMTPSA id 654051B8223A;
-        Mon,  6 Nov 2023 01:58:02 +0700 (+07)
-Content-Type: text/plain; charset="utf-8"
+        Sun, 5 Nov 2023 16:55:26 -0500
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com [IPv6:2607:f8b0:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BC5EBF;
+        Sun,  5 Nov 2023 13:55:24 -0800 (PST)
+Received: by mail-ot1-x334.google.com with SMTP id 46e09a7af769-6d3505e1426so38811a34.1;
+        Sun, 05 Nov 2023 13:55:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1699221323; x=1699826123; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+PnCQo2jJdNP1v8hfPEAzBImF3kZOSlGPf3wKLl8H+0=;
+        b=HuUWWkJFBxiPnBqGw1xwfMOxgx4PG2io8jzawZOEo9DKiRSWBePVu658LBhiSGvJeG
+         uonwwSt0cQEpBZP/opbZI78xt1JPtzNLwCfGuZyK7Lt6FAKsFU4QaB8wNdVlxjN/ldFL
+         QCdB524JJIuw3vLM0LPQaUJj4fJaE+tjM7AcM3JZkC31w3aobBr3WJy/otIEEYMfWWG8
+         ChwtB/T1JaciNSdvd1uXvV2XlwMmVWmTCEssjlg+/h49hCXcGJCHez3fOHhKi2O6U+rA
+         8egSFoxWF2wP6qwP6gJ++nV3flelIVk7zh1vA/RYayQUpMHXGz2zcOT7S1yAhgaRnMVp
+         15iw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699221323; x=1699826123;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+PnCQo2jJdNP1v8hfPEAzBImF3kZOSlGPf3wKLl8H+0=;
+        b=ipjPh8lmnejACNZGObbZaLjG47a41ErTRDcCrrJVokxPREnq0Cc6HwcFiNmeMQGntv
+         YFi1xCRA+5AxmqesGUzR9cOuwABqEFqTB11IPU68/b7De5kY9d7iXHyjAhl+oyQj8Nc/
+         iZFGl4GlA3SeBlQ7+4Rc6k+WrFevEjysFCe7VD3dcICNh9hlQDb9FI2ZsOifSRqEQC79
+         zsMnBRUwDqUUsVPScrzvavgaCy/pxf/VK/HmMdQo7QexuvU++PiE36kariCqsoJfuiPx
+         Fp1B+wmcG6+ef0AhAbpMq+UfA1tVw3ShV0WnfH0U6ggSXWyOOS5wJkjk9RE9KwEJRtcR
+         /2MA==
+X-Gm-Message-State: AOJu0Yw79Q+ZD1+mlyrIzMqTCxg67Xcv1TU/xphykPUCtEy3375yCRJ6
+        NEbTucIGKRcg44YrcdoaAbLKxbP7//BNQWJ4p/0=
+X-Google-Smtp-Source: AGHT+IELii7XHSOhU2UCOzpOqaZbLhEI7ngf5iK2a8rNGdkzJrcVq2e/xKePZlsDxNHZXk9QOSVPQGn7Nvvso0t5Qss=
+X-Received: by 2002:a05:6830:390a:b0:6c0:c1ba:8f78 with SMTP id
+ br10-20020a056830390a00b006c0c1ba8f78mr31652540otb.0.1699221323646; Sun, 05
+ Nov 2023 13:55:23 -0800 (PST)
 MIME-Version: 1.0
+References: <20231103234247.4505-1-dmitrii.bundin.a@gmail.com> <CAK7LNAQE=ankopXh_6q=Rw+JA+MVus5jjyuS3YBoJVz4YPDB1A@mail.gmail.com>
+In-Reply-To: <CAK7LNAQE=ankopXh_6q=Rw+JA+MVus5jjyuS3YBoJVz4YPDB1A@mail.gmail.com>
+From:   Dmitrii Bundin <dmitrii.bundin.a@gmail.com>
+Date:   Mon, 6 Nov 2023 00:55:12 +0300
+Message-ID: <CANXV_XxGCCrqeN-Yu0H4AiJwV=Ve0dF7VnJz8CWoDywU31qPCA@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: deb-pkg: apply short --rules-file option
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, nathan@kernel.org,
+        ndesaulniers@google.com, nicolas@fjasle.eu,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: =?utf-8?b?4oKsIDEwMC4wMDAuMDAwPw==?=
-To:     Recipients <ch.31hamnghi@hcrc.vn>
-From:   ch.31hamnghi@hcrc.vn
-Date:   Sun, 05 Nov 2023 19:57:49 +0100
-Reply-To: joliushk@gmail.com
-Message-Id: <20231105185802.654051B8223A@zimbra.hcrc.vn>
-X-Spam-Status: No, score=2.7 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_REPLYTO,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: **
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Goededag,
-Ik ben mevrouw Joanna Liu en een medewerker van Citi Bank Hong Kong.
-Kan ik =E2=82=AC 100.000.000 aan u overmaken? Kan ik je vertrouwen
+On Sun, Nov 5, 2023 at 11:08=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
+rg> wrote:
+>
+>
+> I do not think it is a big deal because the version 1.18.8
+> was released in 2016.
+>
+> Best Regards
+> Masahiro Yamada
 
-
-Ik wacht op jullie reacties
-Met vriendelijke groeten
-mevrouw Joanna Liu
-
+Even in spite of being documented that way the long option
+--rules-file was fixed to behave the way it currently does in the
+commit 5cd52673aabdf5eaa58181972119a41041fc85f2 of dpkg dated dated
+23.07.18 and become available starting 1.19.1. That might cause build
+failures for some versions newer than 1.18.8. I faced
+dpkg-buildpackage: error: unknown option or argument --rules-file when
+building the Kernel using Debian dpkg-buildpackage version 1.19.0.5
+having no errors for --jobs. To avoid such inconsistencies I think it
+might be useful to apply short options that are guaranteed to be
+available starting 1.14.7.
