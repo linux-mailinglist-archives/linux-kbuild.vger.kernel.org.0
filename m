@@ -2,39 +2,39 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D2C17E1D96
-	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Nov 2023 10:55:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DFB57E1D9A
+	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Nov 2023 10:56:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229922AbjKFJz3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 6 Nov 2023 04:55:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47992 "EHLO
+        id S230146AbjKFJ4H (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 6 Nov 2023 04:56:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229478AbjKFJz2 (ORCPT
+        with ESMTP id S230299AbjKFJ4H (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 6 Nov 2023 04:55:28 -0500
+        Mon, 6 Nov 2023 04:56:07 -0500
 Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA77EA6;
-        Mon,  6 Nov 2023 01:55:25 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 670E3DB;
+        Mon,  6 Nov 2023 01:56:04 -0800 (PST)
 Received: from [192.168.1.103] (178.176.74.73) by msexch01.omp.ru
  (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Mon, 6 Nov
- 2023 12:55:10 +0300
-Subject: Re: [PATCH 1/4] ata: pata_falcon: Stop using
+ 2023 12:55:57 +0300
+Subject: Re: [PATCH 2/4] ata: pata_gayle: Stop using
  module_platform_driver_probe()
 To:     =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
         Damien Le Moal <dlemoal@kernel.org>
 CC:     <linux-ide@vger.kernel.org>, <kernel@pengutronix.de>,
         <linux-kbuild@vger.kernel.org>
 References: <20231105150037.3724669-6-u.kleine-koenig@pengutronix.de>
- <20231105150037.3724669-7-u.kleine-koenig@pengutronix.de>
+ <20231105150037.3724669-8-u.kleine-koenig@pengutronix.de>
 From:   Sergey Shtylyov <s.shtylyov@omp.ru>
 Organization: Open Mobile Platform
-Message-ID: <a5554971-691e-e222-1609-8181b5fad004@omp.ru>
-Date:   Mon, 6 Nov 2023 12:55:09 +0300
+Message-ID: <236150f7-265c-db55-7bf4-c57159cbeee0@omp.ru>
+Date:   Mon, 6 Nov 2023 12:55:56 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <20231105150037.3724669-7-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20231105150037.3724669-8-u.kleine-koenig@pengutronix.de>
 Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
