@@ -2,99 +2,147 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C9D137E294F
-	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Nov 2023 17:02:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E39C87E29A5
+	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Nov 2023 17:25:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229518AbjKFQCN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 6 Nov 2023 11:02:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60048 "EHLO
+        id S231830AbjKFQZt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 6 Nov 2023 11:25:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232032AbjKFQCM (ORCPT
+        with ESMTP id S232536AbjKFQZs (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 6 Nov 2023 11:02:12 -0500
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F577118;
-        Mon,  6 Nov 2023 08:02:09 -0800 (PST)
-Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-1cc5916d578so42122485ad.2;
-        Mon, 06 Nov 2023 08:02:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699286529; x=1699891329; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=L87RYpGTy0Ae33Mi4zqQxq7EiaxqOB5FDX6HtYxP6hE=;
-        b=g+8ZpZ5zGBQ4NHgvgWXv7y4x6h8T3k7mmfjE99RoVfiZbzXfZWDaNIRUic3sO0QpnY
-         y5Q8YN0tyEzLFVeTNNa7tj73FYyrZirPrEZ1R9ZjKrHnNWW+ClwWc2fFJsA5CsM7Eg17
-         6Q0ihvA6xVgLvkW7CAVqIU5k+UNmf/9CEHDFQGnSIUokdfgACO3ciwTVKRsZ4RFgBvZq
-         ofEKTzz7A+YABvMvwikQozBd/eSRD4Gh7LEb27nVStVSSUWMmQIFP6T8kh4W979DuAcC
-         m8eAjdBkZe/Ai2wMDulRWAjFN1pyDI1u11Qjcfb98TA1hx0VO+MLSBimjphiQVQ1JsLo
-         Nolg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699286529; x=1699891329;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=L87RYpGTy0Ae33Mi4zqQxq7EiaxqOB5FDX6HtYxP6hE=;
-        b=nomEF12Q97IX7JetWsxG1z5g4wCyG0xHeT7KTGgXTpAOPwxWWcEkINPSR38LgT6g27
-         Kv7kuYtMofODOKA3wrfdtG0HIoETxMxDwe0utFBq/XbjDcseivnSzMR9MgN+q++Z455w
-         KyxmGWMbAnSJvl6ulubqKV5RI85727CODXQxmCpqSEuG74ImiVzjDhTjaK2lPNP+gDi+
-         FGtfcDiXAzLg22NsMEHs63kjLtivwF4pIwbA/56MaxBYB0wsLBk9+ASPNSFXfaUaGtN1
-         xdVlvLbl2UOJP6OeywvUTlhHv02fkpwOslIW70eMWgrlH8391qkJ1fDyHm87bAmEub6O
-         tbJg==
-X-Gm-Message-State: AOJu0YyMnqDQweNFUoF6VRj6eP7u/UiSkmhhqA05gi7/ACkDFVPm672Q
-        R2GHAjgTNVJahE3YDMonRhOgimkIUHg=
-X-Google-Smtp-Source: AGHT+IHQGgctmXawzcww2AzdrLgNMEulMDEuhToh+t5eFz4R1sg2J0G3K7a6ChDVmK2Xr/KHC5goog==
-X-Received: by 2002:a17:902:b489:b0:1cc:be6b:80fa with SMTP id y9-20020a170902b48900b001ccbe6b80famr5846220plr.12.1699286528722;
-        Mon, 06 Nov 2023 08:02:08 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id x14-20020a170902ec8e00b001c6187f2875sm6085252plg.225.2023.11.06.08.02.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Nov 2023 08:02:08 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Mon, 6 Nov 2023 08:02:07 -0800
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
-        linux-watchdog@vger.kernel.org, kernel@pengutronix.de,
-        linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH 2/5] watchdog: txx9: Stop using
- module_platform_driver_probe()
-Message-ID: <8b47d0f5-bfa8-434a-9abe-d2f7e9eae917@roeck-us.net>
-References: <20231106154807.3866712-1-u.kleine-koenig@pengutronix.de>
- <20231106154807.3866712-3-u.kleine-koenig@pengutronix.de>
+        Mon, 6 Nov 2023 11:25:48 -0500
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C7881BF;
+        Mon,  6 Nov 2023 08:25:45 -0800 (PST)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id A21FD20068;
+        Mon,  6 Nov 2023 16:25:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1699287943; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=ob/3KR5vtw053vP6IAp0IYpjgIdHRPjmD1sNZvpeql0=;
+        b=mi0IHoKw5riU85/0sf6qaNa3jS2PNV4ug2EA+CCnutY6KPZQV6dTb4Xksq75570q8Jb3km
+        oxDxxEH7yiTDcwFQt4c6qkcrhFxh9jRMOEz4T092ogvEyOOMCYUtBGt0w1ksnA+fLL8yL9
+        ix+xQ+OksjB5ZSJA/1WIB/EmhA/n8sE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1699287943;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=ob/3KR5vtw053vP6IAp0IYpjgIdHRPjmD1sNZvpeql0=;
+        b=sFVp2uUDhufFOXyNbCdYdXLvAFvLiW31KQPhmoQrNMoola6hV9DCxWebYU0kYU09tqI4zL
+        ErLs8L3wmQp4RnDA==
+Received: from localhost.cz (lhruska.udp.ovpn2.prg.suse.de [10.100.204.118])
+        by relay2.suse.de (Postfix) with ESMTP id 3CB9A2CD83;
+        Mon,  6 Nov 2023 16:25:43 +0000 (UTC)
+From:   Lukas Hruska <lhruska@suse.cz>
+To:     Petr Mladek <pmladek@suse.com>, Miroslav Benes <mbenes@suse.cz>,
+        Josh Poimboeuf <jpoimboe@kernel.org>
+Cc:     Joe Lawrence <joe.lawrence@redhat.com>,
+        live-patching@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org,
+        Marcos Paulo de Souza <mpdesouza@suse.com>,
+        Lukas Hruska <lhruska@suse.cz>
+Subject: [PATCH v1 0/5] livepatch: klp-convert tool - Minimal version
+Date:   Mon,  6 Nov 2023 17:25:08 +0100
+Message-ID: <20231106162513.17556-1-lhruska@suse.cz>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231106154807.3866712-3-u.kleine-koenig@pengutronix.de>
-X-Spam-Status: No, score=-1.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Nov 06, 2023 at 04:48:10PM +0100, Uwe Kleine-König wrote:
-> On today's platforms the benefit of platform_driver_probe() isn't that
-> relevant any more. It allows to drop some code after booting (or module
-> loading) for .probe() and discard the .remove() function completely if
-> the driver is built-in. This typically saves a few 100k.
-> 
-> The downside of platform_driver_probe() is that the driver cannot be
-> bound and unbound at runtime which is ancient and also slightly
-> complicates testing. There are also thoughts to deprecate
-> platform_driver_probe() because it adds some complexity in the driver
-> core for little gain. Also many drivers don't use it correctly. This
-> driver for example misses to mark the driver struct with __refdata which
-> is needed to suppress a (W=1) modpost warning:
-> 
-> 	WARNING: modpost: drivers/watchdog/txx9wdt: section mismatch in reference: txx9wdt_driver+0x4 (section: .data) -> txx9wdt_remove (section: .exit.text)
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+Summary
+-------
 
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+This is a significantly simplified version of the original klp-convert tool.
+The klp-convert code has never got a proper review and also clean ups 
+were not easy. The last version was v7, see 
+https://lore.kernel.org/r/20230306140824.3858543-1-joe.lawrence@redhat.com
+
+The main change is that the tool does not longer search for the 
+symbols which would need the livepatch specific relocation entry.
+Also klp.symbols file is not longer needed.
+
+Instead, the needed information is appended to the symbol declaration
+via a new macro KLP_RELOC_SYMBOL(). It creates symbol with all needed
+metadata. For example:
+
+  extern char *saved_command_line \
+                 KLP_RELOC_SYMBOL(vmlinux, vmlinux, saved_command_line, 0); 
+
+would create symbol
+
+$>readelf -r -W <compiled livepatch module>:
+Relocation section '.rela.text' at offset 0x32e60 contains 10 entries:
+    Offset             Info             Type               Symbol's Value  Symbol's Name + Addend
+[...]
+0000000000000068  0000003c00000002 R_X86_64_PC32          0000000000000000 .klp.sym.rela.vmlinux.vmlinux.saved_command_line,0 - 4 
+[...]
+
+
+The simplified klp-convert tool just transforms symbols
+created by KLP_RELOC_SYMBOL() to object specific rela sections
+and rela entries which would later be proceed when the livepatch
+or the livepatched object is loaded.
+
+For example, klp-convert would replace the above symbols with:
+
+$> readelf -r -W <livepatch_module_proceed_by_klp_convert>
+Relocation section '.klp.rela.vmlinux.text' at offset 0x5cb60 contains 1 entry:
+    Offset             Info             Type               Symbol's Value  Symbol's Name + Addend
+0000000000000068  0000003c00000002 R_X86_64_PC32          0000000000000000 .klp.sym.vmlinux.saved_command_line,0 - 4 
+
+
+Note that similar macro was needed also in the original version
+to handle more symbols of the same name (sympos).
+
+Given the above, add klp-convert tool; integrate klp-convert tool into
+kbuild; add data-structure and macros to enable users to annotate
+livepatch source code; make modpost stage compatible with livepatches;
+update livepatch-sample and update documentation.
+
+
+Testing
+-------
+
+The patchset selftests build and execute on x86_64, s390x, and ppc64le
+for both default config (with added livepatch dependencies) and a larger
+SLE-15-ish config.
+
+
+Summary of changes in this minimal version
+------------------------
+
+- rebase for v6.5
+- cleaned-up SoB chains (suggested by pmladek)
+- klp-convert: remove the symbol map auto-resolving solution
+- klp-convert: add macro for flagging variables inside a LP src to be resolved by this tool
+- klp-convert: code simplification
+
+Previous versions
+-----------------
+
+RFC:
+  https://lore.kernel.org/lkml/cover.1477578530.git.jpoimboe@redhat.com/
+v2:
+  https://lore.kernel.org/lkml/f52d29f7-7d1b-ad3d-050b-a9fa8878faf2@redhat.com/
+v3:
+  https://lore.kernel.org/lkml/20190410155058.9437-1-joe.lawrence@redhat.com/
+v4:
+  https://lore.kernel.org/lkml/20190509143859.9050-1-joe.lawrence@redhat.com/
+v5:
+  (not posted)
+  https://github.com/joe-lawrence/klp-convert-tree/tree/klp-convert-v5-devel
+v6:
+  https://lore.kernel.org/live-patching/20220216163940.228309-1-joe.lawrence@redhat.com/
+v7:
+  https://lore.kernel.org/all/20230306140824.3858543-1-joe.lawrence@redhat.com/
+
