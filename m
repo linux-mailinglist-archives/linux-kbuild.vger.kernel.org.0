@@ -2,152 +2,134 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 847717E29B9
-	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Nov 2023 17:27:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 118987E309B
+	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Nov 2023 00:06:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232911AbjKFQ1B (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 6 Nov 2023 11:27:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50812 "EHLO
+        id S233384AbjKFXGp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 6 Nov 2023 18:06:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232885AbjKFQ05 (ORCPT
+        with ESMTP id S233374AbjKFXGo (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 6 Nov 2023 11:26:57 -0500
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D59F10DA;
-        Mon,  6 Nov 2023 08:26:48 -0800 (PST)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-        by smtp-out2.suse.de (Postfix) with ESMTP id 89D202006A;
-        Mon,  6 Nov 2023 16:26:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1699288006; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=toIsN5YluhK1lr5tb8LU9OIiJH3LReIfnzzttfHELBo=;
-        b=muMZ/PdMzdEGYdrBzSbc2tfO3CG+/H4jXg+MByNR1BMW3inVuBkxNhAP9CrjYTXhM6mhyX
-        82mYFyNwTL55Gmod2ZynXNvGYF7t4RyJVn22qK3jpYRVqSqej5xpALDanmby0LWA+kTOMs
-        yOg7pFb0cr9Z9HqV5NwG3l0aYzhTk9Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1699288006;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=toIsN5YluhK1lr5tb8LU9OIiJH3LReIfnzzttfHELBo=;
-        b=f/pEvAUiGss8lhQB+Y1NdLrRfy1Dq2lf2bHRITC0GOxjtBiDFcRFemCiAujmj4TtKz16cr
-        Rah/sGF/A6DqLGBg==
-Received: from localhost.cz (lhruska.udp.ovpn2.prg.suse.de [10.100.204.118])
-        by relay2.suse.de (Postfix) with ESMTP id 2A5092C1C7;
-        Mon,  6 Nov 2023 16:26:46 +0000 (UTC)
-From:   Lukas Hruska <lhruska@suse.cz>
-To:     Petr Mladek <pmladek@suse.com>, Miroslav Benes <mbenes@suse.cz>,
-        Josh Poimboeuf <jpoimboe@kernel.org>
-Cc:     Joe Lawrence <joe.lawrence@redhat.com>,
-        live-patching@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org,
-        Marcos Paulo de Souza <mpdesouza@suse.com>,
-        Lukas Hruska <lhruska@suse.cz>
-Subject: [PATCH v1 5/5] documentation: Update on livepatch elf format
-Date:   Mon,  6 Nov 2023 17:25:13 +0100
-Message-ID: <20231106162513.17556-6-lhruska@suse.cz>
+        Mon, 6 Nov 2023 18:06:44 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39CF0D73;
+        Mon,  6 Nov 2023 15:06:41 -0800 (PST)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52A5DC433C7;
+        Mon,  6 Nov 2023 23:06:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1699312000;
+        bh=4G1C15qqWoa8WZ4NPJj+98V/NuK8foqW7t8CBB/oMHI=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=Y2+7Z6Q2HrIeFGoa/qDRAZmDBo+XvqKf2zT/Gf29nA9G375a7L57CkbiPBkhSoxYn
+         YeS68Aw8thutptTT+8MKzXZQalAWlLFKZ77OvBJkaCd5w22+9OgUbyA2IqnhIl+J2n
+         WrU3OzIu86Pn0idCgktA9FvLUnrgoEe3PKFzQtJ79J6ANC71gtrAPnDv1cEwXyOtfL
+         42xmFkrFERn4yx5IXtkv5rzOXSlb3rJJR90SZWy4SUhfeLssZg8VzaItCiCZgSDd+r
+         qxmdJcbNavhnUAnJQgRmbhAiHP+3HwwkJ7z+OqngIlsY3sZPnLzoxBsxfqm3c+1H2b
+         EeeadQI9qIEUA==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Josh Poimboeuf <jpoimboe@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marco Elver <elver@google.com>,
+        Sasha Levin <sashal@kernel.org>, masahiroy@kernel.org,
+        samitolvanen@google.com, keescook@chromium.org,
+        peterz@infradead.org, linux-kbuild@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.6 5/5] x86/retpoline: Make sure there are no unconverted return thunks due to KCSAN
+Date:   Mon,  6 Nov 2023 18:06:11 -0500
+Message-ID: <20231106230622.3734225-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231106162513.17556-1-lhruska@suse.cz>
-References: <20231106162513.17556-1-lhruska@suse.cz>
+In-Reply-To: <20231106230622.3734225-1-sashal@kernel.org>
+References: <20231106230622.3734225-1-sashal@kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.6
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Add a section to Documentation/livepatch/module-elf-format.rst
-describing how klp-convert works for fixing relocations.
+From: Josh Poimboeuf <jpoimboe@kernel.org>
 
-Signed-off-by: Lukas Hruska <lhruska@suse.cz>
+[ Upstream commit 2d7ce49f58dc95495b3e22e45d2be7de909b2c63 ]
+
+Enabling CONFIG_KCSAN leads to unconverted, default return thunks to
+remain after patching.
+
+As David Kaplan describes in his debugging of the issue, it is caused by
+a couple of KCSAN-generated constructors which aren't processed by
+objtool:
+
+  "When KCSAN is enabled, GCC generates lots of constructor functions
+  named _sub_I_00099_0 which call __tsan_init and then return.  The
+  returns in these are generally annotated normally by objtool and fixed
+  up at runtime.  But objtool runs on vmlinux.o and vmlinux.o does not
+  include a couple of object files that are in vmlinux, like
+  init/version-timestamp.o and .vmlinux.export.o, both of which contain
+  _sub_I_00099_0 functions.  As a result, the returns in these functions
+  are not annotated, and the panic occurs when we call one of them in
+  do_ctors and it uses the default return thunk.
+
+  This difference can be seen by counting the number of these functions in the object files:
+  $ objdump -d vmlinux.o|grep -c "<_sub_I_00099_0>:"
+  2601
+  $ objdump -d vmlinux|grep -c "<_sub_I_00099_0>:"
+  2603
+
+  If these functions are only run during kernel boot, there is no
+  speculation concern."
+
+Fix it by disabling KCSAN on version-timestamp.o and .vmlinux.export.o
+so the extra functions don't get generated.  KASAN and GCOV are already
+disabled for those files.
+
+  [ bp: Massage commit message. ]
+
+Closes: https://lore.kernel.org/lkml/20231016214810.GA3942238@dev-arch.thelio-3990X/
+Reported-by: Nathan Chancellor <nathan@kernel.org>
+Signed-off-by: Josh Poimboeuf <jpoimboe@kernel.org>
+Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+Acked-by: Marco Elver <elver@google.com>
+Tested-by: Nathan Chancellor <nathan@kernel.org>
+Link: https://lore.kernel.org/r/20231017165946.v4i2d4exyqwqq3bx@treble
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- Documentation/livepatch/module-elf-format.rst | 67 +++++++++++++++++++
- 1 file changed, 67 insertions(+)
+ init/Makefile            | 1 +
+ scripts/Makefile.vmlinux | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/Documentation/livepatch/module-elf-format.rst b/Documentation/livepatch/module-elf-format.rst
-index a03ed02ec57e..2aa9b11cd806 100644
---- a/Documentation/livepatch/module-elf-format.rst
-+++ b/Documentation/livepatch/module-elf-format.rst
-@@ -300,3 +300,70 @@ symbol table, and relocation section indices, ELF information is preserved for
- livepatch modules and is made accessible by the module loader through
- module->klp_info, which is a :c:type:`klp_modinfo` struct. When a livepatch module
- loads, this struct is filled in by the module loader.
-+
-+6. klp-convert tool
-+===================
-+The livepatch relocation sections might be created using
-+scripts/livepatch/klp-convert. It is called automatically during
-+the build as part of a module post processing.
-+
-+The tool is not able to find the symbols and all the metadata
-+automatically. Instead, all needed information must already be
-+part of rela entry for the given symbol. Such a rela can
-+be created easily by using KLP_RELOC_SYMBOL() macro after
-+the symbol declaration.
-+
-+KLP_RELOC_SYMBOL causes that the relocation entries for
-+the given symbol will be created in the following format::
-+
-+  .klp.sym.rela.lp_object.sym_object.sym_name,sympos
-+  ^           ^ ^       ^ ^        ^ ^      ^   ^
-+  |___________| |_______| |________| |______|   |
-+       [A]         [B]        [C]       [D]    [E]
-+
-+[A]
-+  The symbol name is prefixed with the string ".klp.sym.rela."
-+
-+[B]
-+  The name of the object (i.e. "vmlinux" or name of module) which
-+  is livepatched.
-+
-+[C]
-+  The name of the object (i.e. "vmlinux" or name of module) to
-+  which the symbol belongs follows immediately after the prefix.
-+
-+[D]
-+  The actual name of the symbol.
-+
-+[E]
-+  The position of the symbol in the object (as according to kallsyms)
-+  This is used to differentiate duplicate symbols within the same
-+  object. The symbol position is expressed numerically (0, 1, 2...).
-+  The symbol position of a unique symbol is 0.
-+
-+Example:
-+--------
-+**Livepatch source code:**
-+
-+::
-+
-+  extern char *saved_command_line \
-+                 KLP_RELOC_SYMBOL(vmlinux, vmlinux, saved_command_line, 0);
-+
-+**`readelf -r -W` output of compiled module:**
-+
-+::
-+
-+  Relocation section '.rela.text' at offset 0x32e60 contains 10 entries:
-+      Offset             Info             Type               Symbol's Value  Symbol's Name + Addend
-+  ...
-+  0000000000000068  0000003c00000002 R_X86_64_PC32          0000000000000000 .klp.sym.rela.vmlinux.vmlinux.saved_command_line,0 - 4
-+  ...
-+
-+**`readelf -r -W` output of transformed module by klp-convert:**
-+
-+::
-+
-+  Relocation section '.klp.rela.vmlinux.text' at offset 0x5cb60 contains 1 entry:
-+      Offset             Info             Type               Symbol's Value  Symbol's Name + Addend
-+      0000000000000068  0000003c00000002 R_X86_64_PC32          0000000000000000 .klp.sym.vmlinux.saved_command_line,0 - 4
+diff --git a/init/Makefile b/init/Makefile
+index ec557ada3c12e..cbac576c57d63 100644
+--- a/init/Makefile
++++ b/init/Makefile
+@@ -60,4 +60,5 @@ include/generated/utsversion.h: FORCE
+ $(obj)/version-timestamp.o: include/generated/utsversion.h
+ CFLAGS_version-timestamp.o := -include include/generated/utsversion.h
+ KASAN_SANITIZE_version-timestamp.o := n
++KCSAN_SANITIZE_version-timestamp.o := n
+ GCOV_PROFILE_version-timestamp.o := n
+diff --git a/scripts/Makefile.vmlinux b/scripts/Makefile.vmlinux
+index 3cd6ca15f390d..c9f3e03124d7f 100644
+--- a/scripts/Makefile.vmlinux
++++ b/scripts/Makefile.vmlinux
+@@ -19,6 +19,7 @@ quiet_cmd_cc_o_c = CC      $@
+ 
+ ifdef CONFIG_MODULES
+ KASAN_SANITIZE_.vmlinux.export.o := n
++KCSAN_SANITIZE_.vmlinux.export.o := n
+ GCOV_PROFILE_.vmlinux.export.o := n
+ targets += .vmlinux.export.o
+ vmlinux: .vmlinux.export.o
 -- 
 2.42.0
 
