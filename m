@@ -2,73 +2,60 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7FA9D7E3770
-	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Nov 2023 10:20:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 82A307E388E
+	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Nov 2023 11:13:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233942AbjKGJUh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 7 Nov 2023 04:20:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37128 "EHLO
+        id S230089AbjKGKNL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 7 Nov 2023 05:13:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233933AbjKGJUe (ORCPT
+        with ESMTP id S229559AbjKGKNL (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 7 Nov 2023 04:20:34 -0500
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1157B10A;
-        Tue,  7 Nov 2023 01:20:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1699348833; x=1730884833;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=ty6/O6J9ZeOHNpcRydrxpthEDYq+jEaqT+wwfhl3Yaw=;
-  b=iV6jjimwN+9ecMbamVoiVtxRrHwhx/rAEU01riDylYzsUS3gSVERLeRf
-   od1RqlCRH5xhKj6MayxlbLMlrc4AgtoHJDTVu9QKPZJW1oIc90ZXrOMm5
-   Jmdp9EVWySe2Z3g8EXgPWCtv8oa7mcDwdiXDJn07tP6d6LNzcJM2ANrEW
-   eUBx5xQYBXqGlDgBAdoiA8ik7CFBnM/v6j0L5YiZ4KcZ1sQ32gHn/lb2b
-   /BbYxnpvDUovcuboaTvOAz0n3HV6EAvoa40VwmONmJ6SS07vECsuTkZNV
-   iO/qeRRBQGDcuUEwolWBV/VGbCsCvxGBf0aCzb0NpOU8/Fs4RDaRPhFOV
-   w==;
-X-CSE-ConnectionGUID: a6ClygnyScu//yMtsjnvfQ==
-X-CSE-MsgGUID: GfA5zt2BRASIffjZ0lOfPA==
-X-ThreatScanner-Verdict: Negative
-X-IronPort-AV: E=Sophos;i="6.03,283,1694761200"; 
-   d="scan'208";a="11316970"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 07 Nov 2023 02:20:32 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Tue, 7 Nov 2023 02:20:19 -0700
-Received: from [10.159.245.205] (10.10.85.11) by chn-vm-ex03.mchp-main.com
- (10.10.85.151) with Microsoft SMTP Server id 15.1.2507.21 via Frontend
- Transport; Tue, 7 Nov 2023 02:20:17 -0700
-Message-ID: <b946ef1d-b367-4ecf-92b8-349505517d86@microchip.com>
-Date:   Tue, 7 Nov 2023 10:19:47 +0100
+        Tue, 7 Nov 2023 05:13:11 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 998C2BD;
+        Tue,  7 Nov 2023 02:13:08 -0800 (PST)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33326C433D9;
+        Tue,  7 Nov 2023 10:13:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1699351988;
+        bh=Cg4JwaJXW8aMk6Qj7g4lmGbdb7QNI/tQxPjTSIHA4cI=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=E9qs8z8Pa11Gk/j3gjROyokcLYP+l4xLI1lHV3xWnhyg0LQ0U8uOpjOcn/hEW9OTF
+         ZdITV/OhXcb232d0UChDa052Ps3y8qj4PT+8VNWdN9M8OwA2sY5SgYBDtzqaSR757a
+         niCxWZIuS1kkh6zGlP/r5JSXxpOV1cESigRhT2FtbQKuZD1iyISYrl0qkBdvH8kypD
+         +lef6brGjvFr9mwQj57If6qwaOmv8ijAUea4NVYowJuJNz96Mv7LK5Nm1k/dTYM0EV
+         Sc1XTO0ARFS12pAdp2IREit7vc90+OWrW9T3NS7dE0p5Uxs/Jw7cfk4rEeQfQB6wWP
+         B5f/fFoEcvtcg==
+Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-1ea48ef2cbfso3339493fac.2;
+        Tue, 07 Nov 2023 02:13:08 -0800 (PST)
+X-Gm-Message-State: AOJu0YyDLbj3EdRRjf+wmRpMTNs5N8431wiaW6fiqTB7A7YbMwh7vod/
+        Wjmj2ge4GLJhnc7OYBlK8RVyykhuCjjKgUxlVC4=
+X-Google-Smtp-Source: AGHT+IFwtR8QOdDBWrS1H5FNaUKUWfGRVbBjcpHDHqyziVmjexyzWBylcif12dO1O6q6SYxwYaTHrq9GWlK5eM+N8l0=
+X-Received: by 2002:a05:6871:67c2:b0:1ea:131f:5fb1 with SMTP id
+ yb2-20020a05687167c200b001ea131f5fb1mr2554285oab.34.1699351987327; Tue, 07
+ Nov 2023 02:13:07 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/5] watchdog: at91sam9: Stop using
- module_platform_driver_probe()
-Content-Language: en-US, fr-FR
-To:     =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>
-CC:     Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-        <linux-watchdog@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <kernel@pengutronix.de>,
-        <linux-kbuild@vger.kernel.org>
-References: <20231106154807.3866712-1-u.kleine-koenig@pengutronix.de>
- <20231106154807.3866712-2-u.kleine-koenig@pengutronix.de>
-From:   Nicolas Ferre <nicolas.ferre@microchip.com>
-Organization: microchip
-In-Reply-To: <20231106154807.3866712-2-u.kleine-koenig@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+References: <20231104194207.3370542-1-sjg@chromium.org> <20231104194207.3370542-3-sjg@chromium.org>
+In-Reply-To: <20231104194207.3370542-3-sjg@chromium.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 7 Nov 2023 12:12:30 +0200
+X-Gmail-Original-Message-ID: <CAK7LNASVOdz2qdg5dwWN8HJwqJ1q_OgdeuapLhvmD6beavUqPg@mail.gmail.com>
+Message-ID: <CAK7LNASVOdz2qdg5dwWN8HJwqJ1q_OgdeuapLhvmD6beavUqPg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] arm: boot: Use double quotes for image name
+To:     Simon Glass <sjg@chromium.org>
+Cc:     linux-arm-kernel@lists.infradead.org,
+        U-Boot Mailing List <u-boot@lists.denx.de>,
+        Tom Rini <trini@konsulko.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -76,29 +63,106 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 06/11/2023 at 16:48, Uwe Kleine-König wrote:
-> On today's platforms the benefit of platform_driver_probe() isn't that
-> relevant any more. It allows to drop some code after booting (or module
-> loading) for .probe() and discard the .remove() function completely if
-> the driver is built-in. This typically saves a few 100k.
-> 
-> The downside of platform_driver_probe() is that the driver cannot be
-> bound and unbound at runtime which is ancient and also slightly
-> complicates testing. There are also thoughts to deprecate
-> platform_driver_probe() because it adds some complexity in the driver
-> core for little gain. Also many drivers don't use it correctly. This
-> driver for example misses to mark the driver struct with __refdata which
-> is needed to suppress a (W=1) modpost warning:
-> 
->          WARNING: modpost: drivers/watchdog/at91sam9_wdt: section mismatch in reference: at91wdt_driver+0x4 (section: .data) -> at91wdt_remove (section: .exit.text)
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-
-Acked-by: Nicolas Ferre <nicolas.ferre@microchip.com>
-
+On Sat, Nov 4, 2023 at 9:42=E2=80=AFPM Simon Glass <sjg@chromium.org> wrote=
+:
+>
+> The use of single quotes in the image name causes them to appear in
+> the image description when the uImage is created. Use double quotes, to
+> avoid this.
+>
+> Signed-off-by: Simon Glass <sjg@chromium.org>
 > ---
->   drivers/watchdog/at91sam9_wdt.c | 10 +++++-----
->   1 file changed, 5 insertions(+), 5 deletions(-)
+>
+> Changes in v2:
+> - Split double-quote change out into its own patch
+>
+>  scripts/Makefile.lib | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> index 68d0134bdbf9..03e79e319293 100644
+> --- a/scripts/Makefile.lib
+> +++ b/scripts/Makefile.lib
+> @@ -487,7 +487,7 @@ UIMAGE_OPTS-y ?=3D
+>  UIMAGE_TYPE ?=3D kernel
+>  UIMAGE_LOADADDR ?=3D arch_must_set_this
+>  UIMAGE_ENTRYADDR ?=3D $(UIMAGE_LOADADDR)
+> -UIMAGE_NAME ?=3D 'Linux-$(KERNELRELEASE)'
+> +UIMAGE_NAME ?=3D "Linux-$(KERNELRELEASE)"
+>
+>  quiet_cmd_uimage =3D UIMAGE  $@
+>        cmd_uimage =3D $(BASH) $(MKIMAGE) -A $(UIMAGE_ARCH) -O linux \
+> --
+> 2.42.0.869.gea05f2083d-goog
+>
 
-[..]
 
+NACK.
+
+
+This is because you are doing *WRONG* in 3/3.
+
+Look at your code closely.
+
+https://lore.kernel.org/linux-kbuild/20231104194207.3370542-4-sjg@chromium.=
+org/T/#me2fb68151d6f4f330808406f9a711fffee149529
+
+
+
+In the mainline kernel, the quotation appears
+only in the definition of UIMAGE_NAME.
+
+
+masahiro@zoe:~/ref/linux(master)$ git grep UIMAGE_NAME
+scripts/Makefile.lib:UIMAGE_NAME ?=3D 'Linux-$(KERNELRELEASE)'
+scripts/Makefile.lib:                   -n $(UIMAGE_NAME) -d $< $@
+
+
+The single quotes are consumed by shell.
+
+
+
+
+
+
+This is mainline + your patch set.
+
+masahiro@zoe:~/ref/linux(simon-v2)$ git grep UIMAGE_NAME
+scripts/Makefile.lib:UIMAGE_NAME ?=3D "Linux-$(KERNELRELEASE)"
+scripts/Makefile.lib:                   -n "$(UIMAGE_NAME)" -d $< $@
+scripts/Makefile.lib:                   --name "$(UIMAGE_NAME)" \
+
+
+You quoted the definition of UIMAGE_NAME,
+and also variable references.
+
+
+
+
+See how it is expanded.
+
+
+--name "$(UIMAGE_NAME)"
+
+
+ =3D=3D>
+
+
+--name ""Linux-$(KERNELRELEASE)""
+
+
+ =3D=3D>
+
+
+--name Linux-$(KERNELRELEASE)
+
+
+
+
+You added double quotes in a row, just to cancel it.
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
