@@ -2,280 +2,134 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F94E7E420E
-	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Nov 2023 15:47:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 98AB47E4212
+	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Nov 2023 15:49:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234175AbjKGOr7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 7 Nov 2023 09:47:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36190 "EHLO
+        id S230186AbjKGOt1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 7 Nov 2023 09:49:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230505AbjKGOr6 (ORCPT
+        with ESMTP id S230092AbjKGOt0 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 7 Nov 2023 09:47:58 -0500
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68DD7102
-        for <linux-kbuild@vger.kernel.org>; Tue,  7 Nov 2023 06:47:55 -0800 (PST)
-Received: by mail-ed1-x530.google.com with SMTP id 4fb4d7f45d1cf-5446c9f3a77so4987027a12.0
-        for <linux-kbuild@vger.kernel.org>; Tue, 07 Nov 2023 06:47:55 -0800 (PST)
+        Tue, 7 Nov 2023 09:49:26 -0500
+Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com [IPv6:2607:f8b0:4864:20::d2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82B90101
+        for <linux-kbuild@vger.kernel.org>; Tue,  7 Nov 2023 06:49:23 -0800 (PST)
+Received: by mail-io1-xd2b.google.com with SMTP id ca18e2360f4ac-7a66aa8ebb7so233334839f.3
+        for <linux-kbuild@vger.kernel.org>; Tue, 07 Nov 2023 06:49:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1699368473; x=1699973273; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NnbeJZKiQOh5K3sI9hqRkc3lnO9o5y6c5lTMMzgYvsY=;
-        b=Wd6jZMYIKUVrbXfDv80Wl3lbCSL8R3DG36d9fS3jymZdlCv9YpCpSsQJlJOGiqCjpz
-         NrNcrFy6r4KaZ8KiTnxGtcN1uG5/ETFWMxlSRIgs7uydT0w8PucrDzb2zsGFiSnG1UsN
-         o57zbBcf11TKaipPZmVsH2Ba+sortTpcJIn3g=
+        d=chromium.org; s=google; t=1699368563; x=1699973363; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mGdhwZC1aoWv4hm325gNK3bTc4NhbyLb0VzfJImw0Uw=;
+        b=IVnuJ4CNTqYJhb0nPDjbKLEq5xIz8X+BWoLSOxuj2LhiAF+m6JKIe3EyF2rM9qjUkj
+         Xj01ekrwxTLHPmlsRvkq/l72d0tIAvzp0ShUy/Sf2eiDc5iqSrbmUkxJbZ0e4XD31+QF
+         u/x8/mmPokz7GOInxcOppgB4pG4W5u9ja0hos=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699368473; x=1699973273;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NnbeJZKiQOh5K3sI9hqRkc3lnO9o5y6c5lTMMzgYvsY=;
-        b=dqgcQrZdquOCOVIhMxCXjWXoYodIrbJ661rGUkJLUT1btbLexmtqZqBZmtnqdVpgjQ
-         KDJ5caW9yGlvl5C4BMQHBDVoRinXIpk6f7Lc+b5veh9MRwEyMJuUcTnXS75Q1Gw4a9zF
-         QpEniI5ETZh5Y+fNPOy/8fYiuqcHwWEHVN/t8GQ/Mgga/npF38g/z7sryknEernRLdZ6
-         MZ6EfgH139zJUWzLICACgPFxlB/SFdhQcYeTcCXLLyhGspOCDhLmxU6EmabRLUrWJOPo
-         cJkoFspfcU8urURGqK6aOlKSckLOuDQ2YIpcKchpQB4YzsKpffjBx5pZd+Xw99W8M2l+
-         6f6A==
-X-Gm-Message-State: AOJu0Yx5ufUyt6CPZTsPq0bhaa/Tp6BXREPD9ivLZopQiW2mWLKIklmU
-        Nv5EH4K8Av/hxXfid9OD14xvae22NoHa0xHSX22gzQ==
-X-Google-Smtp-Source: AGHT+IENfNsJXAisXICQ9hXfEFELw1udePjhEHmkIST9uDdPVV64sOD6sNTW7nyc6dFHLgikhceAKATe9uLSfW7Kz5c=
-X-Received: by 2002:a50:8adc:0:b0:543:c578:f9d2 with SMTP id
- k28-20020a508adc000000b00543c578f9d2mr15339820edk.2.1699368473317; Tue, 07
- Nov 2023 06:47:53 -0800 (PST)
-MIME-Version: 1.0
-References: <20231104194207.3370542-1-sjg@chromium.org> <20231104194207.3370542-3-sjg@chromium.org>
- <CAK7LNASVOdz2qdg5dwWN8HJwqJ1q_OgdeuapLhvmD6beavUqPg@mail.gmail.com>
- <CAPnjgZ2yrk38kApMSiUOmsNM8M9cDa3gtH-ozJZzk=VjLh+PLQ@mail.gmail.com> <CAK7LNARzfMDBX9mhCaCV8QxpTic6A3JYOPBManJNh9Jas=-T9A@mail.gmail.com>
-In-Reply-To: <CAK7LNARzfMDBX9mhCaCV8QxpTic6A3JYOPBManJNh9Jas=-T9A@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1699368563; x=1699973363;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mGdhwZC1aoWv4hm325gNK3bTc4NhbyLb0VzfJImw0Uw=;
+        b=t3IQ6jLURknx6wXoiv7i2wjESdhNFByCBGhvbcPE0nGyVJu5Ly2r2gyJk+IkZz9JZq
+         woHs8VSOIhsXXEKk62fDD5GAVYSvUZw2OFJ2/egd/yw/lMzSb03y7ul3Ad0h2ElYRrnb
+         +wDQKtq+OEHqP8gBbahyjEaqVvE3R63eh1Vxc4GnK2DwDVFLcbPEtptSsgDBxSdvi+aB
+         0LXGkzgS7UApP/g+3XJ9ObaEmIf0IrhAe1TpzA1FcYCgVxw3Lj0lIMpuEGNe47+Mnlfz
+         SV4BrqhFqtTvlJBQvEzx60pc7u5dlntMTNN4PadDNrPxN7t0hwuiM6uuoFFDbQO9+sDc
+         l/bQ==
+X-Gm-Message-State: AOJu0Yw2qOD0NMzhFH/Q48+MPDX9WJhbXhs0NRuajk+NWsR1C19vT2m/
+        yY/aE6HgdVf/4pV+c1XFZPtgdg==
+X-Google-Smtp-Source: AGHT+IFbWYxmCVLOPBkIKdca7xRPNMPu+WV7uYSe3XtBCvnGL0pLnyu5kmk3VGVXfipxrEiR5YJiqQ==
+X-Received: by 2002:a05:6602:29cf:b0:7a9:509c:961 with SMTP id z15-20020a05660229cf00b007a9509c0961mr36574184ioq.13.1699368562862;
+        Tue, 07 Nov 2023 06:49:22 -0800 (PST)
+Received: from sjg1.lan (c-73-14-173-85.hsd1.co.comcast.net. [73.14.173.85])
+        by smtp.gmail.com with ESMTPSA id b16-20020a05663801b000b0045a66a26208sm2815200jaq.128.2023.11.07.06.49.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Nov 2023 06:49:22 -0800 (PST)
 From:   Simon Glass <sjg@chromium.org>
-Date:   Tue, 7 Nov 2023 07:47:42 -0700
-Message-ID: <CAPnjgZ27bsKOLwsK7nTw=3OEvdY4Yz5nZGsMNCmEzvsQPafjqw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] arm: boot: Use double quotes for image name
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-arm-kernel@lists.infradead.org,
-        U-Boot Mailing List <u-boot@lists.denx.de>,
+To:     linux-arm-kernel@lists.infradead.org
+Cc:     U-Boot Mailing List <u-boot@lists.denx.de>,
         Tom Rini <trini@konsulko.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Simon Glass <sjg@chromium.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
+        Nick Terrell <terrelln@fb.com>,
         Nicolas Schier <nicolas@fjasle.eu>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-9.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        USER_IN_DEF_SPF_WL autolearn=no autolearn_force=no version=3.4.6
+        Will Deacon <will@kernel.org>, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v4 0/3] arm64: Add a build target for Flat Image Tree
+Date:   Tue,  7 Nov 2023 07:48:48 -0700
+Message-ID: <20231107144917.48304-1-sjg@chromium.org>
+X-Mailer: git-send-email 2.42.0.869.gea05f2083d-goog
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Masahiro,
+Flat Image Tree (FIT) is a widely used file format for packaging a
+kernel and associated devicetree files[1]. It is not specific to any
+one bootloader, as it is supported by U-Boot, coreboot, Linuxboot,
+Tianocore and Barebox.
 
-On Tue, 7 Nov 2023 at 07:13, Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> Hi Simon,
->
->
-> On Tue, Nov 7, 2023 at 3:11=E2=80=AFPM Simon Glass <sjg@chromium.org> wro=
-te:
-> >
-> > Hi Masahiro,
-> >
-> > On Tue, 7 Nov 2023 at 03:13, Masahiro Yamada <masahiroy@kernel.org> wro=
-te:
-> > >
-> > > On Sat, Nov 4, 2023 at 9:42=E2=80=AFPM Simon Glass <sjg@chromium.org>=
- wrote:
-> > > >
-> > > > The use of single quotes in the image name causes them to appear in
-> > > > the image description when the uImage is created. Use double quotes=
-, to
-> > > > avoid this.
-> > > >
-> > > > Signed-off-by: Simon Glass <sjg@chromium.org>
-> > > > ---
-> > > >
-> > > > Changes in v2:
-> > > > - Split double-quote change out into its own patch
-> > > >
-> > > >  scripts/Makefile.lib | 2 +-
-> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> > > > index 68d0134bdbf9..03e79e319293 100644
-> > > > --- a/scripts/Makefile.lib
-> > > > +++ b/scripts/Makefile.lib
-> > > > @@ -487,7 +487,7 @@ UIMAGE_OPTS-y ?=3D
-> > > >  UIMAGE_TYPE ?=3D kernel
-> > > >  UIMAGE_LOADADDR ?=3D arch_must_set_this
-> > > >  UIMAGE_ENTRYADDR ?=3D $(UIMAGE_LOADADDR)
-> > > > -UIMAGE_NAME ?=3D 'Linux-$(KERNELRELEASE)'
-> > > > +UIMAGE_NAME ?=3D "Linux-$(KERNELRELEASE)"
-> > > >
-> > > >  quiet_cmd_uimage =3D UIMAGE  $@
-> > > >        cmd_uimage =3D $(BASH) $(MKIMAGE) -A $(UIMAGE_ARCH) -O linux=
- \
-> > > > --
-> > > > 2.42.0.869.gea05f2083d-goog
-> > > >
-> > >
-> > >
-> > > NACK.
-> > >
-> > >
-> > > This is because you are doing *WRONG* in 3/3.
-> > >
-> > > Look at your code closely.
-> > >
-> > > https://lore.kernel.org/linux-kbuild/20231104194207.3370542-4-sjg@chr=
-omium.org/T/#me2fb68151d6f4f330808406f9a711fffee149529
-> > >
-> > >
-> > >
-> > > In the mainline kernel, the quotation appears
-> > > only in the definition of UIMAGE_NAME.
-> > >
-> > >
-> > > masahiro@zoe:~/ref/linux(master)$ git grep UIMAGE_NAME
-> > > scripts/Makefile.lib:UIMAGE_NAME ?=3D 'Linux-$(KERNELRELEASE)'
-> > > scripts/Makefile.lib:                   -n $(UIMAGE_NAME) -d $< $@
-> > >
-> > >
-> > > The single quotes are consumed by shell.
-> > >
-> > >
-> > >
-> > >
-> > >
-> > >
-> > > This is mainline + your patch set.
-> > >
-> > > masahiro@zoe:~/ref/linux(simon-v2)$ git grep UIMAGE_NAME
-> > > scripts/Makefile.lib:UIMAGE_NAME ?=3D "Linux-$(KERNELRELEASE)"
-> > > scripts/Makefile.lib:                   -n "$(UIMAGE_NAME)" -d $< $@
-> > > scripts/Makefile.lib:                   --name "$(UIMAGE_NAME)" \
-> > >
-> > >
-> > > You quoted the definition of UIMAGE_NAME,
-> > > and also variable references.
-> > >
-> > >
-> > >
-> > >
-> > > See how it is expanded.
-> > >
-> > >
-> > > --name "$(UIMAGE_NAME)"
-> > >
-> > >
-> > >  =3D=3D>
-> > >
-> > >
-> > > --name ""Linux-$(KERNELRELEASE)""
-> > >
-> > >
-> > >  =3D=3D>
-> > >
-> > >
-> > > --name Linux-$(KERNELRELEASE)
-> > >
-> > >
-> > >
-> > >
-> > > You added double quotes in a row, just to cancel it.
-> >
-> > Yes, I understand that. But without the quotes in -n "$(UIMAGE_NAME)"
-> > then the name cannot contain spaces. So we do need some sort of
-> > quoting, right?
->
->
-> Yes.
->
-> If you move the quoting to the variable reference,
-> it is acceptable because there is a good reason to do so.
->
->
->
-> UIMAGE_NAME ?=3D Linux-$(KERNELRELEASE)
->
->
->             ...
->              -n '$(UIMAGE_NAME)' -d $< $@
->
->
-> This is the correct change.
+This series adds support for building a FIT as part of the kernel
+build. This makes it easy to try out the kernel - just load the FIT
+onto your tftp server and it will run automatically on any supported
+arm64 board.
 
-OK.
+The script is written in Python, since it is easy to build a FIT using
+the Python libfdt bindings. For now, no attempt is made to compress
+files in parallel, so building the 900-odd files takes a while, about
+6 seconds with my testing.
 
->
->
->
-> >
-> > It just seems strange to use single quotes in a Makefile variable. I
-> > found it confusing.
->
->
-> Right. Why don't you remove it, then?
->
->
-> For clarification, there is no concept of quoting in GNU Make.
->
-> The single quote character ' and the double quote character " are
-> just normal characters for Make.
->
-> GNU Make handles them just like alphabets and numbers.
->
-> GNU Make just replaces $(UIMAGE_NAME)
-> with 'Linux-$(KERNELRELEASE)' verbatim.
->
->
-> It is the _shell_ that understands the quoting.
->
-> Just in case here is the spec for
-> "2.2.2 Single-Quotes" vs "2.2.3 Double-Quotes"
->
-> https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html
->
->
-> Shell supports both single-quoting and double-quoting
-> for good reasons.
->
-> There is no good or bad because both of them are meaningful.
+The series also includes a few minor clean-up patches.
 
-Yes...I suppose I knew that Makefiles are completely literal, but
-thanks for the pointers. I tend to use double quotes by default and
-single quotes only when I have to...but it doesn't really matter so
-long as it is consistent.
+[1] https://github.com/open-source-firmware/flat-image-tree
 
-Anyway, moving the single quotes away from the var removes the
-confusion I had at the start of all of this.
+Changes in v4:
+- Add a patch to move the single quotes for image name
+- Use single quotes for UIMAGE_NAME
 
->
->
->
->
->
->
-> >
-> > I think you are saying you want to keep the single quotes in the var
-> > declaration and drop the quotes from the cmd_fit rule. I am OK with
-> > that, but I do think it is unusual not to quote something which might
-> > have spaces. It may cause confusion for others, as it did for me?
-> >
-> > Anyway, I'll send a new version with the quoting reverted.
-> >
->
->
-> Please move the single quotes as I suggested above.
->
-> The reason is because UIMAGE_NAME can be passed-in
-> by a user and it can contain whitespaces.
+Changes in v3:
+- Drop temporary file image.itk
+- Drop patch 'Use double quotes for image name'
+- Drop double quotes in use of UIMAGE_NAME
+- Drop unnecessary CONFIG_EFI_ZBOOT condition for help
+- Avoid hard-coding "arm64" for the DT architecture
 
-OK, done in v4.
+Changes in v2:
+- Drop patch previously applied
+- Add .gitignore file
+- Move fit rule to Makefile.lib using an intermediate file
+- Drop dependency on CONFIG_EFI_ZBOOT
+- Pick up .dtb files separately from the kernel
+- Correct pylint too-many-args warning for write_kernel()
+- Include the kernel image in the file count
+- Add a pointer to the FIT spec and mention of its wide industry usage
+- Mention the kernel version in the FIT description
 
-Regards,
-Simon
+Simon Glass (3):
+  kbuild: arm64: Add BOOT_TARGETS variable
+  arm: boot: Move the single quotes for image name
+  arm64: boot: Support Flat Image Tree
+
+ MAINTAINERS                |   7 +
+ arch/arm64/Makefile        |   7 +-
+ arch/arm64/boot/.gitignore |   1 +
+ arch/arm64/boot/Makefile   |   6 +-
+ scripts/Makefile.lib       |  20 ++-
+ scripts/make_fit.py        | 289 +++++++++++++++++++++++++++++++++++++
+ 6 files changed, 326 insertions(+), 4 deletions(-)
+ create mode 100755 scripts/make_fit.py
+
+-- 
+2.42.0.869.gea05f2083d-goog
+
