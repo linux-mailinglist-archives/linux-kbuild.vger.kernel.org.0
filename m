@@ -2,134 +2,103 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BCFB67E30A6
-	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Nov 2023 00:07:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7FA9D7E3770
+	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Nov 2023 10:20:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233467AbjKFXHW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 6 Nov 2023 18:07:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36136 "EHLO
+        id S233942AbjKGJUh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 7 Nov 2023 04:20:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233451AbjKFXHN (ORCPT
+        with ESMTP id S233933AbjKGJUe (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 6 Nov 2023 18:07:13 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4E2010FC;
-        Mon,  6 Nov 2023 15:07:09 -0800 (PST)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6803C433C8;
-        Mon,  6 Nov 2023 23:07:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1699312029;
-        bh=4G1C15qqWoa8WZ4NPJj+98V/NuK8foqW7t8CBB/oMHI=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=JisrU95GKuhRGW2UbfFn71jCF16IPIJBqI+ct76ED+PWAwixS9g1F9eVYRD55PUH8
-         7k6qQd8TSMmTUws+Ha3pK2e99B/Z1O+akcENayzCkrL+0/+f5RsMPnmNKhC0f9JAvn
-         SAuZ/B8OIqVU037yaieC8tO2eVX+3AszuYL8kRH5vqVoCdio+NcP5Wg6vdn4fh5Jxc
-         gTG55Ya7/D/MCRCFca+6fZxtlYVSioJFRunrOThg0mlj0ANaJa1WIQlFDi23870gpt
-         qM60xsJifmGSwyrAIeoPAKR6M7mfJuxV+rsKYe6+SI6ibzYMadjjwAmi69U2xG2oCg
-         zZjwMKFReKmiA==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Josh Poimboeuf <jpoimboe@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Marco Elver <elver@google.com>,
-        Sasha Levin <sashal@kernel.org>, masahiroy@kernel.org,
-        peterz@infradead.org, samitolvanen@google.com,
-        keescook@chromium.org, linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.5 5/5] x86/retpoline: Make sure there are no unconverted return thunks due to KCSAN
-Date:   Mon,  6 Nov 2023 18:06:42 -0500
-Message-ID: <20231106230651.3734359-5-sashal@kernel.org>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231106230651.3734359-1-sashal@kernel.org>
-References: <20231106230651.3734359-1-sashal@kernel.org>
+        Tue, 7 Nov 2023 04:20:34 -0500
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1157B10A;
+        Tue,  7 Nov 2023 01:20:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1699348833; x=1730884833;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=ty6/O6J9ZeOHNpcRydrxpthEDYq+jEaqT+wwfhl3Yaw=;
+  b=iV6jjimwN+9ecMbamVoiVtxRrHwhx/rAEU01riDylYzsUS3gSVERLeRf
+   od1RqlCRH5xhKj6MayxlbLMlrc4AgtoHJDTVu9QKPZJW1oIc90ZXrOMm5
+   Jmdp9EVWySe2Z3g8EXgPWCtv8oa7mcDwdiXDJn07tP6d6LNzcJM2ANrEW
+   eUBx5xQYBXqGlDgBAdoiA8ik7CFBnM/v6j0L5YiZ4KcZ1sQ32gHn/lb2b
+   /BbYxnpvDUovcuboaTvOAz0n3HV6EAvoa40VwmONmJ6SS07vECsuTkZNV
+   iO/qeRRBQGDcuUEwolWBV/VGbCsCvxGBf0aCzb0NpOU8/Fs4RDaRPhFOV
+   w==;
+X-CSE-ConnectionGUID: a6ClygnyScu//yMtsjnvfQ==
+X-CSE-MsgGUID: GfA5zt2BRASIffjZ0lOfPA==
+X-ThreatScanner-Verdict: Negative
+X-IronPort-AV: E=Sophos;i="6.03,283,1694761200"; 
+   d="scan'208";a="11316970"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 07 Nov 2023 02:20:32 -0700
+Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Tue, 7 Nov 2023 02:20:19 -0700
+Received: from [10.159.245.205] (10.10.85.11) by chn-vm-ex03.mchp-main.com
+ (10.10.85.151) with Microsoft SMTP Server id 15.1.2507.21 via Frontend
+ Transport; Tue, 7 Nov 2023 02:20:17 -0700
+Message-ID: <b946ef1d-b367-4ecf-92b8-349505517d86@microchip.com>
+Date:   Tue, 7 Nov 2023 10:19:47 +0100
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.5.10
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/5] watchdog: at91sam9: Stop using
+ module_platform_driver_probe()
+Content-Language: en-US, fr-FR
+To:     =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>
+CC:     Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+        <linux-watchdog@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <kernel@pengutronix.de>,
+        <linux-kbuild@vger.kernel.org>
+References: <20231106154807.3866712-1-u.kleine-koenig@pengutronix.de>
+ <20231106154807.3866712-2-u.kleine-koenig@pengutronix.de>
+From:   Nicolas Ferre <nicolas.ferre@microchip.com>
+Organization: microchip
+In-Reply-To: <20231106154807.3866712-2-u.kleine-koenig@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_PASS,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Josh Poimboeuf <jpoimboe@kernel.org>
+On 06/11/2023 at 16:48, Uwe Kleine-König wrote:
+> On today's platforms the benefit of platform_driver_probe() isn't that
+> relevant any more. It allows to drop some code after booting (or module
+> loading) for .probe() and discard the .remove() function completely if
+> the driver is built-in. This typically saves a few 100k.
+> 
+> The downside of platform_driver_probe() is that the driver cannot be
+> bound and unbound at runtime which is ancient and also slightly
+> complicates testing. There are also thoughts to deprecate
+> platform_driver_probe() because it adds some complexity in the driver
+> core for little gain. Also many drivers don't use it correctly. This
+> driver for example misses to mark the driver struct with __refdata which
+> is needed to suppress a (W=1) modpost warning:
+> 
+>          WARNING: modpost: drivers/watchdog/at91sam9_wdt: section mismatch in reference: at91wdt_driver+0x4 (section: .data) -> at91wdt_remove (section: .exit.text)
+> 
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 
-[ Upstream commit 2d7ce49f58dc95495b3e22e45d2be7de909b2c63 ]
+Acked-by: Nicolas Ferre <nicolas.ferre@microchip.com>
 
-Enabling CONFIG_KCSAN leads to unconverted, default return thunks to
-remain after patching.
+> ---
+>   drivers/watchdog/at91sam9_wdt.c | 10 +++++-----
+>   1 file changed, 5 insertions(+), 5 deletions(-)
 
-As David Kaplan describes in his debugging of the issue, it is caused by
-a couple of KCSAN-generated constructors which aren't processed by
-objtool:
-
-  "When KCSAN is enabled, GCC generates lots of constructor functions
-  named _sub_I_00099_0 which call __tsan_init and then return.  The
-  returns in these are generally annotated normally by objtool and fixed
-  up at runtime.  But objtool runs on vmlinux.o and vmlinux.o does not
-  include a couple of object files that are in vmlinux, like
-  init/version-timestamp.o and .vmlinux.export.o, both of which contain
-  _sub_I_00099_0 functions.  As a result, the returns in these functions
-  are not annotated, and the panic occurs when we call one of them in
-  do_ctors and it uses the default return thunk.
-
-  This difference can be seen by counting the number of these functions in the object files:
-  $ objdump -d vmlinux.o|grep -c "<_sub_I_00099_0>:"
-  2601
-  $ objdump -d vmlinux|grep -c "<_sub_I_00099_0>:"
-  2603
-
-  If these functions are only run during kernel boot, there is no
-  speculation concern."
-
-Fix it by disabling KCSAN on version-timestamp.o and .vmlinux.export.o
-so the extra functions don't get generated.  KASAN and GCOV are already
-disabled for those files.
-
-  [ bp: Massage commit message. ]
-
-Closes: https://lore.kernel.org/lkml/20231016214810.GA3942238@dev-arch.thelio-3990X/
-Reported-by: Nathan Chancellor <nathan@kernel.org>
-Signed-off-by: Josh Poimboeuf <jpoimboe@kernel.org>
-Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-Acked-by: Marco Elver <elver@google.com>
-Tested-by: Nathan Chancellor <nathan@kernel.org>
-Link: https://lore.kernel.org/r/20231017165946.v4i2d4exyqwqq3bx@treble
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- init/Makefile            | 1 +
- scripts/Makefile.vmlinux | 1 +
- 2 files changed, 2 insertions(+)
-
-diff --git a/init/Makefile b/init/Makefile
-index ec557ada3c12e..cbac576c57d63 100644
---- a/init/Makefile
-+++ b/init/Makefile
-@@ -60,4 +60,5 @@ include/generated/utsversion.h: FORCE
- $(obj)/version-timestamp.o: include/generated/utsversion.h
- CFLAGS_version-timestamp.o := -include include/generated/utsversion.h
- KASAN_SANITIZE_version-timestamp.o := n
-+KCSAN_SANITIZE_version-timestamp.o := n
- GCOV_PROFILE_version-timestamp.o := n
-diff --git a/scripts/Makefile.vmlinux b/scripts/Makefile.vmlinux
-index 3cd6ca15f390d..c9f3e03124d7f 100644
---- a/scripts/Makefile.vmlinux
-+++ b/scripts/Makefile.vmlinux
-@@ -19,6 +19,7 @@ quiet_cmd_cc_o_c = CC      $@
- 
- ifdef CONFIG_MODULES
- KASAN_SANITIZE_.vmlinux.export.o := n
-+KCSAN_SANITIZE_.vmlinux.export.o := n
- GCOV_PROFILE_.vmlinux.export.o := n
- targets += .vmlinux.export.o
- vmlinux: .vmlinux.export.o
--- 
-2.42.0
+[..]
 
