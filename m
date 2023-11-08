@@ -2,83 +2,85 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 275797E4EE5
-	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Nov 2023 03:30:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2868A7E4F42
+	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Nov 2023 04:01:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231858AbjKHCaW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 7 Nov 2023 21:30:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35034 "EHLO
+        id S234059AbjKHDBy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 7 Nov 2023 22:01:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57216 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231760AbjKHCaV (ORCPT
+        with ESMTP id S234013AbjKHDBx (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 7 Nov 2023 21:30:21 -0500
-Received: from smtp5-g21.free.fr (smtp5-g21.free.fr [212.27.42.5])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E850181
-        for <linux-kbuild@vger.kernel.org>; Tue,  7 Nov 2023 18:30:19 -0800 (PST)
-Received: from webmail.free.fr (unknown [172.20.246.3])
-        (Authenticated sender: vivien.gallinaro@free.fr)
-        by smtp5-g21.free.fr (Postfix) with ESMTPA id 52C995FFA3
-        for <linux-kbuild@vger.kernel.org>; Wed,  8 Nov 2023 03:30:17 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=free.fr;
-        s=smtp-20201208; t=1699410617;
-        bh=oe9JmaqscxaeaFKS3TeQECuaLMuFz3lU9hDUHFR94c4=;
-        h=Date:From:To:Subject:From;
-        b=t4cg5MkBh+7OlS0dsnhlTPzn/kxlkWQXoOEDNbdW9pQdNqXrx0C95juH0u/6YFQg0
-         QDAilrRYEbGksZB19DaHLx98BjuIqY7Qwo89tIvEe79DUyOhYHzE/QNPhYr/Sz583E
-         CVrdE9Fh1VyB2zrniexBEDmsP3km+nvK1vNjhHVrzSHmAU2PLW2uKyQ5er3+wb01+7
-         72vBVsZCJuig/JAWJCHten61SZ8tNyHyFeCHL32uWBQChMU3KxyTgMKkIT31gWnEad
-         +otutfVXGOtalnZlfI7LLqNleX7tKSRju6hVm9NmXQyUhGNNeD0HHNPdowS0/yGTcu
-         apHOW9e61ZAzQ==
-Received: from 2a01:e0a:2b0:9080:1e01:8392:432:b1d
- via 2a01:e0a:2b0:9080:1e01:8392:432:b1d
- by webmail.free.fr
- with HTTP (HTTP/1.0 POST); Wed, 08 Nov 2023 03:30:17 +0100
+        Tue, 7 Nov 2023 22:01:53 -0500
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B797910EC;
+        Tue,  7 Nov 2023 19:01:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=h36Fp+oGSZZThQKXVlSOBuQnKzshdSZBHiXatxwGT+Y=; b=ElnjHmAwWkFuzcNJjP5dtneZrL
+        30f02EklI2wvJ0YOQm5TlAG2ilPFzhZzJiYEzkTvITM8h3L7YsV7R2CLjirpZyQ1v0Mg8HexbaMpS
+        xbkjGzSQu4yqZFmwwLdNBjLpWcPOKqgMv1HAXL64PtDRK1rRKz8v5ISfLa0bdbQcYZX1jOOlI9Jvk
+        dLnkliPurnPOd0PYQK1pNX/eQN/s906JwxaO19gKxNCtHtk5l9FKaNWTzMmmQmWvh+YNJOjZYY3yA
+        oyRQfa93Thb+bCIazfCZyNKfFh14nlwq1WRyO0mzbUqrsvx3atI+T9rffPokTc2J40erlIjUiLd23
+        n1QoIm4w==;
+Received: from [50.53.46.231] (helo=[192.168.254.15])
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1r0Yp9-002qcW-12;
+        Wed, 08 Nov 2023 03:01:47 +0000
+Message-ID: <3f0a6313-afe4-4e51-b22a-5728f3d0b11d@infradead.org>
+Date:   Tue, 7 Nov 2023 19:01:45 -0800
 MIME-Version: 1.0
-Date:   Wed, 08 Nov 2023 03:30:17 +0100
-From:   Vivien Gallinaro <vivien.gallinaro@free.fr>
-To:     linux-kbuild@vger.kernel.org
-Subject: SymSearch can cause make nconfig to segfault
-User-Agent: Webmail Free/1.6.5
-Message-ID: <5ec262711df2f3d3ccd84930ed4e9778@free.fr>
-X-Sender: vivien.gallinaro@free.fr
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] kconfig: Add special rust_modules config option
+Content-Language: en-US
+To:     Matthew Maurer <mmaurer@google.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>
+Cc:     linux-kbuild@vger.kernel.org, Boqun Feng <boqun.feng@gmail.com>,
+        Gary Guo <gary@garyguo.net>,
+        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+        Benno Lossin <benno.lossin@proton.me>,
+        Andreas Hindborg <a.hindborg@samsung.com>,
+        Alice Ryhl <aliceryhl@google.com>,
+        linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+References: <20231108022651.645950-2-mmaurer@google.com>
+ <20231108022651.645950-5-mmaurer@google.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20231108022651.645950-5-mmaurer@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi all,
-
-In make nconfig, when I perform a SymSearch (F8) for "x86", I get a 
-segfault. It doesn't happen in make menuconfig (/ search).
-
-It doesn't seem to be a simple matter of "too many results" as a 
-SymSearch for "fs" does ok.
 
 
-For a fresh 6.6 kernel :
+On 11/7/23 18:26, Matthew Maurer wrote:
+> Adds support for the rust_modules kconfig type, which works similarly to
+> modules, but for restricting or allowing the use of modules which
+> directly depend on Rust.
+> 
+> Signed-off-by: Matthew Maurer <mmaurer@google.com>
+> ---
+>  scripts/kconfig/confdata.c |  3 +++
+>  scripts/kconfig/expr.h     |  1 +
+>  scripts/kconfig/lexer.l    |  1 +
+>  scripts/kconfig/lkc.h      |  1 +
+>  scripts/kconfig/menu.c     |  7 +++++--
+>  scripts/kconfig/parser.y   | 12 ++++++++++++
+>  scripts/kconfig/symbol.c   | 31 +++++++++++++++++++++++++++++--
+>  7 files changed, 52 insertions(+), 4 deletions(-)
+> 
 
-$ cd linux-6.6
-$ make mrproper
-$ make nconfig 2>../blarb
-(<F8> x86 <enter>)
-$ reset
-$ cat ../blarb
+Hi,
 
-gives :
+This appears to be a change to the Kconfig language, so please update
+Documentation/kbuild/kconfig-language.rst with some prose explaining it.
 
-make[2]: *** [scripts/kconfig/Makefile:48: nconfig] Segmentation fault
-make[1]: *** [/home/username/linux-6.6/Makefile:697: nconfig] Error 2
-make: *** [Makefile:234: __sub-make] Error 2
-
-
-That's not very helpful, I know… looking up "x86" was not particularly 
-useful either! (I was following a wiki referring to x86_sysfb. Before I 
-realized it probably doesn't exist any more, I tried to widen the 
-search, since I had just come across the deprecation of efi_vars in 
-favor of efivar_fs, so to speak.) I hope some one can help the search 
-fail gracefully.
-
-Have a nice day,
-VG
+Thanks.
+-- 
+~Randy
