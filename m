@@ -2,59 +2,59 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 918997E5086
-	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Nov 2023 07:54:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8CD837E508E
+	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Nov 2023 07:55:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232154AbjKHGyy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 8 Nov 2023 01:54:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53174 "EHLO
+        id S234145AbjKHGzb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 8 Nov 2023 01:55:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231674AbjKHGyw (ORCPT
+        with ESMTP id S233671AbjKHGz3 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 8 Nov 2023 01:54:52 -0500
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6A281B5
-        for <linux-kbuild@vger.kernel.org>; Tue,  7 Nov 2023 22:54:50 -0800 (PST)
-Received: by mail-wr1-x436.google.com with SMTP id ffacd0b85a97d-32dc9ff4a8fso3675912f8f.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 07 Nov 2023 22:54:50 -0800 (PST)
+        Wed, 8 Nov 2023 01:55:29 -0500
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 419741A5
+        for <linux-kbuild@vger.kernel.org>; Tue,  7 Nov 2023 22:55:27 -0800 (PST)
+Received: by mail-wm1-x334.google.com with SMTP id 5b1f17b1804b1-40806e40fccso40835765e9.2
+        for <linux-kbuild@vger.kernel.org>; Tue, 07 Nov 2023 22:55:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1699426489; x=1700031289; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1699426526; x=1700031326; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=WADg7Gm6M1d4joBFiIBPtNImR2VpL9viJ4iA0bfHJbQ=;
-        b=Zod5rmWVlv7iROxODKBc/gI6+Ik2PlFoRBQrsjh38bF7XztD5HpBkNZeUw1sV4Yavz
-         Kl3fj+iZOQO0902fUMQqOf1V6TZZP3pXt5F/JX1slkukHyCUVO3Gz+sRVJ/nQGFwAJfV
-         gabdPqi9Rp9YVIVNmkcPD26R9mT5cRTfDS34KodNzxuEYuTp+QJNAGfCBiqFXo9Xry4W
-         UzVLxqPucpLasGOHCOth8nt6J6Jeq5bBZKZHYRF/kK1anNNNXi3rLkIaHlyhPIYrZIep
-         fUD54TMu7uWDDvJLZjkpP1mf1YJEAsxS0B5goq5U01/v3NZQDmH3ktGhVkhNQoTqYetT
-         rN4Q==
+        bh=vdaiSL4v903vHYwpT1bHNjan8atdW0O+05issBZGM4g=;
+        b=ELwP3fj5QbngOuZqyJno8OHWTsqZ3KR3pXXC2xtaycJ1zOXNvF+Zogvg4QdjXyM1E4
+         kRULKAB4XKWK6x6apqdWU7D5ho6MEPoUDCFardtTblmyEbwtbalT3SGof/lOvJGlW8yz
+         tSJq4ogmatvpNhE5xjwc0D6WQBM8AGv1VkjIrPk4RfVGoc1FDBt1r6GFkxb0KVxmFfk/
+         1lbP4zmaGca+E0OV0gMK99PjTp5k6P+v0cagEM6Scbkc1MkhG2kZvRYhI99UmnDsdjzs
+         OPjXGI4R6Hk/wLbA8T0oxPvDQL1Mgty6NtqvnbILJbniAfLmxDgsua7xX2u8TPAPFxBT
+         qeVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699426489; x=1700031289;
+        d=1e100.net; s=20230601; t=1699426526; x=1700031326;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WADg7Gm6M1d4joBFiIBPtNImR2VpL9viJ4iA0bfHJbQ=;
-        b=EyC5xQcIQISq7xdw6HsFwJCRTE3wKCYV7HsaAP1I56GR4YoRfrEklh9u//QpDTDeM0
-         386AX20AcezeqKq2TcG1ryoWAW0cJ85KzYTIvz/ltCTjMM1WmFPL8HSIuQsiU28MAAdZ
-         WGXW+MEkjkfhdJ+91uMHpZcDCoTyg9qB6M+VMUpulkH4T/8j7hsyQF5XrqiRUpdhYUYQ
-         x6ZgoevhEPqShYXL0NgCz0S6wS9nngUIVxE0x0D44vxZmSESQxAO3QQm85Lus8q6QSMn
-         ExqWvFd56F9mWoNleg0pOCPc4F7phP3vChWY+zP4QCcwl2tWMKt67VIx+avSb4eZ11sY
-         dqHg==
-X-Gm-Message-State: AOJu0Yz15GPzxZjjEYnGMSW5QplWkYfzlhWqpqnfWBKDAU2v65mYHsIj
-        oe9hIW777L016bC2rIiqDFvm9A==
-X-Google-Smtp-Source: AGHT+IH9sF8Iat/MJCRKetrR0QjQlXe0ah3cJGmtywkEt+nWdfSRUNj+tMAo8P/GO37d7ozNguEasQ==
-X-Received: by 2002:a05:6000:b81:b0:323:36f1:c256 with SMTP id dl1-20020a0560000b8100b0032336f1c256mr673503wrb.11.1699426489081;
-        Tue, 07 Nov 2023 22:54:49 -0800 (PST)
+        bh=vdaiSL4v903vHYwpT1bHNjan8atdW0O+05issBZGM4g=;
+        b=iy21S/Wd2eTTQri/UJIIWMHDf+yRfbUVQlHSdfoQA3/pvj/FY6SQziPFAzDZ54vwL2
+         X4iq+h08qkXSwfRxBxaLNDjy7p8wFM0cThREYQB3R1rASBiGByqNAVLM5j6yfeSSC8Sf
+         tFBv5KMV8ByOgNgYjmVDH6VKkW3LHWAJ7dVXJ7OQDwV73qrguxnBkevDn1sju76TKg0W
+         HbCCEKHHgJbWx7vCgWPJhMyUgEmO9QIxuifo7r2wFvCp9dp/cIEO1TdEIInSqDHncpwv
+         GyLrB76C0wWtmaeK8bDqGpFZQiVyR9wHWR61QYjKJxRSxRALrzRu+YFtkMvdVD8kBXwa
+         8OXw==
+X-Gm-Message-State: AOJu0YzQEocaYLJG91ffJpvdLpw6gCbUB31fa9sYd6r4yWGDdhLj2U6K
+        G2CjmdNeCp/2S55iaNZ77CHUYg==
+X-Google-Smtp-Source: AGHT+IF8WwcY/0mNmL2/ZBzOsN8n6gW4d2kpF4fZpH6Wm88GXR5JfzbiJ7+F8E35Oi3pIJPjG+OY9w==
+X-Received: by 2002:a05:600c:3b92:b0:405:4f78:e128 with SMTP id n18-20020a05600c3b9200b004054f78e128mr1047290wms.4.1699426525705;
+        Tue, 07 Nov 2023 22:55:25 -0800 (PST)
 Received: from [192.168.50.4] ([82.78.167.144])
-        by smtp.gmail.com with ESMTPSA id d5-20020adff2c5000000b0032d2f09d991sm4110012wrp.33.2023.11.07.22.54.47
+        by smtp.gmail.com with ESMTPSA id d5-20020adff2c5000000b0032d2f09d991sm4110012wrp.33.2023.11.07.22.55.24
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Nov 2023 22:54:48 -0800 (PST)
-Message-ID: <202b36b3-2f77-46c1-ad2f-5ec686ca05c8@tuxon.dev>
-Date:   Wed, 8 Nov 2023 08:54:47 +0200
+        Tue, 07 Nov 2023 22:55:25 -0800 (PST)
+Message-ID: <350625dd-7d04-4bd8-8777-3aae20b326b3@tuxon.dev>
+Date:   Wed, 8 Nov 2023 08:55:24 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/14] power: reset: at91-reset:: Stop using
+Subject: Re: [PATCH 03/14] power: reset: at91-sama5d2_shdwc: Stop using
  module_platform_driver_probe()
 Content-Language: en-US
 To:     =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
@@ -64,9 +64,9 @@ Cc:     Nicolas Ferre <nicolas.ferre@microchip.com>,
         linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         kernel@pengutronix.de, linux-kbuild@vger.kernel.org
 References: <20231104211501.3676352-16-u.kleine-koenig@pengutronix.de>
- <20231104211501.3676352-18-u.kleine-koenig@pengutronix.de>
+ <20231104211501.3676352-19-u.kleine-koenig@pengutronix.de>
 From:   claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <20231104211501.3676352-18-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20231104211501.3676352-19-u.kleine-koenig@pengutronix.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -91,50 +91,48 @@ On 04.11.2023 23:15, Uwe Kleine-König wrote:
 > 
 > Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 
-Other than "::" in title:
-
 Reviewed-by: Claudiu Beznea <claudiu.beznea@tuxon.dev>
 
 > ---
->  drivers/power/reset/at91-reset.c | 9 +++++----
+>  drivers/power/reset/at91-sama5d2_shdwc.c | 9 +++++----
 >  1 file changed, 5 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/power/reset/at91-reset.c b/drivers/power/reset/at91-reset.c
-> index aa9b012d3d00..af85f2f929ba 100644
-> --- a/drivers/power/reset/at91-reset.c
-> +++ b/drivers/power/reset/at91-reset.c
-> @@ -337,7 +337,7 @@ static int at91_rcdev_init(struct at91_reset *reset,
->  	return devm_reset_controller_register(&pdev->dev, &reset->rcdev);
->  }
+> diff --git a/drivers/power/reset/at91-sama5d2_shdwc.c b/drivers/power/reset/at91-sama5d2_shdwc.c
+> index e76b102b57b1..ef8add623363 100644
+> --- a/drivers/power/reset/at91-sama5d2_shdwc.c
+> +++ b/drivers/power/reset/at91-sama5d2_shdwc.c
+> @@ -329,7 +329,7 @@ static const struct of_device_id at91_pmc_ids[] = {
+>  	{ /* Sentinel. */ }
+>  };
 >  
-> -static int __init at91_reset_probe(struct platform_device *pdev)
-> +static int at91_reset_probe(struct platform_device *pdev)
+> -static int __init at91_shdwc_probe(struct platform_device *pdev)
+> +static int at91_shdwc_probe(struct platform_device *pdev)
 >  {
 >  	const struct of_device_id *match;
->  	struct at91_reset *reset;
-> @@ -417,7 +417,7 @@ static int __init at91_reset_probe(struct platform_device *pdev)
+>  	struct device_node *np;
+> @@ -421,7 +421,7 @@ static int __init at91_shdwc_probe(struct platform_device *pdev)
 >  	return ret;
 >  }
 >  
-> -static int __exit at91_reset_remove(struct platform_device *pdev)
-> +static int at91_reset_remove(struct platform_device *pdev)
+> -static int __exit at91_shdwc_remove(struct platform_device *pdev)
+> +static int at91_shdwc_remove(struct platform_device *pdev)
 >  {
->  	struct at91_reset *reset = platform_get_drvdata(pdev);
+>  	struct shdwc *shdw = platform_get_drvdata(pdev);
 >  
-> @@ -428,13 +428,14 @@ static int __exit at91_reset_remove(struct platform_device *pdev)
+> @@ -442,13 +442,14 @@ static int __exit at91_shdwc_remove(struct platform_device *pdev)
 >  }
 >  
->  static struct platform_driver at91_reset_driver = {
-> -	.remove = __exit_p(at91_reset_remove),
-> +	.probe = at91_reset_probe,
-> +	.remove = at91_reset_remove,
+>  static struct platform_driver at91_shdwc_driver = {
+> -	.remove = __exit_p(at91_shdwc_remove),
+> +	.probe = at91_shdwc_probe,
+> +	.remove = at91_shdwc_remove,
 >  	.driver = {
->  		.name = "at91-reset",
->  		.of_match_table = at91_reset_of_match,
+>  		.name = "at91-shdwc",
+>  		.of_match_table = at91_shdwc_of_match,
 >  	},
 >  };
-> -module_platform_driver_probe(at91_reset_driver, at91_reset_probe);
-> +module_platform_driver(at91_reset_driver);
+> -module_platform_driver_probe(at91_shdwc_driver, at91_shdwc_probe);
+> +module_platform_driver(at91_shdwc_driver);
 >  
->  MODULE_AUTHOR("Atmel Corporation");
->  MODULE_DESCRIPTION("Reset driver for Atmel SoCs");
+>  MODULE_AUTHOR("Nicolas Ferre <nicolas.ferre@atmel.com>");
+>  MODULE_DESCRIPTION("Atmel shutdown controller driver");
