@@ -2,197 +2,139 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 469D77E4A35
-	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Nov 2023 22:00:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B9C77E4DB7
+	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Nov 2023 01:07:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232540AbjKGVAK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 7 Nov 2023 16:00:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39736 "EHLO
+        id S233046AbjKHAHz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 7 Nov 2023 19:07:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53718 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231519AbjKGVAK (ORCPT
+        with ESMTP id S230053AbjKHAHx (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 7 Nov 2023 16:00:10 -0500
+        Tue, 7 Nov 2023 19:07:53 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 648851724;
-        Tue,  7 Nov 2023 13:00:08 -0800 (PST)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 903CDC433C7;
-        Tue,  7 Nov 2023 21:00:07 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA5A610EB;
+        Tue,  7 Nov 2023 16:07:51 -0800 (PST)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18D41C433C7;
+        Wed,  8 Nov 2023 00:07:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1699390808;
-        bh=LarIf6JBeHjPIH1r2xen7IJx+ARqZUkJ5J7Gxn4B/lE=;
+        s=k20201202; t=1699402071;
+        bh=0EH+T/QEjc38AnUu2TmGCCAb/82ws/TY3BHNT4h27nM=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rBxQ5bABLQTCBix7Ka06a2C5R6TyRqXRoUflQKl6rVneKCp4SDSkfyOYI5OqrTHr5
-         VGko1ipUJyLSbvzJ2xZLmtt33f6+HS+VTb40L685erl32vfuz2ZEp9b6B/lTholrsf
-         hFUNSHnJ8ZD9KjPIROrLdC8aeibxhFylqaKpFkbZi2tB4I186XorlaOjj9VUj/iAo/
-         TlkaZTWYWAFVpZozkYeZunhIR0D3oG69+r1PKYwTREx2mW9QFg71k0BginE2jEQO5d
-         HVMX50Ev+r5kP1YhmVca3XNMEa/O5zMB8Uk/oauxTKGdMqAyHw7k0k0WQK8Bc7Eskj
-         qwM4bOWIyB3NA==
-Date:   Tue, 7 Nov 2023 14:00:04 -0700
+        b=ZitqmFPOpSqYYDPJdCzHPGwQGYA3xxIpV+oGvzQPLr0ARf+0BgklNPKlOp0TvthDr
+         GfTAVMSuGtYBJSLR5fURRYT8aVf1wjiERIxlb4qkO4j5kQz99TGwv0TGL6CPtUPvdu
+         oTe/BOsjbTjN/MaJJhokCGmS7DtlsWiALPWtF8sptikg/rGks9pmi8gHl4REawWi23
+         sC4e2DugDTlsMxHMvgBa9hkk4/1FRQZLIFyA6+Ijw5Q5v5o42gwpXUsKvJY3FHyteq
+         IevAG+llj2HyKKbxYbHRM6Vo5VwrATSNe4QpaaPvPblnCrQakBZvn/SOx6zBpUcuiD
+         W/G64nIdKDAaw==
+Date:   Tue, 7 Nov 2023 17:07:49 -0700
 From:   Nathan Chancellor <nathan@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Yoann Congal <yoann.congal@smile.fr>, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
-        Brandon Maier <brandon.maier@collins.com>,
+To:     dcavalca@meta.com
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        llvm@lists.linux.dev
-Subject: Re: [PATCH v5] kconfig: avoid an infinite loop in
- oldconfig/syncconfig
-Message-ID: <20231107210004.GA2065849@dev-arch.thelio-3990X>
-References: <20231104222715.3967791-1-yoann.congal@smile.fr>
- <CAK7LNAS6J5Nh8nOUHbaf123yd1Z-1q--FvB1ok8GQcoNorAROw@mail.gmail.com>
+        Nicolas Schier <nicolas@fjasle.eu>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] rpm-pkg: simplify installkernel %post
+Message-ID: <20231108000749.GA3723879@dev-arch.thelio-3990X>
+References: <20231103-rpmpost-v1-1-9c18afab47f4@meta.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK7LNAS6J5Nh8nOUHbaf123yd1Z-1q--FvB1ok8GQcoNorAROw@mail.gmail.com>
+In-Reply-To: <20231103-rpmpost-v1-1-9c18afab47f4@meta.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Nov 05, 2023 at 04:55:57PM +0900, Masahiro Yamada wrote:
-> On Sun, Nov 5, 2023 at 7:27 AM Yoann Congal <yoann.congal@smile.fr> wrote:
-> >
-> > Exit on error when asking for value and reading stdin returns an error
-> > (mainly if it has reached EOF or is closed).
-> >
-> > This infinite loop happens in particular for hex/int configs without an
-> > explicit default value.
-> >
-> > Previously, this case would loop:
-> > * oldconfig prompts for the value but stdin has reached EOF
-> > * It gets the global default value : an empty string
-> > * This is not a valid hex/int value so it prompts again, hence the
-> >   infinite loop.
-> >
-> > This case happens with a configuration like this (a hex config without a
-> > valid default value):
-> >   config TEST_KCONFIG
-> >        hex "Test KConfig"
-> >        # default 0x0
-> >
-> > And using:
-> >   make oldconfig < /dev/null
-> >
-> > This was discovered when working on Yocto bug[0] on a downstream
-> > kconfig user (U-boot)
-> >
-> > [0]: https://bugzilla.yoctoproject.org/show_bug.cgi?id=14136
-> >
-> > CC: Brandon Maier <brandon.maier@collins.com>
-> > Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+Hi Davide,
+
+On Fri, Nov 03, 2023 at 11:33:42PM +0000, Davide Cavalca via B4 Relay wrote:
+> From: Davide Cavalca <dcavalca@meta.com>
 > 
-> Applied to linux-kbuild.
-> Thanks.
+> The %post currently does a shuffling dance before calling installkernel.
+> This isn't actually necessary afaict, and the current implementation
+> ends up triggering downstream issues such as
+> https://github.com/systemd/systemd/issues/29568
+> 
+> This commit simplifies the logic to remove the shuffling. For reference,
+> the original logic was added in commit 3c9c7a14b627("rpm-pkg: add %post
+> section to create initramfs and grub hooks").
+> 
+> Signed-off-by: Davide Cavalca <dcavalca@meta.com>
 
-For what it's worth, this change breaks our continuous integration [1]
-because tuxmake explicitly uses /dev/null as stdin to make for
-non-interactive commands (I think it does this as basically the
-equivalent of "yes '' | make" in Python), so the error will always
-occur.
+I took this for a spin in a Fedora 38 virtual machine while I wait for
+Fedora 39 to make sure that this does not regress older installkernel
+implementations and I think that this patch does just that. With Fedora
+38, I see the following error during installation that I did not see
+prior to applying your patch:
 
-Before:
+  cp: cannot stat '/boot/System.map-6.6.0-15157-gefb5302e6ea5': No such file or directory
 
-$ curl -LSso .config https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config
+and when attempting to boot the newly installed kernel, I see:
 
-# Same as 'make < /dev/null' but still
-$ python3 -c "import subprocess; subprocess.run(['make', '-j128'], stdin=subprocess.DEVNULL)"
-  SYNC    include/config/auto.conf
-  HOSTCC  scripts/basic/fixdep
-  HOSTCC  scripts/kconfig/conf.o
-  HOSTCC  scripts/kconfig/confdata.o
-  HOSTCC  scripts/kconfig/expr.o
-  LEX     scripts/kconfig/lexer.lex.c
-  YACC    scripts/kconfig/parser.tab.[ch]
-  HOSTCC  scripts/kconfig/menu.o
-  HOSTCC  scripts/kconfig/preprocess.o
-  HOSTCC  scripts/kconfig/symbol.o
-  HOSTCC  scripts/kconfig/util.o
-  HOSTCC  scripts/kconfig/lexer.lex.o
-  HOSTCC  scripts/kconfig/parser.tab.o
-  HOSTLD  scripts/kconfig/conf
-*
-* Restart config...
-*
-...
-Error in reading or end of file.
+  error: ../../grub-core/loader/efi/linux.c:47:kernel is too small.
+  error: ../../grub-core/loader/efi/linux.c:47:kernel is too small.
+  error: ../../grub-core/loader/i386/efi/linux.c:258:you need to load the kernel
+  first.
+  error: ../../grub-core/loader/i386/efi/linux.c:258:you need to load the kernel first.
 
-  GEN     arch/x86/include/generated/asm/orc_hash.h
-  WRAP    arch/x86/include/generated/uapi/asm/bpf_perf_event.h
-  WRAP    arch/x86/include/generated/uapi/asm/errno.h
-...
+before I get kicked back to the grub menu. The /boot folder after
+installing the rpm package with your patch in it looks like:
 
-After:
+  $ ls -al /boot
+  total 240012
+  dr-xr-xr-x.  5 root root      4096 Nov  7 17:04 .
+  dr-xr-xr-x. 18 root root       235 Nov  7 16:24 ..
+  -rw-r--r--.  1 root root    268497 Nov  7 15:43 config-6.6.0-15156-g13d88ac54ddd
+  -rw-r--r--.  1 root root    268497 Nov  7 15:50 config-6.6.0-15157-gefb5302e6ea5
+  drwx------.  3 root root      4096 Dec 31  1969 efi
+  drwx------.  3 root root        50 Nov  7 17:03 grub2
+  -rw-------.  1 root root 114164610 Nov  7 16:26 initramfs-0-rescue-01cdbeade0ec4c07828d9f3919ec2772.img
+  -rw-------.  1 root root  36334410 Nov  7 16:40 initramfs-6.6.0-15156-g13d88ac54ddd.img
+  -rw-------.  1 root root  36174736 Nov  7 17:04 initramfs-6.6.0-15157-gefb5302e6ea5.img
+  drwxr-xr-x.  3 root root        21 Nov  7 16:25 loader
+  lrwxrwxrwx.  1 root root        42 Nov  7 17:04 System.map -> /boot/System.map-6.6.0-15157-gefb5302e6ea5
+  -rw-r--r--.  1 root root   8968631 Nov  7 16:40 System.map-6.6.0-15156-g13d88ac54ddd
+  -rw-r--r--.  1 root root   8968631 Nov  7 15:50 System.map-6.6.0-15157-gefb5302e6ea5.old
+  lrwxrwxrwx.  1 root root        39 Nov  7 17:04 vmlinuz -> /boot/vmlinuz-6.6.0-15157-gefb5302e6ea5
+  -rwxr-xr-x.  1 root root  14577352 Nov  7 16:25 vmlinuz-0-rescue-01cdbeade0ec4c07828d9f3919ec2772
+  -rw-r--r--.  1 root root  13012992 Nov  7 16:40 vmlinuz-6.6.0-15156-g13d88ac54ddd
+  -rw-r--r--.  1 root root         0 Nov  7 17:04 vmlinuz-6.6.0-15157-gefb5302e6ea5
+  -rw-r--r--.  1 root root  13012992 Nov  7 15:50 vmlinuz-6.6.0-15157-gefb5302e6ea5.old
 
-$ curl -LSso .config https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config
-
-$ python3 -c "import subprocess; subprocess.run(['make', '-j128'], stdin=subprocess.DEVNULL)"
-  SYNC    include/config/auto.conf
-  HOSTCC  scripts/basic/fixdep
-  HOSTCC  scripts/kconfig/conf.o
-  HOSTCC  scripts/kconfig/confdata.o
-  HOSTCC  scripts/kconfig/expr.o
-  LEX     scripts/kconfig/lexer.lex.c
-  YACC    scripts/kconfig/parser.tab.[ch]
-  HOSTCC  scripts/kconfig/menu.o
-  HOSTCC  scripts/kconfig/preprocess.o
-  HOSTCC  scripts/kconfig/symbol.o
-  HOSTCC  scripts/kconfig/util.o
-  HOSTCC  scripts/kconfig/lexer.lex.o
-  HOSTCC  scripts/kconfig/parser.tab.o
-  HOSTLD  scripts/kconfig/conf
-*
-* Restart config...
-*
-...
-Error in reading or end of file.
-make[3]: *** [scripts/kconfig/Makefile:77: syncconfig] Error 1
-...
-
-We have been doing this for some time and never run across an infinite
-loop in syncconfig. Can this be improved?
-
-[1]: https://github.com/ClangBuiltLinux/continuous-integration2/actions/runs/6784349581
+That zero sized vmlinuz-6.6.0-15157-gefb5302e6ea5 is likely the cause of
+the grub error. It seems like this logic is likely still necessary for
+older distributions.
 
 Cheers,
 Nathan
 
-> > ---
-> > v4->v5:
-> >  * Switched to Masahiro Yamada's suggested code.
-> > v3->v4:
-> >  * Added Brandon Maier's "Tested-by". Thanks!
-> > v2->v3:
-> >  * Simplify the patch by fusing comments of :
-> >    * Masahiro Yamada : Exit as soon as reading stdin hits an error
-> >    * Randy Dunlap : Display the name of the currently read symbol
-> > v1->v2:
-> >  * Improve coding style
-> >  * Put more info in the commit message
-> > ---
-> >  scripts/kconfig/conf.c | 4 +++-
-> >  1 file changed, 3 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/scripts/kconfig/conf.c b/scripts/kconfig/conf.c
-> > index 33d19e419908..62de1fbaff97 100644
-> > --- a/scripts/kconfig/conf.c
-> > +++ b/scripts/kconfig/conf.c
-> > @@ -76,8 +76,10 @@ static void strip(char *str)
-> >  /* Helper function to facilitate fgets() by Jean Sacren. */
-> >  static void xfgets(char *str, int size, FILE *in)
-> >  {
-> > -       if (!fgets(str, size, in))
-> > +       if (!fgets(str, size, in)) {
-> >                 fprintf(stderr, "\nError in reading or end of file.\n");
-> > +               exit(1);
-> > +       }
-> >
-> >         if (!tty_stdio)
-> >                 printf("%s", str);
-> > --
-> > 2.30.2
-> >
+> ---
+>  scripts/package/kernel.spec | 6 +-----
+>  1 file changed, 1 insertion(+), 5 deletions(-)
 > 
+> diff --git a/scripts/package/kernel.spec b/scripts/package/kernel.spec
+> index 3eee0143e0c5..cc4292c03ea2 100644
+> --- a/scripts/package/kernel.spec
+> +++ b/scripts/package/kernel.spec
+> @@ -77,11 +77,7 @@ rm -rf %{buildroot}
+>  
+>  %post
+>  if [ -x /sbin/installkernel -a -r /boot/vmlinuz-%{KERNELRELEASE} -a -r /boot/System.map-%{KERNELRELEASE} ]; then
+> -cp /boot/vmlinuz-%{KERNELRELEASE} /boot/.vmlinuz-%{KERNELRELEASE}-rpm
+> -cp /boot/System.map-%{KERNELRELEASE} /boot/.System.map-%{KERNELRELEASE}-rpm
+> -rm -f /boot/vmlinuz-%{KERNELRELEASE} /boot/System.map-%{KERNELRELEASE}
+> -/sbin/installkernel %{KERNELRELEASE} /boot/.vmlinuz-%{KERNELRELEASE}-rpm /boot/.System.map-%{KERNELRELEASE}-rpm
+> -rm -f /boot/.vmlinuz-%{KERNELRELEASE}-rpm /boot/.System.map-%{KERNELRELEASE}-rpm
+> +/sbin/installkernel %{KERNELRELEASE} /boot/vmlinuz-%{KERNELRELEASE} /boot/System.map-%{KERNELRELEASE}
+>  fi
+>  
+>  %preun
 > 
+> ---
+> base-commit: e392ea4d4d00880bf94550151b1ace4f88a4b17a
+> change-id: 20231103-rpmpost-f5c99552919f
+> 
+> Best regards,
 > -- 
-> Best Regards
-> Masahiro Yamada
+> Davide Cavalca <dcavalca@meta.com>
+> 
