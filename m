@@ -2,139 +2,98 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B9C77E4DB7
-	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Nov 2023 01:07:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 32E177E4E77
+	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Nov 2023 02:10:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233046AbjKHAHz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 7 Nov 2023 19:07:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53718 "EHLO
+        id S232292AbjKHBKy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 7 Nov 2023 20:10:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230053AbjKHAHx (ORCPT
+        with ESMTP id S230158AbjKHBKx (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 7 Nov 2023 19:07:53 -0500
+        Tue, 7 Nov 2023 20:10:53 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA5A610EB;
-        Tue,  7 Nov 2023 16:07:51 -0800 (PST)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18D41C433C7;
-        Wed,  8 Nov 2023 00:07:51 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 773E2181;
+        Tue,  7 Nov 2023 17:10:51 -0800 (PST)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7686DC433C7;
+        Wed,  8 Nov 2023 01:10:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1699402071;
-        bh=0EH+T/QEjc38AnUu2TmGCCAb/82ws/TY3BHNT4h27nM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ZitqmFPOpSqYYDPJdCzHPGwQGYA3xxIpV+oGvzQPLr0ARf+0BgklNPKlOp0TvthDr
-         GfTAVMSuGtYBJSLR5fURRYT8aVf1wjiERIxlb4qkO4j5kQz99TGwv0TGL6CPtUPvdu
-         oTe/BOsjbTjN/MaJJhokCGmS7DtlsWiALPWtF8sptikg/rGks9pmi8gHl4REawWi23
-         sC4e2DugDTlsMxHMvgBa9hkk4/1FRQZLIFyA6+Ijw5Q5v5o42gwpXUsKvJY3FHyteq
-         IevAG+llj2HyKKbxYbHRM6Vo5VwrATSNe4QpaaPvPblnCrQakBZvn/SOx6zBpUcuiD
-         W/G64nIdKDAaw==
-Date:   Tue, 7 Nov 2023 17:07:49 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     dcavalca@meta.com
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] rpm-pkg: simplify installkernel %post
-Message-ID: <20231108000749.GA3723879@dev-arch.thelio-3990X>
-References: <20231103-rpmpost-v1-1-9c18afab47f4@meta.com>
+        s=k20201202; t=1699405851;
+        bh=QPRBMCqMqQoD9h8h7LN/+esq/02W/lEv7At7WJFqPX0=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=D+TVHmkU/6ePUy2BlCRRIjj6Y7N2Oc42eCatn0oxFJDVqDflzQZrb6Zj6oiYdLBz1
+         idxZxzTAjibPTzlzpwsXH/NElBagWCbHkoGAYm6zzTUzEybjXJtHicAGBMqqjZTA1W
+         9GADcgD2oWAc3FTConzYbkR8buyt0wCPTwqQ/dTTHCG4WlHSs0MqQGAd5lBsxIBArf
+         njnyVRv2J8Dlv6/FUrlnlNaDpW/RI4z8VvLo/SlV8lk2phUzB0BN9s2fhwY3W4cGt1
+         dIHwJp8N+muRSLK4BjYf0U5xrlhWbxhmFNhcHldbfqFCxWtb2pwUcZsmEt2F78q44m
+         A5lsaIqPLK5OA==
+Message-ID: <ea5f8a61-7385-45ac-931c-0144b11db7a6@kernel.org>
+Date:   Wed, 8 Nov 2023 10:10:49 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231103-rpmpost-v1-1-9c18afab47f4@meta.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/4] ata: Drop platform_driver_probe() and convert to
+ platform remove callback returning void (part II)
+Content-Language: en-US
+To:     =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc:     Sergey Shtylyov <s.shtylyov@omp.ru>, linux-ide@vger.kernel.org,
+        kernel@pengutronix.de, linux-kbuild@vger.kernel.org
+References: <20231105150037.3724669-6-u.kleine-koenig@pengutronix.de>
+From:   Damien Le Moal <dlemoal@kernel.org>
+Organization: Western Digital Research
+In-Reply-To: <20231105150037.3724669-6-u.kleine-koenig@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Davide,
-
-On Fri, Nov 03, 2023 at 11:33:42PM +0000, Davide Cavalca via B4 Relay wrote:
-> From: Davide Cavalca <dcavalca@meta.com>
+On 11/6/23 00:00, Uwe Kleine-König wrote:
+> Hello,
 > 
-> The %post currently does a shuffling dance before calling installkernel.
-> This isn't actually necessary afaict, and the current implementation
-> ends up triggering downstream issues such as
-> https://github.com/systemd/systemd/issues/29568
+> there are two different types of patches here that would justify to
+> different series. But as the patches are not independent I chose to put
+> them in a single series.
 > 
-> This commit simplifies the logic to remove the shuffling. For reference,
-> the original logic was added in commit 3c9c7a14b627("rpm-pkg: add %post
-> section to create initramfs and grub hooks").
+> The first two patches drop usage of platform_driver_probe(). This is a
+> concept that isn't so relevant any more today. I didn't check, but it
+> saves typically only a few 100k and there are thoughts to deprecate it
+> to simplify the core. Getting the usage right is not trivial though the
+> drivers here got it nearly right. The alternative to these patches is to
+> add __refdata to the driver struct ideally with a comment describing the
+> need like is e.g. done in commit 5b44abbc39ca ("platform/x86: hp-wmi::
+> Mark driver struct with __refdata to prevent section mismatch warning").
+> Note that the warning only happens starting with commit f177cd0c15fc
+> ("modpost: Don't let "driver"s reference .exit.*") that is expected to
+> be part of v6.7-rc1.
 > 
-> Signed-off-by: Davide Cavalca <dcavalca@meta.com>
+> The remaining two patches convert the platform drivers to .remove_new(),
+> see commit 5c5a7680e67b ("platform: Provide a remove callback that
+> returns no value") for an extended explanation and the eventual goal.
+> All conversions are trivial as the remove functions return zero
+> unconditionally. The other ata drivers were already converted earlier,
+> my coccinelle script just missed these two drivers (because of the
+> __exit_p macro).
 
-I took this for a spin in a Fedora 38 virtual machine while I wait for
-Fedora 39 to make sure that this does not regress older installkernel
-implementations and I think that this patch does just that. With Fedora
-38, I see the following error during installation that I did not see
-prior to applying your patch:
+Applied to for-6.7-fixes. Thanks !
 
-  cp: cannot stat '/boot/System.map-6.6.0-15157-gefb5302e6ea5': No such file or directory
-
-and when attempting to boot the newly installed kernel, I see:
-
-  error: ../../grub-core/loader/efi/linux.c:47:kernel is too small.
-  error: ../../grub-core/loader/efi/linux.c:47:kernel is too small.
-  error: ../../grub-core/loader/i386/efi/linux.c:258:you need to load the kernel
-  first.
-  error: ../../grub-core/loader/i386/efi/linux.c:258:you need to load the kernel first.
-
-before I get kicked back to the grub menu. The /boot folder after
-installing the rpm package with your patch in it looks like:
-
-  $ ls -al /boot
-  total 240012
-  dr-xr-xr-x.  5 root root      4096 Nov  7 17:04 .
-  dr-xr-xr-x. 18 root root       235 Nov  7 16:24 ..
-  -rw-r--r--.  1 root root    268497 Nov  7 15:43 config-6.6.0-15156-g13d88ac54ddd
-  -rw-r--r--.  1 root root    268497 Nov  7 15:50 config-6.6.0-15157-gefb5302e6ea5
-  drwx------.  3 root root      4096 Dec 31  1969 efi
-  drwx------.  3 root root        50 Nov  7 17:03 grub2
-  -rw-------.  1 root root 114164610 Nov  7 16:26 initramfs-0-rescue-01cdbeade0ec4c07828d9f3919ec2772.img
-  -rw-------.  1 root root  36334410 Nov  7 16:40 initramfs-6.6.0-15156-g13d88ac54ddd.img
-  -rw-------.  1 root root  36174736 Nov  7 17:04 initramfs-6.6.0-15157-gefb5302e6ea5.img
-  drwxr-xr-x.  3 root root        21 Nov  7 16:25 loader
-  lrwxrwxrwx.  1 root root        42 Nov  7 17:04 System.map -> /boot/System.map-6.6.0-15157-gefb5302e6ea5
-  -rw-r--r--.  1 root root   8968631 Nov  7 16:40 System.map-6.6.0-15156-g13d88ac54ddd
-  -rw-r--r--.  1 root root   8968631 Nov  7 15:50 System.map-6.6.0-15157-gefb5302e6ea5.old
-  lrwxrwxrwx.  1 root root        39 Nov  7 17:04 vmlinuz -> /boot/vmlinuz-6.6.0-15157-gefb5302e6ea5
-  -rwxr-xr-x.  1 root root  14577352 Nov  7 16:25 vmlinuz-0-rescue-01cdbeade0ec4c07828d9f3919ec2772
-  -rw-r--r--.  1 root root  13012992 Nov  7 16:40 vmlinuz-6.6.0-15156-g13d88ac54ddd
-  -rw-r--r--.  1 root root         0 Nov  7 17:04 vmlinuz-6.6.0-15157-gefb5302e6ea5
-  -rw-r--r--.  1 root root  13012992 Nov  7 15:50 vmlinuz-6.6.0-15157-gefb5302e6ea5.old
-
-That zero sized vmlinuz-6.6.0-15157-gefb5302e6ea5 is likely the cause of
-the grub error. It seems like this logic is likely still necessary for
-older distributions.
-
-Cheers,
-Nathan
-
-> ---
->  scripts/package/kernel.spec | 6 +-----
->  1 file changed, 1 insertion(+), 5 deletions(-)
 > 
-> diff --git a/scripts/package/kernel.spec b/scripts/package/kernel.spec
-> index 3eee0143e0c5..cc4292c03ea2 100644
-> --- a/scripts/package/kernel.spec
-> +++ b/scripts/package/kernel.spec
-> @@ -77,11 +77,7 @@ rm -rf %{buildroot}
->  
->  %post
->  if [ -x /sbin/installkernel -a -r /boot/vmlinuz-%{KERNELRELEASE} -a -r /boot/System.map-%{KERNELRELEASE} ]; then
-> -cp /boot/vmlinuz-%{KERNELRELEASE} /boot/.vmlinuz-%{KERNELRELEASE}-rpm
-> -cp /boot/System.map-%{KERNELRELEASE} /boot/.System.map-%{KERNELRELEASE}-rpm
-> -rm -f /boot/vmlinuz-%{KERNELRELEASE} /boot/System.map-%{KERNELRELEASE}
-> -/sbin/installkernel %{KERNELRELEASE} /boot/.vmlinuz-%{KERNELRELEASE}-rpm /boot/.System.map-%{KERNELRELEASE}-rpm
-> -rm -f /boot/.vmlinuz-%{KERNELRELEASE}-rpm /boot/.System.map-%{KERNELRELEASE}-rpm
-> +/sbin/installkernel %{KERNELRELEASE} /boot/vmlinuz-%{KERNELRELEASE} /boot/System.map-%{KERNELRELEASE}
->  fi
->  
->  %preun
+> Best regards
+> Uwe
 > 
-> ---
-> base-commit: e392ea4d4d00880bf94550151b1ace4f88a4b17a
-> change-id: 20231103-rpmpost-f5c99552919f
+> Uwe Kleine-König (4):
+>   ata: pata_falcon: Stop using module_platform_driver_probe()
+>   ata: pata_gayle: Stop using module_platform_driver_probe()
+>   ata: pata_falcon: Convert to platform remove callback returning void
+>   ata: pata_gayle: Convert to platform remove callback returning void
 > 
-> Best regards,
-> -- 
-> Davide Cavalca <dcavalca@meta.com>
+>  drivers/ata/pata_falcon.c | 11 +++++------
+>  drivers/ata/pata_gayle.c  | 11 +++++------
+>  2 files changed, 10 insertions(+), 12 deletions(-)
 > 
+> 
+> base-commit: e27090b1413ff236ca1aec26d6b022149115de2c
+
+-- 
+Damien Le Moal
+Western Digital Research
+
