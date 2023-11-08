@@ -2,59 +2,59 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B45937E50D3
-	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Nov 2023 08:13:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 918997E5086
+	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Nov 2023 07:54:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233185AbjKHHN4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 8 Nov 2023 02:13:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35908 "EHLO
+        id S232154AbjKHGyy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 8 Nov 2023 01:54:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53174 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234528AbjKHGya (ORCPT
+        with ESMTP id S231674AbjKHGyw (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 8 Nov 2023 01:54:30 -0500
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D34CA1A5
-        for <linux-kbuild@vger.kernel.org>; Tue,  7 Nov 2023 22:54:27 -0800 (PST)
-Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-40853c639abso47242375e9.0
-        for <linux-kbuild@vger.kernel.org>; Tue, 07 Nov 2023 22:54:27 -0800 (PST)
+        Wed, 8 Nov 2023 01:54:52 -0500
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6A281B5
+        for <linux-kbuild@vger.kernel.org>; Tue,  7 Nov 2023 22:54:50 -0800 (PST)
+Received: by mail-wr1-x436.google.com with SMTP id ffacd0b85a97d-32dc9ff4a8fso3675912f8f.1
+        for <linux-kbuild@vger.kernel.org>; Tue, 07 Nov 2023 22:54:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1699426466; x=1700031266; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1699426489; x=1700031289; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=GLU3pXaep9ANYhAtzsYwLgnt2lc8UAALt3j3fTNK0cc=;
-        b=k9Yq4PQmu+XA4knUObfjM7kXQogso20BNf/9PYzyB0pKsqFMFtebmRl7N6fYvXy6G9
-         rdxWC7hzyXE4ttVxMhEPgYG5GCgT/wige3hSvWFTYU025Ddx/tATQqgZA1cc38L3fvAw
-         MKAWhs0iVCE/eXKGujCjvg476mv8BVbrPu5GiZsV3NHziL5cZqMduy/3+K1gqyMyxWsN
-         P9OVb0n2mWrxd1h90j7dASroOmdx/9xf2f8m0f+q123N0yID7dP/yZJhgiS0HZTGgT8G
-         ofcpbDmtvQ0APcSLZ10CySiptgJQSz5v7Tkoi6LvasVFnX8lx4JGFTQEfID05US/S3r6
-         8DuQ==
+        bh=WADg7Gm6M1d4joBFiIBPtNImR2VpL9viJ4iA0bfHJbQ=;
+        b=Zod5rmWVlv7iROxODKBc/gI6+Ik2PlFoRBQrsjh38bF7XztD5HpBkNZeUw1sV4Yavz
+         Kl3fj+iZOQO0902fUMQqOf1V6TZZP3pXt5F/JX1slkukHyCUVO3Gz+sRVJ/nQGFwAJfV
+         gabdPqi9Rp9YVIVNmkcPD26R9mT5cRTfDS34KodNzxuEYuTp+QJNAGfCBiqFXo9Xry4W
+         UzVLxqPucpLasGOHCOth8nt6J6Jeq5bBZKZHYRF/kK1anNNNXi3rLkIaHlyhPIYrZIep
+         fUD54TMu7uWDDvJLZjkpP1mf1YJEAsxS0B5goq5U01/v3NZQDmH3ktGhVkhNQoTqYetT
+         rN4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699426466; x=1700031266;
+        d=1e100.net; s=20230601; t=1699426489; x=1700031289;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GLU3pXaep9ANYhAtzsYwLgnt2lc8UAALt3j3fTNK0cc=;
-        b=wWbTdHH3hAQDkDqAxxQ873D4ufi+irtze/vGzMUFGXjzpshay9ILQchk4gDoqfiJEQ
-         0bXzjDyXJ9cpPEJsuSuEKsuxjQ0ZAGkAhqe+QDs1oxarbx1cb6RGgt4RCZdjRSIprjxZ
-         W+zt662Pxq/iqgmHyq8NgVzJT6VapWaQRqKFvSjxIYGcOvQSj+hMSrToLpzWwYbNFdNK
-         +9W6egT29OrYT58266oRYy+UP9KeioabKY3RQR04HCAv1ZHy8zjkuuFghfvQCO+ySvvi
-         uw/mmsirOhWIqONpvrKJiK4nyGjCAS/Bn4SgjBGsZQh6ME/9gU0y5d3/W+QXPDkvNWfE
-         LfNg==
-X-Gm-Message-State: AOJu0YxugvPKThdM8H2EApx5dtvGMkU6MkaDLpr+6Ly4EC0MYOvrrky1
-        RcT/iHGl4OwraANspPto6t7SZA==
-X-Google-Smtp-Source: AGHT+IFGc958p+2Xn1W+6Oayumpfev2x+ZaiTixSHeGm5Od1UgKsHxJT3GRKUcyOCL1mF5ZzjFfq9Q==
-X-Received: by 2002:a5d:648a:0:b0:32f:bdeb:d8c0 with SMTP id o10-20020a5d648a000000b0032fbdebd8c0mr790638wri.58.1699426466056;
-        Tue, 07 Nov 2023 22:54:26 -0800 (PST)
+        bh=WADg7Gm6M1d4joBFiIBPtNImR2VpL9viJ4iA0bfHJbQ=;
+        b=EyC5xQcIQISq7xdw6HsFwJCRTE3wKCYV7HsaAP1I56GR4YoRfrEklh9u//QpDTDeM0
+         386AX20AcezeqKq2TcG1ryoWAW0cJ85KzYTIvz/ltCTjMM1WmFPL8HSIuQsiU28MAAdZ
+         WGXW+MEkjkfhdJ+91uMHpZcDCoTyg9qB6M+VMUpulkH4T/8j7hsyQF5XrqiRUpdhYUYQ
+         x6ZgoevhEPqShYXL0NgCz0S6wS9nngUIVxE0x0D44vxZmSESQxAO3QQm85Lus8q6QSMn
+         ExqWvFd56F9mWoNleg0pOCPc4F7phP3vChWY+zP4QCcwl2tWMKt67VIx+avSb4eZ11sY
+         dqHg==
+X-Gm-Message-State: AOJu0Yz15GPzxZjjEYnGMSW5QplWkYfzlhWqpqnfWBKDAU2v65mYHsIj
+        oe9hIW777L016bC2rIiqDFvm9A==
+X-Google-Smtp-Source: AGHT+IH9sF8Iat/MJCRKetrR0QjQlXe0ah3cJGmtywkEt+nWdfSRUNj+tMAo8P/GO37d7ozNguEasQ==
+X-Received: by 2002:a05:6000:b81:b0:323:36f1:c256 with SMTP id dl1-20020a0560000b8100b0032336f1c256mr673503wrb.11.1699426489081;
+        Tue, 07 Nov 2023 22:54:49 -0800 (PST)
 Received: from [192.168.50.4] ([82.78.167.144])
-        by smtp.gmail.com with ESMTPSA id d5-20020adff2c5000000b0032d2f09d991sm4110012wrp.33.2023.11.07.22.54.24
+        by smtp.gmail.com with ESMTPSA id d5-20020adff2c5000000b0032d2f09d991sm4110012wrp.33.2023.11.07.22.54.47
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Nov 2023 22:54:25 -0800 (PST)
-Message-ID: <ffeacb49-53ee-4b30-9e79-ef5490eeec98@tuxon.dev>
-Date:   Wed, 8 Nov 2023 08:54:23 +0200
+        Tue, 07 Nov 2023 22:54:48 -0800 (PST)
+Message-ID: <202b36b3-2f77-46c1-ad2f-5ec686ca05c8@tuxon.dev>
+Date:   Wed, 8 Nov 2023 08:54:47 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/14] power: reset: at91-poweroff: Stop using
+Subject: Re: [PATCH 02/14] power: reset: at91-reset:: Stop using
  module_platform_driver_probe()
 Content-Language: en-US
 To:     =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
@@ -64,9 +64,9 @@ Cc:     Nicolas Ferre <nicolas.ferre@microchip.com>,
         linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         kernel@pengutronix.de, linux-kbuild@vger.kernel.org
 References: <20231104211501.3676352-16-u.kleine-koenig@pengutronix.de>
- <20231104211501.3676352-17-u.kleine-koenig@pengutronix.de>
+ <20231104211501.3676352-18-u.kleine-koenig@pengutronix.de>
 From:   claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <20231104211501.3676352-17-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20231104211501.3676352-18-u.kleine-koenig@pengutronix.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -91,48 +91,50 @@ On 04.11.2023 23:15, Uwe Kleine-König wrote:
 > 
 > Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 
+Other than "::" in title:
+
 Reviewed-by: Claudiu Beznea <claudiu.beznea@tuxon.dev>
 
 > ---
->  drivers/power/reset/at91-poweroff.c | 9 +++++----
+>  drivers/power/reset/at91-reset.c | 9 +++++----
 >  1 file changed, 5 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/power/reset/at91-poweroff.c b/drivers/power/reset/at91-poweroff.c
-> index dd5399785b69..83567428ab43 100644
-> --- a/drivers/power/reset/at91-poweroff.c
-> +++ b/drivers/power/reset/at91-poweroff.c
-> @@ -149,7 +149,7 @@ static void at91_poweroff_dt_set_wakeup_mode(struct platform_device *pdev)
->  	writel(wakeup_mode | mode, at91_shdwc.shdwc_base + AT91_SHDW_MR);
+> diff --git a/drivers/power/reset/at91-reset.c b/drivers/power/reset/at91-reset.c
+> index aa9b012d3d00..af85f2f929ba 100644
+> --- a/drivers/power/reset/at91-reset.c
+> +++ b/drivers/power/reset/at91-reset.c
+> @@ -337,7 +337,7 @@ static int at91_rcdev_init(struct at91_reset *reset,
+>  	return devm_reset_controller_register(&pdev->dev, &reset->rcdev);
 >  }
 >  
-> -static int __init at91_poweroff_probe(struct platform_device *pdev)
-> +static int at91_poweroff_probe(struct platform_device *pdev)
+> -static int __init at91_reset_probe(struct platform_device *pdev)
+> +static int at91_reset_probe(struct platform_device *pdev)
 >  {
->  	struct device_node *np;
->  	u32 ddr_type;
-> @@ -202,7 +202,7 @@ static int __init at91_poweroff_probe(struct platform_device *pdev)
+>  	const struct of_device_id *match;
+>  	struct at91_reset *reset;
+> @@ -417,7 +417,7 @@ static int __init at91_reset_probe(struct platform_device *pdev)
 >  	return ret;
 >  }
 >  
-> -static int __exit at91_poweroff_remove(struct platform_device *pdev)
-> +static int at91_poweroff_remove(struct platform_device *pdev)
+> -static int __exit at91_reset_remove(struct platform_device *pdev)
+> +static int at91_reset_remove(struct platform_device *pdev)
 >  {
->  	if (pm_power_off == at91_poweroff)
->  		pm_power_off = NULL;
-> @@ -224,13 +224,14 @@ static const struct of_device_id at91_poweroff_of_match[] = {
->  MODULE_DEVICE_TABLE(of, at91_poweroff_of_match);
+>  	struct at91_reset *reset = platform_get_drvdata(pdev);
 >  
->  static struct platform_driver at91_poweroff_driver = {
-> -	.remove = __exit_p(at91_poweroff_remove),
-> +	.probe = at91_poweroff_probe,
-> +	.remove = at91_poweroff_remove,
+> @@ -428,13 +428,14 @@ static int __exit at91_reset_remove(struct platform_device *pdev)
+>  }
+>  
+>  static struct platform_driver at91_reset_driver = {
+> -	.remove = __exit_p(at91_reset_remove),
+> +	.probe = at91_reset_probe,
+> +	.remove = at91_reset_remove,
 >  	.driver = {
->  		.name = "at91-poweroff",
->  		.of_match_table = at91_poweroff_of_match,
+>  		.name = "at91-reset",
+>  		.of_match_table = at91_reset_of_match,
 >  	},
 >  };
-> -module_platform_driver_probe(at91_poweroff_driver, at91_poweroff_probe);
-> +module_platform_driver(at91_poweroff_driver);
+> -module_platform_driver_probe(at91_reset_driver, at91_reset_probe);
+> +module_platform_driver(at91_reset_driver);
 >  
 >  MODULE_AUTHOR("Atmel Corporation");
->  MODULE_DESCRIPTION("Shutdown driver for Atmel SoCs");
+>  MODULE_DESCRIPTION("Reset driver for Atmel SoCs");
