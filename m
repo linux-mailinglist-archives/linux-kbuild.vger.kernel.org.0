@@ -2,58 +2,34 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 39D917E6194
-	for <lists+linux-kbuild@lfdr.de>; Thu,  9 Nov 2023 01:46:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A2327E61AC
+	for <lists+linux-kbuild@lfdr.de>; Thu,  9 Nov 2023 02:08:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232008AbjKIAqE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 8 Nov 2023 19:46:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40606 "EHLO
+        id S231268AbjKIBIW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 8 Nov 2023 20:08:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43338 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231932AbjKIAqD (ORCPT
+        with ESMTP id S229508AbjKIBIV (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 8 Nov 2023 19:46:03 -0500
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AA4C19A3;
-        Wed,  8 Nov 2023 16:46:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699490761; x=1731026761;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=z2FrfTnHBfSdoKNm7WfvRCuIqwLKe5cJG+xNskgdhKY=;
-  b=jEMP188uoT4AUiJgSyDLGHw/FnHhpKV0+KAwPifMQ8du1ZGVLONdLc51
-   0D5TLn24ybyWgTcnRhJZ1Fzrx6607hKoCmpjnmpDBBWwI020Djb8caoN1
-   R1nb2H4K6NORxrueSKntjhOzk1Vtqj3J4Uai8XvS4fR3XX9B7MjFitaQc
-   adpRVCXr5ZcEZ4W1O60ipwALpzdEoMdaCXj8cjfgqRMQxuMAtilkkVgE0
-   HUyLZRbKglNTFMl8fHdCRp0GHo3bOjvj+CAJzFTScIkzIdigcKpXN2fqn
-   3z/94zGH3LPLXnY9e/FPu4a9vjWYBe3RAMEGhZ2iYW3t14YXD9vf4mh4l
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="2848928"
-X-IronPort-AV: E=Sophos;i="6.03,287,1694761200"; 
-   d="scan'208";a="2848928"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 16:46:00 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="792364352"
-X-IronPort-AV: E=Sophos;i="6.03,287,1694761200"; 
-   d="scan'208";a="792364352"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 08 Nov 2023 16:45:52 -0800
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1r0tB8-0008Lg-02;
-        Thu, 09 Nov 2023 00:45:50 +0000
-Date:   Thu, 9 Nov 2023 08:44:17 +0800
-From:   kernel test robot <lkp@intel.com>
+        Wed, 8 Nov 2023 20:08:21 -0500
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B390211F;
+        Wed,  8 Nov 2023 17:08:19 -0800 (PST)
+Received: from kwepemm000013.china.huawei.com (unknown [172.30.72.53])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4SQkN45Xx2zfb3S;
+        Thu,  9 Nov 2023 09:08:04 +0800 (CST)
+Received: from [10.174.178.46] (10.174.178.46) by
+ kwepemm000013.china.huawei.com (7.193.23.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.31; Thu, 9 Nov 2023 09:07:44 +0800
+Subject: Re: [PATCH 02/22] [RESEND^2] jffs2: mark
+ __jffs2_dbg_superblock_counts() static
 To:     Arnd Bergmann <arnd@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org,
+        <linux-kernel@vger.kernel.org>,
         Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org
-Cc:     oe-kbuild-all@lists.linux.dev,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Matt Turner <mattst88@gmail.com>,
+        <linux-kbuild@vger.kernel.org>
+CC:     Arnd Bergmann <arnd@arndb.de>, Matt Turner <mattst88@gmail.com>,
         Vineet Gupta <vgupta@kernel.org>,
         Russell King <linux@armlinux.org.uk>,
         Catalin Marinas <catalin.marinas@arm.com>,
@@ -76,61 +52,71 @@ Cc:     oe-kbuild-all@lists.linux.dev,
         Palmer Dabbelt <palmer@dabbelt.com>,
         Heiko Carstens <hca@linux.ibm.com>,
         John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-        Andy Lutomirski <luto@kernel.org>
-Subject: Re: [PATCH 17/22] powerpc: ps3: move udbg_shutdown_ps3gelic prototype
-Message-ID: <202311090843.b8ISrsV1-lkp@intel.com>
-References: <20231108125843.3806765-18-arnd@kernel.org>
+        "David S. Miller" <davem@davemloft.net>,
+        Andy Lutomirski <luto@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, <x86@kernel.org>,
+        Helge Deller <deller@gmx.de>,
+        Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Timur Tabi <timur@kernel.org>,
+        Kent Overstreet <kent.overstreet@linux.dev>,
+        David Woodhouse <dwmw2@infradead.org>,
+        "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
+        Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
+        Kees Cook <keescook@chromium.org>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+        <linux-alpha@vger.kernel.org>,
+        <linux-snps-arc@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-trace-kernel@vger.kernel.org>, <linux-csky@vger.kernel.org>,
+        <loongarch@lists.linux.dev>, <linux-m68k@lists.linux-m68k.org>,
+        <linux-mips@vger.kernel.org>, <linuxppc-dev@lists.ozlabs.org>,
+        <linux-riscv@lists.infradead.org>, <linux-s390@vger.kernel.org>,
+        <linux-sh@vger.kernel.org>, <sparclinux@vger.kernel.org>,
+        <netdev@vger.kernel.org>, <linux-parisc@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <linux-fbdev@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>,
+        <linux-bcachefs@vger.kernel.org>, <linux-mtd@lists.infradead.org>,
+        Tudor Ambarus <tudor.ambarus@linaro.org>
+References: <20231108125843.3806765-1-arnd@kernel.org>
+ <20231108125843.3806765-3-arnd@kernel.org>
+From:   Zhihao Cheng <chengzhihao1@huawei.com>
+Message-ID: <cf3724db-e130-01f2-c41e-f2f1e88fc1a8@huawei.com>
+Date:   Thu, 9 Nov 2023 09:07:44 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231108125843.3806765-18-arnd@kernel.org>
+In-Reply-To: <20231108125843.3806765-3-arnd@kernel.org>
+Content-Type: text/plain; charset="gbk"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.178.46]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ kwepemm000013.china.huawei.com (7.193.23.81)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Arnd,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on next-20231108]
-[cannot apply to v6.6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Arnd-Bergmann/ida-make-ida_dump-static/20231109-005742
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20231108125843.3806765-18-arnd%40kernel.org
-patch subject: [PATCH 17/22] powerpc: ps3: move udbg_shutdown_ps3gelic prototype
-config: powerpc64-randconfig-001-20231109 (https://download.01.org/0day-ci/archive/20231109/202311090843.b8ISrsV1-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231109/202311090843.b8ISrsV1-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311090843.b8ISrsV1-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   arch/powerpc/platforms/ps3/gelic_udbg.c:59:1: warning: alignment 1 of 'struct debug_block' is less than 32 [-Wpacked-not-aligned]
-      59 | } __packed;
-         | ^
->> arch/powerpc/platforms/ps3/gelic_udbg.c:240:6: error: redefinition of 'udbg_shutdown_ps3gelic'
-     240 | void udbg_shutdown_ps3gelic(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/powerpc/platforms/ps3/gelic_udbg.c:17:
-   arch/powerpc/include/asm/ps3.h:520:20: note: previous definition of 'udbg_shutdown_ps3gelic' with type 'void(void)'
-     520 | static inline void udbg_shutdown_ps3gelic(void) {}
-         |                    ^~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/udbg_shutdown_ps3gelic +240 arch/powerpc/platforms/ps3/gelic_udbg.c
-
-c26afe9e8591f3 Hector Martin 2011-08-31  239  
-c26afe9e8591f3 Hector Martin 2011-08-31 @240  void udbg_shutdown_ps3gelic(void)
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+ÔÚ 2023/11/8 20:58, Arnd Bergmann Ð´µÀ:
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> This function is only called locally and does not need to be
+> global. Since there is no external prototype, gcc warns about
+> the non-static definition:
+>
+> fs/jffs2/debug.c:160:6: error: no previous prototype for '__jffs2_dbg_superblock_counts' [-Werror=missing-prototypes]
+>
+> Reviewed-by: Tudor Ambarus <tudor.ambarus@linaro.org>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>   fs/jffs2/debug.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+Reviewed-by: Zhihao Cheng <chengzhihao1@huawei.com>
