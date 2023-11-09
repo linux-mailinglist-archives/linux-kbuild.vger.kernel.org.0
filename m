@@ -2,55 +2,55 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 434E37E66B0
-	for <lists+linux-kbuild@lfdr.de>; Thu,  9 Nov 2023 10:25:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 816B67E670D
+	for <lists+linux-kbuild@lfdr.de>; Thu,  9 Nov 2023 10:47:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232598AbjKIJZx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 9 Nov 2023 04:25:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42244 "EHLO
+        id S232822AbjKIJrD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 9 Nov 2023 04:47:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45676 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232483AbjKIJZv (ORCPT
+        with ESMTP id S232808AbjKIJqy (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 9 Nov 2023 04:25:51 -0500
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71F6A270C;
-        Thu,  9 Nov 2023 01:25:49 -0800 (PST)
+        Thu, 9 Nov 2023 04:46:54 -0500
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11F2B2D6D;
+        Thu,  9 Nov 2023 01:46:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699521949; x=1731057949;
+  t=1699523212; x=1731059212;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=AyxJP29kR02iiNbcHt7dehQtU/CjLqUJJGn9LSD530U=;
-  b=HlAQ9WAYZZcdevi18vuASlC3HnxW4AnTI9acS6AdA0pQNZyRYR/IE4td
-   yXyaxyte2JbSiEI3Hqg8lQXVtFqseRznMdNXwGtXBGhJJrqhleLuEXLKU
-   lA4StVc4aiiPwdeO25EbLfaX5rUP3rriStFq2xtQrmwkNs68IveXN49s3
-   45zD5BMl9wtcWMYlDmKcdGq4VVRSV1zhsXEOdjCzwdogWlSUuu7qu1a4a
-   AjDMcfSrjE9xqf/KAUcTXuDWw968C0GfsDX7DqAb0WrirHXqV7moTrLu2
-   eRtPbEn87fPPpfCsegnw7p357FMoOBoA5ZX8yLqS4Me4SvsYCWxo443uQ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="393860530"
+  bh=Ip+CQU2PiDpNSq4YwNpQlS7L41kfKCfH4bP+hTrn7Po=;
+  b=NSsR9e7xdtnIho6hhFr6hseKHJ6DxDj399TnR8o/9fNf2HDrtMCPoWMq
+   bcyF+P/CASKMTPrkQJssH0RZzDDMW4tXGQ+kTspMnOyn+gqX7AxBxoR8G
+   5YPa9KhQJ+8HF2gR6SXsGnW0qqTppTOkcLef/Y8oXh/NE1XkBW1VrgjeL
+   2D2VD27OrCkZgn3jTtxYeidHTIEVZilmphoPctDKuJbbeNoPELt18QLGw
+   9o/szLl8uDl7k9etaeDKUs+Cj/QqTmLTzTkEWP5RAyKnlH7DW1Ao547cb
+   CD6fsuugzmAQK3JkiCWPsL0ucgc5zM9rwuPgO459Ci02ngcnhC0CnPYp6
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="11503982"
 X-IronPort-AV: E=Sophos;i="6.03,289,1694761200"; 
-   d="scan'208";a="393860530"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2023 01:25:48 -0800
+   d="scan'208";a="11503982"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2023 01:46:52 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="829250358"
+X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="798282364"
 X-IronPort-AV: E=Sophos;i="6.03,289,1694761200"; 
-   d="scan'208";a="829250358"
+   d="scan'208";a="798282364"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 09 Nov 2023 01:25:41 -0800
+  by orsmga001.jf.intel.com with ESMTP; 09 Nov 2023 01:46:43 -0800
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
         (envelope-from <lkp@intel.com>)
-        id 1r11IB-0008cK-0b;
-        Thu, 09 Nov 2023 09:25:39 +0000
-Date:   Thu, 9 Nov 2023 17:25:13 +0800
+        id 1r11cW-0008d1-3D;
+        Thu, 09 Nov 2023 09:46:41 +0000
+Date:   Thu, 9 Nov 2023 17:46:20 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Arnd Bergmann <arnd@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         linux-kernel@vger.kernel.org,
         Masahiro Yamada <masahiroy@kernel.org>,
         linux-kbuild@vger.kernel.org
-Cc:     oe-kbuild-all@lists.linux.dev,
+Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
         Linux Memory Management List <linux-mm@kvack.org>,
         Arnd Bergmann <arnd@arndb.de>,
         Matt Turner <mattst88@gmail.com>,
@@ -78,7 +78,7 @@ Cc:     oe-kbuild-all@lists.linux.dev,
         John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
         Andy Lutomirski <luto@kernel.org>
 Subject: Re: [PATCH 15/22] arch: vdso: consolidate gettime prototypes
-Message-ID: <202311091754.K9wZD9Nv-lkp@intel.com>
+Message-ID: <202311091740.g315K93o-lkp@intel.com>
 References: <20231108125843.3806765-16-arnd@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -102,30 +102,34 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Arnd-Bergmann/ida-make-id
 base:   linus/master
 patch link:    https://lore.kernel.org/r/20231108125843.3806765-16-arnd%40kernel.org
 patch subject: [PATCH 15/22] arch: vdso: consolidate gettime prototypes
-config: um-defconfig (https://download.01.org/0day-ci/archive/20231109/202311091754.K9wZD9Nv-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231109/202311091754.K9wZD9Nv-lkp@intel.com/reproduce)
+config: um-allnoconfig (https://download.01.org/0day-ci/archive/20231109/202311091740.g315K93o-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231109/202311091740.g315K93o-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311091754.K9wZD9Nv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311091740.g315K93o-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> arch/x86/um/vdso/um_vdso.c:17:5: error: conflicting types for '__vdso_clock_gettime'; have 'int(clockid_t,  struct __kernel_old_timespec *)' {aka 'int(int,  struct __kernel_old_timespec *)'}
+>> arch/x86/um/vdso/um_vdso.c:17:5: error: conflicting types for '__vdso_clock_gettime'
       17 | int __vdso_clock_gettime(clockid_t clock, struct __kernel_old_timespec *ts)
-         |     ^~~~~~~~~~~~~~~~~~~~
-   In file included from arch/x86/um/vdso/um_vdso.c:15:
-   include/vdso/gettime.h:16:5: note: previous declaration of '__vdso_clock_gettime' with type 'int(clockid_t,  struct __kernel_timespec *)' {aka 'int(int,  struct __kernel_timespec *)'}
+         |     ^
+   include/vdso/gettime.h:16:5: note: previous declaration is here
       16 | int __vdso_clock_gettime(clockid_t clock, struct __kernel_timespec *ts);
-         |     ^~~~~~~~~~~~~~~~~~~~
-   arch/x86/um/vdso/um_vdso.c:58:1: warning: no previous prototype for '__vdso_getcpu' [-Wmissing-prototypes]
+         |     ^
+   arch/x86/um/vdso/um_vdso.c:58:1: warning: no previous prototype for function '__vdso_getcpu' [-Wmissing-prototypes]
       58 | __vdso_getcpu(unsigned *cpu, unsigned *node, struct getcpu_cache *unused)
-         | ^~~~~~~~~~~~~
+         | ^
+   arch/x86/um/vdso/um_vdso.c:57:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      57 | long
+         | ^
+         | static 
+   1 warning and 1 error generated.
 
 
-vim +17 arch/x86/um/vdso/um_vdso.c
+vim +/__vdso_clock_gettime +17 arch/x86/um/vdso/um_vdso.c
 
 f1c2bb8b9964ed arch/um/sys-x86_64/vdso/um_vdso.c Richard Weinberger 2011-07-25  16  
 82210fc778982d arch/x86/um/vdso/um_vdso.c        Arnd Bergmann      2019-10-27 @17  int __vdso_clock_gettime(clockid_t clock, struct __kernel_old_timespec *ts)
