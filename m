@@ -2,189 +2,88 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A4F977E62CF
-	for <lists+linux-kbuild@lfdr.de>; Thu,  9 Nov 2023 05:26:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B23A7E64C7
+	for <lists+linux-kbuild@lfdr.de>; Thu,  9 Nov 2023 08:53:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230303AbjKIE06 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 8 Nov 2023 23:26:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60740 "EHLO
+        id S232778AbjKIHxB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 9 Nov 2023 02:53:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52096 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230295AbjKIE05 (ORCPT
+        with ESMTP id S232613AbjKIHxA (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 8 Nov 2023 23:26:57 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 285D12698;
-        Wed,  8 Nov 2023 20:26:55 -0800 (PST)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4C43C433D9;
-        Thu,  9 Nov 2023 04:26:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1699504014;
-        bh=fYQ8cjKX+19C1ihpDV96mhTpvzL7G65cypI0SSFKxGw=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=j2CZ2TTrhO1fN0g5hgbqiKYkiAChrvPzbRi0YXwmLxeJ85FkuLLZXsvWx67JMKycP
-         nZcjh2r9FD3kaoAHvI+SLnyzcoHAm5mXLJV75PfQDgzq0ayGLS50EnX50ymi3ltSNv
-         WlM7C2tuLfk1Yq8syDyxY+EAoNnyFMdT/8K3dv8vgutniLt+VcWEbo9WYIRVfv37FP
-         AqanfMFmxRiIbIl15n5chg/ETDNGvTkvk4TuGEt6vOCE4KlN93cWwp9vcrAnzf7cNH
-         T7CCZL2M/06KNcPl9/sJr9q+4SztmKBtM9pN9yUp1pHCF6OsUdjD/18ZMWTfxmS2An
-         5vmqPyiNBCPQw==
-Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-1f0f94a08a0so252518fac.2;
-        Wed, 08 Nov 2023 20:26:54 -0800 (PST)
-X-Gm-Message-State: AOJu0YxXm5OZ2KjQdQwon1bKcr3E+6rWoVjz7hoUF4XOYJMGMZXT+R9T
-        yesiZdXJcg53HVCbO2OhTBjbtBHvqHNMs7ZhlVE=
-X-Google-Smtp-Source: AGHT+IH8ctNVx9dH7eRJZUdvO7bLpKn+oyNzQkQPB6hniLZVGLKtruPtho9VRjW/UrUxb5JWngllKNeyw+bzhVQX4Uc=
-X-Received: by 2002:a05:6870:6586:b0:1f0:aff:333c with SMTP id
- fp6-20020a056870658600b001f00aff333cmr4924051oab.46.1699504013905; Wed, 08
- Nov 2023 20:26:53 -0800 (PST)
+        Thu, 9 Nov 2023 02:53:00 -0500
+X-Greylist: delayed 550 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 08 Nov 2023 23:52:58 PST
+Received: from codesynthesis.com (codesynthesis.com [188.40.148.39])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4E571716;
+        Wed,  8 Nov 2023 23:52:58 -0800 (PST)
+Received: from brak.codesynthesis.com (unknown [105.186.92.249])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by codesynthesis.com (Postfix) with ESMTPSA id 55E5160D9F;
+        Thu,  9 Nov 2023 07:43:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codesynthesis.com;
+        s=mail1; t=1699515826;
+        bh=fJ48MnwSMLL/XzmjxNLHtBoWhFyXgj04jwsCFx/3Hfs=;
+        h=Date:From:To:Subject:Message-ID:MIME-Version:From;
+        b=RmY00MK5Rg1p2bfkJRAejhbFOLJapXmR89HNVZ3EBm/VjgibjKGCFeSK65GEm8Qp7
+         7f9j1Jtr+eZAWyildkdVI5FnoKpLEsSBiJNckuM1L++5FiDEp+8rt9YCYWbIgMRdMb
+         Al9k9Cj8OS7NQDRJOB2rhzeJeoJzRGMuS+3W9CmV5AryyGeE5UKAAZzMU29UM7zbiY
+         x3wl9ICeAVqEmQZ1e99N5pzif5p18N2hGqk3Jl0HgiK1XdfCetqii0PTPMRIOpqlwL
+         utdtn5Fd16cdAlWb9XZbkyCF9VkdxC5FIx/HpCvzr3tTDJ7dpJDm1ijUjadcTb7BzS
+         uboZ2QLZ4arkQ==
+Received: by brak.codesynthesis.com (Postfix, from userid 1000)
+        id 2AE8B145E0D; Thu,  9 Nov 2023 09:43:44 +0200 (SAST)
+Date:   Thu, 9 Nov 2023 09:43:44 +0200
+From:   Boris Kolpackov <boris@codesynthesis.com>
+To:     Matthew Maurer <mmaurer@google.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@gmail.com>,
+        linux-kbuild@vger.kernel.org, Boqun Feng <boqun.feng@gmail.com>,
+        Gary Guo <gary@garyguo.net>,
+        =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+        Benno Lossin <benno.lossin@proton.me>,
+        Andreas Hindborg <a.hindborg@samsung.com>,
+        Alice Ryhl <aliceryhl@google.com>,
+        linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH 2/3] kconfig: Add special rust_modules config option
+Message-ID: <boris.20231109093619@codesynthesis.com>
+References: <20231108022651.645950-2-mmaurer@google.com>
+ <20231108022651.645950-5-mmaurer@google.com>
 MIME-Version: 1.0
-References: <20231104222715.3967791-1-yoann.congal@smile.fr>
- <CAK7LNAS6J5Nh8nOUHbaf123yd1Z-1q--FvB1ok8GQcoNorAROw@mail.gmail.com> <20231107210004.GA2065849@dev-arch.thelio-3990X>
-In-Reply-To: <20231107210004.GA2065849@dev-arch.thelio-3990X>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 9 Nov 2023 06:26:16 +0200
-X-Gmail-Original-Message-ID: <CAK7LNARpJ9huseh-Ro9v8W_tabMof9cuUZO43gi-hfEnXG4FYA@mail.gmail.com>
-Message-ID: <CAK7LNARpJ9huseh-Ro9v8W_tabMof9cuUZO43gi-hfEnXG4FYA@mail.gmail.com>
-Subject: Re: [PATCH v5] kconfig: avoid an infinite loop in oldconfig/syncconfig
-To:     Nathan Chancellor <nathan@kernel.org>
-Cc:     Yoann Congal <yoann.congal@smile.fr>, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
-        Brandon Maier <brandon.maier@collins.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231108022651.645950-5-mmaurer@google.com>
+Organization: Code Synthesis
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Nov 7, 2023 at 11:00=E2=80=AFPM Nathan Chancellor <nathan@kernel.or=
-g> wrote:
+Matthew Maurer <mmaurer@google.com> writes:
+
+> Adds support for the rust_modules kconfig type, which works similarly to
+> modules, but for restricting or allowing the use of modules which
+> directly depend on Rust.
 >
-> On Sun, Nov 05, 2023 at 04:55:57PM +0900, Masahiro Yamada wrote:
-> > On Sun, Nov 5, 2023 at 7:27=E2=80=AFAM Yoann Congal <yoann.congal@smile=
-.fr> wrote:
-> > >
-> > > Exit on error when asking for value and reading stdin returns an erro=
-r
-> > > (mainly if it has reached EOF or is closed).
-> > >
-> > > This infinite loop happens in particular for hex/int configs without =
-an
-> > > explicit default value.
-> > >
-> > > Previously, this case would loop:
-> > > * oldconfig prompts for the value but stdin has reached EOF
-> > > * It gets the global default value : an empty string
-> > > * This is not a valid hex/int value so it prompts again, hence the
-> > >   infinite loop.
-> > >
-> > > This case happens with a configuration like this (a hex config withou=
-t a
-> > > valid default value):
-> > >   config TEST_KCONFIG
-> > >        hex "Test KConfig"
-> > >        # default 0x0
-> > >
-> > > And using:
-> > >   make oldconfig < /dev/null
-> > >
-> > > This was discovered when working on Yocto bug[0] on a downstream
-> > > kconfig user (U-boot)
-> > >
-> > > [0]: https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14136
-> > >
-> > > CC: Brandon Maier <brandon.maier@collins.com>
-> > > Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
-> >
-> > Applied to linux-kbuild.
-> > Thanks.
+> [...]
 >
-> For what it's worth, this change breaks our continuous integration [1]
-> because tuxmake explicitly uses /dev/null as stdin to make for
-> non-interactive commands (I think it does this as basically the
-> equivalent of "yes '' | make" in Python), so the error will always
-> occur.
->
-> Before:
->
-> $ curl -LSso .config https://gitlab.archlinux.org/archlinux/packaging/pac=
-kages/linux/-/raw/main/config
->
-> # Same as 'make < /dev/null' but still
-> $ python3 -c "import subprocess; subprocess.run(['make', '-j128'], stdin=
-=3Dsubprocess.DEVNULL)"
->   SYNC    include/config/auto.conf
->   HOSTCC  scripts/basic/fixdep
->   HOSTCC  scripts/kconfig/conf.o
->   HOSTCC  scripts/kconfig/confdata.o
->   HOSTCC  scripts/kconfig/expr.o
->   LEX     scripts/kconfig/lexer.lex.c
->   YACC    scripts/kconfig/parser.tab.[ch]
->   HOSTCC  scripts/kconfig/menu.o
->   HOSTCC  scripts/kconfig/preprocess.o
->   HOSTCC  scripts/kconfig/symbol.o
->   HOSTCC  scripts/kconfig/util.o
->   HOSTCC  scripts/kconfig/lexer.lex.o
->   HOSTCC  scripts/kconfig/parser.tab.o
->   HOSTLD  scripts/kconfig/conf
-> *
-> * Restart config...
-> *
-> ...
-> Error in reading or end of file.
->
->   GEN     arch/x86/include/generated/asm/orc_hash.h
->   WRAP    arch/x86/include/generated/uapi/asm/bpf_perf_event.h
->   WRAP    arch/x86/include/generated/uapi/asm/errno.h
-> ...
->
-> After:
->
-> $ curl -LSso .config https://gitlab.archlinux.org/archlinux/packaging/pac=
-kages/linux/-/raw/main/config
->
-> $ python3 -c "import subprocess; subprocess.run(['make', '-j128'], stdin=
-=3Dsubprocess.DEVNULL)"
->   SYNC    include/config/auto.conf
->   HOSTCC  scripts/basic/fixdep
->   HOSTCC  scripts/kconfig/conf.o
->   HOSTCC  scripts/kconfig/confdata.o
->   HOSTCC  scripts/kconfig/expr.o
->   LEX     scripts/kconfig/lexer.lex.c
->   YACC    scripts/kconfig/parser.tab.[ch]
->   HOSTCC  scripts/kconfig/menu.o
->   HOSTCC  scripts/kconfig/preprocess.o
->   HOSTCC  scripts/kconfig/symbol.o
->   HOSTCC  scripts/kconfig/util.o
->   HOSTCC  scripts/kconfig/lexer.lex.o
->   HOSTCC  scripts/kconfig/parser.tab.o
->   HOSTLD  scripts/kconfig/conf
-> *
-> * Restart config...
-> *
-> ...
-> Error in reading or end of file.
-> make[3]: *** [scripts/kconfig/Makefile:77: syncconfig] Error 1
-> ...
->
-> We have been doing this for some time and never run across an infinite
-> loop in syncconfig. Can this be improved?
+> +struct symbol *modules_rust_sym;
+> +static tristate modules_rust_val;
+> +
+> +bool sym_depends_rust(struct symbol *sym)
+> +{
+> +	static struct symbol *rust_sym;
+> +
+> +	if (!rust_sym)
+> +		rust_sym = sym_find("RUST");
+> +	return expr_depends_symbol(sym->dir_dep.expr, rust_sym, true);
+> +}
+> +
 
+Hm, this feels like a quick and dirty hack to me: will we be hardcoding
+a symbol for each language?
 
-
-In Linux, most int/hex entries have a default,
-hence there is no practical issue.
-
-I will drop this for now.
-
-I will send an alternative solution.
-
-
-
-
-
-
-
-
---
-Best Regards
-Masahiro Yamada
+I know there is little sympathy for other projects that use Kconfig,
+and whatever Linux needs, goes, but still, this feels like a step too
+far.
