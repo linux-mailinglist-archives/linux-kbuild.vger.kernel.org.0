@@ -2,89 +2,101 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 66C7F7E6AC4
-	for <lists+linux-kbuild@lfdr.de>; Thu,  9 Nov 2023 13:45:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 950537E7077
+	for <lists+linux-kbuild@lfdr.de>; Thu,  9 Nov 2023 18:40:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230055AbjKIMpf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 9 Nov 2023 07:45:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44144 "EHLO
+        id S1344760AbjKIRkl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 9 Nov 2023 12:40:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33316 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230006AbjKIMpe (ORCPT
+        with ESMTP id S1344733AbjKIRkk (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 9 Nov 2023 07:45:34 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FF29E8
-        for <linux-kbuild@vger.kernel.org>; Thu,  9 Nov 2023 04:45:32 -0800 (PST)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C15DFC433CA;
-        Thu,  9 Nov 2023 12:45:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1699533931;
-        bh=mSGpk9MJPLfIpRmZFxJdVy+rBhIh+RbFW65Cr3iJGu0=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=mqZIiZ0nmvTR5j28zWmzjy4XMwXTYlwElo0b/S4pMmUNQXoFnVv9XInoRrgjfVMuF
-         xXu60LEZYQ2cbtNnxoh8Hkzbpx2Ho5bIfmZuAmjWwY5n7q3nXhnkqzl6PyIz6A8KqJ
-         S06oknLIjFFzj7xFEG2hXUth4ow9qcer0+UH+DPDXskMExmROLuKN4Ys7GPSkKcyjN
-         CD6ZJWY58HNJOeBq9o+Q0qkPEeFP4cTWary9RS2Xm4drM3Xwrb0ujAE3lstXkBoA1B
-         m6mm0XBdUAZeENhUBeMr+dlhnbouYT7ob/33nsnyGa8J/u+sI+/X29cBDe5lGLoB66
-         cAGGbJrEep2kw==
-Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-1e9a757e04eso990552fac.0;
-        Thu, 09 Nov 2023 04:45:31 -0800 (PST)
-X-Gm-Message-State: AOJu0YzcGIaaDL/mIiG9PoASIe+lko0rtMcfd/eGDG7SzAbupCudaXvv
-        1Ft12ZGXyOrlwu6mqQ48oAew0UdzeuFpQoRh0e8=
-X-Google-Smtp-Source: AGHT+IFjKG6dNzY33CdOXNjl86WKEWnDkv2RB2Rx8LfbqJZIj403LcldYwOYvaCNYMcGuJfDTZ9dhH9LdBxmUkrCGKM=
-X-Received: by 2002:a05:6871:7287:b0:1e9:d5ac:dc9b with SMTP id
- mm7-20020a056871728700b001e9d5acdc9bmr3318986oac.25.1699533931179; Thu, 09
- Nov 2023 04:45:31 -0800 (PST)
+        Thu, 9 Nov 2023 12:40:40 -0500
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50450269E;
+        Thu,  9 Nov 2023 09:40:38 -0800 (PST)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out2.suse.de (Postfix) with ESMTP id F3A3B1F8B0;
+        Thu,  9 Nov 2023 17:40:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1699551637; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=+Y0b/o0koAsCuEuabXJXcxMBlyObTAOMF0FWY8H+D5Q=;
+        b=RfNfR+9OVTB3kKJQtdF3Y6UQx9doyYYIsLl5C5IqTVaFnkH2Cxt9MVaWLxjmMzHNoJL4iS
+        2UvLojQfKpka7lsG6uPNEPxcnBGVDy0nsEr4LopPSn9iKIeAOH2eTwSL1q9/NJSF2Oprju
+        MxLUdEjg9suBgsTztIna8XwgsFEh7Rs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1699551637;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=+Y0b/o0koAsCuEuabXJXcxMBlyObTAOMF0FWY8H+D5Q=;
+        b=nr91UC3EffLvji6vGEqyz7ILJyCl/Vx5PeggZEJRk8l8qw+fZop3qQ/6wI21mw1XulC6NJ
+        V/AdUgZ7juPC+uCQ==
+Received: from kitsune.suse.cz (kitsune.suse.cz [10.100.12.127])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id EF4622C145;
+        Thu,  9 Nov 2023 17:40:35 +0000 (UTC)
+Date:   Thu, 9 Nov 2023 18:40:34 +0100
+From:   Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
+To:     Jan Engelhardt <jengelh@inai.de>
+Cc:     Lucas De Marchi <lucas.demarchi@intel.com>,
+        linux-modules@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
+        Lucas De Marchi <lucas.de.marchi@gmail.com>,
+        Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+        Jiri Slaby <jslaby@suse.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH kmod v5 5/5] libkmod, depmod, modprobe: Make directory
+ for kernel modules configurable
+Message-ID: <20231109174034.GW6241@kitsune.suse.cz>
+References: <cover.1689589902.git.msuchanek@suse.de>
+ <cover.1689681454.git.msuchanek@suse.de>
+ <b878a01f09e250bb24dbaede71cc776217a8f862.1689681454.git.msuchanek@suse.de>
+ <e3yow7ih6af2hxzkmjay2oan3jypmo4hda64vxvpfco66ajcew@i3zewn4nbklf>
+ <o6n5s896-ppro-qs00-71q8-3s657s3190s9@vanv.qr>
 MIME-Version: 1.0
-References: <20231108022651.645950-2-mmaurer@google.com>
-In-Reply-To: <20231108022651.645950-2-mmaurer@google.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 9 Nov 2023 14:44:53 +0200
-X-Gmail-Original-Message-ID: <CAK7LNATJK9nujKKb7rP87hMs65fN8p8v2fMhkNLPb+qU6MijEw@mail.gmail.com>
-Message-ID: <CAK7LNATJK9nujKKb7rP87hMs65fN8p8v2fMhkNLPb+qU6MijEw@mail.gmail.com>
-Subject: Re: [PATCH 0/3] Support MODVERSIONS by disabling Rust modules
-To:     Matthew Maurer <mmaurer@google.com>
-Cc:     Miguel Ojeda <ojeda@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@gmail.com>,
-        linux-kbuild@vger.kernel.org, Boqun Feng <boqun.feng@gmail.com>,
-        Gary Guo <gary@garyguo.net>,
-        =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-        Benno Lossin <benno.lossin@proton.me>,
-        Andreas Hindborg <a.hindborg@samsung.com>,
-        Alice Ryhl <aliceryhl@google.com>,
-        rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <o6n5s896-ppro-qs00-71q8-3s657s3190s9@vanv.qr>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Nov 8, 2023 at 4:27=E2=80=AFAM Matthew Maurer <mmaurer@google.com> =
-wrote:
->
-> The goal of this patch series is to allow MODVERSIONS to be turned on
-> alongside RUST. Gary Guo previously proposed to adjust the API to
-> support Rust symbols' greater length:
-> https://lore.kernel.org/lkml/CANiq72n4MbR+AE7eHfVQZOu26FeSttQnEEMT3Jpft+C=
-cGwk9jw@mail.gmail.com/T/
->
-> This did not land, so I'm proposing an alternate solution - users who
-> want to use Rust, but who do not need Rust modules, can disable Rust
-> module support in order to retain modversions support. This has the
-> added bonus of removing exported symbols from the kernel surface if we
-> know they won't be used due to lack of Rust module support in the
-> environment.
+On Wed, Oct 18, 2023 at 03:25:19AM +0200, Jan Engelhardt wrote:
+> On Tuesday 2023-10-17 19:50, Lucas De Marchi wrote:
+> >> +AC_ARG_WITH([module_directory],
+> >> +        AS_HELP_STRING([--with-module-directory=DIR], [directory in which to
+> >> look for kernel modules - typically '/lib/modules' or
+> >> '${prefix}/lib/modules']),
+> >> +        [], [with_module_directory=/lib/modules])
+> >> +AC_SUBST([module_directory], [$with_module_directory])
+> >
+> > we will probably have "fun" results if we accept a relative path here.
+> 
+> $ ./configure --prefix=/usr --bindir=../bin
+> configure: error: expected an absolute directory name for --bindir: ../bin
+> 
+> While such check does not exist for --with-module-directory, everyone
+> has likely been well-trained not to use relative paths. Even if, say,
+> cmake/meson *could* do it, it just would have never occurred to me to
+> actually *utilize* it, because it is just too ambiguous and
+> potentially dangerous.
+> 
+> Just think of all the fun you could have with LD_LIBRARY_PATH=".."
 
+Is there an example of how this guarding against relative paths is done
+in other options that accept directories?
 
-No. This is not a solution.
+There may be something for the built-in options but the existing custom
+rootlibdir option does not seem to have anything either.
 
-It does not change the fact that Rust modules and modversions
-cannot coexist, and it is even worse than the previous one.
+Thanks
 
-
-
-
---=20
-Best Regards
-Masahiro Yamada
+Michal
