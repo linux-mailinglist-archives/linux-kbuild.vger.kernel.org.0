@@ -1,164 +1,125 @@
-Return-Path: <linux-kbuild+bounces-3-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-8-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7C237E7EE3
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Nov 2023 18:48:16 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id DBDF47E7F33
+	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Nov 2023 18:50:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 71B7228182A
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Nov 2023 17:48:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 92E3A281B9D
+	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Nov 2023 17:50:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5AE773B796;
-	Fri, 10 Nov 2023 17:46:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C580F30334;
+	Fri, 10 Nov 2023 17:47:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Qth9rBQG";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CVg6EvQ+"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59F203B2A4
-	for <linux-kbuild@vger.kernel.org>; Fri, 10 Nov 2023 17:46:45 +0000 (UTC)
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63D1F3481D
-	for <linux-kbuild@vger.kernel.org>; Fri, 10 Nov 2023 04:44:48 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1r1Qqm-0008RY-G3; Fri, 10 Nov 2023 13:43:04 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1r1Qqd-0081VE-CM; Fri, 10 Nov 2023 13:42:55 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1r1Qqd-00Gimy-0Z; Fri, 10 Nov 2023 13:42:55 +0100
-Date: Fri, 10 Nov 2023 13:41:23 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	linux-kbuild@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-	Matt Turner <mattst88@gmail.com>, Vineet Gupta <vgupta@kernel.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>, Guo Ren <guoren@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	Greg Ungerer <gerg@linux-m68k.org>, Michal Simek <monstr@monstr.eu>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Dinh Nguyen <dinguyen@kernel.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Geoff Levand <geoff@infradead.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	"David S. Miller" <davem@davemloft.net>,
-	Andy Lutomirski <luto@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
-	Helge Deller <deller@gmx.de>,
-	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Timur Tabi <timur@kernel.org>,
-	Kent Overstreet <kent.overstreet@linux.dev>,
-	David Woodhouse <dwmw2@infradead.org>,
-	"Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
-	Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
-	Kees Cook <keescook@chromium.org>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Al Viro <viro@zeniv.linux.org.uk>, linux-alpha@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-trace-kernel@vger.kernel.org, linux-csky@vger.kernel.org,
-	loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
-	linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-	linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
-	netdev@vger.kernel.org, linux-parisc@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-bcachefs@vger.kernel.org,
-	linux-mtd@lists.infradead.org
-Subject: Re: [PATCH 04/22] [RESEND] time: make sysfs_get_uname() function
- visible in header
-Message-ID: <20231110124123.5mado2cc5vnywqfx@pengutronix.de>
-References: <20231108125843.3806765-1-arnd@kernel.org>
- <20231108125843.3806765-5-arnd@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC6853E46A
+	for <linux-kbuild@vger.kernel.org>; Fri, 10 Nov 2023 17:47:10 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D3DB3D578;
+	Fri, 10 Nov 2023 09:44:37 -0800 (PST)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+	by smtp-out1.suse.de (Postfix) with ESMTP id 7F53821992;
+	Fri, 10 Nov 2023 17:44:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1699638265; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EYAgDQt7eB0w4cAnKtCjsEc9BO9IoUXrjcQ62KDllKo=;
+	b=Qth9rBQGAnzwAnCKDJ8zor20XIDEQsOPXEhs/aHJ3Y1Y5dxO9McpVLMSwfiVTEebS55Zv2
+	1XjD96DVYPsqab7MewJRnvh8xrgoaQSGjQzRoBXGOpNqxW4/GEGJdWslVA1LG2xUkZ+d1O
+	R7Gr4wFAocV3Tt2f4DaS518OXPCY7tg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1699638265;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EYAgDQt7eB0w4cAnKtCjsEc9BO9IoUXrjcQ62KDllKo=;
+	b=CVg6EvQ+T5l73hl8bEHLdBOBref+XFvEfFrvR3JIRFdB3dEZvGDzqM182DKJFYnVYjoAmc
+	Q4A0kLoBMrPiEtDw==
+Received: from kitsune.suse.cz (kitsune.suse.cz [10.100.12.127])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by relay2.suse.de (Postfix) with ESMTPS id 1C5F62D40D;
+	Fri, 10 Nov 2023 17:44:23 +0000 (UTC)
+Date: Fri, 10 Nov 2023 18:44:22 +0100
+From: Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
+To: Jan Engelhardt <jengelh@inai.de>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Nicolas Schier <nicolas@fjasle.eu>,
+	linux-modules@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
+	Lucas De Marchi <lucas.de.marchi@gmail.com>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Jiri Slaby <jslaby@suse.com>, Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>
+Subject: Re: [PATCH rebased] kbuild: rpm-pkg: Fix build with non-default
+ MODLIB
+Message-ID: <20231110174422.GY6241@kitsune.suse.cz>
+References: <20231009140733.GV6241@kitsune.suse.cz>
+ <CAK7LNAQQMFUt4R1m_U8kBY5=BvxD_dMuE4MD4kpd48WK1E+AGA@mail.gmail.com>
+ <20231010101552.GW6241@kitsune.suse.cz>
+ <CAK7LNASX2_-xt3Qvxie_G=Q4fuVYR6eE47QjQ5NZf7QxY-4_tQ@mail.gmail.com>
+ <20231017104453.GG6241@kitsune.suse.cz>
+ <CAK7LNASKPg0JK0QsLGb1Rfx2ysvHJTm3NFOvtwOpZRz4-20T8w@mail.gmail.com>
+ <20231017122747.GH6241@kitsune.suse.cz>
+ <CAK7LNAT3N82cJD3GsF+yUBEfPNOBkhzYPk37q3k0HdU7ukz9vQ@mail.gmail.com>
+ <20231017151050.GJ6241@kitsune.suse.cz>
+ <p86sq573-s32q-6792-4978-43s1pn91r027@vanv.qr>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ljpauxr7qypfgjtq"
-Content-Disposition: inline
-In-Reply-To: <20231108125843.3806765-5-arnd@kernel.org>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-kbuild@vger.kernel.org
-
-
---ljpauxr7qypfgjtq
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <p86sq573-s32q-6792-4978-43s1pn91r027@vanv.qr>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-Hello Arnd,
+On Wed, Oct 18, 2023 at 03:12:41AM +0200, Jan Engelhardt wrote:
+> On Tuesday 2023-10-17 17:10, Michal Suchánek wrote:
+> >
+> >> In my system (Ubuntu), I see the directory paths
+> >> 
+> >> /usr/aarch64-linux-gnu/lib/
+> >> /usr/i686-linux-gnu/lib/
+> >> /usr/x86_64-linux-gnu/lib/
+> >> 
+> >> If there were such a crazy distro that supports multiple kernel arches
+> >> within a single image, modules might be installed:
+> >> /usr/x86_64-linux-gnu/lib/module/<version>/
+> >
+> >For me it's /usr/lib/i386-linux-gnu/.
+> >
+> >Did they change the scheme at some point?
+> 
+> It's a complicated mumble-jumble. Prior art exists as in:
+> 
+>  /opt/vendorThing/bin/...
+>  /usr/X11R6/lib/libXi.so.6 [host binary]
+>  /usr/x86_64-w64-mingw32/bin/as [host binary]
+>  /usr/x86_64-w64-mingw32/sys-root/mingw/bin/as.exe [foreign binary]
+>  /usr/platform/SUNW,Ultra-2/lib/libprtdiag_psr.so.1 [looks foreign]
+> 
+> The use of suffix-based naming must have been established sometime
+> near the end of the 90s or the start of 2000s as the first biarch
+> Linux distros emerged. Probably in gcc or glibc sources one will find
+> the root of where the use of suffix identifiers like /usr/lib64
+> started. Leaves the question open "why".
 
-On Wed, Nov 08, 2023 at 01:58:25PM +0100, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
->=20
-> This function is defined globally in clocksource.c and used conditionally
-> in clockevent.c, which the declaration hidden when clockevent support
+That's pretty clear: to be able to install libraries for multiple
+architectures at the same time.
 
-s/which/with/ ?
+Thanks
 
-> is disabled. This causes a harmless warning in the definition:
->=20
-> kernel/time/clocksource.c:1324:9: warning: no previous prototype for 'sys=
-fs_get_uname' [-Wmissing-prototypes]
->  1324 | ssize_t sysfs_get_uname(const char *buf, char *dst, size_t cnt)
->=20
-> Move the declaration out of the #ifdef so it is always visible.
->=20
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-
-Other than that:
-
-Reviewed-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---ljpauxr7qypfgjtq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmVOJO4ACgkQj4D7WH0S
-/k65EAf/UjDsSsmivHFeg9uWSJLPICzRXZuL3swrSrbDypaI8PuJaX8767ZWsiYT
-oDeWDpXzpAvyvz7WUCuFkRJIytR6EpscoR2t39XsflnxAYmcgYmiBDesY/A6xtuZ
-k2ZldHp9NVszzJP3PiXQ8JOcEFA1LEc08SjHzEz4F6QAsno6WZD/do4yBIU+ikEg
-57Rbk4CJghGfXhgOAmwcWrN91qOFQwhPpKHHDgFfYSZ3zLo+f6H9hSUkzOuLGDhx
-zbK1UnRCuRi3iiJlIqS2LzaSySmRQ9tsbtjk9aQx7+GqdGprHajLMikxQ13xn8jh
-U+F4kOqRAwsIV6i5/GUFGEGtLnMsSQ==
-=9raj
------END PGP SIGNATURE-----
-
---ljpauxr7qypfgjtq--
+Michal
 
