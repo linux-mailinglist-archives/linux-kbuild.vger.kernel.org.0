@@ -2,152 +2,184 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 40C857E7498
-	for <lists+linux-kbuild@lfdr.de>; Thu,  9 Nov 2023 23:56:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F17AA7E769F
+	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Nov 2023 02:39:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234659AbjKIW4y (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 9 Nov 2023 17:56:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38126 "EHLO
+        id S1345476AbjKJBj0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 9 Nov 2023 20:39:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40260 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229613AbjKIW4y (ORCPT
+        with ESMTP id S229491AbjKJBjZ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 9 Nov 2023 17:56:54 -0500
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F466422E
-        for <linux-kbuild@vger.kernel.org>; Thu,  9 Nov 2023 14:56:51 -0800 (PST)
-Received: by mail-lj1-x234.google.com with SMTP id 38308e7fff4ca-2c594196344so17762691fa.3
-        for <linux-kbuild@vger.kernel.org>; Thu, 09 Nov 2023 14:56:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1699570610; x=1700175410; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=1QtA2/x0ZyZN5FnQ0Yz771YH8zXyNfVbXbyQs0J7Qcc=;
-        b=u0yFevPjnb9B1oZvKEgt0ojfb988l4sjSb/1C+U6dTGr5MInh/Twzgt2MJIFvGZfNn
-         X9/L50KTRV96g1YUwUsZKf6qLRhTDIEYrRFjQGdujF0ZeBoJa3Xk/eGdg0OI6NhEifJr
-         SMuV0Gw/ISPFJHTCmctQBqHFmS1JgornSW2D3sdfWjnIZ/66rDhGXv2bVtiMpYHz/Rgk
-         4k8Xw0S8IMqTAUI7+iu1DzaVT+PJwUaM+dduIfCrfuQXkrgLTZTLno0yNZ2EsA1I0q8j
-         z9XzXPM4s92HtKFiJGGQIlyH1PEQQCn54NxrIsNE5igR73a2x3TDZGZYlk5mGIm71b5l
-         zRXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699570610; x=1700175410;
-        h=content-transfer-encoding:in-reply-to:organization:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1QtA2/x0ZyZN5FnQ0Yz771YH8zXyNfVbXbyQs0J7Qcc=;
-        b=k4RRdEWfjXB2EMtPFjpnerhGQ4xYvjdc73S5Cr2syWY/7iMnB6XYqNR6T5m0QGtR9I
-         7/kWaNzPVQk5GGPPek3KvHjFE3WErC6fcKgQ8HCFOSsoR9q/8tKF1SGIfq64BKpegO4h
-         7SabdQeoXYp0dCePRn5Vi0Esw8ml2LlP/ACmXRwLmzfN0VGnRKVrj/WjQCBm3+jP5XC3
-         DsYvlwx4JoSFQt6BayHsWz91JmwrsbpZKUykEAFnO1keYq4j+pZhbeMWKJ207FiqHMKF
-         7w9UE7zpyHEW1pGrPThVpOo699zoNto3VxkREhy2e+LYS1l2+yiEWOCgpbTLtP/mkxcM
-         Dugg==
-X-Gm-Message-State: AOJu0YyyYZ798GfVwv6XD63dokAAVka57tTzeHorfvs9bK+3lWdm84lG
-        aa11JQDuvfrzAuwgVy0v1pHxQg==
-X-Google-Smtp-Source: AGHT+IH8wamSL8MWF07seVKJLlmtRn705pu0xbWsjODjcj0QVNRgb8a+YFiv/EzLaDXHqlS63cHiAw==
-X-Received: by 2002:a2e:a4d2:0:b0:2c6:ed74:4058 with SMTP id p18-20020a2ea4d2000000b002c6ed744058mr4667381ljm.42.1699570609595;
-        Thu, 09 Nov 2023 14:56:49 -0800 (PST)
-Received: from [192.168.0.28] ([89.159.1.53])
-        by smtp.gmail.com with ESMTPSA id h7-20020a05600c350700b004090ca6d785sm3432267wmq.2.2023.11.09.14.56.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Nov 2023 14:56:49 -0800 (PST)
-Message-ID: <eb9cb563-d480-4000-8feb-b63b856235c3@smile.fr>
-Date:   Thu, 9 Nov 2023 23:56:48 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5] kconfig: avoid an infinite loop in
- oldconfig/syncconfig
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Brandon Maier <brandon.maier@collins.com>,
+        Thu, 9 Nov 2023 20:39:25 -0500
+X-Greylist: delayed 62 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 09 Nov 2023 17:39:22 PST
+Received: from rcdn-iport-1.cisco.com (rcdn-iport-1.cisco.com [173.37.86.72])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E723444A4;
+        Thu,  9 Nov 2023 17:39:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=cisco.com; i=@cisco.com; l=3762; q=dns/txt; s=iport;
+  t=1699580363; x=1700789963;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=PtUp1GjfEwZS61DxzSRMFo9GD7QWcRxAdJGBMTXDcM0=;
+  b=CHJNTpVfqbPEflg+O6phpSNh0QOXm5wE1W5tLaNTfGH7e2TBUAyr+Ft8
+   SteOPYyT+L6f6ROCXUCsomQwBQjfd/FD97smCNwfJezOf4zPtG0x2B6yN
+   ihm+mFd2d47xGicvnR4wbqRHoOcdnIvtgUoMSaXG7W3FVx1flRah8n7tm
+   4=;
+X-CSE-ConnectionGUID: Tg5rtsM1RzKj3gJducQSPg==
+X-CSE-MsgGUID: 2YLxlXJiRgOPNW/RlT7pzw==
+X-IPAS-Result: =?us-ascii?q?A0ANAADbh01lmJtdJa1aHAEBAQEBAQcBARIBAQQEAQGBe?=
+ =?us-ascii?q?wcBAQsBhAdAjTenQ4F+DwEBAQ9EBAEBhQaHKAImNAkOAQIEAQEBAQMCAwEBA?=
+ =?us-ascii?q?QEBAQECAQEFAQEBAgEHBBQBAQEBAQEBAR4ZBRAOJ4V1hwUBRoE+AYMQgl8Dr?=
+ =?us-ascii?q?VeCLIEBsyiBaIFIAYxDgR6ENScbgUlEhAeLfASJJQcygUlZg1KDD4o8f0daF?=
+ =?us-ascii?q?h0DBwNWKRArBwQtIgYJFC0jBlEEFxEkCRMSPgSDNAp/Pw8OEYI/IgI9NhlIg?=
+ =?us-ascii?q?lsVQARGdhAqBBQXgRJuGxUeNxESFw0DCHQdAhEjPAMFAwQzChINCyEFFEIDQ?=
+ =?us-ascii?q?gZJCwMCGgUDAwSBNgUNHgIQLScDAxNNAhAUAzsDAwYDCzEDMFVEDFEDbx8aH?=
+ =?us-ascii?q?Ak8DwwfAhseDScoAjVDAxEFEgIWAyQZBEUDCQMHBUlAAwsYDUgRLDUGDhsGP?=
+ =?us-ascii?q?3MHoGJyAS1igTCUODKPBIIdoEeEF4FfnyoaM4QBjHOZD5g/IKMJhSiBYzqBW?=
+ =?us-ascii?q?zMaCBsVgyNRGQ+OOZMbAV0jbQIHCwEBAwmLSgEB?=
+IronPort-Data: A9a23:xFsu3a1wctyYQEMMyPbD5aJ3kn2cJEfYwER7XKvMYLTBsI5bpzZWz
+ mUXX2DXPvfZZmqhLtojO43goB8A6pbVztZhSAtu3Hw8FHgiRegpqji6wuYcGwvIc6UvmWo+t
+ 512huHodZ1yFjmE4E71btANlFEkvYmQXL3wFeXYDS54QA5gWU8JhAlq8wIDqtYAbeORXUXV4
+ rsen+WFYAX+gmctajpNg06+gEoHUMra6WtwUmMWPZinjHeG/1EJAZQWI72GLneQauG4ycbjG
+ o4vZJnglo/o109F5uGNy94XQWVWKlLmBjViv1INM0SUbreukQRpukozHKJ0hU66EFxllfgpo
+ DlGncTYpQvEosQglcxFOyS0HR2SMoV69+LdPWOa6PaB7E+dfFng3v5XN3k5aNhwFuZfWQmi9
+ NQCIzwLKxuEne/znPSwS/JngYIoK8yD0IE34y47i2qGS6d9B8meHs0m5vcAtNs0rsxHG/fTY
+ 9UQQTFudx/HJRZIPz/7Dbpnx7v41iWuImMwRFS9/5sT82zj7g1L35/VFuWSQNi2Gt1HgRPNz
+ o7B1z2pXk5FXDCF8hKB83SxlqrCkyLTRo0fDvu7++RsjVnVwXYcYDUSVF2msby6gFO/X953N
+ UMZ4GwtoLI0+UjtScPyNzW0rWCFtRMAQdddO/M15RvLyafO5QudQG8eQVZpbN0gqd9zRjEw0
+ FKNt83mCCYps7CPT3+ZsLCOoluaPSkTMH9HbDUBCAgI+d/upKk3jwnTVZBiFqCvh9H4ED22x
+ CqFxAA4hr4UiccQ/6u59EvDjnShu/DhSAI4/QzKWmSk4xliTIGiYIOs5B7Q6vMoBICQUlmIu
+ lAHltKY4eRICouC/ASNWOwlDqC14OzDOzrZ6XZrHp885yy18DuvcJ545DBlOFwvNdQAcDXyJ
+ kjJtmt54J5VIWvvaK5veKqvBMkwi6vtD9LoUrbTdNUmSoghKieE8TtoaErW2Hri+GA3nKg5f
+ 56dfcu2FnEcIb9qxz3wTOAYuZc3wSU33iXWWJzh0hKk2JKRYXeUTfEON17mRvkk7aizuA/P+
+ tZaPuOT1hRUUev1JCLQ9OY7JFMSKFA/BJbru4lZcfOFLgN6GWYnTfjLztsJd4VjnqlRvujJ+
+ 2mwXkJGyVH/w2bOL0CEcHllY7L0VpE5pnt9IDdEFUyv0XgLYou16qobMZwtctEP/+x5zOVoS
+ OEFdoOED+5IWxzM4DsHaoTl6oF/HDy0hAaKFymoej4ye9hnXQOhxzP/VhHk+C9LBS2tuI5i5
+ bahzQjcB5EEQmyOEfo6dtqTwA6roWM4wdhgfEmTLftfZU7Vy7BlfnmZYuAMH+kALhDKxz2/3
+ gmQAAsFqeSln2PT2ISX7Uxjh9r0e9aSDna2DEGAsunrbXiyEn6LhN4fALzRLFgxQUutoP36D
+ di52c0QJxHuobqnm5B3H7AuxqUk6p6z4bRb1Q9jWn7MajxH64+MwFHYgaGjVYUUm9e1XDdav
+ GrTprG23p3VYKvY/KY5flZNUwh6/ah8dsPuxfo0Ol7mwyR84aCKV05fVzHV1n0MceYpbt91m
+ rh90CLz1+BZokRzWjphpn4Mn1lg0lRcO0nanshAWdSy2lZDJq9qO8CGVEcaH61jm/0VYhV1f
+ Vd4dYLJhq9XwQLZYmEvGH3WtdexdrxQ0C2mOGQqfgzT8vKc36df9EQIoVwfEF8Ppj0ZiL0bB
+ 4SeHxAvTUl412021JErsqHFM1wpOSB1DWSokAtRyD2GHxX4PoEPRUVkUduwEIki2zo0VlBmE
+ HuwkQ4JjR6CkBnN4xYP
+IronPort-HdrOrdr: A9a23:1pk2VKypleQTi517Rul2KrPwJb1zdoMgy1knxilNoNJuHvBw8P
+ re/sjzuiWbtN98YhsdcLO7Scq9qA3nlKKdiLN5VdyftWLd11dAQrsO0WKb+V3d8+mUzJ846U
+ +mGJIObeHNMQ==
+X-Talos-CUID: =?us-ascii?q?9a23=3A/Eqiz2mXSOSCeZI2EUGthTci2VnXOUHSkW3MOGr?=
+ =?us-ascii?q?hM3RKSuaaa1ON85pfq8U7zg=3D=3D?=
+X-Talos-MUID: 9a23:xtDHAwvI7ZhpOKvHds2n3gBGJMNYwaWUB2c1t6pBgc24ajRiJGLI
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.03,291,1694736000"; 
+   d="scan'208";a="134884996"
+Received: from rcdn-core-4.cisco.com ([173.37.93.155])
+  by rcdn-iport-1.cisco.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 01:38:19 +0000
+Received: from goliath.lan ([10.25.128.169])
+        by rcdn-core-4.cisco.com (8.15.2/8.15.2) with ESMTP id 3AA1cHVG011466;
+        Fri, 10 Nov 2023 01:38:17 GMT
+From:   Daniel Walker <danielwa@cisco.com>
+To:     Will Deacon <will@kernel.org>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Rob Herring <robh@kernel.org>,
+        Daniel Gimpelevich <daniel@gimpelevich.san-francisco.ca.us>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Pratyush Brahma <quic_pbrahma@quicinc.com>,
+        Tomas Mudrunka <tomas.mudrunka@gmail.com>,
+        Sean Anderson <sean.anderson@seco.com>, x86@kernel.org,
+        linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        llvm@lists.linux.dev
-References: <20231104222715.3967791-1-yoann.congal@smile.fr>
- <CAK7LNAS6J5Nh8nOUHbaf123yd1Z-1q--FvB1ok8GQcoNorAROw@mail.gmail.com>
- <20231107210004.GA2065849@dev-arch.thelio-3990X>
- <CAK7LNARpJ9huseh-Ro9v8W_tabMof9cuUZO43gi-hfEnXG4FYA@mail.gmail.com>
-Content-Language: en-US
-From:   Yoann Congal <yoann.congal@smile.fr>
-Organization: Smile ECS
-In-Reply-To: <CAK7LNARpJ9huseh-Ro9v8W_tabMof9cuUZO43gi-hfEnXG4FYA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+        Nicolas Schier <nicolas@fjasle.eu>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kbuild@vger.kernel.org
+Cc:     linux-efi@vger.kernel.org
+Subject: [PATCH 0/8] generic command line v6
+Date:   Thu,  9 Nov 2023 17:38:04 -0800
+Message-Id: <20231110013817.2378507-1-danielwa@cisco.com>
+X-Mailer: git-send-email 2.39.2
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Outbound-SMTP-Client: 10.25.128.169, [10.25.128.169]
+X-Outbound-Node: rcdn-core-4.cisco.com
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi,
+This release is an up-rev of the v5 patches. No additional features have
+been added. Some changes were mode to function names and some changes to
+Kconfig dependencies. Also updated the config conversion for mips.
 
-Le 09/11/2023 à 05:26, Masahiro Yamada a écrit :
-> On Tue, Nov 7, 2023 at 11:00 PM Nathan Chancellor <nathan@kernel.org> wrote:
->> For what it's worth, this change breaks our continuous integration [1>> because tuxmake explicitly uses /dev/null as stdin to make for
->> non-interactive commands (I think it does this as basically the
->> equivalent of "yes '' | make" in Python), so the error will always
->> occur.
->>
->> Before:
->>
->> [...]
->>
->> After:
->>
->> $ curl -LSso .config https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config
+There are a number of people who have expressed interest in these
+patches either by asking for them to be merge or testing them. If
+people are so inclined please continue to request them to be merge
+or to ask the status of the next release. It's helpful to motivate me to
+release them again and for the maintainers to see the interest
+generated.
 
-Calling 'make olddefconfig' at this point should avoid opening the prompt on /dev/null in the next make.
+These patches have been used by Cisco Systems, Inc. on millions of
+released products to great effect. Hopefully they can be used by the
+entire Linux eco system.
 
-I got tuxmake to that with a hack:
-$ .../tuxmake/run --kconfig /dev/null --kconfig-add https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/raw/main/config
-# --kconfig /dev/null      => Start from a blank config
-# --kconfig-add https//... => ... add to it a partial config
-=> tuxmake will "merge" the empty config and the URL one and then run 'make olddefconfig' and finally 'make < /dev/null' which does run
+My apologies on the length between releases. I will try to release more
+often.
 
->> $ python3 -c "import subprocess; subprocess.run(['make', '-j128'], stdin=subprocess.DEVNULL)"
->>   SYNC    include/config/auto.conf
->>   HOSTCC  scripts/basic/fixdep
->>   HOSTCC  scripts/kconfig/conf.o
->>   HOSTCC  scripts/kconfig/confdata.o
->>   HOSTCC  scripts/kconfig/expr.o
->>   LEX     scripts/kconfig/lexer.lex.c
->>   YACC    scripts/kconfig/parser.tab.[ch]
->>   HOSTCC  scripts/kconfig/menu.o
->>   HOSTCC  scripts/kconfig/preprocess.o
->>   HOSTCC  scripts/kconfig/symbol.o
->>   HOSTCC  scripts/kconfig/util.o
->>   HOSTCC  scripts/kconfig/lexer.lex.o
->>   HOSTCC  scripts/kconfig/parser.tab.o
->>   HOSTLD  scripts/kconfig/conf
->> *
->> * Restart config...
->> *
->> ...
->> Error in reading or end of file.
->> make[3]: *** [scripts/kconfig/Makefile:77: syncconfig] Error 1
->> ...
->>
->> We have been doing this for some time and never run across an infinite
->> loop in syncconfig. Can this be improved?
-> 
-> In Linux, most int/hex entries have a default,
-> hence there is no practical issue.
 
-I agree. I never met such case in Linux but only on downstream kbuild user (u-boot in this case).
+Daniel Walker (8):
+  CMDLINE: add generic builtin command line
+  scripts: insert-sys-cert: add command line insert capability
+  scripts: insert-sys-cert: change name to insert-symbol
+  CMDLINE: mips: convert to generic builtin command line
+  drivers: firmware: efi: libstub: enable generic commandline
+  CMDLINE: x86: convert to generic builtin command line
+  of: replace command line handling
+  CMDLINE: arm64: convert to generic builtin command line
 
-> I will drop this for now.
+ arch/arm64/Kconfig                            |  33 +--
+ arch/arm64/include/asm/setup.h                |   4 +
+ arch/arm64/include/uapi/asm/setup.h           |   2 +
+ arch/arm64/kernel/idreg-override.c            |   9 +-
+ arch/arm64/kernel/pi/kaslr_early.c            |  14 +-
+ arch/mips/Kconfig                             |   4 +-
+ arch/mips/Kconfig.debug                       |  44 ----
+ arch/mips/configs/ar7_defconfig               |  12 +-
+ arch/mips/configs/bcm47xx_defconfig           |  10 +-
+ arch/mips/configs/bcm63xx_defconfig           |  21 +-
+ arch/mips/configs/bmips_be_defconfig          |  17 +-
+ arch/mips/configs/bmips_stb_defconfig         | 139 ++++------
+ arch/mips/configs/ci20_defconfig              |   8 +-
+ arch/mips/configs/cu1000-neo_defconfig        |  19 +-
+ arch/mips/configs/cu1830-neo_defconfig        |  19 +-
+ arch/mips/configs/generic_defconfig           |  15 +-
+ arch/mips/configs/gpr_defconfig               |  33 +--
+ arch/mips/configs/loongson3_defconfig         |  29 +--
+ arch/mips/include/asm/setup.h                 |   2 +
+ arch/mips/kernel/relocate.c                   |  17 +-
+ arch/mips/kernel/setup.c                      |  36 +--
+ arch/mips/pic32/pic32mzda/early_console.c     |   2 +-
+ arch/mips/pic32/pic32mzda/init.c              |   3 +-
+ arch/x86/Kconfig                              |  44 +---
+ arch/x86/kernel/setup.c                       |  18 +-
+ .../firmware/efi/libstub/efi-stub-helper.c    |  29 +++
+ drivers/firmware/efi/libstub/efi-stub.c       |   9 +
+ drivers/firmware/efi/libstub/efistub.h        |   1 +
+ drivers/firmware/efi/libstub/x86-stub.c       |  14 +-
+ drivers/of/fdt.c                              |  22 +-
+ include/linux/cmdline.h                       | 137 ++++++++++
+ init/Kconfig                                  |  79 ++++++
+ lib/Kconfig                                   |   4 +
+ lib/Makefile                                  |   3 +
+ lib/generic_cmdline.S                         |  53 ++++
+ lib/test_cmdline1.c                           | 139 ++++++++++
+ scripts/Makefile                              |   2 +-
+ .../{insert-sys-cert.c => insert-symbol.c}    | 243 ++++++++++++------
+ 38 files changed, 807 insertions(+), 482 deletions(-)
+ create mode 100644 include/linux/cmdline.h
+ create mode 100644 lib/generic_cmdline.S
+ create mode 100644 lib/test_cmdline1.c
+ rename scripts/{insert-sys-cert.c => insert-symbol.c} (72%)
 
-Okay!
-
-> I will send an alternative solution.
-
-Please tell me how I can help!
-
-For what it's worth the v2 of this patch[0] tried to exit *only* where the infinite loop would start.
-I've just tested it, it allows tuxmake to run smoothly and avoids the infinite loop in case of a hex config without a valid default value.
-
-[0]:https://lore.kernel.org/lkml/20230805095709.6717-1-yoann.congal@smile.fr/
-
-Regards,
 -- 
-Yoann Congal
-Smile ECS
+2.39.2
+
