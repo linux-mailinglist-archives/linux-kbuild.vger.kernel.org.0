@@ -2,154 +2,173 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BBB007E779F
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Nov 2023 03:40:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EC09E7E782B
+	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Nov 2023 04:41:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229795AbjKJCk2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 9 Nov 2023 21:40:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49076 "EHLO
+        id S1345800AbjKJDlM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 9 Nov 2023 22:41:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38174 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229632AbjKJCk1 (ORCPT
+        with ESMTP id S234897AbjKJDlL (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 9 Nov 2023 21:40:27 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D17D5270E;
-        Thu,  9 Nov 2023 18:40:25 -0800 (PST)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDA8EC433C7;
-        Fri, 10 Nov 2023 02:40:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-        s=korg; t=1699584025;
-        bh=oK/F0THfOnSL0dIVkI2dvSL2cmYdL74DCbYIUCPytVY=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=IYkK6ZugBoRE3kStmDD3GmhR9zqm8yZ3vHUbGYoOCSlruwYI7ljkYjxSGlsrcD8QQ
-         +HhHewygGeQvmOhB2RmnhHG//frOWRgIX3mOclFbvf9K+eDmzSdmzcGHyzLZWfRmXI
-         9GwjAQNlb6HVnqzAiwtQmJ6R3vAhvrJJdXMqjVAg=
-Date:   Thu, 9 Nov 2023 18:40:24 -0800
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     "Daniel Walker (danielwa)" <danielwa@cisco.com>
-Cc:     Will Deacon <will@kernel.org>,
+        Thu, 9 Nov 2023 22:41:11 -0500
+Received: from gandalf.ozlabs.org (mail.ozlabs.org [IPv6:2404:9400:2221:ea00::3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C31A92D6B;
+        Thu,  9 Nov 2023 19:41:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
+        s=201909; t=1699587663;
+        bh=YOCyMuYL5I88d66lN6C2ldLGMCIsUO0ppwylpN45zyo=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=Wn9r2B2oowVuwO3Zl60Sr9Z7DSIDr8i4EJteomcnu3WFRku9t2zjeGtWw/AfYoOq5
+         XerWwP5hl6W2IDQ5oXo+OZXfKtozNy1mBrujHuJp4zzE9/45aaZipxAREYXOxgQXjR
+         xx19dsVEjqqJPfYy9EFUE6ihgIPQKmEaihSxSFNcCQ/L/9u8gV3yA/STX7nGjo0Ay1
+         OCJMdsK73uaxkAAVAiTIRUL555Hy0+R21BiuN73bxY9L0vGIsep9+GApy/PVgwZ/He
+         2F3mvN8a7FGyoZXJ8CxS3uCxTiW7jZu6MLPM2TNQPrzMidLoukJmFiTgUaJ+eTYqfU
+         wzdmlm/HPhRgQ==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mail.ozlabs.org (Postfix) with ESMTPSA id 4SRPjy5kW7z4x2W;
+        Fri, 10 Nov 2023 14:40:54 +1100 (AEDT)
+From:   Michael Ellerman <mpe@ellerman.id.au>
+To:     kernel test robot <lkp@intel.com>, Arnd Bergmann <arnd@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org
+Cc:     oe-kbuild-all@lists.linux.dev,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Matt Turner <mattst88@gmail.com>,
+        Vineet Gupta <vgupta@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Guo Ren <guoren@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Greg Ungerer <gerg@linux-m68k.org>,
+        Michal Simek <monstr@monstr.eu>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Dinh Nguyen <dinguyen@kernel.org>,
+        Nicholas Piggin <npiggin@gmail.com>,
         Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Rob Herring <robh@kernel.org>,
-        Daniel Gimpelevich <daniel@gimpelevich.san-francisco.ca.us>,
-        Pratyush Brahma <quic_pbrahma@quicinc.com>,
-        Tomas Mudrunka <tomas.mudrunka@gmail.com>,
-        Sean Anderson <sean.anderson@seco.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
-        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        "linux-efi@vger.kernel.org" <linux-efi@vger.kernel.org>
-Subject: Re: [PATCH 0/8] generic command line v6
-Message-Id: <20231109184024.80bfe8119da8c99b4737f31d@linux-foundation.org>
-In-Reply-To: <ZU2T3VPYosP+ZR1b@goliath>
-References: <20231110013817.2378507-1-danielwa@cisco.com>
-        <20231109175142.49428d5f51325680764663bf@linux-foundation.org>
-        <ZU2T3VPYosP+ZR1b@goliath>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        Geoff Levand <geoff@infradead.org>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+        Andy Lutomirski <luto@kernel.org>
+Subject: Re: [PATCH 17/22] powerpc: ps3: move udbg_shutdown_ps3gelic prototype
+In-Reply-To: <202311090843.b8ISrsV1-lkp@intel.com>
+References: <20231108125843.3806765-18-arnd@kernel.org>
+ <202311090843.b8ISrsV1-lkp@intel.com>
+Date:   Fri, 10 Nov 2023 14:40:51 +1100
+Message-ID: <87h6lu8ed8.fsf@mail.lhotse>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, 10 Nov 2023 02:22:27 +0000 "Daniel Walker (danielwa)" <danielwa@cisco.com> wrote:
+kernel test robot <lkp@intel.com> writes:
+> Hi Arnd,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on linus/master]
+> [also build test ERROR on next-20231108]
+> [cannot apply to v6.6]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Arnd-Bergmann/ida-make-ida_dump-static/20231109-005742
+> base:   linus/master
+> patch link:    https://lore.kernel.org/r/20231108125843.3806765-18-arnd%40kernel.org
+> patch subject: [PATCH 17/22] powerpc: ps3: move udbg_shutdown_ps3gelic prototype
+> config: powerpc64-randconfig-001-20231109 (https://download.01.org/0day-ci/archive/20231109/202311090843.b8ISrsV1-lkp@intel.com/config)
+> compiler: powerpc64-linux-gcc (GCC) 13.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231109/202311090843.b8ISrsV1-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202311090843.b8ISrsV1-lkp@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>    arch/powerpc/platforms/ps3/gelic_udbg.c:59:1: warning: alignment 1 of 'struct debug_block' is less than 32 [-Wpacked-not-aligned]
+>       59 | } __packed;
+>          | ^
+>>> arch/powerpc/platforms/ps3/gelic_udbg.c:240:6: error: redefinition of 'udbg_shutdown_ps3gelic'
+>      240 | void udbg_shutdown_ps3gelic(void)
+>          |      ^~~~~~~~~~~~~~~~~~~~~~
+>    In file included from arch/powerpc/platforms/ps3/gelic_udbg.c:17:
+>    arch/powerpc/include/asm/ps3.h:520:20: note: previous definition of 'udbg_shutdown_ps3gelic' with type 'void(void)'
+>      520 | static inline void udbg_shutdown_ps3gelic(void) {}
+>          |                    ^~~~~~~~~~~~~~~~~~~~~~
 
-> On Thu, Nov 09, 2023 at 05:51:42PM -0800, Andrew Morton wrote:
-> > On Thu,  9 Nov 2023 17:38:04 -0800 Daniel Walker <danielwa@cisco.com> wrote:
-> > 
-> > > This release is an up-rev of the v5 patches. No additional features have
-> > > been added. Some changes were mode to function names and some changes to
-> > > Kconfig dependencies. Also updated the config conversion for mips.
-> > > 
-> > > There are a number of people who have expressed interest in these
-> > > patches either by asking for them to be merge or testing them. If
-> > > people are so inclined please continue to request them to be merge
-> > > or to ask the status of the next release. It's helpful to motivate me to
-> > > release them again and for the maintainers to see the interest
-> > > generated.
-> > > 
-> > > These patches have been used by Cisco Systems, Inc. on millions of
-> > > released products to great effect. Hopefully they can be used by the
-> > > entire Linux eco system.
-> > > 
-> > 
-> > fyi, none of the above is suitable for a [0/N] changelog - it's all
-> > transitory stuff which tells readers nothing much about what the
-> > patchset does.
->  
-> I did not think about it this way. It's because I've submitted this so many
-> times. I guess I assume everyone knows what it is.
+As pointed out by Arnd this is due to there being two symbols that
+control the gelic_udbg.c code.
 
-This is all on the path to the mainline git history.  Think about how
-we want it presented to future readers.  10 years from now nobody will
-remember the v5 series email spray.
+I don't see the need for PS3GELIC_UDBG, without PPC_EARLY_DEBUG_PS3GELIC
+it just causes gelic_udbg.c to be built, but never called.
 
-> 
-> > In [1/8] I see "Even with mips and powerpc enhancement the needs of
-> > Cisco are not met on these platforms" and "This unified implementation
-> > offers the same functionality needed by Cisco on all platform which we
-> > enable it on".
-> > 
-> > Well OK, what are these needs?   What functionality changes does this
-> > patchset offer which Cisco finds useful?  IOW, what were the
-> > requirements?  What's wrong with the old code and how does this
-> > patchset fix/enhance that?
-> 
-> The limitation is that you can't append and prepend to the command line at the
-> same time in any of the architectures. Having access to both allows OEMs to deal
-> with broken bootloaders which can't easily be upgraded.
+The diff below fixes the error AFAICS.
 
-I would never ever have guessed that from the emails I received!
+I can just fold it in if you're happy with that Arnd.
 
-> Others have responded
-> that they also use these patches for this same reason.
+diff --git a/arch/powerpc/Kconfig.debug b/arch/powerpc/Kconfig.debug
+index ea4033abc07d..8c80b154e814 100644
+--- a/arch/powerpc/Kconfig.debug
++++ b/arch/powerpc/Kconfig.debug
+@@ -271,7 +271,6 @@ config PPC_EARLY_DEBUG_USBGECKO
+ config PPC_EARLY_DEBUG_PS3GELIC
+ 	bool "Early debugging through the PS3 Ethernet port"
+ 	depends on PPC_PS3
+-	select PS3GELIC_UDBG
+ 	help
+ 	  Select this to enable early debugging for the PlayStation3 via
+ 	  UDP broadcasts sent out through the Ethernet port.
+diff --git a/arch/powerpc/platforms/ps3/Kconfig b/arch/powerpc/platforms/ps3/Kconfig
+index a44869e5ea70..e9c1087dd42e 100644
+--- a/arch/powerpc/platforms/ps3/Kconfig
++++ b/arch/powerpc/platforms/ps3/Kconfig
+@@ -167,16 +167,4 @@ config PS3_LPM
+ 	  profiling support of the Cell processor with programs like
+ 	  perfmon2, then say Y or M, otherwise say N.
+ 
+-config PS3GELIC_UDBG
+-	bool "PS3 udbg output via UDP broadcasts on Ethernet"
+-	depends on PPC_PS3
+-	help
+-	  Enables udbg early debugging output by sending broadcast UDP
+-	  via the Ethernet port (UDP port number 18194).
+-
+-	  This driver uses a trivial implementation and is independent
+-	  from the main PS3 gelic network driver.
+-
+-	  If in doubt, say N here.
+-
+ endmenu
+diff --git a/arch/powerpc/platforms/ps3/Makefile b/arch/powerpc/platforms/ps3/Makefile
+index 86bf2967a8d4..bc79bb124d1e 100644
+--- a/arch/powerpc/platforms/ps3/Makefile
++++ b/arch/powerpc/platforms/ps3/Makefile
+@@ -3,7 +3,7 @@ obj-y += setup.o mm.o time.o hvcall.o htab.o repository.o
+ obj-y += interrupt.o exports.o os-area.o
+ obj-y += system-bus.o
+ 
+-obj-$(CONFIG_PS3GELIC_UDBG) += gelic_udbg.o
++obj-$(CONFIG_PPC_EARLY_DEBUG_PS3GELIC) += gelic_udbg.o
+ obj-$(CONFIG_SMP) += smp.o
+ obj-$(CONFIG_SPU_BASE) += spu.o
+ obj-y += device-init.o
 
-Citing this info in the [0/N] would be useful.
 
-> In 2/8 and 3/8 I modify the insert-sys-cert tool to allow modification of the
-> command line append and prepend after the build. This allow for an SDK
-> provided with a binary kernel and for the command line append/prepend to still
-> be modified identically to how that's done with certificates.
-
-And this.
-
-> Making all this generic means each platform has a unified set of command line
-> services. Cisco uses x86/arm32/arm64/mips/powerpc , and it's nice to have all
-> the same features across platforms.
-
-Sounds good.
-
-> > 
-> > I see the patchset updates nothing under Documentation/.  Should it do
-> > so?  Could it do so?
-> 
-> The only documentation is Kconfig descriptions and commit messages. I suppose it
-> could have something under Documentation/. The only part which could use more
-> documentation are the changes in 2/8 and 3/8. That feature is maybe confusing
-> and has limitations which are maybe not clear. Although the same limitation exist for
-> inserting certificates.
-
-Perhaps the new functionality could be described in
-Documentation/admin-guide/kernel-parameters.rst
-
-> > 
-> > I don't know what is the expected merge patch for this work.  I can
-> > grab them if no other maintainer is in the firing line.
-> 
-> merge patch ?
-
-"path", sorry.
-
-> Do you mean merge description ? I think your the maintainer in the
-> firing line for this one.
-
-OK.  
+cheers
