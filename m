@@ -1,71 +1,106 @@
-Return-Path: <linux-kbuild+bounces-12-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-13-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05C917E82BE
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Nov 2023 20:35:23 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 960607E83D8
+	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Nov 2023 21:34:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B5C1B281486
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Nov 2023 19:35:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 36EAE1F20F21
+	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Nov 2023 20:34:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BA8A3B2B2;
-	Fri, 10 Nov 2023 19:35:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7573F1D53E;
+	Fri, 10 Nov 2023 20:34:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="QWIAULOH"
+	dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b="kc4eUhHS"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E0783B28F;
-	Fri, 10 Nov 2023 19:35:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A15FFC433CA;
-	Fri, 10 Nov 2023 19:35:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1699644910;
-	bh=a8twNFEKjGrKBxbdq191jaAma5+5cbZZWFE+Q6SHfO4=;
-	h=Date:From:To:Subject:References:In-Reply-To:From;
-	b=QWIAULOHfuC4ewTV3HG2pnrPYVTcQmHYctffbQR65o8lGEafhP0RAYM3fCRSz3VWw
-	 j3ZPD3GePpQS36hL6HkQa1TKqTCL/mCNrYH3Lj3P6TSLxNDktFoc/fMvZzWXnn4RGa
-	 MsHKSj90uf6JkRds+DIZYTZqnsoLyFU3BriaM6sE=
-Date: Fri, 10 Nov 2023 14:35:09 -0500
-From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To: linux-embedded@vger.kernel.org, linux-ext4@vger.kernel.org, 
-	linux-fbdev@vger.kernel.org, linux-fpga@vger.kernel.org, linux-fscrypt@vger.kernel.org, 
-	linux-gcc@vger.kernel.org, linux-gpio@vger.kernel.org, linux-hams@vger.kernel.org, 
-	linux-hexagon@vger.kernel.org, linux-hotplug@vger.kernel.org, linux-hwmon@vger.kernel.org, 
-	linux-i2c@vger.kernel.org, linux-ia64@vger.kernel.org, linux-ide@vger.kernel.org, 
-	linux-iio@vger.kernel.org, linux-input@vger.kernel.org, linux-integrity@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org, linux-leds@vger.kernel.org, 
-	linux-m68k@vger.kernel.org, linux-man@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-mmc@vger.kernel.org, linux-msdos@vger.kernel.org
-Subject: Re: PSA: This list is being migrated (no action required)
-Message-ID: <3dfzeofvzxqk4yuyoancdanbxzpw5udmvbdz3b2mdwejwbnhk2@7y56nwlj3rgp>
-References: <cfriwrxovqzcrptf74ccq52lcqj2nsergucufsz6wlh45fdnz3@z5e5y2lowbq2>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41B0F3B798
+	for <linux-kbuild@vger.kernel.org>; Fri, 10 Nov 2023 20:34:37 +0000 (UTC)
+Received: from smtp4-g21.free.fr (smtp4-g21.free.fr [IPv6:2a01:e0c:1:1599::13])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6507D272C
+	for <linux-kbuild@vger.kernel.org>; Fri, 10 Nov 2023 12:34:35 -0800 (PST)
+Received: from webmail.free.fr (unknown [172.20.246.2])
+	(Authenticated sender: vivien.gallinaro@free.fr)
+	by smtp4-g21.free.fr (Postfix) with ESMTPA id 2746219F5AF;
+	Fri, 10 Nov 2023 21:34:30 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=free.fr;
+	s=smtp-20201208; t=1699648473;
+	bh=6D7bLP7ZPujkMNWR06qz0Yrd27QuA9ckxsiMx3/JYYg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=kc4eUhHSz1DvO2Ur7WVfOBN+54WP+E8pROWu+TQXLEYZErdESGQM/MY0HXuk9bnLE
+	 vsSXcvjyTGGjLL7HyjduyqfWgElARerv5gcJvq3LeZvmWf1IyZQeDC1pXQFJcJsiJH
+	 nEZhzyWI3paqPgl6iJKLbb+guyzf/KknEcfxcl2X00+8jwts680tlAj8p7cXnpEDBS
+	 9jhH7EpM0cxdO6cINM3O8e/kzIqYSm18p6/br4ksq42Y5fzqkyKP7vGX6egSMxVWRM
+	 E8DgQIAtzNhECTjNBvVb/T1IydVWjneKU3A9t14BFfVa9todiWh9uRwsgkbtHfUu0D
+	 uTVGnR+PMFBOQ==
+Received: from 2a01:e0a:2b0:9080:1e01:8392:432:b1d
+ via 2a01:e0a:2b0:9080:1e01:8392:432:b1d
+ by webmail.free.fr
+ with HTTP (HTTP/1.0 POST); Fri, 10 Nov 2023 21:34:30 +0100
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <cfriwrxovqzcrptf74ccq52lcqj2nsergucufsz6wlh45fdnz3@z5e5y2lowbq2>
+Date: Fri, 10 Nov 2023 21:34:30 +0100
+From: Vivien Gallinaro <vivien.gallinaro@free.fr>
+To: linux-kbuild@vger.kernel.org
+Cc: Jesse T <mr.bossman075@gmail.com>, Masahiro Yamada
+ <masahiroy@kernel.org>, Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: SymSearch can cause make nconfig to segfault
+In-Reply-To: <1aab6cfd-1b87-42a8-9beb-02073bdf9add@infradead.org>
+References: <5ec262711df2f3d3ccd84930ed4e9778@free.fr>
+ <CAJFTR8Sfea5gCpYA+Xb5vAz=0nemrQNxSf5BFeD0jM+YfagpmA@mail.gmail.com>
+ <1aab6cfd-1b87-42a8-9beb-02073bdf9add@infradead.org>
+User-Agent: Webmail Free/1.6.5
+Message-ID: <0cdc8c536da1e4bf5d7bae311c759f21@free.fr>
+X-Sender: vivien.gallinaro@free.fr
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Fri, Nov 10, 2023 at 01:51:44PM -0500, Konstantin Ryabitsev wrote:
-> This list is being migrated to new vger infrastructure. No action is required
-> on your part and there will be no change in how you interact with this list
-> after the migration is completed.
+
+On 11/8/23, Randy Dunlap wrote:
+> On 11/7/23, Jesse T wrote:
+>> On 11/7/23 Vivien Gallinaro wrote:
+>>> 
+>>> For a fresh 6.6 kernel :
+>>> $ cd linux-6.6
+>>> $ make mrproper
+>>> $ make nconfig 2>../blarb
+>>> (<F8> x86 <enter>)
+>>> $ reset
+>> 
+>> I'm assuming "reset" here means you got put back into your shell and 
+>> are
+>> resetting the terminal state.
+
+Exactly.
+
+>> I can not recreate this error on my machine unfortunately are you
+>> using the tar release?
+>> What distro are you using?
+
+Gentoo, but checking with the (then) stable 6.6 tarball.
+
+> I also cannot recreate this issue.
+> FWIW.
 > 
-> There will be a short 30-minute delay to the list archives on lore.kernel.org.
-> Once the backend work is done, I will follow up with another message.
+> More info needed.
 
-This work is completed now. This message acts as a test to make sure archives
-are working at their new place.
+That was good news. I tried to investigate a little deeper with strace, 
+gdb… a little too deep for me actually. Then I eventually remembered: 
+even though my install is pretty fresh, I've been a bit sloppy on 
+maintenance, leaving one stuff to the side to catter to another, a few 
+times over. One global update later — meaning I only have /usr/src in a 
+corny state, now — I don't get the segfault either. Sorry, pebkac.
 
-If anything is not working or looking right, please reach out to
-helpdesk@kernel.org.
+Thanks for your time,
+VG
 
--K
 
