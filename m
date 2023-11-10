@@ -2,82 +2,79 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F17AA7E769F
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Nov 2023 02:39:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 38CD87E76A7
+	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Nov 2023 02:39:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345476AbjKJBj0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 9 Nov 2023 20:39:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40260 "EHLO
+        id S1345679AbjKJBje (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 9 Nov 2023 20:39:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229491AbjKJBjZ (ORCPT
+        with ESMTP id S1345647AbjKJBjc (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 9 Nov 2023 20:39:25 -0500
-X-Greylist: delayed 62 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 09 Nov 2023 17:39:22 PST
-Received: from rcdn-iport-1.cisco.com (rcdn-iport-1.cisco.com [173.37.86.72])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E723444A4;
-        Thu,  9 Nov 2023 17:39:22 -0800 (PST)
+        Thu, 9 Nov 2023 20:39:32 -0500
+Received: from rcdn-iport-5.cisco.com (rcdn-iport-5.cisco.com [173.37.86.76])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BD2144BE;
+        Thu,  9 Nov 2023 17:39:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=cisco.com; i=@cisco.com; l=3762; q=dns/txt; s=iport;
-  t=1699580363; x=1700789963;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=PtUp1GjfEwZS61DxzSRMFo9GD7QWcRxAdJGBMTXDcM0=;
-  b=CHJNTpVfqbPEflg+O6phpSNh0QOXm5wE1W5tLaNTfGH7e2TBUAyr+Ft8
-   SteOPYyT+L6f6ROCXUCsomQwBQjfd/FD97smCNwfJezOf4zPtG0x2B6yN
-   ihm+mFd2d47xGicvnR4wbqRHoOcdnIvtgUoMSaXG7W3FVx1flRah8n7tm
-   4=;
-X-CSE-ConnectionGUID: Tg5rtsM1RzKj3gJducQSPg==
-X-CSE-MsgGUID: 2YLxlXJiRgOPNW/RlT7pzw==
-X-IPAS-Result: =?us-ascii?q?A0ANAADbh01lmJtdJa1aHAEBAQEBAQcBARIBAQQEAQGBe?=
- =?us-ascii?q?wcBAQsBhAdAjTenQ4F+DwEBAQ9EBAEBhQaHKAImNAkOAQIEAQEBAQMCAwEBA?=
- =?us-ascii?q?QEBAQECAQEFAQEBAgEHBBQBAQEBAQEBAR4ZBRAOJ4V1hwUBRoE+AYMQgl8Dr?=
- =?us-ascii?q?VeCLIEBsyiBaIFIAYxDgR6ENScbgUlEhAeLfASJJQcygUlZg1KDD4o8f0daF?=
- =?us-ascii?q?h0DBwNWKRArBwQtIgYJFC0jBlEEFxEkCRMSPgSDNAp/Pw8OEYI/IgI9NhlIg?=
- =?us-ascii?q?lsVQARGdhAqBBQXgRJuGxUeNxESFw0DCHQdAhEjPAMFAwQzChINCyEFFEIDQ?=
- =?us-ascii?q?gZJCwMCGgUDAwSBNgUNHgIQLScDAxNNAhAUAzsDAwYDCzEDMFVEDFEDbx8aH?=
- =?us-ascii?q?Ak8DwwfAhseDScoAjVDAxEFEgIWAyQZBEUDCQMHBUlAAwsYDUgRLDUGDhsGP?=
- =?us-ascii?q?3MHoGJyAS1igTCUODKPBIIdoEeEF4FfnyoaM4QBjHOZD5g/IKMJhSiBYzqBW?=
- =?us-ascii?q?zMaCBsVgyNRGQ+OOZMbAV0jbQIHCwEBAwmLSgEB?=
-IronPort-Data: A9a23:xFsu3a1wctyYQEMMyPbD5aJ3kn2cJEfYwER7XKvMYLTBsI5bpzZWz
- mUXX2DXPvfZZmqhLtojO43goB8A6pbVztZhSAtu3Hw8FHgiRegpqji6wuYcGwvIc6UvmWo+t
- 512huHodZ1yFjmE4E71btANlFEkvYmQXL3wFeXYDS54QA5gWU8JhAlq8wIDqtYAbeORXUXV4
- rsen+WFYAX+gmctajpNg06+gEoHUMra6WtwUmMWPZinjHeG/1EJAZQWI72GLneQauG4ycbjG
- o4vZJnglo/o109F5uGNy94XQWVWKlLmBjViv1INM0SUbreukQRpukozHKJ0hU66EFxllfgpo
- DlGncTYpQvEosQglcxFOyS0HR2SMoV69+LdPWOa6PaB7E+dfFng3v5XN3k5aNhwFuZfWQmi9
- NQCIzwLKxuEne/znPSwS/JngYIoK8yD0IE34y47i2qGS6d9B8meHs0m5vcAtNs0rsxHG/fTY
- 9UQQTFudx/HJRZIPz/7Dbpnx7v41iWuImMwRFS9/5sT82zj7g1L35/VFuWSQNi2Gt1HgRPNz
- o7B1z2pXk5FXDCF8hKB83SxlqrCkyLTRo0fDvu7++RsjVnVwXYcYDUSVF2msby6gFO/X953N
- UMZ4GwtoLI0+UjtScPyNzW0rWCFtRMAQdddO/M15RvLyafO5QudQG8eQVZpbN0gqd9zRjEw0
- FKNt83mCCYps7CPT3+ZsLCOoluaPSkTMH9HbDUBCAgI+d/upKk3jwnTVZBiFqCvh9H4ED22x
- CqFxAA4hr4UiccQ/6u59EvDjnShu/DhSAI4/QzKWmSk4xliTIGiYIOs5B7Q6vMoBICQUlmIu
- lAHltKY4eRICouC/ASNWOwlDqC14OzDOzrZ6XZrHp885yy18DuvcJ545DBlOFwvNdQAcDXyJ
- kjJtmt54J5VIWvvaK5veKqvBMkwi6vtD9LoUrbTdNUmSoghKieE8TtoaErW2Hri+GA3nKg5f
- 56dfcu2FnEcIb9qxz3wTOAYuZc3wSU33iXWWJzh0hKk2JKRYXeUTfEON17mRvkk7aizuA/P+
- tZaPuOT1hRUUev1JCLQ9OY7JFMSKFA/BJbru4lZcfOFLgN6GWYnTfjLztsJd4VjnqlRvujJ+
- 2mwXkJGyVH/w2bOL0CEcHllY7L0VpE5pnt9IDdEFUyv0XgLYou16qobMZwtctEP/+x5zOVoS
- OEFdoOED+5IWxzM4DsHaoTl6oF/HDy0hAaKFymoej4ye9hnXQOhxzP/VhHk+C9LBS2tuI5i5
- bahzQjcB5EEQmyOEfo6dtqTwA6roWM4wdhgfEmTLftfZU7Vy7BlfnmZYuAMH+kALhDKxz2/3
- gmQAAsFqeSln2PT2ISX7Uxjh9r0e9aSDna2DEGAsunrbXiyEn6LhN4fALzRLFgxQUutoP36D
- di52c0QJxHuobqnm5B3H7AuxqUk6p6z4bRb1Q9jWn7MajxH64+MwFHYgaGjVYUUm9e1XDdav
- GrTprG23p3VYKvY/KY5flZNUwh6/ah8dsPuxfo0Ol7mwyR84aCKV05fVzHV1n0MceYpbt91m
- rh90CLz1+BZokRzWjphpn4Mn1lg0lRcO0nanshAWdSy2lZDJq9qO8CGVEcaH61jm/0VYhV1f
- Vd4dYLJhq9XwQLZYmEvGH3WtdexdrxQ0C2mOGQqfgzT8vKc36df9EQIoVwfEF8Ppj0ZiL0bB
- 4SeHxAvTUl412021JErsqHFM1wpOSB1DWSokAtRyD2GHxX4PoEPRUVkUduwEIki2zo0VlBmE
- HuwkQ4JjR6CkBnN4xYP
-IronPort-HdrOrdr: A9a23:1pk2VKypleQTi517Rul2KrPwJb1zdoMgy1knxilNoNJuHvBw8P
- re/sjzuiWbtN98YhsdcLO7Scq9qA3nlKKdiLN5VdyftWLd11dAQrsO0WKb+V3d8+mUzJ846U
- +mGJIObeHNMQ==
-X-Talos-CUID: =?us-ascii?q?9a23=3A/Eqiz2mXSOSCeZI2EUGthTci2VnXOUHSkW3MOGr?=
- =?us-ascii?q?hM3RKSuaaa1ON85pfq8U7zg=3D=3D?=
-X-Talos-MUID: 9a23:xtDHAwvI7ZhpOKvHds2n3gBGJMNYwaWUB2c1t6pBgc24ajRiJGLI
+  d=cisco.com; i=@cisco.com; l=1933; q=dns/txt; s=iport;
+  t=1699580367; x=1700789967;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=c/Q35i8hpBkyhFgxIzufstblbWRm7GVHZuKP0zbOYiw=;
+  b=eIUvkAcz3Zf3aewzoludFTUSjqNGy/3qPf+Ln7RhLI6IaZjU5ywa/iD+
+   yD5NfCvR9aNvUJb6DAnYHWUpiwFcC0njqyBXpoh/NUGAJaAiwE7MDwLzH
+   IrGtZtJJ7LVdS5R5b3awjau8PujquzOPwbI/Hu8C372RMHHrU6FfL2su0
+   s=;
+X-CSE-ConnectionGUID: AFTc024tQGuMjV+1t9ZQ5w==
+X-CSE-MsgGUID: eo+cn697Sr+idbU1lrqE9A==
+X-IPAS-Result: =?us-ascii?q?A0APAABsiE1lmJtdJa1aHAEBAQEBAQcBARIBAQQEAQGBe?=
+ =?us-ascii?q?wcBAQsBhAdASIxvp0OBJQNWDwEBAQ9EBAEBghKCdAKHJgImNAkOAQIEAQEBA?=
+ =?us-ascii?q?QMCAwEBAQEBAQECAQEFAQEBAgEHBBQBAQEBAQEBAR4ZBRAOJ4V1hk0DAzIBR?=
+ =?us-ascii?q?hBRVwYBEoJ+gl8DrViCLIEBsyiBaBiBMAGMQ4EehDUnG4FJRIQHdosGBIklB?=
+ =?us-ascii?q?zIJghmDUoI5A4sPf0daFh0DBwNWKRArBwQtIgYJFC0jBlEEFxEkCRMSPgSBY?=
+ =?us-ascii?q?4FRCn8/Dw4Rgj8iAj02GUiCWxVABEZ2ECoEFBeBEm4bFR43ERIXDQMIdB0CE?=
+ =?us-ascii?q?SM8AwUDBDMKEg0LIQUUQgNCBkkLAwIaBQMDBIE2BQ0eAhAtJwMDE00CEBQDO?=
+ =?us-ascii?q?wMDBgMLMQMwVUQMUQNvHxocCTwPDB8CGx4NJygCNUMDEQUSAhYDJBkERQMJA?=
+ =?us-ascii?q?wcFSUADCxgNSBEsNQYOGwY/cwehVAGBDgGlHoIdoEeEF4FfnyoaM4QBpgKYP?=
+ =?us-ascii?q?yCCL6YCgWM6gVszGggbFYMiUhkPjjmTGwFdIzI7AgcLAQEDCYtKAQE?=
+IronPort-Data: A9a23:YhR/LK6v4m6WYqedano87wxRtKPAchMFZxGqfqrLsTDasY5as4F+v
+ mUWCmDQafaMamP3ed8iYNjlp0hTu8TQztBjHVdtrXszZn8b8sCt6fZ1gavT04J+CuWZESqLO
+ u1HMoGowPgcFyKa/lH1dOG58RGQ7InQLpLkEunIJyttcgFtTSYlmHpLlvUw6mJSqYDR7zil5
+ 5Wq+KUzBHf/g2QvaztNs/rawP9SlK2aVA0w7wRWic9j5Dcyp1FNZLoDKKe4KWfPQ4U8NoZWk
+ M6akdlVVkuAl/scIovNfoTTKyXmcZaOVeS6sUe6boD56vR0SoPe5Y5gXBYUQR8/ZzxkBLmdw
+ v0V3XC7YV9B0qEhBI3xXjEAexySM5Gq95fuD0S06ZbP03Tpbl7u/bY3EBAEBNAHr7Mf7WFmr
+ ZT0KRgXZRyFwumx2r/+Fq9nh98oK4/gO4Z3VnNIlG6CS615B8GYBfyXuLe03x9o7ixKNfrXY
+ csUbSVmRB/BeBZIfFwQDfrSmc/x3SSnKmMD9wz9Sawf7m+QxwovgefWKpnUdta3HMFPh2vJj
+ zeTl4j+KkhKaIPAodafyVqoh+nSjWb4VZgUGbmQ6PFnmhuQy3YVBRlQUkG0ydG9i0ijS5dcI
+ VEV/iYGs6c/7gqoQ8P7Uhn+p2SL1jYaWtFXF+QhwA+Pw7HQ7kCUGwAsSDJMc9U7sMk3SCYx/
+ lCOmNztCHpkt7j9YXSU6redqxuxNDITIGtEYjULJSMA6sLqoIApiQPnTdt5FqOxyNrvFlnYx
+ zGMsTgmn75WgcMV/6G65kzcxTW+opHDVUgy/Aq/dmak6B5pIYukf5eA91fW97BDIZyfQ13Hu
+ 2IL8+COvL4mDpyXkiGJBuIXE9mB/PuMNnvVh1JiBYIm8Ry29nWkO4tX5VlWOEBsO91CfCLle
+ lLVugp565paPX/sZqhyC6qoFsUh+rDqD93lU/n8d8dPaZl3f0mM+yQGTUeTx2XFlEkqjLF6N
+ 5CGd8qlEXcdD+Jg1jXeb+sU174mwggxxGbLSJT20RWs0fyFbXjQR60MNlCPdes+qqiN5hjOm
+ /5FMMGK4xZSSuvzZm/Q64F7BVsKN3kgGZfuq8ERcuOZJRtOE3ouEfjM2fUsZuRNgKVRks/L8
+ 2u7V0sez0Dw7UArMi2QYXxlLbjoR5s68TQwPDcnOhCj3H1LjZuTALk3XrULduF9qPBa4uNRT
+ cdGItnRMM0SVWGSk9gCVqXVoItnfRWtoAuBOSu5fTQyF6KMoSSUpLcImSOyqUEz4jqLWdgW+
+ OL/i1uKKXYXb0EzU5aMMaPHI0aZ5CBFwIpPs130zs6/kXgAHaBwICD3y/QwOcxJdVPIxyCR0
+ ECdBhJwSQjxT20droWhaUOs9trB/w5C8qxyQzWzAVGeaXGyw4Zb6dUcONtkhBiEPI8OxI2sZ
+ P9O09b3O+AdkVBBvuJUSug6nP9ju4Wz9+QFkmyI+UkniXz1U9uMxVHYhaFyWlFlmte1RCPvA
+ BvUo4kGUVl3EJm5SgB5yPUZghSrjKFIxWa6AQUdK0Th7yg/56ucTUhXJHGxZN91ctNI3Hce6
+ b554qY+slXn4jJza4bupn4PrQykcCdfO5jLQ7lHWucHfCJxlAEbCXEdYweriKyyhyJkaxJ6e
+ mPE2/qe19yxBCPqKhIOKJQE5sIF7bxmhfyA5AZqy4ih8jYdusIK4Q==
+IronPort-HdrOrdr: A9a23:6Sa77K7YPMw8nKU2rQPXwPPXdLJyesId70hD6qm+c3Bom6uj5q
+ STdZsguyMc5Ax6ZJhko6HiBEDiewK4yXcK2+gs1N6ZNWGMhILrFvAB0WKI+VLd8kPFm9K1/J
+ 0QFJSWcOeRMbC/5vyKmTVR1L0bsb+6zJw=
+X-Talos-CUID: =?us-ascii?q?9a23=3AJiU6l2lHMvS7/y1q5Sbg/y54HMvXOVTz8HyIeRO?=
+ =?us-ascii?q?kMEl0bb+rCgaMqZFdztU7zg=3D=3D?=
+X-Talos-MUID: 9a23:82mMYwZLviHIteBTujivjzc8ZZhT+eevBEowyJEcouTVHHkl
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.03,291,1694736000"; 
-   d="scan'208";a="134884996"
+   d="scan'208";a="135016376"
 Received: from rcdn-core-4.cisco.com ([173.37.93.155])
-  by rcdn-iport-1.cisco.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 01:38:19 +0000
+  by rcdn-iport-5.cisco.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 01:38:24 +0000
 Received: from goliath.lan ([10.25.128.169])
-        by rcdn-core-4.cisco.com (8.15.2/8.15.2) with ESMTP id 3AA1cHVG011466;
-        Fri, 10 Nov 2023 01:38:17 GMT
+        by rcdn-core-4.cisco.com (8.15.2/8.15.2) with ESMTP id 3AA1cHVJ011466;
+        Fri, 10 Nov 2023 01:38:23 GMT
 From:   Daniel Walker <danielwa@cisco.com>
 To:     Will Deacon <will@kernel.org>,
         Christophe Leroy <christophe.leroy@csgroup.eu>,
@@ -88,98 +85,73 @@ To:     Will Deacon <will@kernel.org>,
         Tomas Mudrunka <tomas.mudrunka@gmail.com>,
         Sean Anderson <sean.anderson@seco.com>, x86@kernel.org,
         linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Nathan Chancellor <nathan@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Nicolas Schier <nicolas@fjasle.eu>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kbuild@vger.kernel.org
-Cc:     linux-efi@vger.kernel.org
-Subject: [PATCH 0/8] generic command line v6
-Date:   Thu,  9 Nov 2023 17:38:04 -0800
-Message-Id: <20231110013817.2378507-1-danielwa@cisco.com>
+        Nicolas Schier <nicolas@fjasle.eu>
+Cc:     xe-linux-external@cisco.com, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 3/8] scripts: insert-sys-cert: change name to insert-symbol
+Date:   Thu,  9 Nov 2023 17:38:07 -0800
+Message-Id: <20231110013817.2378507-4-danielwa@cisco.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20231110013817.2378507-1-danielwa@cisco.com>
+References: <20231110013817.2378507-1-danielwa@cisco.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Auto-Response-Suppress: DR, OOF, AutoReply
 X-Outbound-SMTP-Client: 10.25.128.169, [10.25.128.169]
 X-Outbound-Node: rcdn-core-4.cisco.com
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-This release is an up-rev of the v5 patches. No additional features have
-been added. Some changes were mode to function names and some changes to
-Kconfig dependencies. Also updated the config conversion for mips.
+Since the tool is used to update the command line and/or
+to update the certificates, I think it makes sense to
+changes the name of this tool.
 
-There are a number of people who have expressed interest in these
-patches either by asking for them to be merge or testing them. If
-people are so inclined please continue to request them to be merge
-or to ask the status of the next release. It's helpful to motivate me to
-release them again and for the maintainers to see the interest
-generated.
+Update the name of the tool to better reflect it's new use.
 
-These patches have been used by Cisco Systems, Inc. on millions of
-released products to great effect. Hopefully they can be used by the
-entire Linux eco system.
+Cc: xe-linux-external@cisco.com
+Signed-off-by: Daniel Walker <danielwa@cisco.com>
+---
+ scripts/Makefile                               | 2 +-
+ scripts/{insert-sys-cert.c => insert-symbol.c} | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename scripts/{insert-sys-cert.c => insert-symbol.c} (99%)
 
-My apologies on the length between releases. I will try to release more
-often.
-
-
-Daniel Walker (8):
-  CMDLINE: add generic builtin command line
-  scripts: insert-sys-cert: add command line insert capability
-  scripts: insert-sys-cert: change name to insert-symbol
-  CMDLINE: mips: convert to generic builtin command line
-  drivers: firmware: efi: libstub: enable generic commandline
-  CMDLINE: x86: convert to generic builtin command line
-  of: replace command line handling
-  CMDLINE: arm64: convert to generic builtin command line
-
- arch/arm64/Kconfig                            |  33 +--
- arch/arm64/include/asm/setup.h                |   4 +
- arch/arm64/include/uapi/asm/setup.h           |   2 +
- arch/arm64/kernel/idreg-override.c            |   9 +-
- arch/arm64/kernel/pi/kaslr_early.c            |  14 +-
- arch/mips/Kconfig                             |   4 +-
- arch/mips/Kconfig.debug                       |  44 ----
- arch/mips/configs/ar7_defconfig               |  12 +-
- arch/mips/configs/bcm47xx_defconfig           |  10 +-
- arch/mips/configs/bcm63xx_defconfig           |  21 +-
- arch/mips/configs/bmips_be_defconfig          |  17 +-
- arch/mips/configs/bmips_stb_defconfig         | 139 ++++------
- arch/mips/configs/ci20_defconfig              |   8 +-
- arch/mips/configs/cu1000-neo_defconfig        |  19 +-
- arch/mips/configs/cu1830-neo_defconfig        |  19 +-
- arch/mips/configs/generic_defconfig           |  15 +-
- arch/mips/configs/gpr_defconfig               |  33 +--
- arch/mips/configs/loongson3_defconfig         |  29 +--
- arch/mips/include/asm/setup.h                 |   2 +
- arch/mips/kernel/relocate.c                   |  17 +-
- arch/mips/kernel/setup.c                      |  36 +--
- arch/mips/pic32/pic32mzda/early_console.c     |   2 +-
- arch/mips/pic32/pic32mzda/init.c              |   3 +-
- arch/x86/Kconfig                              |  44 +---
- arch/x86/kernel/setup.c                       |  18 +-
- .../firmware/efi/libstub/efi-stub-helper.c    |  29 +++
- drivers/firmware/efi/libstub/efi-stub.c       |   9 +
- drivers/firmware/efi/libstub/efistub.h        |   1 +
- drivers/firmware/efi/libstub/x86-stub.c       |  14 +-
- drivers/of/fdt.c                              |  22 +-
- include/linux/cmdline.h                       | 137 ++++++++++
- init/Kconfig                                  |  79 ++++++
- lib/Kconfig                                   |   4 +
- lib/Makefile                                  |   3 +
- lib/generic_cmdline.S                         |  53 ++++
- lib/test_cmdline1.c                           | 139 ++++++++++
- scripts/Makefile                              |   2 +-
- .../{insert-sys-cert.c => insert-symbol.c}    | 243 ++++++++++++------
- 38 files changed, 807 insertions(+), 482 deletions(-)
- create mode 100644 include/linux/cmdline.h
- create mode 100644 lib/generic_cmdline.S
- create mode 100644 lib/test_cmdline1.c
- rename scripts/{insert-sys-cert.c => insert-symbol.c} (72%)
-
+diff --git a/scripts/Makefile b/scripts/Makefile
+index 576cf64be667..2d7618fa5d6b 100644
+--- a/scripts/Makefile
++++ b/scripts/Makefile
+@@ -8,10 +8,10 @@ hostprogs-always-$(BUILD_C_RECORDMCOUNT)		+= recordmcount
+ hostprogs-always-$(CONFIG_BUILDTIME_TABLE_SORT)		+= sorttable
+ hostprogs-always-$(CONFIG_ASN1)				+= asn1_compiler
+ hostprogs-always-$(CONFIG_MODULE_SIG_FORMAT)		+= sign-file
+-hostprogs-always-$(CONFIG_SYSTEM_EXTRA_CERTIFICATE)	+= insert-sys-cert
+ hostprogs-always-$(CONFIG_RUST_KERNEL_DOCTESTS)		+= rustdoc_test_builder
+ hostprogs-always-$(CONFIG_RUST_KERNEL_DOCTESTS)		+= rustdoc_test_gen
+ always-$(CONFIG_RUST)					+= target.json
++hostprogs-always-$(CONFIG_SYSTEM_EXTRA_CERTIFICATE)	+= insert-symbol
+ 
+ filechk_rust_target = $< < include/config/auto.conf
+ 
+diff --git a/scripts/insert-sys-cert.c b/scripts/insert-symbol.c
+similarity index 99%
+rename from scripts/insert-sys-cert.c
+rename to scripts/insert-symbol.c
+index 77d3306cfbfb..6866e3a84974 100644
+--- a/scripts/insert-sys-cert.c
++++ b/scripts/insert-symbol.c
+@@ -7,7 +7,7 @@
+  * This software may be used and distributed according to the terms
+  * of the GNU General Public License, incorporated herein by reference.
+  *
+- * Usage: insert-sys-cert [-s <System.map> -b <vmlinux> -c <certfile>
++ * Usage: insert-symbol [-s <System.map> -b <vmlinux> -c <certfile>
+  */
+ 
+ #define _GNU_SOURCE
 -- 
 2.39.2
 
