@@ -1,130 +1,233 @@
-Return-Path: <linux-kbuild+bounces-5-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-9-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B4387E7F0D
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Nov 2023 18:49:29 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D3D07E7F3D
+	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Nov 2023 18:50:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 78B191C20B33
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Nov 2023 17:49:28 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 93D66B22938
+	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Nov 2023 17:50:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAC053C09D;
-	Fri, 10 Nov 2023 17:47:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="AY+Eyy9+";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="FL4aOef4"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C72673E498;
+	Fri, 10 Nov 2023 17:47:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 030D63C69F
-	for <linux-kbuild@vger.kernel.org>; Fri, 10 Nov 2023 17:46:56 +0000 (UTC)
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5AD772AA;
-	Thu,  9 Nov 2023 22:30:46 -0800 (PST)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.west.internal (Postfix) with ESMTP id 3B8D83200AE3;
-	Fri, 10 Nov 2023 01:30:43 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Fri, 10 Nov 2023 01:30:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm3; t=1699597842; x=1699684242; bh=hX
-	qqY4BWR14neNf2OWhT/hoES7tg7nkHkI39Wk4fnR4=; b=AY+Eyy9+TUI2gFefVm
-	OQ2F+8oM4FfGiO6xnl65YXS3uHvP9rtPE8qRzIHpPJbPl8CF7V9cR7SnjJDuGx0W
-	I0BfJQKvddhepAG9h6Lpg99YGKa7/DaTH11t4n/nDaryAY08+jc71UiNKbgxl3EJ
-	JoSpwiluGAgxn9TuseqhcaMdHR3tMMx8OqZ96zVHGM+zQ1nuAtGE/fEU6DaQf5SL
-	sfie5yeHfkWU6ozEjZL/0haGXFXv6FG9mzo2Pkhafqj88hr1XQLGaBRmmgqk1fbM
-	n75g+U6f4zMEBhIV930lAbRqYUv2BD+AfgdqXscMvnQnE+JhGHJxdnQ7/vmh6mN+
-	e23Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; t=1699597842; x=1699684242; bh=hXqqY4BWR14ne
-	Nf2OWhT/hoES7tg7nkHkI39Wk4fnR4=; b=FL4aOef4wrn+mcyjJq2E/ZO3fCQVo
-	M/MT7NCE29j0g7qW2Q8h1puyq1dWOLY1JM2CmmpEJ0tKBw8cOYi4zRmGB9T6JneP
-	CLG62qgARHN4F2r5y+wBgiZCHuOwhyQ3pm6kKNoDN7o3SeCFncHv10C2bphgFVqy
-	KgthlZWeFLYsGw5JM/DctoVueEumEgRcleNfu0KBGrq0nyG5h10gAHwvAS8I7XPi
-	QEEgNzaocUjV0EicCwV0Vxywfu+QY6khpk0mUVUZz1pOcCdWf5q+jTXQfHVsFFdC
-	MFHSWbukx561a0ms34MO7juCuoNGzZ5D5UDbhf5msu/yHki82fsLSkUpA==
-X-ME-Sender: <xms:EM5NZd0ZO5Keau_3lae8xWi_VQl_vF0AtX3RJT3glfwO6bSWgp94RA>
-    <xme:EM5NZUGtGCJoujiCpk1rmVeeK9S3-E7Vd_uootXFoAbYL9340BuifPLl_GbRpYdMp
-    hXLrAGzHqgPROMraxE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedruddvvddgleefucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
-    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:Ec5NZd6Cdr1B5-_seQjypiAD77jU0p_usS1DQ9sE_NVRr_anxaKgcA>
-    <xmx:Ec5NZa2YlJLASmHePpYoiFhGCJgcvHB9qT9WXegouv0MidmFx2vG2Q>
-    <xmx:Ec5NZQE0MOxHxwSJwsqIUEkDZEyqoeh3hoGlJ7LlWxJoL8foGy_bXA>
-    <xmx:Es5NZeMOC-xWrCco4yoZufFoPvP4nkYgbIxaKBSTkxqIdWzy6E_bqg>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id DA3AEB60089; Fri, 10 Nov 2023 01:30:40 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-1108-g3a29173c6d-fm-20231031.005-g3a29173c
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF6523D98B
+	for <linux-kbuild@vger.kernel.org>; Fri, 10 Nov 2023 17:47:08 +0000 (UTC)
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5EE3AF80;
+	Fri, 10 Nov 2023 01:04:51 -0800 (PST)
+Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-d9c66e70ebdso1843023276.2;
+        Fri, 10 Nov 2023 01:04:51 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699607091; x=1700211891;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WHZPpTTWcN/qBtcyGF24DlgLlsqCltsVlukIwu8/1iQ=;
+        b=QiYKoo/QUg++OBz4Mna7w7ILuBGUOiWQYItNKUu+AfYr2EfW8cvfmn+flNQjapSixE
+         Z6mHN0nfOyVFvLbJGiqWGEEC4lyIDURfkftU26TrIw1tXdPCPSHdxYvm+R/fJrxEcXKL
+         EPvFe21+Va9CDkBr2QgY5usptWnWBU7CcEphBAN/1OvREB9t/SROT23hLrbCk8fWqj3Q
+         +COSxbSCZo/DlYg2cVHKw78jdn7rTpln/Wstn7WxhKWELYOtpNKZsNPOw2nak2zSN4yw
+         OGR83qmhtmrOwJDjEU6iPMb1+qtjnSm0KbPjWHOyZXGG+/ib7yS73FyYib2AMd+64BG9
+         1K7w==
+X-Gm-Message-State: AOJu0Yw9tJfdHIJh68sVqpefpk8PF6eOdJdnMIbRN9Pd8Ut9WEIk9NRV
+	KesGUyJsApzfcjHiTbk//ZPsWhbMDCEgKw==
+X-Google-Smtp-Source: AGHT+IEEa4GrP5RKDm7nfjuGhV+kD81VRn41CavZ63GmDswLUYsSSe4/1yhToJgXSgvu1T206jClXQ==
+X-Received: by 2002:a25:e441:0:b0:d78:f32:5849 with SMTP id b62-20020a25e441000000b00d780f325849mr6958918ybh.24.1699607090762;
+        Fri, 10 Nov 2023 01:04:50 -0800 (PST)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
+        by smtp.gmail.com with ESMTPSA id g10-20020a5b070a000000b00da041da21e7sm7718137ybq.65.2023.11.10.01.04.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Nov 2023 01:04:50 -0800 (PST)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-5a7af52ee31so21843487b3.2;
+        Fri, 10 Nov 2023 01:04:50 -0800 (PST)
+X-Received: by 2002:a0d:dc85:0:b0:5a7:baae:329f with SMTP id
+ f127-20020a0ddc85000000b005a7baae329fmr7246797ywe.15.1699607089817; Fri, 10
+ Nov 2023 01:04:49 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <5e0966cd-7fa6-4217-a92e-d4a73b6b8bd6@app.fastmail.com>
-In-Reply-To: <87h6lu8ed8.fsf@mail.lhotse>
-References: <20231108125843.3806765-18-arnd@kernel.org>
- <202311090843.b8ISrsV1-lkp@intel.com> <87h6lu8ed8.fsf@mail.lhotse>
-Date: Fri, 10 Nov 2023 07:30:20 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Michael Ellerman" <mpe@ellerman.id.au>,
- "kernel test robot" <lkp@intel.com>, "Arnd Bergmann" <arnd@kernel.org>,
- "Andrew Morton" <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
- "Masahiro Yamada" <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
- "Linux Memory Management List" <linux-mm@kvack.org>,
- "Matt Turner" <mattst88@gmail.com>, "Vineet Gupta" <vgupta@kernel.org>,
- "Russell King" <linux@armlinux.org.uk>,
- "Catalin Marinas" <catalin.marinas@arm.com>,
- "Will Deacon" <will@kernel.org>, "Steven Rostedt" <rostedt@goodmis.org>,
- "Masami Hiramatsu" <mhiramat@kernel.org>,
- "Mark Rutland" <mark.rutland@arm.com>, guoren <guoren@kernel.org>,
- "Peter Zijlstra" <peterz@infradead.org>,
- "Ard Biesheuvel" <ardb@kernel.org>,
- "Huacai Chen" <chenhuacai@kernel.org>,
- "Greg Ungerer" <gerg@linux-m68k.org>, "Michal Simek" <monstr@monstr.eu>,
- "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
- "Dinh Nguyen" <dinguyen@kernel.org>,
- "Nicholas Piggin" <npiggin@gmail.com>,
- "Christophe Leroy" <christophe.leroy@csgroup.eu>,
- "Geoff Levand" <geoff@infradead.org>,
- "Palmer Dabbelt" <palmer@dabbelt.com>,
- "Heiko Carstens" <hca@linux.ibm.com>,
- "John Paul Adrian Glaubitz" <glaubitz@physik.fu-berlin.de>,
- "Andy Lutomirski" <luto@kernel.org>
-Subject: Re: [PATCH 17/22] powerpc: ps3: move udbg_shutdown_ps3gelic prototype
-Content-Type: text/plain
+References: <Yzv0wXi4Uu2WND37@gondor.apana.org.au> <Y5mGGrBJaDL6mnQJ@gondor.apana.org.au>
+ <Y/MDmL02XYfSz8XX@gondor.apana.org.au> <ZEYLC6QsKnqlEQzW@gondor.apana.org.au>
+ <ZJ0RSuWLwzikFr9r@gondor.apana.org.au> <ZOxnTFhchkTvKpZV@gondor.apana.org.au>
+ <ZUNIBcBJ0VeZRmT9@gondor.apana.org.au> <CAHk-=wj0-QNH5gMeYs3b+LU-isJyE4Eu9p8vVH9fb-vHHmUw0g@mail.gmail.com>
+ <ZUSKk6Tb7+0n9X5s@gondor.apana.org.au> <CAHk-=wh=xH7TNHeaYdsrVW6p1fCQEV5PZMpaFNsZyXYqzn8Stg@mail.gmail.com>
+ <ZUi5KMUaNkp0c1Ds@gondor.apana.org.au>
+In-Reply-To: <ZUi5KMUaNkp0c1Ds@gondor.apana.org.au>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 10 Nov 2023 10:04:38 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWWMABFmejXPEuKyvDC7CgUZSeWU6cR8qpBdVa9KiBdUQ@mail.gmail.com>
+Message-ID: <CAMuHMdWWMABFmejXPEuKyvDC7CgUZSeWU6cR8qpBdVa9KiBdUQ@mail.gmail.com>
+Subject: Re: [PATCH] crypto: jitterentropy - Hide esoteric Kconfig options
+ under FIPS and EXPERT
+To: Herbert Xu <herbert@gondor.apana.org.au>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, "David S. Miller" <davem@davemloft.net>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>, 
+	Steffen Klassert <steffen.klassert@secunet.com>, =?UTF-8?Q?Stephan_M=C3=BCller?= <smueller@chronox.de>, 
+	Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 10, 2023, at 04:40, Michael Ellerman wrote:
+Hi Herbert, Yamada-san,
 
-> As pointed out by Arnd this is due to there being two symbols that
-> control the gelic_udbg.c code.
+On Mon, Nov 6, 2023 at 11:00=E2=80=AFAM Herbert Xu <herbert@gondor.apana.or=
+g.au> wrote:
+> On Thu, Nov 02, 2023 at 08:32:36PM -1000, Linus Torvalds wrote:
+> > I think that would help the situation, but I assume the sizing for the
+> > jitter buffer is at least partly due to trying to account for cache
+> > sizing or similar issues?
+> >
+> > Which really means that I assume any static compile-time answer to
+> > that question is always wrong - whether you are an expert or not.
+> > Unless you are just building the thing for one particular machine.
+> >
+> > So I do think the problem is deeper than "this is a question only for
+> > experts". I definitely don't think you should ask a regular user (or
+> > even a distro kernel package manager). I suspect it's likely that the
+> > question is just wrong in general - because any particular one buffer
+> > size for any number of machines simply cannot be the right answer.
+> >
+> > I realize that the commit says "*allow* for configuration of memory
+> > size", but I really question the whole approach.
 >
-> I don't see the need for PS3GELIC_UDBG, without PPC_EARLY_DEBUG_PS3GELIC
-> it just causes gelic_udbg.c to be built, but never called.
+> Yes I think these are all valid points.  I just noticed that I
+> forgot to cc the author so let's see if Stephan has anything to
+> add.
 >
-> The diff below fixes the error AFAICS.
+> > But yes - hiding these questions from any reasonable normal user is at
+> > least a good first step.
 >
-> I can just fold it in if you're happy with that Arnd.
+> OK here's the patch:
+>
+> ---8<---
+> As JITTERENTROPY is selected by default if you enable the CRYPTO
+> API, any Kconfig options added there will show up for every single
+> user.  Hide the esoteric options under EXPERT as well as FIPS so
+> that only distro makers will see them.
+>
+> Reported-by: Linus Torvalds <torvalds@linux-foundation.org>
+> Signed-off-by: Herbert Xu <herbert@gondor.apana.org.au>
 
-Yes, looks good to me, please do.
+Thanks for your patch, which is now commit e7ed6473c2c8c4e4 ("crypto:
+jitterentropy - Hide esoteric Kconfig options under FIPS and EXPERT").
 
-    Arnd
+> --- a/crypto/Kconfig
+> +++ b/crypto/Kconfig
+> @@ -1297,10 +1297,12 @@ config CRYPTO_JITTERENTROPY
+>
+>           See https://www.chronox.de/jent.html
+>
+> +if CRYPTO_JITTERENTROPY
+> +if CRYPTO_FIPS && EXPERT
+> +
+>  choice
+>         prompt "CPU Jitter RNG Memory Size"
+>         default CRYPTO_JITTERENTROPY_MEMSIZE_2
+> -       depends on CRYPTO_JITTERENTROPY
+>         help
+>           The Jitter RNG measures the execution time of memory accesses.
+>           Multiple consecutive memory accesses are performed. If the memo=
+ry
+> @@ -1344,7 +1346,6 @@ config CRYPTO_JITTERENTROPY_OSR
+>         int "CPU Jitter RNG Oversampling Rate"
+>         range 1 15
+>         default 1
+> -       depends on CRYPTO_JITTERENTROPY
+>         help
+>           The Jitter RNG allows the specification of an oversampling rate=
+ (OSR).
+>           The Jitter RNG operation requires a fixed amount of timing
+> @@ -1359,7 +1360,6 @@ config CRYPTO_JITTERENTROPY_OSR
+>
+>  config CRYPTO_JITTERENTROPY_TESTINTERFACE
+>         bool "CPU Jitter RNG Test Interface"
+> -       depends on CRYPTO_JITTERENTROPY
+>         help
+>           The test interface allows a privileged process to capture
+>           the raw unconditioned high resolution time stamp noise that
+> @@ -1377,6 +1377,28 @@ config CRYPTO_JITTERENTROPY_TESTINTERFACE
+>
+>           If unsure, select N.
+>
+> +endif  # if CRYPTO_FIPS && EXPERT
+> +
+> +if !(CRYPTO_FIPS && EXPERT)
+> +
+> +config CRYPTO_JITTERENTROPY_MEMORY_BLOCKS
+> +       int
+> +       default 64
+> +
+> +config CRYPTO_JITTERENTROPY_MEMORY_BLOCKSIZE
+> +       int
+> +       default 32
+> +
+> +config CRYPTO_JITTERENTROPY_OSR
+> +       int
+> +       default 1
+> +
+> +config CRYPTO_JITTERENTROPY_TESTINTERFACE
+> +       bool
+
+This duplicates the symbols in the CRYPTO_FIPS && EXPERT section above,
+which is fragile.
+
+For the int and bool symbols, this can be handled without duplication
+using:
+
+     config CRYPTO_JITTERENTROPY_OSR
+    -       int "CPU Jitter RNG Oversampling Rate"
+    +       int "CPU Jitter RNG Oversampling Rate" if CRYPTO_FIPS && EXPERT
+
+     config CRYPTO_JITTERENTROPY_TESTINTERFACE
+    -       bool "CPU Jitter RNG Test Interface"
+    +       bool "CPU Jitter RNG Test Interface" if CRYPTO_FIPS && EXPERT
+
+Unfortunately the following does not work for the choice statement,
+although kconfig does not report an error:
+
+     choice
+    -       prompt "CPU Jitter RNG Memory Size"
+    +       prompt "CPU Jitter RNG Memory Size" if CRYPTO_FIPS && EXPERT
+             default CRYPTO_JITTERENTROPY_MEMSIZE_2
+
+Unlike for other symbol types, which just become silent if
+!(CRYPTO_FIPS && EXPERT), the choice is skipped completely if
+!(CRYPTO_FIPS && EXPERT), and CRYPTO_JITTERENTROPY_MEMSIZE_2 is not set.
+
+Yamada-san: Do you know why choice behaves differently?
+Is this easy to fix?
+
+Thanks!
+
+> +
+> +endif  # if !(CRYPTO_FIPS && EXPERT)
+> +endif  # if CRYPTO_JITTERENTROPY
+> +
+>  config CRYPTO_KDF800108_CTR
+>         tristate
+>         select CRYPTO_HMAC
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
