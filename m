@@ -1,106 +1,144 @@
-Return-Path: <linux-kbuild+bounces-13-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-14-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 960607E83D8
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Nov 2023 21:34:41 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 855F67E86E8
+	for <lists+linux-kbuild@lfdr.de>; Sat, 11 Nov 2023 01:29:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 36EAE1F20F21
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Nov 2023 20:34:41 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C4C0CB20B57
+	for <lists+linux-kbuild@lfdr.de>; Sat, 11 Nov 2023 00:29:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7573F1D53E;
-	Fri, 10 Nov 2023 20:34:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBE77ED8;
+	Sat, 11 Nov 2023 00:29:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=free.fr header.i=@free.fr header.b="kc4eUhHS"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="OEnFCqQt"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41B0F3B798
-	for <linux-kbuild@vger.kernel.org>; Fri, 10 Nov 2023 20:34:37 +0000 (UTC)
-Received: from smtp4-g21.free.fr (smtp4-g21.free.fr [IPv6:2a01:e0c:1:1599::13])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6507D272C
-	for <linux-kbuild@vger.kernel.org>; Fri, 10 Nov 2023 12:34:35 -0800 (PST)
-Received: from webmail.free.fr (unknown [172.20.246.2])
-	(Authenticated sender: vivien.gallinaro@free.fr)
-	by smtp4-g21.free.fr (Postfix) with ESMTPA id 2746219F5AF;
-	Fri, 10 Nov 2023 21:34:30 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=free.fr;
-	s=smtp-20201208; t=1699648473;
-	bh=6D7bLP7ZPujkMNWR06qz0Yrd27QuA9ckxsiMx3/JYYg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=kc4eUhHSz1DvO2Ur7WVfOBN+54WP+E8pROWu+TQXLEYZErdESGQM/MY0HXuk9bnLE
-	 vsSXcvjyTGGjLL7HyjduyqfWgElARerv5gcJvq3LeZvmWf1IyZQeDC1pXQFJcJsiJH
-	 nEZhzyWI3paqPgl6iJKLbb+guyzf/KknEcfxcl2X00+8jwts680tlAj8p7cXnpEDBS
-	 9jhH7EpM0cxdO6cINM3O8e/kzIqYSm18p6/br4ksq42Y5fzqkyKP7vGX6egSMxVWRM
-	 E8DgQIAtzNhECTjNBvVb/T1IydVWjneKU3A9t14BFfVa9todiWh9uRwsgkbtHfUu0D
-	 uTVGnR+PMFBOQ==
-Received: from 2a01:e0a:2b0:9080:1e01:8392:432:b1d
- via 2a01:e0a:2b0:9080:1e01:8392:432:b1d
- by webmail.free.fr
- with HTTP (HTTP/1.0 POST); Fri, 10 Nov 2023 21:34:30 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73111EA1
+	for <linux-kbuild@vger.kernel.org>; Sat, 11 Nov 2023 00:29:33 +0000 (UTC)
+Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com [IPv6:2607:f8b0:4864:20::f35])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E976420B
+	for <linux-kbuild@vger.kernel.org>; Fri, 10 Nov 2023 16:29:32 -0800 (PST)
+Received: by mail-qv1-xf35.google.com with SMTP id 6a1803df08f44-66d0760cd20so22174496d6.0
+        for <linux-kbuild@vger.kernel.org>; Fri, 10 Nov 2023 16:29:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1699662571; x=1700267371; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=M3FqWqpMvGy3I/j1a0yonrCNkExrkTlpaTzYW4XHQH8=;
+        b=OEnFCqQtFB3BCqODtORgmALObNeX7giHiGaPJsJQWEitGCFTtvOYGAvH9vuUqz6I54
+         Vxjh+eC4JmYwVVQoUw+sPrXMXwLXTgaCnFrMDQG98G2c3lX9MwQ50i/xeepmNbq5zr8M
+         X2SRq6T9mJ5dcoBR4REuXWoePmYQeQKIWA558=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699662571; x=1700267371;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=M3FqWqpMvGy3I/j1a0yonrCNkExrkTlpaTzYW4XHQH8=;
+        b=JWIs/BK3Q7eXiyhRPGwqRPhi2SRsmeE2jObrM5Z2znuFewAe4A1YOjkctH594u/8Uk
+         nv5zrpbWnGBd32nie0tWo3oJwO8parnunVQrtXeYX9l1O29gRGPrrSYrYcRRkIWhuNMa
+         dVEmRApOKaJQGCxuMj7JyIGQ57XTDqChGLAoTkft0OiE5/XlsIh5VCLOs81kiOGLUyT9
+         eMXVVy18uNScphvAKYnnGxtyIi6kbqugNWRuw0ys43ekJATglGPJsthoxVZ9kNFiFHGA
+         hVjAOwV+24XpbNxv7m6zEXXR/oojx6ShlJd85NYBMl8VWwRc6lcFukEx+nRRiHhsn04u
+         aPhg==
+X-Gm-Message-State: AOJu0YxDckXB6fDmy47tw9uVV+VOGHCODP40vbR/yvNGJpHocW3dTdnY
+	uNWOTvTTqsk5ItilvIqFjToCaA==
+X-Google-Smtp-Source: AGHT+IFKxCzqkIhj/4+puQidciJwVE6cx36K5j318gXTxCtNqzPsItFD1CVurLoJ+T7KVdksSn3fvA==
+X-Received: by 2002:a05:6214:125:b0:66c:fa89:a894 with SMTP id w5-20020a056214012500b0066cfa89a894mr5337035qvs.10.1699662571162;
+        Fri, 10 Nov 2023 16:29:31 -0800 (PST)
+Received: from kea.bld.corp.google.com ([2620:15c:183:200:5104:5a27:f95d:21d1])
+        by smtp.gmail.com with ESMTPSA id l16-20020a056214029000b00677adcfd261sm55898qvv.89.2023.11.10.16.29.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Nov 2023 16:29:30 -0800 (PST)
+From: Simon Glass <sjg@chromium.org>
+To: linux-arm-kernel@lists.infradead.org
+Cc: lkml <linux-kernel@vger.kernel.org>,
+	Tom Rini <trini@konsulko.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	U-Boot Mailing List <u-boot@lists.denx.de>,
+	Simon Glass <sjg@chromium.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Nick Terrell <terrelln@fb.com>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Will Deacon <will@kernel.org>,
+	linux-kbuild@vger.kernel.org
+Subject: [PATCH v5 0/3] arm64: Add a build target for Flat Image Tree
+Date: Fri, 10 Nov 2023 17:27:59 -0700
+Message-ID: <20231111002851.1293891-1-sjg@chromium.org>
+X-Mailer: git-send-email 2.42.0.869.gea05f2083d-goog
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Fri, 10 Nov 2023 21:34:30 +0100
-From: Vivien Gallinaro <vivien.gallinaro@free.fr>
-To: linux-kbuild@vger.kernel.org
-Cc: Jesse T <mr.bossman075@gmail.com>, Masahiro Yamada
- <masahiroy@kernel.org>, Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: SymSearch can cause make nconfig to segfault
-In-Reply-To: <1aab6cfd-1b87-42a8-9beb-02073bdf9add@infradead.org>
-References: <5ec262711df2f3d3ccd84930ed4e9778@free.fr>
- <CAJFTR8Sfea5gCpYA+Xb5vAz=0nemrQNxSf5BFeD0jM+YfagpmA@mail.gmail.com>
- <1aab6cfd-1b87-42a8-9beb-02073bdf9add@infradead.org>
-User-Agent: Webmail Free/1.6.5
-Message-ID: <0cdc8c536da1e4bf5d7bae311c759f21@free.fr>
-X-Sender: vivien.gallinaro@free.fr
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
 Content-Transfer-Encoding: 8bit
 
+Flat Image Tree (FIT) is a widely used file format for packaging a
+kernel and associated devicetree files[1]. It is not specific to any
+one bootloader, as it is supported by U-Boot, coreboot, Linuxboot,
+Tianocore and Barebox.
 
-On 11/8/23, Randy Dunlap wrote:
-> On 11/7/23, Jesse T wrote:
->> On 11/7/23 Vivien Gallinaro wrote:
->>> 
->>> For a fresh 6.6 kernel :
->>> $ cd linux-6.6
->>> $ make mrproper
->>> $ make nconfig 2>../blarb
->>> (<F8> x86 <enter>)
->>> $ reset
->> 
->> I'm assuming "reset" here means you got put back into your shell and 
->> are
->> resetting the terminal state.
+This series adds support for building a FIT as part of the kernel
+build. This makes it easy to try out the kernel - just load the FIT
+onto your tftp server and it will run automatically on any supported
+arm64 board.
 
-Exactly.
+The script is written in Python, since it is easy to build a FIT using
+the Python libfdt bindings. For now, no attempt is made to compress
+files in parallel, so building the 900-odd files takes a while, about
+6 seconds with my testing.
 
->> I can not recreate this error on my machine unfortunately are you
->> using the tar release?
->> What distro are you using?
+The series also includes a few minor clean-up patches.
 
-Gentoo, but checking with the (then) stable 6.6 tarball.
+[1] https://github.com/open-source-firmware/flat-image-tree
 
-> I also cannot recreate this issue.
-> FWIW.
-> 
-> More info needed.
+Changes in v5:
+- Correct compression rule which was broken in v4
 
-That was good news. I tried to investigate a little deeper with strace, 
-gdb… a little too deep for me actually. Then I eventually remembered: 
-even though my install is pretty fresh, I've been a bit sloppy on 
-maintenance, leaving one stuff to the side to catter to another, a few 
-times over. One global update later — meaning I only have /usr/src in a 
-corny state, now — I don't get the segfault either. Sorry, pebkac.
+Changes in v4:
+- Add a patch to move the single quotes for image name
+- Use single quotes for UIMAGE_NAME
 
-Thanks for your time,
-VG
+Changes in v3:
+- Drop temporary file image.itk
+- Drop patch 'Use double quotes for image name'
+- Drop double quotes in use of UIMAGE_NAME
+- Drop unnecessary CONFIG_EFI_ZBOOT condition for help
+- Avoid hard-coding "arm64" for the DT architecture
+
+Changes in v2:
+- Drop patch previously applied
+- Add .gitignore file
+- Move fit rule to Makefile.lib using an intermediate file
+- Drop dependency on CONFIG_EFI_ZBOOT
+- Pick up .dtb files separately from the kernel
+- Correct pylint too-many-args warning for write_kernel()
+- Include the kernel image in the file count
+- Add a pointer to the FIT spec and mention of its wide industry usage
+- Mention the kernel version in the FIT description
+
+Simon Glass (3):
+  kbuild: arm64: Add BOOT_TARGETS variable
+  arm: boot: Move the single quotes for image name
+  arm64: boot: Support Flat Image Tree
+
+ MAINTAINERS                |   7 +
+ arch/arm64/Makefile        |   7 +-
+ arch/arm64/boot/.gitignore |   1 +
+ arch/arm64/boot/Makefile   |   6 +-
+ scripts/Makefile.lib       |  17 ++-
+ scripts/make_fit.py        | 289 +++++++++++++++++++++++++++++++++++++
+ 6 files changed, 323 insertions(+), 4 deletions(-)
+ create mode 100755 scripts/make_fit.py
+
+-- 
+2.42.0.869.gea05f2083d-goog
 
 
