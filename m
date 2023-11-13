@@ -1,414 +1,164 @@
-Return-Path: <linux-kbuild+bounces-20-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-21-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97C367E98E3
-	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Nov 2023 10:27:46 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDC257E9952
+	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Nov 2023 10:46:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 246511F20100
-	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Nov 2023 09:27:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 87BFD280A01
+	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Nov 2023 09:46:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EE3118E27;
-	Mon, 13 Nov 2023 09:27:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="o8ws4oie";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wO5USRou"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19C5C1A58E;
+	Mon, 13 Nov 2023 09:46:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1159B18E1F;
-	Mon, 13 Nov 2023 09:27:38 +0000 (UTC)
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1947410D2;
-	Mon, 13 Nov 2023 01:27:36 -0800 (PST)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out1.suse.de (Postfix) with ESMTP id CE80E218F1;
-	Mon, 13 Nov 2023 09:27:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1699867654; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=y9C5aBXGL7JdrMgA5N5vj1s4+UPpgym//WXG2+qsYcU=;
-	b=o8ws4oieGvAAyXIc3eS90VaASj1ZXIiyNtHHvAe7/e+N1AUGWMAD3yrFatr+afvEQzbK/T
-	U/4QHeFfA5l0BjBQvMYLGDDKZus71aHxlEpqVX/FKrbiFPgBnUfTBYhkXg3DUCVG/COt3G
-	42BaqRFQBOMXyxJsQytVrYyAnozfw8U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1699867654;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=y9C5aBXGL7JdrMgA5N5vj1s4+UPpgym//WXG2+qsYcU=;
-	b=wO5USRouxuZwxokKWZsDs920jC+s9HyiOfsXIkjBOeoRkXxc5h5w1q30D8r9HKuSGNX0dR
-	qQfV7omLg8wWlfDw==
-Received: from kitsune.suse.cz (kitsune.suse.cz [10.100.12.127])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by relay2.suse.de (Postfix) with ESMTPS id 539762C221;
-	Mon, 13 Nov 2023 09:27:34 +0000 (UTC)
-Date: Mon, 13 Nov 2023 10:27:33 +0100
-From: Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: linux-modules@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
-	Lucas De Marchi <lucas.de.marchi@gmail.com>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Jiri Slaby <jslaby@suse.com>, Jan Engelhardt <jengelh@inai.de>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH kmod v5 5/5] libkmod, depmod, modprobe: Make directory
- for kernel modules configurable
-Message-ID: <20231113092733.GA6241@kitsune.suse.cz>
-References: <cover.1689589902.git.msuchanek@suse.de>
- <cover.1689681454.git.msuchanek@suse.de>
- <b878a01f09e250bb24dbaede71cc776217a8f862.1689681454.git.msuchanek@suse.de>
- <e3yow7ih6af2hxzkmjay2oan3jypmo4hda64vxvpfco66ajcew@i3zewn4nbklf>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42A0F1A587
+	for <linux-kbuild@vger.kernel.org>; Mon, 13 Nov 2023 09:46:43 +0000 (UTC)
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CBB410D0;
+	Mon, 13 Nov 2023 01:46:41 -0800 (PST)
+Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-da41acaea52so4271543276.3;
+        Mon, 13 Nov 2023 01:46:41 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699868800; x=1700473600;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hwzQbtIpe+t3wqED8YWdB5pI957h93jq9NhhCumia7w=;
+        b=OygbZ605ujsm19xrEu5PBDjeQR7F4c435VNLCMPVfi0wvJhI7co0M6fYAkoiqmcI1Z
+         Yh7F8lyxnMIlcJIDITy/zS0akpMy9J/8BfdbmdbbeFRg8x0v7HA+yXAmeF1qK/JyAMTR
+         ksSG7RsWRgVqTX65ogAZTXDDbrONKDwfen7wQlbdf4CvGxF/++pZoXsBCJQvcYIV71ZY
+         IiT84o4zK0Ux5eoe0yJWG+nsZsVPj8vq2xYK2MTFVFrBaWZ0xko9Z4/V4nFp3skmvdvn
+         o1NplzQC4u4lfYlLGci2Cb0bg9BrQLjuMEalp64YcQ2VqhuzhlYYWZsk4MJxnjXLp6y/
+         DdAg==
+X-Gm-Message-State: AOJu0Yzc/tuqtIMxf8HSb9ivC9ZTWyMYNXR8nbXkBhp3gZuheTHFpS8D
+	SPgYId/NHyImOYHasTrB65IScv6Ik14aeA==
+X-Google-Smtp-Source: AGHT+IFXVwV4e0H99wNWhSTg+Q/YTf7vpBF+BUGx/TeF2yPhuDMHqqtuXUZNp6yYoE868yHK+F8azg==
+X-Received: by 2002:a25:ad92:0:b0:d86:357:e314 with SMTP id z18-20020a25ad92000000b00d860357e314mr5432430ybi.47.1699868800501;
+        Mon, 13 Nov 2023 01:46:40 -0800 (PST)
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
+        by smtp.gmail.com with ESMTPSA id u11-20020a05690201cb00b00d974c72068fsm1446651ybh.4.2023.11.13.01.46.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 Nov 2023 01:46:39 -0800 (PST)
+Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-d9caf5cc948so4297454276.0;
+        Mon, 13 Nov 2023 01:46:39 -0800 (PST)
+X-Received: by 2002:a25:42d2:0:b0:da0:c8d1:5c5 with SMTP id
+ p201-20020a2542d2000000b00da0c8d105c5mr5227362yba.41.1699868799056; Mon, 13
+ Nov 2023 01:46:39 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e3yow7ih6af2hxzkmjay2oan3jypmo4hda64vxvpfco66ajcew@i3zewn4nbklf>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20231108125843.3806765-18-arnd@kernel.org> <202311090843.b8ISrsV1-lkp@intel.com>
+ <87h6lu8ed8.fsf@mail.lhotse>
+In-Reply-To: <87h6lu8ed8.fsf@mail.lhotse>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 13 Nov 2023 10:46:26 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVxpKwkvU5fcZXLdjRAuaBqj3JxE4JtBcEW55EzidxhCQ@mail.gmail.com>
+Message-ID: <CAMuHMdVxpKwkvU5fcZXLdjRAuaBqj3JxE4JtBcEW55EzidxhCQ@mail.gmail.com>
+Subject: Re: [PATCH 17/22] powerpc: ps3: move udbg_shutdown_ps3gelic prototype
+To: Michael Ellerman <mpe@ellerman.id.au>
+Cc: kernel test robot <lkp@intel.com>, Arnd Bergmann <arnd@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org, 
+	Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org, 
+	oe-kbuild-all@lists.linux.dev, 
+	Linux Memory Management List <linux-mm@kvack.org>, Arnd Bergmann <arnd@arndb.de>, Matt Turner <mattst88@gmail.com>, 
+	Vineet Gupta <vgupta@kernel.org>, Russell King <linux@armlinux.org.uk>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Guo Ren <guoren@kernel.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Ard Biesheuvel <ardb@kernel.org>, 
+	Huacai Chen <chenhuacai@kernel.org>, Greg Ungerer <gerg@linux-m68k.org>, 
+	Michal Simek <monstr@monstr.eu>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	Dinh Nguyen <dinguyen@kernel.org>, Nicholas Piggin <npiggin@gmail.com>, 
+	Christophe Leroy <christophe.leroy@csgroup.eu>, Geoff Levand <geoff@infradead.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Heiko Carstens <hca@linux.ibm.com>, 
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Andy Lutomirski <luto@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 17, 2023 at 12:50:15PM -0500, Lucas De Marchi wrote:
-> On Tue, Jul 18, 2023 at 02:01:56PM +0200, Michal Suchanek wrote:
-> > Now that modprobe.d is searched under ${prefix}/lib, allow a complete
-> > transition to files only under ${prefix} by adding a ${module_directory}
-> > configuration. This specifies the directory where to search for kernel
-> > modules and should match the location where the kernel/distro installs
-> > them.
-> > 
-> > With this distributions that do not want to ship files in /lib can also
-> > move kernel modules to /usr while others can keep them in /lib.
-> > 
-> > Signed-off-by: Michal Suchanek <msuchanek@suse.de>
-> > ---
-> > v4: Make the whole path configurable
-> > v5: More verbose commit message
-> > ---
-> > Makefile.am                          |   3 +-
-> > configure.ac                         |   7 ++
-> > libkmod/libkmod.c                    |   4 +-
-> > man/Makefile.am                      |   1 +
-> > man/depmod.d.xml                     |   6 +-
-> > man/depmod.xml                       |   4 +-
-> > man/modinfo.xml                      |   2 +-
-> > man/modprobe.xml                     |   2 +-
-> > man/modules.dep.xml                  |   6 +-
-> > testsuite/module-playground/Makefile |   2 +-
-> > testsuite/setup-rootfs.sh            | 109 +++++++++++++++------------
-> > testsuite/test-depmod.c              |  16 ++--
-> > testsuite/test-testsuite.c           |   8 +-
-> > tools/depmod.c                       |   6 +-
-> > tools/kmod.pc.in                     |   1 +
-> > tools/modinfo.c                      |   4 +-
-> > tools/modprobe.c                     |   4 +-
-> > tools/static-nodes.c                 |   6 +-
-> > 18 files changed, 107 insertions(+), 84 deletions(-)
-> > 
-> > diff --git a/Makefile.am b/Makefile.am
-> > index 6d0b2decfef3..019aa749fdf1 100644
-> > --- a/Makefile.am
-> > +++ b/Makefile.am
-> > @@ -20,6 +20,7 @@ AM_CPPFLAGS = \
-> > 	-I$(top_srcdir) \
-> > 	-DSYSCONFDIR=\""$(sysconfdir)"\" \
-> > 	-DDISTCONFDIR=\""$(distconfdir)"\" \
-> > +	-DMODULE_DIRECTORY=\""$(module_directory)"\" \
-> > 	${zlib_CFLAGS}
-> > 
-> > AM_CFLAGS = $(OUR_CFLAGS)
-> > @@ -220,7 +221,7 @@ EXTRA_DIST += testsuite/setup-rootfs.sh
-> > MODULE_PLAYGROUND = testsuite/module-playground
-> > ROOTFS = testsuite/rootfs
-> > ROOTFS_PRISTINE = $(top_srcdir)/testsuite/rootfs-pristine
-> > -CREATE_ROOTFS = $(AM_V_GEN) $(top_srcdir)/testsuite/setup-rootfs.sh $(ROOTFS_PRISTINE) $(ROOTFS) $(MODULE_PLAYGROUND) $(top_builddir)/config.h $(sysconfdir)
-> > +CREATE_ROOTFS = $(AM_V_GEN) MODULE_DIRECTORY=$(module_directory) $(top_srcdir)/testsuite/setup-rootfs.sh $(ROOTFS_PRISTINE) $(ROOTFS) $(MODULE_PLAYGROUND) $(top_builddir)/config.h $(sysconfdir)
-> > 
-> > build-module-playground:
-> > 	$(AM_V_GEN)if test "$(top_srcdir)" != "$(top_builddir)"; then \
-> > diff --git a/configure.ac b/configure.ac
-> > index b4584d6cdc67..4051dc9249e2 100644
-> > --- a/configure.ac
-> > +++ b/configure.ac
-> > @@ -91,6 +91,12 @@ AC_ARG_WITH([rootlibdir],
-> >         [], [with_rootlibdir=$libdir])
-> > AC_SUBST([rootlibdir], [$with_rootlibdir])
-> > 
-> > +# Ideally this would be $prefix/lib/modules but default to /lib/modules for compatibility with earlier versions
-> > +AC_ARG_WITH([module_directory],
-> > +        AS_HELP_STRING([--with-module-directory=DIR], [directory in which to look for kernel modules - typically '/lib/modules' or '${prefix}/lib/modules']),
-> > +        [], [with_module_directory=/lib/modules])
-> > +AC_SUBST([module_directory], [$with_module_directory])
-> 
-> we will probably have "fun" results if we accept a relative path here.
-> 
-> > +
-> > AC_ARG_WITH([zstd],
-> > 	AS_HELP_STRING([--with-zstd], [handle Zstandard-compressed modules @<:@default=disabled@:>@]),
-> > 	[], [with_zstd=no])
-> > @@ -326,6 +332,7 @@ AC_MSG_RESULT([
-> > 	$PACKAGE $VERSION
-> > 	=======
-> > 
-> > +	module_directory:	${module_directory}
-> > 	prefix:			${prefix}
-> > 	sysconfdir:		${sysconfdir}
-> > 	distconfdir:		${distconfdir}
-> > diff --git a/libkmod/libkmod.c b/libkmod/libkmod.c
-> > index 09e6041461b0..63719e886de8 100644
-> > --- a/libkmod/libkmod.c
-> > +++ b/libkmod/libkmod.c
-> > @@ -209,7 +209,7 @@ static int log_priority(const char *priority)
-> > 	return 0;
-> > }
-> > 
-> > -static const char *dirname_default_prefix = "/lib/modules";
-> > +static const char *dirname_default_prefix = MODULE_DIRECTORY;
-> > 
-> > static char *get_kernel_release(const char *dirname)
-> > {
-> > @@ -231,7 +231,7 @@ static char *get_kernel_release(const char *dirname)
-> > /**
-> >  * kmod_new:
-> >  * @dirname: what to consider as linux module's directory, if NULL
-> > - *           defaults to /lib/modules/`uname -r`. If it's relative,
-> > + *           defaults to ${module_prefix}/lib/modules/`uname -r`. If it's relative,
-> 
-> module_prefix?  did you mean to use $MODULE_DIRECTORY/`uname -r`?
-> 
-> >  *           it's treated as relative to the current working directory.
-> >  *           Otherwise, give an absolute dirname.
-> >  * @config_paths: ordered array of paths (directories or files) where
-> > diff --git a/man/Makefile.am b/man/Makefile.am
-> > index 2fea8e46bf2f..f550091a216a 100644
-> > --- a/man/Makefile.am
-> > +++ b/man/Makefile.am
-> > @@ -22,6 +22,7 @@ CLEANFILES = $(dist_man_MANS)
-> > 	else \
-> > 		sed -e '/@DISTCONFDIR@/d' $< ; \
-> > 	fi | \
-> > +	sed -e 's|@MODULE_DIRECTORY@|$(module_directory)|g' | \
-> > 	$(XSLT) \
-> > 		-o $@ \
-> > 		--nonet \
-> > diff --git a/man/depmod.d.xml b/man/depmod.d.xml
-> > index f282a39cc840..b07e6a2bd4fe 100644
-> > --- a/man/depmod.d.xml
-> > +++ b/man/depmod.d.xml
-> > @@ -70,7 +70,7 @@
-> >         </term>
-> >         <listitem>
-> >           <para>
-> > -            This allows you to specify the order in which /lib/modules
-> > +            This allows you to specify the order in which @MODULE_DIRECTORY@
-> >             (or other configured module location) subdirectories will
-> >             be processed by <command>depmod</command>. Directories are
-> >             listed in order, with the highest priority given to the
-> > @@ -101,7 +101,7 @@
-> >             <command>depmod</command> command. It is possible to
-> >             specify one kernel or all kernels using the * wildcard.
-> >             <replaceable>modulesubdirectory</replaceable> is the
-> > -            name of the subdirectory under /lib/modules (or other
-> > +            name of the subdirectory under @MODULE_DIRECTORY@ (or other
-> >             module location) where the target module is installed.
-> >           </para>
-> >           <para>
-> > @@ -110,7 +110,7 @@
-> >             specifying the following command: "override kmod * extra".
-> >             This will ensure that any matching module name installed
-> >             under the <command>extra</command> subdirectory within
-> > -            /lib/modules (or other module location) will take priority
-> > +            @MODULE_DIRECTORY@ (or other module location) will take priority
-> >             over any likenamed module already provided by the kernel.
-> >           </para>
-> >         </listitem>
-> > diff --git a/man/depmod.xml b/man/depmod.xml
-> > index 3b0097184fd7..fce2a4a67a89 100644
-> > --- a/man/depmod.xml
-> > +++ b/man/depmod.xml
-> > @@ -80,7 +80,7 @@
-> >     </para>
-> >     <para> <command>depmod</command> creates a list of module dependencies by
-> >       reading each module under
-> > -      <filename>/lib/modules/</filename><replaceable>version</replaceable> and
-> > +      <filename>@MODULE_DIRECTORY@/</filename><replaceable>version</replaceable> and
-> >       determining what symbols it exports and what symbols it needs.  By
-> >       default, this list is written to <filename>modules.dep</filename>, and a
-> >       binary hashed version named <filename>modules.dep.bin</filename>, in the
-> > @@ -141,7 +141,7 @@
-> >         <listitem>
-> >           <para>
-> >             If your modules are not currently in the (normal) directory
-> > -            <filename>/lib/modules/</filename><replaceable>version</replaceable>,
-> > +            <filename>@MODULE_DIRECTORY@/</filename><replaceable>version</replaceable>,
-> >             but in a staging area, you can specify a
-> >             <replaceable>basedir</replaceable> which is prepended to the
-> >             directory name.  This <replaceable>basedir</replaceable> is
-> > diff --git a/man/modinfo.xml b/man/modinfo.xml
-> > index 9fe0324a2527..b6c4d6045829 100644
-> > --- a/man/modinfo.xml
-> > +++ b/man/modinfo.xml
-> > @@ -54,7 +54,7 @@
-> >       <command>modinfo</command> extracts information from the Linux Kernel
-> >       modules given on the command line.  If the module name is not a filename,
-> >       then the
-> > -      <filename>/lib/modules/</filename><replaceable>version</replaceable>
-> > +      <filename>@MODULE_DIRECTORY@/</filename><replaceable>version</replaceable>
-> >       directory is searched, as is also done by
-> >       <citerefentry><refentrytitle>modprobe</refentrytitle><manvolnum>8</manvolnum></citerefentry>
-> >       when loading kernel modules.
-> > diff --git a/man/modprobe.xml b/man/modprobe.xml
-> > index 91f9e27997cd..4d1fd59c000b 100644
-> > --- a/man/modprobe.xml
-> > +++ b/man/modprobe.xml
-> > @@ -78,7 +78,7 @@
-> >       is no difference between _ and - in module names (automatic
-> >       underscore conversion is performed).
-> >       <command>modprobe</command> looks in the module directory
-> > -      <filename>/lib/modules/`uname -r`</filename> for all
-> > +      <filename>@MODULE_DIRECTORY@/`uname -r`</filename> for all
-> >       the modules and other files, except for the optional
-> >       configuration files in the
-> >       <filename>/etc/modprobe.d</filename> directory
-> > diff --git a/man/modules.dep.xml b/man/modules.dep.xml
-> > index ed633694ec9e..8ef6d8b3536e 100644
-> > --- a/man/modules.dep.xml
-> > +++ b/man/modules.dep.xml
-> > @@ -34,8 +34,8 @@
-> >   </refnamediv>
-> > 
-> >   <refsynopsisdiv>
-> > -    <para><filename>/lib/modules/modules.dep</filename></para>
-> > -    <para><filename>/lib/modules/modules.dep.bin</filename></para>
-> > +    <para><filename>@MODULE_DIRECTORY@/modules.dep</filename></para>
-> > +    <para><filename>@MODULE_DIRECTORY@/modules.dep.bin</filename></para>
-> >   </refsynopsisdiv>
-> > 
-> >   <refsect1><title>DESCRIPTION</title>
-> > @@ -43,7 +43,7 @@
-> >       <filename>modules.dep.bin</filename> is a binary file generated by
-> >       <command>depmod</command> listing the dependencies for
-> >       every module in the directories under
-> > -      <filename>/lib/modules/</filename><replaceable>version</replaceable>.
-> > +      <filename>@MODULE_DIRECTORY@/</filename><replaceable>version</replaceable>.
-> >       It is used by kmod tools such as <command>modprobe</command> and
-> >       libkmod.
-> >     </para>
-> > diff --git a/testsuite/module-playground/Makefile b/testsuite/module-playground/Makefile
-> > index e6045b0dd932..a7ab09bea2bf 100644
-> > --- a/testsuite/module-playground/Makefile
-> > +++ b/testsuite/module-playground/Makefile
-> > @@ -47,7 +47,7 @@ endif
-> > 
-> > else
-> > # normal makefile
-> > -KDIR ?= /lib/modules/`uname -r`/build
-> > +KDIR ?= $(module_prefix)/lib/modules/`uname -r`/build
-> > KVER ?= `uname -r`
-> > ifeq ($(FAKE_BUILD),)
-> >     FAKE_BUILD=0
-> > diff --git a/testsuite/setup-rootfs.sh b/testsuite/setup-rootfs.sh
-> > index 4440ddcd6b4d..a780f9381b3c 100755
-> > --- a/testsuite/setup-rootfs.sh
-> > +++ b/testsuite/setup-rootfs.sh
-> > @@ -16,6 +16,19 @@ create_rootfs() {
-> > 	cp -r "$ROOTFS_PRISTINE" "$ROOTFS"
-> > 	find "$ROOTFS" -type d -exec chmod +w {} \;
-> > 	find "$ROOTFS" -type f -name .gitignore -exec rm -f {} \;
-> > +	if [ "$MODULE_DIRECTORY" != "/lib/modules" ] ; then
-> > +		sed -i -e "s|/lib/modules|$MODULE_DIRECTORY|g" $(find "$ROOTFS" -name \*.txt -o -name \*.conf -o -name \*.dep)
-> > +		sed -i -e "s|$MODULE_DIRECTORY/external|/lib/modules/external|g" $(find "$ROOTFS" -name \*.txt -o -name \*.conf -o -name \*.dep)
-> > +		for i in "$ROOTFS"/*/lib/modules/* "$ROOTFS"/*/*/lib/modules/* ; do
-> > +			version="$(basename $i)"
-> > +			[ $version != 'external' ] || continue
-> > +			mod="$(dirname $i)"
-> > +			lib="$(dirname $mod)"
-> > +			up="$(dirname $lib)$MODULE_DIRECTORY"
-> > +			mkdir -p "$up"
-> > +			mv "$i" "$up"
-> > +		done
-> > +	fi
-> > 
-> > 	if [ "$SYSCONFDIR" != "/etc" ]; then
-> > 		find "$ROOTFS" -type d -name etc -printf "%h\n" | while read -r e; do
-> > @@ -32,57 +45,57 @@ feature_enabled() {
-> > 
-> > declare -A map
-> > map=(
-> > -    ["test-depmod/search-order-simple/lib/modules/4.4.4/kernel/crypto/"]="mod-simple.ko"
-> > -    ["test-depmod/search-order-simple/lib/modules/4.4.4/updates/"]="mod-simple.ko"
-> > -    ["test-depmod/search-order-same-prefix/lib/modules/4.4.4/foo/"]="mod-simple.ko"
-> > -    ["test-depmod/search-order-same-prefix/lib/modules/4.4.4/foobar/"]="mod-simple.ko"
-> > -    ["test-depmod/detect-loop/lib/modules/4.4.4/kernel/mod-loop-a.ko"]="mod-loop-a.ko"
-> > -    ["test-depmod/detect-loop/lib/modules/4.4.4/kernel/mod-loop-b.ko"]="mod-loop-b.ko"
-> > -    ["test-depmod/detect-loop/lib/modules/4.4.4/kernel/mod-loop-c.ko"]="mod-loop-c.ko"
-> > -    ["test-depmod/detect-loop/lib/modules/4.4.4/kernel/mod-loop-d.ko"]="mod-loop-d.ko"
-> > -    ["test-depmod/detect-loop/lib/modules/4.4.4/kernel/mod-loop-e.ko"]="mod-loop-e.ko"
-> > -    ["test-depmod/detect-loop/lib/modules/4.4.4/kernel/mod-loop-f.ko"]="mod-loop-f.ko"
-> > -    ["test-depmod/detect-loop/lib/modules/4.4.4/kernel/mod-loop-g.ko"]="mod-loop-g.ko"
-> > -    ["test-depmod/detect-loop/lib/modules/4.4.4/kernel/mod-loop-h.ko"]="mod-loop-h.ko"
-> > -    ["test-depmod/detect-loop/lib/modules/4.4.4/kernel/mod-loop-i.ko"]="mod-loop-i.ko"
-> > -    ["test-depmod/detect-loop/lib/modules/4.4.4/kernel/mod-loop-j.ko"]="mod-loop-j.ko"
-> > -    ["test-depmod/detect-loop/lib/modules/4.4.4/kernel/mod-loop-k.ko"]="mod-loop-k.ko"
-> > -    ["test-depmod/search-order-external-first/lib/modules/4.4.4/foo/"]="mod-simple.ko"
-> > -    ["test-depmod/search-order-external-first/lib/modules/4.4.4/foobar/"]="mod-simple.ko"
-> > +    ["test-depmod/search-order-simple$MODULE_DIRECTORY/4.4.4/kernel/crypto/"]="mod-simple.ko"
-> > +    ["test-depmod/search-order-simple$MODULE_DIRECTORY/4.4.4/updates/"]="mod-simple.ko"
-> > +    ["test-depmod/search-order-same-prefix$MODULE_DIRECTORY/4.4.4/foo/"]="mod-simple.ko"
-> > +    ["test-depmod/search-order-same-prefix$MODULE_DIRECTORY/4.4.4/foobar/"]="mod-simple.ko"
-> > +    ["test-depmod/detect-loop$MODULE_DIRECTORY/4.4.4/kernel/mod-loop-a.ko"]="mod-loop-a.ko"
-> > +    ["test-depmod/detect-loop$MODULE_DIRECTORY/4.4.4/kernel/mod-loop-b.ko"]="mod-loop-b.ko"
-> > +    ["test-depmod/detect-loop$MODULE_DIRECTORY/4.4.4/kernel/mod-loop-c.ko"]="mod-loop-c.ko"
-> > +    ["test-depmod/detect-loop$MODULE_DIRECTORY/4.4.4/kernel/mod-loop-d.ko"]="mod-loop-d.ko"
-> > +    ["test-depmod/detect-loop$MODULE_DIRECTORY/4.4.4/kernel/mod-loop-e.ko"]="mod-loop-e.ko"
-> > +    ["test-depmod/detect-loop$MODULE_DIRECTORY/4.4.4/kernel/mod-loop-f.ko"]="mod-loop-f.ko"
-> > +    ["test-depmod/detect-loop$MODULE_DIRECTORY/4.4.4/kernel/mod-loop-g.ko"]="mod-loop-g.ko"
-> > +    ["test-depmod/detect-loop$MODULE_DIRECTORY/4.4.4/kernel/mod-loop-h.ko"]="mod-loop-h.ko"
-> > +    ["test-depmod/detect-loop$MODULE_DIRECTORY/4.4.4/kernel/mod-loop-i.ko"]="mod-loop-i.ko"
-> > +    ["test-depmod/detect-loop$MODULE_DIRECTORY/4.4.4/kernel/mod-loop-j.ko"]="mod-loop-j.ko"
-> > +    ["test-depmod/detect-loop$MODULE_DIRECTORY/4.4.4/kernel/mod-loop-k.ko"]="mod-loop-k.ko"
-> > +    ["test-depmod/search-order-external-first$MODULE_DIRECTORY/4.4.4/foo/"]="mod-simple.ko"
-> > +    ["test-depmod/search-order-external-first$MODULE_DIRECTORY/4.4.4/foobar/"]="mod-simple.ko"
-> >     ["test-depmod/search-order-external-first/lib/modules/external/"]="mod-simple.ko"
-> 
-> why didn't you change it here?
-> 
-> > -    ["test-depmod/search-order-external-last/lib/modules/4.4.4/foo/"]="mod-simple.ko"
-> > -    ["test-depmod/search-order-external-last/lib/modules/4.4.4/foobar/"]="mod-simple.ko"
-> > +    ["test-depmod/search-order-external-last$MODULE_DIRECTORY/4.4.4/foo/"]="mod-simple.ko"
-> > +    ["test-depmod/search-order-external-last$MODULE_DIRECTORY/4.4.4/foobar/"]="mod-simple.ko"
-> >     ["test-depmod/search-order-external-last/lib/modules/external/"]="mod-simple.ko"
-> 
-> and here...
+Hi Michael,
 
-The path is embedded in binary files:
+On Fri, Nov 10, 2023 at 4:42=E2=80=AFAM Michael Ellerman <mpe@ellerman.id.a=
+u> wrote:
+> kernel test robot <lkp@intel.com> writes:
+> > kernel test robot noticed the following build errors:
+> >
+> > [auto build test ERROR on linus/master]
+> > [also build test ERROR on next-20231108]
+> > [cannot apply to v6.6]
+> > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > And when submitting patch, we suggest to use '--base' as documented in
+> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> >
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Arnd-Bergmann/id=
+a-make-ida_dump-static/20231109-005742
+> > base:   linus/master
+> > patch link:    https://lore.kernel.org/r/20231108125843.3806765-18-arnd=
+%40kernel.org
+> > patch subject: [PATCH 17/22] powerpc: ps3: move udbg_shutdown_ps3gelic =
+prototype
+> > config: powerpc64-randconfig-001-20231109 (https://download.01.org/0day=
+-ci/archive/20231109/202311090843.b8ISrsV1-lkp@intel.com/config)
+> > compiler: powerpc64-linux-gcc (GCC) 13.2.0
+> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
+hive/20231109/202311090843.b8ISrsV1-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202311090843.b8ISrsV1-l=
+kp@intel.com/
+> >
+> > All errors (new ones prefixed by >>):
+> >
+> >    arch/powerpc/platforms/ps3/gelic_udbg.c:59:1: warning: alignment 1 o=
+f 'struct debug_block' is less than 32 [-Wpacked-not-aligned]
+> >       59 | } __packed;
+> >          | ^
+> >>> arch/powerpc/platforms/ps3/gelic_udbg.c:240:6: error: redefinition of=
+ 'udbg_shutdown_ps3gelic'
+> >      240 | void udbg_shutdown_ps3gelic(void)
+> >          |      ^~~~~~~~~~~~~~~~~~~~~~
+> >    In file included from arch/powerpc/platforms/ps3/gelic_udbg.c:17:
+> >    arch/powerpc/include/asm/ps3.h:520:20: note: previous definition of =
+'udbg_shutdown_ps3gelic' with type 'void(void)'
+> >      520 | static inline void udbg_shutdown_ps3gelic(void) {}
+> >          |                    ^~~~~~~~~~~~~~~~~~~~~~
+>
+> As pointed out by Arnd this is due to there being two symbols that
+> control the gelic_udbg.c code.
+>
+> I don't see the need for PS3GELIC_UDBG, without PPC_EARLY_DEBUG_PS3GELIC
+> it just causes gelic_udbg.c to be built, but never called.
 
-t grep '/lib/modules' | grep Binary
-Binary file testsuite/rootfs-pristine/test-modinfo/external/lib/modules/4.4.4/modules.dep.bin matches
-Binary file testsuite/rootfs-pristine/test-modprobe/external/lib/modules/4.4.4/modules.dep.bin matches
-Binary file testsuite/rootfs-pristine/test-modprobe/module-from-abspath/lib/modules/4.4.4/modules.dep.bin matches
-Binary file testsuite/rootfs-pristine/test-modprobe/module-from-relpath/lib/modules/4.4.4/modules.dep.bin matches
+My first thought was: PPC_EARLY_DEBUG_PS3GELIC is meant as an early
+debugging console, while PS3GELIC_UDBG can be used with xmon later,
+but that does not seem to be the case.
 
-The reason is that path to 'external' modules that are not
-in $MODULE_DIRECTORY/$(KERNELRELEASE) is recorded as absolute path.
+> The diff below fixes the error AFAICS.
 
-The way these tests are designed the binary files cannot be changed.
+So your changes on top LGTM.
 
-To get the same file the non-'external' modules have to be moved to
-match the new location of $MODULE_DIRECTORY which results in the same
-path relative to $MODULE_DIRECTORY while the 'external' ones are not
-moved getting the same absolute path regardless of $MODULE_DIRECTORY.
+Gr{oetje,eeting}s,
 
-Thanks
+                        Geert
 
-Michal
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
