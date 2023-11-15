@@ -1,97 +1,375 @@
-Return-Path: <linux-kbuild+bounces-29-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-30-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E63B7EC384
-	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Nov 2023 14:22:01 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 874D57ECAE3
+	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Nov 2023 20:00:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 137381F25F60
-	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Nov 2023 13:22:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3030D2813E2
+	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Nov 2023 19:00:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23FB2DDAA;
-	Wed, 15 Nov 2023 13:21:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39CAE381BA;
+	Wed, 15 Nov 2023 18:59:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GuUugWhL"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B31F18C07
-	for <linux-kbuild@vger.kernel.org>; Wed, 15 Nov 2023 13:21:54 +0000 (UTC)
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 346AE11D;
-	Wed, 15 Nov 2023 05:21:51 -0800 (PST)
-Received: from loongson.cn (unknown [112.22.233.25])
-	by gateway (Coremail) with SMTP id _____8BxbOrtxVRlyEY6AA--.21729S3;
-	Wed, 15 Nov 2023 21:21:49 +0800 (CST)
-Received: from localhost.localdomain (unknown [112.22.233.25])
-	by localhost.localdomain (Coremail) with SMTP id AQAAf8Axzy_pxVRlXQNDAA--.16352S2;
-	Wed, 15 Nov 2023 21:21:48 +0800 (CST)
-From: WANG Rui <wangrui@loongson.cn>
-To: Huacai Chen <chenhuacai@kernel.org>
-Cc: WANG Xuerui <kernel@xen0n.name>,
-	Xi Ruoyao <xry111@xry111.site>,
-	linux-kernel@vger.kernel.org,
-	loongarch@lists.linux.dev,
-	linux-kbuild@vger.kernel.org,
-	llvm@lists.linux.dev,
-	loongson-kernel@lists.loongnix.cn,
-	WANG Rui <wangrui@loongson.cn>
-Subject: [PATCH] LoongArch: Explicitly set -fdirect-access-external-data for vmlinux
-Date: Wed, 15 Nov 2023 21:21:37 +0800
-Message-ID: <20231115132137.178523-1-wangrui@loongson.cn>
-X-Mailer: git-send-email 2.42.1
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BA88C7
+	for <linux-kbuild@vger.kernel.org>; Wed, 15 Nov 2023 10:59:54 -0800 (PST)
+Received: by mail-yb1-xb49.google.com with SMTP id 3f1490d57ef6-d9cb79eb417so8288552276.2
+        for <linux-kbuild@vger.kernel.org>; Wed, 15 Nov 2023 10:59:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1700074793; x=1700679593; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Qmcer6lC4M3sVp5hzPP8TVTi+lzihM8StX6tq1rvRlw=;
+        b=GuUugWhL63si7/+oCecj5zlr/69pP7X+2dxbWGcR5DGq173PqZ0X7rk5wk6eMxeTz7
+         dkNFzjiMKcJVJKvFBrG0xUtNoLthnjYAl7z7vs4LxuFxBeWvkmSs4vHm4Oo1aHZDYeqs
+         3yHmwuq+lVkMHGhouMuGFQJLQJcr3vbHLT1/JddMOQEoGsi1qTgAq5xpTnZYdFCzy3xu
+         FK9w9ya4n7ewj9xKcbPNszc0edz8XQs3o4askX1Zj9c/jM4SVj+RoFzKkSR8kkm/r51m
+         aTeq/MiiyRxm47XWpsLjWeHaknrzjbnXmNXSB/6K7fio0eez4IUwE5DWQ8yvucPNvOQi
+         DxJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700074793; x=1700679593;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Qmcer6lC4M3sVp5hzPP8TVTi+lzihM8StX6tq1rvRlw=;
+        b=u6t6mfMM7ExlHI7ZOhJWM5zWe186EYSq78MS/L0tLeNWPV7kyOLMFF01HYYXblNAwi
+         HlkqURRAtNycTKi5iK73NX4RDYzYlqUeVQJdue7loRbP1asLYQ5ROqyjfyDSrqL3DH/5
+         7Q+A4xn0NEXkXz0CuKTVsZiQXWR8be59PvG6oX8FJywzxrrUqwFtHh9KLGuv2sylJ3yb
+         PEI0aTq6CxVFLHMGAO8PaBMtf2FBBF8Few9ZW0e6CTBCyu5lyt8lkx4lYOfhbPqy7a3+
+         30P+in0SPdNUJ1540YkXS+Ypt1p52l2fR0wVqu5GWwi8lbsxTk3xfBWyfLjOI4qhKXVh
+         Ki5Q==
+X-Gm-Message-State: AOJu0Yz08O7HMbJGvmveBNHDotx061rXcV+tevlkD7PNnYXS4ML3ynrG
+	rg12DTJphsITowUNkSfRLtYKljuXtWJr
+X-Google-Smtp-Source: AGHT+IHERGA7zRpPfbLXEqdgyK4LyKKZECDv5ROgnQkI8SyPb13F+RZ2TBOoN1DR45atLajBKyBsyY0c+xc6
+X-Received: from anyblade.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:1791])
+ (user=mmaurer job=sendgmr) by 2002:a25:ab65:0:b0:da3:723b:b2a4 with SMTP id
+ u92-20020a25ab65000000b00da3723bb2a4mr304318ybi.7.1700074793576; Wed, 15 Nov
+ 2023 10:59:53 -0800 (PST)
+Date: Wed, 15 Nov 2023 18:50:10 +0000
+In-Reply-To: <20231115185858.2110875-1-mmaurer@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:AQAAf8Axzy_pxVRlXQNDAA--.16352S2
-X-CM-SenderInfo: pzdqw2txl6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBj93XoW7JrWUtr47Ww47Zr4rGryrZrc_yoW8Jrykpa
-	97ur48Gws5ArWIqF9FqFWfXw4qyr4DJr4fZa47Krn8ZFyDZryfZw45Ar4qg3W2y34kAryx
-	Wa1xGFy2qFW5JwbCm3ZEXasCq-sJn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUkFb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
-	xVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx
-	1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv
-	67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2
-	Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s02
-	6x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0x
-	vE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE
-	42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6x
-	kF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07j1WlkUUUUU=
+Mime-Version: 1.0
+References: <20231115185858.2110875-1-mmaurer@google.com>
+X-Mailer: git-send-email 2.43.0.rc0.421.g78406f8d94-goog
+Message-ID: <20231115185858.2110875-3-mmaurer@google.com>
+Subject: [PATCH 2/3] modpost: Extended modversion support
+From: Matthew Maurer <mmaurer@google.com>
+To: gary@garyguo.net, masahiroy@kernel.org, 
+	Michael Ellerman <mpe@ellerman.id.au>, Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, 
+	Nicholas Piggin <npiggin@gmail.com>, Josh Poimboeuf <jpoimboe@kernel.org>, Song Liu <song@kernel.org>, 
+	Petr Mladek <pmladek@suse.com>, Matthew Maurer <mmaurer@google.com>, Naveen N Rao <naveen@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, 
+	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Randy Dunlap <rdunlap@infradead.org>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Nhat Pham <nphamcs@gmail.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"=?UTF-8?q?Marc=20Aur=C3=A8le=20La=20France?=" <tsi@tuyoix.net>
+Cc: Christophe Leroy <christophe.leroy@csgroup.eu>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Boqun Feng <boqun.feng@gmail.com>, 
+	"=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?=" <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>, 
+	Andreas Hindborg <a.hindborg@samsung.com>, Alice Ryhl <aliceryhl@google.com>, 
+	Vlastimil Babka <vbabka@suse.cz>, Ard Biesheuvel <ardb@kernel.org>, linuxppc-dev@lists.ozlabs.org, 
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-After this llvm commit [1], The -fno-pic does not imply direct access
-external data. Explicitly set -fdirect-access-external-data for vmlinux
-that can avoids GOT entries.
+Adds a new format for modversions which stores each field in a separate
+elf section. This initially adds support for variable length names, but
+could later be used to add additional fields to modversions in a
+backwards compatible way if needed.
 
-Link: https://github.com/llvm/llvm-project/commit/47eeee297775347cbdb7624d6a766c2a3eec4a59
-Suggested-by: Xi Ruoyao <xry111@xry111.site>
-Signed-off-by: WANG Rui <wangrui@loongson.cn>
+Adding support for variable length names makes it possible to enable
+MODVERSIONS and RUST at the same time.
+
+Signed-off-by: Matthew Maurer <mmaurer@google.com>
 ---
- arch/loongarch/Makefile | 1 +
- 1 file changed, 1 insertion(+)
+ arch/powerpc/kernel/module_64.c | 24 +++++++++-
+ init/Kconfig                    |  1 -
+ kernel/module/internal.h        | 16 ++++++-
+ kernel/module/main.c            |  9 +++-
+ kernel/module/version.c         | 77 +++++++++++++++++++++++++++++++++
+ scripts/mod/modpost.c           | 33 ++++++++++++--
+ 6 files changed, 151 insertions(+), 9 deletions(-)
 
-diff --git a/arch/loongarch/Makefile b/arch/loongarch/Makefile
-index c31a62521e6b..1f0d74403419 100644
---- a/arch/loongarch/Makefile
-+++ b/arch/loongarch/Makefile
-@@ -68,6 +68,7 @@ LDFLAGS_vmlinux			+= -static -n -nostdlib
- ifdef CONFIG_AS_HAS_EXPLICIT_RELOCS
- cflags-y			+= $(call cc-option,-mexplicit-relocs)
- KBUILD_CFLAGS_KERNEL		+= $(call cc-option,-mdirect-extern-access)
-+KBUILD_CFLAGS_KERNEL		+= $(call cc-option,-fdirect-access-external-data)
- KBUILD_AFLAGS_MODULE		+= $(call cc-option,-fno-direct-access-external-data)
- KBUILD_CFLAGS_MODULE		+= $(call cc-option,-fno-direct-access-external-data)
- KBUILD_AFLAGS_MODULE		+= $(call cc-option,-mno-relax) $(call cc-option,-Wa$(comma)-mno-relax)
+diff --git a/arch/powerpc/kernel/module_64.c b/arch/powerpc/kernel/module_64.c
+index 7112adc597a8..2582353a2048 100644
+--- a/arch/powerpc/kernel/module_64.c
++++ b/arch/powerpc/kernel/module_64.c
+@@ -355,6 +355,24 @@ static void dedotify_versions(struct modversion_info *vers,
+ 		}
+ }
+ 
++static void dedotify_ext_version_names(char *str_seq, unsigned long size)
++{
++	unsigned long out = 0;
++	unsigned long in;
++	char last = '\0';
++
++	for (in = 0; in < size; in++) {
++		if (last == '\0')
++			/* Skip all leading dots */
++			if (str_seq[in] == '.')
++				continue;
++		last = str_seq[in];
++		str_seq[out++] = last;
++	}
++	/* Zero the trailing portion of the names table for robustness */
++	bzero(&str_seq[out], size - out);
++}
++
+ /*
+  * Undefined symbols which refer to .funcname, hack to funcname. Make .TOC.
+  * seem to be defined (value set later).
+@@ -424,10 +442,12 @@ int module_frob_arch_sections(Elf64_Ehdr *hdr,
+ 			me->arch.toc_section = i;
+ 			if (sechdrs[i].sh_addralign < 8)
+ 				sechdrs[i].sh_addralign = 8;
+-		}
+-		else if (strcmp(secstrings+sechdrs[i].sh_name,"__versions")==0)
++		} else if (strcmp(secstrings + sechdrs[i].sh_name, "__versions") == 0)
+ 			dedotify_versions((void *)hdr + sechdrs[i].sh_offset,
+ 					  sechdrs[i].sh_size);
++		else if (strcmp(secstrings + sechdrs[i].sh_name, "__version_ext_names") == 0)
++			dedotify_ext_version_names((void *)hdr + sechdrs[i].sh_offset,
++						   sechdrs[i].sh_size);
+ 
+ 		if (sechdrs[i].sh_type == SHT_SYMTAB)
+ 			dedotify((void *)hdr + sechdrs[i].sh_offset,
+diff --git a/init/Kconfig b/init/Kconfig
+index 9ffb103fc927..6cac5b4db8f6 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -1885,7 +1885,6 @@ config RUST
+ 	bool "Rust support"
+ 	depends on HAVE_RUST
+ 	depends on RUST_IS_AVAILABLE
+-	depends on !MODVERSIONS
+ 	depends on !GCC_PLUGINS
+ 	depends on !RANDSTRUCT
+ 	depends on !DEBUG_INFO_BTF || PAHOLE_HAS_LANG_EXCLUDE
+diff --git a/kernel/module/internal.h b/kernel/module/internal.h
+index c8b7b4dcf782..0c188c96a045 100644
+--- a/kernel/module/internal.h
++++ b/kernel/module/internal.h
+@@ -80,7 +80,7 @@ struct load_info {
+ 	unsigned int used_pages;
+ #endif
+ 	struct {
+-		unsigned int sym, str, mod, vers, info, pcpu;
++		unsigned int sym, str, mod, vers, info, pcpu, vers_ext_crc, vers_ext_name;
+ 	} index;
+ };
+ 
+@@ -384,6 +384,20 @@ void module_layout(struct module *mod, struct modversion_info *ver, struct kerne
+ 		   struct kernel_symbol *ks, struct tracepoint * const *tp);
+ int check_modstruct_version(const struct load_info *info, struct module *mod);
+ int same_magic(const char *amagic, const char *bmagic, bool has_crcs);
++struct modversion_info_ext_s32 {
++	const s32 *value;
++	const s32 *end;
++};
++struct modversion_info_ext_string {
++	const char *value;
++	const char *end;
++};
++struct modversion_info_ext {
++	struct modversion_info_ext_s32 crc;
++	struct modversion_info_ext_string name;
++};
++ssize_t modversion_ext_start(const struct load_info *info, struct modversion_info_ext *ver);
++int modversion_ext_advance(struct modversion_info_ext *ver);
+ #else /* !CONFIG_MODVERSIONS */
+ static inline int check_version(const struct load_info *info,
+ 				const char *symname,
+diff --git a/kernel/module/main.c b/kernel/module/main.c
+index 98fedfdb8db5..e69b2ae46161 100644
+--- a/kernel/module/main.c
++++ b/kernel/module/main.c
+@@ -1886,10 +1886,15 @@ static int elf_validity_cache_copy(struct load_info *info, int flags)
+ 	if (!info->name)
+ 		info->name = info->mod->name;
+ 
+-	if (flags & MODULE_INIT_IGNORE_MODVERSIONS)
++	if (flags & MODULE_INIT_IGNORE_MODVERSIONS) {
+ 		info->index.vers = 0; /* Pretend no __versions section! */
+-	else
++		info->index.vers_ext_crc = 0;
++		info->index.vers_ext_name = 0;
++	} else {
+ 		info->index.vers = find_sec(info, "__versions");
++		info->index.vers_ext_crc = find_sec(info, "__version_ext_crcs");
++		info->index.vers_ext_name = find_sec(info, "__version_ext_names");
++	}
+ 
+ 	info->index.pcpu = find_pcpusec(info);
+ 
+diff --git a/kernel/module/version.c b/kernel/module/version.c
+index 53f43ac5a73e..93d97dad8c77 100644
+--- a/kernel/module/version.c
++++ b/kernel/module/version.c
+@@ -19,11 +19,28 @@ int check_version(const struct load_info *info,
+ 	unsigned int versindex = info->index.vers;
+ 	unsigned int i, num_versions;
+ 	struct modversion_info *versions;
++	struct modversion_info_ext version_ext;
+ 
+ 	/* Exporting module didn't supply crcs?  OK, we're already tainted. */
+ 	if (!crc)
+ 		return 1;
+ 
++	/* If we have extended version info, rely on it */
++	if (modversion_ext_start(info, &version_ext) >= 0) {
++		do {
++			if (strncmp(version_ext.name.value, symname,
++				    version_ext.name.end - version_ext.name.value) != 0)
++				continue;
++
++			if (*version_ext.crc.value == *crc)
++				return 1;
++			pr_debug("Found checksum %X vs module %X\n",
++				 *crc, *version_ext.crc.value);
++			goto bad_version;
++		} while (modversion_ext_advance(&version_ext) == 0);
++		goto broken_toolchain;
++	}
++
+ 	/* No versions at all?  modprobe --force does this. */
+ 	if (versindex == 0)
+ 		return try_to_force_load(mod, symname) == 0;
+@@ -46,6 +63,7 @@ int check_version(const struct load_info *info,
+ 		goto bad_version;
+ 	}
+ 
++broken_toolchain:
+ 	/* Broken toolchain. Warn once, then let it go.. */
+ 	pr_warn_once("%s: no symbol version for %s\n", info->name, symname);
+ 	return 1;
+@@ -87,6 +105,65 @@ int same_magic(const char *amagic, const char *bmagic,
+ 	return strcmp(amagic, bmagic) == 0;
+ }
+ 
++#define MODVERSION_FIELD_START(sec, field) \
++	field.value = (typeof(field.value))sec.sh_addr; \
++	field.end = field.value + sec.sh_size
++
++ssize_t modversion_ext_start(const struct load_info *info,
++			     struct modversion_info_ext *start)
++{
++	unsigned int crc_idx = info->index.vers_ext_crc;
++	unsigned int name_idx = info->index.vers_ext_name;
++	Elf_Shdr *sechdrs = info->sechdrs;
++
++	// Both of these fields are needed for this to be useful
++	// Any future fields should be initialized to NULL if absent.
++	if ((crc_idx == 0) || (name_idx == 0))
++		return -EINVAL;
++
++	MODVERSION_FIELD_START(sechdrs[crc_idx], start->crc);
++	MODVERSION_FIELD_START(sechdrs[name_idx], start->name);
++
++	return (start->crc.end - start->crc.value) / sizeof(*start->crc.value);
++}
++
++static int modversion_ext_s32_advance(struct modversion_info_ext_s32 *field)
++{
++	if (!field->value)
++		return 0;
++	if (field->value >= field->end)
++		return -EINVAL;
++	field->value++;
++	return 0;
++}
++
++static int modversion_ext_string_advance(struct modversion_info_ext_string *s)
++{
++	if (!s->value)
++		return 0;
++	if (s->value >= s->end)
++		return -EINVAL;
++	s->value += strnlen(s->value, s->end - s->value - 1) + 1;
++	if (s->value >= s->end)
++		return -EINVAL;
++	return 0;
++}
++
++int modversion_ext_advance(struct modversion_info_ext *start)
++{
++	int ret;
++
++	ret = modversion_ext_s32_advance(&start->crc);
++	if (ret < 0)
++		return ret;
++
++	ret = modversion_ext_string_advance(&start->name);
++	if (ret < 0)
++		return ret;
++
++	return 0;
++}
++
+ /*
+  * Generate the signature for all relevant module structures here.
+  * If these change, we don't want to try to parse the module.
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index 973b5e5ae2dd..884860c2e833 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -1910,15 +1910,42 @@ static void add_versions(struct buffer *b, struct module *mod)
+ 			continue;
+ 		}
+ 		if (strlen(s->name) >= MODULE_NAME_LEN) {
+-			error("too long symbol \"%s\" [%s.ko]\n",
+-			      s->name, mod->name);
+-			break;
++			/* this symbol will only be in the extended info */
++			continue;
+ 		}
+ 		buf_printf(b, "\t{ %#8x, \"%s\" },\n",
+ 			   s->crc, s->name);
+ 	}
+ 
+ 	buf_printf(b, "};\n");
++
++	buf_printf(b, "static const s32 ____version_ext_crcs[]\n");
++	buf_printf(b, "__used __section(\"__version_ext_crcs\") = {\n");
++	list_for_each_entry(s, &mod->unresolved_symbols, list) {
++		if (!s->module)
++			continue;
++		if (!s->crc_valid) {
++			// We already warned on this when producing the legacy
++			// modversions table.
++			continue;
++		}
++		buf_printf(b, "\t%#8x,\n", s->crc);
++	}
++	buf_printf(b, "};\n");
++
++	buf_printf(b, "static const char ____version_ext_names[]\n");
++	buf_printf(b, "__used __section(\"__version_ext_names\") =\n");
++	list_for_each_entry(s, &mod->unresolved_symbols, list) {
++		if (!s->module)
++			continue;
++		if (!s->crc_valid) {
++			// We already warned on this when producing the legacy
++			// modversions table.
++			continue;
++		}
++		buf_printf(b, "\t\"%s\\0\"\n", s->name);
++	}
++	buf_printf(b, ";\n");
+ }
+ 
+ static void add_depends(struct buffer *b, struct module *mod)
 -- 
-2.42.1
+2.43.0.rc0.421.g78406f8d94-goog
 
 
