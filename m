@@ -1,111 +1,102 @@
-Return-Path: <linux-kbuild+bounces-31-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-32-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DEEC7ED89F
-	for <lists+linux-kbuild@lfdr.de>; Thu, 16 Nov 2023 01:38:52 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 280297EDA2A
+	for <lists+linux-kbuild@lfdr.de>; Thu, 16 Nov 2023 04:27:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 763A91C20B56
-	for <lists+linux-kbuild@lfdr.de>; Thu, 16 Nov 2023 00:38:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C7B0E1F2374B
+	for <lists+linux-kbuild@lfdr.de>; Thu, 16 Nov 2023 03:27:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59FEE7E;
-	Thu, 16 Nov 2023 00:38:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B869D8F40;
+	Thu, 16 Nov 2023 03:27:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g28Utjwy"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F75D15A7
-	for <linux-kbuild@vger.kernel.org>; Thu, 16 Nov 2023 00:38:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92D87C433CB;
-	Thu, 16 Nov 2023 00:38:45 +0000 (UTC)
-Received: by mercury (Postfix, from userid 1000)
-	id 311901062B6C; Thu, 16 Nov 2023 01:38:42 +0100 (CET)
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Sebastian Reichel <sre@kernel.org>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Nicolas Ferre <nicolas.ferre@microchip.com>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Claudiu Beznea <claudiu.beznea@tuxon.dev>, linux-pm@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, kernel@pengutronix.de, 
- linux-kbuild@vger.kernel.org, Manivannan Sadhasivam <mani@kernel.org>, 
- Cristian Ciocaltea <cristian.ciocaltea@gmail.com>, 
- linux-actions@lists.infradead.org, Sean Wang <sean.wang@mediatek.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- linux-mediatek@lists.infradead.org
-In-Reply-To: <20231104211501.3676352-16-u.kleine-koenig@pengutronix.de>
-References: <20231104211501.3676352-16-u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH 00/14] power: reset: Drop platform_driver_probe() and
- convert to platform remove callback returning void
-Message-Id: <170009512218.785165.16271461927880645389.b4-ty@collabora.com>
-Date: Thu, 16 Nov 2023 01:38:42 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 972D479D4;
+	Thu, 16 Nov 2023 03:27:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CE41C433C7;
+	Thu, 16 Nov 2023 03:27:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1700105229;
+	bh=0RxvFSGgxRT7IzJsthnJWzmXWCyJavEwPeaq9aEW7Sc=;
+	h=Date:From:To:Cc:Subject:From;
+	b=g28Utjwy9tiQeSYo5Ou1JeJZ+xpcjmO2McxjRXcY6dku5ZFpCfd89/xGX+FMUj7dR
+	 kAYlx66JNZF+0x8GSf495dBz12b92M2laK/mKiH/gyHH41odO33dbCsvCFal1bMLcH
+	 cbE4DGYuxS7/QuWOfMspVxWURHDZOMvDACU8uXZh8hb1mowsEbUCIQZI9cCXhZidET
+	 ZnPcFPPM8C+5uRjgPiM48cPMbP+zB5NQv5tTrV5/TJac1BGN3KB1ISnTGH8RDY+TjQ
+	 baJqz3isNod82PvbColGx2jWivFpsEEO5RatsdyDagTQSjfVHCftQ4tYjmrtozdRJf
+	 QrLuGZhbeTHRA==
+Date: Wed, 15 Nov 2023 21:27:05 -0600
+From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Nicolas Schier <nicolas@fjasle.eu>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH][next] Makefile: Enable -Wstringop-overflow globally
+Message-ID: <ZVWMCZ/jb4nX3yHn@work>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.12.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+It seems that we have finished addressing all the remaining
+issues regarding compiler option -Wstringop-overflow. So, we
+are now in good shape to enable this compiler option globally.
 
-On Sat, 04 Nov 2023 22:15:02 +0100, Uwe Kleine-König wrote:
-> there are two different types of patches here that would justify to
-> different series. But as the patches are not independant I chose to put
-> them in a single series.
-> 
-> The first three patches drop usage of platform_driver_probe(). This is a
-> concept that isn't so relevant any more today. I didn't check, but it
-> saves typically only a few 100k and there are thoughts to deprecate it
-> to simplify the core. Getting the usage right is not trivial though the
-> at91 drivers got it nearly right. The alternative to these patches is to
-> add __ref to the driver struct ideally with a comment describing the
-> need like is e.g. done in commit 5b44abbc39ca ("platform/x86: hp-wmi::
-> Mark driver struct with __refdata to prevent section mismatch warning").
-> 
-> [...]
+Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+---
+ Makefile                   | 3 +++
+ scripts/Makefile.extrawarn | 2 --
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-Applied, thanks!
-
-[01/14] power: reset: at91-poweroff: Stop using module_platform_driver_probe()
-        commit: 099806de68b75a0fe114376b1ee162fdff572ecc
-[02/14] power: reset: at91-reset:: Stop using module_platform_driver_probe()
-        commit: 12389c657b623da34ba9b30306e13919d0b42f3a
-[03/14] power: reset: at91-sama5d2_shdwc: Stop using module_platform_driver_probe()
-        commit: dde74a5de817e0a011e4783cf26295d7f6fdca26
-[04/14] power: reset: as3722-poweroff: Convert to platform remove callback returning void
-        commit: 904e582f0c7282b3d7c76c73c06f3ad3b0910335
-[05/14] power: reset: at91-poweroff: Convert to platform remove callback returning void
-        commit: a31438ece3ec27057c77822b0b0bc0614798c425
-[06/14] power: reset: atc260x-poweroff: Convert to platform remove callback returning void
-        commit: 6f539f3151721f1c90fcdafa2962c19a8efc1afc
-[07/14] power: reset: ltc2952-poweroff: Convert to platform remove callback returning void
-        commit: 6642b13206b2225b0d75451f5dd763574a2c8bb0
-[08/14] power: reset: mt6323-poweroff: Convert to platform remove callback returning void
-        commit: 99f7fa6c7cc573ebe2529959723b71b4d12ec2f5
-[09/14] power: reset: qnap-poweroff: Convert to platform remove callback returning void
-        commit: 1a0457ab2ce81d92c2077a79080141d924884c5f
-[10/14] power: reset: regulator-poweroff: Convert to platform remove callback returning void
-        commit: 6f7be7b2f15a654a5f08b7d37df282c171b9380b
-[11/14] power: reset: restart-poweroff: Convert to platform remove callback returning void
-        commit: aedd4da0aa27fe9d0b03b3fbf62376aebbfc385b
-[12/14] power: reset: rmobile-reset: Convert to platform remove callback returning void
-        commit: 30d26d2be83de0d036f59f384b805dd3bf4bf5ef
-[13/14] power: reset: syscon-poweroff: Convert to platform remove callback returning void
-        commit: 2973706c4160ed8c1e695b4dfef4bdb3124c5753
-[14/14] power: reset: tps65086-restart: Convert to platform remove callback returning void
-        commit: 0bf7207e09673144df6425b2cad8bcb015e3501a
-[15/15] power: reset: at91-reset: Convert to platform remove callback returning void
-        commit: 20cea2b59abe33b80536b936b6729c88d1de2624
-[16/16] power: reset: at91-sama5d2_shdwc: Convert to platform remove callback returning void
-        commit: 054eb2377523530404fb64c24c8747feb022c5b4
-
-Best regards,
+diff --git a/Makefile b/Makefile
+index 690cde550acd..452b7d0e19e9 100644
+--- a/Makefile
++++ b/Makefile
+@@ -985,6 +985,9 @@ NOSTDINC_FLAGS += -nostdinc
+ # perform bounds checking.
+ KBUILD_CFLAGS += $(call cc-option, -fstrict-flex-arrays=3)
+ 
++# We are now in good shape to enable this option.
++KBUILD_CFLAGS += $(call cc-option, -Wstringop-overflow)
++
+ # disable invalid "can't wrap" optimizations for signed / pointers
+ KBUILD_CFLAGS	+= -fno-strict-overflow
+ 
+diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
+index 2fe6f2828d37..1527199161d7 100644
+--- a/scripts/Makefile.extrawarn
++++ b/scripts/Makefile.extrawarn
+@@ -106,7 +106,6 @@ KBUILD_CFLAGS += $(call cc-option, -Wunused-const-variable)
+ KBUILD_CFLAGS += $(call cc-option, -Wpacked-not-aligned)
+ KBUILD_CFLAGS += $(call cc-option, -Wformat-overflow)
+ KBUILD_CFLAGS += $(call cc-option, -Wformat-truncation)
+-KBUILD_CFLAGS += $(call cc-option, -Wstringop-overflow)
+ KBUILD_CFLAGS += $(call cc-option, -Wstringop-truncation)
+ 
+ KBUILD_CPPFLAGS += -Wundef
+@@ -122,7 +121,6 @@ KBUILD_CFLAGS += $(call cc-disable-warning, restrict)
+ KBUILD_CFLAGS += $(call cc-disable-warning, packed-not-aligned)
+ KBUILD_CFLAGS += $(call cc-disable-warning, format-overflow)
+ KBUILD_CFLAGS += $(call cc-disable-warning, format-truncation)
+-KBUILD_CFLAGS += $(call cc-disable-warning, stringop-overflow)
+ KBUILD_CFLAGS += $(call cc-disable-warning, stringop-truncation)
+ 
+ ifdef CONFIG_CC_IS_CLANG
 -- 
-Sebastian Reichel <sebastian.reichel@collabora.com>
+2.34.1
 
 
