@@ -1,122 +1,172 @@
-Return-Path: <linux-kbuild+bounces-37-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-38-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA49E7EE10A
-	for <lists+linux-kbuild@lfdr.de>; Thu, 16 Nov 2023 14:05:07 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44BCA7EE295
+	for <lists+linux-kbuild@lfdr.de>; Thu, 16 Nov 2023 15:18:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 80CFE1F246F6
-	for <lists+linux-kbuild@lfdr.de>; Thu, 16 Nov 2023 13:05:07 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BA4BAB20BA3
+	for <lists+linux-kbuild@lfdr.de>; Thu, 16 Nov 2023 14:18:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C15E62FE3F;
-	Thu, 16 Nov 2023 13:05:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38120DDAB;
+	Thu, 16 Nov 2023 14:18:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b="e6oxUElr"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 071A811D;
-	Thu, 16 Nov 2023 05:04:58 -0800 (PST)
-Received: from loongson.cn (unknown [112.22.233.25])
-	by gateway (Coremail) with SMTP id _____8CxLOt5E1Zl8Is6AA--.44338S3;
-	Thu, 16 Nov 2023 21:04:57 +0800 (CST)
-Received: from localhost.localdomain (unknown [112.22.233.25])
-	by localhost.localdomain (Coremail) with SMTP id AQAAf8CxP912E1ZlOydEAA--.20248S2;
-	Thu, 16 Nov 2023 21:04:56 +0800 (CST)
-From: WANG Rui <wangrui@loongson.cn>
-To: Huacai Chen <chenhuacai@kernel.org>
-Cc: WANG Xuerui <kernel@xen0n.name>,
-	Jinyang He <hejinyang@loongson.cn>,
-	Xi Ruoyao <xry111@xry111.site>,
-	linux-kernel@vger.kernel.org,
-	loongarch@lists.linux.dev,
-	linux-kbuild@vger.kernel.org,
-	llvm@lists.linux.dev,
-	loongson-kernel@lists.loongnix.cn,
-	WANG Rui <wangrui@loongson.cn>
-Subject: [PATCH] LoongArch: Record pc instead of offset in la-abs relocation
-Date: Thu, 16 Nov 2023 21:03:31 +0800
-Message-ID: <20231116130331.241395-1-wangrui@loongson.cn>
-X-Mailer: git-send-email 2.42.1
+Received: from omta036.useast.a.cloudfilter.net (omta036.useast.a.cloudfilter.net [44.202.169.35])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1095219D
+	for <linux-kbuild@vger.kernel.org>; Thu, 16 Nov 2023 06:18:47 -0800 (PST)
+Received: from eig-obgw-6005a.ext.cloudfilter.net ([10.0.30.201])
+	by cmsmtp with ESMTPS
+	id 3aXQr00VGgpyE3dChrfxK9; Thu, 16 Nov 2023 14:18:47 +0000
+Received: from gator4166.hostgator.com ([108.167.133.22])
+	by cmsmtp with ESMTPS
+	id 3dCfrIsn48KNv3dCgr4Yqz; Thu, 16 Nov 2023 14:18:46 +0000
+X-Authority-Analysis: v=2.4 cv=dp3Itns4 c=1 sm=1 tr=0 ts=655624c6
+ a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=WzbPXH4gqzPVN0x6HrNMNA==:17
+ a=OWjo9vPv0XrRhIrVQ50Ab3nP57M=:19 a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19
+ a=IkcTkHD0fZMA:10 a=BNY50KLci1gA:10 a=wYkD_t78qR0A:10 a=VwQbUJbxAAAA:8
+ a=QjxsOCQfT30fdp00ze8A:9 a=QEXdDO2ut3YA:10 a=AjGcO6oz07-iQ99wixmX:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=MOuVp5lGP1M6/tw0eHZ9E5ELxXkBynPRyGwIqBxCovU=; b=e6oxUElrS6W3RP5z+BAZjOCQ1n
+	ay/qOEbo57lOUd/+S89VygFWbiXYPRewufIVQIM1NyyRciA4E918iCehewb0kiAv75cNmbgDDc0Fb
+	GvD2DS3jqqJH7gIgZPbwMr09SskeTzBmoZkQ84Wo3amGsonw+UCOnERSFUfx12fjwaHgdC/7sUFbO
+	7a4csOmE7QaZZzRndHlYPm/23q+nE13Vd+vTvOidt19rWRqrnyVOV1rzK5xZnV9qnzkUr898a3Cc0
+	90t/xi3fhz4elnjUSZnKT/13ig2TXvDEwbSL9of+JpkeFfepFKNe8PDU+q0h9XfPovkxx3VYv8Vh0
+	wqeoWMpw==;
+Received: from 187-162-21-192.static.axtel.net ([187.162.21.192]:38172 helo=[192.168.15.10])
+	by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.96.2)
+	(envelope-from <gustavo@embeddedor.com>)
+	id 1r3dCf-000Wnb-0W;
+	Thu, 16 Nov 2023 08:18:45 -0600
+Message-ID: <e385a095-c6ea-4db5-ab7c-7221593dc6c3@embeddedor.com>
+Date: Thu, 16 Nov 2023 08:18:43 -0600
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH][next] Makefile: Enable -Wstringop-overflow globally
+Content-Language: en-US
+To: Masahiro Yamada <masahiroy@kernel.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <ndesaulniers@google.com>,
+ Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+References: <ZVWMCZ/jb4nX3yHn@work>
+ <CAK7LNAR1i8HP8E3UmmSggZMka+UbJswU_bVMyxmRt4CbQhoTAA@mail.gmail.com>
+From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+In-Reply-To: <CAK7LNAR1i8HP8E3UmmSggZMka+UbJswU_bVMyxmRt4CbQhoTAA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:AQAAf8CxP912E1ZlOydEAA--.20248S2
-X-CM-SenderInfo: pzdqw2txl6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBj93XoW7CFyxuF43Zw47Aw4Uur4kuFX_yoW8Zry8pF
-	9rZr1ktF4rWr1fKF1Dtas8urn8JanrWr1aganxKa48Aa1aqF1DXr1vg3sFvFyUta1FqrWI
-	ga4rKwnaqa1UAwcCm3ZEXasCq-sJn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUkFb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
-	xVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx
-	1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv
-	67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2
-	Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s02
-	6x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0x
-	vE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE
-	42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6x
-	kF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07j1WlkUUUUU=
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 187.162.21.192
+X-Source-L: No
+X-Exim-ID: 1r3dCf-000Wnb-0W
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 187-162-21-192.static.axtel.net ([192.168.15.10]) [187.162.21.192]:38172
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 3
+X-Org: HG=hgshared;ORG=hostgator;
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfH4ty0mN6I5j02A2C+UkvrBZRLgxSG0KGYqsTVFLGiaj/f3vn2+daz0vCKvAu3CSyWTlQfhiudjhu09RXvc+4CS1lQLv1lVLRi2atYIBPtZM2BHbhPC4
+ jmLWUTMQDNKpV3bObQ4h980BhDQqxXwBknkemgnFbgr/XYFrtNTKAsjoihLY3I6m9oCcCkS0mUT9ycL7CrSARiO7EHbfIOzxbmpz5dVupc/asVZaMu2By67U
 
-To clarify, the previous version functioned flawlessly. However, it's
-worth noting that the LLVM's LoongArch backend currently lacks support
-for cross-section label calculations. With this patch, we enable the use
-of clang to compile relocatable kernels.
 
-Signed-off-by: WANG Rui <wangrui@loongson.cn>
----
- arch/loongarch/include/asm/asmmacro.h | 3 +--
- arch/loongarch/include/asm/setup.h    | 2 +-
- arch/loongarch/kernel/relocate.c      | 2 +-
- 3 files changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/arch/loongarch/include/asm/asmmacro.h b/arch/loongarch/include/asm/asmmacro.h
-index c9544f358c33..655db7d7a427 100644
---- a/arch/loongarch/include/asm/asmmacro.h
-+++ b/arch/loongarch/include/asm/asmmacro.h
-@@ -609,8 +609,7 @@
- 	lu32i.d	\reg, 0
- 	lu52i.d	\reg, \reg, 0
- 	.pushsection ".la_abs", "aw", %progbits
--	768:
--	.dword	768b-766b
-+	.dword	766b
- 	.dword	\sym
- 	.popsection
- #endif
-diff --git a/arch/loongarch/include/asm/setup.h b/arch/loongarch/include/asm/setup.h
-index a0bc159ce8bd..ee52fb1e9963 100644
---- a/arch/loongarch/include/asm/setup.h
-+++ b/arch/loongarch/include/asm/setup.h
-@@ -25,7 +25,7 @@ extern void set_merr_handler(unsigned long offset, void *addr, unsigned long len
- #ifdef CONFIG_RELOCATABLE
- 
- struct rela_la_abs {
--	long offset;
-+	long pc;
- 	long symvalue;
- };
- 
-diff --git a/arch/loongarch/kernel/relocate.c b/arch/loongarch/kernel/relocate.c
-index 6c3eff9af9fb..288b739ca88d 100644
---- a/arch/loongarch/kernel/relocate.c
-+++ b/arch/loongarch/kernel/relocate.c
-@@ -52,7 +52,7 @@ static inline void __init relocate_absolute(long random_offset)
- 	for (p = begin; (void *)p < end; p++) {
- 		long v = p->symvalue;
- 		uint32_t lu12iw, ori, lu32id, lu52id;
--		union loongarch_instruction *insn = (void *)p - p->offset;
-+		union loongarch_instruction *insn = (void *)p->pc;
- 
- 		lu12iw = (v >> 12) & 0xfffff;
- 		ori    = v & 0xfff;
--- 
-2.42.1
+On 11/16/23 05:23, Masahiro Yamada wrote:
+> On Thu, Nov 16, 2023 at 12:27 PM Gustavo A. R. Silva
+> <gustavoars@kernel.org> wrote:
+>>
+>> It seems that we have finished addressing all the remaining
+>> issues regarding compiler option -Wstringop-overflow. So, we
+>> are now in good shape to enable this compiler option globally.
+>>
+>> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+>> ---
+>>   Makefile                   | 3 +++
+>>   scripts/Makefile.extrawarn | 2 --
+>>   2 files changed, 3 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/Makefile b/Makefile
+>> index 690cde550acd..452b7d0e19e9 100644
+>> --- a/Makefile
+>> +++ b/Makefile
+>> @@ -985,6 +985,9 @@ NOSTDINC_FLAGS += -nostdinc
+>>   # perform bounds checking.
+>>   KBUILD_CFLAGS += $(call cc-option, -fstrict-flex-arrays=3)
+>>
+>> +# We are now in good shape to enable this option.
+> 
+> Please remove this comment.
+> 
+> It it fine to mention it in the commit log, but
+> not in the Makefile.
 
+Sure thing. I'll change that and add this patch to my -next tree.
+
+> 
+> 
+> 
+> I hope somebody will double-check this patch in CI infrastructure.
+
+I'll take care of that.
+
+Thanks
+--
+Gustavo
+
+> 
+> 
+> 
+> 
+>> +KBUILD_CFLAGS += $(call cc-option, -Wstringop-overflow)
+>> +
+>>   # disable invalid "can't wrap" optimizations for signed / pointers
+>>   KBUILD_CFLAGS  += -fno-strict-overflow
+>>
+>> diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
+>> index 2fe6f2828d37..1527199161d7 100644
+>> --- a/scripts/Makefile.extrawarn
+>> +++ b/scripts/Makefile.extrawarn
+>> @@ -106,7 +106,6 @@ KBUILD_CFLAGS += $(call cc-option, -Wunused-const-variable)
+>>   KBUILD_CFLAGS += $(call cc-option, -Wpacked-not-aligned)
+>>   KBUILD_CFLAGS += $(call cc-option, -Wformat-overflow)
+>>   KBUILD_CFLAGS += $(call cc-option, -Wformat-truncation)
+>> -KBUILD_CFLAGS += $(call cc-option, -Wstringop-overflow)
+>>   KBUILD_CFLAGS += $(call cc-option, -Wstringop-truncation)
+>>
+>>   KBUILD_CPPFLAGS += -Wundef
+>> @@ -122,7 +121,6 @@ KBUILD_CFLAGS += $(call cc-disable-warning, restrict)
+>>   KBUILD_CFLAGS += $(call cc-disable-warning, packed-not-aligned)
+>>   KBUILD_CFLAGS += $(call cc-disable-warning, format-overflow)
+>>   KBUILD_CFLAGS += $(call cc-disable-warning, format-truncation)
+>> -KBUILD_CFLAGS += $(call cc-disable-warning, stringop-overflow)
+>>   KBUILD_CFLAGS += $(call cc-disable-warning, stringop-truncation)
+>>
+>>   ifdef CONFIG_CC_IS_CLANG
+>> --
+>> 2.34.1
+>>
+> 
+> 
 
