@@ -1,172 +1,293 @@
-Return-Path: <linux-kbuild+bounces-38-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-39-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44BCA7EE295
-	for <lists+linux-kbuild@lfdr.de>; Thu, 16 Nov 2023 15:18:58 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B0817EE5BC
+	for <lists+linux-kbuild@lfdr.de>; Thu, 16 Nov 2023 18:13:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BA4BAB20BA3
-	for <lists+linux-kbuild@lfdr.de>; Thu, 16 Nov 2023 14:18:55 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EEDA4B209E6
+	for <lists+linux-kbuild@lfdr.de>; Thu, 16 Nov 2023 17:13:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38120DDAB;
-	Thu, 16 Nov 2023 14:18:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 942F748CFB;
+	Thu, 16 Nov 2023 17:13:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b="e6oxUElr"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Z/tOBzhB"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from omta036.useast.a.cloudfilter.net (omta036.useast.a.cloudfilter.net [44.202.169.35])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1095219D
-	for <linux-kbuild@vger.kernel.org>; Thu, 16 Nov 2023 06:18:47 -0800 (PST)
-Received: from eig-obgw-6005a.ext.cloudfilter.net ([10.0.30.201])
-	by cmsmtp with ESMTPS
-	id 3aXQr00VGgpyE3dChrfxK9; Thu, 16 Nov 2023 14:18:47 +0000
-Received: from gator4166.hostgator.com ([108.167.133.22])
-	by cmsmtp with ESMTPS
-	id 3dCfrIsn48KNv3dCgr4Yqz; Thu, 16 Nov 2023 14:18:46 +0000
-X-Authority-Analysis: v=2.4 cv=dp3Itns4 c=1 sm=1 tr=0 ts=655624c6
- a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=WzbPXH4gqzPVN0x6HrNMNA==:17
- a=OWjo9vPv0XrRhIrVQ50Ab3nP57M=:19 a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19
- a=IkcTkHD0fZMA:10 a=BNY50KLci1gA:10 a=wYkD_t78qR0A:10 a=VwQbUJbxAAAA:8
- a=QjxsOCQfT30fdp00ze8A:9 a=QEXdDO2ut3YA:10 a=AjGcO6oz07-iQ99wixmX:22
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 428A5D52;
+	Thu, 16 Nov 2023 09:13:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=MOuVp5lGP1M6/tw0eHZ9E5ELxXkBynPRyGwIqBxCovU=; b=e6oxUElrS6W3RP5z+BAZjOCQ1n
-	ay/qOEbo57lOUd/+S89VygFWbiXYPRewufIVQIM1NyyRciA4E918iCehewb0kiAv75cNmbgDDc0Fb
-	GvD2DS3jqqJH7gIgZPbwMr09SskeTzBmoZkQ84Wo3amGsonw+UCOnERSFUfx12fjwaHgdC/7sUFbO
-	7a4csOmE7QaZZzRndHlYPm/23q+nE13Vd+vTvOidt19rWRqrnyVOV1rzK5xZnV9qnzkUr898a3Cc0
-	90t/xi3fhz4elnjUSZnKT/13ig2TXvDEwbSL9of+JpkeFfepFKNe8PDU+q0h9XfPovkxx3VYv8Vh0
-	wqeoWMpw==;
-Received: from 187-162-21-192.static.axtel.net ([187.162.21.192]:38172 helo=[192.168.15.10])
-	by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.96.2)
-	(envelope-from <gustavo@embeddedor.com>)
-	id 1r3dCf-000Wnb-0W;
-	Thu, 16 Nov 2023 08:18:45 -0600
-Message-ID: <e385a095-c6ea-4db5-ab7c-7221593dc6c3@embeddedor.com>
-Date: Thu, 16 Nov 2023 08:18:43 -0600
+	d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=rriOKmH8E9hkmOxPeS6KUmox+mrthGZOdjRWS2B5ZXY=; b=Z/tOBzhB1GcjJdQQrjjAvtFcxh
+	rH5gAWfhwbAulmEQCuJeXwASCnUMMkcQGn2clVN0jCHFPyFMgCteVKp6h/xdR4OKfRks6R0uTX8NB
+	pXSG4/NO9YbGtVWl96kio1ldRqxkvEalEi+SZ7NuQsmvxmpV4jsBZmHycEqUyk8OB8GgTBPEKpfCZ
+	Of47G6t9hYLxm9+Xh00HpkoA27ECUMTkyJPvbqYKKfNYzmUhikbSqOK/I0tOlVPSbCMHC8E7lcYaa
+	STgBqBHkmZD5PelziCmsq7/HymQvUcAJFXdMyR3yYfN6T2msb0pYvlGpPshZvSk8eFDLZksL/5rpU
+	BqirE7dA==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat Linux))
+	id 1r3fux-0045Gx-2T;
+	Thu, 16 Nov 2023 17:12:39 +0000
+Date: Thu, 16 Nov 2023 09:12:39 -0800
+From: Luis Chamberlain <mcgrof@kernel.org>
+To: Matthew Maurer <mmaurer@google.com>
+Cc: gary@garyguo.net, masahiroy@kernel.org,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Wedson Almeida Filho <wedsonaf@gmail.com>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>, Song Liu <song@kernel.org>,
+	Petr Mladek <pmladek@suse.com>, Naveen N Rao <naveen@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Nhat Pham <nphamcs@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Marc =?iso-8859-1?Q?Aur=E8le?= La France <tsi@tuyoix.net>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <benno.lossin@proton.me>,
+	Andreas Hindborg <a.hindborg@samsung.com>,
+	Alice Ryhl <aliceryhl@google.com>, Vlastimil Babka <vbabka@suse.cz>,
+	Ard Biesheuvel <ardb@kernel.org>, linuxppc-dev@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH 2/3] modpost: Extended modversion support
+Message-ID: <ZVZNh/PA5HiVRkeb@bombadil.infradead.org>
+References: <20231115185858.2110875-1-mmaurer@google.com>
+ <20231115185858.2110875-3-mmaurer@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH][next] Makefile: Enable -Wstringop-overflow globally
-Content-Language: en-US
-To: Masahiro Yamada <masahiroy@kernel.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>,
- Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-References: <ZVWMCZ/jb4nX3yHn@work>
- <CAK7LNAR1i8HP8E3UmmSggZMka+UbJswU_bVMyxmRt4CbQhoTAA@mail.gmail.com>
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-In-Reply-To: <CAK7LNAR1i8HP8E3UmmSggZMka+UbJswU_bVMyxmRt4CbQhoTAA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 187.162.21.192
-X-Source-L: No
-X-Exim-ID: 1r3dCf-000Wnb-0W
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 187-162-21-192.static.axtel.net ([192.168.15.10]) [187.162.21.192]:38172
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 3
-X-Org: HG=hgshared;ORG=hostgator;
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfH4ty0mN6I5j02A2C+UkvrBZRLgxSG0KGYqsTVFLGiaj/f3vn2+daz0vCKvAu3CSyWTlQfhiudjhu09RXvc+4CS1lQLv1lVLRi2atYIBPtZM2BHbhPC4
- jmLWUTMQDNKpV3bObQ4h980BhDQqxXwBknkemgnFbgr/XYFrtNTKAsjoihLY3I6m9oCcCkS0mUT9ycL7CrSARiO7EHbfIOzxbmpz5dVupc/asVZaMu2By67U
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231115185858.2110875-3-mmaurer@google.com>
+Sender: Luis Chamberlain <mcgrof@infradead.org>
 
+On Wed, Nov 15, 2023 at 06:50:10PM +0000, Matthew Maurer wrote:
+> Adds a new format for modversions which stores each field in a separate
+> elf section.
 
+The "why" is critical and not mentioned. And I'd like to also see
+documented this with foresight, if Rust needed could this be used
+in the future for other things?
 
-On 11/16/23 05:23, Masahiro Yamada wrote:
-> On Thu, Nov 16, 2023 at 12:27 PM Gustavo A. R. Silva
-> <gustavoars@kernel.org> wrote:
->>
->> It seems that we have finished addressing all the remaining
->> issues regarding compiler option -Wstringop-overflow. So, we
->> are now in good shape to enable this compiler option globally.
->>
->> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
->> ---
->>   Makefile                   | 3 +++
->>   scripts/Makefile.extrawarn | 2 --
->>   2 files changed, 3 insertions(+), 2 deletions(-)
->>
->> diff --git a/Makefile b/Makefile
->> index 690cde550acd..452b7d0e19e9 100644
->> --- a/Makefile
->> +++ b/Makefile
->> @@ -985,6 +985,9 @@ NOSTDINC_FLAGS += -nostdinc
->>   # perform bounds checking.
->>   KBUILD_CFLAGS += $(call cc-option, -fstrict-flex-arrays=3)
->>
->> +# We are now in good shape to enable this option.
-> 
-> Please remove this comment.
-> 
-> It it fine to mention it in the commit log, but
-> not in the Makefile.
+Also please include folks CC'd in *one* patch to *all* patches as
+otherwise we have no context.
 
-Sure thing. I'll change that and add this patch to my -next tree.
+> This initially adds support for variable length names, but
+> could later be used to add additional fields to modversions in a
+> backwards compatible way if needed.
+> 
+> Adding support for variable length names makes it possible to enable
+> MODVERSIONS and RUST at the same time.
+> 
+> Signed-off-by: Matthew Maurer <mmaurer@google.com>
+> ---
+>  arch/powerpc/kernel/module_64.c | 24 +++++++++-
 
-> 
-> 
-> 
-> I hope somebody will double-check this patch in CI infrastructure.
+Why was only powerpc modified? If the commit log explained this it would
+make it easier for review.
 
-I'll take care of that.
+> diff --git a/kernel/module/internal.h b/kernel/module/internal.h
+> index c8b7b4dcf782..0c188c96a045 100644
+> --- a/kernel/module/internal.h
+> +++ b/kernel/module/internal.h
+> @@ -80,7 +80,7 @@ struct load_info {
+>  	unsigned int used_pages;
+>  #endif
+>  	struct {
+> -		unsigned int sym, str, mod, vers, info, pcpu;
+> +		unsigned int sym, str, mod, vers, info, pcpu, vers_ext_crc, vers_ext_name;
 
-Thanks
---
-Gustavo
+We might as well modify this in a preliminary patch to add each new
+unsinged int in a new line, so that it is easier to blame when each new
+entry gets added. It should not grow the size of the struct at all but
+it would make futur extensions easier to review what is new and git
+blame easier to spot when something was added.
 
-> 
-> 
-> 
-> 
->> +KBUILD_CFLAGS += $(call cc-option, -Wstringop-overflow)
->> +
->>   # disable invalid "can't wrap" optimizations for signed / pointers
->>   KBUILD_CFLAGS  += -fno-strict-overflow
->>
->> diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
->> index 2fe6f2828d37..1527199161d7 100644
->> --- a/scripts/Makefile.extrawarn
->> +++ b/scripts/Makefile.extrawarn
->> @@ -106,7 +106,6 @@ KBUILD_CFLAGS += $(call cc-option, -Wunused-const-variable)
->>   KBUILD_CFLAGS += $(call cc-option, -Wpacked-not-aligned)
->>   KBUILD_CFLAGS += $(call cc-option, -Wformat-overflow)
->>   KBUILD_CFLAGS += $(call cc-option, -Wformat-truncation)
->> -KBUILD_CFLAGS += $(call cc-option, -Wstringop-overflow)
->>   KBUILD_CFLAGS += $(call cc-option, -Wstringop-truncation)
->>
->>   KBUILD_CPPFLAGS += -Wundef
->> @@ -122,7 +121,6 @@ KBUILD_CFLAGS += $(call cc-disable-warning, restrict)
->>   KBUILD_CFLAGS += $(call cc-disable-warning, packed-not-aligned)
->>   KBUILD_CFLAGS += $(call cc-disable-warning, format-overflow)
->>   KBUILD_CFLAGS += $(call cc-disable-warning, format-truncation)
->> -KBUILD_CFLAGS += $(call cc-disable-warning, stringop-overflow)
->>   KBUILD_CFLAGS += $(call cc-disable-warning, stringop-truncation)
->>
->>   ifdef CONFIG_CC_IS_CLANG
->> --
->> 2.34.1
->>
-> 
-> 
+Although we don't use this extensively today this can easily grow for
+convenience and making code easier to read.
+
+> diff --git a/kernel/module/version.c b/kernel/module/version.c
+> index 53f43ac5a73e..93d97dad8c77 100644
+> --- a/kernel/module/version.c
+> +++ b/kernel/module/version.c
+> @@ -19,11 +19,28 @@ int check_version(const struct load_info *info,
+>  	unsigned int versindex = info->index.vers;
+>  	unsigned int i, num_versions;
+>  	struct modversion_info *versions;
+> +	struct modversion_info_ext version_ext;
+>  
+>  	/* Exporting module didn't supply crcs?  OK, we're already tainted. */
+>  	if (!crc)
+>  		return 1;
+>  
+> +	/* If we have extended version info, rely on it */
+> +	if (modversion_ext_start(info, &version_ext) >= 0) {
+
+There are two things we need to do to make processing modules easier:
+
+  1) ELF validation
+  2) Once checked then process the information
+
+We used to have this split up but also had a few places which did both
+1) and 2) together. This was wrong and so I want to keep things tidy
+and ensure we do things which validate the ELF separate. To that
+end please put the checks to validate the ELF first so that we report
+to users with a proper error/debug check in case the ELF is wrong,
+this enables futher debug checks for that to be done instead of
+confusing users who end up scratching their heads why something
+failed.
+
+So please split up the ELF validation check and put that into
+elf_validity_cache_copy() which runs *earlier* than this.
+
+Then *if* if has this, you just process it. Please take care to be
+very pedantic in the elf_validity_cache_copy() and extend the checks
+you have for validation in modversion_ext_start() and bring them to
+elf_validity_cache_copy() with perhaps *more* stuff which does any
+insane checks to verify it is 100% correct.
+
+> +		do {
+> +			if (strncmp(version_ext.name.value, symname,
+> +				    version_ext.name.end - version_ext.name.value) != 0)
+> +				continue;
+> +
+> +			if (*version_ext.crc.value == *crc)
+> +				return 1;
+> +			pr_debug("Found checksum %X vs module %X\n",
+> +				 *crc, *version_ext.crc.value);
+> +			goto bad_version;
+> +		} while (modversion_ext_advance(&version_ext) == 0);
+
+Can you do a for_each_foo()) type loop here instead after validation?
+Because the validation would ensure your loop is bounded then. Look at
+for_each_mod_mem_type() for inspiration.
+
+> +		goto broken_toolchain;
+
+The broken toolchain thing would then be an issue reported in the
+ELF validation.
+
+> @@ -87,6 +105,65 @@ int same_magic(const char *amagic, const char *bmagic,
+>  	return strcmp(amagic, bmagic) == 0;
+>  }
+>  
+> +#define MODVERSION_FIELD_START(sec, field) \
+> +	field.value = (typeof(field.value))sec.sh_addr; \
+> +	field.end = field.value + sec.sh_size
+> +
+> +ssize_t modversion_ext_start(const struct load_info *info,
+> +			     struct modversion_info_ext *start)
+> +{
+> +	unsigned int crc_idx = info->index.vers_ext_crc;
+> +	unsigned int name_idx = info->index.vers_ext_name;
+> +	Elf_Shdr *sechdrs = info->sechdrs;
+> +
+> +	// Both of these fields are needed for this to be useful
+> +	// Any future fields should be initialized to NULL if absent.
+
+Curious, what gave you the impression // type style comments are
+welcomed, please replace that with either a one line 
+
+/* foo comment */
+
+Or a multi-line:
+
+/*
+ * stuff and go into great deatils
+ * more elaaborate explanation
+ */
+
+Of even better, since you are moving this to ELF Validation please add
+undertand what elf_validity_cache_copy() does, and add kdoc style
+comments for it and then extend it with why Rust needs these magical things.
+
+> +	if ((crc_idx == 0) || (name_idx == 0))
+> +		return -EINVAL;
+> +
+> +	MODVERSION_FIELD_START(sechdrs[crc_idx], start->crc);
+> +	MODVERSION_FIELD_START(sechdrs[name_idx], start->name);
+> +
+> +	return (start->crc.end - start->crc.value) / sizeof(*start->crc.value);
+> +}
+> +
+> +static int modversion_ext_s32_advance(struct modversion_info_ext_s32 *field)
+> +{
+> +	if (!field->value)
+> +		return 0;
+> +	if (field->value >= field->end)
+> +		return -EINVAL;
+> +	field->value++;
+> +	return 0;
+> +}
+> +
+> +static int modversion_ext_string_advance(struct modversion_info_ext_string *s)
+> +{
+> +	if (!s->value)
+> +		return 0;
+> +	if (s->value >= s->end)
+> +		return -EINVAL;
+> +	s->value += strnlen(s->value, s->end - s->value - 1) + 1;
+> +	if (s->value >= s->end)
+> +		return -EINVAL;
+> +	return 0;
+> +}
+> +
+> +int modversion_ext_advance(struct modversion_info_ext *start)
+> +{
+> +	int ret;
+> +
+> +	ret = modversion_ext_s32_advance(&start->crc);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = modversion_ext_string_advance(&start->name);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	return 0;
+> +}
+
+Please add all the validation as part of the ELF validation sanity checks
+and make sure you rant so toolchains get easily debugged and fixed.
+That would make the processing of data a secodnary step and it is
+easier to read and simpler code. The validation then becomes the part
+which kicks issues out early.
+
+>  /*
+>   * Generate the signature for all relevant module structures here.
+>   * If these change, we don't want to try to parse the module.
+> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> index 973b5e5ae2dd..884860c2e833 100644
+> --- a/scripts/mod/modpost.c
+> +++ b/scripts/mod/modpost.c
+> @@ -1910,15 +1910,42 @@ static void add_versions(struct buffer *b, struct module *mod)
+>  			continue;
+>  		}
+>  		if (strlen(s->name) >= MODULE_NAME_LEN) {
+> -			error("too long symbol \"%s\" [%s.ko]\n",
+> -			      s->name, mod->name);
+> -			break;
+> +			/* this symbol will only be in the extended info */
+> +			continue;
+
+I cannot grok why this is being done, but hopefully in the next patch
+series this will be easier to understand.
+
+ Luis
 
