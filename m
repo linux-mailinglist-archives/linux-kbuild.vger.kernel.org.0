@@ -1,293 +1,275 @@
-Return-Path: <linux-kbuild+bounces-39-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-40-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B0817EE5BC
-	for <lists+linux-kbuild@lfdr.de>; Thu, 16 Nov 2023 18:13:20 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45F1B7EEA0C
+	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Nov 2023 00:41:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EEDA4B209E6
-	for <lists+linux-kbuild@lfdr.de>; Thu, 16 Nov 2023 17:13:16 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 510A41C20831
+	for <lists+linux-kbuild@lfdr.de>; Thu, 16 Nov 2023 23:41:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 942F748CFB;
-	Thu, 16 Nov 2023 17:13:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7783225A2;
+	Thu, 16 Nov 2023 23:41:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Z/tOBzhB"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aFDsT7yi"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 428A5D52;
-	Thu, 16 Nov 2023 09:13:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=rriOKmH8E9hkmOxPeS6KUmox+mrthGZOdjRWS2B5ZXY=; b=Z/tOBzhB1GcjJdQQrjjAvtFcxh
-	rH5gAWfhwbAulmEQCuJeXwASCnUMMkcQGn2clVN0jCHFPyFMgCteVKp6h/xdR4OKfRks6R0uTX8NB
-	pXSG4/NO9YbGtVWl96kio1ldRqxkvEalEi+SZ7NuQsmvxmpV4jsBZmHycEqUyk8OB8GgTBPEKpfCZ
-	Of47G6t9hYLxm9+Xh00HpkoA27ECUMTkyJPvbqYKKfNYzmUhikbSqOK/I0tOlVPSbCMHC8E7lcYaa
-	STgBqBHkmZD5PelziCmsq7/HymQvUcAJFXdMyR3yYfN6T2msb0pYvlGpPshZvSk8eFDLZksL/5rpU
-	BqirE7dA==;
-Received: from mcgrof by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat Linux))
-	id 1r3fux-0045Gx-2T;
-	Thu, 16 Nov 2023 17:12:39 +0000
-Date: Thu, 16 Nov 2023 09:12:39 -0800
-From: Luis Chamberlain <mcgrof@kernel.org>
-To: Matthew Maurer <mmaurer@google.com>
-Cc: gary@garyguo.net, masahiroy@kernel.org,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Wedson Almeida Filho <wedsonaf@gmail.com>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>, Song Liu <song@kernel.org>,
-	Petr Mladek <pmladek@suse.com>, Naveen N Rao <naveen@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Nhat Pham <nphamcs@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Marc =?iso-8859-1?Q?Aur=E8le?= La France <tsi@tuyoix.net>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@samsung.com>,
-	Alice Ryhl <aliceryhl@google.com>, Vlastimil Babka <vbabka@suse.cz>,
-	Ard Biesheuvel <ardb@kernel.org>, linuxppc-dev@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH 2/3] modpost: Extended modversion support
-Message-ID: <ZVZNh/PA5HiVRkeb@bombadil.infradead.org>
-References: <20231115185858.2110875-1-mmaurer@google.com>
- <20231115185858.2110875-3-mmaurer@google.com>
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5C36CE;
+	Thu, 16 Nov 2023 15:41:29 -0800 (PST)
+Received: by mail-pj1-x1034.google.com with SMTP id 98e67ed59e1d1-282ff1a97dcso1096291a91.1;
+        Thu, 16 Nov 2023 15:41:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700178089; x=1700782889; darn=vger.kernel.org;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OiLrQwETEaOulPz2L2pYAahy/wgJNSC/2QTiYG7KmzQ=;
+        b=aFDsT7yiJH+PxhdlaU2dr0Q37h3dj1xCvy2Rse9X8i6beMcJ04r55tWtcZmMw1cVr8
+         bb52MD2bqGHJPlR3iGQHVsoRSlUJw/VkmuclijyNEA/hh2QMx4ReVCFfo3Wyz70NZFFO
+         isg7O15FlxDijWfYqU2bF7uHR0cjPCkm8ag/8DjQSH5VRUWuJn0jgNCEAJQz3FjDfWlq
+         L90WLZKDmBkXdlm2ukZlB75DAifezefGBfvsDf/7VvOtQy8pCHoNMsl9HgYXrbPpxWuF
+         wkGmne194AqHESxZ6aCDoTM2MN5Ps1fyX5UAFMZjSD1mlcDpnEZbVkkG+DYtFqzLKuVS
+         osHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700178089; x=1700782889;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=OiLrQwETEaOulPz2L2pYAahy/wgJNSC/2QTiYG7KmzQ=;
+        b=q+dpf7KJScrZi0xGBJfG43/QAFfdDIZ9JudrhZcFhxeYnnopdDZRLWHodN3tjaYpoO
+         52nsPDDOPpxO6GYQJhNrQupPFZdI956C2c7WcbquobY973I9uZ73E4Tul5O+qXKp9kyW
+         uC0cDLodq+LT8bSThBn2IhjOUX6tT2pWoNqcufLoDqqChuspqAL5bePvaHrUT7WTC+Ua
+         zE+oK7BrPtwCiilwiU4ZEsbF+nOO9jPfEarPOIFLBjV6bBx2Ynv4W43VJZmBzcn++9dB
+         xJAy/O1m6+Q7lgDSti+CnF4lkghpaNXya1/8HGCTjaFnet/Mng3LjK1yFUX/Em9Rjesm
+         mxYQ==
+X-Gm-Message-State: AOJu0Yw6prWGLhQslIcVuDdv1oyEhQ4dDMrF47Ssu22fMgBql63bq0na
+	bSPgVRlHSU6riVCCXJgnlg/BuAP7UFGWPA==
+X-Google-Smtp-Source: AGHT+IF/a64jkEMjLvU5HrTYydVXWw+sBFD8ZEbwX83QC9cBKoP+WIECyaguB9gkqym/5mt8j0/wIg==
+X-Received: by 2002:a17:90b:4c4d:b0:27f:f7e9:cad9 with SMTP id np13-20020a17090b4c4d00b0027ff7e9cad9mr14283876pjb.36.1700178088850;
+        Thu, 16 Nov 2023 15:41:28 -0800 (PST)
+Received: from [192.168.0.106] ([103.131.18.64])
+        by smtp.gmail.com with ESMTPSA id q7-20020a170902edc700b001c9cb2fb8d8sm220941plk.49.2023.11.16.15.41.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 16 Nov 2023 15:41:28 -0800 (PST)
+Message-ID: <1fca50c4-6d7b-4c9b-bcea-4df17e2c2e7e@gmail.com>
+Date: Fri, 17 Nov 2023 06:41:25 +0700
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231115185858.2110875-3-mmaurer@google.com>
-Sender: Luis Chamberlain <mcgrof@infradead.org>
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Kernel Build System <linux-kbuild@vger.kernel.org>,
+ Linux Kernel Keyrings <keyrings@vger.kernel.org>
+Cc: David Howells <dhowells@redhat.com>, David Woodhouse
+ <dwmw2@infradead.org>, Masahiro Yamada <masahiroy@kernel.org>,
+ Dennis Clarke <dclarke@blastwave.org>
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: =?UTF-8?Q?Fwd=3A_sign-file=2Ec=3A149=3A17=3A_warning=3A_implicit_de?=
+ =?UTF-8?Q?claration_of_function_=E2=80=98ENGINE=5Fload=5Fbuiltin=5Fengines?=
+ =?UTF-8?B?4oCZ?=
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 15, 2023 at 06:50:10PM +0000, Matthew Maurer wrote:
-> Adds a new format for modversions which stores each field in a separate
-> elf section.
+Hi,
 
-The "why" is critical and not mentioned. And I'd like to also see
-documented this with foresight, if Rust needed could this be used
-in the future for other things?
+I notice a bug report on Bugzilla [1]. Quoting from it:
 
-Also please include folks CC'd in *one* patch to *all* patches as
-otherwise we have no context.
-
-> This initially adds support for variable length names, but
-> could later be used to add additional fields to modversions in a
-> backwards compatible way if needed.
+> This feels like the linker is confused about where to find libssl.so.3
+> and/or libcrypto.so.3 for scripts/sign-file.c : 
 > 
-> Adding support for variable length names makes it possible to enable
-> MODVERSIONS and RUST at the same time.
+>   HOSTCC  scripts/sign-file
+> scripts/sign-file.c: In function ‘read_private_key’:
+> scripts/sign-file.c:149:17: warning: implicit declaration of function ‘ENGINE_load_builtin_engines’ [-Wimplicit-function-declaration]
+>   149 |                 ENGINE_load_builtin_engines();
+>       |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+> scripts/sign-file.c:151:21: warning: implicit declaration of function ‘ENGINE_by_id’ [-Wimplicit-function-declaration]
+>   151 |                 e = ENGINE_by_id("pkcs11");
+>       |                     ^~~~~~~~~~~~
+> scripts/sign-file.c:151:19: warning: assignment to ‘ENGINE *’ {aka ‘struct engine_st *’} from ‘int’ makes pointer from integer without a cast [-Wint-conversion]
+>   151 |                 e = ENGINE_by_id("pkcs11");
+>       |                   ^
+> scripts/sign-file.c:153:21: warning: implicit declaration of function ‘ENGINE_init’ [-Wimplicit-function-declaration]
+>   153 |                 if (ENGINE_init(e))
+>       |                     ^~~~~~~~~~~
+> scripts/sign-file.c:158:30: warning: implicit declaration of function ‘ENGINE_ctrl_cmd_string’ [-Wimplicit-function-declaration]
+>   158 |                         ERR(!ENGINE_ctrl_cmd_string(e, "PIN", key_pass, 0),
+>       |                              ^~~~~~~~~~~~~~~~~~~~~~
+> scripts/sign-file.c:114:32: note: in definition of macro ‘ERR’
+>   114 |                 bool __cond = (cond);                   \
+>       |                                ^~~~
+> scripts/sign-file.c:160:31: warning: implicit declaration of function ‘ENGINE_load_private_key’ [-Wimplicit-function-declaration]
+>   160 |                 private_key = ENGINE_load_private_key(e, private_key_name,
+>       |                               ^~~~~~~~~~~~~~~~~~~~~~~
+> scripts/sign-file.c:160:29: warning: assignment to ‘EVP_PKEY *’ {aka ‘struct evp_pkey_st *’} from ‘int’ makes pointer from integer without a cast [-Wint-conversion]
+>   160 |                 private_key = ENGINE_load_private_key(e, private_key_name,
+>       |                             ^
+> /usr/local/bin/ld: /var/tmp/root/ccqqhtVK.o: in function `main':
+> sign-file.c:(.text.startup+0x346): undefined reference to `ENGINE_load_builtin_engines'
+> /usr/local/bin/ld: sign-file.c:(.text.startup+0x357): undefined reference to `ENGINE_by_id'
+> /usr/local/bin/ld: sign-file.c:(.text.startup+0x37e): undefined reference to `ENGINE_init'
+> /usr/local/bin/ld: sign-file.c:(.text.startup+0x3a8): undefined reference to `ENGINE_ctrl_cmd_string'
+> /usr/local/bin/ld: sign-file.c:(.text.startup+0x3d3): undefined reference to `ENGINE_load_private_key'
+> collect2: error: ld returned 1 exit status
+> make[1]: *** [scripts/Makefile.host:111: scripts/sign-file] Error 1
+> make: *** [Makefile:1273: scripts] Error 2
 > 
-> Signed-off-by: Matthew Maurer <mmaurer@google.com>
-> ---
->  arch/powerpc/kernel/module_64.c | 24 +++++++++-
+> 
+> If I try to just deal with the sign-file.c by itself I see that I can compile
+> and link fine with OpenSSL 3.1.4 : 
+> 
+> e# 
+> e# which openssl 
+> /usr/local/bin/openssl
+> e# 
+> e# ldd /usr/local/bin/openssl
+>         linux-vdso.so.1 (0x00007ffcfb3f7000)
+>         libssl.so.3 => /usr/local/lib/libssl.so.3 (0x00007f6f3b2fb000)
+>         libcrypto.so.3 => /usr/local/lib/libcrypto.so.3 (0x00007f6f3ac00000)
+>         libz.so.1 => /lib/x86_64-linux-gnu/libz.so.1 (0x00007f6f3b2d3000)
+>         libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f6f3aa1f000)
+>         /lib64/ld-linux-x86-64.so.2 (0x00007f6f3b3e5000)
+> e# 
+> e# openssl version 
+> OpenSSL 3.1.4 24 Oct 2023 (Library: OpenSSL 3.1.4 24 Oct 2023)
+> e# 
+> 
+> I can compile the source fine ( with strange warnings ) with the
+>  latest OpenSSL bits : 
+> 
+> 
+> e# /usr/local/gcc13/bin/gcc -c -g -O0 -m64 -I/usr/local/include  -I/usr/local/include/openssl -o scripts/sign-file.o scripts/sign-file.c  
+> scripts/sign-file.c: In function ‘read_private_key’:
+> scripts/sign-file.c:149:17: warning: implicit declaration of function ‘ENGINE_load_builtin_engines’ [-Wimplicit-function-declaration]
+>   149 |                 ENGINE_load_builtin_engines();
+>       |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+> scripts/sign-file.c:151:21: warning: implicit declaration of function ‘ENGINE_by_id’ [-Wimplicit-function-declaration]
+>   151 |                 e = ENGINE_by_id("pkcs11");
+>       |                     ^~~~~~~~~~~~
+> scripts/sign-file.c:151:19: warning: assignment to ‘ENGINE *’ {aka ‘struct engine_st *’} from ‘int’ makes pointer from integer without a cast [-Wint-conversion]
+>   151 |                 e = ENGINE_by_id("pkcs11");
+>       |                   ^
+> scripts/sign-file.c:117:25: warning: implicit declaration of function ‘errx’ [-Wimplicit-function-declaration]
+>   117 |                         errx(1, fmt, ## __VA_ARGS__);   \
+>       |                         ^~~~
+> scripts/sign-file.c:152:17: note: in expansion of macro ‘ERR’
+>   152 |                 ERR(!e, "Load PKCS#11 ENGINE");
+>       |                 ^~~
+> scripts/sign-file.c:153:21: warning: implicit declaration of function ‘ENGINE_init’ [-Wimplicit-function-declaration]
+>   153 |                 if (ENGINE_init(e))
+>       |                     ^~~~~~~~~~~
+> scripts/sign-file.c:158:30: warning: implicit declaration of function ‘ENGINE_ctrl_cmd_string’ [-Wimplicit-function-declaration]
+>   158 |                         ERR(!ENGINE_ctrl_cmd_string(e, "PIN", key_pass, 0),
+>       |                              ^~~~~~~~~~~~~~~~~~~~~~
+> scripts/sign-file.c:114:32: note: in definition of macro ‘ERR’
+>   114 |                 bool __cond = (cond);                   \
+>       |                                ^~~~
+> scripts/sign-file.c:160:31: warning: implicit declaration of function ‘ENGINE_load_private_key’ [-Wimplicit-function-declaration]
+>   160 |                 private_key = ENGINE_load_private_key(e, private_key_name,
+>       |                               ^~~~~~~~~~~~~~~~~~~~~~~
+> scripts/sign-file.c:160:29: warning: assignment to ‘EVP_PKEY *’ {aka ‘struct evp_pkey_st *’} from ‘int’ makes pointer from integer without a cast [-Wint-conversion]
+>   160 |                 private_key = ENGINE_load_private_key(e, private_key_name,
+>       |                             ^
+> e# 
+> 
+> Then we link gently : 
+> 
+> e# /usr/local/gcc13/bin/gcc -g -O0 -m64 -L/usr/local/include  -L/usr/local/include/openssl -Wl,-rpath=/usr/local/lib,-enable-new-dtags -o scripts/sign-file scripts/sign-file.o -lssl -lcrypto
+> e# 
+> 
+> e# ls -l scripts/sign-file
+> -rwxr-xr-x 1 root root 37800 Nov 16 16:22 scripts/sign-file
+> e# 
+> e# readelf -delV scripts/sign-file  | grep -E 'NEED|NAME|PATH' 
+>   [10] .gnu.version_r    VERNEED          0000000000400be8  00000be8
+>  0x0000000000000001 (NEEDED)             Shared library: [libssl.so.3]
+>  0x0000000000000001 (NEEDED)             Shared library: [libcrypto.so.3]
+>  0x0000000000000001 (NEEDED)             Shared library: [libc.so.6]
+>  0x000000000000001d (RUNPATH)            Library runpath: [/usr/local/lib]
+>  0x000000006ffffffe (VERNEED)            0x400be8
+>  0x000000006fffffff (VERNEEDNUM)         2
+> e# 
+> e# ldd scripts/sign-file
+>         linux-vdso.so.1 (0x00007ffed8579000)
+>         libssl.so.3 => /usr/local/lib/libssl.so.3 (0x00007fde99d2e000)
+>         libcrypto.so.3 => /usr/local/lib/libcrypto.so.3 (0x00007fde99800000)
+>         libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007fde9961f000)
+>         libz.so.1 => /lib/x86_64-linux-gnu/libz.so.1 (0x00007fde99600000)
+>         /lib64/ld-linux-x86-64.so.2 (0x00007fde99e18000)
+> e# 
+> e# scripts/sign-file -foo
+> scripts/sign-file: invalid option -- 'f'
+> Usage: scripts/sign-file [-dp] <hash algo> <key> <x509> <module> [<dest>]
+>        scripts/sign-file -s <raw sig> <hash algo> <x509> <module> [<dest>]
+> e# 
+> 
+>  * * *  T H E R E F O R E     I T    C O M P I L E S    F I N E    * * *
+> 
+> However my Linux kernel compile fails on that : 
+> 
+> e# /usr/bin/time -p /usr/bin/nice -n +18 make 2>&1 | tee ../linux-6.1.62.make_j1.log
+>   HOSTCC  scripts/sign-file
+> scripts/sign-file.c: In function ‘read_private_key’:
+> scripts/sign-file.c:149:17: warning: implicit declaration of function ‘ENGINE_load_builtin_engines’ [-Wimplicit-function-declaration]
+>   149 |                 ENGINE_load_builtin_engines();
+>       |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+> scripts/sign-file.c:151:21: warning: implicit declaration of function ‘ENGINE_by_id’ [-Wimplicit-function-declaration]
+>   151 |                 e = ENGINE_by_id("pkcs11");
+>       |                     ^~~~~~~~~~~~
+> scripts/sign-file.c:151:19: warning: assignment to ‘ENGINE *’ {aka ‘struct engine_st *’} from ‘int’ makes pointer from integer without a cast [-Wint-conversion]
+>   151 |                 e = ENGINE_by_id("pkcs11");
+>       |                   ^
+> scripts/sign-file.c:153:21: warning: implicit declaration of function ‘ENGINE_init’ [-Wimplicit-function-declaration]
+>   153 |                 if (ENGINE_init(e))
+>       |                     ^~~~~~~~~~~
+> scripts/sign-file.c:158:30: warning: implicit declaration of function ‘ENGINE_ctrl_cmd_string’ [-Wimplicit-function-declaration]
+>   158 |                         ERR(!ENGINE_ctrl_cmd_string(e, "PIN", key_pass, 0),
+>       |                              ^~~~~~~~~~~~~~~~~~~~~~
+> scripts/sign-file.c:114:32: note: in definition of macro ‘ERR’
+>   114 |                 bool __cond = (cond);                   \
+>       |                                ^~~~
+> scripts/sign-file.c:160:31: warning: implicit declaration of function ‘ENGINE_load_private_key’ [-Wimplicit-function-declaration]
+>   160 |                 private_key = ENGINE_load_private_key(e, private_key_name,
+>       |                               ^~~~~~~~~~~~~~~~~~~~~~~
+> scripts/sign-file.c:160:29: warning: assignment to ‘EVP_PKEY *’ {aka ‘struct evp_pkey_st *’} from ‘int’ makes pointer from integer without a cast [-Wint-conversion]
+>   160 |                 private_key = ENGINE_load_private_key(e, private_key_name,
+>       |                             ^
+> /usr/local/bin/ld: /var/tmp/root/ccqqhtVK.o: in function `main':
+> sign-file.c:(.text.startup+0x346): undefined reference to `ENGINE_load_builtin_engines'
+> /usr/local/bin/ld: sign-file.c:(.text.startup+0x357): undefined reference to `ENGINE_by_id'
+> /usr/local/bin/ld: sign-file.c:(.text.startup+0x37e): undefined reference to `ENGINE_init'
+> /usr/local/bin/ld: sign-file.c:(.text.startup+0x3a8): undefined reference to `ENGINE_ctrl_cmd_string'
+> /usr/local/bin/ld: sign-file.c:(.text.startup+0x3d3): undefined reference to `ENGINE_load_private_key'
+> collect2: error: ld returned 1 exit status
+> make[1]: *** [scripts/Makefile.host:111: scripts/sign-file] Error 1
+> make: *** [Makefile:1273: scripts] Error 2
+> real 0.92
+> user 0.74
+> sys 0.18
+> e#
+> 
+> Looks like some confusion with the linker ? 
+> 
+> Setting LDFLAGS=-rpath=/usr/local/openssl/lib -enable-new-dtag seems to mean
+> nothing.
+> 
+> Not related to https://bugzilla.kernel.org/show_bug.cgi?id=215750 but I *feel* that
+> this code needs a hug.
 
-Why was only powerpc modified? If the commit log explained this it would
-make it easier for review.
+See Bugzilla for the full thread.
 
-> diff --git a/kernel/module/internal.h b/kernel/module/internal.h
-> index c8b7b4dcf782..0c188c96a045 100644
-> --- a/kernel/module/internal.h
-> +++ b/kernel/module/internal.h
-> @@ -80,7 +80,7 @@ struct load_info {
->  	unsigned int used_pages;
->  #endif
->  	struct {
-> -		unsigned int sym, str, mod, vers, info, pcpu;
-> +		unsigned int sym, str, mod, vers, info, pcpu, vers_ext_crc, vers_ext_name;
+AFAIK, this looks like a bug when the kernel is compiled against custom
+(non-system) version of OpenSSL library.
 
-We might as well modify this in a preliminary patch to add each new
-unsinged int in a new line, so that it is easier to blame when each new
-entry gets added. It should not grow the size of the struct at all but
-it would make futur extensions easier to review what is new and git
-blame easier to spot when something was added.
+Thanks.
 
-Although we don't use this extensively today this can easily grow for
-convenience and making code easier to read.
+[1]: https://bugzilla.kernel.org/show_bug.cgi?id=218154
 
-> diff --git a/kernel/module/version.c b/kernel/module/version.c
-> index 53f43ac5a73e..93d97dad8c77 100644
-> --- a/kernel/module/version.c
-> +++ b/kernel/module/version.c
-> @@ -19,11 +19,28 @@ int check_version(const struct load_info *info,
->  	unsigned int versindex = info->index.vers;
->  	unsigned int i, num_versions;
->  	struct modversion_info *versions;
-> +	struct modversion_info_ext version_ext;
->  
->  	/* Exporting module didn't supply crcs?  OK, we're already tainted. */
->  	if (!crc)
->  		return 1;
->  
-> +	/* If we have extended version info, rely on it */
-> +	if (modversion_ext_start(info, &version_ext) >= 0) {
-
-There are two things we need to do to make processing modules easier:
-
-  1) ELF validation
-  2) Once checked then process the information
-
-We used to have this split up but also had a few places which did both
-1) and 2) together. This was wrong and so I want to keep things tidy
-and ensure we do things which validate the ELF separate. To that
-end please put the checks to validate the ELF first so that we report
-to users with a proper error/debug check in case the ELF is wrong,
-this enables futher debug checks for that to be done instead of
-confusing users who end up scratching their heads why something
-failed.
-
-So please split up the ELF validation check and put that into
-elf_validity_cache_copy() which runs *earlier* than this.
-
-Then *if* if has this, you just process it. Please take care to be
-very pedantic in the elf_validity_cache_copy() and extend the checks
-you have for validation in modversion_ext_start() and bring them to
-elf_validity_cache_copy() with perhaps *more* stuff which does any
-insane checks to verify it is 100% correct.
-
-> +		do {
-> +			if (strncmp(version_ext.name.value, symname,
-> +				    version_ext.name.end - version_ext.name.value) != 0)
-> +				continue;
-> +
-> +			if (*version_ext.crc.value == *crc)
-> +				return 1;
-> +			pr_debug("Found checksum %X vs module %X\n",
-> +				 *crc, *version_ext.crc.value);
-> +			goto bad_version;
-> +		} while (modversion_ext_advance(&version_ext) == 0);
-
-Can you do a for_each_foo()) type loop here instead after validation?
-Because the validation would ensure your loop is bounded then. Look at
-for_each_mod_mem_type() for inspiration.
-
-> +		goto broken_toolchain;
-
-The broken toolchain thing would then be an issue reported in the
-ELF validation.
-
-> @@ -87,6 +105,65 @@ int same_magic(const char *amagic, const char *bmagic,
->  	return strcmp(amagic, bmagic) == 0;
->  }
->  
-> +#define MODVERSION_FIELD_START(sec, field) \
-> +	field.value = (typeof(field.value))sec.sh_addr; \
-> +	field.end = field.value + sec.sh_size
-> +
-> +ssize_t modversion_ext_start(const struct load_info *info,
-> +			     struct modversion_info_ext *start)
-> +{
-> +	unsigned int crc_idx = info->index.vers_ext_crc;
-> +	unsigned int name_idx = info->index.vers_ext_name;
-> +	Elf_Shdr *sechdrs = info->sechdrs;
-> +
-> +	// Both of these fields are needed for this to be useful
-> +	// Any future fields should be initialized to NULL if absent.
-
-Curious, what gave you the impression // type style comments are
-welcomed, please replace that with either a one line 
-
-/* foo comment */
-
-Or a multi-line:
-
-/*
- * stuff and go into great deatils
- * more elaaborate explanation
- */
-
-Of even better, since you are moving this to ELF Validation please add
-undertand what elf_validity_cache_copy() does, and add kdoc style
-comments for it and then extend it with why Rust needs these magical things.
-
-> +	if ((crc_idx == 0) || (name_idx == 0))
-> +		return -EINVAL;
-> +
-> +	MODVERSION_FIELD_START(sechdrs[crc_idx], start->crc);
-> +	MODVERSION_FIELD_START(sechdrs[name_idx], start->name);
-> +
-> +	return (start->crc.end - start->crc.value) / sizeof(*start->crc.value);
-> +}
-> +
-> +static int modversion_ext_s32_advance(struct modversion_info_ext_s32 *field)
-> +{
-> +	if (!field->value)
-> +		return 0;
-> +	if (field->value >= field->end)
-> +		return -EINVAL;
-> +	field->value++;
-> +	return 0;
-> +}
-> +
-> +static int modversion_ext_string_advance(struct modversion_info_ext_string *s)
-> +{
-> +	if (!s->value)
-> +		return 0;
-> +	if (s->value >= s->end)
-> +		return -EINVAL;
-> +	s->value += strnlen(s->value, s->end - s->value - 1) + 1;
-> +	if (s->value >= s->end)
-> +		return -EINVAL;
-> +	return 0;
-> +}
-> +
-> +int modversion_ext_advance(struct modversion_info_ext *start)
-> +{
-> +	int ret;
-> +
-> +	ret = modversion_ext_s32_advance(&start->crc);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	ret = modversion_ext_string_advance(&start->name);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	return 0;
-> +}
-
-Please add all the validation as part of the ELF validation sanity checks
-and make sure you rant so toolchains get easily debugged and fixed.
-That would make the processing of data a secodnary step and it is
-easier to read and simpler code. The validation then becomes the part
-which kicks issues out early.
-
->  /*
->   * Generate the signature for all relevant module structures here.
->   * If these change, we don't want to try to parse the module.
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index 973b5e5ae2dd..884860c2e833 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -1910,15 +1910,42 @@ static void add_versions(struct buffer *b, struct module *mod)
->  			continue;
->  		}
->  		if (strlen(s->name) >= MODULE_NAME_LEN) {
-> -			error("too long symbol \"%s\" [%s.ko]\n",
-> -			      s->name, mod->name);
-> -			break;
-> +			/* this symbol will only be in the extended info */
-> +			continue;
-
-I cannot grok why this is being done, but hopefully in the next patch
-series this will be easier to understand.
-
- Luis
+-- 
+An old man doll... just what I always wanted! - Clara
 
