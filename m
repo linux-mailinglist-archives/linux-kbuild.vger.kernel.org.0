@@ -1,131 +1,97 @@
-Return-Path: <linux-kbuild+bounces-61-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-62-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CC1B7EFFEA
-	for <lists+linux-kbuild@lfdr.de>; Sat, 18 Nov 2023 14:42:51 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12A7E7F011F
+	for <lists+linux-kbuild@lfdr.de>; Sat, 18 Nov 2023 17:30:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 470EA1C208E5
-	for <lists+linux-kbuild@lfdr.de>; Sat, 18 Nov 2023 13:42:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BFCCF280ED0
+	for <lists+linux-kbuild@lfdr.de>; Sat, 18 Nov 2023 16:30:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61B78111A7;
-	Sat, 18 Nov 2023 13:42:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F3E37F4;
+	Sat, 18 Nov 2023 16:30:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Io8iMvs6"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="TtVlAvvk"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6248F131;
-	Sat, 18 Nov 2023 05:42:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700314962; x=1731850962;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gSMTqvq+4yiOQm6kYsedLkv+Vn7EFGQOlrwRuuC1Mmk=;
-  b=Io8iMvs6qrEgVaOvV6yqFrPfWJ1Qx/v4L/zCw8WEkK7SF9uwD7KZcK9P
-   Wosd258HHc+Tr270YMntrjjRjlHuGOC6hDzBkESRwVjtt8UxUGsUYyjLT
-   OLFbuqtwGzW0Q7NlqsVBJnZHij+Ho8HkeDYK4s7OQDge4LAvftoNW8iqW
-   6e/Hofxp4AN5ewS9HHlujgqdw1F1RW/ORMYqRxnILEeborKQusNRMr4ax
-   aAylOgvkqwpQj1VdZWftpJiE/+LLMbh+3hSNe05GFZnf1TxatCzJP9RY3
-   MSymU2Lm3Fqg5986W46JzbJQVwu8QppU3MKO4HIQIsj+9mPEqN527ERE9
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10897"; a="388579890"
-X-IronPort-AV: E=Sophos;i="6.04,209,1695711600"; 
-   d="scan'208";a="388579890"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2023 05:42:42 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10897"; a="909670491"
-X-IronPort-AV: E=Sophos;i="6.04,209,1695711600"; 
-   d="scan'208";a="909670491"
-Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 18 Nov 2023 05:42:38 -0800
-Received: from kbuild by b8de5498638e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r4Lal-0003wp-39;
-	Sat, 18 Nov 2023 13:42:35 +0000
-Date: Sat, 18 Nov 2023 21:42:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Matthew Maurer <mmaurer@google.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Miguel Ojeda <ojeda@kernel.org>, Gary Guo <gary@garyguo.net>,
-	Luis Chamberlain <mcgrof@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>, linuxppc-dev@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, rust-for-linux@vger.kernel.org,
-	Laura Abbott <laura@labbott.name>,
-	Matthew Maurer <mmaurer@google.com>
-Subject: Re: [PATCH v2 3/5] modpost: Extended modversion support
-Message-ID: <202311182118.zJqkg301-lkp@intel.com>
-References: <20231118025748.2778044-4-mmaurer@google.com>
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76FC1C5;
+	Sat, 18 Nov 2023 08:30:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=5SU1XXgi7WRBOVAn6Aiqulu56Tn+Irc2m07dBe4hANo=; b=TtVlAvvk5AMDszBIFke/t/u1Ov
+	BnDW1LxiyKgpeD3KPGILr+ZccSZeFwieAZulYYeIQfrWFNEmxqNt6zhDGkOKwQIK0NM3FOCKIflKo
+	fYTw5zV/FRiyqoHRI8iAIfaAZjmQGqxV/kt3GviiMz6+jhRJ4ljJqzy9GolngEmh8bQ4enSuO8IDC
+	BHeaSfGCIY89dP6oWmWmF3r8evqPwOBddqnfQ7M42bcJRTpACeoF6jlRL7ZgQm+EAxwuLLvix2ZxM
+	VhYOEbw54Kk8++zp16lGo8LuIy2XdVc7mjykVLfDS3tM2IXcFuDgVNYb9WySqkkDqPYhqXj3RNb4A
+	VOjvgRKw==;
+Received: from [50.53.46.231] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1r4OCq-008plr-12;
+	Sat, 18 Nov 2023 16:30:04 +0000
+Message-ID: <3e879452-bda7-46d9-93fa-0cf01e484798@infradead.org>
+Date: Sat, 18 Nov 2023 08:30:02 -0800
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231118025748.2778044-4-mmaurer@google.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/6] kconfig: require an exact match for "is not set" to
+ disable CONFIG option
+Content-Language: en-US
+To: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+References: <20231118075912.1303509-1-masahiroy@kernel.org>
+ <20231118075912.1303509-5-masahiroy@kernel.org>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20231118075912.1303509-5-masahiroy@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Matthew,
+Hi,
 
-kernel test robot noticed the following build errors:
+On 11/17/23 23:59, Masahiro Yamada wrote:
+> Currently, any string starting "is not set" disables a CONFIG option.
+> 
+> For example, "# CONFIG_FOO is not settled down" is accepted as valid
+> input, functioning the same as "# CONFIG_FOO is not set". It is a
+> long-standing oddity.
+> 
+> Check the line against the exact pattern "is not set".
+> 
 
-[auto build test ERROR on mcgrof/modules-next]
-[also build test ERROR on powerpc/next powerpc/fixes masahiroy-kbuild/for-next masahiroy-kbuild/fixes linus/master v6.7-rc1 next-20231117]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Just to confirm (I hope), using:
+CONFIG_FOO=n
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Maurer/export_report-Rehabilitate-script/20231118-110040
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git modules-next
-patch link:    https://lore.kernel.org/r/20231118025748.2778044-4-mmaurer%40google.com
-patch subject: [PATCH v2 3/5] modpost: Extended modversion support
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20231118/202311182118.zJqkg301-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231118/202311182118.zJqkg301-lkp@intel.com/reproduce)
+will also still work to disable that config option?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311182118.zJqkg301-lkp@intel.com/
+Thanks.
 
-All errors (new ones prefixed by >>):
-
->> arch/powerpc/kernel/module_64.c:25:10: fatal error: string.h: No such file or directory
-      25 | #include <string.h>
-         |          ^~~~~~~~~~
-   compilation terminated.
-
-
-vim +25 arch/powerpc/kernel/module_64.c
-
-     8	
-     9	#include <linux/module.h>
-    10	#include <linux/elf.h>
-    11	#include <linux/moduleloader.h>
-    12	#include <linux/err.h>
-    13	#include <linux/vmalloc.h>
-    14	#include <linux/ftrace.h>
-    15	#include <linux/bug.h>
-    16	#include <linux/uaccess.h>
-    17	#include <linux/kernel.h>
-    18	#include <asm/module.h>
-    19	#include <asm/firmware.h>
-    20	#include <asm/code-patching.h>
-    21	#include <linux/sort.h>
-    22	#include <asm/setup.h>
-    23	#include <asm/sections.h>
-    24	#include <asm/inst.h>
-  > 25	#include <string.h>
-    26	
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+> 
+>  scripts/kconfig/confdata.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
+> index 795ac6c9378f..958be12cd621 100644
+> --- a/scripts/kconfig/confdata.c
+> +++ b/scripts/kconfig/confdata.c
+> @@ -454,7 +454,7 @@ int conf_read_simple(const char *name, int def)
+>  			if (!p)
+>  				continue;
+>  			*p++ = 0;
+> -			if (strncmp(p, "is not set", 10))
+> +			if (strcmp(p, "is not set"))
+>  				continue;
+>  
+>  			val = "n";
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+~Randy
 
