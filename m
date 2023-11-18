@@ -1,44 +1,44 @@
-Return-Path: <linux-kbuild+bounces-51-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-52-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E2B77EFDF9
-	for <lists+linux-kbuild@lfdr.de>; Sat, 18 Nov 2023 07:18:48 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6413D7EFE60
+	for <lists+linux-kbuild@lfdr.de>; Sat, 18 Nov 2023 08:59:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E5236281025
-	for <lists+linux-kbuild@lfdr.de>; Sat, 18 Nov 2023 06:18:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 72A581C20860
+	for <lists+linux-kbuild@lfdr.de>; Sat, 18 Nov 2023 07:59:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5972539D;
-	Sat, 18 Nov 2023 06:18:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BBA9110F;
+	Sat, 18 Nov 2023 07:59:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WSiso1oa"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SqkBXj4R"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3357DDC7
-	for <linux-kbuild@vger.kernel.org>; Sat, 18 Nov 2023 06:18:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9194CC433C8;
-	Sat, 18 Nov 2023 06:18:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3524C63B2
+	for <linux-kbuild@vger.kernel.org>; Sat, 18 Nov 2023 07:59:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17AD1C433C7;
+	Sat, 18 Nov 2023 07:59:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700288323;
-	bh=V3VJI3SjIz+jkP5XcrMr2bBpfkub6tGz8QbK7xtABC4=;
+	s=k20201202; t=1700294356;
+	bh=FUJGT7Wxv+A9qlisbFn6Z/VU7oX5Ys4xFHdHW9fEVFQ=;
 	h=From:To:Cc:Subject:Date:From;
-	b=WSiso1oaCQ9IPq67kO9DUYnHtccq3qFXNFWvLoWB1dl6nYscEM9Nl1KUl89qi1Y2w
-	 Nx+j6es2fEkdbSrZkJaW1dnDGmc0Zy8t5pH0C2bLeFse2D54bpRMpNOcA6+L/T3gdd
-	 IhSv9CeyypWnLJ1Oojk6+2UnpS5tM/fc1oXdGGr7um69XiUu8iTgm4PgxBkwOjGWCK
-	 UNZB/YlgMn50Bxrt0Z/kKBZucshqANRb2MeTIxxpoVZqvNGwdeaOT2ak5lkKN5bzRO
-	 7If+az3XoqeEx9KmreQBxHVP8neMM9YZ03xrsN6L21uTN/u7vDoPv+ZytJdbZipJY5
-	 c/404DcyXcZzw==
+	b=SqkBXj4ROG6o8h/47chPS34ducc2BQrT+TZDy8Ool3IvQ0UiqmYgaVQm838jnb9h/
+	 dh2Eod92LXLdxcInnHoEBD6/o0f7gRxdA0me2vM/GcgoEkfYg5dVH5+O6SQoRYGCG5
+	 OE7qeFXedj3McK0OrSTq9mPaVbsQu4dPSscNaDuFZ5ztZ7zDXynQ0Dqxba7zGfHmor
+	 0jhLRNRP6HcpIdgjxxn4XSAourXfi3o1KRvDq3Tzi28o8o3wW1d1sa8Ca0pB4Ptd+D
+	 nGiYYCsO15qTJzRHCoNpxDdraZWrTqt3cC0s8BuZxaTn8aGGdel0soxC3u//6YlTYs
+	 QhV+yQDtLVH6Q==
 From: Masahiro Yamada <masahiroy@kernel.org>
 To: linux-kbuild@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
 	Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH] kconfig: remove error check for xrealloc()
-Date: Sat, 18 Nov 2023 15:18:36 +0900
-Message-Id: <20231118061836.1294582-1-masahiroy@kernel.org>
+Subject: [PATCH 1/6] kconfig: require a space after '#' for valid input
+Date: Sat, 18 Nov 2023 16:59:07 +0900
+Message-Id: <20231118075912.1303509-1-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
@@ -48,40 +48,38 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-xrealloc() never returns NULL as it is checked in the callee.
+Currently, when an input line starts with '#', (line + 2) is passed to
+memcmp() without checking line[1].
 
-This is a left-over of commit d717f24d8c68 ("kconfig: add xrealloc()
-helper").
+It means that line[1] can be any arbitrary character. For example,
+"#KCONFIG_FOO is not set" is accepted as valid input, functioning the
+same as "# CONFIG_FOO is not set".
+
+More importantly, this can potentially lead to a buffer overrun if
+line[1] == '\0'. It occurs if the input only contains '#', as
+(line + 2) points to an uninitialized buffer.
+
+Check line[1], and skip the line if it is not a space.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/kconfig/confdata.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ scripts/kconfig/confdata.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
-index 4fe39b4bc5ed..1ee33e36459c 100644
+index 2ba4dfdd1aee..556b7f087dbb 100644
 --- a/scripts/kconfig/confdata.c
 +++ b/scripts/kconfig/confdata.c
-@@ -289,16 +289,12 @@ static int conf_set_sym_val(struct symbol *sym, int def, int def_flags, char *p)
- #define LINE_GROWTH 16
- static int add_byte(int c, char **lineptr, size_t slen, size_t *n)
- {
--	char *nline;
- 	size_t new_size = slen + 1;
-+
- 	if (new_size > *n) {
- 		new_size += LINE_GROWTH - 1;
- 		new_size *= 2;
--		nline = xrealloc(*lineptr, new_size);
--		if (!nline)
--			return -1;
--
--		*lineptr = nline;
-+		*lineptr = xrealloc(*lineptr, new_size);
- 		*n = new_size;
- 	}
- 
+@@ -426,6 +426,8 @@ int conf_read_simple(const char *name, int def)
+ 		conf_lineno++;
+ 		sym = NULL;
+ 		if (line[0] == '#') {
++			if (line[1] != ' ')
++				continue;
+ 			if (memcmp(line + 2, CONFIG_, strlen(CONFIG_)))
+ 				continue;
+ 			p = strchr(line + 2 + strlen(CONFIG_), ' ');
 -- 
 2.40.1
 
