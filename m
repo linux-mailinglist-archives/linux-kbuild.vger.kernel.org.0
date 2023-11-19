@@ -1,217 +1,141 @@
-Return-Path: <linux-kbuild+bounces-71-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-72-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA8247F06D2
-	for <lists+linux-kbuild@lfdr.de>; Sun, 19 Nov 2023 15:25:23 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 552E57F06FE
+	for <lists+linux-kbuild@lfdr.de>; Sun, 19 Nov 2023 16:02:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6B2A7B20943
-	for <lists+linux-kbuild@lfdr.de>; Sun, 19 Nov 2023 14:25:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0F0DD280CA6
+	for <lists+linux-kbuild@lfdr.de>; Sun, 19 Nov 2023 15:02:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4523E101F7;
-	Sun, 19 Nov 2023 14:25:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACA0BE540;
+	Sun, 19 Nov 2023 15:02:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X6CvpV61"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="KEzJhvN0"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AA1CF503
-	for <linux-kbuild@vger.kernel.org>; Sun, 19 Nov 2023 14:25:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2AC8C433CA;
-	Sun, 19 Nov 2023 14:25:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700403915;
-	bh=0dtY30CPhZvn8O3z06NpRjrEuqxkR7+uYsOGb9dcdao=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=X6CvpV61YxVyRWd6/vtT+AoaD9pZ0tj3uNT7niektNZOuOBPq9FijgTIDSuKq9qTh
-	 Y/EJ8XnpTLJbrG/43spnOC9yPoGR3DI1CN3txOTfgS67g6m5J1bUqfqmwYWHS17/Ri
-	 tUedtEvN/I84NPcWt61kY3kdXNiZFgQ2RN8pckRIg6ewg8IBkJKBGmxutEsWs/qsJw
-	 oa2+ffB//dBMhhgbezkRUo2P6Us9rd5kKGBfXXkV5ZLpyVrjV+UqgNSuWk2ufgg+lk
-	 JGWB+brPzLT3Qk49pZXjQ6iCUYJIOEL/NXnrlooMrJZTGDkcsknNpqqeoRiVfwHbDB
-	 wA7o8aXf+RrVg==
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-1f03d9ad89fso2046732fac.1;
-        Sun, 19 Nov 2023 06:25:15 -0800 (PST)
-X-Gm-Message-State: AOJu0YyQuh7l3zhEIuRPqOnz85GmeddD7AtZqRK/dlHB4WGsiTBRdfmB
-	JSjkJdIlxd/FpdXNglSxIvQTNVbyj82t1MIjs9o=
-X-Google-Smtp-Source: AGHT+IHJpfIjTfreDOkdOpR6jVoSn28hEJNeNmNeVKncjPpKurUL2SYs2KUq63HLBYgxqyBXs5/CPxxExorqXjiUkXk=
-X-Received: by 2002:a05:6870:e09:b0:1e9:9aa5:997b with SMTP id
- mp9-20020a0568700e0900b001e99aa5997bmr5841334oab.20.1700403915009; Sun, 19
- Nov 2023 06:25:15 -0800 (PST)
+Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02738C2
+	for <linux-kbuild@vger.kernel.org>; Sun, 19 Nov 2023 07:02:34 -0800 (PST)
+Received: by mail-io1-xd2c.google.com with SMTP id ca18e2360f4ac-7a9857c14c5so131511839f.3
+        for <linux-kbuild@vger.kernel.org>; Sun, 19 Nov 2023 07:02:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1700406153; x=1701010953; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=N51tl/zj6hx3y8C/i7pvWONxuVI4d2CkVjaNAa9KVfw=;
+        b=KEzJhvN0vrEgKamwqdG9mDVInm4xSfTFPMFqyjZgwOisiumSyX8gix15ChoNUpIZJw
+         DrtSJvpIScPxlikJbrLrSF8lipP4Tk5UXy7EwYvAZi4RDHiy8dAE90jxnZdK7HM1i9C8
+         ydth7g3Joi5uMnmY81yhw8cIugvWy1p2GBjp8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700406153; x=1701010953;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=N51tl/zj6hx3y8C/i7pvWONxuVI4d2CkVjaNAa9KVfw=;
+        b=VWN6Qc/J/d4YUz91inmsMSB/EEDGG8YD/QDnLT6oPn2yhC07RfyvrdBLhwwq/+DK54
+         2GDDNSTaDYnY+VyYgTjk6DgxQHq8vqgJMtxdx//fc7SslF0cPo3L7PzOW/MA2w03Ywyk
+         90I0U4EDtpDCcDmA86zT4TxbPZMNndNUpuRsYBkhijnSaabMyq7dlehoTyBRlUVcwoCt
+         6ieujGT8O03ACBLHABKSVGjnRTuGkRwoDj88oX83aailV2//UJ+GWmBfEcN+jCDyZcYy
+         w7aCiFyXHgIvFTPJdzw9hD64nCaVAypF9ISOrFND1JfSxHSNv47t/Zhyeje0STuw8cCF
+         rbeQ==
+X-Gm-Message-State: AOJu0YyyrVIyXOiNKwWjdWDtHAD4j6OLxPzQAVYKZ1E7krS3XRWhEnnS
+	Qlho8on94ZzQdGppLWBYd5nzUg==
+X-Google-Smtp-Source: AGHT+IHKjO+9V/Ov2s/qDvhWacbsJZSlSMrqQojB8Glj0ndNWo7mxL+WGv1jtXPHhdXCO+WYlSj6Lg==
+X-Received: by 2002:a6b:c505:0:b0:7b0:aee5:f9c2 with SMTP id v5-20020a6bc505000000b007b0aee5f9c2mr3285969iof.14.1700406153095;
+        Sun, 19 Nov 2023 07:02:33 -0800 (PST)
+Received: from sjg1.lan (c-73-14-173-85.hsd1.co.comcast.net. [73.14.173.85])
+        by smtp.gmail.com with ESMTPSA id w24-20020a056638379800b004665bec29d1sm79923jal.128.2023.11.19.07.02.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 19 Nov 2023 07:02:32 -0800 (PST)
+From: Simon Glass <sjg@chromium.org>
+To: linux-arm-kernel@lists.infradead.org
+Cc: U-Boot Mailing List <u-boot@lists.denx.de>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Tom Rini <trini@konsulko.com>,
+	Simon Glass <sjg@chromium.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Nick Terrell <terrelln@fb.com>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Will Deacon <will@kernel.org>,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v6 0/2] arm64: Add a build target for Flat Image Tree
+Date: Sun, 19 Nov 2023 08:01:13 -0700
+Message-ID: <20231119150229.634424-1-sjg@chromium.org>
+X-Mailer: git-send-email 2.43.0.rc0.421.g78406f8d94-goog
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231119053448.2367725-1-masahiroy@kernel.org> <CAAhV-H6Y4vqc45eaMs+wCN7Quf4e9ogp8aDA8V0sA=TUnMWd-Q@mail.gmail.com>
-In-Reply-To: <CAAhV-H6Y4vqc45eaMs+wCN7Quf4e9ogp8aDA8V0sA=TUnMWd-Q@mail.gmail.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sun, 19 Nov 2023 23:24:38 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAR=5s0tbqvB+poMD45Oyjknx9=VpVqE+qwqZy9LfQermQ@mail.gmail.com>
-Message-ID: <CAK7LNAR=5s0tbqvB+poMD45Oyjknx9=VpVqE+qwqZy9LfQermQ@mail.gmail.com>
-Subject: Re: [PATCH] loongarch: add dependency between vmlinuz.efi and vmlinux.efi
-To: Huacai Chen <chenhuacai@kernel.org>
-Cc: WANG Xuerui <kernel@xen0n.name>, loongarch@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	Ard Biesheuvel <ardb@kernel.org>, Simon Glass <sjg@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sun, Nov 19, 2023 at 8:59=E2=80=AFPM Huacai Chen <chenhuacai@kernel.org>=
- wrote:
->
-> Hi, Masahiro,
->
-> On Sun, Nov 19, 2023 at 1:35=E2=80=AFPM Masahiro Yamada <masahiroy@kernel=
-.org> wrote:
-> >
-> > A common issue in Makefile is a race in parallel building.
-> >
-> > You need to be careful to prevent multiple threads from writing to the
-> > same file simultaneously.
-> >
-> > Commit 3939f3345050 ("ARM: 8418/1: add boot image dependencies to not
-> > generate invalid images") addressed such a bad scenario.
-> >
-> > A similar symptom occurs with the following command:
-> >
-> >   $ make -j$(nproc) ARCH=3Dloongarch vmlinux.efi vmlinuz.efi
-> >     [ snip ]
-> >     SORTTAB vmlinux
-> >     OBJCOPY arch/loongarch/boot/vmlinux.efi
-> >     OBJCOPY arch/loongarch/boot/vmlinux.efi
-> >     PAD     arch/loongarch/boot/vmlinux.bin
-> >     GZIP    arch/loongarch/boot/vmlinuz
-> >     OBJCOPY arch/loongarch/boot/vmlinuz.o
-> >     LD      arch/loongarch/boot/vmlinuz.efi.elf
-> >     OBJCOPY arch/loongarch/boot/vmlinuz.efi
-> >
-> > The log "OBJCOPY arch/loongarch/boot/vmlinux.efi" is displayed twice.
-> >
-> > It indicates that two threads simultaneously enter arch/loongarch/boot/
-> > and write to arch/loongarch/boot/vmlinux.efi.
-> >
-> > It occasionally leads to a build failure:
-> >
-> >   $ make -j$(nproc) ARCH=3Dloongarch vmlinux.efi vmlinuz.efi
-> >     [ snip ]
-> >     SORTTAB vmlinux
-> >     OBJCOPY arch/loongarch/boot/vmlinux.efi
-> >     PAD     arch/loongarch/boot/vmlinux.bin
-> >   truncate: Invalid number: =E2=80=98arch/loongarch/boot/vmlinux.bin=E2=
-=80=99
-> >   make[2]: *** [drivers/firmware/efi/libstub/Makefile.zboot:13:
-> >   arch/loongarch/boot/vmlinux.bin] Error 1
-> >   make[2]: *** Deleting file 'arch/loongarch/boot/vmlinux.bin'
-> >   make[1]: *** [arch/loongarch/Makefile:146: vmlinuz.efi] Error 2
-> >   make[1]: *** Waiting for unfinished jobs....
-> >   make: *** [Makefile:234: __sub-make] Error 2
-> >
-> > vmlinuz.efi depends on vmlinux.efi, but such a dependency is not
-> > specified in arch/loongarch/Makefile.
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > ---
-> >
-> >  arch/loongarch/Makefile | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/arch/loongarch/Makefile b/arch/loongarch/Makefile
-> > index 9eeb0c05f3f4..6022bf3d30c9 100644
-> > --- a/arch/loongarch/Makefile
-> > +++ b/arch/loongarch/Makefile
-> > @@ -142,6 +142,7 @@ vdso-install-y +=3D arch/loongarch/vdso/vdso.so.dbg
-> >
-> >  all:   $(notdir $(KBUILD_IMAGE))
-> >
-> > +vmlinuz.efi: vmlinux.efi
-> >  vmlinux.elf vmlinux.efi vmlinuz.efi: vmlinux
-> >         $(Q)$(MAKE) $(build)=3D$(boot) $(bootvars-y) $(boot)/$@
-> It is a little strange, because
->
-> in drivers/firmware/efi/libstub/Makefile.zboot:
-> vmlinuz.efi depends on vmlinuz.efi.elf, vmlinuz.efi.elf depends on
-> vmlinuz.o, vmlinuz.o depends on vmlinuz, vmlinuz depends on
-> vmlinux.bin, vmlinux.bin depends on $(EFI_ZBOOT_PAYLOAD).
->
-> in arch/loongarch/boot/Makefile,
-> EFI_ZBOOT_PAYLOAD :=3D vmlinux.efi
->
-> So I think vmlinuz.efi has already depend on vmlinux.efi.
+Flat Image Tree (FIT) is a widely used file format for packaging a
+kernel and associated devicetree files[1]. It is not specific to any
+one bootloader, as it is supported by U-Boot, coreboot, Linuxboot,
+Tianocore and Barebox.
 
+This series adds support for building a FIT as part of the kernel
+build. This makes it easy to try out the kernel - just load the FIT
+onto your tftp server and it will run automatically on any supported
+arm64 board.
 
+The script is written in Python, since it is easy to build a FIT using
+the Python libfdt bindings. For now, no attempt is made to compress
+files in parallel, so building the 900-odd files takes a while, about
+6 seconds with my testing.
 
-That is a story in arch/loongarch/boot/Makefile.
+The series also includes a few minor clean-up patches.
 
+[1] https://github.com/open-source-firmware/flat-image-tree
 
-I am talking about arch/loongarch/Makefile,
-which is included from the top Makefile.
+Changes in v6:
+- Drop the unwanted .gz suffix
 
+Changes in v5:
+- Drop patch previously applied
+- Correct compression rule which was broken in v4
 
-See this code.
+Changes in v4:
+- Use single quotes for UIMAGE_NAME
 
+Changes in v3:
+- Drop temporary file image.itk
+- Drop patch 'Use double quotes for image name'
+- Drop double quotes in use of UIMAGE_NAME
+- Drop unnecessary CONFIG_EFI_ZBOOT condition for help
+- Avoid hard-coding "arm64" for the DT architecture
 
-vmlinux.elf vmlinux.efi vmlinuz.efi: vmlinux
-        $(Q)$(MAKE) $(build)=3D$(boot) $(bootvars-y) $(boot)/$@
+Changes in v2:
+- Drop patch previously applied
+- Add .gitignore file
+- Move fit rule to Makefile.lib using an intermediate file
+- Drop dependency on CONFIG_EFI_ZBOOT
+- Pick up .dtb files separately from the kernel
+- Correct pylint too-many-args warning for write_kernel()
+- Include the kernel image in the file count
+- Add a pointer to the FIT spec and mention of its wide industry usage
+- Mention the kernel version in the FIT description
 
+Simon Glass (2):
+  kbuild: arm64: Add BOOT_TARGETS variable
+  arm64: boot: Support Flat Image Tree
 
+ MAINTAINERS                |   7 +
+ arch/arm64/Makefile        |   7 +-
+ arch/arm64/boot/.gitignore |   1 +
+ arch/arm64/boot/Makefile   |   6 +-
+ scripts/Makefile.lib       |  13 ++
+ scripts/make_fit.py        | 289 +++++++++++++++++++++++++++++++++++++
+ 6 files changed, 321 insertions(+), 2 deletions(-)
+ create mode 100755 scripts/make_fit.py
 
+-- 
+2.43.0.rc0.421.g78406f8d94-goog
 
-Only the required dependency is
-
- - vmlinux.elf depends on vmlinux
- - vmlinuz.elf depends on vmlinux
-
-
-vmlinux.elf and vmlinuz.elf are independent of each other.
-
-
-
-In parallel building, GNU Make considers that
-vmlinux.elf and vmlinuz.elf can be built simultaneously.
-
-
-GNU Make spawns two processes to execute these simultaneously:
-
- $(MAKE) $(build)=3D$(boot) $(bootvars-y) $(boot)/vmlinux.elf
- $(MAKE) $(build)=3D$(boot) $(bootvars-y) $(boot)/vmlinuz.elf
-
-
-
-The former enters arch/loongarch/boot/Makefile to build
-vmlinux.elf.  (A)
-
-
-The latter also enters arch/loongarch/boot/Makefile to build
-vmlinuz.elf, which depends on vmlinux.elf  (B)
-
-
-
-(A) and (B) are independent processes, hence none of them
-know the other.
-
-
-I hope it is clearer.
-
-
-
-
-
-
-> Huacai
->
-> >
-> > --
-> > 2.40.1
-> >
-> >
->
-
-
---=20
-Best Regards
-Masahiro Yamada
 
