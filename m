@@ -1,149 +1,126 @@
-Return-Path: <linux-kbuild+bounces-68-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-69-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13EF57F0513
-	for <lists+linux-kbuild@lfdr.de>; Sun, 19 Nov 2023 11:00:40 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76F937F0515
+	for <lists+linux-kbuild@lfdr.de>; Sun, 19 Nov 2023 11:02:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8360FB208D6
-	for <lists+linux-kbuild@lfdr.de>; Sun, 19 Nov 2023 10:00:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9D3D01C2083B
+	for <lists+linux-kbuild@lfdr.de>; Sun, 19 Nov 2023 10:02:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADBF46FAB;
-	Sun, 19 Nov 2023 10:00:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E87E1C3F;
+	Sun, 19 Nov 2023 10:02:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WqPTCY3C"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="di5e4jE3"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83F526AB2
-	for <linux-kbuild@vger.kernel.org>; Sun, 19 Nov 2023 10:00:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCA6BC433C8;
-	Sun, 19 Nov 2023 10:00:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2A7C6FAB
+	for <linux-kbuild@vger.kernel.org>; Sun, 19 Nov 2023 10:02:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 720D7C433C8;
+	Sun, 19 Nov 2023 10:02:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700388032;
-	bh=naEGp220Hlp/9TKOLlkrInZMXHL++3zGxHRa1Qn2VXM=;
-	h=From:To:Cc:Subject:Date:From;
-	b=WqPTCY3CPwP92hiBsGumKLNmvLDW6/1mtslFwykWsMmHeTvUehwOike6DbS/UmuZ/
-	 JYQfaIEfswVgN2c5BipGTvsGqXC+CrskcsTtemYcabPYVBfOQPGMWF+FrIZGB0kikz
-	 hhNCYHSc43etV69mXhCgNTtmn31LCFXSqTqTlTg8nv2xoM0IBwsX5yqxkuRIgbRB7m
-	 sjnLbTeVKSrLWTjcz+v1I3uYru5jZN/NLKU2cisIn7p2vggjxfyDzhs5IQ/G+l+IB3
-	 wepBMinkKrHZ9Nmj+KNkzvO91KNikghE4nt9xmupP4lAzrUCBXSQ+sigKOgpj6TqPk
-	 9fTV+wFKmNtrw==
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	linux-riscv@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Simon Glass <sjg@chromium.org>,
-	Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH v2] riscv: add dependency among Image(.gz), loader(.bin), and vmlinuz.efi
-Date: Sun, 19 Nov 2023 19:00:24 +0900
-Message-Id: <20231119100024.2370992-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.40.1
+	s=k20201202; t=1700388162;
+	bh=+g+Ckvo3geMgzNSk2JZmLdMj7hMkxJ292tZLHksu7hU=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=di5e4jE3S3cum/CclvGiIisRlNa7GYcVkh6RZrFVMs95wuQDswIucHlPWH3aCjFoO
+	 DexpEvkJy1kRsOc9HwEtCL5nIsxqrWE4qQxSwkzN8vtnss1O3SJs47swLpdREIta2j
+	 fzh8JvCj1nKxTxrdU797r1487p3XszHE1Isjy36cfABDMNReYeCtabP4FZlRFtdOgG
+	 KcPEKIBn6BlInuDwM8D9yEFH98Z5NtJz8F6Mf8bPdmWE47fUi6G1tC2xcyqkxWD0Ig
+	 fakMa76IOuVTfOGZ4kf8exBmKQq4vDdjZLHmOEHWJ3P3Hx30GXbXGs9Sk73OPcbHVH
+	 UalBuqPOBC6iQ==
+Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-6cd0963c61cso1859102a34.0;
+        Sun, 19 Nov 2023 02:02:42 -0800 (PST)
+X-Gm-Message-State: AOJu0YyOeba68IFwOg7K1y+G+sR8JkzFY3jyoFStibfTeSOY54/j2czf
+	ldlr+qXzRsja0xDipAUgOhjS0SxjSNkfeMqwo4Y=
+X-Google-Smtp-Source: AGHT+IFfkyF283gdTQSSFTs7e0LEhVhVaXBt4P15kae1A2LSGv67Rf5RptUnBd6cnwoib8ovwTENLNO5+7QAyZjbbeo=
+X-Received: by 2002:a05:6871:d20d:b0:1f5:ef0c:33ab with SMTP id
+ pk13-20020a056871d20d00b001f5ef0c33abmr1177013oac.17.1700388161827; Sun, 19
+ Nov 2023 02:02:41 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20231118075912.1303509-1-masahiroy@kernel.org>
+ <20231118075912.1303509-5-masahiroy@kernel.org> <3e879452-bda7-46d9-93fa-0cf01e484798@infradead.org>
+In-Reply-To: <3e879452-bda7-46d9-93fa-0cf01e484798@infradead.org>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Sun, 19 Nov 2023 19:02:05 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ+zTVNjYQ=BFm1s7R9i6W=mz1Sy3wamvaHwNxPzuWOfw@mail.gmail.com>
+Message-ID: <CAK7LNAQ+zTVNjYQ=BFm1s7R9i6W=mz1Sy3wamvaHwNxPzuWOfw@mail.gmail.com>
+Subject: Re: [PATCH 5/6] kconfig: require an exact match for "is not set" to
+ disable CONFIG option
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-A common issue in Makefile is a race in parallel building.
+On Sun, Nov 19, 2023 at 1:30=E2=80=AFAM Randy Dunlap <rdunlap@infradead.org=
+> wrote:
+>
+> Hi,
+>
+> On 11/17/23 23:59, Masahiro Yamada wrote:
+> > Currently, any string starting "is not set" disables a CONFIG option.
+> >
+> > For example, "# CONFIG_FOO is not settled down" is accepted as valid
+> > input, functioning the same as "# CONFIG_FOO is not set". It is a
+> > long-standing oddity.
+> >
+> > Check the line against the exact pattern "is not set".
+> >
+>
+> Just to confirm (I hope), using:
+> CONFIG_FOO=3Dn
+>
+> will also still work to disable that config option?
 
-You need to be careful to prevent multiple threads from writing to the
-same file simultaneously.
 
-Commit 3939f3345050 ("ARM: 8418/1: add boot image dependencies to not
-generate invalid images") addressed such a bad scenario.
 
-A similar symptom occurs with the following command:
+Yes.  =3Dn is still supported.
 
-  $ make -j$(nproc) ARCH=riscv Image Image.gz loader loader.bin vmlinuz.efi
-    [ snip ]
-    SORTTAB vmlinux
-    OBJCOPY arch/riscv/boot/Image
-    OBJCOPY arch/riscv/boot/Image
-    OBJCOPY arch/riscv/boot/Image
-    OBJCOPY arch/riscv/boot/Image
-    OBJCOPY arch/riscv/boot/Image
-    GZIP    arch/riscv/boot/Image.gz
-    AS      arch/riscv/boot/loader.o
-    AS      arch/riscv/boot/loader.o
-    Kernel: arch/riscv/boot/Image is ready
-    PAD     arch/riscv/boot/vmlinux.bin
-    GZIP    arch/riscv/boot/vmlinuz
-    Kernel: arch/riscv/boot/loader is ready
-    OBJCOPY arch/riscv/boot/loader.bin
-    Kernel: arch/riscv/boot/loader.bin is ready
-    Kernel: arch/riscv/boot/Image.gz is ready
-    OBJCOPY arch/riscv/boot/vmlinuz.o
-    LD      arch/riscv/boot/vmlinuz.efi.elf
-    OBJCOPY arch/riscv/boot/vmlinuz.efi
-    Kernel: arch/riscv/boot/vmlinuz.efi is ready
 
-The log "OBJCOPY arch/riscv/boot/Image" is displayed 5 times.
-(also "AS      arch/riscv/boot/loader.o" twice.)
+The code diff is
+strncmp() -> strcmp().
 
-It indicates that 5 threads simultaneously enter arch/riscv/boot/
-and write to arch/riscv/boot/Image.
 
-It occasionally leads to a build failure:
 
-  $ make -j$(nproc) ARCH=riscv Image Image.gz loader loader.bin vmlinuz.efi
-    [ snip ]
-    SORTTAB vmlinux
-    OBJCOPY arch/riscv/boot/Image
-    OBJCOPY arch/riscv/boot/Image
-    OBJCOPY arch/riscv/boot/Image
-    OBJCOPY arch/riscv/boot/Image
-    PAD     arch/riscv/boot/vmlinux.bin
-  truncate: Invalid number: 'arch/riscv/boot/vmlinux.bin'
-  make[2]: *** [drivers/firmware/efi/libstub/Makefile.zboot:13: arch/riscv/boot/vmlinux.bin] Error 1
-  make[2]: *** Deleting file 'arch/riscv/boot/vmlinux.bin'
-  make[1]: *** [arch/riscv/Makefile:167: vmlinuz.efi] Error 2
-  make[1]: *** Waiting for unfinished jobs....
-    Kernel: arch/riscv/boot/Image is ready
-    GZIP    arch/riscv/boot/Image.gz
-    AS      arch/riscv/boot/loader.o
-    AS      arch/riscv/boot/loader.o
-    Kernel: arch/riscv/boot/loader is ready
-    OBJCOPY arch/riscv/boot/loader.bin
-    Kernel: arch/riscv/boot/loader.bin is ready
-    Kernel: arch/riscv/boot/Image.gz is ready
-  make: *** [Makefile:234: __sub-make] Error 2
 
-Image.gz, loader, vmlinuz.efi depend on Image. loader.bin depends
-on loader. Such dependencies are not specified in arch/riscv/Makefile.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
 
-Changes in v2:
-  - Fix commit log
+> Thanks.
+>
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > ---
+> >
+> >  scripts/kconfig/confdata.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
+> > index 795ac6c9378f..958be12cd621 100644
+> > --- a/scripts/kconfig/confdata.c
+> > +++ b/scripts/kconfig/confdata.c
+> > @@ -454,7 +454,7 @@ int conf_read_simple(const char *name, int def)
+> >                       if (!p)
+> >                               continue;
+> >                       *p++ =3D 0;
+> > -                     if (strncmp(p, "is not set", 10))
+> > +                     if (strcmp(p, "is not set"))
+> >                               continue;
+> >
+> >                       val =3D "n";
+>
+> --
+> ~Randy
 
- arch/riscv/Makefile | 2 ++
- 1 file changed, 2 insertions(+)
 
-diff --git a/arch/riscv/Makefile b/arch/riscv/Makefile
-index 5cbe596345c1..1d6ed27e0a2a 100644
---- a/arch/riscv/Makefile
-+++ b/arch/riscv/Makefile
-@@ -163,6 +163,8 @@ BOOT_TARGETS := Image Image.gz loader loader.bin xipImage vmlinuz.efi
- 
- all:	$(notdir $(KBUILD_IMAGE))
- 
-+loader.bin: loader
-+Image.gz loader vmlinuz.efi: Image
- $(BOOT_TARGETS): vmlinux
- 	$(Q)$(MAKE) $(build)=$(boot) $(boot)/$@
- 	@$(kecho) '  Kernel: $(boot)/$@ is ready'
--- 
-2.40.1
 
+--=20
+Best Regards
+Masahiro Yamada
 
