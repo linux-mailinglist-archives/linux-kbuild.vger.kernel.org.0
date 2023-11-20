@@ -1,71 +1,236 @@
-Return-Path: <linux-kbuild+bounces-79-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-80-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66C677F093F
-	for <lists+linux-kbuild@lfdr.de>; Sun, 19 Nov 2023 23:03:14 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C41D7F0A55
+	for <lists+linux-kbuild@lfdr.de>; Mon, 20 Nov 2023 02:33:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8FA7E1C204F5
-	for <lists+linux-kbuild@lfdr.de>; Sun, 19 Nov 2023 22:03:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E9E96280C35
+	for <lists+linux-kbuild@lfdr.de>; Mon, 20 Nov 2023 01:33:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CF7A156F6;
-	Sun, 19 Nov 2023 22:03:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E79301855;
+	Mon, 20 Nov 2023 01:33:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u6SD5WlS"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EtiCTtkL"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17EC118E15
-	for <linux-kbuild@vger.kernel.org>; Sun, 19 Nov 2023 22:03:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 6E3A3C43391;
-	Sun, 19 Nov 2023 22:03:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8E6C184F
+	for <linux-kbuild@vger.kernel.org>; Mon, 20 Nov 2023 01:33:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6630CC433CB;
+	Mon, 20 Nov 2023 01:33:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700431390;
-	bh=vXMa0sCs5I27qbJxLMwNWDYdeTZJEGwYORtaTKISIGI=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=u6SD5WlSVUwOqMPPQvYoEeM+Ay+RRr5qZM8dihFIYMG69mdFopBO0BSknJbTIfCr6
-	 9H09rlXLAvZWtMTIepCmi8sVoX7y0s/uxvam4WWeOCS7uGrHEx/9b0e/6IlPeH7n/v
-	 YQ/9iOYb/gKT6HqbF9hRsyiIOUjvF5a5Ba2EESvPmE52WLjeVL5kQu/gYuOkgD6Abr
-	 PjN0jaCk1cH2LV6tQvXRuK3Dr624fOKt9R9YwcGnum0y+K2VGwKScR9azbBd7Gi1T/
-	 FazAiNpWKu7eCOnxD+NCKgaqFbhwQT3W40Z8B9gCojCsRRoqYkPSW8SBKQC7+VQeJa
-	 Jlt7qRK0vU1+A==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 5D6E9E000A4;
-	Sun, 19 Nov 2023 22:03:10 +0000 (UTC)
-Subject: Re: [GIT PULL] Kbuild fixes for v6.7-rc2
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAK7LNATS=c2K7Ttg+Sb6gEmfUkrMbTQ0c62niOFzayzRF-rOdw@mail.gmail.com>
-References: <CAK7LNATS=c2K7Ttg+Sb6gEmfUkrMbTQ0c62niOFzayzRF-rOdw@mail.gmail.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAK7LNATS=c2K7Ttg+Sb6gEmfUkrMbTQ0c62niOFzayzRF-rOdw@mail.gmail.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v6.7
-X-PR-Tracked-Commit-Id: ae1eff0349f2e908fc083630e8441ea6dc434dc0
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: eb3479bc23fafbc408558cd8450b35f07fad2a63
-Message-Id: <170043139037.9984.17169970172856896609.pr-tracker-bot@kernel.org>
-Date: Sun, 19 Nov 2023 22:03:10 +0000
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+	s=k20201202; t=1700444010;
+	bh=4aKRWnXGFRDigBEXfTlhbvkBAJbCco+oZ5t5OlcFpdI=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=EtiCTtkLuYGV9apkfKPyVjisq7pLPUQCAVx9uPT1A+TpwmIA9JStslFknSmJUOmRg
+	 wBTXIkLVq0fhmHAL2MFQyNGKm3UuY02ywI6pVwH6nW5SJPOjDYzT6siuRmX+vOOSB+
+	 1qztC63+AZZgDuIpT5mrUb3SOjNgz2RhiXoyFiYRO3n1TnZX3K6l5B1f1cq8QUAE9q
+	 1l2vLfC0O1u7KT9cKosNQMllTTqQD//jNy1mvXE/65w288vZ7kpOvS/h3y/QT2J/pG
+	 4xSFCRFRt2iKUV3Uo1JDu4SjUxdNZUtHnj2m6j0PHsA1sOoQr6oP2zIKcaujKkQYop
+	 TMpu/7CvJ5KCg==
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-548ce39b101so172528a12.2;
+        Sun, 19 Nov 2023 17:33:30 -0800 (PST)
+X-Gm-Message-State: AOJu0YxNv6nS+m9HKaFpgHlFfKK+IeM4uh+eDdGw0d4/NzygfHH9LRAR
+	b3uoi47TuBylOwfyjVh7Udi/peKbFqkWbv4vC1w=
+X-Google-Smtp-Source: AGHT+IHQzhTmN1WGQSpS+/Xj3MkxDDNblmBut8i5DlGRtpthh7co7vJFFWfx5mrkhW6l4tNHTclwObeILVuMcrSkC5Q=
+X-Received: by 2002:aa7:d491:0:b0:542:eb1f:c70a with SMTP id
+ b17-20020aa7d491000000b00542eb1fc70amr4398062edr.29.1700444008824; Sun, 19
+ Nov 2023 17:33:28 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+References: <20231119053448.2367725-1-masahiroy@kernel.org>
+ <CAAhV-H6Y4vqc45eaMs+wCN7Quf4e9ogp8aDA8V0sA=TUnMWd-Q@mail.gmail.com> <CAK7LNAR=5s0tbqvB+poMD45Oyjknx9=VpVqE+qwqZy9LfQermQ@mail.gmail.com>
+In-Reply-To: <CAK7LNAR=5s0tbqvB+poMD45Oyjknx9=VpVqE+qwqZy9LfQermQ@mail.gmail.com>
+From: Huacai Chen <chenhuacai@kernel.org>
+Date: Mon, 20 Nov 2023 09:33:19 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H4w1Esxp7pE02nbeh_Wft6=a8Q8MBEr54Q5D3_g9XP1gQ@mail.gmail.com>
+Message-ID: <CAAhV-H4w1Esxp7pE02nbeh_Wft6=a8Q8MBEr54Q5D3_g9XP1gQ@mail.gmail.com>
+Subject: Re: [PATCH] loongarch: add dependency between vmlinuz.efi and vmlinux.efi
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: WANG Xuerui <kernel@xen0n.name>, loongarch@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	Ard Biesheuvel <ardb@kernel.org>, Simon Glass <sjg@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The pull request you sent on Mon, 20 Nov 2023 02:01:14 +0900:
+Hi, Masahiro,
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v6.7
+On Sun, Nov 19, 2023 at 10:25=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.=
+org> wrote:
+>
+> On Sun, Nov 19, 2023 at 8:59=E2=80=AFPM Huacai Chen <chenhuacai@kernel.or=
+g> wrote:
+> >
+> > Hi, Masahiro,
+> >
+> > On Sun, Nov 19, 2023 at 1:35=E2=80=AFPM Masahiro Yamada <masahiroy@kern=
+el.org> wrote:
+> > >
+> > > A common issue in Makefile is a race in parallel building.
+> > >
+> > > You need to be careful to prevent multiple threads from writing to th=
+e
+> > > same file simultaneously.
+> > >
+> > > Commit 3939f3345050 ("ARM: 8418/1: add boot image dependencies to not
+> > > generate invalid images") addressed such a bad scenario.
+> > >
+> > > A similar symptom occurs with the following command:
+> > >
+> > >   $ make -j$(nproc) ARCH=3Dloongarch vmlinux.efi vmlinuz.efi
+> > >     [ snip ]
+> > >     SORTTAB vmlinux
+> > >     OBJCOPY arch/loongarch/boot/vmlinux.efi
+> > >     OBJCOPY arch/loongarch/boot/vmlinux.efi
+> > >     PAD     arch/loongarch/boot/vmlinux.bin
+> > >     GZIP    arch/loongarch/boot/vmlinuz
+> > >     OBJCOPY arch/loongarch/boot/vmlinuz.o
+> > >     LD      arch/loongarch/boot/vmlinuz.efi.elf
+> > >     OBJCOPY arch/loongarch/boot/vmlinuz.efi
+> > >
+> > > The log "OBJCOPY arch/loongarch/boot/vmlinux.efi" is displayed twice.
+> > >
+> > > It indicates that two threads simultaneously enter arch/loongarch/boo=
+t/
+> > > and write to arch/loongarch/boot/vmlinux.efi.
+> > >
+> > > It occasionally leads to a build failure:
+> > >
+> > >   $ make -j$(nproc) ARCH=3Dloongarch vmlinux.efi vmlinuz.efi
+> > >     [ snip ]
+> > >     SORTTAB vmlinux
+> > >     OBJCOPY arch/loongarch/boot/vmlinux.efi
+> > >     PAD     arch/loongarch/boot/vmlinux.bin
+> > >   truncate: Invalid number: =E2=80=98arch/loongarch/boot/vmlinux.bin=
+=E2=80=99
+> > >   make[2]: *** [drivers/firmware/efi/libstub/Makefile.zboot:13:
+> > >   arch/loongarch/boot/vmlinux.bin] Error 1
+> > >   make[2]: *** Deleting file 'arch/loongarch/boot/vmlinux.bin'
+> > >   make[1]: *** [arch/loongarch/Makefile:146: vmlinuz.efi] Error 2
+> > >   make[1]: *** Waiting for unfinished jobs....
+> > >   make: *** [Makefile:234: __sub-make] Error 2
+> > >
+> > > vmlinuz.efi depends on vmlinux.efi, but such a dependency is not
+> > > specified in arch/loongarch/Makefile.
+> > >
+> > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > > ---
+> > >
+> > >  arch/loongarch/Makefile | 1 +
+> > >  1 file changed, 1 insertion(+)
+> > >
+> > > diff --git a/arch/loongarch/Makefile b/arch/loongarch/Makefile
+> > > index 9eeb0c05f3f4..6022bf3d30c9 100644
+> > > --- a/arch/loongarch/Makefile
+> > > +++ b/arch/loongarch/Makefile
+> > > @@ -142,6 +142,7 @@ vdso-install-y +=3D arch/loongarch/vdso/vdso.so.d=
+bg
+> > >
+> > >  all:   $(notdir $(KBUILD_IMAGE))
+> > >
+> > > +vmlinuz.efi: vmlinux.efi
+> > >  vmlinux.elf vmlinux.efi vmlinuz.efi: vmlinux
+> > >         $(Q)$(MAKE) $(build)=3D$(boot) $(bootvars-y) $(boot)/$@
+> > It is a little strange, because
+> >
+> > in drivers/firmware/efi/libstub/Makefile.zboot:
+> > vmlinuz.efi depends on vmlinuz.efi.elf, vmlinuz.efi.elf depends on
+> > vmlinuz.o, vmlinuz.o depends on vmlinuz, vmlinuz depends on
+> > vmlinux.bin, vmlinux.bin depends on $(EFI_ZBOOT_PAYLOAD).
+> >
+> > in arch/loongarch/boot/Makefile,
+> > EFI_ZBOOT_PAYLOAD :=3D vmlinux.efi
+> >
+> > So I think vmlinuz.efi has already depend on vmlinux.efi.
+>
+>
+>
+> That is a story in arch/loongarch/boot/Makefile.
+>
+>
+> I am talking about arch/loongarch/Makefile,
+> which is included from the top Makefile.
+>
+>
+> See this code.
+>
+>
+> vmlinux.elf vmlinux.efi vmlinuz.efi: vmlinux
+>         $(Q)$(MAKE) $(build)=3D$(boot) $(bootvars-y) $(boot)/$@
+>
+>
+>
+>
+> Only the required dependency is
+>
+>  - vmlinux.elf depends on vmlinux
+>  - vmlinuz.elf depends on vmlinux
+>
+>
+> vmlinux.elf and vmlinuz.elf are independent of each other.
+>
+>
+>
+> In parallel building, GNU Make considers that
+> vmlinux.elf and vmlinuz.elf can be built simultaneously.
+>
+>
+> GNU Make spawns two processes to execute these simultaneously:
+>
+>  $(MAKE) $(build)=3D$(boot) $(bootvars-y) $(boot)/vmlinux.elf
+>  $(MAKE) $(build)=3D$(boot) $(bootvars-y) $(boot)/vmlinuz.elf
+>
+>
+>
+> The former enters arch/loongarch/boot/Makefile to build
+> vmlinux.elf.  (A)
+>
+>
+> The latter also enters arch/loongarch/boot/Makefile to build
+> vmlinuz.elf, which depends on vmlinux.elf  (B)
+>
+>
+>
+> (A) and (B) are independent processes, hence none of them
+> know the other.
+>
+>
+> I hope it is clearer.
+Sorry, I'm not familiar with Makefile rules, so you are probably
+right, but should we do it like this (remove the direct dependency
+from vmlinuz.efi to vmlinux)?
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/eb3479bc23fafbc408558cd8450b35f07fad2a63
+vmlinuz.efi: vmlinux.efi
+vmlinux.elf vmlinux.efi: vmlinux
+        $(Q)$(MAKE) $(build)=3D$(boot) $(bootvars-y) $(boot)/$@
 
-Thank you!
+Huacai
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+>
+>
+>
+>
+>
+>
+> > Huacai
+> >
+> > >
+> > > --
+> > > 2.40.1
+> > >
+> > >
+> >
+>
+>
+> --
+> Best Regards
+> Masahiro Yamada
 
