@@ -1,94 +1,84 @@
-Return-Path: <linux-kbuild+bounces-88-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-89-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDC027F1DC7
-	for <lists+linux-kbuild@lfdr.de>; Mon, 20 Nov 2023 21:09:02 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC18A7F1DDC
+	for <lists+linux-kbuild@lfdr.de>; Mon, 20 Nov 2023 21:14:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 968C02811F9
-	for <lists+linux-kbuild@lfdr.de>; Mon, 20 Nov 2023 20:09:01 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6BACAB20E34
+	for <lists+linux-kbuild@lfdr.de>; Mon, 20 Nov 2023 20:14:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1E173715A;
-	Mon, 20 Nov 2023 20:08:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E2AA37178;
+	Mon, 20 Nov 2023 20:14:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QrJ6G2ZA"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VBreR7ac"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA003BE;
-	Mon, 20 Nov 2023 12:08:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700510936; x=1732046936;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rU+hV0Dwyl2lU7FcgPXL3hIp8mCrdq1swhV5294kYhg=;
-  b=QrJ6G2ZACJSP7sKnNNRSg3ER0HU62s5+cGBpH1qgEZz73UUQ4diORoVd
-   wGeuv/UG9ZZAq0IxcQLvXaPbYTcUFdxYN8bAYm9z4w+MbK85WIY7JTpLz
-   BEETmXRmDuJkx4UTlTKAaTLNwIYT+FHfBuzoUVzJ6qFGswRk7f3GrkTKC
-   5MPMxhU7HCTm3bQ79hToRup6NGLJodtq7jaodVPxt4ZLtt19ddsxp9F3S
-   jbkrlXra01QdVLuOKI5vv++mXhlV/dnf/RZKrroZYO3eMa43NVJ4Ymh7+
-   75ll0BiB3FNRxZCrhuqujUll3f3wtDRApDLsPswTIz7DHLuThGUhnZf48
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="10367114"
-X-IronPort-AV: E=Sophos;i="6.04,214,1695711600"; 
-   d="scan'208";a="10367114"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 12:08:56 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,214,1695711600"; 
-   d="scan'208";a="14270125"
-Received: from tassilo.jf.intel.com (HELO tassilo) ([10.54.38.190])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 12:08:55 -0800
-Date: Mon, 20 Nov 2023 12:08:50 -0800
-From: Andi Kleen <ak@linux.intel.com>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] kbuild: Add inline-account tool
-Message-ID: <ZVu8u+oofXO8iwyf@tassilo>
-References: <20231115004932.650702-1-ak@linux.intel.com>
- <CAK7LNASS1YWdqW5TUXQ0iC3vgoDbUf-M-cRX0BvrkOV8HPyjxg@mail.gmail.com>
+Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com [IPv6:2607:f8b0:4864:20::b32])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40189C8;
+	Mon, 20 Nov 2023 12:14:19 -0800 (PST)
+Received: by mail-yb1-xb32.google.com with SMTP id 3f1490d57ef6-dae7cc31151so4382627276.3;
+        Mon, 20 Nov 2023 12:14:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700511258; x=1701116058; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CjZQInSkumDPknIIf3NAz5y9yKKX3FVPVDmh/NXMtbE=;
+        b=VBreR7acQ25+JfsbqIiMnG7XrED9lTnC9Wpjo6913BDOLXlYr+krvmyCA47yaj8yY3
+         Kl/czyTC7TigkrnIGGbAGx/wnQ42dbOooVE9izvV+qYNpaqlWw2zX3bnoBIOhWExCHQ+
+         PVEafzUFkHt2odeLMedNxy7ij6p4n28YumqFNUH6I+9fzDURZdtz6wJ/6l/hIY+FRahh
+         VVAjQwqggEZFgCyLfCDMCyQe3sx64iA2A+lf9Q0nau6e2YneC6x7R3d/DJULYZNih9fC
+         Gv85lgl+eN2vgDv+Gw5toRNm6EuNnYgt7aZOfF/dxwB853Fkz5hcJKIhh0lWcAAMXS0h
+         7Xew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700511258; x=1701116058;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CjZQInSkumDPknIIf3NAz5y9yKKX3FVPVDmh/NXMtbE=;
+        b=UHmUD6mVPW6WAhIQV7aL15kN0rki/G/ZDnovCv/AZeE15FqImODNqFQz3ylk+gfsW3
+         /mMG/Pi4Nws9+rFxT/HvXQL6nguZQdyXqo+p8w6NRBtHFCt8jjzXpNJEUKnonLrEZxHI
+         QuJaNnAss+1O+6MwYw5MeVjyj5GFuBhXXu5y/MV1vdQRvvFz1kp5HuGeu47LfPHwzcSI
+         y6H6O2qoh7LyyPBmS5ykV0jt1SBZP6R369sFvhM8imLTFasIqGltWVQdWnOl0O1kQhNP
+         8Ydx402+MSb/KR0fa5e265kN8JAztfbsLyuy4x21kcT1q0drkTpy38RmNfuIgfCywJRS
+         TqUg==
+X-Gm-Message-State: AOJu0YyAfF4QvMo5s/3bNKIcQT8vtMQcKiirxiHiN3zIEQNoTNmov3Qt
+	i5CySm5jWTG4hlVxpiTEm8fjsqSzHrnWFRjlCF4=
+X-Google-Smtp-Source: AGHT+IFzS9COkrOxjGX+jIQpYFk8Ecx5lHTVdXiBYlbD6mkWs4M4DCTVV5hsZvwRfoMSWZ+kYEHCjGnISBHD8v1k8FQ=
+X-Received: by 2002:a05:6902:136d:b0:d9a:f948:aae1 with SMTP id
+ bt13-20020a056902136d00b00d9af948aae1mr7809326ybb.29.1700511258263; Mon, 20
+ Nov 2023 12:14:18 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK7LNASS1YWdqW5TUXQ0iC3vgoDbUf-M-cRX0BvrkOV8HPyjxg@mail.gmail.com>
+References: <20231117-maintainers-v1-1-85f2a7422ed9@google.com>
+In-Reply-To: <20231117-maintainers-v1-1-85f2a7422ed9@google.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 20 Nov 2023 21:14:06 +0100
+Message-ID: <CANiq72nTZa3YR1x_yMgffFQ3BVf9CEu50Nyd1WZS9QVBxdMhYA@mail.gmail.com>
+Subject: Re: [PATCH] MAINTAINERS: refresh LLVM support
+To: ndesaulniers@google.com
+Cc: Kees Cook <keescook@chromium.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, Tom Rix <trix@redhat.com>, 
+	Sami Tolvanen <samitolvanen@google.com>, Miguel Ojeda <ojeda@kernel.org>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, llvm@lists.linux.dev, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> > +    sym_sizes = [syms[x + 1] - syms[x] for x, _ in enumerate(syms[:-1])]
-> > +    sym_total = sum(sym_sizes)
-> 
-> 
-> This is equivalent to
-> 
->       sym_total = syms[-1] - syms[0]
-> 
-> isn't it?
+On Fri, Nov 17, 2023 at 8:24=E2=80=AFPM <ndesaulniers@google.com> wrote:
+>
+> - COMPILER ATTRIBUTES
 
-No it's not when there are gaps in the symbols, which always happens in
-the kernel.  The previous version used the range but that led to inbalances.
+Acked-by: Miguel Ojeda <ojeda@kernel.org>
 
-> def get_ranges(syms, threads):
-> 
->     ranges = []
->     prev = syms[0]
->     i = 1
-> 
->     while threads > 0:
-> 
->         boundary = prev + 1 + (syms[-1] - prev - 1) // threads
-> 
->         while syms[i] < boundary:
->             i += 1
+Thanks Nick for everything and see you back soon!
 
-
-Note the boundary is not the address, but the sum of symbol sizes
-
-
--Andi
+Cheers,
+Miguel
 
