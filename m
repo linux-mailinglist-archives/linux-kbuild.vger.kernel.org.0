@@ -1,236 +1,589 @@
-Return-Path: <linux-kbuild+bounces-80-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-81-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C41D7F0A55
-	for <lists+linux-kbuild@lfdr.de>; Mon, 20 Nov 2023 02:33:35 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8B737F0B2E
+	for <lists+linux-kbuild@lfdr.de>; Mon, 20 Nov 2023 05:01:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E9E96280C35
-	for <lists+linux-kbuild@lfdr.de>; Mon, 20 Nov 2023 01:33:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2FB561F20EBE
+	for <lists+linux-kbuild@lfdr.de>; Mon, 20 Nov 2023 04:01:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E79301855;
-	Mon, 20 Nov 2023 01:33:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 586AF20F1;
+	Mon, 20 Nov 2023 04:00:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EtiCTtkL"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tH+sazeU"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8E6C184F
-	for <linux-kbuild@vger.kernel.org>; Mon, 20 Nov 2023 01:33:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6630CC433CB;
-	Mon, 20 Nov 2023 01:33:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2726420E6
+	for <linux-kbuild@vger.kernel.org>; Mon, 20 Nov 2023 04:00:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C527C433C8;
+	Mon, 20 Nov 2023 04:00:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700444010;
-	bh=4aKRWnXGFRDigBEXfTlhbvkBAJbCco+oZ5t5OlcFpdI=;
+	s=k20201202; t=1700452856;
+	bh=PpTK8auIEQZVOONBIzA9dERSXkViO2NVQHipJce4ncw=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=EtiCTtkLuYGV9apkfKPyVjisq7pLPUQCAVx9uPT1A+TpwmIA9JStslFknSmJUOmRg
-	 wBTXIkLVq0fhmHAL2MFQyNGKm3UuY02ywI6pVwH6nW5SJPOjDYzT6siuRmX+vOOSB+
-	 1qztC63+AZZgDuIpT5mrUb3SOjNgz2RhiXoyFiYRO3n1TnZX3K6l5B1f1cq8QUAE9q
-	 1l2vLfC0O1u7KT9cKosNQMllTTqQD//jNy1mvXE/65w288vZ7kpOvS/h3y/QT2J/pG
-	 4xSFCRFRt2iKUV3Uo1JDu4SjUxdNZUtHnj2m6j0PHsA1sOoQr6oP2zIKcaujKkQYop
-	 TMpu/7CvJ5KCg==
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-548ce39b101so172528a12.2;
-        Sun, 19 Nov 2023 17:33:30 -0800 (PST)
-X-Gm-Message-State: AOJu0YxNv6nS+m9HKaFpgHlFfKK+IeM4uh+eDdGw0d4/NzygfHH9LRAR
-	b3uoi47TuBylOwfyjVh7Udi/peKbFqkWbv4vC1w=
-X-Google-Smtp-Source: AGHT+IHQzhTmN1WGQSpS+/Xj3MkxDDNblmBut8i5DlGRtpthh7co7vJFFWfx5mrkhW6l4tNHTclwObeILVuMcrSkC5Q=
-X-Received: by 2002:aa7:d491:0:b0:542:eb1f:c70a with SMTP id
- b17-20020aa7d491000000b00542eb1fc70amr4398062edr.29.1700444008824; Sun, 19
- Nov 2023 17:33:28 -0800 (PST)
+	b=tH+sazeUqKEpwwa3rYnbqoDtZjO2KgEqzGY/4e+X77qw3r25D+E8j2n++MrD70cgn
+	 6lXI/KLfk5yL47ct4McvQT9doVlZmX3cTNod4gFD3kSyoq6CtvyMJ//F7i5n0TY1UE
+	 yqvBw11oSGOxPaI75D1g8k5kVhAZ0wCdLboGAfQ9m1P4Mqqy4nHdu3XLXaEcxrQhM+
+	 +1IztyQONClWwyBNG+mt4DewlDuhBckDe853kOwU2ocRhrFdC91IOO79PIl4YxVp01
+	 Vmaewo7HQ3UQ0OiEFoHMvHJWIDYe9JrgaE0KND+tyXZopSPGsKGYoBXsb4lSSi+Amd
+	 Sg3RoTf7DWbIg==
+Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-1e9c9d181d6so2460475fac.0;
+        Sun, 19 Nov 2023 20:00:56 -0800 (PST)
+X-Gm-Message-State: AOJu0YwN94572U8oP+KQH1cdGWnmBjATE9BF+7way9YJtjUlnhHhmiLO
+	7VXfbWloCLIPl6hX9AorX0kKt+DmDXSZqYKty1M=
+X-Google-Smtp-Source: AGHT+IG8TO2n6fdh27OxQ8PTGhWWZGY41vFUC71Hvk9PyNDD/GUuuF2k0nVAIERn1IIglF3ITO4Qx91oSlV6NLMaogA=
+X-Received: by 2002:a05:6870:c1d2:b0:1e9:8b78:899c with SMTP id
+ i18-20020a056870c1d200b001e98b78899cmr8484469oad.55.1700452855421; Sun, 19
+ Nov 2023 20:00:55 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231119053448.2367725-1-masahiroy@kernel.org>
- <CAAhV-H6Y4vqc45eaMs+wCN7Quf4e9ogp8aDA8V0sA=TUnMWd-Q@mail.gmail.com> <CAK7LNAR=5s0tbqvB+poMD45Oyjknx9=VpVqE+qwqZy9LfQermQ@mail.gmail.com>
-In-Reply-To: <CAK7LNAR=5s0tbqvB+poMD45Oyjknx9=VpVqE+qwqZy9LfQermQ@mail.gmail.com>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Mon, 20 Nov 2023 09:33:19 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H4w1Esxp7pE02nbeh_Wft6=a8Q8MBEr54Q5D3_g9XP1gQ@mail.gmail.com>
-Message-ID: <CAAhV-H4w1Esxp7pE02nbeh_Wft6=a8Q8MBEr54Q5D3_g9XP1gQ@mail.gmail.com>
-Subject: Re: [PATCH] loongarch: add dependency between vmlinuz.efi and vmlinux.efi
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: WANG Xuerui <kernel@xen0n.name>, loongarch@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	Ard Biesheuvel <ardb@kernel.org>, Simon Glass <sjg@chromium.org>
+References: <20231115004932.650702-1-ak@linux.intel.com> <CAK7LNASS1YWdqW5TUXQ0iC3vgoDbUf-M-cRX0BvrkOV8HPyjxg@mail.gmail.com>
+In-Reply-To: <CAK7LNASS1YWdqW5TUXQ0iC3vgoDbUf-M-cRX0BvrkOV8HPyjxg@mail.gmail.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Mon, 20 Nov 2023 13:00:18 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASAp3kGDXmHyhwAtYhkCrqG0s4eXvfkxXyK1gg+0sO63A@mail.gmail.com>
+Message-ID: <CAK7LNASAp3kGDXmHyhwAtYhkCrqG0s4eXvfkxXyK1gg+0sO63A@mail.gmail.com>
+Subject: Re: [PATCH v2] kbuild: Add inline-account tool
+To: Andi Kleen <ak@linux.intel.com>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi, Masahiro,
+On Mon, Nov 20, 2023 at 1:32=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
+rg> wrote:
+>
+> On Wed, Nov 15, 2023 at 9:49=E2=80=AFAM Andi Kleen <ak@linux.intel.com> w=
+rote:
+>
+>
+> This is a standalone script, which is unrelated to kbuild.
+>
+> Please change the subject to
+>
+> "scripts: Add inline-account tool"
+>
+>
+>
+>
+>
+> >
+> > A common cause of binary code bloat is excessive inlining. Traditional
+> > tools (like nm --size-sort -t d) don't address that directly because
+> > they only see the final functions, but don't know about inlines.
+> >
+> > This patch adds inline-account that makes it easy to track that down
+> > by accounting code bytes to all functions visible in the debug informat=
+ion,
+> > as well as code lines.
+> >
+> > Here are some examples:
+> >
+> > Show all inlines that increase code size by >1K in the core scheduler:
+> >
+> > $ inline-account.py --min-bytes=3D1000 kernel/sched/core.o
+> > Total code bytes seen 75690
+> >
+> > Code bytes by functions:
+> > Function                                           Total          Avg  =
+ Num
+> > rq_pin_lock                                        1401  (0.02%)  35   =
+ 39
+> > __sched_setscheduler                               1277  (0.02%)  41   =
+ 31
+> > perf_fetch_caller_regs                             1012  (0.01%)  17   =
+ 58
+> >
+> > Code bytes by nearby source line blocks:
+> > prefix /home/ak/lsrc/git/linux/
+> > Line                                               Total
+> > kernel/sched/sched.h:1610                          1387  (0.02%)
+> > include/trace/events/sched.h:16                    1172  (0.02%)
+> > include/trace/events/sched.h:222                   1058  (0.01%)
+> >
+> > This indicates that rq_pin_lock should likely be not inline,
+> > and perhaps perf_fetch_caller_regs not either.
+> >
+> > Note that not all large inlines are necessary bloat. If there is only
+>
+>
+> necessarily bloat?
+>
+>
+>
+>
+>
+>
+>
+>
+>
+> > a single call site it isn't bloat (the tool currently cannot distinguis=
+h
+> > that case). For example it is commonly seen with syscall definitions
+> > that use single large inlines with only a single caller. In the example
+> > above I think it's the case with __sched_setscheduler.
+> >
+> > Show the >1K inlines in lib/maple_tree.o, which for some reason
+> > comes in at a incredible 73k of code size:
+> >
+> > $ inline-account.py --min-bytes 1000 lib/maple_tree.o
+> > Total code bytes seen 73578
+> >
+> > Code bytes by functions:
+> > Function                                           Total          Avg  =
+ Num
+> > mas_mab_cp                                         5537  (0.08%)  37   =
+ 149
+> > mas_pop_node                                       3798  (0.05%)  28   =
+ 131
+> > ma_slots                                           2368  (0.03%)  14   =
+ 162
+> > ma_pivots                                          2353  (0.03%)  10   =
+ 222
+> > mas_destroy_rebalance                              2056  (0.03%)  42   =
+ 48
+> > mas_start                                          1661  (0.02%)  13   =
+ 125
+> > mas_set_parent                                     1454  (0.02%)  20   =
+ 72
+> > mas_set_alloc_req                                  1410  (0.02%)  17   =
+ 80
+> > mte_node_type                                      1360  (0.02%)  5    =
+ 228
+> > mas_data_end                                       1189  (0.02%)  16   =
+ 74
+> > mte_to_node                                        1085  (0.01%)  3    =
+ 276
+> > mas_split                                          1053  (0.01%)  65   =
+ 16
+> > mas_topiary_replace                                1033  (0.01%)  38   =
+ 27
+> > mas_root_expand                                    1001  (0.01%)  35   =
+ 28
+> >
+> > Code bytes by nearby source line blocks:
+> > prefix /home/ak/lsrc/git/linux/
+> > Line                                               Total
+> > lib/maple_tree.c:210                               1360  (0.02%)
+> > include/trace/events/maple_tree.h:80               1283  (0.02%)
+> > lib/maple_tree.c:649                               1193  (0.02%)
+> > lib/maple_tree.c:288                               1097  (0.01%)
+> >
+> > It's clear there is a lot of potential for shrinking here, as a quick
+> > experiment shows:
+> >
+> > $ size lib/maple_tree.o
+> >    text    data     bss     dec     hex filename
+> >   72257    5312       8   77577   12f09 lib/maple_tree.o
+> > $ sed -i -e s/__always_inline// -e 's/ inline/ /' lib/maple_tree.c
+> > $ make -s lib/maple_tree.o
+> > $ size lib/maple_tree.o
+> >    text    data     bss     dec     hex filename
+> >   47774    4720       8   52502    cd16 lib/maple_tree.o
+> >
+> > 34% reduction just from trusting the compiler. Most of it seems
+> > to come from abuse of __always_inline. I suppose a large scale
+> > tree purge of that would give some decent binary size results.
+> >
+> > $ inline-account.py --show=3D5 kernel/workqueue.o
+> > Total code bytes seen 40403
+> >
+> > Code bytes by functions:
+> > Function                                           Total          Avg  =
+ Num
+> > bitmap_copy                                        1477  (0.04%)  26   =
+ 56
+> > show_pwq                                           912   (0.02%)  76   =
+ 12
+> > workqueue_init_early                               846   (0.02%)  29   =
+ 29
+> > __flush_workqueue                                  753   (0.02%)  31   =
+ 24
+> > alloc_and_link_pwqs                                558   (0.01%)  69   =
+ 8
+> >
+> > Code bytes by nearby source line blocks:
+> > prefix /home/ak/lsrc/git/linux/
+> > Line                                               Total
+> > include/linux/bitmap.h:268                         1336  (0.03%)
+> > include/trace/events/workqueue.h:23                1038  (0.03%)
+> > include/trace/events/workqueue.h:108               732   (0.02%)
+> > include/trace/events/workqueue.h:59                694   (0.02%)
+> > include/trace/events/workqueue.h:82                670   (0.02%)
+> > $
+> >
+> > This is an interesting case because bitmap_copy is just
+> >
+> > static inline void bitmap_copy(unsigned long *dst, const unsigned long =
+*src,
+> >                         unsigned int nbits)
+> > {
+> >         unsigned int len =3D BITS_TO_LONGS(nbits) * sizeof(unsigned lon=
+g);
+> >
+> >         if (small_const_nbits(nbits))
+> >                 *dst =3D *src;
+> >         else
+> >                 memcpy(dst, src, len);
+> > }
+> >
+> > memcpy (which is a macro) must sometimes generate a lot of
+> > code. The small_const_nbits case definitely should be inlined though
+> > because it's likely even smaller than a call. Would need
+> > more investigation.
+> >
+> > The other large inlines are trace points. Perhaps there is something
+> > there that could be done to shrink that a bit.
+> >
+> > Finally we can do a global accounting (currently with multiple runs):
+> >
+> > (ignore the percentage numbers since they are just for the local file)
+> >
+> > $ find -name '*.o' | xargs -n1 inline-account.py > a
+> > $ sort -n -r -k 2 a | head -30
+> > ZSTD_count                                         81799 (0.19%)  32   =
+ 2514
+> > ZSTD_count                                         52233 (0.25%)  33   =
+ 1544
+> > kmalloc                                            43324 (0.00%)  12   =
+ 3334
+> > pv_queued_spin_unlock                              42027 (0.00%)  9    =
+ 4580
+> > constant_test_bit                                  41667 (0.00%)  5    =
+ 8005
+> > arch/x86/include/asm/paravirt.h:591                41044 (0.00%)
+> > arch/x86/include/asm/bitops.h:207                  40153 (0.00%)
+> > __refcount_add                                     37968 (0.00%)  24   =
+ 1532
+> > page_fixed_fake_head                               36368 (0.00%)  19   =
+ 1832
+> > include/linux/slab.h:599                           35654 (0.00%)
+> > arch/x86/include/asm/jump_label.h:27               35156 (0.00%)
+> > spin_lock                                          32170 (0.00%)  10   =
+ 3007
+> > __refcount_sub_and_test                            32068 (0.00%)  17   =
+ 1842
+> > include/linux/spinlock.h:351                       31102 (0.00%)
+> > arch_static_branch                                 30874 (0.00%)  4    =
+ 7022
+> > get_current                                        30714 (0.00%)  9    =
+ 3351
+> > arch/x86/include/asm/current.h:41                  29912 (0.00%)
+> > trace_trigger_soft_disabled                        29814 (0.00%)  21   =
+ 1368
+> > perf_fetch_caller_regs                             27504 (0.00%)  16   =
+ 1634
+> > ZSTD_storeSeq                                      26060 (0.06%)  30   =
+ 862
+> > hid_map_usage                                      25582 (0.00%)  88   =
+ 288
+> > ZSTD_compressBlock_lazy_generic                    24953 (0.12%)  46   =
+ 535
+> > ZSTD_compressBlock_lazy_generic                    24953 (0.06%)  46   =
+ 535
+> > paravirt_ret0                                      24152 (0.00%)  24152=
+ 1
+> > spin_unlock_irqrestore                             23253 (0.00%)  10   =
+ 2281
+> > include/linux/spinlock.h:406                       22526 (0.00%)
+> > ZSTD_RowFindBestMatch                              21527 (0.10%)  23   =
+ 922
+> > ZSTD_RowFindBestMatch                              21527 (0.05%)  23   =
+ 922
+> > __list_add                                         21209 (0.00%)  11   =
+ 1851
+> > include/linux/refcount.h:283                       20642 (0.00%)
+> >
+> > - So my kernel is spending around ~30K just for getting task_structs in
+> > current.
+> > - I'm sure ZSTD is great, but is it >200K in duplicated code worth grea=
+t?
+> > - page_fixed_fake_head probably shouldn't be inlined
+> > - There might be some potential in out lining reference counts
+> > (although that one might be truly performance critical)
+> > - There's maybe some potential in shrinking trace point bloat?
+> >
+> > ... and more similar insights.
+> >
+> > Also of course there can be critical inlines that really need
+> > to be inline in many sites for best performance. But that's rarely the =
+case
+> > if they are big because it's unlikely the small call overhead is making
+> > a significant difference for a large chunk of code.
+> >
+> > In any case the tool is useful, so I think it deserves its place
+> > in scripts/
+> >
+> > Signed-off-by: Andi Kleen <ak@linux.intel.com>
+> >
+> > ---
+> >
+> > v2: Address review comments. Change balancing to be address based.
+> > Add option to set objdump binary.
+> > ---
+> >  scripts/inline-account.py | 201 ++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 201 insertions(+)
+> >  create mode 100755 scripts/inline-account.py
+> >
+> > diff --git a/scripts/inline-account.py b/scripts/inline-account.py
+> > new file mode 100755
+> > index 000000000000..c32cb0547172
+> > --- /dev/null
+> > +++ b/scripts/inline-account.py
+> > @@ -0,0 +1,201 @@
+> > +#!/usr/bin/env python3
+> > +# account code bytes per source code / functions from objdump -Sl outp=
+ut
+> > +# useful to find inline bloat
+> > +#
+> > +# SPDX-License-Identifier: GPL-2.0-only
+>
+>
+> Please move this above.
+>
+> The first line is the shebang.
+> The second line is SPDX.
+>
+>
+>
+>
+>
+> > +# Author: Andi Kleen
+> > +
+> > +import os
+> > +import sys
+> > +import re
+> > +import argparse
+> > +import bisect
+> > +import multiprocessing
+>
+>
+> Please sort imports alphabetically.
+>
+>
+>
+> > +from collections import Counter
+> > +from functools import reduce, partial
+> > +
+> > +def get_args():
+> > +    p =3D argparse.ArgumentParser(
+> > +            description=3D"""
+> > +Account code bytes per source code / functions from objdump.
+> > +Useful to find inline bloat.
+> > +
+> > +The line numbers are the beginning of a block, so the actual code can =
+be later.
+> > +Line numbers can be a also little off due to objdump bugs
+> > +also some misaccounting can happen due to inexact gcc debug informatio=
+n.
+> > +The number output for functions may account a single large function mu=
+ltiple
+> > +times.  program/object files need to be built with -g.
+> > +
+> > +This is somewhat slow due to objdump -S being slow. It helps to have
+> > +plenty of cores.""")
+> > +    p.add_argument('--min-bytes', type=3Dint, help=3D'minimum bytes to=
+ report', default=3D100)
+> > +    p.add_argument('--threads', '-t', type=3Dint, default=3Dmultiproce=
+ssing.cpu_count(),
+>
+>
+> Please check that args.threads >=3D 1.
+>
+> If not, please show an error message.
+>
+>
+>
+>
+>
+> > +                   help=3D'Number of objdump processes to run')
+> > +    p.add_argument('--verbose', '-v', action=3D'store_true', help=3D"P=
+rint more")
+> > +    p.add_argument('--show', type=3Dint, help=3D'Number of results to =
+show')
+> > +    p.add_argument('--objdump', default=3D"objdump", help=3D"Set objdu=
+mp binary to run")
+> > +    p.add_argument('file', help=3D'object file/program as input')
+> > +    return p.parse_args()
+> > +
+> > +def get_syms(fn):
+> > +    syms =3D []
+> > +    pc =3D None
+> > +    with os.popen("nm -n --print-size " + fn) as f:
+> > +        for l in f:
+> > +            n =3D l.split()
+> > +            if len(n) > 2 and n[2].upper() =3D=3D "T":
+> > +                pc =3D int(n[0], 16)
+> > +                syms.append(pc)
+> > +                ln =3D int(n[1], 16)
+> > +    if not pc:
+> > +        sys.exit(fn + " has no symbols")
+>
+>
+> "if not pc" becomes true in two cases:
+>  - pc is zero
+>  - pc is None
+>
+>
+> Only the latter case is "no symbols" because
+> a symbol address may become zero in relocatable ELF.
+>
+>
+>
+> if len(syms) =3D=3D 0:
+>      ...
+>
+> will work correctly.
+>
+> And, "pc =3D None" is unneeded.
+>
+>
+>
+>
+>
+>
+>
+>
+> > +    syms.append(pc + ln)
+> > +    return syms
+> > +
+> > +class Account:
+> > +    def __init__(self):
+> > +        self.funcbytes =3D Counter()
+> > +        self.linebytes =3D Counter()
+> > +        self.funccount =3D Counter()
+> > +        self.nolinebytes =3D 0
+> > +        self.nofuncbytes =3D 0
+> > +        self.total =3D 0
+> > +
+> > +    def add(self, b):
+> > +        self.funcbytes +=3D b.funcbytes
+> > +        self.linebytes +=3D b.linebytes
+> > +        self.funccount +=3D b.funccount
+> > +        self.nolinebytes +=3D b.nolinebytes
+> > +        self.nofuncbytes +=3D b.nofuncbytes
+> > +        self.total +=3D b.total
+> > +        return self
+> > +
+>
+>
+> Since this script implements a class,
+> please follow this blank line rule.
+>
+>
+> https://peps.python.org/pep-0008/#blank-lines
+>
+>
+>
+>
+>
+>
+>
+>
+>
+> > +# dont add sys.exit here, causes deadlocks
+> > +def account_range(args, r):
+> > +    a =3D Account()
+> > +    line =3D None
+> > +    func =3D None
+> > +    codefunc =3D None
+> > +
+> > +    cmd =3D ("%s -Sl %s --start-address=3D%#x --stop-address=3D%#x" %
+> > +                (args.objdump, args.file, r[0], r[1]))
+> > +    if args.verbose:
+> > +        print(cmd)
+> > +    with os.popen(cmd) as f:
+> > +        for l in f:
+> > +            #      250:       e8 00 00 00 00          callq  255 <proc=
+_skip_spaces+0x5>
+> > +            m =3D re.match(r'\s*([0-9a-fA-F]+):\s+(.*)', l)
+> > +            if m:
+> > +                bytes =3D len(re.findall(r'[0-9a-f][0-9a-f] ', m.group=
+(2)))
+> > +                if not func:
+> > +                    a.nofuncbytes +=3D bytes
+> > +                    continue
+> > +                if not line:
+> > +                    a.nolinebytes +=3D bytes
+> > +                    continue
+> > +                a.total +=3D bytes
+> > +                a.funcbytes[func] +=3D bytes
+> > +                a.linebytes[(file, line)] +=3D bytes
+> > +                codefunc =3D func
+> > +                continue
+> > +
+> > +            # sysctl_init():
+> > +            m =3D re.match(r'([a-zA-Z_][a-zA-Z0-9_]*)\(\):$', l)
+> > +            if m:
+> > +                if codefunc and m.group(1) !=3D codefunc:
+> > +                    a.funccount[codefunc] +=3D 1
+> > +                    codefunc =3D None
+> > +                func =3D m.group(1)
+> > +                continue
+> > +
+> > +            # /sysctl.c:1666
+> > +            m =3D re.match(r'^([^:]+):(\d+)$', l)
+> > +            if m:
+> > +                file, line =3D m.group(1), int(m.group(2))
+> > +                continue
+> > +
+> > +    if codefunc:
+> > +        a.funccount[codefunc] +=3D 1
+> > +    return a
+> > +
+> > +def get_boundaries(syms, sym_sizes, chunk):
+> > +    run =3D 0
+> > +    boundaries =3D [syms[0]]
+> > +    for i, x in enumerate(sym_sizes):
+> > +        run +=3D x
+> > +        if run >=3D chunk:
+> > +            boundaries.append(syms[i])
+> > +            run =3D 0
+> > +    boundaries.append(syms[-1])
+> > +    return boundaries
+> > +
+> > +
+> > +def process(args):
+> > +    # objdump -S is slow, so we parallelize
+> > +
+> > +    # split symbol table into chunks for parallelization
+> > +    # we split on functions boundaries to avoid mis-accounting
+> > +    syms =3D get_syms(args.file)
+> > +    if len(syms) < 2:
+> > +        print("not enough symbols")
+> > +        return
+>
+> This message should go to stderr instead of stdout.
+>
+>
+>    sys.exit("not enough symbols")
+>
 
-On Sun, Nov 19, 2023 at 10:25=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.=
-org> wrote:
->
-> On Sun, Nov 19, 2023 at 8:59=E2=80=AFPM Huacai Chen <chenhuacai@kernel.or=
-g> wrote:
-> >
-> > Hi, Masahiro,
-> >
-> > On Sun, Nov 19, 2023 at 1:35=E2=80=AFPM Masahiro Yamada <masahiroy@kern=
-el.org> wrote:
-> > >
-> > > A common issue in Makefile is a race in parallel building.
-> > >
-> > > You need to be careful to prevent multiple threads from writing to th=
-e
-> > > same file simultaneously.
-> > >
-> > > Commit 3939f3345050 ("ARM: 8418/1: add boot image dependencies to not
-> > > generate invalid images") addressed such a bad scenario.
-> > >
-> > > A similar symptom occurs with the following command:
-> > >
-> > >   $ make -j$(nproc) ARCH=3Dloongarch vmlinux.efi vmlinuz.efi
-> > >     [ snip ]
-> > >     SORTTAB vmlinux
-> > >     OBJCOPY arch/loongarch/boot/vmlinux.efi
-> > >     OBJCOPY arch/loongarch/boot/vmlinux.efi
-> > >     PAD     arch/loongarch/boot/vmlinux.bin
-> > >     GZIP    arch/loongarch/boot/vmlinuz
-> > >     OBJCOPY arch/loongarch/boot/vmlinuz.o
-> > >     LD      arch/loongarch/boot/vmlinuz.efi.elf
-> > >     OBJCOPY arch/loongarch/boot/vmlinuz.efi
-> > >
-> > > The log "OBJCOPY arch/loongarch/boot/vmlinux.efi" is displayed twice.
-> > >
-> > > It indicates that two threads simultaneously enter arch/loongarch/boo=
-t/
-> > > and write to arch/loongarch/boot/vmlinux.efi.
-> > >
-> > > It occasionally leads to a build failure:
-> > >
-> > >   $ make -j$(nproc) ARCH=3Dloongarch vmlinux.efi vmlinuz.efi
-> > >     [ snip ]
-> > >     SORTTAB vmlinux
-> > >     OBJCOPY arch/loongarch/boot/vmlinux.efi
-> > >     PAD     arch/loongarch/boot/vmlinux.bin
-> > >   truncate: Invalid number: =E2=80=98arch/loongarch/boot/vmlinux.bin=
-=E2=80=99
-> > >   make[2]: *** [drivers/firmware/efi/libstub/Makefile.zboot:13:
-> > >   arch/loongarch/boot/vmlinux.bin] Error 1
-> > >   make[2]: *** Deleting file 'arch/loongarch/boot/vmlinux.bin'
-> > >   make[1]: *** [arch/loongarch/Makefile:146: vmlinuz.efi] Error 2
-> > >   make[1]: *** Waiting for unfinished jobs....
-> > >   make: *** [Makefile:234: __sub-make] Error 2
-> > >
-> > > vmlinuz.efi depends on vmlinux.efi, but such a dependency is not
-> > > specified in arch/loongarch/Makefile.
-> > >
-> > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > > ---
-> > >
-> > >  arch/loongarch/Makefile | 1 +
-> > >  1 file changed, 1 insertion(+)
-> > >
-> > > diff --git a/arch/loongarch/Makefile b/arch/loongarch/Makefile
-> > > index 9eeb0c05f3f4..6022bf3d30c9 100644
-> > > --- a/arch/loongarch/Makefile
-> > > +++ b/arch/loongarch/Makefile
-> > > @@ -142,6 +142,7 @@ vdso-install-y +=3D arch/loongarch/vdso/vdso.so.d=
-bg
-> > >
-> > >  all:   $(notdir $(KBUILD_IMAGE))
-> > >
-> > > +vmlinuz.efi: vmlinux.efi
-> > >  vmlinux.elf vmlinux.efi vmlinuz.efi: vmlinux
-> > >         $(Q)$(MAKE) $(build)=3D$(boot) $(bootvars-y) $(boot)/$@
-> > It is a little strange, because
-> >
-> > in drivers/firmware/efi/libstub/Makefile.zboot:
-> > vmlinuz.efi depends on vmlinuz.efi.elf, vmlinuz.efi.elf depends on
-> > vmlinuz.o, vmlinuz.o depends on vmlinuz, vmlinuz depends on
-> > vmlinux.bin, vmlinux.bin depends on $(EFI_ZBOOT_PAYLOAD).
-> >
-> > in arch/loongarch/boot/Makefile,
-> > EFI_ZBOOT_PAYLOAD :=3D vmlinux.efi
-> >
-> > So I think vmlinuz.efi has already depend on vmlinux.efi.
->
->
->
-> That is a story in arch/loongarch/boot/Makefile.
->
->
-> I am talking about arch/loongarch/Makefile,
-> which is included from the top Makefile.
->
->
-> See this code.
->
->
-> vmlinux.elf vmlinux.efi vmlinuz.efi: vmlinux
->         $(Q)$(MAKE) $(build)=3D$(boot) $(bootvars-y) $(boot)/$@
->
->
->
->
-> Only the required dependency is
->
->  - vmlinux.elf depends on vmlinux
->  - vmlinuz.elf depends on vmlinux
->
->
-> vmlinux.elf and vmlinuz.elf are independent of each other.
->
->
->
-> In parallel building, GNU Make considers that
-> vmlinux.elf and vmlinuz.elf can be built simultaneously.
->
->
-> GNU Make spawns two processes to execute these simultaneously:
->
->  $(MAKE) $(build)=3D$(boot) $(bootvars-y) $(boot)/vmlinux.elf
->  $(MAKE) $(build)=3D$(boot) $(bootvars-y) $(boot)/vmlinuz.elf
->
->
->
-> The former enters arch/loongarch/boot/Makefile to build
-> vmlinux.elf.  (A)
->
->
-> The latter also enters arch/loongarch/boot/Makefile to build
-> vmlinuz.elf, which depends on vmlinux.elf  (B)
->
->
->
-> (A) and (B) are independent processes, hence none of them
-> know the other.
->
->
-> I hope it is clearer.
-Sorry, I'm not familiar with Makefile rules, so you are probably
-right, but should we do it like this (remove the direct dependency
-from vmlinuz.efi to vmlinux)?
 
-vmlinuz.efi: vmlinux.efi
-vmlinux.elf vmlinux.efi: vmlinux
-        $(Q)$(MAKE) $(build)=3D$(boot) $(bootvars-y) $(boot)/$@
+Or, you can remove this check entirely if you
+check the length in get_syms().
 
-Huacai
 
->
->
->
->
->
->
-> > Huacai
-> >
-> > >
-> > > --
-> > > 2.40.1
-> > >
-> > >
-> >
->
->
-> --
-> Best Regards
-> Masahiro Yamada
+get_syms() requires at least one element from the loop,
+and append() one more at the end.
+So, get_syms() always has two or more elements.
+
+
+
+
+
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
