@@ -1,110 +1,125 @@
-Return-Path: <linux-kbuild+bounces-94-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-95-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51C947F2B1A
-	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Nov 2023 11:59:02 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F3947F2C70
+	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Nov 2023 12:59:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 82C801C20D51
-	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Nov 2023 10:59:01 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1F38CB20F7E
+	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Nov 2023 11:59:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 107F32D603;
-	Tue, 21 Nov 2023 10:59:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AD9348CE3;
+	Tue, 21 Nov 2023 11:59:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MZ4sKoiS"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="om0plaBM";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="EsrcFPaA"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90B2083;
-	Tue, 21 Nov 2023 02:58:56 -0800 (PST)
-Received: by mail-lj1-x236.google.com with SMTP id 38308e7fff4ca-2c8769edd9fso35176851fa.0;
-        Tue, 21 Nov 2023 02:58:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700564335; x=1701169135; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=CCTVl3tUjQOvHObHzjbVxbNLOTFELDSW5iqT75QPHdA=;
-        b=MZ4sKoiS8IkAswmR6yLuMVKZ9eYtKdrAFMQgQ/UaP9KelooCvfcWh0f7n3hoxMduUk
-         ZsjvlEWOstfl7OsV1J1hfA16A3ukwGduMspaVpyp+jqazfFnPJ8JP+nGmz3ot69ZS9vm
-         8bLZvw4WqwMHf6a031SuB9B3gI9iJy7NZ17IkRKnwvzY7ClV4DNfAptj2mgXrObOKCpm
-         K1QvGWDT0UzrV2a3FFOQ/fs1VTDrj01fBb+9IgVJXi7YiSD0XBzGLBPDfjiWlfczW7wy
-         qvOqzqUjNs8Z6mfrOiX4WSwef4m6CMeuBPaVzEmPSdDnPxGCUe51H75b4x/Uup5m4qN8
-         kubw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700564335; x=1701169135;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=CCTVl3tUjQOvHObHzjbVxbNLOTFELDSW5iqT75QPHdA=;
-        b=EldVdOzvl8GStiBtL8LMku68Qeiqi4GfL5MsJOrHe/YiGnzcpd+JvN9DTpzf8jqFjP
-         YEMTocBDWBy8eIYmsJT46ZFSBSnDYwYYElBvEYRq0XES2EyX9XIessoLFIG2hyQ0PMDA
-         qaTZ1iH84RrRcPOUvQOOm84mLgFA1+iun18lHUya3WzUCvB9QfwwJKqVVvNBRA3CcK9F
-         bSQhT9g6CvJp9qBRkg0OCh70R5D12xHCoVuhReYLGHxT+IlB9cWGM+YjwV/KnwPJLjU0
-         fXCwNqBhtbC6K+83nzLKKulYsEncZunKClZUGjaCiYzmdAN0j6iydvNhI9z/MqLeMbXw
-         YyOw==
-X-Gm-Message-State: AOJu0YzEZkszCAmD57s7QhsqhFrysbf6fUIiwM42r4upyiO7GJAxIdy/
-	IqyRCURX6pSgeNvRfkeyeZcSWk6P+3+MjTaDYbM=
-X-Google-Smtp-Source: AGHT+IGmo1HpOU/EHoxZuU2TPsFSxyO1Siz8LBA8opwt+bBm4TaevsOx0CoZ1Nke4igOByX5NlDQGKXd1jqMKLbZMgs=
-X-Received: by 2002:a2e:1f11:0:b0:2c5:f54:2477 with SMTP id
- f17-20020a2e1f11000000b002c50f542477mr6787045ljf.40.1700564334353; Tue, 21
- Nov 2023 02:58:54 -0800 (PST)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E78291BF7
+	for <linux-kbuild@vger.kernel.org>; Tue, 21 Nov 2023 03:59:03 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 3FD021F8B4;
+	Tue, 21 Nov 2023 11:59:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1700567942; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=z3V5GkOCHsdxvzcozrlNWqOM1FfiWC7Sm8/cbUlYFa4=;
+	b=om0plaBMg2Y1qnkvGsTkW7HSm85MScy05gh+fMIqsl697ntF0561ElHl+hlAVkbnWcqf7d
+	E26adoZEWkeJ/IkHNVwB6fcDBtKEL8Q4D09TA7FGnqfOP8So1DzCZIECQUOilm3KPWzq8y
+	T338pCsux+ghS9+jLZb3LcjqLdx1lWg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1700567942;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=z3V5GkOCHsdxvzcozrlNWqOM1FfiWC7Sm8/cbUlYFa4=;
+	b=EsrcFPaAHMGNxF3V+t/1xkCQbg9LJmm149471XNigBF5aJX0T9xO9rWB2k58u5FGRWDVJs
+	bNQMFi9hmL13Q1Bw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 31520138E3;
+	Tue, 21 Nov 2023 11:59:01 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id Nqm3CIWbXGUdfgAAMHmgww
+	(envelope-from <pvorel@suse.cz>); Tue, 21 Nov 2023 11:59:01 +0000
+From: Petr Vorel <pvorel@suse.cz>
+To: linux-kbuild@vger.kernel.org
+Cc: Petr Vorel <pvorel@suse.cz>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Nicolas Schier <nicolas@fjasle.eu>
+Subject: [PATCH 1/2] kbuild: builddeb: Remove unused $dirs
+Date: Tue, 21 Nov 2023 12:58:54 +0100
+Message-ID: <20231121115855.111358-1-pvorel@suse.cz>
+X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231117-maintainers-v1-1-85f2a7422ed9@google.com>
-In-Reply-To: <20231117-maintainers-v1-1-85f2a7422ed9@google.com>
-Reply-To: sedat.dilek@gmail.com
-From: Sedat Dilek <sedat.dilek@gmail.com>
-Date: Tue, 21 Nov 2023 11:58:17 +0100
-Message-ID: <CA+icZUXFGp-yoWUHhbowz6YJyoULCgtjSZ-fTpRg8YvVD9V5gg@mail.gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: refresh LLVM support
-To: ndesaulniers@google.com
-Cc: Kees Cook <keescook@chromium.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, Tom Rix <trix@redhat.com>, 
-	Sami Tolvanen <samitolvanen@google.com>, Miguel Ojeda <ojeda@kernel.org>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, llvm@lists.linux.dev, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spam-Score: 4.72
+X-Spamd-Result: default: False [4.72 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 R_MISSING_CHARSET(2.50)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 SUBJECT_HAS_CURRENCY(1.00)[];
+	 BROKEN_CONTENT_TYPE(1.50)[];
+	 NEURAL_HAM_LONG(-0.88)[-0.878];
+	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 RCPT_COUNT_SEVEN(0.00)[7];
+	 MID_CONTAINS_FROM(1.00)[];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_COUNT_TWO(0.00)[2];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-0.10)[65.44%]
 
-On Fri, Nov 17, 2023 at 8:24=E2=80=AFPM <ndesaulniers@google.com> wrote:
->
-> As discussed at the ClangBuiltLinux '23 meetup (co-located with Linux Plu=
-mbers
-> Conf '23), I'll be taking a step back from kernel work to focus on my gro=
-wing
-> family and helping Google figure out its libc story. So I think it's time=
- to
-> formally hand over the reigns to my co-maintainer Nathan.
->
+Fixes: 1fc9095846cc ("kbuild: tar-pkg: use tar rules in scripts/Makefile.package")
+Signed-off-by: Petr Vorel <pvorel@suse.cz>
+---
+ scripts/package/buildtar | 2 --
+ 1 file changed, 2 deletions(-)
 
-Hi Nick,
+diff --git a/scripts/package/buildtar b/scripts/package/buildtar
+index 65b4ea502962..8ac075dd0e9c 100755
+--- a/scripts/package/buildtar
++++ b/scripts/package/buildtar
+@@ -23,7 +23,6 @@ tmpdir=$1
+ #
+ rm -rf -- "${tmpdir}"
+ mkdir -p -- "${tmpdir}/boot"
+-dirs=boot
+ 
+ 
+ #
+@@ -42,7 +41,6 @@ fi
+ #
+ if grep -q '^CONFIG_MODULES=y' include/config/auto.conf; then
+ 	make ARCH="${ARCH}" -f ${srctree}/Makefile INSTALL_MOD_PATH="${tmpdir}" modules_install
+-	dirs="$dirs lib"
+ fi
+ 
+ 
+-- 
+2.42.0
 
-WoW (C)lang(B)uilt(L)inux baby coming soon - your best patch well done!
-(  "Catherine Beatrix Luana" might be a good first-name (my
-Suggested-by when it's female) ).
-
-> I identify first and foremost as a Linux kernel developer, and an LLVM de=
-v
-> second. May it be a cold day in hell when that changes.
-
-Of course, I can understand these 3+ years of working on both sides -
-Linux kernel and LLVM toolchain - might be very time-consuming and
-hopefully with positive stress.
-Best luck and more for the new challenges!
-...and thanks Google jumped into it.
-
-Thanks for inviting and participating in the First Meetup of
-ClangBuiltLinux in Zurich - February 2020.
-I see your slogan "Share Knowledge Aggressively" as a life motto :-).
-
-Thanks and more.
-
-Best regards,
--Sedat-
 
