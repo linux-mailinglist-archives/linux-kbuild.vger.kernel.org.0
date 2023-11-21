@@ -1,114 +1,141 @@
-Return-Path: <linux-kbuild+bounces-98-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-99-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B96E97F31A0
-	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Nov 2023 15:52:46 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63BD57F33DE
+	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Nov 2023 17:35:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D308C1C21BEF
-	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Nov 2023 14:52:45 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DC6E4B21D6E
+	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Nov 2023 16:35:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DE2148793;
-	Tue, 21 Nov 2023 14:52:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4567D56779;
+	Tue, 21 Nov 2023 16:35:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="poue5VPW"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o/cCR2Wv"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D197136C;
-	Tue, 21 Nov 2023 14:52:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 580D7C433C7;
-	Tue, 21 Nov 2023 14:52:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1700578360;
-	bh=dGYz6IxNOUY4NpvhlMLeIB3Xxc/hARJYIHJyki7wDHE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=poue5VPWyYd+HrTAPC2kL1JwV02FvsHlUJ1z3W9FXk/U2czUqklkcawHdmmtSEsoY
-	 IlPddu/gpJsZ1UpOPQIgrM7BkkvyXf2F3hIfHrb2U18/fsMMvTR4wCzYJDyNBuBtzP
-	 SpQfWPT1cgV1qEShQyzt0KdJxLEsOUDx610rqzSQ=
-Date: Tue, 21 Nov 2023 15:12:23 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	linux-kbuild@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-	Matt Turner <mattst88@gmail.com>, Vineet Gupta <vgupta@kernel.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>, Guo Ren <guoren@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	Greg Ungerer <gerg@linux-m68k.org>, Michal Simek <monstr@monstr.eu>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Dinh Nguyen <dinguyen@kernel.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Geoff Levand <geoff@infradead.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	"David S. Miller" <davem@davemloft.net>,
-	Andy Lutomirski <luto@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, x86@kernel.org,
-	Helge Deller <deller@gmx.de>,
-	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-	Timur Tabi <timur@kernel.org>,
-	Kent Overstreet <kent.overstreet@linux.dev>,
-	David Woodhouse <dwmw2@infradead.org>,
-	"Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
-	Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
-	Kees Cook <keescook@chromium.org>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-trace-kernel@vger.kernel.org, linux-csky@vger.kernel.org,
-	loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
-	linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-	linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
-	netdev@vger.kernel.org, linux-parisc@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-bcachefs@vger.kernel.org,
-	linux-mtd@lists.infradead.org
-Subject: Re: [PATCH 20/22] usb: fsl-mph-dr-of: mark fsl_usb2_mpc5121_init()
- static
-Message-ID: <2023112114-cried-ramble-b3f9@gregkh>
-References: <20231108125843.3806765-1-arnd@kernel.org>
- <20231108125843.3806765-21-arnd@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ACC95A0FA
+	for <linux-kbuild@vger.kernel.org>; Tue, 21 Nov 2023 16:35:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8ABB6C433D9;
+	Tue, 21 Nov 2023 16:35:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1700584542;
+	bh=jwL03/K8YeD2jnmP6ZZpSn8RsDsIl0wx5YcIiq9/kBQ=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=o/cCR2Wv6DY8Q+Bq6b9PspN6JJ6/f7prp3yUBZOtiHiXJwBMlDEuzSHhKtYDyBqKR
+	 B6lI7NvWbuGrp9IkvZyyxBhUPSFiBBMmB/DP+USJlYXzgttwAT79LmGoRkQOV4x+TN
+	 f+1xE+VybJXRn5emR0dxJ/Sd+/IIbtGkkpHl70ZqyG1phOpYpc4+cPPArKAcf4yXd2
+	 /RDjpY2RTiB43vFpasMZTahEeO+kRCRFASFkLnk3KQbAjWxrZhhXDjpJgvrO2IShAs
+	 bD/14zR8yPcHnRQvqswOlMWhBznjFkkwpe2IaCNHAa9gl/Yjzx6ifbi4+HQlIQS/FP
+	 JYV33mT6VfSsw==
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2c876e44157so38606381fa.2;
+        Tue, 21 Nov 2023 08:35:42 -0800 (PST)
+X-Gm-Message-State: AOJu0YwdkBYuNEbCdUYddPiYJkdD1KbeC1d8+KBhV+AGPnQPUk0ewKJW
+	5wOOxS/IptSCSa+sMCQJ/a3iW8+g91WyoW4D8dY=
+X-Google-Smtp-Source: AGHT+IGlrwEyOO6nOCeESzD8uRFWLsAZRGejsSPc/DqM8lP/LYqFtG8+7YSFZL0NSNOGK3Kg+q1rURqiPZoakdR47M0=
+X-Received: by 2002:a2e:9101:0:b0:2c5:32b:28fa with SMTP id
+ m1-20020a2e9101000000b002c5032b28famr9662302ljg.30.1700584540586; Tue, 21 Nov
+ 2023 08:35:40 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231108125843.3806765-21-arnd@kernel.org>
+References: <20231119053234.2367621-1-masahiroy@kernel.org>
+In-Reply-To: <20231119053234.2367621-1-masahiroy@kernel.org>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Tue, 21 Nov 2023 11:35:29 -0500
+X-Gmail-Original-Message-ID: <CAMj1kXH4pWRXWpqUCgWrbBQ9JEQX0MXb5s6+DjL5+_jw0YyLVA@mail.gmail.com>
+Message-ID: <CAMj1kXH4pWRXWpqUCgWrbBQ9JEQX0MXb5s6+DjL5+_jw0YyLVA@mail.gmail.com>
+Subject: Re: [PATCH] arm64: add dependency between vmlinuz.efi and Image
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, linux-kernel@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, Simon Glass <sjg@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Nov 08, 2023 at 01:58:41PM +0100, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> This function is only called locally and should always have been static:
-> 
-> drivers/usb/host/fsl-mph-dr-of.c:291:5: error: no previous prototype for 'fsl_usb2_mpc5121_init' [-Werror=missing-prototypes]
-> 
-> Fixes: 230f7ede6c2f ("USB: add USB EHCI support for MPC5121 SoC")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+On Sun, 19 Nov 2023 at 00:32, Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> A common issue in Makefile is a race in parallel building.
+>
+> You need to be careful to prevent multiple threads from writing to the
+> same file simultaneously.
+>
+> Commit 3939f3345050 ("ARM: 8418/1: add boot image dependencies to not
+> generate invalid images") addressed such a bad scenario.
+>
+> A similar symptom occurs with the following command:
+>
+>   $ make -j$(nproc) ARCH=arm64 Image vmlinuz.efi
+>     [ snip ]
+>     SORTTAB vmlinux
+>     OBJCOPY arch/arm64/boot/Image
+>     OBJCOPY arch/arm64/boot/Image
+>     AS      arch/arm64/boot/zboot-header.o
+>     PAD     arch/arm64/boot/vmlinux.bin
+>     GZIP    arch/arm64/boot/vmlinuz
+>     OBJCOPY arch/arm64/boot/vmlinuz.o
+>     LD      arch/arm64/boot/vmlinuz.efi.elf
+>     OBJCOPY arch/arm64/boot/vmlinuz.efi
+>
+> The log "OBJCOPY arch/arm64/boot/Image" is displayed twice.
+>
+> It indicates that two threads simultaneously enter arch/arm64/boot/
+> and write to arch/arm64/boot/Image.
+>
+> It occasionally leads to a build failure:
+>
+>   $ make -j$(nproc) ARCH=arm64 Image vmlinuz.efi
+>     [ snip ]
+>     SORTTAB vmlinux
+>     OBJCOPY arch/arm64/boot/Image
+>     PAD     arch/arm64/boot/vmlinux.bin
+>   truncate: Invalid number: 'arch/arm64/boot/vmlinux.bin'
+>   make[2]: *** [drivers/firmware/efi/libstub/Makefile.zboot:13:
+>   arch/arm64/boot/vmlinux.bin] Error 1
+>   make[2]: *** Deleting file 'arch/arm64/boot/vmlinux.bin'
+>   make[1]: *** [arch/arm64/Makefile:163: vmlinuz.efi] Error 2
+>   make[1]: *** Waiting for unfinished jobs....
+>   make: *** [Makefile:234: __sub-make] Error 2
+>
+> vmlinuz.efi depends on Image, but such a dependency is not specified
+> in arch/arm64/Makefile.
+>
 
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To clarify, this dependency /is/ specified in
+arch/arm64/boot/Makefile, which is consumed by explicit make
+invocations from arch/arm64/Makefile, and these may end up racing with
+each other.
+
+
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+
+Acked-by: Ard Biesheuvel <ardb@kernel.org>
+
+> ---
+>
+>  arch/arm64/Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/arch/arm64/Makefile b/arch/arm64/Makefile
+> index 4a1ad3248c2d..47ecc4cff9d2 100644
+> --- a/arch/arm64/Makefile
+> +++ b/arch/arm64/Makefile
+> @@ -158,7 +158,7 @@ endif
+>
+>  all:   $(notdir $(KBUILD_IMAGE))
+>
+> -
+> +vmlinuz.efi: Image
+>  Image vmlinuz.efi: vmlinux
+>         $(Q)$(MAKE) $(build)=$(boot) $(boot)/$@
+>
+> --
+> 2.40.1
+>
 
