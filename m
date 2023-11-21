@@ -1,152 +1,135 @@
-Return-Path: <linux-kbuild+bounces-92-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-93-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D67427F2317
-	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Nov 2023 02:32:56 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4ECA7F23CC
+	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Nov 2023 03:21:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8FAF028225F
-	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Nov 2023 01:32:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F3E501C21631
+	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Nov 2023 02:21:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D90F61C04;
-	Tue, 21 Nov 2023 01:32:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 058A714F63;
+	Tue, 21 Nov 2023 02:21:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h5VuxMPM"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sxly0vUX"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCDFE6FB5
-	for <linux-kbuild@vger.kernel.org>; Tue, 21 Nov 2023 01:32:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D5AFC433CD;
-	Tue, 21 Nov 2023 01:32:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB79514AA4
+	for <linux-kbuild@vger.kernel.org>; Tue, 21 Nov 2023 02:21:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C44EC433C9;
+	Tue, 21 Nov 2023 02:21:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700530372;
-	bh=MgA2L3AjHphGyfK8GPBa2xn0Jwg5gkiGiIeE3G9xY4E=;
+	s=k20201202; t=1700533287;
+	bh=uCIAAso2o2OQwlp0AJVheBQitVA2TVtgsiyQ+Mez97M=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=h5VuxMPM/OimVDCsN/AE1dpWTgAsBmt6J9+DZGy7SfBVfd8AU5NSGl2AfXT7DU9nV
-	 WHStAPRZONID1muiYi5Qqu/aQ1jDYV/cVYFNIcfm4mr5bthoXGGGmrBGj0FCb7DDVM
-	 P2AvsPvC7FxcSrqImicermj31k469tDfNov5cK4zqP+zIJPcRLU1ca4udIDIT7YW3N
-	 kWDdlAgZhCsSc9W6H2q8WCCRFIl3v8tOhqfmeSfbi4L4IHU/YURPnUCNmV/u4EOonG
-	 t6grZ6eYYrUIR9/+WdGBF1UZlrY4uRbJMPVOWxgcyhPReHlOvZhO3DzMpy5xw9iP80
-	 yVrC73JEus2aw==
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-9c603e2354fso950766466b.1;
-        Mon, 20 Nov 2023 17:32:52 -0800 (PST)
-X-Gm-Message-State: AOJu0YzpCKb6dhI+Az6r1WCM17YKszplEMUGqysNCvNMPtdbn/bYbXcz
-	97646IvZCPTiFKtIuCXrUa37qxE57jX8XhZg+Lw=
-X-Google-Smtp-Source: AGHT+IHQ//yd2NAdWXmNVsZcGtdgZJwZbXFwxtS3hDn2Brzdx0CH9BCAaRj1zmVI8KKvYZZIkFSnbYzsi6am60h0UbU=
-X-Received: by 2002:a17:906:2da:b0:9fd:78:8b2f with SMTP id
- 26-20020a17090602da00b009fd00788b2fmr1071131ejk.7.1700530370721; Mon, 20 Nov
- 2023 17:32:50 -0800 (PST)
+	b=Sxly0vUXgMDBDfLs6ZoxC1suGBtCN9UTkQUnCVmRPm7tnzA9x6u0Mh2J4rYzJ+wj1
+	 ZhOIdNEUs6ZZ0DVck7xZw37dh7+FqE3j5tipC5yE0O0IwRop4ORVosQST+sSNlMIDb
+	 b9JWh9ywNem+hqYeFTpyHeFc+bHF5lRjW/vQIstkgG4kLKn03W2YloHjGScCk76uOk
+	 AZWBZmKXpCXD39lws8w9g8r/8gifhF/NiEWqDTjZDXdhIeiAMUcgPVITbJaCyHl7vR
+	 xoUjUV6tJX3eEXzNc1yMQcjlCN+5335TBdOpqX69bHvAZpnPM8nvzrd0tiMvBIh5oy
+	 bJ+b3s9OlvU7Q==
+Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-1f94b07b6b3so674426fac.2;
+        Mon, 20 Nov 2023 18:21:27 -0800 (PST)
+X-Gm-Message-State: AOJu0YyJR/fUlY2pSwFO9l5//UPGaW85yDVwfERSGEHu6/yPuAPGjxoU
+	DVKXmQ+FqoVlIkxz5H2IoXs40+PZ/iSeswztad0=
+X-Google-Smtp-Source: AGHT+IEeCJtyTxsn3ccB7X1hkNcVLwoefNC9DpgwnLhiXBf7c1hy2h1XXtbmfmFWRru6YpJUsZbzvef6EEFa3dKQWOw=
+X-Received: by 2002:a05:6871:22c9:b0:1f9:48fb:1835 with SMTP id
+ se9-20020a05687122c900b001f948fb1835mr4140629oab.46.1700533286595; Mon, 20
+ Nov 2023 18:21:26 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231116130331.241395-1-wangrui@loongson.cn> <20231120230817.GA2116806@dev-arch.thelio-3990X>
-In-Reply-To: <20231120230817.GA2116806@dev-arch.thelio-3990X>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Tue, 21 Nov 2023 09:32:37 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H7tUKiJVR=9YxwnaSk3Ru1k=4Nd-TUgaMDBCq+xGnLkrA@mail.gmail.com>
-Message-ID: <CAAhV-H7tUKiJVR=9YxwnaSk3Ru1k=4Nd-TUgaMDBCq+xGnLkrA@mail.gmail.com>
-Subject: Re: [PATCH] LoongArch: Record pc instead of offset in la-abs relocation
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: WANG Rui <wangrui@loongson.cn>, WANG Xuerui <kernel@xen0n.name>, 
-	Jinyang He <hejinyang@loongson.cn>, Xi Ruoyao <xry111@xry111.site>, linux-kernel@vger.kernel.org, 
-	loongarch@lists.linux.dev, linux-kbuild@vger.kernel.org, llvm@lists.linux.dev, 
-	loongson-kernel@lists.loongnix.cn
+References: <20231115004932.650702-1-ak@linux.intel.com> <CAK7LNASS1YWdqW5TUXQ0iC3vgoDbUf-M-cRX0BvrkOV8HPyjxg@mail.gmail.com>
+ <ZVu8u+oofXO8iwyf@tassilo>
+In-Reply-To: <ZVu8u+oofXO8iwyf@tassilo>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Tue, 21 Nov 2023 11:20:50 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATFPWRaQb876p4=5K0H-Uc7KCLsVNnYVdxSypzmmfSv9A@mail.gmail.com>
+Message-ID: <CAK7LNATFPWRaQb876p4=5K0H-Uc7KCLsVNnYVdxSypzmmfSv9A@mail.gmail.com>
+Subject: Re: [PATCH v2] kbuild: Add inline-account tool
+To: Andi Kleen <ak@linux.intel.com>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Applied to loongarch-fixes, thanks.
+On Tue, Nov 21, 2023 at 5:08=E2=80=AFAM Andi Kleen <ak@linux.intel.com> wro=
+te:
+>
+> >
+> > > +    sym_sizes =3D [syms[x + 1] - syms[x] for x, _ in enumerate(syms[=
+:-1])]
+> > > +    sym_total =3D sum(sym_sizes)
+> >
+> >
+> > This is equivalent to
+> >
+> >       sym_total =3D syms[-1] - syms[0]
+> >
+> > isn't it?
+>
+> No it's not when there are gaps in the symbols, which always happens in
+> the kernel.  The previous version used the range but that led to inbalanc=
+es.
 
-Huacai
 
-On Tue, Nov 21, 2023 at 7:08=E2=80=AFAM Nathan Chancellor <nathan@kernel.or=
-g> wrote:
->
-> Hi Rui,
->
-> On Thu, Nov 16, 2023 at 09:03:31PM +0800, WANG Rui wrote:
-> > To clarify, the previous version functioned flawlessly. However, it's
-> > worth noting that the LLVM's LoongArch backend currently lacks support
-> > for cross-section label calculations. With this patch, we enable the us=
-e
-> > of clang to compile relocatable kernels.
+
+I do not understand because there is nothing to handle gaps
+in your code.
+
+
+get_syms() appends only 'pc' into the list.
+
+
+Then,
+
+  sym_sizes =3D [syms[x + 1] - syms[x] for x, _ in enumerate(syms[:-1])]
+
+
+computes each symbol size by:
+
+   (address of the next symbol) - (address of the current symbol).
+
+
+So, your code is equivalent to:
+
+   sym_total =3D syms[-1] - syms[0]
+
+
+
+
+
+
+
+
+
+
+> > def get_ranges(syms, threads):
 > >
-> > Signed-off-by: WANG Rui <wangrui@loongson.cn>
+> >     ranges =3D []
+> >     prev =3D syms[0]
+> >     i =3D 1
+> >
+> >     while threads > 0:
+> >
+> >         boundary =3D prev + 1 + (syms[-1] - prev - 1) // threads
+> >
+> >         while syms[i] < boundary:
+> >             i +=3D 1
 >
-> Thanks a lot for the patch! This fixes the CONFIG_RELOCATABLE build for
-> me as well.
 >
-> Tested-by: Nathan Chancellor <nathan@kernel.org>
+> Note the boundary is not the address, but the sum of symbol sizes
 >
-> Something I noticed while testing is that a kernel linked with ld.lld
-> does not boot while one linked with ld.bfd did. I think this might be
-> the same issue that Xuerui filed on our issue tracker but I figured I
-> would mention it in case not:
-> https://github.com/ClangBuiltLinux/linux/issues/1883
 >
-> Cheers,
-> Nathan
->
-> > ---
-> >  arch/loongarch/include/asm/asmmacro.h | 3 +--
-> >  arch/loongarch/include/asm/setup.h    | 2 +-
-> >  arch/loongarch/kernel/relocate.c      | 2 +-
-> >  3 files changed, 3 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/arch/loongarch/include/asm/asmmacro.h b/arch/loongarch/inc=
-lude/asm/asmmacro.h
-> > index c9544f358c33..655db7d7a427 100644
-> > --- a/arch/loongarch/include/asm/asmmacro.h
-> > +++ b/arch/loongarch/include/asm/asmmacro.h
-> > @@ -609,8 +609,7 @@
-> >       lu32i.d \reg, 0
-> >       lu52i.d \reg, \reg, 0
-> >       .pushsection ".la_abs", "aw", %progbits
-> > -     768:
-> > -     .dword  768b-766b
-> > +     .dword  766b
-> >       .dword  \sym
-> >       .popsection
-> >  #endif
-> > diff --git a/arch/loongarch/include/asm/setup.h b/arch/loongarch/includ=
-e/asm/setup.h
-> > index a0bc159ce8bd..ee52fb1e9963 100644
-> > --- a/arch/loongarch/include/asm/setup.h
-> > +++ b/arch/loongarch/include/asm/setup.h
-> > @@ -25,7 +25,7 @@ extern void set_merr_handler(unsigned long offset, vo=
-id *addr, unsigned long len
-> >  #ifdef CONFIG_RELOCATABLE
-> >
-> >  struct rela_la_abs {
-> > -     long offset;
-> > +     long pc;
-> >       long symvalue;
-> >  };
-> >
-> > diff --git a/arch/loongarch/kernel/relocate.c b/arch/loongarch/kernel/r=
-elocate.c
-> > index 6c3eff9af9fb..288b739ca88d 100644
-> > --- a/arch/loongarch/kernel/relocate.c
-> > +++ b/arch/loongarch/kernel/relocate.c
-> > @@ -52,7 +52,7 @@ static inline void __init relocate_absolute(long rand=
-om_offset)
-> >       for (p =3D begin; (void *)p < end; p++) {
-> >               long v =3D p->symvalue;
-> >               uint32_t lu12iw, ori, lu32id, lu52id;
-> > -             union loongarch_instruction *insn =3D (void *)p - p->offs=
-et;
-> > +             union loongarch_instruction *insn =3D (void *)p->pc;
-> >
-> >               lu12iw =3D (v >> 12) & 0xfffff;
-> >               ori    =3D v & 0xfff;
-> > --
-> > 2.42.1
-> >
-> >
+> -Andi
+
+--
+Best Regards
+Masahiro Yamada
 
