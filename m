@@ -1,78 +1,93 @@
-Return-Path: <linux-kbuild+bounces-100-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-101-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 191117F33E5
-	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Nov 2023 17:37:03 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 095E37F354C
+	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Nov 2023 18:51:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 49FFF1C21C6E
-	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Nov 2023 16:37:02 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CA5CBB218FE
+	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Nov 2023 17:51:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9643A4A9B6;
-	Tue, 21 Nov 2023 16:37:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1A1F20DF3;
+	Tue, 21 Nov 2023 17:51:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iVzqhREw"
+	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="AAdhhZrG"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A2F85B1E3
-	for <linux-kbuild@vger.kernel.org>; Tue, 21 Nov 2023 16:37:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9BE0C433C9;
-	Tue, 21 Nov 2023 16:37:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700584620;
-	bh=90jfxCqzjOBfBN+wpF26ZcGIh+zvRIz7KOwb6AcEbkk=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=iVzqhREwZPIcasf4XWCszbWXVJDs8LY4hHhilR3fXsLsLZ0fWJO8k79KzCMyvIAHc
-	 cI9iZJ6+O3USDAdAEySFLBOIGlPKhLyEfs5kcbxlI+q3rqwyMe5Lb8+o/PlXDLIxl6
-	 hNSiRmvHgkf0kF/IEkDRbd75UxggTeohYIWmVIRZgWBIwn93RbxYyF2z1XWnpRCXLT
-	 tonxPq2JKNQXTjqwMNjeM5WStrTT5BBRHWQbTnksnXwHo0RY3qzYRKwZAIaSfz3VQt
-	 TWoT+JXq214C2oceKyGPUdwHTttVbpymo6shPUg7QEi8xgsTchxPjIdGyjndD6S3sP
-	 BXoT63PqgDZKA==
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2c87903d314so37198141fa.1;
-        Tue, 21 Nov 2023 08:37:00 -0800 (PST)
-X-Gm-Message-State: AOJu0YwL/e42V4jat+s3ntVFguTqGks3+xN+D3VTPnef2YvgQ5cw40Ut
-	W252xORdcIIhjarZZckwjFiSZmgkf/KXFoYGN7Y=
-X-Google-Smtp-Source: AGHT+IHNYCwF3uqqI4dsPxCI3mpJ+DNt7kg6IHqCmH3GN1kM9w/qG4RkuMgpCd8A0ebUCzePmaiJMAeizaskFjJhi3Q=
-X-Received: by 2002:a2e:b4b4:0:b0:2c5:6e01:58b8 with SMTP id
- q20-20020a2eb4b4000000b002c56e0158b8mr6668049ljm.37.1700584619083; Tue, 21
- Nov 2023 08:36:59 -0800 (PST)
+Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com [IPv6:2607:f8b0:4864:20::d2d])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42F32F4
+	for <linux-kbuild@vger.kernel.org>; Tue, 21 Nov 2023 09:51:09 -0800 (PST)
+Received: by mail-io1-xd2d.google.com with SMTP id ca18e2360f4ac-7b34c5d7ecdso24539639f.0
+        for <linux-kbuild@vger.kernel.org>; Tue, 21 Nov 2023 09:51:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sifive.com; s=google; t=1700589068; x=1701193868; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=F3VZHmlNlu0O99ZtiO5dO2f9VsPMxl7hcUKuMcRux78=;
+        b=AAdhhZrGqtO9WX/0FJiROZuuVxqztoHrrSFtt+2EpVaGInKdHxws/PoOYU2IsaOInz
+         hGBl/OuVtxzzGzrfbSYTqmia6mywEVuhl1HQtSw5h3+7ydK7fIK3WKvZkdlH27VmqDlJ
+         zV//3P5p51mo48JT+JZeH3fCKjTtSaILwEHwoxAOpZOBzuVDJl9zkm0GpeMryT0QNAU7
+         uGH8WCu9cqfFfgQWBt4SDGKLB08+7UWZZosv3kKzEydhTcI6YTFBTRMwzlOrKR0gZtlv
+         3te1yyRC0hfjEwnStAXjVLzjibVChSauDsEl4Ueu9c0Cobi+r7vOZE3HEQWZyx6W3lBD
+         yJaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700589068; x=1701193868;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=F3VZHmlNlu0O99ZtiO5dO2f9VsPMxl7hcUKuMcRux78=;
+        b=AwLe4Vl4lV6U7TNgRMLXZMFok5j59XUeu5gjE74Cgtd9UEWrguj6rP4YRg98JElsJM
+         3INNtDaaxFeCvUhAQ7jEXVpMlyNQNqC7aRPHtyUAR1uQTFS0LZPqeWD8oJbZ0sXrWKaE
+         ynfgol6vahGgH21cJQ4RTVr7DFd61OOcyH2OhtFSFPeG9GIakV0YGjsM6Ajmaupk7Qo5
+         jJVGiOR78Zw9fBLRHHDAay4gQBuNjKU51paldteTLf53eeFMdjRfkly5UgjSn7rrWOWX
+         P2iZY8ntmlambz/ND7v6xXvzBIDLQG0ZJZAelgFL6vPcQwpvX0PQA1XGXW0wVVxdKqAR
+         ggtA==
+X-Gm-Message-State: AOJu0Yywjx/TMo4N4TcZp1JjxH0LFVX1pfT55SmBMNo+NvPrUtKyjoC7
+	d/A0BW+d4iRYj1r4ysTWYleKQg==
+X-Google-Smtp-Source: AGHT+IEIMVbZd/opiVLMX9t1gte/ruLkANfduOCEUWfGVPu+dBFO4cz1YKq267xfZYCyskPVuqaPog==
+X-Received: by 2002:a05:6602:4f44:b0:79f:d4e6:5175 with SMTP id gm4-20020a0566024f4400b0079fd4e65175mr69374iob.16.1700589068654;
+        Tue, 21 Nov 2023 09:51:08 -0800 (PST)
+Received: from ?IPV6:2605:a601:adae:4500:9465:402f:4b0a:1116? ([2605:a601:adae:4500:9465:402f:4b0a:1116])
+        by smtp.gmail.com with ESMTPSA id t5-20020a056638204500b00466526e1e02sm1663632jaj.135.2023.11.21.09.51.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Nov 2023 09:51:08 -0800 (PST)
+Message-ID: <218f068c-40b5-4f93-b26a-c300054be11e@sifive.com>
+Date: Tue, 21 Nov 2023 11:51:04 -0600
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231119100024.2370992-1-masahiroy@kernel.org>
-In-Reply-To: <20231119100024.2370992-1-masahiroy@kernel.org>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Tue, 21 Nov 2023 11:36:48 -0500
-X-Gmail-Original-Message-ID: <CAMj1kXF5Vm+Br68qk3rxgtsUxTknz2stfBTpruwQ3diVQrAc3Q@mail.gmail.com>
-Message-ID: <CAMj1kXF5Vm+Br68qk3rxgtsUxTknz2stfBTpruwQ3diVQrAc3Q@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2] riscv: add dependency among Image(.gz), loader(.bin),
  and vmlinuz.efi
+Content-Language: en-US
 To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, linux-riscv@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	Simon Glass <sjg@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ Ard Biesheuvel <ardb@kernel.org>, Simon Glass <sjg@chromium.org>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ linux-riscv@lists.infradead.org
+References: <20231119100024.2370992-1-masahiroy@kernel.org>
+From: Samuel Holland <samuel.holland@sifive.com>
+In-Reply-To: <20231119100024.2370992-1-masahiroy@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sun, 19 Nov 2023 at 05:00, Masahiro Yamada <masahiroy@kernel.org> wrote:
->
+On 2023-11-19 4:00 AM, Masahiro Yamada wrote:
 > A common issue in Makefile is a race in parallel building.
->
+> 
 > You need to be careful to prevent multiple threads from writing to the
 > same file simultaneously.
->
+> 
 > Commit 3939f3345050 ("ARM: 8418/1: add boot image dependencies to not
 > generate invalid images") addressed such a bad scenario.
->
+> 
 > A similar symptom occurs with the following command:
->
+> 
 >   $ make -j$(nproc) ARCH=riscv Image Image.gz loader loader.bin vmlinuz.efi
 >     [ snip ]
 >     SORTTAB vmlinux
@@ -95,15 +110,15 @@ On Sun, 19 Nov 2023 at 05:00, Masahiro Yamada <masahiroy@kernel.org> wrote:
 >     LD      arch/riscv/boot/vmlinuz.efi.elf
 >     OBJCOPY arch/riscv/boot/vmlinuz.efi
 >     Kernel: arch/riscv/boot/vmlinuz.efi is ready
->
+> 
 > The log "OBJCOPY arch/riscv/boot/Image" is displayed 5 times.
 > (also "AS      arch/riscv/boot/loader.o" twice.)
->
+> 
 > It indicates that 5 threads simultaneously enter arch/riscv/boot/
 > and write to arch/riscv/boot/Image.
->
+> 
 > It occasionally leads to a build failure:
->
+> 
 >   $ make -j$(nproc) ARCH=riscv Image Image.gz loader loader.bin vmlinuz.efi
 >     [ snip ]
 >     SORTTAB vmlinux
@@ -126,36 +141,20 @@ On Sun, 19 Nov 2023 at 05:00, Masahiro Yamada <masahiroy@kernel.org> wrote:
 >     Kernel: arch/riscv/boot/loader.bin is ready
 >     Kernel: arch/riscv/boot/Image.gz is ready
 >   make: *** [Makefile:234: __sub-make] Error 2
->
+> 
 > Image.gz, loader, vmlinuz.efi depend on Image. loader.bin depends
 > on loader. Such dependencies are not specified in arch/riscv/Makefile.
->
+> 
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > ---
->
+> 
 > Changes in v2:
 >   - Fix commit log
->
-
-Acked-by: Ard Biesheuvel <ardb@kernel.org>
-
+> 
 >  arch/riscv/Makefile | 2 ++
 >  1 file changed, 2 insertions(+)
->
-> diff --git a/arch/riscv/Makefile b/arch/riscv/Makefile
-> index 5cbe596345c1..1d6ed27e0a2a 100644
-> --- a/arch/riscv/Makefile
-> +++ b/arch/riscv/Makefile
-> @@ -163,6 +163,8 @@ BOOT_TARGETS := Image Image.gz loader loader.bin xipImage vmlinuz.efi
->
->  all:   $(notdir $(KBUILD_IMAGE))
->
-> +loader.bin: loader
-> +Image.gz loader vmlinuz.efi: Image
->  $(BOOT_TARGETS): vmlinux
->         $(Q)$(MAKE) $(build)=$(boot) $(boot)/$@
->         @$(kecho) '  Kernel: $(boot)/$@ is ready'
-> --
-> 2.40.1
->
+
+Reviewed-by: Samuel Holland <samuel.holland@sifive.com>
+Tested-by: Samuel Holland <samuel.holland@sifive.com>
+
 
