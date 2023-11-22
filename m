@@ -1,145 +1,259 @@
-Return-Path: <linux-kbuild+bounces-118-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-119-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id E75FA7F4AE7
-	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Nov 2023 16:37:04 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EDBBE7F4B89
+	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Nov 2023 16:49:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 89415B21099
-	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Nov 2023 15:37:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A1892281342
+	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Nov 2023 15:49:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF5A7584F5;
-	Wed, 22 Nov 2023 15:36:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A15F956B90;
+	Wed, 22 Nov 2023 15:49:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="olzeNtQr"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Lf41l0og"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF790584F0
-	for <linux-kbuild@vger.kernel.org>; Wed, 22 Nov 2023 15:36:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12678C433B8;
-	Wed, 22 Nov 2023 15:36:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78F1456B8D;
+	Wed, 22 Nov 2023 15:49:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BADBC433D9;
+	Wed, 22 Nov 2023 15:49:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700667410;
-	bh=6ZoHN0iibOyM751thDgV3ean1uRWh6q1kOki5dHPK+I=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=olzeNtQrwXyleycJgF+vCUvbF6roaKKSiIuZqPWzFDUld5UFywKAjJb7IDOQws1jL
-	 jXK7OC58kdgUR6Lq7kgVnidhbWmsKk1JPiCvHvlLhsWx6M56TRZFFVeXdfVSdY7wHv
-	 QDglklE6tAIa7pOnfIoVmaRHkRszbxtuTyDL9+xy0qXthQ08ZvLPNQEw4lTdjLPSyy
-	 Vde5l2x4VbRRYMY5Zvu3xGZilQkzR+7o28S/9XZb0n+CrgHgI/Z3Z14X5t80JE86KN
-	 nIYzjgW5eQp4IPvS0pyNNle2ZMCcNo/AvCQcm33cISmcCccWceyrKcIe7HAhd0sOY0
-	 V+zhjWZAG+YRw==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 5/6] kconfig: fix memory leak from range properties
-Date: Wed, 22 Nov 2023 10:36:29 -0500
-Message-ID: <20231122153635.853495-5-sashal@kernel.org>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231122153635.853495-1-sashal@kernel.org>
-References: <20231122153635.853495-1-sashal@kernel.org>
+	s=k20201202; t=1700668179;
+	bh=BYCJA3x5TTAbbQPMEAHdhxb9CpYziBSEh7qg5KYFc3Y=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Lf41l0og8Tssr/hb/ubSBpyXsbiBnPgG2tAw23ddfqRwz1CZu59t60YaMYFHd8bRo
+	 8iLpKtrocyaGbjEHRv4usmFfoRkieMPxaEUIlXxPhWmvy6QEByllSsydUjXkWK830b
+	 o3jHhP7F1ioMa2Q+Nxwy7Bpem4ZYprHsFuTIYVYWq+/yWnkJ81xXBKJz+MqMeNarcX
+	 2rVGUTJGdLOEngFCjMvoNtpm9shzVCPsFgNhFOZtMfwH1S0avG5tuSRA4ZdCACJ8s0
+	 I4ydnXS2p4dHVC7dnvadHyP/eaEqAg+Jy9xt2mgoScn8uKLm/G1MguQEqc9iUtVctN
+	 PXqAqIzofO9Fg==
+Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-3b844357f7cso223197b6e.1;
+        Wed, 22 Nov 2023 07:49:39 -0800 (PST)
+X-Gm-Message-State: AOJu0YzZn/unQrMzkRqSwR+Ksnhd4Xrg0HYh06nFHVvaKpVDZWjwotcf
+	X6tXNuxkur9fnNNTdFN9r40VEroxKXix5hbGdQc=
+X-Google-Smtp-Source: AGHT+IGTa6C9d+mB8rUW3KBSbfG6/zDIsmWbZmbmj2c74lexp3YXviv1PGHzD95lJw6SS5pitC5dIey5qGrQgDzlQ+w=
+X-Received: by 2002:a05:6870:cb97:b0:1e9:919d:83ec with SMTP id
+ ov23-20020a056870cb9700b001e9919d83ecmr3553401oab.28.1700668178329; Wed, 22
+ Nov 2023 07:49:38 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 4.19.299
-Content-Transfer-Encoding: 8bit
-
+References: <20231118025748.2778044-1-mmaurer@google.com>
+In-Reply-To: <20231118025748.2778044-1-mmaurer@google.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Thu, 23 Nov 2023 00:49:01 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQt8fy5+vSwpd1aXfzjzeZ5hiyW7EW9SW7pbG2eTJZAOA@mail.gmail.com>
+Message-ID: <CAK7LNAQt8fy5+vSwpd1aXfzjzeZ5hiyW7EW9SW7pbG2eTJZAOA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/5] MODVERSIONS + RUST Redux
+To: Matthew Maurer <mmaurer@google.com>
+Cc: Nick Desaulniers <ndesaulniers@google.com>, Miguel Ojeda <ojeda@kernel.org>, 
+	Gary Guo <gary@garyguo.net>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linuxppc-dev@lists.ozlabs.org, 
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	Laura Abbott <laura@labbott.name>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-[ Upstream commit ae1eff0349f2e908fc083630e8441ea6dc434dc0 ]
+On Sat, Nov 18, 2023 at 11:58=E2=80=AFAM Matthew Maurer <mmaurer@google.com=
+> wrote:
+>
+> The goal of this patch series is to allow MODVERSIONS and RUST to be
+> enabled simultaneously. The primary issue with doing this at the moment
+> is that Rust uses some extremely long symbol names - for those
+> unfamiliar with Rust, it may be helpful to think of some of the mangled
+> C++ names you may have seen in binaries in the past.
+>
+> Previously, Gary Guo attempted to accomplish this by modifying the
+> existing modversion format [1] to support variable-length symbol names.
+> This was unfortunately considered to be a potential userspace break
+> because kmod tools inspect this kernel module metadata. Masahiro Yamada
+> suggested [2] that this could instead be done with a section per-field.
+> This gives us the ability to be more flexible with this format in the
+> future, as a new field or additional information will be in a new
+> section which userspace tools will not yet attempt to read.
+>
+> In the previous version of this patchset, Luis Chamberlain suggested [3]
+> I move validation out of the version checking and into the elf validity
+> checker, and also add kernel-docs over there. I found
+> elf_validity_cached_copy to be fairly dense and difficult to directly
+> describe, so I refactored it into easier to explain pieces. In the
+> process, I found a few missing checks and added those as well. See
+> [PATCH 2/5] for more details. If this is too much, I'm more than happy
+> to drop this patch from the series in favor of just adding the
+> kernel-doc to the original code, but figured I'd offer it up in case the
+> added clarity and checks were valuable.
+>
+> [1] https://lore.kernel.org/lkml/20230111161155.1349375-1-gary@garyguo.ne=
+t/
+> [2] https://lore.kernel.org/lkml/CAK7LNATsuszFR7JB5ZkqVS1W=3DhWr9=3DE7bTf=
++MvgJ+NXT3aZNwg@mail.gmail.com/
+> [3] https://lore.kernel.org/lkml/ZVZNh%2FPA5HiVRkeb@bombadil.infradead.or=
+g/
 
-Currently, sym_validate_range() duplicates the range string using
-xstrdup(), which is overwritten by a subsequent sym_calc_value() call.
-It results in a memory leak.
 
-Instead, only the pointer should be copied.
 
-Below is a test case, with a summary from Valgrind.
 
-[Test Kconfig]
 
-  config FOO
-          int "foo"
-          range 10 20
+I want to know why this is useful.
 
-[Test .config]
 
-  CONFIG_FOO=0
+To clarify my question, let me first explain
+what the modversion is.
 
-[Before]
 
-  LEAK SUMMARY:
-     definitely lost: 3 bytes in 1 blocks
-     indirectly lost: 0 bytes in 0 blocks
-       possibly lost: 0 bytes in 0 blocks
-     still reachable: 17,465 bytes in 21 blocks
-          suppressed: 0 bytes in 0 blocks
 
-[After]
+In C, a function callee and callers must agree
+with the interface of the function.
 
-  LEAK SUMMARY:
-     definitely lost: 0 bytes in 0 blocks
-     indirectly lost: 0 bytes in 0 blocks
-       possibly lost: 0 bytes in 0 blocks
-     still reachable: 17,462 bytes in 20 blocks
-          suppressed: 0 bytes in 0 blocks
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- scripts/kconfig/symbol.c | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
+This is usually done by having a function prototype
+in a header file.
 
-diff --git a/scripts/kconfig/symbol.c b/scripts/kconfig/symbol.c
-index 703b9b899ee9c..5adb60b7e12f3 100644
---- a/scripts/kconfig/symbol.c
-+++ b/scripts/kconfig/symbol.c
-@@ -119,9 +119,9 @@ static long long sym_get_range_val(struct symbol *sym, int base)
- static void sym_validate_range(struct symbol *sym)
- {
- 	struct property *prop;
-+	struct symbol *range_sym;
- 	int base;
- 	long long val, val2;
--	char str[64];
- 
- 	switch (sym->type) {
- 	case S_INT:
-@@ -137,17 +137,15 @@ static void sym_validate_range(struct symbol *sym)
- 	if (!prop)
- 		return;
- 	val = strtoll(sym->curr.val, NULL, base);
--	val2 = sym_get_range_val(prop->expr->left.sym, base);
-+	range_sym = prop->expr->left.sym;
-+	val2 = sym_get_range_val(range_sym, base);
- 	if (val >= val2) {
--		val2 = sym_get_range_val(prop->expr->right.sym, base);
-+		range_sym = prop->expr->right.sym;
-+		val2 = sym_get_range_val(range_sym, base);
- 		if (val <= val2)
- 			return;
- 	}
--	if (sym->type == S_INT)
--		sprintf(str, "%lld", val2);
--	else
--		sprintf(str, "0x%llx", val2);
--	sym->curr.val = xstrdup(str);
-+	sym->curr.val = range_sym->curr.val;
- }
- 
- static void sym_set_changed(struct symbol *sym)
--- 
-2.42.0
 
+Say, we have a function declaration
+
+    int foo(int x, int y);
+
+in include/linux/foo.h
+
+
+Then, the C file that defines foo() and all C files
+that call it must include <linux/foo.h> so that
+argument mismatch can be detected.
+
+
+
+
+Same for EXPORT_SYMBOL; the symbol provider and consumers
+must agree with the interface of exported symbols.
+
+In the kernel, however, there is no promise for in-kernel ABI
+compatibility across different kernel versions.
+The kernel only promises the compatibility of the userspace interface.
+
+
+To load modules, by principle, vmlinux and modules must have
+the same version.
+
+To slightly loosen the limitation, CONFIG_MODVERSIONS was
+introduced; when it is enabled, you can load a module
+as long as all the prototypes of exported symbols match.
+
+To do this, we need to encode information about prototypes.
+
+
+This is done by a tool called genksyms (scripts/genksyms/genksyms).
+
+
+
+Say, we have this code:
+
+
+int foo(int x, int y)
+{
+     // genksyms does not care about
+     // the function body.
+}
+EXPORT_SYMBOL(foo);
+
+
+Genksyms parses the code and computes a CRC value for 'foo'.
+Genksyms is only interested in the function name and its prototype.
+
+It sees
+
+   int foo(int, int)
+
+and it transforms it into a CRC.
+
+
+Any change to the prototype results in a
+different CRC, so the module subsystem
+can check the interface compatibility
+before loading a module.
+
+
+It is obvious that this is impossible for Rust source
+because scripts/genksyms/genksyms is only able to
+parse C code.
+
+
+Then, what is happening here?
+
+See rust/exports.c
+
+
+  #define EXPORT_SYMBOL_RUST_GPL(sym) extern int sym; EXPORT_SYMBOL_GPL(sym=
+)
+
+
+The global scope symbols in Rust (i.e. 'pub) are automatically
+exported, and all of them are visible as 'int' variables
+from C world.
+
+
+Genksyms will see this code:
+
+  extern int foo;
+  EXPORT_SYMBOL_GPL(foo);
+
+Of course, this is not a true prototype.
+The real signature on the Rust side might be:
+
+  fn foo(x: i32, y: i32) -> i32
+
+
+So, even if you enable CONFIG_MODVERSIONS,
+nothing is checked for Rust.
+Genksyms computes a CRC from "int foo", and
+the module subsystem confirms it is a "int"
+variable.
+
+We know this check always succeeds.
+
+Why is this useful?
+
+
+
+
+
+
+> Matthew Maurer (5):
+>   export_report: Rehabilitate script
+>   modules: Refactor + kdoc elf_validity_cached_copy
+>   modpost: Extended modversion support
+>   rust: Allow MODVERSIONS
+>   export_report: Use new version info format
+>
+>  arch/powerpc/kernel/module_64.c |  25 +-
+>  init/Kconfig                    |   1 -
+>  kernel/module/internal.h        |  18 +-
+>  kernel/module/main.c            | 663 +++++++++++++++++++++++++-------
+>  kernel/module/version.c         |  43 +++
+>  scripts/export_report.pl        |  17 +-
+>  scripts/mod/modpost.c           |  37 +-
+>  7 files changed, 642 insertions(+), 162 deletions(-)
+>
+> --
+> 2.43.0.rc0.421.g78406f8d94-goog
+>
+
+
+--
+Best Regards
+
+
+
+
+
+Masahiro Yamada
 
