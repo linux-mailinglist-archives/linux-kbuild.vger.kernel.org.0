@@ -1,49 +1,49 @@
-Return-Path: <linux-kbuild+bounces-113-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-114-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 014467F4A8F
-	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Nov 2023 16:34:24 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EA0D7F4AA8
+	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Nov 2023 16:35:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9588FB20DB2
-	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Nov 2023 15:34:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6C9DB281565
+	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Nov 2023 15:35:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B51484CE0A;
-	Wed, 22 Nov 2023 15:34:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FCBF4CE16;
+	Wed, 22 Nov 2023 15:35:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yqhg+GPr"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q32gXJ89"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91CCA4CDED
-	for <linux-kbuild@vger.kernel.org>; Wed, 22 Nov 2023 15:34:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C62B8C433C9;
-	Wed, 22 Nov 2023 15:34:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1407E4CE14
+	for <linux-kbuild@vger.kernel.org>; Wed, 22 Nov 2023 15:35:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48219C433BF;
+	Wed, 22 Nov 2023 15:35:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700667254;
+	s=k20201202; t=1700667300;
 	bh=cpaY/yV5WXyg9YEkeW49vlb9lDNYl17fwLO5WtfKdaE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Yqhg+GPr5JeiBnmMSTPm9JeYt9D4jFSrMHbIHGzBYL3Q2WZvQOXlKGREx77G7f6Cc
-	 IeWtCvfcrqDpj04KIGdBROE9gPp5Y3riqX61+Z1uNh4lPs5dALDq2Yz2uuZvNRUjqR
-	 KNyN/PFxM2UERigRqodO4ju5JiQM93GqxMCZisplvyWEXiSpsY0VWW9sRK2+Mt9bNs
-	 nFRCNhzfsdWjEh18kTFRCHrZLMKD9Q10pH421Dq/028K7afyiTcMDcF+YKqANjBYTc
-	 oui5dAG+j6Pp+/qw6Bue4kHlY9tOMFKeCWYiDOLlKF1bDmJ+b4mINXAGjJmYiV9Com
-	 GZgMFfTHsbgxA==
+	b=q32gXJ8950gn+8VbU2WKVb72nD0BQzOm7yOca5TO4RhWiFmDDhf/BoHWOV9j8ZEn/
+	 TP39bMdyQpsLpAtpb6LgsQjok449RcpiOewU04r6Ah8rTGCZOXYtG6yhfxme4kBpDB
+	 yFmaInFlVinFDEvLpVodbDp9BnQYrZrN8eeeRlhm9CvFR8CL6Dl5PIwC1j3ZWzmwZW
+	 HC+p12oXUAz+gSXoASya51qAdLRNuGH32KhVRp05w1Qzu0mekPlHGRQCx1/g1SFpmp
+	 hk3QUX+Vq2InKvl9KrM7GgnPMiHF+XyWQxx+50vj07X1ofiMVOm5vPeU6D/3TGEL49
+	 h2GVL+5RpDkrQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
 Cc: Masahiro Yamada <masahiroy@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.5 11/15] kconfig: fix memory leak from range properties
-Date: Wed, 22 Nov 2023 10:33:13 -0500
-Message-ID: <20231122153340.852434-11-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 8/9] kconfig: fix memory leak from range properties
+Date: Wed, 22 Nov 2023 10:34:32 -0500
+Message-ID: <20231122153440.852807-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231122153340.852434-1-sashal@kernel.org>
-References: <20231122153340.852434-1-sashal@kernel.org>
+In-Reply-To: <20231122153440.852807-1-sashal@kernel.org>
+References: <20231122153440.852807-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -52,7 +52,7 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.5.12
+X-stable-base: Linux 6.1.63
 Content-Transfer-Encoding: 8bit
 
 From: Masahiro Yamada <masahiroy@kernel.org>
