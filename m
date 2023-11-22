@@ -1,130 +1,133 @@
-Return-Path: <linux-kbuild+bounces-110-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-111-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60EA87F405E
-	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Nov 2023 09:40:46 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14B317F4A63
+	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Nov 2023 16:32:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DA405B20B52
-	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Nov 2023 08:40:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 125181C20955
+	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Nov 2023 15:32:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6004E18B1A;
-	Wed, 22 Nov 2023 08:40:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 194C54CDE0;
+	Wed, 22 Nov 2023 15:32:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="IkSrqbab"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bi4xC82U"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2A5CA1;
-	Wed, 22 Nov 2023 00:40:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=D5blU8RG7wrWZ9Dq/ESX/eAs3vI1C5+aiUl11b64TJI=; b=IkSrqbabsxJtFB+ZQhe2j8K6x6
-	gmah3bew0TPP0ysiQgpNZUFrCqPuz5lHJ+SRgg6OImxizgLz7xojou4jvO85FIqRpS8QO0tAUdKHE
-	rA4Uw6YYjcm+0HTujZSCoMbzEXPyjWNDQi5h4dJLM9wM/Ln2IYZXZY/WTR+WxIMJhILJ9DeeFlb8z
-	Sh9AFZK843MfY4JIxtlkW0I9zICdKW+ntXEodBFLQaC6YNvuXWjW87h+UB/TmK1UMAkUGI6VTa+3d
-	vVnSMTFNScSJr0L8JDnsTrn8iTyZqAK/m1GbJ6lYvAbf33DcWE787BrnJDz6876cmhrbYs26CtV3T
-	0kSji68g==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat Linux))
-	id 1r5imd-0015Nr-35;
-	Wed, 22 Nov 2023 08:40:31 +0000
-Date: Wed, 22 Nov 2023 00:40:31 -0800
-From: Christoph Hellwig <hch@infradead.org>
-To: Samuel Holland <samuel.holland@sifive.com>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
-	Harry Wentland <harry.wentland@amd.com>,
-	Leo Li <sunpeng.li@amd.com>,
-	Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Pan Xinhui <Xinhui.Pan@amd.com>, Daniel Vetter <daniel@ffwll.ch>,
-	amd-gfx@lists.freedesktop.org,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE78B5B20E
+	for <linux-kbuild@vger.kernel.org>; Wed, 22 Nov 2023 15:32:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90940C433C8;
+	Wed, 22 Nov 2023 15:32:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1700667168;
+	bh=fWiSFMfDLokE0fHpF4fY2qrcsRxAWpAbxo0BBd3jFug=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Bi4xC82UvOxmgWDSddxzp+EZzsxihguuFoKXKYYw+Yr/iI8oxUNDaekSuwfNXmZdD
+	 gqb/0AjGTrRRTwr2ixtT45nG7LfpEPbnuOdwD/33C4SA/NpoIOIKZdoGpuqc5Duy35
+	 u5MfaZqzAh9pqa8HEgw+7OpTwitCRBmYDLkoSAyG6Ziz5kgTMvaj3GuXBpqEJZ1bQx
+	 NMdXunVfPA6pFVKCNOAz2Afaehz5Ks2G2l64v01LUop4QrVxIcuR5FJaSRfC7dOYZJ
+	 Uc0h86kTCUrsG3vr4Sb6jC+hC9vF/G5opttEvmHJ1xWzncvsbBmLLt+c3SjYey6fHa
+	 CQ9r8VWdLZVlw==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
 	Nick Desaulniers <ndesaulniers@google.com>,
-	Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	linuxppc-dev@lists.ozlabs.org,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 3/3] drm/amd/display: Support DRM_AMD_DC_FP on RISC-V
-Message-ID: <ZV2+f/yu3C6xTVqn@infradead.org>
-References: <20231122030621.3759313-1-samuel.holland@sifive.com>
- <20231122030621.3759313-4-samuel.holland@sifive.com>
+	Sasha Levin <sashal@kernel.org>,
+	paul.walmsley@sifive.com,
+	palmer@dabbelt.com,
+	aou@eecs.berkeley.edu,
+	linux-kbuild@vger.kernel.org,
+	linux-riscv@lists.infradead.org
+Subject: [PATCH AUTOSEL 6.6 11/17] modpost: fix section mismatch message for RELA
+Date: Wed, 22 Nov 2023 10:31:40 -0500
+Message-ID: <20231122153212.852040-11-sashal@kernel.org>
+X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20231122153212.852040-1-sashal@kernel.org>
+References: <20231122153212.852040-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231122030621.3759313-4-samuel.holland@sifive.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.6.2
+Content-Transfer-Encoding: 8bit
 
-> -	select DRM_AMD_DC_FP if (X86 || LOONGARCH || (PPC64 && ALTIVEC) || (ARM64 && KERNEL_MODE_NEON && !CC_IS_CLANG))
-> +	select DRM_AMD_DC_FP if ARM64 && KERNEL_MODE_NEON && !CC_IS_CLANG
-> +	select DRM_AMD_DC_FP if PPC64 && ALTIVEC
-> +	select DRM_AMD_DC_FP if RISCV && FPU
-> +	select DRM_AMD_DC_FP if LOONGARCH || X86
+From: Masahiro Yamada <masahiroy@kernel.org>
 
-This really is a mess.  Can you add a ARCH_HAS_KERNEL_FPU_SUPPORT
-symbol that all architetures that have it select instead, and them
-make DRM_AMD_DC_FP depend on it?
+[ Upstream commit 1c4a7587d1bbee0fd53b63af60e4244a62775f57 ]
 
-> -#if defined(CONFIG_X86) || defined(CONFIG_LOONGARCH)
-> +#if defined(CONFIG_X86) || defined(CONFIG_LOONGARCH) || defined(CONFIG_RISCV)
->  		kernel_fpu_begin();
->  #elif defined(CONFIG_PPC64)
->  		if (cpu_has_feature(CPU_FTR_VSX_COMP))
-> @@ -122,7 +124,7 @@ void dc_fpu_end(const char *function_name, const int line)
->  
->  	depth = __this_cpu_dec_return(fpu_recursion_depth);
->  	if (depth == 0) {
-> -#if defined(CONFIG_X86) || defined(CONFIG_LOONGARCH)
-> +#if defined(CONFIG_X86) || defined(CONFIG_LOONGARCH) || defined(CONFIG_RISCV)
->  		kernel_fpu_end();
->  #elif defined(CONFIG_PPC64)
->  		if (cpu_has_feature(CPU_FTR_VSX_COMP))
+The section mismatch check prints a bogus symbol name on some
+architectures.
 
-And then this mess can go away.  We'll need to decide if we want to
-cover all the in-kernel vector support as part of it, which would
-seem reasonable to me, or have a separate generic kernel_vector_begin
-with it's own option.
+[test code]
 
-> diff --git a/drivers/gpu/drm/amd/display/dc/dml/Makefile b/drivers/gpu/drm/amd/display/dc/dml/Makefile
-> index ea7d60f9a9b4..5c8f840ef323 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dml/Makefile
-> +++ b/drivers/gpu/drm/amd/display/dc/dml/Makefile
-> @@ -43,6 +43,12 @@ dml_ccflags := -mfpu=64
->  dml_rcflags := -msoft-float
->  endif
->  
-> +ifdef CONFIG_RISCV
-> +include $(srctree)/arch/riscv/Makefile.isa
-> +# Remove V from the ISA string, like in arch/riscv/Makefile, but keep F and D.
-> +dml_ccflags := -march=$(shell echo $(riscv-march-y) | sed -E 's/(rv32ima|rv64ima)([^v_]*)v?/\1\2/')
-> +endif
-> +
->  ifdef CONFIG_CC_IS_GCC
->  ifneq ($(call gcc-min-version, 70100),y)
->  IS_OLD_GCC = 1
+  #include <linux/init.h>
 
-And this is again not really something we should be doing.
-Instead we need a generic way in Kconfig to enable FPU support
-for an object file or set of, that the arch support can hook
-into.
+  int __initdata foo;
+  int get_foo(void) { return foo; }
 
-Btw, I'm also really worried about folks using the FPU instructions
-outside the kernel_fpu_begin/end windows in general (not directly
-related to the RISC-V support).  Can we have objecttool checks
-for that similar to only allowing the unsafe uaccess in the
-uaccess begin/end pairs?
+If you compile it with GCC for riscv or loongarch, modpost will show an
+incorrect symbol name:
+
+  WARNING: modpost: vmlinux: section mismatch in reference: get_foo+0x8 (section: .text) -> done (section: .init.data)
+
+To get the correct symbol address, the st_value must be added.
+
+This issue has never been noticed since commit 93684d3b8062 ("kbuild:
+include symbol names in section mismatch warnings") presumably because
+st_value becomes zero on most architectures when the referenced symbol
+is looked up. It is not true for riscv or loongarch, at least.
+
+With this fix, modpost will show the correct symbol name:
+
+  WARNING: modpost: vmlinux: section mismatch in reference: get_foo+0x8 (section: .text) -> foo (section: .init.data)
+
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ scripts/mod/modpost.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index b3dee80497cb2..ac4ef3e206bbd 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -1496,13 +1496,15 @@ static void section_rela(struct module *mod, struct elf_info *elf,
+ 		return;
+ 
+ 	for (rela = start; rela < stop; rela++) {
++		Elf_Sym *tsym;
+ 		Elf_Addr taddr, r_offset;
+ 		unsigned int r_type, r_sym;
+ 
+ 		r_offset = TO_NATIVE(rela->r_offset);
+ 		get_rel_type_and_sym(elf, rela->r_info, &r_type, &r_sym);
+ 
+-		taddr = TO_NATIVE(rela->r_addend);
++		tsym = elf->symtab_start + r_sym;
++		taddr = tsym->st_value + TO_NATIVE(rela->r_addend);
+ 
+ 		switch (elf->hdr->e_machine) {
+ 		case EM_RISCV:
+@@ -1517,7 +1519,7 @@ static void section_rela(struct module *mod, struct elf_info *elf,
+ 			break;
+ 		}
+ 
+-		check_section_mismatch(mod, elf, elf->symtab_start + r_sym,
++		check_section_mismatch(mod, elf, tsym,
+ 				       fsecndx, fromsec, r_offset, taddr);
+ 	}
+ }
+-- 
+2.42.0
+
 
