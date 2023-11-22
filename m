@@ -1,121 +1,131 @@
-Return-Path: <linux-kbuild+bounces-103-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-104-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 784C67F38FF
-	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Nov 2023 23:11:01 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC4687F3C99
+	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Nov 2023 04:48:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 35F4E282360
-	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Nov 2023 22:11:00 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 19290B2147A
+	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Nov 2023 03:48:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A50A842054;
-	Tue, 21 Nov 2023 22:10:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73F6F8BED;
+	Wed, 22 Nov 2023 03:48:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="c93VEcJb"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="E1yqsT3Y"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AE24194
-	for <linux-kbuild@vger.kernel.org>; Tue, 21 Nov 2023 14:10:52 -0800 (PST)
-Received: by mail-lf1-x12f.google.com with SMTP id 2adb3069b0e04-50aab0ca90aso4245440e87.0
-        for <linux-kbuild@vger.kernel.org>; Tue, 21 Nov 2023 14:10:52 -0800 (PST)
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27B4D18E
+	for <linux-kbuild@vger.kernel.org>; Tue, 21 Nov 2023 19:48:47 -0800 (PST)
+Received: by mail-pj1-x102e.google.com with SMTP id 98e67ed59e1d1-280165bba25so4406611a91.2
+        for <linux-kbuild@vger.kernel.org>; Tue, 21 Nov 2023 19:48:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1700604650; x=1701209450; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=bUrfVcVa3Jy5893jk/rq26iu6NlKWecKE/WOuTvkwso=;
-        b=c93VEcJbj8ALkjb2camdiWx87HKu8PXqnNxpT8VvLWvcLTzyOMsvRA6ttq/42gj/lc
-         KvPzOFfS0mcSdR8yQjtZEYFb9TWrF3pbdhe6mcJ1kKeaUno+qWh/3jzaUXoRkwmK42eq
-         vNejBlPPTx2wF873z0Rcj7cKz6eU2aKgXRTxU=
+        d=chromium.org; s=google; t=1700624926; x=1701229726; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7dli5291sgoxdBf0M7ZcZCemBOpnn4oJYx/LL1st4SQ=;
+        b=E1yqsT3YLm8x6TGPOSPxSmSnLdYJ0cXCSHSJ1SFo7IGo56sXCEFJe5xLQeRW7PmyEF
+         kjHLfTOfPXLNitFeyxZlTgHJG2p75BbV5fs96A1K+0b38p46ddPJ/NXy9winayYilZjd
+         vr52kJGLIK2MCb9Dgz2xnI+brWfx8MboR80Lc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700604650; x=1701209450;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1700624926; x=1701229726;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=bUrfVcVa3Jy5893jk/rq26iu6NlKWecKE/WOuTvkwso=;
-        b=NQCm5TAgDonhK1zaYL738H4OxvNE7/PLN8JgY7ec863W5HQGWM3VsNxJXt071Wk7lR
-         4dXcqssS2kazLk1JQCdoqv56ECL/OGcJi6qlQPx9x9jvF3mM1TtdkxmJXer5fDWVm1iI
-         11M0TsK2eeqUcmm+N1S783FyGgz4uqQjwEemXpY8XH15my/f+Kx5YcK+MWtUF+6jir97
-         xxvHQZcUwg7rGPQHjp7iuBRyomiAhVKWxGRhZS8LIKJHSYkseaVad28xlG65IsryJ2UY
-         9nHxu6ZAnosPkPL3sJ3+2E9bHCjeDPxJra+R4gdILrfPHdSg3pEh1wMV2EaQuANC0ReU
-         WSQA==
-X-Gm-Message-State: AOJu0YxlmtIXn7F0TsSecc3o723/olVVQuDzsh+E0YXs31/q5yCrNWsz
-	pwUR305oA9cbHhW3JVFpQ+ctB0N10x9W4CTGEHIbSNRSgPW9Jl9NLrc=
-X-Google-Smtp-Source: AGHT+IH2p2S3EHk/kjK8/fkaPAR1usnkzeYyJjccYKzDydluwPFiM16Adxhpj8TLMQfDrLQyuU1JUml1BLpSp818Tmg=
-X-Received: by 2002:ac2:5e81:0:b0:509:8f57:8e2 with SMTP id
- b1-20020ac25e81000000b005098f5708e2mr89904lfq.29.1700604650301; Tue, 21 Nov
- 2023 14:10:50 -0800 (PST)
+        bh=7dli5291sgoxdBf0M7ZcZCemBOpnn4oJYx/LL1st4SQ=;
+        b=e0emUNJTfN6x3TGhCHS9WgNPLBiUnwGHlKHFieO6+tgLcGI+wWI3oN6fnRe22CV2eb
+         qG2scBOJomzqI05I9fDEGk0RnUQ4T6B5KcZeM4egZgYJ02qVQGSuam3t0c1F+WyPP3h/
+         wlMqwJYo2ovWJ7TH2nOp73hDHdEcsykJQGTfeiLGqFdHGBfl+7f4uB//hBK2LpH+tUT8
+         wit5ll0RIGVvQi9zMFhJFBPAlsXSUXOlhIK8Emq7MVlbRBAbfFBHk0sMUoe2FPoZJ+t2
+         kMHayxeg+IoeeuuRf64I8pKwOhK8yK8pAMtHCf3kL7YjuQBvFMO+jd7BBpdncuvUxaJc
+         jSzw==
+X-Gm-Message-State: AOJu0Yz0JaYcJOrUkp5c8WBrXd1FiInq8iWhNh9erKtyrGlWe37xCENl
+	+S3sf5QgzX+piaNhp47oL0lDxw==
+X-Google-Smtp-Source: AGHT+IFVjXM1ZR3Y2Vn54mvt9XyjmYWMc0GfXoY/IyKyfKoyP3+LBBRYkTtIcayEk07Hmy7kFJKAnQ==
+X-Received: by 2002:a17:90b:1d8f:b0:27d:2109:6279 with SMTP id pf15-20020a17090b1d8f00b0027d21096279mr1340292pjb.12.1700624926197;
+        Tue, 21 Nov 2023 19:48:46 -0800 (PST)
+Received: from tigerii.tok.corp.google.com ([2401:fa00:8f:203:1aba:fb75:807e:7620])
+        by smtp.gmail.com with ESMTPSA id i16-20020a17090adc1000b00280215e7aebsm300191pjv.15.2023.11.21.19.48.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Nov 2023 19:48:45 -0800 (PST)
+From: Sergey Senozhatsky <senozhatsky@chromium.org>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Patrick Georgi <pgeorgi@google.com>,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Stefan Reinauer <reinauer@google.com>
+Subject: [PATCH] kconfig: WERROR unmet symbol dependency
+Date: Wed, 22 Nov 2023 12:47:45 +0900
+Message-ID: <20231122034753.1446513-1-senozhatsky@chromium.org>
+X-Mailer: git-send-email 2.43.0.rc1.413.gea7ed67945-goog
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231119053234.2367621-1-masahiroy@kernel.org>
-In-Reply-To: <20231119053234.2367621-1-masahiroy@kernel.org>
-From: Simon Glass <sjg@chromium.org>
-Date: Tue, 21 Nov 2023 15:10:38 -0700
-Message-ID: <CAPnjgZ1w+0jcdR-qHSbhdXHJFA-UNFNFTtB4-6BvxYTyuhyweA@mail.gmail.com>
-Subject: Re: [PATCH] arm64: add dependency between vmlinuz.efi and Image
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, linux-kernel@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Sat, 18 Nov 2023 at 22:32, Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> A common issue in Makefile is a race in parallel building.
->
-> You need to be careful to prevent multiple threads from writing to the
-> same file simultaneously.
->
-> Commit 3939f3345050 ("ARM: 8418/1: add boot image dependencies to not
-> generate invalid images") addressed such a bad scenario.
->
-> A similar symptom occurs with the following command:
->
->   $ make -j$(nproc) ARCH=arm64 Image vmlinuz.efi
->     [ snip ]
->     SORTTAB vmlinux
->     OBJCOPY arch/arm64/boot/Image
->     OBJCOPY arch/arm64/boot/Image
->     AS      arch/arm64/boot/zboot-header.o
->     PAD     arch/arm64/boot/vmlinux.bin
->     GZIP    arch/arm64/boot/vmlinuz
->     OBJCOPY arch/arm64/boot/vmlinuz.o
->     LD      arch/arm64/boot/vmlinuz.efi.elf
->     OBJCOPY arch/arm64/boot/vmlinuz.efi
->
-> The log "OBJCOPY arch/arm64/boot/Image" is displayed twice.
->
-> It indicates that two threads simultaneously enter arch/arm64/boot/
-> and write to arch/arm64/boot/Image.
->
-> It occasionally leads to a build failure:
->
->   $ make -j$(nproc) ARCH=arm64 Image vmlinuz.efi
->     [ snip ]
->     SORTTAB vmlinux
->     OBJCOPY arch/arm64/boot/Image
->     PAD     arch/arm64/boot/vmlinux.bin
->   truncate: Invalid number: 'arch/arm64/boot/vmlinux.bin'
->   make[2]: *** [drivers/firmware/efi/libstub/Makefile.zboot:13:
->   arch/arm64/boot/vmlinux.bin] Error 1
->   make[2]: *** Deleting file 'arch/arm64/boot/vmlinux.bin'
->   make[1]: *** [arch/arm64/Makefile:163: vmlinuz.efi] Error 2
->   make[1]: *** Waiting for unfinished jobs....
->   make: *** [Makefile:234: __sub-make] Error 2
->
-> vmlinuz.efi depends on Image, but such a dependency is not specified
-> in arch/arm64/Makefile.
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
->
->  arch/arm64/Makefile | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+When KCONFIG_WERROR env variable is set treat unmet direct
+symbol dependency as a terminal condition (error).
 
-Reviewed-by: SImon Glass <sjg@chromium.org>
+Suggested-by: Stefan Reinauer <reinauer@google.com>
+Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+---
+ scripts/kconfig/symbol.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/scripts/kconfig/symbol.c b/scripts/kconfig/symbol.c
+index a76925b46ce6..34fc66e075b7 100644
+--- a/scripts/kconfig/symbol.c
++++ b/scripts/kconfig/symbol.c
+@@ -37,6 +37,7 @@ static struct symbol symbol_empty = {
+ 
+ struct symbol *modules_sym;
+ static tristate modules_val;
++static int sym_warnings;
+ 
+ enum symbol_type sym_get_type(struct symbol *sym)
+ {
+@@ -317,12 +318,14 @@ static void sym_warn_unmet_dep(struct symbol *sym)
+ 			       "  Selected by [m]:\n");
+ 
+ 	fputs(str_get(&gs), stderr);
++	sym_warnings++;
+ }
+ 
+ void sym_calc_value(struct symbol *sym)
+ {
+ 	struct symbol_value newval, oldval;
+ 	struct property *prop;
++	const char *werror;
+ 	struct expr *e;
+ 
+ 	if (!sym)
+@@ -338,8 +341,9 @@ void sym_calc_value(struct symbol *sym)
+ 		sym_calc_value(prop_get_symbol(prop));
+ 	}
+ 
++	werror = getenv("KCONFIG_WERROR");
++	sym_warnings = 0;
+ 	sym->flags |= SYMBOL_VALID;
+-
+ 	oldval = sym->curr;
+ 
+ 	switch (sym->type) {
+@@ -430,6 +434,9 @@ void sym_calc_value(struct symbol *sym)
+ 		;
+ 	}
+ 
++	if (sym_warnings && werror)
++		exit(1);
++
+ 	sym->curr = newval;
+ 	if (sym_is_choice(sym) && newval.tri == yes)
+ 		sym->curr.val = sym_calc_choice(sym);
+-- 
+2.43.0.rc1.413.gea7ed67945-goog
+
 
