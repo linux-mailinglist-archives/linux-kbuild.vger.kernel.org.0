@@ -1,234 +1,130 @@
-Return-Path: <linux-kbuild+bounces-109-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-110-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ECA07F4006
-	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Nov 2023 09:23:24 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60EA87F405E
+	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Nov 2023 09:40:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 728C51C208C3
-	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Nov 2023 08:23:23 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DA405B20B52
+	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Nov 2023 08:40:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C94CB1DA53;
-	Wed, 22 Nov 2023 08:23:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6004E18B1A;
+	Wed, 22 Nov 2023 08:40:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zv8r5A03"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="IkSrqbab"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F33AA10E;
-	Wed, 22 Nov 2023 00:23:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700641395; x=1732177395;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BY69KRJyVnfr650kIJoZMO0IwdZ8tdBk9ZG9Q7+w90Y=;
-  b=Zv8r5A03cRJ4fZbdmnBa44FZmWE8Zqn3f+WRWBYAba6D32NVIUnkDH7N
-   AJr019gpNstCxcKIjliDxXB6EKLb1nsOS+cQeP29gx98sOwY6X0gFa/24
-   xgwbKGMmD/MzY9vsJ++JGqnETskPbojlKgKK61iKT6qkEmWVi2cJQKPQO
-   DXch5qMMPqf8NVmPoVdQvQZfAo6oqD8OdORIbVy6rhNsVXMUBKUSVwped
-   UJlxHWtsiQQpuP58XwfEgsU2t+52L+FgE2gG5dra+G5Yu/76LrOREsQlL
-   giiOiU+ik4/PJg7LygLxQhzL0FCh5xseKrp6qEuw9Dgqe6Ooe43u7Q+PO
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="390870124"
-X-IronPort-AV: E=Sophos;i="6.04,218,1695711600"; 
-   d="scan'208";a="390870124"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2023 00:23:13 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,218,1695711600"; 
-   d="scan'208";a="8366873"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by fmviesa002.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 22 Nov 2023 00:23:08 -0800
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Wed, 22 Nov 2023 00:23:07 -0800
-Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
- ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Wed, 22 Nov 2023 00:23:07 -0800
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34 via Frontend Transport; Wed, 22 Nov 2023 00:23:07 -0800
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.100)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.34; Wed, 22 Nov 2023 00:23:05 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JvprLBlijTqrqAaoXswcOdJddMvp7aUCB8OZsvj3MluUQ67GTFxLMTfQMhPZcqQ28Z0YoBnVaZ3kBnCf/fmasXih+63wy2XxJwp60TmZQiaxsgW9LeUidOGIrt+f91xNH7VVSypunES6xLABZM+4ujA4WOgFxcPs13IZ+SPg6EaTs8nxaInMxuFX7pWkwlu7znvdxRfzpmxCVbK29T2gIbidv+QTMCe+2HQkNQm4tFHYQYLoGbsGx5wmATUxnMII+KlDR8rTuK4PamxIp5nE+xFZ0GQTLdzo3q+Fz8WMpGe+yY2EpnIsLogy0svDufJqNnMWJjWQogoM+9Goy2U/DA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=h9MbO9RYIyEEJhn1zYZBXGb1lGbJ+uh+hX+x+bGC8SM=;
- b=HIv0bPhznS5GCsnbxDNWWP/1btvnU7zqsFATd0K9t7xTs36YaToU8F2KVdpVRpey0Z0A0C8+NaJmX9rSZCby4PMHivpFcAvDJUWiXW/M/sFoP6I9TI9ceWweJamkutC4+jzCFDQPZDOmlX5X7H1fMeL/7iuEi/Tb05y9EGUS25yf8gYX6mNaUPLqtJiqBf57zUoxz0YiQe2s2I12yLF1Tfvbbf4fveyce8z+BWQduXorVvPDeVukhTufEmK9eBORnwxJmCUfaRf1sEq7aKmgV6nnxqaT8F3b8r1Xo+VXAtt8SyY7Bdm9gIClcxaneIdEw/CQEcS6zj9AsQ+OlffJbg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from LV3PR11MB8603.namprd11.prod.outlook.com (2603:10b6:408:1b6::9)
- by SA3PR11MB7536.namprd11.prod.outlook.com (2603:10b6:806:320::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.28; Wed, 22 Nov
- 2023 08:23:03 +0000
-Received: from LV3PR11MB8603.namprd11.prod.outlook.com
- ([fe80::1236:9a2e:5acd:a7f]) by LV3PR11MB8603.namprd11.prod.outlook.com
- ([fe80::1236:9a2e:5acd:a7f%3]) with mapi id 15.20.7002.027; Wed, 22 Nov 2023
- 08:23:02 +0000
-Date: Wed, 22 Nov 2023 16:22:53 +0800
-From: kernel test robot <oliver.sang@intel.com>
-To: Masahiro Yamada <masahiroy@kernel.org>
-CC: <oe-lkp@lists.linux.dev>, <lkp@intel.com>, <linux-kernel@vger.kernel.org>,
-	Alan Maguire <alan.maguire@oracle.com>, Nicolas Schier <n.schier@avm.de>,
-	Miguel Ojeda <ojeda@kernel.org>, Jiri Olsa <jolsa@kernel.org>, "Martin
- Rodriguez Reboredo" <yakoyoku@gmail.com>, <linux-kbuild@vger.kernel.org>,
-	<bpf@vger.kernel.org>, <oliver.sang@intel.com>
-Subject: [linus:master] [kbuild]  72d091846d:
- kernel-selftests.net.udpgro_bench.sh.fail
-Message-ID: <202311221453.9e6d5ac0-oliver.sang@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-X-ClientProxiedBy: SGXP274CA0012.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b8::24)
- To LV3PR11MB8603.namprd11.prod.outlook.com (2603:10b6:408:1b6::9)
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2A5CA1;
+	Wed, 22 Nov 2023 00:40:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=D5blU8RG7wrWZ9Dq/ESX/eAs3vI1C5+aiUl11b64TJI=; b=IkSrqbabsxJtFB+ZQhe2j8K6x6
+	gmah3bew0TPP0ysiQgpNZUFrCqPuz5lHJ+SRgg6OImxizgLz7xojou4jvO85FIqRpS8QO0tAUdKHE
+	rA4Uw6YYjcm+0HTujZSCoMbzEXPyjWNDQi5h4dJLM9wM/Ln2IYZXZY/WTR+WxIMJhILJ9DeeFlb8z
+	Sh9AFZK843MfY4JIxtlkW0I9zICdKW+ntXEodBFLQaC6YNvuXWjW87h+UB/TmK1UMAkUGI6VTa+3d
+	vVnSMTFNScSJr0L8JDnsTrn8iTyZqAK/m1GbJ6lYvAbf33DcWE787BrnJDz6876cmhrbYs26CtV3T
+	0kSji68g==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat Linux))
+	id 1r5imd-0015Nr-35;
+	Wed, 22 Nov 2023 08:40:31 +0000
+Date: Wed, 22 Nov 2023 00:40:31 -0800
+From: Christoph Hellwig <hch@infradead.org>
+To: Samuel Holland <samuel.holland@sifive.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+	Harry Wentland <harry.wentland@amd.com>,
+	Leo Li <sunpeng.li@amd.com>,
+	Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Pan Xinhui <Xinhui.Pan@amd.com>, Daniel Vetter <daniel@ffwll.ch>,
+	amd-gfx@lists.freedesktop.org,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	linuxppc-dev@lists.ozlabs.org,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 3/3] drm/amd/display: Support DRM_AMD_DC_FP on RISC-V
+Message-ID: <ZV2+f/yu3C6xTVqn@infradead.org>
+References: <20231122030621.3759313-1-samuel.holland@sifive.com>
+ <20231122030621.3759313-4-samuel.holland@sifive.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV3PR11MB8603:EE_|SA3PR11MB7536:EE_
-X-MS-Office365-Filtering-Correlation-Id: c8e354ab-9c3b-40d4-f279-08dbeb343ea8
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1M/dhBS07cgVDAx/l6d4paU5F8MgPfhoUDPywk0FBlUTMdu0E4SzBOqBjWlgy9OCSiry0dMHtREisbZzvn0/LJsyqHrRUTF1O2Hd4UMqRQwaIYBA8RW3ZIW9y4lmo6rQG1QHeT0J+I9cDSIO738MF3nziHi7yokrL0KhznCdLrN2oDId/jGMSC7sKfF2Z3DlA16YJ0V2700OruzCmFkBQloTk5x+oqG89RxZAqqQT1J1qoWZyvJVGJ8hd7kPmcnTLmyKQfn6Q+QgbOtB6X/bV6+D79f4M0+HDYRaa+PEmKBIwWkJ+tRQxlPE/UvQXU+AGBrzg4NzKzqYzddAkBXy7qt4z5iNs2NOdR7yzGYDZL5UbMdLSWpRq3WHYbQIj+Wn1IIeESNnpuGHeFYz8kZbm747hTMdFRI2hP0qTBQ6EkbPMIrNp4AmiQp5nTl52A7VyC4ysv4b12SPqbrJYkjj4+rtxvEe1tPei0WanCahOQE7cqsRRJHVgBzwh7GhjGId9hARsyI4FZuETINIMdLNKDmtqIQgyMxnSNAHvv1Z5cVD3x1PNAjcfhhwcg48Mo3N8L6izrzd70C6k3+gNz62SQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR11MB8603.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(366004)(136003)(396003)(39860400002)(376002)(230922051799003)(451199024)(186009)(1800799012)(64100799003)(86362001)(82960400001)(38100700002)(36756003)(107886003)(6916009)(316002)(54906003)(66556008)(66476007)(966005)(2616005)(1076003)(66946007)(26005)(478600001)(7416002)(6512007)(6666004)(6506007)(5660300002)(2906002)(6486002)(4326008)(8936002)(41300700001)(8676002)(83380400001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?0hJAF7GTU+IAdybWAZ5lwnzmPtv+JMASdcCQgLk+/Spz/y9Wp8qy9YFjLiG9?=
- =?us-ascii?Q?+g2kuSf3y31tyvBqq47bYefAWsnvSGjadM2juTM2Q8jicaRnYkOhsBzwEkEM?=
- =?us-ascii?Q?pqGv0abZdt4BfnW4ryT5/iMvMEivBycLYx+QyEbGmlKjCo9aWcjxSq+lNGLW?=
- =?us-ascii?Q?E59wAWAM89mcKX+MfXxLzJOQ00/mE2NBfaJ2d+Y2MTbUkH4ExAieARel0uEv?=
- =?us-ascii?Q?LK4URYu21f4J3xaGzSNP3kIfZR2qMdBs4rJnufUG96VOkbGE0dqzlJVRyiiS?=
- =?us-ascii?Q?Y9/W7z59TjjClOwnBDwJChFP0nmWSLr2WCuKkEUN5EOJuOX0Xg/gRIVlmNlW?=
- =?us-ascii?Q?KOkDugE1kAPk33n0j8pPVuxV0Cyy+TC+Djs0H8Ievd6L/VSPeDNeZPtrO8rW?=
- =?us-ascii?Q?dmyB033xJRNv5nplCOltkmHEhAXzYEnN7AG3bVp+qTIZ+Cu6A9F28d0w8zcv?=
- =?us-ascii?Q?KuWbBcsYK0SThViY8QHL7dXIe4o5qJhH/BACR+FQsFn1mE/vOSTJBvIVhHSs?=
- =?us-ascii?Q?kAHeydDs6+QqFAnflpd80NaIJUFwnF3gCheyAu2+wx4exavVOExNluw85Wuk?=
- =?us-ascii?Q?Pf06wdAfKJYgieMvYCN03hQHVzd0FkDpGutDOnFo+Rbs5MfWgnzMPBCuJev/?=
- =?us-ascii?Q?ljdHYSNBlSyoGAy/OXgJT3nP/fH7+GzLW8y3NIUc0jEOKMJ8tjOsCYRgq5D3?=
- =?us-ascii?Q?zNppV257FAxyQ0PJrmWZKv80Mv0t4Dxu2ZyQGlTHZKSmV2HLHdEzo40gF+Ko?=
- =?us-ascii?Q?8Hgo3R5wmZF0bQDzk7iW2nQgPjmY4wnf6MIlIAA9gS2iyXUlMB/7//sN5sHm?=
- =?us-ascii?Q?4Xu96ktgL9L+4Y1WEojkIoage9lsGJLdfwXgVPnEGvHHFHLz5I97L6WH4D6W?=
- =?us-ascii?Q?LuWHv7DYDM3ufYwZ0AGB3l1yIl2v+V1U7mJXLJj0PSL06pdd5i0RPjLPw69v?=
- =?us-ascii?Q?vHjtu4SI4FI+6OwHEIcxW7M7DdeBOCrMWL8FGh6NGlqfYpTmuwYr6Y5NZ/NG?=
- =?us-ascii?Q?B+/gnjMH49iAUku8oJeosTAwHVEe/ksI8Y4Tp+vZxNHj7xiK/xI0YXB3H/Ps?=
- =?us-ascii?Q?W8nZclQwPI0Y+fN2VoBEEJPWOmtrLpIklhDmzZOQmchF2zZXHBqino0fVqO0?=
- =?us-ascii?Q?MG03kst9iGcN9sBJMSR3hrwWJH3p6R8bvB4RtdDSVdsbZno8lcq8bBqDPkY2?=
- =?us-ascii?Q?GlHDMw94bv7raAk17UqhpF1yRjcNZL7IirVYeqHCBqPnMqC5yQW8q2t7sU40?=
- =?us-ascii?Q?xaUmbeT7XIJr2IvYt80h5SA7NMWwjJm48QI17ais5OBqb05ndXYOxUG+EO8g?=
- =?us-ascii?Q?nlQDU55eToHM7uhTL9pzmE6HIUjWhqATeEXrSV3GxxCopRKJtmnHjf/qdiUu?=
- =?us-ascii?Q?xBD0L0hAcQwViFcn/tmtKAVR4jY3fDyFvteILNV+tbha7kdztS+sIXlzfLBm?=
- =?us-ascii?Q?p1+Qh/ZFrK/zM0E022+V8+GAUqAFzgsQYXRRiLJNEmGsCqwnmyhzP1SJ3FFw?=
- =?us-ascii?Q?7pkVntb+Y/1XnkpCtAZPkILH5gCd2nJThAQJUMOrZXjdDVpwM48CMgdgaucL?=
- =?us-ascii?Q?wlv8eW7c+35Kl2qEKjAVD8T6whdZybOOgaDm9wf9JS1U2WwIZOD4eyzRd8ND?=
- =?us-ascii?Q?Gw=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: c8e354ab-9c3b-40d4-f279-08dbeb343ea8
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR11MB8603.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2023 08:23:02.5994
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Qd7vOl+XO0rOCzYiaJPR+RqULINr03aZw32ksP6RVQ7tV9aK69RmGS/7xvWCeLq+N7rO3TOlRfoLx04fuj/vHw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR11MB7536
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231122030621.3759313-4-samuel.holland@sifive.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
+> -	select DRM_AMD_DC_FP if (X86 || LOONGARCH || (PPC64 && ALTIVEC) || (ARM64 && KERNEL_MODE_NEON && !CC_IS_CLANG))
+> +	select DRM_AMD_DC_FP if ARM64 && KERNEL_MODE_NEON && !CC_IS_CLANG
+> +	select DRM_AMD_DC_FP if PPC64 && ALTIVEC
+> +	select DRM_AMD_DC_FP if RISCV && FPU
+> +	select DRM_AMD_DC_FP if LOONGARCH || X86
 
+This really is a mess.  Can you add a ARCH_HAS_KERNEL_FPU_SUPPORT
+symbol that all architetures that have it select instead, and them
+make DRM_AMD_DC_FP depend on it?
 
-Hello,
+> -#if defined(CONFIG_X86) || defined(CONFIG_LOONGARCH)
+> +#if defined(CONFIG_X86) || defined(CONFIG_LOONGARCH) || defined(CONFIG_RISCV)
+>  		kernel_fpu_begin();
+>  #elif defined(CONFIG_PPC64)
+>  		if (cpu_has_feature(CPU_FTR_VSX_COMP))
+> @@ -122,7 +124,7 @@ void dc_fpu_end(const char *function_name, const int line)
+>  
+>  	depth = __this_cpu_dec_return(fpu_recursion_depth);
+>  	if (depth == 0) {
+> -#if defined(CONFIG_X86) || defined(CONFIG_LOONGARCH)
+> +#if defined(CONFIG_X86) || defined(CONFIG_LOONGARCH) || defined(CONFIG_RISCV)
+>  		kernel_fpu_end();
+>  #elif defined(CONFIG_PPC64)
+>  		if (cpu_has_feature(CPU_FTR_VSX_COMP))
 
-kernel test robot noticed "kernel-selftests.net.udpgro_bench.sh.fail" on:
+And then this mess can go away.  We'll need to decide if we want to
+cover all the in-kernel vector support as part of it, which would
+seem reasonable to me, or have a separate generic kernel_vector_begin
+with it's own option.
 
-commit: 72d091846de935e0942a8a0f1fe24ff739d85d76 ("kbuild: avoid too many execution of scripts/pahole-flags.sh")
-https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git master
+> diff --git a/drivers/gpu/drm/amd/display/dc/dml/Makefile b/drivers/gpu/drm/amd/display/dc/dml/Makefile
+> index ea7d60f9a9b4..5c8f840ef323 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dml/Makefile
+> +++ b/drivers/gpu/drm/amd/display/dc/dml/Makefile
+> @@ -43,6 +43,12 @@ dml_ccflags := -mfpu=64
+>  dml_rcflags := -msoft-float
+>  endif
+>  
+> +ifdef CONFIG_RISCV
+> +include $(srctree)/arch/riscv/Makefile.isa
+> +# Remove V from the ISA string, like in arch/riscv/Makefile, but keep F and D.
+> +dml_ccflags := -march=$(shell echo $(riscv-march-y) | sed -E 's/(rv32ima|rv64ima)([^v_]*)v?/\1\2/')
+> +endif
+> +
+>  ifdef CONFIG_CC_IS_GCC
+>  ifneq ($(call gcc-min-version, 70100),y)
+>  IS_OLD_GCC = 1
 
-[test failed on linus/master 7475e51b87969e01a6812eac713a1c8310372e8a]
-[test failed on linux-next/master eff99d8edbed7918317331ebd1e365d8e955d65e]
+And this is again not really something we should be doing.
+Instead we need a generic way in Kconfig to enable FPU support
+for an object file or set of, that the arch support can hook
+into.
 
-in testcase: kernel-selftests
-version: kernel-selftests-x86_64-60acb023-1_20230329
-with following parameters:
-
-	group: net
-
-
-
-compiler: gcc-12
-test machine: 36 threads 1 sockets Intel(R) Core(TM) i9-10980XE CPU @ 3.00GHz (Cascade Lake) with 32G memory
-
-(please refer to attached dmesg/kmsg for entire log/backtrace)
-
-
-
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <oliver.sang@intel.com>
-| Closes: https://lore.kernel.org/oe-lkp/202311221453.9e6d5ac0-oliver.sang@intel.com
-
-
-besides kernel-selftests.net.udpgro_bench.sh, we also observed below tests
-failed upon this commit but can pass on parent.
-
-7f6d8f7e43fb516f 72d091846de935e0942a8a0f1fe
----------------- ---------------------------
-       fail:runs  %reproduction    fail:runs
-           |             |             |
-           :20         100%          20:20    kernel-selftests.net.udpgro.sh.fail
-           :20         100%          20:20    kernel-selftests.net.udpgro_bench.sh.fail
-           :20         100%          20:20    kernel-selftests.net.udpgro_frglist.sh.fail
-           :20         100%          20:20    kernel-selftests.net.veth.sh.fail
-
-
-
-....
-
-# timeout set to 1500
-# selftests: net: udpgro_bench.sh
-# Missing ../bpf/xdp_dummy.bpf.o. Build bpf selftest first
-not ok 25 selftests: net: udpgro_bench.sh # exit=255
-# timeout set to 1500
-# selftests: net: udpgro.sh
-# Missing ../bpf/xdp_dummy.bpf.o. Build bpf selftest first
-not ok 26 selftests: net: udpgro.sh # exit=255
-
-....
-
-# timeout set to 1500
-# selftests: net: udpgro_frglist.sh
-# Missing ../bpf/xdp_dummy.bpf.o. Build bpf selftest first
-not ok 53 selftests: net: udpgro_frglist.sh # exit=255
-# timeout set to 1500
-# selftests: net: veth.sh
-# Missing ../bpf/xdp_dummy.bpf.o. Build bpf selftest first
-not ok 54 selftests: net: veth.sh # exit=1
-
-....
-
-
-
-The kernel config and materials to reproduce are available at:
-https://download.01.org/0day-ci/archive/20231122/202311221453.9e6d5ac0-oliver.sang@intel.com
-
-
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+Btw, I'm also really worried about folks using the FPU instructions
+outside the kernel_fpu_begin/end windows in general (not directly
+related to the RISC-V support).  Can we have objecttool checks
+for that similar to only allowing the unsafe uaccess in the
+uaccess begin/end pairs?
 
