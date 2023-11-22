@@ -1,51 +1,46 @@
-Return-Path: <linux-kbuild+bounces-111-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-112-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14B317F4A63
-	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Nov 2023 16:32:58 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0639E7F4A69
+	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Nov 2023 16:33:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 125181C20955
-	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Nov 2023 15:32:57 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 956FDB21027
+	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Nov 2023 15:32:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 194C54CDE0;
-	Wed, 22 Nov 2023 15:32:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4B694CDE5;
+	Wed, 22 Nov 2023 15:32:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bi4xC82U"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HZqnYWg5"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE78B5B20E
-	for <linux-kbuild@vger.kernel.org>; Wed, 22 Nov 2023 15:32:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90940C433C8;
-	Wed, 22 Nov 2023 15:32:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7D224CDE4
+	for <linux-kbuild@vger.kernel.org>; Wed, 22 Nov 2023 15:32:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D33F2C433CD;
+	Wed, 22 Nov 2023 15:32:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700667168;
-	bh=fWiSFMfDLokE0fHpF4fY2qrcsRxAWpAbxo0BBd3jFug=;
+	s=k20201202; t=1700667173;
+	bh=cpaY/yV5WXyg9YEkeW49vlb9lDNYl17fwLO5WtfKdaE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Bi4xC82UvOxmgWDSddxzp+EZzsxihguuFoKXKYYw+Yr/iI8oxUNDaekSuwfNXmZdD
-	 gqb/0AjGTrRRTwr2ixtT45nG7LfpEPbnuOdwD/33C4SA/NpoIOIKZdoGpuqc5Duy35
-	 u5MfaZqzAh9pqa8HEgw+7OpTwitCRBmYDLkoSAyG6Ziz5kgTMvaj3GuXBpqEJZ1bQx
-	 NMdXunVfPA6pFVKCNOAz2Afaehz5Ks2G2l64v01LUop4QrVxIcuR5FJaSRfC7dOYZJ
-	 Uc0h86kTCUrsG3vr4Sb6jC+hC9vF/G5opttEvmHJ1xWzncvsbBmLLt+c3SjYey6fHa
-	 CQ9r8VWdLZVlw==
+	b=HZqnYWg5A6oihjt485DLEacJvfJVSLWbvjNnUuqwvCkvFKTfejc18yeeNVh8sGViM
+	 48MlpIfbMVVFujNPJylr0wSImecgsvYNlj93CQECCSd48dPCw57+8VZgKizI082XS7
+	 1bqQGKDnqlt8viMLwuAdZcfXqO7B9fVjZ/Ha2IGXXdqZiF5stDzsiFCSy9gfzoxSOM
+	 Nv7KpWgmZTy5GoyDR5l7/MmaxfYDaCVWpDeHvpEuHVZ/PLMTyR5j6BJELr7JzkqHRl
+	 faA98HdGcbXdKpS0k0Bc7a+R05eT1h6uMQrL578ZO87GX8CKAi8lMb3bUlR02+K4dm
+	 Zvw4JcBJtme5Q==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
 Cc: Masahiro Yamada <masahiroy@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
 	Sasha Levin <sashal@kernel.org>,
-	paul.walmsley@sifive.com,
-	palmer@dabbelt.com,
-	aou@eecs.berkeley.edu,
-	linux-kbuild@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.6 11/17] modpost: fix section mismatch message for RELA
-Date: Wed, 22 Nov 2023 10:31:40 -0500
-Message-ID: <20231122153212.852040-11-sashal@kernel.org>
+	linux-kbuild@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.6 13/17] kconfig: fix memory leak from range properties
+Date: Wed, 22 Nov 2023 10:31:42 -0500
+Message-ID: <20231122153212.852040-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231122153212.852040-1-sashal@kernel.org>
 References: <20231122153212.852040-1-sashal@kernel.org>
@@ -62,71 +57,88 @@ Content-Transfer-Encoding: 8bit
 
 From: Masahiro Yamada <masahiroy@kernel.org>
 
-[ Upstream commit 1c4a7587d1bbee0fd53b63af60e4244a62775f57 ]
+[ Upstream commit ae1eff0349f2e908fc083630e8441ea6dc434dc0 ]
 
-The section mismatch check prints a bogus symbol name on some
-architectures.
+Currently, sym_validate_range() duplicates the range string using
+xstrdup(), which is overwritten by a subsequent sym_calc_value() call.
+It results in a memory leak.
 
-[test code]
+Instead, only the pointer should be copied.
 
-  #include <linux/init.h>
+Below is a test case, with a summary from Valgrind.
 
-  int __initdata foo;
-  int get_foo(void) { return foo; }
+[Test Kconfig]
 
-If you compile it with GCC for riscv or loongarch, modpost will show an
-incorrect symbol name:
+  config FOO
+          int "foo"
+          range 10 20
 
-  WARNING: modpost: vmlinux: section mismatch in reference: get_foo+0x8 (section: .text) -> done (section: .init.data)
+[Test .config]
 
-To get the correct symbol address, the st_value must be added.
+  CONFIG_FOO=0
 
-This issue has never been noticed since commit 93684d3b8062 ("kbuild:
-include symbol names in section mismatch warnings") presumably because
-st_value becomes zero on most architectures when the referenced symbol
-is looked up. It is not true for riscv or loongarch, at least.
+[Before]
 
-With this fix, modpost will show the correct symbol name:
+  LEAK SUMMARY:
+     definitely lost: 3 bytes in 1 blocks
+     indirectly lost: 0 bytes in 0 blocks
+       possibly lost: 0 bytes in 0 blocks
+     still reachable: 17,465 bytes in 21 blocks
+          suppressed: 0 bytes in 0 blocks
 
-  WARNING: modpost: vmlinux: section mismatch in reference: get_foo+0x8 (section: .text) -> foo (section: .init.data)
+[After]
+
+  LEAK SUMMARY:
+     definitely lost: 0 bytes in 0 blocks
+     indirectly lost: 0 bytes in 0 blocks
+       possibly lost: 0 bytes in 0 blocks
+     still reachable: 17,462 bytes in 20 blocks
+          suppressed: 0 bytes in 0 blocks
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- scripts/mod/modpost.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ scripts/kconfig/symbol.c | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
 
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index b3dee80497cb2..ac4ef3e206bbd 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -1496,13 +1496,15 @@ static void section_rela(struct module *mod, struct elf_info *elf,
+diff --git a/scripts/kconfig/symbol.c b/scripts/kconfig/symbol.c
+index 0572330bf8a78..a76925b46ce63 100644
+--- a/scripts/kconfig/symbol.c
++++ b/scripts/kconfig/symbol.c
+@@ -122,9 +122,9 @@ static long long sym_get_range_val(struct symbol *sym, int base)
+ static void sym_validate_range(struct symbol *sym)
+ {
+ 	struct property *prop;
++	struct symbol *range_sym;
+ 	int base;
+ 	long long val, val2;
+-	char str[64];
+ 
+ 	switch (sym->type) {
+ 	case S_INT:
+@@ -140,17 +140,15 @@ static void sym_validate_range(struct symbol *sym)
+ 	if (!prop)
  		return;
- 
- 	for (rela = start; rela < stop; rela++) {
-+		Elf_Sym *tsym;
- 		Elf_Addr taddr, r_offset;
- 		unsigned int r_type, r_sym;
- 
- 		r_offset = TO_NATIVE(rela->r_offset);
- 		get_rel_type_and_sym(elf, rela->r_info, &r_type, &r_sym);
- 
--		taddr = TO_NATIVE(rela->r_addend);
-+		tsym = elf->symtab_start + r_sym;
-+		taddr = tsym->st_value + TO_NATIVE(rela->r_addend);
- 
- 		switch (elf->hdr->e_machine) {
- 		case EM_RISCV:
-@@ -1517,7 +1519,7 @@ static void section_rela(struct module *mod, struct elf_info *elf,
- 			break;
- 		}
- 
--		check_section_mismatch(mod, elf, elf->symtab_start + r_sym,
-+		check_section_mismatch(mod, elf, tsym,
- 				       fsecndx, fromsec, r_offset, taddr);
+ 	val = strtoll(sym->curr.val, NULL, base);
+-	val2 = sym_get_range_val(prop->expr->left.sym, base);
++	range_sym = prop->expr->left.sym;
++	val2 = sym_get_range_val(range_sym, base);
+ 	if (val >= val2) {
+-		val2 = sym_get_range_val(prop->expr->right.sym, base);
++		range_sym = prop->expr->right.sym;
++		val2 = sym_get_range_val(range_sym, base);
+ 		if (val <= val2)
+ 			return;
  	}
+-	if (sym->type == S_INT)
+-		sprintf(str, "%lld", val2);
+-	else
+-		sprintf(str, "0x%llx", val2);
+-	sym->curr.val = xstrdup(str);
++	sym->curr.val = range_sym->curr.val;
  }
+ 
+ static void sym_set_changed(struct symbol *sym)
 -- 
 2.42.0
 
