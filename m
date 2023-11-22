@@ -1,59 +1,67 @@
-Return-Path: <linux-kbuild+bounces-119-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-120-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDBBE7F4B89
-	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Nov 2023 16:49:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BBCE7F5206
+	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Nov 2023 22:04:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A1892281342
-	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Nov 2023 15:49:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 065432815B1
+	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Nov 2023 21:04:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A15F956B90;
-	Wed, 22 Nov 2023 15:49:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A13B1BDC8;
+	Wed, 22 Nov 2023 21:04:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Lf41l0og"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="J+TAF2Qv"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78F1456B8D;
-	Wed, 22 Nov 2023 15:49:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BADBC433D9;
-	Wed, 22 Nov 2023 15:49:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700668179;
-	bh=BYCJA3x5TTAbbQPMEAHdhxb9CpYziBSEh7qg5KYFc3Y=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Lf41l0og8Tssr/hb/ubSBpyXsbiBnPgG2tAw23ddfqRwz1CZu59t60YaMYFHd8bRo
-	 8iLpKtrocyaGbjEHRv4usmFfoRkieMPxaEUIlXxPhWmvy6QEByllSsydUjXkWK830b
-	 o3jHhP7F1ioMa2Q+Nxwy7Bpem4ZYprHsFuTIYVYWq+/yWnkJ81xXBKJz+MqMeNarcX
-	 2rVGUTJGdLOEngFCjMvoNtpm9shzVCPsFgNhFOZtMfwH1S0avG5tuSRA4ZdCACJ8s0
-	 I4ydnXS2p4dHVC7dnvadHyP/eaEqAg+Jy9xt2mgoScn8uKLm/G1MguQEqc9iUtVctN
-	 PXqAqIzofO9Fg==
-Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-3b844357f7cso223197b6e.1;
-        Wed, 22 Nov 2023 07:49:39 -0800 (PST)
-X-Gm-Message-State: AOJu0YzZn/unQrMzkRqSwR+Ksnhd4Xrg0HYh06nFHVvaKpVDZWjwotcf
-	X6tXNuxkur9fnNNTdFN9r40VEroxKXix5hbGdQc=
-X-Google-Smtp-Source: AGHT+IGTa6C9d+mB8rUW3KBSbfG6/zDIsmWbZmbmj2c74lexp3YXviv1PGHzD95lJw6SS5pitC5dIey5qGrQgDzlQ+w=
-X-Received: by 2002:a05:6870:cb97:b0:1e9:919d:83ec with SMTP id
- ov23-20020a056870cb9700b001e9919d83ecmr3553401oab.28.1700668178329; Wed, 22
- Nov 2023 07:49:38 -0800 (PST)
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDB411A4
+	for <linux-kbuild@vger.kernel.org>; Wed, 22 Nov 2023 13:04:22 -0800 (PST)
+Received: by mail-ed1-x529.google.com with SMTP id 4fb4d7f45d1cf-548c6efc020so3553a12.0
+        for <linux-kbuild@vger.kernel.org>; Wed, 22 Nov 2023 13:04:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1700687061; x=1701291861; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=mINXLXrq9/oLpdA6Yk/sy1UPcvyskcwNgTwzkZ9kBzs=;
+        b=J+TAF2QvDW3tT3S/KbM5WIA5UU9ZgLW5iQGHLxF4J5F1x6f754B9ezoqHNp/Fly6/n
+         6hGqdg+URMLDZMEaL6u3ogItVvNfbxQIrF4diW/kUN9+n5xBBBQ9ru9n3K5PVL6xtGwa
+         OkyvjSNxvG9AcrcADjJrS7gZK52BJz2aDG3hnBz0f6dafGIVIipgOSbkqJTID015QBzM
+         1YPQKEAhqYl4F0OaBukGlGjeUArlneb0HAJLKBNUNnLjtpMxeMRnj7S3A6O7Lx7ZiUcl
+         Gux2U7WCJjhEdv5etZDzgmBFL2BdfuEkshalGei3QH+R5WCPiWbL5VfqOhifYuJJxbs+
+         9Aeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700687061; x=1701291861;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mINXLXrq9/oLpdA6Yk/sy1UPcvyskcwNgTwzkZ9kBzs=;
+        b=KvzUc9RmF63slj4VdvXf0BIRy3KMVUVfsMqLhR3G82VBdYacuApcrt88NAtnfTpYXl
+         OFRjsqLIwP0j3/lqxf6GG+z6z8s10RCOB08Tf3dqRaRlL+TREUMSk/7OB/blzvl/gpz/
+         x9jl8Wzx4Hcp04Vp++HZxs3QyA9flLvKmEW7Tr0hxTWqkosJQgrIouTj0faVcCNQnAPf
+         3muDYdOUPANR4ilozZIulz7Mtw3qiDkMi3FVRPV81PdyCQWz6PzuDM+VTc5JcSkM/I9V
+         664vfQ432ByhTomtGti0Q3kZEJSCc6pe1VA5xnAfkvFlR570eCubMjd4JEtE6BX0dTQq
+         0niw==
+X-Gm-Message-State: AOJu0YxcUHZul4dXo9wqKo0npwF+Ya2E5fG6dHSIEEn1BesylPyzaQW/
+	Epa5oIEcWJrt2I5zAgYhUFvF4Vnq5pgCn21EmCfqzA==
+X-Google-Smtp-Source: AGHT+IEGm9MLKZeGbPnej8xX4u8eiSlbh1Mqb8POBm36fW5cFOc334Fc5wDrn2GxrY0UsMNCzK9qE0nvCl+hpFusPUw=
+X-Received: by 2002:a05:6402:d67:b0:548:c1b1:96b2 with SMTP id
+ ec39-20020a0564020d6700b00548c1b196b2mr225540edb.6.1700687061263; Wed, 22 Nov
+ 2023 13:04:21 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231118025748.2778044-1-mmaurer@google.com>
-In-Reply-To: <20231118025748.2778044-1-mmaurer@google.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Thu, 23 Nov 2023 00:49:01 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQt8fy5+vSwpd1aXfzjzeZ5hiyW7EW9SW7pbG2eTJZAOA@mail.gmail.com>
-Message-ID: <CAK7LNAQt8fy5+vSwpd1aXfzjzeZ5hiyW7EW9SW7pbG2eTJZAOA@mail.gmail.com>
+References: <20231118025748.2778044-1-mmaurer@google.com> <CAK7LNAQt8fy5+vSwpd1aXfzjzeZ5hiyW7EW9SW7pbG2eTJZAOA@mail.gmail.com>
+In-Reply-To: <CAK7LNAQt8fy5+vSwpd1aXfzjzeZ5hiyW7EW9SW7pbG2eTJZAOA@mail.gmail.com>
+From: Matthew Maurer <mmaurer@google.com>
+Date: Wed, 22 Nov 2023 13:04:09 -0800
+Message-ID: <CAGSQo00hyCTVsqHtrzKBBPvuH38z5yRm_4jzdi00C0RV+8APwQ@mail.gmail.com>
 Subject: Re: [PATCH v2 0/5] MODVERSIONS + RUST Redux
-To: Matthew Maurer <mmaurer@google.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
 Cc: Nick Desaulniers <ndesaulniers@google.com>, Miguel Ojeda <ojeda@kernel.org>, 
 	Gary Guo <gary@garyguo.net>, Luis Chamberlain <mcgrof@kernel.org>, 
 	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linuxppc-dev@lists.ozlabs.org, 
@@ -61,199 +69,45 @@ Cc: Nick Desaulniers <ndesaulniers@google.com>, Miguel Ojeda <ojeda@kernel.org>,
 	linux-kbuild@vger.kernel.org, rust-for-linux@vger.kernel.org, 
 	Laura Abbott <laura@labbott.name>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Sat, Nov 18, 2023 at 11:58=E2=80=AFAM Matthew Maurer <mmaurer@google.com=
-> wrote:
+> So, even if you enable CONFIG_MODVERSIONS,
+> nothing is checked for Rust.
+> Genksyms computes a CRC from "int foo", and
+> the module subsystem confirms it is a "int"
+> variable.
 >
-> The goal of this patch series is to allow MODVERSIONS and RUST to be
-> enabled simultaneously. The primary issue with doing this at the moment
-> is that Rust uses some extremely long symbol names - for those
-> unfamiliar with Rust, it may be helpful to think of some of the mangled
-> C++ names you may have seen in binaries in the past.
+> We know this check always succeeds.
 >
-> Previously, Gary Guo attempted to accomplish this by modifying the
-> existing modversion format [1] to support variable-length symbol names.
-> This was unfortunately considered to be a potential userspace break
-> because kmod tools inspect this kernel module metadata. Masahiro Yamada
-> suggested [2] that this could instead be done with a section per-field.
-> This gives us the ability to be more flexible with this format in the
-> future, as a new field or additional information will be in a new
-> section which userspace tools will not yet attempt to read.
->
-> In the previous version of this patchset, Luis Chamberlain suggested [3]
-> I move validation out of the version checking and into the elf validity
-> checker, and also add kernel-docs over there. I found
-> elf_validity_cached_copy to be fairly dense and difficult to directly
-> describe, so I refactored it into easier to explain pieces. In the
-> process, I found a few missing checks and added those as well. See
-> [PATCH 2/5] for more details. If this is too much, I'm more than happy
-> to drop this patch from the series in favor of just adding the
-> kernel-doc to the original code, but figured I'd offer it up in case the
-> added clarity and checks were valuable.
->
-> [1] https://lore.kernel.org/lkml/20230111161155.1349375-1-gary@garyguo.ne=
-t/
-> [2] https://lore.kernel.org/lkml/CAK7LNATsuszFR7JB5ZkqVS1W=3DhWr9=3DE7bTf=
-+MvgJ+NXT3aZNwg@mail.gmail.com/
-> [3] https://lore.kernel.org/lkml/ZVZNh%2FPA5HiVRkeb@bombadil.infradead.or=
-g/
-
-
-
-
-
-I want to know why this is useful.
-
-
-To clarify my question, let me first explain
-what the modversion is.
-
-
-
-In C, a function callee and callers must agree
-with the interface of the function.
-
-
-This is usually done by having a function prototype
-in a header file.
-
-
-Say, we have a function declaration
-
-    int foo(int x, int y);
-
-in include/linux/foo.h
-
-
-Then, the C file that defines foo() and all C files
-that call it must include <linux/foo.h> so that
-argument mismatch can be detected.
-
-
-
-
-Same for EXPORT_SYMBOL; the symbol provider and consumers
-must agree with the interface of exported symbols.
-
-In the kernel, however, there is no promise for in-kernel ABI
-compatibility across different kernel versions.
-The kernel only promises the compatibility of the userspace interface.
-
-
-To load modules, by principle, vmlinux and modules must have
-the same version.
-
-To slightly loosen the limitation, CONFIG_MODVERSIONS was
-introduced; when it is enabled, you can load a module
-as long as all the prototypes of exported symbols match.
-
-To do this, we need to encode information about prototypes.
-
-
-This is done by a tool called genksyms (scripts/genksyms/genksyms).
-
-
-
-Say, we have this code:
-
-
-int foo(int x, int y)
-{
-     // genksyms does not care about
-     // the function body.
-}
-EXPORT_SYMBOL(foo);
-
-
-Genksyms parses the code and computes a CRC value for 'foo'.
-Genksyms is only interested in the function name and its prototype.
-
-It sees
-
-   int foo(int, int)
-
-and it transforms it into a CRC.
-
-
-Any change to the prototype results in a
-different CRC, so the module subsystem
-can check the interface compatibility
-before loading a module.
-
-
-It is obvious that this is impossible for Rust source
-because scripts/genksyms/genksyms is only able to
-parse C code.
-
-
-Then, what is happening here?
-
-See rust/exports.c
-
-
-  #define EXPORT_SYMBOL_RUST_GPL(sym) extern int sym; EXPORT_SYMBOL_GPL(sym=
-)
-
-
-The global scope symbols in Rust (i.e. 'pub) are automatically
-exported, and all of them are visible as 'int' variables
-from C world.
-
-
-Genksyms will see this code:
-
-  extern int foo;
-  EXPORT_SYMBOL_GPL(foo);
-
-Of course, this is not a true prototype.
-The real signature on the Rust side might be:
-
-  fn foo(x: i32, y: i32) -> i32
-
-
-So, even if you enable CONFIG_MODVERSIONS,
-nothing is checked for Rust.
-Genksyms computes a CRC from "int foo", and
-the module subsystem confirms it is a "int"
-variable.
-
-We know this check always succeeds.
-
-Why is this useful?
-
-
-
-
-
-
-> Matthew Maurer (5):
->   export_report: Rehabilitate script
->   modules: Refactor + kdoc elf_validity_cached_copy
->   modpost: Extended modversion support
->   rust: Allow MODVERSIONS
->   export_report: Use new version info format
->
->  arch/powerpc/kernel/module_64.c |  25 +-
->  init/Kconfig                    |   1 -
->  kernel/module/internal.h        |  18 +-
->  kernel/module/main.c            | 663 +++++++++++++++++++++++++-------
->  kernel/module/version.c         |  43 +++
->  scripts/export_report.pl        |  17 +-
->  scripts/mod/modpost.c           |  37 +-
->  7 files changed, 642 insertions(+), 162 deletions(-)
->
-> --
-> 2.43.0.rc0.421.g78406f8d94-goog
->
-
-
---
-Best Regards
-
-
-
-
-
-Masahiro Yamada
+> Why is this useful?
+The reason this is immediately useful is that it allows us to have Rust
+in use with a kernel where C modules are able to benefit from MODVERSIONS
+checking. The check would effectively be a no-op for now, as you have correctly
+determined, but we could refine it to make it more restrictive later.
+Since the
+existing C approach errs on the side of "it could work" rather than "it will
+work", I thought being more permissive was the correct initial solution.
+
+If we want to err on the other side (modversions passes, so we're pretty sure
+it will work), I could add to the last patch support for using .rmeta files as
+the CRC source for Rust symbols. This would essentially say that the interface
+for the entire compilation unit has to stay the same rather than just that one
+function. We could potentially loosen this requirement in the future.
+
+With regards to future directions that likely won't work for loosening it:
+Unfortunately, the .rmeta format itself is not stable, so I wouldn't want to
+teach genksyms to open it up and split out the pieces for specific functions.
+Extending genksyms to parse Rust would also not solve the situation -
+layouts are allowed to differ across compiler versions or even (in rare
+cases) seemingly unrelated code changes.
+
+Future directions that might work for loosening it:
+* Generating crcs from debuginfo + compiler + flags
+* Adding a feature to the rust compiler to dump this information. This
+is likely to
+  get pushback because Rust's current stance is that there is no ability to load
+  object code built against a different library.
+
+Would setting up Rust symbols so that they have a crc built out of .rmeta be
+sufficient for you to consider this useful? If not, can you help me understand
+what level of precision would be required?
 
