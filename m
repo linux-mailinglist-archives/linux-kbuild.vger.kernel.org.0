@@ -1,153 +1,169 @@
-Return-Path: <linux-kbuild+bounces-142-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-143-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 694797F5D60
-	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Nov 2023 12:06:03 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 436127F5E04
+	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Nov 2023 12:39:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 995FB1C20E33
-	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Nov 2023 11:06:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F3BBF281BF5
+	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Nov 2023 11:39:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B34A422EF8;
-	Thu, 23 Nov 2023 11:06:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0E4A2377E;
+	Thu, 23 Nov 2023 11:39:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e0VyQ7PV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gj/UEVwP"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 834E122EE7;
-	Thu, 23 Nov 2023 11:06:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E43DDC43395;
-	Thu, 23 Nov 2023 11:05:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A76E02375B;
+	Thu, 23 Nov 2023 11:39:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CC4AC433C7;
+	Thu, 23 Nov 2023 11:39:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700737561;
-	bh=9L6ia8ZbTYYVbHNB3z9LNyIFtb/pxWEiG5AGGJleqic=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=e0VyQ7PVXrgpHxXuRmTV8Wg6u7K/HjAAIEfu11YSMUUXsJVeV978M2gskJD8Avjb9
-	 ZB5kV6SE67ZAx7fc43cvAKQQcnfZ1BWg4eFGZWUJqIa5on//kgER/9tce+AIoFXgWk
-	 zowoZ5/rblNmUh7+n5DSkzof8B68ftWfi/4Bm3uFFM0OiYY9QfU9s/13gVPYGrLWfP
-	 dYIN19g0XPcGf5Nmb7Sg/RV1aH2dS4Rz+E9fs2rc8A8QVIcjSUPFmn5jrJzTXH3nKB
-	 fJcaV7yYwcK455NpW2ijR7YUCQVt+9Wq2658RaYTVnp6PTXXmkAhjphLHV/fQylLef
-	 elAqGL5fRFABA==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	"David S. Miller" <davem@davemloft.net>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Dinh Nguyen <dinguyen@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Matt Turner <mattst88@gmail.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Rich Felker <dalias@libc.org>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Richard Weinberger <richard@nod.at>,
-	Stephen Rothwell <sfr@canb.auug.org.au>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Tudor Ambarus <tudor.ambarus@linaro.org>,
-	Yoshinori Sato <ysato@users.sourceforge.jp>,
-	linux-arch@vger.kernel.org,
-	linux-alpha@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mips@vger.kernel.org,
-	linux-mtd@lists.infradead.org,
-	linux-sh@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	sparclinux@vger.kernel.org,
-	x86@kernel.org,
-	Kees Cook <keescook@chromium.org>,
-	Palmer Dabbelt <palmer@rivosinc.com>
-Subject: [PATCH v3 6/6] Makefile.extrawarn: turn on missing-prototypes globally
-Date: Thu, 23 Nov 2023 12:05:06 +0100
-Message-Id: <20231123110506.707903-7-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231123110506.707903-1-arnd@kernel.org>
-References: <20231123110506.707903-1-arnd@kernel.org>
+	s=k20201202; t=1700739563;
+	bh=QllpA71/m3DBpJ/yfnnpubGoAGIk5DmgA+EnjTDr7ng=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Gj/UEVwPr5PLINBZ3FBaWtVfaDSZso5fypwqc04eYMrLDYsFZWvQowjPtuvTBgpPR
+	 bjVQiIUvospkT8g/gT0QkkBq4j9lv8dibDyu8qUe0A7a/1og4h57QvdaaW6f+FIh7Y
+	 C7QiP4B+kzMfEffkZHraU5ZrIxeHIyGp3mOZ0h2AejevXJMGZTU5g5+ty3fGqNHyS8
+	 lo/XFix2EKwzdHlj81v3QLNdDf58oRxGvfo7YSZQcqLrJeSGWXg5zf1OZ3qLiBn8Tj
+	 /T8JTrl0icYDjLmvUOFPZHF97u7M6WjcdjElNCIQjb/0vbSwPeH5aa3NccW1AmKjzu
+	 MJCavJlMdb3mQ==
+Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-586a516755aso840359eaf.0;
+        Thu, 23 Nov 2023 03:39:23 -0800 (PST)
+X-Gm-Message-State: AOJu0YzbBGGrLzmVC8p19Xka3MREZ9hL2OUU3JKTUGlXWwdydCOVASNn
+	lndiYRRBhIevjYASMrwylhatiwv8o2K/yYHxh9Q=
+X-Google-Smtp-Source: AGHT+IGqtC15M6xqNqKZmc2P1jTPcQMFaV0PDtxFsXWZPjArdo+QLHfFuuX4xII9x0O/UY5wPUZPkdgZ6toBnXANgHI=
+X-Received: by 2002:a05:6870:aa99:b0:1e9:f0c5:4496 with SMTP id
+ gr25-20020a056870aa9900b001e9f0c54496mr1181250oab.1.1700739562527; Thu, 23
+ Nov 2023 03:39:22 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20231118025748.2778044-1-mmaurer@google.com> <CAK7LNAQt8fy5+vSwpd1aXfzjzeZ5hiyW7EW9SW7pbG2eTJZAOA@mail.gmail.com>
+ <CAGSQo00hyCTVsqHtrzKBBPvuH38z5yRm_4jzdi00C0RV+8APwQ@mail.gmail.com> <2023112314-tubby-eligibly-007a@gregkh>
+In-Reply-To: <2023112314-tubby-eligibly-007a@gregkh>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Thu, 23 Nov 2023 20:38:45 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAT-OcaCi6tqPRgZxPXOV6u+YbaO_0RxtfmrVXPzdrio0Q@mail.gmail.com>
+Message-ID: <CAK7LNAT-OcaCi6tqPRgZxPXOV6u+YbaO_0RxtfmrVXPzdrio0Q@mail.gmail.com>
+Subject: Re: [PATCH v2 0/5] MODVERSIONS + RUST Redux
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Matthew Maurer <mmaurer@google.com>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	Luis Chamberlain <mcgrof@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, linuxppc-dev@lists.ozlabs.org, 
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	Laura Abbott <laura@labbott.name>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Arnd Bergmann <arnd@arndb.de>
+On Thu, Nov 23, 2023 at 6:05=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org=
+> wrote:
+>
+> On Wed, Nov 22, 2023 at 01:04:09PM -0800, Matthew Maurer wrote:
+> > > So, even if you enable CONFIG_MODVERSIONS,
+> > > nothing is checked for Rust.
+> > > Genksyms computes a CRC from "int foo", and
+> > > the module subsystem confirms it is a "int"
+> > > variable.
+> > >
+> > > We know this check always succeeds.
+> > >
+> > > Why is this useful?
+> > The reason this is immediately useful is that it allows us to have Rust
+> > in use with a kernel where C modules are able to benefit from MODVERSIO=
+NS
+> > checking. The check would effectively be a no-op for now, as you have c=
+orrectly
+> > determined, but we could refine it to make it more restrictive later.
+> > Since the
+> > existing C approach errs on the side of "it could work" rather than "it=
+ will
+> > work", I thought being more permissive was the correct initial solution=
+.
+>
+> But it's just providing "fake" information to the CRC checker, which
+> means that the guarantee of a ABI check is not true at all.
+>
+> So the ask for the user of "ensure that the ABI checking is correct" is
+> being circumvented here, and any change in the rust side can not be
+> detected at all.
+>
+> The kernel is a "whole", either an option works for it, or it doesn't,
+> and you are splitting that guarantee here by saying "modversions will
+> only work for a portion of the kernel, not the whole thing" which is
+> going to cause problems for when people expect it to actually work
+> properly.
+>
+> So, I'd strongly recommend fixing this for the rust code if you wish to
+> allow modversions to be enabled at all.
+>
+> > With regards to future directions that likely won't work for loosening =
+it:
+> > Unfortunately, the .rmeta format itself is not stable, so I wouldn't wa=
+nt to
+> > teach genksyms to open it up and split out the pieces for specific func=
+tions.
+> > Extending genksyms to parse Rust would also not solve the situation -
+> > layouts are allowed to differ across compiler versions or even (in rare
+> > cases) seemingly unrelated code changes.
+>
+> What do you mean by "layout" here?  Yes, the crcs can be different
+> across compiler versions and seemingly unrelated code changes (genksyms
+> is VERY fragile) but that's ok, that's not what you are checking here.
+> You want to know if the rust function signature changes or not from the
+> last time you built the code, with the same compiler and options, that's
+> all you are verifying.
+>
+> > Future directions that might work for loosening it:
+> > * Generating crcs from debuginfo + compiler + flags
+> > * Adding a feature to the rust compiler to dump this information. This
+> > is likely to
+> >   get pushback because Rust's current stance is that there is no abilit=
+y to load
+> >   object code built against a different library.
+>
+> Why not parse the function signature like we do for C?
+>
+> > Would setting up Rust symbols so that they have a crc built out of .rme=
+ta be
+> > sufficient for you to consider this useful? If not, can you help me und=
+erstand
+> > what level of precision would be required?
+>
+> What exactly does .rmeta have to do with the function signature?  That's
+> all you care about here.
 
-Over the years we went from > 1000 of warnings to under 100 earlier
-this year, and I sent patches to address all the ones that I saw with
-compile testing randcom configs on arm64, arm and x86 kernels. This is a
-really useful warning, as it catches real bugs when there are mismatched
-prototypes. In particular with kernel control flow integrity enabled,
-those are no longer allowed.
 
-I have done extensive testing to ensure that there are no new build
-errors or warnings on any configuration of x86, arm and arm64 builds.
-I also made sure that at least the both the normal defconfig and an
-allmodconfig build is clean for arc, csky, loongarch, m68k, microblaze,
-openrisc, parisc, powerpc, riscv, s390, and xtensa, with the respective
-maintainers doing most of the patches.
 
-At this point, there are five architectures with a number of known
-regressions: alpha, nios2, mips, sh and sparc. In the previous version
-of this patch, I had turned off the missing prototype warnings for the 15
-architectures that still had issues, but since there are only five left,
-I think we can leave the rest to the maintainers (Cc'd here) as well.
 
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Cc: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
-Cc: Matt Turner <mattst88@gmail.com>
-Cc: Dinh Nguyen <dinguyen@kernel.org>
-Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
-Cc: Rich Felker <dalias@libc.org>
-Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: linux-alpha@vger.kernel.org
-Cc: linux-mips@vger.kernel.org
-Cc: sparclinux@vger.kernel.org
-Cc: linux-sh@vger.kernel.org
-Link: https://lore.kernel.org/lkml/20230810141947.1236730-1-arnd@kernel.org/
-Reviewed-by: Kees Cook <keescook@chromium.org>
-Acked-by: Palmer Dabbelt <palmer@rivosinc.com> # RISC-V
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- scripts/Makefile.extrawarn | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+rmeta is generated per crate.
 
-diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
-index 1527199161d7..8e9170f932ea 100644
---- a/scripts/Makefile.extrawarn
-+++ b/scripts/Makefile.extrawarn
-@@ -17,6 +17,8 @@ KBUILD_CFLAGS += -Wno-format-security
- KBUILD_CFLAGS += -Wno-trigraphs
- KBUILD_CFLAGS += $(call cc-disable-warning,frame-address,)
- KBUILD_CFLAGS += $(call cc-disable-warning, address-of-packed-member)
-+KBUILD_CFLAGS += -Wmissing-declarations
-+KBUILD_CFLAGS += -Wmissing-prototypes
- 
- ifneq ($(CONFIG_FRAME_WARN),0)
- KBUILD_CFLAGS += -Wframe-larger-than=$(CONFIG_FRAME_WARN)
-@@ -95,10 +97,8 @@ export KBUILD_EXTRA_WARN
- ifneq ($(findstring 1, $(KBUILD_EXTRA_WARN)),)
- 
- KBUILD_CFLAGS += -Wextra -Wunused -Wno-unused-parameter
--KBUILD_CFLAGS += -Wmissing-declarations
- KBUILD_CFLAGS += $(call cc-option, -Wrestrict)
- KBUILD_CFLAGS += -Wmissing-format-attribute
--KBUILD_CFLAGS += -Wmissing-prototypes
- KBUILD_CFLAGS += -Wold-style-definition
- KBUILD_CFLAGS += -Wmissing-include-dirs
- KBUILD_CFLAGS += $(call cc-option, -Wunused-but-set-variable)
--- 
-2.39.2
+CRC is computed per symbol.
 
+They have different granularity.
+It is weird to refuse a module for incompatibility
+of a symbol that it is not using at all.
+
+
+
+
+> thanks,
+>
+> greg k-h
+
+
+
+
+--
+Best Regards
+Masahiro Yamada
 
