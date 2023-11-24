@@ -1,239 +1,166 @@
-Return-Path: <linux-kbuild+bounces-158-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-159-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F51B7F75FC
-	for <lists+linux-kbuild@lfdr.de>; Fri, 24 Nov 2023 15:09:27 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1645F7F78F0
+	for <lists+linux-kbuild@lfdr.de>; Fri, 24 Nov 2023 17:29:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 360371F20222
-	for <lists+linux-kbuild@lfdr.de>; Fri, 24 Nov 2023 14:09:27 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A4A5AB20FD1
+	for <lists+linux-kbuild@lfdr.de>; Fri, 24 Nov 2023 16:29:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F7A118041;
-	Fri, 24 Nov 2023 14:09:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BB+DrMlh"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57E2533CE5;
+	Fri, 24 Nov 2023 16:29:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E29219A8
+	for <linux-kbuild@vger.kernel.org>; Fri, 24 Nov 2023 08:29:04 -0800 (PST)
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0406D2C85B
-	for <linux-kbuild@vger.kernel.org>; Fri, 24 Nov 2023 14:09:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E19E1C433C7;
-	Fri, 24 Nov 2023 14:09:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700834963;
-	bh=sxGYh7/GYIMz4WH2k/w5kHFpO2frsblxcmxj4XUHjnM=;
-	h=From:To:Cc:Subject:Date:From;
-	b=BB+DrMlh0Mi4XS5V/n4O3HNDwjWAL/Iwd+xgyTp7xjBo/Zyzr9MfgWtbFs7J16N+Y
-	 U9kdUKd5jYNAGnbScP2CWHpfZ+8GIBUtojRdFcG+nvLrWbkyZuN22Zhsq7v/5Hl8/z
-	 Fmh9uQdVpVdEchT+z0+aT3jp3lG5SX3Pq2ciugNI0NFpOlLgKP5TzLeMr29sNWXQJT
-	 2kT2JaJ7qEKPLD2yRlAvvdttpeBvFiUJMGPmreNeuH4SONL7qewnegjSVNC8ivrFb2
-	 13dgiUKdGaFnxardQyBKeX1AtCbIPTMcFBgzQYUvHFzo16HxSFfcBnSot043mksyb/
-	 LKIW8kzp3LkIg==
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: linux-kbuild@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Jan Kiszka <jan.kiszka@siemens.com>,
-	Kieran Bingham <kbingham@kernel.org>,
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 192371FE4A;
+	Fri, 24 Nov 2023 16:29:01 +0000 (UTC)
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 77399132E2;
+	Fri, 24 Nov 2023 16:29:00 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap2.dmz-prg2.suse.org with ESMTPSA
+	id /xxkF0zPYGXeRQAAn2gu4w
+	(envelope-from <pvorel@suse.cz>); Fri, 24 Nov 2023 16:29:00 +0000
+Date: Fri, 24 Nov 2023 17:28:58 +0100
+From: Petr Vorel <pvorel@suse.cz>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, Josh Triplett <josh@joshtriplett.org>,
 	Nathan Chancellor <nathan@kernel.org>,
 	Nick Desaulniers <ndesaulniers@google.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	linux-riscv@lists.infradead.org
-Subject: [PATCH v2] scripts: clean up IA-64 code
-Date: Fri, 24 Nov 2023 23:09:08 +0900
-Message-Id: <20231124140908.708960-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.40.1
+	Nicolas Schier <nicolas@fjasle.eu>
+Subject: Re: [PATCH 1/2] kbuild: builddeb: Remove unused $dirs
+Message-ID: <20231124162858.GA177418@pevik>
+Reply-To: Petr Vorel <pvorel@suse.cz>
+References: <20231121115855.111358-1-pvorel@suse.cz>
+ <20231121133740.GA126856@pevik>
+ <CAK7LNARo3FKQM1esdzk60TRPn1joVZ2SRVCcuUJ+r9DEPzLtfw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK7LNARo3FKQM1esdzk60TRPn1joVZ2SRVCcuUJ+r9DEPzLtfw@mail.gmail.com>
+X-Spamd-Bar: ++++++++++++++++
+Authentication-Results: smtp-out2.suse.de;
+	dkim=none;
+	dmarc=none;
+	spf=softfail (smtp-out2.suse.de: 2a07:de40:b281:104:10:150:64:98 is neither permitted nor denied by domain of pvorel@suse.cz) smtp.mailfrom=pvorel@suse.cz
+X-Rspamd-Server: rspamd2
+X-Spamd-Result: default: False [16.19 / 50.00];
+	 HAS_REPLYTO(0.30)[pvorel@suse.cz];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 REPLYTO_EQ_FROM(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 NEURAL_SPAM_SHORT(3.00)[1.000];
+	 MIME_GOOD(-0.10)[text/plain];
+	 MID_RHS_NOT_FQDN(0.50)[];
+	 SUBJECT_HAS_CURRENCY(1.00)[];
+	 R_SPF_SOFTFAIL(4.60)[~all];
+	 RCPT_COUNT_FIVE(0.00)[6];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 ARC_NA(0.00)[];
+	 MX_GOOD(-0.01)[];
+	 NEURAL_SPAM_LONG(3.50)[1.000];
+	 DMARC_NA(1.20)[suse.cz];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 R_DKIM_NA(2.20)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-0.00)[22.44%]
+X-Spam-Score: 16.19
+X-Rspamd-Queue-Id: 192371FE4A
 
-A little more janitorial work after commit cf8e8658100d ("arch: Remove
-Itanium (IA-64) architecture").
+Hi Masahiro,
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
----
 
-Changes in v2:
-  - Clean up scripts/recordmcount.c
+> On Tue, Nov 21, 2023 at 10:37 PM Petr Vorel <pvorel@suse.cz> wrote:
 
- scripts/checkstack.pl        |  3 ---
- scripts/gdb/linux/tasks.py   | 15 +++------------
- scripts/head-object-list.txt |  1 -
- scripts/kconfig/mconf.c      |  2 +-
- scripts/kconfig/nconf.c      |  2 +-
- scripts/package/kernel.spec  |  6 ------
- scripts/package/mkdebian     |  2 +-
- scripts/recordmcount.c       |  1 -
- scripts/recordmcount.pl      |  7 -------
- scripts/xz_wrap.sh           |  1 -
- 10 files changed, 6 insertions(+), 34 deletions(-)
+> > Hi,
 
-diff --git a/scripts/checkstack.pl b/scripts/checkstack.pl
-index 84f5fb7f1cec..35fefdfd6ef2 100755
---- a/scripts/checkstack.pl
-+++ b/scripts/checkstack.pl
-@@ -68,9 +68,6 @@ my (@stack, $re, $dre, $sub, $x, $xs, $funcre, $min_stack);
- 		#    2f60:    48 81 ec e8 05 00 00       sub    $0x5e8,%rsp
- 		$re = qr/^.*[as][du][db]    \$(0x$x{1,8}),\%(e|r)sp$/o;
- 		$dre = qr/^.*[as][du][db]    (%.*),\%(e|r)sp$/o;
--	} elsif ($arch eq 'ia64') {
--		#e0000000044011fc:       01 0f fc 8c     adds r12=-384,r12
--		$re = qr/.*adds.*r12=-(([0-9]{2}|[3-9])[0-9]{2}),r12/o;
- 	} elsif ($arch eq 'm68k') {
- 		#    2b6c:       4e56 fb70       linkw %fp,#-1168
- 		#  1df770:       defc ffe4       addaw #-28,%sp
-diff --git a/scripts/gdb/linux/tasks.py b/scripts/gdb/linux/tasks.py
-index 17ec19e9b5bf..5be53b372a69 100644
---- a/scripts/gdb/linux/tasks.py
-+++ b/scripts/gdb/linux/tasks.py
-@@ -86,21 +86,12 @@ LxPs()
- 
- thread_info_type = utils.CachedType("struct thread_info")
- 
--ia64_task_size = None
--
- 
- def get_thread_info(task):
-     thread_info_ptr_type = thread_info_type.get_type().pointer()
--    if utils.is_target_arch("ia64"):
--        global ia64_task_size
--        if ia64_task_size is None:
--            ia64_task_size = gdb.parse_and_eval("sizeof(struct task_struct)")
--        thread_info_addr = task.address + ia64_task_size
--        thread_info = thread_info_addr.cast(thread_info_ptr_type)
--    else:
--        if task.type.fields()[0].type == thread_info_type.get_type():
--            return task['thread_info']
--        thread_info = task['stack'].cast(thread_info_ptr_type)
-+    if task.type.fields()[0].type == thread_info_type.get_type():
-+        return task['thread_info']
-+    thread_info = task['stack'].cast(thread_info_ptr_type)
-     return thread_info.dereference()
- 
- 
-diff --git a/scripts/head-object-list.txt b/scripts/head-object-list.txt
-index 26359968744e..890f69005bab 100644
---- a/scripts/head-object-list.txt
-+++ b/scripts/head-object-list.txt
-@@ -17,7 +17,6 @@ arch/arm/kernel/head-nommu.o
- arch/arm/kernel/head.o
- arch/csky/kernel/head.o
- arch/hexagon/kernel/head.o
--arch/ia64/kernel/head.o
- arch/loongarch/kernel/head.o
- arch/m68k/68000/head.o
- arch/m68k/coldfire/head.o
-diff --git a/scripts/kconfig/mconf.c b/scripts/kconfig/mconf.c
-index eccc87a441e7..3795c36a9181 100644
---- a/scripts/kconfig/mconf.c
-+++ b/scripts/kconfig/mconf.c
-@@ -247,7 +247,7 @@ search_help[] =
- 	"      -> PCI support (PCI [=y])\n"
- 	"(1)     -> PCI access mode (<choice> [=y])\n"
- 	"  Defined at drivers/pci/Kconfig:47\n"
--	"  Depends on: X86_LOCAL_APIC && X86_IO_APIC || IA64\n"
-+	"  Depends on: X86_LOCAL_APIC && X86_IO_APIC\n"
- 	"  Selects: LIBCRC32\n"
- 	"  Selected by: BAR [=n]\n"
- 	"-----------------------------------------------------------------\n"
-diff --git a/scripts/kconfig/nconf.c b/scripts/kconfig/nconf.c
-index 143a2c351d57..8cd72fe25974 100644
---- a/scripts/kconfig/nconf.c
-+++ b/scripts/kconfig/nconf.c
-@@ -216,7 +216,7 @@ search_help[] =
- "Symbol: FOO [ = m]\n"
- "Prompt: Foo bus is used to drive the bar HW\n"
- "Defined at drivers/pci/Kconfig:47\n"
--"Depends on: X86_LOCAL_APIC && X86_IO_APIC || IA64\n"
-+"Depends on: X86_LOCAL_APIC && X86_IO_APIC\n"
- "Location:\n"
- "  -> Bus options (PCI, PCMCIA, EISA, ISA)\n"
- "    -> PCI support (PCI [ = y])\n"
-diff --git a/scripts/package/kernel.spec b/scripts/package/kernel.spec
-index 3eee0143e0c5..89298983a169 100644
---- a/scripts/package/kernel.spec
-+++ b/scripts/package/kernel.spec
-@@ -56,13 +56,7 @@ patch -p1 < %{SOURCE2}
- 
- %install
- mkdir -p %{buildroot}/boot
--%ifarch ia64
--mkdir -p %{buildroot}/boot/efi
--cp $(%{make} %{makeflags} -s image_name) %{buildroot}/boot/efi/vmlinuz-%{KERNELRELEASE}
--ln -s efi/vmlinuz-%{KERNELRELEASE} %{buildroot}/boot/
--%else
- cp $(%{make} %{makeflags} -s image_name) %{buildroot}/boot/vmlinuz-%{KERNELRELEASE}
--%endif
- %{make} %{makeflags} INSTALL_MOD_PATH=%{buildroot} modules_install
- %{make} %{makeflags} INSTALL_HDR_PATH=%{buildroot}/usr headers_install
- cp System.map %{buildroot}/boot/System.map-%{KERNELRELEASE}
-diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
-index 5044224cf671..c1a36da85e84 100755
---- a/scripts/package/mkdebian
-+++ b/scripts/package/mkdebian
-@@ -26,7 +26,7 @@ set_debarch() {
- 
- 	# Attempt to find the correct Debian architecture
- 	case "$UTS_MACHINE" in
--	i386|ia64|alpha|m68k|riscv*)
-+	i386|alpha|m68k|riscv*)
- 		debarch="$UTS_MACHINE" ;;
- 	x86_64)
- 		debarch=amd64 ;;
-diff --git a/scripts/recordmcount.c b/scripts/recordmcount.c
-index 40ae6b2c7a6d..3e4f54799cc0 100644
---- a/scripts/recordmcount.c
-+++ b/scripts/recordmcount.c
-@@ -590,7 +590,6 @@ static int do_file(char const *const fname)
- 		ideal_nop = ideal_nop4_arm64;
- 		is_fake_mcount64 = arm64_is_fake_mcount;
- 		break;
--	case EM_IA_64:	reltype = R_IA64_IMM64; break;
- 	case EM_MIPS:	/* reltype: e_class    */ break;
- 	case EM_LOONGARCH:	/* reltype: e_class    */ break;
- 	case EM_PPC:	reltype = R_PPC_ADDR32; break;
-diff --git a/scripts/recordmcount.pl b/scripts/recordmcount.pl
-index 6a4645a57976..f84df9e383fd 100755
---- a/scripts/recordmcount.pl
-+++ b/scripts/recordmcount.pl
-@@ -275,13 +275,6 @@ if ($arch eq "x86_64") {
-     $section_type = '%progbits';
-     $mcount_regex = "^\\s*([0-9a-fA-F]+):\\s*R_AARCH64_CALL26\\s+_mcount\$";
-     $type = ".quad";
--} elsif ($arch eq "ia64") {
--    $mcount_regex = "^\\s*([0-9a-fA-F]+):.*\\s_mcount\$";
--    $type = "data8";
--
--    if ($is_module eq "0") {
--	$cc .= " -mconstant-gp";
--    }
- } elsif ($arch eq "sparc64") {
-     # In the objdump output there are giblets like:
-     # 0000000000000000 <igmp_net_exit-0x18>:
-diff --git a/scripts/xz_wrap.sh b/scripts/xz_wrap.sh
-index 76e9cbcfbeab..d06baf626abe 100755
---- a/scripts/xz_wrap.sh
-+++ b/scripts/xz_wrap.sh
-@@ -15,7 +15,6 @@ LZMA2OPTS=
- case $SRCARCH in
- 	x86)            BCJ=--x86 ;;
- 	powerpc)        BCJ=--powerpc ;;
--	ia64)           BCJ=--ia64; LZMA2OPTS=pb=4 ;;
- 	arm)            BCJ=--arm ;;
- 	sparc)          BCJ=--sparc ;;
- esac
--- 
-2.40.1
+> > I could have added some description, e.g. "shell variable $dirs is not used any
+> > more since 1fc9095846cc, therefore remove it".
 
+> > Please let me know if I should resent it as v2.
+
+> > Kind regards,
+> > Petr
+
+> > > Fixes: 1fc9095846cc ("kbuild: tar-pkg: use tar rules in scripts/Makefile.package")
+> > > Signed-off-by: Petr Vorel <pvorel@suse.cz>
+
+
+
+> I filled the commit log and fixed the commit subject
+> "kbuild: builddeb:" to "kbuild: buildtar:".
+
+Thanks for fixing this!
+
+Kind regards,
+Petr
+
+
+> Author: Petr Vorel <pvorel@suse.cz>
+> Date:   Tue Nov 21 12:58:54 2023 +0100
+
+>     kbuild: buildtar: Remove unused $dirs
+
+>     The shell variable $dirs is not used any more since 1fc9095846cc
+>     ("kbuild: tar-pkg: use tar rules in scripts/Makefile.package"),
+>     therefore remove it".
+
+>     Fixes: 1fc9095846cc ("kbuild: tar-pkg: use tar rules in
+> scripts/Makefile.package")
+>     Signed-off-by: Petr Vorel <pvorel@suse.cz>
+>     Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+
+
+
+> Thanks.
+
+
+
+
+> > > ---
+> > >  scripts/package/buildtar | 2 --
+> > >  1 file changed, 2 deletions(-)
+
+> > > diff --git a/scripts/package/buildtar b/scripts/package/buildtar
+> > > index 65b4ea502962..8ac075dd0e9c 100755
+> > > --- a/scripts/package/buildtar
+> > > +++ b/scripts/package/buildtar
+> > > @@ -23,7 +23,6 @@ tmpdir=$1
+
+> > >  rm -rf -- "${tmpdir}"
+> > >  mkdir -p -- "${tmpdir}/boot"
+> > > -dirs=boot
+
+
+
+> > > @@ -42,7 +41,6 @@ fi
+
+> > >  if grep -q '^CONFIG_MODULES=y' include/config/auto.conf; then
+> > >       make ARCH="${ARCH}" -f ${srctree}/Makefile INSTALL_MOD_PATH="${tmpdir}" modules_install
+> > > -     dirs="$dirs lib"
+> > >  fi
 
