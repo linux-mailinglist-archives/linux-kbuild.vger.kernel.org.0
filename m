@@ -1,131 +1,234 @@
-Return-Path: <linux-kbuild+bounces-150-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-151-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABB407F6A03
-	for <lists+linux-kbuild@lfdr.de>; Fri, 24 Nov 2023 02:05:21 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id DBDEF7F6A5F
+	for <lists+linux-kbuild@lfdr.de>; Fri, 24 Nov 2023 03:02:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D9EF21C20A1E
-	for <lists+linux-kbuild@lfdr.de>; Fri, 24 Nov 2023 01:05:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9086528182D
+	for <lists+linux-kbuild@lfdr.de>; Fri, 24 Nov 2023 02:02:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDDFA63E;
-	Fri, 24 Nov 2023 01:05:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4F0064F;
+	Fri, 24 Nov 2023 02:02:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="AdqQszBo";
-	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="AdqQszBo"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="saHSp2NG"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from bedivere.hansenpartnership.com (bedivere.hansenpartnership.com [IPv6:2607:fcd0:100:8a00::2])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4561DD48;
-	Thu, 23 Nov 2023 17:05:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=hansenpartnership.com; s=20151216; t=1700787913;
-	bh=s9SKoVd6sdnEnEA2415LDa12idYEiEDjdTjzypXYR+E=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
-	b=AdqQszBonguXvlEMtiDDg0SoW3MeKa7twOHRGFzgd0tnzfY99la/UrKAgBm+pONsK
-	 FhrM++V32eJtqlZZMTa7uCFyPI8Dq41rfAnOwIDWeNVHgqY58eeozKZ7zbVtpjzepf
-	 hZajl7u0+CCVi1tjl16Zi1GsQXdMzJoWlfXN9Y6o=
-Received: from localhost (localhost [127.0.0.1])
-	by bedivere.hansenpartnership.com (Postfix) with ESMTP id 8D2E212869A4;
-	Thu, 23 Nov 2023 20:05:13 -0500 (EST)
-Received: from bedivere.hansenpartnership.com ([127.0.0.1])
- by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavis, port 10024)
- with ESMTP id uUK3h_duTxhG; Thu, 23 Nov 2023 20:05:13 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=hansenpartnership.com; s=20151216; t=1700787913;
-	bh=s9SKoVd6sdnEnEA2415LDa12idYEiEDjdTjzypXYR+E=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
-	b=AdqQszBonguXvlEMtiDDg0SoW3MeKa7twOHRGFzgd0tnzfY99la/UrKAgBm+pONsK
-	 FhrM++V32eJtqlZZMTa7uCFyPI8Dq41rfAnOwIDWeNVHgqY58eeozKZ7zbVtpjzepf
-	 hZajl7u0+CCVi1tjl16Zi1GsQXdMzJoWlfXN9Y6o=
-Received: from lingrow.int.hansenpartnership.com (unknown [IPv6:2601:5c4:4302:c21::a774])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 6F3321285F91;
-	Thu, 23 Nov 2023 20:05:12 -0500 (EST)
-Message-ID: <ce0c752cd1ed482bff97c6c62266440e3ff8f937.camel@HansenPartnership.com>
-Subject: Re: Fwd: sign-file.c:149:17: warning: implicit declaration of
- function =?UTF-8?Q?=E2=80=98ENGINE=5Fload=5Fbuiltin=5Fengines=E2=80=99?=
-From: James Bottomley <James.Bottomley@HansenPartnership.com>
-To: Dennis Clarke <dclarke@blastwave.org>, Bagas Sanjaya
- <bagasdotme@gmail.com>,  Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Kernel Build System
- <linux-kbuild@vger.kernel.org>, Linux Kernel Keyrings
- <keyrings@vger.kernel.org>
-Cc: David Howells <dhowells@redhat.com>, David Woodhouse
- <dwmw2@infradead.org>,  Masahiro Yamada <masahiroy@kernel.org>
-Date: Thu, 23 Nov 2023 20:05:06 -0500
-In-Reply-To: <7fce272f-65f5-9aa8-5f28-aeecb98a8ab4@blastwave.org>
-References: <1fca50c4-6d7b-4c9b-bcea-4df17e2c2e7e@gmail.com>
-	 <e110cfff-08f9-4bbc-6b69-0d67ae6562b6@blastwave.org>
-	 <164a4d4434e77ba1b65624a081799a073a3aced7.camel@HansenPartnership.com>
-	 <7fce272f-65f5-9aa8-5f28-aeecb98a8ab4@blastwave.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9552864C
+	for <linux-kbuild@vger.kernel.org>; Fri, 24 Nov 2023 02:02:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03CF9C433C8;
+	Fri, 24 Nov 2023 02:02:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1700791358;
+	bh=vAEaSRrrunnPXOVy4bsXVdIwG/ogF59c2LODwnQzEt4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=saHSp2NGZSUTai55h6E/zojAAH5KLgETopqUR4weaJMLSG1LQs6NF2IAs0s2/i+22
+	 UZhSNjk6pzb4sMzNkRdhAVD80mbjyzuOb3IhXglsfSkTeoN9dMBVjV5iFOD9wTYXTP
+	 gdXoCE1zMrq6Rcz5gQxj0oa+h47Wkyqa7LSuUHwLfMcfG2VUzEYxtQ6ROoaoKcdVR0
+	 C/K9deOrEhsRI4X5q11x6H4iynQWFHIJuwnonWC8rHjmL9aonwEFNDRT03QgwMDTAT
+	 3qmptPLoTpSBJhqAV22y3xQToV3Px8XDPGqHx8Wba2nKyXObCQ8DMwrvZPrpWjSAaH
+	 RNJ66RSsAx2XA==
+Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-1f94b07b6b3so934079fac.2;
+        Thu, 23 Nov 2023 18:02:37 -0800 (PST)
+X-Gm-Message-State: AOJu0Yye6WyQZ+4bEOLdrYylxd/AxbeKVsFGHmEAYQsiK+YABYVONZDr
+	/JdBBRdYGRqvecvugjWzbzpJdsx7C1tVuDj+UI0=
+X-Google-Smtp-Source: AGHT+IEXLhrYz62zQkNtoO8dCJ28Tw410tNLUfxQpIU86fcJ/umAfhAjdKaOzRXZpNtKM8MrERktOT0JcgBObXR6rrw=
+X-Received: by 2002:a05:6870:658d:b0:1f5:c6f9:f4a5 with SMTP id
+ fp13-20020a056870658d00b001f5c6f9f4a5mr1266436oab.25.1700791357395; Thu, 23
+ Nov 2023 18:02:37 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20231122235527.180507-1-kent.overstreet@linux.dev>
+In-Reply-To: <20231122235527.180507-1-kent.overstreet@linux.dev>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Fri, 24 Nov 2023 11:02:00 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASQ+btvNOZ8yU6JLXBHVzPaEwj-7z0_dFouw2EUKd=3uA@mail.gmail.com>
+Message-ID: <CAK7LNASQ+btvNOZ8yU6JLXBHVzPaEwj-7z0_dFouw2EUKd=3uA@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: Allow gcov to be enabled on the command line
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: linux-kernel@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Nicolas Schier <nicolas@fjasle.eu>, 
+	linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2023-11-23 at 18:42 -0500, Dennis Clarke wrote:
-> On 11/23/23 09:53, James Bottomley wrote:
-> > On Fri, 2023-11-17 at 00:34 -0500, Dennis Clarke wrote:
-> > > On 11/16/23 18:41, Bagas Sanjaya wrote:
-> > > > Hi,
-> > > > 
-> > > > I notice a bug report on Bugzilla [1]. Quoting from it:
-> > > > 
-> > > <snip>
-> > > > > Not related to
-> > > > > https://bugzilla.kernel.org/show_bug.cgi?id=215750 but I
-> > > > > *feel* that this code needs a hug.
-> > > > 
-> > > > See Bugzilla for the full thread.
-> > > > 
-> > > > AFAIK, this looks like a bug when the kernel is compiled
-> > > > against custom (non-system) version of OpenSSL library.
-> > > > 
-> > > 
-> > > I do not know what you could possibly mean. There is nothing
-> > > "custom" about OpenSSL. For that matter the gcc compiler I am
-> > > using was also built by me. Works fine. The sign-file.c source
-> > > compiles fine.
-> > 
-> > This has all the hallmarks of an openssl compiled without engine
-> > support; is the symbol OPENSSL_NO_ENGINE set?  And which distro did
-> > you get this library from?
-> > 
-> > James
-> > 
-> 
-> I am looking into this. The code will likely age into some deprecated
-> calls and I think that I may be way out on the edge here.
+On Thu, Nov 23, 2023 at 8:55=E2=80=AFAM Kent Overstreet
+<kent.overstreet@linux.dev> wrote:
+>
+> This allows gcov to be enabled for a particular kernel source
+> subdirectory on the command line, without editing makefiles, like so:
+>
+>   make GCOV_PROFILE_fs_bcachefs=3Dy
+>
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: Nathan Chancellor <nathan@kernel.org>
+> Cc: Nick Desaulniers <ndesaulniers@google.com>
+> Cc: Nicolas Schier <nicolas@fjasle.eu>
+> Cc: linux-kbuild@vger.kernel.org
+> Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
+> ---
+>  scripts/Kbuild.include | 10 ++++++++++
+>  scripts/Makefile.lib   |  2 +-
+>  2 files changed, 11 insertions(+), 1 deletion(-)
+>
+> diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
+> index 7778cc97a4e0..5341736f2e30 100644
+> --- a/scripts/Kbuild.include
+> +++ b/scripts/Kbuild.include
+> @@ -277,3 +277,13 @@ ifneq ($(and $(filter notintermediate, $(.FEATURES))=
+,$(filter-out 4.4,$(MAKE_VER
+>  else
+>  .SECONDARY:
+>  endif
+> +
+> + # expand_parents(a/b/c) =3D a/b/c a/b a
+> +expand_parents2 =3D $(if $(subst .,,$(1)),$(call expand_parents,$(1)),)
+> +expand_parents  =3D $(1) $(call expand_parents2,$(patsubst %/,%,$(dir $(=
+1))))
+> +
+> +# flatten_dirs(a/b/c) =3D a_b_c a_b a
+> +flatten_dirs =3D $(subst /,_,$(call expand_parents,$(1)))
+> +
+> +# eval_vars(X_,a/b/c) =3D $(X_a_b_c) $(X_a_b) $(X_a)
+> +eval_vars =3D $(foreach var,$(call flatten_dirs,$(2)),$($(1)$(var)))
 
-So you did build without engine support ...
- 
->  However the code will need a pile of ifndef stuff and then call the
-> correct future looking calls for OpenSSL 3.x etc etc etc ... the
-> usual stuff
 
-Well, not really: openssl is highly configurable and if it gets
-configured wrongly, stuff like this happens.  That's why distros have a
-fairly inclusive configuration and they stick to it.  No-one can cope
-with the combinatoric explosion of openssl configuration possibilities
-(even though they have ifdefs for most of them) so the only way is
-really to fix a standard configuration and assume you're building for
-it.
 
-Openssl has been talking for ages about removing engine support, but
-they've been unable to do so due to the rather slow pace of conversion
-of their own engines.  I anticipate this code can be removed in favour
-of the pkcs11 provider long before openssl actually manages to remove
-engines.
+I do not like tricky code like this.
 
-James
+Also, with "fs_bcachefs", it is unclear which directory
+is enabled.
 
+
+
+
+How about this?
+
+
+
+[1] Specify the list of directories by GCOV_PROFILE_DIRS
+
+
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index 1a965fe68e01..286a569556b3 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -147,8 +147,12 @@ _cpp_flags     =3D $(KBUILD_CPPFLAGS) $(cppflags-y)
+$(CPPFLAGS_$(target-stem).lds)
+ # (in this order)
+ #
+ ifeq ($(CONFIG_GCOV_KERNEL),y)
++ifneq ($(filter $(obj),$(GCOV_PROFILE_DIRS)),)
++export GCOV_PROFILE_SUBDIR :=3D y
++endif
++
+ _c_flags +=3D $(if $(patsubst n%,, \
+-
+$(GCOV_PROFILE_$(basetarget).o)$(GCOV_PROFILE)$(CONFIG_GCOV_PROFILE_ALL)),
+\
++
+$(GCOV_PROFILE_$(basetarget).o)$(GCOV_PROFILE)$(GCOV_PROFILE_SUBDIR)$(CONFI=
+G_GCOV_PROFILE_ALL)),
+\
+                $(CFLAGS_GCOV))
+ endif
+
+
+
+Usage:
+
+  $ make GCOV_PROFILE_DIRS=3Dfs/bcachefs
+
+   ->  enable GCOV in fs/bachefs and its subdirectories.
+
+or
+
+  $ make GCOV_PROFILE_DIRS=3D"drivers/gpio drivers/pinctrl"
+
+   -> enable GCOV in drivers/gpio, drivers/pinctrl, and their subdirectorie=
+s.
+
+
+
+
+[2] Do equivalent, but from a CONFIG option
+
+
+config GCOV_PROFILE_DIRS
+      string "Directories to enable GCOV"
+
+
+Then, you can set CONFIG_GCOV_PROFILE_DIRS=3D"fs/bcachefs"
+
+
+This might be a more natural approach because we already have
+CONFIG_GCOV_PROFILE_ALL, although it might eventually go away
+because CONFIG_GCOV_PROFILE_ALL=3Dy is almost equivalent to
+CONFIG_GCOV_PROFILE_DIRS=3D"."
+
+
+
+
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index 1a965fe68e01..286a569556b3 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -147,8 +147,12 @@ _cpp_flags     =3D $(KBUILD_CPPFLAGS) $(cppflags-y)
+$(CPPFLAGS_$(target-stem).lds)
+ # (in this order)
+ #
+ ifeq ($(CONFIG_GCOV_KERNEL),y)
++ifneq ($(filter $(obj),$(CONFIG_GCOV_PROFILE_DIRS)),)
++export GCOV_PROFILE_SUBDIR :=3D y
++endif
++
+ _c_flags +=3D $(if $(patsubst n%,, \
+-
+$(GCOV_PROFILE_$(basetarget).o)$(GCOV_PROFILE)$(CONFIG_GCOV_PROFILE_ALL)),
+\
++
+$(GCOV_PROFILE_$(basetarget).o)$(GCOV_PROFILE)$(GCOV_PROFILE_SUBDIR)$(CONFI=
+G_GCOV_PROFILE_ALL)),
+\
+                $(CFLAGS_GCOV))
+ endif
+
+
+
+
+
+
+
+> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> index 1a965fe68e01..0b4581a8bc33 100644
+> --- a/scripts/Makefile.lib
+> +++ b/scripts/Makefile.lib
+> @@ -148,7 +148,7 @@ _cpp_flags     =3D $(KBUILD_CPPFLAGS) $(cppflags-y) $=
+(CPPFLAGS_$(target-stem).lds)
+>  #
+>  ifeq ($(CONFIG_GCOV_KERNEL),y)
+>  _c_flags +=3D $(if $(patsubst n%,, \
+> -               $(GCOV_PROFILE_$(basetarget).o)$(GCOV_PROFILE)$(CONFIG_GC=
+OV_PROFILE_ALL)), \
+> +               $(GCOV_PROFILE_$(basetarget).o)$(call eval_vars,GCOV_PROF=
+ILE_,$(src))$(GCOV_PROFILE)$(CONFIG_GCOV_PROFILE_ALL)), \
+>                 $(CFLAGS_GCOV))
+>  endif
+>
+> --
+> 2.42.0
+>
+
+
+--
+Best Regards
+Masahiro Yamada
 
