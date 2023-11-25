@@ -1,45 +1,47 @@
-Return-Path: <linux-kbuild+bounces-163-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-164-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ED687F8C75
-	for <lists+linux-kbuild@lfdr.de>; Sat, 25 Nov 2023 17:36:10 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1498C7F8C77
+	for <lists+linux-kbuild@lfdr.de>; Sat, 25 Nov 2023 17:36:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B9CE41F20EEC
-	for <lists+linux-kbuild@lfdr.de>; Sat, 25 Nov 2023 16:36:09 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A9D6BB20E89
+	for <lists+linux-kbuild@lfdr.de>; Sat, 25 Nov 2023 16:36:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9200C946F;
-	Sat, 25 Nov 2023 16:36:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A12DE12E7E;
+	Sat, 25 Nov 2023 16:36:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FEd9SbMW"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JSTkkAP7"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76ABB20FB
-	for <linux-kbuild@vger.kernel.org>; Sat, 25 Nov 2023 16:36:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40F0EC433C7;
-	Sat, 25 Nov 2023 16:36:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84E3512E67
+	for <linux-kbuild@vger.kernel.org>; Sat, 25 Nov 2023 16:36:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A1C3C433CA;
+	Sat, 25 Nov 2023 16:36:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700930166;
-	bh=fts8SLIgVhLqO6eGUFoOp3dpYL3AguZRASLqnEn6BEE=;
-	h=From:To:Cc:Subject:Date:From;
-	b=FEd9SbMWzCapCGVZ+4jpMWoK4eQS8yPkj94F713Q+hvBnfjHUNSl4aMHzyjFarDxC
-	 cbWR0A0f2qg2x+aJrjSHf9uucae4tP3rjxVX+CJibfWYlDppMoVUEQpooHGMjVzrD+
-	 hpOx+u77ESqDTALTXi+AiKX4bNXeOOJdmmVDyQpt0Q2RbqJZB83a3zcbNWr+DRd8UQ
-	 EOvfhRa97GdF71iW30ywiagQ0GVbRXjmsxilOf7IE/jz0SOPW2qFCH/xP7cUch1iP/
-	 JQ5cFbpL5norJUWwB7+PUnAuCgTEuQvmyT2a7QrfMkypcr/W3Bsea1mNkZ4gmPuSei
-	 HNafJf1OL3eSQ==
+	s=k20201202; t=1700930167;
+	bh=snAd2gXiU18UJUY/4dnU7CGitVyQiD9gCk0F0qZU16g=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=JSTkkAP710e1BVX6uUzgeCcFCBX0PDgDkZy5hMyswz1EYBTjSm8mIj4yMRyQjdYwC
+	 3PMxs4Je5aZwyIR2DiAmDZ0X2gm5WRYXn3ZtqnQFc+/+0oQRcGLv0NTfPp8HCAxLph
+	 O3nwMVOoLHf5ZqxhFkrc0tltr8NQISsCsVVt53FvaJDqfA53EnRVbkv+GnEkl/3OLc
+	 oCiwJHiUiareSq9JXo+ij0YsvCCM4lLaJB7CElquhrDqkh0gPEdogxW+ASrb10SnG0
+	 meLeekLlh+kbPZcIl3q3kyZ6/7JUlNs5qzYlm91d8CJuSziUgdvtjr4Vo4V5rmfcta
+	 Tw87XNbUhaI1g==
 From: Masahiro Yamada <masahiroy@kernel.org>
 To: linux-kbuild@vger.kernel.org
 Cc: Masahiro Yamada <masahiroy@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] kconfig: remove unneeded symbol_empty variable
-Date: Sun, 26 Nov 2023 01:35:58 +0900
-Message-Id: <20231125163559.824210-1-masahiroy@kernel.org>
+Subject: [PATCH 2/2] kconfig: default to zero if int/hex symbol lacks default property
+Date: Sun, 26 Nov 2023 01:35:59 +0900
+Message-Id: <20231125163559.824210-2-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20231125163559.824210-1-masahiroy@kernel.org>
+References: <20231125163559.824210-1-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -48,59 +50,59 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This is used only for initializing other variables.
+When a default property is missing in an int or hex symbol, it defaults
+to an empty string, which is not a valid symbol value.
 
-Use the empty string "".
+It results in a incorrect .config, and can also lead to an infinite
+loop in scripting.
 
-Please note newval.tri is unused for S_INT/HEX/STRING.
+Use "0" for int and "0x0" for hex as a default value.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/kconfig/symbol.c | 11 ++---------
- 1 file changed, 2 insertions(+), 9 deletions(-)
+ scripts/kconfig/symbol.c | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
 
 diff --git a/scripts/kconfig/symbol.c b/scripts/kconfig/symbol.c
-index a76925b46ce6..f7075d148ac7 100644
+index f7075d148ac7..a5a4f9153eb7 100644
 --- a/scripts/kconfig/symbol.c
 +++ b/scripts/kconfig/symbol.c
-@@ -29,12 +29,6 @@ struct symbol symbol_no = {
- 	.flags = SYMBOL_CONST|SYMBOL_VALID,
- };
+@@ -338,7 +338,11 @@ void sym_calc_value(struct symbol *sym)
  
--static struct symbol symbol_empty = {
--	.name = "",
--	.curr = { "", no },
--	.flags = SYMBOL_VALID,
--};
--
- struct symbol *modules_sym;
- static tristate modules_val;
- 
-@@ -346,7 +340,7 @@ void sym_calc_value(struct symbol *sym)
+ 	switch (sym->type) {
  	case S_INT:
++		newval.val = "0";
++		break;
  	case S_HEX:
++		newval.val = "0x0";
++		break;
  	case S_STRING:
--		newval = symbol_empty.curr;
-+		newval.val = "";
+ 		newval.val = "";
  		break;
- 	case S_BOOLEAN:
- 	case S_TRISTATE:
-@@ -697,13 +691,12 @@ const char *sym_get_string_default(struct symbol *sym)
- {
- 	struct property *prop;
- 	struct symbol *ds;
--	const char *str;
-+	const char *str = "";
- 	tristate val;
+@@ -746,14 +750,17 @@ const char *sym_get_string_default(struct symbol *sym)
+ 		case yes: return "y";
+ 		}
+ 	case S_INT:
++		if (!str[0])
++			str = "0";
++		break;
+ 	case S_HEX:
+-		return str;
+-	case S_STRING:
+-		return str;
+-	case S_UNKNOWN:
++		if (!str[0])
++			str = "0x0";
++		break;
++	default:
+ 		break;
+ 	}
+-	return "";
++	return str;
+ }
  
- 	sym_calc_visibility(sym);
- 	sym_calc_value(modules_sym);
- 	val = symbol_no.curr.tri;
--	str = symbol_empty.curr.val;
- 
- 	/* If symbol has a default value look it up */
- 	prop = sym_get_default_prop(sym);
+ const char *sym_get_string_value(struct symbol *sym)
 -- 
 2.40.1
 
