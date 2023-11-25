@@ -1,166 +1,95 @@
-Return-Path: <linux-kbuild+bounces-159-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-160-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1645F7F78F0
-	for <lists+linux-kbuild@lfdr.de>; Fri, 24 Nov 2023 17:29:17 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54AF07F89EF
+	for <lists+linux-kbuild@lfdr.de>; Sat, 25 Nov 2023 11:31:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A4A5AB20FD1
-	for <lists+linux-kbuild@lfdr.de>; Fri, 24 Nov 2023 16:29:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8666D1C20C01
+	for <lists+linux-kbuild@lfdr.de>; Sat, 25 Nov 2023 10:31:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57E2533CE5;
-	Fri, 24 Nov 2023 16:29:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8DA463BD;
+	Sat, 25 Nov 2023 10:31:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MVlOFapV"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E29219A8
-	for <linux-kbuild@vger.kernel.org>; Fri, 24 Nov 2023 08:29:04 -0800 (PST)
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 192371FE4A;
-	Fri, 24 Nov 2023 16:29:01 +0000 (UTC)
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 77399132E2;
-	Fri, 24 Nov 2023 16:29:00 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id /xxkF0zPYGXeRQAAn2gu4w
-	(envelope-from <pvorel@suse.cz>); Fri, 24 Nov 2023 16:29:00 +0000
-Date: Fri, 24 Nov 2023 17:28:58 +0100
-From: Petr Vorel <pvorel@suse.cz>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, Josh Triplett <josh@joshtriplett.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A96463234
+	for <linux-kbuild@vger.kernel.org>; Sat, 25 Nov 2023 10:31:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4015CC433C8;
+	Sat, 25 Nov 2023 10:31:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1700908292;
+	bh=1NjYyVMTbEYrYJbWYo16fYRJ4go93r4tTFjTVNLyfms=;
+	h=From:To:Cc:Subject:Date:From;
+	b=MVlOFapVpx90KH1wMWShYB/xzzNDh16Atogs82J3zghXoqUFi+xcapJ6fODrvVGTj
+	 f8PKozrX4yioUdDuibC4/52x5/HDy9jh35vyHoK+iBupoTA71fJr+6k4z6645jg/H3
+	 1DeDWjz3kfsDpEBTUtmK/rSdVRrAMSH8fE0niSrFj27KTeohvchgKXObM8Yv+iBfH0
+	 zwpEh9eRbOZOChuT7cADbeikGoVOADxGNRSWqov7vBf+f+53FjfsWulDh6Q92P88FW
+	 ydTuV0NieSNCF0TTpjTj4wRpSEmRMBggu7emM7j7pbGQcOdiGN2CUYYWPjgOS4m9qy
+	 FTIcDOzAUT3fw==
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
 	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Nicolas Schier <nicolas@fjasle.eu>
-Subject: Re: [PATCH 1/2] kbuild: builddeb: Remove unused $dirs
-Message-ID: <20231124162858.GA177418@pevik>
-Reply-To: Petr Vorel <pvorel@suse.cz>
-References: <20231121115855.111358-1-pvorel@suse.cz>
- <20231121133740.GA126856@pevik>
- <CAK7LNARo3FKQM1esdzk60TRPn1joVZ2SRVCcuUJ+r9DEPzLtfw@mail.gmail.com>
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH 1/3] modpost: move __attribute__((format(printf, 2, 3))) to modpost.h
+Date: Sat, 25 Nov 2023 19:31:14 +0900
+Message-Id: <20231125103116.797608-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK7LNARo3FKQM1esdzk60TRPn1joVZ2SRVCcuUJ+r9DEPzLtfw@mail.gmail.com>
-X-Spamd-Bar: ++++++++++++++++
-Authentication-Results: smtp-out2.suse.de;
-	dkim=none;
-	dmarc=none;
-	spf=softfail (smtp-out2.suse.de: 2a07:de40:b281:104:10:150:64:98 is neither permitted nor denied by domain of pvorel@suse.cz) smtp.mailfrom=pvorel@suse.cz
-X-Rspamd-Server: rspamd2
-X-Spamd-Result: default: False [16.19 / 50.00];
-	 HAS_REPLYTO(0.30)[pvorel@suse.cz];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 REPLYTO_EQ_FROM(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 NEURAL_SPAM_SHORT(3.00)[1.000];
-	 MIME_GOOD(-0.10)[text/plain];
-	 MID_RHS_NOT_FQDN(0.50)[];
-	 SUBJECT_HAS_CURRENCY(1.00)[];
-	 R_SPF_SOFTFAIL(4.60)[~all];
-	 RCPT_COUNT_FIVE(0.00)[6];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 ARC_NA(0.00)[];
-	 MX_GOOD(-0.01)[];
-	 NEURAL_SPAM_LONG(3.50)[1.000];
-	 DMARC_NA(1.20)[suse.cz];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 R_DKIM_NA(2.20)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.00)[22.44%]
-X-Spam-Score: 16.19
-X-Rspamd-Queue-Id: 192371FE4A
 
-Hi Masahiro,
+This attribute must be added to the function declaration in a header
+for comprehensive checking of all the callsites.
 
+Fixes: 6d9a89ea4b06 ("kbuild: declare the modpost error functions as printf like")
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-> On Tue, Nov 21, 2023 at 10:37 PM Petr Vorel <pvorel@suse.cz> wrote:
+ scripts/mod/modpost.c | 3 +--
+ scripts/mod/modpost.h | 3 ++-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-> > Hi,
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index cb6406f485a9..ca0a90158f85 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -60,8 +60,7 @@ static unsigned int nr_unresolved;
+ 
+ #define MODULE_NAME_LEN (64 - sizeof(Elf_Addr))
+ 
+-void __attribute__((format(printf, 2, 3)))
+-modpost_log(enum loglevel loglevel, const char *fmt, ...)
++void modpost_log(enum loglevel loglevel, const char *fmt, ...)
+ {
+ 	va_list arglist;
+ 
+diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
+index 69baf014da4f..9fe974dc1a52 100644
+--- a/scripts/mod/modpost.h
++++ b/scripts/mod/modpost.h
+@@ -197,7 +197,8 @@ enum loglevel {
+ 	LOG_FATAL
+ };
+ 
+-void modpost_log(enum loglevel loglevel, const char *fmt, ...);
++void __attribute__((format(printf, 2, 3)))
++modpost_log(enum loglevel loglevel, const char *fmt, ...);
+ 
+ /*
+  * warn - show the given message, then let modpost continue running, still
+-- 
+2.40.1
 
-> > I could have added some description, e.g. "shell variable $dirs is not used any
-> > more since 1fc9095846cc, therefore remove it".
-
-> > Please let me know if I should resent it as v2.
-
-> > Kind regards,
-> > Petr
-
-> > > Fixes: 1fc9095846cc ("kbuild: tar-pkg: use tar rules in scripts/Makefile.package")
-> > > Signed-off-by: Petr Vorel <pvorel@suse.cz>
-
-
-
-> I filled the commit log and fixed the commit subject
-> "kbuild: builddeb:" to "kbuild: buildtar:".
-
-Thanks for fixing this!
-
-Kind regards,
-Petr
-
-
-> Author: Petr Vorel <pvorel@suse.cz>
-> Date:   Tue Nov 21 12:58:54 2023 +0100
-
->     kbuild: buildtar: Remove unused $dirs
-
->     The shell variable $dirs is not used any more since 1fc9095846cc
->     ("kbuild: tar-pkg: use tar rules in scripts/Makefile.package"),
->     therefore remove it".
-
->     Fixes: 1fc9095846cc ("kbuild: tar-pkg: use tar rules in
-> scripts/Makefile.package")
->     Signed-off-by: Petr Vorel <pvorel@suse.cz>
->     Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-
-
-
-> Thanks.
-
-
-
-
-> > > ---
-> > >  scripts/package/buildtar | 2 --
-> > >  1 file changed, 2 deletions(-)
-
-> > > diff --git a/scripts/package/buildtar b/scripts/package/buildtar
-> > > index 65b4ea502962..8ac075dd0e9c 100755
-> > > --- a/scripts/package/buildtar
-> > > +++ b/scripts/package/buildtar
-> > > @@ -23,7 +23,6 @@ tmpdir=$1
-
-> > >  rm -rf -- "${tmpdir}"
-> > >  mkdir -p -- "${tmpdir}/boot"
-> > > -dirs=boot
-
-
-
-> > > @@ -42,7 +41,6 @@ fi
-
-> > >  if grep -q '^CONFIG_MODULES=y' include/config/auto.conf; then
-> > >       make ARCH="${ARCH}" -f ${srctree}/Makefile INSTALL_MOD_PATH="${tmpdir}" modules_install
-> > > -     dirs="$dirs lib"
-> > >  fi
 
