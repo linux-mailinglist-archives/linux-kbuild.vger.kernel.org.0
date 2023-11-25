@@ -1,226 +1,142 @@
-Return-Path: <linux-kbuild+bounces-165-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-166-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA4BD7F8E41
-	for <lists+linux-kbuild@lfdr.de>; Sat, 25 Nov 2023 20:56:35 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C8227F9042
+	for <lists+linux-kbuild@lfdr.de>; Sun, 26 Nov 2023 00:10:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C4B9DB20E41
-	for <lists+linux-kbuild@lfdr.de>; Sat, 25 Nov 2023 19:56:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A94191C209D3
+	for <lists+linux-kbuild@lfdr.de>; Sat, 25 Nov 2023 23:10:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 058682FE1C;
-	Sat, 25 Nov 2023 19:56:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F0CF30FA7;
+	Sat, 25 Nov 2023 23:10:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Nzd82Lse"
+	dkim=pass (2048-bit key) header.d=smile-fr.20230601.gappssmtp.com header.i=@smile-fr.20230601.gappssmtp.com header.b="OPclexMT"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [IPv6:2001:41d0:1004:224b::bd])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A07DC1
-	for <linux-kbuild@vger.kernel.org>; Sat, 25 Nov 2023 11:56:25 -0800 (PST)
-Date: Sat, 25 Nov 2023 14:56:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1700942183;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yo+m6dTGrzcH0zVhx/EUgCNWh3lQ29xIfd4T/sQd3P0=;
-	b=Nzd82LseHWt2CYxnwyxSxGn1BUyNx/pIL4cFvsZAMp8gLj333tj6FiUJqXdPn2GNnzYP0v
-	Tcl4sV1BGZLWU0bYPHKpAoTvVOx+FYH5nVQQoDfC0QbjSdxoQOhj3bH2EIWalBxjT/Za0G
-	smobkRXnG6VMGemRkjzlIXLHXGiNkRE=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Kent Overstreet <kent.overstreet@linux.dev>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH] kbuild: Allow gcov to be enabled on the command line
-Message-ID: <20231125195620.rjgkooixugucv2vp@moria.home.lan>
-References: <20231122235527.180507-1-kent.overstreet@linux.dev>
- <CAK7LNASQ+btvNOZ8yU6JLXBHVzPaEwj-7z0_dFouw2EUKd=3uA@mail.gmail.com>
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00C70129
+	for <linux-kbuild@vger.kernel.org>; Sat, 25 Nov 2023 15:10:46 -0800 (PST)
+Received: by mail-wm1-x329.google.com with SMTP id 5b1f17b1804b1-40b405699a9so3842345e9.0
+        for <linux-kbuild@vger.kernel.org>; Sat, 25 Nov 2023 15:10:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1700953845; x=1701558645; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:organization:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=oNiZ0WOzTAV3L7455QiacDrpLq7f4/1o2lfYS0Foxfw=;
+        b=OPclexMT3Eqmk//h2K2gjUp25wBxtFtJOkzfprvVKGD5jpssC4OPWGfB4MyrghwWHL
+         VflP/0oDe+YjYJ3zpGre9LUKkdbPAniAGXw4F99MpzC/EHTJDLcxnL+Gek1hGWHaHEal
+         pkbe2LtNEP4aRDjegzdLWylSb2Ybg52lX+GIF1BDv5NcZlenanpcyPpXbZn3wAMV2o6B
+         8i+a4Fyp/+WPUxE8A8oAvZ2tJX5BXq4kH74q2dfKOb+R4Z//HGpXD/hERDKCj/bIi8PV
+         rCzHFmZKt8naPlgT6+FD3H20vg2angIeytGO8AXLhu0yOcis7/f7mUtYM8dnUUD5QqRd
+         05pg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700953845; x=1701558645;
+        h=content-transfer-encoding:in-reply-to:organization:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oNiZ0WOzTAV3L7455QiacDrpLq7f4/1o2lfYS0Foxfw=;
+        b=KWc/F9tnh9ngdVirUbqLO7QXHgzoXaIbiHka/gI/arhKAX4/v3UjUKBxE+KQM4RjLQ
+         Z+wGwwXQl5OIGS1H+dqpUxcmON8nSZq8j+Kqsarg3mz6z/A9X0wYDk8MKSdp5TMmXDV3
+         tzsEseoX8Qd20zoxZ+jhdPdUCXSK4AFFPmppC+JkP+5Te9UeiiCTdzuWWF35n8ciMZCz
+         P73V7B2sUUp1VIdyIBirs/OMPtg6p0tPYd5u96cALNl3wHM/bsm3tJn904AY6gKTFW95
+         NLNvUx/Chds8v6yegtHRYz17xmmTCPoLXI5w+X9mk89RYCd0Tu94wLk3nl2WbmYQuxkI
+         P1BA==
+X-Gm-Message-State: AOJu0YyZxWYyckdB4aipn2Y4A3FDuWyVAnuzcQFfM/TIch6Ju/p+j1wd
+	e6xQn7L06HpLZZ6Q3BIBLVtMdvWYlwtf7wyaoWM=
+X-Google-Smtp-Source: AGHT+IEIXmZ9SSqNoPouyelTnEwM+YSm+OIdhr6YJ1d8IHhmIBrHsEleYcYCZqdWLXfDROH4jWuvsw==
+X-Received: by 2002:a05:600c:4f88:b0:409:2c35:7b3e with SMTP id n8-20020a05600c4f8800b004092c357b3emr5476999wmq.8.1700953845282;
+        Sat, 25 Nov 2023 15:10:45 -0800 (PST)
+Received: from [192.168.0.20] ([89.159.1.53])
+        by smtp.gmail.com with ESMTPSA id fl8-20020a05600c0b8800b004030e8ff964sm9707637wmb.34.2023.11.25.15.10.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 25 Nov 2023 15:10:44 -0800 (PST)
+Message-ID: <fd5f08c0-4603-471a-bd6f-44a2e6191ac7@smile.fr>
+Date: Sun, 26 Nov 2023 00:10:44 +0100
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] kconfig: default to zero if int/hex symbol lacks
+ default property
+To: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+References: <20231125163559.824210-1-masahiroy@kernel.org>
+ <20231125163559.824210-2-masahiroy@kernel.org>
+Content-Language: en-US
+From: Yoann Congal <yoann.congal@smile.fr>
+Organization: Smile ECS
+In-Reply-To: <20231125163559.824210-2-masahiroy@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK7LNASQ+btvNOZ8yU6JLXBHVzPaEwj-7z0_dFouw2EUKd=3uA@mail.gmail.com>
-X-Migadu-Flow: FLOW_OUT
 
-On Fri, Nov 24, 2023 at 11:02:00AM +0900, Masahiro Yamada wrote:
-> On Thu, Nov 23, 2023 at 8:55 AM Kent Overstreet
-> <kent.overstreet@linux.dev> wrote:
-> >
-> > This allows gcov to be enabled for a particular kernel source
-> > subdirectory on the command line, without editing makefiles, like so:
-> >
-> >   make GCOV_PROFILE_fs_bcachefs=y
-> >
-> > Cc: Masahiro Yamada <masahiroy@kernel.org>
-> > Cc: Nathan Chancellor <nathan@kernel.org>
-> > Cc: Nick Desaulniers <ndesaulniers@google.com>
-> > Cc: Nicolas Schier <nicolas@fjasle.eu>
-> > Cc: linux-kbuild@vger.kernel.org
-> > Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
-> > ---
-> >  scripts/Kbuild.include | 10 ++++++++++
-> >  scripts/Makefile.lib   |  2 +-
-> >  2 files changed, 11 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
-> > index 7778cc97a4e0..5341736f2e30 100644
-> > --- a/scripts/Kbuild.include
-> > +++ b/scripts/Kbuild.include
-> > @@ -277,3 +277,13 @@ ifneq ($(and $(filter notintermediate, $(.FEATURES)),$(filter-out 4.4,$(MAKE_VER
-> >  else
-> >  .SECONDARY:
-> >  endif
-> > +
-> > + # expand_parents(a/b/c) = a/b/c a/b a
-> > +expand_parents2 = $(if $(subst .,,$(1)),$(call expand_parents,$(1)),)
-> > +expand_parents  = $(1) $(call expand_parents2,$(patsubst %/,%,$(dir $(1))))
-> > +
-> > +# flatten_dirs(a/b/c) = a_b_c a_b a
-> > +flatten_dirs = $(subst /,_,$(call expand_parents,$(1)))
-> > +
-> > +# eval_vars(X_,a/b/c) = $(X_a_b_c) $(X_a_b) $(X_a)
-> > +eval_vars = $(foreach var,$(call flatten_dirs,$(2)),$($(1)$(var)))
+Le 25/11/2023 à 17:35, Masahiro Yamada a écrit :
+> When a default property is missing in an int or hex symbol, it defaults
+> to an empty string, which is not a valid symbol value.
 > 
+> It results in a incorrect .config, and can also lead to an infinite
+> loop in scripting.
 > 
+> Use "0" for int and "0x0" for hex as a default value.
 > 
-> I do not like tricky code like this.
-> 
-> Also, with "fs_bcachefs", it is unclear which directory
-> is enabled.
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-It's consistent with how we can specify options in makefiles for a
-particular file.
+Thanks! It does fix our problem.
 
-I suppose CONFIG_GCOV_PROFILE_DIRS would be fine, but your patch isn't
-complete so I can't test it.
+Reviewed-by: Yoann Congal <yoann.congal@smile.fr>
 
+> ---
+> 
+>  scripts/kconfig/symbol.c | 17 ++++++++++++-----
+>  1 file changed, 12 insertions(+), 5 deletions(-)
+> 
+> diff --git a/scripts/kconfig/symbol.c b/scripts/kconfig/symbol.c
+> index f7075d148ac7..a5a4f9153eb7 100644
+> --- a/scripts/kconfig/symbol.c
+> +++ b/scripts/kconfig/symbol.c
+> @@ -338,7 +338,11 @@ void sym_calc_value(struct symbol *sym)
+>  
+>  	switch (sym->type) {
+>  	case S_INT:
+> +		newval.val = "0";
+> +		break;
+>  	case S_HEX:
+> +		newval.val = "0x0";
+> +		break;
+>  	case S_STRING:
+>  		newval.val = "";
+>  		break;
+> @@ -746,14 +750,17 @@ const char *sym_get_string_default(struct symbol *sym)
+>  		case yes: return "y";
+>  		}
+>  	case S_INT:
+> +		if (!str[0])
+> +			str = "0";
+> +		break;
+>  	case S_HEX:
+> -		return str;
+> -	case S_STRING:
+> -		return str;
+> -	case S_UNKNOWN:
+> +		if (!str[0])
+> +			str = "0x0";
+> +		break;
+> +	default:
+>  		break;
+>  	}
+> -	return "";
+> +	return str;
+>  }
+>  
+>  const char *sym_get_string_value(struct symbol *sym)
 
-> 
-> 
-> 
-> 
-> How about this?
-> 
-> 
-> 
-> [1] Specify the list of directories by GCOV_PROFILE_DIRS
-> 
-> 
-> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> index 1a965fe68e01..286a569556b3 100644
-> --- a/scripts/Makefile.lib
-> +++ b/scripts/Makefile.lib
-> @@ -147,8 +147,12 @@ _cpp_flags     = $(KBUILD_CPPFLAGS) $(cppflags-y)
-> $(CPPFLAGS_$(target-stem).lds)
->  # (in this order)
->  #
->  ifeq ($(CONFIG_GCOV_KERNEL),y)
-> +ifneq ($(filter $(obj),$(GCOV_PROFILE_DIRS)),)
-> +export GCOV_PROFILE_SUBDIR := y
-> +endif
-> +
->  _c_flags += $(if $(patsubst n%,, \
-> -
-> $(GCOV_PROFILE_$(basetarget).o)$(GCOV_PROFILE)$(CONFIG_GCOV_PROFILE_ALL)),
-> \
-> +
-> $(GCOV_PROFILE_$(basetarget).o)$(GCOV_PROFILE)$(GCOV_PROFILE_SUBDIR)$(CONFIG_GCOV_PROFILE_ALL)),
-> \
->                 $(CFLAGS_GCOV))
->  endif
-> 
-> 
-> 
-> Usage:
-> 
->   $ make GCOV_PROFILE_DIRS=fs/bcachefs
-> 
->    ->  enable GCOV in fs/bachefs and its subdirectories.
-> 
-> or
-> 
->   $ make GCOV_PROFILE_DIRS="drivers/gpio drivers/pinctrl"
-> 
->    -> enable GCOV in drivers/gpio, drivers/pinctrl, and their subdirectories.
-> 
-> 
-> 
-> 
-> [2] Do equivalent, but from a CONFIG option
-> 
-> 
-> config GCOV_PROFILE_DIRS
->       string "Directories to enable GCOV"
-> 
-> 
-> Then, you can set CONFIG_GCOV_PROFILE_DIRS="fs/bcachefs"
-> 
-> 
-> This might be a more natural approach because we already have
-> CONFIG_GCOV_PROFILE_ALL, although it might eventually go away
-> because CONFIG_GCOV_PROFILE_ALL=y is almost equivalent to
-> CONFIG_GCOV_PROFILE_DIRS="."
-> 
-> 
-> 
-> 
-> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> index 1a965fe68e01..286a569556b3 100644
-> --- a/scripts/Makefile.lib
-> +++ b/scripts/Makefile.lib
-> @@ -147,8 +147,12 @@ _cpp_flags     = $(KBUILD_CPPFLAGS) $(cppflags-y)
-> $(CPPFLAGS_$(target-stem).lds)
->  # (in this order)
->  #
->  ifeq ($(CONFIG_GCOV_KERNEL),y)
-> +ifneq ($(filter $(obj),$(CONFIG_GCOV_PROFILE_DIRS)),)
-> +export GCOV_PROFILE_SUBDIR := y
-> +endif
-> +
->  _c_flags += $(if $(patsubst n%,, \
-> -
-> $(GCOV_PROFILE_$(basetarget).o)$(GCOV_PROFILE)$(CONFIG_GCOV_PROFILE_ALL)),
-> \
-> +
-> $(GCOV_PROFILE_$(basetarget).o)$(GCOV_PROFILE)$(GCOV_PROFILE_SUBDIR)$(CONFIG_GCOV_PROFILE_ALL)),
-> \
->                 $(CFLAGS_GCOV))
->  endif
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> > diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> > index 1a965fe68e01..0b4581a8bc33 100644
-> > --- a/scripts/Makefile.lib
-> > +++ b/scripts/Makefile.lib
-> > @@ -148,7 +148,7 @@ _cpp_flags     = $(KBUILD_CPPFLAGS) $(cppflags-y) $(CPPFLAGS_$(target-stem).lds)
-> >  #
-> >  ifeq ($(CONFIG_GCOV_KERNEL),y)
-> >  _c_flags += $(if $(patsubst n%,, \
-> > -               $(GCOV_PROFILE_$(basetarget).o)$(GCOV_PROFILE)$(CONFIG_GCOV_PROFILE_ALL)), \
-> > +               $(GCOV_PROFILE_$(basetarget).o)$(call eval_vars,GCOV_PROFILE_,$(src))$(GCOV_PROFILE)$(CONFIG_GCOV_PROFILE_ALL)), \
-> >                 $(CFLAGS_GCOV))
-> >  endif
-> >
-> > --
-> > 2.42.0
-> >
-> 
-> 
-> --
-> Best Regards
-> Masahiro Yamada
+-- 
+Yoann Congal
+Smile ECS - Tech Expert
 
