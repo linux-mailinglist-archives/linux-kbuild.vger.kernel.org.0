@@ -1,136 +1,126 @@
-Return-Path: <linux-kbuild+bounces-168-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-169-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9FD67F91BB
-	for <lists+linux-kbuild@lfdr.de>; Sun, 26 Nov 2023 08:19:30 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8F107F9214
+	for <lists+linux-kbuild@lfdr.de>; Sun, 26 Nov 2023 11:12:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A8A2EB20D15
-	for <lists+linux-kbuild@lfdr.de>; Sun, 26 Nov 2023 07:19:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1A3BD1C209C6
+	for <lists+linux-kbuild@lfdr.de>; Sun, 26 Nov 2023 10:12:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B87646B1;
-	Sun, 26 Nov 2023 07:19:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51DD08F68;
+	Sun, 26 Nov 2023 10:12:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l8eJqj2q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eRLlMIep"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AA582F41;
-	Sun, 26 Nov 2023 07:19:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 383C9C433C7;
-	Sun, 26 Nov 2023 07:19:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700983164;
-	bh=8gd0dMckeTvfrJbqiPZ2qHzROw5OCFMp48suO82vyAs=;
-	h=From:To:Cc:Subject:Date:From;
-	b=l8eJqj2qVxYSd0kyCthbRdsjJWwv8BkOprPhHQWVhjZE77suqM6bLD/BiLU/E1itB
-	 nACkUvUzYVBu3EyM6bJxFONeF6hruY82B1HyUWGAqbzqn5EaniAbbi53yeV58r0imt
-	 zT8dHSlB/WuMWZB8tEJRbgv06wvUmqrw/n6IMOcbv0EFj4KG/VELuhXNdO3LOvOoRM
-	 gdEalE+TZ+Hb+Mx2qjdTAU2T1C9ZblxQTHsNWYLM6r0sHpHh3kbiz/wTHdnDO6ixYb
-	 K9QP7W9tZsUkVb6Fgs4bujgAZiZhIiS/CsPQkrcKnTWsgJE3wKIeomXu98uMlhSZYy
-	 FGRtjHj4xOqww==
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: linux-kbuild@vger.kernel.org
-Cc: Paul Gortmaker <paul.gortmaker@windriver.com>,
-	linux-modules@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>,
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60CAFE3;
+	Sun, 26 Nov 2023 02:12:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700993535; x=1732529535;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=h/LLhdSvEk/cgSco2Zse5iLa8y9W4V/6wPojyS/oJBU=;
+  b=eRLlMIep3WmGXgcSw9W3mgU6/uVhxAevhQtlWv8Kpo9TAG97j5ht1vtc
+   UwmC3tAz7DHRu4Zug7tPb+fzoEq6ADN2KYikg5yWJ4HozCmALmQLhfEs6
+   LU0apDJUOTzdPt1jSW+x35JuzO9xIoWS6JEWDDTnqQUjjbpHjl24hL5Rm
+   lLd0axI1ae10uBC+DDI931YAlcvuAheybtKev3brsWALY+DgwJbT3X8GD
+   11R+T0XrC1PnmJOUHmToUbeX2JVmwT0U2AEtsJ9jWlW3f/S61kgLTyq9U
+   lvAi7RTkODnIP3AxZlDhv4wikiY3K74jlgLGMfRz85J6PS1JjJ1/S89Rt
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10905"; a="5805302"
+X-IronPort-AV: E=Sophos;i="6.04,228,1695711600"; 
+   d="scan'208";a="5805302"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2023 02:12:14 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10905"; a="941294053"
+X-IronPort-AV: E=Sophos;i="6.04,228,1695711600"; 
+   d="scan'208";a="941294053"
+Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 26 Nov 2023 02:12:11 -0800
+Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r7C7V-00051W-05;
+	Sun, 26 Nov 2023 10:12:09 +0000
+Date: Sun, 26 Nov 2023 18:12:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Masahiro Yamada <masahiroy@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>, linux-arch@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] init: move THIS_MODULE from <linux/export.h> to <linux/init.h>
-Date: Sun, 26 Nov 2023 16:19:14 +0900
-Message-Id: <20231126071914.932241-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.40.1
+Subject: Re: [PATCH] export.h: remove include/asm-generic/export.h
+Message-ID: <202311261737.dQEkPNHF-lkp@intel.com>
+References: <20231126054917.930324-1-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231126054917.930324-1-masahiroy@kernel.org>
 
-Commit f50169324df4 ("module.h: split out the EXPORT_SYMBOL into
-export.h") appropriately separated EXPORT_SYMBOL into <linux/export.h>
-because modules and EXPORT_SYMBOL are orthogonal; modules are symbol
-consumers, while EXPORT_SYMBOL are used by symbol providers, which
-may not be necessarily a module.
+Hi Masahiro,
 
-However, that commit also relocated THIS_MODULE. As explained in the
-commit description, the intention was to define THIS_MODULE in a
-lightweight header, but I do not believe <linux/export.h> was the
-suitable location because EXPORT_SYMBOL and THIS_MODULE are unrelated.
+kernel test robot noticed the following build errors:
 
-Move it to another lightweight header, <linux/init.h>. The reason for
-choosing <linux/init.h> is to make <linux/moduleparam.h> self-contained
-without relying on <linux/linkage.h> incorrectly including
-<linux/export.h>.
+[auto build test ERROR on v6.7-rc2]
+[also build test ERROR on linus/master next-20231124]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-With this adjustment, the role of <linux/export.h> becomes clearer as
-it only defines EXPORT_SYMBOL.
+url:    https://github.com/intel-lab-lkp/linux/commits/Masahiro-Yamada/export-h-remove-include-asm-generic-export-h/20231126-135120
+base:   v6.7-rc2
+patch link:    https://lore.kernel.org/r/20231126054917.930324-1-masahiroy%40kernel.org
+patch subject: [PATCH] export.h: remove include/asm-generic/export.h
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20231126/202311261737.dQEkPNHF-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231126/202311261737.dQEkPNHF-lkp@intel.com/reproduce)
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311261737.dQEkPNHF-lkp@intel.com/
 
- include/linux/export.h | 18 ------------------
- include/linux/init.h   |  7 +++++++
- 2 files changed, 7 insertions(+), 18 deletions(-)
+All errors (new ones prefixed by >>):
 
-diff --git a/include/linux/export.h b/include/linux/export.h
-index 9911508a9604..0bbd02fd351d 100644
---- a/include/linux/export.h
-+++ b/include/linux/export.h
-@@ -6,15 +6,6 @@
- #include <linux/linkage.h>
- #include <linux/stringify.h>
- 
--/*
-- * Export symbols from the kernel to modules.  Forked from module.h
-- * to reduce the amount of pointless cruft we feed to gcc when only
-- * exporting a simple symbol or two.
-- *
-- * Try not to add #includes here.  It slows compilation and makes kernel
-- * hackers place grumpy comments in header files.
-- */
--
- /*
-  * This comment block is used by fixdep. Please do not remove.
-  *
-@@ -23,15 +14,6 @@
-  * side effect of the *.o build rule.
-  */
- 
--#ifndef __ASSEMBLY__
--#ifdef MODULE
--extern struct module __this_module;
--#define THIS_MODULE (&__this_module)
--#else
--#define THIS_MODULE ((struct module *)0)
--#endif
--#endif /* __ASSEMBLY__ */
--
- #ifdef CONFIG_64BIT
- #define __EXPORT_SYMBOL_REF(sym)			\
- 	.balign 8				ASM_NL	\
-diff --git a/include/linux/init.h b/include/linux/init.h
-index 01b52c9c7526..3fa3f6241350 100644
---- a/include/linux/init.h
-+++ b/include/linux/init.h
-@@ -179,6 +179,13 @@ extern void (*late_time_init)(void);
- 
- extern bool initcall_debug;
- 
-+#ifdef MODULE
-+extern struct module __this_module;
-+#define THIS_MODULE (&__this_module)
-+#else
-+#define THIS_MODULE ((struct module *)0)
-+#endif
-+
- #endif
-   
- #ifndef MODULE
+   In file included from arch/arm64/kernel/vdso/note.S:15:
+>> arch/arm64/include/asm/assembler.h:15:10: fatal error: asm-generic/export.h: No such file or directory
+      15 | #include <asm-generic/export.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
+   In file included from arch/arm64/include/asm/linkage.h:5,
+                    from include/linux/linkage.h:8,
+                    from arch/arm64/kernel/vdso/sigreturn.S:15:
+>> arch/arm64/include/asm/assembler.h:15:10: fatal error: asm-generic/export.h: No such file or directory
+      15 | #include <asm-generic/export.h>
+         |          ^~~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
+   make[3]: *** [scripts/Makefile.build:360: arch/arm64/kernel/vdso/note.o] Error 1
+   make[3]: *** [scripts/Makefile.build:360: arch/arm64/kernel/vdso/sigreturn.o] Error 1
+   make[3]: Target 'include/generated/vdso-offsets.h' not remade because of errors.
+   make[3]: Target 'arch/arm64/kernel/vdso/vdso.so' not remade because of errors.
+   make[2]: *** [arch/arm64/Makefile:194: vdso_prepare] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:234: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:234: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
+
+
+vim +15 arch/arm64/include/asm/assembler.h
+
+f3e39273e0a9a5 Marc Zyngier 2015-02-20  14  
+386b3c7bdafcc6 Mark Rutland 2018-12-07 @15  #include <asm-generic/export.h>
+386b3c7bdafcc6 Mark Rutland 2018-12-07  16  
+
 -- 
-2.40.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
