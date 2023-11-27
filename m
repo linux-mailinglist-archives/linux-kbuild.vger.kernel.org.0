@@ -1,93 +1,115 @@
-Return-Path: <linux-kbuild+bounces-172-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-173-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31F2C7FA1CD
-	for <lists+linux-kbuild@lfdr.de>; Mon, 27 Nov 2023 15:00:26 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBF647FA1E3
+	for <lists+linux-kbuild@lfdr.de>; Mon, 27 Nov 2023 15:03:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E0BFE280F15
-	for <lists+linux-kbuild@lfdr.de>; Mon, 27 Nov 2023 14:00:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7747B280F4A
+	for <lists+linux-kbuild@lfdr.de>; Mon, 27 Nov 2023 14:03:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 576A530F9E;
-	Mon, 27 Nov 2023 14:00:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F32AB3067D;
+	Mon, 27 Nov 2023 14:03:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gJ3rI29g"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a2aOf09I"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com [IPv6:2607:f8b0:4864:20::22a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9475B2D67
-	for <linux-kbuild@vger.kernel.org>; Mon, 27 Nov 2023 05:58:36 -0800 (PST)
-Received: by mail-oi1-x22a.google.com with SMTP id 5614622812f47-3b8672b9482so829387b6e.1
-        for <linux-kbuild@vger.kernel.org>; Mon, 27 Nov 2023 05:58:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1701093516; x=1701698316; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mmo2BXJt4vu1ubmwTuoFwrhznc8Bcf+/X8CnL/h9xfg=;
-        b=gJ3rI29guMBiS0nrH26lQVxYKSFGwlTWO7iS3xkOHel+ytBqgREUsk8h3wM4+l5KOu
-         YqVnQMKZSWtn8QFXWPBr7QRJc2l71afnM4wPt2Tr9vQxaPMcseI6Jr4UOQd9TMZDhDv/
-         Knc9zmZ1UgMik5MKU60O8Fd9svFzJhtOUtC+Aj2nKKvC5JmF4vlFgJr47hWk7cQaw2Eg
-         CKOCr2jCB2p0uI6QZWRZ3SWORd/NXwhfV3unDN3XUsU9JQGRKyBB8QQNcrpweDK/uG4f
-         x3FDAZXunD2bBRw23Hbk4Yj7KSJWmNejF+V/dIqY8QN0zDuz3018ydTcLFVbDg1ImxDY
-         nqlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701093516; x=1701698316;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mmo2BXJt4vu1ubmwTuoFwrhznc8Bcf+/X8CnL/h9xfg=;
-        b=q/F/9sphoeKPsOBWLFyHPGGs7Oxw6QHYLh4AQiHNK7aFWAAKvVCa5WGlQSym3nKqOG
-         +Z9ywkcl8Qg2PNzhRUaEfLjNAJZ1M0zn4kHBBnEX+ZDcaWlylwWJcM3D/FAEBU/8uRDk
-         j4POAxRDvnqijzeKzvpMUzYIayXgay+/IfuHbHoudrIgOkm+KRRlRcit2Abp0PkLp6q3
-         0VE+id2vtqqgstaN0xS7jQ49C8PtewqZDEEKSlUHQp9krdpeLC9uUDh394wfHejtT4oL
-         MMRI/tV9FcCRNlqu8V9tVG69bl8zQcKABHwPFidlSwU65YlTC/w+NwwcILjHC9zkxQMy
-         HjkA==
-X-Gm-Message-State: AOJu0YxmdDRTXTnC+Ai6y4PB18Ja0dwAxGBG6Yfn8PHQazvi5hW8yD4W
-	2Fna/MRDZzWOunP5+1hpVPYrf0s/MGzRK/dS8MfMIQ==
-X-Google-Smtp-Source: AGHT+IEnf7x9cMjtRYjvssq0P5dcMj4LNZ5XXPtGxMk2IUanH6KXq2dYk3jFHBzAigZNM3g7Zrsr8HcWUx2B2UoYMA0=
-X-Received: by 2002:a05:6358:5927:b0:16b:b605:d3da with SMTP id
- g39-20020a056358592700b0016bb605d3damr12692052rwf.28.1701093515725; Mon, 27
- Nov 2023 05:58:35 -0800 (PST)
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDD8A2FE0F;
+	Mon, 27 Nov 2023 14:03:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A12D1C4AF73;
+	Mon, 27 Nov 2023 14:03:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701093816;
+	bh=KCZKisXR1n78+RfI83KrbOl2Cm27WXfa6iz/K1QPJPo=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=a2aOf09I75DdKUvvNJhSkD9GQ6WGBE1jrWs9pDpOCpwNhS0TbxHWoRRSn9ck5Mhc+
+	 gZca7EfxNyQp1inBZAfRqD47gcVR/2j2P6kSPCkih7i49cwEZ7pOo/irs5zW0XlMiF
+	 9t3wBImUkMRmLnPX2jf+oEXtdtP3HdA2v5iDopicDPaZiELC/QCHIid2KwS9yeW8Yk
+	 sDtIdNfLMQ2+8k4BxzPSCP/qhcQirHg9eszKNpXUSGX6VzAN3kehB6MI8Qj+xuPUcx
+	 pQuQyJsiwfL3/G2Nx7qvojox0+j3lTPPcUWpxZDJzU/NZmi7fMpyxZ2ILAb/+cKK1F
+	 d3or7UmfDwFkA==
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-50943ccbbaeso5863772e87.2;
+        Mon, 27 Nov 2023 06:03:36 -0800 (PST)
+X-Gm-Message-State: AOJu0YzKhEgsCPjAFuBPAKg2p3Slb4kxARX4ofB65cuZ1KNRZXMMxL6X
+	cxHKF5Lr8XxvaH6WIGu5pOTim5HmUO/Pp39UpA==
+X-Google-Smtp-Source: AGHT+IHHn/0tbob/Zvt/F/xavRxwGiGH47uaym2qWQ3/Wvw2D2ahyijP+Gg34c/5ffttsPErtLGmPrZcuMVpkTAoeU0=
+X-Received: by 2002:a19:7514:0:b0:4fb:9168:1fce with SMTP id
+ y20-20020a197514000000b004fb91681fcemr7182211lfe.59.1701093814870; Mon, 27
+ Nov 2023 06:03:34 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231031201752.1189213-1-mmaurer@google.com>
-In-Reply-To: <20231031201752.1189213-1-mmaurer@google.com>
-From: Alice Ryhl <aliceryhl@google.com>
-Date: Mon, 27 Nov 2023 14:58:25 +0100
-Message-ID: <CAH5fLgjFGTfWr-O9LPBtvwkwo5o=jYMByjqS+7gogGoYT4=x3g@mail.gmail.com>
-Subject: Re: [PATCH] rust: Suppress searching builtin sysroot
-To: Matthew Maurer <mmaurer@google.com>
-Cc: Jamie.Cunliffe@arm.com, Miguel Ojeda <ojeda@kernel.org>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, 
-	Masahiro Yamada <masahiroy@kernel.org>, will@kernel.org, Boqun Feng <boqun.feng@gmail.com>, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Nicolas Schier <nicolas@fjasle.eu>, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
+References: <20231122-dtc-warnings-v2-0-bd4087325392@kernel.org> <CAK7LNASVMjVg4dr=KdSDHwGww_47H78H7rMXA=wf+ncugesDSA@mail.gmail.com>
+In-Reply-To: <CAK7LNASVMjVg4dr=KdSDHwGww_47H78H7rMXA=wf+ncugesDSA@mail.gmail.com>
+From: Rob Herring <robh@kernel.org>
+Date: Mon, 27 Nov 2023 08:03:22 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+N0GxwZ2YmspEzfiuGOw7M+DmYkyhLgaYtk+Ov2ycY_A@mail.gmail.com>
+Message-ID: <CAL_Jsq+N0GxwZ2YmspEzfiuGOw7M+DmYkyhLgaYtk+Ov2ycY_A@mail.gmail.com>
+Subject: Re: [PATCH v2 0/4] kbuild: Per arch/platform dtc warning levels
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Conor Dooley <conor@kernel.org>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 31, 2023 at 9:18=E2=80=AFPM Matthew Maurer <mmaurer@google.com>=
- wrote:
+On Thu, Nov 23, 2023 at 1:39=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
+rg> wrote:
 >
-> By default, if Rust is passed `--target=3Dfoo` rather than a target.json
-> file, it will infer a default sysroot if that component is installed. As
-> the proposed aarch64 support uses `aarch64-unknown-none` rather than a
-> target.json file, this is needed to prevent rustc from being confused
-> between the custom kernel sysroot and the pre-installed one.
+> On Thu, Nov 23, 2023 at 7:12=E2=80=AFAM Rob Herring <robh@kernel.org> wro=
+te:
+> >
+> > This series adds support to set the dtc extra warning level on a per
+> > arch or per platform (directory really) basis.
+> >
+> > The first version of this was just a simple per directory override for
+> > Samsung platforms, but Conor asked to be able to do this for all of
+> > riscv.
+> >
+> > For merging, either I can take the whole thing or the riscv and samsung
+> > patches can go via their normal trees. The added variable will have no
+> > effect until merged with patch 2.
+> >
+> > v1:
+> >  - https://lore.kernel.org/all/20231116211739.3228239-1-robh@kernel.org=
+/
+> >
+> > Signed-off-by: Rob Herring <robh@kernel.org>
+> > ---
 >
-> Signed-off-by: Matthew Maurer <mmaurer@google.com>
+>
+> There were some attempts in the past to enable W=3D1 in particular subsys=
+tems,
+> so here is a similar comment.
+>
+> Adding a new warning flag to W=3D1 is always safe without doing any compi=
+le test.
+>
+> With this series, it would not be true any more because a new warning in =
+W=3D1
+> would potentially break riscv/samsung platforms.
 
-I guess these are the only places where we need the sysroot parameter
-because the other rustc invocations compile for the host target
-instead?
+The difference here is the people potentially adding warnings are also
+the ones ensuring no warnings.
 
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+> Linus requires a clean build (i.e. zero warning) when W=3D option is not =
+given.
+
+Linus doesn't build any of this AFAICT. We are not always warning free
+for W=3D0 with dtbs.
+
+Rob
 
