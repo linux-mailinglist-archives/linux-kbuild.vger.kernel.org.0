@@ -1,115 +1,181 @@
-Return-Path: <linux-kbuild+bounces-173-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-174-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBF647FA1E3
-	for <lists+linux-kbuild@lfdr.de>; Mon, 27 Nov 2023 15:03:40 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EFB37FAA45
+	for <lists+linux-kbuild@lfdr.de>; Mon, 27 Nov 2023 20:27:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7747B280F4A
-	for <lists+linux-kbuild@lfdr.de>; Mon, 27 Nov 2023 14:03:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C2B7B1C20CB9
+	for <lists+linux-kbuild@lfdr.de>; Mon, 27 Nov 2023 19:27:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F32AB3067D;
-	Mon, 27 Nov 2023 14:03:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E5693EA7E;
+	Mon, 27 Nov 2023 19:27:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a2aOf09I"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="v6opLKah"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDD8A2FE0F;
-	Mon, 27 Nov 2023 14:03:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A12D1C4AF73;
-	Mon, 27 Nov 2023 14:03:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701093816;
-	bh=KCZKisXR1n78+RfI83KrbOl2Cm27WXfa6iz/K1QPJPo=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=a2aOf09I75DdKUvvNJhSkD9GQ6WGBE1jrWs9pDpOCpwNhS0TbxHWoRRSn9ck5Mhc+
-	 gZca7EfxNyQp1inBZAfRqD47gcVR/2j2P6kSPCkih7i49cwEZ7pOo/irs5zW0XlMiF
-	 9t3wBImUkMRmLnPX2jf+oEXtdtP3HdA2v5iDopicDPaZiELC/QCHIid2KwS9yeW8Yk
-	 sDtIdNfLMQ2+8k4BxzPSCP/qhcQirHg9eszKNpXUSGX6VzAN3kehB6MI8Qj+xuPUcx
-	 pQuQyJsiwfL3/G2Nx7qvojox0+j3lTPPcUWpxZDJzU/NZmi7fMpyxZ2ILAb/+cKK1F
-	 d3or7UmfDwFkA==
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-50943ccbbaeso5863772e87.2;
-        Mon, 27 Nov 2023 06:03:36 -0800 (PST)
-X-Gm-Message-State: AOJu0YzKhEgsCPjAFuBPAKg2p3Slb4kxARX4ofB65cuZ1KNRZXMMxL6X
-	cxHKF5Lr8XxvaH6WIGu5pOTim5HmUO/Pp39UpA==
-X-Google-Smtp-Source: AGHT+IHHn/0tbob/Zvt/F/xavRxwGiGH47uaym2qWQ3/Wvw2D2ahyijP+Gg34c/5ffttsPErtLGmPrZcuMVpkTAoeU0=
-X-Received: by 2002:a19:7514:0:b0:4fb:9168:1fce with SMTP id
- y20-20020a197514000000b004fb91681fcemr7182211lfe.59.1701093814870; Mon, 27
- Nov 2023 06:03:34 -0800 (PST)
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 501F61735
+	for <linux-kbuild@vger.kernel.org>; Mon, 27 Nov 2023 11:27:21 -0800 (PST)
+Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-548c6efc020so47421a12.0
+        for <linux-kbuild@vger.kernel.org>; Mon, 27 Nov 2023 11:27:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1701113240; x=1701718040; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=XzTuOpSVbJlV6jvvk+X3oPv5/iVM0u3vN6xCSt+v7i8=;
+        b=v6opLKahQ7iDBF7CxKntXtXLf959vAIZWxBoHwNQf7G25UfoviswTcMLSRndx1Yvw2
+         Dxw/al2f2LPzrPzEhbwehbU2yePTy4nQAWEZ5AePO0IJHgsOrw9aF6M1pJtC8x6YgIi0
+         /mo8s+ZwrswLJKwnIuROe9v1hmtpwYr9R/NXtpEPDwvcT5tgwSJ4Si8VI3JqhZ+X6JjD
+         2ojV2wwsA5/FoDaEGrCycH5SnqwEtSgv6CJzBT2Hg9tHXKZwCDEPR7fgNJKj7eJ9Wrom
+         F6frFJWsCO/JSBw24YsehFf2TIDN8W/K5eG+g/5lGb4qu3IZ/afg01r1hkm0gG1M8ala
+         9KYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701113240; x=1701718040;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XzTuOpSVbJlV6jvvk+X3oPv5/iVM0u3vN6xCSt+v7i8=;
+        b=b8mcURVwIxaOsStVAB1NRuVvuOREDokpfR9VOweP4eCfFoDsDrg8wCNUUUxDJNneAV
+         K6Jegh3b22wSqCX/gfykLXJxl5Ux3hBGYRgLC/tLMQx4Y6MTc+x3JZPpx+3zmJHJnZCd
+         i7mCPatVVBAx61Az1M5OPWly2DeCE6w77NciZuqMc86h9WzMm8V7RP0aeR7RPmUjm/Fl
+         RjQiY68zvTHegR8iA4SwpvAKBkSIw6ijWAjUrPuJNMYRdGJD94coCBunkeYWC4q6sOQR
+         UYy5jxfFaM3O3ZBASLQt2Q0DljDgdV/fnYRwe8KH4OzO66/xSrxDI9Iuwl2qHy9s4Uuc
+         b65g==
+X-Gm-Message-State: AOJu0YzqvYQ/Qfk5pvuNzOch1CXItfxwW/qaHcGz1bKlKmrDv1AdGgYk
+	kE7lwkVkJ3n1zpwfx+aIUWuFQZyAwgkUq1kjWD3EMomxZ8XDhxfUx1BmPg==
+X-Google-Smtp-Source: AGHT+IGKwdo1ZSkcsOIcurvO0mHUiByb1C1j8DM9pzIpG8I41SgplF7gVh3OmwIEABFLg5jVukQI20YeFDGoZpg1adk=
+X-Received: by 2002:a05:6402:5515:b0:543:fb17:1a8 with SMTP id
+ fi21-20020a056402551500b00543fb1701a8mr690841edb.3.1701113239428; Mon, 27 Nov
+ 2023 11:27:19 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231122-dtc-warnings-v2-0-bd4087325392@kernel.org> <CAK7LNASVMjVg4dr=KdSDHwGww_47H78H7rMXA=wf+ncugesDSA@mail.gmail.com>
-In-Reply-To: <CAK7LNASVMjVg4dr=KdSDHwGww_47H78H7rMXA=wf+ncugesDSA@mail.gmail.com>
-From: Rob Herring <robh@kernel.org>
-Date: Mon, 27 Nov 2023 08:03:22 -0600
-X-Gmail-Original-Message-ID: <CAL_Jsq+N0GxwZ2YmspEzfiuGOw7M+DmYkyhLgaYtk+Ov2ycY_A@mail.gmail.com>
-Message-ID: <CAL_Jsq+N0GxwZ2YmspEzfiuGOw7M+DmYkyhLgaYtk+Ov2ycY_A@mail.gmail.com>
-Subject: Re: [PATCH v2 0/4] kbuild: Per arch/platform dtc warning levels
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
-	Conor Dooley <conor@kernel.org>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org
+References: <20231118025748.2778044-1-mmaurer@google.com> <CAK7LNAQt8fy5+vSwpd1aXfzjzeZ5hiyW7EW9SW7pbG2eTJZAOA@mail.gmail.com>
+ <CAGSQo00hyCTVsqHtrzKBBPvuH38z5yRm_4jzdi00C0RV+8APwQ@mail.gmail.com>
+ <2023112314-tubby-eligibly-007a@gregkh> <CAK7LNAT-OcaCi6tqPRgZxPXOV6u+YbaO_0RxtfmrVXPzdrio0Q@mail.gmail.com>
+ <2023112312-certified-substance-007c@gregkh>
+In-Reply-To: <2023112312-certified-substance-007c@gregkh>
+From: Matthew Maurer <mmaurer@google.com>
+Date: Mon, 27 Nov 2023 11:27:07 -0800
+Message-ID: <CAGSQo005hRiUZdeppCifDqG9zFDJRwahpBLE4x7-MyfJscn7tQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/5] MODVERSIONS + RUST Redux
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	Luis Chamberlain <mcgrof@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, linuxppc-dev@lists.ozlabs.org, 
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	Laura Abbott <laura@labbott.name>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Nov 23, 2023 at 1:39=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
->
-> On Thu, Nov 23, 2023 at 7:12=E2=80=AFAM Rob Herring <robh@kernel.org> wro=
-te:
-> >
-> > This series adds support to set the dtc extra warning level on a per
-> > arch or per platform (directory really) basis.
-> >
-> > The first version of this was just a simple per directory override for
-> > Samsung platforms, but Conor asked to be able to do this for all of
-> > riscv.
-> >
-> > For merging, either I can take the whole thing or the riscv and samsung
-> > patches can go via their normal trees. The added variable will have no
-> > effect until merged with patch 2.
-> >
-> > v1:
-> >  - https://lore.kernel.org/all/20231116211739.3228239-1-robh@kernel.org=
-/
-> >
-> > Signed-off-by: Rob Herring <robh@kernel.org>
-> > ---
->
->
-> There were some attempts in the past to enable W=3D1 in particular subsys=
-tems,
-> so here is a similar comment.
->
-> Adding a new warning flag to W=3D1 is always safe without doing any compi=
-le test.
->
-> With this series, it would not be true any more because a new warning in =
-W=3D1
-> would potentially break riscv/samsung platforms.
+> > >
+> > > > With regards to future directions that likely won't work for loosening it:
+> > > > Unfortunately, the .rmeta format itself is not stable, so I wouldn't want to
+> > > > teach genksyms to open it up and split out the pieces for specific functions.
+> > > > Extending genksyms to parse Rust would also not solve the situation -
+> > > > layouts are allowed to differ across compiler versions or even (in rare
+> > > > cases) seemingly unrelated code changes.
+> > >
+> > > What do you mean by "layout" here?  Yes, the crcs can be different
+> > > across compiler versions and seemingly unrelated code changes (genksyms
+> > > is VERY fragile) but that's ok, that's not what you are checking here.
+> > > You want to know if the rust function signature changes or not from the
+> > > last time you built the code, with the same compiler and options, that's
+> > > all you are verifying.
+What I mean by layout here is that if you write in Rust:
+struct Foo {
+  x: i32,
+  y: i32,
+}
+it is not guaranteed to have the same layout across different compilations, even
+within the same compiler. See
+https://doc.rust-lang.org/reference/type-layout.html#the-rust-representation
+Specifically, the compiler is allowed to arbitrarily insert padding,
+reorder fields, etc.
+on the same code as long as the overall alignment of the struct and individual
+alignment of the fields remains correct and non-overlapping.
 
-The difference here is the people potentially adding warnings are also
-the ones ensuring no warnings.
+This means the compiler is *explicitly* allowed to, for example, permute x and y
+as an optimization. In the above example this is unlikely, but if you
+instead consider
+struct Bar {
+  x: i8,
+  y: i64,
+  z: i8,
+}
+It's easy to see why the compiler might decide to structure this as
+y,x,z to reduce the
+size of the struct. Those optimization decisions may be affected by
+any other part of
+the code, PGO, etc.
+> > >
+> > > > Future directions that might work for loosening it:
+> > > > * Generating crcs from debuginfo + compiler + flags
+> > > > * Adding a feature to the rust compiler to dump this information. This
+> > > > is likely to
+> > > >   get pushback because Rust's current stance is that there is no ability to load
+> > > >   object code built against a different library.
+> > >
+> > > Why not parse the function signature like we do for C?
+Because the function signature is insufficient to check the ABI, see above.
+> > >
+> > > > Would setting up Rust symbols so that they have a crc built out of .rmeta be
+> > > > sufficient for you to consider this useful? If not, can you help me understand
+> > > > what level of precision would be required?
+> > >
+> > > What exactly does .rmeta have to do with the function signature?  That's
+> > > all you care about here.
+The .rmeta file contains the decisions the compiler made about layout
+in the crate
+you're interfacing with. For example, the choice to encode Bar
+with a yxz field order would be written into the .rmeta file.
+> >
+> >
+> >
+> >
+> > rmeta is generated per crate.
+> >
+> > CRC is computed per symbol.
+> >
+> > They have different granularity.
+> > It is weird to refuse a module for incompatibility
+> > of a symbol that it is not using at all.
+>
+> I agree, this should be on a per-symbol basis, so the Rust
+> infrastructure in the kernel needs to be fixed up to support this
+> properly, not just ignored like this patchset does.
+I agree there is a divergence here, I tried to point it out so that it
+wouldn't be
+a surprise later. The .rmeta file itself (which is the only way we
+could know that
+the ABI actually matches, because layout decisions are in there) is an unstable
+format, which is why I would be reluctant to try to parse it and find only the
+relevant portions to hash. This isn't just a "technically unstable"
+format, but one
+in which the compiler essentially just serializes out relevant internal data
+structures, so any parser for it will involve significant alterations
+on compiler
+updates, which doesn't seem like a good plan.
+>
+> thanks,
+>
+> greg k-h
+Given the above additional information, would you be interested in a patchset
+which either:
 
-> Linus requires a clean build (i.e. zero warning) when W=3D option is not =
-given.
+A. Computes the CRC off the Rust type signature, knowing the compiler is
+allowed to change the ABI based on information not contained in the CRC.
+B. Uses the CRC of the .rmeta file, knowing, as was pointed out, that this
+effectively contains the ABI of every symbol in the compilation unit, as well
+as inline functions and polymorphic functions.
 
-Linus doesn't build any of this AFAICT. We are not always warning free
-for W=3D0 with dtbs.
-
-Rob
+If neither of these works, we likely can't turn on MODVERSIONS+RUST until
+further work is done upstream in the compiler to export some of this data in
+an at least semi-stable fashion.
 
