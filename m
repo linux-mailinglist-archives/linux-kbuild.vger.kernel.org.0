@@ -1,181 +1,105 @@
-Return-Path: <linux-kbuild+bounces-174-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-175-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EFB37FAA45
-	for <lists+linux-kbuild@lfdr.de>; Mon, 27 Nov 2023 20:27:28 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B37B27FAF16
+	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Nov 2023 01:34:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C2B7B1C20CB9
-	for <lists+linux-kbuild@lfdr.de>; Mon, 27 Nov 2023 19:27:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6CF532817B0
+	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Nov 2023 00:34:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E5693EA7E;
-	Mon, 27 Nov 2023 19:27:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E69C01859;
+	Tue, 28 Nov 2023 00:34:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="v6opLKah"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Zj/s9vWM"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 501F61735
-	for <linux-kbuild@vger.kernel.org>; Mon, 27 Nov 2023 11:27:21 -0800 (PST)
-Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-548c6efc020so47421a12.0
-        for <linux-kbuild@vger.kernel.org>; Mon, 27 Nov 2023 11:27:21 -0800 (PST)
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85F321A7
+	for <linux-kbuild@vger.kernel.org>; Mon, 27 Nov 2023 16:34:18 -0800 (PST)
+Received: by mail-pf1-x432.google.com with SMTP id d2e1a72fcca58-6cb9dd2ab56so4224098b3a.3
+        for <linux-kbuild@vger.kernel.org>; Mon, 27 Nov 2023 16:34:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1701113240; x=1701718040; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=XzTuOpSVbJlV6jvvk+X3oPv5/iVM0u3vN6xCSt+v7i8=;
-        b=v6opLKahQ7iDBF7CxKntXtXLf959vAIZWxBoHwNQf7G25UfoviswTcMLSRndx1Yvw2
-         Dxw/al2f2LPzrPzEhbwehbU2yePTy4nQAWEZ5AePO0IJHgsOrw9aF6M1pJtC8x6YgIi0
-         /mo8s+ZwrswLJKwnIuROe9v1hmtpwYr9R/NXtpEPDwvcT5tgwSJ4Si8VI3JqhZ+X6JjD
-         2ojV2wwsA5/FoDaEGrCycH5SnqwEtSgv6CJzBT2Hg9tHXKZwCDEPR7fgNJKj7eJ9Wrom
-         F6frFJWsCO/JSBw24YsehFf2TIDN8W/K5eG+g/5lGb4qu3IZ/afg01r1hkm0gG1M8ala
-         9KYg==
+        d=chromium.org; s=google; t=1701131658; x=1701736458; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xYiTIXqRTDarNbi0aa1f81qxroNRuY69MIWNnPKjAyY=;
+        b=Zj/s9vWMze0CQMyIflVTK3B3dxSeRg1P9NPpAdamgEcVQzPB+/KC5Bg0UH6DBrYjz+
+         Cw9uwhTWfRln18EmUt4Rro0DET7kc4CoKcieM+nxU5Ge9irWUlRC8c10o2ffkuyspse5
+         6qMsjsR0wydgD20oX3OOAvpvvrDhBusbtvndQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701113240; x=1701718040;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XzTuOpSVbJlV6jvvk+X3oPv5/iVM0u3vN6xCSt+v7i8=;
-        b=b8mcURVwIxaOsStVAB1NRuVvuOREDokpfR9VOweP4eCfFoDsDrg8wCNUUUxDJNneAV
-         K6Jegh3b22wSqCX/gfykLXJxl5Ux3hBGYRgLC/tLMQx4Y6MTc+x3JZPpx+3zmJHJnZCd
-         i7mCPatVVBAx61Az1M5OPWly2DeCE6w77NciZuqMc86h9WzMm8V7RP0aeR7RPmUjm/Fl
-         RjQiY68zvTHegR8iA4SwpvAKBkSIw6ijWAjUrPuJNMYRdGJD94coCBunkeYWC4q6sOQR
-         UYy5jxfFaM3O3ZBASLQt2Q0DljDgdV/fnYRwe8KH4OzO66/xSrxDI9Iuwl2qHy9s4Uuc
-         b65g==
-X-Gm-Message-State: AOJu0YzqvYQ/Qfk5pvuNzOch1CXItfxwW/qaHcGz1bKlKmrDv1AdGgYk
-	kE7lwkVkJ3n1zpwfx+aIUWuFQZyAwgkUq1kjWD3EMomxZ8XDhxfUx1BmPg==
-X-Google-Smtp-Source: AGHT+IGKwdo1ZSkcsOIcurvO0mHUiByb1C1j8DM9pzIpG8I41SgplF7gVh3OmwIEABFLg5jVukQI20YeFDGoZpg1adk=
-X-Received: by 2002:a05:6402:5515:b0:543:fb17:1a8 with SMTP id
- fi21-20020a056402551500b00543fb1701a8mr690841edb.3.1701113239428; Mon, 27 Nov
- 2023 11:27:19 -0800 (PST)
+        d=1e100.net; s=20230601; t=1701131658; x=1701736458;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xYiTIXqRTDarNbi0aa1f81qxroNRuY69MIWNnPKjAyY=;
+        b=tbAViBLc4eefYFsPYNplIwRwGefVmc/B5/bJtpzIDZFx8iCDA0cfXtQneQZBuiF9iU
+         VBeiqn9Ezue3B8/qan7llM2noi7y760pnC6WtaYVe0pju5SrRmE7rvvrvaaPOGMN1qo2
+         aF4FASS4KkoP7LhzBZvh7hGQvhQmtU5ADvrGXFOUcnJH4nSs01iV42E4yCb1sTEMACte
+         QLzbMKYjU1ZFPuc+qxfiibXNxGdhmD6UF/8GfqYg5FYlyxPPukY+8qZl9I0ncjz6tpIN
+         x0371dHuysIZaUDJhmRGRzAOdPwrfymGCu23yNyZ5E/lekRxC+9SuNzgBgnEJlhAYCSB
+         NdQQ==
+X-Gm-Message-State: AOJu0Yz+J8k2OIo3AZnwyWnRivVnK301bT++eBGe2oaujDo9LJqP+bkZ
+	myabRINIxWOKdt5ocwMCqKwCEg==
+X-Google-Smtp-Source: AGHT+IE1qopXbd9oTJotAIwAhuzGIfmugcli9ua2BkHYosf3Vb/rPrjdoH2dQ3EIE9Fwv7Aw8jhVSA==
+X-Received: by 2002:a05:6a20:144b:b0:18c:382e:48fe with SMTP id a11-20020a056a20144b00b0018c382e48femr11176362pzi.15.1701131658027;
+        Mon, 27 Nov 2023 16:34:18 -0800 (PST)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id 102-20020a17090a09ef00b002800e0b4852sm9214040pjo.22.2023.11.27.16.34.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Nov 2023 16:34:17 -0800 (PST)
+From: Kees Cook <keescook@chromium.org>
+To: ndesaulniers@google.com
+Cc: Kees Cook <keescook@chromium.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Tom Rix <trix@redhat.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	llvm@lists.linux.dev,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] MAINTAINERS: refresh LLVM support
+Date: Mon, 27 Nov 2023 16:34:11 -0800
+Message-Id: <170113164796.1670732.18133777682518787773.b4-ty@chromium.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20231117-maintainers-v1-1-85f2a7422ed9@google.com>
+References: <20231117-maintainers-v1-1-85f2a7422ed9@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231118025748.2778044-1-mmaurer@google.com> <CAK7LNAQt8fy5+vSwpd1aXfzjzeZ5hiyW7EW9SW7pbG2eTJZAOA@mail.gmail.com>
- <CAGSQo00hyCTVsqHtrzKBBPvuH38z5yRm_4jzdi00C0RV+8APwQ@mail.gmail.com>
- <2023112314-tubby-eligibly-007a@gregkh> <CAK7LNAT-OcaCi6tqPRgZxPXOV6u+YbaO_0RxtfmrVXPzdrio0Q@mail.gmail.com>
- <2023112312-certified-substance-007c@gregkh>
-In-Reply-To: <2023112312-certified-substance-007c@gregkh>
-From: Matthew Maurer <mmaurer@google.com>
-Date: Mon, 27 Nov 2023 11:27:07 -0800
-Message-ID: <CAGSQo005hRiUZdeppCifDqG9zFDJRwahpBLE4x7-MyfJscn7tQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/5] MODVERSIONS + RUST Redux
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Miguel Ojeda <ojeda@kernel.org>, Gary Guo <gary@garyguo.net>, 
-	Luis Chamberlain <mcgrof@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, linuxppc-dev@lists.ozlabs.org, 
-	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	Laura Abbott <laura@labbott.name>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-> > >
-> > > > With regards to future directions that likely won't work for loosening it:
-> > > > Unfortunately, the .rmeta format itself is not stable, so I wouldn't want to
-> > > > teach genksyms to open it up and split out the pieces for specific functions.
-> > > > Extending genksyms to parse Rust would also not solve the situation -
-> > > > layouts are allowed to differ across compiler versions or even (in rare
-> > > > cases) seemingly unrelated code changes.
-> > >
-> > > What do you mean by "layout" here?  Yes, the crcs can be different
-> > > across compiler versions and seemingly unrelated code changes (genksyms
-> > > is VERY fragile) but that's ok, that's not what you are checking here.
-> > > You want to know if the rust function signature changes or not from the
-> > > last time you built the code, with the same compiler and options, that's
-> > > all you are verifying.
-What I mean by layout here is that if you write in Rust:
-struct Foo {
-  x: i32,
-  y: i32,
-}
-it is not guaranteed to have the same layout across different compilations, even
-within the same compiler. See
-https://doc.rust-lang.org/reference/type-layout.html#the-rust-representation
-Specifically, the compiler is allowed to arbitrarily insert padding,
-reorder fields, etc.
-on the same code as long as the overall alignment of the struct and individual
-alignment of the fields remains correct and non-overlapping.
+On Fri, 17 Nov 2023 11:24:02 -0800, ndesaulniers@google.com wrote:
+> As discussed at the ClangBuiltLinux '23 meetup (co-located with Linux Plumbers
+> Conf '23), I'll be taking a step back from kernel work to focus on my growing
+> family and helping Google figure out its libc story. So I think it's time to
+> formally hand over the reigns to my co-maintainer Nathan.
+> 
+> As such, remove myself from reviewer for:
+> - CLANG CONTROL FLOW INTEGRITY SUPPORT
+> - COMPILER ATTRIBUTES
+> - KERNEL BUILD
+> 
+> [...]
 
-This means the compiler is *explicitly* allowed to, for example, permute x and y
-as an optimization. In the above example this is unlikely, but if you
-instead consider
-struct Bar {
-  x: i8,
-  y: i64,
-  z: i8,
-}
-It's easy to see why the compiler might decide to structure this as
-y,x,z to reduce the
-size of the struct. Those optimization decisions may be affected by
-any other part of
-the code, PGO, etc.
-> > >
-> > > > Future directions that might work for loosening it:
-> > > > * Generating crcs from debuginfo + compiler + flags
-> > > > * Adding a feature to the rust compiler to dump this information. This
-> > > > is likely to
-> > > >   get pushback because Rust's current stance is that there is no ability to load
-> > > >   object code built against a different library.
-> > >
-> > > Why not parse the function signature like we do for C?
-Because the function signature is insufficient to check the ABI, see above.
-> > >
-> > > > Would setting up Rust symbols so that they have a crc built out of .rmeta be
-> > > > sufficient for you to consider this useful? If not, can you help me understand
-> > > > what level of precision would be required?
-> > >
-> > > What exactly does .rmeta have to do with the function signature?  That's
-> > > all you care about here.
-The .rmeta file contains the decisions the compiler made about layout
-in the crate
-you're interfacing with. For example, the choice to encode Bar
-with a yxz field order would be written into the .rmeta file.
-> >
-> >
-> >
-> >
-> > rmeta is generated per crate.
-> >
-> > CRC is computed per symbol.
-> >
-> > They have different granularity.
-> > It is weird to refuse a module for incompatibility
-> > of a symbol that it is not using at all.
->
-> I agree, this should be on a per-symbol basis, so the Rust
-> infrastructure in the kernel needs to be fixed up to support this
-> properly, not just ignored like this patchset does.
-I agree there is a divergence here, I tried to point it out so that it
-wouldn't be
-a surprise later. The .rmeta file itself (which is the only way we
-could know that
-the ABI actually matches, because layout decisions are in there) is an unstable
-format, which is why I would be reluctant to try to parse it and find only the
-relevant portions to hash. This isn't just a "technically unstable"
-format, but one
-in which the compiler essentially just serializes out relevant internal data
-structures, so any parser for it will involve significant alterations
-on compiler
-updates, which doesn't seem like a good plan.
->
-> thanks,
->
-> greg k-h
-Given the above additional information, would you be interested in a patchset
-which either:
+Applied to for-linus/hardening, thanks!
 
-A. Computes the CRC off the Rust type signature, knowing the compiler is
-allowed to change the ABI based on information not contained in the CRC.
-B. Uses the CRC of the .rmeta file, knowing, as was pointed out, that this
-effectively contains the ABI of every symbol in the compilation unit, as well
-as inline functions and polymorphic functions.
+[1/1] MAINTAINERS: refresh LLVM support
+      https://git.kernel.org/kees/c/9099184dec26
 
-If neither of these works, we likely can't turn on MODVERSIONS+RUST until
-further work is done upstream in the compiler to export some of this data in
-an at least semi-stable fashion.
+Take care,
+
+-- 
+Kees Cook
+
 
