@@ -1,83 +1,152 @@
-Return-Path: <linux-kbuild+bounces-185-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-186-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B8087FC075
-	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Nov 2023 18:43:09 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB0967FC3C4
+	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Nov 2023 19:56:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5DC031C20AD0
-	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Nov 2023 17:43:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 140981C20A59
+	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Nov 2023 18:56:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7421E39AD1;
-	Tue, 28 Nov 2023 17:43:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57AEB3D0C9;
+	Tue, 28 Nov 2023 18:56:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="uLxxv4vc"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PQClzvYR"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [IPv6:2001:41d0:1004:224b::b4])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF5B71B5
-	for <linux-kbuild@vger.kernel.org>; Tue, 28 Nov 2023 09:43:01 -0800 (PST)
-Date: Tue, 28 Nov 2023 12:42:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1701193378;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Rpzb16wTQD+aymEz7SbZXRnLQFtDSOEzXXEggagV1Bw=;
-	b=uLxxv4vcSO9YksdxfTHkWbHgRKpXU4VwhsHNZdHVGBfVRZp3PO/4XWvff/Ra12jx4FxCoc
-	KTT5/cfU9Lyyl5K3pDJ6mOpjHHc+IS2h0oDR+N9RbFJI6ph+OrP66AUFznCPPGllafPImn
-	xBjGMFufaI0GKPWEATMqtNyJJr7BTf0=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Kent Overstreet <kent.overstreet@linux.dev>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH] kbuild: Allow gcov to be enabled on the command line
-Message-ID: <20231128174255.xd3yji7rhwijkp75@moria.home.lan>
-References: <20231122235527.180507-1-kent.overstreet@linux.dev>
- <CAK7LNASQ+btvNOZ8yU6JLXBHVzPaEwj-7z0_dFouw2EUKd=3uA@mail.gmail.com>
- <20231125195620.rjgkooixugucv2vp@moria.home.lan>
- <CAK7LNAT3_rk7xysSGnzq1carsght6gziyCnwEX=fjXy-KwhQEg@mail.gmail.com>
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34C9F3D0D9
+	for <linux-kbuild@vger.kernel.org>; Tue, 28 Nov 2023 18:56:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB898C433CC;
+	Tue, 28 Nov 2023 18:56:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701197798;
+	bh=IVX15cwRVhanxenCb9qdxGCtzR9TfKC+zZb0qEVecvw=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=PQClzvYRbwUbzuEmzP8doNA+u3BoK4HmAt9XafH+ibozCpW070MaClDo9grF65Bgw
+	 KlkbN72Giv36kbxxXKgsmHNgYc2VlMNv68sXObMePFGQRK7+ZLao3tpageZN78ygmC
+	 XIHxGypD/VSO1owLGFxWDi8R/X7/pzCQSX4X0wqr3bPb4Chth117VUB1qMEeEjo5wz
+	 u1+otPyScbfxDVcKYejLa0S4EE3nYuFUWZSP1oD+mfhRaLQeCawwCCOp+Ge+MlSJTN
+	 ty9lIBKEIEHhdL3TDTtGPq91eY6H6lPNox70o12rC8TGBan7CXNFG+YXSt/mDScpNg
+	 imuemKPbfxjxw==
+Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-58a0154b4baso34902eaf.1;
+        Tue, 28 Nov 2023 10:56:38 -0800 (PST)
+X-Gm-Message-State: AOJu0YwAVEHgwJCg3mVeKIzBRB0I+yp81Am1ZACeA6ZyF3ib4birSo5w
+	9/LBHa9NkSeIdgMVVb7dlUz7TfKNmijjQTp7qjg=
+X-Google-Smtp-Source: AGHT+IFEqo5yd5/4rEOBcj46wHxE7sE0LtTiAv7hNthH3WbtiImwfv6yEqVPUbkvhP95iffaVMBJ4+FWY+6K1egXzic=
+X-Received: by 2002:a05:6871:410b:b0:1fa:1d12:d1df with SMTP id
+ la11-20020a056871410b00b001fa1d12d1dfmr6391876oab.19.1701197798041; Tue, 28
+ Nov 2023 10:56:38 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK7LNAT3_rk7xysSGnzq1carsght6gziyCnwEX=fjXy-KwhQEg@mail.gmail.com>
-X-Migadu-Flow: FLOW_OUT
+References: <20231128153858.84932-1-masahiroy@kernel.org> <7a2684e680ffe279ed1e586e8ddb24b94c2cf010.camel@decadent.org.uk>
+In-Reply-To: <7a2684e680ffe279ed1e586e8ddb24b94c2cf010.camel@decadent.org.uk>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Wed, 29 Nov 2023 03:56:01 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASWqQBcf+z+cxWphf5pi8VkB10ABYvPKSxrLKbePYwC0g@mail.gmail.com>
+Message-ID: <CAK7LNASWqQBcf+z+cxWphf5pi8VkB10ABYvPKSxrLKbePYwC0g@mail.gmail.com>
+Subject: Re: [PATCH v2] kbuild: deb-pkg: remove the fakeroot builds support
+To: Ben Hutchings <ben@decadent.org.uk>
+Cc: linux-kbuild@vger.kernel.org, Guillem Jover <guillem@debian.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Nicolas Schier <nicolas@fjasle.eu>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 28, 2023 at 08:44:11PM +0900, Masahiro Yamada wrote:
-> On Sun, Nov 26, 2023 at 4:56 AM Kent Overstreet
-> > It's consistent with how we can specify options in makefiles for a
-> > particular file.
-> 
-> 
-> It is consistent in a bad way.
+On Wed, Nov 29, 2023 at 1:31=E2=80=AFAM Ben Hutchings <ben@decadent.org.uk>=
+ wrote:
+>
+> On Wed, 2023-11-29 at 00:38 +0900, Masahiro Yamada wrote:
+> > In 2017, the dpkg suite introduced the rootless builds support with the
+> > following commits:
+> >
+> >   - 2436807c87b0 ("dpkg-deb: Add support for rootless builds")
+> >   - fca1bfe84068 ("dpkg-buildpackage: Add support for rootless builds")
+> >
+> > This feature is available in the default dpkg on Debian 10 and Ubuntu
+> > 20.04.
+> >
+> > Remove the old method.
+>
+> This seems reasonable.
+>
+>
+> > Additionally, export DEB_RULES_REQUIRES_ROOT=3Dno in case debian/rules =
+is
+> > invoked without dpkg-buildpackage. This change aligns with the Debian
+> > kernel commit 65206e29f378 ("Allow to run d/rules.real without root").
+>
+> The Debian linux package has multiple makefiles used recursively
+> (rather than included).  The referenced commit is kind of a hack to
+> make rootless builds of a subset of binary packages work when invoking
+> one of the lower-level makefiles directly.
 
-That's a new meaning for consistent that I'm unfamiliar with.
 
-> You used "GCOV_PROFILE_" prefix
-> for the full directory path, while it is already
-> used as a file name which is relative to the
-> current directory.
+The upstream kernel does not support individual package build
+since it is implemented in scripts/package/builddeb shell script.
 
-And the current directory when you're building the entire kernel is the
-top level directory.
 
-> > I suppose CONFIG_GCOV_PROFILE_DIRS would be fine, but your patch isn't
-> > complete so I can't test it.
-> 
-> 
-> I do not understand what you mean by "isn't complete".
-> 
-> It is just a matter of adding the config entry somewhere.
+Is the direct execution of debian/rules still worth supporting
+in the upstream kernel?
 
-Yes, not complete, meaning you haven't even tested it.
+
+If the answer is no, "export DEB_RULES_REQUIRES_ROOT=3Dno"
+is meaningless.
+
+
+> It works because the package runs dh_builddeb, which checks
+> DEB_RULES_REQUIRES_ROOT.  But setting DEB_RULES_REQUIRES_ROOT has
+> absolutely zero effect on dpkg-deb or other low-level tools.
+
+Please let me clarify your statement.
+
+Do you mean this?  ("is needed" ?)
+
+"It is needed because the package runs dh_builddeb, which checks
+ DEB_RULES_REQUIRES_ROOT."
+
+
+
+
+
+> > While the upstream kernel currently does not run dh_testroot, it may
+> > be useful in the future.
+>
+> We can do one of:
+>
+> 1. Ignore DEB_RULES_REQUIRES_ROOT, assume that dpkg-deb supports
+>    --root-owner-group and use it unconditionally (your v1).
+> 2. Check DEB_RULES_REQUIRES_ROOT, do either fakeroot and chown or
+>    dpkg-deb --root-owner-group (current behaviour), and maybe also do
+>    the equivalent of dh_testroot.
+> 3. Delegate this to dh_builddeb.  Since we use dh_listpackages now,
+>    debhelper is already required and this would make things a lot
+>    simpler.
+>
+> But the combination of changes in v2 does not make sense to me.
+
+
+
+I like 1 or 3.
+
+
+
+If I go with 3.,
+does splitting it into two patches make sense?
+
+
+1/2:  remove fakeroot  (just like v1)
+2/2:  dh_* conversion + "export DEB_RULES_REQUIRES_ROOT=3Dno"
+
+
+--
+Best Regards
+Masahiro Yamada
 
