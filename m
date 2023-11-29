@@ -1,137 +1,146 @@
-Return-Path: <linux-kbuild+bounces-199-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-200-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADCBD7FE00A
-	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Nov 2023 20:02:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B74D87FE00F
+	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Nov 2023 20:03:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 619CC282A5E
-	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Nov 2023 19:02:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7230F282DD2
+	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Nov 2023 19:03:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D894F374C8;
-	Wed, 29 Nov 2023 19:02:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D89C374C8;
+	Wed, 29 Nov 2023 19:03:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=konsulko.com header.i=@konsulko.com header.b="WRYOue0L"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="OLxi/U9X"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-yw1-x1131.google.com (mail-yw1-x1131.google.com [IPv6:2607:f8b0:4864:20::1131])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B32519A5
-	for <linux-kbuild@vger.kernel.org>; Wed, 29 Nov 2023 11:02:23 -0800 (PST)
-Received: by mail-yw1-x1131.google.com with SMTP id 00721157ae682-5cdc0b3526eso910987b3.1
-        for <linux-kbuild@vger.kernel.org>; Wed, 29 Nov 2023 11:02:23 -0800 (PST)
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AB7D170E
+	for <linux-kbuild@vger.kernel.org>; Wed, 29 Nov 2023 11:03:10 -0800 (PST)
+Received: by mail-lf1-x12c.google.com with SMTP id 2adb3069b0e04-5098e423ba2so207351e87.2
+        for <linux-kbuild@vger.kernel.org>; Wed, 29 Nov 2023 11:03:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1701284542; x=1701889342; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=PcBKeJsKt+Roasz0v1naRUxWIOpYBtLfQ5xNPiC6TzM=;
-        b=WRYOue0LYBINaOhdiCni9ywvTheDnT9AJz8e8BfJCIHjWXBMKRPobgdxaEZxTf8Oo9
-         aYPhedOUEIkfExb6ZooTfAVms6Jpc4at5dSRvHGHRHSkbsLESS+yEr/+Tv3UpvL1PUSo
-         Yq+3RjXDFIj0c2TzQwUOPnyXZPUbf4v7r20Fs=
+        d=chromium.org; s=google; t=1701284589; x=1701889389; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=eqFuufKBS903oC+09D1OgJlE8YGZvK320Etdppu6ukQ=;
+        b=OLxi/U9XBNwHTtVxzR3ob93N6V3VET6+XiUhjek4TZASdl1k+KBqk/qk7IoenpU/Uy
+         IkzvqGyyteioAAIRemANxOQeJIHV7jmoJJp4ib71axLBQ2obiivVZHZ/DNZ+htpfSZ3o
+         Ej78sGPZ++yXwnsDSwE7tGXpBEBCAUZFDPLDQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701284542; x=1701889342;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PcBKeJsKt+Roasz0v1naRUxWIOpYBtLfQ5xNPiC6TzM=;
-        b=Jj9p5K9LRicTlAMIaMq3cC8/X8KOwL7TvTMzDgUu0I/WR0mMktsko21X8/0zuwKxpT
-         krGAnEhPDDluAUXMGdub2xrcR3BtKzCKgAtEvO4MxOlp8JSI25AC/Abe4IfmeViO2dA8
-         fmLFIkCNX8bIW1xslGjmA/rLJVukwqDveTQ+yK/y/taWZJV08nyMuX9rXfvBV/Rse3c6
-         mwZ5QS+253ybqXnZxtSxRSw0UQWDAI53rDCUYLGDsesTIkIIyy23LRJ1irJjGv/GmD7p
-         pNHoBpQc23I/r+XllPuYSfp+Id4OHsJQOduBXbJLllg3sjAYad6CWTGCaWf2GXMjDUOo
-         k00A==
-X-Gm-Message-State: AOJu0Yw6sWtD5DWv9lpP0edOZblPVdY8eE1NWCtmX7OHByXa+lEtUmiH
-	n76J0GfuwZX80aYF8T81rDnuyA==
-X-Google-Smtp-Source: AGHT+IHzHkSwEXPTpHD57NNGdkBTndkGP7v7ThfK3Xt/uxEh/1wuIb2yMo1BQbLzKgaGrors4qyDxw==
-X-Received: by 2002:a0d:dd48:0:b0:5ca:befc:a40d with SMTP id g69-20020a0ddd48000000b005cabefca40dmr15747142ywe.24.1701284542439;
-        Wed, 29 Nov 2023 11:02:22 -0800 (PST)
-Received: from bill-the-cat (2603-6081-7b00-6400-9fa4-b7c8-6a9a-173e.res6.spectrum.com. [2603:6081:7b00:6400:9fa4:b7c8:6a9a:173e])
-        by smtp.gmail.com with ESMTPSA id gb12-20020a05690c408c00b005cf2d42a7b2sm3225892ywb.93.2023.11.29.11.02.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Nov 2023 11:02:22 -0800 (PST)
-Date: Wed, 29 Nov 2023 14:02:20 -0500
-From: Tom Rini <trini@konsulko.com>
-To: Ahmad Fatoum <a.fatoum@pengutronix.de>
-Cc: Simon Glass <sjg@chromium.org>, linux-arm-kernel@lists.infradead.org,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	lkml <linux-kernel@vger.kernel.org>,
-	U-Boot Mailing List <u-boot@lists.denx.de>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Terrell <terrelln@fb.com>, Nicolas Schier <nicolas@fjasle.eu>,
-	Will Deacon <will@kernel.org>, linux-kbuild@vger.kernel.org,
-	Pengutronix Kernel Team <kernel@pengutronix.de>
-Subject: Re: [PATCH v7 2/2] arm64: boot: Support Flat Image Tree
-Message-ID: <20231129190220.GN2513409@bill-the-cat>
-References: <20231129172200.430674-1-sjg@chromium.org>
- <20231129172200.430674-3-sjg@chromium.org>
- <30f32467-51ea-47de-a272-38e074f4060b@pengutronix.de>
+        d=1e100.net; s=20230601; t=1701284589; x=1701889389;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=eqFuufKBS903oC+09D1OgJlE8YGZvK320Etdppu6ukQ=;
+        b=KOd36ntjH7+qMooKTC71fYKJOLLMUug0aV/6IEBVmHBK0QBYqPBQbB7CnBmpfVLTa1
+         pq/jeqRN60cbuj56bOTiNacBgktNfib7LJJy90iGbZ8cHSqXS8CBp88kqGgpx2sH6ww+
+         LqyAo+bD7nQFlPyWzsKMXLfYQSHObJqXwErhePCkb1CPJ0CtXLtCrQRKcnTYceGQjCZ6
+         HbNiuj72Jr8ucimgjvkoRTt/HSqZjw2m6TqVvA9wk/yYTo6V16ocB3r0wXk1F8ykmTgK
+         gPzNNaqXWhMRoWW3nwEv6b+O2/aoCKxJHz9nExr0gAuI8P6SOSWgtReHww3umV+/kzpa
+         xDUw==
+X-Gm-Message-State: AOJu0YzZW0QhvybU6PLrUGjlcNZe0Y3B9ALaLuPG30/O8zX/Qna2ghQX
+	6q9BK2XoRtKpbHvrPOTYafUb5HlXy203pV1vSHEtYg==
+X-Google-Smtp-Source: AGHT+IFVXUrZjpsbk8/VnzdMqcgpeht/p4RMDUy/Er0zzFvjxFoqfqyI6+x7cYid7etTRdTN+BrdV820tcBQ82gj6bM=
+X-Received: by 2002:a05:6512:2343:b0:509:455c:9e3d with SMTP id
+ p3-20020a056512234300b00509455c9e3dmr12103134lfu.18.1701284588464; Wed, 29
+ Nov 2023 11:03:08 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="vJJLzijI2B35z7R9"
-Content-Disposition: inline
+References: <20231129172200.430674-1-sjg@chromium.org> <20231129172200.430674-3-sjg@chromium.org>
+ <30f32467-51ea-47de-a272-38e074f4060b@pengutronix.de>
 In-Reply-To: <30f32467-51ea-47de-a272-38e074f4060b@pengutronix.de>
-X-Clacks-Overhead: GNU Terry Pratchett
+From: Simon Glass <sjg@chromium.org>
+Date: Wed, 29 Nov 2023 12:02:57 -0700
+Message-ID: <CAPnjgZ25xoXsi74XYY0E8ucQiowQqPdZgUHrfVNAYWKZEYODHg@mail.gmail.com>
+Subject: Re: [PATCH v7 2/2] arm64: boot: Support Flat Image Tree
+To: Ahmad Fatoum <a.fatoum@pengutronix.de>
+Cc: linux-arm-kernel@lists.infradead.org, 
+	Masahiro Yamada <masahiroy@kernel.org>, Tom Rini <trini@konsulko.com>, 
+	lkml <linux-kernel@vger.kernel.org>, U-Boot Mailing List <u-boot@lists.denx.de>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Terrell <terrelln@fb.com>, Nicolas Schier <nicolas@fjasle.eu>, Will Deacon <will@kernel.org>, 
+	linux-kbuild@vger.kernel.org, Pengutronix Kernel Team <kernel@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 
+Hi Ahmad,
 
---vJJLzijI2B35z7R9
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Nov 29, 2023 at 07:59:00PM +0100, Ahmad Fatoum wrote:
+On Wed, 29 Nov 2023 at 11:59, Ahmad Fatoum <a.fatoum@pengutronix.de> wrote:
+>
 > Hi,
->=20
+>
 > a few more comments after decompiling the FIT image:
->=20
+>
 > On 29.11.23 18:21, Simon Glass wrote:
 > > +    with fsw.add_node('kernel'):
 > > +        fsw.property_string('description', args.name)
 > > +        fsw.property_string('type', 'kernel_noload')
->=20
+>
 > The specification only says no loading done, but doesn't explain what it
-> means for a bootloader to _not_ load an image. Looking into the U-Boot co=
-mmit
-> b9b50e89d317 ("image: Implement IH_TYPE_KERNEL_NOLOAD") that introduces t=
-his,
+> means for a bootloader to _not_ load an image. Looking into the U-Boot commit
+> b9b50e89d317 ("image: Implement IH_TYPE_KERNEL_NOLOAD") that introduces this,
 > apparently no loading means ignoring load and entry address?
->=20
+>
 > I presume missing load and entry is something older U-Boot versions
-> were unhappy about? Please let me know if the semantics are as I understo=
-od,
+> were unhappy about? Please let me know if the semantics are as I understood,
 > so I can prepare a barebox patch supporting it.
 
-So the matching side for this series in U-Boot is:
-https://patchwork.ozlabs.org/project/uboot/list/?series=3D382849&state=3D*
+Oh, see my previous email.
 
-And in short, for IH_TYPE_KERNEL_NOLOAD we do our best to use it
-in-place. For decompression we allocate some space to decompress to.
+>
+> > +        fsw.property_string('arch', args.arch)
+> > +        fsw.property_string('os', args.os)
+> > +        fsw.property_string('compression', args.compress)
+> > +        fsw.property('data', data)
+> > +        fsw.property_u32('load', 0)
+> > +        fsw.property_u32('entry', 0)
+> > +
+> > +
+> > +def finish_fit(fsw, entries):
+> > +    """Finish the FIT ready for use
+> > +
+> > +    Writes the /configurations node and subnodes
+> > +
+> > +    Args:
+> > +        fsw (libfdt.FdtSw): Object to use for writing
+> > +        entries (list of tuple): List of configurations:
+> > +            str: Description of model
+> > +            str: Compatible stringlist
+> > +    """
+> > +    fsw.end_node()
+> > +    seq = 0
+> > +    with fsw.add_node('configurations'):
+> > +        for model, compat in entries:
+> > +            seq += 1
+> > +            with fsw.add_node(f'conf-{seq}'):
+> > +                fsw.property('compatible', bytes(compat))
+>
+> The specification says that this is the root U-Boot compatible,
+> which I presume to mean the top-level compatible, which makes sense to me.
+>
+> The code here though adds all compatible strings from the device tree though,
+> is this intended?
 
---=20
-Tom
+Yes, since it saves needing to read in each DT just to get the
+compatible stringlist.
 
---vJJLzijI2B35z7R9
-Content-Type: application/pgp-signature; name="signature.asc"
+>
+> > +        fsw.property_string('description', model)
+> > +        fsw.property_string('type', 'flat_dt')
+> > +        fsw.property_string('arch', arch)
+> > +        fsw.property_string('compression', compress)
+> > +        fsw.property('compatible', bytes(compat))
+>
+> I think I've never seen a compatible for a fdt node before.
+> What use does this serve?
 
------BEGIN PGP SIGNATURE-----
+It indicates the machine that the DT is for.
 
-iQGzBAABCgAdFiEEGjx/cOCPqxcHgJu/FHw5/5Y0tywFAmVnirIACgkQFHw5/5Y0
-tywO/Qv/c1oNc+/ouJBT1KN2K5RbgEALOt+sPZhysWelxhSqkcPlCjb5gfuJ7ajV
-Ul6k85FSpkGagwKzxfHCIxhuhNRgNTJ5CQZCZ5MwXV/H8oWad0dUVVbIbcWwe11/
-y9nWedxeH0poGkNULDIDQZr6d76QRvZjl631Xsz/jgTYlCXtTCin55blEo4d1oqL
-L203Zw/qoqem8gHc3UEUcVBfudB3hKE5NVKarLqcbW179w0tnKnCTunDWC8+Hseh
-FgcJ5m+x4xn4bkNkEiPZnVwhWFLsu90PAUY7SCGt1dyilThXE2WYoYGLULi3OeLz
-3EzdtJkMPqy65I95k1+fAYBHaKN/EecR7nytt7XxP/8SE/N/Qt4R72L5Uf/CCjVs
-WbPx6LV02Ig8z4F5sH3JXgaw3W0xrYWH7F9rhSbxGiWi7OAFosfXFsGTSbShpBuC
-rKD+0n8q2yqyuPBpOOV18L33WCapVyvWwjf24ozKiUiaitcXvQ5REdRVp20/bhq8
-55QIYmgN
-=y4fu
------END PGP SIGNATURE-----
-
---vJJLzijI2B35z7R9--
+Regards,
+Simon
 
