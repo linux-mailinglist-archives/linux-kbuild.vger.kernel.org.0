@@ -1,50 +1,50 @@
-Return-Path: <linux-kbuild+bounces-219-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-220-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15E5E7FFC7D
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F8367FFC7F
 	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Nov 2023 21:30:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C5C49281874
-	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Nov 2023 20:30:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4B0A7281ABA
+	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Nov 2023 20:30:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 355BE5917F;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF06D59174;
 	Thu, 30 Nov 2023 20:30:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="jC6H/6so"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="CpFPyt1F"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D61B71710
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D19F0170F
 	for <linux-kbuild@vger.kernel.org>; Thu, 30 Nov 2023 12:30:40 -0800 (PST)
-Received: by mail-ej1-x630.google.com with SMTP id a640c23a62f3a-a18b0f69b33so175175466b.0
+Received: by mail-ej1-x62b.google.com with SMTP id a640c23a62f3a-a02ba1f500fso203356966b.0
         for <linux-kbuild@vger.kernel.org>; Thu, 30 Nov 2023 12:30:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google; t=1701376239; x=1701981039; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=0ze3g+KbzqGj36cXK4KXcn2SJ1PO+nJAvkG+kKo7vKI=;
-        b=jC6H/6so6qOVA6bgYqPjfJLzj+Aim0sr8Y5sFupXQetgmB2t8qhLKb0l3KtiKZ1w+H
-         86COOvOmOGG8tT1IyEcl7GBcfxVNH/4YJVW6neK4m8BPuF6bGegrpAtGv0b1SD4gbea2
-         sdn+aazvx3Hgm3AVZlwBYFTeyCVoigJS2XIDA=
+        bh=j1kEoDVz8FmA118BIct7BasaUqEKiq39maAWu6XgfrY=;
+        b=CpFPyt1F1w6ken91peQku/clTFntwKIYj+QVeApvEoQ6+tEb3EDrUekIXWkRCkI1oi
+         MKNUdA1sQxc6q1SFJ8KSbi+K6g0GM3oh60Iy+N25It8Z+Hw4mrxPmH/b91sWXW3jTwGq
+         yOmC3ROPLfQWGMOPU7z9FGDzZ9Gb4qotV3fXo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1701376239; x=1701981039;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=0ze3g+KbzqGj36cXK4KXcn2SJ1PO+nJAvkG+kKo7vKI=;
-        b=aCopj7r/CpKh7oxQe/+pP/3IIISkbjQMO4hZvA9Szdyorenqu+qgMhLn39xjJ1j1r/
-         Sz9xvNsF1Rw0JonzGGLC0quaO+1Gq6Pis302OvTYWVPYSrbw3WfyD5HeSYNJOtb535FD
-         7G8FKq6O9xvx50QcBhdReOiZ6uOXkvrVQfZgSLxFU+LFiJCT1xIgUFk26hM7C+Ved1Mc
-         EnWvToXRdtWlev8DQWgHHrnmkDlvRy3LQqpmHW6+fAXluGRcmo4wFgy5u6GWPtRd5e47
-         eAKraG/KlAUExhSVdRZvykt4xJ4x+17QPt1aP9qewUr5AmG70anA/yoCnij64bJDrTEr
-         B6tQ==
-X-Gm-Message-State: AOJu0Yyb6bchDcnRWIchflRRCk1w1c1Sdzs16lXt4aD4FdC24Tb89W4R
-	s/t67zjsIK3WvPOSqBiSguKiWh732efSh/FY85s4RA==
-X-Google-Smtp-Source: AGHT+IF7hBJgyxS2nGwZC6cEyBKE+/ypnjV3+LlsjScXh8z5XtFWXqn22t4Iova8UzN/R3amZDfO6UlKdgPktSBI1UI=
-X-Received: by 2002:a17:906:20d7:b0:a19:a409:37e3 with SMTP id
- c23-20020a17090620d700b00a19a40937e3mr151524ejc.60.1701376238996; Thu, 30 Nov
+        bh=j1kEoDVz8FmA118BIct7BasaUqEKiq39maAWu6XgfrY=;
+        b=LsI8vlLdOo9sL6kOWw9sTGOKjJ5UFJ49pZA4rBIrnXnGPSKMq4pUSEAKK7PYrOm6Rh
+         o1fR87RSLzVMZMT9ZENmZFsOYIiAospItZ9V9SvL3nD0O8ThALO5FPW0icm4Coe39F+m
+         I1QSoXnWRMMzoZPes7YhMXs6+RVrJnq107DTGcg2cGsAuV67KQ5mpvKV8tXrlbIiICI+
+         zx5bf1kapos155+Tn3HlhBNLxvWGPtbLJCS2edk5tFmopKi+2Fgkn9s3KbsX4h4shhK2
+         K0XF0aTRxab9a+xc3FHuahdig9aHmr5qd7+RN8XhXg/N5Wee6VyyBMdhEFbaWGFY6AIJ
+         Ay/w==
+X-Gm-Message-State: AOJu0YwNrtn15jjH/fJNR70wNsbfQNvExbODVrz1s+GoOsNT7eAm+lTU
+	KrdiLK5ETjYQ33VpGvek+111V6JscjW84/QNmEYzJA==
+X-Google-Smtp-Source: AGHT+IFIp7jl3Xe9SuGYh3OvQzZO3AxM5rdMcalwjeJ+luXeVJXVWymrXe3jpNkDnguFqELGcbxrl9p2GVcMiT0/cuQ=
+X-Received: by 2002:a17:907:509d:b0:a0d:31:b455 with SMTP id
+ fv29-20020a170907509d00b00a0d0031b455mr69707ejc.20.1701376238985; Thu, 30 Nov
  2023 12:30:38 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
@@ -53,14 +53,11 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20231129172200.430674-1-sjg@chromium.org> <20231129172200.430674-3-sjg@chromium.org>
- <30f32467-51ea-47de-a272-38e074f4060b@pengutronix.de> <CAPnjgZ25xoXsi74XYY0E8ucQiowQqPdZgUHrfVNAYWKZEYODHg@mail.gmail.com>
- <875f0dbc-1d78-4901-91b2-6ad152bcea5a@pengutronix.de> <CAPnjgZ0UCkm5QCx+JXe1ggSshozPnOLB6cN=UoJyMn6S4wfFkg@mail.gmail.com>
- <06281f7c-e0f2-405c-95a9-0f7e9e84a7f6@pengutronix.de> <CAPnjgZ2TT+0BvbjwfnGLQ3EPEXnLW6f1epiFdaBHRYaSAn5xsA@mail.gmail.com>
- <8fbc81b1-31ab-46b0-87f4-b8bd8e8e2b47@pengutronix.de>
-In-Reply-To: <8fbc81b1-31ab-46b0-87f4-b8bd8e8e2b47@pengutronix.de>
+ <03595817-4698-46d3-b2d8-3bc40c7e723e@pengutronix.de>
+In-Reply-To: <03595817-4698-46d3-b2d8-3bc40c7e723e@pengutronix.de>
 From: Simon Glass <sjg@chromium.org>
-Date: Thu, 30 Nov 2023 13:30:21 -0700
-Message-ID: <CAPnjgZ1iyxk0bb56QR10N5aSphRYhLsw7Ly=z2i6rQCxP_AYPw@mail.gmail.com>
+Date: Thu, 30 Nov 2023 13:30:25 -0700
+Message-ID: <CAPnjgZ0G5DAFZj+nxVxMvNOg_wQKxwu06NAarUdVjurPYZ+tcw@mail.gmail.com>
 Subject: Re: [PATCH v7 2/2] arm64: boot: Support Flat Image Tree
 To: Ahmad Fatoum <a.fatoum@pengutronix.de>
 Cc: linux-arm-kernel@lists.infradead.org, 
@@ -73,71 +70,65 @@ Content-Type: text/plain; charset="UTF-8"
 
 Hi Ahmad,
 
-On Wed, 29 Nov 2023 at 12:54, Ahmad Fatoum <a.fatoum@pengutronix.de> wrote:
+On Wed, 29 Nov 2023 at 11:35, Ahmad Fatoum <a.fatoum@pengutronix.de> wrote:
 >
 > Hello Simon,
 >
-> On 29.11.23 20:44, Simon Glass wrote:
-> > Hi Ahmad,
-> >
-> > On Wed, 29 Nov 2023 at 12:33, Ahmad Fatoum <a.fatoum@pengutronix.de> wrote:
-> >>
-> >> On 29.11.23 20:27, Simon Glass wrote:
-> >>> On Wed, 29 Nov 2023 at 12:15, Ahmad Fatoum <a.fatoum@pengutronix.de> wrote:
-> >>>> On 29.11.23 20:02, Simon Glass wrote:
-> >>>>> On Wed, 29 Nov 2023 at 11:59, Ahmad Fatoum <a.fatoum@pengutronix.de> wrote:
-> >>>>>> The specification says that this is the root U-Boot compatible,
-> >>>>>> which I presume to mean the top-level compatible, which makes sense to me.
-> >>>>>>
-> >>>>>> The code here though adds all compatible strings from the device tree though,
-> >>>>>> is this intended?
-> >>>>>
-> >>>>> Yes, since it saves needing to read in each DT just to get the
-> >>>>> compatible stringlist.
-> >>>>
-> >>>> The spec reads as if only one string (root) is supposed to be in the list.
-> >>>> The script adds all compatibles though. This is not really useful as a bootloader
-> >>>> that's compatible with e.g. fsl,imx8mm would just take the first device tree
-> >>>> with that SoC, which is most likely to be wrong. It would be better to just
-> >>>> specify the top-level compatible, so the bootloader fails instead of taking
-> >>>> the first DT it finds.
-> >>>
-> >>> We do need to have a list, since we have to support different board revs, etc.
-> >>
-> >> Can you give me an example? The way I see it, a bootloader with
-> >> compatible "vendor,board" and a FIT with configuration with compatibles:
-> >>
-> >>   "vendor,board-rev-a", "vendor,board"
-> >>   "vendor,board-rev-b", "vendor,board"
-> >>
-> >> would just result in the bootloader booting the first configuration, even if
-> >> the device is actually rev-b.
-> >
-> > You need to find the best match, not just any match. This is
-> > documented in the function comment for fit_conf_find_compat().
+> On 29.11.23 18:21, Simon Glass wrote:
+> > Add a script which produces a Flat Image Tree (FIT), a single file
+> > containing the built kernel and associated devicetree files.
+> > Compression defaults to gzip which gives a good balance of size and
+> > performance.
 >
-> In my above example, both configuration are equally good.
-> Can you give me an example where it makes sense to have multiple
-> compatibles automatically extracted from the device tree compatible?
+> Thanks for working on this. I think it's useful to have the kernel
+> generate a FIT image out of the box. More complex use cases are always
+> free to call mkimage with a custom ITS.
 >
-> The way I see it having more than one compatible here just has
-> downsides.
+>
+> > The files compress from about 86MB to 24MB using this approach.
+> >
+> > The FIT can be used by bootloaders which support it, such as U-Boot
+> > and Linuxboot. It permits automatic selection of the correct
+> > devicetree, matching the compatible string of the running board with
+> > the closest compatible string in the FIT. There is no need for
+> > filenames or other workarounds.
+> >
+> > Add a 'make image.fit' build target for arm64, as well.
+>
+> not that it matters much, but should this maybe called Image.fit
+> as the other Image types are capitalized too?
 
-I don't have an example to hand, but this is the required mechanism of
-FIT. This feature has been in place for many years and is used by
-ChromeOS, at least.
+I missed this comment earlier. I believe Image is intended to refer to
+a raw image, with the other extensions being compressed versions of
+these. So I believe it would be confusing for the FIT version to have
+a capital I.
 
 >
-> >> The configuration already has a compatible entry. What extra use is the compatible
-> >> entry in the FDT node?
-> >
-> > It allows seeing the compatible stringlist without having to read the
-> > FDT itself. I don't believe it is necessary though, so long as we are
-> > scanning the configurations and not the FDT nodes.
+> >  EFI_ZBOOT_PAYLOAD    := Image
+> >  EFI_ZBOOT_BFD_TARGET := elf64-littleaarch64
+> >  EFI_ZBOOT_MACH_TYPE  := ARM64
+> > diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> > index 1a965fe68e01..e1c06ca3c847 100644
+> > --- a/scripts/Makefile.lib
+> > +++ b/scripts/Makefile.lib
+> > @@ -496,6 +496,19 @@ quiet_cmd_uimage = UIMAGE  $@
+> >                       -a $(UIMAGE_LOADADDR) -e $(UIMAGE_ENTRYADDR) \
+> >                       -n '$(UIMAGE_NAME)' -d $< $@
 >
-> I think it's better to drop this if it has no use.
+> Doesn't hardcoding a load address and entry address here defeat the point
+> of having FIT as generic portable image format?
+>
+> At least barebox will try to place the kernel image at physical address 0 and
+> will exit with an error message if no SDRAM is located at that address.
+> The recommendation in that case is to omit load and entry address altogether
+> to have barebox find a suitable location, but I see now that the FIT specification
+> requires a load and entry address. What would happen if U-Boot tries to load this
+> FIT image on a board that has no DRAM at address 0?
+>
+> Please Cc me on subsequent revisions. I am interested in testing that this works for barebox
+> too.
 
-OK. I cannot think of a use for it.
+I have added you.
 
 Regards,
 Simon
