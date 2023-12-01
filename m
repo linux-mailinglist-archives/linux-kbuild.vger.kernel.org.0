@@ -1,195 +1,135 @@
-Return-Path: <linux-kbuild+bounces-227-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-228-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9473E800138
-	for <lists+linux-kbuild@lfdr.de>; Fri,  1 Dec 2023 02:48:18 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9015F800161
+	for <lists+linux-kbuild@lfdr.de>; Fri,  1 Dec 2023 03:04:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4F5C02815C0
-	for <lists+linux-kbuild@lfdr.de>; Fri,  1 Dec 2023 01:48:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 49FC12814F6
+	for <lists+linux-kbuild@lfdr.de>; Fri,  1 Dec 2023 02:04:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B9784402;
-	Fri,  1 Dec 2023 01:48:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IVFKoMPX"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF6F017D2;
+	Fri,  1 Dec 2023 02:04:26 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com [IPv6:2607:f8b0:4864:20::f30])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A79A10FF;
-	Thu, 30 Nov 2023 17:48:11 -0800 (PST)
-Received: by mail-qv1-xf30.google.com with SMTP id 6a1803df08f44-67a92e8ff1dso4033296d6.1;
-        Thu, 30 Nov 2023 17:48:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701395290; x=1702000090; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:feedback-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4Jy3SbvpkTZLCuL4B9TlWmAJlDf++gUgXWUkUNiA6pU=;
-        b=IVFKoMPXuzd0puZQpxtbN01Xg1OfzzU0zEoLzm29QnsO33wEM2jiZH73GC7u4lMPPQ
-         rInuZL352qBxEvXTvkibCflOnhQKPN7EhhPqfpf7ShUgTbmzSEYSFVErR9cap56cpz1Z
-         LFCxYEVVUty1cXt+ii3ZRKOCHcaSz4NGpjkrfnTTU9vHcrzFPWRmXy5ctTanCbU0af4z
-         7SLx5ZzrOU5TD9YwPfefXKrEn00AB9Rnq7xo8pzMw9e9U2NNtHLbu+/R5EyEOhEIoznV
-         No7EfRkdwd/bGJv+auKyasoJpqlo7slQcZPeWA4FgzoyyiWe8mIm/5GtGGmHmxI7saev
-         3DLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701395290; x=1702000090;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:feedback-id:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4Jy3SbvpkTZLCuL4B9TlWmAJlDf++gUgXWUkUNiA6pU=;
-        b=BdG903suuubHBN8RNvOfVdgzt7U9E3Eroc4TTfk6JOVlk9vvdJtnETiSJ5xwh6pydx
-         62nQw7patkpRNKUCCXH+CQoBJLBKS8d7uDIcxTo2GzaHwCn4P8vehG0DRHUSkB9yqKaf
-         b0AFJoNLbc2kJ2+LB0oNnkAtHfqWmgpsTtETGizKOggQ36szZ2bs2FagkVJ90lkjDo7H
-         daYx8uALAcZ98R4eh8u0PI6anojadc7ibDLCB65Rrdq/T2yLvrdFEFWZOlC0tsGgkj06
-         ekHiRXqeGbOn/YznNMLO91A9HcN6QclMBgIGB35+qFd3rP+UbyDpCitc9BNa+B/+GWi2
-         pQ+Q==
-X-Gm-Message-State: AOJu0YyQF3nn6zkK0aSNlObljIyHCeyT1tYbxhiR0DZ9+Y2iJB3l8oS4
-	AcJ+6c60/WWbJwpJ2aTqWDk=
-X-Google-Smtp-Source: AGHT+IE8rfKZX+MV37Eqjb3CjDKvBkbb31/WuJREPHacWFrVG0YagHLwx81BM3uGnsp46rHwBSWxbg==
-X-Received: by 2002:ad4:4ea3:0:b0:67a:2b26:392c with SMTP id ed3-20020ad44ea3000000b0067a2b26392cmr31102186qvb.30.1701395290433;
-        Thu, 30 Nov 2023 17:48:10 -0800 (PST)
-Received: from auth1-smtp.messagingengine.com (auth1-smtp.messagingengine.com. [66.111.4.227])
-        by smtp.gmail.com with ESMTPSA id i1-20020a0cf101000000b0067a4a6db71bsm1015030qvl.88.2023.11.30.17.48.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Nov 2023 17:48:09 -0800 (PST)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailauth.nyi.internal (Postfix) with ESMTP id 4433D27C0054;
-	Thu, 30 Nov 2023 20:48:09 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Thu, 30 Nov 2023 20:48:09 -0500
-X-ME-Sender: <xms:VztpZRRc_MmS8nBWH_saoO6ucXUNKaNLe5afz6qHjKsQfBMm5_O5Ng>
-    <xme:VztpZaxIkz1Sr7N6Isxi6kExHrUzEOv-QEXqlE8euU9qhk7vPTeGGREpkD9QxTDLB
-    VruERAQPa6Dw2_g7g>
-X-ME-Received: <xmr:VztpZW3R8Kj50M3fvWZ2pFmaAaMd09qAHhojoj-HQqrsqPr30xs-PqlU_PY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrudeikedgfeekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepuehoqhhu
-    nhcuhfgvnhhguceosghoqhhunhdrfhgvnhhgsehgmhgrihhlrdgtohhmqeenucggtffrrg
-    htthgvrhhnpefhtedvgfdtueekvdekieetieetjeeihedvteehuddujedvkedtkeefgedv
-    vdehtdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
-    eptdenucfrrghrrghmpehmrghilhhfrhhomhepsghoqhhunhdomhgvshhmthhprghuthhh
-    phgvrhhsohhnrghlihhthidqieelvdeghedtieegqddujeejkeehheehvddqsghoqhhunh
-    drfhgvnhhgpeepghhmrghilhdrtghomhesfhhigihmvgdrnhgrmhgv
-X-ME-Proxy: <xmx:WDtpZZCFECYIP1JjCTRmaQLryzYPFO31nMCuPVs9c_bfpziqN0TSyQ>
-    <xmx:WDtpZagCDErKmBT9pK2Efhw5c7wQ3FOSFwIKWvedtXQ9Y_0cMrwHbw>
-    <xmx:WDtpZdqtRvWi_XCCgHgDpucjAlX3Z7ii02Waf_c3aZxURtf12rZ8_A>
-    <xmx:WTtpZTYpyHFDCRVwv5z03IS38nLincazxP-FknGUjfLhpzkCS3w2ZQ>
-Feedback-ID: iad51458e:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 30 Nov 2023 20:48:07 -0500 (EST)
-Date: Thu, 30 Nov 2023 17:47:18 -0800
-From: Boqun Feng <boqun.feng@gmail.com>
-To: Matthew Maurer <mmaurer@google.com>
-Cc: Jamie.Cunliffe@arm.com, Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Wedson Almeida Filho <wedsonaf@gmail.com>,
-	Masahiro Yamada <masahiroy@kernel.org>, will@kernel.org,
-	Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@samsung.com>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Nicolas Schier <nicolas@fjasle.eu>, rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	Catalin Marinas <catalin.marinas@arm.com>
-Subject: Re: [PATCH] rust: Suppress searching builtin sysroot
-Message-ID: <ZWk7JuvsyYGoDEDL@boqun-archlinux>
-References: <20231031201752.1189213-1-mmaurer@google.com>
- <ZWZYQbxWmLdwAska@boqun-archlinux>
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01BE1131
+	for <linux-kbuild@vger.kernel.org>; Thu, 30 Nov 2023 18:04:24 -0800 (PST)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[127.0.0.1])
+	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <a.fatoum@pengutronix.de>)
+	id 1r8ssr-0002h2-N1; Fri, 01 Dec 2023 03:04:01 +0100
+Message-ID: <5e8f42f8-2b03-4033-b6d2-9b3139f081d5@pengutronix.de>
+Date: Fri, 1 Dec 2023 03:03:58 +0100
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZWZYQbxWmLdwAska@boqun-archlinux>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 2/2] arm64: boot: Support Flat Image Tree
+Content-Language: en-US
+To: Simon Glass <sjg@chromium.org>
+Cc: linux-arm-kernel@lists.infradead.org,
+ Masahiro Yamada <masahiroy@kernel.org>, Tom Rini <trini@konsulko.com>,
+ lkml <linux-kernel@vger.kernel.org>,
+ U-Boot Mailing List <u-boot@lists.denx.de>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>,
+ Nicolas Schier <nicolas@fjasle.eu>, Will Deacon <will@kernel.org>,
+ linux-kbuild@vger.kernel.org, Pengutronix Kernel Team <kernel@pengutronix.de>
+References: <20231129172200.430674-1-sjg@chromium.org>
+ <20231129172200.430674-3-sjg@chromium.org>
+ <30f32467-51ea-47de-a272-38e074f4060b@pengutronix.de>
+ <CAPnjgZ25xoXsi74XYY0E8ucQiowQqPdZgUHrfVNAYWKZEYODHg@mail.gmail.com>
+ <875f0dbc-1d78-4901-91b2-6ad152bcea5a@pengutronix.de>
+ <CAPnjgZ0UCkm5QCx+JXe1ggSshozPnOLB6cN=UoJyMn6S4wfFkg@mail.gmail.com>
+ <06281f7c-e0f2-405c-95a9-0f7e9e84a7f6@pengutronix.de>
+ <CAPnjgZ2TT+0BvbjwfnGLQ3EPEXnLW6f1epiFdaBHRYaSAn5xsA@mail.gmail.com>
+ <8fbc81b1-31ab-46b0-87f4-b8bd8e8e2b47@pengutronix.de>
+ <CAPnjgZ1iyxk0bb56QR10N5aSphRYhLsw7Ly=z2i6rQCxP_AYPw@mail.gmail.com>
+From: Ahmad Fatoum <a.fatoum@pengutronix.de>
+In-Reply-To: <CAPnjgZ1iyxk0bb56QR10N5aSphRYhLsw7Ly=z2i6rQCxP_AYPw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-kbuild@vger.kernel.org
 
-On Tue, Nov 28, 2023 at 01:14:41PM -0800, Boqun Feng wrote:
-> [Cc Catalin as well]
+Hello Simon,
+
+On 30.11.23 21:30, Simon Glass wrote:
+> On Wed, 29 Nov 2023 at 12:54, Ahmad Fatoum <a.fatoum@pengutronix.de> wrote:
+>> On 29.11.23 20:44, Simon Glass wrote:
+>>> On Wed, 29 Nov 2023 at 12:33, Ahmad Fatoum <a.fatoum@pengutronix.de> wrote:
+>>>>
+>>>> On 29.11.23 20:27, Simon Glass wrote:
+>>>>> On Wed, 29 Nov 2023 at 12:15, Ahmad Fatoum <a.fatoum@pengutronix.de> wrote:
+>>>>>> On 29.11.23 20:02, Simon Glass wrote:
+>>>>>>> On Wed, 29 Nov 2023 at 11:59, Ahmad Fatoum <a.fatoum@pengutronix.de> wrote:
+>>>>>>>> The specification says that this is the root U-Boot compatible,
+>>>>>>>> which I presume to mean the top-level compatible, which makes sense to me.
+>>>>>>>>
+>>>>>>>> The code here though adds all compatible strings from the device tree though,
+>>>>>>>> is this intended?
+>>>>>>>
+>>>>>>> Yes, since it saves needing to read in each DT just to get the
+>>>>>>> compatible stringlist.
+>>>>>>
+>>>>>> The spec reads as if only one string (root) is supposed to be in the list.
+>>>>>> The script adds all compatibles though. This is not really useful as a bootloader
+>>>>>> that's compatible with e.g. fsl,imx8mm would just take the first device tree
+>>>>>> with that SoC, which is most likely to be wrong. It would be better to just
+>>>>>> specify the top-level compatible, so the bootloader fails instead of taking
+>>>>>> the first DT it finds.
+>>>>>
+>>>>> We do need to have a list, since we have to support different board revs, etc.
+>>>>
+>>>> Can you give me an example? The way I see it, a bootloader with
+>>>> compatible "vendor,board" and a FIT with configuration with compatibles:
+>>>>
+>>>>   "vendor,board-rev-a", "vendor,board"
+>>>>   "vendor,board-rev-b", "vendor,board"
+>>>>
+>>>> would just result in the bootloader booting the first configuration, even if
+>>>> the device is actually rev-b.
+>>>
+>>> You need to find the best match, not just any match. This is
+>>> documented in the function comment for fit_conf_find_compat().
+>>
+>> In my above example, both configuration are equally good.
+>> Can you give me an example where it makes sense to have multiple
+>> compatibles automatically extracted from the device tree compatible?
+>>
+>> The way I see it having more than one compatible here just has
+>> downsides.
 > 
-> On Tue, Oct 31, 2023 at 08:10:14PM +0000, Matthew Maurer wrote:
-> > By default, if Rust is passed `--target=foo` rather than a target.json
-> > file, it will infer a default sysroot if that component is installed. As
-> > the proposed aarch64 support uses `aarch64-unknown-none` rather than a
-> > target.json file, this is needed to prevent rustc from being confused
-> > between the custom kernel sysroot and the pre-installed one.
-> > 
-> > Signed-off-by: Matthew Maurer <mmaurer@google.com>
-> > ---
-> > 
-> > This patch is prompted by the issue I encountered at
-> > https://lore.kernel.org/all/CAGSQo01pOixiPXkW867h4vPUaAjtKtHGKhkV-rpifJvKxAf4Ww@mail.gmail.com/
-> > but should be generically more hermetic even if we don't end up landing
-> > that patch.
-> > 
-> 
-> I'm able to reproduce the issue you mentioned here after
-> `rustup target add aarch64-unknown-none`, and your patch fixed that.
-> 
-> Tested-by: Boqun Feng <boqun.feng@gmail.com>
-> 
+> I don't have an example to hand, but this is the required mechanism of
+> FIT. This feature has been in place for many years and is used by
+> ChromeOS, at least.
 
-Looks like I spoke too soon... we need another fix onto this:
+I see the utility of a FIT configuration with
 
-diff --git a/rust/Makefile b/rust/Makefile
-index eda32ff757b1..c573d8881686 100644
---- a/rust/Makefile
-+++ b/rust/Makefile
-@@ -178,6 +178,7 @@ quiet_cmd_rustdoc_test_kernel = RUSTDOC TK $<
-                --extern build_error --extern macros \
-                --extern bindings --extern uapi \
-                --no-run --crate-name kernel -Zunstable-options \
-+               --sysroot=/dev/null \
-                --test-builder $(objtree)/scripts/rustdoc_test_builder \
-                $< $(rustdoc_test_kernel_quiet); \
-        $(objtree)/scripts/rustdoc_test_gen
+    compatible = "vendor,board-rev-a", "vendor,board-rev-b";
 
-, this is for kernel doc test as kunit test.
+I fail to see a utility for a configuration with
 
-Needless to say, I also have tested with that and confirm it fixes the
-issue.
+    compatible = "vendor,board", "vendor,SoM", "vendor,SoC";
 
-Regards,
-Boqun
+Any configuration that ends up being booted because "vendor,SoC" was matched is
+most likely doomed to fail. Therefore, I would suggest that only the top level
+configuration is written into the FIT configurations automatically.
 
-> Regards,
-> Boqun
-> 
-> >  rust/Makefile          | 1 +
-> >  scripts/Makefile.build | 1 +
-> >  2 files changed, 2 insertions(+)
-> > 
-> > diff --git a/rust/Makefile b/rust/Makefile
-> > index a27f35f924ec..0403e88e19fd 100644
-> > --- a/rust/Makefile
-> > +++ b/rust/Makefile
-> > @@ -400,6 +400,7 @@ quiet_cmd_rustc_library = $(if $(skip_clippy),RUSTC,$(RUSTC_OR_CLIPPY_QUIET)) L
-> >  		--emit=metadata=$(dir $@)$(patsubst %.o,lib%.rmeta,$(notdir $@)) \
-> >  		--crate-type rlib -L$(objtree)/$(obj) \
-> >  		--crate-name $(patsubst %.o,%,$(notdir $@)) $< \
-> > +		--sysroot=/dev/null \
-> >  	$(if $(rustc_objcopy),;$(OBJCOPY) $(rustc_objcopy) $@)
-> >  
-> >  rust-analyzer:
-> > diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> > index 82e3fb19fdaf..6e4ee513cc3c 100644
-> > --- a/scripts/Makefile.build
-> > +++ b/scripts/Makefile.build
-> > @@ -275,6 +275,7 @@ rust_common_cmd = \
-> >  	--extern alloc --extern kernel \
-> >  	--crate-type rlib -L $(objtree)/rust/ \
-> >  	--crate-name $(basename $(notdir $@)) \
-> > +	--sysroot=/dev/null \
-> >  	--out-dir $(dir $@) --emit=dep-info=$(depfile)
-> >  
-> >  # `--emit=obj`, `--emit=asm` and `--emit=llvm-ir` imply a single codegen unit
-> > -- 
-> > 2.42.0.820.g83a721a137-goog
-> > 
+Cheers,
+Ahmad
+
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+
 
