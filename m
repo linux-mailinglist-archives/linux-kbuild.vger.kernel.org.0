@@ -1,135 +1,107 @@
-Return-Path: <linux-kbuild+bounces-228-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-229-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9015F800161
-	for <lists+linux-kbuild@lfdr.de>; Fri,  1 Dec 2023 03:04:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C574800525
+	for <lists+linux-kbuild@lfdr.de>; Fri,  1 Dec 2023 09:04:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 49FC12814F6
-	for <lists+linux-kbuild@lfdr.de>; Fri,  1 Dec 2023 02:04:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EA9F628168F
+	for <lists+linux-kbuild@lfdr.de>; Fri,  1 Dec 2023 08:04:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF6F017D2;
-	Fri,  1 Dec 2023 02:04:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7D5F15E92;
+	Fri,  1 Dec 2023 08:04:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DwzPIypo"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01BE1131
-	for <linux-kbuild@vger.kernel.org>; Thu, 30 Nov 2023 18:04:24 -0800 (PST)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[127.0.0.1])
-	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <a.fatoum@pengutronix.de>)
-	id 1r8ssr-0002h2-N1; Fri, 01 Dec 2023 03:04:01 +0100
-Message-ID: <5e8f42f8-2b03-4033-b6d2-9b3139f081d5@pengutronix.de>
-Date: Fri, 1 Dec 2023 03:03:58 +0100
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CADE10F8;
+	Fri,  1 Dec 2023 00:04:42 -0800 (PST)
+Received: by mail-lj1-x236.google.com with SMTP id 38308e7fff4ca-2c9b88cf626so24355261fa.3;
+        Fri, 01 Dec 2023 00:04:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701417880; x=1702022680; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=qTjlCC+GslsWJzNLyZ4ti8FIX5Ayf6BUta7nxCdgfSg=;
+        b=DwzPIypo/sFgCsngfWwO/Vd8QifwTn6cGoj2XZodMqmLgwhprTNpEeIjnpJP8dTf5E
+         cQIzLpq9NKZNnMvpvLiQRFE5V3m2r0b8SbCI752uWWXBQ5oQtbv1LofvJzRywdb73Qlx
+         /hdTbStMtaCRZynT44Lhe4vspNwrY4QEtW4ai5avhWkUlX28jWLGHLfAKGi4bEf4WReI
+         dHSb8tZtn4WOsBVR/Ka2OOHxwBw8CAm31eoPQW5KuXAJoAUsbECIThC98jUv9XjUp8d8
+         khQ8mrkKzTK+ixxhVkrcdWKLQx/fGIajUZEQ+1y0YbOi4uBBerFCBD/xz4YIYJuGWVUl
+         mHkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701417880; x=1702022680;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qTjlCC+GslsWJzNLyZ4ti8FIX5Ayf6BUta7nxCdgfSg=;
+        b=jKCaW1P02LEnZ8l0iLA8/PHIxegVKmoClpa0Diq6onj5xm63HcxTFZcfHKTun9ZjU1
+         IJEW7mhuXa7ZgZ6oNy3fYI2wQxl0v8P6cYlBpSWI/UWLRxW1sOixj94vCz/ScIgPBe2j
+         YnLiLzVAhsTc8IdUCZUSGyqlGUfTJdVz9KPASk1j9WtuUb0aVM3Iyuv3oseunTPm8nMW
+         efCDudNptaHa6McgsIJAF5CiBXxoy+dKAamYjCTUiRuUnnIBq0nE+mLxA0C5ROCSihxQ
+         90cgmWFLa6WwUZ+zBpc70DXIaODkQFCItkbzKFJeZbO3Y2PafVOD1zOEryOBTwrmn5T1
+         UrWg==
+X-Gm-Message-State: AOJu0YyVVOXI9h00Vm33mVtG49w+75bT2n/mpuOQ7Dzlynej5eRgzrzj
+	pJHKG8+2DjCA5bwLphIO8j+BH1ONBz3Tc9pcFlg=
+X-Google-Smtp-Source: AGHT+IFEuuxko1Q2PpI2q5cy8/izJael5ks2bFo9rN1ePwh31sc7O83FYc/61iNEILFM6s+xu0ERR56KQAymMM0pPL4=
+X-Received: by 2002:a2e:80da:0:b0:2c9:d872:e795 with SMTP id
+ r26-20020a2e80da000000b002c9d872e795mr434172ljg.76.1701417879899; Fri, 01 Dec
+ 2023 00:04:39 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 2/2] arm64: boot: Support Flat Image Tree
-Content-Language: en-US
-To: Simon Glass <sjg@chromium.org>
-Cc: linux-arm-kernel@lists.infradead.org,
- Masahiro Yamada <masahiroy@kernel.org>, Tom Rini <trini@konsulko.com>,
- lkml <linux-kernel@vger.kernel.org>,
- U-Boot Mailing List <u-boot@lists.denx.de>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>,
- Nicolas Schier <nicolas@fjasle.eu>, Will Deacon <will@kernel.org>,
- linux-kbuild@vger.kernel.org, Pengutronix Kernel Team <kernel@pengutronix.de>
-References: <20231129172200.430674-1-sjg@chromium.org>
- <20231129172200.430674-3-sjg@chromium.org>
- <30f32467-51ea-47de-a272-38e074f4060b@pengutronix.de>
- <CAPnjgZ25xoXsi74XYY0E8ucQiowQqPdZgUHrfVNAYWKZEYODHg@mail.gmail.com>
- <875f0dbc-1d78-4901-91b2-6ad152bcea5a@pengutronix.de>
- <CAPnjgZ0UCkm5QCx+JXe1ggSshozPnOLB6cN=UoJyMn6S4wfFkg@mail.gmail.com>
- <06281f7c-e0f2-405c-95a9-0f7e9e84a7f6@pengutronix.de>
- <CAPnjgZ2TT+0BvbjwfnGLQ3EPEXnLW6f1epiFdaBHRYaSAn5xsA@mail.gmail.com>
- <8fbc81b1-31ab-46b0-87f4-b8bd8e8e2b47@pengutronix.de>
- <CAPnjgZ1iyxk0bb56QR10N5aSphRYhLsw7Ly=z2i6rQCxP_AYPw@mail.gmail.com>
-From: Ahmad Fatoum <a.fatoum@pengutronix.de>
-In-Reply-To: <CAPnjgZ1iyxk0bb56QR10N5aSphRYhLsw7Ly=z2i6rQCxP_AYPw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-kbuild@vger.kernel.org
+References: <20231117-maintainers-v1-1-85f2a7422ed9@google.com> <170113164796.1670732.18133777682518787773.b4-ty@chromium.org>
+In-Reply-To: <170113164796.1670732.18133777682518787773.b4-ty@chromium.org>
+Reply-To: sedat.dilek@gmail.com
+From: Sedat Dilek <sedat.dilek@gmail.com>
+Date: Fri, 1 Dec 2023 09:04:03 +0100
+Message-ID: <CA+icZUUOFVOe7Z4q4F6nasQ--8v9wvZs9vZtLpR-p3o4UZ0HPQ@mail.gmail.com>
+Subject: Re: [PATCH] MAINTAINERS: refresh LLVM support
+To: Kees Cook <keescook@chromium.org>
+Cc: ndesaulniers@google.com, Nathan Chancellor <nathan@kernel.org>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, Tom Rix <trix@redhat.com>, 
+	Sami Tolvanen <samitolvanen@google.com>, Miguel Ojeda <ojeda@kernel.org>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, llvm@lists.linux.dev, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello Simon,
+On Tue, Nov 28, 2023 at 1:34=E2=80=AFAM Kees Cook <keescook@chromium.org> w=
+rote:
+>
+> On Fri, 17 Nov 2023 11:24:02 -0800, ndesaulniers@google.com wrote:
+> > As discussed at the ClangBuiltLinux '23 meetup (co-located with Linux P=
+lumbers
+> > Conf '23), I'll be taking a step back from kernel work to focus on my g=
+rowing
+> > family and helping Google figure out its libc story. So I think it's ti=
+me to
+> > formally hand over the reigns to my co-maintainer Nathan.
+> >
+> > As such, remove myself from reviewer for:
+> > - CLANG CONTROL FLOW INTEGRITY SUPPORT
+> > - COMPILER ATTRIBUTES
+> > - KERNEL BUILD
+> >
+> > [...]
+>
+> Applied to for-linus/hardening, thanks!
+>
+> [1/1] MAINTAINERS: refresh LLVM support
+>       https://git.kernel.org/kees/c/9099184dec26
+>
+> Take care,
+>
 
-On 30.11.23 21:30, Simon Glass wrote:
-> On Wed, 29 Nov 2023 at 12:54, Ahmad Fatoum <a.fatoum@pengutronix.de> wrote:
->> On 29.11.23 20:44, Simon Glass wrote:
->>> On Wed, 29 Nov 2023 at 12:33, Ahmad Fatoum <a.fatoum@pengutronix.de> wrote:
->>>>
->>>> On 29.11.23 20:27, Simon Glass wrote:
->>>>> On Wed, 29 Nov 2023 at 12:15, Ahmad Fatoum <a.fatoum@pengutronix.de> wrote:
->>>>>> On 29.11.23 20:02, Simon Glass wrote:
->>>>>>> On Wed, 29 Nov 2023 at 11:59, Ahmad Fatoum <a.fatoum@pengutronix.de> wrote:
->>>>>>>> The specification says that this is the root U-Boot compatible,
->>>>>>>> which I presume to mean the top-level compatible, which makes sense to me.
->>>>>>>>
->>>>>>>> The code here though adds all compatible strings from the device tree though,
->>>>>>>> is this intended?
->>>>>>>
->>>>>>> Yes, since it saves needing to read in each DT just to get the
->>>>>>> compatible stringlist.
->>>>>>
->>>>>> The spec reads as if only one string (root) is supposed to be in the list.
->>>>>> The script adds all compatibles though. This is not really useful as a bootloader
->>>>>> that's compatible with e.g. fsl,imx8mm would just take the first device tree
->>>>>> with that SoC, which is most likely to be wrong. It would be better to just
->>>>>> specify the top-level compatible, so the bootloader fails instead of taking
->>>>>> the first DT it finds.
->>>>>
->>>>> We do need to have a list, since we have to support different board revs, etc.
->>>>
->>>> Can you give me an example? The way I see it, a bootloader with
->>>> compatible "vendor,board" and a FIT with configuration with compatibles:
->>>>
->>>>   "vendor,board-rev-a", "vendor,board"
->>>>   "vendor,board-rev-b", "vendor,board"
->>>>
->>>> would just result in the bootloader booting the first configuration, even if
->>>> the device is actually rev-b.
->>>
->>> You need to find the best match, not just any match. This is
->>> documented in the function comment for fit_conf_find_compat().
->>
->> In my above example, both configuration are equally good.
->> Can you give me an example where it makes sense to have multiple
->> compatibles automatically extracted from the device tree compatible?
->>
->> The way I see it having more than one compatible here just has
->> downsides.
-> 
-> I don't have an example to hand, but this is the required mechanism of
-> FIT. This feature has been in place for many years and is used by
-> ChromeOS, at least.
+Jetzt amtlich (Now official):
 
-I see the utility of a FIT configuration with
+https://git.kernel.org/linus/994d5c58e50e91bb02c7be4a91d5186292a895c8
 
-    compatible = "vendor,board-rev-a", "vendor,board-rev-b";
-
-I fail to see a utility for a configuration with
-
-    compatible = "vendor,board", "vendor,SoM", "vendor,SoC";
-
-Any configuration that ends up being booted because "vendor,SoC" was matched is
-most likely doomed to fail. Therefore, I would suggest that only the top level
-configuration is written into the FIT configurations automatically.
-
-Cheers,
-Ahmad
-
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
-
+-sed@-
 
