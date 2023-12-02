@@ -1,607 +1,166 @@
-Return-Path: <linux-kbuild+bounces-234-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-235-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35B27801A54
-	for <lists+linux-kbuild@lfdr.de>; Sat,  2 Dec 2023 04:55:46 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CE07801DCD
+	for <lists+linux-kbuild@lfdr.de>; Sat,  2 Dec 2023 17:37:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 57F151C20A53
-	for <lists+linux-kbuild@lfdr.de>; Sat,  2 Dec 2023 03:55:45 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 43D901F2109D
+	for <lists+linux-kbuild@lfdr.de>; Sat,  2 Dec 2023 16:37:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64DA68BE3;
-	Sat,  2 Dec 2023 03:55:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D30E015495;
+	Sat,  2 Dec 2023 16:37:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="L0fLi1CJ"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="HWFqVjxo"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com [IPv6:2607:f8b0:4864:20::336])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 506D4D7E
-	for <linux-kbuild@vger.kernel.org>; Fri,  1 Dec 2023 19:55:35 -0800 (PST)
-Received: by mail-ot1-x336.google.com with SMTP id 46e09a7af769-6d7fc4661faso877761a34.3
-        for <linux-kbuild@vger.kernel.org>; Fri, 01 Dec 2023 19:55:35 -0800 (PST)
+Received: from mail-yw1-x1129.google.com (mail-yw1-x1129.google.com [IPv6:2607:f8b0:4864:20::1129])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F35A18C
+	for <linux-kbuild@vger.kernel.org>; Sat,  2 Dec 2023 08:36:56 -0800 (PST)
+Received: by mail-yw1-x1129.google.com with SMTP id 00721157ae682-5d3687a6574so29985367b3.2
+        for <linux-kbuild@vger.kernel.org>; Sat, 02 Dec 2023 08:36:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1701489334; x=1702094134; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fGDyAqGIlIFqj+1K/ul7YufMMyP/OfiICSybAyx7jis=;
-        b=L0fLi1CJPChRPqEkYN/1BYxMFXVD4GGcvQvohUuZdfrdVF0fypGIX99ljH5OeA9VVi
-         Rz4vzeYGUBHmrjrGHVgNDOxtjWW3qnsytmzJj0+yv28V3BspIZiaRaN33hugO74ivvxF
-         v8TXn+7/ykHrLOo2fN+rzbwIPlrPv21o4Oyzg=
+        d=chromium.org; s=google; t=1701535015; x=1702139815; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=fmq/cFT6Y6dC+ZGZHIOXRnqtNB/fT5Py3GIET4EXKuA=;
+        b=HWFqVjxoY9msD2DSiTEPnknGIyliVtOi9x1JdmwLq0bfqCdOifUKsbBovDkyZQcj+h
+         GObpZyLmc/m1vX4b4Vuzaw48rYdFyLi3Ic+Q4Kw+wETlBDrgy+m2o8kkTngMXCocn32k
+         DQK7grPm1McQ933SNJx0PA3Do74hQCP3Xw6io=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701489334; x=1702094134;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fGDyAqGIlIFqj+1K/ul7YufMMyP/OfiICSybAyx7jis=;
-        b=pwiQLFQIR0gBOsBHOnS+tzjsp/Aq9kGxyJ6yljUSRBRKkhbh6t7WtPG7q/9sOuiATh
-         rU02fDJMVUzImprCoE7+bCteSglv/uCB83euLT8dVxmv8p5jfhHknNEAu60qZdPOQHGA
-         UijkKuidZKLvOGk0BN9r07NrW3aFR+KvwveLvfdTVfG5yK65DGEfg31sy2LfyR+sud5l
-         kYTAxfm1Ay54LabPeNqnIsKG8M9PkhleZBtbwBNRJowHZ9Qe0uhAwTdgg+MVb8GOxbDT
-         f7zH6/fdWOPcLkJHe+FLB3zuYJ7VW/IagbPReif3lM0IHm6AN6o0F2c4X06556eHnNPb
-         yiXw==
-X-Gm-Message-State: AOJu0YyCWWgGLzyaJA9IM/jiXhpe7PPR6pRSjEVvXAj/Bg9Tr2JORpXA
-	++L18mHWnS24YOXf3/rkqblEOg==
-X-Google-Smtp-Source: AGHT+IEN+262QMeEohftb6IK/aELtfNYA2BYd0JNgtnW9Se3z4hBFxY56ZWUQPtqxvZGRkxEGfllWA==
-X-Received: by 2002:a05:6830:14e:b0:6d6:53f8:882 with SMTP id j14-20020a056830014e00b006d653f80882mr746544otp.20.1701489334574;
-        Fri, 01 Dec 2023 19:55:34 -0800 (PST)
-Received: from sjg1.roam.corp.google.com ([202.144.206.254])
-        by smtp.gmail.com with ESMTPSA id t7-20020a62d147000000b006cb60b188bdsm3866565pfl.196.2023.12.01.19.55.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Dec 2023 19:55:34 -0800 (PST)
-From: Simon Glass <sjg@chromium.org>
-To: linux-arm-kernel@lists.infradead.org
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
-	Ahmad Fatoum <a.fatoum@pengutronix.de>,
-	U-Boot Mailing List <u-boot@lists.denx.de>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Tom Rini <trini@konsulko.com>,
-	Simon Glass <sjg@chromium.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Terrell <terrelln@fb.com>,
-	Will Deacon <will@kernel.org>,
-	linux-doc@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	workflows@vger.kernel.org
-Subject: [PATCH v9 2/2] arm64: boot: Support Flat Image Tree
-Date: Fri,  1 Dec 2023 20:54:42 -0700
-Message-ID: <20231202035511.487946-3-sjg@chromium.org>
-X-Mailer: git-send-email 2.43.0.rc2.451.g8631bc7472-goog
-In-Reply-To: <20231202035511.487946-1-sjg@chromium.org>
-References: <20231202035511.487946-1-sjg@chromium.org>
+        d=1e100.net; s=20230601; t=1701535015; x=1702139815;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fmq/cFT6Y6dC+ZGZHIOXRnqtNB/fT5Py3GIET4EXKuA=;
+        b=bMScaJG/tk5EQOD5UXQR1qn9yYtrksUxAG0EmmUgdo+50S5jC1yOX1Yd8Swoe67NmK
+         Y3EzVWhnnrh1++CDG/L58gTVhJdUl3acZgASBJ+k3f7V3EkYmq01Q44nF4Wa5JMsvUEb
+         MRZS2g/z8LprLsktQO3LIGJ5W1c7t5oKtX4Lw0HKauP6LBbbfuz5K/XhHYOHGuGzbFp6
+         B2MZpviB6iEA9iQvQe3DBEhuJfpN+Sq25+OyAwYb3NNKNlf4e5ICSfjo7nAXKSN7Xq3Y
+         Bab3XevO1LCsrvZ5otq504QkiUqA2oNXYhvv3BeDzRJ4f+crXNWVQTN6uZAo7nBJPpOS
+         oJpA==
+X-Gm-Message-State: AOJu0Yz1GbpJzrzgGLNxkAa2CqgJuMuP7jG2QuWGBj8B4ag7fITFRASF
+	2nKjRz2/bIQIqzd7+gtwsS6GnVA7Cq+52e9ol74YyQ==
+X-Google-Smtp-Source: AGHT+IH/60peGhTt9y/eOb6F5Qv2MgIvlLVUHNwYYYShkzzfp7qqnH+PPUtOqXTU5FtOCPkYH/jLqHZEsFZXfccg9JQ=
+X-Received: by 2002:a81:b61f:0:b0:5cd:fd7c:274f with SMTP id
+ u31-20020a81b61f000000b005cdfd7c274fmr998750ywh.26.1701535015390; Sat, 02 Dec
+ 2023 08:36:55 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20231129172200.430674-1-sjg@chromium.org> <20231129172200.430674-3-sjg@chromium.org>
+ <30f32467-51ea-47de-a272-38e074f4060b@pengutronix.de> <CAPnjgZ25xoXsi74XYY0E8ucQiowQqPdZgUHrfVNAYWKZEYODHg@mail.gmail.com>
+ <875f0dbc-1d78-4901-91b2-6ad152bcea5a@pengutronix.de> <CAPnjgZ0UCkm5QCx+JXe1ggSshozPnOLB6cN=UoJyMn6S4wfFkg@mail.gmail.com>
+ <06281f7c-e0f2-405c-95a9-0f7e9e84a7f6@pengutronix.de> <CAPnjgZ2TT+0BvbjwfnGLQ3EPEXnLW6f1epiFdaBHRYaSAn5xsA@mail.gmail.com>
+ <8fbc81b1-31ab-46b0-87f4-b8bd8e8e2b47@pengutronix.de> <CAPnjgZ1iyxk0bb56QR10N5aSphRYhLsw7Ly=z2i6rQCxP_AYPw@mail.gmail.com>
+ <5e8f42f8-2b03-4033-b6d2-9b3139f081d5@pengutronix.de>
+In-Reply-To: <5e8f42f8-2b03-4033-b6d2-9b3139f081d5@pengutronix.de>
+From: Simon Glass <sjg@chromium.org>
+Date: Sat, 2 Dec 2023 09:36:43 -0700
+Message-ID: <CAPnjgZ2RjNzqJTRZSWvuscQhs+f8CG=fDcEO=qKXNeQLP53LnQ@mail.gmail.com>
+Subject: Re: [PATCH v7 2/2] arm64: boot: Support Flat Image Tree
+To: Ahmad Fatoum <a.fatoum@pengutronix.de>, Doug Anderson <dianders@chromium.org>
+Cc: linux-arm-kernel@lists.infradead.org, 
+	Masahiro Yamada <masahiroy@kernel.org>, Tom Rini <trini@konsulko.com>, 
+	lkml <linux-kernel@vger.kernel.org>, U-Boot Mailing List <u-boot@lists.denx.de>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Terrell <terrelln@fb.com>, Nicolas Schier <nicolas@fjasle.eu>, Will Deacon <will@kernel.org>, 
+	linux-kbuild@vger.kernel.org, Pengutronix Kernel Team <kernel@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 
-Add a script which produces a Flat Image Tree (FIT), a single file
-containing the built kernel and associated devicetree files.
-Compression defaults to gzip which gives a good balance of size and
-performance.
+Hi Ahmad,
 
-The files compress from about 86MB to 24MB using this approach.
+On Thu, 30 Nov 2023 at 19:04, Ahmad Fatoum <a.fatoum@pengutronix.de> wrote:
+>
+> Hello Simon,
+>
+> On 30.11.23 21:30, Simon Glass wrote:
+> > On Wed, 29 Nov 2023 at 12:54, Ahmad Fatoum <a.fatoum@pengutronix.de> wrote:
+> >> On 29.11.23 20:44, Simon Glass wrote:
+> >>> On Wed, 29 Nov 2023 at 12:33, Ahmad Fatoum <a.fatoum@pengutronix.de> wrote:
+> >>>>
+> >>>> On 29.11.23 20:27, Simon Glass wrote:
+> >>>>> On Wed, 29 Nov 2023 at 12:15, Ahmad Fatoum <a.fatoum@pengutronix.de> wrote:
+> >>>>>> On 29.11.23 20:02, Simon Glass wrote:
+> >>>>>>> On Wed, 29 Nov 2023 at 11:59, Ahmad Fatoum <a.fatoum@pengutronix.de> wrote:
+> >>>>>>>> The specification says that this is the root U-Boot compatible,
+> >>>>>>>> which I presume to mean the top-level compatible, which makes sense to me.
+> >>>>>>>>
+> >>>>>>>> The code here though adds all compatible strings from the device tree though,
+> >>>>>>>> is this intended?
+> >>>>>>>
+> >>>>>>> Yes, since it saves needing to read in each DT just to get the
+> >>>>>>> compatible stringlist.
+> >>>>>>
+> >>>>>> The spec reads as if only one string (root) is supposed to be in the list.
+> >>>>>> The script adds all compatibles though. This is not really useful as a bootloader
+> >>>>>> that's compatible with e.g. fsl,imx8mm would just take the first device tree
+> >>>>>> with that SoC, which is most likely to be wrong. It would be better to just
+> >>>>>> specify the top-level compatible, so the bootloader fails instead of taking
+> >>>>>> the first DT it finds.
+> >>>>>
+> >>>>> We do need to have a list, since we have to support different board revs, etc.
+> >>>>
+> >>>> Can you give me an example? The way I see it, a bootloader with
+> >>>> compatible "vendor,board" and a FIT with configuration with compatibles:
+> >>>>
+> >>>>   "vendor,board-rev-a", "vendor,board"
+> >>>>   "vendor,board-rev-b", "vendor,board"
+> >>>>
+> >>>> would just result in the bootloader booting the first configuration, even if
+> >>>> the device is actually rev-b.
+> >>>
+> >>> You need to find the best match, not just any match. This is
+> >>> documented in the function comment for fit_conf_find_compat().
+> >>
+> >> In my above example, both configuration are equally good.
+> >> Can you give me an example where it makes sense to have multiple
+> >> compatibles automatically extracted from the device tree compatible?
+> >>
+> >> The way I see it having more than one compatible here just has
+> >> downsides.
+> >
+> > I don't have an example to hand, but this is the required mechanism of
+> > FIT. This feature has been in place for many years and is used by
+> > ChromeOS, at least.
+>
+> I see the utility of a FIT configuration with
+>
+>     compatible = "vendor,board-rev-a", "vendor,board-rev-b";
+>
+> I fail to see a utility for a configuration with
+>
+>     compatible = "vendor,board", "vendor,SoM", "vendor,SoC";
+>
+> Any configuration that ends up being booted because "vendor,SoC" was matched is
+> most likely doomed to fail. Therefore, I would suggest that only the top level
+> configuration is written into the FIT configurations automatically.
 
-The FIT can be used by bootloaders which support it, such as U-Boot
-and Linuxboot. It permits automatic selection of the correct
-devicetree, matching the compatible string of the running board with
-the closest compatible string in the FIT. There is no need for
-filenames or other workarounds.
+Firstly, I am not an expert on this.
 
-Add a 'make image.fit' build target for arm64, as well. Use
-FIT_COMPRESSION to select a different algorithm.
+Say you have a board with variants. The compatible string in U-Boot
+may be something like:
 
-The FIT can be examined using 'dumpimage -l'.
+"google,veyron-brain-rev1", "google,veyron-brain", "google,veyron",
+"rockchip,rk3288";
 
-This features requires pylibfdt (use 'pip install libfdt'). It also
-requires compression utilities for the algorithm being used. Supported
-compression options are the same as the Image.xxx files. For now there
-is no way to change the compression other than by editing the rule for
-$(obj)/image.fit
+If you then have several FIT configurations, they may be something like:
 
-While FIT supports a ramdisk / initrd, no attempt is made to support
-this here, since it must be built separately from the Linux build.
+"google,veyron-brain-rev0", "google,veyron-brain", "google,veyron",
+"rockchip,rk3288";
+"google,veyron-brain-rev1", "google,veyron-brain", "google,veyron",
+"rockchip,rk3288";
+"google,veyron-brain-rev2", "google,veyron-brain", "google,veyron",
+"rockchip,rk3288";
 
-Signed-off-by: Simon Glass <sjg@chromium.org>
----
+You want to choose the second one, since it is a better match than the others.
 
-Changes in v9:
-- Move the compression control into Makefile.lib
++Doug Anderson who knows a lot more about this than me.
 
-Changes in v8:
-- Drop compatible string in FDT node
-- Correct sorting of MAINTAINERS to before ARM64 PORT
-- Turn compress part of the make_fit.py comment in to a sentence
-- Add two blank lines before parse_args() and setup_fit()
-- Use 'image.fit: dtbs' instead of BUILD_DTBS var
-- Use '$(<D)/dts' instead of '$(dir $<)dts'
-- Add 'mkimage' details Documentation/process/changes.rst
-- Allow changing the compression used
-- Tweak cover letter since there is only one clean-up patch
-
-Changes in v7:
-- Add Image as a dependency of image.fit
-- Drop kbuild tag
-- Add dependency on dtbs
-- Drop unnecessary path separator for dtbs
-- Rebase to -next
-
-Changes in v5:
-- Drop patch previously applied
-- Correct compression rule which was broken in v4
-
-Changes in v4:
-- Use single quotes for UIMAGE_NAME
-
-Changes in v3:
-- Drop temporary file image.itk
-- Drop patch 'Use double quotes for image name'
-- Drop double quotes in use of UIMAGE_NAME
-- Drop unnecessary CONFIG_EFI_ZBOOT condition for help
-- Avoid hard-coding "arm64" for the DT architecture
-
-Changes in v2:
-- Drop patch previously applied
-- Add .gitignore file
-- Move fit rule to Makefile.lib using an intermediate file
-- Drop dependency on CONFIG_EFI_ZBOOT
-- Pick up .dtb files separately from the kernel
-- Correct pylint too-many-args warning for write_kernel()
-- Include the kernel image in the file count
-- Add a pointer to the FIT spec and mention of its wide industry usage
-- Mention the kernel version in the FIT description
-
- Documentation/process/changes.rst |   9 +
- MAINTAINERS                       |   7 +
- arch/arm64/Makefile               |   7 +-
- arch/arm64/boot/.gitignore        |   1 +
- arch/arm64/boot/Makefile          |   6 +-
- scripts/Makefile.lib              |  16 ++
- scripts/make_fit.py               | 291 ++++++++++++++++++++++++++++++
- 7 files changed, 334 insertions(+), 3 deletions(-)
- create mode 100755 scripts/make_fit.py
-
-diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-index bb96ca0f774b..cad51bd5bd62 100644
---- a/Documentation/process/changes.rst
-+++ b/Documentation/process/changes.rst
-@@ -62,6 +62,7 @@ Sphinx\ [#f1]_         1.7              sphinx-build --version
- cpio                   any              cpio --version
- GNU tar                1.28             tar --version
- gtags (optional)       6.6.5            gtags --version
-+mkimage (optional)     2017.01          mkimage --version
- ====================== ===============  ========================================
- 
- .. [#f1] Sphinx is needed only to build the Kernel documentation
-@@ -189,6 +190,14 @@ The kernel build requires GNU GLOBAL version 6.6.5 or later to generate
- tag files through ``make gtags``.  This is due to its use of the gtags
- ``-C (--directory)`` flag.
- 
-+mkimage
-+-------
-+
-+This tool is used when building a Flat Image Tree (FIT), commonly used on ARM
-+platforms. The tool is available via the ``u-boot-tools`` package or can be
-+built from the U-Boot source code. See the instructions at
-+https://docs.u-boot.org/en/latest/build/tools.html#building-tools-for-linux
-+
- System utilities
- ****************
- 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 9d46229fe21b..d2d17f0d6e64 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3037,6 +3037,13 @@ F:	drivers/mmc/host/sdhci-of-arasan.c
- N:	zynq
- N:	xilinx
- 
-+ARM64 FIT SUPPORT
-+M:	Simon Glass <sjg@chromium.org>
-+L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
-+S:	Maintained
-+F:	arch/arm64/boot/Makefile
-+F:	scripts/make_fit.py
-+
- ARM64 PORT (AARCH64 ARCHITECTURE)
- M:	Catalin Marinas <catalin.marinas@arm.com>
- M:	Will Deacon <will@kernel.org>
-diff --git a/arch/arm64/Makefile b/arch/arm64/Makefile
-index 1bd4fae6e806..6b893dc454b7 100644
---- a/arch/arm64/Makefile
-+++ b/arch/arm64/Makefile
-@@ -150,7 +150,7 @@ libs-$(CONFIG_EFI_STUB) += $(objtree)/drivers/firmware/efi/libstub/lib.a
- # Default target when executing plain make
- boot		:= arch/arm64/boot
- 
--BOOT_TARGETS	:= Image vmlinuz.efi
-+BOOT_TARGETS	:= Image vmlinuz.efi image.fit
- 
- PHONY += $(BOOT_TARGETS)
- 
-@@ -162,7 +162,9 @@ endif
- 
- all:	$(notdir $(KBUILD_IMAGE))
- 
--vmlinuz.efi: Image
-+image.fit: dtbs
-+
-+vmlinuz.efi image.fit: Image
- $(BOOT_TARGETS): vmlinux
- 	$(Q)$(MAKE) $(build)=$(boot) $(boot)/$@
- 
-@@ -215,6 +217,7 @@ virtconfig:
- define archhelp
-   echo  '* Image.gz      - Compressed kernel image (arch/$(ARCH)/boot/Image.gz)'
-   echo  '  Image         - Uncompressed kernel image (arch/$(ARCH)/boot/Image)'
-+  echo  '  image.fit     - Flat Image Tree (arch/$(ARCH)/boot/image.fit)'
-   echo  '  install       - Install uncompressed kernel'
-   echo  '  zinstall      - Install compressed kernel'
-   echo  '                  Install using (your) ~/bin/installkernel or'
-diff --git a/arch/arm64/boot/.gitignore b/arch/arm64/boot/.gitignore
-index af5dc61f8b43..abaae9de1bdd 100644
---- a/arch/arm64/boot/.gitignore
-+++ b/arch/arm64/boot/.gitignore
-@@ -2,3 +2,4 @@
- Image
- Image.gz
- vmlinuz*
-+image.fit
-diff --git a/arch/arm64/boot/Makefile b/arch/arm64/boot/Makefile
-index 1761f5972443..b835c0880d1c 100644
---- a/arch/arm64/boot/Makefile
-+++ b/arch/arm64/boot/Makefile
-@@ -16,7 +16,8 @@
- 
- OBJCOPYFLAGS_Image :=-O binary -R .note -R .note.gnu.build-id -R .comment -S
- 
--targets := Image Image.bz2 Image.gz Image.lz4 Image.lzma Image.lzo Image.zst
-+targets := Image Image.bz2 Image.gz Image.lz4 Image.lzma Image.lzo \
-+	Image.zst image.fit
- 
- $(obj)/Image: vmlinux FORCE
- 	$(call if_changed,objcopy)
-@@ -39,6 +40,9 @@ $(obj)/Image.lzo: $(obj)/Image FORCE
- $(obj)/Image.zst: $(obj)/Image FORCE
- 	$(call if_changed,zstd)
- 
-+$(obj)/image.fit: $(obj)/Image FORCE
-+	$(call cmd,fit)
-+
- EFI_ZBOOT_PAYLOAD	:= Image
- EFI_ZBOOT_BFD_TARGET	:= elf64-littleaarch64
- EFI_ZBOOT_MACH_TYPE	:= ARM64
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index 1a965fe68e01..1c60d594932c 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -496,6 +496,22 @@ quiet_cmd_uimage = UIMAGE  $@
- 			-a $(UIMAGE_LOADADDR) -e $(UIMAGE_ENTRYADDR) \
- 			-n '$(UIMAGE_NAME)' -d $< $@
- 
-+# Flat Image Tree (FIT)
-+# This allows for packaging of a kernel and all devicetrees files, using
-+# compression.
-+# ---------------------------------------------------------------------------
-+
-+MAKE_FIT := $(srctree)/scripts/make_fit.py
-+
-+# Use this to override the compression algorithm
-+FIT_COMPRESSION ?= gzip
-+
-+quiet_cmd_fit = FIT     $@
-+      cmd_fit = $(MAKE_FIT) -f $@ --arch $(UIMAGE_ARCH) --os linux \
-+			--name '$(UIMAGE_NAME)' \
-+			--compress $(FIT_COMPRESSION) -k $< \
-+			$(<D)/dts
-+
- # XZ
- # ---------------------------------------------------------------------------
- # Use xzkern to compress the kernel image and xzmisc to compress other things.
-diff --git a/scripts/make_fit.py b/scripts/make_fit.py
-new file mode 100755
-index 000000000000..e616b0d7a84a
---- /dev/null
-+++ b/scripts/make_fit.py
-@@ -0,0 +1,291 @@
-+#!/usr/bin/env python3
-+# SPDX-License-Identifier: GPL-2.0+
-+#
-+# Copyright 2023 Google LLC
-+# Written by Simon Glass <sjg@chromium.org>
-+#
-+
-+"""Build a FIT containing a lot of devicetree files
-+
-+Usage:
-+    make_fit.py -A arm64 -n 'Linux-6.6' -O linux
-+        -f arch/arm64/boot/image.fit -k /tmp/kern/arch/arm64/boot/image.itk
-+        /tmp/kern/arch/arm64/boot/dts/ -E -c gzip
-+
-+Creates a FIT containing the supplied kernel and a directory containing the
-+devicetree files.
-+
-+Use -E to generate an external FIT (where the data is placed after the
-+FIT data structure). This allows parsing of the data without loading
-+the entire FIT.
-+
-+Use -c to compress the data, using bzip2, gzip, lz4, lzma, lzo and
-+zstd algorithms.
-+
-+The resulting FIT can be booted by bootloaders which support FIT, such
-+as U-Boot, Linuxboot, Tianocore, etc.
-+
-+Note that this tool does not yet support adding a ramdisk / initrd.
-+"""
-+
-+import argparse
-+import collections
-+import os
-+import subprocess
-+import sys
-+import tempfile
-+import time
-+
-+import libfdt
-+
-+
-+# Tool extension and the name of the command-line tools
-+CompTool = collections.namedtuple('CompTool', 'ext,tools')
-+
-+COMP_TOOLS = {
-+    'bzip2': CompTool('.bz2', 'bzip2'),
-+    'gzip': CompTool('.gz', 'pigz,gzip'),
-+    'lz4': CompTool('.lz4', 'lz4'),
-+    'lzma': CompTool('.lzma', 'lzma'),
-+    'lzo': CompTool('.lzo', 'lzop'),
-+    'zstd': CompTool('.zstd', 'zstd'),
-+}
-+
-+
-+def parse_args():
-+    """Parse the program ArgumentParser
-+
-+    Returns:
-+        Namespace object containing the arguments
-+    """
-+    epilog = 'Build a FIT from a directory tree containing .dtb files'
-+    parser = argparse.ArgumentParser(epilog=epilog)
-+    parser.add_argument('-A', '--arch', type=str, required=True,
-+          help='Specifies the architecture')
-+    parser.add_argument('-c', '--compress', type=str, default='none',
-+          help='Specifies the compression')
-+    parser.add_argument('-E', '--external', action='store_true',
-+          help='Convert the FIT to use external data')
-+    parser.add_argument('-n', '--name', type=str, required=True,
-+          help='Specifies the name')
-+    parser.add_argument('-O', '--os', type=str, required=True,
-+          help='Specifies the operating system')
-+    parser.add_argument('-f', '--fit', type=str, required=True,
-+          help='Specifies the output file (.fit)')
-+    parser.add_argument('-k', '--kernel', type=str, required=True,
-+          help='Specifies the (uncompressed) kernel input file (.itk)')
-+    parser.add_argument('srcdir', type=str, nargs='*',
-+          help='Specifies the directory tree that contains .dtb files')
-+
-+    return parser.parse_args()
-+
-+
-+def setup_fit(fsw, name):
-+    """Make a start on writing the FIT
-+
-+    Outputs the root properties and the 'images' node
-+
-+    Args:
-+        fsw (libfdt.FdtSw): Object to use for writing
-+        name (str): Name of kernel image
-+    """
-+    fsw.INC_SIZE = 65536
-+    fsw.finish_reservemap()
-+    fsw.begin_node('')
-+    fsw.property_string('description', f'{name} with devicetree set')
-+    fsw.property_u32('#address-cells', 1)
-+
-+    fsw.property_u32('timestamp', int(time.time()))
-+    fsw.begin_node('images')
-+
-+
-+def write_kernel(fsw, data, args):
-+    """Write out the kernel image
-+
-+    Writes a kernel node along with the required properties
-+
-+    Args:
-+        fsw (libfdt.FdtSw): Object to use for writing
-+        data (bytes): Data to write (possibly compressed)
-+        args (Namespace): Contains necessary strings:
-+            arch: FIT architecture, e.g. 'arm64'
-+            fit_os: Operating Systems, e.g. 'linux'
-+            name: Name of OS, e.g. 'Linux-6.6.0-rc7'
-+            compress: Compression algorithm to use, e.g. 'gzip'
-+    """
-+    with fsw.add_node('kernel'):
-+        fsw.property_string('description', args.name)
-+        fsw.property_string('type', 'kernel_noload')
-+        fsw.property_string('arch', args.arch)
-+        fsw.property_string('os', args.os)
-+        fsw.property_string('compression', args.compress)
-+        fsw.property('data', data)
-+        fsw.property_u32('load', 0)
-+        fsw.property_u32('entry', 0)
-+
-+
-+def finish_fit(fsw, entries):
-+    """Finish the FIT ready for use
-+
-+    Writes the /configurations node and subnodes
-+
-+    Args:
-+        fsw (libfdt.FdtSw): Object to use for writing
-+        entries (list of tuple): List of configurations:
-+            str: Description of model
-+            str: Compatible stringlist
-+    """
-+    fsw.end_node()
-+    seq = 0
-+    with fsw.add_node('configurations'):
-+        for model, compat in entries:
-+            seq += 1
-+            with fsw.add_node(f'conf-{seq}'):
-+                fsw.property('compatible', bytes(compat))
-+                fsw.property_string('description', model)
-+                fsw.property_string('fdt', f'fdt-{seq}')
-+                fsw.property_string('kernel', 'kernel')
-+    fsw.end_node()
-+
-+
-+def compress_data(inf, compress):
-+    """Compress data using a selected algorithm
-+
-+    Args:
-+        inf (IOBase): Filename containing the data to compress
-+        compress (str): Compression algorithm, e.g. 'gzip'
-+
-+    Return:
-+        bytes: Compressed data
-+    """
-+    if compress == 'none':
-+        return inf.read()
-+
-+    comp = COMP_TOOLS.get(compress)
-+    if not comp:
-+        raise ValueError(f"Unknown compression algorithm '{compress}'")
-+
-+    with tempfile.NamedTemporaryFile() as comp_fname:
-+        with open(comp_fname.name, 'wb') as outf:
-+            done = False
-+            for tool in comp.tools.split(','):
-+                try:
-+                    subprocess.call([tool, '-c'], stdin=inf, stdout=outf)
-+                    done = True
-+                    break
-+                except FileNotFoundError:
-+                    pass
-+            if not done:
-+                raise ValueError(f'Missing tool(s): {comp.tools}\n')
-+            with open(comp_fname.name, 'rb') as compf:
-+                comp_data = compf.read()
-+    return comp_data
-+
-+
-+def output_dtb(fsw, seq, fname, arch, compress):
-+    """Write out a single devicetree to the FIT
-+
-+    Args:
-+        fsw (libfdt.FdtSw): Object to use for writing
-+        seq (int): Sequence number (1 for first)
-+        fmame (str): Filename containing the DTB
-+        arch: FIT architecture, e.g. 'arm64'
-+        compress (str): Compressed algorithm, e.g. 'gzip'
-+
-+    Returns:
-+        tuple:
-+            str: Model name
-+            bytes: Compatible stringlist
-+    """
-+    with fsw.add_node(f'fdt-{seq}'):
-+        # Get the compatible / model information
-+        with open(fname, 'rb') as inf:
-+            data = inf.read()
-+        fdt = libfdt.FdtRo(data)
-+        model = fdt.getprop(0, 'model').as_str()
-+        compat = fdt.getprop(0, 'compatible')
-+
-+        fsw.property_string('description', model)
-+        fsw.property_string('type', 'flat_dt')
-+        fsw.property_string('arch', arch)
-+        fsw.property_string('compression', compress)
-+        fsw.property('compatible', bytes(compat))
-+
-+        with open(fname, 'rb') as inf:
-+            compressed = compress_data(inf, compress)
-+        fsw.property('data', compressed)
-+    return model, compat
-+
-+
-+def build_fit(args):
-+    """Build the FIT from the provided files and arguments
-+
-+    Args:
-+        args (Namespace): Program arguments
-+
-+    Returns:
-+        tuple:
-+            bytes: FIT data
-+            int: Number of configurations generated
-+            size: Total uncompressed size of data
-+    """
-+    fsw = libfdt.FdtSw()
-+    setup_fit(fsw, args.name)
-+    seq = 0
-+    size = 0
-+    entries = []
-+
-+    # Handle the kernel
-+    with open(args.kernel, 'rb') as inf:
-+        comp_data = compress_data(inf, args.compress)
-+    size += os.path.getsize(args.kernel)
-+    write_kernel(fsw, comp_data, args)
-+
-+    for path in args.srcdir:
-+        # Handle devicetree files
-+        if os.path.isdir(path):
-+            for dirpath, _, fnames in os.walk(path):
-+                for fname in fnames:
-+                    if os.path.splitext(fname)[1] != '.dtb':
-+                        continue
-+                    pathname = os.path.join(dirpath, fname)
-+                    seq += 1
-+                    size += os.path.getsize(pathname)
-+                    model, compat = output_dtb(fsw, seq, pathname,
-+                                               args.arch, args.compress)
-+                    entries.append([model, compat])
-+
-+    finish_fit(fsw, entries)
-+
-+    # Include the kernel itself in the returned file count
-+    return fsw.as_fdt().as_bytearray(), seq + 1, size
-+
-+
-+def run_make_fit():
-+    """Run the tool's main logic"""
-+    args = parse_args()
-+
-+    out_data, count, size = build_fit(args)
-+    with open(args.fit, 'wb') as outf:
-+        outf.write(out_data)
-+
-+    ext_fit_size = None
-+    if args.external:
-+        mkimage = os.environ.get('MKIMAGE', 'mkimage')
-+        subprocess.check_call([mkimage, '-E', '-F', args.fit],
-+                              stdout=subprocess.DEVNULL)
-+
-+        with open(args.fit, 'rb') as inf:
-+            data = inf.read()
-+        ext_fit = libfdt.FdtRo(data)
-+        ext_fit_size = ext_fit.totalsize()
-+
-+    comp_size = len(out_data)
-+    print(f'FIT size {comp_size:#x}/{comp_size / 1024 / 1024:.1f} MB', end='')
-+    if ext_fit_size:
-+        print(f', header {ext_fit_size:#x}/{ext_fit_size / 1024:.1f} KB', end='')
-+    print(f', {count} files, uncompressed {size / 1024 / 1024:.1f} MB')
-+
-+
-+if __name__ == "__main__":
-+    sys.exit(run_make_fit())
--- 
-2.43.0.rc2.451.g8631bc7472-goog
-
+Regards,
+Simon
 
