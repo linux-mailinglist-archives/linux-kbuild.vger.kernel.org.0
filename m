@@ -1,105 +1,88 @@
-Return-Path: <linux-kbuild+bounces-253-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-254-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40FFA802709
-	for <lists+linux-kbuild@lfdr.de>; Sun,  3 Dec 2023 20:36:53 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93888803176
+	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Dec 2023 12:25:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EBD831F20FF0
-	for <lists+linux-kbuild@lfdr.de>; Sun,  3 Dec 2023 19:36:52 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 91A3C1C2074F
+	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Dec 2023 11:25:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BC8417989;
-	Sun,  3 Dec 2023 19:36:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 234E422EE0;
+	Mon,  4 Dec 2023 11:25:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ravnborg.org header.i=@ravnborg.org header.b="sVEfynpC";
-	dkim=permerror (0-bit key) header.d=ravnborg.org header.i=@ravnborg.org header.b="2ytiNmKT"
+	dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b="Vj+KIEB0"
 X-Original-To: linux-kbuild@vger.kernel.org
-X-Greylist: delayed 975 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 03 Dec 2023 11:36:06 PST
-Received: from mailrelay5-1.pub.mailoutpod2-cph3.one.com (mailrelay5-1.pub.mailoutpod2-cph3.one.com [IPv6:2a02:2350:5:404::1])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F67226B6
-	for <linux-kbuild@vger.kernel.org>; Sun,  3 Dec 2023 11:36:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ravnborg.org; s=rsa2;
-	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
-	 from:date:from;
-	bh=rIA/VTAshu8TtbHwnRhRIY/l1QMC3eABQvOmudQt1/g=;
-	b=sVEfynpC0ny4CWOUnhDfmUGjlEvTC2IpTC6ucwVB4ykc6YBFVqAMyAHTWyw8/p1+8qx9ZAA//ZNKm
-	 mgk/X8n0eAe0B0ZIoy5nnqxLc4NEmqyL+JHUk77uXNSoCSMlF7OHLGQQ8meRYrhY/iC6J+9pBSJZd+
-	 2A7CpJU9vAcIDsFs7+kgGtrBpHMOOzhIMWoMU9Oww06ZHJnXskd72fsv/gN5TeMxu+TygrqlsRAIkn
-	 DbztQOw13qFomHk67mrQkdabk3rDZEKbwyQM+mdBV98ujJyIExD3kFZMQeEcHfcZfrlGZyKQCvAuBD
-	 +eRz71mGIyOc7geZrSZ8B56Xj/zeiFQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
-	d=ravnborg.org; s=ed2;
-	h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
-	 from:date:from;
-	bh=rIA/VTAshu8TtbHwnRhRIY/l1QMC3eABQvOmudQt1/g=;
-	b=2ytiNmKTQ2JnHyg1W4z5eLbB8CSVeaLDyP79SvslWWmrpyMJ/hTwcJNbwgMqXFxLxlzMnJkmt9dfh
-	 3pnW7g6Bg==
-X-HalOne-ID: ec77c7d3-9210-11ee-b4a7-a71ee59276a3
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
-	by mailrelay5 (Halon) with ESMTPSA
-	id ec77c7d3-9210-11ee-b4a7-a71ee59276a3;
-	Sun, 03 Dec 2023 19:19:49 +0000 (UTC)
-Date: Sun, 3 Dec 2023 20:19:47 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
+X-Greylist: delayed 444 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 04 Dec 2023 03:25:21 PST
+Received: from mail.avm.de (mail.avm.de [IPv6:2001:bf0:244:244::119])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE92F19A5
+	for <linux-kbuild@vger.kernel.org>; Mon,  4 Dec 2023 03:25:21 -0800 (PST)
+Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [212.42.244.71])
+	by mail.avm.de (Postfix) with ESMTPS;
+	Mon,  4 Dec 2023 12:17:55 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
+	t=1701688675; bh=aGkUrjrf2Bd0jPpMXffD2gS7xY90WZq7FUKU/C/NXpk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Vj+KIEB0nTU/Zn6kBIstfu/O0Q8tMYJ4j9WsQYTgrBufJBQQkRi4//zDpYJbO4zzR
+	 eDkBUi5NzD7JJZJVl+d07/sqdsfALb8YNeZQfow6kyPsnJQ03w+9FCdp6vYFg/dbLM
+	 EsRfxMvzqGWNzSu46q7JaybZMYMcOBXB3BlF8RM0=
+Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
+	by mail-auth.avm.de (Postfix) with ESMTPA id 01DB3806BD;
+	Mon,  4 Dec 2023 12:17:55 +0100 (CET)
+Received: by buildd.core.avm.de (Postfix, from userid 1000)
+	id E74951812D3; Mon,  4 Dec 2023 12:17:54 +0100 (CET)
+Date: Mon, 4 Dec 2023 12:17:54 +0100
+From: Nicolas Schier <n.schier@avm.de>
 To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
-	linux-kernel@vger.kernel.org, sparclinux@vger.kernel.org
-Subject: Re: [PATCH 1/3] sparc: vdso: clean up build artifacts in
- arch/sparc/vdso/
-Message-ID: <20231203191947.GA147536@ravnborg.org>
-References: <20231203101418.1910661-1-masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kbuild: determine base DTB by suffix
+Message-ID: <ZW21Yu73Uan+HcbL@buildd.core.avm.de>
+Mail-Followup-To: Masahiro Yamada <masahiroy@kernel.org>,
+	linux-kbuild@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	linux-kernel@vger.kernel.org
+References: <20231203080548.1869540-1-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20231203101418.1910661-1-masahiroy@kernel.org>
+In-Reply-To: <20231203080548.1869540-1-masahiroy@kernel.org>
+X-purgate-ID: 149429::1701688675-BDEE2A59-FAB33F4C/0/0
+X-purgate-type: clean
+X-purgate-size: 762
+X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
+X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
+X-purgate: clean
 
-Hi Masahiro.
-
-On Sun, Dec 03, 2023 at 07:14:16PM +0900, Masahiro Yamada wrote:
-> Currently, vdso-image-*.c, vdso*.so, vdso*.so.dbg are not cleaned
-> because 'make clean' does not include include/config/auto.conf,
-> resulting in $(vdso_img-y) being empty.
+On Sun, Dec 03, 2023 at 05:05:48PM +0900, Masahiro Yamada wrote:
+> When using the -dtbs syntax, you need to ensure to list the base first,
+> as follows:
 > 
-> Add the build artifacts to 'targets' unconditionally.
+>     foo-dtbs := foo_base.dtb foo_overlay1.dtbo foo_overlay2.dtbo
+>     dtb-y := foo.dtb
+> 
+> You cannot do this arrangement:
+> 
+>     foo-dtbs := foo_overlay1.dtbo foo_overlay2.dtbo foo_base.dtb
+> 
+> This restriction comes from $(firstword ...), but it is unneeded to
+> rely on the order in the -dtbs syntax.
+> 
+> Instead, you can simply determine the base by suffix because the
+> base (*.dtb) and overlays (*.dtbo) use different suffixes.
 > 
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-
-Nice small fix/clean-ups.
-
-This and the following two patches are:
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-
 > ---
-> 
->  arch/sparc/vdso/Makefile | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
-> 
-> diff --git a/arch/sparc/vdso/Makefile b/arch/sparc/vdso/Makefile
-> index d08c3a0443f3..eb52d0666ffc 100644
-> --- a/arch/sparc/vdso/Makefile
-> +++ b/arch/sparc/vdso/Makefile
-> @@ -24,11 +24,8 @@ targets += vdso.lds $(vobjs-y)
->  
->  # Build the vDSO image C files and link them in.
->  vdso_img_objs := $(vdso_img-y:%=vdso-image-%.o)
-> -vdso_img_cfiles := $(vdso_img-y:%=vdso-image-%.c)
-> -vdso_img_sodbg := $(vdso_img-y:%=vdso%.so.dbg)
->  obj-y += $(vdso_img_objs)
-> -targets += $(vdso_img_cfiles)
-> -targets += $(vdso_img_sodbg) $(vdso_img-y:%=vdso%.so)
-> +targets += $(foreach x, 32 64, vdso-image-$(x).c vdso$(x).so vdso$(x).so.dbg)
->  
->  CPPFLAGS_vdso.lds += -P -C
->  
-> -- 
-> 2.40.1
-> 
+
+Thanks, looks good to me.
+
+Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
 
