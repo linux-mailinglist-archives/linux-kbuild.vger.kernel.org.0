@@ -1,132 +1,178 @@
-Return-Path: <linux-kbuild+bounces-267-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-268-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D938F80641A
-	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Dec 2023 02:26:14 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 763ED8065E5
+	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Dec 2023 04:55:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E48D01C20BDB
-	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Dec 2023 01:26:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 21E3F1F216DD
+	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Dec 2023 03:55:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51895EC0;
-	Wed,  6 Dec 2023 01:26:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D04DDDAD;
+	Wed,  6 Dec 2023 03:55:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="UXm8uYZ/"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from bg4.exmail.qq.com (bg4.exmail.qq.com [43.155.65.254])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65A5BD45;
-	Tue,  5 Dec 2023 17:26:09 -0800 (PST)
-X-QQ-mid: bizesmtp71t1701825951t7a9xq2a
-Received: from localhost.localdomain ( [219.147.0.78])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Wed, 06 Dec 2023 09:25:48 +0800 (CST)
-X-QQ-SSF: 01200000000000B0J000000A0000000
-X-QQ-FEAT: AVwGxPGvfUdqbQU/G7eEgdV1fs9Yo38Y6mwGCNuioTVl0jOcC4pMJUn4smZA/
-	45jFOcuA90l4hf6qklveMLvls0JPLGxsmwUXdjwn87awODmf0E6hInIkdnZ9TZUHlbqmn5G
-	U3VuDSJLWaqiDYcZOCojTqiiUm85yKElsIc8YwVw0Vdw0WSIIDowwtl3KVrBwW8qqr7dGIa
-	l976ZY+A6PAIQQZ62bArDpRNIdo78J42KELQLDcJrR/63pCjVhTh3vR4gnWyQ0D+8ygXA/1
-	eZz0WywWZXKfkOnRiliFL/l0Kkyb33t7bVjslwdyMULEPJ+dV7CUriKA/+a0+ImoqK973qj
-	t/OJHERVuFOF+pmZERJjXENtTI84wrv3K5dGDqSHjMIK463Ly12C3Pxv9Z66w==
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 6151313308317870226
-From: Jialu Xu <xujialu@vimux.org>
-To: nathan@kernel.org
-Cc: justinstitt@google.com,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev,
-	masahiroy@kernel.org,
-	morbo@google.com,
-	ndesaulniers@google.com,
-	xujialu@vimux.org
-Subject: [PATCH v4] gen_compile_commands.py: fix path resolve with symlinks in it
-Date: Wed,  6 Dec 2023 09:24:42 +0800
-Message-Id: <20231206012441.840082-1-xujialu@vimux.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231205165648.GA391810@dev-arch.thelio-3990X>
-References: <20231205165648.GA391810@dev-arch.thelio-3990X>
+Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com [IPv6:2607:f8b0:4864:20::112d])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FEAE1B9
+	for <linux-kbuild@vger.kernel.org>; Tue,  5 Dec 2023 19:55:01 -0800 (PST)
+Received: by mail-yw1-x112d.google.com with SMTP id 00721157ae682-5d7346442d4so40176577b3.2
+        for <linux-kbuild@vger.kernel.org>; Tue, 05 Dec 2023 19:55:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1701834900; x=1702439700; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=BsR8qY+uS6/BsLD1U3jPPzDAagYHPNv5M9ReQzqjMkA=;
+        b=UXm8uYZ/Xl/VBZ/flQFs+9dAjL8MxLfaV1SwXude+vyG7dViCJ20LbYT4CQUaXdQFr
+         fetTd2xYcTrMmRoc2jpfsvdKFz+fBWlPhE4CEIuG1FJ7VLs5Iu3/o6sr2F61CeOPnDky
+         7TVjn+/jo9MjtLIgnTeHDtHwyNNDRS6XzCia8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701834900; x=1702439700;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BsR8qY+uS6/BsLD1U3jPPzDAagYHPNv5M9ReQzqjMkA=;
+        b=dzz4hB35DNjDJwRNm7MzHbWDIxlf0PXNQxMtG308g+MqF0gPGvCAlFQCYSut1QDoc6
+         S1YYIEm8R0z04kiXi1ml87SHro1rxMJ/ccgtv6W9LfGzrCstTDrqDyZ90cJOj45jShZB
+         7Mffs2vn4dAQab8GLuLGTvMobICa9BytMWQ8B0IILwwH5r7Gs81Pb0vh7EmbJuRJKser
+         S88f3a2sM2Rp+6IoB2dzXUbBR1ldNCkg/p6BpRRDg566p11FyhbuS4HelsHsUZbwrWjY
+         uxcySCqVCHpON25DUOkjXMgRdyOnWWhBZ7ufW+1f8BXplxOGpECCRVqKupWgBWPJz7kq
+         6k8w==
+X-Gm-Message-State: AOJu0YzIXNbqaTomx3Y0nK0RRHiglkUvKrakcg8a9FlYWkXkfg0U1WjM
+	6fYoCQYNbh4476cOMa1mT0KaYhjVxDHPU07+HZHjvA==
+X-Google-Smtp-Source: AGHT+IHoRbTJaveVc4lI5CNcK45wkIN9hGVufXmpLxm2ne2EuM6HpHaABsrXS8hPPj5d6lQhPotGKPmzPUEdXOur9Ro=
+X-Received: by 2002:a81:6dce:0:b0:5d7:3104:5649 with SMTP id
+ i197-20020a816dce000000b005d731045649mr174139ywc.3.1701834900083; Tue, 05 Dec
+ 2023 19:55:00 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:vimux.org:qybglogicsvrgz:qybglogicsvrgz5a-1
-X-Spam-Level: *
+References: <20231202035511.487946-1-sjg@chromium.org> <20231202035511.487946-3-sjg@chromium.org>
+ <92a3e3b4-6f4d-4ca4-947f-db905f328d4c@pengutronix.de>
+In-Reply-To: <92a3e3b4-6f4d-4ca4-947f-db905f328d4c@pengutronix.de>
+From: Simon Glass <sjg@chromium.org>
+Date: Tue, 5 Dec 2023 20:54:41 -0700
+Message-ID: <CAPnjgZ3QZh3+2PtmSvje=KAw1n1o_jmhgC1ZnhM9JBoEjLG+fQ@mail.gmail.com>
+Subject: Re: [PATCH v9 2/2] arm64: boot: Support Flat Image Tree
+To: Ahmad Fatoum <a.fatoum@pengutronix.de>
+Cc: linux-arm-kernel@lists.infradead.org, 
+	Masahiro Yamada <masahiroy@kernel.org>, U-Boot Mailing List <u-boot@lists.denx.de>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Tom Rini <trini@konsulko.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>, Will Deacon <will@kernel.org>, 
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, workflows@vger.kernel.org, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 
-When a path contains relative symbolic links, os.path.abspath() might
-not follow the symlinks and instead return the absolute path with just
-the relative paths resolved, resulting in an incorrect path.
+Hi Ahmad,
 
-1. Say "drivers/hdf/" has some symlinks:
+On Tue, 5 Dec 2023 at 04:48, Ahmad Fatoum <a.fatoum@pengutronix.de> wrote:
+>
+> Hello Simon,
+>
+> On 02.12.23 04:54, Simon Glass wrote:
+> > Add a script which produces a Flat Image Tree (FIT), a single file
+> > containing the built kernel and associated devicetree files.
+> > Compression defaults to gzip which gives a good balance of size and
+> > performance.
+> >
+> > The files compress from about 86MB to 24MB using this approach.
+> >
+> > The FIT can be used by bootloaders which support it, such as U-Boot
+> > and Linuxboot. It permits automatic selection of the correct
+> > devicetree, matching the compatible string of the running board with
+> > the closest compatible string in the FIT. There is no need for
+> > filenames or other workarounds.
+> >
+> > Add a 'make image.fit' build target for arm64, as well. Use
+> > FIT_COMPRESSION to select a different algorithm.
+> >
+> > The FIT can be examined using 'dumpimage -l'.
+> >
+> > This features requires pylibfdt (use 'pip install libfdt'). It also
+> > requires compression utilities for the algorithm being used. Supported
+> > compression options are the same as the Image.xxx files. For now there
+> > is no way to change the compression other than by editing the rule for
+> > $(obj)/image.fit
+> >
+> > While FIT supports a ramdisk / initrd, no attempt is made to support
+> > this here, since it must be built separately from the Linux build.
+> >
+> > Signed-off-by: Simon Glass <sjg@chromium.org>
+>
+> kernel_noload support is now in barebox next branch and I tested this
+> series against it:
+>
+> Tested-by: Ahmad Fatoum <a.fatoum@pengutronix.de> # barebox
+>
 
-    # ls -l drivers/hdf/
-    total 364
-    drwxrwxr-x 2 ...   4096 ... evdev
-    lrwxrwxrwx 1 ...     44 ... framework -> ../../../../../../drivers/hdf_core/framework
-    -rw-rw-r-- 1 ... 359010 ... hdf_macro_test.h
-    lrwxrwxrwx 1 ...     55 ... inner_api -> ../../../../../../drivers/hdf_core/interfaces/inner_api
-    lrwxrwxrwx 1 ...     53 ... khdf -> ../../../../../../drivers/hdf_core/adapter/khdf/linux
-    -rw-r--r-- 1 ...     74 ... Makefile
-    drwxrwxr-x 3 ...   4096 ... wifi
+OK great thank you.
 
-2. One .cmd file records that:
+> > +"""Build a FIT containing a lot of devicetree files
+> > +
+> > +Usage:
+> > +    make_fit.py -A arm64 -n 'Linux-6.6' -O linux
+> > +        -f arch/arm64/boot/image.fit -k /tmp/kern/arch/arm64/boot/image.itk
+> > +        /tmp/kern/arch/arm64/boot/dts/ -E -c gzip
+> > +
+> > +Creates a FIT containing the supplied kernel and a directory containing the
+> > +devicetree files.
+> > +
+> > +Use -E to generate an external FIT (where the data is placed after the
+> > +FIT data structure). This allows parsing of the data without loading
+> > +the entire FIT.
+> > +
+> > +Use -c to compress the data, using bzip2, gzip, lz4, lzma, lzo and
+> > +zstd algorithms.
+> > +
+> > +The resulting FIT can be booted by bootloaders which support FIT, such
+> > +as U-Boot, Linuxboot, Tianocore, etc.
+>
+> Feel free to add barebox to the list. Did you check whether Linuxboot and
+> Tianocore support kernel_noload?
 
-    # head -1 ./framework/core/manager/src/.devmgr_service.o.cmd
-    cmd_drivers/hdf/khdf/manager/../../../../framework/core/manager/src/devmgr_service.o := ... \
-    /path/to/out/drivers/hdf/khdf/manager/../../../../framework/core/manager/src/devmgr_service.c
+Only what I was told by people in those projects. They may not even
+look at the load address, but I am not an expert on that.
 
-3. os.path.abspath returns "/path/to/out/framework/core/manager/src/devmgr_service.c", not correct:
+>
+> > +        fsw.property_u32('load', 0)
+> > +        fsw.property_u32('entry', 0)
+>
+> I still think load and entry dummy values are confusing and should be dropped.
 
-    # ./scripts/clang-tools/gen_compile_commands.py
-    INFO: Could not add line from ./framework/core/manager/src/.devmgr_service.o.cmd: File \
-        /path/to/out/framework/core/manager/src/devmgr_service.c not found
+This is what the spec requires at present. But I agree we should
+change it. I will dig into that at some point to see what is needed.
 
-Use pathlib.Path.resolve(), which resolves the symlinks and normalizes
-the paths correctly.
+>
+> > +    with fsw.add_node(f'fdt-{seq}'):
+> > +        # Get the compatible / model information
+> > +        with open(fname, 'rb') as inf:
+> > +            data = inf.read()
+> > +        fdt = libfdt.FdtRo(data)
+> > +        model = fdt.getprop(0, 'model').as_str()
+> > +        compat = fdt.getprop(0, 'compatible')
+> > +
+> > +        fsw.property_string('description', model)
+> > +        fsw.property_string('type', 'flat_dt')
+> > +        fsw.property_string('arch', arch)
+> > +        fsw.property_string('compression', compress)
+> > +        fsw.property('compatible', bytes(compat))
+> > +
+> > +        with open(fname, 'rb') as inf:
+> > +            compressed = compress_data(inf, compress)
+> > +        fsw.property('data', compressed)
+> > +    return model, compat
+>
+> After Doug's elaboration, extracting multiple compatibles is fine by me.
 
-    # cat compile_commands.json
-    ...
-    {
-      "command": ...
-      "directory": ...
-      "file": "/path/to/blabla/drivers/hdf_core/framework/core/manager/src/devmgr_service.c"
-    },
-    ...
+OK good.
 
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-Signed-off-by: Jialu Xu <xujialu@vimux.org>
----
- scripts/clang-tools/gen_compile_commands.py | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/scripts/clang-tools/gen_compile_commands.py b/scripts/clang-tools/gen_compile_commands.py
-index 180952fb91c1b..99e28b7152c19 100755
---- a/scripts/clang-tools/gen_compile_commands.py
-+++ b/scripts/clang-tools/gen_compile_commands.py
-@@ -11,6 +11,7 @@ import argparse
- import json
- import logging
- import os
-+from pathlib import Path
- import re
- import subprocess
- import sys
-@@ -172,8 +173,9 @@ def process_line(root_directory, command_prefix, file_path):
-     # by Make, so this code replaces the escaped version with '#'.
-     prefix = command_prefix.replace('\#', '#').replace('$(pound)', '#')
- 
--    # Use os.path.abspath() to normalize the path resolving '.' and '..' .
--    abs_path = os.path.abspath(os.path.join(root_directory, file_path))
-+    # Make the path absolute, resolving all symlinks on the way and also normalizing it.
-+    # Convert Path object to a string because 'PosixPath' is not JSON serializable.
-+    abs_path = str(Path(root_directory, file_path).resolve())
-     if not os.path.exists(abs_path):
-         raise ValueError('File %s not found' % abs_path)
-     return {
--- 
-2.39.2
-
+Regards,
+Simon
 
