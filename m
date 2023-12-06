@@ -1,67 +1,66 @@
-Return-Path: <linux-kbuild+bounces-277-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-278-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1586807961
-	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Dec 2023 21:30:51 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7778807962
+	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Dec 2023 21:31:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9A10028211F
-	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Dec 2023 20:30:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 420A01F213D4
+	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Dec 2023 20:31:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F1B6365;
-	Wed,  6 Dec 2023 20:30:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20216363;
+	Wed,  6 Dec 2023 20:31:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="DkKLJdHo"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="nJG+0sgA"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-oo1-xc2a.google.com (mail-oo1-xc2a.google.com [IPv6:2607:f8b0:4864:20::c2a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1516193
-	for <linux-kbuild@vger.kernel.org>; Wed,  6 Dec 2023 12:30:42 -0800 (PST)
-Received: by mail-oo1-xc2a.google.com with SMTP id 006d021491bc7-58a7d13b00bso94591eaf.1
-        for <linux-kbuild@vger.kernel.org>; Wed, 06 Dec 2023 12:30:42 -0800 (PST)
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0B2612F
+	for <linux-kbuild@vger.kernel.org>; Wed,  6 Dec 2023 12:31:07 -0800 (PST)
+Received: by mail-pl1-x62a.google.com with SMTP id d9443c01a7336-1d0bcc0c313so1308955ad.3
+        for <linux-kbuild@vger.kernel.org>; Wed, 06 Dec 2023 12:31:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1701894642; x=1702499442; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1701894667; x=1702499467; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9eq3jqNRCjgDA+wj0K2ttPPKrFl4QLO2GecqrdxVpmM=;
-        b=DkKLJdHoLX8jRTwpsMLKSXOPtMhUUeSscKh0KWPYhG++7cw9B/aLd9dWWeq10lXpu+
-         0jLaEqpuJrh4lY/6bV5aR+7/rOSn+bLECK4qthgkMhcc9f9gSHBGkUMdvNPZVEz+5f2R
-         kWVFxKIIrN7v/WUxmaAxfBl97mdcA7TQijjwQ=
+        bh=R3qk0JEUVnfBQ7ISC6DHPH710X5ye95VfntDF5kK12g=;
+        b=nJG+0sgAYq880C+BDSNsCuY2GYiI//lDzFjiUQmcLW8VzhLgmVA9X+iNGwkfCy/BMm
+         TH1r5Svbgt8U0ANi0cMY1xNev258TEWTIyMJ+Jv5DwgjzEeJnE1xSagpmDLs4cNMqlov
+         /wiFS43E/5C4hgQZCgjw5PeEHz9dbQ7vIAUsw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701894642; x=1702499442;
+        d=1e100.net; s=20230601; t=1701894667; x=1702499467;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9eq3jqNRCjgDA+wj0K2ttPPKrFl4QLO2GecqrdxVpmM=;
-        b=VWZfHa2iQqUVwQq7QqDXrGvvL/mFFtJvbJCtXgH3XVMe1Y8HwkCRePv/kwzTU0n1LL
-         +eYh9OCTlMfd+sVVkNHDp7FzgD8dRyZ1fR0tGZa2tfDypeEjp89AZnTEulbCBUA1t0x2
-         +zEHwF/qIHaP5ue8ChBDGyEK9Wexx/BzhdIt3+NKcX/MTKmgQmshYTrZg0cmWvzcBWvc
-         i4m0iZEgosfy7Z0PBKbfKsYaZa1aYrSC+8SPa2A/FYYfjODCqs4D9XHazIlDLNJpq6PX
-         czo3CRIdCkV0qadAidZGblZAQWj/l3dtgMPHWJsqU2GDr5HPX6vCgkRSteJm6QudcfUp
-         lwMA==
-X-Gm-Message-State: AOJu0YxWOBJKqPXzRqQIXZZXHIEDFgRUkvtwpArT92Z++b0qZY+bDA/u
-	f8JuwngtXqzYWV5NFhjSV0cVnA==
-X-Google-Smtp-Source: AGHT+IFGDciLiie8hITCaZXsYxSpfeRhcGKgK1VIpxFeS541PLhc+AxSmpmQIejdL0xr3/qkQpn0lA==
-X-Received: by 2002:a05:6358:7504:b0:170:61c5:f2fa with SMTP id k4-20020a056358750400b0017061c5f2famr2348359rwg.38.1701894642121;
-        Wed, 06 Dec 2023 12:30:42 -0800 (PST)
+        bh=R3qk0JEUVnfBQ7ISC6DHPH710X5ye95VfntDF5kK12g=;
+        b=Cbki7MYAJnKvWpQMNGDucSBRR9NN1ma3drp3L9+6LxYDHuWeQhDJBY2nwW/7l2UZIY
+         tTK1UbvG6dqobV/PXIeg6oitfpkmS5hoXRGnHbqA4eZ/gHBatwWy0+mxL3oIgRcu9Kyd
+         +7bwfbCTXxC5kDOU6m0yiX4bwDuovj/lXk7X9ohMQy9zH9wIaEw7frzb9GXdqZPXgeoc
+         LWgQRWmSLz1gIheTOvgC2GW0WLcxfCHAxc4naaYTQs+KAtY9LJwERHDhxoQ+TU7hJxak
+         CScPM7QfiL+wwvIt2chnWD1C7P/wPbObLVkrPRynAv4zkmGJnaq0bgu6Cz0ogC/pu823
+         aJQg==
+X-Gm-Message-State: AOJu0YyQpVaS8v8JfZXSH7abEBIFFbENvGV37ZtdYcXSikZfvkNCW2r8
+	sbcszfQ8GQMLUmjise4M1HTk4w==
+X-Google-Smtp-Source: AGHT+IFTSARJXzULUfBtkG58umPSC1L0MV7PhM+1kRcHUo2wOxQLgHWPIaFOXfo8S2iijJw0Qlgv+g==
+X-Received: by 2002:a17:902:b705:b0:1d0:6ffd:8348 with SMTP id d5-20020a170902b70500b001d06ffd8348mr891494pls.83.1701894667119;
+        Wed, 06 Dec 2023 12:31:07 -0800 (PST)
 Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id r17-20020a63a011000000b005b9083b81f0sm309450pge.36.2023.12.06.12.30.41
+        by smtp.gmail.com with ESMTPSA id bf12-20020a170902b90c00b001bf8779e051sm215112plb.289.2023.12.06.12.31.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Dec 2023 12:30:41 -0800 (PST)
-Date: Wed, 6 Dec 2023 12:30:40 -0800
+        Wed, 06 Dec 2023 12:31:06 -0800 (PST)
+Date: Wed, 6 Dec 2023 12:31:05 -0800
 From: Kees Cook <keescook@chromium.org>
 To: Nathan Chancellor <nathan@kernel.org>
 Cc: masahiroy@kernel.org, ndesaulniers@google.com, morbo@google.com,
 	justinstitt@google.com, samitolvanen@google.com, nicolas@fjasle.eu,
 	linux-kbuild@vger.kernel.org, llvm@lists.linux.dev,
-	patches@lists.linux.dev, kernel test robot <lkp@intel.com>,
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>, richard@nod.at,
-	johannes@sipsolutions.net, linux-um@lists.infradead.org
-Subject: Re: [PATCH v2 1/2] um: net: Fix return type of uml_net_start_xmit()
-Message-ID: <202312061230.2210A1FE@keescook>
+	patches@lists.linux.dev
+Subject: Re: [PATCH v2 2/2] kbuild: Enable
+ -Wincompatible-function-pointer-types-strict in W=1
+Message-ID: <202312061230.DCDD958@keescook>
 References: <20231206-enable-wincompatible-function-pointer-types-strict-w-1-v2-0-91311b4c37b0@kernel.org>
- <20231206-enable-wincompatible-function-pointer-types-strict-w-1-v2-1-91311b4c37b0@kernel.org>
+ <20231206-enable-wincompatible-function-pointer-types-strict-w-1-v2-2-91311b4c37b0@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -70,33 +69,35 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231206-enable-wincompatible-function-pointer-types-strict-w-1-v2-1-91311b4c37b0@kernel.org>
+In-Reply-To: <20231206-enable-wincompatible-function-pointer-types-strict-w-1-v2-2-91311b4c37b0@kernel.org>
 
-On Wed, Dec 06, 2023 at 09:49:46AM -0700, Nathan Chancellor wrote:
-> With clang's kernel control flow integrity (kCFI, CONFIG_CFI_CLANG),
-> indirect call targets are validated against the expected function
-> pointer prototype to make sure the call target is valid to help mitigate
-> ROP attacks. If they are not identical, there is a failure at run time,
-> which manifests as either a kernel panic or thread getting killed. A
-> warning in clang aims to catch these at compile time, which reveals:
+On Wed, Dec 06, 2023 at 09:49:47AM -0700, Nathan Chancellor wrote:
+> -Wincompatible-function-pointer-types-strict aims to catch clang kernel
+> Control Flow Integrity (kCFI) violations at build time (rather than run
+> time) by validating function pointer assignments against the expected
+> prototype, similar to the existing -Wincompatible-function-pointer-types
+> that is considered a hard error in the kernel. The -strict variant
+> requires the types to match exactly, as opposed to just matching in
+> terms of ABI compatibility. This is primarily visible with int/unsigned
+> int in lieu of enum types or vice versa.
 > 
->   arch/um/drivers/net_kern.c:353:21: warning: incompatible function pointer types initializing 'netdev_tx_t (*)(struct sk_buff *, struct net_device *)' (aka 'enum netdev_tx (*)(struct sk_buff *, struct net_device *)') with an expression of type 'int (struct sk_buff *, struct net_device *)' [-Wincompatible-function-pointer-types-strict]
->     353 |         .ndo_start_xmit         = uml_net_start_xmit,
->         |                                   ^~~~~~~~~~~~~~~~~~
->   1 warning generated.
+> The tree is not completely clean, so this warning cannot currently be
+> enabled unconditionally. However, there are only warnings in one
+> subsystem ('drivers/counter'), so it is really close. In order to
+> benefit from CI infrastructure that tests with W=1, enable this warning
+> at that level, so that new instances have a chance of being caught and
+> fixed during development.
 > 
-> ->ndo_start_xmit() in 'struct net_device_ops' expects a return type of
-> 'netdev_tx_t', not 'int'. Adjust the return type of uml_net_start_xmit()
-> to match the prototype's to resolve the warning. While UML does not
-> currently implement support for kCFI, it could in the future, which
-> means this warning becomes a fatal CFI failure at run time.
+> This should eventually be a hard error in a similar manner as
+> Wincompatible-function-pointer-types but some subsystems test
+> with W=1 + CONFIG_WERROR=n, so it would be rude to break their builds
+> when they do not care about warnings outside of their subsystem.
 > 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202310031340.v1vPh207-lkp@intel.com/
-> Acked-by: Anton Ivanov <anton.ivanov@cambridgegreys.com>
+> Link: https://github.com/ClangBuiltLinux/linux/issues/1750
+> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 
-Yes please. :)
+Keeping these from leaking in is always good. Thanks!
 
 Reviewed-by: Kees Cook <keescook@chromium.org>
 
