@@ -1,119 +1,106 @@
-Return-Path: <linux-kbuild+bounces-269-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-270-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C66288074E6
-	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Dec 2023 17:26:39 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C8DA8075B8
+	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Dec 2023 17:50:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6FC341F21185
-	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Dec 2023 16:26:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AE00F1C20EDC
+	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Dec 2023 16:50:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 123694654F;
-	Wed,  6 Dec 2023 16:26:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CCB83DB99;
+	Wed,  6 Dec 2023 16:49:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MPpKGr02"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X+VQxK1x"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D77DD46547;
-	Wed,  6 Dec 2023 16:26:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D3FFC433C7;
-	Wed,  6 Dec 2023 16:26:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A117495C9;
+	Wed,  6 Dec 2023 16:49:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B6A5C433C7;
+	Wed,  6 Dec 2023 16:49:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701879995;
-	bh=ZXweG10khDuRddPxSqk8fVsgPKqy4X0Se3jxAunEMa0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MPpKGr023RclkgsGoII8sIoCNnXaC2ssQ35SGFTCKqdR3YMjzbPi0X+2ySU5Qfx8H
-	 OvAXFitLBtncNinJxD5nBJvo4pyqi0FwtJl2l/fdFUTbDsqupaezmtWhJXgaACXEnC
-	 OABSvB6hvmFG+LBNVPmiNUPOcSHRZ5uDzv5QQEGKPjknWToS2L/irVOcsUGNsjhlR6
-	 KV4shOhjOe15tBCZ9swrE9mUjwRSwYYLmFS+1H4nfK6dU7MTa0tuoD/jkx1JcWrZpY
-	 vyPAJg1Z75gKsABz7o9I1etD9lfVEM60CLkFkHVQERNgdtOJHUD9PuEzmdR7hsP0RO
-	 jobcLHiZvdfcA==
-Date: Wed, 6 Dec 2023 09:26:32 -0700
+	s=k20201202; t=1701881396;
+	bh=NSUOAVeSOFQWxSdqEOoUPgeLtKumWFEG5ZtMNjOmQwg=;
+	h=From:Subject:Date:To:Cc:From;
+	b=X+VQxK1xzmrzWqwWzGcG/rb9BcUkRKWGvxpFySO7SPTSHFMBF6LVTTBIPT8WacvUu
+	 kTF49NDmDEQ6HaBW0DZU+M4gBDkFAfBV48JGyILbSIq2J1d/TGtK4WwwZ524+bCI5h
+	 IvOAbGNE3xosJ4nAlmIjQp2tTHDoBO0Bhfpj8rq3Bhwt2AKdmQGBjI9OxFXECM2uGR
+	 8jbgz33ObyGucgW5UumUJa/KYC1Y2/JWrQh6KE1us8qIuva4wfcDzkLbwDuacIAbpn
+	 lV2VJAIzwVYnvR4NTsNYtlCgHOkIOvklOHnzxP2TBsEnCrutOkSiMvhGVwsgQx0o1b
+	 1L6sHs2pa39lQ==
 From: Nathan Chancellor <nathan@kernel.org>
-To: masahiroy@kernel.org, ndesaulniers@google.com
-Cc: nicolas@fjasle.eu, trix@redhat.com, linux-kbuild@vger.kernel.org,
-	llvm@lists.linux.dev, patches@lists.linux.dev
-Subject: Re: [PATCH] kbuild: Disable clang's
- -Wformat-{overflow,truncation}-non-kprintf
-Message-ID: <20231206162632.GA809535@dev-arch.thelio-3990X>
-References: <20231002-disable-wformat-truncation-overflow-non-kprintf-v1-1-35179205c8d9@kernel.org>
+Subject: [PATCH v2 0/2] Enable -Wincompatible-function-pointer-types-strict
+ under W=1
+Date: Wed, 06 Dec 2023 09:49:45 -0700
+Message-Id: <20231206-enable-wincompatible-function-pointer-types-strict-w-1-v2-0-91311b4c37b0@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231002-disable-wformat-truncation-overflow-non-kprintf-v1-1-35179205c8d9@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIACmmcGUC/6WOTQ6DIBCFr2JYdxqgarSr3qNxgTjqpBYIUK0x3
+ r3oFbp5yfeS97OxgJ4wsHu2MY8zBbImgbxkTI/KDAjUJWaSy5vgXAIa1U4ICxlt305FOqj/GB1
+ TEpwlE9FDXB0GCNGTjrCAgFwVZVvXbaXLnqVy57Gn7zn8bBKPFKL16/ljFof79+QsklS8Um1dF
+ F0uu8cLvcHpav3Amn3ffz+sMbP9AAAA
+To: masahiroy@kernel.org
+Cc: ndesaulniers@google.com, morbo@google.com, justinstitt@google.com, 
+ keescook@chromium.org, samitolvanen@google.com, nicolas@fjasle.eu, 
+ linux-kbuild@vger.kernel.org, llvm@lists.linux.dev, patches@lists.linux.dev, 
+ kernel test robot <lkp@intel.com>, 
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>, 
+ Nathan Chancellor <nathan@kernel.org>, richard@nod.at, 
+ johannes@sipsolutions.net, linux-um@lists.infradead.org
+X-Mailer: b4 0.13-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1477; i=nathan@kernel.org;
+ h=from:subject:message-id; bh=NSUOAVeSOFQWxSdqEOoUPgeLtKumWFEG5ZtMNjOmQwg=;
+ b=owGbwMvMwCUmm602sfCA1DTG02pJDKkFy4zE9+79nxRYHv6xenZkNP+cmLnfvLg/FK0IdfPVd
+ Z7F15fRUcrCIMbFICumyFL9WPW4oeGcs4w3Tk2CmcPKBDKEgYtTACZiZsfwVyr1cPVloQ0heyTq
+ JBvXep3p/h7kPHVnhHLZlbLbWydVxDAydP1v2HH+7MHdweePmx2+0jzlzprrR5g+P2Hi3ppzPY3
+ /MBsA
+X-Developer-Key: i=nathan@kernel.org; a=openpgp;
+ fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
 
-On Mon, Oct 02, 2023 at 12:52:28PM -0700, Nathan Chancellor wrote:
-> Recently, clang added support for -Wformat-overflow and
-> -Wformat-truncation. When building the kernel, it was discovered that
-> clang's implementation of these warnings handles the '%p' specifier,
-> which differs from GCC's implementation. This results in false positive
-> warnings due to the kernel's various '%p' extensions. Fortunately, the
-> clang developers placed this warning difference into a separate flag,
-> allowing the kernel to turn off the warning for '%p' unconditionally.
-> 
-> This is not currently an issue for a normal build, as -Wformat-overflow
-> and -Wformat-truncation are unconditionally disabled, which includes
-> this sub-warning. However, ever since commit 6d4ab2e97dcf ("extrawarn:
-> enable format and stringop overflow warnings in W=1"), these warnings
-> are in W=1 and the goal is to enable them in the normal build once they
-> are all eliminated. Disable the warnings for W=1 to avoid false
-> positives. This block should move with -Wformat-overflow and
-> -Wformat-truncation when they are enabled for a normal build.
-> 
-> Link: https://github.com/ClangBuiltLinux/linux/issues/1923
-> Link: https://github.com/llvm/llvm-project/issues/64871
-> Link: https://github.com/llvm/llvm-project/pull/65969
-> Link: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=111219
-> Link: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=78512
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> ---
->  scripts/Makefile.extrawarn | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
-> index 2fe6f2828d37..bad1baa2cfb4 100644
-> --- a/scripts/Makefile.extrawarn
-> +++ b/scripts/Makefile.extrawarn
-> @@ -106,6 +106,13 @@ KBUILD_CFLAGS += $(call cc-option, -Wunused-const-variable)
->  KBUILD_CFLAGS += $(call cc-option, -Wpacked-not-aligned)
->  KBUILD_CFLAGS += $(call cc-option, -Wformat-overflow)
->  KBUILD_CFLAGS += $(call cc-option, -Wformat-truncation)
-> +# Clang checks for overflow/truncation with '%p', while GCC does not:
-> +# https://gcc.gnu.org/bugzilla/show_bug.cgi?id=111219
-> +# The kernel has many extensions to '%p' that clang does not understand, so
-> +# always disable these warnings when '-Wformat-truncation' and
-> +# '-Wformat-overflow' are enabled.
-> +KBUILD_CFLAGS += $(call cc-disable-warning, format-overflow-non-kprintf)
-> +KBUILD_CFLAGS += $(call cc-disable-warning, format-truncation-non-kprintf)
->  KBUILD_CFLAGS += $(call cc-option, -Wstringop-overflow)
->  KBUILD_CFLAGS += $(call cc-option, -Wstringop-truncation)
->  
-> 
-> ---
-> base-commit: 8a749fd1a8720d4619c91c8b6e7528c0a355c0aa
-> change-id: 20231002-disable-wformat-truncation-overflow-non-kprintf-033e8d8b4de8
-> 
-> Best regards,
-> -- 
-> Nathan Chancellor <nathan@kernel.org>
-> 
+-Wincompatible-function-pointer-types-strict is a warning in clang-16
+and newer that is designed to catch potential kCFI failures at runtime.
+There is one set of warnings in drivers/counter that I have not been
+able to figure out a solution for so this cannot be enabled for a
+default build but adding the warning under W=1 will allow various CI
+systems to catch and report new instances so it will be easier to
+enable in a default build in the future.
 
-I am going through my outstanding patches and I noticed this was not
-picked up. Masahiro, would you like me to resend it? It still applies
-cleanly to the current kbuild tree, although there will be a conflict in
--next because of commit 89741e7e42f6 ("Makefile: Enable
--Wstringop-overflow globally"), but there is not much that can be done
-about that.
+The kbuild test robot reported one instance in arch/um, which is cleared
+up by the first patch and has an ack from an arch/um maintainer, so this
+should be able to go in via the kbuild tree.
 
-Cheers,
-Nathan
+---
+Changes in v2:
+- Rebase on latest kbuild tree.
+- Pick up Nick's reviewed-by tag.
+- Include arch/um patch with Anton's ack to clear up warning reported by
+  kbuild test robot on v1.
+- Link to v1: https://lore.kernel.org/r/20231002-enable-wincompatible-function-pointer-types-strict-w-1-v1-1-808ab955d42d@kernel.org
+
+---
+Nathan Chancellor (2):
+      um: net: Fix return type of uml_net_start_xmit()
+      kbuild: Enable -Wincompatible-function-pointer-types-strict in W=1
+
+ arch/um/drivers/net_kern.c | 2 +-
+ scripts/Makefile.extrawarn | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+---
+base-commit: 4b391dcb7cda8d1353d3bd123d0989550d48c0c9
+change-id: 20231002-enable-wincompatible-function-pointer-types-strict-w-1-4a56b99b8c6f
+
+Best regards,
+-- 
+Nathan Chancellor <nathan@kernel.org>
+
 
