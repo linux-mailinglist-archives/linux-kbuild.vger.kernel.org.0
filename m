@@ -1,34 +1,34 @@
-Return-Path: <linux-kbuild+bounces-266-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-267-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9839806406
-	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Dec 2023 02:21:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D938F80641A
+	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Dec 2023 02:26:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 264231C20B4C
-	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Dec 2023 01:21:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E48D01C20BDB
+	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Dec 2023 01:26:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63AF0A3F;
-	Wed,  6 Dec 2023 01:21:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51895EC0;
+	Wed,  6 Dec 2023 01:26:13 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from bg4.exmail.qq.com (bg4.exmail.qq.com [43.154.54.12])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29C781AA;
-	Tue,  5 Dec 2023 17:21:29 -0800 (PST)
-X-QQ-mid: bizesmtp68t1701825671tkvj01k2
+Received: from bg4.exmail.qq.com (bg4.exmail.qq.com [43.155.65.254])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65A5BD45;
+	Tue,  5 Dec 2023 17:26:09 -0800 (PST)
+X-QQ-mid: bizesmtp71t1701825951t7a9xq2a
 Received: from localhost.localdomain ( [219.147.0.78])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Wed, 06 Dec 2023 09:20:54 +0800 (CST)
+	id ; Wed, 06 Dec 2023 09:25:48 +0800 (CST)
 X-QQ-SSF: 01200000000000B0J000000A0000000
-X-QQ-FEAT: C46Rb8GPIEdQevORz54Ns4TE4UnwfxCC0E13jQg+0AJuwH4J+RvoDvhcR29qZ
-	fd0I2Ya2QhUAnVu/XxurUCK+OByf5q1TR0Hu5nCKXHaNMwwHUUTkJO7SCYNczNTCXxaR500
-	0uxLbSKqY7gbYJ77VPDhHYDpbA/HqgvojNLcHXj50CeNMyO+UMgvqku3YGgz9dV8Fee5LuR
-	Drj+X0E+7G91YYjQWovG3fFKB4UJ1zjPOosS5hOxNkCqMliB24gi25duq3jL0bHbhE1GLHm
-	ZZO1TFyhqJ52D1uDR9CkbztAnnUsGK3/lCbxidLYcd4wrGIMnSmcW7ToygoVOsryUMbQYj0
-	pScmh8LSKGGbj7U1YQTjprvkSyZHO8bvrt1RHK3bsApOPZbUCQ=
+X-QQ-FEAT: AVwGxPGvfUdqbQU/G7eEgdV1fs9Yo38Y6mwGCNuioTVl0jOcC4pMJUn4smZA/
+	45jFOcuA90l4hf6qklveMLvls0JPLGxsmwUXdjwn87awODmf0E6hInIkdnZ9TZUHlbqmn5G
+	U3VuDSJLWaqiDYcZOCojTqiiUm85yKElsIc8YwVw0Vdw0WSIIDowwtl3KVrBwW8qqr7dGIa
+	l976ZY+A6PAIQQZ62bArDpRNIdo78J42KELQLDcJrR/63pCjVhTh3vR4gnWyQ0D+8ygXA/1
+	eZz0WywWZXKfkOnRiliFL/l0Kkyb33t7bVjslwdyMULEPJ+dV7CUriKA/+a0+ImoqK973qj
+	t/OJHERVuFOF+pmZERJjXENtTI84wrv3K5dGDqSHjMIK463Ly12C3Pxv9Z66w==
 X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 16475695321451035816
+X-BIZMAIL-ID: 6151313308317870226
 From: Jialu Xu <xujialu@vimux.org>
 To: nathan@kernel.org
 Cc: justinstitt@google.com,
@@ -39,9 +39,9 @@ Cc: justinstitt@google.com,
 	morbo@google.com,
 	ndesaulniers@google.com,
 	xujialu@vimux.org
-Subject: [PATCH v3] gen_compile_commands.py: fix path resolve with symlinks in it
-Date: Wed,  6 Dec 2023 09:20:36 +0800
-Message-Id: <20231206012034.833057-2-xujialu@vimux.org>
+Subject: [PATCH v4] gen_compile_commands.py: fix path resolve with symlinks in it
+Date: Wed,  6 Dec 2023 09:24:42 +0800
+Message-Id: <20231206012441.840082-1-xujialu@vimux.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231205165648.GA391810@dev-arch.thelio-3990X>
 References: <20231205165648.GA391810@dev-arch.thelio-3990X>
@@ -54,6 +54,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
 Feedback-ID: bizesmtp:vimux.org:qybglogicsvrgz:qybglogicsvrgz5a-1
+X-Spam-Level: *
 
 When a path contains relative symbolic links, os.path.abspath() might
 not follow the symlinks and instead return the absolute path with just
@@ -96,6 +97,7 @@ the paths correctly.
     ...
 
 Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+Signed-off-by: Jialu Xu <xujialu@vimux.org>
 ---
  scripts/clang-tools/gen_compile_commands.py | 6 ++++--
  1 file changed, 4 insertions(+), 2 deletions(-)
