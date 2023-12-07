@@ -1,106 +1,115 @@
-Return-Path: <linux-kbuild+bounces-278-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-279-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7778807962
-	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Dec 2023 21:31:13 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A830880882F
+	for <lists+linux-kbuild@lfdr.de>; Thu,  7 Dec 2023 13:44:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 420A01F213D4
-	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Dec 2023 20:31:13 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 37CE7B21AAB
+	for <lists+linux-kbuild@lfdr.de>; Thu,  7 Dec 2023 12:44:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20216363;
-	Wed,  6 Dec 2023 20:31:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="nJG+0sgA"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0141F3D0AE;
+	Thu,  7 Dec 2023 12:44:35 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0B2612F
-	for <linux-kbuild@vger.kernel.org>; Wed,  6 Dec 2023 12:31:07 -0800 (PST)
-Received: by mail-pl1-x62a.google.com with SMTP id d9443c01a7336-1d0bcc0c313so1308955ad.3
-        for <linux-kbuild@vger.kernel.org>; Wed, 06 Dec 2023 12:31:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1701894667; x=1702499467; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=R3qk0JEUVnfBQ7ISC6DHPH710X5ye95VfntDF5kK12g=;
-        b=nJG+0sgAYq880C+BDSNsCuY2GYiI//lDzFjiUQmcLW8VzhLgmVA9X+iNGwkfCy/BMm
-         TH1r5Svbgt8U0ANi0cMY1xNev258TEWTIyMJ+Jv5DwgjzEeJnE1xSagpmDLs4cNMqlov
-         /wiFS43E/5C4hgQZCgjw5PeEHz9dbQ7vIAUsw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701894667; x=1702499467;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=R3qk0JEUVnfBQ7ISC6DHPH710X5ye95VfntDF5kK12g=;
-        b=Cbki7MYAJnKvWpQMNGDucSBRR9NN1ma3drp3L9+6LxYDHuWeQhDJBY2nwW/7l2UZIY
-         tTK1UbvG6dqobV/PXIeg6oitfpkmS5hoXRGnHbqA4eZ/gHBatwWy0+mxL3oIgRcu9Kyd
-         +7bwfbCTXxC5kDOU6m0yiX4bwDuovj/lXk7X9ohMQy9zH9wIaEw7frzb9GXdqZPXgeoc
-         LWgQRWmSLz1gIheTOvgC2GW0WLcxfCHAxc4naaYTQs+KAtY9LJwERHDhxoQ+TU7hJxak
-         CScPM7QfiL+wwvIt2chnWD1C7P/wPbObLVkrPRynAv4zkmGJnaq0bgu6Cz0ogC/pu823
-         aJQg==
-X-Gm-Message-State: AOJu0YyQpVaS8v8JfZXSH7abEBIFFbENvGV37ZtdYcXSikZfvkNCW2r8
-	sbcszfQ8GQMLUmjise4M1HTk4w==
-X-Google-Smtp-Source: AGHT+IFTSARJXzULUfBtkG58umPSC1L0MV7PhM+1kRcHUo2wOxQLgHWPIaFOXfo8S2iijJw0Qlgv+g==
-X-Received: by 2002:a17:902:b705:b0:1d0:6ffd:8348 with SMTP id d5-20020a170902b70500b001d06ffd8348mr891494pls.83.1701894667119;
-        Wed, 06 Dec 2023 12:31:07 -0800 (PST)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id bf12-20020a170902b90c00b001bf8779e051sm215112plb.289.2023.12.06.12.31.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Dec 2023 12:31:06 -0800 (PST)
-Date: Wed, 6 Dec 2023 12:31:05 -0800
-From: Kees Cook <keescook@chromium.org>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: masahiroy@kernel.org, ndesaulniers@google.com, morbo@google.com,
-	justinstitt@google.com, samitolvanen@google.com, nicolas@fjasle.eu,
-	linux-kbuild@vger.kernel.org, llvm@lists.linux.dev,
-	patches@lists.linux.dev
-Subject: Re: [PATCH v2 2/2] kbuild: Enable
- -Wincompatible-function-pointer-types-strict in W=1
-Message-ID: <202312061230.DCDD958@keescook>
-References: <20231206-enable-wincompatible-function-pointer-types-strict-w-1-v2-0-91311b4c37b0@kernel.org>
- <20231206-enable-wincompatible-function-pointer-types-strict-w-1-v2-2-91311b4c37b0@kernel.org>
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7B91122;
+	Thu,  7 Dec 2023 04:44:29 -0800 (PST)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.ozlabs.org (Postfix) with ESMTPSA id 4SmDVL0kpKz4xGR;
+	Thu,  7 Dec 2023 23:44:10 +1100 (AEDT)
+From: Michael Ellerman <patch-notifications@ellerman.id.au>
+To: Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Matt Turner <mattst88@gmail.com>,
+	Vineet Gupta <vgupta@kernel.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>, Guo Ren <guoren@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Greg Ungerer <gerg@linux-m68k.org>, Michal Simek <monstr@monstr.eu>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Geoff Levand <geoff@infradead.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	"David S. Miller" <davem@davemloft.net>,
+	Andy Lutomirski <luto@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molna r <mingo@redhat.com>, x86@kernel.org,
+	Helge Deller <deller@gmx.de>,
+	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Timur Tabi <timur@kernel.org>,
+	Kent Overstreet <kent.overstreet@linux.dev>,
+	David Woodhouse <dwmw2@infradead.org>,
+	"Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
+	Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>,
+	Kees Cook <keescook@chromium.org>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Uwe Kleine-König <u.kleine-koenig@pengutronix.de>,
+	linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-trace-kernel@vger.kernel.org, linux-csky@vger.kernel.org,
+	loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+	linux-mips@vger.kerne, l.org@web.codeaurora.org,
+	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+	sparclinux@vger.kernel.org, netdev@vger.kernel.org,
+	linux-parisc@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-bcachefs@vger.kernel.org, linux-mtd@lists.infradead.org
+In-Reply-To: <20231108125843.3806765-1-arnd@kernel.org>
+References: <20231108125843.3806765-1-arnd@kernel.org>
+Subject: Re: (subset) [PATCH 00/22] -Wmissing-prototype warning fixes
+Message-Id: <170195271155.2310221.7822619081586355844.b4-ty@ellerman.id.au>
+Date: Thu, 07 Dec 2023 23:38:31 +1100
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231206-enable-wincompatible-function-pointer-types-strict-w-1-v2-2-91311b4c37b0@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Dec 06, 2023 at 09:49:47AM -0700, Nathan Chancellor wrote:
-> -Wincompatible-function-pointer-types-strict aims to catch clang kernel
-> Control Flow Integrity (kCFI) violations at build time (rather than run
-> time) by validating function pointer assignments against the expected
-> prototype, similar to the existing -Wincompatible-function-pointer-types
-> that is considered a hard error in the kernel. The -strict variant
-> requires the types to match exactly, as opposed to just matching in
-> terms of ABI compatibility. This is primarily visible with int/unsigned
-> int in lieu of enum types or vice versa.
+On Wed, 08 Nov 2023 13:58:21 +0100, Arnd Bergmann wrote:
+> I slightly dropped the ball on this since last sending the series in
+> August, but a number of warning fixes have made it into the kernel in
+> the meantime, both from my earlier submission and from architecture
+> maintainers.
 > 
-> The tree is not completely clean, so this warning cannot currently be
-> enabled unconditionally. However, there are only warnings in one
-> subsystem ('drivers/counter'), so it is really close. In order to
-> benefit from CI infrastructure that tests with W=1, enable this warning
-> at that level, so that new instances have a chance of being caught and
-> fixed during development.
+> I have none patches that remain from the previous submission, with
+> two of them reworked according to comments. The additional patches
+> are from more testing across architectures and configurations that
+> I had previously missed.
 > 
-> This should eventually be a hard error in a similar manner as
-> Wincompatible-function-pointer-types but some subsystems test
-> with W=1 + CONFIG_WERROR=n, so it would be rude to break their builds
-> when they do not care about warnings outside of their subsystem.
-> 
-> Link: https://github.com/ClangBuiltLinux/linux/issues/1750
-> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> [...]
 
-Keeping these from leaking in is always good. Thanks!
+Applied to powerpc/next.
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
+[17/22] powerpc: ps3: move udbg_shutdown_ps3gelic prototype
+        https://git.kernel.org/powerpc/c/04c40eed3f7ac48ddaf20104489510e743a53c47
+[18/22] powerpc: pasemi: mark pas_shutdown() static
+        https://git.kernel.org/powerpc/c/0c9a768de64d24e38e27652b8c273725ccc31916
+[19/22] powerpc: powermac: mark smp_psurge_{give,take}_timebase static
+        https://git.kernel.org/powerpc/c/afb36ac386783d2ef2ed839293c03fd06f470be0
 
--- 
-Kees Cook
+cheers
 
