@@ -1,94 +1,147 @@
-Return-Path: <linux-kbuild+bounces-281-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-282-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFD0A8089E0
-	for <lists+linux-kbuild@lfdr.de>; Thu,  7 Dec 2023 15:09:53 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 042A1808A7E
+	for <lists+linux-kbuild@lfdr.de>; Thu,  7 Dec 2023 15:27:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EB2551C20B6B
-	for <lists+linux-kbuild@lfdr.de>; Thu,  7 Dec 2023 14:09:52 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6431FB20E96
+	for <lists+linux-kbuild@lfdr.de>; Thu,  7 Dec 2023 14:27:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E7C541759;
-	Thu,  7 Dec 2023 14:09:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C2EF41C94;
+	Thu,  7 Dec 2023 14:27:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="S/HaNrIl"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97E1610F9
-	for <linux-kbuild@vger.kernel.org>; Thu,  7 Dec 2023 06:09:47 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rBF4P-0001Zz-Nd; Thu, 07 Dec 2023 15:09:41 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rBF4O-00ECj1-Uk; Thu, 07 Dec 2023 15:09:40 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rBF4O-00FvTM-Lc; Thu, 07 Dec 2023 15:09:40 +0100
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>
-Cc: linux-hwmon@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
-	kernel@pengutronix.de
-Subject: [PATCH 1/4] hwmon: (smsc47m1) Mark driver struct with __refdata to prevent section mismatch
-Date: Thu,  7 Dec 2023 15:09:29 +0100
-Message-ID:  <57977a88a9b99b6555b227aa4994ac3df10c6490.1701957840.git.u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <cover.1701957840.git.u.kleine-koenig@pengutronix.de>
-References: <cover.1701957840.git.u.kleine-koenig@pengutronix.de>
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4ACE110C3
+	for <linux-kbuild@vger.kernel.org>; Thu,  7 Dec 2023 06:27:28 -0800 (PST)
+Received: by mail-pj1-x102b.google.com with SMTP id 98e67ed59e1d1-2868cf6cb82so816301a91.3
+        for <linux-kbuild@vger.kernel.org>; Thu, 07 Dec 2023 06:27:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1701959248; x=1702564048; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=FnUqi8dAEgGMyEzBxdD28hEtaCGQO1gXXHV0T1kN7CU=;
+        b=S/HaNrIlZ1DvlTNB0E5lv/B/jagUzSzYVkBFDPkoNIN1LiRa1I0xHQINUKVCg0TNSR
+         SM8n1x6D6WJHzB+l3IkgyqBLYA5Jz9TniilXPvrPTiF/RF22DXM2XhS7PgktPvNbpLWh
+         eQy/d/QFNFVcy+m/YZA/NdrB5w7zq9ehc4c6U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701959248; x=1702564048;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FnUqi8dAEgGMyEzBxdD28hEtaCGQO1gXXHV0T1kN7CU=;
+        b=DvdyZ2fxGDL9BVzciK/wlBT5p1uk8KMY/a0g8CSmcqlIwiq2cIGXFXT4+TFAP1MyNS
+         SIugwdZfBya7YnxAc0/muPftYJKUEPjqcgHa+6QSjkQ6rxZ4cF7Oj8GK+o7I0DE1IbEV
+         3QGVQGl3o2H+NgC3nXRjnqUvEmvP7V8Y+vKlQ1FSwOOi9cqkhnR0Jdun1iuct5A8Z+Vc
+         atDWXKt9Dt7fopgJgp4ft+S7ZpjMnpfe8nJViwynA5RKJubICO6Yxe3FQD8JJjENjDFf
+         iLsrtPYrPaQ+aNkmENQbph/wS20KO90ojtyM5NEPhjyd/9/EfOg8NPSsxfJY+GaD6Wcu
+         0AAg==
+X-Gm-Message-State: AOJu0YweKI/HzeiZNnoirAZ6N6+wueNyS9TkTKJYzbn56NrvSG3jI2Qk
+	cdvd/OW1SsKCLpk0+d+YS6Ey5A==
+X-Google-Smtp-Source: AGHT+IH8AzbuT3bEW5QtQ3VpbuixskHTKbrXXL1zs3HHhHdzRy4lAaYreOoFMvEXA8A9ADp82mykHw==
+X-Received: by 2002:a17:90a:e009:b0:286:6cc0:b918 with SMTP id u9-20020a17090ae00900b002866cc0b918mr2087016pjy.79.1701959247711;
+        Thu, 07 Dec 2023 06:27:27 -0800 (PST)
+Received: from google.com ([2401:fa00:1:10:e0f4:e383:e626:f567])
+        by smtp.gmail.com with ESMTPSA id d15-20020a170902654f00b001cfc2d024edsm1507200pln.29.2023.12.07.06.27.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Dec 2023 06:27:27 -0800 (PST)
+Date: Thu, 7 Dec 2023 22:27:23 +0800
+From: Chen-Yu Tsai <wenst@chromium.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Simon Glass <sjg@chromium.org>, linux-arm-kernel@lists.infradead.org,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Ahmad Fatoum <a.fatoum@pengutronix.de>,
+	U-Boot Mailing List <u-boot@lists.denx.de>,
+	Nicolas Schier <nicolas@fjasle.eu>, Tom Rini <trini@konsulko.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Terrell <terrelln@fb.com>, Will Deacon <will@kernel.org>,
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, workflows@vger.kernel.org
+Subject: Re: [PATCH v9 2/2] arm64: boot: Support Flat Image Tree
+Message-ID: <20231207142723.GA3187877@google.com>
+References: <20231202035511.487946-1-sjg@chromium.org>
+ <20231202035511.487946-3-sjg@chromium.org>
+ <20231203153401.GV8402@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1297; i=u.kleine-koenig@pengutronix.de; h=from:subject:message-id; bh=/kNNaHtUk+dPToZUrilhi4B89ztEfaUkeR7o03Fm/4E=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlcdIZvOjHjx/XEjX+arETCYDA73eJtSqmqj0Dz 26v/YG4d6aJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZXHSGQAKCRCPgPtYfRL+ TvvcCACfE8f8CzaqUU2FtRkkhLzNIoQO9y6pW25HeVzLc4yMT3HVDScvgi68pwQ5Pg9/u6rpWjS PPHej5bpYgWwuAUjpJwGDTVVa656Z+AQMtQzwpQyrQsJlHJ1nmj1PLftnKF6if+zpOelsm/f7Lu f+qD+ERPUF0+j9UU2LEobrKopVMR/Dpr/MGFNnzT0PKbTif/0yiAtWBki4Kg677nXbwZQKz9GWL 6YSmiVFcCs27Kuf6KHy5/Dtw57qCbOgjWTPNZFjWg6JvpYnRMFNcNMe9iuxMpcoLB3TAvdF7TCR 4gb9/gH6nN7KUdMYC0s8wrQ+ifuQCwajvin1YLXGAoxYrCuq
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231203153401.GV8402@pendragon.ideasonboard.com>
 
-As described in the added code comment, a reference to .exit.text is ok
-for drivers registered via module_platform_driver_probe(). Make this
-explicit to prevent the following section mismatch warning
+On Sun, Dec 03, 2023 at 05:34:01PM +0200, Laurent Pinchart wrote:
+> Hi Simon,
+> 
+> Thank you for the patch.
+> 
+> On Fri, Dec 01, 2023 at 08:54:42PM -0700, Simon Glass wrote:
+> > Add a script which produces a Flat Image Tree (FIT), a single file
+> > containing the built kernel and associated devicetree files.
+> > Compression defaults to gzip which gives a good balance of size and
+> > performance.
+> > 
+> > The files compress from about 86MB to 24MB using this approach.
+> > 
+> > The FIT can be used by bootloaders which support it, such as U-Boot
+> > and Linuxboot. It permits automatic selection of the correct
+> > devicetree, matching the compatible string of the running board with
+> > the closest compatible string in the FIT. There is no need for
+> > filenames or other workarounds.
+> > 
+> > Add a 'make image.fit' build target for arm64, as well. Use
+> > FIT_COMPRESSION to select a different algorithm.
+> > 
+> > The FIT can be examined using 'dumpimage -l'.
+> > 
+> > This features requires pylibfdt (use 'pip install libfdt'). It also
+> > requires compression utilities for the algorithm being used. Supported
+> > compression options are the same as the Image.xxx files. For now there
+> > is no way to change the compression other than by editing the rule for
+> > $(obj)/image.fit
+> > 
+> > While FIT supports a ramdisk / initrd, no attempt is made to support
+> > this here, since it must be built separately from the Linux build.
+> 
+> FIT images are very useful, so I think this is a very welcome addition
+> to the kernel build system. It can get tricky though: given the
+> versatile nature of FIT images, there can't be any
+> one-size-fits-them-all solution to build them, and striking the right
+> balance between what makes sense for the kernel and the features that
+> users may request will probably lead to bikeshedding. As we all love
+> bikeshedding, I thought I would start selfishly, with a personal use
+> case :-) This isn't a yak-shaving request though, I don't see any reason
+> to delay merging this series.
+> 
+> Have you envisioned building FIT images with a subset of DTBs, or adding
+> DTBOs ? Both would be fairly trivial extensions to this script by
+> extending the supported command line arguments. It would perhaps be more
+> difficult to integrate in the kernel build system though. This leads me
+> to a second question: would you consider merging extensions to this
+> script if they are not used by the kernel build system, but meant for
+> users who manually invoke the script ? More generally, is the script
 
-	WARNING: modpost: drivers/hwmon/smsc47m1: section mismatch in reference: smsc47m1_driver+0x8 (section: .data) -> smsc47m1_remove (section: .exit.text)
+We'd also be interested in some customization, though in a different way.
+We imagine having a rule file that says X compatible string should map
+to A base DTB, plus B and C DTBO for the configuration section. The base
+DTB would carry all common elements of some device, while the DTBOs
+carry all the possible second source components, like different display
+panels or MIPI cameras for instance. This could drastically reduce the
+size of FIT images in ChromeOS by deduplicating all the common stuff.
 
-that triggers on an allmodconfig W=1 build.
+> meant to be used stand-alone as well, in which case its command line
+> arguments need to remain backward-compatible, or do you see it as being
+> internal to the kernel ?
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/hwmon/smsc47m1.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+[...]
 
-diff --git a/drivers/hwmon/smsc47m1.c b/drivers/hwmon/smsc47m1.c
-index 37531b5c8254..29ea8fb4f353 100644
---- a/drivers/hwmon/smsc47m1.c
-+++ b/drivers/hwmon/smsc47m1.c
-@@ -850,7 +850,13 @@ static int __exit smsc47m1_remove(struct platform_device *pdev)
- 	return 0;
- }
- 
--static struct platform_driver smsc47m1_driver = {
-+/*
-+ * smsc47m1_remove() lives in .exit.text. For drivers registered via
-+ * module_platform_driver_probe() this ok because they cannot get unbound at
-+ * runtime. The driver needs to be marked with __refdata, otherwise modpost
-+ * triggers a section mismatch warning.
-+ */
-+static struct platform_driver smsc47m1_driver __refdata = {
- 	.driver = {
- 		.name	= DRVNAME,
- 	},
--- 
-2.42.0
-
+ChenYu
 
