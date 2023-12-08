@@ -1,158 +1,174 @@
-Return-Path: <linux-kbuild+bounces-286-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-287-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 227868095CF
-	for <lists+linux-kbuild@lfdr.de>; Thu,  7 Dec 2023 23:54:20 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF187809B2B
+	for <lists+linux-kbuild@lfdr.de>; Fri,  8 Dec 2023 05:50:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 538781C20BD8
-	for <lists+linux-kbuild@lfdr.de>; Thu,  7 Dec 2023 22:54:19 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CA2FB1C20B7C
+	for <lists+linux-kbuild@lfdr.de>; Fri,  8 Dec 2023 04:50:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9DC2E21A0D;
-	Thu,  7 Dec 2023 22:54:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1F54290F;
+	Fri,  8 Dec 2023 04:49:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="edEE4eU8"
+	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="HvZSylFf"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-il1-x12d.google.com (mail-il1-x12d.google.com [IPv6:2607:f8b0:4864:20::12d])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 692EBD5B
-	for <linux-kbuild@vger.kernel.org>; Thu,  7 Dec 2023 14:54:15 -0800 (PST)
-Received: by mail-il1-x12d.google.com with SMTP id e9e14a558f8ab-35d53f61754so5313935ab.0
-        for <linux-kbuild@vger.kernel.org>; Thu, 07 Dec 2023 14:54:15 -0800 (PST)
+Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com [IPv6:2607:f8b0:4864:20::731])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1D73172C
+	for <linux-kbuild@vger.kernel.org>; Thu,  7 Dec 2023 20:49:55 -0800 (PST)
+Received: by mail-qk1-x731.google.com with SMTP id af79cd13be357-77f524597c3so4618885a.3
+        for <linux-kbuild@vger.kernel.org>; Thu, 07 Dec 2023 20:49:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1701989655; x=1702594455; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8z/n7oVJrLI7AapO66ABR3Mg7MdK3FEalI7JxmyKlx0=;
-        b=edEE4eU8+O6QlvYuz3i3d26dDugmn+vDFrfAdV+kG+NLXC013awhcjppZZHt2ekSCo
-         TlXtUgBhLONARN3Lczn34VGbHYmPy4reGk3vVcQSiR3K1f2xsFEBfdobHp1bGY1bpP5z
-         wrRdtpbqb7kocSsScMTBi3cSoB6SCiupAuRIpjTABz/mKUK881z5CJMUY7P0OrnDXKqj
-         zGLP7NQbWp3iX280Nr5PH/CkfpD2RlIqEnsd9T5zlSUlYGWOIy3eC5K8tFJOn3vvThAZ
-         ark1z6lwXyBcBorxonk11VAyASTgL2CuqsOT96vvZkLyJWx14/YTFPSvamYZXTZYQodn
-         hTag==
+        d=sifive.com; s=google; t=1702010995; x=1702615795; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Siq5/aLB+N8os3ShA228wuqtqMbftMOZ84Ddlbg3k10=;
+        b=HvZSylFfgTw4/EzNnDO7HhqVGULEsFS4BpNRhHitANhJH0km497hczzh2h0FSkm04n
+         rhj6qopq70FRH1CUM4Y9Xk4rtusb1lYturbj18RmDBvPNCXSWQ6vyRLKsJBTwq6iyCVG
+         KkXHhZZ2ZIcw1scjdvORIgojefYObOkKkeGMqDafxVQKG0EzjryltxHgqC+GcFKI5mh/
+         hhf0M6b4/gcBrzpzgWw2v+yygjHulQHUBhB3OmbmbRcY/n+a+AMkAXmibaKSJaWf/AG2
+         8A3uZyuYL+1JukY+iUs9Bv4H5l60aQ4jLEB2Y6VDEbnfnaC/FVzP5Vm3CczTO9e7dSO+
+         fmeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701989655; x=1702594455;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8z/n7oVJrLI7AapO66ABR3Mg7MdK3FEalI7JxmyKlx0=;
-        b=tZgjHAoVY3jq97kKzpgALcqagb3iQzoJktsXFLcILYIiTokK2JJtqafmeTrYmXHHxy
-         +WCxHYp9B0+f0z1nrfsNddPagmsM32cWXaz0CcNhAaQFrRfMZq/R7fPVoCpUFNE49BNq
-         IBJ7dRTJLT0it3tY8dBnCiMP05phfZg3FIdpFrZvpWO9l0+tvgKct5MpORp9bNyUP2eh
-         rcxw1FY5BYTzixYIhyLKF34Gs05xiSuf62UUZHW8GNRKj9jIfQo9HU9PeF3XZS9hm7aL
-         xQ1U2NQLamTQ28TabGTxuwrnD2PRJfuWqnTVpvcYPa9yn8tEWykxK12n2mEYaZYt22PV
-         m4Cg==
-X-Gm-Message-State: AOJu0YwW+YaWQ4wx7D3G5WNjhsiRw2H7mxCIpqz9joYYFfqkwbFpaXcv
-	FyKD0w2GpaE064waIeYljTEz4A==
-X-Google-Smtp-Source: AGHT+IG+tMLAPQMs0kJxW/IS3KFdRdsft6Gda4jPxtMmDl2cn6omxOmWAnKPtSQSHnM2EVZDhqe2JQ==
-X-Received: by 2002:a05:6e02:12ec:b0:35d:59a2:331d with SMTP id l12-20020a056e0212ec00b0035d59a2331dmr4773035iln.33.1701989654689;
-        Thu, 07 Dec 2023 14:54:14 -0800 (PST)
-Received: from google.com (20.10.132.34.bc.googleusercontent.com. [34.132.10.20])
-        by smtp.gmail.com with ESMTPSA id h6-20020a92c086000000b0035d5935e19bsm168963ile.65.2023.12.07.14.54.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Dec 2023 14:54:14 -0800 (PST)
-Date: Thu, 7 Dec 2023 22:54:11 +0000
-From: Justin Stitt <justinstitt@google.com>
-To: Jialu Xu <xujialu@vimux.org>
-Cc: nathan@kernel.org, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
-	masahiroy@kernel.org, morbo@google.com, ndesaulniers@google.com
-Subject: Re: [PATCH v4] gen_compile_commands.py: fix path resolve with
- symlinks in it
-Message-ID: <20231207225411.his46ofov6kswkmi@google.com>
-References: <20231205165648.GA391810@dev-arch.thelio-3990X>
- <20231206012441.840082-1-xujialu@vimux.org>
+        d=1e100.net; s=20230601; t=1702010995; x=1702615795;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Siq5/aLB+N8os3ShA228wuqtqMbftMOZ84Ddlbg3k10=;
+        b=jLAAG008BzVMls0CXlv8P9yjvRRoJ1CoTeSm1DWUwUBj45VVgqzRmhw+/WfXXujVNf
+         A3iN57D9bIYLuMjfSoyuNWt7uvaVTpS6uOgr77G7xh3POu/XUT80fx2nbgUNeva6bzCb
+         grWaddaI6/JdT6iUai8D6TJlJq1WKHCvF6eIVMvhUOR1170tw74O058yywet3AhiiyLV
+         vipkOQAuV08WngSGxl8irdn7khp+lIzHRqNC1+029vUiKp9ev+OYIp5S2AnOHyJ6VZm9
+         QnaVNdq4bVG9zXEu/J6BREAfnUWACKF12+lVf8bvjL5XWyOH79Ujcs4Z2VPWNh0q+xJB
+         3T+A==
+X-Gm-Message-State: AOJu0YzQjU4XgAF0/nwNrWCRBc5HZuRJIPZXVrT79Z69kSaOom/kykq9
+	eGAcW3FJgRLRdZNvBSWSdUAaow==
+X-Google-Smtp-Source: AGHT+IFZn6XnJPcvVcVddGixsOUuewR/YlITPthokCfZLM+Gy+wdFy5aCuBE/cobBs7DetgZyfJ9UA==
+X-Received: by 2002:a05:620a:1a8a:b0:77f:338c:a713 with SMTP id bl10-20020a05620a1a8a00b0077f338ca713mr2602110qkb.62.1702010994966;
+        Thu, 07 Dec 2023 20:49:54 -0800 (PST)
+Received: from ?IPV6:2600:1700:2000:b002:41c5:bf1:860b:1e95? ([2600:1700:2000:b002:41c5:bf1:860b:1e95])
+        by smtp.gmail.com with ESMTPSA id ov11-20020a05620a628b00b0077f05db2663sm430776qkn.66.2023.12.07.20.49.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 07 Dec 2023 20:49:54 -0800 (PST)
+Message-ID: <6d4cecd5-9083-4d68-a7e2-266dae9e3952@sifive.com>
+Date: Thu, 7 Dec 2023 22:49:53 -0600
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231206012441.840082-1-xujialu@vimux.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/3] drm/amd/display: Support DRM_AMD_DC_FP on RISC-V
+Content-Language: en-US
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Pan Xinhui <Xinhui.Pan@amd.com>,
+ Daniel Vetter <daniel@ffwll.ch>, amd-gfx@lists.freedesktop.org,
+ Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor
+ <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>,
+ Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org,
+ Josh Poimboeuf <jpoimboe@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+ Michael Ellerman <mpe@ellerman.id.au>, linuxppc-dev@lists.ozlabs.org,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ linux-arm-kernel@lists.infradead.org
+References: <20231122030621.3759313-1-samuel.holland@sifive.com>
+ <20231122030621.3759313-4-samuel.holland@sifive.com>
+ <ZV2+f/yu3C6xTVqn@infradead.org>
+From: Samuel Holland <samuel.holland@sifive.com>
+In-Reply-To: <ZV2+f/yu3C6xTVqn@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi,
+Hi Christoph,
 
-On Wed, Dec 06, 2023 at 09:24:42AM +0800, Jialu Xu wrote:
-> When a path contains relative symbolic links, os.path.abspath() might
-> not follow the symlinks and instead return the absolute path with just
-> the relative paths resolved, resulting in an incorrect path.
->
-> 1. Say "drivers/hdf/" has some symlinks:
->
->     # ls -l drivers/hdf/
->     total 364
->     drwxrwxr-x 2 ...   4096 ... evdev
->     lrwxrwxrwx 1 ...     44 ... framework -> ../../../../../../drivers/hdf_core/framework
->     -rw-rw-r-- 1 ... 359010 ... hdf_macro_test.h
->     lrwxrwxrwx 1 ...     55 ... inner_api -> ../../../../../../drivers/hdf_core/interfaces/inner_api
->     lrwxrwxrwx 1 ...     53 ... khdf -> ../../../../../../drivers/hdf_core/adapter/khdf/linux
->     -rw-r--r-- 1 ...     74 ... Makefile
->     drwxrwxr-x 3 ...   4096 ... wifi
->
-> 2. One .cmd file records that:
->
->     # head -1 ./framework/core/manager/src/.devmgr_service.o.cmd
->     cmd_drivers/hdf/khdf/manager/../../../../framework/core/manager/src/devmgr_service.o := ... \
->     /path/to/out/drivers/hdf/khdf/manager/../../../../framework/core/manager/src/devmgr_service.c
->
-> 3. os.path.abspath returns "/path/to/out/framework/core/manager/src/devmgr_service.c", not correct:
->
->     # ./scripts/clang-tools/gen_compile_commands.py
->     INFO: Could not add line from ./framework/core/manager/src/.devmgr_service.o.cmd: File \
->         /path/to/out/framework/core/manager/src/devmgr_service.c not found
->
-> Use pathlib.Path.resolve(), which resolves the symlinks and normalizes
-> the paths correctly.
->
->     # cat compile_commands.json
->     ...
->     {
->       "command": ...
->       "directory": ...
->       "file": "/path/to/blabla/drivers/hdf_core/framework/core/manager/src/devmgr_service.c"
->     },
->     ...
->
-> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-> Signed-off-by: Jialu Xu <xujialu@vimux.org>
-> ---
+On 2023-11-22 2:40 AM, Christoph Hellwig wrote:
+>> -	select DRM_AMD_DC_FP if (X86 || LOONGARCH || (PPC64 && ALTIVEC) || (ARM64 && KERNEL_MODE_NEON && !CC_IS_CLANG))
+>> +	select DRM_AMD_DC_FP if ARM64 && KERNEL_MODE_NEON && !CC_IS_CLANG
+>> +	select DRM_AMD_DC_FP if PPC64 && ALTIVEC
+>> +	select DRM_AMD_DC_FP if RISCV && FPU
+>> +	select DRM_AMD_DC_FP if LOONGARCH || X86
+> 
+> This really is a mess.  Can you add a ARCH_HAS_KERNEL_FPU_SUPPORT
+> symbol that all architetures that have it select instead, and them
+> make DRM_AMD_DC_FP depend on it?
 
-This looks good to me. I prefer using pathlib over anything in os
-module, even if the behavior was the same. In this case, the pathlib
-behavior is better -- which is a bonus.
+Yes, I have done this for v2, which I will send shortly.
 
-Reviewed-by: Justin Stitt <justinstitt@google.com>
->  scripts/clang-tools/gen_compile_commands.py | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
->
-> diff --git a/scripts/clang-tools/gen_compile_commands.py b/scripts/clang-tools/gen_compile_commands.py
-> index 180952fb91c1b..99e28b7152c19 100755
-> --- a/scripts/clang-tools/gen_compile_commands.py
-> +++ b/scripts/clang-tools/gen_compile_commands.py
-> @@ -11,6 +11,7 @@ import argparse
->  import json
->  import logging
->  import os
-> +from pathlib import Path
->  import re
->  import subprocess
->  import sys
-> @@ -172,8 +173,9 @@ def process_line(root_directory, command_prefix, file_path):
->      # by Make, so this code replaces the escaped version with '#'.
->      prefix = command_prefix.replace('\#', '#').replace('$(pound)', '#')
->
-> -    # Use os.path.abspath() to normalize the path resolving '.' and '..' .
-> -    abs_path = os.path.abspath(os.path.join(root_directory, file_path))
-> +    # Make the path absolute, resolving all symlinks on the way and also normalizing it.
-> +    # Convert Path object to a string because 'PosixPath' is not JSON serializable.
-> +    abs_path = str(Path(root_directory, file_path).resolve())
->      if not os.path.exists(abs_path):
->          raise ValueError('File %s not found' % abs_path)
->      return {
-> --
-> 2.39.2
->
+>> -#if defined(CONFIG_X86) || defined(CONFIG_LOONGARCH)
+>> +#if defined(CONFIG_X86) || defined(CONFIG_LOONGARCH) || defined(CONFIG_RISCV)
+>>  		kernel_fpu_begin();
+>>  #elif defined(CONFIG_PPC64)
+>>  		if (cpu_has_feature(CPU_FTR_VSX_COMP))
+>> @@ -122,7 +124,7 @@ void dc_fpu_end(const char *function_name, const int line)
+>>  
+>>  	depth = __this_cpu_dec_return(fpu_recursion_depth);
+>>  	if (depth == 0) {
+>> -#if defined(CONFIG_X86) || defined(CONFIG_LOONGARCH)
+>> +#if defined(CONFIG_X86) || defined(CONFIG_LOONGARCH) || defined(CONFIG_RISCV)
+>>  		kernel_fpu_end();
+>>  #elif defined(CONFIG_PPC64)
+>>  		if (cpu_has_feature(CPU_FTR_VSX_COMP))
+> 
+> And then this mess can go away.  We'll need to decide if we want to
+> cover all the in-kernel vector support as part of it, which would
+> seem reasonable to me, or have a separate generic kernel_vector_begin
+> with it's own option.
+
+I think we may want to keep vector separate for performance on architectures
+with separate FP and vector register files. For now, I have limited my changes
+to FPU support only, which means I have removed VSX/Altivec from here; the
+AMDGPU code doesn't need Altivec anyway.
+
+>> diff --git a/drivers/gpu/drm/amd/display/dc/dml/Makefile b/drivers/gpu/drm/amd/display/dc/dml/Makefile
+>> index ea7d60f9a9b4..5c8f840ef323 100644
+>> --- a/drivers/gpu/drm/amd/display/dc/dml/Makefile
+>> +++ b/drivers/gpu/drm/amd/display/dc/dml/Makefile
+>> @@ -43,6 +43,12 @@ dml_ccflags := -mfpu=64
+>>  dml_rcflags := -msoft-float
+>>  endif
+>>  
+>> +ifdef CONFIG_RISCV
+>> +include $(srctree)/arch/riscv/Makefile.isa
+>> +# Remove V from the ISA string, like in arch/riscv/Makefile, but keep F and D.
+>> +dml_ccflags := -march=$(shell echo $(riscv-march-y) | sed -E 's/(rv32ima|rv64ima)([^v_]*)v?/\1\2/')
+>> +endif
+>> +
+>>  ifdef CONFIG_CC_IS_GCC
+>>  ifneq ($(call gcc-min-version, 70100),y)
+>>  IS_OLD_GCC = 1
+> 
+> And this is again not really something we should be doing.
+> Instead we need a generic way in Kconfig to enable FPU support
+> for an object file or set of, that the arch support can hook
+> into.
+
+I've included this in v2 as well.
+
+> Btw, I'm also really worried about folks using the FPU instructions
+> outside the kernel_fpu_begin/end windows in general (not directly
+> related to the RISC-V support).  Can we have objecttool checks
+> for that similar to only allowing the unsafe uaccess in the
+> uaccess begin/end pairs?
+
+ARM partially enforces this at compile time: it disallows calling
+kernel_neon_begin() inside a translation unit that has NEON enabled. That
+doesn't prevent the programmer from calling a FPU-enabled function from outside
+a begin/end section, but it does prevent the compiler from generating unexpected
+FPU usage behind your back. I implemented this same functionality for RISC-V.
+
+Actually tracking all possibly-FPU-tainted functions and their call sites is
+probably possible, but a much larger task.
+
+Regards,
+Samuel
+
 
