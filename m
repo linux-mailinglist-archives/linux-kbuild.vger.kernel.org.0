@@ -1,104 +1,118 @@
-Return-Path: <linux-kbuild+bounces-307-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-308-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9EE480B60F
-	for <lists+linux-kbuild@lfdr.de>; Sat,  9 Dec 2023 20:27:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 471A780B625
+	for <lists+linux-kbuild@lfdr.de>; Sat,  9 Dec 2023 21:02:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 921F4281012
-	for <lists+linux-kbuild@lfdr.de>; Sat,  9 Dec 2023 19:27:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F408A280F9F
+	for <lists+linux-kbuild@lfdr.de>; Sat,  9 Dec 2023 20:02:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED30D1A287;
-	Sat,  9 Dec 2023 19:27:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AEB71A59C;
+	Sat,  9 Dec 2023 20:02:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Oya+JYtn"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WgNC7WlF"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C960479D0;
-	Sat,  9 Dec 2023 19:27:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54063C433C7;
-	Sat,  9 Dec 2023 19:27:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E96831A289
+	for <linux-kbuild@vger.kernel.org>; Sat,  9 Dec 2023 20:02:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 587AAC433C8;
+	Sat,  9 Dec 2023 20:02:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702150028;
-	bh=7eH07NOIg7S8Oed4coNU+KjHoIA9mCHcWUGQlTJkMPE=;
+	s=k20201202; t=1702152162;
+	bh=jH9L5HvC+Ae62Fg3wZ8hVeCEhv1fJUiobgIHaIv4BOA=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Oya+JYtn3Cq/MhxsUXeD3D7IBJkonamRcMfitlmvhGEYsmiLchPHZnlplmY53wqWv
-	 EaoovI5qxTqt1x3zoHJQQr4MIb+FFRtaX2+1XKtZNMnYOuiWrO+ejd/mfDV12UpVrI
-	 gkALHdkxTKFp5umpgnGBJrMrey2WnbuTZ0QyNv7KTwK5U7gD2840J2Iq7j22cvPFdw
-	 WjkD/boNZJV04eAD6SuT6pPGrQ5yzDNRHEkndIcxzl+4QrW+Ud8xGMCvfy1x47G9iS
-	 sBIVDYPWIsf1sqqfBE2hVnyGzWNb7gsYAgVN6wKdX6/Axhb6qKmcL9MeNcP3plK+cv
-	 3IyZj7QjEPYgg==
-Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-6d9d21959aaso1738569a34.2;
-        Sat, 09 Dec 2023 11:27:08 -0800 (PST)
-X-Gm-Message-State: AOJu0YzIZUNiNigIqfrZdI8bD/+RoYSJuc/yAVSQVfERsNHkjEp2u90h
-	eAUbV/lcX3xqf2IAohQbBOHggRMrqbgyzcW0KpM=
-X-Google-Smtp-Source: AGHT+IH5U7uAkrOlN3vsQGa3BZk5t88Q0NfxBahA43BOSk5sfQ9Z4k/bjUIe9Pijg1scldtw7f0I++8XGNlQ8+qcjgc=
-X-Received: by 2002:a05:6870:2008:b0:1fb:2025:e5b2 with SMTP id
- o8-20020a056870200800b001fb2025e5b2mr1212829oab.103.1702150027738; Sat, 09
- Dec 2023 11:27:07 -0800 (PST)
+	b=WgNC7WlFXYNLYO/saHOXzg8UI1M5bFUo49UL16f2E9NupU5fJefAdxJdFsydfntNa
+	 GyBwcAE3ZDMNAD6yulE7N0GDFdEH29vAJvbMyUIpIsojhAUziVI2ylESnRNTWVyqGx
+	 3404ETsVF4Mr7SXXAFXz60qJ/pL5gQxN0jewHeKm9D3ryuxCrv77svOieKR8ymffPb
+	 FPlodUudZXol3gaoOyTs7GnyYzOpcZXQ6Da5TpNjUZS33paa/aeYvTrcdr3if4Nxw+
+	 rs85TVWRwdNw0Bi+xjuRiyNbuWWrvIFwRvqiJ8SLF+1qBsTmIe9nApoaCyrPEE4K7E
+	 2dd2GxTCMV1OA==
+Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-3b9e1a3e3f0so1925542b6e.1;
+        Sat, 09 Dec 2023 12:02:42 -0800 (PST)
+X-Gm-Message-State: AOJu0YzqxcR5gMZ3ANrKINwkIgZdm3gHVvbyJJz+xmo3e92dgRHSmgi1
+	u9nshQP8ew6x9M75iy8CZ4rnzzOML74Y170LZTw=
+X-Google-Smtp-Source: AGHT+IH8yO8a9hHWT4e+sLk+G0LWSOZK6PiqZI9fJF/nmSs3M/yqpFa1nUwdoV6kz4H7YBhhjTZ9rA9Z2EYcMHqfsfI=
+X-Received: by 2002:a05:6870:d917:b0:1f9:496b:e261 with SMTP id
+ gq23-20020a056870d91700b001f9496be261mr2820590oab.15.1702152161710; Sat, 09
+ Dec 2023 12:02:41 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231126071914.932241-1-masahiroy@kernel.org> <ZW67BGhBzh4f3G3T@bombadil.infradead.org>
-In-Reply-To: <ZW67BGhBzh4f3G3T@bombadil.infradead.org>
+References: <20231205104559.2017320-1-msp@baylibre.com>
+In-Reply-To: <20231205104559.2017320-1-msp@baylibre.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sun, 10 Dec 2023 04:26:31 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQAckvYsU_mAuGS=pDzUk=-ZmAN9K45iTLQn0wfaYkDfQ@mail.gmail.com>
-Message-ID: <CAK7LNAQAckvYsU_mAuGS=pDzUk=-ZmAN9K45iTLQn0wfaYkDfQ@mail.gmail.com>
-Subject: Re: [PATCH] init: move THIS_MODULE from <linux/export.h> to <linux/init.h>
-To: Luis Chamberlain <mcgrof@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, 
-	Paul Gortmaker <paul.gortmaker@windriver.com>, linux-modules@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+Date: Sun, 10 Dec 2023 05:02:05 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARxTsORzrQiZ4ywejqys8cWR81m_g1sgoyN4PA3dmQRYA@mail.gmail.com>
+Message-ID: <CAK7LNARxTsORzrQiZ4ywejqys8cWR81m_g1sgoyN4PA3dmQRYA@mail.gmail.com>
+Subject: Re: [PATCH] kconfig: Use KCONFIG_CONFIG instead of .config
+To: Markus Schneider-Pargmann <msp@baylibre.com>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Dec 5, 2023 at 2:54=E2=80=AFPM Luis Chamberlain <mcgrof@kernel.org>=
- wrote:
+On Tue, Dec 5, 2023 at 7:46=E2=80=AFPM Markus Schneider-Pargmann
+<msp@baylibre.com> wrote:
 >
-> On Sun, Nov 26, 2023 at 04:19:14PM +0900, Masahiro Yamada wrote:
-> > Commit f50169324df4 ("module.h: split out the EXPORT_SYMBOL into
-> > export.h") appropriately separated EXPORT_SYMBOL into <linux/export.h>
-> > because modules and EXPORT_SYMBOL are orthogonal; modules are symbol
-> > consumers, while EXPORT_SYMBOL are used by symbol providers, which
-> > may not be necessarily a module.
-> >
-> > However, that commit also relocated THIS_MODULE. As explained in the
-> > commit description, the intention was to define THIS_MODULE in a
-> > lightweight header, but I do not believe <linux/export.h> was the
-> > suitable location because EXPORT_SYMBOL and THIS_MODULE are unrelated.
-> >
-> > Move it to another lightweight header, <linux/init.h>. The reason for
-> > choosing <linux/init.h> is to make <linux/moduleparam.h> self-contained
-> > without relying on <linux/linkage.h> incorrectly including
-> > <linux/export.h>.
-> >
-> > With this adjustment, the role of <linux/export.h> becomes clearer as
-> > it only defines EXPORT_SYMBOL.
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> When using a custom location for kernel config files this merge config
+> command fails as it doesn't use the configuration set with
+> KCONFIG_CONFIG.
 >
-> Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
+> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
+> ---
+>
 
-
-I will fold your reviewed-by tag.
-
+Applied to linux-kbuild.
 Thanks.
 
 
->
-> Do you want this this to go through modules-next or your tree? I'm fine
-> it goes either way.
->
->   Luis
 
+
+> Notes:
+>     Hi,
+>
+>     This patch helps me to merge_configs with config files that are not
+>     .config (set by using KCONFIG_CONFIG=3D<PATH>). I am not sure if I br=
+eak
+>     something with that change.
+>
+>     I didn't add any stable kernels as this is a kernel config issue and =
+no
+>     bug in the kernel code itself.
+>
+>     Best,
+>     Markus
+>
+>  scripts/kconfig/Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
+> index 4eee155121a8..106159e75d40 100644
+> --- a/scripts/kconfig/Makefile
+> +++ b/scripts/kconfig/Makefile
+> @@ -99,7 +99,7 @@ config-fragments =3D $(call configfiles,$@)
+>
+>  %.config: $(obj)/conf
+>         $(if $(config-fragments),, $(error $@ fragment does not exists on=
+ this architecture))
+> -       $(Q)$(CONFIG_SHELL) $(srctree)/scripts/kconfig/merge_config.sh -m=
+ .config $(config-fragments)
+> +       $(Q)$(CONFIG_SHELL) $(srctree)/scripts/kconfig/merge_config.sh -m=
+ $(KCONFIG_CONFIG) $(config-fragments)
+>         $(Q)$(MAKE) -f $(srctree)/Makefile olddefconfig
+>
+>  PHONY +=3D tinyconfig
+> --
+> 2.43.0
+>
+>
 
 
 --=20
