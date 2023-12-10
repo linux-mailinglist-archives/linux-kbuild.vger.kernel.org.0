@@ -1,167 +1,164 @@
-Return-Path: <linux-kbuild+bounces-317-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-318-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C55C580BC91
-	for <lists+linux-kbuild@lfdr.de>; Sun, 10 Dec 2023 19:45:17 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B609080BC9C
+	for <lists+linux-kbuild@lfdr.de>; Sun, 10 Dec 2023 19:51:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 75A6D1F20F3F
-	for <lists+linux-kbuild@lfdr.de>; Sun, 10 Dec 2023 18:45:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 71410280CA1
+	for <lists+linux-kbuild@lfdr.de>; Sun, 10 Dec 2023 18:51:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C5281A58C;
-	Sun, 10 Dec 2023 18:45:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 936DD1A5A0;
+	Sun, 10 Dec 2023 18:51:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EdD0Cccc"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lB0nLlbR"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30FB928E3;
-	Sun, 10 Dec 2023 18:45:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4492C433C9;
-	Sun, 10 Dec 2023 18:45:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702233911;
-	bh=skyqUr35HpShBRuA1+rQmpve+SHE2Muqp1aZH8EcMNE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=EdD0CcccleHZ6zyod+UY3GEQGA8Y1gbrVpSY/dPlXaOppTVbT4RdUTz+LoSfsZ4Hh
-	 JkwbKCaA1YFUNB471gVb/HEnPkiX2yfzzvRwn8cqK4VZPNegJNUKMG0dmkhU/XivkS
-	 MaAx0Gt6Iw+D3+lNbwYxSOD27drKKDXo89q2Cj35VL4tiXrpjIAFK+HFbBaAAUVJHr
-	 IxEs+ai3DPsObG8u8vju6It3iRLyDutsByL/2r2i47JUs8V9S+ejrqA3hTLlo0qgdB
-	 pWKVSeFqmdigR9mYY4tzwT5ACEvY99+yb7yoLvC4DQESlx+so3+fnu4ouf/8xzyQco
-	 mz1rmh8k6uR7g==
-Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-59052ab970eso1617191eaf.1;
-        Sun, 10 Dec 2023 10:45:11 -0800 (PST)
-X-Gm-Message-State: AOJu0YyH6TuMq2UyUBWzMGPxu3brKoAeeVHnXyjayeZFyjiEL7Ti5yOM
-	blDsKgjWqWzEnHXzZT5MFgpiy++3pfOpNSsWFKg=
-X-Google-Smtp-Source: AGHT+IHLk+vqWf4njTFzWbFxotECTxaPuc0qRJioS5hfK4ZFAQw7bJe9+IAlrnt30U3HAJsjdBPPocvE8nqI7DX8neU=
-X-Received: by 2002:a05:6870:6ec7:b0:1fa:fa54:1a4f with SMTP id
- qv7-20020a0568706ec700b001fafa541a4fmr1642722oab.13.1702233911082; Sun, 10
- Dec 2023 10:45:11 -0800 (PST)
+Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com [IPv6:2607:f8b0:4864:20::731])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A3C9DF;
+	Sun, 10 Dec 2023 10:51:06 -0800 (PST)
+Received: by mail-qk1-x731.google.com with SMTP id af79cd13be357-77f2f492a43so211043285a.2;
+        Sun, 10 Dec 2023 10:51:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702234265; x=1702839065; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:mime-version:user-agent:date
+         :message-id:from:references:cc:to:subject:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GwBghRFrA47RK6I3MwWBefA7mWpj3AVra/zvkgfIArE=;
+        b=lB0nLlbR4P9bLcjE+x5bIlR/N4Cyo/ECosw3XlGjjRTDf43wxF3GTFwI0gUAKZSNxG
+         jW4Wjk3UyVF7OOSN80l4Pu0XLcuJN2vMabzLc3zYZ9v9pjoARrj8GpxkCwvVq9VYu/uc
+         AKwXjrWvVQT7LuMy++N6wdA3doetnMMTq7tE5Leu37lPv8T9FMjlJdfOFK9v+cHKcsE8
+         3O3pMocaE39xfBukG/Fp7ute9L1bWTaj3jxnH5kI62u1gTRT8cHNRFkgHimbfEQiyugb
+         Fz6qbpGCbAlBX++ohvMBtP1lK3zjVD4MG0H4E8JPyr+dILyv+pCmn+j44xgsSB2KMUYW
+         ImqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702234265; x=1702839065;
+        h=content-transfer-encoding:in-reply-to:mime-version:user-agent:date
+         :message-id:from:references:cc:to:subject:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=GwBghRFrA47RK6I3MwWBefA7mWpj3AVra/zvkgfIArE=;
+        b=POgSglDC75X2qAyiXgogPFRIGLfV20OIhBoZULOD73DiUj5nkWLFZ2+l00Ag0dj/fp
+         j1gyBR/actFr0KLVEcrdRseREbdy7q8wWmL9nAjDlZdnq+aetAhe95UcJSDEAiFHSd9T
+         GSlhAbXCxJoosBu1GrvFZEcEFi1Dr1JhuIF9ctq2ytAH99aLWvYRJSMXWj/Jn3/3BAwb
+         p0BybHNi4jXvuw0rWOCAER6TVJbkksnKZrx44wqJytHgBTxGqic23otvosYI310F4OIr
+         eT9jco2ILgr2YM1qcoo77Tj8gWL15apFxXKBxDJljJAN13MLbBOPZmxp460jjvg8V6tl
+         YpGg==
+X-Gm-Message-State: AOJu0YxIDsFqHlLw9n55+iKh1CiDET5BZeYvR6LWCVFIf/tskJ7XZplM
+	+lr8p6fnLTgk5+6YIod1qutm7bvIYmSR
+X-Google-Smtp-Source: AGHT+IF1W7oF231zjXysnMnigFoKvqoIa1QaTrxU3hRn7x2jiZ5twLvHwDSAPgTl//hYK/m16ItUWQ==
+X-Received: by 2002:a05:620a:31a4:b0:77e:fba3:93a1 with SMTP id bi36-20020a05620a31a400b0077efba393a1mr4234595qkb.131.1702234265269;
+        Sun, 10 Dec 2023 10:51:05 -0800 (PST)
+Received: from [120.7.1.23] (198-84-239-141.cpe.teksavvy.com. [198.84.239.141])
+        by smtp.gmail.com with ESMTPSA id m1-20020ae9e701000000b007759a81d88esm2279006qka.50.2023.12.10.10.51.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 10 Dec 2023 10:51:05 -0800 (PST)
+Subject: Re: [PATCH v6 1/2] depmod: Handle installing modules under a
+ different directory
+To: Masahiro Yamada <masahiroy@kernel.org>,
+ Michal Suchanek <msuchanek@suse.de>
+Cc: linux-modules@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
+ Lucas De Marchi <lucas.de.marchi@gmail.com>, =?UTF-8?Q?Michal_Koutn=c3=bd?=
+ <mkoutny@suse.com>, Jiri Slaby <jslaby@suse.com>,
+ Jan Engelhardt <jengelh@inai.de>, Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <ndesaulniers@google.com>,
+ Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <CAK7LNAT3N82cJD3GsF+yUBEfPNOBkhzYPk37q3k0HdU7ukz9vQ@mail.gmail.com>
+ <32b332af189bfca8acdb231cee294355aa4af290.1701892062.git.msuchanek@suse.de>
+ <CAK7LNATPF7baHLXZVgzz=6zOhLx8maX0r0EU3DBFwAEZ6kCeww@mail.gmail.com>
+From: Woody Suwalski <terraluna977@gmail.com>
+Message-ID: <25f50cb2-37aa-a55e-ff1f-959d7f26f91b@gmail.com>
+Date: Sun, 10 Dec 2023 13:51:03 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Firefox/91.0 SeaMonkey/2.53.18
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAK7LNAT3N82cJD3GsF+yUBEfPNOBkhzYPk37q3k0HdU7ukz9vQ@mail.gmail.com>
- <baa3224bece94220dfe7173432143a91f7612c09.1701892062.git.msuchanek@suse.de>
-In-Reply-To: <baa3224bece94220dfe7173432143a91f7612c09.1701892062.git.msuchanek@suse.de>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Mon, 11 Dec 2023 03:44:35 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARdnt0QXn6TRbuS_wzzMVXTY6NrCnu9WOM6PFztnyRmuQ@mail.gmail.com>
-Message-ID: <CAK7LNARdnt0QXn6TRbuS_wzzMVXTY6NrCnu9WOM6PFztnyRmuQ@mail.gmail.com>
-Subject: Re: [PATCH v6 2/2] kbuild: rpm-pkg: Fix build with non-default MODLIB
-To: Michal Suchanek <msuchanek@suse.de>
-Cc: linux-modules@vger.kernel.org, Takashi Iwai <tiwai@suse.com>, 
-	Lucas De Marchi <lucas.de.marchi@gmail.com>, =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
-	Jiri Slaby <jslaby@suse.com>, Jan Engelhardt <jengelh@inai.de>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Nicolas Schier <nicolas@fjasle.eu>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAK7LNATPF7baHLXZVgzz=6zOhLx8maX0r0EU3DBFwAEZ6kCeww@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thu, Dec 7, 2023 at 4:48=E2=80=AFAM Michal Suchanek <msuchanek@suse.de> =
-wrote:
+Masahiro Yamada wrote:
+> On Thu, Dec 7, 2023 at 4:48 AM Michal Suchanek <msuchanek@suse.de> wrote:
+>> Some distributions aim at shipping all files in /usr.
+>>
+>> The path under which kernel modules are installed is hardcoded to /lib
+>> which conflicts with this goal.
+>>
+>> When kmod provides kmod.pc, use it to determine the correct module
+>> installation path.
+>>
+>> With kmod that does not provide the config /lib/modules is used as
+>> before.
+>>
+>> While pkg-config does not return an error when a variable does not exist
+>> the kmod configure script puts some effort into ensuring that
+>> module_directory is non-empty. With that empty module_directory from
+>> pkg-config can be used to detect absence of the variable.
+>>
+>> Signed-off-by: Michal Suchanek <msuchanek@suse.de>
+>> ---
+>> v6:
+>>   - use ?= instead of := to make it easier to override the value
 >
-> The default MODLIB value is composed of three variables
+> "KERNEL_MODULE_DIRECTORY=/local/usr/lib/modules make modules_install"
+> will override the install destination, but
+> depmod will not be not aware of it.
 >
-> MODLIB =3D $(INSTALL_MOD_PATH)$(KERNEL_MODULE_DIRECTORY)/$(KERNELRELEASE)
+> How to avoid the depmod error?
 >
-> However, the kernel.spec hadcodes the default value of
-> $(KERNEL_MODULE_DIRECTORY), and changed value is not reflected when
-> building the package.
 >
-> Pass KERNEL_MODULE_DIRECTORY to kernel.spec to fix this problem.
+I think the depmod -b option can be used to ran depmod in an arbitrary 
+location:
+
+The following options are useful for people managing distributions:
+     -b, --basedir=DIR    Use an image of a module tree.
+
+Woody
+
 >
-> Signed-off-by: Michal Suchanek <msuchanek@suse.de>
-> ---
-> Build on top of the previous patch adding KERNEL_MODULE_DIRECTORY
-
-
-The SRPM package created by 'make srcrpm-pkg' may not work
-if rpmbuild is executed in a different machine.
-
-
-
-%{make} %{makeflags} INSTALL_MOD_PATH=3D%{buildroot}
-KERNEL_MODULE_DIRECTORY=3D%{KERNEL_MODULE_DIRECTORY} modules_install
-
-
-will align with the specified install destination,
-but depmod will still fail.
-(same issue as 1/2)
-
-
-
-
-
-
-
-
-
-> ---
->  scripts/package/kernel.spec | 8 ++++----
->  scripts/package/mkspec      | 1 +
->  2 files changed, 5 insertions(+), 4 deletions(-)
 >
-> diff --git a/scripts/package/kernel.spec b/scripts/package/kernel.spec
-> index 3eee0143e0c5..12996ed365f8 100644
-> --- a/scripts/package/kernel.spec
-> +++ b/scripts/package/kernel.spec
-> @@ -67,7 +67,7 @@ cp $(%{make} %{makeflags} -s image_name) %{buildroot}/b=
-oot/vmlinuz-%{KERNELRELEA
->  %{make} %{makeflags} INSTALL_HDR_PATH=3D%{buildroot}/usr headers_install
->  cp System.map %{buildroot}/boot/System.map-%{KERNELRELEASE}
->  cp .config %{buildroot}/boot/config-%{KERNELRELEASE}
-> -ln -fns /usr/src/kernels/%{KERNELRELEASE} %{buildroot}/lib/modules/%{KER=
-NELRELEASE}/build
-> +ln -fns /usr/src/kernels/%{KERNELRELEASE} %{buildroot}%{KERNEL_MODULE_DI=
-RECTORY}/%{KERNELRELEASE}/build
->  %if %{with_devel}
->  %{make} %{makeflags} run-command KBUILD_RUN_COMMAND=3D'${srctree}/script=
-s/package/install-extmod-build %{buildroot}/usr/src/kernels/%{KERNELRELEASE=
-}'
->  %endif
-> @@ -98,8 +98,8 @@ fi
 >
->  %files
->  %defattr (-, root, root)
-> -/lib/modules/%{KERNELRELEASE}
-> -%exclude /lib/modules/%{KERNELRELEASE}/build
-> +%{KERNEL_MODULE_DIRECTORY}/%{KERNELRELEASE}
-> +%exclude %{KERNEL_MODULE_DIRECTORY}/%{KERNELRELEASE}/build
->  /boot/*
 >
->  %files headers
-> @@ -110,5 +110,5 @@ fi
->  %files devel
->  %defattr (-, root, root)
->  /usr/src/kernels/%{KERNELRELEASE}
-> -/lib/modules/%{KERNELRELEASE}/build
-> +%{KERNEL_MODULE_DIRECTORY}/%{KERNELRELEASE}/build
->  %endif
-> diff --git a/scripts/package/mkspec b/scripts/package/mkspec
-> index ce201bfa8377..e952fa4f2937 100755
-> --- a/scripts/package/mkspec
-> +++ b/scripts/package/mkspec
-> @@ -24,6 +24,7 @@ fi
->  cat<<EOF
->  %define ARCH ${ARCH}
->  %define KERNELRELEASE ${KERNELRELEASE}
-> +%define KERNEL_MODULE_DIRECTORY ${KERNEL_MODULE_DIRECTORY}
->  %define pkg_release $("${srctree}/init/build-version")
->  EOF
+>
+>
+>
+>
+>
+>
+>
+>>   - use shorter expression for determining the module directory assuming
+>>     it's non-empty
+>> ---
+>>   Makefile | 4 +++-
+>>   1 file changed, 3 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/Makefile b/Makefile
+>> index 511b5616aa41..84f32bd563d4 100644
+>> --- a/Makefile
+>> +++ b/Makefile
+>> @@ -1081,7 +1081,9 @@ export INSTALL_DTBS_PATH ?= $(INSTALL_PATH)/dtbs/$(KERNELRELEASE)
+>>   # makefile but the argument can be passed to make if needed.
+>>   #
+>>
+>> -MODLIB = $(INSTALL_MOD_PATH)/lib/modules/$(KERNELRELEASE)
+>> +export KERNEL_MODULE_DIRECTORY ?= $(or $(shell pkg-config --variable=module_directory kmod 2>/dev/null),/lib/modules)
+>> +
+>> +MODLIB = $(INSTALL_MOD_PATH)$(KERNEL_MODULE_DIRECTORY)/$(KERNELRELEASE)
+>>   export MODLIB
+>>
+>>   PHONY += prepare0
+>> --
+>> 2.42.0
+>>
+>>
 >
 > --
-> 2.42.0
->
->
+> Best Regards
+> Masahiro Yamada
 
-
---
-Best Regards
-Masahiro Yamada
 
