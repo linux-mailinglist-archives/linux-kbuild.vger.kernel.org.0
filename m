@@ -1,93 +1,86 @@
-Return-Path: <linux-kbuild+bounces-326-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-327-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A5FB80CE7B
-	for <lists+linux-kbuild@lfdr.de>; Mon, 11 Dec 2023 15:35:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7C5380D106
+	for <lists+linux-kbuild@lfdr.de>; Mon, 11 Dec 2023 17:18:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5A8E71C20F5E
-	for <lists+linux-kbuild@lfdr.de>; Mon, 11 Dec 2023 14:35:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 041D71C213CC
+	for <lists+linux-kbuild@lfdr.de>; Mon, 11 Dec 2023 16:18:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A91A748CF1;
-	Mon, 11 Dec 2023 14:35:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 996DD4C612;
+	Mon, 11 Dec 2023 16:18:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DEbAEfIb"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="FiucfIPo"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22D64B4;
-	Mon, 11 Dec 2023 06:35:33 -0800 (PST)
-Received: by mail-pf1-x42b.google.com with SMTP id d2e1a72fcca58-6ce972ac39dso2771628b3a.3;
-        Mon, 11 Dec 2023 06:35:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702305332; x=1702910132; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qg0t6giPlhY8ENsAnr+OMEBoJVeV7B3VLvZboJyh0Mk=;
-        b=DEbAEfIbrqJPTiGUGfriNRaRGaLVydlKu1hpOEnNy6XhVeYGkdoDjtv1J5qvyRpbDF
-         +cmhyKPvZkcdap5usn8OY862WFlp8NYznb+9QqH7Sz8Bw54a5QUjf2yiaaibUbdb6y5N
-         zwCaxPupJeLyXnyCIZqZkINvBnzmlOsV58e57hhqZeE6qOBSisbhkw98GvimXMWYipfe
-         8xGnim3dz23EgbC3u2PNCnNQ/93TJPsXv83XroTwmAknAaBu4ZKXsGrD5+qljtayND6S
-         d0sCsoVq8mD6tcsM+6rJwMX35CU4B9SxP1S/4L1l2JweF4yAcA7+zCFVlZ3DW4CJXAVS
-         mtAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702305332; x=1702910132;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qg0t6giPlhY8ENsAnr+OMEBoJVeV7B3VLvZboJyh0Mk=;
-        b=V7BPfZ9L2BvFsyxK5nCIlszrbsKEz8Yzh++FDuAOiKy9PMPF0nusAqQpD1N+mNI7YQ
-         b6qUGNzDzyE+kALeZfQoeTmMAbaEKW3iYcGs6RCqv4vQYDVZxegZEAWzzkx09VAKcbTF
-         zdIEu0cRh+9pqpRJsFNzOKQWSw7Zri/DE+57kE2F1vFJzymjgYUNRbnjh0ooSA91L8ZN
-         oax2msuWVed4foxXpShnkrPXUCNmUOcsVBO8Xi8lsdkPrJe7p6zft0HYfr/RVPXvqYIN
-         7MfdkkpbuHgwrNsNFspdrvrG0YQuESlQtDMHQs72ZTO6o2qbWqUqHHLP7bUeEn0czZxG
-         u8Rw==
-X-Gm-Message-State: AOJu0YyNEa/FrvT6Mzy+EW3l/ARXKH3xrhuunEm3Ce7aPfrOBGGp3y/N
-	3LbsBGTcXtB2yyfuFOg/xKc=
-X-Google-Smtp-Source: AGHT+IFFOG8GoFOb9hlOpJl1wXu+rvFNF4t4pOI6/r4CVPJMKEx/vBqFBytEflBMF/ZaMh6DQ6crDw==
-X-Received: by 2002:aa7:8554:0:b0:6ce:2732:295 with SMTP id y20-20020aa78554000000b006ce27320295mr1723460pfn.68.1702305332510;
-        Mon, 11 Dec 2023 06:35:32 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id ey2-20020a056a0038c200b006cbb75d87d2sm6369613pfb.6.2023.12.11.06.35.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Dec 2023 06:35:32 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Mon, 11 Dec 2023 06:35:31 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Jean Delvare <jdelvare@suse.com>, linux-hwmon@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, kernel@pengutronix.de
-Subject: Re: [PATCH 1/4] hwmon: (smsc47m1) Mark driver struct with __refdata
- to prevent section mismatch
-Message-ID: <2d49df1b-4ff8-4dda-a4f4-bde81347f6a6@roeck-us.net>
-References: <cover.1701957840.git.u.kleine-koenig@pengutronix.de>
- <57977a88a9b99b6555b227aa4994ac3df10c6490.1701957840.git.u.kleine-koenig@pengutronix.de>
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A381A9;
+	Mon, 11 Dec 2023 08:18:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=MPLySSIA+ntdrvXPY6WLPHcSeoOpRBMJKsLFdEaHpkU=; b=FiucfIPo+cO11SUxoMH1rJdvqv
+	wfEC5yblDCMXDQY0OixUw0haAM61OP7SSA+pSzbjWuXecVi10RyVfeyqeXMWZTJMJZPMW8UyiE+2t
+	g+svd17tDKounF/vNcRa5yoyPjucT8XLCCZHwrXjUSfmzvhY1vpFNOoT7PvEuwde+WUSmxCEc7p0W
+	1ul+M4tqKhhUj05i/GCzaLechyYXXE9C2thbHs8lQwUjgWOUkHceRkV3o+/DWL9yx1/GW852FAwWG
+	KrNQQTP3w4OIETUwxzlphh61g0cIqWK5xeXd6eOjjmlarE2bnEbyzACmkdhG3zoz3cwFtTRQv51bT
+	rmQymT4g==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat Linux))
+	id 1rCizL-005k47-1J;
+	Mon, 11 Dec 2023 16:18:35 +0000
+Date: Mon, 11 Dec 2023 08:18:35 -0800
+From: Christoph Hellwig <hch@infradead.org>
+To: Samuel Holland <samuel.holland@sifive.com>
+Cc: linux-arm-kernel@lists.infradead.org, loongarch@lists.linux.dev,
+	linuxppc-dev@lists.ozlabs.org, x86@kernel.org,
+	linux-riscv@lists.infradead.org,
+	Christoph Hellwig <hch@infradead.org>, linux-kernel@vger.kernel.org,
+	amd-gfx@lists.freedesktop.org, linux-arch@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>, linux-kbuild@vger.kernel.org
+Subject: Re: [RFC PATCH 11/12] selftests/fpu: Move FP code to a separate
+ translation unit
+Message-ID: <ZXc2W1Rl+S/UWAK3@infradead.org>
+References: <20231208055501.2916202-1-samuel.holland@sifive.com>
+ <20231208055501.2916202-12-samuel.holland@sifive.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <57977a88a9b99b6555b227aa4994ac3df10c6490.1701957840.git.u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20231208055501.2916202-12-samuel.holland@sifive.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Thu, Dec 07, 2023 at 03:09:29PM +0100, Uwe Kleine-König wrote:
-> As described in the added code comment, a reference to .exit.text is ok
-> for drivers registered via module_platform_driver_probe(). Make this
-> explicit to prevent the following section mismatch warning
-> 
-> 	WARNING: modpost: drivers/hwmon/smsc47m1: section mismatch in reference: smsc47m1_driver+0x8 (section: .data) -> smsc47m1_remove (section: .exit.text)
-> 
-> that triggers on an allmodconfig W=1 build.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+>  obj-$(CONFIG_TEST_FPU) += test_fpu.o
+> -CFLAGS_test_fpu.o += $(FPU_CFLAGS)
+> +test_fpu-y := test_fpu_glue.o test_fpu_impl.o
+> +CFLAGS_test_fpu_impl.o += $(FPU_CFLAGS)
 
-Applied.
+Btw, I really wonder if having a
 
-Thanks,
-Guenter
+modname-fpu += foo.o
+
+syntax in kbuild wouldn't be preferable to this.  Of coure that requires
+someone who understands kbuild inside out.
+
+> +int test_fpu(void);
+
+This needs to go into a header.
+
+And I think I underatand your way to enforce the use of a separate
+compilation unit in the riscv patch now.
+
+Can we just make that generic, e.g. have a <linux/fpu.h> that wraps
+<asm/fpu.h> that does the guard based on a
+-D_LINUX_FPU_COMPILATION_UNIT=1 on the command line so that all the
+code becomes fully portable?  Any legacy arch specific fpu users not
+using <linux/fpu.h> would not be affected by it, although it would be
+great to eventually migrate them to the common scheme.
+
 
