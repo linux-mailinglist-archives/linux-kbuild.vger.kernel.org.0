@@ -1,210 +1,128 @@
-Return-Path: <linux-kbuild+bounces-322-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-323-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3453480C05F
-	for <lists+linux-kbuild@lfdr.de>; Mon, 11 Dec 2023 05:34:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43AAC80C654
+	for <lists+linux-kbuild@lfdr.de>; Mon, 11 Dec 2023 11:24:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5C0B01C20621
-	for <lists+linux-kbuild@lfdr.de>; Mon, 11 Dec 2023 04:34:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 73A9D1C209CD
+	for <lists+linux-kbuild@lfdr.de>; Mon, 11 Dec 2023 10:24:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08D0A18E1F;
-	Mon, 11 Dec 2023 04:34:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98836249FF;
+	Mon, 11 Dec 2023 10:24:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N0l7Q09e"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mBdve7xW"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8F54137F;
-	Mon, 11 Dec 2023 04:34:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35BE8C433C9;
-	Mon, 11 Dec 2023 04:34:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702269240;
-	bh=WQmmFM7+2b72O3G9hhh8eE5TPDlkXNRawk8A5t2M6a0=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=N0l7Q09eJQfnZG3INq9PmZNflY3/gnjtU8zNyadwdLx0/TobCxRHx02CNi709mUg5
-	 sgiuOIct99rGCRbU+UYfiUdz9oHm+XUteen52qrycNrl4OoPOBuM/cSdKET+dzwOwo
-	 tB0d5QNGjt3CJ5P8MSHMFCpB39A50mkpnXuRBtwU1cZD1R+IfXVBJ2/EMPCJh3Hqya
-	 IX14UW45+6rMt8Mo7Be/wdf7jS8W7BpNWxinbCdZtH2hBfxNkHD3LH8rNHLq/4u8KP
-	 TJoqroqRvDb5+gC3Xoepp8ETQMbpWGunOLygdRxD1lAJsOTQmPFh7AMVz8wRWKKqTF
-	 OMmfvPdS8eUSw==
-Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-1f055438492so3137632fac.3;
-        Sun, 10 Dec 2023 20:34:00 -0800 (PST)
-X-Gm-Message-State: AOJu0YwptOjbjwhMHAOmSNIK51aXLCbuRwUb1jHJ8/UvbxfqT1OioH8O
-	gnSJS5s/eXPuv1bu3akkfdfkF1B80XDm6apmKQM=
-X-Google-Smtp-Source: AGHT+IFdfuvVnqdIw+nEBCBLTwqVHHKzBwvprtFPw8eRbTPB1nNuDJEduyiDoWC1q3sixGIIxvs/bRMo8vtmB4NEVS0=
-X-Received: by 2002:a05:6870:a454:b0:1fa:f170:bf27 with SMTP id
- n20-20020a056870a45400b001faf170bf27mr4673457oal.40.1702269239586; Sun, 10
- Dec 2023 20:33:59 -0800 (PST)
+Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com [IPv6:2607:f8b0:4864:20::112f])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C359791;
+	Mon, 11 Dec 2023 02:24:25 -0800 (PST)
+Received: by mail-yw1-x112f.google.com with SMTP id 00721157ae682-5d7692542beso41161077b3.3;
+        Mon, 11 Dec 2023 02:24:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702290265; x=1702895065; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HxjdC9gG0FASpcYRfeHrDm90rNJUB49UE6RBV0eXfa8=;
+        b=mBdve7xWbRlPWlYMo43wviUIdttIA6OBkqiuM5sHVu6+jn53FTmB3UmP+AWHopRHZC
+         a7z5Vq/IHDotZA1U9YLjWPm4d2eJRDO3gGoW8aSX2TYkMdTA+MCZ0kmc96F0UBR4Y+dQ
+         gEF6HMMHXiiRywJTO4pJrrPHtPkYuYUvIuXL10o/jicHp6uZPnoxksdBAHyXAORnfu5y
+         2WtAwCAa+D2oYp+UUEH7V1X6W0vBkmu/tZ35uEtMPtIhCjoGyfLFLt/KYsE251q2GVdC
+         UTUQ8JBz3hDzYm52oBptbs7jTy2PTVjxrV62uIR927ca6oghr2EYRweIIKE9cfZWxNG1
+         bb2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702290265; x=1702895065;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HxjdC9gG0FASpcYRfeHrDm90rNJUB49UE6RBV0eXfa8=;
+        b=slJJIFKzxWik3fbJ6P6yN/b/aBfnkJ5fpMiuyDIoB0rGN+jBAREzW767PFIVgRzngE
+         bjJonFCKPvSMtqHjzriW4bvWuV2Q2Z81gQt47JY14feTq2AtMbZfm637AQc8cVzJy6NH
+         uJhF/fKYGWsakZBbYx7RYBnDIjZmVy0LUdeaiDCTBK3w5W7EwS6pALhWv9tE2dekTjMi
+         NOzpoOI6kLgfONLrkSngDvELbWgpp3dfg4xNaaCAjotwxkURbECC6gn0GpQgM3IcXpwP
+         yfs/I0ysbx5cFft9N8Fnl/Dblbu1LvJqzgnJaQFOe7fD7GcpT48oYYzse9RrRPLMj68P
+         Scng==
+X-Gm-Message-State: AOJu0YygGw1MZhnoiCWO43CcY6mds8kVaXyby10ZGPECSIDf95QVn8xn
+	53HGe9TySGPPsH0svBl6G0Ox/tJLesM3Ni0rhEQ=
+X-Google-Smtp-Source: AGHT+IGmF7rCGzSyqKfqD2TRI9vyoiPLZLomxHRnO/Mazk7erhr/oeot7BOADdKT5S1gzsmsdTlRbMDAuhmPh48JXnE=
+X-Received: by 2002:a0d:d007:0:b0:5d7:1940:53d9 with SMTP id
+ s7-20020a0dd007000000b005d7194053d9mr3123865ywd.81.1702290264941; Mon, 11 Dec
+ 2023 02:24:24 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAK7LNAT3N82cJD3GsF+yUBEfPNOBkhzYPk37q3k0HdU7ukz9vQ@mail.gmail.com>
- <baa3224bece94220dfe7173432143a91f7612c09.1701892062.git.msuchanek@suse.de>
- <CAK7LNARdnt0QXn6TRbuS_wzzMVXTY6NrCnu9WOM6PFztnyRmuQ@mail.gmail.com> <20231210210859.GN9696@kitsune.suse.cz>
-In-Reply-To: <20231210210859.GN9696@kitsune.suse.cz>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Mon, 11 Dec 2023 13:33:23 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQo1p3dmdoqQRM_JxBp78Rxj5YpVqXGzMr5Xs9K-V3BiA@mail.gmail.com>
-Message-ID: <CAK7LNAQo1p3dmdoqQRM_JxBp78Rxj5YpVqXGzMr5Xs9K-V3BiA@mail.gmail.com>
-Subject: Re: [PATCH v6 2/2] kbuild: rpm-pkg: Fix build with non-default MODLIB
-To: =?UTF-8?Q?Michal_Such=C3=A1nek?= <msuchanek@suse.de>
-Cc: linux-modules@vger.kernel.org, Takashi Iwai <tiwai@suse.com>, 
-	Lucas De Marchi <lucas.de.marchi@gmail.com>, =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
-	Jiri Slaby <jslaby@suse.com>, Jan Engelhardt <jengelh@inai.de>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Nicolas Schier <nicolas@fjasle.eu>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <CAFSh4UwYYAOb0YpC=WAL6SD+8jTLuSkhgrgjh8JmogUb10V=zw@mail.gmail.com>
+ <ZXMGqjm1466fQ3g2@archie.me>
+In-Reply-To: <ZXMGqjm1466fQ3g2@archie.me>
+From: Tom Cook <tom.k.cook@gmail.com>
+Date: Mon, 11 Dec 2023 10:24:14 +0000
+Message-ID: <CAFSh4Uz4jMhR8jV2xjcDg4i05neJMsBewtgcxmG_csETzYdq3A@mail.gmail.com>
+Subject: Re: Building signed debs
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	Linux Kernel Build System <linux-kbuild@vger.kernel.org>, 
+	Linux Crypto API <linux-crypto@vger.kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>, 
+	Nick Terrell <terrelln@fb.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Dec 11, 2023 at 6:09=E2=80=AFAM Michal Such=C3=A1nek <msuchanek@sus=
-e.de> wrote:
+On Fri, Dec 8, 2023 at 12:06=E2=80=AFPM Bagas Sanjaya <bagasdotme@gmail.com=
+> wrote:
+> On Fri, Dec 08, 2023 at 11:14:35AM +0000, Tom Cook wrote:
+> > Unsetting CONFIG_MODULE_COMPRESS_ZSTD is a workaround (ie disable
+> > module compression).
+> >
 >
-> On Mon, Dec 11, 2023 at 03:44:35AM +0900, Masahiro Yamada wrote:
-> > On Thu, Dec 7, 2023 at 4:48=E2=80=AFAM Michal Suchanek <msuchanek@suse.=
-de> wrote:
-> > >
-> > > The default MODLIB value is composed of three variables
-> > >
-> > > MODLIB =3D $(INSTALL_MOD_PATH)$(KERNEL_MODULE_DIRECTORY)/$(KERNELRELE=
-ASE)
-> > >
-> > > However, the kernel.spec hadcodes the default value of
-> > > $(KERNEL_MODULE_DIRECTORY), and changed value is not reflected when
-> > > building the package.
-> > >
-> > > Pass KERNEL_MODULE_DIRECTORY to kernel.spec to fix this problem.
-> > >
-> > > Signed-off-by: Michal Suchanek <msuchanek@suse.de>
-> > > ---
-> > > Build on top of the previous patch adding KERNEL_MODULE_DIRECTORY
+> Seriously? Unrelated option becomes a workaround?
+
+"Workaround" as in "With this options set, `make deb-pkg` crashes out with =
+the
+reported error, while with this option unset it produces a deb package
+of a signed
+kernel and modules."  This looks like a defect in the build system to me an=
+d the
+workaround allows me to build a package in the meantime.
+
+> > Is there a way to build a .deb of a signed kernel with compressed modul=
+es?
 > >
+> > Thanks for any help,
+> > Tom
 > >
-> > The SRPM package created by 'make srcrpm-pkg' may not work
-> > if rpmbuild is executed in a different machine.
+> >   INSTALL debian/linux-libc-dev/usr/include
+> >   SIGN    debian/linux-image/lib/modules/6.6.0-local/kernel/arch/x86/ev=
+ents/amd/amd-uncore.ko
+> >   SIGN    debian/linux-image/lib/modules/6.6.0-local/kernel/arch/x86/ev=
+ents/intel/intel-cstate.ko
+> > At main.c:298:
+> > - SSL error:FFFFFFFF80000002:system library::No such file or
+> > directory: ../crypto/bio/bss_file.c:67
 >
-> That's why there is an option to override KERNEL_MODULE_DIRECTORY?
+> Above means that you don't have a valid certificate/keypair set in
+> CONFIG_MODULE_SIG_KEY. If you keep the option value on `certs/signing_key=
+.pem`
+> (which is the default), the key should be automatically generated
+> (with your observation, only if `certs/x509.genkey` doesn't already exist=
+).
+> After building the kernel with `make all`, you should check if the certif=
+icate
+> pointed in CONFIG_MODULE_SIG_KEY is present or not. If it isn't the case,
+> you have to generate the certificate yourself. For more information, see
+> Documentation/admin-guide/module.signing.rst in the kernel sources.
 
+Sorry for being unclear - I'm not building with `make all`, I'm
+building with `make deb-pkg`.
+If I had to guess, I'd say the .deb depends on the uncompressed modules
+rather than the dependency depending on whether module compression is turne=
+d
+on or not, but it's only a guess.
 
-Yes.
-But, as I pointed out in 1/2, depmod must follow the packager's decision.
-
-'make srcrpm-pkg' creates a SRPM on machine A.
-'rpmbuild' builds it into binary RPMs on machine B.
-
-If A and B disagree about kmod.pc, depmod will fail
-because there is no code to force the decision made
-on machine A.
-
-
-
-
-
-
-
-
-
-
-
-
-> Thanks
->
-> Michal
->
-> >
-> >
-> >
-> > %{make} %{makeflags} INSTALL_MOD_PATH=3D%{buildroot}
-> > KERNEL_MODULE_DIRECTORY=3D%{KERNEL_MODULE_DIRECTORY} modules_install
-> >
-> >
-> > will align with the specified install destination,
-> > but depmod will still fail.
-> > (same issue as 1/2)
-> >
-> >
-> >
-> >
-> >
-> >
-> >
-> >
-> >
-> > > ---
-> > >  scripts/package/kernel.spec | 8 ++++----
-> > >  scripts/package/mkspec      | 1 +
-> > >  2 files changed, 5 insertions(+), 4 deletions(-)
-> > >
-> > > diff --git a/scripts/package/kernel.spec b/scripts/package/kernel.spe=
-c
-> > > index 3eee0143e0c5..12996ed365f8 100644
-> > > --- a/scripts/package/kernel.spec
-> > > +++ b/scripts/package/kernel.spec
-> > > @@ -67,7 +67,7 @@ cp $(%{make} %{makeflags} -s image_name) %{buildroo=
-t}/boot/vmlinuz-%{KERNELRELEA
-> > >  %{make} %{makeflags} INSTALL_HDR_PATH=3D%{buildroot}/usr headers_ins=
-tall
-> > >  cp System.map %{buildroot}/boot/System.map-%{KERNELRELEASE}
-> > >  cp .config %{buildroot}/boot/config-%{KERNELRELEASE}
-> > > -ln -fns /usr/src/kernels/%{KERNELRELEASE} %{buildroot}/lib/modules/%=
-{KERNELRELEASE}/build
-> > > +ln -fns /usr/src/kernels/%{KERNELRELEASE} %{buildroot}%{KERNEL_MODUL=
-E_DIRECTORY}/%{KERNELRELEASE}/build
-> > >  %if %{with_devel}
-> > >  %{make} %{makeflags} run-command KBUILD_RUN_COMMAND=3D'${srctree}/sc=
-ripts/package/install-extmod-build %{buildroot}/usr/src/kernels/%{KERNELREL=
-EASE}'
-> > >  %endif
-> > > @@ -98,8 +98,8 @@ fi
-> > >
-> > >  %files
-> > >  %defattr (-, root, root)
-> > > -/lib/modules/%{KERNELRELEASE}
-> > > -%exclude /lib/modules/%{KERNELRELEASE}/build
-> > > +%{KERNEL_MODULE_DIRECTORY}/%{KERNELRELEASE}
-> > > +%exclude %{KERNEL_MODULE_DIRECTORY}/%{KERNELRELEASE}/build
-> > >  /boot/*
-> > >
-> > >  %files headers
-> > > @@ -110,5 +110,5 @@ fi
-> > >  %files devel
-> > >  %defattr (-, root, root)
-> > >  /usr/src/kernels/%{KERNELRELEASE}
-> > > -/lib/modules/%{KERNELRELEASE}/build
-> > > +%{KERNEL_MODULE_DIRECTORY}/%{KERNELRELEASE}/build
-> > >  %endif
-> > > diff --git a/scripts/package/mkspec b/scripts/package/mkspec
-> > > index ce201bfa8377..e952fa4f2937 100755
-> > > --- a/scripts/package/mkspec
-> > > +++ b/scripts/package/mkspec
-> > > @@ -24,6 +24,7 @@ fi
-> > >  cat<<EOF
-> > >  %define ARCH ${ARCH}
-> > >  %define KERNELRELEASE ${KERNELRELEASE}
-> > > +%define KERNEL_MODULE_DIRECTORY ${KERNEL_MODULE_DIRECTORY}
-> > >  %define pkg_release $("${srctree}/init/build-version")
-> > >  EOF
-> > >
-> > > --
-> > > 2.42.0
-> > >
-> > >
-> >
-> >
-> > --
-> > Best Regards
-> > Masahiro Yamada
-
-
-
---
-Best Regards
-Masahiro Yamada
+Regards,
+Tom
 
