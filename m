@@ -1,128 +1,259 @@
-Return-Path: <linux-kbuild+bounces-323-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-324-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43AAC80C654
-	for <lists+linux-kbuild@lfdr.de>; Mon, 11 Dec 2023 11:24:32 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A30680CA99
+	for <lists+linux-kbuild@lfdr.de>; Mon, 11 Dec 2023 14:14:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 73A9D1C209CD
-	for <lists+linux-kbuild@lfdr.de>; Mon, 11 Dec 2023 10:24:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AF9461F2110B
+	for <lists+linux-kbuild@lfdr.de>; Mon, 11 Dec 2023 13:14:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98836249FF;
-	Mon, 11 Dec 2023 10:24:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 847F23D96C;
+	Mon, 11 Dec 2023 13:14:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mBdve7xW"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="S1mQlY11"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com [IPv6:2607:f8b0:4864:20::112f])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C359791;
-	Mon, 11 Dec 2023 02:24:25 -0800 (PST)
-Received: by mail-yw1-x112f.google.com with SMTP id 00721157ae682-5d7692542beso41161077b3.3;
-        Mon, 11 Dec 2023 02:24:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702290265; x=1702895065; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HxjdC9gG0FASpcYRfeHrDm90rNJUB49UE6RBV0eXfa8=;
-        b=mBdve7xWbRlPWlYMo43wviUIdttIA6OBkqiuM5sHVu6+jn53FTmB3UmP+AWHopRHZC
-         a7z5Vq/IHDotZA1U9YLjWPm4d2eJRDO3gGoW8aSX2TYkMdTA+MCZ0kmc96F0UBR4Y+dQ
-         gEF6HMMHXiiRywJTO4pJrrPHtPkYuYUvIuXL10o/jicHp6uZPnoxksdBAHyXAORnfu5y
-         2WtAwCAa+D2oYp+UUEH7V1X6W0vBkmu/tZ35uEtMPtIhCjoGyfLFLt/KYsE251q2GVdC
-         UTUQ8JBz3hDzYm52oBptbs7jTy2PTVjxrV62uIR927ca6oghr2EYRweIIKE9cfZWxNG1
-         bb2A==
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 983E4C3
+	for <linux-kbuild@vger.kernel.org>; Mon, 11 Dec 2023 05:14:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1702300448;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TGpqgCQoHA7gfzhcNnMoEqvxE+usWH3FO302tA/0S5M=;
+	b=S1mQlY11L3iLlrMF8fA9hprQwfWRKNqyzZzN+OjfrR+aA9wDtW6T8WHF6OCPqU9EM8SZfO
+	rrcdixy131yogesw/BIPa2KT6pKYF4HvpGwEB8EjqIEJTgsfxfArejGnTuNj0Rc+Lm2vs/
+	Hr5bJUh2ZN4+gEYe3CssXBoybvmcD+o=
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
+ [209.85.215.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-526-kdDE405QN9mXysbWrrVFKg-1; Mon, 11 Dec 2023 08:14:07 -0500
+X-MC-Unique: kdDE405QN9mXysbWrrVFKg-1
+Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-5c1b986082dso2771365a12.0
+        for <linux-kbuild@vger.kernel.org>; Mon, 11 Dec 2023 05:14:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702290265; x=1702895065;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HxjdC9gG0FASpcYRfeHrDm90rNJUB49UE6RBV0eXfa8=;
-        b=slJJIFKzxWik3fbJ6P6yN/b/aBfnkJ5fpMiuyDIoB0rGN+jBAREzW767PFIVgRzngE
-         bjJonFCKPvSMtqHjzriW4bvWuV2Q2Z81gQt47JY14feTq2AtMbZfm637AQc8cVzJy6NH
-         uJhF/fKYGWsakZBbYx7RYBnDIjZmVy0LUdeaiDCTBK3w5W7EwS6pALhWv9tE2dekTjMi
-         NOzpoOI6kLgfONLrkSngDvELbWgpp3dfg4xNaaCAjotwxkURbECC6gn0GpQgM3IcXpwP
-         yfs/I0ysbx5cFft9N8Fnl/Dblbu1LvJqzgnJaQFOe7fD7GcpT48oYYzse9RrRPLMj68P
-         Scng==
-X-Gm-Message-State: AOJu0YygGw1MZhnoiCWO43CcY6mds8kVaXyby10ZGPECSIDf95QVn8xn
-	53HGe9TySGPPsH0svBl6G0Ox/tJLesM3Ni0rhEQ=
-X-Google-Smtp-Source: AGHT+IGmF7rCGzSyqKfqD2TRI9vyoiPLZLomxHRnO/Mazk7erhr/oeot7BOADdKT5S1gzsmsdTlRbMDAuhmPh48JXnE=
-X-Received: by 2002:a0d:d007:0:b0:5d7:1940:53d9 with SMTP id
- s7-20020a0dd007000000b005d7194053d9mr3123865ywd.81.1702290264941; Mon, 11 Dec
- 2023 02:24:24 -0800 (PST)
+        d=1e100.net; s=20230601; t=1702300446; x=1702905246;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :references:in-reply-to:message-id:date:subject:cc:to:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TGpqgCQoHA7gfzhcNnMoEqvxE+usWH3FO302tA/0S5M=;
+        b=avwY4zIBkWryPGQGgP+gf9sghwMFvvUa8d7wG08ro9csECIAKI7NTwbI98U07ZwKP1
+         FzTqQNjTJgVbb4nbayY3+fLyYmrTrC5t3uQmdQS1j9de5ow5yEH2iPGSmQoDbj7EtDs2
+         uqfLEH2UpiIVkeXT9/lCp6TB+ZoeULsY4LrIIWaxrekkBHW6zmPnTNoliOEngI344xBl
+         XDJPpXqOXD34XCpEQ/ydL84VcGNctPH8CVdGsO+qwpGtaZAA+jiX3mrwzi8xI8/qv97J
+         ES9U30qCTD71ycshjRNIRsrFiXJ1chkdfnIW5U+jLYYQGVG5TbU8m4XJqOdm8aPuhJ+B
+         +GdQ==
+X-Gm-Message-State: AOJu0Yy7WGgeQHIiEBHACmYJyyuKGdGst+zaVtZaJF1+gxiyLS+8pIwY
+	iXdIHRUJr4m65wIit10UfeDAKbmU6pJ7HPxye4wUqQnvo7yGo7l4o2rJGDt/oQgd4ZiLFzJUeuz
+	VRmoJ9rHNZwIPl2c6hurFJ89Y
+X-Received: by 2002:a05:6a20:da8b:b0:18f:cbdd:3244 with SMTP id iy11-20020a056a20da8b00b0018fcbdd3244mr5741500pzb.47.1702300446357;
+        Mon, 11 Dec 2023 05:14:06 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGYDcYxzezUOmmhjHqlN4rLUWgtQEen04kcE0D4OK/TFGjbw/Oh2gm3pI95zLhzVQRBecYWIQ==
+X-Received: by 2002:a05:6a20:da8b:b0:18f:cbdd:3244 with SMTP id iy11-20020a056a20da8b00b0018fcbdd3244mr5741484pzb.47.1702300445976;
+        Mon, 11 Dec 2023 05:14:05 -0800 (PST)
+Received: from LeoBras.redhat.com ([2804:1b3:a802:3102:945e:6f76:fb73:6512])
+        by smtp.gmail.com with ESMTPSA id s16-20020a62e710000000b006ce3bf7acc7sm6177155pfh.113.2023.12.11.05.14.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Dec 2023 05:14:05 -0800 (PST)
+From: lsoaresp@redhat.com
+X-Google-Original-From: masahiroy@kernel.org
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Leonardo Bras <leobras@redhat.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org
+Subject: Re: [RFC PATCH v5 1/1] scripts: Introduce a default git.orderFile
+Date: Mon, 11 Dec 2023 10:13:52 -0300
+Message-ID: <ZXcLEKSBg9Bd1qEu@LeoBras>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <CAK7LNAQk3Nm53qf95p7yQbSQ_M3phD_n5OMGxFWorGg_4fpQZg@mail.gmail.com>
+References: <20231208181802.88528-3-leobras@redhat.com> <CAK7LNAQk3Nm53qf95p7yQbSQ_M3phD_n5OMGxFWorGg_4fpQZg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAFSh4UwYYAOb0YpC=WAL6SD+8jTLuSkhgrgjh8JmogUb10V=zw@mail.gmail.com>
- <ZXMGqjm1466fQ3g2@archie.me>
-In-Reply-To: <ZXMGqjm1466fQ3g2@archie.me>
-From: Tom Cook <tom.k.cook@gmail.com>
-Date: Mon, 11 Dec 2023 10:24:14 +0000
-Message-ID: <CAFSh4Uz4jMhR8jV2xjcDg4i05neJMsBewtgcxmG_csETzYdq3A@mail.gmail.com>
-Subject: Re: Building signed debs
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	Linux Kernel Build System <linux-kbuild@vger.kernel.org>, 
-	Linux Crypto API <linux-crypto@vger.kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>, 
-	Nick Terrell <terrelln@fb.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On Fri, Dec 8, 2023 at 12:06=E2=80=AFPM Bagas Sanjaya <bagasdotme@gmail.com=
-> wrote:
-> On Fri, Dec 08, 2023 at 11:14:35AM +0000, Tom Cook wrote:
-> > Unsetting CONFIG_MODULE_COMPRESS_ZSTD is a workaround (ie disable
-> > module compression).
+From: Leonardo Bras <masahiroy@kernel.org>
+
+On Sun, Dec 10, 2023 at 04:13:54AM +0900, Masahiro Yamada wrote:
+> On Sat, Dec 9, 2023 at 3:19 AM Leonardo Bras <leobras@redhat.com> wrote:
 > >
->
-> Seriously? Unrelated option becomes a workaround?
-
-"Workaround" as in "With this options set, `make deb-pkg` crashes out with =
-the
-reported error, while with this option unset it produces a deb package
-of a signed
-kernel and modules."  This looks like a defect in the build system to me an=
-d the
-workaround allows me to build a package in the meantime.
-
-> > Is there a way to build a .deb of a signed kernel with compressed modul=
-es?
+> > When reviewing patches, it looks much nicer to have some changes shown
+> > before others, which allow better understanding of the patch before the
+> > the .c files reviewing.
 > >
-> > Thanks for any help,
-> > Tom
+> > Introduce a default git.orderFile, in order to help developers getting the
+> > best ordering easier.
 > >
-> >   INSTALL debian/linux-libc-dev/usr/include
-> >   SIGN    debian/linux-image/lib/modules/6.6.0-local/kernel/arch/x86/ev=
-ents/amd/amd-uncore.ko
-> >   SIGN    debian/linux-image/lib/modules/6.6.0-local/kernel/arch/x86/ev=
-ents/intel/intel-cstate.ko
-> > At main.c:298:
-> > - SSL error:FFFFFFFF80000002:system library::No such file or
-> > directory: ../crypto/bio/bss_file.c:67
->
-> Above means that you don't have a valid certificate/keypair set in
-> CONFIG_MODULE_SIG_KEY. If you keep the option value on `certs/signing_key=
-.pem`
-> (which is the default), the key should be automatically generated
-> (with your observation, only if `certs/x509.genkey` doesn't already exist=
-).
-> After building the kernel with `make all`, you should check if the certif=
-icate
-> pointed in CONFIG_MODULE_SIG_KEY is present or not. If it isn't the case,
-> you have to generate the certificate yourself. For more information, see
-> Documentation/admin-guide/module.signing.rst in the kernel sources.
+> > Signed-off-by: Leonardo Bras <leobras@redhat.com>
+> > Acked-by: Randy Dunlap <rdunlap@infradead.org>
+> >
+> > ---
+> > Changes since RFCv4:
+> > - Added scripts/* into "build system" section
+> > - Added "git-specific" section with this script and .gitignore
+> > - Thanks for this feedback Nicolas!
+> >
+> > Changes since RFCv3:
+> > - Added "*types.h" matching so type headers appear before regular headers
+> > - Removed line ends ($) in patterns: they previously provided a
+> >   false-positive
+> > - Fixed build patterns to allow matching Kconfig, Kbuild & Makefile
+> >   in any subdirectory
+> >
+> > Changes since RFCv2:
+> > - Fixed licence comment to from /**/ to #
+> > - Fixed filename in how-to comment
+> > - Fix build order: Kconfig -> Kbuild -> Makefile
+> > - Add *.mk extension
+> > - Add line-ends ($) to make sure and get the correct extensions
+> > - Thanks Masahiro Yamada for above suggestions!
+> > - 1 Ack, thanks Randy!
+> >
+> > Changes since RFCv1:
+> > - Added Kconfig* (thanks Randy Dunlap!)
+> > - Changed Kbuild to Kbuild* (improve matching)
+> >
+> >
+> >  scripts/git.orderFile | 39 +++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 39 insertions(+)
+> >  create mode 100644 scripts/git.orderFile
+> >
+> > diff --git a/scripts/git.orderFile b/scripts/git.orderFile
+> > new file mode 100644
+> > index 0000000000000..31649ff53d22c
+> > --- /dev/null
+> > +++ b/scripts/git.orderFile
+> > @@ -0,0 +1,39 @@
+> > +# SPDX-License-Identifier: GPL-2.0
+> > +
+> > +# order file for git, to produce patches which are easier to review
+> > +# by diffing the important stuff like header changes first.
+> > +#
+> > +# one-off usage:
+> > +#   git diff -O scripts/git.orderFile ...
+> > +#
+> > +# add to git config:
+> > +#   git config diff.orderFile scripts/git.orderFile
+> > +#
+> > +
+> > +MAINTAINERS
+> > +
+> > +# Documentation
+> > +Documentation/*
+> > +*.rst
+> > +
+> > +# git-specific
+> > +.gitignore
+> > +scripts/git.orderFile
+> 
 
-Sorry for being unclear - I'm not building with `make all`, I'm
-building with `make deb-pkg`.
-If I had to guess, I'd say the .deb depends on the uncompressed modules
-rather than the dependency depending on whether module compression is turne=
-d
-on or not, but it's only a guess.
+Hello Masahiro, thanks for the feedback!
 
-Regards,
-Tom
+> 
+> 
+> I think scripts/git.orderFile should be part of
+> "scripts/*" below.
+> 
+> 
+> 
+> 
+> 
+> 
+> > +
+> > +# build system
+> > +*Kconfig*
+> > +*Kbuild*
+> > +*Makefile*
+> 
+> I do not like this because "foo-Makefile-bar"
+> is not a Makefile, but would match "*Makefile*".
+
+That makes sense.
+
+> 
+> 
+> If you do not use wildcard at all, 'Makefile'
+> will match to the root-dir and sub-directories.
+
+I tried a quick test here changing an mm/*.c file and mm/Makefile, and the 
+above will print the .c file changes first in any situation here, so it 
+won't have the desired behavior.
+
+But if we want to achieve the above we can do so with a slight change in 
+the suggestion:
+
+> 
+> 
+> Kconfig
+> */Kconfig*
+> Kbuild
+> Makefile
+*/Makefile
+> *.mak
+> *.mk
+> scripts/*
+> 
+> 
+> may satisfy your needs mostly.
+> 
+
+I have tried the following in the Kernel root:
+
+$ find . |grep Makefile |grep -v Makefile$
+./arch/arm/mach-s3c/Makefile.s3c64xx
+./arch/mips/Makefile.postlink
+./arch/powerpc/Makefile.postlink
+./arch/um/Makefile-os-Linux
+./arch/um/Makefile-skas
+./arch/um/scripts/Makefile.rules
+./arch/x86/Makefile_32.cpu
+./arch/x86/Makefile.um
+./arch/x86/Makefile.postlink
+./arch/riscv/Makefile.postlink
+./drivers/firmware/efi/libstub/Makefile.zboot
+./drivers/usb/serial/Makefile-keyspan_pda_fw
+[...]
+
+$ find . |grep Kbuild |grep -v Kbuild$
+./arch/mips/Kbuild.platforms
+./scripts/Kbuild.include
+
+Which leads to an honest question: 
+Don't we want to show changes on those files before C files, for example?
+
+If so, we need something like:
+
+# build system
+Kconfig*
+*/Kconfig*
+Kbuild*
+*/Kbuild*
+Makefile*
+*/Makefile*
+*.mak
+*.mk
+scripts/*
+
+It would get rid of "foo-Makefile-bar" case but still match 
+"Makefile-bar" case, which seems to be used around.
+
+Is that ok?
+
+Thanks!
+Leo
+
 
