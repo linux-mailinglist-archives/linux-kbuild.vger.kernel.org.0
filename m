@@ -1,141 +1,88 @@
-Return-Path: <linux-kbuild+bounces-350-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-351-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA1BE80F426
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Dec 2023 18:13:06 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84F7680F4CB
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Dec 2023 18:43:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0724E1C20A61
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Dec 2023 17:13:06 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3F544281945
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Dec 2023 17:42:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 145637B3C7;
-	Tue, 12 Dec 2023 17:13:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BB9B61FCB;
+	Tue, 12 Dec 2023 17:42:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="frt2DgIx"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lDcLxHel"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED4057A221
-	for <linux-kbuild@vger.kernel.org>; Tue, 12 Dec 2023 17:13:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11FFCC433CC;
-	Tue, 12 Dec 2023 17:13:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3EF51C687
+	for <linux-kbuild@vger.kernel.org>; Tue, 12 Dec 2023 17:42:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 912EFC433C7;
+	Tue, 12 Dec 2023 17:42:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702401182;
-	bh=4yWYmE/DRvHAlnZ1tMbGP2mLOASDX61NVZr6sxZQp08=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=frt2DgIxxVUIDpz9ugeUKQdbgoXakx5eSLeVHTSQYujVg+4pizCwq0H62/MdjQge5
-	 LYwpolivJTZrBAMW7iL94iV/9pleEi4htc54wCMr/4rJcxGoT5veMFGNHV9a535du0
-	 3Zn2YwwKCQ8ZAZCzfpC6+qqjCX2RPUrDiyyol8NUU6/rYiZQUDgASIqM/M4GVvohxK
-	 4bE5RTjVfMDcczu0jM+tdpCXmibdcBvLwZUUr24DqkjgLecyda4JudFC4NhOyMOy8L
-	 +8icuNT21bXLZ/jXarnG9GOivCZqW6g06NhYlz+J6Coha4uiVoSRLpNxwDVm45aRum
-	 yrpcOhywmBptg==
-Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-59093f6c94aso1887070eaf.0;
-        Tue, 12 Dec 2023 09:13:02 -0800 (PST)
-X-Gm-Message-State: AOJu0YxbUhXr29vQu/d2ldV/8F8A1EpCUPxt0OCcXeLqjzefyvZ07hkZ
-	Gdj7s/kbroKYkNYLvC6ILYWr9rwV1YoWMnckhMA=
-X-Google-Smtp-Source: AGHT+IHraLbF7YjSFhetachJvzxO22AYS7Jip6CX8bYSjGuoeCO31kySDnGI6gF/HNEhU6tnDdqj+rkvRnvfAasT2Co=
-X-Received: by 2002:a05:6871:721:b0:1fb:75a:6792 with SMTP id
- f33-20020a056871072100b001fb075a6792mr2998266oap.57.1702401181327; Tue, 12
- Dec 2023 09:13:01 -0800 (PST)
+	s=k20201202; t=1702402975;
+	bh=+h9Hy/o6qPUoywDyWEUPYa0LHvbEAwTr1e24Paq/tos=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lDcLxHelMIzPI8uabqZaj/J1ptw8Bbp3/fmYDq0ra7rMT0PeFkQ90OOZCAPFaUb6A
+	 Pf1xrFjFQDntjBJ4litDwDD96rI7P1hbXkHlQbxzfymZPaWqFcP3fJIKPQdbiwgy5V
+	 BZJhfu7qQSK2nEpGdAWBr/1DJIdxCNhkDvpMPJNKnZReAND+JosLQhQEoKLVyhjNHY
+	 7QQIjUTZ9p13DxnOVCRkam5wdQ9+3tPoCM9vtVV5SAZCsuMYJISitUvT7/vXsbJMJc
+	 Qmgwwdb2RgC0munn2yFEdl9n2A/m1gqB5rjiOmGfk/xWixe+wxrvaEF4X8ZUEXoRmv
+	 Bu4BZ7fKxNpRQ==
+Date: Tue, 12 Dec 2023 09:42:52 -0800
+From: Josh Poimboeuf <jpoimboe@kernel.org>
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Samuel Holland <samuel.holland@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Harry Wentland <harry.wentland@amd.com>,
+	Leo Li <sunpeng.li@amd.com>,
+	Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Pan Xinhui <Xinhui.Pan@amd.com>, Daniel Vetter <daniel@ffwll.ch>,
+	amd-gfx@lists.freedesktop.org,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org,
+	Peter Zijlstra <peterz@infradead.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	linuxppc-dev@lists.ozlabs.org,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 3/3] drm/amd/display: Support DRM_AMD_DC_FP on RISC-V
+Message-ID: <20231212174252.ycztjhgyhtcrffur@treble>
+References: <20231122030621.3759313-1-samuel.holland@sifive.com>
+ <20231122030621.3759313-4-samuel.holland@sifive.com>
+ <ZV2+f/yu3C6xTVqn@infradead.org>
+ <6d4cecd5-9083-4d68-a7e2-266dae9e3952@sifive.com>
+ <ZXgH6un2uLdjQ48X@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231212161610.100862-1-matthias.schiffer@ew.tq-group.com>
-In-Reply-To: <20231212161610.100862-1-matthias.schiffer@ew.tq-group.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Wed, 13 Dec 2023 02:12:24 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQhVJ6kYC_+LutUzE9m-dQmaZ2HnWbLcOj54w5LZJe2FA@mail.gmail.com>
-Message-ID: <CAK7LNAQhVJ6kYC_+LutUzE9m-dQmaZ2HnWbLcOj54w5LZJe2FA@mail.gmail.com>
-Subject: Re: [PATCH] Reapply "kbuild: Create directory for target DTB"
-To: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
-	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, linuxppc-dev@lists.ozlabs.org, 
-	linux-kernel@vger.kernel.org, linux@ew.tq-group.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ZXgH6un2uLdjQ48X@infradead.org>
 
-On Wed, Dec 13, 2023 at 1:17=E2=80=AFAM Matthias Schiffer
-<matthias.schiffer@ew.tq-group.com> wrote:
->
-> This reverts commit dd7699e37f289fa433f42c6bcc108468c8b198c0.
->
-> On powerpc, dtb-y is usually empty unless CONFIG_OF_ALL_DTBS is set. Whil=
-e
-> passing a DTB as a make target explicitly works fine, individual DTB
-> builds may also be pulled in as dependencies by cuImage.% and similar
-> targets. In this case, nothing creates the arch/powerpc/dts directory,
-> causing out-of-tree builds to fail.
->
-> Fixes: dd7699e37f28 ("Revert "kbuild: Create directory for target DTB"")
-> Signed-off-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-> ---
+On Mon, Dec 11, 2023 at 11:12:42PM -0800, Christoph Hellwig wrote:
+> On Thu, Dec 07, 2023 at 10:49:53PM -0600, Samuel Holland wrote:
+> > Actually tracking all possibly-FPU-tainted functions and their call sites is
+> > probably possible, but a much larger task.
+> 
+> I think objtool should be able to do that reasonably easily, it already
+> does it for checking section where userspace address access is enabled
+> or not, which is very similar.
 
+Yeah, that might be doable.  I can look into it.
 
-
-NACK.
-
-%.dtb is generated by if_changed_dep.
-
-Each Makefile is responsible for adding %.dtb to 'targets'
-if it is pulled in as dependencies of other images.
-
-If it does not work for PowerPC, it is a bug in PowerPC Makefile.
-
-
-Just checking arch/powerpc/boot/Makefile,
-it adds dts/%.dtb and dts/fsl/%.dtb to 'targets'. [1] [2]
-
-cuImage.% should be file, but it does not cover all images.
-
-Fix arch/powerpc/boot/Makefile.
-
-
-
-[1] https://github.com/torvalds/linux/blob/v6.7-rc5/arch/powerpc/boot/Makef=
-ile#L386
-[2] https://github.com/torvalds/linux/blob/v6.7-rc5/arch/powerpc/boot/Makef=
-ile#L388
-
-
-
->  scripts/Makefile.lib | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> index 1a965fe68e011..3fe0fc46badfe 100644
-> --- a/scripts/Makefile.lib
-> +++ b/scripts/Makefile.lib
-> @@ -389,7 +389,8 @@ $(obj)/%.dtbo.S: $(obj)/%.dtbo FORCE
->         $(call if_changed,wrap_S_dtb)
->
->  quiet_cmd_dtc =3D DTC     $@
-> -cmd_dtc =3D $(HOSTCC) -E $(dtc_cpp_flags) -x assembler-with-cpp -o $(dtc=
--tmp) $< ; \
-> +cmd_dtc =3D mkdir -p $(dir ${dtc-tmp}) ; \
-> +       $(HOSTCC) -E $(dtc_cpp_flags) -x assembler-with-cpp -o $(dtc-tmp)=
- $< ; \
->         $(DTC) -o $@ -b 0 \
->                 $(addprefix -i,$(dir $<) $(DTC_INCLUDE)) $(DTC_FLAGS) \
->                 -d $(depfile).dtc.tmp $(dtc-tmp) ; \
-> --
-> TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 Seefeld, Ge=
-rmany
-> Amtsgericht M=C3=BCnchen, HRB 105018
-> Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, Stefan S=
-chneider
-> https://www.tq-group.com/
->
-
-
---
-Best Regards
-
-Masahiro Yamada
+-- 
+Josh
 
