@@ -1,137 +1,138 @@
-Return-Path: <linux-kbuild+bounces-347-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-348-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0FCE80F3D3
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Dec 2023 17:58:55 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34B3F80F418
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Dec 2023 18:10:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7BB941F21667
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Dec 2023 16:58:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6635E1C20D49
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Dec 2023 17:10:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73C157B3B0;
-	Tue, 12 Dec 2023 16:58:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73E5A7B3D0;
+	Tue, 12 Dec 2023 17:10:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="EwkbD5g8"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="awkWpaIM"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D191D0;
-	Tue, 12 Dec 2023 08:58:47 -0800 (PST)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BCEqSvo009428;
-	Tue, 12 Dec 2023 16:58:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=jhBalFlX48WTtgwjKZojCIP/0MD0GEfIc7dBnLPHiHA=; b=Ew
-	kbD5g83NfWt2d4l4w9Ptra9tXkGqsqAGg2EBj2DirTlYx7nxzZ2SNglEklywrPtf
-	v8PAYWyJkJJ9B0w+VhGWjUwD+lerWQghj1vnk85pdnc9tFWGN1qYF11phDC0OLBM
-	bA7mflr3ryEo8C1UCyRcwARREfWKDEditmL40h1BW5C+ZLvoE425Qw3QC2GmhBpQ
-	91r3+8Um6qW+7jNIdr3CIdr0JM1AIqtXGZiupwL1uRkKEA5Kqx/+vBJBGVfJMjgR
-	JpaTC/KWIhf84WYAcwnfipAWZqQdayNyR4pqKKBNGKfVcNV0GeScsf5BPMZAS5xE
-	Kt7YH1iZgDkfmi6FnBMA==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uxsms0bub-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 12 Dec 2023 16:58:22 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BCGwL9d017898
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 12 Dec 2023 16:58:21 GMT
-Received: from [10.110.2.246] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 12 Dec
- 2023 08:58:16 -0800
-Message-ID: <93ee22bc-b357-4291-b3d9-07ff2cd6c87b@quicinc.com>
-Date: Tue, 12 Dec 2023 08:58:16 -0800
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7258F99
+	for <linux-kbuild@vger.kernel.org>; Tue, 12 Dec 2023 09:10:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1702401003;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xTsmW17WUzLud/2jzNOtfYA8w5ZvrrOIfNd+fsou+94=;
+	b=awkWpaIMdhTUZfIxMwvwXU1U0BH57uW2RXkKr/vBUmMaZpOYJHtI6zdKE+rqfsErgSjt+x
+	pFUNvVbtLlGgACqYOO7/paa3r/e6iXLk0KKAZ8GnuyWDATn7xAAJsC8n0yaCA3xm4x+jvq
+	dbxwQtuQz323YB+JcENkA/3fZMvGmcM=
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
+ [209.85.214.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-468--tXLUhjSMvmMspl5p6p7hQ-1; Tue, 12 Dec 2023 12:10:02 -0500
+X-MC-Unique: -tXLUhjSMvmMspl5p6p7hQ-1
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-1d33357034eso12414255ad.1
+        for <linux-kbuild@vger.kernel.org>; Tue, 12 Dec 2023 09:10:01 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702401001; x=1703005801;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :references:in-reply-to:message-id:date:subject:cc:to:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xTsmW17WUzLud/2jzNOtfYA8w5ZvrrOIfNd+fsou+94=;
+        b=HOUg3PV5VQf0gZx6ukXVE1XE4HNG7ZuMQPa2vRM3HA3MdWewRZQef5/cEeiA9TRjKY
+         GHtzdoww2aRLn/u8je9RQd5bFAMe3PQSttfnL+aVuGUSrVH7rjxpY/GEarbYFk1WTJpF
+         /Qg8HhDMMsA7uT2/olTgdwCwRFE0D+uH8nOhZoKIPmZoEdrnxsps6WJLGGgfHFLPDeLD
+         hDzTkfOwX8qxLY3tZYFfLIZ5UY7Yj7IVTDR9CDfHYQb2ga6wSowy5YrOoHAfMjAWbRKe
+         Dg8qbq9Ino5eN9i39bZ2c0rHo/vnnOsCF7j6NqFsVPiW4rP/0rMC1P082wCO8Sxou4NX
+         0Xtw==
+X-Gm-Message-State: AOJu0Ywty++/zTFKFVyzaEa0A5YtnaTecGbSIG0l/poef1bHfeGSzzFe
+	Wb7Sr44v2eztGfZTB6sCkxyTY3eKqdBDp+51f0d5+60b563GjDixgdDf2tyOI9VGUQE/Tr483N2
+	2ZhY65GgEL7jArPkeY7w2h/PA
+X-Received: by 2002:a17:902:eb88:b0:1d0:265:6a2c with SMTP id q8-20020a170902eb8800b001d002656a2cmr7793181plg.11.1702401001170;
+        Tue, 12 Dec 2023 09:10:01 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGUOPW83vh6/yFOfLem9iMzay8K3e+XQC3CNiFpYGPaAVfwiBjhwWox62jHYqHe8pPGMa2chA==
+X-Received: by 2002:a17:902:eb88:b0:1d0:265:6a2c with SMTP id q8-20020a170902eb8800b001d002656a2cmr7793162plg.11.1702401000838;
+        Tue, 12 Dec 2023 09:10:00 -0800 (PST)
+Received: from localhost.localdomain ([2804:1b3:a802:3102:945e:6f76:fb73:6512])
+        by smtp.gmail.com with ESMTPSA id k9-20020a170902c40900b001d0969c5b68sm8851113plk.139.2023.12.12.09.09.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Dec 2023 09:10:00 -0800 (PST)
+From: Leonardo Bras <leobras@redhat.com>
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Leonardo Bras <leobras@redhat.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org
+Subject: Re: [RFC PATCH v5 1/1] scripts: Introduce a default git.orderFile
+Date: Tue, 12 Dec 2023 14:09:43 -0300
+Message-ID: <ZXiT1zyADQVXOEqw@LeoBras>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <ZXhbUmxzH6nWAzaw@infradead.org>
+References: <20231208181802.88528-3-leobras@redhat.com> <ZXgMa57Ere6FJCJB@infradead.org> <CAK7LNAQiJW0eFYQZN0wuURhrdc-8y7=TcEazpxhLf=+mRbKHHQ@mail.gmail.com> <ZXhbUmxzH6nWAzaw@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 3/3] check-module-params: Introduce
- check-module-params.sh
-Content-Language: en-US
-To: Christoph Hellwig <hch@infradead.org>
-CC: Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor
-	<nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        "Nicolas
- Schier" <nicolas@fjasle.eu>,
-        Jonathan Corbet <corbet@lwn.net>, <linux-kbuild@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-        <linux-arm-msm@vger.kernel.org>, <kernel@quicinc.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rob
- Herring" <robh@kernel.org>, Carlos O'Donell <carlos@redhat.com>,
-        Randy Dunlap
-	<rdunlap@infradead.org>, Arnd Bergmann <arnd@arndb.de>,
-        Bjorn Andersson
-	<andersson@kernel.org>, Todd Kjos <tkjos@google.com>,
-        Matthias Maennich
-	<maennich@google.com>,
-        Giuliano Procida <gprocida@google.com>, <kernel-team@android.com>,
-        <libabigail@sourceware.org>, Dodji Seketeli
-	<dodji@redhat.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        "Satya Durga
- Srinivasu Prabhala" <quic_satyap@quicinc.com>,
-        Jordan Crouse
-	<jorcrous@amazon.com>
-References: <20231212020259.2451253-1-quic_johmoo@quicinc.com>
- <20231212020259.2451253-4-quic_johmoo@quicinc.com>
- <ZXgOpRzNYGtiE35T@infradead.org>
-From: John Moon <quic_johmoo@quicinc.com>
-In-Reply-To: <ZXgOpRzNYGtiE35T@infradead.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: 5h373aL0YDslVqiXd_u9Y6Cj9sS6r_Pw
-X-Proofpoint-GUID: 5h373aL0YDslVqiXd_u9Y6Cj9sS6r_Pw
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0
- lowpriorityscore=0 mlxlogscore=820 mlxscore=0 priorityscore=1501
- adultscore=0 bulkscore=0 impostorscore=0 spamscore=0 malwarescore=0
- clxscore=1011 suspectscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2311290000 definitions=main-2312120131
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On 12/11/2023 11:41 PM, Christoph Hellwig wrote:
-> On Mon, Dec 11, 2023 at 06:02:59PM -0800, John Moon wrote:
->> One part of maintaining backwards compatibility with older
->> userspace programs is avoiding changes to module parameters.
+On Tue, Dec 12, 2023 at 05:08:34AM -0800, Christoph Hellwig wrote:
+> On Tue, Dec 12, 2023 at 05:09:21PM +0900, Masahiro Yamada wrote:
+> > Unlike .gitignore, this feature is opt-in rather than enforced.
+> > 
+> > To use this, you need to run
+> > 
+> > 'git config diff.orderFile scripts/git.orderFile'
+> > 
+> > or
+> > 
+> > 'git diff -C scripts/git.orderFile'
 > 
-> Really?  I don't think module parameters are a UAPI in the traditional
-> sense.  
+> Oh, ok.  That greatly reduces my concern.
 
-Agreed, they're not UAPI in the traditional sense. But, we're trying to 
-establish tooling to help the community stabilize all interfaces that 
-cross the kernel <-> userspace boundary and module params do fall into 
-that bucket.
+Yes, it's an opt-in, so no user should be directly impacted.
 
-> Now if you break a heavily used one you got to fix it, but
-> applying strict stability guarantees on module options which are not
-> availble to normal users or even normal programs doesn't make a whole
-> lot of sense.
 > 
+> > 
+> > Indeed, the file order is subjective, leaving
+> > us a question "do we need it in upstream"?
 
-True, but unfortunately we don't have any heuristic to determine if a 
-param is "heavily used". However, in this rev, we added the ability to 
-parse the permissions of a module param, so we could add a filter which 
-does not flag change/removal of params with 0{0,4,6}000 permissions.
+The main idea is patch generation.
+This file's order is supposed to be the best order for reading a raw patch 
+and understanding the code changes. 
 
-It's also obviously fine if the community has no interest in the script. 
-We just wanted to share it as we find it to be a useful supplement to 
-our code reviews and thought maintainers may find it useful as well.
+> > 
+> > At least, it is harmless for people who have no interest.
+> 
+> .. but this is still a good question.  I'm not really sure there is
+> much of a need for it, but as long as it doesn't harm everyone else
+> I'm at least neutral on it.
 
-Cheers,
-John
+diff.orderfile was introduced in git to help order the git diff, and thus 
+the patch generation, in a way that it's easier to understand what the 
+commit / patch intends on doing. 
+
+Take this example introducing a feature foo, you should see:
+- Documentation on foo, if introduced
+- How is foo enabled in build system, if needed
+- The types / stucts / fields introduced by foo, if any
+- The interface for using foo, if any
+- The actual foo implementation.
+
+Of course the actual order is open to discussion, and I encourage everyone 
+to suggest any other items or order.
+
+Thanks!
+Leo
+
 
