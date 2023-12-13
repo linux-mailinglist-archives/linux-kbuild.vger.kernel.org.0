@@ -1,128 +1,174 @@
-Return-Path: <linux-kbuild+bounces-354-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-355-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3150C810CBE
-	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Dec 2023 09:49:15 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D052810FB6
+	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Dec 2023 12:22:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A8726B20C9C
-	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Dec 2023 08:49:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 123E81F21174
+	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Dec 2023 11:22:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14C141EB3C;
-	Wed, 13 Dec 2023 08:49:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7EAFD23758;
+	Wed, 13 Dec 2023 11:22:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NyFHmbnm"
+	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="K0wIFrxi"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53E03A0;
-	Wed, 13 Dec 2023 00:49:03 -0800 (PST)
-Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-40c339d2b88so51939775e9.3;
-        Wed, 13 Dec 2023 00:49:03 -0800 (PST)
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B3F710D0;
+	Wed, 13 Dec 2023 03:21:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702457342; x=1703062142; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3iYD9RnPAzZn/twKQIifseItY/M9p2JS4Pz3uXMUgu8=;
-        b=NyFHmbnmYpVcXLy2MQhJO01BuqPH9Dt2FgFjTrdqz1HqEPpvMJ/xyTVNeHQuk5rQtx
-         5AZYmicjiOssR2pLT0jefLL4DO/qGWHXMzSv02rQxT/TkhTdFP9BpakEYFZ4wwdFN0Vj
-         FRteLKnSqdkxTPG5z+htr/JzUjuEPbHtgbzuX/I+aeWe2M22ugYxcUoKzHXhdrarSzyd
-         9tWnXBbdD7aR+T9TQAb5TySjOA3OaPGggnKcAxipRtBVo0vtGsqB1qcWPzl7edsfwOuy
-         qtflaNtUOuZEHtBRePAVHUctZoHa5JF/kcDsDm0v0l9366x/X2xhm0kteibd4aWtiqIK
-         aYhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702457342; x=1703062142;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3iYD9RnPAzZn/twKQIifseItY/M9p2JS4Pz3uXMUgu8=;
-        b=CiLqhF6lnK7dOwN60JvPJV1izfxRsBeCf16VYMZrSFOSQ2NG0kiFckdwu4In+kD/VT
-         ugJQZBcNN6/LZFAix2ewF8yfS8SlVKAFbeBNJHdrPAQ2tpf/ObLB5w/ALgObrjujpIbW
-         12317yEuc2GgsKSg9cNdQ7BXGzXbwIUwR+0Rt7StcOiM5G6kHc5VIf99tiHQPKgGKDRX
-         lv4zTdiFD0Jnva8FC2WOlZdzd/Ob8ReafbSiiiUsCkHnk8M6CcOlPHknLCDgPH3G33UI
-         EYHNdlB63gP1ucjeY0tFqlkD4/GXBTwIf3+VGFK/Z8Gy0I8cfzNbvQZpbMMqQQn+7U+S
-         1ceg==
-X-Gm-Message-State: AOJu0YzlUWmEA+MDLXXN/O2Tvkk2vhgZ0VFdk6xQIVC31iBSsa6aro4m
-	5ojXc4mHATCyZqy/JFTf2NDi9nHlzXuEd12W3YI=
-X-Google-Smtp-Source: AGHT+IFBk1lNKv3BcxKBdjQgOw3kbIIuMtHUxLUHRm6/4kNBX81PypqFHKgMOYx4nqumSh9nXBONTvkOTaO2J8UGnLQ=
-X-Received: by 2002:a05:600c:44e:b0:40c:6e8:610a with SMTP id
- s14-20020a05600c044e00b0040c06e8610amr4076458wmb.56.1702457341628; Wed, 13
- Dec 2023 00:49:01 -0800 (PST)
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1702466516; x=1734002516;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:content-transfer-encoding:mime-version;
+  bh=ourCIgEXwb49HY0a/VAqrzT1ZIAkfkNeTXmDQob5whA=;
+  b=K0wIFrxiR3oTcLhiCG7FClPdSRV1J7NtrOzHY2Ib9cDKCXVfwRjmuaxo
+   yU06BrrrfVDOLeLf2dMIku7s1dNORy6ssdIFpMHh9KVwI1bH0mO9R9kCd
+   kzwTMiyUSbOW3PfFm49Q0WK91vvWb1FLhKHLaXdor2zR9wT+xd62RmakZ
+   drBbEFXxbtZ+CIbRLnGAlotaYBlDXLK52/f0tU+/22+eXfuuemvaZVfo1
+   vJT9TPQJp1VAjQsik++gJfI3vhm1o+//L+8QP76AMPf3BBiciM0VFPhKW
+   ZDdCFe42U32c5gB+lKvWv84JnB01+3nbY0i0rtprzm9PdNy5cisLDVKgn
+   g==;
+X-IronPort-AV: E=Sophos;i="6.04,272,1695679200"; 
+   d="scan'208";a="34480876"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 13 Dec 2023 12:21:52 +0100
+Received: from [192.168.2.128] (SCHIFFERM-M2.tq-net.de [10.121.53.15])
+	by vtuxmail01.tq-net.de (Postfix) with ESMTPA id 8F4C1280075;
+	Wed, 13 Dec 2023 12:21:52 +0100 (CET)
+Message-ID: <a7ed5eddc674b0fcb7062af58c10d0190ccda2b8.camel@ew.tq-group.com>
+Subject: Re: [PATCH] Reapply "kbuild: Create directory for target DTB"
+From: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier
+ <nicolas@fjasle.eu>,  "linux-kbuild@vger.kernel.org"
+ <linux-kbuild@vger.kernel.org>, Michael Ellerman <mpe@ellerman.id.au>, 
+ Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy
+ <christophe.leroy@csgroup.eu>,  "linuxppc-dev@lists.ozlabs.org"
+ <linuxppc-dev@lists.ozlabs.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "linux@ew.tq-group.com"
+ <linux@ew.tq-group.com>
+Date: Wed, 13 Dec 2023 12:21:52 +0100
+In-Reply-To: <CAK7LNAQhVJ6kYC_+LutUzE9m-dQmaZ2HnWbLcOj54w5LZJe2FA@mail.gmail.com>
+References: <20231212161610.100862-1-matthias.schiffer@ew.tq-group.com>
+	 <CAK7LNAQhVJ6kYC_+LutUzE9m-dQmaZ2HnWbLcOj54w5LZJe2FA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4-0ubuntu2 
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20221219061758.23321-1-ashimida.1990@gmail.com>
- <20230325085416.95191-1-ashimida.1990@gmail.com> <20230327093016.GB4253@hirez.programming.kicks-ass.net>
- <CABCJKueH6ohH27xCPz9a_ndRR26Na_mo=MGF3eqjwV2=gJy+wQ@mail.gmail.com>
-In-Reply-To: <CABCJKueH6ohH27xCPz9a_ndRR26Na_mo=MGF3eqjwV2=gJy+wQ@mail.gmail.com>
-From: Dan Li <ashimida.1990@gmail.com>
-Date: Wed, 13 Dec 2023 16:48:50 +0800
-Message-ID: <CAE+Z0PFZaa2bwtfY5P7ZDYH4JjMxKpJgqz0m+KJ_ks4dctzAKA@mail.gmail.com>
-Subject: Re: [RFC/RFT,V2] CFI: Add support for gcc CFI in aarch64
-To: Sami Tolvanen <samitolvanen@google.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, Aaron Tomlin <atomlin@redhat.com>, 
-	Alexander Potapenko <glider@google.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
-	Alexandru Elisei <alexandru.elisei@arm.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Anshuman Khandual <anshuman.khandual@arm.com>, Ard Biesheuvel <ardb@kernel.org>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Boqun Feng <boqun.feng@gmail.com>, 
-	Borislav Petkov <bp@alien8.de>, Borislav Petkov <bp@suse.de>, Brian Gerst <brgerst@gmail.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Changbin Du <changbin.du@intel.com>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, Dave Hansen <dave.hansen@linux.intel.com>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, "Eric W. Biederman" <ebiederm@xmission.com>, 
-	Frederic Weisbecker <frederic@kernel.org>, gcc-patches@gcc.gnu.org, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "H. Peter Anvin" <hpa@zytor.com>, 
-	Ingo Molnar <mingo@redhat.com>, Jiri Olsa <jolsa@kernel.org>, 
-	Josh Poimboeuf <jpoimboe@kernel.org>, Juergen Gross <jgross@suse.com>, 
-	Kalesh Singh <kaleshsingh@google.com>, Kees Cook <keescook@chromium.org>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Luis Chamberlain <mcgrof@kernel.org>, Marco Elver <elver@google.com>, 
-	Mark Brown <broonie@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Michael Roth <michael.roth@amd.com>, Michal Marek <michal.lkml@markovi.net>, 
-	Miguel Ojeda <ojeda@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Nicolas Schier <nicolas@fjasle.eu>, "Paul E. McKenney" <paulmck@kernel.org>, 
-	Richard Sandiford <richard.sandiford@arm.com>, Song Liu <song@kernel.org>, 
-	Thomas Gleixner <tglx@linutronix.de>, Tom Rix <trix@redhat.com>, Uros Bizjak <ubizjak@gmail.com>, 
-	Will Deacon <will@kernel.org>, x86@kernel.org, Yuntao Wang <ytcoode@gmail.com>, 
-	Yu Zhao <yuzhao@google.com>, Zhen Lei <thunder.leizhen@huawei.com>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, llvm@lists.linux.dev, 
-	linux-hardening@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-modules@vger.kernel.org, linux-perf-users@vger.kernel.org, 
-	wanglikun@lixiang.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-+ Likun
+On Tue, 2023-12-12 at 17:13 +0000, Masahiro Yamada wrote:
+>=20
+>=20
+> On Wed, Dec 13, 2023 at 1:17=E2=80=AFAM Matthias Schiffer
+> <matthias.schiffer@ew.tq-group.com> wrote:
+> >=20
+> > This reverts commit dd7699e37f289fa433f42c6bcc108468c8b198c0.
+> >=20
+> > On powerpc, dtb-y is usually empty unless CONFIG_OF_ALL_DTBS is set. Wh=
+ile
+> > passing a DTB as a make target explicitly works fine, individual DTB
+> > builds may also be pulled in as dependencies by cuImage.% and similar
+> > targets. In this case, nothing creates the arch/powerpc/dts directory,
+> > causing out-of-tree builds to fail.
+> >=20
+> > Fixes: dd7699e37f28 ("Revert "kbuild: Create directory for target DTB""=
+)
+> > Signed-off-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+> > ---
+>=20
+>=20
+>=20
+> NACK.
+>=20
+> %.dtb is generated by if_changed_dep.
+>=20
+> Each Makefile is responsible for adding %.dtb to 'targets'
+> if it is pulled in as dependencies of other images.
+>=20
+> If it does not work for PowerPC, it is a bug in PowerPC Makefile.
+>=20
+>=20
+> Just checking arch/powerpc/boot/Makefile,
+> it adds dts/%.dtb and dts/fsl/%.dtb to 'targets'. [1] [2]
+>=20
+> cuImage.% should be file, but it does not cover all images.
+>=20
+> Fix arch/powerpc/boot/Makefile.
 
-On Tue, 28 Mar 2023 at 06:18, Sami Tolvanen <samitolvanen@google.com> wrote=
-:
->
-> On Mon, Mar 27, 2023 at 2:30=E2=80=AFAM Peter Zijlstra <peterz@infradead.=
-org> wrote:
-> >
-> > On Sat, Mar 25, 2023 at 01:54:16AM -0700, Dan Li wrote:
-> >
-> > > In the compiler part[4], most of the content is the same as Sami's
-> > > implementation[3], except for some minor differences, mainly includin=
-g:
-> > >
-> > > 1. The function typeid is calculated differently and it is difficult
-> > > to be consistent.
-> >
-> > This means there is an effective ABI break between the compilers, which
-> > is sad :-( Is there really nothing to be done about this?
->
-> I agree, this would be unfortunate, and would also be a compatibility
-> issue with rustc where there's ongoing work to support
-> clang-compatible CFI type hashes:
->
-> https://github.com/rust-lang/rust/pull/105452
->
-> Sami
+Ah, thank you for the pointers, I did not quite get the meaning of those Ma=
+kefile lines when first
+reading them. So the issue is that I'm trying to build a cuImage that is no=
+t added to image-y in the
+powerpc Makefile. It is unfortunate that this leads to a very confusing err=
+or message about the
+missing dts directory.
+
+I'll send a new patch if I come to the conclusion that I actually need the =
+cuImage (for the ancient
+TQM5200 which hasn't really been touched since 2011).
+
+Regards,
+Matthias
+
+
+>=20
+>=20
+>=20
+> [1] https://github.com/torvalds/linux/blob/v6.7-rc5/arch/powerpc/boot/Mak=
+efile#L386
+> [2] https://github.com/torvalds/linux/blob/v6.7-rc5/arch/powerpc/boot/Mak=
+efile#L388
+>=20
+>=20
+>=20
+> >  scripts/Makefile.lib | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> > index 1a965fe68e011..3fe0fc46badfe 100644
+> > --- a/scripts/Makefile.lib
+> > +++ b/scripts/Makefile.lib
+> > @@ -389,7 +389,8 @@ $(obj)/%.dtbo.S: $(obj)/%.dtbo FORCE
+> >         $(call if_changed,wrap_S_dtb)
+> >=20
+> >  quiet_cmd_dtc =3D DTC     $@
+> > -cmd_dtc =3D $(HOSTCC) -E $(dtc_cpp_flags) -x assembler-with-cpp -o $(d=
+tc-tmp) $< ; \
+> > +cmd_dtc =3D mkdir -p $(dir ${dtc-tmp}) ; \
+> > +       $(HOSTCC) -E $(dtc_cpp_flags) -x assembler-with-cpp -o $(dtc-tm=
+p) $< ; \
+> >         $(DTC) -o $@ -b 0 \
+> >                 $(addprefix -i,$(dir $<) $(DTC_INCLUDE)) $(DTC_FLAGS) \
+> >                 -d $(depfile).dtc.tmp $(dtc-tmp) ; \
+> > --
+> > TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 Seefeld, =
+Germany
+> > Amtsgericht M=C3=BCnchen, HRB 105018
+> > Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, Stefan=
+ Schneider
+> > https://www.tq-group.com/
+> >=20
+>=20
+>=20
+> --
+> Best Regards
+>=20
+> Masahiro Yamada
+>=20
+
+--=20
+TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 Seefeld, Germ=
+any
+Amtsgericht M=C3=BCnchen, HRB 105018
+Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, Stefan Sch=
+neider
+https://www.tq-group.com/
 
