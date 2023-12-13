@@ -1,155 +1,151 @@
-Return-Path: <linux-kbuild+bounces-356-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-357-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA6398110CD
-	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Dec 2023 13:14:06 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87D9A811520
+	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Dec 2023 15:45:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8C81F281816
-	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Dec 2023 12:14:05 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1333DB207D8
+	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Dec 2023 14:45:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6F7C28DD0;
-	Wed, 13 Dec 2023 12:14:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uvBXPCRo"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B98A92EAE0;
+	Wed, 13 Dec 2023 14:45:26 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CA5A28DCB;
-	Wed, 13 Dec 2023 12:14:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D52CC433C8;
-	Wed, 13 Dec 2023 12:13:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702469640;
-	bh=2ypXgnL4ECCpmdKkPHhPyQw7+zd7cb6G6jntIn0W0sk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uvBXPCRoFNVcz10CIj8UBIpbjMFwKXefOdwwu1fICqolJgD8TVfji1yCzxM8z7X3d
-	 e2plc4DaOL7/ZIN+zN9h4gIwy7aNXl6HdJ08DviZxC/rVmhappflf1g2rETpLsT/Eb
-	 qBrXqhuakwbA8sf+s8mVebkMLadD4KG+GYkGICZqdqcwldnS9K3D1ikMPeKplbxEqG
-	 XIpZatoZxQbCpN4D63NwqmhWvWoeabTSiE6ASlGnHG+DHAiYCoQO3y3xPg5Qwu0ytS
-	 IUIISRPA9t8EjdGuMgWirtz5z7Lbgvg+Qmcq+tRNg9Yqfxjr25XRrOiLQ5g7Q0woL4
-	 Mh18eR3L9hVnw==
-Date: Wed, 13 Dec 2023 12:13:53 +0000
-From: Will Deacon <will@kernel.org>
-To: Simon Glass <sjg@chromium.org>
-Cc: linux-arm-kernel@lists.infradead.org,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Ahmad Fatoum <a.fatoum@pengutronix.de>,
-	U-Boot Mailing List <u-boot@lists.denx.de>,
-	Nicolas Schier <nicolas@fjasle.eu>, Tom Rini <trini@konsulko.com>,
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 66586110;
+	Wed, 13 Dec 2023 06:45:23 -0800 (PST)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 10C39FEC;
+	Wed, 13 Dec 2023 06:46:09 -0800 (PST)
+Received: from FVFF77S0Q05N (unknown [10.57.42.80])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BC3A93F738;
+	Wed, 13 Dec 2023 06:45:13 -0800 (PST)
+Date: Wed, 13 Dec 2023 14:45:10 +0000
+From: Mark Rutland <mark.rutland@arm.com>
+To: Wang <wanglikun@lixiang.com>
+Cc: Sami Tolvanen <samitolvanen@google.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Aaron Tomlin <atomlin@redhat.com>,
+	Alexander Potapenko <glider@google.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Alexandru Elisei <alexandru.elisei@arm.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Anshuman Khandual <anshuman.khandual@arm.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>, Boqun Feng <boqun.feng@gmail.com>,
+	Borislav Petkov <bp@alien8.de>, Borislav Petkov <bp@suse.de>,
+	Brian Gerst <brgerst@gmail.com>,
 	Catalin Marinas <catalin.marinas@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>,
+	Changbin Du <changbin.du@intel.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	"Eric W. Biederman" <ebiederm@xmission.com>,
+	Frederic Weisbecker <frederic@kernel.org>, gcc-patches@gcc.gnu.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+	Jiri Olsa <jolsa@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>,
+	Juergen Gross <jgross@suse.com>,
+	Kalesh Singh <kaleshsingh@google.com>,
+	Kees Cook <keescook@chromium.org>,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Marco Elver <elver@google.com>, Mark Brown <broonie@kernel.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Michael Roth <michael.roth@amd.com>,
+	Michal Marek <michal.lkml@markovi.net>,
+	Miguel Ojeda <ojeda@kernel.org>, Namhyung Kim <namhyung@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
-	Nick Terrell <terrelln@fb.com>, linux-doc@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	workflows@vger.kernel.org
-Subject: Re: [PATCH v9 2/2] arm64: boot: Support Flat Image Tree
-Message-ID: <20231213121353.GA31326@willie-the-truck>
-References: <20231202035511.487946-1-sjg@chromium.org>
- <20231202035511.487946-3-sjg@chromium.org>
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Richard Sandiford <richard.sandiford@arm.com>,
+	Song Liu <song@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+	Tom Rix <trix@redhat.com>, Uros Bizjak <ubizjak@gmail.com>,
+	Will Deacon <will@kernel.org>, x86@kernel.org,
+	Yuntao Wang <ytcoode@gmail.com>, Yu Zhao <yuzhao@google.com>,
+	Zhen Lei <thunder.leizhen@huawei.com>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	llvm@lists.linux.dev, linux-hardening@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
+	linux-perf-users@vger.kernel.org, Dan Li <ashimida.1990@gmail.com>
+Subject: Re: [RFC/RFT,V2] CFI: Add support for gcc CFI in aarch64
+Message-ID: <ZXnDdooZv0of64ZK@FVFF77S0Q05N>
+References: <20221219061758.23321-1-ashimida.1990@gmail.com>
+ <20230325085416.95191-1-ashimida.1990@gmail.com>
+ <20230327093016.GB4253@hirez.programming.kicks-ass.net>
+ <CABCJKueH6ohH27xCPz9a_ndRR26Na_mo=MGF3eqjwV2=gJy+wQ@mail.gmail.com>
+ <CAE+Z0PFZaa2bwtfY5P7ZDYH4JjMxKpJgqz0m+KJ_ks4dctzAKA@mail.gmail.com>
+ <4a84af95-6270-6764-6a40-875ec20fc3e1@lixiang.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20231202035511.487946-3-sjg@chromium.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <4a84af95-6270-6764-6a40-875ec20fc3e1@lixiang.com>
 
-On Fri, Dec 01, 2023 at 08:54:42PM -0700, Simon Glass wrote:
-> Add a script which produces a Flat Image Tree (FIT), a single file
-> containing the built kernel and associated devicetree files.
-> Compression defaults to gzip which gives a good balance of size and
-> performance.
+On Wed, Dec 13, 2023 at 05:01:07PM +0800, Wang wrote:
+> On 2023/12/13 16:48, Dan Li wrote:
+> > + Likun
+> >
+> > On Tue, 28 Mar 2023 at 06:18, Sami Tolvanen wrote:
+> >> On Mon, Mar 27, 2023 at 2:30 AM Peter Zijlstra wrote:
+> >>> On Sat, Mar 25, 2023 at 01:54:16AM -0700, Dan Li wrote:
+> >>>
+> >>>> In the compiler part[4], most of the content is the same as Sami's
+> >>>> implementation[3], except for some minor differences, mainly including:
+> >>>>
+> >>>> 1. The function typeid is calculated differently and it is difficult
+> >>>> to be consistent.
+> >>> This means there is an effective ABI break between the compilers, which
+> >>> is sad :-( Is there really nothing to be done about this?
+> >> I agree, this would be unfortunate, and would also be a compatibility
+> >> issue with rustc where there's ongoing work to support
+> >> clang-compatible CFI type hashes:
+> >>
+> >> https://github.com/rust-lang/rust/pull/105452
+> >>
+> >> Sami
 > 
-> The files compress from about 86MB to 24MB using this approach.
+> Hi Peter and Sami
 > 
-> The FIT can be used by bootloaders which support it, such as U-Boot
-> and Linuxboot. It permits automatic selection of the correct
-> devicetree, matching the compatible string of the running board with
-> the closest compatible string in the FIT. There is no need for
-> filenames or other workarounds.
+> I am Dan Li's colleague, and I will take over and continue the work of CFI.
 > 
-> Add a 'make image.fit' build target for arm64, as well. Use
-> FIT_COMPRESSION to select a different algorithm.
+> Regarding the issue of gcc cfi type id being compatible with clang, we
+> have analyzed and verified:
 > 
-> The FIT can be examined using 'dumpimage -l'.
+> 1. clang uses Mangling defined in Itanium C++ ABI to encode the function
+> prototype, and uses the encoding result as input to generate cfi type id;
+> 2. Currently, gcc only implements mangling for the C++ compiler, and the
+> function prototype coding generated by these interfaces is compatible
+> with clang, but gcc's c compiler does not support mangling.;
 > 
-> This features requires pylibfdt (use 'pip install libfdt'). It also
-> requires compression utilities for the algorithm being used. Supported
-> compression options are the same as the Image.xxx files. For now there
-> is no way to change the compression other than by editing the rule for
-> $(obj)/image.fit
+> Adding mangling to gcc's c compiler is a huge and difficult task，because
+> we have to refactor the mangling of C++, splitting it into basic
+> mangling and language specific mangling, and adding support for the c
+> language which requires a deep understanding of the compiler and
+> language processing parts.
 > 
-> While FIT supports a ramdisk / initrd, no attempt is made to support
-> this here, since it must be built separately from the Linux build.
-> 
-> Signed-off-by: Simon Glass <sjg@chromium.org>
-> ---
-> 
-> Changes in v9:
-> - Move the compression control into Makefile.lib
-> 
-> Changes in v8:
-> - Drop compatible string in FDT node
-> - Correct sorting of MAINTAINERS to before ARM64 PORT
-> - Turn compress part of the make_fit.py comment in to a sentence
-> - Add two blank lines before parse_args() and setup_fit()
-> - Use 'image.fit: dtbs' instead of BUILD_DTBS var
-> - Use '$(<D)/dts' instead of '$(dir $<)dts'
-> - Add 'mkimage' details Documentation/process/changes.rst
-> - Allow changing the compression used
-> - Tweak cover letter since there is only one clean-up patch
-> 
-> Changes in v7:
-> - Add Image as a dependency of image.fit
-> - Drop kbuild tag
-> - Add dependency on dtbs
-> - Drop unnecessary path separator for dtbs
-> - Rebase to -next
-> 
-> Changes in v5:
-> - Drop patch previously applied
-> - Correct compression rule which was broken in v4
-> 
-> Changes in v4:
-> - Use single quotes for UIMAGE_NAME
-> 
-> Changes in v3:
-> - Drop temporary file image.itk
-> - Drop patch 'Use double quotes for image name'
-> - Drop double quotes in use of UIMAGE_NAME
-> - Drop unnecessary CONFIG_EFI_ZBOOT condition for help
-> - Avoid hard-coding "arm64" for the DT architecture
-> 
-> Changes in v2:
-> - Drop patch previously applied
-> - Add .gitignore file
-> - Move fit rule to Makefile.lib using an intermediate file
-> - Drop dependency on CONFIG_EFI_ZBOOT
-> - Pick up .dtb files separately from the kernel
-> - Correct pylint too-many-args warning for write_kernel()
-> - Include the kernel image in the file count
-> - Add a pointer to the FIT spec and mention of its wide industry usage
-> - Mention the kernel version in the FIT description
-> 
->  Documentation/process/changes.rst |   9 +
->  MAINTAINERS                       |   7 +
->  arch/arm64/Makefile               |   7 +-
->  arch/arm64/boot/.gitignore        |   1 +
->  arch/arm64/boot/Makefile          |   6 +-
->  scripts/Makefile.lib              |  16 ++
->  scripts/make_fit.py               | 291 ++++++++++++++++++++++++++++++
->  7 files changed, 334 insertions(+), 3 deletions(-)
->  create mode 100755 scripts/make_fit.py
+> And for the kernel cfi, I suggest separating type compatibility from CFI
+> basic functions. Type compatibility is independent from CFI basic
+> funcitons and should be dealt with under another topic. Should we focus
+> on the main issus of cfi, and  let it work first on linux kernel, and
+> left the compatible issue to be solved later?
 
-I'll need Masahiro's Ack on the scripts/ changes before I can take this
-one.
+I'm not sure what you're suggesting here exactly, do you mean to add a type ID
+scheme that's incompatible with clang, leaving everything else the same? If so,
+what sort of scheme are you proposing?
 
-Will
+It seems unfortunate to have a different scheme, but IIUC we expect all kernel
+objects to be built with the same compiler.
+
+Mark.
 
