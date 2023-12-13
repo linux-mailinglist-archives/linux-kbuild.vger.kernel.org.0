@@ -1,174 +1,155 @@
-Return-Path: <linux-kbuild+bounces-355-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-356-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D052810FB6
-	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Dec 2023 12:22:17 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA6398110CD
+	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Dec 2023 13:14:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 123E81F21174
-	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Dec 2023 11:22:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8C81F281816
+	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Dec 2023 12:14:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7EAFD23758;
-	Wed, 13 Dec 2023 11:22:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6F7C28DD0;
+	Wed, 13 Dec 2023 12:14:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="K0wIFrxi"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uvBXPCRo"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B3F710D0;
-	Wed, 13 Dec 2023 03:21:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1702466516; x=1734002516;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:content-transfer-encoding:mime-version;
-  bh=ourCIgEXwb49HY0a/VAqrzT1ZIAkfkNeTXmDQob5whA=;
-  b=K0wIFrxiR3oTcLhiCG7FClPdSRV1J7NtrOzHY2Ib9cDKCXVfwRjmuaxo
-   yU06BrrrfVDOLeLf2dMIku7s1dNORy6ssdIFpMHh9KVwI1bH0mO9R9kCd
-   kzwTMiyUSbOW3PfFm49Q0WK91vvWb1FLhKHLaXdor2zR9wT+xd62RmakZ
-   drBbEFXxbtZ+CIbRLnGAlotaYBlDXLK52/f0tU+/22+eXfuuemvaZVfo1
-   vJT9TPQJp1VAjQsik++gJfI3vhm1o+//L+8QP76AMPf3BBiciM0VFPhKW
-   ZDdCFe42U32c5gB+lKvWv84JnB01+3nbY0i0rtprzm9PdNy5cisLDVKgn
-   g==;
-X-IronPort-AV: E=Sophos;i="6.04,272,1695679200"; 
-   d="scan'208";a="34480876"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 13 Dec 2023 12:21:52 +0100
-Received: from [192.168.2.128] (SCHIFFERM-M2.tq-net.de [10.121.53.15])
-	by vtuxmail01.tq-net.de (Postfix) with ESMTPA id 8F4C1280075;
-	Wed, 13 Dec 2023 12:21:52 +0100 (CET)
-Message-ID: <a7ed5eddc674b0fcb7062af58c10d0190ccda2b8.camel@ew.tq-group.com>
-Subject: Re: [PATCH] Reapply "kbuild: Create directory for target DTB"
-From: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier
- <nicolas@fjasle.eu>,  "linux-kbuild@vger.kernel.org"
- <linux-kbuild@vger.kernel.org>, Michael Ellerman <mpe@ellerman.id.au>, 
- Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy
- <christophe.leroy@csgroup.eu>,  "linuxppc-dev@lists.ozlabs.org"
- <linuxppc-dev@lists.ozlabs.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "linux@ew.tq-group.com"
- <linux@ew.tq-group.com>
-Date: Wed, 13 Dec 2023 12:21:52 +0100
-In-Reply-To: <CAK7LNAQhVJ6kYC_+LutUzE9m-dQmaZ2HnWbLcOj54w5LZJe2FA@mail.gmail.com>
-References: <20231212161610.100862-1-matthias.schiffer@ew.tq-group.com>
-	 <CAK7LNAQhVJ6kYC_+LutUzE9m-dQmaZ2HnWbLcOj54w5LZJe2FA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4-0ubuntu2 
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CA5A28DCB;
+	Wed, 13 Dec 2023 12:14:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D52CC433C8;
+	Wed, 13 Dec 2023 12:13:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702469640;
+	bh=2ypXgnL4ECCpmdKkPHhPyQw7+zd7cb6G6jntIn0W0sk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uvBXPCRoFNVcz10CIj8UBIpbjMFwKXefOdwwu1fICqolJgD8TVfji1yCzxM8z7X3d
+	 e2plc4DaOL7/ZIN+zN9h4gIwy7aNXl6HdJ08DviZxC/rVmhappflf1g2rETpLsT/Eb
+	 qBrXqhuakwbA8sf+s8mVebkMLadD4KG+GYkGICZqdqcwldnS9K3D1ikMPeKplbxEqG
+	 XIpZatoZxQbCpN4D63NwqmhWvWoeabTSiE6ASlGnHG+DHAiYCoQO3y3xPg5Qwu0ytS
+	 IUIISRPA9t8EjdGuMgWirtz5z7Lbgvg+Qmcq+tRNg9Yqfxjr25XRrOiLQ5g7Q0woL4
+	 Mh18eR3L9hVnw==
+Date: Wed, 13 Dec 2023 12:13:53 +0000
+From: Will Deacon <will@kernel.org>
+To: Simon Glass <sjg@chromium.org>
+Cc: linux-arm-kernel@lists.infradead.org,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Ahmad Fatoum <a.fatoum@pengutronix.de>,
+	U-Boot Mailing List <u-boot@lists.denx.de>,
+	Nicolas Schier <nicolas@fjasle.eu>, Tom Rini <trini@konsulko.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Terrell <terrelln@fb.com>, linux-doc@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	workflows@vger.kernel.org
+Subject: Re: [PATCH v9 2/2] arm64: boot: Support Flat Image Tree
+Message-ID: <20231213121353.GA31326@willie-the-truck>
+References: <20231202035511.487946-1-sjg@chromium.org>
+ <20231202035511.487946-3-sjg@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231202035511.487946-3-sjg@chromium.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Tue, 2023-12-12 at 17:13 +0000, Masahiro Yamada wrote:
->=20
->=20
-> On Wed, Dec 13, 2023 at 1:17=E2=80=AFAM Matthias Schiffer
-> <matthias.schiffer@ew.tq-group.com> wrote:
-> >=20
-> > This reverts commit dd7699e37f289fa433f42c6bcc108468c8b198c0.
-> >=20
-> > On powerpc, dtb-y is usually empty unless CONFIG_OF_ALL_DTBS is set. Wh=
-ile
-> > passing a DTB as a make target explicitly works fine, individual DTB
-> > builds may also be pulled in as dependencies by cuImage.% and similar
-> > targets. In this case, nothing creates the arch/powerpc/dts directory,
-> > causing out-of-tree builds to fail.
-> >=20
-> > Fixes: dd7699e37f28 ("Revert "kbuild: Create directory for target DTB""=
-)
-> > Signed-off-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-> > ---
->=20
->=20
->=20
-> NACK.
->=20
-> %.dtb is generated by if_changed_dep.
->=20
-> Each Makefile is responsible for adding %.dtb to 'targets'
-> if it is pulled in as dependencies of other images.
->=20
-> If it does not work for PowerPC, it is a bug in PowerPC Makefile.
->=20
->=20
-> Just checking arch/powerpc/boot/Makefile,
-> it adds dts/%.dtb and dts/fsl/%.dtb to 'targets'. [1] [2]
->=20
-> cuImage.% should be file, but it does not cover all images.
->=20
-> Fix arch/powerpc/boot/Makefile.
+On Fri, Dec 01, 2023 at 08:54:42PM -0700, Simon Glass wrote:
+> Add a script which produces a Flat Image Tree (FIT), a single file
+> containing the built kernel and associated devicetree files.
+> Compression defaults to gzip which gives a good balance of size and
+> performance.
+> 
+> The files compress from about 86MB to 24MB using this approach.
+> 
+> The FIT can be used by bootloaders which support it, such as U-Boot
+> and Linuxboot. It permits automatic selection of the correct
+> devicetree, matching the compatible string of the running board with
+> the closest compatible string in the FIT. There is no need for
+> filenames or other workarounds.
+> 
+> Add a 'make image.fit' build target for arm64, as well. Use
+> FIT_COMPRESSION to select a different algorithm.
+> 
+> The FIT can be examined using 'dumpimage -l'.
+> 
+> This features requires pylibfdt (use 'pip install libfdt'). It also
+> requires compression utilities for the algorithm being used. Supported
+> compression options are the same as the Image.xxx files. For now there
+> is no way to change the compression other than by editing the rule for
+> $(obj)/image.fit
+> 
+> While FIT supports a ramdisk / initrd, no attempt is made to support
+> this here, since it must be built separately from the Linux build.
+> 
+> Signed-off-by: Simon Glass <sjg@chromium.org>
+> ---
+> 
+> Changes in v9:
+> - Move the compression control into Makefile.lib
+> 
+> Changes in v8:
+> - Drop compatible string in FDT node
+> - Correct sorting of MAINTAINERS to before ARM64 PORT
+> - Turn compress part of the make_fit.py comment in to a sentence
+> - Add two blank lines before parse_args() and setup_fit()
+> - Use 'image.fit: dtbs' instead of BUILD_DTBS var
+> - Use '$(<D)/dts' instead of '$(dir $<)dts'
+> - Add 'mkimage' details Documentation/process/changes.rst
+> - Allow changing the compression used
+> - Tweak cover letter since there is only one clean-up patch
+> 
+> Changes in v7:
+> - Add Image as a dependency of image.fit
+> - Drop kbuild tag
+> - Add dependency on dtbs
+> - Drop unnecessary path separator for dtbs
+> - Rebase to -next
+> 
+> Changes in v5:
+> - Drop patch previously applied
+> - Correct compression rule which was broken in v4
+> 
+> Changes in v4:
+> - Use single quotes for UIMAGE_NAME
+> 
+> Changes in v3:
+> - Drop temporary file image.itk
+> - Drop patch 'Use double quotes for image name'
+> - Drop double quotes in use of UIMAGE_NAME
+> - Drop unnecessary CONFIG_EFI_ZBOOT condition for help
+> - Avoid hard-coding "arm64" for the DT architecture
+> 
+> Changes in v2:
+> - Drop patch previously applied
+> - Add .gitignore file
+> - Move fit rule to Makefile.lib using an intermediate file
+> - Drop dependency on CONFIG_EFI_ZBOOT
+> - Pick up .dtb files separately from the kernel
+> - Correct pylint too-many-args warning for write_kernel()
+> - Include the kernel image in the file count
+> - Add a pointer to the FIT spec and mention of its wide industry usage
+> - Mention the kernel version in the FIT description
+> 
+>  Documentation/process/changes.rst |   9 +
+>  MAINTAINERS                       |   7 +
+>  arch/arm64/Makefile               |   7 +-
+>  arch/arm64/boot/.gitignore        |   1 +
+>  arch/arm64/boot/Makefile          |   6 +-
+>  scripts/Makefile.lib              |  16 ++
+>  scripts/make_fit.py               | 291 ++++++++++++++++++++++++++++++
+>  7 files changed, 334 insertions(+), 3 deletions(-)
+>  create mode 100755 scripts/make_fit.py
 
-Ah, thank you for the pointers, I did not quite get the meaning of those Ma=
-kefile lines when first
-reading them. So the issue is that I'm trying to build a cuImage that is no=
-t added to image-y in the
-powerpc Makefile. It is unfortunate that this leads to a very confusing err=
-or message about the
-missing dts directory.
+I'll need Masahiro's Ack on the scripts/ changes before I can take this
+one.
 
-I'll send a new patch if I come to the conclusion that I actually need the =
-cuImage (for the ancient
-TQM5200 which hasn't really been touched since 2011).
-
-Regards,
-Matthias
-
-
->=20
->=20
->=20
-> [1] https://github.com/torvalds/linux/blob/v6.7-rc5/arch/powerpc/boot/Mak=
-efile#L386
-> [2] https://github.com/torvalds/linux/blob/v6.7-rc5/arch/powerpc/boot/Mak=
-efile#L388
->=20
->=20
->=20
-> >  scripts/Makefile.lib | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> >=20
-> > diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> > index 1a965fe68e011..3fe0fc46badfe 100644
-> > --- a/scripts/Makefile.lib
-> > +++ b/scripts/Makefile.lib
-> > @@ -389,7 +389,8 @@ $(obj)/%.dtbo.S: $(obj)/%.dtbo FORCE
-> >         $(call if_changed,wrap_S_dtb)
-> >=20
-> >  quiet_cmd_dtc =3D DTC     $@
-> > -cmd_dtc =3D $(HOSTCC) -E $(dtc_cpp_flags) -x assembler-with-cpp -o $(d=
-tc-tmp) $< ; \
-> > +cmd_dtc =3D mkdir -p $(dir ${dtc-tmp}) ; \
-> > +       $(HOSTCC) -E $(dtc_cpp_flags) -x assembler-with-cpp -o $(dtc-tm=
-p) $< ; \
-> >         $(DTC) -o $@ -b 0 \
-> >                 $(addprefix -i,$(dir $<) $(DTC_INCLUDE)) $(DTC_FLAGS) \
-> >                 -d $(depfile).dtc.tmp $(dtc-tmp) ; \
-> > --
-> > TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 Seefeld, =
-Germany
-> > Amtsgericht M=C3=BCnchen, HRB 105018
-> > Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, Stefan=
- Schneider
-> > https://www.tq-group.com/
-> >=20
->=20
->=20
-> --
-> Best Regards
->=20
-> Masahiro Yamada
->=20
-
---=20
-TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 Seefeld, Germ=
-any
-Amtsgericht M=C3=BCnchen, HRB 105018
-Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, Stefan Sch=
-neider
-https://www.tq-group.com/
+Will
 
