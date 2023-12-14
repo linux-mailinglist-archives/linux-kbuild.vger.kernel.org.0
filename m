@@ -1,373 +1,117 @@
-Return-Path: <linux-kbuild+bounces-364-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-365-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A774813085
-	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Dec 2023 13:48:47 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F141813265
+	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Dec 2023 15:03:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0D9701C210C5
-	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Dec 2023 12:48:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 915B31C20E7E
+	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Dec 2023 14:03:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC9374D131;
-	Thu, 14 Dec 2023 12:48:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 122C757866;
+	Thu, 14 Dec 2023 14:03:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=konsulko.com header.i=@konsulko.com header.b="pynAIBAW"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FSGR75HF"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-yw1-x112a.google.com (mail-yw1-x112a.google.com [IPv6:2607:f8b0:4864:20::112a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C612124
-	for <linux-kbuild@vger.kernel.org>; Thu, 14 Dec 2023 04:48:35 -0800 (PST)
-Received: by mail-yw1-x112a.google.com with SMTP id 00721157ae682-5cece20f006so80553517b3.3
-        for <linux-kbuild@vger.kernel.org>; Thu, 14 Dec 2023 04:48:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1702558114; x=1703162914; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ynkzbg0VcmBQfCgEEi+/Ynn+2q0pEZCQki+1b/U8ctA=;
-        b=pynAIBAW+ctVhvJnJMUhIlXY5iWlq2jO67tZdhuSn0zaeqiqrikwRLa2uKob4oG0us
-         Cb/u91eLXMIzyb062WNfN41pYwlRr7eSWqI+pKpzoMAuKosvIlgKdLQmipWVq6ZjhLlD
-         JmCNBG2jHEhNbhF7Rord7LDE3WBwfrhflF5tU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702558114; x=1703162914;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ynkzbg0VcmBQfCgEEi+/Ynn+2q0pEZCQki+1b/U8ctA=;
-        b=EHrj70NOyE5iSwVrIIr3uTKVzbp79GdSdg/KJdtFrsiCK+YcAVPx22QvfPE4KaZOvs
-         zAUKoVVvubC000F2iW1w9uRCeSsTtASrR9iomYZr5gRcE6ozSvB/y9J0tLwDN6YMvCyp
-         xVE/8YGar7tIreQqJoFfUC6k/GuX77i853qfdXvWJRQ5aKF9bL8rvIRTyIri+76UhuuD
-         1ZXH7HcAtTivSxICh48Wc9D7whpKX7TLemwPi5u1w8maTu21whOap+xEvQJuJ0OB81pD
-         5CKkQ1pdBIwy4siWsMFVub9PTNDPs0HrFMpZK6uGOFV+IKpQ3MKQykmXo6Rz12BDq5XS
-         4/OQ==
-X-Gm-Message-State: AOJu0Yx1uHluxaJVm22/Kmy4yz/K8zcm4nNxkw4kongh31AkUtswWAVI
-	gSQ/YK5oVWSw9WshOd+rdCavOg==
-X-Google-Smtp-Source: AGHT+IE3enZpmTguDFDdaq/NlSHNW19uxf+vbgAd53vociQtjZbBAL3ndXs2cO0bNb0DczobieA+MQ==
-X-Received: by 2002:a81:c30e:0:b0:5e3:9b5f:e3f with SMTP id r14-20020a81c30e000000b005e39b5f0e3fmr659201ywk.59.1702558114476;
-        Thu, 14 Dec 2023 04:48:34 -0800 (PST)
-Received: from bill-the-cat (2603-6081-7b00-6400-ef43-b142-0a3d-20b7.res6.spectrum.com. [2603:6081:7b00:6400:ef43:b142:a3d:20b7])
-        by smtp.gmail.com with ESMTPSA id y185-20020a0dd6c2000000b005e309c357desm1021315ywd.145.2023.12.14.04.48.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Dec 2023 04:48:33 -0800 (PST)
-Date: Thu, 14 Dec 2023 07:48:31 -0500
-From: Tom Rini <trini@konsulko.com>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Chen-Yu Tsai <wenst@chromium.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Simon Glass <sjg@chromium.org>,
-	linux-arm-kernel@lists.infradead.org,
-	Ahmad Fatoum <a.fatoum@pengutronix.de>,
-	U-Boot Mailing List <u-boot@lists.denx.de>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>,
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA9455579A
+	for <linux-kbuild@vger.kernel.org>; Thu, 14 Dec 2023 14:03:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48648C433C8;
+	Thu, 14 Dec 2023 14:03:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702562597;
+	bh=TmBlvdhMtwd+CkVq89ydLq0CdC3DZHSb/94YMt+8cx8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=FSGR75HF8Uib5Aw6ixmy6n88N7GAR4E0yWRjocRCwxIpVzJaSaIQUU24OgU7gXugw
+	 DYdvOUH8LXwIfLoBZTvuj8yTMzr1M3jaLmRBDv3L79Znt910VQSZKYxMOaFvde9ztA
+	 MFRAUbzY2VQNgIOjQqe/jAoSuu9JR+Ls4tNhQihAUcZDxFjgp50X7bAjObi+HpbpF+
+	 PHDPksngqGzcZj/Qkd7Zd0+9NKqSqvsXuyLA0Pwmr5Ch9zHdRt8PAcPhh+F4um32eZ
+	 wq1TNJHTpfOOpCpQsSWDH2bWg+l7x4Hl7O6Ws6kjjC0E4zCRRraKkWYNlDMl95r3g4
+	 DwAjT8rMNmKJg==
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: linux-kbuild@vger.kernel.org
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
-	Nick Terrell <terrelln@fb.com>, Will Deacon <will@kernel.org>,
-	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, workflows@vger.kernel.org,
-	Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v9 2/2] arm64: boot: Support Flat Image Tree
-Message-ID: <20231214124831.GX2513409@bill-the-cat>
-References: <20231202035511.487946-1-sjg@chromium.org>
- <20231202035511.487946-3-sjg@chromium.org>
- <20231203153401.GV8402@pendragon.ideasonboard.com>
- <20231207142723.GA3187877@google.com>
- <20231207143814.GD15521@pendragon.ideasonboard.com>
- <CAGXv+5Go_0pEVAOLQmRCc_a9-YUtZEmBfXtMuBupX_nb9iqwbw@mail.gmail.com>
- <20231209152946.GC13421@pendragon.ideasonboard.com>
- <CAMuHMdVMZs6mnwWBgFwktO=8o=QzROv60cfZe085MhD6HxQjpQ@mail.gmail.com>
- <CAGXv+5Est3FL-XcEL-vB-6zVNas0mqb2cNYa==Yb7W2SQU9xVQ@mail.gmail.com>
- <CAK7LNATyD-PeNbaLTjJmU9=koqqE+V6QvFe09c2VrXopWvjpcw@mail.gmail.com>
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] kbuild: resolve symlinks for O= properly
+Date: Thu, 14 Dec 2023 23:03:05 +0900
+Message-Id: <20231214140305.531963-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="B/bTjf96qQSCoIlX"
-Content-Disposition: inline
-In-Reply-To: <CAK7LNATyD-PeNbaLTjJmU9=koqqE+V6QvFe09c2VrXopWvjpcw@mail.gmail.com>
-X-Clacks-Overhead: GNU Terry Pratchett
+Content-Transfer-Encoding: 8bit
 
+Currently, Kbuild follows the logical chain of directories for the O=
+option, just like 'cd' (or 'realpath --logical') does.
 
---B/bTjf96qQSCoIlX
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Example:
 
-On Thu, Dec 14, 2023 at 03:12:07PM +0900, Masahiro Yamada wrote:
-> On Thu, Dec 14, 2023 at 1:03=E2=80=AFPM Chen-Yu Tsai <wenst@chromium.org>=
- wrote:
-> >
-> > On Sun, Dec 10, 2023 at 1:31=E2=80=AFAM Geert Uytterhoeven <geert@linux=
--m68k.org> wrote:
-> > >
-> > > Hi Laurent,
-> > >
-> > > On Sat, Dec 9, 2023 at 4:29=E2=80=AFPM Laurent Pinchart
-> > > <laurent.pinchart@ideasonboard.com> wrote:
-> > > > On Sat, Dec 09, 2023 at 10:13:59PM +0900, Chen-Yu Tsai wrote:
-> > > > > On Thu, Dec 7, 2023 at 11:38=E2=80=AFPM Laurent Pinchart
-> > > > > <laurent.pinchart@ideasonboard.com> wrote:
-> > > > > > On Thu, Dec 07, 2023 at 10:27:23PM +0800, Chen-Yu Tsai wrote:
-> > > > > > > On Sun, Dec 03, 2023 at 05:34:01PM +0200, Laurent Pinchart wr=
-ote:
-> > > > > > > > On Fri, Dec 01, 2023 at 08:54:42PM -0700, Simon Glass wrote:
-> > > > > > > > > Add a script which produces a Flat Image Tree (FIT), a si=
-ngle file
-> > > > > > > > > containing the built kernel and associated devicetree fil=
-es.
-> > > > > > > > > Compression defaults to gzip which gives a good balance o=
-f size and
-> > > > > > > > > performance.
-> > > > > > > > >
-> > > > > > > > > The files compress from about 86MB to 24MB using this app=
-roach.
-> > > > > > > > >
-> > > > > > > > > The FIT can be used by bootloaders which support it, such=
- as U-Boot
-> > > > > > > > > and Linuxboot. It permits automatic selection of the corr=
-ect
-> > > > > > > > > devicetree, matching the compatible string of the running=
- board with
-> > > > > > > > > the closest compatible string in the FIT. There is no nee=
-d for
-> > > > > > > > > filenames or other workarounds.
-> > > > > > > > >
-> > > > > > > > > Add a 'make image.fit' build target for arm64, as well. U=
-se
-> > > > > > > > > FIT_COMPRESSION to select a different algorithm.
-> > > > > > > > >
-> > > > > > > > > The FIT can be examined using 'dumpimage -l'.
-> > > > > > > > >
-> > > > > > > > > This features requires pylibfdt (use 'pip install libfdt'=
-). It also
-> > > > > > > > > requires compression utilities for the algorithm being us=
-ed. Supported
-> > > > > > > > > compression options are the same as the Image.xxx files. =
-For now there
-> > > > > > > > > is no way to change the compression other than by editing=
- the rule for
-> > > > > > > > > $(obj)/image.fit
-> > > > > > > > >
-> > > > > > > > > While FIT supports a ramdisk / initrd, no attempt is made=
- to support
-> > > > > > > > > this here, since it must be built separately from the Lin=
-ux build.
-> > > > > > > >
-> > > > > > > > FIT images are very useful, so I think this is a very welco=
-me addition
-> > > > > > > > to the kernel build system. It can get tricky though: given=
- the
-> > > > > > > > versatile nature of FIT images, there can't be any
-> > > > > > > > one-size-fits-them-all solution to build them, and striking=
- the right
-> > > > > > > > balance between what makes sense for the kernel and the fea=
-tures that
-> > > > > > > > users may request will probably lead to bikeshedding. As we=
- all love
-> > > > > > > > bikeshedding, I thought I would start selfishly, with a per=
-sonal use
-> > > > > > > > case :-) This isn't a yak-shaving request though, I don't s=
-ee any reason
-> > > > > > > > to delay merging this series.
-> > > > > > > >
-> > > > > > > > Have you envisioned building FIT images with a subset of DT=
-Bs, or adding
-> > > > > > > > DTBOs ? Both would be fairly trivial extensions to this scr=
-ipt by
-> > > > > > > > extending the supported command line arguments. It would pe=
-rhaps be more
-> > > > > > > > difficult to integrate in the kernel build system though. T=
-his leads me
-> > > > > > > > to a second question: would you consider merging extensions=
- to this
-> > > > > > > > script if they are not used by the kernel build system, but=
- meant for
-> > > > > > > > users who manually invoke the script ? More generally, is t=
-he script
-> > > > > > >
-> > > > > > > We'd also be interested in some customization, though in a di=
-fferent way.
-> > > > > > > We imagine having a rule file that says X compatible string s=
-hould map
-> > > > > > > to A base DTB, plus B and C DTBO for the configuration sectio=
-n. The base
-> > > > > > > DTB would carry all common elements of some device, while the=
- DTBOs
-> > > > > > > carry all the possible second source components, like differe=
-nt display
-> > > > > > > panels or MIPI cameras for instance. This could drastically r=
-educe the
-> > > > > > > size of FIT images in ChromeOS by deduplicating all the commo=
-n stuff.
-> > > > > >
-> > > > > > Do you envision the "mapping" compatible string mapping to a co=
-nfig
-> > > > > > section in the FIT image, that would bundle the base DTB and th=
-e DTBOs ?
-> > > > >
-> > > > > That's exactly the idea. The mapping compatible string could be u=
-ntied
-> > > > > from the base board's compatible string if needed (which we proba=
-bly do).
-> > > > >
-> > > > > So something like:
-> > > > >
-> > > > > config {
-> > > > >     config-1 {
-> > > > >         compatible =3D "google,krane-sku0";
-> > > > >         fdt =3D "krane-baseboard", "krane-sku0-overlay";
-> > > > >     };
-> > > > > };
-> > > > >
-> > > > > With "krane-sku0-overlay" being an overlay that holds the differe=
-nces
-> > > > > between the SKUs, in this case the display panel and MIPI camera =
-(not
-> > > > > upstreamed) that applies to SKU0 in particular.
-> > > >
-> > > > The kernel DT makefiles already contain information on what overlay=
-s to
-> > > > apply to what base boards, in order to test the overlays and produce
-> > > > "full" DTBs. Maybe that information could be leveraged to create the
-> > > > configurations in the FIT image ?
-> > >
-> > > Although the "full" DTBs created may only be a subset of all possible
-> > > combinations (I believe Rob just started with creating one "full" DTB
-> > > for each overlay, cfr. the additions I made in commit a09c3e105a208580
-> > > ("arm64: dts: renesas: Apply overlays to base dtbs")), that could
-> > > definitely be a start.
-> > >
-> > > Now, since the kernel build system already creates "full" DTBs, does
-> > > that mean that all of the base DTBs, overlays, and "full" DTBs will
-> > > end up in the FIT image?
-> >
-> > I suppose we could add an option to the packing tool to be able to _not_
-> > add the "full" DTBs if they can also be assembled with a base DTB and
-> > overlays. Think of it as a firmware compatibility option: if the firmwa=
-re
-> > supports overlays, then you almost always want the deconstructed parts,
-> > not the fully assembled ones. Vice versa.
-> >
-> > If we don't we could end up with two configurations that have the same
-> > compatible string?
->=20
->=20
-> Right.
->=20
-> We would end up with such situations because applying
-> an overlay does not change the compatible string.
->=20
->=20
->=20
-> With this code in arch/arm64/boot/dts/ti/Makefile:
->=20
-> k3-am642-tqma64xxl-mbax4xxl-sdcard-dtbs :=3D \
->       k3-am642-tqma64xxl-mbax4xxl.dtb k3-am64-tqma64xxl-mbax4xxl-sdcard.d=
-tbo
-> k3-am642-tqma64xxl-mbax4xxl-wlan-dtbs :=3D \
->       k3-am642-tqma64xxl-mbax4xxl.dtb k3-am64-tqma64xxl-mbax4xxl-wlan.dtbo
->=20
->=20
->=20
->=20
-> $ fdtdump  arch/arm64/boot/dts/ti/k3-am642-tqma64xxl-mbax4xxl-sdcard.dtb
-> 2>/dev/null| head -n15 | tail -n2
->     model =3D "TQ-Systems TQMa64xxL SoM on MBax4xxL carrier board";
->     compatible =3D "tq,am642-tqma6442l-mbax4xxl", "tq,am642-tqma6442l",
-> "ti,am642";
->=20
->=20
-> $ fdtdump  arch/arm64/boot/dts/ti/k3-am642-tqma64xxl-mbax4xxl-wlan.dtb
-> 2>/dev/null| head -n15 | tail -n2
->     model =3D "TQ-Systems TQMa64xxL SoM on MBax4xxL carrier board";
->     compatible =3D "tq,am642-tqma6442l-mbax4xxl", "tq,am642-tqma6442l",
-> "ti,am642";
->=20
->=20
->=20
->=20
->=20
-> These two go into image.fit, but one of them is completely dead
-> since there is no way to distinguish them.
+    $ mkdir -p /tmp/a /tmp/x/y
+    $ ln -s /tmp/x/y /tmp/a/b
+    $ realpath /tmp/a/b/..
+    /tmp/x
+    $ realpath --logical /tmp/a/b/..
+    /tmp/a
+    $ make O=/tmp/a/b/.. defconfig
+    make[1]: Entering directory '/tmp/a'
+      [snip]
+    make[1]: Leaving directory '/tmp/a'
 
-I'd asked Rob about the problem of multiple platforms that don't have a
-unique compatible string, and never did quite conclude if the spec needs
-to spell out one way or another if they really need to be unique.
-There's some valid use cases where you might not, but then there's cases
-like the above where that really seems like a dts bug (and those
-platforms should have their dts* files reworked to be like other
-carrier+som+different peripherals and likely be
-tq,am642-tqma6442l-mbax4xxl-wlan and so on).
+'make O=/tmp/a/b/.. defconfig' creates the kernel configuration in
+/tmp/a instead of /tmp/x despite the directory path /tmp/a/b/..
+resolves to the physical directory path /tmp/x.
 
->=20
->=20
-> $ fdtdump  arch/arm64/boot/image.fit
->=20
->         ...
->=20
->         conf-10 {
->             compatible =3D "tq,am642-tqma6442l-mbax4xxl",
-> "tq,am642-tqma6442l", "ti,am642";
->             description =3D "TQ-Systems TQMa64xxL SoM on MBax4xxL carrier=
- board";
->             fdt =3D "fdt-10";
->             kernel =3D "kernel";
->         };
->=20
->         ...
->=20
->         conf-25 {
->             compatible =3D "tq,am642-tqma6442l-mbax4xxl",
-> "tq,am642-tqma6442l", "ti,am642";
->             description =3D "TQ-Systems TQMa64xxL SoM on MBax4xxL carrier=
- board";
->             fdt =3D "fdt-25";
->             kernel =3D "kernel";
->         };
->=20
->=20
->=20
->=20
->=20
-> I agree with Chen-Yu.
+This is because Kbuild internally uses the 'cd ... && pwd' for the
+path resolution, but this behavior is not predictable for users.
+Additionally, it is not consistent with how the Kbuild handles the
+M= option or GNU Make works with 'make -C /tmp/a/b/..'.
 
-> FIT should not include full DTBs.
->=20
-> Bootloaders should assemble the final DTB
-> from base and overlays on-the-fly.
+Using the physical directory structure for the O= option seems more
+reasonable.
 
-I think we need to think about that more because both FIT and UKI try
-and solve the problem of a single verifiyable (in the various security /
-secure boot meanings of the word) image. So saying "but not DTBs" will I
-believe become "let the distribution people worry about it".
+The comment says "expand a shell special character '~'", but it has
+already been expanded to the home directory in the command line.
 
-Or am I misunderstanding your comment, and this is only in the context
-of real or quasi overlays?
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
---=20
-Tom
+ Makefile | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
---B/bTjf96qQSCoIlX
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/Makefile b/Makefile
+index 24fac1889997..a05f0f7c99e0 100644
+--- a/Makefile
++++ b/Makefile
+@@ -190,14 +190,11 @@ ifeq ("$(origin O)", "command line")
+ endif
+ 
+ ifneq ($(KBUILD_OUTPUT),)
+-# Make's built-in functions such as $(abspath ...), $(realpath ...) cannot
+-# expand a shell special character '~'. We use a somewhat tedious way here.
+-abs_objtree := $(shell mkdir -p $(KBUILD_OUTPUT) && cd $(KBUILD_OUTPUT) && pwd)
+-$(if $(abs_objtree),, \
+-     $(error failed to create output directory "$(KBUILD_OUTPUT)"))
+-
++# $(realpath ...) gets empty if the path does not exist. Run 'mkdir -p' first.
++$(shell mkdir -p $(KBUILD_OUTPUT))
+ # $(realpath ...) resolves symlinks
+-abs_objtree := $(realpath $(abs_objtree))
++abs_objtree := $(realpath $(KBUILD_OUTPUT))
++$(if $(abs_objtree),,$(error failed to create output directory "$(KBUILD_OUTPUT)"))
+ endif # ifneq ($(KBUILD_OUTPUT),)
+ 
+ ifneq ($(words $(subst :, ,$(abs_srctree))), 1)
+-- 
+2.40.1
 
------BEGIN PGP SIGNATURE-----
-
-iQGzBAABCgAdFiEEGjx/cOCPqxcHgJu/FHw5/5Y0tywFAmV6+ZwACgkQFHw5/5Y0
-tyxjZgv/c9kJRHcdwKjxJfBNyd3mWhLVjkey7xi1A9ypEqph2eyZR1XLfN8/ynRW
-TzyE3UF113bhTFT1ejsUwUUVRBrPkZKTdEUmzEgPxOcSVwu43txkexSLcoiPLFhl
-Z8ELDoBQ6XJCBxL3SOHUWuuSrOoxoAoYbQt2YK+H12vCpuCG0stKyzALRmyAlONL
-9F/TbqlsA/GPLH1cm7JeZYJeZ03l0IvBFkKgqEWPgk0mQfYNSHOpz6TyKaf3uVdq
-UBsoJpor/OtUiba3rvdbFUZ2B0zyKij5i4CrmbS/nddpUwR0gskHjultJS+2LT9o
-Hb/XtRWUN8c3V5VBE/EjKzUXRld9ZgkWnhb9jJrngjJmWg/EBvsZjpCFW/gybegM
-AvEffJyA703dfXLpsNQhnVL9YOYFd37G/1oNSVART5kxj+gD+NEP+YKKKqSt1B4P
-yxwViPPcvfq7mfiAsyNgUgB8VxAafx2LSd5uvZqDVQhkCXrpjEv5MR/eMjRgBxmP
-Fa/6zHfn
-=9yva
------END PGP SIGNATURE-----
-
---B/bTjf96qQSCoIlX--
 
