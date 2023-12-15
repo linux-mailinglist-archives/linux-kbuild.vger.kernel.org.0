@@ -1,137 +1,161 @@
-Return-Path: <linux-kbuild+bounces-374-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-375-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C333F8146DD
-	for <lists+linux-kbuild@lfdr.de>; Fri, 15 Dec 2023 12:27:44 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6A378147E7
+	for <lists+linux-kbuild@lfdr.de>; Fri, 15 Dec 2023 13:20:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 018DD1C20B4C
-	for <lists+linux-kbuild@lfdr.de>; Fri, 15 Dec 2023 11:27:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7C7C41F22663
+	for <lists+linux-kbuild@lfdr.de>; Fri, 15 Dec 2023 12:20:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3609019469;
-	Fri, 15 Dec 2023 11:27:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CCFA2C690;
+	Fri, 15 Dec 2023 12:20:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ejYLrVyw"
+	dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b="Thwhup0t"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.avm.de (mail.avm.de [212.42.244.119])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9EEE24B47;
-	Fri, 15 Dec 2023 11:27:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-5cd81e76164so4594677b3.1;
-        Fri, 15 Dec 2023 03:27:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702639651; x=1703244451; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=smDGabhS7vctxpO+deRKUcMYfvvkEi0FhsbNu+lkOzE=;
-        b=ejYLrVyw97T5qygNZC7LN3aJ2mLL+0qxzWrJXvz1faNviNWdabvrI9qage5q9MAu4F
-         O0EUFDQdcgQNdGavEPnmmcgEPq8Mmf3LQUXpM4GZ6JiLR2/p3OnNhaNGo0ajYyXVNEE3
-         4BMnRLDufgMcbD4dXwFWZJEkkjMgwtk+h+nD2Oa90BoSfVWVfTMqhMXVJQNeon9WtdiH
-         cQ0OgJqXe5SvH0ntObi7cvc1jErvo7dZrCCZ6M0Abuc+ZKikBN/4hqxJoG5k3tjaiul4
-         hTGgGN6lgumxoIGjvEC/5j7HRpSX2GgNPBjX6FZtZ0URNrnAHxqmzfjYstvTD5tNuQzF
-         qfKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702639651; x=1703244451;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=smDGabhS7vctxpO+deRKUcMYfvvkEi0FhsbNu+lkOzE=;
-        b=qOBHXabCNfFR6UQdr72LEkcP1nahB6f9A+I2GGJip4+MO5PFtEqSx2Bi6vyPvXGlxo
-         ZJThSZjipAz2SXGWVOCfEhoudbcoxlPOz2eodANO+qi0IR5AEEZAiy+1bUHC0FSkhJti
-         8+dM8EwewX9DGJpXhBaF62sj8s1zygojD5/aBp7V2BXQdqmcOtRkuqQIYp8mJG7S3xJh
-         NQDTGX8SvhqecIQdgJm11c0Kb/HvU3/8Z4Nbut4Vr5OJsZjwAUoDcSDcwHY+AwSpJpP0
-         uKkjN48Hy4ytdSu5CIl4fu2O3RwvjNRoOpbw+53D2/FyC4pokvl8KNQDVp2zWH48EFz1
-         X14Q==
-X-Gm-Message-State: AOJu0YzlvA3OOg/BnlW8rBuk21HSTusEjtjPpOBGNb3P6tpzqnM0URls
-	phpPs1dUuJSkJ9koP87bZQpJFfTEfVXFZLTr8LM=
-X-Google-Smtp-Source: AGHT+IGuFMMv68nUKNuq0aC/6kTpHtWXckeCIHxhvxv90ZN2tNAgt3p9+Pw0AKRTRjXfsBMA1xCqGKaRoRHmreap3fg=
-X-Received: by 2002:a81:48c1:0:b0:5e2:62c0:f18b with SMTP id
- v184-20020a8148c1000000b005e262c0f18bmr4604862ywa.37.1702639650776; Fri, 15
- Dec 2023 03:27:30 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7FCE2D797;
+	Fri, 15 Dec 2023 12:20:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=avm.de
+Received: from mail-auth.avm.de (unknown [IPv6:2001:bf0:244:244::71])
+	by mail.avm.de (Postfix) with ESMTPS;
+	Fri, 15 Dec 2023 13:13:22 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
+	t=1702642402; bh=LfEPw8Rf3GRHOSbe1ZYau1FlgGol6uSWCfKA23VZKA8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Thwhup0tbf5AHaKXNolCNyZ7FbvV6p0pPbY5A++Os5L+KUiggTTgNqVBAuHlmx6bM
+	 oOBqVtzQJIvj1NsZ6CRLm9QtWeAqFo7+P/uSRr/3Lt8MS/Ni5s5qHJfIlbknXcvXCq
+	 2MaWIArwCp0mV95CmUUodBY/vYFQuU1fE4lhybhk=
+Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
+	by mail-auth.avm.de (Postfix) with ESMTPA id C12E080698;
+	Fri, 15 Dec 2023 13:13:22 +0100 (CET)
+Received: by buildd.core.avm.de (Postfix, from userid 1000)
+	id B4253180C65; Fri, 15 Dec 2023 13:13:22 +0100 (CET)
+Date: Fri, 15 Dec 2023 13:13:20 +0100
+From: Nicolas Schier <n.schier@avm.de>
+To: Salvatore Bonaccorso <carnil@debian.org>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Nicolas Schier <nicolas@fjasle.eu>
+Subject: Re: make deb-pkg: Does not strip debug symbols when compressing
+ modules
+Message-ID: <ZXxC4i1BIUh9oABC@buildd.core.avm.de>
+Mail-Followup-To: Salvatore Bonaccorso <carnil@debian.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+References: <ZXthQYablvopq0su@eldamar.lan>
+ <ZXtieLq1kTs4pIbL@eldamar.lan>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231214222253.116734-1-ojeda@kernel.org> <CABVgOS=LXUzRD-c63sxn0FMfGWvxCPP1t_8nY5Xgk30Y9qMAcw@mail.gmail.com>
-In-Reply-To: <CABVgOS=LXUzRD-c63sxn0FMfGWvxCPP1t_8nY5Xgk30Y9qMAcw@mail.gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Fri, 15 Dec 2023 12:27:19 +0100
-Message-ID: <CANiq72kw326HyrDM0v0mFNu5jfb=eL1a+k-idr-5Vbc6_gmY2A@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: rust: add `rustupoverride` target
-To: David Gow <davidgow@google.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Wedson Almeida Filho <wedsonaf@gmail.com>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
-	Alice Ryhl <aliceryhl@google.com>, linux-kbuild@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	patches@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="k9XsFw9lddrpm7zB"
+Content-Disposition: inline
+In-Reply-To: <ZXtieLq1kTs4pIbL@eldamar.lan>
+Organization: AVM GmbH
+X-purgate-ID: 149429::1702642402-FDD6B5FF-A2CCCE2C/0/0
+X-purgate-type: clean
+X-purgate-size: 3550
+X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
+X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
+X-purgate: clean
+
+
+--k9XsFw9lddrpm7zB
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+Date: Fri, 15 Dec 2023 13:13:20 +0100
+From: Nicolas Schier <n.schier@avm.de>
+To: Salvatore Bonaccorso <carnil@debian.org>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Nicolas Schier <nicolas@fjasle.eu>
+Subject: Re: make deb-pkg: Does not strip debug symbols when compressing
+ modules
 
-On Fri, Dec 15, 2023 at 8:38=E2=80=AFAM David Gow <davidgow@google.com> wro=
-te:
->
-> Would having similar targets for bindgen help? What about having this
-> install rust-src? Updating / installing those required a lot more
-> looking up of documentation (and then adding --force), so it'd be nice
-> if there were some way to do a similar override or make target.
+On Thu, Dec 14, 2023 at 09:15:52PM +0100, Salvatore Bonaccorso wrote:
+> Hi,
+>=20
+> On Thu, Dec 14, 2023 at 09:10:41PM +0100, Salvatore Bonaccorso wrote:
+> > Hi
+> >=20
+> > When using (only tested with XZ compression, but the others should
+> > behave similarly) CONFIG_MODULE_COMPRESS_XZ=3Dy to compress the modules,
+> > it looks that the debug symbols are not striped.
+> >=20
+> > Building with the attached test configuration results in packages:
+> >=20
+> > -rw-r--r-- 1 build build  8.9M Dec 14 20:47 linux-headers-6.7.0-rc5+_6.=
+7.0-rc5-00042-g88035e5694a8-1_amd64.deb
+> > -rw-r--r-- 1 build build   75M Dec 14 20:48 linux-image-6.7.0-rc5+-dbg_=
+6.7.0-rc5-00042-g88035e5694a8-1_amd64.deb
+> > -rw-r--r-- 1 build build 1014M Dec 14 20:47 linux-image-6.7.0-rc5+_6.7.=
+0-rc5-00042-g88035e5694a8-1_amd64.deb
+> > -rw-r--r-- 1 build build  1.3M Dec 14 20:47 linux-libc-dev_6.7.0-rc5-00=
+042-g88035e5694a8-1_amd64.deb
+> >=20
+> > This is odd, the linux-image-6.7.0-rc5+ package has a size of almost
+> > 1G and the modules are not stripped.
+> >=20
+> > Switching the values instread to=20
+> >=20
+> > CONFIG_MODULE_COMPRESS_NONE=3Dy
+> > # CONFIG_MODULE_COMPRESS_XZ is not set
+> >=20
+> > the packages are again produced correctly:
+> >=20
+> > -rw-r--r-- 1 build build 8.9M Dec 14 20:59 linux-headers-6.7.0-rc5+_6.7=
+=2E0-rc5-00042-g88035e5694a8-2_amd64.deb
+> > -rw-r--r-- 1 build build 819M Dec 14 21:00 linux-image-6.7.0-rc5+-dbg_6=
+=2E7.0-rc5-00042-g88035e5694a8-2_amd64.deb
+> > -rw-r--r-- 1 build build  73M Dec 14 20:59 linux-image-6.7.0-rc5+_6.7.0=
+-rc5-00042-g88035e5694a8-2_amd64.deb
+> > -rw-r--r-- 1 build build 1.3M Dec 14 20:59 linux-libc-dev_6.7.0-rc5-000=
+42-g88035e5694a8-2_amd64.deb
+>=20
+> and the classical one. Missed to attach the promised attachement. The
+> used config is now here.
 
-Which docs did you need to check? i.e. we have the commands for those
-steps in the Quick Start guide. I think you may be referring to the
-case when switching between LTS and mainline, due to the `bindgen-cli`
-vs. `bindgen` name change that the tool did (since that is where
-`--force` is required, not for normal upgrading or downgrading). That
-is definitely a bit painful :-( At least `cargo` mentions the need for
-`--force` in that case. Or are you referring to something else?
+:)
 
-I considered having a `rustupsetup` target (or script) instead that
-does everything (with a `BUILDONLY=3D1` option or similar, given some
-dependencies are not strictly needed for building), since having all
-this "switching logic" is useful, but then:
+Hi Salvatore,
 
-  - I am not sure we should "hide" the details of the setup too much:
-I thought `rustupoverride` would be OK-ish because the output
-directory is needed (so it is justified) and the command is
-straightforward, but the others do not "need" that information.
+did you try to build with 'make INSTALL_MOD_STRIP=3D1 ...'?  When I'm
+reproducing your issue here, the flag reduces the package size from ~1GB
+to ~95MB.
 
-  - If we include `bindgen` there, it wouldn't be `rustup`-only
-anymore, so perhaps we would need another name like `rustsetup`. But
-that may mislead others (e.g. those looking at the Make help), because
-it is just one way of setting things up and it is not required.
-Perhaps this can be alleviated by not including it in the `make help`,
-so that everybody comes from the Quick Start guide and thus hopefully
-they have read the document at least diagonally :)
+Kind regards,
+Nicolas
 
-  - Given there are different ways to set different sub-steps, and the
-fact that we don't have such a script for C does not have (please
-correct me if I am wrong -- I am aware of Thorsten's recent guide,
-which covers `apt` etc., but that is a Quick Start-like approach
-rather than automated script), I am not sure it would be welcome as a
-Make target (but perhaps it would be fine as a script?). Masahiro may
-have some guidelines here.
+--k9XsFw9lddrpm7zB
+Content-Type: application/pgp-signature; name="signature.asc"
 
-  - In the future we may have to change how the setup works or add
-steps, i.e. it is not 100% settled. Thus I am concerned about adding
-complex Make targets that users may start to depend on (i.e. with
-particular/complex semantics), vs. just having docs that are manual.
-For `rustupoverride`, it thought it could be OK-ish because it is just
-a single command and unlikely that it will change (and if we stop
-using it, we can make it empty with a warning and then remove it
-eventually; while it gets harder for more complex ones).
+-----BEGIN PGP SIGNATURE-----
 
-What do you think?
+iQIzBAABCgAdFiEEDv+Fiet06YHnC6RpiMa8nIiabbgFAmV8QuAACgkQiMa8nIia
+bbhqRxAAmO+Zt5rOnsMsmI3ONRfEyOtvKlilCTAXjrSv0My/IENgB+XWFsJG2lnn
+CBUi5ONIgl0mlIRtpFLwMiDHftFsc4wL/ga499rUJ2JULveY+iTPRNXQm+UPYudq
+XXppfJvqJym6Q3s2uGTRbJCry7VSzoHufTj+DmkTKRgSJ+Er9b/5fU6vuWJx2pKz
+EoC6C2SCs313HDdNQrG+zhFqgcMZNH1nS5FBcMKBsNgALFIeDjyXb4p695ThJj4p
+fAfaCBDXJs7bkeUFGKnyvcH0iY0xQ20xN+CZ4oABjh8zbDREN190yU8wEg7It61c
+iMmEkDHOmfA7TfO+pSQux7ZHadB5VnD5a94beJHO5hl1Y4hocgKyMUxF55uoojbq
+hTrR1WcqVdBHhLhhzsC35FFYg8mrpw4RNCpa5x6UrrzNFIqLU6RsvvMkDEV7z83A
+dWQYWTqrtJcE2WrG+7Jf4N14xD+vukwXbqXJw7BXOVNg3KdKOlQ5Igy6PqoIUlj2
+P148zaadrUzFyee2UuVmZRxRwQZogGyXY6Z5ezSiQf8eoAGnMrFNb9emYTs6SFTo
+bh/6GsjOP6QOnH47OklH7lKWnUfpYdfCeBp6/dwwA9FZ9/SlyqIj7DSVo1L60GSr
+yH47DLYIMa/uZgt5aWQQscIiAW2FqJ0kFXV161pZlh81MnMIqYY=
+=P1d1
+-----END PGP SIGNATURE-----
 
-Cheers,
-Miguel
+--k9XsFw9lddrpm7zB--
 
