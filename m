@@ -1,124 +1,107 @@
-Return-Path: <linux-kbuild+bounces-368-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-369-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7200E813D38
-	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Dec 2023 23:23:19 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B41D81404C
+	for <lists+linux-kbuild@lfdr.de>; Fri, 15 Dec 2023 03:58:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2F309283930
-	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Dec 2023 22:23:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 792581F22DBE
+	for <lists+linux-kbuild@lfdr.de>; Fri, 15 Dec 2023 02:58:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BCF167207;
-	Thu, 14 Dec 2023 22:23:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6235ED6;
+	Fri, 15 Dec 2023 02:58:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hy1KhZDQ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rfz8XoYI"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B4746720A;
-	Thu, 14 Dec 2023 22:23:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34043C433C8;
-	Thu, 14 Dec 2023 22:23:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702592591;
-	bh=pgyu4wBiidMdBiu1uYG+TluTmLJL6JHzn+KTryLFeg4=;
-	h=From:To:Cc:Subject:Date:From;
-	b=hy1KhZDQeVmw/PKAZKMyHpyFpLjMJvZ9nzmSzg1q25LbazraEx0KJ3LDB8nRJJvpX
-	 3jXCtGicmnegnajOaGeUiliNcYAg0Kv2/pOJZIINAIncAfSGEUcFTdS6+Sw3FkUUIV
-	 O0nRnHfXWkFc0zAIDOsUyh8cCkqx1OCcYo+K5aMstdkf6vM6GKbcRbXYnQdMNrbxjS
-	 qHc1tXmWh4RrjAfJAr3gYMqXpOSQIpykKFOM4pyoP6GAAVRIW4qrdMLUlff6dQIqiv
-	 /4fO0fIg7F5Iy4RdxU4hqQedtn/JRLasYTUA9lvGmygWOzBJ/DJrzVqJiNz0QSh+q5
-	 z8xkqRXYjB/TQ==
-From: Miguel Ojeda <ojeda@kernel.org>
-To: Masahiro Yamada <masahiroy@kernel.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Wedson Almeida Filho <wedsonaf@gmail.com>,
-	Alex Gaynor <alex.gaynor@gmail.com>
-Cc: Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Gary Guo <gary@garyguo.net>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@samsung.com>,
-	Alice Ryhl <aliceryhl@google.com>,
-	linux-kbuild@vger.kernel.org,
-	rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	patches@lists.linux.dev
-Subject: [PATCH] kbuild: rust: add `rustupoverride` target
-Date: Thu, 14 Dec 2023 23:22:53 +0100
-Message-ID: <20231214222253.116734-1-ojeda@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 565FBECD;
+	Fri, 15 Dec 2023 02:58:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-3ba14203a34so223159b6e.1;
+        Thu, 14 Dec 2023 18:58:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702609096; x=1703213896; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=dEuYNRBlgzXCt6dLMDXZjmgpWHVvzha3MPNxQgSpSX0=;
+        b=Rfz8XoYI16chjKa1IghAnlLe5l1x3YJ9KkvIsMbqv/VpQWfS6B2U9OQHiv3panTvIq
+         6W3SWW0cIBYaRn5NtcQVNPypx1I7AkULeCfkyhAJZeNgNEQDlgdObTRUEmYKKmnycScq
+         EUHcT6hrUrweIq3u67IZzhJo5JSkXdeMVjAdtIk9PnN9AxQX6m9tbOkf9juEgvsuyjLy
+         JfmXr/Y6LoH/nEZHVEn134qXvMjUdLex+7a7VVIwZP5N9JTH3A1HL1nVYPYGsA5hiEjB
+         r8XtllsuBOoe2gSwxd6h8zkId6ppfAm3fmbvj17QjDqLrkwvymqjNUK+I7s6DFESC+cA
+         VOOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702609096; x=1703213896;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dEuYNRBlgzXCt6dLMDXZjmgpWHVvzha3MPNxQgSpSX0=;
+        b=HJMvmlf98XHhFFxkOg2vYKGOqQfhT6Co8Vdv9naFTAPmBP2RIdloQ7Si1N5brF0OLU
+         8JMcy535eqO7w3YaibvmvE+xDW9g3PfBIPtSbqdQdobgqudoUEvUnwBYuSvt/nq/E6fH
+         BcMXjZqhUB7qp7jWjiCbYNtVRxV+gUv/sIhTG4tsjMpTdW9T1UvTawWt6UrG430gK1f+
+         PNGM1/9L0YpZ77U/0hLScetp8BezdId6vbU95+7oOJcmP+YLXrypthkYQ9iJ8FgBf2ML
+         m0t6EmDUZbaC4dV2iBqhhIjAkbRNLFUBX6EpPypCS2tliYIFTWNzB0DeOyjn/VxnvsYG
+         ISGA==
+X-Gm-Message-State: AOJu0YzlFWbVlXGJHWjXmi5deZFlMgYRAOzRZets5EGTEpjnqcbhvzG9
+	I6WvtTdK+vHta8G8eQQuj0c=
+X-Google-Smtp-Source: AGHT+IGda2uOu7tUCWI6/kdPBjVtdx5P6FD+g5ouxNnOF4IFpNT0gSRZmMn/eMLi7lrKD9L6eqauNA==
+X-Received: by 2002:a05:6808:eca:b0:3b8:b6f6:4f8e with SMTP id q10-20020a0568080eca00b003b8b6f64f8emr11950143oiv.65.1702609096352;
+        Thu, 14 Dec 2023 18:58:16 -0800 (PST)
+Received: from [192.168.54.90] (static.220.238.itcsa.net. [190.15.220.238])
+        by smtp.gmail.com with ESMTPSA id i11-20020a170902c94b00b001d359db2370sm3143684pla.152.2023.12.14.18.58.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 14 Dec 2023 18:58:15 -0800 (PST)
+Message-ID: <f09fa249-1425-429f-8f16-e95fb2d2cac3@gmail.com>
+Date: Thu, 14 Dec 2023 23:58:10 -0300
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] kbuild: rust: add `rustupoverride` target
+Content-Language: en-US
+To: Miguel Ojeda <ojeda@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>,
+ Wedson Almeida Filho <wedsonaf@gmail.com>,
+ Alex Gaynor <alex.gaynor@gmail.com>
+Cc: Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <ndesaulniers@google.com>,
+ Nicolas Schier <nicolas@fjasle.eu>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@samsung.com>, Alice Ryhl
+ <aliceryhl@google.com>, linux-kbuild@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+ patches@lists.linux.dev
+References: <20231214222253.116734-1-ojeda@kernel.org>
+From: Martin Rodriguez Reboredo <yakoyoku@gmail.com>
+In-Reply-To: <20231214222253.116734-1-ojeda@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-When setting up the Rust support via `rustup`, one may use an override
-in order to select the right version of the Rust toolchain.
-
-The current instructions at Documentation/rust/quick-start.rst assume
-one is using an in-tree kernel build (i.e. no `O=`) [1]. We would like
-to provide also the way to do so for `O=` builds, but ideally in a way
-that keeps the one-liner copy-pastable and without duplication [2].
-
-Thus provide a new Make target, `rustupoverride`, that sets it up for
-the user given their build options/variables.
-
-Link: https://lore.kernel.org/rust-for-linux/20231207084846.faset66xzuoyvdlg@vireshk-i7/ [1]
-Link: https://lore.kernel.org/rust-for-linux/CANiq72=mvca8PXoxwzSao+QFbAHDCecSKCDtV+ffd+YgZNFaww@mail.gmail.com/ [2]
-Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
----
-Viresh may send a patch on top of this to refer to `rustupoverride`
-from the Quick Start guide in `Documentation/rust` -- that one should
-probably be applied right after this one.
-
- Makefile | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
-
-diff --git a/Makefile b/Makefile
-index 70fc4c11dfc0..7fe82dd4dc6f 100644
---- a/Makefile
-+++ b/Makefile
-@@ -276,7 +276,8 @@ no-dot-config-targets := $(clean-targets) \
- 			 cscope gtags TAGS tags help% %docs check% coccicheck \
- 			 $(version_h) headers headers_% archheaders archscripts \
- 			 %asm-generic kernelversion %src-pkg dt_binding_check \
--			 outputmakefile rustavailable rustfmt rustfmtcheck
-+			 outputmakefile rustavailable rustfmt rustfmtcheck \
-+			 rustupoverride
- no-sync-config-targets := $(no-dot-config-targets) %install modules_sign kernelrelease \
- 			  image_name
- single-targets := %.a %.i %.ko %.lds %.ll %.lst %.mod %.o %.rsi %.s %.symtypes %/
-@@ -1611,6 +1612,7 @@ help:
- 	@echo  '                    (requires kernel .config; downloads external repos)'
- 	@echo  '  rust-analyzer	  - Generate rust-project.json rust-analyzer support file'
- 	@echo  '		    (requires kernel .config)'
-+	@echo  '  rustupoverride  - Set up a rustup override for the build directory'
- 	@echo  '  dir/file.[os]   - Build specified target only'
- 	@echo  '  dir/file.rsi    - Build macro expanded source, similar to C preprocessing.'
- 	@echo  '                    Run with RUSTFMT=n to skip reformatting if needed.'
-@@ -1735,6 +1737,11 @@ rustfmt:
- rustfmtcheck: rustfmt_flags = --check
- rustfmtcheck: rustfmt
-
-+# `rustup override` setup target
-+PHONY += rustupoverride
-+rustupoverride:
-+	$(Q)rustup override set $(shell $(srctree)/scripts/min-tool-version.sh rustc)
-+
- # Misc
- # ---------------------------------------------------------------------------
-
-
-base-commit: a39b6ac3781d46ba18193c9dbb2110f31e9bffe9
---
-2.43.0
+On 12/14/23 19:22, Miguel Ojeda wrote:
+> When setting up the Rust support via `rustup`, one may use an override
+> in order to select the right version of the Rust toolchain.
+> 
+> The current instructions at Documentation/rust/quick-start.rst assume
+> one is using an in-tree kernel build (i.e. no `O=`) [1]. We would like
+> to provide also the way to do so for `O=` builds, but ideally in a way
+> that keeps the one-liner copy-pastable and without duplication [2].
+> 
+> Thus provide a new Make target, `rustupoverride`, that sets it up for
+> the user given their build options/variables.
+> 
+> Link: https://lore.kernel.org/rust-for-linux/20231207084846.faset66xzuoyvdlg@vireshk-i7/ [1]
+> Link: https://lore.kernel.org/rust-for-linux/CANiq72=mvca8PXoxwzSao+QFbAHDCecSKCDtV+ffd+YgZNFaww@mail.gmail.com/ [2]
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+> ---
+> [...]
+Reviewed-by: Martin Rodriguez Reboredo <yakoyoku@gmail.com>
 
