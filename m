@@ -1,181 +1,102 @@
-Return-Path: <linux-kbuild+bounces-371-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-372-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63F3681449B
-	for <lists+linux-kbuild@lfdr.de>; Fri, 15 Dec 2023 10:37:29 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ED948145B6
+	for <lists+linux-kbuild@lfdr.de>; Fri, 15 Dec 2023 11:34:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9A6CFB22D9B
-	for <lists+linux-kbuild@lfdr.de>; Fri, 15 Dec 2023 09:37:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CCB3128557C
+	for <lists+linux-kbuild@lfdr.de>; Fri, 15 Dec 2023 10:34:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 520EA1803F;
-	Fri, 15 Dec 2023 09:35:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D23E1A271;
+	Fri, 15 Dec 2023 10:34:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b="AQ/Y4H9v"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="1rq1koYk"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail.avm.de (mail.avm.de [212.42.244.120])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 816A318AF8;
-	Fri, 15 Dec 2023 09:35:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=avm.de
-Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [212.42.244.71])
-	by mail.avm.de (Postfix) with ESMTPS;
-	Fri, 15 Dec 2023 10:29:33 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
-	t=1702632573; bh=SVfcatZDjI4tKNtOwP+bScaWGS92iMBU3r/Y+xnXlE8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AQ/Y4H9vLz4ek8Mm0S1niwIg4YZcp5ijojlBycMiOqNSaAOJpIb7H0kt5cQGLxxqQ
-	 /LvjLBEQ2w82q6RAwOqjT5SJmXaspZfOIoxKDUp6/4IQCJsX7bh4i234MbU2E7iPPW
-	 paXNPbHP6QorTJ6zVmqeyA743kWef0XkKqc+jbDo=
-Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
-	by mail-auth.avm.de (Postfix) with ESMTPA id A774F80693;
-	Fri, 15 Dec 2023 10:29:33 +0100 (CET)
-Received: by buildd.core.avm.de (Postfix, from userid 1000)
-	id 9B293180E3C; Fri, 15 Dec 2023 10:29:33 +0100 (CET)
-Date: Fri, 15 Dec 2023 10:29:30 +0100
-From: Nicolas Schier <n.schier@avm.de>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kbuild: resolve symlinks for O= properly
-Message-ID: <ZXwcfSsuhzJYNAQh@buildd.core.avm.de>
-Mail-Followup-To: Masahiro Yamada <masahiroy@kernel.org>,
-	linux-kbuild@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	linux-kernel@vger.kernel.org
-References: <20231214140305.531963-1-masahiroy@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FA172555B
+	for <linux-kbuild@vger.kernel.org>; Fri, 15 Dec 2023 10:34:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-4b2d08747e7so186522e0c.1
+        for <linux-kbuild@vger.kernel.org>; Fri, 15 Dec 2023 02:34:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1702636439; x=1703241239; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QUVhEwhGG5R6yJfLzMvql4u7DQlTyWt51m5KiZQOx4k=;
+        b=1rq1koYk0LexYezdWSJHjWlecDo6CNjnXpsB/UgQIjxVHRpnULzBeHjsF1CqWMvXgc
+         YDttL533OYoCSVdhLQquH3B/zk1JMLwAolYo4+PujSLjGA5A5an1LjtmFwa0a2Qy0SvZ
+         U2wTgm9Wd3zRiFDsb0WuAEbz+yvCYEVuEKwHm2vJwb5au2k84S/ykNnTIWoWUeF8ZDgp
+         oBJe88Xo2iZLZwXcqL1vwMReP2KK204rPXgHLkfFwyfAOcOyewPF/DI3BWzk+KYPHkcB
+         /E43khiBVfUeJSMt6Clkjmw2NCbIxQYBO7TIGKMP3TM2eIUqGeANGbya/shUnYF59MB5
+         +LIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702636439; x=1703241239;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QUVhEwhGG5R6yJfLzMvql4u7DQlTyWt51m5KiZQOx4k=;
+        b=XyAbbJjlGvp3BBxIPQosX5JOEaFFaouCusOL3mhmqck9sNlkXJ7mV4KYYCgds2BUJC
+         0bpio0zTelQwrY61yJgxo4SUDsWb9dFQcC6wqJfLORiDoXMoTPHN0ivHldrukrluncCt
+         qugRJFLgFrkBKBcs62WJGf1cIOHc7b3GEa7nge3LKgIiV560V+aAHOReKs7iNsYx1alR
+         lQu/VGq/KsORPGr+vm03PiX8mqq5/0pN4tNt6GLuqGh4ECyE/QDgR3yHb9hbMAiREB9T
+         UId/wJv7K5dp9tV7tvy69M6irkJYsykZ9ky5IiL72rpGS/xC/303Oam6XIKcTww5OJYF
+         WmLg==
+X-Gm-Message-State: AOJu0Yy6rgRzpy6WFxBe7YdN7k6fSh6qv8iMiEAHJOe3psIIqUQ7tJ5E
+	nxwvgEBZhWzkCpY3xNqLJgfzgHR4cjb5ACZL+tuNQA==
+X-Google-Smtp-Source: AGHT+IE5lEPjohScF8M2+o9L0ZurkGWcYGEHMF7ggwPClq4fWZTrD4KlogJkKTQ78bQH/IAIKHZqCt2tU/dbAqnvSDQ=
+X-Received: by 2002:ac5:c38f:0:b0:4b2:956e:f651 with SMTP id
+ s15-20020ac5c38f000000b004b2956ef651mr6658491vkk.0.1702636439100; Fri, 15 Dec
+ 2023 02:33:59 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="SGxVEl732S1u5+et"
-Content-Disposition: inline
-In-Reply-To: <20231214140305.531963-1-masahiroy@kernel.org>
-Organization: AVM GmbH
-X-purgate-ID: 149429::1702632573-03B3ADFE-30E86D20/0/0
-X-purgate-type: clean
-X-purgate-size: 4125
-X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
-X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
-X-purgate: clean
-
-
---SGxVEl732S1u5+et
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
+References: <20231214222253.116734-1-ojeda@kernel.org>
+In-Reply-To: <20231214222253.116734-1-ojeda@kernel.org>
+From: Alice Ryhl <aliceryhl@google.com>
+Date: Fri, 15 Dec 2023 11:33:48 +0100
+Message-ID: <CAH5fLgjPznV1pjaxoXovnfwSBOv6sKZc3G_MwfELbmwH0-Xf8Q@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: rust: add `rustupoverride` target
+To: Miguel Ojeda <ojeda@kernel.org>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Wedson Almeida Filho <wedsonaf@gmail.com>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Nicolas Schier <nicolas@fjasle.eu>, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
+	linux-kbuild@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, patches@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 15 Dec 2023 10:29:30 +0100
-From: Nicolas Schier <n.schier@avm.de>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kbuild: resolve symlinks for O= properly
 
-On Thu, Dec 14, 2023 at 11:03:05PM +0900, Masahiro Yamada wrote:
-> Currently, Kbuild follows the logical chain of directories for the O=3D
-> option, just like 'cd' (or 'realpath --logical') does.
->=20
-> Example:
->=20
->     $ mkdir -p /tmp/a /tmp/x/y
->     $ ln -s /tmp/x/y /tmp/a/b
->     $ realpath /tmp/a/b/..
->     /tmp/x
->     $ realpath --logical /tmp/a/b/..
->     /tmp/a
->     $ make O=3D/tmp/a/b/.. defconfig
->     make[1]: Entering directory '/tmp/a'
->       [snip]
->     make[1]: Leaving directory '/tmp/a'
->=20
-> 'make O=3D/tmp/a/b/.. defconfig' creates the kernel configuration in
-> /tmp/a instead of /tmp/x despite the directory path /tmp/a/b/..
-> resolves to the physical directory path /tmp/x.
->=20
-> This is because Kbuild internally uses the 'cd ... && pwd' for the
-> path resolution, but this behavior is not predictable for users.
-> Additionally, it is not consistent with how the Kbuild handles the
-> M=3D option or GNU Make works with 'make -C /tmp/a/b/..'.
->=20
-> Using the physical directory structure for the O=3D option seems more
-> reasonable.
->=20
-> The comment says "expand a shell special character '~'", but it has
-> already been expanded to the home directory in the command line.
+On Thu, Dec 14, 2023 at 11:23=E2=80=AFPM Miguel Ojeda <ojeda@kernel.org> wr=
+ote:
+>
+> When setting up the Rust support via `rustup`, one may use an override
+> in order to select the right version of the Rust toolchain.
+>
+> The current instructions at Documentation/rust/quick-start.rst assume
+> one is using an in-tree kernel build (i.e. no `O=3D`) [1]. We would like
+> to provide also the way to do so for `O=3D` builds, but ideally in a way
+> that keeps the one-liner copy-pastable and without duplication [2].
+>
+> Thus provide a new Make target, `rustupoverride`, that sets it up for
+> the user given their build options/variables.
+>
+> Link: https://lore.kernel.org/rust-for-linux/20231207084846.faset66xzuoyv=
+dlg@vireshk-i7/ [1]
+> Link: https://lore.kernel.org/rust-for-linux/CANiq72=3Dmvca8PXoxwzSao+QFb=
+AHDCecSKCDtV+ffd+YgZNFaww@mail.gmail.com/ [2]
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 
-I minor change in behaviour is that 'make O=3D"~/..."' (=3Dquoted '~) will
-not work any more.  But I think this actually the way it should be.
-Thanks!
-
-Reviewed-by: Nicolas Schier <n.schier@avm.de>
-
-
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
->=20
->  Makefile | 11 ++++-------
->  1 file changed, 4 insertions(+), 7 deletions(-)
->=20
-> diff --git a/Makefile b/Makefile
-> index 24fac1889997..a05f0f7c99e0 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -190,14 +190,11 @@ ifeq ("$(origin O)", "command line")
->  endif
-> =20
->  ifneq ($(KBUILD_OUTPUT),)
-> -# Make's built-in functions such as $(abspath ...), $(realpath ...) cann=
-ot
-> -# expand a shell special character '~'. We use a somewhat tedious way he=
-re.
-> -abs_objtree :=3D $(shell mkdir -p $(KBUILD_OUTPUT) && cd $(KBUILD_OUTPUT=
-) && pwd)
-> -$(if $(abs_objtree),, \
-> -     $(error failed to create output directory "$(KBUILD_OUTPUT)"))
-> -
-> +# $(realpath ...) gets empty if the path does not exist. Run 'mkdir -p' =
-first.
-> +$(shell mkdir -p $(KBUILD_OUTPUT))
->  # $(realpath ...) resolves symlinks
-> -abs_objtree :=3D $(realpath $(abs_objtree))
-> +abs_objtree :=3D $(realpath $(KBUILD_OUTPUT))
-> +$(if $(abs_objtree),,$(error failed to create output directory "$(KBUILD=
-_OUTPUT)"))
->  endif # ifneq ($(KBUILD_OUTPUT),)
-> =20
->  ifneq ($(words $(subst :, ,$(abs_srctree))), 1)
-> --=20
-> 2.40.1
->=20
-
---SGxVEl732S1u5+et
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEDv+Fiet06YHnC6RpiMa8nIiabbgFAmV8HHoACgkQiMa8nIia
-bbjsNxAAnGBY21SiDOFDbMwlI4WDHTkl2Uc55xDeXhDRfO8icGU3AAyuJUE3p8x0
-qCQ2rLFcfgOWqKb72jL5GQRcrqnOPHFLic96///UHNktu+Zu2lnQM3Zyh+XbTagI
-AmlfCm46m0JfCrxQFThRv1wnTIh0OzJKiCRUplYoL6abci4h+cv3/e3A7UCdFUuO
-qkifCfrXJlf6Kc1w26uPNPc4MPdiDLR0nJ30UGRgWvlw/ETkzGpCZU2zOB6We+P8
-YSY+RfU+OwD6nhy8XZQYe5cvwW0pXVLI9qMlF5u7P2b2tDKc1DmKKkDccojFBP98
-LqQBt0S4lGVbJCanQG3Rrc65Nb+G1VMGKjZChUZpdtrtbRCi1Kbd8Qh+lFVQ4tPJ
-OY6K3a5BUgFjmsYit0NihEEFeKX4Oy45y8p3Pz95wPeNt8XF6ebuk2PzkDwWUAXM
-6784bDCTbGu033QR0Ecp3Ll/2ip5HOgQXejqJAY8gmu4t3ri3+btF8+ky/mTet19
-zPhQHe5nWXNYV2HHTqCi4RqAxIzpdj8uHspx5u13Cz6KREp5fFbUbh+jFBFDnf0t
-HzvJqdv94Qw5y9PRMIxufJBQpn9X50InwkVklCg6j/xwhaEll3Sdc/MDDGkzUsgx
-SVbKw47tV51YcA9dPuW9SlFDcSFG3PjmmywJrrDTg5K13a/ZktI=
-=/i4F
------END PGP SIGNATURE-----
-
---SGxVEl732S1u5+et--
+Reviewed-by: Alice Ryhl <aliceryhl@google.com>
 
