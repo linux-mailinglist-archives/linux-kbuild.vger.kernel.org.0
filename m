@@ -1,134 +1,211 @@
-Return-Path: <linux-kbuild+bounces-378-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-379-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C570E814DC7
-	for <lists+linux-kbuild@lfdr.de>; Fri, 15 Dec 2023 18:03:13 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 917EB814E8C
+	for <lists+linux-kbuild@lfdr.de>; Fri, 15 Dec 2023 18:26:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D9CB91C23DAD
-	for <lists+linux-kbuild@lfdr.de>; Fri, 15 Dec 2023 17:03:12 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D8287B23BBA
+	for <lists+linux-kbuild@lfdr.de>; Fri, 15 Dec 2023 17:26:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DCB43EA7B;
-	Fri, 15 Dec 2023 17:03:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89BE43FE55;
+	Fri, 15 Dec 2023 17:14:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L8njkoym"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pp0lD+H8"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E75E3EA7C;
-	Fri, 15 Dec 2023 17:03:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F145C433CD;
-	Fri, 15 Dec 2023 17:03:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65FDE82EFA;
+	Fri, 15 Dec 2023 17:14:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBE94C433CC;
+	Fri, 15 Dec 2023 17:14:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702659787;
-	bh=ajf26pir6fXq20CplEJMXiFdwNUfaixnT+N6tmJkitw=;
+	s=k20201202; t=1702660498;
+	bh=s4dpcKFSOpffFMkLeUyk6a1Hqn70UOiGuwHq3pZ2x3M=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=L8njkoymU68soJsWcs0umSxZd8F8wVyIF44uHMIBxOUEUo+UUCwo1z/U3p8h6/qpT
-	 iWOoXvXUFpvE5U1nHRzhQbI2bkfGtV5dlI/Dt8Ttjfux6T89RMq7d8V8KnwcEmDNji
-	 9qgWjUMt66f7hG7gDCHcITJviZGhQGH4EA81fRAKr36LI05zmHDtxf38QwzXYR4LMv
-	 jkNKcwv/UeCUA0w/5TGM7DQq5KQhs0SqABI23rpk7I7HO9TjzQR93MYs5oKMSsf5rr
-	 uHT1rm6al/+LEQ1/poUMJEBzZHHaOBMRJ9mgSWFhw/XTUuJSHqyUHprkSeo/0zVIrw
-	 RkPycjKtarHqQ==
-Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-20379a7a926so208503fac.3;
-        Fri, 15 Dec 2023 09:03:07 -0800 (PST)
-X-Gm-Message-State: AOJu0Yw2rGtP9N4ALA+4D8XcCXL7KoZZiltkoXvQWZ2Wv0E8io4/Wgnm
-	aIPGfAewA9m0elOYyT8i1ML3xMQ/S97L/YUKBSc=
-X-Google-Smtp-Source: AGHT+IFSdu/F7vwdNFiRRFkJzwflbFSMH3nCh+pN8oX/a2dGXQaDLR/33PZz2VqwQ/n7qpPj+780mMDcb6GA1hrvNng=
-X-Received: by 2002:a05:6870:7a2:b0:1fa:2620:6c4e with SMTP id
- en34-20020a05687007a200b001fa26206c4emr8111187oab.4.1702659786858; Fri, 15
- Dec 2023 09:03:06 -0800 (PST)
+	b=pp0lD+H8LpkhU1gbKSJba+kSztqi0VqYD1rl0fOwE/NORkX9ChGns9bNNzrst+Xo2
+	 louOv26Mj6n1EKNN/NY8GzwveRb9fER+eCudIYdzHMj/kUAlqo8A7FVTmOTcrFqdif
+	 daKSQ6BZfsSTpRoZsTEneJ64xiUvH8GrrmLIwbBW9ZOpZ3B11jX9yI+BXtgl+uVW5/
+	 NOC+43nfebfEuYBF7LcITZ0Asich2kam7TibasR9V5IU8kPfOk7H9Kyu842XFFHvXF
+	 eNMWJ8z1yr5s3vFkV25rgoCE/GX9NLItg6eKGmxXXO6eV/s+8DjeFOFXcm1T0UbK6B
+	 0q0uxBdKq0+yQ==
+Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-6d9d2f2b25aso672820a34.1;
+        Fri, 15 Dec 2023 09:14:58 -0800 (PST)
+X-Gm-Message-State: AOJu0Yxo5zvfkeRQuV16gmRG3WbDdDEECzdMsf0MCs69+uULS3LL9LIK
+	onGE3VZFm4cLllWebwxM2CB3C6W5PM4Jm4M8n7k=
+X-Google-Smtp-Source: AGHT+IG/ffSXQejDqbvOPaP3pp3auTpYqO7TlQzwcixijWKSehFgrp3ZXIk1Q+mZdPXKJtKIb41MOV9edOYQWbYQJ/8=
+X-Received: by 2002:a05:6871:750d:b0:1fb:19a:5d6 with SMTP id
+ ny13-20020a056871750d00b001fb019a05d6mr14154078oac.59.1702660498202; Fri, 15
+ Dec 2023 09:14:58 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231208181802.88528-3-leobras@redhat.com> <ZXgMa57Ere6FJCJB@infradead.org>
- <CAK7LNAQiJW0eFYQZN0wuURhrdc-8y7=TcEazpxhLf=+mRbKHHQ@mail.gmail.com>
- <ZXhbUmxzH6nWAzaw@infradead.org> <ZXiT1zyADQVXOEqw@LeoBras>
-In-Reply-To: <ZXiT1zyADQVXOEqw@LeoBras>
+References: <20231212161610.100862-1-matthias.schiffer@ew.tq-group.com>
+ <CAK7LNAQhVJ6kYC_+LutUzE9m-dQmaZ2HnWbLcOj54w5LZJe2FA@mail.gmail.com> <a7ed5eddc674b0fcb7062af58c10d0190ccda2b8.camel@ew.tq-group.com>
+In-Reply-To: <a7ed5eddc674b0fcb7062af58c10d0190ccda2b8.camel@ew.tq-group.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sat, 16 Dec 2023 02:02:30 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARhah+P+wESAYxVUzRkD81EacR_J+muDcP7HLZpCRkd8g@mail.gmail.com>
-Message-ID: <CAK7LNARhah+P+wESAYxVUzRkD81EacR_J+muDcP7HLZpCRkd8g@mail.gmail.com>
-Subject: Re: [RFC PATCH v5 1/1] scripts: Introduce a default git.orderFile
-To: Leonardo Bras <leobras@redhat.com>
-Cc: Christoph Hellwig <hch@infradead.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
+Date: Sat, 16 Dec 2023 02:14:22 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATuZ5w4+znxqUVEfyD0cCKHr+sd6Yr=R=kshxFqNYHnwA@mail.gmail.com>
+Message-ID: <CAK7LNATuZ5w4+znxqUVEfyD0cCKHr+sd6Yr=R=kshxFqNYHnwA@mail.gmail.com>
+Subject: Re: [PATCH] Reapply "kbuild: Create directory for target DTB"
+To: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+	"linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
+	"linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux@ew.tq-group.com" <linux@ew.tq-group.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Dec 13, 2023 at 2:10=E2=80=AFAM Leonardo Bras <leobras@redhat.com> =
-wrote:
+On Wed, Dec 13, 2023 at 8:22=E2=80=AFPM Matthias Schiffer
+<matthias.schiffer@ew.tq-group.com> wrote:
 >
-> On Tue, Dec 12, 2023 at 05:08:34AM -0800, Christoph Hellwig wrote:
-> > On Tue, Dec 12, 2023 at 05:09:21PM +0900, Masahiro Yamada wrote:
-> > > Unlike .gitignore, this feature is opt-in rather than enforced.
-> > >
-> > > To use this, you need to run
-> > >
-> > > 'git config diff.orderFile scripts/git.orderFile'
-> > >
-> > > or
-> > >
-> > > 'git diff -C scripts/git.orderFile'
+> On Tue, 2023-12-12 at 17:13 +0000, Masahiro Yamada wrote:
 > >
-> > Oh, ok.  That greatly reduces my concern.
->
-> Yes, it's an opt-in, so no user should be directly impacted.
-
-
-Applied to linux-kbuild.
-Thanks.
-
-
-
-
-
-
-
-
 > >
+> > On Wed, Dec 13, 2023 at 1:17=E2=80=AFAM Matthias Schiffer
+> > <matthias.schiffer@ew.tq-group.com> wrote:
 > > >
-> > > Indeed, the file order is subjective, leaving
-> > > us a question "do we need it in upstream"?
->
-> The main idea is patch generation.
-> This file's order is supposed to be the best order for reading a raw patc=
-h
-> and understanding the code changes.
->
+> > > This reverts commit dd7699e37f289fa433f42c6bcc108468c8b198c0.
 > > >
-> > > At least, it is harmless for people who have no interest.
+> > > On powerpc, dtb-y is usually empty unless CONFIG_OF_ALL_DTBS is set. =
+While
+> > > passing a DTB as a make target explicitly works fine, individual DTB
+> > > builds may also be pulled in as dependencies by cuImage.% and similar
+> > > targets. In this case, nothing creates the arch/powerpc/dts directory=
+,
+> > > causing out-of-tree builds to fail.
+> > >
+> > > Fixes: dd7699e37f28 ("Revert "kbuild: Create directory for target DTB=
+"")
+> > > Signed-off-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+> > > ---
 > >
-> > .. but this is still a good question.  I'm not really sure there is
-> > much of a need for it, but as long as it doesn't harm everyone else
-> > I'm at least neutral on it.
+> >
+> >
+> > NACK.
+> >
+> > %.dtb is generated by if_changed_dep.
+> >
+> > Each Makefile is responsible for adding %.dtb to 'targets'
+> > if it is pulled in as dependencies of other images.
+> >
+> > If it does not work for PowerPC, it is a bug in PowerPC Makefile.
+> >
+> >
+> > Just checking arch/powerpc/boot/Makefile,
+> > it adds dts/%.dtb and dts/fsl/%.dtb to 'targets'. [1] [2]
+> >
+> > cuImage.% should be file, but it does not cover all images.
+> >
+> > Fix arch/powerpc/boot/Makefile.
 >
-> diff.orderfile was introduced in git to help order the git diff, and thus
-> the patch generation, in a way that it's easier to understand what the
-> commit / patch intends on doing.
+> Ah, thank you for the pointers, I did not quite get the meaning of those =
+Makefile lines when first
+> reading them. So the issue is that I'm trying to build a cuImage that is =
+not added to image-y in the
+> powerpc Makefile. It is unfortunate that this leads to a very confusing e=
+rror message about the
+> missing dts directory.
 >
-> Take this example introducing a feature foo, you should see:
-> - Documentation on foo, if introduced
-> - How is foo enabled in build system, if needed
-> - The types / stucts / fields introduced by foo, if any
-> - The interface for using foo, if any
-> - The actual foo implementation.
+> I'll send a new patch if I come to the conclusion that I actually need th=
+e cuImage (for the ancient
+> TQM5200 which hasn't really been touched since 2011).
+
+
+
+
+If your target image does not exist in arch/powerpc/boot/Makefile,
+one solution might be CONFIG_EXTRA_TARGETS
+
+
+I see the following code:
+
+  image-y +=3D $(CONFIG_EXTRA_TARGETS)
+
+
+
+
+Another solution might be:
+
+  image-y +=3D $(filter dtbImage.% uImage.% cuImage.% simpleImage.%
+treeImage.%, $(MAKECMDGOALS))
+
+
+
+
+But, I did not test any of them.
+
+
+
+
+
+
+> Regards,
+> Matthias
 >
-> Of course the actual order is open to discussion, and I encourage everyon=
-e
-> to suggest any other items or order.
 >
-> Thanks!
-> Leo
+> >
+> >
+> >
+> > [1] https://github.com/torvalds/linux/blob/v6.7-rc5/arch/powerpc/boot/M=
+akefile#L386
+> > [2] https://github.com/torvalds/linux/blob/v6.7-rc5/arch/powerpc/boot/M=
+akefile#L388
+> >
+> >
+> >
+> > >  scripts/Makefile.lib | 3 ++-
+> > >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> > > index 1a965fe68e011..3fe0fc46badfe 100644
+> > > --- a/scripts/Makefile.lib
+> > > +++ b/scripts/Makefile.lib
+> > > @@ -389,7 +389,8 @@ $(obj)/%.dtbo.S: $(obj)/%.dtbo FORCE
+> > >         $(call if_changed,wrap_S_dtb)
+> > >
+> > >  quiet_cmd_dtc =3D DTC     $@
+> > > -cmd_dtc =3D $(HOSTCC) -E $(dtc_cpp_flags) -x assembler-with-cpp -o $=
+(dtc-tmp) $< ; \
+> > > +cmd_dtc =3D mkdir -p $(dir ${dtc-tmp}) ; \
+> > > +       $(HOSTCC) -E $(dtc_cpp_flags) -x assembler-with-cpp -o $(dtc-=
+tmp) $< ; \
+> > >         $(DTC) -o $@ -b 0 \
+> > >                 $(addprefix -i,$(dir $<) $(DTC_INCLUDE)) $(DTC_FLAGS)=
+ \
+> > >                 -d $(depfile).dtc.tmp $(dtc-tmp) ; \
+> > > --
+> > > TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 Seefeld=
+, Germany
+> > > Amtsgericht M=C3=BCnchen, HRB 105018
+> > > Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, Stef=
+an Schneider
+> > > https://www.tq-group.com/
+> > >
+> >
+> >
+> > --
+> > Best Regards
+> >
+> > Masahiro Yamada
+> >
 >
->
+> --
+> TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 Seefeld, Ge=
+rmany
+> Amtsgericht M=C3=BCnchen, HRB 105018
+> Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, Stefan S=
+chneider
+> https://www.tq-group.com/
+
 
 
 --=20
