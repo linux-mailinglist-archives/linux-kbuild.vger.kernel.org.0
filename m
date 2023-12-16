@@ -1,165 +1,180 @@
-Return-Path: <linux-kbuild+bounces-380-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-381-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C0BD814FBE
-	for <lists+linux-kbuild@lfdr.de>; Fri, 15 Dec 2023 19:30:32 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D9388155F1
+	for <lists+linux-kbuild@lfdr.de>; Sat, 16 Dec 2023 02:25:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1774E1F253D5
-	for <lists+linux-kbuild@lfdr.de>; Fri, 15 Dec 2023 18:30:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5F6B21C23DF3
+	for <lists+linux-kbuild@lfdr.de>; Sat, 16 Dec 2023 01:25:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 802C52D78A;
-	Fri, 15 Dec 2023 18:30:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5788B10F1;
+	Sat, 16 Dec 2023 01:25:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ug6N6HnF"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KroAWxM3"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1E453FE5F
-	for <linux-kbuild@vger.kernel.org>; Fri, 15 Dec 2023 18:30:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1702665019;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7vzJClyUOrZwfVwzrZ2j7ZURZhN9VcUajU+PzpFU1cc=;
-	b=Ug6N6HnFDigTMjg+VaZTqId608Ys/nWY5n4KZ002RaRvhw87U6WsN0o2RBysqje5fRAiCm
-	kcgSdkCY4gbXl2usffUqcNKYPDBasexVbc6YVi2hrlZWJr9NplcR1LrCOmns5sYgK0gAzU
-	PCkgNSP0GNeHYgf8suBd/TYbbIa8Ur4=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-692-OIbPOVc7NuuVo0Bqbrdhsg-1; Fri, 15 Dec 2023 13:30:18 -0500
-X-MC-Unique: OIbPOVc7NuuVo0Bqbrdhsg-1
-Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-425d3ed72f5so13727181cf.0
-        for <linux-kbuild@vger.kernel.org>; Fri, 15 Dec 2023 10:30:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702665018; x=1703269818;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7vzJClyUOrZwfVwzrZ2j7ZURZhN9VcUajU+PzpFU1cc=;
-        b=LwsDhdBW1n6D3bbLpHf4sZpqeSHmovlA8gxnHS22VUJeO51t6AEcuVQhdwD+Dyu3Uq
-         GcKd6GY51VDW+9fhPbY85WZeT+zvyMae3TMxOzvggnqjhjzuzq7pblgtroyy9OL/xy/c
-         vh7q1N4PUMRobEQBnSBdQYiujiohj9uYlXul6iEpWWGq9gFGE5AP2l4xG1mqY/v262Ss
-         Uwss0BLJcLxVkZCg0TgC/7iSQ0E+DFJgLtF8tjYK4ylW5M4bduw66dT5x2fUKskxWHWe
-         kBCFMFbuSCdDJ5v/x7qKdPuhH6LOyCLrl63SbjL6IKb78Dif4X8NsTp200sheEO/LMGq
-         5aOw==
-X-Gm-Message-State: AOJu0Yy1pODsqZbxhA34r+umJsXdybtVTa7x/5jBMTW4m2emCr6upqhC
-	yryvaXNrHhj87UBMjLlnlNUafVbsu6BCAHvO8ZEp6mGdkzgWnLqVjcVmOZU6iX/vOaZugT7Ama0
-	fln2pRbsDU9aiaaahsTPz7uI/ZbxmPhShkM43QYph
-X-Received: by 2002:a05:622a:11cb:b0:425:4043:18a0 with SMTP id n11-20020a05622a11cb00b00425404318a0mr20736514qtk.83.1702665017906;
-        Fri, 15 Dec 2023 10:30:17 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHrj2n1I8uoO76meJmcaIBwseRw+4NTtYxDITKyt6vMIi5TpjWNgJ2b+7aDrKuonTvWR4rB+CbF6VJGd+VPbDQ=
-X-Received: by 2002:a05:622a:11cb:b0:425:4043:18a0 with SMTP id
- n11-20020a05622a11cb00b00425404318a0mr20736499qtk.83.1702665017666; Fri, 15
- Dec 2023 10:30:17 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36CD310EE;
+	Sat, 16 Dec 2023 01:25:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B7B9C433CB;
+	Sat, 16 Dec 2023 01:25:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702689922;
+	bh=occtvWUQzDAQVVpXxNZtIid/3QZhQJ78ogsGIb239N4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=KroAWxM3X8tRxn5qSsu8U09GCAvrF0XKdNmvVDazPxGWnrchrR2veYaURK4PjN4dT
+	 KQFeMeldFE1eepTnrf4fXWbcEJ2zkxuwJifA9/yJ5B9GtFhEr2MDpI3WZ1CNWXskgI
+	 44TiKf00Jw4bgtyhIsN0kgme4x3L0YiOSQNK8lGA5j20KXmLBEymTNBjpf2wt+j2VQ
+	 bm9XL76B7SJTtIUhgov6qYjMcJb/xxQol4ujRVD0T4znhfHZwTZZYxn01HdI4lN135
+	 jHMqeyya/b0aqCJFSL+vLil0M0T/jBiF1qGkBGRFCHxGrUWoJ2GnycoRGdqW6v6gSD
+	 turdbQtvOyLXQ==
+Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-1f060e059a3so897418fac.1;
+        Fri, 15 Dec 2023 17:25:22 -0800 (PST)
+X-Gm-Message-State: AOJu0YzjZOw1fLQbGez6IPeh12V5dyMS739dRnXB3onm75TE4PFhcyl5
+	3FwEWB0AxqYgez6WFw8ur9Ta2jNZqT8+EQz0u00=
+X-Google-Smtp-Source: AGHT+IGGGj9AnbZRwr5dFn5RXaIzH8exesKrfIxJKQbGZqbqr21EF37H60vyWCsoEvrJrZ8uINpXhjw7Cgn3K3CvBq8=
+X-Received: by 2002:a05:6870:b605:b0:1fa:fcd5:9bb6 with SMTP id
+ cm5-20020a056870b60500b001fafcd59bb6mr15146364oab.22.1702689921925; Fri, 15
+ Dec 2023 17:25:21 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231208181802.88528-3-leobras@redhat.com> <ZXgMa57Ere6FJCJB@infradead.org>
- <CAK7LNAQiJW0eFYQZN0wuURhrdc-8y7=TcEazpxhLf=+mRbKHHQ@mail.gmail.com>
- <ZXhbUmxzH6nWAzaw@infradead.org> <ZXiT1zyADQVXOEqw@LeoBras> <CAK7LNARhah+P+wESAYxVUzRkD81EacR_J+muDcP7HLZpCRkd8g@mail.gmail.com>
-In-Reply-To: <CAK7LNARhah+P+wESAYxVUzRkD81EacR_J+muDcP7HLZpCRkd8g@mail.gmail.com>
-From: Leonardo Bras Soares Passos <leobras@redhat.com>
-Date: Fri, 15 Dec 2023 15:30:06 -0300
-Message-ID: <CAJ6HWG5OdU4MUKYTr=wuw-RkXbSNUow0SRi3wKu9aHDoKr8R8g@mail.gmail.com>
-Subject: Re: [RFC PATCH v5 1/1] scripts: Introduce a default git.orderFile
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Christoph Hellwig <hch@infradead.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
+References: <ZXthQYablvopq0su@eldamar.lan> <ZXtieLq1kTs4pIbL@eldamar.lan>
+In-Reply-To: <ZXtieLq1kTs4pIbL@eldamar.lan>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Sat, 16 Dec 2023 10:24:44 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAT9bQhYtuCWN=avwWxOwKO563g0tK1AgRBhRknzMB+6aQ@mail.gmail.com>
+Message-ID: <CAK7LNAT9bQhYtuCWN=avwWxOwKO563g0tK1AgRBhRknzMB+6aQ@mail.gmail.com>
+Subject: Re: make deb-pkg: Does not strip debug symbols when compressing modules
+To: Salvatore Bonaccorso <carnil@debian.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Ben Hutchings <ben@decadent.org.uk>, 
+	Bastian Blank <waldi@debian.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 15, 2023 at 2:03=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
+On Fri, Dec 15, 2023 at 5:16=E2=80=AFAM Salvatore Bonaccorso <carnil@debian=
+.org> wrote:
 >
-> On Wed, Dec 13, 2023 at 2:10=E2=80=AFAM Leonardo Bras <leobras@redhat.com=
-> wrote:
+> Hi,
+>
+> On Thu, Dec 14, 2023 at 09:10:41PM +0100, Salvatore Bonaccorso wrote:
+> > Hi
 > >
-> > On Tue, Dec 12, 2023 at 05:08:34AM -0800, Christoph Hellwig wrote:
-> > > On Tue, Dec 12, 2023 at 05:09:21PM +0900, Masahiro Yamada wrote:
-> > > > Unlike .gitignore, this feature is opt-in rather than enforced.
-> > > >
-> > > > To use this, you need to run
-> > > >
-> > > > 'git config diff.orderFile scripts/git.orderFile'
-> > > >
-> > > > or
-> > > >
-> > > > 'git diff -C scripts/git.orderFile'
-> > >
-> > > Oh, ok.  That greatly reduces my concern.
+> > When using (only tested with XZ compression, but the others should
+> > behave similarly) CONFIG_MODULE_COMPRESS_XZ=3Dy to compress the modules=
+,
+> > it looks that the debug symbols are not striped.
 > >
-> > Yes, it's an opt-in, so no user should be directly impacted.
+> > Building with the attached test configuration results in packages:
+> >
+> > -rw-r--r-- 1 build build  8.9M Dec 14 20:47 linux-headers-6.7.0-rc5+_6.=
+7.0-rc5-00042-g88035e5694a8-1_amd64.deb
+> > -rw-r--r-- 1 build build   75M Dec 14 20:48 linux-image-6.7.0-rc5+-dbg_=
+6.7.0-rc5-00042-g88035e5694a8-1_amd64.deb
+> > -rw-r--r-- 1 build build 1014M Dec 14 20:47 linux-image-6.7.0-rc5+_6.7.=
+0-rc5-00042-g88035e5694a8-1_amd64.deb
+> > -rw-r--r-- 1 build build  1.3M Dec 14 20:47 linux-libc-dev_6.7.0-rc5-00=
+042-g88035e5694a8-1_amd64.deb
+> >
+> > This is odd, the linux-image-6.7.0-rc5+ package has a size of almost
+> > 1G and the modules are not stripped.
+> >
+> > Switching the values instread to
+> >
+> > CONFIG_MODULE_COMPRESS_NONE=3Dy
+> > # CONFIG_MODULE_COMPRESS_XZ is not set
+> >
+> > the packages are again produced correctly:
+> >
+> > -rw-r--r-- 1 build build 8.9M Dec 14 20:59 linux-headers-6.7.0-rc5+_6.7=
+.0-rc5-00042-g88035e5694a8-2_amd64.deb
+> > -rw-r--r-- 1 build build 819M Dec 14 21:00 linux-image-6.7.0-rc5+-dbg_6=
+.7.0-rc5-00042-g88035e5694a8-2_amd64.deb
+> > -rw-r--r-- 1 build build  73M Dec 14 20:59 linux-image-6.7.0-rc5+_6.7.0=
+-rc5-00042-g88035e5694a8-2_amd64.deb
+> > -rw-r--r-- 1 build build 1.3M Dec 14 20:59 linux-libc-dev_6.7.0-rc5-000=
+42-g88035e5694a8-2_amd64.deb
 >
+> and the classical one. Missed to attach the promised attachement. The
+> used config is now here.
 >
-> Applied to linux-kbuild.
-> Thanks.
+> Regards,
+> Salvatore
 
-Thank you!
+
+
+The debug package never compiled properly with module compression.
+
+The suffix of modules is .ko.xz instead of .ko in your case.
 
 
 
->
->
->
->
->
->
-> > >
-> > > >
-> > > > Indeed, the file order is subjective, leaving
-> > > > us a question "do we need it in upstream"?
-> >
-> > The main idea is patch generation.
-> > This file's order is supposed to be the best order for reading a raw pa=
-tch
-> > and understanding the code changes.
-> >
-> > > >
-> > > > At least, it is harmless for people who have no interest.
-> > >
-> > > .. but this is still a good question.  I'm not really sure there is
-> > > much of a need for it, but as long as it doesn't harm everyone else
-> > > I'm at least neutral on it.
-> >
-> > diff.orderfile was introduced in git to help order the git diff, and th=
-us
-> > the patch generation, in a way that it's easier to understand what the
-> > commit / patch intends on doing.
-> >
-> > Take this example introducing a feature foo, you should see:
-> > - Documentation on foo, if introduced
-> > - How is foo enabled in build system, if needed
-> > - The types / stucts / fields introduced by foo, if any
-> > - The interface for using foo, if any
-> > - The actual foo implementation.
-> >
-> > Of course the actual order is open to discussion, and I encourage every=
-one
-> > to suggest any other items or order.
-> >
-> > Thanks!
-> > Leo
-> >
-> >
->
->
-> --
-> Best Regards
-> Masahiro Yamada
->
+The following line in scripts/package/builddeb does not match anything.
 
+
+   for module in $(find ${image_pdir}/lib/modules/ -name *.ko -printf
+'%P\n'); do
+
+
+So, nothing is copied to linux-image-dbg, nothing is stripped from linux-im=
+age.
+
+
+
+Debian kernel does similar, and it was OK because
+Debian does not enable CONFIG_MODULE_COMPRESS_*.
+
+
+
+Recently, the following commit was applied.  [1]
+
+
+
+commit de26137e2a9f847ce65e370d4bf61745f75a4e5d
+Author:     Bastian Blank <waldi@debian.org>
+AuthorDate: Wed Dec 14 09:52:23 2022 +0100
+Commit:     Bastian Blank <waldi@debian.org>
+CommitDate: Sun Oct 8 10:29:38 2023 +0200
+
+    Drop not needed extra step to add debug links
+
+    The build step already includes a sufficient GNU debug link section
+    containing a build ID in the kernel modules.  This means we don't have
+    to manually create one later, so remove the code that does it.
+
+
+
+
+
+Perhaps, upstream kernel can do similar things to make the code simpler.
+('make module_install INSTALL_MOD_STRIP=3D1' for linux-image,
+'make modules_install' for linux-image-dbg)
+
+
+
+I CCed Ben and Bastian.
+
+
+
+[1] https://salsa.debian.org/kernel-team/linux/-/commit/de26137e2a9f847ce65=
+e370d4bf61745f75a4e5d
+
+
+
+
+
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
