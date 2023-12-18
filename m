@@ -1,188 +1,134 @@
-Return-Path: <linux-kbuild+bounces-389-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-390-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 462208179A1
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Dec 2023 19:27:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DFFC817D38
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Dec 2023 23:27:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B953F2875A2
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Dec 2023 18:27:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B3CB9284E39
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Dec 2023 22:27:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BB644FF9D;
-	Mon, 18 Dec 2023 18:27:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A34474E17;
+	Mon, 18 Dec 2023 22:27:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tKHgRJoH"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j2LkWNuL"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 781281DA2F;
-	Mon, 18 Dec 2023 18:27:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9930EC433CC;
-	Mon, 18 Dec 2023 18:27:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7413D740B0;
+	Mon, 18 Dec 2023 22:27:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCACAC433C9;
+	Mon, 18 Dec 2023 22:27:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702924050;
-	bh=/TVSQiDIX8kODu4AUjr1OiZf1rMZqMfh2MQF2mylbTM=;
+	s=k20201202; t=1702938430;
+	bh=bnMaUsbsfJ/Mgj0ipxaF2LvUK40Y5atE6jfvwPpoS/M=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=tKHgRJoHvMlSmZg2h/mxHtF0PQuQm9gPTPP8CpWiMhiuDE1VphdavZynngVAl1vpp
-	 TFhLVEOrHTfNqkcV/U7Ya9D1U7lsiu5ZjoF0Qx+mwuxljc3rWM5gJ7jgWHJGAHr/jI
-	 58/vNfgI9wagy72R5cjw3gYWW/ezU66IAp8ZAv2Gy+BDvYe31psQ9MmFj0T2vYv1rL
-	 gK2JBEdBPwQHqtOnvrXPN+sLkSK1V46DXHIzsYDShMlthzzUVMpG8FyDZg/m7IOxDY
-	 UC2p/ITNDhXBy5duPYIGvrLAsxhju1W1tThRu8UMTkTsmtTR/rHBg2HH9R2x1OgULL
-	 jV2nlXDTHTSjg==
-Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-203ba1328d1so979743fac.0;
-        Mon, 18 Dec 2023 10:27:30 -0800 (PST)
-X-Gm-Message-State: AOJu0YwLQqcBnl63MDOsZr+lYIUsHCyIsowFKvdEF7rw5G3zQT7yjIlN
-	ta+TOgwfxQK/UOsQdU6rahhWnhqaAFhzf5rRqzQ=
-X-Google-Smtp-Source: AGHT+IF4v+0QJKdoI1SOpEoLmySnmpriMLsi5/V6hSoQs0SbaiBhcVUhHoc/dryAO3Jf5I0YUDlb3QOcS43z5rxlx4c=
-X-Received: by 2002:a05:6870:55d4:b0:203:821e:1635 with SMTP id
- qk20-20020a05687055d400b00203821e1635mr4779009oac.18.1702924049941; Mon, 18
- Dec 2023 10:27:29 -0800 (PST)
+	b=j2LkWNuLc/R/R4Rwb+682uk4YWicH5mA1ioiq16Kfogpk+iJUuEZMeK2YQHHBJnw2
+	 ApEI6PyQPMvlAHYQVlxOoyOcWr8heyLReDEWsKTfJCfwduJsdMDRZg4vCPYfJhKDdp
+	 0NRB9vszSjXnyU90WongfbS1z8RAw42k2CdTFHialKNAs0eMbC8ZnM8iYZWkEKEe5N
+	 zUUGclAG4VI4+lRuWZnk/o7o+J03ayeX6h8Eu3GFndhAUOp8XvVpP4/ZBFyLI66+30
+	 PM0C/S1FX2YWqPrDP8qYLWgFXpJWWKrvzrPhH8IhTiuo8NGSVI0hFhjEYT4iHnIKYd
+	 5qLbH/MHwIffA==
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-50e1d61b657so4583121e87.0;
+        Mon, 18 Dec 2023 14:27:10 -0800 (PST)
+X-Gm-Message-State: AOJu0YyJFzGKthpB6UBBKpSOdQ9mod2hx3ZnFFEUn5JwY0Y6vNbkSeuq
+	NP2OJLFxqqomm5ySdElPGwGstIAlofUgygvKJ5c=
+X-Google-Smtp-Source: AGHT+IE5PD6bA3gdRugQvcpyePbVaEF0dHlVX9xB0hLKvzMTHvGRMVP+zf7v4xHZsx7TcAiHHWqhGA7ZfLplkmX0kz8=
+X-Received: by 2002:a05:6512:3a5:b0:50e:3eeb:47e0 with SMTP id
+ v5-20020a05651203a500b0050e3eeb47e0mr578082lfp.56.1702938429095; Mon, 18 Dec
+ 2023 14:27:09 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231108000749.GA3723879@dev-arch.thelio-3990X> <20231212171044.1108464-1-jtornosm@redhat.com>
-In-Reply-To: <20231212171044.1108464-1-jtornosm@redhat.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 19 Dec 2023 03:26:52 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATu-4TSSWpyFyVQYrkS++fUQbfp2tVjEpf3oZBV8ihq8w@mail.gmail.com>
-Message-ID: <CAK7LNATu-4TSSWpyFyVQYrkS++fUQbfp2tVjEpf3oZBV8ihq8w@mail.gmail.com>
-Subject: Re: [PATCH v2] rpm-pkg: simplify installkernel %post
-To: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
-Cc: nathan@kernel.org, dcavalca@meta.com, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, ndesaulniers@google.com, nicolas@fjasle.eu, 
-	stable@vger.kernel.org
+References: <20231218080127.907460-1-masahiroy@kernel.org>
+In-Reply-To: <20231218080127.907460-1-masahiroy@kernel.org>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Mon, 18 Dec 2023 23:26:58 +0100
+X-Gmail-Original-Message-ID: <CAMj1kXFmoXKLzFQnfTgatSpsQj=6HnExRoYtH_jaYakGZFwrkg@mail.gmail.com>
+Message-ID: <CAMj1kXFmoXKLzFQnfTgatSpsQj=6HnExRoYtH_jaYakGZFwrkg@mail.gmail.com>
+Subject: Re: [PATCH] efi/libstub: zboot: do not use $(shell ...) in cmd_copy_and_pad
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-efi@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Dec 13, 2023 at 2:10=E2=80=AFAM Jose Ignacio Tornos Martinez
-<jtornosm@redhat.com> wrote:
+On Mon, 18 Dec 2023 at 09:01, Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> A new installkernel application is now included in systemd-udev package
-> and it has been improved to allow simplifications.
+> You do not need to use $(shell ...) in recipe lines, as they are already
+> executed in a shell. An alternative solution is $$(...), which is an
+> escaped sequence of the shell's command substituion, $(...).
 >
-> For the new installkernel application, as Davide says:
-> <<The %post currently does a shuffling dance before calling installkernel=
-.
-> This isn't actually necessary afaict, and the current implementation
-> ends up triggering downstream issues such as
-> https://github.com/systemd/systemd/issues/29568
-> This commit simplifies the logic to remove the shuffling. For reference,
-> the original logic was added in commit 3c9c7a14b627("rpm-pkg: add %post
-> section to create initramfs and grub hooks").>>
+> For this case, there is a reason to avoid $(shell ...).
 >
-> But we need to keep the old behavior as well, because the old installkern=
-el
-> application from grubby package, does not allow this simplification and
-> we need to be backward compatible to avoid issues with the different
-> packages. So the easiest solution is to check the package that provides
-> the installkernel application, and simplify (and fix for this
-> application at the same time), only if the package is systemd-udev.
+> Kbuild detects command changes by using the if_changed macro, which
+> compares the previous command recorded in .*.cmd with the current
+> command from Makefile. If they differ, Kbuild re-runs the build rule.
 >
-> cc: stable@vger.kernel.org
-> Co-Developed-by: Davide Cavalca <dcavalca@meta.com>
-> Signed-off-by: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
+> To diff the commands, Make must expand $(shell ...) first. It means that
+> hexdump is executed every time, even when nothing needs rebuilding. If
+> Kbuild determines that vmlinux.bin needs rebuilding, hexdump will be
+> executed again to evaluate the 'cmd' macro, one more time to really
+> build vmlinux.bin, and finally yet again to record the expanded command
+> into .*.cmd.
+>
+> Replace $(shell ...) with $$(...) to avoid multiple, unnecessay shell
+> evaluations. Since Make is agnostic about the shell code, $(...), the
+> if_changed macro compares the string "$(hexdump -s16 -n4 ...)" verbatim,
+> so hexdump is run only for building vmlinux.bin.
+>
+> For the same reason, $(shell ...) in EFI_ZBOOT_OBJCOPY_FLAGS should be
+> eliminated.
+>
+> While I was here, I replaced '&&' with ';' because a command for
+> if_changed is executed with 'set -e'.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+
+Reviewed-by: Ard Biesheuvel <ardb@kernel.org>
+
 > ---
-> V1 -> V2:
-> - Complete to be backward compatible with the previous installkernel
-> application.
 >
-
-
-
-
-I do not think this is the right fix.
-
-The root cause is, vmlinuz and System.map already exist
-in the destination before running installkernel.
-
-Fedora ships vmlinux, config, System.map in the module directory.
-Why don't you mimic it?
-
-
-Change the %install section to install them to
-/lib/modules/%{KERNELRELEASE}/.
-
-
-Then, change %post section to copy them to /boot/.
-
-
-
-If you take care of an unusual case where installkernel
-is not found, you can support manual copy as a fallback.
-
-%post
-if [ -x /sbin/installkernel ]; then
-    /sbin/installkernel %{KERNELRELEASE} \
-       /lib/modules/%{KERNELRELEASE}/vmlinuz \
-       /lib/modules/%{KERNELRELEASE}/System.map
-else
-    cp /lib/modules/%{KERNELRELEASE}/vmlinuz /boot/vmlinuz-%{KERNELRELEAE}
-    cp /lib/modules/%{KERNELRELEASE}/System.map /boot/System.map-%{KERNELRE=
-LEAE}
-    cp /lib/modules/%{KERNELRELEASE}/config /boot/config-%{KERNELRELEAE}
-fi
-
-
-The ugly shuffling will go away, and this should work for
-both fedora 38 and 39.
-
-Maybe, you can also convert the installkernel syntax to
-kernel-install while you are here.
-
-
-
-
-
-
-
-
-
-
-
->  scripts/package/kernel.spec | 4 ++++
->  1 file changed, 4 insertions(+)
+>  arch/arm64/boot/Makefile                    | 2 +-
+>  drivers/firmware/efi/libstub/Makefile.zboot | 4 ++--
+>  2 files changed, 3 insertions(+), 3 deletions(-)
 >
-> diff --git a/scripts/package/kernel.spec b/scripts/package/kernel.spec
-> index 3eee0143e0c5..d4276ddb6645 100644
-> --- a/scripts/package/kernel.spec
-> +++ b/scripts/package/kernel.spec
-> @@ -77,12 +77,16 @@ rm -rf %{buildroot}
+> diff --git a/arch/arm64/boot/Makefile b/arch/arm64/boot/Makefile
+> index 1761f5972443..a5a787371117 100644
+> --- a/arch/arm64/boot/Makefile
+> +++ b/arch/arm64/boot/Makefile
+> @@ -44,7 +44,7 @@ EFI_ZBOOT_BFD_TARGET  := elf64-littleaarch64
+>  EFI_ZBOOT_MACH_TYPE    := ARM64
+>  EFI_ZBOOT_FORWARD_CFI  := $(CONFIG_ARM64_BTI_KERNEL)
 >
->  %post
->  if [ -x /sbin/installkernel -a -r /boot/vmlinuz-%{KERNELRELEASE} -a -r /=
-boot/System.map-%{KERNELRELEASE} ]; then
-> +if [ $(rpm -qf /sbin/installkernel --queryformat "%{n}") =3D systemd-ude=
-v ];then
-> +/sbin/installkernel %{KERNELRELEASE} /boot/vmlinuz-%{KERNELRELEASE} /boo=
-t/System.map-%{KERNELRELEASE}
-> +else
->  cp /boot/vmlinuz-%{KERNELRELEASE} /boot/.vmlinuz-%{KERNELRELEASE}-rpm
->  cp /boot/System.map-%{KERNELRELEASE} /boot/.System.map-%{KERNELRELEASE}-=
-rpm
->  rm -f /boot/vmlinuz-%{KERNELRELEASE} /boot/System.map-%{KERNELRELEASE}
->  /sbin/installkernel %{KERNELRELEASE} /boot/.vmlinuz-%{KERNELRELEASE}-rpm=
- /boot/.System.map-%{KERNELRELEASE}-rpm
->  rm -f /boot/.vmlinuz-%{KERNELRELEASE}-rpm /boot/.System.map-%{KERNELRELE=
-ASE}-rpm
->  fi
-> +fi
+> -EFI_ZBOOT_OBJCOPY_FLAGS        = --add-symbol zboot_code_size=0x$(shell \
+> +EFI_ZBOOT_OBJCOPY_FLAGS        = --add-symbol zboot_code_size=0x$$( \
+>                                 $(NM) vmlinux|grep _kernel_codesize|cut -d' ' -f1)
 >
->  %preun
->  if [ -x /sbin/new-kernel-pkg ]; then
+>  include $(srctree)/drivers/firmware/efi/libstub/Makefile.zboot
+> diff --git a/drivers/firmware/efi/libstub/Makefile.zboot b/drivers/firmware/efi/libstub/Makefile.zboot
+> index 2c489627a807..65ffd0b760b2 100644
+> --- a/drivers/firmware/efi/libstub/Makefile.zboot
+> +++ b/drivers/firmware/efi/libstub/Makefile.zboot
+> @@ -5,8 +5,8 @@
+>  # EFI_ZBOOT_FORWARD_CFI
+>
+>  quiet_cmd_copy_and_pad = PAD     $@
+> -      cmd_copy_and_pad = cp $< $@ && \
+> -                        truncate -s $(shell hexdump -s16 -n4 -e '"%u"' $<) $@
+> +      cmd_copy_and_pad = cp $< $@; \
+> +                        truncate -s $$(hexdump -s16 -n4 -e '"%u"' $<) $@
+>
+>  # Pad the file to the size of the uncompressed image in memory, including BSS
+>  $(obj)/vmlinux.bin: $(obj)/$(EFI_ZBOOT_PAYLOAD) FORCE
 > --
-> 2.43.0
+> 2.40.1
 >
-
-
---
-Best Regards
-
-
-Masahiro Yamada
+>
 
