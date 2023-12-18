@@ -1,115 +1,232 @@
-Return-Path: <linux-kbuild+bounces-386-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-387-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 728668170AC
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Dec 2023 14:42:41 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 911BB817263
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Dec 2023 15:08:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 988E41C21F6C
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Dec 2023 13:42:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3B7CA28476D
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Dec 2023 14:08:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DC6B129EFA;
-	Mon, 18 Dec 2023 13:42:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3177E3786B;
+	Mon, 18 Dec 2023 14:06:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a9L11gZ8"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gnDmNFj2"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04E44129EEA;
-	Mon, 18 Dec 2023 13:42:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C9F8C433C7;
-	Mon, 18 Dec 2023 13:42:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C312498A1;
+	Mon, 18 Dec 2023 14:06:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2874C433CD;
+	Mon, 18 Dec 2023 14:06:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702906956;
-	bh=lf87cY+sfrIGjZkc0yfpM2ITygYwk1dUMUryBA2JhoY=;
+	s=k20201202; t=1702908373;
+	bh=Z96PU5W2ggJEyQ3xd3FBWcAN+FmQAsXzZYJ/t2N1glI=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=a9L11gZ8UROh/ThiFrLMjNPiDbo17oq6krV4C7pe/JzEFp7XMBBKu8V5FSmeg2zRU
-	 ZhXgnYteQbbOwn/wHcsBj7EXKtUMtxrRMdqJYLX8cF4CcduKBh4xLjfXapI5lffJmI
-	 U0/rSSvID1n4IFT4LOrItWBNm+mKenZ3pdZ2jAVwM7dsnnfC3dbnoS7Znd9pNu4ueE
-	 GHAplv3p2RSphWZH9nSjFN0C+Ge2+K8qj1FFAG8QGDdUnbnUqilsVr1+uZ/sPhYfLI
-	 wZ4jg5rjikeD5hQADzDYT2Trs0Rv8WYE/wptKEyxcaf6+3Yk9rjRVZk84l0BGSEyYF
-	 lC40sp6lJ4/Rw==
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-20335dcec64so2238237fac.3;
-        Mon, 18 Dec 2023 05:42:36 -0800 (PST)
-X-Gm-Message-State: AOJu0YwYnQo6q8EaDGGCxOGOqYgSA8uZIyWGPTbkReUj9scW7YfJ/BBP
-	p+tWblkPznP47EJ8RxF/EoJ25gLvm5bDFe4kGJs=
-X-Google-Smtp-Source: AGHT+IEax6a8dfMz1OgvnNbIRX/bddzrjFMnk7yxuDXueEFsyquXiEKQlFi+GF6HR8EeIpvU51fp3FHRMi9zqNMBNIE=
-X-Received: by 2002:a05:6870:ac0f:b0:203:c9b1:fe8a with SMTP id
- kw15-20020a056870ac0f00b00203c9b1fe8amr1625883oab.12.1702906955958; Mon, 18
- Dec 2023 05:42:35 -0800 (PST)
+	b=gnDmNFj2cEVVi/t2swX4NmCVibFEic32MKl+v3vqDnPza2McdbbYvmTNjKPlq/tE8
+	 BRWhX0XU47n+oikJ4Z9JBfurdpkZUbVrq2xMo3GgZzAJEdV2MJ6I0IrYsfCbEZnBrt
+	 y7gTYSZc+4mW3IMN/TGvNfhlI1pW6sJ1KzPQ5K/H8BabE57HKIM6SWkiCpgXAS9+ok
+	 9Kzbq5PCE7LJJbt40U+TtHfxD/bDGUK/IpMM4j1ZfZ4KQ5EtguYwkvMJzYB8nGf0OI
+	 8VK2uA6VyLaqRGsHk9LzyVqmhTpUCWA0yeiDFF+tlFqLzEWt8JDA3YgoRI90BqZVbo
+	 XvA1hlBbMeN7Q==
+Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-1ef36a04931so2154500fac.2;
+        Mon, 18 Dec 2023 06:06:13 -0800 (PST)
+X-Gm-Message-State: AOJu0YybYixrtnI72j1CXhCvvC19iR7kLz8WKmEYHQUfKa27MFW/lCf7
+	zs2TYfni8UVE7MoCz/IFl/7wVs8XLUmRvZIrgBw=
+X-Google-Smtp-Source: AGHT+IFMPHHb099Ixeiferh3tHKcPmuSiilVOZQIKs6jzVfIl6knPb8Y3JK7zb9GPxBgjjSEBzLR4AG4KSl/u9yLYR4=
+X-Received: by 2002:a05:6870:4597:b0:1fb:75a:c42e with SMTP id
+ y23-20020a056870459700b001fb075ac42emr15603576oao.87.1702908373023; Mon, 18
+ Dec 2023 06:06:13 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231214222253.116734-1-ojeda@kernel.org> <CABVgOS=LXUzRD-c63sxn0FMfGWvxCPP1t_8nY5Xgk30Y9qMAcw@mail.gmail.com>
- <CANiq72kw326HyrDM0v0mFNu5jfb=eL1a+k-idr-5Vbc6_gmY2A@mail.gmail.com>
- <CAK7LNAQ7A79fMg3Teh7H+NRwnztrNU73s5C_fybUVH+vEX0YeQ@mail.gmail.com> <CANiq72mjSVqLNrdhK6H+X2=9ydwzX3RM2jBf1AwRFngSJ2kQ9Q@mail.gmail.com>
-In-Reply-To: <CANiq72mjSVqLNrdhK6H+X2=9ydwzX3RM2jBf1AwRFngSJ2kQ9Q@mail.gmail.com>
+References: <CAK7LNAT3N82cJD3GsF+yUBEfPNOBkhzYPk37q3k0HdU7ukz9vQ@mail.gmail.com>
+ <32b332af189bfca8acdb231cee294355aa4af290.1701892062.git.msuchanek@suse.de>
+ <CAK7LNATPF7baHLXZVgzz=6zOhLx8maX0r0EU3DBFwAEZ6kCeww@mail.gmail.com>
+ <20231210210748.GM9696@kitsune.suse.cz> <CAK7LNAQQe-fdeKe2RHd5TyYpXa95WJO_-f38o12oewGC3rFTHA@mail.gmail.com>
+ <20231212130324.GP9696@kitsune.suse.cz>
+In-Reply-To: <20231212130324.GP9696@kitsune.suse.cz>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Mon, 18 Dec 2023 22:41:59 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQT2y4qGgvr5+GbougTMaq2ZQB=P6aLppB0PudyegpXaw@mail.gmail.com>
-Message-ID: <CAK7LNAQT2y4qGgvr5+GbougTMaq2ZQB=P6aLppB0PudyegpXaw@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: rust: add `rustupoverride` target
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: David Gow <davidgow@google.com>, Miguel Ojeda <ojeda@kernel.org>, 
-	Wedson Almeida Filho <wedsonaf@gmail.com>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
-	Alice Ryhl <aliceryhl@google.com>, linux-kbuild@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	patches@lists.linux.dev
+Date: Mon, 18 Dec 2023 23:05:36 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS8t5avO8u_3dF9Mb_W-R2AOt2ofHo-7om9eUnraogrkg@mail.gmail.com>
+Message-ID: <CAK7LNAS8t5avO8u_3dF9Mb_W-R2AOt2ofHo-7om9eUnraogrkg@mail.gmail.com>
+Subject: Re: [PATCH v6 1/2] depmod: Handle installing modules under a
+ different directory
+To: =?UTF-8?Q?Michal_Such=C3=A1nek?= <msuchanek@suse.de>
+Cc: linux-modules@vger.kernel.org, Takashi Iwai <tiwai@suse.com>, 
+	Lucas De Marchi <lucas.de.marchi@gmail.com>, =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Jiri Slaby <jslaby@suse.com>, Jan Engelhardt <jengelh@inai.de>, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Nicolas Schier <nicolas@fjasle.eu>, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Dec 18, 2023 at 10:33=E2=80=AFPM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
+On Tue, Dec 12, 2023 at 10:03=E2=80=AFPM Michal Such=C3=A1nek <msuchanek@su=
+se.de> wrote:
 >
-> On Mon, Dec 18, 2023 at 1:10=E2=80=AFPM Masahiro Yamada <masahiroy@kernel=
-.org> wrote:
+> On Mon, Dec 11, 2023 at 01:29:15PM +0900, Masahiro Yamada wrote:
+> > On Mon, Dec 11, 2023 at 6:07=E2=80=AFAM Michal Such=C3=A1nek <msuchanek=
+@suse.de> wrote:
+> > >
+> > > Hello!
+> > >
+> > > On Mon, Dec 11, 2023 at 03:43:44AM +0900, Masahiro Yamada wrote:
+> > > > On Thu, Dec 7, 2023 at 4:48=E2=80=AFAM Michal Suchanek <msuchanek@s=
+use.de> wrote:
+> > > > >
+> > > > > Some distributions aim at shipping all files in /usr.
+> > > > >
+> > > > > The path under which kernel modules are installed is hardcoded to=
+ /lib
+> > > > > which conflicts with this goal.
+> > > > >
+> > > > > When kmod provides kmod.pc, use it to determine the correct modul=
+e
+> > > > > installation path.
+> > > > >
+> > > > > With kmod that does not provide the config /lib/modules is used a=
+s
+> > > > > before.
+> > > > >
+> > > > > While pkg-config does not return an error when a variable does no=
+t exist
+> > > > > the kmod configure script puts some effort into ensuring that
+> > > > > module_directory is non-empty. With that empty module_directory f=
+rom
+> > > > > pkg-config can be used to detect absence of the variable.
+> > > > >
+> > > > > Signed-off-by: Michal Suchanek <msuchanek@suse.de>
+> > > > > ---
+> > > > > v6:
+> > > > >  - use ?=3D instead of :=3D to make it easier to override the val=
+ue
+> > > >
+> > > >
+> > > > "KERNEL_MODULE_DIRECTORY=3D/local/usr/lib/modules make modules_inst=
+all"
+> > > > will override the install destination, but
+> > > > depmod will not be not aware of it.
+> > >
+> > > At the same time if you know what you are doing you can build a src r=
+pm
+> > > for another system that uses a different location.
+> > >
+> > > > How to avoid the depmod error?
+> > >
+> > > Not override the variable?
 > >
-> > In principle, Kbuild does not require internet connection,
-> > or proactively change the system setting.
+> > You are not answering my question.
+> > You intentionally changed :=3D to ?=3D.
+> >
+> > This implies that KERNEL_MODULE_DIRECTORY is an interface to users,
+> > and should be documented in Documentation/kbuild/kbuild.rst
 >
-> Yeah, that was what I thought. I agree it can be surprising to have
-> Make targets that modify environment/system-level bits (i.e. affecting
-> things outside the build).
+> That's reasonable
 >
-> > Rather, I will manually do this one time for the parent directory:
+> > However, it never works if it is overridden from the env variable
+> > or make command line because there is no way to let depmod know
+> > the fact that KERNEL_MODULE_DIRECTORY has been overridden.
 >
-> That can work for many people, yeah. Though I imagine some people may
-> want to keep builds (and sources) of different kernel versions in the
-> same parent folder (or even other projects). But one can use nested
-> overrides too.
+> And there should not. kmod is not aware, kbuild is. That's the
+> direction of information flow. kmod defines where it looks for the
+> modules, and kbuild shoukld install the modules there.
+
+
+Then, you cannot explain why KERNEL_MODULE_DIRECTORY should be exposed
+as a user interface.
+
+
+
+The MODULE_DIRECTORY in depmod is determined when kmod is compiled.
+
+Kbuild takes KERNEL_MODULE_DIRECTORY from pkg-config.
+
+
+If these two do not agree, it never works.
+
+
+
+
+
+> If the user knows better (eg. possibility of building src-rpm for a
+> different you brought up) they can override the autodetection.
+
+
+No, it does not work.
+
+
+The user has no way to override the MODULE_DIRECTORY in depmod.
+
+
+
+
+
+> > In my understanding, depmod does not provide an option to
+> > specify the module directory from a command line option, does it?
 >
-> > If you want to provide a way for automated settings,
-> > you can do it in a script you maintain.
+> No it does not.
 >
-> Sounds good. In that case, we can send to the list your patch from the
-> `rust` branch if that is OK with you (i.e. I understand you would
-> prefer to avoid not just `rustsetup` but also `rustupoverride`).
+> > If not, is it reasonable to add a new option to depmod?
 >
-> Thanks Masahiro!
+> I don't think so. The module directory is intentionally in a fixed
+> location. It can be set at compile time, and that's it.
 >
-> Cheers,
-> Miguel
+> Then when running depmod on the target distribution either kbuild and
+> kmod agree on the location or the build fails. That's the intended
+> outcome.
+>
+> kmod recently grew the ability to use modules outside of module
+> directory. For that to work internally the path to these out-of-kernel
+> modules is stored as absolute path, and the path of modules that are in
+> the module directory is stored relative to the module directory.
+>
+> Setting the module directory location dynamically still should not break
+> this but I am not sure it's a great idea. In the end modprobe needs to
+> find those modules, and if depmod puts the modules.dep in arbitrary
+> location it will not.
 
 
-Viresh's v2 was written without relying on this patch.
-
-If that one is better described, that is OK too.
+That is true when modules are compiled and installed on the local machine.
 
 
+If you create an SRPM with KERNEL_MODULE_DIRECTORY,
+builders must follow it.
 
 
 
---
+
+
+>
+> > depmod provides the "-b basedir" option, but it only allows
+> > adding a prefix to the default "/lib/modules/<version>".
+>
+> Yes, that's for installation into a staging directory, and there again
+> the modules that are inside the module directory are considedred
+> 'in-kernel'. Not sure how well this even works with 'out-of-kernel'
+> modules.
+>
+> > (My original idea to provide the prefix_part, it would have worked
+> > like  -b "${INSTALL_MOD_PATH}${MOD_PREFIX}", which you refused)
+>
+> It's not clear that adding a prefix covers all use cases. It is an
+> arbitrary limitation that the module path must end with '/lib/modules'.
+>
+> It may allow taking some shortcuts in some places but is unnecessarily
+> limiting.
+>
+> Thanks
+>
+> Michal
+
+
+
+--=20
 Best Regards
 Masahiro Yamada
 
