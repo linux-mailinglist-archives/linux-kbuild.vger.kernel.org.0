@@ -1,168 +1,188 @@
-Return-Path: <linux-kbuild+bounces-388-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-389-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 962DB81735F
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Dec 2023 15:17:42 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 462208179A1
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Dec 2023 19:27:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3507E1F225EB
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Dec 2023 14:17:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B953F2875A2
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Dec 2023 18:27:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC37712B72;
-	Mon, 18 Dec 2023 14:17:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BB644FF9D;
+	Mon, 18 Dec 2023 18:27:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lrYkAkoU"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tKHgRJoH"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 886D7129EF9;
-	Mon, 18 Dec 2023 14:17:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34ABDC433C9;
-	Mon, 18 Dec 2023 14:17:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 781281DA2F;
+	Mon, 18 Dec 2023 18:27:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9930EC433CC;
+	Mon, 18 Dec 2023 18:27:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702909045;
-	bh=xFTUf/b5KG1UjaGYwApJDRRbExU38ClFqfnkgLIArbY=;
+	s=k20201202; t=1702924050;
+	bh=/TVSQiDIX8kODu4AUjr1OiZf1rMZqMfh2MQF2mylbTM=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=lrYkAkoUyEMqTMpXfpDLPgyQ4SlgJDxqngQRnqefEqNcN82dbNT8F/nk1ryeszDRT
-	 rlleUJLI/BiXg8KDMQo2S/wQ6cKSDIUGreSmHsklQfDfqJ/V0Ib3pPgRtP4Go+f/K3
-	 GgiIYAxfMylrT8hFlfuHCcPIcIbBWaSu7Dia7miGjxn3guYSL1Of5d5Wb8yVwTv5wS
-	 +qc97mti+071/BowoRuTy9APAlDLhl/cXOkjo1tnySsY5ozR65W1l+9iEdDgc70pei
-	 W1vCPWCd8L623IPx82onJNBQlPo0UOAjCcT2qKEKmWVR1aCBl4CrzLCm14t6SRQn0Z
-	 fKKHL2p23NVBg==
-Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-1f066fc2a2aso891718fac.0;
-        Mon, 18 Dec 2023 06:17:25 -0800 (PST)
-X-Gm-Message-State: AOJu0YzgEQgi+NThNSdSwjnerz5ZDOipo39r18CgfO6e5BLT1oDs6lcI
-	EKos2e1usE4EoOGv+7YfvBN06ngd7m1ol4ezi6Y=
-X-Google-Smtp-Source: AGHT+IHp5AGoyCkJMIqarb4li7VZGZt7YTWGcrArPcGCt+OLgbkKJPTmCBrR0dacPOITl2JJuou8JJa2UHoQBl8eJ6o=
-X-Received: by 2002:a05:6871:a90e:b0:1fb:75b:2b80 with SMTP id
- wn14-20020a056871a90e00b001fb075b2b80mr9048238oab.60.1702909044529; Mon, 18
- Dec 2023 06:17:24 -0800 (PST)
+	b=tKHgRJoHvMlSmZg2h/mxHtF0PQuQm9gPTPP8CpWiMhiuDE1VphdavZynngVAl1vpp
+	 TFhLVEOrHTfNqkcV/U7Ya9D1U7lsiu5ZjoF0Qx+mwuxljc3rWM5gJ7jgWHJGAHr/jI
+	 58/vNfgI9wagy72R5cjw3gYWW/ezU66IAp8ZAv2Gy+BDvYe31psQ9MmFj0T2vYv1rL
+	 gK2JBEdBPwQHqtOnvrXPN+sLkSK1V46DXHIzsYDShMlthzzUVMpG8FyDZg/m7IOxDY
+	 UC2p/ITNDhXBy5duPYIGvrLAsxhju1W1tThRu8UMTkTsmtTR/rHBg2HH9R2x1OgULL
+	 jV2nlXDTHTSjg==
+Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-203ba1328d1so979743fac.0;
+        Mon, 18 Dec 2023 10:27:30 -0800 (PST)
+X-Gm-Message-State: AOJu0YwLQqcBnl63MDOsZr+lYIUsHCyIsowFKvdEF7rw5G3zQT7yjIlN
+	ta+TOgwfxQK/UOsQdU6rahhWnhqaAFhzf5rRqzQ=
+X-Google-Smtp-Source: AGHT+IF4v+0QJKdoI1SOpEoLmySnmpriMLsi5/V6hSoQs0SbaiBhcVUhHoc/dryAO3Jf5I0YUDlb3QOcS43z5rxlx4c=
+X-Received: by 2002:a05:6870:55d4:b0:203:821e:1635 with SMTP id
+ qk20-20020a05687055d400b00203821e1635mr4779009oac.18.1702924049941; Mon, 18
+ Dec 2023 10:27:29 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAK7LNAT3N82cJD3GsF+yUBEfPNOBkhzYPk37q3k0HdU7ukz9vQ@mail.gmail.com>
- <baa3224bece94220dfe7173432143a91f7612c09.1701892062.git.msuchanek@suse.de>
- <CAK7LNARdnt0QXn6TRbuS_wzzMVXTY6NrCnu9WOM6PFztnyRmuQ@mail.gmail.com>
- <20231210210859.GN9696@kitsune.suse.cz> <CAK7LNAQo1p3dmdoqQRM_JxBp78Rxj5YpVqXGzMr5Xs9K-V3BiA@mail.gmail.com>
- <20231212131219.GQ9696@kitsune.suse.cz>
-In-Reply-To: <20231212131219.GQ9696@kitsune.suse.cz>
+References: <20231108000749.GA3723879@dev-arch.thelio-3990X> <20231212171044.1108464-1-jtornosm@redhat.com>
+In-Reply-To: <20231212171044.1108464-1-jtornosm@redhat.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Mon, 18 Dec 2023 23:16:48 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASb4Gt-pQncBv3KLG=P1UtehgHNCgY8XeaQ_vfdUuSQRg@mail.gmail.com>
-Message-ID: <CAK7LNASb4Gt-pQncBv3KLG=P1UtehgHNCgY8XeaQ_vfdUuSQRg@mail.gmail.com>
-Subject: Re: [PATCH v6 2/2] kbuild: rpm-pkg: Fix build with non-default MODLIB
-To: =?UTF-8?Q?Michal_Such=C3=A1nek?= <msuchanek@suse.de>
-Cc: linux-modules@vger.kernel.org, Takashi Iwai <tiwai@suse.com>, 
-	Lucas De Marchi <lucas.de.marchi@gmail.com>, =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
-	Jiri Slaby <jslaby@suse.com>, Jan Engelhardt <jengelh@inai.de>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Nicolas Schier <nicolas@fjasle.eu>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Tue, 19 Dec 2023 03:26:52 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATu-4TSSWpyFyVQYrkS++fUQbfp2tVjEpf3oZBV8ihq8w@mail.gmail.com>
+Message-ID: <CAK7LNATu-4TSSWpyFyVQYrkS++fUQbfp2tVjEpf3oZBV8ihq8w@mail.gmail.com>
+Subject: Re: [PATCH v2] rpm-pkg: simplify installkernel %post
+To: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
+Cc: nathan@kernel.org, dcavalca@meta.com, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, ndesaulniers@google.com, nicolas@fjasle.eu, 
+	stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Dec 12, 2023 at 10:12=E2=80=AFPM Michal Such=C3=A1nek <msuchanek@su=
-se.de> wrote:
+On Wed, Dec 13, 2023 at 2:10=E2=80=AFAM Jose Ignacio Tornos Martinez
+<jtornosm@redhat.com> wrote:
 >
-> On Mon, Dec 11, 2023 at 01:33:23PM +0900, Masahiro Yamada wrote:
-> > On Mon, Dec 11, 2023 at 6:09=E2=80=AFAM Michal Such=C3=A1nek <msuchanek=
-@suse.de> wrote:
-> > >
-> > > On Mon, Dec 11, 2023 at 03:44:35AM +0900, Masahiro Yamada wrote:
-> > > > On Thu, Dec 7, 2023 at 4:48=E2=80=AFAM Michal Suchanek <msuchanek@s=
-use.de> wrote:
-> > > > >
-> > > > > The default MODLIB value is composed of three variables
-> > > > >
-> > > > > MODLIB =3D $(INSTALL_MOD_PATH)$(KERNEL_MODULE_DIRECTORY)/$(KERNEL=
-RELEASE)
-> > > > >
-> > > > > However, the kernel.spec hadcodes the default value of
-> > > > > $(KERNEL_MODULE_DIRECTORY), and changed value is not reflected wh=
-en
-> > > > > building the package.
-> > > > >
-> > > > > Pass KERNEL_MODULE_DIRECTORY to kernel.spec to fix this problem.
-> > > > >
-> > > > > Signed-off-by: Michal Suchanek <msuchanek@suse.de>
-> > > > > ---
-> > > > > Build on top of the previous patch adding KERNEL_MODULE_DIRECTORY
-> > > >
-> > > >
-> > > > The SRPM package created by 'make srcrpm-pkg' may not work
-> > > > if rpmbuild is executed in a different machine.
-> > >
-> > > That's why there is an option to override KERNEL_MODULE_DIRECTORY?
-> >
-> >
-> > Yes.
-> > But, as I pointed out in 1/2, depmod must follow the packager's decisio=
-n.
-> >
-> > 'make srcrpm-pkg' creates a SRPM on machine A.
-> > 'rpmbuild' builds it into binary RPMs on machine B.
-> >
-> > If A and B disagree about kmod.pc, depmod will fail
-> > because there is no code to force the decision made
-> > on machine A.
+> A new installkernel application is now included in systemd-udev package
+> and it has been improved to allow simplifications.
 >
-> There is. It's the ?=3D in the top Makefile.
-
-
-Nope.
-
-
-Only Kbuild follows the specified KERNEL_MODULE_DIRECTORY.
-
-
-depmod still uses the MODULE_DRECTORY determined
-when it was compiled.
-
-
+> For the new installkernel application, as Davide says:
+> <<The %post currently does a shuffling dance before calling installkernel=
+.
+> This isn't actually necessary afaict, and the current implementation
+> ends up triggering downstream issues such as
+> https://github.com/systemd/systemd/issues/29568
+> This commit simplifies the logic to remove the shuffling. For reference,
+> the original logic was added in commit 3c9c7a14b627("rpm-pkg: add %post
+> section to create initramfs and grub hooks").>>
 >
-> Currently the test that determines the module directory uses make logic
-> so it's not possible to pass on the shell magic before executing it so
-> it could be executed inside the rpm spec file as well.
+> But we need to keep the old behavior as well, because the old installkern=
+el
+> application from grubby package, does not allow this simplification and
+> we need to be backward compatible to avoid issues with the different
+> packages. So the easiest solution is to check the package that provides
+> the installkernel application, and simplify (and fix for this
+> application at the same time), only if the package is systemd-udev.
 >
-> OUtsourcing it into an external script would mean that the sources need
-> to be unpacked before the script can be executed. That would require
-> using dynamically generated file list in the spec file because the
-> module location would not be known at spec parse time. Possible but
-> convoluted.
-
-
-I do not require that.
-
-
-This is simple; builders must follow the packager's decision.
-
-To make it work, depmod must follow MODULE_DIRECTORY
-given from an external environment.
-
-
-
-
-
-> In the end I do not think this is a problem that needs solving. Most
-> distributions that build kernel packages would use their own packaging
-> files, not rpm-pkg. That limits rpm-pkg to ad-hoc use when people want
-> to build one-off test kernel. It's reasonable to do on the same
-> distribution as the target system. The option to do so on a distribution
-> with different module directory is available if somebody really needs
-> that.
+> cc: stable@vger.kernel.org
+> Co-Developed-by: Davide Cavalca <dcavalca@meta.com>
+> Signed-off-by: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
+> ---
+> V1 -> V2:
+> - Complete to be backward compatible with the previous installkernel
+> application.
 >
-> Thanks
+
+
+
+
+I do not think this is the right fix.
+
+The root cause is, vmlinuz and System.map already exist
+in the destination before running installkernel.
+
+Fedora ships vmlinux, config, System.map in the module directory.
+Why don't you mimic it?
+
+
+Change the %install section to install them to
+/lib/modules/%{KERNELRELEASE}/.
+
+
+Then, change %post section to copy them to /boot/.
+
+
+
+If you take care of an unusual case where installkernel
+is not found, you can support manual copy as a fallback.
+
+%post
+if [ -x /sbin/installkernel ]; then
+    /sbin/installkernel %{KERNELRELEASE} \
+       /lib/modules/%{KERNELRELEASE}/vmlinuz \
+       /lib/modules/%{KERNELRELEASE}/System.map
+else
+    cp /lib/modules/%{KERNELRELEASE}/vmlinuz /boot/vmlinuz-%{KERNELRELEAE}
+    cp /lib/modules/%{KERNELRELEASE}/System.map /boot/System.map-%{KERNELRE=
+LEAE}
+    cp /lib/modules/%{KERNELRELEASE}/config /boot/config-%{KERNELRELEAE}
+fi
+
+
+The ugly shuffling will go away, and this should work for
+both fedora 38 and 39.
+
+Maybe, you can also convert the installkernel syntax to
+kernel-install while you are here.
+
+
+
+
+
+
+
+
+
+
+
+>  scripts/package/kernel.spec | 4 ++++
+>  1 file changed, 4 insertions(+)
 >
-> Michal
+> diff --git a/scripts/package/kernel.spec b/scripts/package/kernel.spec
+> index 3eee0143e0c5..d4276ddb6645 100644
+> --- a/scripts/package/kernel.spec
+> +++ b/scripts/package/kernel.spec
+> @@ -77,12 +77,16 @@ rm -rf %{buildroot}
+>
+>  %post
+>  if [ -x /sbin/installkernel -a -r /boot/vmlinuz-%{KERNELRELEASE} -a -r /=
+boot/System.map-%{KERNELRELEASE} ]; then
+> +if [ $(rpm -qf /sbin/installkernel --queryformat "%{n}") =3D systemd-ude=
+v ];then
+> +/sbin/installkernel %{KERNELRELEASE} /boot/vmlinuz-%{KERNELRELEASE} /boo=
+t/System.map-%{KERNELRELEASE}
+> +else
+>  cp /boot/vmlinuz-%{KERNELRELEASE} /boot/.vmlinuz-%{KERNELRELEASE}-rpm
+>  cp /boot/System.map-%{KERNELRELEASE} /boot/.System.map-%{KERNELRELEASE}-=
+rpm
+>  rm -f /boot/vmlinuz-%{KERNELRELEASE} /boot/System.map-%{KERNELRELEASE}
+>  /sbin/installkernel %{KERNELRELEASE} /boot/.vmlinuz-%{KERNELRELEASE}-rpm=
+ /boot/.System.map-%{KERNELRELEASE}-rpm
+>  rm -f /boot/.vmlinuz-%{KERNELRELEASE}-rpm /boot/.System.map-%{KERNELRELE=
+ASE}-rpm
+>  fi
+> +fi
+>
+>  %preun
+>  if [ -x /sbin/new-kernel-pkg ]; then
+> --
+> 2.43.0
+>
 
 
-
---=20
+--
 Best Regards
+
+
 Masahiro Yamada
 
