@@ -1,65 +1,68 @@
-Return-Path: <linux-kbuild+bounces-414-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-415-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3C1D81CE1C
-	for <lists+linux-kbuild@lfdr.de>; Fri, 22 Dec 2023 18:51:40 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CADC81CE32
+	for <lists+linux-kbuild@lfdr.de>; Fri, 22 Dec 2023 18:57:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BEE921C211B8
-	for <lists+linux-kbuild@lfdr.de>; Fri, 22 Dec 2023 17:51:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DA1E51F22501
+	for <lists+linux-kbuild@lfdr.de>; Fri, 22 Dec 2023 17:57:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6461428E39;
-	Fri, 22 Dec 2023 17:51:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2004E28DD0;
+	Fri, 22 Dec 2023 17:57:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nr2eYg5X"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rtbQqxlU"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3730F28E0A;
-	Fri, 22 Dec 2023 17:51:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98A71C433B6;
-	Fri, 22 Dec 2023 17:51:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F104D2C188;
+	Fri, 22 Dec 2023 17:57:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 858E1C433C8;
+	Fri, 22 Dec 2023 17:57:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703267492;
-	bh=XYkTLXz5sCIMHIvk5gdWCMmheYIQY9KRL0JQbfxvslI=;
+	s=k20201202; t=1703267857;
+	bh=m4PmBJoc2QgJBZKQaB/vYcP8WBPPEuhKuwezCH8Kcrw=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Nr2eYg5XhFfecvofEEo9kZFq7DfnsBe+/6hFphrLrcFbiu7c7WohO4GUR/jhpV7Ts
-	 Xs5eaKFHowaj6xgl+jE5q0jx0z/HNIQ1nct/VWhFEWzCDDp6Bm400mZA6T2psQRlOM
-	 Zf/WwftRTXv+6CRkT0KjsGSFsB89ORKE6xcGE9MEKiHj3ICkyds4QP3TVOt4PUQG3R
-	 nvZNHkj6BMBJKbx4RNR6UR5pVfiXQA/B+DL7UJgH3ngfbUW4p1AB5h4zzuPLDkbx6U
-	 T61IC0JFKzF6b2WWUY33j6Oj/lU04ASLBu/XPn32PgQ8gnxQpekD+3SEfx+z4+zdID
-	 0wDD5qg/jSHFw==
-Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-6dbbef36fe0so827781a34.2;
-        Fri, 22 Dec 2023 09:51:32 -0800 (PST)
-X-Gm-Message-State: AOJu0YyaErOZanNI8PuuWe5WHBhJXv3vpjBukLu70xnVNGZ3H0Oj+PfP
-	TjcWC6tFYx1vD5WSfqUCBkLnVkqpDGUaASO/RJA=
-X-Google-Smtp-Source: AGHT+IEdTqRIJ7Gv05JO4Bo5uaKKyusxndbX6ra2AjsNcR1TKiHk5jtMvR8vQ+0RXHbnQwbv3GodgDg+2HqbVSvskA0=
-X-Received: by 2002:a05:6870:b4a0:b0:204:5a14:c4c6 with SMTP id
- y32-20020a056870b4a000b002045a14c4c6mr340753oap.50.1703267491808; Fri, 22 Dec
- 2023 09:51:31 -0800 (PST)
+	b=rtbQqxlUpwiNlXB65dGhn+BSi0lyJ6K4d26pR5L7WRilWt9ADVrB5Jfv26QgNKACp
+	 bOTJFDLgjG7+0frVS7XBHSETrNu6Q3tUJFtNdu2XAPOUVt0FgnnyiKk3f6ss7hxG62
+	 yERCXVb6wWDY1El7z1Slpcd7bFXj4SFPquph1gi1y8G9k/4Zd6UfgffpLnhgSTCKdA
+	 1BOxukP+hA7fw3TzfOgRPItsTCVwyh8F2muxPCLuUfzVscz5RXeDh7cbJ3txKZ5Vzi
+	 82fS+Iz9dj1qs3eANeWJ5Vyi7oCTvFdj9DLewfGzuRLHZH6F8HcPy7NgijTdI7AJYl
+	 My4u/m4P0jGBA==
+Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-203fed05a31so1357199fac.0;
+        Fri, 22 Dec 2023 09:57:37 -0800 (PST)
+X-Gm-Message-State: AOJu0YwbhghmYtnvsh1ncXBqOZLuWw4osEYhXWko7wYzuJ1N3qGPe2sB
+	ZqoVjnT/9loDf8QQkzzms+Uym9Vt53sJY4QRnSw=
+X-Google-Smtp-Source: AGHT+IE3vXI8QLgM4TOkSSY7LCRj8PTha6F6b0XPpJWv+vhSS5keg8e+tn9GSrBNWa9DXTATrIftUFm+PiAfqJtIisM=
+X-Received: by 2002:a05:6871:a690:b0:1fa:1f3e:b8a7 with SMTP id
+ wh16-20020a056871a69000b001fa1f3eb8a7mr1939357oab.20.1703267856913; Fri, 22
+ Dec 2023 09:57:36 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231212020259.2451253-1-quic_johmoo@quicinc.com> <20231212020259.2451253-2-quic_johmoo@quicinc.com>
-In-Reply-To: <20231212020259.2451253-2-quic_johmoo@quicinc.com>
+References: <20231212020259.2451253-1-quic_johmoo@quicinc.com>
+ <20231212020259.2451253-4-quic_johmoo@quicinc.com> <ZXgOpRzNYGtiE35T@infradead.org>
+ <93ee22bc-b357-4291-b3d9-07ff2cd6c87b@quicinc.com>
+In-Reply-To: <93ee22bc-b357-4291-b3d9-07ff2cd6c87b@quicinc.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sat, 23 Dec 2023 02:50:55 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASZzeJzZV0hiMrcKd6FUtQXqfuvUqux8Bf+WvBmjCwNCA@mail.gmail.com>
-Message-ID: <CAK7LNASZzeJzZV0hiMrcKd6FUtQXqfuvUqux8Bf+WvBmjCwNCA@mail.gmail.com>
-Subject: Re: [PATCH v7 1/3] check-uapi: Introduce check-uapi.sh
+Date: Sat, 23 Dec 2023 02:57:00 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQfzxiMoiLXvksUWtPiRhXQ7zypUzQpYER_7B=00XBr=A@mail.gmail.com>
+Message-ID: <CAK7LNAQfzxiMoiLXvksUWtPiRhXQ7zypUzQpYER_7B=00XBr=A@mail.gmail.com>
+Subject: Re: [PATCH v7 3/3] check-module-params: Introduce check-module-params.sh
 To: John Moon <quic_johmoo@quicinc.com>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Jonathan Corbet <corbet@lwn.net>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-arm-msm@vger.kernel.org, kernel@quicinc.com, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring <robh@kernel.org>, 
-	"Carlos O'Donell" <carlos@redhat.com>, Randy Dunlap <rdunlap@infradead.org>, Arnd Bergmann <arnd@arndb.de>, 
+Cc: Christoph Hellwig <hch@infradead.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Nicolas Schier <nicolas@fjasle.eu>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
+	kernel@quicinc.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Rob Herring <robh@kernel.org>, "Carlos O'Donell" <carlos@redhat.com>, 
+	Randy Dunlap <rdunlap@infradead.org>, Arnd Bergmann <arnd@arndb.de>, 
 	Bjorn Andersson <andersson@kernel.org>, Todd Kjos <tkjos@google.com>, 
 	Matthias Maennich <maennich@google.com>, Giuliano Procida <gprocida@google.com>, kernel-team@android.com, 
 	libabigail@sourceware.org, Dodji Seketeli <dodji@redhat.com>, 
@@ -68,55 +71,48 @@ Cc: Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Dec 12, 2023 at 11:04=E2=80=AFAM John Moon <quic_johmoo@quicinc.com=
-> wrote:
+On Wed, Dec 13, 2023 at 1:58=E2=80=AFAM John Moon <quic_johmoo@quicinc.com>=
+ wrote:
 >
-> While the kernel community has been good at maintaining backwards
-> compatibility with kernel UAPIs, it would be helpful to have a tool
-> to check if a commit introduces changes that break backwards
-> compatibility.
+> On 12/11/2023 11:41 PM, Christoph Hellwig wrote:
+> > On Mon, Dec 11, 2023 at 06:02:59PM -0800, John Moon wrote:
+> >> One part of maintaining backwards compatibility with older
+> >> userspace programs is avoiding changes to module parameters.
+> >
+> > Really?  I don't think module parameters are a UAPI in the traditional
+> > sense.
 >
-> To that end, introduce check-uapi.sh: a simple shell script that
-> checks for changes to UAPI headers using libabigail.
+> Agreed, they're not UAPI in the traditional sense. But, we're trying to
+> establish tooling to help the community stabilize all interfaces that
+> cross the kernel <-> userspace boundary and module params do fall into
+> that bucket.
 >
-> libabigail is "a framework which aims at helping developers and
-> software distributors to spot some ABI-related issues like interface
-> incompatibility in ELF shared libraries by performing a static
-> analysis of the ELF binaries at hand."
+> > Now if you break a heavily used one you got to fix it, but
+> > applying strict stability guarantees on module options which are not
+> > availble to normal users or even normal programs doesn't make a whole
+> > lot of sense.
+> >
 >
-> The script uses one of libabigail's tools, "abidiff", to compile the
-> changed header before and after the commit to detect any changes.
+> True, but unfortunately we don't have any heuristic to determine if a
+> param is "heavily used". However, in this rev, we added the ability to
+> parse the permissions of a module param, so we could add a filter which
+> does not flag change/removal of params with 0{0,4,6}000 permissions.
 >
-> abidiff "compares the ABI of two shared libraries in ELF format. It
-> emits a meaningful report describing the differences between the two
-> ABIs."
+> It's also obviously fine if the community has no interest in the script.
+> We just wanted to share it as we find it to be a useful supplement to
+> our code reviews and thought maintainers may find it useful as well.
 >
-> The script also includes the ability to check the compatibility of
-> all UAPI headers across commits. This allows developers to inspect
-> the stability of the UAPIs over time.
->
-> Signed-off-by: John Moon <quic_johmoo@quicinc.com>
-> ---
->     - Applied minor code style suggestions from v6 review.
+> Cheers,
+> John
 
 
+I am with Christoph.
 
+This tool detects some changes and removals, but I think
+the community intentionally changed them.
 
-The code looks OK. I think it should work as designed.
-
-Line 197 is inconsistently indented by spaces instead of a space,
-but I can fix it up locally.
-
-
-I just thought requiring target commits as positional parameters
-("check-uapi.sh treeA treeB" just like "git diff treeA treeB")
-might be intuitive, but I guess everything is specified
-by a short option is a design. I can live with that.
-
-
-
-I will wait a few days, and if there is nothing more,
-I will pick up 1/3 and 2/3.
+To merge this tool in the mainline,
+I need more people who are interested in this.
 
 
 
