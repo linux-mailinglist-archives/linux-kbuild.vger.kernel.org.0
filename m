@@ -1,57 +1,56 @@
-Return-Path: <linux-kbuild+bounces-412-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-413-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E466B81CB5F
-	for <lists+linux-kbuild@lfdr.de>; Fri, 22 Dec 2023 15:35:11 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EB5F81CB67
+	for <lists+linux-kbuild@lfdr.de>; Fri, 22 Dec 2023 15:35:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2ACD31C2180A
-	for <lists+linux-kbuild@lfdr.de>; Fri, 22 Dec 2023 14:35:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 351612856DB
+	for <lists+linux-kbuild@lfdr.de>; Fri, 22 Dec 2023 14:35:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7B941CF98;
-	Fri, 22 Dec 2023 14:35:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66A0A2031B;
+	Fri, 22 Dec 2023 14:35:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b="NDd7xAAX"
+	dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b="a5bnrp3+"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail.avm.de (mail.avm.de [212.42.244.120])
+Received: from mail.avm.de (mail.avm.de [212.42.244.94])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2733817745;
-	Fri, 22 Dec 2023 14:35:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BA83210F2;
+	Fri, 22 Dec 2023 14:35:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=avm.de
 Received: from mail-auth.avm.de (unknown [IPv6:2001:bf0:244:244::71])
 	by mail.avm.de (Postfix) with ESMTPS;
-	Fri, 22 Dec 2023 15:27:36 +0100 (CET)
+	Fri, 22 Dec 2023 15:30:00 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
-	t=1703255256; bh=ntHkONYPmZ/m4S7yKPtQQfIZpoaul6RMdpZ3cw8+Wro=;
+	t=1703255400; bh=vamAEQWaMS2pzzbZEbLWxeCL7hYWTn3s5bEZy3E82pg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NDd7xAAXkbfaiHoRkRblm5woAL0Vd7PywcsFTmu6DCMY1I/6wFlChZb9tNMCZbtAC
-	 ppnB74Y7tHS+2lOer+n39P2DuLaSt6lqgliavVuCmdi0aXw55v7P4LkBerSfIrsa0d
-	 5NuWqKlGcquvOmMm23IOrwV1N41k+2gnbykQH0n0=
+	b=a5bnrp3+1W/cTQ6j0tdZvUWkhO9WpkuPNr9Qwaq/3qqAcntteC2dbsQ6qDV+FzG8l
+	 cXe5GHOICDv/UxobCqmkACyrU8dF42DzbZbQHODYc2MNWp5C10jbEXh5a+Dn3ZUtQp
+	 nigVNdxgUk2uaeqEBCOTMlGslR2fxpEh4Nb1tS+I=
 Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
-	by mail-auth.avm.de (Postfix) with ESMTPA id DBFAE8041D;
-	Fri, 22 Dec 2023 15:27:37 +0100 (CET)
+	by mail-auth.avm.de (Postfix) with ESMTPA id 40E8C8041D;
+	Fri, 22 Dec 2023 15:30:00 +0100 (CET)
 Received: by buildd.core.avm.de (Postfix, from userid 1000)
-	id D5B80182BE0; Fri, 22 Dec 2023 15:27:37 +0100 (CET)
-Date: Fri, 22 Dec 2023 15:27:37 +0100
+	id 34007180C9F; Fri, 22 Dec 2023 15:30:00 +0100 (CET)
+Date: Fri, 22 Dec 2023 15:30:00 +0100
 From: Nicolas Schier <n.schier@avm.de>
 To: Masahiro Yamada <masahiroy@kernel.org>
 Cc: linux-kbuild@vger.kernel.org, Ben Hutchings <ben@decadent.org.uk>,
 	Nathan Chancellor <nathan@kernel.org>,
 	Nick Desaulniers <ndesaulniers@google.com>,
 	Nicolas Schier <nicolas@fjasle.eu>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] kbuild: deb-pkg: use more debhelper commands
-Message-ID: <ZYWc2dBxEIx5N0JE@buildd.core.avm.de>
+Subject: Re: [PATCH 1/3] kbuild: deb-pkg: do not query DEB_HOST_MULTIARCH
+Message-ID: <ZYWdaCiNFsseZWWS@buildd.core.avm.de>
 Mail-Followup-To: Masahiro Yamada <masahiroy@kernel.org>,
 	linux-kbuild@vger.kernel.org, Ben Hutchings <ben@decadent.org.uk>,
 	Nathan Chancellor <nathan@kernel.org>,
 	Nick Desaulniers <ndesaulniers@google.com>,
 	linux-kernel@vger.kernel.org
 References: <20231219181957.1449958-1-masahiroy@kernel.org>
- <20231219181957.1449958-3-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -60,72 +59,106 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20231219181957.1449958-3-masahiroy@kernel.org>
+In-Reply-To: <20231219181957.1449958-1-masahiroy@kernel.org>
 Organization: AVM GmbH
-X-purgate-ID: 149429::1703255256-9CFD7DFE-8D48ECCF/0/0
+X-purgate-ID: 149429::1703255400-7166592C-4C547590/0/0
 X-purgate-type: clean
-X-purgate-size: 2173
+X-purgate-size: 3222
 X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
 X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
 X-purgate: clean
 
-On Wed, Dec 20, 2023 at 03:19:57AM +0900, Masahiro Yamada wrote:
-> Commit 36862e14e316 ("kbuild: deb-pkg: use dh_listpackages to know
-> enabled packages") started to require the debhelper tool suite.
+On Wed, Dec 20, 2023 at 03:19:55AM +0900, Masahiro Yamada wrote:
+> Since commit 491b146d4c13 ("kbuild: builddeb: Eliminate debian/arch
+> use"), the direct execution of debian/rules fails with:
 > 
-> Use more dh_* commands in create_package():
+>   dpkg-architecture: error: unknown option 'DEB_HOST_MULTIARCH'
 > 
->  - dh_installdocs to install copyright
->  - dh_installchangelogs to install changelog
->  - dh_compress to compress changelog
->  - dh_fixperms to replace the raw chmod command
->  - dh_gencontrol to replace the raw dpkg-gencontrol command
->  - dh_md5sums to record the md5sum of included files
->  - dh_builddeb to replace the raw dpkg-deb command
+> I am not sure how important to support such a use case, but at least
+> the current code:
+> 
+>   dpkg-architecture -a$DEB_HOST_ARCH -qDEB_HOST_MULTIARCH
+> 
+> ... looks weird because:
+> 
+>  - For this code to work correctly, DEB_HOST_ARCH must be defined.
+>    In this case, DEB_HOST_MULTIARCH is likely defined, so there is no
+>    need to query DEB_HOST_MULTIARCH in the first place. This is likely
+>    the case where the package build was initiated by dpkg-buildpackage.
+> 
+>  - If DEB_HOST_MULTIARCH is undefined, DEB_HOST_ARCH is likely undefined.
+>    So, you cannot query DEB_HOST_MULTIARCH in this way. This is mostly
+>    the case where debian/rules is directly executed.
+> 
+> If we want to run debian/rules directly, we can revert 491b146d4c13 or
+> add code to remember DEB_HOST_MULTIARCH, but I chose to remove the
+> useless code for now.
 > 
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > ---
-> 
->  scripts/package/builddeb | 23 ++++++++---------------
->  scripts/package/mkdebian |  2 +-
->  2 files changed, 9 insertions(+), 16 deletions(-)
-> 
-> diff --git a/scripts/package/builddeb b/scripts/package/builddeb
-> index 2eb4910f0ef3..436d55a83ab0 100755
-> --- a/scripts/package/builddeb
-> +++ b/scripts/package/builddeb
-> @@ -26,23 +26,16 @@ if_enabled_echo() {
->  
->  create_package() {
->  	local pname="$1" pdir="$2"
-> -	local dpkg_deb_opts
->  
-> -	mkdir -m 755 -p "$pdir/DEBIAN"
-> -	mkdir -p "$pdir/usr/share/doc/$pname"
-> -	cp debian/copyright "$pdir/usr/share/doc/$pname/"
-> -	cp debian/changelog "$pdir/usr/share/doc/$pname/changelog.Debian"
-> -	gzip -n -9 "$pdir/usr/share/doc/$pname/changelog.Debian"
-> -	sh -c "cd '$pdir'; find . -type f ! -path './DEBIAN/*' -printf '%P\0' \
-> -		| xargs -r0 md5sum > DEBIAN/md5sums"
-> +	export DH_OPTIONS="-p${pname} -P${pdir}"
->  
-> -	# a+rX in case we are in a restrictive umask environment like 0077
-> -	# ug-s in case we build in a setuid/setgid directory
-> -	chmod -R go-w,a+rX,ug-s "$pdir"
-> -
-> -	# Create the package
-> -	dpkg-gencontrol -p$pname -P"$pdir"
-> -	dpkg-deb --root-owner-group ${KDEB_COMPRESS:+-Z$KDEB_COMPRESS} --build "$pdir" ..
-> +	dh_installdocs
-> +	dh_installchangelogs
-> +	dh_compress
-> +	dh_fixperms
-> +	dh_gencontrol
-> +	dh_md5sums
-> +	dh_builddeb -- ${KDEB_COMPRESS:+-Z$KDEB_COMPRESS}
->  }
 
-That looks much cleaner, thanks!
+thanks.  Fixing the non-functional things is obviously a good thing.
 
 Reviewed-by: Nicolas Schier <n.schier@avm.de>
+
+
+Iff we'd like to be able to call debian/rules directly, do we really
+have to remember DEB_HOST_MULTIARCH, or just DEB_HOST_ARCH?
+
+In the latter case, might this be a sufficient way to allow calling
+debian/rules again?
+
+diff --git a/scripts/package/debian/rules b/scripts/package/debian/rules
+index 3dafa9496c63..e3e0001e7556 100755
+--- a/scripts/package/debian/rules
++++ b/scripts/package/debian/rules
+@@ -3,7 +3,9 @@
+ 
+ include debian/rules.vars
+ 
+-srctree ?= .
++DEB_HOST_ARCH ?= $(shell cat debian/arch)
++
++srctree ?= $(or $(wildcard source), .)
+ 
+ ifneq (,$(filter-out parallel=1,$(filter parallel=%,$(DEB_BUILD_OPTIONS))))
+     NUMJOBS = $(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+
+
+... but the more I think about it, I am not convinced that we want to
+use the debian/arch file.  Actually I think it would be nice if we
+strive for an architecture independent source package instead of
+engraving the architecture even more.
+
+
+Nevertheless, your patch looks good to me.
+
+Kind regards,
+Nicolas
+
+
+
+> 
+>  scripts/package/builddeb | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/scripts/package/builddeb b/scripts/package/builddeb
+> index 2fe51e6919da..2eb4910f0ef3 100755
+> --- a/scripts/package/builddeb
+> +++ b/scripts/package/builddeb
+> @@ -171,9 +171,8 @@ install_libc_headers () {
+>  
+>  	# move asm headers to /usr/include/<libc-machine>/asm to match the structure
+>  	# used by Debian-based distros (to support multi-arch)
+> -	host_arch=$(dpkg-architecture -a$DEB_HOST_ARCH -qDEB_HOST_MULTIARCH)
+> -	mkdir $pdir/usr/include/$host_arch
+> -	mv $pdir/usr/include/asm $pdir/usr/include/$host_arch/
+> +	mkdir "$pdir/usr/include/${DEB_HOST_MULTIARCH}"
+> +	mv "$pdir/usr/include/asm" "$pdir/usr/include/${DEB_HOST_MULTIARCH}"
+>  }
+>  
+>  rm -f debian/files
+> -- 
+> 2.40.1
+> 
 
