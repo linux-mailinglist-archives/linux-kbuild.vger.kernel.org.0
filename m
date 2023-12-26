@@ -1,191 +1,116 @@
-Return-Path: <linux-kbuild+bounces-419-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-420-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1500681E4CE
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Dec 2023 05:02:58 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 283C881E508
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Dec 2023 06:35:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4FBC41F225B5
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Dec 2023 04:02:57 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A5BDAB21AB3
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Dec 2023 05:35:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2173B18ECE;
-	Tue, 26 Dec 2023 04:02:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7C2F4B12C;
+	Tue, 26 Dec 2023 05:35:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TIJwJjnd"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ekSnb2Ye"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0E7A18EBE;
-	Tue, 26 Dec 2023 04:02:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 570CBC433C8;
-	Tue, 26 Dec 2023 04:02:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF20A4B12B;
+	Tue, 26 Dec 2023 05:35:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A725C433CB;
+	Tue, 26 Dec 2023 05:35:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703563368;
-	bh=VFtaTsNzp3ptvfryn6wsPbPQyNhhITeXxCesm41Cr7g=;
+	s=k20201202; t=1703568903;
+	bh=86/8sBCEVD+1U/Wf6jtj5/faPUbdwwgODXNMyylFT5k=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=TIJwJjndd8hxk7YW/VNgTJlBQbz9XpgK1KOrWJLRFKZ+hFt0rWj3lJNpR9JgodWL2
-	 txxmdJTTvcP6fn3js/zg3vIaPLIiT1/Zcgc99rOpm3fjwVDHeXBvncr1KAvOZog9m2
-	 P32jhLtY3Pj7T5ih11DAi8LVrY1ZPT1DQUQCMsxkOEZVNpBJU2IX+c2rIkklRskL/l
-	 Ez1k++nkftMBmIANRwEQhUem6h/uOh+lFtOz+OLIhhZrmMO0JHj9wkwgp9nYI37g2X
-	 PyeHfHJTyquc9Jf943ioNcEZWUjeZY2qZeb9mq7/iempOTx92P0f/fLstEQ5It61RK
-	 T1uegRWIu91IA==
-Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-204520717b3so1967769fac.0;
-        Mon, 25 Dec 2023 20:02:48 -0800 (PST)
-X-Gm-Message-State: AOJu0Yz4iMPPETy4IWcE66nDH1lG6TpHjRSj6AupAiSxj04RU+jfDX6F
-	5+XTBAliMZOy6nXOHJqP+HyDe2jXbLF8twogD/g=
-X-Google-Smtp-Source: AGHT+IEyBIbSHRen5qHShaCMvS+CmJjO5RWG9JXt2gw4B6vX61FOisb6UVUQQAc4/jtFI0yWk+/vbufZIetDO6RZX64=
-X-Received: by 2002:a05:6870:c10d:b0:203:b44f:9036 with SMTP id
- f13-20020a056870c10d00b00203b44f9036mr7611819oad.60.1703563367641; Mon, 25
- Dec 2023 20:02:47 -0800 (PST)
+	b=ekSnb2YeCON79kPWFSfTq8tdGcHEWuvSMZ4APiJ9YhsZw7UTg3EYWl7D1Xpq2ZKtv
+	 TxaTrQuMobr/WpQu7B5iVCRgH7mQv5fhQB0zoFnekJ2JSkpXK3Fco2nEdWh5x/1pnN
+	 IDz7d/m3Vt12qWkRg4/mHDLik0fHfpw4wnn+kEGQdSyItiJhtyIroIpxIbhG7HVaR8
+	 Ypxgzko4agukhZm/F6GwV5Ao4UupijxOTe/gGmpV/yKNe+co7eZ+0D78g8cjMN8M/H
+	 l4gFWsPOrAR1JHgmr7ryhY/hJn3QTeRWNRArG78jy3b2MB/ue0mEiiBXp3pUa8z+Lp
+	 OwpkQ6vQewfmg==
+Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-6dbfdb41a63so25579a34.0;
+        Mon, 25 Dec 2023 21:35:02 -0800 (PST)
+X-Gm-Message-State: AOJu0YwT/INCyHWWTPe/dk3nY2vfwRhMBwsLbPRpaaSxWnGGd4Tr3AbR
+	FDd0h6A8JzuVQCZ0fWV3ibqGcMAONWZmRLAVkO0=
+X-Google-Smtp-Source: AGHT+IGuj878252OyJfg32s0yMi5af67UAnDd/I1z5KfxSGxbWZwaLC+7jgEDZYXg3LAgu9er8z4j/6qaeX1y6F2/k4=
+X-Received: by 2002:a05:6870:e303:b0:204:4401:ed2a with SMTP id
+ z3-20020a056870e30300b002044401ed2amr7787912oad.0.1703568902369; Mon, 25 Dec
+ 2023 21:35:02 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAK7LNASf7cOiWpcMsycVSBOg4Xp-dmUnAvGqdw5wAYR=KBzdig@mail.gmail.com>
- <20231219201719.1967948-1-jtornosm@redhat.com>
-In-Reply-To: <20231219201719.1967948-1-jtornosm@redhat.com>
+References: <20231219181957.1449958-1-masahiroy@kernel.org> <ZYWdaCiNFsseZWWS@buildd.core.avm.de>
+In-Reply-To: <ZYWdaCiNFsseZWWS@buildd.core.avm.de>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 26 Dec 2023 13:02:11 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAR_wgQBs-q9NH1icb_FPBoVMNEhQpvV8qzH2dFsrDS0pQ@mail.gmail.com>
-Message-ID: <CAK7LNAR_wgQBs-q9NH1icb_FPBoVMNEhQpvV8qzH2dFsrDS0pQ@mail.gmail.com>
-Subject: Re: [PATCH v4] rpm-pkg: simplify installkernel %post
-To: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
-Cc: dcavalca@meta.com, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, nathan@kernel.org, ndesaulniers@google.com, 
-	nicolas@fjasle.eu, stable@vger.kernel.org
+Date: Tue, 26 Dec 2023 14:34:25 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAToZfKMOANKYctN0E00uXXvgv8p7TcrLcHJQRuG0eNW=A@mail.gmail.com>
+Message-ID: <CAK7LNAToZfKMOANKYctN0E00uXXvgv8p7TcrLcHJQRuG0eNW=A@mail.gmail.com>
+Subject: Re: [PATCH 1/3] kbuild: deb-pkg: do not query DEB_HOST_MULTIARCH
+To: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org, 
+	Ben Hutchings <ben@decadent.org.uk>, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org
+Cc: Nicolas Schier <nicolas@fjasle.eu>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Dec 20, 2023 at 5:17=E2=80=AFAM Jose Ignacio Tornos Martinez
-<jtornosm@redhat.com> wrote:
+On Fri, Dec 22, 2023 at 11:30=E2=80=AFPM Nicolas Schier <n.schier@avm.de> w=
+rote:
 >
-> The new installkernel application that is now included in systemd-udev
-> package allows installation although destination files are already presen=
-t
-> in the boot directory of the kernel package, but is failing with the
-> implemented workaround for the old installkernel application from grubby
-> package.
+> On Wed, Dec 20, 2023 at 03:19:55AM +0900, Masahiro Yamada wrote:
+> > Since commit 491b146d4c13 ("kbuild: builddeb: Eliminate debian/arch
+> > use"), the direct execution of debian/rules fails with:
+> >
+> >   dpkg-architecture: error: unknown option 'DEB_HOST_MULTIARCH'
+> >
+> > I am not sure how important to support such a use case, but at least
+> > the current code:
+> >
+> >   dpkg-architecture -a$DEB_HOST_ARCH -qDEB_HOST_MULTIARCH
+> >
+> > ... looks weird because:
+> >
+> >  - For this code to work correctly, DEB_HOST_ARCH must be defined.
+> >    In this case, DEB_HOST_MULTIARCH is likely defined, so there is no
+> >    need to query DEB_HOST_MULTIARCH in the first place. This is likely
+> >    the case where the package build was initiated by dpkg-buildpackage.
+> >
+> >  - If DEB_HOST_MULTIARCH is undefined, DEB_HOST_ARCH is likely undefine=
+d.
+> >    So, you cannot query DEB_HOST_MULTIARCH in this way. This is mostly
+> >    the case where debian/rules is directly executed.
+> >
+> > If we want to run debian/rules directly, we can revert 491b146d4c13 or
+> > add code to remember DEB_HOST_MULTIARCH, but I chose to remove the
+> > useless code for now.
+> >
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > ---
 >
-> For the new installkernel application, as Davide says:
-> <<The %post currently does a shuffling dance before calling installkernel=
-.
-> This isn't actually necessary afaict, and the current implementation
-> ends up triggering downstream issues such as
-> https://github.com/systemd/systemd/issues/29568
-> This commit simplifies the logic to remove the shuffling. For reference,
-> the original logic was added in commit 3c9c7a14b627("rpm-pkg: add %post
-> section to create initramfs and grub hooks").>>
+> thanks.  Fixing the non-functional things is obviously a good thing.
 >
-> But we need to keep the old behavior as well, because the old installkern=
-el
-> application from grubby package, does not allow this simplification and
-> we need to be backward compatible to avoid issues with the different
-> packages.
+> Reviewed-by: Nicolas Schier <n.schier@avm.de>
 >
-> Mimic Fedora shipping process and store vmlinuz, config amd System.map
-> in the module directory instead of the boot directory. In this way, we wi=
-ll
-> avoid the commented problem for all the cases, because the new destinatio=
-n
-> files are not going to exist in the boot directory of the kernel package.
 >
-> Replace installkernel tool with kernel-install tool, because the latter i=
-s
-> more complete. Suitable manual actions are added as a default if tool is =
-not
-> present (unusual).
+> Iff we'd like to be able to call debian/rules directly, do we really
+> have to remember DEB_HOST_MULTIARCH, or just DEB_HOST_ARCH?
 
 
-This paragraph should be reworded,
-and the corresponding code should be fixed.
+Theoretically, if we know DEB_HOST_ARCH,
+other DEB_HOST_* can be derived.
 
 
-This patch works for fedora 38 and fedora 39,
-but may break openSUSE tumbleweed, at least.
+scripts/package/deb-build-option needs to know more DEB_* variables.
 
-
-
-The kernel-install itself does not copy files,
-but invoked scripts in /usr/lib/kernel/install.d/
-
-
-In Fedora,
-
-/usr/lib/kernel/install.d/20-grub.install
-
-copies those files to /boot/.
-
-
-
-In openSUSE, the 'udev' package provides
-/usr/bin/kernel-install,
-but /usr/lib/kernel/install.d/20-grub.install
-is missing.
-
-
-masahiro@ea071f1f0504:~> rpm -qpl udev-254.5-8.1.x86_64.rpm | grep kernel
-/usr/bin/kernel-install
-/usr/lib/kernel
-/usr/lib/kernel/install.conf
-/usr/lib/kernel/install.d
-/usr/lib/kernel/install.d/50-depmod.install
-/usr/lib/kernel/install.d/90-loaderentry.install
-/usr/lib/kernel/install.d/90-uki-copy.install
-/usr/lib/systemd/system/sockets.target.wants/systemd-udevd-kernel.socket
-/usr/lib/systemd/system/systemd-udevd-kernel.socket
-/usr/share/bash-completion/completions/kernel-install
-/usr/share/man/man8/kernel-install.8.gz
-/usr/share/man/man8/systemd-udevd-kernel.socket.8.gz
-/usr/share/zsh/site-functions/_kernel-install
-
-
-
-In openSUSE with the udev package installed,
-none of vmlinuz, config, System.map is copied
-to the /boot directory.
-
-
-
-
-Applying the following on top should fix the regression,
-although I did not test any other RPM-based distros.
-
-
-
-diff --git a/scripts/package/kernel.spec b/scripts/package/kernel.spec
-index afef3b0f6a3d..eb5cc440216b 100644
---- a/scripts/package/kernel.spec
-+++ b/scripts/package/kernel.spec
-@@ -71,12 +71,13 @@ rm -rf %{buildroot}
-
- %post
- if [ -x /usr/bin/kernel-install ]; then
--kernel-install add %{KERNELRELEASE} /lib/modules/%{KERNELRELEASE}/vmlinuz
--else
--cp /lib/modules/%{KERNELRELEASE}/vmlinuz /boot/vmlinuz-%{KERNELRELEASE}
--cp /lib/modules/%{KERNELRELEASE}/System.map /boot/System.map-%{KERNELRELEA=
-SE}
--cp /lib/modules/%{KERNELRELEASE}/config /boot/config-%{KERNELRELEASE}
-+    /usr/bin/kernel-install add %{KERNELRELEASE}
-/lib/modules/%{KERNELRELEASE}/vmlinuz
- fi
-+for file in vmlinuz System.map config; do
-+    if [ ! -e "/boot/${file}-%{KERNELRELEASE}" ]; then
-+        cp "/lib/modules/%{KERNELRELEASE}/${file}"
-"/boot/${file}-%{KERNELRELEASE}"
-+    fi
-+done
-
- %preun
- if [ -x /sbin/new-kernel-pkg ]; then
-
-
-
+  DEB_HOST_ARCH
+  DEB_BUILD_ARCH
+  DEB_HOST_GNU_TYPE
 
 
 
@@ -196,86 +121,86 @@ SE}
 
 
 >
-> cc: stable@vger.kernel.org
-> Co-Developed-by: Davide Cavalca <dcavalca@meta.com>
-> Signed-off-by: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
-> ---
-> V1 -> V2:
-> - Complete to be backward compatible with the previous installkernel
-> application.
-> V2 -> V3:
-> - Follow the suggestions from Masahiro Yamada and change the installation
-> V3 -> V4:
-> - Make the patch applicable to linux-kbuild/for-next (ia64 support was
-> already removed).
+> In the latter case, might this be a sufficient way to allow calling
+> debian/rules again?
+
+
+Not perfectly.
+scripts/package/deb-build-option does not work as intended.
+
+
 >
->  scripts/package/kernel.spec | 21 ++++++++++-----------
->  1 file changed, 10 insertions(+), 11 deletions(-)
+> diff --git a/scripts/package/debian/rules b/scripts/package/debian/rules
+> index 3dafa9496c63..e3e0001e7556 100755
+> --- a/scripts/package/debian/rules
+> +++ b/scripts/package/debian/rules
+> @@ -3,7 +3,9 @@
 >
-> diff --git a/scripts/package/kernel.spec b/scripts/package/kernel.spec
-> index 89298983a169..17e7196c9be1 100644
-> --- a/scripts/package/kernel.spec
-> +++ b/scripts/package/kernel.spec
-> @@ -55,12 +55,12 @@ patch -p1 < %{SOURCE2}
->  %{make} %{makeflags} KERNELRELEASE=3D%{KERNELRELEASE} KBUILD_BUILD_VERSI=
-ON=3D%{release}
+>  include debian/rules.vars
 >
->  %install
-> -mkdir -p %{buildroot}/boot
-> -cp $(%{make} %{makeflags} -s image_name) %{buildroot}/boot/vmlinuz-%{KER=
-NELRELEASE}
-> +mkdir -p %{buildroot}/lib/modules/%{KERNELRELEASE}
-> +cp $(%{make} %{makeflags} -s image_name) %{buildroot}/lib/modules/%{KERN=
-ELRELEASE}/vmlinuz
->  %{make} %{makeflags} INSTALL_MOD_PATH=3D%{buildroot} modules_install
->  %{make} %{makeflags} INSTALL_HDR_PATH=3D%{buildroot}/usr headers_install
-> -cp System.map %{buildroot}/boot/System.map-%{KERNELRELEASE}
-> -cp .config %{buildroot}/boot/config-%{KERNELRELEASE}
-> +cp System.map %{buildroot}/lib/modules/%{KERNELRELEASE}
-> +cp .config %{buildroot}/lib/modules/%{KERNELRELEASE}/config
->  ln -fns /usr/src/kernels/%{KERNELRELEASE} %{buildroot}/lib/modules/%{KER=
-NELRELEASE}/build
->  %if %{with_devel}
->  %{make} %{makeflags} run-command KBUILD_RUN_COMMAND=3D'${srctree}/script=
-s/package/install-extmod-build %{buildroot}/usr/src/kernels/%{KERNELRELEASE=
-}'
-> @@ -70,12 +70,12 @@ ln -fns /usr/src/kernels/%{KERNELRELEASE} %{buildroot=
-}/lib/modules/%{KERNELRELEA
->  rm -rf %{buildroot}
+> -srctree ?=3D .
+> +DEB_HOST_ARCH ?=3D $(shell cat debian/arch)
+> +
+> +srctree ?=3D $(or $(wildcard source), .)
 >
->  %post
-> -if [ -x /sbin/installkernel -a -r /boot/vmlinuz-%{KERNELRELEASE} -a -r /=
-boot/System.map-%{KERNELRELEASE} ]; then
-> -cp /boot/vmlinuz-%{KERNELRELEASE} /boot/.vmlinuz-%{KERNELRELEASE}-rpm
-> -cp /boot/System.map-%{KERNELRELEASE} /boot/.System.map-%{KERNELRELEASE}-=
-rpm
-> -rm -f /boot/vmlinuz-%{KERNELRELEASE} /boot/System.map-%{KERNELRELEASE}
-> -/sbin/installkernel %{KERNELRELEASE} /boot/.vmlinuz-%{KERNELRELEASE}-rpm=
- /boot/.System.map-%{KERNELRELEASE}-rpm
-> -rm -f /boot/.vmlinuz-%{KERNELRELEASE}-rpm /boot/.System.map-%{KERNELRELE=
-ASE}-rpm
-> +if [ -x /usr/bin/kernel-install ]; then
-> +kernel-install add %{KERNELRELEASE} /lib/modules/%{KERNELRELEASE}/vmlinu=
-z
-> +else
-> +cp /lib/modules/%{KERNELRELEASE}/vmlinuz /boot/vmlinuz-%{KERNELRELEASE}
-> +cp /lib/modules/%{KERNELRELEASE}/System.map /boot/System.map-%{KERNELREL=
-EASE}
-> +cp /lib/modules/%{KERNELRELEASE}/config /boot/config-%{KERNELRELEASE}
->  fi
+>  ifneq (,$(filter-out parallel=3D1,$(filter parallel=3D%,$(DEB_BUILD_OPTI=
+ONS))))
+>      NUMJOBS =3D $(patsubst parallel=3D%,%,$(filter parallel=3D%,$(DEB_BU=
+ILD_OPTIONS)))
 >
->  %preun
-> @@ -94,7 +94,6 @@ fi
->  %defattr (-, root, root)
->  /lib/modules/%{KERNELRELEASE}
->  %exclude /lib/modules/%{KERNELRELEASE}/build
-> -/boot/*
 >
->  %files headers
->  %defattr (-, root, root)
-> --
-> 2.43.0
+> ... but the more I think about it, I am not convinced that we want to
+> use the debian/arch file.  Actually I think it would be nice if we
+> strive for an architecture independent source package instead of
+> engraving the architecture even more.
+
+
+The source package _is_ arch-independent,
+can be built for a single architecture because
+the source package for upstream contains the .config,
+which is configured for a particular architecture.
+
+
+
+
+
+
+
 >
+> Nevertheless, your patch looks good to me.
+>
+> Kind regards,
+> Nicolas
+>
+>
+>
+> >
+> >  scripts/package/builddeb | 5 ++---
+> >  1 file changed, 2 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/scripts/package/builddeb b/scripts/package/builddeb
+> > index 2fe51e6919da..2eb4910f0ef3 100755
+> > --- a/scripts/package/builddeb
+> > +++ b/scripts/package/builddeb
+> > @@ -171,9 +171,8 @@ install_libc_headers () {
+> >
+> >       # move asm headers to /usr/include/<libc-machine>/asm to match th=
+e structure
+> >       # used by Debian-based distros (to support multi-arch)
+> > -     host_arch=3D$(dpkg-architecture -a$DEB_HOST_ARCH -qDEB_HOST_MULTI=
+ARCH)
+> > -     mkdir $pdir/usr/include/$host_arch
+> > -     mv $pdir/usr/include/asm $pdir/usr/include/$host_arch/
+> > +     mkdir "$pdir/usr/include/${DEB_HOST_MULTIARCH}"
+> > +     mv "$pdir/usr/include/asm" "$pdir/usr/include/${DEB_HOST_MULTIARC=
+H}"
+> >  }
+> >
+> >  rm -f debian/files
+> > --
+> > 2.40.1
+> >
+
 
 
 --=20
