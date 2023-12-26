@@ -1,209 +1,95 @@
-Return-Path: <linux-kbuild+bounces-420-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-421-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 283C881E508
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Dec 2023 06:35:11 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE73381E7BD
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Dec 2023 14:53:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A5BDAB21AB3
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Dec 2023 05:35:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 03EAF1C2106A
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Dec 2023 13:53:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7C2F4B12C;
-	Tue, 26 Dec 2023 05:35:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0DA34EB50;
+	Tue, 26 Dec 2023 13:52:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ekSnb2Ye"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nyKhjWua"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF20A4B12B;
-	Tue, 26 Dec 2023 05:35:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A725C433CB;
-	Tue, 26 Dec 2023 05:35:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1B004EB42;
+	Tue, 26 Dec 2023 13:52:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 005C9C433C7;
+	Tue, 26 Dec 2023 13:52:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703568903;
-	bh=86/8sBCEVD+1U/Wf6jtj5/faPUbdwwgODXNMyylFT5k=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=ekSnb2YeCON79kPWFSfTq8tdGcHEWuvSMZ4APiJ9YhsZw7UTg3EYWl7D1Xpq2ZKtv
-	 TxaTrQuMobr/WpQu7B5iVCRgH7mQv5fhQB0zoFnekJ2JSkpXK3Fco2nEdWh5x/1pnN
-	 IDz7d/m3Vt12qWkRg4/mHDLik0fHfpw4wnn+kEGQdSyItiJhtyIroIpxIbhG7HVaR8
-	 Ypxgzko4agukhZm/F6GwV5Ao4UupijxOTe/gGmpV/yKNe+co7eZ+0D78g8cjMN8M/H
-	 l4gFWsPOrAR1JHgmr7ryhY/hJn3QTeRWNRArG78jy3b2MB/ue0mEiiBXp3pUa8z+Lp
-	 OwpkQ6vQewfmg==
-Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-6dbfdb41a63so25579a34.0;
-        Mon, 25 Dec 2023 21:35:02 -0800 (PST)
-X-Gm-Message-State: AOJu0YwT/INCyHWWTPe/dk3nY2vfwRhMBwsLbPRpaaSxWnGGd4Tr3AbR
-	FDd0h6A8JzuVQCZ0fWV3ibqGcMAONWZmRLAVkO0=
-X-Google-Smtp-Source: AGHT+IGuj878252OyJfg32s0yMi5af67UAnDd/I1z5KfxSGxbWZwaLC+7jgEDZYXg3LAgu9er8z4j/6qaeX1y6F2/k4=
-X-Received: by 2002:a05:6870:e303:b0:204:4401:ed2a with SMTP id
- z3-20020a056870e30300b002044401ed2amr7787912oad.0.1703568902369; Mon, 25 Dec
- 2023 21:35:02 -0800 (PST)
+	s=k20201202; t=1703598777;
+	bh=AQY7dmprZJmESi+61/lhMwT1uO26gspqlrGm0b7sd2s=;
+	h=From:To:Cc:Subject:Date:From;
+	b=nyKhjWua2/XlcnQVnS4Osre4jpkurB2edDocb5nMDx/FaT1Fly7efvMGfHw1+FdHo
+	 n9630IsYXcWl6KXaUngiBDlgOOlKRRjFILzeYM6+QSVSSvkp9b0S/8LdWpD0OJ34ss
+	 9RlApq4B+HNswz1S4fx31VY9L6ZB8vkftf8LbanXwjYi0uvX5UHQ3o/v10ua/BaWqC
+	 NejKrVi/5Dz9tf8S2w9lqcIMhtGgfgErYUkCz5LOS03M2haCm28BJTl63ipDO6y91G
+	 W4MNo+9flDX7OL4N+soUKWzqIFCML2P3JtT5wwV6mkPC91RVdjYTX+MzmqKq2HiZ09
+	 Kva6jwhM37W3A==
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: linux-kbuild@vger.kernel.org
+Cc: Ben Hutchings <ben@decadent.org.uk>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/6] kbuild: deb-pkg: factor out common Make options in debian/rules
+Date: Tue, 26 Dec 2023 22:52:38 +0900
+Message-Id: <20231226135243.1393780-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231219181957.1449958-1-masahiroy@kernel.org> <ZYWdaCiNFsseZWWS@buildd.core.avm.de>
-In-Reply-To: <ZYWdaCiNFsseZWWS@buildd.core.avm.de>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 26 Dec 2023 14:34:25 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAToZfKMOANKYctN0E00uXXvgv8p7TcrLcHJQRuG0eNW=A@mail.gmail.com>
-Message-ID: <CAK7LNAToZfKMOANKYctN0E00uXXvgv8p7TcrLcHJQRuG0eNW=A@mail.gmail.com>
-Subject: Re: [PATCH 1/3] kbuild: deb-pkg: do not query DEB_HOST_MULTIARCH
-To: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org, 
-	Ben Hutchings <ben@decadent.org.uk>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org
-Cc: Nicolas Schier <nicolas@fjasle.eu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Dec 22, 2023 at 11:30=E2=80=AFPM Nicolas Schier <n.schier@avm.de> w=
-rote:
->
-> On Wed, Dec 20, 2023 at 03:19:55AM +0900, Masahiro Yamada wrote:
-> > Since commit 491b146d4c13 ("kbuild: builddeb: Eliminate debian/arch
-> > use"), the direct execution of debian/rules fails with:
-> >
-> >   dpkg-architecture: error: unknown option 'DEB_HOST_MULTIARCH'
-> >
-> > I am not sure how important to support such a use case, but at least
-> > the current code:
-> >
-> >   dpkg-architecture -a$DEB_HOST_ARCH -qDEB_HOST_MULTIARCH
-> >
-> > ... looks weird because:
-> >
-> >  - For this code to work correctly, DEB_HOST_ARCH must be defined.
-> >    In this case, DEB_HOST_MULTIARCH is likely defined, so there is no
-> >    need to query DEB_HOST_MULTIARCH in the first place. This is likely
-> >    the case where the package build was initiated by dpkg-buildpackage.
-> >
-> >  - If DEB_HOST_MULTIARCH is undefined, DEB_HOST_ARCH is likely undefine=
-d.
-> >    So, you cannot query DEB_HOST_MULTIARCH in this way. This is mostly
-> >    the case where debian/rules is directly executed.
-> >
-> > If we want to run debian/rules directly, we can revert 491b146d4c13 or
-> > add code to remember DEB_HOST_MULTIARCH, but I chose to remove the
-> > useless code for now.
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > ---
->
-> thanks.  Fixing the non-functional things is obviously a good thing.
->
-> Reviewed-by: Nicolas Schier <n.schier@avm.de>
->
->
-> Iff we'd like to be able to call debian/rules directly, do we really
-> have to remember DEB_HOST_MULTIARCH, or just DEB_HOST_ARCH?
+This avoid code duplication between binary-arch and built-arch.
 
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-Theoretically, if we know DEB_HOST_ARCH,
-other DEB_HOST_* can be derived.
+ scripts/package/debian/rules | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
+diff --git a/scripts/package/debian/rules b/scripts/package/debian/rules
+index 3dafa9496c63..26bc6239e200 100755
+--- a/scripts/package/debian/rules
++++ b/scripts/package/debian/rules
+@@ -10,20 +10,20 @@ ifneq (,$(filter-out parallel=1,$(filter parallel=%,$(DEB_BUILD_OPTIONS))))
+     MAKEFLAGS += -j$(NUMJOBS)
+ endif
+ 
++make-opts = ARCH=$(ARCH) KERNELRELEASE=$(KERNELRELEASE)
++
+ .PHONY: binary binary-indep binary-arch
+ binary: binary-arch binary-indep
+ binary-indep: build-indep
+ binary-arch: build-arch
+-	$(MAKE) -f $(srctree)/Makefile ARCH=$(ARCH) \
+-	KERNELRELEASE=$(KERNELRELEASE) \
++	$(MAKE) -f $(srctree)/Makefile $(make-opts) \
+ 	run-command KBUILD_RUN_COMMAND=+$(srctree)/scripts/package/builddeb
+ 
+ .PHONY: build build-indep build-arch
+ build: build-arch build-indep
+ build-indep:
+ build-arch:
+-	$(MAKE) -f $(srctree)/Makefile ARCH=$(ARCH) \
+-	KERNELRELEASE=$(KERNELRELEASE) \
++	$(MAKE) -f $(srctree)/Makefile $(make-opts) \
+ 	$(shell $(srctree)/scripts/package/deb-build-option) \
+ 	olddefconfig all
+ 
+-- 
+2.40.1
 
-scripts/package/deb-build-option needs to know more DEB_* variables.
-
-  DEB_HOST_ARCH
-  DEB_BUILD_ARCH
-  DEB_HOST_GNU_TYPE
-
-
-
-
-
-
-
-
-
->
-> In the latter case, might this be a sufficient way to allow calling
-> debian/rules again?
-
-
-Not perfectly.
-scripts/package/deb-build-option does not work as intended.
-
-
->
-> diff --git a/scripts/package/debian/rules b/scripts/package/debian/rules
-> index 3dafa9496c63..e3e0001e7556 100755
-> --- a/scripts/package/debian/rules
-> +++ b/scripts/package/debian/rules
-> @@ -3,7 +3,9 @@
->
->  include debian/rules.vars
->
-> -srctree ?=3D .
-> +DEB_HOST_ARCH ?=3D $(shell cat debian/arch)
-> +
-> +srctree ?=3D $(or $(wildcard source), .)
->
->  ifneq (,$(filter-out parallel=3D1,$(filter parallel=3D%,$(DEB_BUILD_OPTI=
-ONS))))
->      NUMJOBS =3D $(patsubst parallel=3D%,%,$(filter parallel=3D%,$(DEB_BU=
-ILD_OPTIONS)))
->
->
-> ... but the more I think about it, I am not convinced that we want to
-> use the debian/arch file.  Actually I think it would be nice if we
-> strive for an architecture independent source package instead of
-> engraving the architecture even more.
-
-
-The source package _is_ arch-independent,
-can be built for a single architecture because
-the source package for upstream contains the .config,
-which is configured for a particular architecture.
-
-
-
-
-
-
-
->
-> Nevertheless, your patch looks good to me.
->
-> Kind regards,
-> Nicolas
->
->
->
-> >
-> >  scripts/package/builddeb | 5 ++---
-> >  1 file changed, 2 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/scripts/package/builddeb b/scripts/package/builddeb
-> > index 2fe51e6919da..2eb4910f0ef3 100755
-> > --- a/scripts/package/builddeb
-> > +++ b/scripts/package/builddeb
-> > @@ -171,9 +171,8 @@ install_libc_headers () {
-> >
-> >       # move asm headers to /usr/include/<libc-machine>/asm to match th=
-e structure
-> >       # used by Debian-based distros (to support multi-arch)
-> > -     host_arch=3D$(dpkg-architecture -a$DEB_HOST_ARCH -qDEB_HOST_MULTI=
-ARCH)
-> > -     mkdir $pdir/usr/include/$host_arch
-> > -     mv $pdir/usr/include/asm $pdir/usr/include/$host_arch/
-> > +     mkdir "$pdir/usr/include/${DEB_HOST_MULTIARCH}"
-> > +     mv "$pdir/usr/include/asm" "$pdir/usr/include/${DEB_HOST_MULTIARC=
-H}"
-> >  }
-> >
-> >  rm -f debian/files
-> > --
-> > 2.40.1
-> >
-
-
-
---=20
-Best Regards
-Masahiro Yamada
 
