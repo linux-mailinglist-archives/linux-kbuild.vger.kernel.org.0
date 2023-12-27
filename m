@@ -1,49 +1,52 @@
-Return-Path: <linux-kbuild+bounces-427-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-428-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B82E381E7DC
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Dec 2023 15:34:10 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4374981ECDF
+	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Dec 2023 08:20:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F0FBC1C213E1
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Dec 2023 14:34:09 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B4334B21836
+	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Dec 2023 07:20:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAD5D18E0A;
-	Tue, 26 Dec 2023 14:34:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82FA4539C;
+	Wed, 27 Dec 2023 07:20:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lrizIdsH"
+	dkim=pass (1024-bit key) header.d=xen0n.name header.i=@xen0n.name header.b="F39uGL/b"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailbox.box.xen0n.name (mail.xen0n.name [115.28.160.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C2C81E487;
-	Tue, 26 Dec 2023 14:34:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4BB4C433C8;
-	Tue, 26 Dec 2023 14:34:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703601245;
-	bh=cMKdaJ1jcRx8KAs7hSbmNJKzZX2VPA0PcqyRXDg1p9Y=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B37F25392
+	for <linux-kbuild@vger.kernel.org>; Wed, 27 Dec 2023 07:20:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=xen0n.name
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xen0n.name
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xen0n.name; s=mail;
+	t=1703660626; bh=K2k2GxIuqjMC/NnfCosbCSIqYontEnvv3dQx5KknIGk=;
 	h=From:To:Cc:Subject:Date:From;
-	b=lrizIdsHXpZQgoGJsMF+pXPd5CqZny3N+eeIzElP0exefiIJS7Zg8d50K9Gip0YEI
-	 l/oKG84bscELItWYWQ1gsalxQf1b4VS/7emUhjMh72ABkEorkdQ4oUjfVszjIJfzaC
-	 U68lfvgTdQKY4GA5gplw/Lr3davBLzNcymzsZW5xFPccvwFFwiRcsl+iE/OMi/rbrL
-	 T00LZXf3ZJa2SjmmV7HA57zvrZuDge7gRasCp11fH8TLeUquX4dsRxua4FSvBzVdmP
-	 WRkk+9mdLCrDvqDsMV29+E1Z4xZo+OAb+UccFc/uCpL+j61RmkSbG0fe6kriCRWIcB
-	 dvs+x6aQVnHzw==
-From: Masahiro Yamada <masahiroy@kernel.org>
+	b=F39uGL/bn4zLEsFhaY74nOkfbu0rj45jjJOPO0+/s6Mmw7GUSBmZJtNlwq0tHtmx4
+	 B4JfchpNPqR3PGn8XEt3h+lTyAA4/6xzaDlk8/5h1XZZexfZmAocxyRyxxTB/0FQgE
+	 r1y6nnjLyQbYip892ykBZBlzLGFGgntBKXWmlfaw=
+Received: from ld50.lan (unknown [IPv6:240e:388:8d23:e100:4572:35ff:7275:50ea])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 8F20160117;
+	Wed, 27 Dec 2023 15:03:39 +0800 (CST)
+From: WANG Xuerui <kernel@xen0n.name>
 To: linux-kbuild@vger.kernel.org
-Cc: Ben Hutchings <ben@decadent.org.uk>,
+Cc: WANG Xuerui <git@xen0n.name>,
 	Masahiro Yamada <masahiroy@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
 	Nicolas Schier <nicolas@fjasle.eu>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] kbuild: deb-pkg: use build ID instead of debug link for dbg package
-Date: Tue, 26 Dec 2023 23:33:59 +0900
-Message-Id: <20231226143359.1438995-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.40.1
+	Youling Tang <tangyouling@loongson.cn>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	loongarch@lists.linux.dev
+Subject: [PATCH] modpost: Ignore relaxation and alignment marker relocs on LoongArch
+Date: Wed, 27 Dec 2023 15:03:14 +0800
+Message-ID: <20231227070317.1936234-1-kernel@xen0n.name>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -52,92 +55,73 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-There are two ways of managing separate debug info files:
+From: WANG Xuerui <git@xen0n.name>
 
- [1] The executable contains the .gnu_debuglink section, which specifies
-     the name and the CRC of the separate debug info file.
+With recent trunk versions of binutils and gcc, alignment directives are
+represented with R_LARCH_ALIGN relocs on LoongArch, which is necessary
+for the linker to maintain alignment requirements during its relaxation
+passes. And even though the kernel is built with relaxation disabled, so
+far a small number of R_LARCH_RELAX marker relocs are still emitted as
+part of la.* pseudo instructions in assembly. These two kinds of relocs
+do not refer to symbols, which can trip up modpost's section mismatch
+checks, because the r_offset of said relocs can be zero or any other
+meaningless value, eventually leading to a `from == NULL` condition in
+default_mismatch_handler and SIGSEGV.
 
- [2] The executable contains a build ID, and the corresponding debug info
-     file is placed in the .build-id directory.
+As the two kinds of relocs are not concerned with symbols, just ignore
+them for section mismatch check purposes.
 
-We could do both, but the former, which 'make deb-pkg' currently does,
-results in complicated installation steps because we need to manually
-strip the debug sections, create debug links, and re-sign the modules.
-Besides, it is not working with module compression.
-
-This commit abandons the approach [1], and instead opts for [2].
-
-Debian kernel commit de26137e2a9f ("Drop not needed extra step to add
-debug links") also stopped adding debug links.
-
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Fixes: 3d36f4298ba9 ("LoongArch: Switch to relative exception tables")
+Signed-off-by: WANG Xuerui <git@xen0n.name>
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>
+Cc: Nicolas Schier <nicolas@fjasle.eu>
+Cc: Youling Tang <tangyouling@loongson.cn>
+Cc: Huacai Chen <chenhuacai@kernel.org>
+Cc: loongarch@lists.linux.dev
 ---
+ scripts/mod/modpost.c | 19 +++++++++++++++++--
+ 1 file changed, 17 insertions(+), 2 deletions(-)
 
- scripts/package/builddeb | 32 +++++++++++++-------------------
- 1 file changed, 13 insertions(+), 19 deletions(-)
-
-diff --git a/scripts/package/builddeb b/scripts/package/builddeb
-index 436d55a83ab0..cc8c7a807fcc 100755
---- a/scripts/package/builddeb
-+++ b/scripts/package/builddeb
-@@ -49,7 +49,7 @@ install_linux_image () {
- 		${MAKE} -f ${srctree}/Makefile INSTALL_DTBS_PATH="${pdir}/usr/lib/linux-image-${KERNELRELEASE}" dtbs_install
- 	fi
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index cb6406f485a9..a4df47372b95 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -1346,6 +1346,14 @@ static Elf_Addr addend_mips_rel(uint32_t *location, unsigned int r_type)
+ #define R_LARCH_SUB32		55
+ #endif
  
--	${MAKE} -f ${srctree}/Makefile INSTALL_MOD_PATH="${pdir}" modules_install
-+	${MAKE} -f ${srctree}/Makefile INSTALL_MOD_PATH="${pdir}" INSTALL_MOD_STRIP=1 modules_install
- 	rm -f "${pdir}/lib/modules/${KERNELRELEASE}/build"
++#ifndef R_LARCH_RELAX
++#define R_LARCH_RELAX		100
++#endif
++
++#ifndef R_LARCH_ALIGN
++#define R_LARCH_ALIGN		102
++#endif
++
+ static void get_rel_type_and_sym(struct elf_info *elf, uint64_t r_info,
+ 				 unsigned int *r_type, unsigned int *r_sym)
+ {
+@@ -1400,9 +1408,16 @@ static void section_rela(struct module *mod, struct elf_info *elf,
+ 				continue;
+ 			break;
+ 		case EM_LOONGARCH:
+-			if (!strcmp("__ex_table", fromsec) &&
+-			    r_type == R_LARCH_SUB32)
++			switch (r_type) {
++			case R_LARCH_SUB32:
++				if (!strcmp("__ex_table", fromsec))
++					continue;
++				break;
++			case R_LARCH_RELAX:
++			case R_LARCH_ALIGN:
++				/* these relocs do not refer to symbols */
+ 				continue;
++			}
+ 			break;
+ 		}
  
- 	# Install the kernel
-@@ -110,25 +110,21 @@ install_linux_image () {
- 
- install_linux_image_dbg () {
- 	pdir=$1
--	image_pdir=$2
- 
- 	rm -rf ${pdir}
- 
--	for module in $(find ${image_pdir}/lib/modules/ -name *.ko -printf '%P\n'); do
--		module=lib/modules/${module}
--		mkdir -p $(dirname ${pdir}/usr/lib/debug/${module})
--		# only keep debug symbols in the debug file
--		${OBJCOPY} --only-keep-debug ${image_pdir}/${module} ${pdir}/usr/lib/debug/${module}
--		# strip original module from debug symbols
--		${OBJCOPY} --strip-debug ${image_pdir}/${module}
--		# then add a link to those
--		${OBJCOPY} --add-gnu-debuglink=${pdir}/usr/lib/debug/${module} ${image_pdir}/${module}
--	done
-+	# Parse modules.order directly because 'make modules_install' may sign,
-+	# compress modules, and then run unneeded depmod.
-+	while read -r mod; do
-+		mod="${mod%.o}.ko"
-+		dbg="${pdir}/usr/lib/debug/lib/modules/${KERNELRELEASE}/kernel/${mod}"
-+		buildid=$("${READELF}" -n "${mod}" | sed -n 's@^.*Build ID: \(..\)\(.*\)@\1/\2@p')
-+		link="${pdir}/usr/lib/debug/.build-id/${buildid}.debug"
- 
--	# re-sign stripped modules
--	if is_enabled CONFIG_MODULE_SIG_ALL; then
--		${MAKE} -f ${srctree}/Makefile INSTALL_MOD_PATH="${image_pdir}" modules_sign
--	fi
-+		mkdir -p "${dbg%/*}" "${link%/*}"
-+		"${OBJCOPY}" --only-keep-debug "${mod}" "${dbg}"
-+		ln -sf --relative "${dbg}" "${link}"
-+	done < modules.order
- 
- 	# Build debug package
- 	# Different tools want the image in different locations
-@@ -176,9 +172,7 @@ for package in ${packages_enabled}
- do
- 	case ${package} in
- 	*-dbg)
--		# This must be done after linux-image, that is, we expect the
--		# debug package appears after linux-image in debian/control.
--		install_linux_image_dbg debian/linux-image-dbg debian/linux-image;;
-+		install_linux_image_dbg debian/linux-image-dbg;;
- 	linux-image-*|user-mode-linux-*)
- 		install_linux_image debian/linux-image ${package};;
- 	linux-libc-dev)
 -- 
-2.40.1
+2.43.0
 
 
