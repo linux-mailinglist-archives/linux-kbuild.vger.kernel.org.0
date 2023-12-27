@@ -1,128 +1,74 @@
-Return-Path: <linux-kbuild+bounces-433-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-434-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0926081ED29
-	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Dec 2023 09:11:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDA3781EE78
+	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Dec 2023 12:06:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9D5281F2171C
-	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Dec 2023 08:11:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7D5911F21627
+	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Dec 2023 11:06:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2004C6AAD;
-	Wed, 27 Dec 2023 08:11:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DB3E44378;
+	Wed, 27 Dec 2023 11:06:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b="PTN68ztl"
+	dkim=pass (1024-bit key) header.d=xry111.site header.i=@xry111.site header.b="i3GT7Yk3"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail.avm.de (mail.avm.de [212.42.244.120])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from xry111.site (xry111.site [89.208.246.23])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 928A96AA3;
-	Wed, 27 Dec 2023 08:11:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=avm.de
-Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [212.42.244.71])
-	by mail.avm.de (Postfix) with ESMTPS;
-	Wed, 27 Dec 2023 09:10:59 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
-	t=1703664660; bh=yHjNm4KxLqqPxAzMCgpry3p1RA9R/QeX87BJUF71wg4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PTN68ztlu3/9knQ9BYxah58qDi+C5RVUaLfRxflPDEBQWxr20U4jK93BgcTKu+s2J
-	 38f/+8/DTn98+GZ+AA24MnARG0jU9HDZXKtmaVB10SRXMV6/ZXxtsi2xJ6PL4Uo6qW
-	 gs3i/jwlRYJi0nNmL+nwuWxlvBADFFaAGCV24mzw=
-Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
-	by mail-auth.avm.de (Postfix) with ESMTPA id 86EC88001F;
-	Wed, 27 Dec 2023 09:11:05 +0100 (CET)
-Received: by buildd.core.avm.de (Postfix, from userid 1000)
-	id 81D8D181988; Wed, 27 Dec 2023 09:11:05 +0100 (CET)
-Date: Wed, 27 Dec 2023 09:11:05 +0100
-From: Nicolas Schier <n.schier@avm.de>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, Ben Hutchings <ben@decadent.org.uk>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Nicolas Schier <nicolas@fjasle.eu>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/6] kbuild: deb-pkg: remove unneeded '-f
- $srctree/Makefile' in debian/rules
-Message-ID: <ZYvcGT0nP6uJR5Ma@buildd.core.avm.de>
-Mail-Followup-To: Masahiro Yamada <masahiroy@kernel.org>,
-	linux-kbuild@vger.kernel.org, Ben Hutchings <ben@decadent.org.uk>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	linux-kernel@vger.kernel.org
-References: <20231226135243.1393780-1-masahiroy@kernel.org>
- <20231226135243.1393780-5-masahiroy@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1278B446A7
+	for <linux-kbuild@vger.kernel.org>; Wed, 27 Dec 2023 11:06:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xry111.site
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xry111.site
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xry111.site;
+	s=default; t=1703675191;
+	bh=hzoqkGXMJoG4W/65dYdEwFFiktQvIVhMBsE8Rkg8xEg=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=i3GT7Yk3dgV9Nz2/kA81h4kHlT2mfgtjaSUO7h1ZATAAh020KofBEcryzzxgGkNPu
+	 0luMa0zMoatAzO/OecmH9RVIsBVk+JGazHusDgQDR5bsOn42KSo2oG+L+iacdpKWwn
+	 HVny7NdNTLoBEjEldmaw3MkynMMQQKxGwgx6acQU=
+Received: from [192.168.124.20] (unknown [113.200.174.41])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-384) server-digest SHA384)
+	(Client did not present a certificate)
+	(Authenticated sender: xry111@xry111.site)
+	by xry111.site (Postfix) with ESMTPSA id 644556698A;
+	Wed, 27 Dec 2023 06:06:29 -0500 (EST)
+Message-ID: <fbefe6e45e23a09e5b63eaac0a07a2fbae4a3845.camel@xry111.site>
+Subject: Re: [PATCH] modpost: Ignore relaxation and alignment marker relocs
+ on LoongArch
+From: Xi Ruoyao <xry111@xry111.site>
+To: WANG Xuerui <kernel@xen0n.name>, linux-kbuild@vger.kernel.org
+Cc: WANG Xuerui <git@xen0n.name>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Nathan Chancellor
+	 <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Youling Tang
+	 <tangyouling@loongson.cn>, Huacai Chen <chenhuacai@kernel.org>, 
+	loongarch@lists.linux.dev
+Date: Wed, 27 Dec 2023 19:06:26 +0800
+In-Reply-To: <20231227070317.1936234-1-kernel@xen0n.name>
+References: <20231227070317.1936234-1-kernel@xen0n.name>
+Autocrypt: addr=xry111@xry111.site; prefer-encrypt=mutual;
+ keydata=mDMEYnkdPhYJKwYBBAHaRw8BAQdAsY+HvJs3EVKpwIu2gN89cQT/pnrbQtlvd6Yfq7egugi0HlhpIFJ1b3lhbyA8eHJ5MTExQHhyeTExMS5zaXRlPoiTBBMWCgA7FiEEkdD1djAfkk197dzorKrSDhnnEOMFAmJ5HT4CGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQrKrSDhnnEOPHFgD8D9vUToTd1MF5bng9uPJq5y3DfpcxDp+LD3joA3U2TmwA/jZtN9xLH7CGDHeClKZK/ZYELotWfJsqRcthOIGjsdAPuDgEYnkdPhIKKwYBBAGXVQEFAQEHQG+HnNiPZseiBkzYBHwq/nN638o0NPwgYwH70wlKMZhRAwEIB4h4BBgWCgAgFiEEkdD1djAfkk197dzorKrSDhnnEOMFAmJ5HT4CGwwACgkQrKrSDhnnEOPjXgD/euD64cxwqDIqckUaisT3VCst11RcnO5iRHm6meNIwj0BALLmWplyi7beKrOlqKfuZtCLbiAPywGfCNg8LOTt4iMD
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.2 
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20231226135243.1393780-5-masahiroy@kernel.org>
-Organization: AVM GmbH
-X-purgate-ID: 149429::1703664660-FD32DDFE-0F3E500A/0/0
-X-purgate-type: clean
-X-purgate-size: 1866
-X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
-X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
-X-purgate: clean
 
-On Tue, Dec 26, 2023 at 10:52:42PM +0900, Masahiro Yamada wrote:
-> This is unneeded because the Makefile in the output directory wraps
-> the top-level Makefile in the srctree.
-> 
-> Just run $(MAKE) irrespective of the build location.
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
+On Wed, 2023-12-27 at 15:03 +0800, WANG Xuerui wrote:
+> And even though the kernel is built with relaxation disabled, so
+> far a small number of R_LARCH_RELAX marker relocs are still emitted as
+> part of la.* pseudo instructions in assembly.
 
-Reviewed-by: Nicolas Schier <n.schier@avm.de>
+I'd consider it a toolchain bug...  Is there a reproducer?
 
-> 
->  scripts/package/debian/rules | 8 +++-----
->  1 file changed, 3 insertions(+), 5 deletions(-)
-> 
-> diff --git a/scripts/package/debian/rules b/scripts/package/debian/rules
-> index 6b2333e3cf96..36d51f60f98d 100755
-> --- a/scripts/package/debian/rules
-> +++ b/scripts/package/debian/rules
-> @@ -3,8 +3,6 @@
->  
->  include debian/rules.vars
->  
-> -srctree ?= .
-> -
->  ifneq (,$(filter-out parallel=1,$(filter parallel=%,$(DEB_BUILD_OPTIONS))))
->      NUMJOBS = $(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
->      MAKEFLAGS += -j$(NUMJOBS)
-> @@ -18,20 +16,20 @@ make-opts = ARCH=$(ARCH) KERNELRELEASE=$(KERNELRELEASE) KBUILD_BUILD_VERSION=$(r
->  binary: binary-arch binary-indep
->  binary-indep: build-indep
->  binary-arch: build-arch
-> -	$(MAKE) -f $(srctree)/Makefile $(make-opts) \
-> +	$(MAKE) $(make-opts) \
->  	run-command KBUILD_RUN_COMMAND='+$${srctree}/scripts/package/builddeb'
->  
->  .PHONY: build build-indep build-arch
->  build: build-arch build-indep
->  build-indep:
->  build-arch:
-> -	$(MAKE) -f $(srctree)/Makefile $(make-opts) \
-> +	$(MAKE) $(make-opts) \
->  	olddefconfig all
->  
->  .PHONY: clean
->  clean:
->  	rm -rf debian/files debian/linux-* debian/deb-env.vars
-> -	$(MAKE) -f $(srctree)/Makefile ARCH=$(ARCH) clean
-> +	$(MAKE) ARCH=$(ARCH) clean
->  
->  # If DEB_HOST_ARCH is empty, it is likely that debian/rules was executed
->  # directly. Run 'dpkg-architecture --print-set --print-format=make' to
-> -- 
-> 2.40.1
-> 
+--=20
+Xi Ruoyao <xry111@xry111.site>
+School of Aerospace Science and Technology, Xidian University
 
