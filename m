@@ -1,127 +1,110 @@
-Return-Path: <linux-kbuild+bounces-428-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-429-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4374981ECDF
-	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Dec 2023 08:20:52 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5666981ED07
+	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Dec 2023 08:55:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B4334B21836
-	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Dec 2023 07:20:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D45141F219D9
+	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Dec 2023 07:55:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82FA4539C;
-	Wed, 27 Dec 2023 07:20:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=xen0n.name header.i=@xen0n.name header.b="F39uGL/b"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35C4F5690;
+	Wed, 27 Dec 2023 07:55:31 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mailbox.box.xen0n.name (mail.xen0n.name [115.28.160.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.avm.de (mail.avm.de [212.42.244.119])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B37F25392
-	for <linux-kbuild@vger.kernel.org>; Wed, 27 Dec 2023 07:20:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=xen0n.name
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xen0n.name
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xen0n.name; s=mail;
-	t=1703660626; bh=K2k2GxIuqjMC/NnfCosbCSIqYontEnvv3dQx5KknIGk=;
-	h=From:To:Cc:Subject:Date:From;
-	b=F39uGL/bn4zLEsFhaY74nOkfbu0rj45jjJOPO0+/s6Mmw7GUSBmZJtNlwq0tHtmx4
-	 B4JfchpNPqR3PGn8XEt3h+lTyAA4/6xzaDlk8/5h1XZZexfZmAocxyRyxxTB/0FQgE
-	 r1y6nnjLyQbYip892ykBZBlzLGFGgntBKXWmlfaw=
-Received: from ld50.lan (unknown [IPv6:240e:388:8d23:e100:4572:35ff:7275:50ea])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 8F20160117;
-	Wed, 27 Dec 2023 15:03:39 +0800 (CST)
-From: WANG Xuerui <kernel@xen0n.name>
-To: linux-kbuild@vger.kernel.org
-Cc: WANG Xuerui <git@xen0n.name>,
-	Masahiro Yamada <masahiroy@kernel.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A48C566F;
+	Wed, 27 Dec 2023 07:55:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=fjasle.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=avm.de
+Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [212.42.244.71])
+	by mail.avm.de (Postfix) with ESMTPS;
+	Wed, 27 Dec 2023 08:55:12 +0100 (CET)
+Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
+	by mail-auth.avm.de (Postfix) with ESMTPA id 6755A80453;
+	Wed, 27 Dec 2023 08:55:12 +0100 (CET)
+Received: by buildd.core.avm.de (Postfix, from userid 1000)
+	id 5B8EF18131F; Wed, 27 Dec 2023 08:55:12 +0100 (CET)
+Date: Wed, 27 Dec 2023 08:55:12 +0100
+From: Nicolas Schier <nicolas@fjasle.eu>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, Ben Hutchings <ben@decadent.org.uk>,
 	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Youling Tang <tangyouling@loongson.cn>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	loongarch@lists.linux.dev
-Subject: [PATCH] modpost: Ignore relaxation and alignment marker relocs on LoongArch
-Date: Wed, 27 Dec 2023 15:03:14 +0800
-Message-ID: <20231227070317.1936234-1-kernel@xen0n.name>
-X-Mailer: git-send-email 2.43.0
+	Nick Desaulniers <ndesaulniers@google.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/6] kbuild: deb-pkg: factor out common Make options in
+ debian/rules
+Message-ID: <ZYvYYBgAVmO0uj8V@buildd.core.avm.de>
+Mail-Followup-To: Masahiro Yamada <masahiroy@kernel.org>,
+	linux-kbuild@vger.kernel.org, Ben Hutchings <ben@decadent.org.uk>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	linux-kernel@vger.kernel.org
+References: <20231226135243.1393780-1-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20231226135243.1393780-1-masahiroy@kernel.org>
+Organization: AVM GmbH
+X-purgate-ID: 149429::1703663712-956FB5FF-50D739FB/0/0
+X-purgate-type: clean
+X-purgate-size: 1491
+X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
+X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
+X-purgate: clean
 
-From: WANG Xuerui <git@xen0n.name>
+On Tue, Dec 26, 2023 at 10:52:38PM +0900, Masahiro Yamada wrote:
+> This avoid code duplication between binary-arch and built-arch.
 
-With recent trunk versions of binutils and gcc, alignment directives are
-represented with R_LARCH_ALIGN relocs on LoongArch, which is necessary
-for the linker to maintain alignment requirements during its relaxation
-passes. And even though the kernel is built with relaxation disabled, so
-far a small number of R_LARCH_RELAX marker relocs are still emitted as
-part of la.* pseudo instructions in assembly. These two kinds of relocs
-do not refer to symbols, which can trip up modpost's section mismatch
-checks, because the r_offset of said relocs can be zero or any other
-meaningless value, eventually leading to a `from == NULL` condition in
-default_mismatch_handler and SIGSEGV.
+avoids ?
 
-As the two kinds of relocs are not concerned with symbols, just ignore
-them for section mismatch check purposes.
+Reviewed-by: Nicolas Schier <n.schier@avm.de>
 
-Fixes: 3d36f4298ba9 ("LoongArch: Switch to relative exception tables")
-Signed-off-by: WANG Xuerui <git@xen0n.name>
-Cc: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>
-Cc: Nicolas Schier <nicolas@fjasle.eu>
-Cc: Youling Tang <tangyouling@loongson.cn>
-Cc: Huacai Chen <chenhuacai@kernel.org>
-Cc: loongarch@lists.linux.dev
----
- scripts/mod/modpost.c | 19 +++++++++++++++++--
- 1 file changed, 17 insertions(+), 2 deletions(-)
-
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index cb6406f485a9..a4df47372b95 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -1346,6 +1346,14 @@ static Elf_Addr addend_mips_rel(uint32_t *location, unsigned int r_type)
- #define R_LARCH_SUB32		55
- #endif
- 
-+#ifndef R_LARCH_RELAX
-+#define R_LARCH_RELAX		100
-+#endif
-+
-+#ifndef R_LARCH_ALIGN
-+#define R_LARCH_ALIGN		102
-+#endif
-+
- static void get_rel_type_and_sym(struct elf_info *elf, uint64_t r_info,
- 				 unsigned int *r_type, unsigned int *r_sym)
- {
-@@ -1400,9 +1408,16 @@ static void section_rela(struct module *mod, struct elf_info *elf,
- 				continue;
- 			break;
- 		case EM_LOONGARCH:
--			if (!strcmp("__ex_table", fromsec) &&
--			    r_type == R_LARCH_SUB32)
-+			switch (r_type) {
-+			case R_LARCH_SUB32:
-+				if (!strcmp("__ex_table", fromsec))
-+					continue;
-+				break;
-+			case R_LARCH_RELAX:
-+			case R_LARCH_ALIGN:
-+				/* these relocs do not refer to symbols */
- 				continue;
-+			}
- 			break;
- 		}
- 
--- 
-2.43.0
-
+> 
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+> 
+>  scripts/package/debian/rules | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/scripts/package/debian/rules b/scripts/package/debian/rules
+> index 3dafa9496c63..26bc6239e200 100755
+> --- a/scripts/package/debian/rules
+> +++ b/scripts/package/debian/rules
+> @@ -10,20 +10,20 @@ ifneq (,$(filter-out parallel=1,$(filter parallel=%,$(DEB_BUILD_OPTIONS))))
+>      MAKEFLAGS += -j$(NUMJOBS)
+>  endif
+>  
+> +make-opts = ARCH=$(ARCH) KERNELRELEASE=$(KERNELRELEASE)
+> +
+>  .PHONY: binary binary-indep binary-arch
+>  binary: binary-arch binary-indep
+>  binary-indep: build-indep
+>  binary-arch: build-arch
+> -	$(MAKE) -f $(srctree)/Makefile ARCH=$(ARCH) \
+> -	KERNELRELEASE=$(KERNELRELEASE) \
+> +	$(MAKE) -f $(srctree)/Makefile $(make-opts) \
+>  	run-command KBUILD_RUN_COMMAND=+$(srctree)/scripts/package/builddeb
+>  
+>  .PHONY: build build-indep build-arch
+>  build: build-arch build-indep
+>  build-indep:
+>  build-arch:
+> -	$(MAKE) -f $(srctree)/Makefile ARCH=$(ARCH) \
+> -	KERNELRELEASE=$(KERNELRELEASE) \
+> +	$(MAKE) -f $(srctree)/Makefile $(make-opts) \
+>  	$(shell $(srctree)/scripts/package/deb-build-option) \
+>  	olddefconfig all
+>  
+> -- 
+> 2.40.1
+> 
 
