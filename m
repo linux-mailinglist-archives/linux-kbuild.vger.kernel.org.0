@@ -1,138 +1,117 @@
-Return-Path: <linux-kbuild+bounces-439-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-440-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84AB881F9DE
-	for <lists+linux-kbuild@lfdr.de>; Thu, 28 Dec 2023 17:11:39 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8715D81FA07
+	for <lists+linux-kbuild@lfdr.de>; Thu, 28 Dec 2023 17:47:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1218D282D26
-	for <lists+linux-kbuild@lfdr.de>; Thu, 28 Dec 2023 16:11:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8765F1C22831
+	for <lists+linux-kbuild@lfdr.de>; Thu, 28 Dec 2023 16:47:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67452883B;
-	Thu, 28 Dec 2023 16:11:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E91CFF50C;
+	Thu, 28 Dec 2023 16:47:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ddNeO62y"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oZxQe0o4"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41201F9C2;
-	Thu, 28 Dec 2023 16:11:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4FF7C433C7;
-	Thu, 28 Dec 2023 16:11:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA25FF508;
+	Thu, 28 Dec 2023 16:47:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57305C433C7;
+	Thu, 28 Dec 2023 16:47:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703779894;
-	bh=nnd1opf9wwwaHv9hFWrSsn8RSzN3NL7jhKBJ7PrftXA=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=ddNeO62ybaBpFNoOjz3K+uJZohWA0sgqulib+7CrGvYRytyTC/op8ts7vqYgioTSV
-	 hdtP/HmHR4hejvEhY8fwZW9LcwYGaQ6f8wN0Lfml/roR60cqq9Rl9aWekkHqD/NbrU
-	 aKRdJzwfVCMKsbF3ViEgaJX1TE1z7pDZbPmnwCmwPRg5nztHBHzQ1jdDjRqXR+gdCN
-	 +R04njt0b9VYsUOqcgE4YYlmV+RYUTNgtxilk/01Ie+9mIemqlI7Op/BvZzV5PIvtV
-	 72Ri/SBJvMFQU7bLXD75UINNvGtEoIN3q5gyBSVsVZwZKlDWHCTUMz9DezO5U4sAnD
-	 Szkf1dv7GM1FQ==
-Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-6dc07ce2a30so727529a34.0;
-        Thu, 28 Dec 2023 08:11:34 -0800 (PST)
-X-Gm-Message-State: AOJu0Yy2fPOT9nEfgl7AnNO/HsPyznWcQJnUni99K0xCUFD/1VMIK+DL
-	7Wq/+SVGNquGPkWYwf9jX+vKwDTKKAuwx2Py5c8=
-X-Google-Smtp-Source: AGHT+IFpQPoaCFoiP3xamYcVlaZnjD0yftzX87pucNojhXMz5LhYYevEbcYq5Ddt4qTOlEBDvZ66FICp60vasHoduC0=
-X-Received: by 2002:a05:6871:546:b0:204:2d89:21de with SMTP id
- t6-20020a056871054600b002042d8921demr9492889oal.15.1703779893965; Thu, 28 Dec
- 2023 08:11:33 -0800 (PST)
+	s=k20201202; t=1703782051;
+	bh=eEPrkCoBmJGFeF8k8PZ0nch647vPFgYklt+GE6KJF8c=;
+	h=From:Date:Subject:To:Cc:From;
+	b=oZxQe0o4z4py/g/JAnU2bXpaDz67VjjF4qVI9eF1Sbnd+2UbPtPFUTKfJIJv/aEoc
+	 AoPnqUZ1Jqou7m9NI+ROtYiE12vGTxqAcBdaWoc+iQ4mUvbczp3WH6CZPj+QVuq0VB
+	 vELdLFliSNO89M7qouKX19wCIee/TNAX4JGZzfB23VxU+D1cn1RyjtPCwZKdag1M3e
+	 dJqyJEVTmxkMXibNSy9yPJPlwK0GXTzfd28SDrJDa8E1+Bj7BlwA9lPTfMiy9+o4I0
+	 pHNxApaTODAzHo7SyaIEXNmXhGu6mPX73oJBgrmsdrhLjRHV328I8EMXpAwc8hTfdU
+	 jYfJdNyww3pnQ==
+Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-594cad5f69fso707776eaf.1;
+        Thu, 28 Dec 2023 08:47:31 -0800 (PST)
+X-Gm-Message-State: AOJu0Yzz3f5AhEyQsKR3X+w1GbhYHjNHghrPD//ncTR0s9IRRdTh56Zy
+	AB3abQTpIROAw87D2QOC9dtAA3WhkKlMxlINsCM=
+X-Google-Smtp-Source: AGHT+IH+96iI1AiBrU8satRMtbxv+G7Ll1c+rRR8i/DvMUjaf8UQIww7dEUcXGozV2xLv4RIiTqYiCyvOBwPPxjjgHU=
+X-Received: by 2002:a05:6870:1490:b0:204:ccc:b419 with SMTP id
+ k16-20020a056870149000b002040cccb419mr4644191oab.2.1703782050678; Thu, 28 Dec
+ 2023 08:47:30 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231228070941.3611649-1-tfiga@chromium.org>
-In-Reply-To: <20231228070941.3611649-1-tfiga@chromium.org>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Fri, 29 Dec 2023 01:10:57 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASbgXSZNiwhMf8jm7511eyDm8oCqY=MzWhgWwNuVLk5Vw@mail.gmail.com>
-Message-ID: <CAK7LNASbgXSZNiwhMf8jm7511eyDm8oCqY=MzWhgWwNuVLk5Vw@mail.gmail.com>
-Subject: Re: [PATCH] kconfig: Add a build target for checking current config
- for issues
-To: Tomasz Figa <tfiga@chromium.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Sergey Senozhatsky <senozhatsky@chromium.org>
+Date: Fri, 29 Dec 2023 01:46:54 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASh0Y0qyi+vJGbNvvEnGW3-hH=QBf=aEpbtxE2N9JSodg@mail.gmail.com>
+Message-ID: <CAK7LNASh0Y0qyi+vJGbNvvEnGW3-hH=QBf=aEpbtxE2N9JSodg@mail.gmail.com>
+Subject: [GIT PULL] Kbuild fixes for v6.7-rc8
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 28, 2023 at 4:09=E2=80=AFPM Tomasz Figa <tfiga@chromium.org> wr=
-ote:
->
-> The new target is called 'checkconfig' and currently is basically an
-> alias for `listnewconfig` with KCONFIG_WARN_UNKNOWN_SYMBOLS set to true.
-> It can be used to validate if the current config is directly compatible
-> with the current kernel version or needs some manual adjustment.
->
-> Signed-off-by: Tomasz Figa <tfiga@chromium.org>
+Hello Linus,
 
 
-I rejected a new target in the past.
-
-https://lore.kernel.org/all/20230817012007.131868-1-senozhatsky@chromium.or=
-g/T/#m55c37e3091158f8cb008d9e0b5c6bf3f5ead225a
-
-
-
-Instead, you can run
-
-  KCONFIG_WARN_UNKNOWN_SYMBOLS=3D1 make listnewconfig
-
-or
-
-  make W=3Dc listnewconfig
+Please pull Kbuild fixes for v6.7-rc8.
+Thanks.
 
 
 
 
+The following changes since commit 2cc14f52aeb78ce3f29677c2de1f06c0e91471ab:
 
+  Linux 6.7-rc3 (2023-11-26 19:59:33 -0800)
 
+are available in the Git repository at:
 
+  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+tags/kbuild-fixes-v6.7-2
 
+for you to fetch changes up to 753547de0daecbdbd1af3618987ddade325d9aaa:
 
-> ---
->  scripts/kconfig/Makefile | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
-> index 4eee155121a8..501cb9b76414 100644
-> --- a/scripts/kconfig/Makefile
-> +++ b/scripts/kconfig/Makefile
-> @@ -81,6 +81,9 @@ PHONY +=3D savedefconfig defconfig
->  savedefconfig: $(obj)/conf
->         $(Q)$< $(silent) --$@=3Ddefconfig $(Kconfig)
->
-> +checkconfig: $(obj)/conf
-> +       $(Q)KCONFIG_WARN_UNKNOWN_SYMBOLS=3Dtrue $< --listnewconfig $(Kcon=
-fig)
-> +
->  defconfig: $(obj)/conf
->  ifneq ($(wildcard $(srctree)/arch/$(SRCARCH)/configs/$(KBUILD_DEFCONFIG)=
-),)
->         @$(kecho) "*** Default configuration is based on '$(KBUILD_DEFCON=
-FIG)'"
-> @@ -144,6 +147,7 @@ help:
->         @echo  '                    default value without prompting'
->         @echo  '  tinyconfig      - Configure the tiniest possible kernel=
-'
->         @echo  '  testconfig      - Run Kconfig unit tests (requires pyth=
-on3 and pytest)'
-> +       @echo  '  checkconfig     - Check current config for unrecognized=
- and new symbols'
->         @echo  ''
->         @echo  'Configuration topic targets:'
->         @$(foreach f, $(all-config-fragments), \
-> --
-> 2.43.0.472.g3155946c3a-goog
->
+  linux/export: Ensure natural alignment of kcrctab array (2023-12-29
+01:25:58 +0900)
+
+----------------------------------------------------------------
+Kbuild fixes for v6.7 (2nd)
+
+ - Revive proper alignment for the ksymtab and kcrctab sections
+
+ - Fix gen_compile_commands.py tool to resolve symbolic links
+
+ - Fix symbolic links to installed debug VDSO files
+
+ - Update MAINTAINERS
+
+----------------------------------------------------------------
+Helge Deller (2):
+      linux/export: Fix alignment for 64-bit ksymtab entries
+      linux/export: Ensure natural alignment of kcrctab array
+
+Jialu Xu (1):
+      gen_compile_commands.py: fix path resolve with symlinks in it
+
+Masahiro Yamada (1):
+      kbuild: fix build ID symlinks to installed debug VDSO files
+
+Nathan Chancellor (1):
+      MAINTAINERS: Add scripts/clang-tools to Kbuild section
+
+ MAINTAINERS                                 | 1 +
+ include/linux/export-internal.h             | 6 +++++-
+ scripts/Makefile.vdsoinst                   | 2 +-
+ scripts/clang-tools/gen_compile_commands.py | 6 +++---
+ 4 files changed, 10 insertions(+), 5 deletions(-)
 
 
 --
 Best Regards
-
 Masahiro Yamada
 
