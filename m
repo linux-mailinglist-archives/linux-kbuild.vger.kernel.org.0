@@ -1,37 +1,37 @@
-Return-Path: <linux-kbuild+bounces-444-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-445-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96A188204E7
-	for <lists+linux-kbuild@lfdr.de>; Sat, 30 Dec 2023 13:03:03 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1201782069D
+	for <lists+linux-kbuild@lfdr.de>; Sat, 30 Dec 2023 14:52:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C96551C20EE8
-	for <lists+linux-kbuild@lfdr.de>; Sat, 30 Dec 2023 12:03:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9C872282041
+	for <lists+linux-kbuild@lfdr.de>; Sat, 30 Dec 2023 13:52:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EB2779EF;
-	Sat, 30 Dec 2023 12:03:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75D1A8BF6;
+	Sat, 30 Dec 2023 13:52:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kvzCUTf3"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tf9kgC0O"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C92C79CD;
-	Sat, 30 Dec 2023 12:03:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92641C433C8;
-	Sat, 30 Dec 2023 12:02:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53AA18BED;
+	Sat, 30 Dec 2023 13:52:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89A96C433C7;
+	Sat, 30 Dec 2023 13:52:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703937780;
-	bh=I0sLm5lct4CIXbsmhr7A8MxTCEwFuAfK7d4Ctz+IHMM=;
+	s=k20201202; t=1703944324;
+	bh=I8YWkNwCfpsTCQMjWVH+WYYNUuZhW8O5gv7Trb+2X3I=;
 	h=From:To:Cc:Subject:Date:From;
-	b=kvzCUTf3XfgDgNEz5jz1kB7Hfcke9qy7ObQH7UfEIcYhNqRNwo+YTE3eVmNW5gx8d
-	 m/Qh+jsFhxyTr1PLaxYtqFibAdEFOjymwZmqu1CK19kEbrd+Ev/LdEpbiI5PNYa4u6
-	 4kXTo6053yjaQIhfZaCSf1xTo1KdZjCFJRZhtf6dF0TT+QDmmF6+Ie+UFSXeBkubs5
-	 8HucjE4cuP6yUzqvyLXkNRnkLwY/872yoI8/iXvLL1tu5eufq1c/szA0BRoNPkZTpI
-	 +TIyPX3swjkr50BctS/zZqMKvkJAhwNJs8Kifk8zmiPWaYs6En5XZppTBr3VA3YKgI
-	 jytpPEt+b4o+Q==
+	b=Tf9kgC0OzB3/DOGkdXeZio0IHJKL0+iT99ZhAUEHwPB0KSBkAJMOZVNxoqlbUbBpj
+	 pTEX1c1KaFnopzGD2H0tB+fXdJmjc5uEYJYs/jSTF82EM1nhS+6zgUCHUwgxqpwFfU
+	 yqwpEYfeyuBiMDa4Yii9+JuIxfxYDPXQMmVvJMmS2scOTTLsfO4u2jNcgYwjzsDRd9
+	 tCjWpcW0pLEkeE4wrNRBUUPNTvE0Lf5bYxbUmYpKdEH4AZx1S3xDv3e98SKwYvBRi3
+	 rrpkw78tGtd0QI3+59xcPYUAU4FDP9tCp+TQ/rfhR+yLYxsNhJxL1FgpPfFV1QUZSs
+	 fBTqkkwz/hdOQ==
 From: Masahiro Yamada <masahiroy@kernel.org>
 To: linux-kbuild@vger.kernel.org
 Cc: Ben Hutchings <ben@decadent.org.uk>,
@@ -40,9 +40,9 @@ Cc: Ben Hutchings <ben@decadent.org.uk>,
 	Nick Desaulniers <ndesaulniers@google.com>,
 	Nicolas Schier <nicolas@fjasle.eu>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] kbuild: deb-pkg: do not search for 'scripts' directory under arch/
-Date: Sat, 30 Dec 2023 21:02:52 +0900
-Message-Id: <20231230120252.987732-1-masahiroy@kernel.org>
+Subject: [PATCH 1/5] kbuild: deb-pkg: move 'make headers' to build-arch
+Date: Sat, 30 Dec 2023 22:51:56 +0900
+Message-Id: <20231230135200.1058873-1-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
@@ -52,33 +52,46 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The 'scripts' directory was searched under arch/${SRCARCH} here to
-copy arch/ia64/scripts, but commit cf8e8658100d ("arch: Remove Itanium
-(IA-64) architecture") removed the IA-64 support.
+Strictly speaking, 'make headers' should be a part of build-arch
+instead of binary-arch.
 
-There is another 'scripts' directory in arch/um, but this script is
-never executed with SRCARCH=um because UML does not support the
-linux-headers package.
+'make headers' constructs read-to-copy UAPI headers in the kernel
+directory.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/package/install-extmod-build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/package/builddeb     | 1 -
+ scripts/package/debian/rules | 4 ++--
+ 2 files changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/package/install-extmod-build b/scripts/package/install-extmod-build
-index 8a7051fad087..76e0765dfcd6 100755
---- a/scripts/package/install-extmod-build
-+++ b/scripts/package/install-extmod-build
-@@ -20,7 +20,7 @@ mkdir -p "${destdir}"
- 	find "arch/${SRCARCH}" -maxdepth 1 -name 'Makefile*'
- 	find include scripts -type f -o -type l
- 	find "arch/${SRCARCH}" -name Kbuild.platforms -o -name Platform
--	find "arch/${SRCARCH}" -name include -o -name scripts -type d
-+	find "arch/${SRCARCH}" -name include -type d
- ) | tar -c -f - -C "${srctree}" -T - | tar -xf - -C "${destdir}"
+diff --git a/scripts/package/builddeb b/scripts/package/builddeb
+index cc8c7a807fcc..842ee4b40528 100755
+--- a/scripts/package/builddeb
++++ b/scripts/package/builddeb
+@@ -155,7 +155,6 @@ install_libc_headers () {
  
- {
+ 	rm -rf $pdir
+ 
+-	$MAKE -f $srctree/Makefile headers
+ 	$MAKE -f $srctree/Makefile headers_install INSTALL_HDR_PATH=$pdir/usr
+ 
+ 	# move asm headers to /usr/include/<libc-machine>/asm to match the structure
+diff --git a/scripts/package/debian/rules b/scripts/package/debian/rules
+index cb084e387469..a686c37d0d02 100755
+--- a/scripts/package/debian/rules
++++ b/scripts/package/debian/rules
+@@ -26,8 +26,8 @@ binary-arch: build-arch
+ build: build-arch build-indep
+ build-indep:
+ build-arch:
+-	$(MAKE) $(make-opts) \
+-	olddefconfig all
++	$(MAKE) $(make-opts) olddefconfig
++	$(MAKE) $(make-opts) headers all
+ 
+ .PHONY: clean
+ clean:
 -- 
 2.40.1
 
