@@ -1,166 +1,177 @@
-Return-Path: <linux-kbuild+bounces-456-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-457-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5970821F05
-	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Jan 2024 16:53:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 585EF8225A7
+	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Jan 2024 00:47:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 64DF4283872
-	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Jan 2024 15:53:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ACD0128491E
+	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Jan 2024 23:47:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 144A814AAA;
-	Tue,  2 Jan 2024 15:53:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F64317752;
+	Tue,  2 Jan 2024 23:47:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Iwsov2jl"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A0DA14A9A
-	for <linux-kbuild@vger.kernel.org>; Tue,  2 Jan 2024 15:53:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[127.0.0.1])
-	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <a.fatoum@pengutronix.de>)
-	id 1rKh4q-0001xX-4T; Tue, 02 Jan 2024 16:53:12 +0100
-Message-ID: <cfb9c01a-7af6-42ff-9056-e64c8c29bfdb@pengutronix.de>
-Date: Tue, 2 Jan 2024 16:53:09 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9739317987
+	for <linux-kbuild@vger.kernel.org>; Tue,  2 Jan 2024 23:46:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-78102c516a7so954506185a.2
+        for <linux-kbuild@vger.kernel.org>; Tue, 02 Jan 2024 15:46:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1704239218; x=1704844018; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IcnI3bjOE/JR4QqtkUBLMh58U0r2t5wK4lAWbaHcRMU=;
+        b=Iwsov2jlHyi/b1Y2+3XLvr4rpFe9FCiBcOlXCybwQPcoigv3odwRKmk5KXGJRk8yhl
+         9YETAq3DJWwuIBktD6ZwqjIHWRAfUYr+94j+eNYTFsG2POWrcLpvUVbFM2JtaiKjhTc4
+         2007jM8wBDBX+Yd/RH1Rrs7vcEyv8bNHpl6V0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704239218; x=1704844018;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IcnI3bjOE/JR4QqtkUBLMh58U0r2t5wK4lAWbaHcRMU=;
+        b=Mq0AOUdFO5cyCRNYXqvrBSLfXYCCNWCkkBQxOErl3Df4q2lg7uSKz8q9Oz7gQGazmJ
+         kamPATCvicAx/onu4N74jeE0O2W/me+ROZnrf2r2QshhoyUQb10NqeFXOMVlswSzrQaa
+         DpQCMc7NYRdArgwB2xdubIc3ghalyxkfSXmgYYilsQ1SupwUXprUjps9QvaVQtg6cFM2
+         MLSdQFtDiPSkg2iY5oMM+gR7vpdRv8FiFyN7HhHOPYYCAi17fdUxPUxXaYC13Ti7c9JC
+         6NXJqYOLxoO/opTa5vVXrf4Cku3zYocLdvQCuvA/Er/RyFn9bJ4EFHRR9KhIIpdfHi1Z
+         HkiQ==
+X-Gm-Message-State: AOJu0YzQMEBw/FcxWnN+5qLPwpXKsGzBKjfWz8JJu8XOAgBSEWGHcM7/
+	IS3xHJ6hMbxPVV6sJhLZWdDTctnP6ISTS+nqGc9M+UHfGzLN
+X-Google-Smtp-Source: AGHT+IH0M0pBrGr+Sx5B7gKAHkWbx7yYmjWLkviFsxrNY5/tFuUA7GBmbX67T4+ylA4I/2XnnEJd068mD1x3ToVE8wM=
+X-Received: by 2002:a05:6214:e8f:b0:67f:6348:ef8e with SMTP id
+ hf15-20020a0562140e8f00b0067f6348ef8emr30015254qvb.17.1704239218454; Tue, 02
+ Jan 2024 15:46:58 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+References: <20231202035511.487946-1-sjg@chromium.org> <20231202035511.487946-3-sjg@chromium.org>
+ <20231213121353.GA31326@willie-the-truck>
+In-Reply-To: <20231213121353.GA31326@willie-the-truck>
+From: Simon Glass <sjg@chromium.org>
+Date: Tue, 2 Jan 2024 16:46:47 -0700
+Message-ID: <CAFLszTjfmSx1YMqzb2TsQf7sP4KrcQB=X7DY_HxRQp0J5HAppQ@mail.gmail.com>
 Subject: Re: [PATCH v9 2/2] arm64: boot: Support Flat Image Tree
-Content-Language: en-US
-To: Masahiro Yamada <masahiroy@kernel.org>, Chen-Yu Tsai <wenst@chromium.org>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Simon Glass <sjg@chromium.org>, linux-arm-kernel@lists.infradead.org,
- U-Boot Mailing List <u-boot@lists.denx.de>,
- Nicolas Schier <nicolas@fjasle.eu>, Tom Rini <trini@konsulko.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>,
- Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>,
- Will Deacon <will@kernel.org>, linux-doc@vger.kernel.org,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- workflows@vger.kernel.org
-References: <20231202035511.487946-1-sjg@chromium.org>
- <20231202035511.487946-3-sjg@chromium.org>
- <20231203153401.GV8402@pendragon.ideasonboard.com>
- <20231207142723.GA3187877@google.com>
- <20231207143814.GD15521@pendragon.ideasonboard.com>
- <CAGXv+5Go_0pEVAOLQmRCc_a9-YUtZEmBfXtMuBupX_nb9iqwbw@mail.gmail.com>
- <20231209152946.GC13421@pendragon.ideasonboard.com>
- <CAMuHMdVMZs6mnwWBgFwktO=8o=QzROv60cfZe085MhD6HxQjpQ@mail.gmail.com>
- <CAGXv+5Est3FL-XcEL-vB-6zVNas0mqb2cNYa==Yb7W2SQU9xVQ@mail.gmail.com>
- <CAK7LNATyD-PeNbaLTjJmU9=koqqE+V6QvFe09c2VrXopWvjpcw@mail.gmail.com>
- <CAK7LNAR7Fm-1yaZmyH78vG5yNbbW2Avjj5F63u+aST6JQoMd5A@mail.gmail.com>
-From: Ahmad Fatoum <a.fatoum@pengutronix.de>
-In-Reply-To: <CAK7LNAR7Fm-1yaZmyH78vG5yNbbW2Avjj5F63u+aST6JQoMd5A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-kbuild@vger.kernel.org
+To: Will Deacon <will@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, 
+	Masahiro Yamada <masahiroy@kernel.org>, Ahmad Fatoum <a.fatoum@pengutronix.de>, 
+	U-Boot Mailing List <u-boot@lists.denx.de>, Nicolas Schier <nicolas@fjasle.eu>, Tom Rini <trini@konsulko.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>, linux-doc@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	workflows@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello Yamada-san,
+Hi Masahiro,
 
-On 14.12.23 08:33, Masahiro Yamada wrote:
->> The FIT spec allows the "fdt" property to list
->> multiple image nodes.
->>
->>
->> o config-1
->>  |- description = "configuration description"
->>  |- kernel = "kernel sub-node unit name"
->>  |- fdt = "fdt sub-node unit-name" [, "fdt overlay sub-node unit-name", ...]
->>  |- loadables = "loadables sub-node unit-name"
->>  |- script = "
->>  |- compatible = "vendor
-> 
-> 
-> 
-> 
-> 
-> This is a question for U-Boot (and barebox).
-> 
-> 
-> 
-> 
->    images {
->           base {
->                 ...
->           };
-> 
->           addon1 {
->                 ...
->           };
-> 
->           addon2 {
->                 ...
->           };
->     };
-> 
->     configurations {
->           ...
->           fdt = "base", "addon1", "addon2";
->     };
-> 
-> 
-> 
-> 
-> Is U-Boot's "bootm" command able to dynamically construct
-> the full DTB from "base" + "addon1" + "addon2"
-> and pass to the kernel?
+On Wed, Dec 13, 2023 at 5:14=E2=80=AFAM Will Deacon <will@kernel.org> wrote=
+:
+>
+> On Fri, Dec 01, 2023 at 08:54:42PM -0700, Simon Glass wrote:
+> > Add a script which produces a Flat Image Tree (FIT), a single file
+> > containing the built kernel and associated devicetree files.
+> > Compression defaults to gzip which gives a good balance of size and
+> > performance.
+> >
+> > The files compress from about 86MB to 24MB using this approach.
+> >
+> > The FIT can be used by bootloaders which support it, such as U-Boot
+> > and Linuxboot. It permits automatic selection of the correct
+> > devicetree, matching the compatible string of the running board with
+> > the closest compatible string in the FIT. There is no need for
+> > filenames or other workarounds.
+> >
+> > Add a 'make image.fit' build target for arm64, as well. Use
+> > FIT_COMPRESSION to select a different algorithm.
+> >
+> > The FIT can be examined using 'dumpimage -l'.
+> >
+> > This features requires pylibfdt (use 'pip install libfdt'). It also
+> > requires compression utilities for the algorithm being used. Supported
+> > compression options are the same as the Image.xxx files. For now there
+> > is no way to change the compression other than by editing the rule for
+> > $(obj)/image.fit
+> >
+> > While FIT supports a ramdisk / initrd, no attempt is made to support
+> > this here, since it must be built separately from the Linux build.
+> >
+> > Signed-off-by: Simon Glass <sjg@chromium.org>
+> > ---
+> >
+> > Changes in v9:
+> > - Move the compression control into Makefile.lib
+> >
+> > Changes in v8:
+> > - Drop compatible string in FDT node
+> > - Correct sorting of MAINTAINERS to before ARM64 PORT
+> > - Turn compress part of the make_fit.py comment in to a sentence
+> > - Add two blank lines before parse_args() and setup_fit()
+> > - Use 'image.fit: dtbs' instead of BUILD_DTBS var
+> > - Use '$(<D)/dts' instead of '$(dir $<)dts'
+> > - Add 'mkimage' details Documentation/process/changes.rst
+> > - Allow changing the compression used
+> > - Tweak cover letter since there is only one clean-up patch
+> >
+> > Changes in v7:
+> > - Add Image as a dependency of image.fit
+> > - Drop kbuild tag
+> > - Add dependency on dtbs
+> > - Drop unnecessary path separator for dtbs
+> > - Rebase to -next
+> >
+> > Changes in v5:
+> > - Drop patch previously applied
+> > - Correct compression rule which was broken in v4
+> >
+> > Changes in v4:
+> > - Use single quotes for UIMAGE_NAME
+> >
+> > Changes in v3:
+> > - Drop temporary file image.itk
+> > - Drop patch 'Use double quotes for image name'
+> > - Drop double quotes in use of UIMAGE_NAME
+> > - Drop unnecessary CONFIG_EFI_ZBOOT condition for help
+> > - Avoid hard-coding "arm64" for the DT architecture
+> >
+> > Changes in v2:
+> > - Drop patch previously applied
+> > - Add .gitignore file
+> > - Move fit rule to Makefile.lib using an intermediate file
+> > - Drop dependency on CONFIG_EFI_ZBOOT
+> > - Pick up .dtb files separately from the kernel
+> > - Correct pylint too-many-args warning for write_kernel()
+> > - Include the kernel image in the file count
+> > - Add a pointer to the FIT spec and mention of its wide industry usage
+> > - Mention the kernel version in the FIT description
+> >
+> >  Documentation/process/changes.rst |   9 +
+> >  MAINTAINERS                       |   7 +
+> >  arch/arm64/Makefile               |   7 +-
+> >  arch/arm64/boot/.gitignore        |   1 +
+> >  arch/arm64/boot/Makefile          |   6 +-
+> >  scripts/Makefile.lib              |  16 ++
+> >  scripts/make_fit.py               | 291 ++++++++++++++++++++++++++++++
+> >  7 files changed, 334 insertions(+), 3 deletions(-)
+> >  create mode 100755 scripts/make_fit.py
+>
+> I'll need Masahiro's Ack on the scripts/ changes before I can take this
+> one.
 
-barebox can apply overlays to the DT, but doesn't do so yet from
-the extra entries in configuration fdt properties.
+Any thoughts on this request, please?
 
-This should be straight-forward to add though, if the need arises.
-
-> Is U-Boot able to handle FIT (includes kernel + DTs)
-> and a separate initrd?
-> 
->   # bootm  <fit-address>:<conf-name>  <ramdisk-address>
-
-This is possible in barebox, provided that the FIT image doesn't
-already have a ramdisk and that CONFIG_BOOTM_FORCE_SIGNED_IMAGES=n:
-
-  bootm -r /mnt/nfs/ramdisk.gz /mnt/nfs/image.fit
-
-(Or the equivalent variables if not wanting to use the shell.)
-
-> Presumably, it would be difficult to inject initramdisk
-> into image.fit later, so I am hoping bootm would work like that,
-> but I did not delve into U-Boot code.
-> 
-> 
-> 
-> If it works, is it possible to verify the integrity of initrd?
-> The kernel and DTs inside FIT will be verified, but not sure
-> if it is possible for ramdisk.
-
-If one wants to preclude mix & match attacks, the configuration needs
-to be verified fully, so if signing is required, it's probably better to
-amend the FIT later on with the new configuration instead of signing
-the initrd separately and combining them at runtime.
-
-Cheers,
-Ahmad
-
-> 
-> 
-> 
-> 
-> 
-
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
-
+Regards,
+Simon
 
