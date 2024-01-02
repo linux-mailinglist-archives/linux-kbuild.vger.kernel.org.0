@@ -1,131 +1,166 @@
-Return-Path: <linux-kbuild+bounces-455-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-456-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D9628217BF
-	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Jan 2024 07:46:19 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5970821F05
+	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Jan 2024 16:53:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6CC4B1C212CB
-	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Jan 2024 06:46:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 64DF4283872
+	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Jan 2024 15:53:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA64020F9;
-	Tue,  2 Jan 2024 06:46:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b="dV7wv0RK"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 144A814AAA;
+	Tue,  2 Jan 2024 15:53:43 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail.avm.de (mail.avm.de [212.42.244.94])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49CE120E0;
-	Tue,  2 Jan 2024 06:46:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=avm.de
-Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [212.42.244.71])
-	by mail.avm.de (Postfix) with ESMTPS;
-	Tue,  2 Jan 2024 07:46:02 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
-	t=1704177963; bh=QQev2ciCK3hkHdj2Q1kdmr5ap2bmXVDZb4B/wvBpinY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dV7wv0RKeI5dcz/9uNblIsKQGpxGhoot7b17ZhxDg5fAKBmufxdjr8A1CdceDApGq
-	 1pa4kwCaHuVdJlcr+NuGUT7ALkY65Vf3kL6em9vnuZh0HAK6Ct5lAdnYQAIPILhtew
-	 N6SHu46p0DfeDsDR6xiCGOpptCZQDE4ZDUBhKFZw=
-Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
-	by mail-auth.avm.de (Postfix) with ESMTPA id E176E805A6;
-	Tue,  2 Jan 2024 07:46:02 +0100 (CET)
-Received: by buildd.core.avm.de (Postfix, from userid 1000)
-	id D6EB51830A6; Tue,  2 Jan 2024 07:46:02 +0100 (CET)
-Date: Tue, 2 Jan 2024 07:46:02 +0100
-From: Nicolas Schier <n.schier@avm.de>
-To: Kevin Martin <kevinmbecause@gmail.com>
-Cc: joeyzerocrash@protonmail.com, Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] kbuild: Enable decompression for use by
- EXTRA_FIRMWARE The build system can currently only compress files. This
- patch adds the functionality to decompress files. Decompression is needed
- for building firmware files into the kernel if those files are compressed on
- the filesystem. Compressed firmware files are in use by Gentoo, Fedora,
- Arch, and others.
-Message-ID: <ZZOxKh1c4reeR_tl@buildd.core.avm.de>
-Mail-Followup-To: Kevin Martin <kevinmbecause@gmail.com>,
-	joeyzerocrash@protonmail.com,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <cover.1703042081.git.kevinmbecause@gmail.com>
- <941a566eb114701685dc44f708f81891b3bd085b.1703042082.git.kevinmbecause@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A0DA14A9A
+	for <linux-kbuild@vger.kernel.org>; Tue,  2 Jan 2024 15:53:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[127.0.0.1])
+	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <a.fatoum@pengutronix.de>)
+	id 1rKh4q-0001xX-4T; Tue, 02 Jan 2024 16:53:12 +0100
+Message-ID: <cfb9c01a-7af6-42ff-9056-e64c8c29bfdb@pengutronix.de>
+Date: Tue, 2 Jan 2024 16:53:09 +0100
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <941a566eb114701685dc44f708f81891b3bd085b.1703042082.git.kevinmbecause@gmail.com>
-Organization: AVM GmbH
-X-purgate-ID: 149429::1704177963-8064B92C-C9B0DD7C/0/0
-X-purgate-type: clean
-X-purgate-size: 1908
-X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
-X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
-X-purgate: clean
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 2/2] arm64: boot: Support Flat Image Tree
+Content-Language: en-US
+To: Masahiro Yamada <masahiroy@kernel.org>, Chen-Yu Tsai <wenst@chromium.org>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Simon Glass <sjg@chromium.org>, linux-arm-kernel@lists.infradead.org,
+ U-Boot Mailing List <u-boot@lists.denx.de>,
+ Nicolas Schier <nicolas@fjasle.eu>, Tom Rini <trini@konsulko.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>,
+ Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>,
+ Will Deacon <will@kernel.org>, linux-doc@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ workflows@vger.kernel.org
+References: <20231202035511.487946-1-sjg@chromium.org>
+ <20231202035511.487946-3-sjg@chromium.org>
+ <20231203153401.GV8402@pendragon.ideasonboard.com>
+ <20231207142723.GA3187877@google.com>
+ <20231207143814.GD15521@pendragon.ideasonboard.com>
+ <CAGXv+5Go_0pEVAOLQmRCc_a9-YUtZEmBfXtMuBupX_nb9iqwbw@mail.gmail.com>
+ <20231209152946.GC13421@pendragon.ideasonboard.com>
+ <CAMuHMdVMZs6mnwWBgFwktO=8o=QzROv60cfZe085MhD6HxQjpQ@mail.gmail.com>
+ <CAGXv+5Est3FL-XcEL-vB-6zVNas0mqb2cNYa==Yb7W2SQU9xVQ@mail.gmail.com>
+ <CAK7LNATyD-PeNbaLTjJmU9=koqqE+V6QvFe09c2VrXopWvjpcw@mail.gmail.com>
+ <CAK7LNAR7Fm-1yaZmyH78vG5yNbbW2Avjj5F63u+aST6JQoMd5A@mail.gmail.com>
+From: Ahmad Fatoum <a.fatoum@pengutronix.de>
+In-Reply-To: <CAK7LNAR7Fm-1yaZmyH78vG5yNbbW2Avjj5F63u+aST6JQoMd5A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-kbuild@vger.kernel.org
 
-Hi Kevin,
+Hello Yamada-san,
 
-> Subject: Re: [PATCH 1/2] kbuild: Enable decompression for use by
->  EXTRA_FIRMWARE The build system can currently only compress files. This
->  patch adds the functionality to decompress files. Decompression is needed
->  for building firmware files into the kernel if those files are compressed on
->  the filesystem. Compressed firmware files are in use by Gentoo, Fedora,
->  Arch, and others.
-
-patch description is squashed into the subject.  Did your tooling
-accidentially remove the empty line between?
-
-The patch itself looks good to me.
-
-Tested-by: Nicolas Schier <n.schier@avm.de>
-
-Kind regards,
-Nicolas
-
-On Wed, Dec 20, 2023 at 05:22:50AM -0500, Kevin Martin wrote:
-> Signed-off-by: Kevin Martin <kevinmbecause@gmail.com>
-> ---
->  scripts/Makefile.lib | 6 ++++++
->  1 file changed, 6 insertions(+)
+On 14.12.23 08:33, Masahiro Yamada wrote:
+>> The FIT spec allows the "fdt" property to list
+>> multiple image nodes.
+>>
+>>
+>> o config-1
+>>  |- description = "configuration description"
+>>  |- kernel = "kernel sub-node unit name"
+>>  |- fdt = "fdt sub-node unit-name" [, "fdt overlay sub-node unit-name", ...]
+>>  |- loadables = "loadables sub-node unit-name"
+>>  |- script = "
+>>  |- compatible = "vendor
 > 
-> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> index 1a965fe68..d043be3dc 100644
-> --- a/scripts/Makefile.lib
-> +++ b/scripts/Makefile.lib
-> @@ -523,6 +523,9 @@ quiet_cmd_xzkern_with_size = XZKERN  $@
->  quiet_cmd_xzmisc = XZMISC  $@
->        cmd_xzmisc = cat $(real-prereqs) | $(XZ) --check=crc32 --lzma2=dict=1MiB > $@
->  
-> +quiet_cmd_xzdec = XZDEC   $@
-> +      cmd_xzdec = cat $(real-prereqs) | $(XZ) --decompress > $@
-> +
->  # ZSTD
->  # ---------------------------------------------------------------------------
->  # Appends the uncompressed size of the data using size_append. The .zst
-> @@ -548,6 +551,9 @@ quiet_cmd_zstd22 = ZSTD22  $@
->  quiet_cmd_zstd22_with_size = ZSTD22  $@
->        cmd_zstd22_with_size = { cat $(real-prereqs) | $(ZSTD) -22 --ultra; $(size_append); } > $@
->  
-> +quiet_cmd_zstddec = ZSTDDEC $@
-> +      cmd_zstddec = cat $(real-prereqs) | $(ZSTD) --decompress > $@
-> +
->  # ASM offsets
->  # ---------------------------------------------------------------------------
->  
-> -- 
-> 2.41.0
 > 
+> 
+> 
+> 
+> This is a question for U-Boot (and barebox).
+> 
+> 
+> 
+> 
+>    images {
+>           base {
+>                 ...
+>           };
+> 
+>           addon1 {
+>                 ...
+>           };
+> 
+>           addon2 {
+>                 ...
+>           };
+>     };
+> 
+>     configurations {
+>           ...
+>           fdt = "base", "addon1", "addon2";
+>     };
+> 
+> 
+> 
+> 
+> Is U-Boot's "bootm" command able to dynamically construct
+> the full DTB from "base" + "addon1" + "addon2"
+> and pass to the kernel?
+
+barebox can apply overlays to the DT, but doesn't do so yet from
+the extra entries in configuration fdt properties.
+
+This should be straight-forward to add though, if the need arises.
+
+> Is U-Boot able to handle FIT (includes kernel + DTs)
+> and a separate initrd?
+> 
+>   # bootm  <fit-address>:<conf-name>  <ramdisk-address>
+
+This is possible in barebox, provided that the FIT image doesn't
+already have a ramdisk and that CONFIG_BOOTM_FORCE_SIGNED_IMAGES=n:
+
+  bootm -r /mnt/nfs/ramdisk.gz /mnt/nfs/image.fit
+
+(Or the equivalent variables if not wanting to use the shell.)
+
+> Presumably, it would be difficult to inject initramdisk
+> into image.fit later, so I am hoping bootm would work like that,
+> but I did not delve into U-Boot code.
+> 
+> 
+> 
+> If it works, is it possible to verify the integrity of initrd?
+> The kernel and DTs inside FIT will be verified, but not sure
+> if it is possible for ramdisk.
+
+If one wants to preclude mix & match attacks, the configuration needs
+to be verified fully, so if signing is required, it's probably better to
+amend the FIT later on with the new configuration instead of signing
+the initrd separately and combining them at runtime.
+
+Cheers,
+Ahmad
+
+> 
+> 
+> 
+> 
+> 
+
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+
 
