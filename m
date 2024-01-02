@@ -1,108 +1,191 @@
-Return-Path: <linux-kbuild+bounces-452-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-453-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD47082161D
-	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Jan 2024 02:18:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C438F82165D
+	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Jan 2024 03:11:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 38F0628163D
-	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Jan 2024 01:18:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7418E280ED1
+	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Jan 2024 02:11:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD7DB624;
-	Tue,  2 Jan 2024 01:18:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="EbE2JiAj"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82EC5A4A;
+	Tue,  2 Jan 2024 02:11:10 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9451539C
-	for <linux-kbuild@vger.kernel.org>; Tue,  2 Jan 2024 01:18:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1d3e05abcaeso40453415ad.1
-        for <linux-kbuild@vger.kernel.org>; Mon, 01 Jan 2024 17:18:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1704158316; x=1704763116; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=zRWE3E5XMrumruVdwn+4Yp8n2CImJBlUHIVxV/N3g8o=;
-        b=EbE2JiAjcRZefpwwQV36HgERWZ90KV74QcoUVCzayDpOgJUJnXkZxGavMLbStDBQAZ
-         A/AYWfQhz6dVybZ/1vVpc6xUPtHyGqQF/L6ycKBzUcfdKs5sunfJmuS3HDxbncKT7yxi
-         X+vipx+kkpwfafiUPCARKAIcSBXkNMFDQFsSY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704158316; x=1704763116;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zRWE3E5XMrumruVdwn+4Yp8n2CImJBlUHIVxV/N3g8o=;
-        b=AfDXQJph52mLzx4BTV4H6k2vFB0e2eZH0Rw2AIxEVXbbgPTcwCN69BtCyufdtcanP4
-         l9TDHpDJVV4d8dt1iAwYKiqsMwTTn/2YVCh5iEgPRSNV3WY2SNQf9z5E9LP3pLeN5h7W
-         OnqN8R+FWxTc+KY3mVEadTAfNBzC15BDFEj4o4X6/IHSGfcXEHSNzMMgj4/5DV2i8BMi
-         uMHmIlpVOX3DOfkQTxN2ecJAj68NggVs8qztSprfFA1p0K064PnPWwv+GepUrLfKljQL
-         OI4jsoFLrRdSVlQptv4qXfsg2rzO81o0MEL1vzJgMIFqMoRR40gB9QpYimrin+/cVPXa
-         PNGg==
-X-Gm-Message-State: AOJu0Yyq19lx9YiUyXhEsJDEVEm+aYwCDXbo0HJVrpzHcfs+UjTYoC75
-	XPRHT7OarXjEP0u9F4POxaolHxSCwnTf
-X-Google-Smtp-Source: AGHT+IG/0/8JPP8Sqc/3WIgIkW3oddIth292cDOhlF/c6lDdjIIuS/fk+/h37aIq3zXL9fPkYf+8Rw==
-X-Received: by 2002:a05:6a20:7495:b0:196:dff9:3989 with SMTP id p21-20020a056a20749500b00196dff93989mr730269pzd.64.1704158315944;
-        Mon, 01 Jan 2024 17:18:35 -0800 (PST)
-Received: from google.com (KD124209171220.ppp-bb.dion.ne.jp. [124.209.171.220])
-        by smtp.gmail.com with ESMTPSA id p18-20020a170902ead200b001d4bb7cdc11sm1924886pld.88.2024.01.01.17.18.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jan 2024 17:18:35 -0800 (PST)
-Date: Tue, 2 Jan 2024 10:18:30 +0900
-From: Sergey Senozhatsky <senozhatsky@chromium.org>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Patrick Georgi <pgeorgi@google.com>, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Stefan Reinauer <reinauer@google.com>
-Subject: Re: [PATCH] kconfig: WERROR unmet symbol dependency
-Message-ID: <20240102011830.GB21409@google.com>
-References: <20231122034753.1446513-1-senozhatsky@chromium.org>
- <20231128053443.GA6525@google.com>
- <CAK7LNAT_Z4TeNzngMskEoNdSTWUH5gGzYm5MfO6C_H8rFcF6ng@mail.gmail.com>
- <20231129041307.GB6525@google.com>
- <CAK7LNAS8q9eDerwVRbPbqd+AKjNVkEKLOW+NAKaD4duP-gViqw@mail.gmail.com>
- <20231222025701.GA3568309@google.com>
- <CAK7LNARa3WrRp5vmX5M3tTkS-jdno-vFe8WLPXjF8+hHxVUmFA@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCDA0A3C;
+	Tue,  2 Jan 2024 02:11:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=isrc.iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=isrc.iscas.ac.cn
+Received: from localhost.localdomain (unknown [124.16.141.245])
+	by APP-05 (Coremail) with SMTP id zQCowAD3_yMvb5Nl+tHCAg--.20282S2;
+	Tue, 02 Jan 2024 10:04:31 +0800 (CST)
+From: sunying@isrc.iscas.ac.cn
+To: masahiroy@kernel.org
+Cc: linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	pengpeng@iscas.ac.cn,
+	Ying Sun <sunying@isrc.iscas.ac.cn>,
+	Siyuan Guo <zy21df106@buaa.edu.cn>
+Subject: [PATCHv3 next] kconfig: add dependency warning print about invalid values in verbose mode
+Date: Tue,  2 Jan 2024 10:04:05 +0800
+Message-ID: <20240102020405.32701-1-sunying@isrc.iscas.ac.cn>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK7LNARa3WrRp5vmX5M3tTkS-jdno-vFe8WLPXjF8+hHxVUmFA@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:zQCowAD3_yMvb5Nl+tHCAg--.20282S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxCFy7Zw48XrW5Zr47Kr4fGrg_yoWrJr4fpa
+	yrWa43JF4DAryayanxt3W8Kw1Fka4kXr17trsxCw17AFyaya97tr47Kw15trWUCrWIyw45
+	CFnIgrZ5KanrWaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUv214x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+	6F4UM28EF7xvwVC2z280aVAFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4j6r
+	4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+	I7IYx2IY67AKxVWUAVWUtwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r
+	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwAKzVCY07xG64k0F24l
+	c2xSY4AK67AK6r4UMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I
+	0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWU
+	AVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcV
+	CY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAF
+	wI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa
+	7VUjI38UUUUUU==
+X-CM-SenderInfo: 5vxq5x1qj6x21ufox2xfdvhtffof0/
 
-On (23/12/29 22:41), Masahiro Yamada wrote:
-> > > > We do exit(1) for KCONFIG_WARN_UNKNOWN_SYMBOLS in conf_read().
-> > > >
-> > > > I can introduce two new helpers that will tell if confdata.c and symbol.c
-> > > > triggered any warnings and if KCONFIG_WERROR is set. And then different
-> > > > code paths can call them and handle exit gracefully, depending on the
-> > > > context (ncurses, menu, etc.).
-> > > >
-> > > > Something like this
-> > >
-> > >
-> > > I do not want to patch warnings one by one.
-> > >
-> > >
-> > > I will take some time to think about it.
-> >
-> > Gentle ping on this.
-> >
-> > We are not concerned with every possible warning at the moment, however,
-> > we do want the critical ones from CI and (semi)automated continuous uprev
-> > PoV to be covered by WERROR. We do experience real life problems with
-> > "missing direct dependency" not being a terminal condition under WERROR.
-> 
-> 
-> Applied to linux-kbuild.
+From: Ying Sun <sunying@isrc.iscas.ac.cn>
 
-Thanks!
+Warning in verbose mode about incorrect causes and
+ mismatch dependency of invalid values to help users correct them.
+
+Detailed warning messages are printed only when the environment variable
+ is set like "KCONFIG_WARN_CHANGED_INPUT=1".
+By default, the current behavior is not changed.
+
+Signed-off-by: Siyuan Guo <zy21df106@buaa.edu.cn>
+Signed-off-by: Ying Sun <sunying@isrc.iscas.ac.cn>
+---
+v2 -> v3:
+* Fixed warning message that mess up the ncurses display.
+* Fixed memory leak where str_new() was called but str_free() was not used.
+* Integrated the code to avoid excessive dispersion.
+* Use the environment variable KCONFIG_WARN_CHANGED_INPUT as the switch
+
+v1 -> v2:
+* Reduced the number of code lines by refactoring and simplifying the logic.
+* Changed the print "ERROR" to "WARNING".
+* Focused on handling dependency errors: dir_dep and rev_dep, and range error.
+  - A downgrade from 'y' to 'm' has be warned.
+  - A new CONFIG option should not be warned.
+  - Overwriting caused by default value is not an error and is no longer printed.
+* Fixed style issues.
+---
+---
+ scripts/kconfig/confdata.c | 76 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 76 insertions(+)
+
+diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
+index f1197e672431..352774928558 100644
+--- a/scripts/kconfig/confdata.c
++++ b/scripts/kconfig/confdata.c
+@@ -195,6 +195,52 @@ static void conf_message(const char *fmt, ...)
+ 	va_end(ap);
+ }
+ 
++static void conf_warn_unmet_rev_dep(struct symbol *sym)
++{
++	struct gstr gs = str_new();
++	char value = 'n';
++
++	switch (sym->curr.tri) {
++	case no:
++		value = 'n';
++		break;
++	case mod:
++		sym_calc_value(modules_sym);
++		value = (modules_sym->curr.tri == no) ? 'n' : 'm';
++		break;
++	case yes:
++		value = 'y';
++	}
++
++	str_printf(&gs,
++		"'%s' set to %c for it is selected\n",
++		sym->name, value);
++	expr_gstr_print_revdep(sym->rev_dep.expr, &gs, yes,
++				" Selected by [y]:\n");
++	expr_gstr_print_revdep(sym->rev_dep.expr, &gs, mod,
++				" Selected by [m]:\n");
++
++	conf_warning("%s", str_get(&gs));
++	str_free(&gs);
++}
++
++static void conf_warn_dep_error(struct symbol *sym)
++{
++	struct gstr gs = str_new();
++
++	str_printf(&gs,
++		"'%s' set to n for it unmet direct dependencies\n",
++		sym->name);
++
++	str_printf(&gs,
++		" Depends on [%c]: ",
++		sym->dir_dep.tri == mod ? 'm' : 'n');
++	expr_gstr_print(sym->dir_dep.expr, &gs);
++
++	conf_warning("%s\n", str_get(&gs));
++	str_free(&gs);
++}
++
+ const char *conf_get_configname(void)
+ {
+ 	char *name = getenv("KCONFIG_CONFIG");
+@@ -568,6 +614,36 @@ int conf_read(const char *name)
+ 			continue;
+ 		conf_unsaved++;
+ 		/* maybe print value in verbose mode... */
++		if (getenv("KCONFIG_WARN_CHANGED_INPUT") && (sym->prop)) {
++			conf_filename = sym->prop->file->name;
++			conf_lineno = sym->prop->menu->lineno;
++
++			switch (sym->type) {
++			case S_BOOLEAN:
++			case S_TRISTATE:
++				if (sym->def[S_DEF_USER].tri != sym_get_tristate_value(sym)) {
++					if (sym->dir_dep.tri < sym->def[S_DEF_USER].tri)
++						conf_warn_dep_error(sym);
++					else if (sym->rev_dep.tri > sym->def[S_DEF_USER].tri)
++						conf_warn_unmet_rev_dep(sym);
++					else
++						conf_warning("'%s' set to %s due to option constraints\n",
++							sym->name, sym_get_string_value(sym));
++				}
++				break;
++			case S_INT:
++			case S_HEX:
++			case S_STRING:
++				if (sym->dir_dep.tri == no && sym_has_value(sym))
++					conf_warn_dep_error(sym);
++				else
++					conf_warning("'%s' set to %s due to option constraints\n",
++							sym->name, sym_get_string_value(sym));
++				break;
++			default:
++				break;
++			}
++		}
+ 	}
+ 
+ 	for_all_symbols(i, sym) {
+-- 
+2.43.0
+
 
