@@ -1,160 +1,84 @@
-Return-Path: <linux-kbuild+bounces-466-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-467-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78C2982436F
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jan 2024 15:17:25 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DAE59824620
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jan 2024 17:27:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 621EA1C21FEB
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jan 2024 14:17:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 76B451F23F71
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jan 2024 16:27:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B409224E9;
-	Thu,  4 Jan 2024 14:17:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF6DE24B3C;
+	Thu,  4 Jan 2024 16:26:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o7T2ghRX"
+	dkim=pass (1024-bit key) header.d=xry111.site header.i=@xry111.site header.b="eix9flxy"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from xry111.site (xry111.site [89.208.246.23])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66030224E7;
-	Thu,  4 Jan 2024 14:17:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD257C433C7;
-	Thu,  4 Jan 2024 14:17:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704377832;
-	bh=eQ7aDWTSRpaN+U/7sf3RyfPIiHHdFRSmH7Oa7qM8a5c=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=o7T2ghRXw4rIv6huLtcx/MZoqwwUm6YGdTYWQ2RNBxdKD2k+P0vW+o7u4s2IOa+6c
-	 KKtJrVgACx9in0+Co4If06+MeRNB3rhg9oqeQ/O+613ifpEbxTGJ2QY1HEUE4xWBGL
-	 t1elNAfzSdA2gsywtHizw91x2fVBEMcIRnWVO+hEk+kvxiO1lIdtadvqL07rM1mpYd
-	 tjnAPs3QvdEeXFB2MVeWwx0P3rbuFTdpNPxrkeZetxFsMsyPTmSDYOdPIHvQLnWc2v
-	 O+6e6W1N1eXr+12pPGExAgMcHtZoEvRnnCTG4/OeawcMGNRtyx/WOL0TR63QcuhE11
-	 2YDqVIdar7VoA==
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-2043e721daaso279002fac.2;
-        Thu, 04 Jan 2024 06:17:12 -0800 (PST)
-X-Gm-Message-State: AOJu0YwudgSZM0fCY4hKVTdk0z4X8+xs0TL4BQwcaZRfOZYzVLTzTYGV
-	7A8x8p52wNRu+nEcR3wY1Y0o7BFcaDEZnGWw9WA=
-X-Google-Smtp-Source: AGHT+IFNnanMPL/0Df4b9PcVGoF9nPV9liwJQBoRre85bCGoux+sgtqfnrWAYCXOUVSJm+tl3SFJz6Zhji3hH8YZLwM=
-X-Received: by 2002:a05:6870:5390:b0:205:c845:7e24 with SMTP id
- h16-20020a056870539000b00205c8457e24mr472050oan.0.1704377832206; Thu, 04 Jan
- 2024 06:17:12 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 631AB24B36
+	for <linux-kbuild@vger.kernel.org>; Thu,  4 Jan 2024 16:26:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xry111.site
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xry111.site
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xry111.site;
+	s=default; t=1704385603;
+	bh=LcfTFzOM3ermWiI1qmFb2SogOa/uHZU/V0NN6hoMu8o=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=eix9flxySirgV2I04jC1H1uvGKGUx9K/LPoIJsftPR9Fwp2j8VDjOv6SnF+P6b32+
+	 69syk1ElCaXyF18W66Ol1enOdWOPd6ONfnwFaTZMt9SpxzVWck9lefYcRIYlAtmnPG
+	 9SPcS89s+Od0UvYra6UOhh2lCcD6ADwRfNv1ayFI=
+Received: from [IPv6:240e:358:110e:bb00:dc73:854d:832e:4] (unknown [IPv6:240e:358:110e:bb00:dc73:854d:832e:4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-384) server-digest SHA384)
+	(Client did not present a certificate)
+	(Authenticated sender: xry111@xry111.site)
+	by xry111.site (Postfix) with ESMTPSA id B317A66C65;
+	Thu,  4 Jan 2024 11:26:38 -0500 (EST)
+Message-ID: <2f1877ed39563b42d41f03ad6d6fdd7ce4137bbb.camel@xry111.site>
+Subject: Re: [PATCH] modpost: Ignore relaxation and alignment marker relocs
+ on LoongArch
+From: Xi Ruoyao <xry111@xry111.site>
+To: Huacai Chen <chenhuacai@kernel.org>
+Cc: WANG Xuerui <kernel@xen0n.name>, linux-kbuild@vger.kernel.org, WANG
+ Xuerui <git@xen0n.name>, Masahiro Yamada <masahiroy@kernel.org>, Nathan
+ Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Youling
+ Tang <tangyouling@loongson.cn>, loongarch@lists.linux.dev
+Date: Fri, 05 Jan 2024 00:26:32 +0800
+In-Reply-To: <CAAhV-H44EZpOpnWyZm14QdwTLAPcxM1eNhpoDEsFQbf8=s7-iA@mail.gmail.com>
+References: <20231227070317.1936234-1-kernel@xen0n.name>
+	 <fbefe6e45e23a09e5b63eaac0a07a2fbae4a3845.camel@xry111.site>
+	 <CAAhV-H44EZpOpnWyZm14QdwTLAPcxM1eNhpoDEsFQbf8=s7-iA@mail.gmail.com>
+Autocrypt: addr=xry111@xry111.site; prefer-encrypt=mutual;
+ keydata=mDMEYnkdPhYJKwYBBAHaRw8BAQdAsY+HvJs3EVKpwIu2gN89cQT/pnrbQtlvd6Yfq7egugi0HlhpIFJ1b3lhbyA8eHJ5MTExQHhyeTExMS5zaXRlPoiTBBMWCgA7FiEEkdD1djAfkk197dzorKrSDhnnEOMFAmJ5HT4CGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQrKrSDhnnEOPHFgD8D9vUToTd1MF5bng9uPJq5y3DfpcxDp+LD3joA3U2TmwA/jZtN9xLH7CGDHeClKZK/ZYELotWfJsqRcthOIGjsdAPuDgEYnkdPhIKKwYBBAGXVQEFAQEHQG+HnNiPZseiBkzYBHwq/nN638o0NPwgYwH70wlKMZhRAwEIB4h4BBgWCgAgFiEEkdD1djAfkk197dzorKrSDhnnEOMFAmJ5HT4CGwwACgkQrKrSDhnnEOPjXgD/euD64cxwqDIqckUaisT3VCst11RcnO5iRHm6meNIwj0BALLmWplyi7beKrOlqKfuZtCLbiAPywGfCNg8LOTt4iMD
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.2 
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240103135454.376021-1-masahiroy@kernel.org> <CA+icZUX77miqFC5=iH_9e4BZw5hc1Ci8A3cHL1uGPnzHw258Hw@mail.gmail.com>
-In-Reply-To: <CA+icZUX77miqFC5=iH_9e4BZw5hc1Ci8A3cHL1uGPnzHw258Hw@mail.gmail.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Thu, 4 Jan 2024 23:16:36 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQYQiuQ2mn=aAqOrx-xsV1hT5Q6UTkWLNkG_4E77NyEog@mail.gmail.com>
-Message-ID: <CAK7LNAQYQiuQ2mn=aAqOrx-xsV1hT5Q6UTkWLNkG_4E77NyEog@mail.gmail.com>
-Subject: Re: [PATCH] linux/export.h: remove unneeded .balign directive
-To: sedat.dilek@gmail.com
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Helge Deller <deller@gmx.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 4, 2024 at 1:05=E2=80=AFAM Sedat Dilek <sedat.dilek@gmail.com> =
-wrote:
->
-> Happy new 2024 Masahiro,
->
-> some small nits.
->
-> What about adding links to the commits...
->
-> linux/export: Fix alignment for 64-bit ksymtab entries
-> [ Upstream commit f6847807c22f6944c71c981b630b9fff30801e73 ]
->
-> linux/export: Ensure natural alignment of kcrctab array
-> [ Upstream commit 753547de0daecbdbd1af3618987ddade325d9aaa ]
->
-> ^^ AFAICS in linux-stable - v6.6.10-rc1 includes both
-> ^^ Is yours a follow-up and makes sense for linux-stable releases?
+On Thu, 2024-01-04 at 16:57 +0800, Huacai Chen wrote:
+> On Wed, Dec 27, 2023 at 7:06=E2=80=AFPM Xi Ruoyao <xry111@xry111.site> wr=
+ote:
+> >=20
+> > On Wed, 2023-12-27 at 15:03 +0800, WANG Xuerui wrote:
+> > > And even though the kernel is built with relaxation disabled, so
+> > > far a small number of R_LARCH_RELAX marker relocs are still emitted a=
+s
+> > > part of la.* pseudo instructions in assembly.
+> >=20
+> > I'd consider it a toolchain bug...=C2=A0 Is there a reproducer?
+> Any updates? Should I apply this patch for loongarch-next?
 
-
-No.
-
-This patch is a separate clean-up, not a bug fix.
-
-No need for back-porting.
-
-
-
-
->
-> ...and CC Helge Deller?
-
-
-You did it.
-
-
-Thanks.
-
-
-
-
-
-> Best regards,
-> -Sedat-
->
-> Link: https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable=
--rc.git/log/?h=3Dlinux-6.6.y
->
-> On Wed, Jan 3, 2024 at 2:55=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.=
-org> wrote:
-> >
-> > The .export_symbol section is discarded by the linker script, hence
-> > no alignment is needed. Simplify the code.
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > ---
-> >
-> >  include/linux/export.h | 10 +++-------
-> >  1 file changed, 3 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/include/linux/export.h b/include/linux/export.h
-> > index 0bbd02fd351d..dff230bb5aca 100644
-> > --- a/include/linux/export.h
-> > +++ b/include/linux/export.h
-> > @@ -15,13 +15,9 @@
-> >   */
-> >
-> >  #ifdef CONFIG_64BIT
-> > -#define __EXPORT_SYMBOL_REF(sym)                       \
-> > -       .balign 8                               ASM_NL  \
-> > -       .quad sym
-> > +#define __EXPORT_SYMBOL_PTR    .quad
-> >  #else
-> > -#define __EXPORT_SYMBOL_REF(sym)                       \
-> > -       .balign 4                               ASM_NL  \
-> > -       .long sym
-> > +#define __EXPORT_SYMBOL_PTR    .long
-> >  #endif
-> >
-> >  #define ___EXPORT_SYMBOL(sym, license, ns)             \
-> > @@ -29,7 +25,7 @@
-> >         __export_symbol_##sym:                  ASM_NL  \
-> >                 .asciz license                  ASM_NL  \
-> >                 .asciz ns                       ASM_NL  \
-> > -               __EXPORT_SYMBOL_REF(sym)        ASM_NL  \
-> > +               __EXPORT_SYMBOL_PTR sym         ASM_NL  \
-> >         .previous
-> >
-> >  #if defined(__DISABLE_EXPORTS)
-> > --
-> > 2.40.1
-> >
-> >
->
-
+Tiezhu told me this should be reproducible with GCC 14 and Binutils-2.42
+development snapshots and defconfig.  I'm trying...
 
 --=20
-Best Regards
-Masahiro Yamada
+Xi Ruoyao <xry111@xry111.site>
+School of Aerospace Science and Technology, Xidian University
 
