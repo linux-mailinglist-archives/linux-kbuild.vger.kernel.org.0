@@ -1,97 +1,212 @@
-Return-Path: <linux-kbuild+bounces-464-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-465-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66D1D824005
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jan 2024 12:00:07 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1525824361
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jan 2024 15:13:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B7D4E285562
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jan 2024 11:00:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E5B821C21F75
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jan 2024 14:13:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB98920DDD;
-	Thu,  4 Jan 2024 11:00:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FA02200A5;
+	Thu,  4 Jan 2024 14:13:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SEZKKIhf"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eoim6jWi"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1B4620DF6
-	for <linux-kbuild@vger.kernel.org>; Thu,  4 Jan 2024 11:00:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35D6DC433CB
-	for <linux-kbuild@vger.kernel.org>; Thu,  4 Jan 2024 11:00:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12775225AF;
+	Thu,  4 Jan 2024 14:13:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BE15C433C7;
+	Thu,  4 Jan 2024 14:13:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704366002;
-	bh=QNlTNClwPlEEC6QlstmypMfevz5Oe6cwp4zY1EyQ13E=;
+	s=k20201202; t=1704377618;
+	bh=5vBZUdnVGG54e1EEHK8EIcIM6ks58SMSIsV6NIeU8EM=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=SEZKKIhfEFj4RR8NlDAB7JvdvTQkXzTsKDN9WveLDB27lDbLPi9+tSj76EmgT2C0u
-	 jihxRAianhDn972WtbMPwG2VKl5g4vlQFZKWirG/I516gG7Y5fj/6omDvWphRmvarO
-	 SiwbkToj8zjTfMwbnF+QCpSWPhdHPwARUkT/4e45wsZD14UoBU/dx+fl74Ngvs2gl/
-	 ioj4r4Cro2VYo7emweFXTjb7VBXEhO4JvfEintskKMUUeOSSFSDGcPU+zP1apzbP+d
-	 9kj8aOgB4Br8qL0d6Cj03Sby6Ilmk73fIGMV6X4eVknIzPyrPzK6KA5XCz0obO+vK9
-	 ynMUJygns2X3A==
-Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-6dc759c8ddbso216350a34.0
-        for <linux-kbuild@vger.kernel.org>; Thu, 04 Jan 2024 03:00:02 -0800 (PST)
-X-Gm-Message-State: AOJu0YxCjH2rcdoAh9D9zni1CBmou4KlTXZ1j0yNbFibbdpaCFoBTnDh
-	p0qAH2/Af4ObE62mXPVuBX8m9bAQKAfR8E5BioA=
-X-Google-Smtp-Source: AGHT+IFO8//nIaNkJTs+JWuKZnB9mhyJVrnoRgEJzbk4exWG9bZuNkIzFhZlDYGUcgJlYxpyBzz2O1FmOxcVBklMWLo=
-X-Received: by 2002:a05:6870:10d8:b0:1fb:75a:c443 with SMTP id
- 24-20020a05687010d800b001fb075ac443mr227570oar.108.1704366001458; Thu, 04 Jan
- 2024 03:00:01 -0800 (PST)
+	b=eoim6jWidQUlAKXMoFo2AKkzo0fTFyfpgISn6i7YGiWDfDr1P53cADXJ7H03Vj18B
+	 3qQePXmFX9Bgary2Aaqzz05x+fgtWEEFZw+L16y/H3Gh6b4U1d9kYevBwt8hapFq48
+	 mRA5QfJZxLT6mtbKWsnV0xuWr/Ae5tp9o/3t8LKVYkxbTAONv0vlKceaFClFYIvrPm
+	 6hX7e95gFqf6fHa4Sy0Nos6OiDadnb4hsN+idkz6dpDLOup/1sB7sUHk4y+9D3Tt6g
+	 fX8Do4Z/rcR5cQVkDvBpAXU1IpZQoBBojIGC4WKGxfyR9GZMsWTWSvXzrPZ9pu1s+p
+	 RFJaJ7SFRd0vQ==
+Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-204301f2934so291209fac.1;
+        Thu, 04 Jan 2024 06:13:38 -0800 (PST)
+X-Gm-Message-State: AOJu0Yw7BVYdWbJ7BZ3SCL2kxxYrm82Z7hUCrnBBd1QYqucn2uawe49j
+	wNSoHPPI1OvPVV4yUuLhfuBaHeote3ai9N2H1R8=
+X-Google-Smtp-Source: AGHT+IEYIyc45VILFYGKdvn3cy03LLuf6ZCG1ABtaafRtjq37IrcYXoPs5dEMs7aJd4hnoKhAUGHWChoMz4iE37O8mA=
+X-Received: by 2002:a05:6870:9720:b0:203:2b71:dad5 with SMTP id
+ n32-20020a056870972000b002032b71dad5mr709423oaq.8.1704377617843; Thu, 04 Jan
+ 2024 06:13:37 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231227070317.1936234-1-kernel@xen0n.name> <fbefe6e45e23a09e5b63eaac0a07a2fbae4a3845.camel@xry111.site>
- <CAAhV-H44EZpOpnWyZm14QdwTLAPcxM1eNhpoDEsFQbf8=s7-iA@mail.gmail.com>
-In-Reply-To: <CAAhV-H44EZpOpnWyZm14QdwTLAPcxM1eNhpoDEsFQbf8=s7-iA@mail.gmail.com>
+References: <cover.1703042081.git.kevinmbecause@gmail.com> <941a566eb114701685dc44f708f81891b3bd085b.1703042082.git.kevinmbecause@gmail.com>
+ <CAK7LNAQX+h-a3yBEOqXG2_7mw+6bS5NmJ=UYAEt=oghQvi4W2Q@mail.gmail.com> <d5989a0b-f46f-fb49-8d44-1822d69bc4cf@gmail.com>
+In-Reply-To: <d5989a0b-f46f-fb49-8d44-1822d69bc4cf@gmail.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Thu, 4 Jan 2024 19:59:24 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQfU1kypaSkQmc24uhO49B452tJJAzvStpZeVBkijOPyg@mail.gmail.com>
-Message-ID: <CAK7LNAQfU1kypaSkQmc24uhO49B452tJJAzvStpZeVBkijOPyg@mail.gmail.com>
-Subject: Re: [PATCH] modpost: Ignore relaxation and alignment marker relocs on LoongArch
-To: Huacai Chen <chenhuacai@kernel.org>
-Cc: Xi Ruoyao <xry111@xry111.site>, WANG Xuerui <kernel@xen0n.name>, linux-kbuild@vger.kernel.org, 
-	WANG Xuerui <git@xen0n.name>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
-	Youling Tang <tangyouling@loongson.cn>, loongarch@lists.linux.dev
+Date: Thu, 4 Jan 2024 23:13:01 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAT1SbgvqjP5p8ZbACZ4prhP8LVdenWBNisdh15f_Dk9LQ@mail.gmail.com>
+Message-ID: <CAK7LNAT1SbgvqjP5p8ZbACZ4prhP8LVdenWBNisdh15f_Dk9LQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] kbuild: Enable decompression for use by
+ EXTRA_FIRMWARE The build system can currently only compress files. This patch
+ adds the functionality to decompress files. Decompression is needed for
+ building firmware files into the kernel if those files are compressed on the
+ filesystem. Compressed firmware files are in use by Gentoo, Fedora, Arch, and others.
+To: Kevin Martin <kevinmbecause@gmail.com>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 4, 2024 at 5:58=E2=80=AFPM Huacai Chen <chenhuacai@kernel.org> =
-wrote:
+On Thu, Jan 4, 2024 at 4:04=E2=80=AFPM Kevin Martin <kevinmbecause@gmail.co=
+m> wrote:
 >
-> On Wed, Dec 27, 2023 at 7:06=E2=80=AFPM Xi Ruoyao <xry111@xry111.site> wr=
-ote:
+>
+> On Wed, 3 Jan 2024, Masahiro Yamada wrote:
+>
+> > On Wed, Dec 20, 2023 at 7:26=E2=80=AFPM Kevin Martin <kevinmbecause@gma=
+il.com> wrote:
+> > >
+> > > Signed-off-by: Kevin Martin <kevinmbecause@gmail.com>
+> > > ---
+> > >  scripts/Makefile.lib | 6 ++++++
+> > >  1 file changed, 6 insertions(+)
+> > >
+> > > diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> > > index 1a965fe68..d043be3dc 100644
+> > > --- a/scripts/Makefile.lib
+> > > +++ b/scripts/Makefile.lib
+> > > @@ -523,6 +523,9 @@ quiet_cmd_xzkern_with_size =3D XZKERN  $@
+> > >  quiet_cmd_xzmisc =3D XZMISC  $@
+> > >        cmd_xzmisc =3D cat $(real-prereqs) | $(XZ) --check=3Dcrc32 --l=
+zma2=3Ddict=3D1MiB > $@
+> > >
+> > > +quiet_cmd_xzdec =3D XZDEC   $@
+> > > +      cmd_xzdec =3D cat $(real-prereqs) | $(XZ) --decompress > $@
+> > > +
 > >
-> > On Wed, 2023-12-27 at 15:03 +0800, WANG Xuerui wrote:
-> > > And even though the kernel is built with relaxation disabled, so
-> > > far a small number of R_LARCH_RELAX marker relocs are still emitted a=
-s
-> > > part of la.* pseudo instructions in assembly.
 > >
-> > I'd consider it a toolchain bug...  Is there a reproducer?
-> Any updates? Should I apply this patch for loongarch-next?
+> >
+> > Please do not fork the meaningless 'cat' process.
+> >
+> > This should be a single process to take just one input file.
+> >
+> >     cmd_xzdec =3D $(XZ) --decompress --stdout $< > $@
+> >
+> >
+> >
+> >
+> > Commit d3dd3b5a29bb9582957451531fed461628dfc834
+> > was a very bad commit.
+> >
+> > The 'cat' and compression/decompression must be
+> > separate rules.
+> >
+> > We should not repeat the mistake in the past.
+> >
+>
+> Would it be preferable to change all of the compression rules or just the
+> new decompression rules?
 
 
-This is odd.
+I do not require you to change the existing code.
 
-At least, Fixes: 3d36f4298ba9
-is unrelated.
-
-
-The instruction to reproduce it was requested.
-
-I did not see any error for defconfig
-with loongarch64-linux-gcc 13.2 provided by 0day bot.
+For decompression, it is unlikely that the recipe
+takes multiple input files.
+So, 'cat' is unneeded.
 
 
 
 
---
+> I could change just the new ones and then begin working on a different
+> patch to clean up the 'cat' processes in the compression rules.
+
+
+
+If you get rid of the 'cat', you need to refactor the user code.
+arch/x86/boot/compressed/Makefile relies on 'cat' and 'compress',
+but please double-check no other Makefile uses it.
+
+
+Also, you might need some research about the potential
+impact onto the reproducible builds.
+Without 'cat |', the compressed archive might encode
+the timestamp of the original file.
+GZIP records the timestamp in the header.
+
+
+
+
+>
+> >
+> >
+> > >  # ZSTD
+> > >  # ------------------------------------------------------------------=
+---------
+> > >  # Appends the uncompressed size of the data using size_append. The .=
+zst
+> > > @@ -548,6 +551,9 @@ quiet_cmd_zstd22 =3D ZSTD22  $@
+> > >  quiet_cmd_zstd22_with_size =3D ZSTD22  $@
+> > >        cmd_zstd22_with_size =3D { cat $(real-prereqs) | $(ZSTD) -22 -=
+-ultra; $(size_append); } > $@
+> > >
+> > > +quiet_cmd_zstddec =3D ZSTDDEC $@
+> > > +      cmd_zstddec =3D cat $(real-prereqs) | $(ZSTD) --decompress > $=
+@
+> > > +
+> >
+> >
+> > Same here.
+> > Please make this a single process:
+> >
+> >    cmd_zstddec =3D $(ZSTD) --decompress --force --output=3D$@ $<
+> >
+> >
+> >
+> >
+> >
+> >
+> > One small concern in the future is, if we end up with adding
+> > quiet_cmd_bzip2dec, we will run out of the 7-column of the short log.
+> >
+> >  quiet_cmd_bzip2dec =3D BZIP2DEC$@
+> >
+> > We can increase the column size if needed, so I do not think
+> > it is a big issue.
+> >
+> >
+> >
+> >
+> >
+> >
+> >
+> >
+> >
+> >
+> > >  # ASM offsets
+> > >  # ------------------------------------------------------------------=
+---------
+> > >
+> > > --
+> > > 2.41.0
+> > >
+> >
+> >
+> > --
+> > Best Regards
+> > Masahiro Yamada
+> >
+
+
+
+--=20
 Best Regards
 Masahiro Yamada
 
