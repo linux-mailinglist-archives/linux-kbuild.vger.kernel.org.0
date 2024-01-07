@@ -1,219 +1,121 @@
-Return-Path: <linux-kbuild+bounces-481-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-482-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id F37848263E8
-	for <lists+linux-kbuild@lfdr.de>; Sun,  7 Jan 2024 12:34:56 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 758898263EB
+	for <lists+linux-kbuild@lfdr.de>; Sun,  7 Jan 2024 12:41:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E3B181C20930
-	for <lists+linux-kbuild@lfdr.de>; Sun,  7 Jan 2024 11:34:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9665D1C20B3D
+	for <lists+linux-kbuild@lfdr.de>; Sun,  7 Jan 2024 11:41:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FAF012E46;
-	Sun,  7 Jan 2024 11:34:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 042998C12;
+	Sun,  7 Jan 2024 11:40:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IebSmCvk"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jpMl/DAp"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1777612B7E;
-	Sun,  7 Jan 2024 11:34:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A449C433C8;
-	Sun,  7 Jan 2024 11:34:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D980812E43;
+	Sun,  7 Jan 2024 11:40:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68363C433CB;
+	Sun,  7 Jan 2024 11:40:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704627292;
-	bh=q+FK+IJr5w3UyyWePtRhsxuIy+nIapv8qhRzmHldqTw=;
+	s=k20201202; t=1704627658;
+	bh=KQJUCEC7wnTKCIo50Pged7pb30CnSsqMSPKxkjd8bV8=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=IebSmCvkoR9DivsuJc3+dTwekvt9rQ1tVb3njTCfmbsYrrOa6KMTBaVbFi65PFNOA
-	 jTTD3MWo8Ogjmm9D3gr7RYLwBT6q6YchCX3darK2roEl9zwT5pPJOP2rrCc3g9GDyl
-	 VK5vAAHrRdEio3BqTu8jXEZ4cH6PLV+6wbYLVm88exLU6y/5xnmxsmc8NkJ4UD75Gj
-	 UNMR01ALsUkiSlTbfUN3nonPPXq4i+kqrqCnNgG9I9fUZicUbGtf8RqFILZ+28Drk1
-	 8jTw/aOBmJRol1bum+HThigdns+38cOr+m13I1DG65uE9dLacSLLYIpbuNGwLo5xCE
-	 BMtGxYNoe2qDA==
-Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-205f223639fso805621fac.2;
-        Sun, 07 Jan 2024 03:34:52 -0800 (PST)
-X-Gm-Message-State: AOJu0Yw++QrPvpQpX82uXcNS3lRaQ0C3qIcH8x3iw1PKbKAkgy41BE3C
-	G9qQ9eLevGNG3yaMDDcjyTAfK9OyL67K3CyFZnQ=
-X-Google-Smtp-Source: AGHT+IEFNo/umTOKVOCwvp8VXon8yM6f5dZ8/YFlhVS2raLhwwIK7XX+vjKUUKGZhK5c4OABFLrvYqXX2vibuJQLu1E=
-X-Received: by 2002:a05:6870:4f11:b0:204:1a1f:c0ff with SMTP id
- xi17-20020a0568704f1100b002041a1fc0ffmr2998188oab.38.1704627291854; Sun, 07
- Jan 2024 03:34:51 -0800 (PST)
+	b=jpMl/DApy9BflKzi/bigEcrcHyqTABTsL2n2Skq287wk0/NRw8HGW7HRCuMx5My2C
+	 RuM8Sp37+3FLZeysf6m8O0nBrZ/YR/zAZaBntzAXbjxgLv8iW2+SA55XfcEWKGlwYd
+	 rA3g4A94YULCjM0Oc17KQIpzIlG+XQjOa603IIyUTD3rDw3DTqEUjoMDb6P9woV2xn
+	 fJNPx0beXH7B1obp9ur0QUQ4Ie4/D+d1BwWaBbNLGnph7tBXUR/WoPTzORueBLmWrv
+	 r/NbzGtQNg6oZ/vcYacu1LCH4Og0uVZkrqHJPUuJqiuLFqSZuaaGkOakjVhWKS5fEv
+	 3Q5GhenWVjdjA==
+Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-3bbd6e37af4so1072428b6e.1;
+        Sun, 07 Jan 2024 03:40:58 -0800 (PST)
+X-Gm-Message-State: AOJu0YxOZGD057PI6NNRhs3coD84EvYsBj869hka5wzAmf6UcPO6Pnpe
+	p45fnj13kprwK+N6HgOO7cO32UZHEWOBkWFh7dk=
+X-Google-Smtp-Source: AGHT+IFFrzGJgGnlrrI4ZRi8Ec3xtEL3bM945qmS5f4mAGwC42G6tiP05ogTLF7dempm+ERA4cDea3TXpn4t+eIPQ4k=
+X-Received: by 2002:a05:6871:5226:b0:204:6141:746a with SMTP id
+ ht38-20020a056871522600b002046141746amr2306962oac.2.1704627657681; Sun, 07
+ Jan 2024 03:40:57 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240103135454.376021-1-masahiroy@kernel.org> <CA+icZUX77miqFC5=iH_9e4BZw5hc1Ci8A3cHL1uGPnzHw258Hw@mail.gmail.com>
- <CAK7LNAQYQiuQ2mn=aAqOrx-xsV1hT5Q6UTkWLNkG_4E77NyEog@mail.gmail.com> <CA+icZUVyTm=xGWd77f2D8xxcsH+1rXm7YaW==u1i=MVDfZ-+TQ@mail.gmail.com>
-In-Reply-To: <CA+icZUVyTm=xGWd77f2D8xxcsH+1rXm7YaW==u1i=MVDfZ-+TQ@mail.gmail.com>
+References: <cover.1704353568.git.kevinmbecause@gmail.com> <941a566eb114701685dc44f708f81891b3bd085b.1704353568.git.kevinmbecause@gmail.com>
+In-Reply-To: <941a566eb114701685dc44f708f81891b3bd085b.1704353568.git.kevinmbecause@gmail.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sun, 7 Jan 2024 20:34:15 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAReV3EBzAuZxAfwk5LwaYUipkyFaKz_etZfebHiq+20-w@mail.gmail.com>
-Message-ID: <CAK7LNAReV3EBzAuZxAfwk5LwaYUipkyFaKz_etZfebHiq+20-w@mail.gmail.com>
-Subject: Re: [PATCH] linux/export.h: remove unneeded .balign directive
-To: sedat.dilek@gmail.com
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Helge Deller <deller@gmx.de>
+Date: Sun, 7 Jan 2024 20:40:21 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQe3xpJwOBzKEhTPSV4sL1kjU7dHn8-wfvxCFHRXBpxQQ@mail.gmail.com>
+Message-ID: <CAK7LNAQe3xpJwOBzKEhTPSV4sL1kjU7dHn8-wfvxCFHRXBpxQQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] kbuild: Enable decompression for use by EXTRA_FIRMWARE
+To: Kevin Martin <kevinmbecause@gmail.com>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 5, 2024 at 5:21=E2=80=AFPM Sedat Dilek <sedat.dilek@gmail.com> =
-wrote:
+On Fri, Jan 5, 2024 at 3:11=E2=80=AFPM Kevin Martin <kevinmbecause@gmail.co=
+m> wrote:
 >
-> On Thu, Jan 4, 2024 at 3:17=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.=
-org> wrote:
-> >
-> > On Thu, Jan 4, 2024 at 1:05=E2=80=AFAM Sedat Dilek <sedat.dilek@gmail.c=
-om> wrote:
-> > >
-> > > Happy new 2024 Masahiro,
-> > >
-> > > some small nits.
-> > >
-> > > What about adding links to the commits...
-> > >
-> > > linux/export: Fix alignment for 64-bit ksymtab entries
-> > > [ Upstream commit f6847807c22f6944c71c981b630b9fff30801e73 ]
-> > >
-> > > linux/export: Ensure natural alignment of kcrctab array
-> > > [ Upstream commit 753547de0daecbdbd1af3618987ddade325d9aaa ]
-> > >
-> > > ^^ AFAICS in linux-stable - v6.6.10-rc1 includes both
-> > > ^^ Is yours a follow-up and makes sense for linux-stable releases?
-> >
-> >
-> > No.
-> >
-> > This patch is a separate clean-up, not a bug fix.
-> >
-> > No need for back-porting.
-> >
+> The build system can currently only compress files. This patch adds the
+> functionality to decompress files. Decompression is needed for building
+> firmware files into the kernel if those files are compressed on the
+> filesystem. Compressed firmware files are in use by Gentoo, Fedora, Arch,
+> and others.
 >
-> Thanks for the clarification.
+> Signed-off-by: Kevin Martin <kevinmbecause@gmail.com>
+> ---
+> Changes in v2:
+> - Skipped running 'cat' and now just pass the file names directly.
+> - Added '--quiet' since 'zstd' started printing the status of each file
+> now that it knows the file names.
 >
-> But it is an improvement - so no discarding at link-time means
-> reduction of build-time?
-> Amy numbers?
 
 
-The .export_symbol is already discarded.
-
-The alignment of discarded code is "don't care".
-So, this is a code clean-up.
-
-I do not think there is a noticeable difference
-in the build speed.
+Acked-by: Masahiro Yamada <masahiroy@kernel.org>
 
 
 
-
-See line 1005 of include/asm-generic/vmlinux.h.lds
-
-
-#define COMMON_DISCARDS                                                 \
-        SANITIZER_DISCARDS                                              \
-        PATCHABLE_DISCARDS                                              \
-        *(.discard)                                                     \
-        *(.discard.*)                                                   \
-        *(.export_symbol)                                               \
-        *(.modinfo)                                                     \
-        /* ld.bfd warns about .gnu.version* even when not emitted */    \
-        *(.gnu.version*)
-
-
-
-
-
-
-
-
-
-
-> >
-> >
-> >
-> > >
-> > > ...and CC Helge Deller?
-> >
+>  scripts/Makefile.lib | 6 ++++++
+>  1 file changed, 6 insertions(+)
 >
-> CC in the patch - makes for me only sense if you agree on adding above
-> commit-ids of Helge's work.
-> I think this is good in sense of follow-able references.
+> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> index 1a965fe68..d043be3dc 100644
+> --- a/scripts/Makefile.lib
+> +++ b/scripts/Makefile.lib
+> @@ -523,6 +523,9 @@ quiet_cmd_xzkern_with_size =3D XZKERN  $@
+>  quiet_cmd_xzmisc =3D XZMISC  $@
+>        cmd_xzmisc =3D cat $(real-prereqs) | $(XZ) --check=3Dcrc32 --lzma2=
+=3Ddict=3D1MiB > $@
 >
-> Best regards,
-> -Sedat-
+> +quiet_cmd_xzdec =3D XZDEC   $@
+> +      cmd_xzdec =3D $(XZ) --decompress --stdout $< > $@
+> +
+>  # ZSTD
+>  # ----------------------------------------------------------------------=
+-----
+>  # Appends the uncompressed size of the data using size_append. The .zst
+> @@ -548,6 +551,9 @@ quiet_cmd_zstd22 =3D ZSTD22  $@
+>  quiet_cmd_zstd22_with_size =3D ZSTD22  $@
+>        cmd_zstd22_with_size =3D { cat $(real-prereqs) | $(ZSTD) -22 --ult=
+ra; $(size_append); } > $@
 >
-> >
-> > You did it.
-> >
-> >
-> > Thanks.
-> >
-> >
-> >
-> >
-> >
-> > > Best regards,
-> > > -Sedat-
-> > >
-> > > Link: https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-st=
-able-rc.git/log/?h=3Dlinux-6.6.y
-> > >
-> > > On Wed, Jan 3, 2024 at 2:55=E2=80=AFPM Masahiro Yamada <masahiroy@ker=
-nel.org> wrote:
-> > > >
-> > > > The .export_symbol section is discarded by the linker script, hence
-> > > > no alignment is needed. Simplify the code.
-> > > >
-> > > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > > > ---
-> > > >
-> > > >  include/linux/export.h | 10 +++-------
-> > > >  1 file changed, 3 insertions(+), 7 deletions(-)
-> > > >
-> > > > diff --git a/include/linux/export.h b/include/linux/export.h
-> > > > index 0bbd02fd351d..dff230bb5aca 100644
-> > > > --- a/include/linux/export.h
-> > > > +++ b/include/linux/export.h
-> > > > @@ -15,13 +15,9 @@
-> > > >   */
-> > > >
-> > > >  #ifdef CONFIG_64BIT
-> > > > -#define __EXPORT_SYMBOL_REF(sym)                       \
-> > > > -       .balign 8                               ASM_NL  \
-> > > > -       .quad sym
-> > > > +#define __EXPORT_SYMBOL_PTR    .quad
-> > > >  #else
-> > > > -#define __EXPORT_SYMBOL_REF(sym)                       \
-> > > > -       .balign 4                               ASM_NL  \
-> > > > -       .long sym
-> > > > +#define __EXPORT_SYMBOL_PTR    .long
-> > > >  #endif
-> > > >
-> > > >  #define ___EXPORT_SYMBOL(sym, license, ns)             \
-> > > > @@ -29,7 +25,7 @@
-> > > >         __export_symbol_##sym:                  ASM_NL  \
-> > > >                 .asciz license                  ASM_NL  \
-> > > >                 .asciz ns                       ASM_NL  \
-> > > > -               __EXPORT_SYMBOL_REF(sym)        ASM_NL  \
-> > > > +               __EXPORT_SYMBOL_PTR sym         ASM_NL  \
-> > > >         .previous
-> > > >
-> > > >  #if defined(__DISABLE_EXPORTS)
-> > > > --
-> > > > 2.40.1
-> > > >
-> > > >
-> > >
-> >
-> >
-> > --
-> > Best Regards
-> > Masahiro Yamada
-
+> +quiet_cmd_zstddec =3D ZSTDDEC $@
+> +      cmd_zstddec =3D $(ZSTD) --decompress --force --quiet -o $@ $<
+> +
+>  # ASM offsets
+>  # ----------------------------------------------------------------------=
+-----
+>
+> --
+> 2.41.0
+>
 
 
 --=20
