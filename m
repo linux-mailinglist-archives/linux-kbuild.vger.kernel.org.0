@@ -1,124 +1,134 @@
-Return-Path: <linux-kbuild+bounces-482-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-483-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 758898263EB
-	for <lists+linux-kbuild@lfdr.de>; Sun,  7 Jan 2024 12:41:02 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F83D826433
+	for <lists+linux-kbuild@lfdr.de>; Sun,  7 Jan 2024 14:20:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9665D1C20B3D
-	for <lists+linux-kbuild@lfdr.de>; Sun,  7 Jan 2024 11:41:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A18AA281F1E
+	for <lists+linux-kbuild@lfdr.de>; Sun,  7 Jan 2024 13:19:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 042998C12;
-	Sun,  7 Jan 2024 11:40:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86A40134A0;
+	Sun,  7 Jan 2024 13:19:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jpMl/DAp"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oaocn+Ue"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D980812E43;
-	Sun,  7 Jan 2024 11:40:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68363C433CB;
-	Sun,  7 Jan 2024 11:40:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6814A134A6;
+	Sun,  7 Jan 2024 13:19:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3462AC433C8;
+	Sun,  7 Jan 2024 13:19:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704627658;
-	bh=KQJUCEC7wnTKCIo50Pged7pb30CnSsqMSPKxkjd8bV8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=jpMl/DApy9BflKzi/bigEcrcHyqTABTsL2n2Skq287wk0/NRw8HGW7HRCuMx5My2C
-	 RuM8Sp37+3FLZeysf6m8O0nBrZ/YR/zAZaBntzAXbjxgLv8iW2+SA55XfcEWKGlwYd
-	 rA3g4A94YULCjM0Oc17KQIpzIlG+XQjOa603IIyUTD3rDw3DTqEUjoMDb6P9woV2xn
-	 fJNPx0beXH7B1obp9ur0QUQ4Ie4/D+d1BwWaBbNLGnph7tBXUR/WoPTzORueBLmWrv
-	 r/NbzGtQNg6oZ/vcYacu1LCH4Og0uVZkrqHJPUuJqiuLFqSZuaaGkOakjVhWKS5fEv
-	 3Q5GhenWVjdjA==
-Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-3bbd6e37af4so1072428b6e.1;
-        Sun, 07 Jan 2024 03:40:58 -0800 (PST)
-X-Gm-Message-State: AOJu0YxOZGD057PI6NNRhs3coD84EvYsBj869hka5wzAmf6UcPO6Pnpe
-	p45fnj13kprwK+N6HgOO7cO32UZHEWOBkWFh7dk=
-X-Google-Smtp-Source: AGHT+IFFrzGJgGnlrrI4ZRi8Ec3xtEL3bM945qmS5f4mAGwC42G6tiP05ogTLF7dempm+ERA4cDea3TXpn4t+eIPQ4k=
-X-Received: by 2002:a05:6871:5226:b0:204:6141:746a with SMTP id
- ht38-20020a056871522600b002046141746amr2306962oac.2.1704627657681; Sun, 07
- Jan 2024 03:40:57 -0800 (PST)
+	s=k20201202; t=1704633593;
+	bh=yqUZakV4GV4CxI5FT16aZfQMpPe8/dakYmO+NY7zAso=;
+	h=From:To:Cc:Subject:Date:From;
+	b=oaocn+UeQhTi7Qguxa9FM2DSdeNqH/AX81W4rF5lnGi1M/XWdTy+1TD0jWqtH9UEb
+	 m9dLDYdoIW/TXGV/Z53fivq4GnLqu/g8VLcptXWNS3XVCElw8Hrl7625454OM7QL7B
+	 qmUK8v5OIeUl4UzdmnFj2OEZ3f9WNpAfLB03/eYw5z5vcy3IgD8Ieg3Rs3mRpdkkkd
+	 /p2Cr9MQWTqurLqXH1ZeDGt/qxlvdMB3l+CqqjPk3BvBMhhfpAYS8ORzFl0l+A6tPL
+	 jFYlJgZeAKe11ceeosV6wdm4e0r6ZY2ZBQtM67NLYC/goSl6sEwyLYVfGz1FeM3nRp
+	 p4uRdLW7IAHfQ==
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: linux-kbuild@vger.kernel.org
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] kconfig: remove unneeded buffer allocation in zconf_initscan()
+Date: Sun,  7 Jan 2024 22:19:47 +0900
+Message-Id: <20240107131948.39752-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1704353568.git.kevinmbecause@gmail.com> <941a566eb114701685dc44f708f81891b3bd085b.1704353568.git.kevinmbecause@gmail.com>
-In-Reply-To: <941a566eb114701685dc44f708f81891b3bd085b.1704353568.git.kevinmbecause@gmail.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sun, 7 Jan 2024 20:40:21 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQe3xpJwOBzKEhTPSV4sL1kjU7dHn8-wfvxCFHRXBpxQQ@mail.gmail.com>
-Message-ID: <CAK7LNAQe3xpJwOBzKEhTPSV4sL1kjU7dHn8-wfvxCFHRXBpxQQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] kbuild: Enable decompression for use by EXTRA_FIRMWARE
-To: Kevin Martin <kevinmbecause@gmail.com>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jan 5, 2024 at 3:11=E2=80=AFPM Kevin Martin <kevinmbecause@gmail.co=
-m> wrote:
->
-> The build system can currently only compress files. This patch adds the
-> functionality to decompress files. Decompression is needed for building
-> firmware files into the kernel if those files are compressed on the
-> filesystem. Compressed firmware files are in use by Gentoo, Fedora, Arch,
-> and others.
->
-> Signed-off-by: Kevin Martin <kevinmbecause@gmail.com>
-> ---
-> Changes in v2:
-> - Skipped running 'cat' and now just pass the file names directly.
-> - Added '--quiet' since 'zstd' started printing the status of each file
-> now that it knows the file names.
->
+In Kconfig, there is a stack to save the lexer state for each inclusion
+level.
 
+Currently, it operates as an empty stack, with the 'current_buf' always
+pointing to an empty buffer. There is no need to preallocate the buffer.
+Change it to a full stack.
 
-Acked-by: Masahiro Yamada <masahiroy@kernel.org>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
+ scripts/kconfig/lexer.l | 29 +++++++++++++----------------
+ 1 file changed, 13 insertions(+), 16 deletions(-)
 
+diff --git a/scripts/kconfig/lexer.l b/scripts/kconfig/lexer.l
+index cc386e443683..d75423ec4eae 100644
+--- a/scripts/kconfig/lexer.l
++++ b/scripts/kconfig/lexer.l
+@@ -391,9 +391,6 @@ void zconf_initscan(const char *name)
+ 		exit(1);
+ 	}
+ 
+-	current_buf = xmalloc(sizeof(*current_buf));
+-	memset(current_buf, 0, sizeof(*current_buf));
+-
+ 	current_file = file_lookup(name);
+ 	yylineno = 1;
+ }
+@@ -403,9 +400,10 @@ void zconf_nextfile(const char *name)
+ 	struct file *iter;
+ 	struct file *file = file_lookup(name);
+ 	struct buffer *buf = xmalloc(sizeof(*buf));
+-	memset(buf, 0, sizeof(*buf));
+ 
+-	current_buf->state = YY_CURRENT_BUFFER;
++	buf->state = YY_CURRENT_BUFFER;
++	buf->parent = current_buf;
++	current_buf = buf;
+ 	yyin = zconf_fopen(file->name);
+ 	if (!yyin) {
+ 		fprintf(stderr, "%s:%d: can't open file \"%s\"\n",
+@@ -413,8 +411,6 @@ void zconf_nextfile(const char *name)
+ 		exit(1);
+ 	}
+ 	yy_switch_to_buffer(yy_create_buffer(yyin, YY_BUF_SIZE));
+-	buf->parent = current_buf;
+-	current_buf = buf;
+ 
+ 	current_file->lineno = yylineno;
+ 	file->parent = current_file;
+@@ -441,20 +437,21 @@ void zconf_nextfile(const char *name)
+ 
+ static void zconf_endfile(void)
+ {
+-	struct buffer *parent;
++	struct buffer *tmp;
+ 
+ 	current_file = current_file->parent;
+ 	if (current_file)
+ 		yylineno = current_file->lineno;
+ 
+-	parent = current_buf->parent;
+-	if (parent) {
+-		fclose(yyin);
+-		yy_delete_buffer(YY_CURRENT_BUFFER);
+-		yy_switch_to_buffer(parent->state);
+-	}
+-	free(current_buf);
+-	current_buf = parent;
++	if (!current_buf)
++		return;
++
++	fclose(yyin);
++	yy_delete_buffer(YY_CURRENT_BUFFER);
++	yy_switch_to_buffer(current_buf->state);
++	tmp = current_buf;
++	current_buf = current_buf->parent;
++	free(tmp);
+ }
+ 
+ int zconf_lineno(void)
+-- 
+2.40.1
 
->  scripts/Makefile.lib | 6 ++++++
->  1 file changed, 6 insertions(+)
->
-> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> index 1a965fe68..d043be3dc 100644
-> --- a/scripts/Makefile.lib
-> +++ b/scripts/Makefile.lib
-> @@ -523,6 +523,9 @@ quiet_cmd_xzkern_with_size =3D XZKERN  $@
->  quiet_cmd_xzmisc =3D XZMISC  $@
->        cmd_xzmisc =3D cat $(real-prereqs) | $(XZ) --check=3Dcrc32 --lzma2=
-=3Ddict=3D1MiB > $@
->
-> +quiet_cmd_xzdec =3D XZDEC   $@
-> +      cmd_xzdec =3D $(XZ) --decompress --stdout $< > $@
-> +
->  # ZSTD
->  # ----------------------------------------------------------------------=
------
->  # Appends the uncompressed size of the data using size_append. The .zst
-> @@ -548,6 +551,9 @@ quiet_cmd_zstd22 =3D ZSTD22  $@
->  quiet_cmd_zstd22_with_size =3D ZSTD22  $@
->        cmd_zstd22_with_size =3D { cat $(real-prereqs) | $(ZSTD) -22 --ult=
-ra; $(size_append); } > $@
->
-> +quiet_cmd_zstddec =3D ZSTDDEC $@
-> +      cmd_zstddec =3D $(ZSTD) --decompress --force --quiet -o $@ $<
-> +
->  # ASM offsets
->  # ----------------------------------------------------------------------=
------
->
-> --
-> 2.41.0
->
-
-
---=20
-Best Regards
-Masahiro Yamada
 
