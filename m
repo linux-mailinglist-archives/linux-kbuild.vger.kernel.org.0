@@ -1,139 +1,86 @@
-Return-Path: <linux-kbuild+bounces-484-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-485-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2C14826435
-	for <lists+linux-kbuild@lfdr.de>; Sun,  7 Jan 2024 14:20:04 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2E2E8264B2
+	for <lists+linux-kbuild@lfdr.de>; Sun,  7 Jan 2024 16:26:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 643B9282030
-	for <lists+linux-kbuild@lfdr.de>; Sun,  7 Jan 2024 13:20:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B92051C214A3
+	for <lists+linux-kbuild@lfdr.de>; Sun,  7 Jan 2024 15:26:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D2BB134B4;
-	Sun,  7 Jan 2024 13:19:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA05D134CE;
+	Sun,  7 Jan 2024 15:25:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CmVgyUqS"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="L2imbePR"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EF8A134B1;
-	Sun,  7 Jan 2024 13:19:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48BE9C433C9;
-	Sun,  7 Jan 2024 13:19:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704633594;
-	bh=EhenJv98wQ6P7JdtZwqrkrF1c5zd39P2pUl1WVROUA8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=CmVgyUqS3XISmxGQFJG2CHZfXCPit+YlYoVB7c9MLLiOD3wTPX5dXUdkH1tU7ttPA
-	 AsleNMoE3oL9K35UXZfkAFgSsBHhtY+GzTtyCy2V4eJt5Yx5fh71F51JTZymp9ZFlf
-	 YB8q2cODNB6dYdxRy7g8GpVsKtR/SMc0whHpCKJikYvqwDO77lLzTagpef14qyq7ZF
-	 C2KhBTHRhAw1sDN8ZEs2egAcCRe0tjuITtfvkJer3ayrRDIcBoSnHOsz/c/15GH8N8
-	 zIecPP9oLw/X3XBHxeUab5eUTS/LWrkWIdP9KzfX5WK8L90OEaCCYF9GHfS9ixHvwK
-	 s8T5Y5zdcUL0g==
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: linux-kbuild@vger.kernel.org
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] kconfig: fix line number in recursive inclusion detection
-Date: Sun,  7 Jan 2024 22:19:48 +0900
-Message-Id: <20240107131948.39752-2-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20240107131948.39752-1-masahiroy@kernel.org>
-References: <20240107131948.39752-1-masahiroy@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C32D134D5
+	for <linux-kbuild@vger.kernel.org>; Sun,  7 Jan 2024 15:25:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1704641154;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ylOv8BQBQt2VBif1MnRK1t3TEEf3M7l9VEdncX+QjJw=;
+	b=L2imbePRzs0A4DqzMqmfD8zbaxC3wlOy5lijpZGHyrmciZN5XJ6Z1EnR/7wHOf44hujIC/
+	YFTA1dOyNEbzCG2HoG1wIlQuMOmvJiWquKTMiPNPh3N0LbG559Q7vr0/Niii3CKOvSjUV5
+	O3GDM7HQfBxc70FaIuScu/duuwV9rWU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-694-NeqLaP77OfCcKSj3qjZtbg-1; Sun, 07 Jan 2024 10:25:48 -0500
+X-MC-Unique: NeqLaP77OfCcKSj3qjZtbg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 23B00807F54;
+	Sun,  7 Jan 2024 15:25:48 +0000 (UTC)
+Received: from fedora.redhat.com (unknown [10.39.192.66])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 8A6641121306;
+	Sun,  7 Jan 2024 15:25:45 +0000 (UTC)
+From: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
+To: masahiroy@kernel.org
+Cc: dcavalca@meta.com,
+	jtornosm@redhat.com,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	nathan@kernel.org,
+	ndesaulniers@google.com,
+	nicolas@fjasle.eu,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v4] rpm-pkg: simplify installkernel %post
+Date: Sun,  7 Jan 2024 16:25:42 +0100
+Message-ID: <20240107152544.9091-1-jtornosm@redhat.com>
+In-Reply-To: <CAK7LNAR_wgQBs-q9NH1icb_FPBoVMNEhQpvV8qzH2dFsrDS0pQ@mail.gmail.com>
+References: <CAK7LNAR_wgQBs-q9NH1icb_FPBoVMNEhQpvV8qzH2dFsrDS0pQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.3
 
-The error message shows a wrong line number if the 'source' directive
-is wrapped to the following line.
-
-[Test Code]
-
-  source \
-  "Kconfig"
-
-This results in the following error message:
-
-  Recursive inclusion detected.
-  Inclusion path:
-    current file : Kconfig
-    included from: Kconfig:2
-
-The correct message should be as follows:
-
-  Recursive inclusion detected.
-  Inclusion path:
-    current file : Kconfig
-    included from: Kconfig:1
-
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
- scripts/kconfig/lexer.l | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
-
-diff --git a/scripts/kconfig/lexer.l b/scripts/kconfig/lexer.l
-index d75423ec4eae..b3aeb29695d7 100644
---- a/scripts/kconfig/lexer.l
-+++ b/scripts/kconfig/lexer.l
-@@ -33,6 +33,7 @@ static int text_size, text_asize;
- struct buffer {
- 	struct buffer *parent;
- 	YY_BUFFER_STATE state;
-+	int lineno;
- };
+Hello Masahiro,
  
- static struct buffer *current_buf;
-@@ -402,6 +403,7 @@ void zconf_nextfile(const char *name)
- 	struct buffer *buf = xmalloc(sizeof(*buf));
- 
- 	buf->state = YY_CURRENT_BUFFER;
-+	buf->lineno = yylineno;
- 	buf->parent = current_buf;
- 	current_buf = buf;
- 	yyin = zconf_fopen(file->name);
-@@ -412,7 +414,7 @@ void zconf_nextfile(const char *name)
- 	}
- 	yy_switch_to_buffer(yy_create_buffer(yyin, YY_BUF_SIZE));
- 
--	current_file->lineno = yylineno;
-+	current_file->lineno = zconf_lineno();
- 	file->parent = current_file;
- 
- 	for (iter = current_file; iter; iter = iter->parent) {
-@@ -425,7 +427,7 @@ void zconf_nextfile(const char *name)
- 			do {
- 				iter = iter->parent;
- 				fprintf(stderr, "  included from: %s:%d\n",
--					iter->name, iter->lineno - 1);
-+					iter->name, iter->lineno);
- 			} while (strcmp(iter->name, file->name));
- 			exit(1);
- 		}
-@@ -440,8 +442,6 @@ static void zconf_endfile(void)
- 	struct buffer *tmp;
- 
- 	current_file = current_file->parent;
--	if (current_file)
--		yylineno = current_file->lineno;
- 
- 	if (!current_buf)
- 		return;
-@@ -449,6 +449,7 @@ static void zconf_endfile(void)
- 	fclose(yyin);
- 	yy_delete_buffer(YY_CURRENT_BUFFER);
- 	yy_switch_to_buffer(current_buf->state);
-+	yylineno = current_buf->lineno;
- 	tmp = current_buf;
- 	current_buf = current_buf->parent;
- 	free(tmp);
--- 
-2.40.1
+Sorry for the delay in answering, I was on holiday.
+
+Good catch
+Ok, I will create a new patch including your suggestion and I will test it with Fedora, openSUSE and others if possible.
+
+Thank you again for your help
+
+Best regards
+José Ignacio
 
 
