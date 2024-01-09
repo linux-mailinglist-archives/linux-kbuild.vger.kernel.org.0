@@ -1,147 +1,226 @@
-Return-Path: <linux-kbuild+bounces-486-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-487-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7470827DE1
-	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jan 2024 05:38:50 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99EE882849E
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jan 2024 12:15:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 406E2285BDE
-	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jan 2024 04:38:49 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0E6C3B22C59
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jan 2024 11:15:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7B11631;
-	Tue,  9 Jan 2024 04:38:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1FFBD36AF1;
+	Tue,  9 Jan 2024 11:15:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YX/DbdCU"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="IOD3nAGD"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5D5738A;
-	Tue,  9 Jan 2024 04:38:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4561EC433F1;
-	Tue,  9 Jan 2024 04:38:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704775125;
-	bh=seyz1YfDIvyylL/AiuFwsvW0dpM/NUMlH9bFYXik1z8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=YX/DbdCUSEDZmRUtywo/bALRWoY93sPnQjffQK3e4YHX2abBVvQVs+4f1DAM/RnEh
-	 X0go/6ci5oK7nbS1Vx9XgXawdqVqieAjK4pi+v25c9nBK3OuV4J205dBLzK/jbEtPV
-	 v+U52AdjDUHCsU18qs7nPE6kq5Oi6yzCG3p57L+7OkCq5Tw+kFB5t1OeaYmIFQQqm4
-	 qMmnckRqEmM2yO6dOazXJwMCg1lBmsvTgJEnoq6NEVKtwchspRrI7oO/pc9kKWDKCB
-	 Gxlr2X7M1gqYz3rHBP2Xe+o8E+Dd4ArjgBiezPP34gD0rb/I4f0tu/xhAl4ZPJFK4Z
-	 33XXlMsxECE1A==
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-205f223639fso1829673fac.2;
-        Mon, 08 Jan 2024 20:38:45 -0800 (PST)
-X-Gm-Message-State: AOJu0YyCe6gS4pVDL/bTbd9pV7IGcRqXalAaOxoGvW1p9U9bWcKFt/60
-	AS19a2yOaf16JRW3LPlmeOXBw4IeqktKpByQ3GQ=
-X-Google-Smtp-Source: AGHT+IHbCUHcJPP9RXg2OBCenHQWvBRO7OZe8uTEajO/YwMutJAjkpGJOrsL6SzjrBjIv25HEe9Y/jizLRjYzas7Ufo=
-X-Received: by 2002:a05:6870:e60b:b0:203:c5ca:5333 with SMTP id
- q11-20020a056870e60b00b00203c5ca5333mr6372868oag.41.1704775124623; Mon, 08
- Jan 2024 20:38:44 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 196B7360AE;
+	Tue,  9 Jan 2024 11:15:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=YgH27PJPgVjPvzpAXcrJ8iE0CTLGfA4M+6RNDqk9FxE=; b=IOD3nAGD3kWZCAgxZzkOarLMzA
+	DZSscrMGoZz93KzLylaxCO3jWJJ+ydw60B0KlSR5jVi7qZkmHTwsDEM4nwNaoAKAMWNmAsN8n5Wy4
+	SN5JAldFXK/iQ+urMekl7mPlBAS4G+cU+G53eRsbUlMiz6QlYY6hanssYZNpQPcHCnnaxGIQfmoHe
+	fjwa58gtGR+lhzaLQtzvH4xnFnq3PWBTGIsamqjqracsw6QXEm9w/BOssMuAQcQUw1Nj/X7w3jclE
+	JUCbhMnpoebso2SdXMWFfjABkTfrvtPTMSoO9OMSW210fCyj5Bf68aeQ57LhKzm3oGeOb9+gro+MV
+	orNMh02Q==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:37474)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1rNA4X-00041C-1Y;
+	Tue, 09 Jan 2024 11:15:05 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1rNA4a-0004E8-51; Tue, 09 Jan 2024 11:15:08 +0000
+Date: Tue, 9 Jan 2024 11:15:08 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Dimitri John Ledkov <dimitri.ledkov@canonical.com>,
+	Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
+Subject: Re: [BUG] SHA-3 causes kmod 28 to segfault
+Message-ID: <ZZ0qvM9uVOh5wQ59@shell.armlinux.org.uk>
+References: <ZZwk8nFBTIMISLXp@shell.armlinux.org.uk>
+ <CADWks+Y7JOsvzWc50syVwOB9LF2Lxc_YiLzLxCkhEv8sBxrNvw@mail.gmail.com>
+ <ZZw/XK12CnSgPtaB@shell.armlinux.org.uk>
+ <CADWks+YdQ_1QkbhT5tzVA0c_5z0Yn39-nyfNMH201=Anu7DCJQ@mail.gmail.com>
+ <ZZxyrFkTmrGneP0H@shell.armlinux.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231230135200.1058873-1-masahiroy@kernel.org>
-In-Reply-To: <20231230135200.1058873-1-masahiroy@kernel.org>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 9 Jan 2024 13:38:07 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATLZ2rt8fFZYu1KX4HW5s0EjNbDEXp8csCPGtA5a-6qPw@mail.gmail.com>
-Message-ID: <CAK7LNATLZ2rt8fFZYu1KX4HW5s0EjNbDEXp8csCPGtA5a-6qPw@mail.gmail.com>
-Subject: Re: [PATCH 1/5] kbuild: deb-pkg: move 'make headers' to build-arch
-To: linux-kbuild@vger.kernel.org
-Cc: Ben Hutchings <ben@decadent.org.uk>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Nicolas Schier <nicolas@fjasle.eu>, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZZxyrFkTmrGneP0H@shell.armlinux.org.uk>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On Sat, Dec 30, 2023 at 10:52=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.=
-org> wrote:
->
-> Strictly speaking, 'make headers' should be a part of build-arch
-> instead of binary-arch.
->
-> 'make headers' constructs read-to-copy UAPI headers in the kernel
-> directory.
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
->
->  scripts/package/builddeb     | 1 -
->  scripts/package/debian/rules | 4 ++--
->  2 files changed, 2 insertions(+), 3 deletions(-)
->
-> diff --git a/scripts/package/builddeb b/scripts/package/builddeb
-> index cc8c7a807fcc..842ee4b40528 100755
-> --- a/scripts/package/builddeb
-> +++ b/scripts/package/builddeb
-> @@ -155,7 +155,6 @@ install_libc_headers () {
->
->         rm -rf $pdir
->
-> -       $MAKE -f $srctree/Makefile headers
->         $MAKE -f $srctree/Makefile headers_install INSTALL_HDR_PATH=3D$pd=
-ir/usr
->
->         # move asm headers to /usr/include/<libc-machine>/asm to match th=
-e structure
-> diff --git a/scripts/package/debian/rules b/scripts/package/debian/rules
-> index cb084e387469..a686c37d0d02 100755
-> --- a/scripts/package/debian/rules
-> +++ b/scripts/package/debian/rules
-> @@ -26,8 +26,8 @@ binary-arch: build-arch
->  build: build-arch build-indep
->  build-indep:
->  build-arch:
-> -       $(MAKE) $(make-opts) \
-> -       olddefconfig all
-> +       $(MAKE) $(make-opts) olddefconfig
-> +       $(MAKE) $(make-opts) headers all
+On Mon, Jan 08, 2024 at 10:09:49PM +0000, Russell King (Oracle) wrote:
+> On Mon, Jan 08, 2024 at 06:46:10PM +0000, Dimitri John Ledkov wrote:
+> > On Mon, 8 Jan 2024 at 18:30, Russell King (Oracle)
+> > <linux@armlinux.org.uk> wrote:
+> > >
+> > > On Mon, Jan 08, 2024 at 06:14:17PM +0000, Dimitri John Ledkov wrote:
+> > > > Hi,
+> > > >
+> > > > On Mon, 8 Jan 2024 at 16:38, Russell King (Oracle)
+> > > > <linux@armlinux.org.uk> wrote:
+> > > > >
+> > > > > Hi,
+> > > > >
+> > > > > When building 6.7 under Debian Oldstable with kmod 28, the installation
+> > > > > of modules fails during depmod with a SEGV.
+> > > > >
+> > > >
+> > > > What is your kernel configuration, and I hope you make config choices
+> > > > compatible with your target host OS.
+> > >
+> > > "target host OS" - that's a total misnomer. "host" is generally what
+> > > you're building under. "target" is generally what you're building _for_.
+> > > So I don't fully understand your comment. Maybe you meant "target _and_
+> > > host" ?
+> > 
+> > the kernel configuration you use, should target the operating system
+> > you are planning to use the given kernel on.
+> 
+> Thank you for stating the damn obvious. I've been developing Linux
+> kernels for 30 years, I think I know this.
+> 
+> > using bleeding edge kernel features, with an obsolete userspace often
+> > can have compatibility issues.
+> 
+> You're still not being clear. I wonder whether you understand the
+> terms "target" and "host".
+> 
+> > > > > Running under gdb:
+> > > > >
+> > > > > Program received signal SIGSEGV, Segmentation fault.
+> > > > > __strlen_sse2 () at ../sysdeps/x86_64/multiarch/strlen-vec.S:133
+> > > > >
+> > > > > I have no further information as I can't remember how to get the debug
+> > > > > info for packages under Debian - and even if I could, it's probably a
+> > > > > bug in the kmod package that Debian will have absolutely no interest in
+> > > > > fixing (based on previous experience reporting bugs to Debian.)
+> > > >
+> > > > For latest kernel and latest kernel features support in kmod, latest
+> > > > kmod is required. I.e. patched with
+> > > > https://github.com/kmod-project/kmod/commit/510c8b7f7455c6613dd1706e5e41ec7b09cf6703
+> > >
+> > > Would be nice if there was some documentation. Also, as kconfig provides
+> > > a mechanism to detect e.g. the version of tooling used to build the
+> > > kernel, it would've been nice to detect whether depmod was sufficiently
+> > > recent to support SHA3 and make the module signing SHA3 options depend
+> > > on that.
+> > >
+> > > Leaving this to a SEGV to indicate that something is wrong isn't user
+> > > friendly.
+> > >
+> > 
+> > There is no ability to detect runtime kmod at build time, given the
+> > two are usually often not the same.
+> 
+> Again, you CLEARLY don't understand the problem. I am *NOT* reporting
+> a problem on the target. I am reporting a problem on the *build*
+> *host*.
+> 
+> > Can you please provide your config?
+> > Can you please explain how you chose it?
+> 
+> No, because it's totally irrelevant to the problem I'm reporting.
+> 
+> What I'm reporting to you is that _IF_ you build a kernel with the
+> SHA3 modsigning options on a HOST that has kmod 28, then depmod
+> SEGVs when _INSTALLING_ the modules to a directory on the _HOST_.
+> 
+> This has *nothing* to do with the capabilities of the _TARGET_.
+> Whether the configuration matches the capabilities of the _TARGET_
+> is *totally* irrelevant at _this_ stage. In fact, with the _HOST_
+> depmod segfaulting, one can't complete the installation process
+> to even _think_ about transferring it to the _TARGET_.
 
+Here's a patch that checks the version of depmod on the _build_
+_host_, preventing the use of the SHA3 module signing if it isn't
+recent enough, which causes
 
+	make modules_install INSTALL_MOD_PATH=/foo/bar/bzz
 
+run on the _build_ _host_ to fail with a segfault.
 
-To avoid a build error for ARCH=3Dum,
-I will apply the following fix-up.
+diff --git a/kernel/module/Kconfig b/kernel/module/Kconfig
+index 0ea1b2970a23..d2ba454026a9 100644
+--- a/kernel/module/Kconfig
++++ b/kernel/module/Kconfig
+@@ -223,6 +223,11 @@ config MODULE_SIG_ALL
+ 	  Sign all modules during make modules_install. Without this option,
+ 	  modules must be signed manually, using the scripts/sign-file tool.
+ 
++config DEPMOD_VERSION
++	int
++	default	$(depmod-version)
++	default 0
++
+ comment "Do not forget to sign required modules with scripts/sign-file"
+ 	depends on MODULE_SIG_FORCE && !MODULE_SIG_ALL
+ 
+@@ -250,14 +255,17 @@ config MODULE_SIG_SHA512
+ 
+ config MODULE_SIG_SHA3_256
+ 	bool "Sign modules with SHA3-256"
++	depends on DEPMOD_VERSION > 28
+ 	select CRYPTO_SHA3
+ 
+ config MODULE_SIG_SHA3_384
+ 	bool "Sign modules with SHA3-384"
++	depends on DEPMOD_VERSION > 28
+ 	select CRYPTO_SHA3
+ 
+ config MODULE_SIG_SHA3_512
+ 	bool "Sign modules with SHA3-512"
++	depends on DEPMOD_VERSION > 28
+ 	select CRYPTO_SHA3
+ 
+ endchoice
+diff --git a/scripts/Kconfig.include b/scripts/Kconfig.include
+index 5a84b6443875..052f581c86da 100644
+--- a/scripts/Kconfig.include
++++ b/scripts/Kconfig.include
+@@ -63,3 +63,6 @@ ld-version := $(shell,set -- $(ld-info) && echo $2)
+ cc-option-bit = $(if-success,$(CC) -Werror $(1) -E -x c /dev/null -o /dev/null,$(1))
+ m32-flag := $(cc-option-bit,-m32)
+ m64-flag := $(cc-option-bit,-m64)
++
++# depmod version
++depmod-version := $(shell,$(srctree)/scripts/depmod-version.sh)
+diff --git a/scripts/depmod-version.sh b/scripts/depmod-version.sh
+new file mode 100755
+index 000000000000..32a8a6f6b737
+--- /dev/null
++++ b/scripts/depmod-version.sh
+@@ -0,0 +1,11 @@
++#!/bin/sh
++# SPDX-License-Identifier: GPL-2.0
++
++set -e
++
++: ${DEPMOD:=depmod}
++
++# legacy behavior: "depmod" in /sbin, no /sbin in PATH
++PATH="$PATH:/sbin"
++
++LC_ALL=C "$DEPMOD" --version | sed -n '1s/kmod version //p'
 
-
-
-
-
-diff --git a/scripts/package/debian/rules b/scripts/package/debian/rules
-index 1a18ca3c43db..098307780062 100755
---- a/scripts/package/debian/rules
-+++ b/scripts/package/debian/rules
-@@ -27,7 +27,7 @@ build: build-arch build-indep
- build-indep:
- build-arch:
-        $(MAKE) $(make-opts) olddefconfig
--       $(MAKE) $(make-opts) headers all
-+       $(MAKE) $(make-opts) $(if $(filter um,$(ARCH)),,headers) all
-
- .PHONY: clean
- clean:
-
-
-
-
-
-
-
->
->  .PHONY: clean
->  clean:
-> --
-> 2.40.1
->
-
-
---=20
-Best Regards
-Masahiro Yamada
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
 
