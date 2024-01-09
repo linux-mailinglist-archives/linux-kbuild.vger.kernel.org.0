@@ -1,86 +1,147 @@
-Return-Path: <linux-kbuild+bounces-485-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-486-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2E2E8264B2
-	for <lists+linux-kbuild@lfdr.de>; Sun,  7 Jan 2024 16:26:14 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7470827DE1
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jan 2024 05:38:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B92051C214A3
-	for <lists+linux-kbuild@lfdr.de>; Sun,  7 Jan 2024 15:26:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 406E2285BDE
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jan 2024 04:38:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA05D134CE;
-	Sun,  7 Jan 2024 15:25:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7B11631;
+	Tue,  9 Jan 2024 04:38:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="L2imbePR"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YX/DbdCU"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C32D134D5
-	for <linux-kbuild@vger.kernel.org>; Sun,  7 Jan 2024 15:25:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1704641154;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ylOv8BQBQt2VBif1MnRK1t3TEEf3M7l9VEdncX+QjJw=;
-	b=L2imbePRzs0A4DqzMqmfD8zbaxC3wlOy5lijpZGHyrmciZN5XJ6Z1EnR/7wHOf44hujIC/
-	YFTA1dOyNEbzCG2HoG1wIlQuMOmvJiWquKTMiPNPh3N0LbG559Q7vr0/Niii3CKOvSjUV5
-	O3GDM7HQfBxc70FaIuScu/duuwV9rWU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-694-NeqLaP77OfCcKSj3qjZtbg-1; Sun, 07 Jan 2024 10:25:48 -0500
-X-MC-Unique: NeqLaP77OfCcKSj3qjZtbg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 23B00807F54;
-	Sun,  7 Jan 2024 15:25:48 +0000 (UTC)
-Received: from fedora.redhat.com (unknown [10.39.192.66])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 8A6641121306;
-	Sun,  7 Jan 2024 15:25:45 +0000 (UTC)
-From: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
-To: masahiroy@kernel.org
-Cc: dcavalca@meta.com,
-	jtornosm@redhat.com,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	nathan@kernel.org,
-	ndesaulniers@google.com,
-	nicolas@fjasle.eu,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v4] rpm-pkg: simplify installkernel %post
-Date: Sun,  7 Jan 2024 16:25:42 +0100
-Message-ID: <20240107152544.9091-1-jtornosm@redhat.com>
-In-Reply-To: <CAK7LNAR_wgQBs-q9NH1icb_FPBoVMNEhQpvV8qzH2dFsrDS0pQ@mail.gmail.com>
-References: <CAK7LNAR_wgQBs-q9NH1icb_FPBoVMNEhQpvV8qzH2dFsrDS0pQ@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5D5738A;
+	Tue,  9 Jan 2024 04:38:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4561EC433F1;
+	Tue,  9 Jan 2024 04:38:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1704775125;
+	bh=seyz1YfDIvyylL/AiuFwsvW0dpM/NUMlH9bFYXik1z8=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=YX/DbdCUSEDZmRUtywo/bALRWoY93sPnQjffQK3e4YHX2abBVvQVs+4f1DAM/RnEh
+	 X0go/6ci5oK7nbS1Vx9XgXawdqVqieAjK4pi+v25c9nBK3OuV4J205dBLzK/jbEtPV
+	 v+U52AdjDUHCsU18qs7nPE6kq5Oi6yzCG3p57L+7OkCq5Tw+kFB5t1OeaYmIFQQqm4
+	 qMmnckRqEmM2yO6dOazXJwMCg1lBmsvTgJEnoq6NEVKtwchspRrI7oO/pc9kKWDKCB
+	 Gxlr2X7M1gqYz3rHBP2Xe+o8E+Dd4ArjgBiezPP34gD0rb/I4f0tu/xhAl4ZPJFK4Z
+	 33XXlMsxECE1A==
+Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-205f223639fso1829673fac.2;
+        Mon, 08 Jan 2024 20:38:45 -0800 (PST)
+X-Gm-Message-State: AOJu0YyCe6gS4pVDL/bTbd9pV7IGcRqXalAaOxoGvW1p9U9bWcKFt/60
+	AS19a2yOaf16JRW3LPlmeOXBw4IeqktKpByQ3GQ=
+X-Google-Smtp-Source: AGHT+IHbCUHcJPP9RXg2OBCenHQWvBRO7OZe8uTEajO/YwMutJAjkpGJOrsL6SzjrBjIv25HEe9Y/jizLRjYzas7Ufo=
+X-Received: by 2002:a05:6870:e60b:b0:203:c5ca:5333 with SMTP id
+ q11-20020a056870e60b00b00203c5ca5333mr6372868oag.41.1704775124623; Mon, 08
+ Jan 2024 20:38:44 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.3
+References: <20231230135200.1058873-1-masahiroy@kernel.org>
+In-Reply-To: <20231230135200.1058873-1-masahiroy@kernel.org>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Tue, 9 Jan 2024 13:38:07 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATLZ2rt8fFZYu1KX4HW5s0EjNbDEXp8csCPGtA5a-6qPw@mail.gmail.com>
+Message-ID: <CAK7LNATLZ2rt8fFZYu1KX4HW5s0EjNbDEXp8csCPGtA5a-6qPw@mail.gmail.com>
+Subject: Re: [PATCH 1/5] kbuild: deb-pkg: move 'make headers' to build-arch
+To: linux-kbuild@vger.kernel.org
+Cc: Ben Hutchings <ben@decadent.org.uk>, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Nicolas Schier <nicolas@fjasle.eu>, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello Masahiro,
- 
-Sorry for the delay in answering, I was on holiday.
+On Sat, Dec 30, 2023 at 10:52=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.=
+org> wrote:
+>
+> Strictly speaking, 'make headers' should be a part of build-arch
+> instead of binary-arch.
+>
+> 'make headers' constructs read-to-copy UAPI headers in the kernel
+> directory.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+>
+>  scripts/package/builddeb     | 1 -
+>  scripts/package/debian/rules | 4 ++--
+>  2 files changed, 2 insertions(+), 3 deletions(-)
+>
+> diff --git a/scripts/package/builddeb b/scripts/package/builddeb
+> index cc8c7a807fcc..842ee4b40528 100755
+> --- a/scripts/package/builddeb
+> +++ b/scripts/package/builddeb
+> @@ -155,7 +155,6 @@ install_libc_headers () {
+>
+>         rm -rf $pdir
+>
+> -       $MAKE -f $srctree/Makefile headers
+>         $MAKE -f $srctree/Makefile headers_install INSTALL_HDR_PATH=3D$pd=
+ir/usr
+>
+>         # move asm headers to /usr/include/<libc-machine>/asm to match th=
+e structure
+> diff --git a/scripts/package/debian/rules b/scripts/package/debian/rules
+> index cb084e387469..a686c37d0d02 100755
+> --- a/scripts/package/debian/rules
+> +++ b/scripts/package/debian/rules
+> @@ -26,8 +26,8 @@ binary-arch: build-arch
+>  build: build-arch build-indep
+>  build-indep:
+>  build-arch:
+> -       $(MAKE) $(make-opts) \
+> -       olddefconfig all
+> +       $(MAKE) $(make-opts) olddefconfig
+> +       $(MAKE) $(make-opts) headers all
 
-Good catch
-Ok, I will create a new patch including your suggestion and I will test it with Fedora, openSUSE and others if possible.
 
-Thank you again for your help
 
-Best regards
-José Ignacio
 
+To avoid a build error for ARCH=3Dum,
+I will apply the following fix-up.
+
+
+
+
+
+diff --git a/scripts/package/debian/rules b/scripts/package/debian/rules
+index 1a18ca3c43db..098307780062 100755
+--- a/scripts/package/debian/rules
++++ b/scripts/package/debian/rules
+@@ -27,7 +27,7 @@ build: build-arch build-indep
+ build-indep:
+ build-arch:
+        $(MAKE) $(make-opts) olddefconfig
+-       $(MAKE) $(make-opts) headers all
++       $(MAKE) $(make-opts) $(if $(filter um,$(ARCH)),,headers) all
+
+ .PHONY: clean
+ clean:
+
+
+
+
+
+
+
+>
+>  .PHONY: clean
+>  clean:
+> --
+> 2.40.1
+>
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
