@@ -1,45 +1,53 @@
-Return-Path: <linux-kbuild+bounces-497-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-498-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEB3C8287D7
-	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jan 2024 15:15:03 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 30A638287EA
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jan 2024 15:18:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 88A922863AD
-	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jan 2024 14:15:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D21AC1F2549B
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jan 2024 14:18:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ABC9639864;
-	Tue,  9 Jan 2024 14:14:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E0413986F;
+	Tue,  9 Jan 2024 14:18:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b="J+mmfbRB"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from mail.avm.de (mail.avm.de [212.42.244.94])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 112E939863;
-	Tue,  9 Jan 2024 14:14:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=fjasle.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=fjasle.eu
-Received: from mail-auth.avm.de (unknown [IPv6:2001:bf0:244:244::71])
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 243EE39AC3;
+	Tue,  9 Jan 2024 14:18:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=avm.de
+Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [212.42.244.71])
 	by mail.avm.de (Postfix) with ESMTPS;
-	Tue,  9 Jan 2024 15:14:33 +0100 (CET)
+	Tue,  9 Jan 2024 15:18:34 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
+	t=1704809914; bh=U+vldAfh5/nLtIv1m4acjz14ho6yNXMM8DQJmOys7t8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=J+mmfbRBp37YElkZ9SCgN+a0S0LaIMC0L3s29FaN6fWt6khveIfauFANY2q105RS2
+	 GY/Y3wdIjNKgFvs7wrACbtZxGKE0zPdGQAdh5Z4gI/Jkan/EwiKUq55+y/p6N6tQ7Y
+	 ayhazLblRCDT3/9vwKy+TjXb6NoaSmNba55x4t44=
 Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
-	by mail-auth.avm.de (Postfix) with ESMTPA id 5246280152;
-	Tue,  9 Jan 2024 15:14:33 +0100 (CET)
+	by mail-auth.avm.de (Postfix) with ESMTPA id CF9008058E;
+	Tue,  9 Jan 2024 15:18:33 +0100 (CET)
 Received: from reykjavik.ads.avm.de (unknown [172.17.89.91])
-	by buildd.core.avm.de (Postfix) with ESMTPS id 45F8618163E;
-	Tue,  9 Jan 2024 15:14:33 +0100 (CET)
-Date: Tue, 9 Jan 2024 15:14:30 +0100
-From: Nicolas Schier <nicolas@fjasle.eu>
+	by buildd.core.avm.de (Postfix) with ESMTPS id C250C180D04;
+	Tue,  9 Jan 2024 15:18:33 +0100 (CET)
+Date: Tue, 9 Jan 2024 15:18:29 +0100
+From: Nicolas Schier <n.schier@avm.de>
 To: Masahiro Yamada <masahiroy@kernel.org>
 Cc: linux-kbuild@vger.kernel.org, Ben Hutchings <ben@decadent.org.uk>,
 	Nathan Chancellor <nathan@kernel.org>,
 	Nick Desaulniers <ndesaulniers@google.com>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/5] kbuild: deb-pkg: make debian/rules quiet by default
-Message-ID: <ZZ1UxkCgKQ9J6Iut@reykjavik.ads.avm.de>
+	Nicolas Schier <nicolas@fjasle.eu>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/5] kbuild: deb-pkg: use debian/<package> for tmpdir
+Message-ID: <ZZ1Vtak4SG3KKVnA@reykjavik.ads.avm.de>
 References: <20231230135200.1058873-1-masahiroy@kernel.org>
- <20231230135200.1058873-2-masahiroy@kernel.org>
+ <20231230135200.1058873-3-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -48,26 +56,20 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231230135200.1058873-2-masahiroy@kernel.org>
-X-purgate-ID: 149429::1704809673-C10A692C-BB77F18E/0/0
+In-Reply-To: <20231230135200.1058873-3-masahiroy@kernel.org>
+X-purgate-ID: 149429::1704809914-6460392C-5A89843D/0/0
 X-purgate-type: clean
-X-purgate-size: 571
+X-purgate-size: 283
 X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
 X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
 X-purgate: clean
 
-On Sat, Dec 30, 2023 at 10:51:57PM +0900, Masahiro Yamada wrote:
-> Add $(Q) to commands in debian/rules to make them quiet when the package
-> built is initiated by 'make deb-pkg'.
+On Sat, Dec 30, 2023 at 10:51:58PM +0900, Masahiro Yamada wrote:
+> Use debian/<package> for tmpdir, which is the default of debhelper.
+> This simplifies the code.
 > 
-> While the commands in debian/rules are not hidden when you directly work
-> with the debianized tree, you can set 'terse' to DEB_BUILD_OPTIONS to
-> silence them.
-
-Reading Debian Policy §4.9 [1] I'd expected some fiddling with V=1 or
-'make -s', but I am ok with the simple '@' silencing (which matches my
-personal preference).
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
 
 Reviewed-by: Nicolas Schier <n.schier@avm.de>
 
