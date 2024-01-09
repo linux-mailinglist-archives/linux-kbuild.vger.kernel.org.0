@@ -1,141 +1,141 @@
-Return-Path: <linux-kbuild+bounces-493-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-494-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94A2A8285C9
-	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jan 2024 13:08:59 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA1248286FD
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jan 2024 14:24:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4569B1F2551D
-	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jan 2024 12:08:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1B17228723E
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jan 2024 13:24:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA00838FAD;
-	Tue,  9 Jan 2024 12:07:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34530381CD;
+	Tue,  9 Jan 2024 13:24:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DbvvzB/W"
+	dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b="XbOUl1YL"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.avm.de (mail.avm.de [212.42.244.119])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B472038FA6;
-	Tue,  9 Jan 2024 12:07:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F25DC43394;
-	Tue,  9 Jan 2024 12:07:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704802075;
-	bh=MZbzN22IX64OiGkpAjMsQ5NKuAEc1kV5o4lDIUMEQFM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=DbvvzB/WipWO1m+9QDyIUGPgsBhQaQ1OsuX1m2GRu7ZM0lKndEJKtlkRqgMAUWXzt
-	 TJzYLXMvrCV/MlTEnRvN7LZgbirbseq2QPuZLdVdI8QaxYiZMlL32KYZMT9+RA8dwC
-	 y3DBkqM7g21tzJd9wKKt6XYksspHLVzZm7FFPAh8jsLAMwGr6i+MHyT0Il4TI1ILj4
-	 1S3xvWz50/z0zMl40PZYZoneUu81Zld07pTddyhS3fNtMw4y3DNm5m3nzVSkPac0VD
-	 xpwpPWUH05jChaK+RHn8VVB6JQiVF2gA44R5RhtsAm560gWml85FxDyhjngRMC//nF
-	 mrABK+fq+yCaw==
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: linux-kbuild@vger.kernel.org
-Cc: devicetree@vger.kernel.org,
-	Rob Herring <robh+dt@kernel.org>,
-	Simon Glass <sjg@chromium.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DD0438F89;
+	Tue,  9 Jan 2024 13:24:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=avm.de
+Received: from mail-auth.avm.de (unknown [IPv6:2001:bf0:244:244::71])
+	by mail.avm.de (Postfix) with ESMTPS;
+	Tue,  9 Jan 2024 14:24:10 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
+	t=1704806650; bh=tMStWelCVVDu4o3rBq23Y0TJCZcZ13Gsa2QHe6beLOY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XbOUl1YLQzT+Q5pGYYeIrGuUkIFunMxyTZ3ap8V5rYuiUE1MXPgt+aWXXNCOOt4nk
+	 gJLKWYOqidHStMn1nCQLL8bCpspF9ePqnkGdDAjMn1+XQkBetXY8sBya7aIX+jMDF2
+	 WU4hSJNNgAW4uPeyCHRMGxcg6RZjZ3Jd6vGK3pdc=
+Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
+	by mail-auth.avm.de (Postfix) with ESMTPA id 8FF5C8001F;
+	Tue,  9 Jan 2024 14:24:10 +0100 (CET)
+Received: from reykjavik.ads.avm.de (unknown [172.17.89.91])
+	by buildd.core.avm.de (Postfix) with ESMTPS id 848DC180DE2;
+	Tue,  9 Jan 2024 14:24:10 +0100 (CET)
+Date: Tue, 9 Jan 2024 14:24:07 +0100
+From: Nicolas Schier <n.schier@avm.de>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, Ben Hutchings <ben@decadent.org.uk>,
 	Nathan Chancellor <nathan@kernel.org>,
 	Nick Desaulniers <ndesaulniers@google.com>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 4/4] kbuild: allow 'make dtbs_install' to install primitive DTBs
-Date: Tue,  9 Jan 2024 21:07:37 +0900
-Message-Id: <20240109120738.346061-5-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20240109120738.346061-1-masahiroy@kernel.org>
-References: <20240109120738.346061-1-masahiroy@kernel.org>
+	linux-kernel@vger.kernel.org, Nicolas Schier <nicolas@fjasle.eu>
+Subject: Re: [PATCH 1/5] kbuild: deb-pkg: move 'make headers' to build-arch
+Message-ID: <ZZ1I95oHTayfygue@reykjavik.ads.avm.de>
+References: <20231230135200.1058873-1-masahiroy@kernel.org>
+ <CAK7LNATLZ2rt8fFZYu1KX4HW5s0EjNbDEXp8csCPGtA5a-6qPw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK7LNATLZ2rt8fFZYu1KX4HW5s0EjNbDEXp8csCPGtA5a-6qPw@mail.gmail.com>
+X-purgate-ID: 149429::1704806650-92EC05FF-B30D294E/0/0
+X-purgate-type: clean
+X-purgate-size: 2372
+X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
+X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
+X-purgate: clean
 
-Commit 15d16d6dadf6 ("kbuild: Add generic rule to apply fdtoverlay")
-introduced the -dtbs syntax to apply overlays during the build process.
+On Tue, Jan 09, 2024 at 01:38:07PM +0900, Masahiro Yamada wrote:
+> On Sat, Dec 30, 2023 at 10:52 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> >
+> > Strictly speaking, 'make headers' should be a part of build-arch
+> > instead of binary-arch.
+> >
+> > 'make headers' constructs read-to-copy UAPI headers in the kernel
 
-However, scripts/Makefile.dtbinst is not aware of the -dtbs syntax,
-so 'make dtbs_install' installs the files directly added to dtb-y.
-(Presumably, it was intentional.)
+s/read/ready/ ?
 
-For example, consider this case:
+> > directory.
+> >
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > ---
+> >
+> >  scripts/package/builddeb     | 1 -
+> >  scripts/package/debian/rules | 4 ++--
+> >  2 files changed, 2 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/scripts/package/builddeb b/scripts/package/builddeb
+> > index cc8c7a807fcc..842ee4b40528 100755
+> > --- a/scripts/package/builddeb
+> > +++ b/scripts/package/builddeb
+> > @@ -155,7 +155,6 @@ install_libc_headers () {
+> >
+> >         rm -rf $pdir
+> >
+> > -       $MAKE -f $srctree/Makefile headers
+> >         $MAKE -f $srctree/Makefile headers_install INSTALL_HDR_PATH=$pdir/usr
+> >
+> >         # move asm headers to /usr/include/<libc-machine>/asm to match the structure
+> > diff --git a/scripts/package/debian/rules b/scripts/package/debian/rules
+> > index cb084e387469..a686c37d0d02 100755
+> > --- a/scripts/package/debian/rules
+> > +++ b/scripts/package/debian/rules
+> > @@ -26,8 +26,8 @@ binary-arch: build-arch
+> >  build: build-arch build-indep
+> >  build-indep:
+> >  build-arch:
+> > -       $(MAKE) $(make-opts) \
+> > -       olddefconfig all
+> > +       $(MAKE) $(make-opts) olddefconfig
+> > +       $(MAKE) $(make-opts) headers all
+> 
+> 
+> 
+> 
+> To avoid a build error for ARCH=um,
+> I will apply the following fix-up.
+> 
+> 
+> 
+> 
+> 
+> diff --git a/scripts/package/debian/rules b/scripts/package/debian/rules
+> index 1a18ca3c43db..098307780062 100755
+> --- a/scripts/package/debian/rules
+> +++ b/scripts/package/debian/rules
+> @@ -27,7 +27,7 @@ build: build-arch build-indep
+>  build-indep:
+>  build-arch:
+>         $(MAKE) $(make-opts) olddefconfig
+> -       $(MAKE) $(make-opts) headers all
+> +       $(MAKE) $(make-opts) $(if $(filter um,$(ARCH)),,headers) all
 
-    foo1-dtbs := foo_base.dtb foo_overlay1.dtbo
-    foo2-dtbs := foo_base.dtb foo_overlay2.dtbo
-    dtb-y := foo1.dtb foo2.dtb
+Reviewed-by: Nicolas Schier <n.schier@avm.de>
 
-'make dtbs_install' only installs foo1.dtb and foo2.dtb. It is suitable
-when the boot image supports a single hardware configuration, or when
-the boot loader in use does not support applying overlays.
+I'm wondering if we might want to change the headers target in top-level
+Makefile to not bail-out for ARCH=um but only show a warning that there
+is nothing to export.
 
-However, when creating a boot image with multiple board supports, it
-wastes storage space, as foo1.dtb and foo2.dtb have foo_base.dtb in
-common.
-
-From a space perspective, a more optimal solution is to install
-foo_base.dtb, foo_overlay1.dtbo, and foo_overlay2.dtbo, then assemble
-the final dtb (either foo1.dtb or foo2.dtb) on the boot loader.
-
-This commit adds a new flag, INSTALL_DTBS_PRIMITIVE.
-
-With INSTALL_DTBS_PRIMITIVE=1, 'make dtbs_install' will install primitive
-files (such as foo_base.dtb, foo_overlay1.dtbo, and foo_overlay2.dtbo in
-this case).
-
-Without INSTALL_DTBS_PRIMITIVE, the current behavior is maintained
-(foo1.dtb and foo2.dtb will be installed in this case).
-
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
- Documentation/kbuild/kbuild.rst | 6 ++++++
- scripts/Makefile.dtbinst        | 8 +++++++-
- 2 files changed, 13 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
-index 9c8d1d046ea5..d803ca5afc07 100644
---- a/Documentation/kbuild/kbuild.rst
-+++ b/Documentation/kbuild/kbuild.rst
-@@ -249,6 +249,12 @@ INSTALL_DTBS_PATH specifies where to install device tree blobs for
- relocations required by build roots.  This is not defined in the
- makefile but the argument can be passed to make if needed.
- 
-+INSTALL_DTBS_PRIMITIVE
-+----------------------
-+INSTALL_DTBS_PRIMITIVE, if defined, will cause the dtbs_install target to
-+install the base dtb and overlay dtbo files instead of assembled dtb files
-+constructed by overlay application.
-+
- KBUILD_ABS_SRCTREE
- --------------------------------------------------
- Kbuild uses a relative path to point to the tree when possible. For instance,
-diff --git a/scripts/Makefile.dtbinst b/scripts/Makefile.dtbinst
-index 67956f6496a5..14111a86987a 100644
---- a/scripts/Makefile.dtbinst
-+++ b/scripts/Makefile.dtbinst
-@@ -22,7 +22,13 @@ quiet_cmd_dtb_install = INSTALL $@
- $(dst)/%: $(obj)/%
- 	$(call cmd,dtb_install)
- 
--dtbs := $(patsubst $(obj)/%,%,$(call read-file, $(obj)/dtbs-list))
-+dtbs := $(call read-file, $(obj)/dtbs-list)
-+
-+ifdef INSTALL_DTBS_PRIMITIVE
-+dtbs := $(foreach f, $(dtbs), $(if $(filter %.dtb,$(f)),$(call read-file, $(patsubst %.dtb,%.dtlst,$(f))),$(f)))
-+endif
-+
-+dtbs := $(patsubst $(obj)/%,%,$(dtbs))
- 
- ifdef CONFIG_ARCH_WANT_FLAT_DTB_INSTALL
- 
--- 
-2.40.1
-
+Kind regards,
+Nicolas
 
