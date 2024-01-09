@@ -1,229 +1,73 @@
-Return-Path: <linux-kbuild+bounces-496-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-497-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEFD38287A1
-	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jan 2024 15:03:17 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EEB3C8287D7
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jan 2024 15:15:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 010751C216A5
-	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jan 2024 14:03:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 88A922863AD
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jan 2024 14:15:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB0633986C;
-	Tue,  9 Jan 2024 14:02:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QSiKu9sm"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ABC9639864;
+	Tue,  9 Jan 2024 14:14:58 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.avm.de (mail.avm.de [212.42.244.94])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B27E739851;
-	Tue,  9 Jan 2024 14:02:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11CA0C43390;
-	Tue,  9 Jan 2024 14:02:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704808939;
-	bh=ySGWGM6KAkW2Wvf68TJ4tX2XgT/a98DZvuxdIxEnpFg=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=QSiKu9smlPJRTZ5t2XfwSf201qynpyqIXrjx2VivuJqP+AxM9kA3+HMzIAv6H0Q7S
-	 kkSsSg4uq+IzBGkq1BkauN/kmxjau2SUxLmvu91qLuxLpD9AY2NLpAbxSVuDtGtozt
-	 DlxXZ92Qt/+2uafPOuXWTEYN95m3Bd6uRwCdBE206GrgqNHUuG5ex74X/tQlavj6nG
-	 m1qGsGL0SVmX5Z+adZKVfi16ZfqA2hn847LFRPnU3GW5pNSe+7/+BOxbwv5QWrJvwJ
-	 V4+LU3C2eKnRE9fZhQ1HV7SHD7Pf+pJFrEe9XOk04NocNe9bEaxXDvhTHw2FJTtzPs
-	 z6PeZsLKUdp/A==
-Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-204dfd7a89aso1387101fac.1;
-        Tue, 09 Jan 2024 06:02:19 -0800 (PST)
-X-Gm-Message-State: AOJu0YzFqwlDRlComlDnvKZSiBcBrLNJdW5EunJ6qGnyFtkKJHiEan7X
-	iDmRUxmD51Bx/GOPHXDJWJkOYsXn5VJecRxJnHQ=
-X-Google-Smtp-Source: AGHT+IFlTnlM5PnQAacW9Sy3tlgTzLI2sRSd9sbzVX2G3fIH3OgI3KNJpyEpr0ABbrCkSjtQP8yf/hVfXgpGMPs7EdA=
-X-Received: by 2002:a05:6870:170e:b0:203:bb46:fb67 with SMTP id
- h14-20020a056870170e00b00203bb46fb67mr305930oae.43.1704808938423; Tue, 09 Jan
- 2024 06:02:18 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 112E939863;
+	Tue,  9 Jan 2024 14:14:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=fjasle.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=fjasle.eu
+Received: from mail-auth.avm.de (unknown [IPv6:2001:bf0:244:244::71])
+	by mail.avm.de (Postfix) with ESMTPS;
+	Tue,  9 Jan 2024 15:14:33 +0100 (CET)
+Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
+	by mail-auth.avm.de (Postfix) with ESMTPA id 5246280152;
+	Tue,  9 Jan 2024 15:14:33 +0100 (CET)
+Received: from reykjavik.ads.avm.de (unknown [172.17.89.91])
+	by buildd.core.avm.de (Postfix) with ESMTPS id 45F8618163E;
+	Tue,  9 Jan 2024 15:14:33 +0100 (CET)
+Date: Tue, 9 Jan 2024 15:14:30 +0100
+From: Nicolas Schier <nicolas@fjasle.eu>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, Ben Hutchings <ben@decadent.org.uk>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/5] kbuild: deb-pkg: make debian/rules quiet by default
+Message-ID: <ZZ1UxkCgKQ9J6Iut@reykjavik.ads.avm.de>
+References: <20231230135200.1058873-1-masahiroy@kernel.org>
+ <20231230135200.1058873-2-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231202035511.487946-1-sjg@chromium.org> <20231202035511.487946-3-sjg@chromium.org>
- <20231213121353.GA31326@willie-the-truck> <CAFLszTjfmSx1YMqzb2TsQf7sP4KrcQB=X7DY_HxRQp0J5HAppQ@mail.gmail.com>
-In-Reply-To: <CAFLszTjfmSx1YMqzb2TsQf7sP4KrcQB=X7DY_HxRQp0J5HAppQ@mail.gmail.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 9 Jan 2024 23:01:42 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQRCDC03e=TVO=k4FuD2a2RdTy7yLr3UptQjVCX7pM1CA@mail.gmail.com>
-Message-ID: <CAK7LNAQRCDC03e=TVO=k4FuD2a2RdTy7yLr3UptQjVCX7pM1CA@mail.gmail.com>
-Subject: Re: [PATCH v9 2/2] arm64: boot: Support Flat Image Tree
-To: Simon Glass <sjg@chromium.org>
-Cc: Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org, 
-	Ahmad Fatoum <a.fatoum@pengutronix.de>, U-Boot Mailing List <u-boot@lists.denx.de>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Tom Rini <trini@konsulko.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>, linux-doc@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	workflows@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231230135200.1058873-2-masahiroy@kernel.org>
+X-purgate-ID: 149429::1704809673-C10A692C-BB77F18E/0/0
+X-purgate-type: clean
+X-purgate-size: 571
+X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
+X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
+X-purgate: clean
 
-Hi Simon,
+On Sat, Dec 30, 2023 at 10:51:57PM +0900, Masahiro Yamada wrote:
+> Add $(Q) to commands in debian/rules to make them quiet when the package
+> built is initiated by 'make deb-pkg'.
+> 
+> While the commands in debian/rules are not hidden when you directly work
+> with the debianized tree, you can set 'terse' to DEB_BUILD_OPTIONS to
+> silence them.
 
+Reading Debian Policy §4.9 [1] I'd expected some fiddling with V=1 or
+'make -s', but I am ok with the simple '@' silencing (which matches my
+personal preference).
 
-On Wed, Jan 3, 2024 at 8:47=E2=80=AFAM Simon Glass <sjg@chromium.org> wrote=
-:
->
-> Hi Masahiro,
->
-> On Wed, Dec 13, 2023 at 5:14=E2=80=AFAM Will Deacon <will@kernel.org> wro=
-te:
-> >
-> > On Fri, Dec 01, 2023 at 08:54:42PM -0700, Simon Glass wrote:
-> > > Add a script which produces a Flat Image Tree (FIT), a single file
-> > > containing the built kernel and associated devicetree files.
-> > > Compression defaults to gzip which gives a good balance of size and
-> > > performance.
-> > >
-> > > The files compress from about 86MB to 24MB using this approach.
-> > >
-> > > The FIT can be used by bootloaders which support it, such as U-Boot
-> > > and Linuxboot. It permits automatic selection of the correct
-> > > devicetree, matching the compatible string of the running board with
-> > > the closest compatible string in the FIT. There is no need for
-> > > filenames or other workarounds.
-> > >
-> > > Add a 'make image.fit' build target for arm64, as well. Use
-> > > FIT_COMPRESSION to select a different algorithm.
-> > >
-> > > The FIT can be examined using 'dumpimage -l'.
-> > >
-> > > This features requires pylibfdt (use 'pip install libfdt'). It also
-> > > requires compression utilities for the algorithm being used. Supporte=
-d
-> > > compression options are the same as the Image.xxx files. For now ther=
-e
-> > > is no way to change the compression other than by editing the rule fo=
-r
-> > > $(obj)/image.fit
-> > >
-> > > While FIT supports a ramdisk / initrd, no attempt is made to support
-> > > this here, since it must be built separately from the Linux build.
-> > >
-> > > Signed-off-by: Simon Glass <sjg@chromium.org>
-> > > ---
-> > >
-> > > Changes in v9:
-> > > - Move the compression control into Makefile.lib
-> > >
-> > > Changes in v8:
-> > > - Drop compatible string in FDT node
-> > > - Correct sorting of MAINTAINERS to before ARM64 PORT
-> > > - Turn compress part of the make_fit.py comment in to a sentence
-> > > - Add two blank lines before parse_args() and setup_fit()
-> > > - Use 'image.fit: dtbs' instead of BUILD_DTBS var
-> > > - Use '$(<D)/dts' instead of '$(dir $<)dts'
-> > > - Add 'mkimage' details Documentation/process/changes.rst
-> > > - Allow changing the compression used
-> > > - Tweak cover letter since there is only one clean-up patch
-> > >
-> > > Changes in v7:
-> > > - Add Image as a dependency of image.fit
-> > > - Drop kbuild tag
-> > > - Add dependency on dtbs
-> > > - Drop unnecessary path separator for dtbs
-> > > - Rebase to -next
-> > >
-> > > Changes in v5:
-> > > - Drop patch previously applied
-> > > - Correct compression rule which was broken in v4
-> > >
-> > > Changes in v4:
-> > > - Use single quotes for UIMAGE_NAME
-> > >
-> > > Changes in v3:
-> > > - Drop temporary file image.itk
-> > > - Drop patch 'Use double quotes for image name'
-> > > - Drop double quotes in use of UIMAGE_NAME
-> > > - Drop unnecessary CONFIG_EFI_ZBOOT condition for help
-> > > - Avoid hard-coding "arm64" for the DT architecture
-> > >
-> > > Changes in v2:
-> > > - Drop patch previously applied
-> > > - Add .gitignore file
-> > > - Move fit rule to Makefile.lib using an intermediate file
-> > > - Drop dependency on CONFIG_EFI_ZBOOT
-> > > - Pick up .dtb files separately from the kernel
-> > > - Correct pylint too-many-args warning for write_kernel()
-> > > - Include the kernel image in the file count
-> > > - Add a pointer to the FIT spec and mention of its wide industry usag=
-e
-> > > - Mention the kernel version in the FIT description
-> > >
-> > >  Documentation/process/changes.rst |   9 +
-> > >  MAINTAINERS                       |   7 +
-> > >  arch/arm64/Makefile               |   7 +-
-> > >  arch/arm64/boot/.gitignore        |   1 +
-> > >  arch/arm64/boot/Makefile          |   6 +-
-> > >  scripts/Makefile.lib              |  16 ++
-> > >  scripts/make_fit.py               | 291 ++++++++++++++++++++++++++++=
-++
-> > >  7 files changed, 334 insertions(+), 3 deletions(-)
-> > >  create mode 100755 scripts/make_fit.py
-> >
-> > I'll need Masahiro's Ack on the scripts/ changes before I can take this
-> > one.
->
-> Any thoughts on this request, please?
->
-> Regards,
-> Simon
->
-
-
-
-As I mentioned before, I am concerned with having
-the same "compatible" entries, with different contents,
-as you use the "compatible" string as an ID to selecting
-the target config node, right?
-
-
-
-
-
-$ fdtdump  arch/arm64/boot/image.fit
-
-        ...
-
-        conf-10 {
-            compatible =3D "tq,am642-tqma6442l-mbax4xxl",
-"tq,am642-tqma6442l", "ti,am642";
-            description =3D "TQ-Systems TQMa64xxL SoM on MBax4xxL carrier b=
-oard";
-            fdt =3D "fdt-10";
-            kernel =3D "kernel";
-        };
-
-        ...
-
-        conf-25 {
-            compatible =3D "tq,am642-tqma6442l-mbax4xxl",
-"tq,am642-tqma6442l", "ti,am642";
-            description =3D "TQ-Systems TQMa64xxL SoM on MBax4xxL carrier b=
-oard";
-            fdt =3D "fdt-25";
-            kernel =3D "kernel";
-        };
-
-
-
-
-
-
-
-
-
-
-
-
---=20
-Best Regards
-Masahiro Yamada
+Reviewed-by: Nicolas Schier <n.schier@avm.de>
 
