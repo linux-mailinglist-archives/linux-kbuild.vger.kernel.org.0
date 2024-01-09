@@ -1,291 +1,192 @@
-Return-Path: <linux-kbuild+bounces-501-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-502-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03AC182882A
-	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jan 2024 15:34:13 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id AFB1582882E
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jan 2024 15:34:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A1160284DAE
-	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jan 2024 14:34:06 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 247291F2487A
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jan 2024 14:34:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CB8939ACD;
-	Tue,  9 Jan 2024 14:33:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89F5529433;
+	Tue,  9 Jan 2024 14:34:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=konsulko.com header.i=@konsulko.com header.b="ttBibp+7"
+	dkim=pass (1024-bit key) header.d=prevas.dk header.i=@prevas.dk header.b="lTf166/B"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from EUR01-HE1-obe.outbound.protection.outlook.com (mail-he1eur01on2124.outbound.protection.outlook.com [40.107.13.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 536B529433
-	for <linux-kbuild@vger.kernel.org>; Tue,  9 Jan 2024 14:33:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=konsulko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=konsulko.com
-Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-3bc09844f29so2735552b6e.0
-        for <linux-kbuild@vger.kernel.org>; Tue, 09 Jan 2024 06:33:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1704810833; x=1705415633; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=KndaEanNVFQPZ7Lw6pt5cv26Ibm+dtDXNTXdZgR28WQ=;
-        b=ttBibp+7cqncCuWlkMmYZ8MY29t/RxYrj9ZUVNUrZ7HvDF4jXvcuqEfUZDDs+7s4UW
-         3fQaNz9jIbSuOq/zN79PVAEdidiofG7EY7NZVipF5eS5DFK1D64bIpsJHevcZ2duUMxf
-         A1G5m7h26PH0WmPdze9FdrgmSI7x5VnuMsCac=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704810833; x=1705415633;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KndaEanNVFQPZ7Lw6pt5cv26Ibm+dtDXNTXdZgR28WQ=;
-        b=gRslQ8ppvHBrQ/REDhDqyUhFo3Y8FMZ1zZaC/PypXZ4LpFtSCeu9TZDEOf91AAS0n3
-         dmua4UQrwlzhtzVLh21BH20NNgt8ZgMsWpzP3iq6hQnkVPTAebzpAvc6G9BurEVyeYvf
-         mdfKuByXOxOBWhfSdQYV2VuqLI+2FA4Mvj+QRxpkBKcuabOe396PAO0z4Dt6vkjwc4gB
-         +cQti2d0nWb9jhp30zR67kLiCaLes4fiwRbX0MsJLuZNhR63AowN6LnextQoT7ghGFjm
-         RURiAOnaZBel2tsGeyiUusnEP9vxAlRgPg12TEAGJbKCXvZgzAzee3caBrnxGmO+txNw
-         +i9Q==
-X-Gm-Message-State: AOJu0Ywgg69W0snKtsasfHhEClUhAFL3j1Hf/surJkCi2Q5UyG4DXBaG
-	TV8MaIuU6WeSaQdgAiq0mfjXbihXmcwBxA==
-X-Google-Smtp-Source: AGHT+IGuTLpONWsP7VKq5UjGPl/Es4KMJFkKp6ldUZWiWuDm0uOjRn5jMKDhiVkKUbu7uGjUSn0xCg==
-X-Received: by 2002:a05:6808:318a:b0:3ba:8e3:f4f4 with SMTP id cd10-20020a056808318a00b003ba08e3f4f4mr7530220oib.107.1704810832929;
-        Tue, 09 Jan 2024 06:33:52 -0800 (PST)
-Received: from bill-the-cat (2603-6081-7b00-3119-0000-0000-0000-1002.res6.spectrum.com. [2603:6081:7b00:3119::1002])
-        by smtp.gmail.com with ESMTPSA id eh14-20020a056214186e00b0068112217ecasm833392qvb.117.2024.01.09.06.33.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jan 2024 06:33:52 -0800 (PST)
-Date: Tue, 9 Jan 2024 09:33:49 -0500
-From: Tom Rini <trini@konsulko.com>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Simon Glass <sjg@chromium.org>, Will Deacon <will@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	Ahmad Fatoum <a.fatoum@pengutronix.de>,
-	U-Boot Mailing List <u-boot@lists.denx.de>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Terrell <terrelln@fb.com>, linux-doc@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	workflows@vger.kernel.org, Rob Herring <robh@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29B5E39FCE;
+	Tue,  9 Jan 2024 14:34:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=prevas.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=prevas.dk
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bi+F0BULrd/eF3C6Ixk+YcJAKFl1RgNiGsPweuArKtFBVupRpCtuumajQxiYp8TuVn5ABsj1H55QOAuNaR3lTV+Mo7JCHJRqL/hl8I196wmiZsPZWzxqoWXm2Dt0BDMNUv468odxcxwklRRWh5y/FjQpNZG5Evs4IPrhzaNcW3oMs3RU4jH7PjBky+pmqrKyVCnph0gFNB9hONcfSDRCsE9SZ52ufKh5nrvW9+yNLaBLxJXPrOWTKpw7FydJX3cgBiL4lRpAJM3eGeaH9FtnQaxHQCAFbc09kkMrxcRYYK3NlCr1wMVRqYXFom+CoIMzsEbeSO5KQ2V4c0gEtbGmRQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rig4AzIEKgnI0FRtZ2X5kntJ5euWcmJ6VFGVwr/Nbl8=;
+ b=gvcXlMFYuyxJXUIBQOfBohDc9EIujk4a5VSVrqap/7aEUWy96vr9xwuGt9hgnng5BYg1DgyrUzwL+VfPfP3Znfijyi4JXURvrxizhFF0G5YCgCiCWctDvmMF5gwQHTRJOq5/denIvapAg9AIbCuwIQMf5k2yEpQGpc+E/5B1efoMmnJGjjZ5FnCZjeN2Fp4LVrjJ1xl3gIjNYusXDeP8NjS7nqTSwc7/IBADnI7A0A3UDqxmADnkMlJidRttmGe3mjWwylLY5Ta/cxeaoGpRZwqbtouO0cpHMnx2E//rK+wXkvtcgGE4HiE0mFM3wM5e7J33IanRowzZaXaP2gStfQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=prevas.dk; dmarc=pass action=none header.from=prevas.dk;
+ dkim=pass header.d=prevas.dk; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prevas.dk;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rig4AzIEKgnI0FRtZ2X5kntJ5euWcmJ6VFGVwr/Nbl8=;
+ b=lTf166/BEXrzyHJElv/C8WMUz94l1e/dCC3utf95Pyhp+n4d6QsIZhiJ2lEkJEqjo0926XuEY5I+TacuVXlGEphB9pfsaM4+CF5UmvaqshAidsADvbQ+wz0407sGHJts5cyJku9qGaac+LIwb0B5b4vaFYNYCL/8jJxKFf4iduU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=prevas.dk;
+Received: from DB9PR10MB7100.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:45a::14)
+ by VE1PR10MB3901.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:800:164::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7159.23; Tue, 9 Jan
+ 2024 14:33:58 +0000
+Received: from DB9PR10MB7100.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::f059:23ad:b039:15de]) by DB9PR10MB7100.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::f059:23ad:b039:15de%7]) with mapi id 15.20.7159.020; Tue, 9 Jan 2024
+ 14:33:58 +0000
+Message-ID: <5cdd1385-e2cf-4280-a31a-27e15a927b10@prevas.dk>
+Date: Tue, 9 Jan 2024 15:33:55 +0100
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v9 2/2] arm64: boot: Support Flat Image Tree
-Message-ID: <20240109143349.GR1610741@bill-the-cat>
+Content-Language: en-US, da
+To: Masahiro Yamada <masahiroy@kernel.org>, Chen-Yu Tsai <wenst@chromium.org>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Simon Glass <sjg@chromium.org>, linux-arm-kernel@lists.infradead.org,
+ Ahmad Fatoum <a.fatoum@pengutronix.de>,
+ U-Boot Mailing List <u-boot@lists.denx.de>,
+ Nicolas Schier <nicolas@fjasle.eu>, Tom Rini <trini@konsulko.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>,
+ Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>,
+ Will Deacon <will@kernel.org>, linux-doc@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ workflows@vger.kernel.org
 References: <20231202035511.487946-1-sjg@chromium.org>
  <20231202035511.487946-3-sjg@chromium.org>
- <20231213121353.GA31326@willie-the-truck>
- <CAFLszTjfmSx1YMqzb2TsQf7sP4KrcQB=X7DY_HxRQp0J5HAppQ@mail.gmail.com>
- <CAK7LNAQRCDC03e=TVO=k4FuD2a2RdTy7yLr3UptQjVCX7pM1CA@mail.gmail.com>
+ <20231203153401.GV8402@pendragon.ideasonboard.com>
+ <20231207142723.GA3187877@google.com>
+ <20231207143814.GD15521@pendragon.ideasonboard.com>
+ <CAGXv+5Go_0pEVAOLQmRCc_a9-YUtZEmBfXtMuBupX_nb9iqwbw@mail.gmail.com>
+ <20231209152946.GC13421@pendragon.ideasonboard.com>
+ <CAMuHMdVMZs6mnwWBgFwktO=8o=QzROv60cfZe085MhD6HxQjpQ@mail.gmail.com>
+ <CAGXv+5Est3FL-XcEL-vB-6zVNas0mqb2cNYa==Yb7W2SQU9xVQ@mail.gmail.com>
+ <CAK7LNATyD-PeNbaLTjJmU9=koqqE+V6QvFe09c2VrXopWvjpcw@mail.gmail.com>
+ <CAK7LNAR7Fm-1yaZmyH78vG5yNbbW2Avjj5F63u+aST6JQoMd5A@mail.gmail.com>
+From: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+In-Reply-To: <CAK7LNAR7Fm-1yaZmyH78vG5yNbbW2Avjj5F63u+aST6JQoMd5A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MM0P280CA0037.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:190:b::27) To DB9PR10MB7100.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:10:45a::14)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="0FoRISOaCA+A7e3o"
-Content-Disposition: inline
-In-Reply-To: <CAK7LNAQRCDC03e=TVO=k4FuD2a2RdTy7yLr3UptQjVCX7pM1CA@mail.gmail.com>
-X-Clacks-Overhead: GNU Terry Pratchett
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB9PR10MB7100:EE_|VE1PR10MB3901:EE_
+X-MS-Office365-Filtering-Correlation-Id: a0977f1e-bf57-422e-1f40-08dc1120042b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	sRwFhiok8SrOYPAJVtIEmAVq7jh4L67eIpUbV4yYh24fj9pQkpAyLwWRW4DlHP3o4bLk11avRS3Q4s4Z7jEoSGLif8zZ/wM+o0QANDbiSYxTqUtMVkVUU17ubr2OJHZpYN/XdeVsui230ujfRVprHGfaNJqY4Omn54BKGZE5q0HSMF6gvgGIEADACKUZwq1TmHT1IxWiAy+z2bORoOYZu38zCt5Px3bs4zq0caNjFLo1mzCoL/srnVq2a6a9xT6PiNqxjpBv2nJ/Cb7gAvK1MmZc1zT6+1YQglGK6QrvIMjsG030C25vMJ7FzIFh5iUzoDUuK2vOxd3c6qfWWOM1MEXwthg4h+VuPqbxEYf+J1X4zSMpUuSgR4y/mWoG1IhDPVnSYN3geKGOmiD6FxDeadFPp7dwV29k3kUJ9sBHl/BexBXPusehzmvJ8H4tDVljt67a36Y/Y+dIoTRcE4CY61eO+d+Bbl/TWoKNDqPw43d42f9D6yOcHg9JQxO2B6KHZJHKHF6zX/mPg02LnCLLe/497KCqFJ98FTsqNoNsK3PepD20lbUcDT9SG++rsBe/z4y5GHTWqTYV8/jd/7iIpWfnp9pAI+HcLEb0DrBOP9owYIyGef5AaREiJ5dD8uhic23qjRpm27K+Z1FLS5D1Qg==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR10MB7100.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(396003)(366004)(376002)(39840400004)(136003)(346002)(230922051799003)(1800799012)(64100799003)(451199024)(186009)(31686004)(83380400001)(66946007)(41300700001)(36756003)(86362001)(31696002)(38100700002)(26005)(2616005)(6506007)(53546011)(6512007)(6486002)(2906002)(54906003)(66556008)(66476007)(478600001)(316002)(110136005)(6666004)(44832011)(8976002)(8676002)(8936002)(4326008)(7416002)(5660300002)(43740500002)(45980500001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?VytqUkp2UWRZV0ltVkhUSVJBaFRhOXNIODZFNENDU3MxS3ZNSzcvMXBhVUFM?=
+ =?utf-8?B?K1czVGdqbkFETEtCSk95bDlvb1cwQTdxcFA5NDhlaEpLVUZZNFhubGpvZWov?=
+ =?utf-8?B?cWY1bG9xMzYxQkl1MS92Rytmb3VYajhIeDg5NzN6OXBHS0xMeS9PZXUydExu?=
+ =?utf-8?B?QjJpdWJHT0M0TEhYeHFYTXhDV24venhGUlFTWTN0QVkwRE8rWFdaOUF1RXlV?=
+ =?utf-8?B?OHVKbDN1OGJHUU83RTY3aE5xVVh2MDRPMW43MXJ0VHBrQXAyNU9lNWhoVFJv?=
+ =?utf-8?B?Y1JBam9qYm5NUW95U1p3SWIzOHY0SU9CVzhYMnBsMlVKWjhjQVJBS0xwVlBp?=
+ =?utf-8?B?U0ZKeEhXZEVFSjQrWmg4S25nM1JETlVFUHFHU0JOZjJyMUZaT3pBK1pxbXFj?=
+ =?utf-8?B?RzNTS2N2MFk3VUVpeldJamJkZzZrM1NxY20wUFI2K0ZZd2FtSXdFdHgydnpH?=
+ =?utf-8?B?ajIvY1k3dHlVL0t0Y2ZGc2NOeGIwRk5DSG55c1JJY0xVUmNGUlRVWnlZeGt2?=
+ =?utf-8?B?RFhPcTRKU1QzRUZzKy9UcS8wRE9LT0QyZDJIbXZlN29TeFJjSWlUa1lpYnYw?=
+ =?utf-8?B?cWE0ancwM2FiUmIvY1dzNit3U3ZZNGV2WTlvaTN3Q2VnUjlUTFdwWVpHU1BV?=
+ =?utf-8?B?clVnTGpESzBpRFlBZVBPMkJtMjJzVyt5dHBnZTh0R1AySTBuZ1A5WDNzUW9s?=
+ =?utf-8?B?RXNaZTNjWENocEovc21BWTR1alpydFAvcGREaDQ4bVk1aG12eTVMU3FjL1F6?=
+ =?utf-8?B?bGlkdGNxT251QVZXMFY3bEdxS1U4b1d1cVp1MEhMSHV5SWVqNnV5aHhuNEg1?=
+ =?utf-8?B?UENjaDVGLzIyQ2hHN0JIc2VsTHNRMUpSejQ5ME1vSmRuL2JxUXJCdlhERzZx?=
+ =?utf-8?B?bk1KcFRQLy95WVEvVGhIQ3p6blFRbVV3QjQ3c0lpSWxWRUU1dlhvUWpLN2xu?=
+ =?utf-8?B?c1pyaFp2RG84OGl1ZmR1SWRTMnN2T1VockJaNlJ4blFqcXQ1U0NCQlFIOUg3?=
+ =?utf-8?B?aXFxN0U0SjZ0dFpSNkRaK0ZsVSs4a2xpNy9VUzBQa1ZoeFNFbCt0U2gycnoy?=
+ =?utf-8?B?WkxjNW5VOU5EYVZZY2FIZkJQblpQaThYTU53NSthWnR2NVcxV0NDT29XeEhI?=
+ =?utf-8?B?MlhYaUw4c2FnWXVBY0t5ZTBQUXJqZXVjRWRFNGV5MHN2Q0tuY3BkMnZYeVZG?=
+ =?utf-8?B?TkZUVEMxQWdrelIyQzZOeExxQ05PelFRMFdPQ1h3Z1RDUlArTmZVZ01Zc2NS?=
+ =?utf-8?B?anZHN3J5bWxLVUZJRi9QdnVKR2pyeGVJZStXb09QRG5JcHRaSjR3ZXJzZkU1?=
+ =?utf-8?B?RnNhS3N1SmZqREV5djdUSTQxQmk1ekl1ZGpKOXEweXNjRzM0TkNRMUdScXVt?=
+ =?utf-8?B?UDUyeXY1cFBWeStQZWQ2eksxWHE0M1dsdlg1dGJBWEJESnRGUUZoWkFVbS9V?=
+ =?utf-8?B?UWN4K0pIVFhZS05KZ1B4amNRZ0d5ckJRN3I0aUJtL1NEMnJtdktXaEVrOHpB?=
+ =?utf-8?B?c2pmVm9Td0tTS2pRQ3ZyQ0ZyeVgycUxEU2JoRDE4dDdiZ09uT0N3bTdMNzJF?=
+ =?utf-8?B?clkzaEMwSVhkMmNCWHowQjZFVzBvY0VrZDdaQXR1UVVHYndXTEw3dVFMM0hq?=
+ =?utf-8?B?L3dTVVUvSDhVbEd1UUxNVkpHanhhVy9PV3o1UVlZNWdtNEs1RTQxTjdZZDcz?=
+ =?utf-8?B?ejVjMzJJZXE3ZG5Jb1ZkZkxNc1VHTFgrZVgzRWtkMkxhNXN1eE0rOXF2VzRv?=
+ =?utf-8?B?bE1henExT3YxbVdGaGt1UHVZMy9CaytGZmpObWxCUmxEdWNvUTJNb3FWTXlS?=
+ =?utf-8?B?U1JCbWJFR3FJNVZzN0l2aExGdlZQR2hYbVBYdlA4MWh1Umw4Q21mZjR6R0xt?=
+ =?utf-8?B?Vkpxby9ROUYvVzBUbFdIWUFBMG1JTm5hdW5McWV6a2lESUZ0OGxVc1ZuR1lu?=
+ =?utf-8?B?WkIzUmRnb0FiWk5KUFU3VXBzWlE3VVYvNWhJWEg3anJvcnc2cnhrYUpLZ2g4?=
+ =?utf-8?B?dDMxbDVuWW5PTEVWNzQwdGtWcjVnQkpaZzh0MjE3dzU0a0RWZWEwclZraDVR?=
+ =?utf-8?B?eGpPa21hMUlkZSsxb0dmVWN2QVltSi8xNG9yWlBpUklXZk1naGtBTmFZcVJV?=
+ =?utf-8?B?bzZSWWhobURTaWRJeTF5ZHkybnV3S3kxbUY0V3ZkQjNKSVdsSlBoU043UGpz?=
+ =?utf-8?B?NXc9PQ==?=
+X-OriginatorOrg: prevas.dk
+X-MS-Exchange-CrossTenant-Network-Message-Id: a0977f1e-bf57-422e-1f40-08dc1120042b
+X-MS-Exchange-CrossTenant-AuthSource: DB9PR10MB7100.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jan 2024 14:33:58.7841
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d350cf71-778d-4780-88f5-071a4cb1ed61
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: TAnCxOSV/2sBlF5VzTkCZukbNauO/eIB5WsdTFKoQlpZq2FjjvziEKoYxaecGWnQBJhgyc7+CU+dWru2yH1T+Ls4IDFPwca/KCQKZKZmS/U=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR10MB3901
 
+On 14/12/2023 08.33, Masahiro Yamada wrote:
+> On Thu, Dec 14, 2023 at 3:12 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>>
 
---0FoRISOaCA+A7e3o
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> One more question to confirm if I can use this
+> for my practical use-cases.
+> 
+> Is U-Boot able to handle FIT (includes kernel + DTs)
+> and a separate initrd?
+> 
+>   # bootm  <fit-address>:<conf-name>  <ramdisk-address>
+> 
+> 
+> Presumably, it would be difficult to inject initramdisk
+> into image.fit later, so I am hoping bootm would work like that,
+> but I did not delve into U-Boot code.
 
-On Tue, Jan 09, 2024 at 11:01:42PM +0900, Masahiro Yamada wrote:
-> Hi Simon,
->=20
->=20
-> On Wed, Jan 3, 2024 at 8:47=E2=80=AFAM Simon Glass <sjg@chromium.org> wro=
-te:
-> >
-> > Hi Masahiro,
-> >
-> > On Wed, Dec 13, 2023 at 5:14=E2=80=AFAM Will Deacon <will@kernel.org> w=
-rote:
-> > >
-> > > On Fri, Dec 01, 2023 at 08:54:42PM -0700, Simon Glass wrote:
-> > > > Add a script which produces a Flat Image Tree (FIT), a single file
-> > > > containing the built kernel and associated devicetree files.
-> > > > Compression defaults to gzip which gives a good balance of size and
-> > > > performance.
-> > > >
-> > > > The files compress from about 86MB to 24MB using this approach.
-> > > >
-> > > > The FIT can be used by bootloaders which support it, such as U-Boot
-> > > > and Linuxboot. It permits automatic selection of the correct
-> > > > devicetree, matching the compatible string of the running board with
-> > > > the closest compatible string in the FIT. There is no need for
-> > > > filenames or other workarounds.
-> > > >
-> > > > Add a 'make image.fit' build target for arm64, as well. Use
-> > > > FIT_COMPRESSION to select a different algorithm.
-> > > >
-> > > > The FIT can be examined using 'dumpimage -l'.
-> > > >
-> > > > This features requires pylibfdt (use 'pip install libfdt'). It also
-> > > > requires compression utilities for the algorithm being used. Suppor=
-ted
-> > > > compression options are the same as the Image.xxx files. For now th=
-ere
-> > > > is no way to change the compression other than by editing the rule =
-for
-> > > > $(obj)/image.fit
-> > > >
-> > > > While FIT supports a ramdisk / initrd, no attempt is made to support
-> > > > this here, since it must be built separately from the Linux build.
-> > > >
-> > > > Signed-off-by: Simon Glass <sjg@chromium.org>
-> > > > ---
-> > > >
-> > > > Changes in v9:
-> > > > - Move the compression control into Makefile.lib
-> > > >
-> > > > Changes in v8:
-> > > > - Drop compatible string in FDT node
-> > > > - Correct sorting of MAINTAINERS to before ARM64 PORT
-> > > > - Turn compress part of the make_fit.py comment in to a sentence
-> > > > - Add two blank lines before parse_args() and setup_fit()
-> > > > - Use 'image.fit: dtbs' instead of BUILD_DTBS var
-> > > > - Use '$(<D)/dts' instead of '$(dir $<)dts'
-> > > > - Add 'mkimage' details Documentation/process/changes.rst
-> > > > - Allow changing the compression used
-> > > > - Tweak cover letter since there is only one clean-up patch
-> > > >
-> > > > Changes in v7:
-> > > > - Add Image as a dependency of image.fit
-> > > > - Drop kbuild tag
-> > > > - Add dependency on dtbs
-> > > > - Drop unnecessary path separator for dtbs
-> > > > - Rebase to -next
-> > > >
-> > > > Changes in v5:
-> > > > - Drop patch previously applied
-> > > > - Correct compression rule which was broken in v4
-> > > >
-> > > > Changes in v4:
-> > > > - Use single quotes for UIMAGE_NAME
-> > > >
-> > > > Changes in v3:
-> > > > - Drop temporary file image.itk
-> > > > - Drop patch 'Use double quotes for image name'
-> > > > - Drop double quotes in use of UIMAGE_NAME
-> > > > - Drop unnecessary CONFIG_EFI_ZBOOT condition for help
-> > > > - Avoid hard-coding "arm64" for the DT architecture
-> > > >
-> > > > Changes in v2:
-> > > > - Drop patch previously applied
-> > > > - Add .gitignore file
-> > > > - Move fit rule to Makefile.lib using an intermediate file
-> > > > - Drop dependency on CONFIG_EFI_ZBOOT
-> > > > - Pick up .dtb files separately from the kernel
-> > > > - Correct pylint too-many-args warning for write_kernel()
-> > > > - Include the kernel image in the file count
-> > > > - Add a pointer to the FIT spec and mention of its wide industry us=
-age
-> > > > - Mention the kernel version in the FIT description
-> > > >
-> > > >  Documentation/process/changes.rst |   9 +
-> > > >  MAINTAINERS                       |   7 +
-> > > >  arch/arm64/Makefile               |   7 +-
-> > > >  arch/arm64/boot/.gitignore        |   1 +
-> > > >  arch/arm64/boot/Makefile          |   6 +-
-> > > >  scripts/Makefile.lib              |  16 ++
-> > > >  scripts/make_fit.py               | 291 ++++++++++++++++++++++++++=
-++++
-> > > >  7 files changed, 334 insertions(+), 3 deletions(-)
-> > > >  create mode 100755 scripts/make_fit.py
-> > >
-> > > I'll need Masahiro's Ack on the scripts/ changes before I can take th=
-is
-> > > one.
-> >
-> > Any thoughts on this request, please?
-> >
-> > Regards,
-> > Simon
-> >
->=20
->=20
->=20
-> As I mentioned before, I am concerned with having
-> the same "compatible" entries, with different contents,
-> as you use the "compatible" string as an ID to selecting
-> the target config node, right?
->=20
->=20
->=20
->=20
->=20
-> $ fdtdump  arch/arm64/boot/image.fit
->=20
->         ...
->=20
->         conf-10 {
->             compatible =3D "tq,am642-tqma6442l-mbax4xxl",
-> "tq,am642-tqma6442l", "ti,am642";
->             description =3D "TQ-Systems TQMa64xxL SoM on MBax4xxL carrier=
- board";
->             fdt =3D "fdt-10";
->             kernel =3D "kernel";
->         };
->=20
->         ...
->=20
->         conf-25 {
->             compatible =3D "tq,am642-tqma6442l-mbax4xxl",
-> "tq,am642-tqma6442l", "ti,am642";
->             description =3D "TQ-Systems TQMa64xxL SoM on MBax4xxL carrier=
- board";
->             fdt =3D "fdt-25";
->             kernel =3D "kernel";
->         };
+I recently had occasion to use this, and it actually already works
+out-of-the-box, but perhaps it could be better documented. Though you
+need not only the ramdisk address but also the size, as in
+<addr>:<size>, and of course CONFIG_SUPPORT_RAW_INITRD.
 
-I had asked Rob a while ago about if having the same compatible for two
-functionally different machines is a feature, or a bug, and I don't
-think either of us fully agreed either way. I'd be leaning towards
-saying the above example is a bug in the dts files, it's just not been a
-bug people have worried about before due to (sadly) how little the
-top-level compatible has been used.
+My use case is bootstrapping: I have one FIT image (consisting of
+kernel, dtbs and an initramfs) which is the one that will be written to
+the target. But for bootstrapping, I (obviously) need to boot with a
+different initramfs that contains the bootstrap logic. Since this
+project uses fastboot, what I do is: upload the alternative initramfs,
+move it out of the way ('cause fastboot only supports one single target
+buffer), upload the FIT image, and "bootm $fitaddr $initrdaddr:$initrdsize".
 
---=20
-Tom
->=20
->=20
->=20
->=20
->=20
->=20
->=20
->=20
->=20
->=20
->=20
->=20
-> --=20
-> Best Regards
-> Masahiro Yamada
+> If it works, is it possible to verify the integrity of initrd?
 
---=20
-Tom
+No, I don't think so. In my case the FIT image is signed, and the kernel
+and chosen dtb does get verified, but not the contents of the initrd.
+I'm not sure how that should happen - in any case, in the fastboot case,
+the host can run arbitrary shell commands so not much U-Boot can do.
 
---0FoRISOaCA+A7e3o
-Content-Type: application/pgp-signature; name="signature.asc"
+Rasmus
 
------BEGIN PGP SIGNATURE-----
-
-iQGzBAABCgAdFiEEGjx/cOCPqxcHgJu/FHw5/5Y0tywFAmWdWUMACgkQFHw5/5Y0
-tywKZQv9E6Suvs8TGK4s6Y2tSOz3YdMeCLMOPVuGXp/0Duv37bRe86JoJEsBtoRg
-V/Mh5pUlhEzjemCpKbbacBrtDTnCtME59FjkhnTPM+P4UND7ghA1UVvD5/+0a/m0
-PbvZsm3U2H5yJygYGqhYNOQm1SZGj5erfzxalNZtIoVCgUeVuXrBQ3NO6EwVEx81
-VgXq1TFRiX+SJ61lSDvWSJX4/T51ED30k9/UAILCkmnDPza84WhiEdGBwc2EksJ9
-3P2KCOTM/iyhzJSFXUV1pvO/kvLej0inNejaowQ3YyeG2g855EALltR7MBdIBpe4
-hhdFq+1jviO5mN4TtSBXrk1b+HqFL73adbemUduJnnRQXnQnnDmeZtDJFIGKyJxA
-hQB2lc7MBHc0KLs/A/yi4tp82IlE/S+DmL+2x1Bf99XNydSER5Jlp/DCkE7rBz7C
-vTY/kl3z2krvdS5m82BOY0c9muA/908zhpXr6zkov1yvgEM0V7Oyt61M5DQjZEdb
-fmjpGQb0
-=GoFt
------END PGP SIGNATURE-----
-
---0FoRISOaCA+A7e3o--
 
