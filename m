@@ -1,84 +1,101 @@
-Return-Path: <linux-kbuild+bounces-499-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-500-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2122B8287EF
-	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jan 2024 15:22:49 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11FD582881C
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jan 2024 15:30:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 471D31C23E70
-	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jan 2024 14:22:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BB1E61F2545A
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jan 2024 14:30:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A64539877;
-	Tue,  9 Jan 2024 14:22:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED2B039FF0;
+	Tue,  9 Jan 2024 14:29:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WPZFhREK"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W042skrn"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 130033984A;
-	Tue,  9 Jan 2024 14:22:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AF7CC43390;
-	Tue,  9 Jan 2024 14:22:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFF7F39AC8;
+	Tue,  9 Jan 2024 14:29:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C428C433C7;
+	Tue,  9 Jan 2024 14:29:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704810162;
-	bh=ryRBX6Ywx4bF68XYywhf01hIAAubq13J+4hY1ns2/Z8=;
+	s=k20201202; t=1704810596;
+	bh=U6fepFRRvL8pyajDsndR311mQAfn06XfFmE0bSqyzjM=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=WPZFhREKkRbhhlwgxX2UaooPZ+l43cW338J8zQMtDd8C82GKWlFJTy2Gl+dCsghz0
-	 C8w1zzbdZq/OoLS+JFf3cxxIRVdUVjGHS9gEXtqTwQ1IJyLXhKtFuyA6cSZ5GdR8y7
-	 +ke4PR4edvw6MeMaTZYIGvt7ng46GvYklEGspXl7yaHe+aZvERNvCulBZRKFrTR6+p
-	 wDN0Qdhb/TYoCB9YTM2XC3lKRELbUw5YmmTCNrCLDIub5MRpRn1fAFdxBLUshe4EuI
-	 rl+79L7TQ3UVDRGz7VeJcIB2a8E6rgwbqvYZ1fVeiUy+D/e7OYHt7ixgZ7xy6YHI0Y
-	 c4INLzSKkvfDg==
-Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-6dde882e5ccso235605a34.3;
-        Tue, 09 Jan 2024 06:22:42 -0800 (PST)
-X-Gm-Message-State: AOJu0YwIDYETRD/b/KvYUw7h2Ha5AAUYWWhpTgpSgvogx58DJWOAo9yp
-	FIMG1cLsha3vQsK+KToP/fiZDhoDGstGhJTNK5s=
-X-Google-Smtp-Source: AGHT+IG7uz4RcDrqw+FErYNKhx1ue3obCPnmI8Yq6i5H1MvzcGf6YLxWOYuozPD6si4kA2cBuh79PZdjKo1YQ9egr6s=
-X-Received: by 2002:a05:6870:9a0d:b0:203:fbf6:8c36 with SMTP id
- fo13-20020a0568709a0d00b00203fbf68c36mr7015318oab.68.1704810161980; Tue, 09
- Jan 2024 06:22:41 -0800 (PST)
+	b=W042skrnsyc1N0J25LZYL32M1jjsiKIE+6UPnnpjuwF0c+VtN6kniXTuMSYTOmt0+
+	 l9lJptOWwdPoiZY+nztUszy86kdcOdaq9umFxPq3ODVUiISYIz5c5yPIq4IssWYqJi
+	 M9txjVxqZrQXb4wr+1h2vzOCRsym7KUzXq65hvQJBevBoPWpdlye0auKzR6lcUdqIG
+	 SgQFk9d/3X0K4HU8ZtW6/VDCiSYbzOJ4IUHJZ6syKz9qWm8LqfeW7NmpfLV6uoKYXZ
+	 B3zXXx2BTN/gn8I9RKywwC2wOrznTkytoX5JY8cwkUkCPmQGmVNp1geUlTsC3NJ7t1
+	 91KxPp138d0Dg==
+Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-20451ecbb80so1576326fac.2;
+        Tue, 09 Jan 2024 06:29:56 -0800 (PST)
+X-Gm-Message-State: AOJu0Yw3RxRTgmHeaedDXVru2VBHuHUnzGXvSyviJ713mpBCGzPkLHof
+	U5w5eaqB4lU1fhZ4bZWtuqgdLAwlU5FQPwB02Bc=
+X-Google-Smtp-Source: AGHT+IE2kPKlkSmjvrdG5oVLVaO8mGM7P3rXsgoz85yX/ibVxAkTp5wT4aGl0DG86kFSz4Hf4YMgQsh3x3PGci9WZo4=
+X-Received: by 2002:a05:6871:5226:b0:204:6141:746a with SMTP id
+ ht38-20020a056871522600b002046141746amr5940663oac.2.1704810595664; Tue, 09
+ Jan 2024 06:29:55 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240109120738.346061-1-masahiroy@kernel.org> <20240109120738.346061-2-masahiroy@kernel.org>
-In-Reply-To: <20240109120738.346061-2-masahiroy@kernel.org>
+References: <20231230135200.1058873-1-masahiroy@kernel.org>
+ <CAK7LNATLZ2rt8fFZYu1KX4HW5s0EjNbDEXp8csCPGtA5a-6qPw@mail.gmail.com> <ZZ1I95oHTayfygue@reykjavik.ads.avm.de>
+In-Reply-To: <ZZ1I95oHTayfygue@reykjavik.ads.avm.de>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 9 Jan 2024 23:22:05 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASOxi-gzve+_d-sCW9z_eEJ5TMMnzPEvN2Nj2AwgVjF9g@mail.gmail.com>
-Message-ID: <CAK7LNASOxi-gzve+_d-sCW9z_eEJ5TMMnzPEvN2Nj2AwgVjF9g@mail.gmail.com>
-Subject: Re: [PATCH 1/4] kbuild: create a list of all built DTB files
-To: linux-kbuild@vger.kernel.org
-Cc: devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, 
-	Simon Glass <sjg@chromium.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Nicolas Schier <nicolas@fjasle.eu>, 
-	linux-kernel@vger.kernel.org
+Date: Tue, 9 Jan 2024 23:29:19 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQZmk__Amj2OK3ZxYZirjnc4zHnA596TYCso95un3qM1w@mail.gmail.com>
+Message-ID: <CAK7LNAQZmk__Amj2OK3ZxYZirjnc4zHnA596TYCso95un3qM1w@mail.gmail.com>
+Subject: Re: [PATCH 1/5] kbuild: deb-pkg: move 'make headers' to build-arch
+To: Nicolas Schier <n.schier@avm.de>
+Cc: linux-kbuild@vger.kernel.org, Ben Hutchings <ben@decadent.org.uk>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	linux-kernel@vger.kernel.org, Nicolas Schier <nicolas@fjasle.eu>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 9, 2024 at 9:07=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.or=
-g> wrote:
+On Tue, Jan 9, 2024 at 10:24=E2=80=AFPM Nicolas Schier <n.schier@avm.de> wr=
+ote:
 >
-> It is useful to have a list of all *.dtb and *.dtbo files generated
-> from the current build.
+> On Tue, Jan 09, 2024 at 01:38:07PM +0900, Masahiro Yamada wrote:
+> > On Sat, Dec 30, 2023 at 10:52=E2=80=AFPM Masahiro Yamada <masahiroy@ker=
+nel.org> wrote:
+> > >
+> > > Strictly speaking, 'make headers' should be a part of build-arch
+> > > instead of binary-arch.
+> > >
+> > > 'make headers' constructs read-to-copy UAPI headers in the kernel
 >
-> With this commit, 'make dtbs' creates arch/*/boot/dts/dtbs-order, which
+> s/read/ready/ ?
 
-
-I meant arch/*/boot/dts/dtbs-list
-
-
+Yes, thanks for catching it.
 
 
 
 
+> I'm wondering if we might want to change the headers target in top-level
+> Makefile to not bail-out for ARCH=3Dum but only show a warning that there
+> is nothing to export.
 
---
+
+Yes, this is another way of fixing it, but
+I do not even want to show a warning.
+
+Having 'make ARCH=3Dum headers' succeed silently
+is another way.
+
+I just stayed on a safer side.
+
+
+
+--=20
 Best Regards
 Masahiro Yamada
 
