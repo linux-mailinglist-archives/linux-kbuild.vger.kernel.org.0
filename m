@@ -1,126 +1,106 @@
-Return-Path: <linux-kbuild+bounces-509-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-510-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65A1D829B0A
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Jan 2024 14:15:29 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31F85829B7B
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Jan 2024 14:38:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8C3C11C2644D
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Jan 2024 13:15:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BD328284FDE
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Jan 2024 13:38:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FDC7487A9;
-	Wed, 10 Jan 2024 13:15:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63D6348CCD;
+	Wed, 10 Jan 2024 13:37:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="e71sjScO"
+	dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b="WF1+wJ1D"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.avm.de (mail.avm.de [212.42.244.120])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E031B487AC
-	for <linux-kbuild@vger.kernel.org>; Wed, 10 Jan 2024 13:15:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-556c3f0d6c5so4876293a12.2
-        for <linux-kbuild@vger.kernel.org>; Wed, 10 Jan 2024 05:15:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1704892516; x=1705497316; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2K17fFBJpR1/Y1vdZDJP422VcROIDsHIcrNjjivdS1A=;
-        b=e71sjScO8RPwLTyihOY1+0hD566166UF0mq1g3Ok9wXFRz+fxtCSHtCgit9v9tBudd
-         Hfn/k3kRSAcljLsvcYluQxgXhoY0yH3jANR9llXa1btYKcbrXkjBIIdpoLn3ZyLa5tch
-         6oSN/PH17d0GE6jOJn98MZQq3H/xvhbepzwwI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704892516; x=1705497316;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2K17fFBJpR1/Y1vdZDJP422VcROIDsHIcrNjjivdS1A=;
-        b=eRqVJQ962qrkr6bnYR04sLPeBMflBH1X5Z70nb2f7MfAIHSqrMY2snm1DbiErejBBb
-         mQKFj31oFmKUKfmTeYUTcqTqTks0h6UJ8Hbu+JFHEWM2yxeNOir1AiESLGQM+sGD2pPj
-         nXLyp9SJkdTMJH36CYp+WP+T3HuvX0d9QxdcI+ctUG6r5q1k6v/wyn9Y1E38jmhxzBwl
-         TzJv+/+Hfm3CwLAVotGc00t2Y/hx0TnRqxn5Ttpm2JbO5byxFVh7VM9KTW3Apx+857qQ
-         TCZ2OuPw9pRSV7xJXeisiioBEdAGCj8SPWtANVZKthxwLsq1gUWzmT+YiijiT4PlnQz0
-         DQjA==
-X-Gm-Message-State: AOJu0YyzuCoaHK6JlkBnMtjMRJV9Kp7/S+lWLloBE2VNFeLnDDvWcF8w
-	Xgu0LTeEJXgUkU6w8WC8OgsGD8GvEri/ooUosqYKt+usyDHm
-X-Google-Smtp-Source: AGHT+IE/iD20eN/jQ8qmCW5cMTwaIxYpQTz9KfDPNDTmdCjyfhC8fDTXy9OgTFBFyA6Ds9hoacPoyQ==
-X-Received: by 2002:a17:906:129b:b0:a22:eb96:6d3b with SMTP id k27-20020a170906129b00b00a22eb966d3bmr423141ejb.124.1704892516390;
-        Wed, 10 Jan 2024 05:15:16 -0800 (PST)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com. [209.85.221.50])
-        by smtp.gmail.com with ESMTPSA id f12-20020a170906138c00b00a27e4d34455sm2072702ejc.183.2024.01.10.05.15.16
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Jan 2024 05:15:16 -0800 (PST)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3367a304091so3803762f8f.3
-        for <linux-kbuild@vger.kernel.org>; Wed, 10 Jan 2024 05:15:16 -0800 (PST)
-X-Received: by 2002:a5d:444d:0:b0:337:555c:6b7d with SMTP id
- x13-20020a5d444d000000b00337555c6b7dmr378407wrr.173.1704892515835; Wed, 10
- Jan 2024 05:15:15 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1863348CC7;
+	Wed, 10 Jan 2024 13:37:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=avm.de
+Received: from mail-auth.avm.de (unknown [IPv6:2001:bf0:244:244::71])
+	by mail.avm.de (Postfix) with ESMTPS;
+	Wed, 10 Jan 2024 14:37:16 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
+	t=1704893836; bh=LCuaVe73rplzywlFwA0UbIaUH/rZvyTsPAJWHyMOIqw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WF1+wJ1DyBUf0s9manoHhCKw6x54DY1H92W7WuZRRZs0bBODb12Nhln7ZT8zZ1pIA
+	 Rdf5uKFe5DgtlaY9zFeKzq8+GGsNjQpdRyY2N/fwl7DfljsjNlioJBsqS22+nm33C6
+	 pf/GMRT5TqZPlxTJArZ2Ddg8B4OiOwlRjnVUK7y8=
+Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
+	by mail-auth.avm.de (Postfix) with ESMTPA id 7B3DD803AB;
+	Wed, 10 Jan 2024 14:37:17 +0100 (CET)
+Received: by buildd.core.avm.de (Postfix, from userid 1000)
+	id 6E2B81812A6; Wed, 10 Jan 2024 14:37:17 +0100 (CET)
+Date: Wed, 10 Jan 2024 14:37:17 +0100
+From: Nicolas Schier <n.schier@avm.de>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, Ben Hutchings <ben@decadent.org.uk>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Nicolas Schier <nicolas@fjasle.eu>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/5] kbuild: deb-pkg: make debian/rules quiet by default
+Message-ID: <ZZ6djUvyyJPiduL4@buildd.core.avm.de>
+Mail-Followup-To: Masahiro Yamada <masahiroy@kernel.org>,
+	linux-kbuild@vger.kernel.org, Ben Hutchings <ben@decadent.org.uk>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	linux-kernel@vger.kernel.org
+References: <20231230135200.1058873-1-masahiroy@kernel.org>
+ <20231230135200.1058873-2-masahiroy@kernel.org>
+ <ZZ1UxkCgKQ9J6Iut@reykjavik.ads.avm.de>
+ <CAK7LNATdFdLfw4Xg9C29_X1iEun4kmgccFbW=Nvqkk2LFzewsA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231228070941.3611649-1-tfiga@chromium.org> <CAK7LNASbgXSZNiwhMf8jm7511eyDm8oCqY=MzWhgWwNuVLk5Vw@mail.gmail.com>
-In-Reply-To: <CAK7LNASbgXSZNiwhMf8jm7511eyDm8oCqY=MzWhgWwNuVLk5Vw@mail.gmail.com>
-From: Tomasz Figa <tfiga@chromium.org>
-Date: Wed, 10 Jan 2024 22:14:55 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5CRtgMUN8xZ_4BOv04KzCvXtrKHhWGQhhqgENyMCVWbKw@mail.gmail.com>
-Message-ID: <CAAFQd5CRtgMUN8xZ_4BOv04KzCvXtrKHhWGQhhqgENyMCVWbKw@mail.gmail.com>
-Subject: Re: [PATCH] kconfig: Add a build target for checking current config
- for issues
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Sergey Senozhatsky <senozhatsky@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK7LNATdFdLfw4Xg9C29_X1iEun4kmgccFbW=Nvqkk2LFzewsA@mail.gmail.com>
+Organization: AVM GmbH
+X-purgate-ID: 149429::1704893836-A0FDFDFE-E8347147/0/0
+X-purgate-type: clean
+X-purgate-size: 1060
+X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
+X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
+X-purgate: clean
 
-On Fri, Dec 29, 2023 at 1:11=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
->
-> On Thu, Dec 28, 2023 at 4:09=E2=80=AFPM Tomasz Figa <tfiga@chromium.org> =
-wrote:
+On Tue, Jan 09, 2024 at 11:46:49PM +0900, Masahiro Yamada wrote:
+> On Tue, Jan 9, 2024 at 11:14 PM Nicolas Schier <nicolas@fjasle.eu> wrote:
 > >
-> > The new target is called 'checkconfig' and currently is basically an
-> > alias for `listnewconfig` with KCONFIG_WARN_UNKNOWN_SYMBOLS set to true=
-.
-> > It can be used to validate if the current config is directly compatible
-> > with the current kernel version or needs some manual adjustment.
+> > On Sat, Dec 30, 2023 at 10:51:57PM +0900, Masahiro Yamada wrote:
+> > > Add $(Q) to commands in debian/rules to make them quiet when the package
+> > > built is initiated by 'make deb-pkg'.
+> > >
+> > > While the commands in debian/rules are not hidden when you directly work
+> > > with the debianized tree, you can set 'terse' to DEB_BUILD_OPTIONS to
+> > > silence them.
 > >
-> > Signed-off-by: Tomasz Figa <tfiga@chromium.org>
->
->
-> I rejected a new target in the past.
->
-> https://lore.kernel.org/all/20230817012007.131868-1-senozhatsky@chromium.=
-org/T/#m55c37e3091158f8cb008d9e0b5c6bf3f5ead225a
->
+> > Reading Debian Policy §4.9 [1] I'd expected some fiddling with V=1 or
+> > 'make -s', but I am ok with the simple '@' silencing (which matches my
+> > personal preference).
+> 
+> 
+> Hmm, you are right.
+> 
+> 
+> Maybe, we should follow what the Debian kernel does.
+> 
+> Debian kernel sets KBUILD_VERBOSE=1 unless
+> 'terse' is given.
+> 
+> 
+> https://salsa.debian.org/kernel-team/linux/-/blob/debian/6.7-1_exp1/debian/rules.real#L36
 
-That was specifically for the unrecognized symbols warning. What I'm
-proposing is a universal target that would include any possible
-diagnostics.
+yes, I think it makes sense to do the Debian way.
 
->
->
-> Instead, you can run
->
->   KCONFIG_WARN_UNKNOWN_SYMBOLS=3D1 make listnewconfig
->
-> or
->
->   make W=3Dc listnewconfig
->
->
-
-I can do so, because my team member implemented it and told me and
-other team members about it. But how would someone who hasn't heard
-about it be aware of the existence of this useful feature?
-
-Best regards,
-Tomasz
+Kind regards,
+Nicolas
 
