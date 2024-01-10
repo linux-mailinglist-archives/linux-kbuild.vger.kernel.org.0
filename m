@@ -1,197 +1,141 @@
-Return-Path: <linux-kbuild+bounces-519-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-520-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id F353782A199
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Jan 2024 20:55:29 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7304082A2C2
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Jan 2024 21:50:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4D8C7288D60
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Jan 2024 19:55:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 99EFE1C217E3
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Jan 2024 20:50:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 033FE4E1D9;
-	Wed, 10 Jan 2024 19:54:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBE214F207;
+	Wed, 10 Jan 2024 20:44:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="OKqsyv6v"
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="KWnMut0t";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="EXwWXkvv"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com [66.111.4.230])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F49A4F1E9
-	for <linux-kbuild@vger.kernel.org>; Wed, 10 Jan 2024 19:54:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2cd1ca52f31so51970681fa.3
-        for <linux-kbuild@vger.kernel.org>; Wed, 10 Jan 2024 11:54:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1704916492; x=1705521292; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=rpDfRf3Herj6H9nv9ttm39vJv2PeXPMa/nxjiDv/ci0=;
-        b=OKqsyv6vmnQyojZa1faP9iBTHEZXch9+EqQtoz49/gaVCrtRHzfoiv9fO5ppCi7XEV
-         5oUa0os+2NfLr/Ql+L4yW86hxXOBhzvG7KC6nNa2//6/3yJG71keQQuhx5Jkw3eaDjhv
-         9ry6CBpysLGdt9OQExzXRpLUCuRsBuSid0RF2/3L2KelH3XrWOSf+7KorT/HqBytYSXm
-         Q6MxAQxj57kOpeT3MRV6x0wc95fRbwJ4VA0OtLxbaMVO1ujR23ZEBYlryc/xo0l4M6PD
-         s+mEl1e4DR9QN7oEgOzc6r/C5ziKFxyWG7ha5nRlDqPKtwBF5xr2FlupgMoQNfRQwuNj
-         W8Uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704916492; x=1705521292;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=rpDfRf3Herj6H9nv9ttm39vJv2PeXPMa/nxjiDv/ci0=;
-        b=MruIRIlZQdRgXS5VG1pD1dVktzzkBSG0zUK6TwIeebfvPTkpI1irIFWpnEn9d1tc53
-         D7ALHKOxogabyicsHSgboTQIvl3UdvjI2v7sV08jgspJ3ZTRB2YnvymDYBx0m/3VoSAL
-         EbdlF2Pr4dPkKssYbLk2JQZv9xZQlZSmrm55VltteMk0CZ5caZ7B1yDcRl6EWnMt8Xk6
-         Sq9jvfZ8IefsS7Z9Sqx72fz0jNKzrVMKpKKtvdikY9p7Ylc72nZQ24BczAUjSONnzxNC
-         HiRRsLzsQJUh6g6kQT0a+5Pyb2bFxmgFsdrc5s7t51fRJwCSgFMnTfity4/eB8GBoGH6
-         QL5A==
-X-Gm-Message-State: AOJu0YwL6XolyDWMksWKtaXGLnqO0CrjQOhxwXuiylPLdIMc8n54oZtQ
-	yIthCYRPY/5W0Ljbx/GEtD1EwXyRRKs1rFOaP1IOhklkeb8=
-X-Google-Smtp-Source: AGHT+IEDCughZVzw5wOMUKkSQKd4e1z2Jjt3ksK+z3TvQxPJcEhGbo2wdlnH+IgVa5aHDzORCm56JQ==
-X-Received: by 2002:a2e:bc14:0:b0:2cd:7e24:321d with SMTP id b20-20020a2ebc14000000b002cd7e24321dmr64210ljf.62.1704916492671;
-        Wed, 10 Jan 2024 11:54:52 -0800 (PST)
-Received: from ?IPv6:2804:30c:1668:b300:8fcd:588d:fb77:ed04? ([2804:30c:1668:b300:8fcd:588d:fb77:ed04])
-        by smtp.gmail.com with ESMTPSA id x9-20020a170902820900b001d4cad5bcf0sm4020511pln.237.2024.01.10.11.54.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jan 2024 11:54:52 -0800 (PST)
-Message-ID: <3be436cf49b8850b95eb74ce7b7c45e05bc4ad82.camel@suse.com>
-Subject: Re: [PATCH v1 5/5] documentation: Update on livepatch elf format
-From: Marcos Paulo de Souza <mpdesouza@suse.com>
-To: Lukas Hruska <lhruska@suse.cz>, Petr Mladek <pmladek@suse.com>, Miroslav
-	Benes <mbenes@suse.cz>, Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: Joe Lawrence <joe.lawrence@redhat.com>, live-patching@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
-Date: Wed, 10 Jan 2024 16:54:48 -0300
-In-Reply-To: <20231106162513.17556-6-lhruska@suse.cz>
-References: <20231106162513.17556-1-lhruska@suse.cz>
-	 <20231106162513.17556-6-lhruska@suse.cz>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.1 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 256B74F602;
+	Wed, 10 Jan 2024 20:44:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailnew.nyi.internal (Postfix) with ESMTP id 1864C580ACA;
+	Wed, 10 Jan 2024 15:44:04 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Wed, 10 Jan 2024 15:44:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1704919444; x=1704926644; bh=swCJD9Fvop
+	hNa/YkfcNjNrylvPuJdTYmLEobiCsz9KQ=; b=KWnMut0tt2cIG/amb4AXGI5g8w
+	YoCQshQyMCD7PX1QHoaWnhx8BmDenZ13YFz0Q4oWEGwQziz58V/PuWWsRKpr4az6
+	3TPX50+gs88afAypjeSE13kGIrQ3OEttOSWf/K+g0PAKgJaLHlTeCu85jjYjsc+e
+	om4sYKVwBB2Gxa49uQdH+Z4KKOzSbPrH3A8CbfrIMu93271HA5XmO534EJAN7tel
+	8kkoTj8BtG4yF3FmVqPUuu3UzTaIK0qstUExFmGa7RPFtUn7SLqq2/C6pQxbmNs0
+	sqgwZEcIR2vHgCFG0D9hf8QEICU2tZM43LubweRGEI33P6NHNtD8ZxoLwxgA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1704919444; x=1704926644; bh=swCJD9FvophNa/YkfcNjNrylvPuJ
+	dTYmLEobiCsz9KQ=; b=EXwWXkvvpnzWDZJ8zWZ4YSDRAy1pijyf4PqvHWBwyITV
+	7b0Q6JQ9rJKeGQM5QP0wePvrCc9tJT3sGtmQ86bKTrPGCy8FFcudtpbOcMrDORKF
+	MV0jI3A39lpJ/WqA2PWNIgOuYaCtOOWx+bJ3PdRnpOzZoPgsrCLn4Ym673cQNmil
+	/Heoj6JgIeuCrtAUjR8I31wnDEwbw1MJ27N0BVslb3vL5NoeIgyfQ1aQG+w+XT8m
+	UQRaDfMD+9rdyAgHJJzO3pGRtIa4eMpdwE7Dm9Ye1WWXYwZHvR1weYmeZFSkNCyX
+	e3hOvm01aKeaxwTQ2mO0Rq76NNyPDPa/FzKHOP81qw==
+X-ME-Sender: <xms:kQGfZU8PlM7CA0aYK4V6brNP6R0d-zxdQJ1P3IxWYzfnex5J1NLJ3Q>
+    <xme:kQGfZcualeFJQYSYSx3XzEPC3UMwFQk3uY8lZJt040GkYS2RxvSbljuRnElArHrJg
+    7psyMHAF2iDoupcp3c>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdeiuddgudefkecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
+    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
+    htthgvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedt
+    keetffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    grrhhnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:kQGfZaCiSSrv3HJIjW5lrIlpJBs13VbbS-aW4LFRoMspyJTWIsB6Pg>
+    <xmx:kQGfZUdq2Rm9UmEj06v-BC3916J0934HbGLgr2_jP14x35GiAeAsbA>
+    <xmx:kQGfZZPOxR7MLcGy09RbjxNxZZ2XJR_bdXbzXGquNFT9yhSOF-CyXg>
+    <xmx:lAGfZZKrTcf0Bt-eKNY4pGrAfMPlN32u2wpFiIhGjkd3ET5RsOprnw>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id C88EEB6008D; Wed, 10 Jan 2024 15:44:01 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-1374-gc37f3abe3d-fm-20240102.001-gc37f3abe
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Message-Id: <7a79c037-ac91-448a-b6e0-b38cacccd971@app.fastmail.com>
+In-Reply-To: <ab94f844-a4ec-4b4f-b67b-2b67347596d9@roeck-us.net>
+References: <20231123110506.707903-1-arnd@kernel.org>
+ <20231123110506.707903-7-arnd@kernel.org>
+ <ab94f844-a4ec-4b4f-b67b-2b67347596d9@roeck-us.net>
+Date: Wed, 10 Jan 2024 21:43:40 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Guenter Roeck" <linux@roeck-us.net>, "Arnd Bergmann" <arnd@kernel.org>
+Cc: "Andrew Morton" <akpm@linux-foundation.org>,
+ "David S . Miller" <davem@davemloft.net>,
+ "David Woodhouse" <dwmw2@infradead.org>,
+ "Dinh Nguyen" <dinguyen@kernel.org>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Ivan Kokshaysky" <ink@jurassic.park.msu.ru>,
+ "John Paul Adrian Glaubitz" <glaubitz@physik.fu-berlin.de>,
+ "Michael Ellerman" <mpe@ellerman.id.au>,
+ "Masahiro Yamada" <masahiroy@kernel.org>,
+ "Matt Turner" <mattst88@gmail.com>,
+ "Nathan Chancellor" <nathan@kernel.org>,
+ "Nicolas Schier" <nicolas@fjasle.eu>,
+ "Peter Zijlstra" <peterz@infradead.org>, "Rich Felker" <dalias@libc.org>,
+ "Richard Henderson" <richard.henderson@linaro.org>,
+ "Richard Weinberger" <richard@nod.at>,
+ "Stephen Rothwell" <sfr@canb.auug.org.au>,
+ "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
+ "Tudor Ambarus" <tudor.ambarus@linaro.org>,
+ "Yoshinori Sato" <ysato@users.sourceforge.jp>,
+ Linux-Arch <linux-arch@vger.kernel.org>, linux-alpha@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-mtd@lists.infradead.org,
+ linux-sh@vger.kernel.org, linux-usb@vger.kernel.org,
+ sparclinux@vger.kernel.org, x86@kernel.org,
+ "Kees Cook" <keescook@chromium.org>,
+ "Palmer Dabbelt" <palmer@rivosinc.com>
+Subject: Re: [PATCH v3 6/6] Makefile.extrawarn: turn on missing-prototypes globally
+Content-Type: text/plain
 
-On Mon, 2023-11-06 at 17:25 +0100, Lukas Hruska wrote:
-> Add a section to Documentation/livepatch/module-elf-format.rst
-> describing how klp-convert works for fixing relocations.
->=20
-> Signed-off-by: Lukas Hruska <lhruska@suse.cz>
+On Wed, Jan 10, 2024, at 20:45, Guenter Roeck wrote:
+> On Thu, Nov 23, 2023 at 12:05:06PM +0100, Arnd Bergmann wrote:
+>> At this point, there are five architectures with a number of known
+>> regressions: alpha, nios2, mips, sh and sparc. In the previous version
+>> of this patch, I had turned off the missing prototype warnings for the 15
+>> architectures that still had issues, but since there are only five left,
+>> I think we can leave the rest to the maintainers (Cc'd here) as well.
+>> 
+>
+> Not sure I understand why this was so important that it warrants the
+> resulting buildtest failures.
+>
+> FWIW, I'll disable WERROR in my build tests for the affected architectures.
+> That is kind of counter-productive, but the only real alternative would be
+> to stop build (and sometimes, such as for ppc, runtime) tests entirely,
+> which would be even worse.
 
-Reviewed-by: Marcos Paulo de Souza <mpdesouza@suse.com>
+If you prefer, I can go back to the older version and just disable
+the warning for the architectures with defconfig build failures. I did
+a lot of fixes for mips, so at least defconfig and allmodconfig
+should be fine now, leaving only alpha, nios2, sh and sparc as
+far as I can tell, at least once Linus merges the asm-generic
+pull request hat has a bunch of the currently missing fixes.
 
-> ---
-> =C2=A0Documentation/livepatch/module-elf-format.rst | 67
-> +++++++++++++++++++
-> =C2=A01 file changed, 67 insertions(+)
->=20
-> diff --git a/Documentation/livepatch/module-elf-format.rst
-> b/Documentation/livepatch/module-elf-format.rst
-> index a03ed02ec57e..2aa9b11cd806 100644
-> --- a/Documentation/livepatch/module-elf-format.rst
-> +++ b/Documentation/livepatch/module-elf-format.rst
-> @@ -300,3 +300,70 @@ symbol table, and relocation section indices,
-> ELF information is preserved for
-> =C2=A0livepatch modules and is made accessible by the module loader
-> through
-> =C2=A0module->klp_info, which is a :c:type:`klp_modinfo` struct. When a
-> livepatch module
-> =C2=A0loads, this struct is filled in by the module loader.
-> +
-> +6. klp-convert tool
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +The livepatch relocation sections might be created using
-> +scripts/livepatch/klp-convert. It is called automatically during
-> +the build as part of a module post processing.
-> +
-> +The tool is not able to find the symbols and all the metadata
-> +automatically. Instead, all needed information must already be
-> +part of rela entry for the given symbol. Such a rela can
-> +be created easily by using KLP_RELOC_SYMBOL() macro after
-> +the symbol declaration.
-> +
-> +KLP_RELOC_SYMBOL causes that the relocation entries for
-> +the given symbol will be created in the following format::
-> +
-> +=C2=A0 .klp.sym.rela.lp_object.sym_object.sym_name,sympos
-> +=C2=A0 ^=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^ ^=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^ ^=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 ^ ^=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^=C2=A0=C2=A0 ^
-> +=C2=A0 |___________| |_______| |________| |______|=C2=A0=C2=A0 |
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 [A]=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 [B]=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 [C]=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 [D]=C2=A0=C2=A0=C2=A0 [E]
-> +
-> +[A]
-> +=C2=A0 The symbol name is prefixed with the string ".klp.sym.rela."
-> +
-> +[B]
-> +=C2=A0 The name of the object (i.e. "vmlinux" or name of module) which
-> +=C2=A0 is livepatched.
-> +
-> +[C]
-> +=C2=A0 The name of the object (i.e. "vmlinux" or name of module) to
-> +=C2=A0 which the symbol belongs follows immediately after the prefix.
-> +
-> +[D]
-> +=C2=A0 The actual name of the symbol.
-> +
-> +[E]
-> +=C2=A0 The position of the symbol in the object (as according to
-> kallsyms)
-> +=C2=A0 This is used to differentiate duplicate symbols within the same
-> +=C2=A0 object. The symbol position is expressed numerically (0, 1, 2...)=
-.
-> +=C2=A0 The symbol position of a unique symbol is 0.
-> +
-> +Example:
-> +--------
-> +**Livepatch source code:**
-> +
-> +::
-> +
-> +=C2=A0 extern char *saved_command_line \
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 KLP_RELOC_SYMBOL(vmlinux, vmlinux,
-> saved_command_line, 0);
-> +
-> +**`readelf -r -W` output of compiled module:**
-> +
-> +::
-> +
-> +=C2=A0 Relocation section '.rela.text' at offset 0x32e60 contains 10
-> entries:
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Offset=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Info=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Type=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
-> Symbol's Value=C2=A0 Symbol's Name + Addend
-> +=C2=A0 ...
-> +=C2=A0 0000000000000068=C2=A0 0000003c00000002 R_X86_64_PC32=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
-> 0000000000000000 .klp.sym.rela.vmlinux.vmlinux.saved_command_line,0 -
-> 4
-> +=C2=A0 ...
-> +
-> +**`readelf -r -W` output of transformed module by klp-convert:**
-> +
-> +::
-> +
-> +=C2=A0 Relocation section '.klp.rela.vmlinux.text' at offset 0x5cb60
-> contains 1 entry:
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Offset=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Info=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Type=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
-> Symbol's Value=C2=A0 Symbol's Name + Addend
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0000000000000068=C2=A0 0000003c00000002 R=
-_X86_64_PC32=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
-> 0000000000000000 .klp.sym.vmlinux.saved_command_line,0 - 4
-
+   Arnd
 
