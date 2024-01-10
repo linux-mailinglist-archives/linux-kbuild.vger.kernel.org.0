@@ -1,156 +1,116 @@
-Return-Path: <linux-kbuild+bounces-507-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-508-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D82E829791
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Jan 2024 11:28:37 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62EC0829AE5
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Jan 2024 14:06:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F2BFE1F25130
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Jan 2024 10:28:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 131A5281A66
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Jan 2024 13:06:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1DAD40BFA;
-	Wed, 10 Jan 2024 10:24:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2A0748794;
+	Wed, 10 Jan 2024 13:05:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="f+nShup1"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="mXWcgmJE"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E32B844386;
-	Wed, 10 Jan 2024 10:24:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Date:Sender:Message-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Subject:Cc:To:From:Reply-To:Content-ID
-	:Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:
-	Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=PGoi1VMjYQ3iWmH9FHX5cd3/b6djkMWA8QwUTwtRkqQ=; b=f+nShup1VxEdMWfD/khNQb+6ma
-	pHC86jp2+KVjZjv+z65Al8+Cu/evgvYKFmDWKRQ/pAroYf2H0MQ0cJu9kO0Lt5IpWvqoamzDuCAuC
-	XQl/010pBl/y2+eBgt5uBEKWdZhQ0XZ+Q9yqVJhoCjLo5vHE+3rgh/ruWwiRVGHaW15OoeElWIIdX
-	Pi6dfa/5PqofYcZjfJU81RBhW50/XIAVbpkaZv+KMWi4OZNEbm/b26ip96XiU4a8XsNIeI5Tgb0b5
-	jfGjS42Di3ZShyXpUtZsg2R0hEhZDEejUwEOYeflmPP6QFw02MZ9Jcw58ZleZGtb5paC++nmRdlFI
-	uzcgNzmQ==;
-Received: from e0022681537dd.dyn.armlinux.org.uk ([fd8f:7570:feb6:1:222:68ff:fe15:37dd]:52062 helo=rmk-PC.armlinux.org.uk)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <rmk@armlinux.org.uk>)
-	id 1rNVlI-0005A7-3B;
-	Wed, 10 Jan 2024 10:24:41 +0000
-Received: from rmk by rmk-PC.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <rmk@rmk-PC.armlinux.org.uk>)
-	id 1rNVlL-000qDm-Pg; Wed, 10 Jan 2024 10:24:43 +0000
-From: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Dimitri John Ledkov <dimitri.ledkov@canonical.com>,
-	 Linus Torvalds <torvalds@linux-foundation.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	linux-modules@vger.kernel.org,
-	linux-kbuild@vger.kernel.org
-Subject: [PATCH] kbuild: detect depmod version to exclude new SHA3 module
- signing options
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 310EF48788
+	for <linux-kbuild@vger.kernel.org>; Wed, 10 Jan 2024 13:05:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5587655bbfbso257841a12.3
+        for <linux-kbuild@vger.kernel.org>; Wed, 10 Jan 2024 05:05:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1704891952; x=1705496752; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=r3fYiUXc8cxYAbqnzO/jzfI53DkZ5gWWk2eUOw5iFG0=;
+        b=mXWcgmJET9cdsw54wZbtBpfD523o75hayqx4fcRd0lMFNxElQwh3VBOcfMxo2g8o4x
+         gvnPXiOV/o4TkEaWMzFwukbzFG7KFtt1gCDArWQiWJGlorEVLWVQSUSVJclmV953Sqay
+         G07QWgYXdwD8cnL4RQf/d/CwsH5zuLQAG//sY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704891952; x=1705496752;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=r3fYiUXc8cxYAbqnzO/jzfI53DkZ5gWWk2eUOw5iFG0=;
+        b=MLV2fFe20S8aY5t7cy1SwHP66WIvTJdF+2UEORXaAgx+T0Vk0oHPqKSXQwZheTomMQ
+         BfnQPsNmHseegh6dMP/47kaRpF4o082RKl7oXbVaRbeE1m+uB2c0nRogOABsmy5lXH6H
+         gGpmMHXq/W1QZC0eXg3JzksGSgSYoO3WiXyKTFZHwMhokOTH3vFZzJ6SiIdTqyBWtf6i
+         tD167gdZE3BAq9mC4IXg2S70ka3bDGBF6TnrRQ/NBpCFKq29m+c11EborEkoMmE6l0/d
+         kr6fpb7EhAXQehIiBUMkB50cXRnHmK28i9ePLTK0z8nNRBmie7EKpmFVLMYyBksZsUHg
+         irPw==
+X-Gm-Message-State: AOJu0YzpM5SCJp+iwYsgdjuXgg3tw3qvcizu5eR22PPxEKYOO36E8HYG
+	pmP0isBQ4lN68fTJsxGJ1KxALukb3tViRVLNXY6x43jhV9Ue
+X-Google-Smtp-Source: AGHT+IFsQcg8m2W7AVndo6kJFRO8BiEt8N6cLTyiGctvB8wVi4rdetSTIR15WuON/nAclw02Y56tuw==
+X-Received: by 2002:a17:906:4909:b0:a28:68be:d60a with SMTP id b9-20020a170906490900b00a2868bed60amr436913ejq.190.1704891951929;
+        Wed, 10 Jan 2024 05:05:51 -0800 (PST)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com. [209.85.221.48])
+        by smtp.gmail.com with ESMTPSA id se4-20020a170906ce4400b00a26e53be089sm2059072ejb.44.2024.01.10.05.05.51
+        for <linux-kbuild@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 10 Jan 2024 05:05:51 -0800 (PST)
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3376f71fcbbso2445065f8f.1
+        for <linux-kbuild@vger.kernel.org>; Wed, 10 Jan 2024 05:05:51 -0800 (PST)
+X-Received: by 2002:adf:f604:0:b0:336:6422:708d with SMTP id
+ t4-20020adff604000000b003366422708dmr349222wrp.116.1704891950857; Wed, 10 Jan
+ 2024 05:05:50 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <E1rNVlL-000qDm-Pg@rmk-PC.armlinux.org.uk>
-Sender: Russell King <rmk@armlinux.org.uk>
-Date: Wed, 10 Jan 2024 10:24:43 +0000
+References: <20231228054630.3595093-1-tfiga@chromium.org> <CAK7LNATBipJtprjvvRVYg8JcYOFXQdpLEyEc+4+8j1PtBQ+PUg@mail.gmail.com>
+In-Reply-To: <CAK7LNATBipJtprjvvRVYg8JcYOFXQdpLEyEc+4+8j1PtBQ+PUg@mail.gmail.com>
+From: Tomasz Figa <tfiga@chromium.org>
+Date: Wed, 10 Jan 2024 22:05:33 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5C3vAUJhKiQ1LPkZv3dJxNvK4QinRezV9Q8rz_Ov6FSUQ@mail.gmail.com>
+Message-ID: <CAAFQd5C3vAUJhKiQ1LPkZv3dJxNvK4QinRezV9Q8rz_Ov6FSUQ@mail.gmail.com>
+Subject: Re: [PATCH] kconfig: menuconfig: Make hidden options show as dim
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Jesse Taube <Mr.Bossman075@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-When using the SHA3 module signing options, kmod 28 segfaults during
-"make modules_install" on the build host.
+On Fri, Dec 29, 2023 at 1:10=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
+rg> wrote:
+>
+> On Thu, Dec 28, 2023 at 2:46=E2=80=AFPM Tomasz Figa <tfiga@chromium.org> =
+wrote:
+> >
+> > When hidden options are toggled on (using 'z'), the number of options
+> > on the screen can be overwhelming and may make it hard to distinguish
+> > between available and hidden ones. Make them easier to distinguish by
+> > displaying the hidden one as dim (using the A_DIM curses attribute).
+> >
+> > Signed-off-by: Tomasz Figa <tfiga@chromium.org>
+>
+>
+>
+> Do you think this is useful?
+>
+> This changes the color only when you select a hidden item.
+>
+>
+> For unselected items, you cannot distinguish hidden ones,
+> as A_DIM has no effect to black text.
+>
+>
 
-When running depmod under gdb, it reports:
+Hmm, are you sure about that? For me it seems to dim the text. it
+seems to be also used in the existing code for dlg.button_inactive.atr
+of the mono theme:
 
-Program received signal SIGSEGV, Segmentation fault.
-__strlen_sse2 () at ../sysdeps/x86_64/multiarch/strlen-vec.S:133
+https://elixir.bootlin.com/linux/latest/source/scripts/kconfig/lxdialog/uti=
+l.c#L26
 
-Therefore, SHA3 can't be used on a build system with an old kmod. Add
-a script to retrieve the version of depmod, and use that in the Kconfig
-to determine whether the SHA3 options should be made available.
-
-Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
----
-I don't know what the minimum requirement is for SHA3 to work, so I have
-chosen a minimum of version 29 for the purposes of this patch.
----
- kernel/module/Kconfig     |  8 ++++++++
- scripts/Kconfig.include   |  3 +++
- scripts/depmod-version.sh | 11 +++++++++++
- 3 files changed, 22 insertions(+)
- create mode 100755 scripts/depmod-version.sh
-
-diff --git a/kernel/module/Kconfig b/kernel/module/Kconfig
-index 0ea1b2970a23..d2ba454026a9 100644
---- a/kernel/module/Kconfig
-+++ b/kernel/module/Kconfig
-@@ -223,6 +223,11 @@ config MODULE_SIG_ALL
- 	  Sign all modules during make modules_install. Without this option,
- 	  modules must be signed manually, using the scripts/sign-file tool.
- 
-+config DEPMOD_VERSION
-+	int
-+	default	$(depmod-version)
-+	default 0
-+
- comment "Do not forget to sign required modules with scripts/sign-file"
- 	depends on MODULE_SIG_FORCE && !MODULE_SIG_ALL
- 
-@@ -250,14 +255,17 @@ config MODULE_SIG_SHA512
- 
- config MODULE_SIG_SHA3_256
- 	bool "Sign modules with SHA3-256"
-+	depends on DEPMOD_VERSION > 28
- 	select CRYPTO_SHA3
- 
- config MODULE_SIG_SHA3_384
- 	bool "Sign modules with SHA3-384"
-+	depends on DEPMOD_VERSION > 28
- 	select CRYPTO_SHA3
- 
- config MODULE_SIG_SHA3_512
- 	bool "Sign modules with SHA3-512"
-+	depends on DEPMOD_VERSION > 28
- 	select CRYPTO_SHA3
- 
- endchoice
-diff --git a/scripts/Kconfig.include b/scripts/Kconfig.include
-index 5a84b6443875..052f581c86da 100644
---- a/scripts/Kconfig.include
-+++ b/scripts/Kconfig.include
-@@ -63,3 +63,6 @@ ld-version := $(shell,set -- $(ld-info) && echo $2)
- cc-option-bit = $(if-success,$(CC) -Werror $(1) -E -x c /dev/null -o /dev/null,$(1))
- m32-flag := $(cc-option-bit,-m32)
- m64-flag := $(cc-option-bit,-m64)
-+
-+# depmod version
-+depmod-version := $(shell,$(srctree)/scripts/depmod-version.sh)
-diff --git a/scripts/depmod-version.sh b/scripts/depmod-version.sh
-new file mode 100755
-index 000000000000..32a8a6f6b737
---- /dev/null
-+++ b/scripts/depmod-version.sh
-@@ -0,0 +1,11 @@
-+#!/bin/sh
-+# SPDX-License-Identifier: GPL-2.0
-+
-+set -e
-+
-+: ${DEPMOD:=depmod}
-+
-+# legacy behavior: "depmod" in /sbin, no /sbin in PATH
-+PATH="$PATH:/sbin"
-+
-+LC_ALL=C "$DEPMOD" --version | sed -n '1s/kmod version //p'
--- 
-2.30.2
-
+Best regards,
+Tomasz
 
