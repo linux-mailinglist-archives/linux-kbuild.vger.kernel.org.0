@@ -1,174 +1,208 @@
-Return-Path: <linux-kbuild+bounces-511-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-512-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDC4D829B7F
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Jan 2024 14:39:15 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B5BE829BA1
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Jan 2024 14:48:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0FF4F1C2224C
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Jan 2024 13:39:15 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E00DCB255D4
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Jan 2024 13:47:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D230487B4;
-	Wed, 10 Jan 2024 13:39:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE3BA48CED;
+	Wed, 10 Jan 2024 13:47:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="CFR5szVv"
+	dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b="NEpBw8bW"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.avm.de (mail.avm.de [212.42.244.94])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BDD6495CB
-	for <linux-kbuild@vger.kernel.org>; Wed, 10 Jan 2024 13:39:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2cd703e9014so16889821fa.1
-        for <linux-kbuild@vger.kernel.org>; Wed, 10 Jan 2024 05:39:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1704893948; x=1705498748; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=yYuHDlpeSQP0DPaCl1fybFBgm95cBWd/VxGoejBh4E8=;
-        b=CFR5szVvT4GLTgQKc+/5ugj56aQnmduy7ReUJE+MNeTENyCPIlcu+yPfgmsab52axM
-         5pn6F44RVAVVCNhyhEisGx/NLaRoHW2e0HS8lJwb3I++gitQNYLTmDXClQBDpBRYOw2o
-         NbRJyHODRkD+7OFRerhmdgfQHsXy/tVl9c2PeHQ1d9TvWTCM1go2AhOamo05BO1mawTs
-         tFDfwJrR0+6oYhWc4FgEw7wOKx9ObPaqFvVZoxqQU0K/2f9wX7lWXE57VYDLqUhlqaXC
-         wbrQq7bYcFQLbMdV6tLW7PEnhPiWxqGJI6affHeGy3ql3JS6LNtebF12PleIug7P9CRm
-         q0dA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704893948; x=1705498748;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=yYuHDlpeSQP0DPaCl1fybFBgm95cBWd/VxGoejBh4E8=;
-        b=CXg8cwNKzUci/X81yeZxAKAFKINj+AHSpigfdD/7kq6/qTPw6dr2vjjOaiGnXpw8Vn
-         LdeW3Z7NNBEPbECWajfyZlmaC++ETneVvkoKwH2CdJ8JOYqP5CbHGE/6pJhCStuQP5EY
-         jPBuZTrbGFE9Hlwv+JTg4sdoFiSKgxJxb+4VXOro0kxXKKnw7fJtkOiegoxxPCQkpM8/
-         jork7UWjypNaNf6c7cOa1+1aIuse8cqPYg6u+KIIGDbwDp0leNIQzNpyMI5wDlNdg8yV
-         dm8TSI3xZhtRrk3Dr3tj7vLhXJldiLRpaVxMk8HhgmBqKef/8zHlFsAfJBjw5tgX0+Ab
-         r0PA==
-X-Gm-Message-State: AOJu0YyP0EnMUn10AA8vmPIYB5kOZRpP9PItTDaof04Nm6ACe71ya50y
-	wZSsG5PhvXkgHm/LeGndcHA3bpBUOAceCw==
-X-Google-Smtp-Source: AGHT+IFTc9I0KvBn1sBygc4Ur7jlswZ9AI9dvNPDhS34Y1In36k05J11/J0dpgN302dDT6zTczVmtA==
-X-Received: by 2002:a05:651c:2059:b0:2cd:1cb7:71d5 with SMTP id t25-20020a05651c205900b002cd1cb771d5mr619348ljo.48.1704893948266;
-        Wed, 10 Jan 2024 05:39:08 -0800 (PST)
-Received: from ?IPv6:2804:30c:1668:b300:8fcd:588d:fb77:ed04? ([2804:30c:1668:b300:8fcd:588d:fb77:ed04])
-        by smtp.gmail.com with ESMTPSA id az5-20020a170902a58500b001ca86a9caccsm3613547plb.228.2024.01.10.05.39.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jan 2024 05:39:07 -0800 (PST)
-Message-ID: <96578fb7568a8c2a318c850e6979bbf8f58cc249.camel@suse.com>
-Subject: Re: [PATCH v1 1/5] livepatch: Create and include UAPI headers
-From: Marcos Paulo de Souza <mpdesouza@suse.com>
-To: Lukas Hruska <lhruska@suse.cz>, Petr Mladek <pmladek@suse.com>, Miroslav
-	Benes <mbenes@suse.cz>, Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: Joe Lawrence <joe.lawrence@redhat.com>, live-patching@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, Josh Poimboeuf
-	 <jpoimboe@redhat.com>
-Date: Wed, 10 Jan 2024 10:38:52 -0300
-In-Reply-To: <20231106162513.17556-2-lhruska@suse.cz>
-References: <20231106162513.17556-1-lhruska@suse.cz>
-	 <20231106162513.17556-2-lhruska@suse.cz>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.1 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B521848CCC;
+	Wed, 10 Jan 2024 13:47:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=avm.de
+Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [212.42.244.71])
+	by mail.avm.de (Postfix) with ESMTPS;
+	Wed, 10 Jan 2024 14:47:42 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
+	t=1704894462; bh=yB/d2HBtnseonB7gGBWG1ceZe3XwB4h+dT4pG9J/Hkk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NEpBw8bWwaEvX3bs+RKmpaWjUKiFQqIPS65q2o8+nw4Zy6cd/1ifPSziEVblFJo7B
+	 id9zHit1+ZEcMwYN05xMoZHJjgQycuMz7NTD1TFLRu88G10vfJnRbVF6I1GAEgCLIy
+	 DsyiOnAO+Y8Mlm14US57ETtHI8nHlC8EG0AtsKRU=
+Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
+	by mail-auth.avm.de (Postfix) with ESMTPA id 91B4B802B0;
+	Wed, 10 Jan 2024 14:47:42 +0100 (CET)
+Received: by buildd.core.avm.de (Postfix, from userid 1000)
+	id 35D9718105E; Wed, 10 Jan 2024 14:47:42 +0100 (CET)
+Date: Wed, 10 Jan 2024 14:47:42 +0100
+From: Nicolas Schier <n.schier@avm.de>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, Ben Hutchings <ben@decadent.org.uk>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Nicolas Schier <nicolas@fjasle.eu>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/5] kbuild: deb-pkg: build binary-arch in parallel
+Message-ID: <ZZ6f_rO4MQBm6Ews@buildd.core.avm.de>
+Mail-Followup-To: Masahiro Yamada <masahiroy@kernel.org>,
+	linux-kbuild@vger.kernel.org, Ben Hutchings <ben@decadent.org.uk>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	linux-kernel@vger.kernel.org
+References: <20231230135200.1058873-1-masahiroy@kernel.org>
+ <20231230135200.1058873-4-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20231230135200.1058873-4-masahiroy@kernel.org>
+Organization: AVM GmbH
+X-purgate-ID: 149429::1704894462-7066B92C-BAACA115/0/0
+X-purgate-type: clean
+X-purgate-size: 4687
+X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
+X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
+X-purgate: clean
 
-On Mon, 2023-11-06 at 17:25 +0100, Lukas Hruska wrote:
-> From: Josh Poimboeuf <jpoimboe@redhat.com>
->=20
-> Define klp prefixes in include/uapi/linux/livepatch.h, and use them
-> for
-> replacing hard-coded values in kernel/livepatch/core.c.
->=20
-> Signed-off-by: Josh Poimboeuf <jpoimboe@redhat.com>
-> Signed-off-by: Lukas Hruska <lhruska@suse.cz>
-
-Reviewed-by: Marcos Paulo de Souza <mpdesouza@suse.com>
-
+On Sat, Dec 30, 2023 at 10:51:59PM +0900, Masahiro Yamada wrote:
+> 'make deb-pkg' builds build-arch in parallel, but binary-arch serially.
+> 
+> Given that all binary packages are independent of one another, they can
+> be built in parallel.
+> 
+> I am uncertain whether debian/files is robust against a race condition.
+> Just in case, make dh_gencontrol (dpkg-gencontrol) output to separate
+> debian/*.files, which are then concatenated into debian/files.
+> 
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > ---
-> =C2=A0MAINTAINERS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 1 +
-> =C2=A0include/uapi/linux/livepatch.h | 15 +++++++++++++++
-> =C2=A0kernel/livepatch/core.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=
-=C2=A0 5 +++--
-> =C2=A03 files changed, 19 insertions(+), 2 deletions(-)
-> =C2=A0create mode 100644 include/uapi/linux/livepatch.h
->=20
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 4cc6bf79fdd8..11a2d84c1277 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -12130,6 +12130,7 @@ F:	Documentation/ABI/testing/sysfs-
-> kernel-livepatch
-> =C2=A0F:	Documentation/livepatch/
-> =C2=A0F:	arch/powerpc/include/asm/livepatch.h
-> =C2=A0F:	include/linux/livepatch.h
-> +F:	include/uapi/linux/livepatch.h
-> =C2=A0F:	kernel/livepatch/
-> =C2=A0F:	kernel/module/livepatch.c
-> =C2=A0F:	lib/livepatch/
-> diff --git a/include/uapi/linux/livepatch.h
-> b/include/uapi/linux/livepatch.h
-> new file mode 100644
-> index 000000000000..e19430918a07
-> --- /dev/null
-> +++ b/include/uapi/linux/livepatch.h
-> @@ -0,0 +1,15 @@
-> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+> 
+>  scripts/package/builddeb     | 40 ++++++++++--------------------------
+>  scripts/package/debian/rules | 35 +++++++++++++++++++++++++++----
+>  2 files changed, 42 insertions(+), 33 deletions(-)
+> 
+> diff --git a/scripts/package/builddeb b/scripts/package/builddeb
+> index bf96a3c24608..d31b16afe0db 100755
+> --- a/scripts/package/builddeb
+> +++ b/scripts/package/builddeb
+> @@ -24,18 +24,6 @@ if_enabled_echo() {
+>  	fi
+>  }
+>  
+> -create_package() {
+> -	export DH_OPTIONS="-p${1}"
+> -
+> -	dh_installdocs
+> -	dh_installchangelogs
+> -	dh_compress
+> -	dh_fixperms
+> -	dh_gencontrol
+> -	dh_md5sums
+> -	dh_builddeb -- ${KDEB_COMPRESS:+-Z$KDEB_COMPRESS}
+> -}
+> -
+>  install_linux_image () {
+>  	pname=$1
+>  	pdir=debian/$1
+> @@ -161,21 +149,15 @@ install_libc_headers () {
+>  	mv "$pdir/usr/include/asm" "$pdir/usr/include/${DEB_HOST_MULTIARCH}"
+>  }
+>  
+> -rm -f debian/files
+> +package=$1
+>  
+> -packages_enabled=$(dh_listpackages)
+> -
+> -for package in ${packages_enabled}
+> -do
+> -	case ${package} in
+> -	*-dbg)
+> -		install_linux_image_dbg "${package}";;
+> -	linux-image-*|user-mode-linux-*)
+> -		install_linux_image "${package}";;
+> -	linux-libc-dev)
+> -		install_libc_headers "${package}";;
+> -	linux-headers-*)
+> -		install_kernel_headers "${package}";;
+> -	esac
+> -	create_package "${package}"
+> -done
+> +case "${package}" in
+> +*-dbg)
+> +	install_linux_image_dbg "${package}";;
+> +linux-image-*|user-mode-linux-*)
+> +	install_linux_image "${package}";;
+> +linux-libc-dev)
+> +	install_libc_headers "${package}";;
+> +linux-headers-*)
+> +	install_kernel_headers "${package}";;
+> +esac
+> diff --git a/scripts/package/debian/rules b/scripts/package/debian/rules
+> index b3f80f62236c..407f46a4a655 100755
+> --- a/scripts/package/debian/rules
+> +++ b/scripts/package/debian/rules
+> @@ -19,12 +19,39 @@ revision = $(lastword $(subst -, ,$(shell dpkg-parsechangelog -S Version)))
+>  CROSS_COMPILE ?= $(filter-out $(DEB_BUILD_GNU_TYPE)-, $(DEB_HOST_GNU_TYPE)-)
+>  make-opts = ARCH=$(ARCH) KERNELRELEASE=$(KERNELRELEASE) KBUILD_BUILD_VERSION=$(revision) $(addprefix CROSS_COMPILE=,$(CROSS_COMPILE))
+>  
+> +binary-targets := $(addprefix binary-, image image-dbg headers libc-dev)
 > +
-> +/*
-> + * livepatch.h - Kernel Live Patching Core
-> + *
-> + * Copyright (C) 2016 Josh Poimboeuf <jpoimboe@redhat.com>
-> + */
+> +all-packages = $(shell dh_listpackages)
+> +image-package = $(filter linux-image-% user-%, $(filter-out %-dbg, $(all-packages)))
+> +image-dbg-package = $(filter %-dbg, $(all-packages))
+> +libc-dev-package = $(filter linux-libc-dev, $(all-packages))
+> +headers-package = $(filter linux-headers-%, $(all-packages))
 > +
-> +#ifndef _UAPI_LIVEPATCH_H
-> +#define _UAPI_LIVEPATCH_H
+> +mk-files = $(patsubst binary-%,debian/%.files,$1)
+> +package = $($(@:binary-%=%-package))
+> +DH_OPTIONS = -p$(package)
 > +
-> +#define KLP_RELA_PREFIX		".klp.rela."
-> +#define KLP_SYM_PREFIX		".klp.sym."
+> +define binary
+> +	$(Q)+$(MAKE) $(make-opts) run-command KBUILD_RUN_COMMAND='+$$(srctree)/scripts/package/builddeb $(package)'
+> +	$(Q)dh_installdocs $(DH_OPTIONS)
+> +	$(Q)dh_installchangelogs $(DH_OPTIONS)
+> +	$(Q)dh_compress $(DH_OPTIONS)
+> +	$(Q)dh_fixperms $(DH_OPTIONS)
+> +	$(Q)dh_gencontrol $(DH_OPTIONS) -- -f$(call mk-files,$@)
+> +	$(Q)dh_md5sums $(DH_OPTIONS)
+> +	$(Q)dh_builddeb $(DH_OPTIONS) -- $(addprefix -Z,$(KDEB_COMPRESS))
+> +endef
 > +
-> +#endif /* _UAPI_LIVEPATCH_H */
-> diff --git a/kernel/livepatch/core.c b/kernel/livepatch/core.c
-> index 61328328c474..622f1916a5c8 100644
-> --- a/kernel/livepatch/core.c
-> +++ b/kernel/livepatch/core.c
-> @@ -20,6 +20,7 @@
-> =C2=A0#include <linux/completion.h>
-> =C2=A0#include <linux/memory.h>
-> =C2=A0#include <linux/rcupdate.h>
-> +#include <uapi/linux/livepatch.h>
-> =C2=A0#include <asm/cacheflush.h>
-> =C2=A0#include "core.h"
-> =C2=A0#include "patch.h"
-> @@ -226,7 +227,7 @@ static int klp_resolve_symbols(Elf_Shdr *sechdrs,
-> const char *strtab,
-> =C2=A0
-> =C2=A0		/* Format: .klp.sym.sym_objname.sym_name,sympos */
-> =C2=A0		cnt =3D sscanf(strtab + sym->st_name,
-> -			=C2=A0=C2=A0=C2=A0=C2=A0 ".klp.sym.%55[^.].%511[^,],%lu",
-> +			=C2=A0=C2=A0=C2=A0=C2=A0 KLP_SYM_PREFIX "%55[^.].%511[^,],%lu",
-> =C2=A0			=C2=A0=C2=A0=C2=A0=C2=A0 sym_objname, sym_name, &sympos);
-> =C2=A0		if (cnt !=3D 3) {
-> =C2=A0			pr_err("symbol %s has an incorrectly
-> formatted name\n",
-> @@ -305,7 +306,7 @@ static int klp_write_section_relocs(struct module
-> *pmod, Elf_Shdr *sechdrs,
-> =C2=A0	 * See comment in klp_resolve_symbols() for an explanation
-> =C2=A0	 * of the selected field width value.
-> =C2=A0	 */
-> -	cnt =3D sscanf(shstrtab + sec->sh_name, ".klp.rela.%55[^.]",
-> +	cnt =3D sscanf(shstrtab + sec->sh_name, KLP_RELA_PREFIX
-> "%55[^.]",
-> =C2=A0		=C2=A0=C2=A0=C2=A0=C2=A0 sec_objname);
-> =C2=A0	if (cnt !=3D 1) {
-> =C2=A0		pr_err("section %s has an incorrectly formatted
-> name\n",
+> +.PHONY: $(binary-targets)
+> +$(binary-targets): build-arch
+> +	$(Q)truncate -s0 $(call mk-files,$@)
+> +	$(if $(package),$(binary))
+> +
+>  .PHONY: binary binary-indep binary-arch
+>  binary: binary-arch binary-indep
+>  binary-indep: build-indep
+> -binary-arch: build-arch
+> -	$(Q)$(MAKE) $(make-opts) \
+> -	run-command KBUILD_RUN_COMMAND='+$$(srctree)/scripts/package/builddeb'
+> +binary-arch: $(binary-targets)
+> +	$(Q)cat $(call mk-files,$^) > debian/files
+>  
+>  .PHONY: build build-indep build-arch
+>  build: build-arch build-indep
+> @@ -35,7 +62,7 @@ build-arch:
+>  
+>  .PHONY: clean
+>  clean:
+> -	$(Q)rm -rf debian/files debian/linux-* debian/deb-env.vars*
+> +	$(Q)rm -rf debian/files debian/linux-* debian/deb-env.vars* debian/*.files
+>  	$(Q)$(MAKE) ARCH=$(ARCH) clean
+>  
+>  # If DEB_HOST_ARCH is empty, it is likely that debian/rules was executed
+> -- 
+> 2.40.1
+> 
 
+Thanks, looks good to me.
+
+Reviewed-by: Nicolas Schier <n.schier@avm.de>
 
