@@ -1,106 +1,174 @@
-Return-Path: <linux-kbuild+bounces-510-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-511-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31F85829B7B
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Jan 2024 14:38:31 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDC4D829B7F
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Jan 2024 14:39:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BD328284FDE
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Jan 2024 13:38:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0FF4F1C2224C
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Jan 2024 13:39:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63D6348CCD;
-	Wed, 10 Jan 2024 13:37:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D230487B4;
+	Wed, 10 Jan 2024 13:39:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b="WF1+wJ1D"
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="CFR5szVv"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail.avm.de (mail.avm.de [212.42.244.120])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1863348CC7;
-	Wed, 10 Jan 2024 13:37:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=avm.de
-Received: from mail-auth.avm.de (unknown [IPv6:2001:bf0:244:244::71])
-	by mail.avm.de (Postfix) with ESMTPS;
-	Wed, 10 Jan 2024 14:37:16 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
-	t=1704893836; bh=LCuaVe73rplzywlFwA0UbIaUH/rZvyTsPAJWHyMOIqw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WF1+wJ1DyBUf0s9manoHhCKw6x54DY1H92W7WuZRRZs0bBODb12Nhln7ZT8zZ1pIA
-	 Rdf5uKFe5DgtlaY9zFeKzq8+GGsNjQpdRyY2N/fwl7DfljsjNlioJBsqS22+nm33C6
-	 pf/GMRT5TqZPlxTJArZ2Ddg8B4OiOwlRjnVUK7y8=
-Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
-	by mail-auth.avm.de (Postfix) with ESMTPA id 7B3DD803AB;
-	Wed, 10 Jan 2024 14:37:17 +0100 (CET)
-Received: by buildd.core.avm.de (Postfix, from userid 1000)
-	id 6E2B81812A6; Wed, 10 Jan 2024 14:37:17 +0100 (CET)
-Date: Wed, 10 Jan 2024 14:37:17 +0100
-From: Nicolas Schier <n.schier@avm.de>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, Ben Hutchings <ben@decadent.org.uk>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Nicolas Schier <nicolas@fjasle.eu>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/5] kbuild: deb-pkg: make debian/rules quiet by default
-Message-ID: <ZZ6djUvyyJPiduL4@buildd.core.avm.de>
-Mail-Followup-To: Masahiro Yamada <masahiroy@kernel.org>,
-	linux-kbuild@vger.kernel.org, Ben Hutchings <ben@decadent.org.uk>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	linux-kernel@vger.kernel.org
-References: <20231230135200.1058873-1-masahiroy@kernel.org>
- <20231230135200.1058873-2-masahiroy@kernel.org>
- <ZZ1UxkCgKQ9J6Iut@reykjavik.ads.avm.de>
- <CAK7LNATdFdLfw4Xg9C29_X1iEun4kmgccFbW=Nvqkk2LFzewsA@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BDD6495CB
+	for <linux-kbuild@vger.kernel.org>; Wed, 10 Jan 2024 13:39:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2cd703e9014so16889821fa.1
+        for <linux-kbuild@vger.kernel.org>; Wed, 10 Jan 2024 05:39:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1704893948; x=1705498748; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=yYuHDlpeSQP0DPaCl1fybFBgm95cBWd/VxGoejBh4E8=;
+        b=CFR5szVvT4GLTgQKc+/5ugj56aQnmduy7ReUJE+MNeTENyCPIlcu+yPfgmsab52axM
+         5pn6F44RVAVVCNhyhEisGx/NLaRoHW2e0HS8lJwb3I++gitQNYLTmDXClQBDpBRYOw2o
+         NbRJyHODRkD+7OFRerhmdgfQHsXy/tVl9c2PeHQ1d9TvWTCM1go2AhOamo05BO1mawTs
+         tFDfwJrR0+6oYhWc4FgEw7wOKx9ObPaqFvVZoxqQU0K/2f9wX7lWXE57VYDLqUhlqaXC
+         wbrQq7bYcFQLbMdV6tLW7PEnhPiWxqGJI6affHeGy3ql3JS6LNtebF12PleIug7P9CRm
+         q0dA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704893948; x=1705498748;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=yYuHDlpeSQP0DPaCl1fybFBgm95cBWd/VxGoejBh4E8=;
+        b=CXg8cwNKzUci/X81yeZxAKAFKINj+AHSpigfdD/7kq6/qTPw6dr2vjjOaiGnXpw8Vn
+         LdeW3Z7NNBEPbECWajfyZlmaC++ETneVvkoKwH2CdJ8JOYqP5CbHGE/6pJhCStuQP5EY
+         jPBuZTrbGFE9Hlwv+JTg4sdoFiSKgxJxb+4VXOro0kxXKKnw7fJtkOiegoxxPCQkpM8/
+         jork7UWjypNaNf6c7cOa1+1aIuse8cqPYg6u+KIIGDbwDp0leNIQzNpyMI5wDlNdg8yV
+         dm8TSI3xZhtRrk3Dr3tj7vLhXJldiLRpaVxMk8HhgmBqKef/8zHlFsAfJBjw5tgX0+Ab
+         r0PA==
+X-Gm-Message-State: AOJu0YyP0EnMUn10AA8vmPIYB5kOZRpP9PItTDaof04Nm6ACe71ya50y
+	wZSsG5PhvXkgHm/LeGndcHA3bpBUOAceCw==
+X-Google-Smtp-Source: AGHT+IFTc9I0KvBn1sBygc4Ur7jlswZ9AI9dvNPDhS34Y1In36k05J11/J0dpgN302dDT6zTczVmtA==
+X-Received: by 2002:a05:651c:2059:b0:2cd:1cb7:71d5 with SMTP id t25-20020a05651c205900b002cd1cb771d5mr619348ljo.48.1704893948266;
+        Wed, 10 Jan 2024 05:39:08 -0800 (PST)
+Received: from ?IPv6:2804:30c:1668:b300:8fcd:588d:fb77:ed04? ([2804:30c:1668:b300:8fcd:588d:fb77:ed04])
+        by smtp.gmail.com with ESMTPSA id az5-20020a170902a58500b001ca86a9caccsm3613547plb.228.2024.01.10.05.39.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Jan 2024 05:39:07 -0800 (PST)
+Message-ID: <96578fb7568a8c2a318c850e6979bbf8f58cc249.camel@suse.com>
+Subject: Re: [PATCH v1 1/5] livepatch: Create and include UAPI headers
+From: Marcos Paulo de Souza <mpdesouza@suse.com>
+To: Lukas Hruska <lhruska@suse.cz>, Petr Mladek <pmladek@suse.com>, Miroslav
+	Benes <mbenes@suse.cz>, Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: Joe Lawrence <joe.lawrence@redhat.com>, live-patching@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, Josh Poimboeuf
+	 <jpoimboe@redhat.com>
+Date: Wed, 10 Jan 2024 10:38:52 -0300
+In-Reply-To: <20231106162513.17556-2-lhruska@suse.cz>
+References: <20231106162513.17556-1-lhruska@suse.cz>
+	 <20231106162513.17556-2-lhruska@suse.cz>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.1 
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK7LNATdFdLfw4Xg9C29_X1iEun4kmgccFbW=Nvqkk2LFzewsA@mail.gmail.com>
-Organization: AVM GmbH
-X-purgate-ID: 149429::1704893836-A0FDFDFE-E8347147/0/0
-X-purgate-type: clean
-X-purgate-size: 1060
-X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
-X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
-X-purgate: clean
 
-On Tue, Jan 09, 2024 at 11:46:49PM +0900, Masahiro Yamada wrote:
-> On Tue, Jan 9, 2024 at 11:14 PM Nicolas Schier <nicolas@fjasle.eu> wrote:
-> >
-> > On Sat, Dec 30, 2023 at 10:51:57PM +0900, Masahiro Yamada wrote:
-> > > Add $(Q) to commands in debian/rules to make them quiet when the package
-> > > built is initiated by 'make deb-pkg'.
-> > >
-> > > While the commands in debian/rules are not hidden when you directly work
-> > > with the debianized tree, you can set 'terse' to DEB_BUILD_OPTIONS to
-> > > silence them.
-> >
-> > Reading Debian Policy §4.9 [1] I'd expected some fiddling with V=1 or
-> > 'make -s', but I am ok with the simple '@' silencing (which matches my
-> > personal preference).
-> 
-> 
-> Hmm, you are right.
-> 
-> 
-> Maybe, we should follow what the Debian kernel does.
-> 
-> Debian kernel sets KBUILD_VERBOSE=1 unless
-> 'terse' is given.
-> 
-> 
-> https://salsa.debian.org/kernel-team/linux/-/blob/debian/6.7-1_exp1/debian/rules.real#L36
+On Mon, 2023-11-06 at 17:25 +0100, Lukas Hruska wrote:
+> From: Josh Poimboeuf <jpoimboe@redhat.com>
+>=20
+> Define klp prefixes in include/uapi/linux/livepatch.h, and use them
+> for
+> replacing hard-coded values in kernel/livepatch/core.c.
+>=20
+> Signed-off-by: Josh Poimboeuf <jpoimboe@redhat.com>
+> Signed-off-by: Lukas Hruska <lhruska@suse.cz>
 
-yes, I think it makes sense to do the Debian way.
+Reviewed-by: Marcos Paulo de Souza <mpdesouza@suse.com>
 
-Kind regards,
-Nicolas
+> ---
+> =C2=A0MAINTAINERS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 1 +
+> =C2=A0include/uapi/linux/livepatch.h | 15 +++++++++++++++
+> =C2=A0kernel/livepatch/core.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=
+=C2=A0 5 +++--
+> =C2=A03 files changed, 19 insertions(+), 2 deletions(-)
+> =C2=A0create mode 100644 include/uapi/linux/livepatch.h
+>=20
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 4cc6bf79fdd8..11a2d84c1277 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -12130,6 +12130,7 @@ F:	Documentation/ABI/testing/sysfs-
+> kernel-livepatch
+> =C2=A0F:	Documentation/livepatch/
+> =C2=A0F:	arch/powerpc/include/asm/livepatch.h
+> =C2=A0F:	include/linux/livepatch.h
+> +F:	include/uapi/linux/livepatch.h
+> =C2=A0F:	kernel/livepatch/
+> =C2=A0F:	kernel/module/livepatch.c
+> =C2=A0F:	lib/livepatch/
+> diff --git a/include/uapi/linux/livepatch.h
+> b/include/uapi/linux/livepatch.h
+> new file mode 100644
+> index 000000000000..e19430918a07
+> --- /dev/null
+> +++ b/include/uapi/linux/livepatch.h
+> @@ -0,0 +1,15 @@
+> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+> +
+> +/*
+> + * livepatch.h - Kernel Live Patching Core
+> + *
+> + * Copyright (C) 2016 Josh Poimboeuf <jpoimboe@redhat.com>
+> + */
+> +
+> +#ifndef _UAPI_LIVEPATCH_H
+> +#define _UAPI_LIVEPATCH_H
+> +
+> +#define KLP_RELA_PREFIX		".klp.rela."
+> +#define KLP_SYM_PREFIX		".klp.sym."
+> +
+> +#endif /* _UAPI_LIVEPATCH_H */
+> diff --git a/kernel/livepatch/core.c b/kernel/livepatch/core.c
+> index 61328328c474..622f1916a5c8 100644
+> --- a/kernel/livepatch/core.c
+> +++ b/kernel/livepatch/core.c
+> @@ -20,6 +20,7 @@
+> =C2=A0#include <linux/completion.h>
+> =C2=A0#include <linux/memory.h>
+> =C2=A0#include <linux/rcupdate.h>
+> +#include <uapi/linux/livepatch.h>
+> =C2=A0#include <asm/cacheflush.h>
+> =C2=A0#include "core.h"
+> =C2=A0#include "patch.h"
+> @@ -226,7 +227,7 @@ static int klp_resolve_symbols(Elf_Shdr *sechdrs,
+> const char *strtab,
+> =C2=A0
+> =C2=A0		/* Format: .klp.sym.sym_objname.sym_name,sympos */
+> =C2=A0		cnt =3D sscanf(strtab + sym->st_name,
+> -			=C2=A0=C2=A0=C2=A0=C2=A0 ".klp.sym.%55[^.].%511[^,],%lu",
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 KLP_SYM_PREFIX "%55[^.].%511[^,],%lu",
+> =C2=A0			=C2=A0=C2=A0=C2=A0=C2=A0 sym_objname, sym_name, &sympos);
+> =C2=A0		if (cnt !=3D 3) {
+> =C2=A0			pr_err("symbol %s has an incorrectly
+> formatted name\n",
+> @@ -305,7 +306,7 @@ static int klp_write_section_relocs(struct module
+> *pmod, Elf_Shdr *sechdrs,
+> =C2=A0	 * See comment in klp_resolve_symbols() for an explanation
+> =C2=A0	 * of the selected field width value.
+> =C2=A0	 */
+> -	cnt =3D sscanf(shstrtab + sec->sh_name, ".klp.rela.%55[^.]",
+> +	cnt =3D sscanf(shstrtab + sec->sh_name, KLP_RELA_PREFIX
+> "%55[^.]",
+> =C2=A0		=C2=A0=C2=A0=C2=A0=C2=A0 sec_objname);
+> =C2=A0	if (cnt !=3D 1) {
+> =C2=A0		pr_err("section %s has an incorrectly formatted
+> name\n",
+
 
