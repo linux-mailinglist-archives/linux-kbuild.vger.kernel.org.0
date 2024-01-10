@@ -1,115 +1,125 @@
-Return-Path: <linux-kbuild+bounces-508-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-509-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62EC0829AE5
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Jan 2024 14:06:04 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65A1D829B0A
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Jan 2024 14:15:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 131A5281A66
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Jan 2024 13:06:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8C3C11C2644D
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Jan 2024 13:15:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2A0748794;
-	Wed, 10 Jan 2024 13:05:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FDC7487A9;
+	Wed, 10 Jan 2024 13:15:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="mXWcgmJE"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="e71sjScO"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 310EF48788
-	for <linux-kbuild@vger.kernel.org>; Wed, 10 Jan 2024 13:05:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E031B487AC
+	for <linux-kbuild@vger.kernel.org>; Wed, 10 Jan 2024 13:15:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5587655bbfbso257841a12.3
-        for <linux-kbuild@vger.kernel.org>; Wed, 10 Jan 2024 05:05:53 -0800 (PST)
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-556c3f0d6c5so4876293a12.2
+        for <linux-kbuild@vger.kernel.org>; Wed, 10 Jan 2024 05:15:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1704891952; x=1705496752; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1704892516; x=1705497316; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=r3fYiUXc8cxYAbqnzO/jzfI53DkZ5gWWk2eUOw5iFG0=;
-        b=mXWcgmJET9cdsw54wZbtBpfD523o75hayqx4fcRd0lMFNxElQwh3VBOcfMxo2g8o4x
-         gvnPXiOV/o4TkEaWMzFwukbzFG7KFtt1gCDArWQiWJGlorEVLWVQSUSVJclmV953Sqay
-         G07QWgYXdwD8cnL4RQf/d/CwsH5zuLQAG//sY=
+        bh=2K17fFBJpR1/Y1vdZDJP422VcROIDsHIcrNjjivdS1A=;
+        b=e71sjScO8RPwLTyihOY1+0hD566166UF0mq1g3Ok9wXFRz+fxtCSHtCgit9v9tBudd
+         Hfn/k3kRSAcljLsvcYluQxgXhoY0yH3jANR9llXa1btYKcbrXkjBIIdpoLn3ZyLa5tch
+         6oSN/PH17d0GE6jOJn98MZQq3H/xvhbepzwwI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704891952; x=1705496752;
+        d=1e100.net; s=20230601; t=1704892516; x=1705497316;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=r3fYiUXc8cxYAbqnzO/jzfI53DkZ5gWWk2eUOw5iFG0=;
-        b=MLV2fFe20S8aY5t7cy1SwHP66WIvTJdF+2UEORXaAgx+T0Vk0oHPqKSXQwZheTomMQ
-         BfnQPsNmHseegh6dMP/47kaRpF4o082RKl7oXbVaRbeE1m+uB2c0nRogOABsmy5lXH6H
-         gGpmMHXq/W1QZC0eXg3JzksGSgSYoO3WiXyKTFZHwMhokOTH3vFZzJ6SiIdTqyBWtf6i
-         tD167gdZE3BAq9mC4IXg2S70ka3bDGBF6TnrRQ/NBpCFKq29m+c11EborEkoMmE6l0/d
-         kr6fpb7EhAXQehIiBUMkB50cXRnHmK28i9ePLTK0z8nNRBmie7EKpmFVLMYyBksZsUHg
-         irPw==
-X-Gm-Message-State: AOJu0YzpM5SCJp+iwYsgdjuXgg3tw3qvcizu5eR22PPxEKYOO36E8HYG
-	pmP0isBQ4lN68fTJsxGJ1KxALukb3tViRVLNXY6x43jhV9Ue
-X-Google-Smtp-Source: AGHT+IFsQcg8m2W7AVndo6kJFRO8BiEt8N6cLTyiGctvB8wVi4rdetSTIR15WuON/nAclw02Y56tuw==
-X-Received: by 2002:a17:906:4909:b0:a28:68be:d60a with SMTP id b9-20020a170906490900b00a2868bed60amr436913ejq.190.1704891951929;
-        Wed, 10 Jan 2024 05:05:51 -0800 (PST)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com. [209.85.221.48])
-        by smtp.gmail.com with ESMTPSA id se4-20020a170906ce4400b00a26e53be089sm2059072ejb.44.2024.01.10.05.05.51
+        bh=2K17fFBJpR1/Y1vdZDJP422VcROIDsHIcrNjjivdS1A=;
+        b=eRqVJQ962qrkr6bnYR04sLPeBMflBH1X5Z70nb2f7MfAIHSqrMY2snm1DbiErejBBb
+         mQKFj31oFmKUKfmTeYUTcqTqTks0h6UJ8Hbu+JFHEWM2yxeNOir1AiESLGQM+sGD2pPj
+         nXLyp9SJkdTMJH36CYp+WP+T3HuvX0d9QxdcI+ctUG6r5q1k6v/wyn9Y1E38jmhxzBwl
+         TzJv+/+Hfm3CwLAVotGc00t2Y/hx0TnRqxn5Ttpm2JbO5byxFVh7VM9KTW3Apx+857qQ
+         TCZ2OuPw9pRSV7xJXeisiioBEdAGCj8SPWtANVZKthxwLsq1gUWzmT+YiijiT4PlnQz0
+         DQjA==
+X-Gm-Message-State: AOJu0YyzuCoaHK6JlkBnMtjMRJV9Kp7/S+lWLloBE2VNFeLnDDvWcF8w
+	Xgu0LTeEJXgUkU6w8WC8OgsGD8GvEri/ooUosqYKt+usyDHm
+X-Google-Smtp-Source: AGHT+IE/iD20eN/jQ8qmCW5cMTwaIxYpQTz9KfDPNDTmdCjyfhC8fDTXy9OgTFBFyA6Ds9hoacPoyQ==
+X-Received: by 2002:a17:906:129b:b0:a22:eb96:6d3b with SMTP id k27-20020a170906129b00b00a22eb966d3bmr423141ejb.124.1704892516390;
+        Wed, 10 Jan 2024 05:15:16 -0800 (PST)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com. [209.85.221.50])
+        by smtp.gmail.com with ESMTPSA id f12-20020a170906138c00b00a27e4d34455sm2072702ejc.183.2024.01.10.05.15.16
         for <linux-kbuild@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Jan 2024 05:05:51 -0800 (PST)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3376f71fcbbso2445065f8f.1
-        for <linux-kbuild@vger.kernel.org>; Wed, 10 Jan 2024 05:05:51 -0800 (PST)
-X-Received: by 2002:adf:f604:0:b0:336:6422:708d with SMTP id
- t4-20020adff604000000b003366422708dmr349222wrp.116.1704891950857; Wed, 10 Jan
- 2024 05:05:50 -0800 (PST)
+        Wed, 10 Jan 2024 05:15:16 -0800 (PST)
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3367a304091so3803762f8f.3
+        for <linux-kbuild@vger.kernel.org>; Wed, 10 Jan 2024 05:15:16 -0800 (PST)
+X-Received: by 2002:a5d:444d:0:b0:337:555c:6b7d with SMTP id
+ x13-20020a5d444d000000b00337555c6b7dmr378407wrr.173.1704892515835; Wed, 10
+ Jan 2024 05:15:15 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231228054630.3595093-1-tfiga@chromium.org> <CAK7LNATBipJtprjvvRVYg8JcYOFXQdpLEyEc+4+8j1PtBQ+PUg@mail.gmail.com>
-In-Reply-To: <CAK7LNATBipJtprjvvRVYg8JcYOFXQdpLEyEc+4+8j1PtBQ+PUg@mail.gmail.com>
+References: <20231228070941.3611649-1-tfiga@chromium.org> <CAK7LNASbgXSZNiwhMf8jm7511eyDm8oCqY=MzWhgWwNuVLk5Vw@mail.gmail.com>
+In-Reply-To: <CAK7LNASbgXSZNiwhMf8jm7511eyDm8oCqY=MzWhgWwNuVLk5Vw@mail.gmail.com>
 From: Tomasz Figa <tfiga@chromium.org>
-Date: Wed, 10 Jan 2024 22:05:33 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5C3vAUJhKiQ1LPkZv3dJxNvK4QinRezV9Q8rz_Ov6FSUQ@mail.gmail.com>
-Message-ID: <CAAFQd5C3vAUJhKiQ1LPkZv3dJxNvK4QinRezV9Q8rz_Ov6FSUQ@mail.gmail.com>
-Subject: Re: [PATCH] kconfig: menuconfig: Make hidden options show as dim
+Date: Wed, 10 Jan 2024 22:14:55 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5CRtgMUN8xZ_4BOv04KzCvXtrKHhWGQhhqgENyMCVWbKw@mail.gmail.com>
+Message-ID: <CAAFQd5CRtgMUN8xZ_4BOv04KzCvXtrKHhWGQhhqgENyMCVWbKw@mail.gmail.com>
+Subject: Re: [PATCH] kconfig: Add a build target for checking current config
+ for issues
 To: Masahiro Yamada <masahiroy@kernel.org>
 Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Jesse Taube <Mr.Bossman075@gmail.com>
+	Sergey Senozhatsky <senozhatsky@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 29, 2023 at 1:10=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
+On Fri, Dec 29, 2023 at 1:11=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
 rg> wrote:
 >
-> On Thu, Dec 28, 2023 at 2:46=E2=80=AFPM Tomasz Figa <tfiga@chromium.org> =
+> On Thu, Dec 28, 2023 at 4:09=E2=80=AFPM Tomasz Figa <tfiga@chromium.org> =
 wrote:
 > >
-> > When hidden options are toggled on (using 'z'), the number of options
-> > on the screen can be overwhelming and may make it hard to distinguish
-> > between available and hidden ones. Make them easier to distinguish by
-> > displaying the hidden one as dim (using the A_DIM curses attribute).
+> > The new target is called 'checkconfig' and currently is basically an
+> > alias for `listnewconfig` with KCONFIG_WARN_UNKNOWN_SYMBOLS set to true=
+.
+> > It can be used to validate if the current config is directly compatible
+> > with the current kernel version or needs some manual adjustment.
 > >
 > > Signed-off-by: Tomasz Figa <tfiga@chromium.org>
 >
 >
+> I rejected a new target in the past.
 >
-> Do you think this is useful?
+> https://lore.kernel.org/all/20230817012007.131868-1-senozhatsky@chromium.=
+org/T/#m55c37e3091158f8cb008d9e0b5c6bf3f5ead225a
 >
-> This changes the color only when you select a hidden item.
+
+That was specifically for the unrecognized symbols warning. What I'm
+proposing is a universal target that would include any possible
+diagnostics.
+
 >
 >
-> For unselected items, you cannot distinguish hidden ones,
-> as A_DIM has no effect to black text.
+> Instead, you can run
+>
+>   KCONFIG_WARN_UNKNOWN_SYMBOLS=3D1 make listnewconfig
+>
+> or
+>
+>   make W=3Dc listnewconfig
 >
 >
 
-Hmm, are you sure about that? For me it seems to dim the text. it
-seems to be also used in the existing code for dlg.button_inactive.atr
-of the mono theme:
-
-https://elixir.bootlin.com/linux/latest/source/scripts/kconfig/lxdialog/uti=
-l.c#L26
+I can do so, because my team member implemented it and told me and
+other team members about it. But how would someone who hasn't heard
+about it be aware of the existence of this useful feature?
 
 Best regards,
 Tomasz
