@@ -1,98 +1,112 @@
-Return-Path: <linux-kbuild+bounces-522-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-523-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7110582AEA3
-	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Jan 2024 13:23:00 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD42E82B17F
+	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Jan 2024 16:14:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9F56A1C21492
-	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Jan 2024 12:22:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B74951C21148
+	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Jan 2024 15:14:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C69B1156FD;
-	Thu, 11 Jan 2024 12:22:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FBF14A987;
+	Thu, 11 Jan 2024 15:14:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=alu.hr header.i=@alu.hr header.b="pZ5QcuGl";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=alu.unizg.hr header.i=@alu.unizg.hr header.b="Uao2RK5W"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="3im6bRcD"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from domac.alu.hr (domac.alu.unizg.hr [161.53.235.3])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9511E156C7;
-	Thu, 11 Jan 2024 12:22:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alu.hr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alu.hr
-Received: from localhost (localhost [127.0.0.1])
-	by domac.alu.hr (Postfix) with ESMTP id E878B60177;
-	Thu, 11 Jan 2024 13:22:41 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=alu.hr; s=mail;
-	t=1704975761; bh=Uk8yklKEoRrgk9eAUyK20nUPSlbebqbTL3+vl1utoWI=;
-	h=Date:From:To:Cc:Subject:From;
-	b=pZ5QcuGlmtKqL6XdK/9LHSGr/7jksEfPwTN0Mwb2tRf1iep5AoGqryi5gzsCRvOWk
-	 fEywDwb5DqcetMGH1hbgTW5+1ckqN9ribn/RtgY+D6Bbk4pP8eCutO0P1oiMVY7f28
-	 XDrlsSJwoiPgQDLX9rUCKygz0w474L0iagx28Wx67cccs9goEvttsSkd9cHDlZ+Ocl
-	 Mza7vEguJE7vbr7CCzYyVnmNDoVhat5g9s1U7zwZhKSWSSxn4l2Aqe/CF2KtGh+9Aa
-	 R8PiwR66IixdSQGPUdgRwB5TpwCkqBhwQgGtDKwQrSGMBjeduqpL9S4bHSPv6KsUmL
-	 YeKFNL+jc9/DQ==
-X-Virus-Scanned: Debian amavisd-new at domac.alu.hr
-Received: from domac.alu.hr ([127.0.0.1])
-	by localhost (domac.alu.hr [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 1b8Y0zAnc3gf; Thu, 11 Jan 2024 13:22:39 +0100 (CET)
-Received: from [10.0.1.190] (unknown [161.53.83.23])
-	by domac.alu.hr (Postfix) with ESMTPSA id DE24B60171;
-	Thu, 11 Jan 2024 13:22:39 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=alu.unizg.hr; s=mail;
-	t=1704975759; bh=Uk8yklKEoRrgk9eAUyK20nUPSlbebqbTL3+vl1utoWI=;
-	h=Date:From:To:Cc:Subject:From;
-	b=Uao2RK5WkN8011lHStw83RcojJUubx/2qt/PvLr6Jj5+tiOd+5JE/ze+OSK4VCGVt
-	 QoWfr/o5tiPB/MydIqXXVbMeNK+Fr0YhddqalK9E7Uqy1YzQUKgolRdqlEdHgwisnk
-	 RjCWMCaptUZb7IM+0VcAttynJ79VdkspvaIOl2TVbYkdfnyeHPQozYf8dMXTVYMs8p
-	 wB7yn6TAxvZzjO3OynzNpK/yItLJvMT0i35g4fxGrRV7fMaIGA7XIFPommhAluvNEY
-	 6RM03X+OehzuLc1+31rjG39X1cNiew7VQ4aRIR7FNw7EwfSIKn+4ZFjqxezMdatS2G
-	 PjhGDfIHCkOBg==
-Message-ID: <c2adb439-0dea-4de1-996e-5a0caa5c729d@alu.unizg.hr>
-Date: Thu, 11 Jan 2024 13:22:39 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19CD84C3D7;
+	Thu, 11 Jan 2024 15:14:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1704986078;
+	bh=b+8qG4K5TQjYoC7fpfd4f7Sk/NAtLJcrKL8iFcCbdz4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=3im6bRcD2+PvwFdsdu72Gg227f+Rg6ZqKp5Q+zo7Rjr57AfpmO0aUczzj1dMulno4
+	 +lUlcsMDuSyNayNxUTjLTGeh1vkZ0+PPf4xWyM2rb2sLvChAm9wFxqyJiifsLVwoVV
+	 r5U86f1YHXaHPUHsm5E+nuhN6q1qVLP3lkhsw2qBE1EdzHncO62YYc97Smg2LeR6Rl
+	 AFjHwRiYuJxN9p3ZVc2fVRl9t6iRllxqtxK99oAOk5JHVrouLz7v+7rX0/6FGG8Z1O
+	 ApzbZluzOBJ39zpr56q0yfl9Ar92mlxOD+GTEMmdRVGZpvfTlL30pz0wSUO962z1Wg
+	 EbGCNab7YpbTA==
+Received: from localhost.localdomain (zone.collabora.co.uk [167.235.23.81])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nfraprado)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 777703781492;
+	Thu, 11 Jan 2024 15:14:30 +0000 (UTC)
+From: =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= <nfraprado@collabora.com>
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: kernel@collabora.com,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	=?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?= <nfraprado@collabora.com>,
+	Abhijit Gangurde <abhijit.gangurde@amd.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Bjorn Andersson <quic_bjorande@quicinc.com>,
+	Brian Norris <briannorris@chromium.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Julius Werner <jwerner@chromium.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Nipun Gupta <nipun.gupta@amd.com>,
+	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Will Deacon <will@kernel.org>,
+	chrome-platform@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/4] Allow coreboot modules to autoload and enable cbmem in the arm64 defconfig
+Date: Thu, 11 Jan 2024 12:11:45 -0300
+Message-ID: <20240111151226.842603-1-nfraprado@collabora.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-From: Mirsad Todorovac <mirsad.todorovac@alu.hr>
-To: linux-kbuild@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Subject: [PROBLEM] Very long .deb package build times for bindeb-pkg build
- target
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-
-Hi,
-
-With this new release, it seems that Debian kernel build uses "xz" in single-
-threaded mode:
-
-Tasks: 484 total,   2 running, 481 sleeping,   0 stopped,   1 zombie
-%Cpu(s):  2.5 us,  2.2 sy,  6.3 ni, 85.1 id,  2.3 wa,  0.0 hi,  1.7 si,  0.0 st
-MiB Mem :  64128.3 total,    524.3 free,   5832.0 used,  58540.9 buff/cache
-MiB Swap:  32760.0 total,  32758.7 free,      1.2 used.  58296.3 avail Mem
-
-     PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND 
-
-  978084 marvin    30  10  112440  97792   2432 R 100.0   0.1  29:30.23 xz 
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 
-Before dpkg-deb was using up to 3200% of CPU time on a 16 core SMT CPU.
+This series adds the missing pieces to the coreboot bus and the module
+alias generation to allow coreboot modules to be automatically loaded
+when matching devices are detected.
 
-Can it be something with dpkg-deb --thread-max=%n option?
+The configs for cbmem coreboot entries are then enabled in the arm64
+defconfig, as modules, to allow reading logs from coreboot on arm64
+Chromebooks, which is useful for debugging the boot process.
 
-Waiting for half an hour just for the build of linux-image-...-dbg package
-seems like an overkill ...
 
-Thank you.
+Nícolas F. R. A. Prado (4):
+  firmware: coreboot: Generate modalias uevent for devices
+  firmware: coreboot: Generate aliases for coreboot modules
+  firmware: google: cbmem: Add to module device table
+  arm64: defconfig: Enable support for cbmem entries in the coreboot
+    table
 
-Best regards,
-Mirsad
+ arch/arm64/configs/defconfig             |  3 +++
+ drivers/firmware/google/cbmem.c          |  7 +++++++
+ drivers/firmware/google/coreboot_table.c |  9 +++++++++
+ include/linux/mod_devicetable.h          |  8 ++++++++
+ scripts/mod/devicetable-offsets.c        |  3 +++
+ scripts/mod/file2alias.c                 | 10 ++++++++++
+ 6 files changed, 40 insertions(+)
+
+-- 
+2.43.0
+
 
