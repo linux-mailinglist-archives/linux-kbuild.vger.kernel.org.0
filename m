@@ -1,114 +1,91 @@
-Return-Path: <linux-kbuild+bounces-535-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-536-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 890F882C71F
-	for <lists+linux-kbuild@lfdr.de>; Fri, 12 Jan 2024 23:20:17 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4722482C838
+	for <lists+linux-kbuild@lfdr.de>; Sat, 13 Jan 2024 01:12:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 18C001F22A0F
-	for <lists+linux-kbuild@lfdr.de>; Fri, 12 Jan 2024 22:20:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6D1AD1C2190B
+	for <lists+linux-kbuild@lfdr.de>; Sat, 13 Jan 2024 00:12:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B47E17757;
-	Fri, 12 Jan 2024 22:19:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A6CF364;
+	Sat, 13 Jan 2024 00:12:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="D8IHT6lN"
+	dkim=pass (4096-bit key) header.d=envs.net header.i=@envs.net header.b="ccJWUwn0"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-yw1-f201.google.com (mail-yw1-f201.google.com [209.85.128.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.envs.net (mail.envs.net [5.199.136.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE7BE1774E
-	for <linux-kbuild@vger.kernel.org>; Fri, 12 Jan 2024 22:19:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--willmcvicker.bounces.google.com
-Received: by mail-yw1-f201.google.com with SMTP id 00721157ae682-5ee22efe5eeso108159547b3.3
-        for <linux-kbuild@vger.kernel.org>; Fri, 12 Jan 2024 14:19:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1705097991; x=1705702791; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=ksYBhZPLA1Cn7mhQtmBXO13MzYmjYuWLD3WlbMKqULg=;
-        b=D8IHT6lNgkyu1IYqrHZryjGx5CpTo/Mg+BadjI7HCKPHhMuXIIWKNWGID49tOArVPN
-         cfFAyG3o+psZW22fQUS7grnjv87XVQjOigpOsWA1ZCsfzX/zOQaEdMAVc83aYJ8Gar+5
-         sx2bP/fiuMjoh6ll3ONYghFIEEfsr5UBa9TXRtGPDjfze4XfTnAucOqg266r1/bbe2tN
-         uuFQ+3mZTrS+VlZoJVjh42lyFXm8JhZtFqA4PlFwlSE66Ww/+jZS6m767ju/efapfuN6
-         qKdjlpwvXahcMfu3zS1eNyHrODtsj86cjAlFJeXVslT75XxMwdrweVJimeINUF8iGaHS
-         xJAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705097991; x=1705702791;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ksYBhZPLA1Cn7mhQtmBXO13MzYmjYuWLD3WlbMKqULg=;
-        b=qcLtPkGb2ChY76VrRpClxWYlrO+GjNufF0TnJvUYf+QAVnXXCY1kDHytit6s/vxpH9
-         S9bkSdeUcAMmvhmQgxL28Q/hdy8l0NjuDvw1SMGE5jM7kjX0ueJiXHTgNGzI8KTTkgpB
-         LB6m0yjWiz7E4uXy+ji84d7roajUbSVyXJqQJMmJcrP1xbjmSuMb8NbL+GvtnhGGY/pr
-         b5HTsc9J69vn2JjpAffAA0fcBOmTUn4zhY7k7ZgcLTCXq0T4vZSavXTdTThkGoxr+rQj
-         6p+OoHecfdxPS4pcBdwoAcsjCaaiURxogD2kWqT8MfG47ymDQd2E8csekRJwnsllSSMw
-         tIbw==
-X-Gm-Message-State: AOJu0Yy6mkpcVuVJa8mfNZfKJvjlZZxP1M3ndCJ0mbNqcWp6D5X3Ox9w
-	weQ58U2/nEh03yuameYG1nA3973TW2KYrMhWONgjd6qSjw==
-X-Google-Smtp-Source: AGHT+IH/3c4nQhHotLjUfqa00qb5zECzcxyLjHW2As94nCL0vyNkw6St2WHe0+KE/ZM+q3+x9yFdh4bUKZLQkufA4D4=
-X-Received: from wmcvicker.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5ebe])
- (user=willmcvicker job=sendgmr) by 2002:a81:7102:0:b0:5fb:914f:207a with SMTP
- id m2-20020a817102000000b005fb914f207amr793886ywc.6.1705097991021; Fri, 12
- Jan 2024 14:19:51 -0800 (PST)
-Date: Fri, 12 Jan 2024 14:19:46 -0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A664195
+	for <linux-kbuild@vger.kernel.org>; Sat, 13 Jan 2024 00:12:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=envs.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=envs.net
+Received: from localhost (mail.envs.net [127.0.0.1])
+	by mail.envs.net (Postfix) with ESMTP id 44E7A38A05A9;
+	Sat, 13 Jan 2024 00:12:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=envs.net; s=modoboa;
+	t=1705104720; bh=VeMldIr1QD5fR2+fHgbqjpu8x0dDE60iRWuEo9YOblc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ccJWUwn0PjpBkhqSzrmfTjDt59XDf+j3wQKGzoLSiMTBzXX8Dh5XmFqY/VfsCOkjI
+	 NbVSfp7rlic6P2LqS51/fW3oK9i+gSiDjKKOPKTl3AVtIrsozfXYU2gNe8UA61FJnh
+	 sGf88n0EalPZKnSZ88cyPR2ecIdRQY7iz0KV9McB/7k5h11c2aEt2hHZ2ziRtlUNLz
+	 2RDI+ktQvILrOK/g016YL2xttaujMigav1Y7oUee9DOb3HZlgmX9iM4DmPpm4mP+lI
+	 sz+DbvTKNVdy8pkFi4aEoUMaSyA7IjWdSJas9GEd6fX1jZAaPvGWHZ7ae04fj4H0Ly
+	 LLZ2ICRDKo6SdUFI40/vbtmqmw7lWfH4bvYy2NKNdAzW64OWH+AytXK2jPUkT83JKf
+	 C+TKuftaPR5SgwUesWyALXiOkb0nBJm2IdarjP+g2cyr1f91WuWPv4NmJOM7YZXO1l
+	 HS34xFIiq0MWRpUtvreYbEMpql3fIosFx6JwTbFtwnseVW6Vz7D66A0RbVH8QY3XeH
+	 RSCdE0djX3oesiyABVeHYE8oeMdhv8cVtqHhE/qA8Ny5uSAWFOgvFCHh/9bpQ1ElZC
+	 d9zOA1y4fM/smRPhnW03u+K9vU+wf18QsAY3F9Am6/GkQTdWdzTxSeYwZE5EaggnwC
+	 +kkKz9AUrhse50dhl2hs38fY=
+X-Virus-Scanned: Debian amavisd-new at mail.envs.net
+Received: from mail.envs.net ([127.0.0.1])
+	by localhost (mail.envs.net [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id LNpO4MzNEzwY; Sat, 13 Jan 2024 00:11:58 +0000 (UTC)
+Received: from xtexx.eu.org (unknown [120.230.214.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.envs.net (Postfix) with ESMTPSA;
+	Sat, 13 Jan 2024 00:11:58 +0000 (UTC)
+From: Zhang Bingwu <xtex@envs.net>
+To: linux-kbuild@vger.kernel.org
+Cc: Zhang Bingwu <xtexchooser@duck.com>
+Subject: [PATCH 0/1] kbuild: find kernel/configs for fragments in fragment merging
+Date: Sat, 13 Jan 2024 08:11:34 +0800
+Message-ID: <20240113001135.7781-1-xtex@envs.net>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.43.0.275.g3460e3d667-goog
-Message-ID: <20240112221947.1950503-1-willmcvicker@google.com>
-Subject: [PATCH v2] checkpatch: allow build files to reference other build files
-From: Will McVicker <willmcvicker@google.com>
-To: Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>, 
-	Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc: linux-kbuild@vger.kernel.org, Will McVicker <willmcvicker@google.com>, 
-	kernel-team@android.com, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Add an exception to the EMBEDDED_FILENAME warning for build files. This
-fixes the below warnings where the Kconfig and Makefile files reference
-other similarly named build files.
+From: Zhang Bingwu <xtexchooser@duck.com>
 
-  WARNING:EMBEDDED_FILENAME: It's generally not useful to have the filename in the file
-  #24: FILE: Kconfig:34:
-  +source "drivers/willmcvicker/Kconfig"
+Function merge_into_defconfig and merge_into_defconfig_override merge
+ a defconfig with several fragments, which should also be searched for
+ in kernel/configs/*.config.
+When using 'make xxx_defconfig xxx.config' to merge fragments,
+ scripts/kconfig/Makefile also searches kernel/configs/*.config
+ for fragments.
 
-  WARNING:EMBEDDED_FILENAME: It's generally not useful to have the filename in the file
-  #36: FILE: Makefile:667:
-  +	} > Makefile
+This patch also switched usages of ARCH to SRCARCH.
+For some ARCH values, such as i386 and x86_64, SRCARCH is different
+ from ARCH and arch/$(ARCH) does not exist anymore.
+If the two functions are used in these ARCHs which has
+ a different SRCARCH, kbuild may fail to find fragments.
 
-Signed-off-by: Will McVicker <willmcvicker@google.com>
----
- scripts/checkpatch.pl | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Zhang Bingwu (1):
+  kbuild: find kernel/configs for fragments in fragment merging
 
-v2:
-- Unwrap commit message lines
-- Align and update regex
+ scripts/Makefile.defconf | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index f8343b34a28b..c2869803e545 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -3785,7 +3785,8 @@ sub process {
- 		}
- 
- # check for embedded filenames
--		if ($rawline =~ /^\+.*\b\Q$realfile\E\b/) {
-+		if ($rawline =~ /^\+.*\b\Q$realfile\E\b/ &&
-+		    $realfile !~ /(?:Kconfig|Makefile)/) {
- 			WARN("EMBEDDED_FILENAME",
- 			     "It's generally not useful to have the filename in the file\n" . $herecurr);
- 		}
-
-base-commit: 70d201a40823acba23899342d62bc2644051ad2e
 -- 
-2.43.0.275.g3460e3d667-goog
+2.43.0
 
 
