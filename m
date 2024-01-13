@@ -1,108 +1,253 @@
-Return-Path: <linux-kbuild+bounces-537-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-538-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79C7282C839
-	for <lists+linux-kbuild@lfdr.de>; Sat, 13 Jan 2024 01:12:28 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8259282C98C
+	for <lists+linux-kbuild@lfdr.de>; Sat, 13 Jan 2024 06:40:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9FA581C21669
-	for <lists+linux-kbuild@lfdr.de>; Sat, 13 Jan 2024 00:12:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E93E81F23807
+	for <lists+linux-kbuild@lfdr.de>; Sat, 13 Jan 2024 05:40:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84BBE195;
-	Sat, 13 Jan 2024 00:12:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B68BF9CF;
+	Sat, 13 Jan 2024 05:40:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=envs.net header.i=@envs.net header.b="ojnNRvq4"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W1gsDvkj"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail.envs.net (mail.envs.net [5.199.136.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00549364
-	for <linux-kbuild@vger.kernel.org>; Sat, 13 Jan 2024 00:12:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=envs.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=envs.net
-Received: from localhost (mail.envs.net [127.0.0.1])
-	by mail.envs.net (Postfix) with ESMTP id 36C9438A05A9;
-	Sat, 13 Jan 2024 00:12:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=envs.net; s=modoboa;
-	t=1705104740; bh=+GG3kGm0PXszJ7xza3Atd9t1E+yImA2gKJufdKHgXtc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ojnNRvq4JAJ3tCyqrbcAQZfTgmic8iLGPSw8GmCKkCopHTDQyMf9JdQDgijF8N4z4
-	 0BH+/yfRwcZlOSVATpXbfB9UPTqKxjmQQDwiTHduozku1pFEmxC0Em1/B80Qchilo6
-	 XDSURoTuhsBQ2gRwie2fcWfVy38WlszKrC3kTYDP4zJ4cQIeEYjAjMkOD5etE+ulOw
-	 6J6BK6A7QeEtMr51dL96JULkEtA5dVh8/zPZWKF2rZ3Q1y5IneZ8/Dk6EYqdQFxuZt
-	 9YK8VMgGAASAOzNwQSAITa7ZTvoA56N5sfBJ26aodA+2w/oVgzGksUDQ89Vuq1iqCZ
-	 m8q9CSP7pUYUkGzKNj9Oo2XysT1dH8MaELIsK1EMA6lZ3xx5DVCjFO4ckP1FXMeHlK
-	 8A/YC1HXzU9digTMTwr5OSrQAtHNbvaAVCMF5r360aLTxOaDo7heIzvBhtjeX/1f6U
-	 HqzpgzR0mIoXxL4NbfYqpSQR1DNVE9vnQNrBtOziLAJvxA13Ixu+HJB2jBSe6EzFij
-	 loS1f+hpF3i2wm1KyPL6tUfYi1uhqh66jOw4RZOSsUqFW3fhbNnbMOPVG4XqkC9pzl
-	 BP+1k4QUFWpBzOZhURcFBcu6zb9Lg3IFJGcyN24pYPqIdmmauT1O0cVLc1+j4vMMax
-	 RPSZvCa6qXhIPshUNZFfHdpk=
-X-Virus-Scanned: Debian amavisd-new at mail.envs.net
-Received: from mail.envs.net ([127.0.0.1])
-	by localhost (mail.envs.net [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id 273w-0tggmX2; Sat, 13 Jan 2024 00:12:18 +0000 (UTC)
-Received: from xtexx.eu.org (unknown [120.230.214.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.envs.net (Postfix) with ESMTPSA;
-	Sat, 13 Jan 2024 00:12:18 +0000 (UTC)
-From: Zhang Bingwu <xtex@envs.net>
-To: linux-kbuild@vger.kernel.org
-Cc: Zhang Bingwu <xtexchooser@duck.com>
-Subject: [PATCH 1/1] kbuild: find kernel/configs for fragments in fragment merging
-Date: Sat, 13 Jan 2024 08:11:35 +0800
-Message-ID: <20240113001135.7781-2-xtex@envs.net>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240113001135.7781-1-xtex@envs.net>
-References: <20240113001135.7781-1-xtex@envs.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B0B0F510;
+	Sat, 13 Jan 2024 05:40:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF29BC43390;
+	Sat, 13 Jan 2024 05:40:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705124443;
+	bh=O3ohrsXSkj1hsucv+3a30SU0eUUg7ceQUZsUsRmu5Wk=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=W1gsDvkjaWTsDoyZ/ZMiBsHhN2cDtribY2vxcLlSWkK3rSzdRQobfsAi660rYWqDM
+	 Vr4ghxnHkRipb8TsDVrMgCWLq0IWXem0RfNzL2+WfP1UfhVy0fVy55//pYKmZxSTU1
+	 2KRcYa91buX4YSNoNDNfKO2KvD5cpL5QDJ27IJlEHGJTl76fL8XoyM4/8xEOivRoB8
+	 cqDC+fExvJig692MpmCOCjamUv9UrpMOFNwKZapwTb383XuOo17jHQ8Ow2dfS7kucK
+	 WgCUtXNl2T/EFN9XOQ9yN0uSfxn9GowGCP4TEieO8NmX/louM/r6B/Iqyk29Upd6S1
+	 Os3k/4EA5JqmA==
+Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-6dde5d308c6so2484759a34.0;
+        Fri, 12 Jan 2024 21:40:43 -0800 (PST)
+X-Gm-Message-State: AOJu0YwfROd//1FF4V1VbCT0b1/aD4xcfcElHxfzuUKQuIQrXXWas94T
+	j1KZOoVsQcBm2LBuQ7OJLb+LrvLeI39Fgp3/NQM=
+X-Google-Smtp-Source: AGHT+IHPsRlEXgHx2ZFurUp2lo7jQQOWgwageyfZGDFdYcwB35V4gpQDFM1VBA95/PyjPKIls8FwnJTBiFufQOzrCyo=
+X-Received: by 2002:a05:6871:e419:b0:205:f2ad:2948 with SMTP id
+ py25-20020a056871e41900b00205f2ad2948mr2733807oac.114.1705124443157; Fri, 12
+ Jan 2024 21:40:43 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <c2adb439-0dea-4de1-996e-5a0caa5c729d@alu.unizg.hr>
+ <ZaALOOhEdBP70lDH@bergen.fjasle.eu> <827b5e97-a436-47a7-a097-13657bcda948@alu.unizg.hr>
+In-Reply-To: <827b5e97-a436-47a7-a097-13657bcda948@alu.unizg.hr>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Sat, 13 Jan 2024 14:40:05 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAToNP0hFvhzr_gYw6TXMxkJuCN4idWZvqmq3mSTNOHtSQ@mail.gmail.com>
+Message-ID: <CAK7LNAToNP0hFvhzr_gYw6TXMxkJuCN4idWZvqmq3mSTNOHtSQ@mail.gmail.com>
+Subject: Re: [PROBLEM] Very long .deb package build times for bindeb-pkg build target
+To: Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>
+Cc: Nicolas Schier <nicolas@fjasle.eu>, Mirsad Todorovac <mirsad.todorovac@alu.hr>, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Zhang Bingwu <xtexchooser@duck.com>
+On Fri, Jan 12, 2024 at 7:48=E2=80=AFAM Mirsad Todorovac
+<mirsad.todorovac@alu.unizg.hr> wrote:
+>
+> On 11. 01. 2024. 16:37, Nicolas Schier wrote:
+> > Hi Mirsad,
+> >
+> > On Thu 11 Jan 2024 13:22:39 GMT, Mirsad Todorovac wrote:
+> >> Hi,
+> >>
+> >> With this new release, it seems that Debian kernel build uses "xz" in =
+single-
+> >> threaded mode:
 
-Function merge_into_defconfig and merge_into_defconfig_override merge
-a defconfig with several fragments, which should also be searched for
-in kernel/configs/*.config.
 
-This also switched ARCH to $(SRCARCH).
-For some ARCH, SRCARCH is different from ARCH and arch/$(ARCH) does not
-exist.
 
-Signed-off-by: Zhang Bingwu <xtexchooser@duck.com>
----
- scripts/Makefile.defconf | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+New release of what?
 
-diff --git a/scripts/Makefile.defconf b/scripts/Makefile.defconf
-index ab271b205..6e61c1784 100644
---- a/scripts/Makefile.defconf
-+++ b/scripts/Makefile.defconf
-@@ -10,7 +10,7 @@
- define merge_into_defconfig
- 	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/kconfig/merge_config.sh \
- 		-m -O $(objtree) $(srctree)/arch/$(ARCH)/configs/$(1) \
--		$(foreach config,$(2),$(srctree)/arch/$(ARCH)/configs/$(config).config)
-+		$(foreach config,$(2),$(wildcard $(srctree)/kernel/configs/$(config).config $(srctree)/arch/$(SRCARCH)/configs/$(config).config))
- 	+$(Q)$(MAKE) -f $(srctree)/Makefile olddefconfig
- endef
- 
-@@ -24,6 +24,6 @@ endef
- define merge_into_defconfig_override
- 	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/kconfig/merge_config.sh \
- 		-Q -m -O $(objtree) $(srctree)/arch/$(ARCH)/configs/$(1) \
--		$(foreach config,$(2),$(srctree)/arch/$(ARCH)/configs/$(config).config)
-+		$(foreach config,$(2),$(wildcard $(srctree)/kernel/configs/$(config).config $(srctree)/arch/$(SRCARCH)/configs/$(config).config))
- 	+$(Q)$(MAKE) -f $(srctree)/Makefile olddefconfig
- endef
--- 
-2.43.0
 
+
+
+> >>
+> >> Tasks: 484 total,   2 running, 481 sleeping,   0 stopped,   1 zombie
+> >> %Cpu(s):  2.5 us,  2.2 sy,  6.3 ni, 85.1 id,  2.3 wa,  0.0 hi,  1.7 si=
+,  0.0 st
+> >> MiB Mem :  64128.3 total,    524.3 free,   5832.0 used,  58540.9 buff/=
+cache
+> >> MiB Swap:  32760.0 total,  32758.7 free,      1.2 used.  58296.3 avail=
+ Mem
+> >>
+> >>     PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+
+> >> COMMAND
+> >>
+> >>  978084 marvin    30  10  112440  97792   2432 R 100.0   0.1  29:30.23=
+ xz
+> >>
+> >>
+> >> Before dpkg-deb was using up to 3200% of CPU time on a 16 core SMT CPU=
+.
+> >>
+> >> Can it be something with dpkg-deb --thread-max=3D%n option?
+> >
+> > I cannot find any --thread-max option in Linux tree.  Do you call
+> > dpkg-deb manually or somehow induce a thread maximum?
+> >
+> >> Waiting for half an hour just for the build of linux-image-...-dbg pac=
+kage
+> >> seems like an overkill ...
+> >
+> > With current v6.7 release tree I do not see the reported slow-downs
+> > when building bindeb-pkg; I tested by cross-compiling for arm64 on
+> > amd64 with CONFIG_MODULE_COMPRESS_XZ=3Dy and =3Dn).
+> >
+> > Both take roughly 5mins on my 24-core i9 system.
+> >
+> > Kind regards,
+> > Nicolas
+>
+> I am perplexed too, but you can see from the top output the
+> single-threaded xz with 29:30m processor time.
+>
+> On my laptop with the sam Ubuntu 23.10 mantic minotaur, I have
+> dpkg-deb version 1.20.12 and it shows things like 400% and 3200%
+> CPU time, so it is working multithreaded.
+>
+> On desktop machine with the same Ubuntu 23.10 and the same git
+> torvalds tree, it starts single-threaded xz from dpkg-deb instead.
+
+
+You built the same mainline git tree on your laptop and desktop.
+The former runs xz multi-threaded, the latter single-threaded.
+
+So, this is not about the kernel code, but about your environment,
+isn't it?
+
+
+
+You mentioned you were using Ubuntu 23.10, where
+dpkg-deb version is 1.22.0
+
+
+Your dpkg-deb version, 1.20.12, is too old for Ubuntu 23.10.
+Is it a self-built one?
+
+
+
+
+
+dpkg-deb usually compresses binary packages, but the default
+compression type depends on the distro.
+(It is determined at "./configure" time)
+
+
+
+On Ubuntu, the default compression type for dpkg-deb is "zstd"
+(while it is "xz" on Debian)
+
+
+Check "man dpkg-deb" on your Ubuntu machine.
+
+
+  -Zcompress=E2=80=90type
+      Specify which compression type to use when building a package.
+      Allowed values are gzip, xz (since dpkg 1.15.6),
+      zstd (since dpkg 1.21.18) and none (default is zstd).
+
+
+
+
+You are still allowed to use xz with "make KDEB_COMPRESS=3Dxz deb-pkg".
+Is this your case?
+
+
+
+
+Overall, your report is not sensible.
+
+
+You should check what you are seeing.
+
+
+
+
+> I tried things like this:
+>
+> diff --git a/scripts/package/builddeb b/scripts/package/builddeb
+> index d7dd0d04c70c..b2319c23db34 100755
+> --- a/scripts/package/builddeb
+> +++ b/scripts/package/builddeb
+> @@ -38,7 +38,7 @@ create_package() {
+>
+>         # Fix ownership and permissions
+>         if [ "$DEB_RULES_REQUIRES_ROOT" =3D "no" ]; then
+> -               dpkg_deb_opts=3D"--root-owner-group"
+> +               dpkg_deb_opts=3D"--threads-max=3D0 --root-owner-group"
+>         else
+>                 chown -R root:root "$pdir"
+>         fi
+>
+> and it didn't work either - dpkg-deb --threads-max=3D0 still spawned a
+> single-threaded xz that ran 30 minutes.
+>
+> Then the workaround was a very simple xz shell script that adds option --=
+threads=3D0
+> and calls system xz:
+>
+> ~/bin/xz:
+> ----------------------------------------------------------------
+> #!/bin/bash -f
+>
+> /usr/bin/xz --threads=3D0 "$@"
+> ----------------------------------------------------------------
+>
+> This finally worked, but sometimes I get:
+>
+> marvin@defiant:~/linux/kernel$ xz -9 --memlimit-compress=3D8000MiB linux-=
+image-6.7.0-rc8-dbg_6.7.0-rc8-6_amd64.deb
+> /usr/bin/xz: Reduced the number of threads from 8 to 6 to not exceed the =
+memory usage limit of 8000 MiB
+>
+> (This is of course just an example of compressing a large file, as .deb i=
+s already compressed.)
+>
+> I used the default Ubuntu 23.10 config, with .pems excluded, and I think =
+module compression
+> did not work either. I had to turn it off ...
+>
+> Hope this helps.
+>
+> Regards,
+> Mirsad
+>
+> --
+> Mirsad Goran Todorovac
+> Sistem in=C5=BEenjer
+> Grafi=C4=8Dki fakultet | Akademija likovnih umjetnosti
+> Sveu=C4=8Dili=C5=A1te u Zagrebu
+>
+> System engineer
+> Faculty of Graphic Arts | Academy of Fine Arts
+> University of Zagreb, Republic of Croatia
+> The European Union
+>
+> "I see something approaching fast ... Will it be friends with me?"
+>
+>
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
