@@ -1,253 +1,183 @@
-Return-Path: <linux-kbuild+bounces-538-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-539-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8259282C98C
-	for <lists+linux-kbuild@lfdr.de>; Sat, 13 Jan 2024 06:40:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF61582CA5C
+	for <lists+linux-kbuild@lfdr.de>; Sat, 13 Jan 2024 08:12:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E93E81F23807
-	for <lists+linux-kbuild@lfdr.de>; Sat, 13 Jan 2024 05:40:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 657481F23B24
+	for <lists+linux-kbuild@lfdr.de>; Sat, 13 Jan 2024 07:12:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B68BF9CF;
-	Sat, 13 Jan 2024 05:40:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA3C81A5B7;
+	Sat, 13 Jan 2024 07:12:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W1gsDvkj"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DFNCJpby"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B0B0F510;
-	Sat, 13 Jan 2024 05:40:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF29BC43390;
-	Sat, 13 Jan 2024 05:40:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94F8D1A29C;
+	Sat, 13 Jan 2024 07:12:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0783CC43394;
+	Sat, 13 Jan 2024 07:12:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705124443;
-	bh=O3ohrsXSkj1hsucv+3a30SU0eUUg7ceQUZsUsRmu5Wk=;
+	s=k20201202; t=1705129937;
+	bh=rFvVei4t/+C8XZuuE9/e6kJP7xx3vyRVtZCphMPagVw=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=W1gsDvkjaWTsDoyZ/ZMiBsHhN2cDtribY2vxcLlSWkK3rSzdRQobfsAi660rYWqDM
-	 Vr4ghxnHkRipb8TsDVrMgCWLq0IWXem0RfNzL2+WfP1UfhVy0fVy55//pYKmZxSTU1
-	 2KRcYa91buX4YSNoNDNfKO2KvD5cpL5QDJ27IJlEHGJTl76fL8XoyM4/8xEOivRoB8
-	 cqDC+fExvJig692MpmCOCjamUv9UrpMOFNwKZapwTb383XuOo17jHQ8Ow2dfS7kucK
-	 WgCUtXNl2T/EFN9XOQ9yN0uSfxn9GowGCP4TEieO8NmX/louM/r6B/Iqyk29Upd6S1
-	 Os3k/4EA5JqmA==
-Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-6dde5d308c6so2484759a34.0;
-        Fri, 12 Jan 2024 21:40:43 -0800 (PST)
-X-Gm-Message-State: AOJu0YwfROd//1FF4V1VbCT0b1/aD4xcfcElHxfzuUKQuIQrXXWas94T
-	j1KZOoVsQcBm2LBuQ7OJLb+LrvLeI39Fgp3/NQM=
-X-Google-Smtp-Source: AGHT+IHPsRlEXgHx2ZFurUp2lo7jQQOWgwageyfZGDFdYcwB35V4gpQDFM1VBA95/PyjPKIls8FwnJTBiFufQOzrCyo=
-X-Received: by 2002:a05:6871:e419:b0:205:f2ad:2948 with SMTP id
- py25-20020a056871e41900b00205f2ad2948mr2733807oac.114.1705124443157; Fri, 12
- Jan 2024 21:40:43 -0800 (PST)
+	b=DFNCJpbyoUZiYq+997Is3j9DIObTphY6egbUlh8Tpt/OpyD6B3ADY9h2H62e/JDj/
+	 j7b8okVx0Bfg3ICxp4z9NXx3IR23TY5LDcnIQinnJu5NJuBNAnhz+3tEvjIBtxZx5x
+	 hupNwEUyZ2IkCwj1TL856+vEypJG78o1g/1OhmVYOTSc1dQG6gfeEUHU0KAu/wM7YH
+	 Fp3NiZMIFKckxHcB+KxbhTnI5JceUgOwA9Kge8PhdUuwYFo4HM4jYY3yC9ujVwBGCR
+	 0rxU5nUM+xzjonloLRHhCP/BHb5XfrnuMToCAfQlwC6EiUpL9Crq10GULlT7D7ckXD
+	 MxNca09mxbQsQ==
+Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-20451bc39b1so4377810fac.1;
+        Fri, 12 Jan 2024 23:12:16 -0800 (PST)
+X-Gm-Message-State: AOJu0YyxQw8B5OdyTyJmSAa/4TKzWQgMZxD5r2zhnvN1CREIcduTP7Do
+	jauMDg//7w7GNeqIdnOVfVcVZ+FwT1BkkgzmPu0=
+X-Google-Smtp-Source: AGHT+IGoMj0EJb3VpuPKwjRgjXjlS4/7aWkNkLdlaFJqOTadaeP+55slSxK97AeSwdAMrlv5InPDTOi3mm4AQ4UL6fg=
+X-Received: by 2002:a05:6870:c352:b0:205:f549:9aac with SMTP id
+ e18-20020a056870c35200b00205f5499aacmr3162178oak.115.1705129936387; Fri, 12
+ Jan 2024 23:12:16 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <c2adb439-0dea-4de1-996e-5a0caa5c729d@alu.unizg.hr>
- <ZaALOOhEdBP70lDH@bergen.fjasle.eu> <827b5e97-a436-47a7-a097-13657bcda948@alu.unizg.hr>
-In-Reply-To: <827b5e97-a436-47a7-a097-13657bcda948@alu.unizg.hr>
+References: <20240112120910.3751062-1-vegard.nossum@oracle.com>
+In-Reply-To: <20240112120910.3751062-1-vegard.nossum@oracle.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sat, 13 Jan 2024 14:40:05 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAToNP0hFvhzr_gYw6TXMxkJuCN4idWZvqmq3mSTNOHtSQ@mail.gmail.com>
-Message-ID: <CAK7LNAToNP0hFvhzr_gYw6TXMxkJuCN4idWZvqmq3mSTNOHtSQ@mail.gmail.com>
-Subject: Re: [PROBLEM] Very long .deb package build times for bindeb-pkg build target
-To: Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>
-Cc: Nicolas Schier <nicolas@fjasle.eu>, Mirsad Todorovac <mirsad.todorovac@alu.hr>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Sat, 13 Jan 2024 16:11:39 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQwXwWJE240Z7jvprkNs-cYDE5N_640w0r6u85_Cs2tBg@mail.gmail.com>
+Message-ID: <CAK7LNAQwXwWJE240Z7jvprkNs-cYDE5N_640w0r6u85_Cs2tBg@mail.gmail.com>
+Subject: Re: [PATCH] docs: media: rename gen_rst -> cmd_parse_headers
+To: Vegard Nossum <vegard.nossum@oracle.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 12, 2024 at 7:48=E2=80=AFAM Mirsad Todorovac
-<mirsad.todorovac@alu.unizg.hr> wrote:
+On Fri, Jan 12, 2024 at 9:09=E2=80=AFPM Vegard Nossum <vegard.nossum@oracle=
+.com> wrote:
 >
-> On 11. 01. 2024. 16:37, Nicolas Schier wrote:
-> > Hi Mirsad,
-> >
-> > On Thu 11 Jan 2024 13:22:39 GMT, Mirsad Todorovac wrote:
-> >> Hi,
-> >>
-> >> With this new release, it seems that Debian kernel build uses "xz" in =
-single-
-> >> threaded mode:
+> All other commands in the kernel use the format "cmd_" followed by some
+> variation of the program name. This is also the format documented in
+> Documentation/kbuild/makefiles.rst.
+
+
+This rule is only applicable to Makefiles that follow Kbuild.
+
+
+The doc subsystem maintainers ignored Kbuild and
+started whatever they wanted.
+Presumably it is an unfortunate thing.
 
 
 
-New release of what?
 
 
-
-
-> >>
-> >> Tasks: 484 total,   2 running, 481 sleeping,   0 stopped,   1 zombie
-> >> %Cpu(s):  2.5 us,  2.2 sy,  6.3 ni, 85.1 id,  2.3 wa,  0.0 hi,  1.7 si=
-,  0.0 st
-> >> MiB Mem :  64128.3 total,    524.3 free,   5832.0 used,  58540.9 buff/=
-cache
-> >> MiB Swap:  32760.0 total,  32758.7 free,      1.2 used.  58296.3 avail=
- Mem
-> >>
-> >>     PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+
-> >> COMMAND
-> >>
-> >>  978084 marvin    30  10  112440  97792   2432 R 100.0   0.1  29:30.23=
- xz
-> >>
-> >>
-> >> Before dpkg-deb was using up to 3200% of CPU time on a 16 core SMT CPU=
-.
-> >>
-> >> Can it be something with dpkg-deb --thread-max=3D%n option?
-> >
-> > I cannot find any --thread-max option in Linux tree.  Do you call
-> > dpkg-deb manually or somehow induce a thread maximum?
-> >
-> >> Waiting for half an hour just for the build of linux-image-...-dbg pac=
-kage
-> >> seems like an overkill ...
-> >
-> > With current v6.7 release tree I do not see the reported slow-downs
-> > when building bindeb-pkg; I tested by cross-compiling for arm64 on
-> > amd64 with CONFIG_MODULE_COMPRESS_XZ=3Dy and =3Dn).
-> >
-> > Both take roughly 5mins on my 24-core i9 system.
-> >
-> > Kind regards,
-> > Nicolas
 >
-> I am perplexed too, but you can see from the top output the
-> single-threaded xz with 29:30m processor time.
+> Therefore, rename "gen_rst" to "cmd_parse_headers".
+
+
+Just renaming is meaningless.
+
+
+The reason for "cmd_" prefixing is to
+use the macros in scripts/Kbuild.include
+
+
+In Kbuild, the rule looks like
+$(call cmd,parse_headers)
+
+
+
+
+
+
+
+
 >
-> On my laptop with the sam Ubuntu 23.10 mantic minotaur, I have
-> dpkg-deb version 1.20.12 and it shows things like 400% and 3200%
-> CPU time, so it is working multithreaded.
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
+> ---
+>  Documentation/userspace-api/media/Makefile | 22 +++++++++++-----------
+>  1 file changed, 11 insertions(+), 11 deletions(-)
 >
-> On desktop machine with the same Ubuntu 23.10 and the same git
-> torvalds tree, it starts single-threaded xz from dpkg-deb instead.
-
-
-You built the same mainline git tree on your laptop and desktop.
-The former runs xz multi-threaded, the latter single-threaded.
-
-So, this is not about the kernel code, but about your environment,
-isn't it?
-
-
-
-You mentioned you were using Ubuntu 23.10, where
-dpkg-deb version is 1.22.0
-
-
-Your dpkg-deb version, 1.20.12, is too old for Ubuntu 23.10.
-Is it a self-built one?
-
-
-
-
-
-dpkg-deb usually compresses binary packages, but the default
-compression type depends on the distro.
-(It is determined at "./configure" time)
-
-
-
-On Ubuntu, the default compression type for dpkg-deb is "zstd"
-(while it is "xz" on Debian)
-
-
-Check "man dpkg-deb" on your Ubuntu machine.
-
-
-  -Zcompress=E2=80=90type
-      Specify which compression type to use when building a package.
-      Allowed values are gzip, xz (since dpkg 1.15.6),
-      zstd (since dpkg 1.21.18) and none (default is zstd).
-
-
-
-
-You are still allowed to use xz with "make KDEB_COMPRESS=3Dxz deb-pkg".
-Is this your case?
-
-
-
-
-Overall, your report is not sensible.
-
-
-You should check what you are seeing.
-
-
-
-
-> I tried things like this:
+> diff --git a/Documentation/userspace-api/media/Makefile b/Documentation/u=
+serspace-api/media/Makefile
+> index 3d8aaf5c253b..bfb90fa2b3fc 100644
+> --- a/Documentation/userspace-api/media/Makefile
+> +++ b/Documentation/userspace-api/media/Makefile
+> @@ -12,38 +12,38 @@ FILES =3D ca.h.rst dmx.h.rst frontend.h.rst net.h.rst=
+ \
 >
-> diff --git a/scripts/package/builddeb b/scripts/package/builddeb
-> index d7dd0d04c70c..b2319c23db34 100755
-> --- a/scripts/package/builddeb
-> +++ b/scripts/package/builddeb
-> @@ -38,7 +38,7 @@ create_package() {
+>  TARGETS :=3D $(addprefix $(BUILDDIR)/, $(FILES))
 >
->         # Fix ownership and permissions
->         if [ "$DEB_RULES_REQUIRES_ROOT" =3D "no" ]; then
-> -               dpkg_deb_opts=3D"--root-owner-group"
-> +               dpkg_deb_opts=3D"--threads-max=3D0 --root-owner-group"
->         else
->                 chown -R root:root "$pdir"
->         fi
+> -gen_rst =3D \
+> +cmd_parse_headers =3D \
+>         echo ${PARSER} $< $@ $(SRC_DIR)/$(notdir $@).exceptions; \
+>         ${PARSER} $< $@ $(SRC_DIR)/$(notdir $@).exceptions
 >
-> and it didn't work either - dpkg-deb --threads-max=3D0 still spawned a
-> single-threaded xz that ran 30 minutes.
+> -quiet_gen_rst =3D echo '  PARSE   $(patsubst $(srctree)/%,%,$<)'; \
+> +quiet_cmd_parse_headers =3D echo '  PARSE   $(patsubst $(srctree)/%,%,$<=
+)'; \
+>         ${PARSER} $< $@ $(SRC_DIR)/$(notdir $@).exceptions
 >
-> Then the workaround was a very simple xz shell script that adds option --=
-threads=3D0
-> and calls system xz:
+> -silent_gen_rst =3D ${gen_rst}
+> +silent_cmd_parse_headers =3D ${cmd_parse_headers}
 >
-> ~/bin/xz:
-> ----------------------------------------------------------------
-> #!/bin/bash -f
+>  $(BUILDDIR)/ca.h.rst: ${UAPI}/dvb/ca.h ${PARSER} $(SRC_DIR)/ca.h.rst.exc=
+eptions
+> -       @$($(quiet)gen_rst)
+> +       @$($(quiet)cmd_parse_headers)
 >
-> /usr/bin/xz --threads=3D0 "$@"
-> ----------------------------------------------------------------
+>  $(BUILDDIR)/dmx.h.rst: ${UAPI}/dvb/dmx.h ${PARSER} $(SRC_DIR)/dmx.h.rst.=
+exceptions
+> -       @$($(quiet)gen_rst)
+> +       @$($(quiet)cmd_parse_headers)
 >
-> This finally worked, but sometimes I get:
+>  $(BUILDDIR)/frontend.h.rst: ${UAPI}/dvb/frontend.h ${PARSER} $(SRC_DIR)/=
+frontend.h.rst.exceptions
+> -       @$($(quiet)gen_rst)
+> +       @$($(quiet)cmd_parse_headers)
 >
-> marvin@defiant:~/linux/kernel$ xz -9 --memlimit-compress=3D8000MiB linux-=
-image-6.7.0-rc8-dbg_6.7.0-rc8-6_amd64.deb
-> /usr/bin/xz: Reduced the number of threads from 8 to 6 to not exceed the =
-memory usage limit of 8000 MiB
+>  $(BUILDDIR)/net.h.rst: ${UAPI}/dvb/net.h ${PARSER} $(SRC_DIR)/net.h.rst.=
+exceptions
+> -       @$($(quiet)gen_rst)
+> +       @$($(quiet)cmd_parse_headers)
 >
-> (This is of course just an example of compressing a large file, as .deb i=
-s already compressed.)
+>  $(BUILDDIR)/videodev2.h.rst: ${UAPI}/videodev2.h ${PARSER} $(SRC_DIR)/vi=
+deodev2.h.rst.exceptions
+> -       @$($(quiet)gen_rst)
+> +       @$($(quiet)cmd_parse_headers)
 >
-> I used the default Ubuntu 23.10 config, with .pems excluded, and I think =
-module compression
-> did not work either. I had to turn it off ...
+>  $(BUILDDIR)/media.h.rst: ${UAPI}/media.h ${PARSER} $(SRC_DIR)/media.h.rs=
+t.exceptions
+> -       @$($(quiet)gen_rst)
+> +       @$($(quiet)cmd_parse_headers)
 >
-> Hope this helps.
+>  $(BUILDDIR)/cec.h.rst: ${UAPI}/cec.h ${PARSER} $(SRC_DIR)/cec.h.rst.exce=
+ptions
+> -       @$($(quiet)gen_rst)
+> +       @$($(quiet)cmd_parse_headers)
 >
-> Regards,
-> Mirsad
+>  $(BUILDDIR)/lirc.h.rst: ${UAPI}/lirc.h ${PARSER} $(SRC_DIR)/lirc.h.rst.e=
+xceptions
+> -       @$($(quiet)gen_rst)
+> +       @$($(quiet)cmd_parse_headers)
+>
+>  # Media build rules
 >
 > --
-> Mirsad Goran Todorovac
-> Sistem in=C5=BEenjer
-> Grafi=C4=8Dki fakultet | Akademija likovnih umjetnosti
-> Sveu=C4=8Dili=C5=A1te u Zagrebu
->
-> System engineer
-> Faculty of Graphic Arts | Academy of Fine Arts
-> University of Zagreb, Republic of Croatia
-> The European Union
->
-> "I see something approaching fast ... Will it be friends with me?"
->
+> 2.34.1
 >
 
 
---=20
+--
 Best Regards
 Masahiro Yamada
 
