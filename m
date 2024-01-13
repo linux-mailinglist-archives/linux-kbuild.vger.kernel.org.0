@@ -1,142 +1,124 @@
-Return-Path: <linux-kbuild+bounces-545-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-546-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5256A82CC05
-	for <lists+linux-kbuild@lfdr.de>; Sat, 13 Jan 2024 11:44:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8245A82CC3B
+	for <lists+linux-kbuild@lfdr.de>; Sat, 13 Jan 2024 11:51:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E31FC1F2200D
-	for <lists+linux-kbuild@lfdr.de>; Sat, 13 Jan 2024 10:44:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 21D691F22295
+	for <lists+linux-kbuild@lfdr.de>; Sat, 13 Jan 2024 10:51:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3E9D20B2E;
-	Sat, 13 Jan 2024 10:43:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 425CF20DD9;
+	Sat, 13 Jan 2024 10:50:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AfJU9lFp"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T3gxB+Ai"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97B5F21110;
-	Sat, 13 Jan 2024 10:43:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B16F2C43394;
-	Sat, 13 Jan 2024 10:43:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23E6220B2E;
+	Sat, 13 Jan 2024 10:50:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A08FAC433F1;
+	Sat, 13 Jan 2024 10:50:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705142634;
-	bh=qojQBt1Bg5uxXkkZTt84eMBF6leDUzIvdOIhZFTxWJQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=AfJU9lFpqCXpxLe3cUEJVHNlKj9bYF0BnzZ5d6mLCPGGPdtjo3QD6iFKiHXRO5fPa
-	 iWFEe87kpbr8Yzh0AM4imdcM0scW3wz1Bo0ziue5WTqkXDbSY7HhmDmlULbtBpFK1E
-	 /y1hSwvDHCctxdb266Fu0jmDviqyWpf1+7NInKslbmZPlTkcbw2AZThS94uNAoXPAm
-	 KtBfoqHmXVCMkDWwd6ffeee7kqRckzHjbjH4F6fb9nVvC15GEekbc6/9hZ3mYUPih5
-	 86KGP2y38KPmrx58DhYPXJx2cDhxg3krCG/izE6loXYiw1HgAZdnG3K4oIpirCNFyV
-	 ZQyMJuSJIDJRA==
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: linux-kbuild@vger.kernel.org
-Cc: Ben Hutchings <ben@decadent.org.uk>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nicolas Schier <n.schier@avm.de>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 4/4] kbuild: deb-pkg: call more misc debhelper commands
-Date: Sat, 13 Jan 2024 19:43:39 +0900
-Message-Id: <20240113104339.16131-4-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20240113104339.16131-1-masahiroy@kernel.org>
-References: <20240113104339.16131-1-masahiroy@kernel.org>
+	s=k20201202; t=1705143055;
+	bh=P0vT5yJqXjKBVosYYPfXKfXcBExTHb01xJ00Hlt0GL0=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=T3gxB+AiBsxoJBBqF3GC3J6VrIfyHdAaBcQlXZASEmfJzwxhuXQpcpF8dWQoWW06W
+	 ul78aXAmXcuLcobXwDvFu+rXC74b6sOQHhAk9B1nUfDnMyzn5sdmVqmXyaAIEi+WW0
+	 d169wZ0mCSIHH459SjCAjKdseC9vuxCbTFkXZf3RbMiMiUKcw3j52R8Ytz11ao9hBz
+	 tls4lYr25lGD/Fq+O+UJWccP2IIXs56S7fseG+JGe6uYk6qb76+ZRpiL4kaiwjAuTZ
+	 6Yi6iXVibLkbMw1NDToXjKVLPFrhrwfFTlWPmI7qFYZSuOtdSqZVSCiwMrGwx91ILn
+	 dAiASsAQT05Kg==
+Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-203fb334415so4821884fac.2;
+        Sat, 13 Jan 2024 02:50:55 -0800 (PST)
+X-Gm-Message-State: AOJu0YwkPiedjEDo0vBB81GBaTRbZ022E2geF1IHq96+eere5RBaTwyx
+	ocsAAmVbZGDEyQ8dotKcD5iU54Wz9m8956F5J9I=
+X-Google-Smtp-Source: AGHT+IHdijpaZRtIjvlakGXAeOpi5qtUfyMHJiwKMpajRzbtFgzrFpjdSh7po0vkHN5D+jbrt5/oh/WaBUdksBDetUw=
+X-Received: by 2002:a05:6870:37cf:b0:206:91a9:f1c5 with SMTP id
+ p15-20020a05687037cf00b0020691a9f1c5mr3690978oai.18.1705143055012; Sat, 13
+ Jan 2024 02:50:55 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20231228070941.3611649-1-tfiga@chromium.org> <CAK7LNASbgXSZNiwhMf8jm7511eyDm8oCqY=MzWhgWwNuVLk5Vw@mail.gmail.com>
+ <CAAFQd5CRtgMUN8xZ_4BOv04KzCvXtrKHhWGQhhqgENyMCVWbKw@mail.gmail.com>
+In-Reply-To: <CAAFQd5CRtgMUN8xZ_4BOv04KzCvXtrKHhWGQhhqgENyMCVWbKw@mail.gmail.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Sat, 13 Jan 2024 19:50:18 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS29-KZvuHE=WE7ravvqh4e-M5Da=MZ2vh_EM7_Jo_jbw@mail.gmail.com>
+Message-ID: <CAK7LNAS29-KZvuHE=WE7ravvqh4e-M5Da=MZ2vh_EM7_Jo_jbw@mail.gmail.com>
+Subject: Re: [PATCH] kconfig: Add a build target for checking current config
+ for issues
+To: Tomasz Figa <tfiga@chromium.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Sergey Senozhatsky <senozhatsky@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Use dh_prep instead of removing old build directories manually.
+On Wed, Jan 10, 2024 at 10:15=E2=80=AFPM Tomasz Figa <tfiga@chromium.org> w=
+rote:
+>
+> On Fri, Dec 29, 2023 at 1:11=E2=80=AFAM Masahiro Yamada <masahiroy@kernel=
+.org> wrote:
+> >
+> > On Thu, Dec 28, 2023 at 4:09=E2=80=AFPM Tomasz Figa <tfiga@chromium.org=
+> wrote:
+> > >
+> > > The new target is called 'checkconfig' and currently is basically an
+> > > alias for `listnewconfig` with KCONFIG_WARN_UNKNOWN_SYMBOLS set to tr=
+ue.
+> > > It can be used to validate if the current config is directly compatib=
+le
+> > > with the current kernel version or needs some manual adjustment.
+> > >
+> > > Signed-off-by: Tomasz Figa <tfiga@chromium.org>
+> >
+> >
+> > I rejected a new target in the past.
+> >
+> > https://lore.kernel.org/all/20230817012007.131868-1-senozhatsky@chromiu=
+m.org/T/#m55c37e3091158f8cb008d9e0b5c6bf3f5ead225a
+> >
+>
+> That was specifically for the unrecognized symbols warning. What I'm
+> proposing is a universal target that would include any possible
+> diagnostics.
+>
+> >
+> >
+> > Instead, you can run
+> >
+> >   KCONFIG_WARN_UNKNOWN_SYMBOLS=3D1 make listnewconfig
+> >
+> > or
+> >
+> >   make W=3Dc listnewconfig
+> >
+> >
+>
+> I can do so, because my team member implemented it and told me and
+> other team members about it. But how would someone who hasn't heard
+> about it be aware of the existence of this useful feature?
 
-Use dh_clean instead of removing build directories and debian/files
-manually.
 
-Call dh_testdir and dh_testroot for preliminary checks.
+People are not aware of your 'checkconfig' until
+they run 'make help'.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-Reviewed-by: Nicolas Schier <n.schier@avm.de>
----
+The same for W=3Dc.
 
-(no changes since v1)
+'make help' explains it.
 
- scripts/package/builddeb     | 8 --------
- scripts/package/debian/rules | 6 +++++-
- 2 files changed, 5 insertions(+), 9 deletions(-)
 
-diff --git a/scripts/package/builddeb b/scripts/package/builddeb
-index d31b16afe0db..e797ad360f7a 100755
---- a/scripts/package/builddeb
-+++ b/scripts/package/builddeb
-@@ -28,8 +28,6 @@ install_linux_image () {
- 	pname=$1
- 	pdir=debian/$1
- 
--	rm -rf ${pdir}
--
- 	# Only some architectures with OF support have this target
- 	if is_enabled CONFIG_OF_EARLY_FLATTREE && [ -d "${srctree}/arch/${SRCARCH}/boot/dts" ]; then
- 		${MAKE} -f ${srctree}/Makefile INSTALL_DTBS_PATH="${pdir}/usr/lib/linux-image-${KERNELRELEASE}" dtbs_install
-@@ -97,8 +95,6 @@ install_linux_image () {
- install_linux_image_dbg () {
- 	pdir=debian/$1
- 
--	rm -rf ${pdir}
--
- 	# Parse modules.order directly because 'make modules_install' may sign,
- 	# compress modules, and then run unneeded depmod.
- 	while read -r mod; do
-@@ -128,8 +124,6 @@ install_kernel_headers () {
- 	pdir=debian/$1
- 	version=${1#linux-headers-}
- 
--	rm -rf $pdir
--
- 	"${srctree}/scripts/package/install-extmod-build" "${pdir}/usr/src/linux-headers-${version}"
- 
- 	mkdir -p $pdir/lib/modules/$version/
-@@ -139,8 +133,6 @@ install_kernel_headers () {
- install_libc_headers () {
- 	pdir=debian/$1
- 
--	rm -rf $pdir
--
- 	$MAKE -f $srctree/Makefile headers_install INSTALL_HDR_PATH=$pdir/usr
- 
- 	# move asm headers to /usr/include/<libc-machine>/asm to match the structure
-diff --git a/scripts/package/debian/rules b/scripts/package/debian/rules
-index 57f1cf7c6b32..ca07243bd5cd 100755
---- a/scripts/package/debian/rules
-+++ b/scripts/package/debian/rules
-@@ -42,6 +42,9 @@ package = $($(@:binary-%=%-package))
- DH_OPTIONS = -p$(package)
- 
- define binary
-+	$(Q)dh_testdir $(DH_OPTIONS)
-+	$(Q)dh_testroot $(DH_OPTIONS)
-+	$(Q)dh_prep $(DH_OPTIONS)
- 	$(Q)+$(MAKE) $(make-opts) run-command KBUILD_RUN_COMMAND='+$$(srctree)/scripts/package/builddeb $(package)'
- 	$(Q)dh_installdocs $(DH_OPTIONS)
- 	$(Q)dh_installchangelogs $(DH_OPTIONS)
-@@ -72,7 +75,8 @@ build-arch:
- 
- .PHONY: clean
- clean:
--	$(Q)rm -rf debian/files debian/linux-* debian/deb-env.vars* debian/*.files
-+	$(Q)dh_clean
-+	$(Q)rm -rf debian/deb-env.vars* debian/*.files
- 	$(Q)$(MAKE) ARCH=$(ARCH) clean
- 
- # If DEB_HOST_ARCH is empty, it is likely that debian/rules was executed
--- 
-2.40.1
+       c: extra checks in the configuration stage (Kconfig)
 
+
+--=20
+Best Regards
+Masahiro Yamada
 
