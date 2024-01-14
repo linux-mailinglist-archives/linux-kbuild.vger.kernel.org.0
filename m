@@ -1,113 +1,104 @@
-Return-Path: <linux-kbuild+bounces-556-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-557-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FE9282CFFD
-	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Jan 2024 09:15:00 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77B6482D18F
+	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Jan 2024 18:08:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7F0E61C20F8B
-	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Jan 2024 08:14:59 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A4DC9B212CA
+	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Jan 2024 17:08:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9EE7623DE;
-	Sun, 14 Jan 2024 08:14:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15E7C5255;
+	Sun, 14 Jan 2024 17:08:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=envs.net header.i=@envs.net header.b="gtlWSyFg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YEKWtib+"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail.envs.net (mail.envs.net [5.199.136.28])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84BED1FDA;
-	Sun, 14 Jan 2024 08:14:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=envs.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=envs.net
-Received: from localhost (mail.envs.net [127.0.0.1])
-	by mail.envs.net (Postfix) with ESMTP id 7FB8138A05D5;
-	Sun, 14 Jan 2024 08:14:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=envs.net; s=modoboa;
-	t=1705220072; bh=Rmzy1x+mMdFJmxVODKg4KIE69NMRMaiDq+QZxWJb4mk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=gtlWSyFg9LeO0Y7Vwfvw0BsNxp36ffBwrtBw9p+PyHgRfIVujsCSN+k7gizo9kwS/
-	 DSG3T5/VbzdbkCq4t3N/k8O9mW5aWRi1QbFakpsZDxBMvV01hZcTa04Ar7fTIp7Ez5
-	 aYvLBBj/nuuhlf3sbeZEHVI6oAKo5cSNSk9+0vgicr8Wn4IrMLRhn5/MizdiH1f7tb
-	 JyeC9WwadaeJXGhz0NmMpcpXcqyxojaXf9np07OQ3nT22c1ACwyghnnTE/hizxSTuE
-	 EEsOuBJ+YG5lGTmEZ1R1CFW/MRxqlOlaEdUbcftZx2uG+1GZNCEezgxyCBfqTQ0Hr+
-	 kVLKqQLtm1A2PLbu2GFerI9ggbZwGwwJhz/vQWwJ7c72rLCki0M6fOxiZ76IbQkAhY
-	 68ViuhsqGvCYKPsUuWEseYjIuqocYJn2n4cPbzfU5GDqNHfSLj849ktnyBS6caJt1I
-	 N3GCrL5RP7QrZwqtl7EOgeqgGgiJxLg6pFZ9O+EWyK13ahaJuas3JXI5EBIiouCYIi
-	 h2L4coJnynvLZjFj8hHpqEQBDzEY3UJ3y+6npOnqczLkpz0kCtXYazBw+tFH2V0FFV
-	 OIC6GIa4N7m8+MKCFdb8hWEUJhMGcm+Vm9/F3QRuHitJK1hUBjyjjmhzkfqLI7tTyz
-	 HRQnOwHjEk+oarQJpl9FMejc=
-X-Virus-Scanned: Debian amavisd-new at mail.envs.net
-Received: from mail.envs.net ([127.0.0.1])
-	by localhost (mail.envs.net [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id hLczUb6rZvRM; Sun, 14 Jan 2024 08:14:29 +0000 (UTC)
-Received: from xtexx.eu.org (unknown [120.230.214.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.envs.net (Postfix) with ESMTPSA;
-	Sun, 14 Jan 2024 08:14:29 +0000 (UTC)
-From: Zhang Bingwu <xtex@envs.net>
-To: Masahiro Yamada <masahiroy@kernel.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACE6D23A6;
+	Sun, 14 Jan 2024 17:08:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1705252100; x=1736788100;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=UzgFjM2CD1QtXNQP46Z3RkFdGjU5fivGIZd8OKaOVwY=;
+  b=YEKWtib+YqxYs6DzJO6TN8gzeyExwgQufbV6MRG5kGNBQQpzt2KjJuaZ
+   VEw49nocHXsxESG4648px4qLFoj+G3oJOgpVaxCCaNe9JXDcROfU9nMqS
+   6OrdZq97CSnLlLa7jb32Kki9CoF3Q/CZbSLM+u+YlsCWI0TmuJpeuQSqS
+   C42wo33JBV4jysQZHekLCh+BFk4YYx0AOZTTDs/uZcPg5Qx04gWa5OvCG
+   2nGRB49ZDszXrNvDef8QfCBGrfrIJN2ltHGIsDCpc4lW9thGGt+u0qUEC
+   8l/FwVst4M7SgF0fIZL5BBNltX39Z+3rHfZru8ZOSxlzcC32bff40J8oO
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="396621295"
+X-IronPort-AV: E=Sophos;i="6.04,194,1695711600"; 
+   d="scan'208";a="396621295"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2024 09:08:19 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="786869958"
+X-IronPort-AV: E=Sophos;i="6.04,194,1695711600"; 
+   d="scan'208";a="786869958"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2024 09:08:16 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1rP3y1-0000000DyAP-1bfe;
+	Sun, 14 Jan 2024 19:08:13 +0200
+Date: Sun, 14 Jan 2024 19:08:13 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: =?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>
+Cc: Tzung-Bi Shih <tzungbi@kernel.org>, kernel@collabora.com,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Abhijit Gangurde <abhijit.gangurde@amd.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
 	Nicolas Schier <nicolas@fjasle.eu>,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Zhang Bingwu <xtexchooser@duck.com>
-Subject: [PATCH v2 2/2] kbuild: find kernel/configs/ for merged fragments
-Date: Sun, 14 Jan 2024 16:14:00 +0800
-Message-ID: <20240114081400.12452-3-xtex@envs.net>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240114081400.12452-1-xtex@envs.net>
-References: <20240113001135.7781-1-xtex@envs.net>
- <20240114081400.12452-1-xtex@envs.net>
+	Nipun Gupta <nipun.gupta@amd.com>,
+	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/4] firmware: coreboot: Generate aliases for coreboot
+ modules
+Message-ID: <ZaQU_QqGXwkSgU_Y@smile.fi.intel.com>
+References: <20240111151226.842603-1-nfraprado@collabora.com>
+ <20240111151226.842603-3-nfraprado@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240111151226.842603-3-nfraprado@collabora.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-From: Zhang Bingwu <xtexchooser@duck.com>
+On Thu, Jan 11, 2024 at 12:11:47PM -0300, Nícolas F. R. A. Prado wrote:
+> Generate aliases for coreboot modules to allow automatic module probing.
 
-kernel/configs consists of several arch-independent config fragments,
-which should also be searched for by merge_into_defconfig.
+...
 
-When using 'make xxx_defconfig xxx.config' to merge fragments,
-scripts/kconfig/Makefile also searches kernel/configs/*.config
-for fragments. This behaviour should also be in merge_into_defconfig.
+> +/**
+> + * struct coreboot_device_id - Identifies a coreboot table entry
+> + * @tag: tag ID
+> + */
+> +struct coreboot_device_id {
+> +	__u32 tag;
+> +};
 
-Signed-off-by: Zhang Bingwu <xtexchooser@duck.com>
----
- scripts/Makefile.defconf | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Don't you want to have a driver data or so associated with this?
 
-diff --git a/scripts/Makefile.defconf b/scripts/Makefile.defconf
-index 226ea3df3..777be9bf7 100644
---- a/scripts/Makefile.defconf
-+++ b/scripts/Makefile.defconf
-@@ -10,7 +10,7 @@
- define merge_into_defconfig
- 	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/kconfig/merge_config.sh \
- 		-m -O $(objtree) $(srctree)/arch/$(SRCARCH)/configs/$(1) \
--		$(foreach config,$(2),$(srctree)/arch/$(SRCARCH)/configs/$(config).config)
-+		$(foreach config,$(2),$(wildcard $(srctree)/kernel/configs/$(config).config $(srctree)/arch/$(SRCARCH)/configs/$(config).config))
- 	+$(Q)$(MAKE) -f $(srctree)/Makefile olddefconfig
- endef
- 
-@@ -24,6 +24,6 @@ endef
- define merge_into_defconfig_override
- 	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/kconfig/merge_config.sh \
- 		-Q -m -O $(objtree) $(srctree)/arch/$(SRCARCH)/configs/$(1) \
--		$(foreach config,$(2),$(srctree)/arch/$(SRCARCH)/configs/$(config).config)
-+		$(foreach config,$(2),$(wildcard $(srctree)/kernel/configs/$(config).config $(srctree)/arch/$(SRCARCH)/configs/$(config).config))
- 	+$(Q)$(MAKE) -f $(srctree)/Makefile olddefconfig
- endef
 -- 
-2.43.0
+With Best Regards,
+Andy Shevchenko
+
 
 
