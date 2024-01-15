@@ -1,149 +1,153 @@
-Return-Path: <linux-kbuild+bounces-560-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-561-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B023382D3C8
-	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Jan 2024 06:04:58 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BC1782D3D1
+	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Jan 2024 06:16:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 41D891C20FC4
-	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Jan 2024 05:04:57 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B10CD1F21524
+	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Jan 2024 05:16:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3CA263B6;
-	Mon, 15 Jan 2024 05:04:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE30B256A;
+	Mon, 15 Jan 2024 05:16:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="YGuD+MFI"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="f/Kbd3oe"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19D1663AB
-	for <linux-kbuild@vger.kernel.org>; Mon, 15 Jan 2024 05:04:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2709B23A2
+	for <linux-kbuild@vger.kernel.org>; Mon, 15 Jan 2024 05:16:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-50e835800adso8975626e87.0
-        for <linux-kbuild@vger.kernel.org>; Sun, 14 Jan 2024 21:04:49 -0800 (PST)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-40e69b31366so21235375e9.1
+        for <linux-kbuild@vger.kernel.org>; Sun, 14 Jan 2024 21:16:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1705295087; x=1705899887; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1705295763; x=1705900563; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wYKhFg53vuL9N15IX+5EquLWs1jwGTmvz1VwrsyukZI=;
-        b=YGuD+MFICnODSXC8t459+Wsjv1qZntrm9pctwDfV3hYHPaVHOUKEugY999RqkYZt2M
-         npFi5gQ/uc7Dz/hNd3x1idMKaccT8o1x4VlSa/S8AQMxfYEGFF5c7lRmRiK4yuIxCxoe
-         ICPzVNgf8Q/7C4AeYns/9w36DPxKiYIrXIps0=
+        bh=HAEFnzZTDTcgl+D5J1rqXUA5mEA/aJB9HaXWVU5heIE=;
+        b=f/Kbd3oekVQmacZH1zuq/O1Cppcl/AOkhv4pXpQ2sehf80tJep7ZwmVcjkCly9CfA6
+         Hveg66xVY9DRlB3djxCggOG7GaPlBT3PV1WO4Renh+zu3oQwFcO6OQzgyt7Gs5KDGu0l
+         pf+V7y/06NGln7LlHnR1GjfseLP7DRBHc/2C0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705295087; x=1705899887;
+        d=1e100.net; s=20230601; t=1705295763; x=1705900563;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wYKhFg53vuL9N15IX+5EquLWs1jwGTmvz1VwrsyukZI=;
-        b=rzplL8xiFBWk5eUnThEwzaz2SagMTGjqmNuOXm2dWslpxet4MNJAdAXNWI6uxoMw5/
-         Ivcjja/EeMDbKAgA1VSL5ajgIscUORVGawOkYOrsgLiod6QX+CbbwmI+NfwmY3E2N9hO
-         jXeOVsFDuaPjIvsswJqkM+ks2qnXoUuTm9+SU4/5oB2g1hWCud1htjscvq6BRzdmH/Sa
-         0oV0BOqKNlNac546ICeEsFv3Ahz9tBQk03WDc0AscWFPj3hxQ6t48FrpXgZFnLXXkQwv
-         7brmqw1VlKjrXT29cZ02qLaWAztKORriJDSt8aleXocvwzoXtc6oQqRYc0oYHHJ9oHbu
-         FxyQ==
-X-Gm-Message-State: AOJu0YzqOPYuxm2exxY+hXOva0BSC2vQI35qyyu8cB7aLorV4itXmPTD
-	S8fXtRficB6dja4uN3G5H9fRoJjw2jjkEAivlQ5guitDmQ==
-X-Google-Smtp-Source: AGHT+IF1RU397B5C/Pbvqe318XgsH/VdWU6i04G00+FMD7wnstfH3ZzXomKCWSEt+ZPP419b84jxtA==
-X-Received: by 2002:ac2:5467:0:b0:50e:7d6c:b968 with SMTP id e7-20020ac25467000000b0050e7d6cb968mr1265125lfn.201.1705295087451;
-        Sun, 14 Jan 2024 21:04:47 -0800 (PST)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com. [209.85.221.50])
-        by smtp.gmail.com with ESMTPSA id e13-20020a170906c00d00b00a2a1bbda0a6sm4877539ejz.175.2024.01.14.21.04.46
+        bh=HAEFnzZTDTcgl+D5J1rqXUA5mEA/aJB9HaXWVU5heIE=;
+        b=fX8ZdGGL7lMJgDlqgo+WnESX8VXQ+lA5fDl182H4Xs6rVP6rWWgARV3jM54jHewnoB
+         gvSxRajGv1RNt54osrKE0kl/XA2RvYbZgxcIQujUq9nm3mmd5VhBen0KvUiQin3GQ0Je
+         2Bg/fC6lvx/rJMtYh6F3i29j58rz8d5bHN4DYZ8wdhWhsnqHyg35cVpLaoqSSl4ndFQm
+         XDtwMASn3XHKj2wLHlFxcUhSLE//w84VdkKi4IldwlatdbWDL2vKMHWEkryGwTGq+Mjp
+         wspRyYqbq/miJGpTg8c0A9iEqoMKOMX9Dld8fnudj1dcKwsX2KwuwdyIJ3CDYG/DiW6f
+         gAbw==
+X-Gm-Message-State: AOJu0YzT3zqc7xsMo3VxG8TOuoDWjZ6PjieYP6Vx7yk9yoHxcZ0sUPSn
+	UVIEoig7CvN6kngg3HVcxAHBISGYd3qecQo6Y7RtciRAwbdI
+X-Google-Smtp-Source: AGHT+IEhoz6lsI/qqlS65AiNeaad/YxJaYAD85gBCa7qY8VctELxm4ghCxEOuXgWE36BrZq5i3ChHg==
+X-Received: by 2002:a05:600c:4d8f:b0:40e:6d7a:f9dd with SMTP id v15-20020a05600c4d8f00b0040e6d7af9ddmr1368879wmp.47.1705295762619;
+        Sun, 14 Jan 2024 21:16:02 -0800 (PST)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com. [209.85.128.42])
+        by smtp.gmail.com with ESMTPSA id g2-20020a056402428200b00558a3268bbcsm4849419edc.53.2024.01.14.21.16.01
         for <linux-kbuild@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 14 Jan 2024 21:04:46 -0800 (PST)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3367601a301so7205224f8f.2
-        for <linux-kbuild@vger.kernel.org>; Sun, 14 Jan 2024 21:04:46 -0800 (PST)
-X-Received: by 2002:adf:e584:0:b0:337:a43e:c3d4 with SMTP id
- l4-20020adfe584000000b00337a43ec3d4mr658744wrm.170.1705295086160; Sun, 14 Jan
- 2024 21:04:46 -0800 (PST)
+        Sun, 14 Jan 2024 21:16:02 -0800 (PST)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-40e7d5bbaaaso1657625e9.3
+        for <linux-kbuild@vger.kernel.org>; Sun, 14 Jan 2024 21:16:01 -0800 (PST)
+X-Received: by 2002:a1c:7c1a:0:b0:40e:61c7:ce89 with SMTP id
+ x26-20020a1c7c1a000000b0040e61c7ce89mr2530807wmc.59.1705295761536; Sun, 14
+ Jan 2024 21:16:01 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231228054630.3595093-1-tfiga@chromium.org> <CAK7LNATBipJtprjvvRVYg8JcYOFXQdpLEyEc+4+8j1PtBQ+PUg@mail.gmail.com>
- <CAAFQd5C3vAUJhKiQ1LPkZv3dJxNvK4QinRezV9Q8rz_Ov6FSUQ@mail.gmail.com> <CAK7LNAQcaDneE4rnjvV+GTSBBMozm5deu_q9+STTn60ervZJbA@mail.gmail.com>
-In-Reply-To: <CAK7LNAQcaDneE4rnjvV+GTSBBMozm5deu_q9+STTn60ervZJbA@mail.gmail.com>
+References: <20231228070941.3611649-1-tfiga@chromium.org> <CAK7LNASbgXSZNiwhMf8jm7511eyDm8oCqY=MzWhgWwNuVLk5Vw@mail.gmail.com>
+ <CAAFQd5CRtgMUN8xZ_4BOv04KzCvXtrKHhWGQhhqgENyMCVWbKw@mail.gmail.com> <CAK7LNAS29-KZvuHE=WE7ravvqh4e-M5Da=MZ2vh_EM7_Jo_jbw@mail.gmail.com>
+In-Reply-To: <CAK7LNAS29-KZvuHE=WE7ravvqh4e-M5Da=MZ2vh_EM7_Jo_jbw@mail.gmail.com>
 From: Tomasz Figa <tfiga@chromium.org>
-Date: Mon, 15 Jan 2024 14:04:26 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5DcxL80cb8w9OZs0mpD=Y3K=LmM7exG7U_DaSsMkfni7Q@mail.gmail.com>
-Message-ID: <CAAFQd5DcxL80cb8w9OZs0mpD=Y3K=LmM7exG7U_DaSsMkfni7Q@mail.gmail.com>
-Subject: Re: [PATCH] kconfig: menuconfig: Make hidden options show as dim
+Date: Mon, 15 Jan 2024 14:15:44 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5DfS_2XqTpb2USOMUFN+CV_ieEYiaEKZLtyidDR29SMJA@mail.gmail.com>
+Message-ID: <CAAFQd5DfS_2XqTpb2USOMUFN+CV_ieEYiaEKZLtyidDR29SMJA@mail.gmail.com>
+Subject: Re: [PATCH] kconfig: Add a build target for checking current config
+ for issues
 To: Masahiro Yamada <masahiroy@kernel.org>
 Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Jesse Taube <Mr.Bossman075@gmail.com>
+	Sergey Senozhatsky <senozhatsky@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Jan 13, 2024 at 8:23=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.o=
+On Sat, Jan 13, 2024 at 7:51=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.o=
 rg> wrote:
 >
-> On Wed, Jan 10, 2024 at 10:05=E2=80=AFPM Tomasz Figa <tfiga@chromium.org>=
+> On Wed, Jan 10, 2024 at 10:15=E2=80=AFPM Tomasz Figa <tfiga@chromium.org>=
  wrote:
 > >
-> > On Fri, Dec 29, 2023 at 1:10=E2=80=AFAM Masahiro Yamada <masahiroy@kern=
+> > On Fri, Dec 29, 2023 at 1:11=E2=80=AFAM Masahiro Yamada <masahiroy@kern=
 el.org> wrote:
 > > >
-> > > On Thu, Dec 28, 2023 at 2:46=E2=80=AFPM Tomasz Figa <tfiga@chromium.o=
+> > > On Thu, Dec 28, 2023 at 4:09=E2=80=AFPM Tomasz Figa <tfiga@chromium.o=
 rg> wrote:
 > > > >
-> > > > When hidden options are toggled on (using 'z'), the number of optio=
-ns
-> > > > on the screen can be overwhelming and may make it hard to distingui=
-sh
-> > > > between available and hidden ones. Make them easier to distinguish =
-by
-> > > > displaying the hidden one as dim (using the A_DIM curses attribute)=
-.
+> > > > The new target is called 'checkconfig' and currently is basically a=
+n
+> > > > alias for `listnewconfig` with KCONFIG_WARN_UNKNOWN_SYMBOLS set to =
+true.
+> > > > It can be used to validate if the current config is directly compat=
+ible
+> > > > with the current kernel version or needs some manual adjustment.
 > > > >
 > > > > Signed-off-by: Tomasz Figa <tfiga@chromium.org>
 > > >
 > > >
+> > > I rejected a new target in the past.
 > > >
-> > > Do you think this is useful?
+> > > https://lore.kernel.org/all/20230817012007.131868-1-senozhatsky@chrom=
+ium.org/T/#m55c37e3091158f8cb008d9e0b5c6bf3f5ead225a
 > > >
-> > > This changes the color only when you select a hidden item.
+> >
+> > That was specifically for the unrecognized symbols warning. What I'm
+> > proposing is a universal target that would include any possible
+> > diagnostics.
+> >
 > > >
 > > >
-> > > For unselected items, you cannot distinguish hidden ones,
-> > > as A_DIM has no effect to black text.
+> > > Instead, you can run
+> > >
+> > >   KCONFIG_WARN_UNKNOWN_SYMBOLS=3D1 make listnewconfig
+> > >
+> > > or
+> > >
+> > >   make W=3Dc listnewconfig
 > > >
 > > >
 > >
-> > Hmm, are you sure about that? For me it seems to dim the text. it
-> > seems to be also used in the existing code for dlg.button_inactive.atr
-> > of the mono theme:
-> >
-> > https://elixir.bootlin.com/linux/latest/source/scripts/kconfig/lxdialog=
-/util.c#L26
+> > I can do so, because my team member implemented it and told me and
+> > other team members about it. But how would someone who hasn't heard
+> > about it be aware of the existence of this useful feature?
 >
 >
+> People are not aware of your 'checkconfig' until
+> they run 'make help'.
 >
-> Then, your code works only on the mono theme.
-> (when your terminal does not support color, or
-> "MENUCONFIG_COLOR=3Dmono make menuconfig")
+> The same for W=3Dc.
 >
+> 'make help' explains it.
+>
+>
+>        c: extra checks in the configuration stage (Kconfig)
 
-No, that's not what I meant. It works for me for all themes, see the
-screenshot at https://postimg.cc/sBsM0twT . The terminal is tmux
-inside hterm (which in turn is supposed to be compatible with xterm).
-I guess I can test a couple of different terminals.
+Okay, that wasn't something present in Linux 6.7-rc7 that I used as my
+base. I checked out the current linux-next and it's indeed there,
+which I guess resolves the original problem somewhat. I still don't
+think it would be very clear from the description for a new user,
+especially given that it's far below the config-related targets, but
+at least it's there. Thanks for adding it.
 
-In which terminal is it not working for you?
-
->
-> In the normal color mode, the foreground text is black.
-> (Just like a picture in https://en.wikipedia.org/wiki/Menuconfig)
-> A_DIM does nothing for black.
->
->
->
-> --
-> Best Regards
-> Masahiro Yamada
+Best regards,
+Tomasz
 
