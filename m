@@ -1,99 +1,131 @@
-Return-Path: <linux-kbuild+bounces-558-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-559-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6068982D191
-	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Jan 2024 18:09:46 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63FA382D2AD
+	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Jan 2024 01:17:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 15C2428218F
-	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Jan 2024 17:09:45 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EE67E1F21280
+	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Jan 2024 00:17:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F72C5678;
-	Sun, 14 Jan 2024 17:09:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 055997FB;
+	Mon, 15 Jan 2024 00:17:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DpvRF2RV"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MCge9Hwl"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA9C8566A;
-	Sun, 14 Jan 2024 17:09:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705252178; x=1736788178;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=w0C7Y42iMUvEZrazpl/+nsFsK8w/Ws2SVqeMLM7RlSw=;
-  b=DpvRF2RVcdIsKO8SNsbuW2W+jqNnryAGFZB+TL3crHEUaHTib8oMzQGE
-   YW66I36Q6RurQEbwgVF+o7fnwpw8xQ1qjxr660CBxrIgRIYqFWefmgpU4
-   vf4lBykp3m/ooW6qTYvByqNLbbfNQQOAZJWDQDK3wBC7UwY+Qm5brPzgw
-   RgJYGCVf5EkV8/Q7lisWSMA+ujUDz3yrwpavqdJ0WuXGX3VmTLTKFzIQO
-   mxJWQFU7nZbhhtZuY4As6cgA8zqdJqIxbeShVF5aNZ3X9NJp6UmdgkJvV
-   XfCotk0DM7TMIK/tb3xkS9HkIDmY4NOjGpLdCYeVIOioLr//+++fqBTBv
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="396621404"
-X-IronPort-AV: E=Sophos;i="6.04,194,1695711600"; 
-   d="scan'208";a="396621404"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2024 09:09:37 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="759643084"
-X-IronPort-AV: E=Sophos;i="6.04,194,1695711600"; 
-   d="scan'208";a="759643084"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2024 09:09:32 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1rP3zF-0000000DyBQ-32J1;
-	Sun, 14 Jan 2024 19:09:29 +0200
-Date: Sun, 14 Jan 2024 19:09:29 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: =?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>
-Cc: Tzung-Bi Shih <tzungbi@kernel.org>, kernel@collabora.com,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	chrome-platform@lists.linux.dev,
-	Abhijit Gangurde <abhijit.gangurde@amd.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Nipun Gupta <nipun.gupta@amd.com>,
-	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/7] firmware: coreboot: Generate aliases for coreboot
- modules
-Message-ID: <ZaQVScQ2AYquG-Zr@smile.fi.intel.com>
-References: <20240112131857.900734-1-nfraprado@collabora.com>
- <20240112131857.900734-3-nfraprado@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56CF17E5;
+	Mon, 15 Jan 2024 00:17:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-50eabd1c701so9879776e87.3;
+        Sun, 14 Jan 2024 16:17:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1705277826; x=1705882626; darn=vger.kernel.org;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+8qRzLu2QfiYFCgn0VSRgtOrUr1VXFFkr88Zi/Lqch4=;
+        b=MCge9Hwl1iI0rZ6OhdMElwbvnoIk3KW+tr7udKXJByQ9uERr3oHJA1WpCnJcqE2nA+
+         w3oP13MW9axRM+eR/YOwsbAXZjEZyMEKpr3i8aj7s2NkcSxiktxDJcYKJDzxFSnsl4+t
+         Y81deuSVIvwivaqVyEaXw+dlTdKX4tAnZnhKTLe+59PLmshjp3s336GWsfotiKiERDSr
+         KcgzzBWjxF5CeoTea3BNKyydDTM7UY6Puc3FM8gzXIQRJ3BsY05w+S20x2KOvHC2kCDX
+         evkwV4gHxXsQlYpqL9UfhmNrEhvKBaSVrF96zoc7k/M7gadAaL/j7GZkRWnVIEyqmHQu
+         sPmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705277826; x=1705882626;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+8qRzLu2QfiYFCgn0VSRgtOrUr1VXFFkr88Zi/Lqch4=;
+        b=iADgcCXIawGUWJZ8ii8jFwXk4OocJHrZw8th0XHKtA8d/Hf4/u0Q7IHm54VLbEgg52
+         wrRXGcBPs+okRCiJDtb29z8WMWlBRHlOc91vQEXcEUd0jkGTmQwqjv42X0eIqEuYs5ag
+         BTNc3Gw3vJnyBSxgq4732SoIuThVzOuQl/w7S2EEnR3h6uo4kV31eZCzHXeIalqjvGyj
+         ax4uklbjT51N1V2zjVcjxAt8u1yewuWa2IUPLmR27+7j6moyryhBFO6+ho+VybTQNSla
+         qXwxN+gDInwbvgEbWE1Nb2TzRujzoku4R6Aweu8z2uGJHJ5L5BNS0HaJSGWxjm0KadfJ
+         z7Kg==
+X-Gm-Message-State: AOJu0YyiJcxWHkyPzdICDiVxNLSBV1OpVxNHTeZSyq+IRkcwUx4ibdcH
+	qx3CtOIFpYubDcgJuFthVeE=
+X-Google-Smtp-Source: AGHT+IHX76/xBqwm06VH93U471uaG12CWhzjYyrX7DfDHbI3X3wL3qhyEw+rrbqvcJM/ScLZ98AFxQ==
+X-Received: by 2002:ac2:4247:0:b0:50e:cccb:f5f2 with SMTP id m7-20020ac24247000000b0050ecccbf5f2mr1998756lfl.56.1705277826081;
+        Sun, 14 Jan 2024 16:17:06 -0800 (PST)
+Received: from localhost ([185.92.221.13])
+        by smtp.gmail.com with ESMTPSA id v10-20020a1709063bca00b00a2ae69cca5asm4712357ejf.144.2024.01.14.16.17.05
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Sun, 14 Jan 2024 16:17:05 -0800 (PST)
+From: Wei Yang <richard.weiyang@gmail.com>
+To: masahiroy@kernel.org,
+	nathan@kernel.org,
+	nicolas@fjasle.eu
+Cc: linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Wei Yang <richard.weiyang@gmail.com>,
+	Miguel Ojeda <ojeda@kernel.org>
+Subject: [PATCH] kbuild: take vmlinux.[ao] out of single-targets
+Date: Mon, 15 Jan 2024 00:16:06 +0000
+Message-Id: <20240115001606.15477-1-richard.weiyang@gmail.com>
+X-Mailer: git-send-email 2.11.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240112131857.900734-3-nfraprado@collabora.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Fri, Jan 12, 2024 at 10:18:31AM -0300, Nícolas F. R. A. Prado wrote:
-> Generate aliases for coreboot modules to allow automatic module probing.
+For current kernel, when we make vmlinux.a or vmlinux.o, following
+message would display.
 
-...
+$make vmlinux.o
+/dir/to/kernel/Makefile:1887: warning: overriding recipe for target 'vmlinux.o'
+/dir/to/kernel/Makefile:1138: warning: ignoring old recipe for target 'vmlinux.o'
+  CALL    scripts/checksyscalls.sh
+  DESCEND objtool
+  INSTALL libsubcmd_headers
+make[2]: Nothing to be done for 'vmlinux.o'.
 
-> (no changes since v1)
+The reason is vmlinux.[ao] is treated as single target, while the rule
+is written in root Makefile.
 
-Same Q as per v1.
+This patch fixes this by take them out of single-targets.
 
+Signed-off-by: Wei Yang <richard.weiyang@gmail.com>
+CC: Masahiro Yamada <masahiroy@kernel.org>
+CC: Miguel Ojeda <ojeda@kernel.org>
+CC: Nathan Chancellor <nathan@kernel.org>
+---
+ Makefile | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/Makefile b/Makefile
+index f1b2fd977275..66fb08f6d971 100644
+--- a/Makefile
++++ b/Makefile
+@@ -280,6 +280,7 @@ no-dot-config-targets := $(clean-targets) \
+ no-sync-config-targets := $(no-dot-config-targets) %install modules_sign kernelrelease \
+ 			  image_name
+ single-targets := %.a %.i %.ko %.lds %.ll %.lst %.mod %.o %.rsi %.s %.symtypes %/
++no-single-targets := vmlinux.o vmlinux.a
+ 
+ config-build	:=
+ mixed-build	:=
+@@ -315,11 +316,14 @@ ifeq ($(KBUILD_EXTMOD),)
+ endif
+ 
+ # We cannot build single targets and the others at the same time
+-ifneq ($(filter $(single-targets), $(MAKECMDGOALS)),)
++ifneq ($(filter-out $(no-single-targets), $(filter $(single-targets), $(MAKECMDGOALS))),)
+ 	single-build := 1
+ 	ifneq ($(filter-out $(single-targets), $(MAKECMDGOALS)),)
+ 		mixed-build := 1
+ 	endif
++	ifneq ($(filter $(no-single-targets), $(MAKECMDGOALS)),)
++		mixed-build := 1
++	endif
+ endif
+ 
+ # For "make -j clean all", "make -j mrproper defconfig all", etc.
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.34.1
 
 
