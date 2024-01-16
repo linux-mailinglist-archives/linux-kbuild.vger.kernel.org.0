@@ -1,129 +1,95 @@
-Return-Path: <linux-kbuild+bounces-572-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-573-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9791682ED39
-	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Jan 2024 11:58:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6163282ED4A
+	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Jan 2024 12:01:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 366B11F2447C
-	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Jan 2024 10:58:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E66F61F243A9
+	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Jan 2024 11:01:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C98031A589;
-	Tue, 16 Jan 2024 10:58:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 020A91A58F;
+	Tue, 16 Jan 2024 11:01:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S2siVRl+"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b2kyqoKz"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACA031A581;
-	Tue, 16 Jan 2024 10:58:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85CAFC433C7;
-	Tue, 16 Jan 2024 10:58:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D89EF1A58B;
+	Tue, 16 Jan 2024 11:01:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56D2AC433C7;
+	Tue, 16 Jan 2024 11:01:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705402722;
-	bh=iAKRNPzzMkaTQkY4UUCIX+B/X35A2Lg6XCS5p0fAERQ=;
+	s=k20201202; t=1705402865;
+	bh=VhwDL3RVVRvjZm9EKpeTMkUVJ50Ng4cKI1vqO1YAXs0=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=S2siVRl+vctesGO1xykrsDMvemjtVazOi5ory9HO/1W6mJzOwS5lNhB8WsMs16lTH
-	 pEPaOtOc0OKgbzSyVHmizIg4oyake2jBh6eovJUtkngOphDznn6DyrWVf5WTWy90HO
-	 5KpsFPvEbg1rWum4UA11KCnoXjVjZNefFwsQMvQDPR6sRkHn/ik15BrJGBd/CP8Z1G
-	 LD3m52XX9PZKGyzblYSXSsiA3cJG/AVEKDL+4sOsors0xc3WrAABTij4dg+BDNDrXY
-	 YeT1lJAolmV6wiX/J2m1RP+hK5HwCGPpVEoY2dXbWg1oYd4jNq28qAXL7AHADwe4DQ
-	 pdG3xhN9hPYfA==
-Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-206b77b9f4bso3669228fac.1;
-        Tue, 16 Jan 2024 02:58:42 -0800 (PST)
-X-Gm-Message-State: AOJu0YzvlwAyh9bfUY2EdVob6lu+kt+2HScp/s+PUMLefSemsweOu/Ca
-	IXnmpXb7+LAspEBVe3U4hgdEG3eTYvtnJOhaodg=
-X-Google-Smtp-Source: AGHT+IHTV26VyjPT49vnSPWQYOiPUOJ4EtfCM+b7PBtuh3G/W0jPqrCIXX71sWXVDwCFpx9Zkk0vQcJFpGk0C6EV2lA=
-X-Received: by 2002:a05:6870:521:b0:206:be6d:8287 with SMTP id
- j33-20020a056870052100b00206be6d8287mr10990288oao.25.1705402721967; Tue, 16
- Jan 2024 02:58:41 -0800 (PST)
+	b=b2kyqoKzlVYBmMLSk/cso/xPCijzR4O/K2pp43h7eBoVGitzw4lVg/JBSuKS9jdmt
+	 p7JThLZ5dakHKCUgqkpRlNjHLzDrHxH+Hwp13CWNtPB/8SbWbVWa1me2BosbhWM3Pi
+	 s97s2laKsL0gZwzhXD7R0XI0qETI2lOiufCJa5JQCo98NJx8QoBj6QCCPcXGWXOK0E
+	 ydabhHbwRIh47yH28+ADtdSQocSFvuRIKyNPsYxFNrybL3BmuxAg0dwuzt9wkyc3fU
+	 aDh8LI3odnIUh6a4bBrNKRNMSSez8wqC9ZuS9KVuRUrEh70rOui+2vNdyOU6T4Vdyq
+	 N8r+B/qq37dKA==
+Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-204520717b3so6729721fac.0;
+        Tue, 16 Jan 2024 03:01:05 -0800 (PST)
+X-Gm-Message-State: AOJu0YyNlvDitihsp6pZQi5zmUyu5hdC2FW83NVZm43INIwWIiQSmOZh
+	cOSRKppLnS0Xrv5Rt52Rrnn0BZ/oWcCbWmrCv6M=
+X-Google-Smtp-Source: AGHT+IEL8EwdMmde1vrN7fySBHukjD+Uf77eyaDclUxHmyrFBPfrCsC8Xff+PWhu506xnlRr4IYmPKh1lewDV7uw1Ow=
+X-Received: by 2002:a05:6870:c085:b0:205:6728:92c5 with SMTP id
+ c5-20020a056870c08500b00205672892c5mr9527038oad.3.1705402864710; Tue, 16 Jan
+ 2024 03:01:04 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231228054630.3595093-1-tfiga@chromium.org> <CAK7LNATBipJtprjvvRVYg8JcYOFXQdpLEyEc+4+8j1PtBQ+PUg@mail.gmail.com>
- <CAAFQd5C3vAUJhKiQ1LPkZv3dJxNvK4QinRezV9Q8rz_Ov6FSUQ@mail.gmail.com>
- <CAK7LNAQcaDneE4rnjvV+GTSBBMozm5deu_q9+STTn60ervZJbA@mail.gmail.com> <CAAFQd5DcxL80cb8w9OZs0mpD=Y3K=LmM7exG7U_DaSsMkfni7Q@mail.gmail.com>
-In-Reply-To: <CAAFQd5DcxL80cb8w9OZs0mpD=Y3K=LmM7exG7U_DaSsMkfni7Q@mail.gmail.com>
+References: <20240115001606.15477-1-richard.weiyang@gmail.com>
+In-Reply-To: <20240115001606.15477-1-richard.weiyang@gmail.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 16 Jan 2024 19:58:05 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASyiYasGa2_Ppp54nEq2m08q_Z_keViZDCavmNN0rBAzQ@mail.gmail.com>
-Message-ID: <CAK7LNASyiYasGa2_Ppp54nEq2m08q_Z_keViZDCavmNN0rBAzQ@mail.gmail.com>
-Subject: Re: [PATCH] kconfig: menuconfig: Make hidden options show as dim
-To: Tomasz Figa <tfiga@chromium.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Jesse Taube <Mr.Bossman075@gmail.com>
+Date: Tue, 16 Jan 2024 20:00:28 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATtqFOOdG0niydTecrf2u9TZG7wFhM7Mq6jy0nOfhVwAg@mail.gmail.com>
+Message-ID: <CAK7LNATtqFOOdG0niydTecrf2u9TZG7wFhM7Mq6jy0nOfhVwAg@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: take vmlinux.[ao] out of single-targets
+To: Wei Yang <richard.weiyang@gmail.com>
+Cc: nathan@kernel.org, nicolas@fjasle.eu, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 15, 2024 at 2:04=E2=80=AFPM Tomasz Figa <tfiga@chromium.org> wr=
-ote:
+On Mon, Jan 15, 2024 at 9:17=E2=80=AFAM Wei Yang <richard.weiyang@gmail.com=
+> wrote:
 >
-> On Sat, Jan 13, 2024 at 8:23=E2=80=AFPM Masahiro Yamada <masahiroy@kernel=
-.org> wrote:
-> >
-> > On Wed, Jan 10, 2024 at 10:05=E2=80=AFPM Tomasz Figa <tfiga@chromium.or=
-g> wrote:
-> > >
-> > > On Fri, Dec 29, 2023 at 1:10=E2=80=AFAM Masahiro Yamada <masahiroy@ke=
-rnel.org> wrote:
-> > > >
-> > > > On Thu, Dec 28, 2023 at 2:46=E2=80=AFPM Tomasz Figa <tfiga@chromium=
-.org> wrote:
-> > > > >
-> > > > > When hidden options are toggled on (using 'z'), the number of opt=
-ions
-> > > > > on the screen can be overwhelming and may make it hard to disting=
-uish
-> > > > > between available and hidden ones. Make them easier to distinguis=
-h by
-> > > > > displaying the hidden one as dim (using the A_DIM curses attribut=
-e).
-> > > > >
-> > > > > Signed-off-by: Tomasz Figa <tfiga@chromium.org>
-> > > >
-> > > >
-> > > >
-> > > > Do you think this is useful?
-> > > >
-> > > > This changes the color only when you select a hidden item.
-> > > >
-> > > >
-> > > > For unselected items, you cannot distinguish hidden ones,
-> > > > as A_DIM has no effect to black text.
-> > > >
-> > > >
-> > >
-> > > Hmm, are you sure about that? For me it seems to dim the text. it
-> > > seems to be also used in the existing code for dlg.button_inactive.at=
-r
-> > > of the mono theme:
-> > >
-> > > https://elixir.bootlin.com/linux/latest/source/scripts/kconfig/lxdial=
-og/util.c#L26
-> >
-> >
-> >
-> > Then, your code works only on the mono theme.
-> > (when your terminal does not support color, or
-> > "MENUCONFIG_COLOR=3Dmono make menuconfig")
-> >
+> For current kernel, when we make vmlinux.a or vmlinux.o, following
+> message would display.
 >
-> No, that's not what I meant. It works for me for all themes, see the
-> screenshot at https://postimg.cc/sBsM0twT . The terminal is tmux
-> inside hterm (which in turn is supposed to be compatible with xterm).
-> I guess I can test a couple of different terminals.
+> $make vmlinux.o
+> /dir/to/kernel/Makefile:1887: warning: overriding recipe for target 'vmli=
+nux.o'
+> /dir/to/kernel/Makefile:1138: warning: ignoring old recipe for target 'vm=
+linux.o'
+>   CALL    scripts/checksyscalls.sh
+>   DESCEND objtool
+>   INSTALL libsubcmd_headers
+> make[2]: Nothing to be done for 'vmlinux.o'.
 >
-> In which terminal is it not working for you?
+> The reason is vmlinux.[ao] is treated as single target, while the rule
+> is written in root Makefile.
+>
+> This patch fixes this by take them out of single-targets.
+>
+> Signed-off-by: Wei Yang <richard.weiyang@gmail.com>
+> CC: Masahiro Yamada <masahiroy@kernel.org>
+> CC: Miguel Ojeda <ojeda@kernel.org>
+> CC: Nathan Chancellor <nathan@kernel.org>
+> ---
 
 
-I use gnome-terminal.
-The disto is Ubuntu 23.10
+Not all targets can be built by the single-target.
+
+Just do not do "make vmlinux.o".
 
 
 
@@ -132,6 +98,44 @@ The disto is Ubuntu 23.10
 
 
 
+
+>  Makefile | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/Makefile b/Makefile
+> index f1b2fd977275..66fb08f6d971 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -280,6 +280,7 @@ no-dot-config-targets :=3D $(clean-targets) \
+>  no-sync-config-targets :=3D $(no-dot-config-targets) %install modules_si=
+gn kernelrelease \
+>                           image_name
+>  single-targets :=3D %.a %.i %.ko %.lds %.ll %.lst %.mod %.o %.rsi %.s %.=
+symtypes %/
+> +no-single-targets :=3D vmlinux.o vmlinux.a
+>
+>  config-build   :=3D
+>  mixed-build    :=3D
+> @@ -315,11 +316,14 @@ ifeq ($(KBUILD_EXTMOD),)
+>  endif
+>
+>  # We cannot build single targets and the others at the same time
+> -ifneq ($(filter $(single-targets), $(MAKECMDGOALS)),)
+> +ifneq ($(filter-out $(no-single-targets), $(filter $(single-targets), $(=
+MAKECMDGOALS))),)
+>         single-build :=3D 1
+>         ifneq ($(filter-out $(single-targets), $(MAKECMDGOALS)),)
+>                 mixed-build :=3D 1
+>         endif
+> +       ifneq ($(filter $(no-single-targets), $(MAKECMDGOALS)),)
+> +               mixed-build :=3D 1
+> +       endif
+>  endif
+>
+>  # For "make -j clean all", "make -j mrproper defconfig all", etc.
+> --
+> 2.34.1
+>
 
 
 --=20
