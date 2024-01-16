@@ -1,104 +1,130 @@
-Return-Path: <linux-kbuild+bounces-576-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-577-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C2C882EDB5
-	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Jan 2024 12:29:52 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5AFC82EEB5
+	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Jan 2024 13:08:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 96A9928591F
-	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Jan 2024 11:29:50 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 589BAB23174
+	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Jan 2024 12:08:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACF1C1B803;
-	Tue, 16 Jan 2024 11:29:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 956E41BC39;
+	Tue, 16 Jan 2024 12:08:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NKWagJjt"
+	dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b="b/0aKTBh"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.avm.de (mail.avm.de [212.42.244.119])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AD271B7FD;
-	Tue, 16 Jan 2024 11:29:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E45F3C433F1;
-	Tue, 16 Jan 2024 11:29:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705404586;
-	bh=6w6HVjkdpppHRgfqwMZmBwawH3Y4Fnl30VFp/Ugh2Rk=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 547331BC37;
+	Tue, 16 Jan 2024 12:08:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=avm.de
+Received: from mail-auth.avm.de (unknown [IPv6:2001:bf0:244:244::71])
+	by mail.avm.de (Postfix) with ESMTPS;
+	Tue, 16 Jan 2024 13:01:04 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
+	t=1705406464; bh=LTvkD50jnbDyC8Lwck8C4IOhXUM+7Ro962nBVa5evZk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NKWagJjt1E81Cfdajv9z0xej0D/Ht7ATq2Bo3pPI8I/Jt8Si7Obqhwhff90rFufHt
-	 0ZZ2zovpUFdZiuJ/gpWkM87CN7zJ+w3pADxpVtDmg/auD/m/4b7NkldRldvQTjPGQg
-	 FPQ339PDlMpn6nXukfTeFJWqSmWWCInieij9SDinnbA2j2+3u+rV5Gg6wHHlwRjzH+
-	 fWVlBbwaEKoW/A0fImZnZpRF9yqbYMKkJQwz9LbZiR4ETZoGjo6nzxRYHseKFc7bVK
-	 Y8NS9JkTOc6jkQAZcOXNes3h8ggL6MRPjhZHARZAZfLgPNgyj5hdBgg279gGnem80w
-	 Bg5YQojv1O9CA==
-Date: Tue, 16 Jan 2024 06:29:44 -0500
-From: Sasha Levin <sashal@kernel.org>
+	b=b/0aKTBheQflYtrNmb+bkO8c6Unq4RO+G+asjb4jdzprQvi3LMBjwCJFZFt6N73GD
+	 GgZ0kGZI6ED/G+Bt7XQfrSEIlTAT/tGZid0ZPcVilfK80xlTdf6geykExZp+v9cI9O
+	 LzyH/A/AOeI6X6of0RHOix6IpTmcuQ1Ys2sw4MTs=
+Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
+	by mail-auth.avm.de (Postfix) with ESMTPA id 6F19380397;
+	Tue, 16 Jan 2024 13:01:04 +0100 (CET)
+Received: from reykjavik.ads.avm.de (unknown [172.17.89.91])
+	by buildd.core.avm.de (Postfix) with ESMTPS id 54D51180C48;
+	Tue, 16 Jan 2024 13:01:04 +0100 (CET)
+Date: Tue, 16 Jan 2024 13:01:01 +0100
+From: Nicolas Schier <n.schier@avm.de>
 To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-	Willy Tarreau <w@1wt.eu>, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH AUTOSEL 5.4 7/7] selftests/nolibc: use EFI -bios for
- LoongArch qemu
-Message-ID: <ZaZoqGxvuUEZ04Wo@sashalap>
-References: <20240116001514.214199-1-sashal@kernel.org>
- <20240116001514.214199-7-sashal@kernel.org>
- <CAK7LNAQHRwqjLcjLoOm8SEn5wje6A7aKhbjBdyFpxU1jorhPcw@mail.gmail.com>
+Cc: Tomasz Figa <tfiga@chromium.org>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Jesse Taube <Mr.Bossman075@gmail.com>
+Subject: Re: [PATCH] kconfig: menuconfig: Make hidden options show as dim
+Message-ID: <ZaZv_TNR5_1zOCji@reykjavik.ads.avm.de>
+References: <20231228054630.3595093-1-tfiga@chromium.org>
+ <CAK7LNATBipJtprjvvRVYg8JcYOFXQdpLEyEc+4+8j1PtBQ+PUg@mail.gmail.com>
+ <CAAFQd5C3vAUJhKiQ1LPkZv3dJxNvK4QinRezV9Q8rz_Ov6FSUQ@mail.gmail.com>
+ <CAK7LNAQcaDneE4rnjvV+GTSBBMozm5deu_q9+STTn60ervZJbA@mail.gmail.com>
+ <CAAFQd5DcxL80cb8w9OZs0mpD=Y3K=LmM7exG7U_DaSsMkfni7Q@mail.gmail.com>
+ <CAK7LNASyiYasGa2_Ppp54nEq2m08q_Z_keViZDCavmNN0rBAzQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK7LNAQHRwqjLcjLoOm8SEn5wje6A7aKhbjBdyFpxU1jorhPcw@mail.gmail.com>
+In-Reply-To: <CAK7LNASyiYasGa2_Ppp54nEq2m08q_Z_keViZDCavmNN0rBAzQ@mail.gmail.com>
+X-purgate-ID: 149429::1705406464-FCD755FF-BEEFE864/0/0
+X-purgate-type: clean
+X-purgate-size: 2232
+X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
+X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
+X-purgate: clean
+X-purgate: error
 
-On Tue, Jan 16, 2024 at 07:50:17PM +0900, Masahiro Yamada wrote:
->On Tue, Jan 16, 2024 at 9:15 AM Sasha Levin <sashal@kernel.org> wrote:
->>
->> From: Thomas Weißschuh <linux@weissschuh.net>
->>
->> [ Upstream commit bdeeeaba83682225a7bf5f100fe8652a59590d33 ]
->>
->> qemu for LoongArch does not work properly with direct kernel boot.
->> The kernel will panic during initialization and hang without any output.
->>
->> When booting in EFI mode everything work correctly.
->>
->> While users most likely don't have the LoongArch EFI binary installed at
->> least an explicit error about 'file not found' is better than a hanging
->> test without output that can never succeed.
->>
->> Link: https://lore.kernel.org/loongarch/1738d60a-df3a-4102-b1da-d16a29b6e06a@t-8ch.de/
->> Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
->> Acked-by: Willy Tarreau <w@1wt.eu>
->> Link: https://lore.kernel.org/r/20231031-nolibc-out-of-tree-v1-1-47c92f73590a@weissschuh.net
->> Signed-off-by: Sasha Levin <sashal@kernel.org>
->> ---
->>  Makefile | 9 ++++++++-
->>  1 file changed, 8 insertions(+), 1 deletion(-)
->
->
->
->
->This backport makes me upset.
->
->The original commit, bdeeeaba83682225a7bf5f100fe8652a59590d33,
->changed tools/testing/selftests/nolibc/Makefile.
->
->
->However, this backport changes the top Makefile.
->
->
->What is happening in the back-port logic?
+On Tue, Jan 16, 2024 at 07:58:05PM +0900, Masahiro Yamada wrote:
+> On Mon, Jan 15, 2024 at 2:04 PM Tomasz Figa <tfiga@chromium.org> wrote:
+> >
+> > On Sat, Jan 13, 2024 at 8:23 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> > >
+> > > On Wed, Jan 10, 2024 at 10:05 PM Tomasz Figa <tfiga@chromium.org> wrote:
+> > > >
+> > > > On Fri, Dec 29, 2023 at 1:10 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> > > > >
+> > > > > On Thu, Dec 28, 2023 at 2:46 PM Tomasz Figa <tfiga@chromium.org> wrote:
+> > > > > >
+> > > > > > When hidden options are toggled on (using 'z'), the number of options
+> > > > > > on the screen can be overwhelming and may make it hard to distinguish
+> > > > > > between available and hidden ones. Make them easier to distinguish by
+> > > > > > displaying the hidden one as dim (using the A_DIM curses attribute).
+> > > > > >
+> > > > > > Signed-off-by: Tomasz Figa <tfiga@chromium.org>
+> > > > >
+> > > > >
+> > > > >
+> > > > > Do you think this is useful?
+> > > > >
+> > > > > This changes the color only when you select a hidden item.
+> > > > >
+> > > > >
+> > > > > For unselected items, you cannot distinguish hidden ones,
+> > > > > as A_DIM has no effect to black text.
+> > > > >
+> > > > >
+> > > >
+> > > > Hmm, are you sure about that? For me it seems to dim the text. it
+> > > > seems to be also used in the existing code for dlg.button_inactive.atr
+> > > > of the mono theme:
+> > > >
+> > > > https://elixir.bootlin.com/linux/latest/source/scripts/kconfig/lxdialog/util.c#L26
+> > >
+> > >
+> > >
+> > > Then, your code works only on the mono theme.
+> > > (when your terminal does not support color, or
+> > > "MENUCONFIG_COLOR=mono make menuconfig")
+> > >
+> >
+> > No, that's not what I meant. It works for me for all themes, see the
+> > screenshot at https://postimg.cc/sBsM0twT . The terminal is tmux
+> > inside hterm (which in turn is supposed to be compatible with xterm).
+> > I guess I can test a couple of different terminals.
+> >
+> > In which terminal is it not working for you?
+> 
+> 
+> I use gnome-terminal.
+> The disto is Ubuntu 23.10
 
-I'm... not entierly sure. This wasn't hand massaged.
+I see the same behaviour as Masahiro described with foot 1.13.1 on
+Debian 12.
 
-I'll drop it from everywhere.
-
--- 
-Thanks,
-Sasha
+Kind regards,
+Nicolas
 
