@@ -1,130 +1,180 @@
-Return-Path: <linux-kbuild+bounces-577-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-578-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5AFC82EEB5
-	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Jan 2024 13:08:57 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26CAC82F3B5
+	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Jan 2024 19:10:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 589BAB23174
-	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Jan 2024 12:08:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 70EB9286FB4
+	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Jan 2024 18:10:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 956E41BC39;
-	Tue, 16 Jan 2024 12:08:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 432171CD1E;
+	Tue, 16 Jan 2024 18:10:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b="b/0aKTBh"
+	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="Q6zTZRse"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail.avm.de (mail.avm.de [212.42.244.119])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-relay-canonical-0.canonical.com (smtp-relay-canonical-0.canonical.com [185.125.188.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 547331BC37;
-	Tue, 16 Jan 2024 12:08:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=avm.de
-Received: from mail-auth.avm.de (unknown [IPv6:2001:bf0:244:244::71])
-	by mail.avm.de (Postfix) with ESMTPS;
-	Tue, 16 Jan 2024 13:01:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
-	t=1705406464; bh=LTvkD50jnbDyC8Lwck8C4IOhXUM+7Ro962nBVa5evZk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=b/0aKTBheQflYtrNmb+bkO8c6Unq4RO+G+asjb4jdzprQvi3LMBjwCJFZFt6N73GD
-	 GgZ0kGZI6ED/G+Bt7XQfrSEIlTAT/tGZid0ZPcVilfK80xlTdf6geykExZp+v9cI9O
-	 LzyH/A/AOeI6X6of0RHOix6IpTmcuQ1Ys2sw4MTs=
-Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
-	by mail-auth.avm.de (Postfix) with ESMTPA id 6F19380397;
-	Tue, 16 Jan 2024 13:01:04 +0100 (CET)
-Received: from reykjavik.ads.avm.de (unknown [172.17.89.91])
-	by buildd.core.avm.de (Postfix) with ESMTPS id 54D51180C48;
-	Tue, 16 Jan 2024 13:01:04 +0100 (CET)
-Date: Tue, 16 Jan 2024 13:01:01 +0100
-From: Nicolas Schier <n.schier@avm.de>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Tomasz Figa <tfiga@chromium.org>, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Jesse Taube <Mr.Bossman075@gmail.com>
-Subject: Re: [PATCH] kconfig: menuconfig: Make hidden options show as dim
-Message-ID: <ZaZv_TNR5_1zOCji@reykjavik.ads.avm.de>
-References: <20231228054630.3595093-1-tfiga@chromium.org>
- <CAK7LNATBipJtprjvvRVYg8JcYOFXQdpLEyEc+4+8j1PtBQ+PUg@mail.gmail.com>
- <CAAFQd5C3vAUJhKiQ1LPkZv3dJxNvK4QinRezV9Q8rz_Ov6FSUQ@mail.gmail.com>
- <CAK7LNAQcaDneE4rnjvV+GTSBBMozm5deu_q9+STTn60ervZJbA@mail.gmail.com>
- <CAAFQd5DcxL80cb8w9OZs0mpD=Y3K=LmM7exG7U_DaSsMkfni7Q@mail.gmail.com>
- <CAK7LNASyiYasGa2_Ppp54nEq2m08q_Z_keViZDCavmNN0rBAzQ@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFBE11CD14;
+	Tue, 16 Jan 2024 18:10:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.120
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1705428625; cv=none; b=ZSQF6qTzqD7QMGU1r1c6T2nr65qeogWwbfomUmuYnrH6cpiHfY/RpQodJ1YaNrMUg77X/uTdTlMGdsOdrO7jewMY4+xZPkqBQVVCef7zykkZnsDAGdVMOW2Q5JhSqXGcW9RiDxTsLVkbilFwYmKvTekinhTf6JB7JeupwzB59+o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1705428625; c=relaxed/simple;
+	bh=HKMeSq1CvvR0ifd7kUvkbyWIGnf9TiWo23dGO2t6Rfo=;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:Content-Language:To:Cc:References:From:Autocrypt:
+	 Organization:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	b=MPoORMJYH0RGy7gu277Rw3I3FoUXmYn72sooQ+RP3/nfJEIgks3K504M6tb3tOfwq5Uysx9bGLnMqKEec1LYb27kPhDj2v7NxwrH8daMKKWPwuhCW4KM6zyI7s0CwwntM8ii/0J0yJVK/SMfK7ShCPGolc60hfDnuXZzry81h5g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=Q6zTZRse; arc=none smtp.client-ip=185.125.188.120
+Received: from [192.168.192.85] (unknown [50.39.103.33])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id 8B76D3F2D0;
+	Tue, 16 Jan 2024 18:10:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20210705; t=1705428614;
+	bh=fyzXUOOEL+zRBN6qGMyB6wL+dhZyv/h6QB3vjt39SE8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type;
+	b=Q6zTZRseRHutC7xlc7sTWoVotqFPaJ+nTKa0Us8pWOCACIE6GJE7Y6tBUIV/9DS9y
+	 9g0hYGxsIrnFBl0yPlxAZOYqUJT3TOZ13VwbQWN6AOVtgQf16n+yKToRw5d5bXvToJ
+	 uHpf197MOKXmjdaW6KkVn7hiTmZzP0Gloz7iTFTW2jUNpwX06SN228nqF67ejCWgLx
+	 Tu90GgBlHEr6VT7Ru50+Ee2e/49lrwglJikniuldFXpucJpLVBm+egxlAQ4zpDZrC7
+	 tUc7N9RsSozlIVrfhhOEFynk7oYPZMSfDNu5SvacJ2SyPDBg7d4Y5l2fyMrEppsojo
+	 E3m6nIHb5nwag==
+Message-ID: <b26f06ee-9617-4ba2-aa4e-b431407acd7a@canonical.com>
+Date: Tue, 16 Jan 2024 10:10:03 -0800
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK7LNASyiYasGa2_Ppp54nEq2m08q_Z_keViZDCavmNN0rBAzQ@mail.gmail.com>
-X-purgate-ID: 149429::1705406464-FCD755FF-BEEFE864/0/0
-X-purgate-type: clean
-X-purgate-size: 2232
-X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
-X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
-X-purgate: clean
-X-purgate: error
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 02/57] apparmor: Free up __cleanup() name
+Content-Language: en-US
+To: Peter Zijlstra <peterz@infradead.org>, torvalds@linux-foundation.org,
+ keescook@chromium.org, gregkh@linuxfoundation.org, pbonzini@redhat.com
+Cc: masahiroy@kernel.org, nathan@kernel.org, ndesaulniers@google.com,
+ nicolas@fjasle.eu, catalin.marinas@arm.com, will@kernel.org,
+ vkoul@kernel.org, trix@redhat.com, ojeda@kernel.org, mingo@redhat.com,
+ longman@redhat.com, boqun.feng@gmail.com, dennis@kernel.org, tj@kernel.org,
+ cl@linux.com, acme@kernel.org, mark.rutland@arm.com,
+ alexander.shishkin@linux.intel.com, jolsa@kernel.org, namhyung@kernel.org,
+ irogers@google.com, adrian.hunter@intel.com, juri.lelli@redhat.com,
+ vincent.guittot@linaro.org, dietmar.eggemann@arm.com, rostedt@goodmis.org,
+ bsegall@google.com, mgorman@suse.de, bristot@redhat.com,
+ vschneid@redhat.com, paulmck@kernel.org, frederic@kernel.org,
+ quic_neeraju@quicinc.com, joel@joelfernandes.org, josh@joshtriplett.org,
+ mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com, rientjes@google.com,
+ vbabka@suse.cz, roman.gushchin@linux.dev, 42.hyeyoo@gmail.com,
+ apw@canonical.com, joe@perches.com, dwaipayanray1@gmail.com,
+ lukas.bulwahn@gmail.com, paul@paul-moore.com, jmorris@namei.org,
+ serge@hallyn.com, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
+ llvm@lists.linux.dev, linux-perf-users@vger.kernel.org, rcu@vger.kernel.org,
+ linux-security-module@vger.kernel.org, tglx@linutronix.de,
+ ravi.bangoria@amd.com, error27@gmail.com, luc.vanoostenryck@gmail.com
+References: <20230612090713.652690195@infradead.org>
+ <20230612093537.536441207@infradead.org>
+From: John Johansen <john.johansen@canonical.com>
+Autocrypt: addr=john.johansen@canonical.com; keydata=
+ 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 lT9Q
+Organization: Canonical
+In-Reply-To: <20230612093537.536441207@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jan 16, 2024 at 07:58:05PM +0900, Masahiro Yamada wrote:
-> On Mon, Jan 15, 2024 at 2:04 PM Tomasz Figa <tfiga@chromium.org> wrote:
-> >
-> > On Sat, Jan 13, 2024 at 8:23 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> > >
-> > > On Wed, Jan 10, 2024 at 10:05 PM Tomasz Figa <tfiga@chromium.org> wrote:
-> > > >
-> > > > On Fri, Dec 29, 2023 at 1:10 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> > > > >
-> > > > > On Thu, Dec 28, 2023 at 2:46 PM Tomasz Figa <tfiga@chromium.org> wrote:
-> > > > > >
-> > > > > > When hidden options are toggled on (using 'z'), the number of options
-> > > > > > on the screen can be overwhelming and may make it hard to distinguish
-> > > > > > between available and hidden ones. Make them easier to distinguish by
-> > > > > > displaying the hidden one as dim (using the A_DIM curses attribute).
-> > > > > >
-> > > > > > Signed-off-by: Tomasz Figa <tfiga@chromium.org>
-> > > > >
-> > > > >
-> > > > >
-> > > > > Do you think this is useful?
-> > > > >
-> > > > > This changes the color only when you select a hidden item.
-> > > > >
-> > > > >
-> > > > > For unselected items, you cannot distinguish hidden ones,
-> > > > > as A_DIM has no effect to black text.
-> > > > >
-> > > > >
-> > > >
-> > > > Hmm, are you sure about that? For me it seems to dim the text. it
-> > > > seems to be also used in the existing code for dlg.button_inactive.atr
-> > > > of the mono theme:
-> > > >
-> > > > https://elixir.bootlin.com/linux/latest/source/scripts/kconfig/lxdialog/util.c#L26
-> > >
-> > >
-> > >
-> > > Then, your code works only on the mono theme.
-> > > (when your terminal does not support color, or
-> > > "MENUCONFIG_COLOR=mono make menuconfig")
-> > >
-> >
-> > No, that's not what I meant. It works for me for all themes, see the
-> > screenshot at https://postimg.cc/sBsM0twT . The terminal is tmux
-> > inside hterm (which in turn is supposed to be compatible with xterm).
-> > I guess I can test a couple of different terminals.
-> >
-> > In which terminal is it not working for you?
+On 6/12/23 02:07, Peter Zijlstra wrote:
+> In order to use __cleanup for __attribute__((__cleanup__(func))) the
+> name must not be used for anything else. Avoid the conflict.
+> 
+> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+
+Acked-by: John Johansen <john.johansen@canonical.com>
+
+> ---
+>   security/apparmor/include/lib.h |    6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> --- a/security/apparmor/include/lib.h
+> +++ b/security/apparmor/include/lib.h
+> @@ -232,7 +232,7 @@ void aa_policy_destroy(struct aa_policy
+>    */
+>   #define fn_label_build(L, P, GFP, FN)					\
+>   ({									\
+> -	__label__ __cleanup, __done;					\
+> +	__label__ __do_cleanup, __done;					\
+>   	struct aa_label *__new_;					\
+>   									\
+>   	if ((L)->size > 1) {						\
+> @@ -250,7 +250,7 @@ void aa_policy_destroy(struct aa_policy
+>   			__new_ = (FN);					\
+>   			AA_BUG(!__new_);				\
+>   			if (IS_ERR(__new_))				\
+> -				goto __cleanup;				\
+> +				goto __do_cleanup;			\
+>   			__lvec[__j++] = __new_;				\
+>   		}							\
+>   		for (__j = __count = 0; __j < (L)->size; __j++)		\
+> @@ -272,7 +272,7 @@ void aa_policy_destroy(struct aa_policy
+>   			vec_cleanup(profile, __pvec, __count);		\
+>   		} else							\
+>   			__new_ = NULL;					\
+> -__cleanup:								\
+> +__do_cleanup:								\
+>   		vec_cleanup(label, __lvec, (L)->size);			\
+>   	} else {							\
+>   		(P) = labels_profile(L);				\
 > 
 > 
-> I use gnome-terminal.
-> The disto is Ubuntu 23.10
 
-I see the same behaviour as Masahiro described with foot 1.13.1 on
-Debian 12.
-
-Kind regards,
-Nicolas
 
