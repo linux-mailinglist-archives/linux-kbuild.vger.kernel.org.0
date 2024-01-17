@@ -1,122 +1,105 @@
-Return-Path: <linux-kbuild+bounces-585-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-586-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C667183041B
-	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jan 2024 12:04:40 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A49F083062A
+	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jan 2024 13:54:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7467B2819CD
-	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jan 2024 11:04:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B3F621C22F9C
+	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jan 2024 12:54:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AC0C19BA5;
-	Wed, 17 Jan 2024 11:04:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 297751EA74;
+	Wed, 17 Jan 2024 12:54:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b="BduyVabK"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ZN4LXGT0"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail.avm.de (mail.avm.de [212.42.244.94])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2658C1D521;
-	Wed, 17 Jan 2024 11:04:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.94
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99D881EB21;
+	Wed, 17 Jan 2024 12:54:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705489476; cv=none; b=u5oPqsumE46/rfF7NHbiRGcKzHGqVSK4r/GaUWmr5lullvRvoHIMUHBKWlJ9sI6HZxs0TB2ABLBG+RJ9RiC+Qd/XniL6kbO69WHJQDRHVGdC/SKnsEuxvhCAZI0L4WzPKpF+wQvJAYj/C9kjw0TuaTXvCDb/Qx0bHlcS9CGTO/o=
+	t=1705496044; cv=none; b=ixBj+lqm6auPEJdAweS2leNtZaRwyFpT4aQXXzLPQ+TkxwljiI+XcudUhvdUSDHFHyQMFYQEssz8bfAd1RXoDAW6SQfaFQJd2YalSFMxdVTfWru5jBqfRA136w6xJqrmCgcwCp1l4h8XmtcmXnLgwH6rv44eMd5KLK9aBIpbMdk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705489476; c=relaxed/simple;
-	bh=HrPZYQqbExd63Zfudzoo3ljRavdvSOtyLIQ4Bi8P7Tg=;
+	s=arc-20240116; t=1705496044; c=relaxed/simple;
+	bh=Te8NTGw84sq6fD3KbNxfL2JPnc0/l3/OI5enP65sT0A=;
 	h=DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-purgate-ID:X-purgate-type:X-purgate-size:
-	 X-purgate-Ad:X-purgate:X-purgate; b=mKPEyIGNcyBCeNDBgSVQrSEu6Ru5wMGoAQ+aQU9iMKmgbM4QdEaZlGgc8mo0yEVZr4rdUFOPCNE1chj/H4SGb/AO7mgKEhHO4LfXZDapID/z86MKxLgRRx73dG7s4tGYDPo3EznFRUG9K5zCv55bm/PNqnZUNrSTfd2r+ZP/oBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de; spf=pass smtp.mailfrom=avm.de; dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b=BduyVabK; arc=none smtp.client-ip=212.42.244.94
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=avm.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
-	t=1705489464; bh=HrPZYQqbExd63Zfudzoo3ljRavdvSOtyLIQ4Bi8P7Tg=;
+	 Content-Transfer-Encoding:In-Reply-To; b=Fx05w1KrqwSryy8CK1tJiAcFjC0Xj8ZyTVFzxXCvUFzaIkMw8Ey6zyNBadQFoxMdYuYtvPluDgOQqwNW6rONX2aoxZaHFCz+WUO29tKM1lEvgKztGgVV89WIrWyU9tM42+ZtLg/dm41dJoKwjPzgbpiHp89c677eFoKqpNb1Pqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=ZN4LXGT0; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1705496040;
+	bh=Te8NTGw84sq6fD3KbNxfL2JPnc0/l3/OI5enP65sT0A=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BduyVabKK+1Mp1b/en1S1GIVo95XSaKeg9iUV5j3/Qsz3V59bntrKtrf9sWLTgsF+
-	 pJoWe3w/5uMJd4+YAdKrVMuis7UA3GfUwDKAngDQ3QZuJpSsPGO/u2Z/7HQeUJhJhS
-	 jza/09Ri+UW9Bs9/mMCgaA2w2TCm/qTYA6csiq+E=
-Received: from mail-auth.avm.de (unknown [IPv6:2001:bf0:244:244::71])
-	by mail.avm.de (Postfix) with ESMTPS;
-	Wed, 17 Jan 2024 12:04:23 +0100 (CET)
-Date: Wed, 17 Jan 2024 12:04:22 +0100
-From: Nicolas Schier <n.schier@avm.de>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, Ben Hutchings <ben@decadent.org.uk>,
+	b=ZN4LXGT0WP7ooNM12xFITUbxvx4BmsSa/HItkaFNLZ0O7MDWcxIdwV85dbPzFCQ4e
+	 Ih2vk6+jLCCBcB5fqKCCv5P2+1FU8+o0gmR6AOsV6lywD1lu+kIibQc37R74kw9e7n
+	 CazY9P/SmlrrEYHJGb6PR1U2FHN9DKdWjA610OZDg0JGsOITJTZLhgtD0Pc4bQIEoA
+	 EMDihzrTGq2xN/ZWGhU0uWkvP6hUPMlkoNkg9yKFVwEc9Bf4bDLdqtZYddpWg9I3fF
+	 ujhT8FTiwLi8TsI83uROliSbK1oWGq+G6+jIA9iFtWEt9tPaty9Zc7S7K8mOmfQ87I
+	 pMecTRJFlx2dQ==
+Received: from notapiano (zone.collabora.co.uk [167.235.23.81])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nfraprado)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id DE242378202D;
+	Wed, 17 Jan 2024 12:53:55 +0000 (UTC)
+Date: Wed, 17 Jan 2024 09:53:23 -0300
+From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Tzung-Bi Shih <tzungbi@kernel.org>, kernel@collabora.com,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Abhijit Gangurde <abhijit.gangurde@amd.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Nicolas Schier <nicolas@fjasle.eu>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/4] kbuild: deb-pkg: show verbose log for direct
- package builds
-Message-ID: <Zae0NpsCckChoCzW@debian-BULLSEYE-live-builder-AMD64>
-References: <20240113104339.16131-1-masahiroy@kernel.org>
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Nipun Gupta <nipun.gupta@amd.com>,
+	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/4] firmware: coreboot: Generate aliases for coreboot
+ modules
+Message-ID: <49b42da1-a74b-433c-b018-0742f850f680@notapiano>
+References: <20240111151226.842603-1-nfraprado@collabora.com>
+ <20240111151226.842603-3-nfraprado@collabora.com>
+ <ZaQU_QqGXwkSgU_Y@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20240113104339.16131-1-masahiroy@kernel.org>
-X-purgate-ID: 149429::1705489463-5855CEB6-63E38E50/0/0
-X-purgate-type: clean
-X-purgate-size: 2019
-X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
-X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
-X-purgate: clean
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZaQU_QqGXwkSgU_Y@smile.fi.intel.com>
 
-On Sat, Jan 13, 2024 at 07:43:36PM +0900, Masahiro Yamada wrote:
-> When the Debian package build is initiated by Kbuild ('make deb-pkg'
-> or 'make bindeb-pkg'), the log messages are displayed in the short
-> form, which is the Kbuild default.
+On Sun, Jan 14, 2024 at 07:08:13PM +0200, Andy Shevchenko wrote:
+> On Thu, Jan 11, 2024 at 12:11:47PM -0300, Nícolas F. R. A. Prado wrote:
+> > Generate aliases for coreboot modules to allow automatic module probing.
 > 
-> Otherwise, let's show verbose messages (unless the 'terse' tag is set
-> in DEB_BUILD_OPTION), as suggested by Debian Policy: "The package build
-> should be as verbose as reasonably possible, except where the terse tag
-> is included in DEB_BUILD_OPTIONS." [1]
+> ...
 > 
-> This is what the Debian kernel also does. [2]
+> > +/**
+> > + * struct coreboot_device_id - Identifies a coreboot table entry
+> > + * @tag: tag ID
+> > + */
+> > +struct coreboot_device_id {
+> > +	__u32 tag;
+> > +};
 > 
-> [1]: https://www.debian.org/doc/debian-policy/ch-source.html#main-building-script-debian-rules
-> [2]: https://salsa.debian.org/kernel-team/linux/-/blob/debian/6.7-1_exp1/debian/rules.real#L36
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
-> 
-> Changes in v2:
->   - New patch
-> 
->  scripts/package/debian/rules | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/scripts/package/debian/rules b/scripts/package/debian/rules
-> index 098307780062..697fbfa7595f 100755
-> --- a/scripts/package/debian/rules
-> +++ b/scripts/package/debian/rules
-> @@ -11,6 +11,14 @@ ifneq (,$(filter-out parallel=1,$(filter parallel=%,$(DEB_BUILD_OPTIONS))))
->      MAKEFLAGS += -j$(NUMJOBS)
->  endif
->  
-> +# When KBUILD_VERBOSE is undefined (presumably you are directly working with
-> +# the debianized tree), show verbose logs unless DEB_BUILD_OPTION=terse is set.
-> +ifeq ($(origin KBUILD_VERBOSE),undefined)
-> +    ifeq (,$(filter terse,$(DEB_BUILD_OPTIONS)))
-> +        export KBUILD_VERBOSE := 1
-> +    endif
-> +endif
-> +
->  revision = $(lastword $(subst -, ,$(shell dpkg-parsechangelog -S Version)))
->  CROSS_COMPILE ?= $(filter-out $(DEB_BUILD_GNU_TYPE)-, $(DEB_HOST_GNU_TYPE)-)
->  make-opts = ARCH=$(ARCH) KERNELRELEASE=$(KERNELRELEASE) KBUILD_BUILD_VERSION=$(revision) $(addprefix CROSS_COMPILE=,$(CROSS_COMPILE))
-> -- 
-> 2.40.1
-> 
+> Don't you want to have a driver data or so associated with this?
 
-thanks!
+There's no need for it currently in any driver. This struct is being created
+simply to allow auto modprobe. So it seems reasonable to leave it out and add it
+later when/if needed.
 
-Reviewed-by: Nicolas Schier <n.schier@avm.de>
+Thanks,
+Nícolas
 
