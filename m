@@ -1,120 +1,125 @@
-Return-Path: <linux-kbuild+bounces-589-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-590-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D3268309DA
-	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jan 2024 16:37:17 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A13E830D19
+	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jan 2024 20:05:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3C12628644E
-	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jan 2024 15:37:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 996B52859C0
+	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jan 2024 19:05:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C63F6208A0;
-	Wed, 17 Jan 2024 15:37:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D12824212;
+	Wed, 17 Jan 2024 19:05:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="axyrveud"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="zwEWMCFd"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 894CD1E4AD;
-	Wed, 17 Jan 2024 15:37:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED919241E0;
+	Wed, 17 Jan 2024 19:05:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705505831; cv=none; b=Y20lxr2h+UMh8qnaUga/NJL/DXldH2M/ODb6IQbjbX6vhMk+ZSZIGzto0LuHyo0xRZbh4moo3/YN9QfxcHISPPhHUFlKZrFLXOhRmQhZwGdkfCQnZtWMYmNABodpLbFUH2BXuX6Mb74U2QOIEVab+rS2iN1H/3OU12+qkXdf3Zs=
+	t=1705518351; cv=none; b=BtQOJFXf/ZVfLqC3Ks/vmUqje5bQR3i1UabLkNS0Tk00EP9BHEfwdx/D2PsaGwWDdHYpAeAFxcSGVmrCbexU7jBi9Ai7xbymQxHlqJhgQcruqMlvXkyZSvRhP4rmBFhsBZm8x4pcZS+4trUX9BdgUSkh2E26wnOz9nbFNP0Cqgw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705505831; c=relaxed/simple;
-	bh=gvbgR1lPS4RRalskIGSwmmOuBLyvCrQvi5HwxvEJbmk=;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To; b=lIYVsjUOCjpaZGdB6UcsjEh6ONJvBr4XlMn7/lfF2UYr/kA5jdn1y9rdzvq4hDN0mGi4+iVp7qQu2lUhcHJIDGzHD3OoGFFTjqnS2+8lVxTFGfSKrEYrjkCbZSUStuhlgQPw0AW9WpdRiyomNY2/sG8bO95OJ9Yi8jryrq8LSu0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=axyrveud; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A865C433F1;
-	Wed, 17 Jan 2024 15:37:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705505830;
-	bh=gvbgR1lPS4RRalskIGSwmmOuBLyvCrQvi5HwxvEJbmk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=axyrveudFjsNGFULZQ5BS2xEBkCCBwOEPKf+K6g3I/4oqWzn40woNA7iKoDhXkgNr
-	 B7x1z3LLIvaREzIbvC5LPn/wk8dMCzj0ZFDKT9o5cAmrbVssazfViJqVZjpLI7ZiW8
-	 5DpBZXq6EVb22P/SVDT2iefUdY51YO4YMIzj6RplDZ3cnB/wSg/UzGglfgNWMRHQsk
-	 pp5HKp73YutVD2J5ZDdmR9RkCOD+Pstab6uUv2cb7u74vl04kZnoozGKBmqVlyck9r
-	 pIa8gxd8UfXfgY2LU6U/sLWt8XNnS98T+JMS0e5uDZIpRA4u4mLvHHK0xktw/r8mXx
-	 TMiJgqNPMe7fQ==
-Date: Wed, 17 Jan 2024 09:37:08 -0600
-From: Rob Herring <robh@kernel.org>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, devicetree@vger.kernel.org,
-	Simon Glass <sjg@chromium.org>, Jonathan Corbet <corbet@lwn.net>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Nicolas Schier <nicolas@fjasle.eu>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/4] kbuild: allow 'make dtbs_install' to install
- primitive DTBs
-Message-ID: <20240117153708.GB2296118-robh@kernel.org>
-References: <20240109120738.346061-1-masahiroy@kernel.org>
- <20240109120738.346061-5-masahiroy@kernel.org>
+	s=arc-20240116; t=1705518351; c=relaxed/simple;
+	bh=2p7PxDeWr9PiIww3WFCI2erGr5A6HQLNiCFMet8yz3w=;
+	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:To:Cc:
+	 X-Mailer; b=ZKhlHF9FT3JOGEnl1L5FxfvlyDT22w/kbWy8cPqpZYQRV8zPbpwBP9v8G4MUcXCwwKkjzSfJ1cw3rLILiqrmapCnDYRM5BvoDyqPLriu1vuJmxJ5FJI7+eXd7Gvrgl3f2J52d3pPe1iLiI81+aVkXr/bSJ+7iS+W7T3wo3VAGfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=zwEWMCFd; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1705518347;
+	bh=2p7PxDeWr9PiIww3WFCI2erGr5A6HQLNiCFMet8yz3w=;
+	h=From:Subject:Date:To:Cc:From;
+	b=zwEWMCFd4TnrY+iOA9adVVxxZGPSNRHRA3y3ik9rtmousM99awysSOVuMa+oglkZB
+	 76PH+dJ6m0/7dtZLEUKVL+Gyul2auVmolGUKia6dZxHLLzmQ2gaeIqE/R9pf67FE0C
+	 JTEzCQp03C4lBo3ci9BqULZhkRg1xIxuKYjmxj88ZeCGYpDHJyfW0Loiu0f1r1xFFD
+	 kiGALPZtSLVQNDoaBCuMuNYriRuqlmjn7cs5L0JPShDdYmJw9x3LnaSrXEZO4tSFgi
+	 aqEKc1m8uBzskyfJvd8Nw8BVYbS9ujH7+y8a1r72R54ORsdrLwNhbr/rAy7sp9g8QD
+	 dC5O1//+04ZnQ==
+Received: from [192.168.0.47] (zone.collabora.co.uk [167.235.23.81])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nfraprado)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id BD792378000E;
+	Wed, 17 Jan 2024 19:05:41 +0000 (UTC)
+From: =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
+Subject: [PATCH v3 0/4] Allow coreboot modules to autoload and enable cbmem
+ in the arm64 defconfig
+Date: Wed, 17 Jan 2024 16:03:21 -0300
+Message-Id: <20240117-coreboot-mod-defconfig-v3-0-049565a27bba@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240109120738.346061-5-masahiroy@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAHkkqGUC/x3MPQvCMBCA4b9SbjaljcWvSSfnIghWHNrk0h40O
+ b1UEUr/u8HxGd53hohCGOGQzSD4oUgcEtarDMzQhh4V2WTQha6Kstwqw4Id86Q8W2XRGQ6OerX
+ Tm64oUVfa7iHFT0FH3//4/kh2wl5Ng2D73zVtfb2YWp9ur/dZNXKMnkbMHeUUJhxzwx6W5Qehc
+ 0D8ngAAAA==
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Brian Norris <briannorris@chromium.org>, 
+ Julius Werner <jwerner@chromium.org>, 
+ Masahiro Yamada <masahiroy@kernel.org>, 
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, kernel@collabora.com, 
+ chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ linux-kbuild@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
+X-Mailer: b4 0.12.4
 
-On Tue, Jan 09, 2024 at 09:07:37PM +0900, Masahiro Yamada wrote:
-> Commit 15d16d6dadf6 ("kbuild: Add generic rule to apply fdtoverlay")
-> introduced the -dtbs syntax to apply overlays during the build process.
-> 
-> However, scripts/Makefile.dtbinst is not aware of the -dtbs syntax,
-> so 'make dtbs_install' installs the files directly added to dtb-y.
-> (Presumably, it was intentional.)
+This series adds the missing pieces to the coreboot bus and the module
+alias generation to allow coreboot modules to be automatically loaded
+when matching devices are detected.
 
-Yes. The intent was the Makefile should define what's installed or not. 
-There's 2 reasons to apply overlays in the build. The first is so a DTB 
-can be refactored into a base plus overlay(s) and we keep the original 
-full DTB. The second is to test that overlays actually apply because 
-testing that at boot time in bootloader is a poor experience and we 
-don't want overlays which don't apply to upstream DTs.
+The configs for cbmem coreboot entries are then enabled in the arm64
+defconfig, as modules, to allow reading logs from coreboot on arm64
+Chromebooks, which is useful for debugging the boot process.
 
-Whatever targets you want installed put in dtb-y. Whatever targets are 
-just for testing, put in dtb-. The latter are then enabled with 
-CONFIG_OF_ALL_DTBS.
+Changes in v3:
+- Merged all "add to module device table" commits into a single commit
+  which also changes the coreboot_driver struct to contain an id table
+  and avoid unused variable warnings for the id tables.
 
-> For example, consider this case:
-> 
->     foo1-dtbs := foo_base.dtb foo_overlay1.dtbo
->     foo2-dtbs := foo_base.dtb foo_overlay2.dtbo
->     dtb-y := foo1.dtb foo2.dtb
-> 
-> 'make dtbs_install' only installs foo1.dtb and foo2.dtb. It is suitable
-> when the boot image supports a single hardware configuration, or when
-> the boot loader in use does not support applying overlays.
-> 
-> However, when creating a boot image with multiple board supports, it
-> wastes storage space, as foo1.dtb and foo2.dtb have foo_base.dtb in
-> common.
-> 
-> From a space perspective, a more optimal solution is to install
-> foo_base.dtb, foo_overlay1.dtbo, and foo_overlay2.dtbo, then assemble
-> the final dtb (either foo1.dtb or foo2.dtb) on the boot loader.
-> 
-> This commit adds a new flag, INSTALL_DTBS_PRIMITIVE.
-> 
-> With INSTALL_DTBS_PRIMITIVE=1, 'make dtbs_install' will install primitive
-> files (such as foo_base.dtb, foo_overlay1.dtbo, and foo_overlay2.dtbo in
-> this case).
+Changes in v2:
+- Added commits for vpd, memconsole and framebuffer drivers to add them
+  to the module device table
 
-And not install foo1.dtb and foo2.dtb, right? What if one wants to 
-install everything? Seems like this needs to be a 3-way option.
+---
+Nícolas F. R. A. Prado (4):
+      firmware: coreboot: Generate modalias uevent for devices
+      firmware: coreboot: Generate aliases for coreboot modules
+      firmware: coreboot: Replace tag with id table in driver struct
+      arm64: defconfig: Enable support for cbmem entries in the coreboot table
 
-I'm not really convinced we need this in the first place though.
+ arch/arm64/configs/defconfig                   |  3 +++
+ drivers/firmware/google/cbmem.c                |  8 +++++++-
+ drivers/firmware/google/coreboot_table.c       | 20 +++++++++++++++++++-
+ drivers/firmware/google/coreboot_table.h       |  3 ++-
+ drivers/firmware/google/framebuffer-coreboot.c |  8 +++++++-
+ drivers/firmware/google/memconsole-coreboot.c  |  8 +++++++-
+ drivers/firmware/google/vpd.c                  |  8 +++++++-
+ include/linux/mod_devicetable.h                |  8 ++++++++
+ scripts/mod/devicetable-offsets.c              |  3 +++
+ scripts/mod/file2alias.c                       | 10 ++++++++++
+ 10 files changed, 73 insertions(+), 6 deletions(-)
+---
+base-commit: 0f067394dd3b2af3263339cf7183bdb6ee0ac1f8
+change-id: 20240117-coreboot-mod-defconfig-826b01e242d9
 
-> 
-> Without INSTALL_DTBS_PRIMITIVE, the current behavior is maintained
-> (foo1.dtb and foo2.dtb will be installed in this case).
+Best regards,
+-- 
+Nícolas F. R. A. Prado <nfraprado@collabora.com>
+
 
