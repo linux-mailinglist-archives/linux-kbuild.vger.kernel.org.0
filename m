@@ -1,107 +1,130 @@
-Return-Path: <linux-kbuild+bounces-598-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-599-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3484831B2A
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Jan 2024 15:13:05 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4972831F8B
+	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Jan 2024 20:20:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9CAB528AB9E
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Jan 2024 14:13:04 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 11D5FB24653
+	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Jan 2024 19:20:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6AC925772;
-	Thu, 18 Jan 2024 14:12:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58CE129438;
+	Thu, 18 Jan 2024 19:20:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WOemJyKS"
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="uhigdn+i"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42F9F2575D
-	for <linux-kbuild@vger.kernel.org>; Thu, 18 Jan 2024 14:12:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B719B2E620
+	for <linux-kbuild@vger.kernel.org>; Thu, 18 Jan 2024 19:20:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705587177; cv=none; b=UgCw7b6H2la5i3pl6y4DifWtXguQImY1Pg8e3M5rez5LX/FvaVxAnimDTMaxVugbYcy6Kt7Pz+G/u74O6V7LIFlM7Yx+2aPglYeslU6/pRpjd3AVwz+KDrtvZy6M57P2LFHkyNWA3jI50ZhnS4Cy+iYJe9jXA1fTcLeSaGY2VTI=
+	t=1705605617; cv=none; b=uUeVHVd8yQ0E0kWJ0R7yI3wt5lP99mTSGs4s6zDQEFaUhJod7rABjCaZTa+YS59t6bZ+fmqobMFB/DIjMr9gU9V/z6XirbIMe6XJuF3VUDs4CHQuQeynAvdPCnbum8MZuL6dAyxIR9TJ/iK1Gj+Yjjp4QSDakRMz9NfB1YqxscU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705587177; c=relaxed/simple;
-	bh=HxSLrYC+hnZMNQE8N/YqaKMukOyUuO+/CWYaAZNCBK4=;
-	h=DKIM-Signature:Received:X-MC-Unique:Received:Received:From:To:Cc:
-	 Subject:Date:Message-ID:In-Reply-To:References:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:X-Scanned-By; b=oPjmeBnmehHfRZqUZtdZn8jMweVedPEcB+GoBeXf3l6cuYUJ3/G2IWy9aRetNxFBepWWm9y/6aGT55ICX8++MZQuL72XeWHa+znSldiQwk0pTguQcx9DTRUWYyRqC4TBx2bSUaPDySgm9VOa/c0Jky/56vXKfwaoNPB3zQOsizI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WOemJyKS; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1705587175;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=C6daif3Wpo6oR6mWR0a75zB3XL2N/MWmItaHsVRRCfY=;
-	b=WOemJyKS3bPYDrnlMZ+HoIbfwFPaDS4TcqlT3X9gBlwDCMlEbwdb9nZNzV1814BHmloyXd
-	6HO1922sqQqVJoXb6QHiPDM7zKlw78PHjy+wpZ2ptW7B3+fLw925Nmx/3GXeZgLUcH+aqx
-	UxNf5MsPgiSiNi1YAuccO7q7qY4laAc=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-607-xgcAbzp2MJGxL2n8EKgOGA-1; Thu,
- 18 Jan 2024 09:12:49 -0500
-X-MC-Unique: xgcAbzp2MJGxL2n8EKgOGA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5C60D3C2A1C2;
-	Thu, 18 Jan 2024 14:12:49 +0000 (UTC)
-Received: from fedora.redhat.com (unknown [10.39.192.155])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 8D15D2166B36;
-	Thu, 18 Jan 2024 14:12:47 +0000 (UTC)
-From: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
-To: masahiroy@kernel.org
-Cc: dcavalca@meta.com,
-	jtornosm@redhat.com,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	nathan@kernel.org,
-	ndesaulniers@google.com,
-	nicolas@fjasle.eu,
-	stable@vger.kernel.org
-Subject: Re: [PATCH V5 2/2] rpm-pkg: avoid install/remove the running kernel
-Date: Thu, 18 Jan 2024 15:12:45 +0100
-Message-ID: <20240118141246.370272-1-jtornosm@redhat.com>
-In-Reply-To: <CAK7LNARX==sMKVTGXutGMmMkfg1idGUYLhBLZvKZ0psdwmiUvQ@mail.gmail.com>
-References: <CAK7LNARX==sMKVTGXutGMmMkfg1idGUYLhBLZvKZ0psdwmiUvQ@mail.gmail.com>
+	s=arc-20240116; t=1705605617; c=relaxed/simple;
+	bh=9nf9clFh0EbDats4Fa2YQ+RNXkctZPuqdS5Gbc572e8=;
+	h=Subject:Date:Message-ID:MIME-Version:Cc:From:To; b=uewtkTDdWyeslu5WVUk4oS3uq3Pcv6Hr0Btx0W/yeTPjxD9/aaHNvJSr9omZbiYTkHdXT/RrvZ8KWLAb9i0XFOB0F/pRlYDryIyRwD4Ec6/EcG6jK2GajAJKhPwCBqjw0OhS/lvKm6Bp07ceTqepSu2/26Y7R8cRdp5js+4IjYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=uhigdn+i; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1d54b765414so88339195ad.0
+        for <linux-kbuild@vger.kernel.org>; Thu, 18 Jan 2024 11:20:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1705605615; x=1706210415; darn=vger.kernel.org;
+        h=to:from:cc:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:to:cc:subject:date:message-id:reply-to;
+        bh=CcmZDwBIevh96PY0m3UwCbyUVvMq97xdTBzYDcc3ymc=;
+        b=uhigdn+iIPaABls756LkC7gBE9iU1oKBRJ1HVHXUj/qGQQ+0wajKMgxRJab2xGW8G4
+         5AH/ASuxaBmKlIe7qozDTH8kSQzLWWpoMH4DdfKy7LvFYfxvEz+7clV6FNwQxuECKgx8
+         pDP/9PZjiExXG6Ag8QZZcS/8b0Bu8liF7fm4oK1Tf+hnaGazhlJEg5wuAsEOdu8r2rDK
+         O9U1WtMu65rMdKIzc57vXbUwrfQGG4FwMWMPN24MXADjdBnqmhNHssIUksG3xiTFhxWa
+         rTqeeWvnARzt5sdKVIbaF3V3exmiLpRgurBTRKE7YeRxYLIFxODrs/DNgjRDLND4Cwhb
+         ISng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705605615; x=1706210415;
+        h=to:from:cc:content-transfer-encoding:mime-version:message-id:date
+         :subject:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CcmZDwBIevh96PY0m3UwCbyUVvMq97xdTBzYDcc3ymc=;
+        b=cr3iuZGs7/RZzn3ZxrbJn5JAUnPg2mDzWxUB4SctGJJSRplplumsUaL8RBD6cE5R69
+         wmlceOwdaVCX0ygLD/s+ikNnM6Vcg9Vr8GLVLIuikYItioquaEC3NOKtlgpWswL84Psy
+         at47zU+eXwbywkGLU1DLTTlWV0VodhmdyfWXXMF5hGx1zvudy7wNh3Pv1qCDFLeXlC1l
+         DuqiL7oM58trPQ+I3ODX9VOqyZ00Acw10bi+xTe7yt1LjDtw+q+2TD2bpO+pKoF2B4+4
+         y56qi63eR2f0NpkwBr1UsEjYbhU+Ux8UZJLz742pXHZqRVGpldPiXndf+gwyb9O5OPky
+         yZQg==
+X-Gm-Message-State: AOJu0YzgChbafYg2i/WY8EorOotD4/o6Se8bEZjZVxdxdibVnfqTU0KW
+	gyq8WOmTLcHBd62HIvKars3w6l/IKdH5kx2XAUVg2L0o6ose8n1GM0LGHjY5p7U=
+X-Google-Smtp-Source: AGHT+IFNJL1nqkL/h0IqxGVCUNhKrNSluuke+rosWvVVfdt8F4bqjY6XaJmILmyhvNBy5s5IaQsYwA==
+X-Received: by 2002:a17:902:ea12:b0:1d5:a5ba:1c49 with SMTP id s18-20020a170902ea1200b001d5a5ba1c49mr1372634plg.1.1705605614994;
+        Thu, 18 Jan 2024 11:20:14 -0800 (PST)
+Received: from localhost ([192.184.165.199])
+        by smtp.gmail.com with ESMTPSA id kz3-20020a170902f9c300b001d70c695172sm1190896plb.78.2024.01.18.11.20.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Jan 2024 11:20:14 -0800 (PST)
+Subject: [PATCH] Makefile: Add HOST_GCC_SUFFIX and CROSS_GCC_SUFFIX
+Date: Thu, 18 Jan 2024 11:17:27 -0800
+Message-ID: <20240118191727.5547-1-palmer@rivosinc.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.6
+Cc: nathan@kernel.org, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+  Palmer Dabbelt <palmer@rivosinc.com>
+From: Palmer Dabbelt <palmer@rivosinc.com>
+To: masahiroy@kernel.org, nicolas@fjasle.eu
 
-> What is the problem with this?
-In my opinion, it is risky to remove the kernel that is running, that is
-the reason why I am trying to protect this.
-If you try to remove or update (and the running kernel is removed), if the
-kernel and modules are already preloaded in memory, it could not happen
-anything but some extra action could be necessary or automatically started,
-and even the new kernel could not boot.
-Fedora and others are taking this into account with upper tools and declare
-the running kernel as protected avoinding this action. But others
-(i.e. openSUSE Tumbleweed) allow this behavior.
-It may only be a safety measure but it can also be beneficial to avoid
-problems, just in case. 
-Besides, in this way, all the tested distributions would have the same
-behavior.
+From: Palmer Dabbelt <palmer@rivosinc.com>
 
-If it is ok, I will create a following version patch describing the problem
-better and using indentation as you suggested for the other patch.
+I was just trying to track down a build bug with an old toolchain.
+Turns out Ubuntu installs old GCCs as something like
+riscv64-linux-gnu-gcc-10, which is a bit clunky to point the build at
+without a way to append a suffix to CC.
 
-Thanks
+There's already LLVM_SUFFIX, but nothing similar for GCC.  I've split
+out the host and target suffixes as users probably don't have the same
+version of for both (unlike LLVM, where the cross compiler is likely to
+support the host target).
 
-Best regards
-José Ignacio
+Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
+---
+I've only given this some very minimal testing, but it at least works
+for my simple use case.
+---
+ Makefile | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index f1b2fd977275..36ce336cda3b 100644
+--- a/Makefile
++++ b/Makefile
+@@ -433,8 +433,8 @@ endif
+ HOSTCC	= $(LLVM_PREFIX)clang$(LLVM_SUFFIX)
+ HOSTCXX	= $(LLVM_PREFIX)clang++$(LLVM_SUFFIX)
+ else
+-HOSTCC	= gcc
+-HOSTCXX	= g++
++HOSTCC	= gcc$(HOST_GCC_SUFFIX)
++HOSTCXX	= g++$(HOST_GCC_SUFFIX)
+ endif
+ HOSTRUSTC = rustc
+ HOSTPKG_CONFIG	= pkg-config
+@@ -480,7 +480,7 @@ OBJDUMP		= $(LLVM_PREFIX)llvm-objdump$(LLVM_SUFFIX)
+ READELF		= $(LLVM_PREFIX)llvm-readelf$(LLVM_SUFFIX)
+ STRIP		= $(LLVM_PREFIX)llvm-strip$(LLVM_SUFFIX)
+ else
+-CC		= $(CROSS_COMPILE)gcc
++CC		= $(CROSS_COMPILE)gcc$(CROSS_GCC_SUFFIX)
+ LD		= $(CROSS_COMPILE)ld
+ AR		= $(CROSS_COMPILE)ar
+ NM		= $(CROSS_COMPILE)nm
+-- 
+2.43.0
 
 
