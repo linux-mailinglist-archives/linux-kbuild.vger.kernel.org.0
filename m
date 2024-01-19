@@ -1,104 +1,79 @@
-Return-Path: <linux-kbuild+bounces-600-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-601-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C57483235F
-	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Jan 2024 03:39:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E64F832367
+	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Jan 2024 03:40:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 30E5DB20E61
-	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Jan 2024 02:39:34 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D550EB21D8F
+	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Jan 2024 02:40:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3B18138F;
-	Fri, 19 Jan 2024 02:39:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73DE06FB8;
+	Fri, 19 Jan 2024 02:40:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VEd8/wMq"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a1CdaVVI"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 836A81111;
-	Fri, 19 Jan 2024 02:39:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E3096ABF;
+	Fri, 19 Jan 2024 02:40:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705631967; cv=none; b=lziDE5QOftOkdLr8r798gy/5SjcTWqG5gbVgQTMdp1uAG5z+55N3I0vWh1q9H7+eQFj/B70aPzaSMUfFn5sMzxT1DxzOIGU0g7ecloZDLsCURSmu7B4CgbARoOg3cLAWDMGns1yBh36jEEc2fRR2DGf6ugRnsllJMeP4Y3/di/U=
+	t=1705632009; cv=none; b=NW93n2cSb+gyo6IMFaGpCdkZJm5oN7Y54aXZ/jrE4lAZ9Jn8jPYSU4aLPaOPOqByQzStJb7ckB0a9F9CjgMp+EsGPLFiFb/RSe/6L85W5uPEZ0S+/Dm5070KuNV66CA260THOoTra3ehwcqzP3mfxsxBtSd9PaRItb/oOCdZP08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705631967; c=relaxed/simple;
-	bh=biEcbkPpXZUhi2HqIA/oV6hzC390AeosW5+NQJPUKxk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iXVFzIDuDQpEunxKdX9kNR48WemZMN5x7y7yqDWw56DW5vrzhWkSVJOsngPJOvwwnmhiSILi0ko6A/wLL2cA1HoVD+hCgI1iXJu3CHp6cJ1hiZkvX1CdSSjEnS9sK0Qupk2EvAtH4AnfJXt9qi24+Xmb/4al1fmLWpLTEUM3uJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VEd8/wMq; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D1D9C433F1;
-	Fri, 19 Jan 2024 02:39:24 +0000 (UTC)
+	s=arc-20240116; t=1705632009; c=relaxed/simple;
+	bh=UKZYC8dCEgMbui+2TV9BpcgHZtaeq7r56Mka0vrIUtA=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=qmk8ulMxs1Vm9Y/+63YOqeNcRnvAW0qR60AbpAqbf6IZV4rzjakOzvP0SRqFo8RrKtC/ONbrzeB4kHIJ3amO9xc4QEtZfAG69U95ugia/2CQGHiZisIy9B7a4CWVoVScpcgS+PYoiuvVVJonp3WIG2a5nYa2lxUOIc8HIkHrwEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a1CdaVVI; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 2F585C433A6;
+	Fri, 19 Jan 2024 02:40:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705631967;
-	bh=biEcbkPpXZUhi2HqIA/oV6hzC390AeosW5+NQJPUKxk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VEd8/wMqCtv7LKkoS0JBoyQU/DqOevBZmAmnlKQKUzqfqOwkRg5lKpTBe51kh5Z6s
-	 Fh0pA9jNM35yTL4tZC/DtVzrfneLSSbxlwvirqaX3lRVD1I+oN5MhycbwnoTGirzKd
-	 V6x5KjWcSHRDRykgnmYk81ZIRsG857jfGehCe/UngCRRlhhLG4ccSHt7TJGEtTOdh/
-	 G64pmSGyevtSVZYlhI8KW/sTu6quqnbvf8+aYDqt6uxphEG0iKSH+5wCzOIbWuE+KK
-	 0dOQYRUpmjP/7WS4D/U4hIlSF3P06VmqOAZluTaU6X9BvCcTpxA3jNi/014PqkWZVZ
-	 eoc2qJJ0BLZsA==
-Date: Fri, 19 Jan 2024 10:39:22 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: =?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Brian Norris <briannorris@chromium.org>,
-	Julius Werner <jwerner@chromium.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	kernel@collabora.com, chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v3 0/4] Allow coreboot modules to autoload and enable
- cbmem in the arm64 defconfig
-Message-ID: <Zang2gq2wjPih792@google.com>
-References: <20240117-coreboot-mod-defconfig-v3-0-049565a27bba@collabora.com>
+	s=k20201202; t=1705632009;
+	bh=UKZYC8dCEgMbui+2TV9BpcgHZtaeq7r56Mka0vrIUtA=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=a1CdaVVIcOD6npmN8dyB0BhNtveaHrXlz2MpfwhEMAOE+S4eyLEQrIXSC2cHXZ5ZZ
+	 a9sKzlsgkS3Cm8VJPrbZHb+hg6bSyNXaShMCJU6//gMam55p9gTIucZJVbMZZHam4n
+	 yFgoYBEeQJ8rfljqwItceMXMpuyndu+/WpPdtk6s4/OUpFjYV6CplWCfz6FjLcTcU4
+	 Cpg56i9WJE9F9by91TUhiqZ9LiBW8Nsyv7yZnWbUijOPpr7KCuJrxg8M8Znju58hR5
+	 sbDey6Z9sy02Y9sdTfSkBBHBgH6jXL8tZVkezllRqOLvK+JmfGNfiy/rMiUdG+frOD
+	 W80oIn1SSdlgw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 18CB3D8C985;
+	Fri, 19 Jan 2024 02:40:09 +0000 (UTC)
+Subject: Re: [GIT PULL] Kbuild updates for v6.8-rc1
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <CAK7LNARUOCnNNH3s4XigT7-nDMHv0gWUQnk9H7ZVov0GrvAfRQ@mail.gmail.com>
+References: <CAK7LNARUOCnNNH3s4XigT7-nDMHv0gWUQnk9H7ZVov0GrvAfRQ@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-kbuild.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAK7LNARUOCnNNH3s4XigT7-nDMHv0gWUQnk9H7ZVov0GrvAfRQ@mail.gmail.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-v6.8
+X-PR-Tracked-Commit-Id: 6185d32170b683abadddf1e68be998e24f3cc5de
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: b5f66ba2d07180706ffa10df07f202335df190f1
+Message-Id: <170563200909.16016.4023377216837945369.pr-tracker-bot@kernel.org>
+Date: Fri, 19 Jan 2024 02:40:09 +0000
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240117-coreboot-mod-defconfig-v3-0-049565a27bba@collabora.com>
 
-On Wed, Jan 17, 2024 at 04:03:21PM -0300, Nícolas F. R. A. Prado wrote:
-> This series adds the missing pieces to the coreboot bus and the module
-> alias generation to allow coreboot modules to be automatically loaded
-> when matching devices are detected.
-> 
-> The configs for cbmem coreboot entries are then enabled in the arm64
-> defconfig, as modules, to allow reading logs from coreboot on arm64
-> Chromebooks, which is useful for debugging the boot process.
-> 
-> Changes in v3:
-> - Merged all "add to module device table" commits into a single commit
->   which also changes the coreboot_driver struct to contain an id table
->   and avoid unused variable warnings for the id tables.
-> 
-> Changes in v2:
-> - Added commits for vpd, memconsole and framebuffer drivers to add them
->   to the module device table
-> 
-> ---
-> Nícolas F. R. A. Prado (4):
->       firmware: coreboot: Generate modalias uevent for devices
->       firmware: coreboot: Generate aliases for coreboot modules
->       firmware: coreboot: Replace tag with id table in driver struct
->       arm64: defconfig: Enable support for cbmem entries in the coreboot table
+The pull request you sent on Wed, 17 Jan 2024 08:45:59 +0900:
 
-The series overall looks good to me.
+> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-v6.8
 
-I'm happy to queue all the patches into chrome-platform-firmware for the next
-merge window (i.e. for v6.9-rc1).  Let's wait a bit for the maintainers for
-the other subsystems if they are OK with that.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/b5f66ba2d07180706ffa10df07f202335df190f1
+
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
 
