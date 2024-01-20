@@ -1,55 +1,50 @@
-Return-Path: <linux-kbuild+bounces-605-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-606-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E3D683333C
-	for <lists+linux-kbuild@lfdr.de>; Sat, 20 Jan 2024 09:33:15 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 667A1833645
+	for <lists+linux-kbuild@lfdr.de>; Sat, 20 Jan 2024 22:12:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DE8C0B231AA
-	for <lists+linux-kbuild@lfdr.de>; Sat, 20 Jan 2024 08:33:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1F2D028153F
+	for <lists+linux-kbuild@lfdr.de>; Sat, 20 Jan 2024 21:12:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A9AC1856;
-	Sat, 20 Jan 2024 08:33:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A958722F16;
+	Sat, 20 Jan 2024 21:09:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qj4a6KDf"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aC23AqXs"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 118E880D;
-	Sat, 20 Jan 2024 08:33:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CE1418031;
+	Sat, 20 Jan 2024 21:09:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705739587; cv=none; b=YX5CdmMw14x6ByL5Qs6fQ53kqsZK0SV2QQRZzBdYIc0a6MLMg6SKAILmH4hnz8KoCEMjnn8Q6tyIdz4CKm1OecF1sH+c5ffb9j9JeHagTX6DbzEG+cHOSCsuTIvLm7RShhakW+h0qsWySfE3694Yv3gpTJRjFXTzWS6ZNEEm0Lw=
+	t=1705784999; cv=none; b=nA5WYaPU4qbEW/CMxnwOESM5MUO7qcyW87W64500qraRFdiPNd1PKthkQoEEoU37hiv5mT7n2NPAzOX1gFEsO4SlMY2PzKbqb6CDm4oOcsk/qB4BbAGpwD2qShsTfhSS8KrfVlbRdwPNn+8uKOcTqYIf7soi29VYYTq98ndwWuo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705739587; c=relaxed/simple;
-	bh=IKJ6srK3HgHXSY+LR66AAmd84CvukbxNJTjGxQOIeTo=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=gWq/NztxfbcQ/hxbTcHjQRLSG4gYa4UgawPiu02Teze/UK8d4BClk/BOEKV+Mn3PyUoQpLR7Rw5QOpsFJjnOpFFDMSqryQkBcD+Wb7++3UjRuii7WpGcnMHLmLQbwOjhF3hQf586D+ZVRgLwK5cFLXx9fwOe+6de05t5dqREBpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qj4a6KDf; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70191C433F1;
-	Sat, 20 Jan 2024 08:33:04 +0000 (UTC)
+	s=arc-20240116; t=1705784999; c=relaxed/simple;
+	bh=d2EDRJscbCIR87e+6SnLlBw0VYMjOFKxJr55Hwex2FA=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=JiORI+Pm0qRTJgRL+ZLxMDUnXxdRzxeVyE1Bu/7WLL4enCihK5KLWCZrmUhz0LPU2PKWklvn673mrub7LOfvbzOjjrDLsHNTvqiW6oRZ0gVZ5f2T2EJSFC5XmYKDa5NLOBcjbUNpMlfXFYBv8neErvkMg3Xw1St3Vzrwgog7KBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aC23AqXs; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 5D862C433C7;
+	Sat, 20 Jan 2024 21:09:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705739586;
-	bh=IKJ6srK3HgHXSY+LR66AAmd84CvukbxNJTjGxQOIeTo=;
-	h=From:To:Cc:Subject:Date:From;
-	b=qj4a6KDfXXOl08rkAllwE+BsoVU9phwNEEA+w5yWSmDI8Nhd8D1FZK1BJLPX39wnt
-	 DK4rflWfOMflhRuRItZBs7XWLp/D3KDNQuTu2xGZ2cR35aZT6MMPzS73Kl+Ox2bnIg
-	 HiHPLXcq8hW3mS1lKpz+hoZqek59R1qrBf3o5Vdxk2oPZ5bg2YuE37AKEOz8j8IF/c
-	 UuXlrgOZMH6EXz8JGpaUrW8ak8ieXAYM5T2qReRfKTiNt3UDU2i6x4fHx3y21ppn9M
-	 0J392PG5FMBinUunES+V0d+Wl/IAYcY0CMCgddQkCWX4zV49imL8HIcVMkjGTC0GuY
-	 gbz31aBvRf/zw==
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: linux-kbuild@vger.kernel.org
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] kbuild: fix W= flags in the help message
-Date: Sat, 20 Jan 2024 17:32:55 +0900
-Message-Id: <20240120083255.2757978-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.40.1
+	s=k20201202; t=1705784999;
+	bh=d2EDRJscbCIR87e+6SnLlBw0VYMjOFKxJr55Hwex2FA=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=aC23AqXs7VHpIWiNRcIP8h2e8I6bW9BN91dlVCjUKu+I8jXrGM1pOxKU30hOLCwnF
+	 JJDgvcX9l6fbSuH+iGk4kTOuSSDCiLasqckZrqXIORTywo65heqUCbF/H8qT/9QW6z
+	 IMPYzJ4q/NfxWYn6OYmITbb5ZsyDpCBXIQ1wrTTkbkM6sQgiAiZ/nGQGhU67RknzTm
+	 N0WhsAF4BGF02s7zEEAwDxanV3Ac6ynKYapWOQAe0JQ5eSMDvSeoGRvCHDn5EbbgYE
+	 5aYLv7PBoplGmFrEMamBoY0nL1te4lK6Hq4fLF+6ociv1IMr8JZnUtBVxCIJHxXIcl
+	 xasxyDiQmSfyA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 4BCD1D8C978;
+	Sat, 20 Jan 2024 21:09:59 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -57,29 +52,43 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v2] riscv: add dependency among Image(.gz), loader(.bin),
+ and vmlinuz.efi
+From: patchwork-bot+linux-riscv@kernel.org
+Message-Id: 
+ <170578499930.24348.3965347675241435191.git-patchwork-notify@kernel.org>
+Date: Sat, 20 Jan 2024 21:09:59 +0000
+References: <20231119100024.2370992-1-masahiroy@kernel.org>
+In-Reply-To: <20231119100024.2370992-1-masahiroy@kernel.org>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-riscv@lists.infradead.org, paul.walmsley@sifive.com,
+ palmer@dabbelt.com, aou@eecs.berkeley.edu, linux-kernel@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, ardb@kernel.org, sjg@chromium.org
 
-W=c and W=e are supported.
+Hello:
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+This patch was applied to riscv/linux.git (fixes)
+by Palmer Dabbelt <palmer@rivosinc.com>:
 
- Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Sun, 19 Nov 2023 19:00:24 +0900 you wrote:
+> A common issue in Makefile is a race in parallel building.
+> 
+> You need to be careful to prevent multiple threads from writing to the
+> same file simultaneously.
+> 
+> Commit 3939f3345050 ("ARM: 8418/1: add boot image dependencies to not
+> generate invalid images") addressed such a bad scenario.
+> 
+> [...]
 
-diff --git a/Makefile b/Makefile
-index f288eb2dc8fd..8c6a935c62e6 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1653,7 +1653,7 @@ help:
- 	@echo  '                       (sparse by default)'
- 	@echo  '  make C=2   [targets] Force check of all c source with $$CHECK'
- 	@echo  '  make RECORDMCOUNT_WARN=1 [targets] Warn about ignored mcount sections'
--	@echo  '  make W=n   [targets] Enable extra build checks, n=1,2,3 where'
-+	@echo  '  make W=n   [targets] Enable extra build checks, n=1,2,3,c,e where'
- 	@echo  '		1: warnings which may be relevant and do not occur too often'
- 	@echo  '		2: warnings which occur quite often but may still be relevant'
- 	@echo  '		3: more obscure warnings, can most likely be ignored'
+Here is the summary with links:
+  - [v2] riscv: add dependency among Image(.gz), loader(.bin), and vmlinuz.efi
+    https://git.kernel.org/riscv/c/c4db7ff7a9ed
+
+You are awesome, thank you!
 -- 
-2.40.1
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
 
