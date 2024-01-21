@@ -1,94 +1,123 @@
-Return-Path: <linux-kbuild+bounces-606-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-607-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 667A1833645
-	for <lists+linux-kbuild@lfdr.de>; Sat, 20 Jan 2024 22:12:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 447538355E0
+	for <lists+linux-kbuild@lfdr.de>; Sun, 21 Jan 2024 13:57:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1F2D028153F
-	for <lists+linux-kbuild@lfdr.de>; Sat, 20 Jan 2024 21:12:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F05702823C2
+	for <lists+linux-kbuild@lfdr.de>; Sun, 21 Jan 2024 12:57:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A958722F16;
-	Sat, 20 Jan 2024 21:09:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0ED437179;
+	Sun, 21 Jan 2024 12:56:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aC23AqXs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DBpyWGfb"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CE1418031;
-	Sat, 20 Jan 2024 21:09:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30CD83716E;
+	Sun, 21 Jan 2024 12:56:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.93
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705784999; cv=none; b=nA5WYaPU4qbEW/CMxnwOESM5MUO7qcyW87W64500qraRFdiPNd1PKthkQoEEoU37hiv5mT7n2NPAzOX1gFEsO4SlMY2PzKbqb6CDm4oOcsk/qB4BbAGpwD2qShsTfhSS8KrfVlbRdwPNn+8uKOcTqYIf7soi29VYYTq98ndwWuo=
+	t=1705841811; cv=none; b=GZxp60OiFKAk5j6n3/rMo2gCASoORQr+inf2+s1dWql6XltQ5R3+t5EJVnbaO1BnOY+gUHsts2ZsDARaP0HDf2VlO8KUY2NIxRNSkXuJl0g1hUEOtAp1ZhzhOslf8/JKJt2Nbhbl57JcO7bDQSHKSi8IHvx6OmUouXze/ALxTzY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705784999; c=relaxed/simple;
-	bh=d2EDRJscbCIR87e+6SnLlBw0VYMjOFKxJr55Hwex2FA=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=JiORI+Pm0qRTJgRL+ZLxMDUnXxdRzxeVyE1Bu/7WLL4enCihK5KLWCZrmUhz0LPU2PKWklvn673mrub7LOfvbzOjjrDLsHNTvqiW6oRZ0gVZ5f2T2EJSFC5XmYKDa5NLOBcjbUNpMlfXFYBv8neErvkMg3Xw1St3Vzrwgog7KBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aC23AqXs; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 5D862C433C7;
-	Sat, 20 Jan 2024 21:09:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705784999;
-	bh=d2EDRJscbCIR87e+6SnLlBw0VYMjOFKxJr55Hwex2FA=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=aC23AqXs7VHpIWiNRcIP8h2e8I6bW9BN91dlVCjUKu+I8jXrGM1pOxKU30hOLCwnF
-	 JJDgvcX9l6fbSuH+iGk4kTOuSSDCiLasqckZrqXIORTywo65heqUCbF/H8qT/9QW6z
-	 IMPYzJ4q/NfxWYn6OYmITbb5ZsyDpCBXIQ1wrTTkbkM6sQgiAiZ/nGQGhU67RknzTm
-	 N0WhsAF4BGF02s7zEEAwDxanV3Ac6ynKYapWOQAe0JQ5eSMDvSeoGRvCHDn5EbbgYE
-	 5aYLv7PBoplGmFrEMamBoY0nL1te4lK6Hq4fLF+6ociv1IMr8JZnUtBVxCIJHxXIcl
-	 xasxyDiQmSfyA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 4BCD1D8C978;
-	Sat, 20 Jan 2024 21:09:59 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1705841811; c=relaxed/simple;
+	bh=krG9LXAznvLj3HPa2eHD/ERGmtdaJKuLzRsIybPzik0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QG1JIQJqNly+Sz7kPLymxd/OX4Y2nDsgGw2QCy5dv0vPLofd3CsZOGyReB/7LzmpmTAmjvUlUvCnaWAljMuoehF+HeZmSw48tHZEYXXXs8k/hhR3NE0l+T/8/gMu7rt5pRE6sfaOM6w2sYxtXZzxYK9/wCI9oWNX35PmjPWstbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DBpyWGfb; arc=none smtp.client-ip=192.55.52.93
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1705841810; x=1737377810;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=krG9LXAznvLj3HPa2eHD/ERGmtdaJKuLzRsIybPzik0=;
+  b=DBpyWGfbaVvuay5XWDjZRyG7/cSkLwd5cNfEENYh3SMuS7JWjiVpXkj3
+   +ZKHTgpg+89fUP4PmQXgxLNHYrL6Z10INEfCxyLo8ALk/C1NwZuGty2YR
+   pL2h3FMi4DR124+od7hWW3KP6WMQxJ2A8WNl/TnzgFIIUsJFRNsGKeVJ/
+   b4lVPB3/bYgb1faTWu+IEdCxfS68rBtAliaG6KblRDVO564T9Qpo4TTdn
+   rVo+vjHcvZJFeMwb01caDohRGzLZqMDqN2vEOKpTwz/jIV5ll/mzvGE80
+   c513jFbUTiTomGnVut9mAGPRq/ny6xqIXLN/gK1pZr/WCreCpYcHzseVs
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10959"; a="398185482"
+X-IronPort-AV: E=Sophos;i="6.05,209,1701158400"; 
+   d="scan'208";a="398185482"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2024 04:56:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10959"; a="875746396"
+X-IronPort-AV: E=Sophos;i="6.05,209,1701158400"; 
+   d="scan'208";a="875746396"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by FMSMGA003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2024 04:56:46 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1rRX8j-0000000Fcgz-2pRz;
+	Sun, 21 Jan 2024 14:41:29 +0200
+Date: Sun, 21 Jan 2024 14:41:29 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: =?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>
+Cc: Tzung-Bi Shih <tzungbi@kernel.org>, kernel@collabora.com,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Abhijit Gangurde <abhijit.gangurde@amd.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Nipun Gupta <nipun.gupta@amd.com>,
+	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/4] firmware: coreboot: Generate aliases for coreboot
+ modules
+Message-ID: <Za0Q-em5R2_9cX7q@smile.fi.intel.com>
+References: <20240111151226.842603-1-nfraprado@collabora.com>
+ <20240111151226.842603-3-nfraprado@collabora.com>
+ <ZaQU_QqGXwkSgU_Y@smile.fi.intel.com>
+ <49b42da1-a74b-433c-b018-0742f850f680@notapiano>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2] riscv: add dependency among Image(.gz), loader(.bin),
- and vmlinuz.efi
-From: patchwork-bot+linux-riscv@kernel.org
-Message-Id: 
- <170578499930.24348.3965347675241435191.git-patchwork-notify@kernel.org>
-Date: Sat, 20 Jan 2024 21:09:59 +0000
-References: <20231119100024.2370992-1-masahiroy@kernel.org>
-In-Reply-To: <20231119100024.2370992-1-masahiroy@kernel.org>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-riscv@lists.infradead.org, paul.walmsley@sifive.com,
- palmer@dabbelt.com, aou@eecs.berkeley.edu, linux-kernel@vger.kernel.org,
- linux-kbuild@vger.kernel.org, ardb@kernel.org, sjg@chromium.org
+In-Reply-To: <49b42da1-a74b-433c-b018-0742f850f680@notapiano>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Hello:
+On Wed, Jan 17, 2024 at 09:53:23AM -0300, Nícolas F. R. A. Prado wrote:
+> On Sun, Jan 14, 2024 at 07:08:13PM +0200, Andy Shevchenko wrote:
+> > On Thu, Jan 11, 2024 at 12:11:47PM -0300, Nícolas F. R. A. Prado wrote:
+> > > Generate aliases for coreboot modules to allow automatic module probing.
 
-This patch was applied to riscv/linux.git (fixes)
-by Palmer Dabbelt <palmer@rivosinc.com>:
+...
 
-On Sun, 19 Nov 2023 19:00:24 +0900 you wrote:
-> A common issue in Makefile is a race in parallel building.
+> > > +/**
+> > > + * struct coreboot_device_id - Identifies a coreboot table entry
+> > > + * @tag: tag ID
+> > > + */
+> > > +struct coreboot_device_id {
+> > > +	__u32 tag;
+> > > +};
+> > 
+> > Don't you want to have a driver data or so associated with this?
 > 
-> You need to be careful to prevent multiple threads from writing to the
-> same file simultaneously.
-> 
-> Commit 3939f3345050 ("ARM: 8418/1: add boot image dependencies to not
-> generate invalid images") addressed such a bad scenario.
-> 
-> [...]
+> There's no need for it currently in any driver. This struct is being created
+> simply to allow auto modprobe. So it seems reasonable to leave it out and add it
+> later when/if needed.
 
-Here is the summary with links:
-  - [v2] riscv: add dependency among Image(.gz), loader(.bin), and vmlinuz.efi
-    https://git.kernel.org/riscv/c/c4db7ff7a9ed
+The problem is that you introduce a kinda ABI here, how do you handle this later?
 
-You are awesome, thank you!
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+With Best Regards,
+Andy Shevchenko
 
 
 
