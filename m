@@ -1,101 +1,99 @@
-Return-Path: <linux-kbuild+bounces-618-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-619-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CDC283647E
-	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Jan 2024 14:34:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC28283652E
+	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Jan 2024 15:12:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 709BD1C21005
-	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Jan 2024 13:34:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E8F641C21C8E
+	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Jan 2024 14:12:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 010733CF63;
-	Mon, 22 Jan 2024 13:34:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6D023D387;
+	Mon, 22 Jan 2024 14:12:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="VAn/Wbtl";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="l4dpU6qq"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from out30-110.freemail.mail.aliyun.com (out30-110.freemail.mail.aliyun.com [115.124.30.110])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 343763D0A1;
-	Mon, 22 Jan 2024 13:34:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.110
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62C3E3D0C9;
+	Mon, 22 Jan 2024 14:12:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705930453; cv=none; b=MTvsTQruAgAZWjMLTXMeyEyXaz5A2e7/JyED5uUfsLpm78AyZ8xdUBslyykHWxwZgvitqNs7l6j3ak0oNyBU54SWltDpoLt25olXNO1lhiRvtshl5ev0NJ3+RgK6A5CQAyh/kryZoWBPq2ma3gKR+OzIB0Eo22loRnUe32eZOvY=
+	t=1705932728; cv=none; b=X/9qzKUaXf+5rL5i5sixKv6DKGzTTKCtd39wDgs7GHM5krHvn3XT4F5NpP6CY3apUSdW9uWWne0A8VyBrLChBIs/0dBVKEQjkjE0SrrRc77IQ8yGOre7sCXLkMofKGiIWj3WTgfX1qUoNzzJSa7F8xmozmxXjh5KZ1EB6zO46rI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705930453; c=relaxed/simple;
-	bh=nrhXgeUYKdwjzvb9v5T6b0okthObDexHCxzaKGYihZY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=vC5sSwUTL1Jv3H9cu6PVP7gm2NAAgnUhcV7yHzKAhihLqpN5kcRlC3FXABkBvXNQ7hEvxZG9mNAWdIO8/oBx2eAE9SFOSA8D3DjKSfVZxC+wuEAwakJja4LUMhNVjQIWSg0L+LZ6T7iZ80rhjVzjihGsZztzdGBF7e0rhUTtFvc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; arc=none smtp.client-ip=115.124.30.110
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R161e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046050;MF=jefflexu@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0W.9YBSO_1705930441;
-Received: from 30.221.145.129(mailfrom:jefflexu@linux.alibaba.com fp:SMTPD_---0W.9YBSO_1705930441)
-          by smtp.aliyun-inc.com;
-          Mon, 22 Jan 2024 21:34:02 +0800
-Message-ID: <d953b39c-94ea-43af-9ca6-19630ead6c87@linux.alibaba.com>
-Date: Mon, 22 Jan 2024 21:34:00 +0800
+	s=arc-20240116; t=1705932728; c=relaxed/simple;
+	bh=1FgSBCt8MGeNgIiZjDNRRNW3t32Gf8a5iOJcBW3pu2U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kKPKyxdqTnJlrC6dXbShLVJ3qM/251cbXwj0Ay/uEzDFX8zk5kqoslbb8Xb/5+Cfp1Ql5+uXe3M/RMjMqe5W/YKiLAsqD85teECN8dkeQ9f0ZtCMnYEas7F1HV7jMw0fvj0AwH8WCcaGNIZYQFotAg+U9mrLSaJ7+DYHdrFzVgI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=VAn/Wbtl; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=l4dpU6qq; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Date: Mon, 22 Jan 2024 15:12:03 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1705932725;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1FgSBCt8MGeNgIiZjDNRRNW3t32Gf8a5iOJcBW3pu2U=;
+	b=VAn/Wbtllja7Cb8dL8rDv+MCQW8iMWLsAvcH0o8TF4VBsOeajiEnekeUP6t9KId7suVGn/
+	cWFAcf8VB5zeiB5i3YR2CFvaohqUXeWtru9SHrp1pOMpZR5Z/fRwjpXfQB49LqknTQ30v5
+	tiGxP6Bft1ObRJVm6yWMcTomg5y133ozkotsY2F1oM2P3cjsY9yzYgBsQ3fVN56C0kiNuH
+	1glGi8ABd+RmdqO2Pw2uI/h0fjD4PfDjV+6GryMx4g4kmRheJMe+AtikpP8ZIyTx322axQ
+	kiqDqgom7WGhSgr6xVsJk17piADCnXaZ+g1rWX/io0sDQDmV/I7eRH9holtblA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1705932725;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1FgSBCt8MGeNgIiZjDNRRNW3t32Gf8a5iOJcBW3pu2U=;
+	b=l4dpU6qqZkC7kAGMhLlninKdAaGtv1RzLQoAyhcSE4PBWEKxYpERziD9VTsZUZiij95Sj3
+	bahdfQiZHM5lAhAg==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, Nicolas Schier <n.schier@avm.de>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Nicolas Schier <nicolas@fjasle.eu>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] kbuild: resolve symlinks for O= properly
+Message-ID: <20240122141203.CWe3n5rG@linutronix.de>
+References: <20231215160637.842748-1-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [MAYBE REGRESSION] kbuild time of kernel compiling
-Content-Language: en-US
-To: Linux regressions mailing list <regressions@lists.linux.dev>,
- linux-kbuild@vger.kernel.org, masahiroy@kernel.org, nathan@kernel.org,
- ndesaulniers@google.com, nicolas@fjasle.eu
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <be1abcda-4cf0-4441-9a27-831eaef28f2e@linux.alibaba.com>
- <5ae01623-3f0f-4c19-bf5e-29e39e9e9349@leemhuis.info>
-From: Jingbo Xu <jefflexu@linux.alibaba.com>
-In-Reply-To: <5ae01623-3f0f-4c19-bf5e-29e39e9e9349@leemhuis.info>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20231215160637.842748-1-masahiroy@kernel.org>
 
+On 2023-12-16 01:06:37 [+0900], Masahiro Yamada wrote:
+=E2=80=A6
+> Using the physical directory structure for the O=3D option seems more
+> reasonable.
+>=20
+> The comment says "expand a shell special character '~'", but it has
+> already been expanded to the home directory in the command line.
 
+It might have been expanded, it might have not been expanded. Having a
+shell script:
+| #!/bin/sh
+|=20
+| exec make O=3D~/scratch/mk-check defconfig
 
-On 1/22/24 6:50 PM, Linux regression tracking (Thorsten Leemhuis) wrote:
-> On 22.01.24 09:32, Jingbo Xu wrote:
->>
->> I noticed a regression of kbuild time in v6.7, especially when running
->> `make` command when all images have already been compiled.  In v6.6 it
->> takes ~3s, while in v6.7 it takes ~18s.
->>
->> I'm not sure if it's a known issue, or an extra action configurable with
->> a "CONFIG_XX" option.
->> [...]
-> 
-> Not my area of expertise, so take this with a gain of salt, as I might
-> mislead you. Nevertheless:
-> 
-> One problem with compile times in 6.7 was noticed and fixed in mainline;
-> I wonder if that is the same issue as yours:
-> 
-> https://lore.kernel.org/lkml/18c6df0d-45ed-450c-9eda-95160a2bbb8e@gmail.com/
-> https://git.kernel.org/torvalds/c/31e97d7c9ae3de072d7b424b2cf706a03ec10720
-> 
-> I think there was another issue, but can't remember it from the top of
-> my head. Maybe simply checking if 6.8-rc1 fixes things might be the best.
+with bin/sh =3D dash results in:
 
-Yeah this issue doesn't reproduce anymore after pulling 6.8-rc1.  I
-didn't test the latest 6.8-rc1 as our internal mirror repo is one day
-later than the upstream, while my machine can not connect to github at
-the time...
+| make[1]: Entering directory '/home/bigeasy/linux/~/scratch/mk-check'
 
-Anyway thanks for the feedback and sorry for the noise.
+while bin/sh =3D bash expands the ~ properly before for O=3D. Would it be
+too much to ask, to expand the ~?
 
-
-> 
-> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
-> --
-> Everything you wanna know about Linux kernel regression tracking:
-> https://linux-regtracking.leemhuis.info/about/#tldr
-> If I did something stupid, please tell me, as explained on that page.
-
--- 
-Thanks,
-Jingbo
+Sebastian
 
