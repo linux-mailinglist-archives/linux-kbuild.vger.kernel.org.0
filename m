@@ -1,67 +1,61 @@
-Return-Path: <linux-kbuild+bounces-621-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-622-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2074D836879
-	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Jan 2024 16:37:46 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08D21836BD8
+	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Jan 2024 17:53:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1BC2FB2C5E8
-	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Jan 2024 15:37:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3C4AA1C25568
+	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Jan 2024 16:53:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FA56612C2;
-	Mon, 22 Jan 2024 15:05:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2D975C5E1;
+	Mon, 22 Jan 2024 15:27:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="C7NokoDs";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="0KB++GBe"
+	dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b="tcY4AH31"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.avm.de (mail.avm.de [212.42.244.94])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9C3060EDB;
-	Mon, 22 Jan 2024 15:05:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF8DF45C1D;
+	Mon, 22 Jan 2024 15:27:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.94
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705935906; cv=none; b=QZSdotcSettGxpDt8Q6e+VxMPaY8vQkA6ya1KJSg1juNfH7VwMQFU5jaRMYnCCM0DX8Ck7m8LOW3OtsEO5E6qMw8NSIbtK5m47Jm2iL+pHgCeS4Ei6+vGVWpBiINhmQlIfeup/MLWwIPU9XCYgKxQ7xbR3SopJDCwagGYALsEXU=
+	t=1705937224; cv=none; b=dgnI1KXLKI+78ZxlkUQTRtkEg/rbUf2FPP+rdQ0LjxXb3/JZbNT3RJ29+tmHsSoPg8qSCFne4alIEPpCFbbcR7rf337ifbIPSLT+4LhphUZlGwwnZ1gUYvEF1uqmxqY6cBJPIWKpQKaf+RSh4h6CQ7hIxkG4kH4LgW1EqBLulrc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705935906; c=relaxed/simple;
-	bh=O2ymWPku5NfSvCY6cxMFSE4QNpkEPBlZ/ZY2nCddZrc=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l5lLulxmJESLbEr0eTs3hLLT3wI6Sq42MSFxH2k5eNxFRSybQp6e2GhXmT3FgBdrzvpqWuy4X9XrBwTkVaiawiGWipuRbbmrrn5VXxDeZaMqnLyFLO/KRhuGZu2HcJLsn4t+XQwieU9X+SfQutTcirgArKoo+lkZXDrkPCy4eWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=C7NokoDs; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=0KB++GBe; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Date: Mon, 22 Jan 2024 16:05:01 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1705935902;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dbDHLmWEZUt1XATg4KN9+ebNsHN0XH+rmUPOoAgDRaA=;
-	b=C7NokoDsbokdQ2iINmvwvKm3aLyK3jiQiM8DR1/r0YW6KM07+u3t0iJvmXMAYTd8//74Fy
-	0ML2QpU0lfgwRZf671rE8DvYSMMm7TWvB7DJOg+n0P4z8dD4zp76EQVehQ//507dDuDlwQ
-	il5I2McNQaHehdYXkwiQ5GbAIQX1AwPHK93Ere9mQ32EY6OgFrS95mbCKt+wVDpwfSQ2bt
-	KJ3ls5mlaoUMDRbBUto8NKHwS9WW8Lel2QglHNJM4PmcdDgZYCceQHBVlKAOidHzi1dmm2
-	4oAZj8KnvHk3jwAshSFWn4WN2Qjik+Wz8Ei2V/rpqkmGSwQiNKtIoTCvn9BdSw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1705935902;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dbDHLmWEZUt1XATg4KN9+ebNsHN0XH+rmUPOoAgDRaA=;
-	b=0KB++GBeFHR4JGvd1OeLwqSDL82F5aiQmwtfJpunj7F+NJ2AXVNJ1R9TxIXT9DY7+iGkAb
-	BC5qOPWjp1x/hZDg==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
+	s=arc-20240116; t=1705937224; c=relaxed/simple;
+	bh=so6w8jo3TAjooF3TquLIvs/Q6XZUZG2iMmO/hGMBKUw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Tq9MR8OJLId/udDzf/HuGQxTq1BOpSjLIc1lh30VGVn7aXaLqyPv3o7UdiYrN6T8zB1+79mQ05CGn2iuR+Mnl71je3Un+lt9+hCHcEFSgUGqr32VzGRB+7p/ltNLsycrWEE8xBYH1KZwJg9TZBukpN3qVHiQCBXcj/W/CP26cwc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de; spf=pass smtp.mailfrom=avm.de; dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b=tcY4AH31; arc=none smtp.client-ip=212.42.244.94
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=avm.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
+	t=1705936857; bh=so6w8jo3TAjooF3TquLIvs/Q6XZUZG2iMmO/hGMBKUw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tcY4AH31dZ4FSmLf9HHI6c+fAFLcKFbMqSUMF4ER9ItFtCVn3k+Je7AMIu1ogUkFR
+	 YzKaaRWu5JhgFtUFCY0VagtU4yBZ2L6Yz0rZjC19zs2al9IeYIoVUDVYzJl8GROWAN
+	 PNdqZMu9t+0h1k+szjvUg3TOEGEUpEU4lfrZfuhE=
+Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [212.42.244.71])
+	by mail.avm.de (Postfix) with ESMTPS;
+	Mon, 22 Jan 2024 16:20:57 +0100 (CET)
+Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
+	by mail-auth.avm.de (Postfix) with ESMTPA id DD5F38029A;
+	Mon, 22 Jan 2024 16:20:56 +0100 (CET)
+Received: by buildd.core.avm.de (Postfix, from userid 1000)
+	id D185A180D58; Mon, 22 Jan 2024 16:20:56 +0100 (CET)
+Date: Mon, 22 Jan 2024 16:20:56 +0100
+From: Nicolas Schier <n.schier@avm.de>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] kbuild: resolve symlinks for O= properly
-Message-ID: <20240122150501.qCO5PPG6@linutronix.de>
-References: <20231215160637.842748-1-masahiroy@kernel.org>
- <20240122141203.CWe3n5rG@linutronix.de>
- <Za6C2w0QIZDayA48@buildd.core.avm.de>
+Subject: Re: [PATCH] kbuild: fix W= flags in the help message
+Message-ID: <Za6H2NfODGU419hX@buildd.core.avm.de>
+Mail-Followup-To: Masahiro Yamada <masahiroy@kernel.org>,
+	linux-kbuild@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
+	linux-kernel@vger.kernel.org
+References: <20240120083255.2757978-1-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -70,21 +64,37 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Za6C2w0QIZDayA48@buildd.core.avm.de>
+In-Reply-To: <20240120083255.2757978-1-masahiroy@kernel.org>
+Organization: AVM GmbH
+X-purgate-ID: 149429::1705936857-38F2AF3F-4CD55A5D/0/0
+X-purgate-type: clean
+X-purgate-size: 952
+X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
+X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
+X-purgate: clean
 
-On 2024-01-22 15:59:37 [+0100], Nicolas Schier wrote:
-> Expanding tilde expandos is traditionally a shell feature, as you
-> already mentioned; and bash supports also expandos like '~+' and '~-'.
-> I think, we should leave the shell things in shells.
+On Sat, Jan 20, 2024 at 05:32:55PM +0900, Masahiro Yamada wrote:
+> W=c and W=e are supported.
 > 
-> Thus, please update your shell scripts to be compliant to their
-> interpreting shell (e.g. use '$HOME' or switch the shell).
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+> 
+>  Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Makefile b/Makefile
+> index f288eb2dc8fd..8c6a935c62e6 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -1653,7 +1653,7 @@ help:
+>  	@echo  '                       (sparse by default)'
+>  	@echo  '  make C=2   [targets] Force check of all c source with $$CHECK'
+>  	@echo  '  make RECORDMCOUNT_WARN=1 [targets] Warn about ignored mcount sections'
+> -	@echo  '  make W=n   [targets] Enable extra build checks, n=1,2,3 where'
+> +	@echo  '  make W=n   [targets] Enable extra build checks, n=1,2,3,c,e where'
 
-I reported that this change silently broke dash users. If you accept
-this then you could acknowledge it instead of suggesting workarounds.
+In the top of scripts/Makefile.extrawarn we have kind of a duplication
+of this description.  Might you want to update that too?
 
-> Kind regards,
-> Nicolas
-
-Sebastian
+Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
 
