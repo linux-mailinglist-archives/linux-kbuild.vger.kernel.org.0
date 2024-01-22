@@ -1,97 +1,92 @@
-Return-Path: <linux-kbuild+bounces-624-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-625-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91933836C80
-	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Jan 2024 18:07:50 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0932F836D99
+	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Jan 2024 18:35:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4A670286FC4
-	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Jan 2024 17:07:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2CC051C27AB1
+	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Jan 2024 17:35:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2560D4A9B2;
-	Mon, 22 Jan 2024 15:53:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VjBj6HWP"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E114F3FE22;
+	Mon, 22 Jan 2024 16:46:02 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEA733DB97
-	for <linux-kbuild@vger.kernel.org>; Mon, 22 Jan 2024 15:53:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C09E3FB36
+	for <linux-kbuild@vger.kernel.org>; Mon, 22 Jan 2024 16:46:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.58.85.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705938808; cv=none; b=uwbJhf0rZDPqNKTH3foWhs2Qb2yeMlVP4IKBVyYeTF0NmadXViRd8Nktn21OK+suXVZDw1eWx8M+6EkYFX18DOvFbBn3yWmZ3YrxtvwkUEWfuRsitQwPeJcS3aJwU18gCqaqbkxat0JBHOLGEt0nNuCPuXf43oQZAMJ+M7Xbztc=
+	t=1705941962; cv=none; b=s2b8znyXaHgsQGMJK5CI/dlKTpkxZdSifH7D6ACGu1sX4sZVvqFQ4r86Paxhska30ZxfigT7gNiQYlv+qrtDdJSrmEi5P39vmJuYadSXGhXJKX42bS7A/pYsvWA5uy2QenxWWBZrqVUzWeEM6tlQWHVcFw5MEgZLzOgwpwDMRio=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705938808; c=relaxed/simple;
-	bh=z9ec84LTNQxrzMH3mbPk9MiChnTFnB/bKKQmPAxhz7c=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aO/TyT+Kw77jQOwKypD5zwKchGyQRH6+H2rin2Ke6iseq9aN0qReQDjy30Lff0pMCFOCxVJDFdr5zIblaz/yi0YBBETMnvuuia/UcvhfNUdMsQtvoAbH+tR+QKbB5A3nrLcC7uYmNlp54cBU/MNSLFaXyV9MoBeeTLKk6OHRf8A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=VjBj6HWP; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1705938805;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=z9ec84LTNQxrzMH3mbPk9MiChnTFnB/bKKQmPAxhz7c=;
-	b=VjBj6HWPIqmCslhO5WwYx2eehEwcXKGktuilfTYiStrklvMnUinNZOeAa56szrCe73zqpv
-	xEBZtjJo+G+HNa0C7LTV7LgvJDZC0Ayywccv+HzXPNLWy6zXqFRFC7YAiUlAN9p2S/Tgyd
-	9hor6yEA4KKjxd81QKDAWX+8Z2aWmxc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-599-JWOpoJGAP6W7FtoNqXo_0Q-1; Mon, 22 Jan 2024 10:53:22 -0500
-X-MC-Unique: JWOpoJGAP6W7FtoNqXo_0Q-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C5C5186D4D4;
-	Mon, 22 Jan 2024 15:53:21 +0000 (UTC)
-Received: from fedora.redhat.com (unknown [10.39.192.175])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 52EC85012;
-	Mon, 22 Jan 2024 15:53:19 +0000 (UTC)
-From: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
-To: masahiroy@kernel.org
-Cc: dcavalca@meta.com,
-	jtornosm@redhat.com,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	nathan@kernel.org,
-	ndesaulniers@google.com,
-	nicolas@fjasle.eu,
-	stable@vger.kernel.org
-Subject: Re: [PATCH V5 2/2] rpm-pkg: avoid install/remove the running kernel
-Date: Mon, 22 Jan 2024 16:53:15 +0100
-Message-ID: <20240122155318.13848-1-jtornosm@redhat.com>
-In-Reply-To: <CAK7LNARNgp_oYWf69tw4+y0SMp=Hi2rixAt5h8R5=GaMkQLQYA@mail.gmail.com>
-References: <CAK7LNARNgp_oYWf69tw4+y0SMp=Hi2rixAt5h8R5=GaMkQLQYA@mail.gmail.com>
+	s=arc-20240116; t=1705941962; c=relaxed/simple;
+	bh=gcPAmJ/o9zUtdqLsY/Tjlmu+cUIHMU0vi/3Ay7F7shM=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 MIME-Version:Content-Type; b=rkmcry5cTjnU8Ip6hRxqor9bOC7qccLi/C8Cw7AnF3/7Psyg9rKJrdFqTJX1dhsCzPunrEnXpSAomI1toYcV96HRkUiUZ+w2KTfHx/tEKGGSDEG8G5RxG7VhbWnqV8I6TZn8GHsutdX0TYo88sJ/Xns5BKu99gvAK4PdqlJTp3c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM; spf=pass smtp.mailfrom=aculab.com; arc=none smtp.client-ip=185.58.85.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aculab.com
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-116-5Q1bPtriN321TrRrMxTU7w-1; Mon, 22 Jan 2024 16:45:58 +0000
+X-MC-Unique: 5Q1bPtriN321TrRrMxTU7w-1
+Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
+ (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Mon, 22 Jan
+ 2024 16:45:31 +0000
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.048; Mon, 22 Jan 2024 16:45:31 +0000
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Sebastian Andrzej Siewior' <bigeasy@linutronix.de>, Masahiro Yamada
+	<masahiroy@kernel.org>
+CC: "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>, "Nicolas
+ Schier" <n.schier@avm.de>, Nathan Chancellor <nathan@kernel.org>, "Nick
+ Desaulniers" <ndesaulniers@google.com>, Nicolas Schier <nicolas@fjasle.eu>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v2] kbuild: resolve symlinks for O= properly
+Thread-Topic: [PATCH v2] kbuild: resolve symlinks for O= properly
+Thread-Index: AQHaTTz0QSoqy4Fux0m2l+xPqKe3drDmCgHw
+Date: Mon, 22 Jan 2024 16:45:31 +0000
+Message-ID: <6c9e46e44215461b83e9e351cd1c760a@AcuMS.aculab.com>
+References: <20231215160637.842748-1-masahiroy@kernel.org>
+ <20240122141203.CWe3n5rG@linutronix.de>
+In-Reply-To: <20240122141203.CWe3n5rG@linutronix.de>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.5
+Content-Transfer-Encoding: base64
 
-> You can proceed with 'rpm -i --force', but
-> that is the user's responsibility if something bad happens.
-
-> No, not OK.
-Ok, understood and maybe it is interesting for the user.
-Indeed, zypper tool from openSUSE can be configured to protect the running
-kernel as dnf.
-I drop this patch.
-
-Thanks
-
-Best regards
-José Ignacio
+RnJvbTogU2ViYXN0aWFuIEFuZHJ6ZWogU2lld2lvcg0KPiBTZW50OiAyMiBKYW51YXJ5IDIwMjQg
+MTQ6MTINCj4gDQo+IE9uIDIwMjMtMTItMTYgMDE6MDY6MzcgWyswOTAwXSwgTWFzYWhpcm8gWWFt
+YWRhIHdyb3RlOg0KPiDigKYNCj4gPiBVc2luZyB0aGUgcGh5c2ljYWwgZGlyZWN0b3J5IHN0cnVj
+dHVyZSBmb3IgdGhlIE89IG9wdGlvbiBzZWVtcyBtb3JlDQo+ID4gcmVhc29uYWJsZS4NCj4gPg0K
+PiA+IFRoZSBjb21tZW50IHNheXMgImV4cGFuZCBhIHNoZWxsIHNwZWNpYWwgY2hhcmFjdGVyICd+
+JyIsIGJ1dCBpdCBoYXMNCj4gPiBhbHJlYWR5IGJlZW4gZXhwYW5kZWQgdG8gdGhlIGhvbWUgZGly
+ZWN0b3J5IGluIHRoZSBjb21tYW5kIGxpbmUuDQo+IA0KPiBJdCBtaWdodCBoYXZlIGJlZW4gZXhw
+YW5kZWQsIGl0IG1pZ2h0IGhhdmUgbm90IGJlZW4gZXhwYW5kZWQuIEhhdmluZyBhDQo+IHNoZWxs
+IHNjcmlwdDoNCj4gfCAjIS9iaW4vc2gNCj4gfA0KPiB8IGV4ZWMgbWFrZSBPPX4vc2NyYXRjaC9t
+ay1jaGVjayBkZWZjb25maWcNCj4gDQo+IHdpdGggYmluL3NoID0gZGFzaCByZXN1bHRzIGluOg0K
+PiANCj4gfCBtYWtlWzFdOiBFbnRlcmluZyBkaXJlY3RvcnkgJy9ob21lL2JpZ2Vhc3kvbGludXgv
+fi9zY3JhdGNoL21rLWNoZWNrJw0KPiANCj4gd2hpbGUgYmluL3NoID0gYmFzaCBleHBhbmRzIHRo
+ZSB+IHByb3Blcmx5IGJlZm9yZSBmb3IgTz0uIFdvdWxkIGl0IGJlDQo+IHRvbyBtdWNoIHRvIGFz
+aywgdG8gZXhwYW5kIHRoZSB+Pw0KDQpSYWlzZSBhIGJ1ZyBvbiBkYXNoLi4uDQoNCk9yIHNwbGl0
+IHRoZSBsaW5lczoNCk89fi94eHh4DQptYWtlIE89IiRPIiAuLi4NCg0KCURhdmlkDQoNCi0NClJl
+Z2lzdGVyZWQgQWRkcmVzcyBMYWtlc2lkZSwgQnJhbWxleSBSb2FkLCBNb3VudCBGYXJtLCBNaWx0
+b24gS2V5bmVzLCBNSzEgMVBULCBVSw0KUmVnaXN0cmF0aW9uIE5vOiAxMzk3Mzg2IChXYWxlcykN
+Cg==
 
 
