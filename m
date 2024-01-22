@@ -1,174 +1,178 @@
-Return-Path: <linux-kbuild+bounces-616-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-617-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 786B683632A
-	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Jan 2024 13:26:00 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D48B83647A
+	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Jan 2024 14:30:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6E77EB26019
-	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Jan 2024 12:24:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 136321F21F5F
+	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Jan 2024 13:30:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 721F73BB30;
-	Mon, 22 Jan 2024 12:22:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 278BB3CF7C;
+	Mon, 22 Jan 2024 13:30:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TRNzik+5"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NwjTQEET"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C6743B290;
-	Mon, 22 Jan 2024 12:22:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 013393CF74;
+	Mon, 22 Jan 2024 13:30:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705926144; cv=none; b=siiqDzHTycOhBWxcxQqQbJb5LonlPZB5XdNBHfSS9NzTi2wWPnTUKGd0hyDUWCLRRA49pLmVKs4bcT+QhEsfdYl3I0++CjYKJ+RA6WPKNU4BfaQpAFkfadUyoM4WuQ4SIDjkFfJp/zlVpctZ2RcTsRVQM8QiUatnpM530VgXdHI=
+	t=1705930210; cv=none; b=uzzQ0kLjDmGox+mk5gapb3wVRrFXECmc2ex4XF3lQzhynJmZ37exRPN2ELIV3zZbAmJ8a8HyoXp0DCh7jEP4i2LN9L9qEaGypc0MN46gPpOqN8/pRmZsDZ4Lq4FTR526kzKA7W2WOLYDciIxo1iZJ7BAwGH3obkkz7DvTf4Ix70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705926144; c=relaxed/simple;
-	bh=3FFt8SSpVUT/GHTKltUwl1wgL2n2OngX2hrrhAwjZps=;
+	s=arc-20240116; t=1705930210; c=relaxed/simple;
+	bh=4A96w+cR55kul34CYotNgJL0RvYxGwYFawLwerjklIY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MMnNCf+8jqj63e+Z1FfTbJajfWe3/g5sCe5Yz5Uh7yUbSv717OVU7WFHkmP3+yH9sFD0jaIr8ceXOzXkqyBU28rT2r1fmtEWtg4iD2vwJsVUopZqe0AwRhquJJPbg2i+2Y1ylnWJuY60uaYMnuhtKNLQ2wfk48DG/ixB7OTVHpU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TRNzik+5; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C534CC43390;
-	Mon, 22 Jan 2024 12:22:23 +0000 (UTC)
+	 To:Cc:Content-Type; b=M4Y4GoVG1tY8r4ffHUkDW49oRCl6VQCNH4IHmHciAyY8g5nlizFpdH08i8KPAEUfOLha5cK+2b8GhanvuVobLb2Qtht9Y/U+vAuuIlr7pvmEQV1MLBC1J2w8M3BJYhx63oGOw3c2gI9t2pIx3CzHzUW/H8QOpvttTelH3yJ34IU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NwjTQEET; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E89FC43390;
+	Mon, 22 Jan 2024 13:30:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705926143;
-	bh=3FFt8SSpVUT/GHTKltUwl1wgL2n2OngX2hrrhAwjZps=;
+	s=k20201202; t=1705930209;
+	bh=4A96w+cR55kul34CYotNgJL0RvYxGwYFawLwerjklIY=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=TRNzik+5Fsp1kUhZwA4nbRBPfN00Jip/FSBBp4lQKE0ud0pSjazwIARwe19RTfMtk
-	 KuT3QGmeZGE6M5WmT6zmG9UJJz2c25BWULeXdLLXt7/WxRiZAiPDx6wtPv95I9+ZwR
-	 ctREPM14caIVHwDDD0YFy+ma83qVvlGpVHqCkwki48r099J05ngNauCh8ZiImnVxID
-	 qPhPAHWfjBh8vIHrYXn5RqunY0P+dXzQk8UC5IZPzRBzHuGjOVqM3xzZLh9w9jG/47
-	 XEpLYfyu+MWaOV9CZPgJADv4nXksOwP8QFYZq7RMTUA+91SdyidR1diDRfmiY6+cyG
-	 fEvtO3xu8lx4g==
-Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-6e0e99adb3bso701435a34.3;
-        Mon, 22 Jan 2024 04:22:23 -0800 (PST)
-X-Gm-Message-State: AOJu0Yxr9stM1AVxgqFohSH+EWiNB5mRJnJguuf1lM4cLRe10nI+MYuJ
-	m1juGR99HX2cMLjCu+1+spf7ydzDHuqC/V87AlO3YiySv+UdhX3GQrF+rEGLqEFVIbyi1o0gYlC
-	f2Ioy/jR9uohLPu9759yq66Kjf9k=
-X-Google-Smtp-Source: AGHT+IFnNAe3IguRgQdsiUA9LkC30HR7r3lHg+/oSBbAnsi0vW7h+GN1Qy+y+Ku72f6/QvbQpW99t/9BtlrE06lkX44=
-X-Received: by 2002:a05:6870:96aa:b0:205:fd5a:9ca0 with SMTP id
- o42-20020a05687096aa00b00205fd5a9ca0mr1957281oaq.73.1705926143200; Mon, 22
- Jan 2024 04:22:23 -0800 (PST)
+	b=NwjTQEETO+/6HPaYF2F3ycrYsC4xNzT1rXT0Qcr7hpKbQjTfxm3nY4SlYOo2q9vOg
+	 Ll3mUDjPoBBm3/7vmwXoQUucNKBSBRN+afHTa64bD9UYA3pf/WCwLlCORbUQbn72hv
+	 /23X5wLkNPGSlv3HI0KQhlQtj8prDlzM3WGFvmohWwnxodQ6gYHO3JijJW8zR8x70K
+	 gnjUMy+K24XbDw8qMZyQLXrgGRVQRE13HIkPFdleWqorT02Tr5KXXx+qo3DtIiDnM4
+	 uPzihnQnPL6yOdPa7bH6fpVMMCXBQmE87OTkB3hvwWyHNUceT0R2LM0kfoHo1BD+7I
+	 ZNuQI1sLF4+tg==
+Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-2108c7829caso975758fac.3;
+        Mon, 22 Jan 2024 05:30:09 -0800 (PST)
+X-Gm-Message-State: AOJu0YyW2iPVNRPswi7JGVrzhFYhXd9rgKx10OpjkNBVwAW2HgnbvQ9u
+	iGuaw+zKQWVPPZg6vlvS+wr5DbOniAdGfbalfaSdEEZ/jJQKlckwjjsrVyXq4B96kyLKSPqDfug
+	9LNBEjt1w44Die07rGZzAa/6fJPw=
+X-Google-Smtp-Source: AGHT+IG3o1mwiOT2MlEY81yj8SVBfdY2+4Wk5uvdd4OM0SFC1IwEY4q7u6DJbEgjqPYhgIhrvdW1SKjMVwf8TKEVntA=
+X-Received: by 2002:a05:6870:a113:b0:20e:1f0c:4354 with SMTP id
+ m19-20020a056870a11300b0020e1f0c4354mr2266067oae.12.1705930208894; Mon, 22
+ Jan 2024 05:30:08 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <be1abcda-4cf0-4441-9a27-831eaef28f2e@linux.alibaba.com>
-In-Reply-To: <be1abcda-4cf0-4441-9a27-831eaef28f2e@linux.alibaba.com>
+References: <d9ac2960-6644-4a87-b5e4-4bfb6e0364a8@aibsd.com>
+In-Reply-To: <d9ac2960-6644-4a87-b5e4-4bfb6e0364a8@aibsd.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Mon, 22 Jan 2024 21:21:46 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQQLP2jmy=mwvi9euFM=YOtKBDOJWQcO4Pr_J=Gtu5MFA@mail.gmail.com>
-Message-ID: <CAK7LNAQQLP2jmy=mwvi9euFM=YOtKBDOJWQcO4Pr_J=Gtu5MFA@mail.gmail.com>
-Subject: Re: [MAYBE REGRESSION] kbuild time of kernel compiling
-To: Jingbo Xu <jefflexu@linux.alibaba.com>
-Cc: linux-kbuild@vger.kernel.org, nathan@kernel.org, ndesaulniers@google.com, 
-	nicolas@fjasle.eu, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Date: Mon, 22 Jan 2024 22:29:32 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATDD2gC53T5n7vCUH6O6mdAm801fTWyKi9fji+5Kb+0ng@mail.gmail.com>
+Message-ID: <CAK7LNATDD2gC53T5n7vCUH6O6mdAm801fTWyKi9fji+5Kb+0ng@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] modpost: inform compilers that fatal() never returns
+To: Aiden Leong <aiden.leong@aibsd.com>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	nathan@kernel.org, ndesaulniers@google.com, nicolas@fjasle.eu, 
+	clang-built-linux <llvm@lists.linux.dev>, 
+	=?UTF-8?B?Ru+/ve+/ve+/vW5nLXJ177+977+977+9IFPvv73vv73vv71uZw==?= <maskray@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 22, 2024 at 5:32=E2=80=AFPM Jingbo Xu <jefflexu@linux.alibaba.c=
-om> wrote:
->
-> Hi,
->
-> I noticed a regression of kbuild time in v6.7, especially when running
-> `make` command when all images have already been compiled.  In v6.6 it
-> takes ~3s, while in v6.7 it takes ~18s.
->
-> I'm not sure if it's a known issue, or an extra action configurable with
-> a "CONFIG_XX" option.
++CC: clang-built-linux list, Fangrui
+
+On Mon, Jan 22, 2024 at 1:04=E2=80=AFPM Aiden Leong <aiden.leong@aibsd.com>=
+ wrote:
 >
 >
-> Following is the kbuild time in v6.6 versus v7.7, with
-> arch/x86/configs/x86_64_defconfig used here:
+>  > The function fatal() never returns because modpost_log() calls exit(1)
 >
+>  > when LOG_FATAL is passed.
+>  >
+>  > Inform compilers of this fact so that unreachable code flow can be
+>  > identified at compile time.
+>  >
+>  > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+>  > Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+>  > ---
+>  >
+>  > Changes in v2:
+>  >   - Use noreturn attribute together with alias
+>  >
+>  >  scripts/mod/modpost.c | 3 +++
+>  >  scripts/mod/modpost.h | 5 ++++-
+>  >  2 files changed, 7 insertions(+), 1 deletion(-)
+>  >
+>  > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+>  > index ca0a90158f85..c13bc9095df3 100644
+>  > --- a/scripts/mod/modpost.c
+>  > +++ b/scripts/mod/modpost.c
+>  > @@ -90,6 +90,9 @@ void modpost_log(enum loglevel loglevel, const char
+> *fmt, ...)
+>  >          error_occurred =3D true;
+>  >  }
+>  >
+>  > +void __attribute__((alias("modpost_log")))
 >
-> v6.6
-> ```
-> make clean
-> make olddefconfig
+> Hi Masahiro,
+> I cross-compile kernel on Apple Silicon MacBook Pro
+> and every thing works well until this patch.
 >
-> # first full compiling
-> $time make bzImage -j128 -s
+> My build command:
+> make ARCH=3Darm CROSS_COMPILE=3Darm-none-eabi- \
+> HOSTCFLAGS=3D"-I/opt/homebrew/opt/openssl/include" \
+> HOSTLDFLAGS=3D"-L/opt/homebrew/opt/openssl/lib"
 >
-> real    1m9.896s
-> user    36m56.153s
-> sys     4m21.748s
->
-> # second time with image already compiled
-> $time make bzImage -j128 -s
->
-> real    0m2.776s
-> user    0m13.823s
-> sys     0m3.936s
-> ```
->
->
-> v6.7
-> ```
-> make clean
-> make olddefconfig
->
-> # first full compiling
-> $time make bzImage -j128 -s
->
-> real    1m22.865s
-> user    37m25.977s
-> sys     4m22.094s
->
-> # second time with image already compiled
-> $time make bzImage -j128 -s
->
-> real    0m18.209s
-> user    0m29.243s
-> sys     0m4.330s
-> ```
->
->
-> I tried to bisect, while commit d4e175f2c460 ("Merge tag 'vfs-6.7.super'
-> of gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs") is identified
-> as the first bad commit, which is obviously wrong.  As I'm not familiar
-> with the structure of the merge commit, the further investigation has
-> not been made yet.
+> Error message:
+> scripts/mod/modpost.c:93:21: error: aliases are not supported on darwin
+
+
+It is unfortunate.  Indeed, I see this message in:
+
+clang/include/clang/Basic/DiagnosticSemaKinds.td
+
+
+Is this limitation due to macOS executable (PEF),
+or is it Clang-specific?
+
+Perhaps, "brew install gcc" can be a solution?
 
 
 
 
-If you use olddefconfig, git-bisect will not produce the correct result.
 
-'make olddefconfig' updates the existing .config.
-The resulting .config depends on what you had
-before running 'make olddefconfig'.
-
-You need to use a deterministic target (e.g. defconfig)
-during the git-bisect.
 
 
 
 
 
 >
+> Aiden Leong
 >
-> Besides, it seems that it will take most of the time before "CALL
-> scripts/checksyscalls.sh" is printed (with "INSTALL libsubcmd_headers"
-> has already printed).
->
-> $time make bzImage -j128
->   DESCEND objtool
->   INSTALL libsubcmd_headers
->
->   CALL    scripts/checksyscalls.sh
->   BUILD   arch/x86/boot/bzImage
-> Kernel: arch/x86/boot/bzImage is ready  (#437)
->
-> --
-> Thanks,
-> Jingbo
->
+>  > +modpost_log_noret(enum loglevel loglevel, const char *fmt, ...);
+>  > +
+>  >  static inline bool strends(const char *str, const char *postfix)
+>  >  {
+>  >      if (strlen(str) < strlen(postfix))
+>  > diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
+>  > index 9fe974dc1a52..835cababf1b0 100644
+>  > --- a/scripts/mod/modpost.h
+>  > +++ b/scripts/mod/modpost.h
+>  > @@ -200,6 +200,9 @@ enum loglevel {
+>  >  void __attribute__((format(printf, 2, 3)))
+>  >  modpost_log(enum loglevel loglevel, const char *fmt, ...);
+>  >
+>  > +void __attribute__((format(printf, 2, 3), noreturn))
+>  > +modpost_log_noret(enum loglevel loglevel, const char *fmt, ...);
+>  > +
+>  >  /*
+>  >   * warn - show the given message, then let modpost continue running,
+> still
+>  >   *        allowing modpost to exit successfully. This should be used
+> when
+>  > @@ -215,4 +218,4 @@ modpost_log(enum loglevel loglevel, const char
+> *fmt, ...);
+>  >   */
+>  >  #define warn(fmt, args...)    modpost_log(LOG_WARN, fmt, ##args)
+>  >  #define error(fmt, args...)    modpost_log(LOG_ERROR, fmt, ##args)
+>  > -#define fatal(fmt, args...)    modpost_log(LOG_FATAL, fmt, ##args)
+>  > +#define fatal(fmt, args...)    modpost_log_noret(LOG_FATAL, fmt, ##ar=
+gs)
+>  > --
+>  > 2.40.1
+
 
 
 --
