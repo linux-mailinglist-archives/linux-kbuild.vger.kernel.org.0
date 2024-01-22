@@ -1,60 +1,60 @@
-Return-Path: <linux-kbuild+bounces-626-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-627-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8731383712E
-	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Jan 2024 19:56:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C114837136
+	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Jan 2024 19:56:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3605B1F27F25
-	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Jan 2024 18:56:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D9E571F22392
+	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Jan 2024 18:56:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2152C4B5C4;
-	Mon, 22 Jan 2024 18:22:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0AFBC4C3CC;
+	Mon, 22 Jan 2024 18:23:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="M9u2NoCl"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="S42M0xr7"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A39B84B5B9
-	for <linux-kbuild@vger.kernel.org>; Mon, 22 Jan 2024 18:22:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5991C4C3D3
+	for <linux-kbuild@vger.kernel.org>; Mon, 22 Jan 2024 18:23:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705947756; cv=none; b=ty7y+YZKDYqKtT1u9QA0YXSf0yRG2gPSRtSfUj/yfjd06aNW9QaTAbGWv3WRHfYjF3uzneEI1aoGn64A1iRqUXg9w7rU4obnyVTOb3GdP0DKCoiRRXmtA8M2b91yl0a6fAOdsfxMYLU7yP5IWdA8yVJWP0XY4/39pePNiJ80RWs=
+	t=1705947786; cv=none; b=Im9x4RQmZf2z46rKd+HrueFL12wJPMMUHIprt86J0vccnUcias4JG3Rd2n+DVuOKL07Wx7UBGPA2URxCz1gZowL7ShRciS/xACZhBsGJjzUidXGl7+0KtH1hNXGs/YACoc+1dH1YKk7QXtf8bzOqzdHo5ZJMCvBZY2fttJyfOiI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705947756; c=relaxed/simple;
-	bh=xYsOp0Tk8CxfErW9ndj/ZZh4AQhtBNipUfa73tFsnSE=;
+	s=arc-20240116; t=1705947786; c=relaxed/simple;
+	bh=MEW5d+779EpaSh3J+cQL13xl8RKqWQdYIyKAMo1f1B0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=k4bISt5HclR7EdIwlpEngbYEoVLVNm17YdN8pHJM3HFOCYrUPGLFbPPqTnoaQQrV0C2/1zFnZnSgQ1XeCgDsObOtx/wrG0DiT3QL2N5hUkUf1U0IjBHd+r2nv/yWxAn9Yzbb1dzoBLiU9hHFAK0UF4RN5ged6aWHLfIXCE0gSUM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=M9u2NoCl; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=YqFR1BMzyEmSmcrcjzXz/87LR9WBeEnPPw2D/Y5RQ781w7oR3LetRIhKLD1e3IOnJsivoquzUeD+eW3ZZfKcUqvWg1Qs3dgfCsGQWRu56CaS9XaHXRZiddJvBTofTHVI0SCi+/sfE4mKkaJWQRFM7ifPJyLhAolMU3gpGgwxD60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=S42M0xr7; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1705947753;
+	s=mimecast20190719; t=1705947784;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=FSO+yMs9xgoj4SVBxKHNNZsz8CFzHKkKh5JTeSlWjgQ=;
-	b=M9u2NoClZ9MYQvWyjsc34ninadYJZ/JuWNgT6PttbhyER7S7jzwAuIOP1PG1W1hvkK6Jkr
-	G6k+sD5bLZU90lj0PORUJq2JKyPj0cf0VVCE8y/cgj8z8ke2ZZ2w9XXsnrmJQfmjwzpzdQ
-	AhJ9nVZ+2QZUBUHP3sssbgFTI9ZJT/M=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-344-sTgy8nB2N2u3wr9g8-SUNQ-1; Mon,
- 22 Jan 2024 13:22:30 -0500
-X-MC-Unique: sTgy8nB2N2u3wr9g8-SUNQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+	bh=u+h+8Ws5ampbuVbsEr/yuuau7lwHpAgGkopNi0+tbUU=;
+	b=S42M0xr7Qdr3R7W8U+sG2GggNLx+6F8RLCE+AE7WITJZRwDOpS0d3kDmHGq+DkgRge5U+M
+	devwxO+CRUpoE7EJ8BGsw+XVKBrP332+Qo38zsh87X/sJghlysBHjeZ8y2jzYcXFjdGmMH
+	97TYtUaJi6XqhBDLqQ0NSEWBNrXY0wY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-414-76xy8_G0PYmiHLAn6641xg-1; Mon, 22 Jan 2024 13:23:01 -0500
+X-MC-Unique: 76xy8_G0PYmiHLAn6641xg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8F78F3C2A1C4;
-	Mon, 22 Jan 2024 18:22:29 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 768E885A588;
+	Mon, 22 Jan 2024 18:23:00 +0000 (UTC)
 Received: from fedora.redhat.com (unknown [10.39.192.175])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 11CC03C2E;
-	Mon, 22 Jan 2024 18:22:26 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id DCEED1C060AF;
+	Mon, 22 Jan 2024 18:22:57 +0000 (UTC)
 From: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
 To: masahiroy@kernel.org
 Cc: dcavalca@meta.com,
@@ -65,9 +65,9 @@ Cc: dcavalca@meta.com,
 	ndesaulniers@google.com,
 	nicolas@fjasle.eu,
 	stable@vger.kernel.org
-Subject: Re: [PATCH V5 1/2] rpm-pkg: simplify installkernel %post
-Date: Mon, 22 Jan 2024 19:22:24 +0100
-Message-ID: <20240122182225.17944-1-jtornosm@redhat.com>
+Subject: [PATCH] rpm-pkg: simplify installkernel %post
+Date: Mon, 22 Jan 2024 19:22:53 +0100
+Message-ID: <20240122182253.17973-1-jtornosm@redhat.com>
 In-Reply-To: <CAK7LNAQCiBtQ3kQznPDKtkD83wpCzodPVDs8eFnfnx5=Y8E5Cw@mail.gmail.com>
 References: <CAK7LNAQCiBtQ3kQznPDKtkD83wpCzodPVDs8eFnfnx5=Y8E5Cw@mail.gmail.com>
 Precedence: bulk
@@ -76,65 +76,136 @@ List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.1
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.7
 
-> Those installed files should be removed by %ghost markers.
-> I already have a local patch to do this.
-> (see the attachment)
-I like the idea of your new patch, a lot of things can be fixed in that way.
-Ok, I will remove the extra code to remove (%preun) in the patch.
-Just a comment about your patch: for openSUSE /boot/initramfs-* files are
-called /boot/initrd-* and maybe someone would not require it (i.e. embedded
-systems). If it is created it is normally removed and it might not be
-necessary (although I like your idea to control it).
+The new installkernel application that is now included in systemd-udev
+package allows installation although destination files are already present
+in the boot directory of the kernel package, but is failing with the
+implemented workaround for the old installkernel application from grubby
+package.
 
-> I just asked you to fix up the code as I suggested in v4.
-Now I understand why no code was added in %preun.
-Ok, your suggestion was very good, but let me try and explain better with
-commands what I would like to fix after next point. When I said 'update'
-wasn't clear, I think.
-If it doesn't fit with your idea or global usage, I will include your
-suggestion like it is.
+For the new installkernel application, as Davide says:
+<<The %post currently does a shuffling dance before calling installkernel.
+This isn't actually necessary afaict, and the current implementation
+ends up triggering downstream issues such as
+https://github.com/systemd/systemd/issues/29568
+This commit simplifies the logic to remove the shuffling. For reference,
+the original logic was added in commit 3c9c7a14b627("rpm-pkg: add %post
+section to create initramfs and grub hooks").>>
 
-> For me (on Fedora 39 and openSUSE Tumbleweed), rpm fails due to file conflict.
-> 
-> vagrant@opensuse-tumbleweed20231218:~> sudo rpm -i
-> kernel-6.7.0_12924_g660a5f4a53e7-4.x86_64.rpm
-> file /lib/modules/6.7.0-12924-g660a5f4a53e7/vmlinuz from install of
-> kernel-6.7.0_12924_g660a5f4a53e7-4.x86_64 conflicts with file from
-> package kernel-6.7.0_12924_g660a5f4a53e7-3.x86_64
-> 
-> So, this does not happen.
-I was refering to the cases when zypper is used to install a new kernel with
-the same release and different build number or when 'rpm -i --replacefiles' 
-is used (in this case it would be necessary to remove the old kernel with
-'rpm -e --justdb' too).
-In this cases we only need the possibility of copying the files from the new
-package and not only if they don't exist.
-I have thought about an easy way (no extra or problematic command) and I think
-I have it.
-In addition to your suggestion (if the file does not exit in /boot), I will
-just compare the file in /boot with the file in /lib/modules/%{KERNELRELEASE}
-and if it is not the same, we allow copying:
-%post
-if [ -x /usr/bin/kernel-install ]; then
-        /usr/bin/kernel-install add %{KERNELRELEASE} /lib/modules/%{KERNELRELEASE}/vmlinuz
-fi
-for file in vmlinuz System.map config; do
-        if [ ! -e "/boot/${file}-%{KERNELRELEASE}" ] || ! cmp --silent "/lib/modules/%{KERNELRELEASE}/${file}" "/boot/${file}-%{KERNELRELEASE}"; then
-                cp "/lib/modules/%{KERNELRELEASE}/${file}" "/boot/${file}-%{KERNELRELEASE}"
-        fi
-done
+But we need to keep the old behavior as well, because the old installkernel
+application from grubby package, does not allow this simplification and
+we need to be backward compatible to avoid issues with the different
+packages.
 
-Let me try with a new patch to know your opinion.
+Mimic Fedora shipping process and store vmlinuz, config amd System.map
+in the module directory instead of the boot directory. In this way, we will
+avoid the commented problem for all the cases, because the new destination
+files are not going to exist in the boot directory of the kernel package.
 
-Thanks
+Replace installkernel tool with kernel-install tool, because the latter is
+more complete.
 
-Best regards
-José Ignacio
+Besides, after installkernel tool execution, check to complete if the
+correct package files vmlinuz, System.map and config files are present
+in /boot directory, and if necessary, copy manually for install operation.
+In this way, take into account if  files were not previously copied from
+/usr/lib/kernel/install.d/* scripts and if the suitable files for the
+requested package are present (it could be others if the rpm files were
+replace with a new pacakge with the same release and a different build).
 
+Tested with Fedora 38, Fedora 39, RHEL 9, Oracle Linux 9.3,
+openSUSE Tumbleweed and openMandrive ROME, using dnf/zypper and rpm tools.
 
+cc: stable@vger.kernel.org
+Co-Developed-by: Davide Cavalca <dcavalca@meta.com>
+Signed-off-by: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
+---
+V1 -> V2:
+- Complete to be backward compatible with the previous installkernel
+application.
+V2 -> V3:
+- Follow the suggestions from Masahiro Yamada and change the installation
+destination to avoid problems instead of checking the package.
+V3 -> V4:
+- Make the patch applicable to linux-kbuild/for-next (ia64 support was
+already removed).
+V4 -> V5:
+- Complete for other Linux distributions.
+V5 -> V6
+- Simplify and do more compatible checks when copied files wants to be
+  replaced.
+- Remove %preun because it will be better done with another patch.
+- Add indentation and quotation
+
+ scripts/package/kernel.spec | 28 ++++++++++++++--------------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
+
+diff --git a/scripts/package/kernel.spec b/scripts/package/kernel.spec
+index 89298983a169..0bff257ec3d4 100644
+--- a/scripts/package/kernel.spec
++++ b/scripts/package/kernel.spec
+@@ -55,12 +55,12 @@ patch -p1 < %{SOURCE2}
+ %{make} %{makeflags} KERNELRELEASE=%{KERNELRELEASE} KBUILD_BUILD_VERSION=%{release}
+ 
+ %install
+-mkdir -p %{buildroot}/boot
+-cp $(%{make} %{makeflags} -s image_name) %{buildroot}/boot/vmlinuz-%{KERNELRELEASE}
++mkdir -p %{buildroot}/lib/modules/%{KERNELRELEASE}
++cp $(%{make} %{makeflags} -s image_name) %{buildroot}/lib/modules/%{KERNELRELEASE}/vmlinuz
+ %{make} %{makeflags} INSTALL_MOD_PATH=%{buildroot} modules_install
+ %{make} %{makeflags} INSTALL_HDR_PATH=%{buildroot}/usr headers_install
+-cp System.map %{buildroot}/boot/System.map-%{KERNELRELEASE}
+-cp .config %{buildroot}/boot/config-%{KERNELRELEASE}
++cp System.map %{buildroot}/lib/modules/%{KERNELRELEASE}
++cp .config %{buildroot}/lib/modules/%{KERNELRELEASE}/config
+ ln -fns /usr/src/kernels/%{KERNELRELEASE} %{buildroot}/lib/modules/%{KERNELRELEASE}/build
+ %if %{with_devel}
+ %{make} %{makeflags} run-command KBUILD_RUN_COMMAND='${srctree}/scripts/package/install-extmod-build %{buildroot}/usr/src/kernels/%{KERNELRELEASE}'
+@@ -70,31 +70,31 @@ ln -fns /usr/src/kernels/%{KERNELRELEASE} %{buildroot}/lib/modules/%{KERNELRELEA
+ rm -rf %{buildroot}
+ 
+ %post
+-if [ -x /sbin/installkernel -a -r /boot/vmlinuz-%{KERNELRELEASE} -a -r /boot/System.map-%{KERNELRELEASE} ]; then
+-cp /boot/vmlinuz-%{KERNELRELEASE} /boot/.vmlinuz-%{KERNELRELEASE}-rpm
+-cp /boot/System.map-%{KERNELRELEASE} /boot/.System.map-%{KERNELRELEASE}-rpm
+-rm -f /boot/vmlinuz-%{KERNELRELEASE} /boot/System.map-%{KERNELRELEASE}
+-/sbin/installkernel %{KERNELRELEASE} /boot/.vmlinuz-%{KERNELRELEASE}-rpm /boot/.System.map-%{KERNELRELEASE}-rpm
+-rm -f /boot/.vmlinuz-%{KERNELRELEASE}-rpm /boot/.System.map-%{KERNELRELEASE}-rpm
++if [ -x /usr/bin/kernel-install ]; then
++	/usr/bin/kernel-install add %{KERNELRELEASE} /lib/modules/%{KERNELRELEASE}/vmlinuz
+ fi
++for file in vmlinuz System.map config; do
++	if [ ! -e "/boot/${file}-%{KERNELRELEASE}" ] || ! cmp --silent "/lib/modules/%{KERNELRELEASE}/${file}" "/boot/${file}-%{KERNELRELEASE}"; then
++		cp "/lib/modules/%{KERNELRELEASE}/${file}" "/boot/${file}-%{KERNELRELEASE}"
++	fi
++done
+ 
+ %preun
+ if [ -x /sbin/new-kernel-pkg ]; then
+-new-kernel-pkg --remove %{KERNELRELEASE} --rminitrd --initrdfile=/boot/initramfs-%{KERNELRELEASE}.img
++	new-kernel-pkg --remove %{KERNELRELEASE} --rminitrd --initrdfile=/boot/initramfs-%{KERNELRELEASE}.img
+ elif [ -x /usr/bin/kernel-install ]; then
+-kernel-install remove %{KERNELRELEASE}
++	/usr/bin/kernel-install remove %{KERNELRELEASE}
+ fi
+ 
+ %postun
+ if [ -x /sbin/update-bootloader ]; then
+-/sbin/update-bootloader --remove %{KERNELRELEASE}
++	/sbin/update-bootloader --remove %{KERNELRELEASE}
+ fi
+ 
+ %files
+ %defattr (-, root, root)
+ /lib/modules/%{KERNELRELEASE}
+ %exclude /lib/modules/%{KERNELRELEASE}/build
+-/boot/*
+ 
+ %files headers
+ %defattr (-, root, root)
+-- 
+2.43.0
 
 
