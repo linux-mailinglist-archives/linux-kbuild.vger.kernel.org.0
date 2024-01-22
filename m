@@ -1,172 +1,131 @@
-Return-Path: <linux-kbuild+bounces-612-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-613-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2AF38359FF
-	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Jan 2024 05:13:55 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35190835CAF
+	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Jan 2024 09:32:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1397B1C21408
-	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Jan 2024 04:13:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 67FD61C21DB5
+	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Jan 2024 08:32:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CA516122;
-	Mon, 22 Jan 2024 04:13:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="PLWbGf8D"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DB4F210E7;
+	Mon, 22 Jan 2024 08:32:34 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out30-132.freemail.mail.aliyun.com (out30-132.freemail.mail.aliyun.com [115.124.30.132])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51C9D610D
-	for <linux-kbuild@vger.kernel.org>; Mon, 22 Jan 2024 04:13:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68CBE2110B;
+	Mon, 22 Jan 2024 08:32:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.132
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705896829; cv=none; b=FMsuYAwp2745zRS1L4a+zm//V7ZEX4SjnKRld1709wQft/P4Hx7e8VFtyV/cRnOR0RuUKo1j8IgG+Q7R5XlfO216WyxboDa1E/dvemygS+Al2smmI1cB7o3ilRTIikAlFFfUkPRhmLg9sYSqzn+Fl9/c+BSrZsK3XYdcwI49t+8=
+	t=1705912354; cv=none; b=ksdP0qfb+rrtrEIAq5RHccOfk68Rj2lr9YS8bJ1pH78ndN3j+SCQmKvYbxFT62CLcpEEo9msf+0bDonc6ZQKsaeMLId5kOekx4ecdpgdf1bbxw3LAZ3O2+gn/QalSzRq8J8y8omDC88Qxsv8LFAWKzIrbtXa94zzCjkQtqxhQXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705896829; c=relaxed/simple;
-	bh=sFyv+jUWRXd/cynW/u9ytP1g1fYNXA9LJzShvHGdwP4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=s2AcTHdZsk19UzLMb+8SJxEWFUQV+knffXpmdQwkU/dFZr7XM2uZ6xgkjKJmS9a6X7wPGXlviJtYa93D00AkDhBuukwlknV3YUqycQCteRRVRdFbIQNFls5chvLmFolO5+F7nbWVPsOTfYztYF9Auc8YkNGTe7i50j8eDgZPwyU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=PLWbGf8D; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a28f66dc7ffso649436166b.0
-        for <linux-kbuild@vger.kernel.org>; Sun, 21 Jan 2024 20:13:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1705896826; x=1706501626; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sFyv+jUWRXd/cynW/u9ytP1g1fYNXA9LJzShvHGdwP4=;
-        b=PLWbGf8DqqZRS4ebVQlJSYwWox8ZDlQyT7ITPMLl02ogjtg5nsiuz/Pu72c3d/CZTc
-         m7LBh2ecbB+5deg4Tuax94+Az1YuTm3jWxNmAZbzkCSc7WX6jQWjfyUbofq0BBmH+QQH
-         1ZknQhY5ls23SnTr4NG8HH5lZeV3rPL5BdxRw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705896826; x=1706501626;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sFyv+jUWRXd/cynW/u9ytP1g1fYNXA9LJzShvHGdwP4=;
-        b=o5dPJ4hir5Feoy6al1tBWQmmFlHpxSkYCxSJL8Wg+RAhJ48uKgh11O7CXf1DplJfat
-         mWZ0m8FJ/pyAS3c0Tou/OsQNiFFEOIlpGzRpmUADWLA31VvSvKpiGASWDOYMH7Bihecr
-         /G+wWNGmianWbaeiTV1Z6RYYGzubVoEsCIDkkj8VNjSJplBJn07Ioii0CZtlBc4fSTP5
-         d+swm6uYEk5vzmsz95l6GEhufokmgfkHucxxsP2OD4LZkHmHdtNEow12BwVDy2zUgsHP
-         wwIPlguTlAsPBBfhcNznvVg9Fcxedb+khFrXXgqdc8dqkOOjfLief1nxS7SUh/ElA1tV
-         WavA==
-X-Gm-Message-State: AOJu0YznE6qj/gg0gSz22y7IPMxOKdBX0mQtdvF4EkoE4IbxfeMQZ/n8
-	YzPmj/DP6Mrebd9Y0cPIDQnfp+RQWzm6Oo9pyZhiF5sOUgOzM8KcPZ+N5sBOvzk63YZXIJ7B2lE
-	=
-X-Google-Smtp-Source: AGHT+IGVhGMTBgBiuOHWG7hf0Noeli+6GnSoA6ZRbFYOYWwPb/At7yZDoiVZ2fSXpMc7DWr9Otvk7g==
-X-Received: by 2002:a17:906:1bb1:b0:a27:fdc1:59c6 with SMTP id r17-20020a1709061bb100b00a27fdc159c6mr3899507ejg.26.1705896825876;
-        Sun, 21 Jan 2024 20:13:45 -0800 (PST)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com. [209.85.221.46])
-        by smtp.gmail.com with ESMTPSA id st8-20020a170907c08800b00a2ff7a6b47esm1703909ejc.46.2024.01.21.20.13.44
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 21 Jan 2024 20:13:45 -0800 (PST)
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3392b15ca41so686895f8f.0
-        for <linux-kbuild@vger.kernel.org>; Sun, 21 Jan 2024 20:13:44 -0800 (PST)
-X-Received: by 2002:adf:f641:0:b0:337:b36d:72a4 with SMTP id
- x1-20020adff641000000b00337b36d72a4mr1723451wrp.36.1705896824443; Sun, 21 Jan
- 2024 20:13:44 -0800 (PST)
+	s=arc-20240116; t=1705912354; c=relaxed/simple;
+	bh=hI3RltjIMGXevPYm0LRBHuDZvSVHVegDJEQwPNgLkhk=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=TfekZDLkKEXKuWyXMoK/GOg97uPWKvPLddywvUppNCRf9RH/LAp77rOledWPERahFnyBOMEtEYErKszsFCzOPFaR7FpQipqY5knMlqd4ahy1noOsVf24gaq97u9y3yocxarM5lk5qnbeeyx7roJpaRCXlaysywwl6TanI3L537U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; arc=none smtp.client-ip=115.124.30.132
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R161e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046056;MF=jefflexu@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0W.5I.B1_1705912333;
+Received: from 30.221.145.129(mailfrom:jefflexu@linux.alibaba.com fp:SMTPD_---0W.5I.B1_1705912333)
+          by smtp.aliyun-inc.com;
+          Mon, 22 Jan 2024 16:32:26 +0800
+Message-ID: <be1abcda-4cf0-4441-9a27-831eaef28f2e@linux.alibaba.com>
+Date: Mon, 22 Jan 2024 16:32:26 +0800
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231228054630.3595093-1-tfiga@chromium.org> <CAK7LNATBipJtprjvvRVYg8JcYOFXQdpLEyEc+4+8j1PtBQ+PUg@mail.gmail.com>
- <CAAFQd5C3vAUJhKiQ1LPkZv3dJxNvK4QinRezV9Q8rz_Ov6FSUQ@mail.gmail.com>
- <CAK7LNAQcaDneE4rnjvV+GTSBBMozm5deu_q9+STTn60ervZJbA@mail.gmail.com>
- <CAAFQd5DcxL80cb8w9OZs0mpD=Y3K=LmM7exG7U_DaSsMkfni7Q@mail.gmail.com>
- <CAK7LNASyiYasGa2_Ppp54nEq2m08q_Z_keViZDCavmNN0rBAzQ@mail.gmail.com> <ZaZv_TNR5_1zOCji@reykjavik.ads.avm.de>
-In-Reply-To: <ZaZv_TNR5_1zOCji@reykjavik.ads.avm.de>
-From: Tomasz Figa <tfiga@chromium.org>
-Date: Mon, 22 Jan 2024 13:13:27 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5BUBnCcg5nBfL-McdkR3dVEjqxFgz+amkhURxBpdRGaSA@mail.gmail.com>
-Message-ID: <CAAFQd5BUBnCcg5nBfL-McdkR3dVEjqxFgz+amkhURxBpdRGaSA@mail.gmail.com>
-Subject: Re: [PATCH] kconfig: menuconfig: Make hidden options show as dim
-To: Nicolas Schier <n.schier@avm.de>, Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Jesse Taube <Mr.Bossman075@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+From: Jingbo Xu <jefflexu@linux.alibaba.com>
+Subject: [MAYBE REGRESSION] kbuild time of kernel compiling
+To: linux-kbuild@vger.kernel.org, masahiroy@kernel.org, nathan@kernel.org,
+ ndesaulniers@google.com, nicolas@fjasle.eu
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jan 16, 2024 at 9:01=E2=80=AFPM Nicolas Schier <n.schier@avm.de> wr=
-ote:
->
-> On Tue, Jan 16, 2024 at 07:58:05PM +0900, Masahiro Yamada wrote:
-> > On Mon, Jan 15, 2024 at 2:04=E2=80=AFPM Tomasz Figa <tfiga@chromium.org=
-> wrote:
-> > >
-> > > On Sat, Jan 13, 2024 at 8:23=E2=80=AFPM Masahiro Yamada <masahiroy@ke=
-rnel.org> wrote:
-> > > >
-> > > > On Wed, Jan 10, 2024 at 10:05=E2=80=AFPM Tomasz Figa <tfiga@chromiu=
-m.org> wrote:
-> > > > >
-> > > > > On Fri, Dec 29, 2023 at 1:10=E2=80=AFAM Masahiro Yamada <masahiro=
-y@kernel.org> wrote:
-> > > > > >
-> > > > > > On Thu, Dec 28, 2023 at 2:46=E2=80=AFPM Tomasz Figa <tfiga@chro=
-mium.org> wrote:
-> > > > > > >
-> > > > > > > When hidden options are toggled on (using 'z'), the number of=
- options
-> > > > > > > on the screen can be overwhelming and may make it hard to dis=
-tinguish
-> > > > > > > between available and hidden ones. Make them easier to distin=
-guish by
-> > > > > > > displaying the hidden one as dim (using the A_DIM curses attr=
-ibute).
-> > > > > > >
-> > > > > > > Signed-off-by: Tomasz Figa <tfiga@chromium.org>
-> > > > > >
-> > > > > >
-> > > > > >
-> > > > > > Do you think this is useful?
-> > > > > >
-> > > > > > This changes the color only when you select a hidden item.
-> > > > > >
-> > > > > >
-> > > > > > For unselected items, you cannot distinguish hidden ones,
-> > > > > > as A_DIM has no effect to black text.
-> > > > > >
-> > > > > >
-> > > > >
-> > > > > Hmm, are you sure about that? For me it seems to dim the text. it
-> > > > > seems to be also used in the existing code for dlg.button_inactiv=
-e.atr
-> > > > > of the mono theme:
-> > > > >
-> > > > > https://elixir.bootlin.com/linux/latest/source/scripts/kconfig/lx=
-dialog/util.c#L26
-> > > >
-> > > >
-> > > >
-> > > > Then, your code works only on the mono theme.
-> > > > (when your terminal does not support color, or
-> > > > "MENUCONFIG_COLOR=3Dmono make menuconfig")
-> > > >
-> > >
-> > > No, that's not what I meant. It works for me for all themes, see the
-> > > screenshot at https://postimg.cc/sBsM0twT . The terminal is tmux
-> > > inside hterm (which in turn is supposed to be compatible with xterm).
-> > > I guess I can test a couple of different terminals.
-> > >
-> > > In which terminal is it not working for you?
-> >
-> >
-> > I use gnome-terminal.
-> > The disto is Ubuntu 23.10
->
-> I see the same behaviour as Masahiro described with foot 1.13.1 on
-> Debian 12.
+Hi,
 
-Thanks for testing! I'll use the two for my testing as well and try to
-figure out something more portable.
+I noticed a regression of kbuild time in v6.7, especially when running
+`make` command when all images have already been compiled.  In v6.6 it
+takes ~3s, while in v6.7 it takes ~18s.
 
-Best regards,
-Tomasz
+I'm not sure if it's a known issue, or an extra action configurable with
+a "CONFIG_XX" option.
+
+
+Following is the kbuild time in v6.6 versus v7.7, with
+arch/x86/configs/x86_64_defconfig used here:
+
+
+v6.6
+```
+make clean
+make olddefconfig
+
+# first full compiling
+$time make bzImage -j128 -s
+
+real	1m9.896s
+user	36m56.153s
+sys	4m21.748s
+
+# second time with image already compiled
+$time make bzImage -j128 -s
+
+real	0m2.776s
+user	0m13.823s
+sys	0m3.936s
+```
+
+
+v6.7
+```
+make clean
+make olddefconfig
+
+# first full compiling
+$time make bzImage -j128 -s
+
+real	1m22.865s
+user	37m25.977s
+sys	4m22.094s
+
+# second time with image already compiled
+$time make bzImage -j128 -s
+
+real	0m18.209s
+user	0m29.243s
+sys	0m4.330s
+```
+
+
+I tried to bisect, while commit d4e175f2c460 ("Merge tag 'vfs-6.7.super'
+of gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs") is identified
+as the first bad commit, which is obviously wrong.  As I'm not familiar
+with the structure of the merge commit, the further investigation has
+not been made yet.
+
+
+Besides, it seems that it will take most of the time before "CALL
+scripts/checksyscalls.sh" is printed (with "INSTALL libsubcmd_headers"
+has already printed).
+
+$time make bzImage -j128
+  DESCEND objtool
+  INSTALL libsubcmd_headers
+
+  CALL    scripts/checksyscalls.sh
+  BUILD   arch/x86/boot/bzImage
+Kernel: arch/x86/boot/bzImage is ready  (#437)
+
+-- 
+Thanks,
+Jingbo
 
