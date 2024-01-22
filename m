@@ -1,88 +1,177 @@
-Return-Path: <linux-kbuild+bounces-615-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-616-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6AEC836010
-	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Jan 2024 11:50:53 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 786B683632A
+	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Jan 2024 13:26:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5713AB23F0E
-	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Jan 2024 10:50:51 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6E77EB26019
+	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Jan 2024 12:24:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B88B3A1DB;
-	Mon, 22 Jan 2024 10:50:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 721F73BB30;
+	Mon, 22 Jan 2024 12:22:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TRNzik+5"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33D803A1BE;
-	Mon, 22 Jan 2024 10:50:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C6743B290;
+	Mon, 22 Jan 2024 12:22:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705920646; cv=none; b=bhvjMGPfH0jrr/o0mBJuq1JoKzJ8SzoHL08pywOTE+N0o3g9kAV74sgWwoadrv5wjP6OvrP0kcXG6NjBSHsLeBNy4yTBQ/MiqGurb/mClKghXhHkPwe08Z/dznQIrYle5ogHYweo3+M8XCEcYT/8P9moq2I12CNIvZbM9wT/ZDc=
+	t=1705926144; cv=none; b=siiqDzHTycOhBWxcxQqQbJb5LonlPZB5XdNBHfSS9NzTi2wWPnTUKGd0hyDUWCLRRA49pLmVKs4bcT+QhEsfdYl3I0++CjYKJ+RA6WPKNU4BfaQpAFkfadUyoM4WuQ4SIDjkFfJp/zlVpctZ2RcTsRVQM8QiUatnpM530VgXdHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705920646; c=relaxed/simple;
-	bh=6GGGsTAkyuykJmXCUUzWPb7tQVhFfHYPnkRQ7X+yi7Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RNsyAMJuWXBzyuzDLD9rDnmKSaMgtMHFigabA5EKQeR87+5UNktnZxdrTG/yu+WVLerYGFr66+RAqSYffM/088IrYfqiXeLp57p1/ubM56RNYFldVKGP+BdQj1olrGUR8S3ZjEPsVYSC5X5D8cp8yhpLCkhjJ9tEsi84asI3goU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; arc=none smtp.client-ip=80.237.130.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	id 1rRrt4-0005LQ-UK; Mon, 22 Jan 2024 11:50:42 +0100
-Message-ID: <5ae01623-3f0f-4c19-bf5e-29e39e9e9349@leemhuis.info>
-Date: Mon, 22 Jan 2024 11:50:42 +0100
+	s=arc-20240116; t=1705926144; c=relaxed/simple;
+	bh=3FFt8SSpVUT/GHTKltUwl1wgL2n2OngX2hrrhAwjZps=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MMnNCf+8jqj63e+Z1FfTbJajfWe3/g5sCe5Yz5Uh7yUbSv717OVU7WFHkmP3+yH9sFD0jaIr8ceXOzXkqyBU28rT2r1fmtEWtg4iD2vwJsVUopZqe0AwRhquJJPbg2i+2Y1ylnWJuY60uaYMnuhtKNLQ2wfk48DG/ixB7OTVHpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TRNzik+5; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C534CC43390;
+	Mon, 22 Jan 2024 12:22:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705926143;
+	bh=3FFt8SSpVUT/GHTKltUwl1wgL2n2OngX2hrrhAwjZps=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=TRNzik+5Fsp1kUhZwA4nbRBPfN00Jip/FSBBp4lQKE0ud0pSjazwIARwe19RTfMtk
+	 KuT3QGmeZGE6M5WmT6zmG9UJJz2c25BWULeXdLLXt7/WxRiZAiPDx6wtPv95I9+ZwR
+	 ctREPM14caIVHwDDD0YFy+ma83qVvlGpVHqCkwki48r099J05ngNauCh8ZiImnVxID
+	 qPhPAHWfjBh8vIHrYXn5RqunY0P+dXzQk8UC5IZPzRBzHuGjOVqM3xzZLh9w9jG/47
+	 XEpLYfyu+MWaOV9CZPgJADv4nXksOwP8QFYZq7RMTUA+91SdyidR1diDRfmiY6+cyG
+	 fEvtO3xu8lx4g==
+Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-6e0e99adb3bso701435a34.3;
+        Mon, 22 Jan 2024 04:22:23 -0800 (PST)
+X-Gm-Message-State: AOJu0Yxr9stM1AVxgqFohSH+EWiNB5mRJnJguuf1lM4cLRe10nI+MYuJ
+	m1juGR99HX2cMLjCu+1+spf7ydzDHuqC/V87AlO3YiySv+UdhX3GQrF+rEGLqEFVIbyi1o0gYlC
+	f2Ioy/jR9uohLPu9759yq66Kjf9k=
+X-Google-Smtp-Source: AGHT+IFnNAe3IguRgQdsiUA9LkC30HR7r3lHg+/oSBbAnsi0vW7h+GN1Qy+y+Ku72f6/QvbQpW99t/9BtlrE06lkX44=
+X-Received: by 2002:a05:6870:96aa:b0:205:fd5a:9ca0 with SMTP id
+ o42-20020a05687096aa00b00205fd5a9ca0mr1957281oaq.73.1705926143200; Mon, 22
+ Jan 2024 04:22:23 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [MAYBE REGRESSION] kbuild time of kernel compiling
-Content-Language: en-US, de-DE
-To: Jingbo Xu <jefflexu@linux.alibaba.com>, linux-kbuild@vger.kernel.org,
- masahiroy@kernel.org, nathan@kernel.org, ndesaulniers@google.com,
- nicolas@fjasle.eu,
- Linux kernel regressions list <regressions@lists.linux.dev>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 References: <be1abcda-4cf0-4441-9a27-831eaef28f2e@linux.alibaba.com>
-From: "Linux regression tracking (Thorsten Leemhuis)"
- <regressions@leemhuis.info>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
 In-Reply-To: <be1abcda-4cf0-4441-9a27-831eaef28f2e@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1705920645;979e1402;
-X-HE-SMSGID: 1rRrt4-0005LQ-UK
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Mon, 22 Jan 2024 21:21:46 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQQLP2jmy=mwvi9euFM=YOtKBDOJWQcO4Pr_J=Gtu5MFA@mail.gmail.com>
+Message-ID: <CAK7LNAQQLP2jmy=mwvi9euFM=YOtKBDOJWQcO4Pr_J=Gtu5MFA@mail.gmail.com>
+Subject: Re: [MAYBE REGRESSION] kbuild time of kernel compiling
+To: Jingbo Xu <jefflexu@linux.alibaba.com>
+Cc: linux-kbuild@vger.kernel.org, nathan@kernel.org, ndesaulniers@google.com, 
+	nicolas@fjasle.eu, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 22.01.24 09:32, Jingbo Xu wrote:
-> 
+On Mon, Jan 22, 2024 at 5:32=E2=80=AFPM Jingbo Xu <jefflexu@linux.alibaba.c=
+om> wrote:
+>
+> Hi,
+>
 > I noticed a regression of kbuild time in v6.7, especially when running
 > `make` command when all images have already been compiled.  In v6.6 it
 > takes ~3s, while in v6.7 it takes ~18s.
-> 
+>
 > I'm not sure if it's a known issue, or an extra action configurable with
 > a "CONFIG_XX" option.
-> [...]
+>
+>
+> Following is the kbuild time in v6.6 versus v7.7, with
+> arch/x86/configs/x86_64_defconfig used here:
+>
+>
+> v6.6
+> ```
+> make clean
+> make olddefconfig
+>
+> # first full compiling
+> $time make bzImage -j128 -s
+>
+> real    1m9.896s
+> user    36m56.153s
+> sys     4m21.748s
+>
+> # second time with image already compiled
+> $time make bzImage -j128 -s
+>
+> real    0m2.776s
+> user    0m13.823s
+> sys     0m3.936s
+> ```
+>
+>
+> v6.7
+> ```
+> make clean
+> make olddefconfig
+>
+> # first full compiling
+> $time make bzImage -j128 -s
+>
+> real    1m22.865s
+> user    37m25.977s
+> sys     4m22.094s
+>
+> # second time with image already compiled
+> $time make bzImage -j128 -s
+>
+> real    0m18.209s
+> user    0m29.243s
+> sys     0m4.330s
+> ```
+>
+>
+> I tried to bisect, while commit d4e175f2c460 ("Merge tag 'vfs-6.7.super'
+> of gitolite.kernel.org:pub/scm/linux/kernel/git/vfs/vfs") is identified
+> as the first bad commit, which is obviously wrong.  As I'm not familiar
+> with the structure of the merge commit, the further investigation has
+> not been made yet.
 
-Not my area of expertise, so take this with a gain of salt, as I might
-mislead you. Nevertheless:
 
-One problem with compile times in 6.7 was noticed and fixed in mainline;
-I wonder if that is the same issue as yours:
 
-https://lore.kernel.org/lkml/18c6df0d-45ed-450c-9eda-95160a2bbb8e@gmail.com/
-https://git.kernel.org/torvalds/c/31e97d7c9ae3de072d7b424b2cf706a03ec10720
 
-I think there was another issue, but can't remember it from the top of
-my head. Maybe simply checking if 6.8-rc1 fixes things might be the best.
+If you use olddefconfig, git-bisect will not produce the correct result.
 
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+'make olddefconfig' updates the existing .config.
+The resulting .config depends on what you had
+before running 'make olddefconfig'.
+
+You need to use a deterministic target (e.g. defconfig)
+during the git-bisect.
+
+
+
+
+
+>
+>
+> Besides, it seems that it will take most of the time before "CALL
+> scripts/checksyscalls.sh" is printed (with "INSTALL libsubcmd_headers"
+> has already printed).
+>
+> $time make bzImage -j128
+>   DESCEND objtool
+>   INSTALL libsubcmd_headers
+>
+>   CALL    scripts/checksyscalls.sh
+>   BUILD   arch/x86/boot/bzImage
+> Kernel: arch/x86/boot/bzImage is ready  (#437)
+>
+> --
+> Thanks,
+> Jingbo
+>
+
+
 --
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-If I did something stupid, please tell me, as explained on that page.
+Best Regards
+Masahiro Yamada
 
