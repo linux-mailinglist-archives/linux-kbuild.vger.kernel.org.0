@@ -1,121 +1,127 @@
-Return-Path: <linux-kbuild+bounces-610-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-611-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B03D383579C
-	for <lists+linux-kbuild@lfdr.de>; Sun, 21 Jan 2024 20:55:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94C7F8359F2
+	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Jan 2024 05:04:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CFAC11C20A7C
-	for <lists+linux-kbuild@lfdr.de>; Sun, 21 Jan 2024 19:55:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C767F1C21178
+	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Jan 2024 04:04:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD77D3839A;
-	Sun, 21 Jan 2024 19:55:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="NLCl1p14"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 204681C32;
+	Mon, 22 Jan 2024 04:04:04 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out198-163.us.a.mail.aliyun.com (out198-163.us.a.mail.aliyun.com [47.90.198.163])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B807381D6
-	for <linux-kbuild@vger.kernel.org>; Sun, 21 Jan 2024 19:55:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 340FE1C2D;
+	Mon, 22 Jan 2024 04:03:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=47.90.198.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705866905; cv=none; b=tHEhyU6ESQkNmc05US2s/2rs5tGel61Cxj/MJXCF2E8XoIWFcYlXcajLEcwun/V2rDZsuxagXwGrsmCYjUMDZ5DGPFUXK3eIwTZZOwKb3MelojjgrsHrgcFH883mp4Qdvk/jR/rZPXw4uKw5izIcgKObivLHzQqHR0bCUpgDgl0=
+	t=1705896244; cv=none; b=cplRWshcbkNX9ll0JMkrDwp0ji+ii0E1Sw1AJP/pU1SQtNTYOYh7pc2o5P+jlD5L0VfTQ2GcoZ0RXkIOOP50WVCDPwHuTFLQDjnYlor8sYZYwnrHPXsY70Bdt1C6lvU8kcRmaOuBMcwxt1raGloC5zSwnk32UiX6ZbOUCgD8LLo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705866905; c=relaxed/simple;
-	bh=GQoIOMmGlZGhERzqT+E6aQH5Sj5SbWki1fytWD9sPGs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SVUYWi07TZ3L55NwVVzia8CBNO1u3oZsxS4qd6BhkRCpP7aRT8r7k248zC3/eQWQ3mPCIHSm31ZKZDhsEvvUYBz2bH2+rCPabe0d3FbdGAOjZVNa4kt8H+BOwPibV2lsENYqDWWGe7MAQYA1YnbYMBWcTj40iEfdkIC4Wi4ywiU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=NLCl1p14; arc=none smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-50f1c524010so1936987e87.3
-        for <linux-kbuild@vger.kernel.org>; Sun, 21 Jan 2024 11:55:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1705866902; x=1706471702; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=PhjJVX3QcOh8OZyy81TIER7JHK4cm7N4BYEGM0PaABA=;
-        b=NLCl1p14Y4P3Lb7FdRy7fHEB/SgXPXxftFv1J90itxs0TRmi9fyxGOaC3/2fCc3Hzr
-         YbuO62gEsI/8f6/PtZ8xpvZy7PD8coqcykc/qJJwqv0VDIk6McKuaySI2CnR3mkSfVd7
-         ozaGSogZGn43MMaAqIgD22WCqSqbGXCFpHN/Q=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705866902; x=1706471702;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PhjJVX3QcOh8OZyy81TIER7JHK4cm7N4BYEGM0PaABA=;
-        b=jrebBW+TXZ5asp8EoMOIrb85LhcQSIENboyE7lRQpjAsr0uMp/lS8N4ki54bRtajH6
-         TVfA2T/nMjKvvXukP+KQjpUJz2Kk9uvLFGLvA6LryRvBQyc3li8fzrs4zMP71w8xxEjX
-         TeMBTrNR4Zt0M+32ZA8bF26AGVOQbjzMAM/gfFAaCgipNSzuKL3Ye/EkqZCLBRaOYpYt
-         3wmlMIV8SU7nP1ITCeRJgyvbRghEzq1kRk3SEL2ROMo+1o0plyiT/Dh4+rtn4IIfihwV
-         X5O6lsLjMXlf3VV3CmwDpf5GPqNQMOsTalchTqi8VxPhZ0B5MZ+CvWfIA0RepccnLzPW
-         NGzw==
-X-Gm-Message-State: AOJu0Yzkk9t3BkYnrJfRSOQfQo0DWPal59+hlz9amixEuQy93PB5jVn6
-	tqIkLw50Benp26ir+PFHcLDm00d9u3yaoKKNc/o9P5GXwhQbYjNZTlzdJHb8G/JETPVXcFGxvvG
-	c0x+QGg==
-X-Google-Smtp-Source: AGHT+IF6iLjeqCUOkdGVjZo8aAoHTEwZbdIXvpRcsDbl4aD5vaCioMTV0iMHVR0KYv4pYWBCL6O5fg==
-X-Received: by 2002:ac2:4e0a:0:b0:50f:f989:2c42 with SMTP id e10-20020ac24e0a000000b0050ff9892c42mr116678lfr.176.1705866901720;
-        Sun, 21 Jan 2024 11:55:01 -0800 (PST)
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com. [209.85.208.177])
-        by smtp.gmail.com with ESMTPSA id z27-20020a195e5b000000b0050eccd5beafsm1777547lfi.125.2024.01.21.11.55.01
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 21 Jan 2024 11:55:01 -0800 (PST)
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2cd46e7ae8fso26547401fa.1
-        for <linux-kbuild@vger.kernel.org>; Sun, 21 Jan 2024 11:55:01 -0800 (PST)
-X-Received: by 2002:a2e:bc09:0:b0:2cd:a774:2714 with SMTP id
- b9-20020a2ebc09000000b002cda7742714mr655928ljf.152.1705866900796; Sun, 21 Jan
- 2024 11:55:00 -0800 (PST)
+	s=arc-20240116; t=1705896244; c=relaxed/simple;
+	bh=3uTSwpfMRwcsYBt+Dz+A8Ezli5jNjRKJfEuBqJRftCM=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=mJdHC4XDeLLPOw+c9orX3oBLm9Q3h/chnrHn5EeRk3wr7BdoLWHJu3DS32ytb9lHBjaNcin5jMMLsut/OjjAxBQFlHYrPFcCr8AIh+AtAv/ghS+SI415b+iNaE+b4/DqQjyPK9rmeX4X6p93BrJFrvnWT/OCQKKvBbjn5KIKeSE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aibsd.com; spf=pass smtp.mailfrom=aibsd.com; arc=none smtp.client-ip=47.90.198.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aibsd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aibsd.com
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.07436566|-1;BR=01201311R611S53rulernew998_84748_2000303;CH=blue;DM=|CONTINUE|false|;DS=CONTINUE|ham_alarm|0.00183697-6.09629e-05-0.998102;FP=0|0|0|0|0|-1|-1|-1;HT=ay29a033018047205;MF=aiden.leong@aibsd.com;NM=1;PH=DS;RN=6;RT=6;SR=0;TI=SMTPD_---.WBsaEmE_1705895283;
+Received: from 192.168.31.5(mailfrom:aiden.leong@aibsd.com fp:SMTPD_---.WBsaEmE_1705895283)
+          by smtp.aliyun-inc.com;
+          Mon, 22 Jan 2024 11:48:05 +0800
+Message-ID: <d9ac2960-6644-4a87-b5e4-4bfb6e0364a8@aibsd.com>
+Date: Mon, 22 Jan 2024 11:48:03 +0800
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <E1rNVlL-000qDm-Pg@rmk-PC.armlinux.org.uk>
-In-Reply-To: <E1rNVlL-000qDm-Pg@rmk-PC.armlinux.org.uk>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Sun, 21 Jan 2024 11:54:44 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wgUmXuxtbThqBNREhihRJxrDjuOZRUe8DiwJgPOc7d4zw@mail.gmail.com>
-Message-ID: <CAHk-=wgUmXuxtbThqBNREhihRJxrDjuOZRUe8DiwJgPOc7d4zw@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: detect depmod version to exclude new SHA3 module
- signing options
-To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, 
-	Dimitri John Ledkov <dimitri.ledkov@canonical.com>, Luis Chamberlain <mcgrof@kernel.org>, 
-	linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+To: masahiroy@kernel.org
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ nathan@kernel.org, ndesaulniers@google.com, nicolas@fjasle.eu
+From: Aiden Leong <aiden.leong@aibsd.com>
+Subject: Re: [PATCH v2 2/4] modpost: inform compilers that fatal() never
+ returns
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-[ Going through my "this is still pending" list ]
 
-On Wed, 10 Jan 2024 at 02:24, Russell King (Oracle)
-<rmk+kernel@armlinux.org.uk> wrote:
->
-> I don't know what the minimum requirement is for SHA3 to work, so I have
-> chosen a minimum of version 29 for the purposes of this patch.
+ > The function fatal() never returns because modpost_log() calls exit(1)
 
-I see that there is some noise about hopefully just getting depmod fixed.
+ > when LOG_FATAL is passed.
+ >
+ > Inform compilers of this fact so that unreachable code flow can be
+ > identified at compile time.
+ >
+ > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+ > Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+ > ---
+ >
+ > Changes in v2:
+ >   - Use noreturn attribute together with alias
+ >
+ >  scripts/mod/modpost.c | 3 +++
+ >  scripts/mod/modpost.h | 5 ++++-
+ >  2 files changed, 7 insertions(+), 1 deletion(-)
+ >
+ > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+ > index ca0a90158f85..c13bc9095df3 100644
+ > --- a/scripts/mod/modpost.c
+ > +++ b/scripts/mod/modpost.c
+ > @@ -90,6 +90,9 @@ void modpost_log(enum loglevel loglevel, const char 
+*fmt, ...)
+ >          error_occurred = true;
+ >  }
+ >
+ > +void __attribute__((alias("modpost_log")))
 
-But if we take this approach and just say "don't allow SHA3 signing
-with a broken depmod", I'd personally be happier with something that
-isn't version-dependent, but is bug-dependent.
+Hi Masahiro,
+I cross-compile kernel on Apple Silicon MacBook Pro
+and every thing works well until this patch.
 
-IOW, instead of doing "depmod --version" and parsing that,
-particularly since apparently the exact version isn't clear, would it
-be possible to just actually test for the bug itself?
+My build command:
+make ARCH=arm CROSS_COMPILE=arm-none-eabi- \
+HOSTCFLAGS="-I/opt/homebrew/opt/openssl/include" \
+HOSTLDFLAGS="-L/opt/homebrew/opt/openssl/lib"
 
-Or, honestly, maybe just extend the depmod wrapper script to write our
-a more descriptive error report. We already have that whole
+Error message:
+scripts/mod/modpost.c:93:21: error: aliases are not supported on darwin
 
-        echo "Warning: 'make modules_install' requires $DEPMOD. Please
-install it." >&2
+Aiden Leong
 
-thing, so we already have run-time error handling (although I note
-that it does "exit 0" instead of something saner) rather than some
-Kconfig-time case.
-
-                Linus
+ > +modpost_log_noret(enum loglevel loglevel, const char *fmt, ...);
+ > +
+ >  static inline bool strends(const char *str, const char *postfix)
+ >  {
+ >      if (strlen(str) < strlen(postfix))
+ > diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
+ > index 9fe974dc1a52..835cababf1b0 100644
+ > --- a/scripts/mod/modpost.h
+ > +++ b/scripts/mod/modpost.h
+ > @@ -200,6 +200,9 @@ enum loglevel {
+ >  void __attribute__((format(printf, 2, 3)))
+ >  modpost_log(enum loglevel loglevel, const char *fmt, ...);
+ >
+ > +void __attribute__((format(printf, 2, 3), noreturn))
+ > +modpost_log_noret(enum loglevel loglevel, const char *fmt, ...);
+ > +
+ >  /*
+ >   * warn - show the given message, then let modpost continue running, 
+still
+ >   *        allowing modpost to exit successfully. This should be used 
+when
+ > @@ -215,4 +218,4 @@ modpost_log(enum loglevel loglevel, const char 
+*fmt, ...);
+ >   */
+ >  #define warn(fmt, args...)    modpost_log(LOG_WARN, fmt, ##args)
+ >  #define error(fmt, args...)    modpost_log(LOG_ERROR, fmt, ##args)
+ > -#define fatal(fmt, args...)    modpost_log(LOG_FATAL, fmt, ##args)
+ > +#define fatal(fmt, args...)    modpost_log_noret(LOG_FATAL, fmt, ##args)
+ > --
+ > 2.40.1
 
