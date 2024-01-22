@@ -1,100 +1,97 @@
-Return-Path: <linux-kbuild+bounces-623-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-624-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0134836BDB
-	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Jan 2024 17:53:19 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91933836C80
+	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Jan 2024 18:07:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E34681C257F6
-	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Jan 2024 16:53:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4A670286FC4
+	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Jan 2024 17:07:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FDA15C606;
-	Mon, 22 Jan 2024 15:27:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2560D4A9B2;
+	Mon, 22 Jan 2024 15:53:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b="Tdn0v5OP"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VjBj6HWP"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail.avm.de (mail.avm.de [212.42.244.94])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B3DC5C5FB;
-	Mon, 22 Jan 2024 15:27:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.94
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEA733DB97
+	for <linux-kbuild@vger.kernel.org>; Mon, 22 Jan 2024 15:53:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705937251; cv=none; b=Lc5HLRiTm3yjuYxs2DmdRGmR9kUTZYfKDvOsExkAwiRcXSDvQDLu4vZqtLMvCqV+ejYzf0eFh9nUIyijSRWgOQVF2VgVoUlMARnGdExa1VOLdzHNiJTR2MxLFnchs5HkbS0WNEFbaG5I65A8QJlt6UwtdO0B2CIGFZuMHou/Vk4=
+	t=1705938808; cv=none; b=uwbJhf0rZDPqNKTH3foWhs2Qb2yeMlVP4IKBVyYeTF0NmadXViRd8Nktn21OK+suXVZDw1eWx8M+6EkYFX18DOvFbBn3yWmZ3YrxtvwkUEWfuRsitQwPeJcS3aJwU18gCqaqbkxat0JBHOLGEt0nNuCPuXf43oQZAMJ+M7Xbztc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705937251; c=relaxed/simple;
-	bh=zlhf19EFPz7bbFjFIicGOGy7fBH0wVnKFgM5wdqSwBk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YoTlsJKv71AReI0LI1WMg7zwswkietYQCyQcgK3f9knbh/0xWArvnEfwbnvjCzwCyzYUgb2H3Qe2KYZOAJ2JjtKZgA89eR5JTKIFds2D5KoEnz6J0SHObQvLVr+HO7lcdfHDAiBjJYt+ZuwdE9ygaTyAxE/0T8oOJ96VbVWCL9g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de; spf=pass smtp.mailfrom=avm.de; dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b=Tdn0v5OP; arc=none smtp.client-ip=212.42.244.94
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=avm.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
-	t=1705937246; bh=zlhf19EFPz7bbFjFIicGOGy7fBH0wVnKFgM5wdqSwBk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Tdn0v5OPdoC9d880gaFyzfmLs+toLv+B2Y0Ui9kaiKdxAYoyTIUeOi5xdlSfRx/jx
-	 faE1h9ncC6pJc7GUJ4kUW8ZHF0wHKwqlBNIQUadlEyNXWDuDYjPpSClx7a8XQub3Kg
-	 Hi5tl5zb7U5zl3ALtyUR/e8JVFFdDZ+BoX+1GyW8=
-Received: from mail-auth.avm.de (unknown [IPv6:2001:bf0:244:244::71])
-	by mail.avm.de (Postfix) with ESMTPS;
-	Mon, 22 Jan 2024 16:27:26 +0100 (CET)
-Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
-	by mail-auth.avm.de (Postfix) with ESMTPA id 833A480139;
-	Mon, 22 Jan 2024 16:27:26 +0100 (CET)
-Received: by buildd.core.avm.de (Postfix, from userid 1000)
-	id 74350180D58; Mon, 22 Jan 2024 16:27:26 +0100 (CET)
-Date: Mon, 22 Jan 2024 16:27:26 +0100
-From: Nicolas Schier <n.schier@avm.de>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] kbuild: resolve symlinks for O= properly
-Message-ID: <Za6JXlKKGShvpfWC@buildd.core.avm.de>
-Mail-Followup-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	linux-kbuild@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	linux-kernel@vger.kernel.org
-References: <20231215160637.842748-1-masahiroy@kernel.org>
- <20240122141203.CWe3n5rG@linutronix.de>
- <Za6C2w0QIZDayA48@buildd.core.avm.de>
- <20240122150501.qCO5PPG6@linutronix.de>
+	s=arc-20240116; t=1705938808; c=relaxed/simple;
+	bh=z9ec84LTNQxrzMH3mbPk9MiChnTFnB/bKKQmPAxhz7c=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=aO/TyT+Kw77jQOwKypD5zwKchGyQRH6+H2rin2Ke6iseq9aN0qReQDjy30Lff0pMCFOCxVJDFdr5zIblaz/yi0YBBETMnvuuia/UcvhfNUdMsQtvoAbH+tR+QKbB5A3nrLcC7uYmNlp54cBU/MNSLFaXyV9MoBeeTLKk6OHRf8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=VjBj6HWP; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1705938805;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=z9ec84LTNQxrzMH3mbPk9MiChnTFnB/bKKQmPAxhz7c=;
+	b=VjBj6HWPIqmCslhO5WwYx2eehEwcXKGktuilfTYiStrklvMnUinNZOeAa56szrCe73zqpv
+	xEBZtjJo+G+HNa0C7LTV7LgvJDZC0Ayywccv+HzXPNLWy6zXqFRFC7YAiUlAN9p2S/Tgyd
+	9hor6yEA4KKjxd81QKDAWX+8Z2aWmxc=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-599-JWOpoJGAP6W7FtoNqXo_0Q-1; Mon, 22 Jan 2024 10:53:22 -0500
+X-MC-Unique: JWOpoJGAP6W7FtoNqXo_0Q-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C5C5186D4D4;
+	Mon, 22 Jan 2024 15:53:21 +0000 (UTC)
+Received: from fedora.redhat.com (unknown [10.39.192.175])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 52EC85012;
+	Mon, 22 Jan 2024 15:53:19 +0000 (UTC)
+From: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
+To: masahiroy@kernel.org
+Cc: dcavalca@meta.com,
+	jtornosm@redhat.com,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	nathan@kernel.org,
+	ndesaulniers@google.com,
+	nicolas@fjasle.eu,
+	stable@vger.kernel.org
+Subject: Re: [PATCH V5 2/2] rpm-pkg: avoid install/remove the running kernel
+Date: Mon, 22 Jan 2024 16:53:15 +0100
+Message-ID: <20240122155318.13848-1-jtornosm@redhat.com>
+In-Reply-To: <CAK7LNARNgp_oYWf69tw4+y0SMp=Hi2rixAt5h8R5=GaMkQLQYA@mail.gmail.com>
+References: <CAK7LNARNgp_oYWf69tw4+y0SMp=Hi2rixAt5h8R5=GaMkQLQYA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240122150501.qCO5PPG6@linutronix.de>
-Organization: AVM GmbH
-X-purgate-ID: 149429::1705937246-76F16F3F-11CD03E3/0/0
-X-purgate-type: clean
-X-purgate-size: 790
-X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
-X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
-X-purgate: clean
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.5
 
-On Mon, Jan 22, 2024 at 04:05:01PM +0100, Sebastian Andrzej Siewior wrote:
-> On 2024-01-22 15:59:37 [+0100], Nicolas Schier wrote:
-> > Expanding tilde expandos is traditionally a shell feature, as you
-> > already mentioned; and bash supports also expandos like '~+' and '~-'.
-> > I think, we should leave the shell things in shells.
-> > 
-> > Thus, please update your shell scripts to be compliant to their
-> > interpreting shell (e.g. use '$HOME' or switch the shell).
-> 
-> I reported that this change silently broke dash users. If you accept
-> this then you could acknowledge it instead of suggesting workarounds.
+> You can proceed with 'rpm -i --force', but
+> that is the user's responsibility if something bad happens.
 
-I'm sorry, I didn't mean to upset you.  Yes, we were aware that the
-change breaks some usage patterns.  Thanks for pointing that out.
+> No, not OK.
+Ok, understood and maybe it is interesting for the user.
+Indeed, zypper tool from openSUSE can be configured to protect the running
+kernel as dnf.
+I drop this patch.
 
-Kind regards,
-Nicolas
+Thanks
+
+Best regards
+José Ignacio
+
 
