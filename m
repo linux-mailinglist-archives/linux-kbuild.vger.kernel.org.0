@@ -1,292 +1,174 @@
-Return-Path: <linux-kbuild+bounces-630-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-631-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38507837CB9
-	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Jan 2024 02:15:43 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 804EB838EFD
+	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Jan 2024 13:59:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DC5862909E3
-	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Jan 2024 01:15:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D597B1F25BB2
+	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Jan 2024 12:58:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 568FF157025;
-	Tue, 23 Jan 2024 00:28:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="g6KI+FqU"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9EB715F543;
+	Tue, 23 Jan 2024 12:54:42 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBD29156988
-	for <linux-kbuild@vger.kernel.org>; Tue, 23 Jan 2024 00:28:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F37F60DD3;
+	Tue, 23 Jan 2024 12:54:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705969728; cv=none; b=paWjvEVhad7FhkQfIcWM25I878xsIWo3g3K/zovHZlN6eZNziKQHARMNXwS2ze/oCs4Nuf6RKZ2VA9RuNeJwhl73dSGmkAbu35V/+Ho8CxRNte7FnuDsed9vHa8EHUl4oM2skPphciPCPjeW9TF4QKMqFuxXUU5uaFnwGZDmjb8=
+	t=1706014482; cv=none; b=MLkGGRSCccHV095eEX5zjN+VXdWE4pk3hKGGkq9zl9Qqkt8hX6NupEIMvcKiCJwpriGyD7OjXsxyZ5egMVhHELF5O8P2J5jbE5ryWQ7bXPnGUjWxWybNGz+SO85u+5ZWl3bbhbbYXan1xDeF+7UV504+HLJV2WserIlxNFhgydI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705969728; c=relaxed/simple;
-	bh=C+paLqxuFlWRTx/mjhIvhRPgaDtYk9vCEUD11OqlcCI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=PHzj+K6p2q1EGkLN8HpzhPYWBwCXdBCrKaIiEDEWSXtewURO+9HHNFwa3P38XfE2i5cYbDVnxCTPqK62J3ZDQWBbpQF56LLdmdr7GVefMhsNohyqMmrIaihQyk4gEIhx4LwuBnV/CdMy77necJTyBImqZh3dZf6TfrwWMOqZdBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=g6KI+FqU; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1d720c7fc04so19100575ad.2
-        for <linux-kbuild@vger.kernel.org>; Mon, 22 Jan 2024 16:28:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1705969726; x=1706574526; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MOuaDiRRvzJvgJST5lr851xVVDyg4sr9GwwDxREBfGs=;
-        b=g6KI+FqUBOdebEdDOJA1SK+ASpBYukkrOtOGOPNBHOWE8PjMl3/IB1eyxjiqtg95fp
-         vOaYbEV32Fz9zEtJtkHDqhqRIrSvE+gi9y+DzkhQuTdPr7K59UNpI2ewNxLOCOqH8iFZ
-         YW0vpdlt7kiQ6KAt93LianzuAfMpZJrURgX8Q=
+	s=arc-20240116; t=1706014482; c=relaxed/simple;
+	bh=oRU/RyjFvOO7wA+Xb77PQqteNh6Vj5WDQWTQdsu1fEc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Ngjf3nGaAcuzkvJCeF05ipJuEVScdVXp1wweDC38+DTcec+dBB5lQDzJTWzkMHDbxeklXywchip1FR524chFx/EoEnld1StTx2hBCcUanJqDznaBvque9lBcs33ULNlpYfAuidM9+MmI2XdW3iiw2v6NgmLxnjLiA5XvA3Sxp38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-5f2d4aaa2fdso43470737b3.1;
+        Tue, 23 Jan 2024 04:54:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705969726; x=1706574526;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1706014479; x=1706619279;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=MOuaDiRRvzJvgJST5lr851xVVDyg4sr9GwwDxREBfGs=;
-        b=SxgKyGmpyUwieWLnGwa0ZppxS2zBVgH6uQn8Tgww/U14AvJeQkduoEXz02vedBJOG7
-         K8qUMZ9XisQ2CwrRe6uNM485I5nv1gsGCFIMxLtDH4FvsaIE2U1z0mX7rIUo6aZauDAf
-         /b6Hs841ZMmw6QX0Ym8bcjevN+7Ds1Hbekr46TwId5gcVnA0VDmcORGdSxzM+LRkB1gS
-         1hp4CTHIg/qadDe8ez+zU41JEF+7fuMCPZPZc98JSQOR10bYl03mcEMSIRUhAPLXTW+H
-         IcUAeSXWZi1KqbLUvn098moIUO6QqSw9DMaKKe+Eiun0pvRDrcOUVaSim9kDjXajlYcX
-         gYlQ==
-X-Gm-Message-State: AOJu0YzRkAUpeYLlb4CNSqJxmaAfT50G/EwUuNN458SGoR1T8SCqK5OE
-	di5LIUZrOAfIPwvVJ4mrVMSy92+6x8OtXA0zyQAXSREl4+fl/OvQUlnBfZlC2g==
-X-Google-Smtp-Source: AGHT+IEnqWEYs303ftT0O03yNmO4noVosyfBeQ8RPYpodKlYMbGKmtGGYH7WmtuBxDCTsLTefsiwSA==
-X-Received: by 2002:a17:903:2782:b0:1d7:6343:e0f3 with SMTP id jw2-20020a170903278200b001d76343e0f3mr1050390plb.113.1705969726027;
-        Mon, 22 Jan 2024 16:28:46 -0800 (PST)
-Received: from www.outflux.net ([198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id b5-20020a170902bd4500b001d74c170f2dsm2628770plx.90.2024.01.22.16.28.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jan 2024 16:28:37 -0800 (PST)
-From: Kees Cook <keescook@chromium.org>
-To: linux-hardening@vger.kernel.org
-Cc: Kees Cook <keescook@chromium.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	linux-kbuild@vger.kernel.org,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 07/82] overflow: Introduce CONFIG_UBSAN_POINTER_WRAP
-Date: Mon, 22 Jan 2024 16:26:42 -0800
-Message-Id: <20240123002814.1396804-7-keescook@chromium.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240122235208.work.748-kees@kernel.org>
-References: <20240122235208.work.748-kees@kernel.org>
+        bh=sHHavJJZellzhmUqcClWUg6SvALOrX1d3Nb7eJVRrKA=;
+        b=cS2X+ap9caNeyDlre7H0wuQvDZUL6Ib+Zz6paiQCXTAm59e5t2EgQK2opFHrNN+urc
+         QhYLCZq8t7sRdBHBTTYmKX0DKNltMcLszg06r2ZdKbuQGhZjvsyUiuxUjqrmu6fHqx0k
+         uWyCn0wE+Ry92Gr5jNM/2WaJqVQ5CK63gLLqGxd18KolRb1XkD/fjgw3PAXQO3j57AIJ
+         6lVOZK/8CN1tyOX+AzeyGv9QNnZqaab4TGvbndfKyIW4GVXAV0U3IxGSyWvyNfpTG8xm
+         ppRdZVVmbVghwCdrY5+SkQBI990ijQwK4+yiy+gexYXa20LGPRg8gkR0TzGDPWRuTOJ7
+         DS7A==
+X-Gm-Message-State: AOJu0Yzvhs675GnhF6QlkVd3dA47GHfhpsr+sK2OBvjVnDI68rugKB5s
+	61kBbP+ewXNfSPn1Rf5ivoRskEtTXd670TzP9cfO1ZRCqBUjspSQH7JWbIVLqyo=
+X-Google-Smtp-Source: AGHT+IG84ZHI5letcdwzAQ72lTZQvGZrDld8iaHL6ITWPTBVsl4ON0KU73TfWsNn3ysHMa835ifMqA==
+X-Received: by 2002:a0d:d7c1:0:b0:5ff:9fa1:7d3 with SMTP id z184-20020a0dd7c1000000b005ff9fa107d3mr4928215ywd.67.1706014479411;
+        Tue, 23 Jan 2024 04:54:39 -0800 (PST)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
+        by smtp.gmail.com with ESMTPSA id x199-20020a81a0d0000000b005ff8950ed82sm3958422ywg.38.2024.01.23.04.54.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 23 Jan 2024 04:54:39 -0800 (PST)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-5f2d4aaa2fdso43470587b3.1;
+        Tue, 23 Jan 2024 04:54:39 -0800 (PST)
+X-Received: by 2002:a81:7746:0:b0:5ff:7b0c:6993 with SMTP id
+ s67-20020a817746000000b005ff7b0c6993mr4569351ywc.22.1706014478941; Tue, 23
+ Jan 2024 04:54:38 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6942; i=keescook@chromium.org;
- h=from:subject; bh=C+paLqxuFlWRTx/mjhIvhRPgaDtYk9vCEUD11OqlcCI=;
- b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBlrwgE1og5efJNhjKy5Q1+0ssByVxR6aJKZkw//
- XUDXODt8X2JAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZa8IBAAKCRCJcvTf3G3A
- Jhb8D/oClO4uy32MUB/8Q9w0fFrcHiAthgnFfgxXS9v7zpnRqWirFxjdNMvEosVHK1wH10OEvQj
- OzrmAnWj9nGt2vZCAGk0Yel0I5e05q57I9rK5Qc2H1/5zTunlMIphYJBCzGp6ySKTYuOCEtRzVj
- cIIbHxJbOh9Z9TU3SweMVfOG4LrSqDyzCE0TKxiQkjt9fG7NuoKdqkHQySCMH9kd+6BZjGjP0jK
- yk5/X2K5lR3aTv+dZcsANfdk8s7z3u7yuXGp2rBtZmcs4RrsgsFEjR0fAggKx/65aE2eoZocs3v
- X7RwQbqPdPZef6+GKbEbDFShLokOsGmn2vmyGOi66Ph1buPm5OQsQ1zCU+75rHdTou7wxYLt3li
- nC91e512ZPlE5upQjtRb4BIl+Gnr0kI7IlF9YctYSwGg9QpWB1syjbwVW/53Q9i/lyt8Q/VwE7Z
- AzzKMJJ4Ry+vZomftuWws7kHewjOxEwzwiAJgRZl1a9TOsUq66KTXyRXDob1K7ALMVhO+nh0ftk
- 50+m7VWiGiPujZu6hAMGYjMG7dyFAgfeGhrByYKN+DU0G2UOoihqStFIJJwRdUCfoqwvbzFXzej
- fihfMb64SYCKKrJ92PZVSi3mIZ4WYycTSaLsmDsbMUHFBoJXW/2h759jKxMBt7p9/AQU06Q7YNF uiXs1EiNMEkG9dA==
-X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
-Content-Transfer-Encoding: 8bit
+References: <20231125163559.824210-1-masahiroy@kernel.org>
+In-Reply-To: <20231125163559.824210-1-masahiroy@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 23 Jan 2024 13:54:27 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWm6u1wX7efZQf=2XUAHascps76YQac6rdnQGhc8nop_Q@mail.gmail.com>
+Message-ID: <CAMuHMdWm6u1wX7efZQf=2XUAHascps76YQac6rdnQGhc8nop_Q@mail.gmail.com>
+Subject: Re: [PATCH 1/2] kconfig: remove unneeded symbol_empty variable
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>, 
+	Vegard Nossum <vegard.nossum@oracle.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Gain coverage for pointer wrap-around checking. Adds support for
--fsanitize=pointer-overflow, and introduces the __pointer_wrap function
-attribute to match the signed and unsigned attributes. Also like the
-others, it is currently disabled under CONFIG_COMPILE_TEST.
+Hi Yamada-san,
 
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>
-Cc: Nicolas Schier <nicolas@fjasle.eu>
-Cc: linux-kbuild@vger.kernel.org
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
- Documentation/process/deprecated.rst |  2 +-
- include/linux/compiler_types.h       |  7 +++++-
- lib/Kconfig.ubsan                    |  8 +++++++
- lib/test_ubsan.c                     | 33 ++++++++++++++++++++++++++++
- lib/ubsan.c                          | 21 ++++++++++++++++++
- lib/ubsan.h                          |  1 +
- scripts/Makefile.ubsan               |  1 +
- 7 files changed, 71 insertions(+), 2 deletions(-)
+On Sat, Nov 25, 2023 at 5:36=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.o=
+rg> wrote:
+> This is used only for initializing other variables.
+>
+> Use the empty string "".
+>
+> Please note newval.tri is unused for S_INT/HEX/STRING.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
-index aebd7c6cd2fc..15e77cbd4259 100644
---- a/Documentation/process/deprecated.rst
-+++ b/Documentation/process/deprecated.rst
-@@ -143,7 +143,7 @@ replaced with a type max subtraction test instead::
- 
- For inline helpers that are performing wrapping arithmetic, the entire
- function can be annotated as intentionally wrapping by adding the
--`__signed_wrap` or `__unsigned_wrap` function attribute.
-+`__signed_wrap`, `__unsigned_wrap`, or `__pointer_wrap` function attribute.
- 
- simple_strtol(), simple_strtoll(), simple_strtoul(), simple_strtoull()
- ----------------------------------------------------------------------
-diff --git a/include/linux/compiler_types.h b/include/linux/compiler_types.h
-index d24f43fc79c6..84cfd9d55453 100644
---- a/include/linux/compiler_types.h
-+++ b/include/linux/compiler_types.h
-@@ -293,12 +293,17 @@ struct ftrace_likely_data {
- #else
- # define __unsigned_wrap
- #endif
-+#ifdef CONFIG_UBSAN_POINTER_WRAP
-+# define __pointer_wrap __attribute__((no_sanitize("pointer-overflow")))
-+#else
-+# define __pointer_wrap
-+#endif
- 
- /* Section for code which can't be instrumented at all */
- #define __noinstr_section(section)					\
- 	noinline notrace __attribute((__section__(section)))		\
- 	__no_kcsan __no_sanitize_address __no_profile __no_sanitize_coverage \
--	__no_sanitize_memory __signed_wrap __unsigned_wrap
-+	__no_sanitize_memory __signed_wrap __unsigned_wrap __pointer_wrap
- 
- #define noinstr __noinstr_section(".noinstr.text")
- 
-diff --git a/lib/Kconfig.ubsan b/lib/Kconfig.ubsan
-index a7003e5bd2a1..04222a6d7fd9 100644
---- a/lib/Kconfig.ubsan
-+++ b/lib/Kconfig.ubsan
-@@ -135,6 +135,14 @@ config UBSAN_UNSIGNED_WRAP
- 	  for wrap-around of any arithmetic operations with unsigned integers. This
- 	  currently causes x86 to fail to boot.
- 
-+config UBSAN_POINTER_WRAP
-+	bool "Perform checking for pointer arithmetic wrap-around"
-+	depends on !COMPILE_TEST
-+	depends on $(cc-option,-fsanitize=pointer-overflow)
-+	help
-+	  This option enables -fsanitize=pointer-overflow which checks
-+	  for wrap-around of any arithmetic operations with pointers.
-+
- config UBSAN_BOOL
- 	bool "Perform checking for non-boolean values used as boolean"
- 	default UBSAN
-diff --git a/lib/test_ubsan.c b/lib/test_ubsan.c
-index 84d8092d6c32..1cc049b3ef34 100644
---- a/lib/test_ubsan.c
-+++ b/lib/test_ubsan.c
-@@ -56,6 +56,36 @@ static void test_ubsan_negate_overflow(void)
- 	val = -val;
- }
- 
-+static void test_ubsan_pointer_overflow_add(void)
-+{
-+	volatile void *top = (void *)ULONG_MAX;
-+
-+	UBSAN_TEST(CONFIG_UBSAN_POINTER_WRAP);
-+	top += 2;
-+}
-+
-+static void test_ubsan_pointer_overflow_sub(void)
-+{
-+	volatile void *bottom = (void *)1;
-+
-+	UBSAN_TEST(CONFIG_UBSAN_POINTER_WRAP);
-+	bottom -= 3;
-+}
-+
-+struct ptr_wrap {
-+	int a;
-+	int b;
-+};
-+
-+static void test_ubsan_pointer_overflow_mul(void)
-+{
-+	volatile struct ptr_wrap *half = (void *)(ULONG_MAX - 128);
-+	volatile int bump = 128;
-+
-+	UBSAN_TEST(CONFIG_UBSAN_POINTER_WRAP);
-+	half += bump;
-+}
-+
- static void test_ubsan_divrem_overflow(void)
- {
- 	volatile int val = 16;
-@@ -139,6 +169,9 @@ static const test_ubsan_fp test_ubsan_array[] = {
- 	test_ubsan_sub_overflow,
- 	test_ubsan_mul_overflow,
- 	test_ubsan_negate_overflow,
-+	test_ubsan_pointer_overflow_add,
-+	test_ubsan_pointer_overflow_sub,
-+	test_ubsan_pointer_overflow_mul,
- 	test_ubsan_shift_out_of_bounds,
- 	test_ubsan_out_of_bounds,
- 	test_ubsan_load_invalid_value,
-diff --git a/lib/ubsan.c b/lib/ubsan.c
-index 5fc107f61934..d49580ff6aea 100644
---- a/lib/ubsan.c
-+++ b/lib/ubsan.c
-@@ -289,6 +289,27 @@ void __ubsan_handle_negate_overflow(void *_data, void *old_val)
- }
- EXPORT_SYMBOL(__ubsan_handle_negate_overflow);
- 
-+void __ubsan_handle_pointer_overflow(void *_data, void *lhs, void *rhs)
-+{
-+	struct overflow_data *data = _data;
-+	unsigned long before = (unsigned long)lhs;
-+	unsigned long after  = (unsigned long)rhs;
-+
-+	if (suppress_report(&data->location))
-+		return;
-+
-+	ubsan_prologue(&data->location, "pointer-overflow");
-+
-+	if (after == 0)
-+		pr_err("overflow wrapped to NULL\n");
-+	else if (after < before)
-+		pr_err("overflow wrap-around\n");
-+	else
-+		pr_err("underflow wrap-around\n");
-+
-+	ubsan_epilogue();
-+}
-+EXPORT_SYMBOL(__ubsan_handle_pointer_overflow);
- 
- void __ubsan_handle_divrem_overflow(void *_data, void *lhs, void *rhs)
- {
-diff --git a/lib/ubsan.h b/lib/ubsan.h
-index 0abbbac8700d..5dd27923b78b 100644
---- a/lib/ubsan.h
-+++ b/lib/ubsan.h
-@@ -128,6 +128,7 @@ void __ubsan_handle_add_overflow(void *data, void *lhs, void *rhs);
- void __ubsan_handle_sub_overflow(void *data, void *lhs, void *rhs);
- void __ubsan_handle_mul_overflow(void *data, void *lhs, void *rhs);
- void __ubsan_handle_negate_overflow(void *_data, void *old_val);
-+void __ubsan_handle_pointer_overflow(void *_data, void *lhs, void *rhs);
- void __ubsan_handle_divrem_overflow(void *_data, void *lhs, void *rhs);
- void __ubsan_handle_type_mismatch(struct type_mismatch_data *data, void *ptr);
- void __ubsan_handle_type_mismatch_v1(void *_data, void *ptr);
-diff --git a/scripts/Makefile.ubsan b/scripts/Makefile.ubsan
-index de4fc0ae448a..37e8c31dc655 100644
---- a/scripts/Makefile.ubsan
-+++ b/scripts/Makefile.ubsan
-@@ -10,6 +10,7 @@ ubsan-cflags-$(CONFIG_UBSAN_DIV_ZERO)		+= -fsanitize=integer-divide-by-zero
- ubsan-cflags-$(CONFIG_UBSAN_UNREACHABLE)	+= -fsanitize=unreachable
- ubsan-cflags-$(CONFIG_UBSAN_SIGNED_WRAP)	+= -fsanitize=signed-integer-overflow
- ubsan-cflags-$(CONFIG_UBSAN_UNSIGNED_WRAP)	+= -fsanitize=unsigned-integer-overflow
-+ubsan-cflags-$(CONFIG_UBSAN_POINTER_WRAP)	+= -fsanitize=pointer-overflow
- ubsan-cflags-$(CONFIG_UBSAN_BOOL)		+= -fsanitize=bool
- ubsan-cflags-$(CONFIG_UBSAN_ENUM)		+= -fsanitize=enum
- ubsan-cflags-$(CONFIG_UBSAN_TRAP)		+= -fsanitize-undefined-trap-on-error
--- 
-2.34.1
+Thanks for your patch, which is now commit 4e244c10eab345a7
+("kconfig: remove unneeded symbol_empty variable") in v6.8-rc1.
 
+When running "make <foo>_defconfig" with <foo>_defconfig an SMP
+defconfig without explicit configuration of CONFIG_LOG_CPU_MAX_BUF_SHIFT,
+the aforementioned commit causes a change in the generated .config:
+
+-CONFIG_LOG_CPU_MAX_BUF_SHIFT=3D12
++CONFIG_LOG_CPU_MAX_BUF_SHIFT=3D0
+
+It looks like CONFIG_BASE_SMALL=3D0 is treated as a string instead of
+the integer number zero?
+
+init/Kconfig=3Dconfig LOG_CPU_MAX_BUF_SHIFT
+init/Kconfig-   int "CPU kernel log buffer size contribution (13 =3D> 8
+KB, 17 =3D> 128KB)"
+init/Kconfig-   depends on SMP
+init/Kconfig-   range 0 21
+init/Kconfig:   default 12 if !BASE_SMALL
+init/Kconfig:   default 0 if BASE_SMALL
+
+Note that reverting 4e244c10eab345a7 is not sufficient to fix the issue.
+Also reverting commit 6262afa10ef7cc8f ("kconfig: default to zero if
+int/hex symbol lacks default property") does fix it.
+
+Thanks!
+
+> --- a/scripts/kconfig/symbol.c
+> +++ b/scripts/kconfig/symbol.c
+> @@ -29,12 +29,6 @@ struct symbol symbol_no =3D {
+>         .flags =3D SYMBOL_CONST|SYMBOL_VALID,
+>  };
+>
+> -static struct symbol symbol_empty =3D {
+> -       .name =3D "",
+> -       .curr =3D { "", no },
+> -       .flags =3D SYMBOL_VALID,
+> -};
+> -
+>  struct symbol *modules_sym;
+>  static tristate modules_val;
+>
+> @@ -346,7 +340,7 @@ void sym_calc_value(struct symbol *sym)
+>         case S_INT:
+>         case S_HEX:
+>         case S_STRING:
+> -               newval =3D symbol_empty.curr;
+> +               newval.val =3D "";
+>                 break;
+>         case S_BOOLEAN:
+>         case S_TRISTATE:
+> @@ -697,13 +691,12 @@ const char *sym_get_string_default(struct symbol *s=
+ym)
+>  {
+>         struct property *prop;
+>         struct symbol *ds;
+> -       const char *str;
+> +       const char *str =3D "";
+>         tristate val;
+>
+>         sym_calc_visibility(sym);
+>         sym_calc_value(modules_sym);
+>         val =3D symbol_no.curr.tri;
+> -       str =3D symbol_empty.curr.val;
+>
+>         /* If symbol has a default value look it up */
+>         prop =3D sym_get_default_prop(sym);
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
