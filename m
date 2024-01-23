@@ -1,49 +1,49 @@
-Return-Path: <linux-kbuild+bounces-636-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-637-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74AB2839CAA
-	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Jan 2024 00:00:16 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2C56839CAD
+	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Jan 2024 00:00:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2BC4B1F27CA0
-	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Jan 2024 23:00:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5BAED288864
+	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Jan 2024 23:00:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFF7D53E37;
-	Tue, 23 Jan 2024 23:00:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E524253E11;
+	Tue, 23 Jan 2024 23:00:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jAoxWhCq"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hv9MKEwx"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFD114120C;
-	Tue, 23 Jan 2024 23:00:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6A0F4120C;
+	Tue, 23 Jan 2024 23:00:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706050809; cv=none; b=J54IA522C4isH8kSPm0GYWuv1Qom0MNGYpbPM6ZUbp4KT+e0BC80g/QHHOOehAxmaskzSHnoX6Qub8I4vDxdIGCfFvyfawE5Th6a+wnrtotn1cXekdIiKXH3F7ppQ7juBtXN+nrbz1Om2mcHtyrdiG6TZVGUeKuZ0QxfcctWsZg=
+	t=1706050810; cv=none; b=aFDWvWvBi6Gqq6TgLBfJjyfxXfPWBX25EETXTOmFjdpHbcofnh1tx0kctqhxfqC+XMAiW8z8l0T7/1+Lid5yn2qJESgKDURLLvB/fJOsNva3JBP8c+na3MK6Vfg/qjTmyV2ITt3mmV19xi+f4skI2vAla0j1QzG7M0RPSw9JQhw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706050809; c=relaxed/simple;
-	bh=pqpVjk8HX7VL6g1Q9EMOtXMob1urEAYYXk6Z618rEPA=;
+	s=arc-20240116; t=1706050810; c=relaxed/simple;
+	bh=47d45/RRXMankzhMusTw5E76i3KancCT8EE4zAg0rGc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=PEIXlOWOETGhcbka0hnatUv8Wsdqf1FfXxAHgSyvl8RNu048mLdUJ/+gbK3NidnuHvtedtApbcgNTA8DbrNZ9Fotn2D2ixvSjj7roc0wPrEGYkBSFIZ3wQlOvrt6/8+7ibqL0NJ1swqGkJ1zn4Mdr2vb4Ismmn2uJq5LWR+4UDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jAoxWhCq; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82FB9C43394;
-	Tue, 23 Jan 2024 23:00:08 +0000 (UTC)
+	 In-Reply-To:To:Cc; b=n/3zPteacWJ+wef+XNK0Svj8mHhYIgcVM4Tyb8tc/jjX9ChnP0GAR0mKpgoCvb0AzBSVfhf7QmOxNwPhWTIMPUVXwOtTN9Iv+Vb4ndym0jome70LohVVTPMMAVNZC+Kz3TZ6YyMv4o3RccZit17oMWPEzVyqz+9F+Q+wyZSF93A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hv9MKEwx; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73094C433F1;
+	Tue, 23 Jan 2024 23:00:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706050809;
-	bh=pqpVjk8HX7VL6g1Q9EMOtXMob1urEAYYXk6Z618rEPA=;
+	s=k20201202; t=1706050810;
+	bh=47d45/RRXMankzhMusTw5E76i3KancCT8EE4zAg0rGc=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=jAoxWhCqM5qLtmyVk4cFQP+mwISnNe7n35p8T8gpypm9mTTinatigBB7ExR4Leip1
-	 NlBgIXN/o57qF02Nlgzjhc9A4U29nI+WaBA2+106uaUNxOC/3peQfnK0SuPW1l5eQe
-	 2jUZPdMPCWw0cdApKB0gFZfGIq/YDbuM64Kc5HYJqNnmtyaH2GMfZ2ktOk3hps396f
-	 KswJ0c1mdynLwJtjI0aVlGgzhhNz2xfijdT96AxkTqrmVP2drGZphoapXsQ6uaigZV
-	 CqluqWEP5y8HIwNOTWOVcKSlBaxnhiEljVPYj3UXiJxSxHwZObVdnOhGXKEoC3Zo3V
-	 1mlJJfZ0m3Dqg==
+	b=hv9MKEwxpkkCCkQrEatypks4jWMZLmFrc201jDtKZrvVTqil/OWkpW2HYGAg3zXvM
+	 gMNh2Ho5m6vOgxuB2hjiNRZSlChICJ0zQU+d3AZGJc81JMibhy1GnNDcbWlJQDAPw7
+	 o6ZOXo5U19naO8rH8jduwiPgifsP58ZRT/8VH8KkisFvLzn+zBYz36FSYoKd82/Gif
+	 YZApO56cPTyLi0bpM8E7S7ACjjrmJjkARStRRinS2CxJBMPuu31LK9cQgSxohWSrGG
+	 fphJnxNbTS5rdh9Ro+VY9vZ9HKSCS2L05aL7blyt/JpHx+xhe0xAQbnCqU4Q4u9ZVU
+	 PnTwLYkYnA+aw==
 From: Nathan Chancellor <nathan@kernel.org>
-Date: Tue, 23 Jan 2024 15:59:54 -0700
-Subject: [PATCH 1/2] um: Fix adding '-no-pie' for clang
+Date: Tue, 23 Jan 2024 15:59:55 -0700
+Subject: [PATCH 2/2] modpost: Add '.ltext' and '.ltext.*' to TEXT_SECTIONS
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -52,7 +52,7 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240123-fix-uml-clang-18-v1-1-efc095519cf9@kernel.org>
+Message-Id: <20240123-fix-uml-clang-18-v1-2-efc095519cf9@kernel.org>
 References: <20240123-fix-uml-clang-18-v1-0-efc095519cf9@kernel.org>
 In-Reply-To: <20240123-fix-uml-clang-18-v1-0-efc095519cf9@kernel.org>
 To: richard@nod.at, anton.ivanov@cambridgegreys.com, 
@@ -62,69 +62,56 @@ Cc: nathan@kernel.org, nicolas@fjasle.eu, ndesaulniers@google.com,
  linux-kbuild@vger.kernel.org, llvm@lists.linux.dev, patches@lists.linux.dev, 
  stable@vger.kernel.org
 X-Mailer: b4 0.13-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2539; i=nathan@kernel.org;
- h=from:subject:message-id; bh=pqpVjk8HX7VL6g1Q9EMOtXMob1urEAYYXk6Z618rEPA=;
- b=owGbwMvMwCUmm602sfCA1DTG02pJDKkbXL7XGN+6vvxLxcGMT3k7ljcENiwJYw3IvCTmpN86I
- aXyyepNHaUsDGJcDLJiiizVj1WPGxrOOct449QkmDmsTCBDGLg4BWAi8vmMDKvCe0V5P8XUOZQW
- 83F9CenJOti0NvmYwTbR/1OnbHJ9cI+R4e25yU9n6x1e5bO/96HZW+fVgYtuXZ/ZmFjz6vmT3Zd
- cTzAAAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1960; i=nathan@kernel.org;
+ h=from:subject:message-id; bh=47d45/RRXMankzhMusTw5E76i3KancCT8EE4zAg0rGc=;
+ b=owGbwMvMwCUmm602sfCA1DTG02pJDKkbXL7/kHuhv2nVz94j05xb+rcxrfI8Zv1VJ19xf4Pr/
+ U8+V473d5SyMIhxMciKKbJUP1Y9bmg45yzjjVOTYOawMoEMYeDiFICJTHFi+MN/aGvHkwsyHuev
+ GRlp3JWeIr425ekSxR37Dmhc2TIpKs+YkWFNu471So56bseXdW7f9zf9v/pHgmdq6q0FNqd+doa
+ /f8UGAA==
 X-Developer-Key: i=nathan@kernel.org; a=openpgp;
  fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
 
-The kernel builds with -fno-PIE, so commit 883354afbc10 ("um: link
-vmlinux with -no-pie") added the compiler linker flag '-no-pie' via
-cc-option because '-no-pie' was only supported in GCC 6.1.0 and newer.
+After the linked LLVM change, building ARCH=um defconfig results in a
+segmentation fault in modpost. Prior to commit a23e7584ecf3 ("modpost:
+unify 'sym' and 'to' in default_mismatch_handler()"), there was a
+warning:
 
-While this works for GCC, this does not work for clang because cc-option
-uses '-c', which stops the pipeline right before linking, so '-no-pie'
-is unconsumed and clang warns, causing cc-option to fail just as it
-would if the option was entirely unsupported:
+  WARNING: modpost: vmlinux.o(__ex_table+0x88): Section mismatch in reference to the .ltext:(unknown)
+  WARNING: modpost: The relocation at __ex_table+0x88 references
+  section ".ltext" which is not in the list of
+  authorized sections.  If you're adding a new section
+  and/or if this reference is valid, add ".ltext" to the
+  list of authorized sections to jump to on fault.
+  This can be achieved by adding ".ltext" to
+  OTHER_TEXT_SECTIONS in scripts/mod/modpost.c.
 
-  $ clang -Werror -no-pie -c -o /dev/null-x c /dev/null
-  clang-16: error: argument unused during compilation: '-no-pie' [-Werror,-Wunused-command-line-argument]
-
-A recent version of clang exposes this because it generates a relocation
-under '-mcmodel=large' that is not supported in PIE mode:
-
-  /usr/sbin/ld: init/main.o: relocation R_X86_64_32 against symbol `saved_command_line' can not be used when making a PIE object; recompile with -fPIE
-  /usr/sbin/ld: failed to set dynamic section sizes: bad value
-  clang: error: linker command failed with exit code 1 (use -v to see invocation)
-
-Remove the cc-option check altogether. It is wasteful to invoke the
-compiler to check for '-no-pie' because only one supported compiler
-version does not support it, GCC 5.x (as it is supported with the
-minimum version of clang and GCC 6.1.0+). Use a combination of the
-gcc-min-version macro and CONFIG_CC_IS_CLANG to unconditionally add
-'-no-pie' with CONFIG_LD_SCRIPT_DYN=y, so that it is enabled with all
-compilers that support this. Furthermore, using gcc-min-version can help
-turn this back into
-
-  LINK-$(CONFIG_LD_SCRIPT_DYN) += -no-pie
-
-when the minimum version of GCC is bumped past 6.1.0.
+The linked LLVM change moves global objects to the '.ltext' (and
+'.ltext.*' with '-ffunction-sections') sections with '-mcmodel=large',
+which ARCH=um uses. These sections should be handled just as '.text'
+and '.text.*' are, so add them to TEXT_SECTIONS.
 
 Cc: stable@vger.kernel.org
-Closes: https://github.com/ClangBuiltLinux/linux/issues/1982
+Closes: https://github.com/ClangBuiltLinux/linux/issues/1981
+Link: https://github.com/llvm/llvm-project/commit/4bf8a688956a759b7b6b8d94f42d25c13c7af130
 Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 ---
- arch/um/Makefile | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ scripts/mod/modpost.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/arch/um/Makefile b/arch/um/Makefile
-index 82f05f250634..34957dcb88b9 100644
---- a/arch/um/Makefile
-+++ b/arch/um/Makefile
-@@ -115,7 +115,9 @@ archprepare:
- 	$(Q)$(MAKE) $(build)=$(HOST_DIR)/um include/generated/user_constants.h
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index cb6406f485a9..f7c4d3fe4381 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -807,7 +807,8 @@ static void check_section(const char *modname, struct elf_info *elf,
  
- LINK-$(CONFIG_LD_SCRIPT_STATIC) += -static
--LINK-$(CONFIG_LD_SCRIPT_DYN) += $(call cc-option, -no-pie)
-+ifdef CONFIG_LD_SCRIPT_DYN
-+LINK-$(call gcc-min-version, 60100)$(CONFIG_CC_IS_CLANG) += -no-pie
-+endif
- LINK-$(CONFIG_LD_SCRIPT_DYN_RPATH) += -Wl,-rpath,/lib
- 
- CFLAGS_NO_HARDENING := $(call cc-option, -fno-PIC,) $(call cc-option, -fno-pic,) \
+ #define DATA_SECTIONS ".data", ".data.rel"
+ #define TEXT_SECTIONS ".text", ".text.*", ".sched.text", \
+-		".kprobes.text", ".cpuidle.text", ".noinstr.text"
++		".kprobes.text", ".cpuidle.text", ".noinstr.text", \
++		".ltext", ".ltext.*"
+ #define OTHER_TEXT_SECTIONS ".ref.text", ".head.text", ".spinlock.text", \
+ 		".fixup", ".entry.text", ".exception.text", \
+ 		".coldtext", ".softirqentry.text"
 
 -- 
 2.43.0
