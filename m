@@ -1,161 +1,149 @@
-Return-Path: <linux-kbuild+bounces-640-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-641-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94D6183A4AC
-	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Jan 2024 09:57:21 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 590F883A5F4
+	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Jan 2024 10:52:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0BB991F214A1
-	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Jan 2024 08:57:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7F0931C2567D
+	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Jan 2024 09:52:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E58AE17BD6;
-	Wed, 24 Jan 2024 08:56:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=smile-fr.20230601.gappssmtp.com header.i=@smile-fr.20230601.gappssmtp.com header.b="aDWddyzx"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E667818044;
+	Wed, 24 Jan 2024 09:52:42 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0213017BBA
-	for <linux-kbuild@vger.kernel.org>; Wed, 24 Jan 2024 08:56:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12C7918625;
+	Wed, 24 Jan 2024 09:52:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706086618; cv=none; b=ezYkY2/7C0NqBTB7wSwCE7SL5UQlOlM+8n/u8126DOlZv4qYnbb4CTvWm4SyC9ONOs9HTsLj4feVTsX2WT1xoTSE24SqnfJtfRraaXVI0AOCZcTDS1xTTDqTuBQpwezstaDMVfD787Xarid2aqNkMUqEAAkQHqccZfYW5KWxJkU=
+	t=1706089962; cv=none; b=m0+1IqX7e2b/X+c5mSNgolynGota0l1mwII4YtBn2DEXPFWfe9apu9Av7lsIwZSVI+L0KuEahOP+GlRzlQaAz2ArovD73l0SwOFnyZFtTOVbir39q6mcKrauek4VFLFtlhWgYk9S7AiteWd8Em0FMnIiM+XHdPj8Z9NRPjoTeyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706086618; c=relaxed/simple;
-	bh=dVrMUGU5FNcHSAOsHcMw7++s/r63E4ZemMk0gk+U+90=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KrKPTIwIb+8o70/EYfjtCxnTRSCDxAKgrxwiBPEF8SRV6o5IQHHrRFrjyUh1a3syOHoCM7aMqyMz54v4rUtFG7UA02VrLaLm37iXql6cT/2hly2FbTEKbNMKCuA6hQkwv3v2tn2cYFUJQcgKDWK1q8xOvolkC6kjsonyFY89n7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=smile.fr; spf=pass smtp.mailfrom=smile.fr; dkim=pass (2048-bit key) header.d=smile-fr.20230601.gappssmtp.com header.i=@smile-fr.20230601.gappssmtp.com header.b=aDWddyzx; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=smile.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=smile.fr
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3387ef9fc62so4822899f8f.2
-        for <linux-kbuild@vger.kernel.org>; Wed, 24 Jan 2024 00:56:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1706086613; x=1706691413; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=skzJxlwp6Ls2mSmyBdJ2wqDfBkpLt83gmD7vZ6NH92A=;
-        b=aDWddyzxR3rlTOo9p16MWtDkkO7mGJJNs0XmUKkz7oepO3V07vpacgBjwKq83xOkW8
-         3sJYsp82MMWUXP3T6ldVUkz4uGlIO5vKUX1Mmwa2ENFKrgShQ0j/mz8Avm/gp6X03QRl
-         /JnQDgkHA5BDgHSpgPjfo1UhVA+FKn4CYGS5iBIFbRnOopJRCsJtHRNlu9YM2CpSVisY
-         f51AFPIc6pUXXJbV77lRtT4StntLYxmp8fLZsF/BQAGmwKnd3kEg6Q4cR8TA5plVk48R
-         6n2LNdHrjsQgUcuL5sXsFtremtTKRTBmF67HEa4unBKHrAdEAjiI3IvW4ecGKfvgxZi6
-         uL8g==
+	s=arc-20240116; t=1706089962; c=relaxed/simple;
+	bh=x1fsVDdsOFD6tbu+vLQ3FdacZX1F0b/QkoHTJwiwpSc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=npPifhcr46u1iuxqtjbd9Pt64dZV3jREYuYalLBNnqrk7nrCJB/3S4KY25O3p7TwJTA0b86lA++njSoCLMxW029JPqUa7hEdj71adC66rgGMlpaNpbfEev8HtmOm5oG3w8XruoklEPR+ud4NsXzs+SqsUfRbWmC3rjzBDwIvSUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-5ffb07bed9bso29900077b3.0;
+        Wed, 24 Jan 2024 01:52:38 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706086613; x=1706691413;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=skzJxlwp6Ls2mSmyBdJ2wqDfBkpLt83gmD7vZ6NH92A=;
-        b=jDwco3obbo0v3dAwsAwExbOqu/C+a/tz7JkRn7f+nEP/Vmh/DiA/dacTZGJixxNSob
-         DbjMJopMRD5T13KMEMv2wo+Lp5lT5ajPbnhM1B3O4wXC4MkB2+rQ1HBWqwDJDo0fbXiK
-         kV40PUgD3N/qJ09dU9l1QNOXTQErGAluGQSNQXba9ko/12PZstobVoNtAQRvig3/9p6J
-         fJg6nvE9TL7IDGRxjh/ELB48YSV/fK/mC6qFdfQslfsO+WbPdgeypm5nDy0NSOLO0GM1
-         CzOaeraL/SAG0ZQ/UXeLsVwltWUGQqapOwza9xIxmLMMQwiG4ESKHuB7AS2r++DE+aU4
-         tS3w==
-X-Gm-Message-State: AOJu0YxO+Xjrtqch8EIysNNII6F66Y2OakJ7+GBzg2iM1T/13k7P4OgW
-	G/5VbxG6oTDZ+T4ALNrFYSU0lmhpChkzvpb6iwJK9QHLEccbNN91ERd+H4NF+Zs=
-X-Google-Smtp-Source: AGHT+IFFiHrrrfTyHBUqC/JJ9etkX7nWqsCXfzj+BfZ9FAIn6BMnmrdciUWRMyhqsb1IPO2gnY87Bg==
-X-Received: by 2002:adf:ee4d:0:b0:336:613e:9e54 with SMTP id w13-20020adfee4d000000b00336613e9e54mr281621wro.89.1706086613010;
-        Wed, 24 Jan 2024 00:56:53 -0800 (PST)
-Received: from [10.1.8.13] (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id y3-20020adfee03000000b003368c8d120fsm18286005wrn.7.2024.01.24.00.56.52
+        d=1e100.net; s=20230601; t=1706089958; x=1706694758;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Gb9WF/ExCOiStM1ck1NToosyRyKsQZOXa+C3tVqzcsc=;
+        b=fFlGpVlzdZV89ZaTo7voBO7EWe1M0M8l4O78QQOzAuKuou5F0jqsZT1uuYUSV3lX7M
+         5oppDdJ728LArM+diyiNbH/ZiJZbOvhIpdCCmZCNHVL/QDDi66K6otR/GCEZFRQ68qkU
+         jWilULytMulFTQjV9c+sd0Y8faCAuK16ieqFnvlbd3vJno254ihjcfZH4MutjNym40kS
+         cN26WVuJtDMMh82JdzWjelCMUT7AYCOZYrftI1fJkblvIT/ifTZYV/iLJnURlZFOnNz1
+         9XDri4POJiFXlewCe3tjvQcRJX+kPUo+bVl4eZLg64y67Zh735J8+iAkWnd83l40j2Cs
+         dxUg==
+X-Gm-Message-State: AOJu0YzhtKy6RkQax8r/GQ5eF5qepsP14pk2EbE5f02crRCoa357eqhV
+	9e/JVVBqTSHXkrnVUaBV+xtUIBwRA2JEyUVgzcYywH3z2tZJtew8rfAHQXVB11o=
+X-Google-Smtp-Source: AGHT+IEOQC01b0M5bEfgaa2k8oik+PCvmRiuqQqMnZIjR3CfDSsWTus6Ql/mWEkIEurxeX6BGER6jg==
+X-Received: by 2002:a0d:d94c:0:b0:5d7:1940:8dfe with SMTP id b73-20020a0dd94c000000b005d719408dfemr329592ywe.101.1706089957751;
+        Wed, 24 Jan 2024 01:52:37 -0800 (PST)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com. [209.85.219.180])
+        by smtp.gmail.com with ESMTPSA id a126-20020a0dd884000000b005ffa3fa57f9sm3548291ywe.51.2024.01.24.01.52.37
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Jan 2024 00:56:52 -0800 (PST)
-Message-ID: <b65a68eb-6b96-41ff-bbb9-38cb2dee940e@smile.fr>
-Date: Wed, 24 Jan 2024 09:56:52 +0100
+        Wed, 24 Jan 2024 01:52:37 -0800 (PST)
+Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-db4364ecd6aso3263909276.2;
+        Wed, 24 Jan 2024 01:52:37 -0800 (PST)
+X-Received: by 2002:a25:7801:0:b0:dc2:1dd0:1d1b with SMTP id
+ t1-20020a257801000000b00dc21dd01d1bmr315581ybc.19.1706089957157; Wed, 24 Jan
+ 2024 01:52:37 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] kconfig: remove unneeded symbol_empty variable
-Content-Language: en-US
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Vegard Nossum <vegard.nossum@oracle.com>
-References: <20231125163559.824210-1-masahiroy@kernel.org>
- <CAMuHMdWm6u1wX7efZQf=2XUAHascps76YQac6rdnQGhc8nop_Q@mail.gmail.com>
- <d21298d9-fed6-4e08-9780-dbcb388b9ccc@smile.fr>
- <CAK7LNASaG4DpHTb3YHMd8d8DJ5H3z0aiUcSqX+=7CZb99kRU8A@mail.gmail.com>
-From: Yoann Congal <yoann.congal@smile.fr>
-Organization: Smile ECS
+References: <20231125163559.824210-1-masahiroy@kernel.org> <CAMuHMdWm6u1wX7efZQf=2XUAHascps76YQac6rdnQGhc8nop_Q@mail.gmail.com>
+ <d21298d9-fed6-4e08-9780-dbcb388b9ccc@smile.fr> <CAK7LNASaG4DpHTb3YHMd8d8DJ5H3z0aiUcSqX+=7CZb99kRU8A@mail.gmail.com>
 In-Reply-To: <CAK7LNASaG4DpHTb3YHMd8d8DJ5H3z0aiUcSqX+=7CZb99kRU8A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 24 Jan 2024 10:52:25 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWLMNj=Yvf4QxxrCxf-UBr-VXUxfJei+V2bNd0M7D1OhQ@mail.gmail.com>
+Message-ID: <CAMuHMdWLMNj=Yvf4QxxrCxf-UBr-VXUxfJei+V2bNd0M7D1OhQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] kconfig: remove unneeded symbol_empty variable
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Yoann Congal <yoann.congal@smile.fr>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>, 
+	Vegard Nossum <vegard.nossum@oracle.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi Yamada-san,
 
-
-Le 24/01/2024 à 09:09, Masahiro Yamada a écrit :
-> On Wed, Jan 24, 2024 at 12:11 AM Yoann Congal <yoann.congal@smile.fr> wrote:
->>
->> Le 23/01/2024 à 13:54, Geert Uytterhoeven a écrit :
->>> Hi Yamada-san,
->>
->> Hello,
->>
->>> On Sat, Nov 25, 2023 at 5:36 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
->>>> This is used only for initializing other variables.
->>>>
->>>> Use the empty string "".
->>>>
->>>> Please note newval.tri is unused for S_INT/HEX/STRING.
->>>>
->>>> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
->>>
->>> Thanks for your patch, which is now commit 4e244c10eab345a7
->>> ("kconfig: remove unneeded symbol_empty variable") in v6.8-rc1.
->>>
->>> When running "make <foo>_defconfig" with <foo>_defconfig an SMP
->>> defconfig without explicit configuration of CONFIG_LOG_CPU_MAX_BUF_SHIFT,
->>> the aforementioned commit causes a change in the generated .config:
->>>
->>> -CONFIG_LOG_CPU_MAX_BUF_SHIFT=12
->>> +CONFIG_LOG_CPU_MAX_BUF_SHIFT=0
->>>
->>> It looks like CONFIG_BASE_SMALL=0 is treated as a string instead of
->>> the integer number zero?
->>>
->>> init/Kconfig=config LOG_CPU_MAX_BUF_SHIFT
->>> init/Kconfig-   int "CPU kernel log buffer size contribution (13 => 8
->>> KB, 17 => 128KB)"
->>> init/Kconfig-   depends on SMP
->>> init/Kconfig-   range 0 21
->>> init/Kconfig:   default 12 if !BASE_SMALL
->>> init/Kconfig:   default 0 if BASE_SMALL
->>>
->>> Note that reverting 4e244c10eab345a7 is not sufficient to fix the issue.
->>> Also reverting commit 6262afa10ef7cc8f ("kconfig: default to zero if
->>> int/hex symbol lacks default property") does fix it.
->>
->> (Since I'd really like 6262afa10ef7cc8f ("kconfig: default to zero if int/hex symbol lacks default property") to stay, allow me to try to help)
->>
->> The problem is quite easy to reproduce:
->>   $ make x86_64_defconfig
->>   $ grep 'LOG_CPU_MAX_BUF_SHIFT\|BASE_SMALL\|BASE_FULL' .config
->>   CONFIG_LOG_CPU_MAX_BUF_SHIFT=0
->>   CONFIG_BASE_FULL=y
->>   CONFIG_BASE_SMALL=0
->> Here, CONFIG_LOG_CPU_MAX_BUF_SHIFT should be 12 not 0.
-> 
-> 
-> 
+On Wed, Jan 24, 2024 at 9:10=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
+rg> wrote:
+> On Wed, Jan 24, 2024 at 12:11=E2=80=AFAM Yoann Congal <yoann.congal@smile=
+.fr> wrote:
+> > Le 23/01/2024 =C3=A0 13:54, Geert Uytterhoeven a =C3=A9crit :
+> > > On Sat, Nov 25, 2023 at 5:36=E2=80=AFPM Masahiro Yamada <masahiroy@ke=
+rnel.org> wrote:
+> > >> This is used only for initializing other variables.
+> > >>
+> > >> Use the empty string "".
+> > >>
+> > >> Please note newval.tri is unused for S_INT/HEX/STRING.
+> > >>
+> > >> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > >
+> > > Thanks for your patch, which is now commit 4e244c10eab345a7
+> > > ("kconfig: remove unneeded symbol_empty variable") in v6.8-rc1.
+> > >
+> > > When running "make <foo>_defconfig" with <foo>_defconfig an SMP
+> > > defconfig without explicit configuration of CONFIG_LOG_CPU_MAX_BUF_SH=
+IFT,
+> > > the aforementioned commit causes a change in the generated .config:
+> > >
+> > > -CONFIG_LOG_CPU_MAX_BUF_SHIFT=3D12
+> > > +CONFIG_LOG_CPU_MAX_BUF_SHIFT=3D0
+> > >
+> > > It looks like CONFIG_BASE_SMALL=3D0 is treated as a string instead of
+> > > the integer number zero?
+> > >
+> > > init/Kconfig=3Dconfig LOG_CPU_MAX_BUF_SHIFT
+> > > init/Kconfig-   int "CPU kernel log buffer size contribution (13 =3D>=
+ 8
+> > > KB, 17 =3D> 128KB)"
+> > > init/Kconfig-   depends on SMP
+> > > init/Kconfig-   range 0 21
+> > > init/Kconfig:   default 12 if !BASE_SMALL
+> > > init/Kconfig:   default 0 if BASE_SMALL
+> > >
+> > > Note that reverting 4e244c10eab345a7 is not sufficient to fix the iss=
+ue.
+> > > Also reverting commit 6262afa10ef7cc8f ("kconfig: default to zero if
+> > > int/hex symbol lacks default property") does fix it.
+> >
+> > (Since I'd really like 6262afa10ef7cc8f ("kconfig: default to zero if i=
+nt/hex symbol lacks default property") to stay, allow me to try to help)
+> >
+> > The problem is quite easy to reproduce:
+> >   $ make x86_64_defconfig
+> >   $ grep 'LOG_CPU_MAX_BUF_SHIFT\|BASE_SMALL\|BASE_FULL' .config
+> >   CONFIG_LOG_CPU_MAX_BUF_SHIFT=3D0
+> >   CONFIG_BASE_FULL=3Dy
+> >   CONFIG_BASE_SMALL=3D0
+> > Here, CONFIG_LOG_CPU_MAX_BUF_SHIFT should be 12 not 0.
+>
+>
+>
 > I could not produce it in this way.
 > I ran the same commands as yours.
-> 
-> CONFIG_LOG_CPU_MAX_BUF_SHIFT=12 for me.
-> 
-> 
-> 
+>
+> CONFIG_LOG_CPU_MAX_BUF_SHIFT=3D12 for me.
+>
+>
+>
 > masahiro@zoe:~/ref/linux(master)$ git describe
 > v6.8-rc1-29-g615d30064886
 > masahiro@zoe:~/ref/linux(master)$ git diff
@@ -163,60 +151,37 @@ Le 24/01/2024 à 09:09, Masahiro Yamada a écrit :
 > #
 > # No change to .config
 > #
-
-You already had a .config with the correct value of LOG_CPU_MAX_BUF_SHIFT (Maybe?)
-
 > masahiro@zoe:~/ref/linux(master)$ grep
 > 'LOG_CPU_MAX_BUF_SHIFT\|BASE_SMALL\|BASE_FULL' .config
-> CONFIG_LOG_CPU_MAX_BUF_SHIFT=12
-> CONFIG_BASE_FULL=y
-> CONFIG_BASE_SMALL=0
+> CONFIG_LOG_CPU_MAX_BUF_SHIFT=3D12
+> CONFIG_BASE_FULL=3Dy
+> CONFIG_BASE_SMALL=3D0
 
-Try to remove the existing .config:
+Interesting...
 
-   $ git describe 
-  v6.8-rc1
-   $ git diff
-   $ rm .config -f
-   $ make  x86_64_defconfig
-  #
-  # configuration written to .config
-  #
-   $ grep 'LOG_CPU_MAX_BUF_SHIFT\|BASE_SMALL\|BASE_FULL' .config
-  CONFIG_LOG_CPU_MAX_BUF_SHIFT=0
-  CONFIG_BASE_FULL=y
-  CONFIG_BASE_SMALL=0
+$ git describe
+v6.8-rc1-29-g615d300648869c77
+$ make  x86_64_defconfig
+[...]
+$ grep 'LOG_CPU_MAX_BUF_SHIFT\|BASE_SMALL\|BASE_FULL' .config
+CONFIG_LOG_CPU_MAX_BUF_SHIFT=3D0
+CONFIG_BASE_FULL=3Dy
+CONFIG_BASE_SMALL=3D0
 
->>
->> For what it is worth, CONFIG_BASE_SMALL is defined as an int but is only used as a bool :
->>    $ git grep BASE_SMALL
->>   arch/x86/include/asm/mpspec.h:#if CONFIG_BASE_SMALL == 0
->>   drivers/tty/vt/vc_screen.c:#define CON_BUF_SIZE (CONFIG_BASE_SMALL ? 256 : PAGE_SIZE)
->>   include/linux/threads.h:#define PID_MAX_DEFAULT (CONFIG_BASE_SMALL ? 0x1000 : 0x8000)
->>   include/linux/threads.h:#define PID_MAX_LIMIT (CONFIG_BASE_SMALL ? PAGE_SIZE * 8 : \
->>   include/linux/udp.h:#define UDP_HTABLE_SIZE_MIN         (CONFIG_BASE_SMALL ? 128 : 256)
->>   include/linux/xarray.h:#define XA_CHUNK_SHIFT           (CONFIG_BASE_SMALL ? 4 : 6)
->>   init/Kconfig:   default 12 if !BASE_SMALL
->>   init/Kconfig:   default 0 if BASE_SMALL
->>   init/Kconfig:config BASE_SMALL
->>   kernel/futex/core.c:#if CONFIG_BASE_SMALL
->>   kernel/user.c:#define UIDHASH_BITS      (CONFIG_BASE_SMALL ? 3 : 7)
->>
->> Maybe we should change CONFIG_BASE_SMALL to the bool type?
+Does it depend on the flex/bison version?
+I have Ubuntu LTS flex 2.6.4-8build2 and bison 2:3.8.2+dfsg-1build1.
 
-My first test shows that switching CONFIG_BASE_SMALL to bool type does fix the LOG_CPU_MAX_BUF_SHIFT default value.
+Gr{oetje,eeting}s,
 
->> I'll poke around to see if I can understand why a int="0" is true for kconfig.
+                        Geert
 
-Here's what I understood:
-To get the default value of LOG_CPU_MAX_BUF_SHIFT, kconfig calls sym_get_default_prop(LOG_CPU_MAX_BUF_SHIFT)
--> expr_calc_value("BASE_SMALL" as an expr)
--> sym_calc_value(BASE_SMALL as a symbol) and returns sym->curr.tri
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-But, if I understood correctly, sym_calc_value() does not set sym->curr.tri in case of a int type config.
-
-Regards,
--- 
-Yoann Congal
-Smile ECS - Tech Expert
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
