@@ -1,194 +1,117 @@
-Return-Path: <linux-kbuild+bounces-642-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-643-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1493E83A871
-	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Jan 2024 12:48:26 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA1D683A89D
+	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Jan 2024 12:59:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A2BEEB2B570
-	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Jan 2024 11:48:23 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 32831B25F09
+	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Jan 2024 11:59:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07E8D55778;
-	Wed, 24 Jan 2024 11:44:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8EB860BBE;
+	Wed, 24 Jan 2024 11:59:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M4Y0YNtR"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tmGVDOk6"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE75A54BE6;
-	Wed, 24 Jan 2024 11:44:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 799F060DC0;
+	Wed, 24 Jan 2024 11:59:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706096655; cv=none; b=E3hxfOGbP7su+t3n0dL+Z3ysKrmMFq/e+Beiwv3jQuRWyWLq8m7RgGhG29uJni5J6iSS1jcHYSZOdGIEAT9fQciSkyNhW2IDDwGHxYe1mKfnVmD/Tvoto7DNsDyxgMqL7hmZlOzCxHvKXonogSBV3wiLGG3/TIL6ivF2uUepK2U=
+	t=1706097588; cv=none; b=owxy3roAry+v4O09GyxxQcY/kXVfnLz5f1S7v9i/JgcCuyQ8Q+Pm4tDimiZ8cj2LfCNKy0RU7pC8yqL+RCXyR7cEdu/f8sRVn2nkvp7xFPEUE3SQeh4E8ynLhrWjjMyymavpUDKrmNWV4+rowlOApi+oIzltkNc4yO5iEkP8ny0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706096655; c=relaxed/simple;
-	bh=ou25a266zywPby6WgQZvxo8eRAMCHvr/U81WBrVmjzc=;
+	s=arc-20240116; t=1706097588; c=relaxed/simple;
+	bh=oarX1fEBRPBcI5XEhiEXf7uHfTjLyDcKLCnvwlckcXs=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=i2MAnE8KLtfk+bzslUh+GW+QITMa/Kiwn/C7UB17ZV1iKlBG6FHx0eaU7HHnWQXnz1sWe+BbbgxeFuI3zIaWjYCpTwM7pFOC6QpFKfk0exrrW51nYw5wphDGBCts6hSHXSlmUmePb4eLCuY/fK8/zNCjqJrUBosU6B6OxA8bzyg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M4Y0YNtR; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57DD4C433F1;
-	Wed, 24 Jan 2024 11:44:15 +0000 (UTC)
+	 To:Content-Type; b=nb2hPfU/8a3ySSLCevfKFOaBu0hvAwPCOuFIXcF6p+Tg0mgGU208H3HnyElIpe1Z2SDLz+AjUR7VVpAz0awksXqVI2PQNVu0OKh1H1/utV3iprRSelIOVNCuoXepzaZ8lQYPAy9igO2b77LVWsq6DE0gDqEUmRKerN34IiH2jak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tmGVDOk6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA57DC433C7;
+	Wed, 24 Jan 2024 11:59:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706096655;
-	bh=ou25a266zywPby6WgQZvxo8eRAMCHvr/U81WBrVmjzc=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=M4Y0YNtRXTQQiNf1u95ImNgJFx/IuA9k+rhvL31XQF252omLvwFuJj3aa7tDNP3A+
-	 zX9c1d5Ge5oG+qIRRWOODoEKRIdW3RjulRtrkdf+ySEwYQh2UZekpO3tY/n/fM/Umr
-	 kpztZeB98FTlDstIY/S2OuhKB1Bns9/hUS3c/z8JfwtDIpAEXtP3Z87oS4Xk2845eb
-	 kCyPymOwX6TOT6rHhjNHxCYYcJgPrfHXEC+W9aDBw086f3uqGIuUyyGamUuGaYTy0A
-	 +2LgnOuVRLrW2Pu9nHGdQgixMAfvJmQOnhBD4G05qKWQaA8e8VSy9v/TWLcwlcNqTT
-	 pdJjKBUM4d5bw==
-Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-2144ce7ff41so1426204fac.3;
-        Wed, 24 Jan 2024 03:44:15 -0800 (PST)
-X-Gm-Message-State: AOJu0YyjrC7i5WBnuo7YOT73AtykgNVPq3qyBt4yBdAH+EWMTY7oXQFG
-	hYtu7Po4Beu/GHVUIx7OBt7sjcsVoUCFx7O9kkI8y0FrDn/w4m2h68jhgDblpEIhdQkPh6fbk9P
-	aRLDv8untByrC6v9KcahIQI9lIsk=
-X-Google-Smtp-Source: AGHT+IEMVGqsuzMCKOKoIen+3nitjN3cwCrv4EKUfGicBenAK+wGKt0aQgHx+W7R5oTxTFkXNygDac5vAQamsYteasc=
-X-Received: by 2002:a05:6871:a6a6:b0:210:b306:e710 with SMTP id
- wh38-20020a056871a6a600b00210b306e710mr2893063oab.115.1706096654684; Wed, 24
- Jan 2024 03:44:14 -0800 (PST)
+	s=k20201202; t=1706097588;
+	bh=oarX1fEBRPBcI5XEhiEXf7uHfTjLyDcKLCnvwlckcXs=;
+	h=References:In-Reply-To:From:Date:Subject:To:From;
+	b=tmGVDOk6vAIgARhEPO6uqnyjz2VgVTyoTUqiOLvyv5fGrqBRG/g/l2rQ6J8a5Dhnu
+	 MfycHEAbv4oOi/H48w8TD1XTVRcvVsBmyEWSJVL/fOR/y1Q5c8WTSD/FwoHCl+BtUN
+	 8fSMby52xE3R4DaHY6zLBSrrQ8TTWLsga1RGaKp5Gdnslw1BEJS11NWgiVXke9c1ji
+	 tHY1SaocR+9yigB5R/zRcTUgVawYu7CDiiIDCoM1Y5nW6Y+BoQpiPQ7fEVkjul6uye
+	 8SEg3Wyb5kBPCth/5UXbJFyQ+7qDT6ekkwrRzcaA3z4naIz81KflbhRZUGzZg6gEDu
+	 2NqAUYtZka+3Q==
+Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-594cb19c5d9so2577566eaf.0;
+        Wed, 24 Jan 2024 03:59:47 -0800 (PST)
+X-Gm-Message-State: AOJu0YwqwSeoIveJHXaSrTZBAi6/bHdc5wg9Xuh7NR+SF8qTXePczyjk
+	uUagtL9lnvAePlv3753MwHCgOvARXu/DSS3lK/N+4sDMEPZXxO9JU9NRQK3dKeN4lF37wItxur0
+	SmsHLBM1zoeK43oB5zzyFTDL7bl4=
+X-Google-Smtp-Source: AGHT+IFRnV323hQjxgtJU/VsUH5tXwMdr/gaNQrlgBSZy7mxmGPas1ccoR85KkChRda3o3h4p8l5AFyXWBX4M/gX/UA=
+X-Received: by 2002:a05:6870:a686:b0:210:8e0f:43f0 with SMTP id
+ i6-20020a056870a68600b002108e0f43f0mr457408oam.57.1706097587313; Wed, 24 Jan
+ 2024 03:59:47 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231125163559.824210-1-masahiroy@kernel.org> <CAMuHMdWm6u1wX7efZQf=2XUAHascps76YQac6rdnQGhc8nop_Q@mail.gmail.com>
- <d21298d9-fed6-4e08-9780-dbcb388b9ccc@smile.fr> <CAK7LNASaG4DpHTb3YHMd8d8DJ5H3z0aiUcSqX+=7CZb99kRU8A@mail.gmail.com>
- <CAMuHMdWLMNj=Yvf4QxxrCxf-UBr-VXUxfJei+V2bNd0M7D1OhQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdWLMNj=Yvf4QxxrCxf-UBr-VXUxfJei+V2bNd0M7D1OhQ@mail.gmail.com>
+References: <20240120083255.2757978-1-masahiroy@kernel.org> <Za6H2NfODGU419hX@buildd.core.avm.de>
+In-Reply-To: <Za6H2NfODGU419hX@buildd.core.avm.de>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Wed, 24 Jan 2024 20:43:37 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASDNLJ-dUPmFF=miMz2hj_cV2yrqTR8NQ_OGdazFdnSZw@mail.gmail.com>
-Message-ID: <CAK7LNASDNLJ-dUPmFF=miMz2hj_cV2yrqTR8NQ_OGdazFdnSZw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] kconfig: remove unneeded symbol_empty variable
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Yoann Congal <yoann.congal@smile.fr>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>, 
-	Vegard Nossum <vegard.nossum@oracle.com>
+Date: Wed, 24 Jan 2024 20:59:11 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATABD0S40dnGznQNmPYAi_i0eh2ftYQfBm98teG7QPd5A@mail.gmail.com>
+Message-ID: <CAK7LNATABD0S40dnGznQNmPYAi_i0eh2ftYQfBm98teG7QPd5A@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: fix W= flags in the help message
+To: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org, 
+	Nathan Chancellor <nathan@kernel.org>, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jan 24, 2024 at 6:52=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
+On Tue, Jan 23, 2024 at 12:21=E2=80=AFAM Nicolas Schier <n.schier@avm.de> w=
+rote:
 >
-> Hi Yamada-san,
+> On Sat, Jan 20, 2024 at 05:32:55PM +0900, Masahiro Yamada wrote:
+> > W=3Dc and W=3De are supported.
+> >
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > ---
+> >
+> >  Makefile | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/Makefile b/Makefile
+> > index f288eb2dc8fd..8c6a935c62e6 100644
+> > --- a/Makefile
+> > +++ b/Makefile
+> > @@ -1653,7 +1653,7 @@ help:
+> >       @echo  '                       (sparse by default)'
+> >       @echo  '  make C=3D2   [targets] Force check of all c source with=
+ $$CHECK'
+> >       @echo  '  make RECORDMCOUNT_WARN=3D1 [targets] Warn about ignored=
+ mcount sections'
+> > -     @echo  '  make W=3Dn   [targets] Enable extra build checks, n=3D1=
+,2,3 where'
+> > +     @echo  '  make W=3Dn   [targets] Enable extra build checks, n=3D1=
+,2,3,c,e where'
 >
-> On Wed, Jan 24, 2024 at 9:10=E2=80=AFAM Masahiro Yamada <masahiroy@kernel=
-.org> wrote:
-> > On Wed, Jan 24, 2024 at 12:11=E2=80=AFAM Yoann Congal <yoann.congal@smi=
-le.fr> wrote:
-> > > Le 23/01/2024 =C3=A0 13:54, Geert Uytterhoeven a =C3=A9crit :
-> > > > On Sat, Nov 25, 2023 at 5:36=E2=80=AFPM Masahiro Yamada <masahiroy@=
-kernel.org> wrote:
-> > > >> This is used only for initializing other variables.
-> > > >>
-> > > >> Use the empty string "".
-> > > >>
-> > > >> Please note newval.tri is unused for S_INT/HEX/STRING.
-> > > >>
-> > > >> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > > >
-> > > > Thanks for your patch, which is now commit 4e244c10eab345a7
-> > > > ("kconfig: remove unneeded symbol_empty variable") in v6.8-rc1.
-> > > >
-> > > > When running "make <foo>_defconfig" with <foo>_defconfig an SMP
-> > > > defconfig without explicit configuration of CONFIG_LOG_CPU_MAX_BUF_=
-SHIFT,
-> > > > the aforementioned commit causes a change in the generated .config:
-> > > >
-> > > > -CONFIG_LOG_CPU_MAX_BUF_SHIFT=3D12
-> > > > +CONFIG_LOG_CPU_MAX_BUF_SHIFT=3D0
-> > > >
-> > > > It looks like CONFIG_BASE_SMALL=3D0 is treated as a string instead =
-of
-> > > > the integer number zero?
-> > > >
-> > > > init/Kconfig=3Dconfig LOG_CPU_MAX_BUF_SHIFT
-> > > > init/Kconfig-   int "CPU kernel log buffer size contribution (13 =
-=3D> 8
-> > > > KB, 17 =3D> 128KB)"
-> > > > init/Kconfig-   depends on SMP
-> > > > init/Kconfig-   range 0 21
-> > > > init/Kconfig:   default 12 if !BASE_SMALL
-> > > > init/Kconfig:   default 0 if BASE_SMALL
-> > > >
-> > > > Note that reverting 4e244c10eab345a7 is not sufficient to fix the i=
-ssue.
-> > > > Also reverting commit 6262afa10ef7cc8f ("kconfig: default to zero i=
-f
-> > > > int/hex symbol lacks default property") does fix it.
-> > >
-> > > (Since I'd really like 6262afa10ef7cc8f ("kconfig: default to zero if=
- int/hex symbol lacks default property") to stay, allow me to try to help)
-> > >
-> > > The problem is quite easy to reproduce:
-> > >   $ make x86_64_defconfig
-> > >   $ grep 'LOG_CPU_MAX_BUF_SHIFT\|BASE_SMALL\|BASE_FULL' .config
-> > >   CONFIG_LOG_CPU_MAX_BUF_SHIFT=3D0
-> > >   CONFIG_BASE_FULL=3Dy
-> > >   CONFIG_BASE_SMALL=3D0
-> > > Here, CONFIG_LOG_CPU_MAX_BUF_SHIFT should be 12 not 0.
-> >
-> >
-> >
-> > I could not produce it in this way.
-> > I ran the same commands as yours.
-> >
-> > CONFIG_LOG_CPU_MAX_BUF_SHIFT=3D12 for me.
-> >
-> >
-> >
-> > masahiro@zoe:~/ref/linux(master)$ git describe
-> > v6.8-rc1-29-g615d30064886
-> > masahiro@zoe:~/ref/linux(master)$ git diff
-> > masahiro@zoe:~/ref/linux(master)$ make  x86_64_defconfig
-> > #
-> > # No change to .config
-> > #
-> > masahiro@zoe:~/ref/linux(master)$ grep
-> > 'LOG_CPU_MAX_BUF_SHIFT\|BASE_SMALL\|BASE_FULL' .config
-> > CONFIG_LOG_CPU_MAX_BUF_SHIFT=3D12
-> > CONFIG_BASE_FULL=3Dy
-> > CONFIG_BASE_SMALL=3D0
->
-> Interesting...
->
-> $ git describe
-> v6.8-rc1-29-g615d300648869c77
-> $ make  x86_64_defconfig
-> [...]
-> $ grep 'LOG_CPU_MAX_BUF_SHIFT\|BASE_SMALL\|BASE_FULL' .config
-> CONFIG_LOG_CPU_MAX_BUF_SHIFT=3D0
-> CONFIG_BASE_FULL=3Dy
-> CONFIG_BASE_SMALL=3D0
->
-> Does it depend on the flex/bison version?
-> I have Ubuntu LTS flex 2.6.4-8build2 and bison 2:3.8.2+dfsg-1build1.
->
+> In the top of scripts/Makefile.extrawarn we have kind of a duplication
+> of this description.  Might you want to update that too?
 
+W=3De is already mentioned in scripts/Makefile.extrawarn.
+W=3Dc is handled in scripts/kconfig/Makefile.
 
-Interesting.
-
-The result depends on the distro.
-
-
-
-I got CONFIG_LOG_CPU_MAX_BUF_SHIFT=3D0 in
-the Ubuntu 22.04 docker container, but
-CONFIG_LOG_CPU_MAX_BUF_SHIFT=3D12 in
-the Ubuntu 23.10 docker container.
+So, I believe it is OK as-is.
 
 
 
 
 
+> Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
 
---
+
+
+--=20
 Best Regards
 Masahiro Yamada
 
