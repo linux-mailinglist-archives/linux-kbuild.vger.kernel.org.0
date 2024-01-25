@@ -1,267 +1,220 @@
-Return-Path: <linux-kbuild+bounces-644-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-645-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 709E383B2E1
-	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Jan 2024 21:13:21 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0FBA83B7BE
+	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Jan 2024 04:20:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 960731C221D6
-	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Jan 2024 20:13:20 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DFA7C1C23596
+	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Jan 2024 03:20:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C8F2133425;
-	Wed, 24 Jan 2024 20:13:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kJ5rCX0S"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6768B5CA1;
+	Thu, 25 Jan 2024 03:20:13 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E137133402;
-	Wed, 24 Jan 2024 20:13:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD9B01FBF
+	for <linux-kbuild@vger.kernel.org>; Thu, 25 Jan 2024 03:20:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706127197; cv=none; b=fgDH0Ump01ZC/JCFr5so1ynlldC7j6udllhuf2i9jKVbhIYoqSTVPfcmM+WVCuh5OAY6ddGLIiSpGTxX7Xzzr/pA8m5DuFFB7QfApegauEj+W6jrQDKrFZrXLY+/D0aDajzZSxnWBjcVXYu/vTHROFYU14evJJaOjMsbbwntq6Y=
+	t=1706152813; cv=none; b=FGbKCeUkr/7VPoKAn79vMQV5fAJyyjP2IiA0WpFNGzFfy6joEZvW7JWyPdlryG2Gq0i33avj70FUhYZwYkZvXpuYM0Ulmx/yv9P7PciQfefCioZQCt/N7nlHOs+ekBWa17tqk58XiNKCm/RhoJuhCoiXmiaJAweHFnatU8yf/Qo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706127197; c=relaxed/simple;
-	bh=Twdinh4ZzSq2XBDa62Pj66mxim/LoN3y8w5gfBuM//c=;
+	s=arc-20240116; t=1706152813; c=relaxed/simple;
+	bh=6gfTMOxiLZKJg3StuFFOtAoyY3gEZtO6MaF5DJ40Glw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PZ6XK6I/EBe2MGP9Er5bY52JLzlFkX6xCkvXdUVF1vFzIx3H7Cb0LOdY1UR9DRWAsWuJL+4oKPVPf/A4OOBZkyZDNRbvzUd0Ks1CSWDRCsXIORgoEhxsmt4POmKkverbFuJEROxTNDSbqlKe7VfXNBZTnA5Xu1qCNiWz/Yp8Xjg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kJ5rCX0S; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91FB2C43394;
-	Wed, 24 Jan 2024 20:13:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706127196;
-	bh=Twdinh4ZzSq2XBDa62Pj66mxim/LoN3y8w5gfBuM//c=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=kJ5rCX0SFT9rgDc/fP3b8dpnnHH0VuOjTzPSMKMqnrOlNp8Svp3qWxgijE5XF3Cri
-	 z8/7E8RTzSiKdrS52Ywyr3Sdv4C5mw1eV0bqrumWoFLyU8AH0uTL3kWPHD5aJYxrrc
-	 OdC35+REDjzsqWXWKk/DczEkXaUojRFZauhQ9iNyB7TFiPDG1Pzm0g1Fbd0ncZ4lmt
-	 bzUczuvI8yxYRGgh7NkNvt1aIhEUcxTIlSvC/Mwxn7ztbmwDwSClwXkzvMzqV16nn5
-	 +DojygSfXlbb/aEWLgiVbY598+ewOxE4Qgkakdd6uypraeDtIWGyXyGb/aYOFBfGAe
-	 Kk+fPDRR6MGmw==
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-20536d5c5c7so3466274fac.2;
-        Wed, 24 Jan 2024 12:13:16 -0800 (PST)
-X-Gm-Message-State: AOJu0YxraSA+RKNnDfl6cQO1MrDvaX4gnOd1bCxzASU7b46j0W50MmGW
-	tTINYi3emtZ1ZXdnurL/yahS2BkDWCynXAVp2sVu/zQF/KJvIYxO7K+b+Fw+25vaN2AkfilAOsQ
-	VRvk9l+L20Hn3Z/GPN8pHqYP1kWI=
-X-Google-Smtp-Source: AGHT+IEdps2ft5aE/ugUSRWkMkgV1cw5E4uPkw16thd98JKnWBTqC1wgkBic5LGkzeA378Bf6idLQALhkgUKuDDKxTE=
-X-Received: by 2002:a05:6870:2008:b0:210:8b33:2c95 with SMTP id
- o8-20020a056870200800b002108b332c95mr3514557oab.108.1706127195872; Wed, 24
- Jan 2024 12:13:15 -0800 (PST)
+	 To:Cc:Content-Type; b=t3X+F7lEREV8l75eazHckFriDUiG9nokKTrvoAP5FugfOS21qR8WJVqM67Llb+89zayWHdT80X/yvZ9GDNYxAW9TwdOCyqztDeEEThpHX+IjjvNq8hJf1MKlD2rWSxtboUqtQ2kDLOgiRB/yH0xvjF1DBnn+wpr3qkvJP4VKum8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [209.85.219.179])
+	by gateway (Coremail) with SMTP id _____8Cxmehp07Flh0oFAA--.742S3;
+	Thu, 25 Jan 2024 11:20:09 +0800 (CST)
+Received: from mail-yb1-f179.google.com (unknown [209.85.219.179])
+	by localhost.localdomain (Coremail) with SMTP id AQAAf8Dxfs1k07Fln10YAA--.39303S3;
+	Thu, 25 Jan 2024 11:20:06 +0800 (CST)
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-dbed179f0faso239055276.1
+        for <linux-kbuild@vger.kernel.org>; Wed, 24 Jan 2024 19:20:06 -0800 (PST)
+X-Gm-Message-State: AOJu0YwdhotxD5ifbzTrpGfDoBFkt+VwloYXT0hopmdW/RrS5a6snAZu
+	99zkFhS3B/dzeGKE8lzdsB5vX8zMK8HOSUfik4TEn+dn7YU40Bs7LkCzNc3TAVD+YSuyiB1v/+D
+	q7W4ynq5t4hf8YVG7efg/S4Byi52dNJWfq/n6Mg==
+X-Google-Smtp-Source: AGHT+IHpJvy+uoPwJQ7ep0HeUIHFzj8XP2fjNevYr3ODRNUs//WbEIINo71dKyNK1G8dpRw276rewQWOfKy6TPkVG2A=
+X-Received: by 2002:a25:aac2:0:b0:dc2:1faf:e7c6 with SMTP id
+ t60-20020a25aac2000000b00dc21fafe7c6mr442935ybi.59.1706152803997; Wed, 24 Jan
+ 2024 19:20:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231125163559.824210-1-masahiroy@kernel.org> <CAMuHMdWm6u1wX7efZQf=2XUAHascps76YQac6rdnQGhc8nop_Q@mail.gmail.com>
- <d21298d9-fed6-4e08-9780-dbcb388b9ccc@smile.fr> <CAK7LNASaG4DpHTb3YHMd8d8DJ5H3z0aiUcSqX+=7CZb99kRU8A@mail.gmail.com>
- <b65a68eb-6b96-41ff-bbb9-38cb2dee940e@smile.fr>
-In-Reply-To: <b65a68eb-6b96-41ff-bbb9-38cb2dee940e@smile.fr>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Thu, 25 Jan 2024 05:12:39 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARVbjVkP=v7uQDB=Z+Ntcy9MiFa6WowTX9mA47YjS3zTg@mail.gmail.com>
-Message-ID: <CAK7LNARVbjVkP=v7uQDB=Z+Ntcy9MiFa6WowTX9mA47YjS3zTg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] kconfig: remove unneeded symbol_empty variable
-To: Yoann Congal <yoann.congal@smile.fr>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>, 
-	Vegard Nossum <vegard.nossum@oracle.com>
+References: <20231020155056.3495121-1-Jamie.Cunliffe@arm.com>
+ <20231020155056.3495121-2-Jamie.Cunliffe@arm.com> <CALNs47vzQm5MbfJtMQR3p+W1xub3KHiNqRgEQGWT3u28fpQ-oA@mail.gmail.com>
+In-Reply-To: <CALNs47vzQm5MbfJtMQR3p+W1xub3KHiNqRgEQGWT3u28fpQ-oA@mail.gmail.com>
+From: WANG Rui <wangrui@loongson.cn>
+Date: Thu, 25 Jan 2024 11:19:53 +0800
+X-Gmail-Original-Message-ID: <CAHirt9jhbnXz34D-pmHNecMfkefL4wTr9LYj_V28OsVd=fkdZA@mail.gmail.com>
+Message-ID: <CAHirt9jhbnXz34D-pmHNecMfkefL4wTr9LYj_V28OsVd=fkdZA@mail.gmail.com>
+Subject: Re: [PATCH v4 1/2] rust: Refactor the build target to allow the use
+ of builtin targets
+To: Trevor Gross <tmgross@umich.edu>
+Cc: Jamie Cunliffe <Jamie.Cunliffe@arm.com>, linux-arm-kernel@lists.infradead.org, 
+	rust-for-linux@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, steve.capper@arm.com, 
+	Asahi Lina <lina@asahilina.net>, boqun.feng@gmail.com, andrew@lunn.ch, 
+	Huacai Chen <chenhuacai@kernel.org>, loongarch@lists.linux.dev, 
+	Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-CM-TRANSID:AQAAf8Dxfs1k07Fln10YAA--.39303S3
+X-CM-SenderInfo: pzdqw2txl6z05rqj20fqof0/
+X-Coremail-Antispam: 1Uk129KBj93XoWxZFyDJw1xXr4kCrW7AFy5Awc_yoWrtw4Dpa
+	n5CF4fAFW8J3yYga1xtFW3ur45Kws5Wr109F4xGw1jyr15WFn2grWIkr43uF1UCay7C3yr
+	XF1I9F97ur4UAwbCm3ZEXasCq-sJn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUkjb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+	xVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx
+	1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv
+	67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41l42xK82IYc2Ij64
+	vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8G
+	jcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2I
+	x0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK
+	8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I
+	0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07j8yCJUUUUU=
 
-On Wed, Jan 24, 2024 at 5:56=E2=80=AFPM Yoann Congal <yoann.congal@smile.fr=
-> wrote:
+Hello,
+
+On Mon, Jan 22, 2024 at 5:17=E2=80=AFPM Trevor Gross <tmgross@umich.edu> wr=
+ote:
 >
+> On Fri, Oct 20, 2023 at 10:59=E2=80=AFAM Jamie Cunliffe <Jamie.Cunliffe@a=
+rm.com> wrote:
+> >
+> > Eventually we want all architectures to be using the target as defined
+> > by rustc. However currently some architectures can't do that and are
+> > using the target.json specification. This puts in place the foundation
+> > to allow the use of the builtin target definition or a target.json
+> > specification.
+> >
+> > Signed-off-by: Jamie Cunliffe <Jamie.Cunliffe@arm.com>
+> > ---
+> >  Makefile          | 1 -
+> >  arch/x86/Makefile | 1 +
+> >  rust/Makefile     | 5 ++++-
+> >  scripts/Makefile  | 4 +++-
+> >  4 files changed, 8 insertions(+), 3 deletions(-)
 >
+> Adding LoongArch maintainers - this patch will need a small update to
+> arch/loongarch/Makefile similar to the change in arch/x86/Makefile
+> (included below), since that support is now in-tree and uses
+> generate_rust_target [1]. Also a very minor conflict in docs at patch
+> 2/2.
 >
-> Le 24/01/2024 =C3=A0 09:09, Masahiro Yamada a =C3=A9crit :
-> > On Wed, Jan 24, 2024 at 12:11=E2=80=AFAM Yoann Congal <yoann.congal@smi=
-le.fr> wrote:
-> >>
-> >> Le 23/01/2024 =C3=A0 13:54, Geert Uytterhoeven a =C3=A9crit :
-> >>> Hi Yamada-san,
-> >>
-> >> Hello,
-> >>
-> >>> On Sat, Nov 25, 2023 at 5:36=E2=80=AFPM Masahiro Yamada <masahiroy@ke=
-rnel.org> wrote:
-> >>>> This is used only for initializing other variables.
-> >>>>
-> >>>> Use the empty string "".
-> >>>>
-> >>>> Please note newval.tri is unused for S_INT/HEX/STRING.
-> >>>>
-> >>>> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> >>>
-> >>> Thanks for your patch, which is now commit 4e244c10eab345a7
-> >>> ("kconfig: remove unneeded symbol_empty variable") in v6.8-rc1.
-> >>>
-> >>> When running "make <foo>_defconfig" with <foo>_defconfig an SMP
-> >>> defconfig without explicit configuration of CONFIG_LOG_CPU_MAX_BUF_SH=
-IFT,
-> >>> the aforementioned commit causes a change in the generated .config:
-> >>>
-> >>> -CONFIG_LOG_CPU_MAX_BUF_SHIFT=3D12
-> >>> +CONFIG_LOG_CPU_MAX_BUF_SHIFT=3D0
-> >>>
-> >>> It looks like CONFIG_BASE_SMALL=3D0 is treated as a string instead of
-> >>> the integer number zero?
-> >>>
-> >>> init/Kconfig=3Dconfig LOG_CPU_MAX_BUF_SHIFT
-> >>> init/Kconfig-   int "CPU kernel log buffer size contribution (13 =3D>=
- 8
-> >>> KB, 17 =3D> 128KB)"
-> >>> init/Kconfig-   depends on SMP
-> >>> init/Kconfig-   range 0 21
-> >>> init/Kconfig:   default 12 if !BASE_SMALL
-> >>> init/Kconfig:   default 0 if BASE_SMALL
-> >>>
-> >>> Note that reverting 4e244c10eab345a7 is not sufficient to fix the iss=
-ue.
-> >>> Also reverting commit 6262afa10ef7cc8f ("kconfig: default to zero if
-> >>> int/hex symbol lacks default property") does fix it.
-> >>
-> >> (Since I'd really like 6262afa10ef7cc8f ("kconfig: default to zero if =
-int/hex symbol lacks default property") to stay, allow me to try to help)
-> >>
-> >> The problem is quite easy to reproduce:
-> >>   $ make x86_64_defconfig
-> >>   $ grep 'LOG_CPU_MAX_BUF_SHIFT\|BASE_SMALL\|BASE_FULL' .config
-> >>   CONFIG_LOG_CPU_MAX_BUF_SHIFT=3D0
-> >>   CONFIG_BASE_FULL=3Dy
-> >>   CONFIG_BASE_SMALL=3D0
-> >> Here, CONFIG_LOG_CPU_MAX_BUF_SHIFT should be 12 not 0.
+> I believe this patchset is still waiting on an ack from the kbuild
+> team. Series at [2] for reference.
+>
+> Thanks,
+> Trevor
+>
+> [1]: https://lore.kernel.org/rust-for-linux/20240108032117.215171-1-wangr=
+ui@loongson.cn/
+> [2]: https://lore.kernel.org/rust-for-linux/20231020155056.3495121-1-Jami=
+e.Cunliffe@arm.com/
+
+I can confirm that the fix patch [2], based on patch [1], is suitable
+for LoongArch. LoongArch encounters no issues when using the built-in
+`loongarch64-unknown-none-softfloat` target. Once patch [1] is merged
+into the mainline, I'll send a patch to switch to using the built-in
+target.
+
+Thanks,
+Rui
+
+[1]: https://lore.kernel.org/rust-for-linux/20231020155056.3495121-1-Jamie.=
+Cunliffe@arm.com/
+[2]: https://github.com/heiher/linux/commit/c504d83a6edd963e2ba58ec538e3f06=
+da78b187e.patch
+
+>
+> > diff --git a/Makefile b/Makefile
+> > index 88ebf6547964..23100f193da3 100644
+> > --- a/Makefile
+> > +++ b/Makefile
+> > @@ -566,7 +566,6 @@ KBUILD_CFLAGS +=3D -fno-strict-aliasing
+> >
+> >  KBUILD_CPPFLAGS :=3D -D__KERNEL__
+> >  KBUILD_RUSTFLAGS :=3D $(rust_common_flags) \
+> > -                   --target=3D$(objtree)/scripts/target.json \
+> >                     -Cpanic=3Dabort -Cembed-bitcode=3Dn -Clto=3Dn \
+> >                     -Cforce-unwind-tables=3Dn -Ccodegen-units=3D1 \
+> >                     -Csymbol-mangling-version=3Dv0 \
+> > diff --git a/arch/x86/Makefile b/arch/x86/Makefile
+> > index 5bfe5caaa444..0f339d4abd40 100644
+> > --- a/arch/x86/Makefile
+> > +++ b/arch/x86/Makefile
+> > @@ -68,6 +68,7 @@ export BITS
+> >  #    https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D53383
+> >  #
+> >  KBUILD_CFLAGS +=3D -mno-sse -mno-mmx -mno-sse2 -mno-3dnow -mno-avx
+> > +KBUILD_RUSTFLAGS +=3D --target=3D$(objtree)/scripts/target.json
+> >  KBUILD_RUSTFLAGS +=3D -Ctarget-feature=3D-sse,-sse2,-sse3,-ssse3,-sse4=
+.1,-sse4.2,-avx,-avx2
+> >
+> >  ifeq ($(CONFIG_X86_KERNEL_IBT),y)
+> > diff --git a/rust/Makefile b/rust/Makefile
+> > index 87958e864be0..8d75a6ffe951 100644
+> > --- a/rust/Makefile
+> > +++ b/rust/Makefile
+> > @@ -428,8 +428,11 @@ $(obj)/core.o: private skip_clippy =3D 1
+> >  $(obj)/core.o: private skip_flags =3D -Dunreachable_pub
+> >  $(obj)/core.o: private rustc_objcopy =3D $(foreach sym,$(redirect-intr=
+insics),--redefine-sym $(sym)=3D__rust$(sym))
+> >  $(obj)/core.o: private rustc_target_flags =3D $(core-cfgs)
+> > -$(obj)/core.o: $(RUST_LIB_SRC)/core/src/lib.rs scripts/target.json FOR=
+CE
+> > +$(obj)/core.o: $(RUST_LIB_SRC)/core/src/lib.rs FORCE
+> >         $(call if_changed_dep,rustc_library)
+> > +ifdef CONFIG_X86_64
+> > +$(obj)/core.o: scripts/target.json
+> > +endif
+> >
+> >  $(obj)/compiler_builtins.o: private rustc_objcopy =3D -w -W '__*'
+> >  $(obj)/compiler_builtins.o: $(src)/compiler_builtins.rs $(obj)/core.o =
+FORCE
+> > diff --git a/scripts/Makefile b/scripts/Makefile
+> > index 576cf64be667..c85d130a4125 100644
+> > --- a/scripts/Makefile
+> > +++ b/scripts/Makefile
+> > @@ -11,12 +11,14 @@ hostprogs-always-$(CONFIG_MODULE_SIG_FORMAT)       =
+         +=3D sign-file
+> >  hostprogs-always-$(CONFIG_SYSTEM_EXTRA_CERTIFICATE)    +=3D insert-sys=
+-cert
+> >  hostprogs-always-$(CONFIG_RUST_KERNEL_DOCTESTS)                +=3D ru=
+stdoc_test_builder
+> >  hostprogs-always-$(CONFIG_RUST_KERNEL_DOCTESTS)                +=3D ru=
+stdoc_test_gen
+> > -always-$(CONFIG_RUST)                                  +=3D target.jso=
+n
+> >
+> > +ifdef CONFIG_X86_64
+> > +always-$(CONFIG_RUST)                                  +=3D target.jso=
+n
+> >  filechk_rust_target =3D $< < include/config/auto.conf
+> >
+> >  $(obj)/target.json: scripts/generate_rust_target include/config/auto.c=
+onf FORCE
+> >         $(call filechk,rust_target)
+> > +endif
+> >
+> >  hostprogs +=3D generate_rust_target
+> >  generate_rust_target-rust :=3D y
+> > --
+> > 2.30.2
 > >
 > >
-> >
-> > I could not produce it in this way.
-> > I ran the same commands as yours.
-> >
-> > CONFIG_LOG_CPU_MAX_BUF_SHIFT=3D12 for me.
-> >
-> >
-> >
-> > masahiro@zoe:~/ref/linux(master)$ git describe
-> > v6.8-rc1-29-g615d30064886
-> > masahiro@zoe:~/ref/linux(master)$ git diff
-> > masahiro@zoe:~/ref/linux(master)$ make  x86_64_defconfig
-> > #
-> > # No change to .config
-> > #
 >
-> You already had a .config with the correct value of LOG_CPU_MAX_BUF_SHIFT=
- (Maybe?)
->
-> > masahiro@zoe:~/ref/linux(master)$ grep
-> > 'LOG_CPU_MAX_BUF_SHIFT\|BASE_SMALL\|BASE_FULL' .config
-> > CONFIG_LOG_CPU_MAX_BUF_SHIFT=3D12
-> > CONFIG_BASE_FULL=3Dy
-> > CONFIG_BASE_SMALL=3D0
->
-> Try to remove the existing .config:
->
->    $ git describe
->   v6.8-rc1
->    $ git diff
->    $ rm .config -f
->    $ make  x86_64_defconfig
->   #
->   # configuration written to .config
->   #
->    $ grep 'LOG_CPU_MAX_BUF_SHIFT\|BASE_SMALL\|BASE_FULL' .config
->   CONFIG_LOG_CPU_MAX_BUF_SHIFT=3D0
->   CONFIG_BASE_FULL=3Dy
->   CONFIG_BASE_SMALL=3D0
->
-> >>
-> >> For what it is worth, CONFIG_BASE_SMALL is defined as an int but is on=
-ly used as a bool :
-> >>    $ git grep BASE_SMALL
-> >>   arch/x86/include/asm/mpspec.h:#if CONFIG_BASE_SMALL =3D=3D 0
-> >>   drivers/tty/vt/vc_screen.c:#define CON_BUF_SIZE (CONFIG_BASE_SMALL ?=
- 256 : PAGE_SIZE)
-> >>   include/linux/threads.h:#define PID_MAX_DEFAULT (CONFIG_BASE_SMALL ?=
- 0x1000 : 0x8000)
-> >>   include/linux/threads.h:#define PID_MAX_LIMIT (CONFIG_BASE_SMALL ? P=
-AGE_SIZE * 8 : \
-> >>   include/linux/udp.h:#define UDP_HTABLE_SIZE_MIN         (CONFIG_BASE=
-_SMALL ? 128 : 256)
-> >>   include/linux/xarray.h:#define XA_CHUNK_SHIFT           (CONFIG_BASE=
-_SMALL ? 4 : 6)
-> >>   init/Kconfig:   default 12 if !BASE_SMALL
-> >>   init/Kconfig:   default 0 if BASE_SMALL
-> >>   init/Kconfig:config BASE_SMALL
-> >>   kernel/futex/core.c:#if CONFIG_BASE_SMALL
-> >>   kernel/user.c:#define UIDHASH_BITS      (CONFIG_BASE_SMALL ? 3 : 7)
-> >>
-> >> Maybe we should change CONFIG_BASE_SMALL to the bool type?
->
-> My first test shows that switching CONFIG_BASE_SMALL to bool type does fi=
-x the LOG_CPU_MAX_BUF_SHIFT default value.
->
-> >> I'll poke around to see if I can understand why a int=3D"0" is true fo=
-r kconfig.
->
-> Here's what I understood:
-> To get the default value of LOG_CPU_MAX_BUF_SHIFT, kconfig calls sym_get_=
-default_prop(LOG_CPU_MAX_BUF_SHIFT)
-> -> expr_calc_value("BASE_SMALL" as an expr)
-> -> sym_calc_value(BASE_SMALL as a symbol) and returns sym->curr.tri
->
-> But, if I understood correctly, sym_calc_value() does not set sym->curr.t=
-ri in case of a int type config.
 
-
-Right.
-
-The following will restore the original behavior.
-
-
---- a/scripts/kconfig/symbol.c
-+++ b/scripts/kconfig/symbol.c
-@@ -349,12 +349,15 @@ void sym_calc_value(struct symbol *sym)
-        switch (sym->type) {
-        case S_INT:
-                newval.val =3D "0";
-+               newval.tri =3D no;
-                break;
-        case S_HEX:
-                newval.val =3D "0x0";
-+               newval.tri =3D no;
-                break;
-        case S_STRING:
-                newval.val =3D "";
-+               newval.tri =3D no;
-                break;
-        case S_BOOLEAN:
-        case S_TRISTATE:
-
-
-
-
-
-But, I do not think that is the right thing to do.
-
-
-Presumably, turning CONFIG_BASE_SMALL is correct.
-
-
-
-
-
->
-> Regards,
-> --
-> Yoann Congal
-> Smile ECS - Tech Expert
-
-
-
---=20
-Best Regards
-Masahiro Yamada
 
