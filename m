@@ -1,130 +1,146 @@
-Return-Path: <linux-kbuild+bounces-671-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-672-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7740983DB56
-	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Jan 2024 14:58:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47B0C83DE5E
+	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Jan 2024 17:10:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1A632B28317
-	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Jan 2024 13:58:51 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E5042B20E76
+	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Jan 2024 16:10:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 571EF1B961;
-	Fri, 26 Jan 2024 13:56:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 114971D54B;
+	Fri, 26 Jan 2024 16:10:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SNL+ytVt"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tb6NbSgI"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2989B1B95F;
-	Fri, 26 Jan 2024 13:56:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D624E1CD1F;
+	Fri, 26 Jan 2024 16:10:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706277409; cv=none; b=s2r5+rIK3e/StK7JprXnnae1QN2AwOuVkBRxz8QV0hvn1rWzZXKfZlYshq7qkxKtJd4/1carzkxLWJKSm4ieGwNssKa3s8SjCbTtYAS3RMjRcleYpd064zk9qI/01rtzCZjJqkkxz8Jltbrb5ploVK2sxx0pE+0Uvhaw63Qi9Kk=
+	t=1706285428; cv=none; b=qGtGaK3/RwH1EYdVkfMMfYYwNcbHX1nuc+kcZ7Gw3991jr/pb55M465MM33NCSkT2vc7+G3N6zvswOPgKWn9NjZoDUN9JhDm+AmG62X1goibGQgFIjHuWbLz8ui/DOy8fog4faiH807LN0vONNyBKYBVT7451EX5O4ozN9ssCNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706277409; c=relaxed/simple;
-	bh=ik6BNC+e5RWBtEXfJ9qP+GL8xg3EKqy2nXgQher7oXs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aqm8JYafeg7hccpVPMnemtVkP/ldpq0H/n1cUV/15FRtEMPbmblLIYqIIfwSLLJkfyxkaBaDoGr2DUIpZkvtfrMiYaXEVQxm4REmlvPLmbSQdSDiKNmczBsCtMw1kFWGTERO5UG2vr4vQ8eNsf92bq6Qrbmrl/fBR3aym+aNWa0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SNL+ytVt; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DFACC41612;
-	Fri, 26 Jan 2024 13:56:48 +0000 (UTC)
+	s=arc-20240116; t=1706285428; c=relaxed/simple;
+	bh=dCh3Q7IJrxBpqeaYZ3wZ62jWq+kUi+XKjTJ8+Wu15U4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EgbzEvzAXaZ7sbQw+fGUNdQkocZzwV0rKHi2I1VZK27eb/9KTzRG7SR5IMHD1YwI9oh9G408mJjjB3QzCt49sEcAfE86yYjmmwqdBoY8BAjrvk7i3u50MUgkKc9fp3z6iOcLx7/Xil03MZ0iLDHtVB8NN9PyWbo8Z8dj8itSnJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tb6NbSgI; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD07AC43390;
+	Fri, 26 Jan 2024 16:10:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706277408;
-	bh=ik6BNC+e5RWBtEXfJ9qP+GL8xg3EKqy2nXgQher7oXs=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=SNL+ytVt+oDZujw02ndRHm1xjNuXyOMGfqC0opM91w8tpVEtXQ5iIRiyhFi0fghZi
-	 nU5mhNbgQHSUMuaJN09sy/o/lsijjdHQKNjL+kf9NhJwsW55Di2rjMI6438iZMb+L3
-	 E+SQwEj+d5Jk99Bl+0Y9svxiBuLvHPNurvXfpzNGOdKkWICMD1KCXNKI1y1v3/kNVX
-	 uqekqI/xLRxmu7ZEcfThvQnuGRS1BLYmowL3VVaj+Gahl84h193BzvXlx4Mg94U+Ey
-	 OXsw8MgqSEwhAPqjpcYFpfDKbTZV4akr0riaxGsMwvussQL9QPe0uy8G1+JcO8seY7
-	 p98LlOVx+lKrg==
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-2143a96d185so86328fac.3;
-        Fri, 26 Jan 2024 05:56:48 -0800 (PST)
-X-Gm-Message-State: AOJu0YxkBP6ko/wegaXpxJ+3NkhCVg+H4L1xsOfDPtanwMABJOyMXNlG
-	XMem7WruwMz5fET5wtdvrgJ7qVaneK02EdchichHMADRdFOa6PQ/8qM2VgujLsFvraOX1t+y/xy
-	53CtZ3Uvk6MymrXG6+ZMebm6PVrM=
-X-Google-Smtp-Source: AGHT+IHD0FucQz5YB/Dnf29+PHG3Jo+GUOEakGbUWXKlFgjDV6mhWsxzLhrobNCcAI0gYzb/gmeXPQvc8dCHsskEveA=
-X-Received: by 2002:a05:6870:c6a7:b0:214:273b:cd43 with SMTP id
- cv39-20020a056870c6a700b00214273bcd43mr1007557oab.74.1706277407979; Fri, 26
- Jan 2024 05:56:47 -0800 (PST)
+	s=k20201202; t=1706285427;
+	bh=dCh3Q7IJrxBpqeaYZ3wZ62jWq+kUi+XKjTJ8+Wu15U4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Tb6NbSgIH5Jh9xM0TXplcprBK9xu5xjIlahezLx9JjLaeV3D++84RBlfi1tb0r+B6
+	 ktXLrOiruZrF5P4D+icn+bveWbxq5S9iaVGmCWyDqHYgdYlor6C12TOGUJXC2fwIup
+	 JiJdoKB8O18h/S6XqG30/QvhL/xLfKuqHzAzq9xoIu9cq4OZnFIl67icBw+brpRL9j
+	 EKs4VLlE39mii6pG12TJ1NjeyCv9vje0I64wtexLpUrozbiZ07z+sDcY8DNuFx0e9H
+	 RKPT/DXqqc9f2IHsymkR/kWJq1L9uriLoVILEXVBRw162F/Sm86OMkHbhe+ruZwnFq
+	 kDB+ARKOuczmg==
+Date: Fri, 26 Jan 2024 09:10:25 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Mark Rutland <mark.rutland@arm.com>
+Cc: akpm@linux-foundation.org, masahiroy@kernel.org, nicolas@fjasle.eu,
+	linux-kbuild@vger.kernel.org, llvm@lists.linux.dev,
+	patches@lists.linux.dev, linux-kernel@vger.kernel.org,
+	catalin.marinas@arm.com, will@kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 05/11] arm64: Kconfig: Clean up tautological LLVM version
+ checks
+Message-ID: <20240126161025.GA3265550@dev-arch.thelio-3990X>
+References: <20240125-bump-min-llvm-ver-to-13-0-1-v1-0-f5ff9bda41c5@kernel.org>
+ <20240125-bump-min-llvm-ver-to-13-0-1-v1-5-f5ff9bda41c5@kernel.org>
+ <ZbOsvhDB-6LMVACP@FVFF77S0Q05N>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231215160637.842748-1-masahiroy@kernel.org> <20240122141203.CWe3n5rG@linutronix.de>
-In-Reply-To: <20240122141203.CWe3n5rG@linutronix.de>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Fri, 26 Jan 2024 22:56:11 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASSi78o-Tg24P2uDy1KhUKP8FBrzcn1JhvWrgpoR_mgpA@mail.gmail.com>
-Message-ID: <CAK7LNASSi78o-Tg24P2uDy1KhUKP8FBrzcn1JhvWrgpoR_mgpA@mail.gmail.com>
-Subject: Re: [PATCH v2] kbuild: resolve symlinks for O= properly
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: linux-kbuild@vger.kernel.org, Nicolas Schier <n.schier@avm.de>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Nicolas Schier <nicolas@fjasle.eu>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZbOsvhDB-6LMVACP@FVFF77S0Q05N>
 
-On Mon, Jan 22, 2024 at 11:12=E2=80=AFPM Sebastian Andrzej Siewior
-<bigeasy@linutronix.de> wrote:
->
-> On 2023-12-16 01:06:37 [+0900], Masahiro Yamada wrote:
-> =E2=80=A6
-> > Using the physical directory structure for the O=3D option seems more
-> > reasonable.
-> >
-> > The comment says "expand a shell special character '~'", but it has
-> > already been expanded to the home directory in the command line.
->
-> It might have been expanded, it might have not been expanded. Having a
-> shell script:
-> | #!/bin/sh
-> |
-> | exec make O=3D~/scratch/mk-check defconfig
->
-> with bin/sh =3D dash results in:
->
-> | make[1]: Entering directory '/home/bigeasy/linux/~/scratch/mk-check'
->
-> while bin/sh =3D bash expands the ~ properly before for O=3D. Would it be
-> too much to ask, to expand the ~?
+On Fri, Jan 26, 2024 at 12:59:55PM +0000, Mark Rutland wrote:
+> On Thu, Jan 25, 2024 at 03:55:11PM -0700, Nathan Chancellor wrote:
+> > Now that the minimum supported version of LLVM for building the kernel
+> > has been bumped to 13.0.1, several conditions become tautologies, as
+> > they will always be true because the build will fail during the
+> > configuration stage for older LLVM versions. Drop them, as they are
+> > unnecessary.
+> > 
+> > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> > ---
+> > Cc: catalin.marinas@arm.com
+> > Cc: will@kernel.org
+> > Cc: mark.rutland@arm.com
+> > Cc: linux-arm-kernel@lists.infradead.org
+> > ---
+> >  arch/arm64/Kconfig | 5 +----
+> >  1 file changed, 1 insertion(+), 4 deletions(-)
+> > 
+> > diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+> > index 5a8acca4dbf4..cb34e7d780c0 100644
+> > --- a/arch/arm64/Kconfig
+> > +++ b/arch/arm64/Kconfig
+> > @@ -383,7 +383,7 @@ config BUILTIN_RETURN_ADDRESS_STRIPS_PAC
+> >  	bool
+> >  	# Clang's __builtin_return_adddress() strips the PAC since 12.0.0
+> >  	# https://github.com/llvm/llvm-project/commit/2a96f47c5ffca84cd774ad402cacd137f4bf45e2
+> > -	default y if CC_IS_CLANG && (CLANG_VERSION >= 120000)
+> > +	default y if CC_IS_CLANG
+> >  	# GCC's __builtin_return_address() strips the PAC since 11.1.0,
+> >  	# and this was backported to 10.2.0, 9.4.0, 8.5.0, but not earlier
+> >  	# https://gcc.gnu.org/bugzilla/show_bug.cgi?id=94891
+> > @@ -1387,7 +1387,6 @@ choice
+> >  
+> >  config CPU_BIG_ENDIAN
+> >  	bool "Build big-endian kernel"
+> > -	depends on !LD_IS_LLD || LLD_VERSION >= 130000
+> >  	# https://github.com/llvm/llvm-project/commit/1379b150991f70a5782e9a143c2ba5308da1161c
+> 
+> We can delete the URL here, since that was just to describe why this depended
+> upon LLVM 13+; it's weird for it to sit here on its own.
 
+I think this is the URL for the fix for the problem brought up by
+commit 146a15b87335 ("arm64: Restrict CPU_BIG_ENDIAN to GNU as or LLVM
+IAS 15.x or newer"), so I think it should stay? It does not look like I
+ever added a link or context for the LLD line, I definitely should have.
 
+> The URL above for __builtin_return_address() can stay or go; it may as well
+> stay since we have the comment aboout LLvm 12+ above it.
 
-Not only O=3D.
+That's the conclusion I came to as well.
 
+Thanks a lot for taking a look!
 
-If the shell does not expand the '~' character,
-there are more variables that do not work as expected.
+Cheers,
+Nathan
 
-For example,
-
-
-$ make CROSS_COMPILE=3D~/path/to/compiler/dir
-
-$ make M=3D~/path/to/external/module/dir'
-
-
-
-It is strange to require only O=3D to expand the '~' character.
-
-
-So, Kbuild should be agnostic about '~'. This is consistent.
-
-
-
-
->
-> Sebastian
->
-
-
---=20
-Best Regards
-Masahiro Yamada
+> With that:
+> 
+> Acked-by: Mark Rutland <mark.rutland@arm.com>
+> 
+> Mark.
+> 
+> >  	depends on AS_IS_GNU || AS_VERSION >= 150000
+> >  	help
+> > @@ -2018,8 +2017,6 @@ config ARM64_BTI_KERNEL
+> >  	depends on !CC_IS_GCC || GCC_VERSION >= 100100
+> >  	# https://gcc.gnu.org/bugzilla/show_bug.cgi?id=106671
+> >  	depends on !CC_IS_GCC
+> > -	# https://github.com/llvm/llvm-project/commit/a88c722e687e6780dcd6a58718350dc76fcc4cc9
+> > -	depends on !CC_IS_CLANG || CLANG_VERSION >= 120000
+> >  	depends on (!FUNCTION_GRAPH_TRACER || DYNAMIC_FTRACE_WITH_ARGS)
+> >  	help
+> >  	  Build the kernel with Branch Target Identification annotations
+> > 
+> > -- 
+> > 2.43.0
+> > 
+> 
 
