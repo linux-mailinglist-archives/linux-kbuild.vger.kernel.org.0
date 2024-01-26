@@ -1,145 +1,130 @@
-Return-Path: <linux-kbuild+bounces-670-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-671-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7F8983DAC7
-	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Jan 2024 14:30:19 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7740983DB56
+	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Jan 2024 14:58:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6672328503A
-	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Jan 2024 13:30:18 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1A632B28317
+	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Jan 2024 13:58:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A24A1B80A;
-	Fri, 26 Jan 2024 13:30:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 571EF1B961;
+	Fri, 26 Jan 2024 13:56:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IaZc+ud7"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SNL+ytVt"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 603B91B959;
-	Fri, 26 Jan 2024 13:30:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2989B1B95F;
+	Fri, 26 Jan 2024 13:56:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706275816; cv=none; b=io6ZMDVE6vMclXxJ47h7HOfjk1HRv8T2um9cV1u4tv/QZ5E5lux/PErfBDgqXd4HtZMLChyKfoFuQJ2efYXTY2WjtVce8uJlgTainZBF3LNH54ahgHxv0jy0yjEPaJTvl4lTPgWZC5aVVtVsIINxLTRmLmczcqwTXfk+IlXZywk=
+	t=1706277409; cv=none; b=s2r5+rIK3e/StK7JprXnnae1QN2AwOuVkBRxz8QV0hvn1rWzZXKfZlYshq7qkxKtJd4/1carzkxLWJKSm4ieGwNssKa3s8SjCbTtYAS3RMjRcleYpd064zk9qI/01rtzCZjJqkkxz8Jltbrb5ploVK2sxx0pE+0Uvhaw63Qi9Kk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706275816; c=relaxed/simple;
-	bh=Nue8KygHkKeII+jOSXsS8scQGO5eZ5Pxo/5p3G7mjZc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=M4oU59s1I/Pe07wZ2774UA0iCLwt9DOAZZz4II/ApfrY/lqVpmL9pVvUKWqYlzqOrEFn8hNvdKM0U3idWpud0cox9murJB85k7kRetN9W8ooJVorBJzialZYkTnnMMMpZl+gTDNt3L/gRnLnqZ0akeYfrVY3MbRE5nWgc5KMVTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IaZc+ud7; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2630C43142;
-	Fri, 26 Jan 2024 13:30:14 +0000 (UTC)
+	s=arc-20240116; t=1706277409; c=relaxed/simple;
+	bh=ik6BNC+e5RWBtEXfJ9qP+GL8xg3EKqy2nXgQher7oXs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aqm8JYafeg7hccpVPMnemtVkP/ldpq0H/n1cUV/15FRtEMPbmblLIYqIIfwSLLJkfyxkaBaDoGr2DUIpZkvtfrMiYaXEVQxm4REmlvPLmbSQdSDiKNmczBsCtMw1kFWGTERO5UG2vr4vQ8eNsf92bq6Qrbmrl/fBR3aym+aNWa0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SNL+ytVt; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DFACC41612;
+	Fri, 26 Jan 2024 13:56:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706275815;
-	bh=Nue8KygHkKeII+jOSXsS8scQGO5eZ5Pxo/5p3G7mjZc=;
-	h=From:To:Cc:Subject:Date:From;
-	b=IaZc+ud7tFfYGt9iESCGtTbgHjNvW0STOVJzOw2Wfcmdo3Viaipm6Yz8VCwWKOUuN
-	 HNWBP9OHnlweqoct2SEK8VDPm6U3xs8Wpj2/LFHrldxPAL61/GTMpWuWf4b0t4zEQL
-	 Yx2iqVT+tzZ3fFfMsLlkshffQJCbqKfgRVORQMZpLTucSWcckgJ5ej14uJNT3Ci7+2
-	 2QS1DheAIeVXRbJGUsCfXpuRAW+NVN5hs6g5switdlvDt3JTeHR7YzkMj6p6WWkQcU
-	 jlulZYAgNrH1fpO0FwpYY+hwdh4ebeGuWYZN4i04zmKly/plLvl9eOMUqI6KQkVA/k
-	 hZF6AUXg0sggQ==
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: linux-kbuild@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Yoann Congal <yoann.congal@smile.fr>,
-	Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH] kconfig: initialize sym->curr.tri to no for all symbol types again
-Date: Fri, 26 Jan 2024 22:30:10 +0900
-Message-Id: <20240126133010.78999-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.40.1
+	s=k20201202; t=1706277408;
+	bh=ik6BNC+e5RWBtEXfJ9qP+GL8xg3EKqy2nXgQher7oXs=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=SNL+ytVt+oDZujw02ndRHm1xjNuXyOMGfqC0opM91w8tpVEtXQ5iIRiyhFi0fghZi
+	 nU5mhNbgQHSUMuaJN09sy/o/lsijjdHQKNjL+kf9NhJwsW55Di2rjMI6438iZMb+L3
+	 E+SQwEj+d5Jk99Bl+0Y9svxiBuLvHPNurvXfpzNGOdKkWICMD1KCXNKI1y1v3/kNVX
+	 uqekqI/xLRxmu7ZEcfThvQnuGRS1BLYmowL3VVaj+Gahl84h193BzvXlx4Mg94U+Ey
+	 OXsw8MgqSEwhAPqjpcYFpfDKbTZV4akr0riaxGsMwvussQL9QPe0uy8G1+JcO8seY7
+	 p98LlOVx+lKrg==
+Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-2143a96d185so86328fac.3;
+        Fri, 26 Jan 2024 05:56:48 -0800 (PST)
+X-Gm-Message-State: AOJu0YxkBP6ko/wegaXpxJ+3NkhCVg+H4L1xsOfDPtanwMABJOyMXNlG
+	XMem7WruwMz5fET5wtdvrgJ7qVaneK02EdchichHMADRdFOa6PQ/8qM2VgujLsFvraOX1t+y/xy
+	53CtZ3Uvk6MymrXG6+ZMebm6PVrM=
+X-Google-Smtp-Source: AGHT+IHD0FucQz5YB/Dnf29+PHG3Jo+GUOEakGbUWXKlFgjDV6mhWsxzLhrobNCcAI0gYzb/gmeXPQvc8dCHsskEveA=
+X-Received: by 2002:a05:6870:c6a7:b0:214:273b:cd43 with SMTP id
+ cv39-20020a056870c6a700b00214273bcd43mr1007557oab.74.1706277407979; Fri, 26
+ Jan 2024 05:56:47 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20231215160637.842748-1-masahiroy@kernel.org> <20240122141203.CWe3n5rG@linutronix.de>
+In-Reply-To: <20240122141203.CWe3n5rG@linutronix.de>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Fri, 26 Jan 2024 22:56:11 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASSi78o-Tg24P2uDy1KhUKP8FBrzcn1JhvWrgpoR_mgpA@mail.gmail.com>
+Message-ID: <CAK7LNASSi78o-Tg24P2uDy1KhUKP8FBrzcn1JhvWrgpoR_mgpA@mail.gmail.com>
+Subject: Re: [PATCH v2] kbuild: resolve symlinks for O= properly
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: linux-kbuild@vger.kernel.org, Nicolas Schier <n.schier@avm.de>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Nicolas Schier <nicolas@fjasle.eu>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-In C programming, a non-zero value is interpreted as true, and a zero
-value as false.
+On Mon, Jan 22, 2024 at 11:12=E2=80=AFPM Sebastian Andrzej Siewior
+<bigeasy@linutronix.de> wrote:
+>
+> On 2023-12-16 01:06:37 [+0900], Masahiro Yamada wrote:
+> =E2=80=A6
+> > Using the physical directory structure for the O=3D option seems more
+> > reasonable.
+> >
+> > The comment says "expand a shell special character '~'", but it has
+> > already been expanded to the home directory in the command line.
+>
+> It might have been expanded, it might have not been expanded. Having a
+> shell script:
+> | #!/bin/sh
+> |
+> | exec make O=3D~/scratch/mk-check defconfig
+>
+> with bin/sh =3D dash results in:
+>
+> | make[1]: Entering directory '/home/bigeasy/linux/~/scratch/mk-check'
+>
+> while bin/sh =3D bash expands the ~ properly before for O=3D. Would it be
+> too much to ask, to expand the ~?
 
-Kconfig has never worked like that; only 'bool' and 'tristate' symbols
-are properly handled in conditionals. The other types ('int', 'hex',
-'string') are always interpreted as false if used in boolean contexts.
 
-Until commit 4e244c10eab3 ("kconfig: remove unneeded symbol_empty
-variable") accidentally changed the behavior, the default of
-CONFIG_LOG_CPU_MAX_BUF_SHIFT was unconditionally 12, because the 'int'
-symbol 'BASE_SMALL' was evaluated as false, hence 'if !BASE_SMALL' was
-always true.
 
-You can confirm it as follows:
+Not only O=3D.
 
-  $ git checkout 4e244c10eab3^
 
-  $ make -s ARCH=x86_64 defconfig
-  $ grep -e LOG_CPU_MAX_BUF_SHIFT -e BASE_SMALL -e BASE_FULL .config
-  CONFIG_LOG_CPU_MAX_BUF_SHIFT=12
-  CONFIG_BASE_FULL=y
-  CONFIG_BASE_SMALL=0
+If the shell does not expand the '~' character,
+there are more variables that do not work as expected.
 
-  $ make -s ARCH=arm keystone_defconfig
-  $ grep -e LOG_CPU_MAX_BUF_SHIFT -e BASE_SMALL -e BASE_FULL .config
-  CONFIG_LOG_CPU_MAX_BUF_SHIFT=12
-  # CONFIG_BASE_FULL is not set
-  CONFIG_BASE_SMALL=1
+For example,
 
-CONFIG_LOG_CPU_MAX_BUF_SHIFT defaults to 12 irrespective of the value
-of CONFIG_BASE_SMALL.
 
-Since commit 4e244c10eab3, this is an undefined behavior because
-sym_calc_value() stopped setting the sym->curr.tri field for 'int',
-'hex', and 'string' symbols.
+$ make CROSS_COMPILE=3D~/path/to/compiler/dir
 
-Commit 23b2899f7f19 ("printk: allow increasing the ring buffer depending
-on the number of CPUs") presumably intended the following:
+$ make M=3D~/path/to/external/module/dir'
 
-  config LOG_CPU_MAX_BUF_SHIFT
-          int "CPU kernel log buffer size contribution (13 => 8 KB, 17 => 128KB)"
-            [snip]
-          default 12 if BASE_SMALL == 0
-          default 0
 
-But, the correct fixes would potentially impact multiple defconfigs,
-hence they should be reviewed in each dedicated subsystem.
 
-Restore the original behavior for now.
+It is strange to require only O=3D to expand the '~' character.
 
-Fixes: 4e244c10eab3 ("kconfig: remove unneeded symbol_empty variable")
-Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Closes: https://lore.kernel.org/all/CAMuHMdWm6u1wX7efZQf=2XUAHascps76YQac6rdnQGhc8nop_Q@mail.gmail.com/
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
 
- scripts/kconfig/symbol.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+So, Kbuild should be agnostic about '~'. This is consistent.
 
-diff --git a/scripts/kconfig/symbol.c b/scripts/kconfig/symbol.c
-index f615e2c1e85d..1290c6d2f8c2 100644
---- a/scripts/kconfig/symbol.c
-+++ b/scripts/kconfig/symbol.c
-@@ -346,6 +346,8 @@ void sym_calc_value(struct symbol *sym)
- 
- 	oldval = sym->curr;
- 
-+	newval.tri = no;
-+
- 	switch (sym->type) {
- 	case S_INT:
- 		newval.val = "0";
-@@ -358,7 +360,7 @@ void sym_calc_value(struct symbol *sym)
- 		break;
- 	case S_BOOLEAN:
- 	case S_TRISTATE:
--		newval = symbol_no.curr;
-+		newval.val = "n";
- 		break;
- 	default:
- 		sym->curr.val = sym->name;
--- 
-2.40.1
 
+
+
+>
+> Sebastian
+>
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
