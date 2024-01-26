@@ -1,124 +1,123 @@
-Return-Path: <linux-kbuild+bounces-667-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-668-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAC1683D612
-	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Jan 2024 10:23:30 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98FDC83DA73
+	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Jan 2024 14:00:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 96BD728ABD8
-	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Jan 2024 09:23:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3D9271F2932E
+	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Jan 2024 13:00:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18CE31C2A6;
-	Fri, 26 Jan 2024 08:44:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DJrwKq0Y"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C68D81B809;
+	Fri, 26 Jan 2024 13:00:18 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3C6014276;
-	Fri, 26 Jan 2024 08:44:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BD811B806;
+	Fri, 26 Jan 2024 13:00:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706258691; cv=none; b=eNYyBp6csFBDU2OSGyXT6UjBMXIBqbMfpLREvOTCYX8Lh7BJ0xGJh1yjxCAA59sWiSegOUa6de2R85pyRnCUTyHAtgJzOXsmA6fbijy/0VJOlwqT0zGRD7u4YXEc8KwpqcN/vb/bg67Mv6DynKkyRMjp7OcsjAt7L4FwL8Pv9fs=
+	t=1706274018; cv=none; b=IRb9gbglJAzumlyvuf7DdyxW/+xFCyKUq2haWZ3Lpq85eDd8X2M4VGGMs0UHvfRKXVjJBvDIwrFQDcgUqaSG+3kNUJdr8HRye5NZC2PRTmR63zOM9KRHKV1z/jRjCM0SBeFSj7bWAapxPQSiNPtnKUydAbNVG1rgaD+Z49/7hF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706258691; c=relaxed/simple;
-	bh=gaO5xq4+iqo/CpWSTXlZvHIwYFC0rTJKMRPwhqMBRbo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dPRevf5e/WOCCNTPlvdDY5B3BhR8QCfgUYzORMWuRdxswXxxqQEQvI8nlEIXA8cNeiDh6mt5nM0yAGM0GTpKcdIdXtvGW34w4JJzpbCqeBuEn3Zo1GWHg3nO1jLhDZMvnMdIbRGx5nRRQ1enx+5LwCOkvdyAd6lEI2UZ/0Y7Aco=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DJrwKq0Y; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD862C433B1;
-	Fri, 26 Jan 2024 08:44:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706258690;
-	bh=gaO5xq4+iqo/CpWSTXlZvHIwYFC0rTJKMRPwhqMBRbo=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=DJrwKq0YiCYXRsEOAkgnCozSU3DFfNvol2WhYcL+1l7yRpdzxU97/wyN6dC3VvYZi
-	 AVQrz3RS5yS9M7Hi26EsL4tQTmix5gNZ5L0ydLrSsRJfcNqq9PHgR+uVj5mHn1WoZI
-	 w6eKuPT/PK1ycyJoVYkSgq6yOWbT1hVxSy2lEw4XNllrCqh0ZZWQg0Lc1VLQ/IoXf7
-	 OzdDPBQ+w7d3Qu7cq8kqO78yyb64RHjG1yNfiB0cAkxIrPoxGYUrOFuyKV5i8wbpaw
-	 KysOQx0Yb2GKXV3kpzSNrUgl5Gm78WWcQfaMo6z2arb6GFDNu0TQ1ZGHESve7lNNZ9
-	 tcWnTV9YcfvRQ==
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5102188d2aeso94365e87.2;
-        Fri, 26 Jan 2024 00:44:50 -0800 (PST)
-X-Gm-Message-State: AOJu0Ywei91T/6fI16Pu0chJJNH6KVZZ3KJweRdUVX9ZiugojvnHu8S5
-	Y9YZjFy8HhEwz2Hs1aPpC6yaSklYIGc6/WyVT/pVnwb9isnDYsURS+t+guuGb3NY5TncblghSwA
-	ORtnplGK9iIFYjylgK/Oy2JeUvlA=
-X-Google-Smtp-Source: AGHT+IFjNDG5Tm3UEEPA7ACJkYs/KdrtCbDYforcV54CpZLqF2gkX9FCsY5ZA2v/40T7zrcJxSycn+IRI/2GHFp2hns=
-X-Received: by 2002:a05:6512:2246:b0:50e:7410:d5b0 with SMTP id
- i6-20020a056512224600b0050e7410d5b0mr669457lfu.28.1706258688908; Fri, 26 Jan
- 2024 00:44:48 -0800 (PST)
+	s=arc-20240116; t=1706274018; c=relaxed/simple;
+	bh=qP1uFdpRw1c5ef5F7S+gJtgy5/emH1e2Mw5YV7Iv6wE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KhwQKWBojMhGzmYOiPPDHxWsk9Wn5RbelhUgqzZk4QsZXT+RlTZHVfwhqndEmvx0nax8oGTleZ27hO6cs9LXv1WtijgUWum+0lExqWVfDwzvZt3ryXZGa7xB2iGc4Sp7BTlBci1vmHDBHxM2Y5bdm2QH3xZvcS83w98VjWjaKAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E86F01FB;
+	Fri, 26 Jan 2024 05:00:59 -0800 (PST)
+Received: from FVFF77S0Q05N (unknown [10.57.47.163])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D79BF3F73F;
+	Fri, 26 Jan 2024 05:00:13 -0800 (PST)
+Date: Fri, 26 Jan 2024 12:59:55 +0000
+From: Mark Rutland <mark.rutland@arm.com>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: akpm@linux-foundation.org, masahiroy@kernel.org, nicolas@fjasle.eu,
+	linux-kbuild@vger.kernel.org, llvm@lists.linux.dev,
+	patches@lists.linux.dev, linux-kernel@vger.kernel.org,
+	catalin.marinas@arm.com, will@kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 05/11] arm64: Kconfig: Clean up tautological LLVM version
+ checks
+Message-ID: <ZbOsvhDB-6LMVACP@FVFF77S0Q05N>
+References: <20240125-bump-min-llvm-ver-to-13-0-1-v1-0-f5ff9bda41c5@kernel.org>
+ <20240125-bump-min-llvm-ver-to-13-0-1-v1-5-f5ff9bda41c5@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240125-bump-min-llvm-ver-to-13-0-1-v1-0-f5ff9bda41c5@kernel.org>
- <20240125-bump-min-llvm-ver-to-13-0-1-v1-4-f5ff9bda41c5@kernel.org>
-In-Reply-To: <20240125-bump-min-llvm-ver-to-13-0-1-v1-4-f5ff9bda41c5@kernel.org>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Fri, 26 Jan 2024 09:44:37 +0100
-X-Gmail-Original-Message-ID: <CAMj1kXFzi=ijUBU0i3gq4Q9rcCvMw-a1wLc1u7fXRRN8QbN9hw@mail.gmail.com>
-Message-ID: <CAMj1kXFzi=ijUBU0i3gq4Q9rcCvMw-a1wLc1u7fXRRN8QbN9hw@mail.gmail.com>
-Subject: Re: [PATCH 04/11] ARM: Remove Thumb2 __builtin_thread_pointer
- workaround for Clang
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: akpm@linux-foundation.org, masahiroy@kernel.org, nicolas@fjasle.eu, 
-	linux-kbuild@vger.kernel.org, llvm@lists.linux.dev, patches@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux@armlinux.org.uk, 
-	linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240125-bump-min-llvm-ver-to-13-0-1-v1-5-f5ff9bda41c5@kernel.org>
 
-On Thu, 25 Jan 2024 at 23:56, Nathan Chancellor <nathan@kernel.org> wrote:
->
+On Thu, Jan 25, 2024 at 03:55:11PM -0700, Nathan Chancellor wrote:
 > Now that the minimum supported version of LLVM for building the kernel
-> has been bumped to 13.0.1, the conditional expression added to
-> get_current() by commit c1e42efacb9b ("ARM: 9151/1: Thumb2: avoid
-> __builtin_thread_pointer() on Clang") is always true, as the build will
-> fail during the configuration stage for older LLVM versions. Remove it,
-> effectively reverting the aforementioned change.
->
+> has been bumped to 13.0.1, several conditions become tautologies, as
+> they will always be true because the build will fail during the
+> configuration stage for older LLVM versions. Drop them, as they are
+> unnecessary.
+> 
 > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-
-Reviewed-by: Ard Biesheuvel <ardb@kernel.org>
-
 > ---
-> Cc: linux@armlinux.org.uk
-> Cc: ardb@kernel.org
+> Cc: catalin.marinas@arm.com
+> Cc: will@kernel.org
+> Cc: mark.rutland@arm.com
 > Cc: linux-arm-kernel@lists.infradead.org
 > ---
->  arch/arm/include/asm/current.h | 8 +-------
->  1 file changed, 1 insertion(+), 7 deletions(-)
->
-> diff --git a/arch/arm/include/asm/current.h b/arch/arm/include/asm/current.h
-> index 1e1178bf176d..5225cb1c803b 100644
-> --- a/arch/arm/include/asm/current.h
-> +++ b/arch/arm/include/asm/current.h
-> @@ -18,18 +18,12 @@ static __always_inline __attribute_const__ struct task_struct *get_current(void)
->  {
->         struct task_struct *cur;
->
-> -#if __has_builtin(__builtin_thread_pointer) && \
-> -    defined(CONFIG_CURRENT_POINTER_IN_TPIDRURO) && \
-> -    !(defined(CONFIG_THUMB2_KERNEL) && \
-> -      defined(CONFIG_CC_IS_CLANG) && CONFIG_CLANG_VERSION < 130001)
-> +#if __has_builtin(__builtin_thread_pointer) && defined(CONFIG_CURRENT_POINTER_IN_TPIDRURO)
->         /*
->          * Use the __builtin helper when available - this results in better
->          * code, especially when using GCC in combination with the per-task
->          * stack protector, as the compiler will recognize that it needs to
->          * load the TLS register only once in every function.
-> -        *
-> -        * Clang < 13.0.1 gets this wrong for Thumb2 builds:
-> -        * https://github.com/ClangBuiltLinux/linux/issues/1485
->          */
->         cur = __builtin_thread_pointer();
->  #elif defined(CONFIG_CURRENT_POINTER_IN_TPIDRURO) || defined(CONFIG_SMP)
->
-> --
+>  arch/arm64/Kconfig | 5 +----
+>  1 file changed, 1 insertion(+), 4 deletions(-)
+> 
+> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+> index 5a8acca4dbf4..cb34e7d780c0 100644
+> --- a/arch/arm64/Kconfig
+> +++ b/arch/arm64/Kconfig
+> @@ -383,7 +383,7 @@ config BUILTIN_RETURN_ADDRESS_STRIPS_PAC
+>  	bool
+>  	# Clang's __builtin_return_adddress() strips the PAC since 12.0.0
+>  	# https://github.com/llvm/llvm-project/commit/2a96f47c5ffca84cd774ad402cacd137f4bf45e2
+> -	default y if CC_IS_CLANG && (CLANG_VERSION >= 120000)
+> +	default y if CC_IS_CLANG
+>  	# GCC's __builtin_return_address() strips the PAC since 11.1.0,
+>  	# and this was backported to 10.2.0, 9.4.0, 8.5.0, but not earlier
+>  	# https://gcc.gnu.org/bugzilla/show_bug.cgi?id=94891
+> @@ -1387,7 +1387,6 @@ choice
+>  
+>  config CPU_BIG_ENDIAN
+>  	bool "Build big-endian kernel"
+> -	depends on !LD_IS_LLD || LLD_VERSION >= 130000
+>  	# https://github.com/llvm/llvm-project/commit/1379b150991f70a5782e9a143c2ba5308da1161c
+
+We can delete the URL here, since that was just to describe why this depended
+upon LLVM 13+; it's weird for it to sit here on its own.
+
+The URL above for __builtin_return_address() can stay or go; it may as well
+stay since we have the comment aboout LLvm 12+ above it.
+
+With that:
+
+Acked-by: Mark Rutland <mark.rutland@arm.com>
+
+Mark.
+
+>  	depends on AS_IS_GNU || AS_VERSION >= 150000
+>  	help
+> @@ -2018,8 +2017,6 @@ config ARM64_BTI_KERNEL
+>  	depends on !CC_IS_GCC || GCC_VERSION >= 100100
+>  	# https://gcc.gnu.org/bugzilla/show_bug.cgi?id=106671
+>  	depends on !CC_IS_GCC
+> -	# https://github.com/llvm/llvm-project/commit/a88c722e687e6780dcd6a58718350dc76fcc4cc9
+> -	depends on !CC_IS_CLANG || CLANG_VERSION >= 120000
+>  	depends on (!FUNCTION_GRAPH_TRACER || DYNAMIC_FTRACE_WITH_ARGS)
+>  	help
+>  	  Build the kernel with Branch Target Identification annotations
+> 
+> -- 
 > 2.43.0
->
+> 
 
