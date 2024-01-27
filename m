@@ -1,175 +1,129 @@
-Return-Path: <linux-kbuild+bounces-684-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-685-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B25883ED62
-	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Jan 2024 14:41:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 855C683EE07
+	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Jan 2024 16:44:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2FF211C215F2
-	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Jan 2024 13:41:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B810D1C212B1
+	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Jan 2024 15:44:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1975625620;
-	Sat, 27 Jan 2024 13:41:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E89F28DD7;
+	Sat, 27 Jan 2024 15:44:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DgYYQTU0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LeEO5kZ9"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E66551E51D;
-	Sat, 27 Jan 2024 13:41:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E998F28DD3;
+	Sat, 27 Jan 2024 15:44:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706362911; cv=none; b=Hx60CBMJ03bh80jjjPgs3Azl7w7MPHigJvWnSJ1SZ42tdYY2hYRokRg2jm9oHeQfH4XFwv5zNykfeW7RjCzeLNNiYW3wZiUnldeziOzrXJZK3eDjzwyH1AqPzCEwreJKicaiuDyOehcauKgI49PW2qSpwLEAZcyt8oxcA9Hw704=
+	t=1706370277; cv=none; b=ifQ2VfcozPfhhqPEpqwobLIvy+YsoULe7Tz+wKBcKNkOYoOkZVp2w2BIDOJRYsK4aXu9K9V3NspCRSfheRCju8Iiu9hVV65LoPOUmL3nK2Bl0xtpZmbmOn86Dx8s8xyyYwjfdXyTV9qFjEDGq2SN5OP26ZZ8/C8Gy330qnbgzA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706362911; c=relaxed/simple;
-	bh=hosPsHG0ZyfR8sKG0hSNgK2DCihwOOAQrKZoFmzPQUc=;
+	s=arc-20240116; t=1706370277; c=relaxed/simple;
+	bh=EELGZfz9lAK1loDeD8w+xVM+cCGtcqj7CLX+2eCWnjA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Eg8uU/orT4o8EYhsN+dYqTQe29wyv9n/Pud7flQGveQuTc7morVG08DODBqr17/79W40XFEySBlrl/s4T+Ge5icbSp0dG8VRWTelrVsht7wryRKqy8nVFSHyvx5nGDNTq51Cn85iiI5aTOJiVJDOwX9OjpUTD0UGqt45PUXZ7jc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DgYYQTU0; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 621A1C433F1;
-	Sat, 27 Jan 2024 13:41:50 +0000 (UTC)
+	 To:Cc:Content-Type; b=RiuEdf7b+iGuvFujrOe4xRS21OIZ9ps2IChVHr/70RmmVIySKMIumKyENs7FDm2CYzLS+9jb05D2PM5ZBCG7kthmUVajG9Go3N1G4V/STt+dKdsGu1TPT2C21HgeRGitk7D7jg9sZruo/nnlE/RjdFYT7dlTDjhNDcTmFEH1vv8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LeEO5kZ9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D17EC433A6;
+	Sat, 27 Jan 2024 15:44:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706362910;
-	bh=hosPsHG0ZyfR8sKG0hSNgK2DCihwOOAQrKZoFmzPQUc=;
+	s=k20201202; t=1706370276;
+	bh=EELGZfz9lAK1loDeD8w+xVM+cCGtcqj7CLX+2eCWnjA=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=DgYYQTU0Q3ngEJGlfrBXOXCFHFtvdeK7RLdORupoijhaDQERHTWp1j+KYsPCpHQcO
-	 pj6cSuHdtW55VVZD57WqW73TdqcLKeS6kih2WuRErRhFIUMoj9muauQgzT1INqDTgy
-	 KYwJQu9w8EHS9RtgZwuxT3bbrhOwyHV/Jbw3LMOP28BLxDOpZxC/0aLzyOa04/HydS
-	 Ws6gBGevTJjGeO1OYVcrtvY8xNCrMJ7gtTbFyxpvK5FWSUq/rUYsaEx07/8SDRCuyL
-	 rXwlV9jW9TbybpvXttdGQ6Lj4ABARD2tSWGMiIC/zFv3vA5DgMjZk4zqGC5BugLIlR
-	 t7kHPp7jUgfmg==
-Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-595b3644acbso1225358eaf.1;
-        Sat, 27 Jan 2024 05:41:50 -0800 (PST)
-X-Gm-Message-State: AOJu0YzmUk8cLBx2eCekE/2EKTwpzm+e6gznvpLFW8DZ1gc171vNJKAU
-	jTZ/Pq7cFkT10h2baMSAQi/1MXEu1p6PcAeG67V+dC8Bx8m8s3g4GQmKj0NsVFdgkZjkmGqUuKu
-	zEHZlQZ1A5NntryDmYlcevv7X26w=
-X-Google-Smtp-Source: AGHT+IG3fUb8Ad4+sr7qrvoyt+C0ZtD2RWS3ld+lIM4h3epDbz8xcPsi5sdfx66Hm5aKT7X+rx/K9BDQfWP1ePI0OME=
-X-Received: by 2002:a05:6870:709e:b0:215:30c3:a2c1 with SMTP id
- v30-20020a056870709e00b0021530c3a2c1mr1046686oae.48.1706362909773; Sat, 27
- Jan 2024 05:41:49 -0800 (PST)
+	b=LeEO5kZ96OPVbvsuqrFBY5t8/3El+/M6PFnfIKMwYu3QQubqPuJck1PyNFQ+mDkLn
+	 cXuT+OAiMpWPc2E6BmL0PoKc4Wop1BgdwWd1PAu7XdHsS2cnYb5b6AT0ieUC5YMreg
+	 Yb/B0XWNT2Uc0gwv+K3ZdNs+mpYbYob+VoYLH7X5KsTEjTjNpQL3VKWZDDsOBueIiZ
+	 v6JgTgQS9Eiiq60v7QeL2Fd3vuyWC2/Anrc0LCZwV95zSIeuhBpU0u/CO9U1zQ0ow3
+	 vUrglhgVu0IkPrZ3v5lz5jvfyGuFC87O5FP11tNPgP2JsTU5FCIPz6wjOagpSpIZPR
+	 W+DbkHjXFT7Rg==
+Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-2144ce7ff41so651422fac.3;
+        Sat, 27 Jan 2024 07:44:36 -0800 (PST)
+X-Gm-Message-State: AOJu0YxLtsrvqw9WpiFFG37p0yUxauSLqRlsmV5OUQa5rJ1njkvqo6A2
+	FjRXqKBUMRVCDCP/p6uWc59kY89O+avoUdLIdTnp5v4NeeCJaWrlhZrYKYFWcmuJ+IciBub3jWJ
+	we0dBthaigaW+ajwcTL1fbXS9ibo=
+X-Google-Smtp-Source: AGHT+IHKu7J4sPa55OVECUcHBRCyx9ZzSiCi17gfOvi7AHAWXZs8rsCFKBZguK0vE3/J1lnVbJu5h3QeBTUduqR8Jpo=
+X-Received: by 2002:a05:6871:5287:b0:214:7ef2:e8c with SMTP id
+ hu7-20020a056871528700b002147ef20e8cmr1060638oac.0.1706370275802; Sat, 27 Jan
+ 2024 07:44:35 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <d9ac2960-6644-4a87-b5e4-4bfb6e0364a8@aibsd.com>
- <CAK7LNATDD2gC53T5n7vCUH6O6mdAm801fTWyKi9fji+5Kb+0ng@mail.gmail.com> <20240122230255.GD141255@dev-fedora.aadp>
-In-Reply-To: <20240122230255.GD141255@dev-fedora.aadp>
+References: <20240123-fix-uml-clang-18-v1-0-efc095519cf9@kernel.org>
+In-Reply-To: <20240123-fix-uml-clang-18-v1-0-efc095519cf9@kernel.org>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sat, 27 Jan 2024 22:41:13 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARa4YPu_+KW1_E4RKO95JqUxS+DM8X6fmjr4SmV-Sgk4Q@mail.gmail.com>
-Message-ID: <CAK7LNARa4YPu_+KW1_E4RKO95JqUxS+DM8X6fmjr4SmV-Sgk4Q@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4] modpost: inform compilers that fatal() never returns
+Date: Sun, 28 Jan 2024 00:43:59 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ7VauHgJK+939QjtOLtOPDOyGsYfwj+9f+1-jkFdtWnQ@mail.gmail.com>
+Message-ID: <CAK7LNAQ7VauHgJK+939QjtOLtOPDOyGsYfwj+9f+1-jkFdtWnQ@mail.gmail.com>
+Subject: Re: [PATCH 0/2] Fix UML build with clang-18 and newer
 To: Nathan Chancellor <nathan@kernel.org>
-Cc: Aiden Leong <aiden.leong@aibsd.com>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, ndesaulniers@google.com, nicolas@fjasle.eu, 
-	clang-built-linux <llvm@lists.linux.dev>, 
-	=?UTF-8?B?Ru+/ve+/ve+/vW5nLXJ177+977+977+9IFPvv73vv73vv71uZw==?= <maskray@google.com>
+Cc: richard@nod.at, anton.ivanov@cambridgegreys.com, johannes@sipsolutions.net, 
+	nicolas@fjasle.eu, ndesaulniers@google.com, morbo@google.com, 
+	justinstitt@google.com, linux-um@lists.infradead.org, 
+	linux-kbuild@vger.kernel.org, llvm@lists.linux.dev, patches@lists.linux.dev, 
+	stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 23, 2024 at 8:02=E2=80=AFAM Nathan Chancellor <nathan@kernel.or=
+On Wed, Jan 24, 2024 at 8:00=E2=80=AFAM Nathan Chancellor <nathan@kernel.or=
 g> wrote:
 >
-> On Mon, Jan 22, 2024 at 10:29:32PM +0900, Masahiro Yamada wrote:
-> > +CC: clang-built-linux list, Fangrui
-> >
-> > On Mon, Jan 22, 2024 at 1:04=E2=80=AFPM Aiden Leong <aiden.leong@aibsd.=
-com> wrote:
-> > >
-> > >
-> > >  > The function fatal() never returns because modpost_log() calls exi=
-t(1)
-> > >
-> > >  > when LOG_FATAL is passed.
-> > >  >
-> > >  > Inform compilers of this fact so that unreachable code flow can be
-> > >  > identified at compile time.
-> > >  >
-> > >  > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > >  > Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-> > >  > ---
-> > >  >
-> > >  > Changes in v2:
-> > >  >   - Use noreturn attribute together with alias
-> > >  >
-> > >  >  scripts/mod/modpost.c | 3 +++
-> > >  >  scripts/mod/modpost.h | 5 ++++-
-> > >  >  2 files changed, 7 insertions(+), 1 deletion(-)
-> > >  >
-> > >  > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> > >  > index ca0a90158f85..c13bc9095df3 100644
-> > >  > --- a/scripts/mod/modpost.c
-> > >  > +++ b/scripts/mod/modpost.c
-> > >  > @@ -90,6 +90,9 @@ void modpost_log(enum loglevel loglevel, const c=
-har
-> > > *fmt, ...)
-> > >  >          error_occurred =3D true;
-> > >  >  }
-> > >  >
-> > >  > +void __attribute__((alias("modpost_log")))
-> > >
-> > > Hi Masahiro,
-> > > I cross-compile kernel on Apple Silicon MacBook Pro
-> > > and every thing works well until this patch.
-> > >
-> > > My build command:
-> > > make ARCH=3Darm CROSS_COMPILE=3Darm-none-eabi- \
-> > > HOSTCFLAGS=3D"-I/opt/homebrew/opt/openssl/include" \
-> > > HOSTLDFLAGS=3D"-L/opt/homebrew/opt/openssl/lib"
-> > >
-> > > Error message:
-> > > scripts/mod/modpost.c:93:21: error: aliases are not supported on darw=
-in
-> >
-> >
-> > It is unfortunate.  Indeed, I see this message in:
-> >
-> > clang/include/clang/Basic/DiagnosticSemaKinds.td
-> >
-> >
-> > Is this limitation due to macOS executable (PEF),
-> > or is it Clang-specific?
+> Hi all,
 >
-> Based on my admittedly brief research, this seems related to the Mach-O
-> format. That message was added by [1] in response to [2] but the message
-> mentioned weak aliases being supported. A further clarification was made
-> in [3] to state that all aliases are unsupported as a result of some
-> internal Apple bug it seems but I do see a couple of bug reports stating
-> that may not be true [4][5] (although that does not seem relevant for
-> this report).
+> This series resolves two independent but related issues that were
+> recently exposed by two LLVM changes.
 >
-> [1]: https://github.com/llvm/llvm-project/commit/0017c5fa92ad3b10e15fd34f=
-3865e8e5b850a5ed
-> [2]: https://llvm.org/bz8720
-> [3]: https://github.com/llvm/llvm-project/commit/4e30b96834cea5682a8e9e02=
-4dda06319825000a
-> [4]: https://github.com/llvm/llvm-project/issues/11488
-> [5]: https://github.com/llvm/llvm-project/issues/71001
+> https://github.com/llvm/llvm-project/commit/ec92d74a0ef89b9dd46aee6ec8aca=
+6bfd3c66a54
+> exposes that '-no-pie' is not getting added to the linker flags with
+> clang, resulting in building objects with '-fno-PIE' that are linked
+> with '-pie', to which the linker rightfully errors with:
+>
+>   /usr/sbin/ld: init/main.o: relocation R_X86_64_32 against symbol `saved=
+_command_line' can not be used when making a PIE object; recompile with -fP=
+IE
+>   /usr/sbin/ld: failed to set dynamic section sizes: bad value
+>
+> https://github.com/llvm/llvm-project/commit/4bf8a688956a759b7b6b8d94f42d2=
+5c13c7af130
+> adds '.ltext' (and '.ltext.*' with '-ffunction-sections') when using
+> '-mcmodel=3Dlarge' (which UML does), which causes a segmentation fault
+> with modpost.
+>
+> I have tested these patches with all supported versions of clang,
+> noticing no regressions.
+
+
+Both applied to linux-kbuild/fixes.
+
+Thanks.
 
 
 
-Thank you.
-As far as I understood, macOS seems to support weak aliases.
 
-With [5] fixed, perhaps we could do the following:
-
--void __attribute__((alias("modpost_log")))
-+void __attribute__((weak, alias("modpost_log")))
-
-
-But, we do not need to wait for it.
-We can do similar without aliases at all.
-
-fix submitted:
-https://lore.kernel.org/all/20240127132811.726504-1-masahiroy@kernel.org/T/=
-#u
-
-
+> ---
+> Nathan Chancellor (2):
+>       um: Fix adding '-no-pie' for clang
+>       modpost: Add '.ltext' and '.ltext.*' to TEXT_SECTIONS
+>
+>  arch/um/Makefile      | 4 +++-
+>  scripts/mod/modpost.c | 3 ++-
+>  2 files changed, 5 insertions(+), 2 deletions(-)
+> ---
+> base-commit: 0dd3ee31125508cd67f7e7172247f05b7fd1753a
+> change-id: 20240118-fix-uml-clang-18-e365b0503a29
+>
+> Best regards,
+> --
+> Nathan Chancellor <nathan@kernel.org>
+>
 
 
 --=20
