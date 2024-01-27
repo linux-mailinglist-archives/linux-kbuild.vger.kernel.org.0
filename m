@@ -1,306 +1,248 @@
-Return-Path: <linux-kbuild+bounces-693-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-694-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ABD583F069
-	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Jan 2024 23:01:18 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id B520E83F08D
+	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Jan 2024 23:15:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3ADEEB2342E
-	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Jan 2024 22:01:15 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CA8D3B23F5F
+	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Jan 2024 22:14:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F23C41B807;
-	Sat, 27 Jan 2024 22:01:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=smile-fr.20230601.gappssmtp.com header.i=@smile-fr.20230601.gappssmtp.com header.b="aiK+ui9L"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 741CF1B7FA;
+	Sat, 27 Jan 2024 22:14:42 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 917831B7FC
-	for <linux-kbuild@vger.kernel.org>; Sat, 27 Jan 2024 22:01:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B01161D692
+	for <linux-kbuild@vger.kernel.org>; Sat, 27 Jan 2024 22:14:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706392871; cv=none; b=CMbiRWvx/5K8cDXN51qjOS7YjgVExomDqVg5fe1NJQpGbG7CHZhMz2sr9Md1QGShEHUayVPFXEPzCLq/kpYh/pCYS/XzYzldfoW9YWery3GkgoDVJXcRlu4K2AuoCvi54+qQ0v2NS9+k1GCnpGtYTlVCh7xqtiO52u1LG9LrEHI=
+	t=1706393682; cv=none; b=bJ+wjC3bOKb5ObcCvRtlF/uhDQWzKWmt+wTVgRoEnKud/Zl2QyqNy96+dqVJbctwLt/HX2juWHMpOaB6vIz6+kjNVmjajyVHvpK1w3AQZAQKAdF2ItndC9mIr4zsgSMKLRWdcKSS0Rl3N2dyF76IJtprsM5GJXoNLvl+8kQ2FbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706392871; c=relaxed/simple;
-	bh=i2YafAS6UswvrfbzFXcODF8OztRsn1M/mcDkytvk/xs=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=EbWrKvo+CcfBENNXJLIC1mmGvrsNUmNiLY+Kp+TVsi+OelQOSdXC1uO7gy7HbJcPydY/FZRi8Kbp7ylKcJkYWBnhwaYbF2HrnTsiYjkXfbYdb4QqEuH2fEL9IbSpzDr/g7bfJONyiqg0w3QFA9G5j2A34SSFPyHM0PV/bLan5KA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=smile.fr; spf=pass smtp.mailfrom=smile.fr; dkim=pass (2048-bit key) header.d=smile-fr.20230601.gappssmtp.com header.i=@smile-fr.20230601.gappssmtp.com header.b=aiK+ui9L; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=smile.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=smile.fr
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-33921b95dddso1678998f8f.1
-        for <linux-kbuild@vger.kernel.org>; Sat, 27 Jan 2024 14:01:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1706392867; x=1706997667; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=VC19HgC2xBJYYLj2MNIq83FdLrZUDryfrK5B88v0kp0=;
-        b=aiK+ui9LKgFOpV0pF01GQmSuAu5bvYjeZy8Ak/3pdeBkxQGL50rSvE23eoCjJLsAR4
-         gf9r/9EPW9e1bTrrTferkPIFrYRQTIDe+uAxbRFEVfIWbfTk9+8QbwhCPSi3cNdzClJK
-         H8RoIAaJ2MRyZHy+Gn7Xse+7RX7xyVYooUODuGIlMs+jk9NIa+NloOoPgLma5fsuXyTs
-         Qkv4j+/cSxS9bRFhwL2+Khencqio74W57UvFu+kdO1ZHLgGcglcFh2nueuOfUkvuA3z1
-         9yVx1mrlkcP0cPlBWhuXtabd/5JAtXFhVBStpziztD9xDjSfcUtoDexPvGNrG7jlq6NL
-         TD+Q==
+	s=arc-20240116; t=1706393682; c=relaxed/simple;
+	bh=Ukc7Ht1rivM64/nrzKpwbg81QtVJhl82u5AmtmJ/QFI=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=WtGIsU6w2oz2zse3ZL/y5UomN3jBObxO7G8FVLq1YafGPpXqVteGnucGJqSDcafo0dbBjS1r9KXq7u/C6XnWYZJ0AhBLeY3KyEWan6zLzc+f8QnwTM7ZL1eVUxSIfuYor92YJ3t9vf6LQrl9s9q3CR4Lcc4Htg41re8UNCPT7JE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=users.sf.net; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=users.sf.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-6dde173384aso1319554a34.1
+        for <linux-kbuild@vger.kernel.org>; Sat, 27 Jan 2024 14:14:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706392867; x=1706997667;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VC19HgC2xBJYYLj2MNIq83FdLrZUDryfrK5B88v0kp0=;
-        b=AEHWgsaC+KqQDIb4pAW50U1nxysARDj5ccMpk7ATEzFA5+aGKwnT8ZSHEIJ9rfa/BR
-         AsrAKMglq5cY0NSJ8ya94v7mOmlhFr+HPUg6pdOkYL79l+p9Ap9CYlNxvUXTthjmCtNc
-         0nyvUooDrudkjVgiSyS3neYVxqvWNhLO9BctW8g884dWiTWQZ0Bu2QSYhTaQI0pRKsh1
-         66DlUfUASvMVtG4Whsb5qmD/sROY8JSpGsdZnKxfgWcexDcm02aE0wtwWfmPhb4aDQzU
-         wVBp2lvtCEBbACTnxYpTqfR3c/oy22sZg7HQxU2gfvHGDY6VRx1rwHLn4Tz2scVHy0BS
-         y/Mg==
-X-Gm-Message-State: AOJu0YwD1ZHAD1UPeft0abPlvSpkWLLUFK5Gp3fGOHxsamwDw5aR3k4b
-	x0QeiZJfdFSLiNnwCyH1AlhoiQTwcEvf4oHFmHhHpg1L8vnQy0zZuPRg8eeA6f4=
-X-Google-Smtp-Source: AGHT+IEL8BSf5/b5rbuUtydWIGRDvMV929M5hAmGFiamdPtG2TRCQQafl5M+m4ldCG5GSLh3CS2ITA==
-X-Received: by 2002:adf:f24c:0:b0:33a:e3ac:60d4 with SMTP id b12-20020adff24c000000b0033ae3ac60d4mr772227wrp.15.1706392865887;
-        Sat, 27 Jan 2024 14:01:05 -0800 (PST)
-Received: from P-ASN-ECS-830T8C3.local ([89.159.1.53])
-        by smtp.gmail.com with ESMTPSA id f19-20020a05600c155300b0040e541ddcb1sm5755532wmg.33.2024.01.27.14.01.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Jan 2024 14:01:05 -0800 (PST)
-From: Yoann Congal <yoann.congal@smile.fr>
-To: x86@kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Cc: linux-kbuild@vger.kernel.org,
-	Yoann Congal <yoann.congal@smile.fr>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	"Luis R . Rodriguez" <mcgrof@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Darren Hart <dvhart@infradead.org>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	=?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
-	Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH v2] printk: Remove redundant CONFIG_BASE_SMALL
-Date: Sat, 27 Jan 2024 23:00:26 +0100
-Message-Id: <20240127220026.1722399-1-yoann.congal@smile.fr>
-X-Mailer: git-send-email 2.39.2
+        d=1e100.net; s=20230601; t=1706393679; x=1706998479;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=eQC0HpKEwg8JljK4ofISFMi5mEmyQxzivzvlaqF6a38=;
+        b=dYqVgdD12gLqEfrZD/J37yVFCg1nblHdULcS5qUo8W1pwwqiW3lWZ6znmte/MYUdIM
+         2NM3qm3akQZwTyIFlHkrHlzz///LaQ6/PM2Gp7xg8VpX942DelysLJBPFmSVEInGEUU5
+         pZ1fg4Q2HDoFq8SkSSZhaOLKLxfEXJb+2CS140Gqj3NfKo7luQjduhyr6qHNNvJTGsm5
+         HIVCj93D82R48xs98kGJJxYcH420zopj/nggUAESfVCe+yLSkhYdzSSCGfEVVzii0LC0
+         LH9Kh7OApgV+Y5Ou4YFkyBghAoII4gMlLX9QehjB2aGeeI7JAGDq2Ct9KjlIka2bJ8Tj
+         +JYA==
+X-Gm-Message-State: AOJu0Yy3Ufvq/zihKNVj/kmT3MveRFiT5FPAo7PFRqnr1eMXwAn+4YFJ
+	hfRqccW9qJoyZjJXkyYj2NPP0G9QeQat6jq1nju3DuExXyM4bQx3klnqxHsg7W8FWRxmv0Dnx5d
+	q0Y05/WAdQxy1T5/PncQNYXtr1vOx5KMdtNk=
+X-Google-Smtp-Source: AGHT+IFHtdu6qWssn84KQslUIyRfkVrIW/J/FNhRnfDgblNOpYuvKJglGsDclVwbFbLcxUV5/+LRXp2mtrDg/NGSFBA=
+X-Received: by 2002:a9d:7396:0:b0:6dc:6fac:40f9 with SMTP id
+ j22-20020a9d7396000000b006dc6fac40f9mr2337061otk.39.1706393679518; Sat, 27
+ Jan 2024 14:14:39 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From: Dmitry Goncharov <dgoncharov@users.sf.net>
+Date: Sat, 27 Jan 2024 17:14:28 -0500
+Message-ID: <CAG+Z0CttsBe0_OoPeU3bVh9dg9DN_cUwcX2oC0Mj2uNxurehWA@mail.gmail.com>
+Subject: kbuild: Port build system to the future versions of gnu make.
+To: linux-kbuild@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>, 
+	Martin Dorey <martin.dorey@hitachivantara.com>
+Content-Type: multipart/mixed; boundary="0000000000001e01d7060ff4bdff"
 
-CONFIG_BASE_SMALL is currently a type int but is only used as a boolean
-equivalent to !CONFIG_BASE_FULL.
+--0000000000001e01d7060ff4bdff
+Content-Type: text/plain; charset="UTF-8"
 
-So, remove it entirely and move every usage to !CONFIG_BASE_FULL.
+Port build system to the future (post make-4.4.1) versions of gnu make.
 
-In addition, recent kconfig changes (see the discussion in Closes: tag)
-revealed that using:
-  config SOMETHING
-     default "some value" if X
-does not work as expected if X is not of type bool.
+Starting from https://git.savannah.gnu.org/cgit/make.git/commit/?id=07fcee35f058a876447c8a021f9eb1943f902534
+gnu make won't allow conditionals to follow recipe prefix.
 
-CONFIG_BASE_SMALL was used that way in init/Kconfig:
-  config LOG_CPU_MAX_BUF_SHIFT
-  	default 12 if !BASE_SMALL
-  	default 0 if BASE_SMALL
+For example there is a tab followed by ifeq on line 324 in the root Makefile.
+With the new make this conditional causes the following
 
-Note: This changes CONFIG_LOG_CPU_MAX_BUF_SHIFT=12 to
-CONFIG_LOG_CPU_MAX_BUF_SHIFT=0 for some defconfigs, but that will not be
-a big impact due to this code in kernel/printk/printk.c:
-  /* by default this will only continue through for large > 64 CPUs */
-  if (cpu_extra <= __LOG_BUF_LEN / 2)
-          return;
+$ make cpu.o
+/home/dgoncharov/src/linux-kbuild/Makefile:2063: *** missing 'endif'.  Stop.
+make: *** [Makefile:240: __sub-make] Error 2
 
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
-Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
-Closes: https://lore.kernel.org/all/CAMuHMdWm6u1wX7efZQf=2XUAHascps76YQac6rdnQGhc8nop_Q@mail.gmail.com/
-Fixes: 4e244c10eab3 ("kconfig: remove unneeded symbol_empty variable")
----
-v1 patch was named "treewide: Change CONFIG_BASE_SMALL to bool type"
-https://lore.kernel.org/all/20240126163032.1613731-1-yoann.congal@smile.fr/
+See https://savannah.gnu.org/bugs/?64185 and
+https://savannah.gnu.org/bugs/?64259 for details.
 
-v1 -> v2: Applied Masahiro Yamada's comments (Thanks!):
-* Changed from "Change CONFIG_BASE_SMALL to type bool" to
-  "Remove it and switch usage to !CONFIG_BASE_FULL"
-* Fixed "Fixes:" tag and reference to the mailing list thread.
-* Added a note about CONFIG_LOG_CPU_MAX_BUF_SHIFT changing.
+This patch replaces tabs followed by conditionals with 8 spaces.
+In case the mailer program messes up the tabs and spaces in the diff,
+i enclosed the same patch in the attachment.
 
-CC: Luis R. Rodriguez <mcgrof@kernel.org>
-CC: Thomas Gleixner <tglx@linutronix.de>
-CC: Ingo Molnar <mingo@redhat.com>
-CC: Borislav Petkov <bp@alien8.de>
-CC: Dave Hansen <dave.hansen@linux.intel.com>
-CC: "H. Peter Anvin" <hpa@zytor.com>
-CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC: Jiri Slaby <jirislaby@kernel.org>
-CC: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-CC: Matthew Wilcox <willy@infradead.org>
-CC: Peter Zijlstra <peterz@infradead.org>
-CC: Darren Hart <dvhart@infradead.org>
-CC: Davidlohr Bueso <dave@stgolabs.net>
-CC: "André Almeida" <andrealmeid@igalia.com>
-CC: Masahiro Yamada <masahiroy@kernel.org>
-CC: x86@kernel.org
-CC: linux-kernel@vger.kernel.org
-CC: linux-serial@vger.kernel.org
-CC: linux-fsdevel@vger.kernel.org
-CC: linux-kbuild@vger.kernel.org
----
- arch/x86/include/asm/mpspec.h | 2 +-
- drivers/tty/vt/vc_screen.c    | 2 +-
- include/linux/threads.h       | 6 +++---
- include/linux/udp.h           | 2 +-
- include/linux/xarray.h        | 2 +-
- init/Kconfig                  | 9 ++-------
- kernel/futex/core.c           | 6 +++---
- kernel/user.c                 | 2 +-
- 8 files changed, 13 insertions(+), 18 deletions(-)
+Signed-off-by: Dmitry Goncharov <dgoncharov@users.sf.net>
+Reported-by: Martin Dorey <martin.dorey@hitachivantara.com>
 
-diff --git a/arch/x86/include/asm/mpspec.h b/arch/x86/include/asm/mpspec.h
-index 4b0f98a8d338d..44307fb37fa25 100644
---- a/arch/x86/include/asm/mpspec.h
-+++ b/arch/x86/include/asm/mpspec.h
-@@ -15,7 +15,7 @@ extern int pic_mode;
-  * Summit or generic (i.e. installer) kernels need lots of bus entries.
-  * Maximum 256 PCI busses, plus 1 ISA bus in each of 4 cabinets.
-  */
--#if CONFIG_BASE_SMALL == 0
-+#ifdef CONFIG_BASE_FULL
- # define MAX_MP_BUSSES		260
- #else
- # define MAX_MP_BUSSES		32
-diff --git a/drivers/tty/vt/vc_screen.c b/drivers/tty/vt/vc_screen.c
-index 67e2cb7c96eec..d0e4fcd1bd8b5 100644
---- a/drivers/tty/vt/vc_screen.c
-+++ b/drivers/tty/vt/vc_screen.c
-@@ -51,7 +51,7 @@
- #include <asm/unaligned.h>
- 
- #define HEADER_SIZE	4u
--#define CON_BUF_SIZE (CONFIG_BASE_SMALL ? 256 : PAGE_SIZE)
-+#define CON_BUF_SIZE (IS_ENABLED(CONFIG_BASE_FULL) ? PAGE_SIZE : 256)
- 
- /*
-  * Our minor space:
-diff --git a/include/linux/threads.h b/include/linux/threads.h
-index c34173e6c5f18..f0f7a8aaba77d 100644
---- a/include/linux/threads.h
-+++ b/include/linux/threads.h
-@@ -25,14 +25,14 @@
- /*
-  * This controls the default maximum pid allocated to a process
-  */
--#define PID_MAX_DEFAULT (CONFIG_BASE_SMALL ? 0x1000 : 0x8000)
-+#define PID_MAX_DEFAULT (IS_ENABLED(CONFIG_BASE_FULL) ? 0x8000 : 0x1000)
- 
- /*
-  * A maximum of 4 million PIDs should be enough for a while.
-  * [NOTE: PID/TIDs are limited to 2^30 ~= 1 billion, see FUTEX_TID_MASK.]
-  */
--#define PID_MAX_LIMIT (CONFIG_BASE_SMALL ? PAGE_SIZE * 8 : \
--	(sizeof(long) > 4 ? 4 * 1024 * 1024 : PID_MAX_DEFAULT))
-+#define PID_MAX_LIMIT (IS_ENABLED(CONFIG_BASE_FULL) ? \
-+	(sizeof(long) > 4 ? 4 * 1024 * 1024 : PID_MAX_DEFAULT) : PAGE_SIZE * 8)
- 
- /*
-  * Define a minimum number of pids per cpu.  Heuristically based
-diff --git a/include/linux/udp.h b/include/linux/udp.h
-index d04188714dca1..ca8a172169019 100644
---- a/include/linux/udp.h
-+++ b/include/linux/udp.h
-@@ -24,7 +24,7 @@ static inline struct udphdr *udp_hdr(const struct sk_buff *skb)
- }
- 
- #define UDP_HTABLE_SIZE_MIN_PERNET	128
--#define UDP_HTABLE_SIZE_MIN		(CONFIG_BASE_SMALL ? 128 : 256)
-+#define UDP_HTABLE_SIZE_MIN		(IS_ENABLED(CONFIG_BASE_FULL) ? 256 : 128)
- #define UDP_HTABLE_SIZE_MAX		65536
- 
- static inline u32 udp_hashfn(const struct net *net, u32 num, u32 mask)
-diff --git a/include/linux/xarray.h b/include/linux/xarray.h
-index cb571dfcf4b16..7e00e71c2d266 100644
---- a/include/linux/xarray.h
-+++ b/include/linux/xarray.h
-@@ -1141,7 +1141,7 @@ static inline void xa_release(struct xarray *xa, unsigned long index)
-  * doubled the number of slots per node, we'd get only 3 nodes per 4kB page.
-  */
- #ifndef XA_CHUNK_SHIFT
--#define XA_CHUNK_SHIFT		(CONFIG_BASE_SMALL ? 4 : 6)
-+#define XA_CHUNK_SHIFT		(IS_ENABLED(CONFIG_BASE_FULL) ? 6 : 4)
- #endif
- #define XA_CHUNK_SIZE		(1UL << XA_CHUNK_SHIFT)
- #define XA_CHUNK_MASK		(XA_CHUNK_SIZE - 1)
-diff --git a/init/Kconfig b/init/Kconfig
-index 8d4e836e1b6b1..877b3f6f0e605 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -734,8 +734,8 @@ config LOG_CPU_MAX_BUF_SHIFT
- 	int "CPU kernel log buffer size contribution (13 => 8 KB, 17 => 128KB)"
- 	depends on SMP
- 	range 0 21
--	default 12 if !BASE_SMALL
--	default 0 if BASE_SMALL
-+	default 12 if BASE_FULL
-+	default 0
- 	depends on PRINTK
- 	help
- 	  This option allows to increase the default ring buffer size
-@@ -1940,11 +1940,6 @@ config RT_MUTEXES
- 	bool
- 	default y if PREEMPT_RT
- 
--config BASE_SMALL
--	int
--	default 0 if BASE_FULL
--	default 1 if !BASE_FULL
--
- config MODULE_SIG_FORMAT
- 	def_bool n
- 	select SYSTEM_DATA_VERIFICATION
-diff --git a/kernel/futex/core.c b/kernel/futex/core.c
-index e0e853412c158..8f85afef9d061 100644
---- a/kernel/futex/core.c
-+++ b/kernel/futex/core.c
-@@ -1141,10 +1141,10 @@ static int __init futex_init(void)
- 	unsigned int futex_shift;
- 	unsigned long i;
- 
--#if CONFIG_BASE_SMALL
--	futex_hashsize = 16;
--#else
-+#ifdef CONFIG_BASE_FULL
- 	futex_hashsize = roundup_pow_of_two(256 * num_possible_cpus());
-+#else
-+	futex_hashsize = 16;
- #endif
- 
- 	futex_queues = alloc_large_system_hash("futex", sizeof(*futex_queues),
-diff --git a/kernel/user.c b/kernel/user.c
-index 03cedc366dc9e..8f39fd0236fa0 100644
---- a/kernel/user.c
-+++ b/kernel/user.c
-@@ -88,7 +88,7 @@ EXPORT_SYMBOL_GPL(init_user_ns);
-  * when changing user ID's (ie setuid() and friends).
-  */
- 
--#define UIDHASH_BITS	(CONFIG_BASE_SMALL ? 3 : 7)
-+#define UIDHASH_BITS	(IS_ENABLED(CONFIG_BASE_FULL) ? 7 : 3)
- #define UIDHASH_SZ	(1 << UIDHASH_BITS)
- #define UIDHASH_MASK		(UIDHASH_SZ - 1)
- #define __uidhashfn(uid)	(((uid >> UIDHASH_BITS) + uid) & UIDHASH_MASK)
--- 
-2.39.2
+regards, Dmitry
 
+
+diff --git a/Makefile b/Makefile
+index 9869f57c3fb3..12dcc51c586a 100644
+--- a/Makefile
++++ b/Makefile
+@@ -294,15 +294,15 @@ may-sync-config    := 1
+ single-build    :=
+
+ ifneq ($(filter $(no-dot-config-targets), $(MAKECMDGOALS)),)
+-    ifeq ($(filter-out $(no-dot-config-targets), $(MAKECMDGOALS)),)
++        ifeq ($(filter-out $(no-dot-config-targets), $(MAKECMDGOALS)),)
+         need-config :=
+-    endif
++        endif
+ endif
+
+ ifneq ($(filter $(no-sync-config-targets), $(MAKECMDGOALS)),)
+-    ifeq ($(filter-out $(no-sync-config-targets), $(MAKECMDGOALS)),)
++        ifeq ($(filter-out $(no-sync-config-targets), $(MAKECMDGOALS)),)
+         may-sync-config :=
+-    endif
++        endif
+ endif
+
+ need-compiler := $(may-sync-config)
+@@ -323,9 +323,9 @@ endif
+ # We cannot build single targets and the others at the same time
+ ifneq ($(filter $(single-targets), $(MAKECMDGOALS)),)
+     single-build := 1
+-    ifneq ($(filter-out $(single-targets), $(MAKECMDGOALS)),)
++        ifneq ($(filter-out $(single-targets), $(MAKECMDGOALS)),)
+         mixed-build := 1
+-    endif
++        endif
+ endif
+
+ # For "make -j clean all", "make -j mrproper defconfig all", etc.
+diff --git a/arch/m68k/Makefile b/arch/m68k/Makefile
+index 43e39040d3ac..76ef1a67c361 100644
+--- a/arch/m68k/Makefile
++++ b/arch/m68k/Makefile
+@@ -15,10 +15,10 @@
+ KBUILD_DEFCONFIG := multi_defconfig
+
+ ifdef cross_compiling
+-    ifeq ($(CROSS_COMPILE),)
++        ifeq ($(CROSS_COMPILE),)
+         CROSS_COMPILE := $(call cc-cross-prefix, \
+             m68k-linux-gnu- m68k-linux- m68k-unknown-linux-gnu-)
+-    endif
++        endif
+ endif
+
+ #
+diff --git a/arch/parisc/Makefile b/arch/parisc/Makefile
+index 920db57b6b4c..7486b3b30594 100644
+--- a/arch/parisc/Makefile
++++ b/arch/parisc/Makefile
+@@ -50,12 +50,12 @@ export CROSS32CC
+
+ # Set default cross compiler for kernel build
+ ifdef cross_compiling
+-    ifeq ($(CROSS_COMPILE),)
++        ifeq ($(CROSS_COMPILE),)
+         CC_SUFFIXES = linux linux-gnu unknown-linux-gnu suse-linux
+         CROSS_COMPILE := $(call cc-cross-prefix, \
+             $(foreach a,$(CC_ARCHES), \
+             $(foreach s,$(CC_SUFFIXES),$(a)-$(s)-)))
+-    endif
++        endif
+ endif
+
+ ifdef CONFIG_DYNAMIC_FTRACE
+diff --git a/arch/x86/Makefile b/arch/x86/Makefile
+index 1a068de12a56..2264db14a25d 100644
+--- a/arch/x86/Makefile
++++ b/arch/x86/Makefile
+@@ -112,13 +112,13 @@ ifeq ($(CONFIG_X86_32),y)
+         # temporary until string.h is fixed
+         KBUILD_CFLAGS += -ffreestanding
+
+-    ifeq ($(CONFIG_STACKPROTECTOR),y)
+-        ifeq ($(CONFIG_SMP),y)
++        ifeq ($(CONFIG_STACKPROTECTOR),y)
++                ifeq ($(CONFIG_SMP),y)
+             KBUILD_CFLAGS += -mstack-protector-guard-reg=fs
+-mstack-protector-guard-symbol=__stack_chk_guard
+-        else
++                else
+             KBUILD_CFLAGS += -mstack-protector-guard=global
+-        endif
+-    endif
++                endif
++        endif
+ else
+         BITS := 64
+         UTS_MACHINE := x86_64
+
+--0000000000001e01d7060ff4bdff
+Content-Type: text/x-patch; charset="US-ASCII"; name="tabs_and_cond.diff"
+Content-Disposition: attachment; filename="tabs_and_cond.diff"
+Content-Transfer-Encoding: base64
+Content-ID: <f_lrwmnumq0>
+X-Attachment-Id: f_lrwmnumq0
+
+ZGlmZiAtLWdpdCBhL01ha2VmaWxlIGIvTWFrZWZpbGUKaW5kZXggOTg2OWY1N2MzZmIzLi4xMmRj
+YzUxYzU4NmEgMTAwNjQ0Ci0tLSBhL01ha2VmaWxlCisrKyBiL01ha2VmaWxlCkBAIC0yOTQsMTUg
+KzI5NCwxNSBAQCBtYXktc3luYy1jb25maWcJOj0gMQogc2luZ2xlLWJ1aWxkCTo9CiAKIGlmbmVx
+ICgkKGZpbHRlciAkKG5vLWRvdC1jb25maWctdGFyZ2V0cyksICQoTUFLRUNNREdPQUxTKSksKQot
+CWlmZXEgKCQoZmlsdGVyLW91dCAkKG5vLWRvdC1jb25maWctdGFyZ2V0cyksICQoTUFLRUNNREdP
+QUxTKSksKQorICAgICAgICBpZmVxICgkKGZpbHRlci1vdXQgJChuby1kb3QtY29uZmlnLXRhcmdl
+dHMpLCAkKE1BS0VDTURHT0FMUykpLCkKIAkJbmVlZC1jb25maWcgOj0KLQllbmRpZgorICAgICAg
+ICBlbmRpZgogZW5kaWYKIAogaWZuZXEgKCQoZmlsdGVyICQobm8tc3luYy1jb25maWctdGFyZ2V0
+cyksICQoTUFLRUNNREdPQUxTKSksKQotCWlmZXEgKCQoZmlsdGVyLW91dCAkKG5vLXN5bmMtY29u
+ZmlnLXRhcmdldHMpLCAkKE1BS0VDTURHT0FMUykpLCkKKyAgICAgICAgaWZlcSAoJChmaWx0ZXIt
+b3V0ICQobm8tc3luYy1jb25maWctdGFyZ2V0cyksICQoTUFLRUNNREdPQUxTKSksKQogCQltYXkt
+c3luYy1jb25maWcgOj0KLQllbmRpZgorICAgICAgICBlbmRpZgogZW5kaWYKIAogbmVlZC1jb21w
+aWxlciA6PSAkKG1heS1zeW5jLWNvbmZpZykKQEAgLTMyMyw5ICszMjMsOSBAQCBlbmRpZgogIyBX
+ZSBjYW5ub3QgYnVpbGQgc2luZ2xlIHRhcmdldHMgYW5kIHRoZSBvdGhlcnMgYXQgdGhlIHNhbWUg
+dGltZQogaWZuZXEgKCQoZmlsdGVyICQoc2luZ2xlLXRhcmdldHMpLCAkKE1BS0VDTURHT0FMUykp
+LCkKIAlzaW5nbGUtYnVpbGQgOj0gMQotCWlmbmVxICgkKGZpbHRlci1vdXQgJChzaW5nbGUtdGFy
+Z2V0cyksICQoTUFLRUNNREdPQUxTKSksKQorICAgICAgICBpZm5lcSAoJChmaWx0ZXItb3V0ICQo
+c2luZ2xlLXRhcmdldHMpLCAkKE1BS0VDTURHT0FMUykpLCkKIAkJbWl4ZWQtYnVpbGQgOj0gMQot
+CWVuZGlmCisgICAgICAgIGVuZGlmCiBlbmRpZgogCiAjIEZvciAibWFrZSAtaiBjbGVhbiBhbGwi
+LCAibWFrZSAtaiBtcnByb3BlciBkZWZjb25maWcgYWxsIiwgZXRjLgpkaWZmIC0tZ2l0IGEvYXJj
+aC9tNjhrL01ha2VmaWxlIGIvYXJjaC9tNjhrL01ha2VmaWxlCmluZGV4IDQzZTM5MDQwZDNhYy4u
+NzZlZjFhNjdjMzYxIDEwMDY0NAotLS0gYS9hcmNoL202OGsvTWFrZWZpbGUKKysrIGIvYXJjaC9t
+NjhrL01ha2VmaWxlCkBAIC0xNSwxMCArMTUsMTAgQEAKIEtCVUlMRF9ERUZDT05GSUcgOj0gbXVs
+dGlfZGVmY29uZmlnCiAKIGlmZGVmIGNyb3NzX2NvbXBpbGluZwotCWlmZXEgKCQoQ1JPU1NfQ09N
+UElMRSksKQorICAgICAgICBpZmVxICgkKENST1NTX0NPTVBJTEUpLCkKIAkJQ1JPU1NfQ09NUElM
+RSA6PSAkKGNhbGwgY2MtY3Jvc3MtcHJlZml4LCBcCiAJCQltNjhrLWxpbnV4LWdudS0gbTY4ay1s
+aW51eC0gbTY4ay11bmtub3duLWxpbnV4LWdudS0pCi0JZW5kaWYKKyAgICAgICAgZW5kaWYKIGVu
+ZGlmCiAKICMKZGlmZiAtLWdpdCBhL2FyY2gvcGFyaXNjL01ha2VmaWxlIGIvYXJjaC9wYXJpc2Mv
+TWFrZWZpbGUKaW5kZXggOTIwZGI1N2I2YjRjLi43NDg2YjNiMzA1OTQgMTAwNjQ0Ci0tLSBhL2Fy
+Y2gvcGFyaXNjL01ha2VmaWxlCisrKyBiL2FyY2gvcGFyaXNjL01ha2VmaWxlCkBAIC01MCwxMiAr
+NTAsMTIgQEAgZXhwb3J0IENST1NTMzJDQwogCiAjIFNldCBkZWZhdWx0IGNyb3NzIGNvbXBpbGVy
+IGZvciBrZXJuZWwgYnVpbGQKIGlmZGVmIGNyb3NzX2NvbXBpbGluZwotCWlmZXEgKCQoQ1JPU1Nf
+Q09NUElMRSksKQorICAgICAgICBpZmVxICgkKENST1NTX0NPTVBJTEUpLCkKIAkJQ0NfU1VGRklY
+RVMgPSBsaW51eCBsaW51eC1nbnUgdW5rbm93bi1saW51eC1nbnUgc3VzZS1saW51eAogCQlDUk9T
+U19DT01QSUxFIDo9ICQoY2FsbCBjYy1jcm9zcy1wcmVmaXgsIFwKIAkJCSQoZm9yZWFjaCBhLCQo
+Q0NfQVJDSEVTKSwgXAogCQkJJChmb3JlYWNoIHMsJChDQ19TVUZGSVhFUyksJChhKS0kKHMpLSkp
+KQotCWVuZGlmCisgICAgICAgIGVuZGlmCiBlbmRpZgogCiBpZmRlZiBDT05GSUdfRFlOQU1JQ19G
+VFJBQ0UKZGlmZiAtLWdpdCBhL2FyY2gveDg2L01ha2VmaWxlIGIvYXJjaC94ODYvTWFrZWZpbGUK
+aW5kZXggMWEwNjhkZTEyYTU2Li4yMjY0ZGIxNGEyNWQgMTAwNjQ0Ci0tLSBhL2FyY2gveDg2L01h
+a2VmaWxlCisrKyBiL2FyY2gveDg2L01ha2VmaWxlCkBAIC0xMTIsMTMgKzExMiwxMyBAQCBpZmVx
+ICgkKENPTkZJR19YODZfMzIpLHkpCiAgICAgICAgICMgdGVtcG9yYXJ5IHVudGlsIHN0cmluZy5o
+IGlzIGZpeGVkCiAgICAgICAgIEtCVUlMRF9DRkxBR1MgKz0gLWZmcmVlc3RhbmRpbmcKIAotCWlm
+ZXEgKCQoQ09ORklHX1NUQUNLUFJPVEVDVE9SKSx5KQotCQlpZmVxICgkKENPTkZJR19TTVApLHkp
+CisgICAgICAgIGlmZXEgKCQoQ09ORklHX1NUQUNLUFJPVEVDVE9SKSx5KQorICAgICAgICAgICAg
+ICAgIGlmZXEgKCQoQ09ORklHX1NNUCkseSkKIAkJCUtCVUlMRF9DRkxBR1MgKz0gLW1zdGFjay1w
+cm90ZWN0b3ItZ3VhcmQtcmVnPWZzIC1tc3RhY2stcHJvdGVjdG9yLWd1YXJkLXN5bWJvbD1fX3N0
+YWNrX2Noa19ndWFyZAotCQllbHNlCisgICAgICAgICAgICAgICAgZWxzZQogCQkJS0JVSUxEX0NG
+TEFHUyArPSAtbXN0YWNrLXByb3RlY3Rvci1ndWFyZD1nbG9iYWwKLQkJZW5kaWYKLQllbmRpZgor
+ICAgICAgICAgICAgICAgIGVuZGlmCisgICAgICAgIGVuZGlmCiBlbHNlCiAgICAgICAgIEJJVFMg
+Oj0gNjQKICAgICAgICAgVVRTX01BQ0hJTkUgOj0geDg2XzY0Cg==
+--0000000000001e01d7060ff4bdff--
 
