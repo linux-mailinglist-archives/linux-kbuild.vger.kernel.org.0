@@ -1,151 +1,178 @@
-Return-Path: <linux-kbuild+bounces-683-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-684-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8950883ED4A
-	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Jan 2024 14:28:36 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B25883ED62
+	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Jan 2024 14:41:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 42A78B219FD
-	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Jan 2024 13:28:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2FF211C215F2
+	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Jan 2024 13:41:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E30FC25613;
-	Sat, 27 Jan 2024 13:28:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1975625620;
+	Sat, 27 Jan 2024 13:41:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G0+mCO1k"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DgYYQTU0"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3C428831;
-	Sat, 27 Jan 2024 13:28:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E66551E51D;
+	Sat, 27 Jan 2024 13:41:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706362107; cv=none; b=M6USz3CvAqayFBEKE4L7gWIsFWAlZSyp6rD7KmSZOcWwaQVUL7er/e1TOWQLC8hZ/J9xewVaxZi+LdfOO0ZMiV1eOHMwOo27nsZPyewZzpHV/LsxjswfOS3hWRcdD789RuIU/nTocagrDq7Ec8qseCGEJzofn+rNK7OtBGAXtdw=
+	t=1706362911; cv=none; b=Hx60CBMJ03bh80jjjPgs3Azl7w7MPHigJvWnSJ1SZ42tdYY2hYRokRg2jm9oHeQfH4XFwv5zNykfeW7RjCzeLNNiYW3wZiUnldeziOzrXJZK3eDjzwyH1AqPzCEwreJKicaiuDyOehcauKgI49PW2qSpwLEAZcyt8oxcA9Hw704=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706362107; c=relaxed/simple;
-	bh=YySa0Fk3UXJKapcjnXd2lKKSfNAEPCo71Yx8GEe4vOw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=eDQzshI7aRYsjFTfRr4oKY1zwMVpffFVJdWawZK02nrteKgNn/CpcsqyuOQQoruU9w9ABz38LQuTTFXZlKVAnAJswNkxhgOC8g6lOkwyTp/zYgxakC1+YwFAFXhizMEBJlMsJYQoxWSwcZGS1VUACi7bov58FoE91hcrUBVpOpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G0+mCO1k; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84258C43390;
-	Sat, 27 Jan 2024 13:28:25 +0000 (UTC)
+	s=arc-20240116; t=1706362911; c=relaxed/simple;
+	bh=hosPsHG0ZyfR8sKG0hSNgK2DCihwOOAQrKZoFmzPQUc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Eg8uU/orT4o8EYhsN+dYqTQe29wyv9n/Pud7flQGveQuTc7morVG08DODBqr17/79W40XFEySBlrl/s4T+Ge5icbSp0dG8VRWTelrVsht7wryRKqy8nVFSHyvx5nGDNTq51Cn85iiI5aTOJiVJDOwX9OjpUTD0UGqt45PUXZ7jc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DgYYQTU0; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 621A1C433F1;
+	Sat, 27 Jan 2024 13:41:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706362107;
-	bh=YySa0Fk3UXJKapcjnXd2lKKSfNAEPCo71Yx8GEe4vOw=;
-	h=From:To:Cc:Subject:Date:From;
-	b=G0+mCO1kNZlkXqGHpVucNcZ+kDrr/VQfHBiPohNoXeY1rxq0AeFrMpyAfJ2eY7L8g
-	 v17lbMi6os42Ei+XAQncxT8sSg1Mn4MiUcM0jJKHxdASOd7/vOGG8gL8wfy0bOxzw7
-	 1RSK0tuP1rahtS6ui6vBraJ4Hw3XOhHRWYgoNdYG5gA/U30LsX5z9ZKx/Pao9rRWg7
-	 mJpeJXWE4eNg7Y30xDIZC9+ZAZq1olIiwDxGBQJ2Kpwj9WSvBNpK1TZSaX3j01t3oD
-	 Ftg5NmC4vAjYzCKfNhCWTczIisIJFv0FxAjdoEbGNsl0iDdW9vMa81/kD1K42DhU2b
-	 I2Skedw9wvTkw==
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: linux-kbuild@vger.kernel.org
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
-	Aiden Leong <aiden.leong@aibsd.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: [PATCH] modpost: avoid using the alias attribute
-Date: Sat, 27 Jan 2024 22:28:11 +0900
-Message-Id: <20240127132811.726504-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.40.1
+	s=k20201202; t=1706362910;
+	bh=hosPsHG0ZyfR8sKG0hSNgK2DCihwOOAQrKZoFmzPQUc=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=DgYYQTU0Q3ngEJGlfrBXOXCFHFtvdeK7RLdORupoijhaDQERHTWp1j+KYsPCpHQcO
+	 pj6cSuHdtW55VVZD57WqW73TdqcLKeS6kih2WuRErRhFIUMoj9muauQgzT1INqDTgy
+	 KYwJQu9w8EHS9RtgZwuxT3bbrhOwyHV/Jbw3LMOP28BLxDOpZxC/0aLzyOa04/HydS
+	 Ws6gBGevTJjGeO1OYVcrtvY8xNCrMJ7gtTbFyxpvK5FWSUq/rUYsaEx07/8SDRCuyL
+	 rXwlV9jW9TbybpvXttdGQ6Lj4ABARD2tSWGMiIC/zFv3vA5DgMjZk4zqGC5BugLIlR
+	 t7kHPp7jUgfmg==
+Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-595b3644acbso1225358eaf.1;
+        Sat, 27 Jan 2024 05:41:50 -0800 (PST)
+X-Gm-Message-State: AOJu0YzmUk8cLBx2eCekE/2EKTwpzm+e6gznvpLFW8DZ1gc171vNJKAU
+	jTZ/Pq7cFkT10h2baMSAQi/1MXEu1p6PcAeG67V+dC8Bx8m8s3g4GQmKj0NsVFdgkZjkmGqUuKu
+	zEHZlQZ1A5NntryDmYlcevv7X26w=
+X-Google-Smtp-Source: AGHT+IG3fUb8Ad4+sr7qrvoyt+C0ZtD2RWS3ld+lIM4h3epDbz8xcPsi5sdfx66Hm5aKT7X+rx/K9BDQfWP1ePI0OME=
+X-Received: by 2002:a05:6870:709e:b0:215:30c3:a2c1 with SMTP id
+ v30-20020a056870709e00b0021530c3a2c1mr1046686oae.48.1706362909773; Sat, 27
+ Jan 2024 05:41:49 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <d9ac2960-6644-4a87-b5e4-4bfb6e0364a8@aibsd.com>
+ <CAK7LNATDD2gC53T5n7vCUH6O6mdAm801fTWyKi9fji+5Kb+0ng@mail.gmail.com> <20240122230255.GD141255@dev-fedora.aadp>
+In-Reply-To: <20240122230255.GD141255@dev-fedora.aadp>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Sat, 27 Jan 2024 22:41:13 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARa4YPu_+KW1_E4RKO95JqUxS+DM8X6fmjr4SmV-Sgk4Q@mail.gmail.com>
+Message-ID: <CAK7LNARa4YPu_+KW1_E4RKO95JqUxS+DM8X6fmjr4SmV-Sgk4Q@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] modpost: inform compilers that fatal() never returns
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Aiden Leong <aiden.leong@aibsd.com>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, ndesaulniers@google.com, nicolas@fjasle.eu, 
+	clang-built-linux <llvm@lists.linux.dev>, 
+	=?UTF-8?B?Ru+/ve+/ve+/vW5nLXJ177+977+977+9IFPvv73vv73vv71uZw==?= <maskray@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Aiden Leong reported modpost fails to build on macOS since commit
-16a473f60edc ("modpost: inform compilers that fatal() never returns"):
+On Tue, Jan 23, 2024 at 8:02=E2=80=AFAM Nathan Chancellor <nathan@kernel.or=
+g> wrote:
+>
+> On Mon, Jan 22, 2024 at 10:29:32PM +0900, Masahiro Yamada wrote:
+> > +CC: clang-built-linux list, Fangrui
+> >
+> > On Mon, Jan 22, 2024 at 1:04=E2=80=AFPM Aiden Leong <aiden.leong@aibsd.=
+com> wrote:
+> > >
+> > >
+> > >  > The function fatal() never returns because modpost_log() calls exi=
+t(1)
+> > >
+> > >  > when LOG_FATAL is passed.
+> > >  >
+> > >  > Inform compilers of this fact so that unreachable code flow can be
+> > >  > identified at compile time.
+> > >  >
+> > >  > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > >  > Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+> > >  > ---
+> > >  >
+> > >  > Changes in v2:
+> > >  >   - Use noreturn attribute together with alias
+> > >  >
+> > >  >  scripts/mod/modpost.c | 3 +++
+> > >  >  scripts/mod/modpost.h | 5 ++++-
+> > >  >  2 files changed, 7 insertions(+), 1 deletion(-)
+> > >  >
+> > >  > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> > >  > index ca0a90158f85..c13bc9095df3 100644
+> > >  > --- a/scripts/mod/modpost.c
+> > >  > +++ b/scripts/mod/modpost.c
+> > >  > @@ -90,6 +90,9 @@ void modpost_log(enum loglevel loglevel, const c=
+har
+> > > *fmt, ...)
+> > >  >          error_occurred =3D true;
+> > >  >  }
+> > >  >
+> > >  > +void __attribute__((alias("modpost_log")))
+> > >
+> > > Hi Masahiro,
+> > > I cross-compile kernel on Apple Silicon MacBook Pro
+> > > and every thing works well until this patch.
+> > >
+> > > My build command:
+> > > make ARCH=3Darm CROSS_COMPILE=3Darm-none-eabi- \
+> > > HOSTCFLAGS=3D"-I/opt/homebrew/opt/openssl/include" \
+> > > HOSTLDFLAGS=3D"-L/opt/homebrew/opt/openssl/lib"
+> > >
+> > > Error message:
+> > > scripts/mod/modpost.c:93:21: error: aliases are not supported on darw=
+in
+> >
+> >
+> > It is unfortunate.  Indeed, I see this message in:
+> >
+> > clang/include/clang/Basic/DiagnosticSemaKinds.td
+> >
+> >
+> > Is this limitation due to macOS executable (PEF),
+> > or is it Clang-specific?
+>
+> Based on my admittedly brief research, this seems related to the Mach-O
+> format. That message was added by [1] in response to [2] but the message
+> mentioned weak aliases being supported. A further clarification was made
+> in [3] to state that all aliases are unsupported as a result of some
+> internal Apple bug it seems but I do see a couple of bug reports stating
+> that may not be true [4][5] (although that does not seem relevant for
+> this report).
+>
+> [1]: https://github.com/llvm/llvm-project/commit/0017c5fa92ad3b10e15fd34f=
+3865e8e5b850a5ed
+> [2]: https://llvm.org/bz8720
+> [3]: https://github.com/llvm/llvm-project/commit/4e30b96834cea5682a8e9e02=
+4dda06319825000a
+> [4]: https://github.com/llvm/llvm-project/issues/11488
+> [5]: https://github.com/llvm/llvm-project/issues/71001
 
-  scripts/mod/modpost.c:93:21: error: aliases are not supported on darwin
 
-Nathan's research indicates that Darwin seems to support weak aliases
-at least [1]. Although the situation might be improved in future Clang
-versions, we can achieve a similar outcome without relying on it.
 
-This commit makes fatal() a macro of error() + exit(1) in modpost.h, as
-compilers recognize that exit() never returns.
+Thank you.
+As far as I understood, macOS seems to support weak aliases.
 
-[1]: https://github.com/llvm/llvm-project/issues/71001
+With [5] fixed, perhaps we could do the following:
 
-Fixes: 16a473f60edc ("modpost: inform compilers that fatal() never returns")
-Reported-by: Aiden Leong <aiden.leong@aibsd.com>
-Closes: https://lore.kernel.org/all/d9ac2960-6644-4a87-b5e4-4bfb6e0364a8@aibsd.com/
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
- scripts/mod/modpost.c | 12 +-----------
- scripts/mod/modpost.h |  6 +-----
- 2 files changed, 2 insertions(+), 16 deletions(-)
-
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index 795b21154446..3ab2db83428b 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -70,9 +70,7 @@ void modpost_log(enum loglevel loglevel, const char *fmt, ...)
- 		break;
- 	case LOG_ERROR:
- 		fprintf(stderr, "ERROR: ");
--		break;
--	case LOG_FATAL:
--		fprintf(stderr, "FATAL: ");
-+		error_occurred = true;
- 		break;
- 	default: /* invalid loglevel, ignore */
- 		break;
-@@ -83,16 +81,8 @@ void modpost_log(enum loglevel loglevel, const char *fmt, ...)
- 	va_start(arglist, fmt);
- 	vfprintf(stderr, fmt, arglist);
- 	va_end(arglist);
--
--	if (loglevel == LOG_FATAL)
--		exit(1);
--	if (loglevel == LOG_ERROR)
--		error_occurred = true;
- }
- 
 -void __attribute__((alias("modpost_log")))
--modpost_log_noret(enum loglevel loglevel, const char *fmt, ...);
--
- static inline bool strends(const char *str, const char *postfix)
- {
- 	if (strlen(str) < strlen(postfix))
-diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
-index 835cababf1b0..ee43c7950636 100644
---- a/scripts/mod/modpost.h
-+++ b/scripts/mod/modpost.h
-@@ -194,15 +194,11 @@ void *sym_get_data(const struct elf_info *info, const Elf_Sym *sym);
- enum loglevel {
- 	LOG_WARN,
- 	LOG_ERROR,
--	LOG_FATAL
- };
- 
- void __attribute__((format(printf, 2, 3)))
- modpost_log(enum loglevel loglevel, const char *fmt, ...);
- 
--void __attribute__((format(printf, 2, 3), noreturn))
--modpost_log_noret(enum loglevel loglevel, const char *fmt, ...);
--
- /*
-  * warn - show the given message, then let modpost continue running, still
-  *        allowing modpost to exit successfully. This should be used when
-@@ -218,4 +214,4 @@ modpost_log_noret(enum loglevel loglevel, const char *fmt, ...);
-  */
- #define warn(fmt, args...)	modpost_log(LOG_WARN, fmt, ##args)
- #define error(fmt, args...)	modpost_log(LOG_ERROR, fmt, ##args)
--#define fatal(fmt, args...)	modpost_log_noret(LOG_FATAL, fmt, ##args)
-+#define fatal(fmt, args...)	do { error(fmt, ##args); exit(1); } while (1)
--- 
-2.40.1
++void __attribute__((weak, alias("modpost_log")))
 
+
+But, we do not need to wait for it.
+We can do similar without aliases at all.
+
+fix submitted:
+https://lore.kernel.org/all/20240127132811.726504-1-masahiroy@kernel.org/T/=
+#u
+
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
