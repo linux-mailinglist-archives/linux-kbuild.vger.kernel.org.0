@@ -1,269 +1,306 @@
-Return-Path: <linux-kbuild+bounces-692-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-693-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B48D83EFD6
-	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Jan 2024 20:51:08 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ABD583F069
+	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Jan 2024 23:01:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8DA211C21A49
-	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Jan 2024 19:51:07 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3ADEEB2342E
+	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Jan 2024 22:01:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E84E2E62E;
-	Sat, 27 Jan 2024 19:51:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F23C41B807;
+	Sat, 27 Jan 2024 22:01:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=flygoat.com header.i=@flygoat.com header.b="Ynmg5jif";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="QFZf5DrC"
+	dkim=pass (2048-bit key) header.d=smile-fr.20230601.gappssmtp.com header.i=@smile-fr.20230601.gappssmtp.com header.b="aiK+ui9L"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A98B414AB0;
-	Sat, 27 Jan 2024 19:51:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.111.4.29
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 917831B7FC
+	for <linux-kbuild@vger.kernel.org>; Sat, 27 Jan 2024 22:01:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706385064; cv=none; b=i88kxMEn16FfL9BMw8OKBUTM8BZXoWLJYn/CYxZEp+DvDedXFP5e1RL1P8QDUlLMlmby4lVicMgXeACHr9m7Ltj8Dgtx/h5wSlsvtLlV96XD+gHd4VFRdmU+MdEct0vd4cWfuhKEaMGHH4OCYarZpCVBnlFMMq8/gy9EU4zopzM=
+	t=1706392871; cv=none; b=CMbiRWvx/5K8cDXN51qjOS7YjgVExomDqVg5fe1NJQpGbG7CHZhMz2sr9Md1QGShEHUayVPFXEPzCLq/kpYh/pCYS/XzYzldfoW9YWery3GkgoDVJXcRlu4K2AuoCvi54+qQ0v2NS9+k1GCnpGtYTlVCh7xqtiO52u1LG9LrEHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706385064; c=relaxed/simple;
-	bh=wrKLrNOoOGi1Scl6PQrNxqhLPOyWttVYNowKaTpIVJs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XrxG6/yOohL/ihurC6958eAmB6K5MRPyyyZuq1PZKJgZSp3UQH8TAiC46COiqSGdFgPgQ6yBuQhzQPkgXKOTavd1Kf8d2ZoK7bmihFmkdb/pmkSpHVlBDPX+6l6bShlTGn+vxBzpzRUQ3OfiucKwv0/WAqrrAB0rUOShTAV4DK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=flygoat.com; spf=pass smtp.mailfrom=flygoat.com; dkim=pass (2048-bit key) header.d=flygoat.com header.i=@flygoat.com header.b=Ynmg5jif; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=QFZf5DrC; arc=none smtp.client-ip=66.111.4.29
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=flygoat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flygoat.com
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.48])
-	by mailout.nyi.internal (Postfix) with ESMTP id 9ABA45C00B9;
-	Sat, 27 Jan 2024 14:51:00 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute7.internal (MEProxy); Sat, 27 Jan 2024 14:51:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1706385060;
-	 x=1706471460; bh=ZSWlcrKfahlCoAOYqiTq12Gh5vrCNnHbyzpOV80pl2E=; b=
-	Ynmg5jifNzoYkXlKSZe9FVYS4z8xCnWGyUMxseXvEIQ12wylvdUiZewN0Ug/tVJa
-	A7eY1/ypYU0SYKcSuT5kVM5pSqF1JSXQ/QYB2AqrS7d3weDtlDN63GKpK0t8JSR2
-	1rw/UITThr6VV9A4xs+4dbF+gSY0y6TOWf3lprC7VO79+pQuXWQ3q5eWsNC5RHlU
-	wR9vJ80UGnkFPBSbgBWsh4V7kRkrl9LpubSIVcMew+Nmrxul1gqxrKYjFbemygeh
-	9/xIi9RfDUV1xJaFproMeqg9Qnm5yh/gdNXAKZnPi1Pi++HUAK80hdTZu+1m1D0m
-	AOUVKsEIsJ2e6Ee//byLtg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1706385060; x=
-	1706471460; bh=ZSWlcrKfahlCoAOYqiTq12Gh5vrCNnHbyzpOV80pl2E=; b=Q
-	FZf5DrCulON30Hxz+AnI/LNo3x2kjIO7jTyePrdr8Ie0+iURiqBMLYmo0bKXl9wC
-	drGghd0vIVrFIDmRrKx5bT0HNLPqKcGUt9AojvJSwSo1cJLppb/tvFzZtZpX0++v
-	RIRBYSSmv6qFDn9Y6xRudTvM9ZupBFE1FrPMzDR+YArP6Z3zhgG0I13FOharv3sV
-	1G/u3211S0GK0htGZzYqzVGCBu16MS8uw1xb2Pu86/pn/IV/0BUVN4Q1UnSjOj17
-	mOZeBQGP4culZ0UzcPsHGcA5WFnBsrNY9FT3jLsJI5sLkhAL3kwwVc8fwkxY/W0l
-	kDJAMZqTMPhrk4VBozbOw==
-X-ME-Sender: <xms:pF61ZXuto2mHOWAYm4HbHdib5LdHcAZY3WGspbxyToNHO4BdWZJoFw>
-    <xme:pF61ZYd75-eep0lPE0UvFQMMu-NrwqJdof4PYSsXTaPNTk7wp3YC1kSUUnIrYZiP5
-    TyzeGb6Nm8KPzIvrpw>
-X-ME-Received: <xmr:pF61Zaw6X6C8o9NGQNVQRYT37P8bATmfCe-vA2shjIK9fEz7-4StyDAtAPUbjOchIZ4FQVUHxYlK1KB5UDzBA02LdaA0WZr30JhfRHE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdelledguddvkecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefkffggfgfuvfevfhfhjggtgfesthekredttddvjeenucfhrhhomheplfhi
-    rgiguhhnucgjrghnghcuoehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhmqe
-    enucggtffrrghtthgvrhhnpeelueffheehgeeluedvlefghfeukeejteeuveeuhffftdfg
-    uefhgefgueekffeftdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrih
-    hlfhhrohhmpehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhm
-X-ME-Proxy: <xmx:pF61ZWPvtVqcwXdSG-Anb95CpZNt9qQ0m-CvnUlt6EIizI6-vtnJoA>
-    <xmx:pF61ZX-jEdqZEcjF5Z9WScizyw1S1nbHpvlEC_j69t1L50QIDRP6sQ>
-    <xmx:pF61ZWVTYQ6DuaQZ5DZDei4EKM3lMlz2YmYCCaIy5GwlVIMV4l-nxw>
-    <xmx:pF61ZabgmPs9Ibt2vh3muRYqZOVGYYuwieHaeZHcs6fHLNmuPrcIpg>
-Feedback-ID: ifd894703:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 27 Jan 2024 14:50:59 -0500 (EST)
-Message-ID: <b365fa0a-845c-4698-bf37-9b8a15fd9f98@flygoat.com>
-Date: Sat, 27 Jan 2024 19:50:57 +0000
+	s=arc-20240116; t=1706392871; c=relaxed/simple;
+	bh=i2YafAS6UswvrfbzFXcODF8OztRsn1M/mcDkytvk/xs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=EbWrKvo+CcfBENNXJLIC1mmGvrsNUmNiLY+Kp+TVsi+OelQOSdXC1uO7gy7HbJcPydY/FZRi8Kbp7ylKcJkYWBnhwaYbF2HrnTsiYjkXfbYdb4QqEuH2fEL9IbSpzDr/g7bfJONyiqg0w3QFA9G5j2A34SSFPyHM0PV/bLan5KA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=smile.fr; spf=pass smtp.mailfrom=smile.fr; dkim=pass (2048-bit key) header.d=smile-fr.20230601.gappssmtp.com header.i=@smile-fr.20230601.gappssmtp.com header.b=aiK+ui9L; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=smile.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=smile.fr
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-33921b95dddso1678998f8f.1
+        for <linux-kbuild@vger.kernel.org>; Sat, 27 Jan 2024 14:01:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1706392867; x=1706997667; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=VC19HgC2xBJYYLj2MNIq83FdLrZUDryfrK5B88v0kp0=;
+        b=aiK+ui9LKgFOpV0pF01GQmSuAu5bvYjeZy8Ak/3pdeBkxQGL50rSvE23eoCjJLsAR4
+         gf9r/9EPW9e1bTrrTferkPIFrYRQTIDe+uAxbRFEVfIWbfTk9+8QbwhCPSi3cNdzClJK
+         H8RoIAaJ2MRyZHy+Gn7Xse+7RX7xyVYooUODuGIlMs+jk9NIa+NloOoPgLma5fsuXyTs
+         Qkv4j+/cSxS9bRFhwL2+Khencqio74W57UvFu+kdO1ZHLgGcglcFh2nueuOfUkvuA3z1
+         9yVx1mrlkcP0cPlBWhuXtabd/5JAtXFhVBStpziztD9xDjSfcUtoDexPvGNrG7jlq6NL
+         TD+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706392867; x=1706997667;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VC19HgC2xBJYYLj2MNIq83FdLrZUDryfrK5B88v0kp0=;
+        b=AEHWgsaC+KqQDIb4pAW50U1nxysARDj5ccMpk7ATEzFA5+aGKwnT8ZSHEIJ9rfa/BR
+         AsrAKMglq5cY0NSJ8ya94v7mOmlhFr+HPUg6pdOkYL79l+p9Ap9CYlNxvUXTthjmCtNc
+         0nyvUooDrudkjVgiSyS3neYVxqvWNhLO9BctW8g884dWiTWQZ0Bu2QSYhTaQI0pRKsh1
+         66DlUfUASvMVtG4Whsb5qmD/sROY8JSpGsdZnKxfgWcexDcm02aE0wtwWfmPhb4aDQzU
+         wVBp2lvtCEBbACTnxYpTqfR3c/oy22sZg7HQxU2gfvHGDY6VRx1rwHLn4Tz2scVHy0BS
+         y/Mg==
+X-Gm-Message-State: AOJu0YwD1ZHAD1UPeft0abPlvSpkWLLUFK5Gp3fGOHxsamwDw5aR3k4b
+	x0QeiZJfdFSLiNnwCyH1AlhoiQTwcEvf4oHFmHhHpg1L8vnQy0zZuPRg8eeA6f4=
+X-Google-Smtp-Source: AGHT+IEL8BSf5/b5rbuUtydWIGRDvMV929M5hAmGFiamdPtG2TRCQQafl5M+m4ldCG5GSLh3CS2ITA==
+X-Received: by 2002:adf:f24c:0:b0:33a:e3ac:60d4 with SMTP id b12-20020adff24c000000b0033ae3ac60d4mr772227wrp.15.1706392865887;
+        Sat, 27 Jan 2024 14:01:05 -0800 (PST)
+Received: from P-ASN-ECS-830T8C3.local ([89.159.1.53])
+        by smtp.gmail.com with ESMTPSA id f19-20020a05600c155300b0040e541ddcb1sm5755532wmg.33.2024.01.27.14.01.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 27 Jan 2024 14:01:05 -0800 (PST)
+From: Yoann Congal <yoann.congal@smile.fr>
+To: x86@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Cc: linux-kbuild@vger.kernel.org,
+	Yoann Congal <yoann.congal@smile.fr>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	"Luis R . Rodriguez" <mcgrof@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Darren Hart <dvhart@infradead.org>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	=?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH v2] printk: Remove redundant CONFIG_BASE_SMALL
+Date: Sat, 27 Jan 2024 23:00:26 +0100
+Message-Id: <20240127220026.1722399-1-yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] MIPS: move unselectable entries out of the "CPU type"
- choice
-To: Masahiro Yamada <masahiroy@kernel.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-mips@vger.kernel.org
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240127162309.1026549-1-masahiroy@kernel.org>
- <20240127162309.1026549-2-masahiroy@kernel.org>
-Content-Language: en-US
-From: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Autocrypt: addr=jiaxun.yang@flygoat.com;
- keydata= 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
- HVO98ZmbMeg=
-In-Reply-To: <20240127162309.1026549-2-masahiroy@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+CONFIG_BASE_SMALL is currently a type int but is only used as a boolean
+equivalent to !CONFIG_BASE_FULL.
 
+So, remove it entirely and move every usage to !CONFIG_BASE_FULL.
 
-在 2024/1/27 16:23, Masahiro Yamada 写道:
-> Move the following entries out of the "CPU type" choice:
->
->   - LOONGSON3_ENHANCEMENT
->   - CPU_LOONGSON3_WORKAROUNDS
->   - CPU_LOONGSON3_CPUCFG_EMULATION
->
-> These entries cannot be selected from the choice because they depend on
-> CPU_LOONGSON64, which is also located in the same choice.
->
-> In fact, Kconfig does not consider them as choice values because they
-> become children of CPU_LOOONGSON64 due to the automatic submenu creation
-> in menu_finalize().
->
-> However, it is hard to understand this behavior unless you are familiar
-> with the Kconfig internals.
->
-> "choice" should contain only selectable entries.
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+In addition, recent kconfig changes (see the discussion in Closes: tag)
+revealed that using:
+  config SOMETHING
+     default "some value" if X
+does not work as expected if X is not of type bool.
 
-Thanks!
-> ---
->
->   arch/mips/Kconfig | 76 +++++++++++++++++++++++------------------------
->   1 file changed, 38 insertions(+), 38 deletions(-)
->
-> diff --git a/arch/mips/Kconfig b/arch/mips/Kconfig
-> index 797ae590ebdb..a70b4f959fb1 100644
-> --- a/arch/mips/Kconfig
-> +++ b/arch/mips/Kconfig
-> @@ -1269,44 +1269,6 @@ config CPU_LOONGSON64
->   	  3B1000, 3B1500, 3A2000, 3A3000 and 3A4000) processors. However, old
->   	  Loongson-2E/2F is not covered here and will be removed in future.
->   
-> -config LOONGSON3_ENHANCEMENT
-> -	bool "New Loongson-3 CPU Enhancements"
-> -	default n
-> -	depends on CPU_LOONGSON64
-> -	help
-> -	  New Loongson-3 cores (since Loongson-3A R2, as opposed to Loongson-3A
-> -	  R1, Loongson-3B R1 and Loongson-3B R2) has many enhancements, such as
-> -	  FTLB, L1-VCache, EI/DI/Wait/Prefetch instruction, DSP/DSPr2 ASE, User
-> -	  Local register, Read-Inhibit/Execute-Inhibit, SFB (Store Fill Buffer),
-> -	  Fast TLB refill support, etc.
-> -
-> -	  This option enable those enhancements which are not probed at run
-> -	  time. If you want a generic kernel to run on all Loongson 3 machines,
-> -	  please say 'N' here. If you want a high-performance kernel to run on
-> -	  new Loongson-3 machines only, please say 'Y' here.
-> -
-> -config CPU_LOONGSON3_WORKAROUNDS
-> -	bool "Loongson-3 LLSC Workarounds"
-> -	default y if SMP
-> -	depends on CPU_LOONGSON64
-> -	help
-> -	  Loongson-3 processors have the llsc issues which require workarounds.
-> -	  Without workarounds the system may hang unexpectedly.
-> -
-> -	  Say Y, unless you know what you are doing.
-> -
-> -config CPU_LOONGSON3_CPUCFG_EMULATION
-> -	bool "Emulate the CPUCFG instruction on older Loongson cores"
-> -	default y
-> -	depends on CPU_LOONGSON64
-> -	help
-> -	  Loongson-3A R4 and newer have the CPUCFG instruction available for
-> -	  userland to query CPU capabilities, much like CPUID on x86. This
-> -	  option provides emulation of the instruction on older Loongson
-> -	  cores, back to Loongson-3A1000.
-> -
-> -	  If unsure, please say Y.
-> -
->   config CPU_LOONGSON2E
->   	bool "Loongson 2E"
->   	depends on SYS_HAS_CPU_LOONGSON2E
-> @@ -1644,6 +1606,44 @@ config CPU_BMIPS
->   
->   endchoice
->   
-> +config LOONGSON3_ENHANCEMENT
-> +	bool "New Loongson-3 CPU Enhancements"
-> +	default n
-> +	depends on CPU_LOONGSON64
-> +	help
-> +	  New Loongson-3 cores (since Loongson-3A R2, as opposed to Loongson-3A
-> +	  R1, Loongson-3B R1 and Loongson-3B R2) has many enhancements, such as
-> +	  FTLB, L1-VCache, EI/DI/Wait/Prefetch instruction, DSP/DSPr2 ASE, User
-> +	  Local register, Read-Inhibit/Execute-Inhibit, SFB (Store Fill Buffer),
-> +	  Fast TLB refill support, etc.
-> +
-> +	  This option enable those enhancements which are not probed at run
-> +	  time. If you want a generic kernel to run on all Loongson 3 machines,
-> +	  please say 'N' here. If you want a high-performance kernel to run on
-> +	  new Loongson-3 machines only, please say 'Y' here.
-> +
-> +config CPU_LOONGSON3_WORKAROUNDS
-> +	bool "Loongson-3 LLSC Workarounds"
-> +	default y if SMP
-> +	depends on CPU_LOONGSON64
-> +	help
-> +	  Loongson-3 processors have the llsc issues which require workarounds.
-> +	  Without workarounds the system may hang unexpectedly.
-> +
-> +	  Say Y, unless you know what you are doing.
-> +
-> +config CPU_LOONGSON3_CPUCFG_EMULATION
-> +	bool "Emulate the CPUCFG instruction on older Loongson cores"
-> +	default y
-> +	depends on CPU_LOONGSON64
-> +	help
-> +	  Loongson-3A R4 and newer have the CPUCFG instruction available for
-> +	  userland to query CPU capabilities, much like CPUID on x86. This
-> +	  option provides emulation of the instruction on older Loongson
-> +	  cores, back to Loongson-3A1000.
-> +
-> +	  If unsure, please say Y.
-> +
->   config CPU_MIPS32_3_5_FEATURES
->   	bool "MIPS32 Release 3.5 Features"
->   	depends on SYS_HAS_CPU_MIPS32_R3_5
+CONFIG_BASE_SMALL was used that way in init/Kconfig:
+  config LOG_CPU_MAX_BUF_SHIFT
+  	default 12 if !BASE_SMALL
+  	default 0 if BASE_SMALL
 
--- 
+Note: This changes CONFIG_LOG_CPU_MAX_BUF_SHIFT=12 to
+CONFIG_LOG_CPU_MAX_BUF_SHIFT=0 for some defconfigs, but that will not be
+a big impact due to this code in kernel/printk/printk.c:
+  /* by default this will only continue through for large > 64 CPUs */
+  if (cpu_extra <= __LOG_BUF_LEN / 2)
+          return;
+
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+Closes: https://lore.kernel.org/all/CAMuHMdWm6u1wX7efZQf=2XUAHascps76YQac6rdnQGhc8nop_Q@mail.gmail.com/
+Fixes: 4e244c10eab3 ("kconfig: remove unneeded symbol_empty variable")
 ---
-Jiaxun Yang
+v1 patch was named "treewide: Change CONFIG_BASE_SMALL to bool type"
+https://lore.kernel.org/all/20240126163032.1613731-1-yoann.congal@smile.fr/
+
+v1 -> v2: Applied Masahiro Yamada's comments (Thanks!):
+* Changed from "Change CONFIG_BASE_SMALL to type bool" to
+  "Remove it and switch usage to !CONFIG_BASE_FULL"
+* Fixed "Fixes:" tag and reference to the mailing list thread.
+* Added a note about CONFIG_LOG_CPU_MAX_BUF_SHIFT changing.
+
+CC: Luis R. Rodriguez <mcgrof@kernel.org>
+CC: Thomas Gleixner <tglx@linutronix.de>
+CC: Ingo Molnar <mingo@redhat.com>
+CC: Borislav Petkov <bp@alien8.de>
+CC: Dave Hansen <dave.hansen@linux.intel.com>
+CC: "H. Peter Anvin" <hpa@zytor.com>
+CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC: Jiri Slaby <jirislaby@kernel.org>
+CC: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+CC: Matthew Wilcox <willy@infradead.org>
+CC: Peter Zijlstra <peterz@infradead.org>
+CC: Darren Hart <dvhart@infradead.org>
+CC: Davidlohr Bueso <dave@stgolabs.net>
+CC: "André Almeida" <andrealmeid@igalia.com>
+CC: Masahiro Yamada <masahiroy@kernel.org>
+CC: x86@kernel.org
+CC: linux-kernel@vger.kernel.org
+CC: linux-serial@vger.kernel.org
+CC: linux-fsdevel@vger.kernel.org
+CC: linux-kbuild@vger.kernel.org
+---
+ arch/x86/include/asm/mpspec.h | 2 +-
+ drivers/tty/vt/vc_screen.c    | 2 +-
+ include/linux/threads.h       | 6 +++---
+ include/linux/udp.h           | 2 +-
+ include/linux/xarray.h        | 2 +-
+ init/Kconfig                  | 9 ++-------
+ kernel/futex/core.c           | 6 +++---
+ kernel/user.c                 | 2 +-
+ 8 files changed, 13 insertions(+), 18 deletions(-)
+
+diff --git a/arch/x86/include/asm/mpspec.h b/arch/x86/include/asm/mpspec.h
+index 4b0f98a8d338d..44307fb37fa25 100644
+--- a/arch/x86/include/asm/mpspec.h
++++ b/arch/x86/include/asm/mpspec.h
+@@ -15,7 +15,7 @@ extern int pic_mode;
+  * Summit or generic (i.e. installer) kernels need lots of bus entries.
+  * Maximum 256 PCI busses, plus 1 ISA bus in each of 4 cabinets.
+  */
+-#if CONFIG_BASE_SMALL == 0
++#ifdef CONFIG_BASE_FULL
+ # define MAX_MP_BUSSES		260
+ #else
+ # define MAX_MP_BUSSES		32
+diff --git a/drivers/tty/vt/vc_screen.c b/drivers/tty/vt/vc_screen.c
+index 67e2cb7c96eec..d0e4fcd1bd8b5 100644
+--- a/drivers/tty/vt/vc_screen.c
++++ b/drivers/tty/vt/vc_screen.c
+@@ -51,7 +51,7 @@
+ #include <asm/unaligned.h>
+ 
+ #define HEADER_SIZE	4u
+-#define CON_BUF_SIZE (CONFIG_BASE_SMALL ? 256 : PAGE_SIZE)
++#define CON_BUF_SIZE (IS_ENABLED(CONFIG_BASE_FULL) ? PAGE_SIZE : 256)
+ 
+ /*
+  * Our minor space:
+diff --git a/include/linux/threads.h b/include/linux/threads.h
+index c34173e6c5f18..f0f7a8aaba77d 100644
+--- a/include/linux/threads.h
++++ b/include/linux/threads.h
+@@ -25,14 +25,14 @@
+ /*
+  * This controls the default maximum pid allocated to a process
+  */
+-#define PID_MAX_DEFAULT (CONFIG_BASE_SMALL ? 0x1000 : 0x8000)
++#define PID_MAX_DEFAULT (IS_ENABLED(CONFIG_BASE_FULL) ? 0x8000 : 0x1000)
+ 
+ /*
+  * A maximum of 4 million PIDs should be enough for a while.
+  * [NOTE: PID/TIDs are limited to 2^30 ~= 1 billion, see FUTEX_TID_MASK.]
+  */
+-#define PID_MAX_LIMIT (CONFIG_BASE_SMALL ? PAGE_SIZE * 8 : \
+-	(sizeof(long) > 4 ? 4 * 1024 * 1024 : PID_MAX_DEFAULT))
++#define PID_MAX_LIMIT (IS_ENABLED(CONFIG_BASE_FULL) ? \
++	(sizeof(long) > 4 ? 4 * 1024 * 1024 : PID_MAX_DEFAULT) : PAGE_SIZE * 8)
+ 
+ /*
+  * Define a minimum number of pids per cpu.  Heuristically based
+diff --git a/include/linux/udp.h b/include/linux/udp.h
+index d04188714dca1..ca8a172169019 100644
+--- a/include/linux/udp.h
++++ b/include/linux/udp.h
+@@ -24,7 +24,7 @@ static inline struct udphdr *udp_hdr(const struct sk_buff *skb)
+ }
+ 
+ #define UDP_HTABLE_SIZE_MIN_PERNET	128
+-#define UDP_HTABLE_SIZE_MIN		(CONFIG_BASE_SMALL ? 128 : 256)
++#define UDP_HTABLE_SIZE_MIN		(IS_ENABLED(CONFIG_BASE_FULL) ? 256 : 128)
+ #define UDP_HTABLE_SIZE_MAX		65536
+ 
+ static inline u32 udp_hashfn(const struct net *net, u32 num, u32 mask)
+diff --git a/include/linux/xarray.h b/include/linux/xarray.h
+index cb571dfcf4b16..7e00e71c2d266 100644
+--- a/include/linux/xarray.h
++++ b/include/linux/xarray.h
+@@ -1141,7 +1141,7 @@ static inline void xa_release(struct xarray *xa, unsigned long index)
+  * doubled the number of slots per node, we'd get only 3 nodes per 4kB page.
+  */
+ #ifndef XA_CHUNK_SHIFT
+-#define XA_CHUNK_SHIFT		(CONFIG_BASE_SMALL ? 4 : 6)
++#define XA_CHUNK_SHIFT		(IS_ENABLED(CONFIG_BASE_FULL) ? 6 : 4)
+ #endif
+ #define XA_CHUNK_SIZE		(1UL << XA_CHUNK_SHIFT)
+ #define XA_CHUNK_MASK		(XA_CHUNK_SIZE - 1)
+diff --git a/init/Kconfig b/init/Kconfig
+index 8d4e836e1b6b1..877b3f6f0e605 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -734,8 +734,8 @@ config LOG_CPU_MAX_BUF_SHIFT
+ 	int "CPU kernel log buffer size contribution (13 => 8 KB, 17 => 128KB)"
+ 	depends on SMP
+ 	range 0 21
+-	default 12 if !BASE_SMALL
+-	default 0 if BASE_SMALL
++	default 12 if BASE_FULL
++	default 0
+ 	depends on PRINTK
+ 	help
+ 	  This option allows to increase the default ring buffer size
+@@ -1940,11 +1940,6 @@ config RT_MUTEXES
+ 	bool
+ 	default y if PREEMPT_RT
+ 
+-config BASE_SMALL
+-	int
+-	default 0 if BASE_FULL
+-	default 1 if !BASE_FULL
+-
+ config MODULE_SIG_FORMAT
+ 	def_bool n
+ 	select SYSTEM_DATA_VERIFICATION
+diff --git a/kernel/futex/core.c b/kernel/futex/core.c
+index e0e853412c158..8f85afef9d061 100644
+--- a/kernel/futex/core.c
++++ b/kernel/futex/core.c
+@@ -1141,10 +1141,10 @@ static int __init futex_init(void)
+ 	unsigned int futex_shift;
+ 	unsigned long i;
+ 
+-#if CONFIG_BASE_SMALL
+-	futex_hashsize = 16;
+-#else
++#ifdef CONFIG_BASE_FULL
+ 	futex_hashsize = roundup_pow_of_two(256 * num_possible_cpus());
++#else
++	futex_hashsize = 16;
+ #endif
+ 
+ 	futex_queues = alloc_large_system_hash("futex", sizeof(*futex_queues),
+diff --git a/kernel/user.c b/kernel/user.c
+index 03cedc366dc9e..8f39fd0236fa0 100644
+--- a/kernel/user.c
++++ b/kernel/user.c
+@@ -88,7 +88,7 @@ EXPORT_SYMBOL_GPL(init_user_ns);
+  * when changing user ID's (ie setuid() and friends).
+  */
+ 
+-#define UIDHASH_BITS	(CONFIG_BASE_SMALL ? 3 : 7)
++#define UIDHASH_BITS	(IS_ENABLED(CONFIG_BASE_FULL) ? 7 : 3)
+ #define UIDHASH_SZ	(1 << UIDHASH_BITS)
+ #define UIDHASH_MASK		(UIDHASH_SZ - 1)
+ #define __uidhashfn(uid)	(((uid >> UIDHASH_BITS) + uid) & UIDHASH_MASK)
+-- 
+2.39.2
 
 
