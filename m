@@ -1,110 +1,151 @@
-Return-Path: <linux-kbuild+bounces-682-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-683-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1AE583EC32
-	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Jan 2024 10:03:18 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8950883ED4A
+	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Jan 2024 14:28:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 40A761F225F7
-	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Jan 2024 09:03:18 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 42A78B219FD
+	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Jan 2024 13:28:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77A9F1DFEB;
-	Sat, 27 Jan 2024 09:03:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E30FC25613;
+	Sat, 27 Jan 2024 13:28:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mVHa/WHN"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G0+mCO1k"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4757017FD;
-	Sat, 27 Jan 2024 09:03:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3C428831;
+	Sat, 27 Jan 2024 13:28:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706346193; cv=none; b=gzs1FM2Kvayhb7T4fBUfCZcbg/WR2MGjFwGV8T9LKndxiN/VA0HeE5azzRwvUeNqvsF5MSS5XUYM8yWNDFCgy2TDWRzHDZMf8TpNRbXhwQdZLbPPLqqP0oDPrQDiF/Emk9SqP9SJscNdoCfQMz0jg9Yn8of6kHA22tBktNSji4Y=
+	t=1706362107; cv=none; b=M6USz3CvAqayFBEKE4L7gWIsFWAlZSyp6rD7KmSZOcWwaQVUL7er/e1TOWQLC8hZ/J9xewVaxZi+LdfOO0ZMiV1eOHMwOo27nsZPyewZzpHV/LsxjswfOS3hWRcdD789RuIU/nTocagrDq7Ec8qseCGEJzofn+rNK7OtBGAXtdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706346193; c=relaxed/simple;
-	bh=3CEC9+s/RgV3W453q4JCCo7clahZ+kguMoxyN5D2wY4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UrGfopSfgC+94ZOP82gwnyZxjUay4UG3Vebo/J3BD9p17hjSccKgQYb5dGdCH2Wt9dlnPNKZoZcTWeUKkqpqb+i9UO8BqklcmqxSNaY5qODnHLI89+wUzB4Ke5pXO72M8UukzGuoS7RAq7LNQ71mununreW/Rf95uYyOJLyB2/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mVHa/WHN; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51BD3C433C7;
-	Sat, 27 Jan 2024 09:03:12 +0000 (UTC)
+	s=arc-20240116; t=1706362107; c=relaxed/simple;
+	bh=YySa0Fk3UXJKapcjnXd2lKKSfNAEPCo71Yx8GEe4vOw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=eDQzshI7aRYsjFTfRr4oKY1zwMVpffFVJdWawZK02nrteKgNn/CpcsqyuOQQoruU9w9ABz38LQuTTFXZlKVAnAJswNkxhgOC8g6lOkwyTp/zYgxakC1+YwFAFXhizMEBJlMsJYQoxWSwcZGS1VUACi7bov58FoE91hcrUBVpOpY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G0+mCO1k; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84258C43390;
+	Sat, 27 Jan 2024 13:28:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706346192;
-	bh=3CEC9+s/RgV3W453q4JCCo7clahZ+kguMoxyN5D2wY4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mVHa/WHNCuTpM+sFtsfuqn5gAIFVBhVSGCWQh0dAYjNRAKKYFiWAck8Phpf1076cx
-	 +FY+5nM+daqdHFi39v9JU6iAKmKKPheUYi/YPOP1NLRGTUJVV1+R25ZYZgOdSeYvly
-	 snfv46B3E69rNby/TgxZNxhcc4w+cC+nCii/gUGB/AReNjw6niP1tU88VU6B2ZUKR/
-	 MI2+XIk4JMWw4Eav7Lct+D+FEEVBMffYhSUmuy7GSiBDcRAfAimiUiWUpUuvMDdzsV
-	 emOLwwqOOa4vcyUbaG2AH5WWp1okWyeSVhqHlSlque+bHV2xLknpNLllSzkUsvwbe3
-	 jixcBqLEcYxfw==
-Date: Sat, 27 Jan 2024 01:03:10 -0800
-From: Eric Biggers <ebiggers@kernel.org>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu,
-	masahiroy@kernel.org, nicolas@fjasle.eu, andy.chiu@sifive.com,
-	conor.dooley@microchip.com, linux-riscv@lists.infradead.org,
-	linux-kbuild@vger.kernel.org, llvm@lists.linux.dev,
-	patches@lists.linux.dev, stable@vger.kernel.org
-Subject: Re: [PATCH 0/2] RISC-V: Fix CONFIG_AS_HAS_OPTION_ARCH with tip of
- tree LLVM
-Message-ID: <20240127090310.GF11935@sol.localdomain>
-References: <20240125-fix-riscv-option-arch-llvm-18-v1-0-390ac9cc3cd0@kernel.org>
+	s=k20201202; t=1706362107;
+	bh=YySa0Fk3UXJKapcjnXd2lKKSfNAEPCo71Yx8GEe4vOw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=G0+mCO1kNZlkXqGHpVucNcZ+kDrr/VQfHBiPohNoXeY1rxq0AeFrMpyAfJ2eY7L8g
+	 v17lbMi6os42Ei+XAQncxT8sSg1Mn4MiUcM0jJKHxdASOd7/vOGG8gL8wfy0bOxzw7
+	 1RSK0tuP1rahtS6ui6vBraJ4Hw3XOhHRWYgoNdYG5gA/U30LsX5z9ZKx/Pao9rRWg7
+	 mJpeJXWE4eNg7Y30xDIZC9+ZAZq1olIiwDxGBQJ2Kpwj9WSvBNpK1TZSaX3j01t3oD
+	 Ftg5NmC4vAjYzCKfNhCWTczIisIJFv0FxAjdoEbGNsl0iDdW9vMa81/kD1K42DhU2b
+	 I2Skedw9wvTkw==
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: linux-kbuild@vger.kernel.org
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+	Aiden Leong <aiden.leong@aibsd.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: [PATCH] modpost: avoid using the alias attribute
+Date: Sat, 27 Jan 2024 22:28:11 +0900
+Message-Id: <20240127132811.726504-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240125-fix-riscv-option-arch-llvm-18-v1-0-390ac9cc3cd0@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jan 25, 2024 at 10:32:10AM -0700, Nathan Chancellor wrote:
-> Hi all,
-> 
-> Eric reported that builds of LLVM with [1] (close to tip of tree) have
-> CONFIG_AS_HAS_OPTION_ARCH=n because the test for expected failure on
-> invalid input has started succeeding.
-> 
-> This Kconfig test was added because '.option arch' only causes an
-> assembler warning when it is unsupported, rather than a hard error,
-> which is what users of as-instr expect when something is unsupported.
-> 
-> This can be resolved by turning assembler warnings into errors with
-> '-Wa,--fatal-warnings' like we do with the compiler with '-Werror',
-> which is what the first patch does. The second patch removes the invalid
-> test, as the valid test is good enough with fatal warnings.
-> 
-> I have diffed several configurations for the different architectures
-> that use as-instr and I have found no issues.
-> 
-> I think this could go in through either the kbuild or RISC-V tree with
-> sufficient acks but I will let them fight over who takes it :)
-> 
-> [1]: https://github.com/llvm/llvm-project/commit/3ac9fe69f70a2b3541266daedbaaa7dc9c007a2a
-> 
-> ---
-> Nathan Chancellor (2):
->       kbuild: Add -Wa,--fatal-warnings to as-instr invocation
->       RISC-V: Drop invalid test from CONFIG_AS_HAS_OPTION_ARCH
-> 
->  arch/riscv/Kconfig        | 1 -
->  scripts/Kconfig.include   | 2 +-
->  scripts/Makefile.compiler | 2 +-
->  3 files changed, 2 insertions(+), 3 deletions(-)
+Aiden Leong reported modpost fails to build on macOS since commit
+16a473f60edc ("modpost: inform compilers that fatal() never returns"):
 
-Looks good,
+  scripts/mod/modpost.c:93:21: error: aliases are not supported on darwin
 
-Tested-by: Eric Biggers <ebiggers@google.com>
+Nathan's research indicates that Darwin seems to support weak aliases
+at least [1]. Although the situation might be improved in future Clang
+versions, we can achieve a similar outcome without relying on it.
 
-Unfortunately another LLVM commit just broke TOOLCHAIN_HAS_VECTOR_CRYPTO, so
-I've sent out a patch to fix that too...
+This commit makes fatal() a macro of error() + exit(1) in modpost.h, as
+compilers recognize that exit() never returns.
 
-But with all the fixes applied it works again.
+[1]: https://github.com/llvm/llvm-project/issues/71001
 
-- Eric
+Fixes: 16a473f60edc ("modpost: inform compilers that fatal() never returns")
+Reported-by: Aiden Leong <aiden.leong@aibsd.com>
+Closes: https://lore.kernel.org/all/d9ac2960-6644-4a87-b5e4-4bfb6e0364a8@aibsd.com/
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+ scripts/mod/modpost.c | 12 +-----------
+ scripts/mod/modpost.h |  6 +-----
+ 2 files changed, 2 insertions(+), 16 deletions(-)
+
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index 795b21154446..3ab2db83428b 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -70,9 +70,7 @@ void modpost_log(enum loglevel loglevel, const char *fmt, ...)
+ 		break;
+ 	case LOG_ERROR:
+ 		fprintf(stderr, "ERROR: ");
+-		break;
+-	case LOG_FATAL:
+-		fprintf(stderr, "FATAL: ");
++		error_occurred = true;
+ 		break;
+ 	default: /* invalid loglevel, ignore */
+ 		break;
+@@ -83,16 +81,8 @@ void modpost_log(enum loglevel loglevel, const char *fmt, ...)
+ 	va_start(arglist, fmt);
+ 	vfprintf(stderr, fmt, arglist);
+ 	va_end(arglist);
+-
+-	if (loglevel == LOG_FATAL)
+-		exit(1);
+-	if (loglevel == LOG_ERROR)
+-		error_occurred = true;
+ }
+ 
+-void __attribute__((alias("modpost_log")))
+-modpost_log_noret(enum loglevel loglevel, const char *fmt, ...);
+-
+ static inline bool strends(const char *str, const char *postfix)
+ {
+ 	if (strlen(str) < strlen(postfix))
+diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
+index 835cababf1b0..ee43c7950636 100644
+--- a/scripts/mod/modpost.h
++++ b/scripts/mod/modpost.h
+@@ -194,15 +194,11 @@ void *sym_get_data(const struct elf_info *info, const Elf_Sym *sym);
+ enum loglevel {
+ 	LOG_WARN,
+ 	LOG_ERROR,
+-	LOG_FATAL
+ };
+ 
+ void __attribute__((format(printf, 2, 3)))
+ modpost_log(enum loglevel loglevel, const char *fmt, ...);
+ 
+-void __attribute__((format(printf, 2, 3), noreturn))
+-modpost_log_noret(enum loglevel loglevel, const char *fmt, ...);
+-
+ /*
+  * warn - show the given message, then let modpost continue running, still
+  *        allowing modpost to exit successfully. This should be used when
+@@ -218,4 +214,4 @@ modpost_log_noret(enum loglevel loglevel, const char *fmt, ...);
+  */
+ #define warn(fmt, args...)	modpost_log(LOG_WARN, fmt, ##args)
+ #define error(fmt, args...)	modpost_log(LOG_ERROR, fmt, ##args)
+-#define fatal(fmt, args...)	modpost_log_noret(LOG_FATAL, fmt, ##args)
++#define fatal(fmt, args...)	do { error(fmt, ##args); exit(1); } while (1)
+-- 
+2.40.1
+
 
