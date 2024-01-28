@@ -1,87 +1,115 @@
-Return-Path: <linux-kbuild+bounces-703-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-704-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56D5783F72F
-	for <lists+linux-kbuild@lfdr.de>; Sun, 28 Jan 2024 17:27:07 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D392F83F93C
+	for <lists+linux-kbuild@lfdr.de>; Sun, 28 Jan 2024 19:53:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1374A289A3D
-	for <lists+linux-kbuild@lfdr.de>; Sun, 28 Jan 2024 16:27:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1B6F11C20FF2
+	for <lists+linux-kbuild@lfdr.de>; Sun, 28 Jan 2024 18:53:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E75C5433CC;
-	Sun, 28 Jan 2024 16:13:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CB591DFC4;
+	Sun, 28 Jan 2024 18:53:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HV/ZzreW"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70B9F62A05
-	for <linux-kbuild@vger.kernel.org>; Sun, 28 Jan 2024 16:13:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A72C2E65B
+	for <linux-kbuild@vger.kernel.org>; Sun, 28 Jan 2024 18:53:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706458426; cv=none; b=LqbqmAtV7ts1Qh4+CXy+bQoTx/DNDdm4KhDqUWkHgg3imIEgtsyqH9nvlzh6JoX8GdmZmC2Q35TRTN+iU+QKocAJ/2MB0Ng62vI2u6pLJ2X3unhUhJJkXOmXTXoOXSEoMZLmFJZr0rbTLlxrAXqwDLEOGZiFpc/iQ3k5SW63hQQ=
+	t=1706468023; cv=none; b=REyliVQ/uJYO57BW1CmFSA13bmfI66fB8BOM2SDNK0LGZt3u7NVejoZJsg0VbRUjlfn2X0ku6+rWuSlXlKluroSg6uXS4lFm8iXBoL3i+RIzRxMGUldO0usrgPSr7XlJOEDJMm389JBJPniv1BbxJy9z2GjSxbxuhj8T6DI/HRU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706458426; c=relaxed/simple;
-	bh=yYqSxZ0tOEGZRNcOXuUfzYW//ZKQHvjyb6o8GdaB4+E=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TO9IgI7QxeyVw2dPyQv13gaj1H4CH8Rf4gCRdy6lOTC/dPYptfXf/AEs6+MSgWVJHQNfqQ3VrwrYZnawVNAwTmR7CLLoV/hr+ntfvHzjbBxbUjN0Ot2nSaZJfiWWelWSTGK3cW33cTHOFhHTjoHO3Po2EB4OkHUw/1WHeD46PFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=users.sf.net; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.215.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=users.sf.net
+	s=arc-20240116; t=1706468023; c=relaxed/simple;
+	bh=xDlzODBv1f/hA4eyXs+mhtp2noSpDNDcZFNXIKGat4M=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=dE0EvucswQXiK9zNPK32/x36U/JSezDSupKX5MkVAF3bKp1aG2rlZhUtRM4VimKRlOTQ0l6HgTVJOcBP7pVcmm9SqGc6j1+vdiq2wzMlYW5ofDOXt19wu5qyUgOXhK8RQHh/tkC4nhje/s7cxnj5kSnfP5fHozI8OrK82NeH7n4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HV/ZzreW; arc=none smtp.client-ip=209.85.160.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-5d3912c9a83so930917a12.3
-        for <linux-kbuild@vger.kernel.org>; Sun, 28 Jan 2024 08:13:45 -0800 (PST)
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-42a029c8e76so17914661cf.2
+        for <linux-kbuild@vger.kernel.org>; Sun, 28 Jan 2024 10:53:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706468020; x=1707072820; darn=vger.kernel.org;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=itu+Wi2kAneNdU86VddtDEBebX52rnKhGPfJsyc6SbI=;
+        b=HV/ZzreWy8aeOKC6NQDvymRQVswLfjCfwobOQP446Ybfgs25/OoLulExC41Hn1rjg7
+         zms37SONuI1ykcJiw6X6zVMdhnf0M7cABIxaarvTxhjXRWmLsSbM69krUnMRtTXlcG+D
+         ngyVwthbMKEK5sCz0CVaUrmbD+DeX1AFPXUBtezT4bOtAk9OUykWVlyP/7xsQd/0yctk
+         gGo1KwPyBfHhWb4IN0YI/3+clptFZihjez6ABuYspHujJE+GyUZlPmyIVvFmS03TCpMv
+         zHIKKFqbNmA7CmE2GpQGOgcsgl+0r0qUT0xHegVooeDYZjJ9JgfG5Z2/YEWOM0EbigtZ
+         zXIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706458425; x=1707063225;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yYqSxZ0tOEGZRNcOXuUfzYW//ZKQHvjyb6o8GdaB4+E=;
-        b=E2CJpz5mHdJo2nri33zoG/FkN/iHJ86U4Kg+cDP+IGRO8cAvZiWVSyoV4KkOJhCp6D
-         a0rYvKxGj9KZbWRuJzT1A+n8oTReC8EtobZWD3AXvGG9J/LSy6Jcipq7NUVDCqo5k8ma
-         YUSEnbm2QZhupG71WDfBSBhb/DMgc1rSrB1zHA+qXUT1+08Kb/m7G9Phtn+E34SYHw7h
-         uU58HN1u1Dt/4+i0dP3RtAA3/UJdZN0oSyLXEgwc0jBDb9wK13gQ+mdq/htkurc6a1cE
-         moi93XRRZw+CM5XNscH2D3wTtb+LVWPO/mvkKiQ7QguV9DPnis+uYDBIVuXbx91VRfKn
-         OCug==
-X-Gm-Message-State: AOJu0Yz1IL/TILkXtLOU4RCVAP3BFIOcRqQlq4lCTwhoNbr+Fkj52ub7
-	I4xwdp/YeyozycaeoF196htwb7D1V4LRNAGshhTfMz3lwnJQUDIo+2lvAniqtQ3jwOCSXZggrRD
-	qzWxCTbqV0VqOB7qLCI1fl2x+tG4=
-X-Google-Smtp-Source: AGHT+IGlzMPvu4aupkJDePYQ5msvWBveDE1j6TVnaFuyhRCEiE3e8ZVOwg876LoaCLhP/uNU/27heMn9bT9uZ9LWPZA=
-X-Received: by 2002:a05:6a21:2d88:b0:19c:9ac1:4347 with SMTP id
- ty8-20020a056a212d8800b0019c9ac14347mr1190079pzb.34.1706458424722; Sun, 28
- Jan 2024 08:13:44 -0800 (PST)
+        d=1e100.net; s=20230601; t=1706468020; x=1707072820;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=itu+Wi2kAneNdU86VddtDEBebX52rnKhGPfJsyc6SbI=;
+        b=nWfnldWe7Yg+r00FAXaIDK3nXC8IjLfU//athGpjWA5RIFrdZU6OO9A4e8Tiu+FZdF
+         bmWYGSDEb6o7j3bjxv9eD7BxFs27eZ98TdH3dQIKLJSz5Fw+pxodAXwT+0oScarvKKZX
+         1YeMKFJod9mjF50USOg+fo90vOuQ4bfiZzlq2I9FPSHi4JThyTnOgxcZcVmE3bCVvXeb
+         c56sIorLoC+z3cK5MdndH/pg73AiG15eNROw61u1h9mvV8+I5INlOhplLOJu/cKsFSxp
+         Dxz7+GkJ5e+9Ry9b5T15/Xr/vS6l7S57FdSESBcgh457OBvgIhydoNqasWxSAYQgMYHs
+         FFaA==
+X-Gm-Message-State: AOJu0YykUNTnjdO2ob8APm/AShlhjlDpwoxct9zQ6VFFVQbpcoHwEeX1
+	i7rAhne/JlpoNpN8OP3Xn/WcuUFoQ6DovKrdttwp96KQe7p9hVi4QO13eVDN4An3IplkWeKD6ge
+	/G3t2Y0ug9Xh31Aed6UdBgP6BLJ1hwDmwnZg=
+X-Google-Smtp-Source: AGHT+IE+Nb9Vc/wmlzl+/6oSuWwEJlL06wW8EKpfFqnxxrALG8PMwrtgAiL8C5KZZ5aOS1y94Bv3oJ/97ZVJPAtPfjE=
+X-Received: by 2002:a05:622a:19a6:b0:42a:9d8e:49e4 with SMTP id
+ u38-20020a05622a19a600b0042a9d8e49e4mr2290946qtc.136.1706468020384; Sun, 28
+ Jan 2024 10:53:40 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAG+Z0CsTWFxi74PKpCkPjM_-60PsvqS7gkZKs5yrsA8OqL6Hyg@mail.gmail.com>
- <CANiq72k+jEb2kc_LN48959k0u5v5m1qGiJR9tmuUyvUweuXGeQ@mail.gmail.com>
-In-Reply-To: <CANiq72k+jEb2kc_LN48959k0u5v5m1qGiJR9tmuUyvUweuXGeQ@mail.gmail.com>
-From: Dmitry Goncharov <dgoncharov@users.sf.net>
-Date: Sun, 28 Jan 2024 11:13:33 -0500
-Message-ID: <CAG+Z0CvndOvQEeNheb+iWURfpc39jMwAFtH+Xzc0AiTjUqN-8g@mail.gmail.com>
-Subject: Re: [v2] kbuild: Replace tabs with spaces when followed by conditionals.
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: linux-kbuild@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>, 
-	Martin Dorey <Martin.Dorey@hitachivantara.com>
+From: "David F." <df7729@gmail.com>
+Date: Sun, 28 Jan 2024 10:53:29 -0800
+Message-ID: <CAGRSmLtpLcTEyUgX_nJx=KpNM5mAjvfTfHFmFLiNYheCS71JdA@mail.gmail.com>
+Subject: Changes to kbuild in 6.? causing .cpp build issues...
+To: Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Sun, Jan 28, 2024 at 10:29=E2=80=AFAM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
->
-> On Sun, Jan 28, 2024 at 4:10=E2=80=AFPM Dmitry Goncharov
-> <dgoncharov@users.sf.net> wrote:
-> >
-> > Signed-off-by: Dmitry Goncharov <dgoncharov@users.sf.net>
->
-> My v1 still applies with the same conditions if the contents didn't chang=
-e.
+Hello,
 
-The contents of the patch is the same. I only changed the subject of
-the email per Masahiro's request.
+I've been building an out-of-tree linux kernel module that has a .cpp
+module (plus a library that is built) for well over a decade using the
+basic method outlined at https://github.com/veltzer/kcpp.   There was
+a patch needed (provided here) in the 5.x version to be able to link
+to the .a file generated.  That patch I've been able to modify as
+slight changes occured, but now in 6.6.14 things have changed a lot,
+I'm not sure if I'll need something like it to get to the final link
+but I don't think I'm at that point yet.
 
-regards, Dmitry
+My main issue now is this:
+
+LD [M]  /media/sf_SRC_DRIVE/mymodule/linux/driver/6.6.14-686-mine/mymodule.o
+  ld -m elf_i386 -z noexecstack   -r -o
+/media/sf_SRC_DRIVE/mymodule/linux/driver/6.6.14-686-mine/mymodule.o
+@/media/sf_SRC_DRIVE/mymodule/linux/driver/6.6.14-686-mine/mymodule.mod
+# cmd_modules_order
+/media/sf_SRC_DRIVE/mymodule/linux/driver/6.6.14-686-mine/modules.order
+  {   echo /media/sf_SRC_DRIVE/mymodule/linux/driver/6.6.14-686-mine/mymodule.o;
+:; } > /media/sf_SRC_DRIVE/mymodule/linux/driver/6.6.14-686-mine/modules.order
+sh ./scripts/modules-check.sh
+/media/sf_SRC_DRIVE/mymodule/linux/driver/6.6.14-686-mine/modules.order
+make -f ./scripts/Makefile.modpost
+# MODPOST /media/sf_SRC_DRIVE/mymodule/linux/driver/6.6.14-686-mine/Module.symvers
+   scripts/mod/modpost -M -m       -o
+/media/sf_SRC_DRIVE/mymodule/linux/driver/6.6.14-686-mine/Module.symvers
+-T /media/sf_SRC_DRIVE/mymodule/linux/driver/6.6.14-686-mine/modules.order
+-i Module.symvers -e
+/media/sf_SRC_DRIVE/mymodule/linux/driver/6.6.14-686-mine/.mymodulelindrivercpp.o.cmd:
+No such file or directory
+
+It has never built a *.o.cmd file for the .cpp module and still
+doesn't, but the new system is looking for it.    Could someone
+familiar with kbuild tell me what I can patch / do to allow the system
+to complete the build like it used to?
+
+Thank You.
 
