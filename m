@@ -1,201 +1,183 @@
-Return-Path: <linux-kbuild+bounces-707-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-708-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFC638401AA
-	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Jan 2024 10:32:30 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8B3E8403CB
+	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Jan 2024 12:28:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7F47A1F23FE9
-	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Jan 2024 09:32:30 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1A15FB233DE
+	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Jan 2024 11:28:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3FF1605D5;
-	Mon, 29 Jan 2024 09:28:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FjgPOU3q"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6582E5BACB;
+	Mon, 29 Jan 2024 11:28:20 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF9EC604D1
-	for <linux-kbuild@vger.kernel.org>; Mon, 29 Jan 2024 09:28:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79F165B5CD;
+	Mon, 29 Jan 2024 11:28:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706520513; cv=none; b=q7QJs2FMWHx25NiJvqnblh0JbWwpyHnDgw7EfeHkuoiVGMxIh8cxqVI3w3w5iheFXlgUCDyW9jBsw3FT6wmPS1XloP4hjdpnzvptW4FESitHxYuTqprGyLYCBnTVqFNF+7a+j25KgGMMB+NmuO9cIKnKz6nraiVQYfN5u4BMbVg=
+	t=1706527700; cv=none; b=n/o8lWMyiJ+p/bX24R6nYBASCsbsYWTVCNCoe6ojOy1zckIU8N+YoZWp0PTmogOIRwQmj4MBYE72jdoSvPdGMDiAnqj68s1ri/RCvMsqAuFqTvO37i9rFuZo4CZpfBRCJQbAbpxaX0BYtcsaNH5YDSyK6T3nP9Q0sFSCdJEK8Qc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706520513; c=relaxed/simple;
-	bh=4IztzyQDpSR9vKi7qcyDcSfXqq+iH81i+vGEij8LCt0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WmwolqJ34Z0/bT3lI6c+qJOGsNz/TVwMQGN9VULWF+R8fAcDpAC6FkRASyQBTIu5ep3mBcs3+CIX8xVLQtC6Lr9UbfImfXMry/2C2St6TvwX5jZ6xJan5f6nM9ECkTb0NyIbvxqfPqCrKCd6lmIAH3uOr8cjC3Y/wPlFJXSTgX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FjgPOU3q; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1706520510;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mVTcx88tAi/3StA98Q30OQ89NqZ41oirLrNHvjGeZeM=;
-	b=FjgPOU3qx6aHM9q3g7pgiYx0qq5cVDQwbtGCtVvtr/DSS2ZcRG6aTrotVyOuhXpBcvUwih
-	CL7rNG0DWRDDC1xU+4IBtIlbYewpgbQ9dGhnNPFQGaVxibydcXAUjsDO0jkyGl9oNrGGqC
-	nKiEa+hcAI4SpivaITgZAS6dYW0ZdDk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-658-TNG6y21IM-qVpZnGY3JDyw-1; Mon, 29 Jan 2024 04:28:27 -0500
-X-MC-Unique: TNG6y21IM-qVpZnGY3JDyw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A1BA185A58E;
-	Mon, 29 Jan 2024 09:28:26 +0000 (UTC)
-Received: from fedora.redhat.com (unknown [10.39.192.173])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 378502026D66;
-	Mon, 29 Jan 2024 09:28:24 +0000 (UTC)
-From: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
-To: masahiroy@kernel.org
-Cc: dcavalca@meta.com,
-	jtornosm@redhat.com,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	nathan@kernel.org,
-	ndesaulniers@google.com,
-	nicolas@fjasle.eu,
-	stable@vger.kernel.org
-Subject: [PATCH v7] rpm-pkg: simplify installkernel %post
-Date: Mon, 29 Jan 2024 10:28:19 +0100
-Message-ID: <20240129092819.10088-1-jtornosm@redhat.com>
-In-Reply-To: <CAK7LNAR2xDjbn+BZqUrgbDxPJUyQBULFB51kTiN8Nc78DXVyEw@mail.gmail.com>
-References: <CAK7LNAR2xDjbn+BZqUrgbDxPJUyQBULFB51kTiN8Nc78DXVyEw@mail.gmail.com>
+	s=arc-20240116; t=1706527700; c=relaxed/simple;
+	bh=wUsw0Cdio9HIrTvMxrO42mW+tn58+wtV3cvI3mNAlIw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aZqZ0SRCUW8eOMKTWfki+mOJv7i4GjKJwc3xxZj9vOsgfSUp+OjmWXpSEIPllQS7OH52AYls+ukB/rNRRT1+QV9RWyO4/ms3RQ2oNb4fK+H90WOPmyEf8tjS4c9vIR5576Ums3ZDd4sblihv4TONvqzfknqaMELKv65s0rAJb0w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-33ae7ae9ec5so761131f8f.0;
+        Mon, 29 Jan 2024 03:28:18 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706527696; x=1707132496;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+4YIyrQZE84MPTT9aFfLJsVlImUVjj/WiMP0MbsJFK8=;
+        b=bxDjjpdbYVrbvgrk85XsyQIeiQ3NQF4dyseEuGAUFsJTF4VVjAexL1GMorDbS80JeA
+         L1SGZhLECgpEdVF/A0HuDwPw1VcrUILR/8zEUk8RNHoFZkcDekNduQefYr0XTsF3wgTB
+         JHnwDQDp8VdlnFg98OKoyfjjyhg2XiC/92HNzfOcIXFMeuwOorOMhtLpBHpGDlJRmMV9
+         3mf7iBaAEDTYWxO817GBPV/5UdqeH8nnyq0J970fs5ohFv0cGEyokcIusXaFv1i31K6J
+         sQiCOyLach1hHT2OdSLCYSlO9CU8NnVz3XuEMeAE2SjPeiOHp9rnNzqx+XGlCn+lw2WG
+         /KOg==
+X-Gm-Message-State: AOJu0YwDfltBkjPs999tpdR2Ob5GKB+m042lOitGvsiUgJexBwYXIO0o
+	hbxLWcWKZiF0fh/7cfkVo+mnGUU4PeP5gwRAwxpbZ4MC/h+MN/oVxFr6i34iHOfz+A==
+X-Google-Smtp-Source: AGHT+IEaAgkMciKh96CklypfXQvchezdlr4EWgvPfmyOveJ47Dl07/Gru+XwDh2076+YamMTLmSoJw==
+X-Received: by 2002:adf:f5d1:0:b0:33a:e6f4:d22f with SMTP id k17-20020adff5d1000000b0033ae6f4d22fmr2889443wrp.13.1706527696400;
+        Mon, 29 Jan 2024 03:28:16 -0800 (PST)
+Received: from ?IPV6:2a0b:e7c0:0:107::aaaa:59? ([2a0b:e7c0:0:107::aaaa:59])
+        by smtp.gmail.com with ESMTPSA id h9-20020a05600016c900b0033aedb71269sm2419045wrf.88.2024.01.29.03.28.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 29 Jan 2024 03:28:15 -0800 (PST)
+Message-ID: <60deb891-dab3-4440-82ff-c179486c0a79@kernel.org>
+Date: Mon, 29 Jan 2024 12:28:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.4
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] printk: Remove redundant CONFIG_BASE_SMALL
+Content-Language: en-US
+To: Yoann Congal <yoann.congal@smile.fr>, x86@kernel.org,
+ linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org
+Cc: linux-kbuild@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>,
+ "Luis R . Rodriguez" <mcgrof@kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ "H. Peter Anvin" <hpa@zytor.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Matthew Wilcox <willy@infradead.org>, Peter Zijlstra <peterz@infradead.org>,
+ Darren Hart <dvhart@infradead.org>, Davidlohr Bueso <dave@stgolabs.net>,
+ =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
+ Masahiro Yamada <masahiroy@kernel.org>
+References: <20240127220026.1722399-1-yoann.congal@smile.fr>
+From: Jiri Slaby <jirislaby@kernel.org>
+Autocrypt: addr=jirislaby@kernel.org; keydata=
+ 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
+In-Reply-To: <20240127220026.1722399-1-yoann.congal@smile.fr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The new installkernel application that is now included in systemd-udev
-package allows installation although destination files are already present
-in the boot directory of the kernel package, but is failing with the
-implemented workaround for the old installkernel application from grubby
-package.
+On 27. 01. 24, 23:00, Yoann Congal wrote:
+> CONFIG_BASE_SMALL is currently a type int but is only used as a boolean
+> equivalent to !CONFIG_BASE_FULL.
+> 
+> So, remove it entirely and move every usage to !CONFIG_BASE_FULL.
+> 
+> In addition, recent kconfig changes (see the discussion in Closes: tag)
+> revealed that using:
+>    config SOMETHING
+>       default "some value" if X
+> does not work as expected if X is not of type bool.
+> 
+> CONFIG_BASE_SMALL was used that way in init/Kconfig:
+>    config LOG_CPU_MAX_BUF_SHIFT
+>    	default 12 if !BASE_SMALL
+>    	default 0 if BASE_SMALL
+> 
+> Note: This changes CONFIG_LOG_CPU_MAX_BUF_SHIFT=12 to
+> CONFIG_LOG_CPU_MAX_BUF_SHIFT=0 for some defconfigs, but that will not be
+> a big impact due to this code in kernel/printk/printk.c:
+>    /* by default this will only continue through for large > 64 CPUs */
+>    if (cpu_extra <= __LOG_BUF_LEN / 2)
+>            return;
+> 
+> Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> Closes: https://lore.kernel.org/all/CAMuHMdWm6u1wX7efZQf=2XUAHascps76YQac6rdnQGhc8nop_Q@mail.gmail.com/
+> Fixes: 4e244c10eab3 ("kconfig: remove unneeded symbol_empty variable")
+> ---
+> v1 patch was named "treewide: Change CONFIG_BASE_SMALL to bool type"
+> https://lore.kernel.org/all/20240126163032.1613731-1-yoann.congal@smile.fr/
+> 
+> v1 -> v2: Applied Masahiro Yamada's comments (Thanks!):
+> * Changed from "Change CONFIG_BASE_SMALL to type bool" to
+>    "Remove it and switch usage to !CONFIG_BASE_FULL"
+> * Fixed "Fixes:" tag and reference to the mailing list thread.
+> * Added a note about CONFIG_LOG_CPU_MAX_BUF_SHIFT changing.
+...
+> --- a/drivers/tty/vt/vc_screen.c
+> +++ b/drivers/tty/vt/vc_screen.c
+> @@ -51,7 +51,7 @@
+>   #include <asm/unaligned.h>
+>   
+>   #define HEADER_SIZE	4u
+> -#define CON_BUF_SIZE (CONFIG_BASE_SMALL ? 256 : PAGE_SIZE)
+> +#define CON_BUF_SIZE (IS_ENABLED(CONFIG_BASE_FULL) ? PAGE_SIZE : 256)
 
-For the new installkernel application, as Davide says:
-<<The %post currently does a shuffling dance before calling installkernel.
-This isn't actually necessary afaict, and the current implementation
-ends up triggering downstream issues such as
-https://github.com/systemd/systemd/issues/29568
-This commit simplifies the logic to remove the shuffling. For reference,
-the original logic was added in commit 3c9c7a14b627("rpm-pkg: add %post
-section to create initramfs and grub hooks").>>
+Why is the IS_ENABLED() addition needed? You don't say anything about 
+that in the commit log.
 
-But we need to keep the old behavior as well, because the old installkernel
-application from grubby package, does not allow this simplification and
-we need to be backward compatible to avoid issues with the different
-packages.
-
-Mimic Fedora shipping process and store vmlinuz, config amd System.map
-in the module directory instead of the boot directory. In this way, we will
-avoid the commented problem for all the cases, because the new destination
-files are not going to exist in the boot directory of the kernel package.
-
-Replace installkernel tool with kernel-install tool, because the latter is
-more complete.
-
-Besides, after installkernel tool execution, check to complete if the
-correct package files vmlinuz, System.map and config files are present
-in /boot directory, and if necessary, copy manually for install operation.
-In this way, take into account if  files were not previously copied from
-/usr/lib/kernel/install.d/* scripts and if the suitable files for the
-requested package are present (it could be others if the rpm files were
-replace with a new pacakge with the same release and a different build).
-
-Tested with Fedora 38, Fedora 39, RHEL 9, Oracle Linux 9.3,
-openSUSE Tumbleweed and openMandrive ROME, using dnf/zypper and rpm tools.
-
-cc: stable@vger.kernel.org
-Co-Developed-by: Davide Cavalca <dcavalca@meta.com>
-Signed-off-by: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
----
-V1 -> V2:
-- Complete to be backward compatible with the previous installkernel
-application.
-V2 -> V3:
-- Follow the suggestions from Masahiro Yamada and change the installation
-destination to avoid problems instead of checking the package.
-V3 -> V4:
-- Make the patch applicable to linux-kbuild/for-next (ia64 support was
-already removed).
-V4 -> V5:
-- Complete for other Linux distributions.
-V5 -> V6
-- Simplify and do more compatible checks when copied files wants to be
-  replaced.
-- Remove %preun because it will be better done with another patch.
-- Add indentation and quotation.
-V6 -> V7
-- Simplify check to copy (cpm --silent return error if file doesn't exist).
-- Limit indientation to modifications.
-
- scripts/package/kernel.spec | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
-
-diff --git a/scripts/package/kernel.spec b/scripts/package/kernel.spec
-index 89298983a169..f58726671fb3 100644
---- a/scripts/package/kernel.spec
-+++ b/scripts/package/kernel.spec
-@@ -55,12 +55,12 @@ patch -p1 < %{SOURCE2}
- %{make} %{makeflags} KERNELRELEASE=%{KERNELRELEASE} KBUILD_BUILD_VERSION=%{release}
- 
- %install
--mkdir -p %{buildroot}/boot
--cp $(%{make} %{makeflags} -s image_name) %{buildroot}/boot/vmlinuz-%{KERNELRELEASE}
-+mkdir -p %{buildroot}/lib/modules/%{KERNELRELEASE}
-+cp $(%{make} %{makeflags} -s image_name) %{buildroot}/lib/modules/%{KERNELRELEASE}/vmlinuz
- %{make} %{makeflags} INSTALL_MOD_PATH=%{buildroot} modules_install
- %{make} %{makeflags} INSTALL_HDR_PATH=%{buildroot}/usr headers_install
--cp System.map %{buildroot}/boot/System.map-%{KERNELRELEASE}
--cp .config %{buildroot}/boot/config-%{KERNELRELEASE}
-+cp System.map %{buildroot}/lib/modules/%{KERNELRELEASE}
-+cp .config %{buildroot}/lib/modules/%{KERNELRELEASE}/config
- ln -fns /usr/src/kernels/%{KERNELRELEASE} %{buildroot}/lib/modules/%{KERNELRELEASE}/build
- %if %{with_devel}
- %{make} %{makeflags} run-command KBUILD_RUN_COMMAND='${srctree}/scripts/package/install-extmod-build %{buildroot}/usr/src/kernels/%{KERNELRELEASE}'
-@@ -70,13 +70,14 @@ ln -fns /usr/src/kernels/%{KERNELRELEASE} %{buildroot}/lib/modules/%{KERNELRELEA
- rm -rf %{buildroot}
- 
- %post
--if [ -x /sbin/installkernel -a -r /boot/vmlinuz-%{KERNELRELEASE} -a -r /boot/System.map-%{KERNELRELEASE} ]; then
--cp /boot/vmlinuz-%{KERNELRELEASE} /boot/.vmlinuz-%{KERNELRELEASE}-rpm
--cp /boot/System.map-%{KERNELRELEASE} /boot/.System.map-%{KERNELRELEASE}-rpm
--rm -f /boot/vmlinuz-%{KERNELRELEASE} /boot/System.map-%{KERNELRELEASE}
--/sbin/installkernel %{KERNELRELEASE} /boot/.vmlinuz-%{KERNELRELEASE}-rpm /boot/.System.map-%{KERNELRELEASE}-rpm
--rm -f /boot/.vmlinuz-%{KERNELRELEASE}-rpm /boot/.System.map-%{KERNELRELEASE}-rpm
-+if [ -x /usr/bin/kernel-install ]; then
-+	/usr/bin/kernel-install add %{KERNELRELEASE} /lib/modules/%{KERNELRELEASE}/vmlinuz
- fi
-+for file in vmlinuz System.map config; do
-+	if ! cmp --silent "/lib/modules/%{KERNELRELEASE}/${file}" "/boot/${file}-%{KERNELRELEASE}"; then
-+		cp "/lib/modules/%{KERNELRELEASE}/${file}" "/boot/${file}-%{KERNELRELEASE}"
-+	fi
-+done
- 
- %preun
- if [ -x /sbin/new-kernel-pkg ]; then
-@@ -94,7 +95,6 @@ fi
- %defattr (-, root, root)
- /lib/modules/%{KERNELRELEASE}
- %exclude /lib/modules/%{KERNELRELEASE}/build
--/boot/*
- 
- %files headers
- %defattr (-, root, root)
+thanks,
 -- 
-2.43.0
+js
+suse labs
 
 
