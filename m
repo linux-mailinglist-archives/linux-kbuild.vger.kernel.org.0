@@ -1,171 +1,118 @@
-Return-Path: <linux-kbuild+bounces-721-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-722-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C9C384141D
-	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Jan 2024 21:22:48 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C034841BFB
+	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jan 2024 07:32:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E8ECB1F235AA
-	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Jan 2024 20:22:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B079A28303F
+	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jan 2024 06:32:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA14776049;
-	Mon, 29 Jan 2024 20:22:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0F4F4C61;
+	Tue, 30 Jan 2024 06:32:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="l6n3sbA8"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gqXc6yBU"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F77E7603A
-	for <linux-kbuild@vger.kernel.org>; Mon, 29 Jan 2024 20:22:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64CCF38F84
+	for <linux-kbuild@vger.kernel.org>; Tue, 30 Jan 2024 06:32:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706559763; cv=none; b=benlPp8X2/MLB8MbPF1Fqs1wry6lkfQqP7DubzzSIAZMKMQnlyj5QGCCtMK2VA43Z1Z46mpoUhcWn1GFFGCv7jh4YghXzIvEOspWQ9RmSaZtqb0i2LfXF54QoJtL28dsAzw7NZ4pLG5sZBRQz8haXPlxxw4oWgqbM2QrrIxo9Dc=
+	t=1706596345; cv=none; b=hMA9o78ss5KcYWkjZIFPARjyYo/iFm3DTbu23nt1H7Dt0zmUmOIqpkLK73rzk49fJgXLfOh4pUP31XbgfLFX3snbSWXFVhXbXXqZL6LkmV76Madiy4wMMYmf3755M+BF/V1qzW1s6tMhNLCaCbR1RfyXM89iuPM42DSxWOjjIZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706559763; c=relaxed/simple;
-	bh=o/NbrqV2S97L+H13EY/x2OcLCIh6zJNlJHIhIlry7AA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q56j/V29uPCOtWQthzXB+f8X1OZ/b2Vpz3SxSOTWrvZlqr20YfXIRIwdEDL9VoMblI7rPvbCZprAH6GPt4bYEHWfZkl4a3iIGn2Rjc4TQqQYhLGPc8c+pR6x6oHjRP0U7wFUQNZ23KcjPJDAiaiVCYAfSC1/ed7X1bXpIkKqpzo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=l6n3sbA8; arc=none smtp.client-ip=209.85.216.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-2959da74d80so397368a91.2
-        for <linux-kbuild@vger.kernel.org>; Mon, 29 Jan 2024 12:22:41 -0800 (PST)
+	s=arc-20240116; t=1706596345; c=relaxed/simple;
+	bh=LtO3rThxEgxCkuczFiZbvw9grICIpR/W68nfY9815y4=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=DN6214WMJ440hfZMxQceLnTiGzJIFZlW3oQD54JtVhKfPEagW4UKdp8gckODPiTFLJ3N459YxhvxJxvREIFnKekzbFHrYT5g3OIWA+LAQ19lmmsXejxKMmckUq35zt02i+hr//ZPS9aCGDqXhHZGZIDQA85gjOPballGUuTNczE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gqXc6yBU; arc=none smtp.client-ip=209.85.222.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-783d8dff637so271943385a.3
+        for <linux-kbuild@vger.kernel.org>; Mon, 29 Jan 2024 22:32:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1706559761; x=1707164561; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Z42ayviXl00pFftEywfCdZI1FjhKV2PnUlVfJ3EkjmY=;
-        b=l6n3sbA8UIfAPfLgTY/02EhFrd04r8IE4ZzFBTKec+N1FZFBcjJ4x4/q4wFUtJCItD
-         a3Wf6gUMbrZJQhe1u7fEWHbMMfQuFeFxYXl9+u4GB7gQLPG/kf/a+/jy/ECMIXLLMC2g
-         XriZkhjdu3eeTbRRrpgq/KcSgMK9dijIsXufg=
+        d=gmail.com; s=20230601; t=1706596343; x=1707201143; darn=vger.kernel.org;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=SOF1PtMAfBUvzyqpL6NmiUAjXBahqHoFt7FzwbnAPjg=;
+        b=gqXc6yBU2MOnYEmZE+rLArky6b7HYZBrZAI87vqqwfac+jZ2o1dtTbdDCSZ+1qvsU/
+         lSxApSLO1pSkq/j8nQc646WbEgxMuwHpKbh/vhsiYkdLoY+yFpDmtE0xnhtGeOCC+nbi
+         au4yMcnAE/2LjbtTUzQaGXhMoDEIehMfjfb2ZPdTd2mHbR1z5b5e9DTo9TjVQIEmpZbj
+         0uXnbr5XZ9DlkE7UiYZfLOAiLyfObXHDZsh69btOaP4/EzFu6tpLT+pzOW81/m5TBVuC
+         QpvSNXIHRbtTzG8Fn/qveRRv+ucWIqCheF+wmrEp1QWdqq1Faa2UF0t+B/NZdDKfHJhn
+         VpfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706559761; x=1707164561;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Z42ayviXl00pFftEywfCdZI1FjhKV2PnUlVfJ3EkjmY=;
-        b=kjVdHjSyYtvSDHcIkrtLDmNcSJRm2deu3EJuOYPFdsXhV/3ObVMBdyE2KUTTnNuORM
-         HyReLwK6zvjotUCZscyWecp29T7SLstGbACmOqHJRCgIM197kaiW75dvVQCRjYfuW9Ra
-         7J0mpoumW2rC7ofRO9W9FrFWgFVmlFuBuS40EAw4j6DB3HiwEfAk2ltTWSMUQ/IMMAb4
-         Gb5swpyX+dbp99RB6rmc84e/3KMG45PI+TANU4S0AX9emHHmNjabl6IdARaFTa9+lvAk
-         S4s4lJw3heHQhJy9OU22SXCOf9FLUVguKZe/a8VE+HD3AxMmAcbDuqGoASJG3F0JK5NT
-         0aBw==
-X-Gm-Message-State: AOJu0YwONDA3linDy7hoigGO7rG+4q9FHClBFLGJJtUKX2S02SphywOP
-	jRTWRcNpmPL0SiweNxBaslbh8pEqrZi5g5c5TLsKWxYn7zdhTqgWG7Cl2ebz2w==
-X-Google-Smtp-Source: AGHT+IHKFFpzQdzMeVVxTYSKwO60dgMxA8EJGc7W4MEDm2qbbjGDlc81pU8+CdO3BRwKTHCRTbIyDw==
-X-Received: by 2002:a17:90a:b013:b0:290:121a:c382 with SMTP id x19-20020a17090ab01300b00290121ac382mr2629214pjq.24.1706559761292;
-        Mon, 29 Jan 2024 12:22:41 -0800 (PST)
-Received: from www.outflux.net ([198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id d15-20020a17090a498f00b00291000d8210sm8568534pjh.19.2024.01.29.12.22.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jan 2024 12:22:40 -0800 (PST)
-Date: Mon, 29 Jan 2024 12:22:40 -0800
-From: Kees Cook <keescook@chromium.org>
-To: Justin Stitt <justinstitt@google.com>
-Cc: Marco Elver <elver@google.com>, Miguel Ojeda <ojeda@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Peter Zijlstra <peterz@infradead.org>, Hao Luo <haoluo@google.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Fangrui Song <maskray@google.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Bill Wendling <morbo@google.com>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	llvm@lists.linux.dev, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH 2/6] ubsan: Reintroduce signed and unsigned overflow
- sanitizers
-Message-ID: <202401291221.99D8568D0@keescook>
-References: <20240129175033.work.813-kees@kernel.org>
- <20240129180046.3774731-2-keescook@chromium.org>
- <20240129195418.hftkcdksptmpfv3i@google.com>
+        d=1e100.net; s=20230601; t=1706596343; x=1707201143;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=SOF1PtMAfBUvzyqpL6NmiUAjXBahqHoFt7FzwbnAPjg=;
+        b=MmOIafbn8hL9SwhO60NpKiAAaAuMkd+m837wLBBJ6O1l4IhbGno1Zzard/DahIYane
+         BStL44W+V8K9UyqQxIDjZRsapOQ93QPE6p7znxezZw17U9uYha2Uck5Y02jMiQT81HNT
+         HWlSFsciGPuTRXpSOvdKqiDVWCXxaGTJvoLEJJGGEsXHD/XXEDyXZAZ60Gy+X/vKzdua
+         /o4ENDL4nAUeVTOqOWmQgpNcfoSxARiZIS9Oe64CnAjB7pMg19PAUUnWnHO46BOQBiPh
+         sCau/2OJ2rcWGlYy+wTg+SeQ4hO6bo6Tgc52/uuRzSt99J6gTzCYl620IyKu11B+e6dr
+         x0SA==
+X-Gm-Message-State: AOJu0YxdbAds8D0krmtpSWE/Qpf7CyigEoUc62VvHTc+5xuslHfpxaoK
+	AR40pVBhiMYuV73xJSHKPCAR4iZsNvANn9f1UGWewVb55ZzKkz4UZ9NW5YuDOGAZyY9t4Z1+azV
+	p24eZvnTcIAKEYuhBsBsaedgdUlztziX8PzI=
+X-Google-Smtp-Source: AGHT+IHMHi7b9BmChE2hC+8hcLgLdOjs9xXQB9bMAT11oQsOcFYQPZZsgbx1F9NE42+uLT42qWctEJbMOa0zkBfhxkE=
+X-Received: by 2002:a05:622a:452:b0:42a:8723:6bc8 with SMTP id
+ o18-20020a05622a045200b0042a87236bc8mr8200498qtx.90.1706596342671; Mon, 29
+ Jan 2024 22:32:22 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240129195418.hftkcdksptmpfv3i@google.com>
+From: "David F." <df7729@gmail.com>
+Date: Mon, 29 Jan 2024 22:32:11 -0800
+Message-ID: <CAGRSmLshjakU3pXu_odd1-et2KfOUrhTruRcRBP=T-dhnYRVzg@mail.gmail.com>
+Subject: Changes to kbuild in 6.x causing cpp build issues.
+To: Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Jan 29, 2024 at 07:54:18PM +0000, Justin Stitt wrote:
-> Hi,
-> 
-> On Mon, Jan 29, 2024 at 10:00:39AM -0800, Kees Cook wrote:
-> > Effectively revert commit 6aaa31aeb9cf ("ubsan: remove overflow
-> > checks"), to allow the kernel to be built with the "overflow"
-> > sanitizers again. This gives developers a chance to experiment[1][2][3]
-> > with the instrumentation again, while compilers adjust their sanitizers
-> > to deal with the impact of -fno-strict-oveflow (i.e. moving from
-> > "overflow" checking to "wrap-around" checking).
-> >
-> > Notably, the naming of the options is adjusted to use the name "WRAP"
-> > instead of "OVERFLOW". In the strictest sense, arithmetic "overflow"
-> > happens when a result exceeds the storage of the type, and is considered
-> > by the C standard and compilers to be undefined behavior for signed
-> > and pointer types (without -fno-strict-overflow). Unsigned arithmetic
-> > overflow is defined as always wrapping around.
-> >
-> > Because the kernel is built with -fno-strict-overflow, signed and pointer
-> > arithmetic is defined to always wrap around instead of "overflowing"
-> > (which could either be elided due to being undefined behavior or would
-> > wrap around, which led to very weird bugs in the kernel).
-> >
-> > So, the config options are added back as CONFIG_UBSAN_SIGNED_WRAP and
-> > CONFIG_UBSAN_UNSIGNED_WRAP. Since the kernel has several places that
-> > explicitly depend on wrap-around behavior (e.g. counters, atomics, crypto,
-> > etc), also introduce the __signed_wrap and __unsigned_wrap function
-> > attributes for annotating functions where wrapping is expected and should
-> > not be instrumented. This will allow us to distinguish in the kernel
-> > between intentional and unintentional cases of arithmetic wrap-around.
-> >
-> > Additionally keep these disabled under CONFIG_COMPILE_TEST for now.
-> 
-> This is present in the patch but perhaps its worth noting here that x86
-> has trouble booting with the unsigned-integer-overflow sanitizer on.
+Hello,
 
-Yeah, though this is fixed later in the series.
+resending this because it doesn't show that it made it to the archives.
 
-> 
-> >
-> > Link: https://github.com/KSPP/linux/issues/26 [1]
-> > Link: https://github.com/KSPP/linux/issues/27 [2]
-> > Link: https://github.com/KSPP/linux/issues/344 [3]
-> > Cc: Justin Stitt <justinstitt@google.com>
-> > Cc: Miguel Ojeda <ojeda@kernel.org>
-> > Cc: Nathan Chancellor <nathan@kernel.org>
-> > Cc: Nick Desaulniers <ndesaulniers@google.com>
-> > Cc: Peter Zijlstra <peterz@infradead.org>
-> > Cc: Marco Elver <elver@google.com>
-> > Cc: Hao Luo <haoluo@google.com>
-> > Cc: Przemek Kitszel <przemyslaw.kitszel@intel.com>
-> > Signed-off-by: Kees Cook <keescook@chromium.org>
-> 
-> 
-> This patch adheres to the language semantics as I understand them.
-> Moreover, we would've had to send a patch similar to this once we land
-> some better sanitizer + -fno-strict-oveflow support in the compilers.
-> 
-> Currently, though, -fsanitize=signed-integer-overflow instruments very
-> little (if anything at all) due to compiler optimizations in conjunction
-> with -fno-strict-oveflow. I am working on a new
-> -fsanitize=signed-integer-wrap in Clang which will instrument more
-> arithmetic even under -fno-strict-oveflow.
+I've been building an out-of-tree linux kernel module that has a .cpp
+module (plus a library that is built) for well over a decade using the
+basic method outlined at https://github.com/veltzer/kcpp.   There was
+a patch needed (provided here) in the 5.x version to be able to link
+to the .a file generated.  That patch I've been able to modify as
+slight changes occured, but now in 6.6.14 things have changed a lot,
+I'm not sure if I'll need something like it to get to the final link
+but I don't think I'm at that point yet.
 
-Agreed -- I'm mainly getting these back into the kernel so folks working
-on this have a common base to work from.
+My main issue now is this:
 
-> Reviewed-by: Justin Stitt <justinstitt@google.com>
+LD [M]  /media/sf_SRC_DRIVE/mymodule/l
+inux/driver/6.6.14-686-mine/mymodule.o
+  ld -m elf_i386 -z noexecstack   -r -o
+/media/sf_SRC_DRIVE/mymodule/linux/driver/6.6.14-686-mine/mymodule.o
+@/media/sf_SRC_DRIVE/mymodule/linux/driver/6.6.14-686-mine/mymodule.mod
+# cmd_modules_order
+/media/sf_SRC_DRIVE/mymodule/linux/driver/6.6.14-686-mine/modules.order
+  {   echo /media/sf_SRC_DRIVE/mymodule/linux/driver/6.6.14-686-mine/mymodule.o;
+:; } > /media/sf_SRC_DRIVE/mymodule/linux/driver/6.6.14-686-mine/modules.order
+sh ./scripts/modules-check.sh
+/media/sf_SRC_DRIVE/mymodule/linux/driver/6.6.14-686-mine/modules.order
+make -f ./scripts/Makefile.modpost
+# MODPOST /media/sf_SRC_DRIVE/mymodule/linux/driver/6.6.14-686-mine/Module.symvers
+   scripts/mod/modpost -M -m       -o
+/media/sf_SRC_DRIVE/mymodule/linux/driver/6.6.14-686-mine/Module.symvers
+-T /media/sf_SRC_DRIVE/mymodule/linux/driver/6.6.14-686-mine/modules.order
+-i Module.symvers -e
+/media/sf_SRC_DRIVE/mymodule/linux/driver/6.6.14-686-mine/.mymodulelindrivercpp.o.cmd:
+No such file or directory
 
-Thanks!
+It has never built a *.o.cmd file for the .cpp module and still
+doesn't, but the new system is looking for it.    Could someone
+familiar with kbuild tell me what I can patch / do to allow the system
+to complete the build like it used to?
 
--Kees
-
--- 
-Kees Cook
+Thank You.
 
