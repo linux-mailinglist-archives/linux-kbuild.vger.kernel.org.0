@@ -1,128 +1,96 @@
-Return-Path: <linux-kbuild+bounces-725-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-726-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BC118425FB
-	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jan 2024 14:16:31 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8C23842661
+	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jan 2024 14:46:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D23701F27BBE
-	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jan 2024 13:16:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 26EFF1C2105A
+	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jan 2024 13:46:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DA116D1A8;
-	Tue, 30 Jan 2024 13:16:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E394A67E7E;
+	Tue, 30 Jan 2024 13:46:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OLBa0zWq"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cU72nRbx"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9E4C6D1A2;
-	Tue, 30 Jan 2024 13:16:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFE2666B51
+	for <linux-kbuild@vger.kernel.org>; Tue, 30 Jan 2024 13:46:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706620576; cv=none; b=DkXzTI90jjU7apgOc6KTiyar8EMBS/Kn91Z2PKW3RPTWYYKdAusFWEdrOo8xvLtzRVmh16FUdIgW6oLzvusjTbAF/i0TY6KW6N4kad6Pv12uFyc6o5Ol2hIvqzyreRS2486+WxI0N+3mscDtKBTvSaFFsmVSr4UEpbEmCBP7M+I=
+	t=1706622403; cv=none; b=c1hXamTv1AL0sns4txK2gD/pKxHNb6w9RlyEEWJ9ClsgpmrbRsQGtdpM/Mm2QklcYcFkUnYuhLWc1G50yLo6k90uIlbukbW1cJn4J9GiLyFIXw8WdO2B1u0GSlrXCTrgRpNvdnMG+bunGs96LrMEw+l0UDw7Kg2XrM2cYI8rBCo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706620576; c=relaxed/simple;
-	bh=jRzjCLDb/0atRPzlAVeh/A8UabCjn3/OUg4jCrnn7pM=;
+	s=arc-20240116; t=1706622403; c=relaxed/simple;
+	bh=aWGIg9ReBLDRYt9z1f6afh6iz5LLf+f//tpgPs5swLc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=X1mF4tTrCAIb3IPdDLYn+yRsr19zrJKQ0Pkn6deFZCb80DhIXAbLRGQc8XWictaHz4XcFRxUVJkXlnkegaiH5hct/wsquHaiOe1RIpvzSXGTC3TDC5IHsehF74VxLMI3EVx6Z2rG/chDh4/AgGjY68TzP0GoIHplvqt1OAi3IeU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OLBa0zWq; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C00B2C43143;
-	Tue, 30 Jan 2024 13:16:15 +0000 (UTC)
+	 To:Cc:Content-Type; b=EeqQ5OTTuElY5jbSUYrKU67SvckbZ3KNNPMZbOUV85+rx9SLnEmDiHpHBfnrY6y0qZrd0WW/MR/zi6HXgMPr0Q0UGLFO7Nrg4Mr/KS64rAK8upo1rd3zWoQtToFzzVRadhmWvajfBOwM/2iFksx/fiMCpu8cp245syZ6T95zfpA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cU72nRbx; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24D07C433C7
+	for <linux-kbuild@vger.kernel.org>; Tue, 30 Jan 2024 13:46:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706620575;
-	bh=jRzjCLDb/0atRPzlAVeh/A8UabCjn3/OUg4jCrnn7pM=;
+	s=k20201202; t=1706622403;
+	bh=aWGIg9ReBLDRYt9z1f6afh6iz5LLf+f//tpgPs5swLc=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=OLBa0zWqeww5EZFBUoHSQG3EYCDTvpY+GAFjJQfEhGRzh3rB4Y+uRUwXs+rPTrk+v
-	 ELtTaMQIOQcTSFy2ZEVZUW8R0wWfXNbr8SrgMmRSjA0uQ8jwDvbVMz8cxUGXswa1ik
-	 ZAsflnQwy6D/0IxLGywnicsxOIyz4lrRvl6ph8abTFlFusDeqRhOaS05aRl1hetFvT
-	 x9kK5t4aQ6Pxdt4FW6DETaiaRb0YngNocs3sGQKBzcC4TFXCiTJui3FMXUToH4/Ogr
-	 lpWJcnHzWAHUWED1jxrtSXUhDEWZO0G5ORvzGo9Ql5yA+h/xFxgr1IU+89w3CvRLh7
-	 11KuvXll/fzDg==
-Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-21433afcc53so2123590fac.3;
-        Tue, 30 Jan 2024 05:16:15 -0800 (PST)
-X-Gm-Message-State: AOJu0YzmIN4s6KkL3gtM3MCk4/00An+geL6L3GGYUatW31QQcQuHJ/Pl
-	jbEgOihqMr/dMUzfGSu9qT7xjQ5IRB2xRnXYMRFH69RwaPJyka72HkD99ihmIwWfC+WKd0GAI63
-	CDAO5cMq13Fo6sT8MhCSXSvagTWs=
-X-Google-Smtp-Source: AGHT+IH0QKKzJW8xp+4nnQDbAa1mwu9E2R4b/6ilaCz62C2DDiOxDRG8B3m8HReXobVLIV7LvELXlNZY67ilVEKMsDA=
-X-Received: by 2002:a05:6870:b90a:b0:214:c782:8acd with SMTP id
- gx10-20020a056870b90a00b00214c7828acdmr6716987oab.8.1706620575029; Tue, 30
- Jan 2024 05:16:15 -0800 (PST)
+	b=cU72nRbxOWW+2R6upU1LGY33Xu0rPhthkE1ufx5178jqCDji6iizLwm1EzLtWUgjr
+	 z76pkj+N8SYWDtEOk2EwdQJlP2Cs5IpWpnLPnoJnCZ+7KPwsq3VLrGtLMZ2f1GXvs+
+	 YWI+OkMyN22yNUDEbPqiqeh91CnjyfcWIJM/UT/b+rw4kUdYJ59EqQvI9lybHx9cSn
+	 GxHlZfkBSWaYtIiPXY5fa0heMLyT14gZDRhZF2x+nECnpiJxatdVc5ax7AaD1cphta
+	 xW9ojD1+sWMDp3t6TpfsoseEm8ztVz389sXlPecJU8c0DZGDIO3YJoGzZYedoWVqZc
+	 Xrr6hRBmx7lNg==
+Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-214de82b6ddso2295153fac.3
+        for <linux-kbuild@vger.kernel.org>; Tue, 30 Jan 2024 05:46:42 -0800 (PST)
+X-Gm-Message-State: AOJu0YwYA2DlOYYrsihxCKYwvl+QFeLLojcMe9MPt9zWUFmaabm2AlML
+	tmcM0yiX4IZt0bZj54jDpMPm9fisVOwrg3Ok72IVQamodXgew4G5S4d4gpD3mZF43Uincls8cY+
+	0uTVO8e1Gr22guCHmykRCgC/wbNk=
+X-Google-Smtp-Source: AGHT+IFk8z74N0W1JtYDJNTyq2ZcgrOHbmOrNmAQ3PVaB/JbrUtL465oK88LYZsvWF+xSTVeml7LH4WD7iLKU7kfFoY=
+X-Received: by 2002:a05:6870:e2d2:b0:218:3c0a:7d75 with SMTP id
+ w18-20020a056870e2d200b002183c0a7d75mr7588160oad.9.1706622401508; Tue, 30 Jan
+ 2024 05:46:41 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240125-fix-riscv-option-arch-llvm-18-v1-0-390ac9cc3cd0@kernel.org>
- <20240129-unripe-pleading-d2753b766e88@spud>
-In-Reply-To: <20240129-unripe-pleading-d2753b766e88@spud>
+References: <CAG+Z0CsTWFxi74PKpCkPjM_-60PsvqS7gkZKs5yrsA8OqL6Hyg@mail.gmail.com>
+ <CANiq72k+jEb2kc_LN48959k0u5v5m1qGiJR9tmuUyvUweuXGeQ@mail.gmail.com> <CAG+Z0CvndOvQEeNheb+iWURfpc39jMwAFtH+Xzc0AiTjUqN-8g@mail.gmail.com>
+In-Reply-To: <CAG+Z0CvndOvQEeNheb+iWURfpc39jMwAFtH+Xzc0AiTjUqN-8g@mail.gmail.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 30 Jan 2024 22:15:37 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAT-sKNf9mCxZakeW_zzXiRYxbTaLqC7Z-+M7xYVMRw55Q@mail.gmail.com>
-Message-ID: <CAK7LNAT-sKNf9mCxZakeW_zzXiRYxbTaLqC7Z-+M7xYVMRw55Q@mail.gmail.com>
-Subject: Re: [PATCH 0/2] RISC-V: Fix CONFIG_AS_HAS_OPTION_ARCH with tip of
- tree LLVM
-To: Conor Dooley <conor@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>, paul.walmsley@sifive.com, palmer@dabbelt.com, 
-	aou@eecs.berkeley.edu, nicolas@fjasle.eu, andy.chiu@sifive.com, 
-	conor.dooley@microchip.com, linux-riscv@lists.infradead.org, 
-	linux-kbuild@vger.kernel.org, llvm@lists.linux.dev, patches@lists.linux.dev, 
-	stable@vger.kernel.org, Eric Biggers <ebiggers@kernel.org>
+Date: Tue, 30 Jan 2024 22:46:05 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQKVonm4=ynoFj1p1w95L7z2=jtuyOn+0AhtG1Yc-M7kA@mail.gmail.com>
+Message-ID: <CAK7LNAQKVonm4=ynoFj1p1w95L7z2=jtuyOn+0AhtG1Yc-M7kA@mail.gmail.com>
+Subject: Re: [v2] kbuild: Replace tabs with spaces when followed by conditionals.
+To: Dmitry Goncharov <dgoncharov@users.sf.net>
+Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, linux-kbuild@vger.kernel.org, 
+	Martin Dorey <Martin.Dorey@hitachivantara.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 30, 2024 at 1:34=E2=80=AFAM Conor Dooley <conor@kernel.org> wro=
-te:
+On Mon, Jan 29, 2024 at 1:13=E2=80=AFAM Dmitry Goncharov
+<dgoncharov@users.sf.net> wrote:
 >
-> On Thu, Jan 25, 2024 at 10:32:10AM -0700, Nathan Chancellor wrote:
-> > Hi all,
+> On Sun, Jan 28, 2024 at 10:29=E2=80=AFAM Miguel Ojeda
+> <miguel.ojeda.sandonis@gmail.com> wrote:
 > >
-> > Eric reported that builds of LLVM with [1] (close to tip of tree) have
-> > CONFIG_AS_HAS_OPTION_ARCH=3Dn because the test for expected failure on
-> > invalid input has started succeeding.
+> > On Sun, Jan 28, 2024 at 4:10=E2=80=AFPM Dmitry Goncharov
+> > <dgoncharov@users.sf.net> wrote:
+> > >
+> > > Signed-off-by: Dmitry Goncharov <dgoncharov@users.sf.net>
 > >
-> > This Kconfig test was added because '.option arch' only causes an
-> > assembler warning when it is unsupported, rather than a hard error,
-> > which is what users of as-instr expect when something is unsupported.
-> >
-> > This can be resolved by turning assembler warnings into errors with
-> > '-Wa,--fatal-warnings' like we do with the compiler with '-Werror',
-> > which is what the first patch does. The second patch removes the invali=
-d
-> > test, as the valid test is good enough with fatal warnings.
-> >
-> > I have diffed several configurations for the different architectures
-> > that use as-instr and I have found no issues.
-> >
-> > I think this could go in through either the kbuild or RISC-V tree with
-> > sufficient acks but I will let them fight over who takes it :)
+> > My v1 still applies with the same conditions if the contents didn't cha=
+nge.
 >
-> I think RISC-V would be good, since building the vector crypto stuff
-> also needs this fix.
+> The contents of the patch is the same. I only changed the subject of
+> the email per Masahiro's request.
+>
+> regards, Dmitry
 
 
-OK, then I will give ack instead of applying this series.
-
-
-Acked-by: Masahiro Yamada <masahiroy@kernel.org>
-
-
-
-
-
-
-> Tested-by: Conor Dooley <conor.dooley@microchip.com>
-> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-
-
-
-
-
-
-
+Applied. Thanks.
 
 
 --=20
