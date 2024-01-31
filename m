@@ -1,124 +1,94 @@
-Return-Path: <linux-kbuild+bounces-741-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-742-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D4318441F2
-	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Jan 2024 15:35:10 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A119844356
+	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Jan 2024 16:47:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 49C3E1C21AF6
-	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Jan 2024 14:35:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 442BE289FF4
+	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Jan 2024 15:47:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58BC083CA6;
-	Wed, 31 Jan 2024 14:35:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 416E712A14D;
+	Wed, 31 Jan 2024 15:47:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xj4I9eDx"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="H9SVQJ3k";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="uMlUuZq/"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 246D96D1BA;
-	Wed, 31 Jan 2024 14:35:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 828431292FA;
+	Wed, 31 Jan 2024 15:47:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706711705; cv=none; b=t/T2qF10j8mmCvyR086tRlpuxatUB8wUgV6CZqhqYOmhYZvJvL1Y3JdEUZ4s3rn2C5N/ZtEUCxYDznK//wo/UVVdr7v2Ennv1E6m3Njn0z6UWgh63tDr58/mVp6mUl+F+9j+xHkWL8YsXE3/X0kFe/sCQM7hyUqZTFPkdEq17vs=
+	t=1706716060; cv=none; b=mBhHP7ZNR5IatxETtGnOD9o7IZWLstIpUp6A9RMzf6o1kRhYg6533YeeJFU79pt92q9PgAiXRZH37Xg+FRbf+pNghFil9GYPYOW2Y4ZI/XGRvWnRyv6bnxkn8MyRDaURyVk+qoGwrSqpfvEFDctItQOz2EpSmBeKDusH8gEZzL8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706711705; c=relaxed/simple;
-	bh=5EyZ4q/r+00v48OOg68MHvCQQPBQznBdJrnWimHOvoM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CH8Gb31O5Ho94/DSm6JEm6sbR+ejL7m4beGALwp3U2EA1wFKb3gTFFgZCeYzHw9Rl3xnUHpQ66gmqcarokkJNvU0cyiy4r//LsJq7h6wjcRaN5nt9czn/hyjK+ch4ZPpi6gGXnIU/9ojcHD1dRBJok+idla4w2PSdYVf/+fSQAk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xj4I9eDx; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98C11C4166B;
-	Wed, 31 Jan 2024 14:35:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706711704;
-	bh=5EyZ4q/r+00v48OOg68MHvCQQPBQznBdJrnWimHOvoM=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Xj4I9eDx/4HbEu8yhW2vQwS+czjQUDgteKSBPmAbcovkQDof4vKf+Nti93zCxqUFy
-	 8E1Mj2HVi6RuOgtLEDRS6zU9DOo9UxOfTl3GF9CkBNanL4l5F8UoUx1KrKXXLt2i2U
-	 QnSISdzQ04gQcHg39wQEs8qgdWVmlUTnN4etJo2k2D4fH2Zq8wh/KsRdbJfE9BZhqf
-	 wSLrMcR1e/pyRGTN71NKaOW1dupGCC6GoL9KwXzg+T9VFWwk6CPnbVno4VAvjIxm/E
-	 MkoGE8E4K5R88GIEhHdMDOn5hcozFNO/DhJ6spBg4F8LISArQUeNl8DwwemWCp403U
-	 gnR48sug9RyqQ==
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5111c7d40deso2823136e87.1;
-        Wed, 31 Jan 2024 06:35:04 -0800 (PST)
-X-Gm-Message-State: AOJu0YziwdGS6FqXazxxX9FwgdjIU8qcykRyBJwmNmMEVR6iBxdj9Ao5
-	TGrppM/pbG8USJFuoIG9fuN53fUD1C4GstX9Hr83CDgbQ2JeZV0d24Gx7QCOnkwWKKaWFqSve+7
-	lm3ZHroHJw6Bd2KDMGVLZNSnaSP4=
-X-Google-Smtp-Source: AGHT+IEkwiOzDm1WmVB86bThpXr2CAgij+DEoMyglGf+T50CfsxJDx5eAUUePpr4rorcPUAIloSWUuLFizuX2LC6Lk4=
-X-Received: by 2002:a05:6512:470:b0:511:e8f:45ca with SMTP id
- x16-20020a056512047000b005110e8f45camr1454123lfd.31.1706711702790; Wed, 31
- Jan 2024 06:35:02 -0800 (PST)
+	s=arc-20240116; t=1706716060; c=relaxed/simple;
+	bh=dPqaiX5PAWnQlOQ8Jiutu8bSeKEr3U2pTg/+HqQA8Ak=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=O6iptg37gIBvci8kk5Rq9Bg4tykHSaqQ8DbLGeP9ras1RCQHb0xHwdlRphTv8F1t/KtO5tySYe8VPNPKa/KIDPDI0rmj/KttC8/eXOHtkugPkVemJbhgc6IKWzwkxX/gB/72O0T8JJ7vskJGV4r8Hyk1CGrAm7sz5N+98kv/aIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=H9SVQJ3k; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=uMlUuZq/; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+From: John Ogness <john.ogness@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1706716056;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tgMsdbxCaBeot/1FIP0WAPLTrTPmjNYgZHCMmQQu8dA=;
+	b=H9SVQJ3kZBcTos2bLSoPIrvvuZKMApea5Qu9HHZYgNM8BNQfA/OHFJ+WjVXo9vY7aDRTYj
+	ADHdyOKvce0Yx57ElMxY8VKqQeBrB6bnGXVcCpphzLJ/FAxc3tG8ylCm3Mfmi7ES3VJNgc
+	5INdOZHUh6oDVntoImpbiMFZj0rr9FigBfKXo+yy499BbD7YTOHzSGSullWchOTiHzaAaF
+	xqtwBg4aOuV84BADA55KqidMBwO1u0n8G0zIEXQYRWuYIwFbwbUrc8aYvIVAkzifI8qQzg
+	SQE7/RUsoOi63G/shU8/5VmgYyTiG17bDxAPMZoZjyDiiGljPu5dtVIlgnfHxA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1706716056;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tgMsdbxCaBeot/1FIP0WAPLTrTPmjNYgZHCMmQQu8dA=;
+	b=uMlUuZq/EpH/uEvkdR/5kovyAEmTtSfIOBdtlMc+HOaYYqnXFmQEhRRc2BfnSYhyfHHkXS
+	XtjXjlW9DmUwSGBQ==
+To: Luis Chamberlain <mcgrof@kernel.org>, Yoann Congal
+ <yoann.congal@smile.fr>, Josh Triplett <josh@joshtriplett.org>, Petr
+ Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, Sergey
+ Senozhatsky <senozhatsky@chromium.org>
+Cc: x86@kernel.org, linux-kernel@vger.kernel.org,
+ linux-serial@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ "H. Peter Anvin" <hpa@zytor.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, Willem de
+ Bruijn <willemdebruijn.kernel@gmail.com>, Matthew Wilcox
+ <willy@infradead.org>, Peter Zijlstra <peterz@infradead.org>, Darren Hart
+ <dvhart@infradead.org>, Davidlohr Bueso <dave@stgolabs.net>, =?utf-8?Q?An?=
+ =?utf-8?Q?dr=C3=A9?= Almeida
+ <andrealmeid@igalia.com>, Masahiro Yamada <masahiroy@kernel.org>
+Subject: Re: [PATCH v2] printk: Remove redundant CONFIG_BASE_SMALL
+In-Reply-To: <ZbfLl6PR_qxxreeX@bombadil.infradead.org>
+References: <20240127220026.1722399-1-yoann.congal@smile.fr>
+ <ZbfLl6PR_qxxreeX@bombadil.infradead.org>
+Date: Wed, 31 Jan 2024 16:53:32 +0106
+Message-ID: <871q9xzeqz.fsf@jogness.linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240127220026.1722399-1-yoann.congal@smile.fr> <ZbfLl6PR_qxxreeX@bombadil.infradead.org>
-In-Reply-To: <ZbfLl6PR_qxxreeX@bombadil.infradead.org>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Wed, 31 Jan 2024 23:34:26 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAR=YgBR=FYeZ+HKuFYOP3ad0K0tmqtsuHD6N-cHW5QoNQ@mail.gmail.com>
-Message-ID: <CAK7LNAR=YgBR=FYeZ+HKuFYOP3ad0K0tmqtsuHD6N-cHW5QoNQ@mail.gmail.com>
-Subject: Re: [PATCH v2] printk: Remove redundant CONFIG_BASE_SMALL
-To: Luis Chamberlain <mcgrof@kernel.org>
-Cc: Yoann Congal <yoann.congal@smile.fr>, Josh Triplett <josh@joshtriplett.org>, 
-	Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	John Ogness <john.ogness@linutronix.de>, Sergey Senozhatsky <senozhatsky@chromium.org>, x86@kernel.org, 
-	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	Geert Uytterhoeven <geert@linux-m68k.org>, Thomas Gleixner <tglx@linutronix.de>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Matthew Wilcox <willy@infradead.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Darren Hart <dvhart@infradead.org>, 
-	Davidlohr Bueso <dave@stgolabs.net>, =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Tue, Jan 30, 2024 at 1:00=E2=80=AFAM Luis Chamberlain <mcgrof@kernel.org=
-> wrote:
->
-> You wanna address the printk maintainers, which I've added now.
-> And Josh as he's interested in tiny linux.
->
-> On Sat, Jan 27, 2024 at 11:00:26PM +0100, Yoann Congal wrote:
-> > CONFIG_BASE_SMALL is currently a type int but is only used as a boolean
-> > equivalent to !CONFIG_BASE_FULL.
-> >
-> > So, remove it entirely and move every usage to !CONFIG_BASE_FULL.
->
-> Thanks for doing this.
->
-> > In addition, recent kconfig changes (see the discussion in Closes: tag)
-> > revealed that using:
-> >   config SOMETHING
-> >      default "some value" if X
-> > does not work as expected if X is not of type bool.
->
-> We should see if we can get kconfig to warn on this type of use.
-> Also note that this was reported long ago by Vegard Nossum but he
-> never really sent a fix [0] as I suggested, so thanks for doing this
-> work.
->
-> [0] https://lkml.iu.edu/hypermail/linux/kernel/2110.2/02402.html
-
-
-
-It is good to know that this issue was already pointed out
-in the past.
-
-
-
+On 2024-01-29, Luis Chamberlain <mcgrof@kernel.org> wrote:
 > You should mention the one case which this patch fixes is:
 >
-> > CONFIG_BASE_SMALL was used that way in init/Kconfig:
-> >   config LOG_CPU_MAX_BUF_SHIFT
-> >       default 12 if !BASE_SMALL
-> >       default 0 if BASE_SMALL
+>> CONFIG_BASE_SMALL was used that way in init/Kconfig:
+>>   config LOG_CPU_MAX_BUF_SHIFT
+>>   	default 12 if !BASE_SMALL
+>>   	default 0 if BASE_SMALL
 >
 > You should then mention this has been using 12 for a long time now
 > for BASE_SMALL, and so this patch is a functional fix for those
@@ -126,56 +96,11 @@ in the past.
 > cpu. The contribution was only per CPU, and since BASE_SMALL systems
 > likely don't have many CPUs the impact of this was relatively small,
 > 4 KiB per CPU.  This patch fixes that back down to 0 KiB per CPU.
->
-> So in practice I'd imagine this fix is not critical to stable. However
-> if folks do want it backported I'll note BAS_FULL has been around since
-> we started with git on Linux so it should backport just fine.
->
-> > diff --git a/init/Kconfig b/init/Kconfig
-> > index 8d4e836e1b6b1..877b3f6f0e605 100644
-> > --- a/init/Kconfig
-> > +++ b/init/Kconfig
-> > @@ -734,8 +734,8 @@ config LOG_CPU_MAX_BUF_SHIFT
-> >       int "CPU kernel log buffer size contribution (13 =3D> 8 KB, 17 =
-=3D> 128KB)"
-> >       depends on SMP
-> >       range 0 21
-> > -     default 12 if !BASE_SMALL
-> > -     default 0 if BASE_SMALL
-> > +     default 12 if BASE_FULL
-> > +     default 0
-> >       depends on PRINTK
-> >       help
-> >         This option allows to increase the default ring buffer size
->
-> This is the only functional change, it is a fix, so please address
-> this in a separate small patch where you can go into all the above
-> details about its issue and implications of fixing this as per my
-> note above.
->
-> Then you can address a separate patch which addresses the move of
-> BASE_SMALL users to BASE_FULL so to remove BASE_SMALL, that is
-> because that commit would have no functional changes and it makes
-> it easier to review.
->
->   Luis
 
+For printk this will mean that BASE_SMALL systems were probably
+previously allocating/using the dynamic ringbuffer and now they will
+just continue to use the static ringbuffer. Which is fine and saves
+memory (as it should).
 
-
-Splitting this into two patches sounds fine to me.
-Either is fine. Up to the printk maintainer.
-
-Anyway, this patch looks good:
-
-Reviewed-by: Masahiro Yamada <masahiroy@kernel.org>
-
-
-
-
-
-
-
---=20
-Best Regards
-Masahiro Yamada
+Reviewed-by: John Ogness <john.ogness@linutronix.de>
 
