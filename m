@@ -1,184 +1,228 @@
-Return-Path: <linux-kbuild+bounces-732-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-733-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F37848431D3
-	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Jan 2024 01:23:37 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id BAF058432CD
+	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Jan 2024 02:34:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 54054B24F9A
-	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Jan 2024 00:23:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 43E401F27791
+	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Jan 2024 01:34:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA6E736E;
-	Wed, 31 Jan 2024 00:23:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 899001370;
+	Wed, 31 Jan 2024 01:34:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="CfFMa6vL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oH66zG7r"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 446866112
-	for <linux-kbuild@vger.kernel.org>; Wed, 31 Jan 2024 00:23:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706660590; cv=none; b=tzDtFYITVsu/r64Mwdim+WGIH6hIUOm1XoblKDHfomnSAvyxxBzMfQyqbcmi7jHGX5BkmuWyQ4btsZA6S2q8C+BXy2AYRyMld/UeF5EUiW1ETGXv6yABDLO2LeQSjiY4/nNhoRu/W0hco1OpzqGNhNKv6lm2ltftcaThxe3jguU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706660590; c=relaxed/simple;
-	bh=pm2N7oUeERv+06v6O2fh+acWapMpskZ4Hzz3mp7IeUo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UJCgGl5IU01DHoCsFjVpJQlI9bBr1k7V3H4PxbQuPJ63AhNQD25DnejyGxJb/AhkxnpeN95WoTVkNsDf/Wx89mtdvVfk9O2gZuwALNkgnz4pxHwUVV3sieNGKbJN6FKCE3OqrVMxRniw1REcEd8db3O6ijFvpPvciONjYyaMY/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=CfFMa6vL; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1d7232dcb3eso24091325ad.2
-        for <linux-kbuild@vger.kernel.org>; Tue, 30 Jan 2024 16:23:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1706660587; x=1707265387; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=GrKyT3L9zChc2Gz10XND7t6rBKciioSGKeVdhzxNLiA=;
-        b=CfFMa6vL/eWmujkgxwM7cIU4jfFnYKjqV1Aqj0EyxQDjWwdm7eZDxC56uOZ8roPpOV
-         dAAo5wCQfsFPyjJGrSojBUTaQALD3F59KoIkf21l+3kOoABAy+UoRfKSWe7Lp0s0o10C
-         h9buo5F38k2LTTuxNyd86zUdevqLbgyIinfW0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706660587; x=1707265387;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GrKyT3L9zChc2Gz10XND7t6rBKciioSGKeVdhzxNLiA=;
-        b=lbv1kdgd79B8g2k4jVwI5xheSTYNRryUvMHeTS6NEyml1AHtLnpeTYOt2rNdaUPuV6
-         dbj1F3dLAzrDCmjcSa0zPwKUbFQOZBQVX+3fuTyytfbnrhwdkIPHHtjlO3cL6yXVSNDv
-         rVq4793tV6NdL+YXZn+exLK6kD6ioib1TeRqTRWxiJkHbCnQJOi0ZVGJTsprJcY1xGVj
-         CA8tXrhQH3QzZdHoyXtTPvz6ifPs+rnbmyRqGc3ql+ZWjGq7SuueNAcHU2+JhrNm2720
-         EsxKNUAzWSDyD/BPrztBuo/uSnlNSpOGk08mhcyXng1uR/JmkQf4whJuUIJ0nbCaIm0n
-         KvEA==
-X-Gm-Message-State: AOJu0Yw9CmXTc7HKbStTN/s/lxWUcwLD8V3a0dSMM7ZhMeJ7RIO7RMsQ
-	4sci8VvmQ9At0UiBASa9+Z1jdCwJj0uv+Q5SthS8KapOXpOtoczSKHjSD05HMQ==
-X-Google-Smtp-Source: AGHT+IHG+l5Et4v/m8kyxO10f7cveekT8Hi6ERqgkiTc1P6vnkwm/p0jd1nctHr6YsJZz/jBL5cmTA==
-X-Received: by 2002:a17:902:ee4d:b0:1d8:e5a3:be8b with SMTP id 13-20020a170902ee4d00b001d8e5a3be8bmr198884plo.2.1706660587582;
-        Tue, 30 Jan 2024 16:23:07 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCVyewbFcC8BDzLxtInEOTkD2V8L5QpPKa5ps2SH8Wu2GVjGxso95TlHRnYqvmO+TIisyRonIJhEIjiOkMmkADJXLfpmE0uP4WZkLOgFdf7O3miSgFaL/Kq7j7JDUaSDxmEX1aoDVYgie94VoS/cohbU9sai4dgTBSw8J8uw5d7lP9nrPCWD5xnLv/b34cAAIQK1Z434NVO7bdz4BuZK442f+apFKxfqJlA3nCFUGPrhlS5Ba3p3GcpZKUVjZhG3jxq7VQgOPeKhbbSSXFRTU8a5iXvbCaZ1Ubao34gKT3hdC9yikbofsGfys6Y5FUGbrDdakJUq85nY82qE8O55O3KMb0CFjVtY8VpzT7XCKROtjGavw55pnoQ8ESVsVQevPqq+vz0PKD7mmtDYUnsac+Ey6xk5OxVV/pkVdQ1J/qdqSpHleA==
-Received: from www.outflux.net ([198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id z2-20020a170902708200b001d89ed2d651sm7783313plk.102.2024.01.30.16.23.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jan 2024 16:23:06 -0800 (PST)
-Date: Tue, 30 Jan 2024 16:23:06 -0800
-From: Kees Cook <keescook@chromium.org>
-To: kernel test robot <oliver.sang@intel.com>
-Cc: oe-lkp@lists.linux.dev, lkp@intel.com,
-	Justin Stitt <justinstitt@google.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Marco Elver <elver@google.com>, Hao Luo <haoluo@google.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	workflows@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B090139B;
+	Wed, 31 Jan 2024 01:34:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.8
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706664875; cv=fail; b=UFQwFkKW5zGiQg1QOVvKxOF0HsK49K9scfrLPKwyXYA/5gpchE74BG+s0ibclMoyzhMo8SSjqVmduRQxxYPL/oPsMW11prTefV7ga4YCHesjUtOPWp8Y9vVLO/LcUHwkDBCH3wxq4nFnKT8DiV2IwGmmSJHq4OvyeujFafPjKT0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706664875; c=relaxed/simple;
+	bh=Zd0hU0l58pBFyYIUB7zZocfNBKhyxM8qcD7FyiHjRQ8=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=DoSVGfmhXEYOfQgudfvsG9ZFnG9lDqiii++hB1zNPnwdU2FjP71vVCCwygIyMA1Hc4eV1J/CfGrHJMAk4KtCO/gjjQzCCMQyGoE3fPfQFm6JvJqK1qSXku2GxCD3uXAGHCg9TrXJEOTalCVveLfT/TT06Vpu9qQ7H2ltSYzlV7Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oH66zG7r; arc=fail smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706664873; x=1738200873;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=Zd0hU0l58pBFyYIUB7zZocfNBKhyxM8qcD7FyiHjRQ8=;
+  b=oH66zG7rUV6NXcpFl2GK4vaMZQks11QUxqR4IbWUNwcNKqHrrbEvgY4I
+   FmzHVQudXHLADMQ1AoVDq9yPqAwfNjXS1Drl+IR03HmMFLxtuiDRXPTeA
+   PMV0vS7egNq4CCHBWOydyOsUu12qzt1iaaLez2dLwgrfvybqN8/QeALtV
+   n2rS7oz9Q4VhBxf+FTeaKeFCC6WQZq7YtJ6zDNlhkgE+yDRWV7sZLtuFt
+   17dx/WB1LWcCAdJMPl++7bcWNVymp6Ngd/ftaA7K3D7Q+LszXPPtfVYBf
+   6Q2dpGxRB2FkjYPd0mEor7NmTiBfEmIblv4zNup2bm7bxzzYF0W2baztU
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="16984002"
+X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; 
+   d="scan'208";a="16984002"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2024 17:34:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,231,1701158400"; 
+   d="scan'208";a="3930301"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by fmviesa004.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 30 Jan 2024 17:34:32 -0800
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 30 Jan 2024 17:34:32 -0800
+Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 30 Jan 2024 17:34:31 -0800
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Tue, 30 Jan 2024 17:34:31 -0800
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.100)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Tue, 30 Jan 2024 17:34:31 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WA7DnSNBJZYnrrLtj6DTM4bqw53w3tqOsVVJ1jBPwoIy1eZub3TeTsDWvg/1mDtROh+Z//vbxyDyM7lfhUVKO6BD0TWx79yXJa8ehee35IK4TFiUVOqgcZ/w4JMjSZYXKUyAXcBfJMKfWN8zmnJfhl1Kb2nBxSpML7a3lb09tshDHJo/8cYYRlfY0aUHVp8kcdI19tfSqY4WJuEhYJeE1820Sln/5OsJCtNTRVj1tY2Et7CdWWfP2I6M+Kg/k2oZS6qRyeElI4IF52E100eaZ8vLqsMZpYx5Dj2/asni0s4nEhCqQXuAApX/CmhC/8LkMsKrD5vw0ch4eAVu9MsoZg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jzMuGCuPQ+cfKaQSJ1wmAtl/jrlV/VVg3ga3dF39fdg=;
+ b=U6NlsE1EQoNY/Z4Xzu1+eGv17/yfleSyWgqWq/NcqMnKs++1Oxu0CuDTpkdJKcOctMTa8qx6aIePaXPJHwSbWWhzzTPGVHwxXnFig1DdBAWQj4lifbLBxsH74Nb8Huamy4jlGGfVBhLElARJTTzDYuvu15epC7yl3EHULNLuIfo+LxWpSCcpBsB16IW5rPDv4s+Jr1rxxl3nOuuvNMkhKbCQCtY9J7wEhK0dDAbQWEG0pxnren6Ub2AJw7kqM0KmTup1N0onsJ1kQ6lRSYwiUFEh5MWUK7m3dkC6T3R1dOOQYoO8k+2FfNSXAs6Foymw5eNFpP7cVstL0BDpcTkZZg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from LV3PR11MB8603.namprd11.prod.outlook.com (2603:10b6:408:1b6::9)
+ by CH0PR11MB5428.namprd11.prod.outlook.com (2603:10b6:610:d3::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.34; Wed, 31 Jan
+ 2024 01:34:29 +0000
+Received: from LV3PR11MB8603.namprd11.prod.outlook.com
+ ([fe80::a026:574d:dab0:dc8e]) by LV3PR11MB8603.namprd11.prod.outlook.com
+ ([fe80::a026:574d:dab0:dc8e%3]) with mapi id 15.20.7228.029; Wed, 31 Jan 2024
+ 01:34:29 +0000
+Date: Wed, 31 Jan 2024 09:34:19 +0800
+From: Oliver Sang <oliver.sang@intel.com>
+To: Kees Cook <keescook@chromium.org>
+CC: <oe-lkp@lists.linux.dev>, <lkp@intel.com>, Justin Stitt
+	<justinstitt@google.com>, Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor
+	<nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, "Peter
+ Zijlstra" <peterz@infradead.org>, Marco Elver <elver@google.com>, Hao Luo
+	<haoluo@google.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	<workflows@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-kbuild@vger.kernel.org>, <oliver.sang@intel.com>
 Subject: Re: [kees:devel/overflow/sanitizers] [overflow] 660787b56e:
  UBSAN:signed-integer-overflow_in_lib/test_memcat_p.c
-Message-ID: <202401301604.7B7BD5664@keescook>
+Message-ID: <ZbmjmyoGGmGNaLbN@xsang-OptiPlex-9020>
 References: <202401302219.db90a6d5-oliver.sang@intel.com>
+ <202401301604.7B7BD5664@keescook>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <202401301604.7B7BD5664@keescook>
+X-ClientProxiedBy: SI2P153CA0013.APCP153.PROD.OUTLOOK.COM
+ (2603:1096:4:140::12) To LV3PR11MB8603.namprd11.prod.outlook.com
+ (2603:10b6:408:1b6::9)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202401302219.db90a6d5-oliver.sang@intel.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV3PR11MB8603:EE_|CH0PR11MB5428:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5e3bd7c6-120d-414a-915c-08dc21fcc46d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: r9T11oNFtyOifUWlfwsKSaUWZiNjUc3TzmExUUqHuZAlQ5Q4Ssqy7rJQ3uo5cCY4TlBe9JaNp+LNw5d+L4JPQxUpOF+5Q/Fms20re/q96l5/CjlAkh/WysIDgxXE2qPhyS/LAKf5MszLwUQOMWfx+SYCh0fZnXkRgGViQVGp+BimjJk/Z9ZlkKbN0Ts0DbVLpJIrxNxKVjQd6uRblbBd0QUOQ6w+e8jB31l60QMz4RbA+dXu44jXSptQORqns7/bo6MxsnU6pzWCuzP+q9iMqawUOM76sdnAM+oknTt5hB5xdBS8ckT2+GK+EdLlm6Igu354afQ1Fy+OEHynVEbD++d8kJpK6U/P9xtUUoPFuv22bQqAwpantjNN8y3kNQIThqKXIXqNJopWYZD/9ssU0GZjD6WF5j+vaFoGmRKIbpSU4X5h4YGEd2gMZ+Etstpq7YaFrrIXlhUx/ZirvslT7QBHuAw9Cfgxmhjej7z/4fjGSuTbpwNdtrUEUepeoGweRkk0KZeGl4KeNhKO6yQKCEjGLURaC64uKpKg4sam/0jhyoGAZzUlhh5Sdo1NMzW8O445+oEFKkhxVogdRi79nTH2J/6XlZYHOw21or2d60go+dc3BkBDL0stVqh21I90
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR11MB8603.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(366004)(39860400002)(396003)(376002)(346002)(136003)(230173577357003)(230273577357003)(230922051799003)(64100799003)(186009)(451199024)(1800799012)(86362001)(6666004)(966005)(478600001)(6486002)(107886003)(9686003)(6506007)(6512007)(83380400001)(26005)(66476007)(66946007)(6916009)(54906003)(66556008)(316002)(38100700002)(44832011)(7416002)(82960400001)(2906002)(5660300002)(8676002)(8936002)(4326008)(33716001)(41300700001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?yqsyxbP9YS9XJmQ1U0RzGkhbWwI4q1fvGUp8QsdLKotvF9w9AgoRPVqjMEV1?=
+ =?us-ascii?Q?5dmxZpx3j9W0H+lZPDGuVMxCrAqvFLL1QdPnnnq/qrUkB7wfA4+OFsk3JqeL?=
+ =?us-ascii?Q?w0uJMph52qtVdn/n/ggBT5u0wiAV8vZBugY8hut9t0K2EXu3+7+AYxJ/8VLT?=
+ =?us-ascii?Q?d5fPRnb+FN4/vFX1bVufGdF2+xC4AJllFshfnBs0r+Q3YYtL8JHdKZB76P2O?=
+ =?us-ascii?Q?55nRBaYiHduKgf13kNZmvWaX3uFdiWUhOUhqKpKtjS5K1dlBXKUMHCFPtrWn?=
+ =?us-ascii?Q?gq/+5j1kigCv5ufX5JO1ctbuHKe5aUahFVJoAbtX1hT6nDl75G5ygXnw6mHO?=
+ =?us-ascii?Q?NW/+ze1NhzTdESZfk+gSirDGwL29K4psSrUpc9QbnXTlFXa8QNPXYPAFOLV/?=
+ =?us-ascii?Q?u0R5YRQJieAwMc6X3NbmrcOoZ0rwUH5/gy2nu9p+LV212tpBoUUcOw68KcZe?=
+ =?us-ascii?Q?hkgRD4BxrKm65WNujgcah7gQ4TnLLg+zUxZkVH5N1d+kso25RWw2xSglZC1A?=
+ =?us-ascii?Q?WmhLNNQYvjoQJCGGbpZuJEq+R2Zprj6B8HNrkrfhCVGelamAD4EGYMPbHtND?=
+ =?us-ascii?Q?kYBLiGVUqPiZ+oZeWqOxYPp+6JESME6l1A5O9HgK+JMxzjXQvUM1tyGqhdAh?=
+ =?us-ascii?Q?4f+MXGhZetsctxWtGWw+0zLiGdndQdheqQWuJ36pXdfOOMIevABFZrTD01IQ?=
+ =?us-ascii?Q?rvHZu0n0AcbJB3ECVRM++a6XQVTkrEBpZr3Q8s/2I0ZwkqXaSI6xsp0RdEdG?=
+ =?us-ascii?Q?w2LcNrrgEgt6YG/hBzEmNTn5IX3UNAWqOQT+f4+MPZJi+hjfma5owiwM/9Ak?=
+ =?us-ascii?Q?2Uy8qv/nqwjczx0hBO8VTOAuLAvEgtK/Q+pHVn9ds7ND+prDWO0l0mIx+fm+?=
+ =?us-ascii?Q?wBdj9UbqzjKBnXVo2PCvMif+F3NnOdtdw31v+kDQTbPex7cWr3Mhopo3q6Tr?=
+ =?us-ascii?Q?mZdD6G7b4vpo0s1uHLjlJQP+Onm2RJv1Z5b8aYpz9MDoLV1hA8N6Anbq3BHS?=
+ =?us-ascii?Q?VXYSC66aCD/7c0tmLDTt3vygpvZjqY4ZAN7XGsCfSejKgxv104+H2k+QGr6F?=
+ =?us-ascii?Q?qFsRiXbY5ZNP+R9dkxZeLUn0t6S/emREl1w7k3RQSNjdI/nwcwV4ES0fuGMu?=
+ =?us-ascii?Q?pl3SZ5kcJwsTpkaLqXMbu1RDEmvPv1RVVH5Cbw2YvnMCF0hvoTrWc5h2zjjK?=
+ =?us-ascii?Q?3sT95QTODSgIF2J7ZEdLQGrpCbfNlzuj5YNZqLhywIvIFkDI/eGmhrmXaoer?=
+ =?us-ascii?Q?SGMfdNxOl+T0yvFYlRnkC+bDCsloiLOEutfh4BFHDG1b9qBhEo9XMj/+dJgE?=
+ =?us-ascii?Q?9YGne0QaE9Pdm0taE7XmuIjKY6X4xKOARoYchtJd83iUUq+GIYux5E/8nBLV?=
+ =?us-ascii?Q?Gv1pQXDIx9C+DZh0rxOG7l0qZ4xOJ99DaFpdBGNi5pSE6H6ewT8uK7QHYqPH?=
+ =?us-ascii?Q?7UAM1LlS4JJfhLIu64yuZaErn3KjfEkGUTEl4KmG5X7DuqDzPcz65fqff6Y2?=
+ =?us-ascii?Q?i2hDN/zUPx2VTLSus6NhzPJwaYJ8WNuzZi+Zy0LpqLPuyyRGuMmOYAVWhQoA?=
+ =?us-ascii?Q?nCN0B0rMxIRysCywPLrxV+lKb6mSeaKNZcpF+yvDwr3ADOnMn2fix/f6VBGG?=
+ =?us-ascii?Q?tA=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5e3bd7c6-120d-414a-915c-08dc21fcc46d
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR11MB8603.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jan 2024 01:34:29.1875
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: aAF0+HuvRuq8TENy8691ZfK+iNpYiuQMD58OJAJkt0DwRcG2o10nbqAD14M4czwkkHGsXvZ0lUHlN01xe0jtmw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR11MB5428
+X-OriginatorOrg: intel.com
 
-On Tue, Jan 30, 2024 at 10:52:56PM +0800, kernel test robot wrote:
+hi, Kees,
+
+On Tue, Jan 30, 2024 at 04:23:06PM -0800, Kees Cook wrote:
+> On Tue, Jan 30, 2024 at 10:52:56PM +0800, kernel test robot wrote:
+> > 
+
+...
+ 
+> > while testing, we observed below different (and same part) between parent and
+> > this commit:
+> > 
+> > ea804316c9db5148 660787b56e6e97ddc34c7882cbe
+> > ---------------- ---------------------------
+> >        fail:runs  %reproduction    fail:runs
+> >            |             |             |
+> >           6:6            0%           6:6     dmesg.UBSAN:shift-out-of-bounds_in_arch/x86/kernel/cpu/intel.c
+> >           6:6            0%           6:6     dmesg.UBSAN:shift-out-of-bounds_in_arch/x86/kernel/cpu/topology.c
+> >           6:6            0%           6:6     dmesg.UBSAN:shift-out-of-bounds_in_fs/namespace.c
+> >           6:6            0%           6:6     dmesg.UBSAN:shift-out-of-bounds_in_fs/read_write.c
+> >           6:6            0%           6:6     dmesg.UBSAN:shift-out-of-bounds_in_include/linux/rhashtable.h
+> >           6:6            0%           6:6     dmesg.UBSAN:shift-out-of-bounds_in_include/net/tcp.h
 > 
+> Are these shift-out-of-bounds warnings new?
+
+no, they also happen on parent commit.
+
+thanks a lot for all guildance!
+
 > 
-> Hello,
+> >            :6          100%           6:6     dmesg.UBSAN:signed-integer-overflow_in_lib/test_memcat_p.c
 > 
-> kernel test robot noticed "UBSAN:signed-integer-overflow_in_lib/test_memcat_p.c" on:
+> This is new for sure, catching an issue you show below...
 > 
-> commit: 660787b56e6e97ddc34c7882cbe1228f4040ef74 ("overflow: Reintroduce signed and unsigned overflow sanitizers")
-> https://git.kernel.org/cgit/linux/kernel/git/kees/linux.git devel/overflow/sanitizers
+> > this looks like the commit uncovered issue. but since it's hard for us to back
+> > port this commit to each commit while bisecting, we cannot capture the real
+> > first bad commit. not sure if this report could help somebody to investigate
+> > the real issue?
 > 
-> in testcase: boot
+> Yeah, I think there is an unexpected wrap-around in test_memcat_p.c:
 > 
-> compiler: gcc-11
-> test machine: qemu-system-x86_64 -enable-kvm -cpu SandyBridge -smp 2 -m 16G
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <oliver.sang@intel.com>
+> > | Closes: https://lore.kernel.org/oe-lkp/202401302219.db90a6d5-oliver.sang@intel.com
+> > 
+> > 
+> > [   42.894536][    T1] ------------[ cut here ]------------
+> > [   42.895474][    T1] UBSAN: signed-integer-overflow in lib/test_memcat_p.c:47:10
+> > [   42.897128][    T1] 6570 * 725861 cannot be represented in type 'int'
 > 
-> (please refer to attached dmesg/kmsg for entire log/backtrace)
+> I'm surprised to see the sanitizer catching anything here since the
+> kernel is built with -fno-strict-overflow, but regardless, I'll send a
+> patch...
 > 
+> -Kees
 > 
-> we noticed this commit is reintroducing "signed and unsigned overflow
-> sanitizers", there is below config diff between parent and this commit in our
-> buildings:
-> 
-> --- ea804316c9db5148d2bb0c1f40f70d7a83404638/.config    2024-01-26 22:09:35.046768122 +0800
-> +++ 660787b56e6e97ddc34c7882cbe1228f4040ef74/.config    2024-01-26 19:53:20.693434428 +0800
-> @@ -6706,6 +6706,7 @@ CONFIG_UBSAN_BOUNDS_STRICT=y
->  CONFIG_UBSAN_SHIFT=y
->  # CONFIG_UBSAN_DIV_ZERO is not set
->  CONFIG_UBSAN_UNREACHABLE=y
-> +CONFIG_UBSAN_SIGNED_WRAP=y
->  # CONFIG_UBSAN_BOOL is not set
->  # CONFIG_UBSAN_ENUM is not set
->  # CONFIG_UBSAN_ALIGNMENT is not set
-
-Hi! Thanks for the testing!
-
-The added Kconfig is:
-
-+config UBSAN_SIGNED_WRAP
-+       bool "Perform checking for signed arithmetic wrap-around"
-+       default UBSAN
-+       depends on !COMPILE_TEST
-+       depends on $(cc-option,-fsanitize=signed-integer-overflow)
-
-So it looks like since your build already had CONFIG_UBSAN=y the signed
-sanitizer got enabled too since it doesn't set CONFIG_COMPILE_TEST.
-
-> while testing, we observed below different (and same part) between parent and
-> this commit:
-> 
-> ea804316c9db5148 660787b56e6e97ddc34c7882cbe
-> ---------------- ---------------------------
->        fail:runs  %reproduction    fail:runs
->            |             |             |
->           6:6            0%           6:6     dmesg.UBSAN:shift-out-of-bounds_in_arch/x86/kernel/cpu/intel.c
->           6:6            0%           6:6     dmesg.UBSAN:shift-out-of-bounds_in_arch/x86/kernel/cpu/topology.c
->           6:6            0%           6:6     dmesg.UBSAN:shift-out-of-bounds_in_fs/namespace.c
->           6:6            0%           6:6     dmesg.UBSAN:shift-out-of-bounds_in_fs/read_write.c
->           6:6            0%           6:6     dmesg.UBSAN:shift-out-of-bounds_in_include/linux/rhashtable.h
->           6:6            0%           6:6     dmesg.UBSAN:shift-out-of-bounds_in_include/net/tcp.h
-
-Are these shift-out-of-bounds warnings new?
-
->            :6          100%           6:6     dmesg.UBSAN:signed-integer-overflow_in_lib/test_memcat_p.c
-
-This is new for sure, catching an issue you show below...
-
-> this looks like the commit uncovered issue. but since it's hard for us to back
-> port this commit to each commit while bisecting, we cannot capture the real
-> first bad commit. not sure if this report could help somebody to investigate
-> the real issue?
-
-Yeah, I think there is an unexpected wrap-around in test_memcat_p.c:
-
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <oliver.sang@intel.com>
-> | Closes: https://lore.kernel.org/oe-lkp/202401302219.db90a6d5-oliver.sang@intel.com
-> 
-> 
-> [   42.894536][    T1] ------------[ cut here ]------------
-> [   42.895474][    T1] UBSAN: signed-integer-overflow in lib/test_memcat_p.c:47:10
-> [   42.897128][    T1] 6570 * 725861 cannot be represented in type 'int'
-
-I'm surprised to see the sanitizer catching anything here since the
-kernel is built with -fno-strict-overflow, but regardless, I'll send a
-patch...
-
--Kees
-
--- 
-Kees Cook
+> -- 
+> Kees Cook
 
