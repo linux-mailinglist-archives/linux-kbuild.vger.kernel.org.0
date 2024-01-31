@@ -1,163 +1,238 @@
-Return-Path: <linux-kbuild+bounces-735-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-736-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 361368436F0
-	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Jan 2024 07:42:25 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8725A843D24
+	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Jan 2024 11:49:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5A7681C22744
-	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Jan 2024 06:42:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F0CF71F25D36
+	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Jan 2024 10:49:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CDAF3229;
-	Wed, 31 Jan 2024 06:42:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D310769DE7;
+	Wed, 31 Jan 2024 10:49:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ne+/Yhzx"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="DyAzQS0j";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="j75hi8Tv"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C91F4D584
-	for <linux-kbuild@vger.kernel.org>; Wed, 31 Jan 2024 06:42:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706683340; cv=none; b=qn8Z1ka/Z4hw6hbubMXdckNqlueUt+MaENZSXZmZ5BHYWzndqZ8JBv2yQSMSw5AzNtH8do3RyGQuLoZWhDcphbecT/sxENvfbaR4Aqyhp5XzWHWvhRsoRL0Ln40rY+4ZY0EsNMULPDmKxZphglir0yRC8FC2m/U6jcdEUuAPnk4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706683340; c=relaxed/simple;
-	bh=ECdvo0S8N/5yOc2o8lP1oxnmO6/ebc99S2WE+tWbPHk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=h+GEmBBMJ72pTRO8+/79ukSyartcYi8hvLZTsfD1M/5TU0DsNTgMkzb98PkGzrdoq3g9XzrIexwmjI633oIsXpBs2WPO4CyOwZ/NGCSpsI6Z2osxXTShAjWgKoy03nTRKZfko07wmUXTvP9fiCDLOeWs4VWnWKZPIJi0+itn31U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ne+/Yhzx; arc=none smtp.client-ip=209.85.160.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-429fc7a1eacso48328091cf.2
-        for <linux-kbuild@vger.kernel.org>; Tue, 30 Jan 2024 22:42:19 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 410B669DFE;
+	Wed, 31 Jan 2024 10:49:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706698179; cv=fail; b=HWGHjqPVwXS8038PRAaarLy6CNlrIq5tJ3u0eqiP2bMo0NQxD0XtXw9VYI9/T28E6I6gmpk0CuOO30Pclw96q9bCDz+QAmNq31GsVJYmO1RvEzSxiNDBU2VSW+Pp/bSCERrFtyUUa/sJXrkLnu+tM/h4WLSbVpNgyGLSSniRmN0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706698179; c=relaxed/simple;
+	bh=PkcyuPhtwKIjEZqb9rtGQDrce3quImYLbFTJ07iftA4=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=TYAdRxTgEtf7D4BVk2NoAUax96hVSPxJb2SMUxZslLIPObI+hgTj26AkBXs1Uw+wLdMJR2rtqWsk75ad5WyRkjdrY2PjM7Obp4Ev493u/qrEIjkirgmGMZ4nUL7AvtXU6GmhalbHCh/HRh0hQ42IA/pNDCdHnTVKQhWrQpgCRSo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=DyAzQS0j; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=j75hi8Tv; arc=fail smtp.client-ip=205.220.165.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 40V9iBQS027718;
+	Wed, 31 Jan 2024 10:49:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : content-transfer-encoding : content-type :
+ mime-version; s=corp-2023-11-20;
+ bh=jdIhkEIxgWNGWCbpjFBsr3Gbsq2jSg0YKpGZYTar2H8=;
+ b=DyAzQS0jQwEMCCMDeOhq9texA/R66YcBBmvZeZ1tizQ//kT2yUgDkJDNDVM8XB+AY08Z
+ VqhsHeZ8WjifwOssKvLnvY1fkEYw3081Wr62lK6GrdavszDiuFq1NxbcF4jmQ7sHMZQi
+ XqNyFeqEO2D1YFgFCnJPUG6Bk5B/D9KkJvN7D+NzWQFnzn2RGLZBfvTTiHsS2h5w1NLL
+ uCvhwu0CMlw+VqeF34czU7FUJAMWKVtXmgBwSVMEHFO7P1/c/vbR6LNJn6jbqVRKa6Cu
+ sSZ7cKJ21ZJtCAkvpJf7fhGrM5hSXuIqburPAwlPHJv3XzjfXk+SaCrG0q1FmZRi4mf/ SA== 
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3vvtcv1jkm-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 31 Jan 2024 10:49:10 +0000
+Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 40VA65BR040336;
+	Wed, 31 Jan 2024 10:49:09 GMT
+Received: from nam02-bn1-obe.outbound.protection.outlook.com (mail-bn1nam02lp2040.outbound.protection.outlook.com [104.47.51.40])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3vvr98vuje-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 31 Jan 2024 10:49:09 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=geemaxyVSa9pWQRAihla+0ATPZqhF2cJplC+x/ePZKe+dI9amk0+CedDA6h1IabuqDRIzEbmnSWM9O/Cl6TeUpyDYHAUuX6ykgEXlnFLCSlqEUUADAxB4M2TdSJkosVKOca4+jvCFDq3XPaR9TP+ZHcXiH8rk/0vVsEaI1VPofAdGXAeQo9bdYVAbSlWxfmL6yDmQK5wZt6Yk323n8HsQ+0LcBBjZBe3eipbNOQNghyHiVIoOBTYzxIbFWOODj43MT/2eZxFFGE5M4aBI16jV1v/9H5VP0/3lGm0ignWIWiVfl6PUDt/nnvY7Id8zbfsSIfVP/5b/fAkEheR5fpDSw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jdIhkEIxgWNGWCbpjFBsr3Gbsq2jSg0YKpGZYTar2H8=;
+ b=VlML0SQzbh8O2IuquCNWmLYffDqMJjPqTGwbB0+ZG1gdW3Yk8in39LgRWklcMd0HDa/DtWFP5b4Z88Oqh3Lj4Sxljnxy1Rlrc3oFQODsPwu+eQJ+mg1pDReSRraX2ow96xh4hPk8tLPPZs3wC9kJ3oSxissgBW+uFxEqEWnO4bRDn2moF2S2FO/LEiTVcrqnW/v+SOv6ShIlIbL8EYMD7GRwkj+18X0U1G2kgkiDCR54UOCy0wp5F9lv2bIrdvmqmLuc7aY89vstvFgqnTQAZbtuLPE+kE7gYy/qW9W4QgMjKbQ1vYoyhYLFkl8lOnP6uguG7KM3+fUiu3TKuxxpCQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706683338; x=1707288138; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=o34aWoAlOmhKXA5GbuG42EK+jobpqYmSkbfKcbistEs=;
-        b=ne+/Yhzx7fvFR+dSDY2PcyBTAwSSIy+v2CIr7eLNBLB4UdaYB/WvBPB3Soch2IDWzv
-         L0gTuapXu19dnt5msX2mAX2Iigcgb1+0zeY6KMX/xMkSIgG5aofHuk4fWEnuB5U8EJNB
-         PYR83z/TIuOKNhfhws+udbY7A1R9lz0trT5oAhqG4uMgInhQtefBjG1tcnHPuRonAmNH
-         /y79jPY9b1lhc2OFWTO0NASOp/C4I3gQPx+Q7caOcGHUPBJWjPZ8sT/6auujPnZeAVok
-         6TY4f6oeq1WiSKOVOg1vRGBM50n/EN9SZ4hId5PWlh8PWm4lrQI0I/zpz1pz2Jxo9MoL
-         3yqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706683338; x=1707288138;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=o34aWoAlOmhKXA5GbuG42EK+jobpqYmSkbfKcbistEs=;
-        b=QaPjjzbbYRSWmj5nfQuhdRmeFtFm0p1y8iHpSX8aXOF8ZMv4HmNR66YH0XPpV+PHL9
-         XCCckBQwOsTSJ5/2Fcamo0hnRCGblY72xY3ZWTFkVWuqwjxG+bru8D6k5PmiO0MeDx2X
-         FFeSDrnV7/spwWxUSpnYipmyRzqEkojjUVnvxZ5oRexK7o0+fnnrfjxwF+MkYB/nB99Q
-         dQ/uW2nC1kNld8B2vRpgVdmt3NwsFKQ1S8otwGFwLVj0NWWzAppKPOpXpOtQ2p+PbTxv
-         g51pVtaWaFkBXc5YBl9IfqpGVr8x/0Kzldyw/A3vdhavEqpwO1POxtRi/Yn+P0VHcYNA
-         kK4Q==
-X-Gm-Message-State: AOJu0YzQz8ZAETfFiehcs8kFt4ecZQxFTAyaxdMVvt3GKhjSmbZqjSrD
-	sjkN5ht3EBzlOjdNGFAfLwu16q7rDCAODs4YWgnxbf/cmj8KdBGWX4SMi34uFPm4BWlN/n/XE+E
-	FoSEppO7X4oUSCV07Ni7dcW9z8DM=
-X-Google-Smtp-Source: AGHT+IFlMgTK305AA+mJOGmz2SaV2n+ixER8aVdaEwMzLL7wI+G9hCR05Kcu4DmYNSsrRKQNdsbrc5ZYyboabHJ9Jdg=
-X-Received: by 2002:a05:622a:1a03:b0:42a:33fa:4365 with SMTP id
- f3-20020a05622a1a0300b0042a33fa4365mr889755qtb.28.1706683338213; Tue, 30 Jan
- 2024 22:42:18 -0800 (PST)
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jdIhkEIxgWNGWCbpjFBsr3Gbsq2jSg0YKpGZYTar2H8=;
+ b=j75hi8TvU3+TJtrYsgNkEFHkhv7dqQRKLoqkg2CrzkysjTF/1CImhDv24OFDxK5bTp2mBY4VvklHh9Q1BmmzAqnXEwQu361z+ipPqXHiPgjG6ULCd7l1AKg2Kl2bATSiWrveRd8yk9W/aXeTsTV9IKq/ofvFWKTqdDIfW34SkCo=
+Received: from DM6PR10MB4313.namprd10.prod.outlook.com (2603:10b6:5:212::20)
+ by DS7PR10MB7323.namprd10.prod.outlook.com (2603:10b6:8:ec::7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7249.22; Wed, 31 Jan 2024 10:49:07 +0000
+Received: from DM6PR10MB4313.namprd10.prod.outlook.com
+ ([fe80::f11:7303:66e7:286c]) by DM6PR10MB4313.namprd10.prod.outlook.com
+ ([fe80::f11:7303:66e7:286c%5]) with mapi id 15.20.7249.024; Wed, 31 Jan 2024
+ 10:49:06 +0000
+From: John Garry <john.g.garry@oracle.com>
+To: mcgrof@kernel.org, russ.weight@linux.dev, gregkh@linuxfoundation.org,
+        rafael@kernel.org, rostedt@goodmis.org, mhiramat@kernel.org,
+        mathieu.desnoyers@efficios.com, davem@davemloft.net,
+        edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+        keescook@chromium.org, masahiroy@kernel.org, nathan@kernel.org,
+        nicolas@fjasle.eu
+Cc: linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        John Garry <john.g.garry@oracle.com>
+Subject: [PATCH RFC 0/4] Introduce uts_release
+Date: Wed, 31 Jan 2024 10:48:47 +0000
+Message-Id: <20240131104851.2311358-1-john.g.garry@oracle.com>
+X-Mailer: git-send-email 2.31.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: LO4P265CA0209.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:33a::16) To DM6PR10MB4313.namprd10.prod.outlook.com
+ (2603:10b6:5:212::20)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAGRSmLshjakU3pXu_odd1-et2KfOUrhTruRcRBP=T-dhnYRVzg@mail.gmail.com>
- <CAK7LNAQ6ZrcX6XqxcjgrnHiV9BHFOvTchccxzQE4JGq7W0FqWw@mail.gmail.com>
-In-Reply-To: <CAK7LNAQ6ZrcX6XqxcjgrnHiV9BHFOvTchccxzQE4JGq7W0FqWw@mail.gmail.com>
-From: "David F." <df7729@gmail.com>
-Date: Tue, 30 Jan 2024 22:42:07 -0800
-Message-ID: <CAGRSmLs9M+XAk6q=7s_aGMfjAHkTVEtYszsTsoBkSdwPoeTd9g@mail.gmail.com>
-Subject: Re: Changes to kbuild in 6.x causing cpp build issues.
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR10MB4313:EE_|DS7PR10MB7323:EE_
+X-MS-Office365-Filtering-Correlation-Id: dd352e69-b884-43f8-9912-08dc224a3f7c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	rNlTaj1/C+bpmPcdQIb8dFcai1izlobPvKSfQE+SmTCtsiQToAZGiulLYw/vvmtS6mRhEK7tNgWryFJ+CIM/lzuJAdp4MsLyWXv6M5PCDXIQrQT/537nk4kNgEQZzbfN3g+MqNQUb6p8n3SCw4H0bZvKPcTGUR8Vs9JiN6slOBnhcERcN5VSsGerR0LsG+9/bBP546ow9f5TPYKANEbGIHy1mal5dwq8/sWGRbf0jPUGRLoiM/yJiUyNl4o0iqrGR5bicNSSa016srSBC20XvOCQffIIbxP+hl+VqJniU+aaq7EgKw0E8CnCyzwaXzyifjBU8+UZFyNz3aIO1Ze6hS2XyyTrG07tCa525MhzGwgfpF2ue/H1RtgsZtUIIV8DMl9iZn24G/xX896clL0rHfzEWaKhGbx1vfFRFgP8yK/umJkWObEDROKSstOFgRk23JlK6PR0EETr6wpZG/g9q8QP9IBajMDf0sBnloLvpqRYysDD5+dhVs3bK/PIBLAAxw1DowvyG+zfgcFnnv/qCYITHWTo4VHM8JPPuLP8zwg/cuBfY3hph93z+cQ7+k9SfSlRWtF8Xcnx5iC2fCDx6pvplE+XhkFFabjFikcz17k=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR10MB4313.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(136003)(396003)(346002)(39860400002)(366004)(230922051799003)(64100799003)(451199024)(186009)(1800799012)(921011)(26005)(2616005)(1076003)(107886003)(83380400001)(6486002)(41300700001)(478600001)(6506007)(6666004)(8676002)(6512007)(36756003)(8936002)(4326008)(316002)(66556008)(66476007)(66946007)(2906002)(7416002)(5660300002)(38100700002)(103116003)(86362001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?zUf8akHy1Ou5WBRNOLJLgfGoEFK5DGBd8N/Ijm4R9NyrVo67BtTheEt4f0yT?=
+ =?us-ascii?Q?nFCmaxK8ScOA38Q2hFYrzHGpZeggiFDYQULrc4AKODhA7j05C6FNOcwEornD?=
+ =?us-ascii?Q?GJTZVlv44gFDpwSzVk8GKHmjh6LVkPYYn1EqR4+9PPsB276UAWRZXS+HOFTY?=
+ =?us-ascii?Q?Y/GE3SmKlxy0uyHT6nx1NABAfLIHflO7uwZpNqILDzPbRQ74LzQKy/ljyhlM?=
+ =?us-ascii?Q?iVZYxNFID7btHiLXz5Q569w0PqDvnSbDcxQNGXjnvRDfTRfmW6RQlwNdWkmg?=
+ =?us-ascii?Q?dWp+IuLydvOI2q3VlQyY7roauB8gzxBCoWrHr6xDMa2BrUpk8wBpZ38NLRVw?=
+ =?us-ascii?Q?2u3YkirZdKUh52NXVlliORdgTix7df6yEx+9E4TS5F7AAuZ4Fr6IGrOF2Ttf?=
+ =?us-ascii?Q?ZWKgRYwyHTAIqrs4IhQezkI2MJYo/eTUeZkG6LJEpTtDY2V38qQGu7xpDQpM?=
+ =?us-ascii?Q?8GH0EFW2g/yB/QcX4vgJJZ9nJmC2NsdMrWtYOpB5ok3+3utdr04NXGMBVhul?=
+ =?us-ascii?Q?dxPps/oPGJ87oxNLs4gk0kfxsu1+WjRKU5AXULOO3x8vObPUtALomwyWMgcW?=
+ =?us-ascii?Q?+8jtNtbgvPAAJe28xvslwxbJRaNC4PSLO5KFA5T/XLat0qN2w+7ZqfnoVKqW?=
+ =?us-ascii?Q?4ww6moLao/OkkVzl5uFkdHDgOzCGaXnz0wo6VunCs+xzJCOtDwOF5bsWZdAl?=
+ =?us-ascii?Q?Zc6jyoTYtezM3N3k8MKwBdGzAkbaBzgooSeAyJf/tuwgJst8J9qkYiUM42Zp?=
+ =?us-ascii?Q?Iy9mCL1PtgYpiT3a12SkH6BPxYdSWRFO83EKFdhYmwU2c056gG/p5+X2A2Ka?=
+ =?us-ascii?Q?jKhf4mpFsuNQXsyfo7x7veQ51pWd7CWjng1gxr9tyLA2EJJ3D7l5zG7WyxQl?=
+ =?us-ascii?Q?yuv+nJYezi9PmBocHcWrI1ZGIH19W9yisz3Qho4J/c7HqgYhD+3on3sz+q5O?=
+ =?us-ascii?Q?bbkL6wGCW+n3Gyr/hilW/oV1z9H9wjd4B9MJq1snf0Zx5yQPNWXL+LA5+Ic4?=
+ =?us-ascii?Q?M5ysQWUwuSqYpvFGb37xfdNhr9sM1UvLSeFTA7qq5+WWrRZZV8Nf9ydiw4Ca?=
+ =?us-ascii?Q?oIwW8J950XI6uiRC3NA4X3+VCyEfTNW7A2tJRDYXxMOxSXIolt46M2Z2bc9C?=
+ =?us-ascii?Q?BSe42zoM2bRqL94IVUR9/IkfN+9On7Csc6LFnDgG6Thzna22f/luKYCOtUHv?=
+ =?us-ascii?Q?PWo8TJc0Nb+gP8auR7QbJ3vnZfKUxpuPG+ElLAMO+bA0nl99rnCti15brF7G?=
+ =?us-ascii?Q?5E6BcP7n/OKs9QXf6Egi3dIbzK/RrBm4BuSC85AFgEYNb2pSzmfWajwJgqIe?=
+ =?us-ascii?Q?r362cpNJOFYSQHNzkMPKmJR7SrwdLh7GDN8mtR+y9nW+YqEZJq1bjfHq35Zs?=
+ =?us-ascii?Q?b9jaWs8IW+LQLushpDIKQvg1YXpw87FVsbiW/MqLLUrIV5RVCAsvoGJjDcI1?=
+ =?us-ascii?Q?Ct82WFSqRSdw9o2E+KNitU4fETaq3YWWzOEPK3GmFm+390p+HLQhmZj+Tj3Y?=
+ =?us-ascii?Q?JU9dLnzYQvruDmozbMGrI0Y2NUk07l0jm5hQHFAjQCiUrBZcNIOZ/LKIYxKR?=
+ =?us-ascii?Q?/3RNbpCucwc7D1ltyDvk1TcjBcovYpjkDPo6ndL5QfK++XWPectE+VOQutOg?=
+ =?us-ascii?Q?Dg=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
+	ndKb9oM+2wZKC0bbKwxp2t6dqLORqUmkbVnveobBz1JKfRxXzbzLiEOdw23C90rpKHhE4jviRoYUtHdrKr28dSYZwKJLGpKXxhK9oU52QvmeyYsgnv/bNh/8kdUQkJaEMMTcyAJIWd0AhGjciie3bc3Oqf7OviXrG3NtgPs2EGwZVFSYvrQIaU/7hWL3CEm/6Vm7c+bhq+UeOWadsEaAWHZOIuvT3oLPqmubVzSnuuRBo2NfI21Bq7ub6iTeja3QOZidsGUeiri7Xr5HR/QPOGbx14dzLxJCv+NjDhmNww6V4dP6hrQSWs5Kkk80kg5aJ9gG2BpzDjzNTDglizJKP0x4MfLXU9uWJSMuwYwlvUbY9IkCHGPUIiYnoYObQhW9tmCnmeJ6kGtNn8UxWyXybNLxRUwzftFnXBfy+PwzuFKnAnhZZlk2lY2E/ZjztdYJPxcozTt/+dFWBX8dLWFKuCBPYe9qYcNsXgOQ1HvJE87JRIAE0SSPl6kPJ+JYs2mnni7dKE64ZHG0TEIiMnQkVipV6qD48eInTQUWoazB4QBejuSRq4xp6BLPRo0HO58wmquzV/rtBIMPWeVlBKzkVeU4ok41eS71oX1TuTEumeA=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dd352e69-b884-43f8-9912-08dc224a3f7c
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR10MB4313.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jan 2024 10:49:06.8851
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vdUa3/VUjSOU9ZQ84pdeWt9RVE6+m4Icx2taDbBueUFG9I8og1z1IzFYd+0HTRJD13UAzBRHtyCweVrC1BDYIw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR10MB7323
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-01-31_05,2024-01-30_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 malwarescore=0 mlxscore=0
+ spamscore=0 suspectscore=0 adultscore=0 mlxlogscore=999 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
+ definitions=main-2401310082
+X-Proofpoint-ORIG-GUID: ZuGzUWOfUHkwjb3KuKx7e6sTVM1vEY5j
+X-Proofpoint-GUID: ZuGzUWOfUHkwjb3KuKx7e6sTVM1vEY5j
 
-Thank you, I use .cpp rather than .cc, would I be better off using
-.cc?     Or, how do I create the .cmd file when building the .o file?
+When hacking it is a waste of time and compute energy that we need to
+rebuild much kernel code just for changing the head git commit, like this:
 
-On Tue, Jan 30, 2024 at 12:37=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.=
-org> wrote:
->
-> On Tue, Jan 30, 2024 at 3:32=E2=80=AFPM David F. <df7729@gmail.com> wrote=
-:
-> >
-> > Hello,
-> >
-> > resending this because it doesn't show that it made it to the archives.
-> >
-> > I've been building an out-of-tree linux kernel module that has a .cpp
-> > module (plus a library that is built) for well over a decade using the
-> > basic method outlined at https://github.com/veltzer/kcpp.   There was
-> > a patch needed (provided here) in the 5.x version to be able to link
-> > to the .a file generated.  That patch I've been able to modify as
-> > slight changes occured, but now in 6.6.14 things have changed a lot,
-> > I'm not sure if I'll need something like it to get to the final link
-> > but I don't think I'm at that point yet.
-> >
-> > My main issue now is this:
-> >
-> > LD [M]  /media/sf_SRC_DRIVE/mymodule/l
-> > inux/driver/6.6.14-686-mine/mymodule.o
-> >   ld -m elf_i386 -z noexecstack   -r -o
-> > /media/sf_SRC_DRIVE/mymodule/linux/driver/6.6.14-686-mine/mymodule.o
-> > @/media/sf_SRC_DRIVE/mymodule/linux/driver/6.6.14-686-mine/mymodule.mod
-> > # cmd_modules_order
-> > /media/sf_SRC_DRIVE/mymodule/linux/driver/6.6.14-686-mine/modules.order
-> >   {   echo /media/sf_SRC_DRIVE/mymodule/linux/driver/6.6.14-686-mine/my=
-module.o;
-> > :; } > /media/sf_SRC_DRIVE/mymodule/linux/driver/6.6.14-686-mine/module=
-s.order
-> > sh ./scripts/modules-check.sh
-> > /media/sf_SRC_DRIVE/mymodule/linux/driver/6.6.14-686-mine/modules.order
-> > make -f ./scripts/Makefile.modpost
-> > # MODPOST /media/sf_SRC_DRIVE/mymodule/linux/driver/6.6.14-686-mine/Mod=
-ule.symvers
-> >    scripts/mod/modpost -M -m       -o
-> > /media/sf_SRC_DRIVE/mymodule/linux/driver/6.6.14-686-mine/Module.symver=
-s
-> > -T /media/sf_SRC_DRIVE/mymodule/linux/driver/6.6.14-686-mine/modules.or=
-der
-> > -i Module.symvers -e
-> > /media/sf_SRC_DRIVE/mymodule/linux/driver/6.6.14-686-mine/.mymodulelind=
-rivercpp.o.cmd:
-> > No such file or directory
-> >
-> > It has never built a *.o.cmd file for the .cpp module and still
-> > doesn't, but the new system is looking for it.    Could someone
-> > familiar with kbuild tell me what I can patch / do to allow the system
-> > to complete the build like it used to?
-> >
-> > Thank You.
-> >
->
->
-> Presumably, the relevant commit is
-> f292d875d0dc700b3af0bef04c5abc1dc7b3b62c
->
->
-> modpost requires .*.cmd files, when CONFIG_MODVERSIONS=3Dy.
->
->
-> This project does not produce .*.cmd file
-> when building *.o from *.cc
->
-> https://github.com/veltzer/kcpp/blob/177ea052f3c52c9f85bb091235061a0e620f=
-51bd/Makefile#L68
->
->
->
->
-> --
-> Best Regards
-> Masahiro Yamada
+> touch include/generated/utsrelease.h 
+> time make  -j3
+mkdir -p /home/john/mnt_sda4/john/kernel-dev2/tools/objtool && make O=/home/john/mnt_sda4/john/kernel-dev2 subdir=tools/objtool --no-print-directory -C objtool 
+  INSTALL libsubcmd_headers
+  CALL    scripts/checksyscalls.sh
+  CC      init/version.o
+  AR      init/built-in.a
+  CC      kernel/sys.o
+  CC      kernel/module/main.o
+  AR      kernel/module/built-in.a
+  CC      drivers/base/firmware_loader/main.o
+  CC      kernel/trace/trace.o
+  AR      drivers/base/firmware_loader/built-in.a
+  AR      drivers/base/built-in.a
+  CC      net/ethtool/ioctl.o
+  AR      kernel/trace/built-in.a
+  AR      kernel/built-in.a
+  AR      net/ethtool/built-in.a
+  AR      net/built-in.a
+  AR      drivers/built-in.a
+  AR      built-in.a
+  ...
+
+Files like drivers/base/firmware_loader/main.c needs to be recompiled as
+it includes generated/utsrelease.h for UTS_RELEASE macro, and utsrelease.h
+is regenerated when the head commit changes.
+
+Introduce global char uts_release[] in init/version.c, which this
+mentioned code can use instead of UTS_RELEASE, meaning that we don't need
+to rebuild for changing the head commit - only init/version.c needs to be
+rebuilt. Whether all the references to UTS_RELEASE in the codebase are
+proper is a different matter.
+
+For an x86_64 defconfig build for this series on my old laptop, here is
+before and after rebuild time:
+
+before:
+real    0m53.591s
+user    1m1.842s
+sys     0m9.161s
+
+after:
+real    0m37.481s
+user    0m46.461s
+sys     0m7.199s
+
+Sending as an RFC as I need to test more of the conversions and I would
+like to also convert more UTS_RELEASE users to prove this is proper
+approach.
+
+John Garry (4):
+  init: Add uts_release
+  tracing: Use uts_release
+  net: ethtool: Use uts_release
+  firmware_loader: Use uts_release
+
+ drivers/base/firmware_loader/main.c | 39 +++++++++++++++++++++++------
+ include/linux/utsname.h             |  1 +
+ init/version.c                      |  3 +++
+ kernel/trace/trace.c                |  4 +--
+ net/ethtool/ioctl.c                 |  4 +--
+ 5 files changed, 39 insertions(+), 12 deletions(-)
+
+-- 
+2.35.3
+
 
