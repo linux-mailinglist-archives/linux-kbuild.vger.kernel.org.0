@@ -1,96 +1,96 @@
-Return-Path: <linux-kbuild+bounces-746-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-747-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EA148447F6
-	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Jan 2024 20:27:22 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B55318449EF
+	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Jan 2024 22:26:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 911DA1C25E12
-	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Jan 2024 19:27:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 729C22820DA
+	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Jan 2024 21:26:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35B4C39FF0;
-	Wed, 31 Jan 2024 19:27:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE0BD39840;
+	Wed, 31 Jan 2024 21:26:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="EsXeVT8y"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 122CA38F8F;
-	Wed, 31 Jan 2024 19:27:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67D7D381D5;
+	Wed, 31 Jan 2024 21:26:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706729238; cv=none; b=bsZw6QPCA9MUUazhim5eF9nP77h0/0pvboApAFWQ3v7gcitBdDoqyfxKUgb299aeeAnJwGU7jduo45BYWQhOOqvlqSUM0yuPASXq45gGpi9uXEytXPtJKW+B/79xgpzhXTSt2zHVi9lgyW5RUIgaQsD80PIYJkRo2lyzd8yAVmg=
+	t=1706736362; cv=none; b=j4DqZzBBjpUxoNz4JH5YAGpFAMG6N+7TQ/9L7wst06hTpoxTV5Z+vVwuJ2UwGrGU4JVrevlvclXPKqkDSgS0baaPMwIQal9g5fHjl8mCVQOSXgxyP6rLek2Kx96c/dJ8OSK57SqAMZ2hlE758Th8PkE1xmrrFhUGFTehOF0DlyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706729238; c=relaxed/simple;
-	bh=CGx3+jWBXBCDWpSFmDnAT+IosPRcAo0ThBJx1AiPGVs=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Be/v/pmM5u2IaxcSDlvG01nttBa5i8bvULkJiEwsIJUwSog7/Wr8j51COJY5eIVfaCG4w6nx3YCH1EfW8qLh1pwA0E8+G9tJSkFALgEp/fiePtgpG5hWOY3QVRvXVe+X11zooPJRMuV5Z6Ue2mU0bxWHo+QwANJQgIcaEd+TwlY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E523C433F1;
-	Wed, 31 Jan 2024 19:27:15 +0000 (UTC)
-Date: Wed, 31 Jan 2024 14:27:29 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
+	s=arc-20240116; t=1706736362; c=relaxed/simple;
+	bh=H0i78GfMShXCMIs6RwszSny3QbPZTTswjn+XCYbagPI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HtcURrTCvLun9okl9mqirbKY9iWXAK2bKcfPZFYXWEQWVFwUc95tS5oG53wKG4lJqBD+/JDn6VhtJzIktgAgvL9YYcOlaLgPDb4Q9ODh/tHXuF0merTVj6Vvx0qbFsWNabRs5g+avp20zz39dgG2JtEzTTnOF7I99nfn1Okzssk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=EsXeVT8y; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB68FC433F1;
+	Wed, 31 Jan 2024 21:26:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1706736361;
+	bh=H0i78GfMShXCMIs6RwszSny3QbPZTTswjn+XCYbagPI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EsXeVT8yeTocepwrSWHtTJRES3SzWxLo4i3xNAEpeweo6+TkMQGCdIn1oub2sup8X
+	 Pu6B6KleuOhxQLuRESJFRnuW+7apXEkQkNyRZnLl0WEPguu7Br9imMmSJD0na1EHEZ
+	 lkjOq8W+Gof5i+woecNw+tLhtdmpn7bJdvzCMJEI=
+Date: Wed, 31 Jan 2024 13:26:01 -0800
+From: Greg KH <gregkh@linuxfoundation.org>
 To: John Garry <john.g.garry@oracle.com>
-Cc: mcgrof@kernel.org, russ.weight@linux.dev, gregkh@linuxfoundation.org,
- rafael@kernel.org, mhiramat@kernel.org, mathieu.desnoyers@efficios.com,
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, keescook@chromium.org, masahiroy@kernel.org,
- nathan@kernel.org, nicolas@fjasle.eu, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, netdev@vger.kernel.org,
- linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH RFC 2/4] tracing: Use uts_release
-Message-ID: <20240131142729.2fe870ed@gandalf.local.home>
-In-Reply-To: <20240131104851.2311358-3-john.g.garry@oracle.com>
+Cc: mcgrof@kernel.org, russ.weight@linux.dev, rafael@kernel.org,
+	rostedt@goodmis.org, mhiramat@kernel.org,
+	mathieu.desnoyers@efficios.com, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	keescook@chromium.org, masahiroy@kernel.org, nathan@kernel.org,
+	nicolas@fjasle.eu, linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH RFC 0/4] Introduce uts_release
+Message-ID: <2024013125-managing-most-2335@gregkh>
 References: <20240131104851.2311358-1-john.g.garry@oracle.com>
-	<20240131104851.2311358-3-john.g.garry@oracle.com>
-X-Mailer: Claws Mail 3.19.1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+ <2024013158-dipper-mural-424b@gregkh>
+ <e21c6dbb-7083-4425-bace-6194bfbf35b7@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e21c6dbb-7083-4425-bace-6194bfbf35b7@oracle.com>
 
-On Wed, 31 Jan 2024 10:48:49 +0000
-John Garry <john.g.garry@oracle.com> wrote:
-
-> Instead of using UTS_RELEASE, use uts_release, which means that we don't
-> need to rebuild the code just for the git head commit changing.
+On Wed, Jan 31, 2024 at 05:16:09PM +0000, John Garry wrote:
+> On 31/01/2024 16:22, Greg KH wrote:
+> > > before:
+> > > real    0m53.591s
+> > > user    1m1.842s
+> > > sys     0m9.161s
+> > > 
+> > > after:
+> > > real    0m37.481s
+> > > user    0m46.461s
+> > > sys     0m7.199s
+> > > 
+> > > Sending as an RFC as I need to test more of the conversions and I would
+> > > like to also convert more UTS_RELEASE users to prove this is proper
+> > > approach.
+> > I like it, I also think that v4l2 includes this as well as all of those
+> > drivers seem to rebuild when this changes, does that not happen for you
+> > too?
 > 
-> Signed-off-by: John Garry <john.g.garry@oracle.com>
+> I didn't see that. Were you were building for arm64? I can see some v4l2
+> configs enabled there for the vanilla defconfig (but none for x86-64).
 
-Acked-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+Building for x86, maybe it's one of the other LINUX_VERSION type defines
+we have, sorry, can't remember, it's been a long time since I looked
+into it.
 
--- Steve
+thanks,
 
-> ---
->  kernel/trace/trace.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
-> index 2a7c6fd934e9..68513924beb4 100644
-> --- a/kernel/trace/trace.c
-> +++ b/kernel/trace/trace.c
-> @@ -13,7 +13,7 @@
->   *  Copyright (C) 2004 Nadia Yvette Chambers
->   */
->  #include <linux/ring_buffer.h>
-> -#include <generated/utsrelease.h>
-> +#include <linux/utsname.h>
->  #include <linux/stacktrace.h>
->  #include <linux/writeback.h>
->  #include <linux/kallsyms.h>
-> @@ -4354,7 +4354,7 @@ print_trace_header(struct seq_file *m, struct trace_iterator *iter)
->  	get_total_entries(buf, &total, &entries);
->  
->  	seq_printf(m, "# %s latency trace v1.1.5 on %s\n",
-> -		   name, UTS_RELEASE);
-> +		   name, uts_release);
->  	seq_puts(m, "# -----------------------------------"
->  		 "---------------------------------\n");
->  	seq_printf(m, "# latency: %lu us, #%lu/%lu, CPU#%d |"
-
+greg k-h
 
