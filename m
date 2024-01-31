@@ -1,61 +1,50 @@
-Return-Path: <linux-kbuild+bounces-745-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-746-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 301BF8447F0
-	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Jan 2024 20:25:02 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EA148447F6
+	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Jan 2024 20:27:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AEDD8B21E5C
-	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Jan 2024 19:24:59 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 911DA1C25E12
+	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Jan 2024 19:27:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67A003EA96;
-	Wed, 31 Jan 2024 19:24:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BpbXaMRZ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35B4C39FF0;
+	Wed, 31 Jan 2024 19:27:18 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 311013EA8F;
-	Wed, 31 Jan 2024 19:24:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 122CA38F8F;
+	Wed, 31 Jan 2024 19:27:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706729079; cv=none; b=K+mEcvx9koWkZoPEESyXPhevu1OESxnFLHnSxIeGTm3BA4gP2If3ts9LvVyfdVMc3iF/1jK4p30OiKZlS58pBYri2riwLcpJJEkzqW1IXWwI78rw5CHUxxaPXxeIsyV1MKw2UgMQj2JBFMirgJIav9W70CWu1LK4Z14Erdp6k7U=
+	t=1706729238; cv=none; b=bsZw6QPCA9MUUazhim5eF9nP77h0/0pvboApAFWQ3v7gcitBdDoqyfxKUgb299aeeAnJwGU7jduo45BYWQhOOqvlqSUM0yuPASXq45gGpi9uXEytXPtJKW+B/79xgpzhXTSt2zHVi9lgyW5RUIgaQsD80PIYJkRo2lyzd8yAVmg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706729079; c=relaxed/simple;
-	bh=G00LMao4GevkYINsVIDt8RNrwzZ/UP+aNdCnJJg3bbE=;
+	s=arc-20240116; t=1706729238; c=relaxed/simple;
+	bh=CGx3+jWBXBCDWpSFmDnAT+IosPRcAo0ThBJx1AiPGVs=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KC1yG10kNdEvNxnXi1KPAeUCwREV1V59EkowndGp2iQCo/MOA0LUuMAdpK24dI9tIr3mlvHa2wikGvmV7/ksKAlZsStPstlVTXafaNC1SVEzR20v0e+fYQbYtTNj337zyLiPP4KQDRyQxxcaoNIiTUCRcnVlaXNow2wxk0C81N4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BpbXaMRZ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C12BC43390;
-	Wed, 31 Jan 2024 19:24:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706729078;
-	bh=G00LMao4GevkYINsVIDt8RNrwzZ/UP+aNdCnJJg3bbE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=BpbXaMRZ0kgyskPS6KSBqq94sBmHpqrEtvijtUW8ouURXNZzFyk1Cc1MAnan2VjUj
-	 FY2/+7rYUBWt9qpkbIwnKUO0Z8y++oWNFSzT5bQNSWyuvpblScWHnToWkyGncgiRd7
-	 3Nc25Pt34WCy1G0fxuXj7EFEq1+sZ5qNryZXnjnykEAnIwNk0uSUQauCi3t8f6lz9n
-	 cdJhCsSzJ5GlfRWnBS9ct9o1CHxFZimDCQzmnGAQtJZ4EZBN8ZMnVDV7mWBfXnjrNL
-	 jdFehURzNPqP3oIHMomov4qGmVSXT45ncYAfqkDb0Na1D0mpQjXQbMwGa+HhaI45ir
-	 zhbWM95+eLFkw==
-Date: Wed, 31 Jan 2024 11:24:32 -0800
-From: Jakub Kicinski <kuba@kernel.org>
+	 MIME-Version:Content-Type; b=Be/v/pmM5u2IaxcSDlvG01nttBa5i8bvULkJiEwsIJUwSog7/Wr8j51COJY5eIVfaCG4w6nx3YCH1EfW8qLh1pwA0E8+G9tJSkFALgEp/fiePtgpG5hWOY3QVRvXVe+X11zooPJRMuV5Z6Ue2mU0bxWHo+QwANJQgIcaEd+TwlY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E523C433F1;
+	Wed, 31 Jan 2024 19:27:15 +0000 (UTC)
+Date: Wed, 31 Jan 2024 14:27:29 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
 To: John Garry <john.g.garry@oracle.com>
 Cc: mcgrof@kernel.org, russ.weight@linux.dev, gregkh@linuxfoundation.org,
- rafael@kernel.org, rostedt@goodmis.org, mhiramat@kernel.org,
- mathieu.desnoyers@efficios.com, davem@davemloft.net, edumazet@google.com,
+ rafael@kernel.org, mhiramat@kernel.org, mathieu.desnoyers@efficios.com,
+ davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
  pabeni@redhat.com, keescook@chromium.org, masahiroy@kernel.org,
  nathan@kernel.org, nicolas@fjasle.eu, linux-kernel@vger.kernel.org,
  linux-trace-kernel@vger.kernel.org, netdev@vger.kernel.org,
  linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH RFC 3/4] net: ethtool: Use uts_release
-Message-ID: <20240131112432.5133bcaa@kernel.org>
-In-Reply-To: <20240131104851.2311358-4-john.g.garry@oracle.com>
+Subject: Re: [PATCH RFC 2/4] tracing: Use uts_release
+Message-ID: <20240131142729.2fe870ed@gandalf.local.home>
+In-Reply-To: <20240131104851.2311358-3-john.g.garry@oracle.com>
 References: <20240131104851.2311358-1-john.g.garry@oracle.com>
-	<20240131104851.2311358-4-john.g.garry@oracle.com>
+	<20240131104851.2311358-3-john.g.garry@oracle.com>
+X-Mailer: Claws Mail 3.19.1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -65,13 +54,43 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Wed, 31 Jan 2024 10:48:50 +0000 John Garry wrote:
+On Wed, 31 Jan 2024 10:48:49 +0000
+John Garry <john.g.garry@oracle.com> wrote:
+
 > Instead of using UTS_RELEASE, use uts_release, which means that we don't
 > need to rebuild the code just for the git head commit changing.
 > 
 > Signed-off-by: John Garry <john.g.garry@oracle.com>
 
-Yes, please!
+Acked-by: Steven Rostedt (Google) <rostedt@goodmis.org>
 
-Acked-by: Jakub Kicinski <kuba@kernel.org>
+-- Steve
+
+> ---
+>  kernel/trace/trace.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
+> index 2a7c6fd934e9..68513924beb4 100644
+> --- a/kernel/trace/trace.c
+> +++ b/kernel/trace/trace.c
+> @@ -13,7 +13,7 @@
+>   *  Copyright (C) 2004 Nadia Yvette Chambers
+>   */
+>  #include <linux/ring_buffer.h>
+> -#include <generated/utsrelease.h>
+> +#include <linux/utsname.h>
+>  #include <linux/stacktrace.h>
+>  #include <linux/writeback.h>
+>  #include <linux/kallsyms.h>
+> @@ -4354,7 +4354,7 @@ print_trace_header(struct seq_file *m, struct trace_iterator *iter)
+>  	get_total_entries(buf, &total, &entries);
+>  
+>  	seq_printf(m, "# %s latency trace v1.1.5 on %s\n",
+> -		   name, UTS_RELEASE);
+> +		   name, uts_release);
+>  	seq_puts(m, "# -----------------------------------"
+>  		 "---------------------------------\n");
+>  	seq_printf(m, "# latency: %lu us, #%lu/%lu, CPU#%d |"
+
 
