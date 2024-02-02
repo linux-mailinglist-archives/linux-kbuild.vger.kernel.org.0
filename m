@@ -1,53 +1,53 @@
-Return-Path: <linux-kbuild+bounces-795-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-796-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 446708473F1
-	for <lists+linux-kbuild@lfdr.de>; Fri,  2 Feb 2024 17:02:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C843D8473F3
+	for <lists+linux-kbuild@lfdr.de>; Fri,  2 Feb 2024 17:02:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F3CC2283439
-	for <lists+linux-kbuild@lfdr.de>; Fri,  2 Feb 2024 16:02:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 83CC6285C7C
+	for <lists+linux-kbuild@lfdr.de>; Fri,  2 Feb 2024 16:02:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6363014C598;
-	Fri,  2 Feb 2024 15:58:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 758B214D423;
+	Fri,  2 Feb 2024 15:58:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JCMA1Rn8"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q+pSyziy"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 363DE14C592;
-	Fri,  2 Feb 2024 15:58:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5000F14C5BA;
+	Fri,  2 Feb 2024 15:58:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706889526; cv=none; b=OdcD5WW3hss7KKmdx7z45yWZKSCpZV3Mahjaxeamc3T/PJAmzbslRHnXGP5s+X8Pa0BhHQkEnnqKNgABBIBH2gTFukYJLmzceZD8kyjCrBWk7/7fIGjHjjulVNljNZAF/s6X/BiEPJBLBdWtCfNyoZclQOv9xmH/fmcibXQl3DA=
+	t=1706889527; cv=none; b=o4+wSrR1oYYrWqMFB9/ziEqKH+o0+OTc5tcWMUQm543MCiRsBPvc39OthNbHYyH7BD3Nwn48vHfU+2r8XdUWKsgW+2jDFtFzQIGdsx7+uSAee681jQKBr5bVDKBRbYREmGTzU3vICf2F8yp43cGBG+MGkafoQsGjv1di3XQU7qs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706889526; c=relaxed/simple;
-	bh=wHVLJm31U+fA47auTd9+uU0toq5m5ICZ6w8E0bowFB4=;
+	s=arc-20240116; t=1706889527; c=relaxed/simple;
+	bh=iQfJFbCfo6g+jL93vYCPjdUyp6aRJx+Zc0bUp6Uw6sQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=oIYcfXroHojkMMwMJ1BtujEeGeVhzhUNuz2fs3jCODmHydDrl0GNGzs7jK5U5L2lJyhKuyiCtgk2IOTww6o4eBqmGSnGqZ1+R0AAgRY/Q4++D3JiQ9DKy8x3i3p4172xcik9dXKspT3Abc58wzM7T6rvpt3is39L3orhVxG/IJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JCMA1Rn8; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64F8AC433F1;
-	Fri,  2 Feb 2024 15:58:45 +0000 (UTC)
+	 MIME-Version; b=A4f5E0y/wi7hBk17YH/EaMLHnAdhIrL1shc6NesxIN7WL0YY09H5QHqjRtqJFKt3gbYkGv443fuuMLgp9Dv8kYiE9CvI2AkJ1qj86xVuBR2XULVEtBgEBT6w4AoX8UOyfMZMUOB8WtSXZGMLYN0iJyCNuF4LV1iPVqYHj46cpLM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q+pSyziy; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80171C43399;
+	Fri,  2 Feb 2024 15:58:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706889526;
-	bh=wHVLJm31U+fA47auTd9+uU0toq5m5ICZ6w8E0bowFB4=;
+	s=k20201202; t=1706889527;
+	bh=iQfJFbCfo6g+jL93vYCPjdUyp6aRJx+Zc0bUp6Uw6sQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=JCMA1Rn8MXKR7+56P3lyywwXtbccGzQZOw5FBgWPErFILpiZ0uSjyFghWApxHNGUh
-	 OnOktXn61WWGGT3uDO99/3EFVQYYBcbIoTL2aLOR5EDjiyw87BMO9+/VwdE7ZdgAfU
-	 TFIJHl0crcCB3RnriYixGgQsGJXfHQ24eIvWa34KW57CP4dk0WibbrU/kqjMWRuojw
-	 lDDzqTjr5thlDu/8kvZsSzjVmtk6m14f60pqLOglw1INbYZkKqZhEUP8UplL5bXun7
-	 eIZauYpw3kewrzGTmRpu9jIEx3PRp+bnL3UD8esWOXjPvwIY74JvMssFZoU9x1z9Bz
-	 zXynzYixu/vNA==
+	b=q+pSyziySnu8Lju8MA/luc1F9M6N3CrRz4pHXOEMWnZXGqN5iYhwHBWgOktnOqE1R
+	 i7dHfKfihIoTBvE47kKMInfeaDOLQFPHdA7vWX5tRq/la63RVmqdPI6ZIHe+0dbnR9
+	 pooakkKDIAc6ljG1mZYRr0EzjLN5HimPYRGQDubE7IGx4iIrlH21Jx5wN+8QU42Qnn
+	 W+x3w+87KpYfsRei5OI5Z5Z9VqcWUFgUTHWIGWtDs11PHQHGiR3f/4Q0FkAmBjCjQU
+	 ie3gcXs2gKlaO+DIylXw+TCj7MKXYrZLsZ6NLU3aK4uipyrXRjUJ2O2GoUGQvXl7ui
+	 YOz6a36G4Z9Fw==
 From: Masahiro Yamada <masahiroy@kernel.org>
 To: linux-kbuild@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
 	Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH 14/27] kconfig: do not delay the cur_filename update
-Date: Sat,  3 Feb 2024 00:58:12 +0900
-Message-Id: <20240202155825.314567-15-masahiroy@kernel.org>
+Subject: [PATCH 15/27] kconfig: replace remaining current_file->name with cur_filename
+Date: Sat,  3 Feb 2024 00:58:13 +0900
+Message-Id: <20240202155825.314567-16-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20240202155825.314567-1-masahiroy@kernel.org>
 References: <20240202155825.314567-1-masahiroy@kernel.org>
@@ -59,93 +59,77 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Currently, cur_filename is updated at the first token of each statement.
-However, this seems unnecessary based on my understanding; the parser
-can use the same variable as the lexer tracks.
+Replace the remaining current_file->name in the lexer context.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/kconfig/lexer.l  | 17 +++++++----------
- scripts/kconfig/parser.y |  8 ++++++++
- 2 files changed, 15 insertions(+), 10 deletions(-)
+ scripts/kconfig/lexer.l      | 4 ++--
+ scripts/kconfig/preprocess.c | 8 ++++----
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/scripts/kconfig/lexer.l b/scripts/kconfig/lexer.l
-index 35ad1b256470..28e279cd5a22 100644
+index 28e279cd5a22..db2397c4e343 100644
 --- a/scripts/kconfig/lexer.l
 +++ b/scripts/kconfig/lexer.l
-@@ -274,24 +274,17 @@ repeat:
- 	token = yylex1();
+@@ -84,7 +84,7 @@ static void warn_ignored_character(char chr)
+ {
+ 	fprintf(stderr,
+ 	        "%s:%d:warning: ignoring unsupported character '%c'\n",
+-	        current_file->name, yylineno, chr);
++	        cur_filename, yylineno, chr);
+ }
+ %}
  
- 	if (prev_token == T_EOL || prev_token == T_HELPTEXT) {
--		if (token == T_EOL) {
-+		if (token == T_EOL)
- 			/* Do not pass unneeded T_EOL to the parser. */
- 			goto repeat;
--		} else {
-+		else
- 			/*
--			 * For the parser, update file/lineno at the first token
-+			 * For the parser, update lineno at the first token
- 			 * of each statement. Generally, \n is a statement
- 			 * terminator in Kconfig, but it is not always true
- 			 * because \n could be escaped by a backslash.
--			 *
--			 * FIXME:
--			 * cur_filename and cur_lineno are used even after
--			 * yyparse(); menu_finalize() calls menu_add_symbol().
--			 * This should be fixed.
- 			 */
--			cur_filename = current_file ? current_file->name : "<none>";
- 			cur_lineno = yylineno;
--		}
- 	}
+@@ -253,7 +253,7 @@ n	[A-Za-z0-9_-]
  
- 	if (prev_prev_token == T_EOL && prev_token == T_WORD &&
-@@ -407,6 +400,7 @@ void zconf_initscan(const char *name)
- 	}
+ 	if (prev_token != T_EOL && prev_token != T_HELPTEXT)
+ 		fprintf(stderr, "%s:%d:warning: no new line at end of file\n",
+-			current_file->name, yylineno);
++			cur_filename, yylineno);
  
- 	current_file = file_lookup(name);
-+	cur_filename = current_file->name;
- 	yylineno = 1;
+ 	if (current_file) {
+ 		zconf_endfile();
+diff --git a/scripts/kconfig/preprocess.c b/scripts/kconfig/preprocess.c
+index 12665b981c3e..69b806a6d8b7 100644
+--- a/scripts/kconfig/preprocess.c
++++ b/scripts/kconfig/preprocess.c
+@@ -9,6 +9,7 @@
+ #include <stdlib.h>
+ #include <string.h>
+ 
++#include "internal.h"
+ #include "list.h"
+ #include "lkc.h"
+ #include "preprocess.h"
+@@ -22,7 +23,7 @@ static void __attribute__((noreturn)) pperror(const char *format, ...)
+ {
+ 	va_list ap;
+ 
+-	fprintf(stderr, "%s:%d: ", current_file->name, yylineno);
++	fprintf(stderr, "%s:%d: ", cur_filename, yylineno);
+ 	va_start(ap, format);
+ 	vfprintf(stderr, format, ap);
+ 	va_end(ap);
+@@ -123,7 +124,7 @@ static char *do_error_if(int argc, char *argv[])
+ 
+ static char *do_filename(int argc, char *argv[])
+ {
+-	return xstrdup(current_file->name);
++	return xstrdup(cur_filename);
  }
  
-@@ -448,6 +442,7 @@ void zconf_nextfile(const char *name)
- 	}
+ static char *do_info(int argc, char *argv[])
+@@ -185,8 +186,7 @@ static char *do_shell(int argc, char *argv[])
+ static char *do_warning_if(int argc, char *argv[])
+ {
+ 	if (!strcmp(argv[0], "y"))
+-		fprintf(stderr, "%s:%d: %s\n",
+-			current_file->name, yylineno, argv[1]);
++		fprintf(stderr, "%s:%d: %s\n", cur_filename, yylineno, argv[1]);
  
- 	yylineno = 1;
-+	cur_filename = file->name;
- 	current_file = file;
+ 	return xstrdup("");
  }
- 
-@@ -456,6 +451,8 @@ static void zconf_endfile(void)
- 	struct buffer *tmp;
- 
- 	current_file = current_file->parent;
-+	if (current_file)
-+		cur_filename = current_file->name;
- 
- 	if (!current_buf)
- 		return;
-diff --git a/scripts/kconfig/parser.y b/scripts/kconfig/parser.y
-index d1d05c8cd89d..e58c24d2e5ab 100644
---- a/scripts/kconfig/parser.y
-+++ b/scripts/kconfig/parser.y
-@@ -488,6 +488,14 @@ void conf_parse(const char *name)
- 		yydebug = 1;
- 	yyparse();
- 
-+	/*
-+	 * FIXME:
-+	 * cur_filename and cur_lineno are used even after yyparse();
-+	 * menu_finalize() calls menu_add_symbol(). This should be fixed.
-+	 */
-+	cur_filename = "<none>";
-+	cur_lineno = 0;
-+
- 	str_printf(&autoconf_cmd,
- 		   "\n"
- 		   "$(autoconfig): $(deps_config)\n"
 -- 
 2.40.1
 
