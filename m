@@ -1,65 +1,67 @@
-Return-Path: <linux-kbuild+bounces-770-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-767-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4098C846DA6
-	for <lists+linux-kbuild@lfdr.de>; Fri,  2 Feb 2024 11:17:24 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20837846D9F
+	for <lists+linux-kbuild@lfdr.de>; Fri,  2 Feb 2024 11:17:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5EB971C26427
-	for <lists+linux-kbuild@lfdr.de>; Fri,  2 Feb 2024 10:17:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 771FA1F269C3
+	for <lists+linux-kbuild@lfdr.de>; Fri,  2 Feb 2024 10:17:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D69E7C0A7;
-	Fri,  2 Feb 2024 10:16:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE5F57E571;
+	Fri,  2 Feb 2024 10:16:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="J4NAQtov"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="gvRP8dJ3"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 136087C084
-	for <linux-kbuild@vger.kernel.org>; Fri,  2 Feb 2024 10:16:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB2D27C0A2
+	for <linux-kbuild@vger.kernel.org>; Fri,  2 Feb 2024 10:16:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706869010; cv=none; b=qre/wFJb2ZyL/XBsTwNTi35A860RNU4/OjRVemWfn5ARQKso9IwDq8wiPw2+AU7tcKjBknozdjVIaNjXes0TUf9oFLv4xD40/VVl1GrKMMYqXA5uEJ6BvWp/52eNXN+FPIQvQEZsTIIt176ArVVj6VEwM1Plp3PfBeV6tyuxHeI=
+	t=1706869008; cv=none; b=PY8Sxq4INhjTOfLE0cfe+ZmH/OnAI+cJ4hAwGxHDu5nQhySOcLhAYTVB9N13M0JXm8K9RJxiBDTLESw8nh10vofniiLZtgJGKUg4J1SuDnLN0hxg+9QXfM+qs8Ks6WWvs2d9RTAWHvCGot+dS6v+0sd4KOvAlFlt+EQycaTbIfk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706869010; c=relaxed/simple;
-	bh=2l9nEKso4+AOWcpX8WNY7A6dHeDCfYN/6uhOB8hks2s=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=YhQYZOpiNxQshD7rOBjxvVLZmQl0BmXNV6HsGAJWoZyD8jK3s5f1hzSBL+onoxlYhUXwkzc3kxvZ5UNMQuPJaj400gTKdezikwZ9JcO33MgfODfDsKy61higO4J5aULZvGrGi49++8s9np/obmEFNrdTRjSIgFqvtZJ1B9nFAgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=J4NAQtov; arc=none smtp.client-ip=209.85.215.180
+	s=arc-20240116; t=1706869008; c=relaxed/simple;
+	bh=ZxwmE0nZsP1Nk3oxW4DdUpU7gFnVfTpHfJ1XVp+L1j0=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=VJtmkJheQqUucajtxygzP5z0zxSiA7yOjR0HPpb59ntUJEUR27GHo53LYdJFYzkz2i8LLZiIOUyERvfBPzEy6ePVreJ+FgaMK161+lxfV3E+y2ZwlUkE8lXSp0YWNNPnqXsgXy6xqlUchY9tZ6Ui2XwRJ3HC6sP3S0u+sJHP+XA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=gvRP8dJ3; arc=none smtp.client-ip=209.85.214.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-5dbd519bde6so1625078a12.1
-        for <linux-kbuild@vger.kernel.org>; Fri, 02 Feb 2024 02:16:44 -0800 (PST)
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1d8e7df6abcso17853825ad.1
+        for <linux-kbuild@vger.kernel.org>; Fri, 02 Feb 2024 02:16:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1706869003; x=1707473803; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=6EHXdAThkGXTR3eJPl49+AVsRbrPUkQd45PvGXZEUlI=;
-        b=J4NAQtovGcYBwjbdEE0R3Lha8so/lU+5NjSS9EDWldBsEfpOTHmiM+hxBLzvaLkTmE
-         u774oxYhU/IibYp4Mz+tgPNqHug3EO02ZMK3vFdNxJhKZ9YHA/VOB4U2RE5pbDLVUBcU
-         b6lgmEH8MxznE7FJH95y2ia3bLf6rfdCBsEnw=
+        d=chromium.org; s=google; t=1706869005; x=1707473805; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=huDkFM2jKbuwvr+cQsGrJ0cboThbc1r4eSZ54RE7EeI=;
+        b=gvRP8dJ3KXsujD0C1Ta3pPfDymJdYPCHYsuftj1ON/YnSJA3tm2+UZn1SeXbdriLn1
+         lcezB3u2mUWEC2MoVexnQ1sm9UrJqy4yfJwh7+oLWPxKtWOYoExkaMWHDzWHJnTJpRrk
+         pABBhJW4wUI8AAriCqjzK41YNwsPbDVxYwhkA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706869003; x=1707473803;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6EHXdAThkGXTR3eJPl49+AVsRbrPUkQd45PvGXZEUlI=;
-        b=R88quktZl8TRpQtTQi4LvqTbrGkzZnodhXwEA4VAg0NiQX3T6sG3Zy/l8137MROhFS
-         lJZGg1OeUQwyA1tLMnU3+WyCbUmXLeohi98F8IyhVxkd0/RKcOv5QMLv46XsIC859YpB
-         c52E+uBAZI8kDznG9b8mLtLs06c1VeF91wOZ81TzDR/gq26kVe1HEet8HJ0v8wNNam7U
-         HpdkSakNLKNDtooTFBWLEPMZ2eq2/6iGPYWyt7F70Ddo+FKu6ccv118MrgTYXELp7nmQ
-         C6dS+QGjY2JLFh6rQ0T9YNUYjqZ6UoKktRQGhjkQBL2pZ3siDvYhurpa18YqVNSRwoN9
-         NDdw==
-X-Gm-Message-State: AOJu0Yxd1gcrg0q2RvxlULtIlEi1wnmSbuV6IWmqAmcB9RwkJQInfPcc
-	k7zZYT9eYr8A87uITaIL/6FEz/aLCMcCLxC+HqZPqfsN/i08kheJ4HKwrjYsBg==
-X-Google-Smtp-Source: AGHT+IHMKOiQ6mHZakC/jI0iiftn9S+TFj6r9sQjHhGGiqUcwILCJdVCYMDM6jzLDgaScuq8as349w==
-X-Received: by 2002:a05:6a20:94cd:b0:199:c9a2:fb0 with SMTP id ht13-20020a056a2094cd00b00199c9a20fb0mr8667691pzb.16.1706869003557;
-        Fri, 02 Feb 2024 02:16:43 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCWM0evwmk61ML9mKlP7sQqZt4NIu2CDf4tNN7ZfZBwVop6WGktFTrN8OQ6otbkJV/lVl6pxcL/V59G96BahEDFx4D7uY4o04C+92sAr/f+65Vbvjtnyg2OPcPHZOyvi6dhxH+kafSvPLJ0gPpvBuxExxguupg7UHSjrbBnSuY7diqz3XRNyLJLE+k3NrKhDBQVfDkjSCPv5+IPi2tsC4kTfC8bHtbQ9Ds1QNM+OfHrrAG95YPgJkHok9YDBlFI2yp2omYAuCblWCU4E8xsjCg4uDuDPIrLsHiSO/YSQ877+xeTLG4We7BgzltdppTfhDtq5LoXEOHmAuGsaNV44gP/1OkY/j2EKxPna1dwhxyWss5i11x9OKRpqTatFqLO9bRvuZjNP5JYKnM70Ypx/DONZf56mG3Z/X3xbiG9mWGOrrlhF8VkWCvK/2DlLipi7xDyBvtYleNfk9SMbxw2SILv94Pjffr/mFJybLlIBEQVzRFgY1Lzh5lWQA7tomI9J5O+hbVp6srbBPr/obebIVCKkQqaan6RFPi81BbO8TUbrbFI8LUK+uytdppF3tBQ/UWgWGYhbMHdL3uarjfDfTC+h/5sXe7a55tsWq4g=
+        d=1e100.net; s=20230601; t=1706869005; x=1707473805;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=huDkFM2jKbuwvr+cQsGrJ0cboThbc1r4eSZ54RE7EeI=;
+        b=PALmM8xpRu8Kgfieuz7hRIJ/xcRRP+XooPkPtem3Va43HFCuYSQxrcyiUUhF+ZVBjq
+         nQ4M3saZPCpVZpnTpm39+wwU/5AYKtUD1rj0CbaM/rWs0iK+TvnbrSmsa0tRpnI/S1U0
+         P0fKp8o5QS80edKgoOvihTS+pFlifQooRENrAAHvyrwvC4C0WwIHIWIQVgSLNX2fedpo
+         mZGhzND6A/Kc6EVYuKiuTFGeYGFPoTTVuXSIW6PZZReyBTW7KMLd+duKLwfP8ur7fIG/
+         t3dOpxnFZmSrYpVEwqsuG1mWc2vBRCVHi61H7xNJ2JU5lHPgmtG2f3q9WSpD7hAFF2Iz
+         JQ/Q==
+X-Gm-Message-State: AOJu0Yxfp8tyuN4Z4SA2tH4BXX+MAXsh3Ly2nYJL2/fmrTuHA3rhWkFm
+	FhQ9e0BPAg1J++8B5XcHlwN1OCc70w8CcO0xfjcy23++n/mIQojswP8MZ9aC9g==
+X-Google-Smtp-Source: AGHT+IHjZ/RlOFhGarz6cIg2WBEenEsLGnouU4y+LgMxrAEpF+gSHjnEyIr3C9MYyj8jvC/08bJKHQ==
+X-Received: by 2002:a17:903:94d:b0:1d8:b6c8:d9e0 with SMTP id ma13-20020a170903094d00b001d8b6c8d9e0mr1942830plb.68.1706869004906;
+        Fri, 02 Feb 2024 02:16:44 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCXm2ltGXSQ3/dMDFTJd44WjKZdXshEPXPWN2y6WE7E3b+jubgNaOYkuw5VnqA4S9HtLo7qrYKsGKPoYxH5O74AVwvWb9iE10rFYm3n026lPQhoITT6P5EG3S6E0ARfoiPiilFHc1P170f3L7IIRjKqdWIGevmKqtcYBEq7HSe5RdITj0U96a6pTvHsJ0MsK89PKSs0ECjcxeR0yzhKvgzBGQqSm8nHFrtSeBcJzXXMaebLLOFOmheGxxf2ic7AR58qnNPxprUyVeY6wzFzi0cNWRnRpzjgIFyrNRmmyNKPD3NRk/rVYnE+xKRRmrDd7B9gCDwG/+ve4xCBvu8plPkZxiwuj9XZhaBIbvySbpOS8aXTc+kkoQ0Qr2U1llnNgaFQ1nY7H3f/ojjTTW/r7ggMMWTwS5GebQqKR5ZQk4UXJjEiv18IkKd03pIO+QQHhwRvi75ST2re8QSg/NZZvCu22i34f/ZfVkuhFBAKeP0EdJTIi3pDLw2DCTd0qk2OzZQ3esIyeHUi4SbRQEhDRzSl/EdxhSOD37RLyKKeZsvcQw/KOdAqAawSDSPy0Zwzh0G32VHyd7skIHFuGmVRga32CpsILSaLLA4ITFo88rafydugjzXu00x+4wzcP6wX8+lbazQTj
 Received: from www.outflux.net ([198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id u26-20020aa7839a000000b006dde0724247sm1273062pfm.149.2024.02.02.02.16.42
+        by smtp.gmail.com with ESMTPSA id jv5-20020a170903058500b001d8fb2591a6sm1262459plb.171.2024.02.02.02.16.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Fri, 02 Feb 2024 02:16:42 -0800 (PST)
 From: Kees Cook <keescook@chromium.org>
@@ -70,115 +72,79 @@ Cc: Kees Cook <keescook@chromium.org>,
 	Nathan Chancellor <nathan@kernel.org>,
 	Masahiro Yamada <masahiroy@kernel.org>,
 	Nicolas Schier <nicolas@fjasle.eu>,
+	Nick Desaulniers <ndesaulniers@google.com>,
 	Bill Wendling <morbo@google.com>,
+	linux-kbuild@vger.kernel.org,
+	llvm@lists.linux.dev,
 	Marco Elver <elver@google.com>,
 	Andrey Konovalov <andreyknvl@gmail.com>,
 	Jonathan Corbet <corbet@lwn.net>,
 	x86@kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
-	llvm@lists.linux.dev,
 	linux-doc@vger.kernel.org,
 	netdev@vger.kernel.org,
 	linux-crypto@vger.kernel.org,
 	kasan-dev@googlegroups.com,
 	linux-acpi@vger.kernel.org
-Subject: [PATCH v2 0/6] ubsan: Introduce wrap-around sanitizers
-Date: Fri,  2 Feb 2024 02:16:33 -0800
-Message-Id: <20240202101311.it.893-kees@kernel.org>
+Subject: [PATCH v2 1/6] ubsan: Use Clang's -fsanitize-trap=undefined option
+Date: Fri,  2 Feb 2024 02:16:34 -0800
+Message-Id: <20240202101642.156588-1-keescook@chromium.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240202101311.it.893-kees@kernel.org>
+References: <20240202101311.it.893-kees@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2894; i=keescook@chromium.org;
- h=from:subject:message-id; bh=2l9nEKso4+AOWcpX8WNY7A6dHeDCfYN/6uhOB8hks2s=;
- b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBlvMEGR2w/jDkKre5GPT1/M/XftJt/c1PyB4wL/
- haxlFPUi1KJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZbzBBgAKCRCJcvTf3G3A
- JtsCD/9zn8FXQvcFAIIQgYZmbnBXO2DwIbRtXhGNbq2Nup24+qU2V23CPL1rxaHKDC/EiJJEnKb
- e5BpVrssi1sNVM0eT1gSuZh3+Fe9MuSkT1qu5cuE+fhykPOt7JYBmAot97DhLNGpbC4Wh6wS2Gm
- zt9zRh7VdGjswl0SiQQT3Ko7H0hMo+8Du/2ufEy3yiken9zj1VMMJ1KoVnxpVhaMUra5smuX5fZ
- xfIadzk4bYAjWidY713+WT72pgRr7qsh7cHstL2GUq2+nI0GL0j6nmtuhPKMexyPaOp6rTzXwvb
- Z7GBANHBt9W7RFT2e5jxCw2iSyb/9aZQDjTzC7dGQNytXEvHnP+Phzhj7xCmXOuITiwx70ObSXS
- ME7gGoLJ13vK/Z1MOOR4KUNhbNwuaGi5yPooFb0xcsg4KnCSY2MOorFK9WWpu/OjmWo+DxUMEvR
- 1J/KCnkcS1uyoVLsNj2Sh3VJJfz2UhtJtuwtqbFW43Uy4aaj00q7AmQ+NDje2eWQ70R0R+2XSMI
- ndQHgrn7bxz13hk+ym9Je7oT6lJtEH74ncnlLRyN2B+2wk61/16LUCxqpP2Qjq0ZUSeYdi1IICL
- eEpdx3A5WLH/w5PScFuSOwRUsIvtR3tCIgLvj1N4YRLGfj9EYX2DFA1VIUBOXReGwVa9kHKDz29
- jIcc1AN WIb7pOrg==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1455; i=keescook@chromium.org;
+ h=from:subject; bh=ZxwmE0nZsP1Nk3oxW4DdUpU7gFnVfTpHfJ1XVp+L1j0=;
+ b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBlvMEHvUSDUiKlA+mbRPre0Ef3vI3/FZn+MH1H0
+ nTpBmdXXdWJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZbzBBwAKCRCJcvTf3G3A
+ JpS9D/0Q6QBoQC8jBK/SWwnCyPlA7roqa2Ww1Yr5HWnO8NGYyqLoAR/MLiePscunq9kQo7XF14S
+ P8vBlWa3w59PmmPOE6/K+Yo4XhNmZJHNn57MFcpldH9PXBny2KEOQhIlpz0+Qq7zhOLddFXdahg
+ miGo2qdGlfIpjGAwlRLZVr4XDKEdKus3gLReWRkeV1eaUGK+SU4BE0S9e5Ucv2MjqDKeYkX5U8P
+ qcJlKCdupyTdD22vLQjZ4hg0UIOxJJ0JvKAgP5koezT5XzlYxQPfD+lFdixQeprPlZX44YEoD1u
+ 2gFGFM/Q8utBzYdgJDHKWh8ZFe9OdEKUCuYvCh/uj3WvrNcdeiAwxXTFx+YFw7lp/nUQ9zNbifH
+ i0lKwy9Brl+6w2SYcs69qdsxG5hhti2yLUQW5qr1cxQetC9HV+eqLTMxbCd+Gm8bec7x5A7gPkl
+ z9qKNMgq9aRbauhd0kdkjl+d6TuQcysN/udCqYNxsTkdS7yBgm/IdQ7OZjnlsgDA30jgME0SH/I
+ ACfSg1lLhSUiA5YoWC7kX0F96o0tirE4vqzxv/Puh7Cw53eqsLhs+IiSDSXdodWu7vsBW7YDlsh
+ iWO7s+1g4L7hMvsHJrbpcnHePzJ54JOQLt5okcZPy+IE+zSi6oA38qRXNbFz3mjkKY40YEX37q4 8g1LnhWR9uKDhnA==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
-Hi,
+Clang changed the way it enables UBSan trapping mode. Update the Makefile
+logic to discover it.
 
-v2:
- - improve CC list
- - add reviewed-by tags
- - reword some commit logs
-v1: https://lore.kernel.org/all/20240129175033.work.813-kees@kernel.org/
+Suggested-by: Fangrui Song <maskray@google.com>
+Link: https://lore.kernel.org/lkml/CAFP8O3JivZh+AAV7N90Nk7U2BHRNST6MRP0zHtfQ-Vj0m4+pDA@mail.gmail.com/
+Reviewed-by: Fangrui Song <maskray@google.com>
+Reviewed-by: Justin Stitt <justinstitt@google.com>
+Cc: Nathan Chancellor <nathan@kernel.org>
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Nicolas Schier <nicolas@fjasle.eu>
+Cc: Nick Desaulniers <ndesaulniers@google.com>
+Cc: Bill Wendling <morbo@google.com>
+Cc: linux-kbuild@vger.kernel.org
+Cc: llvm@lists.linux.dev
+Signed-off-by: Kees Cook <keescook@chromium.org>
+---
+ scripts/Makefile.ubsan | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Lay the ground work for gaining instrumentation for signed[1],
-unsigned[2], and pointer[3] wrap-around by making all 3 sanitizers
-available for testing. Additionally gets x86_64 bootable under the
-unsigned sanitizer for the first time.
-
-The compilers will need work before this can be generally useful, as the
-signed and pointer sanitizers are effectively a no-op with the kernel's
-required use of -fno-strict-overflow. The unsigned sanitizer will also
-need adjustment to deal with the many common code patterns that exist
-for unsigned wrap-around (e.g. "while (var--)", "-1UL", etc).
-
--Kees
-
-Link: https://github.com/KSPP/linux/issues/26 [1]
-Link: https://github.com/KSPP/linux/issues/27 [2]
-Link: https://github.com/KSPP/linux/issues/344 [3]
-
-Kees Cook (6):
-  ubsan: Use Clang's -fsanitize-trap=undefined option
-  ubsan: Reintroduce signed and unsigned overflow sanitizers
-  ubsan: Introduce CONFIG_UBSAN_POINTER_WRAP
-  ubsan: Remove CONFIG_UBSAN_SANITIZE_ALL
-  ubsan: Split wrapping sanitizer Makefile rules
-  ubsan: Get x86_64 booting with unsigned wrap-around sanitizer
-
- Documentation/dev-tools/ubsan.rst | 28 +++-------
- arch/arm/Kconfig                  |  2 +-
- arch/arm64/Kconfig                |  2 +-
- arch/mips/Kconfig                 |  2 +-
- arch/parisc/Kconfig               |  2 +-
- arch/powerpc/Kconfig              |  2 +-
- arch/riscv/Kconfig                |  2 +-
- arch/s390/Kconfig                 |  2 +-
- arch/x86/Kconfig                  |  2 +-
- arch/x86/kernel/Makefile          |  1 +
- arch/x86/kernel/apic/Makefile     |  1 +
- arch/x86/mm/Makefile              |  1 +
- arch/x86/mm/pat/Makefile          |  1 +
- crypto/Makefile                   |  1 +
- drivers/acpi/Makefile             |  1 +
- include/linux/compiler_types.h    | 19 ++++++-
- kernel/Makefile                   |  1 +
- kernel/locking/Makefile           |  1 +
- kernel/rcu/Makefile               |  1 +
- kernel/sched/Makefile             |  1 +
- lib/Kconfig.ubsan                 | 41 +++++++++-----
- lib/Makefile                      |  1 +
- lib/crypto/Makefile               |  1 +
- lib/crypto/mpi/Makefile           |  1 +
- lib/test_ubsan.c                  | 82 ++++++++++++++++++++++++++++
- lib/ubsan.c                       | 89 +++++++++++++++++++++++++++++++
- lib/ubsan.h                       |  5 ++
- lib/zlib_deflate/Makefile         |  1 +
- lib/zstd/Makefile                 |  2 +
- mm/Makefile                       |  1 +
- net/core/Makefile                 |  1 +
- net/ipv4/Makefile                 |  1 +
- scripts/Makefile.lib              | 11 +++-
- scripts/Makefile.ubsan            | 11 +++-
- 34 files changed, 278 insertions(+), 43 deletions(-)
-
+diff --git a/scripts/Makefile.ubsan b/scripts/Makefile.ubsan
+index 4749865c1b2c..7cf42231042b 100644
+--- a/scripts/Makefile.ubsan
++++ b/scripts/Makefile.ubsan
+@@ -10,6 +10,6 @@ ubsan-cflags-$(CONFIG_UBSAN_DIV_ZERO)		+= -fsanitize=integer-divide-by-zero
+ ubsan-cflags-$(CONFIG_UBSAN_UNREACHABLE)	+= -fsanitize=unreachable
+ ubsan-cflags-$(CONFIG_UBSAN_BOOL)		+= -fsanitize=bool
+ ubsan-cflags-$(CONFIG_UBSAN_ENUM)		+= -fsanitize=enum
+-ubsan-cflags-$(CONFIG_UBSAN_TRAP)		+= -fsanitize-undefined-trap-on-error
++ubsan-cflags-$(CONFIG_UBSAN_TRAP)		+= $(call cc-option,-fsanitize-trap=undefined,-fsanitize-undefined-trap-on-error)
+ 
+ export CFLAGS_UBSAN := $(ubsan-cflags-y)
 -- 
 2.34.1
 
