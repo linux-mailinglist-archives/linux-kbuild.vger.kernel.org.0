@@ -1,194 +1,211 @@
-Return-Path: <linux-kbuild+bounces-779-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-780-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A063847155
-	for <lists+linux-kbuild@lfdr.de>; Fri,  2 Feb 2024 14:45:13 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5456E84727D
+	for <lists+linux-kbuild@lfdr.de>; Fri,  2 Feb 2024 16:02:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6967C1C2298C
-	for <lists+linux-kbuild@lfdr.de>; Fri,  2 Feb 2024 13:45:12 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C295DB2A1FC
+	for <lists+linux-kbuild@lfdr.de>; Fri,  2 Feb 2024 15:02:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 271D547779;
-	Fri,  2 Feb 2024 13:45:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB979144631;
+	Fri,  2 Feb 2024 15:02:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ciLtjmQe"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g98pgsAP"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34EC046558
-	for <linux-kbuild@vger.kernel.org>; Fri,  2 Feb 2024 13:45:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAC7F7E5;
+	Fri,  2 Feb 2024 15:02:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706881507; cv=none; b=PTZ7Pg9lBiBkhplRsj7/BUNh4vlki2gvdcclNjvWQQUrTlBf8gOAdA2th4VRIJekhVKADriwclIg1vh4ySfgHw6BqtIVm/+9oU0nDV/5x9spDjKNuMM5eU8otyFfcoDlQqmErSCLjRtzKrsrZfkdOEr6n4IZrv8079m9wMaa628=
+	t=1706886125; cv=none; b=QX8PMTnb1ZNcM6d7w6qQuByQHfaLIGKt9SMONvPgq8GmaxjxsXb+S8w42pbzyMmz1srZBcGF7M3mFmJGmKIEaGkdquY1ze4DfAv8hZemTxFd10+HV25XfJmHo1puHDKb7KXoI/KxyTUXBt/UqhTcfFOmwR7xbIohXKkxkiImxuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706881507; c=relaxed/simple;
-	bh=PKzcI1q48e2Z9AZgmA1h8iLqG3H0FbHpPV+nCkPjFVo=;
+	s=arc-20240116; t=1706886125; c=relaxed/simple;
+	bh=hDylnFMPrzeq70fQAWBU+9OkNShdD6KuDlCXCiW2zIU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oAgy3YWjCIq2CYnqCPPByJ8TUKSr3xAtiIlBOTrIjug3S9UvuLVOUqYRgydtnpa9qqCy5EnXv62JedFUZ9LEcV6mM91PB6pnvVJ46H3pEeJxmmRX/cgCMC2C3ydZw8HfeuOVXa3N+yiWB734PczKrO9d5vYohsADDfjbiAremC4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ciLtjmQe; arc=none smtp.client-ip=209.85.221.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-4b7fc7642fcso947464e0c.0
-        for <linux-kbuild@vger.kernel.org>; Fri, 02 Feb 2024 05:45:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1706881504; x=1707486304; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=IIzUaTAWY721VAmsfjicI7pRblrKzWu2/3eiQAJEETw=;
-        b=ciLtjmQe/0vRcQ3JQLVTYPqCoOMXdITAKbYTfWsB+fpRqSM8y404m8HozoFm5QYZsL
-         hFVfXSOloLdjHecWKFMM8jdutG0nvWpKrQtzxZo7VpdpsY5FH7fHh9BR6g0EGI8yTVqL
-         X2XFDObPrxafA/1Sb4+6fkZuqIpPeMelkv2aWExfqoPn7KK9tQZeXG9t/AtPel9FGaH7
-         3D6N/jyiXnluyTCTST9wICuZosRMjt6x7r2WaOnXojP+XdYv5tffqk+WBcrAJVqpgHB0
-         mPBL6rpGZIAnxdCjkOS5UtTwYUk7va1agy48bAvxlJJIq+FtWNph+TEW7FIGMQjeVOYY
-         27KA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706881504; x=1707486304;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IIzUaTAWY721VAmsfjicI7pRblrKzWu2/3eiQAJEETw=;
-        b=qnuPkYx0PyzOgspvpQV827suPDt2MX9VXz3vf1xf777jEaH+YY22WlCLACSImafWuB
-         VI6Wb1/Tf4RcPtVWGjqxhiqMk5DJwAx7PhJA3zdnID0BgDfa4OBEGBPVsVCZaF1+3xCf
-         4rLhqRRna+2j1gRXXKNWBW5HuTjtDfmCp3BJxIrWMDArqnt/pLNpGnY/BpqHsBkgTLYU
-         5U9GgRHB3B8e97jJZWiTTVBW8jZucj3zU3E2rExOTfd8DEsatK/CM29GNKUnzPKcpzEI
-         6UjEJMPa2Dp3zbi0AIl9HyFTO5RpZBz4vjUi3q8sHMVSgz7uHyAzehRdW4yjw7pcPFXO
-         Ab8A==
-X-Gm-Message-State: AOJu0YwS4Wx0vxP4QFWli69T6Cm3WSatJs1wYubhhg/GbtYgpGkaYyVm
-	kaVirnnLOyjRAMMBSxBBtA1baafqJGrL7EUkHzIrbLlTHOlK7QWaNAtXNnB0hZFqjvimta6ebUS
-	aKsE1fEd9GvFiC9B0OHuF5hXhHDDDpcToL2vY
-X-Google-Smtp-Source: AGHT+IHcugcAY0onJJ9YbOTRMsO8AuL33RLMvypF1xfaELG25ml3lxK0pklBkcHRLPdq/bsUZds6rXkq0SmKDaybI0c=
-X-Received: by 2002:a1f:f4c9:0:b0:4b6:bdba:8460 with SMTP id
- s192-20020a1ff4c9000000b004b6bdba8460mr1847799vkh.9.1706881503872; Fri, 02
- Feb 2024 05:45:03 -0800 (PST)
+	 To:Cc:Content-Type; b=WhAUvxHVxvRgyhJZRWAxT0zbiD9sCjVETL5UxG9EA+6zBwYW0XWIyWjSq7jBTTSilVCFNQlwY91Jrsatp8RJ3BEXxl791vXDLO5KTJ6ux0QZta90IjJ4To0Ig72BQQJm53fkZ9mS5szIZkmRc8RKQLQAObnHLjueAkJoqT+6zA0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g98pgsAP; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E7A3C433F1;
+	Fri,  2 Feb 2024 15:02:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706886125;
+	bh=hDylnFMPrzeq70fQAWBU+9OkNShdD6KuDlCXCiW2zIU=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=g98pgsAPEayS+E5N0BVJ2sHKDfmZTd2ddIs0+VMuVgojD0HTCVv+UPggY9phr+7YZ
+	 7i5cpnkUwh+aEasromv254prUWHZMLwW+sUpxpmiW/RSQUam8NRUJqlN56ldIJKfAM
+	 d+kC8pxmSeFjgZJlHtpIj1cv883BFG6WFECaWxdusMmBnRoQC9ahwKyJW1ldmKi4xg
+	 K+L00Yf0vg0LAIkp/CkrGq945ARV6xwZUUf6fy6/yFM8td3MIjUBVNQIH2gxkHUGsA
+	 doom7avwVCDRPK0MyH8kcBGV+kFUNDv3P/j3PWsuGhpt5/WVA2c1MZgkUjVpy4jFLo
+	 mujKl0KKF3YPw==
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5112ea89211so2485423e87.1;
+        Fri, 02 Feb 2024 07:02:05 -0800 (PST)
+X-Gm-Message-State: AOJu0YwnzUEdBKt3ECFV7umDi5rVU++RuEl7Gm2D9qrY6F5q2Xz6DnRW
+	8uCeJ+03mhBcIKpgQxevAmpVMY7FuAmeUO7cWBBedUGY1fHN8u3Y0WWxOcCyQzLG6M7b3uhjppH
+	M/Qpw4KmYKflmmgPFu0zxnmLn0Fs=
+X-Google-Smtp-Source: AGHT+IEIayGEqSR8Cruf1lHkYrGAyL8KwdaiBpm0SfUPfTpQZ4t7dXr7Q46Dzppc1Bu9MsuwJBwCcHPJW1m1utfUnCo=
+X-Received: by 2002:ac2:44b2:0:b0:511:3d02:2641 with SMTP id
+ c18-20020ac244b2000000b005113d022641mr156283lfm.53.1706886123633; Fri, 02 Feb
+ 2024 07:02:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240202101311.it.893-kees@kernel.org> <20240202101642.156588-2-keescook@chromium.org>
- <CANpmjNPPbTNPJfM5MNE6tW-jCse+u_RB8bqGLT3cTxgCsL+x-A@mail.gmail.com> <202402020405.7E0B5B3784@keescook>
-In-Reply-To: <202402020405.7E0B5B3784@keescook>
-From: Marco Elver <elver@google.com>
-Date: Fri, 2 Feb 2024 14:44:25 +0100
-Message-ID: <CANpmjNO-4A4LMK8kbWiiODB-vOZqc5gZndWtnYDc5RCGDBcoSQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/6] ubsan: Reintroduce signed and unsigned overflow sanitizers
-To: Kees Cook <keescook@chromium.org>
-Cc: linux-hardening@vger.kernel.org, Justin Stitt <justinstitt@google.com>, 
-	Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Hao Luo <haoluo@google.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>, 
-	Fangrui Song <maskray@google.com>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Bill Wendling <morbo@google.com>, 
-	Andrey Konovalov <andreyknvl@gmail.com>, Jonathan Corbet <corbet@lwn.net>, x86@kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	llvm@lists.linux.dev, linux-doc@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-crypto@vger.kernel.org, kasan-dev@googlegroups.com, 
-	linux-acpi@vger.kernel.org
+References: <20240131104851.2311358-1-john.g.garry@oracle.com>
+In-Reply-To: <20240131104851.2311358-1-john.g.garry@oracle.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Sat, 3 Feb 2024 00:01:26 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATDMjzmgpBHZFTOJCkTCqpLPq8jEjdrwzEZ3uu7WMG7jg@mail.gmail.com>
+Message-ID: <CAK7LNATDMjzmgpBHZFTOJCkTCqpLPq8jEjdrwzEZ3uu7WMG7jg@mail.gmail.com>
+Subject: Re: [PATCH RFC 0/4] Introduce uts_release
+To: John Garry <john.g.garry@oracle.com>
+Cc: mcgrof@kernel.org, russ.weight@linux.dev, gregkh@linuxfoundation.org, 
+	rafael@kernel.org, rostedt@goodmis.org, mhiramat@kernel.org, 
+	mathieu.desnoyers@efficios.com, davem@davemloft.net, edumazet@google.com, 
+	kuba@kernel.org, pabeni@redhat.com, keescook@chromium.org, nathan@kernel.org, 
+	nicolas@fjasle.eu, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2 Feb 2024 at 13:17, Kees Cook <keescook@chromium.org> wrote:
+On Wed, Jan 31, 2024 at 7:49=E2=80=AFPM John Garry <john.g.garry@oracle.com=
+> wrote:
 >
-> On Fri, Feb 02, 2024 at 12:01:55PM +0100, Marco Elver wrote:
-> > On Fri, 2 Feb 2024 at 11:16, Kees Cook <keescook@chromium.org> wrote:
-> > > [...]
-> > > +config UBSAN_UNSIGNED_WRAP
-> > > +       bool "Perform checking for unsigned arithmetic wrap-around"
-> > > +       depends on $(cc-option,-fsanitize=unsigned-integer-overflow)
-> > > +       depends on !X86_32 # avoid excessive stack usage on x86-32/clang
-> > > +       depends on !COMPILE_TEST
-> > > +       help
-> > > +         This option enables -fsanitize=unsigned-integer-overflow which checks
-> > > +         for wrap-around of any arithmetic operations with unsigned integers. This
-> > > +         currently causes x86 to fail to boot.
-> >
-> > My hypothesis is that these options will quickly be enabled by various
-> > test and fuzzing setups, to the detriment of kernel developers. While
-> > the commit message states that these are for experimentation, I do not
-> > think it is at all clear from the Kconfig options.
+> When hacking it is a waste of time and compute energy that we need to
+> rebuild much kernel code just for changing the head git commit, like this=
+:
 >
-> I can certainly rephrase it more strongly. I would hope that anyone
-> enabling the unsigned sanitizer would quickly realize how extremely
-> noisy it is.
+> > touch include/generated/utsrelease.h
+> > time make  -j3
+> mkdir -p /home/john/mnt_sda4/john/kernel-dev2/tools/objtool && make O=3D/=
+home/john/mnt_sda4/john/kernel-dev2 subdir=3Dtools/objtool --no-print-direc=
+tory -C objtool
+>   INSTALL libsubcmd_headers
+>   CALL    scripts/checksyscalls.sh
+>   CC      init/version.o
+>   AR      init/built-in.a
+>   CC      kernel/sys.o
+>   CC      kernel/module/main.o
+>   AR      kernel/module/built-in.a
+>   CC      drivers/base/firmware_loader/main.o
+>   CC      kernel/trace/trace.o
+>   AR      drivers/base/firmware_loader/built-in.a
+>   AR      drivers/base/built-in.a
+>   CC      net/ethtool/ioctl.o
+>   AR      kernel/trace/built-in.a
+>   AR      kernel/built-in.a
+>   AR      net/ethtool/built-in.a
+>   AR      net/built-in.a
+>   AR      drivers/built-in.a
+>   AR      built-in.a
+>   ...
 >
-> > Unsigned integer wrap-around is relatively common (it is _not_ UB
-> > after all). While I can appreciate that in some cases wrap around is a
-> > genuine semantic bug, and that's what we want to find with these
-> > changes, ultimately marking all semantically valid wrap arounds to
-> > catch the unmarked ones. Given these patterns are so common, and C
-> > programmers are used to them, it will take a lot of effort to mark all
-> > the intentional cases. But I fear that even if we get to that place,
-> > _unmarked_  but semantically valid unsigned wrap around will keep
-> > popping up again and again.
+> Files like drivers/base/firmware_loader/main.c needs to be recompiled as
+> it includes generated/utsrelease.h for UTS_RELEASE macro, and utsrelease.=
+h
+> is regenerated when the head commit changes.
 >
-> I agree -- it's going to be quite a challenge. My short-term goal is to
-> see how far the sanitizer itself can get with identifying intentional
-> uses. For example, I found two more extremely common code patterns that
-> trip it now:
+> Introduce global char uts_release[] in init/version.c, which this
+> mentioned code can use instead of UTS_RELEASE, meaning that we don't need
+> to rebuild for changing the head commit - only init/version.c needs to be
+> rebuilt. Whether all the references to UTS_RELEASE in the codebase are
+> proper is a different matter.
 >
->         unsigned int i = ...;
->         ...
->         while (i--) { ... }
+> For an x86_64 defconfig build for this series on my old laptop, here is
+> before and after rebuild time:
 >
-> This trips the sanitizer at loop exit. :P It seems like churn to
-> refactor all of these into "for (; i; i--)". The compiler should be able
-> to identify this by looking for later uses of "i", etc.
+> before:
+> real    0m53.591s
+> user    1m1.842s
+> sys     0m9.161s
 >
-> The other is negative constants: -1UL, -3ULL, etc. These are all over
-> the place and very very obviously intentional and should be ignored by
-> the compiler.
+> after:
+> real    0m37.481s
+> user    0m46.461s
+> sys     0m7.199s
+>
+> Sending as an RFC as I need to test more of the conversions and I would
+> like to also convert more UTS_RELEASE users to prove this is proper
+> approach.
+>
+> John Garry (4):
+>   init: Add uts_release
+>   tracing: Use uts_release
+>   net: ethtool: Use uts_release
+>   firmware_loader: Use uts_release
+>
+>  drivers/base/firmware_loader/main.c | 39 +++++++++++++++++++++++------
+>  include/linux/utsname.h             |  1 +
+>  init/version.c                      |  3 +++
+>  kernel/trace/trace.c                |  4 +--
+>  net/ethtool/ioctl.c                 |  4 +--
+>  5 files changed, 39 insertions(+), 12 deletions(-)
+>
+> --
+> 2.35.3
+>
 
-Yeah, banning technically valid code like this is going to be a very hard sell.
 
-> > What is the long-term vision to minimize the additional churn this may
-> > introduce?
->
-> My hope is that we can evolve the coverage over time. Solving it all at
-> once won't be possible, but I think we can get pretty far with the
-> signed overflow sanitizer, which runs relatively cleanly already.
->
-> If we can't make meaningful progress in unsigned annotations, I think
-> we'll have to work on gaining type-based operator overloading so we can
-> grow type-aware arithmetic. That will serve as a much cleaner
-> annotation. E.g. introduce jiffie_t, which wraps.
->
-> > I think the problem reminds me a little of the data race problem,
-> > although I suspect unsigned integer wraparound is much more common
-> > than data races (which unlike unsigned wrap around is actually UB) -
-> > so chasing all intentional unsigned integer wrap arounds and marking
-> > will take even more effort than marking all intentional data races
-> > (which we're still slowly, but steadily, making progress towards).
-> >
-> > At the very least, these options should 'depends on EXPERT' or even
-> > 'depends on BROKEN' while the story is still being worked out.
->
-> Perhaps I should hold off on bringing the unsigned sanitizer back? I was
-> hoping to work in parallel with the signed sanitizer, but maybe this
-> isn't the right approach?
 
-I leave that to you - to me any of these options would be ok:
 
-1. Remove completely for now.
 
-2. Make it 'depends on BROKEN' (because I think even 'depends on
-EXPERT' won't help avoid the inevitable spam from test robots).
+As you see, several drivers store UTS_RELEASE in their driver data,
+and even print it in debug print.
 
-3. Make it a purely opt-in sanitizer: rather than having subsystems
-opt out with UBSAN_WRAP_UNSIGNED:=n, do the opposite and say that for
-subsystems that want to opt in, they have to specify
-UBSAN_WRAP_UNSIGNED:=y to explicitly opt in.
 
-I can see there being value in explicitly marking semantically
-intended unsigned integer wrap, and catch unintended cases, so option
-#3 seems appealing. At least that way, if a maintainer chooses to opt
-in, they are committed to sorting out their code. Hypothetically, if I
-was the maintainer of some smaller subsystem and have had wrap around
-bugs in the past, I would certainly consider opting in. It feels a lot
-nicer than having it forced upon me.
+I do not see why it is useful.
+As you discussed in 3/4, if UTS_RELEASE is unneeded,
+it is better to get rid of it.
 
-Thanks,
--- Marco
+
+If such version information is useful for drivers, the intention is
+whether the version of the module, or the version of vmlinux.
+That is a question.
+They differ when CONFIG_MODVERSION.
+
+
+When module developers intend to printk the git version
+from which the module was compiled from,
+presumably they want to use UTS_RELEASE, which
+was expanded at the compile time of the module.
+
+If you replace it with uts_release, it is the git version
+of vmlinux.
+
+
+Of course, the replacement is safe for always-builtin code.
+
+
+
+Lastly, we can avoid using UTS_RELEASE without relying
+on your patch.
+
+
+
+For example, commit 3a3a11e6e5a2bc0595c7e36ae33c861c9e8c75b1
+replaced  UTS_RELEASE with init_uts_ns.name.release
+
+
+So, is your uts_release a shorthand of init_uts_ns.name.release?
+
+
+
+I think what you can contribute are:
+
+ - Explore the UTS_RELEASE users, and check if you can get rid of it.
+
+ - Where UTS_RELEASE is useful, consider if it is possible
+   to replace it with init_uts_ns.name.release
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
