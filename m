@@ -1,130 +1,418 @@
-Return-Path: <linux-kbuild+bounces-762-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-763-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 536EF8465B9
-	for <lists+linux-kbuild@lfdr.de>; Fri,  2 Feb 2024 03:21:12 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20722846786
+	for <lists+linux-kbuild@lfdr.de>; Fri,  2 Feb 2024 06:38:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BCB74B23736
-	for <lists+linux-kbuild@lfdr.de>; Fri,  2 Feb 2024 02:21:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D4EE6289756
+	for <lists+linux-kbuild@lfdr.de>; Fri,  2 Feb 2024 05:38:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C42968839;
-	Fri,  2 Feb 2024 02:21:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9DE53F4EA;
+	Fri,  2 Feb 2024 05:38:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="oasoUsml"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Dh6doJiC"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8086BBA4C;
-	Fri,  2 Feb 2024 02:21:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6851E17546;
+	Fri,  2 Feb 2024 05:38:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706840464; cv=none; b=gM52u69wq8cvDAwlCbmSHuGxENNL9KRsmNxpJA0aF7CDvZOt32RNAIn31faTXJcF6Q+sOge4+V6E0+1f29RQUBG8ju3zCN682LhhfDW9+duDjNd0oE8jhp27hLnxpzItR67JVn+tGo1mB8JZuKx407DZeWqEJwY4dV2CdGH6dXc=
+	t=1706852286; cv=none; b=WgTObbHu+vLFJswaE9BaR8+Qaf43aRswsi5Q7O3GVrhUXbCh5WsPC+WweaZiObHAGMZqAItMkNn2Bsz7Gc4i4PBq5x0dIOYm5gB4kzUOwa9WJzs5XWmZQ05nu1ww8zRRzQfNoiNS4EB0btIWh/sUrFE7ESOGoj0gT4fBzvfPp4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706840464; c=relaxed/simple;
-	bh=caSt1K8X7wTfsDubxjLdVYfUEcr45wgSDgC/mtyZAUE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cAyobS7BugA/kn/n6kX8sSErbTo5Orr1xghiplxyZZTV3ME4e52FbEZD+vpPtFX7QbE/NJT9+UUW2LTGDCzfKKGdcBJtkbEGVUVijPKIwZa6umbyYC1WTZcG/E9fl+eNjrzL5/Q0lzisJCbaOVTKS72hOvF7pCn0mym+lN88wlY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=oasoUsml; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BDFEC433F1;
-	Fri,  2 Feb 2024 02:21:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1706840464;
-	bh=caSt1K8X7wTfsDubxjLdVYfUEcr45wgSDgC/mtyZAUE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oasoUsml1+uLAFVUGaQaKVrDvLeAA4/u3sJZm5Xz/4sTaHALvPZdO7EBtOrR7EXLG
-	 hEYO1rPOjmVEpMfSXOpWQKsKKw8AZNbkKTu/2eVeKy8CJCt5vlZSKWrh/4XbZuSnEX
-	 iMnsZNOgmlr2vZV5PPxlHgO1PInXuK3tTQvc5/Vw=
-Date: Thu, 1 Feb 2024 18:21:03 -0800
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: =?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>
-Cc: Brian Norris <briannorris@chromium.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, kernel@collabora.com,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	chrome-platform@lists.linux.dev,
-	Abhijit Gangurde <abhijit.gangurde@amd.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Nipun Gupta <nipun.gupta@amd.com>,
-	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/7] firmware: coreboot: Generate aliases for coreboot
- modules
-Message-ID: <2024020105-dash-antiquity-a56b@gregkh>
-References: <20240112131857.900734-1-nfraprado@collabora.com>
- <20240112131857.900734-3-nfraprado@collabora.com>
- <ZaQVScQ2AYquG-Zr@smile.fi.intel.com>
- <ZbA4VthTMPT7BSRo@google.com>
- <2024013059-poison-equation-81d1@gregkh>
- <CA+ASDXM-m6U+JFvBSSHMxAf8Ct-T-pL8tmcHxHQjepdRFR-s1w@mail.gmail.com>
- <2024013012-gully-goofy-2a55@gregkh>
- <679fa364-28d0-4faa-b46e-805faf56ae53@notapiano>
+	s=arc-20240116; t=1706852286; c=relaxed/simple;
+	bh=E2GR5XDHSPikBayOkcLuyu7j9MvZrOlxRVXQ5WJoxgs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qqGx1AmMnxenaKnGHmfHscZ9Xg8tm2w1GQNHwQU3I0ClpeNb9SXS0LvY9qH5tDXxjMxFYx9ve7Fg8H2OXoXkMOYoW9jk8L7UOCMURHRDkJzfZ8QKh1TU6mkntZfK2Qazo2+y33FFvhF04MYf4oxTSxK6WV64Vgh/43sLEPmBv+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Dh6doJiC; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A54BCC43390;
+	Fri,  2 Feb 2024 05:38:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706852285;
+	bh=E2GR5XDHSPikBayOkcLuyu7j9MvZrOlxRVXQ5WJoxgs=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Dh6doJiCFcemsy8VlbfxgnCRA+eZWVPGbFB9UvG3bHNtDfM8WoaTSxgSEJm1/M4oZ
+	 NdIop9HwGOQRrcyEozvi7PvbrwZrLc4NPoNc6iIv3Wi070m+J0EtNvoUvJyT2Utehl
+	 9ifhg0bvSFE7DARAleCceFpuIa0hv8hLzqq09n5etBFQ3Sfw1JvJz/HPhx8GRWymno
+	 h5lHFXJo40UBto6r48dmQCmkOC2ewLwdY8Mr27kCm1UPNFuBfASI8W2SCCS+WAKNnX
+	 VyheKGVwxtFxh6xnIKEejK2h9gbVuEDBM3WwaEG5THoyp7WUS5tfgQUCfAlseHTM0n
+	 TkVo2+HWX30XA==
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5112a04c7acso2780112e87.3;
+        Thu, 01 Feb 2024 21:38:05 -0800 (PST)
+X-Gm-Message-State: AOJu0Yy7V2UDVH/UGuCJ2sItCV1zlsOv9EVg8uyI9cXlk2sPFzuvjVI7
+	8kAOua2IlODCNEfwr16IvyhArcamviRwCXdGC8x9dZJh/FjZg2NlT1vXFnoRtIS/HuvjfY8YEaB
+	auaf11/63sNdm8oSIOriVQMclpnQ=
+X-Google-Smtp-Source: AGHT+IEx5d3cL+SHteHuJJiPnd5pqIM+E+Jcy3+p18zXc92ZL6sviKC9fFLdsRcahqJ5y84jQK7dxuxpkrNT7J8dh8U=
+X-Received: by 2002:a19:6702:0:b0:511:341b:ff94 with SMTP id
+ b2-20020a196702000000b00511341bff94mr578145lfc.26.1706852283931; Thu, 01 Feb
+ 2024 21:38:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <679fa364-28d0-4faa-b46e-805faf56ae53@notapiano>
+References: <20231202035511.487946-1-sjg@chromium.org> <20231202035511.487946-3-sjg@chromium.org>
+ <20231213121353.GA31326@willie-the-truck> <CAFLszTjfmSx1YMqzb2TsQf7sP4KrcQB=X7DY_HxRQp0J5HAppQ@mail.gmail.com>
+ <CAK7LNAQRCDC03e=TVO=k4FuD2a2RdTy7yLr3UptQjVCX7pM1CA@mail.gmail.com>
+ <20240109143349.GR1610741@bill-the-cat> <CAFLszTjwhy24UiT6kUJABMC1Xn0h9Q1q9fYpZZJg9DX8Vss9cA@mail.gmail.com>
+ <CAFLszTjPAHd6RdO1mvatXC=yRS+h=sgJ_pMdyEnkROTx7yRpog@mail.gmail.com>
+ <CAK7LNARsY6-rrx=sNFq6oFqpqf0s5S_=3DrUsCOS7zF0BXcoTg@mail.gmail.com>
+ <CAL_JsqLYB0D5wAfedsb6tQp4EmD1AROgxiCncwO7gvA2p1C6Lg@mail.gmail.com>
+ <CAK7LNAR-3rL6=YdhRRXB9dz+94y2yHTA=9mF4p7OPj7KExd7rg@mail.gmail.com> <CAL_JsqLeTDALoKBuk9r+4NGXo0pc9LbK6bhDiZET+=UHG60fEA@mail.gmail.com>
+In-Reply-To: <CAL_JsqLeTDALoKBuk9r+4NGXo0pc9LbK6bhDiZET+=UHG60fEA@mail.gmail.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Fri, 2 Feb 2024 14:37:27 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARSHiNGwHy4Tocbfkgyio1SbHV6sRJCA7yTrcTOXYEQHQ@mail.gmail.com>
+Message-ID: <CAK7LNARSHiNGwHy4Tocbfkgyio1SbHV6sRJCA7yTrcTOXYEQHQ@mail.gmail.com>
+Subject: Re: [PATCH v9 2/2] arm64: boot: Support Flat Image Tree
+To: Rob Herring <robh@kernel.org>
+Cc: Simon Glass <sjg@chromium.org>, Tom Rini <trini@konsulko.com>, Will Deacon <will@kernel.org>, 
+	linux-arm-kernel@lists.infradead.org, Ahmad Fatoum <a.fatoum@pengutronix.de>, 
+	U-Boot Mailing List <u-boot@lists.denx.de>, Nicolas Schier <nicolas@fjasle.eu>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>, linux-doc@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	workflows@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 01, 2024 at 05:45:19PM -0500, Nícolas F. R. A. Prado wrote:
-> On Tue, Jan 30, 2024 at 04:23:02PM -0800, Greg Kroah-Hartman wrote:
-> > On Tue, Jan 30, 2024 at 04:01:57PM -0800, Brian Norris wrote:
-> > > On Tue, Jan 30, 2024 at 3:51 PM Greg Kroah-Hartman
-> > > <gregkh@linuxfoundation.org> wrote:
-> > > > On Tue, Jan 23, 2024 at 02:06:14PM -0800, Brian Norris wrote:
-> > > > > "Don't you want to have a driver data or so associated with this?"
-> > > ...
-> > > > But why limit yourself to 32bits now?  Why not make it 64?  It is going
-> > > > to be sent to userspace, so you have to be very careful about it.
-> > > 
-> > > Is that question related to the question I pasted/replied to, about
-> > > driver data? Or a new topic? Sorry if I'm misunderstanding.
-> > 
-> > Same question, driver data, you make it 32 bits.
-> > 
-> > > Anyway, for the size of the tag field: I don't have a strong opinion.
-> > > But FWIW, they're coming from this project:
-> > > 
-> > > https://review.coreboot.org/plugins/gitiles/coreboot/+/269b23280f928510bcadd23182294e5b9dad11ec/payloads/libpayload/include/coreboot_tables.h#36
-> > > 
-> > > As you can see there, we're extremely far from exhausting 16 bits, let alone 32.
-> > 
-> > We've run into running out of bits in other subsystems before, it's
-> > "free" now, just be safe and make it 64 like I think Andy is suggesting.
-> 
-> Either you and Andy are suggesting different things, or I still don't quite get
-> what you mean.
-> 
-> Andy was suggesting we added a driver_data field, that is:
-> 
-> struct coreboot_device_id {
-> 	__u32 tag;
-> 	kernel_ulong_t driver_data;
-> };
-> 
-> You're suggesting we make the tag 64 bits long:
-> 
-> struct coreboot_device_id {
-> 	__u64 tag;
-> };
+On Fri, Feb 2, 2024 at 6:03=E2=80=AFAM Rob Herring <robh@kernel.org> wrote:
+>
+> On Wed, Jan 31, 2024 at 8:09=E2=80=AFPM Masahiro Yamada <masahiroy@kernel=
+.org> wrote:
+> >
+> > On Thu, Feb 1, 2024 at 7:03=E2=80=AFAM Rob Herring <robh@kernel.org> wr=
+ote:
+> > >
+> > > On Tue, Jan 30, 2024 at 3:16=E2=80=AFAM Masahiro Yamada <masahiroy@ke=
+rnel.org> wrote:
+> > > >
+> > > > On Fri, Jan 26, 2024 at 1:04=E2=80=AFAM Simon Glass <sjg@chromium.o=
+rg> wrote:
+> > > > >
+> > > > > Hi,
+> > > > >
+> > > > > On Wed, 17 Jan 2024 at 06:14, Simon Glass <sjg@chromium.org> wrot=
+e:
+> > > > > >
+> > > > > > Hi Masahiro, Tom,
+> > > > > >
+> > > > > > On Tue, 9 Jan 2024 at 07:33, Tom Rini <trini@konsulko.com> wrot=
+e:
+> > > > > > >
+> > > > > > > On Tue, Jan 09, 2024 at 11:01:42PM +0900, Masahiro Yamada wro=
+te:
+> > > > > > > > Hi Simon,
+> > > > > > > >
+> > > > > > > >
+> > > > > > > > On Wed, Jan 3, 2024 at 8:47=E2=80=AFAM Simon Glass <sjg@chr=
+omium.org> wrote:
+> > > > > > > > >
+> > > > > > > > > Hi Masahiro,
+> > > > > > > > >
+> > > > > > > > > On Wed, Dec 13, 2023 at 5:14=E2=80=AFAM Will Deacon <will=
+@kernel.org> wrote:
+> > > > > > > > > >
+> > > > > > > > > > On Fri, Dec 01, 2023 at 08:54:42PM -0700, Simon Glass w=
+rote:
+> > > > > > > > > > > Add a script which produces a Flat Image Tree (FIT), =
+a single file
+> > > > > > > > > > > containing the built kernel and associated devicetree=
+ files.
+> > > > > > > > > > > Compression defaults to gzip which gives a good balan=
+ce of size and
+> > > > > > > > > > > performance.
+> > > > > > > > > > >
+> > > > > > > > > > > The files compress from about 86MB to 24MB using this=
+ approach.
+> > > > > > > > > > >
+> > > > > > > > > > > The FIT can be used by bootloaders which support it, =
+such as U-Boot
+> > > > > > > > > > > and Linuxboot. It permits automatic selection of the =
+correct
+> > > > > > > > > > > devicetree, matching the compatible string of the run=
+ning board with
+> > > > > > > > > > > the closest compatible string in the FIT. There is no=
+ need for
+> > > > > > > > > > > filenames or other workarounds.
+> > > > > > > > > > >
+> > > > > > > > > > > Add a 'make image.fit' build target for arm64, as wel=
+l. Use
+> > > > > > > > > > > FIT_COMPRESSION to select a different algorithm.
+> > > > > > > > > > >
+> > > > > > > > > > > The FIT can be examined using 'dumpimage -l'.
+> > > > > > > > > > >
+> > > > > > > > > > > This features requires pylibfdt (use 'pip install lib=
+fdt'). It also
+> > > > > > > > > > > requires compression utilities for the algorithm bein=
+g used. Supported
+> > > > > > > > > > > compression options are the same as the Image.xxx fil=
+es. For now there
+> > > > > > > > > > > is no way to change the compression other than by edi=
+ting the rule for
+> > > > > > > > > > > $(obj)/image.fit
+> > > > > > > > > > >
+> > > > > > > > > > > While FIT supports a ramdisk / initrd, no attempt is =
+made to support
+> > > > > > > > > > > this here, since it must be built separately from the=
+ Linux build.
+> > > > > > > > > > >
+> > > > > > > > > > > Signed-off-by: Simon Glass <sjg@chromium.org>
+> > > > > > > > > > > ---
+> > > > > > > > > > >
+> > > > > > > > > > > Changes in v9:
+> > > > > > > > > > > - Move the compression control into Makefile.lib
+> > > > > > > > > > >
+> > > > > > > > > > > Changes in v8:
+> > > > > > > > > > > - Drop compatible string in FDT node
+> > > > > > > > > > > - Correct sorting of MAINTAINERS to before ARM64 PORT
+> > > > > > > > > > > - Turn compress part of the make_fit.py comment in to=
+ a sentence
+> > > > > > > > > > > - Add two blank lines before parse_args() and setup_f=
+it()
+> > > > > > > > > > > - Use 'image.fit: dtbs' instead of BUILD_DTBS var
+> > > > > > > > > > > - Use '$(<D)/dts' instead of '$(dir $<)dts'
+> > > > > > > > > > > - Add 'mkimage' details Documentation/process/changes=
+.rst
+> > > > > > > > > > > - Allow changing the compression used
+> > > > > > > > > > > - Tweak cover letter since there is only one clean-up=
+ patch
+> > > > > > > > > > >
+> > > > > > > > > > > Changes in v7:
+> > > > > > > > > > > - Add Image as a dependency of image.fit
+> > > > > > > > > > > - Drop kbuild tag
+> > > > > > > > > > > - Add dependency on dtbs
+> > > > > > > > > > > - Drop unnecessary path separator for dtbs
+> > > > > > > > > > > - Rebase to -next
+> > > > > > > > > > >
+> > > > > > > > > > > Changes in v5:
+> > > > > > > > > > > - Drop patch previously applied
+> > > > > > > > > > > - Correct compression rule which was broken in v4
+> > > > > > > > > > >
+> > > > > > > > > > > Changes in v4:
+> > > > > > > > > > > - Use single quotes for UIMAGE_NAME
+> > > > > > > > > > >
+> > > > > > > > > > > Changes in v3:
+> > > > > > > > > > > - Drop temporary file image.itk
+> > > > > > > > > > > - Drop patch 'Use double quotes for image name'
+> > > > > > > > > > > - Drop double quotes in use of UIMAGE_NAME
+> > > > > > > > > > > - Drop unnecessary CONFIG_EFI_ZBOOT condition for hel=
+p
+> > > > > > > > > > > - Avoid hard-coding "arm64" for the DT architecture
+> > > > > > > > > > >
+> > > > > > > > > > > Changes in v2:
+> > > > > > > > > > > - Drop patch previously applied
+> > > > > > > > > > > - Add .gitignore file
+> > > > > > > > > > > - Move fit rule to Makefile.lib using an intermediate=
+ file
+> > > > > > > > > > > - Drop dependency on CONFIG_EFI_ZBOOT
+> > > > > > > > > > > - Pick up .dtb files separately from the kernel
+> > > > > > > > > > > - Correct pylint too-many-args warning for write_kern=
+el()
+> > > > > > > > > > > - Include the kernel image in the file count
+> > > > > > > > > > > - Add a pointer to the FIT spec and mention of its wi=
+de industry usage
+> > > > > > > > > > > - Mention the kernel version in the FIT description
+> > > > > > > > > > >
+> > > > > > > > > > >  Documentation/process/changes.rst |   9 +
+> > > > > > > > > > >  MAINTAINERS                       |   7 +
+> > > > > > > > > > >  arch/arm64/Makefile               |   7 +-
+> > > > > > > > > > >  arch/arm64/boot/.gitignore        |   1 +
+> > > > > > > > > > >  arch/arm64/boot/Makefile          |   6 +-
+> > > > > > > > > > >  scripts/Makefile.lib              |  16 ++
+> > > > > > > > > > >  scripts/make_fit.py               | 291 ++++++++++++=
+++++++++++++++++++
+> > > > > > > > > > >  7 files changed, 334 insertions(+), 3 deletions(-)
+> > > > > > > > > > >  create mode 100755 scripts/make_fit.py
+> > > > > > > > > >
+> > > > > > > > > > I'll need Masahiro's Ack on the scripts/ changes before=
+ I can take this
+> > > > > > > > > > one.
+> > > > > > > > >
+> > > > > > > > > Any thoughts on this request, please?
+> > > > > > > > >
+> > > > > > > > > Regards,
+> > > > > > > > > Simon
+> > > > > > > > >
+> > > > > > > >
+> > > > > > > >
+> > > > > > > >
+> > > > > > > > As I mentioned before, I am concerned with having
+> > > > > > > > the same "compatible" entries, with different contents,
+> > > > > > > > as you use the "compatible" string as an ID to selecting
+> > > > > > > > the target config node, right?
+> > > > > > > >
+> > > > > > > >
+> > > > > > > >
+> > > > > > > >
+> > > > > > > >
+> > > > > > > > $ fdtdump  arch/arm64/boot/image.fit
+> > > > > > > >
+> > > > > > > >         ...
+> > > > > > > >
+> > > > > > > >         conf-10 {
+> > > > > > > >             compatible =3D "tq,am642-tqma6442l-mbax4xxl",
+> > > > > > > > "tq,am642-tqma6442l", "ti,am642";
+> > > > > > > >             description =3D "TQ-Systems TQMa64xxL SoM on MB=
+ax4xxL carrier board";
+> > > > > > > >             fdt =3D "fdt-10";
+> > > > > > > >             kernel =3D "kernel";
+> > > > > > > >         };
+> > > > > > > >
+> > > > > > > >         ...
+> > > > > > > >
+> > > > > > > >         conf-25 {
+> > > > > > > >             compatible =3D "tq,am642-tqma6442l-mbax4xxl",
+> > > > > > > > "tq,am642-tqma6442l", "ti,am642";
+> > > > > > > >             description =3D "TQ-Systems TQMa64xxL SoM on MB=
+ax4xxL carrier board";
+> > > > > > > >             fdt =3D "fdt-25";
+> > > > > > > >             kernel =3D "kernel";
+> > > > > > > >         };
+> > > > > > >
+> > > > > > > I had asked Rob a while ago about if having the same compatib=
+le for two
+> > > > > > > functionally different machines is a feature, or a bug, and I=
+ don't
+> > > > > > > think either of us fully agreed either way. I'd be leaning to=
+wards
+> > > > > > > saying the above example is a bug in the dts files, it's just=
+ not been a
+> > > > > > > bug people have worried about before due to (sadly) how littl=
+e the
+> > > > > > > top-level compatible has been used.
+> > >
+> > > I much prefer being able to use compatibles over filenames.
+> > >
+> > > > > >
+> > > > > > Yes I believe this is a bug in the files.
+> > > > > >
+> > > > > > What should the script do in this case? Print a warning, perhap=
+s?
+> > > > >
+> > > > > Is there anything I should do here? Would a warning be helpful, o=
+r
+> > > > > just confusing?
+> > > >
+> > > >
+> > > >
+> > > > I do not think it is useful.
+> > > > You would almost always get a warning, and there is no way to fix i=
+t.
+> > >
+> > > The above case is due to overlays. Why would you have a FIT image wit=
+h
+> > > both a base tree and applied overlays?
+> >
+> >
+> >
+> > Because they are different hardware.
+>
+> Meaning the base tree is valid on its own without any overlays?
 
-Yeah, I'm confused, sorry.
 
-Yes, add some driver_data, and if you are SURE your tag will NEVER be
-larger than 32 bits, stick with that, but really, you are using the
-space in empty padding anyway, so just make it 64bits please.
 
-thanks,
+If the base board is directly added to dtb-y, we need to assume
+it is valid as a standalone board.
 
-greg k-h
+
+k3-am654-gp-evm-dtbs is a base of other composite DTBs, and
+it is also added to dtb-y.
+
+
+dtb-$(CONFIG_ARCH_K3) +=3D k3-am654-base-board.dtb
+
+
+
+Not only the base board.
+
+
+There are multiple composite DTBs that have the same compatible string.
+
+
+k3-am654-gp-evm-dtbs :=3D k3-am654-base-board.dtb
+k3-am654-base-board-rocktech-rk101-panel.dtbo
+k3-am654-evm-dtbs :=3D k3-am654-base-board.dtb k3-am654-icssg2.dtbo
+
+
+
+k3-am654-base-board.dtb, k3-am654-gp-evm-dtbs, and k3-am654-evm-dtbs
+have the same top-level compatible string.
+
+
+
+
+>
+> > If FIT includes only base DTBs, how to use a base with extensions?
+>
+> I would expect that you package up base and overlays or DTs with
+> already applied overlays, but not both together. That would be based
+> on whether your bootloader can apply overlays or not.
+
+
+Correct.
+
+
+
+> This problem boils down to your firmware knows or gains the knowledge
+> of some set of extra features or h/w pop options. The result is you
+> need base plus X, Y, Z whether those are a list of overlays or an
+> encoding of filename or something else. For example, FIT entries could
+> have a field that just lists those X, Y, Z features. But I'd much
+> rather have something that works outside of FIT images.
+>
+> > > In any case, maybe we need to record in dtb overlays that have been
+> > > applied (which you asked about recently on dtc list). Not sure what
+> > > that looks like though. Overlays have a 'top-level' compatible that w=
+e
+> > > add in either separately or merged with the base's top-level
+> > > compatible?
+> >
+> >
+> > If there is a way to make "compatible" unique, that will be good.
+> >
+> > But, in my understanding, we can replace a property value,
+> > but not modify it.
+>
+> Currently yes, but that shouldn't be too hard to add. The dtc
+> modification is the easy part. The hard part is figuring out the
+> policy around how we would use that.
+>
+> But I don't really know what you want to accomplish with FIT here.
+> IMO, if you need filenames, then use a filesystem. They work pretty
+> well for storing large collections of files.
+
+
+Whom does the term "you" point to?
+
+If you have questions about the motivation for this patch,
+ask its author.
+
+
+
+There are two ways to look up the config node;
+node-name or compatible string.
+
+The key-value lookup works only when the key is unique.
+
+Apparently, the compatible string is not unique
+when overlay comes into play.
+
+
+
+
+
+
+
+>
+> Rob
+
+--
+Best Regards
+Masahiro Yamada
 
