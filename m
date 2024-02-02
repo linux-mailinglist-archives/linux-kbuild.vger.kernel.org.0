@@ -1,178 +1,140 @@
-Return-Path: <linux-kbuild+bounces-774-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-775-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id F04EC846FFE
-	for <lists+linux-kbuild@lfdr.de>; Fri,  2 Feb 2024 13:17:15 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC749847137
+	for <lists+linux-kbuild@lfdr.de>; Fri,  2 Feb 2024 14:35:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 660D81F2644F
-	for <lists+linux-kbuild@lfdr.de>; Fri,  2 Feb 2024 12:17:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 63D361F2A558
+	for <lists+linux-kbuild@lfdr.de>; Fri,  2 Feb 2024 13:35:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 376D713F009;
-	Fri,  2 Feb 2024 12:17:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2D7446551;
+	Fri,  2 Feb 2024 13:35:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="LpzTI4ob"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PmN7xeAD"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7137E140776
-	for <linux-kbuild@vger.kernel.org>; Fri,  2 Feb 2024 12:17:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74F924655F;
+	Fri,  2 Feb 2024 13:35:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706876226; cv=none; b=PHkaolmqPdLToPRz8r8RCkD561zc+T8xnq3w2eglac+kOoP+ZUJHhYqCMz5WAayTvOZTwWryfcjBmL9EJPOVcWXzkTiJo6dDgJmfxCHi/iijPO4SdTbpfWmxYIi0MM9LdqaFdvjPcOK3S5Y9X9EptCYutgm5JFhWlMMhD2azdZo=
+	t=1706880927; cv=none; b=u9j2wXOdveH6hkU8um7zbewkXwNxLNIXHXY+WmN06mlCooLCGCePI13jyj/HtSn8sIUh6I421Hp1+qrEgJFKmJlUSu8uyNCqAL0zCpT9pn9u58Ybj8lgLUdtlRWYhDExQ1iHNsj08R7f9z68VVXNdiJH8yNS6qMgfoinpweApLk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706876226; c=relaxed/simple;
-	bh=6WMlixFsMD3YXZFA7X0TiodSA2ARpqznFCPL+NJ64J0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tI2sahJu98sKqdUWUXcSbmQGMCrGjFdlyEL/0trwl4/LWGCLF0PbTuVfk90bw7GVHOyegp/rC3FIVY2NFDsAeuvVs45gHm2Ba2s2YAgLcrPb0A3U2D2zazpk8Hvh74OjYb3igiwiVGnq/KJEsphivyV73LrJoXfrtVENTTCgwKo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=LpzTI4ob; arc=none smtp.client-ip=209.85.216.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-2963cc5e8acso497548a91.2
-        for <linux-kbuild@vger.kernel.org>; Fri, 02 Feb 2024 04:17:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1706876224; x=1707481024; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=UQ0esveh//cg9XCkiI/7xWePudzmiIjItwxrOruHVwk=;
-        b=LpzTI4obYAxHG+Gkig1OmPJWjP1D7uCoxw6UBg4vbSrdCkGBoxM0DmUc7l0biBlLHO
-         5WmQINucpkAfAX0/VONbedxa2YvfDqR8UPCIidaEWy5PTELhJMPbvyRbk1UctJFjqf5N
-         KWD9EtZB5AjPgIhMX1zUwQFe8JOb42Vh8WwsM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706876224; x=1707481024;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UQ0esveh//cg9XCkiI/7xWePudzmiIjItwxrOruHVwk=;
-        b=rAmTXrUCj16Hi3/PTBQzezliFtsY/y59rzUkFM6qCl5uej1WQXJWLLO3hW/xN8JPL9
-         3/p8sEWQfy8+9az81bODMtu0N/Hg2g6JKykmFFcAD50590QC9Ebd9PN+e1eM2+HXqVr/
-         QjOv+il2U+TmJIctBTD3heK7aeCKIZl90AQxfEsodzn7pNclsthmm6+mawn0ipZcU0F9
-         eY02ipoeviUeLsNMzGaVR417ybxPovn7pczmPLIaE9TCOfpH+0hkBl0DO0AeM2hrVH/1
-         GCJOVMLqBovwRw1FBeKobDTmQkFvJD2h7WV4GtdVrfZe+uyZ8w3GmljBjufAZtZb1Znp
-         15sA==
-X-Gm-Message-State: AOJu0YxDLXoyV/RysiYuMoWU+4EeAXOJFLrxgCE+gthfUYEGYaVBamVI
-	v3Vpe1Y9Z2l0pH0MP0AXvg5ZlC0ohbkQBJqin979gT9ZBbtwETfvqfp8fd89Gg==
-X-Google-Smtp-Source: AGHT+IGg88zNLC34obB5/fOW4+rC0GoCG14stcT3rLU6L9HZrzANdbP1B4KMEzwmTO1dY9t5epZ2BQ==
-X-Received: by 2002:a17:90b:1298:b0:296:1dcf:c296 with SMTP id fw24-20020a17090b129800b002961dcfc296mr1876188pjb.18.1706876223734;
-        Fri, 02 Feb 2024 04:17:03 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCUGVn+0c2h4HxapCQwK+CBO5gK3KOvlzIatkL3Eg+0hshg2pC4xRmXdAPGwrPO866Nj9YF+U6s6nJkm+zEO0B/JBsHbpfqLIrHUgGxhmDm7PR7dJOIlSKekZQeCfpS4kk6gdUCRy8AKy1koQcYXJUoBqPtoXthgUI8I+/eaEfrPbo4kflZwbchOOzcwU5swL0S6WdMTIJa+mw55to+6uV3nDPQwGmi8fzDIZ1/ceDsJxByCfPOeO0l/S81b9BgnbLDHSPgD7FlGPHvtp8Z/FomG1NkHrVilLrlukHP1pAw9wYKJnI22iJxJmSjYHmQniMGlZYsc/cdM58fBdkhFMawZoGvAvkTYiXvNll9VJlnJ8j/FX+IAuDXHo43itnq+OGQQdsBiGyQPYcczK3z4vcpWYVXqya3O7moVN8gWmQjkhvZgr8SZOqWDhbrhJgPiVmYM7CkU25sPa9I0PqKXD5aa7cvoHKmNkLXZ4/epetFyeC0sd5jBRU3IEcz8/3lo1E3SteGrn+6+Y/KEkJjGEjE/TlV+t7ZzrhslvL+T17oohFYN0g54YBk1TJzsBIkJwnqakFKkOfMS15bofbWnqaCKkx+rJlTObTtkF5AePTEEUWmqLLwa3jLiNLz4lnivpuzOGcGhWnPJl5a421rYycnirgqxJHh/cGTKPA8EmcYWycgZa67VxpoBN5oGlmkdby+KZtTF2BuWlV1VWF5HfxIzOVdG8qZz4Q257WM=
-Received: from www.outflux.net ([198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id su13-20020a17090b534d00b002927a36b7a0sm1671429pjb.23.2024.02.02.04.17.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Feb 2024 04:17:03 -0800 (PST)
-Date: Fri, 2 Feb 2024 04:17:02 -0800
-From: Kees Cook <keescook@chromium.org>
-To: Marco Elver <elver@google.com>
-Cc: linux-hardening@vger.kernel.org, Justin Stitt <justinstitt@google.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
+	s=arc-20240116; t=1706880927; c=relaxed/simple;
+	bh=RKMOk0rYR3IGINlpmA2Z8cdwjH0dlA8ns+BK0/KqDhQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Qkb/qemZcN2jPAYHgKsmGGNtRyXJQ+LH5lcv4ro+0DskQEx1WyNKlfs/xue0IlldpvW+lBEqo10AY/2K4Ky+jls+nIHeHiTzUuEpV+0Nqwnx7+TfpP/8cBfyLtigNQ/vU+0eF9RhNHiEkoMUvHagh+pW4Zt6Q3HQUohZiEOty44=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PmN7xeAD; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 151F8C433C7;
+	Fri,  2 Feb 2024 13:35:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706880927;
+	bh=RKMOk0rYR3IGINlpmA2Z8cdwjH0dlA8ns+BK0/KqDhQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=PmN7xeADdgyThbN7l4XKfqTgeB5HRIhIwfK6MGIj/wMB2Gzx8p4vd6jPX50FtHTjk
+	 3gXfTRHzFrUEGlX61XMOKZRHol/iKQX9KIz6LL+8UQ9Ixv88/iCOqln2zDa8ijfjQR
+	 saGUs8jNuaA03bFRDUuw/NuuLSm3J/kzXg2fFEyR65SuPeSPRUZEQi1NdY3fw+Q+ce
+	 1cscWfbqheiBklAi2zFpfruIrYoY+LApEe0rmKwEnfmz3WdnseHZrbRmroWvz+f7k4
+	 Sa0hKmese3nNXWu3+r28Oz6AzCLtKO1Z6D82itcIO3yC/HG8BrE4EK+I2WlanjNXVf
+	 TlKnuFhDLChww==
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: linux-kbuild@vger.kernel.org
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Peter Zijlstra <peterz@infradead.org>, Hao Luo <haoluo@google.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Fangrui Song <maskray@google.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
 	Nicolas Schier <nicolas@fjasle.eu>,
-	Bill Wendling <morbo@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>, x86@kernel.org,
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	llvm@lists.linux.dev, linux-doc@vger.kernel.org,
-	netdev@vger.kernel.org, linux-crypto@vger.kernel.org,
-	kasan-dev@googlegroups.com, linux-acpi@vger.kernel.org
-Subject: Re: [PATCH v2 2/6] ubsan: Reintroduce signed and unsigned overflow
- sanitizers
-Message-ID: <202402020405.7E0B5B3784@keescook>
-References: <20240202101311.it.893-kees@kernel.org>
- <20240202101642.156588-2-keescook@chromium.org>
- <CANpmjNPPbTNPJfM5MNE6tW-jCse+u_RB8bqGLT3cTxgCsL+x-A@mail.gmail.com>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/4] kbuild: rpm-pkg: do not include depmod-generated files
+Date: Fri,  2 Feb 2024 22:35:17 +0900
+Message-Id: <20240202133520.302738-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANpmjNPPbTNPJfM5MNE6tW-jCse+u_RB8bqGLT3cTxgCsL+x-A@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Feb 02, 2024 at 12:01:55PM +0100, Marco Elver wrote:
-> On Fri, 2 Feb 2024 at 11:16, Kees Cook <keescook@chromium.org> wrote:
-> > [...]
-> > +config UBSAN_UNSIGNED_WRAP
-> > +       bool "Perform checking for unsigned arithmetic wrap-around"
-> > +       depends on $(cc-option,-fsanitize=unsigned-integer-overflow)
-> > +       depends on !X86_32 # avoid excessive stack usage on x86-32/clang
-> > +       depends on !COMPILE_TEST
-> > +       help
-> > +         This option enables -fsanitize=unsigned-integer-overflow which checks
-> > +         for wrap-around of any arithmetic operations with unsigned integers. This
-> > +         currently causes x86 to fail to boot.
-> 
-> My hypothesis is that these options will quickly be enabled by various
-> test and fuzzing setups, to the detriment of kernel developers. While
-> the commit message states that these are for experimentation, I do not
-> think it is at all clear from the Kconfig options.
+Installing the kernel package is fine, but when uninstalling it, the
+following warnings are shown:
 
-I can certainly rephrase it more strongly. I would hope that anyone
-enabling the unsigned sanitizer would quickly realize how extremely
-noisy it is.
+  warning: file modules.symbols.bin: remove failed: No such file or directory
+  warning: file modules.symbols: remove failed: No such file or directory
+  warning: file modules.softdep: remove failed: No such file or directory
+  warning: file modules.devname: remove failed: No such file or directory
+  warning: file modules.dep.bin: remove failed: No such file or directory
+  warning: file modules.dep: remove failed: No such file or directory
+  warning: file modules.builtin.bin: remove failed: No such file or directory
+  warning: file modules.builtin.alias.bin: remove failed: No such file or directory
+  warning: file modules.alias.bin: remove failed: No such file or directory
+  warning: file modules.alias: remove failed: No such file or directory
 
-> Unsigned integer wrap-around is relatively common (it is _not_ UB
-> after all). While I can appreciate that in some cases wrap around is a
-> genuine semantic bug, and that's what we want to find with these
-> changes, ultimately marking all semantically valid wrap arounds to
-> catch the unmarked ones. Given these patterns are so common, and C
-> programmers are used to them, it will take a lot of effort to mark all
-> the intentional cases. But I fear that even if we get to that place,
-> _unmarked_  but semantically valid unsigned wrap around will keep
-> popping up again and again.
+The %preun scriptlet runs 'kernel-install remove', which in turn invokes
+/usr/lib/kernel/install.d/50-depmod.install to remove those files before
+the actual package removal.
 
-I agree -- it's going to be quite a challenge. My short-term goal is to
-see how far the sanitizer itself can get with identifying intentional
-uses. For example, I found two more extremely common code patterns that
-trip it now:
+RPM-based distributions do not ship files generated by depmod. Mark them
+as %ghost in order to exclude them from the package, but still claim the
+ownership on them.
 
-	unsigned int i = ...;
-	...
-	while (i--) { ... }
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-This trips the sanitizer at loop exit. :P It seems like churn to
-refactor all of these into "for (; i; i--)". The compiler should be able
-to identify this by looking for later uses of "i", etc.
+ scripts/package/kernel.spec | 22 +++++++++++++++++++---
+ 1 file changed, 19 insertions(+), 3 deletions(-)
 
-The other is negative constants: -1UL, -3ULL, etc. These are all over
-the place and very very obviously intentional and should be ignored by
-the compiler.
-
-> What is the long-term vision to minimize the additional churn this may
-> introduce?
-
-My hope is that we can evolve the coverage over time. Solving it all at
-once won't be possible, but I think we can get pretty far with the
-signed overflow sanitizer, which runs relatively cleanly already.
-
-If we can't make meaningful progress in unsigned annotations, I think
-we'll have to work on gaining type-based operator overloading so we can
-grow type-aware arithmetic. That will serve as a much cleaner
-annotation. E.g. introduce jiffie_t, which wraps.
-
-> I think the problem reminds me a little of the data race problem,
-> although I suspect unsigned integer wraparound is much more common
-> than data races (which unlike unsigned wrap around is actually UB) -
-> so chasing all intentional unsigned integer wrap arounds and marking
-> will take even more effort than marking all intentional data races
-> (which we're still slowly, but steadily, making progress towards).
-> 
-> At the very least, these options should 'depends on EXPERT' or even
-> 'depends on BROKEN' while the story is still being worked out.
-
-Perhaps I should hold off on bringing the unsigned sanitizer back? I was
-hoping to work in parallel with the signed sanitizer, but maybe this
-isn't the right approach?
-
+diff --git a/scripts/package/kernel.spec b/scripts/package/kernel.spec
+index f58726671fb3..aaedb6d1b26f 100644
+--- a/scripts/package/kernel.spec
++++ b/scripts/package/kernel.spec
+@@ -66,6 +66,20 @@ ln -fns /usr/src/kernels/%{KERNELRELEASE} %{buildroot}/lib/modules/%{KERNELRELEA
+ %{make} %{makeflags} run-command KBUILD_RUN_COMMAND='${srctree}/scripts/package/install-extmod-build %{buildroot}/usr/src/kernels/%{KERNELRELEASE}'
+ %endif
+ 
++{
++	for x in System.map config kernel modules.builtin \
++			modules.builtin.modinfo modules.order vmlinuz; do
++		echo "/lib/modules/%{KERNELRELEASE}/${x}"
++	done
++
++	for x in alias alias.bin builtin.alias.bin builtin.bin dep dep.bin \
++					devname softdep symbols symbols.bin; do
++		echo "%ghost /lib/modules/%{KERNELRELEASE}/modules.${x}"
++	done
++
++	echo "%exclude /lib/modules/%{KERNELRELEASE}/build"
++} > %{buildroot}/kernel.list
++
+ %clean
+ rm -rf %{buildroot}
+ 
+@@ -78,6 +92,9 @@ for file in vmlinuz System.map config; do
+ 		cp "/lib/modules/%{KERNELRELEASE}/${file}" "/boot/${file}-%{KERNELRELEASE}"
+ 	fi
+ done
++if [ ! -e "/lib/modules/%{KERNELRELEASE}/modules.dep" ]; then
++	/usr/sbin/depmod %{KERNELRELEASE}
++fi
+ 
+ %preun
+ if [ -x /sbin/new-kernel-pkg ]; then
+@@ -91,10 +108,9 @@ if [ -x /sbin/update-bootloader ]; then
+ /sbin/update-bootloader --remove %{KERNELRELEASE}
+ fi
+ 
+-%files
++%files -f %{buildroot}/kernel.list
+ %defattr (-, root, root)
+-/lib/modules/%{KERNELRELEASE}
+-%exclude /lib/modules/%{KERNELRELEASE}/build
++%exclude /kernel.list
+ 
+ %files headers
+ %defattr (-, root, root)
 -- 
-Kees Cook
+2.40.1
+
 
