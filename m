@@ -1,121 +1,79 @@
-Return-Path: <linux-kbuild+bounces-824-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-825-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 735F384958B
-	for <lists+linux-kbuild@lfdr.de>; Mon,  5 Feb 2024 09:39:56 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5662284959C
+	for <lists+linux-kbuild@lfdr.de>; Mon,  5 Feb 2024 09:45:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2E3E3286B2E
-	for <lists+linux-kbuild@lfdr.de>; Mon,  5 Feb 2024 08:39:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D955F1F24ECD
+	for <lists+linux-kbuild@lfdr.de>; Mon,  5 Feb 2024 08:45:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 985DC11C89;
-	Mon,  5 Feb 2024 08:39:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8979111A2;
+	Mon,  5 Feb 2024 08:45:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="gFzYo+ms";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="1W5AvZd6"
+	dkim=pass (2048-bit key) header.d=totaltradecircle.com header.i=@totaltradecircle.com header.b="eeuZ0L9u"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mail.totaltradecircle.com (mail.totaltradecircle.com [217.61.112.156])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CAB8111A0;
-	Mon,  5 Feb 2024 08:39:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E50611709
+	for <linux-kbuild@vger.kernel.org>; Mon,  5 Feb 2024 08:45:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.61.112.156
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707122380; cv=none; b=gzeZWGnz3xnA1DTuNEKRh+e6o9XV3shrsvgwgLyKfBZzw+UaCo1VP0FJgovqwoz7K0z0EST2yAPcV0lKpqVFoYmoKZbPWJt2IYDJCG4RTQysivoayyvmVARi0dZNV3HIhJNjzw5UzUeVgDffYaFAQtKfVQLWRlYFpWT3vzb8dG8=
+	t=1707122731; cv=none; b=hg2hn5kVPDkbk01Z5Dj31ntPj3/zyVbDnUNugpPl9eNDys0jJEHYmjN0o7YzNKfjxDPZpdMYvm9wa9v0qPXdSleayh/FEkF2hZHQdshpuh9adJZ3SO1HR17jpwkbW8w3qdfjhWy2ZYIjarC6ZyrJ/xeydY+Wkfc3q/PM32wjfMs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707122380; c=relaxed/simple;
-	bh=glbysHXbTHeXgr5vqZPyAXI1kRCcReCyMqy5wLvmetQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=sK6oFExT6Bd/j62uTCQkmIQ4wgHGwSOyE1Up7zjD1hNgYKRcbyIUaiJzNMfjXoPXgAdGe40KXicvY+RHdrsZpkItgEzcqvIC8xGSS1ZuYeoMUGh2Dmsh1eNUjKrOTarGmLgDeOEMEBgQKXXeQxG53W5IXuPnMKYGSxYw17g3mGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=gFzYo+ms; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=1W5AvZd6; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-From: John Ogness <john.ogness@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1707122375;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=410oVLaTDeyabSNXtoLd0DEYuxw6VZoAesHkjytsmkA=;
-	b=gFzYo+msOvMEqmQChOwt9aQES7HiYfENSE4iVu2jY2ht0dYMaOgcJlESbXeHr8TFE/rSPI
-	kdChic2EqUi6SYMJMLOpiHNIuBy0mR747eBjdTi1P8gkVP0Hvmxqho3Sxauacs0efjCirX
-	EBTErOi618UP4pZJ93kHE7JBatfkH6QBSbiiZuLMLTVkgUUJ3Up0+MZeeBR9T0hwZo2RW3
-	T1ILu/liVJtWjx0ZBeTRwH5ytiL70VbZQ5C7uzB7farneeZsWFuaezpGrGL0mu40MnfP6H
-	2Q715CyvsbPMi7cpEV3K2lPvJT4R3iJ7ELBmYlwJmwm7Q5tb/IMRLJL4sgWegA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1707122375;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=410oVLaTDeyabSNXtoLd0DEYuxw6VZoAesHkjytsmkA=;
-	b=1W5AvZd6AD73J8/TVCafIxEOeHTeYFntbFzFdcKPaAtejg3RNTMWK1wKMmOZD2ZSBxdbnW
-	Et6AH5rJwsuRCpCA==
-To: Yoann Congal <yoann.congal@smile.fr>, linux-fsdevel@vger.kernel.org,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-serial@vger.kernel.org, x86@kernel.org
-Cc: =?utf-8?Q?Andr=C3=A9?= Almeida <andrealmeid@igalia.com>, Borislav Petkov
- <bp@alien8.de>,
- Darren Hart <dvhart@infradead.org>, Dave Hansen
- <dave.hansen@linux.intel.com>, Davidlohr Bueso <dave@stgolabs.net>, Geert
- Uytterhoeven <geert@linux-m68k.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, "H . Peter Anvin" <hpa@zytor.com>, Ingo
- Molnar <mingo@redhat.com>, Jiri Slaby <jirislaby@kernel.org>, Josh
- Triplett <josh@joshtriplett.org>, Masahiro Yamada <masahiroy@kernel.org>,
- Matthew Wilcox <willy@infradead.org>, Peter Zijlstra
- <peterz@infradead.org>, Petr Mladek <pmladek@suse.com>, Sergey Senozhatsky
- <senozhatsky@chromium.org>, Steven Rostedt <rostedt@goodmis.org>, Thomas
- Gleixner <tglx@linutronix.de>, Willem de Bruijn
- <willemdebruijn.kernel@gmail.com>, Yoann Congal <yoann.congal@smile.fr>,
- Vegard Nossum <vegard.nossum@oracle.com>
-Subject: Re: [PATCH v3 1/2] printk: Fix LOG_CPU_MAX_BUF_SHIFT when
- BASE_SMALL is enabled
-In-Reply-To: <20240204232945.1576403-2-yoann.congal@smile.fr>
-References: <20240204232945.1576403-1-yoann.congal@smile.fr>
- <20240204232945.1576403-2-yoann.congal@smile.fr>
-Date: Mon, 05 Feb 2024 09:45:27 +0106
-Message-ID: <87bk8vpao0.fsf@jogness.linutronix.de>
+	s=arc-20240116; t=1707122731; c=relaxed/simple;
+	bh=Q+o3lnpDoF2X+Yfrmflkha+YTGaWlcOIaDF4AiyLnGA=;
+	h=Message-ID:Date:From:To:Subject:MIME-Version:Content-Type; b=qlCrtWiD/v3AlB2htMAOK2ffLZwSv/75f7QqHp6M9dXgbXbUz2n9qdFTLyC0VSco6/yASRhgssvmoo125Yy+8nS7qc02Lb/Z3wSdrX3+UDmgiEysYTT6BhTyfcn0PGOjgbKWKxOiXuOcc5KQ7OMcQNTy/ixp5I1e6AZaTjJm2Fk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=totaltradecircle.com; spf=pass smtp.mailfrom=totaltradecircle.com; dkim=pass (2048-bit key) header.d=totaltradecircle.com header.i=@totaltradecircle.com header.b=eeuZ0L9u; arc=none smtp.client-ip=217.61.112.156
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=totaltradecircle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=totaltradecircle.com
+Received: by mail.totaltradecircle.com (Postfix, from userid 1002)
+	id AFBA98268E; Mon,  5 Feb 2024 09:45:16 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=totaltradecircle.com;
+	s=mail; t=1707122718;
+	bh=Q+o3lnpDoF2X+Yfrmflkha+YTGaWlcOIaDF4AiyLnGA=;
+	h=Date:From:To:Subject:From;
+	b=eeuZ0L9uXAIO/clJuK0TplSkR/ZX929IEEIxT0VD8wXO+iyQ48cfrGXb9RwXT35qv
+	 5bvTUfzIM9Jot0feBZ2nE3J3Mlhr4V2HVp0FOy8bzkfMPuIyPfvYrARG16isHUUXW7
+	 d6QDEKht6i6F0WwzSz3enkWD2HuZV9I4CTlRkm9BINVnTRfylvtYDTUX5ZgpRo+0xk
+	 DXeQVUVMGtPzuIT3ZOoz9idcJRcoVJR5LrmUpl+d7YnbhCKIUsteVyah7zgM0p6WMS
+	 IOXZ1ynPemcWtm0ZpnE8I8+O4GGP6fDQP4SL8L11KMK8QQBBJocLIvjW3/FpfkZ02m
+	 GoxxAik4LW71g==
+Received: by mail.totaltradecircle.com for <linux-kbuild@vger.kernel.org>; Mon,  5 Feb 2024 08:45:14 GMT
+Message-ID: <20240205084500-0.1.2z.59vw.0.156a9gf5l3@totaltradecircle.com>
+Date: Mon,  5 Feb 2024 08:45:14 GMT
+From: "Edmond Downton" <edmond.downton@totaltradecircle.com>
+To: <linux-kbuild@vger.kernel.org>
+Subject: Details of the order
+X-Mailer: mail.totaltradecircle.com
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2024-02-05, Yoann Congal <yoann.congal@smile.fr> wrote:
-> LOG_CPU_MAX_BUF_SHIFT default value depends on BASE_SMALL:
->   config LOG_CPU_MAX_BUF_SHIFT
->   	default 12 if !BASE_SMALL
->   	default 0 if BASE_SMALL
-> But, BASE_SMALL is a config of type int and "!BASE_SMALL" is always
-> evaluated to true whatever is the value of BASE_SMALL.
->
-> This patch fixes this by using BASE_FULL (type bool) which is equivalent
-> to BASE_SMALL==0.
->
-> Note: This changes CONFIG_LOG_CPU_MAX_BUF_SHIFT=12 to
-> CONFIG_LOG_CPU_MAX_BUF_SHIFT=0 for BASE_SMALL defconfigs, but that will
-> not be a big impact due to this code in kernel/printk/printk.c:
->   /* by default this will only continue through for large > 64 CPUs */
->   if (cpu_extra <= __LOG_BUF_LEN / 2)
->           return;
-> Systems using CONFIG_BASE_SMALL and having 64+ CPUs should be quite
-> rare.
->
-> John Ogness <john.ogness@linutronix.de> (printk reviewer) wrote:
->> For printk this will mean that BASE_SMALL systems were probably
->> previously allocating/using the dynamic ringbuffer and now they will
->> just continue to use the static ringbuffer. Which is fine and saves
->> memory (as it should).
->
-> Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
-> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> Closes: https://lore.kernel.org/all/CAMuHMdWm6u1wX7efZQf=2XUAHascps76YQac6rdnQGhc8nop_Q@mail.gmail.com/
-> Reported-by: Vegard Nossum <vegard.nossum@oracle.com>
-> Closes: https://lore.kernel.org/all/f6856be8-54b7-0fa0-1d17-39632bf29ada@oracle.com/
-> Fixes: 4e244c10eab3 ("kconfig: remove unneeded symbol_empty variable")
+Hi,
 
-Reviewed-by: John Ogness <john.ogness@linutronix.de>
+We are a manufacturing company from Poland, and we have created unique pa=
+ckaging solutions that are a novelty in the market and work perfectly not=
+ only for ice cream, sweets, and other snacks but also for funnels, candl=
+es, and lanterns.
+
+This is a reusable product with a delicate structure, lightweight, and an=
+ attractive appearance. It offers an excellent alternative to traditional=
+ napkins that become unpleasantly sticky and soft when exposed to moistur=
+e.
+
+If you are interested in such a solution, please contact us, and we will =
+be happy to provide more details.
+
+
+Best regards
+Edmond Downton
 
