@@ -1,85 +1,105 @@
-Return-Path: <linux-kbuild+bounces-820-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-821-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1192284922E
-	for <lists+linux-kbuild@lfdr.de>; Mon,  5 Feb 2024 02:37:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44EC184929B
+	for <lists+linux-kbuild@lfdr.de>; Mon,  5 Feb 2024 04:02:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B4805282002
-	for <lists+linux-kbuild@lfdr.de>; Mon,  5 Feb 2024 01:37:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0221E283412
+	for <lists+linux-kbuild@lfdr.de>; Mon,  5 Feb 2024 03:02:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93BA1AD48;
-	Mon,  5 Feb 2024 01:37:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC72B79CF;
+	Mon,  5 Feb 2024 03:02:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UgQKpgtQ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hXVQUf9r"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AACEAD32;
-	Mon,  5 Feb 2024 01:37:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AC9EAD21;
+	Mon,  5 Feb 2024 03:02:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707097054; cv=none; b=QCySqZPQE1srqTRTdQmiUr9ZM+LvT975PZR6oP+zf1nCwPBxwRNp/P18P0opdoPIwa9M2ngfAZKA3aPy3JNpihaqevosB07dpXi5zH0Tfmb6n4oE+k66PZqohKmld4Mf7gzv8bgpYzWGtNHUfvEMcNGUoL3SsMJzkJoIhEkNJmY=
+	t=1707102139; cv=none; b=r/ey8shZ9Z4YuoWMqZgNFvg9WjE5ZROYEuCu4oIf7gDoVdw+t1BoAeVg9lqVFuo22TZYxhdAKCc+PpQ5PuK6kMFbpys9Tvb//vXLVM8e1EjoH0Fbdsped6vbUfquqxl0nn6+DaxS/pRwSGzr1fJdU+m3vpzBTExvj9K5mIVwMXU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707097054; c=relaxed/simple;
-	bh=y5fb4fdKXzCizeh4IpPLpAMu7d9RCi3/NNJgnS3ed9g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mKxeumwB9Ps5BGqORmYM6nbSlIctAoKmKtVLHSlZUpiKkflgTVEZC2wKDtBTf14lhLpcqOG+sf/FKDZqPnKCtaqSscdX83Dg5FEVHXYk4nlser4iEFAIUyF76OQ44G86c2M+Cpwco8UWt0hTzuiFnXcNsUFuC4N9oxZY8nKk6IE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UgQKpgtQ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8719DC433C7;
-	Mon,  5 Feb 2024 01:37:31 +0000 (UTC)
+	s=arc-20240116; t=1707102139; c=relaxed/simple;
+	bh=TYbzh/OEFiQDfXywnv9g98Qc220BQK26IRhqjsDlQQg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=S8tUcg21Zelo8Yh/LfpqFO6M37jMx3pvJP3yc/J7vqaCFydO8YoL2W3Rn+ft6QmMW+hf+J3FOqd/DAoLHvKXAV4CLVDcXWV1bXchL7ycc1CqQYCl3dT/LjFRsaS1MZJRZVhSdc8dqoQb/4JhIOCV94A+A8dBqthVAPXh4zWkZEY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hXVQUf9r; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15BA7C43609;
+	Mon,  5 Feb 2024 03:02:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707097053;
-	bh=y5fb4fdKXzCizeh4IpPLpAMu7d9RCi3/NNJgnS3ed9g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UgQKpgtQtQGauONCp9aTXR5YL0jOVTAe16WJyGzuiX+nXFc0IFnoErHOygVSgG+ku
-	 DoMOJvFG2vchmi8imbD4BQo8wfwYfIRjdS3B7xozo9QqGVFYRt0M6gwiU0HXt6jZHr
-	 LdNQIei8DuQpVy6QUlP9eaZH/xY74ijhO22hdOOjI1QH4ON/UFdlKR2Xw2T4dQtn7u
-	 fs5UtkNofUIxM9UrZE+1NtmfLDOIEtW9uWg9jHO3JC0WykLu1GjXYTyZTLA2AyiEPw
-	 I0zO9BlHIqoqRHm5g+SICwUrQRF77T7tfvR5V03mvvUJgZSag1kArokygq7Uaitm3I
-	 3gUodGRCCuh8w==
-Date: Mon, 5 Feb 2024 09:37:29 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: =?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Brian Norris <briannorris@chromium.org>,
-	Julius Werner <jwerner@chromium.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	kernel@collabora.com, chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v3 1/4] firmware: coreboot: Generate modalias uevent for
- devices
-Message-ID: <ZcA72dyYd9ZR8k_J@google.com>
-References: <20240117-coreboot-mod-defconfig-v3-0-049565a27bba@collabora.com>
- <20240117-coreboot-mod-defconfig-v3-1-049565a27bba@collabora.com>
+	s=k20201202; t=1707102139;
+	bh=TYbzh/OEFiQDfXywnv9g98Qc220BQK26IRhqjsDlQQg=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=hXVQUf9re+xMnRlzHi1W9+RCp+TT9ar4Lfi//XgCnigPGlWx4bgBAB0qmza+VVSKW
+	 JsfzYJkSWmnVqh22UivT9FtW/gch/ZuyTfRQwFkoxvLFs0Tc68R+mp2ZKfE8Hv+cI3
+	 6UH6jrKEB5aqtvH6qajHPviez4l6hCPDkHsoOSIySNITBfk7bdxcMnf2t7+UR6W0mY
+	 2Wl/hrDuecwULCxNAYjZ17q7Tf+idYbKAzutvfLtMhq83jXRL3tNy0cC4ux81pQw6N
+	 s5cAAFSei6w381nA1HCtZxkSwsnXkzU85kj5VHNg1DHGLM4eY6jTC1d0udO3y3IVdc
+	 wjgMjelUO+DWg==
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2cf4a22e10dso47048631fa.3;
+        Sun, 04 Feb 2024 19:02:19 -0800 (PST)
+X-Gm-Message-State: AOJu0YxpZ4VR88WVdtMZEWQN6F+uOj7fQi+pg5MLAzv5bdjXW9WvBVK3
+	/z3apcF9cTlCCoxIqLMNCxdGlm2oWjwhf6+Wyjs9YUVRe5qFyJNwKzt6NFl2+ReyGzvuxp7ZOz7
+	4JnimRGHH9FpmFyLD7GWWuXhD5mY=
+X-Google-Smtp-Source: AGHT+IE+oJIKXe4uY3Gsvbm7z773Z4pZ2tZdt67pNuGnUMgz4RUWeqBZDz2H1tdItXFr1Wy/1gVW7KXq6gX2/tmVaHk=
+X-Received: by 2002:a05:651c:1a06:b0:2d0:a6c5:61a8 with SMTP id
+ by6-20020a05651c1a0600b002d0a6c561a8mr2484307ljb.38.1707102137535; Sun, 04
+ Feb 2024 19:02:17 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240117-coreboot-mod-defconfig-v3-1-049565a27bba@collabora.com>
+References: <20240204232945.1576403-1-yoann.congal@smile.fr> <20240204232945.1576403-3-yoann.congal@smile.fr>
+In-Reply-To: <20240204232945.1576403-3-yoann.congal@smile.fr>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Mon, 5 Feb 2024 12:01:40 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAR6ZfMTQivsNBhm-Gu1e6XyqCFeRM=OR4rR=Wk2xMWW0Q@mail.gmail.com>
+Message-ID: <CAK7LNAR6ZfMTQivsNBhm-Gu1e6XyqCFeRM=OR4rR=Wk2xMWW0Q@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] printk: Remove redundant CONFIG_BASE_SMALL
+To: Yoann Congal <yoann.congal@smile.fr>
+Cc: linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org, x86@kernel.org, 
+	=?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>, 
+	Borislav Petkov <bp@alien8.de>, Darren Hart <dvhart@infradead.org>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, Davidlohr Bueso <dave@stgolabs.net>, 
+	Geert Uytterhoeven <geert@linux-m68k.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"H . Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>, Jiri Slaby <jirislaby@kernel.org>, 
+	John Ogness <john.ogness@linutronix.de>, Josh Triplett <josh@joshtriplett.org>, 
+	Matthew Wilcox <willy@infradead.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Petr Mladek <pmladek@suse.com>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Thomas Gleixner <tglx@linutronix.de>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jan 17, 2024 at 04:03:22PM -0300, Nícolas F. R. A. Prado wrote:
-> Generate a modalias uevent for devices in the coreboot bus to allow
-> userspace to automatically load the corresponding modules.
+On Mon, Feb 5, 2024 at 8:30=E2=80=AFAM Yoann Congal <yoann.congal@smile.fr>=
+ wrote:
 >
-> [...]
+> CONFIG_BASE_SMALL is currently a type int but is only used as a boolean
+> equivalent to !CONFIG_BASE_FULL.
+>
+> So, remove it entirely and move every usage to !CONFIG_BASE_FULL:
+> Since CONFIG_BASE_FULL is a type bool config,
+> CONFIG_BASE_SMALL =3D=3D 0 becomes  IS_ENABLED(CONFIG_BASE_FULL) and
+> CONFIG_BASE_SMALL !=3D 0 becomes !IS_ENABLED(CONFIG_BASE_FULL).
+>
+> Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 
-Applied, thanks!
 
-[1/4] firmware: coreboot: Generate modalias uevent for devices
-      commit: c6b0a4ceb7c9d8bb014d2967c97c8c7cbf60b006
+
+Reviewed-by: Masahiro Yamada <masahiroy@kernel.org>
+
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
