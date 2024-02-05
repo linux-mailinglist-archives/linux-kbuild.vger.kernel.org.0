@@ -1,108 +1,207 @@
-Return-Path: <linux-kbuild+bounces-835-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-836-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D089A849CBE
-	for <lists+linux-kbuild@lfdr.de>; Mon,  5 Feb 2024 15:15:33 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F5C984AA4D
+	for <lists+linux-kbuild@lfdr.de>; Tue,  6 Feb 2024 00:11:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 62C23286E8C
-	for <lists+linux-kbuild@lfdr.de>; Mon,  5 Feb 2024 14:15:32 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4E0A7B2113F
+	for <lists+linux-kbuild@lfdr.de>; Mon,  5 Feb 2024 23:11:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B771B2C69E;
-	Mon,  5 Feb 2024 14:13:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D44E482F7;
+	Mon,  5 Feb 2024 23:11:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="JEMCT+2a"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HB187Jmc"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22B8E2D03D;
-	Mon,  5 Feb 2024 14:13:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C00D4A99C;
+	Mon,  5 Feb 2024 23:11:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707142439; cv=none; b=JWhcPeEsjslhLhadyrVcxNHgm7uwZYYfXeKf4L0NdPuYPrhnfL5g395rCz0fdTPcFwleZIy5FDUkT6qXma4KIrZP1xp5A7Y8B4Q3ltfPn23QqDfec2PCpRfULLK/xbvkaRzurP1GibmJAcN7aRI+yl8CDL3ic2mHOUBhufPPx+E=
+	t=1707174671; cv=none; b=Vxog5655FjKEqJP6+rFkD85Jk0mo8ygCWjfo861Q7lTR0QU4/bHA/4Os8siilGCjkk6DWAihqEbwW4xJbX2HmAWIdaL3lyKtzYc6El1rZURsdiu9wSNGC1Da3a2sUjhBeL75RkwBLQTeyjjiO5rMU0cKuv+PKBNNnacECPWToAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707142439; c=relaxed/simple;
-	bh=/AH4OnHyKTveDUxBUINyS6rrfqLk5MnGENRs0ofWJ6Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D7wLfczrw518+GRK9A51vkXIiVJwVVdSuEVISTrL1TQk9GgJZaHKtbgMzsTwT4JaEd84WfMKIG89uoWxOKbsmyy5E5/XWHhGGgGlZ57m5uvEi4yCAdRrx9lXgdaIh17ULipPvCulwGPTd68ahc9CjY+lu4yKGWIyb2cJ5fu/hlA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=JEMCT+2a; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1707142436;
-	bh=/AH4OnHyKTveDUxBUINyS6rrfqLk5MnGENRs0ofWJ6Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JEMCT+2aqsh1QA9Qn2nP/8qvretn4TMikTx9EOmrCveJIo5KSemxXUgChD6uwe8T6
-	 Lb3G8cd+eNQtaDMdFsYVPTfz99Hb2JdDPJ0HLVK0bmNJvexh85F5ELgfzoT/vet21Q
-	 DflQkkDiBJtIdaMe9TR9W4gT23Wl0jj84dqJo3oSXrtzGvYH9jVVJrmH98+Tvoxo/S
-	 E/UrRq6LfgkGT5/IIXCKQUx0KK7mKswn68zwMgd8ikgaR8ZtI6yRjrbPUwpexl+qV4
-	 lSX2+GAlRgOKtNXuTqV2dxMVqP00nj9GpgB0eaLEuAskJaeNQH36YgV8Zc41QlI+bm
-	 3nKXXUtah8yUg==
-Received: from notapiano (zone.collabora.co.uk [167.235.23.81])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nfraprado)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 954A6378143B;
-	Mon,  5 Feb 2024 14:13:53 +0000 (UTC)
-Date: Mon, 5 Feb 2024 09:13:51 -0500
-From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Brian Norris <briannorris@chromium.org>,
-	Julius Werner <jwerner@chromium.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	kernel@collabora.com, chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v3 1/4] firmware: coreboot: Generate modalias uevent for
- devices
-Message-ID: <2a2736e5-8788-4643-8d19-a79b9a9ec776@notapiano>
-References: <20240117-coreboot-mod-defconfig-v3-0-049565a27bba@collabora.com>
- <20240117-coreboot-mod-defconfig-v3-1-049565a27bba@collabora.com>
- <ZcA72dyYd9ZR8k_J@google.com>
+	s=arc-20240116; t=1707174671; c=relaxed/simple;
+	bh=kKKhcMaqwLfUrQpjENPUNxtz3qXKdR24f6zeijBX9CE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hfX4qUK1cvmFMe7F7H/ACuRkEo0AfAuOxHOUcE9ankoIM7aQIuYd+xV7vF62C6c7bOg1lpDbHcdzSFkzS2Cmf/OLEifQp+o5CwpOF+SKZ6gcbIcr45AMEb8yeda9PnWm0fHv2WkoeLs8kFZBTYEEQ4L6qSDZlbN3dkl7yuMMVDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HB187Jmc; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4E64C43609;
+	Mon,  5 Feb 2024 23:11:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707174670;
+	bh=kKKhcMaqwLfUrQpjENPUNxtz3qXKdR24f6zeijBX9CE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=HB187Jmc7N7uKVocaYk9dPVnB0bc0p+8iqaeqwMCeBQC0ZqhLdrW5YjLlU9tsfcx4
+	 pgwHPeYFLw0+aHppjkw35gZgsTrwzZEum4uVFCDDyjS6KpxNO0pjSNezg5C0DYSwB9
+	 9on4UE/EAlIFzTxnR1Z1Qd6PE6NFULCjGkN0uV93j0OpObNr3VLvi33C0ossP0j3ke
+	 /CTmygQGpqJmghvmv0/gBordhtTRSZiiRiECkmV8ubfpRSB9Hi+q7sVj7ZthVVjv1b
+	 yAonpdQ6wKRdWVgcXMuCK2PPO2vOr3+7Rg3QWuzSpCK/HHcEKU8/yU4kuS7wKlTIrK
+	 OyfXsaEhsR2sg==
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2cf4fafa386so63531461fa.1;
+        Mon, 05 Feb 2024 15:11:10 -0800 (PST)
+X-Gm-Message-State: AOJu0YziolENu1FszCFANQIQq4YZ6GRgAeGFAdzha71Q+QJxNm3JdB8k
+	ip14I5hhqIo4E7CZFVj42r16AKpZCr4ak2IrBHdN/+hHJIjogtqBXv4aKzNgURL4nd2XUdXZ4ZO
+	0vgccMY/f010pA23QMpz5NpKCr7s=
+X-Google-Smtp-Source: AGHT+IH/zQJiT8/Oo7PpxCUmoye89gZAefcTyo51dU8Du8JULRbKsx7NuW1HiTmxHkDZc8e1guuf9kncHcYJ5t3C078=
+X-Received: by 2002:a2e:9098:0:b0:2d0:996e:b014 with SMTP id
+ l24-20020a2e9098000000b002d0996eb014mr347168ljg.32.1707174669110; Mon, 05 Feb
+ 2024 15:11:09 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZcA72dyYd9ZR8k_J@google.com>
+References: <20240131104851.2311358-1-john.g.garry@oracle.com>
+ <CAK7LNATDMjzmgpBHZFTOJCkTCqpLPq8jEjdrwzEZ3uu7WMG7jg@mail.gmail.com> <23c67ffc-64a5-4e19-8fbd-ecb9bfe9d3ff@oracle.com>
+In-Reply-To: <23c67ffc-64a5-4e19-8fbd-ecb9bfe9d3ff@oracle.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Tue, 6 Feb 2024 08:10:32 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASfTW+OMk1cJJWb4E6P+=k0FEsm_=6FDfDF_mTrxJCSMQ@mail.gmail.com>
+Message-ID: <CAK7LNASfTW+OMk1cJJWb4E6P+=k0FEsm_=6FDfDF_mTrxJCSMQ@mail.gmail.com>
+Subject: Re: [PATCH RFC 0/4] Introduce uts_release
+To: John Garry <john.g.garry@oracle.com>
+Cc: mcgrof@kernel.org, russ.weight@linux.dev, gregkh@linuxfoundation.org, 
+	rafael@kernel.org, rostedt@goodmis.org, mhiramat@kernel.org, 
+	mathieu.desnoyers@efficios.com, davem@davemloft.net, edumazet@google.com, 
+	kuba@kernel.org, pabeni@redhat.com, keescook@chromium.org, nathan@kernel.org, 
+	nicolas@fjasle.eu, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 05, 2024 at 09:37:29AM +0800, Tzung-Bi Shih wrote:
-> On Wed, Jan 17, 2024 at 04:03:22PM -0300, Nícolas F. R. A. Prado wrote:
-> > Generate a modalias uevent for devices in the coreboot bus to allow
-> > userspace to automatically load the corresponding modules.
+On Mon, Feb 5, 2024 at 5:25=E2=80=AFPM John Garry <john.g.garry@oracle.com>=
+ wrote:
+>
+> On 02/02/2024 15:01, Masahiro Yamada wrote:
+> >> --
+> >> 2.35.3
 > >
-> > [...]
-> 
-> Applied, thanks!
-> 
-> [1/4] firmware: coreboot: Generate modalias uevent for devices
->       commit: c6b0a4ceb7c9d8bb014d2967c97c8c7cbf60b006
+> > As you see, several drivers store UTS_RELEASE in their driver data,
+> > and even print it in debug print.
+> >
+> >
+> > I do not see why it is useful.
+>
+> I would tend to agree, and mentioned that earlier.
+>
+> > As you discussed in 3/4, if UTS_RELEASE is unneeded,
+> > it is better to get rid of it.
+>
+> Jakub replied about this.
+>
+> >
+> >
+> > If such version information is useful for drivers, the intention is
+> > whether the version of the module, or the version of vmlinux.
+> > That is a question.
+> > They differ when CONFIG_MODVERSION.
+> >
+>
+> I think often this information in UTS_RELEASE is shared as informative
+> only, so the user can conveniently know the specific kernel git version.
+>
+> >
+> > When module developers intend to printk the git version
+> > from which the module was compiled from,
+> > presumably they want to use UTS_RELEASE, which
+> > was expanded at the compile time of the module.
+> >
+> > If you replace it with uts_release, it is the git version
+> > of vmlinux.
+> >
+> >
+> > Of course, the replacement is safe for always-builtin code.
+> >
+> >
+> >
+> > Lastly, we can avoid using UTS_RELEASE without relying
+> > on your patch.
+> >
+> >
+> >
+> > For example, commit 3a3a11e6e5a2bc0595c7e36ae33c861c9e8c75b1
+> > replaced  UTS_RELEASE with init_uts_ns.name.release
+> >
+> >
+> > So, is your uts_release a shorthand of init_uts_ns.name.release?
+>
+> Yes - well that both are strings containing UTS_RELEASE. Using a struct
+> sub-member is bit ungainly, but I suppose that we should not be making
+> life easy for people using this.
+>
+> However we already have init_utsname in:
+>
+> static inline struct new_utsname *init_utsname(void)
+> {
+>         return &init_uts_ns.name;
+> }
+>
+> So could use init_utsname()->release, which is a bit nicer.
+>
+> >
+> >
+> >
+> > I think what you can contribute are:
+> >
+> >   - Explore the UTS_RELEASE users, and check if you can get rid of it.
+>
+> Unfortunately I expect resistance for this. I also expect places like FW
+> loader it is necessary. And when this is used in sysfs, people will say
+> that it is part of the ABI now.
+>
+> How about I send the patch to update to use init_uts_ns and mention also
+> that it would be better to not use at all, if possible? I can cc you.
 
-Hi Tzung-Bi,
 
-I was going to send a v4 with tag changed into 64 bit long as suggested by Greg:
-https://lore.kernel.org/all/2024020105-dash-antiquity-a56b@gregkh
+OK.
 
-And that includes this commit, as the modalias field would need to be 16 hex
-long.
 
-But since you already merged this, would you prefer a change on top of this
-making it 64 bit long, or do you want to keep it 32 bits?
+As I mentioned in the previous reply, the replacement is safe
+for builtin code.
 
-Thanks,
-Nícolas
+When you touch modular code, please pay a little more care,
+because UTS_RELEASE and init_utsname()->release
+may differ when CONFIG_MODVERSIONS=3Dy.
+
+
+
+
+
+
+
+>
+> >
+> >   - Where UTS_RELEASE is useful, consider if it is possible
+> >     to replace it with init_uts_ns.name.release
+>
+> ok, but, as above, could use init_utsname()->release also
+
+
+I am fine with it.
+
+
+init_utsname()->release is more commonly used
+(but less common than UTS_RELEASE)
+
+
+
+$ git grep   'init_utsname()->release' | wc
+     28      92    2065
+$ git grep   'init_uts_ns.name.release' | wc
+      7      34     587
+$ git grep   'UTS_RELEASE' | wc
+     57     304    4741
+
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
