@@ -1,158 +1,137 @@
-Return-Path: <linux-kbuild+bounces-851-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-852-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B566E84BEF7
-	for <lists+linux-kbuild@lfdr.de>; Tue,  6 Feb 2024 21:53:53 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 047D084C094
+	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Feb 2024 00:03:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 706C72819EC
-	for <lists+linux-kbuild@lfdr.de>; Tue,  6 Feb 2024 20:53:52 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3617F1C23D19
+	for <lists+linux-kbuild@lfdr.de>; Tue,  6 Feb 2024 23:03:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C567D1B81C;
-	Tue,  6 Feb 2024 20:53:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6FFF1C68F;
+	Tue,  6 Feb 2024 23:03:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="pL89gkvi"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="llIjhFqs"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F19131B81B;
-	Tue,  6 Feb 2024 20:53:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 929941C2BC;
+	Tue,  6 Feb 2024 23:03:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707252829; cv=none; b=Bz04naJjZaW8e3X6SELcsnyaEUQC9O56llxKRlFwJ3nrV3ang8nz8ydhHft4IjM7gqLles/pKj9soHUFR3tRv+e8ln15LhM8p/hbvWbjLcKLelp6LmJmYtbrAmal35UCgkQnt5OP7DUAJFDR32mva7wcWx6hBhID5NcCqjuwkTc=
+	t=1707260631; cv=none; b=FMhs5cKzl4fk1ICjPO2SzkqF5sO3GDJm5OtZtNfSlVn6wUslUL6vPjwYAEVTG7XXB3JRye1nK+Wtd3rWdVzloP//0pBeLWb04+pQNZ3KMaIRCsaTHHP0+DCFyXxrfbiqhsqUsPXpFSAthYINOc3ppmV1M4oElnEzfrCuyNM0J6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707252829; c=relaxed/simple;
-	bh=3yBNu+3PGTah2lBJDL1Nna3OuczWn2UEB53W02vWmWE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JabG8V4zCvVvKIeGv1WxyXN94p/CJxe2x0g8G/iB0Wkd3d0NcNpNnFHvvgL6KUspSe4YxooccKrzr5QmswwhSTQz2OTVJU/+tDBEJvOOtXgRoXlmnczcmLvQzo0AYTVraACiJzmbrlqIn5F8QM+Ei3oPkSsaUwB+K8g1XhyH8gU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=pL89gkvi; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1707252826;
-	bh=3yBNu+3PGTah2lBJDL1Nna3OuczWn2UEB53W02vWmWE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pL89gkvi1w7ZkMwqatdGvmDni8qTulCApNhPHgcvl9OgTpB2LHcdysB7n/CD5kjB2
-	 Jc0quntxeyOV0kHImvsbwGhc/36vTBYnLZMsljYAymKCDvnrIlJYGb1GDrE5hjwwDS
-	 fI46EX5Lcj+y0Dg715xrmQ+hETcdAiAP18q2Pg0HVujutCKE958rO7feSSb/3l1T0G
-	 +pKWO2C9JjEFIZs7Sy1QateTaU6Z3vmwRj2NVpDrnqKKymntxKuhR545jucLGkSG8h
-	 5kw4+JfeAHhLjMbfRCwbkQgYMgp/VezsKz50OEermnL30DNqo4wGvX1ac38IuNjJcZ
-	 DniKAni/3RZRA==
-Received: from notapiano (zone.collabora.co.uk [167.235.23.81])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nfraprado)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 5CE7A3782081;
-	Tue,  6 Feb 2024 20:53:43 +0000 (UTC)
-Date: Tue, 6 Feb 2024 15:53:41 -0500
-From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Brian Norris <briannorris@chromium.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, kernel@collabora.com,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	chrome-platform@lists.linux.dev,
-	Abhijit Gangurde <abhijit.gangurde@amd.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Nipun Gupta <nipun.gupta@amd.com>,
-	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/7] firmware: coreboot: Generate aliases for coreboot
- modules
-Message-ID: <4c6954a2-5142-41bf-bda2-9de76c380d09@notapiano>
-References: <20240112131857.900734-1-nfraprado@collabora.com>
- <20240112131857.900734-3-nfraprado@collabora.com>
- <ZaQVScQ2AYquG-Zr@smile.fi.intel.com>
- <ZbA4VthTMPT7BSRo@google.com>
- <2024013059-poison-equation-81d1@gregkh>
- <CA+ASDXM-m6U+JFvBSSHMxAf8Ct-T-pL8tmcHxHQjepdRFR-s1w@mail.gmail.com>
- <2024013012-gully-goofy-2a55@gregkh>
- <679fa364-28d0-4faa-b46e-805faf56ae53@notapiano>
- <2024020105-dash-antiquity-a56b@gregkh>
+	s=arc-20240116; t=1707260631; c=relaxed/simple;
+	bh=4dxokc2QPwkquTf9uWdCyBwcesXL5u1vQk+9x9lj0w8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=noHMu5Vd2sCzxqhdo4etUhC8Ga9QdZkvF2qcHAJMyQf9NkIv5mSLvlFO7gshR3AqAm+4dFetUzjYMuFvBnOqlh91QOPMNrm9Yxvvnj+2Cat6MH22YmBl4iGtMw7Ip32WNKGasyVkn11jYC3mM/sCOcpu3xzNrG7VyOEVl4BS+VM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=llIjhFqs; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BDBFC4166D;
+	Tue,  6 Feb 2024 23:03:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707260631;
+	bh=4dxokc2QPwkquTf9uWdCyBwcesXL5u1vQk+9x9lj0w8=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=llIjhFqsMot38UiBSgpMbrU3q1EyAar3dbkYydDusLNp4etlKKxgYYA8CSCeeJgMR
+	 UHtcQccrBub4GX8gC81MohKFqixZ/LPqBUqQeqjwgIsDVkb+lLLrjkuvyiIUscVXlS
+	 OZ1xXJcD/bBDPoJHZL2lZyY7GMfq/MMnxGSEOKq1kfuy4wKIXLj7l/5coA+anl82ix
+	 e/QN5QfVMxTuW9iMTOKVDNts3oDTcQjExG/33DV8FaDOwpCDPvsmZR3tJGMCCBoDMA
+	 dtHox/jdzVMmhApZ0Gl2cEi4q+/8X5Ljl6cKOsOdXAwtmkuaARNvjVrTzTGX9WMGj4
+	 76dgvpN+M1BpQ==
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2d0a0e40672so589871fa.0;
+        Tue, 06 Feb 2024 15:03:51 -0800 (PST)
+X-Gm-Message-State: AOJu0Yze7ZGktVyPat4K3p5Z3AB6GtagCPm/vgD7gSQbkmqgQ1pIiqsX
+	hJY+NJ++HLazxM6Q9dslRAS6HBLh1VaXtE9SOIBzYqXGchC8czp8y3jenBKGKmLwR9jKMRvqrWv
+	sEJA9CC0O/LpYmdlYYS3DezS9Vrs=
+X-Google-Smtp-Source: AGHT+IHPsbwOOGRL3EAJfktD49MBO4GuGXVhAKtmtpsW8IP5vCf4bzzoS6Arg8OttOMnwkUGeLZmSyzohQ9br6sVeOs=
+X-Received: by 2002:a2e:95d3:0:b0:2d0:af6e:5cb4 with SMTP id
+ y19-20020a2e95d3000000b002d0af6e5cb4mr1383013ljh.16.1707260629362; Tue, 06
+ Feb 2024 15:03:49 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2024020105-dash-antiquity-a56b@gregkh>
+References: <20240206001333.1710070-1-yoann.congal@smile.fr> <20240206001333.1710070-2-yoann.congal@smile.fr>
+In-Reply-To: <20240206001333.1710070-2-yoann.congal@smile.fr>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Wed, 7 Feb 2024 08:03:12 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ22qMJi3jQD8R_+7bi5DTz-pgMAEs91m-cDcnfOmES+A@mail.gmail.com>
+Message-ID: <CAK7LNAQ22qMJi3jQD8R_+7bi5DTz-pgMAEs91m-cDcnfOmES+A@mail.gmail.com>
+Subject: Re: [PATCH v4 1/3] printk: Fix LOG_CPU_MAX_BUF_SHIFT when BASE_SMALL
+ is enabled
+To: Yoann Congal <yoann.congal@smile.fr>
+Cc: linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org, x86@kernel.org, 
+	=?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>, 
+	Borislav Petkov <bp@alien8.de>, Darren Hart <dvhart@infradead.org>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, Davidlohr Bueso <dave@stgolabs.net>, 
+	Geert Uytterhoeven <geert@linux-m68k.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"H . Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>, Jiri Slaby <jirislaby@kernel.org>, 
+	John Ogness <john.ogness@linutronix.de>, Josh Triplett <josh@joshtriplett.org>, 
+	Matthew Wilcox <willy@infradead.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Petr Mladek <pmladek@suse.com>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Thomas Gleixner <tglx@linutronix.de>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Vegard Nossum <vegard.nossum@oracle.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 01, 2024 at 06:21:03PM -0800, Greg Kroah-Hartman wrote:
-> On Thu, Feb 01, 2024 at 05:45:19PM -0500, Nícolas F. R. A. Prado wrote:
-> > On Tue, Jan 30, 2024 at 04:23:02PM -0800, Greg Kroah-Hartman wrote:
-> > > On Tue, Jan 30, 2024 at 04:01:57PM -0800, Brian Norris wrote:
-> > > > On Tue, Jan 30, 2024 at 3:51 PM Greg Kroah-Hartman
-> > > > <gregkh@linuxfoundation.org> wrote:
-> > > > > On Tue, Jan 23, 2024 at 02:06:14PM -0800, Brian Norris wrote:
-> > > > > > "Don't you want to have a driver data or so associated with this?"
-> > > > ...
-> > > > > But why limit yourself to 32bits now?  Why not make it 64?  It is going
-> > > > > to be sent to userspace, so you have to be very careful about it.
-> > > > 
-> > > > Is that question related to the question I pasted/replied to, about
-> > > > driver data? Or a new topic? Sorry if I'm misunderstanding.
-> > > 
-> > > Same question, driver data, you make it 32 bits.
-> > > 
-> > > > Anyway, for the size of the tag field: I don't have a strong opinion.
-> > > > But FWIW, they're coming from this project:
-> > > > 
-> > > > https://review.coreboot.org/plugins/gitiles/coreboot/+/269b23280f928510bcadd23182294e5b9dad11ec/payloads/libpayload/include/coreboot_tables.h#36
-> > > > 
-> > > > As you can see there, we're extremely far from exhausting 16 bits, let alone 32.
-> > > 
-> > > We've run into running out of bits in other subsystems before, it's
-> > > "free" now, just be safe and make it 64 like I think Andy is suggesting.
-> > 
-> > Either you and Andy are suggesting different things, or I still don't quite get
-> > what you mean.
-> > 
-> > Andy was suggesting we added a driver_data field, that is:
-> > 
-> > struct coreboot_device_id {
-> > 	__u32 tag;
-> > 	kernel_ulong_t driver_data;
-> > };
-> > 
-> > You're suggesting we make the tag 64 bits long:
-> > 
-> > struct coreboot_device_id {
-> > 	__u64 tag;
-> > };
-> 
-> Yeah, I'm confused, sorry.
-> 
-> Yes, add some driver_data, and if you are SURE your tag will NEVER be
-> larger than 32 bits, stick with that, but really, you are using the
-> space in empty padding anyway, so just make it 64bits please.
+On Tue, Feb 6, 2024 at 9:13=E2=80=AFAM Yoann Congal <yoann.congal@smile.fr>=
+ wrote:
+>
+> LOG_CPU_MAX_BUF_SHIFT default value depends on BASE_SMALL:
+>   config LOG_CPU_MAX_BUF_SHIFT
+>         default 12 if !BASE_SMALL
+>         default 0 if BASE_SMALL
+> But, BASE_SMALL is a config of type int and "!BASE_SMALL" is always
+> evaluated to true whatever is the value of BASE_SMALL.
+>
+> This patch fixes this by using the correct conditional operator for int
+> type : BASE_SMALL !=3D 0.
+>
+> Note: This changes CONFIG_LOG_CPU_MAX_BUF_SHIFT=3D12 to
+> CONFIG_LOG_CPU_MAX_BUF_SHIFT=3D0 for BASE_SMALL defconfigs, but that will
+> not be a big impact due to this code in kernel/printk/printk.c:
+>   /* by default this will only continue through for large > 64 CPUs */
+>   if (cpu_extra <=3D __LOG_BUF_LEN / 2)
+>           return;
+> Systems using CONFIG_BASE_SMALL and having 64+ CPUs should be quite
+> rare.
+>
+> John Ogness <john.ogness@linutronix.de> (printk reviewer) wrote:
+> > For printk this will mean that BASE_SMALL systems were probably
+> > previously allocating/using the dynamic ringbuffer and now they will
+> > just continue to use the static ringbuffer. Which is fine and saves
+> > memory (as it should).
+>
+> Petr Mladek <pmladek@suse.com> (printk maintainer) wrote:
+> > More precisely, it allocated the buffer dynamically when the sum
+> > of per-CPU-extra space exceeded half of the default static ring
+> > buffer. This happened for systems with more than 64 CPUs with
+> > the default config values.
+>
+> Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> Closes: https://lore.kernel.org/all/CAMuHMdWm6u1wX7efZQf=3D2XUAHascps76YQ=
+ac6rdnQGhc8nop_Q@mail.gmail.com/
+> Reported-by: Vegard Nossum <vegard.nossum@oracle.com>
+> Closes: https://lore.kernel.org/all/f6856be8-54b7-0fa0-1d17-39632bf29ada@=
+oracle.com/
+> Fixes: 4e244c10eab3 ("kconfig: remove unneeded symbol_empty variable")
 
-Ok, after giving it a closer look, I've decided we really should just stick with
-32 bits.
 
-More fundamental than the previous argument that we aren't close to exhausting
-32 bits for the tag in coreboot, is the fact that tags are literally defined as
-32 bits long for the table entries [1]. Meaning, a tag being 32 bits long is
-part of the coreboot ABI. We have to parse it as 32bits from memory.
-Representing it as 64 bits internally and exposing it as 64 bits to userspace
-would not only be unecessarily complicating things, but also misrepresenting the
-data that we're getting from the firmware.
 
-I can add driver_data for v4 no problem, as we can simply not use it while we
-don't need it, but having tags be 64 bits actively complicates things for no
-real gain, so it's a no-go.
+Reviewed-by: Masahiro Yamada <masahiroy@kernel.org>
 
-Thanks,
-Nícolas
 
-[1] https://review.coreboot.org/plugins/gitiles/coreboot/+/refs/heads/main/src/commonlib/include/commonlib/coreboot_tables.h#128
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
