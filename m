@@ -1,207 +1,168 @@
-Return-Path: <linux-kbuild+bounces-836-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-838-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F5C984AA4D
-	for <lists+linux-kbuild@lfdr.de>; Tue,  6 Feb 2024 00:11:40 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F5C484AAFD
+	for <lists+linux-kbuild@lfdr.de>; Tue,  6 Feb 2024 01:14:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4E0A7B2113F
-	for <lists+linux-kbuild@lfdr.de>; Mon,  5 Feb 2024 23:11:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5CFED1C23145
+	for <lists+linux-kbuild@lfdr.de>; Tue,  6 Feb 2024 00:14:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D44E482F7;
-	Mon,  5 Feb 2024 23:11:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F11B2389;
+	Tue,  6 Feb 2024 00:13:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HB187Jmc"
+	dkim=pass (2048-bit key) header.d=smile-fr.20230601.gappssmtp.com header.i=@smile-fr.20230601.gappssmtp.com header.b="C9l7b7H5"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C00D4A99C;
-	Mon,  5 Feb 2024 23:11:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DBEC1870
+	for <linux-kbuild@vger.kernel.org>; Tue,  6 Feb 2024 00:13:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707174671; cv=none; b=Vxog5655FjKEqJP6+rFkD85Jk0mo8ygCWjfo861Q7lTR0QU4/bHA/4Os8siilGCjkk6DWAihqEbwW4xJbX2HmAWIdaL3lyKtzYc6El1rZURsdiu9wSNGC1Da3a2sUjhBeL75RkwBLQTeyjjiO5rMU0cKuv+PKBNNnacECPWToAI=
+	t=1707178435; cv=none; b=mA7XBUNRQ1QCXvbvom2pK8o5fmaR0wb4EDucts8TOmcVfAQXMmWmWeq5NcBqmOMOb6fZupYHYRuYSMZinOZZbNU/hFR1T4jzFOpFiYtpI/4XpE7AB54RyW7p2MMZZcx0nfVvNc0w8X3ehxmzrTP47LoL+nbaGTOFWhvciixjRDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707174671; c=relaxed/simple;
-	bh=kKKhcMaqwLfUrQpjENPUNxtz3qXKdR24f6zeijBX9CE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hfX4qUK1cvmFMe7F7H/ACuRkEo0AfAuOxHOUcE9ankoIM7aQIuYd+xV7vF62C6c7bOg1lpDbHcdzSFkzS2Cmf/OLEifQp+o5CwpOF+SKZ6gcbIcr45AMEb8yeda9PnWm0fHv2WkoeLs8kFZBTYEEQ4L6qSDZlbN3dkl7yuMMVDo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HB187Jmc; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4E64C43609;
-	Mon,  5 Feb 2024 23:11:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707174670;
-	bh=kKKhcMaqwLfUrQpjENPUNxtz3qXKdR24f6zeijBX9CE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=HB187Jmc7N7uKVocaYk9dPVnB0bc0p+8iqaeqwMCeBQC0ZqhLdrW5YjLlU9tsfcx4
-	 pgwHPeYFLw0+aHppjkw35gZgsTrwzZEum4uVFCDDyjS6KpxNO0pjSNezg5C0DYSwB9
-	 9on4UE/EAlIFzTxnR1Z1Qd6PE6NFULCjGkN0uV93j0OpObNr3VLvi33C0ossP0j3ke
-	 /CTmygQGpqJmghvmv0/gBordhtTRSZiiRiECkmV8ubfpRSB9Hi+q7sVj7ZthVVjv1b
-	 yAonpdQ6wKRdWVgcXMuCK2PPO2vOr3+7Rg3QWuzSpCK/HHcEKU8/yU4kuS7wKlTIrK
-	 OyfXsaEhsR2sg==
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2cf4fafa386so63531461fa.1;
-        Mon, 05 Feb 2024 15:11:10 -0800 (PST)
-X-Gm-Message-State: AOJu0YziolENu1FszCFANQIQq4YZ6GRgAeGFAdzha71Q+QJxNm3JdB8k
-	ip14I5hhqIo4E7CZFVj42r16AKpZCr4ak2IrBHdN/+hHJIjogtqBXv4aKzNgURL4nd2XUdXZ4ZO
-	0vgccMY/f010pA23QMpz5NpKCr7s=
-X-Google-Smtp-Source: AGHT+IH/zQJiT8/Oo7PpxCUmoye89gZAefcTyo51dU8Du8JULRbKsx7NuW1HiTmxHkDZc8e1guuf9kncHcYJ5t3C078=
-X-Received: by 2002:a2e:9098:0:b0:2d0:996e:b014 with SMTP id
- l24-20020a2e9098000000b002d0996eb014mr347168ljg.32.1707174669110; Mon, 05 Feb
- 2024 15:11:09 -0800 (PST)
+	s=arc-20240116; t=1707178435; c=relaxed/simple;
+	bh=qgTGi7JidDwUNcALuXCs/Aobj1U/WF9E3H5PaXfigWg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=K11OtkabNR14z1k0eEjZHSjm3OlxtRVTpy/oSZrLvjGOB70+Wmi7Hqm23wO7T2W+pYoxAHrkseLLDevBm43bvtpfAjgUDeRnHh3dq2OScJi06QNbop0FiNTHLbEjGEvBRyl/Llk/7UJoOVuBk5tc34WbUR/b3sE0VBBoPP6vtss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=smile.fr; spf=pass smtp.mailfrom=smile.fr; dkim=pass (2048-bit key) header.d=smile-fr.20230601.gappssmtp.com header.i=@smile-fr.20230601.gappssmtp.com header.b=C9l7b7H5; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=smile.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=smile.fr
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-40fb3b5893eso40954265e9.0
+        for <linux-kbuild@vger.kernel.org>; Mon, 05 Feb 2024 16:13:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1707178430; x=1707783230; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=r3al5hoYNZZk10PcQ0r4e5BeElcwyRKIKSa+2Ek/7S4=;
+        b=C9l7b7H53KP2v3EvJyWesaJRo+r7zP9Vb3KnwAWxnLdta9YrUg5xGQ+ve1f8cR2Oby
+         wpcRKQdD9Pmgq4CuDpgM6+shndCKj40IU3NldDQfGbjleLsjDqGaeGcliVneVqmtEyuj
+         0Mf+n+dyXRhq2FxAhUCxkBVgXnZpMTJq7NOd9ZGBvfwQVgAmLTWe1easadqQCBPzqrNX
+         PsXl/dIOm5zIF3Ma0iz9nVrZ+Y2+b3U9Qa1GKTxkb0cVJAx2GbFwh8ZQpUg9OOu/3i9x
+         6rbw1rRTjh8P5UlPX9QL4WMgrfhFsmYeyGb6KZn/PGalbB8Td4TFJB533rY8GD6vOcUc
+         xBTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707178430; x=1707783230;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=r3al5hoYNZZk10PcQ0r4e5BeElcwyRKIKSa+2Ek/7S4=;
+        b=tgsRYTgfY5W+zAc/B29IxDW+77Zj0kf5FmTRkqrg83PKzOwjdu3drZey6SjdngodQJ
+         vaSmhEsHKmhQ1cxmVYfhXciMI2eLPdmuC777G3S34+WcDVEM6b8ZcDBF7wGLroxyjxw7
+         LqtyGpG8SO3l7Ju36rKKS/fuNu7yOE3dgvuTOqds/BnS6DMsOhd+uCQmztNvooQTNE1e
+         V4g0dvPSy1XwsiEcH90NsZxD+HF/Eqv+L61aKn/+PFHOIpKwAkMP7Y93O5Pt+kwfB0W3
+         nmBdtja/jKSzJ/RDRh4HTX46Ca7jt4MsrRGgMLsT/DCycKOcdc4yLt7Ez8FbJgUl5TK2
+         Ir9Q==
+X-Gm-Message-State: AOJu0Yyz76rMB3WiJrFtpamQHGkTCXZcU5iPxrMk/v2Yjgcy6ZaRN8Pt
+	fzaKCQjnXTafuDoRddVyvVGXfgJh5FgnowY6mELgON7JR0S70VhoXbw6/78yPqc=
+X-Google-Smtp-Source: AGHT+IFCim5OUOcgfTPcWA7Y6IOO0/nwwMYeV/LjPUpF6aS2P1E1QUN/ct8OXNgDJGo/eorbjUfFDQ==
+X-Received: by 2002:adf:e6cb:0:b0:33b:150e:627a with SMTP id y11-20020adfe6cb000000b0033b150e627amr32907wrm.70.1707178430299;
+        Mon, 05 Feb 2024 16:13:50 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCWGGbZtGrR24l8gipVeG/n2/q6+R1SUf1M+MXyjypyn/mXeEuLCRm8v6kFtLpF74IY1NWbBNfY1X5T6nuLBRJysUAaAisMwjmSLp4Q5PwOEGmkvlybNBbMv9J3Q8dRxcOXD9sKaM/KK6C+eqomNABkluk6ej4SEGTkgxwfNxfGEb5CDl/oRNsnJJ2ql0767ogdYZRVh6u8gBKBeyehf7TojNfgS7PvqUhReBu/IAc78fD4vJAMAMY6rTYcHtg6Hh1wu3omiZffR+c3FXSQTIaAGS7wvvtKvO2o+Uvg/bWkecdP1AmdouvpaZowkyFYqufk8+G61B3KfaYfSbAylpsdeqiUN9hWQgJ5k+Z2YZkRTHdJrLjlIYPEWw491FYaF3kYgjJa6FSQTPJl0BKLqP3XUD3uZcNlyuyBe4bwyl8gQyh/j73myH9PXLdtox7QsJMNqWczKpXTV2dy1DRoAsCUL86ED+wM2A2t+DfWght/gIDhAoL5PLawCMsyR65D4TGyimPDUyzkW1HgIOZqCo42te6zULDk/ueCWSJGwnWW5cxZac71XlvK2nJEbvFAqTZpgtoDBzOQaH/1X9Pns27uRorZrx4mWcV92/97gRRpDhq4QRuAVzHeRTdnbZagQJa+7w026zTjHt1TPIpvsjSl1l5ElUDBOtkTOB5Uit+HPV+cLo9+I1cNtQi95nAfG4ATctArhvsW1se3lAmojkuuNE/dYjCN4dYdhjfxPMYMtbDTQfuOVaBiRiIfupQXscuRpQC3nlnkEjzqNz4uvYPXzECMIjeo=
+Received: from P-ASN-ECS-830T8C3.local ([89.159.1.53])
+        by smtp.gmail.com with ESMTPSA id b17-20020a5d40d1000000b0033ae7d768b2sm686959wrq.117.2024.02.05.16.13.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Feb 2024 16:13:50 -0800 (PST)
+From: Yoann Congal <yoann.congal@smile.fr>
+To: linux-fsdevel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	x86@kernel.org
+Cc: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Darren Hart <dvhart@infradead.org>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"H . Peter Anvin" <hpa@zytor.com>,
+	Ingo Molnar <mingo@redhat.com>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	John Ogness <john.ogness@linutronix.de>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Petr Mladek <pmladek@suse.com>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Yoann Congal <yoann.congal@smile.fr>
+Subject: [PATCH v4 0/3] printk: CONFIG_BASE_SMALL fix for LOG_CPU_MAX_BUF_SHIFT and removal of CONFIG_BASE_FULL
+Date: Tue,  6 Feb 2024 01:13:30 +0100
+Message-Id: <20240206001333.1710070-1-yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240131104851.2311358-1-john.g.garry@oracle.com>
- <CAK7LNATDMjzmgpBHZFTOJCkTCqpLPq8jEjdrwzEZ3uu7WMG7jg@mail.gmail.com> <23c67ffc-64a5-4e19-8fbd-ecb9bfe9d3ff@oracle.com>
-In-Reply-To: <23c67ffc-64a5-4e19-8fbd-ecb9bfe9d3ff@oracle.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 6 Feb 2024 08:10:32 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASfTW+OMk1cJJWb4E6P+=k0FEsm_=6FDfDF_mTrxJCSMQ@mail.gmail.com>
-Message-ID: <CAK7LNASfTW+OMk1cJJWb4E6P+=k0FEsm_=6FDfDF_mTrxJCSMQ@mail.gmail.com>
-Subject: Re: [PATCH RFC 0/4] Introduce uts_release
-To: John Garry <john.g.garry@oracle.com>
-Cc: mcgrof@kernel.org, russ.weight@linux.dev, gregkh@linuxfoundation.org, 
-	rafael@kernel.org, rostedt@goodmis.org, mhiramat@kernel.org, 
-	mathieu.desnoyers@efficios.com, davem@davemloft.net, edumazet@google.com, 
-	kuba@kernel.org, pabeni@redhat.com, keescook@chromium.org, nathan@kernel.org, 
-	nicolas@fjasle.eu, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Feb 5, 2024 at 5:25=E2=80=AFPM John Garry <john.g.garry@oracle.com>=
- wrote:
->
-> On 02/02/2024 15:01, Masahiro Yamada wrote:
-> >> --
-> >> 2.35.3
-> >
-> > As you see, several drivers store UTS_RELEASE in their driver data,
-> > and even print it in debug print.
-> >
-> >
-> > I do not see why it is useful.
->
-> I would tend to agree, and mentioned that earlier.
->
-> > As you discussed in 3/4, if UTS_RELEASE is unneeded,
-> > it is better to get rid of it.
->
-> Jakub replied about this.
->
-> >
-> >
-> > If such version information is useful for drivers, the intention is
-> > whether the version of the module, or the version of vmlinux.
-> > That is a question.
-> > They differ when CONFIG_MODVERSION.
-> >
->
-> I think often this information in UTS_RELEASE is shared as informative
-> only, so the user can conveniently know the specific kernel git version.
->
-> >
-> > When module developers intend to printk the git version
-> > from which the module was compiled from,
-> > presumably they want to use UTS_RELEASE, which
-> > was expanded at the compile time of the module.
-> >
-> > If you replace it with uts_release, it is the git version
-> > of vmlinux.
-> >
-> >
-> > Of course, the replacement is safe for always-builtin code.
-> >
-> >
-> >
-> > Lastly, we can avoid using UTS_RELEASE without relying
-> > on your patch.
-> >
-> >
-> >
-> > For example, commit 3a3a11e6e5a2bc0595c7e36ae33c861c9e8c75b1
-> > replaced  UTS_RELEASE with init_uts_ns.name.release
-> >
-> >
-> > So, is your uts_release a shorthand of init_uts_ns.name.release?
->
-> Yes - well that both are strings containing UTS_RELEASE. Using a struct
-> sub-member is bit ungainly, but I suppose that we should not be making
-> life easy for people using this.
->
-> However we already have init_utsname in:
->
-> static inline struct new_utsname *init_utsname(void)
-> {
->         return &init_uts_ns.name;
-> }
->
-> So could use init_utsname()->release, which is a bit nicer.
->
-> >
-> >
-> >
-> > I think what you can contribute are:
-> >
-> >   - Explore the UTS_RELEASE users, and check if you can get rid of it.
->
-> Unfortunately I expect resistance for this. I also expect places like FW
-> loader it is necessary. And when this is used in sysfs, people will say
-> that it is part of the ABI now.
->
-> How about I send the patch to update to use init_uts_ns and mention also
-> that it would be better to not use at all, if possible? I can cc you.
+This series focuses on CONFIG_BASE_SMALL.
+The first patch fixes LOG_CPU_MAX_BUF_SHIFT when CONFIG_BASE_SMALL is
+used.
+The second patch globally changes the type of CONFIG_BASE_SMALL and
+adapts usages.
+The third patch removes the now redundant BASE_FULL and puts BASE_SMALL
+in its place in the config menus.
 
+Thanks everyone for your reviews! :)
 
-OK.
+Patch history:
+v3->v4: Applied Petr Mladek's suggestion (Thanks!):
+* Keep BASE_SMALL instead of BASE_FULL
+* A patch changing the type of BASE_SMALL was added.
 
+v3 series was named "printk: CONFIG_BASE_SMALL fix for
+LOG_CPU_MAX_BUF_SHIFT and removal"
+https://lore.kernel.org/all/20240204232945.1576403-1-yoann.congal@smile.fr/
+* Patch v3 1/2:
+  * Reviewed-by: Masahiro Yamada <masahiroy@kernel.org>
+  * Reviewed-by: John Ogness <john.ogness@linutronix.de>
+  * Reviewed-by: Petr Mladek <pmladek@suse.com>
+* Patch v3 2/2:
+  * Reviewed-by: Masahiro Yamada <masahiroy@kernel.org>
 
-As I mentioned in the previous reply, the replacement is safe
-for builtin code.
+v2 -> v3: Applied Luis Chamberlain's comments (Thanks!):
+* Split the single commit in two : one functional fix, one global
+  removal.
 
-When you touch modular code, please pay a little more care,
-because UTS_RELEASE and init_utsname()->release
-may differ when CONFIG_MODVERSIONS=3Dy.
+v2 patch was named "printk: Remove redundant CONFIG_BASE_SMALL"
+https://lore.kernel.org/all/20240127220026.1722399-1-yoann.congal@smile.fr/
+* Reviewed-by: Masahiro Yamada <masahiroy@kernel.org>
+* Reviewed-by: John Ogness <john.ogness@linutronix.de>
 
+v1 -> v2: Applied Masahiro Yamada's comments (Thanks!):
+* Changed from "Change CONFIG_BASE_SMALL to type bool" to
+  "Remove it and switch usage to !CONFIG_BASE_FULL"
+* Fixed "Fixes:" tag and reference to the mailing list thread.
+* Added a note about CONFIG_LOG_CPU_MAX_BUF_SHIFT changing.
 
+v1 patch was named "treewide: Change CONFIG_BASE_SMALL to bool type"
+https://lore.kernel.org/all/20240126163032.1613731-1-yoann.congal@smile.fr/
 
+Yoann Congal (3):
+  printk: Fix LOG_CPU_MAX_BUF_SHIFT when BASE_SMALL is enabled
+  printk: Change type of CONFIG_BASE_SMALL to bool
+  printk: Remove redundant CONFIG_BASE_FULL
 
+ arch/x86/include/asm/mpspec.h |  6 +++---
+ drivers/tty/vt/vc_screen.c    |  2 +-
+ include/linux/threads.h       |  4 ++--
+ include/linux/udp.h           |  2 +-
+ include/linux/xarray.h        |  2 +-
+ init/Kconfig                  | 15 +++++----------
+ kernel/futex/core.c           |  2 +-
+ kernel/user.c                 |  2 +-
+ 8 files changed, 15 insertions(+), 20 deletions(-)
 
+-- 
+2.39.2
 
-
->
-> >
-> >   - Where UTS_RELEASE is useful, consider if it is possible
-> >     to replace it with init_uts_ns.name.release
->
-> ok, but, as above, could use init_utsname()->release also
-
-
-I am fine with it.
-
-
-init_utsname()->release is more commonly used
-(but less common than UTS_RELEASE)
-
-
-
-$ git grep   'init_utsname()->release' | wc
-     28      92    2065
-$ git grep   'init_uts_ns.name.release' | wc
-      7      34     587
-$ git grep   'UTS_RELEASE' | wc
-     57     304    4741
-
-
-
-
---=20
-Best Regards
-Masahiro Yamada
 
