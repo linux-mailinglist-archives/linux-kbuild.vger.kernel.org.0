@@ -1,392 +1,148 @@
-Return-Path: <linux-kbuild+bounces-854-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-855-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1A8784C21E
-	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Feb 2024 02:46:48 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6112284C483
+	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Feb 2024 06:57:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9642A28F4A7
-	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Feb 2024 01:46:47 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3A2DDB232F8
+	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Feb 2024 05:57:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B370CA64;
-	Wed,  7 Feb 2024 01:45:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72502D520;
+	Wed,  7 Feb 2024 05:57:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="2sgWUwPI"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c7T4y5ak"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-io1-f46.google.com (mail-io1-f46.google.com [209.85.166.46])
+Received: from mail-io1-f54.google.com (mail-io1-f54.google.com [209.85.166.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C63714AB7
-	for <linux-kbuild@vger.kernel.org>; Wed,  7 Feb 2024 01:45:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAB231C288;
+	Wed,  7 Feb 2024 05:57:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707270335; cv=none; b=c6Y29L/c+Ovu3r05PhgvfMp8XadNCjbdyG6ZFrF8Nuc/5sKiXX8jJSICuFmJgjkhD1TLzJGFmPefi+X0+WV5gEavq2xPUhntOsb8tGlwYwqHfSvLfFBoPg+d8EzegzpFN9Wq3kdsswkhad4vhxNkWP5wrP0fRc/puE3qfZuSZGc=
+	t=1707285454; cv=none; b=TtcEm4dpYwc1qFVBK+GleRBLu8bqBEypItfpiOCMYtBCZEsrViuCeJqzgPL3vDECGSsvViga6Y2v74GpY1pqNVqsgjisz1yictgxwKKO6cJ9nZT8/tHia5bfjoIN+k4qyhacCMxtrbrrGibmkYrn3SWivkRREaCI0SLtq4XuCpQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707270335; c=relaxed/simple;
-	bh=jtbEkMgACYBlVC9wzZ15NHjLL3L1OsM3ulBngMq6shI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Lc6gv79eeu+eEjMknDDaiP8r5p6kRihEcaTUqKJviLbwJ2Xm98zodTY8g/tQntNYhrdyzJc9PvObOCTZgWLqg/u3LzLaAbhHItF22RS0VWA3dSrBoVcXjPQKa7bzJM2F14m6jhj4v1FOilaxI7tD93wnsBYeLKSBKb3i8mqpM7s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=2sgWUwPI; arc=none smtp.client-ip=209.85.166.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-io1-f46.google.com with SMTP id ca18e2360f4ac-7c029beb8c9so5644439f.0
-        for <linux-kbuild@vger.kernel.org>; Tue, 06 Feb 2024 17:45:33 -0800 (PST)
+	s=arc-20240116; t=1707285454; c=relaxed/simple;
+	bh=RF0hFvyRbGiuN20eplUeAeat24++1d++IJSeEY3tP5M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VxRGvhBJcmVmAZc77Xrr4iFGHDBke4RsjRbGbBIg+wH3C09UK/c7FvgZV2h5ei2QbhLeWJATmo8+Ayj2eQJGLUBvsfKgzNKAOR45uuPjEB9WsOVvv5KGbTScCOxOEfitxmAubGuUQ6zLTjumE1BzK+1bazqLKUGL+CjgjxT/vuc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c7T4y5ak; arc=none smtp.client-ip=209.85.166.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-io1-f54.google.com with SMTP id ca18e2360f4ac-7bf7e37dc60so18363739f.3;
+        Tue, 06 Feb 2024 21:57:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1707270332; x=1707875132; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=i0KokQpsmVwCg2q3ckhuoiEueFde0IBUJuEJrRWd9+k=;
-        b=2sgWUwPIMZo5yHQpLDEsTIg87duygcOX7FID7qtPV3d5YlWLAA01TuSmeQX5z3ZTfw
-         WAnNZUeupSyJC/2nLa5YnPGuuEHquY3uAvFdfcjswCEJZ/paHIt6f4C1p7wTMloKhjOT
-         wWIWNfDY7OhDZKOrQUR/AiH6HO7FBIplRQjbj2gh5eTjCH3/jxry4F2k33rn+KjtmuGr
-         F/G9PJmj7X6IpUz5ugnYS+nY7Z5T0deLYKfx9hDMP6yYtzUSCHBRWvL7LAZOTd+bdAND
-         sJ7xaeHqGEsmFJXSA5WaXBCaYL+mG8+N8boYOw4Ffvv6VIUmKM1J/jZD47YCAUuETOPY
-         QKHg==
+        d=gmail.com; s=20230601; t=1707285451; x=1707890251; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1J7sn9aWfaLCjcTrgwLaxeZasaTU7yPXsxo830YRUgU=;
+        b=c7T4y5akEQJK0/j72tr1GJlWzKgFsHY1+OFiUShtpELoCKRdZ4omXiv9+iGXI4JKLI
+         CGTCxaTsd3hWhMcpTn9zfCJYYKwSwndKAZ8+v8u7pHyTKlTtog0rBHzBounAMVKrsahu
+         Xc9SQfaHjYz+e7FN/PJdFsVJOKrpz+CVfS2tDGr+Q0CoISzrP+tJhmyHjXWT4i7zAz19
+         StRvksyZDlMLLfOpiSw41nGNtUceVHekA9wmXJGsbK+y5NhZ365/KF51OhaRDt7UlIQ3
+         sv4VUboHX+bXBJOL5WlelvHPPcO2g3ATzrrP7CLQNdqFhIM5umUtr2EbUfhAnDqbhXO4
+         0lfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707270332; x=1707875132;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=i0KokQpsmVwCg2q3ckhuoiEueFde0IBUJuEJrRWd9+k=;
-        b=p0co4zkiqfYtdCkFcIWEVaZWlDUH6kRpj6iAOZ+TMyUTZy4nIrqeD5k7D31f/vUe6/
-         Vlka7FACHXX7nFdAOv8eTvdaY855cBQbhNyTYMijXuMfgQMTWQvPyUmKK1YzzxYaRfbu
-         6Y9VcSw2fEgejMIUp71P4bMVS3qvnPzRrmeen5LGXoh0ozTZw4O8Lyd8TZBE5Q1vpRdF
-         LrCXU2GzeMyJ0xGOYEnfy6kJaxoyjDhkm5Gn8h//fE36lTBRO4lE5OhINNuE3F0mWnQ8
-         excaotTu+dTeK8k2RsJ5Y0whIzkD31HSXD4JSBzeem16BUAAuVGi4/tkLD7Y5pcZgJIT
-         7nYg==
-X-Gm-Message-State: AOJu0YxlhE1GKW2J9FinmsxscM9U32qiStUwAfxHv5aUvSsnjlfFSwtg
-	feNR+rIeVbwaLK7yQXhNtaVrFO8fjWcN77+NY6nk8vAtTnNI+m174rpBQVRT9g==
-X-Google-Smtp-Source: AGHT+IHOt4QXtkEcxV9O1FCVDBJ/4GN43Js9KOnslqrb7D6ePsbS6hOblVbQghsMZL86x4PbfVNWaQ==
-X-Received: by 2002:a05:6602:1d52:b0:7be:f7e5:44fc with SMTP id hi18-20020a0566021d5200b007bef7e544fcmr5190362iob.21.1707270332593;
-        Tue, 06 Feb 2024 17:45:32 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXgz0Bk3pqC37J5ry8Hitp4ra1NniLz7Y4v4Tphxf7iyTTW6uwWCALufaKvyh/+5X5pf8Ci3B/VwE4erM2dw7wNGsJN3BkWwQlckmsz+kD8rvAdJRrqdbfDHi7qI5NJ4SclpKgfkKskYgAe+Sgt+/8W+gy28AbW1X1tzm4ESG5ATlNDk+jetgjB5tbXMcK7/2YB7Spu6APCEKEq0JmT74M822R/XzG2ZYcvtXX4U3J/DohfzcR+IJ5j72zJ8fw37StRaKCVYftVKCQSzDicQNNK6PgzuE+DTJWrzuFLPDnwFqltv9slz53wterU3tt7jpG3HVknYUaq4+8UqKXEOa4HXUzpN2FuVoRQzByHikOw7ZTsEBeT2loLAmQ7991loj6fFB3yfkAr0YPCR1FjRjTkeMZKGISsAww5F7vouc9oR1sVxgjfAzAxHRi2hXzaemmLtz2BjUeG2owFlfGUo6lTAkZRtDDwwNYQ8PjUWnc1e/it9sD9+cb/dBJ8ADio1ra6HwSznQM=
-Received: from google.com (20.10.132.34.bc.googleusercontent.com. [34.132.10.20])
-        by smtp.gmail.com with ESMTPSA id ed7-20020a056638290700b004713a02614bsm29995jab.10.2024.02.06.17.45.31
+        d=1e100.net; s=20230601; t=1707285451; x=1707890251;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1J7sn9aWfaLCjcTrgwLaxeZasaTU7yPXsxo830YRUgU=;
+        b=dhWl+v5ACMHPLlT6cozsTuLf5Zy94Xzl6jUv0N82r7IlfGXRCZz/WeDKBBWXZRZNGQ
+         YQ7DUksO4JsRNNFYrHZH71UvRUsUSb3lEO0qkDO5HX4+lXx1cewjIy3UYfQJZaQMhBG0
+         UCafWDH6LH+dDKTRcxJKhg2pzSL1ya0az+PvVHb60/2s9Qt4zqZX6EsZqvI47XDWFHj4
+         C5mrQnACHMmQvRXrLGvnWagR74GByON/1yfYgAVxk4eFlbCOABC1DzTrYnGNHrbRY5Z4
+         sTKH1EWz3LE/Q87FfovTLXbiiLJmEeWprw5fMOkDXmEvt0WGBpxPi/jMQjbIXdt7gYfr
+         dhnQ==
+X-Gm-Message-State: AOJu0YzMRSmRgJGLXdolhDFbxwUxShWM/2O8SACyEwNPoyvvRTp/dIrZ
+	V3edLbySTQwpqZr3Jt+cz0rwYN5/M1GgSvuRMlBQhBrJfViep8pRj9BTuWArhbI=
+X-Google-Smtp-Source: AGHT+IEkPxrR5zmepagoF+Wci9FImWrKsZVe+/8uEQzlCoNprRmMYvHkhnvQa/ZXUTh8C5276cdt5g==
+X-Received: by 2002:a05:6e02:923:b0:363:c5df:d36f with SMTP id o3-20020a056e02092300b00363c5dfd36fmr4880344ilt.16.1707285451013;
+        Tue, 06 Feb 2024 21:57:31 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU1k+xvWYahvnC+oXtGMTcPEwhKE/90yxUnWJYhVl4TWv4OXDzA1p8NurJ1u8TSjg60T5/uFyQnz3bKjSk0WVR4F0225ccVZ7OL+DH5jQG+MxDTjRCwJrC4wSXo+yfPK/QoG96MGjxVSwMw9aIKp53y48LWfVgf4wiZIyY0aWrbU+1kMhKPw7oJDh7/uttmuoIJ/3qxG4IS5lHgRZ+9u6daHPXIgeGBNZlw57wKRLwbPVPgwXkXgXeuxSu6K2RH4iElpQHsdlgSfwlm4Ei4uRgwcYof4ApVyJqFlJAffHQitnoPGacVGjnuIcch5s0K3GmAMkLJ5ss4sZBx66U9+et4IV3Y52Xo63DOVOpD7Q==
+Received: from fedora-laptop.hsd1.nm.comcast.net (c-73-127-246-43.hsd1.nm.comcast.net. [73.127.246.43])
+        by smtp.gmail.com with ESMTPSA id x7-20020a056e021ca700b00363d69f2598sm146020ill.45.2024.02.06.21.57.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Feb 2024 17:45:31 -0800 (PST)
-Date: Wed, 7 Feb 2024 01:45:28 +0000
-From: Justin Stitt <justinstitt@google.com>
-To: Kees Cook <keescook@chromium.org>
-Cc: Marco Elver <elver@google.com>, Miguel Ojeda <ojeda@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>, Hao Luo <haoluo@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
-	linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH v3] ubsan: Reintroduce signed overflow sanitizer
-Message-ID: <20240207014528.5byuufi5f33bl6e2@google.com>
-References: <20240205093725.make.582-kees@kernel.org>
+        Tue, 06 Feb 2024 21:57:30 -0800 (PST)
+From: Thomas Bertschinger <tahbertschinger@gmail.com>
+To: rust-for-linux@vger.kernel.org,
+	linux-bcachefs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	kent.overstreet@linux.dev,
+	bfoster@redhat.com,
+	ojeda@kernel.org,
+	alex.gaynor@gmail.com,
+	wedsonaf@gmail.com,
+	masahiroy@kernel.org
+Cc: Thomas Bertschinger <tahbertschinger@gmail.com>
+Subject: [PATCH RFC 0/3] bcachefs: add framework for internal Rust code
+Date: Tue,  6 Feb 2024 22:55:58 -0700
+Message-ID: <20240207055558.611606-1-tahbertschinger@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240205093725.make.582-kees@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-Hi,
+This series adds support for Rust code into bcachefs. This only enables
+using Rust internally within bcachefs; there are no public Rust APIs
+added. Rust support is hidden behind a new config option,
+CONFIG_BCACHEFS_RUST. It is optional and bcachefs can still be built
+with full functionality without rust.
 
-On Mon, Feb 05, 2024 at 01:37:29AM -0800, Kees Cook wrote:
-> In order to mitigate unexpected signed wrap-around[1], bring back the
-> signed integer overflow sanitizer. It was removed in commit 6aaa31aeb9cf
-> ("ubsan: remove overflow checks") because it was effectively a no-op
-> when combined with -fno-strict-overflow (which correctly changes signed
-> overflow from being "undefined" to being explicitly "wrap around").
->
-> Compilers are adjusting their sanitizers to trap wrap-around and to
-> detecting common code patterns that should not be instrumented
-> (e.g. "var + offset < var"). Prepare for this and explicitly rename
-> the option from "OVERFLOW" to "WRAP".
->
-> To annotate intentional wrap-around arithmetic, the add/sub/mul_wrap()
-> helpers can be used for individual statements. At the function level,
-> the __signed_wrap attribute can be used to mark an entire function as
-> expecting its signed arithmetic to wrap around. For a single object file
-> the Makefile can use "UBSAN_WRAP_SIGNED_target.o := n" to mark it as
-> wrapping, and for an entire directory, "UBSAN_WRAP_SIGNED := n" can be
-> used.
->
-> Additionally keep these disabled under CONFIG_COMPILE_TEST for now.
->
-> Link: https://github.com/KSPP/linux/issues/26 [1]
-> Cc: Justin Stitt <justinstitt@google.com>
-> Cc: Marco Elver <elver@google.com>
-> Cc: Miguel Ojeda <ojeda@kernel.org>
-> Cc: Nathan Chancellor <nathan@kernel.org>
-> Cc: Peter Zijlstra <peterz@infradead.org>
-> Cc: Hao Luo <haoluo@google.com>
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-> ---
-> v3:
->  - split out signed overflow sanitizer so we can do each separately
-> v2: https://lore.kernel.org/all/20240202101311.it.893-kees@kernel.org/
-> v1: https://lore.kernel.org/all/20240129175033.work.813-kees@kernel.org/
-> ---
->  include/linux/compiler_types.h |  9 ++++-
->  lib/Kconfig.ubsan              | 14 +++++++
->  lib/test_ubsan.c               | 37 ++++++++++++++++++
->  lib/ubsan.c                    | 68 ++++++++++++++++++++++++++++++++++
->  lib/ubsan.h                    |  4 ++
->  scripts/Makefile.lib           |  3 ++
->  scripts/Makefile.ubsan         |  3 ++
->  7 files changed, 137 insertions(+), 1 deletion(-)
->
-> diff --git a/include/linux/compiler_types.h b/include/linux/compiler_types.h
-> index 6f1ca49306d2..ee9d272008a5 100644
-> --- a/include/linux/compiler_types.h
-> +++ b/include/linux/compiler_types.h
-> @@ -282,11 +282,18 @@ struct ftrace_likely_data {
->  #define __no_sanitize_or_inline __always_inline
->  #endif
->
-> +/* Do not trap wrapping arithmetic within an annotated function. */
-> +#ifdef CONFIG_UBSAN_SIGNED_WRAP
-> +# define __signed_wrap __attribute__((no_sanitize("signed-integer-overflow")))
-> +#else
-> +# define __signed_wrap
-> +#endif
-> +
->  /* Section for code which can't be instrumented at all */
->  #define __noinstr_section(section)					\
->  	noinline notrace __attribute((__section__(section)))		\
->  	__no_kcsan __no_sanitize_address __no_profile __no_sanitize_coverage \
-> -	__no_sanitize_memory
-> +	__no_sanitize_memory __signed_wrap
->
->  #define noinstr __noinstr_section(".noinstr.text")
->
-> diff --git a/lib/Kconfig.ubsan b/lib/Kconfig.ubsan
-> index 56d7653f4941..129e9bc21877 100644
-> --- a/lib/Kconfig.ubsan
-> +++ b/lib/Kconfig.ubsan
-> @@ -116,6 +116,20 @@ config UBSAN_UNREACHABLE
->  	  This option enables -fsanitize=unreachable which checks for control
->  	  flow reaching an expected-to-be-unreachable position.
->
-> +config UBSAN_SIGNED_WRAP
-> +	bool "Perform checking for signed arithmetic wrap-around"
-> +	default UBSAN
-> +	depends on !COMPILE_TEST
-> +	depends on $(cc-option,-fsanitize=signed-integer-overflow)
-> +	help
-> +	  This option enables -fsanitize=signed-integer-overflow which checks
-> +	  for wrap-around of any arithmetic operations with signed integers.
-> +	  This currently performs nearly no instrumentation due to the
-> +	  kernel's use of -fno-strict-overflow which converts all would-be
-> +	  arithmetic undefined behavior into wrap-around arithmetic. Future
-> +	  sanitizer versions will allow for wrap-around checking (rather than
-> +	  exclusively undefined behavior).
-> +
->  config UBSAN_BOOL
->  	bool "Perform checking for non-boolean values used as boolean"
->  	default UBSAN
-> diff --git a/lib/test_ubsan.c b/lib/test_ubsan.c
-> index f4ee2484d4b5..276c12140ee2 100644
-> --- a/lib/test_ubsan.c
-> +++ b/lib/test_ubsan.c
-> @@ -11,6 +11,39 @@ typedef void(*test_ubsan_fp)(void);
->  			#config, IS_ENABLED(config) ? "y" : "n");	\
->  	} while (0)
->
-> +static void test_ubsan_add_overflow(void)
-> +{
-> +	volatile int val = INT_MAX;
-> +
-> +	UBSAN_TEST(CONFIG_UBSAN_SIGNED_WRAP);
-> +	val += 2;
-> +}
-> +
-> +static void test_ubsan_sub_overflow(void)
-> +{
-> +	volatile int val = INT_MIN;
-> +	volatile int val2 = 2;
-> +
-> +	UBSAN_TEST(CONFIG_UBSAN_SIGNED_WRAP);
-> +	val -= val2;
-> +}
-> +
-> +static void test_ubsan_mul_overflow(void)
-> +{
-> +	volatile int val = INT_MAX / 2;
-> +
-> +	UBSAN_TEST(CONFIG_UBSAN_SIGNED_WRAP);
-> +	val *= 3;
-> +}
-> +
-> +static void test_ubsan_negate_overflow(void)
-> +{
-> +	volatile int val = INT_MIN;
-> +
-> +	UBSAN_TEST(CONFIG_UBSAN_SIGNED_WRAP);
-> +	val = -val;
-> +}
-> +
->  static void test_ubsan_divrem_overflow(void)
->  {
->  	volatile int val = 16;
-> @@ -90,6 +123,10 @@ static void test_ubsan_misaligned_access(void)
->  }
->
->  static const test_ubsan_fp test_ubsan_array[] = {
-> +	test_ubsan_add_overflow,
-> +	test_ubsan_sub_overflow,
-> +	test_ubsan_mul_overflow,
-> +	test_ubsan_negate_overflow,
+I wasn't sure if this needed to be an RFC based on the current status
+of accepting Rust code outside of the rust/ tree, so I designated it as
+such to be safe. However, Kent plans to merge rust+bcachefs code in the
+6.9 merge window, so I hope at least the first 2 patches in this series,
+the ones that actually enable Rust for bcachefs, can be accepted.
 
-I wouldn't mind also seeing a test_ubsan_div_overflow test case here.
+#1 is a prerequisite in KBuild. In order to call bindgen commands in the
+fs/bcachefs tree, the bindgen commands need to be defined in the
+top-level scripts/Makefile.build along with the rustc commands, instead
+of in rust/Makefile. This is the only patch outside of fs/bcachefs/ in
+this series.
 
-It has some quirky behavior and it'd be nice to test that the sanitizers
-properly capture it.
+#2 creates the framework to use rust-bindgen in fs/bcachefs and
+introduces the new config option to enable this. This patch does not
+actually generate any Rust bindings; it just lays the foundation for
+future patches to create bindings.
 
-Check out this Godbolt: https://godbolt.org/z/qG5f1j6n1
+#3 demonstrates the new Rust functionality by implementing the module
+entry and exit functions for bcachefs in Rust. The current C entry
+and exit are retained so that bcachefs can still be built without Rust.
+Given Kent's goal to use Rust more in bcachefs, the C functions will
+presumably be dropped in the future.
 
-tl;dr: with -fsanitize=signed-integer-overflow division (/) and
-remainder (%) operators still instrument arithmetic even with
--fno-strict-overflow on.
 
-This makes sense as division by 0 and INT_MIN/-1 are UBs that are not
-influenced by -fno-strict-overflow.
+Thomas Bertschinger (3):
+  kbuild: rust: move bindgen commands to top-level
+  bcachefs: create framework for Rust bindings
+  bcachefs: introduce Rust module implementation
 
-Really though, the patch is fine and the above test case is optional and
-can be shipped later -- as such:
+ fs/bcachefs/.gitignore                 |  3 ++
+ fs/bcachefs/Kconfig                    |  6 +++
+ fs/bcachefs/Makefile                   | 12 +++++
+ fs/bcachefs/bcachefs.h                 |  5 ++
+ fs/bcachefs/bcachefs_module.rs         | 66 ++++++++++++++++++++++++
+ fs/bcachefs/bindgen_parameters         | 16 ++++++
+ fs/bcachefs/bindings/bindings_helper.h |  7 +++
+ fs/bcachefs/bindings/mod.rs            |  5 ++
+ fs/bcachefs/super.c                    | 31 +++++++++--
+ rust/Makefile                          | 67 ------------------------
+ scripts/Makefile.build                 | 71 ++++++++++++++++++++++++++
+ 11 files changed, 219 insertions(+), 70 deletions(-)
+ create mode 100644 fs/bcachefs/.gitignore
+ create mode 100644 fs/bcachefs/bcachefs_module.rs
+ create mode 100644 fs/bcachefs/bindgen_parameters
+ create mode 100644 fs/bcachefs/bindings/bindings_helper.h
+ create mode 100644 fs/bcachefs/bindings/mod.rs
 
-Reviewed-by: Justin Stitt <justinstitt@google.com>
+-- 
+2.43.0
 
->  	test_ubsan_shift_out_of_bounds,
->  	test_ubsan_out_of_bounds,
->  	test_ubsan_load_invalid_value,
-> diff --git a/lib/ubsan.c b/lib/ubsan.c
-> index df4f8d1354bb..5fc107f61934 100644
-> --- a/lib/ubsan.c
-> +++ b/lib/ubsan.c
-> @@ -222,6 +222,74 @@ static void ubsan_epilogue(void)
->  	check_panic_on_warn("UBSAN");
->  }
->
-> +static void handle_overflow(struct overflow_data *data, void *lhs,
-> +			void *rhs, char op)
-> +{
-> +
-> +	struct type_descriptor *type = data->type;
-> +	char lhs_val_str[VALUE_LENGTH];
-> +	char rhs_val_str[VALUE_LENGTH];
-> +
-> +	if (suppress_report(&data->location))
-> +		return;
-> +
-> +	ubsan_prologue(&data->location, type_is_signed(type) ?
-> +			"signed-integer-overflow" :
-> +			"unsigned-integer-overflow");
-> +
-> +	val_to_string(lhs_val_str, sizeof(lhs_val_str), type, lhs);
-> +	val_to_string(rhs_val_str, sizeof(rhs_val_str), type, rhs);
-> +	pr_err("%s %c %s cannot be represented in type %s\n",
-> +		lhs_val_str,
-> +		op,
-> +		rhs_val_str,
-> +		type->type_name);
-> +
-> +	ubsan_epilogue();
-> +}
-> +
-> +void __ubsan_handle_add_overflow(void *data,
-> +				void *lhs, void *rhs)
-> +{
-> +
-> +	handle_overflow(data, lhs, rhs, '+');
-> +}
-> +EXPORT_SYMBOL(__ubsan_handle_add_overflow);
-> +
-> +void __ubsan_handle_sub_overflow(void *data,
-> +				void *lhs, void *rhs)
-> +{
-> +	handle_overflow(data, lhs, rhs, '-');
-> +}
-> +EXPORT_SYMBOL(__ubsan_handle_sub_overflow);
-> +
-> +void __ubsan_handle_mul_overflow(void *data,
-> +				void *lhs, void *rhs)
-> +{
-> +	handle_overflow(data, lhs, rhs, '*');
-> +}
-> +EXPORT_SYMBOL(__ubsan_handle_mul_overflow);
-> +
-> +void __ubsan_handle_negate_overflow(void *_data, void *old_val)
-> +{
-> +	struct overflow_data *data = _data;
-> +	char old_val_str[VALUE_LENGTH];
-> +
-> +	if (suppress_report(&data->location))
-> +		return;
-> +
-> +	ubsan_prologue(&data->location, "negation-overflow");
-> +
-> +	val_to_string(old_val_str, sizeof(old_val_str), data->type, old_val);
-> +
-> +	pr_err("negation of %s cannot be represented in type %s:\n",
-> +		old_val_str, data->type->type_name);
-> +
-> +	ubsan_epilogue();
-> +}
-> +EXPORT_SYMBOL(__ubsan_handle_negate_overflow);
-> +
-> +
->  void __ubsan_handle_divrem_overflow(void *_data, void *lhs, void *rhs)
->  {
->  	struct overflow_data *data = _data;
-> diff --git a/lib/ubsan.h b/lib/ubsan.h
-> index 5d99ab81913b..0abbbac8700d 100644
-> --- a/lib/ubsan.h
-> +++ b/lib/ubsan.h
-> @@ -124,6 +124,10 @@ typedef s64 s_max;
->  typedef u64 u_max;
->  #endif
->
-> +void __ubsan_handle_add_overflow(void *data, void *lhs, void *rhs);
-> +void __ubsan_handle_sub_overflow(void *data, void *lhs, void *rhs);
-> +void __ubsan_handle_mul_overflow(void *data, void *lhs, void *rhs);
-> +void __ubsan_handle_negate_overflow(void *_data, void *old_val);
->  void __ubsan_handle_divrem_overflow(void *_data, void *lhs, void *rhs);
->  void __ubsan_handle_type_mismatch(struct type_mismatch_data *data, void *ptr);
->  void __ubsan_handle_type_mismatch_v1(void *_data, void *ptr);
-> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> index 52efc520ae4f..7ce8ecccc65a 100644
-> --- a/scripts/Makefile.lib
-> +++ b/scripts/Makefile.lib
-> @@ -177,6 +177,9 @@ ifeq ($(CONFIG_UBSAN),y)
->  _c_flags += $(if $(patsubst n%,, \
->  		$(UBSAN_SANITIZE_$(basetarget).o)$(UBSAN_SANITIZE)y), \
->  		$(CFLAGS_UBSAN))
-> +_c_flags += $(if $(patsubst n%,, \
-> +		$(UBSAN_WRAP_SIGNED_$(basetarget).o)$(UBSAN_SANITIZE_$(basetarget).o)$(UBSAN_WRAP_SIGNED)$(UBSAN_SANITIZE)y), \
-> +		$(CFLAGS_UBSAN_WRAP_SIGNED))
->  endif
->
->  ifeq ($(CONFIG_KCOV),y)
-> diff --git a/scripts/Makefile.ubsan b/scripts/Makefile.ubsan
-> index 7cf42231042b..bc957add0b4d 100644
-> --- a/scripts/Makefile.ubsan
-> +++ b/scripts/Makefile.ubsan
-> @@ -13,3 +13,6 @@ ubsan-cflags-$(CONFIG_UBSAN_ENUM)		+= -fsanitize=enum
->  ubsan-cflags-$(CONFIG_UBSAN_TRAP)		+= $(call cc-option,-fsanitize-trap=undefined,-fsanitize-undefined-trap-on-error)
->
->  export CFLAGS_UBSAN := $(ubsan-cflags-y)
-> +
-> +ubsan-wrap-signed-cflags-$(CONFIG_UBSAN_SIGNED_WRAP)     += -fsanitize=signed-integer-overflow
-> +export CFLAGS_UBSAN_WRAP_SIGNED := $(ubsan-wrap-signed-cflags-y)
-> --
-> 2.34.1
->
-
-Thanks
-Justin
 
