@@ -1,249 +1,392 @@
-Return-Path: <linux-kbuild+bounces-853-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-854-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0CA884C0A0
-	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Feb 2024 00:06:03 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1A8784C21E
+	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Feb 2024 02:46:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 52F74B25728
-	for <lists+linux-kbuild@lfdr.de>; Tue,  6 Feb 2024 23:06:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9642A28F4A7
+	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Feb 2024 01:46:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43E681CD1F;
-	Tue,  6 Feb 2024 23:05:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B370CA64;
+	Wed,  7 Feb 2024 01:45:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lvdPV+2C"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="2sgWUwPI"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f46.google.com (mail-io1-f46.google.com [209.85.166.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 116651CD17;
-	Tue,  6 Feb 2024 23:05:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C63714AB7
+	for <linux-kbuild@vger.kernel.org>; Wed,  7 Feb 2024 01:45:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707260746; cv=none; b=C9YOGDie0z0fGTyTItR/963g1X/yi+Npx57RYc3AYLjcGpBYa7+BmU999fwNDFIAqO1Z5bxMD2vN/BApOlNsKsgH+4lgFFNgSsa3jVcAd/e5IL2WDIB3YIiKOi7oFC1ieVV7R2O+z5qOyAd/ltvDe/9Kh7nN/m99T3iT0DA5IuU=
+	t=1707270335; cv=none; b=c6Y29L/c+Ovu3r05PhgvfMp8XadNCjbdyG6ZFrF8Nuc/5sKiXX8jJSICuFmJgjkhD1TLzJGFmPefi+X0+WV5gEavq2xPUhntOsb8tGlwYwqHfSvLfFBoPg+d8EzegzpFN9Wq3kdsswkhad4vhxNkWP5wrP0fRc/puE3qfZuSZGc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707260746; c=relaxed/simple;
-	bh=nXdR+a6VM2WRCvGRjAN8VSBuD/Uz2750SQd0svzgACE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=U/RX5sZG5jsC1KL9VQKOhFOXKqHODe5qb4MkyDhKh4nn1alRW1SoyWiPd7oGfrAZo6OO/fgD36485eJOfideI4EaMfvldZm11p7s845pWvhl8hmxK+pMpJR7ILX9ibY8wSEuB0Jz9LpznevBTXxWYd+uSTjFqd8rGjegQfmmwLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lvdPV+2C; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79C8CC43390;
-	Tue,  6 Feb 2024 23:05:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707260745;
-	bh=nXdR+a6VM2WRCvGRjAN8VSBuD/Uz2750SQd0svzgACE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=lvdPV+2CPODujZO0/HwvdGmj+dOSacaeKhUlP6vw58sJ0Ma4KA4zQykKw+t9xrg5m
-	 w68WaeMmWfvypFp5tWxvktWHVRcfq/xHLo118H2GWtP1h/UA5Z3MXG/YgH+U4Y01rc
-	 1O/PZPRBOsO2b1AHg/hb0Jad3P5vBT6EgiqMz6TV2Hus3Gf4cXST1P0yHCQ+hBoWvS
-	 o6XbCxb6/EVZo5PcgPYDf40uXMcxDy5f1fjKZvn2xWvo4rHBq8vh7xMP2/GFaUi0AL
-	 dfvT4a1zZrVren6mbnuoxq2n4ZXvzWOU8iHQVs9zQYHOa48KGhr2R7mMZEou0b8zLF
-	 OeI7JLD9NCZ4w==
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-511490772f6so856e87.2;
-        Tue, 06 Feb 2024 15:05:45 -0800 (PST)
-X-Gm-Message-State: AOJu0YzgAWMBoyYqw7PkvH1DniGTfHESsEZvHqHy/wXd+nuJ4RniQ9Sd
-	2BOxsB0UtUbBbCI0OcfWfbfG4534ks8Z4O/b2hT3UrFDS05ye8ZtysVtrbAN+QmLCEN9MKKEQY5
-	gX9ifcFNW6anQbU3GaEX2Ei/vzss=
-X-Google-Smtp-Source: AGHT+IEMbrPIpSm6OEH2wjHQ/bmWih8c7TetX4tr5aYc278nyCtvtcRboPNHPHMJOQ4NGrPQiVcY9Z4OoBcazk1ridA=
-X-Received: by 2002:a2e:b6c6:0:b0:2d0:aa83:c5a4 with SMTP id
- m6-20020a2eb6c6000000b002d0aa83c5a4mr2463469ljo.51.1707260744020; Tue, 06 Feb
- 2024 15:05:44 -0800 (PST)
+	s=arc-20240116; t=1707270335; c=relaxed/simple;
+	bh=jtbEkMgACYBlVC9wzZ15NHjLL3L1OsM3ulBngMq6shI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Lc6gv79eeu+eEjMknDDaiP8r5p6kRihEcaTUqKJviLbwJ2Xm98zodTY8g/tQntNYhrdyzJc9PvObOCTZgWLqg/u3LzLaAbhHItF22RS0VWA3dSrBoVcXjPQKa7bzJM2F14m6jhj4v1FOilaxI7tD93wnsBYeLKSBKb3i8mqpM7s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=2sgWUwPI; arc=none smtp.client-ip=209.85.166.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-io1-f46.google.com with SMTP id ca18e2360f4ac-7c029beb8c9so5644439f.0
+        for <linux-kbuild@vger.kernel.org>; Tue, 06 Feb 2024 17:45:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1707270332; x=1707875132; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=i0KokQpsmVwCg2q3ckhuoiEueFde0IBUJuEJrRWd9+k=;
+        b=2sgWUwPIMZo5yHQpLDEsTIg87duygcOX7FID7qtPV3d5YlWLAA01TuSmeQX5z3ZTfw
+         WAnNZUeupSyJC/2nLa5YnPGuuEHquY3uAvFdfcjswCEJZ/paHIt6f4C1p7wTMloKhjOT
+         wWIWNfDY7OhDZKOrQUR/AiH6HO7FBIplRQjbj2gh5eTjCH3/jxry4F2k33rn+KjtmuGr
+         F/G9PJmj7X6IpUz5ugnYS+nY7Z5T0deLYKfx9hDMP6yYtzUSCHBRWvL7LAZOTd+bdAND
+         sJ7xaeHqGEsmFJXSA5WaXBCaYL+mG8+N8boYOw4Ffvv6VIUmKM1J/jZD47YCAUuETOPY
+         QKHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707270332; x=1707875132;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=i0KokQpsmVwCg2q3ckhuoiEueFde0IBUJuEJrRWd9+k=;
+        b=p0co4zkiqfYtdCkFcIWEVaZWlDUH6kRpj6iAOZ+TMyUTZy4nIrqeD5k7D31f/vUe6/
+         Vlka7FACHXX7nFdAOv8eTvdaY855cBQbhNyTYMijXuMfgQMTWQvPyUmKK1YzzxYaRfbu
+         6Y9VcSw2fEgejMIUp71P4bMVS3qvnPzRrmeen5LGXoh0ozTZw4O8Lyd8TZBE5Q1vpRdF
+         LrCXU2GzeMyJ0xGOYEnfy6kJaxoyjDhkm5Gn8h//fE36lTBRO4lE5OhINNuE3F0mWnQ8
+         excaotTu+dTeK8k2RsJ5Y0whIzkD31HSXD4JSBzeem16BUAAuVGi4/tkLD7Y5pcZgJIT
+         7nYg==
+X-Gm-Message-State: AOJu0YxlhE1GKW2J9FinmsxscM9U32qiStUwAfxHv5aUvSsnjlfFSwtg
+	feNR+rIeVbwaLK7yQXhNtaVrFO8fjWcN77+NY6nk8vAtTnNI+m174rpBQVRT9g==
+X-Google-Smtp-Source: AGHT+IHOt4QXtkEcxV9O1FCVDBJ/4GN43Js9KOnslqrb7D6ePsbS6hOblVbQghsMZL86x4PbfVNWaQ==
+X-Received: by 2002:a05:6602:1d52:b0:7be:f7e5:44fc with SMTP id hi18-20020a0566021d5200b007bef7e544fcmr5190362iob.21.1707270332593;
+        Tue, 06 Feb 2024 17:45:32 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXgz0Bk3pqC37J5ry8Hitp4ra1NniLz7Y4v4Tphxf7iyTTW6uwWCALufaKvyh/+5X5pf8Ci3B/VwE4erM2dw7wNGsJN3BkWwQlckmsz+kD8rvAdJRrqdbfDHi7qI5NJ4SclpKgfkKskYgAe+Sgt+/8W+gy28AbW1X1tzm4ESG5ATlNDk+jetgjB5tbXMcK7/2YB7Spu6APCEKEq0JmT74M822R/XzG2ZYcvtXX4U3J/DohfzcR+IJ5j72zJ8fw37StRaKCVYftVKCQSzDicQNNK6PgzuE+DTJWrzuFLPDnwFqltv9slz53wterU3tt7jpG3HVknYUaq4+8UqKXEOa4HXUzpN2FuVoRQzByHikOw7ZTsEBeT2loLAmQ7991loj6fFB3yfkAr0YPCR1FjRjTkeMZKGISsAww5F7vouc9oR1sVxgjfAzAxHRi2hXzaemmLtz2BjUeG2owFlfGUo6lTAkZRtDDwwNYQ8PjUWnc1e/it9sD9+cb/dBJ8ADio1ra6HwSznQM=
+Received: from google.com (20.10.132.34.bc.googleusercontent.com. [34.132.10.20])
+        by smtp.gmail.com with ESMTPSA id ed7-20020a056638290700b004713a02614bsm29995jab.10.2024.02.06.17.45.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Feb 2024 17:45:31 -0800 (PST)
+Date: Wed, 7 Feb 2024 01:45:28 +0000
+From: Justin Stitt <justinstitt@google.com>
+To: Kees Cook <keescook@chromium.org>
+Cc: Marco Elver <elver@google.com>, Miguel Ojeda <ojeda@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>, Hao Luo <haoluo@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+	linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH v3] ubsan: Reintroduce signed overflow sanitizer
+Message-ID: <20240207014528.5byuufi5f33bl6e2@google.com>
+References: <20240205093725.make.582-kees@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240206001333.1710070-1-yoann.congal@smile.fr> <20240206001333.1710070-3-yoann.congal@smile.fr>
-In-Reply-To: <20240206001333.1710070-3-yoann.congal@smile.fr>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Wed, 7 Feb 2024 08:05:07 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATzkZSK=hYbShOER=PnR7KVUBrDN=RL2Yyw413uMueiXw@mail.gmail.com>
-Message-ID: <CAK7LNATzkZSK=hYbShOER=PnR7KVUBrDN=RL2Yyw413uMueiXw@mail.gmail.com>
-Subject: Re: [PATCH v4 2/3] printk: Change type of CONFIG_BASE_SMALL to bool
-To: Yoann Congal <yoann.congal@smile.fr>
-Cc: linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org, x86@kernel.org, 
-	=?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>, 
-	Borislav Petkov <bp@alien8.de>, Darren Hart <dvhart@infradead.org>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, Davidlohr Bueso <dave@stgolabs.net>, 
-	Geert Uytterhoeven <geert@linux-m68k.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"H . Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>, Jiri Slaby <jirislaby@kernel.org>, 
-	John Ogness <john.ogness@linutronix.de>, Josh Triplett <josh@joshtriplett.org>, 
-	Matthew Wilcox <willy@infradead.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Petr Mladek <pmladek@suse.com>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Thomas Gleixner <tglx@linutronix.de>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240205093725.make.582-kees@kernel.org>
 
-On Tue, Feb 6, 2024 at 9:13=E2=80=AFAM Yoann Congal <yoann.congal@smile.fr>=
- wrote:
+Hi,
+
+On Mon, Feb 05, 2024 at 01:37:29AM -0800, Kees Cook wrote:
+> In order to mitigate unexpected signed wrap-around[1], bring back the
+> signed integer overflow sanitizer. It was removed in commit 6aaa31aeb9cf
+> ("ubsan: remove overflow checks") because it was effectively a no-op
+> when combined with -fno-strict-overflow (which correctly changes signed
+> overflow from being "undefined" to being explicitly "wrap around").
 >
-> CONFIG_BASE_SMALL is currently a type int but is only used as a boolean.
+> Compilers are adjusting their sanitizers to trap wrap-around and to
+> detecting common code patterns that should not be instrumented
+> (e.g. "var + offset < var"). Prepare for this and explicitly rename
+> the option from "OVERFLOW" to "WRAP".
 >
-> So, change its type to bool and adapt all usages:
-> CONFIG_BASE_SMALL =3D=3D 0 becomes !IS_ENABLED(CONFIG_BASE_SMALL) and
-> CONFIG_BASE_SMALL !=3D 0 becomes  IS_ENABLED(CONFIG_BASE_SMALL).
+> To annotate intentional wrap-around arithmetic, the add/sub/mul_wrap()
+> helpers can be used for individual statements. At the function level,
+> the __signed_wrap attribute can be used to mark an entire function as
+> expecting its signed arithmetic to wrap around. For a single object file
+> the Makefile can use "UBSAN_WRAP_SIGNED_target.o := n" to mark it as
+> wrapping, and for an entire directory, "UBSAN_WRAP_SIGNED := n" can be
+> used.
 >
-> Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+> Additionally keep these disabled under CONFIG_COMPILE_TEST for now.
+>
+> Link: https://github.com/KSPP/linux/issues/26 [1]
+> Cc: Justin Stitt <justinstitt@google.com>
+> Cc: Marco Elver <elver@google.com>
+> Cc: Miguel Ojeda <ojeda@kernel.org>
+> Cc: Nathan Chancellor <nathan@kernel.org>
+> Cc: Peter Zijlstra <peterz@infradead.org>
+> Cc: Hao Luo <haoluo@google.com>
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 > ---
-> NB: This is preliminary work for the following patch removing
-> CONFIG_BASE_FULL (now equivalent to !CONFIG_BASE_SMALL)
->
-> v3->v4:
-> * Split "switch CONFIG_BASE_SMALL to bool" (this patch) and "Remove the r=
-edundant
->   config" into two patches
-> * keep CONFIG_BASE_SMALL instead of CONFIG_BASE_FULL
+> v3:
+>  - split out signed overflow sanitizer so we can do each separately
+> v2: https://lore.kernel.org/all/20240202101311.it.893-kees@kernel.org/
+> v1: https://lore.kernel.org/all/20240129175033.work.813-kees@kernel.org/
 > ---
->  arch/x86/include/asm/mpspec.h | 6 +++---
->  drivers/tty/vt/vc_screen.c    | 2 +-
->  include/linux/threads.h       | 4 ++--
->  include/linux/udp.h           | 2 +-
->  include/linux/xarray.h        | 2 +-
->  init/Kconfig                  | 8 ++++----
->  kernel/futex/core.c           | 2 +-
->  kernel/user.c                 | 2 +-
->  8 files changed, 14 insertions(+), 14 deletions(-)
+>  include/linux/compiler_types.h |  9 ++++-
+>  lib/Kconfig.ubsan              | 14 +++++++
+>  lib/test_ubsan.c               | 37 ++++++++++++++++++
+>  lib/ubsan.c                    | 68 ++++++++++++++++++++++++++++++++++
+>  lib/ubsan.h                    |  4 ++
+>  scripts/Makefile.lib           |  3 ++
+>  scripts/Makefile.ubsan         |  3 ++
+>  7 files changed, 137 insertions(+), 1 deletion(-)
 >
-> diff --git a/arch/x86/include/asm/mpspec.h b/arch/x86/include/asm/mpspec.=
-h
-> index 4b0f98a8d338d..c01d3105840cf 100644
-> --- a/arch/x86/include/asm/mpspec.h
-> +++ b/arch/x86/include/asm/mpspec.h
-> @@ -15,10 +15,10 @@ extern int pic_mode;
->   * Summit or generic (i.e. installer) kernels need lots of bus entries.
->   * Maximum 256 PCI busses, plus 1 ISA bus in each of 4 cabinets.
->   */
-> -#if CONFIG_BASE_SMALL =3D=3D 0
-> -# define MAX_MP_BUSSES         260
-> -#else
-> +#ifdef CONFIG_BASE_SMALL
->  # define MAX_MP_BUSSES         32
-> +#else
-> +# define MAX_MP_BUSSES         260
+> diff --git a/include/linux/compiler_types.h b/include/linux/compiler_types.h
+> index 6f1ca49306d2..ee9d272008a5 100644
+> --- a/include/linux/compiler_types.h
+> +++ b/include/linux/compiler_types.h
+> @@ -282,11 +282,18 @@ struct ftrace_likely_data {
+>  #define __no_sanitize_or_inline __always_inline
 >  #endif
 >
->  #define MAX_IRQ_SOURCES                256
-> diff --git a/drivers/tty/vt/vc_screen.c b/drivers/tty/vt/vc_screen.c
-> index 67e2cb7c96eec..da33c6c4691c0 100644
-> --- a/drivers/tty/vt/vc_screen.c
-> +++ b/drivers/tty/vt/vc_screen.c
-> @@ -51,7 +51,7 @@
->  #include <asm/unaligned.h>
+> +/* Do not trap wrapping arithmetic within an annotated function. */
+> +#ifdef CONFIG_UBSAN_SIGNED_WRAP
+> +# define __signed_wrap __attribute__((no_sanitize("signed-integer-overflow")))
+> +#else
+> +# define __signed_wrap
+> +#endif
+> +
+>  /* Section for code which can't be instrumented at all */
+>  #define __noinstr_section(section)					\
+>  	noinline notrace __attribute((__section__(section)))		\
+>  	__no_kcsan __no_sanitize_address __no_profile __no_sanitize_coverage \
+> -	__no_sanitize_memory
+> +	__no_sanitize_memory __signed_wrap
 >
->  #define HEADER_SIZE    4u
-> -#define CON_BUF_SIZE (CONFIG_BASE_SMALL ? 256 : PAGE_SIZE)
-> +#define CON_BUF_SIZE (IS_ENABLED(CONFIG_BASE_SMALL) ? 256 : PAGE_SIZE)
+>  #define noinstr __noinstr_section(".noinstr.text")
 >
->  /*
->   * Our minor space:
-> diff --git a/include/linux/threads.h b/include/linux/threads.h
-> index c34173e6c5f18..1674a471b0b4c 100644
-> --- a/include/linux/threads.h
-> +++ b/include/linux/threads.h
-> @@ -25,13 +25,13 @@
->  /*
->   * This controls the default maximum pid allocated to a process
->   */
-> -#define PID_MAX_DEFAULT (CONFIG_BASE_SMALL ? 0x1000 : 0x8000)
-> +#define PID_MAX_DEFAULT (IS_ENABLED(CONFIG_BASE_SMALL) ? 0x1000 : 0x8000=
-)
+> diff --git a/lib/Kconfig.ubsan b/lib/Kconfig.ubsan
+> index 56d7653f4941..129e9bc21877 100644
+> --- a/lib/Kconfig.ubsan
+> +++ b/lib/Kconfig.ubsan
+> @@ -116,6 +116,20 @@ config UBSAN_UNREACHABLE
+>  	  This option enables -fsanitize=unreachable which checks for control
+>  	  flow reaching an expected-to-be-unreachable position.
 >
->  /*
->   * A maximum of 4 million PIDs should be enough for a while.
->   * [NOTE: PID/TIDs are limited to 2^30 ~=3D 1 billion, see FUTEX_TID_MAS=
-K.]
->   */
-> -#define PID_MAX_LIMIT (CONFIG_BASE_SMALL ? PAGE_SIZE * 8 : \
-> +#define PID_MAX_LIMIT (IS_ENABLED(CONFIG_BASE_SMALL) ? PAGE_SIZE * 8 : \
->         (sizeof(long) > 4 ? 4 * 1024 * 1024 : PID_MAX_DEFAULT))
+> +config UBSAN_SIGNED_WRAP
+> +	bool "Perform checking for signed arithmetic wrap-around"
+> +	default UBSAN
+> +	depends on !COMPILE_TEST
+> +	depends on $(cc-option,-fsanitize=signed-integer-overflow)
+> +	help
+> +	  This option enables -fsanitize=signed-integer-overflow which checks
+> +	  for wrap-around of any arithmetic operations with signed integers.
+> +	  This currently performs nearly no instrumentation due to the
+> +	  kernel's use of -fno-strict-overflow which converts all would-be
+> +	  arithmetic undefined behavior into wrap-around arithmetic. Future
+> +	  sanitizer versions will allow for wrap-around checking (rather than
+> +	  exclusively undefined behavior).
+> +
+>  config UBSAN_BOOL
+>  	bool "Perform checking for non-boolean values used as boolean"
+>  	default UBSAN
+> diff --git a/lib/test_ubsan.c b/lib/test_ubsan.c
+> index f4ee2484d4b5..276c12140ee2 100644
+> --- a/lib/test_ubsan.c
+> +++ b/lib/test_ubsan.c
+> @@ -11,6 +11,39 @@ typedef void(*test_ubsan_fp)(void);
+>  			#config, IS_ENABLED(config) ? "y" : "n");	\
+>  	} while (0)
 >
->  /*
-> diff --git a/include/linux/udp.h b/include/linux/udp.h
-> index d04188714dca1..b456417fb4515 100644
-> --- a/include/linux/udp.h
-> +++ b/include/linux/udp.h
-> @@ -24,7 +24,7 @@ static inline struct udphdr *udp_hdr(const struct sk_bu=
-ff *skb)
+> +static void test_ubsan_add_overflow(void)
+> +{
+> +	volatile int val = INT_MAX;
+> +
+> +	UBSAN_TEST(CONFIG_UBSAN_SIGNED_WRAP);
+> +	val += 2;
+> +}
+> +
+> +static void test_ubsan_sub_overflow(void)
+> +{
+> +	volatile int val = INT_MIN;
+> +	volatile int val2 = 2;
+> +
+> +	UBSAN_TEST(CONFIG_UBSAN_SIGNED_WRAP);
+> +	val -= val2;
+> +}
+> +
+> +static void test_ubsan_mul_overflow(void)
+> +{
+> +	volatile int val = INT_MAX / 2;
+> +
+> +	UBSAN_TEST(CONFIG_UBSAN_SIGNED_WRAP);
+> +	val *= 3;
+> +}
+> +
+> +static void test_ubsan_negate_overflow(void)
+> +{
+> +	volatile int val = INT_MIN;
+> +
+> +	UBSAN_TEST(CONFIG_UBSAN_SIGNED_WRAP);
+> +	val = -val;
+> +}
+> +
+>  static void test_ubsan_divrem_overflow(void)
+>  {
+>  	volatile int val = 16;
+> @@ -90,6 +123,10 @@ static void test_ubsan_misaligned_access(void)
 >  }
 >
->  #define UDP_HTABLE_SIZE_MIN_PERNET     128
-> -#define UDP_HTABLE_SIZE_MIN            (CONFIG_BASE_SMALL ? 128 : 256)
-> +#define UDP_HTABLE_SIZE_MIN            (IS_ENABLED(CONFIG_BASE_SMALL) ? =
-128 : 256)
->  #define UDP_HTABLE_SIZE_MAX            65536
+>  static const test_ubsan_fp test_ubsan_array[] = {
+> +	test_ubsan_add_overflow,
+> +	test_ubsan_sub_overflow,
+> +	test_ubsan_mul_overflow,
+> +	test_ubsan_negate_overflow,
+
+I wouldn't mind also seeing a test_ubsan_div_overflow test case here.
+
+It has some quirky behavior and it'd be nice to test that the sanitizers
+properly capture it.
+
+Check out this Godbolt: https://godbolt.org/z/qG5f1j6n1
+
+tl;dr: with -fsanitize=signed-integer-overflow division (/) and
+remainder (%) operators still instrument arithmetic even with
+-fno-strict-overflow on.
+
+This makes sense as division by 0 and INT_MIN/-1 are UBs that are not
+influenced by -fno-strict-overflow.
+
+Really though, the patch is fine and the above test case is optional and
+can be shipped later -- as such:
+
+Reviewed-by: Justin Stitt <justinstitt@google.com>
+
+>  	test_ubsan_shift_out_of_bounds,
+>  	test_ubsan_out_of_bounds,
+>  	test_ubsan_load_invalid_value,
+> diff --git a/lib/ubsan.c b/lib/ubsan.c
+> index df4f8d1354bb..5fc107f61934 100644
+> --- a/lib/ubsan.c
+> +++ b/lib/ubsan.c
+> @@ -222,6 +222,74 @@ static void ubsan_epilogue(void)
+>  	check_panic_on_warn("UBSAN");
+>  }
 >
->  static inline u32 udp_hashfn(const struct net *net, u32 num, u32 mask)
-> diff --git a/include/linux/xarray.h b/include/linux/xarray.h
-> index cb571dfcf4b16..3f81ee5f9fb9c 100644
-> --- a/include/linux/xarray.h
-> +++ b/include/linux/xarray.h
-> @@ -1141,7 +1141,7 @@ static inline void xa_release(struct xarray *xa, un=
-signed long index)
->   * doubled the number of slots per node, we'd get only 3 nodes per 4kB p=
-age.
->   */
->  #ifndef XA_CHUNK_SHIFT
-> -#define XA_CHUNK_SHIFT         (CONFIG_BASE_SMALL ? 4 : 6)
-> +#define XA_CHUNK_SHIFT         (IS_ENABLED(CONFIG_BASE_SMALL) ? 4 : 6)
+> +static void handle_overflow(struct overflow_data *data, void *lhs,
+> +			void *rhs, char op)
+> +{
+> +
+> +	struct type_descriptor *type = data->type;
+> +	char lhs_val_str[VALUE_LENGTH];
+> +	char rhs_val_str[VALUE_LENGTH];
+> +
+> +	if (suppress_report(&data->location))
+> +		return;
+> +
+> +	ubsan_prologue(&data->location, type_is_signed(type) ?
+> +			"signed-integer-overflow" :
+> +			"unsigned-integer-overflow");
+> +
+> +	val_to_string(lhs_val_str, sizeof(lhs_val_str), type, lhs);
+> +	val_to_string(rhs_val_str, sizeof(rhs_val_str), type, rhs);
+> +	pr_err("%s %c %s cannot be represented in type %s\n",
+> +		lhs_val_str,
+> +		op,
+> +		rhs_val_str,
+> +		type->type_name);
+> +
+> +	ubsan_epilogue();
+> +}
+> +
+> +void __ubsan_handle_add_overflow(void *data,
+> +				void *lhs, void *rhs)
+> +{
+> +
+> +	handle_overflow(data, lhs, rhs, '+');
+> +}
+> +EXPORT_SYMBOL(__ubsan_handle_add_overflow);
+> +
+> +void __ubsan_handle_sub_overflow(void *data,
+> +				void *lhs, void *rhs)
+> +{
+> +	handle_overflow(data, lhs, rhs, '-');
+> +}
+> +EXPORT_SYMBOL(__ubsan_handle_sub_overflow);
+> +
+> +void __ubsan_handle_mul_overflow(void *data,
+> +				void *lhs, void *rhs)
+> +{
+> +	handle_overflow(data, lhs, rhs, '*');
+> +}
+> +EXPORT_SYMBOL(__ubsan_handle_mul_overflow);
+> +
+> +void __ubsan_handle_negate_overflow(void *_data, void *old_val)
+> +{
+> +	struct overflow_data *data = _data;
+> +	char old_val_str[VALUE_LENGTH];
+> +
+> +	if (suppress_report(&data->location))
+> +		return;
+> +
+> +	ubsan_prologue(&data->location, "negation-overflow");
+> +
+> +	val_to_string(old_val_str, sizeof(old_val_str), data->type, old_val);
+> +
+> +	pr_err("negation of %s cannot be represented in type %s:\n",
+> +		old_val_str, data->type->type_name);
+> +
+> +	ubsan_epilogue();
+> +}
+> +EXPORT_SYMBOL(__ubsan_handle_negate_overflow);
+> +
+> +
+>  void __ubsan_handle_divrem_overflow(void *_data, void *lhs, void *rhs)
+>  {
+>  	struct overflow_data *data = _data;
+> diff --git a/lib/ubsan.h b/lib/ubsan.h
+> index 5d99ab81913b..0abbbac8700d 100644
+> --- a/lib/ubsan.h
+> +++ b/lib/ubsan.h
+> @@ -124,6 +124,10 @@ typedef s64 s_max;
+>  typedef u64 u_max;
 >  #endif
->  #define XA_CHUNK_SIZE          (1UL << XA_CHUNK_SHIFT)
->  #define XA_CHUNK_MASK          (XA_CHUNK_SIZE - 1)
-> diff --git a/init/Kconfig b/init/Kconfig
-> index d50ebd2a2ce42..d4b16cad98502 100644
-> --- a/init/Kconfig
-> +++ b/init/Kconfig
-> @@ -734,7 +734,7 @@ config LOG_CPU_MAX_BUF_SHIFT
->         int "CPU kernel log buffer size contribution (13 =3D> 8 KB, 17 =
-=3D> 128KB)"
->         depends on SMP
->         range 0 21
-> -       default 0 if BASE_SMALL !=3D 0
-> +       default 0 if BASE_SMALL
->         default 12
->         depends on PRINTK
->         help
-> @@ -1941,9 +1941,9 @@ config RT_MUTEXES
->         default y if PREEMPT_RT
 >
->  config BASE_SMALL
-> -       int
-> -       default 0 if BASE_FULL
-> -       default 1 if !BASE_FULL
-> +       bool
-> +       default y if !BASE_FULL
-> +       default n
+> +void __ubsan_handle_add_overflow(void *data, void *lhs, void *rhs);
+> +void __ubsan_handle_sub_overflow(void *data, void *lhs, void *rhs);
+> +void __ubsan_handle_mul_overflow(void *data, void *lhs, void *rhs);
+> +void __ubsan_handle_negate_overflow(void *_data, void *old_val);
+>  void __ubsan_handle_divrem_overflow(void *_data, void *lhs, void *rhs);
+>  void __ubsan_handle_type_mismatch(struct type_mismatch_data *data, void *ptr);
+>  void __ubsan_handle_type_mismatch_v1(void *_data, void *ptr);
+> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> index 52efc520ae4f..7ce8ecccc65a 100644
+> --- a/scripts/Makefile.lib
+> +++ b/scripts/Makefile.lib
+> @@ -177,6 +177,9 @@ ifeq ($(CONFIG_UBSAN),y)
+>  _c_flags += $(if $(patsubst n%,, \
+>  		$(UBSAN_SANITIZE_$(basetarget).o)$(UBSAN_SANITIZE)y), \
+>  		$(CFLAGS_UBSAN))
+> +_c_flags += $(if $(patsubst n%,, \
+> +		$(UBSAN_WRAP_SIGNED_$(basetarget).o)$(UBSAN_SANITIZE_$(basetarget).o)$(UBSAN_WRAP_SIGNED)$(UBSAN_SANITIZE)y), \
+> +		$(CFLAGS_UBSAN_WRAP_SIGNED))
+>  endif
+>
+>  ifeq ($(CONFIG_KCOV),y)
+> diff --git a/scripts/Makefile.ubsan b/scripts/Makefile.ubsan
+> index 7cf42231042b..bc957add0b4d 100644
+> --- a/scripts/Makefile.ubsan
+> +++ b/scripts/Makefile.ubsan
+> @@ -13,3 +13,6 @@ ubsan-cflags-$(CONFIG_UBSAN_ENUM)		+= -fsanitize=enum
+>  ubsan-cflags-$(CONFIG_UBSAN_TRAP)		+= $(call cc-option,-fsanitize-trap=undefined,-fsanitize-undefined-trap-on-error)
+>
+>  export CFLAGS_UBSAN := $(ubsan-cflags-y)
+> +
+> +ubsan-wrap-signed-cflags-$(CONFIG_UBSAN_SIGNED_WRAP)     += -fsanitize=signed-integer-overflow
+> +export CFLAGS_UBSAN_WRAP_SIGNED := $(ubsan-wrap-signed-cflags-y)
+> --
+> 2.34.1
+>
 
-
-
-The shortest form would be:
-
-
-config BASE_SMALL
-        def_bool !BASE_FULL
-
-
-
-But, that is not a big deal, as this hunk will
-be removed by 3/3.
-
-
-
-
-Reviewed-by: Masahiro Yamada <masahiroy@kernel.org>
-
-
-
-
-
-
-
-
---=20
-Best Regards
-Masahiro Yamada
+Thanks
+Justin
 
