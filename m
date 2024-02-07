@@ -1,135 +1,127 @@
-Return-Path: <linux-kbuild+bounces-857-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-858-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E88984C4F7
-	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Feb 2024 07:27:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73A5D84C924
+	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Feb 2024 12:04:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 80DBB1C22E74
-	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Feb 2024 06:27:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A4B5A1C20318
+	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Feb 2024 11:04:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE4CFD512;
-	Wed,  7 Feb 2024 06:27:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B00A617BCC;
+	Wed,  7 Feb 2024 11:04:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Nbth8gVY"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="RNBtpq1M"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+Received: from mail-il1-f176.google.com (mail-il1-f176.google.com [209.85.166.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0FCC1CD21
-	for <linux-kbuild@vger.kernel.org>; Wed,  7 Feb 2024 06:27:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B12C17BCB
+	for <linux-kbuild@vger.kernel.org>; Wed,  7 Feb 2024 11:04:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707287255; cv=none; b=QhxOoWVfhro/GbczoCItnkrhylra6cWCA9M4pJTfDJ1CwY6M1irSFdVtiXYc0BzUsIx8ge7/6Zfmf19uXlUjCvVF+NlgyL3AtnVW8hmR8JzmeFER0mKkh3XyllmcBl4zPYaqrQXL90V6eXNpaLSE4b3xWxRnobA4bczRwZo+Up4=
+	t=1707303858; cv=none; b=SRYMXIQjA1ltF7NWfyQtMKvLTAMHem1SkfMV+6suBVdkugAamgMyumF0Xhes3mGWp5kGd06ahjsowliPKPX1y+Llo1r7dzm0PBMQvvq6F24OW5GYqz9XitA9XOKOD0c2UkexS7TS6kZVKcv4H6mXnpNkSWblzui6XirrgAF75/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707287255; c=relaxed/simple;
-	bh=IWTZ61uSjmqMjVLoxaI2rMZ+/qvpa0aKFFdQ7IWsvTw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Content-Type; b=CnDWOkl/UrgskKA/shVBUbIIR9g4acmaqAoAi4ADZYhSh+n8o/QtihCDC7rOprzuu6JrYVjRHGWol1GNwNY3iRqTB+gAeb9epnLje70N5D5gc949vpklul7p+pLM1fYRSwWn9tCg0iPfaYFPcN7i4NK1ySfwvlM9mSsvzMxW5T0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Nbth8gVY; arc=none smtp.client-ip=209.85.160.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-42a029c8e76so1829291cf.2
-        for <linux-kbuild@vger.kernel.org>; Tue, 06 Feb 2024 22:27:33 -0800 (PST)
+	s=arc-20240116; t=1707303858; c=relaxed/simple;
+	bh=CgYyRmc6Z59PnXZh+5ZKWs0+Cbn8qJv1WXKrOV0Or9o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FnWtJhbiib8OnuwX8jv2yB8HP5ZhJs2cisTByUXDeN3lbx+s4ukVBQW7B3Krku3sM+vNF+uVFPVOa0t6ujHbOonaF/1ak9fVDPHG9DUKgQz1TOW/O/3hc+tdvgUOcAK233Vk2HfTkvVJn86NU6wBZIVp5ARBiIAC5erxmnFFxM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=RNBtpq1M; arc=none smtp.client-ip=209.85.166.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-il1-f176.google.com with SMTP id e9e14a558f8ab-363c7d490d1so777085ab.0
+        for <linux-kbuild@vger.kernel.org>; Wed, 07 Feb 2024 03:04:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707287253; x=1707892053; darn=vger.kernel.org;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=91Kh1X8qqpakkg081kdPL1hMf42K6pa9YSsyPGmjtkw=;
-        b=Nbth8gVYFK8GZpNv4MnTckGWs712kU3TGNR9pNrETQtFB0Q66LxFsPNVyA629eUcIm
-         f7i0Oh11W8DQ3kdU524GLM4loRd7Ewq9rbbS48GJHKXt5J/8PBtrDh0Zj/uXteupKmqL
-         tGRNT6AUeQUMbspriAWgprM8crCyKOO7xLk7NoYaX79iLolu+9NcfeTx4c+F9Cyrgb5v
-         kiV6DzbDBbO/Prmx1l4NFR8qTcLpjLeiIyYet+wRrNphP5/EeUtuOgZTV/NjfI+dyJfz
-         GNxoLUJqL/2vyubtKsIy2bDJiIWDC6UbTjg5hJBb3qVeRyg0M4OKp176EK6RBYNKir5Z
-         6U6A==
+        d=chromium.org; s=google; t=1707303856; x=1707908656; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=MkHJEMhdHIEDISZVoKhCE9ifS1ot8NgYUDuuTg1ODbU=;
+        b=RNBtpq1MRPESx57cDJ2wvt+fsfxaz6FtCznbReN75Ij/Ise8wkzw5yJuMiajsv14vq
+         Ih8R64zS87/5xpfjgnzqnRwLse0rigqN+Qam00rj56JRkgt7I6gGiXb1xDdRrCFXelCx
+         u4hAza/gL9vD8O41sEJ114ZzZui3d+yph9NSY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707287253; x=1707892053;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=91Kh1X8qqpakkg081kdPL1hMf42K6pa9YSsyPGmjtkw=;
-        b=X59D0RfX1/8alO0oo0CWrdvqMgB5v+a2gqQjHzIy/MEDh/r4LKcz9kQZ+25Yn755NM
-         EvMdrE5ADXltMv0gYDIW/R1O4eWIhibjya8sJ66fcs5Rlr4PYfM4/93n65QwU/BPpqPF
-         aRHXhh9aAN98YEFlMt+0hYyTirsgK7v95OlHqzcSFp8wprEZuw+MQyXsS5mwl0T1ME3r
-         +ezc+bJtu0IDdSFId0dc4140H8AZl8sCZQs8uKXJDRgIt8MkpUoEtWzAzPIWsfjuhRFB
-         YjsfN63JPSfAjp9r6BQY0zemVVtb9Y9sILPXVB+rZA/zABwGxAs+z3apGOiH6dilK8wP
-         C5cQ==
-X-Gm-Message-State: AOJu0YwsApmm9ip8SzJToiZhs8dhATBd6mLgCGeQqK9qtA2lafoqgpS6
-	bqcdz6/CDqi/ryYZF/1ouxThs3Rj1yF/4by/36Pu+PpNZ9LRifWFKGJxhRlQZhpPLyRTyVbh7/J
-	Y28wVtVoINmIbzr5GrC7tLGycbAk=
-X-Google-Smtp-Source: AGHT+IFY+3Pc0BFY5jtCsZlhLeqtoWSKA0RTQfZAOgOLAAIV5VPnyH4b2/i2TlwCr7MR16yE1h6+sazvwOPEPsvMbZA=
-X-Received: by 2002:a05:622a:1456:b0:42c:1818:c5f0 with SMTP id
- v22-20020a05622a145600b0042c1818c5f0mr4795739qtx.12.1707287252766; Tue, 06
- Feb 2024 22:27:32 -0800 (PST)
+        d=1e100.net; s=20230601; t=1707303856; x=1707908656;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MkHJEMhdHIEDISZVoKhCE9ifS1ot8NgYUDuuTg1ODbU=;
+        b=JvGC0Yx5jhgzeVtPkCHZnMd3+71rjyBb8h7W9+l83gqES9T+KQgJtKZvnomsaLyIoi
+         Vn+5roIA/n0BgVulNi5REZ1cqJG/JfUypObXR4+TfkYQ0B7xZOk3xM35QFOgs94bwxw8
+         Ei9YrsKsKo5nB1NKylLeiX+YolxotkKQzUtLmJBppfOUK6H4tEoaqXueXgIT90JaDPq6
+         l2LXyCh+5DiWJQZFokuJdr1shu+aYNFmi2sLAmOu1pOhf76Cg1LT2Qj/56/DWlODkFHX
+         gS9qC9YujjwOPeYHB+AuE4eEdNZW3t19Zx7mpzs2jHmOSx78ZQo0pj/47axlF1kq2z+P
+         9c6g==
+X-Forwarded-Encrypted: i=1; AJvYcCWMRWA8ieUW0G2qhKVRC3ELUBeSaNBIuDbgcBFZHEJMILhyTGp3S3nR5cUej7EUTqdWPC18PmDU9P2yqFb/ZJrfNO22X02ck3r2kkIE
+X-Gm-Message-State: AOJu0YwIRYUBPgG3+BYPzjXu+DR8TlO3rnsn5Y4YsvRKgpbOKFrjK0pc
+	WLPx6qMX5khQq5/AwSbPtHthUo7I9bk5Uw1W9Fi4FuhHWNkw9XBIwJ7JBgESjA==
+X-Google-Smtp-Source: AGHT+IFsYYm7hJGs5m67HBsC49sVaunlIdTZxtC+l0udvR2oLwzFexMXoEljKEGwE1VAc90ijtD/5w==
+X-Received: by 2002:a92:c20f:0:b0:363:ad00:106d with SMTP id j15-20020a92c20f000000b00363ad00106dmr5585505ilo.4.1707303856225;
+        Wed, 07 Feb 2024 03:04:16 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWrtNEYtrYrUbd3WCx5d+Vo2gSvxdEHF0BNGt6ximizf7qYe7T5H46Ie55fL2VWgxMxlWduhoOX6KlMOKtsxeFyYCjnhIkE3L6KvmtJVxIpjw7kXgW5qPN+w4huuzEm3qwVbp0AVgQ1ZkASW5U90p88VrUkWp6nk5vR49oEi+InXGOlVot97XzK5pkmLoC/C2lIuxSGPyqlv0uv7XGoAEMGG6mOD7CY9rcJB8pP2E8YKfhqP27o1FFSVoC5YBVbtY5PZ9MkHM2h+wYCchXO4Cb0F8vo8CHqj9008WFYSz/M028lVxfT3MffozMwCJI64UcjTuNhYeBexPzgZrEmQuSK3FMTUJHePjnEMG8JGdN/epYhO8fGrZcF43GqGd7MGSkLs0TQbrG7Y1g3GzzCBrKf8uLtRggideexU9Q0w5aJ/L4dwMQvoBR9qCjBvFyTRh6Icke/q+ziPbcKh2mMkoOp3unEJyA0N6zOTMm/dlbK9WvXl3hPgy+yY0O9wlGZ62HqyqCbYDs=
+Received: from www.outflux.net ([198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id ck4-20020a056a02090400b0059b2316be86sm1109248pgb.46.2024.02.07.03.04.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Feb 2024 03:04:15 -0800 (PST)
+Date: Wed, 7 Feb 2024 03:04:14 -0800
+From: Kees Cook <keescook@chromium.org>
+To: Justin Stitt <justinstitt@google.com>
+Cc: Marco Elver <elver@google.com>, Miguel Ojeda <ojeda@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>, Hao Luo <haoluo@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+	linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH v3] ubsan: Reintroduce signed overflow sanitizer
+Message-ID: <202402070255.36699AE147@keescook>
+References: <20240205093725.make.582-kees@kernel.org>
+ <20240207014528.5byuufi5f33bl6e2@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAGRSmLshjakU3pXu_odd1-et2KfOUrhTruRcRBP=T-dhnYRVzg@mail.gmail.com>
- <CAK7LNAQ6ZrcX6XqxcjgrnHiV9BHFOvTchccxzQE4JGq7W0FqWw@mail.gmail.com>
- <CAGRSmLs9M+XAk6q=7s_aGMfjAHkTVEtYszsTsoBkSdwPoeTd9g@mail.gmail.com>
- <CAGRSmLs_7DjjZazExF+cjHCzaiRsrfKNh89au+nF-dkhQ79uwA@mail.gmail.com> <ZbywIl-RU3xRGaj6@buildd.core.avm.de>
-In-Reply-To: <ZbywIl-RU3xRGaj6@buildd.core.avm.de>
-From: "David F." <df7729@gmail.com>
-Date: Tue, 6 Feb 2024 22:27:22 -0800
-Message-ID: <CAGRSmLst0Y7Brm0SJQqm6Z1yH_mLf8WCR07f0AqR2XtLtFxedg@mail.gmail.com>
-Subject: Re: Changes to kbuild in 6.x causing cpp build issues.
-To: "David F." <df7729@gmail.com>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240207014528.5byuufi5f33bl6e2@google.com>
 
-Thanks, here's what I came up with in case someone is searching some day:
+On Wed, Feb 07, 2024 at 01:45:28AM +0000, Justin Stitt wrote:
+> I wouldn't mind also seeing a test_ubsan_div_overflow test case here.
+> 
+> It has some quirky behavior and it'd be nice to test that the sanitizers
+> properly capture it.
+> 
+> Check out this Godbolt: https://godbolt.org/z/qG5f1j6n1
+> 
+> tl;dr: with -fsanitize=signed-integer-overflow division (/) and
+> remainder (%) operators still instrument arithmetic even with
+> -fno-strict-overflow on.
+> 
+> This makes sense as division by 0 and INT_MIN/-1 are UBs that are not
+> influenced by -fno-strict-overflow.
 
-#------------ new section for kbuild .cmd requirement -------------
+There is actually already a test_ubsan_divrem_overflow, but because the
+failure modes result in a trap even without the sanitizer, it's disabled
+in the test. For testing a crashing mode, it might be interesting to add
+it to LKDTM, which is the crash tester...
 
-cpp_build_opts=3D`cat $(FLAGS)`
+> 
+> Really though, the patch is fine and the above test case is optional and
+> can be shipped later -- as such:
+> 
+> Reviewed-by: Justin Stitt <justinstitt@google.com>
 
-# called by existing Makedisk.build gen_symversions
-cmd_gensymtypes_cc =3D $(CPP) -D__GENKSYMS__ $(cpp_build_opts)
-$(CC_FLAGS) $< | $(genksyms)
+Thanks!
 
-# command to build using g++_
-quiet_cmd_cc_o_cc =3D g++ $(quiet_modtag)  $@
-      cmd_cc_o_cc =3D g++ $(cpp_build_opts) $(CC_FLAGS) -fno-builtin
--nostdlib -std=3Dc++0x -fno-exceptions -fno-rtti -Wall -c -o $@ $<
+-Kees
 
-ifdef CONFIG_MODVERSIONS
-# setup call for build rules
-cmd_gen_symversions_cc =3D $(call gen_symversions,cc)
-endif
-
-# multiple items to do on build of .cc file
-define rule_cc_o_cc
-$(call cmd_and_fixdep,cc_o_cc)
-$(call cmd,gen_symversions_cc)
-endef
-
-# pattern for compiling the c++ parts (required for cpp file building)
-%.o: %.cc $(FLAGS) FORCE
-$(info doing [$@])
-$(call if_changed_rule,cc_o_cc)
-
-#---------------  end kbuild .cmd requirement build ---------------
-
-On Fri, Feb 2, 2024 at 1:04=E2=80=AFAM Nicolas Schier <n.schier@avm.de> wro=
-te:
->
-> On Thu, Feb 01, 2024 at 09:51:34PM -0800, David F. wrote:
-> > Any help would be appreciated on how to create the *.o.cmd file for .cp=
-p files?
->
-> Neither tested nor evaluated in-depth:
-> You might want to have a look at scripts/Makefile.build and
-> scripts/Kbuild.include.  If you are able to include the relevant kbuild
-> parts in your Makefile, you could try to supply a cmd_cc_o_cc definition
-> and use it with if_changed macro.
->
-> Kind regards,
-> Nicolas
+-- 
+Kees Cook
 
