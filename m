@@ -1,489 +1,158 @@
-Return-Path: <linux-kbuild+bounces-863-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-864-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE3B884CF84
-	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Feb 2024 18:12:06 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8053D84D350
+	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Feb 2024 21:57:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F39361C26D3E
-	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Feb 2024 17:12:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2C33E283571
+	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Feb 2024 20:57:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A87BF84A38;
-	Wed,  7 Feb 2024 17:10:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 996A685624;
+	Wed,  7 Feb 2024 20:57:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=smile-fr.20230601.gappssmtp.com header.i=@smile-fr.20230601.gappssmtp.com header.b="EnGpgNM8"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="VSJ+o9BF"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com [95.215.58.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDACB82C88
-	for <linux-kbuild@vger.kernel.org>; Wed,  7 Feb 2024 17:10:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87CCD1EEEA;
+	Wed,  7 Feb 2024 20:57:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707325855; cv=none; b=fvdyPnVBH15sbXhxd2DWDOhw/se9nk1fuT2R/KtqDKZMqrnM0VYNSB18OJHsTB0lO/MXe2EQa8ftFiwg0pXNSrlzQeRuV0fdjFfV1nRATZEQN/MVaLGyQkDNtfoQBoWxFVrkKJ+xPPZN0MXfLAlXbclncKIr7GWDd0v7n5rsrls=
+	t=1707339463; cv=none; b=A64VWPQdFhpb4aI/8xY+awEG1LfnC8V2Seq8gxt0mq733Swr5Le4dZvzUOHJWrU0d3vW+evLLX+4blEGvqhwAph0TL+CRVkYGHg9ftHsS8JAt1F/nPVLsNfcw69TIaxDLd6sh2kBA3OO9xpCSMYn+5M5463ZZczcAhXwv2e21CU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707325855; c=relaxed/simple;
-	bh=cSPcyud6xloE+SW7fZUt0r9oQTUtm4YjoFN2yR6+XUQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=IvS6euAksOIc3G2FNI6fZfid3UwZ47V7zrU59qnR5URcuCOcBWBqMu0cTHJqKs/cTtHLh1UHBCMKqSq5RXGQ10qbtthcFfJ57soRAnzkknLKKCvfSQeeQI18EJAZy52s4Wl/Uaj65CgFFf1IUg8MMPiZcZl9GQoAiHWDKm3Y7ds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=smile.fr; spf=pass smtp.mailfrom=smile.fr; dkim=pass (2048-bit key) header.d=smile-fr.20230601.gappssmtp.com header.i=@smile-fr.20230601.gappssmtp.com header.b=EnGpgNM8; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=smile.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=smile.fr
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-40efcb37373so7946645e9.2
-        for <linux-kbuild@vger.kernel.org>; Wed, 07 Feb 2024 09:10:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1707325850; x=1707930650; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MEnld1n4J2H05K3DENQtKQhNVSdCp4/Wfk63V/2ciOQ=;
-        b=EnGpgNM8WZUL49pPnaFI7ZgtjkM32fc/eQFeDV/bAwPapyM7mWMwEN0OWK386Zsu3R
-         Z4P0P9lyWRcUPOESQgRiQ+rPL7Oi9QTlfAyasLMwF4K8bTZS74LK3PoFnYcDj1C/iBWm
-         jWyURqqXcSRiOyNAvQmhS5UE5XiEi6YTUMa5lLUGjGuP3CwGGjL3TcqnUxNItRFkuT6O
-         by5fiCShbM+SiPzGyVyOysCwAuskAUU3xrEmF0dMCiho15ukAPVH6Nvzvm89g0ua0FM2
-         CQXrlBgUvLVK+r//WnlJ1ccJUmuINNETQDxDd9qtgv3cAGM9Z7FAw5C382F3chF3C3Xg
-         RorQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707325850; x=1707930650;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MEnld1n4J2H05K3DENQtKQhNVSdCp4/Wfk63V/2ciOQ=;
-        b=reIUQfzrLsxaZ5Xu7UrdJTU/MZIr5JD/zuOG47XmRzNiOBy0J47RVubAOcXaTvGK8R
-         PmmrZz6AHqILRfmdvuqF+PjiWt2xsRaPE5TSvc7MUau5nCPxSgcUSnkiZMFV/q+yXf4A
-         z2AL4XyVa7mTqtfmZyTDedAm9EajJd2+3Vmn6XX8nH3n3cqel5irnXDrxf9q9WOBrZvH
-         LTgKn7H5C7HvNn9NgXwohlfhrKucToUKyagTrk+8cJnKmo9cKVXTrsVN3X5NkKfTZrq3
-         UjCZQ25DJeBY0tijAl0WY5o4f1QtPAM2FPVdzQxRA04CnnozB5XbyTKgM7esE9ok35Z3
-         UQsQ==
-X-Gm-Message-State: AOJu0YyksKJzIiJHVKfOHNjfoqceNuDCE85sie2ZRij+XYJcXIFEt1UL
-	lO2FF1qEfGh1qLueKgCzyTNUPY4e/qge89bmQHNgH5OGHzRd6gYpBzcpOSENYXY=
-X-Google-Smtp-Source: AGHT+IG0OQElTxeTBcaBn/XfbJCgyeS3Gr9vY9Zdbksy5JbOVMoq0BeEeKqJYtnFc9hKOySYtAKojw==
-X-Received: by 2002:a05:600c:1c9e:b0:40f:c1b7:2556 with SMTP id k30-20020a05600c1c9e00b0040fc1b72556mr5415616wms.11.1707325849823;
-        Wed, 07 Feb 2024 09:10:49 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXKDoUCko0tABHtVDpRnJU6mOZlVn5cx1FgfcRs8MtjdpIfvWfGdJpdF3x4CcL/0RpfYOgLQ64FXhB8uqPQftDfiqqq9G1U+d/X5j3u3SIaE8/Jc4P1NWWDFXaMlIwsd6i7ylu+AU+NS6OWREHhg3AJ1HjsT2YhZnc4XlFrYlAFnt/1I6hlzWbuMS2FyYO8oVOWSFvwrXFgJsnTmpFjWflVk2z/KsdST6GrfH3aQYzeGKDm04O5W07AckOFbNIY5EIdL2DYouSOulgc75l2Jnw4yGAGi4wSzlvZ6iIAxy4YTtkepQQQM7Q2g42KqbUb/pbeZ3cf1Fu0PyBCrgv36/eXnNh71rnmUOJmgRzL06pRuAoyjy8LUjjKEn+Qn04Qv0hZTPS222kd9zPyzBUh3id66r7UuQolesT+Pafh1WE71pOEVm7X26vUoXkhomIrbLgKJ+pbu7T/R+yClJfVFRPWdjmdsyRdkdM8jokLN3tAYbbfdp9VGT/AyO1820GWnTEr0lOT/17kUONlERmb+cWw2SQpPwmsErJpwYSGLC/6zf3KkAuxIeOWgQHu44nF5gxKclsjGPLdHMyXszZ8SnL97QQoPvUw83rnmzUvVJfF84oHA6sWTPOpAW71fQ+CIhpSyyziKLJaQJWti4BFJpu0yaX4jdNcoOKBzZ1pop3P6EATEukkrYPXD041X9uRoYJaL1LLKmTOGCS2UGXBtRZNBLeBQOA79CCqOh+PA11TjlyUj2BL6EJdR4o0ivwzixh3p8NGqJi+ZxitfoiTyYws+H+Ys0k=
-Received: from P-ASN-ECS-830T8C3.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id u14-20020a05600c19ce00b0040fdf2832desm2645584wmq.12.2024.02.07.09.10.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Feb 2024 09:10:49 -0800 (PST)
-From: Yoann Congal <yoann.congal@smile.fr>
-To: linux-fsdevel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	x86@kernel.org
-Cc: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Darren Hart <dvhart@infradead.org>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Ingo Molnar <mingo@redhat.com>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	John Ogness <john.ogness@linutronix.de>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Petr Mladek <pmladek@suse.com>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Yoann Congal <yoann.congal@smile.fr>
-Subject: [PATCH v5 3/3] printk: Remove redundant CONFIG_BASE_FULL
-Date: Wed,  7 Feb 2024 18:10:20 +0100
-Message-Id: <20240207171020.41036-4-yoann.congal@smile.fr>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240207171020.41036-1-yoann.congal@smile.fr>
-References: <20240207171020.41036-1-yoann.congal@smile.fr>
+	s=arc-20240116; t=1707339463; c=relaxed/simple;
+	bh=XV+X/Mz+hLnzcD1YhLXxBTUtZbag586OdZMitsbk9nw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ID6BWhIyc9BcjxzVl5LSwbgy0IF+iXtUhHOV065hbzyZKWAwJ8EIWCawDe8U6gLb1RLQzXkG5vr2ecEn6KZTmrWcOqMETFkZ4od86+q/qhUxfUdif8ksZHZ734t6+RkeM9zO/uIXzJy73sPIcz2GA0IrmxPmVzh5O5CWT7ipoLM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=VSJ+o9BF; arc=none smtp.client-ip=95.215.58.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Date: Wed, 7 Feb 2024 15:57:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1707339459;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lJQSMzEIWem3PDHTwEkM4bvQgxivH0lgBv0DRyhl9VM=;
+	b=VSJ+o9BFGrvyVwY/t401Z0zNcBy19k9hET2uIyNQq6534mRplb5fLUt1Nxkg720tCWi3Iq
+	LbDv3qmidbsMQBQhI9m3PfbirY0kmSnleWq6aADp7AFtOF4CZjX75hIGaOKv9UYCVI63Jm
+	pw41WGlkKBfSz6zuob18fMto/2HXRkw=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Kent Overstreet <kent.overstreet@linux.dev>
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: Thomas Bertschinger <tahbertschinger@gmail.com>, 
+	rust-for-linux@vger.kernel.org, linux-bcachefs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, bfoster@redhat.com, ojeda@kernel.org, alex.gaynor@gmail.com, 
+	wedsonaf@gmail.com, masahiroy@kernel.org
+Subject: Re: [PATCH RFC 0/3] bcachefs: add framework for internal Rust code
+Message-ID: <qo637rxuw5tcskmgubutpe6dfmhhms4d4pjivzhewl5tpg3eth@xil6gpcvdiya>
+References: <20240207055558.611606-1-tahbertschinger@gmail.com>
+ <CANiq72=00+vZ+BqacSh+Xk8_VtNPVADH2Hcsyo-MPufojXvNFQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CANiq72=00+vZ+BqacSh+Xk8_VtNPVADH2Hcsyo-MPufojXvNFQ@mail.gmail.com>
+X-Migadu-Flow: FLOW_OUT
 
-CONFIG_BASE_FULL is equivalent to !CONFIG_BASE_SMALL and is enabled by
-default: CONFIG_BASE_SMALL is the special case to take care of.
-So, remove CONFIG_BASE_FULL and move the config choice to
-CONFIG_BASE_SMALL (which defaults to 'n')
+On Wed, Feb 07, 2024 at 12:06:05PM +0100, Miguel Ojeda wrote:
+> On Wed, Feb 7, 2024 at 6:57 AM Thomas Bertschinger
+> <tahbertschinger@gmail.com> wrote:
+> >
+> > This series adds support for Rust code into bcachefs. This only enables
+> > using Rust internally within bcachefs; there are no public Rust APIs
+> > added. Rust support is hidden behind a new config option,
+> > CONFIG_BCACHEFS_RUST. It is optional and bcachefs can still be built
+> > with full functionality without rust.
+> 
+> But is it the goal to make it use Rust always? If not, do you mean you
+> are you going to have 2 "modes" in bcachefs? i.e. one with all C, and
+> one with some parts replaced (i.e. duplicated) in Rust?
+> 
+> If it is the former (dropping C), then please note that it will limit
+> where bcachefs can be built for, i.e. architectures and configurations
+> (at least for the time being, i.e. we want to relax all that, but it
+> will take time).
+> 
+> If it is the latter (duplication), then please note that the kernel
+> has only gone the "duplication" route for "Rust reference drivers" as
+> an exceptional case that we requested to bootstrap their subsystems
+> and give Rust a try.
+> 
+> Could you please explain more about what is the intention here?
 
-For defconfigs explicitely disabling BASE_FULL, explicitely enable
-BASE_SMALL.
-For defconfigs explicitely enabling BASE_FULL, drop it as it is the
-default.
+I think we're still at the "making sure everything works" stage.
 
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
----
-v4->v5:
-* Patch refreshed (2/3 changed)
-* Added defconfigs refresh (Petr Mladek's comment, thanks!)
-* dropped the redundant "default n" (Masahiro Yamada's comment, thanks!)
+I'll try to keep Rust optional a release or two, more so that we can
+iron out any toolchain hiccups, and in that period we'll be looking for
+non critical stuff to transition to Rust (the debugfs code, most
+likely).
 
-v3->v4:
-* Split "switch CONFIG_BASE_SMALL to bool" and "Remove the redundant
-  config" (this patch) into two patches
-* keep CONFIG_BASE_SMALL instead of CONFIG_BASE_FULL
----
- arch/arm/configs/collie_defconfig                    |  2 +-
- arch/arm/configs/keystone_defconfig                  |  2 +-
- arch/arm/configs/lpc18xx_defconfig                   |  2 +-
- arch/arm/configs/moxart_defconfig                    |  2 +-
- arch/arm/configs/mps2_defconfig                      |  2 +-
- arch/arm/configs/omap1_defconfig                     |  2 +-
- arch/arm/configs/stm32_defconfig                     |  2 +-
- arch/microblaze/configs/mmu_defconfig                |  2 +-
- arch/mips/configs/rs90_defconfig                     |  2 +-
- arch/powerpc/configs/adder875_defconfig              |  2 +-
- arch/powerpc/configs/ep88xc_defconfig                |  2 +-
- arch/powerpc/configs/mpc866_ads_defconfig            |  2 +-
- arch/powerpc/configs/mpc885_ads_defconfig            |  2 +-
- arch/powerpc/configs/tqm8xx_defconfig                |  2 +-
- arch/riscv/configs/nommu_k210_defconfig              |  2 +-
- arch/riscv/configs/nommu_k210_sdcard_defconfig       |  2 +-
- arch/riscv/configs/nommu_virt_defconfig              |  2 +-
- arch/sh/configs/edosk7705_defconfig                  |  2 +-
- arch/sh/configs/se7619_defconfig                     |  2 +-
- arch/sh/configs/se7712_defconfig                     |  2 +-
- arch/sh/configs/se7721_defconfig                     |  2 +-
- arch/sh/configs/shmin_defconfig                      |  2 +-
- init/Kconfig                                         | 10 +++-------
- tools/testing/selftests/wireguard/qemu/kernel.config |  1 -
- 24 files changed, 25 insertions(+), 30 deletions(-)
+When we make Rust a hard dependency kernel side will have to be a topic
+of discussion - but Rust is already a hard dependency on the userspace
+side, in -tools, so the lack of full architecture support is definitely
+something I'm hoping get addressed sooner rather than later, but it's
+probably not the blocker here.
 
-diff --git a/arch/arm/configs/collie_defconfig b/arch/arm/configs/collie_defconfig
-index 01b5a5a73f037..42cb1c8541188 100644
---- a/arch/arm/configs/collie_defconfig
-+++ b/arch/arm/configs/collie_defconfig
-@@ -3,7 +3,7 @@ CONFIG_LOG_BUF_SHIFT=14
- CONFIG_BLK_DEV_INITRD=y
- # CONFIG_CC_OPTIMIZE_FOR_SIZE is not set
- CONFIG_EXPERT=y
--# CONFIG_BASE_FULL is not set
-+CONFIG_BASE_SMALL=y
- # CONFIG_EPOLL is not set
- CONFIG_ARCH_MULTI_V4=y
- # CONFIG_ARCH_MULTI_V7 is not set
-diff --git a/arch/arm/configs/keystone_defconfig b/arch/arm/configs/keystone_defconfig
-index 59c4835ffc977..c1291ca290b23 100644
---- a/arch/arm/configs/keystone_defconfig
-+++ b/arch/arm/configs/keystone_defconfig
-@@ -12,7 +12,7 @@ CONFIG_CGROUP_DEVICE=y
- CONFIG_CGROUP_CPUACCT=y
- CONFIG_BLK_DEV_INITRD=y
- # CONFIG_ELF_CORE is not set
--# CONFIG_BASE_FULL is not set
-+CONFIG_BASE_SMALL=y
- CONFIG_KALLSYMS_ALL=y
- CONFIG_EXPERT=y
- CONFIG_PROFILING=y
-diff --git a/arch/arm/configs/lpc18xx_defconfig b/arch/arm/configs/lpc18xx_defconfig
-index d169da9b2824d..f55c231e08708 100644
---- a/arch/arm/configs/lpc18xx_defconfig
-+++ b/arch/arm/configs/lpc18xx_defconfig
-@@ -8,7 +8,7 @@ CONFIG_BLK_DEV_INITRD=y
- # CONFIG_RD_LZ4 is not set
- CONFIG_CC_OPTIMIZE_FOR_SIZE=y
- # CONFIG_UID16 is not set
--# CONFIG_BASE_FULL is not set
-+CONFIG_BASE_SMALL=y
- # CONFIG_FUTEX is not set
- # CONFIG_EPOLL is not set
- # CONFIG_SIGNALFD is not set
-diff --git a/arch/arm/configs/moxart_defconfig b/arch/arm/configs/moxart_defconfig
-index 1d41e73f4903c..34d079e03b3c5 100644
---- a/arch/arm/configs/moxart_defconfig
-+++ b/arch/arm/configs/moxart_defconfig
-@@ -6,7 +6,7 @@ CONFIG_IKCONFIG=y
- CONFIG_IKCONFIG_PROC=y
- CONFIG_EXPERT=y
- # CONFIG_ELF_CORE is not set
--# CONFIG_BASE_FULL is not set
-+CONFIG_BASE_SMALL=y
- # CONFIG_SIGNALFD is not set
- # CONFIG_TIMERFD is not set
- # CONFIG_EVENTFD is not set
-diff --git a/arch/arm/configs/mps2_defconfig b/arch/arm/configs/mps2_defconfig
-index 3ed73f184d839..e995e50537efd 100644
---- a/arch/arm/configs/mps2_defconfig
-+++ b/arch/arm/configs/mps2_defconfig
-@@ -5,7 +5,7 @@ CONFIG_LOG_BUF_SHIFT=16
- CONFIG_CC_OPTIMIZE_FOR_SIZE=y
- CONFIG_EXPERT=y
- # CONFIG_UID16 is not set
--# CONFIG_BASE_FULL is not set
-+CONFIG_BASE_SMALL=y
- # CONFIG_FUTEX is not set
- # CONFIG_EPOLL is not set
- # CONFIG_SIGNALFD is not set
-diff --git a/arch/arm/configs/omap1_defconfig b/arch/arm/configs/omap1_defconfig
-index 729ea8157e2a5..025b595dd8375 100644
---- a/arch/arm/configs/omap1_defconfig
-+++ b/arch/arm/configs/omap1_defconfig
-@@ -9,7 +9,7 @@ CONFIG_LOG_BUF_SHIFT=14
- CONFIG_BLK_DEV_INITRD=y
- CONFIG_EXPERT=y
- # CONFIG_ELF_CORE is not set
--# CONFIG_BASE_FULL is not set
-+CONFIG_BASE_SMALL=y
- # CONFIG_SHMEM is not set
- # CONFIG_KALLSYMS is not set
- CONFIG_PROFILING=y
-diff --git a/arch/arm/configs/stm32_defconfig b/arch/arm/configs/stm32_defconfig
-index b9fe3fbed5aec..3baec075d1efd 100644
---- a/arch/arm/configs/stm32_defconfig
-+++ b/arch/arm/configs/stm32_defconfig
-@@ -6,7 +6,7 @@ CONFIG_BLK_DEV_INITRD=y
- CONFIG_CC_OPTIMIZE_FOR_SIZE=y
- CONFIG_EXPERT=y
- # CONFIG_UID16 is not set
--# CONFIG_BASE_FULL is not set
-+CONFIG_BASE_SMALL=y
- # CONFIG_FUTEX is not set
- # CONFIG_EPOLL is not set
- # CONFIG_SIGNALFD is not set
-diff --git a/arch/microblaze/configs/mmu_defconfig b/arch/microblaze/configs/mmu_defconfig
-index 4da7bc4ac4a37..176314f3c9aac 100644
---- a/arch/microblaze/configs/mmu_defconfig
-+++ b/arch/microblaze/configs/mmu_defconfig
-@@ -4,7 +4,7 @@ CONFIG_AUDIT=y
- CONFIG_IKCONFIG=y
- CONFIG_IKCONFIG_PROC=y
- CONFIG_EXPERT=y
--# CONFIG_BASE_FULL is not set
-+CONFIG_BASE_SMALL=y
- CONFIG_KALLSYMS_ALL=y
- CONFIG_XILINX_MICROBLAZE0_USE_MSR_INSTR=1
- CONFIG_XILINX_MICROBLAZE0_USE_PCMP_INSTR=1
-diff --git a/arch/mips/configs/rs90_defconfig b/arch/mips/configs/rs90_defconfig
-index 4b9e36d6400e0..a53dd66e9b864 100644
---- a/arch/mips/configs/rs90_defconfig
-+++ b/arch/mips/configs/rs90_defconfig
-@@ -9,7 +9,7 @@ CONFIG_LD_DEAD_CODE_DATA_ELIMINATION=y
- # CONFIG_SGETMASK_SYSCALL is not set
- # CONFIG_SYSFS_SYSCALL is not set
- # CONFIG_ELF_CORE is not set
--# CONFIG_BASE_FULL is not set
-+CONFIG_BASE_SMALL=y
- # CONFIG_TIMERFD is not set
- # CONFIG_AIO is not set
- # CONFIG_IO_URING is not set
-diff --git a/arch/powerpc/configs/adder875_defconfig b/arch/powerpc/configs/adder875_defconfig
-index 7f35d5bc12299..97f4d48517356 100644
---- a/arch/powerpc/configs/adder875_defconfig
-+++ b/arch/powerpc/configs/adder875_defconfig
-@@ -4,7 +4,7 @@ CONFIG_SYSVIPC=y
- CONFIG_LOG_BUF_SHIFT=14
- CONFIG_EXPERT=y
- # CONFIG_ELF_CORE is not set
--# CONFIG_BASE_FULL is not set
-+CONFIG_BASE_SMALL=y
- # CONFIG_FUTEX is not set
- # CONFIG_VM_EVENT_COUNTERS is not set
- # CONFIG_BLK_DEV_BSG is not set
-diff --git a/arch/powerpc/configs/ep88xc_defconfig b/arch/powerpc/configs/ep88xc_defconfig
-index a98ef6a4abef6..50cc59eb36cf1 100644
---- a/arch/powerpc/configs/ep88xc_defconfig
-+++ b/arch/powerpc/configs/ep88xc_defconfig
-@@ -6,7 +6,7 @@ CONFIG_HIGH_RES_TIMERS=y
- CONFIG_LOG_BUF_SHIFT=14
- CONFIG_EXPERT=y
- # CONFIG_ELF_CORE is not set
--# CONFIG_BASE_FULL is not set
-+CONFIG_BASE_SMALL=y
- # CONFIG_FUTEX is not set
- # CONFIG_VM_EVENT_COUNTERS is not set
- # CONFIG_BLK_DEV_BSG is not set
-diff --git a/arch/powerpc/configs/mpc866_ads_defconfig b/arch/powerpc/configs/mpc866_ads_defconfig
-index 5c56d36cdfc5c..6f449411abf7b 100644
---- a/arch/powerpc/configs/mpc866_ads_defconfig
-+++ b/arch/powerpc/configs/mpc866_ads_defconfig
-@@ -6,7 +6,7 @@ CONFIG_HIGH_RES_TIMERS=y
- CONFIG_LOG_BUF_SHIFT=14
- CONFIG_EXPERT=y
- # CONFIG_BUG is not set
--# CONFIG_BASE_FULL is not set
-+CONFIG_BASE_SMALL=y
- # CONFIG_EPOLL is not set
- # CONFIG_VM_EVENT_COUNTERS is not set
- # CONFIG_BLK_DEV_BSG is not set
-diff --git a/arch/powerpc/configs/mpc885_ads_defconfig b/arch/powerpc/configs/mpc885_ads_defconfig
-index 56b876e418e91..77306be62e9ee 100644
---- a/arch/powerpc/configs/mpc885_ads_defconfig
-+++ b/arch/powerpc/configs/mpc885_ads_defconfig
-@@ -7,7 +7,7 @@ CONFIG_VIRT_CPU_ACCOUNTING_NATIVE=y
- CONFIG_LOG_BUF_SHIFT=14
- CONFIG_EXPERT=y
- # CONFIG_ELF_CORE is not set
--# CONFIG_BASE_FULL is not set
-+CONFIG_BASE_SMALL=y
- # CONFIG_FUTEX is not set
- CONFIG_PERF_EVENTS=y
- # CONFIG_VM_EVENT_COUNTERS is not set
-diff --git a/arch/powerpc/configs/tqm8xx_defconfig b/arch/powerpc/configs/tqm8xx_defconfig
-index 083c2e57520a0..383c0966e92fd 100644
---- a/arch/powerpc/configs/tqm8xx_defconfig
-+++ b/arch/powerpc/configs/tqm8xx_defconfig
-@@ -6,7 +6,7 @@ CONFIG_HIGH_RES_TIMERS=y
- CONFIG_LOG_BUF_SHIFT=14
- CONFIG_EXPERT=y
- # CONFIG_ELF_CORE is not set
--# CONFIG_BASE_FULL is not set
-+CONFIG_BASE_SMALL=y
- # CONFIG_FUTEX is not set
- # CONFIG_VM_EVENT_COUNTERS is not set
- CONFIG_MODULES=y
-diff --git a/arch/riscv/configs/nommu_k210_defconfig b/arch/riscv/configs/nommu_k210_defconfig
-index 146c46d0525b4..51ba0d1683383 100644
---- a/arch/riscv/configs/nommu_k210_defconfig
-+++ b/arch/riscv/configs/nommu_k210_defconfig
-@@ -11,7 +11,7 @@ CONFIG_BLK_DEV_INITRD=y
- CONFIG_CC_OPTIMIZE_FOR_SIZE=y
- # CONFIG_SYSFS_SYSCALL is not set
- # CONFIG_FHANDLE is not set
--# CONFIG_BASE_FULL is not set
-+CONFIG_BASE_SMALL=y
- # CONFIG_FUTEX is not set
- # CONFIG_EPOLL is not set
- # CONFIG_SIGNALFD is not set
-diff --git a/arch/riscv/configs/nommu_k210_sdcard_defconfig b/arch/riscv/configs/nommu_k210_sdcard_defconfig
-index 95d8d1808f194..762aea9127ae4 100644
---- a/arch/riscv/configs/nommu_k210_sdcard_defconfig
-+++ b/arch/riscv/configs/nommu_k210_sdcard_defconfig
-@@ -3,7 +3,7 @@ CONFIG_LOG_BUF_SHIFT=13
- CONFIG_CC_OPTIMIZE_FOR_SIZE=y
- # CONFIG_SYSFS_SYSCALL is not set
- # CONFIG_FHANDLE is not set
--# CONFIG_BASE_FULL is not set
-+CONFIG_BASE_SMALL=y
- # CONFIG_FUTEX is not set
- # CONFIG_EPOLL is not set
- # CONFIG_SIGNALFD is not set
-diff --git a/arch/riscv/configs/nommu_virt_defconfig b/arch/riscv/configs/nommu_virt_defconfig
-index b794e2f8144e6..ab6d618c1828f 100644
---- a/arch/riscv/configs/nommu_virt_defconfig
-+++ b/arch/riscv/configs/nommu_virt_defconfig
-@@ -10,7 +10,7 @@ CONFIG_CC_OPTIMIZE_FOR_SIZE=y
- CONFIG_EXPERT=y
- # CONFIG_SYSFS_SYSCALL is not set
- # CONFIG_FHANDLE is not set
--# CONFIG_BASE_FULL is not set
-+CONFIG_BASE_SMALL=y
- # CONFIG_EPOLL is not set
- # CONFIG_SIGNALFD is not set
- # CONFIG_TIMERFD is not set
-diff --git a/arch/sh/configs/edosk7705_defconfig b/arch/sh/configs/edosk7705_defconfig
-index 9ee35269bee26..ab3bf72264df4 100644
---- a/arch/sh/configs/edosk7705_defconfig
-+++ b/arch/sh/configs/edosk7705_defconfig
-@@ -6,7 +6,7 @@
- # CONFIG_PRINTK is not set
- # CONFIG_BUG is not set
- # CONFIG_ELF_CORE is not set
--# CONFIG_BASE_FULL is not set
-+CONFIG_BASE_SMALL=y
- # CONFIG_FUTEX is not set
- # CONFIG_EPOLL is not set
- # CONFIG_SIGNALFD is not set
-diff --git a/arch/sh/configs/se7619_defconfig b/arch/sh/configs/se7619_defconfig
-index 14d0f5ead502f..4765966fec99c 100644
---- a/arch/sh/configs/se7619_defconfig
-+++ b/arch/sh/configs/se7619_defconfig
-@@ -4,7 +4,7 @@ CONFIG_LOG_BUF_SHIFT=14
- # CONFIG_KALLSYMS is not set
- # CONFIG_HOTPLUG is not set
- # CONFIG_ELF_CORE is not set
--# CONFIG_BASE_FULL is not set
-+CONFIG_BASE_SMALL=y
- # CONFIG_FUTEX is not set
- # CONFIG_EPOLL is not set
- # CONFIG_VM_EVENT_COUNTERS is not set
-diff --git a/arch/sh/configs/se7712_defconfig b/arch/sh/configs/se7712_defconfig
-index dc854293da435..20f07aee5bde7 100644
---- a/arch/sh/configs/se7712_defconfig
-+++ b/arch/sh/configs/se7712_defconfig
-@@ -7,7 +7,7 @@ CONFIG_LOG_BUF_SHIFT=14
- # CONFIG_CC_OPTIMIZE_FOR_SIZE is not set
- CONFIG_KALLSYMS_ALL=y
- # CONFIG_BUG is not set
--# CONFIG_BASE_FULL is not set
-+CONFIG_BASE_SMALL=y
- # CONFIG_SHMEM is not set
- CONFIG_MODULES=y
- # CONFIG_BLK_DEV_BSG is not set
-diff --git a/arch/sh/configs/se7721_defconfig b/arch/sh/configs/se7721_defconfig
-index c891945b8a900..00862d3c030d2 100644
---- a/arch/sh/configs/se7721_defconfig
-+++ b/arch/sh/configs/se7721_defconfig
-@@ -7,7 +7,7 @@ CONFIG_LOG_BUF_SHIFT=14
- # CONFIG_CC_OPTIMIZE_FOR_SIZE is not set
- CONFIG_KALLSYMS_ALL=y
- # CONFIG_BUG is not set
--# CONFIG_BASE_FULL is not set
-+CONFIG_BASE_SMALL=y
- # CONFIG_SHMEM is not set
- CONFIG_MODULES=y
- # CONFIG_BLK_DEV_BSG is not set
-diff --git a/arch/sh/configs/shmin_defconfig b/arch/sh/configs/shmin_defconfig
-index e078b193a78a8..bfeb004f130ec 100644
---- a/arch/sh/configs/shmin_defconfig
-+++ b/arch/sh/configs/shmin_defconfig
-@@ -5,7 +5,7 @@ CONFIG_LOG_BUF_SHIFT=14
- # CONFIG_HOTPLUG is not set
- # CONFIG_BUG is not set
- # CONFIG_ELF_CORE is not set
--# CONFIG_BASE_FULL is not set
-+CONFIG_BASE_SMALL=y
- # CONFIG_FUTEX is not set
- # CONFIG_EPOLL is not set
- # CONFIG_SHMEM is not set
-diff --git a/init/Kconfig b/init/Kconfig
-index 0148229f93613..6f08c736ce799 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -1581,11 +1581,10 @@ config PCSPKR_PLATFORM
- 	  This option allows to disable the internal PC-Speaker
- 	  support, saving some memory.
- 
--config BASE_FULL
--	default y
--	bool "Enable full-sized data structures for core" if EXPERT
-+config BASE_SMALL
-+	bool "Enable smaller-sized data structures for core" if EXPERT
- 	help
--	  Disabling this option reduces the size of miscellaneous core
-+	  Enabling this option reduces the size of miscellaneous core
- 	  kernel data structures. This saves memory on small machines,
- 	  but may reduce performance.
- 
-@@ -1940,9 +1939,6 @@ config RT_MUTEXES
- 	bool
- 	default y if PREEMPT_RT
- 
--config BASE_SMALL
--	def_bool !BASE_FULL
--
- config MODULE_SIG_FORMAT
- 	def_bool n
- 	select SYSTEM_DATA_VERIFICATION
-diff --git a/tools/testing/selftests/wireguard/qemu/kernel.config b/tools/testing/selftests/wireguard/qemu/kernel.config
-index 507555714b1d8..f314d3789f175 100644
---- a/tools/testing/selftests/wireguard/qemu/kernel.config
-+++ b/tools/testing/selftests/wireguard/qemu/kernel.config
-@@ -41,7 +41,6 @@ CONFIG_KALLSYMS=y
- CONFIG_BUG=y
- CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE=y
- CONFIG_JUMP_LABEL=y
--CONFIG_BASE_FULL=y
- CONFIG_FUTEX=y
- CONFIG_SHMEM=y
- CONFIG_SLUB=y
--- 
-2.39.2
+As soon as we're ok with making Rust a hard dependency kernel side,
+we'll be looking at switching a lot of stuff to Rust (e.g. fsck).
 
+> Either way, the approach you are taking in this patch series seems to
+> be about calling C code directly, rather than writing and using
+> abstractions in general. For instance, in one of the patches you
+> mention in a comment "If/when a Rust API is provided" to justify the
+> functions, but it is the other way around, i.e. you need to first
+> write the abstractions for that C code, upstream them through the
+> relevant tree/maintainers, and then you use them from your Rust code.
+
+I didn't see that comment, but we're mainly looking at what we can do
+inside fs/bcachefs/, and I've already got Rust bindings for the btree
+interface (that I talked about in a meeting with you guys, actually)
+that we'll be pulling in soon.
+
+> Instead, to bootstrap things, what about writing a bcachefs module in
+> Rust that uses e.g. the VFS abstractions posted by Wedson, and
+> perhaps, to experiment/prototype, fill it with calls to the relevant C
+> parts of bcachefs? That way you can start working on the abstractions
+> and code you will eventually need for a Rust bcachefs module, without
+> limiting what C bcachefs can do/build for. And that way it would also
+> help to justify the upstreaming of the VFS abstractions too, since you
+> would be another expected user of them, and so on.
+
+You mean a new, from scratch bcachefs module? Sorry, but that would not
+be practical :)
+
+Wedson's work is on my radar too - that opens up a lot of possibilities.
+But right now my goal is just to get /some/ Rust code into bcachefs,
+and make sure we can incrementally bring in more Rust code within the same
+module.
+
+> 
+> > I wasn't sure if this needed to be an RFC based on the current status
+> > of accepting Rust code outside of the rust/ tree, so I designated it as
+> > such to be safe. However, Kent plans to merge rust+bcachefs code in the
+> > 6.9 merge window, so I hope at least the first 2 patches in this series,
+> > the ones that actually enable Rust for bcachefs, can be accepted.
+> 
+> This is worrying -- there has been no discussion about mixing C and
+> Rust like this, but you say it is targeted for 6.9. I feel there is a
+> disconnect somewhere. Perhaps it would be a good idea to have a quick
+> meeting about this.
+
+Oh? This is exactly what I said we were going to do at the conference :)
+
+Happy to meet though, let's figure out a time that works for Thomas too.
+
+Cheers,
+Kent
 
