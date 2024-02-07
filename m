@@ -1,127 +1,142 @@
-Return-Path: <linux-kbuild+bounces-858-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-859-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73A5D84C924
-	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Feb 2024 12:04:23 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ACB784C92C
+	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Feb 2024 12:06:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A4B5A1C20318
-	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Feb 2024 11:04:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C8F8328985C
+	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Feb 2024 11:06:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B00A617BCC;
-	Wed,  7 Feb 2024 11:04:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A729217BCD;
+	Wed,  7 Feb 2024 11:06:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="RNBtpq1M"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LyUk6azY"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-il1-f176.google.com (mail-il1-f176.google.com [209.85.166.176])
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B12C17BCB
-	for <linux-kbuild@vger.kernel.org>; Wed,  7 Feb 2024 11:04:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12A3E1B5B3;
+	Wed,  7 Feb 2024 11:06:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707303858; cv=none; b=SRYMXIQjA1ltF7NWfyQtMKvLTAMHem1SkfMV+6suBVdkugAamgMyumF0Xhes3mGWp5kGd06ahjsowliPKPX1y+Llo1r7dzm0PBMQvvq6F24OW5GYqz9XitA9XOKOD0c2UkexS7TS6kZVKcv4H6mXnpNkSWblzui6XirrgAF75/Y=
+	t=1707303979; cv=none; b=EFycXeqWdIOnYvj7J2xKofdmQAkKmPIkpyd/p8CuvooCbMRs5WE3fUH05MgjoIIAio6y+hz1ltrRZNX00cIVsvM53i9eh38F3Fz13GYjp/4MrJqgBnHRWLUp2blBlJ1eoaG99ckwxmDQLgNfqrUY7KmFmyE12n5GFIm2zfJJIhE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707303858; c=relaxed/simple;
-	bh=CgYyRmc6Z59PnXZh+5ZKWs0+Cbn8qJv1WXKrOV0Or9o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FnWtJhbiib8OnuwX8jv2yB8HP5ZhJs2cisTByUXDeN3lbx+s4ukVBQW7B3Krku3sM+vNF+uVFPVOa0t6ujHbOonaF/1ak9fVDPHG9DUKgQz1TOW/O/3hc+tdvgUOcAK233Vk2HfTkvVJn86NU6wBZIVp5ARBiIAC5erxmnFFxM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=RNBtpq1M; arc=none smtp.client-ip=209.85.166.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-il1-f176.google.com with SMTP id e9e14a558f8ab-363c7d490d1so777085ab.0
-        for <linux-kbuild@vger.kernel.org>; Wed, 07 Feb 2024 03:04:16 -0800 (PST)
+	s=arc-20240116; t=1707303979; c=relaxed/simple;
+	bh=OqkbEuGG7NXNqpM7nP0dy4/Ha5w5xp44TS/914MtwbI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fcZy1AqQovtjhlwq3bk9feiwVUO/BGJ73H8i1YNdpJrpyfKmgJGpOo0wgZAH/lmusqMD9ke2yQx4geFxp5gHfMOIFYM6rftMzLNfVnpueeff06VqLahY7b4z+2djmeNKNwr2JERZ9ptsYR8HPOPV6ONf2A7tjNxMJGi54U47ejY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LyUk6azY; arc=none smtp.client-ip=209.85.128.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-60498c31743so2221627b3.3;
+        Wed, 07 Feb 2024 03:06:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1707303856; x=1707908656; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=MkHJEMhdHIEDISZVoKhCE9ifS1ot8NgYUDuuTg1ODbU=;
-        b=RNBtpq1MRPESx57cDJ2wvt+fsfxaz6FtCznbReN75Ij/Ise8wkzw5yJuMiajsv14vq
-         Ih8R64zS87/5xpfjgnzqnRwLse0rigqN+Qam00rj56JRkgt7I6gGiXb1xDdRrCFXelCx
-         u4hAza/gL9vD8O41sEJ114ZzZui3d+yph9NSY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707303856; x=1707908656;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1707303977; x=1707908777; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=MkHJEMhdHIEDISZVoKhCE9ifS1ot8NgYUDuuTg1ODbU=;
-        b=JvGC0Yx5jhgzeVtPkCHZnMd3+71rjyBb8h7W9+l83gqES9T+KQgJtKZvnomsaLyIoi
-         Vn+5roIA/n0BgVulNi5REZ1cqJG/JfUypObXR4+TfkYQ0B7xZOk3xM35QFOgs94bwxw8
-         Ei9YrsKsKo5nB1NKylLeiX+YolxotkKQzUtLmJBppfOUK6H4tEoaqXueXgIT90JaDPq6
-         l2LXyCh+5DiWJQZFokuJdr1shu+aYNFmi2sLAmOu1pOhf76Cg1LT2Qj/56/DWlODkFHX
-         gS9qC9YujjwOPeYHB+AuE4eEdNZW3t19Zx7mpzs2jHmOSx78ZQo0pj/47axlF1kq2z+P
-         9c6g==
-X-Forwarded-Encrypted: i=1; AJvYcCWMRWA8ieUW0G2qhKVRC3ELUBeSaNBIuDbgcBFZHEJMILhyTGp3S3nR5cUej7EUTqdWPC18PmDU9P2yqFb/ZJrfNO22X02ck3r2kkIE
-X-Gm-Message-State: AOJu0YwIRYUBPgG3+BYPzjXu+DR8TlO3rnsn5Y4YsvRKgpbOKFrjK0pc
-	WLPx6qMX5khQq5/AwSbPtHthUo7I9bk5Uw1W9Fi4FuhHWNkw9XBIwJ7JBgESjA==
-X-Google-Smtp-Source: AGHT+IFsYYm7hJGs5m67HBsC49sVaunlIdTZxtC+l0udvR2oLwzFexMXoEljKEGwE1VAc90ijtD/5w==
-X-Received: by 2002:a92:c20f:0:b0:363:ad00:106d with SMTP id j15-20020a92c20f000000b00363ad00106dmr5585505ilo.4.1707303856225;
-        Wed, 07 Feb 2024 03:04:16 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWrtNEYtrYrUbd3WCx5d+Vo2gSvxdEHF0BNGt6ximizf7qYe7T5H46Ie55fL2VWgxMxlWduhoOX6KlMOKtsxeFyYCjnhIkE3L6KvmtJVxIpjw7kXgW5qPN+w4huuzEm3qwVbp0AVgQ1ZkASW5U90p88VrUkWp6nk5vR49oEi+InXGOlVot97XzK5pkmLoC/C2lIuxSGPyqlv0uv7XGoAEMGG6mOD7CY9rcJB8pP2E8YKfhqP27o1FFSVoC5YBVbtY5PZ9MkHM2h+wYCchXO4Cb0F8vo8CHqj9008WFYSz/M028lVxfT3MffozMwCJI64UcjTuNhYeBexPzgZrEmQuSK3FMTUJHePjnEMG8JGdN/epYhO8fGrZcF43GqGd7MGSkLs0TQbrG7Y1g3GzzCBrKf8uLtRggideexU9Q0w5aJ/L4dwMQvoBR9qCjBvFyTRh6Icke/q+ziPbcKh2mMkoOp3unEJyA0N6zOTMm/dlbK9WvXl3hPgy+yY0O9wlGZ62HqyqCbYDs=
-Received: from www.outflux.net ([198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id ck4-20020a056a02090400b0059b2316be86sm1109248pgb.46.2024.02.07.03.04.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Feb 2024 03:04:15 -0800 (PST)
-Date: Wed, 7 Feb 2024 03:04:14 -0800
-From: Kees Cook <keescook@chromium.org>
-To: Justin Stitt <justinstitt@google.com>
-Cc: Marco Elver <elver@google.com>, Miguel Ojeda <ojeda@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>, Hao Luo <haoluo@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
-	linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH v3] ubsan: Reintroduce signed overflow sanitizer
-Message-ID: <202402070255.36699AE147@keescook>
-References: <20240205093725.make.582-kees@kernel.org>
- <20240207014528.5byuufi5f33bl6e2@google.com>
+        bh=OqkbEuGG7NXNqpM7nP0dy4/Ha5w5xp44TS/914MtwbI=;
+        b=LyUk6azYXsjk8lFUNp3vlorkUVdhQxGkTzC9RGkqmsJBYBY1TiVE5sLxZyVilP1hHi
+         GqI/TVOdU8oVvf9+/Cj/ivxtO5ZpaKRIUCnKEkGANU3wMSUpYVZFyhTrKgTJkfFQh9v4
+         Cse/bfx4IGX7qhhFExMVEFfhGADNkxMShjn4DgFWGdix2ykCXre7gVZkWe0iJJ3fGWZT
+         qrSdRB7i9ikpVjmtPS0N0A2DdHTVbzvJ3oqM9oquCRlZZ3dfB4kKdxwPOXvGWlwSqP6s
+         puDTzzWSUzsRlHFPlSK+m3+FrGc3ZNJcnhn487Hp+pO/ryoxQ2Mgnr5OfTHjYOhxITPE
+         WKJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707303977; x=1707908777;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OqkbEuGG7NXNqpM7nP0dy4/Ha5w5xp44TS/914MtwbI=;
+        b=a0qhxnV6gAfql4FH1MS/s/4GKRvMSCLM8bMW2Khs6hxBVUY3ZTCXMcVJcu2As4h3jA
+         Y6hM15iJk3dICV2eGiUDtgad+T/h8wOFC6gPLN6f6t9OdbvjVbNvrseOwV1LASs+bWfk
+         aslUb8VHRauslJrtsLgf1Au3J4ez3CQOSUZtP1mFHCo6NLfq6uJqQZnEFXFyfiaUp7ec
+         g+c7ezrBhG+DpQSJbkoAY7zQUTN1vK7tbYy08I/tJxpGWfFTKAeVqPP2O1Ckx6vuel7x
+         xwU10V61OSN1UQLNfDFDaJQp6wbpO+xCgYSmmQUGSWJEUWXU6KqBgIkj+riJtOwre5sy
+         CNHw==
+X-Gm-Message-State: AOJu0YykJ80HphzGKg1NX0DesnzyqmEeAtzTRZxDXt0ElvRNH4LBLgnK
+	E2jCwhu17A9DyPmXmdhHct9HK9fLd6LHd9wB2zGElmRH5yzz4iiv3ydh+jRMpOFv1TWRMdowzrb
+	dilgCwfoPVZmXJIQAp/QNUR/uUc4=
+X-Google-Smtp-Source: AGHT+IHsjU4hinncRp4nROnRthRfO5WuZrBm8ZzErP9Em5jlbg9uemMNuNGdo2qGiNircg3XmtvcQBYwXyIonIoOHNo=
+X-Received: by 2002:a0d:d991:0:b0:604:9403:f76b with SMTP id
+ b139-20020a0dd991000000b006049403f76bmr855659ywe.51.1707303977017; Wed, 07
+ Feb 2024 03:06:17 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240207014528.5byuufi5f33bl6e2@google.com>
+References: <20240207055558.611606-1-tahbertschinger@gmail.com>
+In-Reply-To: <20240207055558.611606-1-tahbertschinger@gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Wed, 7 Feb 2024 12:06:05 +0100
+Message-ID: <CANiq72=00+vZ+BqacSh+Xk8_VtNPVADH2Hcsyo-MPufojXvNFQ@mail.gmail.com>
+Subject: Re: [PATCH RFC 0/3] bcachefs: add framework for internal Rust code
+To: Thomas Bertschinger <tahbertschinger@gmail.com>
+Cc: rust-for-linux@vger.kernel.org, linux-bcachefs@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	kent.overstreet@linux.dev, bfoster@redhat.com, ojeda@kernel.org, 
+	alex.gaynor@gmail.com, wedsonaf@gmail.com, masahiroy@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 07, 2024 at 01:45:28AM +0000, Justin Stitt wrote:
-> I wouldn't mind also seeing a test_ubsan_div_overflow test case here.
-> 
-> It has some quirky behavior and it'd be nice to test that the sanitizers
-> properly capture it.
-> 
-> Check out this Godbolt: https://godbolt.org/z/qG5f1j6n1
-> 
-> tl;dr: with -fsanitize=signed-integer-overflow division (/) and
-> remainder (%) operators still instrument arithmetic even with
-> -fno-strict-overflow on.
-> 
-> This makes sense as division by 0 and INT_MIN/-1 are UBs that are not
-> influenced by -fno-strict-overflow.
+On Wed, Feb 7, 2024 at 6:57=E2=80=AFAM Thomas Bertschinger
+<tahbertschinger@gmail.com> wrote:
+>
+> This series adds support for Rust code into bcachefs. This only enables
+> using Rust internally within bcachefs; there are no public Rust APIs
+> added. Rust support is hidden behind a new config option,
+> CONFIG_BCACHEFS_RUST. It is optional and bcachefs can still be built
+> with full functionality without rust.
 
-There is actually already a test_ubsan_divrem_overflow, but because the
-failure modes result in a trap even without the sanitizer, it's disabled
-in the test. For testing a crashing mode, it might be interesting to add
-it to LKDTM, which is the crash tester...
+But is it the goal to make it use Rust always? If not, do you mean you
+are you going to have 2 "modes" in bcachefs? i.e. one with all C, and
+one with some parts replaced (i.e. duplicated) in Rust?
 
-> 
-> Really though, the patch is fine and the above test case is optional and
-> can be shipped later -- as such:
-> 
-> Reviewed-by: Justin Stitt <justinstitt@google.com>
+If it is the former (dropping C), then please note that it will limit
+where bcachefs can be built for, i.e. architectures and configurations
+(at least for the time being, i.e. we want to relax all that, but it
+will take time).
 
-Thanks!
+If it is the latter (duplication), then please note that the kernel
+has only gone the "duplication" route for "Rust reference drivers" as
+an exceptional case that we requested to bootstrap their subsystems
+and give Rust a try.
 
--Kees
+Could you please explain more about what is the intention here?
 
--- 
-Kees Cook
+Either way, the approach you are taking in this patch series seems to
+be about calling C code directly, rather than writing and using
+abstractions in general. For instance, in one of the patches you
+mention in a comment "If/when a Rust API is provided" to justify the
+functions, but it is the other way around, i.e. you need to first
+write the abstractions for that C code, upstream them through the
+relevant tree/maintainers, and then you use them from your Rust code.
+
+Instead, to bootstrap things, what about writing a bcachefs module in
+Rust that uses e.g. the VFS abstractions posted by Wedson, and
+perhaps, to experiment/prototype, fill it with calls to the relevant C
+parts of bcachefs? That way you can start working on the abstractions
+and code you will eventually need for a Rust bcachefs module, without
+limiting what C bcachefs can do/build for. And that way it would also
+help to justify the upstreaming of the VFS abstractions too, since you
+would be another expected user of them, and so on.
+
+> I wasn't sure if this needed to be an RFC based on the current status
+> of accepting Rust code outside of the rust/ tree, so I designated it as
+> such to be safe. However, Kent plans to merge rust+bcachefs code in the
+> 6.9 merge window, so I hope at least the first 2 patches in this series,
+> the ones that actually enable Rust for bcachefs, can be accepted.
+
+This is worrying -- there has been no discussion about mixing C and
+Rust like this, but you say it is targeted for 6.9. I feel there is a
+disconnect somewhere. Perhaps it would be a good idea to have a quick
+meeting about this.
+
+Cheers,
+Miguel
 
