@@ -1,162 +1,177 @@
-Return-Path: <linux-kbuild+bounces-868-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-869-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B9C484D780
-	for <lists+linux-kbuild@lfdr.de>; Thu,  8 Feb 2024 02:22:54 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3C1C84D95A
+	for <lists+linux-kbuild@lfdr.de>; Thu,  8 Feb 2024 05:19:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A1854283775
-	for <lists+linux-kbuild@lfdr.de>; Thu,  8 Feb 2024 01:22:52 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 457C4B216FC
+	for <lists+linux-kbuild@lfdr.de>; Thu,  8 Feb 2024 04:19:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF9B41172C;
-	Thu,  8 Feb 2024 01:22:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFFBE1D693;
+	Thu,  8 Feb 2024 04:19:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bQfiLZm+"
+	dkim=pass (2048-bit key) header.d=umich.edu header.i=@umich.edu header.b="Svov09+P"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24D8A1E885;
-	Thu,  8 Feb 2024 01:22:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 544262E3F1
+	for <linux-kbuild@vger.kernel.org>; Thu,  8 Feb 2024 04:19:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707355367; cv=none; b=Ql5okxs05ajiHhMbGH54CMN7FimPw3Bnkc1MmSxDs6IKi0A6GKse1xpS8zZEt/A6YKaAb4/kdjIUtrZllR37vTbV7hOwfD3e41hudW0r9TD0Kot+83RJie9keC57pdbqnfgkf4nPr9AsKcTk96lwE7Yqvy0Z2RBBL30yY2ccnOI=
+	t=1707365955; cv=none; b=VxKNHB38f56Uq2n+p9QHL2OfI9Fauw+eIm2PaVCCVgfYf8BlKSDof/Rl7ZF2xLvUAgrQRPoql+KWEPZf+eeTLPHwbnOZ1wt7N+YS+LRa4GhQxqgGCZvsusytf+mUCmWLgF/Ri0zemOo1CfKY9sKKOczTDMAwWUfx1/SnktwEe1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707355367; c=relaxed/simple;
-	bh=Mm/LoXa3RB6B+MBL36Ib2qcdqqwIv2prBEiaoLJuQyE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=p4ZEgQwcln9V/XbV764RRyn6UzVxH1K9ncOu8N3Ers0QGN8Zfc0Ui+snvWMCjQE6sC/btrnW+Ui40Sd3usCOPQVk+QKn1uSDRicubb+DmhZh5vn4OWw2xFbZ3rkJtsUEOtPRfwK/cfO4dSZ/HRu/dK6l8n/t4T8gPhZkmkhgbq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bQfiLZm+; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-40fff96d5daso11033105e9.0;
-        Wed, 07 Feb 2024 17:22:45 -0800 (PST)
+	s=arc-20240116; t=1707365955; c=relaxed/simple;
+	bh=NGGl+yhBQ3UuLPGGYs/icqIBUq5Q0ZOnWSdq8ZZ3yNQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Th/uhwpza1yFi1bQ2LMaQiPGmcc/VazVmPApgJltY4WcgZ1Nyilqfi3U6hWkgykYf6IZ+ocA84oI6KllRE9zAubQ9u3YINQMsvMloCsjq75kQgcEkuQysitPtfva0DJsWZpHMjbs3mL1TyV2HPLk0O+V6VdZJfJwOkX3opEflP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=umich.edu; spf=pass smtp.mailfrom=umich.edu; dkim=pass (2048-bit key) header.d=umich.edu header.i=@umich.edu header.b=Svov09+P; arc=none smtp.client-ip=209.85.128.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=umich.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=umich.edu
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-6049c6f79b1so10491597b3.2
+        for <linux-kbuild@vger.kernel.org>; Wed, 07 Feb 2024 20:19:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707355364; x=1707960164; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kY0vgVMAWXvg6WdX7kWSrpFxwM9nLTP4P22qdJFLKnI=;
-        b=bQfiLZm+TdFQLcpy42UK2WTzX89N5f51/pRxA7ks9cwgLooPAf+l54dBFIP3KaNqzI
-         m0jB15nN+oLpEjDV+1okw9RrUNNQSNd6xfDSBrqZcuwqePsjoT+6DldUx1v0+VF9YacP
-         MAtvixIYMjW5pSoJ9+W8HZ5ejrN8db4Opb/L3f2K15z6LWu9pUvrJqjMOp0UPeop5jlF
-         6rSN6/FhiuB/MWD6iHz/CWb6G/yp9rmtqaVFsg1jopdJBpVyrQO4+haD76nO6t5/AcsM
-         zeGk+8cxYebh3m6dPtiYFew7ArizslIU6mTQf0yoKsZuGr1oHzmBmVrVVyl9gJGBgTMu
-         8LDg==
+        d=umich.edu; s=google-2016-06-03; t=1707365952; x=1707970752; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=T6Rsu7zMx9101ReVRLly7pW/OCnK9YhpRRktI8iHZFI=;
+        b=Svov09+Pa+DWOjlAMNKp9qeZ1xJoPtmNqbnuaGVwezsEOv7YtXYWkDCY6RDe/RjotS
+         OhpZaZ3MSajD/FY+pAcWmAERoivq30GQ93VNafsPDyS08LyLpAzOR4TVr1yw7oYjb4yT
+         g1iQrSEpgOorJyJorME0z2nDtczHixMNmpjvyUVEzdQv1AkH3NgsXTnfMrE6shn6C40r
+         MBoCn3zLKgry46NZFZrmxEapC8rv+uZ0f17gMxsLQL4VMGSxv6ABkh9wlYB2rvXryNac
+         3AdP/v91GAlW/19gnsiQbQs37msJiV9cxkJlT3Nl7hppXkLck7TTxD54ODRaTTj7kBWE
+         xyxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707355364; x=1707960164;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kY0vgVMAWXvg6WdX7kWSrpFxwM9nLTP4P22qdJFLKnI=;
-        b=axScRmMLwOEqCMRwj11a3KruajbjdGeyd4sYJNq1yOeQZUMj37+lP2Z0B1nQP7BCAu
-         lLd5qc2GhgiY7MtZag0nwg4CgdjPPmPOsSqDFYXlXMqb4IT+zRTubgEJ/Br41YQ0rnid
-         8/jkWdbhY+IBdnaV6PgFdN7t89jvouWj8oFeybddtmjdrNGx9q5yAzmj14oV+/4qxVbJ
-         uM3+eeCiUTxekzJiUpg+z6sHs8olKcLE+cGvdTMeERTAq0xsXVASwwSUxlSTPwmEXTZ7
-         pS92pvrLqzxA5aJKcNxvecUWiqhIStFYa9Si9I28EZH1CsYsiO5Y3ke4t+okSVUA89Ii
-         9CsQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWPA64jQcowbr1okFhUwEHC6GBUKFfWX6J0CU1GImGVrxLQPd7iZP/q1VxKqQIyTzRWEigVzaCm4rn3NN32GKLOLvdPMurKrO/o0LpmgGNHzEBsL9Oz2Vsgxki8OlWUzGohYbbWHJE5HxRl
-X-Gm-Message-State: AOJu0Yypz1/eeHUe/n4Wauhk7Tl17KHtwwpL4NYEhx/0/Mcwa6NGDgVS
-	A+TOoboPCm79XTNNFHnzfToKRTsYQOlQkrugKFbDqU1ngCQ5ei2x
-X-Google-Smtp-Source: AGHT+IGQfyAOB5pdzwLmMMlKecAQ7P88fZJEisR2tHxtc6hmhm0dZ/Fy4VcF+TPqRRA4nSh9MQJrCw==
-X-Received: by 2002:a05:600c:3543:b0:40f:c1fc:e5b6 with SMTP id i3-20020a05600c354300b0040fc1fce5b6mr5694924wmq.38.1707355364099;
-        Wed, 07 Feb 2024 17:22:44 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCU1eHQPE5BUroa8741BQMtqOa6Q3Ltc5RSdH3ErtrGeYLe8Xm6pGHsUedrwe1B8tYW8NHtdJ5Tio6FyolPLSS6AH46OVd1PmvzbQrhn8/qcjAoGyY4NSXVZAMV33WFicA0tbE/4fqACx4qSvJLZMDWZu6aYBguC+HjQdfgZZ5Fho50GpVVDLSt2/p5eSal/z7XlF5BVuksvA+1DDGsT6He2M2DnZXAmdThDH7nGz67NPFOUEcN750jA8KKbl7/p3/dAxbHThD9eJqyJwU8eK418Kv/1+uXQil4qoZSmPn1zL39LxlLOaUgM4p+nL2mCyOAtc2pG0Vc200Mc9b7sJrEw9J9YnfOcG04Su6q6zcrYFDu3CQ==
-Received: from node-04.shui.grid ([31.94.24.68])
-        by smtp.gmail.com with ESMTPSA id j12-20020a05600c190c00b0040ebf603a89sm161866wmq.11.2024.02.07.17.22.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Feb 2024 17:22:43 -0800 (PST)
-From: Yuxuan Shui <yshuiv7@gmail.com>
-To: llvm@lists.linux.dev
-Cc: masahiroy@kernel.org,
-	nathan@kernel.org,
-	nicolas@fjasle.eu,
-	linux-kbuild@vger.kernel.org,
-	tglx@linutronix.de,
-	mingo@redhat.com,
-	bp@alien8.de,
-	dave.hansen@linux.intel.com,
-	x86@kernel.org,
-	hpa@zytor.com,
-	linux-kernel@vger.kernel.org,
-	Yuxuan Shui <yshuiv7@gmail.com>
-Subject: [PATCH] kbuild: Fix building with LLVM on NixOS
-Date: Thu,  8 Feb 2024 01:20:58 +0000
-Message-ID: <20240208012057.2754421-2-yshuiv7@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1707365952; x=1707970752;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=T6Rsu7zMx9101ReVRLly7pW/OCnK9YhpRRktI8iHZFI=;
+        b=UXX+/qavrP6zMtgl/m6ZhB4omaMUVjxVoaBQGvxuvD51eayuvSShcdyJ09tWC1xU0K
+         bSoThA9J2ePpsnklhvAAL7un9zBg3+AUoLVRN20yllnWq55zFTnOpKlJWK16DfFE8UaQ
+         4aYAHNDXTpqFvzxItSHy/tVhr5x/19zFtFguYnASaRdy3h7k43IkEvup/+7vLADR6gTp
+         YwEiQ9Waoet68Fkq0Snw8Lez8RVIoVSrU/gEXelx8ZnFgaPFnNjCzrs9k8HZDKlA0zqI
+         omfLrCjveoFwQFqbmLgx5trcPiPIYE34DYpst8sdkRwMWY+c3md7lODVW+kuBGlS4FDQ
+         j80A==
+X-Gm-Message-State: AOJu0YyQgvU9Ll8+esVwWZtsPyA3E3PVAn0pKJ9GToSLCJeDWlxlE3xd
+	Nr8/4We3nEsbDdwV2sn9r0ZXAjLE8aKxTdCmVfagHRSWoFHMzCbFwnRUHVKwKXjPna3x6UBs55j
+	jJxxtj/4sc5MO4CpmvOD6crgInCAbIK75zne//Q==
+X-Google-Smtp-Source: AGHT+IE23A27tLG6Zbdgze019TxOSOcO6pq7eWFrGwYWhqlbeni3gNe7Qel902A26fgZTDZqrCIeQ/H4+LhEAwmGhwQ=
+X-Received: by 2002:a81:d306:0:b0:5fc:b5d4:f1cf with SMTP id
+ y6-20020a81d306000000b005fcb5d4f1cfmr7446477ywi.35.1707365952128; Wed, 07 Feb
+ 2024 20:19:12 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240207055558.611606-1-tahbertschinger@gmail.com>
+ <CANiq72=00+vZ+BqacSh+Xk8_VtNPVADH2Hcsyo-MPufojXvNFQ@mail.gmail.com>
+ <qo637rxuw5tcskmgubutpe6dfmhhms4d4pjivzhewl5tpg3eth@xil6gpcvdiya> <20240207223927.GM6184@frogsfrogsfrogs>
+In-Reply-To: <20240207223927.GM6184@frogsfrogsfrogs>
+From: Trevor Gross <tmgross@umich.edu>
+Date: Wed, 7 Feb 2024 23:19:00 -0500
+Message-ID: <CALNs47uR5ab_dm6ryET4ZkL2nj=ykhGYAyjB6FY4skBZhKqmKQ@mail.gmail.com>
+Subject: Re: [PATCH RFC 0/3] bcachefs: add framework for internal Rust code
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Kent Overstreet <kent.overstreet@linux.dev>, 
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, 
+	Thomas Bertschinger <tahbertschinger@gmail.com>, rust-for-linux@vger.kernel.org, 
+	linux-bcachefs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, bfoster@redhat.com, ojeda@kernel.org, 
+	alex.gaynor@gmail.com, wedsonaf@gmail.com, masahiroy@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-NixOS is designed to have immutable packages, and explicit dependencies.
-It allows multiple different versions of the same shared library to
-co-exist in its file system.
+On Wed, Feb 7, 2024 at 5:39=E2=80=AFPM Darrick J. Wong <djwong@kernel.org> =
+wrote:
+> [..]
+> Which architectures are supported by RoL at this point?
+>
+> I can't speak for kmo, but bcachefs is new(ish) to the kernel, and
+> restricting support to the five major 64-bit arches (x64, arm64, ppc64,
+> s390x, riscv64) might be quite a load off him and his team.
+>
+> Just speaking for myself, where xfs gets occasional weird bug reports of
+> strange behavior on platforms that none of us can test (csky) or OOM
+> reports with multi-TB filesystems on m68k.
 
-Each application built with Nix, the NixOS package manager, will have
-paths to its dependency shared libraries hardcoded into its executable,
-this includes the dynamic linker. To achieve this, Nix adds a
---dynamic-linker linker flag when building any application.
+6.7 only has x86. Loongarch is in for 6.8, aarch64 [1] and riscv [2]
+shouldn't be too far away, and there has been some interest in the IBM
+targets but they haven't sent anything yet.
 
-This isn't a problem if the kernel is built with ld.bfd, because ld.bfd
-ignores the --dynamic-linker flag when the resulting binary doesn't have
-a DT_NEEDED entry. However, ld.lld respects --dynamic-linker
-unconditionally, which breaks linking in several cases.
+Any of Rust's tier 2 targets [3] should be reasonably feasible to
+support at some point if the maintainers are interested. csky and m68k
+are both tier 3 targets so less likely anytime soon, anything more
+niche than tier 3 will need GCC support. Which isn't terribly far
+off...
 
-This commit adds an explicit --no-dynamic-linker flag which overrides
-the flag added by Nix.
+[1]: https://lore.kernel.org/rust-for-linux/20231020155056.3495121-1-Jamie.=
+Cunliffe@arm.com/
+[2]: https://lore.kernel.org/rust-for-linux/20230307102441.94417-1-conor.do=
+oley@microchip.com/
+[3]: https://doc.rust-lang.org/beta/rustc/platform-support.html
 
-Signed-off-by: Yuxuan Shui <yshuiv7@gmail.com>
----
- Makefile                      | 3 +++
- arch/x86/boot/Makefile        | 2 +-
- arch/x86/realmode/rm/Makefile | 2 +-
- 3 files changed, 5 insertions(+), 2 deletions(-)
+> > > Instead, to bootstrap things, what about writing a bcachefs module in
+> > > Rust that uses e.g. the VFS abstractions posted by Wedson, and
+> > > perhaps, to experiment/prototype, fill it with calls to the relevant =
+C
+> > > parts of bcachefs? That way you can start working on the abstractions
+> > > and code you will eventually need for a Rust bcachefs module, without
+> > > limiting what C bcachefs can do/build for. And that way it would also
+> > > help to justify the upstreaming of the VFS abstractions too, since yo=
+u
+> > > would be another expected user of them, and so on.
+> >
+> > You mean a new, from scratch bcachefs module? Sorry, but that would not
+> > be practical :)
+> >
+> > Wedson's work is on my radar too - that opens up a lot of possibilities=
+.
+> > But right now my goal is just to get /some/ Rust code into bcachefs,
+> > and make sure we can incrementally bring in more Rust code within the s=
+ame
+> > module.
+>
+> Is the ultimate goal of the RoL project to build Rust wrappers around
+> the C filesystem objects?  Or to design something more Rustic(?) and
+> present the interfaces that the VFS wants to the VFS only as needed?
+>
+> I might be talking nonsense here, I've only started learning Rust.  But
+> I /can/ speculate about what a Rust fs will need based on all the stuff
+> I've learned over the past 20y of wrangling the C filesystems.
+> [..]
 
-diff --git a/Makefile b/Makefile
-index a171eafce2a3b..10ed19caecb1b 100644
---- a/Makefile
-+++ b/Makefile
-@@ -531,6 +531,9 @@ RUSTFLAGS_KERNEL =
- AFLAGS_KERNEL	=
- LDFLAGS_vmlinux =
- 
-+LDFLAGS_MODULE += --no-dynamic-linker
-+LDFLAGS_vmlinux += --no-dynamic-linker
-+
- # Use USERINCLUDE when you must reference the UAPI directories only.
- USERINCLUDE    := \
- 		-I$(srctree)/arch/$(SRCARCH)/include/uapi \
-diff --git a/arch/x86/boot/Makefile b/arch/x86/boot/Makefile
-index 3cece19b74732..390a4604166eb 100644
---- a/arch/x86/boot/Makefile
-+++ b/arch/x86/boot/Makefile
-@@ -102,7 +102,7 @@ $(obj)/zoffset.h: $(obj)/compressed/vmlinux FORCE
- AFLAGS_header.o += -I$(objtree)/$(obj)
- $(obj)/header.o: $(obj)/zoffset.h
- 
--LDFLAGS_setup.elf	:= -m elf_i386 -z noexecstack -T
-+LDFLAGS_setup.elf	:= --no-dynamic-linker -m elf_i386 -z noexecstack -T
- $(obj)/setup.elf: $(src)/setup.ld $(SETUP_OBJS) FORCE
- 	$(call if_changed,ld)
- 
-diff --git a/arch/x86/realmode/rm/Makefile b/arch/x86/realmode/rm/Makefile
-index f614009d3e4e2..4b42006d9ce02 100644
---- a/arch/x86/realmode/rm/Makefile
-+++ b/arch/x86/realmode/rm/Makefile
-@@ -50,7 +50,7 @@ $(obj)/pasyms.h: $(REALMODE_OBJS) FORCE
- targets += realmode.lds
- $(obj)/realmode.lds: $(obj)/pasyms.h
- 
--LDFLAGS_realmode.elf := -m elf_i386 --emit-relocs -T
-+LDFLAGS_realmode.elf := --no-dynamic-linker -m elf_i386 --emit-relocs -T
- CPPFLAGS_realmode.lds += -P -C -I$(objtree)/$(obj)
- 
- targets += realmode.elf
--- 
-2.43.0
+The current approach is:
 
+1. Raw bindings to needed APIs are autogenerated with bindgen
+2. Abstractions are written on top of the bindings. These should
+provide a safe interface where, as much as possible, you can't
+accidentally misuse them to do something "wrong" (no UB by Rust's
+definitions, plus a fair bit of functional safety).
+3. Modules use abstractions, no C bindings directly
+
+So Rust code is currently strictly a consumer of public core APIs,
+which cuts off at the module boundary. No reason there couldn't also
+be some core functionality, but there is a pretty strong goal of not
+keeping duplicate logic between Rust and C. Just not much of a use
+case yet.
+
+It works out best if bcachefs uses the same model, so future code can
+make use of whatever abstractions come along - at least for the core
+APIs, I can imagine bcache-c to bcache-rust will look different. There
+is a reasonably complete VFS abstraction available [4] (looks like you
+know of this already). I keep a loose list of what is being worked on,
+for any other interfaces needed [5].
+
+- Trevor
+
+[4]: https://lore.kernel.org/rust-for-linux/20231018122518.128049-1-wedsona=
+f@gmail.com/#t
+[5]: https://github.com/tgross35/RFL-patch-registry/
 
