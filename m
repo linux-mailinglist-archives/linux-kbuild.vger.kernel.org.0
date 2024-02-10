@@ -1,144 +1,91 @@
-Return-Path: <linux-kbuild+bounces-879-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-880-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D824B8504EC
-	for <lists+linux-kbuild@lfdr.de>; Sat, 10 Feb 2024 16:26:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB18E8505DA
+	for <lists+linux-kbuild@lfdr.de>; Sat, 10 Feb 2024 19:02:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8F4671F226BC
-	for <lists+linux-kbuild@lfdr.de>; Sat, 10 Feb 2024 15:26:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6632E1F21C76
+	for <lists+linux-kbuild@lfdr.de>; Sat, 10 Feb 2024 18:02:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEEDE5BAC9;
-	Sat, 10 Feb 2024 15:26:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBF865D477;
+	Sat, 10 Feb 2024 18:02:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=toblux-com.20230601.gappssmtp.com header.i=@toblux-com.20230601.gappssmtp.com header.b="jwAdUhY3"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="yLSYN6pm"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E8E936AF0
-	for <linux-kbuild@vger.kernel.org>; Sat, 10 Feb 2024 15:26:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E2CA259B;
+	Sat, 10 Feb 2024 18:02:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707578771; cv=none; b=B6uyBxSNSdr4vtFEkKVABEjQFBy+9ByAKarAAo2FDqtU9XdyTKOPWEIhOnr6mGwm8NYN4D7TJJh9vnlh20l/zHyC7XdYJm7GAA2V8wse4Bdz9FJW0xBEUjKrC5H6ow+h7cSDxgXp/GuSq/vJ4vry5wCOWthYTXvisAwWc9bXtFQ=
+	t=1707588137; cv=none; b=fi2vDibhybN0JHCYO0TGePVvCbkwWumME0aNBNxEXC44T0GyCGM2GZaRzLo2j26U7lrS2o4koWge9iQ7A5Lss5CADBPLAYNVZyv3nJypjY4VcEhK1QxOnAeZS049Y3dRflnlcoGtSVUec689uDTpuWQsJ3QPZboaOELNSUK2ngQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707578771; c=relaxed/simple;
-	bh=tOFJUUP7k2JdlGYWPTNxc4kTqYeXGnoeVDQZcY/8oMc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=gwk2lGkkN9LMkr2x/y3rLouvsOrinzSfWJYu0Ec/+2xKq+5KA9owF1R+jtoZ4ttYAJcIA7aJ3HkzofdnoibkeqSwa3+9S+aA28JJwvPiwG8fQWIGrKgq6G8yMa0p44ehkuEIqi55jI1TubJG805rvwOpN/af1YKlGPuQcOR+h8s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toblux.com; spf=none smtp.mailfrom=toblux.com; dkim=pass (2048-bit key) header.d=toblux-com.20230601.gappssmtp.com header.i=@toblux-com.20230601.gappssmtp.com header.b=jwAdUhY3; arc=none smtp.client-ip=209.85.218.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toblux.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=toblux.com
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a2d7e2e7fe0so345187066b.1
-        for <linux-kbuild@vger.kernel.org>; Sat, 10 Feb 2024 07:26:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toblux-com.20230601.gappssmtp.com; s=20230601; t=1707578767; x=1708183567; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Xc8zG3JGrmcRlzecZf+KRmHBE/zsgx/r7nzxBVCSCZY=;
-        b=jwAdUhY37IzeHle90yqh5zq+//MytfLOvMZIbEMPZ18eb444luThzUKHLkIkjoXp/F
-         OzGuX8ACTIjsnisDLyvuvxMIukYV1S6sao47u9HirZqFP4I0P0eWZJOiiQr7ZD1VTZRR
-         Xu6sOdnlgp02xSDxnYXy2XVqhzU6dg5COYA0bBwsOBiRu+bbvz/hpfJTtLyW8js9F9gx
-         iCOLHH5kYw5NI52YwxPdfdM1UvG8Y6t74M+SLVGjlU/PZyWKby1s0AjQt75IiT55nUoA
-         fKZs3gIqIHrRbqNOctulZQSSXch76zaZPosnE0C9UQvhcvhcF/JJDoGkfuRNbEo/aUcX
-         jIJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707578767; x=1708183567;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Xc8zG3JGrmcRlzecZf+KRmHBE/zsgx/r7nzxBVCSCZY=;
-        b=LJdyvhK2G+OJmV1Aj8cgpxEMQbG7aNaoT7BxA8u3nTp8FMpWl1Gk54aCsoIu7IjxDm
-         5rl4b2hx2cpMnWXensY+nMMo4wVoDID3lZkgVXxQIFnWlUwIo8LzRtxsebW0AM8/hISZ
-         2bdqp7M48o1L2jWN1YjwJ4M7WWXfR5UR64XU7Bai9ukEhx/ncumJlL2/kScnlVE85HFc
-         1HcBME4aQ+POlvtDRv2ynCUEGIEi1v+miytLsnA9slrLhqUVbi1/I5EP1b8SXiIR4hU1
-         vvsf5mgAvPnNunfNnfINwOOfejWWWt3HmBPB7jdJ16Jr5tlRzPXCo8gRkwPa0DTRiS+t
-         meNw==
-X-Forwarded-Encrypted: i=1; AJvYcCXW8ShhZ4rtY+MKaQPJZE4AJsYtluQyh0UOnfqeYJRICk4LOTxY0ixucOoCgA4RQfZZ0H33ZpYy7puurIUnGC9/HUAZRTkHTz7SGytU
-X-Gm-Message-State: AOJu0YxH0fDXcxqBppmER7jGEPUsbOo/3imK9ftmaxw028SsLuCuZbul
-	LN4lFd2PzmianhXJorhZBHGqdzG8tyZ1SiXdkQ6V9FnsAO+7OVK+uoQrWJII77I=
-X-Google-Smtp-Source: AGHT+IE7sLmeGOAzHsq1dSFkY247mIg0hXk0uTfwY8SVCxe4fxvZSLwGKhrW+wJimWNNxuxLj7+6xA==
-X-Received: by 2002:a17:906:358f:b0:a3b:fbc0:cd16 with SMTP id o15-20020a170906358f00b00a3bfbc0cd16mr2156395ejb.24.1707578767378;
-        Sat, 10 Feb 2024 07:26:07 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWhpehmZvgtBcp48iLdVF39bW+I6Wi8cjtMQVPsgjJTnRB5CdJCPbGoxlXTMZYvjiMxZ4p3dn16/NoNIeyJ6xfTeO7EGaXRbjDOnTL46kV726XrGot7mGwwkqEYupXsOI/7qF8YBlFqrEuCTLaT8Pizev+bLiqyxJnp4yZB6Yz9IRUa3yrY2fPfnhRRCNq7xkocr9TdpWrn7L4+sWMfSII/KZNFoQpRtmZ1G+OD0XVgbtOga4MIGpNfvqeW5P5PPWPSQSBpIw==
-Received: from debian.fritz.box (aftr-82-135-80-180.dynamic.mnet-online.de. [82.135.80.180])
-        by smtp.gmail.com with ESMTPSA id w9-20020a170906130900b00a35ed4fd4cesm1881126ejb.115.2024.02.10.07.26.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 Feb 2024 07:26:06 -0800 (PST)
-From: Thorsten Blum <thorsten.blum@toblux.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	linux-kbuild@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Thorsten Blum <thorsten.blum@toblux.com>
-Subject: [PATCH] docs: kbuild: Kconfig: Fix grammar and formatting
-Date: Sat, 10 Feb 2024 16:20:04 +0100
-Message-Id: <20240210152003.861-1-thorsten.blum@toblux.com>
-X-Mailer: git-send-email 2.39.2
+	s=arc-20240116; t=1707588137; c=relaxed/simple;
+	bh=g69G+aInOtubj4ogLlXXUVqcag4r03m/f/OWs2Zw2/w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qH9DngTH+XXuxasefA5KmnvkoIUATMZ8eAcANE4RlXf3cntPQg4poxZg5HW6l00XaRALjoTcLxJU63/LURLjtZqWnIVJcF80zDtV5cC553Jr0GnoK3I9dgWI4vBcvkYJt382pr9aTPIzZzNXNP/fxXGX+HhKkWquV3SEa7O6Fr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=yLSYN6pm; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=O1CQPPpYyrG/AzjnYm4PVqIcHy5+IFQRJvndX74NChA=; b=yLSYN6pmi+40LK55ECIhGOoNyJ
+	jXCBXi5PmT7FK1F6nJlcoId2KzRIZq2vxVxOgaYtQ8re0ICGehmdAczj0iG+G9d8FRbhSSqKZ0YIN
+	dOiuDuu1mIn0ET4yx+jjzxHaGZbynboZLpJK/vab8u8EM3hjfEl6SKwtlTttCeKR09iNmDS/FX588
+	yM8gigjHhLP0OyNAcF9ZGjD5P6hwvxRbeG8hQh2Tk7OohvGo7pHdyian7paigFqAEHgKPvLE5Qtpz
+	XqvrFEuPO+3pC2r5UBEcBJNo9NQlDy2EeAWTuOpnl+FT34oWM4coVnHtMywSY4hCk9Aaj8HdptTSq
+	XT8kodyg==;
+Received: from [50.53.50.0] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rYrg1-00000001tB1-3knC;
+	Sat, 10 Feb 2024 18:02:09 +0000
+Message-ID: <811de246-8b5c-4b44-b112-c24391f4b280@infradead.org>
+Date: Sat, 10 Feb 2024 10:02:07 -0800
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: kbuild: Kconfig: Fix grammar and formatting
+Content-Language: en-US
+To: Thorsten Blum <thorsten.blum@toblux.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
+ linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240210152003.861-1-thorsten.blum@toblux.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20240210152003.861-1-thorsten.blum@toblux.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-- Remove unnecessary spaces
-- Fix grammar s/to solution/solution/
-- Remove newline to be consistent with other headings
 
-Signed-off-by: Thorsten Blum <thorsten.blum@toblux.com>
----
- Documentation/kbuild/Kconfig.recursion-issue-01 | 6 +++---
- Documentation/kbuild/kconfig.rst                | 1 -
- 2 files changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/kbuild/Kconfig.recursion-issue-01 b/Documentation/kbuild/Kconfig.recursion-issue-01
-index e8877db0461f..ac49836d8ecf 100644
---- a/Documentation/kbuild/Kconfig.recursion-issue-01
-+++ b/Documentation/kbuild/Kconfig.recursion-issue-01
-@@ -16,13 +16,13 @@
- # that are possible for CORE. So for example if CORE_BELL_A_ADVANCED is 'y',
- # CORE must be 'y' too.
- #
--#  * What influences CORE_BELL_A_ADVANCED ?
-+#  * What influences CORE_BELL_A_ADVANCED?
- #
- # As the name implies CORE_BELL_A_ADVANCED is an advanced feature of
- # CORE_BELL_A so naturally it depends on CORE_BELL_A. So if CORE_BELL_A is 'y'
- # we know CORE_BELL_A_ADVANCED can be 'y' too.
- #
--#   * What influences CORE_BELL_A ?
-+#   * What influences CORE_BELL_A?
- #
- # CORE_BELL_A depends on CORE, so CORE influences CORE_BELL_A.
- #
-@@ -34,7 +34,7 @@
- # the "recursive dependency detected" error.
- #
- # Reading the Documentation/kbuild/Kconfig.recursion-issue-01 file it may be
--# obvious that an easy to solution to this problem should just be the removal
-+# obvious that an easy solution to this problem should just be the removal
- # of the "select CORE" from CORE_BELL_A_ADVANCED as that is implicit already
- # since CORE_BELL_A depends on CORE. Recursive dependency issues are not always
- # so trivial to resolve, we provide another example below of practical
-diff --git a/Documentation/kbuild/kconfig.rst b/Documentation/kbuild/kconfig.rst
-index c946eb44bd13..766f9cb518df 100644
---- a/Documentation/kbuild/kconfig.rst
-+++ b/Documentation/kbuild/kconfig.rst
-@@ -45,7 +45,6 @@ file name to override the default name of ".config".
- 
- KCONFIG_DEFCONFIG_LIST
- ----------------------
--
- This environment variable specifies a list of config files which can be used
- as a base configuration in case the .config does not exist yet. Entries in
- the list are separated with whitespaces to each other, and the first one
+On 2/10/24 07:20, Thorsten Blum wrote:
+> - Remove unnecessary spaces
+> - Fix grammar s/to solution/solution/
+> - Remove newline to be consistent with other headings
+> 
+> Signed-off-by: Thorsten Blum <thorsten.blum@toblux.com>
+
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
+> ---
+>  Documentation/kbuild/Kconfig.recursion-issue-01 | 6 +++---
+>  Documentation/kbuild/kconfig.rst                | 1 -
+>  2 files changed, 3 insertions(+), 4 deletions(-)
+> 
+
 -- 
-2.39.2
-
+#Randy
 
