@@ -1,129 +1,113 @@
-Return-Path: <linux-kbuild+bounces-876-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-877-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51341850157
-	for <lists+linux-kbuild@lfdr.de>; Sat, 10 Feb 2024 01:50:05 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72CB28503DA
+	for <lists+linux-kbuild@lfdr.de>; Sat, 10 Feb 2024 11:19:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DD8D4B245E7
-	for <lists+linux-kbuild@lfdr.de>; Sat, 10 Feb 2024 00:50:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8DFE21C216A8
+	for <lists+linux-kbuild@lfdr.de>; Sat, 10 Feb 2024 10:19:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFBCF1FDB;
-	Sat, 10 Feb 2024 00:49:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A35536132;
+	Sat, 10 Feb 2024 10:19:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="hlUkaadt"
+	dkim=pass (4096-bit key) header.d=envs.net header.i=@envs.net header.b="EvHprzZS"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.envs.net (mail.envs.net [5.199.136.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60940EAF5
-	for <linux-kbuild@vger.kernel.org>; Sat, 10 Feb 2024 00:49:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62A3924214
+	for <linux-kbuild@vger.kernel.org>; Sat, 10 Feb 2024 10:19:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.199.136.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707526142; cv=none; b=AnCWtf7iffaceyIj0d0TWpFs4aBh7kZ6M4cGzPnSaETQ1luwRI6Qzu6tK1A9LrdPG2gbJ40yWL5gkALLl5gBEQqPXp0WtE2a7dOs2FQ8VIsAEProKywh2ijP4MJRCRaphBCEbescduvydJ4nt5y4+f959HKAJS6a/WSsjy8xghU=
+	t=1707560353; cv=none; b=gf0BVNMQV8ZNYfYk1DAvQo1HwXByc0JgBrVe7jpffCKmWMAGEvQWqshql1Erb9b484tTa3zxvjafE9bWsbUHvh/w7w8sz1BBrWRDu4Ss63x2kvvpfZniMJTpbSO4GSXtwTukcXqNHBSkAjRzHE0dS928q6fO0K3XMP1eDSBA5ok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707526142; c=relaxed/simple;
-	bh=hrEhIt0za4zXX+4YcZvr59C24AojcEa8uuOYHTznHjw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uIqI6jjbZe+Lra7p7dEFNx32lzc1uAEz+H/vUKO8W4iVAPJ2moKj/lpLavs+mVFO5MiwsyuZl3DrAeruv8Y1HW+ZRO8haftHQOKdEH831NYL38t9Nl/Hy1OGKJyYHJcUfhUsTFpFHeKlGBsHC9yHEgVXJSNpNPGwSZpp9LRQkWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=hlUkaadt; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1d74045c463so13328415ad.3
-        for <linux-kbuild@vger.kernel.org>; Fri, 09 Feb 2024 16:49:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1707526141; x=1708130941; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xhIOsBixkq6X+I5UtLFYmEvlA1q4nQi2Uk71zOMtrW4=;
-        b=hlUkaadtwYDpofzNbUrSFlSfW4QPT7DehDRAeXEGwQQ3YKAh66LeMQaUf2u9raSBwn
-         hurC/Y7sOQ+PyWV+fz8A00w2KaTAkkTpfRfGrRJBRjzFcJS5yHvRT6785IFQcq8W+1Im
-         oZ6oZ7XLhZ4RIPUMEq1o6d2SowNNHktGoh4OI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707526141; x=1708130941;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xhIOsBixkq6X+I5UtLFYmEvlA1q4nQi2Uk71zOMtrW4=;
-        b=grlJdGnTJjaoR8gK6edlHVxW1BkXerTvTBErupKoPmcZXN1KKniAl+5yNlB2I+04sl
-         MpmVtPgD8ZECQh9bkOqvNgkckdvbV3LymxId855BO2PeSwaHUzXoxaIak4gP5UxE3TmV
-         p7wFZponueqDZY+XkjcH/J8Jp6MSo4V89LlGLzL1Bhq+VLpVJCjdHTtFOk3WxD4zvazj
-         3bTI938jEOGS5EsIJzBaCs6Yj/P/rHiAAZIyITY4cd6WcLLzTey+PW/NkcssjotoR1vl
-         73U1MaDjgWFI7vwj7+RukxuAdD5ZulcBfpiINPxj/uIu9e4FY0IdDa1pVW9bZlnwoRix
-         3ggw==
-X-Gm-Message-State: AOJu0YzgaeaWr4MCMnDzCab03IFDU7TkTbZhAoiPp3oR5g7W5Cz2RN+q
-	uUgOTi3XfjXHBsHUvQ5/tEAGfgG3HNR+6OQhMtSVJLNucg/yx4C06m3v82MacA==
-X-Google-Smtp-Source: AGHT+IGqFQmp48EV/HeK/ohKlHb7zxUA5fEEZHeG+9UTzYyujZAJTn94wWRhwDxrqBopNav53lCKsg==
-X-Received: by 2002:a17:902:ea09:b0:1d9:b8cb:3665 with SMTP id s9-20020a170902ea0900b001d9b8cb3665mr1167619plg.36.1707526140735;
-        Fri, 09 Feb 2024 16:49:00 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVI0SOI2E3VC0AE0of9/MYFRR0yVYQzthkFmv0JW7fA/SJQhhnnI3Nj5OEsNvrtNcdRFhHpOf5u+C3DGYEj7y1QmZKG9DqmJxhSLGKUmKRtiym081eBwXvmlPvnPoRFbYozaBCVcEzpfdzvKL5XsE6na+cvYGSIz8z/iw3GGz5NgMjZyC8x1ylmlUU500p9eC7PsDUz3qdjaUJ4lDemv8WJ00f0xgTx30k9IBXOA4ukuDuItip5wN0tqF2XRRURTeOK4zFlkc/U1xMHtLiGXHCiJxbOfRkGuI6qbhSgFvTKnpkPDxwJIq+B0WYaKEtx/pSF/bhP69oEmAjzAfeoA5ZDA9/FFXosjMJlFihIuYBkey/d
-Received: from www.outflux.net ([198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id h3-20020a170902748300b001d9eef9892asm2062122pll.174.2024.02.09.16.49.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Feb 2024 16:49:00 -0800 (PST)
-Date: Fri, 9 Feb 2024 16:48:59 -0800
-From: Kees Cook <keescook@chromium.org>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: masahiroy@kernel.org, nicolas@fjasle.eu, ndesaulniers@google.com,
-	morbo@google.com, justinstitt@google.com, maskray@google.com,
-	linux-kbuild@vger.kernel.org, bpf@vger.kernel.org,
-	llvm@lists.linux.dev, patches@lists.linux.dev,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] kbuild: Fix changing ELF file type for output of gen_btf
- for big endian
-Message-ID: <202402091648.2B8D95062B@keescook>
-References: <20240208-fix-elf-type-btf-vmlinux-bin-o-big-endian-v1-1-cb3112491edc@kernel.org>
+	s=arc-20240116; t=1707560353; c=relaxed/simple;
+	bh=Byr6+lEWFPA0zPiqpL22kpOH4pbQ5ExMGmE/f1uOvmo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=gYZQGTvnBto+8n/H2z8sXTegTKHnfY9UUeWDqQLi+Hdz1bYFPZULr8EXN1cAMnPA1hESohTKCOuuX+kLOwNS2+kpiWzVYerqfNr+UMKe787osUSSu3iPcH1PlGw0amof3T7tTP2V0NlviFoT4Dguh54AAbkqVIu83rz0gqcxySw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=envs.net; spf=pass smtp.mailfrom=envs.net; dkim=pass (4096-bit key) header.d=envs.net header.i=@envs.net header.b=EvHprzZS; arc=none smtp.client-ip=5.199.136.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=envs.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=envs.net
+Received: from localhost (mail.envs.net [127.0.0.1])
+	by mail.envs.net (Postfix) with ESMTP id 5471A38A0669;
+	Sat, 10 Feb 2024 10:19:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=envs.net; s=modoboa;
+	t=1707560342; bh=LRL2PsA/aZaGBJJvNHDQC8hNpObzh1fpcd/CHOw0PmE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=EvHprzZS7HifFlyDqEGUNA+wCqEeLmWt8njtj6PIU90NGykd/vpXA8X2l1MMw7n3e
+	 3zgLsYdztoMX+70E5+J692gHx4g8PNTbGOyIW68eHTDthslYeKYRfe+d8/IDu1pO+i
+	 5pi20f415jJncNoCPQj8i2gkwUqUU8t9zWQsY0Wgi/2sS7y1t3XQ+xUKenCWLCZvbu
+	 QkMmouEwkm00pw+6BXvZmO6UqOTrqzXxWxygtBQDm7t67r4eBunaAPO1hCq7+gh1VB
+	 qGimemDGboU16BrXLoFN3iEWRo6dcPba9HY+YDqQU0V81r1h/UDL87tlc22kSWop3b
+	 gYuNlUi39/DY8aDYG753GbElu1AFe4qNoehBDEXpfy0x1uZWOt8tDtyzw3toR0yTvM
+	 9f7ERSAuD+j5x/eeJP+EJXyXM9trpwYtJAGyLTBAqx8KvYhIZOkEQcsRyujTIJ8p4G
+	 K7XtrZvhI4JUyyFRVnQayung2JCQ4Ew+B7aiohrkcLahpUfTZUuaFiVYyRYB27kqBR
+	 G7Flro8DFdpvIWC3Ukd5at/yeFsHO0uLCrEJSFs66VD/NKivsqlM93bNlGq4RbnIo5
+	 pF2DGcLQb+5gvVIze1aX+pn0WscX8kXWMYrB7QuV1gSOsuuAkr9mqvYnTKEM1jGwZn
+	 r6GFSWzyYQtzHJWdBSFyJGYQ=
+X-Virus-Scanned: Debian amavisd-new at mail.envs.net
+Received: from mail.envs.net ([127.0.0.1])
+	by localhost (mail.envs.net [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id 7atlyEU71cqp; Sat, 10 Feb 2024 10:18:59 +0000 (UTC)
+Received: from xtex.localnet (unknown [223.73.102.109])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.envs.net (Postfix) with ESMTPSA;
+	Sat, 10 Feb 2024 10:18:58 +0000 (UTC)
+From: Zhang Bingwu <xtex@envs.net>
+To: Zhang Bingwu <xtex@envs.net>
+Cc: linux-kbuild@vger.kernel.org
+Subject:
+ Re: [PATCH 0/2] kbuild: Fix install errors when INSTALL_PATH does not exist
+Date: Sat, 10 Feb 2024 18:18:46 +0800
+Message-ID: <4685272.vXUDI8C0e8@xtex>
+In-Reply-To: <B99CF5DB-276C-4BBC-8D18-C1199BDA104B.1@smtp-inbound1.duck.com>
+References:
+ <20240210074601.5363-1-xtex@envs.net>
+ <B99CF5DB-276C-4BBC-8D18-C1199BDA104B.1@smtp-inbound1.duck.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240208-fix-elf-type-btf-vmlinux-bin-o-big-endian-v1-1-cb3112491edc@kernel.org>
+Content-Type: multipart/signed; boundary="nextPart2128217.9o76ZdvQCi";
+ micalg="pgp-sha512"; protocol="application/pgp-signature"
 
-On Thu, Feb 08, 2024 at 01:21:06PM -0700, Nathan Chancellor wrote:
-> Commit 90ceddcb4950 ("bpf: Support llvm-objcopy for vmlinux BTF")
-> changed the ELF type of .btf.vmlinux.bin.o from ET_EXEC to ET_REL via
-> dd, which works fine for little endian platforms:
-> 
->    00000000  7f 45 4c 46 02 01 01 00  00 00 00 00 00 00 00 00  |.ELF............|
->   -00000010  03 00 b7 00 01 00 00 00  00 00 00 80 00 80 ff ff  |................|
->   +00000010  01 00 b7 00 01 00 00 00  00 00 00 80 00 80 ff ff  |................|
-> 
-> However, for big endian platforms, it changes the wrong byte, resulting
-> in an invalid ELF file type, which ld.lld rejects:
-> 
->    00000000  7f 45 4c 46 02 02 01 00  00 00 00 00 00 00 00 00  |.ELF............|
->   -00000010  00 03 00 16 00 00 00 01  00 00 00 00 00 10 00 00  |................|
->   +00000010  01 03 00 16 00 00 00 01  00 00 00 00 00 10 00 00  |................|
-> 
->   Type:                              <unknown>: 103
-> 
->   ld.lld: error: .btf.vmlinux.bin.o: unknown file type
-> 
-> Fix this by using a different seek value for dd when targeting big
-> endian, so that the correct byte gets changed and everything works
-> correctly for all linkers.
-> 
->    00000000  7f 45 4c 46 02 02 01 00  00 00 00 00 00 00 00 00  |.ELF............|
->   -00000010  00 03 00 16 00 00 00 01  00 00 00 00 00 10 00 00  |................|
->   +00000010  00 01 00 16 00 00 00 01  00 00 00 00 00 10 00 00  |................|
-> 
->   Type:                              REL (Relocatable file)
-> 
-> Cc: stable@vger.kernel.org
-> Fixes: 90ceddcb4950 ("bpf: Support llvm-objcopy for vmlinux BTF")
-> Link: https://github.com/llvm/llvm-project/pull/75643
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+--nextPart2128217.9o76ZdvQCi
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"; protected-headers="v1"
+From: Zhang Bingwu <xtex@envs.net>
+To: Zhang Bingwu <xtex@envs.net>
+Cc: linux-kbuild@vger.kernel.org
+Date: Sat, 10 Feb 2024 18:18:46 +0800
+Message-ID: <4685272.vXUDI8C0e8@xtex>
+MIME-Version: 1.0
 
-Yeah, looks good to me.
-
-Reviewed-by: Kees Cook <keescook@chromium.org>
+Sorry I forgot to CC these patches to kbuild list.
 
 -- 
-Kees Cook
+xtex @ Sat Feb 10 10:16:06 AM UTC 2024
+
+--nextPart2128217.9o76ZdvQCi
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRyMYBLBSxnDxWmdx25GAhu2ARbkQUCZcdNhgAKCRC5GAhu2ARb
+kZpzAQC9kPim9UkC9pUKLd+b9oY2U0GS8ZuRlbrLvnjUSm+rcgEAxCn/kzsNkVT2
+dDH1TKd60k8DPzX+vQgXJexEQm/DxAg=
+=PrjN
+-----END PGP SIGNATURE-----
+
+--nextPart2128217.9o76ZdvQCi--
+
+
+
 
