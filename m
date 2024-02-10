@@ -1,348 +1,182 @@
-Return-Path: <linux-kbuild+bounces-881-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-882-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78ACD850744
-	for <lists+linux-kbuild@lfdr.de>; Sun, 11 Feb 2024 00:25:34 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D34E085074E
+	for <lists+linux-kbuild@lfdr.de>; Sun, 11 Feb 2024 00:42:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 77DF71C20D01
-	for <lists+linux-kbuild@lfdr.de>; Sat, 10 Feb 2024 23:25:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4B7E71F22A82
+	for <lists+linux-kbuild@lfdr.de>; Sat, 10 Feb 2024 23:42:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 979475FDDC;
-	Sat, 10 Feb 2024 23:25:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40CBB5FEF7;
+	Sat, 10 Feb 2024 23:42:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l3HS4gjj"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N8sfitrJ"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D0B447F4B;
-	Sat, 10 Feb 2024 23:25:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E03B5F552;
+	Sat, 10 Feb 2024 23:42:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707607529; cv=none; b=eZs0KfvTPCUa68+VGQgi92SahBJHhE2nRzlD6I7kM5c1qAHc5JF6uf6SBRekjQuFAx60kFedsOdSTCJu1IhRt5EHADB4TO71p0OfBDJEF1vCHExB2+/nANwYRSj9KLKs7HSGmrkJ/gd6GLK5XNUVET5iHiR3LQaDEcc1OfdTeVk=
+	t=1707608529; cv=none; b=LKgqHKVOeeBswNlBJWNt6Yk211ROqcw6WK0mKol2QBsbW63jjnwf1IB7qxsB2MLD876L0JMXO9I3TQSzL/zYPPRi4BPgYVN+6TRwuuZO+g4Lr2cS7RlK1tsDPRtdtkZ98d6sSfpNx1iDZ7knQ9QVMGahQuBlbXxdFmVbYjpKlCU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707607529; c=relaxed/simple;
-	bh=hHrH7ONm5hLvZSf99CN4UEHSezRXejAosEIyaVObVRA=;
+	s=arc-20240116; t=1707608529; c=relaxed/simple;
+	bh=tFeQveoRiLrfsqwNncZbXzJt0Qth44vsHgw3n1Z0lF8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=u3sF6W/PJywq9PIKcGmxJrgB/E0USUOyNuO4tr4tjxrAGyeL/MlU4vsiE2zTek+z39SlRGnpIc8fRkIS8w4hjrb4ob05H+2LidhNgdCHgaD3OmrBcFw+FoxXIlGgnAHp8Wn8ulH79S+VVGrOs/5lw11Y2OExKkuLILMpOcMnngc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l3HS4gjj; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D09E5C433C7;
-	Sat, 10 Feb 2024 23:25:28 +0000 (UTC)
+	 To:Cc:Content-Type; b=tS3pLqGNtEqjVUqsz/VbtjrTO2qWiTJL/yespRiyxE6zV57wmEgpHuNsskjaHJj/p42UTi6t8MaOCpwbMCuxT4UwFLCyLU/0jOge72HCO/K0+nJGhncsCSzm/wF6LUFbEenXUStLawe2iJ3YCzMMqAWr3I0ty1OPWpvz7bEe/8Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N8sfitrJ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 780E0C43390;
+	Sat, 10 Feb 2024 23:42:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707607528;
-	bh=hHrH7ONm5hLvZSf99CN4UEHSezRXejAosEIyaVObVRA=;
+	s=k20201202; t=1707608528;
+	bh=tFeQveoRiLrfsqwNncZbXzJt0Qth44vsHgw3n1Z0lF8=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=l3HS4gjjvmKBDFICblYdf/mCDKd2B6n23QNBS31VJ4psrlIcyluRH9pJs6YZpFr7Q
-	 Cb8FSTkBaDfhE7VkHeozOC7Zt2lvRBzzx4VP0q/V3UYBlQ44N53Ta8rYKnQiHJKc9A
-	 bfsnEi01Sxdyyp21hQVr30ObR6xqQrXMJL2f5MlZBKGtMSEFafKvOQAiYV7LMNhxkk
-	 VetD8ogNI5y2jttNnpj9oCjPg33z4A6Zpu2nGJx1JGrb/SoAsmDXY/p7DT4vbAbRF/
-	 PE+IKsyyyIUFFFAdU05S6C+sEzTPDH9jEG0SwxFUJ6I0yVQNrSNR9chOvGAu13/Tjm
-	 sqJybCZMHcD0w==
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-51178bbb5d9so1835786e87.2;
-        Sat, 10 Feb 2024 15:25:28 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVC1D7TV19A3kUt7RdMZT13NHnO71taTxSF4e1Jr7CwPT5Eenn0Q74SCMADRDPsJ7pnMVGb7bJp5BCPNol68k6KE1ewgA6Ovpy6HM0f
-X-Gm-Message-State: AOJu0YxeC1W6YhAcDcTOZ2ZsCFCYKQpzqrOd+88RR7rFuhWw+KgvSmic
-	kC8vPK1VmyjrC44pV13Z7jh9BvaBWQSfJNcXzYNYRyNi84x4J3FJ6b/m7DnwnO0Xh/187EjRJ56
-	1P87oCPiWRsK12Mndgk8/aH+zFC0=
-X-Google-Smtp-Source: AGHT+IGtWFeHRbAlIEu+cmwmEGyo32x4JVI+cDeJ2RCzheduLrA1ihhqotv5lI0I2KZScdx9q7GJ07d/0IY5jOXiYEA=
-X-Received: by 2002:a05:6512:308d:b0:50e:a789:dd3b with SMTP id
- z13-20020a056512308d00b0050ea789dd3bmr2628377lfd.1.1707607527331; Sat, 10 Feb
- 2024 15:25:27 -0800 (PST)
+	b=N8sfitrJHun5EHWTiV+Zk9uE6MBFV43sOsK1wsuiYVMMUJdcz6Vp/bZLhwlvmFUOT
+	 QH3iKkHx4nFkY00vyvrnSbVCDPMQFv01B+hB09STZPrZnqj7dob8TNVJ5+TbbPDfPa
+	 Rmemwde9W3hEqiyDGQrpH3vcmOJcBqtkjctTFIaNpYBvejdYHtqg9DgMVMoWB+SIke
+	 ofj/yToMLimy1zhMVkuAHAb9GLia3VgsGTvmbpKUZpWI2T7rx2ztcLmtp8JH9uvys+
+	 8QUhZV4hb51er5SbRXPnGtbtJa7V7Kq3Vd2w3nPd2/C5Sj+wnsHYFWA01kJ0z4FcQ/
+	 9c0cFjdvQSrGw==
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2d0cdbd67f0so28139971fa.3;
+        Sat, 10 Feb 2024 15:42:08 -0800 (PST)
+X-Gm-Message-State: AOJu0YwThSOfbZbrtLiYyxjB8B9PdXpK1vtvbSV7waAW7+LInYCG90IJ
+	p4P5yljlOELOMNu0+gk3Q3oMvQ7T/cHmgNxQs8LhPs/z/jq9xSXzgm/9ClLbLCjohMvrBKD5r3l
+	4XFhkIfpqahPBqllZJIve2khiy/c=
+X-Google-Smtp-Source: AGHT+IEbJqaoSU1K/Jh9ePGBhLd0QyFl6xt2h9LMrFdHvv6qvuDg0vyFqvf0hRxTlY1FOCSFhj2zXOVaAxK8ZWQxkSI=
+X-Received: by 2002:a05:6512:ba0:b0:511:6f79:46e2 with SMTP id
+ b32-20020a0565120ba000b005116f7946e2mr2646301lfv.64.1707608527006; Sat, 10
+ Feb 2024 15:42:07 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240102020405.32701-1-sunying@isrc.iscas.ac.cn>
-In-Reply-To: <20240102020405.32701-1-sunying@isrc.iscas.ac.cn>
+References: <20240207171020.41036-1-yoann.congal@smile.fr> <20240207171020.41036-2-yoann.congal@smile.fr>
+In-Reply-To: <20240207171020.41036-2-yoann.congal@smile.fr>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sun, 11 Feb 2024 08:24:50 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATCtoCEs4-S6kgGCH8XRkX+sKT3zuP-awdFJr+E1bkZww@mail.gmail.com>
-Message-ID: <CAK7LNATCtoCEs4-S6kgGCH8XRkX+sKT3zuP-awdFJr+E1bkZww@mail.gmail.com>
-Subject: Re: [PATCHv3 next] kconfig: add dependency warning print about
- invalid values in verbose mode
-To: sunying@isrc.iscas.ac.cn
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	pengpeng@iscas.ac.cn, Siyuan Guo <zy21df106@buaa.edu.cn>
+Date: Sun, 11 Feb 2024 08:41:30 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQb=n1dWdEAJy_aJWnkW2M3bR768WKpxnUv=CtBEi28Xw@mail.gmail.com>
+Message-ID: <CAK7LNAQb=n1dWdEAJy_aJWnkW2M3bR768WKpxnUv=CtBEi28Xw@mail.gmail.com>
+Subject: Re: [PATCH v5 1/3] printk: Fix LOG_CPU_MAX_BUF_SHIFT when BASE_SMALL
+ is enabled
+To: Yoann Congal <yoann.congal@smile.fr>
+Cc: linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org, x86@kernel.org, 
+	=?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>, 
+	Borislav Petkov <bp@alien8.de>, Darren Hart <dvhart@infradead.org>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, Davidlohr Bueso <dave@stgolabs.net>, 
+	Geert Uytterhoeven <geert@linux-m68k.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"H . Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>, Jiri Slaby <jirislaby@kernel.org>, 
+	John Ogness <john.ogness@linutronix.de>, Josh Triplett <josh@joshtriplett.org>, 
+	Matthew Wilcox <willy@infradead.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Petr Mladek <pmladek@suse.com>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Thomas Gleixner <tglx@linutronix.de>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Vegard Nossum <vegard.nossum@oracle.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-"in verbose mode" is stale.
-
-Please rephrase the subject.
-
-
-
-
-On Tue, Jan 2, 2024 at 11:11=E2=80=AFAM <sunying@isrc.iscas.ac.cn> wrote:
+On Thu, Feb 8, 2024 at 2:10=E2=80=AFAM Yoann Congal <yoann.congal@smile.fr>=
+ wrote:
 >
-> From: Ying Sun <sunying@isrc.iscas.ac.cn>
+> LOG_CPU_MAX_BUF_SHIFT default value depends on BASE_SMALL:
+>   config LOG_CPU_MAX_BUF_SHIFT
+>         default 12 if !BASE_SMALL
+>         default 0 if BASE_SMALL
+> But, BASE_SMALL is a config of type int and "!BASE_SMALL" is always
+> evaluated to true whatever is the value of BASE_SMALL.
 >
-> Warning in verbose mode about incorrect causes and
->  mismatch dependency of invalid values to help users correct them.
-
-Same here, "verbose mode" does not exist in this patch.
-
-
-
-
+> This patch fixes this by using the correct conditional operator for int
+> type : BASE_SMALL !=3D 0.
 >
-> Detailed warning messages are printed only when the environment variable
->  is set like "KCONFIG_WARN_CHANGED_INPUT=3D1".
-> By default, the current behavior is not changed.
+> Note: This changes CONFIG_LOG_CPU_MAX_BUF_SHIFT=3D12 to
+> CONFIG_LOG_CPU_MAX_BUF_SHIFT=3D0 for BASE_SMALL defconfigs, but that will
+> not be a big impact due to this code in kernel/printk/printk.c:
+>   /* by default this will only continue through for large > 64 CPUs */
+>   if (cpu_extra <=3D __LOG_BUF_LEN / 2)
+>           return;
+> Systems using CONFIG_BASE_SMALL and having 64+ CPUs should be quite
+> rare.
 >
-> Signed-off-by: Siyuan Guo <zy21df106@buaa.edu.cn>
-> Signed-off-by: Ying Sun <sunying@isrc.iscas.ac.cn>
+> John Ogness <john.ogness@linutronix.de> (printk reviewer) wrote:
+> > For printk this will mean that BASE_SMALL systems were probably
+> > previously allocating/using the dynamic ringbuffer and now they will
+> > just continue to use the static ringbuffer. Which is fine and saves
+> > memory (as it should).
+>
+> Petr Mladek <pmladek@suse.com> (printk maintainer) wrote:
+> > More precisely, it allocated the buffer dynamically when the sum
+> > of per-CPU-extra space exceeded half of the default static ring
+> > buffer. This happened for systems with more than 64 CPUs with
+> > the default config values.
+>
+> Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> Closes: https://lore.kernel.org/all/CAMuHMdWm6u1wX7efZQf=3D2XUAHascps76YQ=
+ac6rdnQGhc8nop_Q@mail.gmail.com/
+> Reported-by: Vegard Nossum <vegard.nossum@oracle.com>
+> Closes: https://lore.kernel.org/all/f6856be8-54b7-0fa0-1d17-39632bf29ada@=
+oracle.com/
+> Fixes: 4e244c10eab3 ("kconfig: remove unneeded symbol_empty variable")
+>
+
+
+
+All the Reviewed-by tags are dropped every time, annoyingly.
+
+
+
+
+This is equivalent to v4, which had these tags:
+
+Reviewed-by: Petr Mladek <pmladek@suse.com>
+Reviewed-by: Masahiro Yamada <masahiroy@kernel.org>
+
+
+
+
+
+
+
+
+
+
+
 > ---
-> v2 -> v3:
-> * Fixed warning message that mess up the ncurses display.
-> * Fixed memory leak where str_new() was called but str_free() was not use=
-d.
-> * Integrated the code to avoid excessive dispersion.
-> * Use the environment variable KCONFIG_WARN_CHANGED_INPUT as the switch
-
-
-
-
-This checker prints wrong reports.
-
-
-I just attached one test case.
-
-
-
-[test Kconfig]
-
-config MODULES
-       def_bool y
-       modules
-
-config FOO
-       tristate "foo"
-       depends on BAR
-
-config BAR
-       tristate "bar"
-
-config BAZ
-       tristate "baz"
-       select FOO
-
-
-[test .config]
-
-CONFIG_FOO=3Dm
-# CONFIG_BAR is not set
-CONFIG_BAZ=3Dy
-
-
-
-[test command]
-
-
-$ KCONFIG_WARN_CHANGED_INPUT=3D1 make  olddefconfig
-
-
-
-[result]
-
-
-Kconfig:8:warning: 'MODULES' set to y due to option constraints
-
-
-WARNING: unmet direct dependencies detected for FOO
-  Depends on [n]: BAR [=3Dn]
-  Selected by [y]:
-  - BAZ [=3Dy]
-Kconfig:12:warning: 'FOO' set to n for it unmet direct dependencies
- Depends on [n]: BAR [=3Dn]
-
-
-
-$ cat .config
-#
-# Automatically generated file; DO NOT EDIT.
-# Linux/x86 6.8.0-rc3 Kernel Configuration
-#
-CONFIG_MODULES=3Dy
-CONFIG_FOO=3Dy
-# CONFIG_BAR is not set
-CONFIG_BAZ=3Dy
-
-
-
-
-
-
-
-The first report
-
-  Kconfig:8:warning: 'MODULES' set to y due to option constraints
-
-should not be printed.
-
-CONFIG options without prompt can be omitted.
-
-
-
-
-The second report
-
-  Kconfig:12:warning: 'FOO' set to n for it unmet direct dependencies
-
-is completely wrong.
-
-
-
-CONFIG_FOO was changed to 'y' due to the select.
-
-
-
-
-
-One more thing,
-
-Add
-export KCONFIG_WARN_CHANGED_INPUT=3D1
-
-to scripts/kconfig/Makefile
-
-
-
-
-> v1 -> v2:
-> * Reduced the number of code lines by refactoring and simplifying the log=
-ic.
-> * Changed the print "ERROR" to "WARNING".
-> * Focused on handling dependency errors: dir_dep and rev_dep, and range e=
-rror.
->   - A downgrade from 'y' to 'm' has be warned.
->   - A new CONFIG option should not be warned.
->   - Overwriting caused by default value is not an error and is no longer =
-printed.
-> * Fixed style issues.
+> v3->v4:
+> * Fix BASE_SMALL usage instead of switching to BASE_FULL because
+>   BASE_FULL will be removed in the next patches of this series.
 > ---
-> ---
->  scripts/kconfig/confdata.c | 76 ++++++++++++++++++++++++++++++++++++++
->  1 file changed, 76 insertions(+)
+>  init/Kconfig | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
-> index f1197e672431..352774928558 100644
-> --- a/scripts/kconfig/confdata.c
-> +++ b/scripts/kconfig/confdata.c
-> @@ -195,6 +195,52 @@ static void conf_message(const char *fmt, ...)
->         va_end(ap);
->  }
->
-> +static void conf_warn_unmet_rev_dep(struct symbol *sym)
-> +{
-> +       struct gstr gs =3D str_new();
-> +       char value =3D 'n';
-> +
-> +       switch (sym->curr.tri) {
-> +       case no:
-> +               value =3D 'n';
-> +               break;
-> +       case mod:
-> +               sym_calc_value(modules_sym);
-> +               value =3D (modules_sym->curr.tri =3D=3D no) ? 'n' : 'm';
-> +               break;
-> +       case yes:
-> +               value =3D 'y';
-> +       }
-> +
-> +       str_printf(&gs,
-> +               "'%s' set to %c for it is selected\n",
-> +               sym->name, value);
-> +       expr_gstr_print_revdep(sym->rev_dep.expr, &gs, yes,
-> +                               " Selected by [y]:\n");
-> +       expr_gstr_print_revdep(sym->rev_dep.expr, &gs, mod,
-> +                               " Selected by [m]:\n");
-> +
-> +       conf_warning("%s", str_get(&gs));
-> +       str_free(&gs);
-> +}
-> +
-> +static void conf_warn_dep_error(struct symbol *sym)
-> +{
-> +       struct gstr gs =3D str_new();
-> +
-> +       str_printf(&gs,
-> +               "'%s' set to n for it unmet direct dependencies\n",
-> +               sym->name);
-> +
-> +       str_printf(&gs,
-> +               " Depends on [%c]: ",
-> +               sym->dir_dep.tri =3D=3D mod ? 'm' : 'n');
-> +       expr_gstr_print(sym->dir_dep.expr, &gs);
-> +
-> +       conf_warning("%s\n", str_get(&gs));
-> +       str_free(&gs);
-> +}
-> +
->  const char *conf_get_configname(void)
->  {
->         char *name =3D getenv("KCONFIG_CONFIG");
-> @@ -568,6 +614,36 @@ int conf_read(const char *name)
->                         continue;
->                 conf_unsaved++;
->                 /* maybe print value in verbose mode... */
-> +               if (getenv("KCONFIG_WARN_CHANGED_INPUT") && (sym->prop)) =
-{
-> +                       conf_filename =3D sym->prop->file->name;
-> +                       conf_lineno =3D sym->prop->menu->lineno;
-> +
-> +                       switch (sym->type) {
-> +                       case S_BOOLEAN:
-> +                       case S_TRISTATE:
-> +                               if (sym->def[S_DEF_USER].tri !=3D sym_get=
-_tristate_value(sym)) {
-> +                                       if (sym->dir_dep.tri < sym->def[S=
-_DEF_USER].tri)
-> +                                               conf_warn_dep_error(sym);
-> +                                       else if (sym->rev_dep.tri > sym->=
-def[S_DEF_USER].tri)
-> +                                               conf_warn_unmet_rev_dep(s=
-ym);
-> +                                       else
-> +                                               conf_warning("'%s' set to=
- %s due to option constraints\n",
-> +                                                       sym->name, sym_ge=
-t_string_value(sym));
-> +                               }
-> +                               break;
-> +                       case S_INT:
-> +                       case S_HEX:
-> +                       case S_STRING:
-> +                               if (sym->dir_dep.tri =3D=3D no && sym_has=
-_value(sym))
-> +                                       conf_warn_dep_error(sym);
-> +                               else
-> +                                       conf_warning("'%s' set to %s due =
-to option constraints\n",
-> +                                                       sym->name, sym_ge=
-t_string_value(sym));
-> +                               break;
-> +                       default:
-> +                               break;
-> +                       }
-> +               }
->         }
->
->         for_all_symbols(i, sym) {
+> diff --git a/init/Kconfig b/init/Kconfig
+> index deda3d14135bb..d50ebd2a2ce42 100644
+> --- a/init/Kconfig
+> +++ b/init/Kconfig
+> @@ -734,8 +734,8 @@ config LOG_CPU_MAX_BUF_SHIFT
+>         int "CPU kernel log buffer size contribution (13 =3D> 8 KB, 17 =
+=3D> 128KB)"
+>         depends on SMP
+>         range 0 21
+> -       default 12 if !BASE_SMALL
+> -       default 0 if BASE_SMALL
+> +       default 0 if BASE_SMALL !=3D 0
+> +       default 12
+>         depends on PRINTK
+>         help
+>           This option allows to increase the default ring buffer size
 > --
-> 2.43.0
+> 2.39.2
 >
 >
 
 
 --
 Best Regards
-
-
 Masahiro Yamada
 
