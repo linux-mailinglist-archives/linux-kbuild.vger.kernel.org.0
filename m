@@ -1,151 +1,170 @@
-Return-Path: <linux-kbuild+bounces-884-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-885-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64F9F850756
-	for <lists+linux-kbuild@lfdr.de>; Sun, 11 Feb 2024 00:48:11 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F18FD85093F
+	for <lists+linux-kbuild@lfdr.de>; Sun, 11 Feb 2024 13:42:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 103B21F23D6C
-	for <lists+linux-kbuild@lfdr.de>; Sat, 10 Feb 2024 23:48:11 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2F50A1C20753
+	for <lists+linux-kbuild@lfdr.de>; Sun, 11 Feb 2024 12:42:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7F5C5FBAF;
-	Sat, 10 Feb 2024 23:48:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6525859B45;
+	Sun, 11 Feb 2024 12:41:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bxGW1cnT"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mw52ZIKc"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E8EE273FE;
-	Sat, 10 Feb 2024 23:48:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3796659149;
+	Sun, 11 Feb 2024 12:41:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707608886; cv=none; b=RA4X48AXJS+rZwHKrNKNe3ALbFF4w6bT9oh+obiCMAmIZvQz89/1RJHUkqIwnLSJ+CpmngdVPbtE8Wdicdb7l/Zt/aU6PZFzEEZafu2poYo6GeSPAHZ7kvt8f7k47s3HhjlI2QmmujxtYV30xL/bAChGJgG9dLQf8/rTCi04wXo=
+	t=1707655272; cv=none; b=KXR/sPfe2jrPBWkal05FJFIOuvybwGf1H8nV2gOdJrCF/eixDUWKHOK+4uJCGVtbCJT8PcUV0fSWBDJNef9idlU3IF4uELXnOoFd2YoxK7oy9rACPS9aY/urjKWXgYdcX58bOENzq0rNWVOm5Lym92D8Hk7SWwaFSxVWLs/OHQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707608886; c=relaxed/simple;
-	bh=dYZD4WI7tWl+bu33ScNByuHp4m0cumdmH+nlOirGBXo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=m2Bn1BnBWsmLNXNPE2023DmZWiQYrV9QHijfMtC0xn9E78FXXy53i93oTib7NWIogLRp/JHRgrb0tOY/jwJq0440MclcI+fX3K7b0TT6ZOrEtPI3Cyz2iwkZ5GjdzoHfKbcHP1ZYtkW1Jboyp5m1xiQEuSJ68p1Zcs9wd2B41qY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bxGW1cnT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E029C433C7;
-	Sat, 10 Feb 2024 23:48:06 +0000 (UTC)
+	s=arc-20240116; t=1707655272; c=relaxed/simple;
+	bh=IgiCGgj/rOMnOunox9MFGVkrzA1V8Ly9pLePgk7MAZo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=i3fWbMTJpcQZHGkAlqaCVyC07WKjXbCG6sWnhSrRJUwNsm1cN5DNlvnBynZXrdPac4TLexK/gGC00uFUS7qT4vyt2+zf0VOPOCsZjF16bQcAkT/C6xfN7mq2pj+TRAE2KOn9aJXTj9TOFMuQOqdWf185M1evttdd4z4ebWOtK90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mw52ZIKc; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEB13C433C7;
+	Sun, 11 Feb 2024 12:41:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707608886;
-	bh=dYZD4WI7tWl+bu33ScNByuHp4m0cumdmH+nlOirGBXo=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=bxGW1cnTG9BwW8XVxe3xT1JAzL+DfdiPiVFfvslLtAkH/ApAs35kV0ZX6C8av4iu6
-	 JlhotsfxIyRvpQbmYJG5Le4i9nQLDkxghntgQvcvoi9j2OBLa/RkvQSfrnZ2MNmUFv
-	 JXvKyL/dvLo/rRaeAGwsKQI0/WixMMOOIh0oEd3JIW0Z0c/PRt/DFLhC0r82e941rt
-	 JGzQ0HWREZvKRh8QCPK3IXRKy8BkkcgFo+B5xTh+wdm8cAwbmAMgBngGZunXs9HTSB
-	 SJtcWZ8nYkeDutzMAZRT6cy3YyPPybyd3B5XEXVi2tEsPMHXDw6TW+TEpFi7zZa7Dn
-	 MIAKpx4Zi18sA==
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-51182ece518so657954e87.3;
-        Sat, 10 Feb 2024 15:48:06 -0800 (PST)
-X-Gm-Message-State: AOJu0YzIpncK9FTs1Gx7eOT99lVTLDpedBc2/EKt36cUbO3fCDFil/7k
-	fS6lg73uPCk2SsUHlYLe0INaDyCKKREDbdFoOzfJe3D132mSFkubjO3dAyFohmvA0c4Mdy6Kc4Q
-	S0q73Ks01xK2swmxGeM2WEQTswc4=
-X-Google-Smtp-Source: AGHT+IE1M/QFz/lQt1QS3fwRw8lwklZEkFaHSNp8stPFixImZ7zW0Ru4GlxHTd6Y0FDeCmta4rVcocHXHzzjXPuCNMc=
-X-Received: by 2002:ac2:4850:0:b0:511:8692:12 with SMTP id 16-20020ac24850000000b0051186920012mr909565lfy.4.1707608884733;
- Sat, 10 Feb 2024 15:48:04 -0800 (PST)
+	s=k20201202; t=1707655271;
+	bh=IgiCGgj/rOMnOunox9MFGVkrzA1V8Ly9pLePgk7MAZo=;
+	h=From:To:Cc:Subject:Date:From;
+	b=mw52ZIKcgUE4a4x2s3lmZWiam+3TqQ+DGdGllCMmEfdfZDKgBXO/M75yuBWKzT0eP
+	 K3g+fxR52ZiD4WlwyseGwSBKA9yRR4xL9Zk2w/WHRScxEJ8cYvnirIhdYRWsoVincl
+	 FYF9Hi15jS/NRsAmHG5Xd9jr/ObjPVjrRLDhcxDaNCnJ7VXH+dtt8QMdZu4I7sTAuS
+	 0Kjr0hDOarYrlfrzX7aUdaIZw7ALdoRcALFKXBlVhKnLzbCwxgseSBuPXb8YJClQZ0
+	 1tzl6ffCy/2kPI7+jMdwPKfKcUHRspz0JKGzPr8HqNB5fwov90cEVgOEnINf53k63h
+	 VLkyhq+mToCKQ==
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: linux-kbuild@vger.kernel.org
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] kconfig: print recursive dependency errors in the parsed order
+Date: Sun, 11 Feb 2024 21:41:04 +0900
+Message-Id: <20240211124105.29363-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240202155825.314567-1-masahiroy@kernel.org>
-In-Reply-To: <20240202155825.314567-1-masahiroy@kernel.org>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sun, 11 Feb 2024 08:47:28 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAT-C8oWixYji5ejWm=k5ZAx6Z0mPye3Zuc3tjJfT08_Rg@mail.gmail.com>
-Message-ID: <CAK7LNAT-C8oWixYji5ejWm=k5ZAx6Z0mPye3Zuc3tjJfT08_Rg@mail.gmail.com>
-Subject: Re: [PATCH 00/27] kconfig: refactor lexer and parser code
-To: linux-kbuild@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sat, Feb 3, 2024 at 12:58=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
->
-> Random fixes, cleanups, etc.
->
-> Masahiro Yamada (27):
->   kconfig: fix infinite loop when expanding a macro at the end of file
->   kconfig: fix off-by-one in zconf_error()
->   kconfig: remove orphan lookup_file() declaration
->   kconfig: remove compat_getline()
->   kconfig: remove unneeded sym_find() call in conf_parse()
->   kconfig: write Kconfig files to autoconf.cmd in order
->   kconfig: call env_write_dep() right after yyparse()
->   kconfig: split preprocessor prototypes into preprocess.h
->   kconfig: replace current_pos with separate cur_{filename,lineno}
->   kconfig: remove zconf_curname() and zconf_lineno()
->   kconfig: associate struct menu with file name directly
->   kconfig: associate struct property with file name directly
->   kconfig: replace file->name with name in zconf_nextfile()
->   kconfig: do not delay the cur_filename update
->   kconfig: replace remaining current_file->name with cur_filename
->   kconfig: move the file and lineno in struct file to struct buffer
->   kconfig: make file::name a flexible array member
->   kconfig: change file_lookup() to return the file name
->   kconfig: split list_head into a separate header
->   kconfig: resync list.h
->   kconfig: import more list macros and inline functions
->   kconfig: add macros useful for hashtable
->   kconfig: move ARRAY_SIZE to a header
->   kconfig: move strhash() to a header
->   kconfig: convert linked list of files to hash table
->   kconfig: use generic macros to implement symbol hashtable
->   kconfig: do not imply the type of choice value
+for_all_symbols() iterates in the symbol hash table. The order of
+iteration depends on the hash table implementation.
 
+If you use it for printing errors, they are shown in random order.
 
-Applied except 26/27.
+For example, the order of following test input and the corresponding
+error do not match:
+ - scripts/kconfig/tests/err_recursive_dep/Kconfig
+ - scripts/kconfig/tests/err_recursive_dep/expected_stderr
 
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-26/27 breaks 'make testconfig'.
-I will do a respin for 26/27 later.
+ scripts/kconfig/parser.y                      | 20 ++++++++++++----
+ .../tests/err_recursive_dep/expected_stderr   | 24 +++++++++----------
+ 2 files changed, 28 insertions(+), 16 deletions(-)
 
+diff --git a/scripts/kconfig/parser.y b/scripts/kconfig/parser.y
+index e58c24d2e5ab..efd0e234e0d2 100644
+--- a/scripts/kconfig/parser.y
++++ b/scripts/kconfig/parser.y
+@@ -473,8 +473,7 @@ assign_val:
+ 
+ void conf_parse(const char *name)
+ {
+-	struct symbol *sym;
+-	int i;
++	struct menu *menu;
+ 
+ 	autoconf_cmd = str_new();
+ 
+@@ -517,10 +516,23 @@ void conf_parse(const char *name)
+ 	}
+ 
+ 	menu_finalize(&rootmenu);
+-	for_all_symbols(i, sym) {
+-		if (sym_check_deps(sym))
++
++	menu = &rootmenu;
++	while (menu) {
++		if (menu->sym && sym_check_deps(menu->sym))
+ 			yynerrs++;
++
++		if (menu->list) {
++			menu = menu->list;
++			continue;
++		}
++
++		while (!menu->next && menu->parent)
++			menu = menu->parent;
++
++		menu = menu->next;
+ 	}
++
+ 	if (yynerrs)
+ 		exit(1);
+ 	conf_set_changed(true);
+diff --git a/scripts/kconfig/tests/err_recursive_dep/expected_stderr b/scripts/kconfig/tests/err_recursive_dep/expected_stderr
+index c9f4abf9a791..05d4ced70320 100644
+--- a/scripts/kconfig/tests/err_recursive_dep/expected_stderr
++++ b/scripts/kconfig/tests/err_recursive_dep/expected_stderr
+@@ -1,10 +1,10 @@
+-Kconfig:11:error: recursive dependency detected!
+-Kconfig:11:	symbol B is selected by B
++Kconfig:5:error: recursive dependency detected!
++Kconfig:5:	symbol A depends on A
+ For a resolution refer to Documentation/kbuild/kconfig-language.rst
+ subsection "Kconfig recursive dependency limitations"
+ 
+-Kconfig:5:error: recursive dependency detected!
+-Kconfig:5:	symbol A depends on A
++Kconfig:11:error: recursive dependency detected!
++Kconfig:11:	symbol B is selected by B
+ For a resolution refer to Documentation/kbuild/kconfig-language.rst
+ subsection "Kconfig recursive dependency limitations"
+ 
+@@ -14,9 +14,9 @@ Kconfig:21:	symbol C2 depends on C1
+ For a resolution refer to Documentation/kbuild/kconfig-language.rst
+ subsection "Kconfig recursive dependency limitations"
+ 
+-Kconfig:32:error: recursive dependency detected!
+-Kconfig:32:	symbol D2 is selected by D1
++Kconfig:27:error: recursive dependency detected!
+ Kconfig:27:	symbol D1 depends on D2
++Kconfig:32:	symbol D2 is selected by D1
+ For a resolution refer to Documentation/kbuild/kconfig-language.rst
+ subsection "Kconfig recursive dependency limitations"
+ 
+@@ -26,13 +26,13 @@ Kconfig:42:	symbol E2 is implied by E1
+ For a resolution refer to Documentation/kbuild/kconfig-language.rst
+ subsection "Kconfig recursive dependency limitations"
+ 
++Kconfig:49:error: recursive dependency detected!
++Kconfig:49:	symbol F1 default value contains F2
++Kconfig:51:	symbol F2 depends on F1
++For a resolution refer to Documentation/kbuild/kconfig-language.rst
++subsection "Kconfig recursive dependency limitations"
++
+ Kconfig:60:error: recursive dependency detected!
+ Kconfig:60:	symbol G depends on G
+ For a resolution refer to Documentation/kbuild/kconfig-language.rst
+ subsection "Kconfig recursive dependency limitations"
+-
+-Kconfig:51:error: recursive dependency detected!
+-Kconfig:51:	symbol F2 depends on F1
+-Kconfig:49:	symbol F1 default value contains F2
+-For a resolution refer to Documentation/kbuild/kconfig-language.rst
+-subsection "Kconfig recursive dependency limitations"
+-- 
+2.40.1
 
-
-
-
->  scripts/kconfig/array_size.h |  11 ++
->  scripts/kconfig/conf.c       |  12 +-
->  scripts/kconfig/confdata.c   |  91 +++----------
->  scripts/kconfig/expr.h       |  24 +---
->  scripts/kconfig/hashtable.h  |  48 +++++++
->  scripts/kconfig/internal.h   |  12 ++
->  scripts/kconfig/lexer.l      | 100 +++++++-------
->  scripts/kconfig/list.h       | 254 ++++++++++++++++++++++++++---------
->  scripts/kconfig/list_types.h |  17 +++
->  scripts/kconfig/lkc.h        |   5 +-
->  scripts/kconfig/lkc_proto.h  |  15 ---
->  scripts/kconfig/mconf.c      |   1 +
->  scripts/kconfig/menu.c       |  24 ++--
->  scripts/kconfig/nconf.c      |   1 +
->  scripts/kconfig/parser.y     |  92 +++++++------
->  scripts/kconfig/preprocess.c |  23 ++--
->  scripts/kconfig/preprocess.h |  19 +++
->  scripts/kconfig/qconf.cc     |   2 +-
->  scripts/kconfig/symbol.c     |  46 +++----
->  scripts/kconfig/util.c       |  38 ++++--
->  scripts/kconfig/util.h       |  15 +++
->  21 files changed, 511 insertions(+), 339 deletions(-)
->  create mode 100644 scripts/kconfig/array_size.h
->  create mode 100644 scripts/kconfig/hashtable.h
->  create mode 100644 scripts/kconfig/list_types.h
->  create mode 100644 scripts/kconfig/preprocess.h
->  create mode 100644 scripts/kconfig/util.h
->
-> --
-> 2.40.1
->
-
-
---=20
-Best Regards
-Masahiro Yamada
 
