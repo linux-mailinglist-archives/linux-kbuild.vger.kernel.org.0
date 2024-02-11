@@ -1,56 +1,53 @@
-Return-Path: <linux-kbuild+bounces-886-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-887-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BF3C850941
-	for <lists+linux-kbuild@lfdr.de>; Sun, 11 Feb 2024 13:42:22 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED54B85094B
+	for <lists+linux-kbuild@lfdr.de>; Sun, 11 Feb 2024 13:48:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 322D32870C6
-	for <lists+linux-kbuild@lfdr.de>; Sun, 11 Feb 2024 12:42:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A39712879B9
+	for <lists+linux-kbuild@lfdr.de>; Sun, 11 Feb 2024 12:48:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6662C5B1F9;
-	Sun, 11 Feb 2024 12:41:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17B1B5A7BF;
+	Sun, 11 Feb 2024 12:48:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HDpFEovS"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R1u8ieZC"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BFFC5B053;
-	Sun, 11 Feb 2024 12:41:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E35255A798;
+	Sun, 11 Feb 2024 12:48:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707655273; cv=none; b=CQyvPEhvaDNVJp2gjGyA3RLBX2NiZVozRLLXX5UE3rUcv4AXHgjnaIQJOJmWIo9lLUNG8qkaRv2lztKKDW9JDiS9KUKPULTPNPjxAwUbjARx8NNaEJPiJCEs15NIET7awgdT5o/gnyNhA4nKyYAn4FVP8bIW0/fTFrysoBcYxCY=
+	t=1707655693; cv=none; b=lQXJ41s9tgC4s/vbNXe96wqk0syXrjZQQmMZnHuKjkKvrAZhD7wQTN6OwkaeikXbGkbNuONZW9hGcbmGinC0Gr52y3L5CwlQKZdhr7Fb71OrmustQCkwNSC+WAyO/BGq86g8w67hlq/8gcF+JVec20AnGjA5Rhdn8SAtRZZt2J8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707655273; c=relaxed/simple;
-	bh=DHTaw0A/DHD3RfxzoqZvFzVkcc+o/cvMO+JI8Q6ldCM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=KC89okY7ev4xWb3HkYaIYF3O2QpZqnbr9H5QxyROx2sT7k3/r+R2bqooTb9+PX/oDeYlTSFrctrQ/WjBjiuLJRzp9yVZHMpDdu4abg9HTOlXRNosGmz3oUwQI54ei+lh/zEFFsJZrRdUPK1tHPRBvPZYB7z6f3A6zv3pYjGmqAk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HDpFEovS; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23DD9C433F1;
-	Sun, 11 Feb 2024 12:41:12 +0000 (UTC)
+	s=arc-20240116; t=1707655693; c=relaxed/simple;
+	bh=u6Mr5fGJF0iXCgWKx7kfEEggUpwMa4m5ClOplGj1NMk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=pMHztJgBS0m3+Z87wk2f1pYBEnvB5mowUKTL50WKph4UDqurc6Dman7KNiyobhKhoI3Xsaz7ayCVwNQaEnRqiNy1VNDkibeDfhoAxtT1GEMU4YqI0z/3hWzWBYbY3I2JJZIM6qq588m7BEVKBiDg1x6yKLPT/IaBfp1YQ6X0KKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R1u8ieZC; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DD01C433A6;
+	Sun, 11 Feb 2024 12:48:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707655273;
-	bh=DHTaw0A/DHD3RfxzoqZvFzVkcc+o/cvMO+JI8Q6ldCM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=HDpFEovSdYevpA3QzRG0WpGp5bFehtaLfRwtRTAvoqDNO3q8Q+QySR5/s74Ajq+Ty
-	 YYnhmNr28wB7W2i2+ajNwevudM5yPDUVTCXkez0h/psSdNkB/y1heN/a2G6ixUUeJ5
-	 y2ECvXke1oj6rv2QbCqiTF4vJq5vbnT7ZcSOjJ7o0IJtG0vqMMoqrALaDTJlEz3qpb
-	 Nw6cE0q7J2KwLi8w4OcRiiuJO1Xt9/MoYBr+kPo9peJxfVzGsVnL7zOYqhD0EyYpXR
-	 n8VfTXboxyCSYJNojdEIpD5dNJuZ53+M6dzGtEmdzT9biuH80teGLWcFCoyNiSf6lT
-	 dNilGDm4DUCLg==
+	s=k20201202; t=1707655692;
+	bh=u6Mr5fGJF0iXCgWKx7kfEEggUpwMa4m5ClOplGj1NMk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=R1u8ieZCv1rESQTEOGiw9GmxmnNG/xBLov1SuwjF1ZMCvxTAw7EUjYwa5wUHCjbnj
+	 CztntfcqgwqX2DmglXLqu71BNq7dqIV5hdo3IepjjfffKPKEfUHyHJq1HTMc8T+/4E
+	 +TRgFvo7inEbHB9gXNdKSjSwu7OLSjAQkLOLi/cIJ9GuKo4cNhUcFqlchMdUHY+0aT
+	 OKQquO2Dj809asvWXqeWRuXMNTAvq9CM28ANP78TWeWg+67VNv1S2KBHj2yexuwph6
+	 eCElCM89gC18iT2zteir5nzG6bFI1ANJagQmx9j72h9ecJB0Bmc7G6Bl+iq4KkO78h
+	 d1Slea1HhStqw==
 From: Masahiro Yamada <masahiroy@kernel.org>
 To: linux-kbuild@vger.kernel.org
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] kconfig: use generic macros to implement symbol hashtable
-Date: Sun, 11 Feb 2024 21:41:05 +0900
-Message-Id: <20240211124105.29363-2-masahiroy@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH] treewide: replace or remove redundant def_bool in Kconfig files
+Date: Sun, 11 Feb 2024 21:48:08 +0900
+Message-Id: <20240211124808.30313-1-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20240211124105.29363-1-masahiroy@kernel.org>
-References: <20240211124105.29363-1-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -59,380 +56,208 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use helper macros in hashtable.h for generic hashtable implementation.
+'def_bool X' is a shorthand for 'bool' plus 'default X'.
 
-We can git rid of the hash head index of for_all_symbols().
+The type definition is redundant where 'bool' is already present, so
+'def_bool X' can be replaced with 'default X', or removed if X is 'n'.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/kconfig/conf.c      | 12 ++++++------
- scripts/kconfig/confdata.c  | 25 ++++++++++++-------------
- scripts/kconfig/expr.h      |  9 ++++-----
- scripts/kconfig/internal.h  |  9 +++++++++
- scripts/kconfig/lkc_proto.h |  2 --
- scripts/kconfig/parser.y    |  2 --
- scripts/kconfig/symbol.c    | 22 +++++++++++-----------
- 7 files changed, 42 insertions(+), 39 deletions(-)
+ arch/parisc/Kconfig                   | 4 ++--
+ arch/riscv/kernel/tests/Kconfig.debug | 2 +-
+ arch/x86/kvm/Kconfig                  | 2 +-
+ arch/x86/xen/Kconfig                  | 1 -
+ drivers/acpi/Kconfig                  | 1 -
+ drivers/iommu/intel/Kconfig           | 2 +-
+ drivers/md/Kconfig                    | 1 -
+ init/Kconfig                          | 2 +-
+ lib/Kconfig.debug                     | 2 +-
+ mm/Kconfig                            | 7 +++----
+ net/dccp/ccids/Kconfig                | 2 +-
+ 11 files changed, 11 insertions(+), 15 deletions(-)
 
-diff --git a/scripts/kconfig/conf.c b/scripts/kconfig/conf.c
-index 662a5e7c37c2..b5730061872b 100644
---- a/scripts/kconfig/conf.c
-+++ b/scripts/kconfig/conf.c
-@@ -14,6 +14,7 @@
- #include <sys/time.h>
- #include <errno.h>
+diff --git a/arch/parisc/Kconfig b/arch/parisc/Kconfig
+index 5c845e8d59d9..03ce7e185935 100644
+--- a/arch/parisc/Kconfig
++++ b/arch/parisc/Kconfig
+@@ -237,9 +237,9 @@ config PARISC_HUGE_KERNEL
+ 	def_bool y if !MODULES || UBSAN || FTRACE || COMPILE_TEST
  
-+#include "internal.h"
- #include "lkc.h"
+ config MLONGCALLS
+-	def_bool y if PARISC_HUGE_KERNEL
+ 	bool "Enable the -mlong-calls compiler option for big kernels" if !PARISC_HUGE_KERNEL
+ 	depends on PA8X00
++	default PARISC_HUGE_KERNEL
+ 	help
+ 	  If you configure the kernel to include many drivers built-in instead
+ 	  as modules, the kernel executable may become too big, so that the
+@@ -254,9 +254,9 @@ config MLONGCALLS
+ 	  Enabling this option will probably slow down your kernel.
  
- static void conf(struct menu *menu);
-@@ -171,7 +172,7 @@ enum conf_def_mode {
- static bool conf_set_all_new_symbols(enum conf_def_mode mode)
- {
- 	struct symbol *sym, *csym;
--	int i, cnt;
-+	int cnt;
- 	/*
- 	 * can't go as the default in switch-case below, otherwise gcc whines
- 	 * about -Wmaybe-uninitialized
-@@ -226,7 +227,7 @@ static bool conf_set_all_new_symbols(enum conf_def_mode mode)
- 		}
- 	}
+ config 64BIT
+-	def_bool y if "$(ARCH)" = "parisc64"
+ 	bool "64-bit kernel" if "$(ARCH)" = "parisc"
+ 	depends on PA8X00
++	default "$(ARCH)" = "parisc64"
+ 	help
+ 	  Enable this if you want to support 64bit kernel on PA-RISC platform.
  
--	for_all_symbols(i, sym) {
-+	for_all_symbols(sym) {
- 		if (sym_has_value(sym) || sym->flags & SYMBOL_VALID)
- 			continue;
- 		switch (sym_get_type(sym)) {
-@@ -278,14 +279,14 @@ static bool conf_set_all_new_symbols(enum conf_def_mode mode)
- 	 * and the rest to no.
- 	 */
- 	if (mode != def_random) {
--		for_all_symbols(i, csym) {
-+		for_all_symbols(csym) {
- 			if ((sym_is_choice(csym) && !sym_has_value(csym)) ||
- 			    sym_is_choice_value(csym))
- 				csym->flags |= SYMBOL_NEED_SET_CHOICE_VALUES;
- 		}
- 	}
+diff --git a/arch/riscv/kernel/tests/Kconfig.debug b/arch/riscv/kernel/tests/Kconfig.debug
+index 5dba64e8e977..78cea5d2c270 100644
+--- a/arch/riscv/kernel/tests/Kconfig.debug
++++ b/arch/riscv/kernel/tests/Kconfig.debug
+@@ -6,7 +6,7 @@ config AS_HAS_ULEB128
  
--	for_all_symbols(i, csym) {
-+	for_all_symbols(csym) {
- 		if (sym_has_value(csym) || !sym_is_choice(csym))
- 			continue;
+ menuconfig RUNTIME_KERNEL_TESTING_MENU
+        bool "arch/riscv/kernel runtime Testing"
+-       def_bool y
++       default y
+        help
+          Enable riscv kernel runtime testing.
  
-@@ -304,9 +305,8 @@ static bool conf_set_all_new_symbols(enum conf_def_mode mode)
- static void conf_rewrite_tristates(tristate old_val, tristate new_val)
- {
- 	struct symbol *sym;
--	int i;
+diff --git a/arch/x86/kvm/Kconfig b/arch/x86/kvm/Kconfig
+index 87e3da7b0439..d72be552c86d 100644
+--- a/arch/x86/kvm/Kconfig
++++ b/arch/x86/kvm/Kconfig
+@@ -119,8 +119,8 @@ config KVM_AMD
+ 	  will be called kvm-amd.
  
--	for_all_symbols(i, sym) {
-+	for_all_symbols(sym) {
- 		if (sym_get_type(sym) == S_TRISTATE &&
- 		    sym->def[S_DEF_USER].tri == old_val)
- 			sym->def[S_DEF_USER].tri = new_val;
-diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
-index dafc572e7b7e..c5b6487d68ac 100644
---- a/scripts/kconfig/confdata.c
-+++ b/scripts/kconfig/confdata.c
-@@ -18,6 +18,7 @@
- #include <time.h>
- #include <unistd.h>
+ config KVM_AMD_SEV
+-	def_bool y
+ 	bool "AMD Secure Encrypted Virtualization (SEV) support"
++	default y
+ 	depends on KVM_AMD && X86_64
+ 	depends on CRYPTO_DEV_SP_PSP && !(KVM_AMD=y && CRYPTO_DEV_CCP_DD=m)
+ 	help
+diff --git a/arch/x86/xen/Kconfig b/arch/x86/xen/Kconfig
+index a65fc2ae15b4..77e788e928cd 100644
+--- a/arch/x86/xen/Kconfig
++++ b/arch/x86/xen/Kconfig
+@@ -81,7 +81,6 @@ config XEN_PVH
+ 	bool "Xen PVH guest support"
+ 	depends on XEN && XEN_PVHVM && ACPI
+ 	select PVH
+-	def_bool n
+ 	help
+ 	  Support for running as a Xen PVH guest.
  
-+#include "internal.h"
- #include "lkc.h"
+diff --git a/drivers/acpi/Kconfig b/drivers/acpi/Kconfig
+index 3c3f8037ebed..8ce591679d50 100644
+--- a/drivers/acpi/Kconfig
++++ b/drivers/acpi/Kconfig
+@@ -474,7 +474,6 @@ config ACPI_BGRT
  
- struct gstr autoconf_cmd;
-@@ -322,7 +323,7 @@ int conf_read_simple(const char *name, int def)
- 	size_t  line_asize = 0;
- 	char *p, *val;
- 	struct symbol *sym;
--	int i, def_flags;
-+	int def_flags;
- 	const char *warn_unknown, *sym_name;
+ config ACPI_REDUCED_HARDWARE_ONLY
+ 	bool "Hardware-reduced ACPI support only" if EXPERT
+-	def_bool n
+ 	help
+ 	  This config item changes the way the ACPI code is built.  When this
+ 	  option is selected, the kernel will use a specialized version of
+diff --git a/drivers/iommu/intel/Kconfig b/drivers/iommu/intel/Kconfig
+index 012cd2541a68..95d9f4e1a176 100644
+--- a/drivers/iommu/intel/Kconfig
++++ b/drivers/iommu/intel/Kconfig
+@@ -97,8 +97,8 @@ config INTEL_IOMMU_SCALABLE_MODE_DEFAULT_ON
+ 	  the default value.
  
- 	warn_unknown = getenv("KCONFIG_WARN_UNKNOWN_SYMBOLS");
-@@ -380,7 +381,7 @@ int conf_read_simple(const char *name, int def)
- 	conf_warnings = 0;
+ config INTEL_IOMMU_PERF_EVENTS
+-	def_bool y
+ 	bool "Intel IOMMU performance events"
++	default y
+ 	depends on INTEL_IOMMU && PERF_EVENTS
+ 	help
+ 	  Selecting this option will enable the performance monitoring
+diff --git a/drivers/md/Kconfig b/drivers/md/Kconfig
+index a743e2c572fc..0392154bbcab 100644
+--- a/drivers/md/Kconfig
++++ b/drivers/md/Kconfig
+@@ -519,7 +519,6 @@ config DM_VERITY
+ 	  If unsure, say N.
  
- 	def_flags = SYMBOL_DEF << def;
--	for_all_symbols(i, sym) {
-+	for_all_symbols(sym) {
- 		sym->flags |= SYMBOL_CHANGED;
- 		sym->flags &= ~(def_flags|SYMBOL_VALID);
- 		if (sym_is_choice(sym))
-@@ -489,7 +490,6 @@ int conf_read(const char *name)
- {
- 	struct symbol *sym;
- 	int conf_unsaved = 0;
--	int i;
+ config DM_VERITY_VERIFY_ROOTHASH_SIG
+-	def_bool n
+ 	bool "Verity data device root hash signature verification support"
+ 	depends on DM_VERITY
+ 	select SYSTEM_DATA_VERIFICATION
+diff --git a/init/Kconfig b/init/Kconfig
+index 55b7dd252fa8..4697b2f7e6a6 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -1490,7 +1490,7 @@ config MULTIUSER
  
- 	conf_set_changed(false);
+ config SGETMASK_SYSCALL
+ 	bool "sgetmask/ssetmask syscalls support" if EXPERT
+-	def_bool PARISC || M68K || PPC || MIPS || X86 || SPARC || MICROBLAZE || SUPERH
++	default PARISC || M68K || PPC || MIPS || X86 || SPARC || MICROBLAZE || SUPERH
+ 	help
+ 	  sys_sgetmask and sys_ssetmask are obsolete system calls
+ 	  no longer supported in libc but still enabled by default in some
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index 975a07f9f1cc..e9b3b9543661 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -2127,7 +2127,7 @@ config KCOV_IRQ_AREA_SIZE
  
-@@ -500,7 +500,7 @@ int conf_read(const char *name)
+ menuconfig RUNTIME_TESTING_MENU
+ 	bool "Runtime Testing"
+-	def_bool y
++	default y
  
- 	sym_calc_value(modules_sym);
+ if RUNTIME_TESTING_MENU
  
--	for_all_symbols(i, sym) {
-+	for_all_symbols(sym) {
- 		sym_calc_value(sym);
- 		if (sym_is_choice(sym) || (sym->flags & SYMBOL_NO_WRITE))
- 			continue;
-@@ -524,7 +524,7 @@ int conf_read(const char *name)
- 		/* maybe print value in verbose mode... */
- 	}
+diff --git a/mm/Kconfig b/mm/Kconfig
+index ffc3a2ba3a8c..4914eb3216fc 100644
+--- a/mm/Kconfig
++++ b/mm/Kconfig
+@@ -599,7 +599,7 @@ config MEMORY_BALLOON
+ # support for memory balloon compaction
+ config BALLOON_COMPACTION
+ 	bool "Allow for balloon memory compaction/migration"
+-	def_bool y
++	default y
+ 	depends on COMPACTION && MEMORY_BALLOON
+ 	help
+ 	  Memory fragmentation introduced by ballooning might reduce
+@@ -614,7 +614,7 @@ config BALLOON_COMPACTION
+ # support for memory compaction
+ config COMPACTION
+ 	bool "Allow for memory compaction"
+-	def_bool y
++	default y
+ 	select MIGRATION
+ 	depends on MMU
+ 	help
+@@ -637,7 +637,6 @@ config COMPACT_UNEVICTABLE_DEFAULT
+ # support for free page reporting
+ config PAGE_REPORTING
+ 	bool "Free page reporting"
+-	def_bool n
+ 	help
+ 	  Free page reporting allows for the incremental acquisition of
+ 	  free pages from the buddy allocator for the purpose of reporting
+@@ -649,7 +648,7 @@ config PAGE_REPORTING
+ #
+ config MIGRATION
+ 	bool "Page migration"
+-	def_bool y
++	default y
+ 	depends on (NUMA || ARCH_ENABLE_MEMORY_HOTREMOVE || COMPACTION || CMA) && MMU
+ 	help
+ 	  Allows the migration of the physical location of pages of processes
+diff --git a/net/dccp/ccids/Kconfig b/net/dccp/ccids/Kconfig
+index a3eeb84d16f9..e3d388c33d25 100644
+--- a/net/dccp/ccids/Kconfig
++++ b/net/dccp/ccids/Kconfig
+@@ -13,7 +13,7 @@ config IP_DCCP_CCID2_DEBUG
  
--	for_all_symbols(i, sym) {
-+	for_all_symbols(sym) {
- 		if (sym_has_value(sym) && !sym_is_choice_value(sym)) {
- 			/* Reset values of generates values, so they'll appear
- 			 * as new, if they should become visible, but that
-@@ -862,7 +862,6 @@ int conf_write(const char *name)
- 	const char *str;
- 	char tmpname[PATH_MAX + 1], oldname[PATH_MAX + 1];
- 	char *env;
--	int i;
- 	bool need_newline = false;
- 
- 	if (!name)
-@@ -946,7 +945,7 @@ int conf_write(const char *name)
- 	}
- 	fclose(out);
- 
--	for_all_symbols(i, sym)
-+	for_all_symbols(sym)
- 		sym->flags &= ~SYMBOL_WRITTEN;
- 
- 	if (*tmpname) {
-@@ -1016,7 +1015,7 @@ static int conf_touch_deps(void)
- {
- 	const char *name, *tmp;
- 	struct symbol *sym;
--	int res, i;
-+	int res;
- 
- 	name = conf_get_autoconfig_name();
- 	tmp = strrchr(name, '/');
-@@ -1030,7 +1029,7 @@ static int conf_touch_deps(void)
- 	conf_read_simple(name, S_DEF_AUTO);
- 	sym_calc_value(modules_sym);
- 
--	for_all_symbols(i, sym) {
-+	for_all_symbols(sym) {
- 		sym_calc_value(sym);
- 		if ((sym->flags & SYMBOL_NO_WRITE) || !sym->name)
- 			continue;
-@@ -1096,7 +1095,7 @@ static int __conf_write_autoconf(const char *filename,
- 	char tmp[PATH_MAX];
- 	FILE *file;
- 	struct symbol *sym;
--	int ret, i;
-+	int ret;
- 
- 	if (make_parent_dir(filename))
- 		return -1;
-@@ -1113,7 +1112,7 @@ static int __conf_write_autoconf(const char *filename,
- 
- 	conf_write_heading(file, comment_style);
- 
--	for_all_symbols(i, sym)
-+	for_all_symbols(sym)
- 		if ((sym->flags & SYMBOL_WRITE) && sym->name)
- 			print_symbol(file, sym);
- 
-@@ -1136,7 +1135,7 @@ int conf_write_autoconf(int overwrite)
- {
- 	struct symbol *sym;
- 	const char *autoconf_name = conf_get_autoconfig_name();
--	int ret, i;
-+	int ret;
- 
- 	if (!overwrite && is_present(autoconf_name))
- 		return 0;
-@@ -1148,7 +1147,7 @@ int conf_write_autoconf(int overwrite)
- 	if (conf_touch_deps())
- 		return 1;
- 
--	for_all_symbols(i, sym)
-+	for_all_symbols(sym)
- 		sym_calc_value(sym);
- 
- 	ret = __conf_write_autoconf(conf_get_autoheader_name(),
-diff --git a/scripts/kconfig/expr.h b/scripts/kconfig/expr.h
-index dd3350aed302..3bc375f1a1cd 100644
---- a/scripts/kconfig/expr.h
-+++ b/scripts/kconfig/expr.h
-@@ -17,6 +17,8 @@ extern "C" {
- #include <stdbool.h>
- #endif
- 
-+#include "list_types.h"
-+
- typedef enum tristate {
- 	no, mod, yes
- } tristate;
-@@ -74,8 +76,8 @@ enum {
-  * SYMBOL_CHOICE bit set in 'flags'.
-  */
- struct symbol {
--	/* The next symbol in the same bucket in the symbol hash table */
--	struct symbol *next;
-+	/* link node for the hash table */
-+	struct hlist_node node;
- 
- 	/* The name of the symbol, e.g. "FOO" for 'config FOO' */
- 	char *name;
-@@ -124,8 +126,6 @@ struct symbol {
- 	struct expr_value implied;
- };
- 
--#define for_all_symbols(i, sym) for (i = 0; i < SYMBOL_HASHSIZE; i++) for (sym = symbol_hash[i]; sym; sym = sym->next)
--
- #define SYMBOL_CONST      0x0001  /* symbol is const */
- #define SYMBOL_CHECK      0x0008  /* used during dependency checking */
- #define SYMBOL_CHOICE     0x0010  /* start of a choice block (null name) */
-@@ -150,7 +150,6 @@ struct symbol {
- #define SYMBOL_NEED_SET_CHOICE_VALUES  0x100000
- 
- #define SYMBOL_MAXLENGTH	256
--#define SYMBOL_HASHSIZE		9973
- 
- /* A property represent the config options that can be associated
-  * with a config "symbol".
-diff --git a/scripts/kconfig/internal.h b/scripts/kconfig/internal.h
-index 788401cd5d6f..6c721c4cfd72 100644
---- a/scripts/kconfig/internal.h
-+++ b/scripts/kconfig/internal.h
-@@ -2,6 +2,15 @@
- #ifndef INTERNAL_H
- #define INTERNAL_H
- 
-+#include "hashtable.h"
-+
-+#define SYMBOL_HASHSIZE		(1U << 14)
-+
-+extern HASHTABLE_DECLARE(sym_hashtable, SYMBOL_HASHSIZE);
-+
-+#define for_all_symbols(sym) \
-+	hash_for_each(sym_hashtable, sym, node)
-+
- struct menu;
- 
- extern struct menu *current_menu, *current_entry;
-diff --git a/scripts/kconfig/lkc_proto.h b/scripts/kconfig/lkc_proto.h
-index 94299e42402f..2807fa584c2b 100644
---- a/scripts/kconfig/lkc_proto.h
-+++ b/scripts/kconfig/lkc_proto.h
-@@ -18,8 +18,6 @@ void conf_set_message_callback(void (*fn)(const char *s));
- bool conf_errors(void);
- 
- /* symbol.c */
--extern struct symbol * symbol_hash[SYMBOL_HASHSIZE];
--
- struct symbol * sym_lookup(const char *name, int flags);
- struct symbol * sym_find(const char *name);
- void print_symbol_for_listconfig(struct symbol *sym);
-diff --git a/scripts/kconfig/parser.y b/scripts/kconfig/parser.y
-index efd0e234e0d2..b505e43e0d02 100644
---- a/scripts/kconfig/parser.y
-+++ b/scripts/kconfig/parser.y
-@@ -28,8 +28,6 @@ static void zconf_error(const char *err, ...);
- static bool zconf_endtoken(const char *tokenname,
- 			   const char *expected_tokenname);
- 
--struct symbol *symbol_hash[SYMBOL_HASHSIZE];
--
- struct menu *current_menu, *current_entry;
- 
- %}
-diff --git a/scripts/kconfig/symbol.c b/scripts/kconfig/symbol.c
-index 518977c525de..1290c6d2f8c2 100644
---- a/scripts/kconfig/symbol.c
-+++ b/scripts/kconfig/symbol.c
-@@ -9,6 +9,7 @@
- #include <string.h>
- #include <regex.h>
- 
-+#include "internal.h"
- #include "lkc.h"
- #include "util.h"
- 
-@@ -161,9 +162,8 @@ static void sym_set_changed(struct symbol *sym)
- static void sym_set_all_changed(void)
- {
- 	struct symbol *sym;
--	int i;
- 
--	for_all_symbols(i, sym)
-+	for_all_symbols(sym)
- 		sym_set_changed(sym);
- }
- 
-@@ -476,9 +476,8 @@ void sym_calc_value(struct symbol *sym)
- void sym_clear_all_valid(void)
- {
- 	struct symbol *sym;
--	int i;
- 
--	for_all_symbols(i, sym)
-+	for_all_symbols(sym)
- 		sym->flags &= ~SYMBOL_VALID;
- 	conf_set_changed(true);
- 	sym_calc_value(modules_sym);
-@@ -804,6 +803,8 @@ bool sym_is_changeable(struct symbol *sym)
- 	return sym->visible > sym->rev_dep.tri;
- }
- 
-+HASHTABLE_DEFINE(sym_hashtable, SYMBOL_HASHSIZE);
-+
- struct symbol *sym_lookup(const char *name, int flags)
- {
- 	struct symbol *symbol;
-@@ -818,9 +819,9 @@ struct symbol *sym_lookup(const char *name, int flags)
- 			case 'n': return &symbol_no;
- 			}
- 		}
--		hash = strhash(name) % SYMBOL_HASHSIZE;
-+		hash = strhash(name);
- 
--		for (symbol = symbol_hash[hash]; symbol; symbol = symbol->next) {
-+		hash_for_each_possible(sym_hashtable, symbol, node, hash) {
- 			if (symbol->name &&
- 			    !strcmp(symbol->name, name) &&
- 			    (flags ? symbol->flags & flags
-@@ -839,8 +840,7 @@ struct symbol *sym_lookup(const char *name, int flags)
- 	symbol->type = S_UNKNOWN;
- 	symbol->flags = flags;
- 
--	symbol->next = symbol_hash[hash];
--	symbol_hash[hash] = symbol;
-+	hash_add(sym_hashtable, &symbol->node, hash);
- 
- 	return symbol;
- }
-@@ -860,9 +860,9 @@ struct symbol *sym_find(const char *name)
- 		case 'n': return &symbol_no;
- 		}
- 	}
--	hash = strhash(name) % SYMBOL_HASHSIZE;
-+	hash = strhash(name);
- 
--	for (symbol = symbol_hash[hash]; symbol; symbol = symbol->next) {
-+	hash_for_each_possible(sym_hashtable, symbol, node, hash) {
- 		if (symbol->name &&
- 		    !strcmp(symbol->name, name) &&
- 		    !(symbol->flags & SYMBOL_CONST))
-@@ -922,7 +922,7 @@ struct symbol **sym_re_search(const char *pattern)
- 	if (regcomp(&re, pattern, REG_EXTENDED|REG_ICASE))
- 		return NULL;
- 
--	for_all_symbols(i, sym) {
-+	for_all_symbols(sym) {
- 		if (sym->flags & SYMBOL_CONST || !sym->name)
- 			continue;
- 		if (regexec(&re, sym->name, 1, match, 0))
+ config IP_DCCP_CCID3
+ 	bool "CCID-3 (TCP-Friendly)"
+-	def_bool y if (IP_DCCP = y || IP_DCCP = m)
++	default IP_DCCP = y || IP_DCCP = m
+ 	help
+ 	  CCID-3 denotes TCP-Friendly Rate Control (TFRC), an equation-based
+ 	  rate-controlled congestion control mechanism.  TFRC is designed to
 -- 
 2.40.1
 
