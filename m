@@ -1,164 +1,157 @@
-Return-Path: <linux-kbuild+bounces-902-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-903-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14E23852722
-	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Feb 2024 02:54:03 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B413852740
+	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Feb 2024 03:06:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A0DD7B2A186
-	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Feb 2024 01:52:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CF7B71F228C5
+	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Feb 2024 02:06:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3492A6FC5;
-	Tue, 13 Feb 2024 01:49:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6BD210FF;
+	Tue, 13 Feb 2024 02:06:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SB066ddO"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CRj+SELi"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B56E6AD6;
-	Tue, 13 Feb 2024 01:49:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0ADD17CD;
+	Tue, 13 Feb 2024 02:06:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707788957; cv=none; b=lT9A396vvJl1K6jmuQU0H0v3yKVY0PP+Uk0fI8JVb0gxUaCe/zonBPkgCnHaUCiBkyFtbfnohfBVh0fJdnZo3QAy4rbq0TH4p5ngWjoXdVyuP8soIxvUiqR9VAT+z0Ur8Gk0ulXSj9D0Y5cmNryFYJI0kM69kVCfQmrGkXhGxMw=
+	t=1707789993; cv=none; b=XlaTpqLurxMG51Mnm6v2WtDfbrcOS/29uqq8EgpkAMcQ8ymdWi4jfjfZbdHIxPhgeouucriFbR4L0uoX8A3jAeh7pcdoncSM2QT/zBwqg8BpNEELiGisVtTP2XUqUESpN9jOB2j11+JVPyR4532HXpzAunMpTtd8wbdV/1lCKZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707788957; c=relaxed/simple;
-	bh=fwi+S6J+pteyq5souUcQ1aE411KhyQboibrZURAETGM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Y+h3980x5cP1AgiBqu3UoSQQ52WElPTPp+zJiJdOonR7A2OzqsY4tKLPfjmOQe6G47PQlGHXha5ghpJVFmk9NzEE8qSgAFfk3lkKhJ6daoyUOwfyG2kFRzX9q7epsLKy+qigJlM6ohSkgWgfALlH5jR4Frum5LwKtjc84n6sj20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SB066ddO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98BF5C433C7;
-	Tue, 13 Feb 2024 01:49:16 +0000 (UTC)
+	s=arc-20240116; t=1707789993; c=relaxed/simple;
+	bh=GhodOs1V2xvOg/8UtJ2cJDvK0Yy+94bNZ2qlcF51JzE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=lPy0hqfsYoxTWSiP2A2rhjaky12fyw/HCd9RV/6O9feB5IiW6n86/nJqOEWUb4lX2+6bqyyMjXr1LX1KibRPGvw0KZQi4BQTBV+BjMEjanxYWydCMnJ3RiGzUqbOB2cfde3nb4VvpKRXepDfMjMnfUTv19EJ4XZ6+Yk4N5KdZ1w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CRj+SELi; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67687C43390;
+	Tue, 13 Feb 2024 02:06:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707788956;
-	bh=fwi+S6J+pteyq5souUcQ1aE411KhyQboibrZURAETGM=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=SB066ddODX74QE0NXa6YM4dNF3B/RHTy/yqZSYALXk8oCKpBrej/OrEdmIAZ8XMve
-	 HOxbZl18aKLQf75Lo9ZKmdQL3FvET3tqHo+scfINU44j25ZrAm8u4vfxBXBW4KyMdE
-	 1NQzF+/oOD+EjhvMLevfbG3y9abmvL9K9Wzz0G23mfty7L8X+rphG3ZiRSoPTYSxVc
-	 S35oupbf/MWD9ZEwN67SVagld7EzUExGyMMbe2gorDngh9eEtEnhLB4zuAMyPTBHQ6
-	 afpbhRqEqAM5B4sozXPC4HYEvfENn4dDtXYBqsHX6FR6mIJmHVQJx3n+P7VB4O8Wsf
-	 MSK9EuLAJBgyA==
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5114c05806eso6109797e87.1;
-        Mon, 12 Feb 2024 17:49:16 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUBdjn7HHeACsVU5fL8zgYGzM1FETA/Srs/cdY5vppgTVAoAj9xWMwYDmdTsBWKkAkmFKbqen7sFHrchAYWdxHzFhAmmnGjxwudP7gY
-X-Gm-Message-State: AOJu0Ywr2+HNBXypdhqZyywiwEOt9PJk3AAnRKs2s/c3iAzIeQzSN5cI
-	UUKHCGBQ3/t9iN6oQkXyFCOzDrNQbbpqpdHf3HLZjBFoMvyVHaYLuqSdGUGhecyrFwK/GT74PtH
-	e2ubeObv5AISIuyZE8rlDXZqoPQU=
-X-Google-Smtp-Source: AGHT+IEvAcxySNDK5LFyWfGkXegyxgDeA7TWn8kqRJrtoaDM8U7l6muFRj8GgN0zyqA42UyUG172uMMnBToTM3xhDec=
-X-Received: by 2002:ac2:4c0e:0:b0:511:68e9:f698 with SMTP id
- t14-20020ac24c0e000000b0051168e9f698mr5384203lfq.61.1707788955189; Mon, 12
- Feb 2024 17:49:15 -0800 (PST)
+	s=k20201202; t=1707789993;
+	bh=GhodOs1V2xvOg/8UtJ2cJDvK0Yy+94bNZ2qlcF51JzE=;
+	h=From:Date:Subject:To:Cc:From;
+	b=CRj+SELiZgtse3AvGDswZUGQtNGurzicPdya+lzZpVN6mn8erquLzSmQb6BsS7GQ8
+	 8V2Iu7BOiqcQlsKJx1p2BE8QHoauzDlVSZ1dzxbQ/4MdkcqcHDnQl8ShSEL1vvfF9L
+	 miEXJ9mSJ3fZGSXYx887CZ9mNQS4GLlZzFBjaueDEHk4FbDVEVWtUqg9ffH7Qr6HQO
+	 HMYBRw5BO5N2HDHoTazB63qbZbL/L0FwWzzXNZAlfEkeU3JvQCFs7RKcbJsGtc0HjY
+	 jgtzKMt7lb5H7+ts27HbBYxUBy5s+4wwOXDhqqYCz95949hLZwqM7MdGcOGpPPXLMI
+	 hF7H78tXGoHeg==
+From: Nathan Chancellor <nathan@kernel.org>
+Date: Mon, 12 Feb 2024 19:05:10 -0700
+Subject: [PATCH v2] kbuild: Fix changing ELF file type for output of
+ gen_btf for big endian
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240213012035.750928-1-andrewjballance@gmail.com>
-In-Reply-To: <20240213012035.750928-1-andrewjballance@gmail.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 13 Feb 2024 10:48:38 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARaW1V5X79BFW5_YTKY+n+OSp+_ACpRxpiw+VOJ+2hf=g@mail.gmail.com>
-Message-ID: <CAK7LNARaW1V5X79BFW5_YTKY+n+OSp+_ACpRxpiw+VOJ+2hf=g@mail.gmail.com>
-Subject: Re: [PATCH] gen_compile_commands: fix invalid escape sequence
-To: Andrew Ballance <andrewjballance@gmail.com>
-Cc: linux-kernel@vger.kernel.org, nathan@kernel.org, nicolas@fjasle.eu, 
-	ndesaulniers@google.com, morbo@google.com, justinstitt@google.com, 
-	linux-kbuild@vger.kernel.org, llvm@lists.linux.dev, skhan@linuxfoundation.org, 
-	linux-kernel-mentees@lists.linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240212-fix-elf-type-btf-vmlinux-bin-o-big-endian-v2-1-22c0a6352069@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAFXOymUC/52NQQ6CMBBFr0K6dgxTwYgr72FY0HaAidiStjYQw
+ t2tHMHNT95P/n+bCOSZgrgXm/CUOLCzGeSpEHrs7EDAJrOQpaxKWd6g5wVo6iGuM4GKPaT3xPa
+ zgGILLucAZA13FozSdd0hoWyuIv/NnvL4cD3bzCOH6Px6qBP+2n8sCQFBqwuirBokox8v8pams
+ /ODaPd9/wK60mOo4wAAAA==
+To: masahiroy@kernel.org
+Cc: nicolas@fjasle.eu, ndesaulniers@google.com, morbo@google.com, 
+ justinstitt@google.com, keescook@chromium.org, maskray@google.com, 
+ linux-kbuild@vger.kernel.org, bpf@vger.kernel.org, llvm@lists.linux.dev, 
+ patches@lists.linux.dev, stable@vger.kernel.org, 
+ Nathan Chancellor <nathan@kernel.org>
+X-Mailer: b4 0.13-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3417; i=nathan@kernel.org;
+ h=from:subject:message-id; bh=GhodOs1V2xvOg/8UtJ2cJDvK0Yy+94bNZ2qlcF51JzE=;
+ b=kA0DAAoWHWsmkXHAGpYByyZiAGXKzqiiMLNKtKv9HTNpLWHt7NZXR3+qPImDrmxtWD1S+S6yN
+ Ih1BAAWCgAdFiEEe+MlxzExnM0B2MqSHWsmkXHAGpYFAmXKzqgACgkQHWsmkXHAGpZowQD9HgK/
+ EKkJcLelCNEJj8ruFirq96NFEySH3V7/YfAazHMA/jBB7etsCJZp0turV2NVbyGj0WmJvoZnykM
+ UoQQk2GMJ
+X-Developer-Key: i=nathan@kernel.org; a=openpgp;
+ fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
 
-On Tue, Feb 13, 2024 at 10:21=E2=80=AFAM Andrew Ballance
-<andrewjballance@gmail.com> wrote:
->
-> this fixes the error, "SyntaxWarning: invalid escape sequence '\#'"
->
-> the error can be recreated by running
+Commit 90ceddcb4950 ("bpf: Support llvm-objcopy for vmlinux BTF")
+changed the ELF type of .btf.vmlinux.bin.o to ET_REL via dd, which works
+fine for little endian platforms:
 
+   00000000  7f 45 4c 46 02 01 01 00  00 00 00 00 00 00 00 00  |.ELF............|
+  -00000010  03 00 b7 00 01 00 00 00  00 00 00 80 00 80 ff ff  |................|
+  +00000010  01 00 b7 00 01 00 00 00  00 00 00 80 00 80 ff ff  |................|
 
-Not an error.
-It is a warning.
+However, for big endian platforms, it changes the wrong byte, resulting
+in an invalid ELF file type, which ld.lld rejects:
 
+   00000000  7f 45 4c 46 02 02 01 00  00 00 00 00 00 00 00 00  |.ELF............|
+  -00000010  00 03 00 16 00 00 00 01  00 00 00 00 00 10 00 00  |................|
+  +00000010  01 03 00 16 00 00 00 01  00 00 00 00 00 10 00 00  |................|
 
->     make CC=3Dclang compile_commands.json
+  Type:                              <unknown>: 103
 
+  ld.lld: error: .btf.vmlinux.bin.o: unknown file type
 
+Fix this by updating the entire 16-bit e_type field rather than just a
+single byte, so that everything works correctly for all platforms and
+linkers.
 
-What is more important is to mention the Python version
-in the commit description.
+   00000000  7f 45 4c 46 02 02 01 00  00 00 00 00 00 00 00 00  |.ELF............|
+  -00000010  00 03 00 16 00 00 00 01  00 00 00 00 00 10 00 00  |................|
+  +00000010  00 01 00 16 00 00 00 01  00 00 00 00 00 10 00 00  |................|
 
-Example:
+  Type:                              REL (Relocatable file)
 
----------------->8----------------
-With Python 3.12, '\#' results in this warning:
+While in the area, update the comment to mention that binutils 2.35+
+matches LLD's behavior of rejecting an ET_EXEC input, which occurred
+after the comment was added.
 
-  SyntaxWarning: invalid escape sequence '\#'
----------------->8----------------
+Cc: stable@vger.kernel.org
+Fixes: 90ceddcb4950 ("bpf: Support llvm-objcopy for vmlinux BTF")
+Link: https://github.com/llvm/llvm-project/pull/75643
+Suggested-by: Masahiro Yamada <masahiroy@kernel.org>
+Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+---
+Changes in v2:
+- Rather than change the seek value for dd, update the entire e_type
+  field (Masahiro). Due to this change, I did not carry forward the
+  tags of v1.
+- Slightly update commit message to remove mention of ET_EXEC, which
+  does not match the dump (Masahiro).
+- Update comment to mention binutils 2.35+ has the same behavior as LLD
+  (Fangrui).
+- Link to v1: https://lore.kernel.org/r/20240208-fix-elf-type-btf-vmlinux-bin-o-big-endian-v1-1-cb3112491edc@kernel.org
+---
+ scripts/link-vmlinux.sh | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
+diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
+index a432b171be82..7862a8101747 100755
+--- a/scripts/link-vmlinux.sh
++++ b/scripts/link-vmlinux.sh
+@@ -135,8 +135,13 @@ gen_btf()
+ 	${OBJCOPY} --only-section=.BTF --set-section-flags .BTF=alloc,readonly \
+ 		--strip-all ${1} ${2} 2>/dev/null
+ 	# Change e_type to ET_REL so that it can be used to link final vmlinux.
+-	# Unlike GNU ld, lld does not allow an ET_EXEC input.
+-	printf '\1' | dd of=${2} conv=notrunc bs=1 seek=16 status=none
++	# GNU ld 2.35+ and lld do not allow an ET_EXEC input.
++	if is_enabled CONFIG_CPU_BIG_ENDIAN; then
++		et_rel='\0\1'
++	else
++		et_rel='\1\0'
++	fi
++	printf "${et_rel}" | dd of=${2} conv=notrunc bs=1 seek=16 status=none
+ }
+ 
+ # Create ${2} .S file with all symbols from the ${1} object file
 
+---
+base-commit: 54be6c6c5ae8e0d93a6c4641cb7528eb0b6ba478
+change-id: 20240208-fix-elf-type-btf-vmlinux-bin-o-big-endian-dbc55a1e1296
 
-Please update the commit message.
+Best regards,
+-- 
+Nathan Chancellor <nathan@kernel.org>
 
-
-
-
-The make command is not so important.
-
-I quickly confirm it in the interactive mode
-instead of running the build command.
-
-
-
-$ python3.12
-Python 3.12.0 (main, Oct  4 2023, 06:27:34) [GCC 13.2.0] on linux
-Type "help", "copyright", "credits" or "license" for more information.
->>> '\#'
-<stdin>:1: SyntaxWarning: invalid escape sequence '\#'
-'\\#'
->>> '\\#'
-'\\#'
-
-
-
-
-
->
-> Signed-off-by: Andrew Ballance <andrewjballance@gmail.com>
-> ---
->  scripts/clang-tools/gen_compile_commands.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/scripts/clang-tools/gen_compile_commands.py b/scripts/clang-=
-tools/gen_compile_commands.py
-> index 5dea4479240b..93f64095fda9 100755
-> --- a/scripts/clang-tools/gen_compile_commands.py
-> +++ b/scripts/clang-tools/gen_compile_commands.py
-> @@ -170,7 +170,7 @@ def process_line(root_directory, command_prefix, file=
-_path):
->      # escape the pound sign '#', either as '\#' or '$(pound)' (depending=
- on the
->      # kernel version). The compile_commands.json file is not intereprete=
-d
->      # by Make, so this code replaces the escaped version with '#'.
-> -    prefix =3D command_prefix.replace('\#', '#').replace('$(pound)', '#'=
-)
-> +    prefix =3D command_prefix.replace('\\#', '#').replace('$(pound)', '#=
-')
->
->      # Return the canonical path, eliminating any symbolic links encounte=
-red in the path.
->      abs_path =3D os.path.realpath(os.path.join(root_directory, file_path=
-))
-> --
-> 2.43.0
->
-
-
---=20
-Best Regards
-Masahiro Yamada
 
