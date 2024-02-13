@@ -1,126 +1,135 @@
-Return-Path: <linux-kbuild+bounces-919-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-920-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07571853D8D
-	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Feb 2024 22:48:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17CE0853E79
+	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Feb 2024 23:19:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AD34A1F26386
-	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Feb 2024 21:48:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C079D1F236F2
+	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Feb 2024 22:19:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4B1B6169A;
-	Tue, 13 Feb 2024 21:47:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62D6A62156;
+	Tue, 13 Feb 2024 22:19:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="s3eyQZx5"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="iLmyXp3O"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
+Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C61ED61684
-	for <linux-kbuild@vger.kernel.org>; Tue, 13 Feb 2024 21:47:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC78B62144
+	for <linux-kbuild@vger.kernel.org>; Tue, 13 Feb 2024 22:19:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707860872; cv=none; b=r9JTkZTCEEHeQhXhQbUhSm8KS6ILfh6EbI5DnnWI/zqCKbrRXULCRo1YX57iRXZLa6hFqTc5I6258ZMzXdU/LhodFYFzuX6X9ioQko21++hS9mB4Nh/hst3tjvn2dRsYy9gY76tA5rx7twPsCcTZOlyypb8dh8QDxgn+csYCAUk=
+	t=1707862746; cv=none; b=Ml8qn8HrOo/g7Y8nmeAmqnU95+vuD/+pis+FW6PtbFcoxvek8Z9xq1RSPoKN2FqY1mAiX2sLk9Bi3iZS8qqBgPCEc8de99BHBmfJSnnxSHo+khW7J17+OrN4gJkmBmUHXNfkNJJzeKg+F6xyGZOmVDi2+B5GmxhhI9IT3k9wasg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707860872; c=relaxed/simple;
-	bh=4Xj7EazHfkvqhAcFDgWE71D7H9yEicOk1M857cHV2u0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PPQYR+03CgIrCcIraFJyc0MqMR2g1CWMPQJZZ2cFppHZlsm/W/O+DRrSvl/HOdl/vj0gvA7Egxo2mYX35hQW5NCxEbs0S7Y4WEcTYF59qk2wx4mqhZe0g5kJVrqIG2E6m69zhhU9mwCnxYDL9dxrlxHBqXmBelx1BWL05I6jVTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=s3eyQZx5; arc=none smtp.client-ip=209.85.219.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-dccb1421bdeso1102708276.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 13 Feb 2024 13:47:50 -0800 (PST)
+	s=arc-20240116; t=1707862746; c=relaxed/simple;
+	bh=fupPzFq/mOzPQg49g5zT0ntfs9nXTHiAGCPpCwKSJQA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CLKMXs0Ln3boVZAoOa4HqjdP9oBafdFtkdUNF6fTRTQe87URqHcWdcVk4YFTw4ZAh8+ib0BU6gzfxUue8j8jZXJyK004+MWQ68S2x3cgoGsDV5qAUMuTGu3/QjiMhHKmoHt2Ic5QVPl0eSFHW7+HHSRGvaT+dkXqutcH6SvkCwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=iLmyXp3O; arc=none smtp.client-ip=209.85.167.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-3bba50cd318so3725257b6e.0
+        for <linux-kbuild@vger.kernel.org>; Tue, 13 Feb 2024 14:19:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1707860870; x=1708465670; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4Xj7EazHfkvqhAcFDgWE71D7H9yEicOk1M857cHV2u0=;
-        b=s3eyQZx5jV7ThhYFnv4fc4t0MH2AG7GTPJ12W3fm4/0jqq75Acl8m3eyz94117VKwR
-         u8Mn+eQjRgF+8m2pz6vkDhTs/waZxPZXRdnfYZalO/6e4ZVWqVekPqDJX8FDg7TWYrln
-         6Gudg4YUHAwilqcfFdnkVOQA5oYITMJf1FzN0tN1Kb1yoHBgoKFpl+dfSjUsB4pf2AnC
-         r4BtMo7TDw9Aj7Oqz6HPj4ZuWhecAhb6lrUsI4XwlYRt1N5cwLQCaLkCh/IRfFDoaFOE
-         u8kPcUZcArTUVM3ooDwtoVDfTVqDVfX1dEvYr5UUcM85CZiXBjf14xt/ZRIli+hrhG2W
-         +LZg==
+        d=chromium.org; s=google; t=1707862744; x=1708467544; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=NEtsz3nbQBwXPKC2RpUXbyPnr0oHPliF/lmcdhUWxA0=;
+        b=iLmyXp3OXGZVc6HBBqe2Sz4YllkX5VLEpU+KJrQ9XQuoeUB1ax5oB8RDoc3/xtZOUS
+         zjX5vQVyxT5u7znjdAf+adqg2lxJtF41R8wbtvAEx0xhP7X+xYN/I5SD+o+SqSmLWd3Y
+         50lvD+Wv+ksNGDXjza8yHbSVxWSVoXFGV3q+M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707860870; x=1708465670;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4Xj7EazHfkvqhAcFDgWE71D7H9yEicOk1M857cHV2u0=;
-        b=c6KoMQk8hHIkMbACQ4jP+yd8Eag1qV4hXC0njLF6cSUzXqibB4Z5V/AOvo+sp6V0du
-         qeJYTSF6Vg2ztprLSpWOusQSfVwnyrsQqLSCAdJVQWG0giujCq4bJG+TOewUtDPFk4gp
-         Ur7fMEaJFcg54NnnTI2XEnfom7UhQJwEJ4MWkAfJCzkZzwi/uLVebp2MUGDaFfIWFg4L
-         1SA94HHqakhOFhvAVXBtfTm98LChkN1eMSg8/N3NPxesUgbXOZeS2FL1qdzPBfxcjjHE
-         bC5bC+dGSEq2VZsazJGAecqVmy5vFoM6ztqoLyEfxi2sbHdK5t5/HoINvQQly7omVNTh
-         E5Mw==
-X-Forwarded-Encrypted: i=1; AJvYcCU5DG14gpPzgvG6D+8+pz7HYA687d82iihep0LrWT6Y2iIfwHG+NP9xrDyjc1NHdZR4LIEtSYb4rTD4Ouo3Mt8NaW92jcBIR3ovn5WR
-X-Gm-Message-State: AOJu0Yxk4Ua7AIpFnUG/E/XfwQJkavCav1i2k95gZoDzZjWFFfAHxMl1
-	BrnK6j8l2j4JykgyJ/paZ1ZJlotqGdGN+jBZXpEMwzlP6/DTd3jd90wXeb0VXF37v94yDKTNH8v
-	h6RPm6VKYl4oCy6qsyac2GltLTTCKkoTw45AtCA==
-X-Google-Smtp-Source: AGHT+IFa7Zt8v9y973vv6MpdAwv7+Tn3+by0Zhu9bHJxIuhmjm9zf8ed0hjSWCanmVOGM7vq2XjFxfCkSYAs+ofuT1Q=
-X-Received: by 2002:a25:ae47:0:b0:dcd:49d0:eece with SMTP id
- g7-20020a25ae47000000b00dcd49d0eecemr434149ybe.60.1707860869809; Tue, 13 Feb
- 2024 13:47:49 -0800 (PST)
+        d=1e100.net; s=20230601; t=1707862744; x=1708467544;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NEtsz3nbQBwXPKC2RpUXbyPnr0oHPliF/lmcdhUWxA0=;
+        b=KhxKWaiosH+31AJ+xgZIlQ4Gtel7kdnNT4ptiyDEXEZWhB/TzELMfjZcc9ygMFOq4N
+         0ba7rNs9d55Z25xNqewiiqRf09yMd6Fd7637/CZxCEZ86xHG8GCM+y6h+O8+d71qpiL+
+         KT0eXmI6B7y1wF3of17izL/Q9Uz1ItQkZaB801dbJmeaTrXwmlELog4cCoX3hIAuWNno
+         yPddPTOCsIQrs2MAqB6TdY72mCWKnYOeht+7+z2+OPWpC5yoZ8xmdC7GHBrQP/RN2NnG
+         +xL2Umdi9LX3biw+SnL8fxZILvCWUHDMlf7YK7xdAaaZYmz5wv5ezQ+/S3RdUbYteWWC
+         FLfQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXHPk1UA8v5U5QqcJO3dX2I0N9rlixIpeTh2OtINb+h+K8oLdv7mvvtxa0EWY5aTdPJYI3CREqOqkfIdk48qtLKp434jc6D1Gj17Bjp
+X-Gm-Message-State: AOJu0YwStmjlaoEamS080EUb7ZAEIqlGauSsDzNZUILRv/ixucqLixYT
+	UKrRMVkOPnjneJ0M57LNy+OJgo93AD2Eu+7q5z9jJMlmwvXw8ec4ZoTBqdRfJw==
+X-Google-Smtp-Source: AGHT+IHTEQ8wwSveSYvl+t5iWH5jHvKp2JNEd3pVIZ53DZ3GINpiRg01YzM7bjG1Y+XAbeMm+x+wJg==
+X-Received: by 2002:a05:6871:3a13:b0:21a:80cd:734a with SMTP id pu19-20020a0568713a1300b0021a80cd734amr874714oac.52.1707862743756;
+        Tue, 13 Feb 2024 14:19:03 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVqeObbu+ItRZ+eJqf1kncpf5EJ3lH1k5WBhURpbH35pDNdgVhmgrUO67MPvRBOssCYpMpuZghAsI3gVHGWXQ4zr5EoG3JEt5HFIFo4MXQb4GLBfeW2Dv2KZ0v5EjBveV4M/WQpFaCz4yzmL+T4uwyZ86MetJ1r1AGxX1kRO6hoPoQRG11vhleH5xqUGld6pFZPXIGLUB1ZGyf2YJVkUL45tEUt82021f7fv6OGKR0LrZh5dLpaZQ/uCXbrNxGplqQbgaVf1wYD2j6RBG8myUgu97IRAqeuJpaSOneq4dc4fblBs6CE8zzvLMFec+AuCgM+CY+hPM0vF5opoCQPMAFIjCdgpVWJbETbd9cjuiq1Y6n0
+Received: from www.outflux.net ([198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id ck25-20020a056a02091900b005d8b89bbf20sm2522310pgb.63.2024.02.13.14.19.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Feb 2024 14:19:03 -0800 (PST)
+Date: Tue, 13 Feb 2024 14:19:02 -0800
+From: Kees Cook <keescook@chromium.org>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: masahiroy@kernel.org, nicolas@fjasle.eu, ndesaulniers@google.com,
+	morbo@google.com, justinstitt@google.com, maskray@google.com,
+	linux-kbuild@vger.kernel.org, bpf@vger.kernel.org,
+	llvm@lists.linux.dev, patches@lists.linux.dev,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v2] kbuild: Fix changing ELF file type for output of
+ gen_btf for big endian
+Message-ID: <202402131418.3DB3FF7@keescook>
+References: <20240212-fix-elf-type-btf-vmlinux-bin-o-big-endian-v2-1-22c0a6352069@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240213-arm-dt-cleanups-v1-0-f2dee1292525@kernel.org> <20240213-arm-dt-cleanups-v1-4-f2dee1292525@kernel.org>
-In-Reply-To: <20240213-arm-dt-cleanups-v1-4-f2dee1292525@kernel.org>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 13 Feb 2024 22:47:39 +0100
-Message-ID: <CACRpkdbPANM0-h_g+6Zazgw9U5W8ZDc=EG4ZiTv64JVmZAPivg@mail.gmail.com>
-Subject: Re: [PATCH 4/6] arm: dts: Fix dtc interrupt_map warnings
-To: Rob Herring <robh@kernel.org>
-Cc: soc@kernel.org, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Tsahee Zidenberg <tsahee@annapurnalabs.com>, Antoine Tenart <atenart@kernel.org>, 
-	Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn <andrew@lunn.ch>, 
-	Gregory Clement <gregory.clement@bootlin.com>, 
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, 
-	=?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
-	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Stefan Agner <stefan@agner.ch>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, =?UTF-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>, 
-	Tony Lindgren <tony@atomide.com>, Chanho Min <chanho.min@lge.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Linus Walleij <linusw@kernel.org>, Imre Kaloz <kaloz@openwrt.org>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, linux-arm-kernel@lists.infradead.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, 
-	linux-tegra@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-omap@vger.kernel.org, linux-mediatek@lists.infradead.org, 
-	linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240212-fix-elf-type-btf-vmlinux-bin-o-big-endian-v2-1-22c0a6352069@kernel.org>
 
-On Tue, Feb 13, 2024 at 8:35=E2=80=AFPM Rob Herring <robh@kernel.org> wrote=
-:
+On Mon, Feb 12, 2024 at 07:05:10PM -0700, Nathan Chancellor wrote:
+> Commit 90ceddcb4950 ("bpf: Support llvm-objcopy for vmlinux BTF")
+> changed the ELF type of .btf.vmlinux.bin.o to ET_REL via dd, which works
+> fine for little endian platforms:
+> 
+>    00000000  7f 45 4c 46 02 01 01 00  00 00 00 00 00 00 00 00  |.ELF............|
+>   -00000010  03 00 b7 00 01 00 00 00  00 00 00 80 00 80 ff ff  |................|
+>   +00000010  01 00 b7 00 01 00 00 00  00 00 00 80 00 80 ff ff  |................|
+> 
+> However, for big endian platforms, it changes the wrong byte, resulting
+> in an invalid ELF file type, which ld.lld rejects:
+> 
+>    00000000  7f 45 4c 46 02 02 01 00  00 00 00 00 00 00 00 00  |.ELF............|
+>   -00000010  00 03 00 16 00 00 00 01  00 00 00 00 00 10 00 00  |................|
+>   +00000010  01 03 00 16 00 00 00 01  00 00 00 00 00 10 00 00  |................|
+> 
+>   Type:                              <unknown>: 103
+> 
+>   ld.lld: error: .btf.vmlinux.bin.o: unknown file type
+> 
+> Fix this by updating the entire 16-bit e_type field rather than just a
+> single byte, so that everything works correctly for all platforms and
+> linkers.
+> 
+>    00000000  7f 45 4c 46 02 02 01 00  00 00 00 00 00 00 00 00  |.ELF............|
+>   -00000010  00 03 00 16 00 00 00 01  00 00 00 00 00 10 00 00  |................|
+>   +00000010  00 01 00 16 00 00 00 01  00 00 00 00 00 10 00 00  |................|
+> 
+>   Type:                              REL (Relocatable file)
+> 
+> While in the area, update the comment to mention that binutils 2.35+
+> matches LLD's behavior of rejecting an ET_EXEC input, which occurred
+> after the comment was added.
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: 90ceddcb4950 ("bpf: Support llvm-objcopy for vmlinux BTF")
+> Link: https://github.com/llvm/llvm-project/pull/75643
+> Suggested-by: Masahiro Yamada <masahiroy@kernel.org>
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 
-> The dtc interrupt_map warning is off because its dependency,
-> interrupt_provider, is off by default. Fix all the warnings so it can be
-> enabled.
->
-> Signed-off-by: Rob Herring <robh@kernel.org>
+Writing the u16 looks fine to me.
 
-Thanks for doing this Rob! The schemas finds so many mistakes...
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
-Yours,
-Linus Walleij
+-- 
+Kees Cook
 
