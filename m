@@ -1,223 +1,142 @@
-Return-Path: <linux-kbuild+bounces-917-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-918-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65E69853C74
-	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Feb 2024 21:53:12 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3634853C89
+	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Feb 2024 21:56:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8ADDD1C223E8
-	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Feb 2024 20:53:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 856CB1F28310
+	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Feb 2024 20:56:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EEA116167A;
-	Tue, 13 Feb 2024 20:52:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84BFD61662;
+	Tue, 13 Feb 2024 20:56:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b="OVfsxu8f"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h8z167fI"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 880225FF03;
-	Tue, 13 Feb 2024 20:52:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.63.252.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4487B60872;
+	Tue, 13 Feb 2024 20:56:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707857552; cv=none; b=YrSu86UddSUFpplDwL8zckC8Cgiw0UZUZTNbLoZztDtFOI5rb4gZWBe9YcM6gb1TfjMEuUFj8NwJuXaP+bdNkrsnfXQEsNsb1VadVOCXHqrkn8NYhHdjSidO2S3bEId//uNhZth5ZsgwkBq2HLkgKRjZEbuukqLICYJSzsbeavo=
+	t=1707857799; cv=none; b=fo1cv/fGj81U9bevWoFhYckXFrF6N9lHwTNLWUXiPexX9gmPAruhVWmtWWmRmY5THhwtSlocjnKkH8F1ovOMARBDY4NJsm2qM4fyuCLmb+g8onAsA01GCtwc0tar7+7fyfEvj6g8npr6lC8o5us1Mh0My9d7N0JTAtJhJzosKr0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707857552; c=relaxed/simple;
-	bh=64I1TgtHDDIt6/p7AHX6u2hXP67VwmvVIRlSAqFWpzA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lffe9PcQ4Ab37s2gsy6gTOacuhpWWo/jmNXEZbp55j4RPXQLzy6IDFWU4cE8R8rcZiTSe4Xjye8T670bORy64rUUI2JHKVTEoPeLe7OBBKojATWlWKiJ+GalqFYosL+3rHUpsPwAfgfjjTgAaop3LHKCUv7DwfHxbJwQuKNwFj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu; spf=pass smtp.mailfrom=fjasle.eu; dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b=OVfsxu8f; arc=none smtp.client-ip=194.63.252.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fjasle.eu
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=fjasle.eu;
-	s=ds202307; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=AynPBu8jS0YBZE5dCSOc1gqeyaauXcsGk9RK7JNo4+E=; b=OVfsxu8fyN677OC6MCjrWC9Msm
-	YgE2jZ+MuT/ObdYNvqwDd6jNqdDDlQOn2T90JuFIa7XQrz7hc5Wnv4DiXOa1s+XDGZMYwxV6TAOzl
-	+7beOSD+8xCsjHSh3NqSEBumSecmG3el6PHcJOQs5kdxdUqPtSgqgyIqTTIRF+galECY/WVS1zOYs
-	hDliJrLgHjS0DluetlyEa26cfpoEc4hNyACTh02TGjewGvA6tuJ22l6h2hcxuFSEy8pRjvXfAulb5
-	WJT9oRkUsCJsnsAQ0oInuuKqbQTsvj1fPwW6g9q3/vgI+2w8htu+kUvHX6WZKk//xtPYkA8LX0n7m
-	z1HvapMA==;
-Received: from [2001:9e8:9d1:8401:6f0:21ff:fe91:394] (port=36842 helo=bergen.fjasle.eu)
-	by smtp.domeneshop.no with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <nicolas@fjasle.eu>)
-	id 1rZzlN-00HT8U-CK;
-	Tue, 13 Feb 2024 21:52:21 +0100
-Date: Tue, 13 Feb 2024 21:52:14 +0100
-From: Nicolas Schier <nicolas@fjasle.eu>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>, ndesaulniers@google.com,
-	morbo@google.com, justinstitt@google.com, keescook@chromium.org,
-	maskray@google.com, linux-kbuild@vger.kernel.org,
-	bpf@vger.kernel.org, llvm@lists.linux.dev, patches@lists.linux.dev,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2] kbuild: Fix changing ELF file type for output of
- gen_btf for big endian
-Message-ID: <ZcvWfsv1ohV5qHSI@bergen.fjasle.eu>
-References: <20240212-fix-elf-type-btf-vmlinux-bin-o-big-endian-v2-1-22c0a6352069@kernel.org>
- <CAK7LNATK=8V+BroyN+uo9OynkfR6s6HtRgh=LF7yan7cPkbaTA@mail.gmail.com>
+	s=arc-20240116; t=1707857799; c=relaxed/simple;
+	bh=D4LSaj+s1Zug+tnZej27exr9mIRN2BETmj/yUE3GRW0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gxZNvpX7MZqxVJmddaKS/aQuyAWfcVTDSK26tOaflWI7lFVEJZATT7oTbGpCPbiJryUIdHR0wRK4jSHpCgdLcgTE/d7yWsGcNNKZoUjoKRwXMy/k2uToCjTeqFsb8iLYZjXcH8pDx+WY8SQxn4cN6OERIcR0K6Wwx3nT1gNzZvA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h8z167fI; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15F96C43394;
+	Tue, 13 Feb 2024 20:56:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707857799;
+	bh=D4LSaj+s1Zug+tnZej27exr9mIRN2BETmj/yUE3GRW0=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=h8z167fI+5EvVkodKTckqmfSIQBf8bdxud3DuPAkVZ5nSxa6AgTf5i7nXqeViSnpi
+	 NzO6i/FEKZSrNSaZhsZiu2isfEu9pYLf9ncp9DW53jt4N2LykEt8h44nUoOhqQ6wzq
+	 Ggcsv4u6mzWx2wdqmvlX28t9zk2NlXqOWy5t5t4fQeo+oWFyEFkOS0xLVSr/qesP2L
+	 fwdUdRaFtwEmZNvFvliwu+RdNbxIx3QOILsH4x+QzGQ1ZxuRAimv1Lf9dytp6XdUoL
+	 Ta4KKLP5W5oz3ppD6qfiudZEwLy9x5gy5g8BMoIVZOsaUuW10i9gm2Sv5wKnvMmJkQ
+	 aanImS7s/f5Fg==
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-511831801f3so3675805e87.2;
+        Tue, 13 Feb 2024 12:56:39 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXA8wu8fK8fTvxPEq9xriH32femcjagzaIPCBUwIfKksWPkLCvTl584fUnYLejXqQHi4WITcKk/wnWXd6cEQPN8npK9cPlIDYytrFAYvXy2ZTexJ47GN6kslCwG+IOz74yxdAaHyIA87iM/mEb5IWjXJd7UifhphWCSmrMMsQ3w1h1tNR+wHcle661K3TBeSIn5o+Y8NyKYHfHBZw5CtJLwIfyaiTba96PhZiQF3xBblKiWC53n7UcwWGCzmP9Xczhx1SDoQl8/mVyMbSVotddIaJhulLJyXnRpcb8cRMX7iQpYH+qa+AZzeXIHn+anprL9j+TTnHN0/6nF7K1fjx3I3w==
+X-Gm-Message-State: AOJu0YwXH0G2Okbc2oV2YVFjnP4M/CAkWe517YSbeLiG6WZ8lMG+AGb3
+	SUbxv3Lf38Rcnrcfa2C77dfM7zFCLcrp+XyC69Kgc8suVAcylnqZ9NKi74P6x4xLBOtmsbBtmve
+	Jw4nXqb2rVHQ+JlxYg3oiWRoXlQ==
+X-Google-Smtp-Source: AGHT+IHaVnixOZOBNn0WypWTPscuLN4ELDvcVIU+BZ+gCn9OLEVbEJc+WSHECitxZrPyjoAQls55JHpdFFIbqmURVBc=
+X-Received: by 2002:a2e:9bc7:0:b0:2d1:107b:3bbd with SMTP id
+ w7-20020a2e9bc7000000b002d1107b3bbdmr506655ljj.9.1707857776326; Tue, 13 Feb
+ 2024 12:56:16 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="k3DOEzKl6wHMV12g"
-Content-Disposition: inline
-In-Reply-To: <CAK7LNATK=8V+BroyN+uo9OynkfR6s6HtRgh=LF7yan7cPkbaTA@mail.gmail.com>
-X-Operating-System: Debian GNU/Linux trixie/sid
-Jabber-ID: nicolas@jabber.no
-
-
---k3DOEzKl6wHMV12g
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+References: <20240213-arm-dt-cleanups-v1-0-f2dee1292525@kernel.org> <20240213-wafer-garnish-88287bc5d4a5@spud>
+In-Reply-To: <20240213-wafer-garnish-88287bc5d4a5@spud>
+From: Rob Herring <robh@kernel.org>
+Date: Tue, 13 Feb 2024 20:56:03 +0000
+X-Gmail-Original-Message-ID: <CAL_Jsq+9BwYyV9Vu1gfCnK_QjdRHvw2anM==Z6fsJvjyqLYFLw@mail.gmail.com>
+Message-ID: <CAL_Jsq+9BwYyV9Vu1gfCnK_QjdRHvw2anM==Z6fsJvjyqLYFLw@mail.gmail.com>
+Subject: Re: [PATCH 0/6] dts: Fix dtc interrupt warnings
+To: Conor Dooley <conor@kernel.org>
+Cc: soc@kernel.org, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Tsahee Zidenberg <tsahee@annapurnalabs.com>, Antoine Tenart <atenart@kernel.org>, 
+	Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn <andrew@lunn.ch>, 
+	Gregory Clement <gregory.clement@bootlin.com>, 
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, 
+	=?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
+	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Stefan Agner <stefan@agner.ch>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, =?UTF-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>, 
+	Tony Lindgren <tony@atomide.com>, Chanho Min <chanho.min@lge.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Linus Walleij <linusw@kernel.org>, Imre Kaloz <kaloz@openwrt.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, linux-arm-kernel@lists.infradead.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, 
+	linux-tegra@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-omap@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+	linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue 13 Feb 2024 11:15:40 GMT, Masahiro Yamada wrote:
-> On Tue, Feb 13, 2024 at 11:06=E2=80=AFAM Nathan Chancellor=20
-> <nathan@kernel.org> wrote:
+On Tue, Feb 13, 2024 at 2:27=E2=80=AFPM Conor Dooley <conor@kernel.org> wro=
+te:
+>
+> On Tue, Feb 13, 2024 at 01:34:24PM -0600, Rob Herring wrote:
+> > I had a branch with most of these changes sitting in my tree for some
+> > time. Geert's asking about some errors not getting found prompted me to
+> > clean it up and send it out. This series fixes all* interrupt related
+> > warnings and enables the check by default.
 > >
-> > Commit 90ceddcb4950 ("bpf: Support llvm-objcopy for vmlinux BTF")
-> > changed the ELF type of .btf.vmlinux.bin.o to ET_REL via dd, which works
-> > fine for little endian platforms:
+> > SoC maintainers, Can you please take this series directly.
 > >
-> >    00000000  7f 45 4c 46 02 01 01 00  00 00 00 00 00 00 00 00  |.ELF...=
-=2E........|
-> >   -00000010  03 00 b7 00 01 00 00 00  00 00 00 80 00 80 ff ff  |.......=
-=2E........|
-> >   +00000010  01 00 b7 00 01 00 00 00  00 00 00 80 00 80 ff ff  |.......=
-=2E........|
+> > Rob
 > >
-> > However, for big endian platforms, it changes the wrong byte, resulting
-> > in an invalid ELF file type, which ld.lld rejects:
+> > *There's a few Renesas warnings still Geert said he would fix.
 > >
-> >    00000000  7f 45 4c 46 02 02 01 00  00 00 00 00 00 00 00 00  |.ELF...=
-=2E........|
-> >   -00000010  00 03 00 16 00 00 00 01  00 00 00 00 00 10 00 00  |.......=
-=2E........|
-> >   +00000010  01 03 00 16 00 00 00 01  00 00 00 00 00 10 00 00  |.......=
-=2E........|
-> >
-> >   Type:                              <unknown>: 103
-> >
-> >   ld.lld: error: .btf.vmlinux.bin.o: unknown file type
-> >
-> > Fix this by updating the entire 16-bit e_type field rather than just a
-> > single byte, so that everything works correctly for all platforms and
-> > linkers.
-> >
-> >    00000000  7f 45 4c 46 02 02 01 00  00 00 00 00 00 00 00 00  |.ELF...=
-=2E........|
-> >   -00000010  00 03 00 16 00 00 00 01  00 00 00 00 00 10 00 00  |.......=
-=2E........|
-> >   +00000010  00 01 00 16 00 00 00 01  00 00 00 00 00 10 00 00  |.......=
-=2E........|
-> >
-> >   Type:                              REL (Relocatable file)
-> >
-> > While in the area, update the comment to mention that binutils 2.35+
-> > matches LLD's behavior of rejecting an ET_EXEC input, which occurred
-> > after the comment was added.
-> >
-> > Cc: stable@vger.kernel.org
-> > Fixes: 90ceddcb4950 ("bpf: Support llvm-objcopy for vmlinux BTF")
-> > Link: https://github.com/llvm/llvm-project/pull/75643
-> > Suggested-by: Masahiro Yamada <masahiroy@kernel.org>
-> > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
->=20
->=20
-> Thanks.
->=20
-> I will wait for a few days until
-> the reviewers come back to give Reviewed-by again.
-
-thanks, v2 looks even better.
-
-Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
-
+> > Signed-off-by: Rob Herring <robh@kernel.org>
 > > ---
-> > Changes in v2:
-> > - Rather than change the seek value for dd, update the entire e_type
-> >   field (Masahiro). Due to this change, I did not carry forward the
-> >   tags of v1.
-> > - Slightly update commit message to remove mention of ET_EXEC, which
-> >   does not match the dump (Masahiro).
-> > - Update comment to mention binutils 2.35+ has the same behavior as LLD
-> >   (Fangrui).
-> > - Link to v1: https://lore.kernel.org/r/20240208-fix-elf-type-btf-vmlin=
-ux-bin-o-big-endian-v1-1-cb3112491edc@kernel.org
-> > ---
-> >  scripts/link-vmlinux.sh | 9 +++++++--
-> >  1 file changed, 7 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-> > index a432b171be82..7862a8101747 100755
-> > --- a/scripts/link-vmlinux.sh
-> > +++ b/scripts/link-vmlinux.sh
-> > @@ -135,8 +135,13 @@ gen_btf()
-> >         ${OBJCOPY} --only-section=3D.BTF --set-section-flags .BTF=3Dall=
-oc,readonly \
-> >                 --strip-all ${1} ${2} 2>/dev/null
-> >         # Change e_type to ET_REL so that it can be used to link final =
-vmlinux.
-> > -       # Unlike GNU ld, lld does not allow an ET_EXEC input.
-> > -       printf '\1' | dd of=3D${2} conv=3Dnotrunc bs=3D1 seek=3D16 stat=
-us=3Dnone
-> > +       # GNU ld 2.35+ and lld do not allow an ET_EXEC input.
-> > +       if is_enabled CONFIG_CPU_BIG_ENDIAN; then
-> > +               et_rel=3D'\0\1'
-> > +       else
-> > +               et_rel=3D'\1\0'
-> > +       fi
-> > +       printf "${et_rel}" | dd of=3D${2} conv=3Dnotrunc bs=3D1 seek=3D=
-16 status=3Dnone
-> >  }
-> >
-> >  # Create ${2} .S file with all symbols from the ${1} object file
-> >
-> > ---
-> > base-commit: 54be6c6c5ae8e0d93a6c4641cb7528eb0b6ba478
-> > change-id: 20240208-fix-elf-type-btf-vmlinux-bin-o-big-endian-dbc55a1e1=
-296
-> >
-> > Best regards,
-> > --
-> > Nathan Chancellor <nathan@kernel.org>
-> >
-> >
->=20
->=20
-> --=20
-> Best Regards
-> Masahiro Yamada
+> > Rob Herring (6):
+> >       arm64: dts: freescale: Disable interrupt_map check
+> >       arm: dts: Fix dtc interrupt_provider warnings
+> >       arm64: dts: Fix dtc interrupt_provider warnings
+> >       arm: dts: Fix dtc interrupt_map warnings
+> >       arm64: dts: qcom: Fix interrupt-map cell sizes
+> >       dtc: Enable dtc interrupt_provider check
+>
+> Only fixing it for arm, Sadge.
 
---k3DOEzKl6wHMV12g
-Content-Type: application/pgp-signature; name="signature.asc"
+I was assuming you had things in order. ;)
 
------BEGIN PGP SIGNATURE-----
+> Co-incidentally I noticed there was one for riscv while looking at
+> Krzysztof's underscore in node name patch earlier, so I'd already
+> written a patch to fix it :)
 
-iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmXL1nkACgkQB1IKcBYm
-EmknARAA2E4GEywHnpFzwMKgFe11O30rRL3/W2ji1MkLji9oI5NquTUJZ6Qw/9Nc
-LT69QvkdpCrRX+zpqqI+hCV5CsyXzUKbOmcd0FQ3F6jxB35QM4ko1sYLJBcw3Xau
-waRdyD0agJ3IbcF85/f3xIvUk33Qhm55yMzLx/IZl7YKwI3/E4iO3JSWY1IfijMo
-l9fWpu7ZOSHrbglfgONr3GPt9vLwVBP5hXxwbkbR9r2VRL8Mc5oHHFMJYcY4y3bF
-wQVT7Fsz++dgnxD8VoyBBtVWrmrFx9pc/3sGbgK6tECwuVKd4ZzeGi0uRaB94Shy
-AoigytM4RQo8CxDhI3E952P1IYStX3yitI6hVcYcpOK6rOikKqwc9SZvmOyNbleY
-mUkeddNa3TA90BIJ1TdG+SFWdpfbx1R516pkagHLkt89jYq4uvb5pDs4QO65umxN
-D0OMvKaRBpPZNmy90557DA4s0BOhs6DZWmCGWR/nsz7h5zPHi7kDVwH4I7M+1VI6
-L2hQXFIYWvY17HAXHXyULgefp4bEhnvCCAzckkf6edpVdzloBhYWkzoGQn9eoERP
-NT9cRMElIP5s7ejDDaB5fwog6K5oNg6Wjbce2aV0Kpb8QTx2pDT1aw2Ml+RUm83N
-kiAoHupA7gVA1dio5hG1x7KZDHwK6CfhzhPFGnfFa0wNs7iWqmU=
-=ghs2
------END PGP SIGNATURE-----
+See, I was right.
 
---k3DOEzKl6wHMV12g--
+Actually, I did remember to check right after I sent this and noticed the s=
+ame.
+
+For powerpc, no one else can be bothered to care, so neither do I. I
+think powerpc has been spewing dtc warnings by default for some time
+now.
+
+Rob
 
