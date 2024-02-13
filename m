@@ -1,181 +1,244 @@
-Return-Path: <linux-kbuild+bounces-898-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-899-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FF66852557
-	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Feb 2024 02:12:46 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31588852697
+	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Feb 2024 02:37:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E89621F24D02
-	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Feb 2024 01:12:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 512911C24D7B
+	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Feb 2024 01:37:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE95C3224;
-	Tue, 13 Feb 2024 00:27:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D04B1DDD7;
+	Tue, 13 Feb 2024 00:55:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J5yttsII"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HH6dqeeM"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 973092C68A;
-	Tue, 13 Feb 2024 00:27:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 705F764CE6;
+	Tue, 13 Feb 2024 00:55:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707784068; cv=none; b=W7gpCJOcx1i8IxejSyd9zppSlZsQJIznaQk01DldJvn7gdlPRiWD8U9E+avb+0PFf293Sf2a8iRgJkm1UXLJjg951p1dYUjmo4eVdVDU+NliPHr2f6IEnZhXa4tXSr8Q73hyo80eJO9YNOOGsOrl3YK5a6N++GBygG7WVN0BO6A=
+	t=1707785746; cv=none; b=CXFokEZ7sx+0U+RFY0yRhKRWJflFTPKtHqVEx3lrJWJDAVPWeT4qeeLTMNepCuwFHsS9I/DO9qy8hIs5QS5hMzTwb0TTDbKnZgYcpFPFqMrhcovhXQwpRyeu6PFPBW53c1sN0FZtVzS7ppRY0DTeFcylrQv9yl+5Fh0yK+R9yRo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707784068; c=relaxed/simple;
-	bh=M66w+pWxehuYBk+Cb8hsy1oktPUqPTiWP+21qBuk88E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X8nxQxjVi5Kq+XBjFQCLxJXd4oCaPZEGqK+dmjjT5IoPDBRxlH7Tiy5hcM2jMCP+jKLrjUNfs4jvzDRGfUR5MlVswKIz6xfcDHuxhI/8f5tIz8LJJIm7FGq1GZ02bLbTTTz99ev8Ueq5M/oRXdUXnmLiGhMeXhnnv1C51iFccqo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J5yttsII; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB1B0C433C7;
-	Tue, 13 Feb 2024 00:27:47 +0000 (UTC)
+	s=arc-20240116; t=1707785746; c=relaxed/simple;
+	bh=x5LbtggR4Z3xaic6f6M9HxtLNo4SYpCsgxFez8n4Mqs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=u5ej6mFN+6o1TMq7ScucUhCPQHv5kq9ph6vPEteThxn6Ix8HEy7Ugwhd96e2SOrS9xgtVlYMgyki373/kslfY+O9Znt4kuHVGNN9WkT/alMbKm2UcfOWIt/ixDRtNuIT/0ZaTj6j77ig1Y78pODwX3fNqUJ2XAhdnCL8CuLJeQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HH6dqeeM; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11CECC43330;
+	Tue, 13 Feb 2024 00:55:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707784068;
-	bh=M66w+pWxehuYBk+Cb8hsy1oktPUqPTiWP+21qBuk88E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=J5yttsIIDOKZHldhQet6OkDAFharrNZeoVhDnkgZKtYlpNE1XBBEEkfTSn6zhjvZJ
-	 q6qujD8hH7dl0s5SIoOgoFwxdeiZ9Rjn2wtDSsGi+kFLUPJ9jMIhzIQwEbuXVvsJBQ
-	 C5+uA0TQhiDqsJt7ub4cRTU8zhTlVZ4kyltx2CUTtUMicxBvONZ6yTVtzCkCAzY0QW
-	 2Gk3OW2JEuEneFjLbQo7G1KVx2zUuQkatNkbw5d8RYhDftYmJxznAEi6j4gEIkU746
-	 lWTSUVecHsUkUxZONZDZwl3pP1555PC1MbdGY5lOa8Obbr5lPBllYaZtewrw2goQmB
-	 Sy8mqpQD81dkw==
-Date: Mon, 12 Feb 2024 17:27:46 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Petr Pavlu <petr.pavlu@suse.com>
-Cc: masahiroy@kernel.org, nicolas@fjasle.eu, mark.rutland@arm.com,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kbuild: Use -fmin-function-alignment when available
-Message-ID: <20240213002746.GB3272429@dev-arch.thelio-3990X>
-References: <20240212145355.1050-1-petr.pavlu@suse.com>
+	s=k20201202; t=1707785746;
+	bh=x5LbtggR4Z3xaic6f6M9HxtLNo4SYpCsgxFez8n4Mqs=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=HH6dqeeMCz4ysgu5nOyiSwKFIVRhElfGwxll//vyMwoV5+dzYmBVbWne9Epn50sHC
+	 Xv64bndEVgi2v47iqTNtM91j1nUk8TZQ1xRburn2kU7BqBRzGs7b8TwCGsHJX9xsOn
+	 6XC256+nLTPFY/DiJ2hRMNRwmfmXB/gRcvckxZOMU8oU+hDjlN/2+9CnvrF+5lAbkZ
+	 9wg3/lc5jeMv2lguto4nh62ncD0EFC5BV2yx+oFrL8Lo1xyDIKd3mXOdYKJ5BeUClh
+	 UL1LRqm8+32I59VUAuWI7VMQ5XB6maGbHVorypG2rBo3VOkVYBPLO6lT9BxDxn9uI+
+	 JQUndQiOOdjJw==
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2d0e2adfeefso38320771fa.2;
+        Mon, 12 Feb 2024 16:55:45 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWPuBdLRyV5H7NSPO8/1387sQWdMDNnYGsOUIJpZjrrxNxDyIWJKIcTeZUHkOoi9NyfDfLq6cPL5lp1Nxp9f/ep6C4ysSXOcxVBF8Wr2av2gyXxYZ4pvEX8PBLVq1brvZ/33omMUQYiS8ucBYUPJ+slDW71TggnrEG2
+X-Gm-Message-State: AOJu0YwFFjB3gzVYtz9nGEsnF1yYbosgmK00ZUZUKaxMilYWXOP2jGn4
+	DxGTT7qhhtSjRbSYoOBwfmOEc5YTujFuR5vFjUz7nIwgjAq+z6qSDA+MF66QvuIkrxJkRstB9Fl
+	371jlvAFbwKGpBBNzDe4CVdPncbk=
+X-Google-Smtp-Source: AGHT+IHKL6G3yu5doOJaxyZoeQuHPK6LLjZ7gg1ZT1vESg0Rl9kdoUbQ0BifEkJzoizI59vLRa0vB/zcugpsMQjVSQc=
+X-Received: by 2002:ac2:4245:0:b0:511:4268:3a54 with SMTP id
+ m5-20020ac24245000000b0051142683a54mr5659125lfl.29.1707785744497; Mon, 12 Feb
+ 2024 16:55:44 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240212145355.1050-1-petr.pavlu@suse.com>
+References: <20240208-fix-elf-type-btf-vmlinux-bin-o-big-endian-v1-1-cb3112491edc@kernel.org>
+In-Reply-To: <20240208-fix-elf-type-btf-vmlinux-bin-o-big-endian-v1-1-cb3112491edc@kernel.org>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Tue, 13 Feb 2024 09:55:07 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAT1+K87M2f_8enCydaKgDPLP9E1ex-as85eC2hB49bkBA@mail.gmail.com>
+Message-ID: <CAK7LNAT1+K87M2f_8enCydaKgDPLP9E1ex-as85eC2hB49bkBA@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: Fix changing ELF file type for output of gen_btf
+ for big endian
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: nicolas@fjasle.eu, ndesaulniers@google.com, morbo@google.com, 
+	justinstitt@google.com, keescook@chromium.org, maskray@google.com, 
+	linux-kbuild@vger.kernel.org, bpf@vger.kernel.org, llvm@lists.linux.dev, 
+	patches@lists.linux.dev, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Petr,
+On Fri, Feb 9, 2024 at 5:21=E2=80=AFAM Nathan Chancellor <nathan@kernel.org=
+> wrote:
+>
+> Commit 90ceddcb4950 ("bpf: Support llvm-objcopy for vmlinux BTF")
+> changed the ELF type of .btf.vmlinux.bin.o from ET_EXEC to ET_REL via
+> dd, which works fine for little endian platforms:
+>
+>    00000000  7f 45 4c 46 02 01 01 00  00 00 00 00 00 00 00 00  |.ELF.....=
+.......|
+>   -00000010  03 00 b7 00 01 00 00 00  00 00 00 80 00 80 ff ff  |.........=
+.......|
 
-On Mon, Feb 12, 2024 at 03:53:55PM +0100, Petr Pavlu wrote:
-> GCC recently added option -fmin-function-alignment, which should appear
-> in GCC 14. Unlike -falign-functions, this option causes all functions to
-> be aligned at the specified value, including the cold ones.
-> 
-> Detect availability of -fmin-function-alignment and use it instead of
-> -falign-functions when present. Introduce CC_HAS_SANE_FUNCTION_ALIGNMENT
-> and make the workarounds for the broken function alignment conditional
-> on this setting.
-> 
-> Signed-off-by: Petr Pavlu <petr.pavlu@suse.com>
+
+
+I am afraid this dump is confusing.
+
+The byte stream "03 00" is ET_DYN, as specified in ELF:
+
+
+
+  Name        Value
+  ------------------
+  ET_REL        1
+  ET_EXEC       2
+  ET_DYN        3
+
+
+
+It disagrees with your commit message "from ET_EXEC to ET_REL"
+
+The dump for the old ELF was "02 00", wasn't it?
+
+
+
+
+
+>   +00000010  01 00 b7 00 01 00 00 00  00 00 00 80 00 80 ff ff  |.........=
+.......|
+>
+> However, for big endian platforms, it changes the wrong byte, resulting
+> in an invalid ELF file type, which ld.lld rejects:
+
+
+Fangrui pointed out this is true for inutils >=3D 2.35
+
+
+
+>
+>    00000000  7f 45 4c 46 02 02 01 00  00 00 00 00 00 00 00 00  |.ELF.....=
+.......|
+>   -00000010  00 03 00 16 00 00 00 01  00 00 00 00 00 10 00 00  |.........=
+.......|
+>   +00000010  01 03 00 16 00 00 00 01  00 00 00 00 00 10 00 00  |.........=
+.......|
+
+ -  00 02
+ +  01 02
+
+
+
+>
+>   Type:                              <unknown>: 103
+>
+>   ld.lld: error: .btf.vmlinux.bin.o: unknown file type
+>
+> Fix this by using a different seek value for dd when targeting big
+> endian, so that the correct byte gets changed and everything works
+> correctly for all linkers.
+>
+>    00000000  7f 45 4c 46 02 02 01 00  00 00 00 00 00 00 00 00  |.ELF.....=
+.......|
+>   -00000010  00 03 00 16 00 00 00 01  00 00 00 00 00 10 00 00  |.........=
+.......|
+
+
+Ditto.
+
+
+
+
+>   +00000010  00 01 00 16 00 00 00 01  00 00 00 00 00 10 00 00  |.........=
+.......|
+>
+>   Type:                              REL (Relocatable file)
+>
+> Cc: stable@vger.kernel.org
+> Fixes: 90ceddcb4950 ("bpf: Support llvm-objcopy for vmlinux BTF")
+> Link: https://github.com/llvm/llvm-project/pull/75643
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 > ---
->  Makefile                       |  7 ++++++-
->  arch/Kconfig                   |  8 ++++++++
->  include/linux/compiler_types.h | 10 +++++-----
->  kernel/exit.c                  |  5 ++++-
->  4 files changed, 23 insertions(+), 7 deletions(-)
-> 
-> diff --git a/Makefile b/Makefile
-> index 7e0b2ad98905..9516e43f6e45 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -974,7 +974,12 @@ export CC_FLAGS_CFI
->  endif
->  
->  ifneq ($(CONFIG_FUNCTION_ALIGNMENT),0)
-> -KBUILD_CFLAGS += -falign-functions=$(CONFIG_FUNCTION_ALIGNMENT)
-> +# Set the minimal function alignment. Try to use the newer GCC option
-> +# -fmin-function-alignment, or fall back to -falign-funtions. See also
-> +# CONFIG_CC_HAS_SANE_FUNCTION_ALIGNMENT.
-> +KBUILD_CFLAGS += $(call cc-option, \
-> +	-fmin-function-alignment=$(CONFIG_FUNCTION_ALIGNMENT), \
-> +	-falign-functions=$(CONFIG_FUNCTION_ALIGNMENT))
->  endif
->  
->  # arch Makefile may override CC so keep this after arch Makefile is included
-> diff --git a/arch/Kconfig b/arch/Kconfig
-> index a5af0edd3eb8..e2448f927fae 100644
-> --- a/arch/Kconfig
-> +++ b/arch/Kconfig
-> @@ -1507,4 +1507,12 @@ config FUNCTION_ALIGNMENT
->  	default 4 if FUNCTION_ALIGNMENT_4B
->  	default 0
->  
-> +config CC_HAS_SANE_FUNCTION_ALIGNMENT
-> +	# Detect availability of the GCC option -fmin-function-alignment which
-> +	# guarantees minimal alignment for all functions. GCC 13 and older have
-> +	# only -falign-functions which the compiler ignores for cold functions
-> +	# and this hence requires extra care in the kernel. Clang provides
-> +	# strict alignment always when using -falign-functions.
-> +	def_bool $(cc-option, -fmin-function-alignment=8) || CC_IS_CLANG
-> +
+>  scripts/link-vmlinux.sh | 11 +++++++++--
+>  1 file changed, 9 insertions(+), 2 deletions(-)
+>
+> diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
+> index a432b171be82..8a9f48b3cb32 100755
+> --- a/scripts/link-vmlinux.sh
+> +++ b/scripts/link-vmlinux.sh
+> @@ -135,8 +135,15 @@ gen_btf()
+>         ${OBJCOPY} --only-section=3D.BTF --set-section-flags .BTF=3Dalloc=
+,readonly \
+>                 --strip-all ${1} ${2} 2>/dev/null
+>         # Change e_type to ET_REL so that it can be used to link final vm=
+linux.
+> -       # Unlike GNU ld, lld does not allow an ET_EXEC input.
+> -       printf '\1' | dd of=3D${2} conv=3Dnotrunc bs=3D1 seek=3D16 status=
+=3Dnone
+> +       # Unlike GNU ld, lld does not allow an ET_EXEC input. Make sure t=
+he correct
+> +       # byte gets changed with big endian platforms, otherwise e_type m=
+ay be an
+> +       # invalid value.
+> +       if is_enabled CONFIG_CPU_BIG_ENDIAN; then
+> +               seek=3D17
+> +       else
+> +               seek=3D16
+> +       fi
+> +       printf '\1' | dd of=3D${2} conv=3Dnotrunc bs=3D1 seek=3D${seek} s=
+tatus=3Dnone
+>  }
+>
+>  # Create ${2} .S file with all symbols from the ${1} object file
 
-I think this configuration should be split into something like
-CONFIG_CC_HAS_MIN_FUNCTION_ALIGNMENT that has the cc-option check then
-CONFIG_CC_HAS_SANE_FUNCTION_ALIGNMENT can depend on that configuration
-or Clang as you have it here, so that we can drop the cc-option check in
-the main Makefile and have it be:
 
-ifdef CONFIG_CC_HAS_MIN_FUNCTION_ALIGNMENT
-KBUILD_CFLAGS += -fmin-function-alignment=$(CONFIG_FUNCTION_ALIGNMENT)
+
+Do you want to send v2 to update the commit description?
+
+
+The current code will work, but another approach might be to
+update both byte 16 and byte 17 because e_type is a 16-bit field.
+
+
+It works without relying on the MSB of the previous e_type being zero.
+The comment does not need updating because the intention is obvious
+from the code.
+
+
+if is_enabled CONFIG_CPU_BIG_ENDIAN; then
+        et_rel=3D'\0\1'
 else
-KBUILD_CFLAGS += -falign-functions=$(CONFIG_FUNCTION_ALIGNMENT)
-endif
+        et_rel=3D'\1\0'
+fi
 
-It is wasteful to call cc-option twice in my opinion, especially if we
-are checking it in Kconfig.
+printf "${et_rel}" | dd of=3D${2} conv=3Dnotrunc bs=3D1 seek=3D16 status=3D=
+none
 
->  endmenu
-> diff --git a/include/linux/compiler_types.h b/include/linux/compiler_types.h
-> index 663d8791c871..f0152165e83c 100644
-> --- a/include/linux/compiler_types.h
-> +++ b/include/linux/compiler_types.h
-> @@ -99,17 +99,17 @@ static inline void __chk_io_ptr(const volatile void __iomem *ptr) { }
->   *   gcc: https://gcc.gnu.org/onlinedocs/gcc/Label-Attributes.html#index-cold-label-attribute
->   *
->   * When -falign-functions=N is in use, we must avoid the cold attribute as
-> - * contemporary versions of GCC drop the alignment for cold functions. Worse,
-> - * GCC can implicitly mark callees of cold functions as cold themselves, so
-> - * it's not sufficient to add __function_aligned here as that will not ensure
-> - * that callees are correctly aligned.
-> + * GCC drops the alignment for cold functions. Worse, GCC can implicitly mark
-> + * callees of cold functions as cold themselves, so it's not sufficient to add
-> + * __function_aligned here as that will not ensure that callees are correctly
-> + * aligned.
->   *
->   * See:
->   *
->   *   https://lore.kernel.org/lkml/Y77%2FqVgvaJidFpYt@FVFF77S0Q05N
->   *   https://gcc.gnu.org/bugzilla/show_bug.cgi?id=88345#c9
->   */
-> -#if !defined(CONFIG_CC_IS_GCC) || (CONFIG_FUNCTION_ALIGNMENT == 0)
-> +#if defined(CONFIG_CC_HAS_SANE_FUNCTION_ALIGNMENT) || (CONFIG_FUNCTION_ALIGNMENT == 0)
->  #define __cold				__attribute__((__cold__))
->  #else
->  #define __cold
-> diff --git a/kernel/exit.c b/kernel/exit.c
-> index dfb963d2f862..5a6fed4ad3df 100644
-> --- a/kernel/exit.c
-> +++ b/kernel/exit.c
-> @@ -1920,7 +1920,10 @@ EXPORT_SYMBOL(thread_group_exited);
->   *
->   * See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=88345#c11
->   */
-> -__weak __function_aligned void abort(void)
-> +#ifndef CONFIG_CC_HAS_SANE_FUNCTION_ALIGNMENT
-> +__function_aligned
-> +#endif
-> +__weak void abort(void)
->  {
->  	BUG();
->  
-> 
-> base-commit: 841c35169323cd833294798e58b9bf63fa4fa1de
-> -- 
-> 2.35.3
-> 
+
+
+
+
+
+
+
+
+
+> ---
+> base-commit: 54be6c6c5ae8e0d93a6c4641cb7528eb0b6ba478
+> change-id: 20240208-fix-elf-type-btf-vmlinux-bin-o-big-endian-dbc55a1e129=
+6
+>
+> Best regards,
+> --
+> Nathan Chancellor <nathan@kernel.org>
+>
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
