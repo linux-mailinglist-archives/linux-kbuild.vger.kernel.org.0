@@ -1,184 +1,143 @@
-Return-Path: <linux-kbuild+bounces-922-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-923-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06423854071
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Feb 2024 00:56:47 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC48C8540DB
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Feb 2024 01:32:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CB7CBB23425
-	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Feb 2024 23:56:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5AB181F24492
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Feb 2024 00:32:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E30B7633F9;
-	Tue, 13 Feb 2024 23:56:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 517DB4688;
+	Wed, 14 Feb 2024 00:31:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WxlZD6g7"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="SRJlIXXf"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-il1-f173.google.com (mail-il1-f173.google.com [209.85.166.173])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 237EE633E8
-	for <linux-kbuild@vger.kernel.org>; Tue, 13 Feb 2024 23:56:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E6D07F
+	for <linux-kbuild@vger.kernel.org>; Wed, 14 Feb 2024 00:31:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707868598; cv=none; b=cBT781gBHFOx1zXIXyuFhQBTgujrEZNfxGih9xlEhDqMaZ8fYK7udQwh52cVgg6qwNO6HMOrXOTMkgpBBkJWFZp9NJB84eIJq6/IUkg015RT1lcGcbMVlomSEvqN6hoMTm7jarCTMQnc0+HXRjvq0XIE4Nk5RkPKc1UnUi5KX94=
+	t=1707870719; cv=none; b=c3nwIAkGO9bm6hvPDmxkztgXisq8+FohDcs50+jAm7O1YuwrHjFuJKlWEsAerHtAcBs4dluH6LRcAKi69jncb5PHCVvGzu2lCSLtDgKv5+QGSzmanR8jRGJkGj5ufvudfaIMJ7BIgsw1hr3ywLXjWax3MMALbAHI2cwJ1lQt3Ng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707868598; c=relaxed/simple;
-	bh=eG1Z7qXp1jDGBo50wsnYjDQwhUF5D2ifiNDV1RQ+kpQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r4GP+yKOX1PxGyCQv9wU5dSRLtelOzhsj8WycurlQX79oyNbGo7i2n79ZkX0PigYsli4TZXEHHaBH0b9ye/z8BChRACmFq2qM8GPyCzGdwfc3TNZ3r7jixWV03216svxZFsvtyVFQ045abNrSglK9mlJLoQMlH/Nx9dgXUVaxdc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WxlZD6g7; arc=none smtp.client-ip=209.85.166.173
+	s=arc-20240116; t=1707870719; c=relaxed/simple;
+	bh=QOITHjTga42hAflI40Ipbts+6T7yutOW1a81G6BTQgE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VXAyk1rBHh+zGkcpExv/o/ZOp3hb26cW8a03zulQBRZFzpHEb/bHIF1OL29eC/ShV9zMgmKHJw6uP/ccZ5aYt+sVNIjK6XNTIvZ8o+Ye2tZnchVFAB067iIg2BPO/9vJWIbNXhKUCEkHzbAncRAwpfyN9/O6SVMetO0E4I4Fv+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=SRJlIXXf; arc=none smtp.client-ip=209.85.208.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-il1-f173.google.com with SMTP id e9e14a558f8ab-3641ec7803fso3216545ab.2
-        for <linux-kbuild@vger.kernel.org>; Tue, 13 Feb 2024 15:56:36 -0800 (PST)
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5600c43caddso5937400a12.2
+        for <linux-kbuild@vger.kernel.org>; Tue, 13 Feb 2024 16:31:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1707868596; x=1708473396; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=j5i0+7qUkGUR+StQ2aGirnK2+rjtRkZXXH7K9o3+5lE=;
-        b=WxlZD6g7OdQLjuRfBGPOhxKRIg8AqBXP4EHhI5tcB2vs2JGR9Q9UX7v7HF/VpJfW6I
-         sqgDWwRo9ccvV/iREbDb69y5Hu9nuYHikBdvxM3hfuhiyMOzdGAvSiKEKTecv3So6Vdj
-         3YEoBy36bNfQYLe2omuzplTiE3I30r8zuhfIr/0glJkUM9vLpZZTvji5OkBmtWm+zwDm
-         R7/zvmzb3ZuB+wSckTdkPUgs+zABNzWPRze1vhPkdw80qjx67JVSqf5ZYQECt9ggWisW
-         OMkibnCWnQFa2pSCWQi35FTv9tLt+SkCYThCEDsCW/Vj+n1SAYpl0wYdd/v+FBUhNhgY
-         7Vhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707868596; x=1708473396;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1707870716; x=1708475516; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=j5i0+7qUkGUR+StQ2aGirnK2+rjtRkZXXH7K9o3+5lE=;
-        b=TqcWkfMkJc5YW56LzPrOXA0krqzVMoJ4Cb5LgEGG88ipean3kEMwg4ksXsRWdqnD1y
-         Z1V4z4JEss1vwe8AGmMipWndAegg1zAY65evxJHq9NoY5gFka8ZNy6P3myUznwAeLY5m
-         ABbWrZ0F9a4STxKrYNd9+IxVHD/991CNPoT3WTKpI8Wg0NDWS9Hz4O+ZI5VQaFwwReaO
-         ZlxTYkt9yLr6+JyEpJeCeb159pgwV+PTBjQ4bdLOHrhq0A19xVlpx8QPkNTz1+GrrjFt
-         uY/qz2ZjRXWN9AErWAF8kcjKywKD8UKVT8QUcth+DZwjSKQkTDzCuwFZXNwQ6/ZF667d
-         zm9Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUVU/2MKTN9oj+ewnIwAp09FyEKFpNkTNALVUJTZCV1LQby5lcbNjUcNxB7XfYZ7hi4z0NCWF8F/7C+57VvQKi4qcEhsH88zZpqpxxM
-X-Gm-Message-State: AOJu0YzjIE9Kw+ZYaiiL6OzvqD2XXLVzaib4CXVKjqje5pM74v/KbAyA
-	58DdHmS0ufjlDL62fQlRO9awJsutSkF+rTccik25lEuXdZJAHxav5a8g6jL4MA==
-X-Google-Smtp-Source: AGHT+IG62RuLwq2OLE5Yz0FmcAHGNtv9/YBtgvIUbfni/ZF6on/cLe36ocrjEhGbaxm7Edp0+sjhbg==
-X-Received: by 2002:a05:6e02:1bc7:b0:363:cbb8:53c7 with SMTP id x7-20020a056e021bc700b00363cbb853c7mr1787567ilv.23.1707868596087;
-        Tue, 13 Feb 2024 15:56:36 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXYvP9l0sxOZNWxefz67TKAm7Fu6CaEpFHauX0AQItVIogkJSLzPJZFx0UakEwLZxl00t5oU+31mhKid7inxkeFp2reqoNF7I1kQxXuMe0ZLLjU+VNcyvi5h0kzhX+TyeJ1VP43aVOT4m3qsJuZ2WTnAEwLcwMnWktU04ycyXRDgCmsBODEflPdYmaHZucstimY66Km2/Z5gIAEwJ1hCoRUXhk25LYKDboLX3KT8nLXdpopsd/2CwWbSm4unOobRINWMcfmsvORIfDXc7r/Zsi25RKx+qHoRGHeVwQ1Bb6ybiJKW3ABwCmcS53hIVlmX6p+Il8fLHtHn7VLINZCCIx57OjUssEr+x0lmRVkHqzYzjQ=
-Received: from google.com (20.10.132.34.bc.googleusercontent.com. [34.132.10.20])
-        by smtp.gmail.com with ESMTPSA id n11-20020a02cc0b000000b004739f0fc27fsm2028449jap.164.2024.02.13.15.56.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Feb 2024 15:56:35 -0800 (PST)
-Date: Tue, 13 Feb 2024 23:56:30 +0000
-From: Justin Stitt <justinstitt@google.com>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: masahiroy@kernel.org, nicolas@fjasle.eu, ndesaulniers@google.com,
-	morbo@google.com, keescook@chromium.org, maskray@google.com,
-	linux-kbuild@vger.kernel.org, bpf@vger.kernel.org,
-	llvm@lists.linux.dev, patches@lists.linux.dev,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2] kbuild: Fix changing ELF file type for output of
- gen_btf for big endian
-Message-ID: <20240213235630.423raijsgijkgrnj@google.com>
-References: <20240212-fix-elf-type-btf-vmlinux-bin-o-big-endian-v2-1-22c0a6352069@kernel.org>
+        bh=BTLJH4nKUhzssrfYYFDWlc0Q3VkrPFVldyClGOqfMTE=;
+        b=SRJlIXXf/Uj1C1NQiizJ+lTzl63+/AVQ95vJ0U21y5bAEkD95fd9AVFcvIoqBLHoxO
+         /KD54Pc0wZ1pjyHX/4U+vCDuMXtrUXagm+7tpQxwcSms8fCOlbUWR+6sjLkvw+G7DSBr
+         JYNWIoULnqgUD1YwhBgAheUCI7ZLX/rVPvU8H5v3GHn0+9thoZiudqyTGzsX3TTF7xhX
+         cAWtNo9oS7Dp0gtrR1NFwloTvG/IW4WQLNR3Ri380IVxTWaI6xdaUFXy7Z2Wb6fSEy7q
+         Fk+G4ioIT8K53VIqDhRquk2x3yeRa4eoFiKukWe5j8GdmEfIvBweEY8LbbWURe5Yu1hg
+         /3zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707870716; x=1708475516;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BTLJH4nKUhzssrfYYFDWlc0Q3VkrPFVldyClGOqfMTE=;
+        b=aVUASLQBvvR5fDhoD4aWD6tDwBkvZEqPEs0mzMIDunb1kipbXrXgqqgbOnqJNNn/ek
+         9BN8uUTC169Eeq8ay6uRskQqeUyoRmZeMkaIEOig6kB5LaNaFXKZCAc5+mOPWv3sVeMO
+         +jvQkNEm+iaUv7GMxu4LZcy6F7+jqDDIHOc3dDpTpVThLkjBO0vKTd+aymh+3rrrlBgS
+         Kc6eZiGJpnp8lXlEEziMvlIk/QBj6Zu1qRWiPEd50Fx1BKvZm7qqlcHT/Xvz57kAnQGV
+         4ewnDikS8WDLGS8VX9CVlQTjAmOEPfZMrjWWJa1eatVKFVEfB0rRfM6yKf2rHJNfZv4H
+         MLSA==
+X-Forwarded-Encrypted: i=1; AJvYcCUSL4m4nXcYn1g/Bc//mX5tsnd3daXW76NUe3nd9KneTA1rmT0DpwuZ0Ui0uLn6uSE3q1TVhA2cVoihuMx9eKJSvwuSvHRX6bP47Rlz
+X-Gm-Message-State: AOJu0YyzyRMcdMWJCDTXoaEEmJswmqTQVd50gUNJj0v2YdEyoNDeKcaL
+	bCG97mG5eD5343hxl1EKuvA08XAQYVJ32y9Rmx6xsz77xRTJYTXo9kAS/QJcUuCUN2LTltxQ+dY
+	uJWkXGmas1mSKGQJjNqAhurCD7kndrPbZErY4
+X-Google-Smtp-Source: AGHT+IEtxrlAsAa9Q4ABaPzKYYZ7PeY703iUnusW6WDgntH1FFpPpJ1MY7i6BNKNdf7i4Duf3v/vA4f6NUFZRLDsZTM=
+X-Received: by 2002:aa7:d3c9:0:b0:561:123f:a98f with SMTP id
+ o9-20020aa7d3c9000000b00561123fa98fmr694626edr.24.1707870715624; Tue, 13 Feb
+ 2024 16:31:55 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240212-fix-elf-type-btf-vmlinux-bin-o-big-endian-v2-1-22c0a6352069@kernel.org>
+References: <CAK7LNARaW1V5X79BFW5_YTKY+n+OSp+_ACpRxpiw+VOJ+2hf=g@mail.gmail.com>
+ <20240213022552.754830-1-andrewjballance@gmail.com> <ZcvKQ3SpLNR9RfIe@bergen.fjasle.eu>
+In-Reply-To: <ZcvKQ3SpLNR9RfIe@bergen.fjasle.eu>
+From: Justin Stitt <justinstitt@google.com>
+Date: Tue, 13 Feb 2024 16:31:42 -0800
+Message-ID: <CAFhGd8pvhzehMGh1XEHBct7CGEQuF0CZeneMH3D6cKSRj5UdHQ@mail.gmail.com>
+Subject: Re: [PATCH v2] gen_compile_commands: fix invalid escape sequence warning
+To: Nicolas Schier <nicolas@fjasle.eu>
+Cc: Andrew Ballance <andrewjballance@gmail.com>, masahiroy@kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, morbo@google.com, 
+	nathan@kernel.org, ndesaulniers@google.com, skhan@linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Tue, Feb 13, 2024 at 12:00=E2=80=AFPM Nicolas Schier <nicolas@fjasle.eu>=
+ wrote:
+>
+> On Mon 12 Feb 2024 20:25:52 GMT, Andrew Ballance wrote:
+> > with python 12.1 '\#' results in this warning
+>
+> funny typo: it's Python 3.12 :)
 
-On Mon, Feb 12, 2024 at 07:05:10PM -0700, Nathan Chancellor wrote:
-> Commit 90ceddcb4950 ("bpf: Support llvm-objcopy for vmlinux BTF")
-> changed the ELF type of .btf.vmlinux.bin.o to ET_REL via dd, which works
-> fine for little endian platforms:
->
->    00000000  7f 45 4c 46 02 01 01 00  00 00 00 00 00 00 00 00  |.ELF............|
->   -00000010  03 00 b7 00 01 00 00 00  00 00 00 80 00 80 ff ff  |................|
->   +00000010  01 00 b7 00 01 00 00 00  00 00 00 80 00 80 ff ff  |................|
->
-> However, for big endian platforms, it changes the wrong byte, resulting
-> in an invalid ELF file type, which ld.lld rejects:
->
->    00000000  7f 45 4c 46 02 02 01 00  00 00 00 00 00 00 00 00  |.ELF............|
->   -00000010  00 03 00 16 00 00 00 01  00 00 00 00 00 10 00 00  |................|
->   +00000010  01 03 00 16 00 00 00 01  00 00 00 00 00 10 00 00  |................|
->
->   Type:                              <unknown>: 103
->
->   ld.lld: error: .btf.vmlinux.bin.o: unknown file type
->
-> Fix this by updating the entire 16-bit e_type field rather than just a
-> single byte, so that everything works correctly for all platforms and
-> linkers.
->
->    00000000  7f 45 4c 46 02 02 01 00  00 00 00 00 00 00 00 00  |.ELF............|
->   -00000010  00 03 00 16 00 00 00 01  00 00 00 00 00 10 00 00  |................|
->   +00000010  00 01 00 16 00 00 00 01  00 00 00 00 00 10 00 00  |................|
->
->   Type:                              REL (Relocatable file)
->
-> While in the area, update the comment to mention that binutils 2.35+
-> matches LLD's behavior of rejecting an ET_EXEC input, which occurred
-> after the comment was added.
->
-> Cc: stable@vger.kernel.org
-> Fixes: 90ceddcb4950 ("bpf: Support llvm-objcopy for vmlinux BTF")
-> Link: https://github.com/llvm/llvm-project/pull/75643
-> Suggested-by: Masahiro Yamada <masahiroy@kernel.org>
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+They probably meant Python 3.12.1 and forgot the "3." (or had a vim
+moment resulting in its unfortunate removal)
 
-I prefer this version to v1 as well. This seems better than setting the
-seek value.
-
-Reviewed-by: Justin Stitt <justinstitt@google.com>
-
-> ---
-> Changes in v2:
-> - Rather than change the seek value for dd, update the entire e_type
->   field (Masahiro). Due to this change, I did not carry forward the
->   tags of v1.
-> - Slightly update commit message to remove mention of ET_EXEC, which
->   does not match the dump (Masahiro).
-> - Update comment to mention binutils 2.35+ has the same behavior as LLD
->   (Fangrui).
-> - Link to v1: https://lore.kernel.org/r/20240208-fix-elf-type-btf-vmlinux-bin-o-big-endian-v1-1-cb3112491edc@kernel.org
-> ---
->  scripts/link-vmlinux.sh | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
 >
-> diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-> index a432b171be82..7862a8101747 100755
-> --- a/scripts/link-vmlinux.sh
-> +++ b/scripts/link-vmlinux.sh
-> @@ -135,8 +135,13 @@ gen_btf()
->  	${OBJCOPY} --only-section=.BTF --set-section-flags .BTF=alloc,readonly \
->  		--strip-all ${1} ${2} 2>/dev/null
->  	# Change e_type to ET_REL so that it can be used to link final vmlinux.
-> -	# Unlike GNU ld, lld does not allow an ET_EXEC input.
-> -	printf '\1' | dd of=${2} conv=notrunc bs=1 seek=16 status=none
-> +	# GNU ld 2.35+ and lld do not allow an ET_EXEC input.
-> +	if is_enabled CONFIG_CPU_BIG_ENDIAN; then
-> +		et_rel='\0\1'
-> +	else
-> +		et_rel='\1\0'
-> +	fi
-> +	printf "${et_rel}" | dd of=${2} conv=notrunc bs=1 seek=16 status=none
->  }
+> Kind regards,
+> Nicolas
 >
->  # Create ${2} .S file with all symbols from the ${1} object file
 >
-> ---
-> base-commit: 54be6c6c5ae8e0d93a6c4641cb7528eb0b6ba478
-> change-id: 20240208-fix-elf-type-btf-vmlinux-bin-o-big-endian-dbc55a1e1296
+> >     SyntaxWarning: invalid escape sequence '\#'
+> >
+> > Signed-off-by: Andrew Ballance <andrewjballance@gmail.com>
+> > ---
+> >  scripts/clang-tools/gen_compile_commands.py | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/scripts/clang-tools/gen_compile_commands.py b/scripts/clan=
+g-tools/gen_compile_commands.py
+> > index 5dea4479240b..93f64095fda9 100755
+> > --- a/scripts/clang-tools/gen_compile_commands.py
+> > +++ b/scripts/clang-tools/gen_compile_commands.py
+> > @@ -170,7 +170,7 @@ def process_line(root_directory, command_prefix, fi=
+le_path):
+> >      # escape the pound sign '#', either as '\#' or '$(pound)' (dependi=
+ng on the
+> >      # kernel version). The compile_commands.json file is not interepre=
+ted
+> >      # by Make, so this code replaces the escaped version with '#'.
+> > -    prefix =3D command_prefix.replace('\#', '#').replace('$(pound)', '=
+#')
+> > +    prefix =3D command_prefix.replace('\\#', '#').replace('$(pound)', =
+'#')
+> >
+> >      # Return the canonical path, eliminating any symbolic links encoun=
+tered in the path.
+> >      abs_path =3D os.path.realpath(os.path.join(root_directory, file_pa=
+th))
+> > --
+> > 2.43.0
+> >
 >
-> Best regards,
 > --
-> Nathan Chancellor <nathan@kernel.org>
+> Nicolas Schier
 >
-Thanks
-Justin
+> epost|xmpp: nicolas@fjasle.eu          irc://oftc.net/nsc
+> =E2=86=B3 gpg: 18ed 52db e34f 860e e9fb  c82b 7d97 0932 55a0 ce7f
+>      -- frykten for herren er opphav til kunnskap --
 
