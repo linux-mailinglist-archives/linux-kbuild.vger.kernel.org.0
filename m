@@ -1,82 +1,73 @@
-Return-Path: <linux-kbuild+bounces-934-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-935-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 384F7854C13
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Feb 2024 16:01:42 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3446E854CD4
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Feb 2024 16:33:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5DB511C2770D
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Feb 2024 15:01:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DCC8C1F21F84
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Feb 2024 15:33:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE0955C602;
-	Wed, 14 Feb 2024 15:01:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 857C25CDD1;
+	Wed, 14 Feb 2024 15:31:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="REdAzMQN"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF7B15B21C;
-	Wed, 14 Feb 2024 15:01:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AC0C5A785;
+	Wed, 14 Feb 2024 15:31:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707922885; cv=none; b=lCAFSoH0DlpPuQ+ZevTKFWx7hm6t2xjFXExIWw01dxGjbCE28ktMrGfbWXg94/Tt84aHSwo9EsLpISRDssR0GQdDYUjS3m2S1c306/IWfvc8t35XsCEOFe+Im33cZkanrsBcoDmJ1VIuw++ihXbb9x0CfonlSC0HfXXmD9aezdY=
+	t=1707924694; cv=none; b=MFvqbo6pSMg8S0863aF/3Vbvje97KBgLQ2waBoVOsUY792ezqBtTcPjmU0nRK4UfOMVxeqMSmrWrzmlUuWkm7fFk5VmUjTI/k5K7Yk/0LoGrngiIh1SMPZNL/s/c0fjMh1A6WkqryNSRE9jcVqyFHRt2Kiib7jxWTMpEbRHplxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707922885; c=relaxed/simple;
-	bh=wRhBbftaNujCFlZk6BVtFbm/sKIU58sYu+5kiELSP7E=;
+	s=arc-20240116; t=1707924694; c=relaxed/simple;
+	bh=4JlFA01oQWdtvRaP+CnWQqdwr1cP142uEyw13TLrbN8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=W7IhcU5tDQBv+K1g2l2p9EHqY0lNgIbKRGhjD8vp5a5tlWc/RkBSwp2klwjxn7Oxb9Q8mpJtZtPp4NPtpuDs44uem1+sQzK6d+58hma2ltKKgCHrbYdASDhjJhpvgAPLSTjrtGMIEDdRHHztqbz2QgP0yPoKCqyXHt4KvFx80yA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-7853a9eb5daso188543485a.2;
-        Wed, 14 Feb 2024 07:01:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707922881; x=1708527681;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=h6upARWbXs1k8V4Vnc/YI44n6rxziwjW/OPtXVVY76s=;
-        b=juBjOjG6RNr9evWHSZ/09nizJEVK9dodFGbt3nbqZ+snJ773VLz59DEOWPkZlXnwbw
-         yuHzl7P8+TRd8AgxoyVf6ojP2QaO3xQCfkYUUorymqXYF7QjCF3VJ7LSkvCbHALufMjk
-         NiSHIl7608gCwXlIsnqkjlu/7hqxN/iqaZemKtaTgbEnJj6ukeKJzjRl0NaqoSbgQM/D
-         z456IvvGr5tCDQkXQqouVkcKE7jaYO32plUQyAWYVupe8eldzkIkJQjKYbG6AeJz0un0
-         VjS8D21vOdzlkf2G1qnRFc25k1R3DPcR/OiqXhlIAp0cbtv1LD1knY+KMS8e9WAg8djl
-         eORg==
-X-Forwarded-Encrypted: i=1; AJvYcCXD/D9CkimvEmtbtC85uzY4/T7w1dx+VzNbz9VwXZWMTjdQkD/cY1oVZZ6ygsj8EM04OuMAaX1MDfzbmRwMg52z4tZGWl72sGL1KbzNDLQxckD1A/OaTslRWF5AjqPsAMK4pgikvEPjLMzV5YdplJIp3+9B9IUAKA97xjoLL6YzYTYNHvNqup5ZQPnfmFt0vLWiuN1kPDE09012/lPqHNL2gzG7MuS8hfTQFYimJMMwC3WWbJc/XL8TPwza2kmakj5PHkdmPbTsPdakD9oD7eW11V25okqv/E/L01G4bqsn3kiBICVXf1sKoulY9uVV1VscV/UbkK1I1TfF+LVW7Qxfig==
-X-Gm-Message-State: AOJu0Yz3FfBHSphQEdAQfflo8c1EqfzX3Zk8R1G00qmBsXFU0jjWDNcG
-	1oUXcV+RpDreqVczgHu2wmod/j38huHWeur5DsfDlLREYcb47IMb4kZHO8J794c=
-X-Google-Smtp-Source: AGHT+IHFn6eY5rp1w7jUMyO4UeaIh9i34RYopBCHwdFZAa5Auq13KfwzuOv5oquw8sHm7FbvjKfJzQ==
-X-Received: by 2002:a05:620a:438b:b0:785:d6a9:734f with SMTP id a11-20020a05620a438b00b00785d6a9734fmr3530707qkp.46.1707922878529;
-        Wed, 14 Feb 2024 07:01:18 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUOpVWYB2+ehgyPQ2AelOzgxuW1SKU3bWkZZghJaolLB+H/bhnUH8p99cnRxJ/HuF1q37yQpv9bmDmijuI4cEf9NvjJtRTHMPowe6JfC45pAka1LI/BfpOz0dgohCFqjKCUSNns+oicXrIQTePS+bjFTHskwKh3BB4STphbREOBFbNcJzijpOIcCyrQJ32bFUrQAA0QnmeAXosAD9lhK6yq/FNMNnkvIckGQ/OAE1zbehJfAkeinVpBV7Y2FABfpfR3m4XnhzPwFFOLDNW3aoJT/THy5huzTXsSnMfa/I7TKJa7lkqgHsyD/VC2YM+WohFITnWaQ6S3XuwpGc9YiESIiw==
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com. [209.85.160.178])
-        by smtp.gmail.com with ESMTPSA id r11-20020a05620a03cb00b00785d7f634bcsm2481639qkm.8.2024.02.14.07.01.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Feb 2024 07:01:18 -0800 (PST)
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-42a8a3973c5so28297761cf.2;
-        Wed, 14 Feb 2024 07:01:17 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVkiCmkrcPoyS+NdSQfqmW3UfmIjV75JLSBFBZbycI6ZQxzWlm2P8tQCYMLXleNE71aKauBXoVvSo+LozJwSRo8/hmgMCEn22dqLyl1Z8OqftAI5j51MnTPNJt+PmpoBVBBFQkdT4b8tLFAWfsb/aymtYHx1BZxOsUvzQ0ntqFSgSG0E2Z1D7iFFlYs/rCvi6uyg/qw8hZQPbiFqwD2r01i2I0JrQXRovTG3hn87qvlcftLpQbbNX6o5xajhBxy/aic1FqGWwZn8+eBm7au5zqRm8q05rtoh/5Q6YMuIyb6HdqkJcLep/RZLGhJ1LN4I1hyHzzy7Lqzteel5zldnWXkBw==
-X-Received: by 2002:a25:84c9:0:b0:dc2:3fbd:82fe with SMTP id
- x9-20020a2584c9000000b00dc23fbd82femr2322270ybm.46.1707922857034; Wed, 14 Feb
- 2024 07:00:57 -0800 (PST)
+	 To:Cc:Content-Type; b=iooSc41YuovBKrAWcpe5NxXMN+UGZZt8xbzAZqWoVjtT1YVpzUXbGLjObYUNxdfUUY433Fxnxqhpulyo3xscGdKn7UB6/pWnWfIvrxNr6YGyHCKYYGXoNcWlzKHeRtSyqf1khXs0bnrvNyPjOvdx6Til1Go9gwByB+xL7+nfVU0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=REdAzMQN; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FD5EC433F1;
+	Wed, 14 Feb 2024 15:31:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707924694;
+	bh=4JlFA01oQWdtvRaP+CnWQqdwr1cP142uEyw13TLrbN8=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=REdAzMQNUKQthunqIYd1xXRZvyRazfzeeHO6U9IdkqpQocmGPZO0MqL1dce3y5y1b
+	 PFeEIPsWTolML15+QzASJcdeWR5n3IAnWbJf7gcLrasH+H8HI8o4G8CRjOmNuEAXXZ
+	 JPJN0CaZp3PLCjJjy61EfrhMHYHUHlJL+wd+mTzJYfZGvX6odSfmQZTFtUVb0aybMe
+	 ViowSODx6riqYuR9wKjBYsEm3o3VxzwN8Mp3sn9zRKC3cerkcEYU/VGXs0MoG5uQuI
+	 g6xuLSibBrZHt98G3dsRPMywRLrzlLMAc3Dp44/uxlOpcqrH3cKuiu41UkhGcoS0W2
+	 /cPQAX+TUIULg==
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a3cfacf0eadso225218566b.2;
+        Wed, 14 Feb 2024 07:31:33 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUGZNJGMmjKejeaWtBosHD6k7Pgafh0XZkZ+/U5iT1VkDgyC/B7rIXKZVDybI3pEzqNX4qgThnsOMAkFxMhfuzZo/UtfiiQrEyorHlnwLSAwuSMuRxR4AZarrF09dqIPysEI+dYB6sxCTcJyFQ6Lf8MiYIxGbSviuhriTBmzoBFjmRFk6r/xYfMEoLXS1JcDXLqRHFRXr3ZNxCvI5Hl4d4DUkV87l/TLcecTy7lChLB1mRIqoJ6AMKe5t/2DzMWW6iV7isLJLIIZ7SwljsmLqVcJDnmEePBuqanmaO2zBUS2mZDljAnV4UoBpWm1LvovmoMCZI3l027MbXp/CNfG49BcQ==
+X-Gm-Message-State: AOJu0YxjGyedI+X5FA64Q7slzCo4wsTnjRstdIYdhMdtcYScwc847O56
+	DR3UjafFsvfE5ZThTJFfBrDlKOs9nVUjCTcE9TA8vPROFN55gVaaaXsJTkvifZPB03nYTIQHzFq
+	7HZ5Plg9IMnDNHgRlRaAUycx2Gw==
+X-Google-Smtp-Source: AGHT+IH8/isML9jhNTe8vUWU49jrNm4p0HUKpD8NeE7Izp0zgWowWPvoVR9vvZmOadC5fdJrnpVWN3J0XGbdjt6xmGE=
+X-Received: by 2002:a2e:b888:0:b0:2d0:dfad:2863 with SMTP id
+ r8-20020a2eb888000000b002d0dfad2863mr2522106ljp.46.1707924672118; Wed, 14 Feb
+ 2024 07:31:12 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240213-arm-dt-cleanups-v1-0-f2dee1292525@kernel.org>
-In-Reply-To: <20240213-arm-dt-cleanups-v1-0-f2dee1292525@kernel.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 14 Feb 2024 16:00:45 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWgvD9szXksK+jzyvwLQ8ufWWf1TPQ7s-5z4JWgrvXmkg@mail.gmail.com>
-Message-ID: <CAMuHMdWgvD9szXksK+jzyvwLQ8ufWWf1TPQ7s-5z4JWgrvXmkg@mail.gmail.com>
+References: <20240213-arm-dt-cleanups-v1-0-f2dee1292525@kernel.org> <CAMuHMdWgvD9szXksK+jzyvwLQ8ufWWf1TPQ7s-5z4JWgrvXmkg@mail.gmail.com>
+In-Reply-To: <CAMuHMdWgvD9szXksK+jzyvwLQ8ufWWf1TPQ7s-5z4JWgrvXmkg@mail.gmail.com>
+From: Rob Herring <robh@kernel.org>
+Date: Wed, 14 Feb 2024 15:30:57 +0000
+X-Gmail-Original-Message-ID: <CAL_JsqKbDdUzkuSBrBTYm0PF8KehK0DnUwTBHqJ6tZfaE=B2_w@mail.gmail.com>
+Message-ID: <CAL_JsqKbDdUzkuSBrBTYm0PF8KehK0DnUwTBHqJ6tZfaE=B2_w@mail.gmail.com>
 Subject: Re: [PATCH 0/6] dts: Fix dtc interrupt warnings
-To: Rob Herring <robh@kernel.org>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
 Cc: soc@kernel.org, Shawn Guo <shawnguo@kernel.org>, 
 	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, Rob Herring <robh+dt@kernel.org>, 
+	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
 	Tsahee Zidenberg <tsahee@annapurnalabs.com>, Antoine Tenart <atenart@kernel.org>, 
 	Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
@@ -104,40 +95,38 @@ Cc: soc@kernel.org, Shawn Guo <shawnguo@kernel.org>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Rob,
+On Wed, Feb 14, 2024 at 9:01=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
+>
+> Hi Rob,
+>
+> On Tue, Feb 13, 2024 at 8:35=E2=80=AFPM Rob Herring <robh@kernel.org> wro=
+te:
+> > I had a branch with most of these changes sitting in my tree for some
+> > time. Geert's asking about some errors not getting found prompted me to
+> > clean it up and send it out. This series fixes all* interrupt related
+> > warnings and enables the check by default.
+>
+> > *There's a few Renesas warnings still Geert said he would fix.
+>
+> Thanks, fix sent
+> https://lore.kernel.org/r/a351e503ea97fb1af68395843f513925ff1bdf26.170792=
+2460.git.geert+renesas@glider.be
+>
+> >       dtc: Enable dtc interrupt_provider check
+>
+> >  scripts/Makefile.lib                                  |  3 +--
+>
+> Just wondering, can the remaining disabler be removed, too?
+>
+> Documentation/devicetree/bindings/Makefile:     -Wno-interrupt_provider \
 
-On Tue, Feb 13, 2024 at 8:35=E2=80=AFPM Rob Herring <robh@kernel.org> wrote=
-:
-> I had a branch with most of these changes sitting in my tree for some
-> time. Geert's asking about some errors not getting found prompted me to
-> clean it up and send it out. This series fixes all* interrupt related
-> warnings and enables the check by default.
+I was too. Shockingly, that too will require some fixes. Though I
+remember when configuring the warnings for bindings, trying to make
+them stricter. So there must have been some case where
+no-interrupt_provider was needed. It may have been related to how we
+parse interrupts in examples, but that changed back when switching to
+validate dtbs directly.
 
-> *There's a few Renesas warnings still Geert said he would fix.
-
-Thanks, fix sent
-https://lore.kernel.org/r/a351e503ea97fb1af68395843f513925ff1bdf26.17079224=
-60.git.geert+renesas@glider.be
-
->       dtc: Enable dtc interrupt_provider check
-
->  scripts/Makefile.lib                                  |  3 +--
-
-Just wondering, can the remaining disabler be removed, too?
-
-Documentation/devicetree/bindings/Makefile:     -Wno-interrupt_provider \
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Rob
 
