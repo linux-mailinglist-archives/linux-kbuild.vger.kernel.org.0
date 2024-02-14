@@ -1,123 +1,161 @@
-Return-Path: <linux-kbuild+bounces-944-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-945-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE03A8554CA
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Feb 2024 22:28:08 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F42E8554F4
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Feb 2024 22:37:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5F9791F21FA7
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Feb 2024 21:28:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 39E3E28A076
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Feb 2024 21:37:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7EE413DBA4;
-	Wed, 14 Feb 2024 21:28:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4BB713EFFD;
+	Wed, 14 Feb 2024 21:37:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nkNE3/Ha"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GI7a4rEJ"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF518134740;
-	Wed, 14 Feb 2024 21:28:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71FA013EFFA;
+	Wed, 14 Feb 2024 21:37:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707946082; cv=none; b=gqAqn1zSMIfxtyh+6u8npFnOoViEbf+JBdR5CS0eNfjxgKeUd5eH3bvLAyLdwa4RJapno+2jVQZB2ixtm5V9a4U6rsHIsWJBVjyXYnU/v8q5dYNkyUw8klo3ZJ1Ah12sAmXXjEj++EpQqgW2qywNdpKWvjalmtAWDxRNZAGOWDc=
+	t=1707946648; cv=none; b=R4K/ly5O4gaNI5dHNbsCz12RJnnt1rdF46lQxSCmDAyKwYdIURRV8+2cc+K1j3InJWHQQdHTWAjOFiPCFhapC/YhUe6al8UTiH5LVOyCE2+yKGT8XXZKvRDzt9Hz5SlyoAvLGshPUzB1Xers8Q9O1GrxsamQtsm+M35A+fEjvu8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707946082; c=relaxed/simple;
-	bh=sMR/EU43ymYV3sXSFsO3a+GSbk9xup663bB8N2u3J6Q=;
+	s=arc-20240116; t=1707946648; c=relaxed/simple;
+	bh=TsPOCXsLDMYvW8y1m6lrloJ2qWdhkM2QRD0tOx+Oj5s=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GOwqWgNCxtfzs7FE4dcsE8q5bfywNfi/ju744TqSzKLer42T/URL/RX52YEelZX0zzk8whLlZhLz/YPTo1zF/J3cry4l094ULjVkpluCkVJrM2p+lTeIuXvATKJtbOih/JdpNwvRWA8tvfyhU6IAAph1sg2Ij5t3R4wz5IcHeMs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nkNE3/Ha; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 434FAC433F1;
-	Wed, 14 Feb 2024 21:28:02 +0000 (UTC)
+	 To:Cc:Content-Type; b=AMNXxss2YRMvdh0KdbbLaPQ7eU4xH2MG28hE2qhd7By8etxfmnOPBEap0rPWX8vb0/jyI8riQSZz1W1tpGMPMFt3Xc8mX98LYNbg8tC/Ezp+8w2xYDPzXrf8k48zyvRVetBp81f4LFVzxm0cdE/c9PdVoLwYhUxrgxcFjRnhKAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GI7a4rEJ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD14FC43142;
+	Wed, 14 Feb 2024 21:37:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707946082;
-	bh=sMR/EU43ymYV3sXSFsO3a+GSbk9xup663bB8N2u3J6Q=;
+	s=k20201202; t=1707946647;
+	bh=TsPOCXsLDMYvW8y1m6lrloJ2qWdhkM2QRD0tOx+Oj5s=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=nkNE3/HaVyI7fvPMPdsAn7MA1j+tRn8JsplaOB4Il+ryCZ5ZooXAsGkHAFtiAZx/B
-	 7Pb15ykYHeOtP9CwwV9B7m6KJu69QTYuDfYrQkafXG/EVaCXE1kKGpT5U2f59NxSXE
-	 u9GrvVBbt3eNiZCh/vVctoT7OT6NPAKrHZW6cvSM3Xp31yLTETZwW2wli0PxmDjsbZ
-	 hdh9ND/DJwai0vvjT6breNH4BZuB640Ct+N3sJWhUxNTUXk525Swcjf7w+i2bnsMKW
-	 jYdNcrXF3SJWAGbbiDX6oeDXXfN3Wg/Jj/cy8FmiXFVM82XIBYwYLaiGgaOL/cRyHI
-	 JB1NTwv2/muBQ==
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5119cfaec3dso222060e87.1;
-        Wed, 14 Feb 2024 13:28:02 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXPWxho5BYKx/ImvBtYPdTIq2ASf63qphrIQcpynnIvYfJ88uCN++KjmxHpctk7fvM3gZ26OtHqbtb1K7GkL3Ys32PI7G0wduD/d7FcLUXyyw4HdABigYiaUYrTZarBNR/er23pbV540L0R
-X-Gm-Message-State: AOJu0YzUGXV+4cBZDIMihnBkU4g10+PdvkGhj+WAA0KQx0UYeUdeevxO
-	d7YhFmUQBa08NU6w9O4pH5C/KhSKm1k24l5QB8OCKgtaiGXmhlBP3zT4Cbw6DfEDMhzlptRuVLX
-	jalmP+p+QbsoG9Y/a+xNQ8MK4EtQ=
-X-Google-Smtp-Source: AGHT+IG/W9lqyeivaxRbePZdzCB0jHVgx1oFHIkcNxKQfTN250PE70uEZ83QpRnCOgahYuK3HBhlFT9SwgKvB2qiUXM=
-X-Received: by 2002:ac2:5635:0:b0:511:550f:5300 with SMTP id
- b21-20020ac25635000000b00511550f5300mr1041746lff.14.1707946080774; Wed, 14
- Feb 2024 13:28:00 -0800 (PST)
+	b=GI7a4rEJz27vG5jhdk9ife44YZUKF+HF6XmYHsfRxhkOg/dSqgCLc/gDhgyVTx8er
+	 KBmSQv6h5xkSh53IaFu53JIZt9Kqrt/0r3gty9Vm/u+LcHrFWDTlSP4Pg3XzrJIFOG
+	 7jgwDwg6LXLyHAxzqwlZ2vzfhTR2fzXQUJk/w6hCLQfVxrv3ZEVQNge3YmiA9lTnYC
+	 ELYph0Euvs8SO2maNzGbgGSrwhxLWd5XHdbapnVMjdeKOgRNpIu6HKWzi99An6FsgD
+	 iVuAO2q1QRmYgKLAz3XIJ/G2aLWSa0YjwZEXT95JvD5c8WtYJ9g+JqCoFX0LmQ9eR+
+	 NCoLiD1o3YYNQ==
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5114b2b3b73so232483e87.0;
+        Wed, 14 Feb 2024 13:37:27 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUzkZn9aZ8xX4fAQYwpZ4dRIhF/a9lgCqlTpwu17UGTHXnOhh6c+9jYNnKbuppDwejr1529/Snd85BJYSSPL1sZqh5nHmFfr60PXPKrzGg9jxI5PepWsq0EW4rTQ/W+i2pcKTfd00ol5SSP4KNHDtBaWFJY/d0krbxld3WD1AvVIhJvgZOxXYp4
+X-Gm-Message-State: AOJu0YypDnYrXCZ5F/s8h0lKHYsXJxhPyQn94WM6X8tfVzvxchQITmlP
+	oEtnsUTkbeDixcJrClahGjmbpKFZxxHfMIPe0Pq0lSktlmdFAshDxCu5s+Jxcx0ePEuTQ+p5zOQ
+	5vGoca0a90bmNZTmEHIspeeIGT5A=
+X-Google-Smtp-Source: AGHT+IGaABfu32aIgi1zbQgkMqIdb4dPd13u5g3Nueo8bVIDR4Cw4/c9BLtkrRJueICXYtotHNpf4oplutFFocoODpY=
+X-Received: by 2002:a05:6512:b82:b0:511:a477:64aa with SMTP id
+ b2-20020a0565120b8200b00511a47764aamr25874lfv.51.1707946646162; Wed, 14 Feb
+ 2024 13:37:26 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAFhGd8pvhzehMGh1XEHBct7CGEQuF0CZeneMH3D6cKSRj5UdHQ@mail.gmail.com>
- <20240214012439.879134-1-andrewjballance@gmail.com> <20240214012439.879134-2-andrewjballance@gmail.com>
-In-Reply-To: <20240214012439.879134-2-andrewjballance@gmail.com>
+References: <20240207171020.41036-1-yoann.congal@smile.fr> <20240207171020.41036-2-yoann.congal@smile.fr>
+ <CAK7LNAQb=n1dWdEAJy_aJWnkW2M3bR768WKpxnUv=CtBEi28Xw@mail.gmail.com> <d845be0d-d0e4-4494-9572-753102f3fa24@smile.fr>
+In-Reply-To: <d845be0d-d0e4-4494-9572-753102f3fa24@smile.fr>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Thu, 15 Feb 2024 06:27:24 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASspq7uYYPx6QLOad_WUeXsyRmtbq9qibXJP_Fbo3Fs0g@mail.gmail.com>
-Message-ID: <CAK7LNASspq7uYYPx6QLOad_WUeXsyRmtbq9qibXJP_Fbo3Fs0g@mail.gmail.com>
-Subject: Re: [PATCH v3 1/1] gen_compile_commands: fix invalid escape sequence warning
-To: Andrew Ballance <andrewjballance@gmail.com>
-Cc: justinstitt@google.com, linux-kbuild@vger.kernel.org, 
-	linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org, 
-	llvm@lists.linux.dev, morbo@google.com, nathan@kernel.org, 
-	ndesaulniers@google.com, nicolas@fjasle.eu, skhan@linuxfoundation.org
+Date: Thu, 15 Feb 2024 06:36:50 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARJERFRF=EM3RKL5jMgLbq0H1Op7FSRLJaVjrcR_nv0NA@mail.gmail.com>
+Message-ID: <CAK7LNARJERFRF=EM3RKL5jMgLbq0H1Op7FSRLJaVjrcR_nv0NA@mail.gmail.com>
+Subject: Re: [PATCH v5 1/3] printk: Fix LOG_CPU_MAX_BUF_SHIFT when BASE_SMALL
+ is enabled
+To: Yoann Congal <yoann.congal@smile.fr>
+Cc: linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org, x86@kernel.org, 
+	=?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>, 
+	Borislav Petkov <bp@alien8.de>, Darren Hart <dvhart@infradead.org>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, Davidlohr Bueso <dave@stgolabs.net>, 
+	Geert Uytterhoeven <geert@linux-m68k.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"H . Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>, Jiri Slaby <jirislaby@kernel.org>, 
+	John Ogness <john.ogness@linutronix.de>, Josh Triplett <josh@joshtriplett.org>, 
+	Matthew Wilcox <willy@infradead.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Petr Mladek <pmladek@suse.com>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Thomas Gleixner <tglx@linutronix.de>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Vegard Nossum <vegard.nossum@oracle.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 14, 2024 at 10:25=E2=80=AFAM Andrew Ballance
-<andrewjballance@gmail.com> wrote:
+On Tue, Feb 13, 2024 at 4:01=E2=80=AFAM Yoann Congal <yoann.congal@smile.fr=
+> wrote:
 >
-> with python 3.12.1 '\#' results in this warning
->     SyntaxWarning: invalid escape sequence '\#'
-
-
-I changed "3.12.1" to "3.12" when I applied it
-because this occurs for Python 3.12.0
-
-
-Thanks.
-
-
-
 >
-> Signed-off-by: Andrew Ballance <andrewjballance@gmail.com>
-> ---
->  scripts/clang-tools/gen_compile_commands.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/scripts/clang-tools/gen_compile_commands.py b/scripts/clang-=
-tools/gen_compile_commands.py
-> index 5dea4479240b..e4fb686dfaa9 100755
-> --- a/scripts/clang-tools/gen_compile_commands.py
-> +++ b/scripts/clang-tools/gen_compile_commands.py
-> @@ -170,7 +170,7 @@ def process_line(root_directory, command_prefix, file=
-_path):
->      # escape the pound sign '#', either as '\#' or '$(pound)' (depending=
- on the
->      # kernel version). The compile_commands.json file is not intereprete=
-d
->      # by Make, so this code replaces the escaped version with '#'.
-> -    prefix =3D command_prefix.replace('\#', '#').replace('$(pound)', '#'=
-)
-> +    prefix =3D command_prefix.replace(r'\#', '#').replace('$(pound)', '#=
-')
+> Le 11/02/2024 =C3=A0 00:41, Masahiro Yamada a =C3=A9crit :
+> > On Thu, Feb 8, 2024 at 2:10=E2=80=AFAM Yoann Congal <yoann.congal@smile=
+.fr> wrote:
+> >>
+> >> LOG_CPU_MAX_BUF_SHIFT default value depends on BASE_SMALL:
+> >>   config LOG_CPU_MAX_BUF_SHIFT
+> >>         default 12 if !BASE_SMALL
+> >>         default 0 if BASE_SMALL
+> >> But, BASE_SMALL is a config of type int and "!BASE_SMALL" is always
+> >> evaluated to true whatever is the value of BASE_SMALL.
+> >>
+> >> This patch fixes this by using the correct conditional operator for in=
+t
+> >> type : BASE_SMALL !=3D 0.
+> >>
+> >> Note: This changes CONFIG_LOG_CPU_MAX_BUF_SHIFT=3D12 to
+> >> CONFIG_LOG_CPU_MAX_BUF_SHIFT=3D0 for BASE_SMALL defconfigs, but that w=
+ill
+> >> not be a big impact due to this code in kernel/printk/printk.c:
+> >>   /* by default this will only continue through for large > 64 CPUs */
+> >>   if (cpu_extra <=3D __LOG_BUF_LEN / 2)
+> >>           return;
+> >> Systems using CONFIG_BASE_SMALL and having 64+ CPUs should be quite
+> >> rare.
+> >>
+> >> John Ogness <john.ogness@linutronix.de> (printk reviewer) wrote:
+> >>> For printk this will mean that BASE_SMALL systems were probably
+> >>> previously allocating/using the dynamic ringbuffer and now they will
+> >>> just continue to use the static ringbuffer. Which is fine and saves
+> >>> memory (as it should).
+> >>
+> >> Petr Mladek <pmladek@suse.com> (printk maintainer) wrote:
+> >>> More precisely, it allocated the buffer dynamically when the sum
+> >>> of per-CPU-extra space exceeded half of the default static ring
+> >>> buffer. This happened for systems with more than 64 CPUs with
+> >>> the default config values.
+> >>
+> >> Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+> >> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> >> Closes: https://lore.kernel.org/all/CAMuHMdWm6u1wX7efZQf=3D2XUAHascps7=
+6YQac6rdnQGhc8nop_Q@mail.gmail.com/
+> >> Reported-by: Vegard Nossum <vegard.nossum@oracle.com>
+> >> Closes: https://lore.kernel.org/all/f6856be8-54b7-0fa0-1d17-39632bf29a=
+da@oracle.com/
+> >> Fixes: 4e244c10eab3 ("kconfig: remove unneeded symbol_empty variable")
+> >>
+> >
+> >
+> >
+> > All the Reviewed-by tags are dropped every time, annoyingly.
 >
->      # Return the canonical path, eliminating any symbolic links encounte=
-red in the path.
->      abs_path =3D os.path.realpath(os.path.join(root_directory, file_path=
-))
-> --
-> 2.43.0
+> Hi!
 >
+> Was I supposed to gather these tags from patch version N to patch version=
+ N+1?
+> In that case, I'm sorry, I did not know that :-/
+> Patch 1/3 is exactly the same but patch 2/3 is equivalent but different. =
+Is there a rule written somewhere about when carrying the tags across revis=
+ion and when not? (I could not find it)
+
+
+I do not know any written rules either.
+
+
+In my experience, people carry tags
+when changes since the previous version are small.
+
+
+
 
 
 --=20
