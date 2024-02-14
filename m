@@ -1,148 +1,162 @@
-Return-Path: <linux-kbuild+bounces-941-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-942-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E54CD855447
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Feb 2024 21:47:48 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8862855453
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Feb 2024 21:49:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A18DA2851F5
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Feb 2024 20:47:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8720B1F2121E
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Feb 2024 20:49:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B6B412838E;
-	Wed, 14 Feb 2024 20:47:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48148128801;
+	Wed, 14 Feb 2024 20:49:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="Cezpfzgh";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="WkWegzM6"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u+SLe7C5"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from wfout3-smtp.messagingengine.com (wfout3-smtp.messagingengine.com [64.147.123.146])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E36555E45;
-	Wed, 14 Feb 2024 20:47:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.146
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23776128384
+	for <linux-kbuild@vger.kernel.org>; Wed, 14 Feb 2024 20:49:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707943639; cv=none; b=A+acYoweg9QSeQkmxzZsSTO29MGcyGVIVlFYOqdbEZ5HqbC5aGBtz6mSplFlutWqebDGXY+ebMhGdcZQzuMwSrGUUzBOUUIrbdnVzhY88O3w0u+cXsqDTWzrwplpXkVou92/g8lSmx7pdLOjsCXBGBvwHaA8bRTRugmZ/2TdSio=
+	t=1707943795; cv=none; b=Sk0h2uqs78gF8vZTENf/Nsb7LcWAr54afTPo2yvXP24YOO1L/Xq97bFkbwPwI+YC9v5pPeNhbLmmp9/zyA1TP+O/VTQhnM+02B1117527EaYDUj+tUioShL2yrbuU3Db5DEoVgJTx/JyvYnFXWwUTNDPQUr2rYQ1yKvusXbSKo4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707943639; c=relaxed/simple;
-	bh=lj2iRtunSsbwOF8jHR1368A0TRHv5QANP0TYDzdnr/4=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=FmEuO6SQvbrCrQUSEb8CXrY8uFYnT1go0hr2o7jm8g55Aj5zZmQNmRjpXhHSPAUUMtShBic8MEbb9LldV+sEXHZPthqseU2MOZIazxFlKf+x3dXjE3gfmBdW/AbCMayDdHsuwdib3WhveBs8efXIA5Xv2llDTKBaY0kDezY853M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=Cezpfzgh; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=WkWegzM6; arc=none smtp.client-ip=64.147.123.146
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailfout.west.internal (Postfix) with ESMTP id D0DBE1C00086;
-	Wed, 14 Feb 2024 15:47:15 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Wed, 14 Feb 2024 15:47:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1707943635;
-	 x=1708030035; bh=qKVLPFtRqeaV8XnwIHp+8ptgdRas93oDLyQ07hmKIXo=; b=
-	Cezpfzghblb7kaiIlV18CM8xqUf4M7ffBqTj3ggiz49IECztWZpyvouD0oe4Ohlc
-	JeXPaUGk758WMgZCgRfJUisEkBtgvaYmpXk2qtkEsMYkpRY7WCai3JpwETGb5/b7
-	1QDysbp4Py98T5qtqwZkFztabgYREmV8/zZgMOBY+ENxWITsWz2q08MJIev6vPEn
-	R2UWr6ym5z/uGCozKwJP5WwdaPTfgivE5ywKNXa3LZqB9qNIyo5/A+3C/rnqw/8Z
-	2/nGxE0+uwLpmXHD6t/fG9IibBHUy3NTcmmJQK2xd3m68qc16jGBz0FJWG5Ss0O5
-	5TBTPLJ91KYO7ta4pt7Ulg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1707943635; x=
-	1708030035; bh=qKVLPFtRqeaV8XnwIHp+8ptgdRas93oDLyQ07hmKIXo=; b=W
-	kWegzM6xFh7udjj+ONU7e4ZTf4ZwGYIHGp5WFopX4DuLCTXWssLwGNlen+YVORby
-	klOB/tJhpp5fi3dC1strjpD1Ghyxfxpqx6IaZG7SCQ47jOkyico2W4jWBmN3hX8X
-	8agze6sHg5UvIgG4fioABjT6wkVBouGWuOcyUC52ZftICnKW7URXeOcmqlDFG+pd
-	fDnZ/I8ldLZ64gxtunUDHGl2bb6IwMxwwqFcS8sTlAFO4e3GiplDKWVe73AsLjoC
-	wLc1IW6e/wKo5z+2Rw9DvHYkuqSgfCbikvngdvEVMTCgm9PwVFB49Gn8N9MfUrhf
-	2pxAJeIa2qnRvRJDh4m3A==
-X-ME-Sender: <xms:0ibNZUnyrWMEcaKX4-2IyZldpFrw8riqoXCBuiJAfdo4eAKUz3C2cw>
-    <xme:0ibNZT3b_6keWWJJM35wJMK3iVu8PlYDc7J9P7fXVdtxcFiX5dyae8D3Q_E4vIm7H
-    XlgntBscMK9txMR3Ck>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudejgddugedvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdet
-    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
-    htthgvrhhnpeegfeejhedvledvffeijeeijeeivddvhfeliedvleevheejleetgedukedt
-    gfejveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    grrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:0ibNZSp_hTq68M36gWLFnqnXkAy3fGJRLr7PWrrtuGOzG7-cN-8eRg>
-    <xmx:0ibNZQlNssZigmjDVU1GGZt4QBaG9jc73Rf5gVbCW-T1MrSihgILEA>
-    <xmx:0ibNZS2nsNnR1VIWQTtrbiylITmS3lC9HbacAL0YQfYeAOE9zXewcA>
-    <xmx:0ybNZbmuulMYaXdKo7NTJNXFFPaYkxYELRtaQMfb_mA-KQLb3hcRm1PUIyU>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id B67CEB6008D; Wed, 14 Feb 2024 15:47:14 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-144-ge5821d614e-fm-20240125.002-ge5821d61
+	s=arc-20240116; t=1707943795; c=relaxed/simple;
+	bh=O7WgEFqn0DYXMUNVtRHA34kSmMjbZOPzFaI7yf/NlA0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PPgdD8zVRXbIwvmz+SsUiC8eEO5oap+zSqY/d02OkYSSIJMGXmoGXCj9+cZ5PIeOpIfdYbjDqDumRdyPCaZcDTYUllv8qewjWzg3R4W5hZC44nNIvaxk+3Pg7xQh3abN4WcMjYfv6IuioLvR2pQSuXML0dNZ11zTZ41Rfha8qOc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u+SLe7C5; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0E12C43399
+	for <linux-kbuild@vger.kernel.org>; Wed, 14 Feb 2024 20:49:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707943794;
+	bh=O7WgEFqn0DYXMUNVtRHA34kSmMjbZOPzFaI7yf/NlA0=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=u+SLe7C50jNkZ9OcuRdDY7dTpV+QL8u7X+pF+zbgFbwNNbwTRHsGFphKCpvz7ETOb
+	 F41Hy0tR8EQU4L/f0KHa5ryEa55jo+Km+nf0i22vvDx/NiNLJVoY5a6ZtMUW4LTQ7t
+	 pvtJ1vKgbH1BnnDbGXNSkEFWqWeySY24hLO08UaVT9li7Pb9A8zczL65DZt9KDXu30
+	 8bwfdK4bc4MRhBhO3kWMFplNGKhU3mFxITyivQLQWRbdESqwnLAEMItW3V6Ph7AqhB
+	 7Dj0Tl9tNcUfY7ehc6r4A2HXK76FaPupobYRuz12sdRkwQwJAxyqC/bNFwNI6f401d
+	 rDsqTrWn6HG8A==
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-51182f8590bso180371e87.0
+        for <linux-kbuild@vger.kernel.org>; Wed, 14 Feb 2024 12:49:54 -0800 (PST)
+X-Gm-Message-State: AOJu0YzAIW8LMFCySt2X9Uomqdh7vGWXJAeb0/I5z+IGMUS8ZUivPgrd
+	ajqV1RB3n7vB9VWrZcy1BMiz9x/xAYVRXkK0UYng+9Ykbz5o4ODMgoWoiWI3y2kNjQt10ref1Lh
+	Us5fsW4RVFbz+pJX4cpM+Ilt4KKA=
+X-Google-Smtp-Source: AGHT+IECBEIHnZZbcDW1B2X72AtD4cirzXciIg9lP8bkKD3N1Ov77XgQ1tFCeFd/Oxi2bt8y5uUWmtJlk4fLGxvf3XM=
+X-Received: by 2002:a19:381e:0:b0:511:9f0d:633f with SMTP id
+ f30-20020a19381e000000b005119f0d633fmr2444647lfa.14.1707943793195; Wed, 14
+ Feb 2024 12:49:53 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <23b58d3c-82eb-450f-a246-f8a91b8e8075@app.fastmail.com>
-In-Reply-To: 
- <CAK7LNASQUhJGSdQiyEpc5Rpuk_hJwSCu=W=4JkL-Et_giFNvPg@mail.gmail.com>
-References: <20240214181942.3562473-1-arnd@kernel.org>
- <CAK7LNASQUhJGSdQiyEpc5Rpuk_hJwSCu=W=4JkL-Et_giFNvPg@mail.gmail.com>
-Date: Wed, 14 Feb 2024 21:45:43 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Masahiro Yamada" <masahiroy@kernel.org>,
- "Arnd Bergmann" <arnd@kernel.org>
-Cc: "Nathan Chancellor" <nathan@kernel.org>,
- "Nicolas Schier" <nicolas@fjasle.eu>,
- =?UTF-8?Q?Pierre-Cl=C3=A9ment_Tosi?= <ptosi@google.com>,
- "Ard Biesheuvel" <ardb@kernel.org>, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kallsyms: ignore ARMv4 thunks along with others
-Content-Type: text/plain;charset=utf-8
+References: <951fc31ee754ba86acaa9556e1d28c13075c66a2.camel@suse.com>
+In-Reply-To: <951fc31ee754ba86acaa9556e1d28c13075c66a2.camel@suse.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Thu, 15 Feb 2024 05:49:17 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATJ+=Kd5a=wkHZDzHSEACHfYavUa4GdiSKZh5eSwMG6wA@mail.gmail.com>
+Message-ID: <CAK7LNATJ+=Kd5a=wkHZDzHSEACHfYavUa4GdiSKZh5eSwMG6wA@mail.gmail.com>
+Subject: Re: Out-of-tree module building fails with O= argument
+To: Marcos Paulo de Souza <mpdesouza@suse.com>
+Cc: linux-kbuild@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>, 
+	Joe Lawrence <joe.lawrence@redhat.com>, Petr Mladek <pmladek@suse.com>, mbenes@suse.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 14, 2024, at 21:34, Masahiro Yamada wrote:
-> On Thu, Feb 15, 2024 at 3:19=E2=80=AFAM Arnd Bergmann <arnd@kernel.org=
-> wrote:
-> If this is a recurring problem,
-> maybe is it better to use a regular expression?
+On Wed, Feb 14, 2024 at 11:02=E2=80=AFPM Marcos Paulo de Souza
+<mpdesouza@suse.com> wrote:
 >
+> Hello Masahiro and Kbuild ML,
 >
-> Remove these lines:
+> Recently we added out-of-tree module building on kselftests for the
+> livepatch selftests. Everything worked as expected, but kernel test
+> robot complained about it[1].
 >
-> # arm64 lld
-> / __AArch64ADRPThunk_/d
+> So far, all our tests were being done targeting different options for
+> kselftests, but we didn't test using the O=3D option. The interesting
+> part of it is that this can be easily reproducible with any out-of-tree
+> module building even on current upstream, like the code below:
 >
-> # arm lld
-> / __ARMV5PILongThunk_/d
-> / __ARMV7PILongThunk_/d
-> / __ThumbV7PILongThunk_/d
+> $ uname -r
+> 6.8.0-rc4+
+> $ make
+> make -C /lib/modules/6.8.0-rc4+/build M=3D/home/mpdesouza/test-oot
+> modules
+> make[1]: Entering directory '/home/mpdesouza/git/linux'
+>   CC [M]  /home/mpdesouza/test-oot/patch_1.o
+>   MODPOST /home/mpdesouza/test-oot/Module.symvers
+>   CC [M]  /home/mpdesouza/test-oot/patch_1.mod.o
+>   LD [M]  /home/mpdesouza/test-oot/patch_1.ko
+>   BTF [M] /home/mpdesouza/test-oot/patch_1.ko
+> make[1]: Leaving directory '/home/mpdesouza/git/linux'
 >
-> # mips lld
-> / __LA25Thunk_/d
-> / __microLA25Thunk_/d
+> But it fails when using O=3D argument:
+> $ make O=3D/tmp/kout
+> make -C /lib/modules/6.8.0-rc4+/build M=3D/home/mpdesouza/test-oot
+> modules
+> make[1]: Entering directory '/home/mpdesouza/git/linux'
+> make[2]: Entering directory '/tmp/kout'
+> /home/mpdesouza/git/linux/Makefile:733: include/config/auto.conf: No
+> such file or directory
+> make[2]: *** [/home/mpdesouza/git/linux/Makefile:240: __sub-make] Error
+> 2
+> make[2]: Leaving directory '/tmp/kout'
+> make[1]: *** [Makefile:240: __sub-make] Error 2
+> make[1]: Leaving directory '/home/mpdesouza/git/linux'
+> make: *** [Makefile:6: all] Error 2
 >
+> As I already described on [2], the O=3D argument (or KBUILD_OUTPUT) makes
+> the kernel to jump into the directory specified on the variabled, but
+> running the Makefile on /lib/modules/6.8.0-rc4+/build. The problem is
+> thattoplevel Makefile on /lib/modules/.../build includes files using
+> relative paths. In this case, the makefile tries to find
+> include/config/auto.conf on /tmp/kout, which obviously doesn't exists.
 >
->
->
->
-> Add this:
->
-> # lld
-> / __[^[:space:]]*Thunk_/d
->
-> This pattern is only used in tooling,
-> but never in the kernel space.
+> Do you think this can be a bug on Kbuild? Should we ignore O=3D when
+> building out-of-tree modules?
 
-Right, makes sense. There is always a risk of removing
-intential kernel symbols and this is slightly higher
-with the regex but still not that bad.
 
-I'll give this a spin and send a v2 tomorrow then.
+No.
 
-    Arnd
+O=3D is not meant for the output directory for external modules.
+
+O=3D is supposed to point to the object tree of the kernel
+(when the kernel was built in the separate output directory)
+
+
+
+
+
+
+
+
+
+
+
+> Also, as noted[3] by Petr Mladek (CCed here as well), kernel-devel
+> doesn't include auto.conf, so maybe kernel-devel should be patched as
+> well?
+>
+> Thanks in advance,
+>   Marcos
+>
+> [1]:
+> https://lore.kernel.org/oe-kbuild-all/202401300736.GkSZoSrA-lkp@intel.com=
+/
+> [2]:
+> https://lore.kernel.org/oe-kbuild-all/fd027fa958a0bc65285a0c6c42e5921e7d2=
+8b0ad.camel@suse.com/
+> [3]: https://lore.kernel.org/oe-kbuild-all/ZbpnBqHUl3pE_3Te@alley/
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
