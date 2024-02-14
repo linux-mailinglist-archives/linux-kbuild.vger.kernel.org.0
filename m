@@ -1,149 +1,134 @@
-Return-Path: <linux-kbuild+bounces-932-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-933-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13016854B02
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Feb 2024 15:02:27 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D485854B91
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Feb 2024 15:37:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 257FEB26F73
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Feb 2024 14:02:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 758051F246A9
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Feb 2024 14:37:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7600D52F85;
-	Wed, 14 Feb 2024 14:02:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="ZKjH/CTO"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B1EC5C615;
+	Wed, 14 Feb 2024 14:36:39 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05BF854BD2
-	for <linux-kbuild@vger.kernel.org>; Wed, 14 Feb 2024 14:02:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 567B55C5F6;
+	Wed, 14 Feb 2024 14:36:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707919333; cv=none; b=PK9jyT5YvhTiaub6+QopzwjZc3K+7JbI0NcK4OcdJYmHPD9ImPQGBnRYFJrw0UtBs78rfy3G5Hd6owynnNIY22VPgEgZI89Ppb65W84XVLFOfa3k0mqmGa1Sueb7flLzKeBgOFjP3E8GrHevNY/sOaysH7rjFud2ZOiwiacV2a0=
+	t=1707921399; cv=none; b=Ag2TdIJHmZ4uc+RQks39rJjzDXyeoK72pSD5sYI1dGGG3LheOiwWB8kfSFfiEhBsh1Lq4rd84g6d3Q/kQmDr++7O7aw5H6g92Amt0qvXogzZIGMoEZ3+DRntmY1HzFu1Cr+icstBXF6TSy4O604FHCD0e2XPfd42yq3CJD/SrKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707919333; c=relaxed/simple;
-	bh=QqFwvvlUJNF2o5O1ppQXW3Dj+VhrKqu/GQO8Sh+i5E8=;
-	h=Message-ID:Subject:From:To:Cc:Date:Content-Type:MIME-Version; b=pz9xM8d9lvjv2RH1oQYQnYsvyHtbHR0ZgsXZcJ69mNDgMGrMDppICl6TcryQQnsGZ6MH/jS73iGAVgukp6/JjzAPrMXjmNxFBf7doDbYBCFrVmeXK7DI8PQhYow5c+jdsn7TJGbch8B29Elwkpd5LKRFTCsMSpwbiasPeVRDJnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=ZKjH/CTO; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3394bec856fso490038f8f.0
-        for <linux-kbuild@vger.kernel.org>; Wed, 14 Feb 2024 06:02:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1707919328; x=1708524128; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:date:cc:to:from
-         :subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=tccsGKyGVY+KWKzAziF3nNswbymLhoBDjzBTI9Ypqu0=;
-        b=ZKjH/CTObKoOSu38mONwHDE9PyoJckBBPBTkWjY05OCO7dkIvTu2buagl8ZqZD6fKU
-         mIp+co4oguJTDjX8IyJrXXKe0vfugpR16Nh/10yHivyiGv8yc8Wr1L4jAkM4npKXzzX6
-         agnl4TEGfjBaKrRK54Eynbrmz+2Cp5q7nOijf2YmSwZAeunn5bBnxTq5sNo3X/lGuVo2
-         ULNwThij2auHmGuru5bVN/NUCegq2kKTwPib5w0eJLGsXttl8z4TI4mGFX0IyW/34FsX
-         7mQRWDcShSIH99ncpEecWkmWaWGa3bL/+UEyMuE3aqB+feoDs7SI9DN9slq1Ol8gfV7T
-         7Frg==
+	s=arc-20240116; t=1707921399; c=relaxed/simple;
+	bh=9s+3bWSnic4DE8OGfUz8obCTSG7tBE8fyRjkpHHqq/o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gF6T1MBVrpw26dByp2xKFUNFCcbaJLJZ9vtz7zVACB93llAASyWKYhG0Lewi0+iaBLeUO8PoHqBctR1oUWAhQm69QFPQMCvk1ZtH1c8W94iYF34k0wyTTqtRg2MdvTVO5w6PzBfrRLhA+hXgR7B1IoBtmY9wxPkNcDeSGFColdc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-6e1126f57f1so253272b3a.2;
+        Wed, 14 Feb 2024 06:36:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707919328; x=1708524128;
-        h=mime-version:user-agent:content-transfer-encoding:date:cc:to:from
-         :subject:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tccsGKyGVY+KWKzAziF3nNswbymLhoBDjzBTI9Ypqu0=;
-        b=M1XV9WNvwAKdW752BdpENUigsVssxx0+MHQkUp/6gvFdr5voYCNSn5i+kvozFiYshJ
-         cBGfn6aHT57mt+9l06X3NsJmFwNhEe5pahIMPGxRdooyUu5NH4XoWC/mtPnMR45xLM9n
-         aBvkaVriOTCH9gOP6iEwFZfRZ6Qx+3Tt3JP5E4rbzTWevzQe3blTDl0nc5gA4sUisEVl
-         cT2gDDx5nClKmrKMxPnDVAfFvDiX0k5MhPdKhCC7W/fEAMY/ztwDMcIKCUn9jCeEbkd6
-         BBtllspbT/PBH1KtXh9/6UAA//mOGlmC1+4zpMnkpPPzJUepm67rltFqVsFTtpO2w3F3
-         ZkPw==
-X-Gm-Message-State: AOJu0YxYLaK6y/GCGZEnJop0MQo7cNwIIh3HjvOjf8lRWS1qJ/Qv+TNn
-	JMVRUcutzUHGS8rfLChru8GK9CkWhgZKBcxWLaWgfHq4UH+oBEroVwyHujWJAFjizwUclnFCbJ9
-	r
-X-Google-Smtp-Source: AGHT+IHYir48UXoE2b1Sycckg7PNUhx+BIQOqEYzVP98h9DtQPqH8A+VAB2+kjQ/aAl8Co0xk1mdNg==
-X-Received: by 2002:a5d:6610:0:b0:33c:ee72:3f7b with SMTP id n16-20020a5d6610000000b0033cee723f7bmr1527947wru.27.1707919328362;
-        Wed, 14 Feb 2024 06:02:08 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVIzY8vkAhNQy6Uoo/siG+RxXiGP2D1Ewg+b2PFnXZS34L/ZOH2UuXzIL0sqDXhycMee9hIpRJnRqejW7s+ZnG7Gzpfc2KZLVWED94Rp5A+uk8UlOkSHvlMfOCiqRZuZdcC0BDVgluauaFMRtbx1Si7RG0F4R8YH2AFp6Ut1CQ2eA==
-Received: from ?IPv6:2804:30c:167a:ef00:fc7a:1b9f:b267:a6b6? ([2804:30c:167a:ef00:fc7a:1b9f:b267:a6b6])
-        by smtp.gmail.com with ESMTPSA id dq22-20020a056a020f9600b005dca4c289c8sm336675pgb.34.2024.02.14.06.02.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Feb 2024 06:02:07 -0800 (PST)
-Message-ID: <951fc31ee754ba86acaa9556e1d28c13075c66a2.camel@suse.com>
-Subject: Out-of-tree module building fails with O= argument
-From: Marcos Paulo de Souza <mpdesouza@suse.com>
-To: linux-kbuild@vger.kernel.org
-Cc: Shuah Khan <skhan@linuxfoundation.org>, Joe Lawrence
- <joe.lawrence@redhat.com>, Petr Mladek <pmladek@suse.com>, mbenes@suse.com,
-  Masahiro Yamada <masahiroy@kernel.org>
-Date: Wed, 14 Feb 2024 11:02:03 -0300
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.3 (by Flathub.org) 
+        d=1e100.net; s=20230601; t=1707921396; x=1708526196;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ieRFgVX+l5qNLg5VWXa9Hrv9zNfV92pS7+FucPfjsp8=;
+        b=TIn6iGB8ztOQMIJCtg7bls9/hfdwhL5nKJ4mTSgnahoN4DPkAYtB9Ny44lN1c30Lnz
+         MhRdswMstMSVBIPpS8IXy1b52kAVTvYkBymq5VBk26OUoG+BB+NzPOERQryO3cN5+6i6
+         tYrZnFS4fkb3awHJvp6EVK9CnOkgkWoZq+egJrsJIaOqEWEI4U90aQpg+SPuPEgur59w
+         fM1s5etn763y0c6vq8Q683xC0cnFLCjKwWjIQNqSclnu///tHgsPNliPkey0pA34KzU3
+         DqdoZ5QfxHxAai1Lw91z6cH0STnWuRllBJa5xAIOjkR1F4WtMukwYcfx3HXWKtRsutAx
+         y7AQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXU5wQ7h4awE2K4u3EdoXwVfN0iTriYIsOL4yqfwdvzD1/o5Y0ITyGvMaBo61uy9pr+EW3GtS/1GaRe+RivheVbai5uW2t3kqN/2x65ubIsLMc+xBDTZt4XtQOxrio1ShPXc8nGNUZvZ2vy51nN1hdYXpluySBMETdKPNkNyfg4QuBBqH+GUcqkiXhoOITnvcJjrW+3A+p09unzwk1QWIfKy0lMUymGmMn582CvXzEB+HM4+ROXr6YbyiEMUfLJN4hkUTpQ21cqBfvzhgLXgJB6eaVPS3WHyP2l0R8EL+K5EfCHIa0D6KqP09ojpUmdIBZRAGP3Ps6WbVABkU4s4cfTbQ==
+X-Gm-Message-State: AOJu0YznFu3p6BnZPrBY6N+HSQPzlRAt9wG11h1KZ47bpK168Y/ydT9P
+	vKe9Xr5U4nSTbu4T6weYMPoA+QZjCdOu4r5uILFHMFU6aURBwx3WPEQT0BcwnEE=
+X-Google-Smtp-Source: AGHT+IFFthSxEtonVcXe87bmhUo29Pvsbr76NaU5tedM998ASq+hhSiMEVbXD23MUhFikYczz43kMg==
+X-Received: by 2002:a62:cfc1:0:b0:6e0:9e95:b3f8 with SMTP id b184-20020a62cfc1000000b006e09e95b3f8mr2324722pfg.9.1707921395714;
+        Wed, 14 Feb 2024 06:36:35 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXiXj8laBX/0QpFfAU4AHfZrChi3AZvxbSiqzlknIyB0GjNrpDnP9OJpYeVZqli80RsNWDywVErwazZ9oH9+sK90qpRtHOpXS89vzIIsoBnAHvA90ftvO8uFHPfYiFPO5Ss0Om+6wBItmwQC/rGykolO4ytM0OqiFb4sXYTFkfc1N1YkmnkVSkpH7V2Q+F/0soF0Hjg+udc4goR9kb6nK3ZdkF2Jka71ipF4Ju6CiVFtSKqbXW8btVafOxRbiMzS71/z4Ev5/H3Q3xyP7mjD2H63r43A6hwdfFzN0YPh50fRitSP9wfFlZzWpMNcDWRMJMHZgcGXxjm3oYo5L7cdlgl8A==
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com. [209.85.214.169])
+        by smtp.gmail.com with ESMTPSA id a16-20020aa780d0000000b006e0825acbc3sm9321977pfn.77.2024.02.14.06.36.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Feb 2024 06:36:35 -0800 (PST)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1db51e55023so6923745ad.1;
+        Wed, 14 Feb 2024 06:36:35 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWtmGx2z2ck1NE7BFwLs8WgYpa13xWvvwC1Yuyo9C6gcWyrXqUUk4tGlw5D675zE6oGRA9mIcz/HhoNGNsSS2QOYeKmvCorzzpsD7mkQ5mJikfjkk/dx5cy+7o5W39ecsRG8Md9UXejzkS4ikb4pJPphIuBVUddh5zvQZ/y/ScYi8A3+TjzEZbavf/9k4d2XBnyaDR+TJCy2eW2fXu2nXOgibu+C2xLs6APZ1h/ORaMxOUiw4VYIAscAtVjJJIlPC/2X8P8P+vqlHY5DefKyX2FfN05o4GPddY62Hj6+q4G11cbfyUyFucz/lG+R1RTZ28ACxG/JcrSmNd8dzgqOXmE8A==
+X-Received: by 2002:a25:8686:0:b0:dc7:4546:d107 with SMTP id
+ z6-20020a258686000000b00dc74546d107mr2758581ybk.23.1707921374648; Wed, 14 Feb
+ 2024 06:36:14 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20240213-arm-dt-cleanups-v1-0-f2dee1292525@kernel.org> <20240213-arm-dt-cleanups-v1-3-f2dee1292525@kernel.org>
+In-Reply-To: <20240213-arm-dt-cleanups-v1-3-f2dee1292525@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 14 Feb 2024 15:36:03 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXjJcsFiusnBQmJg1p-oy-NPmr+qyt0znOk0n+wL8TrnA@mail.gmail.com>
+Message-ID: <CAMuHMdXjJcsFiusnBQmJg1p-oy-NPmr+qyt0znOk0n+wL8TrnA@mail.gmail.com>
+Subject: Re: [PATCH 3/6] arm64: dts: Fix dtc interrupt_provider warnings
+To: Rob Herring <robh@kernel.org>
+Cc: soc@kernel.org, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Tsahee Zidenberg <tsahee@annapurnalabs.com>, Antoine Tenart <atenart@kernel.org>, 
+	Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn <andrew@lunn.ch>, 
+	Gregory Clement <gregory.clement@bootlin.com>, 
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, 
+	=?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
+	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Stefan Agner <stefan@agner.ch>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, =?UTF-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>, 
+	Tony Lindgren <tony@atomide.com>, Chanho Min <chanho.min@lge.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Linus Walleij <linusw@kernel.org>, Imre Kaloz <kaloz@openwrt.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, linux-arm-kernel@lists.infradead.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, 
+	linux-tegra@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-omap@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+	linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello Masahiro and Kbuild ML,
+On Tue, Feb 13, 2024 at 8:35=E2=80=AFPM Rob Herring <robh@kernel.org> wrote=
+:
+> The dtc interrupt_provider warning is off by default. Fix all the warning=
+s
+> so it can be enabled.
+>
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-Recently we added out-of-tree module building on kselftests for the
-livepatch selftests. Everything worked as expected, but kernel test
-robot complained about it[1].
+>  arch/arm64/boot/dts/renesas/ulcb-kf.dtsi            | 4 ++++
 
-So far, all our tests were being done targeting different options for
-kselftests, but we didn't test using the O=3D option. The interesting
-part of it is that this can be easily reproducible with any out-of-tree
-module building even on current upstream, like the code below:
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-$ uname -r
-6.8.0-rc4+
-$ make
-make -C /lib/modules/6.8.0-rc4+/build M=3D/home/mpdesouza/test-oot
-modules
-make[1]: Entering directory '/home/mpdesouza/git/linux'
-  CC [M]  /home/mpdesouza/test-oot/patch_1.o
-  MODPOST /home/mpdesouza/test-oot/Module.symvers
-  CC [M]  /home/mpdesouza/test-oot/patch_1.mod.o
-  LD [M]  /home/mpdesouza/test-oot/patch_1.ko
-  BTF [M] /home/mpdesouza/test-oot/patch_1.ko
-make[1]: Leaving directory '/home/mpdesouza/git/linux'
+Gr{oetje,eeting}s,
 
-But it fails when using O=3D argument:
-$ make O=3D/tmp/kout
-make -C /lib/modules/6.8.0-rc4+/build M=3D/home/mpdesouza/test-oot
-modules
-make[1]: Entering directory '/home/mpdesouza/git/linux'
-make[2]: Entering directory '/tmp/kout'
-/home/mpdesouza/git/linux/Makefile:733: include/config/auto.conf: No
-such file or directory
-make[2]: *** [/home/mpdesouza/git/linux/Makefile:240: __sub-make] Error
-2
-make[2]: Leaving directory '/tmp/kout'
-make[1]: *** [Makefile:240: __sub-make] Error 2
-make[1]: Leaving directory '/home/mpdesouza/git/linux'
-make: *** [Makefile:6: all] Error 2
+                        Geert
 
-As I already described on [2], the O=3D argument (or KBUILD_OUTPUT) makes
-the kernel to jump into the directory specified on the variabled, but
-running the Makefile on /lib/modules/6.8.0-rc4+/build. The problem is
-thattoplevel Makefile on /lib/modules/.../build includes files using
-relative paths. In this case, the makefile tries to find
-include/config/auto.conf on /tmp/kout, which obviously doesn't exists.
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-Do you think this can be a bug on Kbuild? Should we ignore O=3D when
-building out-of-tree modules?
-
-Also, as noted[3] by Petr Mladek (CCed here as well), kernel-devel
-doesn't include auto.conf, so maybe kernel-devel should be patched as
-well?
-
-Thanks in advance,
-  Marcos
-
-[1]:
-https://lore.kernel.org/oe-kbuild-all/202401300736.GkSZoSrA-lkp@intel.com/
-[2]:
-https://lore.kernel.org/oe-kbuild-all/fd027fa958a0bc65285a0c6c42e5921e7d28b=
-0ad.camel@suse.com/
-[3]: https://lore.kernel.org/oe-kbuild-all/ZbpnBqHUl3pE_3Te@alley/
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
