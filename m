@@ -1,256 +1,185 @@
-Return-Path: <linux-kbuild+bounces-939-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-940-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B8EF85526B
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Feb 2024 19:41:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96718855411
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Feb 2024 21:35:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CEEEA285493
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Feb 2024 18:41:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EF41C28AD0E
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Feb 2024 20:35:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D2C012CD95;
-	Wed, 14 Feb 2024 18:41:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C586713EFF0;
+	Wed, 14 Feb 2024 20:34:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="A4mt0uw0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HtxsjtZw"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BD3212FB11
-	for <linux-kbuild@vger.kernel.org>; Wed, 14 Feb 2024 18:41:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D1A013EFEF;
+	Wed, 14 Feb 2024 20:34:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707936101; cv=none; b=eYmQn/op9Ah9Fevp8lT0lwxH+h5MfNOqXtvZwgDm2I0mih04e3Xslxar5hIc0/TNdEmEQLGGHyEt3wajva5smUran/BJZsfavsFWDE6Hws3M79Gca/n6JQY6CJXNDFA324pH3nq9UVHmZbTsgg/rVNcNt58ixbpndHSDnQOytbU=
+	t=1707942890; cv=none; b=SLEYpp27jwIwiSzPGAVU7HojnwnYXNC0SMdjnaSvXEYjuiBsQm5A/V8nTV+OzOtsCIpuIG6ye3mLLbM6+LF6kfAz5QnSzDtMOmkojut2iI33J/FKebX3kDtt5VlBTVrKXUgdH7qFzVXvg2eUHRNwm6tHbqOKax9CgqAKXYAUte0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707936101; c=relaxed/simple;
-	bh=9PSFC64DwtS2iVuPRloS5nJ/xKCnj1pz7kLqXZGESfY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ak+7myJpHJoFSfqZ1toO8pHRK1pYgj5Cq38AIbeSLX/uM7orInvjw7BoHat+6jdUeWjMXmziduJUuI8nWJLLkccQ5YrfuTvM5fg9xdgNJu5z2pl2WvN5wvErLi08gqJivrlsRBDjNWd+dBYXGp+2kUWDRicphGlyS8GBBjs2MfI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=A4mt0uw0; arc=none smtp.client-ip=209.85.222.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-785d4dba20cso4234285a.3
-        for <linux-kbuild@vger.kernel.org>; Wed, 14 Feb 2024 10:41:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1707936098; x=1708540898; darn=vger.kernel.org;
-        h=in-reply-to:autocrypt:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cs2AeZSLfXtSp88EnUjOjGYmTqNauo7l3fry56JRDT0=;
-        b=A4mt0uw0Al0Y4gpxZQOiQ1yGd/JQz930zndiPdy/b2ywoBDKUETWpY9tmRG9GDjyjA
-         4apVPLCHsEqqezP4NqbaOVfViQzxs+XRwDhmvKDUCI7uY5a6aFEMcLdkSizxwj+IoeUI
-         AQjw0yo1ZbqEThS+0gu9yq/PkJ0dw6gsItiBQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707936098; x=1708540898;
-        h=in-reply-to:autocrypt:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=cs2AeZSLfXtSp88EnUjOjGYmTqNauo7l3fry56JRDT0=;
-        b=whvFRX9IHAvMWGjsnuGmqjjnQgoswODzOljOQRfFvUEaWUEH+wv8XiZzfFcEkze/Ec
-         WTmFAKua/3mO0Ba4UndmBAgOje3z+UTMr3UfDvpQ1jyvN046uNqakrft9+KncXjTAZkN
-         74KRSk28sYx2vE3VMRuLoggkgnYQ3kHaihkaX0Rog4co+scIdvRy2iXvBQaPRvX1RRds
-         WsfVpajJ3ov64vAiahWgTYBSx1x6XJ8Cjdacp7paOmnRXwFjwHlHk6hEmJMA6Nu9DoFp
-         pY+iT/vl7BHjTqsJaJRaF3TCAD5eZQl2GpmVmh4SQEdDdA7xD+uzrHCWgnMPlLghjqMP
-         MHGg==
-X-Forwarded-Encrypted: i=1; AJvYcCUM0SxI92IXzT7VmbxeVTWicQQqkkGowyX2a1lG4dW/hPEvbVUAWQLDATty6nm8HP2Ws4ThjDGgyk/DWV3TG5lKHmwX2jaHkiGy1pOD
-X-Gm-Message-State: AOJu0YzplzbRvhEq1RzpBPOf4i7ToO+8j3vxfbgLvX/AszpPK0bkHJrB
-	1T3lDxnKq5gL8uCdyg/p4cPIgMTOEY2nCEmwn/naf9F4w+eM2N6/9PR+pXkpPQ==
-X-Google-Smtp-Source: AGHT+IFEy1VX7wNMXcFOuNhPKmHMqNsWsnMLFP52fxFzst1Rzx+LVNlLP9b65ohJPh0/O0HpYib4tQ==
-X-Received: by 2002:a05:620a:16c2:b0:785:dacb:926f with SMTP id a2-20020a05620a16c200b00785dacb926fmr3434642qkn.50.1707936098184;
-        Wed, 14 Feb 2024 10:41:38 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUUiIP3PWPScHvR957qCW/A95ZmD0ghpLOc2bjznDUHKO5l81M8S3W1KEY4LLNjO+SBhNeedGEONhCK7KNfrkQXdOy3uV6vdcGO9ukbG8Ds1Q3kzWYWGb0Vv1vLrxsAiyQbrq+0kaUQ1VO57cTQMr188ccWTx+9HH/EIlKWkg6htjxyuXoYBUD53UCc4fo3g5Jw51ljxaJjmTd6Qid29JjvkBUG5+8xNteg5Wvlup0A1wmEtjYtdEUZJe8Mts+YL2E1j6yTW6uNVR2/AqHNdD8WVvKTpyKZ5sZOC9SEQ8U/90bwgNJUarqLPvu0GK5ZMn9kowOUb1U6HmL4JGcACcV7B1BD4vDUHaLnwMcL0iFpQVa4W7AHskw3JTbM39Jphoel5t2qGRvKNl09RAgYsdxSKsbDIBkMNJ7nQPq9xL/C/pLY2zVdE3WgfZ7YXrCoH4z1G7c/Mrm739C+eKsgKZL7geQBdXtZEpw/WrPGFih0V/RmSmm6AoWE1G35mzYS8NDeTAD+E3SaugTWhofwoQHiGxacJDim93L8o4/x24egZryzPVTLnBjVyIF+vOXkyNKwxdn4jtePbQzzAuya664+6OaL86saGMZEn7NMFtgUaWgpT4cN2kcMJOfb8UO9x576dVWEB0Bxg4CaKAd/4FvcsWTdR/lAwlAUsUSu4Izldi/2RkmPL2IuUJz/3Wan2QvifbGsK7rLAoV/50hpeDkUNkcTApNnpjP7058636P9MgL+zWhxs4nKda2w4pKQrHEx/ChYGSnQej2IGGEdzTKTZz1zCbvq18SZBqT1X5hsF5tM944FrJFMBdV3ZqJf9ktoE+vL1V3DvEtIwBPa/lWKKZqRBggTDjpz5XX+uMIav2JwJTq1M62gwFWeuI9ZNQIhTw9Dk9HcZarT8S9t1sjuXZ1nt9JtreRZmk3iGTe5NBnTG4HYeOFVePMGH5ahoZXJPX
- gbVGd6hfxbLFQOuwF/leQY74tvv0qZduYZxMUUB2qlPXiWo+/EVRzZj6mF5S8CAXL6pBnD9mIu6ZZ092b5F3GY6+o9L2Uf8SI9PJD9h6WJUOpgk77GBlhJtFiIzAj+sE41Kj4PjcWMA5fPRIdv4zlsga9gyd92jO5SHr0kcL75BIQSmySV1sOq2KMt73Jo1z5PSpfTFof/drvhPq/l4O87Eg33Z/hWk+esVn+b4Q+GkRuumTWS/WWvGQG+F8vFvXKwJwRFlMtlBlUvb91M+AMdIxaYM9kl3f+ONy1CcTcgqr7jPcZN+2NUZID/W5OWo/PNLXTQ9l5CzfJm0XDj3L9JyZjtoZxwQayN+Z3fyKXJsqwyyyu0wkb8UaBZvmLJG6nUf/bxbiJx5zicJ18m7//KvOyjMkCglar6WaGTAmTgEBTLTt5plk3bYtBt4ahfVTDBcLcMBzBTh8BOHQpsRino6D06nQ4Mi7PCupkrRD00oNQJTEkrf6inKznOh30Garr+sCy7zg3XoSdgWBYA5GAXV7DU4kXzk1sPGuuMpAL9VKrK2X9DYLxJan74Jy79puGHazbdRHkCMtk4MwDRLiDtdM0PDQlS93gxYq8XhP37GWz/WTQXvaOMGFdnd+RQMO29DZIC0M6C58IrcbhGfUt23E4eQWY73SL1EwQmdtPj99LJbxfDurrX89gtyyc67EGLgunR1WcUoZvSbQFt4EEmBFyfB0xNPC7H54ta+LStfouxUw==
-Received: from [10.67.48.245] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id t8-20020a05620a004800b0078718e1f581sm1810522qkt.68.2024.02.14.10.41.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Feb 2024 10:41:37 -0800 (PST)
-Message-ID: <af372c4a-0b7b-45b6-a3bf-3f17ba2eb3a5@broadcom.com>
-Date: Wed, 14 Feb 2024 10:41:31 -0800
+	s=arc-20240116; t=1707942890; c=relaxed/simple;
+	bh=P2kJjSkr/XSrVwwzMl6mGCzNNt+BYcXwxik+kURqUJU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Ac5N3dC1QRe44j3XZv+61TPvPGMoyXPPYwsVq3hpzos4tnWYfp56VH/WHdNwXfoeO03bObqZx/0ghAWaPU+p5XinVMBvTOBgtc8HHVzsuixAF6zEMr81I+8yp7FcMxYt/3pCRyocyRbBw6i+Sr/TBXWXTshfVPnWnadtfbrJozE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HtxsjtZw; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2797BC43399;
+	Wed, 14 Feb 2024 20:34:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707942890;
+	bh=P2kJjSkr/XSrVwwzMl6mGCzNNt+BYcXwxik+kURqUJU=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=HtxsjtZwVDTUpryvb2ETyAmr8hTrT94vKnK8XGAqonwRGyEQzzOt+Z7YY28oOxeTs
+	 ndW4p3ncVAr07JnhSNi9FZYK6e+gJ8Vrpcg6qlGdRytfvQAFHiBJd+9got8uecWOS3
+	 eLGZ1bDKog6Yj6UDo7KL8JxV9Sg1pCs7muJtFNma60XizjIbhyyaVr1qT9onkdPcWU
+	 K7SrL9/IoRhnDj3tuMY6esVR1//PNU4+LNafDTyqsjz4tw/Anv/GfKSiAbqWHjTX9r
+	 91ExN/BcN3B3nrOlOqNGYSjWwIWZTDjj5NCVBL03AwMWvb0TZ7+GAYa9vBCXilTZ70
+	 Iq2YmNBdOkOmg==
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2d0c9967fdcso13752821fa.0;
+        Wed, 14 Feb 2024 12:34:50 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUu/JaWIe060gGvetzUMMowICoI84KkNHGg9MlzaMiHCfXorHAvFnH71Bljd2bMFoqn+19S74z+FfS0hzo2cGMXDiewbfxdEqrhQkJik6X+XshDlpQ7GSUP/DIXewKlTESpVjwO7SA+DMxe
+X-Gm-Message-State: AOJu0Yy/VewsLqfMQRVXRDytWblQDxNyaDEzCbHJ4Mi349GrKbxw0sze
+	jYhd51pMEhm6M/d7MbLIf1G4gfChOI+ZkrWRY+SvlHDvHQ48+t3mmdTAb7uN63WAV7h5vMwM0oS
+	qtcHY9+D5OBM6gUSNbYpknJ9rLZ4=
+X-Google-Smtp-Source: AGHT+IGANuMGyrc8fuWek/gTc/bPksLylBWE+5+N0djMLAKcOlhM9fQDGDr+ZLG5VnSKsYRhnjnnQ8AT3uQOc/+dbKQ=
+X-Received: by 2002:a05:6512:14e:b0:511:8e03:e0ba with SMTP id
+ m14-20020a056512014e00b005118e03e0bamr1007802lfo.7.1707942888576; Wed, 14 Feb
+ 2024 12:34:48 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/6] arm64: dts: Fix dtc interrupt_provider warnings
-To: Rob Herring <robh@kernel.org>, soc@kernel.org,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Tsahee Zidenberg <tsahee@annapurnalabs.com>,
- Antoine Tenart <atenart@kernel.org>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@codeconstruct.com.au>, Ray Jui <rjui@broadcom.com>,
- Scott Branden <sbranden@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn <andrew@lunn.ch>,
- Gregory Clement <gregory.clement@bootlin.com>,
- Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
- =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Stefan Agner <stefan@agner.ch>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- =?UTF-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>,
- Tony Lindgren <tony@atomide.com>, Chanho Min <chanho.min@lge.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, Linus Walleij <linusw@kernel.org>,
- Imre Kaloz <kaloz@openwrt.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor
- <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>
-Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- openbmc@lists.ozlabs.org, linux-tegra@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-omap@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kbuild@vger.kernel.org
-References: <20240213-arm-dt-cleanups-v1-0-f2dee1292525@kernel.org>
- <20240213-arm-dt-cleanups-v1-3-f2dee1292525@kernel.org>
-From: Florian Fainelli <florian.fainelli@broadcom.com>
-Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
- 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
-In-Reply-To: <20240213-arm-dt-cleanups-v1-3-f2dee1292525@kernel.org>
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="00000000000073c5c506115bdce8"
+References: <20240214181942.3562473-1-arnd@kernel.org>
+In-Reply-To: <20240214181942.3562473-1-arnd@kernel.org>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Thu, 15 Feb 2024 05:34:11 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASQUhJGSdQiyEpc5Rpuk_hJwSCu=W=4JkL-Et_giFNvPg@mail.gmail.com>
+Message-ID: <CAK7LNASQUhJGSdQiyEpc5Rpuk_hJwSCu=W=4JkL-Et_giFNvPg@mail.gmail.com>
+Subject: Re: [PATCH] kallsyms: ignore ARMv4 thunks along with others
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+	=?UTF-8?Q?Pierre=2DCl=C3=A9ment_Tosi?= <ptosi@google.com>, 
+	Ard Biesheuvel <ardb@kernel.org>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---00000000000073c5c506115bdce8
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-
-On 2/13/24 11:34, Rob Herring wrote:
-> The dtc interrupt_provider warning is off by default. Fix all the warnings
-> so it can be enabled.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
+On Thu, Feb 15, 2024 at 3:19=E2=80=AFAM Arnd Bergmann <arnd@kernel.org> wro=
+te:
+>
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> lld is now able to build ARMv4 and ARMv4T kernels, which means it can gen=
+erate
+> thunks for those that can interfere with kallsyms table generation since
+> they do not get ignore like the corresponding ARMv5+ ones are:
+>
+> Inconsistent kallsyms data
+> Try "make KALLSYMS_EXTRA_PASS=3D1" as a workaround
+>
+> Add the missing symbols to the list of ignored symbol prefixes.
+>
+> Fixes: 5eb6e280432d ("ARM: 9289/1: Allow pre-ARMv5 builds with ld.lld 16.=
+0.0 and newer")
+> Fixes: efe6e3068067 ("kallsyms: fix nonconverging kallsyms table with lld=
+")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
+>  scripts/mksysmap | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/scripts/mksysmap b/scripts/mksysmap
+> index 9ba1c9da0a40..c809bf592790 100755
+> --- a/scripts/mksysmap
+> +++ b/scripts/mksysmap
+> @@ -52,6 +52,8 @@ ${NM} -n ${1} | sed >${2} -e "
+>  / __AArch64ADRPThunk_/d
+>
+>  # arm lld
+> +/ __ARMv4PILongThunk_/d
+> +/ __ARMv4PILongBXThunk_/d
+>  / __ARMV5PILongThunk_/d
+>  / __ARMV7PILongThunk_/d
+>  / __ThumbV7PILongThunk_/d
+> --
+> 2.39.2
+>
 
->   arch/arm64/boot/dts/broadcom/northstar2/ns2.dtsi    | 1 +
->   arch/arm64/boot/dts/broadcom/stingray/stingray.dtsi | 1 +
-
-Acked-by: Florian Fainelli <florian.fainelli@broadcom.com> #Broadcom
--- 
-Florian
 
 
---00000000000073c5c506115bdce8
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
+If this is a recurring problem,
+maybe is it better to use a regular expression?
 
-MIIQeQYJKoZIhvcNAQcCoIIQajCCEGYCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
-gg3QMIIFDTCCA/WgAwIBAgIQeEqpED+lv77edQixNJMdADANBgkqhkiG9w0BAQsFADBMMSAwHgYD
-VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
-AxMKR2xvYmFsU2lnbjAeFw0yMDA5MTYwMDAwMDBaFw0yODA5MTYwMDAwMDBaMFsxCzAJBgNVBAYT
-AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMTEwLwYDVQQDEyhHbG9iYWxTaWduIEdDQyBS
-MyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA
-vbCmXCcsbZ/a0fRIQMBxp4gJnnyeneFYpEtNydrZZ+GeKSMdHiDgXD1UnRSIudKo+moQ6YlCOu4t
-rVWO/EiXfYnK7zeop26ry1RpKtogB7/O115zultAz64ydQYLe+a1e/czkALg3sgTcOOcFZTXk38e
-aqsXsipoX1vsNurqPtnC27TWsA7pk4uKXscFjkeUE8JZu9BDKaswZygxBOPBQBwrA5+20Wxlk6k1
-e6EKaaNaNZUy30q3ArEf30ZDpXyfCtiXnupjSK8WU2cK4qsEtj09JS4+mhi0CTCrCnXAzum3tgcH
-cHRg0prcSzzEUDQWoFxyuqwiwhHu3sPQNmFOMwIDAQABo4IB2jCCAdYwDgYDVR0PAQH/BAQDAgGG
-MGAGA1UdJQRZMFcGCCsGAQUFBwMCBggrBgEFBQcDBAYKKwYBBAGCNxQCAgYKKwYBBAGCNwoDBAYJ
-KwYBBAGCNxUGBgorBgEEAYI3CgMMBggrBgEFBQcDBwYIKwYBBQUHAxEwEgYDVR0TAQH/BAgwBgEB
-/wIBADAdBgNVHQ4EFgQUljPR5lgXWzR1ioFWZNW+SN6hj88wHwYDVR0jBBgwFoAUj/BLf6guRSSu
-TVD6Y5qL3uLdG7wwegYIKwYBBQUHAQEEbjBsMC0GCCsGAQUFBzABhiFodHRwOi8vb2NzcC5nbG9i
-YWxzaWduLmNvbS9yb290cjMwOwYIKwYBBQUHMAKGL2h0dHA6Ly9zZWN1cmUuZ2xvYmFsc2lnbi5j
-b20vY2FjZXJ0L3Jvb3QtcjMuY3J0MDYGA1UdHwQvMC0wK6ApoCeGJWh0dHA6Ly9jcmwuZ2xvYmFs
-c2lnbi5jb20vcm9vdC1yMy5jcmwwWgYDVR0gBFMwUTALBgkrBgEEAaAyASgwQgYKKwYBBAGgMgEo
-CjA0MDIGCCsGAQUFBwIBFiZodHRwczovL3d3dy5nbG9iYWxzaWduLmNvbS9yZXBvc2l0b3J5LzAN
-BgkqhkiG9w0BAQsFAAOCAQEAdAXk/XCnDeAOd9nNEUvWPxblOQ/5o/q6OIeTYvoEvUUi2qHUOtbf
-jBGdTptFsXXe4RgjVF9b6DuizgYfy+cILmvi5hfk3Iq8MAZsgtW+A/otQsJvK2wRatLE61RbzkX8
-9/OXEZ1zT7t/q2RiJqzpvV8NChxIj+P7WTtepPm9AIj0Keue+gS2qvzAZAY34ZZeRHgA7g5O4TPJ
-/oTd+4rgiU++wLDlcZYd/slFkaT3xg4qWDepEMjT4T1qFOQIL+ijUArYS4owpPg9NISTKa1qqKWJ
-jFoyms0d0GwOniIIbBvhI2MJ7BSY9MYtWVT5jJO3tsVHwj4cp92CSFuGwunFMzCCA18wggJHoAMC
-AQICCwQAAAAAASFYUwiiMA0GCSqGSIb3DQEBCwUAMEwxIDAeBgNVBAsTF0dsb2JhbFNpZ24gUm9v
-dCBDQSAtIFIzMRMwEQYDVQQKEwpHbG9iYWxTaWduMRMwEQYDVQQDEwpHbG9iYWxTaWduMB4XDTA5
-MDMxODEwMDAwMFoXDTI5MDMxODEwMDAwMFowTDEgMB4GA1UECxMXR2xvYmFsU2lnbiBSb290IENB
-IC0gUjMxEzARBgNVBAoTCkdsb2JhbFNpZ24xEzARBgNVBAMTCkdsb2JhbFNpZ24wggEiMA0GCSqG
-SIb3DQEBAQUAA4IBDwAwggEKAoIBAQDMJXaQeQZ4Ihb1wIO2hMoonv0FdhHFrYhy/EYCQ8eyip0E
-XyTLLkvhYIJG4VKrDIFHcGzdZNHr9SyjD4I9DCuul9e2FIYQebs7E4B3jAjhSdJqYi8fXvqWaN+J
-J5U4nwbXPsnLJlkNc96wyOkmDoMVxu9bi9IEYMpJpij2aTv2y8gokeWdimFXN6x0FNx04Druci8u
-nPvQu7/1PQDhBjPogiuuU6Y6FnOM3UEOIDrAtKeh6bJPkC4yYOlXy7kEkmho5TgmYHWyn3f/kRTv
-riBJ/K1AFUjRAjFhGV64l++td7dkmnq/X8ET75ti+w1s4FRpFqkD2m7pg5NxdsZphYIXAgMBAAGj
-QjBAMA4GA1UdDwEB/wQEAwIBBjAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBSP8Et/qC5FJK5N
-UPpjmove4t0bvDANBgkqhkiG9w0BAQsFAAOCAQEAS0DbwFCq/sgM7/eWVEVJu5YACUGssxOGhigH
-M8pr5nS5ugAtrqQK0/Xx8Q+Kv3NnSoPHRHt44K9ubG8DKY4zOUXDjuS5V2yq/BKW7FPGLeQkbLmU
-Y/vcU2hnVj6DuM81IcPJaP7O2sJTqsyQiunwXUaMld16WCgaLx3ezQA3QY/tRG3XUyiXfvNnBB4V
-14qWtNPeTCekTBtzc3b0F5nCH3oO4y0IrQocLP88q1UOD5F+NuvDV0m+4S4tfGCLw0FREyOdzvcy
-a5QBqJnnLDMfOjsl0oZAzjsshnjJYS8Uuu7bVW/fhO4FCU29KNhyztNiUGUe65KXgzHZs7XKR1g/
-XzCCBVgwggRAoAMCAQICDBP8P9hKRVySg3Qv5DANBgkqhkiG9w0BAQsFADBbMQswCQYDVQQGEwJC
-RTEZMBcGA1UEChMQR2xvYmFsU2lnbiBudi1zYTExMC8GA1UEAxMoR2xvYmFsU2lnbiBHQ0MgUjMg
-UGVyc29uYWxTaWduIDIgQ0EgMjAyMDAeFw0yMjA5MTAxMjE4MTFaFw0yNTA5MTAxMjE4MTFaMIGW
-MQswCQYDVQQGEwJJTjESMBAGA1UECBMJS2FybmF0YWthMRIwEAYDVQQHEwlCYW5nYWxvcmUxFjAU
-BgNVBAoTDUJyb2FkY29tIEluYy4xGTAXBgNVBAMTEEZsb3JpYW4gRmFpbmVsbGkxLDAqBgkqhkiG
-9w0BCQEWHWZsb3JpYW4uZmFpbmVsbGlAYnJvYWRjb20uY29tMIIBIjANBgkqhkiG9w0BAQEFAAOC
-AQ8AMIIBCgKCAQEA+oi3jMmHltY4LMUy8Up5+1zjd1iSgUBXhwCJLj1GJQF+GwP8InemBbk5rjlC
-UwbQDeIlOfb8xGqHoQFGSW8p9V1XUw+cthISLkycex0AJ09ufePshLZygRLREU0H4ecNPMejxCte
-KdtB4COST4uhBkUCo9BSy1gkl8DJ8j/BQ1KNUx6oYe0CntRag+EnHv9TM9BeXBBLfmMRnWNhvOSk
-nSmRX0J3d9/G2A3FIC6WY2XnLW7eAZCQPa1Tz3n2B5BGOxwqhwKLGLNu2SRCPHwOdD6e0drURF7/
-Vax85/EqkVnFNlfxtZhS0ugx5gn2pta7bTdBm1IG4TX+A3B1G57rVwIDAQABo4IB3jCCAdowDgYD
-VR0PAQH/BAQDAgWgMIGjBggrBgEFBQcBAQSBljCBkzBOBggrBgEFBQcwAoZCaHR0cDovL3NlY3Vy
-ZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3J0MEEG
-CCsGAQUFBzABhjVodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3IzcGVyc29uYWxzaWdu
-MmNhMjAyMDBNBgNVHSAERjBEMEIGCisGAQQBoDIBKAowNDAyBggrBgEFBQcCARYmaHR0cHM6Ly93
-d3cuZ2xvYmFsc2lnbi5jb20vcmVwb3NpdG9yeS8wCQYDVR0TBAIwADBJBgNVHR8EQjBAMD6gPKA6
-hjhodHRwOi8vY3JsLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24yY2EyMDIwLmNy
-bDAoBgNVHREEITAfgR1mbG9yaWFuLmZhaW5lbGxpQGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggr
-BgEFBQcDBDAfBgNVHSMEGDAWgBSWM9HmWBdbNHWKgVZk1b5I3qGPzzAdBgNVHQ4EFgQUUwwfJ6/F
-KL0fRdVROal/Lp4lAF0wDQYJKoZIhvcNAQELBQADggEBAKBgfteDc1mChZjKBY4xAplC6uXGyBrZ
-kNGap1mHJ+JngGzZCz+dDiHRQKGpXLxkHX0BvEDZLW6LGOJ83ImrW38YMOo3ZYnCYNHA9qDOakiw
-2s1RH00JOkO5SkYdwCHj4DB9B7KEnLatJtD8MBorvt+QxTuSh4ze96Jz3kEIoHMvwGFkgObWblsc
-3/YcLBmCgaWpZ3Ksev1vJPr5n8riG3/N4on8gO5qinmmr9Y7vGeuf5dmZrYMbnb+yCBalkUmZQwY
-NxADYvcRBA0ySL6sZpj8BIIhWiXiuusuBmt2Mak2eEv0xDbovE6Z6hYyl/ZnRadbgK/ClgbY3w+O
-AfUXEZ0xggJtMIICaQIBATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52
-LXNhMTEwLwYDVQQDEyhHbG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgwT
-/D/YSkVckoN0L+QwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIK8OgoswcO0rvKzC
-/Bji7gH65uuKRcqBj30f4D9ez+jKMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcN
-AQkFMQ8XDTI0MDIxNDE4NDEzOFowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZI
-AWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEH
-MAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQCqeMKNizrxHLOK+ATX3vyPameOolEEeiVm
-Y3f1GaJhGFUcChr+6+ekolxyS+u3kReRK4DC3jXOfBN3mjcLs1lZVXbP1zNn4cTLC5b4abGc0Qmv
-GAIppUdbJBL8vKAXumhC0QWrDTFavKB4JioTHz1J5NVcIwYmLZMkJ31so7sno/00fwp/5LzM9KN1
-RNtFt+773bdcH8qq3qa5EGde7z7vM+yfbZGBQdgxvsnMGYMUkQm9VBajvJsknI+hxKe66wU2+EZu
-q+CICqqnkpcUKW9MzD/TwbcSV7au5063wVsg8bsTmUawvRjX6Op9ixrMhzUN7AAIC47Xjemj6SE1
-8uFy
---00000000000073c5c506115bdce8--
+
+Remove these lines:
+
+# arm64 lld
+/ __AArch64ADRPThunk_/d
+
+# arm lld
+/ __ARMV5PILongThunk_/d
+/ __ARMV7PILongThunk_/d
+/ __ThumbV7PILongThunk_/d
+
+# mips lld
+/ __LA25Thunk_/d
+/ __microLA25Thunk_/d
+
+
+
+
+
+Add this:
+
+# lld
+/ __[^[:space:]]*Thunk_/d
+
+
+
+
+
+This pattern is only used in tooling,
+but never in the kernel space.
+
+
+
+$ git grep '__[^[:space:]]*Thunk_'
+scripts/mksysmap:/ __AArch64ADRPThunk_/d
+scripts/mksysmap:/ __ARMV5PILongThunk_/d
+scripts/mksysmap:/ __ARMV7PILongThunk_/d
+scripts/mksysmap:/ __ThumbV7PILongThunk_/d
+scripts/mksysmap:/ __LA25Thunk_/d
+scripts/mksysmap:/ __microLA25Thunk_/d
+tools/perf/tests/vmlinux-kallsyms.c:            "__AArch64ADRPThunk_",
+ /* arm64 lld */
+tools/perf/tests/vmlinux-kallsyms.c:            "__ARMV5PILongThunk_",
+ /* arm lld */
+tools/perf/tests/vmlinux-kallsyms.c:            "__ARMV7PILongThunk_",
+tools/perf/tests/vmlinux-kallsyms.c:            "__ThumbV7PILongThunk_",
+tools/perf/tests/vmlinux-kallsyms.c:            "__LA25Thunk_",
+ /* mips lld */
+tools/perf/tests/vmlinux-kallsyms.c:            "__microLA25Thunk_",
+
+
+
+
+
+
+
+
+
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
