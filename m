@@ -1,60 +1,81 @@
-Return-Path: <linux-kbuild+bounces-963-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-964-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C62A856599
-	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Feb 2024 15:13:19 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7B1185659A
+	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Feb 2024 15:13:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 26C73B2CB91
-	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Feb 2024 14:12:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E039B1C2154D
+	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Feb 2024 14:13:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CE63131E54;
-	Thu, 15 Feb 2024 14:11:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 143D5131758;
+	Thu, 15 Feb 2024 14:13:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bSLLSvE5"
+	dkim=pass (2048-bit key) header.d=ionos.com header.i=@ionos.com header.b="cdCVBnDZ"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04E4D131E4A;
-	Thu, 15 Feb 2024 14:11:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F4D1130ADA
+	for <linux-kbuild@vger.kernel.org>; Thu, 15 Feb 2024 14:13:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708006318; cv=none; b=J4z5qmNnGH7h5cGbJCETOB5DAhUk7WKvTfP0oeiQDdVjW+1TrDnE+EOJQMlm5q/6FB4zg06u+6Zzzwj/WPW2MwPWyZ3ghMn6H1Ba63hW7o/QYVVyRs8d8CXrlrWO9OqfO6TBUZJk5GjHoFCGe7spxN74mm6jb0DR3G17wri+3Sk=
+	t=1708006424; cv=none; b=Y0w9mtbY5Ut+Cb07poIfdwOuZ2f7jlvWn7MaltncwWtfeoek8ypY9le4s/i7E8S/AXRRe70lsKAH+at7Dudz9Y0e4AdcdV+Vz6klkiLSGfAXWsvLNQR6lfHaK/3n0cfvQ5Ta0Kj8G32lAiWG1RCeF8AADVcdgU0z3j705I2VKoo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708006318; c=relaxed/simple;
-	bh=HkxdXeZdYQMmfTagJZLrQcvFjkDeeE9HLvngWwo7L1s=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=kIun50rJOyln0Jnr4EkkPP5Af+Sx2RNBm99trpXQ5YU4ye6wEd6M46dtx5mE6BlhD015szihf7YcaaKdKiDTPtEhIZ/6W/PP4AdaSdEo4bPRSdxL+Vcb1dtUJD3Z4bVTiMq6dN5rBsycL2IGHDxKZFjm8G9wrDljGftHKquX8nk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bSLLSvE5; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E650C43390;
-	Thu, 15 Feb 2024 14:11:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708006317;
-	bh=HkxdXeZdYQMmfTagJZLrQcvFjkDeeE9HLvngWwo7L1s=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=bSLLSvE5LtJPzOQfN3ak2K2GoCYKASkK5hNELtW6Bd8m+hTWFEif36XLkBFvJ6HV1
-	 Eqea4LFg9iD3Hxhiz+SuaHeIXcbpdImAzq+A/JEfzylA3LuEmV62Thj3PvBM88yjKW
-	 oj1Ih95HkCHuS0oUdSkY+6t0lOBY58N0HONa9tnRLRbz4TatZXyQYAzOpjAZ2ALf9b
-	 alyHiykfpqvNrq5Qt67Qw3/+OWeZIackOk0J3F5MllY6RbA8I0cO2NksSKcZ0tUnO0
-	 lzgm8/fRJe8Ni7PzqtWynLrPJRchCBfKhs/2wO05KyNF+4n9gmXOt+DnvBFUT2yf27
-	 9G47V0rByCIww==
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: linux-kbuild@vger.kernel.org
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
-	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-	Matt Turner <mattst88@gmail.com>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	linux-alpha@vger.kernel.org,
+	s=arc-20240116; t=1708006424; c=relaxed/simple;
+	bh=Y6qeuARksgU+rEgbZqHNJm3BXr+2VBnjsm2duHdLWIs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=O1V77vit624T+u++lpX9qyhrHj8wNt7sJ9ewSgUTPiMBjQfXYsYWg29ruMWtL8wDg+TPmgQUGL1+JfQsrs7YCcT+pQAlHEHBfhx0spoFb8cmnrRchewvYoPoadcAlGYahnbumZvL6k7abBi32bk07klSaztHXAwrwDwbcUWO8Lo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ionos.com; spf=pass smtp.mailfrom=ionos.com; dkim=pass (2048-bit key) header.d=ionos.com header.i=@ionos.com header.b=cdCVBnDZ; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ionos.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ionos.com
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a3d002bc6f7so86881966b.3
+        for <linux-kbuild@vger.kernel.org>; Thu, 15 Feb 2024 06:13:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ionos.com; s=google; t=1708006419; x=1708611219; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qZLd9NX3ymKq7wMa9QaV0cpLQd+CyTlNqfrZR5Cx3Qk=;
+        b=cdCVBnDZffml7fx5wZG0IJJ9LetSwIKOOQy7Zay4w9XW+nog88Ia5Q9G/RMVBlgYPn
+         mjyyrNx0YHUWlpcoTW+VSLgP12+WpoZT2tw/5PHRub6x185I871lJj8rpBauMKabPh0y
+         SPuyUSsMm63M+yEELILU45siOPiZleS3AMK3bqh0AUTVHYhcjcZhKh8gIMZGWqHWoonx
+         2rO5xHBTm5j/RI6/+VMSy735CtO2OX0HJTlO+aDnctz/OW+rJ+4ccFQGpeKsdqCeWKcw
+         Z+PIPnl2IYlz8pUgNI/gGuNIrSi49JMYEmAr8Cr23fkTdJwIeayn/TigL6DU2Qm67bik
+         hOuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708006419; x=1708611219;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qZLd9NX3ymKq7wMa9QaV0cpLQd+CyTlNqfrZR5Cx3Qk=;
+        b=vJvVZi5XhaYOqDHqCSxP/PqKloP9f+ml/0YHMYPDb58q+ctUGBzdo8zbt5pOSKyDj6
+         KPCFYHli6596I4E9zZcH6kHz+JBhh908AnOe2rNnCjlh88BW4dkIBeuEe242b0dOSLMi
+         WOeP6g7wCTTW5jySHGLV5LkNSetbEyoXd9LyKB0I5IzJ14/4iWTfpP0C8MliGDBKTzZK
+         FxA6t1AF3obJ7xAiFWW+5wZAAguZNK8muuvmBNyk3+H0sIn54JWyE2hxyQ6gx1fx+73w
+         TVHvKS9163IGKsc8KXw0zqn+LNtNR9n8+HjQAOsxnp8iMVFrrKGXxr96mjChc3PJG0Ym
+         hpLQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVax/VftAjD2o0CREBqHvNJPUyOSQRycYKm9Ktt597rgoNqiIGSmH0Vg7aLOKXSi7W5cPIbbbFbsM3zCBIR84UcO9C1/uIt81Z5kXL2
+X-Gm-Message-State: AOJu0YyLyaxvozY+STewvU/W1HyLzrYdXdHlaypcTYfWW/v53BdKzrHx
+	nWW8H8nqs6Jb3k+JZ9inzAQbVIiQtbIFnhQw7c3xYfEA5wPbposkVCmlMwW8eSY=
+X-Google-Smtp-Source: AGHT+IHmjoDEsfh6SH1SQF7H9GfynfhHdXsJTtUo7vetxOSexyYXzCfklwZRaLSMAQLoh20x9Vvu3A==
+X-Received: by 2002:a17:906:3ca:b0:a3d:b60a:3701 with SMTP id c10-20020a17090603ca00b00a3db60a3701mr330019eja.41.1708006419575;
+        Thu, 15 Feb 2024 06:13:39 -0800 (PST)
+Received: from raven.blarg.de (p200300dc6f267100023064fffe740809.dip0.t-ipconnect.de. [2003:dc:6f26:7100:230:64ff:fe74:809])
+        by smtp.gmail.com with ESMTPSA id gs36-20020a1709072d2400b00a3d0a094574sm585985ejc.66.2024.02.15.06.13.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Feb 2024 06:13:39 -0800 (PST)
+From: Max Kellermann <max.kellermann@ionos.com>
+To: masahiroy@kernel.org,
+	nathan@kernel.org,
+	nicolas@fjasle.eu,
+	linux-kbuild@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] alpha: merge two entries for CONFIG_ALPHA_GAMMA
-Date: Thu, 15 Feb 2024 23:11:20 +0900
-Message-Id: <20240215141120.1911369-2-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20240215141120.1911369-1-masahiroy@kernel.org>
-References: <20240215141120.1911369-1-masahiroy@kernel.org>
+Cc: Max Kellermann <max.kellermann@ionos.com>
+Subject: [PATCH] scripts/mod/modpost: fix null pointer dereference
+Date: Thu, 15 Feb 2024 15:13:21 +0100
+Message-Id: <20240215141321.899675-1-max.kellermann@ionos.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -63,40 +84,35 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-There are two entries for CONFIG_ALPHA_GAMMA, with the second one
-7 lines below. Merge them together.
+If the find_fromsym() call fails and returns NULL, the warn() call
+will dereference this NULL pointer and cause the program to crash.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+This happened when I tried to build with "test_user_copy" module.
+With this fix, it prints lots of warnings like this:
+
+ WARNING: modpost: lib/test_user_copy: section mismatch in reference: (unknown)+0x4 (section: .text.fixup) -> (unknown) (section: .init.text)
+
+Signed-off-by: Max Kellermann <max.kellermann@ionos.com>
 ---
+ scripts/mod/modpost.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
- arch/alpha/Kconfig | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
-
-diff --git a/arch/alpha/Kconfig b/arch/alpha/Kconfig
-index 70e8343d00ba..581ca8c73d67 100644
---- a/arch/alpha/Kconfig
-+++ b/arch/alpha/Kconfig
-@@ -390,16 +390,12 @@ config ALPHA_PRIMO
- 	  Say Y if you have an AS 1000 5/xxx or an AS 1000A 5/xxx.
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index bf7c4b4b5ff4..6b37039c9e92 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -1050,7 +1050,9 @@ static void default_mismatch_handler(const char *modname, struct elf_info *elf,
+ 	sec_mismatch_count++;
  
- config ALPHA_GAMMA
--	bool "EV5 CPU(s) (model 5/xxx)?"
--	depends on ALPHA_SABLE
-+	bool "EV5 CPU(s) (model 5/xxx)?" if ALPHA_SABLE
-+	depends on ALPHA_SABLE || ALPHA_GAMMA
-+	default ALPHA_LYNX
- 	help
- 	  Say Y if you have an AS 2000 5/xxx or an AS 2100 5/xxx.
+ 	warn("%s: section mismatch in reference: %s+0x%x (section: %s) -> %s (section: %s)\n",
+-	     modname, fromsym, (unsigned int)(faddr - from->st_value), fromsec, tosym, tosec);
++	     modname, fromsym,
++	     (unsigned int)(faddr - (from ? from->st_value : 0)),
++	     fromsec, tosym, tosec);
  
--config ALPHA_GAMMA
--	bool
--	depends on ALPHA_LYNX
--	default y
--
- config ALPHA_T2
- 	bool
- 	depends on ALPHA_SABLE || ALPHA_LYNX
+ 	if (mismatch->mismatch == EXTABLE_TO_NON_TEXT) {
+ 		if (match(tosec, mismatch->bad_tosec))
 -- 
-2.40.1
+2.39.2
 
 
