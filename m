@@ -1,232 +1,135 @@
-Return-Path: <linux-kbuild+bounces-955-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-956-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 545B4856465
-	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Feb 2024 14:29:41 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A3D68564A3
+	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Feb 2024 14:41:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 789381C22C16
-	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Feb 2024 13:29:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0FACE28D538
+	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Feb 2024 13:41:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B628E12BE88;
-	Thu, 15 Feb 2024 13:29:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1EE1131747;
+	Thu, 15 Feb 2024 13:41:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="J41aa8na"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uwx+MJZn"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19C0312E1D5
-	for <linux-kbuild@vger.kernel.org>; Thu, 15 Feb 2024 13:29:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7005131731;
+	Thu, 15 Feb 2024 13:41:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708003779; cv=none; b=CnjqoMpKl7QjDcwc9gZIy4c0qZ0mNgHOrYdYa/9B8zmHVih9tQsgfyrKYG6CKtTuy048cbBiXK0IPsmr9M2IyUy+WigbT4L/jop0xOvcZ1dZXDpAdstjdxopS4VG83xBWjpyw43JU41teRCqrdnwvgPkC1gcNwP4AcdO33psFv8=
+	t=1708004484; cv=none; b=GIeP26NI84Mfqyb6djj8t8e9MdcSSWMscAYXDhgDmJvAZT5eSCQd65YgP8U9QV557kHM+0HxIOsmw2IjbNEctPkdhi4Xtii7uU2O41ksSHb16GTGteIeBDl4u8eGzFSasLSKMcNkxOQZMcaC6xaG2d1iOis+uVREBzpZ0yeVY58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708003779; c=relaxed/simple;
-	bh=7yhAtgFVlwnY94zxhj13tUxNU7L3s0UjcPPrRZ8kNFY=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=RRtFKq4li4VaANtlww8L7NTBflEjQXXIJ2GEef/aTheyTo0+V4z4tMLKRXqJZ7zA6VT84g8gLLvzGDYHbbMjB2vkkAaAqfP1gKqaPn3LmTYDJEcF+SCR+Re1WydvsBmPWfTCDJJasuDjklKRbFYX6uEvQu2IvxEbIcRgIB0Ojd0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=J41aa8na; arc=none smtp.client-ip=209.85.208.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2d1094b5568so11708691fa.1
-        for <linux-kbuild@vger.kernel.org>; Thu, 15 Feb 2024 05:29:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1708003775; x=1708608575; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=a7Dj1McEPxY8I+IDUiyqxFG09QXeovAwg9sNXheoglY=;
-        b=J41aa8nai+qf2TcM/J8GjHlhRHiwOKCdieIGf7326JUAVtR+p82/CZGwuIZN//U/+F
-         DGp/Py6EcFDoH81j2bLcS870evP9alaPSrpZqFS9NDaQdeP6E2EZrL4GIX03mMs3x+hO
-         Kdb6agDG09cFUXvmhOpZ/Cs8AWZIUPG/9G9OR/iLBOqzYcRj8Ga/hu6D931MFaeUwudS
-         TtunxT9IGPSOr8wCWfI/1pp9Pm1EcQ7QNVTvuKv1mVPQS822NTeUxi1M1CiZyrSou6AZ
-         r0Vaw77jyblyZq+oI7aJBQk4ivE0SwC/QWFJ6zRL0bEqi7+ikjq/JCfv9Vnh5pWXHGsj
-         YyFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708003775; x=1708608575;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=a7Dj1McEPxY8I+IDUiyqxFG09QXeovAwg9sNXheoglY=;
-        b=Z4GsFVL9T/Gyeo9o5BkYnbJ4lKYNYDcIpW9MZAHk2PMi6/KIsUU+UmTJbjEb0SyhPP
-         2hYqkiLv/C4gvgpGECbrq6RjuThCQ8CpacSwkCAkpiDiX1zKgVw5RXlfSRBTDRf4p0Cd
-         O+3fUCR76Qr6xTC2NMamgDi4f3ZbeNXbpMPgtYTEmLSU9yX2UUhm+OyeuKCMNPmvoONo
-         nQv/jJnN3XLkvR4Lc3F5k2fr/+FJuLLQd4VJCaSt7P3y7+4dh5vrOMaNSdTvb48Gqitz
-         NPyjCmZTTs9HSXUHLqfjTCjI1uKVkRfJqzP5IegJcPhHoC1b3mookVe5j3tcZbczpldh
-         nBXA==
-X-Gm-Message-State: AOJu0YzvtlNU0lyWPvySiM2tgz7PblYGEk7ftINriRftQDR0juQXu3Bs
-	MWJ6qhgMbE7hgOmBwJ4LN8l4fXgZ+U6ls1EN+lgmBB/hY31p5nTejnLRPaAEWP4=
-X-Google-Smtp-Source: AGHT+IFFYRdGsCSB+8z6JNTVaTYJWmoT7UKEoEjvpH+hs5lhh96PzTPm8EEymtQ7sAAfEjjXkRzWiw==
-X-Received: by 2002:a2e:9e10:0:b0:2d0:f629:82b9 with SMTP id e16-20020a2e9e10000000b002d0f62982b9mr1699689ljk.34.1708003775014;
-        Thu, 15 Feb 2024 05:29:35 -0800 (PST)
-Received: from ?IPv6:2804:30c:167a:ef00:fc7a:1b9f:b267:a6b6? ([2804:30c:167a:ef00:fc7a:1b9f:b267:a6b6])
-        by smtp.gmail.com with ESMTPSA id j19-20020a056a00175300b006d94291679asm1303940pfc.78.2024.02.15.05.29.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Feb 2024 05:29:34 -0800 (PST)
-Message-ID: <16d1430240ed96b895db40cca1c6c310f056056c.camel@suse.com>
-Subject: Re: Out-of-tree module building fails with O= argument
-From: Marcos Paulo de Souza <mpdesouza@suse.com>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>, 
- Joe Lawrence <joe.lawrence@redhat.com>, Petr Mladek <pmladek@suse.com>,
- mbenes@suse.com
-Date: Thu, 15 Feb 2024 10:29:31 -0300
-In-Reply-To: <CAK7LNATJ+=Kd5a=wkHZDzHSEACHfYavUa4GdiSKZh5eSwMG6wA@mail.gmail.com>
-References: <951fc31ee754ba86acaa9556e1d28c13075c66a2.camel@suse.com>
-	 <CAK7LNATJ+=Kd5a=wkHZDzHSEACHfYavUa4GdiSKZh5eSwMG6wA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.3 (by Flathub.org) 
+	s=arc-20240116; t=1708004484; c=relaxed/simple;
+	bh=H0RRjq8hyhzq5G7/H4AWcACfk52o+wWu6HicUSnX2I4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iDkR29p1riiMVqcs1SDBEhcs6k6L9GFfMB3t2zjiB+QaXnWkNeuO2XwY2wPXuVC1Kdj+QocT7u2+7ZLnSbZsQSCR5YixO5vjFquSOrldoBnhtlInWFFDQ4gTMSE4+0bdP0v9uBnczuYw9XONPYGn1GhGOXV/Ixd+0hk4CFVpgN8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uwx+MJZn; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 835C0C433C7;
+	Thu, 15 Feb 2024 13:41:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708004484;
+	bh=H0RRjq8hyhzq5G7/H4AWcACfk52o+wWu6HicUSnX2I4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=uwx+MJZn5At3nragiOq9siMG1CR+uoolg9EI1ShM7CamoTnbxjurXcuNBTPVr5/8f
+	 UF6//v36UECKUthdF1kzbbpXQnPOf3fzWa5bxHnYHE21tNMO09gUky0HPKQ97GqaVB
+	 RzZWno4WVsmbgF7m8bJaHCWh19CYUINJKnvTeVbi7XLa1gBpKjc6BZtRNbjgsNnF1Q
+	 D1X++1F5VryoVk9kFUcoM22+TgtlUY9Ix5XTspwu6VUYPWleMJAiRIyGOBX1Ix2Yiu
+	 X4MM19D9VlZu516qJADt0iTw9TgQnXIPDQ97VwUbP6h2LqoMOi7cgKclXxZei2BjHk
+	 +On3bkTbPRDQw==
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2d09cf00214so11561251fa.0;
+        Thu, 15 Feb 2024 05:41:24 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWftHktNQ2jm34MLvCpts8Kn1LcIqzMV39ROcJWCffIAE1l00dmT2cg23EMWRjex79iCQe3SAzQsikmnbH/7KdYMOsz+bcskap08UK6nXSTL+nvV3WVWBelmjl6eijROYjAQvt/4G/EEmglgNjdgi/ZM7DQ/4szfX0aY4jcnE8Fk+RzOXGh
+X-Gm-Message-State: AOJu0YzxUwZ1PNH+KXZ3A9NB5c5su2RuUrYg6v9bpVcIovBAAOIeDIQh
+	agJWsrEaM6kB8Hmt0aMsEooMWVcCqhQzZ+4Porz7dBE9WazxpPRl29wEP+ix046Iwh6Q210obXt
+	V4kwi7k52w6TqeYa4Z2oFefx4+Xk=
+X-Google-Smtp-Source: AGHT+IFJi5xkPKZanwc1lVjx5ydelh3r7qoUdYjjZx2jFBVwBAh5n8+2iFh4G23E5hUpFejQKAisEoA1TLUH2ManFOo=
+X-Received: by 2002:a2e:9d84:0:b0:2d1:1df7:95db with SMTP id
+ c4-20020a2e9d84000000b002d11df795dbmr1412596ljj.13.1708004483103; Thu, 15 Feb
+ 2024 05:41:23 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20230917192009.254979-1-arnd@kernel.org> <CAK7LNASua5xkkg84s4o4GZ00hFRc10V9BmqyxfWfPi=JVFYC8g@mail.gmail.com>
+ <Zc4F3JttXSsBsw-P@bergen.fjasle.eu>
+In-Reply-To: <Zc4F3JttXSsBsw-P@bergen.fjasle.eu>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Thu, 15 Feb 2024 22:40:46 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAT2DNE3RMLdXhLbSRHz6nfuP825UK39sQHkJW4x+OyfVg@mail.gmail.com>
+Message-ID: <CAK7LNAT2DNE3RMLdXhLbSRHz6nfuP825UK39sQHkJW4x+OyfVg@mail.gmail.com>
+Subject: Re: [PATCH] [v2] Documentation: kbuild: explain handling optional dependencies
+To: Nicolas Schier <nicolas@fjasle.eu>
+Cc: Arnd Bergmann <arnd@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Arnd Bergmann <arnd@arndb.de>, 
+	Javier Martinez Canillas <javierm@redhat.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2024-02-15 at 05:49 +0900, Masahiro Yamada wrote:
-> On Wed, Feb 14, 2024 at 11:02=E2=80=AFPM Marcos Paulo de Souza
-> <mpdesouza@suse.com> wrote:
-> >=20
-> > Hello Masahiro and Kbuild ML,
-> >=20
-> > Recently we added out-of-tree module building on kselftests for the
-> > livepatch selftests. Everything worked as expected, but kernel test
-> > robot complained about it[1].
-> >=20
-> > So far, all our tests were being done targeting different options
-> > for
-> > kselftests, but we didn't test using the O=3D option. The interesting
-> > part of it is that this can be easily reproducible with any out-of-
-> > tree
-> > module building even on current upstream, like the code below:
-> >=20
-> > $ uname -r
-> > 6.8.0-rc4+
-> > $ make
-> > make -C /lib/modules/6.8.0-rc4+/build M=3D/home/mpdesouza/test-oot
-> > modules
-> > make[1]: Entering directory '/home/mpdesouza/git/linux'
-> > =C2=A0 CC [M]=C2=A0 /home/mpdesouza/test-oot/patch_1.o
-> > =C2=A0 MODPOST /home/mpdesouza/test-oot/Module.symvers
-> > =C2=A0 CC [M]=C2=A0 /home/mpdesouza/test-oot/patch_1.mod.o
-> > =C2=A0 LD [M]=C2=A0 /home/mpdesouza/test-oot/patch_1.ko
-> > =C2=A0 BTF [M] /home/mpdesouza/test-oot/patch_1.ko
-> > make[1]: Leaving directory '/home/mpdesouza/git/linux'
-> >=20
-> > But it fails when using O=3D argument:
-> > $ make O=3D/tmp/kout
-> > make -C /lib/modules/6.8.0-rc4+/build M=3D/home/mpdesouza/test-oot
-> > modules
-> > make[1]: Entering directory '/home/mpdesouza/git/linux'
-> > make[2]: Entering directory '/tmp/kout'
-> > /home/mpdesouza/git/linux/Makefile:733: include/config/auto.conf:
-> > No
-> > such file or directory
-> > make[2]: *** [/home/mpdesouza/git/linux/Makefile:240: __sub-make]
-> > Error
-> > 2
-> > make[2]: Leaving directory '/tmp/kout'
-> > make[1]: *** [Makefile:240: __sub-make] Error 2
-> > make[1]: Leaving directory '/home/mpdesouza/git/linux'
-> > make: *** [Makefile:6: all] Error 2
-> >=20
-> > As I already described on [2], the O=3D argument (or KBUILD_OUTPUT)
-> > makes
-> > the kernel to jump into the directory specified on the variabled,
-> > but
-> > running the Makefile on /lib/modules/6.8.0-rc4+/build. The problem
-> > is
-> > thattoplevel Makefile on /lib/modules/.../build includes files
-> > using
-> > relative paths. In this case, the makefile tries to find
-> > include/config/auto.conf on /tmp/kout, which obviously doesn't
-> > exists.
-> >=20
-> > Do you think this can be a bug on Kbuild? Should we ignore O=3D when
-> > building out-of-tree modules?
->=20
->=20
-> No.
->=20
-> O=3D is not meant for the output directory for external modules.
->=20
-> O=3D is supposed to point to the object tree of the kernel
-> (when the kernel was built in the separate output directory)
->=20
->=20
-
-Thanks Masahiro. AFAICS, the only way to override/unset a command-line
-variable from the sub-make calls is to override it on make invocation,
-like:
-
-  make -C $(BUILD_PATH) O=3D"" M=3D$(PWD) modules
-
-So it would need a fix like this for it to work. Am I right?
-
-BTW, I just noticedthe same problem on  the bpf module on kselftests,
-which is also an out-of-tree module but it's KDIR is the built kernel:
-
-make W=3D1 O=3D/tmp/kselftest -C tools/testing/selftests/bpf
-make: Entering directory
-'/home/mpdesouza/git/linux/tools/testing/selftests/bpf'
-  EXT-COPY [test_maps]=20
-  MOD      bpf_testmod.ko
-/home/mpdesouza/git/linux/Makefile:733: include/config/auto.conf: No
-such file or directory
-make[2]: *** [Makefile:240: __sub-make] Error 2
-make[1]: *** [Makefile:16: all] Error 2
-make: *** [Makefile:233: /tmp/kselftest//bpf_testmod.ko] Error 2
-make: Leaving directory
-'/home/mpdesouza/git/linux/tools/testing/selftests/bpf'
-
-(This was reproduced on upstream/master branch).
-
-The reproducer from the kernel built robot is the following:
+On Thu, Feb 15, 2024 at 9:39=E2=80=AFPM Nicolas Schier <nicolas@fjasle.eu> =
+wrote:
+>
+> On Mon 25 Sep 2023 16:06:41 GMT, Masahiro Yamada wrote:
+> > On Mon, Sep 18, 2023 at 4:20=E2=80=AFAM Arnd Bergmann <arnd@kernel.org>
+> > wrote:
+> > >
+> > > From: Arnd Bergmann <arnd@arndb.de>
+> > >
+> > > This problem frequently comes up in randconfig testing, with
+> > > drivers failing to link because of a dependency on an optional
+> > > feature.
+> > >
+> > > The Kconfig language for this is very confusing, so try to
+> > > document it in "Kconfig hints" section.
+> > >
+> > > Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+> > > Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
+> > > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> > > ---
+> > > v2: fix typos pointed out by Nicolas Schier
+> >
+> >
+> > Applied to linux-kbuild. Thanks.
+>
+> Hi Masahiro,
+>
+> this patch seems to got lost, or did you intentionally removed it
+> again?
+>
+> Kind regards,
+> Nicolas
 
 
-reproduce:
-        #
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/=
-?id=3Dc4bbe83d27c2446a033cc0381c3fb6be5e8c41c7
-        git remote add linux-next
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout c4bbe83d27c2446a033cc0381c3fb6be5e8c41c7
-        make W=3D1 O=3D/tmp/kselftest headers
-        make W=3D1 O=3D/tmp/kselftest -C tools/testing/selftests
-        make W=3D1 O=3D/tmp/kselftest -C tools/testing/selftests/bpf
 
-(retrieved from https://download.01.org/0day-
-ci/archive/20240130/202401300736.GkSZoSrA-lkp@intel.com/reproduce
-)
+Oh?
 
-Masahiro thanks=20
+I can see it in the mainline.
 
-Shuah, the problem is already there even without out livepatch changes.
-Should the test robot be fixed instead?
 
->=20
-> > Also, as noted[3] by Petr Mladek (CCed here as well), kernel-devel
-> > doesn't include auto.conf, so maybe kernel-devel should be patched
-> > as
-> > well?
-> >=20
-> > Thanks in advance,
-> > =C2=A0 Marcos
-> >=20
-> > [1]:
-> > https://lore.kernel.org/oe-kbuild-all/202401300736.GkSZoSrA-lkp@intel.c=
-om/
-> > [2]:
-> > https://lore.kernel.org/oe-kbuild-all/fd027fa958a0bc65285a0c6c42e5921e7=
-d28b0ad.camel@suse.com/
-> > [3]: https://lore.kernel.org/oe-kbuild-all/ZbpnBqHUl3pE_3Te@alley/
->=20
->=20
->=20
 
+
+commit 28d49e171676afb7df7f47798391364af9abed7f
+Author:     Arnd Bergmann <arnd@arndb.de>
+AuthorDate: Sun Sep 17 21:19:59 2023 +0200
+Commit:     Masahiro Yamada <masahiroy@kernel.org>
+CommitDate: Mon Sep 25 16:01:05 2023 +0900
+
+    Documentation: kbuild: explain handling optional dependencies
+
+
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
