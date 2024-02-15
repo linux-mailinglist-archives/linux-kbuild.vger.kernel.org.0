@@ -1,131 +1,140 @@
-Return-Path: <linux-kbuild+bounces-952-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-954-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D90D855DA6
-	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Feb 2024 10:18:15 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D06A856365
+	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Feb 2024 13:39:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BD9C7283122
-	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Feb 2024 09:18:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 80DE21C23705
+	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Feb 2024 12:39:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F50314286;
-	Thu, 15 Feb 2024 09:18:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2155D12CD80;
+	Thu, 15 Feb 2024 12:39:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t8w8Dlyu"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b="sd11SsMk"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15E7A13FFD;
-	Thu, 15 Feb 2024 09:18:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8066B12C53F;
+	Thu, 15 Feb 2024 12:39:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.63.252.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707988683; cv=none; b=K/TBmW4y+Qbi3fJI0FtOiJJuxli/riUx6DkbNaOD6MGHNd5qzPulBrk0B1DS8HplJCRX/yDH/nxXTz3l0HxrkglLGu69+mHZbO/NQWVbNGsY0QScCK//6UgCCK7H/J+4eyg8Irenv3E0IIcKePsBn9FEpWC55T64OueFrUDpq0I=
+	t=1708000762; cv=none; b=BppmrqlGhZw6WK+GRrJiH3gqP2gsrrdbd8WUoYQpY5nsKEz76FUDzcw5G1G2XBdCZWF16Sa8uT6yqxEH0uMzWKoALDH8LQZF0B+s1nn0y6N05cVqtcmGr9c1LsoieqNuFsm/uzbnIRHODTne8JhfvgrodrFLrrBtwSN9iO3Ay+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707988683; c=relaxed/simple;
-	bh=S/AjCC8VHzWj3sCL5RknpqlrVIJThGoN6o8cUNj0HAc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oXNbun3Mw5LkIUI1Ox2q+Wv7qXLjJi9c0wns6p9UPo7mEHgrZ7TmlRoGT448j4NeCR/1eI7SPOBIR4QJMhIHjiuWZnGTiX+l2OAvdsmjT46QWpCEMbouMDGPgbuqrhBSY2cDd1QmtX0pEZuFuiuT6LyX4ANcbvFkSLvROOagc7k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t8w8Dlyu; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98718C43394;
-	Thu, 15 Feb 2024 09:18:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707988682;
-	bh=S/AjCC8VHzWj3sCL5RknpqlrVIJThGoN6o8cUNj0HAc=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=t8w8Dlyunwadomn9EpttMUklIMkJAVSImls8uYNCN2KFOS7ng/VK2LR8RYdBlWTur
-	 Z2EZoTC/fJe7fxlgMyDYV3j1EhWPAXyh1iVmxwhxMprb9MeRAJaKDhFFufyUu4nKW6
-	 l76luLcslvses4IfnmeonRd01sS/sdv/DW/Q+FvQTk1AjVeHxK0Mp/DUUhVeEnrAc7
-	 xBM8fW2luk8yxj+kjcbMSpDXJiip2wU+D9BAYnBZhT6/ejL/Fmo2QvRYfkhlU5u3+/
-	 eDfcT3623TJuizH+FcloVUgsdE9iTY9SvPR4yq9l08URXLE7A/O9rVn/0xxI2QQaDt
-	 WdsIS/nRyZiNA==
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-511898b6c9eso745104e87.3;
-        Thu, 15 Feb 2024 01:18:02 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXiRwa4MOVRg9tqJx/LKCBN+Eyy7bAMJpN348VXY7/xDbg0CKcZ3Qfxi0LFPqouAV3veW7D9dGkj0S4MXvKXLFulo6wTCixNBLK3uxvKOPnPKZOf2MH6LxtNqVYMYHQK0DwUAQVmrW+dskt
-X-Gm-Message-State: AOJu0YxzxvBfJPfqTmcoiRJZQT5F0vmnKRKPVOLpzwUTocoJKWvPP9EU
-	QNkDateeOAg7ySYBz6x8SkxTgXvChfk+AULztKX51VE4No0WVN/4mLWDVrPY0WlId9qIsqlsWME
-	RsWSjOoqOiEYcB5e6qnXkIs7DtJE=
-X-Google-Smtp-Source: AGHT+IEsMgiElptgTCNfGX2dKL2tYNf4Hhbc7w/ckQwW07j4ZbEqdCIUUZlE+vGLt1J/JAmNUWIICNnaJdmIV3XLc7I=
-X-Received: by 2002:a05:6512:3c8a:b0:511:7211:2cdc with SMTP id
- h10-20020a0565123c8a00b0051172112cdcmr1182263lfv.10.1707988680836; Thu, 15
- Feb 2024 01:18:00 -0800 (PST)
+	s=arc-20240116; t=1708000762; c=relaxed/simple;
+	bh=0CrNpBu4yIiHyPyXquDCtohQJsa75tOaNepCV6CAu00=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TbVPLP51TEAaZ03ExhoOuPNPi4yIa10xtrCtDNfgB9HzjmgR1mRF2Q1n9/Tj/5s8QE9WEaCbn6MljQtlpWqjDX9ZaO2ltxcXZNOPRIL/lJdvcxWrxwGyZw3M/lEUNAPn2/TUYtp1gw6Z6qCprMKl8nFfuj8e16VjuXXFxmi/ELg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu; spf=pass smtp.mailfrom=fjasle.eu; dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b=sd11SsMk; arc=none smtp.client-ip=194.63.252.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fjasle.eu
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=fjasle.eu;
+	s=ds202307; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=0CrNpBu4yIiHyPyXquDCtohQJsa75tOaNepCV6CAu00=; b=sd11SsMkQ7iHgV+GJrN30/KviA
+	Ulaemp9KMtn0zGIpbsKHlRcgGL+MuRyMF/fNH766IcBjNz+clfzEX/3xfZMmWBCipji5Ja7sld+V6
+	Cwm853qVchFUeMqUQF3kEHFE6XLuz1dWZ/rNDIWV4HBWTRLDySwMmfcNOTEtuS6ZPrEibBiJiEsyJ
+	wR6qal0PCvWcXs2bzBLUjW69kESa9SKVAvFUni36VuEFT7ZxlFhPvJRWoLRFCEazY0Hb9rCF+Xadu
+	SFKO8+qAVrz2uZ3iRQaRDbx2BvTN0AwfzcuoQZIPs1cpo2DDGQmn7SD+kRlkvUCR/73Cr3rgABHb8
+	6GS4VQZw==;
+Received: from [2001:9e8:9e8:801:6f0:21ff:fe91:394] (port=48468 helo=bergen.fjasle.eu)
+	by smtp.domeneshop.no with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <nicolas@fjasle.eu>)
+	id 1rab10-00BKdV-Oh;
+	Thu, 15 Feb 2024 13:38:58 +0100
+Date: Thu, 15 Feb 2024 13:38:52 +0100
+From: Nicolas Schier <nicolas@fjasle.eu>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Arnd Bergmann <arnd@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] [v2] Documentation: kbuild: explain handling optional
+ dependencies
+Message-ID: <Zc4F3JttXSsBsw-P@bergen.fjasle.eu>
+References: <20230917192009.254979-1-arnd@kernel.org>
+ <CAK7LNASua5xkkg84s4o4GZ00hFRc10V9BmqyxfWfPi=JVFYC8g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240215083225.3976252-1-arnd@kernel.org>
-In-Reply-To: <20240215083225.3976252-1-arnd@kernel.org>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Thu, 15 Feb 2024 10:17:49 +0100
-X-Gmail-Original-Message-ID: <CAMj1kXGNdnbYVvnYFwmWMTk5rXjCeGWEEnLyXZdK=FBQGv-8dQ@mail.gmail.com>
-Message-ID: <CAMj1kXGNdnbYVvnYFwmWMTk5rXjCeGWEEnLyXZdK=FBQGv-8dQ@mail.gmail.com>
-Subject: Re: [PATCH] [v2] kallsyms: ignore ARMv4 thunks along with others
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
-	=?UTF-8?Q?Pierre=2DCl=C3=A9ment_Tosi?= <ptosi@google.com>, 
-	Nick Desaulniers <ndesaulniers@google.com>, 
-	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="SLx/gfFA9UUD09BZ"
+Content-Disposition: inline
+In-Reply-To: <CAK7LNASua5xkkg84s4o4GZ00hFRc10V9BmqyxfWfPi=JVFYC8g@mail.gmail.com>
+X-Operating-System: Debian GNU/Linux trixie/sid
+Jabber-ID: nicolas@jabber.no
 
-On Thu, 15 Feb 2024 at 09:32, Arnd Bergmann <arnd@kernel.org> wrote:
->
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> lld is now able to build ARMv4 and ARMv4T kernels, which means it can
-> generate thunks for those (__ARMv4PILongThunk_*, __ARMv4PILongBXThunk_*)
-> that can interfere with kallsyms table generation since they do not get
-> ignore like the corresponding ARMv5+ ones are:
->
-> Inconsistent kallsyms data
-> Try "make KALLSYMS_EXTRA_PASS=1" as a workaround
->
-> Replace the hardcoded list of thunk symbols with a more general regex that
-> covers this one along with future symbols that follow the same pattern.
->
-> Fixes: 5eb6e280432d ("ARM: 9289/1: Allow pre-ARMv5 builds with ld.lld 16.0.0 and newer")
-> Fixes: efe6e3068067 ("kallsyms: fix nonconverging kallsyms table with lld")
-> Suggested-by: Masahiro Yamada <masahiroy@kernel.org>
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-Reviewed-by: Ard Biesheuvel <ardb@kernel.org>
+--SLx/gfFA9UUD09BZ
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> ---
-> v2: use a regular expression instead of listing each one.
-> ---
->  scripts/mksysmap | 13 ++-----------
->  1 file changed, 2 insertions(+), 11 deletions(-)
->
-> diff --git a/scripts/mksysmap b/scripts/mksysmap
-> index 9ba1c9da0a40..57ff5656d566 100755
-> --- a/scripts/mksysmap
-> +++ b/scripts/mksysmap
-> @@ -48,17 +48,8 @@ ${NM} -n ${1} | sed >${2} -e "
->  / __kvm_nvhe_\\$/d
->  / __kvm_nvhe_\.L/d
->
-> -# arm64 lld
-> -/ __AArch64ADRPThunk_/d
-> -
-> -# arm lld
-> -/ __ARMV5PILongThunk_/d
-> -/ __ARMV7PILongThunk_/d
-> -/ __ThumbV7PILongThunk_/d
-> -
-> -# mips lld
-> -/ __LA25Thunk_/d
-> -/ __microLA25Thunk_/d
-> +# lld arm/aarch64/mips thunks
-> +/ __[[:alnum:]]*Thunk_/d
->
->  # CFI type identifiers
->  / __kcfi_typeid_/d
-> --
-> 2.39.2
->
+On Mon 25 Sep 2023 16:06:41 GMT, Masahiro Yamada wrote:
+> On Mon, Sep 18, 2023 at 4:20=E2=80=AFAM Arnd Bergmann <arnd@kernel.org>=
+=20
+> wrote:
+> >
+> > From: Arnd Bergmann <arnd@arndb.de>
+> >
+> > This problem frequently comes up in randconfig testing, with
+> > drivers failing to link because of a dependency on an optional
+> > feature.
+> >
+> > The Kconfig language for this is very confusing, so try to
+> > document it in "Kconfig hints" section.
+> >
+> > Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+> > Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
+> > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> > ---
+> > v2: fix typos pointed out by Nicolas Schier
+>=20
+>=20
+> Applied to linux-kbuild. Thanks.
+
+Hi Masahiro,
+
+this patch seems to got lost, or did you intentionally removed it=20
+again?
+
+Kind regards,
+Nicolas
+
+--SLx/gfFA9UUD09BZ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmXOBdcACgkQB1IKcBYm
+EmmJNxAAkHRogwZILhoqFWK3tgngdLB7MkwI0nI7N136dpjW/zatqutnBvWxpBrz
+boH70WhEOieibR17yLtVsvtC7AH4TOwhtSvsfENy/IsCOvZZTdox30+eFMfBORrA
+SfcsROlP6AuXSjw42UdXvPneGL3rjX3VOQvMDtGgdI72GQm9xkUDmtCxVZC/bSU8
+NEx785JyhiTOmsHHO6AWOoZoh3lRe844TSEtekxF+apXEWJF+pr6br0CR1TyNnNY
+RG4Rsq4gJ7BLlb0ts8Cnld6mdyW6CikKlYkd2ru7aBEvyhLxSdF+oA7/I7agIQju
+Rgg0DSsYgSCeA+WWEneK+BE8dBRG6yfZ7M+Tu2GOSNSGOykDZyUeYmBai0lLNU++
+LoI/awE66lLgmAAfXtlXkOIO0anaEiE4t3i6vLRDKaPDXsFbeY25dM0sqwyzdAHS
+6pESnrbxdwxUl63THX+9jrYkiu2ji0axErUTn3XwmMLGw88CNm+ZkeI2db48WgVf
+sJNjhbfVpKOaJTaPQBcO+flFXWOlc2wFE1e8Q96wjJI5tOnlKthGdQ5xJTMTGF0x
+G2TANEw4Neo7hRwOImrcXolFrdoI4/BcRe3qotDQeHLn61jpvBSN1BTog/iREcZh
+i/gQQS4m1kmZOk0/quveFrKCBNtW57pP2jTP2tf3hhnjDZuQuQY=
+=KLro
+-----END PGP SIGNATURE-----
+
+--SLx/gfFA9UUD09BZ--
 
