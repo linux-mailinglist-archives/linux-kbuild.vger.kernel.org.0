@@ -1,55 +1,54 @@
-Return-Path: <linux-kbuild+bounces-959-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-960-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ABD8856522
-	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Feb 2024 14:58:30 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4817E856552
+	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Feb 2024 15:08:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1B61C1C232BB
-	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Feb 2024 13:58:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 04D5729555D
+	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Feb 2024 14:08:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4C55131742;
-	Thu, 15 Feb 2024 13:58:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F8BA13173F;
+	Thu, 15 Feb 2024 14:07:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EzgSeGNJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nl/O2pi5"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0A1D13173C;
-	Thu, 15 Feb 2024 13:58:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 739D412D74D;
+	Thu, 15 Feb 2024 14:07:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708005507; cv=none; b=qBOjT1SMEMTos4A7eLnhNweqrIK0GV2llLGjmn9JOZuTB6WYbIf2mp/++qoO1eVII6LsSOX7OWM7i6Hey86o9w94PYyOojapsiP+R2bAMT5nKh16geXD+G/LeWgbsuiumYnyZ1Sdtfo8Eeka5avQ/olAp8UdwMug7d6EpyGMrMQ=
+	t=1708006077; cv=none; b=B+ERgM4TGiww/vZDcOglX3Vr4t6tC6zsHPoXTYbPHJ2M3k3dFzV3kJB/FUYXdCcJMynaq8dc9hjy9s4yp0FkMchXT5JYVixDmx5pcr2gzttk5V6zWM2S623u2J95AJEohZOYJCN0WLlREoPV+ltYVn6JTi8M2JcpdBH6Bay9b3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708005507; c=relaxed/simple;
-	bh=db081udyahOME/RFJvw8RkO4hTyCR745hVkoJE2o4xc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Stg10KB34UT1ElZ5/K6muWi/gF4hGHitg7L8n92c3wskQB/CEkCnyLR7A7ZeEjC+s36bAufIoTj98Hx+8kC6wqfGzGHJjDAl/KuVEQyO/Aa6fHegyyjPYTbM/EZIteDF67bRWsRTocfQ/wFLQ2Vt3ecno1e6x4epVk/mc4df1Qs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EzgSeGNJ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F35D6C433C7;
-	Thu, 15 Feb 2024 13:58:25 +0000 (UTC)
+	s=arc-20240116; t=1708006077; c=relaxed/simple;
+	bh=B5RIbCSd0ulciUkU7vKMhgbnboAX8gITuQtuV2GPt/c=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=DRYtCPsL/VvdisZpts9iO/egvA64RuHcyJvA+JfScbQlmzq8T8d3+fgfxMZxYmpGucAvC/NN58Y+upi2MaZ8dh8vmvLz4AP7imyVs4+qR0uRhukDWon/gshJt0eDzh1rm2KEjq2VOExqMFUGSFJIiQvGwvF4oUjFf5FbTVDOsyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nl/O2pi5; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91A7BC433F1;
+	Thu, 15 Feb 2024 14:07:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708005507;
-	bh=db081udyahOME/RFJvw8RkO4hTyCR745hVkoJE2o4xc=;
+	s=k20201202; t=1708006076;
+	bh=B5RIbCSd0ulciUkU7vKMhgbnboAX8gITuQtuV2GPt/c=;
 	h=From:To:Cc:Subject:Date:From;
-	b=EzgSeGNJf9XQHAI3oXqk2wTP7MG8AaQGIaHnyYSrnd4pOSQL01eee9/clvmJs1m4N
-	 MpCkvmloLzHTC78ieta9BPreOeKP4jkZfCvBHk6l8iz6+R1Pkt9Yb6jvuxio+ddttY
-	 pqHXJSevWCl1R5h0cxOkgBMdKmc2yoQxWJKaNCwGzLFJPmoqg0H9TM1ebgfXZdM2mF
-	 6FDDUAh39fwhqpQf4B8UReYYkxWXxAKR8MtbYOGn415/TRryJEZKlg0MXClKep8et/
-	 dhLNmdGez5bPx8DJTWV2MZ2MM1UsijYQRF1/AvqQln+B0p+auDpaI4gP4S+icEC5KF
-	 aVJU7aufg6rdg==
+	b=nl/O2pi5MSCDfC68M4UbldhztRFgzrS/VNNIjMovmKkCPrJOrU2+YWUw9dE3FB/OE
+	 EolRoB0QxYdP3RkRLo6ehmtlzRSzRxlOrZpwJkppS6KvjQUP9I/ZjjIk6HdH+YmoEK
+	 1phnAXVqg+OJBEGiQCgg+n07JMa01AT2ugAzNPb7kCfnavr+DycA2IsF/LuU/bg1+B
+	 2PYyHgrmRSp7OZePAFrARf4Q3cYyewE8/19dxpfQx5MtGxBseiiL5B1idlV/MXdta5
+	 m6C6sCZ8gSLybZLkYTpuCD/qcz5C/3RV3+UmE/hrBjOWOR2oBWhYZGeEigJnhNvOIz
+	 NJbSTepkB8klA==
 From: Masahiro Yamada <masahiroy@kernel.org>
 To: linux-kbuild@vger.kernel.org
 Cc: Masahiro Yamada <masahiroy@kernel.org>,
-	Andreas Larsson <andreas@gaisler.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	linux-kernel@vger.kernel.org,
-	sparclinux@vger.kernel.org
-Subject: [PATCH] sparc: select FRAME_POINTER instead of redefining it
-Date: Thu, 15 Feb 2024 22:57:49 +0900
-Message-Id: <20240215135749.1909812-1-masahiroy@kernel.org>
+	Brian Cain <bcain@quicinc.com>,
+	linux-hexagon@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] hexagon: select FRAME_POINTER instead of redefining it
+Date: Thu, 15 Feb 2024 23:07:02 +0900
+Message-Id: <20240215140702.1910276-1-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
@@ -62,33 +61,39 @@ Content-Transfer-Encoding: 8bit
 Because FRAME_POINTER is defined in lib/Kconfig.debug, the arch Kconfig
 should select it.
 
-Add 'select FRAME_POINTER' to MCOUNT. ARCH_WANT_FRAME_POINTERS must
+Add 'select FRAME_POINTER' to HEXAGON. ARCH_WANT_FRAME_POINTERS must
 also be selected to avoid the unmet dependency warning.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- arch/sparc/Kconfig.debug | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ arch/hexagon/Kconfig | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/arch/sparc/Kconfig.debug b/arch/sparc/Kconfig.debug
-index 37e003665de6..d475a056a2e0 100644
---- a/arch/sparc/Kconfig.debug
-+++ b/arch/sparc/Kconfig.debug
-@@ -8,11 +8,8 @@ config MCOUNT
- 	bool
- 	depends on SPARC64
- 	depends on FUNCTION_TRACER
--	default y
--
--config FRAME_POINTER
--	bool
--	depends on MCOUNT
+diff --git a/arch/hexagon/Kconfig b/arch/hexagon/Kconfig
+index a880ee067d2e..e922026fef09 100644
+--- a/arch/hexagon/Kconfig
++++ b/arch/hexagon/Kconfig
+@@ -7,7 +7,9 @@ config HEXAGON
+ 	select ARCH_32BIT_OFF_T
+ 	select ARCH_HAS_SYNC_DMA_FOR_DEVICE
+ 	select ARCH_NO_PREEMPT
 +	select ARCH_WANT_FRAME_POINTERS
+ 	select DMA_GLOBAL_POOL
 +	select FRAME_POINTER
- 	default y
+ 	# Other pending projects/to-do items.
+ 	# select HAVE_REGS_AND_STACK_ACCESS_API
+ 	# select HAVE_HW_BREAKPOINT if PERF_EVENTS
+@@ -43,9 +45,6 @@ config HEXAGON_PHYS_OFFSET
+ 	help
+ 	  Platforms that don't load the kernel at zero set this.
  
- config HAVE_HARDLOCKUP_DETECTOR_SPARC64
+-config FRAME_POINTER
+-	def_bool y
+-
+ config LOCKDEP_SUPPORT
+ 	def_bool y
+ 
 -- 
 2.40.1
 
