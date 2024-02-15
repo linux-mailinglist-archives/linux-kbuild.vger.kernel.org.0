@@ -1,52 +1,52 @@
-Return-Path: <linux-kbuild+bounces-968-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-969-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E873B856A6B
-	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Feb 2024 18:03:20 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1739856A77
+	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Feb 2024 18:04:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A3BE22850EA
-	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Feb 2024 17:03:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8E7A3283A7B
+	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Feb 2024 17:04:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA8DF134744;
-	Thu, 15 Feb 2024 17:03:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11725136989;
+	Thu, 15 Feb 2024 17:04:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="p6myUNPD"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="IW5PasoG"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3297913248C;
-	Thu, 15 Feb 2024 17:03:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3040136665;
+	Thu, 15 Feb 2024 17:03:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708016588; cv=none; b=qvQtTEbJt6yWTGX6KYmwJUwFvUu7ysD5B8n1pBKGyndd+TN6kF9gYrIyjNuqDtZW7IiqHXBk0bFzk4s2F6TMBeFLXU/NXJxEAYli8topMFE9EaUpjfdS3LimkI30Ss3e+mkRz20rZ4gYcCzPnUHta9pNP8XZ5no1UMuaJ3C6cVk=
+	t=1708016640; cv=none; b=N3rVF/K8INA1Xw5DD+sEefTzddjk281mDlTyMdQQuH8LLcGils0Ne4pmY3RW3PaFtMycLeLNE1utgHKYG9SFZvkf5F6aIiKZMC+etUEDikUXM6CM25YHg/3p7w83SVp8zyZ8SorYzYbbnZP1u0JB3r2TSPUvUrtYjl9lVKXsTdQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708016588; c=relaxed/simple;
-	bh=sBjIQr0LJN1UQmJuAshlDh6mfxOXLwZHlVBLUfWTVko=;
+	s=arc-20240116; t=1708016640; c=relaxed/simple;
+	bh=hBuKYR3fsfd1TuaiI1FSRZtv0QWTHDB/1CVqApapRsI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZszAHokXqaZ/3YgkF3JaGXMzfy07PMqQCGQypgnhcLN7qkd/ExjuFEcZ4n2Tcimyl3U7nojckPx2QHCLqjL4ni2RTS/ipIY0lpfKxXrUsYiAFE9ttbfP0/MBLDzWphSp7fscpdpdr9RYkAF5hdMTKWfjqvP7SlQ3dsa9T6QAGlo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=p6myUNPD; arc=none smtp.client-ip=198.137.202.133
+	 In-Reply-To:Content-Type; b=uBFCCKxR5GaDnD9eidos8Fsq8xLTbTwH4LYLJPEw8t+af/a7JxegPq7TpVfBpjNiZgBLngmW85b6XVRPStt55gRbuPGQjoKTnrqrzpi7BHIkwI3CX1kv6NuQJfpGn7kbTKpSUuzrZGFO174YzKU4PeqmK5lmlHMcAa6uNQLKuTs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=IW5PasoG; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=u/mYX+MjRO3DI3EVu94sKRU6KZIW+DvzqhZHidC3ciA=; b=p6myUNPDNUYzlgNwueonruyCm5
-	4SKo1EIbhCRzoeTGWkgSaBgvgkrkdAdWwG2/AfEiwMJNu6/cS6fGxDvmhXF3pGcigG2QvXL66W4XL
-	gm3MYAy3QNwqqlc0jiuvCVDDGqNkyqFulx3c44UIeCWkbmwkeTWliz4033r1KEnpK3saUbdbqcXIY
-	QapD93pOZASpPAsxUwTOwZ5s1m9XcvDIgZSAF3GdljlGWs+B88xiPcngHoRmbvErdhroqW+xfMF9q
-	YAu9EKBF8s8C4jFNvGSuBdJzVAbENuxK2u6OG6O0FkYy5HUWBeiYOsQalJkZRDXcPfSche/WdsZEG
-	oJXZb9Tw==;
+	bh=cODzqQGi5RAHx4OAD/y3WUSbFWeGddT5cHq5NAhiPvw=; b=IW5PasoGyOZ1d0orOi9T12fNYM
+	hIhSWaWimFVqW9PlOWDwmvlNWKHslt5LLL5cnF/R3lBjbJJneirAtnqKSQYn9wddyIFFAukzp26Wq
+	E9DhPUmv7Pmv1iFFZr+22vmKJVbDkimTSfRv9QwDrQ7CuxM77sRWNkL1RzR79ArJI8FkicMqTVvSr
+	sYooHKeC/wQSEUU37MNWMKoO8y5w+b6Bra7SLQnib5h5vJ6XZG1xvImMStYlpsyC9XvIcAK1QKxVS
+	xxbdt24IlxcEWiMX7PAWuW7ZWUBRApnQINeRB9oVJ/DcjPG082919lWzDLUGVjuLQQPC9vlPhb1Sq
+	UphfoIfQ==;
 Received: from [50.53.50.0] (helo=[192.168.254.15])
 	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1raf8a-0000000H6WZ-06MM;
-	Thu, 15 Feb 2024 17:03:04 +0000
-Message-ID: <dd8ee0cd-4b00-4b94-b3c9-51c9574dd01c@infradead.org>
-Date: Thu, 15 Feb 2024 09:03:03 -0800
+	id 1raf9S-0000000H6WZ-1Bfh;
+	Thu, 15 Feb 2024 17:03:58 +0000
+Message-ID: <d8378775-5251-4724-a20d-b949ef42d23f@infradead.org>
+Date: Thu, 15 Feb 2024 09:03:58 -0800
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -54,59 +54,55 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] hexagon: select FRAME_POINTER instead of redefining it
+Subject: Re: [PATCH] hexagon: select GENERIC_IRQ_PROBE instead of redefining
+ it
 Content-Language: en-US
 To: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
 Cc: Brian Cain <bcain@quicinc.com>, linux-hexagon@vger.kernel.org,
  linux-kernel@vger.kernel.org
-References: <20240215140702.1910276-1-masahiroy@kernel.org>
+References: <20240215140819.1910705-1-masahiroy@kernel.org>
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240215140702.1910276-1-masahiroy@kernel.org>
+In-Reply-To: <20240215140819.1910705-1-masahiroy@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
-On 2/15/24 06:07, Masahiro Yamada wrote:
-> Because FRAME_POINTER is defined in lib/Kconfig.debug, the arch Kconfig
-> should select it.
-> 
-> Add 'select FRAME_POINTER' to HEXAGON. ARCH_WANT_FRAME_POINTERS must
-> also be selected to avoid the unmet dependency warning.
+On 2/15/24 06:08, Masahiro Yamada wrote:
+> Select GENERIC_IRQ_PROBE, as the other architectures do.
 > 
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
 Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
 
+
 Thanks.
 
 > ---
 > 
->  arch/hexagon/Kconfig | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
+>  arch/hexagon/Kconfig | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
 > 
 > diff --git a/arch/hexagon/Kconfig b/arch/hexagon/Kconfig
-> index a880ee067d2e..e922026fef09 100644
+> index e922026fef09..a8dd2501f39f 100644
 > --- a/arch/hexagon/Kconfig
 > +++ b/arch/hexagon/Kconfig
-> @@ -7,7 +7,9 @@ config HEXAGON
->  	select ARCH_32BIT_OFF_T
->  	select ARCH_HAS_SYNC_DMA_FOR_DEVICE
->  	select ARCH_NO_PREEMPT
-> +	select ARCH_WANT_FRAME_POINTERS
->  	select DMA_GLOBAL_POOL
-> +	select FRAME_POINTER
->  	# Other pending projects/to-do items.
->  	# select HAVE_REGS_AND_STACK_ACCESS_API
->  	# select HAVE_HW_BREAKPOINT if PERF_EVENTS
-> @@ -43,9 +45,6 @@ config HEXAGON_PHYS_OFFSET
->  	help
->  	  Platforms that don't load the kernel at zero set this.
->  
-> -config FRAME_POINTER
+> @@ -21,6 +21,7 @@ config HEXAGON
+>  	select HAVE_PERF_EVENTS
+>  	# GENERIC_ALLOCATOR is used by dma_alloc_coherent()
+>  	select GENERIC_ALLOCATOR
+> +	select GENERIC_IRQ_PROBE
+>  	select GENERIC_IRQ_SHOW
+>  	select HAVE_ARCH_KGDB
+>  	select HAVE_ARCH_TRACEHOOK
+> @@ -60,9 +61,6 @@ config GENERIC_CSUM
+>  #
+>  # Use the generic interrupt handling code in kernel/irq/:
+>  #
+> -config GENERIC_IRQ_PROBE
 > -	def_bool y
 > -
->  config LOCKDEP_SUPPORT
+>  config GENERIC_HWEIGHT
 >  	def_bool y
 >  
 
