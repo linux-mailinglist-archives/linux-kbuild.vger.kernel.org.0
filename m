@@ -1,103 +1,131 @@
-Return-Path: <linux-kbuild+bounces-953-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-952-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF111855E26
-	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Feb 2024 10:31:05 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D90D855DA6
+	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Feb 2024 10:18:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 10C84B30478
-	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Feb 2024 09:26:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BD9C7283122
+	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Feb 2024 09:18:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4EEC21B94D;
-	Thu, 15 Feb 2024 09:25:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F50314286;
+	Thu, 15 Feb 2024 09:18:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t8w8Dlyu"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from lgeamrelo11.lge.com (lgeamrelo13.lge.com [156.147.23.53])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5981182DF
-	for <linux-kbuild@vger.kernel.org>; Thu, 15 Feb 2024 09:25:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.147.23.53
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15E7A13FFD;
+	Thu, 15 Feb 2024 09:18:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707989151; cv=none; b=UUW7HlkaGVxnCFuIDlxRWdgBYdnq00yuMd4muR5d1zg6NPGvwvYHQSmVNmQsbY6uXaF1zloeWpC/l/VyXxg8awfgY074j8jhEAJv7mCps1DMQ32E3IJBbyn9qv34uLzTvykZW40U0nlUk3xB6NYP/EEBn58886qFWpV0kPvRI3w=
+	t=1707988683; cv=none; b=K/TBmW4y+Qbi3fJI0FtOiJJuxli/riUx6DkbNaOD6MGHNd5qzPulBrk0B1DS8HplJCRX/yDH/nxXTz3l0HxrkglLGu69+mHZbO/NQWVbNGsY0QScCK//6UgCCK7H/J+4eyg8Irenv3E0IIcKePsBn9FEpWC55T64OueFrUDpq0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707989151; c=relaxed/simple;
-	bh=WW+WFmDnH2V+1GQsgAFG07eSRILRm8Qu3HVR57TR4a4=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=oXhFU8yK179f365s2rHT5J1Zf2g/t+45QEA1aIvgyzTeNnssvu8DVnlizyTOsxqxWPSnNQKnx91xFxsiNv2RbWB/Bhj2SlqGIaY7pmNvaZuRAsuDmkGitISXvQAoxyVm/s9eaYOHmtyAalqST2Nxy1Vm/hpDP2APdhe75MaTEME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lge.com; spf=pass smtp.mailfrom=lge.com; arc=none smtp.client-ip=156.147.23.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lge.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lge.com
-Received: from unknown (HELO lgemrelse6q.lge.com) (156.147.1.121)
-	by 156.147.23.53 with ESMTP; 15 Feb 2024 17:55:46 +0900
-X-Original-SENDERIP: 156.147.1.121
-X-Original-MAILFROM: chanho.min@lge.com
-Received: from unknown (HELO ?10.178.36.63?) (10.178.36.63)
-	by 156.147.1.121 with ESMTP; 15 Feb 2024 17:55:46 +0900
-X-Original-SENDERIP: 10.178.36.63
-X-Original-MAILFROM: chanho.min@lge.com
-Subject: Re: [PATCH 3/6] arm64: dts: Fix dtc interrupt_provider warnings
-To: Rob Herring <robh@kernel.org>, soc@kernel.org,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Tsahee Zidenberg <tsahee@annapurnalabs.com>,
- Antoine Tenart <atenart@kernel.org>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@codeconstruct.com.au>, Ray Jui <rjui@broadcom.com>,
- Scott Branden <sbranden@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn <andrew@lunn.ch>,
- Gregory Clement <gregory.clement@bootlin.com>,
- Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
- =?UTF-8?Q?Jonathan_Neusch=c3=a4fer?= <j.neuschaefer@gmx.net>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Stefan Agner <stefan@agner.ch>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- =?UTF-8?Q?Beno=c3=aet_Cousson?= <bcousson@baylibre.com>,
- Tony Lindgren <tony@atomide.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, Linus Walleij <linusw@kernel.org>,
- Imre Kaloz <kaloz@openwrt.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor
- <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>
-Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- openbmc@lists.ozlabs.org, linux-tegra@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-omap@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kbuild@vger.kernel.org,
- Lee Gunho <gunho.lee@lge.com>
-References: <20240213-arm-dt-cleanups-v1-0-f2dee1292525@kernel.org>
- <20240213-arm-dt-cleanups-v1-3-f2dee1292525@kernel.org>
-From: Chanho Min <chanho.min@lge.com>
-Message-ID: <f5aeffed-9365-b1db-4c32-4ed6da208ea0@lge.com>
-Date: Thu, 15 Feb 2024 17:55:46 +0900
-User-Agent: Mozilla/5.0 (X11; Linux i686; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+	s=arc-20240116; t=1707988683; c=relaxed/simple;
+	bh=S/AjCC8VHzWj3sCL5RknpqlrVIJThGoN6o8cUNj0HAc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=oXNbun3Mw5LkIUI1Ox2q+Wv7qXLjJi9c0wns6p9UPo7mEHgrZ7TmlRoGT448j4NeCR/1eI7SPOBIR4QJMhIHjiuWZnGTiX+l2OAvdsmjT46QWpCEMbouMDGPgbuqrhBSY2cDd1QmtX0pEZuFuiuT6LyX4ANcbvFkSLvROOagc7k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t8w8Dlyu; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98718C43394;
+	Thu, 15 Feb 2024 09:18:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707988682;
+	bh=S/AjCC8VHzWj3sCL5RknpqlrVIJThGoN6o8cUNj0HAc=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=t8w8Dlyunwadomn9EpttMUklIMkJAVSImls8uYNCN2KFOS7ng/VK2LR8RYdBlWTur
+	 Z2EZoTC/fJe7fxlgMyDYV3j1EhWPAXyh1iVmxwhxMprb9MeRAJaKDhFFufyUu4nKW6
+	 l76luLcslvses4IfnmeonRd01sS/sdv/DW/Q+FvQTk1AjVeHxK0Mp/DUUhVeEnrAc7
+	 xBM8fW2luk8yxj+kjcbMSpDXJiip2wU+D9BAYnBZhT6/ejL/Fmo2QvRYfkhlU5u3+/
+	 eDfcT3623TJuizH+FcloVUgsdE9iTY9SvPR4yq9l08URXLE7A/O9rVn/0xxI2QQaDt
+	 WdsIS/nRyZiNA==
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-511898b6c9eso745104e87.3;
+        Thu, 15 Feb 2024 01:18:02 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXiRwa4MOVRg9tqJx/LKCBN+Eyy7bAMJpN348VXY7/xDbg0CKcZ3Qfxi0LFPqouAV3veW7D9dGkj0S4MXvKXLFulo6wTCixNBLK3uxvKOPnPKZOf2MH6LxtNqVYMYHQK0DwUAQVmrW+dskt
+X-Gm-Message-State: AOJu0YxzxvBfJPfqTmcoiRJZQT5F0vmnKRKPVOLpzwUTocoJKWvPP9EU
+	QNkDateeOAg7ySYBz6x8SkxTgXvChfk+AULztKX51VE4No0WVN/4mLWDVrPY0WlId9qIsqlsWME
+	RsWSjOoqOiEYcB5e6qnXkIs7DtJE=
+X-Google-Smtp-Source: AGHT+IEsMgiElptgTCNfGX2dKL2tYNf4Hhbc7w/ckQwW07j4ZbEqdCIUUZlE+vGLt1J/JAmNUWIICNnaJdmIV3XLc7I=
+X-Received: by 2002:a05:6512:3c8a:b0:511:7211:2cdc with SMTP id
+ h10-20020a0565123c8a00b0051172112cdcmr1182263lfv.10.1707988680836; Thu, 15
+ Feb 2024 01:18:00 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20240213-arm-dt-cleanups-v1-3-f2dee1292525@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20240215083225.3976252-1-arnd@kernel.org>
+In-Reply-To: <20240215083225.3976252-1-arnd@kernel.org>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Thu, 15 Feb 2024 10:17:49 +0100
+X-Gmail-Original-Message-ID: <CAMj1kXGNdnbYVvnYFwmWMTk5rXjCeGWEEnLyXZdK=FBQGv-8dQ@mail.gmail.com>
+Message-ID: <CAMj1kXGNdnbYVvnYFwmWMTk5rXjCeGWEEnLyXZdK=FBQGv-8dQ@mail.gmail.com>
+Subject: Re: [PATCH] [v2] kallsyms: ignore ARMv4 thunks along with others
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+	=?UTF-8?Q?Pierre=2DCl=C3=A9ment_Tosi?= <ptosi@google.com>, 
+	Nick Desaulniers <ndesaulniers@google.com>, 
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 24. 2. 14. 4:34 Rob Herring wrote:
-> The dtc interrupt_provider warning is off by default. Fix all the warnings
-> so it can be enabled.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
+On Thu, 15 Feb 2024 at 09:32, Arnd Bergmann <arnd@kernel.org> wrote:
+>
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> lld is now able to build ARMv4 and ARMv4T kernels, which means it can
+> generate thunks for those (__ARMv4PILongThunk_*, __ARMv4PILongBXThunk_*)
+> that can interfere with kallsyms table generation since they do not get
+> ignore like the corresponding ARMv5+ ones are:
+>
+> Inconsistent kallsyms data
+> Try "make KALLSYMS_EXTRA_PASS=1" as a workaround
+>
+> Replace the hardcoded list of thunk symbols with a more general regex that
+> covers this one along with future symbols that follow the same pattern.
+>
+> Fixes: 5eb6e280432d ("ARM: 9289/1: Allow pre-ARMv5 builds with ld.lld 16.0.0 and newer")
+> Fixes: efe6e3068067 ("kallsyms: fix nonconverging kallsyms table with lld")
+> Suggested-by: Masahiro Yamada <masahiroy@kernel.org>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
->   arch/arm64/boot/dts/lg/lg1312.dtsi                  | 1 -
->   arch/arm64/boot/dts/lg/lg1313.dtsi                  | 1 -
-Acked-by: Chanho Min <chanho.min@lge.com>
+Reviewed-by: Ard Biesheuvel <ardb@kernel.org>
 
+> ---
+> v2: use a regular expression instead of listing each one.
+> ---
+>  scripts/mksysmap | 13 ++-----------
+>  1 file changed, 2 insertions(+), 11 deletions(-)
+>
+> diff --git a/scripts/mksysmap b/scripts/mksysmap
+> index 9ba1c9da0a40..57ff5656d566 100755
+> --- a/scripts/mksysmap
+> +++ b/scripts/mksysmap
+> @@ -48,17 +48,8 @@ ${NM} -n ${1} | sed >${2} -e "
+>  / __kvm_nvhe_\\$/d
+>  / __kvm_nvhe_\.L/d
+>
+> -# arm64 lld
+> -/ __AArch64ADRPThunk_/d
+> -
+> -# arm lld
+> -/ __ARMV5PILongThunk_/d
+> -/ __ARMV7PILongThunk_/d
+> -/ __ThumbV7PILongThunk_/d
+> -
+> -# mips lld
+> -/ __LA25Thunk_/d
+> -/ __microLA25Thunk_/d
+> +# lld arm/aarch64/mips thunks
+> +/ __[[:alnum:]]*Thunk_/d
+>
+>  # CFI type identifiers
+>  / __kcfi_typeid_/d
+> --
+> 2.39.2
+>
 
