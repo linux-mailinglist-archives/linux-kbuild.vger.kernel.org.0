@@ -1,74 +1,76 @@
-Return-Path: <linux-kbuild+bounces-949-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-950-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A17D855A32
-	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Feb 2024 06:51:31 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E717A855A35
+	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Feb 2024 06:52:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A8CD31C23602
-	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Feb 2024 05:51:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7E23E1F25E93
+	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Feb 2024 05:52:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4FC38F6F;
-	Thu, 15 Feb 2024 05:51:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D06FF8F6F;
+	Thu, 15 Feb 2024 05:52:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FU11tw6x"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qRp36Rda"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB77A8F4E;
-	Thu, 15 Feb 2024 05:51:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A95B3B677;
+	Thu, 15 Feb 2024 05:52:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707976286; cv=none; b=AoWUzkQ4ByJAcyGQDeY9Odl21wIvMqTVntVLpQq3gfsrUTkqs/sWd9+zGuuc8f7QQ3oGYUBcjMt6ME7gBQfb/f95TEeDvgmtXCYHaeMeYzKp2ooyty2fhwCN7aBkPhFIu7QetMFFDoQ5SatQ4PzFJIA8xB2n0n46UfPuhlkXoc8=
+	t=1707976358; cv=none; b=tXQBHAIvnu9XDBnAGRH3L4lduNAeadwgE2GT7X2TPW8ll2aB+ebB38JlQDe/vc6UePL0LACTrLIxp4IKcsCMv9MDN3wT/TIfrXzxWOk2JbXOMPfIOa6+n6IJ/UuvLGMdZ68A2AA1EXnnAP/jsByGe5eCgFz+T9sHa+zbXM4G0uY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707976286; c=relaxed/simple;
-	bh=vN7MCwTLwLnvk9WWo0RxU5cJ2q/qqz/7Vlw6seBKkdE=;
+	s=arc-20240116; t=1707976358; c=relaxed/simple;
+	bh=n7/pkPHlAktAexz8EdSTzeX/t4EOMrhXcrkbcT8DtGg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Pmak9sdOZ6R1qz4ltgOEC/2k8qi7p3dWn5aajPo56tvM6Zg9U1Ak2FrlfcnwvK6F+pKn1nF62V+kS9QIGOz4rv2oK0rVtP5KHvLCStEon/JpE25G2PLu+uhYqNeZAjlrtJd8xn20a5unBAfadccjUT8D1JUW7aJ7DAmxgvFz/aQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FU11tw6x; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31B8DC43399;
-	Thu, 15 Feb 2024 05:51:26 +0000 (UTC)
+	 To:Cc:Content-Type; b=BeLa5/Bn5TIUPpI1li/VPgh+k5R32WDX2/Yqyg7aLutvPHO6xiRj2jb4WbfxkHn9ZsX4dKuQvsOhNJdBjorfNOzcRloLACP+vGJrnK8PUbK47Ud7CfkWekD92ASl4KoPFMNlL35wUTxrS+17jkTNk3jdclvZxCj9XhpQ9nGF0eU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qRp36Rda; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40FBEC43394;
+	Thu, 15 Feb 2024 05:52:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707976286;
-	bh=vN7MCwTLwLnvk9WWo0RxU5cJ2q/qqz/7Vlw6seBKkdE=;
+	s=k20201202; t=1707976358;
+	bh=n7/pkPHlAktAexz8EdSTzeX/t4EOMrhXcrkbcT8DtGg=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=FU11tw6xpUmJvzSliH25LHi3P45mr19GUZt0TbBMNGO8+izHpAErH6Gh5ZeHUDW2y
-	 Mxird2u9mgekexKkakNs8jmwreJqQX2aXl7gntbDRMF2D4v661SZ0+YuU5BQH1ymCq
-	 e/GtRq4N+qgVmPwPdhQCz0NiWBAMaX9VRO/dNrtGvv9SRMAIMum6ZMa9CQWODcLnxA
-	 aLJmKK80mbP/qpofrQr2Kd0mbWIKPsdug5lFFRThpBcwp/uP/dak6EnBwR5+GQFbJW
-	 Vx5RrU6LODESeUgHgJVyAUWhEzWj1EVVyFiM4jFmEqI8n/UGNwbFWKkkOnYlaIl8d3
-	 yhntSPKRg1Klg==
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-511a4a1c497so491261e87.3;
-        Wed, 14 Feb 2024 21:51:26 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXU7W9RzxlwvnaxX+Y+wuPS+az/90SRYOFKbED5FECFQO3ODU6lDuF86NNCDPMppHXH4YpX9MHNDMQXBLD1pc7Dt8CJlNcCQws1JfKe/7oQ09r6dgv00x+YuuZUVgMmkHzjS5bf4t3lDr0C
-X-Gm-Message-State: AOJu0Yw+DRQYyhZKSjBGlEDKZm3mM1IyBfrXbt/c96cSQnhkxQ+wacLB
-	uoiS1DfsFPiB1fvbYkIIbhP+7iV+cDbhDIXWCh1F9gIC/mAP/PsItgV/3bIRrypDjLOIK+EMZ2D
-	sqfPHHPePuYkQTtJ5WXmIEG046S0=
-X-Google-Smtp-Source: AGHT+IFEpuM4TCTzRj2NftvgACtWzuJCwVaZkKN0LP3m7ajuCdc/KsIvF3vBgFAICFUvQ6QR+YuDq5mCqv2nvyAvovg=
-X-Received: by 2002:ac2:43a7:0:b0:511:87eb:8dc4 with SMTP id
- t7-20020ac243a7000000b0051187eb8dc4mr617322lfl.32.1707976284715; Wed, 14 Feb
- 2024 21:51:24 -0800 (PST)
+	b=qRp36RdaxGrN0NWcy/pMYOyLKVosFZrT7xo8T1uYFyKI2TiRw5Y6967U45DcwPrHZ
+	 fsqJeORy7dMnqbSMOZAhIXoGtXop8zdxJshWLK8NG6o/joejsYJYk9aNnTBDkESMHK
+	 MhGxoRVKIVXDLGHU+pNri1KX1cRJQCVPzit5Q43Amr5f/UyYT2Y+wKvNyOdn7EICEP
+	 0vf+MS6sQufHQdxo2i31vmPb6CaA8IBckTJ22HfC94VxyhHX8aQJ+QvZe0Ki0GD09j
+	 Ct9cHnvEKzxPQzGNclUrWT9XHc/txyRBQyrYm5+y/Wy8rVxzhJ3xabaOWuiMgvRwSu
+	 6NsI0exTSayrg==
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-51182ece518so554498e87.3;
+        Wed, 14 Feb 2024 21:52:38 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXseMfrAgmUUfW9qV0dBYY6u/Fib3iYJ7NnVOfaUnbKL91I09rF8Mpk1T/nA26vQSlzA9hKS5tlxKbZynPOvJ9gwfhNiV6cN6AvrUWTGhYobSnIdQJJqzRFMZg7JN6etsjnxP6c++c9lmGL
+X-Gm-Message-State: AOJu0YysfcOpgK1nAIG5/9Hlg5lvrGmmpuzfgxpUfgQWPTalIOS9X6it
+	x10ESscW3Mb0cFMT+MrXGw7TTPBZTBVbyFpfdyEF/jwHYOaZEF9lbB1xeLSseNJeBV3ID4+zXqa
+	/kdb81G1B0JupzSILZZEXWU02sio=
+X-Google-Smtp-Source: AGHT+IFsnITUjUlPBqJAXGrwbL+h3v+GNKltubY2PmV7QIkIgyN15+eO2xyQgoZ712n9C2lbvHJ/VS9IWSDMHnEeInA=
+X-Received: by 2002:a05:6512:39c9:b0:511:5d0c:4abd with SMTP id
+ k9-20020a05651239c900b005115d0c4abdmr847468lfu.38.1707976356875; Wed, 14 Feb
+ 2024 21:52:36 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240212-coreboot-mod-defconfig-v4-0-d14172676f6d@collabora.com> <20240212-coreboot-mod-defconfig-v4-2-d14172676f6d@collabora.com>
-In-Reply-To: <20240212-coreboot-mod-defconfig-v4-2-d14172676f6d@collabora.com>
+References: <20240212-coreboot-mod-defconfig-v4-0-d14172676f6d@collabora.com> <Zc2HBmDPJnHt0WJC@google.com>
+In-Reply-To: <Zc2HBmDPJnHt0WJC@google.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Thu, 15 Feb 2024 14:50:47 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASTG=xzodA6sAKTBaq09aDPZ9oqxcX2Q4iCuPrL+foQ8g@mail.gmail.com>
-Message-ID: <CAK7LNASTG=xzodA6sAKTBaq09aDPZ9oqxcX2Q4iCuPrL+foQ8g@mail.gmail.com>
-Subject: Re: [PATCH v4 2/4] firmware: coreboot: Generate aliases for coreboot modules
-To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>
-Cc: Tzung-Bi Shih <tzungbi@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Brian Norris <briannorris@chromium.org>, Julius Werner <jwerner@chromium.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+Date: Thu, 15 Feb 2024 14:52:00 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATc0KkstjU8ErryV-GckvUKTsjR8naTRSifjw_TZYdSig@mail.gmail.com>
+Message-ID: <CAK7LNATc0KkstjU8ErryV-GckvUKTsjR8naTRSifjw_TZYdSig@mail.gmail.com>
+Subject: Re: [PATCH v4 0/4] Allow coreboot modules to autoload and enable
+ cbmem in the arm64 defconfig
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Brian Norris <briannorris@chromium.org>, 
+	Julius Werner <jwerner@chromium.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Will Deacon <will@kernel.org>, 
 	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
 	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, kernel@collabora.com, 
@@ -77,18 +79,53 @@ Cc: Tzung-Bi Shih <tzungbi@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 12, 2024 at 11:51=E2=80=AFPM N=C3=ADcolas F. R. A. Prado
-<nfraprado@collabora.com> wrote:
+On Thu, Feb 15, 2024 at 12:37=E2=80=AFPM Tzung-Bi Shih <tzungbi@kernel.org>=
+ wrote:
 >
-> Generate aliases for coreboot modules to allow automatic module probing.
+> On Mon, Feb 12, 2024 at 09:50:04AM -0500, N=C3=ADcolas F. R. A. Prado wro=
+te:
+> > This series adds the missing pieces to the coreboot bus and the module
+> > alias generation to allow coreboot modules to be automatically loaded
+> > when matching devices are detected.
+> >
+> > The configs for cbmem coreboot entries are then enabled in the arm64
+> > defconfig, as modules, to allow reading logs from coreboot on arm64
+> > Chromebooks, which is useful for debugging the boot process.
+> >
+> > [...]
+> >
+> > ---
+> > N=C3=ADcolas F. R. A. Prado (4):
+> >       firmware: coreboot: Generate modalias uevent for devices
+> >       firmware: coreboot: Generate aliases for coreboot modules
+> >       firmware: coreboot: Replace tag with id table in driver struct
+> >       arm64: defconfig: Enable support for cbmem entries in the coreboo=
+t table
+> >
+> >  arch/arm64/configs/defconfig                   |  3 +++
 >
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collab=
-ora.com>
-> Reviewed-by: Brian Norris <briannorris@chromium.org>
-> Signed-off-by: N=C3=ADcolas F. R. A. Prado <nfraprado@collabora.com>
+> Hi Catalin and Will,
+>
+> Is it OK to you if I pick the 4th patch (which touches the above files) t=
+o
+> chrome-platform-firmware tree for the next merge window?
+>
+> >  include/linux/mod_devicetable.h                | 10 ++++++++++
+> >  scripts/mod/devicetable-offsets.c              |  3 +++
+> >  scripts/mod/file2alias.c                       | 10 ++++++++++
+>
+> Hi Masahiro,
+>
+> Is it OK to you if I pick the 2nd patch (which touches the above files) t=
+o
+> chrome-platform-firmware tree for the next merge window?
 
 
-Acked-by: Masahiro Yamada <masahiroy@kernel.org>
+Yes.
+
+
+I gave Acked-by to 2/4 so it makes your life easier.
+
 
 
 
