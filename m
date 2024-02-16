@@ -1,114 +1,159 @@
-Return-Path: <linux-kbuild+bounces-972-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-973-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DBB8857197
-	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Feb 2024 00:28:16 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EECA88573A0
+	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Feb 2024 03:03:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D8BB9B22CFA
-	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Feb 2024 23:28:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2CB5B1C2080D
+	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Feb 2024 02:03:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5C5913A898;
-	Thu, 15 Feb 2024 23:28:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD68ADDAD;
+	Fri, 16 Feb 2024 02:03:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="M+OESzYP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mIXCHqQz"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2727E145B00;
-	Thu, 15 Feb 2024 23:28:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB1A5F9DF;
+	Fri, 16 Feb 2024 02:03:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708039688; cv=none; b=kloVPUVNzYDrOPTmcBXPlyvAxN0bNnURURSPZiw4mkQYIRDRB64XvwG4sSnhpxr8hw2QC8C/7CnCH3qMOJdW7PJXagJREnfVr06Mi2BvmpWHcTA5Y8iNVcfHr9EgB9t4KJ8Q+SR84Z6/jC0JIxvZvtc5pP2RUtbuHk2sJgDWf5U=
+	t=1708049034; cv=none; b=dKiZrzgf9hUPY3cgVcOeXGEi39AJWXF5YSXFKwciyL8Scn3q9hWtrjio7/mmuBAqvj2Ic6EH+glCL9dabk2Soy5rd6O1D6jOgCcZp6L43B0Xjt16ViBD2zblGY4TsjvySYkudF9BwWyDAmeOnSKHdxoTcbaHu/sDC46it4fgSQA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708039688; c=relaxed/simple;
-	bh=n4G9uH3FuaxtaDs7VOwu4MfOMqdQcRQMlzTGYWvdfQI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ef2y4MEmJqVRzfihv3VyPzlngNOHSU7JEPbYqaHasMvT0zllXaHgvm4e/znc9qca5oH/BY4scEsU5bnRcUq7DOiBH1/4k1Z8mb3as9WJS0rk26HnEIymbHPaHPV0YiPfKfdn7N77DdKaSJCXtEoD7sRrcfBS3sbq68Ddwfhuimg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=M+OESzYP; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=iZftUgWZ8SaYplQOiYsHmVonfTNje6FlH1kX5tBg4q0=; b=M+OESzYPxVIuS6O1CdH67Duf+9
-	kyjCRsoAhQJRvHmRrKo76p3rthULUdPAw1J38+cKiv7k4uBzgVmBp83wuLQB+qFDV+YY17Gnvh6ow
-	n26onabl/V+XNMrl+i/25k0/NBlI9QYceFv3UMfg1i6lj6PCPbekfKuueeZCVagrwgSs17X4tTYDf
-	wb8A50LLrRcmj9TKiq7xmQNXAh+kgRg3pfprDyycjhS7ETCxVqemt52Sl5OtFnMllfT1Y1bM/x+Wn
-	WHCuB7oM4Ei4nSWgxbN4BQw7f3/ASRm2L1hCy+zzX8CSTB1o+3ml5fzUpgt65p/JE7phabjSFLyyC
-	1hwKeeMw==;
-Received: from [50.53.50.0] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ral95-00000000TEr-1QJz;
-	Thu, 15 Feb 2024 23:27:59 +0000
-Message-ID: <b3f86324-afa2-49b7-9565-28f41aaf3334@infradead.org>
-Date: Thu, 15 Feb 2024 15:27:57 -0800
+	s=arc-20240116; t=1708049034; c=relaxed/simple;
+	bh=zZaD1DQycFB65TM7xKRjoMdSvkrFobBCViMK6WOS2lQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Xg8YpW2V4OAQIE8Z/BkgFq3i+FT2DTboQU9Y5+V4aEcHqGrhHenivmRMYWer8qARyFS3hykSAFrBzCHpIx7YdCfULewhD9ivSt3s3r6OkJG3d9YglLHucnKADinVIiQeXIbFSLnVTAON9zGIIIntNjW8Xg9SgBN8OFYSPxiXE5I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mIXCHqQz; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 164F3C43390;
+	Fri, 16 Feb 2024 02:03:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708049034;
+	bh=zZaD1DQycFB65TM7xKRjoMdSvkrFobBCViMK6WOS2lQ=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=mIXCHqQzDxqn0Um7LrIFtGQJjtjvXMydV+W69oaujBbBHxHscTErAb6Oh3avrOt6K
+	 Gma3SCrWLN6EhwULeQatyh/DHuzE785Y8TmgDuxg35LCKsDoXuAkst3Hh6aQQfdXQs
+	 Gb5NvaqjUx/Vr3QzXBHjh/V/zo62w+y0SoXZVxZuOdWfS0I9FYGKzkTGQXjO18KWh7
+	 j8iF2HhpAQUhR6lnLNOWU/Lnngg4eHHX0PYFyZe2Zmlb8IZV+EzRMmOQrETJ8xkBdu
+	 A+UoHLG1o7oF3lm63uschL9pT20ko4dTWfKhnbeb4w8mYvpA9n0F4PiHyBkIVCIVhb
+	 bwJ8DwBXxKGpg==
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2d090c83d45so20109951fa.3;
+        Thu, 15 Feb 2024 18:03:53 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXC4M4FE0VNrbVhAglpnvXiEFAiqQ2GAgUIzM2uVRO4kNYdzlQ3j8wMQdrIRpkEXf3bOBq+emXTB259I8bv9/Bfd6azbADrjJAVRlSuCkDR6fe3sckw2KHstlujOoT6vFYK9SGxSZlOSqzNlw==
+X-Gm-Message-State: AOJu0YyZ50sqyl2XuqnI51U70D3e+via8UP/ekAf1LAf/+NQIIZWq371
+	aG8zUFdv60i8yfpCLnIgJAnfZdjH5b1B6X5IntO5x+NySUVov2FRGqIrNL569cu8oIWWIKHuFSg
+	ZZPCXmnxAa8yXSNxLDiaiDfgCHKs=
+X-Google-Smtp-Source: AGHT+IHQuLKl/l9vBwoEumGHJNvCqyy1jzTcMZYaf4it0rVhXjn2KAy6TtnlKgFPS8f+stMJVplBWHyTYk8uI6rd1to=
+X-Received: by 2002:ac2:5478:0:b0:511:6f43:b5d with SMTP id
+ e24-20020ac25478000000b005116f430b5dmr2423134lfn.17.1708049032560; Thu, 15
+ Feb 2024 18:03:52 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] alpha: merge two entries for CONFIG_ALPHA_GAMMA
-Content-Language: en-US
-To: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
-Cc: Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
- Matt Turner <mattst88@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240215141120.1911369-1-masahiroy@kernel.org>
- <20240215141120.1911369-2-masahiroy@kernel.org>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240215141120.1911369-2-masahiroy@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240215140819.1910705-1-masahiroy@kernel.org> <CH3PR02MB1024753D597A02B754FEE1D85B84D2@CH3PR02MB10247.namprd02.prod.outlook.com>
+In-Reply-To: <CH3PR02MB1024753D597A02B754FEE1D85B84D2@CH3PR02MB10247.namprd02.prod.outlook.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Fri, 16 Feb 2024 11:03:16 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATt+0nBzO+UBOZhdkjmyYyzgU+VfG4eNxMCYvFmB-z2Sw@mail.gmail.com>
+Message-ID: <CAK7LNATt+0nBzO+UBOZhdkjmyYyzgU+VfG4eNxMCYvFmB-z2Sw@mail.gmail.com>
+Subject: Re: [PATCH] hexagon: select GENERIC_IRQ_PROBE instead of redefining it
+To: Brian Cain <bcain@quicinc.com>
+Cc: "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>, 
+	"linux-hexagon@vger.kernel.org" <linux-hexagon@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Fri, Feb 16, 2024 at 4:12=E2=80=AFAM Brian Cain <bcain@quicinc.com> wrot=
+e:
+>
+>
+>
+> > -----Original Message-----
+> > From: Masahiro Yamada <masahiroy@kernel.org>
+> > Sent: Thursday, February 15, 2024 8:08 AM
+> > To: linux-kbuild@vger.kernel.org
+> > Cc: Masahiro Yamada <masahiroy@kernel.org>; Brian Cain
+> > <bcain@quicinc.com>; linux-hexagon@vger.kernel.org; linux-
+> > kernel@vger.kernel.org
+> > Subject: [PATCH] hexagon: select GENERIC_IRQ_PROBE instead of redefinin=
+g it
+> >
+> > WARNING: This email originated from outside of Qualcomm. Please be wary=
+ of
+> > any links or attachments, and do not enable macros.
+> >
+> > Select GENERIC_IRQ_PROBE, as the other architectures do.
+> >
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > ---
+> >
+> >  arch/hexagon/Kconfig | 4 +---
+> >  1 file changed, 1 insertion(+), 3 deletions(-)
+> >
+> > diff --git a/arch/hexagon/Kconfig b/arch/hexagon/Kconfig
+> > index e922026fef09..a8dd2501f39f 100644
+> > --- a/arch/hexagon/Kconfig
+> > +++ b/arch/hexagon/Kconfig
+> > @@ -21,6 +21,7 @@ config HEXAGON
+> >         select HAVE_PERF_EVENTS
+> >         # GENERIC_ALLOCATOR is used by dma_alloc_coherent()
+> >         select GENERIC_ALLOCATOR
+> > +       select GENERIC_IRQ_PROBE
+> >         select GENERIC_IRQ_SHOW
+> >         select HAVE_ARCH_KGDB
+> >         select HAVE_ARCH_TRACEHOOK
+> > @@ -60,9 +61,6 @@ config GENERIC_CSUM
+> >  #
+> >  # Use the generic interrupt handling code in kernel/irq/:
+> >  #
+> > -config GENERIC_IRQ_PROBE
+> > -       def_bool y
+> > -
+> >  config GENERIC_HWEIGHT
+> >         def_bool y
+> >
+> > --
+> > 2.40.1
+>
+> Acked-by: Brian Cain <bcain@quicinc.com>
+>
 
-On 2/15/24 06:11, Masahiro Yamada wrote:
-> There are two entries for CONFIG_ALPHA_GAMMA, with the second one
-> 7 lines below. Merge them together.
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
-> 
->  arch/alpha/Kconfig | 10 +++-------
->  1 file changed, 3 insertions(+), 7 deletions(-)
-> 
-> diff --git a/arch/alpha/Kconfig b/arch/alpha/Kconfig
-> index 70e8343d00ba..581ca8c73d67 100644
-> --- a/arch/alpha/Kconfig
-> +++ b/arch/alpha/Kconfig
-> @@ -390,16 +390,12 @@ config ALPHA_PRIMO
->  	  Say Y if you have an AS 1000 5/xxx or an AS 1000A 5/xxx.
->  
->  config ALPHA_GAMMA
-> -	bool "EV5 CPU(s) (model 5/xxx)?"
-> -	depends on ALPHA_SABLE
-> +	bool "EV5 CPU(s) (model 5/xxx)?" if ALPHA_SABLE
-> +	depends on ALPHA_SABLE || ALPHA_GAMMA
 
-	depends on ALPHA_SABLE || ALPHA_LYNX
-??
 
-> +	default ALPHA_LYNX
->  	help
->  	  Say Y if you have an AS 2000 5/xxx or an AS 2100 5/xxx.
->  
-> -config ALPHA_GAMMA
-> -	bool
-> -	depends on ALPHA_LYNX
-> -	default y
-> -
->  config ALPHA_T2
->  	bool
->  	depends on ALPHA_SABLE || ALPHA_LYNX
+Thanks for the ack.
 
--- 
-#Randy
+
+
+
+I will also delete the comment lines above:
+
+#
+# Use the generic interrupt handling code in kernel/irq/:
+#
+
+
+
+
+
+BTW, the reason why I submitted this to linux-kbuild ML
+is I did not see any hexagon pull requests
+in the past few years.
+
+(I am doing the same for sparc, alpha as well)
+
+
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
