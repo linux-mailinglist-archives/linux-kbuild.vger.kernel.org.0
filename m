@@ -1,94 +1,230 @@
-Return-Path: <linux-kbuild+bounces-983-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-984-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8E02858C0E
-	for <lists+linux-kbuild@lfdr.de>; Sat, 17 Feb 2024 01:58:15 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A2E1858D66
+	for <lists+linux-kbuild@lfdr.de>; Sat, 17 Feb 2024 06:55:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 53E7F2829E7
-	for <lists+linux-kbuild@lfdr.de>; Sat, 17 Feb 2024 00:58:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 872CF1C21153
+	for <lists+linux-kbuild@lfdr.de>; Sat, 17 Feb 2024 05:55:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5254E4C70;
-	Sat, 17 Feb 2024 00:58:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CC7323D0;
+	Sat, 17 Feb 2024 05:55:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d2cNRsCX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uQ1ZkXyf"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 232BBEC4;
-	Sat, 17 Feb 2024 00:58:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D82D61CD03;
+	Sat, 17 Feb 2024 05:55:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708131491; cv=none; b=khjOfwl9LdMm+ZnHpyYsK+Hzo9g4xwpA4vr2H4LVkAMqwL4CeUnu/KucIFeOMLaRWOldkQ9aEDwDe8wFdhXADECh6tqxOVeUvIjyQG0+c2BJin1kxB8nN8F2URZ6OfnkNal/OgMVthGob39meqLOS6DB5T1oc/1zl+0VdEDj4pc=
+	t=1708149312; cv=none; b=PjnZaCIMakIAmRIML+qQTyfz/eKscBoF4z+sq3TKqiZ7RDGjYRSP9hBY6G2KS/X5F/SIa4so3YixHrUEzUdjWtfkTv3x0bO7M2u1UZ5tzG6kCVB4rEoXQDuVGxf7X2ii/YQ+lSBfFDIvBMEd4RGcw8QfYf5vZvvSIMVXE+QgGVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708131491; c=relaxed/simple;
-	bh=st9IJTbuIeN6geAWo0rMLtW6KVa2BYhiVgsh8RSz23U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FlCmD285WqCR1WuoFvnEZ8URd+hc060+nJqSbEwUxBXZrcYsc53gWmYMVviEbgl8aOpZjeRclRuhnXsztaAfQpir0gF4MM8274JFwWyhxLshc7FWNhuU23LTTKGNJa3SaYs/zEBizp/hUXyz7QulWQG13afFIldL7KVGMjB+PoA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d2cNRsCX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49501C433C7;
-	Sat, 17 Feb 2024 00:58:08 +0000 (UTC)
+	s=arc-20240116; t=1708149312; c=relaxed/simple;
+	bh=zRUd7yREBkG9fojxxpCwFR+ZH4UPtylxuQpNSInrd68=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=HNa4zHUtq7dmRe/2OikHNdlzktRz1XnMPd2pdMJdhG1FO2+EUz4PLhD0nbNABOopGh/acX82VVu6H4XhiQ/T893EokADftqk7smeUngD+s809xA02qAN+npncmULMXBf8qXUz/2bT5AcXgsX7IYN4mKhFuDbCQ61HT8qWbiC8ao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uQ1ZkXyf; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8D62C433F1;
+	Sat, 17 Feb 2024 05:55:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708131490;
-	bh=st9IJTbuIeN6geAWo0rMLtW6KVa2BYhiVgsh8RSz23U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=d2cNRsCXD9uvuApuY0do1aoftfYTU2jRvbREhHqXc6xzvOVGT/ADD7YXMeXQWbtXd
-	 YeEBcyBF2HPYgMLPt3zzrzUwEXlc1BP7nW7db08E1MJRdn5QwCeiSiAF7EI6gMm6fU
-	 PhLVBUBrgUzYmcv4BH3UEQGeYAIQPS87CyMKBnrOVF1Y5Gxce4UhQh7UcSsTVOj5Td
-	 WLtzduAMd6mcQ9rfmTLGgXb34cWHhA26PkOu1If2n3x0toqz6twOA3AysSbn3zR3DT
-	 CW983RkEqg9lKR/MdFECIhE6xtH3jy2gb4OmgAjyfSA4mX1rrtSTl2WvyWR7RdRE55
-	 OT9w61bJck4XA==
-Date: Sat, 17 Feb 2024 08:58:06 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: =?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Brian Norris <briannorris@chromium.org>,
-	Julius Werner <jwerner@chromium.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
+	s=k20201202; t=1708149311;
+	bh=zRUd7yREBkG9fojxxpCwFR+ZH4UPtylxuQpNSInrd68=;
+	h=From:To:Cc:Subject:Date:From;
+	b=uQ1ZkXyfKjkIl/6pdVqjIvudxuvRkWyWIwOXR/WWo0YsF6v6M7SJL+fae1/uDSQvs
+	 WZDiQ9uHCPFPVQxZyB7d/x5mwp2AVUDTeGlCP+3h6eSe1Y0LucWaoQU8sxuAx+OGm/
+	 RqFMmNTyWTq4odftpgr/xigJNpCUYM7A9KU2q7l4BmKEL3xO1uJjUfpjS21xkFctgf
+	 PeUSlVnTzhYcLwV6hRQGwUYL3lXbFbnf7Jis5Ppuae7pYtZKz5cGsM1s/QmfG1S0OJ
+	 oR2C/CTzB9yTT2Dv4aj/4rX/pv6zkS47Rjo9K4iVtavrKTpLv55g4o2VaRBg+VXXXX
+	 Bcrq0zmq1DyPw==
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: linux-kbuild@vger.kernel.org
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+	Andy Lutomirski <luto@kernel.org>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Ingo Molnar <mingo@redhat.com>,
 	Nathan Chancellor <nathan@kernel.org>,
 	Nicolas Schier <nicolas@fjasle.eu>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	kernel@collabora.com, chrome-platform@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v4 0/4] Allow coreboot modules to autoload and enable
- cbmem in the arm64 defconfig
-Message-ID: <ZdAEno9gIwjmI0lN@google.com>
-References: <20240212-coreboot-mod-defconfig-v4-0-d14172676f6d@collabora.com>
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	kvm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	x86@kernel.org
+Subject: [PATCH 1/2] kbuild: change tool coverage variables to take the path relative to $(obj)
+Date: Sat, 17 Feb 2024 14:55:03 +0900
+Message-Id: <20240217055504.2059803-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240212-coreboot-mod-defconfig-v4-0-d14172676f6d@collabora.com>
 
-On Mon, Feb 12, 2024 at 09:50:04AM -0500, Nícolas F. R. A. Prado wrote:
-> This series adds the missing pieces to the coreboot bus and the module
-> alias generation to allow coreboot modules to be automatically loaded
-> when matching devices are detected.
-> 
-> The configs for cbmem coreboot entries are then enabled in the arm64
-> defconfig, as modules, to allow reading logs from coreboot on arm64
-> Chromebooks, which is useful for debugging the boot process.
-> 
-> [...]
+Commit 54b8ae66ae1a ("kbuild: change *FLAGS_<basetarget>.o to take the
+path relative to $(obj)") changed the syntax of per-file compiler flags.
 
-Applied, thanks!
+The situation is the same for the following variables:
 
-[1/4] firmware: coreboot: Generate modalias uevent for devices
-      commit: c2b28f6806d2a26a8d46c0f02d4852bf9904929d
-[2/4] firmware: coreboot: Generate aliases for coreboot modules
-      commit: f1cebae1dbf85f9de65c13a2d9f5cc3be7e51dc4
-[3/4] firmware: coreboot: Replace tag with id table in driver struct
-      commit: 8a0a62941a042612f7487f6c4ff291f9054ff214
+  OBJECT_FILES_NON_STANDARD_<basetarget>.o
+  GCOV_PROFILE_<basetarget>.o
+  KASAN_SANITIZE_<basetarget>.o
+  KMSAN_SANITIZE_<basetarget>.o
+  KMSAN_ENABLE_CHECKS_<basetarget>.o
+  UBSAN_SANITIZE_<basetarget>.o
+  KCOV_INSTRUMENT_<basetarget>.o
+  KCSAN_SANITIZE_<basetarget>.o
+  KCSAN_INSTRUMENT_BARRIERS_<basetarget>.o
+
+The <basetarget> is the filename of the target with its directory and
+suffix stripped.
+
+This syntax comes into a trouble when two files with the same basename
+appear in one Makefile, for example:
+
+  obj-y += dir1/foo.o
+  obj-y += dir2/foo.o
+  OBJECT_FILES_NON_STANDARD_foo.o := y
+
+OBJECT_FILES_NON_STANDARD_foo.o is applied to both dir1/foo.o and
+dir2/foo.o. This syntax is not flexbile enough to handle cases where
+one of them is a standard object, but the other is not.
+
+It is more sensible to use the relative path to the Makefile, like this:
+
+  obj-y += dir1/foo.o
+  OBJECT_FILES_NON_STANDARD_dir1/foo.o := y
+  obj-y += dir2/foo.o
+  OBJECT_FILES_NON_STANDARD_dir2/foo.o := y
+
+To maintain the current behavior, I made adjustments to two Makefiles:
+
+ - arch/x86/entry/vdso/Makefile, which compiles vclock_gettime.o and
+   vdso32/vclock_gettime.o
+
+ - arch/x86/kvm/Makefile, which compiles vmx/vmenter.o and svm/vmenter.o
+
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+ arch/x86/entry/vdso/Makefile |  2 ++
+ arch/x86/kvm/Makefile        |  3 ++-
+ scripts/Makefile.build       |  2 +-
+ scripts/Makefile.lib         | 16 ++++++++--------
+ 4 files changed, 13 insertions(+), 10 deletions(-)
+
+diff --git a/arch/x86/entry/vdso/Makefile b/arch/x86/entry/vdso/Makefile
+index 7a97b17f28b7..148adfdb2325 100644
+--- a/arch/x86/entry/vdso/Makefile
++++ b/arch/x86/entry/vdso/Makefile
+@@ -9,7 +9,9 @@ include $(srctree)/lib/vdso/Makefile
+ # Sanitizer runtimes are unavailable and cannot be linked here.
+ KASAN_SANITIZE			:= n
+ KMSAN_SANITIZE_vclock_gettime.o := n
++KMSAN_SANITIZE_vdso32/vclock_gettime.o	:= n
+ KMSAN_SANITIZE_vgetcpu.o	:= n
++KMSAN_SANITIZE_vdso32/vgetcpu.o	:= n
+ 
+ UBSAN_SANITIZE			:= n
+ KCSAN_SANITIZE			:= n
+diff --git a/arch/x86/kvm/Makefile b/arch/x86/kvm/Makefile
+index 475b5fa917a6..a88bb14266b6 100644
+--- a/arch/x86/kvm/Makefile
++++ b/arch/x86/kvm/Makefile
+@@ -4,7 +4,8 @@ ccflags-y += -I $(srctree)/arch/x86/kvm
+ ccflags-$(CONFIG_KVM_WERROR) += -Werror
+ 
+ ifeq ($(CONFIG_FRAME_POINTER),y)
+-OBJECT_FILES_NON_STANDARD_vmenter.o := y
++OBJECT_FILES_NON_STANDARD_vmx/vmenter.o := y
++OBJECT_FILES_NON_STANDARD_svm/vmenter.o := y
+ endif
+ 
+ include $(srctree)/virt/kvm/Makefile.kvm
+diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+index 4971f54c855e..256db2a0e984 100644
+--- a/scripts/Makefile.build
++++ b/scripts/Makefile.build
+@@ -214,7 +214,7 @@ endif # CONFIG_FTRACE_MCOUNT_USE_RECORDMCOUNT
+ # 'OBJECT_FILES_NON_STANDARD_foo.o := 'y': skip objtool checking for a file
+ # 'OBJECT_FILES_NON_STANDARD_foo.o := 'n': override directory skip for a file
+ 
+-is-standard-object = $(if $(filter-out y%, $(OBJECT_FILES_NON_STANDARD_$(basetarget).o)$(OBJECT_FILES_NON_STANDARD)n),y)
++is-standard-object = $(if $(filter-out y%, $(OBJECT_FILES_NON_STANDARD_$(target-stem).o)$(OBJECT_FILES_NON_STANDARD)n),y)
+ 
+ $(obj)/%.o: objtool-enabled = $(if $(is-standard-object),$(if $(delay-objtool),$(is-single-obj-m),y))
+ 
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index b35d39022a30..328c0d77ed48 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -154,7 +154,7 @@ _cpp_flags     = $(KBUILD_CPPFLAGS) $(cppflags-y) $(CPPFLAGS_$(target-stem).lds)
+ #
+ ifeq ($(CONFIG_GCOV_KERNEL),y)
+ _c_flags += $(if $(patsubst n%,, \
+-		$(GCOV_PROFILE_$(basetarget).o)$(GCOV_PROFILE)$(CONFIG_GCOV_PROFILE_ALL)), \
++		$(GCOV_PROFILE_$(target-stem).o)$(GCOV_PROFILE)$(CONFIG_GCOV_PROFILE_ALL)), \
+ 		$(CFLAGS_GCOV))
+ endif
+ 
+@@ -165,29 +165,29 @@ endif
+ ifeq ($(CONFIG_KASAN),y)
+ ifneq ($(CONFIG_KASAN_HW_TAGS),y)
+ _c_flags += $(if $(patsubst n%,, \
+-		$(KASAN_SANITIZE_$(basetarget).o)$(KASAN_SANITIZE)y), \
++		$(KASAN_SANITIZE_$(target-stem).o)$(KASAN_SANITIZE)y), \
+ 		$(CFLAGS_KASAN), $(CFLAGS_KASAN_NOSANITIZE))
+ endif
+ endif
+ 
+ ifeq ($(CONFIG_KMSAN),y)
+ _c_flags += $(if $(patsubst n%,, \
+-		$(KMSAN_SANITIZE_$(basetarget).o)$(KMSAN_SANITIZE)y), \
++		$(KMSAN_SANITIZE_$(target-stem).o)$(KMSAN_SANITIZE)y), \
+ 		$(CFLAGS_KMSAN))
+ _c_flags += $(if $(patsubst n%,, \
+-		$(KMSAN_ENABLE_CHECKS_$(basetarget).o)$(KMSAN_ENABLE_CHECKS)y), \
++		$(KMSAN_ENABLE_CHECKS_$(target-stem).o)$(KMSAN_ENABLE_CHECKS)y), \
+ 		, -mllvm -msan-disable-checks=1)
+ endif
+ 
+ ifeq ($(CONFIG_UBSAN),y)
+ _c_flags += $(if $(patsubst n%,, \
+-		$(UBSAN_SANITIZE_$(basetarget).o)$(UBSAN_SANITIZE)$(CONFIG_UBSAN_SANITIZE_ALL)), \
++		$(UBSAN_SANITIZE_$(target-stem).o)$(UBSAN_SANITIZE)$(CONFIG_UBSAN_SANITIZE_ALL)), \
+ 		$(CFLAGS_UBSAN))
+ endif
+ 
+ ifeq ($(CONFIG_KCOV),y)
+ _c_flags += $(if $(patsubst n%,, \
+-	$(KCOV_INSTRUMENT_$(basetarget).o)$(KCOV_INSTRUMENT)$(CONFIG_KCOV_INSTRUMENT_ALL)), \
++	$(KCOV_INSTRUMENT_$(target-stem).o)$(KCOV_INSTRUMENT)$(CONFIG_KCOV_INSTRUMENT_ALL)), \
+ 	$(CFLAGS_KCOV))
+ endif
+ 
+@@ -197,12 +197,12 @@ endif
+ #
+ ifeq ($(CONFIG_KCSAN),y)
+ _c_flags += $(if $(patsubst n%,, \
+-	$(KCSAN_SANITIZE_$(basetarget).o)$(KCSAN_SANITIZE)y), \
++	$(KCSAN_SANITIZE_$(target-stem).o)$(KCSAN_SANITIZE)y), \
+ 	$(CFLAGS_KCSAN))
+ # Some uninstrumented files provide implied barriers required to avoid false
+ # positives: set KCSAN_INSTRUMENT_BARRIERS for barrier instrumentation only.
+ _c_flags += $(if $(patsubst n%,, \
+-	$(KCSAN_INSTRUMENT_BARRIERS_$(basetarget).o)$(KCSAN_INSTRUMENT_BARRIERS)n), \
++	$(KCSAN_INSTRUMENT_BARRIERS_$(target-stem).o)$(KCSAN_INSTRUMENT_BARRIERS)n), \
+ 	-D__KCSAN_INSTRUMENT_BARRIERS__)
+ endif
+ 
+-- 
+2.40.1
+
 
