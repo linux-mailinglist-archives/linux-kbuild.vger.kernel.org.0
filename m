@@ -1,93 +1,123 @@
-Return-Path: <linux-kbuild+bounces-988-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-989-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E73685903E
-	for <lists+linux-kbuild@lfdr.de>; Sat, 17 Feb 2024 16:02:39 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E39398597B6
+	for <lists+linux-kbuild@lfdr.de>; Sun, 18 Feb 2024 17:11:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AEC801C219A0
-	for <lists+linux-kbuild@lfdr.de>; Sat, 17 Feb 2024 15:02:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 163511C209D4
+	for <lists+linux-kbuild@lfdr.de>; Sun, 18 Feb 2024 16:11:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65B847C09F;
-	Sat, 17 Feb 2024 15:02:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9F936D1A4;
+	Sun, 18 Feb 2024 16:11:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ionos.com header.i=@ionos.com header.b="DbaWaxEy"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dulISQCg"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D12E2AD0E
-	for <linux-kbuild@vger.kernel.org>; Sat, 17 Feb 2024 15:02:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 432FEFBEA;
+	Sun, 18 Feb 2024 16:11:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708182155; cv=none; b=IsQNoK2RmC1V3Hd/lhbHeobruZv0QYqR25k9CAINZBVbUsFhHfPpUZ75rw8R42DO97FyemTVeLxKYUuqtI2mEY7AbzrAqb4KsPZdQL7OUsz33CGmAsvLldD8SBcBDrqFLZHxF1fYwk09iOt9cNplnjZ18UpVQJkLk/tSZXzn1dQ=
+	t=1708272713; cv=none; b=cHCwUvJIce/9YQ02GV+frJyxnnoHHWs2W3qSKj/yw5SGtwPtsLYjY7LJj0hTzhrbc+FFvJQyiw29nLc4MzqEQjCZPQxNsqnBVLSCBMQ6e1LUDZD3spw6N5lLLarZXJBvR3dLNgg/WTNpMivJkFh8oVnhxt+uOtZ5xdkOajGrd/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708182155; c=relaxed/simple;
-	bh=ILCeUUqi0K9sqscq3X9d3q8gBc3poPrNqIRw6KjseAA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bp4DGDPnlepMgvbU3Po99W1F+ubuXDfHidwh6T7pWIAPEo2SpURMaCzYuUsifARdjPD5BdLonxYGoXvGUJgNO+rqz38q+96VURFKpR52yUvZI7LvSUlYnDnJOQVlxjW5GfOwJHVbb6P73jr6jxRDnya49cSY32HN8lf6b8HJEdc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ionos.com; spf=pass smtp.mailfrom=ionos.com; dkim=pass (2048-bit key) header.d=ionos.com header.i=@ionos.com header.b=DbaWaxEy; arc=none smtp.client-ip=209.85.208.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ionos.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ionos.com
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2d0cdbd67f0so41973561fa.3
-        for <linux-kbuild@vger.kernel.org>; Sat, 17 Feb 2024 07:02:32 -0800 (PST)
+	s=arc-20240116; t=1708272713; c=relaxed/simple;
+	bh=O7gBdNUrHWtEdQ7Sb7xM0HZk+kbpmFEH/bA31/rebr4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WKiZvKclk4XHZa8MDZQJryIzuVgy0pdFZWy5HStPJhefxh/oBpQYN65mSjZi/Sg9Kw67jfgexRJtYABucHqRf5hnlCULtfqYNOCmzqt6+gZnw9VVEo2dvXtFEbowX4uyVnJcZxNH9DIWAI5NhsG3ieH4b80c3thHtfhWa5iBl+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dulISQCg; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1dba6b9b060so13988995ad.1;
+        Sun, 18 Feb 2024 08:11:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ionos.com; s=google; t=1708182151; x=1708786951; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ILCeUUqi0K9sqscq3X9d3q8gBc3poPrNqIRw6KjseAA=;
-        b=DbaWaxEykx5SWamSgjEVvxykzZOcw6ITzGZ8d9aLvXikhAW7iGiplMkiWqRqBAG4LG
-         SfAb3ik5+3/g5av+O2ytLZjnxo/mngS7q0YSV6ivAuLjLH9s+ggUZqhJ3iAZHNZmJ8F8
-         Ip1r0NkxAn2PXOzlNd0SWH3JUVPux1WRaSU8k3g2wa75KCrBmUPXq28F7QLyI2ON7yMv
-         0vk9xUpPuvb51/v1Zt/+/jCbM7G2VdzQMM0n9BcTj7Gzz+1P0CRuG5r6LH1o2GMA3c9R
-         25uyLToNLUh5o4Dx1ucGPwUSAzItphKf5W4Xyyi4aE7ecQU0/VYYE/fVuGnqoBAWpFjN
-         qlIQ==
+        d=gmail.com; s=20230601; t=1708272711; x=1708877511; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tW7EMHm+pV1IgZiBPcrF8p6ggsHIaTJdyvaAlRROm4M=;
+        b=dulISQCgLoSdL6sa73gh1QlIRYFGkFSSWA7p+5aVYahFLYOly4DIp+dvHXxo/6zcsA
+         Xy6a5qmw+KCPOsqNxcza/ngVw7KfRuB6qzMBO7Ky+Gf86nNaFc4lrLzpdBwKuyopeuhe
+         vFN/+Jq4xhXRPPex42r/Z8u0n+4jpy83XGJTD5GX1psBm+6ibc4lnhRH/8WRp6R2Zvjt
+         WMpUW9O6Ei2LZHu60p1L5ZuaQ6Cjn7h2ZW2C+KNlysm1JMMm3dOBuXmgtpy3ICjnsaba
+         6fYbX/cBW1tUmbALrPfpgbA/LtBdWOpXH1CKVdXkR2WGdjK9LbXZYOjpc+4tE7PRoF6F
+         7ebg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708182151; x=1708786951;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ILCeUUqi0K9sqscq3X9d3q8gBc3poPrNqIRw6KjseAA=;
-        b=xQqtXF/2L0Aq3rCo6npCzMvBONmoe7GEcheQ+SnUp1An9yxa8xQUqyNVLDtb96Ln6m
-         fnkhm4ZlzCEM5BQdQxfcCp+/xSs544guPtqqNyPPicAz9Z2YBbaJHO9KkU+hYBW8ZnpY
-         n63hiQDVgQZ6qcf6t+3yhXiofLkQGJfRD6/4/vphvlRGcBiOxVD6V1qyE//raT8PCb1/
-         9oI1/mxkVeCC3KdcwXG+XYc1bR8x39NYuiso3KpklMH5KGJzLufnOaqtXjQnsJYQUPYO
-         G00Di5N+Yld8oibR83mtMw2GTQDcTeu6HgLa0XWXQ0LbLwgISOEB4qZXE59RtvKJGsr4
-         xHcQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXf5Q5tndzdq3qZ0t86DDhL4BAKd4cNcZxQezO8VzsZHUgjyFSKNOia3tdPpDXar4StJy5siFWnGDllSnBibDvNi4RkP55/RpNjzW7P
-X-Gm-Message-State: AOJu0YzDBiIvxJKydlZ0PWqtW1sgWdbFqSQp7W4Ta5FIhp+LtU1udhI2
-	lojXjF5s/SkyJ+lOVrvd9VG2SNEQR8iQJ/Hq6bd8FLFmQdioxw6JYIB7DlUBWLZVzHZZS4R9vBj
-	+wjBMme4awZW4LVFd9fpG/UNapb2dF3mNTYwMqA==
-X-Google-Smtp-Source: AGHT+IHIvT6p5SFDjLypooegrTTShaNlCq7WSa8iZzwV/mIUJGxt4t+vltDqbecDjgqMkCpNSHz69ELYR0ozXioW7I8=
-X-Received: by 2002:a05:651c:2123:b0:2d2:2e8b:6eb5 with SMTP id
- a35-20020a05651c212300b002d22e8b6eb5mr825990ljq.40.1708182151371; Sat, 17 Feb
- 2024 07:02:31 -0800 (PST)
+        d=1e100.net; s=20230601; t=1708272711; x=1708877511;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tW7EMHm+pV1IgZiBPcrF8p6ggsHIaTJdyvaAlRROm4M=;
+        b=CszjxikYro7V0+5Fse90lQqsHSfMmFJsB7LSQcqS0T2ZpwdcvHXNSG4TUKeYMhpUEH
+         mgXPb+U+2NsjAexlR/Du53Vnbx1RaFVoFWJtOOPYbzVPRPqAZfUxQr7KtJhuhPVJ0XUo
+         MLT9QGyA14PEVsw+ILZCT9v2OyQdcrdoiFCtONMao6z+lf1mgky+cCmGKpDgT6HhZLWZ
+         sDypJbi9NUa2QCjmt98Spuczdje7k5bNkK0N5zkIqU4fyQnE2HsDtuJ5XDK4r6qdojvv
+         MnjAGYC9ug4HwUDLS2ATPMjH0ukCxADx774OHgXfUjXD9tRCfh2F25mvSLkvOtrBr2ew
+         Ertg==
+X-Forwarded-Encrypted: i=1; AJvYcCWMQ+lUEXmVIDnFVrgrOKfuhIN8FTAMCnULneCb4t44v8+70M+gIKSqLmIUzX8ifhjm7IuVemcJCFExAyVb2zgzMKNdyIIrECEwje6MsGSvLsvqUUXbfKlguWjr5key77dPnaJaaqs/wTIOE/dJkrqnoe1rZwbvMOgeUZih58HISmJRxtBU54z5Ess=
+X-Gm-Message-State: AOJu0YyMpafNOJGM0uzs7YksTKtBKlSqrj5LIgE1+5aQfisH6tVgMcEh
+	uNPN25q2d5aLXisfuG88MbC2QKK7UrOLONCzKFA5+0vULBttIyzaUgSI7zrd
+X-Google-Smtp-Source: AGHT+IGvUh5Wg21hYx2cRJD+JeqLvS78+7d49olJmucsFPibZTyi/QhEO2MJ6RB3UaIBIpLdjHH/zw==
+X-Received: by 2002:a17:903:11c5:b0:1db:8d0a:cfa9 with SMTP id q5-20020a17090311c500b001db8d0acfa9mr13621769plh.6.1708272711402;
+        Sun, 18 Feb 2024 08:11:51 -0800 (PST)
+Received: from [192.168.54.105] (static.220.238.itcsa.net. [190.15.220.238])
+        by smtp.gmail.com with ESMTPSA id b15-20020a170902d50f00b001db4b3769f6sm2813762plg.280.2024.02.18.08.11.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 18 Feb 2024 08:11:50 -0800 (PST)
+Message-ID: <e3562896-2d4f-42cd-be7f-6c7fb7fd08a1@gmail.com>
+Date: Sun, 18 Feb 2024 13:11:47 -0300
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240215141321.899675-1-max.kellermann@ionos.com> <CAK7LNAT772pZEV09nEYTLOyU_og73zPkKjjL54e8yor-tnnHtw@mail.gmail.com>
-In-Reply-To: <CAK7LNAT772pZEV09nEYTLOyU_og73zPkKjjL54e8yor-tnnHtw@mail.gmail.com>
-From: Max Kellermann <max.kellermann@ionos.com>
-Date: Sat, 17 Feb 2024 16:02:20 +0100
-Message-ID: <CAKPOu+8OTqBzuX5vdg9FR2hSSpem26BugYc2h2QY9Bh5vSRuGA@mail.gmail.com>
-Subject: Re: [PATCH] scripts/mod/modpost: fix null pointer dereference
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v3 0/2] rust: crates in other kernel directories
+Content-Language: en-US
 To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: nathan@kernel.org, nicolas@fjasle.eu, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
+ <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@samsung.com>, Alice Ryhl
+ <aliceryhl@google.com>, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+References: <20231104211213.225891-1-yakoyoku@gmail.com>
+ <CAK7LNAT4zKWn6+scn5wbaN2_x4wh4EYSuNxnaoQK1FfJK45MOw@mail.gmail.com>
+From: Martin Rodriguez Reboredo <yakoyoku@gmail.com>
+In-Reply-To: <CAK7LNAT4zKWn6+scn5wbaN2_x4wh4EYSuNxnaoQK1FfJK45MOw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sat, Feb 17, 2024 at 1:24=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
-> Can you describe the steps to reproduce it?
+On 11/13/23 11:13, Masahiro Yamada wrote:
+> [...]
+> 
+> I will not provide a line-by-line review.
+> 
+> 
+> Just one thing I'd like to point out.
+> 
+> You assume the library (drivers/usb/core/*)
+> is built before its consumers (samples/rust/*).
+> 
+> If Kbuild ends up with building lib consumers first,
+> it will be a build error.
+> 
+> 
+> 
+> Kbuild descends into multiple directories in parallel building.
+> 
+> You cannot predict which directory is built first.
+> 
+> [...]
 
-This crash occurred while I was testing an (unrelated) patch set with
-"randconfig" in a loop. Unfortunately, I don't have that config
-anymore, sorry.
+Thinking with what you've said the same thing might apply to any Rust
+written code that depends on crates under the `rust` dir. Adding
+Make dependencies to object code made from `.rs` will be required if so,
+assuming that Kbuild is intelligent enough to build the crates first.
 
