@@ -1,120 +1,152 @@
-Return-Path: <linux-kbuild+bounces-992-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-993-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FE5E859F36
-	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Feb 2024 10:07:12 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6177859F4E
+	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Feb 2024 10:09:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BECCE280A05
-	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Feb 2024 09:07:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E7CF21C21AF2
+	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Feb 2024 09:09:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED2A0224EC;
-	Mon, 19 Feb 2024 09:06:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55A762261B;
+	Mon, 19 Feb 2024 09:09:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ufb9csAu"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BybPD/h+"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com [209.85.222.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFAA123763;
-	Mon, 19 Feb 2024 09:06:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99B5D224F5
+	for <linux-kbuild@vger.kernel.org>; Mon, 19 Feb 2024 09:09:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708333582; cv=none; b=f8n3J9JY43GLDP3ZAbwn33/ShFh4iqM4b1D1SzgPrifiWDYN2TgG5o1Ac3d94AhoQl2LAdXFPY9YbkGm94bH1lCNu7T/FUHFbw2YrNt5mzXqIwtnKiWmg+OU4Vb9OvrRYeYof/XghhUJHaEybf3icDLT8bXBmIGvK7JdB59tiVw=
+	t=1708333763; cv=none; b=BQNnpOb+Fuo9Ux87FeWa/zFyYIi/64XxGmEfVtJo5Qvm+RhSSWo144qTNilbfD3i/Pqcd8Kj55k/gu59MeT/eJD6UmIusImymdGi2wvDwo/c5xXYP3vcX8+81UVrshvRpAd4jZAvSQXVzue6192xO7xcfgC9jY+QoyqOAvSxwz0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708333582; c=relaxed/simple;
-	bh=Uai0kd7i8VGE9hFUSFSUJh8cm8BNvR9mpqVA7T0AYAU=;
+	s=arc-20240116; t=1708333763; c=relaxed/simple;
+	bh=DJul3TWyiyFiIYG37u7BiMg+il0uv1aR4uQbAGcWQQ8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KGEECJMphfeOFtnu9FhUlT1p+gviqr55Lz6K8phEiQF7tlEoNb2Nyn2TSLkCBCkX4qWnAYl3ydOGyZNOgMu6/F3CqYeCWn84ZuscOzmQUx860+npiF70QeqmxB5PeRPwhXQiTN5jXvrLKpOGE2eyVqwEDyiyODf1wOVrCyEbRUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ufb9csAu; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EC5DC43601;
-	Mon, 19 Feb 2024 09:06:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708333582;
-	bh=Uai0kd7i8VGE9hFUSFSUJh8cm8BNvR9mpqVA7T0AYAU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Ufb9csAuxDd5XY6B4h1hJv+la5QISLKB5Ziwdc//b9QkwtecK0Uw4zFxr64s2qeHr
-	 oOJ8jgDtjA3mrZcPo/2K3c0a0QQ2+HAUS12OzJQpCL2aglQsvru/z+2mSKqzkDA1Oa
-	 hzo5TAxgoPDCTz0y38DTUC8Q6sBEBHaSKLzR6Ye/6ocVRNJTMttxwyG86vid1sg7i/
-	 VLXSu1HDenPSkHLPvs77VvU2ACWQuzM1uZYPZUfcpy4ekqRoVgfnHa8nWNju8TPCKd
-	 oR+kaQm4FjwkMxSPZjVDDX7mYK5ZJHHUeJCHyAqywJe7DWtqe0riyF1gRr8IseTkBO
-	 ahCswAFs6vMGg==
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-512bce554a5so201929e87.3;
-        Mon, 19 Feb 2024 01:06:22 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVKTEFAYL2rKQp1ErM4/sH2xyy5+9Vh3gEriuuW6cj/AJYQNmNpUj5/+VRdjtdiLYE6PQEAYVWWtfV0zlZHxP7pmFbNBjWpDXIRP75Qn9JvIVVEpNR/2t/5d9+gRWxau0KFu11GTNwKxv1o9+c9mAdvYWheihiSgVn7SuESmtc3pg9pVxlHeOv0Tq4=
-X-Gm-Message-State: AOJu0YzSUfFMk/ZhMejrl0gRKKw2FbSEzmrZ1TfPAHO2SeBu/VYVGG0f
-	nMQhp8Vf9oFo7+vu6n+8AdknvTHSL1PM6BIDWK+0dAM09EQYy5kU30v90c++FEu/4cvS8jX2Bn7
-	YNtrzRye1DbWzHH+UsRpbmdZThZ0=
-X-Google-Smtp-Source: AGHT+IFTnhLLDv2fjimXNtQph5eMOf2MRalN4zjLIUFKcQXJwgpPjyDtgjLDZbhq2rEi6Ff9dDp6pMnAW7fNoaBQ/zw=
-X-Received: by 2002:ac2:447a:0:b0:512:b26f:d7d6 with SMTP id
- y26-20020ac2447a000000b00512b26fd7d6mr1500700lfl.5.1708333580696; Mon, 19 Feb
- 2024 01:06:20 -0800 (PST)
+	 To:Cc:Content-Type; b=gD12qt4q6cBf+kD5RDH9H02Oz3oxcgh1C7jcvY17RH3q5Cwq1oEKe8p/3Y4a3UYESeTxRIsc8a0me5WPCRhz0jjzUuRtywhubh5DKOoV57HeaN4S5wDuSqrVVeekazexSDzYZaZarnjdp6Wsw4yH3znvHLFfa8eAo5PFQuOMaHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=BybPD/h+; arc=none smtp.client-ip=209.85.222.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-ua1-f44.google.com with SMTP id a1e0cc1a2514c-7d6a772e08dso1302573241.2
+        for <linux-kbuild@vger.kernel.org>; Mon, 19 Feb 2024 01:09:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1708333760; x=1708938560; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pITza/p79puTXkzLF57AKL2ujyb3FxitC2KLqmYBBWs=;
+        b=BybPD/h+28wYwaWtfH7FE2hIOxseZz8JgPQu3Q8rec9SmD5gsV3m3AxX5YJ7m4+zwO
+         eBg1V0yziJ1jgbijM/6D6NbPVZEcPByjeYp+qyrpKunRK9aia8qv+INEvZsbP6gO/mNu
+         /MCg8Ku4uBefcLcvOARySenfMQwkI5A8PbjyJOZgi0Q5ah4+P/RtCEG+79anzTK8y8z/
+         T6zqYB1Q/rLvkJ3fQMIYXrbjYSSM/g4ikYGnaz/jTKR6BbZjlgKHawQQhJxiG8XxnTe6
+         2NEQb8k1RC5dfvd0w48L7/i15xPCjJhFOK1SlqRRABgFkM7hAELH6uDFlMEcRLifVuwl
+         Mn3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708333760; x=1708938560;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pITza/p79puTXkzLF57AKL2ujyb3FxitC2KLqmYBBWs=;
+        b=wAPE6pmuue89qlWlZTu+VKv1l+TQnjddp/pF/k2BaIwibs02L6fkjO6+tZGq4N9Njx
+         PShav82nsWRwp939mTtkxqzYkuUrNHcXBg/pJ8vT/enU2PM1nIQq/8eIYGVV12JdLx2D
+         Y1reO+OmbmkIFdz+8e1ilbbT3aTAujEGggVDBA8+WeL6WzWZyNSj5iQdz2BqGd7YXc+1
+         tLIKwvNJN13OYOQ9sFkHLDULiqxm+IZJRz/U30J9MqFte0P8PPLHLe4nWzfBfSp9DUvz
+         SQS7GEYMy8IcvbsIMui1cBpde9VzR7mmnDPDEj6gxffYBy4qjq4pv5hbQgLR6MSX77nJ
+         FFtw==
+X-Forwarded-Encrypted: i=1; AJvYcCWw4hO3q76lShaS6FBnPSyyuksvgs+8zJFwA8/TLRr6EP8eAk/3vT4nqxLF+l4OIbWNebSUIiFUW+kAGNc/hiK7cOlJU+VOT999cYvb
+X-Gm-Message-State: AOJu0YzgYtePMBAavobXHgkkCwx2W0ljQAe1dwS8psaq/Hk4U8PpgP2/
+	V+ZkDOoz+jh0RywvlATnnRAcyn3S4qDBDkCzsJK6RCnZrnRs6Dhu8kPHn5LgTD+7gbzKkUA6657
+	2S+NPPAwW6dvSka6qKkOoG7NKg3mG/nPgWJ5k
+X-Google-Smtp-Source: AGHT+IHzGqRc5VnbP00Jo3Xc0zRJ6YpmB8/ccl+F//H9hD5P0VDV2TgQ4Y+PEIWCp01pNe7fCDf3Nd+l617M5tt21mY=
+X-Received: by 2002:a05:6102:6c6:b0:46e:c3db:aab6 with SMTP id
+ m6-20020a05610206c600b0046ec3dbaab6mr8365013vsg.24.1708333760384; Mon, 19 Feb
+ 2024 01:09:20 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231104211213.225891-1-yakoyoku@gmail.com> <CAK7LNAT4zKWn6+scn5wbaN2_x4wh4EYSuNxnaoQK1FfJK45MOw@mail.gmail.com>
- <e3562896-2d4f-42cd-be7f-6c7fb7fd08a1@gmail.com>
-In-Reply-To: <e3562896-2d4f-42cd-be7f-6c7fb7fd08a1@gmail.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Mon, 19 Feb 2024 18:05:43 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS+euKhXrU7dxLG40TVvE43e3R-3jyfUH21Y8skZdHjfQ@mail.gmail.com>
-Message-ID: <CAK7LNAS+euKhXrU7dxLG40TVvE43e3R-3jyfUH21Y8skZdHjfQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 0/2] rust: crates in other kernel directories
-To: Martin Rodriguez Reboredo <yakoyoku@gmail.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+References: <20240217002638.57373-1-ojeda@kernel.org> <20240217002638.57373-2-ojeda@kernel.org>
+In-Reply-To: <20240217002638.57373-2-ojeda@kernel.org>
+From: Alice Ryhl <aliceryhl@google.com>
+Date: Mon, 19 Feb 2024 10:09:09 +0100
+Message-ID: <CAH5fLghAC7yJLzH1K4Jv10QggnG5eHacGTJ8mxgO5neH7YR+EA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] rust: upgrade to Rust 1.76.0
+To: Miguel Ojeda <ojeda@kernel.org>
+Cc: Wedson Almeida Filho <wedsonaf@gmail.com>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
 	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
 	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
-	Alice Ryhl <aliceryhl@google.com>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+	Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	patches@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 19, 2024 at 1:11=E2=80=AFAM Martin Rodriguez Reboredo
-<yakoyoku@gmail.com> wrote:
+On Sat, Feb 17, 2024 at 1:27=E2=80=AFAM Miguel Ojeda <ojeda@kernel.org> wro=
+te:
 >
-> On 11/13/23 11:13, Masahiro Yamada wrote:
-> > [...]
-> >
-> > I will not provide a line-by-line review.
-> >
-> >
-> > Just one thing I'd like to point out.
-> >
-> > You assume the library (drivers/usb/core/*)
-> > is built before its consumers (samples/rust/*).
-> >
-> > If Kbuild ends up with building lib consumers first,
-> > it will be a build error.
-> >
-> >
-> >
-> > Kbuild descends into multiple directories in parallel building.
-> >
-> > You cannot predict which directory is built first.
-> >
-> > [...]
+> This is the next upgrade to the Rust toolchain, from 1.75.0 to 1.76.0
+> (i.e. the latest) [1].
 >
-> Thinking with what you've said the same thing might apply to any Rust
-> written code that depends on crates under the `rust` dir. Adding
-> Make dependencies to object code made from `.rs` will be required if so,
-> assuming that Kbuild is intelligent enough to build the crates first.
+> See the upgrade policy [2] and the comments on the first upgrade in
+> commit 3ed03f4da06e ("rust: upgrade to Rust 1.68.2").
+>
+> # Unstable features
+>
+> No unstable features that we use were stabilized in Rust 1.76.0.
+>
+> The only unstable features allowed to be used outside the `kernel` crate
+> are still `new_uninit,offset_of`, though other code to be upstreamed
+> may increase the list.
+>
+> Please see [3] for details.
+>
+> # Required changes
+>
+> `rustc` (and others) now warns when it cannot connect to the Make
+> jobserver, thus mark those invocations as recursive as needed. Please
+> see the previous commit for details.
+>
+> # Other changes
+>
+> Rust 1.76.0 does not emit the `.debug_pub{names,types}` sections anymore
+> for DWARFv4 [4][5]. For instance, in the uncompressed debug info case,
+> this debug information took:
+>
+>     samples/rust/rust_minimal.o   ~64 KiB (~18% of total object size)
+>     rust/kernel.o                 ~92 KiB (~15%)
+>     rust/core.o                  ~114 KiB ( ~5%)
+>
+> In the compressed debug info (zlib) case:
+>
+>     samples/rust/rust_minimal.o   ~11 KiB (~6%)
+>     rust/kernel.o                 ~17 KiB (~5%)
+>     rust/core.o                   ~21 KiB (~1.5%)
+>
+> In addition, the `rustc_codegen_gcc` backend now does not emit the
+> `.eh_frame` section when compiling under `-Cpanic=3Dabort` [6], thus
+> removing the need for the patch in the CI to compile the kernel [7].
+> Moreover, it also now emits the `.comment` section too [6].
+>
+> # `alloc` upgrade and reviewing
 
+[...]
 
-rust/Makefile specifies dependencies between crates.
+> Link: https://github.com/rust-lang/rust/blob/stable/RELEASES.md#version-1=
+760-2024-02-08 [1]
+> Link: https://rust-for-linux.com/rust-version-policy [2]
+> Link: https://github.com/Rust-for-Linux/linux/issues/2 [3]
+> Link: https://github.com/rust-lang/compiler-team/issues/688 [4]
+> Link: https://github.com/rust-lang/rust/pull/117962 [5]
+> Link: https://github.com/rust-lang/rust/pull/118068 [6]
+> Link: https://github.com/Rust-for-Linux/ci-rustc_codegen_gcc [7]
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 
-I do not know how to specify crate dependencies
-across multiple Makefiles, like you did in
-drivers/usb/core/Makefile and samples/rust/Makefile.
-
-
-
---=20
-Best Regards
-Masahiro Yamada
+Reviewed-by: Alice Ryhl <aliceryhl@google.com>
 
