@@ -1,46 +1,55 @@
-Return-Path: <linux-kbuild+bounces-995-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-996-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE6AC85A9CC
-	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Feb 2024 18:20:51 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D38485ABBC
+	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Feb 2024 20:04:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E2D881C22CE4
-	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Feb 2024 17:20:50 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CC948B24516
+	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Feb 2024 19:04:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E902744C8C;
-	Mon, 19 Feb 2024 17:20:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3F564A99A;
+	Mon, 19 Feb 2024 19:04:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Up8H6bHF"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9014B446A5;
-	Mon, 19 Feb 2024 17:20:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4B592E408;
+	Mon, 19 Feb 2024 19:04:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708363244; cv=none; b=mHl+ypzMjW774JCdny3OEEQ3ll2x7Taua61IIAdcgAeAgO5wX60Qxx8nB3OaxUdKkvvCCT06CgfKTv5oaOU7bSzKpuckweFnCbqLxEuL7yyhIx7cvZ7z0aQxj15Epc18Q4jO21JYVziDpzBZeFcFHMBtqNW8/h4DdAlGWcWkJbQ=
+	t=1708369452; cv=none; b=elFCm1bc8nvXawktkB72dVCdtOIP7Hhw3raAq97TyLYWMJvIVSD5W45UuM93dmuL7Af2HVF0wIGGDE5AT05inn1fiKLpEfNLR4oBVNNAfVOWtV85ml1dJlOMRHpJXOqaQakufHrRqaMnZo5RdPuwucPXNFgHK5xP45cR9dVGIv0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708363244; c=relaxed/simple;
-	bh=kIRjLThbu45iSePonaedwx3Sv6aDBvaezx/4y8Z422c=;
+	s=arc-20240116; t=1708369452; c=relaxed/simple;
+	bh=KgsvHWbboERan+JN0vWR0UmbKSP49QP+8jjmUGjbisI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fC5XP1MKWQmx/IWg/G/E/JQcHL1urGAJ8yUKyKJLEMkF8vuZT57f3PVqVGDQaYkyU8dP3SKpBA34MjGFifC7UENz88XdbuqghfdIwJ+Pg+LMK6ttDec0S17GXGkaBv0fmdNiNq40S/b07Nnkhi4ao0W3eqrbIJ+wS0wBqAgR2m4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A1E41FEC;
-	Mon, 19 Feb 2024 09:21:21 -0800 (PST)
-Received: from FVFF77S0Q05N (unknown [10.57.67.88])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 061863F762;
-	Mon, 19 Feb 2024 09:20:40 -0800 (PST)
-Date: Mon, 19 Feb 2024 17:20:38 +0000
-From: Mark Rutland <mark.rutland@arm.com>
-To: Petr Pavlu <petr.pavlu@suse.com>
-Cc: masahiroy@kernel.org, nathan@kernel.org, nicolas@fjasle.eu,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] kbuild: Use -fmin-function-alignment when available
-Message-ID: <ZdON5rbsYFsoulxm@FVFF77S0Q05N>
-References: <20240215151642.8970-1-petr.pavlu@suse.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=VCPfK48ovFA9r0nZr/IgxPIVQfjhfKPJX41MlpqI4HdcJK1dj5KP3OB6d/0RjGYbiqCZOCm1dJ5tQ+Ill7l5w/9QP9X8a5SptwR1D/979c8aLyumyIv7muBY7Wh/y71ZqlxlJlJpFXHsBp1i5DQuPxmEYZa1ceJAKEuv13lj4Vo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Up8H6bHF; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9664C43399;
+	Mon, 19 Feb 2024 19:04:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708369451;
+	bh=KgsvHWbboERan+JN0vWR0UmbKSP49QP+8jjmUGjbisI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Up8H6bHFlnABdsMZJViTWTzbLUdMt8Sk9MRLrinlfQ9l5edYfLrwTWz9iUnkXNi5F
+	 qgzQMlq5ksC7niWjSdjycvf123QOVRyiEqz1JTvknYAa9/Jgl0KXnvxjhWFT5shMSi
+	 C1T5PKvvzi/IWju38rxg3mmU2JilvAadvj8d16g07HEJRlr2nU080+AEJHZZzU+U22
+	 axEVnYsOIBDpgTa/6v+qUftHsEkS/y13hbUFnYjfja3UQAzIsjp9+j0OsmzzzXZtqk
+	 I3VGA1e0El+Tp9cAPoPnPLLxBg7AfQCyS6c4NAzuehZnOmwEPWXWGWUU7GomHKat4T
+	 bGUk8gUy/QH5A==
+Date: Mon, 19 Feb 2024 12:04:09 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: gregkh@linuxfoundation.org
+Cc: masahiroy@kernel.org, stable-commits@vger.kernel.org,
+	llvm@lists.linux.dev, linux-kbuild@vger.kernel.org
+Subject: Re: Patch "modpost: Add '.ltext' and '.ltext.*' to TEXT_SECTIONS"
+ has been added to the 6.6-stable tree
+Message-ID: <20240219190409.GB2348301@dev-arch.thelio-3990X>
+References: <2024021932-overpass-stinger-b897@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -49,133 +58,54 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240215151642.8970-1-petr.pavlu@suse.com>
+In-Reply-To: <2024021932-overpass-stinger-b897@gregkh>
 
-On Thu, Feb 15, 2024 at 04:16:42PM +0100, Petr Pavlu wrote:
-> GCC recently added option -fmin-function-alignment, which should appear
-> in GCC 14. Unlike -falign-functions, this option causes all functions to
-> be aligned at the specified value, including the cold ones.
-> 
-> Detect availability of -fmin-function-alignment and use it instead of
-> -falign-functions when present. Introduce CC_HAS_SANE_FUNCTION_ALIGNMENT
-> and make the workarounds for the broken function alignment conditional
-> on this setting.
-> 
-> Signed-off-by: Petr Pavlu <petr.pavlu@suse.com>
+Hi Greg,
 
-I don't have a GCC 14 build to play with, but this looks sound to me.
+On Mon, Feb 19, 2024 at 05:28:33PM +0100, gregkh@linuxfoundation.org wrote:
+> 
+> This is a note to let you know that I've just added the patch titled
+> 
+>     modpost: Add '.ltext' and '.ltext.*' to TEXT_SECTIONS
+> 
+> to the 6.6-stable tree which can be found at:
+>     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+> 
+> The filename of the patch is:
+>      modpost-add-.ltext-and-.ltext.-to-text_sections.patch
+> and it can be found in the queue-6.6 subdirectory.
+> 
+> If you, or anyone else, feels it should not be added to the stable tree,
+> please let <stable@vger.kernel.org> know about it.
+> 
+> 
+> From 397586506c3da005b9333ce5947ad01e8018a3be Mon Sep 17 00:00:00 2001
+> From: Nathan Chancellor <nathan@kernel.org>
+> Date: Tue, 23 Jan 2024 15:59:55 -0700
+> Subject: modpost: Add '.ltext' and '.ltext.*' to TEXT_SECTIONS
+> 
+> From: Nathan Chancellor <nathan@kernel.org>
+> 
+> commit 397586506c3da005b9333ce5947ad01e8018a3be upstream.
 
-Petr, are you able to test an arm64 kernel with this and DYNAMIC_FTRACE
-enabled? i.e. build that, and check that function symbols are all aligned to 8
-bytes using objdump or similar? That way we could be pretty sure there's no
-other latent issue in this area.
+Please apply upstream commit 6a4e59eeedc3 ("linux/init: remove __memexit*
+annotations") before this change, as there is a warning in modpost
+without it:
 
-FWIW, given the structure looks sound:
+  scripts/mod/modpost.c:916:37: warning: excess elements in array initializer [-Wexcess-initializers]
+    916 |         .good_tosec = {ALL_TEXT_SECTIONS , NULL},
+        |                                            ^~~~
+  .../lib/clang/19/include/__stddef_null.h:26:14: note: expanded from macro 'NULL'
+     26 | #define NULL ((void*)0)
+        |              ^~~~~~~~~~
+  1 warning generated.
 
-Acked-by: Mark Rutland <mark.rutland@arm.com>
+It applies cleanly with 'git format-patch | patch' for me and I don't
+think it is unreasonable as a fix for this issue in stable.
 
-Mark.
+This will be needed in 6.1 as well but that backport is a little more
+involved, I will reply there with an mbox series.
 
-> ---
-> 
-> Changes since v1 [1]:
-> - Check the availability of -fmin-function-alignment only in one place.
-> 
-> [1] https://lore.kernel.org/linux-kbuild/20240212145355.1050-1-petr.pavlu@suse.com/
-> 
->  Makefile                       |  7 +++++++
->  arch/Kconfig                   | 12 ++++++++++++
->  include/linux/compiler_types.h | 10 +++++-----
->  kernel/exit.c                  |  5 ++++-
->  4 files changed, 28 insertions(+), 6 deletions(-)
-> 
-> diff --git a/Makefile b/Makefile
-> index 7e0b2ad98905..6f20ab5e2e44 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -974,8 +974,15 @@ export CC_FLAGS_CFI
->  endif
->  
->  ifneq ($(CONFIG_FUNCTION_ALIGNMENT),0)
-> +# Set the minimal function alignment. Use the newer GCC option
-> +# -fmin-function-alignment if it is available, or fall back to -falign-funtions.
-> +# See also CONFIG_CC_HAS_SANE_FUNCTION_ALIGNMENT.
-> +ifdef CONFIG_CC_HAS_MIN_FUNCTION_ALIGNMENT
-> +KBUILD_CFLAGS += -fmin-function-alignment=$(CONFIG_FUNCTION_ALIGNMENT)
-> +else
->  KBUILD_CFLAGS += -falign-functions=$(CONFIG_FUNCTION_ALIGNMENT)
->  endif
-> +endif
->  
->  # arch Makefile may override CC so keep this after arch Makefile is included
->  NOSTDINC_FLAGS += -nostdinc
-> diff --git a/arch/Kconfig b/arch/Kconfig
-> index a5af0edd3eb8..bd6c6335efac 100644
-> --- a/arch/Kconfig
-> +++ b/arch/Kconfig
-> @@ -1507,4 +1507,16 @@ config FUNCTION_ALIGNMENT
->  	default 4 if FUNCTION_ALIGNMENT_4B
->  	default 0
->  
-> +config CC_HAS_MIN_FUNCTION_ALIGNMENT
-> +	# Detect availability of the GCC option -fmin-function-alignment which
-> +	# guarantees minimal alignment for all functions, unlike
-> +	# -falign-functions which the compiler ignores for cold functions.
-> +	def_bool $(cc-option, -fmin-function-alignment=8)
-> +
-> +config CC_HAS_SANE_FUNCTION_ALIGNMENT
-> +	# Set if the guaranteed alignment with -fmin-function-alignment is
-> +	# available or extra care is required in the kernel. Clang provides
-> +	# strict alignment always, even with -falign-functions.
-> +	def_bool CC_HAS_MIN_FUNCTION_ALIGNMENT || CC_IS_CLANG
-> +
->  endmenu
-> diff --git a/include/linux/compiler_types.h b/include/linux/compiler_types.h
-> index 663d8791c871..f0152165e83c 100644
-> --- a/include/linux/compiler_types.h
-> +++ b/include/linux/compiler_types.h
-> @@ -99,17 +99,17 @@ static inline void __chk_io_ptr(const volatile void __iomem *ptr) { }
->   *   gcc: https://gcc.gnu.org/onlinedocs/gcc/Label-Attributes.html#index-cold-label-attribute
->   *
->   * When -falign-functions=N is in use, we must avoid the cold attribute as
-> - * contemporary versions of GCC drop the alignment for cold functions. Worse,
-> - * GCC can implicitly mark callees of cold functions as cold themselves, so
-> - * it's not sufficient to add __function_aligned here as that will not ensure
-> - * that callees are correctly aligned.
-> + * GCC drops the alignment for cold functions. Worse, GCC can implicitly mark
-> + * callees of cold functions as cold themselves, so it's not sufficient to add
-> + * __function_aligned here as that will not ensure that callees are correctly
-> + * aligned.
->   *
->   * See:
->   *
->   *   https://lore.kernel.org/lkml/Y77%2FqVgvaJidFpYt@FVFF77S0Q05N
->   *   https://gcc.gnu.org/bugzilla/show_bug.cgi?id=88345#c9
->   */
-> -#if !defined(CONFIG_CC_IS_GCC) || (CONFIG_FUNCTION_ALIGNMENT == 0)
-> +#if defined(CONFIG_CC_HAS_SANE_FUNCTION_ALIGNMENT) || (CONFIG_FUNCTION_ALIGNMENT == 0)
->  #define __cold				__attribute__((__cold__))
->  #else
->  #define __cold
-> diff --git a/kernel/exit.c b/kernel/exit.c
-> index dfb963d2f862..5a6fed4ad3df 100644
-> --- a/kernel/exit.c
-> +++ b/kernel/exit.c
-> @@ -1920,7 +1920,10 @@ EXPORT_SYMBOL(thread_group_exited);
->   *
->   * See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=88345#c11
->   */
-> -__weak __function_aligned void abort(void)
-> +#ifndef CONFIG_CC_HAS_SANE_FUNCTION_ALIGNMENT
-> +__function_aligned
-> +#endif
-> +__weak void abort(void)
->  {
->  	BUG();
->  
-> 
-> base-commit: 841c35169323cd833294798e58b9bf63fa4fa1de
-> -- 
-> 2.35.3
-> 
+Cheers,
+Nathan
 
