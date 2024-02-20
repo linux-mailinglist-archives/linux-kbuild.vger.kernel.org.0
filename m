@@ -1,53 +1,53 @@
-Return-Path: <linux-kbuild+bounces-1001-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1002-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DB6385B43B
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Feb 2024 08:51:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91ED185B47E
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Feb 2024 09:07:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C8BA21F2257D
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Feb 2024 07:51:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 426BC1F21482
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Feb 2024 08:07:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 654075BAD2;
-	Tue, 20 Feb 2024 07:51:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD25A5C5F7;
+	Tue, 20 Feb 2024 08:07:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="j2UIIrXs"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="k7x8RBfy"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C5D65A4CE;
-	Tue, 20 Feb 2024 07:51:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72AC75C5ED;
+	Tue, 20 Feb 2024 08:07:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708415494; cv=none; b=LtGjC72ZB7d/bUP/E2gutAE5JNmM34EdUbGPfU7pus/Xmo4yEwe4NO5CjGZO2/oqjjq5BETbluSzOngPEJVnFc9W2HMFYSMClm7kQHKErcsFPxYm/vPyZLoUu4qi3lSslpdfg/PqSUCm3sm894aU2d8mY4a5ln+tuPQOU4gKZ8k=
+	t=1708416437; cv=none; b=Gc7tAToINmjtCwKJ/+0iKCw48rY3oiTMFbpZhfXI0Klpmr2GnH0lsMRTxBPPnmjoIJPP1LLIDoo5yRmnK74BaqmGFzul2/cIGCDw8sAoqo1+JDSzS+dYLv6e/bj2wdg+s5r43ONaUU/Cqy9WBsiNPr10qIp48eogFaEW+4Meed0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708415494; c=relaxed/simple;
-	bh=bvx+YhtjNRYp9RwJLSb/J+HAooUu2B88g6FfWZalVLQ=;
+	s=arc-20240116; t=1708416437; c=relaxed/simple;
+	bh=4atb1M7uIDo/hdKyPFzsjJcQrZQMqn8eciRrtEvsmKI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SbtHuDfIzHCbrVv6ktGJo/zjcgTEbBihGtA4QQibLHX8THckPldIp9tatfessua5es/88T/06MKswEwgLtnnLUaAGYH4GVWAXzYP7Mxv1HpftLwdy3NLrNK5REDAA1hY5gqw1bCpqmuuam5/4d+mYJbLScBcdEb+mMZxTzOr6ag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=j2UIIrXs; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AB50C433C7;
-	Tue, 20 Feb 2024 07:51:33 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=amZW1d4faEoCZlzrEogcGIeCmUWMiwrL9OMUfKLHfvBhIh8St/ItxVAOZ3BrHcLeKyVUb0PXlAg+kRhuvHK/9Pv0VHnwdjBfEeo8wzytJMvvUCSEwPVxw/BGNhhgVoUBtq0Mc1dGu/7JF1H3UZszP9LK8SUGF4V2l4zj7Guw8T4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=k7x8RBfy; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 741AFC43394;
+	Tue, 20 Feb 2024 08:07:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1708415494;
-	bh=bvx+YhtjNRYp9RwJLSb/J+HAooUu2B88g6FfWZalVLQ=;
+	s=korg; t=1708416436;
+	bh=4atb1M7uIDo/hdKyPFzsjJcQrZQMqn8eciRrtEvsmKI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=j2UIIrXs22EGhS6A9SnxTsoWRDOFmMfuD0ieBCUTczytOw7NeSgcZTnlGoOKgLeZA
-	 Q2rBkL5E84xXzmPwM1NMC98ARd8eQuU1lVChtgArsxJ81gbc7QOzlhwvAM+X7Hj5jI
-	 +aDsFZmsA7ZlhspTo6yYaGVBi7CAlCccvp1J1NpI=
-Date: Tue, 20 Feb 2024 08:51:31 +0100
+	b=k7x8RBfymH0rxdDhCuzZU65oCufYMrJtIO+RNuc+2IkIZIoB+dbdTl2qhX+jbiI0h
+	 prvWc9E2T90drPpH/NH5Zc0y7RZvEfLgy8AUHOdNH81K/TgRbG79d6fVox1GKepvx1
+	 XQ+qO4xKfkm3w2iaiVO4i1OWMJr9/ozjxHvzHOfk=
+Date: Tue, 20 Feb 2024 09:07:13 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
 To: Nathan Chancellor <nathan@kernel.org>
 Cc: masahiroy@kernel.org, stable-commits@vger.kernel.org,
 	llvm@lists.linux.dev, linux-kbuild@vger.kernel.org
 Subject: Re: Patch "um: Fix adding '-no-pie' for clang" has been added to the
- 5.15-stable tree
-Message-ID: <2024022024-control-coliseum-1d40@gregkh>
-References: <2024021939-dullness-calculate-a293@gregkh>
- <20240219192837.GD2348301@dev-arch.thelio-3990X>
+ 6.1-stable tree
+Message-ID: <2024022003-absurd-patriot-6e11@gregkh>
+References: <2024021953-shrimp-trilogy-590a@gregkh>
+ <20240219192315.GC2348301@dev-arch.thelio-3990X>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -56,23 +56,23 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240219192837.GD2348301@dev-arch.thelio-3990X>
+In-Reply-To: <20240219192315.GC2348301@dev-arch.thelio-3990X>
 
-On Mon, Feb 19, 2024 at 12:28:37PM -0700, Nathan Chancellor wrote:
+On Mon, Feb 19, 2024 at 12:23:15PM -0700, Nathan Chancellor wrote:
 > Hi Greg,
 > 
-> On Mon, Feb 19, 2024 at 06:02:39PM +0100, gregkh@linuxfoundation.org wrote:
+> On Mon, Feb 19, 2024 at 05:50:54PM +0100, gregkh@linuxfoundation.org wrote:
 > > 
 > > This is a note to let you know that I've just added the patch titled
 > > 
 > >     um: Fix adding '-no-pie' for clang
 > > 
-> > to the 5.15-stable tree which can be found at:
+> > to the 6.1-stable tree which can be found at:
 > >     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 > > 
 > > The filename of the patch is:
 > >      um-fix-adding-no-pie-for-clang.patch
-> > and it can be found in the queue-5.15 subdirectory.
+> > and it can be found in the queue-6.1 subdirectory.
 > > 
 > > If you, or anyone else, feels it should not be added to the stable tree,
 > > please let <stable@vger.kernel.org> know about it.
@@ -86,64 +86,17 @@ On Mon, Feb 19, 2024 at 12:28:37PM -0700, Nathan Chancellor wrote:
 > > From: Nathan Chancellor <nathan@kernel.org>
 > > 
 > > commit 846cfbeed09b45d985079a9173cf390cc053715b upstream.
-> > 
-> > The kernel builds with -fno-PIE, so commit 883354afbc10 ("um: link
-> > vmlinux with -no-pie") added the compiler linker flag '-no-pie' via
-> > cc-option because '-no-pie' was only supported in GCC 6.1.0 and newer.
-> > 
-> > While this works for GCC, this does not work for clang because cc-option
-> > uses '-c', which stops the pipeline right before linking, so '-no-pie'
-> > is unconsumed and clang warns, causing cc-option to fail just as it
-> > would if the option was entirely unsupported:
-> > 
-> >   $ clang -Werror -no-pie -c -o /dev/null -x c /dev/null
-> >   clang-16: error: argument unused during compilation: '-no-pie' [-Werror,-Wunused-command-line-argument]
-> > 
-> > A recent version of clang exposes this because it generates a relocation
-> > under '-mcmodel=large' that is not supported in PIE mode:
-> > 
-> >   /usr/sbin/ld: init/main.o: relocation R_X86_64_32 against symbol `saved_command_line' can not be used when making a PIE object; recompile with -fPIE
-> >   /usr/sbin/ld: failed to set dynamic section sizes: bad value
-> >   clang: error: linker command failed with exit code 1 (use -v to see invocation)
-> > 
-> > Remove the cc-option check altogether. It is wasteful to invoke the
-> > compiler to check for '-no-pie' because only one supported compiler
-> > version does not support it, GCC 5.x (as it is supported with the
-> > minimum version of clang and GCC 6.1.0+). Use a combination of the
-> > gcc-min-version macro and CONFIG_CC_IS_CLANG to unconditionally add
-> > '-no-pie' with CONFIG_LD_SCRIPT_DYN=y, so that it is enabled with all
-> > compilers that support this. Furthermore, using gcc-min-version can help
-> > turn this back into
-> > 
-> >   LINK-$(CONFIG_LD_SCRIPT_DYN) += -no-pie
-> > 
-> > when the minimum version of GCC is bumped past 6.1.0.
-> > 
-> > Cc: stable@vger.kernel.org
-> > Closes: https://github.com/ClangBuiltLinux/linux/issues/1982
-> > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > ---
-> >  arch/um/Makefile |    4 +++-
-> >  1 file changed, 3 insertions(+), 1 deletion(-)
-> > 
-> > --- a/arch/um/Makefile
-> > +++ b/arch/um/Makefile
-> > @@ -118,7 +118,9 @@ archprepare:
-> >  	$(Q)$(MAKE) $(build)=$(HOST_DIR)/um include/generated/user_constants.h
-> >  
-> >  LINK-$(CONFIG_LD_SCRIPT_STATIC) += -static
-> > -LINK-$(CONFIG_LD_SCRIPT_DYN) += $(call cc-option, -no-pie)
-> > +ifdef CONFIG_LD_SCRIPT_DYN
-> > +LINK-$(call gcc-min-version, 60100)$(CONFIG_CC_IS_CLANG) += -no-pie
 > 
-> 5.15 does not have support for gcc-min-version, so I think this just
-> breaks ARCH=um for GCC. I do not think this patch matters much in 5.15
-> and earlier, we only test ARCH=um with Linux 6.1 and newer, so it can be
-> dropped.
+> Please replace this patch with the attached series. While this patch
+> does fix this particular issue, commit 397586506c3d ("modpost: Add
+> '.ltext' and '.ltext.*' to TEXT_SECTIONS") is also needed to resolve all
+> errors with clang-18+ and ARCH=um. That commit needs a few (reasonable,
+> imo) prerequisite patches to apply cleanly without causing any build
+> warnings, as I point out on the 6.6 patch.
+> 
+> If there are any issues, please let me know.
 
-Thanks, now dropped.
+All now queued up, thanks!
 
 greg k-h
 
