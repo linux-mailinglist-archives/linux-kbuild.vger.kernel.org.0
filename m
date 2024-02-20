@@ -1,123 +1,86 @@
-Return-Path: <linux-kbuild+bounces-1003-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1005-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68E8185BAA2
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Feb 2024 12:31:50 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8543E85BD8F
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Feb 2024 14:49:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9FC9CB218E6
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Feb 2024 11:31:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3324A1F249F6
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Feb 2024 13:49:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0244664D4;
-	Tue, 20 Feb 2024 11:31:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GyoxAyW6"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A81836BB3F;
+	Tue, 20 Feb 2024 13:48:54 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C9B4657D7
-	for <linux-kbuild@vger.kernel.org>; Tue, 20 Feb 2024 11:31:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from elvis.franken.de (elvis.franken.de [193.175.24.41])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 912C569DFF;
+	Tue, 20 Feb 2024 13:48:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.175.24.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708428703; cv=none; b=dJM0C+6+KDT+EH13tfnv/ue8c46l1nAWgb6Eoe00rknwEk+s76YClK0RWy4bsaBZx+Kd+ZVD+WnW7iBhzKJz3rHtNXijCfNa2vzYvMEDOi2cMrghh2WfDUNl9EGNJJ2pyU72GAGsCNQyXAXXyhRxoSrJ2g5IvY9NPonqguZh9ok=
+	t=1708436934; cv=none; b=d9mD8hBPtQagykPxKbJnl48t9HvOzL8fcNy5x+KCQzjynYwrjMmmHWIrUDRGhd8KJ5cxC75hq4kJD2xIKKaNRza49CyNPQP6DAqsKEg0M0kzZ1cuGBcw+g7AT3dgvMBh4TfPmRqderxXqr1TAdRZxAC2BksbhukZidVt6RzGboE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708428703; c=relaxed/simple;
-	bh=x8l3YanFxYZru5A4b40SoXypi1/XbyL4t/qe0rTQZ0E=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Vfq5cCc6nwgFPv3aNSog/9PmW1zNCrMH9/4FPtS8cpch37WPQKUxkkm9vX2KTVz6dYgFUtp0XWajhyVi1ClmCIt0e1Z7GolUl03ZPnA9DjV4e+RjszY8GGPTHZhDZtVIGyxRgQg2Zd5xygLgCWIILf3au/MZtGJLrm8O247tg8s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GyoxAyW6; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A976C43390
-	for <linux-kbuild@vger.kernel.org>; Tue, 20 Feb 2024 11:31:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708428703;
-	bh=x8l3YanFxYZru5A4b40SoXypi1/XbyL4t/qe0rTQZ0E=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=GyoxAyW6nhcFwEl+WwjWhMLNRed7K/SJjK5rUhHU9Vj/w7H/fw5MOCXvrrD0oStve
-	 Jm7Pe4OhnpTB1gkKCxEtAEYpX5N2sAEJhqoCJpdnGLsHSICbLja2ZFb8te+S2SHg3l
-	 FJNuXXQFWmg3OjG8z7cLTVZQVdGQJmk3mPg1h/2g6KImluXrtBZEj8dPJ6ewefrqyu
-	 DmifZGljkwFpDA00HF//1mDjzdx3tkG9SqqjuLrIPi6//ONkmhXiegQYLKVOk2yTG+
-	 diUjpWodTHGRHHviAkv8GPjYNJropspFs0fDfHeGeMC/pk6yY2E0lccWdZ5oSGPRYQ
-	 Z/2sl4kSSc02w==
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2d22b8c6e0dso37098221fa.2
-        for <linux-kbuild@vger.kernel.org>; Tue, 20 Feb 2024 03:31:43 -0800 (PST)
-X-Gm-Message-State: AOJu0Yzwh3XT+wpIgOuMPkK+xRGBFtzX/nDJypuXVPM0FksMye94k9C/
-	GTGRiSQn88xO2jd++SQgM/DeywbdksvmjLQOmJKuqSS23TgLoBSM4JZ9MP8w6c+dT+Hg/eV2cbA
-	vareO8ZKimNJWTQGPyHVlI6s8gbc=
-X-Google-Smtp-Source: AGHT+IGOyaI6C3oilGNBfw9LxuZaqzLFSI0t6hjfa55k4Kz9DFhEK/9EUigpefVc1fIJLdQEhK8VzMj+2bLqnGSZdlQ=
-X-Received: by 2002:a2e:98c7:0:b0:2d2:2ada:9267 with SMTP id
- s7-20020a2e98c7000000b002d22ada9267mr6368766ljj.6.1708428701656; Tue, 20 Feb
- 2024 03:31:41 -0800 (PST)
+	s=arc-20240116; t=1708436934; c=relaxed/simple;
+	bh=FXC6OCaMo6PBra09rv0mQ7fmtDHn40tyIY5riwAomwY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LrujmuqsVy2d3VSWVnaKDHC+6/Z1QpTfMQpo/eq67d2a2/riCvtYD7XhqB9Wb+/CRunukMLljWUXA9eev+jEIYMf372prRGGDoOMe7SA6mTu3FD5mceAvGma/ucX0xrybsLzbvwuap8yuukiTgWKzxfQt2FrikJjbBHwrfLW9OY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=alpha.franken.de; spf=pass smtp.mailfrom=alpha.franken.de; arc=none smtp.client-ip=193.175.24.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=alpha.franken.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alpha.franken.de
+Received: from uucp by elvis.franken.de with local-rmail (Exim 3.36 #1)
+	id 1rcQUF-0007OQ-00; Tue, 20 Feb 2024 14:48:43 +0100
+Received: by alpha.franken.de (Postfix, from userid 1000)
+	id 99382C0694; Tue, 20 Feb 2024 14:38:24 +0100 (CET)
+Date: Tue, 20 Feb 2024 14:38:24 +0100
+From: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-mips@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/1] MIPS: move unselectable entries out of the "CPU
+ type" choice
+Message-ID: <ZdSrUKlV+Q37S3B7@alpha.franken.de>
+References: <20240127162309.1026549-1-masahiroy@kernel.org>
+ <20240127162309.1026549-2-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240216141016.11425-1-dev.mbstr@gmail.com>
-In-Reply-To: <20240216141016.11425-1-dev.mbstr@gmail.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 20 Feb 2024 20:31:05 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAR-gic2AJQFNO7s+-ovxTvCftBkeje7T-XQRganFvV3+w@mail.gmail.com>
-Message-ID: <CAK7LNAR-gic2AJQFNO7s+-ovxTvCftBkeje7T-XQRganFvV3+w@mail.gmail.com>
-Subject: Re: [PATCH] kconfig: lxdialog: fixed cursor render in checklist
-To: Matthew Bystrin <dev.mbstr@gmail.com>
-Cc: linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240127162309.1026549-2-masahiroy@kernel.org>
 
-On Fri, Feb 16, 2024 at 11:10=E2=80=AFPM Matthew Bystrin <dev.mbstr@gmail.c=
-om> wrote:
->
-> When a checklist is opened, the cursor is rendered in a wrong position
-> (after the last list element on the screen). You can observe it by
-> opening any checklist in menuconfig.
->
-> Added wmove() to set the cursor in the proper position, just like in
-> menubox.c. Removed wnoutrefresh(dialog) because dialog window has
-> already been updated in print_buttons(). Replaced wnoutrefresh(list) and
-> doupdate() calls with one wrefresh(list) call.
->
-> Signed-off-by: Matthew Bystrin <dev.mbstr@gmail.com>
-
-
-Applied to linux-kbuild.
-
-Thanks.
-
-
-
-
+On Sun, Jan 28, 2024 at 01:23:09AM +0900, Masahiro Yamada wrote:
+> Move the following entries out of the "CPU type" choice:
+> 
+>  - LOONGSON3_ENHANCEMENT
+>  - CPU_LOONGSON3_WORKAROUNDS
+>  - CPU_LOONGSON3_CPUCFG_EMULATION
+> 
+> These entries cannot be selected from the choice because they depend on
+> CPU_LOONGSON64, which is also located in the same choice.
+> 
+> In fact, Kconfig does not consider them as choice values because they
+> become children of CPU_LOOONGSON64 due to the automatic submenu creation
+> in menu_finalize().
+> 
+> However, it is hard to understand this behavior unless you are familiar
+> with the Kconfig internals.
+> 
+> "choice" should contain only selectable entries.
+> 
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > ---
->  scripts/kconfig/lxdialog/checklist.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
->
-> diff --git a/scripts/kconfig/lxdialog/checklist.c b/scripts/kconfig/lxdia=
-log/checklist.c
-> index fd161cfff121..31d0a89fbeb7 100644
-> --- a/scripts/kconfig/lxdialog/checklist.c
-> +++ b/scripts/kconfig/lxdialog/checklist.c
-> @@ -188,9 +188,8 @@ int dialog_checklist(const char *title, const char *p=
-rompt, int height,
->
->         print_buttons(dialog, height, width, 0);
->
-> -       wnoutrefresh(dialog);
-> -       wnoutrefresh(list);
-> -       doupdate();
-> +       wmove(list, choice, check_x + 1);
-> +       wrefresh(list);
->
->         while (key !=3D KEY_ESC) {
->                 key =3D wgetch(dialog);
-> --
-> 2.43.0
->
+> 
+>  arch/mips/Kconfig | 76 +++++++++++++++++++++++------------------------
+>  1 file changed, 38 insertions(+), 38 deletions(-)
 
+applied to mips-next.
 
---=20
-Best Regards
-Masahiro Yamada
+Thomas.
+
+-- 
+Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
+good idea.                                                [ RFC1925, 2.3 ]
 
