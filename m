@@ -1,130 +1,111 @@
-Return-Path: <linux-kbuild+bounces-999-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1000-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A98E85B0B2
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Feb 2024 03:03:39 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62F2485B426
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Feb 2024 08:44:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BAE70282DB4
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Feb 2024 02:03:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7BB2A1C2259A
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Feb 2024 07:44:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A2863D38F;
-	Tue, 20 Feb 2024 02:03:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F39285BAC3;
+	Tue, 20 Feb 2024 07:44:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="WgMAA/ST"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="WWUmHfkS"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B22C482D0
-	for <linux-kbuild@vger.kernel.org>; Tue, 20 Feb 2024 02:03:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C75012E3E8;
+	Tue, 20 Feb 2024 07:44:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708394607; cv=none; b=A8NjbTX/aXCFEZwv37bki//nDwT48vllPgAl2cPCfi14VXdcHip5qRsE85D98qAcy3tDxv+/UdmS9G/RxIzdxu8s7OXhvX46vRgMO9rwuQ17Y7NJGw4e4wFcNqStbG+Uyn9/r2k6xrQO4o+mugr9+Pi8LPJtgGgTniADk3hAles=
+	t=1708415075; cv=none; b=kS9aoL1lKh2RZrTL5KB0L9wcHuuCuUhGSASyqVGkK42aZu9y4TMNUjsG3Tny8mw4Vqpnxy+qG7DeO+Yzr5EImwTJB3tm2IJYYwIQgbjPYqWaHOfDTEhjXTL2M5bitshOObZAUye8pKP355fTUxSIs8u2vt8PTSXTf0e+rstQzrc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708394607; c=relaxed/simple;
-	bh=Gnb6UeNF8wLVhpCMEWjPwUvIUTFBjSPitOiRpAHZyvo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=r6OWASDnIY8rBlRs2K6vvuio67XSbQbAN23DbVgEQu3ceF0QoWKY1N9KXYEi37rtLQCVXUZe0YUO5s8XPeeJDT1LWqlYxqmfIJ+65nlWt93uy0aii8ioVGdh2AHpWm1jjyk1AtQ6b54f8SnvGOUZfx1g7S9LmUY1rM7PdBYu3CE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=WgMAA/ST; arc=none smtp.client-ip=209.85.219.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-6818a9fe3d4so30956216d6.0
-        for <linux-kbuild@vger.kernel.org>; Mon, 19 Feb 2024 18:03:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1708394604; x=1708999404; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Gnb6UeNF8wLVhpCMEWjPwUvIUTFBjSPitOiRpAHZyvo=;
-        b=WgMAA/STiB/qvfjvjrG/jJSQULFr1MXAdizCjimynkmkLV7KrPbwCRuiqj+eFWlZey
-         ENK+1pkkxNEnwLdt1jtnWdI/w26SjOALewXfv6MzeG6c3nNYUuMCOcjGHyoC7Ghki3yN
-         407vB36XgASQLg716JXns1FdQ1183fA3seAMM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708394604; x=1708999404;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Gnb6UeNF8wLVhpCMEWjPwUvIUTFBjSPitOiRpAHZyvo=;
-        b=Nn4np33TO/Tay7KOMZK5A0mpo4+vT2MnchxDpxL2eM+70D6ySr3aP8yjxWL1PwslJA
-         3llm1bkD3xdpB/tLtFYAK52QZWY1uFlb9HzLCnbxwSSvyguOazUMveruxMapPm/XOhMz
-         w+BagNMtI4UmTTCVKnvdW5Id8EyasU6NPpp6ab5RrL3QSYt1r8Mn5UFotwHn/wdrMMjA
-         HpXSeRCDdtvcSiNX1rrqJKAgVFBP5prfcOxnN7eezXbfU86e1tUNUOIqd4aqqCOAGT2b
-         6ITtjggWj6TO9YOJRMaAoWho169UFVaJo/Lvyrj9z3ZTWCqsD61yV8YGv0qPYwez1mqs
-         3ufw==
-X-Forwarded-Encrypted: i=1; AJvYcCUdK0srQ2wkkIKhfpLatc6DxFAtNLbRTsA8CnFiMq8HpJVjHXzS6e3jufFMTHcFrE0MSRpOJgYLz8p4oz0rLUO3pnwmD7gZdBMDlNSO
-X-Gm-Message-State: AOJu0YyxK35FOMtu1kICTqR3fSgEKJKiGVpTkM5D267htKXAGj03Lzck
-	6LnxEW6J0NEG3eAMXmXrTNs3vsjeip6Mnij4+QWl2qTqx7xDys21fh5BETCz45n6QMmA9yo+jC+
-	teZblZni9rxi18rdjrheDvxNAOhAAETwRywIU
-X-Google-Smtp-Source: AGHT+IGF6BQP5pn2526eKzx1V1UxSN69r2M8tzxCVxzYihvQCKzBXtYAv8IY9wOCr55gIl0rUtAWPW+D8gzwvDmYkHg=
-X-Received: by 2002:a0c:e34e:0:b0:68f:301b:548b with SMTP id
- a14-20020a0ce34e000000b0068f301b548bmr9381595qvm.0.1708394603974; Mon, 19 Feb
- 2024 18:03:23 -0800 (PST)
+	s=arc-20240116; t=1708415075; c=relaxed/simple;
+	bh=CznrFdPtCoaliazdwCgiulJp4ke67wDPBiwMR9GbTfc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ROggRpc6c4otMGuropbzDy/OdENOltpAIJrSu+jdTSk8YmR3hmALB2J8yz/goNY6GLPii1IrRmX8034rmR+9qGndGQOJ4KArt/yBnV/VELaITce3FbfGZctSJCPCKV8r2bBp/ZQljOAEtczS/7DF6aY7+Nzj0S93U0b7afdyNkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=WWUmHfkS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 899DBC433C7;
+	Tue, 20 Feb 2024 07:44:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1708415075;
+	bh=CznrFdPtCoaliazdwCgiulJp4ke67wDPBiwMR9GbTfc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WWUmHfkSzFJ13DF9oBGaY+Wx7o0hkMRjPpee4RUv8LvDxz65SqLNbDKCSq325C9ls
+	 FnjuuRgUXKNTXLqlLPKetVPmcYy3nP2tEwroU8D214OgBoyLfTnPCpfSFoHelzEuxE
+	 /imjCSByZOPn9iQNnnVR2ocNsdk8Owq4jClOtd1E=
+Date: Tue, 20 Feb 2024 08:44:26 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: masahiroy@kernel.org, stable-commits@vger.kernel.org,
+	llvm@lists.linux.dev, linux-kbuild@vger.kernel.org
+Subject: Re: Patch "modpost: Add '.ltext' and '.ltext.*' to TEXT_SECTIONS"
+ has been added to the 6.6-stable tree
+Message-ID: <2024022009-concur-slum-8043@gregkh>
+References: <2024021932-overpass-stinger-b897@gregkh>
+ <20240219190409.GB2348301@dev-arch.thelio-3990X>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240202173034.221790-1-sjg@chromium.org> <20240202173034.221790-3-sjg@chromium.org>
-In-Reply-To: <20240202173034.221790-3-sjg@chromium.org>
-From: Simon Glass <sjg@chromium.org>
-Date: Mon, 19 Feb 2024 19:03:13 -0700
-Message-ID: <CAFLszThi29VCh2rKzvouW6rSpLq5E=uOzWLASO2-CE3Jw_1NUA@mail.gmail.com>
-Subject: Re: [PATCH v10 2/2] arm64: boot: Support Flat Image Tree
-To: linux-arm-kernel@lists.infradead.org
-Cc: Ahmad Fatoum <a.fatoum@pengutronix.de>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>, 
-	Will Deacon <will@kernel.org>, linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, workflows@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240219190409.GB2348301@dev-arch.thelio-3990X>
 
-Hi,
+On Mon, Feb 19, 2024 at 12:04:09PM -0700, Nathan Chancellor wrote:
+> Hi Greg,
+> 
+> On Mon, Feb 19, 2024 at 05:28:33PM +0100, gregkh@linuxfoundation.org wrote:
+> > 
+> > This is a note to let you know that I've just added the patch titled
+> > 
+> >     modpost: Add '.ltext' and '.ltext.*' to TEXT_SECTIONS
+> > 
+> > to the 6.6-stable tree which can be found at:
+> >     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+> > 
+> > The filename of the patch is:
+> >      modpost-add-.ltext-and-.ltext.-to-text_sections.patch
+> > and it can be found in the queue-6.6 subdirectory.
+> > 
+> > If you, or anyone else, feels it should not be added to the stable tree,
+> > please let <stable@vger.kernel.org> know about it.
+> > 
+> > 
+> > From 397586506c3da005b9333ce5947ad01e8018a3be Mon Sep 17 00:00:00 2001
+> > From: Nathan Chancellor <nathan@kernel.org>
+> > Date: Tue, 23 Jan 2024 15:59:55 -0700
+> > Subject: modpost: Add '.ltext' and '.ltext.*' to TEXT_SECTIONS
+> > 
+> > From: Nathan Chancellor <nathan@kernel.org>
+> > 
+> > commit 397586506c3da005b9333ce5947ad01e8018a3be upstream.
+> 
+> Please apply upstream commit 6a4e59eeedc3 ("linux/init: remove __memexit*
+> annotations") before this change, as there is a warning in modpost
+> without it:
+> 
+>   scripts/mod/modpost.c:916:37: warning: excess elements in array initializer [-Wexcess-initializers]
+>     916 |         .good_tosec = {ALL_TEXT_SECTIONS , NULL},
+>         |                                            ^~~~
+>   .../lib/clang/19/include/__stddef_null.h:26:14: note: expanded from macro 'NULL'
+>      26 | #define NULL ((void*)0)
+>         |              ^~~~~~~~~~
+>   1 warning generated.
+> 
+> It applies cleanly with 'git format-patch | patch' for me and I don't
+> think it is unreasonable as a fix for this issue in stable.
+> 
+> This will be needed in 6.1 as well but that backport is a little more
+> involved, I will reply there with an mbox series.
 
-On Fri, 2 Feb 2024 at 10:30, Simon Glass <sjg@chromium.org> wrote:
->
-> Add a script which produces a Flat Image Tree (FIT), a single file
-> containing the built kernel and associated devicetree files.
-> Compression defaults to gzip which gives a good balance of size and
-> performance.
->
-> The files compress from about 86MB to 24MB using this approach.
->
-> The FIT can be used by bootloaders which support it, such as U-Boot
-> and Linuxboot. It permits automatic selection of the correct
-> devicetree, matching the compatible string of the running board with
-> the closest compatible string in the FIT. There is no need for
-> filenames or other workarounds.
->
-> Add a 'make image.fit' build target for arm64, as well.
->
-> The FIT can be examined using 'dumpimage -l'.
->
-> This uses the 'dtbs-list' file but processes only .dtb files, ignoring
-> the overlay .dtbo files.
->
-> This features requires pylibfdt (use 'pip install libfdt'). It also
-> requires compression utilities for the algorithm being used. Supported
-> compression options are the same as the Image.xxx files. Use
-> FIT_COMPRESSION to select an algorithm other than gzip.
->
-> While FIT supports a ramdisk / initrd, no attempt is made to support
-> this here, since it must be built separately from the Linux build.
->
-> Signed-off-by: Simon Glass <sjg@chromium.org>
-> ---
->
-> Changes in v10:
-> - Make use of dtbs-list file
-> - Mention dtbs-list and FIT_COMPRESSION
-> - Update copyright year
-> - Update cover letter to take account of an applied patch
->
+Thanks, that fixed the build warning!
 
-Is there any news on this patch, please?
-
-Regards,
-Simon
+greg k-h
 
