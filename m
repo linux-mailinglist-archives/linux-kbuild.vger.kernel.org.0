@@ -1,34 +1,34 @@
-Return-Path: <linux-kbuild+bounces-1020-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1019-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16B2185E0C4
-	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Feb 2024 16:17:27 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 122B085E0A5
+	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Feb 2024 16:12:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6FD382871B1
-	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Feb 2024 15:17:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 448BD1C21C70
+	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Feb 2024 15:12:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96E2380030;
-	Wed, 21 Feb 2024 15:17:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9537580632;
+	Wed, 21 Feb 2024 15:12:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b="pwJRn3gW"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b="PJi/yWQg"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E86DBC158;
-	Wed, 21 Feb 2024 15:17:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FBF77BB10;
+	Wed, 21 Feb 2024 15:12:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.63.252.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708528642; cv=none; b=e8Z25Bp4n+GeaW0NzxWZrr6Ge92I+Pen96ImAa7lfTe9j479hfb4dF4UP0vXMenvm1h/HkncR4HleRQhe8SFxoT3ImcGz/hr+6AvVkG1loY5MMASv+AXNKGsjfYcvJpmtSJd9+lQKhBWhT8CtpYyCI60jbAoz5WtbrXHKvyVth0=
+	t=1708528334; cv=none; b=SdLVVxoPiK4GfiGjr2E0nnngYtYC8kfqOohggXxlG67a4sNliWfvBDWPvPIoPqYc9Ch+cGzkvR02J+2HC0CcufAxmApvT5KDPDDeejjD5K4A36P6esZYwYG5uAB5sZYItz9nNEnxddSiccsp48WCtu5LJ/EZIniO6gWhGjVDSiU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708528642; c=relaxed/simple;
-	bh=agYNnPPCIH97KdPKC1Nh/AulnVyocy0+9HILSckMPjo=;
+	s=arc-20240116; t=1708528334; c=relaxed/simple;
+	bh=6Fh7lpaC6pNfSFrltqbIXgLkWxOT6eywJS4r6URXbGQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bsHyo6km/7A+2vcIn5fBiKyK2A65zaWQzqPJb+JTud+71PdVpLg1/hGbhh2PV+fcu8oTFIfx5SlR3LJJe4+cvMCveJeu4zk2DiUthivfVBjVYi7U269F6ArUceFPmVu5MudM5tzB/Me0LfQRtnOclpU6ljrL86/wx+bsF8smeiY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu; spf=pass smtp.mailfrom=fjasle.eu; dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b=pwJRn3gW; arc=none smtp.client-ip=194.63.252.55
+	 Content-Type:Content-Disposition:In-Reply-To; b=Jkw1xHlthSXzE72BX8R1EOunExrD5osDh3S/uoZBaXaGoNwl8/td9aRYMFm8BK+ssZrPLJYuoaM9aaqOFDSqklyOp+DteyPOYtiE95f1jOPjN6rpuhAYJPG1vobJ9JSBYkbOtei92Xc2+1Wb81amjF0we7yxLe8913djXwivvPk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu; spf=pass smtp.mailfrom=fjasle.eu; dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b=PJi/yWQg; arc=none smtp.client-ip=194.63.252.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fjasle.eu
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=fjasle.eu;
@@ -37,34 +37,28 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=fjasle.eu;
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
 	List-Post:List-Owner:List-Archive;
-	bh=9oIgh7QORtk7teQwyM71RcR4VU3ANbMHY2WNi9H443M=; b=pwJRn3gWdD6aejhtap3HU+yeUl
-	iQ2W4LQ5bMVhHqaYWVNmdws1Nb4FqB74C2m6mhbtFtNUApeOKIdhCvzqqaM4+Cph1TzjjZ5KOwm3L
-	RZ0TW8amloLdHokN9UyYZ5OCt+/gioMZTT+oTZUE6A8DzgNaWsSh4YtDuz1lAcwosOWD6OnzLllXZ
-	odwelyI6Ht4gfCVmbZTRnGutXlbfnxi0nzymmkee8VbaWOKeF5KIKyjZzzbJ3hpjRHd3ICuRQSDG9
-	ilcBwKlqdlUD3TpK+t/ecNl6leBbZOSZfYqDhBAe9aDX5ZbbYj4xoJFDK5bFoKcoPvhzqk74EdfTZ
-	W4CCsuDA==;
-Received: from dynamic-176-000-161-131.176.0.pool.telefonica.de ([176.0.161.131]:27469 helo=bergen.fjasle.eu)
+	bh=8OXzSw7Lbz7R+v639wcrlzlha3nK0uEfq5ZdlSY7S9w=; b=PJi/yWQgTvd+YJLdjTOYDlleCn
+	Tkt73178X7GXBrOZhTs5oH9nhqyMA0fbkmqCEZuODGkGqoBJI685o+LYz4g2xBkiUR1vncRg47tjW
+	Xdojrno4ZK4enOxERxn2j0oQzgOQMEn+vSmrbFXvS4BfHNTA1xeR/lbW2gkSNQStCVOiFTTTBSe7j
+	gXdmw1Om8QUBZg2T5ZxPjlA93+3A+GEJOt3gs5SRAUXztAyJcGIUU2e4KERFZpmx6D2FOEdXZ8DUZ
+	WhxbhiZgdgurwfUtpPIpuHw7u2RFIhXM5c8t7OMQ0WUjnT2Myb0sIev2CsZc53bk27rAaLI7wK7tG
+	fMzESG7A==;
+Received: from dynamic-176-000-161-131.176.0.pool.telefonica.de ([176.0.161.131]:27360 helo=bergen.fjasle.eu)
 	by smtp.domeneshop.no with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.95)
 	(envelope-from <nicolas@fjasle.eu>)
-	id 1rcoG6-00DNv3-WC;
-	Wed, 21 Feb 2024 16:11:43 +0100
-Date: Wed, 21 Feb 2024 16:11:36 +0100
+	id 1rcoGS-00DO5M-8M;
+	Wed, 21 Feb 2024 16:12:04 +0100
+Date: Wed, 21 Feb 2024 16:12:00 +0100
 From: Nicolas Schier <nicolas@fjasle.eu>
 To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, Andy Lutomirski <luto@kernel.org>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Thomas Gleixner <tglx@linutronix.de>, kvm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH 1/2] kbuild: change tool coverage variables to take the
+Cc: linux-kbuild@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] kbuild: change DTC_FLAGS_<basetarget>.o to take the
  path relative to $(obj)
-Message-ID: <ZdYSqKnJqiiBnQHu@bergen.fjasle.eu>
+Message-ID: <ZdYSwGUlOpGdAFVU@bergen.fjasle.eu>
 References: <20240217055504.2059803-1-masahiroy@kernel.org>
+ <20240217055504.2059803-2-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -72,218 +66,68 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="5qX+0rpWSE2BInwC"
+	protocol="application/pgp-signature"; boundary="na7oD77FSrV7Zoi7"
 Content-Disposition: inline
-In-Reply-To: <20240217055504.2059803-1-masahiroy@kernel.org>
+In-Reply-To: <20240217055504.2059803-2-masahiroy@kernel.org>
 X-Operating-System: Debian GNU/Linux trixie/sid
 Jabber-ID: nicolas@jabber.no
 
 
---5qX+0rpWSE2BInwC
+--na7oD77FSrV7Zoi7
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sat 17 Feb 2024 14:55:03 GMT, Masahiro Yamada wrote:
-> Commit 54b8ae66ae1a ("kbuild: change *FLAGS_<basetarget>.o to take the
-> path relative to $(obj)") changed the syntax of per-file compiler flags.
->=20
-> The situation is the same for the following variables:
->=20
->   OBJECT_FILES_NON_STANDARD_<basetarget>.o
->   GCOV_PROFILE_<basetarget>.o
->   KASAN_SANITIZE_<basetarget>.o
->   KMSAN_SANITIZE_<basetarget>.o
->   KMSAN_ENABLE_CHECKS_<basetarget>.o
->   UBSAN_SANITIZE_<basetarget>.o
->   KCOV_INSTRUMENT_<basetarget>.o
->   KCSAN_SANITIZE_<basetarget>.o
->   KCSAN_INSTRUMENT_BARRIERS_<basetarget>.o
->=20
-> The <basetarget> is the filename of the target with its directory and
-> suffix stripped.
->=20
-> This syntax comes into a trouble when two files with the same basename
-> appear in one Makefile, for example:
->=20
->   obj-y +=3D dir1/foo.o
->   obj-y +=3D dir2/foo.o
->   OBJECT_FILES_NON_STANDARD_foo.o :=3D y
->=20
-> OBJECT_FILES_NON_STANDARD_foo.o is applied to both dir1/foo.o and
-> dir2/foo.o. This syntax is not flexbile enough to handle cases where
-> one of them is a standard object, but the other is not.
->=20
-> It is more sensible to use the relative path to the Makefile, like this:
->=20
->   obj-y +=3D dir1/foo.o
->   OBJECT_FILES_NON_STANDARD_dir1/foo.o :=3D y
->   obj-y +=3D dir2/foo.o
->   OBJECT_FILES_NON_STANDARD_dir2/foo.o :=3D y
->=20
-> To maintain the current behavior, I made adjustments to two Makefiles:
->=20
->  - arch/x86/entry/vdso/Makefile, which compiles vclock_gettime.o and
->    vdso32/vclock_gettime.o
->=20
->  - arch/x86/kvm/Makefile, which compiles vmx/vmenter.o and svm/vmenter.o
+On Sat 17 Feb 2024 14:55:04 GMT, Masahiro Yamada wrote:
+> For the same rationale as commit 54b8ae66ae1a ("kbuild: change
+> *FLAGS_<basetarget>.o to take the path relative to $(obj)").
 >=20
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > ---
 >=20
->  arch/x86/entry/vdso/Makefile |  2 ++
->  arch/x86/kvm/Makefile        |  3 ++-
->  scripts/Makefile.build       |  2 +-
->  scripts/Makefile.lib         | 16 ++++++++--------
->  4 files changed, 13 insertions(+), 10 deletions(-)
+>  scripts/Makefile.lib | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> diff --git a/arch/x86/entry/vdso/Makefile b/arch/x86/entry/vdso/Makefile
-> index 7a97b17f28b7..148adfdb2325 100644
-> --- a/arch/x86/entry/vdso/Makefile
-> +++ b/arch/x86/entry/vdso/Makefile
-> @@ -9,7 +9,9 @@ include $(srctree)/lib/vdso/Makefile
->  # Sanitizer runtimes are unavailable and cannot be linked here.
->  KASAN_SANITIZE			:=3D n
->  KMSAN_SANITIZE_vclock_gettime.o :=3D n
-> +KMSAN_SANITIZE_vdso32/vclock_gettime.o	:=3D n
->  KMSAN_SANITIZE_vgetcpu.o	:=3D n
-> +KMSAN_SANITIZE_vdso32/vgetcpu.o	:=3D n
-> =20
->  UBSAN_SANITIZE			:=3D n
->  KCSAN_SANITIZE			:=3D n
-> diff --git a/arch/x86/kvm/Makefile b/arch/x86/kvm/Makefile
-> index 475b5fa917a6..a88bb14266b6 100644
-> --- a/arch/x86/kvm/Makefile
-> +++ b/arch/x86/kvm/Makefile
-> @@ -4,7 +4,8 @@ ccflags-y +=3D -I $(srctree)/arch/x86/kvm
->  ccflags-$(CONFIG_KVM_WERROR) +=3D -Werror
-> =20
->  ifeq ($(CONFIG_FRAME_POINTER),y)
-> -OBJECT_FILES_NON_STANDARD_vmenter.o :=3D y
-> +OBJECT_FILES_NON_STANDARD_vmx/vmenter.o :=3D y
-> +OBJECT_FILES_NON_STANDARD_svm/vmenter.o :=3D y
->  endif
-> =20
->  include $(srctree)/virt/kvm/Makefile.kvm
-> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> index 4971f54c855e..256db2a0e984 100644
-> --- a/scripts/Makefile.build
-> +++ b/scripts/Makefile.build
-> @@ -214,7 +214,7 @@ endif # CONFIG_FTRACE_MCOUNT_USE_RECORDMCOUNT
->  # 'OBJECT_FILES_NON_STANDARD_foo.o :=3D 'y': skip objtool checking for a=
- file
->  # 'OBJECT_FILES_NON_STANDARD_foo.o :=3D 'n': override directory skip for=
- a file
-> =20
-> -is-standard-object =3D $(if $(filter-out y%, $(OBJECT_FILES_NON_STANDARD=
-_$(basetarget).o)$(OBJECT_FILES_NON_STANDARD)n),y)
-> +is-standard-object =3D $(if $(filter-out y%, $(OBJECT_FILES_NON_STANDARD=
-_$(target-stem).o)$(OBJECT_FILES_NON_STANDARD)n),y)
-> =20
->  $(obj)/%.o: objtool-enabled =3D $(if $(is-standard-object),$(if $(delay-=
-objtool),$(is-single-obj-m),y))
-> =20
 > diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> index b35d39022a30..328c0d77ed48 100644
+> index 328c0d77ed48..56f7fe2b476d 100644
 > --- a/scripts/Makefile.lib
 > +++ b/scripts/Makefile.lib
-> @@ -154,7 +154,7 @@ _cpp_flags     =3D $(KBUILD_CPPFLAGS) $(cppflags-y) $=
-(CPPFLAGS_$(target-stem).lds)
->  #
->  ifeq ($(CONFIG_GCOV_KERNEL),y)
->  _c_flags +=3D $(if $(patsubst n%,, \
-> -		$(GCOV_PROFILE_$(basetarget).o)$(GCOV_PROFILE)$(CONFIG_GCOV_PROFILE_AL=
-L)), \
-> +		$(GCOV_PROFILE_$(target-stem).o)$(GCOV_PROFILE)$(CONFIG_GCOV_PROFILE_A=
-LL)), \
->  		$(CFLAGS_GCOV))
+> @@ -368,7 +368,7 @@ DTC_FLAGS +=3D -Wnode_name_chars_strict \
+>  	-Wunique_unit_address
 >  endif
 > =20
-> @@ -165,29 +165,29 @@ endif
->  ifeq ($(CONFIG_KASAN),y)
->  ifneq ($(CONFIG_KASAN_HW_TAGS),y)
->  _c_flags +=3D $(if $(patsubst n%,, \
-> -		$(KASAN_SANITIZE_$(basetarget).o)$(KASAN_SANITIZE)y), \
-> +		$(KASAN_SANITIZE_$(target-stem).o)$(KASAN_SANITIZE)y), \
->  		$(CFLAGS_KASAN), $(CFLAGS_KASAN_NOSANITIZE))
->  endif
->  endif
+> -DTC_FLAGS +=3D $(DTC_FLAGS_$(basetarget))
+> +DTC_FLAGS +=3D $(DTC_FLAGS_$(target-stem))
 > =20
->  ifeq ($(CONFIG_KMSAN),y)
->  _c_flags +=3D $(if $(patsubst n%,, \
-> -		$(KMSAN_SANITIZE_$(basetarget).o)$(KMSAN_SANITIZE)y), \
-> +		$(KMSAN_SANITIZE_$(target-stem).o)$(KMSAN_SANITIZE)y), \
->  		$(CFLAGS_KMSAN))
->  _c_flags +=3D $(if $(patsubst n%,, \
-> -		$(KMSAN_ENABLE_CHECKS_$(basetarget).o)$(KMSAN_ENABLE_CHECKS)y), \
-> +		$(KMSAN_ENABLE_CHECKS_$(target-stem).o)$(KMSAN_ENABLE_CHECKS)y), \
->  		, -mllvm -msan-disable-checks=3D1)
->  endif
-> =20
->  ifeq ($(CONFIG_UBSAN),y)
->  _c_flags +=3D $(if $(patsubst n%,, \
-> -		$(UBSAN_SANITIZE_$(basetarget).o)$(UBSAN_SANITIZE)$(CONFIG_UBSAN_SANIT=
-IZE_ALL)), \
-> +		$(UBSAN_SANITIZE_$(target-stem).o)$(UBSAN_SANITIZE)$(CONFIG_UBSAN_SANI=
-TIZE_ALL)), \
->  		$(CFLAGS_UBSAN))
->  endif
-> =20
->  ifeq ($(CONFIG_KCOV),y)
->  _c_flags +=3D $(if $(patsubst n%,, \
-> -	$(KCOV_INSTRUMENT_$(basetarget).o)$(KCOV_INSTRUMENT)$(CONFIG_KCOV_INSTR=
-UMENT_ALL)), \
-> +	$(KCOV_INSTRUMENT_$(target-stem).o)$(KCOV_INSTRUMENT)$(CONFIG_KCOV_INST=
-RUMENT_ALL)), \
->  	$(CFLAGS_KCOV))
->  endif
-> =20
-> @@ -197,12 +197,12 @@ endif
->  #
->  ifeq ($(CONFIG_KCSAN),y)
->  _c_flags +=3D $(if $(patsubst n%,, \
-> -	$(KCSAN_SANITIZE_$(basetarget).o)$(KCSAN_SANITIZE)y), \
-> +	$(KCSAN_SANITIZE_$(target-stem).o)$(KCSAN_SANITIZE)y), \
->  	$(CFLAGS_KCSAN))
->  # Some uninstrumented files provide implied barriers required to avoid f=
-alse
->  # positives: set KCSAN_INSTRUMENT_BARRIERS for barrier instrumentation o=
-nly.
->  _c_flags +=3D $(if $(patsubst n%,, \
-> -	$(KCSAN_INSTRUMENT_BARRIERS_$(basetarget).o)$(KCSAN_INSTRUMENT_BARRIERS=
-)n), \
-> +	$(KCSAN_INSTRUMENT_BARRIERS_$(target-stem).o)$(KCSAN_INSTRUMENT_BARRIER=
-S)n), \
->  	-D__KCSAN_INSTRUMENT_BARRIERS__)
->  endif
-> =20
+>  # Set -@ if the target is a base DTB that overlay is applied onto
+>  DTC_FLAGS +=3D $(if $(filter $(patsubst $(obj)/%,%,$@), $(base-dtb-y)), =
+-@)
 > --=20
 > 2.40.1
 >=20
-
-Looks good to me!
+>=20
 
 Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
 
---5qX+0rpWSE2BInwC
+--na7oD77FSrV7Zoi7
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmXWEqMACgkQB1IKcBYm
-Emmh5RAAsoH93ItGYSneI0D+OnqwrEyqw11ht+RFBPgQbdR3fN014CVhL5A9B1EG
-1Qa5v+IiOzX5p4kykduJchoYFpuZKBcimTOsTLnhp/QL8vfdR1mmiVHaKg3hhjUi
-NiEdFeeV2kWNzPf5jfIltmdiNTDyfR/nGiohEwgq+x9jq6uf05u/iPmFBgflw62o
-nGR7xu2dyM0+OntMX7LoMeZ5uSjwWeRiBX0czE8aJjp4iOCgDHle/JS9k2VQCgeS
-YPyyuRaSvKQg6arUFeYSGFjiN7fWw/WYVeDSkQPIUl/W7VzFfj0EfuIysN/b0Hzu
-cV0jkEP720Ytd4nDIWVgea1H1hsElKTU3N7sk4CfhOkIlkrU+2ARIE0bwbHLt6mZ
-I1HmPBBQoPlype+MwIzVP0YnRKjjDCoL0EecKL2mcGUY0W3g0lDbp2HXIeJ8rzt2
-c5BlEOo1SeX4xC3yMYXcpIQGFl1x8u3/RuY5jqeCryvJxvSwSwPWrRF66VG2ldmS
-3+ni4ydMpAd14E7cqnOqXpWr5k7Ygt3NLBN4RTYHkEmQgI2suPXxPS2AmzwL7hJm
-dmF1MIi+Qu2muEgCLqp04SnzXG5oDscWrDWdkxd+n2FLBFLWgBcsdQc+ozfzm/i8
-KtKHUMwHc4Xy2NDLthAciVxWbgf6UnRwuZhO4WPEEJ6Xb2pJyhQ=
-=409f
+iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmXWEsAACgkQB1IKcBYm
+Emm7Zw//bbaXDl+Kl5/Xx+uGvpJQJSvBMGDA8izA45IOGNeSK8/0HPitNQiVWDEh
+McJc9oVxm64BAl0ilHeHJGCgatlaaR3Mp4ysquu6fLUltPOp74DeVNCBV4l8BgFW
+SGCs46fIx1sF/v6u9YxYVKmDJPuJzPLNy8PgtE3xy4UcALAaesle4pN4rd7vu4HZ
+vS4cEALbP8Hdp/vLdVK5Fd6QYmeAbO8s8vqzC+Q8TZsPtCMzxbN8/kLXXUrPpoog
+j8o8cYzZg/bH/zJioNk8dQeP44zh/q3LMiM4w1Zpv0JNsxj9uvjPryMxhxqgH1RF
+FazT/u7HRHmiPcbkJsMewhwU7cUoaELPIqtRxQ0wfWReOxRSyoZqDXmtgtaEx10S
+6C0uZSg7USJjF+DRHKzm2Nk8NnKiZFP9ddpskzC4/+GbBDJJihfssodFfKHT+Uie
+ptt0Za4jfeRz/pCrLhNDyJUGogqtcGSICxighMiIy1eZ17ySVMD6h18W4mE7VJbQ
+M0kZC4/VLeLN7dQ0bMZdcvd9C9JQzzWic7DFoYCAbB3E6GKPMg2Iua1a3tqlo2TP
+pa8g0iFJmQqAUyqCV7mEBGf1sG7AlNGX/LYruAX9bkNoAfIOxu48CmMx2N9UO8PQ
+497DiBpodajTKbb//t1arP4Y2CHNn1kPbk5M4OJZl1pePJzycUI=
+=9nFd
 -----END PGP SIGNATURE-----
 
---5qX+0rpWSE2BInwC--
+--na7oD77FSrV7Zoi7--
 
