@@ -1,48 +1,46 @@
-Return-Path: <linux-kbuild+bounces-1028-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1031-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 670A385EC9A
-	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Feb 2024 00:17:00 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDFC485ECE7
+	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Feb 2024 00:29:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C49B91F2342E
-	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Feb 2024 23:16:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 50A0F1F23A8C
+	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Feb 2024 23:29:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 232DA8663D;
-	Wed, 21 Feb 2024 23:16:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E20C833062;
+	Wed, 21 Feb 2024 23:29:19 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from mailhost.m5p.com (mailhost.m5p.com [74.104.188.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0508C3EA8E
-	for <linux-kbuild@vger.kernel.org>; Wed, 21 Feb 2024 23:16:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6FDC1E485
+	for <linux-kbuild@vger.kernel.org>; Wed, 21 Feb 2024 23:29:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.104.188.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708557415; cv=none; b=nXwFLpppQ3AhHbqrgAwPnhos63/lqhZQXPxpiFQ/NeJlBVA8RGT6qRC7nWZYbmvLySFxO9LMllGzSmrAyk+rf8sPSqLD7zF5m2ZlTkMVi8yeF2UXNUBcjskoHJQIcL8b7WJt+fPL+yBHYKy2NS4FpXtCDB/y8m7OZAlnJa81U7I=
+	t=1708558159; cv=none; b=m3tFY6D2WWueJPd989g/7BMW7OgV4KFfm8f9GfZ3RG9y1Zp4QVG/U925/v7g0rgf02EykpTZZkeP3mtPH2nTKnz+DJLiOOH1wez+ttCMFoe+Eji8wcSepOc/6mtnkfcf/stIR2wxgJ9BFrJTz2RsnC0eHgn7ZEBe9ORLv9VBSBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708557415; c=relaxed/simple;
-	bh=ENBz9WHTzaYFbwqUAG5oLTvsRAprTXEgiBfkXPqlg7E=;
-	h=Message-Id:In-Reply-To:References:From:Date:Subject:To:Cc; b=rdM8MJMDRVACv54qEnUUHf6fPALEZ7Ii3TiEAcFClw4aqQRTL/hkjBE8RTWnkUOX4/cbdHkLyVrN+eO2BVlG7vp3RKMxYtVaTtGqKlu17En+EFIOXsFf6P41R/YsvqzTTbtBPBgH9QXCfvtFmAAen5uM6PyBH4h6BWfFGiJLrWI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=drgnwing.com; spf=pass smtp.mailfrom=m5p.com; arc=none smtp.client-ip=74.104.188.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=drgnwing.com
+	s=arc-20240116; t=1708558159; c=relaxed/simple;
+	bh=YsMrQ06wkPCOCZy/SHznkK4uv7ZNbm1Iwa7Jxdxs38Q=;
+	h=Message-Id:From:Date:Subject:To:Cc; b=P96oKZF/HjT4NjQ46Y+lF/MYmrNaBLoThgARQB8ERfBo7v8QAgird8FsqIUgwGL9g4tJHairH79QM8RLSmZ/p1/rUIHOPnAhD9yn9mi3OSAKl993JwWdzFnfjVJUx4s8c+NeH+VMou3eQrdbBa7rNt7PExmtzCmB9jUbpNwDirM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=m5p.com; spf=pass smtp.mailfrom=m5p.com; arc=none smtp.client-ip=74.104.188.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=m5p.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=m5p.com
 Received: from m5p.com (mailhost.m5p.com [IPv6:2001:470:1f07:15ff:0:0:0:f7])
-	by mailhost.m5p.com (8.17.1/8.15.2) with ESMTPS id 41LNGTsd041146
+	by mailhost.m5p.com (8.17.1/8.15.2) with ESMTPS id 41LNFnJs041117
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-	Wed, 21 Feb 2024 18:16:35 -0500 (EST)
+	Wed, 21 Feb 2024 18:15:55 -0500 (EST)
 	(envelope-from ehem@m5p.com)
 Received: (from ehem@localhost)
-	by m5p.com (8.17.1/8.15.2/Submit) id 41LNGTR0041143;
-	Wed, 21 Feb 2024 15:16:29 -0800 (PST)
+	by m5p.com (8.17.1/8.15.2/Submit) id 41LNFllc041116;
+	Wed, 21 Feb 2024 15:15:47 -0800 (PST)
 	(envelope-from ehem)
-Message-Id: <b3207b3dc5df34b43e1aa40a91e255ab9ae069a4.1708478592.git.ehem+linux@m5p.com>
-In-Reply-To: <cover.1708478591.git.ehem+linux@m5p.com>
-References: <cover.1708478591.git.ehem+linux@m5p.com>
-From: Elliott Mitchell <ehem+raspberrypi@drgnwing.com>
-Date: Tue, 20 Feb 2024 09:13:37 -0800
-Subject: [PATCH RFC 1/3] build: add trailing slash to $(srctree)
+Message-Id: <cover.1708478591.git.ehem+linux@m5p.com>
+From: Elliott Mitchell <ehem+linux@m5p.com>
+Date: Tue, 20 Feb 2024 17:23:11 -0800
+Subject: [PATCH RFC 0/3] Adding trailing slash to $(srctree)
 To: masahiroy@kernel.org, nathan@kernel.org, nicolas@fjasle.eu
 Cc: linux-kbuild@vger.kernel.org
 Precedence: bulk
@@ -51,486 +49,345 @@ List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 
-This better handles the case of $(srctree) being the current directory
-and $(src) being an absolute path.  Instead of being ".", $(srctree)
-ends up empty, and $(src) can be directly appended.
+The subject states exactly what I'm suggesting.
 
-Signed-off-by: Elliott Mitchell <ehem+linux@m5p.com>
----
-I suspect the Makefile sections besides the top-level are attempting to
-solve the *exact* *same* issue.  Problem is that workaround requires
-changes in every Makefile, whereas this looks closer to the root cause.
+The reason is the fallback value for $(srctree) of "." doesn't work
+properly in several places under some conditions.  In particular in
+several places a pattern of "$(srctree)/$(src)" is used.  If $(srctree)
+ends up with the value "." and $(src) ends up with the value `pwd`, the
+build breaks.  This can be triggered via in-tree/out-of-tree build
+mechanisms.
 
-I'm less than 100% sure I've avoided all spacing changes.  I forget
-where, but I seem to recall running into a space which was instead a tab.
----
- Makefile                                    | 8 ++++----
- tools/bootconfig/Makefile                   | 4 ++--
- tools/bpf/Makefile                          | 4 ++--
- tools/bpf/bpftool/Makefile                  | 6 +++---
- tools/build/Makefile                        | 4 ++--
- tools/counter/Makefile                      | 4 ++--
- tools/gpio/Makefile                         | 4 ++--
- tools/hv/Makefile                           | 4 ++--
- tools/iio/Makefile                          | 4 ++--
- tools/include/nolibc/Makefile               | 2 +-
- tools/lib/api/Makefile                      | 6 +++---
- tools/lib/bpf/Makefile                      | 6 +++---
- tools/lib/perf/Makefile                     | 6 +++---
- tools/lib/subcmd/Makefile                   | 6 +++---
- tools/lib/symbol/Makefile                   | 6 +++---
- tools/lib/thermal/Makefile                  | 6 +++---
- tools/objtool/Makefile                      | 4 ++--
- tools/pci/Makefile                          | 4 ++--
- tools/perf/Makefile.perf                    | 4 ++--
- tools/power/acpi/Makefile.config            | 4 ++--
- tools/power/x86/intel-speed-select/Makefile | 8 ++++----
- tools/spi/Makefile                          | 4 ++--
- tools/testing/selftests/nolibc/Makefile     | 2 +-
- tools/thermal/lib/Makefile                  | 6 +++---
- tools/thermal/thermal-engine/Makefile       | 6 +++---
- tools/thermal/thermometer/Makefile          | 6 +++---
- tools/usb/Makefile                          | 4 ++--
- 27 files changed, 66 insertions(+), 66 deletions(-)
+As such, assuming $(srctree) includes the trailing slash and setting
+the fallback for $(srctree) to "" fixes things.  This is untested, I'm
+proposing this since I wanted to use a build approach which triggers
+this.  This is really a single patch, but it has been split into 3 to
+emphasize where the real work is done.
 
-diff --git a/Makefile b/Makefile
-index 41fa8a2565f5..a957ffe04647 100644
---- a/Makefile
-+++ b/Makefile
-@@ -246,20 +246,20 @@ else # need-sub-make
- 
- ifeq ($(abs_srctree),$(abs_objtree))
-         # building in the source tree
--        srctree := .
-+        srctree := ./
- 	building_out_of_srctree :=
- else
-         ifeq ($(abs_srctree)/,$(dir $(abs_objtree)))
-                 # building in a subdirectory of the source tree
--                srctree := ..
-+                srctree := ../
-         else
--                srctree := $(abs_srctree)
-+                srctree := $(abs_srctree)/
-         endif
- 	building_out_of_srctree := 1
- endif
- 
- ifneq ($(KBUILD_ABS_SRCTREE),)
--srctree := $(abs_srctree)
-+srctree := $(abs_srctree)/
- endif
- 
- objtree		:= .
-diff --git a/tools/bootconfig/Makefile b/tools/bootconfig/Makefile
-index 566c3e0ee561..605c0798a83d 100644
---- a/tools/bootconfig/Makefile
-+++ b/tools/bootconfig/Makefile
-@@ -5,8 +5,8 @@ include ../scripts/Makefile.include
- bindir ?= /usr/bin
- 
- ifeq ($(srctree),)
--srctree := $(patsubst %/,%,$(dir $(CURDIR)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=%))
- endif
- 
- LIBSRC = $(srctree)/lib/bootconfig.c $(srctree)/include/linux/bootconfig.h
-diff --git a/tools/bpf/Makefile b/tools/bpf/Makefile
-index 243b79f2b451..b12ff0126cf6 100644
---- a/tools/bpf/Makefile
-+++ b/tools/bpf/Makefile
-@@ -23,8 +23,8 @@ ifndef building_out_of_srctree
- update_srctree := 1
- endif
- ifeq ($(update_srctree),1)
--srctree := $(patsubst %/,%,$(dir $(CURDIR)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=%))
- endif
- 
- ifeq ($(V),1)
-diff --git a/tools/bpf/bpftool/Makefile b/tools/bpf/bpftool/Makefile
-index e9154ace80ff..34b55ae53d0a 100644
---- a/tools/bpf/bpftool/Makefile
-+++ b/tools/bpf/bpftool/Makefile
-@@ -2,9 +2,9 @@
- include ../../scripts/Makefile.include
- 
- ifeq ($(srctree),)
--srctree := $(patsubst %/,%,$(dir $(CURDIR)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=%))
-+srctree := $(dir $(srctree:%/=%))
- endif
- 
- ifeq ($(V),1)
-diff --git a/tools/build/Makefile b/tools/build/Makefile
-index 17cdf01e29a0..cdebad6f1bfb 100644
---- a/tools/build/Makefile
-+++ b/tools/build/Makefile
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0
- ifeq ($(srctree),)
--srctree := $(patsubst %/,%,$(dir $(CURDIR)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=%))
- endif
- 
- include $(srctree)/tools//scripts/Makefile.include
-diff --git a/tools/counter/Makefile b/tools/counter/Makefile
-index d82d35a520f6..3d23639fa8fc 100644
---- a/tools/counter/Makefile
-+++ b/tools/counter/Makefile
-@@ -4,8 +4,8 @@ include ../scripts/Makefile.include
- bindir ?= /usr/bin
- 
- ifeq ($(srctree),)
--srctree := $(patsubst %/,%,$(dir $(CURDIR)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=%))
- endif
- 
- # Do not use make's built-in rules
-diff --git a/tools/gpio/Makefile b/tools/gpio/Makefile
-index d29c9c49e251..0828ee9e8a16 100644
---- a/tools/gpio/Makefile
-+++ b/tools/gpio/Makefile
-@@ -8,8 +8,8 @@ bindir ?= /usr/bin
- # is set to ".". building_out_of_srctree is undefined for in srctree
- # builds
- ifndef building_out_of_srctree
--srctree := $(patsubst %/,%,$(dir $(CURDIR)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=%))
- endif
- 
- # Do not use make's built-in rules
-diff --git a/tools/hv/Makefile b/tools/hv/Makefile
-index fe770e679ae8..6b9f42743c57 100644
---- a/tools/hv/Makefile
-+++ b/tools/hv/Makefile
-@@ -7,8 +7,8 @@ libexecdir ?= /usr/libexec
- sharedstatedir ?= /var/lib
- 
- ifeq ($(srctree),)
--srctree := $(patsubst %/,%,$(dir $(CURDIR)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=%))
- endif
- 
- # Do not use make's built-in rules
-diff --git a/tools/iio/Makefile b/tools/iio/Makefile
-index fa720f062229..f4f64a152457 100644
---- a/tools/iio/Makefile
-+++ b/tools/iio/Makefile
-@@ -4,8 +4,8 @@ include ../scripts/Makefile.include
- bindir ?= /usr/bin
- 
- ifeq ($(srctree),)
--srctree := $(patsubst %/,%,$(dir $(CURDIR)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=%))
- endif
- 
- # Do not use make's built-in rules
-diff --git a/tools/include/nolibc/Makefile b/tools/include/nolibc/Makefile
-index e69c26abe1ea..372a17bf7d36 100644
---- a/tools/include/nolibc/Makefile
-+++ b/tools/include/nolibc/Makefile
-@@ -4,7 +4,7 @@ include ../../scripts/Makefile.include
- 
- # we're in ".../tools/include/nolibc"
- ifeq ($(srctree),)
--srctree := $(patsubst %/tools/include/,%,$(dir $(CURDIR)))
-+srctree := $(patsubst %tools/include/,%,$(dir $(CURDIR)))
- endif
- 
- # when run as make -C tools/ nolibc_<foo> the arch is not set
-diff --git a/tools/lib/api/Makefile b/tools/lib/api/Makefile
-index 044860ac1ed1..74e774984d83 100644
---- a/tools/lib/api/Makefile
-+++ b/tools/lib/api/Makefile
-@@ -3,9 +3,9 @@ include ../../scripts/Makefile.include
- include ../../scripts/utilities.mak		# QUIET_CLEAN
- 
- ifeq ($(srctree),)
--srctree := $(patsubst %/,%,$(dir $(CURDIR)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=%))
-+srctree := $(dir $(srctree:%/=%))
- #$(info Determined 'srctree' to be $(srctree))
- endif
- 
-diff --git a/tools/lib/bpf/Makefile b/tools/lib/bpf/Makefile
-index 4be7144e4803..66970cf138fc 100644
---- a/tools/lib/bpf/Makefile
-+++ b/tools/lib/bpf/Makefile
-@@ -18,9 +18,9 @@ MAKEFLAGS += --no-print-directory
- # is a ".". building_out_of_srctree is undefined for in srctree
- # builds
- ifndef building_out_of_srctree
--srctree := $(patsubst %/,%,$(dir $(CURDIR)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=%))
-+srctree := $(dir $(srctree:%/=%))
- #$(info Determined 'srctree' to be $(srctree))
- endif
- 
-diff --git a/tools/lib/perf/Makefile b/tools/lib/perf/Makefile
-index 3a9b2140aa04..3e998b2af153 100644
---- a/tools/lib/perf/Makefile
-+++ b/tools/lib/perf/Makefile
-@@ -8,9 +8,9 @@ LIBPERF_EXTRAVERSION = 1
- MAKEFLAGS += --no-print-directory
- 
- ifeq ($(srctree),)
--srctree := $(patsubst %/,%,$(dir $(CURDIR)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=%))
-+srctree := $(dir $(srctree:%/=%))
- #$(info Determined 'srctree' to be $(srctree))
- endif
- 
-diff --git a/tools/lib/subcmd/Makefile b/tools/lib/subcmd/Makefile
-index b87213263a5e..fdd0bf03fd6d 100644
---- a/tools/lib/subcmd/Makefile
-+++ b/tools/lib/subcmd/Makefile
-@@ -3,9 +3,9 @@ include ../../scripts/Makefile.include
- include ../../scripts/utilities.mak		# QUIET_CLEAN
- 
- ifeq ($(srctree),)
--srctree := $(patsubst %/,%,$(dir $(CURDIR)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=%))
-+srctree := $(dir $(srctree:%/=%))
- #$(info Determined 'srctree' to be $(srctree))
- endif
- 
-diff --git a/tools/lib/symbol/Makefile b/tools/lib/symbol/Makefile
-index 13d43c6f92b4..1f2390d1c0e0 100644
---- a/tools/lib/symbol/Makefile
-+++ b/tools/lib/symbol/Makefile
-@@ -3,9 +3,9 @@ include ../../scripts/Makefile.include
- include ../../scripts/utilities.mak		# QUIET_CLEAN
- 
- ifeq ($(srctree),)
--srctree := $(patsubst %/,%,$(dir $(CURDIR)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=%))
-+srctree := $(dir $(srctree:%/=%))
- #$(info Determined 'srctree' to be $(srctree))
- endif
- 
-diff --git a/tools/lib/thermal/Makefile b/tools/lib/thermal/Makefile
-index 2d0d255fd0e1..8c78b2540156 100644
---- a/tools/lib/thermal/Makefile
-+++ b/tools/lib/thermal/Makefile
-@@ -8,9 +8,9 @@ LIBTHERMAL_EXTRAVERSION = 1
- MAKEFLAGS += --no-print-directory
- 
- ifeq ($(srctree),)
--srctree := $(patsubst %/,%,$(dir $(CURDIR)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=%))
-+srctree := $(dir $(srctree:%/=%))
- # $(info Determined 'srctree' to be $(srctree))
- endif
- 
-diff --git a/tools/objtool/Makefile b/tools/objtool/Makefile
-index 83b100c1e7f6..714bf362b59c 100644
---- a/tools/objtool/Makefile
-+++ b/tools/objtool/Makefile
-@@ -3,8 +3,8 @@ include ../scripts/Makefile.include
- include ../scripts/Makefile.arch
- 
- ifeq ($(srctree),)
--srctree := $(patsubst %/,%,$(dir $(CURDIR)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=%))
- endif
- 
- LIBSUBCMD_DIR = $(srctree)/tools/lib/subcmd/
-diff --git a/tools/pci/Makefile b/tools/pci/Makefile
-index 57744778b518..913c9d29bfb2 100644
---- a/tools/pci/Makefile
-+++ b/tools/pci/Makefile
-@@ -4,8 +4,8 @@ include ../scripts/Makefile.include
- bindir ?= /usr/bin
- 
- ifeq ($(srctree),)
--srctree := $(patsubst %/,%,$(dir $(CURDIR)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=%))
- endif
- 
- # Do not use make's built-in rules
-diff --git a/tools/perf/Makefile.perf b/tools/perf/Makefile.perf
-index f8774a9b1377..4ff08babcecc 100644
---- a/tools/perf/Makefile.perf
-+++ b/tools/perf/Makefile.perf
-@@ -144,8 +144,8 @@ LC_NUMERIC=C
- export LC_COLLATE LC_NUMERIC
- 
- ifeq ($(srctree),)
--srctree := $(patsubst %/,%,$(dir $(CURDIR)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=%))
- #$(info Determined 'srctree' to be $(srctree))
- endif
- 
-diff --git a/tools/power/acpi/Makefile.config b/tools/power/acpi/Makefile.config
-index cd7106876a5f..7df61e8ad7be 100644
---- a/tools/power/acpi/Makefile.config
-+++ b/tools/power/acpi/Makefile.config
-@@ -6,8 +6,8 @@
- #
- 
- ifeq ($(srctree),)
--srctree := $(patsubst %/,%,$(dir $(shell pwd)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=%))
- #$(info Determined 'srctree' to be $(srctree))
- endif
- 
-diff --git a/tools/power/x86/intel-speed-select/Makefile b/tools/power/x86/intel-speed-select/Makefile
-index 7221f2f55e8b..fcb13e08effe 100644
---- a/tools/power/x86/intel-speed-select/Makefile
-+++ b/tools/power/x86/intel-speed-select/Makefile
-@@ -4,10 +4,10 @@ include ../../../scripts/Makefile.include
- bindir ?= /usr/bin
- 
- ifeq ($(srctree),)
--srctree := $(patsubst %/,%,$(dir $(CURDIR)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=%))
-+srctree := $(dir $(srctree:%/=%))
-+srctree := $(dir $(srctree:%/=%))
- endif
- 
- # Do not use make's built-in rules
-diff --git a/tools/spi/Makefile b/tools/spi/Makefile
-index 7fccd245a535..c511864f270b 100644
---- a/tools/spi/Makefile
-+++ b/tools/spi/Makefile
-@@ -4,8 +4,8 @@ include ../scripts/Makefile.include
- bindir ?= /usr/bin
- 
- ifeq ($(srctree),)
--srctree := $(patsubst %/,%,$(dir $(CURDIR)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=%))
- endif
- 
- # Do not use make's built-in rules
-diff --git a/tools/testing/selftests/nolibc/Makefile b/tools/testing/selftests/nolibc/Makefile
-index 40dd95228051..acfd59dcba56 100644
---- a/tools/testing/selftests/nolibc/Makefile
-+++ b/tools/testing/selftests/nolibc/Makefile
-@@ -13,7 +13,7 @@ endif
- 
- # we're in ".../tools/testing/selftests/nolibc"
- ifeq ($(srctree),)
--srctree := $(patsubst %/tools/testing/selftests/,%,$(dir $(CURDIR)))
-+srctree := $(patsubst %tools/testing/selftests/,%,$(dir $(CURDIR)))
- endif
- 
- ifeq ($(ARCH),)
-diff --git a/tools/thermal/lib/Makefile b/tools/thermal/lib/Makefile
-index 82db451935c5..f5323c5a9ca0 100644
---- a/tools/thermal/lib/Makefile
-+++ b/tools/thermal/lib/Makefile
-@@ -8,9 +8,9 @@ LIBTHERMAL_TOOLS_EXTRAVERSION = 1
- MAKEFLAGS += --no-print-directory
- 
- ifeq ($(srctree),)
--srctree := $(patsubst %/,%,$(dir $(CURDIR)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=%))
-+srctree := $(dir $(srctree:%/=%))
- # $(info Determined 'srctree' to be $(srctree))
- endif
- 
-diff --git a/tools/thermal/thermal-engine/Makefile b/tools/thermal/thermal-engine/Makefile
-index 6bd05ff89485..5bc3bc70a418 100644
---- a/tools/thermal/thermal-engine/Makefile
-+++ b/tools/thermal/thermal-engine/Makefile
-@@ -2,9 +2,9 @@
- # Makefile for thermal tools
- 
- ifeq ($(srctree),)
--srctree := $(patsubst %/,%,$(dir $(CURDIR)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=%))
-+srctree := $(dir $(srctree:%/=%))
- # $(info Determined 'srctree' to be $(srctree))
- endif
- 
-diff --git a/tools/thermal/thermometer/Makefile b/tools/thermal/thermometer/Makefile
-index d8f8bc82fe3b..624359d3503c 100644
---- a/tools/thermal/thermometer/Makefile
-+++ b/tools/thermal/thermometer/Makefile
-@@ -2,9 +2,9 @@
- # Makefile for cgroup tools
- 
- ifeq ($(srctree),)
--srctree := $(patsubst %/,%,$(dir $(CURDIR)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=%))
-+srctree := $(dir $(srctree:%/=%))
- # $(info Determined 'srctree' to be $(srctree))
- endif
- 
-diff --git a/tools/usb/Makefile b/tools/usb/Makefile
-index c6235667dd46..6f80415d04be 100644
---- a/tools/usb/Makefile
-+++ b/tools/usb/Makefile
-@@ -5,8 +5,8 @@ include ../scripts/Makefile.include
- bindir ?= /usr/bin
- 
- ifeq ($(srctree),)
--srctree := $(patsubst %/,%,$(dir $(CURDIR)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=$))
- endif
- 
- # Do not use make's built-in rules
+I'm suspicious of the fallback settings of $(srctree) found in several
+Makefiles.  This might be a distinct workaround for the same situation.
+I was wondering about adjusting some of those comments too.  I think
+$(src) needs similar treatment, but that is rather messier.
+
+Note, this is basically untested.  I'm hopeful this actually works, but
+if it breaks then this was mostly to alert the maintainers of this
+troublesome condition.
+
+
+Elliott Mitchell (3):
+  build: add trailing slash to $(srctree)
+  build: modify uses of $(srctree) to assume trailing slash
+  build: change $(srctree) to empty for current directory
+
+ Documentation/Makefile                        |  48 +++---
+ Documentation/devicetree/bindings/Makefile    |  18 +--
+ Documentation/userspace-api/media/Makefile    |  10 +-
+ Makefile                                      | 152 +++++++++---------
+ arch/alpha/boot/Makefile                      |   2 +-
+ arch/alpha/kernel/syscalls/Makefile           |   4 +-
+ arch/arc/Makefile                             |   2 +-
+ arch/arc/boot/dts/Makefile                    |   2 +-
+ arch/arm/Makefile                             |   4 +-
+ arch/arm/boot/Makefile                        |   2 +-
+ arch/arm/boot/compressed/Makefile             |   2 +-
+ arch/arm/mach-dove/Makefile                   |   2 +-
+ arch/arm/mach-mv78xx0/Makefile                |   2 +-
+ arch/arm/mach-mvebu/Makefile                  |   2 +-
+ arch/arm/mach-orion5x/Makefile                |   2 +-
+ arch/arm/mach-s3c/Makefile                    |   2 +-
+ arch/arm/plat-orion/Makefile                  |   2 +-
+ arch/arm/tools/Makefile                       |   6 +-
+ arch/arm/vdso/Makefile                        |   2 +-
+ arch/arm64/Makefile                           |   2 +-
+ arch/arm64/boot/Makefile                      |   2 +-
+ arch/arm64/kernel/pi/Makefile                 |   6 +-
+ arch/arm64/kernel/vdso/Makefile               |   4 +-
+ arch/arm64/kernel/vdso32/Makefile             |   2 +-
+ arch/arm64/kvm/Makefile                       |   6 +-
+ arch/arm64/kvm/hyp/Makefile                   |   2 +-
+ arch/csky/Makefile                            |   2 +-
+ arch/csky/boot/dts/Makefile                   |   2 +-
+ arch/csky/kernel/vdso/Makefile                |   4 +-
+ arch/loongarch/boot/Makefile                  |   2 +-
+ arch/loongarch/kvm/Makefile                   |   4 +-
+ arch/loongarch/vdso/Makefile                  |   4 +-
+ arch/m68k/kernel/syscalls/Makefile            |   4 +-
+ arch/microblaze/kernel/syscalls/Makefile      |   4 +-
+ arch/mips/Makefile                            |  18 +--
+ arch/mips/Makefile.postlink                   |   2 +-
+ arch/mips/boot/Makefile                       |   2 +-
+ arch/mips/boot/compressed/Makefile            |   4 +-
+ arch/mips/kernel/syscalls/Makefile            |   6 +-
+ arch/mips/kvm/Makefile                        |   2 +-
+ arch/mips/vdso/Makefile                       |   6 +-
+ arch/nios2/boot/dts/Makefile                  |   2 +-
+ arch/parisc/Makefile                          |   4 +-
+ arch/parisc/kernel/syscalls/Makefile          |   4 +-
+ arch/parisc/kernel/vdso32/Makefile            |   2 +-
+ arch/parisc/kernel/vdso64/Makefile            |   2 +-
+ arch/powerpc/Makefile                         |  30 ++--
+ arch/powerpc/Makefile.postlink                |  10 +-
+ arch/powerpc/boot/Makefile                    |  32 ++--
+ arch/powerpc/boot/dts/Makefile                |   2 +-
+ arch/powerpc/boot/dts/fsl/Makefile            |   2 +-
+ arch/powerpc/kernel/syscalls/Makefile         |   4 +-
+ arch/powerpc/kernel/vdso/Makefile             |   6 +-
+ arch/powerpc/kvm/Makefile                     |   2 +-
+ arch/powerpc/platforms/cell/spufs/Makefile    |   4 +-
+ arch/riscv/Makefile                           |  12 +-
+ arch/riscv/Makefile.postlink                  |   4 +-
+ arch/riscv/boot/Makefile                      |   2 +-
+ arch/riscv/kernel/compat_vdso/Makefile        |   2 +-
+ arch/riscv/kernel/pi/Makefile                 |   8 +-
+ arch/riscv/kernel/vdso/Makefile               |   4 +-
+ arch/riscv/kvm/Makefile                       |   4 +-
+ arch/riscv/purgatory/Makefile                 |  16 +-
+ arch/s390/Makefile                            |   2 +-
+ arch/s390/boot/Makefile                       |   2 +-
+ arch/s390/kernel/syscalls/Makefile            |   4 +-
+ arch/s390/kernel/vdso32/Makefile              |   4 +-
+ arch/s390/kernel/vdso64/Makefile              |   4 +-
+ arch/s390/kvm/Makefile                        |   2 +-
+ arch/s390/purgatory/Makefile                  |   4 +-
+ arch/s390/tools/Makefile                      |   2 +-
+ arch/sh/Makefile                              |   2 +-
+ arch/sh/kernel/syscalls/Makefile              |   4 +-
+ arch/sparc/kernel/syscalls/Makefile           |   4 +-
+ arch/sparc/vdso/Makefile                      |   4 +-
+ arch/um/Makefile                              |  22 +--
+ arch/um/drivers/Makefile                      |   2 +-
+ arch/um/kernel/Makefile                       |   4 +-
+ arch/um/kernel/skas/Makefile                  |   2 +-
+ arch/um/os-Linux/Makefile                     |   2 +-
+ arch/um/os-Linux/drivers/Makefile             |   2 +-
+ arch/um/os-Linux/skas/Makefile                |   2 +-
+ arch/um/scripts/Makefile.rules                |   2 +-
+ arch/x86/Makefile                             |   6 +-
+ arch/x86/Makefile.postlink                    |   2 +-
+ arch/x86/Makefile.um                          |   2 +-
+ arch/x86/boot/Makefile                        |   6 +-
+ arch/x86/boot/compressed/Makefile             |   6 +-
+ arch/x86/entry/syscalls/Makefile              |   8 +-
+ arch/x86/entry/vdso/Makefile                  |   6 +-
+ arch/x86/kernel/Makefile                      |   2 +-
+ arch/x86/kernel/cpu/Makefile                  |   2 +-
+ arch/x86/kvm/Makefile                         |   4 +-
+ arch/x86/lib/Makefile                         |   4 +-
+ arch/x86/mm/Makefile                          |   2 +-
+ arch/x86/purgatory/Makefile                   |   4 +-
+ arch/x86/realmode/rm/Makefile                 |   2 +-
+ arch/x86/tools/Makefile                       |  14 +-
+ arch/x86/um/Makefile                          |   2 +-
+ arch/x86/um/os-Linux/Makefile                 |   2 +-
+ arch/x86/um/vdso/Makefile                     |   2 +-
+ arch/xtensa/Makefile                          |   2 +-
+ arch/xtensa/boot/boot-redboot/Makefile        |   2 +-
+ arch/xtensa/boot/dts/Makefile                 |   2 +-
+ arch/xtensa/boot/lib/Makefile                 |   4 +-
+ arch/xtensa/kernel/syscalls/Makefile          |   4 +-
+ certs/Makefile                                |   4 +-
+ drivers/Makefile                              |   2 +-
+ drivers/accessibility/speakup/Makefile        |   2 +-
+ drivers/base/firmware_loader/builtin/Makefile |   2 +-
+ drivers/block/rnbd/Makefile                   |   2 +-
+ drivers/crypto/chelsio/Makefile               |   2 +-
+ drivers/crypto/intel/iaa/Makefile             |   2 +-
+ drivers/crypto/intel/qat/qat_420xx/Makefile   |   2 +-
+ drivers/crypto/intel/qat/qat_4xxx/Makefile    |   2 +-
+ drivers/crypto/intel/qat/qat_c3xxx/Makefile   |   2 +-
+ drivers/crypto/intel/qat/qat_c3xxxvf/Makefile |   2 +-
+ drivers/crypto/intel/qat/qat_c62x/Makefile    |   2 +-
+ drivers/crypto/intel/qat/qat_c62xvf/Makefile  |   2 +-
+ .../crypto/intel/qat/qat_dh895xcc/Makefile    |   2 +-
+ .../crypto/intel/qat/qat_dh895xccvf/Makefile  |   2 +-
+ drivers/crypto/marvell/octeontx2/Makefile     |   2 +-
+ drivers/cxl/core/Makefile                     |   2 +-
+ drivers/firmware/efi/libstub/Makefile         |   6 +-
+ drivers/firmware/efi/libstub/Makefile.zboot   |   4 +-
+ drivers/gpu/drm/amd/amdgpu/Makefile           |   2 +-
+ drivers/gpu/drm/arm/display/komeda/Makefile   |   4 +-
+ drivers/gpu/drm/i915/Makefile                 |   8 +-
+ drivers/gpu/drm/imagination/Makefile          |   2 +-
+ drivers/gpu/drm/msm/Makefile                  |   8 +-
+ drivers/gpu/drm/xe/Makefile                   |  18 +--
+ drivers/hid/amd-sfh-hid/Makefile              |   2 +-
+ drivers/hid/bpf/Makefile                      |   2 +-
+ drivers/hid/intel-ish-hid/Makefile            |   2 +-
+ drivers/iio/humidity/Makefile                 |   2 +-
+ drivers/infiniband/hw/bnxt_re/Makefile        |   2 +-
+ drivers/infiniband/hw/cxgb4/Makefile          |   4 +-
+ drivers/infiniband/hw/hns/Makefile            |   2 +-
+ drivers/infiniband/hw/ocrdma/Makefile         |   2 +-
+ drivers/infiniband/hw/usnic/Makefile          |   2 +-
+ drivers/media/common/b2c2/Makefile            |   4 +-
+ drivers/media/dvb-frontends/Makefile          |   4 +-
+ drivers/media/dvb-frontends/drx39xyj/Makefile |   2 +-
+ drivers/media/i2c/ccs/Makefile                |   2 +-
+ drivers/media/mmc/siano/Makefile              |   2 +-
+ drivers/media/pci/b2c2/Makefile               |   2 +-
+ drivers/media/pci/bt8xx/Makefile              |   4 +-
+ drivers/media/pci/cx18/Makefile               |   4 +-
+ drivers/media/pci/cx23885/Makefile            |   4 +-
+ drivers/media/pci/cx88/Makefile               |   4 +-
+ drivers/media/pci/ddbridge/Makefile           |   4 +-
+ drivers/media/pci/dm1105/Makefile             |   2 +-
+ drivers/media/pci/ivtv/Makefile               |   4 +-
+ drivers/media/pci/mantis/Makefile             |   2 +-
+ drivers/media/pci/netup_unidvb/Makefile       |   2 +-
+ drivers/media/pci/ngene/Makefile              |   4 +-
+ drivers/media/pci/pluto2/Makefile             |   2 +-
+ drivers/media/pci/pt1/Makefile                |   4 +-
+ drivers/media/pci/pt3/Makefile                |   4 +-
+ drivers/media/pci/saa7134/Makefile            |   6 +-
+ drivers/media/pci/saa7146/Makefile            |   2 +-
+ drivers/media/pci/saa7164/Makefile            |   4 +-
+ drivers/media/pci/smipcie/Makefile            |   4 +-
+ drivers/media/pci/ttpci/Makefile              |   6 +-
+ drivers/media/platform/mediatek/mdp/Makefile  |   2 +-
+ .../media/platform/st/sti/c8sectpfe/Makefile  |   4 +-
+ drivers/media/spi/Makefile                    |   2 +-
+ drivers/media/tuners/Makefile                 |   2 +-
+ drivers/media/usb/as102/Makefile              |   2 +-
+ drivers/media/usb/au0828/Makefile             |   4 +-
+ drivers/media/usb/b2c2/Makefile               |   2 +-
+ drivers/media/usb/cx231xx/Makefile            |   4 +-
+ drivers/media/usb/dvb-usb-v2/Makefile         |   6 +-
+ drivers/media/usb/dvb-usb/Makefile            |   6 +-
+ drivers/media/usb/em28xx/Makefile             |   4 +-
+ drivers/media/usb/go7007/Makefile             |   2 +-
+ drivers/media/usb/gspca/gl860/Makefile        |   2 +-
+ drivers/media/usb/gspca/m5602/Makefile        |   2 +-
+ drivers/media/usb/gspca/stv06xx/Makefile      |   2 +-
+ drivers/media/usb/pvrusb2/Makefile            |   4 +-
+ drivers/media/usb/siano/Makefile              |   2 +-
+ drivers/media/usb/ttusb-budget/Makefile       |   2 +-
+ drivers/media/v4l2-core/Makefile              |   4 +-
+ .../net/ethernet/aquantia/atlantic/Makefile   |   2 +-
+ .../chelsio/inline_crypto/ch_ipsec/Makefile   |   4 +-
+ .../chelsio/inline_crypto/ch_ktls/Makefile    |   2 +-
+ .../chelsio/inline_crypto/chtls/Makefile      |   4 +-
+ drivers/net/ethernet/chelsio/libcxgb/Makefile |   2 +-
+ drivers/net/ethernet/freescale/dpaa/Makefile  |   2 +-
+ drivers/net/ethernet/freescale/fman/Makefile  |   2 +-
+ drivers/net/ethernet/fungible/funeth/Makefile |   2 +-
+ drivers/net/ethernet/hisilicon/hns3/Makefile  |   8 +-
+ .../ethernet/marvell/octeontx2/nic/Makefile   |   2 +-
+ .../net/ethernet/microchip/lan966x/Makefile   |   2 +-
+ .../net/ethernet/microchip/sparx5/Makefile    |   2 +-
+ drivers/net/wan/Makefile                      |   2 +-
+ .../broadcom/brcm80211/brcmfmac/Makefile      |   4 +-
+ .../broadcom/brcm80211/brcmfmac/bca/Makefile  |   6 +-
+ .../broadcom/brcm80211/brcmfmac/cyw/Makefile  |   6 +-
+ .../broadcom/brcm80211/brcmfmac/wcc/Makefile  |   6 +-
+ .../broadcom/brcm80211/brcmsmac/Makefile      |   6 +-
+ .../broadcom/brcm80211/brcmutil/Makefile      |   2 +-
+ .../net/wireless/intel/iwlwifi/dvm/Makefile   |   2 +-
+ .../net/wireless/intel/iwlwifi/mei/Makefile   |   2 +-
+ .../net/wireless/intel/iwlwifi/mvm/Makefile   |   2 +-
+ .../wireless/realtek/rtl818x/rtl8180/Makefile |   2 +-
+ .../wireless/realtek/rtl818x/rtl8187/Makefile |   2 +-
+ drivers/pinctrl/renesas/Makefile              |  24 +--
+ drivers/scsi/aic7xxx/Makefile                 |  12 +-
+ drivers/scsi/csiostor/Makefile                |   2 +-
+ drivers/scsi/cxgbi/Makefile                   |   2 +-
+ drivers/scsi/libsas/Makefile                  |   2 +-
+ drivers/scsi/pcmcia/Makefile                  |   2 +-
+ drivers/staging/media/atomisp/Makefile        |   2 +-
+ drivers/staging/media/av7110/Makefile         |   8 +-
+ drivers/staging/rtl8723bs/Makefile            |   2 +-
+ drivers/target/iscsi/cxgbit/Makefile          |   6 +-
+ drivers/tty/serial/8250/Makefile              |   2 +-
+ drivers/usb/gadget/function/Makefile          |   4 +-
+ drivers/usb/gadget/legacy/Makefile            |   6 +-
+ drivers/usb/storage/Makefile                  |   2 +-
+ drivers/vdpa/mlx5/Makefile                    |   2 +-
+ fs/hostfs/Makefile                            |   2 +-
+ fs/iomap/Makefile                             |   2 +-
+ fs/unicode/Makefile                           |  14 +-
+ fs/xfs/Makefile                               |   4 +-
+ init/Makefile                                 |   2 +-
+ kernel/Makefile                               |   2 +-
+ kernel/bpf/Makefile                           |   2 +-
+ kernel/bpf/preload/Makefile                   |   2 +-
+ kernel/gcov/Makefile                          |   2 +-
+ lib/Makefile                                  |  16 +-
+ lib/raid6/Makefile                            |   2 +-
+ net/wireless/Makefile                         |   2 +-
+ rust/Makefile                                 |  14 +-
+ samples/bpf/Makefile                          |  24 +--
+ samples/coresight/Makefile                    |   2 +-
+ samples/hid/Makefile                          |  16 +-
+ scripts/Makefile                              |   6 +-
+ scripts/Makefile.asm-generic                  |   8 +-
+ scripts/Makefile.build                        |  22 +--
+ scripts/Makefile.clean                        |   2 +-
+ scripts/Makefile.defconf                      |  16 +-
+ scripts/Makefile.dtbinst                      |   2 +-
+ scripts/Makefile.headersinst                  |  10 +-
+ scripts/Makefile.lib                          |  22 +--
+ scripts/Makefile.modfinal                     |   4 +-
+ scripts/Makefile.modinst                      |   6 +-
+ scripts/Makefile.modpost                      |   4 +-
+ scripts/Makefile.package                      |  22 +--
+ scripts/Makefile.vdsoinst                     |   2 +-
+ scripts/Makefile.vmlinux                      |   6 +-
+ scripts/Makefile.vmlinux_o                    |   8 +-
+ scripts/basic/Makefile                        |   2 +-
+ scripts/dtc/Makefile                          |   6 +-
+ scripts/gcc-plugins/Makefile                  |   2 +-
+ scripts/gdb/linux/Makefile                    |   2 +-
+ scripts/genksyms/Makefile                     |   4 +-
+ scripts/kconfig/Makefile                      |  22 +--
+ scripts/selinux/genheaders/Makefile           |   4 +-
+ scripts/selinux/mdp/Makefile                  |   4 +-
+ security/apparmor/Makefile                    |   8 +-
+ security/selinux/Makefile                     |   2 +-
+ security/tomoyo/Makefile                      |   2 +-
+ tools/bootconfig/Makefile                     |   6 +-
+ tools/bpf/Makefile                            |  16 +-
+ tools/bpf/bpftool/Makefile                    |  24 +--
+ tools/bpf/resolve_btfids/Makefile             |  12 +-
+ tools/build/Makefile                          |   8 +-
+ tools/build/Makefile.build                    |   2 +-
+ tools/build/Makefile.feature                  |   2 +-
+ tools/build/Makefile.include                  |   6 +-
+ tools/build/tests/ex/Makefile                 |   4 +-
+ tools/counter/Makefile                        |   8 +-
+ tools/gpio/Makefile                           |   6 +-
+ tools/hv/Makefile                             |   6 +-
+ tools/iio/Makefile                            |   6 +-
+ tools/include/nolibc/Makefile                 |   4 +-
+ tools/lib/api/Makefile                        |  14 +-
+ tools/lib/bpf/Makefile                        |  22 +--
+ tools/lib/perf/Makefile                       |  26 +--
+ tools/lib/subcmd/Makefile                     |  10 +-
+ tools/lib/symbol/Makefile                     |  14 +-
+ tools/lib/thermal/Makefile                    |  26 +--
+ tools/objtool/Makefile                        |  18 +--
+ tools/pci/Makefile                            |   6 +-
+ tools/perf/Makefile.config                    |  22 +--
+ tools/perf/Makefile.perf                      | 136 ++++++++--------
+ tools/perf/arch/arm64/Makefile                |   6 +-
+ tools/perf/arch/loongarch/Makefile            |   6 +-
+ tools/perf/arch/mips/Makefile                 |   2 +-
+ tools/perf/arch/powerpc/Makefile              |   2 +-
+ tools/perf/arch/s390/Makefile                 |   2 +-
+ tools/perf/arch/x86/Makefile                  |   2 +-
+ tools/power/acpi/Makefile.config              |  10 +-
+ tools/power/acpi/Makefile.rules               |   2 +-
+ tools/power/acpi/tools/acpidump/Makefile      |   2 +-
+ tools/power/acpi/tools/pfrut/Makefile         |   2 +-
+ tools/power/x86/intel-speed-select/Makefile   |  10 +-
+ tools/spi/Makefile                            |   6 +-
+ tools/testing/selftests/nolibc/Makefile       |  14 +-
+ tools/thermal/lib/Makefile                    |  24 +--
+ tools/thermal/thermal-engine/Makefile         |  14 +-
+ tools/thermal/thermometer/Makefile            |  10 +-
+ tools/usb/Makefile                            |   8 +-
+ usr/Makefile                                  |   2 +-
+ usr/include/Makefile                          |   4 +-
+ 307 files changed, 960 insertions(+), 960 deletions(-)
+
 -- 
 2.39.2
 
