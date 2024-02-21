@@ -1,70 +1,72 @@
-Return-Path: <linux-kbuild+bounces-1024-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1025-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 047CD85E8FF
-	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Feb 2024 21:27:12 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35FFA85E901
+	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Feb 2024 21:27:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5E296282D6D
-	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Feb 2024 20:27:10 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 936EB1F24C4B
+	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Feb 2024 20:27:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 256DC86636;
-	Wed, 21 Feb 2024 20:27:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BC6086ACE;
+	Wed, 21 Feb 2024 20:27:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BqN+db4E"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MWvv+Ne6"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C84085927
-	for <linux-kbuild@vger.kernel.org>; Wed, 21 Feb 2024 20:27:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9F1085958
+	for <linux-kbuild@vger.kernel.org>; Wed, 21 Feb 2024 20:27:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708547228; cv=none; b=FIPA9piGtyqiWyh6TAG3wiQwjHfR72TUgsGNaGD6PCs1g97Di8rYlzVfijHtgbTHsJDHUrC4WJxyM1pFJa36JL8JC6ZeVv9lc2wZQYZ7AXfIIN9Jg+cdlpjFfroquNIKyUNwtocAsCZe4Bzuf0agAl5Mlm2lm9Me+G5K+NoAjsk=
+	t=1708547230; cv=none; b=FCy4aXN3PYnW8D3wR8ZtxOUXRXHutonsFQH+c0EBDq+9PfoPbQcY4DHqtPEBBroX9WMwyFMltxaptrG6usY8r22d9oJxr0+0i3X5xuOsKrL/94HQ5Q3e7zhFwtIB1HGf3F/xFGDonoHsnc5lFgpeObIvTeZlOG260iTUec7XMwY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708547228; c=relaxed/simple;
-	bh=3j03Qb0xtShAH05XRNVvgv/2gAOfWYxJvB9YxzR5lhg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YnUN78loVYHjc0O+TDqO+DJdRRqHRs0pJvAd4aKkCzwvJMw+4pY391suUWloOUK3oY/yYIYItVY/QrZnNdosxTzzPYj7XsZEIx0gX4D+532RgQUJhc3MvLk5Vm1hIrDAtcOl9ArnPkMHMsNAXi5Zqo2DWNvCwWQn5IcBvt+vb00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=BqN+db4E; arc=none smtp.client-ip=209.85.208.53
+	s=arc-20240116; t=1708547230; c=relaxed/simple;
+	bh=ezld0i8kpFcENtir9eJVLeUvod6ZBR837TtflfyVCGM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=aN43Do+tgNqAn59pQ8aGjykLw095/dFlEEus5PogR2XkDJZr6bSjZxMe8JCT2s0YkGe0Sdf15x5srcjonNEdY0U2RXm6yM8galZM1HBKG1VmlWP/Uh7oCY6bQLY7qQMkbLz9X72t/L1YijhuSIH+kIyBzxNn9eeqYVsgL2Q6tjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=MWvv+Ne6; arc=none smtp.client-ip=209.85.208.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5650c27e352so35a12.0
-        for <linux-kbuild@vger.kernel.org>; Wed, 21 Feb 2024 12:27:05 -0800 (PST)
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-561f0f116ecso58a12.0
+        for <linux-kbuild@vger.kernel.org>; Wed, 21 Feb 2024 12:27:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1708547224; x=1709152024; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=LVMC4eb66pNSxPeBaeLVvkGzXsMPDRJGzt+F/nlnaOI=;
-        b=BqN+db4EtI0L3LKiFaoRPsTVeR5F0Sw1fOpll0x9Hxv40VIrAlF4bmRWsnMIxQMN5r
-         1hrqQUyor8OO2z92zNcHEsXofA9+h+CriToLGQSyj5+Py7nJsmVtS6ECPfO74dqss21N
-         sZEz5hEymHc7TtdmmrGRc4TnEEfGyxGxuDsN6uI0BAf7IuyW6f7qOpMlE2ahk4pDXcI5
-         w6xDfa8rGrFy5gDmPg+pW2+pnlTR4OcuAvzJf5Bgkpp8c7QMsqXR2DcZ3cM78BABwyl0
-         9wx+UN9+t36GblJSlOwgrPnEO3ubgEUe9alCrVz0clV5V0/f6SonQXU+aAxXdQ22jYCB
-         MH/g==
+        d=google.com; s=20230601; t=1708547226; x=1709152026; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=je+wI6CEMdLT1s3zWGtUtN9P5ncA8Ay23Vgh9ImMsn0=;
+        b=MWvv+Ne6tBDyAnCCQF4lDlyyYx8ehW4aJFUudCQypFc6VVNTBbKSpOmvp3gZk+BNoa
+         7axWFqrX9HqbMTeg3E2SOOYdSniI44aYKTcnzZ0sAoVTcJw10aov4UFuKPD4clg30JOw
+         vr7A98feTKQf/IjnyjPfx/NtQqea9DdLWD6TqCGg/5XWjwWsCRbtpIC9g9ZrNSLNZIJ0
+         joLK373h1Wwo2OdetUIcSiL4vkCgyJ4vZqJTEtHdsorwrQMLZFPN8xmvEylCFQwr/KTx
+         LjC7l1iXCNbEiO4kAnByTB2hvgMc4DOo4GWqHgABHMUHXyFGyGtcPFYG2aVrt20Dl3Ux
+         RDLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708547224; x=1709152024;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LVMC4eb66pNSxPeBaeLVvkGzXsMPDRJGzt+F/nlnaOI=;
-        b=eRpMrlQkEOaeV/WLIaZ7/7WMcnF8IEFEwvYvEXAc1zguKi+2/bRhs8XPQPkgvDmWRB
-         SE4OuNIj6XEcPgdyxb5rn/MVn1/AB4iOHc/ut1V4EKREvK7zOJOIwmtzn3PB1EmoCMVV
-         GCFS9jIudxCnEeFmBJF1Ia3klje80lRFIyJBp5y6NPNYO+m13pwmaY1yEukxPIuRnN4T
-         eTCE334fMGcAYjE30QV7xV+jqM0z/S9Pm7JzdERzapNnIogI/lycGGZIaKALDGplcHzm
-         j4OHXMJSibcjGEiokr85PQ+hVkijGTnOBGf2e3lurur1OzlYt120AWC/67ZYM9AOBPh/
-         PKNQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU3Pr+62xfkfTBKsif9J3YXhGYAlLPHloDI8rDAJzrnJ3aa8bTaK7NTzoi9NmRjwhvivUYyneMkB2nwypvYN6jslBgPUBfLekzyP46D
-X-Gm-Message-State: AOJu0YwMjSUgbNVsQPVnbv6gieO5C+6Rg1lD+TZZio18YoeUnwjPgUQ7
-	dfqiHJA08k59qDxgw3K2dQcuJmgaHimqOQRO8g+MmzedycBhWHCvQmxpmI+SjQ==
-X-Google-Smtp-Source: AGHT+IGjx+evP+twUluQUI6O+JiuvrpCAU/fVnlCmHOMImFnPwTJ7Sz9pQMXDaki4rJG2oSqaNnNDw==
-X-Received: by 2002:a50:c30f:0:b0:564:55e5:6ee1 with SMTP id a15-20020a50c30f000000b0056455e56ee1mr261447edb.2.1708547224123;
-        Wed, 21 Feb 2024 12:27:04 -0800 (PST)
+        d=1e100.net; s=20230601; t=1708547226; x=1709152026;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=je+wI6CEMdLT1s3zWGtUtN9P5ncA8Ay23Vgh9ImMsn0=;
+        b=kk0kfyvwfblSl0hqqEJZki/7ds3BqVF5T4A9x+XyIT51jkM0179UgxEImKn3xRebDj
+         U7ua5gV/EnjMj7vJIIGgl+QD6ObnmvNM+wtXmQkKEjfGHO+hW7ZU7RoAuDU5YzrJAnpJ
+         pQ8ebaKufn6OgTVMYvNZ3FA6QlmnaQcvEcWfDRktrOWg5uNnU2AO78XguHdEx9gA7a18
+         HPb9WNmD//LegZ9hjV0FK17Je6twGXTeJXKstnUNLE9B/lr3nr1gd5FE+vl/jQSXlDCY
+         YXzpXuJ2i5SqhUsomQXHyKbBXrz5r3njV+VneNkWOrYDjj7VEsLelv0Hms9/6nBI1kIE
+         jrog==
+X-Forwarded-Encrypted: i=1; AJvYcCVgLzzAaZDsZQPza+F3rAgqYYT0ln+Pi/44lk9wGCYqv1pxKibRcmZtsZAQYTvlX6THNT31N/3gfaxs2+Zejrk+wp7ij9I/tgaXVMjm
+X-Gm-Message-State: AOJu0Yz8QNwJpiN9bDY8mmcdAowlyOenBv8KsdA4cN8SvnlsIbHJL0oi
+	kTkvQXgF1y0auQo/KeUpkfdI0o1TpAne5fnsvGRdqJSCA6t6LNkA853hgB9bGQ==
+X-Google-Smtp-Source: AGHT+IHPo+UjbZ6iRRYGUzoRkaVryRPKM6qpRZiFYVszmiOWnQ91YZlbOwR3BiUjPsw/CFhk3seTDA==
+X-Received: by 2002:a50:9b11:0:b0:563:ff57:b7e8 with SMTP id o17-20020a509b11000000b00563ff57b7e8mr221240edi.1.1708547226115;
+        Wed, 21 Feb 2024 12:27:06 -0800 (PST)
 Received: from localhost ([2a02:168:96c5:1:2c31:2431:3037:f162])
-        by smtp.gmail.com with ESMTPSA id k3-20020a056000004300b0033b79d385f6sm17912611wrx.47.2024.02.21.12.27.03
+        by smtp.gmail.com with ESMTPSA id bu7-20020a056000078700b0033d5aee2ff1sm9575712wrb.97.2024.02.21.12.27.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Feb 2024 12:27:03 -0800 (PST)
+        Wed, 21 Feb 2024 12:27:05 -0800 (PST)
 From: Jann Horn <jannh@google.com>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: Masahiro Yamada <masahiroy@kernel.org>,
@@ -75,10 +77,12 @@ Cc: Masahiro Yamada <masahiroy@kernel.org>,
 	linux-kernel@vger.kernel.org,
 	linux-kbuild@vger.kernel.org,
 	Jann Horn <jannh@google.com>
-Subject: [PATCH 1/2] kallsyms: get rid of code for absolute kallsyms
-Date: Wed, 21 Feb 2024 21:26:53 +0100
-Message-ID: <20240221202655.2423854-1-jannh@google.com>
+Subject: [PATCH 2/2] kallsyms: build faster by using .incbin
+Date: Wed, 21 Feb 2024 21:26:54 +0100
+Message-ID: <20240221202655.2423854-2-jannh@google.com>
 X-Mailer: git-send-email 2.44.0.rc0.258.g7320e95886-goog
+In-Reply-To: <20240221202655.2423854-1-jannh@google.com>
+References: <20240221202655.2423854-1-jannh@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -87,271 +91,377 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-To compile code for absolute kallsyms, you had to turn off
-KALLSYMS_BASE_RELATIVE. I think based on the way it was declared in
-Kconfig (without a string after "bool"), it wasn't even possible to
-select it.
+Currently, kallsyms builds a big assembly file (~19M with a normal
+kernel config), and then the assembler has to turn that big assembly
+file back into binary data, which takes around a second per kallsyms
+invocation. (Normally there are two kallsyms invocations per build.)
 
-Get rid of this config option, as preparation for some kallsyms
-optimizations that would otherwise be infeasible.
+It is much faster to instead directly output binary data, which can
+be imported in an assembly file using ".incbin". This is also the
+approach taken by arch/x86/boot/compressed/mkpiggy.c.
+So this patch switches kallsyms to that approach.
+
+A complication with this is that the endianness of numbers between
+host and target might not match (for example, when cross-compiling);
+and there seems to be no kconfig symbol that tells us what endianness
+the target has.
+So pass the path to the intermediate vmlinux ELF file to the kallsyms
+tool, and let it parse the ELF header to figure out the target's
+endianness.
+
+I have verified that running kallsyms without these changes and
+kallsyms with these changes on the same input System.map results
+in identical object files.
+
+This change reduces the time for an incremental kernel rebuild
+(touch fs/ioctl.c, then re-run make) from 27.7s to 24.1s (medians
+over 16 runs each) on my machine - saving around 3.6 seconds.
 
 Signed-off-by: Jann Horn <jannh@google.com>
 ---
- init/Kconfig                        | 18 -------
- kernel/crash_core.c                 |  4 --
- kernel/kallsyms.c                   | 10 +---
- kernel/kallsyms_internal.h          |  1 -
- scripts/kallsyms.c                  | 78 ++++++++++++-----------------
- scripts/link-vmlinux.sh             |  4 --
- tools/perf/tests/vmlinux-kallsyms.c |  1 -
- 7 files changed, 34 insertions(+), 82 deletions(-)
+ scripts/kallsyms.c      | 196 ++++++++++++++++++++++++++++++++--------
+ scripts/link-vmlinux.sh |   5 +-
+ 2 files changed, 159 insertions(+), 42 deletions(-)
 
-diff --git a/init/Kconfig b/init/Kconfig
-index 8426d59cc634..ef525aacfc4c 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -1791,24 +1791,6 @@ config KALLSYMS_ABSOLUTE_PERCPU
- 	depends on KALLSYMS
- 	default X86_64 && SMP
- 
--config KALLSYMS_BASE_RELATIVE
--	bool
--	depends on KALLSYMS
--	default y
--	help
--	  Instead of emitting them as absolute values in the native word size,
--	  emit the symbol references in the kallsyms table as 32-bit entries,
--	  each containing a relative value in the range [base, base + U32_MAX]
--	  or, when KALLSYMS_ABSOLUTE_PERCPU is in effect, each containing either
--	  an absolute value in the range [0, S32_MAX] or a relative value in the
--	  range [base, base + S32_MAX], where base is the lowest relative symbol
--	  address encountered in the image.
--
--	  On 64-bit builds, this reduces the size of the address table by 50%,
--	  but more importantly, it results in entries whose values are build
--	  time constants, and no relocation pass is required at runtime to fix
--	  up the entries based on the runtime load address of the kernel.
--
- # end of the "standard kernel features (expert users)" menu
- 
- config ARCH_HAS_MEMBARRIER_CALLBACKS
-diff --git a/kernel/crash_core.c b/kernel/crash_core.c
-index 75cd6a736d03..1e72e65ca344 100644
---- a/kernel/crash_core.c
-+++ b/kernel/crash_core.c
-@@ -817,12 +817,8 @@ static int __init crash_save_vmcoreinfo_init(void)
- 	VMCOREINFO_SYMBOL(kallsyms_num_syms);
- 	VMCOREINFO_SYMBOL(kallsyms_token_table);
- 	VMCOREINFO_SYMBOL(kallsyms_token_index);
--#ifdef CONFIG_KALLSYMS_BASE_RELATIVE
- 	VMCOREINFO_SYMBOL(kallsyms_offsets);
- 	VMCOREINFO_SYMBOL(kallsyms_relative_base);
--#else
--	VMCOREINFO_SYMBOL(kallsyms_addresses);
--#endif /* CONFIG_KALLSYMS_BASE_RELATIVE */
- #endif /* CONFIG_KALLSYMS */
- 
- 	arch_crash_save_vmcoreinfo();
-diff --git a/kernel/kallsyms.c b/kernel/kallsyms.c
-index 18edd57b5fe8..db9bd5ff6383 100644
---- a/kernel/kallsyms.c
-+++ b/kernel/kallsyms.c
-@@ -148,9 +148,6 @@ static unsigned int get_symbol_offset(unsigned long pos)
- 
- unsigned long kallsyms_sym_address(int idx)
- {
--	if (!IS_ENABLED(CONFIG_KALLSYMS_BASE_RELATIVE))
--		return kallsyms_addresses[idx];
--
- 	/* values are unsigned offsets if --absolute-percpu is not in effect */
- 	if (!IS_ENABLED(CONFIG_KALLSYMS_ABSOLUTE_PERCPU))
- 		return kallsyms_relative_base + (u32)kallsyms_offsets[idx];
-@@ -326,12 +323,9 @@ static unsigned long get_symbol_pos(unsigned long addr,
- 	unsigned long i, low, high, mid;
- 
- 	/* This kernel should never had been booted. */
--	if (!IS_ENABLED(CONFIG_KALLSYMS_BASE_RELATIVE))
--		BUG_ON(!kallsyms_addresses);
--	else
--		BUG_ON(!kallsyms_offsets);
-+	BUG_ON(!kallsyms_offsets);
- 
--	/* Do a binary search on the sorted kallsyms_addresses array. */
-+	/* Do a binary search on the sorted kallsyms_offsets array. */
- 	low = 0;
- 	high = kallsyms_num_syms;
- 
-diff --git a/kernel/kallsyms_internal.h b/kernel/kallsyms_internal.h
-index 27fabdcc40f5..451a38b88db9 100644
---- a/kernel/kallsyms_internal.h
-+++ b/kernel/kallsyms_internal.h
-@@ -8,7 +8,6 @@
-  * These will be re-linked against their real values
-  * during the second link stage.
-  */
--extern const unsigned long kallsyms_addresses[] __weak;
- extern const int kallsyms_offsets[] __weak;
- extern const u8 kallsyms_names[] __weak;
- 
 diff --git a/scripts/kallsyms.c b/scripts/kallsyms.c
-index 653b92f6d4c8..f35be95adfbe 100644
+index f35be95adfbe..ef03d723aded 100644
 --- a/scripts/kallsyms.c
 +++ b/scripts/kallsyms.c
-@@ -6,7 +6,7 @@
-  * of the GNU General Public License, incorporated herein by reference.
-  *
-  * Usage: kallsyms [--all-symbols] [--absolute-percpu]
-- *                         [--base-relative] [--lto-clang] in.map > out.S
-+ *                         [--lto-clang] in.map > out.S
-  *
-  *      Table compression uses all the unused char codes on the symbols and
-  *  maps these to the most used substrings (tokens). For instance, it might
-@@ -63,7 +63,6 @@ static struct sym_entry **table;
- static unsigned int table_size, table_cnt;
- static int all_symbols;
- static int absolute_percpu;
--static int base_relative;
- static int lto_clang;
+@@ -27,6 +27,10 @@
+ #include <string.h>
+ #include <ctype.h>
+ #include <limits.h>
++#include <endian.h>
++#include <elf.h>
++#include <fcntl.h>
++#include <unistd.h>
  
- static int token_profit[0x10000];
-@@ -76,7 +75,7 @@ static unsigned char best_table_len[256];
+ #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
+ 
+@@ -75,7 +79,7 @@ static unsigned char best_table_len[256];
  static void usage(void)
  {
  	fprintf(stderr, "Usage: kallsyms [--all-symbols] [--absolute-percpu] "
--			"[--base-relative] [--lto-clang] in.map > out.S\n");
-+			"[--lto-clang] in.map > out.S\n");
+-			"[--lto-clang] in.map > out.S\n");
++			"[--lto-clang] in in.map out.S out.bin\n");
  	exit(1);
  }
  
-@@ -484,54 +483,43 @@ static void write_src(void)
- 		printf("\t.short\t%d\n", best_idx[i]);
- 	printf("\n");
+@@ -290,20 +294,57 @@ static void read_map(const char *in)
+ 	fclose(fp);
+ }
  
--	if (!base_relative)
--		output_label("kallsyms_addresses");
--	else
--		output_label("kallsyms_offsets");
-+	output_label("kallsyms_offsets");
- 
- 	for (i = 0; i < table_cnt; i++) {
--		if (base_relative) {
--			/*
--			 * Use the offset relative to the lowest value
--			 * encountered of all relative symbols, and emit
--			 * non-relocatable fixed offsets that will be fixed
--			 * up at runtime.
--			 */
-+		/*
-+		 * Use the offset relative to the lowest value
-+		 * encountered of all relative symbols, and emit
-+		 * non-relocatable fixed offsets that will be fixed
-+		 * up at runtime.
-+		 */
- 
--			long long offset;
--			int overflow;
--
--			if (!absolute_percpu) {
--				offset = table[i]->addr - relative_base;
--				overflow = (offset < 0 || offset > UINT_MAX);
--			} else if (symbol_absolute(table[i])) {
--				offset = table[i]->addr;
--				overflow = (offset < 0 || offset > INT_MAX);
--			} else {
--				offset = relative_base - table[i]->addr - 1;
--				overflow = (offset < INT_MIN || offset >= 0);
--			}
--			if (overflow) {
--				fprintf(stderr, "kallsyms failure: "
--					"%s symbol value %#llx out of range in relative mode\n",
--					symbol_absolute(table[i]) ? "absolute" : "relative",
--					table[i]->addr);
--				exit(EXIT_FAILURE);
--			}
--			printf("\t.long\t%#x	/* %s */\n", (int)offset, table[i]->sym);
--		} else if (!symbol_absolute(table[i])) {
--			output_address(table[i]->addr);
-+		long long offset;
-+		int overflow;
++static bool is_64bit, is_little_endian;
++static char *asm_path, *bin_path;
++static FILE *asm_file, *bin_file;
++static size_t bin_offset, bin_included;
 +
-+		if (!absolute_percpu) {
-+			offset = table[i]->addr - relative_base;
-+			overflow = (offset < 0 || offset > UINT_MAX);
-+		} else if (symbol_absolute(table[i])) {
-+			offset = table[i]->addr;
-+			overflow = (offset < 0 || offset > INT_MAX);
- 		} else {
--			printf("\tPTR\t%#llx\n", table[i]->addr);
-+			offset = relative_base - table[i]->addr - 1;
-+			overflow = (offset < INT_MIN || offset >= 0);
- 		}
-+		if (overflow) {
-+			fprintf(stderr, "kallsyms failure: "
-+				"%s symbol value %#llx out of range in relative mode\n",
-+				symbol_absolute(table[i]) ? "absolute" : "relative",
-+				table[i]->addr);
-+			exit(EXIT_FAILURE);
-+		}
-+		printf("\t.long\t%#x	/* %s */\n", (int)offset, table[i]->sym);
- 	}
- 	printf("\n");
+ static void output_label(const char *label)
+ {
+-	printf(".globl %s\n", label);
+-	printf("\tALGN\n");
+-	printf("%s:\n", label);
++	fprintf(asm_file, ".globl %s\n", label);
++	fprintf(asm_file, "\tALGN\n");
++	fprintf(asm_file, "%s:\n", label);
+ }
  
--	if (base_relative) {
--		output_label("kallsyms_relative_base");
--		output_address(relative_base);
+ /* Provide proper symbols relocatability by their '_text' relativeness. */
+ static void output_address(unsigned long long addr)
+ {
+ 	if (_text <= addr)
+-		printf("\tPTR\t_text + %#llx\n", addr - _text);
++		fprintf(asm_file, "\tPTR\t_text + %#llx\n", addr - _text);
+ 	else
+-		printf("\tPTR\t_text - %#llx\n", _text - addr);
++		fprintf(asm_file, "\tPTR\t_text - %#llx\n", _text - addr);
++}
++
++/*
++ * Include all data that has been written into bin_file since the last call to
++ * this function.
++ */
++static void include_bin_data(void)
++{
++	fprintf(asm_file, ".incbin \"%s\", %zu, %zu\n", bin_path,
++		bin_included, bin_offset - bin_included);
++	bin_included = bin_offset;
++}
++
++static void output_bin_data(const void *data, size_t len)
++{
++	if (fwrite(data, 1, len, bin_file) != len) {
++		fprintf(stderr, "kallsyms: unable to write output\n");
++		exit(EXIT_FAILURE);
++	}
++	bin_offset += len;
++}
++static void output_bin_u32(uint32_t value)
++{
++	uint32_t encoded = is_little_endian ? htole32(value) : htobe32(value);
++
++	output_bin_data(&encoded, sizeof(encoded));
++}
++static void output_bin_u16(uint16_t value)
++{
++	uint16_t encoded = is_little_endian ? htole16(value) : htobe16(value);
++
++	output_bin_data(&encoded, sizeof(encoded));
+ }
+ 
+ /* uncompress a compressed symbol. When this function is called, the best table
+@@ -384,25 +425,36 @@ static void sort_symbols_by_name(void)
+ 
+ static void write_src(void)
+ {
+-	unsigned int i, k, off;
++	unsigned int i, off;
+ 	unsigned int best_idx[256];
+ 	unsigned int *markers;
+ 	char buf[KSYM_NAME_LEN];
+ 
+-	printf("#include <asm/bitsperlong.h>\n");
+-	printf("#if BITS_PER_LONG == 64\n");
+-	printf("#define PTR .quad\n");
+-	printf("#define ALGN .balign 8\n");
+-	printf("#else\n");
+-	printf("#define PTR .long\n");
+-	printf("#define ALGN .balign 4\n");
+-	printf("#endif\n");
++	asm_file = fopen(asm_path, "w");
++	if (!asm_file) {
++		perror("unable to open asm output");
++		exit(EXIT_FAILURE);
++	}
++	bin_file = fopen(bin_path, "w");
++	if (!bin_file) {
++		perror("unable to open bin output");
++		exit(EXIT_FAILURE);
++	}
++
++	fprintf(asm_file, "#include <asm/bitsperlong.h>\n");
++	fprintf(asm_file, "#if BITS_PER_LONG == 64\n");
++	fprintf(asm_file, "#define PTR .quad\n");
++	fprintf(asm_file, "#define ALGN .balign 8\n");
++	fprintf(asm_file, "#else\n");
++	fprintf(asm_file, "#define PTR .long\n");
++	fprintf(asm_file, "#define ALGN .balign 4\n");
++	fprintf(asm_file, "#endif\n");
+ 
+-	printf("\t.section .rodata, \"a\"\n");
++	fprintf(asm_file, "\t.section .rodata, \"a\"\n");
+ 
+ 	output_label("kallsyms_num_syms");
+-	printf("\t.long\t%u\n", table_cnt);
+-	printf("\n");
++	fprintf(asm_file, "\t.long\t%u\n", table_cnt);
++	fprintf(asm_file, "\n");
+ 
+ 	/* table of offset markers, that give the offset in the compressed stream
+ 	 * every 256 symbols */
+@@ -437,20 +489,23 @@ static void write_src(void)
+ 		/* Encode length with ULEB128. */
+ 		if (table[i]->len <= 0x7F) {
+ 			/* Most symbols use a single byte for the length. */
+-			printf("\t.byte 0x%02x", table[i]->len);
++			unsigned char len_encoded[1] = { table[i]->len };
++
++			output_bin_data(len_encoded, sizeof(len_encoded));
+ 			off += table[i]->len + 1;
+ 		} else {
+ 			/* "Big" symbols use two bytes. */
+-			printf("\t.byte 0x%02x, 0x%02x",
++			unsigned char len_encoded[2] = {
+ 				(table[i]->len & 0x7F) | 0x80,
+-				(table[i]->len >> 7) & 0x7F);
++				(table[i]->len >> 7) & 0x7F
++			};
++
++			output_bin_data(len_encoded, sizeof(len_encoded));
+ 			off += table[i]->len + 2;
+ 		}
+-		for (k = 0; k < table[i]->len; k++)
+-			printf(", 0x%02x", table[i]->sym[k]);
 -		printf("\n");
--	}
-+	output_label("kallsyms_relative_base");
-+	output_address(relative_base);
-+	printf("\n");
++		output_bin_data(table[i]->sym, table[i]->len);
+ 	}
+-	printf("\n");
++	include_bin_data();
+ 
+ 	/*
+ 	 * Now that we wrote out the compressed symbol names, restore the
+@@ -463,8 +518,8 @@ static void write_src(void)
+ 
+ 	output_label("kallsyms_markers");
+ 	for (i = 0; i < ((table_cnt + 255) >> 8); i++)
+-		printf("\t.long\t%u\n", markers[i]);
+-	printf("\n");
++		output_bin_u32(markers[i]);
++	include_bin_data();
+ 
+ 	free(markers);
+ 
+@@ -473,15 +528,15 @@ static void write_src(void)
+ 	for (i = 0; i < 256; i++) {
+ 		best_idx[i] = off;
+ 		expand_symbol(best_table[i], best_table_len[i], buf);
+-		printf("\t.asciz\t\"%s\"\n", buf);
++		output_bin_data(buf, strlen(buf)+1);
+ 		off += strlen(buf) + 1;
+ 	}
+-	printf("\n");
++	include_bin_data();
+ 
+ 	output_label("kallsyms_token_index");
+ 	for (i = 0; i < 256; i++)
+-		printf("\t.short\t%d\n", best_idx[i]);
+-	printf("\n");
++		output_bin_u16(best_idx[i]);
++	include_bin_data();
+ 
+ 	output_label("kallsyms_offsets");
+ 
+@@ -513,13 +568,12 @@ static void write_src(void)
+ 				table[i]->addr);
+ 			exit(EXIT_FAILURE);
+ 		}
+-		printf("\t.long\t%#x	/* %s */\n", (int)offset, table[i]->sym);
++		output_bin_u32((uint32_t)offset);
+ 	}
+-	printf("\n");
++	include_bin_data();
+ 
+ 	output_label("kallsyms_relative_base");
+ 	output_address(relative_base);
+-	printf("\n");
  
  	if (lto_clang)
  		for (i = 0; i < table_cnt; i++)
-@@ -813,7 +801,6 @@ int main(int argc, char **argv)
- 		static const struct option long_options[] = {
- 			{"all-symbols",     no_argument, &all_symbols,     1},
- 			{"absolute-percpu", no_argument, &absolute_percpu, 1},
--			{"base-relative",   no_argument, &base_relative,   1},
- 			{"lto-clang",       no_argument, &lto_clang,       1},
- 			{},
- 		};
-@@ -834,8 +821,7 @@ int main(int argc, char **argv)
+@@ -527,12 +581,24 @@ static void write_src(void)
+ 
+ 	sort_symbols_by_name();
+ 	output_label("kallsyms_seqs_of_names");
+-	for (i = 0; i < table_cnt; i++)
+-		printf("\t.byte 0x%02x, 0x%02x, 0x%02x\n",
++	for (i = 0; i < table_cnt; i++) {
++		unsigned char seq_encoded[3] = {
+ 			(unsigned char)(table[i]->seq >> 16),
+ 			(unsigned char)(table[i]->seq >> 8),
+-			(unsigned char)(table[i]->seq >> 0));
+-	printf("\n");
++			(unsigned char)(table[i]->seq >> 0)
++		};
++		output_bin_data(seq_encoded, sizeof(seq_encoded));
++	}
++	include_bin_data();
++
++	if (fclose(asm_file)) {
++		perror("unable to write to asm output");
++		exit(EXIT_FAILURE);
++	}
++	if (fclose(bin_file)) {
++		perror("unable to write to bin output");
++		exit(EXIT_FAILURE);
++	}
+ }
+ 
+ 
+@@ -795,6 +861,52 @@ static void record_relative_base(void)
+ 		}
+ }
+ 
++static void get_target_data_types(const char *elf_path)
++{
++	int elf_fd = open(elf_path, O_RDONLY);
++	unsigned char elf_ident[EI_NIDENT];
++
++	if (elf_fd == -1) {
++		perror("open ELF");
++		exit(EXIT_FAILURE);
++	}
++	if (read(elf_fd, elf_ident, sizeof(elf_ident)) != sizeof(elf_ident)) {
++		perror("read ELF header");
++		exit(EXIT_FAILURE);
++	}
++	close(elf_fd);
++
++	if (elf_ident[EI_MAG0] != ELFMAG0 || elf_ident[EI_MAG1] != ELFMAG1 ||
++	    elf_ident[EI_MAG2] != ELFMAG2 || elf_ident[EI_MAG3] != ELFMAG3) {
++		fprintf(stderr, "kallsyms: input ELF has invalid header\n");
++		exit(EXIT_FAILURE);
++	}
++
++	switch (elf_ident[EI_CLASS]) {
++	case ELFCLASS32:
++		is_64bit = false;
++		break;
++	case ELFCLASS64:
++		is_64bit = true;
++		break;
++	default:
++		fprintf(stderr, "kallsyms: input ELF has invalid bitness\n");
++		exit(EXIT_FAILURE);
++	}
++
++	switch (elf_ident[EI_DATA]) {
++	case ELFDATA2LSB:
++		is_little_endian = true;
++		break;
++	case ELFDATA2MSB:
++		is_little_endian = false;
++		break;
++	default:
++		fprintf(stderr, "kallsyms: input ELF has invalid endianness\n");
++		exit(EXIT_FAILURE);
++	}
++}
++
+ int main(int argc, char **argv)
+ {
+ 	while (1) {
+@@ -813,10 +925,14 @@ int main(int argc, char **argv)
+ 			usage();
+ 	}
+ 
+-	if (optind >= argc)
++	if (optind+4 != argc)
+ 		usage();
++	asm_path = argv[optind+2];
++	bin_path = argv[optind+3];
++
++	get_target_data_types(argv[optind]);
+ 
+-	read_map(argv[optind]);
++	read_map(argv[optind+1]);
+ 	shrink_table();
  	if (absolute_percpu)
  		make_percpus_absolute();
- 	sort_symbols();
--	if (base_relative)
--		record_relative_base();
-+	record_relative_base();
- 	optimize_token_table();
- 	write_src();
- 
 diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-index 7862a8101747..5127371d3393 100755
+index 5127371d3393..1b5ff33a2d4a 100755
 --- a/scripts/link-vmlinux.sh
 +++ b/scripts/link-vmlinux.sh
-@@ -157,10 +157,6 @@ kallsyms()
- 		kallsymopt="${kallsymopt} --absolute-percpu"
+@@ -162,7 +162,7 @@ kallsyms()
  	fi
  
--	if is_enabled CONFIG_KALLSYMS_BASE_RELATIVE; then
--		kallsymopt="${kallsymopt} --base-relative"
--	fi
--
- 	if is_enabled CONFIG_LTO_CLANG; then
- 		kallsymopt="${kallsymopt} --lto-clang"
- 	fi
-diff --git a/tools/perf/tests/vmlinux-kallsyms.c b/tools/perf/tests/vmlinux-kallsyms.c
-index 822f893e67d5..1bb91f2ec5ba 100644
---- a/tools/perf/tests/vmlinux-kallsyms.c
-+++ b/tools/perf/tests/vmlinux-kallsyms.c
-@@ -26,7 +26,6 @@ static bool is_ignored_symbol(const char *name, char type)
- 		 * when --all-symbols is specified so exclude them to get a
- 		 * stable symbol list.
- 		 */
--		"kallsyms_addresses",
- 		"kallsyms_offsets",
- 		"kallsyms_relative_base",
- 		"kallsyms_num_syms",
+ 	info KSYMS ${2}
+-	scripts/kallsyms ${kallsymopt} ${1} > ${2}
++	scripts/kallsyms ${kallsymopt} ${1} ${2} ${3} ${4}
+ }
+ 
+ # Perform one step in kallsyms generation, including temporary linking of
+@@ -173,10 +173,11 @@ kallsyms_step()
+ 	kallsyms_vmlinux=.tmp_vmlinux.kallsyms${1}
+ 	kallsymso=${kallsyms_vmlinux}.o
+ 	kallsyms_S=${kallsyms_vmlinux}.S
++	kallsyms_bin=${kallsyms_vmlinux}.bin
+ 
+ 	vmlinux_link ${kallsyms_vmlinux} "${kallsymso_prev}" ${btf_vmlinux_bin_o}
+ 	mksysmap ${kallsyms_vmlinux} ${kallsyms_vmlinux}.syms ${kallsymso_prev}
+-	kallsyms ${kallsyms_vmlinux}.syms ${kallsyms_S}
++	kallsyms ${kallsyms_vmlinux} ${kallsyms_vmlinux}.syms ${kallsyms_S} ${kallsyms_bin}
+ 
+ 	info AS ${kallsyms_S}
+ 	${CC} ${NOSTDINC_FLAGS} ${LINUXINCLUDE} ${KBUILD_CPPFLAGS} \
 -- 
 2.44.0.rc0.258.g7320e95886-goog
 
