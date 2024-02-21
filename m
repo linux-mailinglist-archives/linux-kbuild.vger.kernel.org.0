@@ -1,133 +1,150 @@
-Return-Path: <linux-kbuild+bounces-1019-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1021-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 122B085E0A5
-	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Feb 2024 16:12:37 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B5DA85E0EF
+	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Feb 2024 16:24:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 448BD1C21C70
-	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Feb 2024 15:12:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 09D891C22A1F
+	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Feb 2024 15:24:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9537580632;
-	Wed, 21 Feb 2024 15:12:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 661E980626;
+	Wed, 21 Feb 2024 15:24:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b="PJi/yWQg"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="X43WiF5R"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FBF77BB10;
-	Wed, 21 Feb 2024 15:12:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.63.252.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D19A80604
+	for <linux-kbuild@vger.kernel.org>; Wed, 21 Feb 2024 15:24:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708528334; cv=none; b=SdLVVxoPiK4GfiGjr2E0nnngYtYC8kfqOohggXxlG67a4sNliWfvBDWPvPIoPqYc9Ch+cGzkvR02J+2HC0CcufAxmApvT5KDPDDeejjD5K4A36P6esZYwYG5uAB5sZYItz9nNEnxddSiccsp48WCtu5LJ/EZIniO6gWhGjVDSiU=
+	t=1708529063; cv=none; b=P44BK0qfQ2VTI23sbXN90lslJdDUbyjk87oRlfxW+FDSHFBK7SeY5M2Nw3xrUnnXfSKjL2AJlUYq0Ml2Jku8hUDwPcTRriapHNmtGPjlLcnSXReUMBuOLyxbsvaTa3CZSTLnVt3S6/Dw8H2L6OnWpo6u2WZ59e+RIQpb50+Yx7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708528334; c=relaxed/simple;
-	bh=6Fh7lpaC6pNfSFrltqbIXgLkWxOT6eywJS4r6URXbGQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Jkw1xHlthSXzE72BX8R1EOunExrD5osDh3S/uoZBaXaGoNwl8/td9aRYMFm8BK+ssZrPLJYuoaM9aaqOFDSqklyOp+DteyPOYtiE95f1jOPjN6rpuhAYJPG1vobJ9JSBYkbOtei92Xc2+1Wb81amjF0we7yxLe8913djXwivvPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu; spf=pass smtp.mailfrom=fjasle.eu; dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b=PJi/yWQg; arc=none smtp.client-ip=194.63.252.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fjasle.eu
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=fjasle.eu;
-	s=ds202307; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=8OXzSw7Lbz7R+v639wcrlzlha3nK0uEfq5ZdlSY7S9w=; b=PJi/yWQgTvd+YJLdjTOYDlleCn
-	Tkt73178X7GXBrOZhTs5oH9nhqyMA0fbkmqCEZuODGkGqoBJI685o+LYz4g2xBkiUR1vncRg47tjW
-	Xdojrno4ZK4enOxERxn2j0oQzgOQMEn+vSmrbFXvS4BfHNTA1xeR/lbW2gkSNQStCVOiFTTTBSe7j
-	gXdmw1Om8QUBZg2T5ZxPjlA93+3A+GEJOt3gs5SRAUXztAyJcGIUU2e4KERFZpmx6D2FOEdXZ8DUZ
-	WhxbhiZgdgurwfUtpPIpuHw7u2RFIhXM5c8t7OMQ0WUjnT2Myb0sIev2CsZc53bk27rAaLI7wK7tG
-	fMzESG7A==;
-Received: from dynamic-176-000-161-131.176.0.pool.telefonica.de ([176.0.161.131]:27360 helo=bergen.fjasle.eu)
-	by smtp.domeneshop.no with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <nicolas@fjasle.eu>)
-	id 1rcoGS-00DO5M-8M;
-	Wed, 21 Feb 2024 16:12:04 +0100
-Date: Wed, 21 Feb 2024 16:12:00 +0100
-From: Nicolas Schier <nicolas@fjasle.eu>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] kbuild: change DTC_FLAGS_<basetarget>.o to take the
- path relative to $(obj)
-Message-ID: <ZdYSwGUlOpGdAFVU@bergen.fjasle.eu>
-References: <20240217055504.2059803-1-masahiroy@kernel.org>
- <20240217055504.2059803-2-masahiroy@kernel.org>
+	s=arc-20240116; t=1708529063; c=relaxed/simple;
+	bh=G1SI2A6tUC59YrjJyks6t8vsbhf0181tsF0nRbc+Gok=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=FomOixFEfgeD4aHBbLZbAOO1GoQfPvL4CaID1zTqHuRLpXsN3x9PMdv5bv4sF9dY3u2VCrpozkmwdnMlSW0GXd+3LwQa07ENYwrs0YkRgyOqHivP5I8XEFfCS7M/bl6i9WQcwedvb654KDtsoCUq90z0ya28XrIklvbT1Tv8c3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=X43WiF5R; arc=none smtp.client-ip=209.85.219.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-dcc0bcf9256so7421886276.3
+        for <linux-kbuild@vger.kernel.org>; Wed, 21 Feb 2024 07:24:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1708529060; x=1709133860; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=BHHzhvHN0kTOVo3wOm3ee1AH8U5eQGWfBAmKM9n5eN0=;
+        b=X43WiF5RExkr9EECTADddb6evCbVDhimXJjF9Z8G1tBPIpqd42YzvkWgXqXe0pwiMP
+         XvFq8cY20TKg3kTMLcAbc8ZqzGgkm+9WBF4vbuaQ/pJVl8BGWzw3Ev62NzGohQAFDAm1
+         BTyeR98Ap8Ovku2X+RUA5RZjqO1UKH/0Rx3cQp71NPWIN/OGRVPBsJhL481LsWlZH/aI
+         xDnSkpMoAAnT+hOEr/T4oYJdci78npqM8m+Qb3rJBGTWmrvrHRzEonmfw0AIDghXQ4q2
+         zaCcKaaxAHBCf3ojozyQz4NSepuHajT/O3By5RDbtoUi/LqUCzTzeNfS0rirPuDl0vzz
+         8TgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708529060; x=1709133860;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BHHzhvHN0kTOVo3wOm3ee1AH8U5eQGWfBAmKM9n5eN0=;
+        b=JM9Abq3wDlJw/5Puby8L8NA02OsDOT1eZsKGPI9gWPTxFLvmWPpaJjqvqdKxENSiNh
+         HOnpALEOdAFS3KItaIErdBvvKKe7NqLMhMTeYlJcGQ06s/esDbLXq8AtBCeX56h4jSkL
+         aliEcikbIjlaEKcMiuLjhMpkAQ9mLY1jx+PhngPxwyQBmjrZ8IWRFbRHG5aOqirG9hc6
+         LW7UYlmFlHk+0hH7Bgfe3Ac1B2Evpeagbo+8PGGBX7393c+aLcKIWEBHmOnnmmhcyEnh
+         jggnCB7v7J7akgOZ8F1WJbGX+qAtHEavC/1M2PDCua5uLAmPkAJNRL0CqQUM32PS+OSk
+         PuTg==
+X-Gm-Message-State: AOJu0YyfCA5DhFPMVHaRgkBe620qbxVOA7ZHIBcdTByi6egMXGZZScls
+	vWi3MIkqN1cT9t01exnaMVbOuxTfuMZJIkKy3xBSQQNpSWxm6DW4AluRKdVEWVp36FtrqzRKEBz
+	W0A==
+X-Google-Smtp-Source: AGHT+IHIiqpo182eOydyp2kAE2MyaxiISahNsXsmBtUhUZTch3wVQ+TmxdSEWBoV3EtlCh1QkxcGWISraHk=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a05:6902:114a:b0:dc6:b982:cfa2 with SMTP id
+ p10-20020a056902114a00b00dc6b982cfa2mr703388ybu.8.1708529060015; Wed, 21 Feb
+ 2024 07:24:20 -0800 (PST)
+Date: Wed, 21 Feb 2024 07:24:18 -0800
+In-Reply-To: <20240217055504.2059803-1-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="na7oD77FSrV7Zoi7"
-Content-Disposition: inline
-In-Reply-To: <20240217055504.2059803-2-masahiroy@kernel.org>
-X-Operating-System: Debian GNU/Linux trixie/sid
-Jabber-ID: nicolas@jabber.no
+Mime-Version: 1.0
+References: <20240217055504.2059803-1-masahiroy@kernel.org>
+Message-ID: <ZdYVouaZX0AQF0V0@google.com>
+Subject: Re: [PATCH 1/2] kbuild: change tool coverage variables to take the
+ path relative to $(obj)
+From: Sean Christopherson <seanjc@google.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, Andy Lutomirski <luto@kernel.org>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	"H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Thomas Gleixner <tglx@linutronix.de>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	x86@kernel.org
+Content-Type: text/plain; charset="us-ascii"
 
-
---na7oD77FSrV7Zoi7
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Sat 17 Feb 2024 14:55:04 GMT, Masahiro Yamada wrote:
-> For the same rationale as commit 54b8ae66ae1a ("kbuild: change
-> *FLAGS_<basetarget>.o to take the path relative to $(obj)").
->=20
+On Sat, Feb 17, 2024, Masahiro Yamada wrote:
+> To maintain the current behavior, I made adjustments to two Makefiles:
+> 
+>  - arch/x86/entry/vdso/Makefile, which compiles vclock_gettime.o and
+>    vdso32/vclock_gettime.o
+> 
+>  - arch/x86/kvm/Makefile, which compiles vmx/vmenter.o and svm/vmenter.o
+> 
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > ---
->=20
->  scripts/Makefile.lib | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> index 328c0d77ed48..56f7fe2b476d 100644
-> --- a/scripts/Makefile.lib
-> +++ b/scripts/Makefile.lib
-> @@ -368,7 +368,7 @@ DTC_FLAGS +=3D -Wnode_name_chars_strict \
->  	-Wunique_unit_address
+> 
+>  arch/x86/entry/vdso/Makefile |  2 ++
+>  arch/x86/kvm/Makefile        |  3 ++-
+>  scripts/Makefile.build       |  2 +-
+>  scripts/Makefile.lib         | 16 ++++++++--------
+>  4 files changed, 13 insertions(+), 10 deletions(-)
+> 
+> diff --git a/arch/x86/entry/vdso/Makefile b/arch/x86/entry/vdso/Makefile
+> index 7a97b17f28b7..148adfdb2325 100644
+> --- a/arch/x86/entry/vdso/Makefile
+> +++ b/arch/x86/entry/vdso/Makefile
+> @@ -9,7 +9,9 @@ include $(srctree)/lib/vdso/Makefile
+>  # Sanitizer runtimes are unavailable and cannot be linked here.
+>  KASAN_SANITIZE			:= n
+>  KMSAN_SANITIZE_vclock_gettime.o := n
+> +KMSAN_SANITIZE_vdso32/vclock_gettime.o	:= n
+>  KMSAN_SANITIZE_vgetcpu.o	:= n
+> +KMSAN_SANITIZE_vdso32/vgetcpu.o	:= n
+>  
+>  UBSAN_SANITIZE			:= n
+>  KCSAN_SANITIZE			:= n
+> diff --git a/arch/x86/kvm/Makefile b/arch/x86/kvm/Makefile
+> index 475b5fa917a6..a88bb14266b6 100644
+> --- a/arch/x86/kvm/Makefile
+> +++ b/arch/x86/kvm/Makefile
+> @@ -4,7 +4,8 @@ ccflags-y += -I $(srctree)/arch/x86/kvm
+>  ccflags-$(CONFIG_KVM_WERROR) += -Werror
+>  
+>  ifeq ($(CONFIG_FRAME_POINTER),y)
+> -OBJECT_FILES_NON_STANDARD_vmenter.o := y
+> +OBJECT_FILES_NON_STANDARD_vmx/vmenter.o := y
+> +OBJECT_FILES_NON_STANDARD_svm/vmenter.o := y
 >  endif
-> =20
-> -DTC_FLAGS +=3D $(DTC_FLAGS_$(basetarget))
-> +DTC_FLAGS +=3D $(DTC_FLAGS_$(target-stem))
-> =20
->  # Set -@ if the target is a base DTB that overlay is applied onto
->  DTC_FLAGS +=3D $(if $(filter $(patsubst $(obj)/%,%,$@), $(base-dtb-y)), =
--@)
-> --=20
-> 2.40.1
->=20
->=20
 
-Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
+I'm 99% certain only svm/vmenter.S "needs" to be compiled with OBJECT_FILES_NON_STANDARD,
+and that vmx/vmenter.S got caught in the crossfire off commit commit 7f4b5cde2409
+("kvm: Disable objtool frame pointer checking for vmenter.S").
 
---na7oD77FSrV7Zoi7
-Content-Type: application/pgp-signature; name="signature.asc"
+"Needs" in quotes because I don't see any reason when __svm_vcpu_run() can't play
+the same games as __vmx_vcpu_run() to make stack validation happy, and
+__svm_sev_es_vcpu_run() flat out shouldn't be touching RBP.
 
------BEGIN PGP SIGNATURE-----
+I'll throw together a series to (hopefully) remove OBJECT_FILES_NON_STANDARD
+completely.
 
-iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmXWEsAACgkQB1IKcBYm
-Emm7Zw//bbaXDl+Kl5/Xx+uGvpJQJSvBMGDA8izA45IOGNeSK8/0HPitNQiVWDEh
-McJc9oVxm64BAl0ilHeHJGCgatlaaR3Mp4ysquu6fLUltPOp74DeVNCBV4l8BgFW
-SGCs46fIx1sF/v6u9YxYVKmDJPuJzPLNy8PgtE3xy4UcALAaesle4pN4rd7vu4HZ
-vS4cEALbP8Hdp/vLdVK5Fd6QYmeAbO8s8vqzC+Q8TZsPtCMzxbN8/kLXXUrPpoog
-j8o8cYzZg/bH/zJioNk8dQeP44zh/q3LMiM4w1Zpv0JNsxj9uvjPryMxhxqgH1RF
-FazT/u7HRHmiPcbkJsMewhwU7cUoaELPIqtRxQ0wfWReOxRSyoZqDXmtgtaEx10S
-6C0uZSg7USJjF+DRHKzm2Nk8NnKiZFP9ddpskzC4/+GbBDJJihfssodFfKHT+Uie
-ptt0Za4jfeRz/pCrLhNDyJUGogqtcGSICxighMiIy1eZ17ySVMD6h18W4mE7VJbQ
-M0kZC4/VLeLN7dQ0bMZdcvd9C9JQzzWic7DFoYCAbB3E6GKPMg2Iua1a3tqlo2TP
-pa8g0iFJmQqAUyqCV7mEBGf1sG7AlNGX/LYruAX9bkNoAfIOxu48CmMx2N9UO8PQ
-497DiBpodajTKbb//t1arP4Y2CHNn1kPbk5M4OJZl1pePJzycUI=
-=9nFd
------END PGP SIGNATURE-----
+But for this patch/series, I think it makes sense to do a 1:1 conversion.  That'll
+make it much more straightforward to resolve the eventual conflict, assuming I am
+successful in dropping OBJECT_FILES_NON_STANDARD.
 
---na7oD77FSrV7Zoi7--
+Which is a very long-winded way of saying:
+
+Acked-by: Sean Christopherson <seanjc@google.com>
 
