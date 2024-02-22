@@ -1,141 +1,182 @@
-Return-Path: <linux-kbuild+bounces-1039-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1040-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B7B785F2AA
-	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Feb 2024 09:20:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0602085F6A7
+	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Feb 2024 12:21:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DF5931F2312D
-	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Feb 2024 08:20:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 624911F2184C
+	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Feb 2024 11:21:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 364B9182CA;
-	Thu, 22 Feb 2024 08:20:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76E50405DF;
+	Thu, 22 Feb 2024 11:21:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="enXFF73o";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="GxjZVZIt"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="2FWqWvep"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from fout5-smtp.messagingengine.com (fout5-smtp.messagingengine.com [103.168.172.148])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 069A417C7C;
-	Thu, 22 Feb 2024 08:20:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B227208A2
+	for <linux-kbuild@vger.kernel.org>; Thu, 22 Feb 2024 11:21:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708590050; cv=none; b=RnkejLYOc+/pBiCzMfbzZMleV3moyV/5IW4bB7Vd+ZZEF5gsEqf8KEyCPtgZRXPVoWcbrhm8XIbRuA9Si/RLmQhglvRICjwp2XF2fM8V6I63U+YAGwKwLghPU5BEtZSESMC/6LjjpYiHG7VdLzKcFfQBD+nDfY1/dz3iMKghRX8=
+	t=1708600871; cv=none; b=i+Y3SJyVIJMczM7WFKsc5EC3xzi02QqemrcKHl5etx/a4OnEs3cRPdaa3PDM/L147ZUdEP2Nk6bXaRqN/dYw65omszk0bJXZglKM9lv+VHeeVbylOKR8zkJ/8K//9iMb0TOMqBWSYybRqztCbhWMw8MoV7Que/92qdXup8WrW0U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708590050; c=relaxed/simple;
-	bh=4MClZqbuQ1LXpOwb1LZxVl0+YjjYmGDFWMdoAB/Z15M=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=PxWGCtT4z0q8c5s9kTeF/X/Zn/ztm+5uW2CM0Wevx1ke2RQPoeCX23NNXpY7AUwcM/R6J3RZKQNduQ0u5ra8+yFaNjyNXCuYeQN/6cCWAcXlMoLyNPA23Hh8lCh4EJmzfjBaF7lRnWNa332brDyoxjxBeq1CwfM50iG4reMmWxY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=enXFF73o; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=GxjZVZIt; arc=none smtp.client-ip=103.168.172.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailfout.nyi.internal (Postfix) with ESMTP id EC0CA13800A6;
-	Thu, 22 Feb 2024 03:20:46 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Thu, 22 Feb 2024 03:20:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1708590046;
-	 x=1708676446; bh=kxGPWuzo0SG9vjq2VYft63fIP589ClwRv7B1K2FKclE=; b=
-	enXFF73o5R+6qA/OcZqDSjng/cnvSbChsHJ+4GwY3PrsrxKc/jANGyg8bOL8oTbH
-	i+Ro1fLXVXn0aW713bbIRvCvUCnHgW5JHcxuiSrvAbnFuz0ucaOK2yWZfEopwkbW
-	Mb1x0RYgBoZUOsBRTlfxdxvXe5Qzs12v/jNaL77riiRLiqIWtEn5eJTqvw8VcIbi
-	vBfL9nyQS4Wq2Q9sM0HAJ0G+6xPBcbJD4rxDJw9fGitWMRzJ08F47EWvYCrNoiiL
-	VG2aFwL7Z2gfTpFjNUCajzWJeu3FqOQDnfgWU/r+ic3ceZ6jzP+2iCTIvSwRxf3h
-	6hbMPWBLstXIgtpvohpt4w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1708590046; x=
-	1708676446; bh=kxGPWuzo0SG9vjq2VYft63fIP589ClwRv7B1K2FKclE=; b=G
-	xjZVZIt7dMNwUNN03o2kaxV9vfkhoD25WKVetSoQJapocStHxLPEzaC1/Bz/XP76
-	eiR3aa/Fb86l2e1QUBij9T1rWJVXPn/0fB7J/P1gbvXNAenPYIApM8BOlcKLN5vN
-	iS+69XcvzCcgbTkEloRVq1NCj2RXgvb/NwDGdAi9EG1LaOilcxS5Np4kCGsAEeiu
-	SFwZ9MFer1qaWFfvYZTKpRbAno2jpNL8+rc35dCpPh6Qn4rUkjyodrIsCeS7c0Il
-	NLlGZSIiGPt9yHDQw9tYuKzLkWA264kA00w9XSYGgpY7Q72NXC6ZjppYH+n5fcjV
-	28UI1sd/rEn9KoFE7GM9w==
-X-ME-Sender: <xms:3gPXZY7TTRusOSU-Zhw0yzK1Gw4BgtWkjd9CuALbR1uZZmpmZxperA>
-    <xme:3gPXZZ7DEv97BjSd8Qp1Zmp_k_jf2bj8mM450Y0bO0jD3JMn_ZZlm4fpOrAlA4PQd
-    9bt_mvSZARwkDSH2mg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfeefgdduudejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdet
-    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
-    htthgvrhhnpeegfeejhedvledvffeijeeijeeivddvhfeliedvleevheejleetgedukedt
-    gfejveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    grrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:3gPXZXeWxcdaczpF0Wyyf4yRHZeDYPaL1Q5KYicImBm53Vuw9HiYew>
-    <xmx:3gPXZdJm58Dg9nD-5zU5ok-Q02nXi0SCnIGMkll0UhF3i9cpQmctuQ>
-    <xmx:3gPXZcI3wyp9R8LebycpKLTKN0tPTE1ctNRGGagplde1lF9ekqezPQ>
-    <xmx:3gPXZVpxTL90BporghlE1GrudzbQMDKUxKfcVNmeEW9MKeOSxkS1Og>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 7877CB6008D; Thu, 22 Feb 2024 03:20:46 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-153-g7e3bb84806-fm-20240215.007-g7e3bb848
+	s=arc-20240116; t=1708600871; c=relaxed/simple;
+	bh=9Pqfn0qC+Yj0+qJNWDK84EdmrphKvk4v2jyMlAkwfrs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CW9V1o7xmbXvXn1g+/xcRbaPR283pr5TZY02zgUEZPuEasYi9lPIdMzMDyDdoaw8UfqYi71GSn2W9E6iqUDYlmOZrdeLtLInzuEVY0agdfZx2T7WsaCb5ByuQp/1vjzqPSpehl9m0Q8sblwTsN8BnN9KIZHaVRYFBlB9s0X619c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=2FWqWvep; arc=none smtp.client-ip=209.85.208.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5650c27e352so8671a12.0
+        for <linux-kbuild@vger.kernel.org>; Thu, 22 Feb 2024 03:21:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1708600868; x=1709205668; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1SjcXiN0HSEY14VbtkYXT9a2V6mhrgFrbcQEYTI562s=;
+        b=2FWqWvepbEwV3t9/82tcf+XsbCGiEcCpFv900lXJ4xI/+rMYHiELH1cdVOoieUx5cn
+         pH2Z2sAyPWH5+KYQRvEmdmKo3CmvqObtbWdeTpH33pnrI8whJZNmmh3yeTJqB+G9kt09
+         a6QuRNORuy/PPsEoUMQ9NVgHETRezA5vW13BhfMO0o4I0qRNMBD52G6NsWY1rNO+Ke3g
+         kA/6b1KWzqajMNqYjkqcHM4cle/0cvVP8C4w0ruT5QnNOHw4t94YFpPNqGdYKF635YEK
+         P/NhXeG8fEgFEWf/MaAf1oVajhyNwuNCXzQLQ+8FhT2T+Gse+25WjMebdjCsRK6ZsofH
+         jAXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708600868; x=1709205668;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1SjcXiN0HSEY14VbtkYXT9a2V6mhrgFrbcQEYTI562s=;
+        b=WNaAeOezWXtJHHVTybW6nbywwWfrscHw4GmIcvUl6H6Y4YBpFCe08z6Mnt2urNoDrQ
+         yJvZaB7BF07tplowvsXh0h4B1Phf43Y1/xq9qrcl+K2394shZY5l5GndYsDXCgiEqO9e
+         wCrLPzlHcCoWGlU7/ltL34pOdVZ0Rx0UPDA1LTH/Vmu9qec/kGHptRv9GeGzwwOhBWQt
+         ipRyC4GbdxJU8zsatUYEcOX/ptbwPe4OvJAZWdRI23LCDcVxCfSHcep9edKs0N7iAJtM
+         4eX0o2tJVXm16fA3w54C3/xN8ZEWtL0QgFy39x56gXyx8LUzpzzaI5TWkO+ZS6+Sm1Cl
+         0h0Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUbxV+A3seYoHMLQish3Yj5tUr/6UBqTkssjveIgrjWkLJDCTuTHqFH2ktFHe+KjbgNwyuSKjdTXtTKbUzlTNgthUCXIlevAYvDnMf1
+X-Gm-Message-State: AOJu0Yy5pOZ8DRGmPUZZlgJl65pPWzlg7BORHSRYbqQrJ383Q3thfGuG
+	tlJemh9C8qVTZWTVYx6dFPSs6eebC2U+v937WeCmCOArZlxCdZyaaQ93wvQc+I+qamqw9vOQpEE
+	QVNF1MffBLCCItDv2yv+HO8LHtDMyvuO+O/Nr
+X-Google-Smtp-Source: AGHT+IEcTG/GdWgu9Ui4LLjkbYfNdp0E+FczKDajRVi7qSQMUwu9HMIX4CuPOYE4s2ORF/roDBrhCKNx3PhP6c+3YKo=
+X-Received: by 2002:a50:cdcc:0:b0:560:1a1:eb8d with SMTP id
+ h12-20020a50cdcc000000b0056001a1eb8dmr322200edj.7.1708600867697; Thu, 22 Feb
+ 2024 03:21:07 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <d419dc3f-ce85-4bae-bb93-05e0103a1c6c@app.fastmail.com>
-In-Reply-To: 
+References: <20240221202655.2423854-1-jannh@google.com> <20240221202655.2423854-2-jannh@google.com>
  <CAK7LNAQG_dX8p0Lch-wg8cOVRQzaJUh2zFJL+3tgpcT8_iSTow@mail.gmail.com>
-References: <20240221202655.2423854-1-jannh@google.com>
- <20240221202655.2423854-2-jannh@google.com>
- <CAK7LNAQG_dX8p0Lch-wg8cOVRQzaJUh2zFJL+3tgpcT8_iSTow@mail.gmail.com>
-Date: Thu, 22 Feb 2024 09:20:26 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Masahiro Yamada" <masahiroy@kernel.org>, "Jann Horn" <jannh@google.com>
-Cc: "Andrew Morton" <akpm@linux-foundation.org>,
- "Nick Desaulniers" <ndesaulniers@google.com>,
- "Miguel Ojeda" <ojeda@kernel.org>, "Zhen Lei" <thunder.leizhen@huawei.com>,
- linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
+In-Reply-To: <CAK7LNAQG_dX8p0Lch-wg8cOVRQzaJUh2zFJL+3tgpcT8_iSTow@mail.gmail.com>
+From: Jann Horn <jannh@google.com>
+Date: Thu, 22 Feb 2024 12:20:29 +0100
+Message-ID: <CAG48ez3Kg+BPsf_gWhm9E3QwOOw_CbTnHJ828Df41i1_EYrxnw@mail.gmail.com>
 Subject: Re: [PATCH 2/2] kallsyms: build faster by using .incbin
-Content-Type: text/plain;charset=utf-8
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, Zhen Lei <thunder.leizhen@huawei.com>, 
+	Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 22, 2024, at 05:06, Masahiro Yamada wrote:
-> On Thu, Feb 22, 2024 at 5:27=E2=80=AFAM Jann Horn <jannh@google.com> w=
-rote:
->> This change reduces the time for an incremental kernel rebuild
->> (touch fs/ioctl.c, then re-run make) from 27.7s to 24.1s (medians
->> over 16 runs each) on my machine - saving around 3.6 seconds.
+On Thu, Feb 22, 2024 at 5:07=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
+rg> wrote:
+> On Thu, Feb 22, 2024 at 5:27=E2=80=AFAM Jann Horn <jannh@google.com> wrot=
+e:
+> >
+> > Currently, kallsyms builds a big assembly file (~19M with a normal
+> > kernel config), and then the assembler has to turn that big assembly
+> > file back into binary data, which takes around a second per kallsyms
+> > invocation. (Normally there are two kallsyms invocations per build.)
+> >
+> > It is much faster to instead directly output binary data, which can
+> > be imported in an assembly file using ".incbin". This is also the
+> > approach taken by arch/x86/boot/compressed/mkpiggy.c.
+>
+>
+> Yes, that is a sensible case because it just wraps the binary
+> without any modification.
+>
+>
+>
+>
+> > So this patch switches kallsyms to that approach.
+> >
+> > A complication with this is that the endianness of numbers between
+> > host and target might not match (for example, when cross-compiling);
+> > and there seems to be no kconfig symbol that tells us what endianness
+> > the target has.
+>
+>
+>
+> CONFIG_CPU_BIG_ENDIAN is it.
+>
+>
+>
+> You could do this:
+>
+> if is_enabled CONFIG_CPU_BIG_ENDIAN; then
+>         kallsymopt=3D"${kallsymopt} --big-endian"
+> fi
+>
+> if is_enabled CONFIG_64BIT; then
+>         kallsymopt=3D"${kallsymopt} --64bit"
+> fi
 
-Nice!
+Aah, nice, thanks, I searched for endianness kconfig flags but somehow
+missed that one.
 
-...
+Though actually, I think further optimizations might make it necessary
+to directly operate on ELF files anyway, in which case it would
+probably be easier to keep using the ELF header...
 
+> > So pass the path to the intermediate vmlinux ELF file to the kallsyms
+> > tool, and let it parse the ELF header to figure out the target's
+> > endianness.
+> >
+> > I have verified that running kallsyms without these changes and
+> > kallsyms with these changes on the same input System.map results
+> > in identical object files.
+> >
+> > This change reduces the time for an incremental kernel rebuild
+> > (touch fs/ioctl.c, then re-run make) from 27.7s to 24.1s (medians
+> > over 16 runs each) on my machine - saving around 3.6 seconds.
+>
+>
+>
+>
 > This reverts bea5b74504742f1b51b815bcaf9a70bddbc49ce3
 >
 > Somebody might struggle with debugging again, but I am not sure.
 >
 > Arnd?
-
-So far, I have not needed it again, but it's only been a year.
-
+>
+>
+>
 > If the effort were "I invented a way to do kallsyms in
 > one pass instead of three", it would be so much more attractive.
->
->
+
+Actually, I was chatting with someone about this yesterday, and I
+think I have an idea on how to get rid of two link steps... I might
+try out some stuff and then come back with another version of this
+series afterwards.
+
 > I am not so sure if this grain of the optimization is exciting,
 > but I confirmed that a few seconds were saved for the defconfig.
 >
 > I am neutral about this.
+>
+>
+>
+> For the debugging purpose, perhaps we can add --debug option
+> in order to leave the possibility for
+> outputting the full assembly as comments.
 
-I think the time savings are worth it, especially since this
-is going to help anyone building on large machines where
-the compile stage is already optimized a lot but the link
-stage is limited by single-thread performance.
-
-      Arnd
+Hm, maybe... though that also involves a lot of duplicate code...
 
