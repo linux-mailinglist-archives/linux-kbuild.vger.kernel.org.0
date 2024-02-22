@@ -1,182 +1,226 @@
-Return-Path: <linux-kbuild+bounces-1040-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1041-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0602085F6A7
-	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Feb 2024 12:21:16 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2293385F9E9
+	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Feb 2024 14:35:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 624911F2184C
-	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Feb 2024 11:21:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A544F1F275AD
+	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Feb 2024 13:35:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76E50405DF;
-	Thu, 22 Feb 2024 11:21:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8618E1426D;
+	Thu, 22 Feb 2024 13:35:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="2FWqWvep"
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="Z30xs+jw";
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="MP0ewHAo"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B227208A2
-	for <linux-kbuild@vger.kernel.org>; Thu, 22 Feb 2024 11:21:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B31A133405;
+	Thu, 22 Feb 2024 13:35:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708600871; cv=none; b=i+Y3SJyVIJMczM7WFKsc5EC3xzi02QqemrcKHl5etx/a4OnEs3cRPdaa3PDM/L147ZUdEP2Nk6bXaRqN/dYw65omszk0bJXZglKM9lv+VHeeVbylOKR8zkJ/8K//9iMb0TOMqBWSYybRqztCbhWMw8MoV7Que/92qdXup8WrW0U=
+	t=1708608923; cv=none; b=oPKTt5ZEhGk7ITW9Bt2yuTrhrfmKHtRa37XnlRIDgdxeUlGsTMRT5ia///tcfGZsLxf/5tA7hXP9HuqrubFjWRObpqnFHXU9D4hK6W5hTvPS3P4qefmFojRG9jA/63U5u/iT3g58bBEFQAZURA4nmiYGgl6aqtSODOivLVG5kXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708600871; c=relaxed/simple;
-	bh=9Pqfn0qC+Yj0+qJNWDK84EdmrphKvk4v2jyMlAkwfrs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CW9V1o7xmbXvXn1g+/xcRbaPR283pr5TZY02zgUEZPuEasYi9lPIdMzMDyDdoaw8UfqYi71GSn2W9E6iqUDYlmOZrdeLtLInzuEVY0agdfZx2T7WsaCb5ByuQp/1vjzqPSpehl9m0Q8sblwTsN8BnN9KIZHaVRYFBlB9s0X619c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=2FWqWvep; arc=none smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5650c27e352so8671a12.0
-        for <linux-kbuild@vger.kernel.org>; Thu, 22 Feb 2024 03:21:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1708600868; x=1709205668; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1SjcXiN0HSEY14VbtkYXT9a2V6mhrgFrbcQEYTI562s=;
-        b=2FWqWvepbEwV3t9/82tcf+XsbCGiEcCpFv900lXJ4xI/+rMYHiELH1cdVOoieUx5cn
-         pH2Z2sAyPWH5+KYQRvEmdmKo3CmvqObtbWdeTpH33pnrI8whJZNmmh3yeTJqB+G9kt09
-         a6QuRNORuy/PPsEoUMQ9NVgHETRezA5vW13BhfMO0o4I0qRNMBD52G6NsWY1rNO+Ke3g
-         kA/6b1KWzqajMNqYjkqcHM4cle/0cvVP8C4w0ruT5QnNOHw4t94YFpPNqGdYKF635YEK
-         P/NhXeG8fEgFEWf/MaAf1oVajhyNwuNCXzQLQ+8FhT2T+Gse+25WjMebdjCsRK6ZsofH
-         jAXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708600868; x=1709205668;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1SjcXiN0HSEY14VbtkYXT9a2V6mhrgFrbcQEYTI562s=;
-        b=WNaAeOezWXtJHHVTybW6nbywwWfrscHw4GmIcvUl6H6Y4YBpFCe08z6Mnt2urNoDrQ
-         yJvZaB7BF07tplowvsXh0h4B1Phf43Y1/xq9qrcl+K2394shZY5l5GndYsDXCgiEqO9e
-         wCrLPzlHcCoWGlU7/ltL34pOdVZ0Rx0UPDA1LTH/Vmu9qec/kGHptRv9GeGzwwOhBWQt
-         ipRyC4GbdxJU8zsatUYEcOX/ptbwPe4OvJAZWdRI23LCDcVxCfSHcep9edKs0N7iAJtM
-         4eX0o2tJVXm16fA3w54C3/xN8ZEWtL0QgFy39x56gXyx8LUzpzzaI5TWkO+ZS6+Sm1Cl
-         0h0Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUbxV+A3seYoHMLQish3Yj5tUr/6UBqTkssjveIgrjWkLJDCTuTHqFH2ktFHe+KjbgNwyuSKjdTXtTKbUzlTNgthUCXIlevAYvDnMf1
-X-Gm-Message-State: AOJu0Yy5pOZ8DRGmPUZZlgJl65pPWzlg7BORHSRYbqQrJ383Q3thfGuG
-	tlJemh9C8qVTZWTVYx6dFPSs6eebC2U+v937WeCmCOArZlxCdZyaaQ93wvQc+I+qamqw9vOQpEE
-	QVNF1MffBLCCItDv2yv+HO8LHtDMyvuO+O/Nr
-X-Google-Smtp-Source: AGHT+IEcTG/GdWgu9Ui4LLjkbYfNdp0E+FczKDajRVi7qSQMUwu9HMIX4CuPOYE4s2ORF/roDBrhCKNx3PhP6c+3YKo=
-X-Received: by 2002:a50:cdcc:0:b0:560:1a1:eb8d with SMTP id
- h12-20020a50cdcc000000b0056001a1eb8dmr322200edj.7.1708600867697; Thu, 22 Feb
- 2024 03:21:07 -0800 (PST)
+	s=arc-20240116; t=1708608923; c=relaxed/simple;
+	bh=iC+WZvzblRSXPm5naslwgAGHQ53bsyZu97iPPWl3jPU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Cx7DbX4B1GbbG5PnEjd2MoGartTR4cdT0GiPZywfrkK/Fs4aHgYCthr5Hd43R2Y2gv88TTHjJiwa7TTq4QKExQPozk5xVb+P4EKsoy4QBQ9X4mLgxOgXmqX3Y86VIx3V6v3Thl7aud1UrC/vafl9lLWHAsCMGITXPx4BviJoRbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=Z30xs+jw; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=MP0ewHAo; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C26ED1F7B5;
+	Thu, 22 Feb 2024 13:35:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1708608916; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=7lHA0U6zldxEI+NhAVtO/n5oPtcMsWs8Sefkvk+X3ts=;
+	b=Z30xs+jwNqhtX0lG9d+7Q5giIhFTe3Ozfmsanee3zyXlApgCThSUOei0gkgeyFfu4PfRni
+	zHPT9ry6U0PquhxFC0zhIT41vU2Sb2B0lXpyA5w3XYwxlhann56UlEbHA7AQ6eMDDa7gRD
+	8kRpFy+JW8NKqp2jGDs2CiKHUVFrunM=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1708608915; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=7lHA0U6zldxEI+NhAVtO/n5oPtcMsWs8Sefkvk+X3ts=;
+	b=MP0ewHAoblyahQv6+BVCMNP/a3jNPHtKktIfURVtGbzwQtOdyZ7MFgbDgHiC1SPdSRXKjJ
+	/386IlVrCQ41KsFSIa/AARWkXNgplXI50Uyoi/1sOWnafBZJ9zEeP6KS1vGnTVNgQjOgNZ
+	/aMXGwnp/UcueuN+Qu38ifVUmpYFHh8=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AF64B13A8C;
+	Thu, 22 Feb 2024 13:35:15 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 91Q6KpNN12V9OwAAD6G6ig
+	(envelope-from <petr.pavlu@suse.com>); Thu, 22 Feb 2024 13:35:15 +0000
+From: Petr Pavlu <petr.pavlu@suse.com>
+To: masahiroy@kernel.org,
+	nathan@kernel.org,
+	nicolas@fjasle.eu,
+	mark.rutland@arm.com
+Cc: linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Petr Pavlu <petr.pavlu@suse.com>
+Subject: [PATCH v3] kbuild: Use -fmin-function-alignment when available
+Date: Thu, 22 Feb 2024 14:35:00 +0100
+Message-Id: <20240222133500.16991-1-petr.pavlu@suse.com>
+X-Mailer: git-send-email 2.35.3
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240221202655.2423854-1-jannh@google.com> <20240221202655.2423854-2-jannh@google.com>
- <CAK7LNAQG_dX8p0Lch-wg8cOVRQzaJUh2zFJL+3tgpcT8_iSTow@mail.gmail.com>
-In-Reply-To: <CAK7LNAQG_dX8p0Lch-wg8cOVRQzaJUh2zFJL+3tgpcT8_iSTow@mail.gmail.com>
-From: Jann Horn <jannh@google.com>
-Date: Thu, 22 Feb 2024 12:20:29 +0100
-Message-ID: <CAG48ez3Kg+BPsf_gWhm9E3QwOOw_CbTnHJ828Df41i1_EYrxnw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] kallsyms: build faster by using .incbin
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Miguel Ojeda <ojeda@kernel.org>, Zhen Lei <thunder.leizhen@huawei.com>, 
-	Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Bar: /
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.com header.s=susede1 header.b=MP0ewHAo
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [0.49 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 R_MISSING_CHARSET(2.50)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 BROKEN_CONTENT_TYPE(1.50)[];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	 DKIM_TRACE(0.00)[suse.com:+];
+	 MX_GOOD(-0.01)[];
+	 RCPT_COUNT_SEVEN(0.00)[7];
+	 MID_CONTAINS_FROM(1.00)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[gnu.org:url,suse.com:dkim,suse.com:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 RCVD_TLS_ALL(0.00)[];
+	 BAYES_HAM(-3.00)[100.00%]
+X-Spam-Score: 0.49
+X-Rspamd-Queue-Id: C26ED1F7B5
+X-Spam-Flag: NO
 
-On Thu, Feb 22, 2024 at 5:07=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
-> On Thu, Feb 22, 2024 at 5:27=E2=80=AFAM Jann Horn <jannh@google.com> wrot=
-e:
-> >
-> > Currently, kallsyms builds a big assembly file (~19M with a normal
-> > kernel config), and then the assembler has to turn that big assembly
-> > file back into binary data, which takes around a second per kallsyms
-> > invocation. (Normally there are two kallsyms invocations per build.)
-> >
-> > It is much faster to instead directly output binary data, which can
-> > be imported in an assembly file using ".incbin". This is also the
-> > approach taken by arch/x86/boot/compressed/mkpiggy.c.
->
->
-> Yes, that is a sensible case because it just wraps the binary
-> without any modification.
->
->
->
->
-> > So this patch switches kallsyms to that approach.
-> >
-> > A complication with this is that the endianness of numbers between
-> > host and target might not match (for example, when cross-compiling);
-> > and there seems to be no kconfig symbol that tells us what endianness
-> > the target has.
->
->
->
-> CONFIG_CPU_BIG_ENDIAN is it.
->
->
->
-> You could do this:
->
-> if is_enabled CONFIG_CPU_BIG_ENDIAN; then
->         kallsymopt=3D"${kallsymopt} --big-endian"
-> fi
->
-> if is_enabled CONFIG_64BIT; then
->         kallsymopt=3D"${kallsymopt} --64bit"
-> fi
+GCC recently added option -fmin-function-alignment, which should appear
+in GCC 14. Unlike -falign-functions, this option causes all functions to
+be aligned at the specified value, including the cold ones.
 
-Aah, nice, thanks, I searched for endianness kconfig flags but somehow
-missed that one.
+In particular, when an arm64 kernel is built with
+DYNAMIC_FTRACE_WITH_CALL_OPS=y, the 8-byte function alignment is
+required for correct functionality. This was done by -falign-functions=8
+and having workarounds in the kernel to force the compiler to follow
+this alignment. The new -fmin-function-alignment option directly
+guarantees it.
 
-Though actually, I think further optimizations might make it necessary
-to directly operate on ELF files anyway, in which case it would
-probably be easier to keep using the ELF header...
+Detect availability of -fmin-function-alignment and use it instead of
+-falign-functions when present. Introduce CC_HAS_SANE_FUNCTION_ALIGNMENT
+and enable __cold to work as expected when it is set.
 
-> > So pass the path to the intermediate vmlinux ELF file to the kallsyms
-> > tool, and let it parse the ELF header to figure out the target's
-> > endianness.
-> >
-> > I have verified that running kallsyms without these changes and
-> > kallsyms with these changes on the same input System.map results
-> > in identical object files.
-> >
-> > This change reduces the time for an incremental kernel rebuild
-> > (touch fs/ioctl.c, then re-run make) from 27.7s to 24.1s (medians
-> > over 16 runs each) on my machine - saving around 3.6 seconds.
->
->
->
->
-> This reverts bea5b74504742f1b51b815bcaf9a70bddbc49ce3
->
-> Somebody might struggle with debugging again, but I am not sure.
->
-> Arnd?
->
->
->
-> If the effort were "I invented a way to do kallsyms in
-> one pass instead of three", it would be so much more attractive.
+Signed-off-by: Petr Pavlu <petr.pavlu@suse.com>
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+Acked-by: Mark Rutland <mark.rutland@arm.com>
+---
 
-Actually, I was chatting with someone about this yesterday, and I
-think I have an idea on how to get rid of two link steps... I might
-try out some stuff and then come back with another version of this
-series afterwards.
+Changes since v2 [1]:
+- Remove the conditional use of __function_aligned for abort() which resulted in
+  less readable code.
+- Mention in the commit message that a particular target for this change is an
+  arm64 kernel with DYNAMIC_FTRACE_WITH_CALL_OPS=y.
 
-> I am not so sure if this grain of the optimization is exciting,
-> but I confirmed that a few seconds were saved for the defconfig.
->
-> I am neutral about this.
->
->
->
-> For the debugging purpose, perhaps we can add --debug option
-> in order to leave the possibility for
-> outputting the full assembly as comments.
+Changes since v1 [2]:
+- Check the availability of -fmin-function-alignment only in one place.
 
-Hm, maybe... though that also involves a lot of duplicate code...
+[1] https://lore.kernel.org/linux-kbuild/20240215151642.8970-1-petr.pavlu@suse.com/
+[2] https://lore.kernel.org/linux-kbuild/20240212145355.1050-1-petr.pavlu@suse.com/
+
+ Makefile                       |  7 +++++++
+ arch/Kconfig                   | 12 ++++++++++++
+ include/linux/compiler_types.h | 10 +++++-----
+ 3 files changed, 24 insertions(+), 5 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 7e0b2ad98905..6f20ab5e2e44 100644
+--- a/Makefile
++++ b/Makefile
+@@ -974,8 +974,15 @@ export CC_FLAGS_CFI
+ endif
+ 
+ ifneq ($(CONFIG_FUNCTION_ALIGNMENT),0)
++# Set the minimal function alignment. Use the newer GCC option
++# -fmin-function-alignment if it is available, or fall back to -falign-funtions.
++# See also CONFIG_CC_HAS_SANE_FUNCTION_ALIGNMENT.
++ifdef CONFIG_CC_HAS_MIN_FUNCTION_ALIGNMENT
++KBUILD_CFLAGS += -fmin-function-alignment=$(CONFIG_FUNCTION_ALIGNMENT)
++else
+ KBUILD_CFLAGS += -falign-functions=$(CONFIG_FUNCTION_ALIGNMENT)
+ endif
++endif
+ 
+ # arch Makefile may override CC so keep this after arch Makefile is included
+ NOSTDINC_FLAGS += -nostdinc
+diff --git a/arch/Kconfig b/arch/Kconfig
+index a5af0edd3eb8..bd6c6335efac 100644
+--- a/arch/Kconfig
++++ b/arch/Kconfig
+@@ -1507,4 +1507,16 @@ config FUNCTION_ALIGNMENT
+ 	default 4 if FUNCTION_ALIGNMENT_4B
+ 	default 0
+ 
++config CC_HAS_MIN_FUNCTION_ALIGNMENT
++	# Detect availability of the GCC option -fmin-function-alignment which
++	# guarantees minimal alignment for all functions, unlike
++	# -falign-functions which the compiler ignores for cold functions.
++	def_bool $(cc-option, -fmin-function-alignment=8)
++
++config CC_HAS_SANE_FUNCTION_ALIGNMENT
++	# Set if the guaranteed alignment with -fmin-function-alignment is
++	# available or extra care is required in the kernel. Clang provides
++	# strict alignment always, even with -falign-functions.
++	def_bool CC_HAS_MIN_FUNCTION_ALIGNMENT || CC_IS_CLANG
++
+ endmenu
+diff --git a/include/linux/compiler_types.h b/include/linux/compiler_types.h
+index 663d8791c871..f0152165e83c 100644
+--- a/include/linux/compiler_types.h
++++ b/include/linux/compiler_types.h
+@@ -99,17 +99,17 @@ static inline void __chk_io_ptr(const volatile void __iomem *ptr) { }
+  *   gcc: https://gcc.gnu.org/onlinedocs/gcc/Label-Attributes.html#index-cold-label-attribute
+  *
+  * When -falign-functions=N is in use, we must avoid the cold attribute as
+- * contemporary versions of GCC drop the alignment for cold functions. Worse,
+- * GCC can implicitly mark callees of cold functions as cold themselves, so
+- * it's not sufficient to add __function_aligned here as that will not ensure
+- * that callees are correctly aligned.
++ * GCC drops the alignment for cold functions. Worse, GCC can implicitly mark
++ * callees of cold functions as cold themselves, so it's not sufficient to add
++ * __function_aligned here as that will not ensure that callees are correctly
++ * aligned.
+  *
+  * See:
+  *
+  *   https://lore.kernel.org/lkml/Y77%2FqVgvaJidFpYt@FVFF77S0Q05N
+  *   https://gcc.gnu.org/bugzilla/show_bug.cgi?id=88345#c9
+  */
+-#if !defined(CONFIG_CC_IS_GCC) || (CONFIG_FUNCTION_ALIGNMENT == 0)
++#if defined(CONFIG_CC_HAS_SANE_FUNCTION_ALIGNMENT) || (CONFIG_FUNCTION_ALIGNMENT == 0)
+ #define __cold				__attribute__((__cold__))
+ #else
+ #define __cold
+
+base-commit: 841c35169323cd833294798e58b9bf63fa4fa1de
+-- 
+2.35.3
+
 
