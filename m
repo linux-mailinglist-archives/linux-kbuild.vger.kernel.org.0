@@ -1,116 +1,168 @@
-Return-Path: <linux-kbuild+bounces-1046-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1047-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C5548608D1
-	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Feb 2024 03:25:50 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4981F86096A
+	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Feb 2024 04:32:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B7E2F1C2131A
-	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Feb 2024 02:25:49 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0ECACB21E73
+	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Feb 2024 03:32:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4A18BE49;
-	Fri, 23 Feb 2024 02:25:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7857A53A1;
+	Fri, 23 Feb 2024 03:32:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ceiWdK8i"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KM+eaPCw"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5269B674;
-	Fri, 23 Feb 2024 02:25:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5098C2CA5;
+	Fri, 23 Feb 2024 03:32:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708655143; cv=none; b=NEwNOxJuWy3PoX592C6PPndHrHNL5re0YXH3zm1VJ3oZ+EMQCZe7ZX2JTyFDXvISEquft/Ar+alf8bjSFJ7u49HcWUQ2l0yTw8hotJUIIHOHrg3RIRwb4f7Rr7RpKjk6c1DQS0WT6m1euh32yLDwX7ef6bcALr3EpaZRvnjviWY=
+	t=1708659147; cv=none; b=GSYt4AurziKNE3T0kOoqNTLAcfXLReSW5zlIlNc6Cp5IXdBLX6IwVPlUgN8Fk8b3DllZ7vbJjA2ws9xBNRgNl5/5LTEYkHVtt2TcgJZl3PeQlVDbHRDudQ6VaS5lujW07Zvg/ytzKCArJNJQlWIWND/HBSAYlaqkT9DamIBcapA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708655143; c=relaxed/simple;
-	bh=5a15H4gjG9Z8VNMVpz9Ni3AuhpV4Czq4UmRYp26Cahk=;
+	s=arc-20240116; t=1708659147; c=relaxed/simple;
+	bh=HQM0wsnwPouU65BfwTChkwlVKHGOwaT3dqDpl+nlGDM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kWqBPXc4n+/H//paxgF5FIy46/DDuofFqg4N6EXJATEjmc8zbc8VNVQvTvoDrwjdP5ZZdyZfRIXULgRRbzHcYwAg+vCV9R/xMc0mA+RrT2G33U3+liA5t4KjG10QBe/I2CSrlrhmb/zBA6yvPblZNt1nTGXL+pCQtaIUye+b8eQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ceiWdK8i; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AE79C43399;
-	Fri, 23 Feb 2024 02:25:43 +0000 (UTC)
+	 To:Cc:Content-Type; b=bHwU5LHXznWdfN+RyTkg12OadkB3E8m1YzZnwzbRP3LSHEF16lXZTRIdbxEpm+rEYhRS/S6IaA//W4xHb3MEvmzeCJ+gbHNyHNE+5Foca2XCCRuS2czYVENdfXdOazvlWQE0aFmPeLqr4SViFtK5/ZXR+f4RJtnDWUgiB8jV2uo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KM+eaPCw; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B335AC43390;
+	Fri, 23 Feb 2024 03:32:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708655143;
-	bh=5a15H4gjG9Z8VNMVpz9Ni3AuhpV4Czq4UmRYp26Cahk=;
+	s=k20201202; t=1708659145;
+	bh=HQM0wsnwPouU65BfwTChkwlVKHGOwaT3dqDpl+nlGDM=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=ceiWdK8i45R9/jlFuwzOrVBtzkeXJCgWncbvtP9JDZiYppVhRfLFm+IWKPKVOD7zr
-	 6p4W2ahnepM5LVyps8O44sqYdktoki3Aps3NkRh+cdUzU6epRU2xYIkK9nIvOzKPEk
-	 gwuXWqQn1bReolpRgOK6mH7O59TTQxNmArVf/dbv6vQ4fY4pzwFTX6quBeh1pf9wke
-	 v2EhIkzomYqee7IqNMTxwJYqxlLce0jz/GrRy+kdn9SFRnCxsObQpVhEaekHaNW1l4
-	 /tL+mGrK9goTlG8oIKPojos8M6j3aTXECl7mI31dl9QeQAhXWm3SL17kkHmqZ8B6/K
-	 MY2yslwhj720A==
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2d21a68dd3bso5212631fa.1;
-        Thu, 22 Feb 2024 18:25:43 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVgqSlTOPPhF83xQLuXqrzRmLqOGEZVuoCphnlkm362sNmBDgdGbw0GN/7aFdHXjJHPGOC0eHM/NojRKzAZxiq/uAFPuscN0qnlnr7Xh+JHNum8cMhDaft9KywfCU6TDMk5rAmFDum3LsS+PyYL7O/PTrg5RioYp7hEnPjr0W7efJ2VzdwBPTzvPz8asQ==
-X-Gm-Message-State: AOJu0YwDKnWIfNuwoaaaDRbRgkUF9WP/+C4eCDM8sPAcsJWH0s7o7u87
-	jYJNcdcEfJ81UpLNyig1t5dQEY/9DOrb3iL1Cc/U31OXh73loPUtcnAkIgnwUdfIf+hjt/ux8pk
-	KhuYY/ZW3WlqrUvzUTi6lYGOsn2U=
-X-Google-Smtp-Source: AGHT+IHv/pqSXOqGKS7AHlfuR7hjQALuFEIFDcK1HpkE2N7ySttizVh9qLS0Xl/Y8NUQ9GCaKzp4frWkxaJzXnWCDBs=
-X-Received: by 2002:a2e:8613:0:b0:2d2:3b61:a2b with SMTP id
- a19-20020a2e8613000000b002d23b610a2bmr452895lji.11.1708655141667; Thu, 22 Feb
- 2024 18:25:41 -0800 (PST)
+	b=KM+eaPCwttUR09OE0ZqmgM6Xp8FaxXr9Xh2+nRNbF4C86ALgVIWa5qEXqYhNHauRJ
+	 /YjXcEYPxhVngldsJPq/LqfYDSLMk7yhLUc3hrzk4PNKmR11w3fcTSxObZyaAJhPKh
+	 3pzxvqsZ3UJ2DBRxdAzSbLWKudV5ZREF5+bmZJMx9Uk/ZLg5pElvn5BgAEL86ZtXbg
+	 HerTiGlqki4jtAyiqacjZTJVLOtrLjUtkWcjysLc9O85ddaA05GuIuqCiuiLXKSEOi
+	 9w6bzhy1jFrGzMTfNF6HZQGRTrDuJ++cGNc4c7bqGYmLWviGpmhbEOloQQb8Cn/c0g
+	 3dBu8cTnHYydg==
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-512b3b04995so500715e87.3;
+        Thu, 22 Feb 2024 19:32:25 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUIIGLQyu4QNkJTZCswpYU5RaFkYnV6CPmqrVH5cnOu71KvniDQOO8wz1mOLGXArPwXkRjcs8HI0c2iBLnF2JXVI6+4IHFbr52BsT6DynMDz2/vMLISdNplYliD1cx6//zWCE8iaDj0p8Am
+X-Gm-Message-State: AOJu0YxbQGEhahBMh62UiVpjXKaGUpnb+VPJGLMQ59Wc13oLWzNhX3og
+	AeHdTBmUzQjCICo1wNKQ4ep/vHj5v1dJa6ZFetrY3hMZukTchal8MERW5NrOf1EJwydtwsVXdJR
+	g7mcFNcz/+Nv/tYs5E1EhR0L6txc=
+X-Google-Smtp-Source: AGHT+IF8CmRNYrVUNeXlMvx4sCf1lCJydSIXAPe6asI6L3JgZhpBJWiV1MCp1wMH7JLvwQG6WHLkYW+iuqWlQFNQXmc=
+X-Received: by 2002:a05:6512:3e24:b0:512:cef7:4754 with SMTP id
+ i36-20020a0565123e2400b00512cef74754mr758181lfv.5.1708659144143; Thu, 22 Feb
+ 2024 19:32:24 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240221134201.2656908-1-masahiroy@kernel.org> <CAM9d7cjQ0wbPu9NWcg_Rj66jcJ=6HoNMcTnfR4wvjaJ47FDVQA@mail.gmail.com>
-In-Reply-To: <CAM9d7cjQ0wbPu9NWcg_Rj66jcJ=6HoNMcTnfR4wvjaJ47FDVQA@mail.gmail.com>
+References: <06e09da69e6c34d03a303c11088d9ffd@tfwno.gf>
+In-Reply-To: <06e09da69e6c34d03a303c11088d9ffd@tfwno.gf>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Fri, 23 Feb 2024 11:25:05 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASch8P49gNagJ3OhMDqFNuzxcRRKatet2iedWFi76qoog@mail.gmail.com>
-Message-ID: <CAK7LNASch8P49gNagJ3OhMDqFNuzxcRRKatet2iedWFi76qoog@mail.gmail.com>
-Subject: Re: [PATCH] treewide: remove meaningless assignments in Makefiles
-To: Namhyung Kim <namhyung@kernel.org>
-Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, linux-perf-users@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Mark Rutland <mark.rutland@arm.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, 
-	Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>
+Date: Fri, 23 Feb 2024 12:31:47 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARtPGSvihrOnhUXPEhw2o-q-UUtTx7xg7TVVby6KPTGXQ@mail.gmail.com>
+Message-ID: <CAK7LNARtPGSvihrOnhUXPEhw2o-q-UUtTx7xg7TVVby6KPTGXQ@mail.gmail.com>
+Subject: Re: make install doesn't install proper files for some architectures
+To: ns@tfwno.gf
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Feb 23, 2024 at 2:08=E2=80=AFAM Namhyung Kim <namhyung@kernel.org> =
-wrote:
+On Fri, Feb 23, 2024 at 2:07=E2=80=AFAM <ns@tfwno.gf> wrote:
 >
-> Hello,
+> Greetings,
 >
-> On Wed, Feb 21, 2024 at 5:42=E2=80=AFAM Masahiro Yamada <masahiroy@kernel=
-.org> wrote:
-> >
-> > In Makefiles, $(error ), $(warning ), and $(info ) expand to the empty
-> > string, as explained in the GNU Make manual [1]:
-> >  "The result of the expansion of this function is the empty string."
-> >
-> > Therefore, they are no-op except for logging purposes.
-> >
-> > $(shell ...) expands to the output of the command. It expands to the
-> > empty string when the command does not print anything to stdout.
-> > Hence, $(shell mkdir ...) is no-op except for creating the directory.
-> >
-> > Remove meaningless assignments.
-> >
-> > [1]: https://www.gnu.org/software/make/manual/make.html#Make-Control-Fu=
-nctions
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > ---
-> >
-> > This is a treewide cleanup, but in practice, this is touching mostly
-> > perf Makefiles. I am sending this to perf subsystem.
+> The kernel's build system has an install target. Most of the time this
+> works fine, but it is limited to only one file, which can make it busted
+> for some arches.
 >
-> How do you want to route this?  I can take it to perf tree if you're ok.
+> One example of a target where it is busted is a generic ppc32 kernel,
+> where there are plenty of supported platforms, some of which can boot
+> perfectly fine through Open Firmware & some which are from bad, bad
+> times o' yore where you had to embed the DT straight into the kernel. &
+> some more on top of that. When you run make install for ppc32, it only
+> installs the uncompressed vmlinux. This is almost certainly not the
+> correct decision for _any_ of the platforms in question, & it totally
+> leaves out the properly wrapped images that many of these platforms
+> absolutely need in order to boot (e.g. PS3 & Wii, which need an image
+> with an embedded DT).
+>
+> This is not really great. By contrast, the all target built all the
+> specific images that my config selected. I didn't have to read the
+> arch's boot Makefile to figure out what files I have to build. Is there
+> any target which does the same but for installing every image the all
+> target produced? It'd be a much better experience than leaving the
+> details of every arch & bizzare platform supported by it up to (most
+> likely incomplete) scripts, when the Makefiles already have all that
+> information properly written. I suppose it'd also come in handy if e.g.
+> x86 had a saner image format [1] in the future or something of the sort.
+>
+> [1]:
+> https://source.denx.de/u-boot/u-boot/-/blob/master/doc/usage/fit/x86-fit-=
+boot.rst
 
 
-Yes, that is my expectation because it will reduce the risk
-of merge conflicts.
 
-I only included the perf maintainers and ML to To:,
-and anything else in CC:
+
+If you see scripts/install.sh, the second parameter
+to 'installkernel' is ${KBUILD_IMAGE}.
+
+
+
+arch Makefile can set the best image to install,
+but there is no such code in arch/powerpc/Makefile.
+
+Presumably, 'make install' will install the default
+'vmlinux' for powerpc.
+
+
+
+
+
+
+$ git grep KBUILD_IMAGE -- arch/
+arch/arm/Makefile:KBUILD_IMAGE :=3D $(boot)/xipImage
+arch/arm/Makefile:KBUILD_IMAGE :=3D $(boot)/zImage
+arch/arm/Makefile:all:  $(notdir $(KBUILD_IMAGE))
+arch/arm/Makefile:$(INSTALL_TARGETS): KBUILD_IMAGE =3D
+$(boot)/$(patsubst %install,%Image,$@)
+arch/arm64/Makefile:KBUILD_IMAGE        :=3D $(boot)/Image.gz
+arch/arm64/Makefile:KBUILD_IMAGE        :=3D $(boot)/vmlinuz.efi
+arch/arm64/Makefile:all:        $(notdir $(KBUILD_IMAGE))
+arch/arm64/Makefile:install: KBUILD_IMAGE :=3D $(boot)/Image
+arch/loongarch/Makefile:KBUILD_IMAGE    :=3D $(boot)/vmlinux.elf
+arch/loongarch/Makefile:KBUILD_IMAGE    :=3D $(boot)/$(image-name-y).efi
+arch/loongarch/Makefile:all:    $(notdir $(KBUILD_IMAGE)) $(KBUILD_DTBS)
+arch/loongarch/Makefile:        $(Q)install -D -m 755 $(KBUILD_IMAGE)
+$(INSTALL_PATH)/$(image-name-y)-$(KERNELRELEASE)
+arch/m68k/Makefile:install: KBUILD_IMAGE :=3D vmlinux.gz
+arch/mips/boot/compressed/Makefile:$(obj)/vmlinux.bin: $(KBUILD_IMAGE) FORC=
+E
+arch/nios2/Makefile:KBUILD_IMAGE :=3D $(nios2-boot)/vmImage
+arch/nios2/Makefile:  echo  '* vmImage         - Kernel-only image for
+U-Boot ($(KBUILD_IMAGE))'
+arch/parisc/Makefile:KBUILD_IMAGE :=3D $(boot)/bzImage
+arch/parisc/Makefile:install: KBUILD_IMAGE :=3D vmlinux
+arch/parisc/Makefile:zinstall: KBUILD_IMAGE :=3D vmlinuz
+arch/riscv/Makefile:KBUILD_IMAGE :=3D $(boot)/xipImage
+arch/riscv/Makefile:KBUILD_IMAGE        :=3D $(boot)/Image.gz
+arch/riscv/Makefile:KBUILD_IMAGE :=3D $(boot)/loader.bin
+arch/riscv/Makefile:KBUILD_IMAGE :=3D $(boot)/Image.gz
+arch/riscv/Makefile:KBUILD_IMAGE :=3D $(boot)/vmlinuz.efi
+arch/riscv/Makefile:all:        $(notdir $(KBUILD_IMAGE))
+arch/riscv/Makefile:install: KBUILD_IMAGE :=3D $(boot)/Image
+arch/riscv/Makefile:zinstall: KBUILD_IMAGE :=3D $(boot)/Image.gz
+arch/s390/Makefile:#KBUILD_IMAGE is necessary for packaging targets
+like rpm-pkg, deb-pkg...
+arch/s390/Makefile:KBUILD_IMAGE :=3D $(boot)/bzImage
+arch/sh/Makefile:KBUILD_IMAGE           :=3D $(boot)/$(defaultimage-y)
+arch/sh/Makefile:all: $(notdir $(KBUILD_IMAGE))
+arch/sparc/Makefile:KBUILD_IMAGE :=3D $(boot)/zImage
+arch/x86/Makefile:# KBUILD_IMAGE specify target image being built
+arch/x86/Makefile:KBUILD_IMAGE :=3D $(boot)/bzImage
+arch/x86/Makefile:      $(Q)$(MAKE) $(build)=3D$(boot) $(KBUILD_IMAGE)
 
 
 
