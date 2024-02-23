@@ -1,168 +1,197 @@
-Return-Path: <linux-kbuild+bounces-1047-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1048-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4981F86096A
-	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Feb 2024 04:32:35 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B7808609D5
+	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Feb 2024 05:27:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0ECACB21E73
-	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Feb 2024 03:32:32 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 77409B2431E
+	for <lists+linux-kbuild@lfdr.de>; Fri, 23 Feb 2024 04:27:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7857A53A1;
-	Fri, 23 Feb 2024 03:32:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7F2DDDBB;
+	Fri, 23 Feb 2024 04:27:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KM+eaPCw"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nJw5m5Aj"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5098C2CA5;
-	Fri, 23 Feb 2024 03:32:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9035F2CA5;
+	Fri, 23 Feb 2024 04:27:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708659147; cv=none; b=GSYt4AurziKNE3T0kOoqNTLAcfXLReSW5zlIlNc6Cp5IXdBLX6IwVPlUgN8Fk8b3DllZ7vbJjA2ws9xBNRgNl5/5LTEYkHVtt2TcgJZl3PeQlVDbHRDudQ6VaS5lujW07Zvg/ytzKCArJNJQlWIWND/HBSAYlaqkT9DamIBcapA=
+	t=1708662426; cv=none; b=RM4VT+ZnCuwec2KBbnWr2iHa2ct4QJf0V6L4NpNiQUhfo7GgdIFu2KZesj+9WqK36bu8JZhbX9Avf3lOaut0bCMzZijM2jx7qWWZHWXTgGdJ58RSGARox1lrB2H534od2Hf6QW9nczX3FUGiphKeWiyrq11x1QJGiq5MlkHmmuM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708659147; c=relaxed/simple;
-	bh=HQM0wsnwPouU65BfwTChkwlVKHGOwaT3dqDpl+nlGDM=;
+	s=arc-20240116; t=1708662426; c=relaxed/simple;
+	bh=DaYOsizSC6q2DFwRiqDzd0sgVjrRcguu4TDpthJnDLE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bHwU5LHXznWdfN+RyTkg12OadkB3E8m1YzZnwzbRP3LSHEF16lXZTRIdbxEpm+rEYhRS/S6IaA//W4xHb3MEvmzeCJ+gbHNyHNE+5Foca2XCCRuS2czYVENdfXdOazvlWQE0aFmPeLqr4SViFtK5/ZXR+f4RJtnDWUgiB8jV2uo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KM+eaPCw; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B335AC43390;
-	Fri, 23 Feb 2024 03:32:25 +0000 (UTC)
+	 To:Cc:Content-Type; b=gj6E/GoOymx+CYtk5T/6a9bSq7uzwcksgyQ/J7k8lvVt83ALHsRfHHK5D36JmlSsgsB6Bf49FvmrdJ6ZWyCKr4ov3NplXq5QAsDC6XurwEcSCbdr6FWYl3s7w8gT13xcPO4t7j9isNIGlIH0XtUtFFXtVOB98JNCxoPUsn/GyDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nJw5m5Aj; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 177E4C433F1;
+	Fri, 23 Feb 2024 04:27:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708659145;
-	bh=HQM0wsnwPouU65BfwTChkwlVKHGOwaT3dqDpl+nlGDM=;
+	s=k20201202; t=1708662426;
+	bh=DaYOsizSC6q2DFwRiqDzd0sgVjrRcguu4TDpthJnDLE=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=KM+eaPCwttUR09OE0ZqmgM6Xp8FaxXr9Xh2+nRNbF4C86ALgVIWa5qEXqYhNHauRJ
-	 /YjXcEYPxhVngldsJPq/LqfYDSLMk7yhLUc3hrzk4PNKmR11w3fcTSxObZyaAJhPKh
-	 3pzxvqsZ3UJ2DBRxdAzSbLWKudV5ZREF5+bmZJMx9Uk/ZLg5pElvn5BgAEL86ZtXbg
-	 HerTiGlqki4jtAyiqacjZTJVLOtrLjUtkWcjysLc9O85ddaA05GuIuqCiuiLXKSEOi
-	 9w6bzhy1jFrGzMTfNF6HZQGRTrDuJ++cGNc4c7bqGYmLWviGpmhbEOloQQb8Cn/c0g
-	 3dBu8cTnHYydg==
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-512b3b04995so500715e87.3;
-        Thu, 22 Feb 2024 19:32:25 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUIIGLQyu4QNkJTZCswpYU5RaFkYnV6CPmqrVH5cnOu71KvniDQOO8wz1mOLGXArPwXkRjcs8HI0c2iBLnF2JXVI6+4IHFbr52BsT6DynMDz2/vMLISdNplYliD1cx6//zWCE8iaDj0p8Am
-X-Gm-Message-State: AOJu0YxbQGEhahBMh62UiVpjXKaGUpnb+VPJGLMQ59Wc13oLWzNhX3og
-	AeHdTBmUzQjCICo1wNKQ4ep/vHj5v1dJa6ZFetrY3hMZukTchal8MERW5NrOf1EJwydtwsVXdJR
-	g7mcFNcz/+Nv/tYs5E1EhR0L6txc=
-X-Google-Smtp-Source: AGHT+IF8CmRNYrVUNeXlMvx4sCf1lCJydSIXAPe6asI6L3JgZhpBJWiV1MCp1wMH7JLvwQG6WHLkYW+iuqWlQFNQXmc=
-X-Received: by 2002:a05:6512:3e24:b0:512:cef7:4754 with SMTP id
- i36-20020a0565123e2400b00512cef74754mr758181lfv.5.1708659144143; Thu, 22 Feb
- 2024 19:32:24 -0800 (PST)
+	b=nJw5m5Ajhd5AFgFLc7Sxg9PPom3cl9EmlrqHHP9DT5G5jQZWOAldcRvpsehZrnUNJ
+	 hSXU4rB+lXrZ1h+svoi6cVtlhEhL9KWFurfAYQlt7LaA5/OJPdmszQhakfduTLJ/yL
+	 TuWHy3w9RgD8rvEFEf2zxsISZKB4M0bIxSGAryLPRrcNhZuNdNwuW/atbJWeD6zcee
+	 Y+4jUIhX5DlythiXIUy4XKj7AqOxcvuK6kq29Q9hW6pec66vqDzVbcj+/0hTvFgpmL
+	 0xXMRzp1ITAYC4jNFpV/Pqaj6eZ46XvKX6Nmlut2R+C3UUgH2x1fwleHjOTFccBRRe
+	 e7P928V24r5Wg==
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-512d8fe4fceso513689e87.3;
+        Thu, 22 Feb 2024 20:27:06 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCV5sXj0G2y7wO99xgXip9X9grrsuLfMcggZSIh7T+llNO6rX0Xke7ZTumzSmCnyfUN6Bqva20obSXat03Mw2NNs5gAag647q5M705wSv5b64lnz+wNDEnIJ+Q89NWyCOlO/8VSnHBHUlZqR
+X-Gm-Message-State: AOJu0YwWo/LUni6Hb6SSwrSZwyCHYQYo5Tq+kfMlCwlHmCNIfurUiBOz
+	s/vWtcsQgT/TvEnxnLuO4xtYY1/2hWfX24urybV0RhPBQfbciRV7GiAY01INE8fYVAfHAbI/jAx
+	/6DMLqbSLsppO0fGB7nawA+3ohzU=
+X-Google-Smtp-Source: AGHT+IEoJ2f3nq0jZkNP9bJ1ogMeoFXnGKxgLpXxMJyl3oxvW/aw2HmGVrBDdoPIrQfG5Rauvz7gc/GWwtokbfcZgPc=
+X-Received: by 2002:a19:f718:0:b0:512:dc21:d89c with SMTP id
+ z24-20020a19f718000000b00512dc21d89cmr544054lfe.38.1708662424615; Thu, 22 Feb
+ 2024 20:27:04 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <06e09da69e6c34d03a303c11088d9ffd@tfwno.gf>
-In-Reply-To: <06e09da69e6c34d03a303c11088d9ffd@tfwno.gf>
+References: <20240221202655.2423854-1-jannh@google.com> <20240221202655.2423854-2-jannh@google.com>
+ <CAK7LNAQG_dX8p0Lch-wg8cOVRQzaJUh2zFJL+3tgpcT8_iSTow@mail.gmail.com>
+ <CAG48ez3Kg+BPsf_gWhm9E3QwOOw_CbTnHJ828Df41i1_EYrxnw@mail.gmail.com> <CAG48ez39zR+Um-9HMX2GgbOZrvQFjA=bN_dsZBJPvmnqtyg+VA@mail.gmail.com>
+In-Reply-To: <CAG48ez39zR+Um-9HMX2GgbOZrvQFjA=bN_dsZBJPvmnqtyg+VA@mail.gmail.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Fri, 23 Feb 2024 12:31:47 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARtPGSvihrOnhUXPEhw2o-q-UUtTx7xg7TVVby6KPTGXQ@mail.gmail.com>
-Message-ID: <CAK7LNARtPGSvihrOnhUXPEhw2o-q-UUtTx7xg7TVVby6KPTGXQ@mail.gmail.com>
-Subject: Re: make install doesn't install proper files for some architectures
-To: ns@tfwno.gf
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+Date: Fri, 23 Feb 2024 13:26:27 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAR059LrBgvZVfapTGtU_VrHhHdrk1XfCbACPe-7109UiQ@mail.gmail.com>
+Message-ID: <CAK7LNAR059LrBgvZVfapTGtU_VrHhHdrk1XfCbACPe-7109UiQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] kallsyms: build faster by using .incbin
+To: Jann Horn <jannh@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, Zhen Lei <thunder.leizhen@huawei.com>, 
+	Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Feb 23, 2024 at 2:07=E2=80=AFAM <ns@tfwno.gf> wrote:
+On Thu, Feb 22, 2024 at 11:21=E2=80=AFPM Jann Horn <jannh@google.com> wrote=
+:
 >
-> Greetings,
+> On Thu, Feb 22, 2024 at 12:20=E2=80=AFPM Jann Horn <jannh@google.com> wro=
+te:
+> > On Thu, Feb 22, 2024 at 5:07=E2=80=AFAM Masahiro Yamada <masahiroy@kern=
+el.org> wrote:
+> > > On Thu, Feb 22, 2024 at 5:27=E2=80=AFAM Jann Horn <jannh@google.com> =
+wrote:
+> > > >
+> > > > Currently, kallsyms builds a big assembly file (~19M with a normal
+> > > > kernel config), and then the assembler has to turn that big assembl=
+y
+> > > > file back into binary data, which takes around a second per kallsym=
+s
+> > > > invocation. (Normally there are two kallsyms invocations per build.=
+)
+> > > >
+> > > > It is much faster to instead directly output binary data, which can
+> > > > be imported in an assembly file using ".incbin". This is also the
+> > > > approach taken by arch/x86/boot/compressed/mkpiggy.c.
+> > >
+> > >
+> > > Yes, that is a sensible case because it just wraps the binary
+> > > without any modification.
+> > >
+> > >
+> > >
+> > >
+> > > > So this patch switches kallsyms to that approach.
+> > > >
+> > > > A complication with this is that the endianness of numbers between
+> > > > host and target might not match (for example, when cross-compiling)=
+;
+> > > > and there seems to be no kconfig symbol that tells us what endianne=
+ss
+> > > > the target has.
+> > >
+> > >
+> > >
+> > > CONFIG_CPU_BIG_ENDIAN is it.
+> > >
+> > >
+> > >
+> > > You could do this:
+> > >
+> > > if is_enabled CONFIG_CPU_BIG_ENDIAN; then
+> > >         kallsymopt=3D"${kallsymopt} --big-endian"
+> > > fi
+> > >
+> > > if is_enabled CONFIG_64BIT; then
+> > >         kallsymopt=3D"${kallsymopt} --64bit"
+> > > fi
+> >
+> > Aah, nice, thanks, I searched for endianness kconfig flags but somehow
+> > missed that one.
+> >
+> > Though actually, I think further optimizations might make it necessary
+> > to directly operate on ELF files anyway, in which case it would
+> > probably be easier to keep using the ELF header...
+> >
+> > > > So pass the path to the intermediate vmlinux ELF file to the kallsy=
+ms
+> > > > tool, and let it parse the ELF header to figure out the target's
+> > > > endianness.
+> > > >
+> > > > I have verified that running kallsyms without these changes and
+> > > > kallsyms with these changes on the same input System.map results
+> > > > in identical object files.
+> > > >
+> > > > This change reduces the time for an incremental kernel rebuild
+> > > > (touch fs/ioctl.c, then re-run make) from 27.7s to 24.1s (medians
+> > > > over 16 runs each) on my machine - saving around 3.6 seconds.
+> > >
+> > >
+> > >
+> > >
+> > > This reverts bea5b74504742f1b51b815bcaf9a70bddbc49ce3
+> > >
+> > > Somebody might struggle with debugging again, but I am not sure.
+> > >
+> > > Arnd?
+> > >
+> > >
+> > >
+> > > If the effort were "I invented a way to do kallsyms in
+> > > one pass instead of three", it would be so much more attractive.
+> >
+> > Actually, I was chatting with someone about this yesterday, and I
+> > think I have an idea on how to get rid of two link steps... I might
+> > try out some stuff and then come back with another version of this
+> > series afterwards.
 >
-> The kernel's build system has an install target. Most of the time this
-> works fine, but it is limited to only one file, which can make it busted
-> for some arches.
+> I think basically we could change kallsyms so that on the second run,
+> it checks if the kallsyms layout is the same as on the first run, and
+> if yes, directly overwrite the relevant part of vmlinux. (And adjust
+> the relative_base.) That would save us the final link... does that
+> sound like a reasonable idea?
+
+
+I do not know how we can save the final link.
+
+Inserting the kallsyms data into the .rodata section
+would change the address of all symbols that come after.
+Only the linker can sort out the address change.
+
+
 >
-> One example of a target where it is busted is a generic ppc32 kernel,
-> where there are plenty of supported platforms, some of which can boot
-> perfectly fine through Open Firmware & some which are from bad, bad
-> times o' yore where you had to embed the DT straight into the kernel. &
-> some more on top of that. When you run make install for ppc32, it only
-> installs the uncompressed vmlinux. This is almost certainly not the
-> correct decision for _any_ of the platforms in question, & it totally
-> leaves out the properly wrapped images that many of these platforms
-> absolutely need in order to boot (e.g. PS3 & Wii, which need an image
-> with an embedded DT).
->
-> This is not really great. By contrast, the all target built all the
-> specific images that my config selected. I didn't have to read the
-> arch's boot Makefile to figure out what files I have to build. Is there
-> any target which does the same but for installing every image the all
-> target produced? It'd be a much better experience than leaving the
-> details of every arch & bizzare platform supported by it up to (most
-> likely incomplete) scripts, when the Makefiles already have all that
-> information properly written. I suppose it'd also come in handy if e.g.
-> x86 had a saner image format [1] in the future or something of the sort.
->
-> [1]:
-> https://source.denx.de/u-boot/u-boot/-/blob/master/doc/usage/fit/x86-fit-=
-boot.rst
+> I don't really have any good ideas for saving more than that, given
+> that we want to squeeze the kallsyms in between the data and bss
+> sections, so we can't just append it at the end of vmlinux... we could
+> get the symbol list from vmlinux.o instead of linking
+> ".tmp_vmlinux.kallsyms1", but the comments in link-vmlinux.sh say that
+> extra linker-generated symbols might appear, and I guess we probably
+> don't want to miss those...
 
 
-
-
-If you see scripts/install.sh, the second parameter
-to 'installkernel' is ${KBUILD_IMAGE}.
-
-
-
-arch Makefile can set the best image to install,
-but there is no such code in arch/powerpc/Makefile.
-
-Presumably, 'make install' will install the default
-'vmlinux' for powerpc.
-
-
-
-
-
-
-$ git grep KBUILD_IMAGE -- arch/
-arch/arm/Makefile:KBUILD_IMAGE :=3D $(boot)/xipImage
-arch/arm/Makefile:KBUILD_IMAGE :=3D $(boot)/zImage
-arch/arm/Makefile:all:  $(notdir $(KBUILD_IMAGE))
-arch/arm/Makefile:$(INSTALL_TARGETS): KBUILD_IMAGE =3D
-$(boot)/$(patsubst %install,%Image,$@)
-arch/arm64/Makefile:KBUILD_IMAGE        :=3D $(boot)/Image.gz
-arch/arm64/Makefile:KBUILD_IMAGE        :=3D $(boot)/vmlinuz.efi
-arch/arm64/Makefile:all:        $(notdir $(KBUILD_IMAGE))
-arch/arm64/Makefile:install: KBUILD_IMAGE :=3D $(boot)/Image
-arch/loongarch/Makefile:KBUILD_IMAGE    :=3D $(boot)/vmlinux.elf
-arch/loongarch/Makefile:KBUILD_IMAGE    :=3D $(boot)/$(image-name-y).efi
-arch/loongarch/Makefile:all:    $(notdir $(KBUILD_IMAGE)) $(KBUILD_DTBS)
-arch/loongarch/Makefile:        $(Q)install -D -m 755 $(KBUILD_IMAGE)
-$(INSTALL_PATH)/$(image-name-y)-$(KERNELRELEASE)
-arch/m68k/Makefile:install: KBUILD_IMAGE :=3D vmlinux.gz
-arch/mips/boot/compressed/Makefile:$(obj)/vmlinux.bin: $(KBUILD_IMAGE) FORC=
-E
-arch/nios2/Makefile:KBUILD_IMAGE :=3D $(nios2-boot)/vmImage
-arch/nios2/Makefile:  echo  '* vmImage         - Kernel-only image for
-U-Boot ($(KBUILD_IMAGE))'
-arch/parisc/Makefile:KBUILD_IMAGE :=3D $(boot)/bzImage
-arch/parisc/Makefile:install: KBUILD_IMAGE :=3D vmlinux
-arch/parisc/Makefile:zinstall: KBUILD_IMAGE :=3D vmlinuz
-arch/riscv/Makefile:KBUILD_IMAGE :=3D $(boot)/xipImage
-arch/riscv/Makefile:KBUILD_IMAGE        :=3D $(boot)/Image.gz
-arch/riscv/Makefile:KBUILD_IMAGE :=3D $(boot)/loader.bin
-arch/riscv/Makefile:KBUILD_IMAGE :=3D $(boot)/Image.gz
-arch/riscv/Makefile:KBUILD_IMAGE :=3D $(boot)/vmlinuz.efi
-arch/riscv/Makefile:all:        $(notdir $(KBUILD_IMAGE))
-arch/riscv/Makefile:install: KBUILD_IMAGE :=3D $(boot)/Image
-arch/riscv/Makefile:zinstall: KBUILD_IMAGE :=3D $(boot)/Image.gz
-arch/s390/Makefile:#KBUILD_IMAGE is necessary for packaging targets
-like rpm-pkg, deb-pkg...
-arch/s390/Makefile:KBUILD_IMAGE :=3D $(boot)/bzImage
-arch/sh/Makefile:KBUILD_IMAGE           :=3D $(boot)/$(defaultimage-y)
-arch/sh/Makefile:all: $(notdir $(KBUILD_IMAGE))
-arch/sparc/Makefile:KBUILD_IMAGE :=3D $(boot)/zImage
-arch/x86/Makefile:# KBUILD_IMAGE specify target image being built
-arch/x86/Makefile:KBUILD_IMAGE :=3D $(boot)/bzImage
-arch/x86/Makefile:      $(Q)$(MAKE) $(build)=3D$(boot) $(KBUILD_IMAGE)
+I knew it was not trivial.
+If you do not have an idea, you do not need to change it.
 
 
 
