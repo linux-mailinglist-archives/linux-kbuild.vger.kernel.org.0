@@ -1,74 +1,74 @@
-Return-Path: <linux-kbuild+bounces-1058-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1059-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F1758667EB
-	for <lists+linux-kbuild@lfdr.de>; Mon, 26 Feb 2024 03:12:03 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 565A78667E4
+	for <lists+linux-kbuild@lfdr.de>; Mon, 26 Feb 2024 03:12:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C7E34B20D1E
-	for <lists+linux-kbuild@lfdr.de>; Mon, 26 Feb 2024 02:12:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C12F81F21CA2
+	for <lists+linux-kbuild@lfdr.de>; Mon, 26 Feb 2024 02:12:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C31ECF9C3;
-	Mon, 26 Feb 2024 02:11:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5756FBEF;
+	Mon, 26 Feb 2024 02:11:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZxlFVSIq"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YtO7Sp+K"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9630D53C
-	for <linux-kbuild@vger.kernel.org>; Mon, 26 Feb 2024 02:11:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C21F7DF51
+	for <linux-kbuild@vger.kernel.org>; Mon, 26 Feb 2024 02:11:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708913513; cv=none; b=JhEXd33jpDXYxohodAZq4Y2feyjAQelpGOJqW4E9Q+uIAKD7JfS73bOrXMjl9L3NhaeST25droCeJtM3XbaBkczP3gxHgKUmnCscw8xEqrMxt3zQi6bsCMnT+8NYYx4d8eJcQO3jJ66qOWUXvZwJv7CzuIudaTiFLLQ7KLS8zTc=
+	t=1708913514; cv=none; b=SL9X80H5DUczbZXVRcbAqtpcldTHvQOllF9rzZUle3t2xnOgdc98QBt+KYVhPL+X9iKaTw7nfYuYMXIhxz5gJ5+49OUavwJSZCqCPQ4QEEDjYnnIflwwFmG3n27cD+OQmfvHFf5cK7DyG3vNUpwnK3VlgZTrB4jpzM6/rmq41RQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708913513; c=relaxed/simple;
-	bh=WdZH3u8yRJqqGjSYbceH8YaJBPAPZG8nl8tvSvRvLKI=;
+	s=arc-20240116; t=1708913514; c=relaxed/simple;
+	bh=gqKp1S6/zn30s6BNuSQoNE5FrMLSKTVvFXbaJQz/Q24=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=WRDas9ESubNGjhwwK/6MSdCnhwiK5PpNtIjM9ulSaXST9KsW/jN+ObzhQLdgLKnfY9ics44s+P7VEQ7B2FmBxICJYkSN+rEJjroJPm1uNtKJWKXElWu3TAGLcz+/wdJSqh8+5z7LXHvJSVdNvFDyOZwEAUvNphBoCMf3NDrGbnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZxlFVSIq; arc=none smtp.client-ip=209.85.167.49
+	 In-Reply-To:To:Cc; b=YW75Nkdkmq5OiuAuMc20R2jwSfS+k6Qk6agqAJpvcOpuIiBsR1kHxgFMgL5RoWpboJ/kpdZ/uOB82FuxXmW7dSvjs7wYeM1ukcPsYmlLNd7M3y35fERA0PkrFXVE4nR0SIbYOyu59cTszPgcwA5MAhw9n1OYpT6JIq5XpZvFIjU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YtO7Sp+K; arc=none smtp.client-ip=209.85.167.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-512bce554a5so3129691e87.3
-        for <linux-kbuild@vger.kernel.org>; Sun, 25 Feb 2024 18:11:51 -0800 (PST)
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-512d19e2cb8so3829248e87.0
+        for <linux-kbuild@vger.kernel.org>; Sun, 25 Feb 2024 18:11:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1708913510; x=1709518310; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1708913511; x=1709518311; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=1WXlzxfTJnIOKH/FylqIk+DUTDY6h4Yser6h5v1mYdc=;
-        b=ZxlFVSIqo/jML0LKYlQlj9Cane8r0aymAJiwyEeVdHxxqakYh+Gw8VwZdiz3ApPqbm
-         AhukiD0qICtZuJg1Mqng4Xd97C1m/uBDWLLMRVNSyIrqkqLdJr32T4icDK1VS98AI1MB
-         vobg3kKx869Qt/R9x31KdlHU7bir8xv/NowvDv4tHbtekgsyWRTsYtD0rU86LrZNOL+n
-         8KC7d9aYD7gDWIgyOdXnZ0JyZQCeYMtIUCu9kElIGLGStOHeJRTEth46Jr7TOVmWA2K6
-         LHDjswZ4eFfuxvAwA9PjbqSHjxncoVjfKN3I3gxboITLBFl4HIB3aZpthkATCBw5WB43
-         lzSA==
+        bh=kbFUU4iMew5gCyNhy6Z/kEtYbNuf40upf3sZEP5LUHU=;
+        b=YtO7Sp+KCI34Akk6kN3MeF3FII3a2RXLrdt/Fw/fj/omwfX0QKv7ZXV0wzo0kaoTSI
+         wliTQTnKt/CIb9zDksKX8+9Xe6T+iw1LrtRv8fbGaFQBpCprTYRzNUn7j/yC64l51MXq
+         UpXy5TXg4ix2323gUPQGq33HDwzWfR0BaCuhf4CMnZ0PNwQY+ninhtXRvqln3GVJ58+E
+         ktOQ4wAoFP2Ip7QoyAxF8AgGjZl3tiv/SoPAquMs86adRhSMegNN/60pqPWDqlj3lUSe
+         WM44SI5CVgU6cjj9DdbKa5/5gSFVBICYmAOJzkLk7N7bNUmWFVSRxHdgcaKHZGLtL0/l
+         JOKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708913510; x=1709518310;
+        d=1e100.net; s=20230601; t=1708913511; x=1709518311;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=1WXlzxfTJnIOKH/FylqIk+DUTDY6h4Yser6h5v1mYdc=;
-        b=qf3naiVR0GsNF53I2RjoPH6/qLNI8m+cCZXCtgJ8AAuUrNU1JzjH4D1yZUdPTsP3hS
-         CkRwcMd3JluV+bfcuwvSh7P3/C/sMbqBw2cprT7Wv/ijCqCtm4dYvU5D1gz8HqCZVzN9
-         Z51Jw5JjdUWmgw7NGgXppiaPZ+qPrDj9knRDmjGgBXrqYrOcqx8yrMb73rIA7l4BAGgf
-         AGvnBTt7qa0iDcoiglu+kIR7XQ+YV3kLg46M+6ymVW6+ptXend1D/u5y/NOEcsfy+uz6
-         x0mgSb23fRKY0bG/94PDrVpkVu09BfwREg0KijjjLTPTgea7h6VdNL8jYAwL+/B2TZQL
-         f/GA==
-X-Gm-Message-State: AOJu0YyYX9T2B99KUjCOi+qH/IWjNLop3BtyJw6VOS2yo14k3bODHcli
-	JF4hB86huiD6RmmvyMRVVH05pZeh0gs9KGSbVSVkvhZXud++H9LSu9H+z0+Qruo=
-X-Google-Smtp-Source: AGHT+IGY4gzmXsE9Jy4EjXBhsqpj7Vs6TDkLR5AhhddiGoCDdzrxQEMLv0q8q6w5zsVTlzfWfmua6A==
-X-Received: by 2002:a19:5e19:0:b0:512:b27c:18b5 with SMTP id s25-20020a195e19000000b00512b27c18b5mr3280872lfb.30.1708913509984;
-        Sun, 25 Feb 2024 18:11:49 -0800 (PST)
+        bh=kbFUU4iMew5gCyNhy6Z/kEtYbNuf40upf3sZEP5LUHU=;
+        b=jWG1FuHGXfaxCkAjIiD+BXFZlyimXdfes6PtreD4jrMi0TcuTdFRJx3zD/RXCvCGIH
+         OZjq8jjE1lqwlzpD1IwpT3aJVHXqKPEV2QMhERJhn/ShJHCtKE5vIltQdGQ8H4/50de/
+         jLPRN43l+cHqP9sRZxwkwsUziS2ri4QegU7IzbvAGnBH78BLaN5Cie17GHF5xFPiMkX+
+         FKW41Iw4cZKQadJSofPavDawNmnFKZsWuyRhmC+sFUk6YKtBq1noYfudBEjrNzdvuk/3
+         hZDMYkGw0cBcWcalYWt7VeIJZw8mvH/gWkk4zgRmkYl11arw6+3UJFAALil7qmN0MqT+
+         BztA==
+X-Gm-Message-State: AOJu0YzaIpAhAGf4EEze7KOu1QdffZjaLV4GtX6vh/Afmh6wvQidJof6
+	l2wiFPqfCCPRe5hfoQGD9H2UCD7FIp8uQUDZgLkq7LtbND7NBczCVKdst7UElio=
+X-Google-Smtp-Source: AGHT+IFWEX3FGjvHck7o5EZQoQ5HeNV3HVBcNoew3wITv2ec0S2Qkt+0vdkvS+siPv6hHkgG5E3AoQ==
+X-Received: by 2002:ac2:5382:0:b0:512:ed78:2d01 with SMTP id g2-20020ac25382000000b00512ed782d01mr3216586lfh.33.1708913510956;
+        Sun, 25 Feb 2024 18:11:50 -0800 (PST)
 Received: from umbar.lan (dzyjmhybhls-s--zn36gy-3.rev.dnainternet.fi. [2001:14ba:a00e:a300:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id m11-20020a056512358b00b00512e39ce472sm676176lfr.175.2024.02.25.18.11.49
+        by smtp.gmail.com with ESMTPSA id m11-20020a056512358b00b00512e39ce472sm676176lfr.175.2024.02.25.18.11.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Feb 2024 18:11:49 -0800 (PST)
+        Sun, 25 Feb 2024 18:11:50 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 26 Feb 2024 04:11:39 +0200
-Subject: [PATCH RFC 03/12] drm/msm/hdmi: drop qfprom.xml.h
+Date: Mon, 26 Feb 2024 04:11:40 +0200
+Subject: [PATCH RFC 04/12] drm/msm/dsi: drop mmss_cc.xml.h
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -77,7 +77,7 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240226-fd-xml-shipped-v1-3-86bb6c3346d2@linaro.org>
+Message-Id: <20240226-fd-xml-shipped-v1-4-86bb6c3346d2@linaro.org>
 References: <20240226-fd-xml-shipped-v1-0-86bb6c3346d2@linaro.org>
 In-Reply-To: <20240226-fd-xml-shipped-v1-0-86bb6c3346d2@linaro.org>
 To: Masahiro Yamada <masahiroy@kernel.org>, 
@@ -89,36 +89,36 @@ Cc: linux-kbuild@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4711;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7249;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=WdZH3u8yRJqqGjSYbceH8YaJBPAPZG8nl8tvSvRvLKI=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBl2/NgDVAiYFY+rVPhG374kNIOZMpIfGmIPD+KZ
- m2xSKCJUA+JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZdvzYAAKCRCLPIo+Aiko
- 1eSWB/9rUdYOzJ6SCw09S6S+UkN+7JsPcFZ7Gu6TxtaafR7OH17XE91bJ3ge0wpAc3oJZ57VDsI
- POjy6aEIDWHkitOlLphzzCGeYumnPQXltPcrXfSWBiLfYNS6fBnfdvjUydNLwyLIVT5UBv75LTK
- XJ4QxWLdUm7gLie2JtRuv4p2nCd+r8cEJq8Oji6/5MBB42qxz49FgXaTV3mfHzg6hlrP/qN+R6W
- 3Ii3dUInB0VmLJKJ5qT4HLYq9HsxGRL6MlTeyhI3rt0k1PLUdLS0xsd8KIWr2XLLCQXoWonpxAL
- SH004jrThzbPaOTke85niR6eiVfhZNgpBnDpaRCvVb0iIIE0
+ bh=gqKp1S6/zn30s6BNuSQoNE5FrMLSKTVvFXbaJQz/Q24=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBl2/NhvUtEGEwp3sD0XMR/UjOQ2YtuGr7/zEguT
+ qSN7t0HmzSJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZdvzYQAKCRCLPIo+Aiko
+ 1ejyB/0bWpiJYXhC1khqlucEDSDjWC2uxgCuQXfoKf4Rvd7XgyjRzb+hiMB6HgDU6XxBKmftKrf
+ TlGZo/paNcjjzInyiSWtjfVYDMrHGmAf4J7xa8PFzTnwXJiBmSDCdzC0RYc/ryB+6/Dv7sOLsGr
+ xKQ2FRt89sSKAGxAsQJFp7fxMTb/voKBB5fhBCOnXBHuY0sEcumefEqN2EdbHIEPd3D/9KtJjwW
+ GbTX3bOQ1CxbaJvnMp+/tMUxA0QqvC3hyqkZc9YL4TcpGFgY161mqkjQscOlRrOCLnvNxArxpL6
+ TRutJmRwjdJsGxmxxLNIvhG/OBWki5+nhySt1nnrXVHIwDAa
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 
-The qfprom.xml.h contains definitions for the nvmem code. They are not
-used in the existing code. Also if we were to use them later, we should
-have used nvmem cell API instead of using these defs. Drop the file.
+The mmss_cc.xml.h file describes bits of the MMSS clock controller on
+APQ8064 / MSM8960 platforms. They are not used by the driver and do not
+belong to the DRM MSM driver. Drop the file.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/hdmi/qfprom.xml.h | 61 -----------------------------------
- 1 file changed, 61 deletions(-)
+ drivers/gpu/drm/msm/dsi/mmss_cc.xml.h | 131 ----------------------------------
+ 1 file changed, 131 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/hdmi/qfprom.xml.h b/drivers/gpu/drm/msm/hdmi/qfprom.xml.h
+diff --git a/drivers/gpu/drm/msm/dsi/mmss_cc.xml.h b/drivers/gpu/drm/msm/dsi/mmss_cc.xml.h
 deleted file mode 100644
-index 498801526695..000000000000
---- a/drivers/gpu/drm/msm/hdmi/qfprom.xml.h
+index 7062f7164216..000000000000
+--- a/drivers/gpu/drm/msm/dsi/mmss_cc.xml.h
 +++ /dev/null
-@@ -1,61 +0,0 @@
--#ifndef QFPROM_XML
--#define QFPROM_XML
+@@ -1,131 +0,0 @@
+-#ifndef MMSS_CC_XML
+-#define MMSS_CC_XML
 -
 -/* Autogenerated file, DO NOT EDIT manually!
 -
@@ -172,12 +172,82 @@ index 498801526695..000000000000
 -*/
 -
 -
--#define REG_QFPROM_CONFIG_ROW0_LSB				0x00000238
--#define QFPROM_CONFIG_ROW0_LSB_HDMI_DISABLE			0x00200000
--#define QFPROM_CONFIG_ROW0_LSB_HDCP_DISABLE			0x00400000
+-enum mmss_cc_clk {
+-	CLK = 0,
+-	PCLK = 1,
+-};
+-
+-#define REG_MMSS_CC_AHB						0x00000008
+-
+-static inline uint32_t __offset_CLK(enum mmss_cc_clk idx)
+-{
+-	switch (idx) {
+-		case CLK: return 0x0000004c;
+-		case PCLK: return 0x00000130;
+-		default: return INVALID_IDX(idx);
+-	}
+-}
+-static inline uint32_t REG_MMSS_CC_CLK(enum mmss_cc_clk i0) { return 0x00000000 + __offset_CLK(i0); }
+-
+-static inline uint32_t REG_MMSS_CC_CLK_CC(enum mmss_cc_clk i0) { return 0x00000000 + __offset_CLK(i0); }
+-#define MMSS_CC_CLK_CC_CLK_EN					0x00000001
+-#define MMSS_CC_CLK_CC_ROOT_EN					0x00000004
+-#define MMSS_CC_CLK_CC_MND_EN					0x00000020
+-#define MMSS_CC_CLK_CC_MND_MODE__MASK				0x000000c0
+-#define MMSS_CC_CLK_CC_MND_MODE__SHIFT				6
+-static inline uint32_t MMSS_CC_CLK_CC_MND_MODE(uint32_t val)
+-{
+-	return ((val) << MMSS_CC_CLK_CC_MND_MODE__SHIFT) & MMSS_CC_CLK_CC_MND_MODE__MASK;
+-}
+-#define MMSS_CC_CLK_CC_PMXO_SEL__MASK				0x00000300
+-#define MMSS_CC_CLK_CC_PMXO_SEL__SHIFT				8
+-static inline uint32_t MMSS_CC_CLK_CC_PMXO_SEL(uint32_t val)
+-{
+-	return ((val) << MMSS_CC_CLK_CC_PMXO_SEL__SHIFT) & MMSS_CC_CLK_CC_PMXO_SEL__MASK;
+-}
+-
+-static inline uint32_t REG_MMSS_CC_CLK_MD(enum mmss_cc_clk i0) { return 0x00000004 + __offset_CLK(i0); }
+-#define MMSS_CC_CLK_MD_D__MASK					0x000000ff
+-#define MMSS_CC_CLK_MD_D__SHIFT					0
+-static inline uint32_t MMSS_CC_CLK_MD_D(uint32_t val)
+-{
+-	return ((val) << MMSS_CC_CLK_MD_D__SHIFT) & MMSS_CC_CLK_MD_D__MASK;
+-}
+-#define MMSS_CC_CLK_MD_M__MASK					0x0000ff00
+-#define MMSS_CC_CLK_MD_M__SHIFT					8
+-static inline uint32_t MMSS_CC_CLK_MD_M(uint32_t val)
+-{
+-	return ((val) << MMSS_CC_CLK_MD_M__SHIFT) & MMSS_CC_CLK_MD_M__MASK;
+-}
+-
+-static inline uint32_t REG_MMSS_CC_CLK_NS(enum mmss_cc_clk i0) { return 0x00000008 + __offset_CLK(i0); }
+-#define MMSS_CC_CLK_NS_SRC__MASK				0x0000000f
+-#define MMSS_CC_CLK_NS_SRC__SHIFT				0
+-static inline uint32_t MMSS_CC_CLK_NS_SRC(uint32_t val)
+-{
+-	return ((val) << MMSS_CC_CLK_NS_SRC__SHIFT) & MMSS_CC_CLK_NS_SRC__MASK;
+-}
+-#define MMSS_CC_CLK_NS_PRE_DIV_FUNC__MASK			0x00fff000
+-#define MMSS_CC_CLK_NS_PRE_DIV_FUNC__SHIFT			12
+-static inline uint32_t MMSS_CC_CLK_NS_PRE_DIV_FUNC(uint32_t val)
+-{
+-	return ((val) << MMSS_CC_CLK_NS_PRE_DIV_FUNC__SHIFT) & MMSS_CC_CLK_NS_PRE_DIV_FUNC__MASK;
+-}
+-#define MMSS_CC_CLK_NS_VAL__MASK				0xff000000
+-#define MMSS_CC_CLK_NS_VAL__SHIFT				24
+-static inline uint32_t MMSS_CC_CLK_NS_VAL(uint32_t val)
+-{
+-	return ((val) << MMSS_CC_CLK_NS_VAL__SHIFT) & MMSS_CC_CLK_NS_VAL__MASK;
+-}
+-
+-#define REG_MMSS_CC_DSI2_PIXEL_CC				0x00000094
+-
+-#define REG_MMSS_CC_DSI2_PIXEL_NS				0x000000e4
+-
+-#define REG_MMSS_CC_DSI2_PIXEL_CC2				0x00000264
 -
 -
--#endif /* QFPROM_XML */
+-#endif /* MMSS_CC_XML */
 
 -- 
 2.39.2
