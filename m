@@ -1,97 +1,164 @@
-Return-Path: <linux-kbuild+bounces-1076-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1077-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC409868823
-	for <lists+linux-kbuild@lfdr.de>; Tue, 27 Feb 2024 05:13:35 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ACBD86991F
+	for <lists+linux-kbuild@lfdr.de>; Tue, 27 Feb 2024 15:53:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EC8131C214DE
-	for <lists+linux-kbuild@lfdr.de>; Tue, 27 Feb 2024 04:13:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 90CFB1C22D0A
+	for <lists+linux-kbuild@lfdr.de>; Tue, 27 Feb 2024 14:53:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7662C4D10A;
-	Tue, 27 Feb 2024 04:13:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF1693D68;
+	Tue, 27 Feb 2024 14:53:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FuWVq1NY"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o+ZIqWP2"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 478923717F;
-	Tue, 27 Feb 2024 04:13:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86F151420DF;
+	Tue, 27 Feb 2024 14:53:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709007211; cv=none; b=VGcArlmqmJuLlias40X6pFVIfau8F+4XAqZwYa87TtiiQCh3N7ITq4po/CKjLF7h7Zjf/YaiB62YClaogSjOGcvq9oBx9mqr2dpWMR519kYMGmBU6QibJFhAEcgAi2wdcMriLXPvraLsMGDu+vX6yPVA3TlJCSXDfxYTRWnGlkE=
+	t=1709045590; cv=none; b=UGfh90ZgDBZ00nVin5WKvEPelBnsvvLBDTThfxU/2Iqzb6fm7B7mdB4IETQznkr6JxXVrsO+PtaX00Tji/COfxFYYuDFvLPVtuxQmSwjmgnbjpj75ZGkKmqm//MIHOl/PxAUOcuTY2uotyiLndskjVT+6nzTjDbRXD75ZnLS9eU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709007211; c=relaxed/simple;
-	bh=pOd3rIhxeDttRE/w4jf0a5fXJ8XRG2AEH9g9YoyWxw4=;
+	s=arc-20240116; t=1709045590; c=relaxed/simple;
+	bh=YlS+XLPkpbAB4xgj3+7khXh6HKkBzhmjNhKtEN3j9xw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WbK81S0uYlfZ9pwgA1kMH7OsrM/2vgTR2wOcvSlMV5erpZ0HkF33H3kEsA3Ms+NQng8S6AMBF4Y+5FzjfBrcIvBPMQSNIPr9uUULWxug85qACUGbeOtxtO+AOQch4j0O1EsnvTJR1qGyiT8YvAeJ8lb97c1fATdN5Y7Jn/23b7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FuWVq1NY; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D361CC433F1;
-	Tue, 27 Feb 2024 04:13:30 +0000 (UTC)
+	 To:Cc:Content-Type; b=rx6LBfcZWh4YnrLK6K3TfACTHwF5bRIa3Jp5ppMn2WEmenRyV+c5rB3q6ETXUkXRok6dHggP599Nq0Pvjzy0U3puheCLi8HFlswXYSoXgqF60jx+bNJqISmi+gRuiRXfEr6B3SsZyDwRDnwDK9uJKny36yUhxkDsUGjLhefJzEQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o+ZIqWP2; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 286A7C433F1;
+	Tue, 27 Feb 2024 14:53:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709007210;
-	bh=pOd3rIhxeDttRE/w4jf0a5fXJ8XRG2AEH9g9YoyWxw4=;
+	s=k20201202; t=1709045590;
+	bh=YlS+XLPkpbAB4xgj3+7khXh6HKkBzhmjNhKtEN3j9xw=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=FuWVq1NYHYibDwvv1R+4dBRw3ekHb7gkOCyNO+hQhzDkjGzeZ2VS2F4pjCHYhGccC
-	 aF3JKUzNvg2TX6QJQ1vMWVu6VE7i/LeS8gKvrnlkN2e/nuX1CNT9eoOgW6H+JGRb2C
-	 cGrDPsTwq2OLY9uz/64wjRr9bUk2R8bmxln3zCQLgf7RRxDBYJC1SqkeXE0wV7etRH
-	 I9qcJY9Y9tQL0afXuCQLIC8MyoXbkboBG3uESwOY1hCnWrB4jqdwDBAgpnp6kZyksl
-	 eXypStlbqekN0rBQqbsKGO+7iocd0pC+bOxRv1SXEpCeBDCLSW1+0kcE402bkVVrhd
-	 O/REvrpn/L6IA==
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-513031ce058so759647e87.1;
-        Mon, 26 Feb 2024 20:13:30 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUa4cIciXdfWuIsQg2iu9hQ1gyYw3xxIA0oaDN7E642ZQC29zLPh3Rl2IV3YQzv5mdIdTRPUKI8grGVkDYm+rfbhwM2IjhgP6mtHeDVjE/uzzw7TjqdrxiTdzMTvHZLsRYaZXwCgvIvPTXRZ6pcHuRBrNBsO+PnQsBgTl1s+Hjsl4p/bJGrNQ==
-X-Gm-Message-State: AOJu0YyT6wRGVMrD3ZNp5VyHzvACrhk0C9MfGSkciaeCxmT7ALmnofu/
-	7cEY4j4jOo6/eMUHnp0y/Tl5dmf3Wul3p5gu7iYZgbpHPANU2FL3NlO1nYXsfTLWIuullKriBvK
-	JpwPoi162kumogbZh1hkFzE1hMA==
-X-Google-Smtp-Source: AGHT+IHEaZhlxSyD/TFbQsUwc1WxHtT4YLPC4GzPIHqVUejLCCC1a87PP2YrbmNNBxDfqRX0V7bJ0TFYqF2XYfq7ra4=
-X-Received: by 2002:ac2:4a6d:0:b0:512:eef0:3e60 with SMTP id
- q13-20020ac24a6d000000b00512eef03e60mr4619033lfp.16.1709007209058; Mon, 26
- Feb 2024 20:13:29 -0800 (PST)
+	b=o+ZIqWP2hpAAfsiYuOmt5JxabM8OEhtC/GyTaCjzvDEPL3/2n9i7cvRC/ML7XTEIw
+	 ADfHYc0jqxaiCOqcYPHJYZB+Obh6uQbGN6RJRN+mPDVAswyoIeO03Bhm+D8dB587Kx
+	 UkY3B3YyS0jPFOb7F81rZxHFFuipAbjVqXI3YpTmoVsvL4kSSEMu6A9dq0SRPBbSpn
+	 g0MWwv44NyZdjIk81sZt8qdWWof0z6YrayjoiTd1g93UJWZ2nQCt+WMk3P+68iVXue
+	 q+DzEKAjWbjcoxW1mnb1Mac80/jBEcGElBDS3pJ3dpCeFHAHGATzJ49IB13sf1xdQE
+	 7zP2FerHGWR5g==
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2d094bc2244so52005611fa.1;
+        Tue, 27 Feb 2024 06:53:10 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVGklBRXaeJd8KzsxRuZ2ClY2XgsKFiWveakYpGZt22W95sVPBpA+IaAWL368f9Em0a1CZBMvfoPz4EylPWCAQ+02bu8MbK8kg56klvuHglfciSlDcs694x+X92qb77WfOBB3IvKf1wHhHxNw==
+X-Gm-Message-State: AOJu0Ywow9oWzPjv5Ba4G5GjKQbNsCpz4oyt8pcOhRg1KhqrlfTYAzgW
+	3A02JPxXKxq3e5xNtKDo3PXK9Svz4ihiYazXhM8/lo1E6B32gJLQuUMG2wEuL1uxzrNEf/Z1mnf
+	brtJxEYdr+P/aXBMjx4Q5ohnSBpA=
+X-Google-Smtp-Source: AGHT+IFdU5+QVtAGPROXQ3gMPQ7H3jlS9Zb3pV4/rSiCMlShMF/7Qkq67XHHVbRlo7IYf5l0wDT+UNh7zTNTp0CQxA4=
+X-Received: by 2002:a05:651c:2128:b0:2d2:3fac:5fdc with SMTP id
+ a40-20020a05651c212800b002d23fac5fdcmr7612423ljq.10.1709045588717; Tue, 27
+ Feb 2024 06:53:08 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240225151209.343160-1-alexander.stein@mailbox.org> <CAK7LNARxfhYm9WyDH-S0PT7Mb5Tj5tmbqGLs9NzNxzsi1_4OQw@mail.gmail.com>
-In-Reply-To: <CAK7LNARxfhYm9WyDH-S0PT7Mb5Tj5tmbqGLs9NzNxzsi1_4OQw@mail.gmail.com>
-From: Rob Herring <robh+dt@kernel.org>
-Date: Mon, 26 Feb 2024 22:13:16 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJp5aHJiibQ6=dcBPKQ8k=sK2Nbgter7Y7hczJP1AO0yg@mail.gmail.com>
-Message-ID: <CAL_JsqJp5aHJiibQ6=dcBPKQ8k=sK2Nbgter7Y7hczJP1AO0yg@mail.gmail.com>
-Subject: Re: [PATCH 1/1] kbuild: Add DT schema check also when applying DT overlays
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Alexander Stein <alexander.stein@mailbox.org>, DTML <devicetree@vger.kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+References: <20240226-fd-xml-shipped-v1-0-86bb6c3346d2@linaro.org>
+ <20240226-fd-xml-shipped-v1-1-86bb6c3346d2@linaro.org> <CAK7LNASGcs9Y3Xr87EBQhwB3Ep_t8aYFE=nCq2Rr04krwn9Thg@mail.gmail.com>
+ <CAA8EJpqhjXjaKKhp3HGxpwN+fLnL9tC_T1ibpK4TVmgayeaQwg@mail.gmail.com>
+In-Reply-To: <CAA8EJpqhjXjaKKhp3HGxpwN+fLnL9tC_T1ibpK4TVmgayeaQwg@mail.gmail.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Tue, 27 Feb 2024 23:52:32 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASTCNRQBG3DAFaMi4k4LUfoeU7q-JV4q8TLFqrD4YLSww@mail.gmail.com>
+Message-ID: <CAK7LNASTCNRQBG3DAFaMi4k4LUfoeU7q-JV4q8TLFqrD4YLSww@mail.gmail.com>
+Subject: Re: [PATCH RFC 01/12] kbuild: create destination directory for
+ _shipped handling
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+	Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+	Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, linux-kbuild@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 26, 2024 at 1:03=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
+On Mon, Feb 26, 2024 at 8:01=E2=80=AFPM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
 >
-> + Rob Herring, DT List
->
->
-> On Mon, Feb 26, 2024 at 12:12=E2=80=AFAM Alexander Stein
-> <alexander.stein@mailbox.org> wrote:
+> On Mon, 26 Feb 2024 at 08:33, Masahiro Yamada <masahiroy@kernel.org> wrot=
+e:
 > >
-> > Add a similar mechanism as for regular DT files to call the DT checker
-> > after applying DT overlays to base DT files.
+> > On Mon, Feb 26, 2024 at 11:11=E2=80=AFAM Dmitry Baryshkov
+> > <dmitry.baryshkov@linaro.org> wrote:
+> > >
+> > > The driver might decide to put the _shipped files to the subdir.
+> >
+> >
+> >
+> > Please stop this sentence.
+> >
+> > This sounds like we are not learning.
+> >
+> > https://lore.kernel.org/all/CAHk-=3DwgSEi_ZrHdqr=3D20xv+d6dr5G895CbOAi8=
+ok+7-CQUN=3DfQ@mail.gmail.com/
+> >
+> >
+> >
+> >
+> > > In such
+> > > case the cmd_copy might fail because the destination directory is not
+> > > present. Call mkdir -p to make sure that the destination directory is
+> > > present.
+> >
+> >
+> > There is no justification for this.
+> >
+> > If you need a single generated directory
+> > (drivers/gpu/drm/msm/registers/, divers/gpu/drm/msm/generated/ or whate=
+ver)
+> > that should be super simple.
+> >
+> > Why does scripts/Makefile.lib need the modification?
+>
+> Could you please tell me how I should handle this?
+> I was looking for a way to generate
+> drivers/gpu/drm/msm/registers/foo.xml.h and then use it during
+> compilation.
+> In drivers/gpu/drm/msm/Makefile I added $(obj)/registers/foo.xml.h as
+> a dependency to the corresponding object files and then added
+> drivers/gpu/drm/msm/registers/foo.xml.h_shipped file.
+> This way Kbuild/make will attempt to call cmd_copy to generate target
+> file, which thanks to VPATH expansion boils down to `cat
+> $(srctree)/$(src)/registers/foo.xml.h_shopped >
+> $(obj)/registers/foo.xml.h`. However this breaks as there is no
+> $(obj)/registers.
+>
 
-I suspect this needs more work than just enabling checking. Otherwise,
-I would have done just that. Depending on the split with an overlay,
-we could see strange results.
 
-The requirement in the kernel is overlays be applied to a base tree at
-build time (though that is not checked ATM. When we check that result,
-we're checking the overlay anyways. Obviously, that's a bit harder to
-trace the source of errors, but it is otherwise redundant to check
-overlays in addition.
 
-Rob
+One simple solution is to use $(shell mkdir -p ...)
+to create the output directory.
+
+scripts/Makefile.build does a similar thing.
+
+
+
+You can add the following to drivers/gpu/drm/msm/Makefile.
+
+
+
+# Create output directory when CONFIG_DRM_MSM is defined.
+# This avoids creating the output directory during 'make clean'
+ifdef CONFIG_DRM_MSM
+$(shell mkdir -p $(obj)/registers)
+endif
+
+
+
+
+
+
+
+
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
