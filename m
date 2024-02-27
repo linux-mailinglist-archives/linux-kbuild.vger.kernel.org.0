@@ -1,214 +1,97 @@
-Return-Path: <linux-kbuild+bounces-1075-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1076-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F18C98687C9
-	for <lists+linux-kbuild@lfdr.de>; Tue, 27 Feb 2024 04:29:51 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC409868823
+	for <lists+linux-kbuild@lfdr.de>; Tue, 27 Feb 2024 05:13:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 95E92283C11
-	for <lists+linux-kbuild@lfdr.de>; Tue, 27 Feb 2024 03:29:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EC8131C214DE
+	for <lists+linux-kbuild@lfdr.de>; Tue, 27 Feb 2024 04:13:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 353E21B27D;
-	Tue, 27 Feb 2024 03:29:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7662C4D10A;
+	Tue, 27 Feb 2024 04:13:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ax96dnXx"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FuWVq1NY"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A3DE12B75;
-	Tue, 27 Feb 2024 03:29:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 478923717F;
+	Tue, 27 Feb 2024 04:13:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709004587; cv=none; b=q5/w+aKImzvzfbjr9jqe7LJQAXDEquoXrKPezsJx7D/hP+BfBF7VrOAb03P08wDFf8WgMldezMeNZNFI6LLlAMgpHMl5lqPN7ZAI8usEMg5rwc1d3USE3VydjhnBpZ58PPFjP5nNqqxrg59671i3C9aA7RKdJo7/qh5ZRS20Aa8=
+	t=1709007211; cv=none; b=VGcArlmqmJuLlias40X6pFVIfau8F+4XAqZwYa87TtiiQCh3N7ITq4po/CKjLF7h7Zjf/YaiB62YClaogSjOGcvq9oBx9mqr2dpWMR519kYMGmBU6QibJFhAEcgAi2wdcMriLXPvraLsMGDu+vX6yPVA3TlJCSXDfxYTRWnGlkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709004587; c=relaxed/simple;
-	bh=PbO3bY7v829gg1IDZCPUZSdq4KzbKx2n62G+pK1sFDI=;
+	s=arc-20240116; t=1709007211; c=relaxed/simple;
+	bh=pOd3rIhxeDttRE/w4jf0a5fXJ8XRG2AEH9g9YoyWxw4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dzsOUqLvl3Dkht8qyQb7yWO8oqMjPx3OJpLkQA9uSpZq+aO7ITix/abdLH4hf+bWHTmZku5dX5KeVufDlOPOiDnc44EOaZwiN/qsF7B867KfZ/uzERwg3m94yQVBULKCcfoXF4QQ4Xhv37ffsQrs2dHgc4RbGZaigojiCIGLzEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ax96dnXx; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B7A5C43394;
-	Tue, 27 Feb 2024 03:29:46 +0000 (UTC)
+	 To:Cc:Content-Type; b=WbK81S0uYlfZ9pwgA1kMH7OsrM/2vgTR2wOcvSlMV5erpZ0HkF33H3kEsA3Ms+NQng8S6AMBF4Y+5FzjfBrcIvBPMQSNIPr9uUULWxug85qACUGbeOtxtO+AOQch4j0O1EsnvTJR1qGyiT8YvAeJ8lb97c1fATdN5Y7Jn/23b7I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FuWVq1NY; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D361CC433F1;
+	Tue, 27 Feb 2024 04:13:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709004586;
-	bh=PbO3bY7v829gg1IDZCPUZSdq4KzbKx2n62G+pK1sFDI=;
+	s=k20201202; t=1709007210;
+	bh=pOd3rIhxeDttRE/w4jf0a5fXJ8XRG2AEH9g9YoyWxw4=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Ax96dnXxkxu8RHIhyoshWA9FfATjtaSk3DhZT3/qR9Skj6FA4aKfp6EIR71GOzDoq
-	 EeS0LvagwoVql7+JFIkzthyvX+pIGLO1uXak5Ua9va20+RFdvM2R1Ys4CZH+F186/5
-	 kFVTbsVHaCZjaMffNdGdFHpzf4u/Jo8rTmh+mZkw3Og/s8p45+iGBfYCkVIgK3BPQp
-	 QCs1JTowZKml5nIzR8iPlstsbXU5H/KD0XFttphrkc9cG+1mb0Z1sDppKvSJbXTHxz
-	 9cIZC1L1sc3H5IRpvWzqABMEL+/qAYEuPP6NqJiu9lBSHMkci3UNM7R6ayHHC88Gdh
-	 5lgeHDWLlOzPw==
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2d29111272eso14222601fa.0;
-        Mon, 26 Feb 2024 19:29:46 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXRzojpZw90iUcyDay+AMEFTwxjB9Aq0GdXSxu4k9kqW9kbtOV8mmzcCXlcEtPS+NCM2gfsTZHM86Q/kehTuxxeiRahHz2W7j6v6/Lg8fdLjh8zHY4GYjbFUNML3Vv+NoDx5sqRxv8FOKn8WQ==
-X-Gm-Message-State: AOJu0Yw1PLILXI0mTuP1CoSWaReRq6Um40dTNxYgIUVwK86ElV4sXW8L
-	UVGw7EmR2d30V85uCY2RGSVmr5o/DE1PACcc3IPRO9XxD2KOIKhST0HkDby2kHdEN8nR4ML7ktm
-	B9RnKUyh3K2wqNDJUF7YnCMoTVxQ=
-X-Google-Smtp-Source: AGHT+IEN5BN0+IfYhtY5KkvP3G7KdFLbDw6kvjAQ7IBhqxFHBEWQjHjvlLnOT09TheBp+TnxJKyTZut06ED13DYqfMA=
-X-Received: by 2002:a2e:3316:0:b0:2d1:26f0:8167 with SMTP id
- d22-20020a2e3316000000b002d126f08167mr5270312ljc.35.1709004585013; Mon, 26
- Feb 2024 19:29:45 -0800 (PST)
+	b=FuWVq1NYHYibDwvv1R+4dBRw3ekHb7gkOCyNO+hQhzDkjGzeZ2VS2F4pjCHYhGccC
+	 aF3JKUzNvg2TX6QJQ1vMWVu6VE7i/LeS8gKvrnlkN2e/nuX1CNT9eoOgW6H+JGRb2C
+	 cGrDPsTwq2OLY9uz/64wjRr9bUk2R8bmxln3zCQLgf7RRxDBYJC1SqkeXE0wV7etRH
+	 I9qcJY9Y9tQL0afXuCQLIC8MyoXbkboBG3uESwOY1hCnWrB4jqdwDBAgpnp6kZyksl
+	 eXypStlbqekN0rBQqbsKGO+7iocd0pC+bOxRv1SXEpCeBDCLSW1+0kcE402bkVVrhd
+	 O/REvrpn/L6IA==
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-513031ce058so759647e87.1;
+        Mon, 26 Feb 2024 20:13:30 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUa4cIciXdfWuIsQg2iu9hQ1gyYw3xxIA0oaDN7E642ZQC29zLPh3Rl2IV3YQzv5mdIdTRPUKI8grGVkDYm+rfbhwM2IjhgP6mtHeDVjE/uzzw7TjqdrxiTdzMTvHZLsRYaZXwCgvIvPTXRZ6pcHuRBrNBsO+PnQsBgTl1s+Hjsl4p/bJGrNQ==
+X-Gm-Message-State: AOJu0YyT6wRGVMrD3ZNp5VyHzvACrhk0C9MfGSkciaeCxmT7ALmnofu/
+	7cEY4j4jOo6/eMUHnp0y/Tl5dmf3Wul3p5gu7iYZgbpHPANU2FL3NlO1nYXsfTLWIuullKriBvK
+	JpwPoi162kumogbZh1hkFzE1hMA==
+X-Google-Smtp-Source: AGHT+IHEaZhlxSyD/TFbQsUwc1WxHtT4YLPC4GzPIHqVUejLCCC1a87PP2YrbmNNBxDfqRX0V7bJ0TFYqF2XYfq7ra4=
+X-Received: by 2002:ac2:4a6d:0:b0:512:eef0:3e60 with SMTP id
+ q13-20020ac24a6d000000b00512eef03e60mr4619033lfp.16.1709007209058; Mon, 26
+ Feb 2024 20:13:29 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240226-fd-xml-shipped-v1-0-86bb6c3346d2@linaro.org>
- <CAK7LNAQDhpAirfbb1zExH1auWkMPzncA9XpSrkv4odXOWZdQzA@mail.gmail.com> <CAA8EJpotuep1MDmNvNAYAC98peK9GFUVeUJ8G-GBwunSPrsUGQ@mail.gmail.com>
-In-Reply-To: <CAA8EJpotuep1MDmNvNAYAC98peK9GFUVeUJ8G-GBwunSPrsUGQ@mail.gmail.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 27 Feb 2024 12:29:08 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATwM_8imfbYZKEL5WjvxgAgu1bY3p74CiP69H4QxO9B1w@mail.gmail.com>
-Message-ID: <CAK7LNATwM_8imfbYZKEL5WjvxgAgu1bY3p74CiP69H4QxO9B1w@mail.gmail.com>
-Subject: Re: [PATCH RFC 00/12] drm/msm: add support for regenerating shipped
- xml.h headers
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
-	Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
-	Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, linux-kbuild@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	freedreno@lists.freedesktop.org
+References: <20240225151209.343160-1-alexander.stein@mailbox.org> <CAK7LNARxfhYm9WyDH-S0PT7Mb5Tj5tmbqGLs9NzNxzsi1_4OQw@mail.gmail.com>
+In-Reply-To: <CAK7LNARxfhYm9WyDH-S0PT7Mb5Tj5tmbqGLs9NzNxzsi1_4OQw@mail.gmail.com>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Mon, 26 Feb 2024 22:13:16 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJp5aHJiibQ6=dcBPKQ8k=sK2Nbgter7Y7hczJP1AO0yg@mail.gmail.com>
+Message-ID: <CAL_JsqJp5aHJiibQ6=dcBPKQ8k=sK2Nbgter7Y7hczJP1AO0yg@mail.gmail.com>
+Subject: Re: [PATCH 1/1] kbuild: Add DT schema check also when applying DT overlays
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Alexander Stein <alexander.stein@mailbox.org>, DTML <devicetree@vger.kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 26, 2024 at 7:49=E2=80=AFPM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
+On Mon, Feb 26, 2024 at 1:03=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
+rg> wrote:
+>
+> + Rob Herring, DT List
+>
+>
+> On Mon, Feb 26, 2024 at 12:12=E2=80=AFAM Alexander Stein
+> <alexander.stein@mailbox.org> wrote:
+> >
+> > Add a similar mechanism as for regular DT files to call the DT checker
+> > after applying DT overlays to base DT files.
 
-> Could you please specify how you tried to compile the code? I can see
-> warnings from headrgen2, but I'm really puzzled by the errors from the
-> MSM driver itself.
+I suspect this needs more work than just enabling checking. Otherwise,
+I would have done just that. Depending on the split with an overlay,
+we could see strange results.
 
+The requirement in the kernel is overlays be applied to a base tree at
+build time (though that is not checked ATM. When we check that result,
+we're checking the overlay anyways. Obviously, that's a bit harder to
+trace the source of errors, but it is otherwise redundant to check
+overlays in addition.
 
-
-I applied this patch set onto v6.8-rc6.
-
-
-masahiro@zoe:~/ref/linux(testing7)$ git log --oneline  -15
-40eb59f162cc (HEAD -> testing7) drm/msm: sync shipped headers database
-ae850f45f243 drm/msm: tie regeneration of shipped headers
-45401d4034ef drm/msm: import XML registers database
-491e4d41308e drm/msm/headergen: generate _shipped files
-6766c628c097 drm/msm/headergen: don't output full file paths
-e48e9a8eaf21 drm/msm/headergen: use asprintf instead of custom aprintf
-b12d6fb5d2a0 drm/msm/headergen: import source files from freedreno/envytool=
-s
-4699358f5c5b drm/msm: use _shipped suffix for all xml.h files
-295fcf923852 drm/msm/dsi: drop mmss_cc.xml.h
-a15c0faba637 drm/msm/hdmi: drop qfprom.xml.h
-6811afe14414 drm/msm/mdp5: add writeback block bases
-feee4929582e kbuild: create destination directory for _shipped handling
-d206a76d7d27 (tag: v6.8-rc6, origin/master, origin/HEAD, master) Linux 6.8-=
-rc6
-e231dbd452a7 Merge tag 'bcachefs-2024-02-25' of
-https://evilpiepirate.org/git/bcachefs
-5197728f8182 bcachefs: fix bch2_save_backtrace()
-
-
-I see the build errors with arm64 defconfig.
-
-[build step]
-
-  $ git clean -fdx
-  $ make ARCH=3Darm64 CROSS_COMPILE=3Daarch64-linux-gnu- defconfig
-  $ make ARCH=3Darm64 CROSS_COMPILE=3Daarch64-linux-gnu-  -j$(nproc)
-
-
-
-
-
-
-As I commented in 05/12, -I$(srctree)/$(src) is lost.
-
-
-I was able to build it with the following fix-up.
-
-
-
---- a/drivers/gpu/drm/msm/Makefile
-+++ b/drivers/gpu/drm/msm/Makefile
-@@ -1,6 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0
- ccflags-y :=3D -I $(srctree)/$(src)
--ccflags-y :=3D -I $(obj)/registers
-+ccflags-y +=3D -I $(obj)/registers
- ccflags-y +=3D -I $(srctree)/$(src)/disp/dpu1
- ccflags-$(CONFIG_DRM_MSM_DSI) +=3D -I $(srctree)/$(src)/dsi
- ccflags-$(CONFIG_DRM_MSM_DP) +=3D -I $(srctree)/$(src)/dp
-
-
-
-
-
-
-Better fixes would be to use #include "" properly.
-It should be relative to the source file.
-
-
-
-
-
-
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-index 592b296aab22..cf878490abd0 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-@@ -9,7 +9,7 @@
- #include <linux/interrupt.h>
- #include <linux/notifier.h>
- #include <linux/soc/qcom/qcom_aoss.h>
--#include "msm_drv.h"
-+#include "../msm_drv.h"
- #include "a6xx_hfi.h"
-
- struct a6xx_gmu_bo {
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index c9c55e2ea584..3a109453db31 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -2,9 +2,9 @@
- /* Copyright (c) 2017-2019 The Linux Foundation. All rights reserved. */
-
-
--#include "msm_gem.h"
--#include "msm_mmu.h"
--#include "msm_gpu_trace.h"
-+#include "../msm_gem.h"
-+#include "../msm_mmu.h"
-+#include "../msm_gpu_trace.h"
- #include "a6xx_gpu.h"
- #include "a6xx_gmu.xml.h"
-
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-index bc14df96feb0..007788bf38ce 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-@@ -12,7 +12,7 @@
- #include <linux/firmware.h>
- #include <linux/iopoll.h>
-
--#include "msm_gpu.h"
-+#include "../msm_gpu.h"
-
- #include "adreno_common.xml.h"
- #include "adreno_pm4.xml.h"
-
-
-
-
-
-
-
-
-
---=20
-Best Regards
-Masahiro Yamada
+Rob
 
