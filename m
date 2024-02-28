@@ -1,164 +1,131 @@
-Return-Path: <linux-kbuild+bounces-1077-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1078-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ACBD86991F
-	for <lists+linux-kbuild@lfdr.de>; Tue, 27 Feb 2024 15:53:25 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC6EF86A7B7
+	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Feb 2024 05:57:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 90CFB1C22D0A
-	for <lists+linux-kbuild@lfdr.de>; Tue, 27 Feb 2024 14:53:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 621471F2518E
+	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Feb 2024 04:57:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF1693D68;
-	Tue, 27 Feb 2024 14:53:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D57A3205;
+	Wed, 28 Feb 2024 04:56:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o+ZIqWP2"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="jALCk1fa"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86F151420DF;
-	Tue, 27 Feb 2024 14:53:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4810219E1
+	for <linux-kbuild@vger.kernel.org>; Wed, 28 Feb 2024 04:56:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709045590; cv=none; b=UGfh90ZgDBZ00nVin5WKvEPelBnsvvLBDTThfxU/2Iqzb6fm7B7mdB4IETQznkr6JxXVrsO+PtaX00Tji/COfxFYYuDFvLPVtuxQmSwjmgnbjpj75ZGkKmqm//MIHOl/PxAUOcuTY2uotyiLndskjVT+6nzTjDbRXD75ZnLS9eU=
+	t=1709096218; cv=none; b=uszaSpwhPa44bQoMcf5SOIArc3q+j1dEZcwQH5wDTotY7xcz4Qi7JIyBpLIsPeg28WmB7dszomfiO+d+nYUsHpMKO8u3BpaBxwyDjH8fNKETj56U+SgVUBMwwtvoJ7+W0h5r+T2zulai3xMEVtuard3ElVVxQOyVq70Efmk21VA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709045590; c=relaxed/simple;
-	bh=YlS+XLPkpbAB4xgj3+7khXh6HKkBzhmjNhKtEN3j9xw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rx6LBfcZWh4YnrLK6K3TfACTHwF5bRIa3Jp5ppMn2WEmenRyV+c5rB3q6ETXUkXRok6dHggP599Nq0Pvjzy0U3puheCLi8HFlswXYSoXgqF60jx+bNJqISmi+gRuiRXfEr6B3SsZyDwRDnwDK9uJKny36yUhxkDsUGjLhefJzEQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o+ZIqWP2; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 286A7C433F1;
-	Tue, 27 Feb 2024 14:53:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709045590;
-	bh=YlS+XLPkpbAB4xgj3+7khXh6HKkBzhmjNhKtEN3j9xw=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=o+ZIqWP2hpAAfsiYuOmt5JxabM8OEhtC/GyTaCjzvDEPL3/2n9i7cvRC/ML7XTEIw
-	 ADfHYc0jqxaiCOqcYPHJYZB+Obh6uQbGN6RJRN+mPDVAswyoIeO03Bhm+D8dB587Kx
-	 UkY3B3YyS0jPFOb7F81rZxHFFuipAbjVqXI3YpTmoVsvL4kSSEMu6A9dq0SRPBbSpn
-	 g0MWwv44NyZdjIk81sZt8qdWWof0z6YrayjoiTd1g93UJWZ2nQCt+WMk3P+68iVXue
-	 q+DzEKAjWbjcoxW1mnb1Mac80/jBEcGElBDS3pJ3dpCeFHAHGATzJ49IB13sf1xdQE
-	 7zP2FerHGWR5g==
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2d094bc2244so52005611fa.1;
-        Tue, 27 Feb 2024 06:53:10 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVGklBRXaeJd8KzsxRuZ2ClY2XgsKFiWveakYpGZt22W95sVPBpA+IaAWL368f9Em0a1CZBMvfoPz4EylPWCAQ+02bu8MbK8kg56klvuHglfciSlDcs694x+X92qb77WfOBB3IvKf1wHhHxNw==
-X-Gm-Message-State: AOJu0Ywow9oWzPjv5Ba4G5GjKQbNsCpz4oyt8pcOhRg1KhqrlfTYAzgW
-	3A02JPxXKxq3e5xNtKDo3PXK9Svz4ihiYazXhM8/lo1E6B32gJLQuUMG2wEuL1uxzrNEf/Z1mnf
-	brtJxEYdr+P/aXBMjx4Q5ohnSBpA=
-X-Google-Smtp-Source: AGHT+IFdU5+QVtAGPROXQ3gMPQ7H3jlS9Zb3pV4/rSiCMlShMF/7Qkq67XHHVbRlo7IYf5l0wDT+UNh7zTNTp0CQxA4=
-X-Received: by 2002:a05:651c:2128:b0:2d2:3fac:5fdc with SMTP id
- a40-20020a05651c212800b002d23fac5fdcmr7612423ljq.10.1709045588717; Tue, 27
- Feb 2024 06:53:08 -0800 (PST)
+	s=arc-20240116; t=1709096218; c=relaxed/simple;
+	bh=Q9q3Ts4D/IDB5UkI6ebI4e+dxkWpOba/wjNuxBVAReY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=s1fbBpHpJT1FhQKmmJAv6B5DxbNQ/p9MYesDq5lYxCI/xiJFk5RHCUAEaMi2D7aC3p8uQFA+tV16aZ7fceQj+Fu/gnESzWjSt6E36GovIi0C0oIjX2zJsleMpK0PU+kVMDOge4pxUGlfHhTEjuMiwJbwjodt4kzrnYjCQd95IL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=jALCk1fa; arc=none smtp.client-ip=209.85.210.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-6de3141f041so3308763b3a.0
+        for <linux-kbuild@vger.kernel.org>; Tue, 27 Feb 2024 20:56:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1709096216; x=1709701016; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=4AtewQ0DvpvS+xLs0fKphMHf+bEJv8V+4bZQhjiNKnc=;
+        b=jALCk1faNGx8DbpX2jugPmX5rwjO35xXBckMl8vaNkoKXj3EHj57FBJgUanHKHkrwD
+         0jXVSmBh3NNAr1Bg0c71gVWB7u6NOOmFKXJqld9xsw2Iu7sPFWXvL6J2aGcST06Ztx0P
+         qOZ8v4bXqo5dXic2ARZZPpenKSW4wufYv9EYk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709096216; x=1709701016;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4AtewQ0DvpvS+xLs0fKphMHf+bEJv8V+4bZQhjiNKnc=;
+        b=vOIiZYRvAsEHnfRacXOcxC+FvzCJVlfTfAZuOFLTl/vvxgfAwUDi/TZnRwTxXrZwVE
+         PAZPBHeOUAKZa6WmYQROIAfR+g6+92U7kr9xM4BpSvtKAU3m2/ZmV42dlum7lBPJjAnz
+         DPiThuijiLlIAvuj5G5SbYPXq2BHDlHFTQXzjiaKubNgPGRQdbRpviEtH/muIDn9F/Gl
+         o53EWOHUifLeTPb3pLyFvo5piJ09wPc9t1RRDi5l9Zn7NaBrIbAEAyKC98Dgm0GRB5IR
+         KCkdCXMxJSHwHy5/B7M3CRvsTzp4nJSG8ytWEHtqi13KHGs9deJjALAGWdlB2wQZdVfL
+         CN+g==
+X-Gm-Message-State: AOJu0Yy/QVhzZa0zeqjo0kvJnNMFzUyWd0TGvBOlVnbA5dBRbsxI08K5
+	38n0bilrTJrZO1nj8DzxOe/Mc8VezPASrcIw68js7IZDTHYeZiV59qUBTJhHMf6UvNgER4c7fa3
+	SrA==
+X-Google-Smtp-Source: AGHT+IGzy9Vm4PBdNRR6cuhx3TCFLK6OtU4rHrsNcK4rCNijxYrHsK7UABp7QngOCRsXoSJX/xOQLw==
+X-Received: by 2002:a05:6a21:1394:b0:1a1:1e8a:4013 with SMTP id oa20-20020a056a21139400b001a11e8a4013mr64387pzb.40.1709096216158;
+        Tue, 27 Feb 2024 20:56:56 -0800 (PST)
+Received: from google.com ([2401:fa00:8f:203:50c1:1ad2:3268:cacd])
+        by smtp.gmail.com with ESMTPSA id ha11-20020a17090af3cb00b00299332505d7sm483390pjb.26.2024.02.27.20.56.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Feb 2024 20:56:55 -0800 (PST)
+Date: Wed, 28 Feb 2024 13:56:52 +0900
+From: Sergey Senozhatsky <senozhatsky@chromium.org>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Sergey Senozhatsky <senozhatsky@chromium.org>
+Subject: Re: [PATCHv2] kconfig: add some Kconfig env variables to make help
+Message-ID: <20240228045652.GH11972@google.com>
+References: <20240222031801.GG11472@google.com>
+ <20240222032559.496127-1-senozhatsky@chromium.org>
+ <CAK7LNARo4L6qxoqRU-0dgABarukJKAaZpCRtfA3MyUHhSuDQxQ@mail.gmail.com>
+ <20240222051621.GH11472@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240226-fd-xml-shipped-v1-0-86bb6c3346d2@linaro.org>
- <20240226-fd-xml-shipped-v1-1-86bb6c3346d2@linaro.org> <CAK7LNASGcs9Y3Xr87EBQhwB3Ep_t8aYFE=nCq2Rr04krwn9Thg@mail.gmail.com>
- <CAA8EJpqhjXjaKKhp3HGxpwN+fLnL9tC_T1ibpK4TVmgayeaQwg@mail.gmail.com>
-In-Reply-To: <CAA8EJpqhjXjaKKhp3HGxpwN+fLnL9tC_T1ibpK4TVmgayeaQwg@mail.gmail.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 27 Feb 2024 23:52:32 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASTCNRQBG3DAFaMi4k4LUfoeU7q-JV4q8TLFqrD4YLSww@mail.gmail.com>
-Message-ID: <CAK7LNASTCNRQBG3DAFaMi4k4LUfoeU7q-JV4q8TLFqrD4YLSww@mail.gmail.com>
-Subject: Re: [PATCH RFC 01/12] kbuild: create destination directory for
- _shipped handling
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
-	Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
-	Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, linux-kbuild@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240222051621.GH11472@google.com>
 
-On Mon, Feb 26, 2024 at 8:01=E2=80=AFPM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
->
-> On Mon, 26 Feb 2024 at 08:33, Masahiro Yamada <masahiroy@kernel.org> wrot=
-e:
-> >
-> > On Mon, Feb 26, 2024 at 11:11=E2=80=AFAM Dmitry Baryshkov
-> > <dmitry.baryshkov@linaro.org> wrote:
+On (24/02/22 14:16), Sergey Senozhatsky wrote:
+> On (24/02/22 13:57), Masahiro Yamada wrote:
+> > On Thu, Feb 22, 2024 at 12:26 PM Sergey Senozhatsky
+> > <senozhatsky@chromium.org> wrote:
 > > >
-> > > The driver might decide to put the _shipped files to the subdir.
+> > > Add a new section "Configuration environment variables" to
+> > > `make help` output in order to make it easier for people to
+> > > discover KCONFIG_WERROR, etc.
+> > >
+> > > Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+> > > ---
+> > >  scripts/kconfig/Makefile | 4 ++++
+> > >  1 file changed, 4 insertions(+)
+> > >
+> > > diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
+> > > index ea1bf3b3dbde..0044d49e149c 100644
+> > > --- a/scripts/kconfig/Makefile
+> > > +++ b/scripts/kconfig/Makefile
+> > > @@ -158,6 +158,10 @@ help:
+> > >                 if help=$$(grep -m1 '^# Help: ' $(f)); then \
+> > >                         printf '  %-25s - %s\n' '$(notdir $(f))' "$${help#*: }"; \
+> > >                 fi;)
+> > > +       @echo  ''
+> > > +       @echo  'Configuration environment variables:'
+> > > +       @echo  '  KCONFIG_WERROR                 - Turn some Kconfig warnings into error conditions'
+> > > +       @echo  '  KCONFIG_WARN_UNKNOWN_SYMBOLS   - Make Kconfig warn about all unrecognized config symbols'
+> > >
+> > >  # ===========================================================================
+> > >  # object files used by all kconfig flavours
+> > > --
+> > > 2.44.0.rc0.258.g7320e95886-goog
+> > >
+> > >
 > >
-> >
-> >
-> > Please stop this sentence.
-> >
-> > This sounds like we are not learning.
-> >
-> > https://lore.kernel.org/all/CAHk-=3DwgSEi_ZrHdqr=3D20xv+d6dr5G895CbOAi8=
-ok+7-CQUN=3DfQ@mail.gmail.com/
-> >
-> >
-> >
-> >
-> > > In such
-> > > case the cmd_copy might fail because the destination directory is not
-> > > present. Call mkdir -p to make sure that the destination directory is
-> > > present.
-> >
-> >
-> > There is no justification for this.
-> >
-> > If you need a single generated directory
-> > (drivers/gpu/drm/msm/registers/, divers/gpu/drm/msm/generated/ or whate=
-ver)
-> > that should be super simple.
-> >
-> > Why does scripts/Makefile.lib need the modification?
->
-> Could you please tell me how I should handle this?
-> I was looking for a way to generate
-> drivers/gpu/drm/msm/registers/foo.xml.h and then use it during
-> compilation.
-> In drivers/gpu/drm/msm/Makefile I added $(obj)/registers/foo.xml.h as
-> a dependency to the corresponding object files and then added
-> drivers/gpu/drm/msm/registers/foo.xml.h_shipped file.
-> This way Kbuild/make will attempt to call cmd_copy to generate target
-> file, which thanks to VPATH expansion boils down to `cat
-> $(srctree)/$(src)/registers/foo.xml.h_shopped >
-> $(obj)/registers/foo.xml.h`. However this breaks as there is no
-> $(obj)/registers.
->
+> > Why only two, while Kconfig supports more env variables?
+> 
+> Right.  I wanted to add only those that we use (and familiar with) for
+> starters.  I'm not familiar with things like KCONFIG_PROBABILITY, for
+> instance, and not sure how to document it (its Documentation/kbuild/kconfig.rst
+> description is pretty lengthy).
 
-
-
-One simple solution is to use $(shell mkdir -p ...)
-to create the output directory.
-
-scripts/Makefile.build does a similar thing.
-
-
-
-You can add the following to drivers/gpu/drm/msm/Makefile.
-
-
-
-# Create output directory when CONFIG_DRM_MSM is defined.
-# This avoids creating the output directory during 'make clean'
-ifdef CONFIG_DRM_MSM
-$(shell mkdir -p $(obj)/registers)
-endif
-
-
-
-
-
-
-
-
-
-
-
---=20
-Best Regards
-Masahiro Yamada
+Masahiro, any opinion?
 
