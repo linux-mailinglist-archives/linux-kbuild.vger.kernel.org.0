@@ -1,102 +1,128 @@
-Return-Path: <linux-kbuild+bounces-1096-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1097-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65FF486CE58
-	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Feb 2024 17:10:49 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id BAF6E86D63D
+	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Feb 2024 22:33:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 213502864A1
-	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Feb 2024 16:10:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 517141F233D7
+	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Feb 2024 21:33:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DB5A15E03E;
-	Thu, 29 Feb 2024 15:51:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 554C2433B3;
+	Thu, 29 Feb 2024 21:33:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HBiASsyc"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z6ajt57F"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24D8915E03A;
-	Thu, 29 Feb 2024 15:51:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D131D16FF47;
+	Thu, 29 Feb 2024 21:33:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709221885; cv=none; b=WYYlgL774JDHGQhD7fd+V4DYoEQmo0UIPaxyq9z3BnfbH6AI3UPDS5CbgHUvqt2Op76VP9th8Br5iyHPO0syaOzigOj6xK+vDrDLBX07Mbo7I8WvXzsguzzdqiCTcxY62QUO5qRDMlcvPBYomiIYt27ZZnbcXrmcU8zmciQ7JQc=
+	t=1709242413; cv=none; b=TpikuBKU2Y3IE7C3HjSLW/e6g7vHQeCYX/nvWvmBicjgvGsa3f2Q1or3PxDCRWm0ynF5E2KqmpJP34uguEcjEAi7Wc/g0HWFsLxbdSTOMHr96ikMCvpPH1tFHRlwgggTI8BgoW754v4JndnXszsZWu9uCwM2lfP52WguZum2+JM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709221885; c=relaxed/simple;
-	bh=iDEiulklPJxiT0KxN848Zac4TFlvECiWKebGAJuHqZI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=O9Go6UsWUZiBh8x4FdxRyuSbXKKTz8CCHljMhIRueoim7SU0tzH3Ko+Zid+CIuE5jbE+y6jFwJXEBfjclae9KKuoeQzC7aoN8cuU0RiptSCxA+FoQkHXKHU2TvJjipN6LXClva1bk4y+NZzb4czHsFjPfLEuifVHqxqLTR0ZD20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HBiASsyc; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8576C433F1;
-	Thu, 29 Feb 2024 15:51:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709221885;
-	bh=iDEiulklPJxiT0KxN848Zac4TFlvECiWKebGAJuHqZI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=HBiASsycXTDZ5NiRfOw1SSJuZsGWGjfc013+iG36KMlrmBFpE0o8Z9EW/D9UddWmQ
-	 txexwDCboCQRZAqF/OBTcLvume2rG/cBm2xLnI8MSXyMATTYvQex1ncJL0ev7Ym8Ol
-	 v40nkSSQ7ubqzMOvtiRQhWKfvr0MEO3S7cXehVIAhc+3MP6JtRSQziWMMDhRwzUPy9
-	 herUJ76XMWT2Hwh/1YnIzKhcNRtoTwPuN5dnfbCbSUkt0Dg1972r3BoESLQZ+eoVfQ
-	 ZXmXd2DAD5WT2kQQUUsla1qJatejSH3gRwR/kMhJ50q4UvKpSuIsv8tI6MOK/svu4H
-	 0F+FBBnmH1oLw==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Andrew Ballance <andrewjballance@gmail.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	nathan@kernel.org,
-	linux-kbuild@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.10 7/7] gen_compile_commands: fix invalid escape sequence warning
-Date: Thu, 29 Feb 2024 10:51:11 -0500
-Message-ID: <20240229155112.2851155-7-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240229155112.2851155-1-sashal@kernel.org>
-References: <20240229155112.2851155-1-sashal@kernel.org>
+	s=arc-20240116; t=1709242413; c=relaxed/simple;
+	bh=BnJoVXU1CaeQbXBgRnIHjar/FV4NrO1c9oIQRiWiPpU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=oRmnQ8rRwLuKPMGiRM5Lh174bp6kZOK5KPCETdzXSeGVK4wIHcRjNK2ti1YhAwYfLS8tsdTaokYOUzhSoHD2JA6+qJvhseMIV2pU6jOfjKB4NsWbzsvMRL43B8rp9DhklOQpM9fIEpstoC+DVTwSNka1xMb3visERnJU1AHHeT4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z6ajt57F; arc=none smtp.client-ip=209.85.216.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-299b92948a6so981103a91.3;
+        Thu, 29 Feb 2024 13:33:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709242411; x=1709847211; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BnJoVXU1CaeQbXBgRnIHjar/FV4NrO1c9oIQRiWiPpU=;
+        b=Z6ajt57F1WSceLYkGweS7MrRdWKj2xFqPlkvjMxKXtei3ZVqpmYHfdmuNceUMakYiT
+         Oaj39fT1B89truMMx8OU6v3bhb5L8T/fxMCUJ7ruu9GZ51UhuvYQNISZlUcmlitpP7MF
+         rAe029msPQjM3igUt7dzHkGIE6MWtXOlOF5Cy/2L9rXZEbL/vehHsLzjSVQK4qOtJl8o
+         bP9X4Y299SHxk0hB0doIc1xGg8iKMAMbVdh9rFmJTzGe9W/gGjVBUnCAMU9zjOooG3Pd
+         C661SSum/+00GjD5XAID6lb3mNOaVvKZrjishBCIZslCEKCzlcZ8LaVA4vlFyCICRaWg
+         sVoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709242411; x=1709847211;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BnJoVXU1CaeQbXBgRnIHjar/FV4NrO1c9oIQRiWiPpU=;
+        b=jRb4/c7kWid1rDDaSBPlqj4L+Yhnw5IxzgXtI7k0tAU3ipRFM9IlI81FTkWJu16AO0
+         BOVWY32r1QqHjeUlaaLTQF6kz7D3gYZO2O7dmnc/odonaNB75issuXSebO8ZSq5v+VnM
+         heA4Kp9pO8toUmJmq4Bekjdr99YOjrzGT0vsV9Sf1x+H1Yu+2mn09f1Ifae6G9Shsc3k
+         lBsOqetrOL2kjSAwGEz4EE3QpUXGAzrzYKQkHEszFAKubrkaFRuSXjj9JHWeIdRXobWq
+         v6wwplceezBugFNaAmhDqHflGFPL4vbG5PJndCA0Lxc4LVs1zBTVAbCGQa61/KyOc6Kn
+         nvwg==
+X-Forwarded-Encrypted: i=1; AJvYcCUhsXI5qScmtkOD90MrCo016Yzl9/fO0Z0q7Zva5vXXE8wiiiusnwOhFwiWIQOHxWSZ0J2DQduZeJXrgox9+iyF2+Qk4VIz298wv90mN5R2IJ2Rc/Pn3gu0s+imrcLP13dY8m3GJg7vjjYSdcqDLTCdFE4/qwBNSEiXoCCvtMMBLnIfdLf/Z1wUn1k=
+X-Gm-Message-State: AOJu0YwxVSmbxB22uIkHhz6ZaE17p6LWtcAYdmYl0Xb321ljv5CYc0Vb
+	ewaOgQs9FWEkSDzixSkiueCPV51qF8gEA/QepxCGIHXgOO5GDoUIc6iW9wZb1pxd1r3/PMNkXeL
+	5fQxYvdCKCCNlol2spJXNWePHers=
+X-Google-Smtp-Source: AGHT+IF7bVmqxeMhoRHyZpvokOgbCs4iWKcEFiGPNztP7CIoyae8cJUfmp8uTM3OBZKV4OvFKxKIP+IJE5Ov5jLH6Xw=
+X-Received: by 2002:a17:90b:104b:b0:29a:cbfb:5b28 with SMTP id
+ gq11-20020a17090b104b00b0029acbfb5b28mr300141pjb.13.1709242411118; Thu, 29
+ Feb 2024 13:33:31 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.10.210
-Content-Transfer-Encoding: 8bit
+References: <20240217002638.57373-1-ojeda@kernel.org>
+In-Reply-To: <20240217002638.57373-1-ojeda@kernel.org>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Thu, 29 Feb 2024 22:33:18 +0100
+Message-ID: <CANiq72nPiVDV2WY_jCuONz_arWRVyMMiRT5iVb=2xqoXnZYW+g@mail.gmail.com>
+Subject: Re: [PATCH 1/2] kbuild: mark `rustc` (and others) invocations as recursive
+To: Miguel Ojeda <ojeda@kernel.org>
+Cc: Wedson Almeida Filho <wedsonaf@gmail.com>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
+	Alice Ryhl <aliceryhl@google.com>, Masahiro Yamada <masahiroy@kernel.org>, 
+	linux-kbuild@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, patches@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Andrew Ballance <andrewjballance@gmail.com>
+On Sat, Feb 17, 2024 at 1:26=E2=80=AFAM Miguel Ojeda <ojeda@kernel.org> wro=
+te:
+>
+> `rustc` (like Cargo) may take advantage of the jobserver at any time
+> (e.g. for backend parallelism, or eventually frontend too). In the kernel=
+,
+> we call `rustc` with `-Ccodegen-units=3D1` (and `-Zthreads` is 1 so far),
+> so we do not expect parallelism. However, in the upcoming Rust 1.76.0, a
+> warning is emitted by `rustc` when it cannot connect to the jobserver it
+> was passed (in many cases, but not all: compiling and `--print sysroot`
+> do, but `--version` does not). And given GNU Make always passes
+> the jobserver in the environment variable (even when a line is deemed
+> non-recursive), `rustc` will end up complaining about it (in particular
+> in Make 4.3 where there is only the simple pipe jobserver style).
+>
+> One solution is to remove the jobserver from `MAKEFLAGS`. However, we
+> can mark the lines with calls to `rustc` (and Cargo) as recursive, which
+> looks simpler. This is what is now documented and recommended by `rustc`
+> and allows us to be ready for the time we may use parallelism inside
+> `rustc` (potentially now, if a user passes `-Zthreads`). Thus do so.
+>
+> Similarly, do the same for `rustdoc` and `cargo` calls.
+>
+> Finally, there is one case that the solution does not cover, which is the
+> `$(shell ...)` call we have. Thus, for that one, set an empty `MAKEFLAGS`
+> environment variable.
+>
+> Link: https://github.com/rust-lang/rust/issues/120515
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 
-[ Upstream commit dae4a0171e25884787da32823b3081b4c2acebb2 ]
+Applied (i.e. including the upgrade to 1.76.0) to `rust-next` --
+thanks everyone!
 
-With python 3.12, '\#' results in this warning
-    SyntaxWarning: invalid escape sequence '\#'
+[ Reworded to add link to PR documenting the recommendation. ]
 
-Signed-off-by: Andrew Ballance <andrewjballance@gmail.com>
-Reviewed-by: Justin Stitt <justinstitt@google.com>
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- scripts/clang-tools/gen_compile_commands.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/scripts/clang-tools/gen_compile_commands.py b/scripts/clang-tools/gen_compile_commands.py
-index 8bf55bb4f515c..96e4865ee934d 100755
---- a/scripts/clang-tools/gen_compile_commands.py
-+++ b/scripts/clang-tools/gen_compile_commands.py
-@@ -176,7 +176,7 @@ def process_line(root_directory, command_prefix, file_path):
-     # escape the pound sign '#', either as '\#' or '$(pound)' (depending on the
-     # kernel version). The compile_commands.json file is not interepreted
-     # by Make, so this code replaces the escaped version with '#'.
--    prefix = command_prefix.replace('\#', '#').replace('$(pound)', '#')
-+    prefix = command_prefix.replace(r'\#', '#').replace('$(pound)', '#')
- 
-     # Use os.path.abspath() to normalize the path resolving '.' and '..' .
-     abs_path = os.path.abspath(os.path.join(root_directory, file_path))
--- 
-2.43.0
-
+Cheers,
+Miguel
 
