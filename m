@@ -1,115 +1,135 @@
-Return-Path: <linux-kbuild+bounces-1083-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1084-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id B414286BEA9
-	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Feb 2024 02:59:21 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C490E86BEB1
+	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Feb 2024 03:04:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 104F1B23278
-	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Feb 2024 01:59:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 63B921F25FC3
+	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Feb 2024 02:04:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28B862D048;
-	Thu, 29 Feb 2024 01:59:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D46A32D638;
+	Thu, 29 Feb 2024 02:04:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RZ0pvQSl"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ktYDXtfH"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2B2036AF2;
-	Thu, 29 Feb 2024 01:59:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB90936B1C;
+	Thu, 29 Feb 2024 02:04:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709171954; cv=none; b=X+Jk16v/hkQ+EpHeCzyiQXqaf4jA64wTiYr+IVGeJj3fBtCRRIjQaxcYB2hFsVWMaa9gEvI9KBKczf8vNhZ4e14gJ1RrQTgYOGvxtuHJenZlHCDEGh7oEMepyV1xRz7AeqIkXZuM+ojhPvmbX51SzY93QDJcGu4/mO+c9+OlIhw=
+	t=1709172244; cv=none; b=hzT/34zzzwLkU+3XcB2hQzyvuhbF+vLpuvL4Cjr9A/AYro135Q+DT3bTLzqAHQU7wFgTXObCIcqJyvq34Z8Oy8uEtr7lyA90eIW1Rgb6Tz4lBeiT5cUKARJR0uke7qN7d0YSpMofeMb4iemz/Vc58KIKFYln/GHBxYQBKwxdvv4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709171954; c=relaxed/simple;
-	bh=qCUF4ZiJ/WUEdYewRqWljvO+xUTWXzcWRS3iZxX10/c=;
+	s=arc-20240116; t=1709172244; c=relaxed/simple;
+	bh=Hqt27iztKg8bH7+WN1AsbcYSqLKusd3MveKfLQx9J/o=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lrWsqNoKhs4VatD3qvdfALLRkdvbWKsvzw5EeZEcGDAW+Q3tCmfjTvTOj79F4+UtemMxmR6jQa9rKgTARLBImaQv6pVZgoqtBWx7Yi1jjUSwUmcoAk701L9DheRdWIs7/imiPrJYJbm2LjWLLi9xjrdU266ffW5TZ8b01r4GiXY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RZ0pvQSl; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86682C433F1;
-	Thu, 29 Feb 2024 01:59:13 +0000 (UTC)
+	 To:Cc:Content-Type; b=vEUnpl7QdnfJsdtLhJb0YMrThvjN28KjxIOTiT85IX58Lw7o3PwLXak15YLWqqga1KdMgrFTrARbtNJcEgjbIUQiu0II71xCiqbHIfqAkRi/JNaq6vgy1++ISBY4+ioumjCoqchTsbdz2bIlhXwuoAzS+CWX6t9hjhOHt9ZQCQQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ktYDXtfH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AD53C43390;
+	Thu, 29 Feb 2024 02:04:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709171953;
-	bh=qCUF4ZiJ/WUEdYewRqWljvO+xUTWXzcWRS3iZxX10/c=;
+	s=k20201202; t=1709172244;
+	bh=Hqt27iztKg8bH7+WN1AsbcYSqLKusd3MveKfLQx9J/o=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=RZ0pvQSlAPxwedBHuaikZ+HTmSfix/qT5zJS52KOPE3INtIoFKe+DKzBmIEojzsud
-	 L7F/1LIYwEtucCYDTqmpVmuD1J4dpkvvNsYrmyLz+0iZ7UqG9WoAoGUFSlR3Hrj38H
-	 repSzw+nJGOwH1nUeygy37F43qqx0+uu0vsm073j2uHXtsAxRf5hn+VE5e1W3sS0hl
-	 vbwhAZDyzftr28d9Ib/8AReJbl03HvJtC+CY3tOfUUcXgnPGMFwHF1yhu4E3Yf4cmw
-	 5qcpTmTptnyc/tC27QkAQ0IP+Z3qEG+j5bAL62xbbBYgyTFhqNSyyPdjMhP+h0ImPN
-	 5Q9BE6W4haJrg==
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5131a9b3d5bso344093e87.0;
-        Wed, 28 Feb 2024 17:59:13 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVgL8EJtI+2adPPpwZa5Q7PvGBotnkIXTkMRB3vatPjUvT0vzZQ2DQgv1q7lgWfc/wa6bDldADTVvkcnzXihAaqKk3kKNwk6JJyRl2e
-X-Gm-Message-State: AOJu0YySFzY/ou9NuPNoWWN0Y6X81l9FyhSXbP41x8eBT1ZnbLPEfGdl
-	H2kPrJq1Ee7s3vGTdY2CHCIE1kD8qrdHyugkOQFlYUNgTb3jrrN/HWMyzUxmhXlcvgV1gAepI3o
-	zxFs0lleUNHDKjgpluLL74Q1m1no=
-X-Google-Smtp-Source: AGHT+IGoAeg4nTUz5td/qqnZ3Wy3kX0L5UJIJyywFprzNK5dvnX0pLiYznRExSB/H6H7E4LE17Tp8oDd7b7P/8fpCT0=
-X-Received: by 2002:ac2:5e2f:0:b0:513:2508:7b2d with SMTP id
- o15-20020ac25e2f000000b0051325087b2dmr266304lfg.42.1709171952095; Wed, 28 Feb
- 2024 17:59:12 -0800 (PST)
+	b=ktYDXtfHUoCSzF5aFXxG3n9/eUi7LgtqEtaC6IPV+4ExMWbrpyZtGDnsyq/QuuIpH
+	 oyaKDGTh694C+xGUSMj5yek8hNt3bkVrbOWMc6y1tK4AQUlQ9c6jsuo28/5nJLFLvv
+	 vgpf6XXot7ngz5g0Jy9OqZ9XNyiZ+rLF+H1ntrq0yPXbixyD01+zQszfLW3KQY00Zm
+	 D/oI3GcdVas6lZS0Z9e6gN3o1UBch18kjW1vrcXQfUJjNNtdJjJITT/o6HlSaaAGwp
+	 /nCUa+WFWtQIceg/ZHa/UC6uzRS91kc1R7RIcG2tAbMdGTJy0aRGKVAZ41M1MIF9Wr
+	 UakyA4j8TFNIA==
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-51326436876so61854e87.1;
+        Wed, 28 Feb 2024 18:04:04 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVDxkzX/dlg3CNR/M3Uu3F6p4yLxnJ1lG9OQa/uJBLd70PT70Xl49QO1bs7DQu/ca7G4xsXmoJ6PiVVhkwerBSYerhdO66n5oPXD5jt
+X-Gm-Message-State: AOJu0YwOpxwp2BGLknRdhYHW13kqV+/+RN2VdB5+iLEe+20itqaRpGRY
+	TfmbtAXSw+CDH7RHbXZdQhFuqbd/dnee5ADRQKbidGF74ucYGsT3RZlTyrgKsuQAPKDrSGsdDdt
+	3/JOlNIQN/WVlUzuDkm8iXrUn9B8=
+X-Google-Smtp-Source: AGHT+IG9Y3Y320pwAwzwBrb6NW0R4FDMaXeUFqOdM2RAsjoBp/xnwruJM6OZRDZnzwJ6N4yei2OT/iXLsrVHbXS0Oj4=
+X-Received: by 2002:ac2:4a8a:0:b0:512:bb33:2eab with SMTP id
+ l10-20020ac24a8a000000b00512bb332eabmr382640lfp.58.1709172242808; Wed, 28 Feb
+ 2024 18:04:02 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240228060006.13274-1-tfiga@chromium.org>
-In-Reply-To: <20240228060006.13274-1-tfiga@chromium.org>
+References: <20240222031801.GG11472@google.com> <20240222032559.496127-1-senozhatsky@chromium.org>
+ <CAK7LNARo4L6qxoqRU-0dgABarukJKAaZpCRtfA3MyUHhSuDQxQ@mail.gmail.com>
+ <20240222051621.GH11472@google.com> <20240228045652.GH11972@google.com>
+In-Reply-To: <20240228045652.GH11972@google.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Thu, 29 Feb 2024 10:58:35 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASjnwOcybuag62LkCQZGg73Dpa--jkfgtnB-r1Z=2Xqsw@mail.gmail.com>
-Message-ID: <CAK7LNASjnwOcybuag62LkCQZGg73Dpa--jkfgtnB-r1Z=2Xqsw@mail.gmail.com>
-Subject: Re: [PATCH v2] kconfig: menuconfig: Make hidden options show with
- different color
-To: Tomasz Figa <tfiga@chromium.org>
-Cc: linux-kbuild@vger.kernel.org, Nicolas Schier <n.schier@avm.de>, 
-	linux-kernel@vger.kernel.org, Jesse Taube <Mr.Bossman075@gmail.com>
+Date: Thu, 29 Feb 2024 11:03:26 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ8OyNMeGzVoTRg-sHDZ4YK0EKY_eEWNepekaibO_ZKwg@mail.gmail.com>
+Message-ID: <CAK7LNAQ8OyNMeGzVoTRg-sHDZ4YK0EKY_eEWNepekaibO_ZKwg@mail.gmail.com>
+Subject: Re: [PATCHv2] kconfig: add some Kconfig env variables to make help
+To: Sergey Senozhatsky <senozhatsky@chromium.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 28, 2024 at 3:00=E2=80=AFPM Tomasz Figa <tfiga@chromium.org> wr=
-ote:
+On Wed, Feb 28, 2024 at 1:56=E2=80=AFPM Sergey Senozhatsky
+<senozhatsky@chromium.org> wrote:
 >
-> When hidden options are toggled on (using 'z'), the number of options
-> on the screen can be overwhelming and may make it hard to distinguish
-> between available and hidden ones. Make them easier to distinguish by
-> displaying the hidden one with a different color (COLOR_YELLOW for color
-> themes and A_DIM for mono).
+> On (24/02/22 14:16), Sergey Senozhatsky wrote:
+> > On (24/02/22 13:57), Masahiro Yamada wrote:
+> > > On Thu, Feb 22, 2024 at 12:26=E2=80=AFPM Sergey Senozhatsky
+> > > <senozhatsky@chromium.org> wrote:
+> > > >
+> > > > Add a new section "Configuration environment variables" to
+> > > > `make help` output in order to make it easier for people to
+> > > > discover KCONFIG_WERROR, etc.
+> > > >
+> > > > Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+> > > > ---
+> > > >  scripts/kconfig/Makefile | 4 ++++
+> > > >  1 file changed, 4 insertions(+)
+> > > >
+> > > > diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
+> > > > index ea1bf3b3dbde..0044d49e149c 100644
+> > > > --- a/scripts/kconfig/Makefile
+> > > > +++ b/scripts/kconfig/Makefile
+> > > > @@ -158,6 +158,10 @@ help:
+> > > >                 if help=3D$$(grep -m1 '^# Help: ' $(f)); then \
+> > > >                         printf '  %-25s - %s\n' '$(notdir $(f))' "$=
+${help#*: }"; \
+> > > >                 fi;)
+> > > > +       @echo  ''
+> > > > +       @echo  'Configuration environment variables:'
+> > > > +       @echo  '  KCONFIG_WERROR                 - Turn some Kconfi=
+g warnings into error conditions'
+> > > > +       @echo  '  KCONFIG_WARN_UNKNOWN_SYMBOLS   - Make Kconfig war=
+n about all unrecognized config symbols'
+> > > >
+> > > >  # =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+> > > >  # object files used by all kconfig flavours
+> > > > --
+> > > > 2.44.0.rc0.258.g7320e95886-goog
+> > > >
+> > > >
+> > >
+> > > Why only two, while Kconfig supports more env variables?
+> >
+> > Right.  I wanted to add only those that we use (and familiar with) for
+> > starters.  I'm not familiar with things like KCONFIG_PROBABILITY, for
+> > instance, and not sure how to document it (its Documentation/kbuild/kco=
+nfig.rst
+> > description is pretty lengthy).
 >
-> Signed-off-by: Tomasz Figa <tfiga@chromium.org>
-> ---
+> Masahiro, any opinion?
 
 
-> diff --git a/scripts/kconfig/lxdialog/util.c b/scripts/kconfig/lxdialog/u=
-til.c
-> index 3f78fb265136..161224dd6fb5 100644
-> --- a/scripts/kconfig/lxdialog/util.c
-> +++ b/scripts/kconfig/lxdialog/util.c
-> @@ -38,6 +38,8 @@ static void set_mono_theme(void)
->         dlg.menubox_border.atr =3D A_NORMAL;
->         dlg.item.atr =3D A_NORMAL;
->         dlg.item_selected.atr =3D A_REVERSE;
-> +       dlg.item_hidden.atr =3D A_NORMAL | A_DIM;
-
-
-Nit.
-
-
-(A_NORMAL | A_DIM) should be A_DIM.
-
-
-A_NORMAL is zero.
-
-Other A_* attributes are bit flags that can be OR'ed.
+I do not need this patch.
 
 
 
-
---
+--=20
 Best Regards
 Masahiro Yamada
 
