@@ -1,114 +1,146 @@
-Return-Path: <linux-kbuild+bounces-1089-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1090-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8914F86C05B
-	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Feb 2024 06:41:20 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CC7286CD1B
+	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Feb 2024 16:35:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3E9851F23502
-	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Feb 2024 05:41:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BD2AC28ABBF
+	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Feb 2024 15:35:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E040E3715E;
-	Thu, 29 Feb 2024 05:40:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED6D114A0B5;
+	Thu, 29 Feb 2024 15:35:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="QYO3mbeA"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="efLsujqI"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7C3A3B7A8;
-	Thu, 29 Feb 2024 05:40:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B36B214A0B1;
+	Thu, 29 Feb 2024 15:35:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709185211; cv=none; b=PoMNcxXmzpiX2SWezMzZ59Iz+2heyobHJM2tRzEKlli/dmspGtmyfH6s688Xqool1zByIHsuua5fSlw0gH/DldB7h9bj3//eGj/Te5YamtpHJMd3Jh+3NW4PyMtt7909cFAQ2ayqHTeYC2irdhfQElN1cGR1ZIuNu/vfWcV8kpk=
+	t=1709220908; cv=none; b=E8fawCEsoCwdoIt04lkHzazqhRiCIrQ9wcyhOAVr34hiRnCgvOqYHavBT+VVDHM3Dt/YItVPUuCVSKrFjvjyDZWvifP8iCiuFOMwj+KmN29KppjQVey/ND3tG6mTXLRMZOC8HaWQ5mLHBu5G55SJ5HngQusLzlyjqSMbKlXhhNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709185211; c=relaxed/simple;
-	bh=ofuQ/rOrOCdaNUz6GWFyaVHPD7x9sIVoaHnZMx5ipxU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PAQWuRfTzmQky8QG2pTO6ywuvxGzrnSn5DKPUInOg+hHRCgPFlH7PDY6tU6Tc8k7lFBfugx8on8SfiJhNxZE32BYrqPU0R2QHmPKEQxAwbYmT5EYRbu2STj22YBN/Z57pSEkBVqyy8hlH8gWwpelJyaFw6qgJRAvCHb1FEOG8tw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=QYO3mbeA; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=6DmXQrgBzfgVcmNx5gSUwScgFre24GYZRXGswZYJeic=; b=QYO3mbeA+MBcYNBkXjHqlKmib8
-	RvZMrkgFRQ3fgQF2spKuXedpO8rcsv9C10GpFPaW6VgoBm3NqYBi3S7VVyvtVA530+arlApsBC0ao
-	ykOEmWdqdHxmYvU6wb46exw+r4tUKDa6gkIEcquWG930oClYBqQ0ALRDcEIgPY/ZE7BTLMDkvXnnF
-	S//CuusY6ugZMBexpc46bKHmKmISFw3RNdzvFz2HU+TQwU1yk9qG7odSyWvuaWFtjNWZrHbSVIlxr
-	fCe8TkbBqyvBkNrgt13BuZQNlYr9Ga1AY1F3EMl3zWekap3Xa8GjOiV7a7wE2CP+O9kYVmG6MVQwJ
-	AvFs9E0A==;
-Received: from [50.53.50.0] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rfZ9L-0000000CBk3-0N7D;
-	Thu, 29 Feb 2024 05:40:07 +0000
-Message-ID: <c1025094-d9aa-4f4c-bb8f-a486f9953bec@infradead.org>
-Date: Wed, 28 Feb 2024 21:40:04 -0800
+	s=arc-20240116; t=1709220908; c=relaxed/simple;
+	bh=l18CMgXdli5STPwKCBhLq0812Z2tTCH2Xar7VZSxkks=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PSnG3y9yTJ0QMImG2oL2w3NnY+5suqqWsivaJn1xI3J8n3zrfIBJIXnx9QQQ7+fbn3Rlj0puaWbU72k+LGZpJ4wdt9yJcNJNkpOJUfhqLT2TZj47w2hlrzLs8TYmdouoVPO2OFer740lpYtt2OySK7nrNaGKT/9am7nkVA6oot8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=efLsujqI; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38256C433F1;
+	Thu, 29 Feb 2024 15:35:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709220908;
+	bh=l18CMgXdli5STPwKCBhLq0812Z2tTCH2Xar7VZSxkks=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=efLsujqIF3ljKLuLvNkv5VqcLN49SgY6P7mFVtq1WhUKrkd9tuwqvrSfJG8M6VdHD
+	 fsWWu3iGBpnc2RxXWwrIiATggWE+N0jEiW4CaK63UMAvU1dC45RpAqk6G2wYK7cyT/
+	 qSVrcfkhvgDoY6HNUGqpw/beOPBSE0raHNL2ODp55+tIrGnQvOFG+xT5CS0MlMe3D0
+	 yxYamBLWRztV1C1kBRkvtNT37mzJQhBb/psWUBjY5hq2nQkq1XrUPTk3pNIwwJBz4d
+	 nQ53p1Dc4XG5sUJIlWmXjk0xEKL+IqPf+cdpBa1UYEnPgEGvtZScL73J5XdzM5i+cF
+	 AoHl2V2a/AKsg==
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-513173e8191so1154945e87.1;
+        Thu, 29 Feb 2024 07:35:08 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVkwix50YwEuc0HLhKnVRf7AU6A8jOyPXVYEfyI3d+FRLv6iWglOh8lCgChukT4Qpe2INtprXCmGtU4yvoTD5U2LFrGjkm3/FIP/SGR2HWfoAc7JOTwjAaxt+W5ALURTDZ8+bRMUXgot3iF
+X-Gm-Message-State: AOJu0YzAMXzcdbiTBPKmjICupRRQ0nOBn3ULJ6WDtgSFZz0JRiAREqUn
+	dhNavViC8y2Y/dLhxSVt4juA43MPD+ZlJQpKeDD+2DeAdbqVF3dMH1ReqbNlMi0YTzcp06JiRwE
+	VUrTr+MGJMKE10XXYQU2TtGomjBc=
+X-Google-Smtp-Source: AGHT+IHsPm1DP53fkDMID5DY4f73drdJTcrZi2yhUcZSZ9wkEDHG01rfp3WGkZAheyE6MmID345CT7JTxjbwcTUxPuk=
+X-Received: by 2002:a05:6512:1d1:b0:512:d554:f1df with SMTP id
+ f17-20020a05651201d100b00512d554f1dfmr1740856lfp.65.1709220906626; Thu, 29
+ Feb 2024 07:35:06 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] kconfig: menuconfig: Make hidden options show with
- different color
-Content-Language: en-US
-To: Tomasz Figa <tfiga@chromium.org>, linux-kbuild@vger.kernel.org
-Cc: Nicolas Schier <n.schier@avm.de>, Masahiro Yamada <masahiroy@kernel.org>,
- linux-kernel@vger.kernel.org, Jesse Taube <Mr.Bossman075@gmail.com>
-References: <20240228060006.13274-1-tfiga@chromium.org>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240228060006.13274-1-tfiga@chromium.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240223092338.2433632-1-wenst@chromium.org> <CAK7LNAQmvyftnFJaByyjH+f4nxcNUKpjkDXwebEH5AhMF6U0Kw@mail.gmail.com>
+ <CAGXv+5GmkZdqpNZDFN4dcTyZ-qVS0TjrrqBrBAei6DP+eXLnJg@mail.gmail.com>
+In-Reply-To: <CAGXv+5GmkZdqpNZDFN4dcTyZ-qVS0TjrrqBrBAei6DP+eXLnJg@mail.gmail.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Fri, 1 Mar 2024 00:34:30 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS8tLuHYcPTb5pJZixn5Hb0yjo0nmbrfSUr5Cd_pc+WMg@mail.gmail.com>
+Message-ID: <CAK7LNAS8tLuHYcPTb5pJZixn5Hb0yjo0nmbrfSUr5Cd_pc+WMg@mail.gmail.com>
+Subject: Re: [PATCH RFC] kbuild: create a list of all built DTB files
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Simon Glass <sjg@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Thu, Feb 29, 2024 at 11:38=E2=80=AFAM Chen-Yu Tsai <wenst@chromium.org> =
+wrote:
+>
+> On Sun, Feb 25, 2024 at 4:21=E2=80=AFPM Masahiro Yamada <masahiroy@kernel=
+.org> wrote:
+> >
+> > On Fri, Feb 23, 2024 at 6:23=E2=80=AFPM Chen-Yu Tsai <wenst@chromium.or=
+g> wrote:
+> > >
+> > > It is useful to have a list of all composite *.dtb files, along with
+> > > their individual components, generated from the current build.
+> > >
+> > > With this commit, 'make dtbs' creates arch/*/boot/dts/dtbs-components=
+,
+> > > which lists the composite dtb files created in the current build. It
+> > > maintains the order of the dtb-y additions in Makefiles although the
+> > > order is not important for DTBs.
+> > >
+> > > This compliments the list of all *.dtb and *.dtbo files in dtbs-list,
+> > > which only includes the files directly added to dtb-y.
+> > >
+> > > For example, consider this case:
+> > >
+> > >     foo-dtbs :=3D foo_base.dtb foo_overlay.dtbo
+> > >     dtb-y :=3D bar.dtb foo.dtb
+> > >
+> > > In this example, the new list will include foo.dtb with foo_base.dtb =
+and
+> > > foo_overlay.dtbo on the same line, but not bar.dtb.
+> > >
+> > > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> > > ---
+> > > Hi,
+> > >
+> > > I hacked up this new thing to list out the individual components of e=
+ach
+> > > composite dtb. I think this information would be useful for FIT image
+> > > generation or other toolchains to consume. For example, instead of
+> > > including each dtb, a toolchain could realize that some are put toget=
+her
+> > > using others, and if the bootloader supports it, put together command=
+s
+> > > to reassemble the end result from the original parts.
+> > >
+> > > This is based on and complements Masahiro-san's recent dtbs-list work=
+.
+> >
+> >
+> >
+> > This is another format of my previous per-dtb "*.dtlst"
+> > (but I did not pick up 3/4, 4/4 because I did not know what we need aft=
+er all).
+> >
+> > This should be discussed together with how Simon's script will look lik=
+e.
+> >
+> > I can understand your Makefile code, but I still do not know
+> > how the entire overlay stuff will work in a big picture.
+>
+> How would you like to proceed? I can through together some changes on top
+> of Simon's patches as an initial proposal if that helps?
+>
+> I can use your format if you prefer.
 
-On 2/27/24 22:00, Tomasz Figa wrote:
-> When hidden options are toggled on (using 'z'), the number of options
-> on the screen can be overwhelming and may make it hard to distinguish
-> between available and hidden ones. Make them easier to distinguish by
-> displaying the hidden one with a different color (COLOR_YELLOW for color
-> themes and A_DIM for mono).
+
+How would you select base+addonX among
+other base+addonY or base+addonZ configurations?
 
 
-> Signed-off-by: Tomasz Figa <tfiga@chromium.org>
-> ---
->  scripts/kconfig/lxdialog/dialog.h  |  5 +++++
->  scripts/kconfig/lxdialog/menubox.c | 12 ++++++++----
->  scripts/kconfig/lxdialog/util.c    | 19 +++++++++++++++++++
->  scripts/kconfig/mconf.c            | 18 ++++++++++++++++++
->  4 files changed, 50 insertions(+), 4 deletions(-)
-
-
-> Changes from v1:
-> (https://patchwork.kernel.org/project/linux-kbuild/patch/20231228054630.3595093-1-tfiga@chromium.org/)
->  * Replaced A_DIM for color themes with COLOR_YELLOW, because the former
->    has no effect to black text on some commonly used terminals, e.g.
->    gnome-terminal, foot. Reported by Masahiro Yamada and Nicolas Schier.
->    I ended up with COLOR_YELLOW, as it seems to look comparatively dim
->    with mutliple light and dark color themes in Chromium hterm and
->    gnome-terminal.
-
-I guess COLOR_YELLOW is a relative thing, i.e., it depends on the term's
-current color scheme in my testing.
-
-With rxvt (with a beige/khaki background), I do see yellow.
-
-With xfce4-terminal (with amber/orange foreground on black background,
-i.e., my default from days of amber monochrome displays ;), the "yellow"
-comes out as a faded/washed out/dim orange. But still readable.
-
-Anyway, this looks useful to me.
-
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-
-thanks.
--- 
-#Randy
+--=20
+Best Regards
+Masahiro Yamada
 
