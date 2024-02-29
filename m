@@ -1,254 +1,143 @@
-Return-Path: <linux-kbuild+bounces-1086-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1087-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D05B86BF0E
-	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Feb 2024 03:38:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37DA786BF85
+	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Feb 2024 04:37:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C8A8E1F21CA5
-	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Feb 2024 02:38:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CBEBA1F21B2E
+	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Feb 2024 03:37:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C00403612E;
-	Thu, 29 Feb 2024 02:38:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 257E3364D8;
+	Thu, 29 Feb 2024 03:37:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="FduDucVB"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A16j6n1D"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95B09286A7
-	for <linux-kbuild@vger.kernel.org>; Thu, 29 Feb 2024 02:38:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F071C1F95F;
+	Thu, 29 Feb 2024 03:37:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709174304; cv=none; b=T0P1lOiXOhPI1WNKGGaITQyyywj4bosHGqlGfrROs7Y5EIafm2KV0052OZrzTc7tjs43jZFnaEwQr2zixnINejMSoQpCiQc5d5rjDbO+foiCQKUF/su99OmYnRY1mH5H1SD+qFAs04Sj2e4i+2/kSlcNaWNIaqBDMUmgZSxnEhY=
+	t=1709177856; cv=none; b=AF9yUAv/DvD/9gP9FfKXwZD6cs7SlQwbDYO0SpbM+7//W48gIOuJ/q3qeEuRacfBrktb2eCWA3QYg9Li/fCwKX9A0Cj1LyKW99SVvAhAtus0FtLigP5DFYCXoW0KomEmWBtixZBfGg1vvoYiyk5GmqW4EL8Y4vNHSJKlvOlpBlo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709174304; c=relaxed/simple;
-	bh=EHqzcvrAjGTqF0FUUhRXEgsqfEJuL5cpgsPjwQavpCE=;
+	s=arc-20240116; t=1709177856; c=relaxed/simple;
+	bh=L+mOE66O8U9SCG8RnbvjTtTj/VvI6p4qJikWxk+t3j8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YOtZfy57FnoGISZymui/QH6SXUActCyvGwk9jal/sCtsn8v9GOfdlCTLA+8S7fbiA0xywAn6nWMPl88rR561/oR7vhPpNLNSVklLGY47Es+7beAFLT7LZdEohwcvv7XVG0CVQNWIUmYRWeW8RtCGfdWaVS5l72BpyVV87//nPZ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=FduDucVB; arc=none smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-512f54fc2dbso296838e87.1
-        for <linux-kbuild@vger.kernel.org>; Wed, 28 Feb 2024 18:38:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1709174300; x=1709779100; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RW9mG1fsgJ5yWTE36VAoLaKyQv4fZtk4xrM7d3y8Or8=;
-        b=FduDucVBEhpp03YEvK9NnRxc1QBn3PgIgPdJNDalTu3ukQpYRFIW4woHUN955DzAKE
-         hLWVLD5zxrFytYGSbQPPl7UNg1/HCO71LmQ7WkC7kJpfTVErtF016mYEAaODP9NbsOye
-         Wtd/2kxbU4QbcmNIIyIe3hDs1vbFji3OYM6Jw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709174300; x=1709779100;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RW9mG1fsgJ5yWTE36VAoLaKyQv4fZtk4xrM7d3y8Or8=;
-        b=VvYofT/N82yr9Z1sJrue4tj4YjngxzVk9j1dzxlPop3IMZjGatH4XDd5xZMqWbiwfI
-         /whUXLyYE9rXEpYYmgty9OeoGZEuBTo3XAi151vaPsU8Jg0ZSTgOtteNyZdPK3W3Xi/4
-         GlcDbodfQeDILbVAjEvsn9LI4cpKep6qDHj9usqQPuACX0STRqHFl6iPA9CdrhdkGaud
-         1AKzH1q8zeHd03Gu2r1J5PSff5/19I9b9ApnjhteBHxypZC5AA9sxS8GfYiH30RD9Z3d
-         3kSIYMB15JqDLR8fkofan0nYaPQA2Yf1N8/xdY1D4EX6MTxK/fdHLaLgJM0lhAwLXra6
-         kk2w==
-X-Forwarded-Encrypted: i=1; AJvYcCWrvP670mgn7u6yLODiAz/92CDG+ldOUs+MOaiCt7gNXNuPU0BjKVvzN4/Y70GUj3g1hoGLtv2MdTht9YYhEXu7GQW/BmTmzIxt560z
-X-Gm-Message-State: AOJu0Yztbl3XijWxpz2aZ6ibSWIntNlAIwVPBibaLpGeMrMktgQX+kHn
-	/NOHFPZwgP4dgD2bYQr9HOGUhn+HRb+odbODgmv8mHXDelmF5VuYPPjrczXlCds0JdUwfzWlpUa
-	iPlpzllF+NO2PblMtSVWCwZl0cBjQPhhwCN3eKUZWbGuvDildGw==
-X-Google-Smtp-Source: AGHT+IHZ98hYmy4tu4i4CaVlSixbmrFQkXLEDBVuULa/wzyr9RRs5GlMTPf1ifS8zFNMl2CmV4tgGKS3HxaWVHFPqS0=
-X-Received: by 2002:a05:6512:481e:b0:512:e00b:8da4 with SMTP id
- eo30-20020a056512481e00b00512e00b8da4mr359209lfb.53.1709174299728; Wed, 28
- Feb 2024 18:38:19 -0800 (PST)
+	 To:Cc:Content-Type; b=IMg40wUCan6531JzadOm2X6W93udFqAn6Cn2vHOswRGx6YGy8ItZypy1j25ui6BBNOueAO6U4gxr5V5g3kGyKaPO6nwBMosuv6+ak3vYhGAadcX98Yo8hu94I1ffrQlbKyBBAR5bf4mzkZCiYcSH/T/m+VUrg/0ZEMQ6Q8/8SZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A16j6n1D; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62B2EC43390;
+	Thu, 29 Feb 2024 03:37:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709177855;
+	bh=L+mOE66O8U9SCG8RnbvjTtTj/VvI6p4qJikWxk+t3j8=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=A16j6n1Dduqnr10YexLqQYvilFKPpZj0fIiZwe8MSflwqmaxyLGI5MwjZkg/tz/Ks
+	 3Vu0nTVlizR7uRu4lHu/G6v0un47wNmQBBDVHpzrOTPbmKE8Mcf4GQ6bplLkqQUGic
+	 GQYdLkcQephhNa94W9mnVWV14nKZHgy/Ss+62iayKNHvLnSezzqvAkqHQ3yVL4X44c
+	 Ub7qZyu6jEVDjRXCx5vQNHjXbPnwpWHJkGGcu+ZfjR8NcjBr+lMWQn0UWzyGM5NL7c
+	 GRwmNHs/fAu7NsJCoLLM76xBLNzLPN2hNYEEDgazguYX7eFxw86mZpiefe2F7kbGhM
+	 lUsEsK2r1TZSw==
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-512e39226efso338054e87.0;
+        Wed, 28 Feb 2024 19:37:35 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWBf2l/SYzZctPsqE0NRTOrsIAt9hYACl21EArLeEZKZD7LCSztOmPswEFxCSk8gweWSe2J6BlDamj1n9sHHKTiNk01YBzFs/fPcFJT
+X-Gm-Message-State: AOJu0Ywp2/3eT42MhZwsQBFygHsLG06915yySbp6GYeuD9zhEPMswUUS
+	oi3jZKJY0+FuUnsHLC+Np9D+IQJFzsbGL2HmcUobxGY+7344Q5rwFi0eQ1MbHrm3lWrYy8yVH7Y
+	mlVEmIdKsW2vLDUWVoIqVwTXeJDs=
+X-Google-Smtp-Source: AGHT+IE0nO14VESRX8+ct8Oksg0Kq77saILla9wQmzGsTX6W2dCOw2hKgOu9rBd0s74yYTK6Jdxro5smuDYi1cjAhgo=
+X-Received: by 2002:a19:2d11:0:b0:513:ed7:32a1 with SMTP id
+ k17-20020a192d11000000b005130ed732a1mr413741lfj.69.1709177853718; Wed, 28 Feb
+ 2024 19:37:33 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240223092338.2433632-1-wenst@chromium.org> <CAK7LNAQmvyftnFJaByyjH+f4nxcNUKpjkDXwebEH5AhMF6U0Kw@mail.gmail.com>
-In-Reply-To: <CAK7LNAQmvyftnFJaByyjH+f4nxcNUKpjkDXwebEH5AhMF6U0Kw@mail.gmail.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Thu, 29 Feb 2024 10:38:08 +0800
-Message-ID: <CAGXv+5GmkZdqpNZDFN4dcTyZ-qVS0TjrrqBrBAei6DP+eXLnJg@mail.gmail.com>
-Subject: Re: [PATCH RFC] kbuild: create a list of all built DTB files
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Simon Glass <sjg@chromium.org>
+References: <20240222031801.GG11472@google.com> <20240222032559.496127-1-senozhatsky@chromium.org>
+ <CAK7LNARo4L6qxoqRU-0dgABarukJKAaZpCRtfA3MyUHhSuDQxQ@mail.gmail.com>
+ <20240222051621.GH11472@google.com> <20240228045652.GH11972@google.com>
+ <CAK7LNAQ8OyNMeGzVoTRg-sHDZ4YK0EKY_eEWNepekaibO_ZKwg@mail.gmail.com> <20240229021010.GM11972@google.com>
+In-Reply-To: <20240229021010.GM11972@google.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Thu, 29 Feb 2024 12:36:57 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASujf8m4PpMyoCC1cTN_YGeG1HVaOR+3pZx5=3OJp=85A@mail.gmail.com>
+Message-ID: <CAK7LNASujf8m4PpMyoCC1cTN_YGeG1HVaOR+3pZx5=3OJp=85A@mail.gmail.com>
+Subject: Re: [PATCHv2] kconfig: add some Kconfig env variables to make help
+To: Sergey Senozhatsky <senozhatsky@chromium.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Feb 25, 2024 at 4:21=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
+On Thu, Feb 29, 2024 at 11:10=E2=80=AFAM Sergey Senozhatsky
+<senozhatsky@chromium.org> wrote:
 >
-> On Fri, Feb 23, 2024 at 6:23=E2=80=AFPM Chen-Yu Tsai <wenst@chromium.org>=
- wrote:
+> On (24/02/29 11:03), Masahiro Yamada wrote:
+> > > > > > +++ b/scripts/kconfig/Makefile
+> > > > > > @@ -158,6 +158,10 @@ help:
+> > > > > >                 if help=3D$$(grep -m1 '^# Help: ' $(f)); then \
+> > > > > >                         printf '  %-25s - %s\n' '$(notdir $(f))=
+' "$${help#*: }"; \
+> > > > > >                 fi;)
+> > > > > > +       @echo  ''
+> > > > > > +       @echo  'Configuration environment variables:'
+> > > > > > +       @echo  '  KCONFIG_WERROR                 - Turn some Kc=
+onfig warnings into error conditions'
+> > > > > > +       @echo  '  KCONFIG_WARN_UNKNOWN_SYMBOLS   - Make Kconfig=
+ warn about all unrecognized config symbols'
+> > > > > >
+> > > > > >  # =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+> > > > > >  # object files used by all kconfig flavours
+> > > > > > --
+> > > > > > 2.44.0.rc0.258.g7320e95886-goog
+> > > > > >
+> > > > > >
+> > > > >
+> > > > > Why only two, while Kconfig supports more env variables?
+> > > >
+> > > > Right.  I wanted to add only those that we use (and familiar with) =
+for
+> > > > starters.  I'm not familiar with things like KCONFIG_PROBABILITY, f=
+or
+> > > > instance, and not sure how to document it (its Documentation/kbuild=
+/kconfig.rst
+> > > > description is pretty lengthy).
+> > >
+> > > Masahiro, any opinion?
 > >
-> > It is useful to have a list of all composite *.dtb files, along with
-> > their individual components, generated from the current build.
 > >
-> > With this commit, 'make dtbs' creates arch/*/boot/dts/dtbs-components,
-> > which lists the composite dtb files created in the current build. It
-> > maintains the order of the dtb-y additions in Makefiles although the
-> > order is not important for DTBs.
-> >
-> > This compliments the list of all *.dtb and *.dtbo files in dtbs-list,
-> > which only includes the files directly added to dtb-y.
-> >
-> > For example, consider this case:
-> >
-> >     foo-dtbs :=3D foo_base.dtb foo_overlay.dtbo
-> >     dtb-y :=3D bar.dtb foo.dtb
-> >
-> > In this example, the new list will include foo.dtb with foo_base.dtb an=
-d
-> > foo_overlay.dtbo on the same line, but not bar.dtb.
-> >
-> > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> > ---
-> > Hi,
-> >
-> > I hacked up this new thing to list out the individual components of eac=
-h
-> > composite dtb. I think this information would be useful for FIT image
-> > generation or other toolchains to consume. For example, instead of
-> > including each dtb, a toolchain could realize that some are put togethe=
-r
-> > using others, and if the bootloader supports it, put together commands
-> > to reassemble the end result from the original parts.
-> >
-> > This is based on and complements Masahiro-san's recent dtbs-list work.
+> > I do not need this patch.
 >
->
->
-> This is another format of my previous per-dtb "*.dtlst"
-> (but I did not pick up 3/4, 4/4 because I did not know what we need after=
- all).
->
-> This should be discussed together with how Simon's script will look like.
->
-> I can understand your Makefile code, but I still do not know
-> how the entire overlay stuff will work in a big picture.
-
-How would you like to proceed? I can through together some changes on top
-of Simon's patches as an initial proposal if that helps?
-
-I can use your format if you prefer.
+> Do you agree that putting kconfig env knobs into help makes sense
+> in general?  Especially those add valuable sanity checks.
 
 
-ChenYu
 
-> >
-> >  .gitignore             |  1 +
-> >  scripts/Makefile.build | 16 ++++++++++++++++
-> >  scripts/Makefile.lib   |  8 ++++++--
-> >  3 files changed, 23 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/.gitignore b/.gitignore
-> > index c59dc60ba62e..bb5b3bbca4ef 100644
-> > --- a/.gitignore
-> > +++ b/.gitignore
-> > @@ -52,6 +52,7 @@
-> >  *.xz
-> >  *.zst
-> >  Module.symvers
-> > +dtbs-components
-> >  dtbs-list
-> >  modules.order
-> >
-> > diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> > index 4971f54c855e..ba85c2385c9e 100644
-> > --- a/scripts/Makefile.build
-> > +++ b/scripts/Makefile.build
-> > @@ -72,6 +72,7 @@ endif
-> >  subdir-builtin :=3D $(sort $(filter %/built-in.a, $(real-obj-y)))
-> >  subdir-modorder :=3D $(sort $(filter %/modules.order, $(obj-m)))
-> >  subdir-dtbslist :=3D $(sort $(filter %/dtbs-list, $(dtb-y)))
-> > +subdir-dtbscomp :=3D $(sort $(filter %/dtbs-components, $(multi-dtb-y)=
-))
-> >
-> >  targets-for-builtin :=3D $(extra-y)
-> >
-> > @@ -390,6 +391,7 @@ $(obj)/%.asn1.c $(obj)/%.asn1.h: $(src)/%.asn1 $(ob=
-jtree)/scripts/asn1_compiler
-> >  $(subdir-builtin): $(obj)/%/built-in.a: $(obj)/% ;
-> >  $(subdir-modorder): $(obj)/%/modules.order: $(obj)/% ;
-> >  $(subdir-dtbslist): $(obj)/%/dtbs-list: $(obj)/% ;
-> > +$(subdir-dtbscomp): $(obj)/%/dtbs-components: $(obj)/% ;
-> >
-> >  #
-> >  # Rule to compile a set of .o files into one .a file (without symbol t=
-able)
-> > @@ -422,6 +424,20 @@ $(obj)/modules.order: $(obj-m) FORCE
-> >  $(obj)/dtbs-list: $(dtb-y) FORCE
-> >         $(call if_changed,gen_order)
-> >
-> > +#
-> > +# Rule to create dtbs-components
-> > +#
-> > +# This is a list of composite dtb(s), along with each dtb's components=
-,
-> > +# from the current Makefile and its sub-directories.
-> > +
-> > +cmd_gen_dtb_components =3D { $(foreach m, $(real-prereqs), \
-> > +               $(if $(filter %/$(notdir $@), $m), cat $m, \
-> > +                       echo $m: $(addprefix $(obj)/,$($(notdir $(m:%.d=
-tb=3D%-dtbs))))); \
-> > +       ) :; } > $@
-> > +
-> > +$(obj)/dtbs-components: $(multi-dtb-y) FORCE
-> > +       $(call if_changed,gen_dtb_components)
-> > +
-> >  #
-> >  # Rule to compile a set of .o files into one .a file (with symbol tabl=
-e)
-> >  #
-> > diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> > index dbcac396329e..7c2127a84ac2 100644
-> > --- a/scripts/Makefile.lib
-> > +++ b/scripts/Makefile.lib
-> > @@ -61,7 +61,6 @@ real-search =3D $(foreach m, $1, $(if $(call suffix-s=
-earch, $m, $2, $3 -), $(call
-> >  multi-obj-y :=3D $(call multi-search, $(obj-y), .o, -objs -y)
-> >  multi-obj-m :=3D $(call multi-search, $(obj-m), .o, -objs -y -m)
-> >  multi-obj-ym :=3D $(multi-obj-y) $(multi-obj-m)
-> > -
-> >  # Replace multi-part objects by their individual parts,
-> >  # including built-in.a from subdirectories
-> >  real-obj-y :=3D $(call real-search, $(obj-y), .o, -objs -y)
-> > @@ -91,6 +90,11 @@ real-dtb-y :=3D $(call real-search, $(dtb-y), .dtb, =
--dtbs)
-> >  # Base DTB that overlay is applied onto
-> >  base-dtb-y :=3D $(filter %.dtb, $(call real-search, $(multi-dtb-y), .d=
-tb, -dtbs))
-> >
-> > +ifdef need-dtbslist
-> > +multi-dtb-y    +=3D $(addsuffix /dtbs-components, $(subdir-ym))
-> > +always-y       +=3D dtbs-components
-> > +endif
-> > +
-> >  always-y                       +=3D $(dtb-y)
-> >
-> >  # Add subdir path
-> > @@ -406,7 +410,7 @@ cmd_dtc =3D $(HOSTCC) -E $(dtc_cpp_flags) -x assemb=
-ler-with-cpp -o $(dtc-tmp) $< ;
-> >  quiet_cmd_fdtoverlay =3D DTOVL   $@
-> >        cmd_fdtoverlay =3D $(objtree)/scripts/dtc/fdtoverlay -o $@ -i $(=
-real-prereqs)
-> >
-> > -$(multi-dtb-y): FORCE
-> > +$(filter-out %/dtbs-components, multi-dtb-y): FORCE
-> >         $(call if_changed,fdtoverlay)
-> >  $(call multi_depend, $(multi-dtb-y), .dtb, -dtbs)
-> >
-> > --
-> > 2.44.0.rc0.258.g7320e95886-goog
-> >
->
->
-> --
-> Best Regards
-> Masahiro Yamada
+
+I cannot accept the attitude:
+  "I am interested only in these. I do not care about the rest,
+  as keeping the correctness and consistency is the
+  work for somebody else (=3D very likely the maintainer)"
+
+
+This should be all or nothing.
+
+I do not think all the env variables can be summarized
+to fit in help.
+
+
+
+
+
+
+
+--
+Best Regards
+Masahiro Yamada
 
