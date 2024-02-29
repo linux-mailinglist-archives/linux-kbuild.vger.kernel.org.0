@@ -1,46 +1,46 @@
-Return-Path: <linux-kbuild+bounces-1092-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1093-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3599786CDBC
-	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Feb 2024 16:55:48 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1414886CE09
+	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Feb 2024 17:02:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CAEBFB25BDA
-	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Feb 2024 15:55:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3D3F21C20923
+	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Feb 2024 16:02:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80FA76CC12;
-	Thu, 29 Feb 2024 15:49:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06B8A1433C9;
+	Thu, 29 Feb 2024 15:50:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m8jXWu1U"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nLf+WgC8"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5596F6CC0E;
-	Thu, 29 Feb 2024 15:49:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3E161433AC;
+	Thu, 29 Feb 2024 15:50:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709221777; cv=none; b=AceajJha5FKX8H3tPYVdDuko5w6VyTcWJrzKz6E8eOcjEyMATr/uh6JiYZMqE2Vl9UVzbnH/grWft0ElgqoVnNY6q2Jr19wxZmnTf4POc76s2v9NC3pY1gfYz8REEjMSsfeVIgSDbYBqeLtyDHryrTEcAFrPpjEJFtu7QlwtGKo=
+	t=1709221824; cv=none; b=MNC3n89eaOqzkEKGVurysfWSPTsFrjfGNS0jHyzSxB3cbpFWh5zNRzNp1Rzzja+h11sqEm5ckm5aTa9nBD7Q6MeEvBoyiLG2zkVB/p3FeZIEiRPspw5/uhfVXfD0Pa2LNSMa/QhjktCxpKbF42jhH7m7CEaNjdrtIk8KS3CVQFw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709221777; c=relaxed/simple;
-	bh=3wlScet/gGLXlUYxf1X1RksuP6JQN/1vtVXO9KjdtqM=;
+	s=arc-20240116; t=1709221824; c=relaxed/simple;
+	bh=gIBzsxEfqCELs+orQBkAqqxwLcIB/dzP3lehUdOAuRs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=F5XbO1ZjVZL4jCjX9+CT8hm1Sx5S3AmMJNbgedpaGZgG5bOP1EHumMQxArqXw3KFO8w08zLrWCKCBL5Cft4csfxS7gNr2Mh+fsqMlie6Rjb6PNPzz5SN+e5Z7d6odvouJX2gl5u+CVAHaKstO7Xpb40IxkhDXO4ZphODl+F9TwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m8jXWu1U; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E2ABC43399;
-	Thu, 29 Feb 2024 15:49:35 +0000 (UTC)
+	 MIME-Version; b=uY9tEo/tJcZyjeGC72kTuVJRF8og31n0bLe3cqEqsiefXpIkzQ40xXqw3NJBEqEJ6xPc3haHk0N8nW7M8SspmprOhWDTy3V7ty/cwELggCNg2VgQgb6YiYo30ZREwTlwdQ7vysMYQQ8xtmBIKfxQT+H4eqSyy5LHS6ZSRTmKkbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nLf+WgC8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AD61C433B2;
+	Thu, 29 Feb 2024 15:50:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709221777;
-	bh=3wlScet/gGLXlUYxf1X1RksuP6JQN/1vtVXO9KjdtqM=;
+	s=k20201202; t=1709221824;
+	bh=gIBzsxEfqCELs+orQBkAqqxwLcIB/dzP3lehUdOAuRs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=m8jXWu1UQ0XiYy7VfaEyYNgCM5+zhUEm4UmiNMRt2VgZLNnjQlIlctvXIh4iBJ0/3
-	 Q/K4+jvUQ0sMVFJSUMt4n+uOvCJL4PhqS5UhFksDAL1M969aosOr2E0pyLTDWpLYQV
-	 lBD0CW6DVqfnBPmqKEV4ogVsBNsT9/zg+1tb22Dqcl6DKepaLkWS5kYm4Cn15K4AA9
-	 +thidoI6rC1HeI3dPJbWMUd4A4799iUCSAhKNRk4dOhO1gj69Voourn1D1aEz2Syzh
-	 XFcc1tfMpisKGe9PjsR7O6OHUU5xuySrbuqYsxl79TvyV0BYuYxKE969y7Nh0wHgmk
-	 3/HBf9baB+X6g==
+	b=nLf+WgC8LkENgBw7/i/sHQkW3qub7yJxZRNx+AjSwwlWnGa52Pw6Pz6ZQsliZakd5
+	 5EEd1qCIpEyWzFN/m/Esyk799sCdfdecXcFPgpDWLUCISnY673IbB3nP4mB0sU60lF
+	 sE61YhADLSPDwXm4OIzf05uemawsBHJoQb44pLPVDDJQ4IppAWAjC+rQMIv+sqcOlW
+	 49cDGOw6EqEWYymLOnp2dIywNSgnY87rpPWWSu7Jl+mVyccyfcz9f4Fogp8xaxEjaE
+	 voumk675xi5eib9KqDFLUx4D/bzYL/PqBZaKyVuKm2Hc2A3UKjVGo1kaHxVsn/1RiS
+	 InLqe9rJpkEvA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -51,12 +51,12 @@ Cc: Andrew Ballance <andrewjballance@gmail.com>,
 	nathan@kernel.org,
 	linux-kbuild@vger.kernel.org,
 	llvm@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.7 25/26] gen_compile_commands: fix invalid escape sequence warning
-Date: Thu, 29 Feb 2024 10:48:44 -0500
-Message-ID: <20240229154851.2849367-25-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 20/21] gen_compile_commands: fix invalid escape sequence warning
+Date: Thu, 29 Feb 2024 10:49:40 -0500
+Message-ID: <20240229154946.2850012-20-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240229154851.2849367-1-sashal@kernel.org>
-References: <20240229154851.2849367-1-sashal@kernel.org>
+In-Reply-To: <20240229154946.2850012-1-sashal@kernel.org>
+References: <20240229154946.2850012-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -65,7 +65,7 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.7.6
+X-stable-base: Linux 6.6.18
 Content-Transfer-Encoding: 8bit
 
 From: Andrew Ballance <andrewjballance@gmail.com>
@@ -84,7 +84,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/scripts/clang-tools/gen_compile_commands.py b/scripts/clang-tools/gen_compile_commands.py
-index 5dea4479240bc..e4fb686dfaa9f 100755
+index a84cc5737c2c6..bc005cac19441 100755
 --- a/scripts/clang-tools/gen_compile_commands.py
 +++ b/scripts/clang-tools/gen_compile_commands.py
 @@ -170,7 +170,7 @@ def process_line(root_directory, command_prefix, file_path):
@@ -94,8 +94,8 @@ index 5dea4479240bc..e4fb686dfaa9f 100755
 -    prefix = command_prefix.replace('\#', '#').replace('$(pound)', '#')
 +    prefix = command_prefix.replace(r'\#', '#').replace('$(pound)', '#')
  
-     # Return the canonical path, eliminating any symbolic links encountered in the path.
-     abs_path = os.path.realpath(os.path.join(root_directory, file_path))
+     # Use os.path.abspath() to normalize the path resolving '.' and '..' .
+     abs_path = os.path.abspath(os.path.join(root_directory, file_path))
 -- 
 2.43.0
 
