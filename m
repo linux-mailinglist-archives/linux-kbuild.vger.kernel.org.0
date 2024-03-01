@@ -1,128 +1,132 @@
-Return-Path: <linux-kbuild+bounces-1097-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1098-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAF6E86D63D
-	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Feb 2024 22:33:38 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF96686DAB4
+	for <lists+linux-kbuild@lfdr.de>; Fri,  1 Mar 2024 05:33:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 517141F233D7
-	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Feb 2024 21:33:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4234D1F22477
+	for <lists+linux-kbuild@lfdr.de>; Fri,  1 Mar 2024 04:33:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 554C2433B3;
-	Thu, 29 Feb 2024 21:33:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E378482DF;
+	Fri,  1 Mar 2024 04:33:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z6ajt57F"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="LnmTobwY"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+Received: from mail-il1-f173.google.com (mail-il1-f173.google.com [209.85.166.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D131D16FF47;
-	Thu, 29 Feb 2024 21:33:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E63FA405DB
+	for <linux-kbuild@vger.kernel.org>; Fri,  1 Mar 2024 04:33:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709242413; cv=none; b=TpikuBKU2Y3IE7C3HjSLW/e6g7vHQeCYX/nvWvmBicjgvGsa3f2Q1or3PxDCRWm0ynF5E2KqmpJP34uguEcjEAi7Wc/g0HWFsLxbdSTOMHr96ikMCvpPH1tFHRlwgggTI8BgoW754v4JndnXszsZWu9uCwM2lfP52WguZum2+JM=
+	t=1709267602; cv=none; b=Ywc38omP8FSg6Mns8W62WApItekWsWbx00QWTMJpLmYSEWFeW3xH9XXUy/fPawnWUXAgt8TMx5Xa+GSd8Gf4HBcTaOTww8UhlB0RVmdfnUeGZRvFStSLHTaukiogKCUlQy473/Pn/+PpyPwxBRsrio/mET4BdJFaPATNjTKUWTc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709242413; c=relaxed/simple;
-	bh=BnJoVXU1CaeQbXBgRnIHjar/FV4NrO1c9oIQRiWiPpU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oRmnQ8rRwLuKPMGiRM5Lh174bp6kZOK5KPCETdzXSeGVK4wIHcRjNK2ti1YhAwYfLS8tsdTaokYOUzhSoHD2JA6+qJvhseMIV2pU6jOfjKB4NsWbzsvMRL43B8rp9DhklOQpM9fIEpstoC+DVTwSNka1xMb3visERnJU1AHHeT4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z6ajt57F; arc=none smtp.client-ip=209.85.216.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-299b92948a6so981103a91.3;
-        Thu, 29 Feb 2024 13:33:31 -0800 (PST)
+	s=arc-20240116; t=1709267602; c=relaxed/simple;
+	bh=gAvu8Q2GlIgl58hpzU0/1cTGUMv1AR+pwJtHUovAQyE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WX08K6rpCda/o0Ph4j1/QckOF3yKrowDoA5yWHejR3Sb/BfnppMSxl9+dxsg+CLpCAv0V9YqByJYMcLC4hq0Y0ZoQnTgQuk+ZgGymRugmlqmmfAMhljsGqIaxkw3ENvoYmW0fx8Op97eKqyjlPHR8ocrEIlPlV47Bbb8DDS213Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=LnmTobwY; arc=none smtp.client-ip=209.85.166.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-il1-f173.google.com with SMTP id e9e14a558f8ab-3657c437835so5309245ab.2
+        for <linux-kbuild@vger.kernel.org>; Thu, 29 Feb 2024 20:33:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709242411; x=1709847211; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BnJoVXU1CaeQbXBgRnIHjar/FV4NrO1c9oIQRiWiPpU=;
-        b=Z6ajt57F1WSceLYkGweS7MrRdWKj2xFqPlkvjMxKXtei3ZVqpmYHfdmuNceUMakYiT
-         Oaj39fT1B89truMMx8OU6v3bhb5L8T/fxMCUJ7ruu9GZ51UhuvYQNISZlUcmlitpP7MF
-         rAe029msPQjM3igUt7dzHkGIE6MWtXOlOF5Cy/2L9rXZEbL/vehHsLzjSVQK4qOtJl8o
-         bP9X4Y299SHxk0hB0doIc1xGg8iKMAMbVdh9rFmJTzGe9W/gGjVBUnCAMU9zjOooG3Pd
-         C661SSum/+00GjD5XAID6lb3mNOaVvKZrjishBCIZslCEKCzlcZ8LaVA4vlFyCICRaWg
-         sVoA==
+        d=chromium.org; s=google; t=1709267600; x=1709872400; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=aOVHnydOr3KEKADJ1BgtsHyKTmyIddRVFL8SRlzooEs=;
+        b=LnmTobwY6Y9O6KisIc6S5OEt1fqcp8rNkpsKUmPxB6ttfMRZy3cIdp7YPC2mFWI//2
+         92kz79aqtCdFnOWmTNFUaK9LyRh/YqMG7ETfAFKO7++5cupJuWdfwWwONt/2oSjIaG5g
+         JXWKtVQNJPY619rEqcQ4S5rZemkn02j79cmSc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709242411; x=1709847211;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BnJoVXU1CaeQbXBgRnIHjar/FV4NrO1c9oIQRiWiPpU=;
-        b=jRb4/c7kWid1rDDaSBPlqj4L+Yhnw5IxzgXtI7k0tAU3ipRFM9IlI81FTkWJu16AO0
-         BOVWY32r1QqHjeUlaaLTQF6kz7D3gYZO2O7dmnc/odonaNB75issuXSebO8ZSq5v+VnM
-         heA4Kp9pO8toUmJmq4Bekjdr99YOjrzGT0vsV9Sf1x+H1Yu+2mn09f1Ifae6G9Shsc3k
-         lBsOqetrOL2kjSAwGEz4EE3QpUXGAzrzYKQkHEszFAKubrkaFRuSXjj9JHWeIdRXobWq
-         v6wwplceezBugFNaAmhDqHflGFPL4vbG5PJndCA0Lxc4LVs1zBTVAbCGQa61/KyOc6Kn
-         nvwg==
-X-Forwarded-Encrypted: i=1; AJvYcCUhsXI5qScmtkOD90MrCo016Yzl9/fO0Z0q7Zva5vXXE8wiiiusnwOhFwiWIQOHxWSZ0J2DQduZeJXrgox9+iyF2+Qk4VIz298wv90mN5R2IJ2Rc/Pn3gu0s+imrcLP13dY8m3GJg7vjjYSdcqDLTCdFE4/qwBNSEiXoCCvtMMBLnIfdLf/Z1wUn1k=
-X-Gm-Message-State: AOJu0YwxVSmbxB22uIkHhz6ZaE17p6LWtcAYdmYl0Xb321ljv5CYc0Vb
-	ewaOgQs9FWEkSDzixSkiueCPV51qF8gEA/QepxCGIHXgOO5GDoUIc6iW9wZb1pxd1r3/PMNkXeL
-	5fQxYvdCKCCNlol2spJXNWePHers=
-X-Google-Smtp-Source: AGHT+IF7bVmqxeMhoRHyZpvokOgbCs4iWKcEFiGPNztP7CIoyae8cJUfmp8uTM3OBZKV4OvFKxKIP+IJE5Ov5jLH6Xw=
-X-Received: by 2002:a17:90b:104b:b0:29a:cbfb:5b28 with SMTP id
- gq11-20020a17090b104b00b0029acbfb5b28mr300141pjb.13.1709242411118; Thu, 29
- Feb 2024 13:33:31 -0800 (PST)
+        d=1e100.net; s=20230601; t=1709267600; x=1709872400;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aOVHnydOr3KEKADJ1BgtsHyKTmyIddRVFL8SRlzooEs=;
+        b=qy1bB1H7KL8wGgdqwnXDDc8jWhR9JLlFFtvfKR+w94WYtsCN2Szt8dKMtvLqUNHQI8
+         42M3Wd94qR/7X9YKxFCJSWTE/7hsolqQCi2xN203UzH0f622yvrazGKqm5Uc1eM7h1Ka
+         7U3YYq65BHqQa+tKwVUR/LivCBKUXnOZnuF8uoZ7iCWHtvYnyZIfcBPNwaTbr6voNdWv
+         jGpAZQyFHf6pfQXytw77kVFCT7bUGbhRdMDqdTsIkMz9YsuqLlDrltlBqn2idgjbl7kJ
+         283QVW9C556Oy0L4NWyTrCjSFn8WdbrXlwBIpeyhHOxWnDNutsz5eydCGVGSopT5uw0x
+         WPHQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUaTbf2A7g2+iTrsyDSKS6dl5kCc+2qIcpWZiXejFH9fEC0d/2nu2codXIOsyw0uMhXKfq18T0IzfkUy7JsNgFzGTJ16lQ2rKmpWBN2
+X-Gm-Message-State: AOJu0Yxtq2zamRAz7Oji4OhsumHppGab58HamYB5ISVykt3dpIfaMe7E
+	hovKgcGuk9HCjg0vPpmRHStb0bC2eFrw1TD02/kjX/DazXAqQJ1/pDmQVv3F/w==
+X-Google-Smtp-Source: AGHT+IEYIIoWI54Qs4qkUauAMYxQSE+Zv04Y0vTrjcoU2tuQ34M2jd3/owKz6yKYlM+FO4v0W3AX/w==
+X-Received: by 2002:a05:6e02:1528:b0:365:3239:6e71 with SMTP id i8-20020a056e02152800b0036532396e71mr789246ilu.14.1709267600107;
+        Thu, 29 Feb 2024 20:33:20 -0800 (PST)
+Received: from google.com ([2401:fa00:8f:203:cf6e:4396:e942:479d])
+        by smtp.gmail.com with ESMTPSA id ei4-20020a056a0080c400b006e57e220ceasm2075883pfb.6.2024.02.29.20.33.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Feb 2024 20:33:19 -0800 (PST)
+Date: Fri, 1 Mar 2024 13:33:16 +0900
+From: Sergey Senozhatsky <senozhatsky@chromium.org>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Sergey Senozhatsky <senozhatsky@chromium.org>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCHv2] kconfig: add some Kconfig env variables to make help
+Message-ID: <20240301043316.GO11972@google.com>
+References: <20240222031801.GG11472@google.com>
+ <20240222032559.496127-1-senozhatsky@chromium.org>
+ <CAK7LNARo4L6qxoqRU-0dgABarukJKAaZpCRtfA3MyUHhSuDQxQ@mail.gmail.com>
+ <20240222051621.GH11472@google.com>
+ <20240228045652.GH11972@google.com>
+ <CAK7LNAQ8OyNMeGzVoTRg-sHDZ4YK0EKY_eEWNepekaibO_ZKwg@mail.gmail.com>
+ <20240229021010.GM11972@google.com>
+ <CAK7LNASujf8m4PpMyoCC1cTN_YGeG1HVaOR+3pZx5=3OJp=85A@mail.gmail.com>
+ <20240229034739.GN11972@google.com>
+ <CAK7LNAS-mOxY884pLEMwWaX+wgzXdc6+=vqN=wfHBekuKL5ryA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240217002638.57373-1-ojeda@kernel.org>
-In-Reply-To: <20240217002638.57373-1-ojeda@kernel.org>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Thu, 29 Feb 2024 22:33:18 +0100
-Message-ID: <CANiq72nPiVDV2WY_jCuONz_arWRVyMMiRT5iVb=2xqoXnZYW+g@mail.gmail.com>
-Subject: Re: [PATCH 1/2] kbuild: mark `rustc` (and others) invocations as recursive
-To: Miguel Ojeda <ojeda@kernel.org>
-Cc: Wedson Almeida Filho <wedsonaf@gmail.com>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
-	Alice Ryhl <aliceryhl@google.com>, Masahiro Yamada <masahiroy@kernel.org>, 
-	linux-kbuild@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, patches@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK7LNAS-mOxY884pLEMwWaX+wgzXdc6+=vqN=wfHBekuKL5ryA@mail.gmail.com>
 
-On Sat, Feb 17, 2024 at 1:26=E2=80=AFAM Miguel Ojeda <ojeda@kernel.org> wro=
-te:
->
-> `rustc` (like Cargo) may take advantage of the jobserver at any time
-> (e.g. for backend parallelism, or eventually frontend too). In the kernel=
-,
-> we call `rustc` with `-Ccodegen-units=3D1` (and `-Zthreads` is 1 so far),
-> so we do not expect parallelism. However, in the upcoming Rust 1.76.0, a
-> warning is emitted by `rustc` when it cannot connect to the jobserver it
-> was passed (in many cases, but not all: compiling and `--print sysroot`
-> do, but `--version` does not). And given GNU Make always passes
-> the jobserver in the environment variable (even when a line is deemed
-> non-recursive), `rustc` will end up complaining about it (in particular
-> in Make 4.3 where there is only the simple pipe jobserver style).
->
-> One solution is to remove the jobserver from `MAKEFLAGS`. However, we
-> can mark the lines with calls to `rustc` (and Cargo) as recursive, which
-> looks simpler. This is what is now documented and recommended by `rustc`
-> and allows us to be ready for the time we may use parallelism inside
-> `rustc` (potentially now, if a user passes `-Zthreads`). Thus do so.
->
-> Similarly, do the same for `rustdoc` and `cargo` calls.
->
-> Finally, there is one case that the solution does not cover, which is the
-> `$(shell ...)` call we have. Thus, for that one, set an empty `MAKEFLAGS`
-> environment variable.
->
-> Link: https://github.com/rust-lang/rust/issues/120515
-> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+On (24/03/01 00:35), Masahiro Yamada wrote:
+> > >   "I am interested only in these. I do not care about the rest,
+> >
+> > It's "I *do NOT know* what the rest do".  I cannot document something
+> > that I have no knowledge of, can I?  So as a reasonable start I added
+> > only those that I'm familiar with (and I have explicitly stated that
+> > in previous emails), and I disagree with the "bad attitude" label.
+> 
+> 
+> You were aware of:
+> 
+>  - several env variables are listed in the document
+>  - your patch would introduce a new "inconsistency"
+>  - somebody else would need to make efforts to solve it
 
-Applied (i.e. including the upgrade to 1.76.0) to `rust-next` --
-thanks everyone!
+OK.
 
-[ Reworded to add link to PR documenting the recommendation. ]
+> > So the rational for that was that people run "make help" and find
+> > out about new build targets, for instance, but there is no way for
+> > people to find out about new Kconfig features (and yes, we are talking
+> > "new features" here) that are controlled by env variables.  We need
+> > to do something about it, don't you agree?
+> 
+> Disagree.
+> 
+> I maintain the entire Kconfig, not like you only caring about
+> a particular feature.
+> 
+> If you add only two in help, I have no idea about
+> what it will look like in the end.
+> I am not convinced that it will be in good shape.
+> So, it is reasonable for me to reject it.
 
-Cheers,
-Miguel
+Yes, OK.  I wasn't talking about this patch in particular at that
+point, I was more curious whether you agreed that we need to document
+in some way those vars in `make help` or not.  If you see value in
+documenting them then I can sit down and try to come up with v3 that
+will (in one way or another) give a simple "help" description for
+each of Kconfig's vars.
 
