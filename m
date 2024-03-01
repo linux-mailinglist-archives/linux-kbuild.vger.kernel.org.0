@@ -1,131 +1,150 @@
-Return-Path: <linux-kbuild+bounces-1099-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1100-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4886786DFE6
-	for <lists+linux-kbuild@lfdr.de>; Fri,  1 Mar 2024 12:12:27 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC13986E014
+	for <lists+linux-kbuild@lfdr.de>; Fri,  1 Mar 2024 12:22:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D907E1F22518
-	for <lists+linux-kbuild@lfdr.de>; Fri,  1 Mar 2024 11:12:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DC3BD1C2155E
+	for <lists+linux-kbuild@lfdr.de>; Fri,  1 Mar 2024 11:22:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CA906FB80;
-	Fri,  1 Mar 2024 11:10:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4064B6EB68;
+	Fri,  1 Mar 2024 11:21:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b="OYt9+PHK"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G8Ukx78L"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail.avm.de (mail.avm.de [212.42.244.94])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADFBC6F51A;
-	Fri,  1 Mar 2024 11:10:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.94
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1771F6EB67;
+	Fri,  1 Mar 2024 11:21:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709291423; cv=none; b=XiHu1hiT1Hzs98CnhtAYqQVfle+RVey6NmDtdETgpCSO4YcqKU1CP+Mir5EuBELOTytyNp/o1b/ss1JH2tVTug/073ktpzQTup0nTq+coqDBrpFEu0lJcvlWtI9heV+pxmDdsa+u/2NYUtdAVCpIcMqzkALjESvK7q/+kqJZ4I8=
+	t=1709292076; cv=none; b=X0XXC8w4ybkESQkKt9hBdlFnkLIsTlBJixReyBmC+0JpU8ENIA8ZLiNgLBteaCmqT9zmromafkzrqB7inYO24aLmzVZq5xfi7ID8ShalB8vYC/LMfLzqgqs8dYYKJ3T6sl0P/DQbmjxItvBUbv3edaJuZi4l4y5R9ZuytCcLILQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709291423; c=relaxed/simple;
-	bh=e51zttODIbyBxyNN35mjWWt+KgFVjTSgZK3n2T+b+wA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R1DZdtpBrvgIph4L8I4Z+guafltAM/7N8I1pEZ3YaaKo5AcPLSpXNiWOI00JTvmtb0zGjK2MvpXcVfLPWdQFxMCDI0ZjIq5k+GUu0Tl7he3ykDy7jMignxlTiOdxfxZQ7stxzCqHmbAcMXvDP4O8pPsm3ewu+P8ZwnWuQLU8WF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de; spf=pass smtp.mailfrom=avm.de; dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b=OYt9+PHK; arc=none smtp.client-ip=212.42.244.94
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=avm.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
-	t=1709291069; bh=e51zttODIbyBxyNN35mjWWt+KgFVjTSgZK3n2T+b+wA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OYt9+PHKFGKyVmiw2Fu9C7UcOW5wT3FzEZ/vWjYUpxiWfoxQhPxe16pyMOZ1ur80b
-	 vbPCGtdskDaris+wLpPUCg6CjTEhwz7GNYFgp69zBmGfTeypJokCTCH0zCWCudmsgG
-	 kWhfadgrV4lfaX/AabDRTdJ+1RNWWHtrA03vRyv0=
-Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [212.42.244.71])
-	by mail.avm.de (Postfix) with ESMTPS;
-	Fri,  1 Mar 2024 12:04:29 +0100 (CET)
-Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
-	by mail-auth.avm.de (Postfix) with ESMTPA id 809C680152;
-	Fri,  1 Mar 2024 12:04:29 +0100 (CET)
-Received: by buildd.core.avm.de (Postfix, from userid 1000)
-	id 744511812F7; Fri,  1 Mar 2024 12:04:29 +0100 (CET)
-Date: Fri, 1 Mar 2024 12:04:29 +0100
-From: Nicolas Schier <n.schier@avm.de>
-To: Sergey Senozhatsky <senozhatsky@chromium.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCHv2] kconfig: add some Kconfig env variables to make help
-Message-ID: <ZeG2PRYmdO0r44kS@buildd.core.avm.de>
-Mail-Followup-To: Sergey Senozhatsky <senozhatsky@chromium.org>,
+	s=arc-20240116; t=1709292076; c=relaxed/simple;
+	bh=cNhMBWpiIXbrwsjTit2mkJw/SkP6QTkIJSldHKK4TP4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=vGSXAgE83JUiAY6bzonVXlovpkj2jFgizbaJ5MktA9aFkvMv11OxoFwboNDy5X9WKvTP6kYzb8SqdL91OVzFMqUpthwJHq+GyIQSDc9vlbInqO429kcAozv4TwRSFN/7RoMjT4Yyie+3matfANVJcmzD1/YmGm24y5R6C7zaITE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G8Ukx78L; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D4DBC433C7;
+	Fri,  1 Mar 2024 11:21:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709292075;
+	bh=cNhMBWpiIXbrwsjTit2mkJw/SkP6QTkIJSldHKK4TP4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=G8Ukx78LZgsgW+Gf0DDSwLB68wM5t71dsRFJdevvx4T5ixJO2JBlgk6qhMqZEse66
+	 7RA3zbmhD/THIh/BYhRXJYkUh9dUn2HlhN2NZcG/wzeIXotCvSdEETvBdGDMsu2+Dw
+	 wYzTTh8SPx8EMXI0BbmQN+2JHCcF2Po9KXksp9V0dAXEq2nk/Ko1YVlUJYHRzfiXGj
+	 bBr5cd+dYsyzWJQVLFq4SiBLZmVakM0LkYSJN3VUgOuUQxB+qYXvrD8nEuR8H8BmsQ
+	 //fzxgq2LwzMRdGVI2tzhOyljoar3O/qoWh2aJ7FClO31GwmizF0R8ViTwybIs3vfS
+	 m3ahvTa+q3tWA==
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
 	Masahiro Yamada <masahiroy@kernel.org>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240222032559.496127-1-senozhatsky@chromium.org>
- <CAK7LNARo4L6qxoqRU-0dgABarukJKAaZpCRtfA3MyUHhSuDQxQ@mail.gmail.com>
- <20240222051621.GH11472@google.com>
- <20240228045652.GH11972@google.com>
- <CAK7LNAQ8OyNMeGzVoTRg-sHDZ4YK0EKY_eEWNepekaibO_ZKwg@mail.gmail.com>
- <20240229021010.GM11972@google.com>
- <CAK7LNASujf8m4PpMyoCC1cTN_YGeG1HVaOR+3pZx5=3OJp=85A@mail.gmail.com>
- <20240229034739.GN11972@google.com>
- <CAK7LNAS-mOxY884pLEMwWaX+wgzXdc6+=vqN=wfHBekuKL5ryA@mail.gmail.com>
- <20240301043316.GO11972@google.com>
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>
+Subject: [PATCH] kbuild: fix inconsistent indentation in top Makefile
+Date: Fri,  1 Mar 2024 20:21:07 +0900
+Message-Id: <20240301112108.1958281-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20240301043316.GO11972@google.com>
-Organization: AVM GmbH
-X-purgate-ID: 149429::1709291069-3ED8F9CD-E71215DF/0/0
-X-purgate-type: clean
-X-purgate-size: 1915
-X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
-X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
-X-purgate: clean
+Content-Transfer-Encoding: 8bit
 
-On Fri, Mar 01, 2024 at 01:33:16PM +0900, Sergey Senozhatsky wrote:
-> On (24/03/01 00:35), Masahiro Yamada wrote:
-> > > >   "I am interested only in these. I do not care about the rest,
-> > >
-> > > It's "I *do NOT know* what the rest do".  I cannot document something
-> > > that I have no knowledge of, can I?  So as a reasonable start I added
-> > > only those that I'm familiar with (and I have explicitly stated that
-> > > in previous emails), and I disagree with the "bad attitude" label.
-> > 
-> > 
-> > You were aware of:
-> > 
-> >  - several env variables are listed in the document
-> >  - your patch would introduce a new "inconsistency"
-> >  - somebody else would need to make efforts to solve it
-> 
-> OK.
-> 
-> > > So the rational for that was that people run "make help" and find
-> > > out about new build targets, for instance, but there is no way for
-> > > people to find out about new Kconfig features (and yes, we are talking
-> > > "new features" here) that are controlled by env variables.  We need
-> > > to do something about it, don't you agree?
-> > 
-> > Disagree.
-> > 
-> > I maintain the entire Kconfig, not like you only caring about
-> > a particular feature.
-> > 
-> > If you add only two in help, I have no idea about
-> > what it will look like in the end.
-> > I am not convinced that it will be in good shape.
-> > So, it is reasonable for me to reject it.
-> 
-> Yes, OK.  I wasn't talking about this patch in particular at that
-> point, I was more curious whether you agreed that we need to document
-> in some way those vars in `make help` or not.  If you see value in
-> documenting them then I can sit down and try to come up with v3 that
-> will (in one way or another) give a simple "help" description for
-> each of Kconfig's vars.
+Commit 3b9ab248bc45 ("kbuild: use 4-space indentation when followed
+by conditionals") introduced inconsistent indentation because it
+deliberately touched only the conditional directives to minimize the
+change set.
 
-Perhaps it might be a compromise to let 'make help' point to the
-kbuild/kconfig documentation?
+This commit reformats some blocks in the top Makefile so they are
+consistently indented with 4 spaces.
 
-Kind regards,
-Nicolas
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+ Makefile | 32 ++++++++++++++++----------------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index d84c0fb215fd..859b0f52949e 100644
+--- a/Makefile
++++ b/Makefile
+@@ -295,51 +295,51 @@ single-build	:=
+ 
+ ifneq ($(filter $(no-dot-config-targets), $(MAKECMDGOALS)),)
+     ifeq ($(filter-out $(no-dot-config-targets), $(MAKECMDGOALS)),)
+-		need-config :=
++        need-config :=
+     endif
+ endif
+ 
+ ifneq ($(filter $(no-sync-config-targets), $(MAKECMDGOALS)),)
+     ifeq ($(filter-out $(no-sync-config-targets), $(MAKECMDGOALS)),)
+-		may-sync-config :=
++        may-sync-config :=
+     endif
+ endif
+ 
+ need-compiler := $(may-sync-config)
+ 
+ ifneq ($(KBUILD_EXTMOD),)
+-	may-sync-config :=
++    may-sync-config :=
+ endif
+ 
+ ifeq ($(KBUILD_EXTMOD),)
+-        ifneq ($(filter %config,$(MAKECMDGOALS)),)
+-		config-build := 1
+-                ifneq ($(words $(MAKECMDGOALS)),1)
+-			mixed-build := 1
+-                endif
++    ifneq ($(filter %config,$(MAKECMDGOALS)),)
++        config-build := 1
++        ifneq ($(words $(MAKECMDGOALS)),1)
++            mixed-build := 1
+         endif
++    endif
+ endif
+ 
+ # We cannot build single targets and the others at the same time
+ ifneq ($(filter $(single-targets), $(MAKECMDGOALS)),)
+-	single-build := 1
++    single-build := 1
+     ifneq ($(filter-out $(single-targets), $(MAKECMDGOALS)),)
+-		mixed-build := 1
++        mixed-build := 1
+     endif
+ endif
+ 
+ # For "make -j clean all", "make -j mrproper defconfig all", etc.
+ ifneq ($(filter $(clean-targets),$(MAKECMDGOALS)),)
+-        ifneq ($(filter-out $(clean-targets),$(MAKECMDGOALS)),)
+-		mixed-build := 1
+-        endif
++    ifneq ($(filter-out $(clean-targets),$(MAKECMDGOALS)),)
++        mixed-build := 1
++    endif
+ endif
+ 
+ # install and modules_install need also be processed one by one
+ ifneq ($(filter install,$(MAKECMDGOALS)),)
+-        ifneq ($(filter modules_install,$(MAKECMDGOALS)),)
+-		mixed-build := 1
+-        endif
++    ifneq ($(filter modules_install,$(MAKECMDGOALS)),)
++        mixed-build := 1
++    endif
+ endif
+ 
+ ifdef mixed-build
+-- 
+2.40.1
+
 
