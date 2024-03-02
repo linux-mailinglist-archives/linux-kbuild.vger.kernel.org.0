@@ -1,49 +1,49 @@
-Return-Path: <linux-kbuild+bounces-1134-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1126-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35D3986F8AA
-	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Mar 2024 03:48:05 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52A5E86F897
+	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Mar 2024 03:34:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B7E4DB20A38
-	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Mar 2024 02:48:02 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D6E11B209BA
+	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Mar 2024 02:34:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07DF715B7;
-	Mon,  4 Mar 2024 02:47:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A454738D;
+	Mon,  4 Mar 2024 02:34:08 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from mailhost.m5p.com (mailhost.m5p.com [74.104.188.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28EB133CE
-	for <linux-kbuild@vger.kernel.org>; Mon,  4 Mar 2024 02:47:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0471D818
+	for <linux-kbuild@vger.kernel.org>; Mon,  4 Mar 2024 02:34:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.104.188.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709520478; cv=none; b=W2k7cHGRqcvGuh4QglRg83aT2R66Q+/vRykPMn96jIRlFr7mCRnRbNzVyoi05fsvG0HH/aXsbOBy+fg9mtipiUoM/QlfDgQklLq/x2tys4fo1Wvrjbv9RuVab1ZhbjOwuSr+li0JImYk30fNAwC6iR+UCwnCsRnvK0HT3PsJGDU=
+	t=1709519648; cv=none; b=tyWiK3urUxsH23LyADPZpPk6fKstj3+ti7yeTFbk7gAeDXwAo8tTzojLHYZJxC1fuX5ekVkM1j0NQzCBjTMBrcZayc8NHgWPU24k22Kq/kiGc5KXSyicDSHsvU4iD6jG+GjtQFBXaNdzICLnG8CdpOgSfCfvF5/+7mng2XC4534=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709520478; c=relaxed/simple;
-	bh=PTd8K4FFOvTBpIPDrrBxCB1FOvyN77hcvc15zjuVEfA=;
-	h=Message-Id:In-Reply-To:References:From:Date:Subject:To:Cc; b=g/DtmruxuiktB2oaOc1TcHhiVlALaZMFbr5yP9tIh40huWtfGRsY8bIr5Cok0mY/thZEE82iKPXffRGOTdSCXwgrbRnVI3hvQZBaWvzt1PUxfz6IUbA4IHWaIcHhz9xZ0Z1Q6v8EFUiqxm5DofNbeBXM+peJKMG3eqGkwPL+2us=
+	s=arc-20240116; t=1709519648; c=relaxed/simple;
+	bh=2sn9EZi53zMlKPUXPXYI1DWkDLPRC9UWGEh0y2Gx7zs=;
+	h=Message-Id:In-Reply-To:References:From:Date:Subject:To:Cc; b=W3Lj2PPnV38lMwsTHJC/fTvx4V2WAAgK/gSnFZ3Y07/8gjcfruKWqRLRhzj6C2zrwGjUbFM+XkKGzqXlclwGTCXO4nhrZRexQmRUp7aphBZtampW1UERpRaJAS8vWTZmv8/j+iH19hA7w7jhL7+xK7viDce2rGFOpB4bgDNJA/U=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=m5p.com; spf=pass smtp.mailfrom=m5p.com; arc=none smtp.client-ip=74.104.188.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=m5p.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=m5p.com
 Received: from m5p.com (mailhost.m5p.com [IPv6:2001:470:1f07:15ff:0:0:0:f7])
-	by mailhost.m5p.com (8.17.1/8.15.2) with ESMTPS id 4242j9vV022091
+	by mailhost.m5p.com (8.17.1/8.15.2) with ESMTPS id 4242SmHm021962
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-	Sun, 3 Mar 2024 21:45:15 -0500 (EST)
+	Sun, 3 Mar 2024 21:28:54 -0500 (EST)
 	(envelope-from ehem@m5p.com)
 Received: (from ehem@localhost)
-	by m5p.com (8.17.1/8.15.2/Submit) id 4242j9o0022090;
-	Sun, 3 Mar 2024 18:45:09 -0800 (PST)
+	by m5p.com (8.17.1/8.15.2/Submit) id 4242Smx1021961;
+	Sun, 3 Mar 2024 18:28:48 -0800 (PST)
 	(envelope-from ehem)
-Message-Id: <8cc3f479d76cadf32a80cc4320f59f0c86ba4424.1709508292.git.ehem+linux@m5p.com>
+Message-Id: <d9dcd7eed4ae12719a3ae0924617fe37e7f8a726.1709508291.git.ehem+linux@m5p.com>
 In-Reply-To: <cover.1709508290.git.ehem+linux@m5p.com>
 References: <cover.1709508290.git.ehem+linux@m5p.com>
 From: Elliott Mitchell <ehem+linux@m5p.com>
-Date: Fri, 1 Mar 2024 15:50:39 -0800
-Subject: [WIP PATCH 25/30] scripts/coccicheck: modify to handle ${srctree}
- with trailing slash
+Date: Fri, 1 Mar 2024 16:29:44 -0800
+Subject: [WIP PATCH 15/30] build/scripts: install.sh: modify use of ${srctree}
+ for trailing slash
 To: masahiroy@kernel.org, nathan@kernel.org, nicolas@fjasle.eu
 Cc: linux-kbuild@vger.kernel.org
 Precedence: bulk
@@ -52,46 +52,29 @@ List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 
-With the modifcation now done, remove compatibility with ${srctree} not
-having the trailing slash.
+Once converted this script needs to match what the Makefiles have.
 
 Signed-off-by: Elliott Mitchell <ehem+linux@m5p.com>
 ---
 ---
- scripts/coccicheck | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ scripts/install.sh | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/coccicheck b/scripts/coccicheck
-index 0395b6f943d4..099ca7c7603b 100755
---- a/scripts/coccicheck
-+++ b/scripts/coccicheck
-@@ -81,7 +81,7 @@ command results in a shift count error.'
- else
-     ONLINE=0
-     if [ "$KBUILD_EXTMOD" = "" ] ; then
--        OPTIONS="--dir $srctree $COCCIINCLUDE"
-+        OPTIONS="--dir ${srctree}. $COCCIINCLUDE"
-     else
-         OPTIONS="--dir $KBUILD_EXTMOD $COCCIINCLUDE"
-     fi
-@@ -210,7 +210,7 @@ coccinelle () {
- 
-     if [ $VERBOSE -ne 0 -a $ONLINE -eq 0 ] ; then
- 
--	FILE=${COCCI#${srctree%/}/}
-+	FILE=${COCCI#$srctree}
- 
- 	echo "Processing `basename $COCCI`"
- 	echo "with option(s) \"$OPT\""
-@@ -273,7 +273,7 @@ else
- fi
- 
- if [ "$COCCI" = "" ] ; then
--    for f in `find $srctree/scripts/coccinelle/ -name '*.cocci' -type f | sort`; do
-+    for f in `find ${srctree}scripts/coccinelle/ -name '*.cocci' -type f | sort`; do
- 	coccinelle $f
-     done
- else
+diff --git a/scripts/install.sh b/scripts/install.sh
+index 9bb0fb44f04a..beda9b808cb9 100755
+--- a/scripts/install.sh
++++ b/scripts/install.sh
+@@ -23,8 +23,8 @@ done
+ # User/arch may have a custom install script
+ for file in "${HOME}/bin/${INSTALLKERNEL}"		\
+ 	    "/sbin/${INSTALLKERNEL}"			\
+-	    "${srctree}/arch/${SRCARCH}/install.sh"	\
+-	    "${srctree}/arch/${SRCARCH}/boot/install.sh"
++	    "${srctree}arch/${SRCARCH}/install.sh"	\
++	    "${srctree}arch/${SRCARCH}/boot/install.sh"
+ do
+ 	if [ ! -x "${file}" ]; then
+ 		continue
 -- 
 2.39.2
 
