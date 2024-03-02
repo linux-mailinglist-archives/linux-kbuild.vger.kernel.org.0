@@ -1,49 +1,49 @@
-Return-Path: <linux-kbuild+bounces-1130-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1125-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A735486F89B
-	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Mar 2024 03:37:42 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94DDC86F896
+	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Mar 2024 03:33:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2C593B20A85
-	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Mar 2024 02:37:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 48E441F213E9
+	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Mar 2024 02:33:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D99717C9;
-	Mon,  4 Mar 2024 02:37:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D025633;
+	Mon,  4 Mar 2024 02:33:41 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from mailhost.m5p.com (mailhost.m5p.com [74.104.188.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 865EF38D
-	for <linux-kbuild@vger.kernel.org>; Mon,  4 Mar 2024 02:37:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CFC238D
+	for <linux-kbuild@vger.kernel.org>; Mon,  4 Mar 2024 02:33:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.104.188.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709519855; cv=none; b=KohDx+zILmv06MSHb1DCYZf1ss20CeyBGxwSvmJCH+ej7Rcb9NYFp6krPeJmdYDFAMTiO2NR2SZmYzOvwZFXQQIGkb+YTPZMVcOrnW3D0pDS+tD6AeQk9o0OZ9ph1wWKGPyq8sDh03ZMC9X4xnw77rwbEvS48IT84iVs6xi7StI=
+	t=1709519621; cv=none; b=FXtvSPDwXNV9O5qdVNf9gOTU9EhEIQItKPUa4lXJnagylaextsZ8sAbxqYj4EEGWnITtXXdz6TwqISLYq/b1Xjyrzpycp3P7BCXAfmJF3dMliTxZKt2ogiZxtshF2HJ6xWWmbf1sfPkJoS7jiobQ2ac2Z8Mpsja9rfiF1bm73Rk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709519855; c=relaxed/simple;
-	bh=fahXwbP+fBi8gEFB2/Kq3hjpJjy3+rt+ZmKXm32UicQ=;
-	h=Message-Id:In-Reply-To:References:From:Date:Subject:To:Cc; b=qwW25sd/Xw1fJo0JV3O1//z4ET4oAA84r/a9E+1EuJtThUsyikI3Q1OSnQaD8Wea3vYIwDM7994g4HjZK9V6s50JIAm2Nl8CTc6HW7ZDsR9zxU8VmUnWzLo6Jth8u5Y2p5JLVxmMNnFp8hd1aQ4B5NEedeiBOt/qJKLXZqYE0+I=
+	s=arc-20240116; t=1709519621; c=relaxed/simple;
+	bh=/IaRIBYn/hDGttuI2a/bEHqRFr2qzrbn2h8z/4nt+9o=;
+	h=Message-Id:In-Reply-To:References:From:Date:Subject:To:Cc; b=HHG8y1OaGTULrq+/cBv0gP9ir4+K6eorGm6XFPJT9k+p4oOY5Y24bGyszC2Vf80mJsvS1iSAkusi/x4Z/qNibP/kNTq21hwXDau+v9XI6DD+N9DNlt5+D7EsdfgUgv69gBR8aCsGneeMgiteRIM5d9lYkcGPgyooacIiHesI04k=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=m5p.com; spf=pass smtp.mailfrom=m5p.com; arc=none smtp.client-ip=74.104.188.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=m5p.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=m5p.com
 Received: from m5p.com (mailhost.m5p.com [IPv6:2001:470:1f07:15ff:0:0:0:f7])
-	by mailhost.m5p.com (8.17.1/8.15.2) with ESMTPS id 4242Xg6Z022000
+	by mailhost.m5p.com (8.17.1/8.15.2) with ESMTPS id 4242RAG1021936
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-	Sun, 3 Mar 2024 21:33:48 -0500 (EST)
+	Sun, 3 Mar 2024 21:27:16 -0500 (EST)
 	(envelope-from ehem@m5p.com)
 Received: (from ehem@localhost)
-	by m5p.com (8.17.1/8.15.2/Submit) id 4242XgsL021999;
-	Sun, 3 Mar 2024 18:33:42 -0800 (PST)
+	by m5p.com (8.17.1/8.15.2/Submit) id 4242RAT2021935;
+	Sun, 3 Mar 2024 18:27:10 -0800 (PST)
 	(envelope-from ehem)
-Message-Id: <a773e24967ef57ada833a6983b8801c4717cee46.1709508291.git.ehem+linux@m5p.com>
+Message-Id: <fb1251528787d6bfa297f58a25c2ae7626335649.1709508291.git.ehem+linux@m5p.com>
 In-Reply-To: <cover.1709508290.git.ehem+linux@m5p.com>
 References: <cover.1709508290.git.ehem+linux@m5p.com>
 From: Elliott Mitchell <ehem+linux@m5p.com>
-Date: Fri, 1 Mar 2024 16:33:23 -0800
-Subject: [WIP PATCH 18/30] build/scripts: streamline_config.pl: modify use of
- ${srctree} for trailing slash
+Date: Fri, 1 Mar 2024 17:08:28 -0800
+Subject: [WIP PATCH 14/30] build/scripts: link-vmlinux.sh: modify use of
+ ${objtree} for trailing slash
 To: masahiroy@kernel.org, nathan@kernel.org, nicolas@fjasle.eu
 Cc: linux-kbuild@vger.kernel.org
 Precedence: bulk
@@ -56,25 +56,59 @@ Once converted this script needs to match what the Makefiles have.
 
 Signed-off-by: Elliott Mitchell <ehem+linux@m5p.com>
 ---
+With this, the new approach is pretty well functioning.
 ---
- scripts/kconfig/streamline_config.pl | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ scripts/link-vmlinux.sh | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/scripts/kconfig/streamline_config.pl b/scripts/kconfig/streamline_config.pl
-index d51cd7ac15d2..8e30b8458739 100755
---- a/scripts/kconfig/streamline_config.pl
-+++ b/scripts/kconfig/streamline_config.pl
-@@ -354,8 +354,8 @@ my $linfile;
+diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
+index 7862a8101747..d98a1494655a 100755
+--- a/scripts/link-vmlinux.sh
++++ b/scripts/link-vmlinux.sh
+@@ -87,7 +87,7 @@ vmlinux_link()
+ 		ldlibs=
+ 	fi
  
- if (defined($lsmod_file)) {
-     if ( ! -f $lsmod_file) {
--	if ( -f $ENV{'objtree'}."/".$lsmod_file) {
--	    $lsmod_file = $ENV{'objtree'}."/".$lsmod_file;
-+	if ( -f $ENV{'objtree'}.$lsmod_file) {
-+	    $lsmod_file = $ENV{'objtree'}.$lsmod_file;
- 	} else {
- 		die "$lsmod_file not found";
- 	}
+-	ldflags="${ldflags} ${wl}--script=${objtree}/${KBUILD_LDS}"
++	ldflags="${ldflags} ${wl}--script=${objtree}${KBUILD_LDS}"
+ 
+ 	# The kallsyms linking does not need debug symbols included.
+ 	if [ "$output" != "${output#.tmp_vmlinux.kallsyms}" ] ; then
+@@ -193,12 +193,12 @@ kallsyms_step()
+ mksysmap()
+ {
+ 	info NM ${2}
+-	${CONFIG_SHELL} "${srctree}/scripts/mksysmap" ${1} ${2} ${3}
++	${CONFIG_SHELL} "${srctree}scripts/mksysmap" ${1} ${2} ${3}
+ }
+ 
+ sorttable()
+ {
+-	${objtree}/scripts/sorttable ${1}
++	${objtree}scripts/sorttable ${1}
+ }
+ 
+ # Delete output files in case of error
+@@ -222,7 +222,7 @@ if [ "$1" = "clean" ]; then
+ 	exit 0
+ fi
+ 
+-${MAKE} -f "${srctree}/scripts/Makefile.build" obj=init init/version-timestamp.o
++${MAKE} -f "${srctree}scripts/Makefile.build" obj=init init/version-timestamp.o
+ 
+ btf_vmlinux_bin_o=""
+ if is_enabled CONFIG_DEBUG_INFO_BTF; then
+@@ -266,8 +266,8 @@ if is_enabled CONFIG_KALLSYMS; then
+ 	kallsyms_step 2
+ 
+ 	# step 3
+-	size1=$(${CONFIG_SHELL} "${srctree}/scripts/file-size.sh" ${kallsymso_prev})
+-	size2=$(${CONFIG_SHELL} "${srctree}/scripts/file-size.sh" ${kallsymso})
++	size1=$(${CONFIG_SHELL} "${srctree}scripts/file-size.sh" ${kallsymso_prev})
++	size2=$(${CONFIG_SHELL} "${srctree}scripts/file-size.sh" ${kallsymso})
+ 
+ 	if [ $size1 -ne $size2 ] || [ -n "${KALLSYMS_EXTRA_PASS}" ]; then
+ 		kallsyms_step 3
 -- 
 2.39.2
 
