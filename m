@@ -1,155 +1,152 @@
-Return-Path: <linux-kbuild+bounces-1102-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1103-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3A8986EB9D
-	for <lists+linux-kbuild@lfdr.de>; Fri,  1 Mar 2024 23:16:21 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42A9686F38C
+	for <lists+linux-kbuild@lfdr.de>; Sun,  3 Mar 2024 05:00:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id ACD94B2250F
-	for <lists+linux-kbuild@lfdr.de>; Fri,  1 Mar 2024 22:16:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5DBDC283F35
+	for <lists+linux-kbuild@lfdr.de>; Sun,  3 Mar 2024 04:00:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA93759158;
-	Fri,  1 Mar 2024 22:16:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADAEC469D;
+	Sun,  3 Mar 2024 04:00:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fvCLSZkX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I6/WB8v0"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B21E859153;
-	Fri,  1 Mar 2024 22:16:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 824007F;
+	Sun,  3 Mar 2024 04:00:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709331373; cv=none; b=PuqygixIG8mj5qgewvNNqVRH0BigzCIUBsC/+8zhk97dMDgWlC9MoBQ/e2DctPGQQb4+vBJqrbUZflRhR71SX9C4FEPZ6HQBKKdtMx8EEgSFh+w9rDRoPZHYtQbFnvSknz+d08DdhUEmr7/yjQg5LhryzhoLm2CU2/ZspeWAxvo=
+	t=1709438440; cv=none; b=pv1I3dQhlv80NrEBqqiBWjDR273PecfH0fqAxET8gBp0/Su6k4FlvAd1hJjUyZ3kWnPiCtYMU5KAogh0BoCs5fqu0uQ4IMoDJGKCpJip7SguylhH3prMYL5S5iee44o7vEYaB864oNeh12bsKR75GF9yhtTTfkbm0WKGwoHXu5U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709331373; c=relaxed/simple;
-	bh=LJuIQFukpHI3j0cJHkQpRofhGTNtPQXNa5W8OdNEN1s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qFsT6sscip50f0zaS5Ow802y9osJ+FrNz77aLpPHIdHm5DFoXDcXeMI00lU+T3JlmrLnXIlWOZ19lOPT+sJhRhqLY0rbcy/C52HgrE6qpnUuwD/OGgydaRH0WCnIo+9lY6axmyQKR5/0roVMx7Xg94ilY2DqzfTKOMYAiQ8WFG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fvCLSZkX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D14F2C433C7;
-	Fri,  1 Mar 2024 22:16:12 +0000 (UTC)
+	s=arc-20240116; t=1709438440; c=relaxed/simple;
+	bh=Mxd0x4K9NZGsIbjj7+JyTXQS+jqX7z7/GCh2qtsgiqY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=udCM0OeR4eI45p32Mw62yQWR4kM+gf3I1DJjqIOJuZKnf998fiQpAHuBYQB1Vf9eTsgZ44DexeTOo2sMOi/wZbWyAMjH93QF7WGa8NBE7u+VExd3PCiCsBZALQ/CtTEi0vFu4IPo8f7ET4KtN/qL0EFz6aZz6GOSx0DZwWa3ugU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I6/WB8v0; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BB65C433F1;
+	Sun,  3 Mar 2024 04:00:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709331373;
-	bh=LJuIQFukpHI3j0cJHkQpRofhGTNtPQXNa5W8OdNEN1s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fvCLSZkXt1+PGO47H7i+AifOOEsxZKS2EW6eRbXy+jsraAQbc1qGPFDZm7vujNyUj
-	 DfRxLO3w0R/PBlCgs+dud76hc3xY6nlwFSOkkh8m4k+wc2UtpjCPWzHHflK6E395+Z
-	 V1JKczDaugpVP6z5Z/OkzpYa5NZ9E+T03S8zUf949DGCA4A+kykefxDfczr3rxdGJ7
-	 uFzg27GjuXfjxZRLEU3ZeppT+lAtq/V+L1QCbwWtAfGlo2YBpP1u37Hv69MGHiuTya
-	 DHdDh04f7OKAJpIyWNR6N7w1dRSfySuyGYKuElnXy2yDyYV8NqM7ZqLHngDH4CvRjT
-	 R27dpIJDaqLtQ==
-Date: Fri, 1 Mar 2024 15:16:11 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Nicolas Schier <nicolas@fjasle.eu>
-Subject: Re: [PATCH] kbuild: fix inconsistent indentation in top Makefile
-Message-ID: <20240301221611.GB2610495@thelio-3990X>
-References: <20240301112108.1958281-1-masahiroy@kernel.org>
+	s=k20201202; t=1709438440;
+	bh=Mxd0x4K9NZGsIbjj7+JyTXQS+jqX7z7/GCh2qtsgiqY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=I6/WB8v0xtfAoZ9fO/YJHz0CBTagIz671gnhuLv+pRQSDnvsYOIxdAjZ+RdzKvGpB
+	 x/RXj0TYkydoeb1QXSIiPLUnSV8og78DVG6DyWtmP46FrMao3tq3J4iLKsF4BTCF7Z
+	 AaruHtJujblerzweEmzLJ3qKv211MKvELXbvr30TrU0H0Fqkg4PC8snPHu8clIvJws
+	 GoIWv5B9S6tiqMgiRHU/acj6TecEijtegH3EUe5xaUL2zQWQxojnfThIUEMbLnEPmW
+	 VShbeYPr5HvJAslQJJZbU8QZBuX9XLrqkkwwrGSX60vFcSu0dt5mmyT4RlSbtLGVaQ
+	 1mX0uNlNEd0eQ==
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH 1/3] kconfig: link menus to a symbol
+Date: Sun,  3 Mar 2024 13:00:33 +0900
+Message-Id: <20240303040035.3450914-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240301112108.1958281-1-masahiroy@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Mar 01, 2024 at 08:21:07PM +0900, Masahiro Yamada wrote:
-> Commit 3b9ab248bc45 ("kbuild: use 4-space indentation when followed
-> by conditionals") introduced inconsistent indentation because it
-> deliberately touched only the conditional directives to minimize the
-> change set.
-> 
-> This commit reformats some blocks in the top Makefile so they are
-> consistently indented with 4 spaces.
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Currently, there is no direct link from (struct symbol *) to
+(struct menu *).
 
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+It is still possible to access associated menus through the P_SYMBOL
+property, because property::menu is the relevant menu entry, but it
+results in complex code, as seen in get_symbol_str().
 
-> ---
-> 
->  Makefile | 32 ++++++++++++++++----------------
->  1 file changed, 16 insertions(+), 16 deletions(-)
-> 
-> diff --git a/Makefile b/Makefile
-> index d84c0fb215fd..859b0f52949e 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -295,51 +295,51 @@ single-build	:=
->  
->  ifneq ($(filter $(no-dot-config-targets), $(MAKECMDGOALS)),)
->      ifeq ($(filter-out $(no-dot-config-targets), $(MAKECMDGOALS)),)
-> -		need-config :=
-> +        need-config :=
->      endif
->  endif
->  
->  ifneq ($(filter $(no-sync-config-targets), $(MAKECMDGOALS)),)
->      ifeq ($(filter-out $(no-sync-config-targets), $(MAKECMDGOALS)),)
-> -		may-sync-config :=
-> +        may-sync-config :=
->      endif
->  endif
->  
->  need-compiler := $(may-sync-config)
->  
->  ifneq ($(KBUILD_EXTMOD),)
-> -	may-sync-config :=
-> +    may-sync-config :=
->  endif
->  
->  ifeq ($(KBUILD_EXTMOD),)
-> -        ifneq ($(filter %config,$(MAKECMDGOALS)),)
-> -		config-build := 1
-> -                ifneq ($(words $(MAKECMDGOALS)),1)
-> -			mixed-build := 1
-> -                endif
-> +    ifneq ($(filter %config,$(MAKECMDGOALS)),)
-> +        config-build := 1
-> +        ifneq ($(words $(MAKECMDGOALS)),1)
-> +            mixed-build := 1
->          endif
-> +    endif
->  endif
->  
->  # We cannot build single targets and the others at the same time
->  ifneq ($(filter $(single-targets), $(MAKECMDGOALS)),)
-> -	single-build := 1
-> +    single-build := 1
->      ifneq ($(filter-out $(single-targets), $(MAKECMDGOALS)),)
-> -		mixed-build := 1
-> +        mixed-build := 1
->      endif
->  endif
->  
->  # For "make -j clean all", "make -j mrproper defconfig all", etc.
->  ifneq ($(filter $(clean-targets),$(MAKECMDGOALS)),)
-> -        ifneq ($(filter-out $(clean-targets),$(MAKECMDGOALS)),)
-> -		mixed-build := 1
-> -        endif
-> +    ifneq ($(filter-out $(clean-targets),$(MAKECMDGOALS)),)
-> +        mixed-build := 1
-> +    endif
->  endif
->  
->  # install and modules_install need also be processed one by one
->  ifneq ($(filter install,$(MAKECMDGOALS)),)
-> -        ifneq ($(filter modules_install,$(MAKECMDGOALS)),)
-> -		mixed-build := 1
-> -        endif
-> +    ifneq ($(filter modules_install,$(MAKECMDGOALS)),)
-> +        mixed-build := 1
-> +    endif
->  endif
->  
->  ifdef mixed-build
-> -- 
-> 2.40.1
-> 
+Use a linked list for simpler traversal of relevant menus.
+
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+ scripts/kconfig/expr.h   | 5 +++++
+ scripts/kconfig/menu.c   | 4 +++-
+ scripts/kconfig/symbol.c | 4 ++++
+ 3 files changed, 12 insertions(+), 1 deletion(-)
+
+diff --git a/scripts/kconfig/expr.h b/scripts/kconfig/expr.h
+index 3bc375f1a1cd..0158f5eac454 100644
+--- a/scripts/kconfig/expr.h
++++ b/scripts/kconfig/expr.h
+@@ -108,6 +108,9 @@ struct symbol {
+ 	 */
+ 	tristate visible;
+ 
++	/* config entries associated with this symbol */
++	struct list_head menus;
++
+ 	/* SYMBOL_* flags */
+ 	int flags;
+ 
+@@ -222,6 +225,8 @@ struct menu {
+ 	 */
+ 	struct symbol *sym;
+ 
++	struct list_head link;	/* link to symbol::menus */
++
+ 	/*
+ 	 * The prompt associated with the node. This holds the prompt for a
+ 	 * symbol as well as the text for a menu or comment, along with the
+diff --git a/scripts/kconfig/menu.c b/scripts/kconfig/menu.c
+index 44465945d6b1..571394ed71e0 100644
+--- a/scripts/kconfig/menu.c
++++ b/scripts/kconfig/menu.c
+@@ -57,8 +57,10 @@ void menu_add_entry(struct symbol *sym)
+ 	*last_entry_ptr = menu;
+ 	last_entry_ptr = &menu->next;
+ 	current_entry = menu;
+-	if (sym)
++	if (sym) {
+ 		menu_add_symbol(P_SYMBOL, sym, NULL);
++		list_add_tail(&menu->link, &sym->menus);
++	}
+ }
+ 
+ struct menu *menu_add_menu(void)
+diff --git a/scripts/kconfig/symbol.c b/scripts/kconfig/symbol.c
+index dd5cf9727a9a..81fe1884ef8a 100644
+--- a/scripts/kconfig/symbol.c
++++ b/scripts/kconfig/symbol.c
+@@ -15,18 +15,21 @@
+ struct symbol symbol_yes = {
+ 	.name = "y",
+ 	.curr = { "y", yes },
++	.menus = LIST_HEAD_INIT(symbol_yes.menus),
+ 	.flags = SYMBOL_CONST|SYMBOL_VALID,
+ };
+ 
+ struct symbol symbol_mod = {
+ 	.name = "m",
+ 	.curr = { "m", mod },
++	.menus = LIST_HEAD_INIT(symbol_mod.menus),
+ 	.flags = SYMBOL_CONST|SYMBOL_VALID,
+ };
+ 
+ struct symbol symbol_no = {
+ 	.name = "n",
+ 	.curr = { "n", no },
++	.menus = LIST_HEAD_INIT(symbol_no.menus),
+ 	.flags = SYMBOL_CONST|SYMBOL_VALID,
+ };
+ 
+@@ -838,6 +841,7 @@ struct symbol *sym_lookup(const char *name, int flags)
+ 	symbol->name = new_name;
+ 	symbol->type = S_UNKNOWN;
+ 	symbol->flags = flags;
++	INIT_LIST_HEAD(&symbol->menus);
+ 
+ 	hash_add(sym_hashtable, &symbol->node, hash);
+ 
+-- 
+2.40.1
+
 
