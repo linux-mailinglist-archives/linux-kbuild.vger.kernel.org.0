@@ -1,48 +1,49 @@
-Return-Path: <linux-kbuild+bounces-1139-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1122-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCDF186F8B4
-	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Mar 2024 03:53:35 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 826C286F88C
+	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Mar 2024 03:26:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 46E6B1F21452
-	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Mar 2024 02:53:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A649F1C209E3
+	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Mar 2024 02:26:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6352017CE;
-	Mon,  4 Mar 2024 02:53:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DAD2A138A;
+	Mon,  4 Mar 2024 02:26:55 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from mailhost.m5p.com (mailhost.m5p.com [74.104.188.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 428A917C9
-	for <linux-kbuild@vger.kernel.org>; Mon,  4 Mar 2024 02:53:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3DFA15B7
+	for <linux-kbuild@vger.kernel.org>; Mon,  4 Mar 2024 02:26:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.104.188.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709520813; cv=none; b=TMNuQiyRbpbih5hV6oQbGefKqSncmonKaQU5JfxpDHnlx8hH22ugEegoC5nPkakooFMtjGlM4VsjshvJD8jJ8latT9xPBzWr5LM2l8/Mv+qtR8W9+XwLIPdOgMSjiUz01vrNWomGyOKJhkRsptl1SJXt2E/0lkcaa8L9qvMpRRQ=
+	t=1709519215; cv=none; b=P8uTfZz8O0TcEPKjxRGUGwJSSMxBi6upjXQ12dC2L/I0oi/4RWGxfIvKS4BrG/VxKpBgcDEyMylHVclO4kZ8jZgwOgeEoshvxG89+jqeqp8EdOkBzfFTT2N05N2+A+xSgH8JAG00o/hs5KYLw0BfJEJpz6DPNGkNnG7AAqvBBc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709520813; c=relaxed/simple;
-	bh=SYqfYX4Q1A2cDRtRSc0sb6ysqXYpu//UWB2SYVgYoPA=;
-	h=Message-Id:In-Reply-To:References:From:Date:Subject:To:Cc; b=fusHHRY/2oTjGZn00Simc71LZPQbgNPPejKpLgHq/sMHUwzcphF3MvtbW99DC9U3Om7xLx+YrR/H7A3tmuB1b3REGFjcbYpW+gjcfYd2cTEJj+u/QbUek95hAV1RaJNF76/qLKXOdznTCvVLBXNB1s1+Zv+zL7dV9Zrxc3lmjAw=
+	s=arc-20240116; t=1709519215; c=relaxed/simple;
+	bh=DS3tdStKeVV5GgPx4dYKlELG1quNAcnmhcG3RmA/fUM=;
+	h=Message-Id:In-Reply-To:References:From:Date:Subject:To:Cc; b=AhTbbd/F1HwDXr7ZAJ7x6nJHr0xTjLIsjhZWjC2K3cvo6U79D/Vmgm4fBNiwQom5uNVnRPJWqznK5xFSjzPjIZGvvK4Qw5JiVqP69aW/g75yK99MUCEeGKF6wE5Po3pq+zZaOb4vHxQB0DFvA3UysXOhBpgqKCZOeehaPwLvKh8=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=m5p.com; spf=pass smtp.mailfrom=m5p.com; arc=none smtp.client-ip=74.104.188.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=m5p.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=m5p.com
 Received: from m5p.com (mailhost.m5p.com [IPv6:2001:470:1f07:15ff:0:0:0:f7])
-	by mailhost.m5p.com (8.17.1/8.15.2) with ESMTPS id 4242mONC022143
+	by mailhost.m5p.com (8.17.1/8.15.2) with ESMTPS id 4242PXHw021928
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-	Sun, 3 Mar 2024 21:48:30 -0500 (EST)
+	Sun, 3 Mar 2024 21:25:38 -0500 (EST)
 	(envelope-from ehem@m5p.com)
 Received: (from ehem@localhost)
-	by m5p.com (8.17.1/8.15.2/Submit) id 4242mOXg022142;
-	Sun, 3 Mar 2024 18:48:24 -0800 (PST)
+	by m5p.com (8.17.1/8.15.2/Submit) id 4242PVoT021927;
+	Sun, 3 Mar 2024 18:25:31 -0800 (PST)
 	(envelope-from ehem)
-Message-Id: <2e40038d1cbd233e6c37e99fc432f4644859115e.1709508292.git.ehem+linux@m5p.com>
+Message-Id: <491ac1cbd85474eff9e189d0a64945f2f79cc8cc.1709508291.git.ehem+linux@m5p.com>
 In-Reply-To: <cover.1709508290.git.ehem+linux@m5p.com>
 References: <cover.1709508290.git.ehem+linux@m5p.com>
 From: Elliott Mitchell <ehem+linux@m5p.com>
 Date: Sun, 3 Mar 2024 15:24:50 -0800
-Subject: [WIP PATCH 27/30] tools/build: add trailing slash to $(*tree)
+Subject: [WIP PATCH 13/30] scripts: modify uses of $(objtree) to assume
+ trailing slash
 To: masahiroy@kernel.org, nathan@kernel.org, nicolas@fjasle.eu
 Cc: linux-kbuild@vger.kernel.org
 X-Spam-Level: *
@@ -54,461 +55,292 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 
 Date: Tue, 20 Feb 2024 09:13:37 -0800
 
-This better handles the case of $(srctree) being the current directory
-and $(src) being an absolute path.  Instead of being ".", $(srctree)
-ends up empty, and $(src) can be directly appended.
-
-Replicate this action for $(objtree) since it has similar issues.
+This isn't much more than `find | sed` to adjust all uses of $(objtree).
+This is split into a separate commit to highlight the actual changes to
+the build machinery.
 
 Signed-off-by: Elliott Mitchell <ehem+linux@m5p.com>
 ---
-I suspect the Makefile sections besides the top-level are attempting to
-solve the *exact* *same* issue.  Problem is that workaround requires
-changes in every Makefile, whereas this looks closer to the root cause.
+`grep` was also used to locate things which needed other actions
+(notably the non-toplevel Makefile adjustments), but this is roughly:
+find . -name Makefile\* -print0 | xargs -0 sed -i -e's,$(objtree)$,$(objtree:%/=%),' -e's,$(objtree)\([^,/]\),$(objtree:%/=%)\1,g' -es',$(objtree)/,$(objtree),g'
 
-I'm less than 100% sure I've avoided all spacing changes.  I forget
-where, but I seem to recall running into a space which was instead a tab.
-
-`find tools -name Makefile* -print0 | xargs -0 grep -e^\[\[:space:\]\]\*srctree.\*=`
-is a handy way to locate these.
+There could be goofs in here or missed bits.  I hope not, but...
 ---
- tools/bootconfig/Makefile                   | 4 ++--
- tools/bpf/Makefile                          | 4 ++--
- tools/bpf/bpftool/Makefile                  | 6 +++---
- tools/build/Makefile                        | 4 ++--
- tools/counter/Makefile                      | 4 ++--
- tools/gpio/Makefile                         | 4 ++--
- tools/hv/Makefile                           | 4 ++--
- tools/iio/Makefile                          | 4 ++--
- tools/include/nolibc/Makefile               | 2 +-
- tools/lib/api/Makefile                      | 6 +++---
- tools/lib/bpf/Makefile                      | 6 +++---
- tools/lib/perf/Makefile                     | 6 +++---
- tools/lib/subcmd/Makefile                   | 6 +++---
- tools/lib/symbol/Makefile                   | 6 +++---
- tools/lib/thermal/Makefile                  | 6 +++---
- tools/objtool/Makefile                      | 4 ++--
- tools/pci/Makefile                          | 4 ++--
- tools/perf/Makefile.perf                    | 4 ++--
- tools/power/acpi/Makefile.config            | 4 ++--
- tools/power/x86/intel-speed-select/Makefile | 8 ++++----
- tools/spi/Makefile                          | 4 ++--
- tools/testing/selftests/nolibc/Makefile     | 2 +-
- tools/thermal/lib/Makefile                  | 6 +++---
- tools/thermal/thermal-engine/Makefile       | 6 +++---
- tools/thermal/thermometer/Makefile          | 6 +++---
- tools/usb/Makefile                          | 4 ++--
- 26 files changed, 62 insertions(+), 62 deletions(-)
+ scripts/Makefile.build       |  8 ++++----
+ scripts/Makefile.defconf     |  4 ++--
+ scripts/Makefile.gcc-plugins |  2 +-
+ scripts/Makefile.headersinst |  2 +-
+ scripts/Makefile.host        |  6 +++---
+ scripts/Makefile.kcov        |  2 +-
+ scripts/Makefile.lib         | 18 +++++++++---------
+ scripts/Makefile.package     |  8 ++++----
+ scripts/Makefile.randstruct  |  4 ++--
+ scripts/basic/Makefile       |  2 +-
+ scripts/gcc-plugins/Makefile |  2 +-
+ scripts/selinux/mdp/Makefile |  2 +-
+ 12 files changed, 30 insertions(+), 30 deletions(-)
 
-diff --git a/tools/bootconfig/Makefile b/tools/bootconfig/Makefile
-index 566c3e0ee561..605c0798a83d 100644
---- a/tools/bootconfig/Makefile
-+++ b/tools/bootconfig/Makefile
-@@ -5,8 +5,8 @@ include ../scripts/Makefile.include
- bindir ?= /usr/bin
+diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+index 176e1909b055..46fc6f2efe1a 100644
+--- a/scripts/Makefile.build
++++ b/scripts/Makefile.build
+@@ -192,7 +192,7 @@ endif
+ # files, including recordmcount.
+ sub_cmd_record_mcount =					\
+ 	if [ $(@) != "scripts/mod/empty.o" ]; then	\
+-		$(objtree)/scripts/recordmcount $(RECORDMCOUNT_FLAGS) "$(@)";	\
++		$(objtree)scripts/recordmcount $(RECORDMCOUNT_FLAGS) "$(@)";	\
+ 	fi;
+ recordmcount_source := $(srctree)scripts/recordmcount.c \
+ 		    $(srctree)scripts/recordmcount.h
+@@ -273,7 +273,7 @@ rust_common_cmd = \
+ 	-Zcrate-attr=no_std \
+ 	-Zcrate-attr='feature($(rust_allowed_features))' \
+ 	--extern alloc --extern kernel \
+-	--crate-type rlib -L $(objtree)/rust/ \
++	--crate-type rlib -L $(objtree)rust/ \
+ 	--crate-name $(basename $(notdir $@)) \
+ 	--sysroot=/dev/null \
+ 	--out-dir $(dir $@) --emit=dep-info=$(depfile)
+@@ -376,10 +376,10 @@ $(obj)/%.lds: $(src)/%.lds.S FORCE
+ # ASN.1 grammar
+ # ---------------------------------------------------------------------------
+ quiet_cmd_asn1_compiler = ASN.1   $(basename $@).[ch]
+-      cmd_asn1_compiler = $(objtree)/scripts/asn1_compiler $< \
++      cmd_asn1_compiler = $(objtree)scripts/asn1_compiler $< \
+ 				$(basename $@).c $(basename $@).h
  
- ifeq ($(srctree),)
--srctree := $(patsubst %/,%,$(dir $(CURDIR)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=%))
+-$(obj)/%.asn1.c $(obj)/%.asn1.h: $(src)/%.asn1 $(objtree)/scripts/asn1_compiler
++$(obj)/%.asn1.c $(obj)/%.asn1.h: $(src)/%.asn1 $(objtree)scripts/asn1_compiler
+ 	$(call cmd,asn1_compiler)
+ 
+ # Build the compiled-in targets
+diff --git a/scripts/Makefile.defconf b/scripts/Makefile.defconf
+index ff6a8345d1bf..51d27001abf3 100644
+--- a/scripts/Makefile.defconf
++++ b/scripts/Makefile.defconf
+@@ -9,7 +9,7 @@
+ # Input config fragments without '.config' suffix
+ define merge_into_defconfig
+ 	$(Q)$(CONFIG_SHELL) $(srctree)scripts/kconfig/merge_config.sh \
+-		-m -O $(objtree) $(srctree)arch/$(SRCARCH)/configs/$(1) \
++		-m -O $(objtree:%/=%) $(srctree)arch/$(SRCARCH)/configs/$(1) \
+ 		$(foreach config,$(2),$(srctree)arch/$(SRCARCH)/configs/$(config).config)
+ 	+$(Q)$(MAKE) -f $(srctree)Makefile olddefconfig
+ endef
+@@ -23,7 +23,7 @@ endef
+ # Input config fragments without '.config' suffix
+ define merge_into_defconfig_override
+ 	$(Q)$(CONFIG_SHELL) $(srctree)scripts/kconfig/merge_config.sh \
+-		-Q -m -O $(objtree) $(srctree)arch/$(SRCARCH)/configs/$(1) \
++		-Q -m -O $(objtree:%/=%) $(srctree)arch/$(SRCARCH)/configs/$(1) \
+ 		$(foreach config,$(2),$(srctree)arch/$(SRCARCH)/configs/$(config).config)
+ 	+$(Q)$(MAKE) -f $(srctree)Makefile olddefconfig
+ endef
+diff --git a/scripts/Makefile.gcc-plugins b/scripts/Makefile.gcc-plugins
+index e4deaf5fa571..f335e0d1399e 100644
+--- a/scripts/Makefile.gcc-plugins
++++ b/scripts/Makefile.gcc-plugins
+@@ -44,7 +44,7 @@ export DISABLE_ARM_SSP_PER_TASK_PLUGIN
+ 
+ # All the plugin CFLAGS are collected here in case a build target needs to
+ # filter them out of the KBUILD_CFLAGS.
+-GCC_PLUGINS_CFLAGS := $(strip $(addprefix -fplugin=$(objtree)/scripts/gcc-plugins/, $(gcc-plugin-y)) $(gcc-plugin-cflags-y))
++GCC_PLUGINS_CFLAGS := $(strip $(addprefix -fplugin=$(objtree)scripts/gcc-plugins/, $(gcc-plugin-y)) $(gcc-plugin-cflags-y))
+ export GCC_PLUGINS_CFLAGS
+ 
+ # Add the flags to the build!
+diff --git a/scripts/Makefile.headersinst b/scripts/Makefile.headersinst
+index a6423d395c02..bafb60333e47 100644
+--- a/scripts/Makefile.headersinst
++++ b/scripts/Makefile.headersinst
+@@ -15,7 +15,7 @@ __headers:
+ include $(srctree)scripts/Kbuild.include
+ 
+ src := $(srctree)$(obj)
+-gen := $(objtree)/$(subst include/,include/generated/,$(obj))
++gen := $(objtree)$(subst include/,include/generated/,$(obj))
+ dst := usr/include
+ 
+ -include $(src)/Kbuild
+diff --git a/scripts/Makefile.host b/scripts/Makefile.host
+index 08d83d9db31a..7c6ebbe9c728 100644
+--- a/scripts/Makefile.host
++++ b/scripts/Makefile.host
+@@ -96,11 +96,11 @@ hostrust_flags = --out-dir $(dir $@) --emit=dep-info=$(depfile) \
+                  $(KBUILD_HOSTRUSTFLAGS) $(HOST_EXTRARUSTFLAGS) \
+                  $(HOSTRUSTFLAGS_$(target-stem))
+ 
+-# $(objtree)/$(obj) for including generated headers from checkin source files
++# $(objtree)$(obj) for including generated headers from checkin source files
+ ifeq ($(KBUILD_EXTMOD),)
+ ifdef building_out_of_srctree
+-hostc_flags   += -I $(objtree)/$(obj)
+-hostcxx_flags += -I $(objtree)/$(obj)
++hostc_flags   += -I $(objtree)$(obj)
++hostcxx_flags += -I $(objtree)$(obj)
+ endif
  endif
  
- LIBSRC = $(srctree)/lib/bootconfig.c $(srctree)/include/linux/bootconfig.h
-diff --git a/tools/bpf/Makefile b/tools/bpf/Makefile
-index 243b79f2b451..b12ff0126cf6 100644
---- a/tools/bpf/Makefile
-+++ b/tools/bpf/Makefile
-@@ -23,8 +23,8 @@ ifndef building_out_of_srctree
- update_srctree := 1
- endif
- ifeq ($(update_srctree),1)
--srctree := $(patsubst %/,%,$(dir $(CURDIR)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=%))
- endif
+diff --git a/scripts/Makefile.kcov b/scripts/Makefile.kcov
+index 67e8cfe3474b..5d3d3d711b7a 100644
+--- a/scripts/Makefile.kcov
++++ b/scripts/Makefile.kcov
+@@ -1,6 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ kcov-flags-$(CONFIG_CC_HAS_SANCOV_TRACE_PC)	+= -fsanitize-coverage=trace-pc
+ kcov-flags-$(CONFIG_KCOV_ENABLE_COMPARISONS)	+= -fsanitize-coverage=trace-cmp
+-kcov-flags-$(CONFIG_GCC_PLUGIN_SANCOV)		+= -fplugin=$(objtree)/scripts/gcc-plugins/sancov_plugin.so
++kcov-flags-$(CONFIG_GCC_PLUGIN_SANCOV)		+= -fplugin=$(objtree)scripts/gcc-plugins/sancov_plugin.so
  
- ifeq ($(V),1)
-diff --git a/tools/bpf/bpftool/Makefile b/tools/bpf/bpftool/Makefile
-index e9154ace80ff..34b55ae53d0a 100644
---- a/tools/bpf/bpftool/Makefile
-+++ b/tools/bpf/bpftool/Makefile
-@@ -2,9 +2,9 @@
- include ../../scripts/Makefile.include
- 
- ifeq ($(srctree),)
--srctree := $(patsubst %/,%,$(dir $(CURDIR)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=%))
-+srctree := $(dir $(srctree:%/=%))
+ export CFLAGS_KCOV := $(kcov-flags-y)
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index 1c77fc1185e5..34aa26fe54f8 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -201,12 +201,12 @@ _c_flags += $(if $(patsubst n%,, \
  endif
  
- ifeq ($(V),1)
-diff --git a/tools/build/Makefile b/tools/build/Makefile
-index 17cdf01e29a0..cdebad6f1bfb 100644
---- a/tools/build/Makefile
-+++ b/tools/build/Makefile
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0
- ifeq ($(srctree),)
--srctree := $(patsubst %/,%,$(dir $(CURDIR)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=%))
+ # $(srctree)$(src) for including checkin headers from generated source files
+-# $(objtree)/$(obj) for including generated headers from checkin source files
++# $(objtree)$(obj) for including generated headers from checkin source files
+ ifeq ($(KBUILD_EXTMOD),)
+ ifdef building_out_of_srctree
+-_c_flags   += -I $(srctree)$(src) -I $(objtree)/$(obj)
+-_a_flags   += -I $(srctree)$(src) -I $(objtree)/$(obj)
+-_cpp_flags += -I $(srctree)$(src) -I $(objtree)/$(obj)
++_c_flags   += -I $(srctree)$(src) -I $(objtree)$(obj)
++_a_flags   += -I $(srctree)$(src) -I $(objtree)$(obj)
++_cpp_flags += -I $(srctree)$(src) -I $(objtree)$(obj)
+ endif
  endif
  
- include $(srctree)/tools//scripts/Makefile.include
-diff --git a/tools/counter/Makefile b/tools/counter/Makefile
-index d82d35a520f6..3d23639fa8fc 100644
---- a/tools/counter/Makefile
-+++ b/tools/counter/Makefile
-@@ -4,8 +4,8 @@ include ../scripts/Makefile.include
- bindir ?= /usr/bin
+@@ -232,7 +232,7 @@ c_flags        = -Wp,-MMD,$(depfile) $(NOSTDINC_FLAGS) $(LINUXINCLUDE)     \
+ 		 $(_c_flags) $(modkern_cflags)                           \
+ 		 $(basename_flags) $(modname_flags)
  
- ifeq ($(srctree),)
--srctree := $(patsubst %/,%,$(dir $(CURDIR)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=%))
+-rust_flags     = $(_rust_flags) $(modkern_rustflags) @$(objtree)/include/generated/rustc_cfg
++rust_flags     = $(_rust_flags) $(modkern_rustflags) @$(objtree)include/generated/rustc_cfg
+ 
+ a_flags        = -Wp,-MMD,$(depfile) $(NOSTDINC_FLAGS) $(LINUXINCLUDE)     \
+ 		 $(_a_flags) $(modkern_aflags)
+@@ -250,7 +250,7 @@ dtc_cpp_flags  = -Wp,-MMD,$(depfile).pre.tmp -nostdinc                    \
+ 
+ ifdef CONFIG_OBJTOOL
+ 
+-objtool := $(objtree)/tools/objtool/objtool
++objtool := $(objtree)tools/objtool/objtool
+ 
+ objtool-args-$(CONFIG_HAVE_JUMP_LABEL_HACK)		+= --hacks=jump_label
+ objtool-args-$(CONFIG_HAVE_NOINSTR_HACK)		+= --hacks=noinstr
+@@ -339,7 +339,7 @@ quiet_cmd_gzip = GZIP    $@
+ 
+ # DTC
+ # ---------------------------------------------------------------------------
+-DTC ?= $(objtree)/scripts/dtc/dtc
++DTC ?= $(objtree)scripts/dtc/dtc
+ DTC_FLAGS += -Wno-interrupt_provider \
+ 	-Wno-unique_unit_address
+ 
+@@ -396,7 +396,7 @@ cmd_dtc = $(HOSTCC) -E $(dtc_cpp_flags) -x assembler-with-cpp -o $(dtc-tmp) $< ;
+ 	cat $(depfile).pre.tmp $(depfile).dtc.tmp > $(depfile)
+ 
+ quiet_cmd_fdtoverlay = DTOVL   $@
+-      cmd_fdtoverlay = $(objtree)/scripts/dtc/fdtoverlay -o $@ -i $(real-prereqs)
++      cmd_fdtoverlay = $(objtree)scripts/dtc/fdtoverlay -o $@ -i $(real-prereqs)
+ 
+ $(multi-dtb-y): FORCE
+ 	$(call if_changed,fdtoverlay)
+@@ -406,7 +406,7 @@ ifneq ($(CHECK_DTBS)$(CHECK_DT_BINDING),)
+ DT_CHECKER ?= dt-validate
+ DT_CHECKER_FLAGS ?= $(if $(DT_SCHEMA_FILES),-l $(DT_SCHEMA_FILES),-m)
+ DT_BINDING_DIR := Documentation/devicetree/bindings
+-DT_TMP_SCHEMA := $(objtree)/$(DT_BINDING_DIR)/processed-schema.json
++DT_TMP_SCHEMA := $(objtree)$(DT_BINDING_DIR)/processed-schema.json
+ 
+ quiet_cmd_dtb =	DTC_CHK $@
+       cmd_dtb =	$(cmd_dtc) ; $(DT_CHECKER) $(DT_CHECKER_FLAGS) -u $(srctree)$(DT_BINDING_DIR) -p $(DT_TMP_SCHEMA) $@ || true
+diff --git a/scripts/Makefile.package b/scripts/Makefile.package
+index 269f4918d72c..c3234b26e6dc 100644
+--- a/scripts/Makefile.package
++++ b/scripts/Makefile.package
+@@ -131,14 +131,14 @@ deb-pkg srcdeb-pkg bindeb-pkg:
+ # ---------------------------------------------------------------------------
+ PHONY += snap-pkg
+ snap-pkg:
+-	rm -rf $(objtree)/snap
+-	mkdir $(objtree)/snap
++	rm -rf $(objtree)snap
++	mkdir $(objtree)snap
+ 	$(MAKE) clean
+ 	sed "s@KERNELRELEASE@$(KERNELRELEASE)@; \
+ 		s@SRCTREE@$(abs_srctree)@" \
+ 		$(srctree)scripts/package/snapcraft.template > \
+-		$(objtree)/snap/snapcraft.yaml
+-	cd $(objtree)/snap && \
++		$(objtree)snap/snapcraft.yaml
++	cd $(objtree)snap && \
+ 	snapcraft --target-arch=$(UTS_MACHINE)
+ 
+ # dir-pkg tar*-pkg - tarball targets
+diff --git a/scripts/Makefile.randstruct b/scripts/Makefile.randstruct
+index 24e283e89893..38fde99a580c 100644
+--- a/scripts/Makefile.randstruct
++++ b/scripts/Makefile.randstruct
+@@ -4,12 +4,12 @@ randstruct-cflags-y += -DRANDSTRUCT
+ 
+ ifdef CONFIG_GCC_PLUGIN_RANDSTRUCT
+ randstruct-cflags-y	\
+-	+= -fplugin=$(objtree)/scripts/gcc-plugins/randomize_layout_plugin.so
++	+= -fplugin=$(objtree)scripts/gcc-plugins/randomize_layout_plugin.so
+ randstruct-cflags-$(CONFIG_RANDSTRUCT_PERFORMANCE)		\
+ 	+= -fplugin-arg-randomize_layout_plugin-performance-mode
+ else
+ randstruct-cflags-y	\
+-	+= -frandomize-layout-seed-file=$(objtree)/scripts/basic/randstruct.seed
++	+= -frandomize-layout-seed-file=$(objtree)scripts/basic/randstruct.seed
  endif
  
- # Do not use make's built-in rules
-diff --git a/tools/gpio/Makefile b/tools/gpio/Makefile
-index d29c9c49e251..0828ee9e8a16 100644
---- a/tools/gpio/Makefile
-+++ b/tools/gpio/Makefile
-@@ -8,8 +8,8 @@ bindir ?= /usr/bin
- # is set to ".". building_out_of_srctree is undefined for in srctree
- # builds
- ifndef building_out_of_srctree
--srctree := $(patsubst %/,%,$(dir $(CURDIR)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=%))
- endif
+ export RANDSTRUCT_CFLAGS := $(randstruct-cflags-y)
+diff --git a/scripts/basic/Makefile b/scripts/basic/Makefile
+index ea7b56fd3700..47856f8ceefe 100644
+--- a/scripts/basic/Makefile
++++ b/scripts/basic/Makefile
+@@ -10,7 +10,7 @@ gen-randstruct-seed	:= $(srctree)scripts/gen-randstruct-seed.sh
+ quiet_cmd_create_randstruct_seed = GENSEED $@
+ cmd_create_randstruct_seed = \
+ 	$(CONFIG_SHELL) $(gen-randstruct-seed) \
+-		$@ $(objtree)/include/generated/randstruct_hash.h
++		$@ $(objtree)include/generated/randstruct_hash.h
+ $(obj)/randstruct.seed: $(gen-randstruct-seed) FORCE
+ 	$(call if_changed,create_randstruct_seed)
+ always-$(CONFIG_RANDSTRUCT) += randstruct.seed
+diff --git a/scripts/gcc-plugins/Makefile b/scripts/gcc-plugins/Makefile
+index 2b3a1890f742..9cd2b18b9715 100644
+--- a/scripts/gcc-plugins/Makefile
++++ b/scripts/gcc-plugins/Makefile
+@@ -9,7 +9,7 @@ cmd_create_randomize_layout_seed = \
+ 	echo ' * Exposing this value will expose the layout of randomized structures.' >> $@; \
+ 	echo ' */' >> $@; \
+ 	echo "const char *randstruct_seed = \"$$SEED\";" >> $@
+-$(obj)/randomize_layout_seed.h: $(objtree)/scripts/basic/randstruct.seed FORCE
++$(obj)/randomize_layout_seed.h: $(objtree)scripts/basic/randstruct.seed FORCE
+ 	$(call if_changed,create_randomize_layout_seed)
+ targets += randomize_layout_seed.h
  
- # Do not use make's built-in rules
-diff --git a/tools/hv/Makefile b/tools/hv/Makefile
-index fe770e679ae8..6b9f42743c57 100644
---- a/tools/hv/Makefile
-+++ b/tools/hv/Makefile
-@@ -7,8 +7,8 @@ libexecdir ?= /usr/libexec
- sharedstatedir ?= /var/lib
+diff --git a/scripts/selinux/mdp/Makefile b/scripts/selinux/mdp/Makefile
+index f1b64cc46d47..5ee0837ee78d 100644
+--- a/scripts/selinux/mdp/Makefile
++++ b/scripts/selinux/mdp/Makefile
+@@ -2,6 +2,6 @@
+ hostprogs-always-y += mdp
+ HOST_EXTRACFLAGS += \
+ 	-I$(srctree)include/uapi -I$(srctree)include \
+-	-I$(srctree)security/selinux/include -I$(objtree)/include
++	-I$(srctree)security/selinux/include -I$(objtree)include
  
- ifeq ($(srctree),)
--srctree := $(patsubst %/,%,$(dir $(CURDIR)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=%))
- endif
- 
- # Do not use make's built-in rules
-diff --git a/tools/iio/Makefile b/tools/iio/Makefile
-index fa720f062229..f4f64a152457 100644
---- a/tools/iio/Makefile
-+++ b/tools/iio/Makefile
-@@ -4,8 +4,8 @@ include ../scripts/Makefile.include
- bindir ?= /usr/bin
- 
- ifeq ($(srctree),)
--srctree := $(patsubst %/,%,$(dir $(CURDIR)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=%))
- endif
- 
- # Do not use make's built-in rules
-diff --git a/tools/include/nolibc/Makefile b/tools/include/nolibc/Makefile
-index e69c26abe1ea..372a17bf7d36 100644
---- a/tools/include/nolibc/Makefile
-+++ b/tools/include/nolibc/Makefile
-@@ -4,7 +4,7 @@ include ../../scripts/Makefile.include
- 
- # we're in ".../tools/include/nolibc"
- ifeq ($(srctree),)
--srctree := $(patsubst %/tools/include/,%,$(dir $(CURDIR)))
-+srctree := $(patsubst %tools/include/,%,$(dir $(CURDIR)))
- endif
- 
- # when run as make -C tools/ nolibc_<foo> the arch is not set
-diff --git a/tools/lib/api/Makefile b/tools/lib/api/Makefile
-index 044860ac1ed1..74e774984d83 100644
---- a/tools/lib/api/Makefile
-+++ b/tools/lib/api/Makefile
-@@ -3,9 +3,9 @@ include ../../scripts/Makefile.include
- include ../../scripts/utilities.mak		# QUIET_CLEAN
- 
- ifeq ($(srctree),)
--srctree := $(patsubst %/,%,$(dir $(CURDIR)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=%))
-+srctree := $(dir $(srctree:%/=%))
- #$(info Determined 'srctree' to be $(srctree))
- endif
- 
-diff --git a/tools/lib/bpf/Makefile b/tools/lib/bpf/Makefile
-index 4be7144e4803..66970cf138fc 100644
---- a/tools/lib/bpf/Makefile
-+++ b/tools/lib/bpf/Makefile
-@@ -18,9 +18,9 @@ MAKEFLAGS += --no-print-directory
- # is a ".". building_out_of_srctree is undefined for in srctree
- # builds
- ifndef building_out_of_srctree
--srctree := $(patsubst %/,%,$(dir $(CURDIR)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=%))
-+srctree := $(dir $(srctree:%/=%))
- #$(info Determined 'srctree' to be $(srctree))
- endif
- 
-diff --git a/tools/lib/perf/Makefile b/tools/lib/perf/Makefile
-index 3a9b2140aa04..3e998b2af153 100644
---- a/tools/lib/perf/Makefile
-+++ b/tools/lib/perf/Makefile
-@@ -8,9 +8,9 @@ LIBPERF_EXTRAVERSION = 1
- MAKEFLAGS += --no-print-directory
- 
- ifeq ($(srctree),)
--srctree := $(patsubst %/,%,$(dir $(CURDIR)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=%))
-+srctree := $(dir $(srctree:%/=%))
- #$(info Determined 'srctree' to be $(srctree))
- endif
- 
-diff --git a/tools/lib/subcmd/Makefile b/tools/lib/subcmd/Makefile
-index b87213263a5e..fdd0bf03fd6d 100644
---- a/tools/lib/subcmd/Makefile
-+++ b/tools/lib/subcmd/Makefile
-@@ -3,9 +3,9 @@ include ../../scripts/Makefile.include
- include ../../scripts/utilities.mak		# QUIET_CLEAN
- 
- ifeq ($(srctree),)
--srctree := $(patsubst %/,%,$(dir $(CURDIR)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=%))
-+srctree := $(dir $(srctree:%/=%))
- #$(info Determined 'srctree' to be $(srctree))
- endif
- 
-diff --git a/tools/lib/symbol/Makefile b/tools/lib/symbol/Makefile
-index 13d43c6f92b4..1f2390d1c0e0 100644
---- a/tools/lib/symbol/Makefile
-+++ b/tools/lib/symbol/Makefile
-@@ -3,9 +3,9 @@ include ../../scripts/Makefile.include
- include ../../scripts/utilities.mak		# QUIET_CLEAN
- 
- ifeq ($(srctree),)
--srctree := $(patsubst %/,%,$(dir $(CURDIR)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=%))
-+srctree := $(dir $(srctree:%/=%))
- #$(info Determined 'srctree' to be $(srctree))
- endif
- 
-diff --git a/tools/lib/thermal/Makefile b/tools/lib/thermal/Makefile
-index 2d0d255fd0e1..8c78b2540156 100644
---- a/tools/lib/thermal/Makefile
-+++ b/tools/lib/thermal/Makefile
-@@ -8,9 +8,9 @@ LIBTHERMAL_EXTRAVERSION = 1
- MAKEFLAGS += --no-print-directory
- 
- ifeq ($(srctree),)
--srctree := $(patsubst %/,%,$(dir $(CURDIR)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=%))
-+srctree := $(dir $(srctree:%/=%))
- # $(info Determined 'srctree' to be $(srctree))
- endif
- 
-diff --git a/tools/objtool/Makefile b/tools/objtool/Makefile
-index 83b100c1e7f6..714bf362b59c 100644
---- a/tools/objtool/Makefile
-+++ b/tools/objtool/Makefile
-@@ -3,8 +3,8 @@ include ../scripts/Makefile.include
- include ../scripts/Makefile.arch
- 
- ifeq ($(srctree),)
--srctree := $(patsubst %/,%,$(dir $(CURDIR)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=%))
- endif
- 
- LIBSUBCMD_DIR = $(srctree)/tools/lib/subcmd/
-diff --git a/tools/pci/Makefile b/tools/pci/Makefile
-index 57744778b518..913c9d29bfb2 100644
---- a/tools/pci/Makefile
-+++ b/tools/pci/Makefile
-@@ -4,8 +4,8 @@ include ../scripts/Makefile.include
- bindir ?= /usr/bin
- 
- ifeq ($(srctree),)
--srctree := $(patsubst %/,%,$(dir $(CURDIR)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=%))
- endif
- 
- # Do not use make's built-in rules
-diff --git a/tools/perf/Makefile.perf b/tools/perf/Makefile.perf
-index f8774a9b1377..4ff08babcecc 100644
---- a/tools/perf/Makefile.perf
-+++ b/tools/perf/Makefile.perf
-@@ -144,8 +144,8 @@ LC_NUMERIC=C
- export LC_COLLATE LC_NUMERIC
- 
- ifeq ($(srctree),)
--srctree := $(patsubst %/,%,$(dir $(CURDIR)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=%))
- #$(info Determined 'srctree' to be $(srctree))
- endif
- 
-diff --git a/tools/power/acpi/Makefile.config b/tools/power/acpi/Makefile.config
-index cd7106876a5f..7df61e8ad7be 100644
---- a/tools/power/acpi/Makefile.config
-+++ b/tools/power/acpi/Makefile.config
-@@ -6,8 +6,8 @@
- #
- 
- ifeq ($(srctree),)
--srctree := $(patsubst %/,%,$(dir $(shell pwd)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=%))
- #$(info Determined 'srctree' to be $(srctree))
- endif
- 
-diff --git a/tools/power/x86/intel-speed-select/Makefile b/tools/power/x86/intel-speed-select/Makefile
-index 7221f2f55e8b..fcb13e08effe 100644
---- a/tools/power/x86/intel-speed-select/Makefile
-+++ b/tools/power/x86/intel-speed-select/Makefile
-@@ -4,10 +4,10 @@ include ../../../scripts/Makefile.include
- bindir ?= /usr/bin
- 
- ifeq ($(srctree),)
--srctree := $(patsubst %/,%,$(dir $(CURDIR)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=%))
-+srctree := $(dir $(srctree:%/=%))
-+srctree := $(dir $(srctree:%/=%))
- endif
- 
- # Do not use make's built-in rules
-diff --git a/tools/spi/Makefile b/tools/spi/Makefile
-index 7fccd245a535..c511864f270b 100644
---- a/tools/spi/Makefile
-+++ b/tools/spi/Makefile
-@@ -4,8 +4,8 @@ include ../scripts/Makefile.include
- bindir ?= /usr/bin
- 
- ifeq ($(srctree),)
--srctree := $(patsubst %/,%,$(dir $(CURDIR)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=%))
- endif
- 
- # Do not use make's built-in rules
-diff --git a/tools/testing/selftests/nolibc/Makefile b/tools/testing/selftests/nolibc/Makefile
-index 40dd95228051..acfd59dcba56 100644
---- a/tools/testing/selftests/nolibc/Makefile
-+++ b/tools/testing/selftests/nolibc/Makefile
-@@ -13,7 +13,7 @@ endif
- 
- # we're in ".../tools/testing/selftests/nolibc"
- ifeq ($(srctree),)
--srctree := $(patsubst %/tools/testing/selftests/,%,$(dir $(CURDIR)))
-+srctree := $(patsubst %tools/testing/selftests/,%,$(dir $(CURDIR)))
- endif
- 
- ifeq ($(ARCH),)
-diff --git a/tools/thermal/lib/Makefile b/tools/thermal/lib/Makefile
-index 82db451935c5..f5323c5a9ca0 100644
---- a/tools/thermal/lib/Makefile
-+++ b/tools/thermal/lib/Makefile
-@@ -8,9 +8,9 @@ LIBTHERMAL_TOOLS_EXTRAVERSION = 1
- MAKEFLAGS += --no-print-directory
- 
- ifeq ($(srctree),)
--srctree := $(patsubst %/,%,$(dir $(CURDIR)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=%))
-+srctree := $(dir $(srctree:%/=%))
- # $(info Determined 'srctree' to be $(srctree))
- endif
- 
-diff --git a/tools/thermal/thermal-engine/Makefile b/tools/thermal/thermal-engine/Makefile
-index 6bd05ff89485..5bc3bc70a418 100644
---- a/tools/thermal/thermal-engine/Makefile
-+++ b/tools/thermal/thermal-engine/Makefile
-@@ -2,9 +2,9 @@
- # Makefile for thermal tools
- 
- ifeq ($(srctree),)
--srctree := $(patsubst %/,%,$(dir $(CURDIR)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=%))
-+srctree := $(dir $(srctree:%/=%))
- # $(info Determined 'srctree' to be $(srctree))
- endif
- 
-diff --git a/tools/thermal/thermometer/Makefile b/tools/thermal/thermometer/Makefile
-index d8f8bc82fe3b..624359d3503c 100644
---- a/tools/thermal/thermometer/Makefile
-+++ b/tools/thermal/thermometer/Makefile
-@@ -2,9 +2,9 @@
- # Makefile for cgroup tools
- 
- ifeq ($(srctree),)
--srctree := $(patsubst %/,%,$(dir $(CURDIR)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=%))
-+srctree := $(dir $(srctree:%/=%))
- # $(info Determined 'srctree' to be $(srctree))
- endif
- 
-diff --git a/tools/usb/Makefile b/tools/usb/Makefile
-index c6235667dd46..6f80415d04be 100644
---- a/tools/usb/Makefile
-+++ b/tools/usb/Makefile
-@@ -5,8 +5,8 @@ include ../scripts/Makefile.include
- bindir ?= /usr/bin
- 
- ifeq ($(srctree),)
--srctree := $(patsubst %/,%,$(dir $(CURDIR)))
--srctree := $(patsubst %/,%,$(dir $(srctree)))
-+srctree := $(dir $(CURDIR))
-+srctree := $(dir $(srctree:%/=$))
- endif
- 
- # Do not use make's built-in rules
+ clean-files	:= policy.* file_contexts
 -- 
 2.39.2
 
