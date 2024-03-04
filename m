@@ -1,186 +1,109 @@
-Return-Path: <linux-kbuild+bounces-1141-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1142-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5299586F941
-	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Mar 2024 05:37:16 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F55F86FA37
+	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Mar 2024 07:47:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CF6301F21615
-	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Mar 2024 04:37:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0C5C9280F03
+	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Mar 2024 06:47:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 901C233CE;
-	Mon,  4 Mar 2024 04:37:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 344B311713;
+	Mon,  4 Mar 2024 06:47:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="MDn5p9VB"
+	dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b="bnySA/Af"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.avm.de (mail.avm.de [212.42.244.119])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A05E317C8
-	for <linux-kbuild@vger.kernel.org>; Mon,  4 Mar 2024 04:37:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 689BE1170A;
+	Mon,  4 Mar 2024 06:47:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.119
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709527030; cv=none; b=l8pP81Pk15hmUEt9SqyI3jujvXLjjlyokG1LdePmAtzXkEg45IeA+n4fk/+dqDncD11RwnjywiURDAt/Pr63WbZo+0kEggAAxQqQfuOAE/y4u6CJf8yYvni5A8qK/WuCWDdnpkXFeZnjzel4vs9KT6heYzwYQx02xm3UAlxj1Qc=
+	t=1709534870; cv=none; b=HjCOnqo8pkDnGE9iY9BYxEGYyhjSY650B+xeuyA+PiShWZaJuO6YqNzBGPf5zKnDwgCA0rxPuHkig3ZLelAlvEJaaQ3qp1gtnAQflapIm8BhDFgd2IFEqjILcB8wk9xS+/Q5oSTs3nlURMKB8gaX6SxKYgVH9IavPb5OnViguFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709527030; c=relaxed/simple;
-	bh=RQ0Re9dOygXA8q8ock0UFf+fi9aJ29xHyYDdaPMhliE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fDFEUoqVfgOQzjAn/+XN3l+ZkwCCBrA4XEggs+EDiF2UE6BzmiUg2gFvljDOAPqlFJyWAgU/uLF4fNx4uzftCyYg+H+4gCkJdQJEN7R+3gzyRt/ZqxqMxa3hlE45cQn/Vb58tA2FkS9r1UOwOr0LPUyRtgG4VeBWu/4kyK6Ep+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=MDn5p9VB; arc=none smtp.client-ip=209.85.208.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2d204e102a9so40218251fa.0
-        for <linux-kbuild@vger.kernel.org>; Sun, 03 Mar 2024 20:37:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1709527027; x=1710131827; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KTOlq64wIgshTpM8C3f1ldjOD6bahRq8iEfxnNSHr8U=;
-        b=MDn5p9VBqYS9V0xP4Eai/DAG9/eAtQaA1jxqTkSL7MMWpGJL5FwVPys55qh21W/ECY
-         X/7VK7jvrXsEfknspP9j1gvYhnP3F5Fe5XymhagAFDAlBUjpkMFTj5jI5LmQZvfPefoo
-         nVtSQIhYbrrg/uZT9o9GIlpKp1qLjB0FuAPPk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709527027; x=1710131827;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KTOlq64wIgshTpM8C3f1ldjOD6bahRq8iEfxnNSHr8U=;
-        b=E1uiljOfdPggRIvQZftS11RjYsslppA+y4hRxT33v/HkHLdsdZTgmjeLF/W23yRKZf
-         o6VjRZXpSfOLdW13w/jxngVKNraY4xJYTB5tuzRYTQrtYPfJo6wm45bJA3eZc0WpjpvT
-         qZ3lK0ViHyFfEC4ljVlxCmOZY6rJ0xfeG3v7O7JDtrYMCyd2KHflfh4Dg7tkionUWjXb
-         eowJstQJk4LuyHovkd7V3Q2iFSYlq1BAa9w0AOpDo/hUoSiE+MBIZe3i9nUG3mzHj35/
-         kPc6AtsB/TCi4UcEvTslBO8yY8lyhzClSFzUBOvRmbWl+zbCUwsyx7nO1YFKamhllOkz
-         mdNA==
-X-Forwarded-Encrypted: i=1; AJvYcCXLrHIefuk4UOzoYz7bCOWlJ/LgRDnjBTXwxAVOLmLJ0j7ThptfmNLDwXsByxDujzF8mAuAf3UXMri0YWlMhuSEezRg5vB73xxFydPt
-X-Gm-Message-State: AOJu0YweRgloTUKD5yHVTNCthJBfazwojEmiHxhp0cx0nqhW7xjxgoXX
-	4PmY+Ww7b05b2mWI21OaAQ5p9FizCfqRtuFtPn31f5y9Ri1yhpbJ7fjec4EnFvNYcxrhfmZOQ67
-	8OBdpnHNJYejly890yh+QbWcAtHcRf+v60sV0
-X-Google-Smtp-Source: AGHT+IGaLqAJnfP7I301yVrk8e4LcZH5fmAVqWQXo/UiRkrdFbGRFLVTfN2Qq3NAP0AjApVqTbRD03JjIdQ9nmSMeTU=
-X-Received: by 2002:a05:6512:201a:b0:511:9008:7266 with SMTP id
- a26-20020a056512201a00b0051190087266mr4757627lfb.6.1709527026727; Sun, 03 Mar
- 2024 20:37:06 -0800 (PST)
+	s=arc-20240116; t=1709534870; c=relaxed/simple;
+	bh=hQ6Jbd6lK1sLeGDCv6wXrJMCC6sO0zy1JnqZUvapV3Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t7yjThxYVT5yrsysPnAAfIfmRw130viOMVnRN97fRY1z8HtJDI+wfbS84exrOSfmaHJGqklCD61/Ubb91PmlrZLJGu2IpNNcr9w4IN18/Q1/9n1R2qm5q+foyvzLeUPLpc5u7BfLFf+OifpD9YIjy2FKMaE/Zcr75iuVt5fdIFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de; spf=pass smtp.mailfrom=avm.de; dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b=bnySA/Af; arc=none smtp.client-ip=212.42.244.119
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=avm.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
+	t=1709534499; bh=hQ6Jbd6lK1sLeGDCv6wXrJMCC6sO0zy1JnqZUvapV3Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bnySA/AfsrQ0mFyJajhUib64TkUtodY0AzXmbSo84b0V/XPMByaqAqPeIXvEzwsQW
+	 KzqoIXFEufsGnLEaoiz0diXPFYWxFw0O7d1DLS4DHsAaw1qVPWLHBprWMs2QMSOSY0
+	 znssIervezbWe9xzCFTSDTMQx6RfBYcQJNi9UfzA=
+Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [212.42.244.71])
+	by mail.avm.de (Postfix) with ESMTPS;
+	Mon,  4 Mar 2024 07:41:39 +0100 (CET)
+Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
+	by mail-auth.avm.de (Postfix) with ESMTPA id 53AE280155;
+	Mon,  4 Mar 2024 07:41:39 +0100 (CET)
+Received: by buildd.core.avm.de (Postfix, from userid 1000)
+	id 484C018B3F5; Mon,  4 Mar 2024 07:41:39 +0100 (CET)
+Date: Mon, 4 Mar 2024 07:41:39 +0100
+From: Nicolas Schier <n.schier@avm.de>
+To: Sergey Senozhatsky <senozhatsky@chromium.org>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCHv2] kconfig: add some Kconfig env variables to make help
+Message-ID: <ZeVtIwua9T5prwUl@buildd.core.avm.de>
+Mail-Followup-To: Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240222051621.GH11472@google.com>
+ <20240228045652.GH11972@google.com>
+ <CAK7LNAQ8OyNMeGzVoTRg-sHDZ4YK0EKY_eEWNepekaibO_ZKwg@mail.gmail.com>
+ <20240229021010.GM11972@google.com>
+ <CAK7LNASujf8m4PpMyoCC1cTN_YGeG1HVaOR+3pZx5=3OJp=85A@mail.gmail.com>
+ <20240229034739.GN11972@google.com>
+ <CAK7LNAS-mOxY884pLEMwWaX+wgzXdc6+=vqN=wfHBekuKL5ryA@mail.gmail.com>
+ <20240301043316.GO11972@google.com>
+ <ZeG2PRYmdO0r44kS@buildd.core.avm.de>
+ <20240301142844.GP11972@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240223092338.2433632-1-wenst@chromium.org> <CAK7LNAQmvyftnFJaByyjH+f4nxcNUKpjkDXwebEH5AhMF6U0Kw@mail.gmail.com>
- <CAGXv+5GmkZdqpNZDFN4dcTyZ-qVS0TjrrqBrBAei6DP+eXLnJg@mail.gmail.com> <CAK7LNAS8tLuHYcPTb5pJZixn5Hb0yjo0nmbrfSUr5Cd_pc+WMg@mail.gmail.com>
-In-Reply-To: <CAK7LNAS8tLuHYcPTb5pJZixn5Hb0yjo0nmbrfSUr5Cd_pc+WMg@mail.gmail.com>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Mon, 4 Mar 2024 12:36:55 +0800
-Message-ID: <CAGXv+5HB7gXJ0x1uVdgbWaRWS8+rN6FwEgyGLObxr_cfyLty6A@mail.gmail.com>
-Subject: Re: [PATCH RFC] kbuild: create a list of all built DTB files
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Simon Glass <sjg@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240301142844.GP11972@google.com>
+Organization: AVM GmbH
+X-purgate-ID: 149429::1709534499-E2E59402-6B815460/0/0
+X-purgate-type: clean
+X-purgate-size: 895
+X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
+X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
+X-purgate: clean
 
-On Thu, Feb 29, 2024 at 11:35=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.=
-org> wrote:
->
-> On Thu, Feb 29, 2024 at 11:38=E2=80=AFAM Chen-Yu Tsai <wenst@chromium.org=
-> wrote:
-> >
-> > On Sun, Feb 25, 2024 at 4:21=E2=80=AFPM Masahiro Yamada <masahiroy@kern=
-el.org> wrote:
-> > >
-> > > On Fri, Feb 23, 2024 at 6:23=E2=80=AFPM Chen-Yu Tsai <wenst@chromium.=
-org> wrote:
-> > > >
-> > > > It is useful to have a list of all composite *.dtb files, along wit=
-h
-> > > > their individual components, generated from the current build.
-> > > >
-> > > > With this commit, 'make dtbs' creates arch/*/boot/dts/dtbs-componen=
-ts,
-> > > > which lists the composite dtb files created in the current build. I=
-t
-> > > > maintains the order of the dtb-y additions in Makefiles although th=
-e
-> > > > order is not important for DTBs.
-> > > >
-> > > > This compliments the list of all *.dtb and *.dtbo files in dtbs-lis=
-t,
-> > > > which only includes the files directly added to dtb-y.
-> > > >
-> > > > For example, consider this case:
-> > > >
-> > > >     foo-dtbs :=3D foo_base.dtb foo_overlay.dtbo
-> > > >     dtb-y :=3D bar.dtb foo.dtb
-> > > >
-> > > > In this example, the new list will include foo.dtb with foo_base.dt=
-b and
-> > > > foo_overlay.dtbo on the same line, but not bar.dtb.
-> > > >
-> > > > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> > > > ---
-> > > > Hi,
-> > > >
-> > > > I hacked up this new thing to list out the individual components of=
- each
-> > > > composite dtb. I think this information would be useful for FIT ima=
-ge
-> > > > generation or other toolchains to consume. For example, instead of
-> > > > including each dtb, a toolchain could realize that some are put tog=
-ether
-> > > > using others, and if the bootloader supports it, put together comma=
-nds
-> > > > to reassemble the end result from the original parts.
-> > > >
-> > > > This is based on and complements Masahiro-san's recent dtbs-list wo=
-rk.
-> > >
-> > >
-> > >
-> > > This is another format of my previous per-dtb "*.dtlst"
-> > > (but I did not pick up 3/4, 4/4 because I did not know what we need a=
-fter all).
-> > >
-> > > This should be discussed together with how Simon's script will look l=
-ike.
-> > >
-> > > I can understand your Makefile code, but I still do not know
-> > > how the entire overlay stuff will work in a big picture.
-> >
-> > How would you like to proceed? I can through together some changes on t=
-op
-> > of Simon's patches as an initial proposal if that helps?
-> >
-> > I can use your format if you prefer.
->
->
-> How would you select base+addonX among
-> other base+addonY or base+addonZ configurations?
+On Fri, Mar 01, 2024 at 11:28:44PM +0900, Sergey Senozhatsky wrote:
+> On (24/03/01 12:04), Nicolas Schier wrote:
+> > Perhaps it might be a compromise to let 'make help' point to the
+> > kbuild/kconfig documentation?
+> 
+> Yes, I was thinking the same. A one-liner description per-env var
+> and point to documentation if one-liner is not enough
+> 
+> 	KCONFIG_BARREL_ROLL	- kconfig does a barrel roll
+> 	KCONFIG_FOO_BAR		- kconfig does foo and then bar (see
+> 	documentation for details)
 
-I assume you are alluding to the existing in-tree composite DTs that
-share the same board compatible strings?
+No, I thought about leaving out any concrete examples but just adding a
+sentence like:
 
-Under the current FIT image design with compatible strings populated from
-the FDTs, I don't think there's any way to automatically select among them.
-The FIT image simply does not have the information available. Nor do the
-overlays themselves. The toolchain can only either include all of them
-and let the bootloader figure things out, or filter out all the duplicates.
-With the composite list, at least it will be able to consistently keep
-only the base DT and drop the ones with the addons.
+  kconfig and kbuild allow tuning and checks by settings various
+  environment variables, cp. Documentation/kbuild/ for details.
 
-In one of my previous replies to v9 I mentioned adding a user provided
-mapping between "configuration" compatible string and FDT filename. The
-mapping could be maintained in-tree for those base+addonXYZ FDTs if
-desired.
+Then there is no need to re-document each variable in 'make help' but
+those who are new are explicitly pointed to the maintained
+documentation.
 
-Also, Simon's FIT image "extensions" proposal [1] adds more metadata to
-the FIT image to cover these addons that currently don't have distinct
-compatible strings.
-
-
-ChenYu
-
-[1] https://lore.kernel.org/u-boot/CAPnjgZ06s64C2ux1rABNAnMv3q4W++sjhNGCO_u=
-PMH_9sTF7Mw@mail.gmail.com/
+Kind regards,
+Nicolas
 
