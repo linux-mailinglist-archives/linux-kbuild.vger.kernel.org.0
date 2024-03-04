@@ -1,347 +1,186 @@
-Return-Path: <linux-kbuild+bounces-1122-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1141-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 826C286F88C
-	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Mar 2024 03:26:59 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5299586F941
+	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Mar 2024 05:37:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A649F1C209E3
-	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Mar 2024 02:26:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CF6301F21615
+	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Mar 2024 04:37:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DAD2A138A;
-	Mon,  4 Mar 2024 02:26:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 901C233CE;
+	Mon,  4 Mar 2024 04:37:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="MDn5p9VB"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mailhost.m5p.com (mailhost.m5p.com [74.104.188.4])
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3DFA15B7
-	for <linux-kbuild@vger.kernel.org>; Mon,  4 Mar 2024 02:26:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.104.188.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A05E317C8
+	for <linux-kbuild@vger.kernel.org>; Mon,  4 Mar 2024 04:37:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709519215; cv=none; b=P8uTfZz8O0TcEPKjxRGUGwJSSMxBi6upjXQ12dC2L/I0oi/4RWGxfIvKS4BrG/VxKpBgcDEyMylHVclO4kZ8jZgwOgeEoshvxG89+jqeqp8EdOkBzfFTT2N05N2+A+xSgH8JAG00o/hs5KYLw0BfJEJpz6DPNGkNnG7AAqvBBc8=
+	t=1709527030; cv=none; b=l8pP81Pk15hmUEt9SqyI3jujvXLjjlyokG1LdePmAtzXkEg45IeA+n4fk/+dqDncD11RwnjywiURDAt/Pr63WbZo+0kEggAAxQqQfuOAE/y4u6CJf8yYvni5A8qK/WuCWDdnpkXFeZnjzel4vs9KT6heYzwYQx02xm3UAlxj1Qc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709519215; c=relaxed/simple;
-	bh=DS3tdStKeVV5GgPx4dYKlELG1quNAcnmhcG3RmA/fUM=;
-	h=Message-Id:In-Reply-To:References:From:Date:Subject:To:Cc; b=AhTbbd/F1HwDXr7ZAJ7x6nJHr0xTjLIsjhZWjC2K3cvo6U79D/Vmgm4fBNiwQom5uNVnRPJWqznK5xFSjzPjIZGvvK4Qw5JiVqP69aW/g75yK99MUCEeGKF6wE5Po3pq+zZaOb4vHxQB0DFvA3UysXOhBpgqKCZOeehaPwLvKh8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=m5p.com; spf=pass smtp.mailfrom=m5p.com; arc=none smtp.client-ip=74.104.188.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=m5p.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=m5p.com
-Received: from m5p.com (mailhost.m5p.com [IPv6:2001:470:1f07:15ff:0:0:0:f7])
-	by mailhost.m5p.com (8.17.1/8.15.2) with ESMTPS id 4242PXHw021928
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-	Sun, 3 Mar 2024 21:25:38 -0500 (EST)
-	(envelope-from ehem@m5p.com)
-Received: (from ehem@localhost)
-	by m5p.com (8.17.1/8.15.2/Submit) id 4242PVoT021927;
-	Sun, 3 Mar 2024 18:25:31 -0800 (PST)
-	(envelope-from ehem)
-Message-Id: <491ac1cbd85474eff9e189d0a64945f2f79cc8cc.1709508291.git.ehem+linux@m5p.com>
-In-Reply-To: <cover.1709508290.git.ehem+linux@m5p.com>
-References: <cover.1709508290.git.ehem+linux@m5p.com>
-From: Elliott Mitchell <ehem+linux@m5p.com>
-Date: Sun, 3 Mar 2024 15:24:50 -0800
-Subject: [WIP PATCH 13/30] scripts: modify uses of $(objtree) to assume
- trailing slash
-To: masahiroy@kernel.org, nathan@kernel.org, nicolas@fjasle.eu
-Cc: linux-kbuild@vger.kernel.org
-X-Spam-Level: *
+	s=arc-20240116; t=1709527030; c=relaxed/simple;
+	bh=RQ0Re9dOygXA8q8ock0UFf+fi9aJ29xHyYDdaPMhliE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fDFEUoqVfgOQzjAn/+XN3l+ZkwCCBrA4XEggs+EDiF2UE6BzmiUg2gFvljDOAPqlFJyWAgU/uLF4fNx4uzftCyYg+H+4gCkJdQJEN7R+3gzyRt/ZqxqMxa3hlE45cQn/Vb58tA2FkS9r1UOwOr0LPUyRtgG4VeBWu/4kyK6Ep+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=MDn5p9VB; arc=none smtp.client-ip=209.85.208.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2d204e102a9so40218251fa.0
+        for <linux-kbuild@vger.kernel.org>; Sun, 03 Mar 2024 20:37:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1709527027; x=1710131827; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KTOlq64wIgshTpM8C3f1ldjOD6bahRq8iEfxnNSHr8U=;
+        b=MDn5p9VBqYS9V0xP4Eai/DAG9/eAtQaA1jxqTkSL7MMWpGJL5FwVPys55qh21W/ECY
+         X/7VK7jvrXsEfknspP9j1gvYhnP3F5Fe5XymhagAFDAlBUjpkMFTj5jI5LmQZvfPefoo
+         nVtSQIhYbrrg/uZT9o9GIlpKp1qLjB0FuAPPk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709527027; x=1710131827;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KTOlq64wIgshTpM8C3f1ldjOD6bahRq8iEfxnNSHr8U=;
+        b=E1uiljOfdPggRIvQZftS11RjYsslppA+y4hRxT33v/HkHLdsdZTgmjeLF/W23yRKZf
+         o6VjRZXpSfOLdW13w/jxngVKNraY4xJYTB5tuzRYTQrtYPfJo6wm45bJA3eZc0WpjpvT
+         qZ3lK0ViHyFfEC4ljVlxCmOZY6rJ0xfeG3v7O7JDtrYMCyd2KHflfh4Dg7tkionUWjXb
+         eowJstQJk4LuyHovkd7V3Q2iFSYlq1BAa9w0AOpDo/hUoSiE+MBIZe3i9nUG3mzHj35/
+         kPc6AtsB/TCi4UcEvTslBO8yY8lyhzClSFzUBOvRmbWl+zbCUwsyx7nO1YFKamhllOkz
+         mdNA==
+X-Forwarded-Encrypted: i=1; AJvYcCXLrHIefuk4UOzoYz7bCOWlJ/LgRDnjBTXwxAVOLmLJ0j7ThptfmNLDwXsByxDujzF8mAuAf3UXMri0YWlMhuSEezRg5vB73xxFydPt
+X-Gm-Message-State: AOJu0YweRgloTUKD5yHVTNCthJBfazwojEmiHxhp0cx0nqhW7xjxgoXX
+	4PmY+Ww7b05b2mWI21OaAQ5p9FizCfqRtuFtPn31f5y9Ri1yhpbJ7fjec4EnFvNYcxrhfmZOQ67
+	8OBdpnHNJYejly890yh+QbWcAtHcRf+v60sV0
+X-Google-Smtp-Source: AGHT+IGaLqAJnfP7I301yVrk8e4LcZH5fmAVqWQXo/UiRkrdFbGRFLVTfN2Qq3NAP0AjApVqTbRD03JjIdQ9nmSMeTU=
+X-Received: by 2002:a05:6512:201a:b0:511:9008:7266 with SMTP id
+ a26-20020a056512201a00b0051190087266mr4757627lfb.6.1709527026727; Sun, 03 Mar
+ 2024 20:37:06 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+References: <20240223092338.2433632-1-wenst@chromium.org> <CAK7LNAQmvyftnFJaByyjH+f4nxcNUKpjkDXwebEH5AhMF6U0Kw@mail.gmail.com>
+ <CAGXv+5GmkZdqpNZDFN4dcTyZ-qVS0TjrrqBrBAei6DP+eXLnJg@mail.gmail.com> <CAK7LNAS8tLuHYcPTb5pJZixn5Hb0yjo0nmbrfSUr5Cd_pc+WMg@mail.gmail.com>
+In-Reply-To: <CAK7LNAS8tLuHYcPTb5pJZixn5Hb0yjo0nmbrfSUr5Cd_pc+WMg@mail.gmail.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Mon, 4 Mar 2024 12:36:55 +0800
+Message-ID: <CAGXv+5HB7gXJ0x1uVdgbWaRWS8+rN6FwEgyGLObxr_cfyLty6A@mail.gmail.com>
+Subject: Re: [PATCH RFC] kbuild: create a list of all built DTB files
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Simon Glass <sjg@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Date: Tue, 20 Feb 2024 09:13:37 -0800
+On Thu, Feb 29, 2024 at 11:35=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.=
+org> wrote:
+>
+> On Thu, Feb 29, 2024 at 11:38=E2=80=AFAM Chen-Yu Tsai <wenst@chromium.org=
+> wrote:
+> >
+> > On Sun, Feb 25, 2024 at 4:21=E2=80=AFPM Masahiro Yamada <masahiroy@kern=
+el.org> wrote:
+> > >
+> > > On Fri, Feb 23, 2024 at 6:23=E2=80=AFPM Chen-Yu Tsai <wenst@chromium.=
+org> wrote:
+> > > >
+> > > > It is useful to have a list of all composite *.dtb files, along wit=
+h
+> > > > their individual components, generated from the current build.
+> > > >
+> > > > With this commit, 'make dtbs' creates arch/*/boot/dts/dtbs-componen=
+ts,
+> > > > which lists the composite dtb files created in the current build. I=
+t
+> > > > maintains the order of the dtb-y additions in Makefiles although th=
+e
+> > > > order is not important for DTBs.
+> > > >
+> > > > This compliments the list of all *.dtb and *.dtbo files in dtbs-lis=
+t,
+> > > > which only includes the files directly added to dtb-y.
+> > > >
+> > > > For example, consider this case:
+> > > >
+> > > >     foo-dtbs :=3D foo_base.dtb foo_overlay.dtbo
+> > > >     dtb-y :=3D bar.dtb foo.dtb
+> > > >
+> > > > In this example, the new list will include foo.dtb with foo_base.dt=
+b and
+> > > > foo_overlay.dtbo on the same line, but not bar.dtb.
+> > > >
+> > > > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> > > > ---
+> > > > Hi,
+> > > >
+> > > > I hacked up this new thing to list out the individual components of=
+ each
+> > > > composite dtb. I think this information would be useful for FIT ima=
+ge
+> > > > generation or other toolchains to consume. For example, instead of
+> > > > including each dtb, a toolchain could realize that some are put tog=
+ether
+> > > > using others, and if the bootloader supports it, put together comma=
+nds
+> > > > to reassemble the end result from the original parts.
+> > > >
+> > > > This is based on and complements Masahiro-san's recent dtbs-list wo=
+rk.
+> > >
+> > >
+> > >
+> > > This is another format of my previous per-dtb "*.dtlst"
+> > > (but I did not pick up 3/4, 4/4 because I did not know what we need a=
+fter all).
+> > >
+> > > This should be discussed together with how Simon's script will look l=
+ike.
+> > >
+> > > I can understand your Makefile code, but I still do not know
+> > > how the entire overlay stuff will work in a big picture.
+> >
+> > How would you like to proceed? I can through together some changes on t=
+op
+> > of Simon's patches as an initial proposal if that helps?
+> >
+> > I can use your format if you prefer.
+>
+>
+> How would you select base+addonX among
+> other base+addonY or base+addonZ configurations?
 
-This isn't much more than `find | sed` to adjust all uses of $(objtree).
-This is split into a separate commit to highlight the actual changes to
-the build machinery.
+I assume you are alluding to the existing in-tree composite DTs that
+share the same board compatible strings?
 
-Signed-off-by: Elliott Mitchell <ehem+linux@m5p.com>
----
-`grep` was also used to locate things which needed other actions
-(notably the non-toplevel Makefile adjustments), but this is roughly:
-find . -name Makefile\* -print0 | xargs -0 sed -i -e's,$(objtree)$,$(objtree:%/=%),' -e's,$(objtree)\([^,/]\),$(objtree:%/=%)\1,g' -es',$(objtree)/,$(objtree),g'
+Under the current FIT image design with compatible strings populated from
+the FDTs, I don't think there's any way to automatically select among them.
+The FIT image simply does not have the information available. Nor do the
+overlays themselves. The toolchain can only either include all of them
+and let the bootloader figure things out, or filter out all the duplicates.
+With the composite list, at least it will be able to consistently keep
+only the base DT and drop the ones with the addons.
 
-There could be goofs in here or missed bits.  I hope not, but...
----
- scripts/Makefile.build       |  8 ++++----
- scripts/Makefile.defconf     |  4 ++--
- scripts/Makefile.gcc-plugins |  2 +-
- scripts/Makefile.headersinst |  2 +-
- scripts/Makefile.host        |  6 +++---
- scripts/Makefile.kcov        |  2 +-
- scripts/Makefile.lib         | 18 +++++++++---------
- scripts/Makefile.package     |  8 ++++----
- scripts/Makefile.randstruct  |  4 ++--
- scripts/basic/Makefile       |  2 +-
- scripts/gcc-plugins/Makefile |  2 +-
- scripts/selinux/mdp/Makefile |  2 +-
- 12 files changed, 30 insertions(+), 30 deletions(-)
+In one of my previous replies to v9 I mentioned adding a user provided
+mapping between "configuration" compatible string and FDT filename. The
+mapping could be maintained in-tree for those base+addonXYZ FDTs if
+desired.
 
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index 176e1909b055..46fc6f2efe1a 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -192,7 +192,7 @@ endif
- # files, including recordmcount.
- sub_cmd_record_mcount =					\
- 	if [ $(@) != "scripts/mod/empty.o" ]; then	\
--		$(objtree)/scripts/recordmcount $(RECORDMCOUNT_FLAGS) "$(@)";	\
-+		$(objtree)scripts/recordmcount $(RECORDMCOUNT_FLAGS) "$(@)";	\
- 	fi;
- recordmcount_source := $(srctree)scripts/recordmcount.c \
- 		    $(srctree)scripts/recordmcount.h
-@@ -273,7 +273,7 @@ rust_common_cmd = \
- 	-Zcrate-attr=no_std \
- 	-Zcrate-attr='feature($(rust_allowed_features))' \
- 	--extern alloc --extern kernel \
--	--crate-type rlib -L $(objtree)/rust/ \
-+	--crate-type rlib -L $(objtree)rust/ \
- 	--crate-name $(basename $(notdir $@)) \
- 	--sysroot=/dev/null \
- 	--out-dir $(dir $@) --emit=dep-info=$(depfile)
-@@ -376,10 +376,10 @@ $(obj)/%.lds: $(src)/%.lds.S FORCE
- # ASN.1 grammar
- # ---------------------------------------------------------------------------
- quiet_cmd_asn1_compiler = ASN.1   $(basename $@).[ch]
--      cmd_asn1_compiler = $(objtree)/scripts/asn1_compiler $< \
-+      cmd_asn1_compiler = $(objtree)scripts/asn1_compiler $< \
- 				$(basename $@).c $(basename $@).h
- 
--$(obj)/%.asn1.c $(obj)/%.asn1.h: $(src)/%.asn1 $(objtree)/scripts/asn1_compiler
-+$(obj)/%.asn1.c $(obj)/%.asn1.h: $(src)/%.asn1 $(objtree)scripts/asn1_compiler
- 	$(call cmd,asn1_compiler)
- 
- # Build the compiled-in targets
-diff --git a/scripts/Makefile.defconf b/scripts/Makefile.defconf
-index ff6a8345d1bf..51d27001abf3 100644
---- a/scripts/Makefile.defconf
-+++ b/scripts/Makefile.defconf
-@@ -9,7 +9,7 @@
- # Input config fragments without '.config' suffix
- define merge_into_defconfig
- 	$(Q)$(CONFIG_SHELL) $(srctree)scripts/kconfig/merge_config.sh \
--		-m -O $(objtree) $(srctree)arch/$(SRCARCH)/configs/$(1) \
-+		-m -O $(objtree:%/=%) $(srctree)arch/$(SRCARCH)/configs/$(1) \
- 		$(foreach config,$(2),$(srctree)arch/$(SRCARCH)/configs/$(config).config)
- 	+$(Q)$(MAKE) -f $(srctree)Makefile olddefconfig
- endef
-@@ -23,7 +23,7 @@ endef
- # Input config fragments without '.config' suffix
- define merge_into_defconfig_override
- 	$(Q)$(CONFIG_SHELL) $(srctree)scripts/kconfig/merge_config.sh \
--		-Q -m -O $(objtree) $(srctree)arch/$(SRCARCH)/configs/$(1) \
-+		-Q -m -O $(objtree:%/=%) $(srctree)arch/$(SRCARCH)/configs/$(1) \
- 		$(foreach config,$(2),$(srctree)arch/$(SRCARCH)/configs/$(config).config)
- 	+$(Q)$(MAKE) -f $(srctree)Makefile olddefconfig
- endef
-diff --git a/scripts/Makefile.gcc-plugins b/scripts/Makefile.gcc-plugins
-index e4deaf5fa571..f335e0d1399e 100644
---- a/scripts/Makefile.gcc-plugins
-+++ b/scripts/Makefile.gcc-plugins
-@@ -44,7 +44,7 @@ export DISABLE_ARM_SSP_PER_TASK_PLUGIN
- 
- # All the plugin CFLAGS are collected here in case a build target needs to
- # filter them out of the KBUILD_CFLAGS.
--GCC_PLUGINS_CFLAGS := $(strip $(addprefix -fplugin=$(objtree)/scripts/gcc-plugins/, $(gcc-plugin-y)) $(gcc-plugin-cflags-y))
-+GCC_PLUGINS_CFLAGS := $(strip $(addprefix -fplugin=$(objtree)scripts/gcc-plugins/, $(gcc-plugin-y)) $(gcc-plugin-cflags-y))
- export GCC_PLUGINS_CFLAGS
- 
- # Add the flags to the build!
-diff --git a/scripts/Makefile.headersinst b/scripts/Makefile.headersinst
-index a6423d395c02..bafb60333e47 100644
---- a/scripts/Makefile.headersinst
-+++ b/scripts/Makefile.headersinst
-@@ -15,7 +15,7 @@ __headers:
- include $(srctree)scripts/Kbuild.include
- 
- src := $(srctree)$(obj)
--gen := $(objtree)/$(subst include/,include/generated/,$(obj))
-+gen := $(objtree)$(subst include/,include/generated/,$(obj))
- dst := usr/include
- 
- -include $(src)/Kbuild
-diff --git a/scripts/Makefile.host b/scripts/Makefile.host
-index 08d83d9db31a..7c6ebbe9c728 100644
---- a/scripts/Makefile.host
-+++ b/scripts/Makefile.host
-@@ -96,11 +96,11 @@ hostrust_flags = --out-dir $(dir $@) --emit=dep-info=$(depfile) \
-                  $(KBUILD_HOSTRUSTFLAGS) $(HOST_EXTRARUSTFLAGS) \
-                  $(HOSTRUSTFLAGS_$(target-stem))
- 
--# $(objtree)/$(obj) for including generated headers from checkin source files
-+# $(objtree)$(obj) for including generated headers from checkin source files
- ifeq ($(KBUILD_EXTMOD),)
- ifdef building_out_of_srctree
--hostc_flags   += -I $(objtree)/$(obj)
--hostcxx_flags += -I $(objtree)/$(obj)
-+hostc_flags   += -I $(objtree)$(obj)
-+hostcxx_flags += -I $(objtree)$(obj)
- endif
- endif
- 
-diff --git a/scripts/Makefile.kcov b/scripts/Makefile.kcov
-index 67e8cfe3474b..5d3d3d711b7a 100644
---- a/scripts/Makefile.kcov
-+++ b/scripts/Makefile.kcov
-@@ -1,6 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0-only
- kcov-flags-$(CONFIG_CC_HAS_SANCOV_TRACE_PC)	+= -fsanitize-coverage=trace-pc
- kcov-flags-$(CONFIG_KCOV_ENABLE_COMPARISONS)	+= -fsanitize-coverage=trace-cmp
--kcov-flags-$(CONFIG_GCC_PLUGIN_SANCOV)		+= -fplugin=$(objtree)/scripts/gcc-plugins/sancov_plugin.so
-+kcov-flags-$(CONFIG_GCC_PLUGIN_SANCOV)		+= -fplugin=$(objtree)scripts/gcc-plugins/sancov_plugin.so
- 
- export CFLAGS_KCOV := $(kcov-flags-y)
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index 1c77fc1185e5..34aa26fe54f8 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -201,12 +201,12 @@ _c_flags += $(if $(patsubst n%,, \
- endif
- 
- # $(srctree)$(src) for including checkin headers from generated source files
--# $(objtree)/$(obj) for including generated headers from checkin source files
-+# $(objtree)$(obj) for including generated headers from checkin source files
- ifeq ($(KBUILD_EXTMOD),)
- ifdef building_out_of_srctree
--_c_flags   += -I $(srctree)$(src) -I $(objtree)/$(obj)
--_a_flags   += -I $(srctree)$(src) -I $(objtree)/$(obj)
--_cpp_flags += -I $(srctree)$(src) -I $(objtree)/$(obj)
-+_c_flags   += -I $(srctree)$(src) -I $(objtree)$(obj)
-+_a_flags   += -I $(srctree)$(src) -I $(objtree)$(obj)
-+_cpp_flags += -I $(srctree)$(src) -I $(objtree)$(obj)
- endif
- endif
- 
-@@ -232,7 +232,7 @@ c_flags        = -Wp,-MMD,$(depfile) $(NOSTDINC_FLAGS) $(LINUXINCLUDE)     \
- 		 $(_c_flags) $(modkern_cflags)                           \
- 		 $(basename_flags) $(modname_flags)
- 
--rust_flags     = $(_rust_flags) $(modkern_rustflags) @$(objtree)/include/generated/rustc_cfg
-+rust_flags     = $(_rust_flags) $(modkern_rustflags) @$(objtree)include/generated/rustc_cfg
- 
- a_flags        = -Wp,-MMD,$(depfile) $(NOSTDINC_FLAGS) $(LINUXINCLUDE)     \
- 		 $(_a_flags) $(modkern_aflags)
-@@ -250,7 +250,7 @@ dtc_cpp_flags  = -Wp,-MMD,$(depfile).pre.tmp -nostdinc                    \
- 
- ifdef CONFIG_OBJTOOL
- 
--objtool := $(objtree)/tools/objtool/objtool
-+objtool := $(objtree)tools/objtool/objtool
- 
- objtool-args-$(CONFIG_HAVE_JUMP_LABEL_HACK)		+= --hacks=jump_label
- objtool-args-$(CONFIG_HAVE_NOINSTR_HACK)		+= --hacks=noinstr
-@@ -339,7 +339,7 @@ quiet_cmd_gzip = GZIP    $@
- 
- # DTC
- # ---------------------------------------------------------------------------
--DTC ?= $(objtree)/scripts/dtc/dtc
-+DTC ?= $(objtree)scripts/dtc/dtc
- DTC_FLAGS += -Wno-interrupt_provider \
- 	-Wno-unique_unit_address
- 
-@@ -396,7 +396,7 @@ cmd_dtc = $(HOSTCC) -E $(dtc_cpp_flags) -x assembler-with-cpp -o $(dtc-tmp) $< ;
- 	cat $(depfile).pre.tmp $(depfile).dtc.tmp > $(depfile)
- 
- quiet_cmd_fdtoverlay = DTOVL   $@
--      cmd_fdtoverlay = $(objtree)/scripts/dtc/fdtoverlay -o $@ -i $(real-prereqs)
-+      cmd_fdtoverlay = $(objtree)scripts/dtc/fdtoverlay -o $@ -i $(real-prereqs)
- 
- $(multi-dtb-y): FORCE
- 	$(call if_changed,fdtoverlay)
-@@ -406,7 +406,7 @@ ifneq ($(CHECK_DTBS)$(CHECK_DT_BINDING),)
- DT_CHECKER ?= dt-validate
- DT_CHECKER_FLAGS ?= $(if $(DT_SCHEMA_FILES),-l $(DT_SCHEMA_FILES),-m)
- DT_BINDING_DIR := Documentation/devicetree/bindings
--DT_TMP_SCHEMA := $(objtree)/$(DT_BINDING_DIR)/processed-schema.json
-+DT_TMP_SCHEMA := $(objtree)$(DT_BINDING_DIR)/processed-schema.json
- 
- quiet_cmd_dtb =	DTC_CHK $@
-       cmd_dtb =	$(cmd_dtc) ; $(DT_CHECKER) $(DT_CHECKER_FLAGS) -u $(srctree)$(DT_BINDING_DIR) -p $(DT_TMP_SCHEMA) $@ || true
-diff --git a/scripts/Makefile.package b/scripts/Makefile.package
-index 269f4918d72c..c3234b26e6dc 100644
---- a/scripts/Makefile.package
-+++ b/scripts/Makefile.package
-@@ -131,14 +131,14 @@ deb-pkg srcdeb-pkg bindeb-pkg:
- # ---------------------------------------------------------------------------
- PHONY += snap-pkg
- snap-pkg:
--	rm -rf $(objtree)/snap
--	mkdir $(objtree)/snap
-+	rm -rf $(objtree)snap
-+	mkdir $(objtree)snap
- 	$(MAKE) clean
- 	sed "s@KERNELRELEASE@$(KERNELRELEASE)@; \
- 		s@SRCTREE@$(abs_srctree)@" \
- 		$(srctree)scripts/package/snapcraft.template > \
--		$(objtree)/snap/snapcraft.yaml
--	cd $(objtree)/snap && \
-+		$(objtree)snap/snapcraft.yaml
-+	cd $(objtree)snap && \
- 	snapcraft --target-arch=$(UTS_MACHINE)
- 
- # dir-pkg tar*-pkg - tarball targets
-diff --git a/scripts/Makefile.randstruct b/scripts/Makefile.randstruct
-index 24e283e89893..38fde99a580c 100644
---- a/scripts/Makefile.randstruct
-+++ b/scripts/Makefile.randstruct
-@@ -4,12 +4,12 @@ randstruct-cflags-y += -DRANDSTRUCT
- 
- ifdef CONFIG_GCC_PLUGIN_RANDSTRUCT
- randstruct-cflags-y	\
--	+= -fplugin=$(objtree)/scripts/gcc-plugins/randomize_layout_plugin.so
-+	+= -fplugin=$(objtree)scripts/gcc-plugins/randomize_layout_plugin.so
- randstruct-cflags-$(CONFIG_RANDSTRUCT_PERFORMANCE)		\
- 	+= -fplugin-arg-randomize_layout_plugin-performance-mode
- else
- randstruct-cflags-y	\
--	+= -frandomize-layout-seed-file=$(objtree)/scripts/basic/randstruct.seed
-+	+= -frandomize-layout-seed-file=$(objtree)scripts/basic/randstruct.seed
- endif
- 
- export RANDSTRUCT_CFLAGS := $(randstruct-cflags-y)
-diff --git a/scripts/basic/Makefile b/scripts/basic/Makefile
-index ea7b56fd3700..47856f8ceefe 100644
---- a/scripts/basic/Makefile
-+++ b/scripts/basic/Makefile
-@@ -10,7 +10,7 @@ gen-randstruct-seed	:= $(srctree)scripts/gen-randstruct-seed.sh
- quiet_cmd_create_randstruct_seed = GENSEED $@
- cmd_create_randstruct_seed = \
- 	$(CONFIG_SHELL) $(gen-randstruct-seed) \
--		$@ $(objtree)/include/generated/randstruct_hash.h
-+		$@ $(objtree)include/generated/randstruct_hash.h
- $(obj)/randstruct.seed: $(gen-randstruct-seed) FORCE
- 	$(call if_changed,create_randstruct_seed)
- always-$(CONFIG_RANDSTRUCT) += randstruct.seed
-diff --git a/scripts/gcc-plugins/Makefile b/scripts/gcc-plugins/Makefile
-index 2b3a1890f742..9cd2b18b9715 100644
---- a/scripts/gcc-plugins/Makefile
-+++ b/scripts/gcc-plugins/Makefile
-@@ -9,7 +9,7 @@ cmd_create_randomize_layout_seed = \
- 	echo ' * Exposing this value will expose the layout of randomized structures.' >> $@; \
- 	echo ' */' >> $@; \
- 	echo "const char *randstruct_seed = \"$$SEED\";" >> $@
--$(obj)/randomize_layout_seed.h: $(objtree)/scripts/basic/randstruct.seed FORCE
-+$(obj)/randomize_layout_seed.h: $(objtree)scripts/basic/randstruct.seed FORCE
- 	$(call if_changed,create_randomize_layout_seed)
- targets += randomize_layout_seed.h
- 
-diff --git a/scripts/selinux/mdp/Makefile b/scripts/selinux/mdp/Makefile
-index f1b64cc46d47..5ee0837ee78d 100644
---- a/scripts/selinux/mdp/Makefile
-+++ b/scripts/selinux/mdp/Makefile
-@@ -2,6 +2,6 @@
- hostprogs-always-y += mdp
- HOST_EXTRACFLAGS += \
- 	-I$(srctree)include/uapi -I$(srctree)include \
--	-I$(srctree)security/selinux/include -I$(objtree)/include
-+	-I$(srctree)security/selinux/include -I$(objtree)include
- 
- clean-files	:= policy.* file_contexts
--- 
-2.39.2
+Also, Simon's FIT image "extensions" proposal [1] adds more metadata to
+the FIT image to cover these addons that currently don't have distinct
+compatible strings.
 
+
+ChenYu
+
+[1] https://lore.kernel.org/u-boot/CAPnjgZ06s64C2ux1rABNAnMv3q4W++sjhNGCO_u=
+PMH_9sTF7Mw@mail.gmail.com/
 
