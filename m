@@ -1,109 +1,113 @@
-Return-Path: <linux-kbuild+bounces-1142-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1143-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F55F86FA37
-	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Mar 2024 07:47:54 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F84B86FDA8
+	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Mar 2024 10:30:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0C5C9280F03
-	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Mar 2024 06:47:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 568811F23B15
+	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Mar 2024 09:30:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 344B311713;
-	Mon,  4 Mar 2024 06:47:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13F81249F1;
+	Mon,  4 Mar 2024 09:26:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b="bnySA/Af"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=smtpservice.net header.i=@smtpservice.net header.b="3uWKzKO8";
+	dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b="a7rsJPkp";
+	dkim=pass (1024-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b="L8PbEoDI"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail.avm.de (mail.avm.de [212.42.244.119])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from e2i652.smtp2go.com (e2i652.smtp2go.com [103.2.142.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 689BE1170A;
-	Mon,  4 Mar 2024 06:47:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.119
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E897D249E6
+	for <linux-kbuild@vger.kernel.org>; Mon,  4 Mar 2024 09:26:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.2.142.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709534870; cv=none; b=HjCOnqo8pkDnGE9iY9BYxEGYyhjSY650B+xeuyA+PiShWZaJuO6YqNzBGPf5zKnDwgCA0rxPuHkig3ZLelAlvEJaaQ3qp1gtnAQflapIm8BhDFgd2IFEqjILcB8wk9xS+/Q5oSTs3nlURMKB8gaX6SxKYgVH9IavPb5OnViguFQ=
+	t=1709544419; cv=none; b=Z4O0hfLR3AgdZ3flzD/yQTp5OMV4fp4/FLQ3EzXDwcyh+N940krIQ9I+Rj+QO447JJ5T36uCZWYNIPoupTd+sdAWUaaB2FG/4k/3KfBQvfoRp5Zv1hF9gAHJBBSoYfZAWvmK6Au3ZoyJzHaCAFPq6KUH8ShcwrQCwzCJFzg6hS4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709534870; c=relaxed/simple;
-	bh=hQ6Jbd6lK1sLeGDCv6wXrJMCC6sO0zy1JnqZUvapV3Q=;
+	s=arc-20240116; t=1709544419; c=relaxed/simple;
+	bh=7VDmsob5dJwaz3X9qMt+VxPXL/JvM00gxmRyrpIxXqc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t7yjThxYVT5yrsysPnAAfIfmRw130viOMVnRN97fRY1z8HtJDI+wfbS84exrOSfmaHJGqklCD61/Ubb91PmlrZLJGu2IpNNcr9w4IN18/Q1/9n1R2qm5q+foyvzLeUPLpc5u7BfLFf+OifpD9YIjy2FKMaE/Zcr75iuVt5fdIFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de; spf=pass smtp.mailfrom=avm.de; dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b=bnySA/Af; arc=none smtp.client-ip=212.42.244.119
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=avm.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
-	t=1709534499; bh=hQ6Jbd6lK1sLeGDCv6wXrJMCC6sO0zy1JnqZUvapV3Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bnySA/AfsrQ0mFyJajhUib64TkUtodY0AzXmbSo84b0V/XPMByaqAqPeIXvEzwsQW
-	 KzqoIXFEufsGnLEaoiz0diXPFYWxFw0O7d1DLS4DHsAaw1qVPWLHBprWMs2QMSOSY0
-	 znssIervezbWe9xzCFTSDTMQx6RfBYcQJNi9UfzA=
-Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [212.42.244.71])
-	by mail.avm.de (Postfix) with ESMTPS;
-	Mon,  4 Mar 2024 07:41:39 +0100 (CET)
-Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
-	by mail-auth.avm.de (Postfix) with ESMTPA id 53AE280155;
-	Mon,  4 Mar 2024 07:41:39 +0100 (CET)
-Received: by buildd.core.avm.de (Postfix, from userid 1000)
-	id 484C018B3F5; Mon,  4 Mar 2024 07:41:39 +0100 (CET)
-Date: Mon, 4 Mar 2024 07:41:39 +0100
-From: Nicolas Schier <n.schier@avm.de>
-To: Sergey Senozhatsky <senozhatsky@chromium.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCHv2] kconfig: add some Kconfig env variables to make help
-Message-ID: <ZeVtIwua9T5prwUl@buildd.core.avm.de>
-Mail-Followup-To: Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240222051621.GH11472@google.com>
- <20240228045652.GH11972@google.com>
- <CAK7LNAQ8OyNMeGzVoTRg-sHDZ4YK0EKY_eEWNepekaibO_ZKwg@mail.gmail.com>
- <20240229021010.GM11972@google.com>
- <CAK7LNASujf8m4PpMyoCC1cTN_YGeG1HVaOR+3pZx5=3OJp=85A@mail.gmail.com>
- <20240229034739.GN11972@google.com>
- <CAK7LNAS-mOxY884pLEMwWaX+wgzXdc6+=vqN=wfHBekuKL5ryA@mail.gmail.com>
- <20240301043316.GO11972@google.com>
- <ZeG2PRYmdO0r44kS@buildd.core.avm.de>
- <20240301142844.GP11972@google.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=AwqQFDquQpurFGN3dgaWYPN8u5SynaMNPnVA760xZed7YWzThISIOXq/nq8d09nzxTGLTc1RIjdYEUKwJLWDT2reItOm4sElGfQnHg9xf1XCM2GqXotZbE7bMAPHJqqodWN136n1nFdi2C3ZaxaatSPQB7U4dyY/9AzEJQJsOZk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu; spf=pass smtp.mailfrom=em1174286.fjasle.eu; dkim=pass (2048-bit key) header.d=smtpservice.net header.i=@smtpservice.net header.b=3uWKzKO8; dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b=a7rsJPkp; dkim=pass (1024-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b=L8PbEoDI; arc=none smtp.client-ip=103.2.142.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=em1174286.fjasle.eu
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=smtpservice.net; s=mp6320.a1-4.dyn; x=1709545311; h=Feedback-ID:
+	X-Smtpcorp-Track:Message-ID:Subject:To:From:Date:Reply-To:Sender:
+	List-Unsubscribe; bh=dSA4zZatV9UqbY6asTaR1XvA3gHAvLPK2adXkrBBVSE=; b=3uWKzKO8
+	THMIsjNc+4sGSKVyTPvl4kFisObLc6pOUMeK1+RPi3qvjq/q4WxuYSI4Nqwd41G/bPHta2NUqDEny
+	NI2mdDrcZWxpfOj1lMvYIBrxT36Zcbgc5ETrxJxa7mCZwqPX2P/Vlvf18QoDugkToX7RqAV074joO
+	lagUMmePvyRuwB4cSjsIJtDBYLVwrV6UdzyDtrfCkERpiDYu8rWDxJ7QaXjOAhOCwIx+RU05lONqb
+	tt/z88Mb/eTDZEwJgDMs3TRzkLUUp5jIyNM4OU7RfE27oRdDXP36GCOJ3g/GJNO4JoJxbqZITct5C
+	cfcfPrzM6CrNB/DcygKrU5TnQQ==;
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fjasle.eu;
+ i=@fjasle.eu; q=dns/txt; s=s1174286; t=1709544411; h=from : subject :
+ to : message-id : date;
+ bh=dSA4zZatV9UqbY6asTaR1XvA3gHAvLPK2adXkrBBVSE=;
+ b=a7rsJPkp3VLAIzvvxWmmBMRL924ebsWMpzta4SHupq6ZFj1OfJz4nGi1QpcTImNgq/7dD
+ 19Sgz1ipS6R1pqCv7eIH59hy5CRF8JCfj8OD0wkpp1QEYXlEBti6HA3YQJoYjoopaIq6ZQh
+ 6cY4At1VU+wDcMYRqH7offKTIwiDDq0DhBs6YVmTpYGV7V8TGjQ1RDmdSiI5yiajQRGI6Mm
+ PTPIFMXuG7ZgZpC9PYdB5ACX368acgmM6UrVBcn6oXoeYy54OrJc39t1MfqxlI0mR4Cw+BT
+ gI/Nf2h3TcvSs7upTLnmuJ5QZ2FO+dSa0zRMFLsR7tuMZe5WbcwjNQb7RnEQ==
+Received: from [10.139.162.187] (helo=SmtpCorp) by smtpcorp.com with esmtpsa
+ (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+ (Exim 4.94.2-S2G) (envelope-from <nicolas@fjasle.eu>)
+ id 1rh4al-qt4Jyi-NR; Mon, 04 Mar 2024 09:26:39 +0000
+Received: from [10.85.249.164] (helo=leknes.fjasle.eu)
+ by smtpcorp.com with esmtpsa
+ (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+ (Exim 4.96.1-S2G) (envelope-from <nicolas@fjasle.eu>)
+ id 1rh4ak-4XdKRo-2S; Mon, 04 Mar 2024 09:26:39 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
+ t=1709544397; bh=7VDmsob5dJwaz3X9qMt+VxPXL/JvM00gxmRyrpIxXqc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=L8PbEoDIRyhOAJsNNVtfEGp7Kf/YyPuMCfIc/ZbYWls23k8CexemOWoOVkteqmQV+
+ u/aXJwND072hSFMlOdTCvXjGIp84hoX2VkIE0nN8MLQqYZq6k/HfIzMsB9ON4P4VjA
+ cAu3YCePvRfbpxtgFMOjN2F04gszsBWfMy3+Lfmk=
+Received: by leknes.fjasle.eu (Postfix, from userid 1000)
+ id E94683C312; Mon,  4 Mar 2024 10:26:36 +0100 (CET)
+Date: Mon, 4 Mar 2024 10:26:36 +0100
+From: Nicolas Schier <nicolas@fjasle.eu>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] kconfig: link menus to a symbol
+Message-ID: <ZeWTzJK8rX35tRnJ@fjasle.eu>
+References: <20240303040035.3450914-1-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240301142844.GP11972@google.com>
-Organization: AVM GmbH
-X-purgate-ID: 149429::1709534499-E2E59402-6B815460/0/0
-X-purgate-type: clean
-X-purgate-size: 895
-X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
-X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
-X-purgate: clean
+In-Reply-To: <20240303040035.3450914-1-masahiroy@kernel.org>
+X-Smtpcorp-Track: 1rh4ak4bdKRo2S.5leu9HMjOTNPn
+Feedback-ID: 1174286m:1174286a9YXZ7r:1174286syjhgZ2FMH
+X-Report-Abuse: Please forward a copy of this message, including all headers,
+ to <abuse-report@smtp2go.com>
 
-On Fri, Mar 01, 2024 at 11:28:44PM +0900, Sergey Senozhatsky wrote:
-> On (24/03/01 12:04), Nicolas Schier wrote:
-> > Perhaps it might be a compromise to let 'make help' point to the
-> > kbuild/kconfig documentation?
+On Sun, Mar 03, 2024 at 01:00:33PM +0900 Masahiro Yamada wrote:
+> Currently, there is no direct link from (struct symbol *) to
+> (struct menu *).
 > 
-> Yes, I was thinking the same. A one-liner description per-env var
-> and point to documentation if one-liner is not enough
+> It is still possible to access associated menus through the P_SYMBOL
+> property, because property::menu is the relevant menu entry, but it
+> results in complex code, as seen in get_symbol_str().
 > 
-> 	KCONFIG_BARREL_ROLL	- kconfig does a barrel roll
-> 	KCONFIG_FOO_BAR		- kconfig does foo and then bar (see
-> 	documentation for details)
+> Use a linked list for simpler traversal of relevant menus.
+> 
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+> 
+>  scripts/kconfig/expr.h   | 5 +++++
+>  scripts/kconfig/menu.c   | 4 +++-
+>  scripts/kconfig/symbol.c | 4 ++++
+>  3 files changed, 12 insertions(+), 1 deletion(-)
 
-No, I thought about leaving out any concrete examples but just adding a
-sentence like:
+Thanks, the whole series looks good to me.
 
-  kconfig and kbuild allow tuning and checks by settings various
-  environment variables, cp. Documentation/kbuild/ for details.
-
-Then there is no need to re-document each variable in 'make help' but
-those who are new are explicitly pointed to the maintained
-documentation.
-
-Kind regards,
-Nicolas
+Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
 
