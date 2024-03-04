@@ -1,51 +1,49 @@
-Return-Path: <linux-kbuild+bounces-1146-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1147-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4654D86FE0A
-	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Mar 2024 10:52:55 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E83486FE2D
+	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Mar 2024 10:58:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0285428158F
-	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Mar 2024 09:52:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A26FB1C21A7E
+	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Mar 2024 09:58:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98232225A2;
-	Mon,  4 Mar 2024 09:51:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF21C22097;
+	Mon,  4 Mar 2024 09:57:27 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail.avm.de (mail.avm.de [212.42.244.94])
+Received: from mail.avm.de (mail.avm.de [212.42.244.119])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BE9F241E5
-	for <linux-kbuild@vger.kernel.org>; Mon,  4 Mar 2024 09:50:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.94
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBFBD23754
+	for <linux-kbuild@vger.kernel.org>; Mon,  4 Mar 2024 09:57:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.119
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709545862; cv=none; b=OjKDu0V6G81zUMCJ080vLG1ZRLkQSGqWAx6uUlvO7j+KDFYdjpFr136ITFRSPhuaKnW96Eu/2JPFELJVgHX0TM64ASgPnii5iTHzl5Hjxrx2JWPMbGkshXPXmH6BLA9iaIHuzdT1Jh7aW6j/L6/Mtwf4a6ZQEemBmxavDTWZU20=
+	t=1709546247; cv=none; b=Qyn3uwwNR69YrKynf5fg5jlqm+CRfSU8u/DBwtazbwWH+mMHoSz9OGbb+025BzRFxC8f6epS0FonModH/tFgWUfKGwBlN7lhlDKIGT/jgp7K9q3iLXOcfFAkh7cRT++u1Ugosx5LGypOPL7Mf/S5frWbfp5DZ6f/qoQMMh+1GUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709545862; c=relaxed/simple;
-	bh=Ba1q4bnAD5Lx6lvd8PC3jksuZQuAs3fuic3jdgL7DQs=;
+	s=arc-20240116; t=1709546247; c=relaxed/simple;
+	bh=wa/p5cPRxDrEZa+czBkvgpSi+PAaEM20SaxT9ulSfBo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hbYKR+C25sZi9Aj8RsIKzlgYzCWnsUDiEjV1EszzGPVVM01WQuEbONkNWrVdZsqdQqW1PD8nGK+wIJff0lbiogC2FtIgGviMyoeQfB/DJl/TlQkIjjK3riaLulkRr5rhFR/2esTixcj72t+a83+7ze6DRgVrMUwM9EzW71tE8OM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=fjasle.eu; spf=pass smtp.mailfrom=avm.de; arc=none smtp.client-ip=212.42.244.94
+	 Content-Type:Content-Disposition:In-Reply-To; b=gu7Vsbyo3KxaikUjtOxML7eGg2GqHJVGrylLGjHnl+qtPiEU7fokpsI0vsdWc3dNvcAYz6shFPhHNYldcjHpyEe8VO/EGXSajxiinr4JGNRw/coknBVGjxcERBr/uzvOIJaRVqMBHo25JU/0dDWZ+ZGo/YUBsx909ERyahnHsYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=fjasle.eu; spf=pass smtp.mailfrom=avm.de; arc=none smtp.client-ip=212.42.244.119
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=fjasle.eu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=avm.de
-Received: from mail-auth.avm.de (unknown [IPv6:2001:bf0:244:244::71])
+Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [212.42.244.71])
 	by mail.avm.de (Postfix) with ESMTPS;
-	Mon,  4 Mar 2024 10:50:49 +0100 (CET)
+	Mon,  4 Mar 2024 10:57:18 +0100 (CET)
 Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
-	by mail-auth.avm.de (Postfix) with ESMTPA id 32FCB80152;
-	Mon,  4 Mar 2024 10:50:49 +0100 (CET)
+	by mail-auth.avm.de (Postfix) with ESMTPA id 580878014B;
+	Mon,  4 Mar 2024 10:57:18 +0100 (CET)
 Received: by buildd.core.avm.de (Postfix, from userid 1000)
-	id 286B5180C38; Mon,  4 Mar 2024 10:50:49 +0100 (CET)
-Date: Mon, 4 Mar 2024 10:50:49 +0100
+	id 4BCF9180C38; Mon,  4 Mar 2024 10:57:18 +0100 (CET)
+Date: Mon, 4 Mar 2024 10:57:18 +0100
 From: Nicolas Schier <nicolas@fjasle.eu>
 To: Elliott Mitchell <ehem+linux@m5p.com>
 Cc: masahiroy@kernel.org, nathan@kernel.org, linux-kbuild@vger.kernel.org
-Subject: Re: [WIP PATCH 01/30] build: replace uses of $(abspath ) with
- existing variables
-Message-ID: <ZeWZebwyvtuJ6Xd1@buildd.core.avm.de>
+Subject: Re: [WIP PATCH 00/30] Adding trailing slash to $(*tree)
+Message-ID: <ZeWa_qAsfmxJ5KFy@buildd.core.avm.de>
 References: <cover.1709508290.git.ehem+linux@m5p.com>
- <2173c7fa03e24291f2f59423d77a3cb175317688.1709508290.git.ehem+linux@m5p.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -54,30 +52,457 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <2173c7fa03e24291f2f59423d77a3cb175317688.1709508290.git.ehem+linux@m5p.com>
-X-purgate-ID: 149429::1709545849-275F89CD-85275499/0/0
+In-Reply-To: <cover.1709508290.git.ehem+linux@m5p.com>
+X-purgate-ID: 149429::1709546238-E26584C2-CB5A6E7A/0/0
 X-purgate-type: clean
-X-purgate-size: 639
+X-purgate-size: 25132
 X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
 X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
 X-purgate: clean
 
-On Fri, Mar 01, 2024 at 12:51:01PM -0800, Elliott Mitchell wrote:
-> As $(abs_objtree) and $(abs_srctree) already exist, $(abspath )
-> shouldn't be used with $(objtree) or $(srctree).
->=20
-> Fixes: 0e1aa629f1ce ("kbuild: Do not clean resolve_btfids if the output d=
-oes not exist")
-> Signed-off-by: Elliott Mitchell <ehem+linux@m5p.com>
-> ---
-> I believe this is pretty much all fixes, but 0e1aa629f1ce was the most
-> recent one.
+On Sun, Mar 03, 2024 at 03:24:50PM -0800, Elliott Mitchell wrote:
+> Having done more experimentation with this, I've now got a better idea as
+> to why some things are the way they are.  At this point I'm able to
+> successfully build kernels with this modification, but I doubt I'm even
+> close to full coverage.  Yet the general approach does appear to work.
+> 
+> There are several places I'm rather unsure of.  I've never used many of
+> the scripts and tools.  As such I've got no idea whether they need
+> further adaptation.  There is a good chance I may have broken some of
+> them.
+> 
+> I've ended up with the suspicion 16671c1e1cac2 was wrong.  It may have
+> made some sense in 2015, but I'm now skeptical of it being a good
+> approach.  In particular setting $(srctree) at the top of Makefiles in
+> tools/ looks like a workaround for 16671c1e1cac2.  Perhaps this is part
+> of a superior solution to the referenced problem?
+> 
+> Much of scripts/ seems meant to be invoked by Makefiles.  Yet some
+> portions may also be intended for use at regular shell command-lines.
+> Being unsure which category these fall into means further adjustment is
+> likely needed.
+> 
+> 
+> Again, right now I'm pretty sure my test coverage is quite incomplete.
+> Things Work For Me(tm), but we know how that goes.  I've done some work
+> on avoiding broken intermediate states, yet my ego is smaller than
+> Jupiter so I'm less than optimistic I've gotten everything.
+> 
 
-If you add a 'Fixes' trailer, please just include changes that fix that
-commit.  You're patch does much more than just modifying the changes
-=66rom commit 0e1aa629f1ce.
+Hi Elliott,
+
+can you please describe a concrete problem you want to solve with your
+patch set?  Masahiro already asked in [1], and I still don't get your
+motivation while reading your cover letter.  It would be helpful to see
+your goal when looking at your patches.
+
+Also, I cannot see the problem with commit 16671c1e1cac2 that you
+mentioned.  If a subtree does not want to inherit some variables, but
+re-use the same names, it seems quite legitimate to me to reset those
+variables before use.
 
 Kind regards,
 Nicolas
+
+[1]: https://lore.kernel.org/linux-kbuild/CAK7LNARcv=iYRb_Qoq=tB3avbjQLpye9bCeqjmJUn6OyP6bZkg@mail.gmail.com/
+
+> 
+> Elliott Mitchell (30):
+>   build: replace uses of $(abspath ) with existing variables
+>   scripts/coccicheck: modify to handle ${srctree} with trailing slash
+>   build: handle optional trailing slash in $(srctree)
+>   build: add trailing slash to $(*tree)
+>   build: modify uses of $(srctree) to assume trailing slash
+>   build: modify uses of $(srctree) to assume trailing slash
+>   build: modify uses of $(srctree) to assume trailing slash
+>   build: modify uses of $(srctree) to assume trailing slash
+>   build: modify uses of $(objtree) to assume trailing slash
+>   scripts: modify uses of $(srctree) to assume trailing slash
+>   scripts: modify uses of $(srctree) to assume trailing slash
+>   scripts: modify uses of $(srctree) to assume trailing slash
+>   scripts: modify uses of $(objtree) to assume trailing slash
+>   build/scripts: link-vmlinux.sh: modify use of ${objtree} for trailing
+>     slash
+>   build/scripts: install.sh: modify use of ${srctree} for trailing slash
+>   scripts/dtc: dtx_diff: include trailing slash in ${srctree} variable
+>   build/scripts: generate_initcall_order.pl: modify use of ${srctree}
+>     for trailing slash
+>   build/scripts: streamline_config.pl: modify use of ${srctree} for
+>     trailing slash
+>   scripts/package: mkdebian: modify use of ${srctree} to assume trailing
+>     slash
+>   scripts/package: buildtar: modify use of ${srctree} to assume trailing
+>     slash
+>   scripts/package: mkspec: modify use of ${srctree} to assume trailing
+>     slash
+>   scripts/nsdeps: modify use of ${srctree} to assume trailing slash
+>   build/scripts: makelst: modify suggested use of ${srctree} for
+>     trailing slash
+>   scripts/generate_rust_analyzer.py: modify use of ${srctree} for
+>     trailing slash
+>   scripts/coccicheck: modify to handle ${srctree} with trailing slash
+>   build: change $(*tree) to empty for current directory
+>   tools/build: add trailing slash to $(*tree)
+>   tools/build: modify uses of $(srctree) to assume trailing slash
+>   tools/build: modify uses of $(srctree) to assume trailing slash
+>   tools/build: modify uses of $(objtree) to assume trailing slash
+> 
+>  Documentation/Makefile                        |  52 ++---
+>  Documentation/devicetree/bindings/Makefile    |  18 +-
+>  Documentation/userspace-api/media/Makefile    |  10 +-
+>  Makefile                                      | 180 +++++++++---------
+>  arch/alpha/boot/Makefile                      |   4 +-
+>  arch/alpha/kernel/syscalls/Makefile           |   4 +-
+>  arch/arc/Makefile                             |   2 +-
+>  arch/arc/boot/dts/Makefile                    |   2 +-
+>  arch/arm/Kbuild                               |   2 +-
+>  arch/arm/Makefile                             |   4 +-
+>  arch/arm/boot/Makefile                        |   2 +-
+>  arch/arm/boot/compressed/Makefile             |   4 +-
+>  arch/arm/mach-dove/Makefile                   |   2 +-
+>  arch/arm/mach-mv78xx0/Makefile                |   2 +-
+>  arch/arm/mach-mvebu/Makefile                  |   2 +-
+>  arch/arm/mach-orion5x/Makefile                |   2 +-
+>  arch/arm/mach-s3c/Makefile                    |   2 +-
+>  arch/arm/plat-orion/Makefile                  |   2 +-
+>  arch/arm/tools/Makefile                       |   6 +-
+>  arch/arm/vdso/Makefile                        |   4 +-
+>  arch/arm64/Makefile                           |   4 +-
+>  arch/arm64/boot/Makefile                      |   2 +-
+>  arch/arm64/kernel/Makefile                    |   2 +-
+>  arch/arm64/kernel/pi/Makefile                 |   6 +-
+>  arch/arm64/kernel/vdso/Makefile               |   4 +-
+>  arch/arm64/kernel/vdso32/Makefile             |   2 +-
+>  arch/arm64/kvm/Makefile                       |   6 +-
+>  arch/arm64/kvm/hyp/Makefile                   |   2 +-
+>  arch/arm64/kvm/hyp/nvhe/Makefile              |   2 +-
+>  arch/csky/Makefile                            |   2 +-
+>  arch/csky/boot/dts/Makefile                   |   2 +-
+>  arch/csky/kernel/vdso/Makefile                |   4 +-
+>  arch/loongarch/Makefile                       |   2 +-
+>  arch/loongarch/boot/Makefile                  |   2 +-
+>  arch/loongarch/kvm/Makefile                   |   4 +-
+>  arch/loongarch/vdso/Makefile                  |   4 +-
+>  arch/m68k/kernel/syscalls/Makefile            |   4 +-
+>  arch/microblaze/kernel/syscalls/Makefile      |   4 +-
+>  arch/mips/Kbuild                              |   2 +-
+>  arch/mips/Kbuild.platforms                    |   2 +-
+>  arch/mips/Makefile                            |  26 +--
+>  arch/mips/Makefile.postlink                   |   2 +-
+>  arch/mips/boot/Makefile                       |   6 +-
+>  arch/mips/boot/compressed/Makefile            |  22 +--
+>  arch/mips/kernel/syscalls/Makefile            |   6 +-
+>  arch/mips/kvm/Makefile                        |   2 +-
+>  arch/mips/vdso/Makefile                       |   6 +-
+>  arch/nios2/boot/dts/Makefile                  |   2 +-
+>  arch/parisc/Makefile                          |   6 +-
+>  arch/parisc/boot/Makefile                     |   2 +-
+>  arch/parisc/boot/compressed/Makefile          |   6 +-
+>  arch/parisc/kernel/syscalls/Makefile          |   4 +-
+>  arch/parisc/kernel/vdso32/Makefile            |   2 +-
+>  arch/parisc/kernel/vdso64/Makefile            |   2 +-
+>  arch/powerpc/Kconfig                          |   8 +-
+>  arch/powerpc/Makefile                         |  30 +--
+>  arch/powerpc/Makefile.postlink                |  10 +-
+>  arch/powerpc/boot/Makefile                    |  32 ++--
+>  arch/powerpc/boot/dts/Makefile                |   2 +-
+>  arch/powerpc/boot/dts/fsl/Makefile            |   2 +-
+>  arch/powerpc/kernel/syscalls/Makefile         |   4 +-
+>  arch/powerpc/kernel/vdso/Makefile             |   6 +-
+>  arch/powerpc/kvm/Makefile                     |   4 +-
+>  arch/powerpc/platforms/cell/spufs/Makefile    |   4 +-
+>  arch/riscv/Makefile                           |  14 +-
+>  arch/riscv/Makefile.postlink                  |   4 +-
+>  arch/riscv/boot/Makefile                      |   2 +-
+>  arch/riscv/kernel/compat_vdso/Makefile        |   2 +-
+>  arch/riscv/kernel/pi/Makefile                 |   8 +-
+>  arch/riscv/kernel/vdso/Makefile               |   4 +-
+>  arch/riscv/kvm/Makefile                       |   4 +-
+>  arch/riscv/purgatory/Makefile                 |  16 +-
+>  arch/s390/Kconfig                             |   2 +-
+>  arch/s390/Makefile                            |   2 +-
+>  arch/s390/boot/Makefile                       |   2 +-
+>  arch/s390/kernel/syscalls/Makefile            |   4 +-
+>  arch/s390/kernel/vdso32/Makefile              |   4 +-
+>  arch/s390/kernel/vdso64/Makefile              |   4 +-
+>  arch/s390/kvm/Makefile                        |   2 +-
+>  arch/s390/purgatory/Makefile                  |   4 +-
+>  arch/s390/tools/Makefile                      |   2 +-
+>  arch/sh/Makefile                              |   2 +-
+>  arch/sh/kernel/syscalls/Makefile              |   4 +-
+>  arch/sparc/kernel/syscalls/Makefile           |   4 +-
+>  arch/sparc/vdso/Makefile                      |   4 +-
+>  arch/um/Makefile                              |  28 +--
+>  arch/um/drivers/Makefile                      |   2 +-
+>  arch/um/kernel/Makefile                       |   6 +-
+>  arch/um/kernel/skas/Makefile                  |   2 +-
+>  arch/um/os-Linux/Makefile                     |   2 +-
+>  arch/um/os-Linux/drivers/Makefile             |   2 +-
+>  arch/um/os-Linux/skas/Makefile                |   2 +-
+>  arch/um/scripts/Makefile.rules                |   2 +-
+>  arch/x86/Kconfig                              |   4 +-
+>  arch/x86/Makefile                             |  14 +-
+>  arch/x86/Makefile.postlink                    |   2 +-
+>  arch/x86/Makefile.um                          |   2 +-
+>  arch/x86/boot/Makefile                        |   8 +-
+>  arch/x86/boot/compressed/Makefile             |  12 +-
+>  arch/x86/entry/syscalls/Makefile              |   8 +-
+>  arch/x86/entry/vdso/Makefile                  |   6 +-
+>  arch/x86/kernel/Makefile                      |   2 +-
+>  arch/x86/kernel/cpu/Makefile                  |   2 +-
+>  arch/x86/kvm/Makefile                         |   4 +-
+>  arch/x86/lib/Makefile                         |   4 +-
+>  arch/x86/mm/Makefile                          |   2 +-
+>  arch/x86/purgatory/Makefile                   |   4 +-
+>  arch/x86/realmode/rm/Makefile                 |   4 +-
+>  arch/x86/tools/Makefile                       |  16 +-
+>  arch/x86/um/Makefile                          |   2 +-
+>  arch/x86/um/os-Linux/Makefile                 |   2 +-
+>  arch/x86/um/vdso/Makefile                     |   2 +-
+>  arch/xtensa/Makefile                          |   2 +-
+>  arch/xtensa/boot/boot-redboot/Makefile        |   2 +-
+>  arch/xtensa/boot/dts/Makefile                 |   2 +-
+>  arch/xtensa/boot/lib/Makefile                 |   4 +-
+>  arch/xtensa/kernel/syscalls/Makefile          |   4 +-
+>  certs/Makefile                                |   4 +-
+>  drivers/Makefile                              |   4 +-
+>  drivers/accessibility/speakup/Makefile        |   4 +-
+>  drivers/base/firmware_loader/builtin/Makefile |   4 +-
+>  drivers/block/rnbd/Makefile                   |   2 +-
+>  drivers/crypto/chelsio/Makefile               |   2 +-
+>  drivers/crypto/intel/iaa/Makefile             |   2 +-
+>  drivers/crypto/intel/qat/qat_420xx/Makefile   |   2 +-
+>  drivers/crypto/intel/qat/qat_4xxx/Makefile    |   2 +-
+>  drivers/crypto/intel/qat/qat_c3xxx/Makefile   |   2 +-
+>  drivers/crypto/intel/qat/qat_c3xxxvf/Makefile |   2 +-
+>  drivers/crypto/intel/qat/qat_c62x/Makefile    |   2 +-
+>  drivers/crypto/intel/qat/qat_c62xvf/Makefile  |   2 +-
+>  .../crypto/intel/qat/qat_dh895xcc/Makefile    |   2 +-
+>  .../crypto/intel/qat/qat_dh895xccvf/Makefile  |   2 +-
+>  drivers/crypto/marvell/octeontx2/Makefile     |   2 +-
+>  drivers/cxl/core/Makefile                     |   2 +-
+>  drivers/firmware/efi/libstub/Makefile         |   6 +-
+>  drivers/firmware/efi/libstub/Makefile.zboot   |   6 +-
+>  drivers/gpu/drm/amd/amdgpu/Makefile           |   2 +-
+>  drivers/gpu/drm/arm/display/komeda/Makefile   |   4 +-
+>  drivers/gpu/drm/i915/Makefile                 |   8 +-
+>  drivers/gpu/drm/imagination/Makefile          |   2 +-
+>  drivers/gpu/drm/msm/Makefile                  |   8 +-
+>  drivers/gpu/drm/nouveau/Kbuild                |   2 +-
+>  drivers/gpu/drm/xe/Makefile                   |  18 +-
+>  drivers/hid/amd-sfh-hid/Makefile              |   2 +-
+>  drivers/hid/bpf/Makefile                      |   2 +-
+>  drivers/hid/intel-ish-hid/Makefile            |   2 +-
+>  drivers/iio/humidity/Makefile                 |   2 +-
+>  drivers/infiniband/hw/bnxt_re/Makefile        |   2 +-
+>  drivers/infiniband/hw/cxgb4/Makefile          |   4 +-
+>  drivers/infiniband/hw/hns/Makefile            |   2 +-
+>  drivers/infiniband/hw/ocrdma/Makefile         |   2 +-
+>  drivers/infiniband/hw/usnic/Makefile          |   2 +-
+>  drivers/media/common/b2c2/Makefile            |   4 +-
+>  drivers/media/dvb-frontends/Makefile          |   4 +-
+>  drivers/media/dvb-frontends/drx39xyj/Makefile |   2 +-
+>  drivers/media/i2c/ccs/Makefile                |   2 +-
+>  drivers/media/mmc/siano/Makefile              |   2 +-
+>  drivers/media/pci/b2c2/Makefile               |   2 +-
+>  drivers/media/pci/bt8xx/Makefile              |   4 +-
+>  drivers/media/pci/cx18/Makefile               |   4 +-
+>  drivers/media/pci/cx23885/Makefile            |   4 +-
+>  drivers/media/pci/cx88/Makefile               |   4 +-
+>  drivers/media/pci/ddbridge/Makefile           |   4 +-
+>  drivers/media/pci/dm1105/Makefile             |   2 +-
+>  drivers/media/pci/ivtv/Makefile               |   4 +-
+>  drivers/media/pci/mantis/Makefile             |   2 +-
+>  drivers/media/pci/netup_unidvb/Makefile       |   2 +-
+>  drivers/media/pci/ngene/Makefile              |   4 +-
+>  drivers/media/pci/pluto2/Makefile             |   2 +-
+>  drivers/media/pci/pt1/Makefile                |   4 +-
+>  drivers/media/pci/pt3/Makefile                |   4 +-
+>  drivers/media/pci/saa7134/Makefile            |   6 +-
+>  drivers/media/pci/saa7146/Makefile            |   2 +-
+>  drivers/media/pci/saa7164/Makefile            |   4 +-
+>  drivers/media/pci/smipcie/Makefile            |   4 +-
+>  drivers/media/pci/ttpci/Makefile              |   6 +-
+>  drivers/media/platform/mediatek/mdp/Makefile  |   2 +-
+>  .../media/platform/st/sti/c8sectpfe/Makefile  |   4 +-
+>  drivers/media/spi/Makefile                    |   2 +-
+>  drivers/media/tuners/Makefile                 |   2 +-
+>  drivers/media/usb/as102/Makefile              |   2 +-
+>  drivers/media/usb/au0828/Makefile             |   4 +-
+>  drivers/media/usb/b2c2/Makefile               |   2 +-
+>  drivers/media/usb/cx231xx/Makefile            |   4 +-
+>  drivers/media/usb/dvb-usb-v2/Makefile         |   6 +-
+>  drivers/media/usb/dvb-usb/Makefile            |   6 +-
+>  drivers/media/usb/em28xx/Makefile             |   4 +-
+>  drivers/media/usb/go7007/Makefile             |   2 +-
+>  drivers/media/usb/gspca/gl860/Makefile        |   2 +-
+>  drivers/media/usb/gspca/m5602/Makefile        |   2 +-
+>  drivers/media/usb/gspca/stv06xx/Makefile      |   2 +-
+>  drivers/media/usb/pvrusb2/Makefile            |   4 +-
+>  drivers/media/usb/siano/Makefile              |   2 +-
+>  drivers/media/usb/ttusb-budget/Makefile       |   2 +-
+>  drivers/media/v4l2-core/Makefile              |   4 +-
+>  .../net/ethernet/aquantia/atlantic/Makefile   |   2 +-
+>  .../chelsio/inline_crypto/ch_ipsec/Makefile   |   4 +-
+>  .../chelsio/inline_crypto/ch_ktls/Makefile    |   2 +-
+>  .../chelsio/inline_crypto/chtls/Makefile      |   4 +-
+>  drivers/net/ethernet/chelsio/libcxgb/Makefile |   2 +-
+>  drivers/net/ethernet/freescale/dpaa/Makefile  |   2 +-
+>  drivers/net/ethernet/freescale/fman/Makefile  |   2 +-
+>  drivers/net/ethernet/fungible/funeth/Makefile |   2 +-
+>  drivers/net/ethernet/hisilicon/hns3/Makefile  |   8 +-
+>  .../ethernet/marvell/octeontx2/nic/Makefile   |   2 +-
+>  .../net/ethernet/microchip/lan966x/Makefile   |   2 +-
+>  .../net/ethernet/microchip/sparx5/Makefile    |   2 +-
+>  drivers/net/wan/Makefile                      |   2 +-
+>  .../broadcom/brcm80211/brcmfmac/Makefile      |   4 +-
+>  .../broadcom/brcm80211/brcmfmac/bca/Makefile  |   6 +-
+>  .../broadcom/brcm80211/brcmfmac/cyw/Makefile  |   6 +-
+>  .../broadcom/brcm80211/brcmfmac/wcc/Makefile  |   6 +-
+>  .../broadcom/brcm80211/brcmsmac/Makefile      |   6 +-
+>  .../broadcom/brcm80211/brcmutil/Makefile      |   2 +-
+>  .../net/wireless/intel/iwlwifi/dvm/Makefile   |   2 +-
+>  .../net/wireless/intel/iwlwifi/mei/Makefile   |   2 +-
+>  .../net/wireless/intel/iwlwifi/mvm/Makefile   |   2 +-
+>  .../wireless/realtek/rtl818x/rtl8180/Makefile |   2 +-
+>  .../wireless/realtek/rtl818x/rtl8187/Makefile |   2 +-
+>  drivers/pinctrl/renesas/Makefile              |  24 +--
+>  drivers/scsi/aic7xxx/Makefile                 |  16 +-
+>  drivers/scsi/csiostor/Makefile                |   2 +-
+>  drivers/scsi/cxgbi/Makefile                   |   2 +-
+>  drivers/scsi/cxgbi/cxgb3i/Kbuild              |   4 +-
+>  drivers/scsi/cxgbi/cxgb4i/Kbuild              |   4 +-
+>  drivers/scsi/libsas/Makefile                  |   2 +-
+>  drivers/scsi/pcmcia/Makefile                  |   2 +-
+>  drivers/staging/media/atomisp/Makefile        |   2 +-
+>  drivers/staging/media/av7110/Makefile         |   8 +-
+>  drivers/staging/rtl8723bs/Makefile            |   2 +-
+>  drivers/target/iscsi/cxgbit/Makefile          |   6 +-
+>  drivers/tty/serial/8250/Makefile              |   2 +-
+>  drivers/usb/gadget/function/Makefile          |   4 +-
+>  drivers/usb/gadget/legacy/Makefile            |   6 +-
+>  drivers/usb/storage/Makefile                  |   2 +-
+>  drivers/vdpa/mlx5/Makefile                    |   2 +-
+>  fs/hostfs/Makefile                            |   2 +-
+>  fs/iomap/Makefile                             |   2 +-
+>  fs/unicode/Makefile                           |  14 +-
+>  fs/xfs/Makefile                               |   4 +-
+>  include/uapi/Kbuild                           |   8 +-
+>  init/Kconfig                                  |  14 +-
+>  init/Makefile                                 |   2 +-
+>  kernel/Makefile                               |   2 +-
+>  kernel/bpf/Makefile                           |   2 +-
+>  kernel/bpf/preload/Makefile                   |   2 +-
+>  kernel/gcov/Makefile                          |   2 +-
+>  lib/Makefile                                  |  16 +-
+>  lib/raid6/Makefile                            |   2 +-
+>  net/wireless/Makefile                         |   2 +-
+>  rust/Makefile                                 | 108 +++++------
+>  samples/bpf/Makefile                          |  26 +--
+>  samples/bpf/Makefile.target                   |   4 +-
+>  samples/coresight/Makefile                    |   2 +-
+>  samples/hid/Makefile                          |  18 +-
+>  samples/hid/Makefile.target                   |   4 +-
+>  scripts/Kbuild.include                        |   8 +-
+>  scripts/Kconfig.include                       |   6 +-
+>  scripts/Makefile                              |   6 +-
+>  scripts/Makefile.asm-generic                  |   8 +-
+>  scripts/Makefile.build                        |  30 +--
+>  scripts/Makefile.clean                        |   2 +-
+>  scripts/Makefile.defconf                      |  16 +-
+>  scripts/Makefile.dtbinst                      |   2 +-
+>  scripts/Makefile.gcc-plugins                  |   2 +-
+>  scripts/Makefile.headersinst                  |  12 +-
+>  scripts/Makefile.host                         |   6 +-
+>  scripts/Makefile.kcov                         |   2 +-
+>  scripts/Makefile.lib                          |  34 ++--
+>  scripts/Makefile.modfinal                     |   4 +-
+>  scripts/Makefile.modinst                      |   6 +-
+>  scripts/Makefile.modpost                      |   4 +-
+>  scripts/Makefile.package                      |  34 ++--
+>  scripts/Makefile.randstruct                   |   4 +-
+>  scripts/Makefile.vdsoinst                     |   2 +-
+>  scripts/Makefile.vmlinux                      |   6 +-
+>  scripts/Makefile.vmlinux_o                    |   8 +-
+>  scripts/basic/Makefile                        |   4 +-
+>  scripts/coccicheck                            |   6 +-
+>  scripts/dtc/Makefile                          |   6 +-
+>  scripts/dtc/dtx_diff                          |  14 +-
+>  scripts/gcc-plugins/Makefile                  |   4 +-
+>  scripts/gdb/linux/Makefile                    |   4 +-
+>  scripts/generate_initcall_order.pl            |   4 +-
+>  scripts/generate_rust_analyzer.py             |   2 +-
+>  scripts/genksyms/Makefile                     |   4 +-
+>  scripts/install.sh                            |   4 +-
+>  scripts/kconfig/Makefile                      |  22 +--
+>  scripts/kconfig/streamline_config.pl          |   4 +-
+>  scripts/link-vmlinux.sh                       |  12 +-
+>  scripts/makelst                               |   2 +-
+>  scripts/nsdeps                                |   2 +-
+>  scripts/package/builddeb                      |  12 +-
+>  scripts/package/buildtar                      |  60 +++---
+>  scripts/package/debian/rules                  |   2 +-
+>  scripts/package/kernel.spec                   |   2 +-
+>  scripts/package/mkdebian                      |   8 +-
+>  scripts/package/mkspec                        |   4 +-
+>  scripts/selinux/genheaders/Makefile           |   4 +-
+>  scripts/selinux/mdp/Makefile                  |   4 +-
+>  security/apparmor/Makefile                    |   8 +-
+>  security/selinux/Makefile                     |   2 +-
+>  security/tomoyo/Makefile                      |   2 +-
+>  tools/bootconfig/Makefile                     |   6 +-
+>  tools/bpf/Makefile                            |  16 +-
+>  tools/bpf/bpftool/Makefile                    |  24 +--
+>  tools/bpf/resolve_btfids/Makefile             |  12 +-
+>  tools/build/Makefile                          |   8 +-
+>  tools/build/Makefile.build                    |   2 +-
+>  tools/build/Makefile.feature                  |   2 +-
+>  tools/build/Makefile.include                  |   6 +-
+>  tools/build/tests/ex/Makefile                 |   4 +-
+>  tools/counter/Makefile                        |   8 +-
+>  tools/gpio/Makefile                           |   6 +-
+>  tools/hv/Makefile                             |   6 +-
+>  tools/iio/Makefile                            |   6 +-
+>  tools/include/nolibc/Makefile                 |   8 +-
+>  tools/lib/api/Makefile                        |  16 +-
+>  tools/lib/bpf/Makefile                        |  24 +--
+>  tools/lib/perf/Makefile                       |  28 +--
+>  tools/lib/subcmd/Makefile                     |  12 +-
+>  tools/lib/symbol/Makefile                     |  16 +-
+>  tools/lib/thermal/Makefile                    |  28 +--
+>  tools/objtool/Makefile                        |  18 +-
+>  tools/pci/Makefile                            |   6 +-
+>  tools/perf/Makefile.config                    |  22 +--
+>  tools/perf/Makefile.perf                      | 140 +++++++-------
+>  tools/perf/arch/arm64/Makefile                |   6 +-
+>  tools/perf/arch/loongarch/Makefile            |   6 +-
+>  tools/perf/arch/mips/Makefile                 |   2 +-
+>  tools/perf/arch/powerpc/Makefile              |   2 +-
+>  tools/perf/arch/s390/Makefile                 |   2 +-
+>  tools/perf/arch/x86/Makefile                  |   2 +-
+>  tools/power/acpi/Makefile.config              |  12 +-
+>  tools/power/acpi/Makefile.rules               |   2 +-
+>  tools/power/acpi/tools/acpidump/Makefile      |   2 +-
+>  tools/power/acpi/tools/pfrut/Makefile         |   2 +-
+>  tools/power/x86/intel-speed-select/Makefile   |  10 +-
+>  tools/spi/Makefile                            |   6 +-
+>  tools/testing/cxl/Kbuild                      |   4 +-
+>  tools/testing/cxl/test/Kbuild                 |   2 +-
+>  tools/testing/nvdimm/Kbuild                   |   4 +-
+>  tools/testing/nvdimm/test/Kbuild              |   4 +-
+>  tools/testing/selftests/nolibc/Makefile       |  26 +--
+>  tools/thermal/lib/Makefile                    |  26 +--
+>  tools/thermal/thermal-engine/Makefile         |  16 +-
+>  tools/thermal/thermometer/Makefile            |  12 +-
+>  tools/usb/Makefile                            |   8 +-
+>  usr/Makefile                                  |   2 +-
+>  usr/include/Makefile                          |   4 +-
+>  350 files changed, 1232 insertions(+), 1236 deletions(-)
+> 
+> -- 
+> 2.39.2
+> 
+
+-- 
+Nicolas Schier
 
