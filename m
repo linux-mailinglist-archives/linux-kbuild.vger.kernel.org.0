@@ -1,200 +1,209 @@
-Return-Path: <linux-kbuild+bounces-1170-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1171-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F064872140
-	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Mar 2024 15:14:59 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7D0C872149
+	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Mar 2024 15:15:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9824AB2404F
-	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Mar 2024 14:14:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 443421F22CBE
+	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Mar 2024 14:15:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECAC086640;
-	Tue,  5 Mar 2024 14:14:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E92FD85C62;
+	Tue,  5 Mar 2024 14:15:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=valentinobst.de header.i=kernel@valentinobst.de header.b="RgMhHdDV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ztl2Bx+2"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.130])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A645685C62;
-	Tue,  5 Mar 2024 14:14:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.126.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4B1155E59
+	for <linux-kbuild@vger.kernel.org>; Tue,  5 Mar 2024 14:15:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709648085; cv=none; b=TXhfVgWpOCeDFVv7IcIPfkCbtz9yim1863pBm36YSHuvtUmRkGdDfcXMIC2Nq+le/fW0Ru12t6rRFaMbIDk8FNtuGURWxP9KHimnO3/MnDgchaOqnw2MRzUxFvWxDwBhUptY9KA2KF/FmT2l1v3irW1SBGqmn/sJU7aBBQN3Xgs=
+	t=1709648139; cv=none; b=IMntAokZRBsHMj+jMA9XSeYCdkYERhkRRhcp+3Kn8TuICFGhK3ZWOuyZAo+k+e2E3QTgllpICVoJWEuo2xtIqRajCuccIQlhywAUDiPMd/m9iO1+U15whUk8m6dzO0yLSs54NK8+d+444JUKnmpqlhSxVIiDCM+DR2ilLf6S11M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709648085; c=relaxed/simple;
-	bh=X9XhWS+exg8WKoissfaKP6C7l61CaxTTFr9do1hp1FI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WGmtmVv3LPOLfgiVaEtn3QcVFOGp1GoJsQtvZTuZS37347trzjCt1S5oQnPS9G/q17gNV/7bqIBvpN55qhcg5gWYFA62FSO7WGmPAQDyWJmWfdqun2ldltAyt0KFTIGydku37ns2/rHxV4sPljNvTwUu5975+sHF6BPZkt+Yzws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=valentinobst.de; spf=pass smtp.mailfrom=valentinobst.de; dkim=pass (2048-bit key) header.d=valentinobst.de header.i=kernel@valentinobst.de header.b=RgMhHdDV; arc=none smtp.client-ip=212.227.126.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=valentinobst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=valentinobst.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=valentinobst.de;
-	s=s1-ionos; t=1709648029; x=1710252829; i=kernel@valentinobst.de;
-	bh=X9XhWS+exg8WKoissfaKP6C7l61CaxTTFr9do1hp1FI=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:
-	 References;
-	b=RgMhHdDVnXVS+bbJxFq1415n+cp/Sr+uvzxiw3K7wbyGcNhtjsNF8d7jVMDoClSD
-	 tg7z/VTQB3GdMO6yHSSmAzWLMfQL4gEPQF5VR9z+HrjMsJGuL+6kuXovw9PAbvoTf
-	 pLuq4HYb0vF1tO94er0oAluO4Jc0K+WUBrzODhcQlXKseyZ86TiqGSh6ixuuh3C4j
-	 rupwQxUaM9Grj7O8W83hgPlruL1G7kFT1cdyKcXBUcRmZvdFT+oW/hV/TmJ+79Rqf
-	 kOm3fkBRMcLGtymJ8qykPOQZB2/voOB3sedXKusNRSX9V3Gdtd4sO4kOxMT/PJ+up
-	 pgPue8vSK+AJDo8i8Q==
-X-UI-Sender-Class: 55c96926-9e95-11ee-ae09-1f7a4046a0f6
-Received: from localhost.localdomain ([95.223.130.98]) by
- mrelayeu.kundenserver.de (mreue009 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1M3UhO-1rgxaR1RZa-000bLv; Tue, 05 Mar 2024 15:13:49 +0100
-From: Valentin Obst <kernel@valentinobst.de>
-To: aliceryhl@google.com
-Cc: Jamie.Cunliffe@arm.com,
-	a.hindborg@samsung.com,
-	alex.gaynor@gmail.com,
-	ardb@kernel.org,
-	benno.lossin@proton.me,
-	bjorn3_gh@protonmail.com,
-	boqun.feng@gmail.com,
-	broonie@kernel.org,
-	catalin.marinas@arm.com,
-	gary@garyguo.net,
-	keescook@chromium.org,
-	kernel@valentinobst.de,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	mark.rutland@arm.com,
-	masahiroy@kernel.org,
-	maz@kernel.org,
-	nathan@kernel.org,
-	ndesaulniers@google.com,
-	nicolas@fjasle.eu,
-	ojeda@kernel.org,
-	rust-for-linux@vger.kernel.org,
-	samitolvanen@google.com,
-	wedsonaf@gmail.com,
-	will@kernel.org
-Subject: Re: [PATCH v2] rust: add flags for shadow call stack sanitizer
-Date: Tue,  5 Mar 2024 15:13:23 +0100
-Message-ID: <20240305141323.127587-1-kernel@valentinobst.de>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240305-shadow-call-stack-v2-1-c7b4a3f4d616@google.com>
-References: <20240305-shadow-call-stack-v2-1-c7b4a3f4d616@google.com>
+	s=arc-20240116; t=1709648139; c=relaxed/simple;
+	bh=QN6RmPhI2Bk1mW2OjQAqwmIdAPYSK8IJQXbD+jI7kEc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sqNhK0X0HxGcZzLGCpWwYZu/C/3UpRtgIMq+xTEQd2e9X6uM0/OF8aap2Aw0Hw65yt+580lYJwbnAzo0/VRZ4qiGD4U304VNDz17/Nta5KB9LXmSFetLs9KIk4lUTIe/g720enKOmwt9ngNHyTtjciN+zFOH3Rn3uITWPJ9jk3k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ztl2Bx+2; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B95DC433C7
+	for <linux-kbuild@vger.kernel.org>; Tue,  5 Mar 2024 14:15:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709648139;
+	bh=QN6RmPhI2Bk1mW2OjQAqwmIdAPYSK8IJQXbD+jI7kEc=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Ztl2Bx+2zORbybB44HHhQYlTA1j+Se5wYxf8zXaU3g6LUJC36twZLTu8d7TIeE6DZ
+	 IgloZktDxhVcwgni1phpPiuhPKwkI9waCriQJG/l3WeABj7Sj1bkQwcRp3/WbMciHm
+	 RtEZr05PWmbOEA4W3vs3cv2SE+e0m9FbpgR5RPfPIzuMqSWzV9UkS8DQrQi5c0LNQk
+	 zNpWP/UcnjIMeoxYrZeDsa0UqZPekJduwys8KMQH3aXH+ORcscwv6Uk38164cmpA+s
+	 PeyfDk4QZQl+yMaNE1XGaUV3YTL079gEq4bcVFU990jqo8HLnlf+BSow1AiLedFxd3
+	 siPzu1XjSU8MQ==
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5131c0691feso7332643e87.1
+        for <linux-kbuild@vger.kernel.org>; Tue, 05 Mar 2024 06:15:39 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUJfhi6NigDB8J0LJUifnAPjWpbhQ/2GWB3kBU9OR7LelIT7p0OqR/suR+qQjC18z5qVE3dBhruVejj2agMHDaYpGG9kvm8ZmFH+X2n
+X-Gm-Message-State: AOJu0YzU9a3/fcuhoICXSjyA4yl/ZjBmXpGNFv6IjQauSVUnXNN39cUC
+	dhFt0Zwv48vzHmWt7y9wgls/MOep2fz5GQdYNCVE6CYesMSd45dbf8lACMTKrp2oZryuEEHmBil
+	1jm2LM0ULTYsss6x0EEemjKXwogU=
+X-Google-Smtp-Source: AGHT+IGGdjj0FFhKP5EOeNsAvKO5BF1Wd7K0RwrkjljZrop1EvFRh47bn4NStgPdSHicKWKlFA0eoVpI79XMPDyO35s=
+X-Received: by 2002:ac2:511b:0:b0:513:13a4:95e4 with SMTP id
+ q27-20020ac2511b000000b0051313a495e4mr1364827lfb.36.1709648137822; Tue, 05
+ Mar 2024 06:15:37 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Provags-ID: V03:K1:Eba8bZiNq+yNshh44Mby6AbjtmHiExFjyzEFIMreco5UToK3sHV
- TFmXwP2CtyB+GZgLSi32znLt7qbQVMbTzv9HFiMPgCWIz/2eiIHVIwmKVzHkHJMthljK/E5
- ji9MrEvVcNpTiCzJXmeOuYZQImJmMNXXIPDmxXjKprJs8f9CVfqi/rF0Z0MneDcgajIaxLs
- 0a8zvYkwh0Dwnd0n4ez1w==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:f3DZZkIILkI=;tbncaOB+OkBKBKUitvaL4LRZ+LH
- 45dUQ7SqeCOMSlsndpuOPK0xJq05eC7SK9Lc+Q1xBQBLrseM8L76xjU4Xaduruf5IqWD1+Rhu
- rpCEqJ797vmDjffbKOTcs2pISbpHBjSgffZMlypyAGu5pYRndbhtqsxb3PvyX95mVE9uNar3S
- jiviPahoD5NXbB5MVmXdtNnsSmJ3+dBYCEMS7lGdk3hInFK/GmCyK5+Tif8bc36s2dXFTMwbW
- J8BvDez0AmuLlnI0G4bCzMfodihaD34nsNBkmA9f2n1nrNpz15RiJh0xt+bfRNplc6wMQFM0x
- 0kvHHPrhW8+HxyBpyEBcPobQIZD7eIXhkaAzhI6MqoJva49I1+JV9DPhxnr7QwbIrAEwDYs5R
- D7AqLLnZLy93jJhhrFyYuMonKA5OnMHNqVN4AkcyNKMu5fz0d6LWCsvHml82MeCdzRarl1g5X
- H+7YQlQqJ8rJGtFmzZK/CYH0MBDG4mmmIP3GAhSuv7ihSyJoVchANd46oxCP4FC4VqbCZed/z
- zsISkrDkBG1oPkOSSMxVHYZezSmq2zSDvtRaMNpzsL1MA1xfRR9W9oRg7cvFbxWg+16IhSSsC
- EOWzq0BTc7sgC74mSkxvJds5uzLRz61jVT7oMlf0ye3K54N4ny8YC1F5NYOY0p0jW/f9e1tkk
- 4OBfdtFreCZU45QRoI9LLhqUhfkbBwabkWrr73KnJmZzxrwEHHiQyoEY1e6DNEkd5EQeP/tVO
- zrVYUpEqCmxwqI2Mfo4ykwcMj9Ky6JrkW9RvaSG45/BXOX4msze2Lo=
+References: <20240228060006.13274-1-tfiga@chromium.org> <CZGUX81CR7UB.EUM2N93UUY2H@gmail.com>
+ <CAK7LNASDCq6PCOB2Q=EW+2V3vKDHKxc0vsFQX9hWW51TXGZk4A@mail.gmail.com> <CAAFQd5CJ0K4MPgeaeVRvPZYFYTBADidS+MDUi6EmWKNpWxz2Eg@mail.gmail.com>
+In-Reply-To: <CAAFQd5CJ0K4MPgeaeVRvPZYFYTBADidS+MDUi6EmWKNpWxz2Eg@mail.gmail.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Tue, 5 Mar 2024 23:15:01 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS1x577a26yUivDomvaioxKTXyKWw-aRuyZYjCom1OwmA@mail.gmail.com>
+Message-ID: <CAK7LNAS1x577a26yUivDomvaioxKTXyKWw-aRuyZYjCom1OwmA@mail.gmail.com>
+Subject: Re: [PATCH v2] kconfig: menuconfig: Make hidden options show with
+ different color
+To: Tomasz Figa <tfiga@chromium.org>
+Cc: Matthew Bystrin <dev.mbstr@gmail.com>, linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> Add flags to support the shadow call stack sanitizer, both in the
-> dynamic and non-dynamic modes.
+On Tue, Mar 5, 2024 at 4:47=E2=80=AFPM Tomasz Figa <tfiga@chromium.org> wro=
+te:
 >
-> Right now, the compiler will emit the warning "unknown feature specified
-> for `-Ctarget-feature`: `reserve-x18`". However, the compiler still
-> passes it to the codegen backend, so the flag will work just fine. Once
-> rustc starts recognizing the flag (or provides another way to enable the
-> feature), it will stop emitting this warning. See [1] for the relevant
-> issue.
+> On Thu, Feb 29, 2024 at 10:57=E2=80=AFAM Masahiro Yamada <masahiroy@kerne=
+l.org> wrote:
+> >
+> > On Thu, Feb 29, 2024 at 1:36=E2=80=AFAM Matthew Bystrin <dev.mbstr@gmai=
+l.com> wrote:
+> > >
+> > > On Wed Feb 28, 2024 at 9:00 AM MSK, Tomasz Figa wrote:
+> > > > When hidden options are toggled on (using 'z'), the number of optio=
+ns
+> > > > on the screen can be overwhelming and may make it hard to distingui=
+sh
+> > > > between available and hidden ones. Make them easier to distinguish =
+by
+> > > > displaying the hidden one with a different color (COLOR_YELLOW for =
+color
+> > > > themes and A_DIM for mono).
+> > > >
+> > > > Signed-off-by: Tomasz Figa <tfiga@chromium.org>
+> > > > ---
+> > > >  scripts/kconfig/lxdialog/dialog.h  |  5 +++++
+> > > >  scripts/kconfig/lxdialog/menubox.c | 12 ++++++++----
+> > > >  scripts/kconfig/lxdialog/util.c    | 19 +++++++++++++++++++
+> > > >  scripts/kconfig/mconf.c            | 18 ++++++++++++++++++
+> > > >  4 files changed, 50 insertions(+), 4 deletions(-)
+> > > >
+> > > > Changes from v1:
+> > > > (https://patchwork.kernel.org/project/linux-kbuild/patch/2023122805=
+4630.3595093-1-tfiga@chromium.org/)
+> > > >  * Replaced A_DIM for color themes with COLOR_YELLOW, because the f=
+ormer
+> > > >    has no effect to black text on some commonly used terminals, e.g=
+.
+> > > >    gnome-terminal, foot. Reported by Masahiro Yamada and Nicolas Sc=
+hier.
+> > > >    I ended up with COLOR_YELLOW, as it seems to look comparatively =
+dim
+> > > >    with mutliple light and dark color themes in Chromium hterm and
+> > > >    gnome-terminal.
+> > >
+> > > Thanks! Run a quick tests in xterm. Looks neat!
+> > >
+> > > Is there a reason to set hidden flag in all of the _if_ and _switch_ =
+statements
+> > > in the build_conf() function?  Could similar be done in a more generi=
+c way? For
+> > > example:
+> > >
+> > >         visible =3D menu_is_visible(menu);
+> > >         if (!visible)
+> > >                 item_set_hidden(TRUE);
+> > >
+> > > Or this approach will bring some negative side effects ?
+> > >
+> >
+> >
+> > I guess he just inserted item_set_hidden() where he saw item_make().
+> >
+> >
+> > Since build_conf() resources to itself, the code flow
+> > is difficult to track.
+> >
+> >
+> > You can safely factor it out in some places (for example, just blow),
+> > but that does not make a big difference.
+> >
+> >
+> >
+> > diff --git a/scripts/kconfig/mconf.c b/scripts/kconfig/mconf.c
+> > index b7e08ec98717..ba0f177121ed 100644
+> > --- a/scripts/kconfig/mconf.c
+> > +++ b/scripts/kconfig/mconf.c
+> > @@ -546,16 +546,15 @@ static void build_conf(struct menu *menu)
+> >                         }
+> >                         item_set_tag('t');
+> >                         item_set_data(menu);
+> > -                       if (!visible)
+> > -                               item_set_hidden(TRUE);
+> >                 } else {
+> >                         item_make("   ");
+> >                         item_set_tag(def_menu ? 't' : ':');
+> >                         item_set_data(menu);
+> > -                       if (!visible)
+> > -                               item_set_hidden(TRUE);
 >
-> Currently, the compiler thinks that the aarch64-unknown-none target
-> doesn't support -Zsanitizer=shadow-call-stack, so the build will fail if
-> you enable shadow call stack in non-dynamic mode. However, I still think
-> it is reasonable to add the flag now, as it will at least fail the build
-> when using an invalid configuration, until the Rust compiler is fixed to
-> list -Zsanitizer=shadow-call-stack as supported for the target. See [2]
-> for the feature request to add this.
->
-> I have tested this change with Rust Binder on an Android device using
-> CONFIG_DYNAMIC_SCS. Without the -Ctarget-feature=+reserve-x18 flag, the
-> phone crashes immediately on boot, and with the flag, the phone appears
-> to work normally.
->
-> This contains a TODO to add the -Zuse-sync-unwind=n flag. The flag
-> defaults to n, so it isn't a problem today, but the flag is unstable, so
-> the default could change in a future compiler release.
->
-> Link: https://github.com/rust-lang/rust/issues/121970 [1]
-> Link: https://github.com/rust-lang/rust/issues/121972 [2]
-> Signed-off-by: Alice Ryhl <aliceryhl@google.com>
-> ---
-> This patch raises the question of whether we should change the Rust
-> aarch64 support to use a custom target.json specification. If we do
-> that, then we can fix both the warning for dynamic SCS and the
-> build-failure for non-dynamic SCS without waiting for a new version of
-> rustc with the mentioned issues fixed.
-> ---
-> Changes in v2:
-> - Add -Cforce-unwind-tables flag.
-> - Link to v1: https://lore.kernel.org/r/20240304-shadow-call-stack-v1-1-f055eaf40a2c@google.com
-> ---
->
->  Makefile            | 1 +
->  arch/arm64/Makefile | 4 ++++
->  2 files changed, 5 insertions(+)
->
-> diff --git a/Makefile b/Makefile
-> index 0e36eff14608..345066643a76 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -936,6 +936,7 @@ ifdef CONFIG_SHADOW_CALL_STACK
->  ifndef CONFIG_DYNAMIC_SCS
->  CC_FLAGS_SCS	:= -fsanitize=shadow-call-stack
->  KBUILD_CFLAGS	+= $(CC_FLAGS_SCS)
-> +KBUILD_RUSTFLAGS += -Zsanitizer=shadow-call-stack
->  endif
->  export CC_FLAGS_SCS
->  endif
-> diff --git a/arch/arm64/Makefile b/arch/arm64/Makefile
-> index a88cdf910687..9bd5522c18e9 100644
-> --- a/arch/arm64/Makefile
-> +++ b/arch/arm64/Makefile
-> @@ -48,9 +48,12 @@ KBUILD_AFLAGS	+= $(call cc-option,-mabi=lp64)
->  ifneq ($(CONFIG_UNWIND_TABLES),y)
->  KBUILD_CFLAGS	+= -fno-asynchronous-unwind-tables -fno-unwind-tables
->  KBUILD_AFLAGS	+= -fno-asynchronous-unwind-tables -fno-unwind-tables
-> +KBUILD_RUSTFLAGS += -Cforce-unwind-tables=n
->  else
->  KBUILD_CFLAGS	+= -fasynchronous-unwind-tables
->  KBUILD_AFLAGS	+= -fasynchronous-unwind-tables
-> +# TODO: Pass -Zuse-sync-unwind=n once we upgrade to Rust 1.77.0
-> +KBUILD_RUSTFLAGS += -Cforce-unwind-tables=y
->  endif
->
+> I wanted to be consistent with the current code, which already has the
+> same item_set_data(menu) in both branches. I'm okay with either. Do
+> you want me to resend with this change?
 
-That's the setup I used for my previous testing at [1], offering:
 
-  Tested-by: Valentin Obst <kernel@valentinobst.de>
-  Reviewed-by: Valentin Obst <kernel@valentinobst.de>
 
-    - Best Valentin
+I am fine with either way.
+I thought build_conf() was messy,
+but it is not a problem with your patch.
 
-Link: https://lore.kernel.org/all/20240305112017.125061-1-kernel@valentinobst.de/ [1]
 
->  ifeq ($(CONFIG_STACKPROTECTOR_PER_TASK),y)
-> @@ -103,6 +106,7 @@ endif
->
->  ifeq ($(CONFIG_SHADOW_CALL_STACK), y)
->  KBUILD_CFLAGS	+= -ffixed-x18
-> +KBUILD_RUSTFLAGS += -Ctarget-feature=+reserve-x18
->  endif
->
->  ifeq ($(CONFIG_CPU_BIG_ENDIAN), y)
+
+Talking about the code consistency, what about this suggestion?
+
+https://lore.kernel.org/linux-kbuild/CAAFQd5AOvUtHOOU-OKQKJwyJGXSt6EopcMBsH=
+Wz83n_0XfnOjA@mail.gmail.com/T/#med19d030bf8167637964b58da0f5b86b18fe3f5e
+
+
+In line 26, A_DIM is directly assigned.
+
+   dlg.button_inactive.atr =3D A_DIM;
+
+
+
+If you verbosely add 'A_NORMAL |',
+the other line should look like this:
+
+
+   dlg.item_hidden_selected.atr =3D A_NORMAL | A_REVERSE | A_DIM;
+
+
+And, we need to insert 'A_NORMAL |'
+to every assignment.
+
+
+
+If you agree with me, you can offer to modify the patch locally.
+
+
+
+
+
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
