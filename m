@@ -1,102 +1,109 @@
-Return-Path: <linux-kbuild+bounces-1169-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1170-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FFD8871EBC
-	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Mar 2024 13:14:47 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F064872140
+	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Mar 2024 15:14:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B9635286371
-	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Mar 2024 12:14:45 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9824AB2404F
+	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Mar 2024 14:14:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 155075A0FA;
-	Tue,  5 Mar 2024 12:14:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECAC086640;
+	Tue,  5 Mar 2024 14:14:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eLOgbIcw"
+	dkim=pass (2048-bit key) header.d=valentinobst.de header.i=kernel@valentinobst.de header.b="RgMhHdDV"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 850315A114;
-	Tue,  5 Mar 2024 12:14:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A645685C62;
+	Tue,  5 Mar 2024 14:14:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.126.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709640874; cv=none; b=i3UatXFoGqZ+JrasRoPmb7sdljN8PlBkBr4U7Bf+PxIWsMArWXPd2pkFGOI+j56s4mYhITj1kLJEz5E9rLZZOWKk/PFz688hlMEjuWty2nIhDKYLQ5bN/Q2yRGtUaudFNxD4pYlHzaqX8q/dzTxx0F/p99g0YA7v2zpgSz6IGGk=
+	t=1709648085; cv=none; b=TXhfVgWpOCeDFVv7IcIPfkCbtz9yim1863pBm36YSHuvtUmRkGdDfcXMIC2Nq+le/fW0Ru12t6rRFaMbIDk8FNtuGURWxP9KHimnO3/MnDgchaOqnw2MRzUxFvWxDwBhUptY9KA2KF/FmT2l1v3irW1SBGqmn/sJU7aBBQN3Xgs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709640874; c=relaxed/simple;
-	bh=0JSSs1/ECQnp69yxT4x70rgh4SNZT8QM+eo7Dzqxqt0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=s6fqvvAFufcbF9Bj758jarO4cCQTRwnw22v2B7RJB6B2PgeTnLypQNozCaS0oo3KB3j2z/tO8gfdVZ4YDXX86Xj6MJnzmy9ZHba1+su4/9MUgzpDHOL1nS6tfnuO+a0zFOARc9z8YscPAXmS8XCzhpFwpqRXdOTB/U6s5exkbIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eLOgbIcw; arc=none smtp.client-ip=209.85.216.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-29a2545a1e7so3779411a91.2;
-        Tue, 05 Mar 2024 04:14:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709640872; x=1710245672; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0JSSs1/ECQnp69yxT4x70rgh4SNZT8QM+eo7Dzqxqt0=;
-        b=eLOgbIcwhfT5oiYhF4SuUwv1+HQgWThVEEKgPZlQqf2FtIqL47qWQvc76p6ZPdULMP
-         iKKt4dMcEVllUHVXYuMENqHWgj9K/Ekq1/FLPdidgVk8slUe/xOINfmfQE3qUqYKLwit
-         uwiLmJA+84Lxfn92G/Mvi275Zha1hvryaxe7ksRv+Ria1j/2gQ3COLfqxJ2MpZl9zkDP
-         Z8X4zbDedLuhfApp+0vzIlMmV2u2Bk2QC4ZYcyksR7+Mgw7Bne2iW45i2weZJml7KfU4
-         pDt9+lkHx2dQiClxfX4Qr5s4mx2KupX7XeEH5nw8PT2S6L56Vkobt2Z3Y17qjvcDAdw7
-         O9HA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709640872; x=1710245672;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0JSSs1/ECQnp69yxT4x70rgh4SNZT8QM+eo7Dzqxqt0=;
-        b=Rz/rYWNY9I1rKe54hRgt9M6Tid4YN9VjZq25HXNOD0NZ5lxX8etopj+fpXYvoIZy3U
-         tB5mMiNLHLwcaYgOyMi6wRdB1y3r8OV3/fOGLBpkGcJKu1XFatVRG1zjchyjp1LWpnND
-         FceOUN2JfTamA+6eX41MR1phgjJQC9oHMImkfXdAKpXSZfthG/FwbBhhhRPabm+84Wjo
-         +fXHVuF8Iygm83gKjdo+kvN+E+fR36DUyMxtBOaqbVZljUbjyLSTnRkS6LMP/GcA+tpE
-         Sw3EcIZvjNxRiGXTjpvN3J42chgBgj3necPjTHfUGIms1BT/CYFc8fUDaXtcurXtL+oq
-         Darw==
-X-Forwarded-Encrypted: i=1; AJvYcCWLFu5KNtJa+Xjv+qqK6TVKLC2DBrlbtckq3xHx1KaeU+EOKqgxxVM0VeiEX5isisLhPZfrpiDTZYw6DPC27rXhZ/m3FQTi4Gln5R3lCGgPLaVmHwaMzzZetRsiM/6BZ+bf4gqdZSFzmR9KFZEdtcR9aqePNJ3w/vElbo85IpdomzMmmB8lfJh8aLw=
-X-Gm-Message-State: AOJu0Yzai8Dc4AIfZplBAqfrydh3GsAX1K6//BNeCUUO/8I8JKGs7Ghe
-	E19RgBjdifrGg1eBpCDmcPJLlp41RJKHyycW4Xgoe54Tdt+ekLaulHrhVBXfVaZzF+xLJSM3s1G
-	4QfzUf3VeGTKZLZdHZc4RVLFJfac=
-X-Google-Smtp-Source: AGHT+IEAD/TA42QIrdoJMSBPXlvEBVmHKsROORQBIYu4NCWh6kHE4Z/OnKV7A+AM3JF9Tp8lDCFBeG6d5O+mOAMazmU=
-X-Received: by 2002:a17:90b:192:b0:29a:67fa:7bb7 with SMTP id
- t18-20020a17090b019200b0029a67fa7bb7mr8058251pjs.47.1709640871794; Tue, 05
- Mar 2024 04:14:31 -0800 (PST)
+	s=arc-20240116; t=1709648085; c=relaxed/simple;
+	bh=X9XhWS+exg8WKoissfaKP6C7l61CaxTTFr9do1hp1FI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=WGmtmVv3LPOLfgiVaEtn3QcVFOGp1GoJsQtvZTuZS37347trzjCt1S5oQnPS9G/q17gNV/7bqIBvpN55qhcg5gWYFA62FSO7WGmPAQDyWJmWfdqun2ldltAyt0KFTIGydku37ns2/rHxV4sPljNvTwUu5975+sHF6BPZkt+Yzws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=valentinobst.de; spf=pass smtp.mailfrom=valentinobst.de; dkim=pass (2048-bit key) header.d=valentinobst.de header.i=kernel@valentinobst.de header.b=RgMhHdDV; arc=none smtp.client-ip=212.227.126.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=valentinobst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=valentinobst.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=valentinobst.de;
+	s=s1-ionos; t=1709648029; x=1710252829; i=kernel@valentinobst.de;
+	bh=X9XhWS+exg8WKoissfaKP6C7l61CaxTTFr9do1hp1FI=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:
+	 References;
+	b=RgMhHdDVnXVS+bbJxFq1415n+cp/Sr+uvzxiw3K7wbyGcNhtjsNF8d7jVMDoClSD
+	 tg7z/VTQB3GdMO6yHSSmAzWLMfQL4gEPQF5VR9z+HrjMsJGuL+6kuXovw9PAbvoTf
+	 pLuq4HYb0vF1tO94er0oAluO4Jc0K+WUBrzODhcQlXKseyZ86TiqGSh6ixuuh3C4j
+	 rupwQxUaM9Grj7O8W83hgPlruL1G7kFT1cdyKcXBUcRmZvdFT+oW/hV/TmJ+79Rqf
+	 kOm3fkBRMcLGtymJ8qykPOQZB2/voOB3sedXKusNRSX9V3Gdtd4sO4kOxMT/PJ+up
+	 pgPue8vSK+AJDo8i8Q==
+X-UI-Sender-Class: 55c96926-9e95-11ee-ae09-1f7a4046a0f6
+Received: from localhost.localdomain ([95.223.130.98]) by
+ mrelayeu.kundenserver.de (mreue009 [213.165.67.97]) with ESMTPSA (Nemesis) id
+ 1M3UhO-1rgxaR1RZa-000bLv; Tue, 05 Mar 2024 15:13:49 +0100
+From: Valentin Obst <kernel@valentinobst.de>
+To: aliceryhl@google.com
+Cc: Jamie.Cunliffe@arm.com,
+	a.hindborg@samsung.com,
+	alex.gaynor@gmail.com,
+	ardb@kernel.org,
+	benno.lossin@proton.me,
+	bjorn3_gh@protonmail.com,
+	boqun.feng@gmail.com,
+	broonie@kernel.org,
+	catalin.marinas@arm.com,
+	gary@garyguo.net,
+	keescook@chromium.org,
+	kernel@valentinobst.de,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	mark.rutland@arm.com,
+	masahiroy@kernel.org,
+	maz@kernel.org,
+	nathan@kernel.org,
+	ndesaulniers@google.com,
+	nicolas@fjasle.eu,
+	ojeda@kernel.org,
+	rust-for-linux@vger.kernel.org,
+	samitolvanen@google.com,
+	wedsonaf@gmail.com,
+	will@kernel.org
+Subject: Re: [PATCH v2] rust: add flags for shadow call stack sanitizer
+Date: Tue,  5 Mar 2024 15:13:23 +0100
+Message-ID: <20240305141323.127587-1-kernel@valentinobst.de>
+X-Mailer: git-send-email 2.44.0
+In-Reply-To: <20240305-shadow-call-stack-v2-1-c7b4a3f4d616@google.com>
+References: <20240305-shadow-call-stack-v2-1-c7b4a3f4d616@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240305-shadow-call-stack-v2-1-c7b4a3f4d616@google.com>
-In-Reply-To: <20240305-shadow-call-stack-v2-1-c7b4a3f4d616@google.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Tue, 5 Mar 2024 13:14:19 +0100
-Message-ID: <CANiq72mCzRBW7_H5Q4VQF8PGRFwaKJzQwOe8LOP2NbStz4husg@mail.gmail.com>
-Subject: Re: [PATCH v2] rust: add flags for shadow call stack sanitizer
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Jamie Cunliffe <Jamie.Cunliffe@arm.com>, Sami Tolvanen <samitolvanen@google.com>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Ard Biesheuvel <ardb@kernel.org>, Marc Zyngier <maz@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Mark Brown <broonie@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Kees Cook <keescook@chromium.org>, 
-	Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
-	Valentin Obst <kernel@valentinobst.de>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:Eba8bZiNq+yNshh44Mby6AbjtmHiExFjyzEFIMreco5UToK3sHV
+ TFmXwP2CtyB+GZgLSi32znLt7qbQVMbTzv9HFiMPgCWIz/2eiIHVIwmKVzHkHJMthljK/E5
+ ji9MrEvVcNpTiCzJXmeOuYZQImJmMNXXIPDmxXjKprJs8f9CVfqi/rF0Z0MneDcgajIaxLs
+ 0a8zvYkwh0Dwnd0n4ez1w==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:f3DZZkIILkI=;tbncaOB+OkBKBKUitvaL4LRZ+LH
+ 45dUQ7SqeCOMSlsndpuOPK0xJq05eC7SK9Lc+Q1xBQBLrseM8L76xjU4Xaduruf5IqWD1+Rhu
+ rpCEqJ797vmDjffbKOTcs2pISbpHBjSgffZMlypyAGu5pYRndbhtqsxb3PvyX95mVE9uNar3S
+ jiviPahoD5NXbB5MVmXdtNnsSmJ3+dBYCEMS7lGdk3hInFK/GmCyK5+Tif8bc36s2dXFTMwbW
+ J8BvDez0AmuLlnI0G4bCzMfodihaD34nsNBkmA9f2n1nrNpz15RiJh0xt+bfRNplc6wMQFM0x
+ 0kvHHPrhW8+HxyBpyEBcPobQIZD7eIXhkaAzhI6MqoJva49I1+JV9DPhxnr7QwbIrAEwDYs5R
+ D7AqLLnZLy93jJhhrFyYuMonKA5OnMHNqVN4AkcyNKMu5fz0d6LWCsvHml82MeCdzRarl1g5X
+ H+7YQlQqJ8rJGtFmzZK/CYH0MBDG4mmmIP3GAhSuv7ihSyJoVchANd46oxCP4FC4VqbCZed/z
+ zsISkrDkBG1oPkOSSMxVHYZezSmq2zSDvtRaMNpzsL1MA1xfRR9W9oRg7cvFbxWg+16IhSSsC
+ EOWzq0BTc7sgC74mSkxvJds5uzLRz61jVT7oMlf0ye3K54N4ny8YC1F5NYOY0p0jW/f9e1tkk
+ 4OBfdtFreCZU45QRoI9LLhqUhfkbBwabkWrr73KnJmZzxrwEHHiQyoEY1e6DNEkd5EQeP/tVO
+ zrVYUpEqCmxwqI2Mfo4ykwcMj9Ky6JrkW9RvaSG45/BXOX4msze2Lo=
 
-On Tue, Mar 5, 2024 at 12:58=E2=80=AFPM Alice Ryhl <aliceryhl@google.com> w=
-rote:
->
 > Add flags to support the shadow call stack sanitizer, both in the
 > dynamic and non-dynamic modes.
 >
@@ -108,20 +115,19 @@ rote:
 > issue.
 >
 > Currently, the compiler thinks that the aarch64-unknown-none target
-> doesn't support -Zsanitizer=3Dshadow-call-stack, so the build will fail i=
-f
+> doesn't support -Zsanitizer=shadow-call-stack, so the build will fail if
 > you enable shadow call stack in non-dynamic mode. However, I still think
 > it is reasonable to add the flag now, as it will at least fail the build
 > when using an invalid configuration, until the Rust compiler is fixed to
-> list -Zsanitizer=3Dshadow-call-stack as supported for the target. See [2]
+> list -Zsanitizer=shadow-call-stack as supported for the target. See [2]
 > for the feature request to add this.
 >
 > I have tested this change with Rust Binder on an Android device using
-> CONFIG_DYNAMIC_SCS. Without the -Ctarget-feature=3D+reserve-x18 flag, the
+> CONFIG_DYNAMIC_SCS. Without the -Ctarget-feature=+reserve-x18 flag, the
 > phone crashes immediately on boot, and with the flag, the phone appears
 > to work normally.
 >
-> This contains a TODO to add the -Zuse-sync-unwind=3Dn flag. The flag
+> This contains a TODO to add the -Zuse-sync-unwind=n flag. The flag
 > defaults to n, so it isn't a problem today, but the flag is unstable, so
 > the default could change in a future compiler release.
 >
@@ -134,19 +140,61 @@ f
 > that, then we can fix both the warning for dynamic SCS and the
 > build-failure for non-dynamic SCS without waiting for a new version of
 > rustc with the mentioned issues fixed.
+> ---
+> Changes in v2:
+> - Add -Cforce-unwind-tables flag.
+> - Link to v1: https://lore.kernel.org/r/20240304-shadow-call-stack-v1-1-f055eaf40a2c@google.com
+> ---
+>
+>  Makefile            | 1 +
+>  arch/arm64/Makefile | 4 ++++
+>  2 files changed, 5 insertions(+)
+>
+> diff --git a/Makefile b/Makefile
+> index 0e36eff14608..345066643a76 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -936,6 +936,7 @@ ifdef CONFIG_SHADOW_CALL_STACK
+>  ifndef CONFIG_DYNAMIC_SCS
+>  CC_FLAGS_SCS	:= -fsanitize=shadow-call-stack
+>  KBUILD_CFLAGS	+= $(CC_FLAGS_SCS)
+> +KBUILD_RUSTFLAGS += -Zsanitizer=shadow-call-stack
+>  endif
+>  export CC_FLAGS_SCS
+>  endif
+> diff --git a/arch/arm64/Makefile b/arch/arm64/Makefile
+> index a88cdf910687..9bd5522c18e9 100644
+> --- a/arch/arm64/Makefile
+> +++ b/arch/arm64/Makefile
+> @@ -48,9 +48,12 @@ KBUILD_AFLAGS	+= $(call cc-option,-mabi=lp64)
+>  ifneq ($(CONFIG_UNWIND_TABLES),y)
+>  KBUILD_CFLAGS	+= -fno-asynchronous-unwind-tables -fno-unwind-tables
+>  KBUILD_AFLAGS	+= -fno-asynchronous-unwind-tables -fno-unwind-tables
+> +KBUILD_RUSTFLAGS += -Cforce-unwind-tables=n
+>  else
+>  KBUILD_CFLAGS	+= -fasynchronous-unwind-tables
+>  KBUILD_AFLAGS	+= -fasynchronous-unwind-tables
+> +# TODO: Pass -Zuse-sync-unwind=n once we upgrade to Rust 1.77.0
+> +KBUILD_RUSTFLAGS += -Cforce-unwind-tables=y
+>  endif
+>
 
-If the arm64 maintainers are OK with the warning being triggered in that ca=
-se:
+That's the setup I used for my previous testing at [1], offering:
 
-Acked-by: Miguel Ojeda <ojeda@kernel.org>
+  Tested-by: Valentin Obst <kernel@valentinobst.de>
+  Reviewed-by: Valentin Obst <kernel@valentinobst.de>
 
-Otherwise partially reverting to the `target.json` approach sounds good too=
-.
+    - Best Valentin
 
-I added the `-Zuse-sync-unwind=3Dn` to the list at
-https://github.com/Rust-for-Linux/linux/issues/2. Given the default is
-what we want, I have put it in the "Good to have" section.
+Link: https://lore.kernel.org/all/20240305112017.125061-1-kernel@valentinobst.de/ [1]
 
-Cheers,
-Miguel
+>  ifeq ($(CONFIG_STACKPROTECTOR_PER_TASK),y)
+> @@ -103,6 +106,7 @@ endif
+>
+>  ifeq ($(CONFIG_SHADOW_CALL_STACK), y)
+>  KBUILD_CFLAGS	+= -ffixed-x18
+> +KBUILD_RUSTFLAGS += -Ctarget-feature=+reserve-x18
+>  endif
+>
+>  ifeq ($(CONFIG_CPU_BIG_ENDIAN), y)
 
