@@ -1,146 +1,239 @@
-Return-Path: <linux-kbuild+bounces-1172-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1173-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C95887228C
-	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Mar 2024 16:21:00 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2227872458
+	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Mar 2024 17:31:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A15B31F23DDB
-	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Mar 2024 15:20:59 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 38648B21482
+	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Mar 2024 16:31:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F27B1272B5;
-	Tue,  5 Mar 2024 15:20:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA7AB5256;
+	Tue,  5 Mar 2024 16:30:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vI7bmK3A"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SWK5eHJ4"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 398511272A7
-	for <linux-kbuild@vger.kernel.org>; Tue,  5 Mar 2024 15:20:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A253F10F7;
+	Tue,  5 Mar 2024 16:30:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709652056; cv=none; b=ac/hilmcwWNHF4mHOGFolOpRzgwJ0hlJgFfObGVG2ZHTIAtNhbHPszAKSR7mbMPak4bu2Z9GMmtZTjoQjCWy4J3vkNXXKsNiZ88OwI7i2yCkAotVfKoXa+RDr4qecwtTez7Tykva9FB5irR4hdbqlC+bCgL/topnS0GrUVAS9So=
+	t=1709656257; cv=none; b=PsuN09kEtIzsXCcCD702/Lq45LW8YKt58Ru9D6ZpooJz2hYbsaUKbNs1BmLNAxyUzU2/vmVw3HV4bq8jkla28DwnrPsc1psOongHwinzB4c9OEvF/27FVumMfbpaMvzkBpPvJccCbRPeDo9jfD89UAP+U1uTR6/Y+bjtMoFwJvk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709652056; c=relaxed/simple;
-	bh=S3P/XVuMzDWS/P3SECGhGnF7bxrOi82VssJjK3CFMk4=;
+	s=arc-20240116; t=1709656257; c=relaxed/simple;
+	bh=UjBEAVMdzvLalmwGNh/rQJ83m5pRMJtn7UmSXJVcmGI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IDs6WYf44w7pQX4x1QURzPRfD/BCN/JT1724zqmYHOVEvrZ3JsgYz9wQdsxua5gnpGLa3VS8IgmIZa3056AeZT+Olj/8bVPt2Sra8iWRRp1LG9uHqXLEi7eLTwLoXggYSmBoCsgkb4zPYqmd7RcSNPIADAamTMdcYaBGfZtCWqk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vI7bmK3A; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0EBCC43390
-	for <linux-kbuild@vger.kernel.org>; Tue,  5 Mar 2024 15:20:55 +0000 (UTC)
+	 To:Cc:Content-Type; b=LmUV+xMkShm0Ti8MN5K2XnfUCWLX+2eYVhFxQTy+3FgtKfeSjnVNA8YviMYxh4NLcqFEp5krekmoX9IVq0GqIroMmVt6VfetLHGv/JQcUwpfYS9gFkHehTmWTB2yB1Nr6PELQS15vQkKdvAAERt7Z5J5TnuQI7iLw++zZMaiDlk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SWK5eHJ4; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28259C43390;
+	Tue,  5 Mar 2024 16:30:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709652055;
-	bh=S3P/XVuMzDWS/P3SECGhGnF7bxrOi82VssJjK3CFMk4=;
+	s=k20201202; t=1709656257;
+	bh=UjBEAVMdzvLalmwGNh/rQJ83m5pRMJtn7UmSXJVcmGI=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=vI7bmK3Am/GHjzV73oYkwmJ/J9ihXbeuMhGdjQWiOkGfG0kXUjJXba5akW87WLbsk
-	 pwK6qoaiAKdXSp+vDKaJVty+LOFIVzeSXJ1GWOmTEml8D6iuo3/rl3eK3uISxt2ubf
-	 0p/8MX80A6LErmuxOslrCBlDdOK8+BQo9WSCu1v3c0rV5x5O7s2DiPV0FcVETX1zF7
-	 rEhmOv7Z/RwUj+iAyEyLJu75aI0fIKUQxXggF4jmzu4GhRcManNLACYx/XQeUkpTAH
-	 qCuNZm5rOb0KdgRLzmbfJz+Cd1zHJ9Nf+tsQPreTUsmc8XRb5p/eOvUBkqBXbcUI29
-	 7cFni2bisbueg==
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-51323dfce59so5102458e87.3
-        for <linux-kbuild@vger.kernel.org>; Tue, 05 Mar 2024 07:20:55 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXIB+tqkPZv0DxACTPWP3mKvxmY4oOY2shpjBaWEdEevqOEsM2ypPSewmEwzFib25SyU/4QIPI1fhkEhsYrMvNFj/0GUjWYi+3GB/nR
-X-Gm-Message-State: AOJu0YzLKXw1+/HNCqni595uqH63jAVzSD/cKZXN7izuRaAzz8SJLEBd
-	8qB6UCWIAs0jsr0x+EkmQeMpYq2nPqJN6muyotJTz1QknDtArmk3CJJJ0k2x0qHdpF5bLGyRbY1
-	XFpJHpCe0vYtwqZJUQBw2x1caPJs=
-X-Google-Smtp-Source: AGHT+IF58XXSrpn0hV2eUV6wwq8SJnvkm3Vbkg7f6+aSQ0LQDuQ5RDQDlxF3bGWGyHjrtZ3pUc2xADepo1wsMXjTijI=
-X-Received: by 2002:a05:6512:3493:b0:513:5873:1a29 with SMTP id
- v19-20020a056512349300b0051358731a29mr663484lfr.54.1709652054204; Tue, 05 Mar
- 2024 07:20:54 -0800 (PST)
+	b=SWK5eHJ4KFwRb8vJnqk+5C4fZJ3mEn28cZBqaF1lX37hvkVB3K3d0X3piXIm0dyzr
+	 eML+41LdnPvg8nEuDVfF2xQP5UijhgpSzK7hh7EPOmUcf264YABeq3gT4YfUj4z2pz
+	 sI9UYi5rVd3MkthV8G5cQnsf9FYfzEBxsGVEucCMEkXiNYYxOfUoHkRmvn6x1sjEMl
+	 zHsW3c39Ig2Q9cY20bU8AvDAyQPLVnhmA/Xiem9LSJDdg31Cb459NBi09tBqSuyY6C
+	 7YB068rgyNLcITfhtt6TYwmvkCnn8Uxurec6M4Jmkub6RXrkpsmylXcF2dE4JhCCXE
+	 rvEK9l6L/igDQ==
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-513173e8191so7355317e87.1;
+        Tue, 05 Mar 2024 08:30:57 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCV+NCS9XUXUj0JW+6IWTg+MDWsWHMLMtdX3ANslDs+Ty6njAU+2/3AVNfNVYjcQp3P/Hw3ygrAiDADCuqihcWxZX+zsb5HwR8lz52fkg6P+YR1A+eNh0SVWaoHqCpZ+tbF4kUOQhAAxdOGr
+X-Gm-Message-State: AOJu0YzJ77Q6iBjmd/kOo+UPiZ5z3H7BokFDku+3AiEQHLifVol9CGmi
+	hx3n3ODFb/SUG/2Deopvuxzn1rluaSXnrXY/xhYZzEqqZHcgEXCfLAjT/OK2HGj3unG/zm8hCj8
+	qYGrk9OPrl+wm6D+PGUTuQriGmrI=
+X-Google-Smtp-Source: AGHT+IFiPqEUjF7c5/b6AJpP+FSGeN2AXinKrPbenG+dYSxMtaeqEQP1fyxt+zhygfGtBe3r3ewBs2xKBH/PgUB//p0=
+X-Received: by 2002:a05:6512:219:b0:513:2caf:15ee with SMTP id
+ a25-20020a056512021900b005132caf15eemr1652548lfo.28.1709656255566; Tue, 05
+ Mar 2024 08:30:55 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1709508290.git.ehem+linux@m5p.com> <ZeWa_qAsfmxJ5KFy@buildd.core.avm.de>
- <ZeYiu3V+Q5xItFHD@mattapan.m5p.com>
-In-Reply-To: <ZeYiu3V+Q5xItFHD@mattapan.m5p.com>
+References: <20240223092338.2433632-1-wenst@chromium.org> <CAK7LNAQmvyftnFJaByyjH+f4nxcNUKpjkDXwebEH5AhMF6U0Kw@mail.gmail.com>
+ <CAGXv+5GmkZdqpNZDFN4dcTyZ-qVS0TjrrqBrBAei6DP+eXLnJg@mail.gmail.com>
+ <CAK7LNAS8tLuHYcPTb5pJZixn5Hb0yjo0nmbrfSUr5Cd_pc+WMg@mail.gmail.com> <CAGXv+5HB7gXJ0x1uVdgbWaRWS8+rN6FwEgyGLObxr_cfyLty6A@mail.gmail.com>
+In-Reply-To: <CAGXv+5HB7gXJ0x1uVdgbWaRWS8+rN6FwEgyGLObxr_cfyLty6A@mail.gmail.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Wed, 6 Mar 2024 00:20:17 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAT+dnMAEd0nxXmb-szR-5oHZyB2YOTjVCBypDbwAXNHsw@mail.gmail.com>
-Message-ID: <CAK7LNAT+dnMAEd0nxXmb-szR-5oHZyB2YOTjVCBypDbwAXNHsw@mail.gmail.com>
-Subject: Re: [WIP PATCH 00/30] Adding trailing slash to $(*tree)
-To: Elliott Mitchell <ehem+linux@m5p.com>
-Cc: Nicolas Schier <nicolas@fjasle.eu>, nathan@kernel.org, linux-kbuild@vger.kernel.org
+Date: Wed, 6 Mar 2024 01:30:18 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARADnpCHvNWHLqb9acVNqzwDRuLiKbKe4XZwM4_Ts+ypg@mail.gmail.com>
+Message-ID: <CAK7LNARADnpCHvNWHLqb9acVNqzwDRuLiKbKe4XZwM4_Ts+ypg@mail.gmail.com>
+Subject: Re: [PATCH RFC] kbuild: create a list of all built DTB files
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Simon Glass <sjg@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 5, 2024 at 4:36=E2=80=AFAM Elliott Mitchell <ehem+linux@m5p.com=
-> wrote:
+On Mon, Mar 4, 2024 at 1:37=E2=80=AFPM Chen-Yu Tsai <wenst@chromium.org> wr=
+ote:
 >
-> On Mon, Mar 04, 2024 at 10:57:18AM +0100, Nicolas Schier wrote:
+> On Thu, Feb 29, 2024 at 11:35=E2=80=AFPM Masahiro Yamada <masahiroy@kerne=
+l.org> wrote:
 > >
-> > can you please describe a concrete problem you want to solve with your
-> > patch set?  Masahiro already asked in [1], and I still don't get your
-> > motivation while reading your cover letter.  It would be helpful to see
-> > your goal when looking at your patches.
+> > On Thu, Feb 29, 2024 at 11:38=E2=80=AFAM Chen-Yu Tsai <wenst@chromium.o=
+rg> wrote:
+> > >
+> > > On Sun, Feb 25, 2024 at 4:21=E2=80=AFPM Masahiro Yamada <masahiroy@ke=
+rnel.org> wrote:
+> > > >
+> > > > On Fri, Feb 23, 2024 at 6:23=E2=80=AFPM Chen-Yu Tsai <wenst@chromiu=
+m.org> wrote:
+> > > > >
+> > > > > It is useful to have a list of all composite *.dtb files, along w=
+ith
+> > > > > their individual components, generated from the current build.
+> > > > >
+> > > > > With this commit, 'make dtbs' creates arch/*/boot/dts/dtbs-compon=
+ents,
+> > > > > which lists the composite dtb files created in the current build.=
+ It
+> > > > > maintains the order of the dtb-y additions in Makefiles although =
+the
+> > > > > order is not important for DTBs.
+> > > > >
+> > > > > This compliments the list of all *.dtb and *.dtbo files in dtbs-l=
+ist,
+> > > > > which only includes the files directly added to dtb-y.
+> > > > >
+> > > > > For example, consider this case:
+> > > > >
+> > > > >     foo-dtbs :=3D foo_base.dtb foo_overlay.dtbo
+> > > > >     dtb-y :=3D bar.dtb foo.dtb
+> > > > >
+> > > > > In this example, the new list will include foo.dtb with foo_base.=
+dtb and
+> > > > > foo_overlay.dtbo on the same line, but not bar.dtb.
+> > > > >
+> > > > > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> > > > > ---
+> > > > > Hi,
+> > > > >
+> > > > > I hacked up this new thing to list out the individual components =
+of each
+> > > > > composite dtb. I think this information would be useful for FIT i=
+mage
+> > > > > generation or other toolchains to consume. For example, instead o=
+f
+> > > > > including each dtb, a toolchain could realize that some are put t=
+ogether
+> > > > > using others, and if the bootloader supports it, put together com=
+mands
+> > > > > to reassemble the end result from the original parts.
+> > > > >
+> > > > > This is based on and complements Masahiro-san's recent dtbs-list =
+work.
+> > > >
+> > > >
+> > > >
+> > > > This is another format of my previous per-dtb "*.dtlst"
+> > > > (but I did not pick up 3/4, 4/4 because I did not know what we need=
+ after all).
+> > > >
+> > > > This should be discussed together with how Simon's script will look=
+ like.
+> > > >
+> > > > I can understand your Makefile code, but I still do not know
+> > > > how the entire overlay stuff will work in a big picture.
+> > >
+> > > How would you like to proceed? I can through together some changes on=
+ top
+> > > of Simon's patches as an initial proposal if that helps?
+> > >
+> > > I can use your format if you prefer.
+> >
+> >
+> > How would you select base+addonX among
+> > other base+addonY or base+addonZ configurations?
 >
-> I'm trying to develop an alternative kernel build system for one Linux
-> distribution.  Due to how other pieces of the distribution work it seems
-> using the out-of-tree build mechanism to build in-tree modules may be a
-> better approach.  This may be abusing the current build system, but if it
-> works without breaking anything else that should be acceptable.
+> I assume you are alluding to the existing in-tree composite DTs that
+> share the same board compatible strings?
+
+
+Yes.
+It is possible to implement it, but I do not see a point
+to implement what we do not know how to use.
+
+
+
 >
-> The problem I've run into is due to the mechanisms of the build system,
-> the variable $(srctree) gets the value "." while $(src) got the value of
-> $(CURDIR).
+> Under the current FIT image design with compatible strings populated from
+> the FDTs, I don't think there's any way to automatically select among the=
+m.
+> The FIT image simply does not have the information available. Nor do the
+> overlays themselves. The toolchain can only either include all of them
+> and let the bootloader figure things out, or filter out all the duplicate=
+s.
+> With the composite list, at least it will be able to consistently keep
+> only the base DT and drop the ones with the addons.
+
+It makes the purpose of this work even more obscure.
+
+For the purpose of avoiding duplication,
+we can take the first DTB (or the smallest size)
+when we encounter a duplicated compatible string.
+
+
+
 >
-> At which point various places which use $(srctree)/$(src) ended up with
-> the value ./`pwd` and that doesn't work.  Almost all uses of $(srctree)
-> had it followed with a slash, so if $(srctree) includes the trailing
-> slash, $(srctree)$(src) ends up the correct value.
->
-> This may be outside the envelope of what is supportted, but if it works
-> without breaking anything it really should be okay.
+> In one of my previous replies to v9 I mentioned adding a user provided
+> mapping between "configuration" compatible string and FDT filename. The
+> mapping could be maintained in-tree for those base+addonXYZ FDTs if
+> desired.
+
+
+That is one way, but I do not think such a configuration file
+is maintainable.
+
+Rob suggested overwriting the compatible string,
+but I do not think we got consensus.
+
+
+
+> Also, Simon's FIT image "extensions" proposal [1] adds more metadata to
+> the FIT image to cover these addons that currently don't have distinct
+> compatible strings.
+
+I think this is yet another way, but I am not sure
+how to derive the extension compatible string.
 
 
 
 
-I see no good reason to do this change.
-
-I will not take this series.
 
 
+Even if we decide to implement base/overlay split,
+we may not need to add anything to Makefile.
+
+We already have .*.cmd files, and we can know
+if it is a combined DTB or not, by parsing the .*.cmd
+from the python script.
+
+It might be a bit messy, but it is what we do
+in scripts/clang-tools/gen_compile_commands.py
 
 
->
-> > Also, I cannot see the problem with commit 16671c1e1cac2 that you
-> > mentioned.  If a subtree does not want to inherit some variables, but
-> > re-use the same names, it seems quite legitimate to me to reset those
-> > variables before use.
->
-> Take a quick glance at patch #27.  Basically every Makefile inside tools/
-> sets $(srctree) to the equivalent of $(abs_srctree).  This suggests
-> 16671c1e1cac2 was working around an issue for tools/perf, but instead
-> the issue effects most of the Makefiles.  I'm left suspecting the issue
-> was later fixed for tools/perf and 16671c1e1cac2 was a mistake.
->
-> I suspect at this point removing the lines at the top of tools/Makefile
-> added by 16671c1e1cac2 and removing all those duplications would work
-> better.  All I'm certain of is the present situation it doesn't look
-> right.
->
-> Another option is dropping the last 4 looks viable.  Due to ending up
-> with absolute paths, their values of $({src|obj}tree) are likely
-> non-problematic for me.
->
->
-> --
-> (\___(\___(\______          --=3D> 8-) EHM <=3D--          ______/)___/)_=
-__/)
->  \BS (    |         ehem+sigmsg@m5p.com  PGP 87145445         |    )   /
->   \_CS\   |  _____  -O #include <stddisclaimer.h> O-   _____  |   /  _/
-> 8A19\___\_|_/58D2 7E3D DDF4 7BA6 <-PGP-> 41D1 B375 37D0 8714\_|_/___/5445
->
->
 
 
---=20
+
+
+
+
+
+>
+>
+> ChenYu
+>
+> [1] https://lore.kernel.org/u-boot/CAPnjgZ06s64C2ux1rABNAnMv3q4W++sjhNGCO=
+_uPMH_9sTF7Mw@mail.gmail.com/
+--
 Best Regards
 Masahiro Yamada
 
