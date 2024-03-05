@@ -1,116 +1,115 @@
-Return-Path: <linux-kbuild+bounces-1182-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1183-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9981872A01
-	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Mar 2024 23:14:10 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E02BF872A1E
+	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Mar 2024 23:21:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A4DD3283211
-	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Mar 2024 22:14:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CE3641C25E69
+	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Mar 2024 22:21:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8FC712D1F7;
-	Tue,  5 Mar 2024 22:14:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7596112D758;
+	Tue,  5 Mar 2024 22:20:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DMjyak1D"
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="TX0287BY";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="G0DfJrRK"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from wfhigh7-smtp.messagingengine.com (wfhigh7-smtp.messagingengine.com [64.147.123.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99BA912B17E;
-	Tue,  5 Mar 2024 22:14:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B68D112B173;
+	Tue,  5 Mar 2024 22:20:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709676845; cv=none; b=fwJuemPcPcysfDf3Vu7rBN4XUAXMbSkqyeDXvtW2sfQYPX4mEsnqu78+fRKtsH5o+AAwPCvHC7OliTvIXWvOKQiNBAs3aeazyu7AshEVUri7whuoWFVDagOpP2xYH4GZZJLUtggvOp+dgS12t7n0gZ6pRMG9JeorjRxtY2urZGY=
+	t=1709677240; cv=none; b=Bc7ERbWz1oMMoTlTD+G3QPpQ6cKX2NS0fLvWMNPtGCxEfzsGoN24BgPVWP/Xigjw2NKYLAaQUKwcaIobYzh+Cv8PIeb3nk/F7WyTkfLw/Z9nZKOV4CpQIQXZ8ub+SJeh0DRbskQRmj8nlMYgm8800c3CsfI8GzLg6p1fsBGuKAo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709676845; c=relaxed/simple;
-	bh=Wg1yOxK1nVNYDzyYiT6yn8Qfew3WmNqQyzmb5xL2bp8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dBAVjTCP8tsTFTQp/zjeQwNvLJXAYR1vrQSXhfYN1A4fP+IlFrPJElzAnFdPiVQaDHUqgsuVLBXoAg676WaIRx2ijHarFuwL9oV+C+sBoPVv31kmSn++lOO+drvBsrNaauW9EAMQnStEC4z1LqOF4iMtOH8bt6CVZiJ3WV+xPjk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DMjyak1D; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 710E2C433F1;
-	Tue,  5 Mar 2024 22:14:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709676845;
-	bh=Wg1yOxK1nVNYDzyYiT6yn8Qfew3WmNqQyzmb5xL2bp8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DMjyak1DcC35R39kjuT1KsfnwtYMQvCp/Tspa20T5whG+f1hseD7ZfCc/tmp7hKzo
-	 O8e9+pDjdhoobSMnLwo4D9mCj+ktQi+x4+t/2iEmy7tz+P9tq1omnRAOH139Zv+Zuz
-	 uMAYuW4Bpign/wn9E9o9DcEopWHMWRTPVeF4Q9w1I7yOUbdDZOP32wi5QjNwrRhfO1
-	 nAJ9kcYOs9G8ayjzR0ifI7xOHdGPNdL3uywB6qVocFw2xa3HjZOR+tlWqbGFRIqKVp
-	 t7NJMhRIynPfkz8Fun67GlG4dlw8h7G/vDexHRsifUoxyKy0HpGGljBafsOdpbC6qK
-	 NjFumDPyThqYw==
-Date: Tue, 5 Mar 2024 15:14:02 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Nick Desaulniers <ndesaulniers@google.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	linux-kbuild@vger.kernel.org, llvm@lists.linux.dev,
-	patches@lists.linux.dev, stable@vger.kernel.org
-Subject: Re: [PATCH] kbuild: Disable two Clang specific enumeration warnings
-Message-ID: <20240305221402.GA233379@dev-arch.thelio-3990X>
-References: <20240305-disable-extra-clang-enum-warnings-v1-1-6a93ef3d35ff@kernel.org>
- <57abd8e9-3177-4260-b423-38d5cdcda44e@app.fastmail.com>
- <CAKwvOd=V_Qtd2pK8AKc6bv=zMPnAaCf08=QO74ckqH26A3sefA@mail.gmail.com>
- <20240305193015.GA1173426@dev-arch.thelio-3990X>
- <5b4fa755-571e-4a99-8614-ca0df1db1563@app.fastmail.com>
+	s=arc-20240116; t=1709677240; c=relaxed/simple;
+	bh=cJSh5WC3TcK0ncHmqJarmaVKE8EIju9DrUGMpqKeeDM=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=hZlaLGPR08Sk5AXZuYZLwb7/a2sWh5FERnmdtsW/XrxgUOn72Ouwaep4NXzCwwtXVRg7UuwcHpZJpj8zdhjXBQAXvzEzxnz7IH7V1P2VfzFyb6tzm3svzubyYfZRT2BoFzLkJXAQ7GyshGwexAJ1Bs5RV3jV+5z4gb53vQbi/p4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=TX0287BY; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=G0DfJrRK; arc=none smtp.client-ip=64.147.123.158
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailfhigh.west.internal (Postfix) with ESMTP id 13D131800098;
+	Tue,  5 Mar 2024 17:20:36 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Tue, 05 Mar 2024 17:20:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1709677236; x=1709763636; bh=RA76mlg5ek
+	lvGZW+o1Volc1xu5PRh1gUrgo0OjPyH3g=; b=TX0287BYzltjF5Xh/4uZkmu2Gq
+	HuthSWmXtI2eRv3aCncstXaerbHdw/M8whWb5/5/8zIZjWKcKFylfZHsetGqSqQq
+	lLMeaZc+i2DnHPiC6H1IHmiiO5ae7vKa8nstMs+m5C74y4e/A41QBrbB1TEyRYfj
+	YSstRSW6APDSjLK56d9Xxx7ShxxBqOx2sHmYd3y0iuxLlQRqRuTurATHx7huNVXz
+	Ih2W41s4627IeLByV8FUs2yNPJ4GGTlcEhO4yNO7bbp0nFETCtF8QFu6RbafJVnr
+	SgiWdzYhVs5ErNG2Gzt4/eqk7DBDEaeELSApV8iai8VLvpfr8+8pUDKgY0KA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1709677236; x=1709763636; bh=RA76mlg5eklvGZW+o1Volc1xu5PR
+	h1gUrgo0OjPyH3g=; b=G0DfJrRKcZiGwgk8umVmB3KPG5xKuM7ErF6L5lhnyK0d
+	xL9jtOraNTxHsld3tZjm2y0JFM+L7bm1kujBgfcBtfJruw1FoWYEtKYiCLkNnkJ4
+	KJ8Vy/6fPfAl10m1Ga5FhPAmP6rKgli1FkuYz7jk0CVzrnT0dDTxU4gEtGJSCkBj
+	tlIe89zzWuWg8F7jDT7IJSukb1N4YxCjk0Qalhhyk+sFqNa11by2n6+w+/lHriGe
+	RRqUbknWPjDReraVRYTIhbjQSgWI09l7p41zDb4FSlGHSVvepWZMCkZ+d9UthPUV
+	ZTnzpqg2ScfToa0E9yroXGH7nsxz+A1kVCx4st6N+Q==
+X-ME-Sender: <xms:tJrnZdZHU8FUPwdhN8pHBSG3KeWBI7qBaW5ZdBQBvw0_dNoWDENViw>
+    <xme:tJrnZUb2PThJOmY4A7PeRbJGwglgi_NJ25ITt0FfYnTIT1ybCYC-nA0R-_r18-kkh
+    x2cjNTJZdDvkOZbMGU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrheelgdduheehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepjedvvddvudeludehjeeitdehheeivdejgfelleffiefgvefhhfeuudfhgeef
+    feehnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucevlhhushhtvghrufhiiigvpe
+    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:tJrnZf8XjVEGSMMrr0aCdWH1HiDXpdRoX_9CMUplrSQ-sK8ZQCCPEA>
+    <xmx:tJrnZbq9mQKjkioGoH24LduwI_BsGWSvR5jkcZupdzvPQ58AFCtlAg>
+    <xmx:tJrnZYqopqvoQ_lb02v4x5G0n0MmPNmKth11otlXqkXsPVYZegMrNg>
+    <xmx:tJrnZVhxkJF-dWxna-47-jhpq_TMhy2CSBWqzgRNUlrHCn-Qpk9J_KIxcPY>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 252D9B6008D; Tue,  5 Mar 2024 17:20:36 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-208-g3f1d79aedb-fm-20240301.002-g3f1d79ae
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5b4fa755-571e-4a99-8614-ca0df1db1563@app.fastmail.com>
+Message-Id: <06e56321-61d5-43f3-83e7-c583e053e600@app.fastmail.com>
+In-Reply-To: 
+ <20240305-disable-extra-clang-enum-warnings-v2-1-ba529ec15f95@kernel.org>
+References: 
+ <20240305-disable-extra-clang-enum-warnings-v2-1-ba529ec15f95@kernel.org>
+Date: Tue, 05 Mar 2024 23:20:15 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Nathan Chancellor" <nathan@kernel.org>,
+ "Masahiro Yamada" <masahiroy@kernel.org>
+Cc: "Nicolas Schier" <nicolas@fjasle.eu>,
+ "Nick Desaulniers" <ndesaulniers@google.com>,
+ "Bill Wendling" <morbo@google.com>, "Justin Stitt" <justinstitt@google.com>,
+ "Yonghong Song" <yonghong.song@linux.dev>, linux-kbuild@vger.kernel.org,
+ llvm@lists.linux.dev, patches@lists.linux.dev, stable@vger.kernel.org
+Subject: Re: [PATCH v2] kbuild: Move -Wenum-{compare-conditional,enum-conversion} into
+ W=1
+Content-Type: text/plain
 
-On Tue, Mar 05, 2024 at 10:52:54PM +0100, Arnd Bergmann wrote:
-> On Tue, Mar 5, 2024, at 20:30, Nathan Chancellor wrote:
-> > On Tue, Mar 05, 2024 at 10:52:16AM -0800, Nick Desaulniers wrote:
-> >> On Tue, Mar 5, 2024 at 10:50 AM Arnd Bergmann <arnd@arndb.de> wrote:
-> >> >
-> >> > On Tue, Mar 5, 2024, at 18:42, Nathan Chancellor wrote:
-> >> > >
-> >> > > As the warnings do not appear to have a high signal to noise ratio and
-> >> > > the source level silencing options are not sustainable, disable the
-> >> > > warnings unconditionally, as they will be enabled with -Wenum-conversion
-> >> > > and are supported in all versions of clang that can build the kernel.
-> >> >
-> >> > I took a look at a sample of warnings in an allmodconfig build
-> >> > and found a number that need attention. I would much prefer to
-> >> > leave these turned on at the W=1 level and only disable them
-> >> > at the default warning level.
-> >> 
-> >> Sounds like these new diagnostics are very noisy. 0day bot sends
-> >> people reports at W=1. Perhaps W=2?
-> 
-> It feels like this is not a great reason for moving it to W=2
-> instead of W=1, but W=2 is still better than always disabling
-> it I think.
-> 
-> Specifically, the 0day bot warns for newly added W=1 warnings
-> but not for preexisting ones, and I think there are other warnings
-> at the W=1 level that are similarly noisy to this one.
-> 
-> > A number of subsystems test with W=1 as well and while opting into W=1
-> > means that you are potentially asking for new warnings across newer
-> > compiler releases, a warning with this number of instances is going to
-> > cause a lot of issues (I think of netdev for example).
-> 
-> I only see a handful of warnings in net (devlink, bpf) and
-> drivers/net (ethernet/{3com,amd8111e,funeth,hns,idpf,jme,mlx4} and
-> wireless/{iwlwifi,mt76,rtw88,rtw89}). 
-> 
-> These are also some of the ones that I think need a closer look.
+On Tue, Mar 5, 2024, at 23:12, Nathan Chancellor wrote:
+> Cc: stable@vger.kernel.org
+> Closes: https://github.com/ClangBuiltLinux/linux/issues/2002
+> Link: 
+> https://github.com/llvm/llvm-project/commit/8c2ae42b3e1c6aa7c18f873edcebff7c0b45a37e
+> Acked-by: Yonghong Song <yonghong.song@linux.dev>
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 
-Fair enough, I have sent v2 that just moves these warnings to W=1.
-
-Cheers,
-Nathan
+Acked-by: Arnd Bergmann <arnd@arndb.de>
 
