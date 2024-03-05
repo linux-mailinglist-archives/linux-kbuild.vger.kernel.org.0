@@ -1,155 +1,87 @@
-Return-Path: <linux-kbuild+bounces-1159-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1160-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18F14871744
-	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Mar 2024 08:49:59 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A919871C32
+	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Mar 2024 11:52:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 986251F21C5D
-	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Mar 2024 07:49:58 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BA479B2447E
+	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Mar 2024 10:52:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F5B37EEE2;
-	Tue,  5 Mar 2024 07:49:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="V8yUo6Gy"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 934AF5F848;
+	Tue,  5 Mar 2024 10:43:23 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.avm.de (mail.avm.de [212.42.244.120])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 897FE7E775
-	for <linux-kbuild@vger.kernel.org>; Tue,  5 Mar 2024 07:49:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20D195EE89
+	for <linux-kbuild@vger.kernel.org>; Tue,  5 Mar 2024 10:43:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.120
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709624994; cv=none; b=FIJOpb7uGngpHai49Cyf3efX9E6Q2g22HM4AgdbyDkTv6m3NdUUJHKA3iDBz8RJNU0eTaodISgVuj0CDGvjNQoorENBIrMD/E13SEym1Bb7FZHKpwduR1WbxH/wP6EMN0aLRM+1bYh/jK7ogVEmpbCO8ijZnd3eL5RaClGA90+U=
+	t=1709635403; cv=none; b=SC3ZMGgJ6wpIj49HYEvhbX42iejfTu3a9s0ZbrhD14Y79/EkdBs08jqYVmib46tl78o6aXaplkDMMXB4eotp1XGXTqCaTlRxeejrPQlIHGrMvOkUwrHyIr8PqNamzGkkgzhgVaOMTqqC12IN3TmLXiPKJXc83CBwcVvN+sG0Cnk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709624994; c=relaxed/simple;
-	bh=G0azDVyc+1/3hvXIMLTl3mAD63L6klmysjz8hmf4lZQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZUkFVDJwo+Cm6bItFAo7Ey9obBxxOQOUjVY7dTR8WJ1L0DdW2Sq5UGHb1KQzmkj0HcHgZV40wD/jG6BDMTtfk1TUXayPTe3Mmtb5krAKGASS27mHq0vPez2nm6rt2xLjRBY0Vh/HBtwdkj9mh7DsZ1MK1CeX/vyab/QKQYF6rKI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=V8yUo6Gy; arc=none smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-56715a6aa55so2521354a12.2
-        for <linux-kbuild@vger.kernel.org>; Mon, 04 Mar 2024 23:49:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1709624990; x=1710229790; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BZTlwIT9w7Ye2oUDZ5aSGoTWx5DRZwVc6z6LT8pMQV8=;
-        b=V8yUo6GyeNYTuy7rek+TyyQ9u3waEZkOIy8FgsloyomeRjSMEze/KqUOpaDYqfNkb3
-         U+bUIl+z9RYFn6DB0rDEATjW+mhtOI3B1WJct59LucQ6VrmvAnE4E/zwDYvi69lJlXeZ
-         2H/c3YCDwfZLEKJUbb79U8ijG6htURPPgpAP4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709624990; x=1710229790;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BZTlwIT9w7Ye2oUDZ5aSGoTWx5DRZwVc6z6LT8pMQV8=;
-        b=XbAxTWj+3uPVYkH8bxWQpU509k9aYQey2oDursYzm6Wymd/vX9YpsIks5RKNGwJM81
-         YdqkpYzE5kMZOmRzDIkI3M/MYPXGDlAyqGHI36eO/NDQhXccMmGLGZKjrUz4Kk2yvyRi
-         +Vc+i8sLM+vtZxVI2RnPvbr1C9srNYA27qNwVHkbx4Kk5i0b3nWKIhcA3gblFTEji0Bi
-         zZv0AVAu9axt/u8xpq/VU21wmbx9Xdo68risnKij+srOOFtR1prXKod3aNKxgUmiCkDU
-         yG5l3IjgWkBboSkpgdXSRTHZMr3FFYF017PZTMq1SwgW0Nbo2DeyqMo6QQcEwQyqSCFd
-         IxEA==
-X-Gm-Message-State: AOJu0YxGIsyeKNOaui1j6UObym/mBWkGX8JVtNdPw4Y/rNdFYjEFKUl4
-	JICH5gaRIQoN3L7CHGelooVIlQqkHfxbshGOpf2iqRADe0Kw0usuRpS4IYFEmTXo4KF3yhddt1Z
-	u+w==
-X-Google-Smtp-Source: AGHT+IG0FkSzzVQ91LF7SSB1Td3etON0nzIbS6M15A9djMaLalhpbZMxGURj9RsnmFO6nveKQC/zNg==
-X-Received: by 2002:a50:c943:0:b0:565:fb4c:7707 with SMTP id p3-20020a50c943000000b00565fb4c7707mr7542866edh.26.1709624990394;
-        Mon, 04 Mar 2024 23:49:50 -0800 (PST)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com. [209.85.128.41])
-        by smtp.gmail.com with ESMTPSA id ek23-20020a056402371700b00564e9746fdasm5503518edb.28.2024.03.04.23.49.49
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Mar 2024 23:49:49 -0800 (PST)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-412e4426e32so12325895e9.2
-        for <linux-kbuild@vger.kernel.org>; Mon, 04 Mar 2024 23:49:49 -0800 (PST)
-X-Received: by 2002:a5d:4903:0:b0:33d:f7d2:50e6 with SMTP id
- x3-20020a5d4903000000b0033df7d250e6mr8042962wrq.31.1709624989230; Mon, 04 Mar
- 2024 23:49:49 -0800 (PST)
+	s=arc-20240116; t=1709635403; c=relaxed/simple;
+	bh=LnXSi7eNOJfo9PIrjCrbKHZYI886Pumm65dmt4n2m1c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qWji+tSNwcl3LsmfVvguRLOe3rAm0/V7P9mGtyv5a5TVPZMe86mTRwCH/u8/4MRqhlH1EHIaCUubfzVqQYtHpwL0USbjqaSNRm4qaqc8mA6vgfbKiNhWovEk+1RDN8z7u8vdJ8wjZCYdWlMnCBBFLH+Bqb8cixp8kHhOV4XKB8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=fjasle.eu; spf=pass smtp.mailfrom=avm.de; arc=none smtp.client-ip=212.42.244.120
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=fjasle.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=avm.de
+Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [212.42.244.71])
+	by mail.avm.de (Postfix) with ESMTPS;
+	Tue,  5 Mar 2024 11:43:06 +0100 (CET)
+Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
+	by mail-auth.avm.de (Postfix) with ESMTPA id C4D4080155;
+	Tue,  5 Mar 2024 11:43:07 +0100 (CET)
+Received: by buildd.core.avm.de (Postfix, from userid 1000)
+	id B87F318B48A; Tue,  5 Mar 2024 11:43:07 +0100 (CET)
+Date: Tue, 5 Mar 2024 11:43:07 +0100
+From: Nicolas Schier <nicolas@fjasle.eu>
+To: Elliott Mitchell <ehem+linux@m5p.com>
+Cc: masahiroy@kernel.org, nathan@kernel.org, linux-kbuild@vger.kernel.org
+Subject: Re: [WIP PATCH 00/30] Adding trailing slash to $(*tree)
+Message-ID: <Zeb3O0IaAOJHY02w@buildd.core.avm.de>
+References: <cover.1709508290.git.ehem+linux@m5p.com>
+ <ZeWa_qAsfmxJ5KFy@buildd.core.avm.de>
+ <ZeYiu3V+Q5xItFHD@mattapan.m5p.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240228060006.13274-1-tfiga@chromium.org> <c1025094-d9aa-4f4c-bb8f-a486f9953bec@infradead.org>
-In-Reply-To: <c1025094-d9aa-4f4c-bb8f-a486f9953bec@infradead.org>
-From: Tomasz Figa <tfiga@chromium.org>
-Date: Tue, 5 Mar 2024 16:49:32 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5AOvUtHOOU-OKQKJwyJGXSt6EopcMBsHWz83n_0XfnOjA@mail.gmail.com>
-Message-ID: <CAAFQd5AOvUtHOOU-OKQKJwyJGXSt6EopcMBsHWz83n_0XfnOjA@mail.gmail.com>
-Subject: Re: [PATCH v2] kconfig: menuconfig: Make hidden options show with
- different color
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kbuild@vger.kernel.org, Nicolas Schier <n.schier@avm.de>, 
-	Masahiro Yamada <masahiroy@kernel.org>, linux-kernel@vger.kernel.org, 
-	Jesse Taube <Mr.Bossman075@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ZeYiu3V+Q5xItFHD@mattapan.m5p.com>
+X-purgate-ID: 149429::1709635386-037B4E5D-AE01A2F8/0/0
+X-purgate-type: clean
+X-purgate-size: 979
+X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
+X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
+X-purgate: clean
 
-On Thu, Feb 29, 2024 at 2:40=E2=80=AFPM Randy Dunlap <rdunlap@infradead.org=
-> wrote:
->
-> Hi,
->
-> On 2/27/24 22:00, Tomasz Figa wrote:
-> > When hidden options are toggled on (using 'z'), the number of options
-> > on the screen can be overwhelming and may make it hard to distinguish
-> > between available and hidden ones. Make them easier to distinguish by
-> > displaying the hidden one with a different color (COLOR_YELLOW for colo=
-r
-> > themes and A_DIM for mono).
->
->
-> > Signed-off-by: Tomasz Figa <tfiga@chromium.org>
-> > ---
-> >  scripts/kconfig/lxdialog/dialog.h  |  5 +++++
-> >  scripts/kconfig/lxdialog/menubox.c | 12 ++++++++----
-> >  scripts/kconfig/lxdialog/util.c    | 19 +++++++++++++++++++
-> >  scripts/kconfig/mconf.c            | 18 ++++++++++++++++++
-> >  4 files changed, 50 insertions(+), 4 deletions(-)
->
->
-> > Changes from v1:
-> > (https://patchwork.kernel.org/project/linux-kbuild/patch/20231228054630=
-.3595093-1-tfiga@chromium.org/)
-> >  * Replaced A_DIM for color themes with COLOR_YELLOW, because the forme=
-r
-> >    has no effect to black text on some commonly used terminals, e.g.
-> >    gnome-terminal, foot. Reported by Masahiro Yamada and Nicolas Schier=
-.
-> >    I ended up with COLOR_YELLOW, as it seems to look comparatively dim
-> >    with mutliple light and dark color themes in Chromium hterm and
-> >    gnome-terminal.
->
-> I guess COLOR_YELLOW is a relative thing, i.e., it depends on the term's
-> current color scheme in my testing.
+On Mon, Mar 04, 2024 at 11:36:27AM -0800, Elliott Mitchell wrote:
+> On Mon, Mar 04, 2024 at 10:57:18AM +0100, Nicolas Schier wrote:
+> > 
+> > can you please describe a concrete problem you want to solve with your
+> > patch set?  Masahiro already asked in [1], and I still don't get your
+> > motivation while reading your cover letter.  It would be helpful to see
+> > your goal when looking at your patches.
+> 
+> I'm trying to develop an alternative kernel build system for one Linux
+> distribution.  Due to how other pieces of the distribution work it seems
+> using the out-of-tree build mechanism to build in-tree modules may be a
+> better approach.  This may be abusing the current build system, but if it
+> works without breaking anything else that should be acceptable.
 
-Yeah, it's kind of on the edge of being relatively neutral, i.e. not
-standing out much more than the visible options, but I couldn't really
-find anything that would work better for the standard 16-color mode.
-An alternative would be to implement support for the 256-color mode,
-but that would likely require quite a lot of changes in the existing
-code (and I'm not very familiar with how to do it in ncurses...).
+oh well.  You are probably aware of things like
+subdir-ccflags-y and that kmods built via M= are considered to be
+out-of-tree and taint the kernel.
 
->
-> With rxvt (with a beige/khaki background), I do see yellow.
->
-> With xfce4-terminal (with amber/orange foreground on black background,
-> i.e., my default from days of amber monochrome displays ;), the "yellow"
-> comes out as a faded/washed out/dim orange. But still readable.
->
-> Anyway, this looks useful to me.
->
-> Acked-by: Randy Dunlap <rdunlap@infradead.org>
-> Tested-by: Randy Dunlap <rdunlap@infradead.org>
+Good luck.
 
-Thanks a lot!
-
-Best regards,
-Tomasz
+Kind regards,
+Nicolas
 
