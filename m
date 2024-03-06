@@ -1,52 +1,58 @@
-Return-Path: <linux-kbuild+bounces-1186-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1187-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D89C48734A1
-	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Mar 2024 11:44:12 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id F086E8736DC
+	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Mar 2024 13:48:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 945BF285A01
-	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Mar 2024 10:44:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A49F02845A5
+	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Mar 2024 12:48:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 771E760DD0;
-	Wed,  6 Mar 2024 10:43:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 221C985291;
+	Wed,  6 Mar 2024 12:48:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ob1wDC6T"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hI1wS1cv"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DC1760BA1;
-	Wed,  6 Mar 2024 10:43:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA0216089A;
+	Wed,  6 Mar 2024 12:48:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709721797; cv=none; b=Xsf3webqzz4YK45BIHZe9HC4GDq9RKC0zj42MtnS8vWRsziSIUG6RYa/LTncMqS4PuOlauv/YmaUuxdgKBzpBcaPB7zyLJ4gaRm1cYJhM++JUXtcHFPVt+pwcn3xzFPkZ1P0LsuuPkaAGL6vXTJJVv3n5yZZtFwMFErGHU6+akk=
+	t=1709729315; cv=none; b=IcfNeGx4ydVSYv4Fadb/xSNVUULsZx6y4nghe3//5kMXcM7++AhqB+ymkH3Pq/HloOjmYBAsFrRbQ95XGM9gBHZPrFufyo2gbnmfYravY4tqBjzUxJ/5qTi9PGwFjy2qmOAasplFcFXquxpIhd0kOy2gfvHfrvZCs0bokE4Ti9I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709721797; c=relaxed/simple;
-	bh=qPc3Rze+xdFVIDt8rY61AlQ9GWmq0n15nKjNocAbfY0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=KY1MD6FmdoeSCw6lYPlRsgfkcuQi8rnE+rD2CJ4UNA8IC0xmc7+++ERPJ9ac2+//Q9DV26GP+yQsS+ROq486eqxqhlwPKTwCkzmtwVae5VeF1YIk4060OE8u9PSXo4Q+S0dOvr3mEgm/BXhVSKIMiTVU63JBJevi/6lLSSWTjsU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ob1wDC6T; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E7F0C43394;
-	Wed,  6 Mar 2024 10:43:15 +0000 (UTC)
+	s=arc-20240116; t=1709729315; c=relaxed/simple;
+	bh=HMIDAtYYzuh2SltJ4zbi//I5UQMzkPHqGSqhNT/Kv+c=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=PgVQJv5QCnnr9Vt9W92r2tIcXU3Jyby9ct8Qk8wBFCRpzqw4DuIWQFEDC7vwN4c3M43Hndv7Ow30ex9yljMbEXSUdZcwjxwhK60TT+spx6XbrEr/fIHh1y6PzzS5T+3W1F2l06TEWQrt1Cwm1T4BL4GDZfceQQv6FNHL2QHsw68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hI1wS1cv; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2E8BC433C7;
+	Wed,  6 Mar 2024 12:48:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709721796;
-	bh=qPc3Rze+xdFVIDt8rY61AlQ9GWmq0n15nKjNocAbfY0=;
+	s=k20201202; t=1709729314;
+	bh=HMIDAtYYzuh2SltJ4zbi//I5UQMzkPHqGSqhNT/Kv+c=;
 	h=From:To:Cc:Subject:Date:From;
-	b=ob1wDC6TqX8niGkM2eQeaSpFizoDM/FaBMz/mvcNOK3unqNNkDrL9l5RvRw7Iz19T
-	 09a6oA9+gNa2+04BlWmERnTOHG4EoYo2TZpwve6xaRG647CQ7zRvJgGBU7J0wH7jho
-	 eLgQOl3LpYejyauzDw8sTGSEdQj89Wa7POXDHc7YtSxBu5R6fZJv8XwNH2P2HqrjMM
-	 nvE9jv+VOu/EYq1yTIuly7fqmb4vbcgFyhgSNUfedS2bnSdZWFyheL2z3TlHMx84OF
-	 6PKCu0XxS8uKVMfmVE7b+/6lJjy0h4GaDTM8KkkuUY3siOsO3Ci7fRDM2znWlh/Udx
-	 X2xNYN9C/McXQ==
+	b=hI1wS1cvOeIEBtmBzURU9hsHw1VLSJvdBU4jc6/zyhOQcUN/HdT+S3YdXY1+wU4fc
+	 gv1ewDyMKnBt3NQKGJ5h0BvlMWcCIMmaa1bKxiSQ4XJBtW9pgGbQS6x68Na7U2G8cK
+	 4zApdATKlsPVxFj4Pfu9Paklgupe0qwMjzSAgM1boghK8p4Rg21hvUIvst+7ZmSU16
+	 gccZh7OPn/QF/mFFch4YpRrao4kZt39ckOPdXdJXSXsqufaXHAVq5UwguXpIQLtSz1
+	 04vgFWPvkBOCtjZdZPY0o/WB54mVa16w6fEnYiDqtLohnBWs/LufuTihOhUkp1SnzJ
+	 QmPytRZA2btnQ==
 From: Masahiro Yamada <masahiroy@kernel.org>
 To: linux-kbuild@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH] kbuild: unexport abs_srctree and abs_objtree
-Date: Wed,  6 Mar 2024 19:42:22 +0900
-Message-Id: <20240306104222.308473-1-masahiroy@kernel.org>
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	llvm@lists.linux.dev
+Subject: [PATCH] kbuild: remove GCC's default -Wpacked-bitfield-compat flag
+Date: Wed,  6 Mar 2024 21:47:09 +0900
+Message-Id: <20240306124709.324448-1-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
@@ -54,92 +60,50 @@ List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Commit 25b146c5b8ce ("kbuild: allow Kbuild to start from any directory")
-exported abs_srctree and abs_objtree to avoid recomputation after the
-sub-make. However, this approach turned out to be fragile.
+Commit 4a5838ad9d2d ("kbuild: Add extra gcc checks") added the
+-Wpacked-bitfield-compat flag.
 
-Commit 5fa94ceb793e ("kbuild: set correct abs_srctree and abs_objtree
-for package builds") moved them above "ifneq ($(sub_make_done),1)",
-eliminating the need for exporting them.
+GCC manual says:
+  "This warning is enabled by default. Use -Wno-packed-bitfield-compat
+   to disable this warning."
 
-These are only needed in the top Makefile. If an absolute path is
-required in sub-directories, you can use $(abspath ) or $(realpath )
-as needed.
+The test code in the manual:
+
+  struct foo
+  {
+    char a:4;
+    char b:8;
+  } __attribute__ ((packed));
+
+... emits "note: offset of packed bit-field ‘b’ has changed in GCC 4.4"
+without W=3.
+
+Let's remove it, as it is a default with GCC.
+
+Clang does not support this flag, so its removal will not affect Clang
+builds.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- Makefile                 | 4 ++--
- rust/Makefile            | 4 ++--
- scripts/Makefile.package | 2 +-
- tools/lib/bpf/Makefile   | 2 +-
- 4 files changed, 6 insertions(+), 6 deletions(-)
+ scripts/Makefile.extrawarn | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/Makefile b/Makefile
-index d84c0fb215fd..d9274e7c75f0 100644
---- a/Makefile
-+++ b/Makefile
-@@ -39,8 +39,8 @@ __all:
- # prepare rule.
+diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
+index a9e552a1e910..8192b497aae8 100644
+--- a/scripts/Makefile.extrawarn
++++ b/scripts/Makefile.extrawarn
+@@ -185,7 +185,6 @@ KBUILD_CFLAGS += -Wpointer-arith
+ KBUILD_CFLAGS += -Wredundant-decls
+ KBUILD_CFLAGS += -Wsign-compare
+ KBUILD_CFLAGS += -Wswitch-default
+-KBUILD_CFLAGS += $(call cc-option, -Wpacked-bitfield-compat)
  
- this-makefile := $(lastword $(MAKEFILE_LIST))
--export abs_srctree := $(realpath $(dir $(this-makefile)))
--export abs_objtree := $(CURDIR)
-+abs_srctree := $(realpath $(dir $(this-makefile)))
-+abs_objtree := $(CURDIR)
+ KBUILD_CPPFLAGS += -DKBUILD_EXTRA_WARN3
  
- ifneq ($(sub_make_done),1)
- 
-diff --git a/rust/Makefile b/rust/Makefile
-index 9d2a16cc91cb..ae691b71d9fc 100644
---- a/rust/Makefile
-+++ b/rust/Makefile
-@@ -100,7 +100,7 @@ rustdoc: rustdoc-core rustdoc-macros rustdoc-compiler_builtins \
- 		-e 's:rust-logo-[0-9a-f]+\.svg:logo.svg:g' \
- 		-e 's:favicon-[0-9a-f]+\.svg:logo.svg:g' \
- 		-e 's:<link rel="alternate icon" type="image/png" href="[/.]+/static\.files/favicon-(16x16|32x32)-[0-9a-f]+\.png">::g' \
--		-e 's:<a href="srctree/([^"]+)">:<a href="$(abs_srctree)/\1">:g'
-+		-e 's:<a href="srctree/([^"]+)">:<a href="$(realpath $(srctree))/\1">:g'
- 	$(Q)for f in $(rustdoc_output)/static.files/rustdoc-*.css; do \
- 		echo ".logo-container > img { object-fit: contain; }" >> $$f; done
- 
-@@ -413,7 +413,7 @@ quiet_cmd_rustc_library = $(if $(skip_clippy),RUSTC,$(RUSTC_OR_CLIPPY_QUIET)) L
- rust-analyzer:
- 	$(Q)$(srctree)/scripts/generate_rust_analyzer.py \
- 		--cfgs='core=$(core-cfgs)' --cfgs='alloc=$(alloc-cfgs)' \
--		$(abs_srctree) $(abs_objtree) \
-+		$(realpath $(srctree)) $(realpath $(objtree)) \
- 		$(RUST_LIB_SRC) $(KBUILD_EXTMOD) > \
- 		$(if $(KBUILD_EXTMOD),$(extmod_prefix),$(objtree))/rust-project.json
- 
-diff --git a/scripts/Makefile.package b/scripts/Makefile.package
-index a81dfb1f5181..38653f3e8108 100644
---- a/scripts/Makefile.package
-+++ b/scripts/Makefile.package
-@@ -135,7 +135,7 @@ snap-pkg:
- 	mkdir $(objtree)/snap
- 	$(MAKE) clean
- 	sed "s@KERNELRELEASE@$(KERNELRELEASE)@; \
--		s@SRCTREE@$(abs_srctree)@" \
-+		s@SRCTREE@$(realpath $(srctree))@" \
- 		$(srctree)/scripts/package/snapcraft.template > \
- 		$(objtree)/snap/snapcraft.yaml
- 	cd $(objtree)/snap && \
-diff --git a/tools/lib/bpf/Makefile b/tools/lib/bpf/Makefile
-index 4be7144e4803..2cf892774346 100644
---- a/tools/lib/bpf/Makefile
-+++ b/tools/lib/bpf/Makefile
-@@ -2,7 +2,7 @@
- # Most of this file is copied from tools/lib/traceevent/Makefile
- 
- RM ?= rm
--srctree = $(abs_srctree)
-+srctree := $(realpath $(srctree))
- 
- VERSION_SCRIPT := libbpf.map
- LIBBPF_VERSION := $(shell \
 -- 
 2.40.1
 
