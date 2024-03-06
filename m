@@ -1,110 +1,96 @@
-Return-Path: <linux-kbuild+bounces-1187-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1188-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id F086E8736DC
-	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Mar 2024 13:48:39 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B91FF873A16
+	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Mar 2024 16:04:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A49F02845A5
-	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Mar 2024 12:48:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EB7F81C23502
+	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Mar 2024 15:04:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 221C985291;
-	Wed,  6 Mar 2024 12:48:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5AFE9134411;
+	Wed,  6 Mar 2024 15:04:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hI1wS1cv"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ZSFZ7s8Y"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA0216089A;
-	Wed,  6 Mar 2024 12:48:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6B4C5D904;
+	Wed,  6 Mar 2024 15:04:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709729315; cv=none; b=IcfNeGx4ydVSYv4Fadb/xSNVUULsZx6y4nghe3//5kMXcM7++AhqB+ymkH3Pq/HloOjmYBAsFrRbQ95XGM9gBHZPrFufyo2gbnmfYravY4tqBjzUxJ/5qTi9PGwFjy2qmOAasplFcFXquxpIhd0kOy2gfvHfrvZCs0bokE4Ti9I=
+	t=1709737485; cv=none; b=k85yBnU/2Vuzs8xTdOlPY9ZIEijQU/XWZZqR7iSfD1ZixMr+ej0b7PVgekP+NNknx8C70EDmy/b9TYZEJEtl/qntpVpqyTVeZvSkq+hx+lxg4NyN+VqDh5cooq51QrhRP8WlE7JO5yo2Hf/NYNdMicaDErNXdW4D66i+7dLED+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709729315; c=relaxed/simple;
-	bh=HMIDAtYYzuh2SltJ4zbi//I5UQMzkPHqGSqhNT/Kv+c=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=PgVQJv5QCnnr9Vt9W92r2tIcXU3Jyby9ct8Qk8wBFCRpzqw4DuIWQFEDC7vwN4c3M43Hndv7Ow30ex9yljMbEXSUdZcwjxwhK60TT+spx6XbrEr/fIHh1y6PzzS5T+3W1F2l06TEWQrt1Cwm1T4BL4GDZfceQQv6FNHL2QHsw68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hI1wS1cv; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2E8BC433C7;
-	Wed,  6 Mar 2024 12:48:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709729314;
-	bh=HMIDAtYYzuh2SltJ4zbi//I5UQMzkPHqGSqhNT/Kv+c=;
-	h=From:To:Cc:Subject:Date:From;
-	b=hI1wS1cvOeIEBtmBzURU9hsHw1VLSJvdBU4jc6/zyhOQcUN/HdT+S3YdXY1+wU4fc
-	 gv1ewDyMKnBt3NQKGJ5h0BvlMWcCIMmaa1bKxiSQ4XJBtW9pgGbQS6x68Na7U2G8cK
-	 4zApdATKlsPVxFj4Pfu9Paklgupe0qwMjzSAgM1boghK8p4Rg21hvUIvst+7ZmSU16
-	 gccZh7OPn/QF/mFFch4YpRrao4kZt39ckOPdXdJXSXsqufaXHAVq5UwguXpIQLtSz1
-	 04vgFWPvkBOCtjZdZPY0o/WB54mVa16w6fEnYiDqtLohnBWs/LufuTihOhUkp1SnzJ
-	 QmPytRZA2btnQ==
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: linux-kbuild@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	llvm@lists.linux.dev
-Subject: [PATCH] kbuild: remove GCC's default -Wpacked-bitfield-compat flag
-Date: Wed,  6 Mar 2024 21:47:09 +0900
-Message-Id: <20240306124709.324448-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.40.1
+	s=arc-20240116; t=1709737485; c=relaxed/simple;
+	bh=s0cP/vdeTBfqUMpPi1K2dMYOFXlNATU+OscAfsIgh9Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KVBauO5XqTUwpANohxNPl7/09XovzAhJMj0K2kGifo8OtTMe40QnqVPH/B2X0nVFd+V2gbcqOugnRO36pOIxUQyquikhdmX7p2jigb4MUzFyJv+M7JonEdmkA020jFqAOqAUFNMZv0kKEGnUnWXy5r6V2cqurgeP7+wxj+i8LUY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ZSFZ7s8Y; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=bIU+Y5tx9f1r7LHMtxJaaNjMHc4LWtkAUlFKv4XMp0s=; b=ZSFZ7s8YIDIt3b0Xse+j2mtEhj
+	YBv9PmhQb2Sr+mtg/nLN85fQCd08SSYbxHLzctr+hn9NTjtJpKHlOZO3UoZkorkMF8JxiHBn35N+K
+	kcCo51zZYbX228avPHZxiQzHGn5kj1WL7jgXHzPJKtzaA4Q33z8OYpDxSbyTw0jB/VCXk50bHviC7
+	l91UxkVIUBnshpCIvi6dqC6HKYm9rVf/uMuASQlVOPcBPM7dYi7Q/UN+NcF2mwUXFqGB4zFTD+drp
+	9/QveY/6yGnml+UULDxNINgBZVmuKJ7gj7tBN5HHWorUcTW2fosCnVaES8QpEqpwQc/15FN9l/RS3
+	CX7hQ42g==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rhsow-00000000hHr-35do;
+	Wed, 06 Mar 2024 15:04:38 +0000
+Date: Wed, 6 Mar 2024 07:04:38 -0800
+From: Christoph Hellwig <hch@infradead.org>
+To: Andreas Larsson <andreas@gaisler.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Sam Ravnborg <sam@ravnborg.org>,
+	"Maciej W. Rozycki" <macro@orcam.me.uk>, sparclinux@vger.kernel.org,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	linux-parport@lists.infradead.org,
+	"David S . Miller" <davem@davemloft.net>,
+	linux-kernel@vger.kernel.org, Takashi Iwai <tiwai@suse.de>,
+	iommu@lists.linux.dev, linux-kbuild@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: Re: [PATCH v2 4/7] sparc32: Do not select ZONE_DMA
+Message-ID: <ZeiGBuMN_I9V94Mx@infradead.org>
+References: <20240224-sam-fix-sparc32-all-builds-v2-0-1f186603c5c4@ravnborg.org>
+ <20240224-sam-fix-sparc32-all-builds-v2-4-1f186603c5c4@ravnborg.org>
+ <8d5780f5-1047-48d7-a9c9-09b95c7b5604@gaisler.com>
+ <5648dca0-4853-4dfb-91cf-282a656beb1e@app.fastmail.com>
+ <bc33b608-e0b5-4dff-aa05-8513dce409b3@gaisler.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bc33b608-e0b5-4dff-aa05-8513dce409b3@gaisler.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Commit 4a5838ad9d2d ("kbuild: Add extra gcc checks") added the
--Wpacked-bitfield-compat flag.
+On Wed, Mar 06, 2024 at 03:19:52PM +0100, Andreas Larsson wrote:
+> > I think that is the correct thing to do then: the only
+> > drivers that I see with this dependency are PCI sound cards
+> > that apparently rely on DMA to the 16MB ISA range, which is
+> > not provided by sparc.
+> 
+> The ZONE_DMA dependency does not seem related to ISA per se. Commit
+> 80ab8eae70e5 ("ALSA: Enable CONFIG_ZONE_DMA for smaller PCI DMA masks")
+> that started to introduce it did were about ensuring 32-bit masks.
 
-GCC manual says:
-  "This warning is enabled by default. Use -Wno-packed-bitfield-compat
-   to disable this warning."
+Yikes!  That commit is just unbelievable buggy.  CONFIG_ZONE_DMA
+is only for architetures to select, not drivers.  A driver randomly
+enabling such an arch zone is just crazy.
 
-The test code in the manual:
-
-  struct foo
-  {
-    char a:4;
-    char b:8;
-  } __attribute__ ((packed));
-
-... emits "note: offset of packed bit-field ‘b’ has changed in GCC 4.4"
-without W=3.
-
-Let's remove it, as it is a default with GCC.
-
-Clang does not support this flag, so its removal will not affect Clang
-builds.
-
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
- scripts/Makefile.extrawarn | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
-index a9e552a1e910..8192b497aae8 100644
---- a/scripts/Makefile.extrawarn
-+++ b/scripts/Makefile.extrawarn
-@@ -185,7 +185,6 @@ KBUILD_CFLAGS += -Wpointer-arith
- KBUILD_CFLAGS += -Wredundant-decls
- KBUILD_CFLAGS += -Wsign-compare
- KBUILD_CFLAGS += -Wswitch-default
--KBUILD_CFLAGS += $(call cc-option, -Wpacked-bitfield-compat)
- 
- KBUILD_CPPFLAGS += -DKBUILD_EXTRA_WARN3
- 
--- 
-2.40.1
+I've been wondering for a while if we need some Kconfig magic
+so that certain symbols can only be select from arch/* and not
+elsewhere to prevent this (we had a few other similar cases like
+DMA_MAP_OPS).
 
 
