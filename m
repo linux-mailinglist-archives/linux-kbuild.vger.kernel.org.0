@@ -1,115 +1,113 @@
-Return-Path: <linux-kbuild+bounces-1183-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1184-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E02BF872A1E
-	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Mar 2024 23:21:33 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69E29872ECC
+	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Mar 2024 07:24:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CE3641C25E69
-	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Mar 2024 22:21:32 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 060D9B22F66
+	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Mar 2024 06:24:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7596112D758;
-	Tue,  5 Mar 2024 22:20:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D2C51BF53;
+	Wed,  6 Mar 2024 06:24:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="TX0287BY";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="G0DfJrRK"
+	dkim=pass (2048-bit key) header.d=quicklyemailsend77.com header.i=@quicklyemailsend77.com header.b="P6r6GCAy"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from wfhigh7-smtp.messagingengine.com (wfhigh7-smtp.messagingengine.com [64.147.123.158])
+Received: from quicklyemailsend77.com (quicklyemailsend77.com [57.128.172.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B68D112B173;
-	Tue,  5 Mar 2024 22:20:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.158
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A09BD1BDD6
+	for <linux-kbuild@vger.kernel.org>; Wed,  6 Mar 2024 06:24:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.128.172.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709677240; cv=none; b=Bc7ERbWz1oMMoTlTD+G3QPpQ6cKX2NS0fLvWMNPtGCxEfzsGoN24BgPVWP/Xigjw2NKYLAaQUKwcaIobYzh+Cv8PIeb3nk/F7WyTkfLw/Z9nZKOV4CpQIQXZ8ub+SJeh0DRbskQRmj8nlMYgm8800c3CsfI8GzLg6p1fsBGuKAo=
+	t=1709706243; cv=none; b=arVBlqqlG7C18FfPCDA/OptAwaiTzgmUVNJsVbPb6yTDp8Ryj3NcLQkQeey/VYPfiAKfmzzYm2q+kvdSwyP/LaWTqXJ8T9H8MVfdSXt/CR+lQoB8zUvrFRbbYRxtEw0Zjplx/HSG3elycOxV0GLbJFFjl5rvcUxm/r5eLfIhzu0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709677240; c=relaxed/simple;
-	bh=cJSh5WC3TcK0ncHmqJarmaVKE8EIju9DrUGMpqKeeDM=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=hZlaLGPR08Sk5AXZuYZLwb7/a2sWh5FERnmdtsW/XrxgUOn72Ouwaep4NXzCwwtXVRg7UuwcHpZJpj8zdhjXBQAXvzEzxnz7IH7V1P2VfzFyb6tzm3svzubyYfZRT2BoFzLkJXAQ7GyshGwexAJ1Bs5RV3jV+5z4gb53vQbi/p4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=TX0287BY; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=G0DfJrRK; arc=none smtp.client-ip=64.147.123.158
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailfhigh.west.internal (Postfix) with ESMTP id 13D131800098;
-	Tue,  5 Mar 2024 17:20:36 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Tue, 05 Mar 2024 17:20:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1709677236; x=1709763636; bh=RA76mlg5ek
-	lvGZW+o1Volc1xu5PRh1gUrgo0OjPyH3g=; b=TX0287BYzltjF5Xh/4uZkmu2Gq
-	HuthSWmXtI2eRv3aCncstXaerbHdw/M8whWb5/5/8zIZjWKcKFylfZHsetGqSqQq
-	lLMeaZc+i2DnHPiC6H1IHmiiO5ae7vKa8nstMs+m5C74y4e/A41QBrbB1TEyRYfj
-	YSstRSW6APDSjLK56d9Xxx7ShxxBqOx2sHmYd3y0iuxLlQRqRuTurATHx7huNVXz
-	Ih2W41s4627IeLByV8FUs2yNPJ4GGTlcEhO4yNO7bbp0nFETCtF8QFu6RbafJVnr
-	SgiWdzYhVs5ErNG2Gzt4/eqk7DBDEaeELSApV8iai8VLvpfr8+8pUDKgY0KA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1709677236; x=1709763636; bh=RA76mlg5eklvGZW+o1Volc1xu5PR
-	h1gUrgo0OjPyH3g=; b=G0DfJrRKcZiGwgk8umVmB3KPG5xKuM7ErF6L5lhnyK0d
-	xL9jtOraNTxHsld3tZjm2y0JFM+L7bm1kujBgfcBtfJruw1FoWYEtKYiCLkNnkJ4
-	KJ8Vy/6fPfAl10m1Ga5FhPAmP6rKgli1FkuYz7jk0CVzrnT0dDTxU4gEtGJSCkBj
-	tlIe89zzWuWg8F7jDT7IJSukb1N4YxCjk0Qalhhyk+sFqNa11by2n6+w+/lHriGe
-	RRqUbknWPjDReraVRYTIhbjQSgWI09l7p41zDb4FSlGHSVvepWZMCkZ+d9UthPUV
-	ZTnzpqg2ScfToa0E9yroXGH7nsxz+A1kVCx4st6N+Q==
-X-ME-Sender: <xms:tJrnZdZHU8FUPwdhN8pHBSG3KeWBI7qBaW5ZdBQBvw0_dNoWDENViw>
-    <xme:tJrnZUb2PThJOmY4A7PeRbJGwglgi_NJ25ITt0FfYnTIT1ybCYC-nA0R-_r18-kkh
-    x2cjNTJZdDvkOZbMGU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrheelgdduheehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepjedvvddvudeludehjeeitdehheeivdejgfelleffiefgvefhhfeuudfhgeef
-    feehnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucevlhhushhtvghrufhiiigvpe
-    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:tJrnZf8XjVEGSMMrr0aCdWH1HiDXpdRoX_9CMUplrSQ-sK8ZQCCPEA>
-    <xmx:tJrnZbq9mQKjkioGoH24LduwI_BsGWSvR5jkcZupdzvPQ58AFCtlAg>
-    <xmx:tJrnZYqopqvoQ_lb02v4x5G0n0MmPNmKth11otlXqkXsPVYZegMrNg>
-    <xmx:tJrnZVhxkJF-dWxna-47-jhpq_TMhy2CSBWqzgRNUlrHCn-Qpk9J_KIxcPY>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 252D9B6008D; Tue,  5 Mar 2024 17:20:36 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-208-g3f1d79aedb-fm-20240301.002-g3f1d79ae
+	s=arc-20240116; t=1709706243; c=relaxed/simple;
+	bh=UkCnC3hxyWUR811IY5T5PlAQFaHotSY7xhHSl4hh88I=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lPh4jm2J9pjT7FXAc8X67kBPnhjrVLV6lUuYXHCyp//P2UcyTUv5CWlnU3d3E022arxp4if7dWA9fD7kDYRAShu52BLFifr4eA4QeWh154TAEpUWjdykcYWm2sH143x6lYi2CCTzZYqSeQCLnEeYsPjjsZ66KEc9B0Rt7NMZu+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicklyemailsend77.com; spf=pass smtp.mailfrom=quicklyemailsend77.com; dkim=pass (2048-bit key) header.d=quicklyemailsend77.com header.i=@quicklyemailsend77.com header.b=P6r6GCAy; arc=none smtp.client-ip=57.128.172.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicklyemailsend77.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicklyemailsend77.com
+Received: from quicklyemailsend77.com (unknown [185.255.114.95])
+	by quicklyemailsend77.com (Postfix) with ESMTPA id 1563C397799
+	for <linux-kbuild@vger.kernel.org>; Wed,  6 Mar 2024 03:51:44 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 quicklyemailsend77.com 1563C397799
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=quicklyemailsend77.com; s=default; t=1709697105;
+	bh=eefLZdwY5mr6nwq86b3d+rtsxGUHJntuGmXl+R35AcQ=;
+	h=Reply-To:From:To:Subject:Date:From;
+	b=P6r6GCAy39v91AZw/Oklwys2WbOVT9wCJUmJYZjBoCJFM3Hz15rHAt2uWIQLHqVJq
+	 eKIHDM7k6peYIjXqZHULlHB4pIDQo/VoZcN+1tcutGW5R/Pwgdr0XfaQgJx7FRK7QU
+	 aewxNG16TNno/apx66brpf1DABxuLxuFaPb3QGLhJdImW8jlHQUxmx8IEZL5nuaUTt
+	 EtCVoFDFkzdgBHX7vIWK4vNtmoLJztr4ZFXZn/y8wCZlqjX174ZRXxDzQTcigt3NK1
+	 3ByWamXxbZptebnLVb6yp9XAJH2aKOt/3MS62cHSx6+RYTPesSPNNktVnOrpOzUTv3
+	 lbWWDoS2HK+rQ==
+Reply-To: joakimlarson@skendiaelevator.com
+From: info@quicklyemailsend77.com
+To: linux-kbuild@vger.kernel.org
+Subject: =?UTF-8?B?7YyQ66ekIOusuOydmCAyMDI0?=
+Date: 05 Mar 2024 19:51:43 -0800
+Message-ID: <20240305195143.705980F9FED23B93@quicklyemailsend77.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <06e56321-61d5-43f3-83e7-c583e053e600@app.fastmail.com>
-In-Reply-To: 
- <20240305-disable-extra-clang-enum-warnings-v2-1-ba529ec15f95@kernel.org>
-References: 
- <20240305-disable-extra-clang-enum-warnings-v2-1-ba529ec15f95@kernel.org>
-Date: Tue, 05 Mar 2024 23:20:15 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Nathan Chancellor" <nathan@kernel.org>,
- "Masahiro Yamada" <masahiroy@kernel.org>
-Cc: "Nicolas Schier" <nicolas@fjasle.eu>,
- "Nick Desaulniers" <ndesaulniers@google.com>,
- "Bill Wendling" <morbo@google.com>, "Justin Stitt" <justinstitt@google.com>,
- "Yonghong Song" <yonghong.song@linux.dev>, linux-kbuild@vger.kernel.org,
- llvm@lists.linux.dev, patches@lists.linux.dev, stable@vger.kernel.org
-Subject: Re: [PATCH v2] kbuild: Move -Wenum-{compare-conditional,enum-conversion} into
- W=1
-Content-Type: text/plain
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 5, 2024, at 23:12, Nathan Chancellor wrote:
-> Cc: stable@vger.kernel.org
-> Closes: https://github.com/ClangBuiltLinux/linux/issues/2002
-> Link: 
-> https://github.com/llvm/llvm-project/commit/8c2ae42b3e1c6aa7c18f873edcebff7c0b45a37e
-> Acked-by: Yonghong Song <yonghong.song@linux.dev>
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 
-Acked-by: Arnd Bergmann <arnd@arndb.de>
+=EC=95=88=EB=85=95=ED=95=98=EC=84=B8=EC=9A=94
+=20
+=EC=8A=A4=EC=9B=A8=EB=8D=B4 =EC=8A=A4=EC=B9=B8=EB=94=94=EC=95=84 =EC=97=98=
+=EB=A0=88=EB=B0=94=ED=86=A0(Skandia Elevato)=EC=97=90=EC=84=9C =EC=98=A8 =
+=EC=9A=94=EC=95=84=ED=82=B4 =EB=9D=BC=EB=A5=B4=EC=86=90(JOAKIM LARSSON) .
+=20
+=EC=9A=B0=EB=A6=AC=EB=8A=94 =EA=B8=B4=EA=B8=89=ED=95=98=EA=B2=8C =EA=B7=80=
+=ED=95=98=EC=9D=98 =EC=A0=9C=ED=92=88=EC=9D=84 =ED=95=84=EC=9A=94=EB=A1=9C =
+=ED=95=98=EB=A9=B0 =EA=B0=80=EB=8A=A5=ED=95=9C =ED=95=9C =EB=B9=A8=EB=A6=AC=
+ =EC=8B=9C=ED=97=98 =EC=A3=BC=EB=AC=B8=EC=9D=84 =ED=95=98=EA=B3=A0 =EC=8B=
+=B6=EC=8A=B5=EB=8B=88=EB=8B=A4. 
+=20
+=EC=98=A8=EB=9D=BC=EC=9D=B8=EC=9C=BC=EB=A1=9C =EC=A0=9C=ED=92=88=EC=97=90 =
+=EB=8C=80=ED=95=9C =EC=A0=95=EB=B3=B4=EB=A5=BC =EC=88=98=EC=A7=91=ED=95=98=
+=EA=B3=A0 =EC=9E=88=EC=8A=B5=EB=8B=88=EB=8B=A4. 
+=20
+=EA=B7=B8=EB=A6=AC=EA=B3=A0 =EB=82=B4 =EB=AA=A8=EC=9E=84=EC=97=90=EC=84=9C =
+=EB=82=98=EB=8A=94 =EC=9A=B0=EB=A6=AC=EA=B0=80 =EB=8B=B9=EC=8B=A0=EC=9D=98 =
+=EC=A0=9C=ED=92=88=EC=9D=84 =EC=A3=BC=EB=AC=B8=ED=95=A0 =EA=B2=83=EC=9D=B4=
+=EB=9D=BC=EA=B3=A0 =EC=83=9D=EA=B0=81=ED=95=A9=EB=8B=88=EB=8B=A4.
+=20
+1. =EC=B5=9C=EC=8B=A0 Catalouge=EB=A5=BC =EB=B3=B4=EB=82=BC =EC=88=98 =EC=
+=9E=88=EC=8A=B5=EB=8B=88=EA=B9=8C?
+=20
+2. =EC=9A=B0=EB=A6=AC=EA=B0=80 =EC=A3=BC=EB=AC=B8=ED=95=A0 =EC=88=98 =EC=9E=
+=88=EB=8A=94 =EC=B5=9C=EC=86=8C=ED=95=9C=EC=9D=80 =EB=AC=B4=EC=97=87=EC=9D=
+=B4=EA=B3=A0 =EB=98=90=ED=95=9C =EA=B8=B0=EA=B0=84=EC=9D=84 =EB=B3=B4=EB=82=
+=B4=EC=8B=AD=EC=8B=9C=EC=98=A4=20
+=EB=B0=8F =EC=A1=B0=EA=B1=B4.
+3. =EC=9A=B0=EB=A6=AC=EA=B0=80 =EC=A3=BC=EB=AC=B8=ED=95=98=EB=8A=94 =EA=B2=
+=BD=EC=9A=B0 =EC=A7=80=EB=B6=88=EC=9D=84 =EC=96=B4=EB=96=BB=EA=B2=8C =ED=95=
+=B4=EA=B2=B0=ED=95=98=EA=B8=B0=EB=A5=BC =EC=9B=90=ED=95=98=EC=8B=AD=EB=8B=
+=88=EA=B9=8C?
+=20
+=EA=B7=80=ED=95=98=EC=9D=98 =ED=9A=8C=EC=8B=A0 =EB=8C=80=EA=B8=B0 =EC=A4=91=
+
+
+Mr Joakim larssonv(=EB=B6=80=EC=82=AC=EC=9E=A5/=EC=98=81=EC=97=85 =EA=B4=80=
+=EB=A6=AC=EC=9E=90)
+
+=EB=B0=A9=EB=AC=B8=EC=9E=90 =EC=A3=BC=EC=86=8C: Kedumsv=C3=A4gen 14, SE-534=
+ 94 Vara, Sweden
+
+=EB=B0=B0=EC=86=A1 =EC=A3=BC=EC=86=8C: Industriv=C3=A4gen, SE-534 94 Vara, =
+Sweden
+
+joakimlarson@skendiaelevator.com
+https://skandiaelevator.com
+
 
