@@ -1,177 +1,131 @@
-Return-Path: <linux-kbuild+bounces-1207-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1208-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 402DF877751
-	for <lists+linux-kbuild@lfdr.de>; Sun, 10 Mar 2024 15:16:47 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3518587775C
+	for <lists+linux-kbuild@lfdr.de>; Sun, 10 Mar 2024 15:39:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6D1351C2133D
-	for <lists+linux-kbuild@lfdr.de>; Sun, 10 Mar 2024 14:16:46 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 37438B21519
+	for <lists+linux-kbuild@lfdr.de>; Sun, 10 Mar 2024 14:39:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 778C33771E;
-	Sun, 10 Mar 2024 14:16:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="umV6OlMc"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37CB72D60F;
+	Sun, 10 Mar 2024 14:39:24 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 509F6376FE;
-	Sun, 10 Mar 2024 14:16:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E05D10EB
+	for <linux-kbuild@vger.kernel.org>; Sun, 10 Mar 2024 14:39:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710080188; cv=none; b=Hn5tiMlYTXqeFd5zCzIFvS4oEmBEImnilbz5f2j06gLUN8JiSP/eRIyP4zJrRNo+EsZLjytWc8ZdGBHWqpQQUkD0kSmp6NkNcfaqkG28uspgoc0LoG3j+nOseyCF6bVLFa74qEeiFlnEhGFItFccMQPv07aBCAwGdQbFiZIJESw=
+	t=1710081564; cv=none; b=tTi1eDmw9iu2xEEBhe6TH1grNeqRmPPseBK0gLBvm0UcBhrEcASJ6X+C82LbNjy9eIFf9DqAuOvkjjG70c/CmD9LD0WRcCrUwKhV2gbxQ4Wp6Yz14VW4188U8W6cVbPWwZ7Ingj9mN6m/NLJEPNKNJ/C735t1oLV5PywWa9eCH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710080188; c=relaxed/simple;
-	bh=7vHRaqub7OyWr23f8EkYfPHp+c5k770mXy9fDSYLW7w=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=efiomIrhUaPbnbghybKERTORxmRx4k28Vf1jX1bWpbL1+CdNVOSqiD5LfctWbVynp8XSLSOj8w2v4K72ywwC5AHrvtddQtluuec5bufC5q3xwABSRPmb5hxK4vYBGMS1wknJcgu9lL3JDK4AmZ9A6KCP0ly4Spl/mWlnHinWlBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=umV6OlMc; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E475FC433F1;
-	Sun, 10 Mar 2024 14:16:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710080187;
-	bh=7vHRaqub7OyWr23f8EkYfPHp+c5k770mXy9fDSYLW7w=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=umV6OlMcWsSGI86w0sG3Xcw+0gRNusmwvmRktKRlAhxtM8k8mwVdfEUBi087Zx1fa
-	 BPb1z1SzDNv/kC7z6SWhT/DTm2DJ9PbcETLoCUU6bo5bh5EwNUJDblT3MsIkHSPhgf
-	 ljt6y4CUTLqJN/qtvCt73tzDZcKUW0FzjvHGrgeRXvnleK+Rm1yJpUsrrvGrtY3AFy
-	 pTQTRhjOS2qCa+zhrRdd8ybqDyQyjaFgPUlkHb5Dolal1Lvjzai3RsAhoRdnoAtOuy
-	 +pFBDgr2T793Rl/PcHu4fz5FUvEyTi4TSdcik9gm3YaOAL/Ix7bZZvfRbfN662Wmne
-	 8Udf029VIDhSw==
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: linux-kbuild@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH 3/3] kconfig: use menu_for_each_entry() to traverse menu tree
-Date: Sun, 10 Mar 2024 23:16:19 +0900
-Message-Id: <20240310141619.606415-3-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20240310141619.606415-1-masahiroy@kernel.org>
-References: <20240310141619.606415-1-masahiroy@kernel.org>
+	s=arc-20240116; t=1710081564; c=relaxed/simple;
+	bh=tcCJcDqDYZaFzocjDP4wiXd1T+ypqrL+pY4JYmx+XM0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=eulaw1FHbVwIuG15sSCyersP2uYJLn/H8+60p7I/0ocHDuAzoFP/V0o/7Q4x/PGJD4Cqmq1yV305KqBhfvDlbrSFB5SfLFpqjDKyJqciUkv/EivjoUVOz+BOjUnCpMqzL6AxKNvWzungtrfH81QqrqgXUl3aDcnnUD7DftOrfRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rjKKN-0001Cv-0y; Sun, 10 Mar 2024 15:39:03 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rjKKK-005XJm-VP; Sun, 10 Mar 2024 15:39:00 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rjKKK-003TZj-2p;
+	Sun, 10 Mar 2024 15:39:00 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Shenghao Ding <shenghao-ding@ti.com>,
+	Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	kernel@pengutronix.de
+Subject: [PATCH] ASoC: tlv320adc3xxx: Don't strip remove function when driver is builtin
+Date: Sun, 10 Mar 2024 15:38:51 +0100
+Message-ID: <20240310143852.397212-2-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1917; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=tcCJcDqDYZaFzocjDP4wiXd1T+ypqrL+pY4JYmx+XM0=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBl7cX8VWtYhL0KtuOOqhLGjI6fvbv4I6W1Z4U92 ZFLuAirQBiJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZe3F/AAKCRCPgPtYfRL+ TvreCACBY53KQpaQ1S6h0Znmi9qhSZ9KGdIbyorjr/T8fAbh7lRp4Yt5ksFJlyqorX1/CRtMZ/+ f/IwumkOihqjbZZvEkm2RiaRJWh7zsaP1F3og52SGJw6r1LGdBGRvB5llSETqFB5Xv96GJlqCpc lu4yP20GOhukwEnAGWKh7zbRH0i8L/0UTI9sPvtgkJ5OeULSH0gYxF5Ji9jrGHRsUJ079s2frcY SoiZYns8FibUBnlCfNRj3aj+9BKf/K0Ku6C9BSjaz3T+FGQXOcJqVNWtXKzyrxJN/u+JdDthkPu gHEmE7wfmdR68YKkD+3eSiXm2VkUNQPK4IWzLbZ8gwKH9rq2
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-kbuild@vger.kernel.org
 
-Use menu_for_each_entry() to traverse the menu tree instead of
-implementing similar logic in each function.
+Using __exit for the remove function results in the remove callback
+being discarded with SND_SOC_TLV320ADC3XXX=y. When such a device gets
+unbound (e.g. using sysfs or hotplug), the driver is just removed
+without the cleanup being performed. This results in resource leaks. Fix
+it by compiling in the remove callback unconditionally.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+This also fixes a W=1 modpost warning:
+
+	WARNING: modpost: sound/soc/codecs/snd-soc-tlv320adc3xxx: section mismatch in reference: adc3xxx_i2c_driver+0x10 (section: .data) -> adc3xxx_i2c_remove (section: .exit.text)
+
+(which only happens with SND_SOC_TLV320ADC3XXX=m).
+
+Fixes: e9a3b57efd28 ("ASoC: codec: tlv320adc3xxx: New codec driver")
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
+Hello,
 
- scripts/kconfig/confdata.c | 29 +++++------------------------
- scripts/kconfig/parser.y   | 15 +--------------
- 2 files changed, 6 insertions(+), 38 deletions(-)
+note that this patch only applies as is after commit 4e8ff3587868 ("ASoC:
+codecs: tlv320adc3xxx: Wrap adc3xxx_i2c_remove() in __exit_p()") which was the
+wrong approach to fix the build error.
 
-diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
-index 0e35c4819cf1..16066730a6a0 100644
---- a/scripts/kconfig/confdata.c
-+++ b/scripts/kconfig/confdata.c
-@@ -784,7 +784,6 @@ static void print_symbol_for_rustccfg(FILE *fp, struct symbol *sym)
- int conf_write_defconfig(const char *filename)
+Best regards
+Uwe
+
+ sound/soc/codecs/tlv320adc3xxx.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/sound/soc/codecs/tlv320adc3xxx.c b/sound/soc/codecs/tlv320adc3xxx.c
+index 420bbf588efe..e100cc9f5c19 100644
+--- a/sound/soc/codecs/tlv320adc3xxx.c
++++ b/sound/soc/codecs/tlv320adc3xxx.c
+@@ -1429,7 +1429,7 @@ static int adc3xxx_i2c_probe(struct i2c_client *i2c)
+ 	return ret;
+ }
+ 
+-static void __exit adc3xxx_i2c_remove(struct i2c_client *client)
++static void adc3xxx_i2c_remove(struct i2c_client *client)
  {
- 	struct symbol *sym;
--	struct menu *menu;
- 	FILE *out;
+ 	struct adc3xxx *adc3xxx = i2c_get_clientdata(client);
  
- 	out = fopen(filename, "w");
-@@ -793,23 +792,19 @@ int conf_write_defconfig(const char *filename)
+@@ -1452,7 +1452,7 @@ static struct i2c_driver adc3xxx_i2c_driver = {
+ 		   .of_match_table = tlv320adc3xxx_of_match,
+ 		  },
+ 	.probe = adc3xxx_i2c_probe,
+-	.remove = __exit_p(adc3xxx_i2c_remove),
++	.remove = adc3xxx_i2c_remove,
+ 	.id_table = adc3xxx_i2c_id,
+ };
  
- 	sym_clear_all_valid();
- 
--	/* Traverse all menus to find all relevant symbols */
--	menu = rootmenu.list;
--
--	while (menu != NULL)
--	{
-+	menu_for_each_entry(menu) {
- 		sym = menu->sym;
- 		if (sym && !sym_is_choice(sym)) {
- 			sym_calc_value(sym);
- 			if (!(sym->flags & SYMBOL_WRITE))
--				goto next_menu;
-+				continue;
- 			sym->flags &= ~SYMBOL_WRITE;
- 			/* If we cannot change the symbol - skip */
- 			if (!sym_is_changeable(sym))
--				goto next_menu;
-+				continue;
- 			/* If symbol equals to default value - skip */
- 			if (strcmp(sym_get_string_value(sym), sym_get_string_default(sym)) == 0)
--				goto next_menu;
-+				continue;
- 
- 			/*
- 			 * If symbol is a choice value and equals to the
-@@ -827,25 +822,11 @@ int conf_write_defconfig(const char *filename)
- 				if (!sym_is_optional(cs) && sym == ds) {
- 					if ((sym->type == S_BOOLEAN) &&
- 					    sym_get_tristate_value(sym) == yes)
--						goto next_menu;
-+						continue;
- 				}
- 			}
- 			print_symbol_for_dotconfig(out, sym);
- 		}
--next_menu:
--		if (menu->list != NULL) {
--			menu = menu->list;
--		}
--		else if (menu->next != NULL) {
--			menu = menu->next;
--		} else {
--			while ((menu = menu->parent)) {
--				if (menu->next != NULL) {
--					menu = menu->next;
--					break;
--				}
--			}
--		}
- 	}
- 	fclose(out);
- 	return 0;
-diff --git a/scripts/kconfig/parser.y b/scripts/kconfig/parser.y
-index b45bfaf0a02b..a69a453e4f44 100644
---- a/scripts/kconfig/parser.y
-+++ b/scripts/kconfig/parser.y
-@@ -473,8 +473,6 @@ assign_val:
- 
- void conf_parse(const char *name)
- {
--	struct menu *menu;
--
- 	autoconf_cmd = str_new();
- 
- 	str_printf(&autoconf_cmd, "\ndeps_config := \\\n");
-@@ -517,20 +515,9 @@ void conf_parse(const char *name)
- 
- 	menu_finalize(&rootmenu);
- 
--	menu = &rootmenu;
--	while (menu) {
-+	menu_for_each_entry(menu) {
- 		if (menu->sym && sym_check_deps(menu->sym))
- 			yynerrs++;
--
--		if (menu->list) {
--			menu = menu->list;
--			continue;
--		}
--
--		while (!menu->next && menu->parent)
--			menu = menu->parent;
--
--		menu = menu->next;
- 	}
- 
- 	if (yynerrs)
+
+base-commit: 8ffc8b1bbd505e27e2c8439d326b6059c906c9dd
 -- 
-2.40.1
+2.43.0
 
 
