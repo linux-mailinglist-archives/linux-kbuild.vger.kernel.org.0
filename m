@@ -1,63 +1,62 @@
-Return-Path: <linux-kbuild+bounces-1209-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1210-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A51478777AD
-	for <lists+linux-kbuild@lfdr.de>; Sun, 10 Mar 2024 18:02:51 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id DCC9A877805
+	for <lists+linux-kbuild@lfdr.de>; Sun, 10 Mar 2024 19:37:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D8629281429
-	for <lists+linux-kbuild@lfdr.de>; Sun, 10 Mar 2024 17:02:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1FE1C1C20753
+	for <lists+linux-kbuild@lfdr.de>; Sun, 10 Mar 2024 18:37:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87BD439ADB;
-	Sun, 10 Mar 2024 17:02:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A57E22324;
+	Sun, 10 Mar 2024 18:37:24 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2C3339855
-	for <linux-kbuild@vger.kernel.org>; Sun, 10 Mar 2024 17:02:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.58.86.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BF9E3A1AC
+	for <linux-kbuild@vger.kernel.org>; Sun, 10 Mar 2024 18:37:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.58.85.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710090156; cv=none; b=n6Raih3sxbszn8YfDQS86dTfJACJ8Ged3nHeCqkNiGSVgt2oSPoXvi6y9xL1xUmZGZNYkX1yJf7tDYYmZ+/+8a9GKQZrPVaWoJoKFujZBfS3cdfsXb9oD0Qin+2Wez77Byoq/CEKBuTMs8bjubcfoNJkYaSJMIlArO3BDJB/DsY=
+	t=1710095844; cv=none; b=SVDA3zxWilM2j81UsojL+cmdch4vkEFYERB7L9nQgWVW/4UXjBwjKrHl8m6AzgvyH9v7tZamtqaD1SVi+wvJlUyKGh7pH8Xdd14PdhyHDix0fhnqUR48kGSXbHvEpmcATr8bJ+W+9AGrk2LbZ7lhhUkFWRbf4f2SOmppA/c/Htw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710090156; c=relaxed/simple;
-	bh=I9x7BdyUUczq88YNuTHstKnsDTlJVDfJv3A8utHm/1w=;
+	s=arc-20240116; t=1710095844; c=relaxed/simple;
+	bh=kbWGHOTGHPftct1YqUNqJ7ouPJ1OedgTOSV8N4+yFF4=;
 	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 MIME-Version:Content-Type; b=tgJu3ULySqGz1HFDym8l1lFWoYw8Ersw4VtHkV7gVlkrZoY7K8o1tIQHaZp7FQZWVjjYm7X1GjJjepD8Gz+EKa/SjRymggmxea65gfPAgqx7goEGfy9hcpDL6UqVYmILId+9ZqX09HhZKfE1Cd+vB8bmH/w3s3394J94OXtR+PA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM; spf=pass smtp.mailfrom=aculab.com; arc=none smtp.client-ip=185.58.86.151
+	 MIME-Version:Content-Type; b=H4v0IgRAWINtvMFWHmriR94BCTCIlE4tep2twNNyo4ooZsayG0hmeWT/5WhOliDptNu3buId3m3xW7l0uHbVPcy5E8xsw9MkN1tXQn9NmZWmVmmO2l4OQ+q5JtG1Ylt+7XTT6LjXGY+N7sDgy+a/MaCFR59+UmKAXCp23h+1Op4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM; spf=pass smtp.mailfrom=aculab.com; arc=none smtp.client-ip=185.58.85.151
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aculab.com
 Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
  relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-169-FjRJos4bP-SvaGBz03k0zA-1; Sun, 10 Mar 2024 17:02:25 +0000
-X-MC-Unique: FjRJos4bP-SvaGBz03k0zA-1
+ uk-mta-248-YiiRSlQpNdS9qY0k5gpFOg-1; Sun, 10 Mar 2024 18:37:18 +0000
+X-MC-Unique: YiiRSlQpNdS9qY0k5gpFOg-1
 Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
  (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Sun, 10 Mar
- 2024 17:02:35 +0000
+ 2024 18:37:27 +0000
 Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.048; Sun, 10 Mar 2024 17:02:35 +0000
+ id 15.00.1497.048; Sun, 10 Mar 2024 18:37:27 +0000
 From: David Laight <David.Laight@ACULAB.COM>
-To: 'Nathan Chancellor' <nathan@kernel.org>, "masahiroy@kernel.org"
+To: 'Nathan Chancellor' <nathan@kernel.org>, Masahiro Yamada
 	<masahiroy@kernel.org>
-CC: "nicolas@fjasle.eu" <nicolas@fjasle.eu>, "ndesaulniers@google.com"
-	<ndesaulniers@google.com>, "morbo@google.com" <morbo@google.com>,
-	"justinstitt@google.com" <justinstitt@google.com>, "arnd@arndb.de"
-	<arnd@arndb.de>, "yonghong.song@linux.dev" <yonghong.song@linux.dev>,
-	"linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-	"llvm@lists.linux.dev" <llvm@lists.linux.dev>, "patches@lists.linux.dev"
-	<patches@lists.linux.dev>, "stable@vger.kernel.org" <stable@vger.kernel.org>
-Subject: RE: [PATCH v2] kbuild: Move
- -Wenum-{compare-conditional,enum-conversion} into W=1
-Thread-Topic: [PATCH v2] kbuild: Move
- -Wenum-{compare-conditional,enum-conversion} into W=1
-Thread-Index: AQHab0pcJ+ohPpECwEa4FIxcfG/R2bExObUA
-Date: Sun, 10 Mar 2024 17:02:34 +0000
-Message-ID: <8a7d0115e41949429e43e06b9479a781@AcuMS.aculab.com>
-References: <20240305-disable-extra-clang-enum-warnings-v2-1-ba529ec15f95@kernel.org>
-In-Reply-To: <20240305-disable-extra-clang-enum-warnings-v2-1-ba529ec15f95@kernel.org>
+CC: "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Bill Wendling
+	<morbo@google.com>, Justin Stitt <justinstitt@google.com>, Nick Desaulniers
+	<ndesaulniers@google.com>, Nicolas Schier <nicolas@fjasle.eu>,
+	"llvm@lists.linux.dev" <llvm@lists.linux.dev>
+Subject: RE: [PATCH] kbuild: remove GCC's default -Wpacked-bitfield-compat
+ flag
+Thread-Topic: [PATCH] kbuild: remove GCC's default -Wpacked-bitfield-compat
+ flag
+Thread-Index: AQHab+ZnjkGcfLRbvEm2I9CKWI0+3rExU5Uw
+Date: Sun, 10 Mar 2024 18:37:27 +0000
+Message-ID: <74e770fb614c41208203732b095bd20f@AcuMS.aculab.com>
+References: <20240306124709.324448-1-masahiroy@kernel.org>
+ <20240306164950.GB3659677@dev-arch.thelio-3990X>
+In-Reply-To: <20240306164950.GB3659677@dev-arch.thelio-3990X>
 Accept-Language: en-GB, en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
@@ -74,31 +73,26 @@ Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: base64
 
-RnJvbTogTmF0aGFuIENoYW5jZWxsb3INCj4gU2VudDogMDUgTWFyY2ggMjAyNCAyMjoxMw0KLi4u
-DQo+ICAgZHJpdmVycy9uZXQvd2lyZWxlc3MvaW50ZWwvaXdsd2lmaS9tdm0vbWFjLWN0eHQuYzox
-MTIwOjIxOiB3YXJuaW5nOiBjb25kaXRpb25hbA0KPiBleHByZXNzaW9uIGJldHdlZW4gZGlmZmVy
-ZW50IGVudW1lcmF0aW9uIHR5cGVzICgnZW51bSBpd2xfbWFjX2JlYWNvbl9mbGFncycgYW5kDQo+
-ICdlbnVtIGl3bF9tYWNfYmVhY29uX2ZsYWdzX3YxJykgWy1XZW51bS1jb21wYXJlLWNvbmRpdGlv
-bmFsXQ0KPiAgICAxMTIwIHwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAwKSA+IDEwID8NCj4gICAgICAgICB8ICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeDQo+ICAgIDExMjEgfCAgICAgICAgICAgICAg
-ICAgICAgICAgICBJV0xfTUFDX0JFQUNPTl9GSUxTIDoNCj4gICAgICAgICB8ICAgICAgICAgICAg
-ICAgICAgICAgICAgIH5+fn5+fn5+fn5+fn5+fn5+fn4NCj4gICAgMTEyMiB8ICAgICAgICAgICAg
-ICAgICAgICAgICAgIElXTF9NQUNfQkVBQ09OX0ZJTFNfVjE7DQo+ICAgICAgICAgfCAgICAgICAg
-ICAgICAgICAgICAgICAgICB+fn5+fn5+fn5+fn5+fn5+fn5+fn5+DQo+IA0KPiBEb2luZyBhcml0
-aG1ldGljIGJldHdlZW4gb3IgcmV0dXJuaW5nIHR3byBkaWZmZXJlbnQgdHlwZXMgb2YgZW51bXMg
-Y291bGQNCj4gYmUgYSBidWcsIHNvIGVhY2ggb2YgdGhlIGluc3RhbmNlIG9mIHRoZSB3YXJuaW5n
-IG5lZWRzIHRvIGJlIGV2YWx1YXRlZC4NCj4gVW5mb3J0dW5hdGVseSwgYXMgbWVudGlvbmVkIGFi
-b3ZlLCB0aGVyZSBhcmUgbWFueSBpbnN0YW5jZXMgb2YgdGhpcw0KPiB3YXJuaW5nIGluIG1hbnkg
-ZGlmZmVyZW50IGNvbmZpZ3VyYXRpb25zLCB3aGljaCBjYW4gYnJlYWsgdGhlIGJ1aWxkIHdoZW4N
-Cj4gQ09ORklHX1dFUlJPUiBpcyBlbmFibGVkLg0KDQpJJ20gbm90IHN1cmUgd2hhdCBpcyBiZWlu
-ZyBkb25lIHRvIGF2b2lkIHRoaXMgd2FybmluZy4NCihBcGFydCBmcm9tIG5vdCB1c2luZyBlbnVt
-IHRvIGRlZmluZSByZWxhdGVkIGludGVnZXIgY29uc3RhbnRzLikNClVudGlsIHRoZSBjb21waWxl
-cnMgZ2V0IGV2ZW4gbW9yZSBjbGV2ZXJeV3N0dXBpZCBwZXJoYXBzIHRoZQ0Kc2ltcGxlc3Qgd2F5
-IGlzIHRvIGp1c3QgYWRkICcrIDAnIHRvIG9uZSBvZiB0aGUgZW51bSB2YWx1ZXMuDQoNCkluIGNv
-ZGUgdGVybXMgaXQgaXMgbXVjaCBzYWZlciB0aGFuIGFueSBjYXN0Lg0KDQoJRGF2aWQNCg0KLQ0K
-UmVnaXN0ZXJlZCBBZGRyZXNzIExha2VzaWRlLCBCcmFtbGV5IFJvYWQsIE1vdW50IEZhcm0sIE1p
-bHRvbiBLZXluZXMsIE1LMSAxUFQsIFVLDQpSZWdpc3RyYXRpb24gTm86IDEzOTczODYgKFdhbGVz
-KQ0K
+RnJvbTogTmF0aGFuIENoYW5jZWxsb3INCj4gU2VudDogMDYgTWFyY2ggMjAyNCAxNjo1MA0KPiAN
+Cj4gT24gV2VkLCBNYXIgMDYsIDIwMjQgYXQgMDk6NDc6MDlQTSArMDkwMCwgTWFzYWhpcm8gWWFt
+YWRhIHdyb3RlOg0KPiA+IENvbW1pdCA0YTU4MzhhZDlkMmQgKCJrYnVpbGQ6IEFkZCBleHRyYSBn
+Y2MgY2hlY2tzIikgYWRkZWQgdGhlDQo+ID4gLVdwYWNrZWQtYml0ZmllbGQtY29tcGF0IGZsYWcu
+DQo+ID4NCj4gPiBHQ0MgbWFudWFsIHNheXM6DQo+ID4gICAiVGhpcyB3YXJuaW5nIGlzIGVuYWJs
+ZWQgYnkgZGVmYXVsdC4gVXNlIC1Xbm8tcGFja2VkLWJpdGZpZWxkLWNvbXBhdA0KPiA+ICAgIHRv
+IGRpc2FibGUgdGhpcyB3YXJuaW5nLiINCj4gPg0KPiA+IFRoZSB0ZXN0IGNvZGUgaW4gdGhlIG1h
+bnVhbDoNCj4gPg0KPiA+ICAgc3RydWN0IGZvbw0KPiA+ICAgew0KPiA+ICAgICBjaGFyIGE6NDsN
+Cj4gPiAgICAgY2hhciBiOjg7DQo+ID4gICB9IF9fYXR0cmlidXRlX18gKChwYWNrZWQpKTsNCj4g
+Pg0KPiA+IC4uLiBlbWl0cyAibm90ZTogb2Zmc2V0IG9mIHBhY2tlZCBiaXQtZmllbGQg4oCYYuKA
+mSBoYXMgY2hhbmdlZCBpbiBHQ0MgNC40Ig0KPiA+IHdpdGhvdXQgVz0zLg0KPiA+DQo+ID4gTGV0
+J3MgcmVtb3ZlIGl0LCBhcyBpdCBpcyBhIGRlZmF1bHQgd2l0aCBHQ0MuDQo+ID4NCj4gPiBDbGFu
+ZyBkb2VzIG5vdCBzdXBwb3J0IHRoaXMgZmxhZywgc28gaXRzIHJlbW92YWwgd2lsbCBub3QgYWZm
+ZWN0IENsYW5nDQo+ID4gYnVpbGRzLg0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogTWFzYWhpcm8g
+WWFtYWRhIDxtYXNhaGlyb3lAa2VybmVsLm9yZz4NCj4gDQo+IFJldmlld2VkLWJ5OiBOYXRoYW4g
+Q2hhbmNlbGxvciA8bmF0aGFuQGtlcm5lbC5vcmc+DQoNCmdjYyBnZW5lcmF0ZXMgcHJldHR5IGNy
+YXAgY29kZSBmb3IgdGhlIGFib3ZlLg0KY2xhbmcgaXMgb2sgdW5sZXNzIHlvdSBleHRlbmQgdGhl
+IHN0cnVjdHVyZSB0byAzIGJ5dGVzLg0KU2VlOg0KaHR0cHM6Ly9nb2Rib2x0Lm9yZy96LzljMWNz
+b25ZOQ0KDQoNCglEYXZpZA0KDQotDQpSZWdpc3RlcmVkIEFkZHJlc3MgTGFrZXNpZGUsIEJyYW1s
+ZXkgUm9hZCwgTW91bnQgRmFybSwgTWlsdG9uIEtleW5lcywgTUsxIDFQVCwgVUsNClJlZ2lzdHJh
+dGlvbiBObzogMTM5NzM4NiAoV2FsZXMpDQo=
 
 
