@@ -1,107 +1,89 @@
-Return-Path: <linux-kbuild+bounces-1212-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1213-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6100C8783C4
-	for <lists+linux-kbuild@lfdr.de>; Mon, 11 Mar 2024 16:34:02 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 90E48878507
+	for <lists+linux-kbuild@lfdr.de>; Mon, 11 Mar 2024 17:23:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 16E561F219A3
-	for <lists+linux-kbuild@lfdr.de>; Mon, 11 Mar 2024 15:34:02 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 317ACB211EA
+	for <lists+linux-kbuild@lfdr.de>; Mon, 11 Mar 2024 16:23:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4026A47F7F;
-	Mon, 11 Mar 2024 15:27:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBA1D1B599;
+	Mon, 11 Mar 2024 16:19:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LjsU6RgL"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gose7i5D"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1761A44368;
-	Mon, 11 Mar 2024 15:27:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F14745B683
+	for <linux-kbuild@vger.kernel.org>; Mon, 11 Mar 2024 16:19:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710170831; cv=none; b=uydpC9rFrv9Dl7M3/JDvxgZLQ8N7pLPxg8+EMBONb8zqZlCFk07beeg2vpcKJIuTar78ne2dNF36niUeUfRfh2mMrC68VvU9hLrzSo/whDNre6cR8zXadAmsrtkFm6rBvGLSEV8MXoi2UfTSNv5hvoLdYPztu414LBRD9ixAkvo=
+	t=1710173945; cv=none; b=jsygwCBUNfSyRB9AwsepzItsGJlU8CCLEyxN5hbU4mMyHeHnqLpo4WQtd0+j8OIyMqf+EOXqsmziiI4z1gHqWIikFI++xZPeFjf5Rnmrp+BKwDCsAJU0NrBDaFSd2pZ0k4PrsxpwKRS/s9WTH+Ql0hor6iSTTNM7sGVN39EiJgI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710170831; c=relaxed/simple;
-	bh=z4m2mdAW+4t979hNRetfiN0r2sRlcX+HmjBvZVh9Ceg=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Tjyu7pgEjTQf+JNIBgf0JIfcWvxKqL1XSmlhWK8xLtOm2ma5k+pWXSHyjmhveymX+TNl59vaT4UcmjBqTDeRytsSR9zGm+fwWQAJn34W+Ek1mKDtn22pnVlQ9efPVndEDmR8w2/Af88iuCUrq7xmFFggKMR3ula5KwqeKvjeBvI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LjsU6RgL; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 536C8C433F1;
-	Mon, 11 Mar 2024 15:27:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710170830;
-	bh=z4m2mdAW+4t979hNRetfiN0r2sRlcX+HmjBvZVh9Ceg=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=LjsU6RgLyq/y/0t0yeVDVtpFwa67Wl0+iahIdEi0XO6cIY9dHmpqWmiaYay6E60dy
-	 UOb9CU3tRlf2qYWbwi4PdzRvb0Eb2etX0/KU1MTnU+W8N2xwBUfkK7jObdWluCh21m
-	 03WAZQC7A6Xdtn5sOgPJrTlHhaM/e/Se8dqbrsA7aQSaLapaJ8VLdzUQKyuNIOz3OC
-	 HJlNMgHcO4IZJ1h8+61r/BwnSRqyBifkzSMtmjfkGYpaiAAb1EtY9LX+gJTGKLpVCA
-	 MckYE8cYx8+gKdRosCFN6VG8DUVZpQlYyeUiL7BD0SmFFwi/Dl306wU7eznYsacTNL
-	 ZX3vhHrSW8E0g==
-From: Mark Brown <broonie@kernel.org>
-To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
- Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
- linux-kbuild@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>, 
- kernel@pengutronix.de
-In-Reply-To: <20240310143852.397212-2-u.kleine-koenig@pengutronix.de>
-References: <20240310143852.397212-2-u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH] ASoC: tlv320adc3xxx: Don't strip remove function when
- driver is builtin
-Message-Id: <171017082806.34160.5012089436149425102.b4-ty@kernel.org>
-Date: Mon, 11 Mar 2024 15:27:08 +0000
+	s=arc-20240116; t=1710173945; c=relaxed/simple;
+	bh=SpstfbDp4UHNXuv8wwg9k1v9GZn/ENsK2ri+ekeyzBY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=YIYlKnWHte7mSSw+crq6D+LNiMnjOEs8nbTNaauvLNmncLc+zNhTq9/ElSeR7/Rw682SQKhs5cf9AqpuVS0NXILDbF8zPKeVYG+xlEXcwM5Xkf5Fn3k4qBhHy1NebK/qzg2Jw6hg3ooGQj1J3RCBQXzgyf4EputqVapI/JFEE2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=gose7i5D; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1710173942;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SpstfbDp4UHNXuv8wwg9k1v9GZn/ENsK2ri+ekeyzBY=;
+	b=gose7i5DiUlI1PtwQkp4JQWCUD6j9Rf77W/KoKTo8PVhRPIwrsnIz9Wgs5nn47TjnGrJTJ
+	yDHpIOsxunwfLmrfNOZodvvUqbeFzLY1m0VCDHZYDUuRsdVxWK2DHStaDIVEkGAEgJBHK1
+	ixOvaE0A7BNa9fFHOoz0V+aWwQ5nZy8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-329-qpyiyqDENtWq0-J3PfToOg-1; Mon, 11 Mar 2024 12:18:55 -0400
+X-MC-Unique: qpyiyqDENtWq0-J3PfToOg-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A87A2188497E;
+	Mon, 11 Mar 2024 16:18:54 +0000 (UTC)
+Received: from fedora.redhat.com (unknown [10.39.192.124])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id E552D492B87;
+	Mon, 11 Mar 2024 16:18:52 +0000 (UTC)
+From: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
+To: masahiroy@kernel.org
+Cc: jtornosm@redhat.com,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	nathan@kernel.org,
+	nicolas@fjasle.eu
+Subject: Re: [PATCH] kbuild: rpm-pkg: add dtb files in kernel rpm
+Date: Mon, 11 Mar 2024 17:18:48 +0100
+Message-ID: <20240311161851.1760965-1-jtornosm@redhat.com>
+In-Reply-To: <CAK7LNAQ6_kr0Q1RB0dELiGUObFJ4HEEu3XTErGf6FaNntKMnTg@mail.gmail.com>
+References: <CAK7LNAQ6_kr0Q1RB0dELiGUObFJ4HEEu3XTErGf6FaNntKMnTg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.13-dev-a684c
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.9
 
-On Sun, 10 Mar 2024 15:38:51 +0100, Uwe Kleine-König wrote:
-> Using __exit for the remove function results in the remove callback
-> being discarded with SND_SOC_TLV320ADC3XXX=y. When such a device gets
-> unbound (e.g. using sysfs or hotplug), the driver is just removed
-> without the cleanup being performed. This results in resource leaks. Fix
-> it by compiling in the remove callback unconditionally.
-> 
-> This also fixes a W=1 modpost warning:
-> 
-> [...]
+Hello Masahiro,
 
-Applied to
+Ok to everything.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Thanks for your comments!
 
-Thanks!
-
-[1/1] ASoC: tlv320adc3xxx: Don't strip remove function when driver is builtin
-      commit: f31e0d0c2cad23e0cc48731634f85bb2d8707790
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+Best regards
+José Ignacio
 
 
