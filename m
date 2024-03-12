@@ -1,145 +1,105 @@
-Return-Path: <linux-kbuild+bounces-1214-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1215-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80666878560
-	for <lists+linux-kbuild@lfdr.de>; Mon, 11 Mar 2024 17:28:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9D6C878BD7
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Mar 2024 01:16:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B25321C219AA
-	for <lists+linux-kbuild@lfdr.de>; Mon, 11 Mar 2024 16:28:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E938D1C20B03
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Mar 2024 00:16:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D8F851C44;
-	Mon, 11 Mar 2024 16:22:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MGDJp4YW"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57D721396;
+	Tue, 12 Mar 2024 00:16:08 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mailhost.m5p.com (mailhost.m5p.com [74.104.188.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BF4E57863
-	for <linux-kbuild@vger.kernel.org>; Mon, 11 Mar 2024 16:22:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 348A7EC3
+	for <linux-kbuild@vger.kernel.org>; Tue, 12 Mar 2024 00:16:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.104.188.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710174172; cv=none; b=JpCilcJUt4KCREBWXHu7xjb+JUP4xtjC/9bBt3yjsnwnfT2u2/nGnw0hSG4iTmuVWHt7jOczi5JeEI0w3E9KvRgM1WltRcLfS3p7qc+4AIYip0ugBXiyoYwrPkvppcweba1iZVeFUfyufW2KoEQszY/NVt396Nz0++F8RnT7ZKk=
+	t=1710202568; cv=none; b=T2RmNtOc7k4yaObBV7GaA197DXJanx+2/p9Z+mzprtbAHksU41tev10LYy5tLW4uCn572a8Ssz0KXi/Otyr1laOl4ra/PiKZbrjw6od39puE2iZa6eOsW21G8CdIRWWHgVrLTBSdibaX4FepEJe9HTx3sKS+wDBB27R1AcGMWiQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710174172; c=relaxed/simple;
-	bh=XDSfURSGPZgQfIxvmCYz/Kgu4M5nZACxndhVTEc5lX0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JDpFDWDGqBaxePHsrsJsYbCf+Ny5R5A5DrKI34rQTWcVSaU6a4BD+f1acLKwvx7JLyl6hNykoR2BxMuXKO3ps0O2qYSIXfWrRyTEF1Quwfg+4XtUREND4GCVL10bcDm28j5eKWAEyJzAggMRHwlEIoShee53m+5BonRdbwXpr4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=MGDJp4YW; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1710174169;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wu/GbQyAsTJ6iD1A5pIHTBnraO749TaX6tIRLxu4AAg=;
-	b=MGDJp4YWF7/WtAiMsGiYxoDHiHx53zhvqqBeBjcPjSV+Io5WjL40jwoTV3i+Z25IDkuXvU
-	h8oKtVIq9WbXgAnVFg4y9J38RqWOeEg5O25QxeE42tjorkKFTUVUf6TxoXT2Vj2ld948GC
-	xYrXY5Ms2ZxsUVgo2ej04GLFeQHNXh8=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-213-FtzkMTugM7yRDbMnUa55uw-1; Mon,
- 11 Mar 2024 12:22:46 -0400
-X-MC-Unique: FtzkMTugM7yRDbMnUa55uw-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8E2B71C006AA;
-	Mon, 11 Mar 2024 16:22:45 +0000 (UTC)
-Received: from fedora.redhat.com (unknown [10.39.192.124])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id C331E492B14;
-	Mon, 11 Mar 2024 16:22:43 +0000 (UTC)
-From: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
-To: masahiroy@kernel.org
-Cc: jtornosm@redhat.com,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	nathan@kernel.org,
-	nicolas@fjasle.eu
-Subject: [PATCH V2] kbuild: rpm-pkg: add dtb files in kernel rpm
-Date: Mon, 11 Mar 2024 17:22:38 +0100
-Message-ID: <20240311162238.1761147-1-jtornosm@redhat.com>
-In-Reply-To: <CAK7LNAQ6_kr0Q1RB0dELiGUObFJ4HEEu3XTErGf6FaNntKMnTg@mail.gmail.com>
-References: <CAK7LNAQ6_kr0Q1RB0dELiGUObFJ4HEEu3XTErGf6FaNntKMnTg@mail.gmail.com>
+	s=arc-20240116; t=1710202568; c=relaxed/simple;
+	bh=g2UGS1Ye/6i+Znz+JBxp0ASHTOwQzqFQwG0+8M3NqC8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BgPpGvdyYMaOSW6G/0nVY8qdNWj6gdgKkNfL+TSi3R0mejuz66Up7PzQrb3zZmFPg+Fb+yX6TrYdhfLVThoba3JSjrThgAE7P99eiQRtV8xJ6nmT0Cr4VsdyWVNbk+Yh7oR/e8te8mLVXjowGvaK5S/B9UYr0zYzKBqDAymUFrs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=m5p.com; spf=pass smtp.mailfrom=m5p.com; arc=none smtp.client-ip=74.104.188.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=m5p.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=m5p.com
+Received: from m5p.com (mailhost.m5p.com [IPv6:2001:470:1f07:15ff:0:0:0:f7])
+	by mailhost.m5p.com (8.17.1/8.15.2) with ESMTPS id 42C0FS1x072609
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
+	Mon, 11 Mar 2024 20:15:34 -0400 (EDT)
+	(envelope-from ehem@m5p.com)
+Received: (from ehem@localhost)
+	by m5p.com (8.17.1/8.15.2/Submit) id 42C0FQ1C072608;
+	Mon, 11 Mar 2024 17:15:26 -0700 (PDT)
+	(envelope-from ehem)
+Date: Mon, 11 Mar 2024 17:15:26 -0700
+From: Elliott Mitchell <ehem+linux@m5p.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Nicolas Schier <nicolas@fjasle.eu>, nathan@kernel.org,
+        linux-kbuild@vger.kernel.org
+Subject: Re: [WIP PATCH 00/30] Adding trailing slash to $(*tree)
+Message-ID: <Ze+ensR/W0aesLPN@mattapan.m5p.com>
+References: <cover.1709508290.git.ehem+linux@m5p.com>
+ <ZeWa_qAsfmxJ5KFy@buildd.core.avm.de>
+ <ZeYiu3V+Q5xItFHD@mattapan.m5p.com>
+ <CAK7LNAT+dnMAEd0nxXmb-szR-5oHZyB2YOTjVCBypDbwAXNHsw@mail.gmail.com>
+ <ZekFzmXKKgHYZPcq@mattapan.m5p.com>
+ <CAK7LNATKE9wYpmxsWLmF++yQsKAN2dKSxta+O8x6UhWhRCkTCQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.9
+In-Reply-To: <CAK7LNATKE9wYpmxsWLmF++yQsKAN2dKSxta+O8x6UhWhRCkTCQ@mail.gmail.com>
 
-Some architectures, like aarch64 ones, need a dtb file to configure the
-hardware. The default dtb file can be preloaded from u-boot, but the final
-and/or more complete dtb file needs to be able to be loaded later from
-rootfs.
+On Sun, Mar 10, 2024 at 10:07:14PM +0900, Masahiro Yamada wrote:
+> On Thu, Mar 7, 2024 at 9:10 AM Elliott Mitchell <ehem+linux@m5p.com> wrote:
+> >
+> > On Wed, Mar 06, 2024 at 12:20:17AM +0900, Masahiro Yamada wrote:
+> >
+> > > I see no good reason to do this change.
+> > >
+> > > I will not take this series.
+> >
+> > Could I get you to provide further detail as to why you consider my
+> > reasons inadaquate?
+> >
+> > The distribution is well-known.  I believe in-tree and out-of-tree build
+> > mechanisms being as possible to each other is a Good Thing.
+> >
+> > I guess I should also note, in the past (890676c65d699, 9da0763bdd825,
+> > likely others) nicer build output has been sufficient justification for
+> > changes.  An effect of the series is a leading "./" will disappear from
+> > many files in full build output.  As such this also matches that reason.
+> 
+> It is ideal to in-tree and out-of-tree build mechanisms
+> look symmetrical (and perhaps could be achieved in a
+> different way), but your approach is not the direction
+> I want to go.
 
-Add the possible dtb files to the kernel rpm and mimic Fedora shipping
-process, storing the dtb files in the module directory. These dtb files
-will be copied to /boot directory by the install scripts, but add fallback
-just in case, checking if the content in /boot directory is correct.
+I'm glad we're in agreement with the former.  Do you have any guesses
+for when your approach to this will be visible?
 
-Mark the files installed to /boot as %ghost to make sure they will be
-removed when the package is uninstalled.
+I suspect most approaches will eventually run into an issue with the
+current interpretation of $(srctree)/$(objtree).  Unless you can ensure
+$(src)/$(obj) will never end up with absolute paths.
 
-Tested with Fedora Rawhide (x86_64 and aarch64) with dnf and rpm tools.
-In addition, fallback was also tested after modifying the install scripts.
 
-Signed-off-by: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
----
-V1 -> V2:
-- Follow the suggestions from Masahiro Yamada to improve the checks and
-avoid the loop to ghost the dtb files in /boot folder.
-
- scripts/package/kernel.spec | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
-
-diff --git a/scripts/package/kernel.spec b/scripts/package/kernel.spec
-index c256b73cca3e..e095eb1e290e 100644
---- a/scripts/package/kernel.spec
-+++ b/scripts/package/kernel.spec
-@@ -61,6 +61,9 @@ cp $(%{make} %{makeflags} -s image_name) %{buildroot}/lib/modules/%{KERNELRELEAS
- %{make} %{makeflags} INSTALL_HDR_PATH=%{buildroot}/usr headers_install
- cp System.map %{buildroot}/lib/modules/%{KERNELRELEASE}
- cp .config %{buildroot}/lib/modules/%{KERNELRELEASE}/config
-+if %{make} %{makeflags} run-command KBUILD_RUN_COMMAND='test -d ${srctree}/arch/${SRCARCH}/boot/dts' 2>/dev/null; then
-+	%{make} %{makeflags} INSTALL_DTBS_PATH=%{buildroot}/lib/modules/%{KERNELRELEASE}/dtb dtbs_install
-+fi
- ln -fns /usr/src/kernels/%{KERNELRELEASE} %{buildroot}/lib/modules/%{KERNELRELEASE}/build
- %if %{with_devel}
- %{make} %{makeflags} run-command KBUILD_RUN_COMMAND='${srctree}/scripts/package/install-extmod-build %{buildroot}/usr/src/kernels/%{KERNELRELEASE}'
-@@ -81,6 +84,11 @@ ln -fns /usr/src/kernels/%{KERNELRELEASE} %{buildroot}/lib/modules/%{KERNELRELEA
- 		echo "%ghost /boot/${x}-%{KERNELRELEASE}"
- 	done
- 
-+	if [ -d "%{buildroot}/lib/modules/%{KERNELRELEASE}/dtb" ];then
-+		echo "/lib/modules/%{KERNELRELEASE}/dtb"
-+		find "%{buildroot}/lib/modules/%{KERNELRELEASE}/dtb" -printf "%%%ghost /boot/dtb-%{KERNELRELEASE}/%%P\n"
-+	fi
-+
- 	echo "%exclude /lib/modules/%{KERNELRELEASE}/build"
- } > %{buildroot}/kernel.list
- 
-@@ -96,6 +104,11 @@ for file in vmlinuz System.map config; do
- 		cp "/lib/modules/%{KERNELRELEASE}/${file}" "/boot/${file}-%{KERNELRELEASE}"
- 	fi
- done
-+if [ -d "/lib/modules/%{KERNELRELEASE}/dtb" ] && \
-+   ! diff -rq "/lib/modules/%{KERNELRELEASE}/dtb" "/boot/dtb-%{KERNELRELEASE}" >/dev/null 2>&1; then
-+	rm -rf "/boot/dtb-%{KERNELRELEASE}"
-+	cp -r "/lib/modules/%{KERNELRELEASE}/dtb" "/boot/dtb-%{KERNELRELEASE}"
-+fi
- if [ ! -e "/lib/modules/%{KERNELRELEASE}/modules.dep" ]; then
- 	/usr/sbin/depmod %{KERNELRELEASE}
- fi
 -- 
-2.44.0
+(\___(\___(\______          --=> 8-) EHM <=--          ______/)___/)___/)
+ \BS (    |         ehem+sigmsg@m5p.com  PGP 87145445         |    )   /
+  \_CS\   |  _____  -O #include <stddisclaimer.h> O-   _____  |   /  _/
+8A19\___\_|_/58D2 7E3D DDF4 7BA6 <-PGP-> 41D1 B375 37D0 8714\_|_/___/5445
+
 
 
