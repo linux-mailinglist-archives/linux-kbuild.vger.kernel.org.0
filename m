@@ -1,144 +1,128 @@
-Return-Path: <linux-kbuild+bounces-1226-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1227-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A10087A474
-	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Mar 2024 10:01:31 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DD0487A9A6
+	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Mar 2024 15:42:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 408721F2269D
-	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Mar 2024 09:01:31 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 54AEFB232F0
+	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Mar 2024 14:42:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D3FC1B277;
-	Wed, 13 Mar 2024 09:01:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F081C610E;
+	Wed, 13 Mar 2024 14:42:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="VW3FX9Ns";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="yJF0v230"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D95811BDEE
-	for <linux-kbuild@vger.kernel.org>; Wed, 13 Mar 2024 09:01:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50DB44409;
+	Wed, 13 Mar 2024 14:42:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710320476; cv=none; b=cnj2cexHsRwEHNPR2JI/KHYoxU4EMZoHv8G58jAJ8umkEp2qyhp7slPMAasWzexZ5oZuoxwdadkygMh0cwvBJdo6H5wtxWevw9iu1RMfhJwDRBA1R7esWhbmPVhhLpFg+/BWcQ8Ic9H9H1dad8IxfYuGEoIz8oSQA3Nqlvuhi84=
+	t=1710340940; cv=none; b=W1j7eU45MoqGZI+d8TCIb7Q8KTJRh+iHy+D/MTavSolkL3PAjwf1aHKujr9P0iWFI+1pfKNJx8LmhgYHwV3iXyixJicncRRnZi8j/+uti6dDX0Os7PyiYxAD79cxb2+Q8OyWo5KdTAuJBWpCUIHqN6zLMaV9cTtNOPkdMfJzDi4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710320476; c=relaxed/simple;
-	bh=tPp9wpHnMR+ocs6xYZEuu9COA0lUEBrBrD4AMOa+lKw=;
+	s=arc-20240116; t=1710340940; c=relaxed/simple;
+	bh=U5c5j9lYX0V5EhN9W9NhQsGKnW1C1zrts03VpAiVNg8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SadxwPaSBggED0Vt1+UNvKubs65yLqBgRt/Qt8osA0OjnN4+x9X9OuIZxuiVDGe4YeeEVrUtkvgSiDgZ+kFLa2rNDw+o+RKwaU8kw3zr4l1zf95zRFHdbzys0SRd5HbzaATO/Q1mf/TuIq6GlckGTkNjH+Cn+4KHS+jJIDKsDaw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rkKTq-000386-Ik; Wed, 13 Mar 2024 10:00:58 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rkKTo-0064zd-Do; Wed, 13 Mar 2024 10:00:56 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rkKTo-005Hi3-14;
-	Wed, 13 Mar 2024 10:00:56 +0100
-Date: Wed, 13 Mar 2024 10:00:56 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Stephen Rothwell <sfr@canb.auug.org.au>, 
-	Masahiro Yamada <masahiroy@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	Linux Next Mailing List <linux-next@vger.kernel.org>, linux-kbuild@vger.kernel.org
-Subject: Re: linux-next: build warning after merge of the mm tree
-Message-ID: <psaj3nztnhcxiwjnie3bbpsn7efcsxp3yx3mh54uello22773v@fw5qpqs4gh2i>
-References: <20240313150728.12e20208@canb.auug.org.au>
+	 Content-Type:Content-Disposition:In-Reply-To; b=DTZso5yBGZ42NVgMn2jzfAV2AUkSAxTeLGvFdbE2rCDcuC9TJ7biDtglGmGuY9mWeCTBM+ua1qk9KNdBs2Ht5d50jKqY1oN8B3f1AsnIQn15tWS2wYlQHe4pAsWlyDcAS3REROu95sN78r+bxDwhmXvUIvU+TE2JdH+mRVwT8xo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=VW3FX9Ns; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=yJF0v230; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Date: Wed, 13 Mar 2024 15:42:17 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1710340937;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=s56+A8op/q+HdIVsDoLHkIGjaMoZ34ZrAuFSbXAA8e8=;
+	b=VW3FX9Nszwew+ZNsV7lgDshx2B+dlyawq7UgJUNk0Ze3vwPeQ7rHGLQTw/Qw860mUSTaI8
+	P+QUfJETXssHsJeBeZDkYBazeM16XBd98PYxMObxCBV7FBkVNgbDdmZMPLCjKv4PM2bV+u
+	mr+3h9U+ugtJEBtZtlNVVVcZX/rIjQ8ml0QspNnZPm76EDN0KHVuc3STWS40Qe0blCvlAR
+	u0sqxMSEzaj0MdFus/PVMhYagX7QSO4gDP5Bf3EQ6x1zB/1ZNOHfJqL6u3DRmxNDwX7ghx
+	HvhaRxr5iskQXcW9fq+oOcIDoC9LyoHQVpu6F/dS6+EugIc7T8hVMACdwmB5Sw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1710340937;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=s56+A8op/q+HdIVsDoLHkIGjaMoZ34ZrAuFSbXAA8e8=;
+	b=yJF0v230JK9QRq95rjjeV7q+BlD834eJebMVfmXKyXIA6T5x/UcdXTnBBtvrRFh0x4oNEs
+	xq/BYZE2Iq3+3RAQ==
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Kees Cook <keescook@chromium.org>, linux-hardening@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH 2/2] gcc-plugins: disable plugins when gmp.h is
+ unavailable
+Message-ID: <20240313154111-53729221-b8fb-4969-ac4d-ea74861f6c84@linutronix.de>
+References: <20240312-gcc-plugins-gmp-v1-0-c5e082437b9e@linutronix.de>
+ <20240312-gcc-plugins-gmp-v1-2-c5e082437b9e@linutronix.de>
+ <202403121452.701C91AF6E@keescook>
+ <CAK7LNAQ=aSqUUStN_M8QVqeS9R1QVM5CPq7=kzpY0z060XJFDA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="2zmul7e526qlrp5s"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240313150728.12e20208@canb.auug.org.au>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-kbuild@vger.kernel.org
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK7LNAQ=aSqUUStN_M8QVqeS9R1QVM5CPq7=kzpY0z060XJFDA@mail.gmail.com>
 
+On Wed, Mar 13, 2024 at 12:47:59PM +0900, Masahiro Yamada wrote:
+> On Wed, Mar 13, 2024 at 6:53 AM Kees Cook <keescook@chromium.org> wrote:
+> >
+> > On Tue, Mar 12, 2024 at 04:03:30PM +0100, Thomas Weißschuh wrote:
+> > > The header gmp.h is meant to be picked up from the host system.
+> > >
+> > > When it is unavailable the plugin build fails:
+> > >
+> > > In file included from ../crosstools/gcc-13.2.0-nolibc/i386-linux/bin/../lib/gcc/i386-linux/13.2.0/plugin/include/gcc-plugin.h:28,
+> > >                  from ../scripts/gcc-plugins/gcc-common.h:7,
+> > >                  from ../scripts/gcc-plugins/stackleak_plugin.c:30:
+> > > ../crosstools/gcc-13.2.0-nolibc/i386-linux/bin/../lib/gcc/i386-linux/13.2.0/plugin/include/system.h:703:10: fatal error: gmp.h: No such file or directory
+> > >   703 | #include <gmp.h>
+> > >       |          ^~~~~~~
+> > >
+> > > Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+> > > ---
+> > >  scripts/gcc-plugins/Kconfig | 1 +
+> > >  1 file changed, 1 insertion(+)
+> > >
+> > > diff --git a/scripts/gcc-plugins/Kconfig b/scripts/gcc-plugins/Kconfig
+> > > index e383cda05367..a664fb5cdde5 100644
+> > > --- a/scripts/gcc-plugins/Kconfig
+> > > +++ b/scripts/gcc-plugins/Kconfig
+> > > @@ -10,6 +10,7 @@ menuconfig GCC_PLUGINS
+> > >       depends on HAVE_GCC_PLUGINS
+> > >       depends on CC_IS_GCC
+> > >       depends on $(success,test -e $(shell,$(CC) -print-file-name=plugin)/include/plugin-version.h)
+> > > +     depends on $(host-cc-option,-include gmp.h)
+> >
+> > Why does the prior depends not fail? That's where plugin detection is
+> > happening.
+> >
+> > --
+> > Kees Cook
+> 
+> This patch set should be rejected.
+> 
+> 
+> It was already discussed in the past.
+> Just install a proper package, then gcc-plugin will work.
+> 
+> https://lore.kernel.org/all/CAHk-=wjjiYjCp61gdAMpDOsUBU-A2hFFKJoVx5VAC7yV4K6WYg@mail.gmail.com/
 
---2zmul7e526qlrp5s
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks for the pointer.
 
-On Wed, Mar 13, 2024 at 03:07:28PM +1100, Stephen Rothwell wrote:
-> Hi all,
->=20
-> After merging the mm tree, today's linux-next build (powerpc allyesconfig)
-> produced this warning:
->=20
-> Use of uninitialized value $ENV{"abs_srctree"} in concatenation (.) or st=
-ring at /home/sfr/next/next/lib/build_OID_registry line 38.
->=20
-> Introduced by commit
->=20
->   325f7b0aaea6 ("lib/build_OID_registry: Don't mention the full path of t=
-he script in output")
->=20
-> from the mm-nonmm-unstable branch of the mm tree.
+As there is already consensus I agree that the patches should not be used.
 
-Actually the warning doesn't happen on 325f7b0aaea6. The commit is only
-problematic in combination with commit
-
-	e2bad142bb3d ("kbuild: unexport abs_srctree and abs_objtree")
-
-=2E This commit suggests to use $(abspath ) or $(realpath ) instead, but I
-fail to apply this suggestion here.
-
-Obviously
-
-diff --git a/Makefile b/Makefile
-index 5e09b53b4850..f73a73a125e0 100644
---- a/Makefile
-+++ b/Makefile
-@@ -39,7 +39,7 @@ __all:
- # prepare rule.
-=20
- this-makefile :=3D $(lastword $(MAKEFILE_LIST))
--abs_srctree :=3D $(realpath $(dir $(this-makefile)))
-+export abs_srctree :=3D $(realpath $(dir $(this-makefile)))
- abs_objtree :=3D $(CURDIR)
-=20
- ifneq ($(sub_make_done),1)
-
-would help.
-
-Any ideas how to properly handle that? Would the export be ok?
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---2zmul7e526qlrp5s
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmXxa0cACgkQj4D7WH0S
-/k4L0wgAtFXvi2SKrUZSJkChbQc1i9RRgfE3LyGWBx4rp7IFLOOG1uy8DLMZU9RV
-neRZjELj/yIOMwudxBzN//rSvt1Fyg1uwo1F7UEZp2F6AxDoBdH98lCTPTdebALP
-8E/rbz4sNjtoadzN+4DascK4hlZSbKCDXkk8YPgR/K/uugB+izgJ1P22tcLu5HIP
-rR75ToEKmb6tBHa9lILH5o5uoOtZN/8PjcWZjevhFpQIFQmJLnitnJRQjoyrZDEE
-I5f4QBUgL9uwi/FCJVv5TF5CONmqkumagjJ9OaszUxuYEcxW+ANWQAwvzTDH+MTW
-6vy9QAnixJkgJV8qKZ6bOYGaST3N+A==
-=HkV0
------END PGP SIGNATURE-----
-
---2zmul7e526qlrp5s--
+Thomas
 
