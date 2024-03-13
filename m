@@ -1,132 +1,138 @@
-Return-Path: <linux-kbuild+bounces-1224-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1225-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64C1787A1F9
-	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Mar 2024 04:48:44 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 702C787A243
+	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Mar 2024 05:23:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DEB211F22935
-	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Mar 2024 03:48:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A6C881C20DBB
+	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Mar 2024 04:23:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6AAC4101DE;
-	Wed, 13 Mar 2024 03:48:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69B9F10A1F;
+	Wed, 13 Mar 2024 04:23:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S5mh72Az"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ahM8aPV9"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CA3D6FA7;
-	Wed, 13 Mar 2024 03:48:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43DBEC13D
+	for <linux-kbuild@vger.kernel.org>; Wed, 13 Mar 2024 04:23:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710301718; cv=none; b=IcP52Fli6Nn22UnrqxKSQiNvlEKJeRIAkdHN51HBN37IsZG/3RjVuWr2xwvmHmJU1tCnwcYoBheXQjZ8tnF5Gm/BjMDsZxfDfE3XuhSS/JlnIKFcClP9422a7woxPXZPrInuope0bNByuTRRZN+a8TLKI3no9gBM8snllPqtNRs=
+	t=1710303805; cv=none; b=naRkU5c5O33e381E7EMw1Qqm5dS3HEwC/kwLHhD1j4ujXkn0KfGgfXU7oM4LKs47VcByM0Z4cNDKakX/A3UY6Tu6lt5kMFe3hyM5saSnPe1QkenA0JxpciDvToLkKO0VzM6NkSMxe1kUyTGwjO77mROD8nqt99pi0H4296LxDGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710301718; c=relaxed/simple;
-	bh=CeQaXs0K7RFXkVnM9dXH+pmKXGUSDN4g5SZ9YhtnJgU=;
+	s=arc-20240116; t=1710303805; c=relaxed/simple;
+	bh=L6JVjFeaF0SzJLkup9ytH1RlMdI44febxWG4uLjqDCA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DLPGVCRNaBcvbVsIVWq51I3HQKOV5MQuE/a7XGQJNV0joLJ5u7OxKbHimMIPnWm7m4BeQAXqY9tLKXd018YkkJqMgngnACAj8wmsNKFNtFYAGs0/1r0mPJrYnqqn6m59o22UwmWC62tzs7UZHHuIYIp1dSQC7qSZ4tJYKoYAqtg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S5mh72Az; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCF02C433F1;
-	Wed, 13 Mar 2024 03:48:37 +0000 (UTC)
+	 To:Cc:Content-Type; b=GLeSFJ4ypNWc/GXkianGVBrRw0v0ws/DbG3+fQiNG52CFzVNojjVwxRdGPDVLAbLtWGQrwTmzYghvWO9mqIiGD9N40nHWlypRSLFbQHseP9EJUj+nnug7vSCbehXRbNhFvB2asypqCmPjbwpeU+s80siGm6c/HIFQ8HEVGl/BBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ahM8aPV9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB988C433F1
+	for <linux-kbuild@vger.kernel.org>; Wed, 13 Mar 2024 04:23:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710301717;
-	bh=CeQaXs0K7RFXkVnM9dXH+pmKXGUSDN4g5SZ9YhtnJgU=;
+	s=k20201202; t=1710303804;
+	bh=L6JVjFeaF0SzJLkup9ytH1RlMdI44febxWG4uLjqDCA=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=S5mh72AzKBXjn8wZtPDQf18y2EAI1jof5ujqfDI8hgQNuNBvPENMdvylHy8fvQ4q0
-	 RQPnrtZNJncJpGGy5sh7Aop6CALgzpDAF+12Y3kcZcsMJ4wQfH9NPqt910X7g22peI
-	 K/uQkGt9hnigpO7HHsjAhAhODI0FxWRvp7xHLkLYwvN8BHcgUOIrH/ugbaGkfSxd51
-	 IoAKRv2j/UBQFCnrTlrNj3dofIgRscqC/gh5/tBu/XKZm8jdfyonMOWddfpK0OAaIb
-	 D0J7i6TFHSK0Qbc5ap7jRDEeSmiXP/jPrxtRn+tMRc14vSqIMu/3UfMlLdM9z7/dr/
-	 ahma+L0rilO+A==
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5135e8262e4so6656025e87.0;
-        Tue, 12 Mar 2024 20:48:37 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWM7L8zP1HzLZZ9cl5vJDMF3S/Ic0VXUiJamNnRjZm4gOcRXObX9ml0O4gdcA0KJMJ/6NiMzrFRzJzuUgONCUjptJv2Y+fkaKhafP+9A4zJd0JMR6tmlbhMjHmhhJrWCEEm927B5ak9eRo3a3f9/VGep/N0qVP+F+hOCGTUovTcNKrDBVdeN4hY13RM
-X-Gm-Message-State: AOJu0Yye4L0QZ2pmQIVbYBmKBGPRYCMNNehLSZ+tD5kPXcxF7lKLdj7K
-	DQu4534Y//aFKGxwkKFag4Vr9zz9qjhNf9rNr7mE9wGPjL/tKctz+spx74FKCdLaCYa4IAhRz1S
-	Rt3WH5GhbN4rJ10aBiNH7J5Ofi/U=
-X-Google-Smtp-Source: AGHT+IFQGGOXeJS2cP1mqVkQyb8U93YoQbMAGZimnQg5z8RPYJ5VLLQxpIGKpD5eblVrbx+KvNJWQ8s4AgU4cOgUDlI=
-X-Received: by 2002:a05:6512:1149:b0:512:ac3a:7f27 with SMTP id
- m9-20020a056512114900b00512ac3a7f27mr8291674lfg.66.1710301716348; Tue, 12 Mar
- 2024 20:48:36 -0700 (PDT)
+	b=ahM8aPV992LWWJi5nj5mCavp6NuGQgpgU/qG3X1hYZ4lHzbHxJY0LqmO6AUPtfXyP
+	 5XokMTsSeiRvfm3bZ0cwMey/tTTETuRi0TU4LJwTJtPpZuhxbJIttMyh/hOxSuuJG5
+	 ali1Y7ZJdfj5nJM11cY53KQn46p1i7Y8zRSQaHeKRMGTeelfKL4V+vg+TxMRluFHzG
+	 rsf1WYxuF5sJFtsCEZLwqMxpMBt+5uqJbI38SzReYbjFUUGJcZKKN7rqt/MFPsvlA0
+	 Se++LyBVfZgC3uWGNzf4zt3jNq5E43Yqqrdbre2WBYLd6ynkhZpQ8uZNbKAgoXfX4J
+	 rhGmgOKjdHgXA==
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2d41d1bedc9so73684811fa.3
+        for <linux-kbuild@vger.kernel.org>; Tue, 12 Mar 2024 21:23:24 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUUDC/NiE5IZcp6t4TZ5qzc7vxpIIME1BLqMflUUUqPh+qGtbIdiuobWJSnAMnvhms76iOeaRZoGJ02zsfY4q2snT3PhJWYHAeAQsDc
+X-Gm-Message-State: AOJu0YzZ2dmHSO0Dh0biqdpV1tfGy1p3j2H6O98FS9hGmy9sDR11B3ZH
+	49qnHQFu6zX+1b3jzgmYrgyljFnz+EgioCNQWoMZDf+Vv6KBRB31+9uK5Mg0DHFSY+rHYK5WE9T
+	fjbtT9o6xvs+XWXMfwgoNTj2iWjs=
+X-Google-Smtp-Source: AGHT+IH88crqeJt1k7aJd4MuFVmCfPOVi3Fbr4/YJ/hvdSk1dpMgEpkcD7aFb7l7l7PWjdlrdmfQjMCIiGuSC3CL5kQ=
+X-Received: by 2002:a2e:9644:0:b0:2d2:2cff:fc49 with SMTP id
+ z4-20020a2e9644000000b002d22cfffc49mr8401478ljh.18.1710303803234; Tue, 12 Mar
+ 2024 21:23:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240312-gcc-plugins-gmp-v1-0-c5e082437b9e@linutronix.de>
- <20240312-gcc-plugins-gmp-v1-2-c5e082437b9e@linutronix.de> <202403121452.701C91AF6E@keescook>
-In-Reply-To: <202403121452.701C91AF6E@keescook>
+References: <cover.1709508290.git.ehem+linux@m5p.com> <ZeWa_qAsfmxJ5KFy@buildd.core.avm.de>
+ <ZeYiu3V+Q5xItFHD@mattapan.m5p.com> <CAK7LNAT+dnMAEd0nxXmb-szR-5oHZyB2YOTjVCBypDbwAXNHsw@mail.gmail.com>
+ <ZekFzmXKKgHYZPcq@mattapan.m5p.com> <CAK7LNATKE9wYpmxsWLmF++yQsKAN2dKSxta+O8x6UhWhRCkTCQ@mail.gmail.com>
+ <Ze+ensR/W0aesLPN@mattapan.m5p.com>
+In-Reply-To: <Ze+ensR/W0aesLPN@mattapan.m5p.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Wed, 13 Mar 2024 12:47:59 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQ=aSqUUStN_M8QVqeS9R1QVM5CPq7=kzpY0z060XJFDA@mail.gmail.com>
-Message-ID: <CAK7LNAQ=aSqUUStN_M8QVqeS9R1QVM5CPq7=kzpY0z060XJFDA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] gcc-plugins: disable plugins when gmp.h is unavailable
-To: Kees Cook <keescook@chromium.org>
-Cc: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
-	linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org
+Date: Wed, 13 Mar 2024 13:22:46 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARMQKrXr=UScvUwNFNEN0gEKcrqriXB5AxfEc6gWbGeFw@mail.gmail.com>
+Message-ID: <CAK7LNARMQKrXr=UScvUwNFNEN0gEKcrqriXB5AxfEc6gWbGeFw@mail.gmail.com>
+Subject: Re: [WIP PATCH 00/30] Adding trailing slash to $(*tree)
+To: Elliott Mitchell <ehem+linux@m5p.com>
+Cc: Nicolas Schier <nicolas@fjasle.eu>, nathan@kernel.org, linux-kbuild@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 13, 2024 at 6:53=E2=80=AFAM Kees Cook <keescook@chromium.org> w=
-rote:
+On Tue, Mar 12, 2024 at 9:16=E2=80=AFAM Elliott Mitchell <ehem+linux@m5p.co=
+m> wrote:
 >
-> On Tue, Mar 12, 2024 at 04:03:30PM +0100, Thomas Wei=C3=9Fschuh wrote:
-> > The header gmp.h is meant to be picked up from the host system.
+> On Sun, Mar 10, 2024 at 10:07:14PM +0900, Masahiro Yamada wrote:
+> > On Thu, Mar 7, 2024 at 9:10=E2=80=AFAM Elliott Mitchell <ehem+linux@m5p=
+.com> wrote:
+> > >
+> > > On Wed, Mar 06, 2024 at 12:20:17AM +0900, Masahiro Yamada wrote:
+> > >
+> > > > I see no good reason to do this change.
+> > > >
+> > > > I will not take this series.
+> > >
+> > > Could I get you to provide further detail as to why you consider my
+> > > reasons inadaquate?
+> > >
+> > > The distribution is well-known.  I believe in-tree and out-of-tree bu=
+ild
+> > > mechanisms being as possible to each other is a Good Thing.
+> > >
+> > > I guess I should also note, in the past (890676c65d699, 9da0763bdd825=
+,
+> > > likely others) nicer build output has been sufficient justification f=
+or
+> > > changes.  An effect of the series is a leading "./" will disappear fr=
+om
+> > > many files in full build output.  As such this also matches that reas=
+on.
 > >
-> > When it is unavailable the plugin build fails:
-> >
-> > In file included from ../crosstools/gcc-13.2.0-nolibc/i386-linux/bin/..=
-/lib/gcc/i386-linux/13.2.0/plugin/include/gcc-plugin.h:28,
-> >                  from ../scripts/gcc-plugins/gcc-common.h:7,
-> >                  from ../scripts/gcc-plugins/stackleak_plugin.c:30:
-> > ../crosstools/gcc-13.2.0-nolibc/i386-linux/bin/../lib/gcc/i386-linux/13=
-.2.0/plugin/include/system.h:703:10: fatal error: gmp.h: No such file or di=
-rectory
-> >   703 | #include <gmp.h>
-> >       |          ^~~~~~~
-> >
-> > Signed-off-by: Thomas Wei=C3=9Fschuh <thomas.weissschuh@linutronix.de>
-> > ---
-> >  scripts/gcc-plugins/Kconfig | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/scripts/gcc-plugins/Kconfig b/scripts/gcc-plugins/Kconfig
-> > index e383cda05367..a664fb5cdde5 100644
-> > --- a/scripts/gcc-plugins/Kconfig
-> > +++ b/scripts/gcc-plugins/Kconfig
-> > @@ -10,6 +10,7 @@ menuconfig GCC_PLUGINS
-> >       depends on HAVE_GCC_PLUGINS
-> >       depends on CC_IS_GCC
-> >       depends on $(success,test -e $(shell,$(CC) -print-file-name=3Dplu=
-gin)/include/plugin-version.h)
-> > +     depends on $(host-cc-option,-include gmp.h)
+> > It is ideal to in-tree and out-of-tree build mechanisms
+> > look symmetrical (and perhaps could be achieved in a
+> > different way), but your approach is not the direction
+> > I want to go.
 >
-> Why does the prior depends not fail? That's where plugin detection is
-> happening.
+> I'm glad we're in agreement with the former.  Do you have any guesses
+> for when your approach to this will be visible?
+
+
+No.
+
+
+This is not important.
+There is no need to rush.
+
+
+
+
+
+> I suspect most approaches will eventually run into an issue with the
+> current interpretation of $(srctree)/$(objtree).  Unless you can ensure
+> $(src)/$(obj) will never end up with absolute paths.
+>
 >
 > --
-> Kees Cook
+> (\___(\___(\______          --=3D> 8-) EHM <=3D--          ______/)___/)_=
+__/)
+>  \BS (    |         ehem+sigmsg@m5p.com  PGP 87145445         |    )   /
+>   \_CS\   |  _____  -O #include <stddisclaimer.h> O-   _____  |   /  _/
+> 8A19\___\_|_/58D2 7E3D DDF4 7BA6 <-PGP-> 41D1 B375 37D0 8714\_|_/___/5445
 >
-
-
-
-This patch set should be rejected.
-
-
-It was already discussed in the past.
-Just install a proper package, then gcc-plugin will work.
-
-https://lore.kernel.org/all/CAHk-=3DwjjiYjCp61gdAMpDOsUBU-A2hFFKJoVx5VAC7yV=
-4K6WYg@mail.gmail.com/
-
-
-
-
+>
 
 
 --=20
