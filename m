@@ -1,132 +1,135 @@
-Return-Path: <linux-kbuild+bounces-1223-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1224-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EB7B879E70
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Mar 2024 23:24:10 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64C1787A1F9
+	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Mar 2024 04:48:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D08C11C221FD
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 Mar 2024 22:24:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DEB211F22935
+	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Mar 2024 03:48:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BD22144024;
-	Tue, 12 Mar 2024 22:24:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6AAC4101DE;
+	Wed, 13 Mar 2024 03:48:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n87115ES"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S5mh72Az"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E14F14375A;
-	Tue, 12 Mar 2024 22:24:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CA3D6FA7;
+	Wed, 13 Mar 2024 03:48:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710282243; cv=none; b=ZVod/i8UD5YBOsmvYCKPwBJsSWj1Sv7FFqmp3s2sTyLVbFuczvx/zO9vxD8ldovkqjU8aCM41sHzwmCELgc16TvfeRIAJuWBSPa4S+FeSVrvuxRG2sFZW/82R1/FLce3twpkuvHBk3Xr31/OUDhpWy51oTHlOlkCqmY6BBVnVk8=
+	t=1710301718; cv=none; b=IcP52Fli6Nn22UnrqxKSQiNvlEKJeRIAkdHN51HBN37IsZG/3RjVuWr2xwvmHmJU1tCnwcYoBheXQjZ8tnF5Gm/BjMDsZxfDfE3XuhSS/JlnIKFcClP9422a7woxPXZPrInuope0bNByuTRRZN+a8TLKI3no9gBM8snllPqtNRs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710282243; c=relaxed/simple;
-	bh=sVJXME02Eu6eBM/W+6bAl2txUWT5DlFFqAiPiAJlsAw=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=Y0cNLXIatgBA+1CKzDHk6wUs1UvSMueSd8lu/7FFbKa7o7trP6LQehROIeUf85HMjfuZx3aKzoPKAWTcydDJmLVvRcE4BkwRhHkrYSgzbLjEX5LANoqTVoTH4TvBuje0IdGRK56shez1+L2iqE2lWzIpI1kOpNq3AjaU6zPQYz0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n87115ES; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 3C073C433C7;
-	Tue, 12 Mar 2024 22:24:03 +0000 (UTC)
+	s=arc-20240116; t=1710301718; c=relaxed/simple;
+	bh=CeQaXs0K7RFXkVnM9dXH+pmKXGUSDN4g5SZ9YhtnJgU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DLPGVCRNaBcvbVsIVWq51I3HQKOV5MQuE/a7XGQJNV0joLJ5u7OxKbHimMIPnWm7m4BeQAXqY9tLKXd018YkkJqMgngnACAj8wmsNKFNtFYAGs0/1r0mPJrYnqqn6m59o22UwmWC62tzs7UZHHuIYIp1dSQC7qSZ4tJYKoYAqtg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S5mh72Az; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCF02C433F1;
+	Wed, 13 Mar 2024 03:48:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710282243;
-	bh=sVJXME02Eu6eBM/W+6bAl2txUWT5DlFFqAiPiAJlsAw=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=n87115ESNuqRdxF+ZRhkyQgwmCz8hfzcSU1dBt1s/ibxe3EUsSvwDUbtbUMhub27H
-	 FIMDxq8X5gwBDA/aWJEYQ3IIbVKzW6clt82Oc5DUKl78yvvy/DvX2iNT9IstLknraL
-	 NDylQnonCUNF9KrARS+MmexfXzrLDbOeurg3SXubouvDofeLcT78CO/di8isC2Jyty
-	 Ie2h+Arh4uUI96JMbzcXim16EKeeqFRPu1INUmhFZllp7VUpN3fkezDa9XzQUIQyws
-	 F7ntAk8r7FDvpLSrF0ZJZsAGyGqidp+P2YL/wVUCJN0IY0TigHF3JW8mAxuz4M94mu
-	 7qEV1PH4PGMYA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 0F0FFD95053;
-	Tue, 12 Mar 2024 22:24:03 +0000 (UTC)
-Subject: Re: [GIT PULL] hardening updates for v6.9-rc1
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <202403111702.828C918E55@keescook>
-References: <202403111702.828C918E55@keescook>
-X-PR-Tracked-List-Id: <linux-kbuild.vger.kernel.org>
-X-PR-Tracked-Message-Id: <202403111702.828C918E55@keescook>
-X-PR-Tracked-Remote: https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git tags/hardening-v6.9-rc1
-X-PR-Tracked-Commit-Id: 3fe1eb4dd2e4b872ffb7b9b081b34ffcfa934ba7
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 216532e147b2fee6ee830f4a844bbc3cbb9137af
-Message-Id: <171028224303.16151.15003389057998252941.pr-tracker-bot@kernel.org>
-Date: Tue, 12 Mar 2024 22:24:03 +0000
-To: Kees Cook <keescook@chromium.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	linux-kernel@vger.kernel.org,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>, Bill Wendling <morbo@google.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Douglas Anderson <dianders@chromium.org>,
-	Fangrui Song <maskray@google.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Guixiong Wei <guixiongwei@gmail.com>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Hao Luo <haoluo@google.com>,
-	Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>,
-	Jacob Keller <jacob.e.keller@intel.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Jani Nikula <"ja ni.nikula"@intel.com>,
-	Jingzi Meng <mengjingzi@iie.ac.cn>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Juergen Gross <jgross@suse.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Kees Cook <keescook@chromium.org>,
-	Kent Overstreet <kent.overstreet@linux.dev>,
-	kernel test robot <lkp@intel.com>, linux-doc@vger.kernel.org,
-	linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-sh@vger.kernel.org, linux-um@lists.infradead.org,
-	llvm@lists.linux.dev, Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-	Marco Elver <elver@google.com>, Mark Rutland <mark.rutland@arm.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Matthieu Baerts <matttbe@kernel.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Michal Wajdeczko <michal.wajdeczko@intel.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Nicolas Schier <nicolas@fjasle.eu>, Nicolas Schier <n.schier@avm.de>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Richard Weinberger <richard@nod.at>, Rich Felker <dalias@libc.org>,
-	Sachin Sant <sachinp@linux.ibm.com>, Sam Ravnborg <sam@ravnborg.org>,
-	syzkaller <syzkaller@googlegroups.com>,
-	Tanzir Hasan <tanzirh@google.com>,
-	Tycho Andersen <tandersen@netflix.com>,
-	Vasiliy Kovalev <kovalev@altlinux.org>,
-	Vegard Nossum <vegard.nossum@oracle.com>,
-	Yoshinori Sato <ysato@users.sourceforge.jp>
+	s=k20201202; t=1710301717;
+	bh=CeQaXs0K7RFXkVnM9dXH+pmKXGUSDN4g5SZ9YhtnJgU=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=S5mh72AzKBXjn8wZtPDQf18y2EAI1jof5ujqfDI8hgQNuNBvPENMdvylHy8fvQ4q0
+	 RQPnrtZNJncJpGGy5sh7Aop6CALgzpDAF+12Y3kcZcsMJ4wQfH9NPqt910X7g22peI
+	 K/uQkGt9hnigpO7HHsjAhAhODI0FxWRvp7xHLkLYwvN8BHcgUOIrH/ugbaGkfSxd51
+	 IoAKRv2j/UBQFCnrTlrNj3dofIgRscqC/gh5/tBu/XKZm8jdfyonMOWddfpK0OAaIb
+	 D0J7i6TFHSK0Qbc5ap7jRDEeSmiXP/jPrxtRn+tMRc14vSqIMu/3UfMlLdM9z7/dr/
+	 ahma+L0rilO+A==
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5135e8262e4so6656025e87.0;
+        Tue, 12 Mar 2024 20:48:37 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWM7L8zP1HzLZZ9cl5vJDMF3S/Ic0VXUiJamNnRjZm4gOcRXObX9ml0O4gdcA0KJMJ/6NiMzrFRzJzuUgONCUjptJv2Y+fkaKhafP+9A4zJd0JMR6tmlbhMjHmhhJrWCEEm927B5ak9eRo3a3f9/VGep/N0qVP+F+hOCGTUovTcNKrDBVdeN4hY13RM
+X-Gm-Message-State: AOJu0Yye4L0QZ2pmQIVbYBmKBGPRYCMNNehLSZ+tD5kPXcxF7lKLdj7K
+	DQu4534Y//aFKGxwkKFag4Vr9zz9qjhNf9rNr7mE9wGPjL/tKctz+spx74FKCdLaCYa4IAhRz1S
+	Rt3WH5GhbN4rJ10aBiNH7J5Ofi/U=
+X-Google-Smtp-Source: AGHT+IFQGGOXeJS2cP1mqVkQyb8U93YoQbMAGZimnQg5z8RPYJ5VLLQxpIGKpD5eblVrbx+KvNJWQ8s4AgU4cOgUDlI=
+X-Received: by 2002:a05:6512:1149:b0:512:ac3a:7f27 with SMTP id
+ m9-20020a056512114900b00512ac3a7f27mr8291674lfg.66.1710301716348; Tue, 12 Mar
+ 2024 20:48:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+References: <20240312-gcc-plugins-gmp-v1-0-c5e082437b9e@linutronix.de>
+ <20240312-gcc-plugins-gmp-v1-2-c5e082437b9e@linutronix.de> <202403121452.701C91AF6E@keescook>
+In-Reply-To: <202403121452.701C91AF6E@keescook>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Wed, 13 Mar 2024 12:47:59 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ=aSqUUStN_M8QVqeS9R1QVM5CPq7=kzpY0z060XJFDA@mail.gmail.com>
+Message-ID: <CAK7LNAQ=aSqUUStN_M8QVqeS9R1QVM5CPq7=kzpY0z060XJFDA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] gcc-plugins: disable plugins when gmp.h is unavailable
+To: Kees Cook <keescook@chromium.org>
+Cc: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
+	linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The pull request you sent on Mon, 11 Mar 2024 18:18:31 -0700:
+On Wed, Mar 13, 2024 at 6:53=E2=80=AFAM Kees Cook <keescook@chromium.org> w=
+rote:
+>
+> On Tue, Mar 12, 2024 at 04:03:30PM +0100, Thomas Wei=C3=9Fschuh wrote:
+> > The header gmp.h is meant to be picked up from the host system.
+> >
+> > When it is unavailable the plugin build fails:
+> >
+> > In file included from ../crosstools/gcc-13.2.0-nolibc/i386-linux/bin/..=
+/lib/gcc/i386-linux/13.2.0/plugin/include/gcc-plugin.h:28,
+> >                  from ../scripts/gcc-plugins/gcc-common.h:7,
+> >                  from ../scripts/gcc-plugins/stackleak_plugin.c:30:
+> > ../crosstools/gcc-13.2.0-nolibc/i386-linux/bin/../lib/gcc/i386-linux/13=
+.2.0/plugin/include/system.h:703:10: fatal error: gmp.h: No such file or di=
+rectory
+> >   703 | #include <gmp.h>
+> >       |          ^~~~~~~
+> >
+> > Signed-off-by: Thomas Wei=C3=9Fschuh <thomas.weissschuh@linutronix.de>
+> > ---
+> >  scripts/gcc-plugins/Kconfig | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/scripts/gcc-plugins/Kconfig b/scripts/gcc-plugins/Kconfig
+> > index e383cda05367..a664fb5cdde5 100644
+> > --- a/scripts/gcc-plugins/Kconfig
+> > +++ b/scripts/gcc-plugins/Kconfig
+> > @@ -10,6 +10,7 @@ menuconfig GCC_PLUGINS
+> >       depends on HAVE_GCC_PLUGINS
+> >       depends on CC_IS_GCC
+> >       depends on $(success,test -e $(shell,$(CC) -print-file-name=3Dplu=
+gin)/include/plugin-version.h)
+> > +     depends on $(host-cc-option,-include gmp.h)
+>
+> Why does the prior depends not fail? That's where plugin detection is
+> happening.
+>
+> --
+> Kees Cook
+>
 
-> https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git tags/hardening-v6.9-rc1
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/216532e147b2fee6ee830f4a844bbc3cbb9137af
 
-Thank you!
+This patch set should be rejected.
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+
+It was already discussed in the past.
+Just install a proper package, then gcc-plugin will work.
+
+https://lore.kernel.org/all/CAHk-=3DwjjiYjCp61gdAMpDOsUBU-A2hFFKJoVx5VAC7yV=
+4K6WYg@mail.gmail.com/
+
+
+
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
