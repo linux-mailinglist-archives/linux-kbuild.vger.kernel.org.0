@@ -1,141 +1,144 @@
-Return-Path: <linux-kbuild+bounces-1225-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1226-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 702C787A243
-	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Mar 2024 05:23:30 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A10087A474
+	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Mar 2024 10:01:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A6C881C20DBB
-	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Mar 2024 04:23:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 408721F2269D
+	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Mar 2024 09:01:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69B9F10A1F;
-	Wed, 13 Mar 2024 04:23:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ahM8aPV9"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D3FC1B277;
+	Wed, 13 Mar 2024 09:01:17 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43DBEC13D
-	for <linux-kbuild@vger.kernel.org>; Wed, 13 Mar 2024 04:23:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D95811BDEE
+	for <linux-kbuild@vger.kernel.org>; Wed, 13 Mar 2024 09:01:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710303805; cv=none; b=naRkU5c5O33e381E7EMw1Qqm5dS3HEwC/kwLHhD1j4ujXkn0KfGgfXU7oM4LKs47VcByM0Z4cNDKakX/A3UY6Tu6lt5kMFe3hyM5saSnPe1QkenA0JxpciDvToLkKO0VzM6NkSMxe1kUyTGwjO77mROD8nqt99pi0H4296LxDGw=
+	t=1710320476; cv=none; b=cnj2cexHsRwEHNPR2JI/KHYoxU4EMZoHv8G58jAJ8umkEp2qyhp7slPMAasWzexZ5oZuoxwdadkygMh0cwvBJdo6H5wtxWevw9iu1RMfhJwDRBA1R7esWhbmPVhhLpFg+/BWcQ8Ic9H9H1dad8IxfYuGEoIz8oSQA3Nqlvuhi84=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710303805; c=relaxed/simple;
-	bh=L6JVjFeaF0SzJLkup9ytH1RlMdI44febxWG4uLjqDCA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GLeSFJ4ypNWc/GXkianGVBrRw0v0ws/DbG3+fQiNG52CFzVNojjVwxRdGPDVLAbLtWGQrwTmzYghvWO9mqIiGD9N40nHWlypRSLFbQHseP9EJUj+nnug7vSCbehXRbNhFvB2asypqCmPjbwpeU+s80siGm6c/HIFQ8HEVGl/BBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ahM8aPV9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB988C433F1
-	for <linux-kbuild@vger.kernel.org>; Wed, 13 Mar 2024 04:23:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710303804;
-	bh=L6JVjFeaF0SzJLkup9ytH1RlMdI44febxWG4uLjqDCA=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=ahM8aPV992LWWJi5nj5mCavp6NuGQgpgU/qG3X1hYZ4lHzbHxJY0LqmO6AUPtfXyP
-	 5XokMTsSeiRvfm3bZ0cwMey/tTTETuRi0TU4LJwTJtPpZuhxbJIttMyh/hOxSuuJG5
-	 ali1Y7ZJdfj5nJM11cY53KQn46p1i7Y8zRSQaHeKRMGTeelfKL4V+vg+TxMRluFHzG
-	 rsf1WYxuF5sJFtsCEZLwqMxpMBt+5uqJbI38SzReYbjFUUGJcZKKN7rqt/MFPsvlA0
-	 Se++LyBVfZgC3uWGNzf4zt3jNq5E43Yqqrdbre2WBYLd6ynkhZpQ8uZNbKAgoXfX4J
-	 rhGmgOKjdHgXA==
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2d41d1bedc9so73684811fa.3
-        for <linux-kbuild@vger.kernel.org>; Tue, 12 Mar 2024 21:23:24 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUUDC/NiE5IZcp6t4TZ5qzc7vxpIIME1BLqMflUUUqPh+qGtbIdiuobWJSnAMnvhms76iOeaRZoGJ02zsfY4q2snT3PhJWYHAeAQsDc
-X-Gm-Message-State: AOJu0YzZ2dmHSO0Dh0biqdpV1tfGy1p3j2H6O98FS9hGmy9sDR11B3ZH
-	49qnHQFu6zX+1b3jzgmYrgyljFnz+EgioCNQWoMZDf+Vv6KBRB31+9uK5Mg0DHFSY+rHYK5WE9T
-	fjbtT9o6xvs+XWXMfwgoNTj2iWjs=
-X-Google-Smtp-Source: AGHT+IH88crqeJt1k7aJd4MuFVmCfPOVi3Fbr4/YJ/hvdSk1dpMgEpkcD7aFb7l7l7PWjdlrdmfQjMCIiGuSC3CL5kQ=
-X-Received: by 2002:a2e:9644:0:b0:2d2:2cff:fc49 with SMTP id
- z4-20020a2e9644000000b002d22cfffc49mr8401478ljh.18.1710303803234; Tue, 12 Mar
- 2024 21:23:23 -0700 (PDT)
+	s=arc-20240116; t=1710320476; c=relaxed/simple;
+	bh=tPp9wpHnMR+ocs6xYZEuu9COA0lUEBrBrD4AMOa+lKw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SadxwPaSBggED0Vt1+UNvKubs65yLqBgRt/Qt8osA0OjnN4+x9X9OuIZxuiVDGe4YeeEVrUtkvgSiDgZ+kFLa2rNDw+o+RKwaU8kw3zr4l1zf95zRFHdbzys0SRd5HbzaATO/Q1mf/TuIq6GlckGTkNjH+Cn+4KHS+jJIDKsDaw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rkKTq-000386-Ik; Wed, 13 Mar 2024 10:00:58 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rkKTo-0064zd-Do; Wed, 13 Mar 2024 10:00:56 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rkKTo-005Hi3-14;
+	Wed, 13 Mar 2024 10:00:56 +0100
+Date: Wed, 13 Mar 2024 10:00:56 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Stephen Rothwell <sfr@canb.auug.org.au>, 
+	Masahiro Yamada <masahiroy@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	Linux Next Mailing List <linux-next@vger.kernel.org>, linux-kbuild@vger.kernel.org
+Subject: Re: linux-next: build warning after merge of the mm tree
+Message-ID: <psaj3nztnhcxiwjnie3bbpsn7efcsxp3yx3mh54uello22773v@fw5qpqs4gh2i>
+References: <20240313150728.12e20208@canb.auug.org.au>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1709508290.git.ehem+linux@m5p.com> <ZeWa_qAsfmxJ5KFy@buildd.core.avm.de>
- <ZeYiu3V+Q5xItFHD@mattapan.m5p.com> <CAK7LNAT+dnMAEd0nxXmb-szR-5oHZyB2YOTjVCBypDbwAXNHsw@mail.gmail.com>
- <ZekFzmXKKgHYZPcq@mattapan.m5p.com> <CAK7LNATKE9wYpmxsWLmF++yQsKAN2dKSxta+O8x6UhWhRCkTCQ@mail.gmail.com>
- <Ze+ensR/W0aesLPN@mattapan.m5p.com>
-In-Reply-To: <Ze+ensR/W0aesLPN@mattapan.m5p.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Wed, 13 Mar 2024 13:22:46 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARMQKrXr=UScvUwNFNEN0gEKcrqriXB5AxfEc6gWbGeFw@mail.gmail.com>
-Message-ID: <CAK7LNARMQKrXr=UScvUwNFNEN0gEKcrqriXB5AxfEc6gWbGeFw@mail.gmail.com>
-Subject: Re: [WIP PATCH 00/30] Adding trailing slash to $(*tree)
-To: Elliott Mitchell <ehem+linux@m5p.com>
-Cc: Nicolas Schier <nicolas@fjasle.eu>, nathan@kernel.org, linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="2zmul7e526qlrp5s"
+Content-Disposition: inline
+In-Reply-To: <20240313150728.12e20208@canb.auug.org.au>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-kbuild@vger.kernel.org
+
+
+--2zmul7e526qlrp5s
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 12, 2024 at 9:16=E2=80=AFAM Elliott Mitchell <ehem+linux@m5p.co=
-m> wrote:
->
-> On Sun, Mar 10, 2024 at 10:07:14PM +0900, Masahiro Yamada wrote:
-> > On Thu, Mar 7, 2024 at 9:10=E2=80=AFAM Elliott Mitchell <ehem+linux@m5p=
-.com> wrote:
-> > >
-> > > On Wed, Mar 06, 2024 at 12:20:17AM +0900, Masahiro Yamada wrote:
-> > >
-> > > > I see no good reason to do this change.
-> > > >
-> > > > I will not take this series.
-> > >
-> > > Could I get you to provide further detail as to why you consider my
-> > > reasons inadaquate?
-> > >
-> > > The distribution is well-known.  I believe in-tree and out-of-tree bu=
-ild
-> > > mechanisms being as possible to each other is a Good Thing.
-> > >
-> > > I guess I should also note, in the past (890676c65d699, 9da0763bdd825=
-,
-> > > likely others) nicer build output has been sufficient justification f=
-or
-> > > changes.  An effect of the series is a leading "./" will disappear fr=
-om
-> > > many files in full build output.  As such this also matches that reas=
-on.
-> >
-> > It is ideal to in-tree and out-of-tree build mechanisms
-> > look symmetrical (and perhaps could be achieved in a
-> > different way), but your approach is not the direction
-> > I want to go.
->
-> I'm glad we're in agreement with the former.  Do you have any guesses
-> for when your approach to this will be visible?
+On Wed, Mar 13, 2024 at 03:07:28PM +1100, Stephen Rothwell wrote:
+> Hi all,
+>=20
+> After merging the mm tree, today's linux-next build (powerpc allyesconfig)
+> produced this warning:
+>=20
+> Use of uninitialized value $ENV{"abs_srctree"} in concatenation (.) or st=
+ring at /home/sfr/next/next/lib/build_OID_registry line 38.
+>=20
+> Introduced by commit
+>=20
+>   325f7b0aaea6 ("lib/build_OID_registry: Don't mention the full path of t=
+he script in output")
+>=20
+> from the mm-nonmm-unstable branch of the mm tree.
 
+Actually the warning doesn't happen on 325f7b0aaea6. The commit is only
+problematic in combination with commit
 
-No.
+	e2bad142bb3d ("kbuild: unexport abs_srctree and abs_objtree")
 
+=2E This commit suggests to use $(abspath ) or $(realpath ) instead, but I
+fail to apply this suggestion here.
 
-This is not important.
-There is no need to rush.
+Obviously
 
+diff --git a/Makefile b/Makefile
+index 5e09b53b4850..f73a73a125e0 100644
+--- a/Makefile
++++ b/Makefile
+@@ -39,7 +39,7 @@ __all:
+ # prepare rule.
+=20
+ this-makefile :=3D $(lastword $(MAKEFILE_LIST))
+-abs_srctree :=3D $(realpath $(dir $(this-makefile)))
++export abs_srctree :=3D $(realpath $(dir $(this-makefile)))
+ abs_objtree :=3D $(CURDIR)
+=20
+ ifneq ($(sub_make_done),1)
 
+would help.
 
+Any ideas how to properly handle that? Would the export be ok?
 
-
-> I suspect most approaches will eventually run into an issue with the
-> current interpretation of $(srctree)/$(objtree).  Unless you can ensure
-> $(src)/$(obj) will never end up with absolute paths.
->
->
-> --
-> (\___(\___(\______          --=3D> 8-) EHM <=3D--          ______/)___/)_=
-__/)
->  \BS (    |         ehem+sigmsg@m5p.com  PGP 87145445         |    )   /
->   \_CS\   |  _____  -O #include <stddisclaimer.h> O-   _____  |   /  _/
-> 8A19\___\_|_/58D2 7E3D DDF4 7BA6 <-PGP-> 41D1 B375 37D0 8714\_|_/___/5445
->
->
-
+Best regards
+Uwe
 
 --=20
-Best Regards
-Masahiro Yamada
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--2zmul7e526qlrp5s
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmXxa0cACgkQj4D7WH0S
+/k4L0wgAtFXvi2SKrUZSJkChbQc1i9RRgfE3LyGWBx4rp7IFLOOG1uy8DLMZU9RV
+neRZjELj/yIOMwudxBzN//rSvt1Fyg1uwo1F7UEZp2F6AxDoBdH98lCTPTdebALP
+8E/rbz4sNjtoadzN+4DascK4hlZSbKCDXkk8YPgR/K/uugB+izgJ1P22tcLu5HIP
+rR75ToEKmb6tBHa9lILH5o5uoOtZN/8PjcWZjevhFpQIFQmJLnitnJRQjoyrZDEE
+I5f4QBUgL9uwi/FCJVv5TF5CONmqkumagjJ9OaszUxuYEcxW+ANWQAwvzTDH+MTW
+6vy9QAnixJkgJV8qKZ6bOYGaST3N+A==
+=HkV0
+-----END PGP SIGNATURE-----
+
+--2zmul7e526qlrp5s--
 
