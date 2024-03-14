@@ -1,131 +1,193 @@
-Return-Path: <linux-kbuild+bounces-1230-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1231-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 852E587B360
-	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Mar 2024 22:20:14 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C78C87B718
+	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Mar 2024 05:27:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 39D3F1F24F8E
-	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Mar 2024 21:20:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 13FE11F22F22
+	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Mar 2024 04:27:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC07D1A38DB;
-	Wed, 13 Mar 2024 21:20:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E34548BF8;
+	Thu, 14 Mar 2024 04:27:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="IGn8WO7P"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE2AF54735
-	for <linux-kbuild@vger.kernel.org>; Wed, 13 Mar 2024 21:20:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 566DF8BF6
+	for <linux-kbuild@vger.kernel.org>; Thu, 14 Mar 2024 04:27:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710364805; cv=none; b=fyzFSTD9kRAq+CnUcpsa1D8uDy5QPAeAkdULoUmHTCSej2AvW1ZVVpJB708BXudAhfe2AxCrNdiIn8ZSrDZCGPZa4kR8A2vz7xOWvFv3odynvufMc+zTpcaXk0MWH+mNa5eMwA+V6t5s/pacKgOvhUfuSjzebKdricVCTRF7HR0=
+	t=1710390457; cv=none; b=J/TqKuiNZvHk8ffiFtolbEkFZP8Ohm5jLqqszSBZTPNCYMWLXW/nEweKh2e4FFqqF0oaTYS1KgWEHMTwEYXu/4c5GEyb8b5uEMy4s/aRuSxxl5evmPN68gNOFXNHnc0UYVvoT0A8ECguArkokBnkXhYuIC756otCMtcgVb1WDQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710364805; c=relaxed/simple;
-	bh=4qn7eSAfjsV1EzkrCEj4rzVTWbR4k8GOK6ohHb3Wwe8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=jG4rIyWdPx5rke/tWLlzsJ93Dap22e3EdheLDIsB5a8TuP8wBThgu38kxX3ALwgTVgevu5ugd4B2Oc4pUZy2XLxxOlnarZhUYKbG08gaKBktTooUr0IvtpY+kcgBhodyQvs3js6G8b2AvMIIHgpBpI7OPpvJQWdYcwy6KFBuN3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rkW12-00074e-CM; Wed, 13 Mar 2024 22:20:00 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rkW11-006Bfi-Kg; Wed, 13 Mar 2024 22:19:59 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rkW11-005g0M-1n;
-	Wed, 13 Mar 2024 22:19:59 +0100
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
-	kernel@pengutronix.de,
+	s=arc-20240116; t=1710390457; c=relaxed/simple;
+	bh=JKNjXwrEAhTcPx0IcTiV0urqEE4apMQabqJ3HGrQyjQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=lUNC2bSZIIy0gJzFUnzDCx3qMy5+s2dVlXEbzd6YI1uMj9yG/0t7GMaZH45MSX8+UA1oEu0ABkcoKVEIl0e5baCEejAwh39rMX1ZIpR1Ufdn2u3Zr+InRKuAd6DHzNzo6lCavPSYYnYt6PRq53l3b6+Niczry/b043lDh9qiejs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=IGn8WO7P; arc=none smtp.client-ip=209.85.215.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-5ce6b5e3c4eso340125a12.2
+        for <linux-kbuild@vger.kernel.org>; Wed, 13 Mar 2024 21:27:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1710390455; x=1710995255; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7cTJjdrBktqdx3YztHJVlXtN8MmvjL+jR5a4blf9J9E=;
+        b=IGn8WO7PAJQCBmbvp4ZHz5ZIcXTGrFH3Fs8Iej3Kc9WsigNQmCL5uxPq8AOgtAeEDD
+         O2MuKnxnVJ/+r147mLyL0jlWCr8wcoFRbnbrvC6K2kAZ+R1MsJ8+mrxoyPoQ3tbvbwfu
+         /hE52UP7shXH4B0aER5RxnCjMg3YGabGDc0FU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710390455; x=1710995255;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7cTJjdrBktqdx3YztHJVlXtN8MmvjL+jR5a4blf9J9E=;
+        b=qxcQ7BkCpUStTT23Kv6DWRt/njnjkRa2BbRovhqepxWkCtN5ghNJYzDjJxrBILt4jV
+         gMDJ+VhbmqLCzKH4BdrRqF5hxWeGXdCmLa8gnzR+m2a6BJDvLLB2Rk4spsRktVXk2vG5
+         XE2/YA/0rZoe6VySgfYDR4LKP7uNIdcCqAUmqOQEKOcuPAYcb9NmHAsFAPpzLqtfaufo
+         z8wMFxjatd4lIgxtBBGgc6SONl+3l6i1ZDOhYtgAuOIsCk68vwYYbhLBqesoUA/iiiZY
+         8IDhfVvEmKF3orUZKWEaToNoBDBZWdKgdyb1ISwWXo5CoahtzD5il3JwktA2TJDkt7Y1
+         o0jQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUtiIB0UyRR7FiH8IU4GNG64T8XlEKZOrGlAqHcSO2F6yhxDrQIJhtMwcgc4rwz9inz+KK85HnUmmat9KncZK7uu32KVFVW6ZN9tfoi
+X-Gm-Message-State: AOJu0YzfoCdh8GcyRDvRsWDrTKnHBIUP60yF168Gw07JOSshNvepfdkD
+	ixVXBOziuNg2TqUsD5A1FyBTe7IUFPFX2TAMcUCZU8Fpqzgw4CbB5Hil7XbvbQ==
+X-Google-Smtp-Source: AGHT+IE2GvvqiEZuSI45BF1+iK8kMRqs1IBhTbrrI1bwGMdn+msU9RP/ADvzi87321MQZrj02GGl6A==
+X-Received: by 2002:a05:6a21:3990:b0:1a1:49e9:805f with SMTP id ad16-20020a056a21399000b001a149e9805fmr1085141pzc.35.1710390455654;
+        Wed, 13 Mar 2024 21:27:35 -0700 (PDT)
+Received: from chromium.org ([118.149.78.37])
+        by smtp.gmail.com with ESMTPSA id u5-20020a170903124500b001dd98195371sm479200plh.181.2024.03.13.21.27.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Mar 2024 21:27:35 -0700 (PDT)
+From: Simon Glass <sjg@chromium.org>
+To: linux-arm-kernel@lists.infradead.org
+Cc: Ahmad Fatoum <a.fatoum@pengutronix.de>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Simon Glass <sjg@chromium.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Terrell <terrelln@fb.com>,
+	Will Deacon <will@kernel.org>,
+	linux-doc@vger.kernel.org,
 	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] lib/build_OID_registry: Don't mention the full path of the script in output
-Date: Wed, 13 Mar 2024 22:19:56 +0100
-Message-ID: <20240313211957.884561-2-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.43.0
+	linux-kernel@vger.kernel.org,
+	workflows@vger.kernel.org
+Subject: [PATCH v11 0/2] arm64: Add a build target for Flat Image Tree
+Date: Thu, 14 Mar 2024 17:26:57 +1300
+Message-Id: <20240314042659.232142-1-sjg@chromium.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1818; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=4qn7eSAfjsV1EzkrCEj4rzVTWbR4k8GOK6ohHb3Wwe8=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBl8hh9xTSSm4BMuL5+UkJ+u9CTm1Zh3jTBiImnp vw03SWLrJ+JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZfIYfQAKCRCPgPtYfRL+ TlEuCACEOrbQ3FvkaU4OxNnchuCyMVc1c14oNRP/Lqc051/0AipaO90Gd/OoU/+QmjtUBdRExP1 hCDGmXYEb5HcNRDenADJOGZf2vqQO6EpMYeiQ0zOtFKMOjj++1WXCIK/ZdeNT54VhcfLGn03dxJ swBZ1A4QY7fjxKcAr/uz/MzNm4LAiE5IU9//fxIg10GKSeg1oxdD5ZmmQuX1Sp775yWPdO7faCp eH1r+GG8xxZYYZ03DiZblIrk/e352HK305croMqvVkoPsxXXOo0+L7XtbHJ9qzjKWyxAw/svZlw XBWcEJ36omeiuom2cCrRf+cCb82QBqM0PailXYWJG0QsefB9
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-kbuild@vger.kernel.org
 
-This change strips the full path of the script generating
-lib/oid_registry_data.c to just lib/build_OID_registry. The motivation
-for this change is Yocto emitting a build warning
+Flat Image Tree (FIT) is a widely used file format for packaging a
+kernel and associated devicetree files[1]. It is not specific to any
+one bootloader, as it is supported by U-Boot, coreboot, Linuxboot,
+Tianocore and Barebox.
 
-	File /usr/src/debug/linux-lxatac/6.7-r0/lib/oid_registry_data.c in package linux-lxatac-src contains reference to TMPDIR [buildpaths]
+This series adds support for building a FIT as part of the kernel
+build. This makes it easy to try out the kernel - just load the FIT
+onto your tftp server and it will run automatically on any supported
+arm64 board.
 
-So this change brings us one step closer to make the build result
-reproducible independent of the build path.
+The script is written in Python, since it is easy to build a FIT using
+the Python libfdt bindings. For now, no attempt is made to compress
+files in parallel, so building the 900-odd files takes a while, about
+6 seconds with my testing.
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
-Changes since (implicit) v1, archived at
-https://lore.kernel.org/lkml/20240311110121.459581-2-u.kleine-koenig@pengutronix.de:
+The series also includes a minor clean-up patch.
 
- - Handle abs_srctree not being exported any more
+[1] https://github.com/open-source-firmware/flat-image-tree
 
-The v1 patch made it into next but im combination with commit e2bad142bb3d
-("kbuild: unexport abs_srctree and abs_objtree") resulted in a build warning
-about $ENV{"abs_srctree"} being uninitialized which required this respin.
+Changes in v11:
+- Use dtbslist file in image.fit rule
+- Update cmd_fit rule as per Masahiro
+- Don't mention ignoring files without a .dtb prefix
+- Use argparse fromfile_prefix_chars feature
+- Add a -v option and use it for output (with make V=1)
+- rename srcdir to dtbs
+- Use -o for the output file instead of -f
 
-Best regards
-Uwe
+Changes in v10:
+- Make use of dtbs-list file
+- Mention dtbs-list and FIT_COMPRESSION
+- Update copyright year
+- Update cover letter to take account of an applied patch
 
- lib/build_OID_registry | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Changes in v9:
+- Move the compression control into Makefile.lib
 
-diff --git a/lib/build_OID_registry b/lib/build_OID_registry
-index d7fc32ea8ac2..56d8bafeb848 100755
---- a/lib/build_OID_registry
-+++ b/lib/build_OID_registry
-@@ -8,6 +8,7 @@
- #
- 
- use strict;
-+use Cwd qw(abs_path);
- 
- my @names = ();
- my @oids = ();
-@@ -17,6 +18,8 @@ if ($#ARGV != 1) {
-     exit(2);
- }
- 
-+my $abs_srctree = abs_path($ENV{'srctree'});
-+
- #
- # Open the file to read from
- #
-@@ -35,7 +38,7 @@ close IN_FILE || die;
- #
- open C_FILE, ">$ARGV[1]" or die;
- print C_FILE "/*\n";
--print C_FILE " * Automatically generated by ", $0, ".  Do not edit\n";
-+print C_FILE " * Automatically generated by ", $0 =~ s#^\Q$abs_srctree/\E##r, ".  Do not edit\n";
- print C_FILE " */\n";
- 
- #
+Changes in v8:
+- Drop compatible string in FDT node
+- Correct sorting of MAINTAINERS to before ARM64 PORT
+- Turn compress part of the make_fit.py comment in to a sentence
+- Add two blank lines before parse_args() and setup_fit()
+- Use 'image.fit: dtbs' instead of BUILD_DTBS var
+- Use '$(<D)/dts' instead of '$(dir $<)dts'
+- Add 'mkimage' details Documentation/process/changes.rst
+- Allow changing the compression used
+- Tweak cover letter since there is only one clean-up patch
 
-base-commit: e8f897f4afef0031fe618a8e94127a0934896aba
+Changes in v7:
+- Drop the kbuild tag
+- Add Image as a dependency of image.fit
+- Drop kbuild tag
+- Add dependency on dtbs
+- Drop unnecessary path separator for dtbs
+- Rebase to -next
+
+Changes in v6:
+- Drop the unwanted .gz suffix
+
+Changes in v5:
+- Drop patch previously applied
+- Correct compression rule which was broken in v4
+
+Changes in v4:
+- Use single quotes for UIMAGE_NAME
+
+Changes in v3:
+- Drop temporary file image.itk
+- Drop patch 'Use double quotes for image name'
+- Drop double quotes in use of UIMAGE_NAME
+- Drop unnecessary CONFIG_EFI_ZBOOT condition for help
+- Avoid hard-coding "arm64" for the DT architecture
+
+Changes in v2:
+- Drop patch previously applied
+- Add .gitignore file
+- Move fit rule to Makefile.lib using an intermediate file
+- Drop dependency on CONFIG_EFI_ZBOOT
+- Pick up .dtb files separately from the kernel
+- Correct pylint too-many-args warning for write_kernel()
+- Include the kernel image in the file count
+- Add a pointer to the FIT spec and mention of its wide industry usage
+- Mention the kernel version in the FIT description
+
+Simon Glass (2):
+  arm64: Add BOOT_TARGETS variable
+  arm64: boot: Support Flat Image Tree
+
+ Documentation/process/changes.rst |   9 +
+ MAINTAINERS                       |   7 +
+ arch/arm64/Makefile               |  11 +-
+ arch/arm64/boot/.gitignore        |   1 +
+ arch/arm64/boot/Makefile          |   6 +-
+ scripts/Makefile.lib              |  15 ++
+ scripts/make_fit.py               | 290 ++++++++++++++++++++++++++++++
+ 7 files changed, 336 insertions(+), 3 deletions(-)
+ create mode 100755 scripts/make_fit.py
+
 -- 
-2.43.0
+2.34.1
 
 
