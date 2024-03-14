@@ -1,633 +1,276 @@
-Return-Path: <linux-kbuild+bounces-1232-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1233-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49AC887B71D
-	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Mar 2024 05:28:45 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E21C87B728
+	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Mar 2024 05:44:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1F50C1C2140C
-	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Mar 2024 04:28:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3E684282D10
+	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Mar 2024 04:44:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16A166127;
-	Thu, 14 Mar 2024 04:28:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD5F72F44;
+	Thu, 14 Mar 2024 04:44:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="OPaW5LRL"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ToLs/mxC"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC346D271
-	for <linux-kbuild@vger.kernel.org>; Thu, 14 Mar 2024 04:28:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC6EE611A
+	for <linux-kbuild@vger.kernel.org>; Thu, 14 Mar 2024 04:44:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710390521; cv=none; b=nYS/NQZOvbm7iWoerLK1NI83VsERMCf7I3DYOvCMbdxE9aKF5N/y4evzbeP1M7hWbptG3CBFBhWDtdzUYYr1mqEojzvjZ5bHYN62tg3ShfF5WU7UJHHrEJcvrBeR2Fpf6yI0PyYiGoYXffqNr6tX17OIMxdDTQ/y/vdnYFlQLnk=
+	t=1710391485; cv=none; b=RxMzb5ISfkjI/TcrWQ+Xf/vGw2omXE0JCq4PtsWHfARNXZyj7eV85xLyNCHI2+mM3qFb3ooiCsouiROr1HkqmIGpu65Qwka6kH/TvQc08uD/6tQhfHeUSynqZMgXg43gAuqL7ulod9ecJTR6avwa814/fwkpOgSbyVyqysyQtJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710390521; c=relaxed/simple;
-	bh=YmgqATLE7Zmydsm0FL/D3txzzG7EV4H026eCaH03988=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=eXW91072ALGwxHPqshDSRf/DWEdJIYemTQNgi17EkquR30sr/SYM8UKiztsqp+mLp0j/lIKyXs3vyJlo6YnNDqTBXa6adrJ5O96SV0fjv9xE4e/2vZt4xbVjNl1HSD6QuFhbJl5ZP1gb1Da1rZiPHEJO4RDGcGBI1NlNZ4i75gI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=OPaW5LRL; arc=none smtp.client-ip=209.85.215.177
+	s=arc-20240116; t=1710391485; c=relaxed/simple;
+	bh=XskETTLWV7TnIHSvLX9K4J/y2DGu2PBJ/cuUbPV7jY4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=km2BsFGbvMfnPN+/G7KmP2zDiUBrN3Se36V8k+L/LLJr/WKToVHSkV75sbF7i8LZva6NRRbZu+Lvm2kiwaSZJq1W7bLvMOu7X432BeNEedgJuxDPKE+SQbLNTtEVxT0ISYvootCVSwn2XII/BUd1wceY7GP0UuIU1sUPaHsYBrU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ToLs/mxC; arc=none smtp.client-ip=209.85.167.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-5dbcfa0eb5dso429684a12.3
-        for <linux-kbuild@vger.kernel.org>; Wed, 13 Mar 2024 21:28:38 -0700 (PDT)
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5131316693cso764726e87.0
+        for <linux-kbuild@vger.kernel.org>; Wed, 13 Mar 2024 21:44:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1710390518; x=1710995318; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=chromium.org; s=google; t=1710391482; x=1710996282; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=i7KaaNtYVeHwjTO9YKm/+KfBYG68joLx8iXf/cQ7VH0=;
-        b=OPaW5LRLi27SUGBrMfrsTdq+KMCURDKH8MJyqLCVkz9OIcYua+P6f7ArKkAP6oemwb
-         p9NUeCLZqIC1KhVmQ/hEKuqAcBMpbrl2HIJ4GcfHqfxjkSm7zjTSWh+4IVGljv28tG9B
-         prZB94ciOykXNuwodseJwCp2zugPadASGNO0Q=
+        bh=dAMqPOmmcWbDaUCKh7SkBHCxzai8nsrUJqHpj8z7jcA=;
+        b=ToLs/mxCRP9U2WOwW9wfrO9OBNNLniAqLnPTmxqcBE5rgk+KixJ6TvIPrNAdg8r3pE
+         5E3MT0LhL4Ad1agPByPMEYngt8Cj++y93Sp0qa84ICvWdMKFNXeggD/etqq2lsPGmYsa
+         giq+b5wmU+WLV/weeK/r8zWRRI5Nus4F6T3P4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710390518; x=1710995318;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1710391482; x=1710996282;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=i7KaaNtYVeHwjTO9YKm/+KfBYG68joLx8iXf/cQ7VH0=;
-        b=aYY0JfbuJDmEZ1MQdpeMUn1Ih4UKYr5mn0kvq7FMPoQb7ZJjy1YYXJemSCzbohYrpx
-         95I9HJufTxOe5ZYnusW1QAxA00D3rSkrsC3S3ElfHQ58LcrgQoXmKtiaHNj8/lzg/do9
-         xoTrLQ7w8IR5We7Wy+EeRshWTII90BnPF+msrOW17JG+1t5ritCQjtlacroKpw5XhWSI
-         P8V5IKncQgjb2RImWs2wATuTTwh+7RF9B8kTmgrrSzJ08B6E6jmyPvT06qwvQXOfuCb1
-         AeEVPIVhRNGxUMWyy4+HoOo4xppoSqXqtYUc5trHTA/84bf5vuGlffxd6jHRC/f4YzeR
-         kqxg==
-X-Forwarded-Encrypted: i=1; AJvYcCV2IuGdC+VjMuQe0LW+m6w8iXekcjTr2pPgBo1eHkaejlFXeN39CsidxNdFyRbrFASHDuZEqzu6kpNjQnOSostRbxW4BbJ9JNlPHpj7
-X-Gm-Message-State: AOJu0YwaRmvLsYx2qVy83eK+Uxco/8j9/djNUU4JK+Jx4N68B2etzePA
-	9l3QHBzFBPX3KGFagTVOkiNw8QtQpFAmRcsP8t6fug5bruO3sopooFWxRVRWwg==
-X-Google-Smtp-Source: AGHT+IEIVeX9M6qIiSDiouc482T1Cb1JSC1mL3ZhBJgs/2khtqmWK5RDJ0uSv5BHWt/NhF/JD3tlYA==
-X-Received: by 2002:a05:6a20:94c9:b0:1a1:8474:31e4 with SMTP id ht9-20020a056a2094c900b001a1847431e4mr890420pzb.16.1710390518082;
-        Wed, 13 Mar 2024 21:28:38 -0700 (PDT)
-Received: from chromium.org ([118.149.78.37])
-        by smtp.gmail.com with ESMTPSA id u5-20020a170903124500b001dd98195371sm479200plh.181.2024.03.13.21.28.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Mar 2024 21:28:37 -0700 (PDT)
-From: Simon Glass <sjg@chromium.org>
-To: linux-arm-kernel@lists.infradead.org
-Cc: Ahmad Fatoum <a.fatoum@pengutronix.de>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Simon Glass <sjg@chromium.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Terrell <terrelln@fb.com>,
-	Will Deacon <will@kernel.org>,
-	linux-doc@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	workflows@vger.kernel.org
-Subject: [PATCH v11 2/2] arm64: boot: Support Flat Image Tree
-Date: Thu, 14 Mar 2024 17:26:59 +1300
-Message-Id: <20240314042659.232142-3-sjg@chromium.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240314042659.232142-1-sjg@chromium.org>
-References: <20240314042659.232142-1-sjg@chromium.org>
+        bh=dAMqPOmmcWbDaUCKh7SkBHCxzai8nsrUJqHpj8z7jcA=;
+        b=fkOddDxDq+iu0bsG6jjvgeWDYTuy/o7w41K5WdzOLcFa3jRaccV7Lws2N9msyGN/aK
+         0RwmS80FTST9VgPiaBOd1y4fU4Y/VX3JxjkdNiIC/Tq2iiDHqmQKKsPNLycDjM8JipYb
+         zl2BfljTyhpr3BD54nGR4kclsJkpIWyB9JyS0tFiJ4Fq9GHXwo6M5QnEDY+Dcdoy62+P
+         brNsANm4Na0l8hROyMjP8bExJ6Tlc88txmBvWGWPphdNTE2DCBuXaoXTMmOR788iCOcX
+         CiEdNASUl2rlikBkmo639trDgwM7fZ0DcSgn4/2cyfjCqKe5r15YB6IjF+Ejw/4l/J0P
+         cUag==
+X-Forwarded-Encrypted: i=1; AJvYcCUU97RY2tzI8zKB4ylDKhooo9dWroQ93cp+B4EnAZV2N+on+sc+mmoy6jr63sNkItWG2Nlezt4qWgU858H+pjQG40KNvzNt4R8pgn2/
+X-Gm-Message-State: AOJu0YxOvSVxgsrKF3xZk7rjeJeOcPsKM5tS/GPgeEjYtEJTGJHN7kls
+	BT5Rb16rmlPy6zfYaoZMInr19P21taa4hV9vOqigRlBqis4vU5aLIeSMJxbhwlyazrMcOKANUl+
+	d3wYFgTvH2ksaMXfG8GhGtYkcK8kRIMWJQPNwJdgt9WiN2bo=
+X-Google-Smtp-Source: AGHT+IHW25SfNhsNOlR7CD+AsIhHAwtxydc8T7RmhuONErZ/c+wsqd8z+DtBhztSpOLACmpNgJBcZYznr1HLfAXjyh4=
+X-Received: by 2002:a05:6512:4844:b0:513:cbde:8764 with SMTP id
+ ep4-20020a056512484400b00513cbde8764mr341080lfb.57.1710391481241; Wed, 13 Mar
+ 2024 21:44:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240223092338.2433632-1-wenst@chromium.org> <CAK7LNAQmvyftnFJaByyjH+f4nxcNUKpjkDXwebEH5AhMF6U0Kw@mail.gmail.com>
+ <CAGXv+5GmkZdqpNZDFN4dcTyZ-qVS0TjrrqBrBAei6DP+eXLnJg@mail.gmail.com>
+ <CAK7LNAS8tLuHYcPTb5pJZixn5Hb0yjo0nmbrfSUr5Cd_pc+WMg@mail.gmail.com>
+ <CAGXv+5HB7gXJ0x1uVdgbWaRWS8+rN6FwEgyGLObxr_cfyLty6A@mail.gmail.com> <CAK7LNARADnpCHvNWHLqb9acVNqzwDRuLiKbKe4XZwM4_Ts+ypg@mail.gmail.com>
+In-Reply-To: <CAK7LNARADnpCHvNWHLqb9acVNqzwDRuLiKbKe4XZwM4_Ts+ypg@mail.gmail.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Thu, 14 Mar 2024 12:44:29 +0800
+Message-ID: <CAGXv+5E+P0fFTjqs64CU8z6ON4LkzMQsXzH9Dra7roKvXO0fTw@mail.gmail.com>
+Subject: Re: [PATCH RFC] kbuild: create a list of all built DTB files
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Simon Glass <sjg@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add a script which produces a Flat Image Tree (FIT), a single file
-containing the built kernel and associated devicetree files.
-Compression defaults to gzip which gives a good balance of size and
-performance.
+On Wed, Mar 6, 2024 at 12:30=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
+rg> wrote:
+>
+> On Mon, Mar 4, 2024 at 1:37=E2=80=AFPM Chen-Yu Tsai <wenst@chromium.org> =
+wrote:
+> >
+> > On Thu, Feb 29, 2024 at 11:35=E2=80=AFPM Masahiro Yamada <masahiroy@ker=
+nel.org> wrote:
+> > >
+> > > On Thu, Feb 29, 2024 at 11:38=E2=80=AFAM Chen-Yu Tsai <wenst@chromium=
+.org> wrote:
+> > > >
+> > > > On Sun, Feb 25, 2024 at 4:21=E2=80=AFPM Masahiro Yamada <masahiroy@=
+kernel.org> wrote:
+> > > > >
+> > > > > On Fri, Feb 23, 2024 at 6:23=E2=80=AFPM Chen-Yu Tsai <wenst@chrom=
+ium.org> wrote:
+> > > > > >
+> > > > > > It is useful to have a list of all composite *.dtb files, along=
+ with
+> > > > > > their individual components, generated from the current build.
+> > > > > >
+> > > > > > With this commit, 'make dtbs' creates arch/*/boot/dts/dtbs-comp=
+onents,
+> > > > > > which lists the composite dtb files created in the current buil=
+d. It
+> > > > > > maintains the order of the dtb-y additions in Makefiles althoug=
+h the
+> > > > > > order is not important for DTBs.
+> > > > > >
+> > > > > > This compliments the list of all *.dtb and *.dtbo files in dtbs=
+-list,
+> > > > > > which only includes the files directly added to dtb-y.
+> > > > > >
+> > > > > > For example, consider this case:
+> > > > > >
+> > > > > >     foo-dtbs :=3D foo_base.dtb foo_overlay.dtbo
+> > > > > >     dtb-y :=3D bar.dtb foo.dtb
+> > > > > >
+> > > > > > In this example, the new list will include foo.dtb with foo_bas=
+e.dtb and
+> > > > > > foo_overlay.dtbo on the same line, but not bar.dtb.
+> > > > > >
+> > > > > > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> > > > > > ---
+> > > > > > Hi,
+> > > > > >
+> > > > > > I hacked up this new thing to list out the individual component=
+s of each
+> > > > > > composite dtb. I think this information would be useful for FIT=
+ image
+> > > > > > generation or other toolchains to consume. For example, instead=
+ of
+> > > > > > including each dtb, a toolchain could realize that some are put=
+ together
+> > > > > > using others, and if the bootloader supports it, put together c=
+ommands
+> > > > > > to reassemble the end result from the original parts.
+> > > > > >
+> > > > > > This is based on and complements Masahiro-san's recent dtbs-lis=
+t work.
+> > > > >
+> > > > >
+> > > > >
+> > > > > This is another format of my previous per-dtb "*.dtlst"
+> > > > > (but I did not pick up 3/4, 4/4 because I did not know what we ne=
+ed after all).
+> > > > >
+> > > > > This should be discussed together with how Simon's script will lo=
+ok like.
+> > > > >
+> > > > > I can understand your Makefile code, but I still do not know
+> > > > > how the entire overlay stuff will work in a big picture.
+> > > >
+> > > > How would you like to proceed? I can through together some changes =
+on top
+> > > > of Simon's patches as an initial proposal if that helps?
+> > > >
+> > > > I can use your format if you prefer.
+> > >
+> > >
+> > > How would you select base+addonX among
+> > > other base+addonY or base+addonZ configurations?
+> >
+> > I assume you are alluding to the existing in-tree composite DTs that
+> > share the same board compatible strings?
+>
+>
+> Yes.
+> It is possible to implement it, but I do not see a point
+> to implement what we do not know how to use.
+>
+>
+>
+> >
+> > Under the current FIT image design with compatible strings populated fr=
+om
+> > the FDTs, I don't think there's any way to automatically select among t=
+hem.
+> > The FIT image simply does not have the information available. Nor do th=
+e
+> > overlays themselves. The toolchain can only either include all of them
+> > and let the bootloader figure things out, or filter out all the duplica=
+tes.
+> > With the composite list, at least it will be able to consistently keep
+> > only the base DT and drop the ones with the addons.
+>
+> It makes the purpose of this work even more obscure.
+>
+> For the purpose of avoiding duplication,
+> we can take the first DTB (or the smallest size)
+> when we encounter a duplicated compatible string.
 
-The files compress from about 86MB to 24MB using this approach.
+Yes, that is also one way of doing it. I'm just not sure if it's
+fool proof. Taking the first one requires the Makefile be correctly
+ordered? Maybe that is implied because the base dtb needs to be
+built first?
 
-The FIT can be used by bootloaders which support it, such as U-Boot
-and Linuxboot. It permits automatic selection of the correct
-devicetree, matching the compatible string of the running board with
-the closest compatible string in the FIT. There is no need for
-filenames or other workarounds.
+Also not sure about using size, as you could have an overlay that
+deletes stuff, and the resulting composite DTB could be streamlined
+and made smaller.
 
-Add a 'make image.fit' build target for arm64, as well.
+> >
+> > In one of my previous replies to v9 I mentioned adding a user provided
+> > mapping between "configuration" compatible string and FDT filename. The
+> > mapping could be maintained in-tree for those base+addonXYZ FDTs if
+> > desired.
+>
+>
+> That is one way, but I do not think such a configuration file
+> is maintainable.
 
-The FIT can be examined using 'dumpimage -l'.
+I see.
 
-This uses the 'dtbs-list' file but processes only .dtb files, ignoring
-the overlay .dtbo files.
+> Rob suggested overwriting the compatible string,
+> but I do not think we got consensus.
 
-This features requires pylibfdt (use 'pip install libfdt'). It also
-requires compression utilities for the algorithm being used. Supported
-compression options are the same as the Image.xxx files. Use
-FIT_COMPRESSION to select an algorithm other than gzip.
+Yeah, that's the simplest way. But IIRC on IRC someone mentioned that
+this doesn't work for stacking multiple overlays. I think prepending
+or appending compatible strings was proposed (subject to compiler
+support), but that doesn't really help our case, as all the composite
+DTBs would have the same fallback board compatible string.
 
-While FIT supports a ramdisk / initrd, no attempt is made to support
-this here, since it must be built separately from the Linux build.
+> > Also, Simon's FIT image "extensions" proposal [1] adds more metadata to
+> > the FIT image to cover these addons that currently don't have distinct
+> > compatible strings.
+>
+> I think this is yet another way, but I am not sure
+> how to derive the extension compatible string.
 
-Signed-off-by: Simon Glass <sjg@chromium.org>
----
+I believe it is meant to be firmware specific, or at least defined by
+the first firmware / bootloader to implement support for that board.
+And also specific to a particular board family. So it may or may not
+live in the overlay itself. If not, then it would be an external file.
+If you do want it in the overlay to avoid maintaining an extra file,
+it would need to be brought up with the DT folks. This would be metadata
+associated with the overlay, not hardware descriptions, so I wonder
+about the acceptance.
 
-Changes in v11:
-- Use dtbslist file in image.fit rule
-- Update cmd_fit rule as per Masahiro
-- Don't mention ignoring files without a .dtb prefix
-- Use argparse fromfile_prefix_chars feature
-- Add a -v option and use it for output (with make V=1)
-- rename srcdir to dtbs
-- Use -o for the output file instead of -f
+But I do think it is a better fit for the "board + a variety of modules"
+case.
 
-Changes in v10:
-- Make use of dtbs-list file
-- Mention dtbs-list and FIT_COMPRESSION
-- Update copyright year
-- Update cover letter to take account of an applied patch
+> Even if we decide to implement base/overlay split,
+> we may not need to add anything to Makefile.
+>
+> We already have .*.cmd files, and we can know
+> if it is a combined DTB or not, by parsing the .*.cmd
+> from the python script.
+>
+> It might be a bit messy, but it is what we do
+> in scripts/clang-tools/gen_compile_commands.py
 
-Changes in v9:
-- Move the compression control into Makefile.lib
+If that is an acceptable practice, I think that would work. Not sure
+how the dependency needs to be written though.
 
-Changes in v8:
-- Drop compatible string in FDT node
-- Correct sorting of MAINTAINERS to before ARM64 PORT
-- Turn compress part of the make_fit.py comment in to a sentence
-- Add two blank lines before parse_args() and setup_fit()
-- Use 'image.fit: dtbs' instead of BUILD_DTBS var
-- Use '$(<D)/dts' instead of '$(dir $<)dts'
-- Add 'mkimage' details Documentation/process/changes.rst
-- Allow changing the compression used
-- Tweak cover letter since there is only one clean-up patch
+For now I guess we should concentrate the discussions on Simon's
+FIT image series.
 
-Changes in v7:
-- Add Image as a dependency of image.fit
-- Drop kbuild tag
-- Add dependency on dtbs
-- Drop unnecessary path separator for dtbs
-- Rebase to -next
+Thanks
+ChenYu
 
-Changes in v5:
-- Drop patch previously applied
-- Correct compression rule which was broken in v4
-
-Changes in v4:
-- Use single quotes for UIMAGE_NAME
-
-Changes in v3:
-- Drop temporary file image.itk
-- Drop patch 'Use double quotes for image name'
-- Drop double quotes in use of UIMAGE_NAME
-- Drop unnecessary CONFIG_EFI_ZBOOT condition for help
-- Avoid hard-coding "arm64" for the DT architecture
-
-Changes in v2:
-- Drop patch previously applied
-- Add .gitignore file
-- Move fit rule to Makefile.lib using an intermediate file
-- Drop dependency on CONFIG_EFI_ZBOOT
-- Pick up .dtb files separately from the kernel
-- Correct pylint too-many-args warning for write_kernel()
-- Include the kernel image in the file count
-- Add a pointer to the FIT spec and mention of its wide industry usage
-- Mention the kernel version in the FIT description
-
- Documentation/process/changes.rst |   9 +
- MAINTAINERS                       |   7 +
- arch/arm64/Makefile               |   7 +-
- arch/arm64/boot/.gitignore        |   1 +
- arch/arm64/boot/Makefile          |   6 +-
- scripts/Makefile.lib              |  15 ++
- scripts/make_fit.py               | 290 ++++++++++++++++++++++++++++++
- 7 files changed, 332 insertions(+), 3 deletions(-)
- create mode 100755 scripts/make_fit.py
-
-diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-index 7ef8de58f7f8..3a39395bd9d3 100644
---- a/Documentation/process/changes.rst
-+++ b/Documentation/process/changes.rst
-@@ -62,6 +62,7 @@ Sphinx\ [#f1]_         2.4.4            sphinx-build --version
- cpio                   any              cpio --version
- GNU tar                1.28             tar --version
- gtags (optional)       6.6.5            gtags --version
-+mkimage (optional)     2017.01          mkimage --version
- ====================== ===============  ========================================
- 
- .. [#f1] Sphinx is needed only to build the Kernel documentation
-@@ -189,6 +190,14 @@ The kernel build requires GNU GLOBAL version 6.6.5 or later to generate
- tag files through ``make gtags``.  This is due to its use of the gtags
- ``-C (--directory)`` flag.
- 
-+mkimage
-+-------
-+
-+This tool is used when building a Flat Image Tree (FIT), commonly used on ARM
-+platforms. The tool is available via the ``u-boot-tools`` package or can be
-+built from the U-Boot source code. See the instructions at
-+https://docs.u-boot.org/en/latest/build/tools.html#building-tools-for-linux
-+
- System utilities
- ****************
- 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b43102ca365d..4bba1419ca35 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3050,6 +3050,13 @@ F:	drivers/mmc/host/sdhci-of-arasan.c
- N:	zynq
- N:	xilinx
- 
-+ARM64 FIT SUPPORT
-+M:	Simon Glass <sjg@chromium.org>
-+L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
-+S:	Maintained
-+F:	arch/arm64/boot/Makefile
-+F:	scripts/make_fit.py
-+
- ARM64 PORT (AARCH64 ARCHITECTURE)
- M:	Catalin Marinas <catalin.marinas@arm.com>
- M:	Will Deacon <will@kernel.org>
-diff --git a/arch/arm64/Makefile b/arch/arm64/Makefile
-index 1217d97998ac..b8b1d4f4a572 100644
---- a/arch/arm64/Makefile
-+++ b/arch/arm64/Makefile
-@@ -154,7 +154,7 @@ libs-$(CONFIG_EFI_STUB) += $(objtree)/drivers/firmware/efi/libstub/lib.a
- # Default target when executing plain make
- boot		:= arch/arm64/boot
- 
--BOOT_TARGETS	:= Image vmlinuz.efi
-+BOOT_TARGETS	:= Image vmlinuz.efi image.fit
- 
- PHONY += $(BOOT_TARGETS)
- 
-@@ -166,7 +166,9 @@ endif
- 
- all:	$(notdir $(KBUILD_IMAGE))
- 
--vmlinuz.efi: Image
-+image.fit: dtbs
-+
-+vmlinuz.efi image.fit: Image
- $(BOOT_TARGETS): vmlinux
- 	$(Q)$(MAKE) $(build)=$(boot) $(boot)/$@
- 
-@@ -219,6 +221,7 @@ virtconfig:
- define archhelp
-   echo  '* Image.gz      - Compressed kernel image (arch/$(ARCH)/boot/Image.gz)'
-   echo  '  Image         - Uncompressed kernel image (arch/$(ARCH)/boot/Image)'
-+  echo  '  image.fit     - Flat Image Tree (arch/$(ARCH)/boot/image.fit)'
-   echo  '  install       - Install uncompressed kernel'
-   echo  '  zinstall      - Install compressed kernel'
-   echo  '                  Install using (your) ~/bin/installkernel or'
-diff --git a/arch/arm64/boot/.gitignore b/arch/arm64/boot/.gitignore
-index af5dc61f8b43..abaae9de1bdd 100644
---- a/arch/arm64/boot/.gitignore
-+++ b/arch/arm64/boot/.gitignore
-@@ -2,3 +2,4 @@
- Image
- Image.gz
- vmlinuz*
-+image.fit
-diff --git a/arch/arm64/boot/Makefile b/arch/arm64/boot/Makefile
-index a5a787371117..607a67a649c4 100644
---- a/arch/arm64/boot/Makefile
-+++ b/arch/arm64/boot/Makefile
-@@ -16,7 +16,8 @@
- 
- OBJCOPYFLAGS_Image :=-O binary -R .note -R .note.gnu.build-id -R .comment -S
- 
--targets := Image Image.bz2 Image.gz Image.lz4 Image.lzma Image.lzo Image.zst
-+targets := Image Image.bz2 Image.gz Image.lz4 Image.lzma Image.lzo \
-+	Image.zst image.fit
- 
- $(obj)/Image: vmlinux FORCE
- 	$(call if_changed,objcopy)
-@@ -39,6 +40,9 @@ $(obj)/Image.lzo: $(obj)/Image FORCE
- $(obj)/Image.zst: $(obj)/Image FORCE
- 	$(call if_changed,zstd)
- 
-+$(obj)/image.fit: $(obj)/Image $(obj)/dts/dtbs-list FORCE
-+	$(call if_changed,fit)
-+
- EFI_ZBOOT_PAYLOAD	:= Image
- EFI_ZBOOT_BFD_TARGET	:= elf64-littleaarch64
- EFI_ZBOOT_MACH_TYPE	:= ARM64
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index 3179747cbd2c..0138d0b82be5 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -504,6 +504,21 @@ quiet_cmd_uimage = UIMAGE  $@
- 			-a $(UIMAGE_LOADADDR) -e $(UIMAGE_ENTRYADDR) \
- 			-n '$(UIMAGE_NAME)' -d $< $@
- 
-+# Flat Image Tree (FIT)
-+# This allows for packaging of a kernel and all devicetrees files, using
-+# compression.
-+# ---------------------------------------------------------------------------
-+
-+MAKE_FIT := $(srctree)/scripts/make_fit.py
-+
-+# Use this to override the compression algorithm
-+FIT_COMPRESSION ?= gzip
-+
-+quiet_cmd_fit = FIT     $@
-+      cmd_fit = $(MAKE_FIT) -o $@ --arch $(UIMAGE_ARCH) --os linux \
-+		--name '$(UIMAGE_NAME)' $(if $(V),-v) \
-+		--compress $(FIT_COMPRESSION) -k $< @$(word 2,$^)
-+
- # XZ
- # ---------------------------------------------------------------------------
- # Use xzkern to compress the kernel image and xzmisc to compress other things.
-diff --git a/scripts/make_fit.py b/scripts/make_fit.py
-new file mode 100755
-index 000000000000..3de90c5a094b
---- /dev/null
-+++ b/scripts/make_fit.py
-@@ -0,0 +1,290 @@
-+#!/usr/bin/env python3
-+# SPDX-License-Identifier: GPL-2.0+
-+#
-+# Copyright 2024 Google LLC
-+# Written by Simon Glass <sjg@chromium.org>
-+#
-+
-+"""Build a FIT containing a lot of devicetree files
-+
-+Usage:
-+    make_fit.py -A arm64 -n 'Linux-6.6' -O linux
-+        -o arch/arm64/boot/image.fit -k /tmp/kern/arch/arm64/boot/image.itk
-+        @arch/arm64/boot/dts/dtbs-list -E -c gzip
-+
-+Creates a FIT containing the supplied kernel and a set of devicetree files,
-+either specified individually or listed in a file (with an '@' prefix).
-+
-+Use -E to generate an external FIT (where the data is placed after the
-+FIT data structure). This allows parsing of the data without loading
-+the entire FIT.
-+
-+Use -c to compress the data, using bzip2, gzip, lz4, lzma, lzo and
-+zstd algorithms.
-+
-+The resulting FIT can be booted by bootloaders which support FIT, such
-+as U-Boot, Linuxboot, Tianocore, etc.
-+
-+Note that this tool does not yet support adding a ramdisk / initrd.
-+"""
-+
-+import argparse
-+import collections
-+import os
-+import subprocess
-+import sys
-+import tempfile
-+import time
-+
-+import libfdt
-+
-+
-+# Tool extension and the name of the command-line tools
-+CompTool = collections.namedtuple('CompTool', 'ext,tools')
-+
-+COMP_TOOLS = {
-+    'bzip2': CompTool('.bz2', 'bzip2'),
-+    'gzip': CompTool('.gz', 'pigz,gzip'),
-+    'lz4': CompTool('.lz4', 'lz4'),
-+    'lzma': CompTool('.lzma', 'lzma'),
-+    'lzo': CompTool('.lzo', 'lzop'),
-+    'zstd': CompTool('.zstd', 'zstd'),
-+}
-+
-+
-+def parse_args():
-+    """Parse the program ArgumentParser
-+
-+    Returns:
-+        Namespace object containing the arguments
-+    """
-+    epilog = 'Build a FIT from a directory tree containing .dtb files'
-+    parser = argparse.ArgumentParser(epilog=epilog, fromfile_prefix_chars='@')
-+    parser.add_argument('-A', '--arch', type=str, required=True,
-+          help='Specifies the architecture')
-+    parser.add_argument('-c', '--compress', type=str, default='none',
-+          help='Specifies the compression')
-+    parser.add_argument('-E', '--external', action='store_true',
-+          help='Convert the FIT to use external data')
-+    parser.add_argument('-n', '--name', type=str, required=True,
-+          help='Specifies the name')
-+    parser.add_argument('-o', '--output', type=str, required=True,
-+          help='Specifies the output file (.fit)')
-+    parser.add_argument('-O', '--os', type=str, required=True,
-+          help='Specifies the operating system')
-+    parser.add_argument('-k', '--kernel', type=str, required=True,
-+          help='Specifies the (uncompressed) kernel input file (.itk)')
-+    parser.add_argument('-v', '--verbose', action='store_true',
-+                        help='Enable verbose output')
-+    parser.add_argument('dtbs', type=str, nargs='*',
-+          help='Specifies the devicetree files to process')
-+
-+    return parser.parse_args()
-+
-+
-+def setup_fit(fsw, name):
-+    """Make a start on writing the FIT
-+
-+    Outputs the root properties and the 'images' node
-+
-+    Args:
-+        fsw (libfdt.FdtSw): Object to use for writing
-+        name (str): Name of kernel image
-+    """
-+    fsw.INC_SIZE = 65536
-+    fsw.finish_reservemap()
-+    fsw.begin_node('')
-+    fsw.property_string('description', f'{name} with devicetree set')
-+    fsw.property_u32('#address-cells', 1)
-+
-+    fsw.property_u32('timestamp', int(time.time()))
-+    fsw.begin_node('images')
-+
-+
-+def write_kernel(fsw, data, args):
-+    """Write out the kernel image
-+
-+    Writes a kernel node along with the required properties
-+
-+    Args:
-+        fsw (libfdt.FdtSw): Object to use for writing
-+        data (bytes): Data to write (possibly compressed)
-+        args (Namespace): Contains necessary strings:
-+            arch: FIT architecture, e.g. 'arm64'
-+            fit_os: Operating Systems, e.g. 'linux'
-+            name: Name of OS, e.g. 'Linux-6.6.0-rc7'
-+            compress: Compression algorithm to use, e.g. 'gzip'
-+    """
-+    with fsw.add_node('kernel'):
-+        fsw.property_string('description', args.name)
-+        fsw.property_string('type', 'kernel_noload')
-+        fsw.property_string('arch', args.arch)
-+        fsw.property_string('os', args.os)
-+        fsw.property_string('compression', args.compress)
-+        fsw.property('data', data)
-+        fsw.property_u32('load', 0)
-+        fsw.property_u32('entry', 0)
-+
-+
-+def finish_fit(fsw, entries):
-+    """Finish the FIT ready for use
-+
-+    Writes the /configurations node and subnodes
-+
-+    Args:
-+        fsw (libfdt.FdtSw): Object to use for writing
-+        entries (list of tuple): List of configurations:
-+            str: Description of model
-+            str: Compatible stringlist
-+    """
-+    fsw.end_node()
-+    seq = 0
-+    with fsw.add_node('configurations'):
-+        for model, compat in entries:
-+            seq += 1
-+            with fsw.add_node(f'conf-{seq}'):
-+                fsw.property('compatible', bytes(compat))
-+                fsw.property_string('description', model)
-+                fsw.property_string('fdt', f'fdt-{seq}')
-+                fsw.property_string('kernel', 'kernel')
-+    fsw.end_node()
-+
-+
-+def compress_data(inf, compress):
-+    """Compress data using a selected algorithm
-+
-+    Args:
-+        inf (IOBase): Filename containing the data to compress
-+        compress (str): Compression algorithm, e.g. 'gzip'
-+
-+    Return:
-+        bytes: Compressed data
-+    """
-+    if compress == 'none':
-+        return inf.read()
-+
-+    comp = COMP_TOOLS.get(compress)
-+    if not comp:
-+        raise ValueError(f"Unknown compression algorithm '{compress}'")
-+
-+    with tempfile.NamedTemporaryFile() as comp_fname:
-+        with open(comp_fname.name, 'wb') as outf:
-+            done = False
-+            for tool in comp.tools.split(','):
-+                try:
-+                    subprocess.call([tool, '-c'], stdin=inf, stdout=outf)
-+                    done = True
-+                    break
-+                except FileNotFoundError:
-+                    pass
-+            if not done:
-+                raise ValueError(f'Missing tool(s): {comp.tools}\n')
-+            with open(comp_fname.name, 'rb') as compf:
-+                comp_data = compf.read()
-+    return comp_data
-+
-+
-+def output_dtb(fsw, seq, fname, arch, compress):
-+    """Write out a single devicetree to the FIT
-+
-+    Args:
-+        fsw (libfdt.FdtSw): Object to use for writing
-+        seq (int): Sequence number (1 for first)
-+        fmame (str): Filename containing the DTB
-+        arch: FIT architecture, e.g. 'arm64'
-+        compress (str): Compressed algorithm, e.g. 'gzip'
-+
-+    Returns:
-+        tuple:
-+            str: Model name
-+            bytes: Compatible stringlist
-+    """
-+    with fsw.add_node(f'fdt-{seq}'):
-+        # Get the compatible / model information
-+        with open(fname, 'rb') as inf:
-+            data = inf.read()
-+        fdt = libfdt.FdtRo(data)
-+        model = fdt.getprop(0, 'model').as_str()
-+        compat = fdt.getprop(0, 'compatible')
-+
-+        fsw.property_string('description', model)
-+        fsw.property_string('type', 'flat_dt')
-+        fsw.property_string('arch', arch)
-+        fsw.property_string('compression', compress)
-+        fsw.property('compatible', bytes(compat))
-+
-+        with open(fname, 'rb') as inf:
-+            compressed = compress_data(inf, compress)
-+        fsw.property('data', compressed)
-+    return model, compat
-+
-+
-+def build_fit(args):
-+    """Build the FIT from the provided files and arguments
-+
-+    Args:
-+        args (Namespace): Program arguments
-+
-+    Returns:
-+        tuple:
-+            bytes: FIT data
-+            int: Number of configurations generated
-+            size: Total uncompressed size of data
-+    """
-+    seq = 0
-+    size = 0
-+    fsw = libfdt.FdtSw()
-+    setup_fit(fsw, args.name)
-+    entries = []
-+
-+    # Handle the kernel
-+    with open(args.kernel, 'rb') as inf:
-+        comp_data = compress_data(inf, args.compress)
-+    size += os.path.getsize(args.kernel)
-+    write_kernel(fsw, comp_data, args)
-+
-+    for fname in args.dtbs:
-+        # Ignore overlay (.dtbo) files
-+        if os.path.splitext(fname)[1] == '.dtb':
-+            seq += 1
-+            size += os.path.getsize(fname)
-+            model, compat = output_dtb(fsw, seq, fname, args.arch, args.compress)
-+            entries.append([model, compat])
-+
-+    finish_fit(fsw, entries)
-+
-+    # Include the kernel itself in the returned file count
-+    return fsw.as_fdt().as_bytearray(), seq + 1, size
-+
-+
-+def run_make_fit():
-+    """Run the tool's main logic"""
-+    args = parse_args()
-+
-+    out_data, count, size = build_fit(args)
-+    with open(args.output, 'wb') as outf:
-+        outf.write(out_data)
-+
-+    ext_fit_size = None
-+    if args.external:
-+        mkimage = os.environ.get('MKIMAGE', 'mkimage')
-+        subprocess.check_call([mkimage, '-E', '-F', args.output],
-+                              stdout=subprocess.DEVNULL)
-+
-+        with open(args.output, 'rb') as inf:
-+            data = inf.read()
-+        ext_fit = libfdt.FdtRo(data)
-+        ext_fit_size = ext_fit.totalsize()
-+
-+    if args.verbose:
-+        comp_size = len(out_data)
-+        print(f'FIT size {comp_size:#x}/{comp_size / 1024 / 1024:.1f} MB',
-+              end='')
-+        if ext_fit_size:
-+            print(f', header {ext_fit_size:#x}/{ext_fit_size / 1024:.1f} KB',
-+                  end='')
-+        print(f', {count} files, uncompressed {size / 1024 / 1024:.1f} MB')
-+
-+
-+if __name__ == "__main__":
-+    sys.exit(run_make_fit())
--- 
-2.34.1
-
+> >
+> >
+> > ChenYu
+> >
+> > [1] https://lore.kernel.org/u-boot/CAPnjgZ06s64C2ux1rABNAnMv3q4W++sjhNG=
+CO_uPMH_9sTF7Mw@mail.gmail.com/
+> --
+> Best Regards
+> Masahiro Yamada
 
