@@ -1,74 +1,74 @@
-Return-Path: <linux-kbuild+bounces-1255-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1257-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DE2587CCDC
-	for <lists+linux-kbuild@lfdr.de>; Fri, 15 Mar 2024 12:47:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4E0187CCE1
+	for <lists+linux-kbuild@lfdr.de>; Fri, 15 Mar 2024 12:47:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 39CC428379A
-	for <lists+linux-kbuild@lfdr.de>; Fri, 15 Mar 2024 11:47:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 512402814EE
+	for <lists+linux-kbuild@lfdr.de>; Fri, 15 Mar 2024 11:47:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8359F1C292;
-	Fri, 15 Mar 2024 11:46:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 984AE1BC2C;
+	Fri, 15 Mar 2024 11:47:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="z67DLG+7"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Qp4EczWZ"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FAD31CAA8
-	for <linux-kbuild@vger.kernel.org>; Fri, 15 Mar 2024 11:46:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ECAF1BF28
+	for <linux-kbuild@vger.kernel.org>; Fri, 15 Mar 2024 11:46:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710503218; cv=none; b=cMDegMrMK/GKi6K6MxYxm2XkYgVdivFpM9CsR6F8RvZnwZWngf0dd4F/A+ZkLLkTXHtEb4KFbZH8Y3bdCSxoBhxZOn52LWeDhbOQXmN4zFzWhd50TOtTsLAqm6A0xBbyyx0+Rsqu8HntWMRXZWpRf+U2uIrKicSxu9f39Gpbvdc=
+	t=1710503228; cv=none; b=P74Ir2DPEH9UpQAAtXS7Lk562/RqQr91IlFszGWiIBMzaXcKgI8gZXIEz+V7Ou7YjgDzShBgpGRMCwbfwSnHZYPg8oO79f6aShT//8B9C7H2EG33Ok1sBTPxdyU0hhGQF+fhbhIusS+ukXTFqI50Rn3bJMjRZQn2+aXpkrX/F4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710503218; c=relaxed/simple;
-	bh=Nr4r7cYrd1U/gPb6Mr4VLag6voOOX3XxfMqP9a+k+c4=;
+	s=arc-20240116; t=1710503228; c=relaxed/simple;
+	bh=YEnDjUI2ki46Cl+yuACwc+NPM/D0zxjsGcp3ph1aFP4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Si41uvAgfm18+0dGWyaHUFTxPdVZm2uGYgR265n+XjpOfOHfTlpC06Mb0wW+3Aah5Y4ZdFNFHWX66eACI7o/oSUntIXpTms7WKj58Q+thOAAFayK1ePxJNkpEPUIunj7pEuWmvz3Zh9nxcdWJo5AizauIgCRLzKhpBoQ7mFF7ps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=z67DLG+7; arc=none smtp.client-ip=209.85.167.46
+	 In-Reply-To:To:Cc; b=QBHVhry96JzMbOtSOwMwI+KjcTwme7vzbuX0Zhn9Dt3RwSusT5JU6awcaKhLuDyat3pqhp18RD/T1/Gr98vOreYA9M5exGOee9lVeJKYMQHvu8qby5YQf6GxX5rolWiTM9L7ROhAhDFLL9HFngqY+UEI637LvIiigCFv/urg+MI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Qp4EczWZ; arc=none smtp.client-ip=209.85.167.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-512f892500cso2239249e87.3
-        for <linux-kbuild@vger.kernel.org>; Fri, 15 Mar 2024 04:46:41 -0700 (PDT)
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-513c8b72b24so2321704e87.3
+        for <linux-kbuild@vger.kernel.org>; Fri, 15 Mar 2024 04:46:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1710503200; x=1711108000; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1710503202; x=1711108002; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=to2U6rR7FrRsFPiHLQ/2XmZOGoCQ+7cLyDgUxc5mTXE=;
-        b=z67DLG+7uO9BxE+CCKMr+SClHddldh9F7Y8BFXKSx/UThAu9PFFsb6YwMdLeQXf056
-         giOv3oHBPbZf16DDRIRYKFG5A+S7dU17Y2wZsoZ5kFqu2xnNI0eh1geLunBzBstgYpOr
-         uDD+vlBeCYzKBJC6c4UVINK2Pylcmk+Oor5z+Elq2ulc57N3sacRf4+7o1MV0Cul73oh
-         74zrV15b9lNMcBhYM5W7QFXxwKpf9LyqpgwW34DQEHx2hL+5ootNF21dCTezSnC2CcW3
-         AO1pEJ6crWmLXzFv4eKoEDX0+knhacOI1/8r4n5BE/VCyyIXm4TqMRCx69o3/8z0OYT+
-         TA9g==
+        bh=SMsfZkB5l4smA/VrCR/nBeGqepDjF/LgUFEUKcxCibM=;
+        b=Qp4EczWZvBAtKsgAVD9RY0g/bh/ydksKMVwNyoWHkTo/22yuEHIrM5IkZLvaZAENKJ
+         m7SWzaPm0KICW9SaSY2wJtidevZWIOwZZlC5/lm76erT5+iPpZCE04hegxQ+zPyp9Rwj
+         YwTsrqNIeHP1nXmQpM4Q/M9kY3QcqrDhli636JAaqUXVHs4Qhvjeu5HtbQ8OuqqWuugv
+         5mAVKd2nOjDoproOxdJblDHvIDgjHeHFr+GC56jxy2TOYPM2ytRWI41CDniBLxWpXezz
+         48nDexNYJDjX1b4vkami+P5cbXjhuH5xv/SI1Vrr2HyqGuZ1n/1ROI+j+lniP9mac3hC
+         xKdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710503200; x=1711108000;
+        d=1e100.net; s=20230601; t=1710503202; x=1711108002;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=to2U6rR7FrRsFPiHLQ/2XmZOGoCQ+7cLyDgUxc5mTXE=;
-        b=cb1r2wybUP/a8l8Q8dinsgaORKliF3FxOqvUnFtxxm9zUqoW7K8LzngNdnqHYI4lpj
-         WLp8UXc9Igtt6pXhJsV3395fPMdx/FfnUKe42wFmUds/ipDuFWboIeHZ9Iz1OwiG4VZ1
-         ifK6H1OflHLgTBdu0kzQULwO9jm4DVorp+X+xRXXOITSqPUhEnMQFa2DR7D42GlFeAtF
-         v7hudbBfkZHThJynOejNwWgLdigpCEPY+POmX4swRE4tgmEfN5qsuqCyH8KKz5EEchVn
-         w3D3iDiXf7tiYE2Z1erAeFDaaB+8RjNEoXjJjXU1IGg74/b60t2hK0dyJ9NLNXynK0Hk
-         xrYw==
-X-Gm-Message-State: AOJu0YxREM0p9qOQVN8sXwm0IeaxYG0u4NWPKdZGPfpW1QiQOzsEXmWe
-	28u26SA/RDpSOAU35dJnEdkDNkfyjDDMFXCF3dXO6f5m1HcwybojnO+S3Tqi9iY=
-X-Google-Smtp-Source: AGHT+IHhe1ScjiHBvDKyMrYZYNKhRSKueSDkc0MUIWR/KIT/QjuqIDktcf1cju/bBnAKTgO2k7a43Q==
-X-Received: by 2002:a19:6449:0:b0:513:22ef:4144 with SMTP id b9-20020a196449000000b0051322ef4144mr2093106lfj.19.1710503199424;
-        Fri, 15 Mar 2024 04:46:39 -0700 (PDT)
+        bh=SMsfZkB5l4smA/VrCR/nBeGqepDjF/LgUFEUKcxCibM=;
+        b=ccxhx9hykt237aXziMC6mObWwHz5x+N4AU+/n8ufV4mRilRr180rnC8tRvMBZoUmRT
+         1orvMZZHiJkiLX3Fn3aXC/xKseMB17Nx6kbjuIYKyEgQDwhBXoyHxDsUS+phwKo6+/No
+         5eJM6HesJga9pNgqrfaulK28JtPSuc/cU1zylb0m7+olnpScV1xQwpq8Op2oVrSPjxG7
+         7Fa/cZwdbpfO9TWTNHB1O0Pqp4nhAczBitSJ18S1py8wZTmp5UlLh8f7Hs4kJgobNeZ/
+         2KhEmCCUN9gnoW5dkvvPd0DDa3zKtHPk4GL1Cmxq8uWYX4v4g3Kuun4p1D42tqhMnh8F
+         eLmQ==
+X-Gm-Message-State: AOJu0Yxq4I3+rNNO4APfomfVG+7nTkNnNGPbiK2Gtm3jEzxGmfv7AS+T
+	G1t+p/j+iaroi+l7no9fw5UgvsbToHUuYJJ7pGH0TinXF+5iy2VFyXVJdad0u4U=
+X-Google-Smtp-Source: AGHT+IGPE6HF7YeR0iGKRVweVZDVji0p0F8YqJ8l+8xLaDAInntWcw6U2l9INdxKfheCrAl6KYBaKw==
+X-Received: by 2002:a19:5f07:0:b0:513:ee1:2bd3 with SMTP id t7-20020a195f07000000b005130ee12bd3mr2971262lfb.37.1710503201660;
+        Fri, 15 Mar 2024 04:46:41 -0700 (PDT)
 Received: from umbar.lan ([192.130.178.91])
-        by smtp.gmail.com with ESMTPSA id l17-20020ac24a91000000b00513b024b232sm619987lfp.10.2024.03.15.04.46.38
+        by smtp.gmail.com with ESMTPSA id l17-20020ac24a91000000b00513b024b232sm619987lfp.10.2024.03.15.04.46.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Mar 2024 04:46:38 -0700 (PDT)
+        Fri, 15 Mar 2024 04:46:39 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 15 Mar 2024 13:46:32 +0200
-Subject: [PATCH RFC v3 10/12] drm/msm: drop display-related headers
+Date: Fri, 15 Mar 2024 13:46:33 +0200
+Subject: [PATCH RFC v3 11/12] drm/msm: drop A5xx, A6xx headers
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -77,7 +77,7 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240315-fd-xml-shipped-v3-10-0fc122e36c53@linaro.org>
+Message-Id: <20240315-fd-xml-shipped-v3-11-0fc122e36c53@linaro.org>
 References: <20240315-fd-xml-shipped-v3-0-0fc122e36c53@linaro.org>
 In-Reply-To: <20240315-fd-xml-shipped-v3-0-0fc122e36c53@linaro.org>
 To: Masahiro Yamada <masahiroy@kernel.org>, 
@@ -89,76 +89,54 @@ Cc: linux-kbuild@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=331466;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=650913;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=Nr4r7cYrd1U/gPb6Mr4VLag6voOOX3XxfMqP9a+k+c4=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBl9DUSmx3mxLiQdWcfyEjoXxrY/YJlyeSTohBaS
- qwCd91QNuqJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZfQ1EgAKCRCLPIo+Aiko
- 1QmvCACqRMowdsNi43bs0u+Mp7igSVVd+bt+dXclg7XxNQCM2DNd12kvzG2X8EGYQRZ0mx+8b0N
- 6DH3ho++yGMjcwFbqqiCKOma1l36RzsCzhZyyt2OBlynrrH0yfBJxHEoyM0fRJGxZ4czemLLrDB
- XmjryFaWkW6OMlz9WCTmpSjE9PQo2sVQlPRMG4P31KojsKppaJ56Yale4bhH/Wh43R0dfQH5AXl
- yrk9JAYhTxpSw9tyf/4DcT2LTfk8sM5X7cUmKGNwfVbGKS0gPi8Hg5npWzNeXafwFcxx5odUCYv
- l1iMUl1Sp2Bo4uNxfHru2lcKg1bC3phzx9eDCV6n2ljNjpTJ
+ bh=YEnDjUI2ki46Cl+yuACwc+NPM/D0zxjsGcp3ph1aFP4=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBl9DUSsYH4oSTjRVjJxusXqTcpMe3+tOmmd1DZw
+ NTMiZe5fCaJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZfQ1EgAKCRCLPIo+Aiko
+ 1WCWB/9QRhKSh3st9ItmAahp973dFXJ2BhiBZTWXvlK1h24E7qR8vGhkgAduHNlNvUOZ9oGRkpO
+ Ee2fLFw/JZDx42xr7H1l8oJCmQZkThpdMWS/Ab1V7X7CSyUIoIMgKSskGHI+7Ftdjt7juPckMi8
+ /uT6q6oJehLRq2tU/bDfkKmH/BmI6/8f3LqsCedqPebwllpBBwlImr2TNyczubOx94gb+F9nx5i
+ 1eVITdAKFR655Ni0spZ5j0kFuvP1qxvhUqYoj38Y6eNEGUKcV33UhPxO4x8iOgImP767OVwafnG
+ 5qea9QaJq9HHjASYCorqOkyWAjRQjYJwsXbvLoNRGzo7WBN5
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 
 Now as the headers are generated during the build step, drop
-pre-generated copies of the display-related headers.
+pre-generated copies of the Adreno A5xx and A6xx headers.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/mdp4/mdp4.xml.h        | 1181 --------------
- drivers/gpu/drm/msm/disp/mdp5/mdp5.xml.h        | 1979 -----------------------
- drivers/gpu/drm/msm/disp/mdp_common.xml.h       |  111 --
- drivers/gpu/drm/msm/dsi/dsi.xml.h               |  790 ---------
- drivers/gpu/drm/msm/dsi/dsi_phy_10nm.xml.h      |  227 ---
- drivers/gpu/drm/msm/dsi/dsi_phy_14nm.xml.h      |  309 ----
- drivers/gpu/drm/msm/dsi/dsi_phy_20nm.xml.h      |  237 ---
- drivers/gpu/drm/msm/dsi/dsi_phy_28nm.xml.h      |  384 -----
- drivers/gpu/drm/msm/dsi/dsi_phy_28nm_8960.xml.h |  286 ----
- drivers/gpu/drm/msm/dsi/dsi_phy_7nm.xml.h       |  483 ------
- drivers/gpu/drm/msm/dsi/sfpb.xml.h              |   70 -
- drivers/gpu/drm/msm/hdmi/hdmi.xml.h             | 1399 ----------------
- 12 files changed, 7456 deletions(-)
+ drivers/gpu/drm/msm/adreno/a5xx.xml.h     |  5572 -------------
+ drivers/gpu/drm/msm/adreno/a6xx.xml.h     | 11858 ----------------------------
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.xml.h |   422 -
+ 3 files changed, 17852 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/mdp4/mdp4.xml.h b/drivers/gpu/drm/msm/disp/mdp4/mdp4.xml.h
+diff --git a/drivers/gpu/drm/msm/adreno/a5xx.xml.h b/drivers/gpu/drm/msm/adreno/a5xx.xml.h
 deleted file mode 100644
-index cc8fde450884..000000000000
---- a/drivers/gpu/drm/msm/disp/mdp4/mdp4.xml.h
+index d66306c14986..000000000000
+--- a/drivers/gpu/drm/msm/adreno/a5xx.xml.h
 +++ /dev/null
-@@ -1,1181 +0,0 @@
--#ifndef MDP4_XML
--#define MDP4_XML
+@@ -1,5572 +0,0 @@
+-#ifndef A5XX_XML
+-#define A5XX_XML
 -
 -/* Autogenerated file, DO NOT EDIT manually!
 -
--This file was generated by the rules-ng-ng headergen tool in this git repository:
--http://github.com/freedreno/envytools/
--git clone https://github.com/freedreno/envytools.git
+-This file was generated by the rules-ng-ng gen_header.py tool in this git repository:
+-http://gitlab.freedesktop.org/mesa/mesa/
+-git clone https://gitlab.freedesktop.org/mesa/mesa.git
 -
 -The rules-ng-ng source files this header was generated from are:
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/msm.xml                   (    944 bytes, from 2022-07-23 20:21:46)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/freedreno_copyright.xml   (   1572 bytes, from 2022-07-23 20:21:46)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/mdp/mdp4.xml              (  20912 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/mdp/mdp_common.xml        (   2849 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/mdp/mdp5.xml              (  37461 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi.xml               (  18746 bytes, from 2022-04-28 17:29:36)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_v2.xml        (   3236 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_28nm_8960.xml (   4935 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_28nm.xml      (   7004 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_20nm.xml      (   3712 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_14nm.xml      (   5381 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_10nm.xml      (   4499 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_7nm.xml       (  11007 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/sfpb.xml              (    602 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/mmss_cc.xml           (   1686 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/hdmi/qfprom.xml           (    600 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/hdmi/hdmi.xml             (  42350 bytes, from 2022-09-20 17:45:56)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/edp/edp.xml               (  10416 bytes, from 2022-03-08 17:40:42)
 -
--Copyright (C) 2013-2022 by the following authors:
--- Rob Clark <robdclark@gmail.com> (robclark)
--- Ilia Mirkin <imirkin@alum.mit.edu> (imirkin)
+-- /home/robclark/src/mesa/mesa/src/freedreno/registers/adreno/a5xx.xml          ( 151693 bytes, from Wed Aug 23 10:39:39 2023)
+-- /home/robclark/src/mesa/mesa/src/freedreno/registers/freedreno_copyright.xml  (   1572 bytes, from Fri Jun  2 14:59:26 2023)
+-- /home/robclark/src/mesa/mesa/src/freedreno/registers/adreno/adreno_common.xml (  15434 bytes, from Fri Jun  2 14:59:26 2023)
+-- /home/robclark/src/mesa/mesa/src/freedreno/registers/adreno/adreno_pm4.xml    (  85691 bytes, from Fri Feb 16 09:49:01 2024)
+-
+-Copyright (C) 2013-2024 by the following authors:
+-- Rob Clark <robdclark@gmail.com> Rob Clark
+-- Ilia Mirkin <imirkin@alum.mit.edu> Ilia Mirkin
 -
 -Permission is hereby granted, free of charge, to any person obtaining
 -a copy of this software and associated documentation files (the
@@ -179,1173 +157,5564 @@ index cc8fde450884..000000000000
 -LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 -OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 -WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+-
 -*/
 -
+-#ifdef __KERNEL__
+-#include <linux/bug.h>
+-#define assert(x) BUG_ON(!(x))
+-#else
+-#include <assert.h>
+-#endif
 -
--enum mdp4_pipe {
--	VG1 = 0,
--	VG2 = 1,
--	RGB1 = 2,
--	RGB2 = 3,
--	RGB3 = 4,
--	VG3 = 5,
--	VG4 = 6,
+-#ifdef __cplusplus
+-#define __struct_cast(X)
+-#else
+-#define __struct_cast(X) (struct X)
+-#endif
+-
+-enum a5xx_color_fmt {
+-	RB5_A8_UNORM = 2,
+-	RB5_R8_UNORM = 3,
+-	RB5_R8_SNORM = 4,
+-	RB5_R8_UINT = 5,
+-	RB5_R8_SINT = 6,
+-	RB5_R4G4B4A4_UNORM = 8,
+-	RB5_R5G5B5A1_UNORM = 10,
+-	RB5_R5G6B5_UNORM = 14,
+-	RB5_R8G8_UNORM = 15,
+-	RB5_R8G8_SNORM = 16,
+-	RB5_R8G8_UINT = 17,
+-	RB5_R8G8_SINT = 18,
+-	RB5_R16_UNORM = 21,
+-	RB5_R16_SNORM = 22,
+-	RB5_R16_FLOAT = 23,
+-	RB5_R16_UINT = 24,
+-	RB5_R16_SINT = 25,
+-	RB5_R8G8B8A8_UNORM = 48,
+-	RB5_R8G8B8_UNORM = 49,
+-	RB5_R8G8B8A8_SNORM = 50,
+-	RB5_R8G8B8A8_UINT = 51,
+-	RB5_R8G8B8A8_SINT = 52,
+-	RB5_R10G10B10A2_UNORM = 55,
+-	RB5_R10G10B10A2_UINT = 58,
+-	RB5_R11G11B10_FLOAT = 66,
+-	RB5_R16G16_UNORM = 67,
+-	RB5_R16G16_SNORM = 68,
+-	RB5_R16G16_FLOAT = 69,
+-	RB5_R16G16_UINT = 70,
+-	RB5_R16G16_SINT = 71,
+-	RB5_R32_FLOAT = 74,
+-	RB5_R32_UINT = 75,
+-	RB5_R32_SINT = 76,
+-	RB5_R16G16B16A16_UNORM = 96,
+-	RB5_R16G16B16A16_SNORM = 97,
+-	RB5_R16G16B16A16_FLOAT = 98,
+-	RB5_R16G16B16A16_UINT = 99,
+-	RB5_R16G16B16A16_SINT = 100,
+-	RB5_R32G32_FLOAT = 103,
+-	RB5_R32G32_UINT = 104,
+-	RB5_R32G32_SINT = 105,
+-	RB5_R32G32B32A32_FLOAT = 130,
+-	RB5_R32G32B32A32_UINT = 131,
+-	RB5_R32G32B32A32_SINT = 132,
+-	RB5_NONE = 255,
 -};
 -
--enum mdp4_mixer {
--	MIXER0 = 0,
--	MIXER1 = 1,
--	MIXER2 = 2,
+-enum a5xx_tile_mode {
+-	TILE5_LINEAR = 0,
+-	TILE5_2 = 2,
+-	TILE5_3 = 3,
 -};
 -
--enum mdp4_intf {
--	INTF_LCDC_DTV = 0,
--	INTF_DSI_VIDEO = 1,
--	INTF_DSI_CMD = 2,
--	INTF_EBI2_TV = 3,
+-enum a5xx_vtx_fmt {
+-	VFMT5_8_UNORM = 3,
+-	VFMT5_8_SNORM = 4,
+-	VFMT5_8_UINT = 5,
+-	VFMT5_8_SINT = 6,
+-	VFMT5_8_8_UNORM = 15,
+-	VFMT5_8_8_SNORM = 16,
+-	VFMT5_8_8_UINT = 17,
+-	VFMT5_8_8_SINT = 18,
+-	VFMT5_16_UNORM = 21,
+-	VFMT5_16_SNORM = 22,
+-	VFMT5_16_FLOAT = 23,
+-	VFMT5_16_UINT = 24,
+-	VFMT5_16_SINT = 25,
+-	VFMT5_8_8_8_UNORM = 33,
+-	VFMT5_8_8_8_SNORM = 34,
+-	VFMT5_8_8_8_UINT = 35,
+-	VFMT5_8_8_8_SINT = 36,
+-	VFMT5_8_8_8_8_UNORM = 48,
+-	VFMT5_8_8_8_8_SNORM = 50,
+-	VFMT5_8_8_8_8_UINT = 51,
+-	VFMT5_8_8_8_8_SINT = 52,
+-	VFMT5_10_10_10_2_UNORM = 54,
+-	VFMT5_10_10_10_2_SNORM = 57,
+-	VFMT5_10_10_10_2_UINT = 58,
+-	VFMT5_10_10_10_2_SINT = 59,
+-	VFMT5_11_11_10_FLOAT = 66,
+-	VFMT5_16_16_UNORM = 67,
+-	VFMT5_16_16_SNORM = 68,
+-	VFMT5_16_16_FLOAT = 69,
+-	VFMT5_16_16_UINT = 70,
+-	VFMT5_16_16_SINT = 71,
+-	VFMT5_32_UNORM = 72,
+-	VFMT5_32_SNORM = 73,
+-	VFMT5_32_FLOAT = 74,
+-	VFMT5_32_UINT = 75,
+-	VFMT5_32_SINT = 76,
+-	VFMT5_32_FIXED = 77,
+-	VFMT5_16_16_16_UNORM = 88,
+-	VFMT5_16_16_16_SNORM = 89,
+-	VFMT5_16_16_16_FLOAT = 90,
+-	VFMT5_16_16_16_UINT = 91,
+-	VFMT5_16_16_16_SINT = 92,
+-	VFMT5_16_16_16_16_UNORM = 96,
+-	VFMT5_16_16_16_16_SNORM = 97,
+-	VFMT5_16_16_16_16_FLOAT = 98,
+-	VFMT5_16_16_16_16_UINT = 99,
+-	VFMT5_16_16_16_16_SINT = 100,
+-	VFMT5_32_32_UNORM = 101,
+-	VFMT5_32_32_SNORM = 102,
+-	VFMT5_32_32_FLOAT = 103,
+-	VFMT5_32_32_UINT = 104,
+-	VFMT5_32_32_SINT = 105,
+-	VFMT5_32_32_FIXED = 106,
+-	VFMT5_32_32_32_UNORM = 112,
+-	VFMT5_32_32_32_SNORM = 113,
+-	VFMT5_32_32_32_UINT = 114,
+-	VFMT5_32_32_32_SINT = 115,
+-	VFMT5_32_32_32_FLOAT = 116,
+-	VFMT5_32_32_32_FIXED = 117,
+-	VFMT5_32_32_32_32_UNORM = 128,
+-	VFMT5_32_32_32_32_SNORM = 129,
+-	VFMT5_32_32_32_32_FLOAT = 130,
+-	VFMT5_32_32_32_32_UINT = 131,
+-	VFMT5_32_32_32_32_SINT = 132,
+-	VFMT5_32_32_32_32_FIXED = 133,
+-	VFMT5_NONE = 255,
 -};
 -
--enum mdp4_cursor_format {
--	CURSOR_ARGB = 1,
--	CURSOR_XRGB = 2,
+-enum a5xx_tex_fmt {
+-	TFMT5_A8_UNORM = 2,
+-	TFMT5_8_UNORM = 3,
+-	TFMT5_8_SNORM = 4,
+-	TFMT5_8_UINT = 5,
+-	TFMT5_8_SINT = 6,
+-	TFMT5_4_4_4_4_UNORM = 8,
+-	TFMT5_5_5_5_1_UNORM = 10,
+-	TFMT5_5_6_5_UNORM = 14,
+-	TFMT5_8_8_UNORM = 15,
+-	TFMT5_8_8_SNORM = 16,
+-	TFMT5_8_8_UINT = 17,
+-	TFMT5_8_8_SINT = 18,
+-	TFMT5_L8_A8_UNORM = 19,
+-	TFMT5_16_UNORM = 21,
+-	TFMT5_16_SNORM = 22,
+-	TFMT5_16_FLOAT = 23,
+-	TFMT5_16_UINT = 24,
+-	TFMT5_16_SINT = 25,
+-	TFMT5_8_8_8_8_UNORM = 48,
+-	TFMT5_8_8_8_UNORM = 49,
+-	TFMT5_8_8_8_8_SNORM = 50,
+-	TFMT5_8_8_8_8_UINT = 51,
+-	TFMT5_8_8_8_8_SINT = 52,
+-	TFMT5_9_9_9_E5_FLOAT = 53,
+-	TFMT5_10_10_10_2_UNORM = 54,
+-	TFMT5_10_10_10_2_UINT = 58,
+-	TFMT5_11_11_10_FLOAT = 66,
+-	TFMT5_16_16_UNORM = 67,
+-	TFMT5_16_16_SNORM = 68,
+-	TFMT5_16_16_FLOAT = 69,
+-	TFMT5_16_16_UINT = 70,
+-	TFMT5_16_16_SINT = 71,
+-	TFMT5_32_FLOAT = 74,
+-	TFMT5_32_UINT = 75,
+-	TFMT5_32_SINT = 76,
+-	TFMT5_16_16_16_16_UNORM = 96,
+-	TFMT5_16_16_16_16_SNORM = 97,
+-	TFMT5_16_16_16_16_FLOAT = 98,
+-	TFMT5_16_16_16_16_UINT = 99,
+-	TFMT5_16_16_16_16_SINT = 100,
+-	TFMT5_32_32_FLOAT = 103,
+-	TFMT5_32_32_UINT = 104,
+-	TFMT5_32_32_SINT = 105,
+-	TFMT5_32_32_32_UINT = 114,
+-	TFMT5_32_32_32_SINT = 115,
+-	TFMT5_32_32_32_FLOAT = 116,
+-	TFMT5_32_32_32_32_FLOAT = 130,
+-	TFMT5_32_32_32_32_UINT = 131,
+-	TFMT5_32_32_32_32_SINT = 132,
+-	TFMT5_X8Z24_UNORM = 160,
+-	TFMT5_ETC2_RG11_UNORM = 171,
+-	TFMT5_ETC2_RG11_SNORM = 172,
+-	TFMT5_ETC2_R11_UNORM = 173,
+-	TFMT5_ETC2_R11_SNORM = 174,
+-	TFMT5_ETC1 = 175,
+-	TFMT5_ETC2_RGB8 = 176,
+-	TFMT5_ETC2_RGBA8 = 177,
+-	TFMT5_ETC2_RGB8A1 = 178,
+-	TFMT5_DXT1 = 179,
+-	TFMT5_DXT3 = 180,
+-	TFMT5_DXT5 = 181,
+-	TFMT5_RGTC1_UNORM = 183,
+-	TFMT5_RGTC1_SNORM = 184,
+-	TFMT5_RGTC2_UNORM = 187,
+-	TFMT5_RGTC2_SNORM = 188,
+-	TFMT5_BPTC_UFLOAT = 190,
+-	TFMT5_BPTC_FLOAT = 191,
+-	TFMT5_BPTC = 192,
+-	TFMT5_ASTC_4x4 = 193,
+-	TFMT5_ASTC_5x4 = 194,
+-	TFMT5_ASTC_5x5 = 195,
+-	TFMT5_ASTC_6x5 = 196,
+-	TFMT5_ASTC_6x6 = 197,
+-	TFMT5_ASTC_8x5 = 198,
+-	TFMT5_ASTC_8x6 = 199,
+-	TFMT5_ASTC_8x8 = 200,
+-	TFMT5_ASTC_10x5 = 201,
+-	TFMT5_ASTC_10x6 = 202,
+-	TFMT5_ASTC_10x8 = 203,
+-	TFMT5_ASTC_10x10 = 204,
+-	TFMT5_ASTC_12x10 = 205,
+-	TFMT5_ASTC_12x12 = 206,
+-	TFMT5_NONE = 255,
 -};
 -
--enum mdp4_frame_format {
--	FRAME_LINEAR = 0,
--	FRAME_TILE_ARGB_4X4 = 1,
--	FRAME_TILE_YCBCR_420 = 2,
+-enum a5xx_depth_format {
+-	DEPTH5_NONE = 0,
+-	DEPTH5_16 = 1,
+-	DEPTH5_24_8 = 2,
+-	DEPTH5_32 = 4,
 -};
 -
--enum mdp4_scale_unit {
--	SCALE_FIR = 0,
--	SCALE_MN_PHASE = 1,
--	SCALE_PIXEL_RPT = 2,
+-enum a5xx_blit_buf {
+-	BLIT_MRT0 = 0,
+-	BLIT_MRT1 = 1,
+-	BLIT_MRT2 = 2,
+-	BLIT_MRT3 = 3,
+-	BLIT_MRT4 = 4,
+-	BLIT_MRT5 = 5,
+-	BLIT_MRT6 = 6,
+-	BLIT_MRT7 = 7,
+-	BLIT_ZS = 8,
+-	BLIT_S = 9,
 -};
 -
--enum mdp4_dma {
--	DMA_P = 0,
--	DMA_S = 1,
--	DMA_E = 2,
+-enum a5xx_cp_perfcounter_select {
+-	PERF_CP_ALWAYS_COUNT = 0,
+-	PERF_CP_BUSY_GFX_CORE_IDLE = 1,
+-	PERF_CP_BUSY_CYCLES = 2,
+-	PERF_CP_PFP_IDLE = 3,
+-	PERF_CP_PFP_BUSY_WORKING = 4,
+-	PERF_CP_PFP_STALL_CYCLES_ANY = 5,
+-	PERF_CP_PFP_STARVE_CYCLES_ANY = 6,
+-	PERF_CP_PFP_ICACHE_MISS = 7,
+-	PERF_CP_PFP_ICACHE_HIT = 8,
+-	PERF_CP_PFP_MATCH_PM4_PKT_PROFILE = 9,
+-	PERF_CP_ME_BUSY_WORKING = 10,
+-	PERF_CP_ME_IDLE = 11,
+-	PERF_CP_ME_STARVE_CYCLES_ANY = 12,
+-	PERF_CP_ME_FIFO_EMPTY_PFP_IDLE = 13,
+-	PERF_CP_ME_FIFO_EMPTY_PFP_BUSY = 14,
+-	PERF_CP_ME_FIFO_FULL_ME_BUSY = 15,
+-	PERF_CP_ME_FIFO_FULL_ME_NON_WORKING = 16,
+-	PERF_CP_ME_STALL_CYCLES_ANY = 17,
+-	PERF_CP_ME_ICACHE_MISS = 18,
+-	PERF_CP_ME_ICACHE_HIT = 19,
+-	PERF_CP_NUM_PREEMPTIONS = 20,
+-	PERF_CP_PREEMPTION_REACTION_DELAY = 21,
+-	PERF_CP_PREEMPTION_SWITCH_OUT_TIME = 22,
+-	PERF_CP_PREEMPTION_SWITCH_IN_TIME = 23,
+-	PERF_CP_DEAD_DRAWS_IN_BIN_RENDER = 24,
+-	PERF_CP_PREDICATED_DRAWS_KILLED = 25,
+-	PERF_CP_MODE_SWITCH = 26,
+-	PERF_CP_ZPASS_DONE = 27,
+-	PERF_CP_CONTEXT_DONE = 28,
+-	PERF_CP_CACHE_FLUSH = 29,
+-	PERF_CP_LONG_PREEMPTIONS = 30,
 -};
 -
--#define MDP4_IRQ_OVERLAY0_DONE					0x00000001
--#define MDP4_IRQ_OVERLAY1_DONE					0x00000002
--#define MDP4_IRQ_DMA_S_DONE					0x00000004
--#define MDP4_IRQ_DMA_E_DONE					0x00000008
--#define MDP4_IRQ_DMA_P_DONE					0x00000010
--#define MDP4_IRQ_VG1_HISTOGRAM					0x00000020
--#define MDP4_IRQ_VG2_HISTOGRAM					0x00000040
--#define MDP4_IRQ_PRIMARY_VSYNC					0x00000080
--#define MDP4_IRQ_PRIMARY_INTF_UDERRUN				0x00000100
--#define MDP4_IRQ_EXTERNAL_VSYNC					0x00000200
--#define MDP4_IRQ_EXTERNAL_INTF_UDERRUN				0x00000400
--#define MDP4_IRQ_PRIMARY_RDPTR					0x00000800
--#define MDP4_IRQ_DMA_P_HISTOGRAM				0x00020000
--#define MDP4_IRQ_DMA_S_HISTOGRAM				0x04000000
--#define MDP4_IRQ_OVERLAY2_DONE					0x40000000
--#define REG_MDP4_VERSION					0x00000000
--#define MDP4_VERSION_MINOR__MASK				0x00ff0000
--#define MDP4_VERSION_MINOR__SHIFT				16
--static inline uint32_t MDP4_VERSION_MINOR(uint32_t val)
+-enum a5xx_rbbm_perfcounter_select {
+-	PERF_RBBM_ALWAYS_COUNT = 0,
+-	PERF_RBBM_ALWAYS_ON = 1,
+-	PERF_RBBM_TSE_BUSY = 2,
+-	PERF_RBBM_RAS_BUSY = 3,
+-	PERF_RBBM_PC_DCALL_BUSY = 4,
+-	PERF_RBBM_PC_VSD_BUSY = 5,
+-	PERF_RBBM_STATUS_MASKED = 6,
+-	PERF_RBBM_COM_BUSY = 7,
+-	PERF_RBBM_DCOM_BUSY = 8,
+-	PERF_RBBM_VBIF_BUSY = 9,
+-	PERF_RBBM_VSC_BUSY = 10,
+-	PERF_RBBM_TESS_BUSY = 11,
+-	PERF_RBBM_UCHE_BUSY = 12,
+-	PERF_RBBM_HLSQ_BUSY = 13,
+-};
+-
+-enum a5xx_pc_perfcounter_select {
+-	PERF_PC_BUSY_CYCLES = 0,
+-	PERF_PC_WORKING_CYCLES = 1,
+-	PERF_PC_STALL_CYCLES_VFD = 2,
+-	PERF_PC_STALL_CYCLES_TSE = 3,
+-	PERF_PC_STALL_CYCLES_VPC = 4,
+-	PERF_PC_STALL_CYCLES_UCHE = 5,
+-	PERF_PC_STALL_CYCLES_TESS = 6,
+-	PERF_PC_STALL_CYCLES_TSE_ONLY = 7,
+-	PERF_PC_STALL_CYCLES_VPC_ONLY = 8,
+-	PERF_PC_PASS1_TF_STALL_CYCLES = 9,
+-	PERF_PC_STARVE_CYCLES_FOR_INDEX = 10,
+-	PERF_PC_STARVE_CYCLES_FOR_TESS_FACTOR = 11,
+-	PERF_PC_STARVE_CYCLES_FOR_VIZ_STREAM = 12,
+-	PERF_PC_STARVE_CYCLES_FOR_POSITION = 13,
+-	PERF_PC_STARVE_CYCLES_DI = 14,
+-	PERF_PC_VIS_STREAMS_LOADED = 15,
+-	PERF_PC_INSTANCES = 16,
+-	PERF_PC_VPC_PRIMITIVES = 17,
+-	PERF_PC_DEAD_PRIM = 18,
+-	PERF_PC_LIVE_PRIM = 19,
+-	PERF_PC_VERTEX_HITS = 20,
+-	PERF_PC_IA_VERTICES = 21,
+-	PERF_PC_IA_PRIMITIVES = 22,
+-	PERF_PC_GS_PRIMITIVES = 23,
+-	PERF_PC_HS_INVOCATIONS = 24,
+-	PERF_PC_DS_INVOCATIONS = 25,
+-	PERF_PC_VS_INVOCATIONS = 26,
+-	PERF_PC_GS_INVOCATIONS = 27,
+-	PERF_PC_DS_PRIMITIVES = 28,
+-	PERF_PC_VPC_POS_DATA_TRANSACTION = 29,
+-	PERF_PC_3D_DRAWCALLS = 30,
+-	PERF_PC_2D_DRAWCALLS = 31,
+-	PERF_PC_NON_DRAWCALL_GLOBAL_EVENTS = 32,
+-	PERF_TESS_BUSY_CYCLES = 33,
+-	PERF_TESS_WORKING_CYCLES = 34,
+-	PERF_TESS_STALL_CYCLES_PC = 35,
+-	PERF_TESS_STARVE_CYCLES_PC = 36,
+-};
+-
+-enum a5xx_vfd_perfcounter_select {
+-	PERF_VFD_BUSY_CYCLES = 0,
+-	PERF_VFD_STALL_CYCLES_UCHE = 1,
+-	PERF_VFD_STALL_CYCLES_VPC_ALLOC = 2,
+-	PERF_VFD_STALL_CYCLES_MISS_VB = 3,
+-	PERF_VFD_STALL_CYCLES_MISS_Q = 4,
+-	PERF_VFD_STALL_CYCLES_SP_INFO = 5,
+-	PERF_VFD_STALL_CYCLES_SP_ATTR = 6,
+-	PERF_VFD_STALL_CYCLES_VFDP_VB = 7,
+-	PERF_VFD_STALL_CYCLES_VFDP_Q = 8,
+-	PERF_VFD_DECODER_PACKER_STALL = 9,
+-	PERF_VFD_STARVE_CYCLES_UCHE = 10,
+-	PERF_VFD_RBUFFER_FULL = 11,
+-	PERF_VFD_ATTR_INFO_FIFO_FULL = 12,
+-	PERF_VFD_DECODED_ATTRIBUTE_BYTES = 13,
+-	PERF_VFD_NUM_ATTRIBUTES = 14,
+-	PERF_VFD_INSTRUCTIONS = 15,
+-	PERF_VFD_UPPER_SHADER_FIBERS = 16,
+-	PERF_VFD_LOWER_SHADER_FIBERS = 17,
+-	PERF_VFD_MODE_0_FIBERS = 18,
+-	PERF_VFD_MODE_1_FIBERS = 19,
+-	PERF_VFD_MODE_2_FIBERS = 20,
+-	PERF_VFD_MODE_3_FIBERS = 21,
+-	PERF_VFD_MODE_4_FIBERS = 22,
+-	PERF_VFD_TOTAL_VERTICES = 23,
+-	PERF_VFD_NUM_ATTR_MISS = 24,
+-	PERF_VFD_1_BURST_REQ = 25,
+-	PERF_VFDP_STALL_CYCLES_VFD = 26,
+-	PERF_VFDP_STALL_CYCLES_VFD_INDEX = 27,
+-	PERF_VFDP_STALL_CYCLES_VFD_PROG = 28,
+-	PERF_VFDP_STARVE_CYCLES_PC = 29,
+-	PERF_VFDP_VS_STAGE_32_WAVES = 30,
+-};
+-
+-enum a5xx_hlsq_perfcounter_select {
+-	PERF_HLSQ_BUSY_CYCLES = 0,
+-	PERF_HLSQ_STALL_CYCLES_UCHE = 1,
+-	PERF_HLSQ_STALL_CYCLES_SP_STATE = 2,
+-	PERF_HLSQ_STALL_CYCLES_SP_FS_STAGE = 3,
+-	PERF_HLSQ_UCHE_LATENCY_CYCLES = 4,
+-	PERF_HLSQ_UCHE_LATENCY_COUNT = 5,
+-	PERF_HLSQ_FS_STAGE_32_WAVES = 6,
+-	PERF_HLSQ_FS_STAGE_64_WAVES = 7,
+-	PERF_HLSQ_QUADS = 8,
+-	PERF_HLSQ_SP_STATE_COPY_TRANS_FS_STAGE = 9,
+-	PERF_HLSQ_SP_STATE_COPY_TRANS_VS_STAGE = 10,
+-	PERF_HLSQ_TP_STATE_COPY_TRANS_FS_STAGE = 11,
+-	PERF_HLSQ_TP_STATE_COPY_TRANS_VS_STAGE = 12,
+-	PERF_HLSQ_CS_INVOCATIONS = 13,
+-	PERF_HLSQ_COMPUTE_DRAWCALLS = 14,
+-};
+-
+-enum a5xx_vpc_perfcounter_select {
+-	PERF_VPC_BUSY_CYCLES = 0,
+-	PERF_VPC_WORKING_CYCLES = 1,
+-	PERF_VPC_STALL_CYCLES_UCHE = 2,
+-	PERF_VPC_STALL_CYCLES_VFD_WACK = 3,
+-	PERF_VPC_STALL_CYCLES_HLSQ_PRIM_ALLOC = 4,
+-	PERF_VPC_STALL_CYCLES_PC = 5,
+-	PERF_VPC_STALL_CYCLES_SP_LM = 6,
+-	PERF_VPC_POS_EXPORT_STALL_CYCLES = 7,
+-	PERF_VPC_STARVE_CYCLES_SP = 8,
+-	PERF_VPC_STARVE_CYCLES_LRZ = 9,
+-	PERF_VPC_PC_PRIMITIVES = 10,
+-	PERF_VPC_SP_COMPONENTS = 11,
+-	PERF_VPC_SP_LM_PRIMITIVES = 12,
+-	PERF_VPC_SP_LM_COMPONENTS = 13,
+-	PERF_VPC_SP_LM_DWORDS = 14,
+-	PERF_VPC_STREAMOUT_COMPONENTS = 15,
+-	PERF_VPC_GRANT_PHASES = 16,
+-};
+-
+-enum a5xx_tse_perfcounter_select {
+-	PERF_TSE_BUSY_CYCLES = 0,
+-	PERF_TSE_CLIPPING_CYCLES = 1,
+-	PERF_TSE_STALL_CYCLES_RAS = 2,
+-	PERF_TSE_STALL_CYCLES_LRZ_BARYPLANE = 3,
+-	PERF_TSE_STALL_CYCLES_LRZ_ZPLANE = 4,
+-	PERF_TSE_STARVE_CYCLES_PC = 5,
+-	PERF_TSE_INPUT_PRIM = 6,
+-	PERF_TSE_INPUT_NULL_PRIM = 7,
+-	PERF_TSE_TRIVAL_REJ_PRIM = 8,
+-	PERF_TSE_CLIPPED_PRIM = 9,
+-	PERF_TSE_ZERO_AREA_PRIM = 10,
+-	PERF_TSE_FACENESS_CULLED_PRIM = 11,
+-	PERF_TSE_ZERO_PIXEL_PRIM = 12,
+-	PERF_TSE_OUTPUT_NULL_PRIM = 13,
+-	PERF_TSE_OUTPUT_VISIBLE_PRIM = 14,
+-	PERF_TSE_CINVOCATION = 15,
+-	PERF_TSE_CPRIMITIVES = 16,
+-	PERF_TSE_2D_INPUT_PRIM = 17,
+-	PERF_TSE_2D_ALIVE_CLCLES = 18,
+-};
+-
+-enum a5xx_ras_perfcounter_select {
+-	PERF_RAS_BUSY_CYCLES = 0,
+-	PERF_RAS_SUPERTILE_ACTIVE_CYCLES = 1,
+-	PERF_RAS_STALL_CYCLES_LRZ = 2,
+-	PERF_RAS_STARVE_CYCLES_TSE = 3,
+-	PERF_RAS_SUPER_TILES = 4,
+-	PERF_RAS_8X4_TILES = 5,
+-	PERF_RAS_MASKGEN_ACTIVE = 6,
+-	PERF_RAS_FULLY_COVERED_SUPER_TILES = 7,
+-	PERF_RAS_FULLY_COVERED_8X4_TILES = 8,
+-	PERF_RAS_PRIM_KILLED_INVISILBE = 9,
+-};
+-
+-enum a5xx_lrz_perfcounter_select {
+-	PERF_LRZ_BUSY_CYCLES = 0,
+-	PERF_LRZ_STARVE_CYCLES_RAS = 1,
+-	PERF_LRZ_STALL_CYCLES_RB = 2,
+-	PERF_LRZ_STALL_CYCLES_VSC = 3,
+-	PERF_LRZ_STALL_CYCLES_VPC = 4,
+-	PERF_LRZ_STALL_CYCLES_FLAG_PREFETCH = 5,
+-	PERF_LRZ_STALL_CYCLES_UCHE = 6,
+-	PERF_LRZ_LRZ_READ = 7,
+-	PERF_LRZ_LRZ_WRITE = 8,
+-	PERF_LRZ_READ_LATENCY = 9,
+-	PERF_LRZ_MERGE_CACHE_UPDATING = 10,
+-	PERF_LRZ_PRIM_KILLED_BY_MASKGEN = 11,
+-	PERF_LRZ_PRIM_KILLED_BY_LRZ = 12,
+-	PERF_LRZ_VISIBLE_PRIM_AFTER_LRZ = 13,
+-	PERF_LRZ_FULL_8X8_TILES = 14,
+-	PERF_LRZ_PARTIAL_8X8_TILES = 15,
+-	PERF_LRZ_TILE_KILLED = 16,
+-	PERF_LRZ_TOTAL_PIXEL = 17,
+-	PERF_LRZ_VISIBLE_PIXEL_AFTER_LRZ = 18,
+-};
+-
+-enum a5xx_uche_perfcounter_select {
+-	PERF_UCHE_BUSY_CYCLES = 0,
+-	PERF_UCHE_STALL_CYCLES_VBIF = 1,
+-	PERF_UCHE_VBIF_LATENCY_CYCLES = 2,
+-	PERF_UCHE_VBIF_LATENCY_SAMPLES = 3,
+-	PERF_UCHE_VBIF_READ_BEATS_TP = 4,
+-	PERF_UCHE_VBIF_READ_BEATS_VFD = 5,
+-	PERF_UCHE_VBIF_READ_BEATS_HLSQ = 6,
+-	PERF_UCHE_VBIF_READ_BEATS_LRZ = 7,
+-	PERF_UCHE_VBIF_READ_BEATS_SP = 8,
+-	PERF_UCHE_READ_REQUESTS_TP = 9,
+-	PERF_UCHE_READ_REQUESTS_VFD = 10,
+-	PERF_UCHE_READ_REQUESTS_HLSQ = 11,
+-	PERF_UCHE_READ_REQUESTS_LRZ = 12,
+-	PERF_UCHE_READ_REQUESTS_SP = 13,
+-	PERF_UCHE_WRITE_REQUESTS_LRZ = 14,
+-	PERF_UCHE_WRITE_REQUESTS_SP = 15,
+-	PERF_UCHE_WRITE_REQUESTS_VPC = 16,
+-	PERF_UCHE_WRITE_REQUESTS_VSC = 17,
+-	PERF_UCHE_EVICTS = 18,
+-	PERF_UCHE_BANK_REQ0 = 19,
+-	PERF_UCHE_BANK_REQ1 = 20,
+-	PERF_UCHE_BANK_REQ2 = 21,
+-	PERF_UCHE_BANK_REQ3 = 22,
+-	PERF_UCHE_BANK_REQ4 = 23,
+-	PERF_UCHE_BANK_REQ5 = 24,
+-	PERF_UCHE_BANK_REQ6 = 25,
+-	PERF_UCHE_BANK_REQ7 = 26,
+-	PERF_UCHE_VBIF_READ_BEATS_CH0 = 27,
+-	PERF_UCHE_VBIF_READ_BEATS_CH1 = 28,
+-	PERF_UCHE_GMEM_READ_BEATS = 29,
+-	PERF_UCHE_FLAG_COUNT = 30,
+-};
+-
+-enum a5xx_tp_perfcounter_select {
+-	PERF_TP_BUSY_CYCLES = 0,
+-	PERF_TP_STALL_CYCLES_UCHE = 1,
+-	PERF_TP_LATENCY_CYCLES = 2,
+-	PERF_TP_LATENCY_TRANS = 3,
+-	PERF_TP_FLAG_CACHE_REQUEST_SAMPLES = 4,
+-	PERF_TP_FLAG_CACHE_REQUEST_LATENCY = 5,
+-	PERF_TP_L1_CACHELINE_REQUESTS = 6,
+-	PERF_TP_L1_CACHELINE_MISSES = 7,
+-	PERF_TP_SP_TP_TRANS = 8,
+-	PERF_TP_TP_SP_TRANS = 9,
+-	PERF_TP_OUTPUT_PIXELS = 10,
+-	PERF_TP_FILTER_WORKLOAD_16BIT = 11,
+-	PERF_TP_FILTER_WORKLOAD_32BIT = 12,
+-	PERF_TP_QUADS_RECEIVED = 13,
+-	PERF_TP_QUADS_OFFSET = 14,
+-	PERF_TP_QUADS_SHADOW = 15,
+-	PERF_TP_QUADS_ARRAY = 16,
+-	PERF_TP_QUADS_GRADIENT = 17,
+-	PERF_TP_QUADS_1D = 18,
+-	PERF_TP_QUADS_2D = 19,
+-	PERF_TP_QUADS_BUFFER = 20,
+-	PERF_TP_QUADS_3D = 21,
+-	PERF_TP_QUADS_CUBE = 22,
+-	PERF_TP_STATE_CACHE_REQUESTS = 23,
+-	PERF_TP_STATE_CACHE_MISSES = 24,
+-	PERF_TP_DIVERGENT_QUADS_RECEIVED = 25,
+-	PERF_TP_BINDLESS_STATE_CACHE_REQUESTS = 26,
+-	PERF_TP_BINDLESS_STATE_CACHE_MISSES = 27,
+-	PERF_TP_PRT_NON_RESIDENT_EVENTS = 28,
+-	PERF_TP_OUTPUT_PIXELS_POINT = 29,
+-	PERF_TP_OUTPUT_PIXELS_BILINEAR = 30,
+-	PERF_TP_OUTPUT_PIXELS_MIP = 31,
+-	PERF_TP_OUTPUT_PIXELS_ANISO = 32,
+-	PERF_TP_OUTPUT_PIXELS_ZERO_LOD = 33,
+-	PERF_TP_FLAG_CACHE_REQUESTS = 34,
+-	PERF_TP_FLAG_CACHE_MISSES = 35,
+-	PERF_TP_L1_5_L2_REQUESTS = 36,
+-	PERF_TP_2D_OUTPUT_PIXELS = 37,
+-	PERF_TP_2D_OUTPUT_PIXELS_POINT = 38,
+-	PERF_TP_2D_OUTPUT_PIXELS_BILINEAR = 39,
+-	PERF_TP_2D_FILTER_WORKLOAD_16BIT = 40,
+-	PERF_TP_2D_FILTER_WORKLOAD_32BIT = 41,
+-};
+-
+-enum a5xx_sp_perfcounter_select {
+-	PERF_SP_BUSY_CYCLES = 0,
+-	PERF_SP_ALU_WORKING_CYCLES = 1,
+-	PERF_SP_EFU_WORKING_CYCLES = 2,
+-	PERF_SP_STALL_CYCLES_VPC = 3,
+-	PERF_SP_STALL_CYCLES_TP = 4,
+-	PERF_SP_STALL_CYCLES_UCHE = 5,
+-	PERF_SP_STALL_CYCLES_RB = 6,
+-	PERF_SP_SCHEDULER_NON_WORKING = 7,
+-	PERF_SP_WAVE_CONTEXTS = 8,
+-	PERF_SP_WAVE_CONTEXT_CYCLES = 9,
+-	PERF_SP_FS_STAGE_WAVE_CYCLES = 10,
+-	PERF_SP_FS_STAGE_WAVE_SAMPLES = 11,
+-	PERF_SP_VS_STAGE_WAVE_CYCLES = 12,
+-	PERF_SP_VS_STAGE_WAVE_SAMPLES = 13,
+-	PERF_SP_FS_STAGE_DURATION_CYCLES = 14,
+-	PERF_SP_VS_STAGE_DURATION_CYCLES = 15,
+-	PERF_SP_WAVE_CTRL_CYCLES = 16,
+-	PERF_SP_WAVE_LOAD_CYCLES = 17,
+-	PERF_SP_WAVE_EMIT_CYCLES = 18,
+-	PERF_SP_WAVE_NOP_CYCLES = 19,
+-	PERF_SP_WAVE_WAIT_CYCLES = 20,
+-	PERF_SP_WAVE_FETCH_CYCLES = 21,
+-	PERF_SP_WAVE_IDLE_CYCLES = 22,
+-	PERF_SP_WAVE_END_CYCLES = 23,
+-	PERF_SP_WAVE_LONG_SYNC_CYCLES = 24,
+-	PERF_SP_WAVE_SHORT_SYNC_CYCLES = 25,
+-	PERF_SP_WAVE_JOIN_CYCLES = 26,
+-	PERF_SP_LM_LOAD_INSTRUCTIONS = 27,
+-	PERF_SP_LM_STORE_INSTRUCTIONS = 28,
+-	PERF_SP_LM_ATOMICS = 29,
+-	PERF_SP_GM_LOAD_INSTRUCTIONS = 30,
+-	PERF_SP_GM_STORE_INSTRUCTIONS = 31,
+-	PERF_SP_GM_ATOMICS = 32,
+-	PERF_SP_VS_STAGE_TEX_INSTRUCTIONS = 33,
+-	PERF_SP_VS_STAGE_CFLOW_INSTRUCTIONS = 34,
+-	PERF_SP_VS_STAGE_EFU_INSTRUCTIONS = 35,
+-	PERF_SP_VS_STAGE_FULL_ALU_INSTRUCTIONS = 36,
+-	PERF_SP_VS_STAGE_HALF_ALU_INSTRUCTIONS = 37,
+-	PERF_SP_FS_STAGE_TEX_INSTRUCTIONS = 38,
+-	PERF_SP_FS_STAGE_CFLOW_INSTRUCTIONS = 39,
+-	PERF_SP_FS_STAGE_EFU_INSTRUCTIONS = 40,
+-	PERF_SP_FS_STAGE_FULL_ALU_INSTRUCTIONS = 41,
+-	PERF_SP_FS_STAGE_HALF_ALU_INSTRUCTIONS = 42,
+-	PERF_SP_FS_STAGE_BARY_INSTRUCTIONS = 43,
+-	PERF_SP_VS_INSTRUCTIONS = 44,
+-	PERF_SP_FS_INSTRUCTIONS = 45,
+-	PERF_SP_ADDR_LOCK_COUNT = 46,
+-	PERF_SP_UCHE_READ_TRANS = 47,
+-	PERF_SP_UCHE_WRITE_TRANS = 48,
+-	PERF_SP_EXPORT_VPC_TRANS = 49,
+-	PERF_SP_EXPORT_RB_TRANS = 50,
+-	PERF_SP_PIXELS_KILLED = 51,
+-	PERF_SP_ICL1_REQUESTS = 52,
+-	PERF_SP_ICL1_MISSES = 53,
+-	PERF_SP_ICL0_REQUESTS = 54,
+-	PERF_SP_ICL0_MISSES = 55,
+-	PERF_SP_HS_INSTRUCTIONS = 56,
+-	PERF_SP_DS_INSTRUCTIONS = 57,
+-	PERF_SP_GS_INSTRUCTIONS = 58,
+-	PERF_SP_CS_INSTRUCTIONS = 59,
+-	PERF_SP_GPR_READ = 60,
+-	PERF_SP_GPR_WRITE = 61,
+-	PERF_SP_LM_CH0_REQUESTS = 62,
+-	PERF_SP_LM_CH1_REQUESTS = 63,
+-	PERF_SP_LM_BANK_CONFLICTS = 64,
+-};
+-
+-enum a5xx_rb_perfcounter_select {
+-	PERF_RB_BUSY_CYCLES = 0,
+-	PERF_RB_STALL_CYCLES_CCU = 1,
+-	PERF_RB_STALL_CYCLES_HLSQ = 2,
+-	PERF_RB_STALL_CYCLES_FIFO0_FULL = 3,
+-	PERF_RB_STALL_CYCLES_FIFO1_FULL = 4,
+-	PERF_RB_STALL_CYCLES_FIFO2_FULL = 5,
+-	PERF_RB_STARVE_CYCLES_SP = 6,
+-	PERF_RB_STARVE_CYCLES_LRZ_TILE = 7,
+-	PERF_RB_STARVE_CYCLES_CCU = 8,
+-	PERF_RB_STARVE_CYCLES_Z_PLANE = 9,
+-	PERF_RB_STARVE_CYCLES_BARY_PLANE = 10,
+-	PERF_RB_Z_WORKLOAD = 11,
+-	PERF_RB_HLSQ_ACTIVE = 12,
+-	PERF_RB_Z_READ = 13,
+-	PERF_RB_Z_WRITE = 14,
+-	PERF_RB_C_READ = 15,
+-	PERF_RB_C_WRITE = 16,
+-	PERF_RB_TOTAL_PASS = 17,
+-	PERF_RB_Z_PASS = 18,
+-	PERF_RB_Z_FAIL = 19,
+-	PERF_RB_S_FAIL = 20,
+-	PERF_RB_BLENDED_FXP_COMPONENTS = 21,
+-	PERF_RB_BLENDED_FP16_COMPONENTS = 22,
+-	RB_RESERVED = 23,
+-	PERF_RB_2D_ALIVE_CYCLES = 24,
+-	PERF_RB_2D_STALL_CYCLES_A2D = 25,
+-	PERF_RB_2D_STARVE_CYCLES_SRC = 26,
+-	PERF_RB_2D_STARVE_CYCLES_SP = 27,
+-	PERF_RB_2D_STARVE_CYCLES_DST = 28,
+-	PERF_RB_2D_VALID_PIXELS = 29,
+-};
+-
+-enum a5xx_rb_samples_perfcounter_select {
+-	TOTAL_SAMPLES = 0,
+-	ZPASS_SAMPLES = 1,
+-	ZFAIL_SAMPLES = 2,
+-	SFAIL_SAMPLES = 3,
+-};
+-
+-enum a5xx_vsc_perfcounter_select {
+-	PERF_VSC_BUSY_CYCLES = 0,
+-	PERF_VSC_WORKING_CYCLES = 1,
+-	PERF_VSC_STALL_CYCLES_UCHE = 2,
+-	PERF_VSC_EOT_NUM = 3,
+-};
+-
+-enum a5xx_ccu_perfcounter_select {
+-	PERF_CCU_BUSY_CYCLES = 0,
+-	PERF_CCU_STALL_CYCLES_RB_DEPTH_RETURN = 1,
+-	PERF_CCU_STALL_CYCLES_RB_COLOR_RETURN = 2,
+-	PERF_CCU_STARVE_CYCLES_FLAG_RETURN = 3,
+-	PERF_CCU_DEPTH_BLOCKS = 4,
+-	PERF_CCU_COLOR_BLOCKS = 5,
+-	PERF_CCU_DEPTH_BLOCK_HIT = 6,
+-	PERF_CCU_COLOR_BLOCK_HIT = 7,
+-	PERF_CCU_PARTIAL_BLOCK_READ = 8,
+-	PERF_CCU_GMEM_READ = 9,
+-	PERF_CCU_GMEM_WRITE = 10,
+-	PERF_CCU_DEPTH_READ_FLAG0_COUNT = 11,
+-	PERF_CCU_DEPTH_READ_FLAG1_COUNT = 12,
+-	PERF_CCU_DEPTH_READ_FLAG2_COUNT = 13,
+-	PERF_CCU_DEPTH_READ_FLAG3_COUNT = 14,
+-	PERF_CCU_DEPTH_READ_FLAG4_COUNT = 15,
+-	PERF_CCU_COLOR_READ_FLAG0_COUNT = 16,
+-	PERF_CCU_COLOR_READ_FLAG1_COUNT = 17,
+-	PERF_CCU_COLOR_READ_FLAG2_COUNT = 18,
+-	PERF_CCU_COLOR_READ_FLAG3_COUNT = 19,
+-	PERF_CCU_COLOR_READ_FLAG4_COUNT = 20,
+-	PERF_CCU_2D_BUSY_CYCLES = 21,
+-	PERF_CCU_2D_RD_REQ = 22,
+-	PERF_CCU_2D_WR_REQ = 23,
+-	PERF_CCU_2D_REORDER_STARVE_CYCLES = 24,
+-	PERF_CCU_2D_PIXELS = 25,
+-};
+-
+-enum a5xx_cmp_perfcounter_select {
+-	PERF_CMPDECMP_STALL_CYCLES_VBIF = 0,
+-	PERF_CMPDECMP_VBIF_LATENCY_CYCLES = 1,
+-	PERF_CMPDECMP_VBIF_LATENCY_SAMPLES = 2,
+-	PERF_CMPDECMP_VBIF_READ_DATA_CCU = 3,
+-	PERF_CMPDECMP_VBIF_WRITE_DATA_CCU = 4,
+-	PERF_CMPDECMP_VBIF_READ_REQUEST = 5,
+-	PERF_CMPDECMP_VBIF_WRITE_REQUEST = 6,
+-	PERF_CMPDECMP_VBIF_READ_DATA = 7,
+-	PERF_CMPDECMP_VBIF_WRITE_DATA = 8,
+-	PERF_CMPDECMP_FLAG_FETCH_CYCLES = 9,
+-	PERF_CMPDECMP_FLAG_FETCH_SAMPLES = 10,
+-	PERF_CMPDECMP_DEPTH_WRITE_FLAG1_COUNT = 11,
+-	PERF_CMPDECMP_DEPTH_WRITE_FLAG2_COUNT = 12,
+-	PERF_CMPDECMP_DEPTH_WRITE_FLAG3_COUNT = 13,
+-	PERF_CMPDECMP_DEPTH_WRITE_FLAG4_COUNT = 14,
+-	PERF_CMPDECMP_COLOR_WRITE_FLAG1_COUNT = 15,
+-	PERF_CMPDECMP_COLOR_WRITE_FLAG2_COUNT = 16,
+-	PERF_CMPDECMP_COLOR_WRITE_FLAG3_COUNT = 17,
+-	PERF_CMPDECMP_COLOR_WRITE_FLAG4_COUNT = 18,
+-	PERF_CMPDECMP_2D_STALL_CYCLES_VBIF_REQ = 19,
+-	PERF_CMPDECMP_2D_STALL_CYCLES_VBIF_WR = 20,
+-	PERF_CMPDECMP_2D_STALL_CYCLES_VBIF_RETURN = 21,
+-	PERF_CMPDECMP_2D_RD_DATA = 22,
+-	PERF_CMPDECMP_2D_WR_DATA = 23,
+-};
+-
+-enum a5xx_vbif_perfcounter_select {
+-	AXI_READ_REQUESTS_ID_0 = 0,
+-	AXI_READ_REQUESTS_ID_1 = 1,
+-	AXI_READ_REQUESTS_ID_2 = 2,
+-	AXI_READ_REQUESTS_ID_3 = 3,
+-	AXI_READ_REQUESTS_ID_4 = 4,
+-	AXI_READ_REQUESTS_ID_5 = 5,
+-	AXI_READ_REQUESTS_ID_6 = 6,
+-	AXI_READ_REQUESTS_ID_7 = 7,
+-	AXI_READ_REQUESTS_ID_8 = 8,
+-	AXI_READ_REQUESTS_ID_9 = 9,
+-	AXI_READ_REQUESTS_ID_10 = 10,
+-	AXI_READ_REQUESTS_ID_11 = 11,
+-	AXI_READ_REQUESTS_ID_12 = 12,
+-	AXI_READ_REQUESTS_ID_13 = 13,
+-	AXI_READ_REQUESTS_ID_14 = 14,
+-	AXI_READ_REQUESTS_ID_15 = 15,
+-	AXI0_READ_REQUESTS_TOTAL = 16,
+-	AXI1_READ_REQUESTS_TOTAL = 17,
+-	AXI2_READ_REQUESTS_TOTAL = 18,
+-	AXI3_READ_REQUESTS_TOTAL = 19,
+-	AXI_READ_REQUESTS_TOTAL = 20,
+-	AXI_WRITE_REQUESTS_ID_0 = 21,
+-	AXI_WRITE_REQUESTS_ID_1 = 22,
+-	AXI_WRITE_REQUESTS_ID_2 = 23,
+-	AXI_WRITE_REQUESTS_ID_3 = 24,
+-	AXI_WRITE_REQUESTS_ID_4 = 25,
+-	AXI_WRITE_REQUESTS_ID_5 = 26,
+-	AXI_WRITE_REQUESTS_ID_6 = 27,
+-	AXI_WRITE_REQUESTS_ID_7 = 28,
+-	AXI_WRITE_REQUESTS_ID_8 = 29,
+-	AXI_WRITE_REQUESTS_ID_9 = 30,
+-	AXI_WRITE_REQUESTS_ID_10 = 31,
+-	AXI_WRITE_REQUESTS_ID_11 = 32,
+-	AXI_WRITE_REQUESTS_ID_12 = 33,
+-	AXI_WRITE_REQUESTS_ID_13 = 34,
+-	AXI_WRITE_REQUESTS_ID_14 = 35,
+-	AXI_WRITE_REQUESTS_ID_15 = 36,
+-	AXI0_WRITE_REQUESTS_TOTAL = 37,
+-	AXI1_WRITE_REQUESTS_TOTAL = 38,
+-	AXI2_WRITE_REQUESTS_TOTAL = 39,
+-	AXI3_WRITE_REQUESTS_TOTAL = 40,
+-	AXI_WRITE_REQUESTS_TOTAL = 41,
+-	AXI_TOTAL_REQUESTS = 42,
+-	AXI_READ_DATA_BEATS_ID_0 = 43,
+-	AXI_READ_DATA_BEATS_ID_1 = 44,
+-	AXI_READ_DATA_BEATS_ID_2 = 45,
+-	AXI_READ_DATA_BEATS_ID_3 = 46,
+-	AXI_READ_DATA_BEATS_ID_4 = 47,
+-	AXI_READ_DATA_BEATS_ID_5 = 48,
+-	AXI_READ_DATA_BEATS_ID_6 = 49,
+-	AXI_READ_DATA_BEATS_ID_7 = 50,
+-	AXI_READ_DATA_BEATS_ID_8 = 51,
+-	AXI_READ_DATA_BEATS_ID_9 = 52,
+-	AXI_READ_DATA_BEATS_ID_10 = 53,
+-	AXI_READ_DATA_BEATS_ID_11 = 54,
+-	AXI_READ_DATA_BEATS_ID_12 = 55,
+-	AXI_READ_DATA_BEATS_ID_13 = 56,
+-	AXI_READ_DATA_BEATS_ID_14 = 57,
+-	AXI_READ_DATA_BEATS_ID_15 = 58,
+-	AXI0_READ_DATA_BEATS_TOTAL = 59,
+-	AXI1_READ_DATA_BEATS_TOTAL = 60,
+-	AXI2_READ_DATA_BEATS_TOTAL = 61,
+-	AXI3_READ_DATA_BEATS_TOTAL = 62,
+-	AXI_READ_DATA_BEATS_TOTAL = 63,
+-	AXI_WRITE_DATA_BEATS_ID_0 = 64,
+-	AXI_WRITE_DATA_BEATS_ID_1 = 65,
+-	AXI_WRITE_DATA_BEATS_ID_2 = 66,
+-	AXI_WRITE_DATA_BEATS_ID_3 = 67,
+-	AXI_WRITE_DATA_BEATS_ID_4 = 68,
+-	AXI_WRITE_DATA_BEATS_ID_5 = 69,
+-	AXI_WRITE_DATA_BEATS_ID_6 = 70,
+-	AXI_WRITE_DATA_BEATS_ID_7 = 71,
+-	AXI_WRITE_DATA_BEATS_ID_8 = 72,
+-	AXI_WRITE_DATA_BEATS_ID_9 = 73,
+-	AXI_WRITE_DATA_BEATS_ID_10 = 74,
+-	AXI_WRITE_DATA_BEATS_ID_11 = 75,
+-	AXI_WRITE_DATA_BEATS_ID_12 = 76,
+-	AXI_WRITE_DATA_BEATS_ID_13 = 77,
+-	AXI_WRITE_DATA_BEATS_ID_14 = 78,
+-	AXI_WRITE_DATA_BEATS_ID_15 = 79,
+-	AXI0_WRITE_DATA_BEATS_TOTAL = 80,
+-	AXI1_WRITE_DATA_BEATS_TOTAL = 81,
+-	AXI2_WRITE_DATA_BEATS_TOTAL = 82,
+-	AXI3_WRITE_DATA_BEATS_TOTAL = 83,
+-	AXI_WRITE_DATA_BEATS_TOTAL = 84,
+-	AXI_DATA_BEATS_TOTAL = 85,
+-};
+-
+-enum a5xx_tex_filter {
+-	A5XX_TEX_NEAREST = 0,
+-	A5XX_TEX_LINEAR = 1,
+-	A5XX_TEX_ANISO = 2,
+-};
+-
+-enum a5xx_tex_clamp {
+-	A5XX_TEX_REPEAT = 0,
+-	A5XX_TEX_CLAMP_TO_EDGE = 1,
+-	A5XX_TEX_MIRROR_REPEAT = 2,
+-	A5XX_TEX_CLAMP_TO_BORDER = 3,
+-	A5XX_TEX_MIRROR_CLAMP = 4,
+-};
+-
+-enum a5xx_tex_aniso {
+-	A5XX_TEX_ANISO_1 = 0,
+-	A5XX_TEX_ANISO_2 = 1,
+-	A5XX_TEX_ANISO_4 = 2,
+-	A5XX_TEX_ANISO_8 = 3,
+-	A5XX_TEX_ANISO_16 = 4,
+-};
+-
+-enum a5xx_tex_swiz {
+-	A5XX_TEX_X = 0,
+-	A5XX_TEX_Y = 1,
+-	A5XX_TEX_Z = 2,
+-	A5XX_TEX_W = 3,
+-	A5XX_TEX_ZERO = 4,
+-	A5XX_TEX_ONE = 5,
+-};
+-
+-enum a5xx_tex_type {
+-	A5XX_TEX_1D = 0,
+-	A5XX_TEX_2D = 1,
+-	A5XX_TEX_CUBE = 2,
+-	A5XX_TEX_3D = 3,
+-	A5XX_TEX_BUFFER = 4,
+-};
+-
+-#define A5XX_INT0_RBBM_GPU_IDLE					0x00000001
+-#define A5XX_INT0_RBBM_AHB_ERROR				0x00000002
+-#define A5XX_INT0_RBBM_TRANSFER_TIMEOUT				0x00000004
+-#define A5XX_INT0_RBBM_ME_MS_TIMEOUT				0x00000008
+-#define A5XX_INT0_RBBM_PFP_MS_TIMEOUT				0x00000010
+-#define A5XX_INT0_RBBM_ETS_MS_TIMEOUT				0x00000020
+-#define A5XX_INT0_RBBM_ATB_ASYNC_OVERFLOW			0x00000040
+-#define A5XX_INT0_RBBM_GPC_ERROR				0x00000080
+-#define A5XX_INT0_CP_SW						0x00000100
+-#define A5XX_INT0_CP_HW_ERROR					0x00000200
+-#define A5XX_INT0_CP_CCU_FLUSH_DEPTH_TS				0x00000400
+-#define A5XX_INT0_CP_CCU_FLUSH_COLOR_TS				0x00000800
+-#define A5XX_INT0_CP_CCU_RESOLVE_TS				0x00001000
+-#define A5XX_INT0_CP_IB2					0x00002000
+-#define A5XX_INT0_CP_IB1					0x00004000
+-#define A5XX_INT0_CP_RB						0x00008000
+-#define A5XX_INT0_CP_UNUSED_1					0x00010000
+-#define A5XX_INT0_CP_RB_DONE_TS					0x00020000
+-#define A5XX_INT0_CP_WT_DONE_TS					0x00040000
+-#define A5XX_INT0_UNKNOWN_1					0x00080000
+-#define A5XX_INT0_CP_CACHE_FLUSH_TS				0x00100000
+-#define A5XX_INT0_UNUSED_2					0x00200000
+-#define A5XX_INT0_RBBM_ATB_BUS_OVERFLOW				0x00400000
+-#define A5XX_INT0_MISC_HANG_DETECT				0x00800000
+-#define A5XX_INT0_UCHE_OOB_ACCESS				0x01000000
+-#define A5XX_INT0_UCHE_TRAP_INTR				0x02000000
+-#define A5XX_INT0_DEBBUS_INTR_0					0x04000000
+-#define A5XX_INT0_DEBBUS_INTR_1					0x08000000
+-#define A5XX_INT0_GPMU_VOLTAGE_DROOP				0x10000000
+-#define A5XX_INT0_GPMU_FIRMWARE					0x20000000
+-#define A5XX_INT0_ISDB_CPU_IRQ					0x40000000
+-#define A5XX_INT0_ISDB_UNDER_DEBUG				0x80000000
+-
+-#define A5XX_CP_INT_CP_OPCODE_ERROR				0x00000001
+-#define A5XX_CP_INT_CP_RESERVED_BIT_ERROR			0x00000002
+-#define A5XX_CP_INT_CP_HW_FAULT_ERROR				0x00000004
+-#define A5XX_CP_INT_CP_DMA_ERROR				0x00000008
+-#define A5XX_CP_INT_CP_REGISTER_PROTECTION_ERROR		0x00000010
+-#define A5XX_CP_INT_CP_AHB_ERROR				0x00000020
+-
+-#define REG_A5XX_CP_RB_BASE					0x00000800
+-
+-#define REG_A5XX_CP_RB_BASE_HI					0x00000801
+-
+-#define REG_A5XX_CP_RB_CNTL					0x00000802
+-
+-#define REG_A5XX_CP_RB_RPTR_ADDR				0x00000804
+-
+-#define REG_A5XX_CP_RB_RPTR_ADDR_HI				0x00000805
+-
+-#define REG_A5XX_CP_RB_RPTR					0x00000806
+-
+-#define REG_A5XX_CP_RB_WPTR					0x00000807
+-
+-#define REG_A5XX_CP_PFP_STAT_ADDR				0x00000808
+-
+-#define REG_A5XX_CP_PFP_STAT_DATA				0x00000809
+-
+-#define REG_A5XX_CP_DRAW_STATE_ADDR				0x0000080b
+-
+-#define REG_A5XX_CP_DRAW_STATE_DATA				0x0000080c
+-
+-#define REG_A5XX_CP_ME_NRT_ADDR_LO				0x0000080d
+-
+-#define REG_A5XX_CP_ME_NRT_ADDR_HI				0x0000080e
+-
+-#define REG_A5XX_CP_ME_NRT_DATA					0x00000810
+-
+-#define REG_A5XX_CP_CRASH_SCRIPT_BASE_LO			0x00000817
+-
+-#define REG_A5XX_CP_CRASH_SCRIPT_BASE_HI			0x00000818
+-
+-#define REG_A5XX_CP_CRASH_DUMP_CNTL				0x00000819
+-
+-#define REG_A5XX_CP_ME_STAT_ADDR				0x0000081a
+-
+-#define REG_A5XX_CP_ROQ_THRESHOLDS_1				0x0000081f
+-
+-#define REG_A5XX_CP_ROQ_THRESHOLDS_2				0x00000820
+-
+-#define REG_A5XX_CP_ROQ_DBG_ADDR				0x00000821
+-
+-#define REG_A5XX_CP_ROQ_DBG_DATA				0x00000822
+-
+-#define REG_A5XX_CP_MEQ_DBG_ADDR				0x00000823
+-
+-#define REG_A5XX_CP_MEQ_DBG_DATA				0x00000824
+-
+-#define REG_A5XX_CP_MEQ_THRESHOLDS				0x00000825
+-
+-#define REG_A5XX_CP_MERCIU_SIZE					0x00000826
+-
+-#define REG_A5XX_CP_MERCIU_DBG_ADDR				0x00000827
+-
+-#define REG_A5XX_CP_MERCIU_DBG_DATA_1				0x00000828
+-
+-#define REG_A5XX_CP_MERCIU_DBG_DATA_2				0x00000829
+-
+-#define REG_A5XX_CP_PFP_UCODE_DBG_ADDR				0x0000082a
+-
+-#define REG_A5XX_CP_PFP_UCODE_DBG_DATA				0x0000082b
+-
+-#define REG_A5XX_CP_ME_UCODE_DBG_ADDR				0x0000082f
+-
+-#define REG_A5XX_CP_ME_UCODE_DBG_DATA				0x00000830
+-
+-#define REG_A5XX_CP_CNTL					0x00000831
+-
+-#define REG_A5XX_CP_PFP_ME_CNTL					0x00000832
+-
+-#define REG_A5XX_CP_CHICKEN_DBG					0x00000833
+-
+-#define REG_A5XX_CP_PFP_INSTR_BASE_LO				0x00000835
+-
+-#define REG_A5XX_CP_PFP_INSTR_BASE_HI				0x00000836
+-
+-#define REG_A5XX_CP_ME_INSTR_BASE_LO				0x00000838
+-
+-#define REG_A5XX_CP_ME_INSTR_BASE_HI				0x00000839
+-
+-#define REG_A5XX_CP_CONTEXT_SWITCH_CNTL				0x0000083b
+-
+-#define REG_A5XX_CP_CONTEXT_SWITCH_RESTORE_ADDR_LO		0x0000083c
+-
+-#define REG_A5XX_CP_CONTEXT_SWITCH_RESTORE_ADDR_HI		0x0000083d
+-
+-#define REG_A5XX_CP_CONTEXT_SWITCH_SAVE_ADDR_LO			0x0000083e
+-
+-#define REG_A5XX_CP_CONTEXT_SWITCH_SAVE_ADDR_HI			0x0000083f
+-
+-#define REG_A5XX_CP_CONTEXT_SWITCH_SMMU_INFO_LO			0x00000840
+-
+-#define REG_A5XX_CP_CONTEXT_SWITCH_SMMU_INFO_HI			0x00000841
+-
+-#define REG_A5XX_CP_ADDR_MODE_CNTL				0x00000860
+-
+-#define REG_A5XX_CP_ME_STAT_DATA				0x00000b14
+-
+-#define REG_A5XX_CP_WFI_PEND_CTR				0x00000b15
+-
+-#define REG_A5XX_CP_INTERRUPT_STATUS				0x00000b18
+-
+-#define REG_A5XX_CP_HW_FAULT					0x00000b1a
+-
+-#define REG_A5XX_CP_PROTECT_STATUS				0x00000b1c
+-
+-#define REG_A5XX_CP_IB1_BASE					0x00000b1f
+-
+-#define REG_A5XX_CP_IB1_BASE_HI					0x00000b20
+-
+-#define REG_A5XX_CP_IB1_BUFSZ					0x00000b21
+-
+-#define REG_A5XX_CP_IB2_BASE					0x00000b22
+-
+-#define REG_A5XX_CP_IB2_BASE_HI					0x00000b23
+-
+-#define REG_A5XX_CP_IB2_BUFSZ					0x00000b24
+-
+-#define REG_A5XX_CP_SCRATCH(i0) (0x00000b78 + 0x1*(i0))
+-
+-static inline uint32_t REG_A5XX_CP_SCRATCH_REG(uint32_t i0) { return 0x00000b78 + 0x1*i0; }
+-
+-#define REG_A5XX_CP_PROTECT(i0) (0x00000880 + 0x1*(i0))
+-
+-static inline uint32_t REG_A5XX_CP_PROTECT_REG(uint32_t i0) { return 0x00000880 + 0x1*i0; }
+-#define A5XX_CP_PROTECT_REG_BASE_ADDR__MASK			0x0001ffff
+-#define A5XX_CP_PROTECT_REG_BASE_ADDR__SHIFT			0
+-static inline uint32_t A5XX_CP_PROTECT_REG_BASE_ADDR(uint32_t val)
+-{
+-	return ((val) << A5XX_CP_PROTECT_REG_BASE_ADDR__SHIFT) & A5XX_CP_PROTECT_REG_BASE_ADDR__MASK;
+-}
+-#define A5XX_CP_PROTECT_REG_MASK_LEN__MASK			0x1f000000
+-#define A5XX_CP_PROTECT_REG_MASK_LEN__SHIFT			24
+-static inline uint32_t A5XX_CP_PROTECT_REG_MASK_LEN(uint32_t val)
+-{
+-	return ((val) << A5XX_CP_PROTECT_REG_MASK_LEN__SHIFT) & A5XX_CP_PROTECT_REG_MASK_LEN__MASK;
+-}
+-#define A5XX_CP_PROTECT_REG_TRAP_WRITE				0x20000000
+-#define A5XX_CP_PROTECT_REG_TRAP_READ				0x40000000
+-
+-#define REG_A5XX_CP_PROTECT_CNTL				0x000008a0
+-
+-#define REG_A5XX_CP_AHB_FAULT					0x00000b1b
+-
+-#define REG_A5XX_CP_PERFCTR_CP_SEL_0				0x00000bb0
+-
+-#define REG_A5XX_CP_PERFCTR_CP_SEL_1				0x00000bb1
+-
+-#define REG_A5XX_CP_PERFCTR_CP_SEL_2				0x00000bb2
+-
+-#define REG_A5XX_CP_PERFCTR_CP_SEL_3				0x00000bb3
+-
+-#define REG_A5XX_CP_PERFCTR_CP_SEL_4				0x00000bb4
+-
+-#define REG_A5XX_CP_PERFCTR_CP_SEL_5				0x00000bb5
+-
+-#define REG_A5XX_CP_PERFCTR_CP_SEL_6				0x00000bb6
+-
+-#define REG_A5XX_CP_PERFCTR_CP_SEL_7				0x00000bb7
+-
+-#define REG_A5XX_VSC_ADDR_MODE_CNTL				0x00000bc1
+-
+-#define REG_A5XX_CP_POWERCTR_CP_SEL_0				0x00000bba
+-
+-#define REG_A5XX_CP_POWERCTR_CP_SEL_1				0x00000bbb
+-
+-#define REG_A5XX_CP_POWERCTR_CP_SEL_2				0x00000bbc
+-
+-#define REG_A5XX_CP_POWERCTR_CP_SEL_3				0x00000bbd
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_SEL_A				0x00000004
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_SEL_B				0x00000005
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_SEL_C				0x00000006
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_SEL_D				0x00000007
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_CNTLT				0x00000008
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_CNTLM				0x00000009
+-
+-#define REG_A5XX_RBBM_CFG_DEBBUS_CTLTM_ENABLE_SHIFT		0x00000018
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_OPL				0x0000000a
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_OPE				0x0000000b
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_IVTL_0				0x0000000c
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_IVTL_1				0x0000000d
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_IVTL_2				0x0000000e
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_IVTL_3				0x0000000f
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_MASKL_0			0x00000010
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_MASKL_1			0x00000011
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_MASKL_2			0x00000012
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_MASKL_3			0x00000013
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_BYTEL_0			0x00000014
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_BYTEL_1			0x00000015
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_IVTE_0				0x00000016
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_IVTE_1				0x00000017
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_IVTE_2				0x00000018
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_IVTE_3				0x00000019
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_MASKE_0			0x0000001a
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_MASKE_1			0x0000001b
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_MASKE_2			0x0000001c
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_MASKE_3			0x0000001d
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_NIBBLEE			0x0000001e
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_PTRC0				0x0000001f
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_PTRC1				0x00000020
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_LOADREG			0x00000021
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_IDX				0x00000022
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_CLRC				0x00000023
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_LOADIVT			0x00000024
+-
+-#define REG_A5XX_RBBM_INTERFACE_HANG_INT_CNTL			0x0000002f
+-
+-#define REG_A5XX_RBBM_INT_CLEAR_CMD				0x00000037
+-
+-#define REG_A5XX_RBBM_INT_0_MASK				0x00000038
+-#define A5XX_RBBM_INT_0_MASK_RBBM_GPU_IDLE			0x00000001
+-#define A5XX_RBBM_INT_0_MASK_RBBM_AHB_ERROR			0x00000002
+-#define A5XX_RBBM_INT_0_MASK_RBBM_TRANSFER_TIMEOUT		0x00000004
+-#define A5XX_RBBM_INT_0_MASK_RBBM_ME_MS_TIMEOUT			0x00000008
+-#define A5XX_RBBM_INT_0_MASK_RBBM_PFP_MS_TIMEOUT		0x00000010
+-#define A5XX_RBBM_INT_0_MASK_RBBM_ETS_MS_TIMEOUT		0x00000020
+-#define A5XX_RBBM_INT_0_MASK_RBBM_ATB_ASYNC_OVERFLOW		0x00000040
+-#define A5XX_RBBM_INT_0_MASK_RBBM_GPC_ERROR			0x00000080
+-#define A5XX_RBBM_INT_0_MASK_CP_SW				0x00000100
+-#define A5XX_RBBM_INT_0_MASK_CP_HW_ERROR			0x00000200
+-#define A5XX_RBBM_INT_0_MASK_CP_CCU_FLUSH_DEPTH_TS		0x00000400
+-#define A5XX_RBBM_INT_0_MASK_CP_CCU_FLUSH_COLOR_TS		0x00000800
+-#define A5XX_RBBM_INT_0_MASK_CP_CCU_RESOLVE_TS			0x00001000
+-#define A5XX_RBBM_INT_0_MASK_CP_IB2				0x00002000
+-#define A5XX_RBBM_INT_0_MASK_CP_IB1				0x00004000
+-#define A5XX_RBBM_INT_0_MASK_CP_RB				0x00008000
+-#define A5XX_RBBM_INT_0_MASK_CP_RB_DONE_TS			0x00020000
+-#define A5XX_RBBM_INT_0_MASK_CP_WT_DONE_TS			0x00040000
+-#define A5XX_RBBM_INT_0_MASK_CP_CACHE_FLUSH_TS			0x00100000
+-#define A5XX_RBBM_INT_0_MASK_RBBM_ATB_BUS_OVERFLOW		0x00400000
+-#define A5XX_RBBM_INT_0_MASK_MISC_HANG_DETECT			0x00800000
+-#define A5XX_RBBM_INT_0_MASK_UCHE_OOB_ACCESS			0x01000000
+-#define A5XX_RBBM_INT_0_MASK_UCHE_TRAP_INTR			0x02000000
+-#define A5XX_RBBM_INT_0_MASK_DEBBUS_INTR_0			0x04000000
+-#define A5XX_RBBM_INT_0_MASK_DEBBUS_INTR_1			0x08000000
+-#define A5XX_RBBM_INT_0_MASK_GPMU_VOLTAGE_DROOP			0x10000000
+-#define A5XX_RBBM_INT_0_MASK_GPMU_FIRMWARE			0x20000000
+-#define A5XX_RBBM_INT_0_MASK_ISDB_CPU_IRQ			0x40000000
+-#define A5XX_RBBM_INT_0_MASK_ISDB_UNDER_DEBUG			0x80000000
+-
+-#define REG_A5XX_RBBM_AHB_DBG_CNTL				0x0000003f
+-
+-#define REG_A5XX_RBBM_EXT_VBIF_DBG_CNTL				0x00000041
+-
+-#define REG_A5XX_RBBM_SW_RESET_CMD				0x00000043
+-
+-#define REG_A5XX_RBBM_BLOCK_SW_RESET_CMD			0x00000045
+-
+-#define REG_A5XX_RBBM_BLOCK_SW_RESET_CMD2			0x00000046
+-
+-#define REG_A5XX_RBBM_DBG_LO_HI_GPIO				0x00000048
+-
+-#define REG_A5XX_RBBM_EXT_TRACE_BUS_CNTL			0x00000049
+-
+-#define REG_A5XX_RBBM_CLOCK_CNTL_TP0				0x0000004a
+-
+-#define REG_A5XX_RBBM_CLOCK_CNTL_TP1				0x0000004b
+-
+-#define REG_A5XX_RBBM_CLOCK_CNTL_TP2				0x0000004c
+-
+-#define REG_A5XX_RBBM_CLOCK_CNTL_TP3				0x0000004d
+-
+-#define REG_A5XX_RBBM_CLOCK_CNTL2_TP0				0x0000004e
+-
+-#define REG_A5XX_RBBM_CLOCK_CNTL2_TP1				0x0000004f
+-
+-#define REG_A5XX_RBBM_CLOCK_CNTL2_TP2				0x00000050
+-
+-#define REG_A5XX_RBBM_CLOCK_CNTL2_TP3				0x00000051
+-
+-#define REG_A5XX_RBBM_CLOCK_CNTL3_TP0				0x00000052
+-
+-#define REG_A5XX_RBBM_CLOCK_CNTL3_TP1				0x00000053
+-
+-#define REG_A5XX_RBBM_CLOCK_CNTL3_TP2				0x00000054
+-
+-#define REG_A5XX_RBBM_CLOCK_CNTL3_TP3				0x00000055
+-
+-#define REG_A5XX_RBBM_READ_AHB_THROUGH_DBG			0x00000059
+-
+-#define REG_A5XX_RBBM_CLOCK_CNTL_UCHE				0x0000005a
+-
+-#define REG_A5XX_RBBM_CLOCK_CNTL2_UCHE				0x0000005b
+-
+-#define REG_A5XX_RBBM_CLOCK_CNTL3_UCHE				0x0000005c
+-
+-#define REG_A5XX_RBBM_CLOCK_CNTL4_UCHE				0x0000005d
+-
+-#define REG_A5XX_RBBM_CLOCK_HYST_UCHE				0x0000005e
+-
+-#define REG_A5XX_RBBM_CLOCK_DELAY_UCHE				0x0000005f
+-
+-#define REG_A5XX_RBBM_CLOCK_MODE_GPC				0x00000060
+-
+-#define REG_A5XX_RBBM_CLOCK_DELAY_GPC				0x00000061
+-
+-#define REG_A5XX_RBBM_CLOCK_HYST_GPC				0x00000062
+-
+-#define REG_A5XX_RBBM_CLOCK_CNTL_TSE_RAS_RBBM			0x00000063
+-
+-#define REG_A5XX_RBBM_CLOCK_HYST_TSE_RAS_RBBM			0x00000064
+-
+-#define REG_A5XX_RBBM_CLOCK_DELAY_TSE_RAS_RBBM			0x00000065
+-
+-#define REG_A5XX_RBBM_CLOCK_DELAY_HLSQ				0x00000066
+-
+-#define REG_A5XX_RBBM_CLOCK_CNTL				0x00000067
+-
+-#define REG_A5XX_RBBM_CLOCK_CNTL_SP0				0x00000068
+-
+-#define REG_A5XX_RBBM_CLOCK_CNTL_SP1				0x00000069
+-
+-#define REG_A5XX_RBBM_CLOCK_CNTL_SP2				0x0000006a
+-
+-#define REG_A5XX_RBBM_CLOCK_CNTL_SP3				0x0000006b
+-
+-#define REG_A5XX_RBBM_CLOCK_CNTL2_SP0				0x0000006c
+-
+-#define REG_A5XX_RBBM_CLOCK_CNTL2_SP1				0x0000006d
+-
+-#define REG_A5XX_RBBM_CLOCK_CNTL2_SP2				0x0000006e
+-
+-#define REG_A5XX_RBBM_CLOCK_CNTL2_SP3				0x0000006f
+-
+-#define REG_A5XX_RBBM_CLOCK_HYST_SP0				0x00000070
+-
+-#define REG_A5XX_RBBM_CLOCK_HYST_SP1				0x00000071
+-
+-#define REG_A5XX_RBBM_CLOCK_HYST_SP2				0x00000072
+-
+-#define REG_A5XX_RBBM_CLOCK_HYST_SP3				0x00000073
+-
+-#define REG_A5XX_RBBM_CLOCK_DELAY_SP0				0x00000074
+-
+-#define REG_A5XX_RBBM_CLOCK_DELAY_SP1				0x00000075
+-
+-#define REG_A5XX_RBBM_CLOCK_DELAY_SP2				0x00000076
+-
+-#define REG_A5XX_RBBM_CLOCK_DELAY_SP3				0x00000077
+-
+-#define REG_A5XX_RBBM_CLOCK_CNTL_RB0				0x00000078
+-
+-#define REG_A5XX_RBBM_CLOCK_CNTL_RB1				0x00000079
+-
+-#define REG_A5XX_RBBM_CLOCK_CNTL_RB2				0x0000007a
+-
+-#define REG_A5XX_RBBM_CLOCK_CNTL_RB3				0x0000007b
+-
+-#define REG_A5XX_RBBM_CLOCK_CNTL2_RB0				0x0000007c
+-
+-#define REG_A5XX_RBBM_CLOCK_CNTL2_RB1				0x0000007d
+-
+-#define REG_A5XX_RBBM_CLOCK_CNTL2_RB2				0x0000007e
+-
+-#define REG_A5XX_RBBM_CLOCK_CNTL2_RB3				0x0000007f
+-
+-#define REG_A5XX_RBBM_CLOCK_HYST_RAC				0x00000080
+-
+-#define REG_A5XX_RBBM_CLOCK_DELAY_RAC				0x00000081
+-
+-#define REG_A5XX_RBBM_CLOCK_CNTL_CCU0				0x00000082
+-
+-#define REG_A5XX_RBBM_CLOCK_CNTL_CCU1				0x00000083
+-
+-#define REG_A5XX_RBBM_CLOCK_CNTL_CCU2				0x00000084
+-
+-#define REG_A5XX_RBBM_CLOCK_CNTL_CCU3				0x00000085
+-
+-#define REG_A5XX_RBBM_CLOCK_HYST_RB_CCU0			0x00000086
+-
+-#define REG_A5XX_RBBM_CLOCK_HYST_RB_CCU1			0x00000087
+-
+-#define REG_A5XX_RBBM_CLOCK_HYST_RB_CCU2			0x00000088
+-
+-#define REG_A5XX_RBBM_CLOCK_HYST_RB_CCU3			0x00000089
+-
+-#define REG_A5XX_RBBM_CLOCK_CNTL_RAC				0x0000008a
+-
+-#define REG_A5XX_RBBM_CLOCK_CNTL2_RAC				0x0000008b
+-
+-#define REG_A5XX_RBBM_CLOCK_DELAY_RB_CCU_L1_0			0x0000008c
+-
+-#define REG_A5XX_RBBM_CLOCK_DELAY_RB_CCU_L1_1			0x0000008d
+-
+-#define REG_A5XX_RBBM_CLOCK_DELAY_RB_CCU_L1_2			0x0000008e
+-
+-#define REG_A5XX_RBBM_CLOCK_DELAY_RB_CCU_L1_3			0x0000008f
+-
+-#define REG_A5XX_RBBM_CLOCK_HYST_VFD				0x00000090
+-
+-#define REG_A5XX_RBBM_CLOCK_MODE_VFD				0x00000091
+-
+-#define REG_A5XX_RBBM_CLOCK_DELAY_VFD				0x00000092
+-
+-#define REG_A5XX_RBBM_AHB_CNTL0					0x00000093
+-
+-#define REG_A5XX_RBBM_AHB_CNTL1					0x00000094
+-
+-#define REG_A5XX_RBBM_AHB_CNTL2					0x00000095
+-
+-#define REG_A5XX_RBBM_AHB_CMD					0x00000096
+-
+-#define REG_A5XX_RBBM_INTERFACE_HANG_MASK_CNTL11		0x0000009c
+-
+-#define REG_A5XX_RBBM_INTERFACE_HANG_MASK_CNTL12		0x0000009d
+-
+-#define REG_A5XX_RBBM_INTERFACE_HANG_MASK_CNTL13		0x0000009e
+-
+-#define REG_A5XX_RBBM_INTERFACE_HANG_MASK_CNTL14		0x0000009f
+-
+-#define REG_A5XX_RBBM_INTERFACE_HANG_MASK_CNTL15		0x000000a0
+-
+-#define REG_A5XX_RBBM_INTERFACE_HANG_MASK_CNTL16		0x000000a1
+-
+-#define REG_A5XX_RBBM_INTERFACE_HANG_MASK_CNTL17		0x000000a2
+-
+-#define REG_A5XX_RBBM_INTERFACE_HANG_MASK_CNTL18		0x000000a3
+-
+-#define REG_A5XX_RBBM_CLOCK_DELAY_TP0				0x000000a4
+-
+-#define REG_A5XX_RBBM_CLOCK_DELAY_TP1				0x000000a5
+-
+-#define REG_A5XX_RBBM_CLOCK_DELAY_TP2				0x000000a6
+-
+-#define REG_A5XX_RBBM_CLOCK_DELAY_TP3				0x000000a7
+-
+-#define REG_A5XX_RBBM_CLOCK_DELAY2_TP0				0x000000a8
+-
+-#define REG_A5XX_RBBM_CLOCK_DELAY2_TP1				0x000000a9
+-
+-#define REG_A5XX_RBBM_CLOCK_DELAY2_TP2				0x000000aa
+-
+-#define REG_A5XX_RBBM_CLOCK_DELAY2_TP3				0x000000ab
+-
+-#define REG_A5XX_RBBM_CLOCK_DELAY3_TP0				0x000000ac
+-
+-#define REG_A5XX_RBBM_CLOCK_DELAY3_TP1				0x000000ad
+-
+-#define REG_A5XX_RBBM_CLOCK_DELAY3_TP2				0x000000ae
+-
+-#define REG_A5XX_RBBM_CLOCK_DELAY3_TP3				0x000000af
+-
+-#define REG_A5XX_RBBM_CLOCK_HYST_TP0				0x000000b0
+-
+-#define REG_A5XX_RBBM_CLOCK_HYST_TP1				0x000000b1
+-
+-#define REG_A5XX_RBBM_CLOCK_HYST_TP2				0x000000b2
+-
+-#define REG_A5XX_RBBM_CLOCK_HYST_TP3				0x000000b3
+-
+-#define REG_A5XX_RBBM_CLOCK_HYST2_TP0				0x000000b4
+-
+-#define REG_A5XX_RBBM_CLOCK_HYST2_TP1				0x000000b5
+-
+-#define REG_A5XX_RBBM_CLOCK_HYST2_TP2				0x000000b6
+-
+-#define REG_A5XX_RBBM_CLOCK_HYST2_TP3				0x000000b7
+-
+-#define REG_A5XX_RBBM_CLOCK_HYST3_TP0				0x000000b8
+-
+-#define REG_A5XX_RBBM_CLOCK_HYST3_TP1				0x000000b9
+-
+-#define REG_A5XX_RBBM_CLOCK_HYST3_TP2				0x000000ba
+-
+-#define REG_A5XX_RBBM_CLOCK_HYST3_TP3				0x000000bb
+-
+-#define REG_A5XX_RBBM_CLOCK_CNTL_GPMU				0x000000c8
+-
+-#define REG_A5XX_RBBM_CLOCK_DELAY_GPMU				0x000000c9
+-
+-#define REG_A5XX_RBBM_CLOCK_HYST_GPMU				0x000000ca
+-
+-#define REG_A5XX_RBBM_PERFCTR_CP_0_LO				0x000003a0
+-
+-#define REG_A5XX_RBBM_PERFCTR_CP_0_HI				0x000003a1
+-
+-#define REG_A5XX_RBBM_PERFCTR_CP_1_LO				0x000003a2
+-
+-#define REG_A5XX_RBBM_PERFCTR_CP_1_HI				0x000003a3
+-
+-#define REG_A5XX_RBBM_PERFCTR_CP_2_LO				0x000003a4
+-
+-#define REG_A5XX_RBBM_PERFCTR_CP_2_HI				0x000003a5
+-
+-#define REG_A5XX_RBBM_PERFCTR_CP_3_LO				0x000003a6
+-
+-#define REG_A5XX_RBBM_PERFCTR_CP_3_HI				0x000003a7
+-
+-#define REG_A5XX_RBBM_PERFCTR_CP_4_LO				0x000003a8
+-
+-#define REG_A5XX_RBBM_PERFCTR_CP_4_HI				0x000003a9
+-
+-#define REG_A5XX_RBBM_PERFCTR_CP_5_LO				0x000003aa
+-
+-#define REG_A5XX_RBBM_PERFCTR_CP_5_HI				0x000003ab
+-
+-#define REG_A5XX_RBBM_PERFCTR_CP_6_LO				0x000003ac
+-
+-#define REG_A5XX_RBBM_PERFCTR_CP_6_HI				0x000003ad
+-
+-#define REG_A5XX_RBBM_PERFCTR_CP_7_LO				0x000003ae
+-
+-#define REG_A5XX_RBBM_PERFCTR_CP_7_HI				0x000003af
+-
+-#define REG_A5XX_RBBM_PERFCTR_RBBM_0_LO				0x000003b0
+-
+-#define REG_A5XX_RBBM_PERFCTR_RBBM_0_HI				0x000003b1
+-
+-#define REG_A5XX_RBBM_PERFCTR_RBBM_1_LO				0x000003b2
+-
+-#define REG_A5XX_RBBM_PERFCTR_RBBM_1_HI				0x000003b3
+-
+-#define REG_A5XX_RBBM_PERFCTR_RBBM_2_LO				0x000003b4
+-
+-#define REG_A5XX_RBBM_PERFCTR_RBBM_2_HI				0x000003b5
+-
+-#define REG_A5XX_RBBM_PERFCTR_RBBM_3_LO				0x000003b6
+-
+-#define REG_A5XX_RBBM_PERFCTR_RBBM_3_HI				0x000003b7
+-
+-#define REG_A5XX_RBBM_PERFCTR_PC_0_LO				0x000003b8
+-
+-#define REG_A5XX_RBBM_PERFCTR_PC_0_HI				0x000003b9
+-
+-#define REG_A5XX_RBBM_PERFCTR_PC_1_LO				0x000003ba
+-
+-#define REG_A5XX_RBBM_PERFCTR_PC_1_HI				0x000003bb
+-
+-#define REG_A5XX_RBBM_PERFCTR_PC_2_LO				0x000003bc
+-
+-#define REG_A5XX_RBBM_PERFCTR_PC_2_HI				0x000003bd
+-
+-#define REG_A5XX_RBBM_PERFCTR_PC_3_LO				0x000003be
+-
+-#define REG_A5XX_RBBM_PERFCTR_PC_3_HI				0x000003bf
+-
+-#define REG_A5XX_RBBM_PERFCTR_PC_4_LO				0x000003c0
+-
+-#define REG_A5XX_RBBM_PERFCTR_PC_4_HI				0x000003c1
+-
+-#define REG_A5XX_RBBM_PERFCTR_PC_5_LO				0x000003c2
+-
+-#define REG_A5XX_RBBM_PERFCTR_PC_5_HI				0x000003c3
+-
+-#define REG_A5XX_RBBM_PERFCTR_PC_6_LO				0x000003c4
+-
+-#define REG_A5XX_RBBM_PERFCTR_PC_6_HI				0x000003c5
+-
+-#define REG_A5XX_RBBM_PERFCTR_PC_7_LO				0x000003c6
+-
+-#define REG_A5XX_RBBM_PERFCTR_PC_7_HI				0x000003c7
+-
+-#define REG_A5XX_RBBM_PERFCTR_VFD_0_LO				0x000003c8
+-
+-#define REG_A5XX_RBBM_PERFCTR_VFD_0_HI				0x000003c9
+-
+-#define REG_A5XX_RBBM_PERFCTR_VFD_1_LO				0x000003ca
+-
+-#define REG_A5XX_RBBM_PERFCTR_VFD_1_HI				0x000003cb
+-
+-#define REG_A5XX_RBBM_PERFCTR_VFD_2_LO				0x000003cc
+-
+-#define REG_A5XX_RBBM_PERFCTR_VFD_2_HI				0x000003cd
+-
+-#define REG_A5XX_RBBM_PERFCTR_VFD_3_LO				0x000003ce
+-
+-#define REG_A5XX_RBBM_PERFCTR_VFD_3_HI				0x000003cf
+-
+-#define REG_A5XX_RBBM_PERFCTR_VFD_4_LO				0x000003d0
+-
+-#define REG_A5XX_RBBM_PERFCTR_VFD_4_HI				0x000003d1
+-
+-#define REG_A5XX_RBBM_PERFCTR_VFD_5_LO				0x000003d2
+-
+-#define REG_A5XX_RBBM_PERFCTR_VFD_5_HI				0x000003d3
+-
+-#define REG_A5XX_RBBM_PERFCTR_VFD_6_LO				0x000003d4
+-
+-#define REG_A5XX_RBBM_PERFCTR_VFD_6_HI				0x000003d5
+-
+-#define REG_A5XX_RBBM_PERFCTR_VFD_7_LO				0x000003d6
+-
+-#define REG_A5XX_RBBM_PERFCTR_VFD_7_HI				0x000003d7
+-
+-#define REG_A5XX_RBBM_PERFCTR_HLSQ_0_LO				0x000003d8
+-
+-#define REG_A5XX_RBBM_PERFCTR_HLSQ_0_HI				0x000003d9
+-
+-#define REG_A5XX_RBBM_PERFCTR_HLSQ_1_LO				0x000003da
+-
+-#define REG_A5XX_RBBM_PERFCTR_HLSQ_1_HI				0x000003db
+-
+-#define REG_A5XX_RBBM_PERFCTR_HLSQ_2_LO				0x000003dc
+-
+-#define REG_A5XX_RBBM_PERFCTR_HLSQ_2_HI				0x000003dd
+-
+-#define REG_A5XX_RBBM_PERFCTR_HLSQ_3_LO				0x000003de
+-
+-#define REG_A5XX_RBBM_PERFCTR_HLSQ_3_HI				0x000003df
+-
+-#define REG_A5XX_RBBM_PERFCTR_HLSQ_4_LO				0x000003e0
+-
+-#define REG_A5XX_RBBM_PERFCTR_HLSQ_4_HI				0x000003e1
+-
+-#define REG_A5XX_RBBM_PERFCTR_HLSQ_5_LO				0x000003e2
+-
+-#define REG_A5XX_RBBM_PERFCTR_HLSQ_5_HI				0x000003e3
+-
+-#define REG_A5XX_RBBM_PERFCTR_HLSQ_6_LO				0x000003e4
+-
+-#define REG_A5XX_RBBM_PERFCTR_HLSQ_6_HI				0x000003e5
+-
+-#define REG_A5XX_RBBM_PERFCTR_HLSQ_7_LO				0x000003e6
+-
+-#define REG_A5XX_RBBM_PERFCTR_HLSQ_7_HI				0x000003e7
+-
+-#define REG_A5XX_RBBM_PERFCTR_VPC_0_LO				0x000003e8
+-
+-#define REG_A5XX_RBBM_PERFCTR_VPC_0_HI				0x000003e9
+-
+-#define REG_A5XX_RBBM_PERFCTR_VPC_1_LO				0x000003ea
+-
+-#define REG_A5XX_RBBM_PERFCTR_VPC_1_HI				0x000003eb
+-
+-#define REG_A5XX_RBBM_PERFCTR_VPC_2_LO				0x000003ec
+-
+-#define REG_A5XX_RBBM_PERFCTR_VPC_2_HI				0x000003ed
+-
+-#define REG_A5XX_RBBM_PERFCTR_VPC_3_LO				0x000003ee
+-
+-#define REG_A5XX_RBBM_PERFCTR_VPC_3_HI				0x000003ef
+-
+-#define REG_A5XX_RBBM_PERFCTR_CCU_0_LO				0x000003f0
+-
+-#define REG_A5XX_RBBM_PERFCTR_CCU_0_HI				0x000003f1
+-
+-#define REG_A5XX_RBBM_PERFCTR_CCU_1_LO				0x000003f2
+-
+-#define REG_A5XX_RBBM_PERFCTR_CCU_1_HI				0x000003f3
+-
+-#define REG_A5XX_RBBM_PERFCTR_CCU_2_LO				0x000003f4
+-
+-#define REG_A5XX_RBBM_PERFCTR_CCU_2_HI				0x000003f5
+-
+-#define REG_A5XX_RBBM_PERFCTR_CCU_3_LO				0x000003f6
+-
+-#define REG_A5XX_RBBM_PERFCTR_CCU_3_HI				0x000003f7
+-
+-#define REG_A5XX_RBBM_PERFCTR_TSE_0_LO				0x000003f8
+-
+-#define REG_A5XX_RBBM_PERFCTR_TSE_0_HI				0x000003f9
+-
+-#define REG_A5XX_RBBM_PERFCTR_TSE_1_LO				0x000003fa
+-
+-#define REG_A5XX_RBBM_PERFCTR_TSE_1_HI				0x000003fb
+-
+-#define REG_A5XX_RBBM_PERFCTR_TSE_2_LO				0x000003fc
+-
+-#define REG_A5XX_RBBM_PERFCTR_TSE_2_HI				0x000003fd
+-
+-#define REG_A5XX_RBBM_PERFCTR_TSE_3_LO				0x000003fe
+-
+-#define REG_A5XX_RBBM_PERFCTR_TSE_3_HI				0x000003ff
+-
+-#define REG_A5XX_RBBM_PERFCTR_RAS_0_LO				0x00000400
+-
+-#define REG_A5XX_RBBM_PERFCTR_RAS_0_HI				0x00000401
+-
+-#define REG_A5XX_RBBM_PERFCTR_RAS_1_LO				0x00000402
+-
+-#define REG_A5XX_RBBM_PERFCTR_RAS_1_HI				0x00000403
+-
+-#define REG_A5XX_RBBM_PERFCTR_RAS_2_LO				0x00000404
+-
+-#define REG_A5XX_RBBM_PERFCTR_RAS_2_HI				0x00000405
+-
+-#define REG_A5XX_RBBM_PERFCTR_RAS_3_LO				0x00000406
+-
+-#define REG_A5XX_RBBM_PERFCTR_RAS_3_HI				0x00000407
+-
+-#define REG_A5XX_RBBM_PERFCTR_UCHE_0_LO				0x00000408
+-
+-#define REG_A5XX_RBBM_PERFCTR_UCHE_0_HI				0x00000409
+-
+-#define REG_A5XX_RBBM_PERFCTR_UCHE_1_LO				0x0000040a
+-
+-#define REG_A5XX_RBBM_PERFCTR_UCHE_1_HI				0x0000040b
+-
+-#define REG_A5XX_RBBM_PERFCTR_UCHE_2_LO				0x0000040c
+-
+-#define REG_A5XX_RBBM_PERFCTR_UCHE_2_HI				0x0000040d
+-
+-#define REG_A5XX_RBBM_PERFCTR_UCHE_3_LO				0x0000040e
+-
+-#define REG_A5XX_RBBM_PERFCTR_UCHE_3_HI				0x0000040f
+-
+-#define REG_A5XX_RBBM_PERFCTR_UCHE_4_LO				0x00000410
+-
+-#define REG_A5XX_RBBM_PERFCTR_UCHE_4_HI				0x00000411
+-
+-#define REG_A5XX_RBBM_PERFCTR_UCHE_5_LO				0x00000412
+-
+-#define REG_A5XX_RBBM_PERFCTR_UCHE_5_HI				0x00000413
+-
+-#define REG_A5XX_RBBM_PERFCTR_UCHE_6_LO				0x00000414
+-
+-#define REG_A5XX_RBBM_PERFCTR_UCHE_6_HI				0x00000415
+-
+-#define REG_A5XX_RBBM_PERFCTR_UCHE_7_LO				0x00000416
+-
+-#define REG_A5XX_RBBM_PERFCTR_UCHE_7_HI				0x00000417
+-
+-#define REG_A5XX_RBBM_PERFCTR_TP_0_LO				0x00000418
+-
+-#define REG_A5XX_RBBM_PERFCTR_TP_0_HI				0x00000419
+-
+-#define REG_A5XX_RBBM_PERFCTR_TP_1_LO				0x0000041a
+-
+-#define REG_A5XX_RBBM_PERFCTR_TP_1_HI				0x0000041b
+-
+-#define REG_A5XX_RBBM_PERFCTR_TP_2_LO				0x0000041c
+-
+-#define REG_A5XX_RBBM_PERFCTR_TP_2_HI				0x0000041d
+-
+-#define REG_A5XX_RBBM_PERFCTR_TP_3_LO				0x0000041e
+-
+-#define REG_A5XX_RBBM_PERFCTR_TP_3_HI				0x0000041f
+-
+-#define REG_A5XX_RBBM_PERFCTR_TP_4_LO				0x00000420
+-
+-#define REG_A5XX_RBBM_PERFCTR_TP_4_HI				0x00000421
+-
+-#define REG_A5XX_RBBM_PERFCTR_TP_5_LO				0x00000422
+-
+-#define REG_A5XX_RBBM_PERFCTR_TP_5_HI				0x00000423
+-
+-#define REG_A5XX_RBBM_PERFCTR_TP_6_LO				0x00000424
+-
+-#define REG_A5XX_RBBM_PERFCTR_TP_6_HI				0x00000425
+-
+-#define REG_A5XX_RBBM_PERFCTR_TP_7_LO				0x00000426
+-
+-#define REG_A5XX_RBBM_PERFCTR_TP_7_HI				0x00000427
+-
+-#define REG_A5XX_RBBM_PERFCTR_SP_0_LO				0x00000428
+-
+-#define REG_A5XX_RBBM_PERFCTR_SP_0_HI				0x00000429
+-
+-#define REG_A5XX_RBBM_PERFCTR_SP_1_LO				0x0000042a
+-
+-#define REG_A5XX_RBBM_PERFCTR_SP_1_HI				0x0000042b
+-
+-#define REG_A5XX_RBBM_PERFCTR_SP_2_LO				0x0000042c
+-
+-#define REG_A5XX_RBBM_PERFCTR_SP_2_HI				0x0000042d
+-
+-#define REG_A5XX_RBBM_PERFCTR_SP_3_LO				0x0000042e
+-
+-#define REG_A5XX_RBBM_PERFCTR_SP_3_HI				0x0000042f
+-
+-#define REG_A5XX_RBBM_PERFCTR_SP_4_LO				0x00000430
+-
+-#define REG_A5XX_RBBM_PERFCTR_SP_4_HI				0x00000431
+-
+-#define REG_A5XX_RBBM_PERFCTR_SP_5_LO				0x00000432
+-
+-#define REG_A5XX_RBBM_PERFCTR_SP_5_HI				0x00000433
+-
+-#define REG_A5XX_RBBM_PERFCTR_SP_6_LO				0x00000434
+-
+-#define REG_A5XX_RBBM_PERFCTR_SP_6_HI				0x00000435
+-
+-#define REG_A5XX_RBBM_PERFCTR_SP_7_LO				0x00000436
+-
+-#define REG_A5XX_RBBM_PERFCTR_SP_7_HI				0x00000437
+-
+-#define REG_A5XX_RBBM_PERFCTR_SP_8_LO				0x00000438
+-
+-#define REG_A5XX_RBBM_PERFCTR_SP_8_HI				0x00000439
+-
+-#define REG_A5XX_RBBM_PERFCTR_SP_9_LO				0x0000043a
+-
+-#define REG_A5XX_RBBM_PERFCTR_SP_9_HI				0x0000043b
+-
+-#define REG_A5XX_RBBM_PERFCTR_SP_10_LO				0x0000043c
+-
+-#define REG_A5XX_RBBM_PERFCTR_SP_10_HI				0x0000043d
+-
+-#define REG_A5XX_RBBM_PERFCTR_SP_11_LO				0x0000043e
+-
+-#define REG_A5XX_RBBM_PERFCTR_SP_11_HI				0x0000043f
+-
+-#define REG_A5XX_RBBM_PERFCTR_RB_0_LO				0x00000440
+-
+-#define REG_A5XX_RBBM_PERFCTR_RB_0_HI				0x00000441
+-
+-#define REG_A5XX_RBBM_PERFCTR_RB_1_LO				0x00000442
+-
+-#define REG_A5XX_RBBM_PERFCTR_RB_1_HI				0x00000443
+-
+-#define REG_A5XX_RBBM_PERFCTR_RB_2_LO				0x00000444
+-
+-#define REG_A5XX_RBBM_PERFCTR_RB_2_HI				0x00000445
+-
+-#define REG_A5XX_RBBM_PERFCTR_RB_3_LO				0x00000446
+-
+-#define REG_A5XX_RBBM_PERFCTR_RB_3_HI				0x00000447
+-
+-#define REG_A5XX_RBBM_PERFCTR_RB_4_LO				0x00000448
+-
+-#define REG_A5XX_RBBM_PERFCTR_RB_4_HI				0x00000449
+-
+-#define REG_A5XX_RBBM_PERFCTR_RB_5_LO				0x0000044a
+-
+-#define REG_A5XX_RBBM_PERFCTR_RB_5_HI				0x0000044b
+-
+-#define REG_A5XX_RBBM_PERFCTR_RB_6_LO				0x0000044c
+-
+-#define REG_A5XX_RBBM_PERFCTR_RB_6_HI				0x0000044d
+-
+-#define REG_A5XX_RBBM_PERFCTR_RB_7_LO				0x0000044e
+-
+-#define REG_A5XX_RBBM_PERFCTR_RB_7_HI				0x0000044f
+-
+-#define REG_A5XX_RBBM_PERFCTR_VSC_0_LO				0x00000450
+-
+-#define REG_A5XX_RBBM_PERFCTR_VSC_0_HI				0x00000451
+-
+-#define REG_A5XX_RBBM_PERFCTR_VSC_1_LO				0x00000452
+-
+-#define REG_A5XX_RBBM_PERFCTR_VSC_1_HI				0x00000453
+-
+-#define REG_A5XX_RBBM_PERFCTR_LRZ_0_LO				0x00000454
+-
+-#define REG_A5XX_RBBM_PERFCTR_LRZ_0_HI				0x00000455
+-
+-#define REG_A5XX_RBBM_PERFCTR_LRZ_1_LO				0x00000456
+-
+-#define REG_A5XX_RBBM_PERFCTR_LRZ_1_HI				0x00000457
+-
+-#define REG_A5XX_RBBM_PERFCTR_LRZ_2_LO				0x00000458
+-
+-#define REG_A5XX_RBBM_PERFCTR_LRZ_2_HI				0x00000459
+-
+-#define REG_A5XX_RBBM_PERFCTR_LRZ_3_LO				0x0000045a
+-
+-#define REG_A5XX_RBBM_PERFCTR_LRZ_3_HI				0x0000045b
+-
+-#define REG_A5XX_RBBM_PERFCTR_CMP_0_LO				0x0000045c
+-
+-#define REG_A5XX_RBBM_PERFCTR_CMP_0_HI				0x0000045d
+-
+-#define REG_A5XX_RBBM_PERFCTR_CMP_1_LO				0x0000045e
+-
+-#define REG_A5XX_RBBM_PERFCTR_CMP_1_HI				0x0000045f
+-
+-#define REG_A5XX_RBBM_PERFCTR_CMP_2_LO				0x00000460
+-
+-#define REG_A5XX_RBBM_PERFCTR_CMP_2_HI				0x00000461
+-
+-#define REG_A5XX_RBBM_PERFCTR_CMP_3_LO				0x00000462
+-
+-#define REG_A5XX_RBBM_PERFCTR_CMP_3_HI				0x00000463
+-
+-#define REG_A5XX_RBBM_PERFCTR_RBBM_SEL_0			0x0000046b
+-
+-#define REG_A5XX_RBBM_PERFCTR_RBBM_SEL_1			0x0000046c
+-
+-#define REG_A5XX_RBBM_PERFCTR_RBBM_SEL_2			0x0000046d
+-
+-#define REG_A5XX_RBBM_PERFCTR_RBBM_SEL_3			0x0000046e
+-
+-#define REG_A5XX_RBBM_ALWAYSON_COUNTER_LO			0x000004d2
+-
+-#define REG_A5XX_RBBM_ALWAYSON_COUNTER_HI			0x000004d3
+-
+-#define REG_A5XX_RBBM_STATUS					0x000004f5
+-#define A5XX_RBBM_STATUS_GPU_BUSY_IGN_AHB			0x80000000
+-#define A5XX_RBBM_STATUS_GPU_BUSY_IGN_AHB_CP			0x40000000
+-#define A5XX_RBBM_STATUS_HLSQ_BUSY				0x20000000
+-#define A5XX_RBBM_STATUS_VSC_BUSY				0x10000000
+-#define A5XX_RBBM_STATUS_TPL1_BUSY				0x08000000
+-#define A5XX_RBBM_STATUS_SP_BUSY				0x04000000
+-#define A5XX_RBBM_STATUS_UCHE_BUSY				0x02000000
+-#define A5XX_RBBM_STATUS_VPC_BUSY				0x01000000
+-#define A5XX_RBBM_STATUS_VFDP_BUSY				0x00800000
+-#define A5XX_RBBM_STATUS_VFD_BUSY				0x00400000
+-#define A5XX_RBBM_STATUS_TESS_BUSY				0x00200000
+-#define A5XX_RBBM_STATUS_PC_VSD_BUSY				0x00100000
+-#define A5XX_RBBM_STATUS_PC_DCALL_BUSY				0x00080000
+-#define A5XX_RBBM_STATUS_GPMU_SLAVE_BUSY			0x00040000
+-#define A5XX_RBBM_STATUS_DCOM_BUSY				0x00020000
+-#define A5XX_RBBM_STATUS_COM_BUSY				0x00010000
+-#define A5XX_RBBM_STATUS_LRZ_BUZY				0x00008000
+-#define A5XX_RBBM_STATUS_A2D_DSP_BUSY				0x00004000
+-#define A5XX_RBBM_STATUS_CCUFCHE_BUSY				0x00002000
+-#define A5XX_RBBM_STATUS_RB_BUSY				0x00001000
+-#define A5XX_RBBM_STATUS_RAS_BUSY				0x00000800
+-#define A5XX_RBBM_STATUS_TSE_BUSY				0x00000400
+-#define A5XX_RBBM_STATUS_VBIF_BUSY				0x00000200
+-#define A5XX_RBBM_STATUS_GPU_BUSY_IGN_AHB_HYST			0x00000100
+-#define A5XX_RBBM_STATUS_CP_BUSY_IGN_HYST			0x00000080
+-#define A5XX_RBBM_STATUS_CP_BUSY				0x00000040
+-#define A5XX_RBBM_STATUS_GPMU_MASTER_BUSY			0x00000020
+-#define A5XX_RBBM_STATUS_CP_CRASH_BUSY				0x00000010
+-#define A5XX_RBBM_STATUS_CP_ETS_BUSY				0x00000008
+-#define A5XX_RBBM_STATUS_CP_PFP_BUSY				0x00000004
+-#define A5XX_RBBM_STATUS_CP_ME_BUSY				0x00000002
+-#define A5XX_RBBM_STATUS_HI_BUSY				0x00000001
+-
+-#define REG_A5XX_RBBM_STATUS3					0x00000530
+-#define A5XX_RBBM_STATUS3_SMMU_STALLED_ON_FAULT			0x01000000
+-
+-#define REG_A5XX_RBBM_INT_0_STATUS				0x000004e1
+-
+-#define REG_A5XX_RBBM_AHB_ME_SPLIT_STATUS			0x000004f0
+-
+-#define REG_A5XX_RBBM_AHB_PFP_SPLIT_STATUS			0x000004f1
+-
+-#define REG_A5XX_RBBM_AHB_ETS_SPLIT_STATUS			0x000004f3
+-
+-#define REG_A5XX_RBBM_AHB_ERROR_STATUS				0x000004f4
+-
+-#define REG_A5XX_RBBM_PERFCTR_CNTL				0x00000464
+-
+-#define REG_A5XX_RBBM_PERFCTR_LOAD_CMD0				0x00000465
+-
+-#define REG_A5XX_RBBM_PERFCTR_LOAD_CMD1				0x00000466
+-
+-#define REG_A5XX_RBBM_PERFCTR_LOAD_CMD2				0x00000467
+-
+-#define REG_A5XX_RBBM_PERFCTR_LOAD_CMD3				0x00000468
+-
+-#define REG_A5XX_RBBM_PERFCTR_LOAD_VALUE_LO			0x00000469
+-
+-#define REG_A5XX_RBBM_PERFCTR_LOAD_VALUE_HI			0x0000046a
+-
+-#define REG_A5XX_RBBM_PERFCTR_GPU_BUSY_MASKED			0x0000046f
+-
+-#define REG_A5XX_RBBM_AHB_ERROR					0x000004ed
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_EVENT_LOGIC			0x00000504
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_OVER				0x00000505
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_COUNT0				0x00000506
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_COUNT1				0x00000507
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_COUNT2				0x00000508
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_COUNT3				0x00000509
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_COUNT4				0x0000050a
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_COUNT5				0x0000050b
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_TRACE_ADDR			0x0000050c
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_TRACE_BUF0			0x0000050d
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_TRACE_BUF1			0x0000050e
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_TRACE_BUF2			0x0000050f
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_TRACE_BUF3			0x00000510
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_TRACE_BUF4			0x00000511
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_MISR0				0x00000512
+-
+-#define REG_A5XX_RBBM_CFG_DBGBUS_MISR1				0x00000513
+-
+-#define REG_A5XX_RBBM_ISDB_CNT					0x00000533
+-
+-#define REG_A5XX_RBBM_SECVID_TRUST_CONFIG			0x0000f000
+-
+-#define REG_A5XX_RBBM_SECVID_TRUST_CNTL				0x0000f400
+-
+-#define REG_A5XX_RBBM_SECVID_TSB_TRUSTED_BASE_LO		0x0000f800
+-
+-#define REG_A5XX_RBBM_SECVID_TSB_TRUSTED_BASE_HI		0x0000f801
+-
+-#define REG_A5XX_RBBM_SECVID_TSB_TRUSTED_SIZE			0x0000f802
+-
+-#define REG_A5XX_RBBM_SECVID_TSB_CNTL				0x0000f803
+-
+-#define REG_A5XX_RBBM_SECVID_TSB_COMP_STATUS_LO			0x0000f804
+-
+-#define REG_A5XX_RBBM_SECVID_TSB_COMP_STATUS_HI			0x0000f805
+-
+-#define REG_A5XX_RBBM_SECVID_TSB_UCHE_STATUS_LO			0x0000f806
+-
+-#define REG_A5XX_RBBM_SECVID_TSB_UCHE_STATUS_HI			0x0000f807
+-
+-#define REG_A5XX_RBBM_SECVID_TSB_ADDR_MODE_CNTL			0x0000f810
+-
+-#define REG_A5XX_VSC_BIN_SIZE					0x00000bc2
+-#define A5XX_VSC_BIN_SIZE_WIDTH__MASK				0x000000ff
+-#define A5XX_VSC_BIN_SIZE_WIDTH__SHIFT				0
+-static inline uint32_t A5XX_VSC_BIN_SIZE_WIDTH(uint32_t val)
+-{
+-	assert(!(val & 0x1f));
+-	return (((val >> 5)) << A5XX_VSC_BIN_SIZE_WIDTH__SHIFT) & A5XX_VSC_BIN_SIZE_WIDTH__MASK;
+-}
+-#define A5XX_VSC_BIN_SIZE_HEIGHT__MASK				0x0001fe00
+-#define A5XX_VSC_BIN_SIZE_HEIGHT__SHIFT				9
+-static inline uint32_t A5XX_VSC_BIN_SIZE_HEIGHT(uint32_t val)
+-{
+-	assert(!(val & 0x1f));
+-	return (((val >> 5)) << A5XX_VSC_BIN_SIZE_HEIGHT__SHIFT) & A5XX_VSC_BIN_SIZE_HEIGHT__MASK;
+-}
+-
+-#define REG_A5XX_VSC_SIZE_ADDRESS_LO				0x00000bc3
+-
+-#define REG_A5XX_VSC_SIZE_ADDRESS_HI				0x00000bc4
+-
+-#define REG_A5XX_UNKNOWN_0BC5					0x00000bc5
+-
+-#define REG_A5XX_UNKNOWN_0BC6					0x00000bc6
+-
+-#define REG_A5XX_VSC_PIPE_CONFIG(i0) (0x00000bd0 + 0x1*(i0))
+-
+-static inline uint32_t REG_A5XX_VSC_PIPE_CONFIG_REG(uint32_t i0) { return 0x00000bd0 + 0x1*i0; }
+-#define A5XX_VSC_PIPE_CONFIG_REG_X__MASK			0x000003ff
+-#define A5XX_VSC_PIPE_CONFIG_REG_X__SHIFT			0
+-static inline uint32_t A5XX_VSC_PIPE_CONFIG_REG_X(uint32_t val)
+-{
+-	return ((val) << A5XX_VSC_PIPE_CONFIG_REG_X__SHIFT) & A5XX_VSC_PIPE_CONFIG_REG_X__MASK;
+-}
+-#define A5XX_VSC_PIPE_CONFIG_REG_Y__MASK			0x000ffc00
+-#define A5XX_VSC_PIPE_CONFIG_REG_Y__SHIFT			10
+-static inline uint32_t A5XX_VSC_PIPE_CONFIG_REG_Y(uint32_t val)
+-{
+-	return ((val) << A5XX_VSC_PIPE_CONFIG_REG_Y__SHIFT) & A5XX_VSC_PIPE_CONFIG_REG_Y__MASK;
+-}
+-#define A5XX_VSC_PIPE_CONFIG_REG_W__MASK			0x00f00000
+-#define A5XX_VSC_PIPE_CONFIG_REG_W__SHIFT			20
+-static inline uint32_t A5XX_VSC_PIPE_CONFIG_REG_W(uint32_t val)
+-{
+-	return ((val) << A5XX_VSC_PIPE_CONFIG_REG_W__SHIFT) & A5XX_VSC_PIPE_CONFIG_REG_W__MASK;
+-}
+-#define A5XX_VSC_PIPE_CONFIG_REG_H__MASK			0x0f000000
+-#define A5XX_VSC_PIPE_CONFIG_REG_H__SHIFT			24
+-static inline uint32_t A5XX_VSC_PIPE_CONFIG_REG_H(uint32_t val)
+-{
+-	return ((val) << A5XX_VSC_PIPE_CONFIG_REG_H__SHIFT) & A5XX_VSC_PIPE_CONFIG_REG_H__MASK;
+-}
+-
+-#define REG_A5XX_VSC_PIPE_DATA_ADDRESS(i0) (0x00000be0 + 0x2*(i0))
+-
+-static inline uint32_t REG_A5XX_VSC_PIPE_DATA_ADDRESS_LO(uint32_t i0) { return 0x00000be0 + 0x2*i0; }
+-
+-static inline uint32_t REG_A5XX_VSC_PIPE_DATA_ADDRESS_HI(uint32_t i0) { return 0x00000be1 + 0x2*i0; }
+-
+-#define REG_A5XX_VSC_PIPE_DATA_LENGTH(i0) (0x00000c00 + 0x1*(i0))
+-
+-static inline uint32_t REG_A5XX_VSC_PIPE_DATA_LENGTH_REG(uint32_t i0) { return 0x00000c00 + 0x1*i0; }
+-
+-#define REG_A5XX_VSC_PERFCTR_VSC_SEL_0				0x00000c60
+-
+-#define REG_A5XX_VSC_PERFCTR_VSC_SEL_1				0x00000c61
+-
+-#define REG_A5XX_VSC_RESOLVE_CNTL				0x00000cdd
+-#define A5XX_VSC_RESOLVE_CNTL_WINDOW_OFFSET_DISABLE		0x80000000
+-#define A5XX_VSC_RESOLVE_CNTL_X__MASK				0x00007fff
+-#define A5XX_VSC_RESOLVE_CNTL_X__SHIFT				0
+-static inline uint32_t A5XX_VSC_RESOLVE_CNTL_X(uint32_t val)
+-{
+-	return ((val) << A5XX_VSC_RESOLVE_CNTL_X__SHIFT) & A5XX_VSC_RESOLVE_CNTL_X__MASK;
+-}
+-#define A5XX_VSC_RESOLVE_CNTL_Y__MASK				0x7fff0000
+-#define A5XX_VSC_RESOLVE_CNTL_Y__SHIFT				16
+-static inline uint32_t A5XX_VSC_RESOLVE_CNTL_Y(uint32_t val)
+-{
+-	return ((val) << A5XX_VSC_RESOLVE_CNTL_Y__SHIFT) & A5XX_VSC_RESOLVE_CNTL_Y__MASK;
+-}
+-
+-#define REG_A5XX_GRAS_ADDR_MODE_CNTL				0x00000c81
+-
+-#define REG_A5XX_GRAS_PERFCTR_TSE_SEL_0				0x00000c90
+-
+-#define REG_A5XX_GRAS_PERFCTR_TSE_SEL_1				0x00000c91
+-
+-#define REG_A5XX_GRAS_PERFCTR_TSE_SEL_2				0x00000c92
+-
+-#define REG_A5XX_GRAS_PERFCTR_TSE_SEL_3				0x00000c93
+-
+-#define REG_A5XX_GRAS_PERFCTR_RAS_SEL_0				0x00000c94
+-
+-#define REG_A5XX_GRAS_PERFCTR_RAS_SEL_1				0x00000c95
+-
+-#define REG_A5XX_GRAS_PERFCTR_RAS_SEL_2				0x00000c96
+-
+-#define REG_A5XX_GRAS_PERFCTR_RAS_SEL_3				0x00000c97
+-
+-#define REG_A5XX_GRAS_PERFCTR_LRZ_SEL_0				0x00000c98
+-
+-#define REG_A5XX_GRAS_PERFCTR_LRZ_SEL_1				0x00000c99
+-
+-#define REG_A5XX_GRAS_PERFCTR_LRZ_SEL_2				0x00000c9a
+-
+-#define REG_A5XX_GRAS_PERFCTR_LRZ_SEL_3				0x00000c9b
+-
+-#define REG_A5XX_RB_DBG_ECO_CNTL				0x00000cc4
+-
+-#define REG_A5XX_RB_ADDR_MODE_CNTL				0x00000cc5
+-
+-#define REG_A5XX_RB_MODE_CNTL					0x00000cc6
+-
+-#define REG_A5XX_RB_CCU_CNTL					0x00000cc7
+-
+-#define REG_A5XX_RB_PERFCTR_RB_SEL_0				0x00000cd0
+-
+-#define REG_A5XX_RB_PERFCTR_RB_SEL_1				0x00000cd1
+-
+-#define REG_A5XX_RB_PERFCTR_RB_SEL_2				0x00000cd2
+-
+-#define REG_A5XX_RB_PERFCTR_RB_SEL_3				0x00000cd3
+-
+-#define REG_A5XX_RB_PERFCTR_RB_SEL_4				0x00000cd4
+-
+-#define REG_A5XX_RB_PERFCTR_RB_SEL_5				0x00000cd5
+-
+-#define REG_A5XX_RB_PERFCTR_RB_SEL_6				0x00000cd6
+-
+-#define REG_A5XX_RB_PERFCTR_RB_SEL_7				0x00000cd7
+-
+-#define REG_A5XX_RB_PERFCTR_CCU_SEL_0				0x00000cd8
+-
+-#define REG_A5XX_RB_PERFCTR_CCU_SEL_1				0x00000cd9
+-
+-#define REG_A5XX_RB_PERFCTR_CCU_SEL_2				0x00000cda
+-
+-#define REG_A5XX_RB_PERFCTR_CCU_SEL_3				0x00000cdb
+-
+-#define REG_A5XX_RB_POWERCTR_RB_SEL_0				0x00000ce0
+-
+-#define REG_A5XX_RB_POWERCTR_RB_SEL_1				0x00000ce1
+-
+-#define REG_A5XX_RB_POWERCTR_RB_SEL_2				0x00000ce2
+-
+-#define REG_A5XX_RB_POWERCTR_RB_SEL_3				0x00000ce3
+-
+-#define REG_A5XX_RB_POWERCTR_CCU_SEL_0				0x00000ce4
+-
+-#define REG_A5XX_RB_POWERCTR_CCU_SEL_1				0x00000ce5
+-
+-#define REG_A5XX_RB_PERFCTR_CMP_SEL_0				0x00000cec
+-
+-#define REG_A5XX_RB_PERFCTR_CMP_SEL_1				0x00000ced
+-
+-#define REG_A5XX_RB_PERFCTR_CMP_SEL_2				0x00000cee
+-
+-#define REG_A5XX_RB_PERFCTR_CMP_SEL_3				0x00000cef
+-
+-#define REG_A5XX_PC_DBG_ECO_CNTL				0x00000d00
+-#define A5XX_PC_DBG_ECO_CNTL_TWOPASSUSEWFI			0x00000100
+-
+-#define REG_A5XX_PC_ADDR_MODE_CNTL				0x00000d01
+-
+-#define REG_A5XX_PC_MODE_CNTL					0x00000d02
+-
+-#define REG_A5XX_PC_INDEX_BUF_LO				0x00000d04
+-
+-#define REG_A5XX_PC_INDEX_BUF_HI				0x00000d05
+-
+-#define REG_A5XX_PC_START_INDEX					0x00000d06
+-
+-#define REG_A5XX_PC_MAX_INDEX					0x00000d07
+-
+-#define REG_A5XX_PC_TESSFACTOR_ADDR_LO				0x00000d08
+-
+-#define REG_A5XX_PC_TESSFACTOR_ADDR_HI				0x00000d09
+-
+-#define REG_A5XX_PC_PERFCTR_PC_SEL_0				0x00000d10
+-
+-#define REG_A5XX_PC_PERFCTR_PC_SEL_1				0x00000d11
+-
+-#define REG_A5XX_PC_PERFCTR_PC_SEL_2				0x00000d12
+-
+-#define REG_A5XX_PC_PERFCTR_PC_SEL_3				0x00000d13
+-
+-#define REG_A5XX_PC_PERFCTR_PC_SEL_4				0x00000d14
+-
+-#define REG_A5XX_PC_PERFCTR_PC_SEL_5				0x00000d15
+-
+-#define REG_A5XX_PC_PERFCTR_PC_SEL_6				0x00000d16
+-
+-#define REG_A5XX_PC_PERFCTR_PC_SEL_7				0x00000d17
+-
+-#define REG_A5XX_HLSQ_TIMEOUT_THRESHOLD_0			0x00000e00
+-
+-#define REG_A5XX_HLSQ_TIMEOUT_THRESHOLD_1			0x00000e01
+-
+-#define REG_A5XX_HLSQ_DBG_ECO_CNTL				0x00000e04
+-
+-#define REG_A5XX_HLSQ_ADDR_MODE_CNTL				0x00000e05
+-
+-#define REG_A5XX_HLSQ_MODE_CNTL					0x00000e06
+-
+-#define REG_A5XX_HLSQ_PERFCTR_HLSQ_SEL_0			0x00000e10
+-
+-#define REG_A5XX_HLSQ_PERFCTR_HLSQ_SEL_1			0x00000e11
+-
+-#define REG_A5XX_HLSQ_PERFCTR_HLSQ_SEL_2			0x00000e12
+-
+-#define REG_A5XX_HLSQ_PERFCTR_HLSQ_SEL_3			0x00000e13
+-
+-#define REG_A5XX_HLSQ_PERFCTR_HLSQ_SEL_4			0x00000e14
+-
+-#define REG_A5XX_HLSQ_PERFCTR_HLSQ_SEL_5			0x00000e15
+-
+-#define REG_A5XX_HLSQ_PERFCTR_HLSQ_SEL_6			0x00000e16
+-
+-#define REG_A5XX_HLSQ_PERFCTR_HLSQ_SEL_7			0x00000e17
+-
+-#define REG_A5XX_HLSQ_SPTP_RDSEL				0x00000f08
+-
+-#define REG_A5XX_HLSQ_DBG_READ_SEL				0x0000bc00
+-
+-#define REG_A5XX_HLSQ_DBG_AHB_READ_APERTURE			0x0000a000
+-
+-#define REG_A5XX_VFD_ADDR_MODE_CNTL				0x00000e41
+-
+-#define REG_A5XX_VFD_MODE_CNTL					0x00000e42
+-
+-#define REG_A5XX_VFD_PERFCTR_VFD_SEL_0				0x00000e50
+-
+-#define REG_A5XX_VFD_PERFCTR_VFD_SEL_1				0x00000e51
+-
+-#define REG_A5XX_VFD_PERFCTR_VFD_SEL_2				0x00000e52
+-
+-#define REG_A5XX_VFD_PERFCTR_VFD_SEL_3				0x00000e53
+-
+-#define REG_A5XX_VFD_PERFCTR_VFD_SEL_4				0x00000e54
+-
+-#define REG_A5XX_VFD_PERFCTR_VFD_SEL_5				0x00000e55
+-
+-#define REG_A5XX_VFD_PERFCTR_VFD_SEL_6				0x00000e56
+-
+-#define REG_A5XX_VFD_PERFCTR_VFD_SEL_7				0x00000e57
+-
+-#define REG_A5XX_VPC_DBG_ECO_CNTL				0x00000e60
+-#define A5XX_VPC_DBG_ECO_CNTL_ALLFLATOPTDIS			0x00000400
+-
+-#define REG_A5XX_VPC_ADDR_MODE_CNTL				0x00000e61
+-
+-#define REG_A5XX_VPC_MODE_CNTL					0x00000e62
+-#define A5XX_VPC_MODE_CNTL_BINNING_PASS				0x00000001
+-
+-#define REG_A5XX_VPC_PERFCTR_VPC_SEL_0				0x00000e64
+-
+-#define REG_A5XX_VPC_PERFCTR_VPC_SEL_1				0x00000e65
+-
+-#define REG_A5XX_VPC_PERFCTR_VPC_SEL_2				0x00000e66
+-
+-#define REG_A5XX_VPC_PERFCTR_VPC_SEL_3				0x00000e67
+-
+-#define REG_A5XX_UCHE_ADDR_MODE_CNTL				0x00000e80
+-
+-#define REG_A5XX_UCHE_MODE_CNTL					0x00000e81
+-
+-#define REG_A5XX_UCHE_SVM_CNTL					0x00000e82
+-
+-#define REG_A5XX_UCHE_WRITE_THRU_BASE_LO			0x00000e87
+-
+-#define REG_A5XX_UCHE_WRITE_THRU_BASE_HI			0x00000e88
+-
+-#define REG_A5XX_UCHE_TRAP_BASE_LO				0x00000e89
+-
+-#define REG_A5XX_UCHE_TRAP_BASE_HI				0x00000e8a
+-
+-#define REG_A5XX_UCHE_GMEM_RANGE_MIN_LO				0x00000e8b
+-
+-#define REG_A5XX_UCHE_GMEM_RANGE_MIN_HI				0x00000e8c
+-
+-#define REG_A5XX_UCHE_GMEM_RANGE_MAX_LO				0x00000e8d
+-
+-#define REG_A5XX_UCHE_GMEM_RANGE_MAX_HI				0x00000e8e
+-
+-#define REG_A5XX_UCHE_DBG_ECO_CNTL_2				0x00000e8f
+-
+-#define REG_A5XX_UCHE_DBG_ECO_CNTL				0x00000e90
+-
+-#define REG_A5XX_UCHE_CACHE_INVALIDATE_MIN_LO			0x00000e91
+-
+-#define REG_A5XX_UCHE_CACHE_INVALIDATE_MIN_HI			0x00000e92
+-
+-#define REG_A5XX_UCHE_CACHE_INVALIDATE_MAX_LO			0x00000e93
+-
+-#define REG_A5XX_UCHE_CACHE_INVALIDATE_MAX_HI			0x00000e94
+-
+-#define REG_A5XX_UCHE_CACHE_INVALIDATE				0x00000e95
+-
+-#define REG_A5XX_UCHE_CACHE_WAYS				0x00000e96
+-
+-#define REG_A5XX_UCHE_PERFCTR_UCHE_SEL_0			0x00000ea0
+-
+-#define REG_A5XX_UCHE_PERFCTR_UCHE_SEL_1			0x00000ea1
+-
+-#define REG_A5XX_UCHE_PERFCTR_UCHE_SEL_2			0x00000ea2
+-
+-#define REG_A5XX_UCHE_PERFCTR_UCHE_SEL_3			0x00000ea3
+-
+-#define REG_A5XX_UCHE_PERFCTR_UCHE_SEL_4			0x00000ea4
+-
+-#define REG_A5XX_UCHE_PERFCTR_UCHE_SEL_5			0x00000ea5
+-
+-#define REG_A5XX_UCHE_PERFCTR_UCHE_SEL_6			0x00000ea6
+-
+-#define REG_A5XX_UCHE_PERFCTR_UCHE_SEL_7			0x00000ea7
+-
+-#define REG_A5XX_UCHE_POWERCTR_UCHE_SEL_0			0x00000ea8
+-
+-#define REG_A5XX_UCHE_POWERCTR_UCHE_SEL_1			0x00000ea9
+-
+-#define REG_A5XX_UCHE_POWERCTR_UCHE_SEL_2			0x00000eaa
+-
+-#define REG_A5XX_UCHE_POWERCTR_UCHE_SEL_3			0x00000eab
+-
+-#define REG_A5XX_UCHE_TRAP_LOG_LO				0x00000eb1
+-
+-#define REG_A5XX_UCHE_TRAP_LOG_HI				0x00000eb2
+-
+-#define REG_A5XX_SP_DBG_ECO_CNTL				0x00000ec0
+-
+-#define REG_A5XX_SP_ADDR_MODE_CNTL				0x00000ec1
+-
+-#define REG_A5XX_SP_MODE_CNTL					0x00000ec2
+-
+-#define REG_A5XX_SP_PERFCTR_SP_SEL_0				0x00000ed0
+-
+-#define REG_A5XX_SP_PERFCTR_SP_SEL_1				0x00000ed1
+-
+-#define REG_A5XX_SP_PERFCTR_SP_SEL_2				0x00000ed2
+-
+-#define REG_A5XX_SP_PERFCTR_SP_SEL_3				0x00000ed3
+-
+-#define REG_A5XX_SP_PERFCTR_SP_SEL_4				0x00000ed4
+-
+-#define REG_A5XX_SP_PERFCTR_SP_SEL_5				0x00000ed5
+-
+-#define REG_A5XX_SP_PERFCTR_SP_SEL_6				0x00000ed6
+-
+-#define REG_A5XX_SP_PERFCTR_SP_SEL_7				0x00000ed7
+-
+-#define REG_A5XX_SP_PERFCTR_SP_SEL_8				0x00000ed8
+-
+-#define REG_A5XX_SP_PERFCTR_SP_SEL_9				0x00000ed9
+-
+-#define REG_A5XX_SP_PERFCTR_SP_SEL_10				0x00000eda
+-
+-#define REG_A5XX_SP_PERFCTR_SP_SEL_11				0x00000edb
+-
+-#define REG_A5XX_SP_POWERCTR_SP_SEL_0				0x00000edc
+-
+-#define REG_A5XX_SP_POWERCTR_SP_SEL_1				0x00000edd
+-
+-#define REG_A5XX_SP_POWERCTR_SP_SEL_2				0x00000ede
+-
+-#define REG_A5XX_SP_POWERCTR_SP_SEL_3				0x00000edf
+-
+-#define REG_A5XX_TPL1_ADDR_MODE_CNTL				0x00000f01
+-
+-#define REG_A5XX_TPL1_MODE_CNTL					0x00000f02
+-
+-#define REG_A5XX_TPL1_PERFCTR_TP_SEL_0				0x00000f10
+-
+-#define REG_A5XX_TPL1_PERFCTR_TP_SEL_1				0x00000f11
+-
+-#define REG_A5XX_TPL1_PERFCTR_TP_SEL_2				0x00000f12
+-
+-#define REG_A5XX_TPL1_PERFCTR_TP_SEL_3				0x00000f13
+-
+-#define REG_A5XX_TPL1_PERFCTR_TP_SEL_4				0x00000f14
+-
+-#define REG_A5XX_TPL1_PERFCTR_TP_SEL_5				0x00000f15
+-
+-#define REG_A5XX_TPL1_PERFCTR_TP_SEL_6				0x00000f16
+-
+-#define REG_A5XX_TPL1_PERFCTR_TP_SEL_7				0x00000f17
+-
+-#define REG_A5XX_TPL1_POWERCTR_TP_SEL_0				0x00000f18
+-
+-#define REG_A5XX_TPL1_POWERCTR_TP_SEL_1				0x00000f19
+-
+-#define REG_A5XX_TPL1_POWERCTR_TP_SEL_2				0x00000f1a
+-
+-#define REG_A5XX_TPL1_POWERCTR_TP_SEL_3				0x00000f1b
+-
+-#define REG_A5XX_VBIF_VERSION					0x00003000
+-
+-#define REG_A5XX_VBIF_CLKON					0x00003001
+-
+-#define REG_A5XX_VBIF_ABIT_SORT					0x00003028
+-
+-#define REG_A5XX_VBIF_ABIT_SORT_CONF				0x00003029
+-
+-#define REG_A5XX_VBIF_ROUND_ROBIN_QOS_ARB			0x00003049
+-
+-#define REG_A5XX_VBIF_GATE_OFF_WRREQ_EN				0x0000302a
+-
+-#define REG_A5XX_VBIF_IN_RD_LIM_CONF0				0x0000302c
+-
+-#define REG_A5XX_VBIF_IN_RD_LIM_CONF1				0x0000302d
+-
+-#define REG_A5XX_VBIF_XIN_HALT_CTRL0				0x00003080
+-
+-#define REG_A5XX_VBIF_XIN_HALT_CTRL1				0x00003081
+-
+-#define REG_A5XX_VBIF_TEST_BUS_OUT_CTRL				0x00003084
+-
+-#define REG_A5XX_VBIF_TEST_BUS1_CTRL0				0x00003085
+-
+-#define REG_A5XX_VBIF_TEST_BUS1_CTRL1				0x00003086
+-
+-#define REG_A5XX_VBIF_TEST_BUS2_CTRL0				0x00003087
+-
+-#define REG_A5XX_VBIF_TEST_BUS2_CTRL1				0x00003088
+-
+-#define REG_A5XX_VBIF_TEST_BUS_OUT				0x0000308c
+-
+-#define REG_A5XX_VBIF_PERF_CNT_EN0				0x000030c0
+-
+-#define REG_A5XX_VBIF_PERF_CNT_EN1				0x000030c1
+-
+-#define REG_A5XX_VBIF_PERF_CNT_EN2				0x000030c2
+-
+-#define REG_A5XX_VBIF_PERF_CNT_EN3				0x000030c3
+-
+-#define REG_A5XX_VBIF_PERF_CNT_CLR0				0x000030c8
+-
+-#define REG_A5XX_VBIF_PERF_CNT_CLR1				0x000030c9
+-
+-#define REG_A5XX_VBIF_PERF_CNT_CLR2				0x000030ca
+-
+-#define REG_A5XX_VBIF_PERF_CNT_CLR3				0x000030cb
+-
+-#define REG_A5XX_VBIF_PERF_CNT_SEL0				0x000030d0
+-
+-#define REG_A5XX_VBIF_PERF_CNT_SEL1				0x000030d1
+-
+-#define REG_A5XX_VBIF_PERF_CNT_SEL2				0x000030d2
+-
+-#define REG_A5XX_VBIF_PERF_CNT_SEL3				0x000030d3
+-
+-#define REG_A5XX_VBIF_PERF_CNT_LOW0				0x000030d8
+-
+-#define REG_A5XX_VBIF_PERF_CNT_LOW1				0x000030d9
+-
+-#define REG_A5XX_VBIF_PERF_CNT_LOW2				0x000030da
+-
+-#define REG_A5XX_VBIF_PERF_CNT_LOW3				0x000030db
+-
+-#define REG_A5XX_VBIF_PERF_CNT_HIGH0				0x000030e0
+-
+-#define REG_A5XX_VBIF_PERF_CNT_HIGH1				0x000030e1
+-
+-#define REG_A5XX_VBIF_PERF_CNT_HIGH2				0x000030e2
+-
+-#define REG_A5XX_VBIF_PERF_CNT_HIGH3				0x000030e3
+-
+-#define REG_A5XX_VBIF_PERF_PWR_CNT_EN0				0x00003100
+-
+-#define REG_A5XX_VBIF_PERF_PWR_CNT_EN1				0x00003101
+-
+-#define REG_A5XX_VBIF_PERF_PWR_CNT_EN2				0x00003102
+-
+-#define REG_A5XX_VBIF_PERF_PWR_CNT_LOW0				0x00003110
+-
+-#define REG_A5XX_VBIF_PERF_PWR_CNT_LOW1				0x00003111
+-
+-#define REG_A5XX_VBIF_PERF_PWR_CNT_LOW2				0x00003112
+-
+-#define REG_A5XX_VBIF_PERF_PWR_CNT_HIGH0			0x00003118
+-
+-#define REG_A5XX_VBIF_PERF_PWR_CNT_HIGH1			0x00003119
+-
+-#define REG_A5XX_VBIF_PERF_PWR_CNT_HIGH2			0x0000311a
+-
+-#define REG_A5XX_GPMU_INST_RAM_BASE				0x00008800
+-
+-#define REG_A5XX_GPMU_DATA_RAM_BASE				0x00009800
+-
+-#define REG_A5XX_SP_POWER_COUNTER_0_LO				0x0000a840
+-
+-#define REG_A5XX_SP_POWER_COUNTER_0_HI				0x0000a841
+-
+-#define REG_A5XX_SP_POWER_COUNTER_1_LO				0x0000a842
+-
+-#define REG_A5XX_SP_POWER_COUNTER_1_HI				0x0000a843
+-
+-#define REG_A5XX_SP_POWER_COUNTER_2_LO				0x0000a844
+-
+-#define REG_A5XX_SP_POWER_COUNTER_2_HI				0x0000a845
+-
+-#define REG_A5XX_SP_POWER_COUNTER_3_LO				0x0000a846
+-
+-#define REG_A5XX_SP_POWER_COUNTER_3_HI				0x0000a847
+-
+-#define REG_A5XX_TP_POWER_COUNTER_0_LO				0x0000a848
+-
+-#define REG_A5XX_TP_POWER_COUNTER_0_HI				0x0000a849
+-
+-#define REG_A5XX_TP_POWER_COUNTER_1_LO				0x0000a84a
+-
+-#define REG_A5XX_TP_POWER_COUNTER_1_HI				0x0000a84b
+-
+-#define REG_A5XX_TP_POWER_COUNTER_2_LO				0x0000a84c
+-
+-#define REG_A5XX_TP_POWER_COUNTER_2_HI				0x0000a84d
+-
+-#define REG_A5XX_TP_POWER_COUNTER_3_LO				0x0000a84e
+-
+-#define REG_A5XX_TP_POWER_COUNTER_3_HI				0x0000a84f
+-
+-#define REG_A5XX_RB_POWER_COUNTER_0_LO				0x0000a850
+-
+-#define REG_A5XX_RB_POWER_COUNTER_0_HI				0x0000a851
+-
+-#define REG_A5XX_RB_POWER_COUNTER_1_LO				0x0000a852
+-
+-#define REG_A5XX_RB_POWER_COUNTER_1_HI				0x0000a853
+-
+-#define REG_A5XX_RB_POWER_COUNTER_2_LO				0x0000a854
+-
+-#define REG_A5XX_RB_POWER_COUNTER_2_HI				0x0000a855
+-
+-#define REG_A5XX_RB_POWER_COUNTER_3_LO				0x0000a856
+-
+-#define REG_A5XX_RB_POWER_COUNTER_3_HI				0x0000a857
+-
+-#define REG_A5XX_CCU_POWER_COUNTER_0_LO				0x0000a858
+-
+-#define REG_A5XX_CCU_POWER_COUNTER_0_HI				0x0000a859
+-
+-#define REG_A5XX_CCU_POWER_COUNTER_1_LO				0x0000a85a
+-
+-#define REG_A5XX_CCU_POWER_COUNTER_1_HI				0x0000a85b
+-
+-#define REG_A5XX_UCHE_POWER_COUNTER_0_LO			0x0000a85c
+-
+-#define REG_A5XX_UCHE_POWER_COUNTER_0_HI			0x0000a85d
+-
+-#define REG_A5XX_UCHE_POWER_COUNTER_1_LO			0x0000a85e
+-
+-#define REG_A5XX_UCHE_POWER_COUNTER_1_HI			0x0000a85f
+-
+-#define REG_A5XX_UCHE_POWER_COUNTER_2_LO			0x0000a860
+-
+-#define REG_A5XX_UCHE_POWER_COUNTER_2_HI			0x0000a861
+-
+-#define REG_A5XX_UCHE_POWER_COUNTER_3_LO			0x0000a862
+-
+-#define REG_A5XX_UCHE_POWER_COUNTER_3_HI			0x0000a863
+-
+-#define REG_A5XX_CP_POWER_COUNTER_0_LO				0x0000a864
+-
+-#define REG_A5XX_CP_POWER_COUNTER_0_HI				0x0000a865
+-
+-#define REG_A5XX_CP_POWER_COUNTER_1_LO				0x0000a866
+-
+-#define REG_A5XX_CP_POWER_COUNTER_1_HI				0x0000a867
+-
+-#define REG_A5XX_CP_POWER_COUNTER_2_LO				0x0000a868
+-
+-#define REG_A5XX_CP_POWER_COUNTER_2_HI				0x0000a869
+-
+-#define REG_A5XX_CP_POWER_COUNTER_3_LO				0x0000a86a
+-
+-#define REG_A5XX_CP_POWER_COUNTER_3_HI				0x0000a86b
+-
+-#define REG_A5XX_GPMU_POWER_COUNTER_0_LO			0x0000a86c
+-
+-#define REG_A5XX_GPMU_POWER_COUNTER_0_HI			0x0000a86d
+-
+-#define REG_A5XX_GPMU_POWER_COUNTER_1_LO			0x0000a86e
+-
+-#define REG_A5XX_GPMU_POWER_COUNTER_1_HI			0x0000a86f
+-
+-#define REG_A5XX_GPMU_POWER_COUNTER_2_LO			0x0000a870
+-
+-#define REG_A5XX_GPMU_POWER_COUNTER_2_HI			0x0000a871
+-
+-#define REG_A5XX_GPMU_POWER_COUNTER_3_LO			0x0000a872
+-
+-#define REG_A5XX_GPMU_POWER_COUNTER_3_HI			0x0000a873
+-
+-#define REG_A5XX_GPMU_POWER_COUNTER_4_LO			0x0000a874
+-
+-#define REG_A5XX_GPMU_POWER_COUNTER_4_HI			0x0000a875
+-
+-#define REG_A5XX_GPMU_POWER_COUNTER_5_LO			0x0000a876
+-
+-#define REG_A5XX_GPMU_POWER_COUNTER_5_HI			0x0000a877
+-
+-#define REG_A5XX_GPMU_POWER_COUNTER_ENABLE			0x0000a878
+-
+-#define REG_A5XX_GPMU_ALWAYS_ON_COUNTER_LO			0x0000a879
+-
+-#define REG_A5XX_GPMU_ALWAYS_ON_COUNTER_HI			0x0000a87a
+-
+-#define REG_A5XX_GPMU_ALWAYS_ON_COUNTER_RESET			0x0000a87b
+-
+-#define REG_A5XX_GPMU_POWER_COUNTER_SELECT_0			0x0000a87c
+-
+-#define REG_A5XX_GPMU_POWER_COUNTER_SELECT_1			0x0000a87d
+-
+-#define REG_A5XX_GPMU_GPMU_SP_CLOCK_CONTROL			0x0000a880
+-
+-#define REG_A5XX_GPMU_SP_POWER_CNTL				0x0000a881
+-
+-#define REG_A5XX_GPMU_RBCCU_CLOCK_CNTL				0x0000a886
+-
+-#define REG_A5XX_GPMU_RBCCU_POWER_CNTL				0x0000a887
+-
+-#define REG_A5XX_GPMU_SP_PWR_CLK_STATUS				0x0000a88b
+-#define A5XX_GPMU_SP_PWR_CLK_STATUS_PWR_ON			0x00100000
+-
+-#define REG_A5XX_GPMU_RBCCU_PWR_CLK_STATUS			0x0000a88d
+-#define A5XX_GPMU_RBCCU_PWR_CLK_STATUS_PWR_ON			0x00100000
+-
+-#define REG_A5XX_GPMU_PWR_COL_STAGGER_DELAY			0x0000a891
+-
+-#define REG_A5XX_GPMU_PWR_COL_INTER_FRAME_CTRL			0x0000a892
+-
+-#define REG_A5XX_GPMU_PWR_COL_INTER_FRAME_HYST			0x0000a893
+-
+-#define REG_A5XX_GPMU_PWR_COL_BINNING_CTRL			0x0000a894
+-
+-#define REG_A5XX_GPMU_CLOCK_THROTTLE_CTRL			0x0000a8a3
+-
+-#define REG_A5XX_GPMU_THROTTLE_UNMASK_FORCE_CTRL		0x0000a8a8
+-
+-#define REG_A5XX_GPMU_WFI_CONFIG				0x0000a8c1
+-
+-#define REG_A5XX_GPMU_RBBM_INTR_INFO				0x0000a8d6
+-
+-#define REG_A5XX_GPMU_CM3_SYSRESET				0x0000a8d8
+-
+-#define REG_A5XX_GPMU_GENERAL_0					0x0000a8e0
+-
+-#define REG_A5XX_GPMU_GENERAL_1					0x0000a8e1
+-
+-#define REG_A5XX_GPMU_TEMP_SENSOR_ID				0x0000ac00
+-
+-#define REG_A5XX_GPMU_TEMP_SENSOR_CONFIG			0x0000ac01
+-
+-#define REG_A5XX_GPMU_TEMP_VAL					0x0000ac02
+-
+-#define REG_A5XX_GPMU_DELTA_TEMP_THRESHOLD			0x0000ac03
+-
+-#define REG_A5XX_GPMU_TEMP_THRESHOLD_INTR_STATUS		0x0000ac05
+-
+-#define REG_A5XX_GPMU_TEMP_THRESHOLD_INTR_EN_MASK		0x0000ac06
+-
+-#define REG_A5XX_GPMU_LEAKAGE_TEMP_COEFF_0_1			0x0000ac40
+-
+-#define REG_A5XX_GPMU_LEAKAGE_TEMP_COEFF_2_3			0x0000ac41
+-
+-#define REG_A5XX_GPMU_LEAKAGE_VTG_COEFF_0_1			0x0000ac42
+-
+-#define REG_A5XX_GPMU_LEAKAGE_VTG_COEFF_2_3			0x0000ac43
+-
+-#define REG_A5XX_GPMU_BASE_LEAKAGE				0x0000ac46
+-
+-#define REG_A5XX_GPMU_GPMU_VOLTAGE				0x0000ac60
+-
+-#define REG_A5XX_GPMU_GPMU_VOLTAGE_INTR_STATUS			0x0000ac61
+-
+-#define REG_A5XX_GPMU_GPMU_VOLTAGE_INTR_EN_MASK			0x0000ac62
+-
+-#define REG_A5XX_GPMU_GPMU_PWR_THRESHOLD			0x0000ac80
+-
+-#define REG_A5XX_GPMU_GPMU_LLM_GLM_SLEEP_CTRL			0x0000acc4
+-
+-#define REG_A5XX_GPMU_GPMU_LLM_GLM_SLEEP_STATUS			0x0000acc5
+-
+-#define REG_A5XX_GDPM_CONFIG1					0x0000b80c
+-
+-#define REG_A5XX_GDPM_CONFIG2					0x0000b80d
+-
+-#define REG_A5XX_GDPM_INT_EN					0x0000b80f
+-
+-#define REG_A5XX_GDPM_INT_MASK					0x0000b811
+-
+-#define REG_A5XX_GPMU_BEC_ENABLE				0x0000b9a0
+-
+-#define REG_A5XX_GPU_CS_SENSOR_GENERAL_STATUS			0x0000c41a
+-
+-#define REG_A5XX_GPU_CS_AMP_CALIBRATION_STATUS1_0		0x0000c41d
+-
+-#define REG_A5XX_GPU_CS_AMP_CALIBRATION_STATUS1_2		0x0000c41f
+-
+-#define REG_A5XX_GPU_CS_AMP_CALIBRATION_STATUS1_4		0x0000c421
+-
+-#define REG_A5XX_GPU_CS_ENABLE_REG				0x0000c520
+-
+-#define REG_A5XX_GPU_CS_AMP_CALIBRATION_CONTROL1		0x0000c557
+-
+-#define REG_A5XX_GRAS_CL_CNTL					0x0000e000
+-#define A5XX_GRAS_CL_CNTL_ZERO_GB_SCALE_Z			0x00000040
+-
+-#define REG_A5XX_GRAS_VS_CL_CNTL				0x0000e001
+-#define A5XX_GRAS_VS_CL_CNTL_CLIP_MASK__MASK			0x000000ff
+-#define A5XX_GRAS_VS_CL_CNTL_CLIP_MASK__SHIFT			0
+-static inline uint32_t A5XX_GRAS_VS_CL_CNTL_CLIP_MASK(uint32_t val)
+-{
+-	return ((val) << A5XX_GRAS_VS_CL_CNTL_CLIP_MASK__SHIFT) & A5XX_GRAS_VS_CL_CNTL_CLIP_MASK__MASK;
+-}
+-#define A5XX_GRAS_VS_CL_CNTL_CULL_MASK__MASK			0x0000ff00
+-#define A5XX_GRAS_VS_CL_CNTL_CULL_MASK__SHIFT			8
+-static inline uint32_t A5XX_GRAS_VS_CL_CNTL_CULL_MASK(uint32_t val)
+-{
+-	return ((val) << A5XX_GRAS_VS_CL_CNTL_CULL_MASK__SHIFT) & A5XX_GRAS_VS_CL_CNTL_CULL_MASK__MASK;
+-}
+-
+-#define REG_A5XX_UNKNOWN_E004					0x0000e004
+-
+-#define REG_A5XX_GRAS_CNTL					0x0000e005
+-#define A5XX_GRAS_CNTL_IJ_PERSP_PIXEL				0x00000001
+-#define A5XX_GRAS_CNTL_IJ_PERSP_CENTROID			0x00000002
+-#define A5XX_GRAS_CNTL_IJ_PERSP_SAMPLE				0x00000004
+-#define A5XX_GRAS_CNTL_IJ_LINEAR_PIXEL				0x00000008
+-#define A5XX_GRAS_CNTL_IJ_LINEAR_CENTROID			0x00000010
+-#define A5XX_GRAS_CNTL_IJ_LINEAR_SAMPLE				0x00000020
+-#define A5XX_GRAS_CNTL_COORD_MASK__MASK				0x000003c0
+-#define A5XX_GRAS_CNTL_COORD_MASK__SHIFT			6
+-static inline uint32_t A5XX_GRAS_CNTL_COORD_MASK(uint32_t val)
+-{
+-	return ((val) << A5XX_GRAS_CNTL_COORD_MASK__SHIFT) & A5XX_GRAS_CNTL_COORD_MASK__MASK;
+-}
+-
+-#define REG_A5XX_GRAS_CL_GUARDBAND_CLIP_ADJ			0x0000e006
+-#define A5XX_GRAS_CL_GUARDBAND_CLIP_ADJ_HORZ__MASK		0x000003ff
+-#define A5XX_GRAS_CL_GUARDBAND_CLIP_ADJ_HORZ__SHIFT		0
+-static inline uint32_t A5XX_GRAS_CL_GUARDBAND_CLIP_ADJ_HORZ(uint32_t val)
+-{
+-	return ((val) << A5XX_GRAS_CL_GUARDBAND_CLIP_ADJ_HORZ__SHIFT) & A5XX_GRAS_CL_GUARDBAND_CLIP_ADJ_HORZ__MASK;
+-}
+-#define A5XX_GRAS_CL_GUARDBAND_CLIP_ADJ_VERT__MASK		0x000ffc00
+-#define A5XX_GRAS_CL_GUARDBAND_CLIP_ADJ_VERT__SHIFT		10
+-static inline uint32_t A5XX_GRAS_CL_GUARDBAND_CLIP_ADJ_VERT(uint32_t val)
+-{
+-	return ((val) << A5XX_GRAS_CL_GUARDBAND_CLIP_ADJ_VERT__SHIFT) & A5XX_GRAS_CL_GUARDBAND_CLIP_ADJ_VERT__MASK;
+-}
+-
+-#define REG_A5XX_GRAS_CL_VPORT_XOFFSET_0			0x0000e010
+-#define A5XX_GRAS_CL_VPORT_XOFFSET_0__MASK			0xffffffff
+-#define A5XX_GRAS_CL_VPORT_XOFFSET_0__SHIFT			0
+-static inline uint32_t A5XX_GRAS_CL_VPORT_XOFFSET_0(float val)
+-{
+-	return ((fui(val)) << A5XX_GRAS_CL_VPORT_XOFFSET_0__SHIFT) & A5XX_GRAS_CL_VPORT_XOFFSET_0__MASK;
+-}
+-
+-#define REG_A5XX_GRAS_CL_VPORT_XSCALE_0				0x0000e011
+-#define A5XX_GRAS_CL_VPORT_XSCALE_0__MASK			0xffffffff
+-#define A5XX_GRAS_CL_VPORT_XSCALE_0__SHIFT			0
+-static inline uint32_t A5XX_GRAS_CL_VPORT_XSCALE_0(float val)
+-{
+-	return ((fui(val)) << A5XX_GRAS_CL_VPORT_XSCALE_0__SHIFT) & A5XX_GRAS_CL_VPORT_XSCALE_0__MASK;
+-}
+-
+-#define REG_A5XX_GRAS_CL_VPORT_YOFFSET_0			0x0000e012
+-#define A5XX_GRAS_CL_VPORT_YOFFSET_0__MASK			0xffffffff
+-#define A5XX_GRAS_CL_VPORT_YOFFSET_0__SHIFT			0
+-static inline uint32_t A5XX_GRAS_CL_VPORT_YOFFSET_0(float val)
+-{
+-	return ((fui(val)) << A5XX_GRAS_CL_VPORT_YOFFSET_0__SHIFT) & A5XX_GRAS_CL_VPORT_YOFFSET_0__MASK;
+-}
+-
+-#define REG_A5XX_GRAS_CL_VPORT_YSCALE_0				0x0000e013
+-#define A5XX_GRAS_CL_VPORT_YSCALE_0__MASK			0xffffffff
+-#define A5XX_GRAS_CL_VPORT_YSCALE_0__SHIFT			0
+-static inline uint32_t A5XX_GRAS_CL_VPORT_YSCALE_0(float val)
+-{
+-	return ((fui(val)) << A5XX_GRAS_CL_VPORT_YSCALE_0__SHIFT) & A5XX_GRAS_CL_VPORT_YSCALE_0__MASK;
+-}
+-
+-#define REG_A5XX_GRAS_CL_VPORT_ZOFFSET_0			0x0000e014
+-#define A5XX_GRAS_CL_VPORT_ZOFFSET_0__MASK			0xffffffff
+-#define A5XX_GRAS_CL_VPORT_ZOFFSET_0__SHIFT			0
+-static inline uint32_t A5XX_GRAS_CL_VPORT_ZOFFSET_0(float val)
+-{
+-	return ((fui(val)) << A5XX_GRAS_CL_VPORT_ZOFFSET_0__SHIFT) & A5XX_GRAS_CL_VPORT_ZOFFSET_0__MASK;
+-}
+-
+-#define REG_A5XX_GRAS_CL_VPORT_ZSCALE_0				0x0000e015
+-#define A5XX_GRAS_CL_VPORT_ZSCALE_0__MASK			0xffffffff
+-#define A5XX_GRAS_CL_VPORT_ZSCALE_0__SHIFT			0
+-static inline uint32_t A5XX_GRAS_CL_VPORT_ZSCALE_0(float val)
+-{
+-	return ((fui(val)) << A5XX_GRAS_CL_VPORT_ZSCALE_0__SHIFT) & A5XX_GRAS_CL_VPORT_ZSCALE_0__MASK;
+-}
+-
+-#define REG_A5XX_GRAS_SU_CNTL					0x0000e090
+-#define A5XX_GRAS_SU_CNTL_CULL_FRONT				0x00000001
+-#define A5XX_GRAS_SU_CNTL_CULL_BACK				0x00000002
+-#define A5XX_GRAS_SU_CNTL_FRONT_CW				0x00000004
+-#define A5XX_GRAS_SU_CNTL_LINEHALFWIDTH__MASK			0x000007f8
+-#define A5XX_GRAS_SU_CNTL_LINEHALFWIDTH__SHIFT			3
+-static inline uint32_t A5XX_GRAS_SU_CNTL_LINEHALFWIDTH(float val)
+-{
+-	return ((((int32_t)(val * 4.0))) << A5XX_GRAS_SU_CNTL_LINEHALFWIDTH__SHIFT) & A5XX_GRAS_SU_CNTL_LINEHALFWIDTH__MASK;
+-}
+-#define A5XX_GRAS_SU_CNTL_POLY_OFFSET				0x00000800
+-#define A5XX_GRAS_SU_CNTL_LINE_MODE__MASK			0x00002000
+-#define A5XX_GRAS_SU_CNTL_LINE_MODE__SHIFT			13
+-static inline uint32_t A5XX_GRAS_SU_CNTL_LINE_MODE(enum a5xx_line_mode val)
+-{
+-	return ((val) << A5XX_GRAS_SU_CNTL_LINE_MODE__SHIFT) & A5XX_GRAS_SU_CNTL_LINE_MODE__MASK;
+-}
+-
+-#define REG_A5XX_GRAS_SU_POINT_MINMAX				0x0000e091
+-#define A5XX_GRAS_SU_POINT_MINMAX_MIN__MASK			0x0000ffff
+-#define A5XX_GRAS_SU_POINT_MINMAX_MIN__SHIFT			0
+-static inline uint32_t A5XX_GRAS_SU_POINT_MINMAX_MIN(float val)
+-{
+-	return ((((uint32_t)(val * 16.0))) << A5XX_GRAS_SU_POINT_MINMAX_MIN__SHIFT) & A5XX_GRAS_SU_POINT_MINMAX_MIN__MASK;
+-}
+-#define A5XX_GRAS_SU_POINT_MINMAX_MAX__MASK			0xffff0000
+-#define A5XX_GRAS_SU_POINT_MINMAX_MAX__SHIFT			16
+-static inline uint32_t A5XX_GRAS_SU_POINT_MINMAX_MAX(float val)
+-{
+-	return ((((uint32_t)(val * 16.0))) << A5XX_GRAS_SU_POINT_MINMAX_MAX__SHIFT) & A5XX_GRAS_SU_POINT_MINMAX_MAX__MASK;
+-}
+-
+-#define REG_A5XX_GRAS_SU_POINT_SIZE				0x0000e092
+-#define A5XX_GRAS_SU_POINT_SIZE__MASK				0xffffffff
+-#define A5XX_GRAS_SU_POINT_SIZE__SHIFT				0
+-static inline uint32_t A5XX_GRAS_SU_POINT_SIZE(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A5XX_GRAS_SU_POINT_SIZE__SHIFT) & A5XX_GRAS_SU_POINT_SIZE__MASK;
+-}
+-
+-#define REG_A5XX_GRAS_SU_LAYERED				0x0000e093
+-
+-#define REG_A5XX_GRAS_SU_DEPTH_PLANE_CNTL			0x0000e094
+-#define A5XX_GRAS_SU_DEPTH_PLANE_CNTL_FRAG_WRITES_Z		0x00000001
+-#define A5XX_GRAS_SU_DEPTH_PLANE_CNTL_UNK1			0x00000002
+-
+-#define REG_A5XX_GRAS_SU_POLY_OFFSET_SCALE			0x0000e095
+-#define A5XX_GRAS_SU_POLY_OFFSET_SCALE__MASK			0xffffffff
+-#define A5XX_GRAS_SU_POLY_OFFSET_SCALE__SHIFT			0
+-static inline uint32_t A5XX_GRAS_SU_POLY_OFFSET_SCALE(float val)
+-{
+-	return ((fui(val)) << A5XX_GRAS_SU_POLY_OFFSET_SCALE__SHIFT) & A5XX_GRAS_SU_POLY_OFFSET_SCALE__MASK;
+-}
+-
+-#define REG_A5XX_GRAS_SU_POLY_OFFSET_OFFSET			0x0000e096
+-#define A5XX_GRAS_SU_POLY_OFFSET_OFFSET__MASK			0xffffffff
+-#define A5XX_GRAS_SU_POLY_OFFSET_OFFSET__SHIFT			0
+-static inline uint32_t A5XX_GRAS_SU_POLY_OFFSET_OFFSET(float val)
+-{
+-	return ((fui(val)) << A5XX_GRAS_SU_POLY_OFFSET_OFFSET__SHIFT) & A5XX_GRAS_SU_POLY_OFFSET_OFFSET__MASK;
+-}
+-
+-#define REG_A5XX_GRAS_SU_POLY_OFFSET_OFFSET_CLAMP		0x0000e097
+-#define A5XX_GRAS_SU_POLY_OFFSET_OFFSET_CLAMP__MASK		0xffffffff
+-#define A5XX_GRAS_SU_POLY_OFFSET_OFFSET_CLAMP__SHIFT		0
+-static inline uint32_t A5XX_GRAS_SU_POLY_OFFSET_OFFSET_CLAMP(float val)
+-{
+-	return ((fui(val)) << A5XX_GRAS_SU_POLY_OFFSET_OFFSET_CLAMP__SHIFT) & A5XX_GRAS_SU_POLY_OFFSET_OFFSET_CLAMP__MASK;
+-}
+-
+-#define REG_A5XX_GRAS_SU_DEPTH_BUFFER_INFO			0x0000e098
+-#define A5XX_GRAS_SU_DEPTH_BUFFER_INFO_DEPTH_FORMAT__MASK	0x00000007
+-#define A5XX_GRAS_SU_DEPTH_BUFFER_INFO_DEPTH_FORMAT__SHIFT	0
+-static inline uint32_t A5XX_GRAS_SU_DEPTH_BUFFER_INFO_DEPTH_FORMAT(enum a5xx_depth_format val)
+-{
+-	return ((val) << A5XX_GRAS_SU_DEPTH_BUFFER_INFO_DEPTH_FORMAT__SHIFT) & A5XX_GRAS_SU_DEPTH_BUFFER_INFO_DEPTH_FORMAT__MASK;
+-}
+-
+-#define REG_A5XX_GRAS_SU_CONSERVATIVE_RAS_CNTL			0x0000e099
+-
+-#define REG_A5XX_GRAS_SC_CNTL					0x0000e0a0
+-#define A5XX_GRAS_SC_CNTL_BINNING_PASS				0x00000001
+-#define A5XX_GRAS_SC_CNTL_SAMPLES_PASSED			0x00008000
+-
+-#define REG_A5XX_GRAS_SC_BIN_CNTL				0x0000e0a1
+-
+-#define REG_A5XX_GRAS_SC_RAS_MSAA_CNTL				0x0000e0a2
+-#define A5XX_GRAS_SC_RAS_MSAA_CNTL_SAMPLES__MASK		0x00000003
+-#define A5XX_GRAS_SC_RAS_MSAA_CNTL_SAMPLES__SHIFT		0
+-static inline uint32_t A5XX_GRAS_SC_RAS_MSAA_CNTL_SAMPLES(enum a3xx_msaa_samples val)
+-{
+-	return ((val) << A5XX_GRAS_SC_RAS_MSAA_CNTL_SAMPLES__SHIFT) & A5XX_GRAS_SC_RAS_MSAA_CNTL_SAMPLES__MASK;
+-}
+-
+-#define REG_A5XX_GRAS_SC_DEST_MSAA_CNTL				0x0000e0a3
+-#define A5XX_GRAS_SC_DEST_MSAA_CNTL_SAMPLES__MASK		0x00000003
+-#define A5XX_GRAS_SC_DEST_MSAA_CNTL_SAMPLES__SHIFT		0
+-static inline uint32_t A5XX_GRAS_SC_DEST_MSAA_CNTL_SAMPLES(enum a3xx_msaa_samples val)
+-{
+-	return ((val) << A5XX_GRAS_SC_DEST_MSAA_CNTL_SAMPLES__SHIFT) & A5XX_GRAS_SC_DEST_MSAA_CNTL_SAMPLES__MASK;
+-}
+-#define A5XX_GRAS_SC_DEST_MSAA_CNTL_MSAA_DISABLE		0x00000004
+-
+-#define REG_A5XX_GRAS_SC_SCREEN_SCISSOR_CNTL			0x0000e0a4
+-
+-#define REG_A5XX_GRAS_SC_SCREEN_SCISSOR_TL_0			0x0000e0aa
+-#define A5XX_GRAS_SC_SCREEN_SCISSOR_TL_0_WINDOW_OFFSET_DISABLE	0x80000000
+-#define A5XX_GRAS_SC_SCREEN_SCISSOR_TL_0_X__MASK		0x00007fff
+-#define A5XX_GRAS_SC_SCREEN_SCISSOR_TL_0_X__SHIFT		0
+-static inline uint32_t A5XX_GRAS_SC_SCREEN_SCISSOR_TL_0_X(uint32_t val)
+-{
+-	return ((val) << A5XX_GRAS_SC_SCREEN_SCISSOR_TL_0_X__SHIFT) & A5XX_GRAS_SC_SCREEN_SCISSOR_TL_0_X__MASK;
+-}
+-#define A5XX_GRAS_SC_SCREEN_SCISSOR_TL_0_Y__MASK		0x7fff0000
+-#define A5XX_GRAS_SC_SCREEN_SCISSOR_TL_0_Y__SHIFT		16
+-static inline uint32_t A5XX_GRAS_SC_SCREEN_SCISSOR_TL_0_Y(uint32_t val)
+-{
+-	return ((val) << A5XX_GRAS_SC_SCREEN_SCISSOR_TL_0_Y__SHIFT) & A5XX_GRAS_SC_SCREEN_SCISSOR_TL_0_Y__MASK;
+-}
+-
+-#define REG_A5XX_GRAS_SC_SCREEN_SCISSOR_BR_0			0x0000e0ab
+-#define A5XX_GRAS_SC_SCREEN_SCISSOR_BR_0_WINDOW_OFFSET_DISABLE	0x80000000
+-#define A5XX_GRAS_SC_SCREEN_SCISSOR_BR_0_X__MASK		0x00007fff
+-#define A5XX_GRAS_SC_SCREEN_SCISSOR_BR_0_X__SHIFT		0
+-static inline uint32_t A5XX_GRAS_SC_SCREEN_SCISSOR_BR_0_X(uint32_t val)
+-{
+-	return ((val) << A5XX_GRAS_SC_SCREEN_SCISSOR_BR_0_X__SHIFT) & A5XX_GRAS_SC_SCREEN_SCISSOR_BR_0_X__MASK;
+-}
+-#define A5XX_GRAS_SC_SCREEN_SCISSOR_BR_0_Y__MASK		0x7fff0000
+-#define A5XX_GRAS_SC_SCREEN_SCISSOR_BR_0_Y__SHIFT		16
+-static inline uint32_t A5XX_GRAS_SC_SCREEN_SCISSOR_BR_0_Y(uint32_t val)
+-{
+-	return ((val) << A5XX_GRAS_SC_SCREEN_SCISSOR_BR_0_Y__SHIFT) & A5XX_GRAS_SC_SCREEN_SCISSOR_BR_0_Y__MASK;
+-}
+-
+-#define REG_A5XX_GRAS_SC_VIEWPORT_SCISSOR_TL_0			0x0000e0ca
+-#define A5XX_GRAS_SC_VIEWPORT_SCISSOR_TL_0_WINDOW_OFFSET_DISABLE	0x80000000
+-#define A5XX_GRAS_SC_VIEWPORT_SCISSOR_TL_0_X__MASK		0x00007fff
+-#define A5XX_GRAS_SC_VIEWPORT_SCISSOR_TL_0_X__SHIFT		0
+-static inline uint32_t A5XX_GRAS_SC_VIEWPORT_SCISSOR_TL_0_X(uint32_t val)
+-{
+-	return ((val) << A5XX_GRAS_SC_VIEWPORT_SCISSOR_TL_0_X__SHIFT) & A5XX_GRAS_SC_VIEWPORT_SCISSOR_TL_0_X__MASK;
+-}
+-#define A5XX_GRAS_SC_VIEWPORT_SCISSOR_TL_0_Y__MASK		0x7fff0000
+-#define A5XX_GRAS_SC_VIEWPORT_SCISSOR_TL_0_Y__SHIFT		16
+-static inline uint32_t A5XX_GRAS_SC_VIEWPORT_SCISSOR_TL_0_Y(uint32_t val)
+-{
+-	return ((val) << A5XX_GRAS_SC_VIEWPORT_SCISSOR_TL_0_Y__SHIFT) & A5XX_GRAS_SC_VIEWPORT_SCISSOR_TL_0_Y__MASK;
+-}
+-
+-#define REG_A5XX_GRAS_SC_VIEWPORT_SCISSOR_BR_0			0x0000e0cb
+-#define A5XX_GRAS_SC_VIEWPORT_SCISSOR_BR_0_WINDOW_OFFSET_DISABLE	0x80000000
+-#define A5XX_GRAS_SC_VIEWPORT_SCISSOR_BR_0_X__MASK		0x00007fff
+-#define A5XX_GRAS_SC_VIEWPORT_SCISSOR_BR_0_X__SHIFT		0
+-static inline uint32_t A5XX_GRAS_SC_VIEWPORT_SCISSOR_BR_0_X(uint32_t val)
+-{
+-	return ((val) << A5XX_GRAS_SC_VIEWPORT_SCISSOR_BR_0_X__SHIFT) & A5XX_GRAS_SC_VIEWPORT_SCISSOR_BR_0_X__MASK;
+-}
+-#define A5XX_GRAS_SC_VIEWPORT_SCISSOR_BR_0_Y__MASK		0x7fff0000
+-#define A5XX_GRAS_SC_VIEWPORT_SCISSOR_BR_0_Y__SHIFT		16
+-static inline uint32_t A5XX_GRAS_SC_VIEWPORT_SCISSOR_BR_0_Y(uint32_t val)
+-{
+-	return ((val) << A5XX_GRAS_SC_VIEWPORT_SCISSOR_BR_0_Y__SHIFT) & A5XX_GRAS_SC_VIEWPORT_SCISSOR_BR_0_Y__MASK;
+-}
+-
+-#define REG_A5XX_GRAS_SC_WINDOW_SCISSOR_TL			0x0000e0ea
+-#define A5XX_GRAS_SC_WINDOW_SCISSOR_TL_WINDOW_OFFSET_DISABLE	0x80000000
+-#define A5XX_GRAS_SC_WINDOW_SCISSOR_TL_X__MASK			0x00007fff
+-#define A5XX_GRAS_SC_WINDOW_SCISSOR_TL_X__SHIFT			0
+-static inline uint32_t A5XX_GRAS_SC_WINDOW_SCISSOR_TL_X(uint32_t val)
+-{
+-	return ((val) << A5XX_GRAS_SC_WINDOW_SCISSOR_TL_X__SHIFT) & A5XX_GRAS_SC_WINDOW_SCISSOR_TL_X__MASK;
+-}
+-#define A5XX_GRAS_SC_WINDOW_SCISSOR_TL_Y__MASK			0x7fff0000
+-#define A5XX_GRAS_SC_WINDOW_SCISSOR_TL_Y__SHIFT			16
+-static inline uint32_t A5XX_GRAS_SC_WINDOW_SCISSOR_TL_Y(uint32_t val)
+-{
+-	return ((val) << A5XX_GRAS_SC_WINDOW_SCISSOR_TL_Y__SHIFT) & A5XX_GRAS_SC_WINDOW_SCISSOR_TL_Y__MASK;
+-}
+-
+-#define REG_A5XX_GRAS_SC_WINDOW_SCISSOR_BR			0x0000e0eb
+-#define A5XX_GRAS_SC_WINDOW_SCISSOR_BR_WINDOW_OFFSET_DISABLE	0x80000000
+-#define A5XX_GRAS_SC_WINDOW_SCISSOR_BR_X__MASK			0x00007fff
+-#define A5XX_GRAS_SC_WINDOW_SCISSOR_BR_X__SHIFT			0
+-static inline uint32_t A5XX_GRAS_SC_WINDOW_SCISSOR_BR_X(uint32_t val)
+-{
+-	return ((val) << A5XX_GRAS_SC_WINDOW_SCISSOR_BR_X__SHIFT) & A5XX_GRAS_SC_WINDOW_SCISSOR_BR_X__MASK;
+-}
+-#define A5XX_GRAS_SC_WINDOW_SCISSOR_BR_Y__MASK			0x7fff0000
+-#define A5XX_GRAS_SC_WINDOW_SCISSOR_BR_Y__SHIFT			16
+-static inline uint32_t A5XX_GRAS_SC_WINDOW_SCISSOR_BR_Y(uint32_t val)
+-{
+-	return ((val) << A5XX_GRAS_SC_WINDOW_SCISSOR_BR_Y__SHIFT) & A5XX_GRAS_SC_WINDOW_SCISSOR_BR_Y__MASK;
+-}
+-
+-#define REG_A5XX_GRAS_LRZ_CNTL					0x0000e100
+-#define A5XX_GRAS_LRZ_CNTL_ENABLE				0x00000001
+-#define A5XX_GRAS_LRZ_CNTL_LRZ_WRITE				0x00000002
+-#define A5XX_GRAS_LRZ_CNTL_GREATER				0x00000004
+-
+-#define REG_A5XX_GRAS_LRZ_BUFFER_BASE_LO			0x0000e101
+-
+-#define REG_A5XX_GRAS_LRZ_BUFFER_BASE_HI			0x0000e102
+-
+-#define REG_A5XX_GRAS_LRZ_BUFFER_PITCH				0x0000e103
+-#define A5XX_GRAS_LRZ_BUFFER_PITCH__MASK			0xffffffff
+-#define A5XX_GRAS_LRZ_BUFFER_PITCH__SHIFT			0
+-static inline uint32_t A5XX_GRAS_LRZ_BUFFER_PITCH(uint32_t val)
+-{
+-	assert(!(val & 0x1f));
+-	return (((val >> 5)) << A5XX_GRAS_LRZ_BUFFER_PITCH__SHIFT) & A5XX_GRAS_LRZ_BUFFER_PITCH__MASK;
+-}
+-
+-#define REG_A5XX_GRAS_LRZ_FAST_CLEAR_BUFFER_BASE_LO		0x0000e104
+-
+-#define REG_A5XX_GRAS_LRZ_FAST_CLEAR_BUFFER_BASE_HI		0x0000e105
+-
+-#define REG_A5XX_RB_CNTL					0x0000e140
+-#define A5XX_RB_CNTL_WIDTH__MASK				0x000000ff
+-#define A5XX_RB_CNTL_WIDTH__SHIFT				0
+-static inline uint32_t A5XX_RB_CNTL_WIDTH(uint32_t val)
+-{
+-	assert(!(val & 0x1f));
+-	return (((val >> 5)) << A5XX_RB_CNTL_WIDTH__SHIFT) & A5XX_RB_CNTL_WIDTH__MASK;
+-}
+-#define A5XX_RB_CNTL_HEIGHT__MASK				0x0001fe00
+-#define A5XX_RB_CNTL_HEIGHT__SHIFT				9
+-static inline uint32_t A5XX_RB_CNTL_HEIGHT(uint32_t val)
+-{
+-	assert(!(val & 0x1f));
+-	return (((val >> 5)) << A5XX_RB_CNTL_HEIGHT__SHIFT) & A5XX_RB_CNTL_HEIGHT__MASK;
+-}
+-#define A5XX_RB_CNTL_BYPASS					0x00020000
+-
+-#define REG_A5XX_RB_RENDER_CNTL					0x0000e141
+-#define A5XX_RB_RENDER_CNTL_BINNING_PASS			0x00000001
+-#define A5XX_RB_RENDER_CNTL_SAMPLES_PASSED			0x00000040
+-#define A5XX_RB_RENDER_CNTL_DISABLE_COLOR_PIPE			0x00000080
+-#define A5XX_RB_RENDER_CNTL_FLAG_DEPTH				0x00004000
+-#define A5XX_RB_RENDER_CNTL_FLAG_DEPTH2				0x00008000
+-#define A5XX_RB_RENDER_CNTL_FLAG_MRTS__MASK			0x00ff0000
+-#define A5XX_RB_RENDER_CNTL_FLAG_MRTS__SHIFT			16
+-static inline uint32_t A5XX_RB_RENDER_CNTL_FLAG_MRTS(uint32_t val)
+-{
+-	return ((val) << A5XX_RB_RENDER_CNTL_FLAG_MRTS__SHIFT) & A5XX_RB_RENDER_CNTL_FLAG_MRTS__MASK;
+-}
+-#define A5XX_RB_RENDER_CNTL_FLAG_MRTS2__MASK			0xff000000
+-#define A5XX_RB_RENDER_CNTL_FLAG_MRTS2__SHIFT			24
+-static inline uint32_t A5XX_RB_RENDER_CNTL_FLAG_MRTS2(uint32_t val)
+-{
+-	return ((val) << A5XX_RB_RENDER_CNTL_FLAG_MRTS2__SHIFT) & A5XX_RB_RENDER_CNTL_FLAG_MRTS2__MASK;
+-}
+-
+-#define REG_A5XX_RB_RAS_MSAA_CNTL				0x0000e142
+-#define A5XX_RB_RAS_MSAA_CNTL_SAMPLES__MASK			0x00000003
+-#define A5XX_RB_RAS_MSAA_CNTL_SAMPLES__SHIFT			0
+-static inline uint32_t A5XX_RB_RAS_MSAA_CNTL_SAMPLES(enum a3xx_msaa_samples val)
+-{
+-	return ((val) << A5XX_RB_RAS_MSAA_CNTL_SAMPLES__SHIFT) & A5XX_RB_RAS_MSAA_CNTL_SAMPLES__MASK;
+-}
+-
+-#define REG_A5XX_RB_DEST_MSAA_CNTL				0x0000e143
+-#define A5XX_RB_DEST_MSAA_CNTL_SAMPLES__MASK			0x00000003
+-#define A5XX_RB_DEST_MSAA_CNTL_SAMPLES__SHIFT			0
+-static inline uint32_t A5XX_RB_DEST_MSAA_CNTL_SAMPLES(enum a3xx_msaa_samples val)
+-{
+-	return ((val) << A5XX_RB_DEST_MSAA_CNTL_SAMPLES__SHIFT) & A5XX_RB_DEST_MSAA_CNTL_SAMPLES__MASK;
+-}
+-#define A5XX_RB_DEST_MSAA_CNTL_MSAA_DISABLE			0x00000004
+-
+-#define REG_A5XX_RB_RENDER_CONTROL0				0x0000e144
+-#define A5XX_RB_RENDER_CONTROL0_IJ_PERSP_PIXEL			0x00000001
+-#define A5XX_RB_RENDER_CONTROL0_IJ_PERSP_CENTROID		0x00000002
+-#define A5XX_RB_RENDER_CONTROL0_IJ_PERSP_SAMPLE			0x00000004
+-#define A5XX_RB_RENDER_CONTROL0_IJ_LINEAR_PIXEL			0x00000008
+-#define A5XX_RB_RENDER_CONTROL0_IJ_LINEAR_CENTROID		0x00000010
+-#define A5XX_RB_RENDER_CONTROL0_IJ_LINEAR_SAMPLE		0x00000020
+-#define A5XX_RB_RENDER_CONTROL0_COORD_MASK__MASK		0x000003c0
+-#define A5XX_RB_RENDER_CONTROL0_COORD_MASK__SHIFT		6
+-static inline uint32_t A5XX_RB_RENDER_CONTROL0_COORD_MASK(uint32_t val)
+-{
+-	return ((val) << A5XX_RB_RENDER_CONTROL0_COORD_MASK__SHIFT) & A5XX_RB_RENDER_CONTROL0_COORD_MASK__MASK;
+-}
+-
+-#define REG_A5XX_RB_RENDER_CONTROL1				0x0000e145
+-#define A5XX_RB_RENDER_CONTROL1_SAMPLEMASK			0x00000001
+-#define A5XX_RB_RENDER_CONTROL1_FACENESS			0x00000002
+-#define A5XX_RB_RENDER_CONTROL1_SAMPLEID			0x00000004
+-
+-#define REG_A5XX_RB_FS_OUTPUT_CNTL				0x0000e146
+-#define A5XX_RB_FS_OUTPUT_CNTL_MRT__MASK			0x0000000f
+-#define A5XX_RB_FS_OUTPUT_CNTL_MRT__SHIFT			0
+-static inline uint32_t A5XX_RB_FS_OUTPUT_CNTL_MRT(uint32_t val)
+-{
+-	return ((val) << A5XX_RB_FS_OUTPUT_CNTL_MRT__SHIFT) & A5XX_RB_FS_OUTPUT_CNTL_MRT__MASK;
+-}
+-#define A5XX_RB_FS_OUTPUT_CNTL_FRAG_WRITES_Z			0x00000020
+-
+-#define REG_A5XX_RB_RENDER_COMPONENTS				0x0000e147
+-#define A5XX_RB_RENDER_COMPONENTS_RT0__MASK			0x0000000f
+-#define A5XX_RB_RENDER_COMPONENTS_RT0__SHIFT			0
+-static inline uint32_t A5XX_RB_RENDER_COMPONENTS_RT0(uint32_t val)
+-{
+-	return ((val) << A5XX_RB_RENDER_COMPONENTS_RT0__SHIFT) & A5XX_RB_RENDER_COMPONENTS_RT0__MASK;
+-}
+-#define A5XX_RB_RENDER_COMPONENTS_RT1__MASK			0x000000f0
+-#define A5XX_RB_RENDER_COMPONENTS_RT1__SHIFT			4
+-static inline uint32_t A5XX_RB_RENDER_COMPONENTS_RT1(uint32_t val)
+-{
+-	return ((val) << A5XX_RB_RENDER_COMPONENTS_RT1__SHIFT) & A5XX_RB_RENDER_COMPONENTS_RT1__MASK;
+-}
+-#define A5XX_RB_RENDER_COMPONENTS_RT2__MASK			0x00000f00
+-#define A5XX_RB_RENDER_COMPONENTS_RT2__SHIFT			8
+-static inline uint32_t A5XX_RB_RENDER_COMPONENTS_RT2(uint32_t val)
+-{
+-	return ((val) << A5XX_RB_RENDER_COMPONENTS_RT2__SHIFT) & A5XX_RB_RENDER_COMPONENTS_RT2__MASK;
+-}
+-#define A5XX_RB_RENDER_COMPONENTS_RT3__MASK			0x0000f000
+-#define A5XX_RB_RENDER_COMPONENTS_RT3__SHIFT			12
+-static inline uint32_t A5XX_RB_RENDER_COMPONENTS_RT3(uint32_t val)
+-{
+-	return ((val) << A5XX_RB_RENDER_COMPONENTS_RT3__SHIFT) & A5XX_RB_RENDER_COMPONENTS_RT3__MASK;
+-}
+-#define A5XX_RB_RENDER_COMPONENTS_RT4__MASK			0x000f0000
+-#define A5XX_RB_RENDER_COMPONENTS_RT4__SHIFT			16
+-static inline uint32_t A5XX_RB_RENDER_COMPONENTS_RT4(uint32_t val)
+-{
+-	return ((val) << A5XX_RB_RENDER_COMPONENTS_RT4__SHIFT) & A5XX_RB_RENDER_COMPONENTS_RT4__MASK;
+-}
+-#define A5XX_RB_RENDER_COMPONENTS_RT5__MASK			0x00f00000
+-#define A5XX_RB_RENDER_COMPONENTS_RT5__SHIFT			20
+-static inline uint32_t A5XX_RB_RENDER_COMPONENTS_RT5(uint32_t val)
+-{
+-	return ((val) << A5XX_RB_RENDER_COMPONENTS_RT5__SHIFT) & A5XX_RB_RENDER_COMPONENTS_RT5__MASK;
+-}
+-#define A5XX_RB_RENDER_COMPONENTS_RT6__MASK			0x0f000000
+-#define A5XX_RB_RENDER_COMPONENTS_RT6__SHIFT			24
+-static inline uint32_t A5XX_RB_RENDER_COMPONENTS_RT6(uint32_t val)
+-{
+-	return ((val) << A5XX_RB_RENDER_COMPONENTS_RT6__SHIFT) & A5XX_RB_RENDER_COMPONENTS_RT6__MASK;
+-}
+-#define A5XX_RB_RENDER_COMPONENTS_RT7__MASK			0xf0000000
+-#define A5XX_RB_RENDER_COMPONENTS_RT7__SHIFT			28
+-static inline uint32_t A5XX_RB_RENDER_COMPONENTS_RT7(uint32_t val)
+-{
+-	return ((val) << A5XX_RB_RENDER_COMPONENTS_RT7__SHIFT) & A5XX_RB_RENDER_COMPONENTS_RT7__MASK;
+-}
+-
+-#define REG_A5XX_RB_MRT(i0) (0x0000e150 + 0x7*(i0))
+-
+-static inline uint32_t REG_A5XX_RB_MRT_CONTROL(uint32_t i0) { return 0x0000e150 + 0x7*i0; }
+-#define A5XX_RB_MRT_CONTROL_BLEND				0x00000001
+-#define A5XX_RB_MRT_CONTROL_BLEND2				0x00000002
+-#define A5XX_RB_MRT_CONTROL_ROP_ENABLE				0x00000004
+-#define A5XX_RB_MRT_CONTROL_ROP_CODE__MASK			0x00000078
+-#define A5XX_RB_MRT_CONTROL_ROP_CODE__SHIFT			3
+-static inline uint32_t A5XX_RB_MRT_CONTROL_ROP_CODE(enum a3xx_rop_code val)
+-{
+-	return ((val) << A5XX_RB_MRT_CONTROL_ROP_CODE__SHIFT) & A5XX_RB_MRT_CONTROL_ROP_CODE__MASK;
+-}
+-#define A5XX_RB_MRT_CONTROL_COMPONENT_ENABLE__MASK		0x00000780
+-#define A5XX_RB_MRT_CONTROL_COMPONENT_ENABLE__SHIFT		7
+-static inline uint32_t A5XX_RB_MRT_CONTROL_COMPONENT_ENABLE(uint32_t val)
+-{
+-	return ((val) << A5XX_RB_MRT_CONTROL_COMPONENT_ENABLE__SHIFT) & A5XX_RB_MRT_CONTROL_COMPONENT_ENABLE__MASK;
+-}
+-
+-static inline uint32_t REG_A5XX_RB_MRT_BLEND_CONTROL(uint32_t i0) { return 0x0000e151 + 0x7*i0; }
+-#define A5XX_RB_MRT_BLEND_CONTROL_RGB_SRC_FACTOR__MASK		0x0000001f
+-#define A5XX_RB_MRT_BLEND_CONTROL_RGB_SRC_FACTOR__SHIFT		0
+-static inline uint32_t A5XX_RB_MRT_BLEND_CONTROL_RGB_SRC_FACTOR(enum adreno_rb_blend_factor val)
+-{
+-	return ((val) << A5XX_RB_MRT_BLEND_CONTROL_RGB_SRC_FACTOR__SHIFT) & A5XX_RB_MRT_BLEND_CONTROL_RGB_SRC_FACTOR__MASK;
+-}
+-#define A5XX_RB_MRT_BLEND_CONTROL_RGB_BLEND_OPCODE__MASK	0x000000e0
+-#define A5XX_RB_MRT_BLEND_CONTROL_RGB_BLEND_OPCODE__SHIFT	5
+-static inline uint32_t A5XX_RB_MRT_BLEND_CONTROL_RGB_BLEND_OPCODE(enum a3xx_rb_blend_opcode val)
+-{
+-	return ((val) << A5XX_RB_MRT_BLEND_CONTROL_RGB_BLEND_OPCODE__SHIFT) & A5XX_RB_MRT_BLEND_CONTROL_RGB_BLEND_OPCODE__MASK;
+-}
+-#define A5XX_RB_MRT_BLEND_CONTROL_RGB_DEST_FACTOR__MASK		0x00001f00
+-#define A5XX_RB_MRT_BLEND_CONTROL_RGB_DEST_FACTOR__SHIFT	8
+-static inline uint32_t A5XX_RB_MRT_BLEND_CONTROL_RGB_DEST_FACTOR(enum adreno_rb_blend_factor val)
+-{
+-	return ((val) << A5XX_RB_MRT_BLEND_CONTROL_RGB_DEST_FACTOR__SHIFT) & A5XX_RB_MRT_BLEND_CONTROL_RGB_DEST_FACTOR__MASK;
+-}
+-#define A5XX_RB_MRT_BLEND_CONTROL_ALPHA_SRC_FACTOR__MASK	0x001f0000
+-#define A5XX_RB_MRT_BLEND_CONTROL_ALPHA_SRC_FACTOR__SHIFT	16
+-static inline uint32_t A5XX_RB_MRT_BLEND_CONTROL_ALPHA_SRC_FACTOR(enum adreno_rb_blend_factor val)
+-{
+-	return ((val) << A5XX_RB_MRT_BLEND_CONTROL_ALPHA_SRC_FACTOR__SHIFT) & A5XX_RB_MRT_BLEND_CONTROL_ALPHA_SRC_FACTOR__MASK;
+-}
+-#define A5XX_RB_MRT_BLEND_CONTROL_ALPHA_BLEND_OPCODE__MASK	0x00e00000
+-#define A5XX_RB_MRT_BLEND_CONTROL_ALPHA_BLEND_OPCODE__SHIFT	21
+-static inline uint32_t A5XX_RB_MRT_BLEND_CONTROL_ALPHA_BLEND_OPCODE(enum a3xx_rb_blend_opcode val)
+-{
+-	return ((val) << A5XX_RB_MRT_BLEND_CONTROL_ALPHA_BLEND_OPCODE__SHIFT) & A5XX_RB_MRT_BLEND_CONTROL_ALPHA_BLEND_OPCODE__MASK;
+-}
+-#define A5XX_RB_MRT_BLEND_CONTROL_ALPHA_DEST_FACTOR__MASK	0x1f000000
+-#define A5XX_RB_MRT_BLEND_CONTROL_ALPHA_DEST_FACTOR__SHIFT	24
+-static inline uint32_t A5XX_RB_MRT_BLEND_CONTROL_ALPHA_DEST_FACTOR(enum adreno_rb_blend_factor val)
+-{
+-	return ((val) << A5XX_RB_MRT_BLEND_CONTROL_ALPHA_DEST_FACTOR__SHIFT) & A5XX_RB_MRT_BLEND_CONTROL_ALPHA_DEST_FACTOR__MASK;
+-}
+-
+-static inline uint32_t REG_A5XX_RB_MRT_BUF_INFO(uint32_t i0) { return 0x0000e152 + 0x7*i0; }
+-#define A5XX_RB_MRT_BUF_INFO_COLOR_FORMAT__MASK			0x000000ff
+-#define A5XX_RB_MRT_BUF_INFO_COLOR_FORMAT__SHIFT		0
+-static inline uint32_t A5XX_RB_MRT_BUF_INFO_COLOR_FORMAT(enum a5xx_color_fmt val)
+-{
+-	return ((val) << A5XX_RB_MRT_BUF_INFO_COLOR_FORMAT__SHIFT) & A5XX_RB_MRT_BUF_INFO_COLOR_FORMAT__MASK;
+-}
+-#define A5XX_RB_MRT_BUF_INFO_COLOR_TILE_MODE__MASK		0x00000300
+-#define A5XX_RB_MRT_BUF_INFO_COLOR_TILE_MODE__SHIFT		8
+-static inline uint32_t A5XX_RB_MRT_BUF_INFO_COLOR_TILE_MODE(enum a5xx_tile_mode val)
+-{
+-	return ((val) << A5XX_RB_MRT_BUF_INFO_COLOR_TILE_MODE__SHIFT) & A5XX_RB_MRT_BUF_INFO_COLOR_TILE_MODE__MASK;
+-}
+-#define A5XX_RB_MRT_BUF_INFO_DITHER_MODE__MASK			0x00001800
+-#define A5XX_RB_MRT_BUF_INFO_DITHER_MODE__SHIFT			11
+-static inline uint32_t A5XX_RB_MRT_BUF_INFO_DITHER_MODE(enum adreno_rb_dither_mode val)
+-{
+-	return ((val) << A5XX_RB_MRT_BUF_INFO_DITHER_MODE__SHIFT) & A5XX_RB_MRT_BUF_INFO_DITHER_MODE__MASK;
+-}
+-#define A5XX_RB_MRT_BUF_INFO_COLOR_SWAP__MASK			0x00006000
+-#define A5XX_RB_MRT_BUF_INFO_COLOR_SWAP__SHIFT			13
+-static inline uint32_t A5XX_RB_MRT_BUF_INFO_COLOR_SWAP(enum a3xx_color_swap val)
+-{
+-	return ((val) << A5XX_RB_MRT_BUF_INFO_COLOR_SWAP__SHIFT) & A5XX_RB_MRT_BUF_INFO_COLOR_SWAP__MASK;
+-}
+-#define A5XX_RB_MRT_BUF_INFO_COLOR_SRGB				0x00008000
+-
+-static inline uint32_t REG_A5XX_RB_MRT_PITCH(uint32_t i0) { return 0x0000e153 + 0x7*i0; }
+-#define A5XX_RB_MRT_PITCH__MASK					0xffffffff
+-#define A5XX_RB_MRT_PITCH__SHIFT				0
+-static inline uint32_t A5XX_RB_MRT_PITCH(uint32_t val)
+-{
+-	assert(!(val & 0x3f));
+-	return (((val >> 6)) << A5XX_RB_MRT_PITCH__SHIFT) & A5XX_RB_MRT_PITCH__MASK;
+-}
+-
+-static inline uint32_t REG_A5XX_RB_MRT_ARRAY_PITCH(uint32_t i0) { return 0x0000e154 + 0x7*i0; }
+-#define A5XX_RB_MRT_ARRAY_PITCH__MASK				0xffffffff
+-#define A5XX_RB_MRT_ARRAY_PITCH__SHIFT				0
+-static inline uint32_t A5XX_RB_MRT_ARRAY_PITCH(uint32_t val)
+-{
+-	assert(!(val & 0x3f));
+-	return (((val >> 6)) << A5XX_RB_MRT_ARRAY_PITCH__SHIFT) & A5XX_RB_MRT_ARRAY_PITCH__MASK;
+-}
+-
+-static inline uint32_t REG_A5XX_RB_MRT_BASE_LO(uint32_t i0) { return 0x0000e155 + 0x7*i0; }
+-
+-static inline uint32_t REG_A5XX_RB_MRT_BASE_HI(uint32_t i0) { return 0x0000e156 + 0x7*i0; }
+-
+-#define REG_A5XX_RB_BLEND_RED					0x0000e1a0
+-#define A5XX_RB_BLEND_RED_UINT__MASK				0x000000ff
+-#define A5XX_RB_BLEND_RED_UINT__SHIFT				0
+-static inline uint32_t A5XX_RB_BLEND_RED_UINT(uint32_t val)
+-{
+-	return ((val) << A5XX_RB_BLEND_RED_UINT__SHIFT) & A5XX_RB_BLEND_RED_UINT__MASK;
+-}
+-#define A5XX_RB_BLEND_RED_SINT__MASK				0x0000ff00
+-#define A5XX_RB_BLEND_RED_SINT__SHIFT				8
+-static inline uint32_t A5XX_RB_BLEND_RED_SINT(uint32_t val)
+-{
+-	return ((val) << A5XX_RB_BLEND_RED_SINT__SHIFT) & A5XX_RB_BLEND_RED_SINT__MASK;
+-}
+-#define A5XX_RB_BLEND_RED_FLOAT__MASK				0xffff0000
+-#define A5XX_RB_BLEND_RED_FLOAT__SHIFT				16
+-static inline uint32_t A5XX_RB_BLEND_RED_FLOAT(float val)
+-{
+-	return ((_mesa_float_to_half(val)) << A5XX_RB_BLEND_RED_FLOAT__SHIFT) & A5XX_RB_BLEND_RED_FLOAT__MASK;
+-}
+-
+-#define REG_A5XX_RB_BLEND_RED_F32				0x0000e1a1
+-#define A5XX_RB_BLEND_RED_F32__MASK				0xffffffff
+-#define A5XX_RB_BLEND_RED_F32__SHIFT				0
+-static inline uint32_t A5XX_RB_BLEND_RED_F32(float val)
+-{
+-	return ((fui(val)) << A5XX_RB_BLEND_RED_F32__SHIFT) & A5XX_RB_BLEND_RED_F32__MASK;
+-}
+-
+-#define REG_A5XX_RB_BLEND_GREEN					0x0000e1a2
+-#define A5XX_RB_BLEND_GREEN_UINT__MASK				0x000000ff
+-#define A5XX_RB_BLEND_GREEN_UINT__SHIFT				0
+-static inline uint32_t A5XX_RB_BLEND_GREEN_UINT(uint32_t val)
+-{
+-	return ((val) << A5XX_RB_BLEND_GREEN_UINT__SHIFT) & A5XX_RB_BLEND_GREEN_UINT__MASK;
+-}
+-#define A5XX_RB_BLEND_GREEN_SINT__MASK				0x0000ff00
+-#define A5XX_RB_BLEND_GREEN_SINT__SHIFT				8
+-static inline uint32_t A5XX_RB_BLEND_GREEN_SINT(uint32_t val)
+-{
+-	return ((val) << A5XX_RB_BLEND_GREEN_SINT__SHIFT) & A5XX_RB_BLEND_GREEN_SINT__MASK;
+-}
+-#define A5XX_RB_BLEND_GREEN_FLOAT__MASK				0xffff0000
+-#define A5XX_RB_BLEND_GREEN_FLOAT__SHIFT			16
+-static inline uint32_t A5XX_RB_BLEND_GREEN_FLOAT(float val)
+-{
+-	return ((_mesa_float_to_half(val)) << A5XX_RB_BLEND_GREEN_FLOAT__SHIFT) & A5XX_RB_BLEND_GREEN_FLOAT__MASK;
+-}
+-
+-#define REG_A5XX_RB_BLEND_GREEN_F32				0x0000e1a3
+-#define A5XX_RB_BLEND_GREEN_F32__MASK				0xffffffff
+-#define A5XX_RB_BLEND_GREEN_F32__SHIFT				0
+-static inline uint32_t A5XX_RB_BLEND_GREEN_F32(float val)
+-{
+-	return ((fui(val)) << A5XX_RB_BLEND_GREEN_F32__SHIFT) & A5XX_RB_BLEND_GREEN_F32__MASK;
+-}
+-
+-#define REG_A5XX_RB_BLEND_BLUE					0x0000e1a4
+-#define A5XX_RB_BLEND_BLUE_UINT__MASK				0x000000ff
+-#define A5XX_RB_BLEND_BLUE_UINT__SHIFT				0
+-static inline uint32_t A5XX_RB_BLEND_BLUE_UINT(uint32_t val)
+-{
+-	return ((val) << A5XX_RB_BLEND_BLUE_UINT__SHIFT) & A5XX_RB_BLEND_BLUE_UINT__MASK;
+-}
+-#define A5XX_RB_BLEND_BLUE_SINT__MASK				0x0000ff00
+-#define A5XX_RB_BLEND_BLUE_SINT__SHIFT				8
+-static inline uint32_t A5XX_RB_BLEND_BLUE_SINT(uint32_t val)
+-{
+-	return ((val) << A5XX_RB_BLEND_BLUE_SINT__SHIFT) & A5XX_RB_BLEND_BLUE_SINT__MASK;
+-}
+-#define A5XX_RB_BLEND_BLUE_FLOAT__MASK				0xffff0000
+-#define A5XX_RB_BLEND_BLUE_FLOAT__SHIFT				16
+-static inline uint32_t A5XX_RB_BLEND_BLUE_FLOAT(float val)
+-{
+-	return ((_mesa_float_to_half(val)) << A5XX_RB_BLEND_BLUE_FLOAT__SHIFT) & A5XX_RB_BLEND_BLUE_FLOAT__MASK;
+-}
+-
+-#define REG_A5XX_RB_BLEND_BLUE_F32				0x0000e1a5
+-#define A5XX_RB_BLEND_BLUE_F32__MASK				0xffffffff
+-#define A5XX_RB_BLEND_BLUE_F32__SHIFT				0
+-static inline uint32_t A5XX_RB_BLEND_BLUE_F32(float val)
+-{
+-	return ((fui(val)) << A5XX_RB_BLEND_BLUE_F32__SHIFT) & A5XX_RB_BLEND_BLUE_F32__MASK;
+-}
+-
+-#define REG_A5XX_RB_BLEND_ALPHA					0x0000e1a6
+-#define A5XX_RB_BLEND_ALPHA_UINT__MASK				0x000000ff
+-#define A5XX_RB_BLEND_ALPHA_UINT__SHIFT				0
+-static inline uint32_t A5XX_RB_BLEND_ALPHA_UINT(uint32_t val)
+-{
+-	return ((val) << A5XX_RB_BLEND_ALPHA_UINT__SHIFT) & A5XX_RB_BLEND_ALPHA_UINT__MASK;
+-}
+-#define A5XX_RB_BLEND_ALPHA_SINT__MASK				0x0000ff00
+-#define A5XX_RB_BLEND_ALPHA_SINT__SHIFT				8
+-static inline uint32_t A5XX_RB_BLEND_ALPHA_SINT(uint32_t val)
+-{
+-	return ((val) << A5XX_RB_BLEND_ALPHA_SINT__SHIFT) & A5XX_RB_BLEND_ALPHA_SINT__MASK;
+-}
+-#define A5XX_RB_BLEND_ALPHA_FLOAT__MASK				0xffff0000
+-#define A5XX_RB_BLEND_ALPHA_FLOAT__SHIFT			16
+-static inline uint32_t A5XX_RB_BLEND_ALPHA_FLOAT(float val)
+-{
+-	return ((_mesa_float_to_half(val)) << A5XX_RB_BLEND_ALPHA_FLOAT__SHIFT) & A5XX_RB_BLEND_ALPHA_FLOAT__MASK;
+-}
+-
+-#define REG_A5XX_RB_BLEND_ALPHA_F32				0x0000e1a7
+-#define A5XX_RB_BLEND_ALPHA_F32__MASK				0xffffffff
+-#define A5XX_RB_BLEND_ALPHA_F32__SHIFT				0
+-static inline uint32_t A5XX_RB_BLEND_ALPHA_F32(float val)
+-{
+-	return ((fui(val)) << A5XX_RB_BLEND_ALPHA_F32__SHIFT) & A5XX_RB_BLEND_ALPHA_F32__MASK;
+-}
+-
+-#define REG_A5XX_RB_ALPHA_CONTROL				0x0000e1a8
+-#define A5XX_RB_ALPHA_CONTROL_ALPHA_REF__MASK			0x000000ff
+-#define A5XX_RB_ALPHA_CONTROL_ALPHA_REF__SHIFT			0
+-static inline uint32_t A5XX_RB_ALPHA_CONTROL_ALPHA_REF(uint32_t val)
+-{
+-	return ((val) << A5XX_RB_ALPHA_CONTROL_ALPHA_REF__SHIFT) & A5XX_RB_ALPHA_CONTROL_ALPHA_REF__MASK;
+-}
+-#define A5XX_RB_ALPHA_CONTROL_ALPHA_TEST			0x00000100
+-#define A5XX_RB_ALPHA_CONTROL_ALPHA_TEST_FUNC__MASK		0x00000e00
+-#define A5XX_RB_ALPHA_CONTROL_ALPHA_TEST_FUNC__SHIFT		9
+-static inline uint32_t A5XX_RB_ALPHA_CONTROL_ALPHA_TEST_FUNC(enum adreno_compare_func val)
+-{
+-	return ((val) << A5XX_RB_ALPHA_CONTROL_ALPHA_TEST_FUNC__SHIFT) & A5XX_RB_ALPHA_CONTROL_ALPHA_TEST_FUNC__MASK;
+-}
+-
+-#define REG_A5XX_RB_BLEND_CNTL					0x0000e1a9
+-#define A5XX_RB_BLEND_CNTL_ENABLE_BLEND__MASK			0x000000ff
+-#define A5XX_RB_BLEND_CNTL_ENABLE_BLEND__SHIFT			0
+-static inline uint32_t A5XX_RB_BLEND_CNTL_ENABLE_BLEND(uint32_t val)
+-{
+-	return ((val) << A5XX_RB_BLEND_CNTL_ENABLE_BLEND__SHIFT) & A5XX_RB_BLEND_CNTL_ENABLE_BLEND__MASK;
+-}
+-#define A5XX_RB_BLEND_CNTL_INDEPENDENT_BLEND			0x00000100
+-#define A5XX_RB_BLEND_CNTL_ALPHA_TO_COVERAGE			0x00000400
+-#define A5XX_RB_BLEND_CNTL_SAMPLE_MASK__MASK			0xffff0000
+-#define A5XX_RB_BLEND_CNTL_SAMPLE_MASK__SHIFT			16
+-static inline uint32_t A5XX_RB_BLEND_CNTL_SAMPLE_MASK(uint32_t val)
+-{
+-	return ((val) << A5XX_RB_BLEND_CNTL_SAMPLE_MASK__SHIFT) & A5XX_RB_BLEND_CNTL_SAMPLE_MASK__MASK;
+-}
+-
+-#define REG_A5XX_RB_DEPTH_PLANE_CNTL				0x0000e1b0
+-#define A5XX_RB_DEPTH_PLANE_CNTL_FRAG_WRITES_Z			0x00000001
+-#define A5XX_RB_DEPTH_PLANE_CNTL_UNK1				0x00000002
+-
+-#define REG_A5XX_RB_DEPTH_CNTL					0x0000e1b1
+-#define A5XX_RB_DEPTH_CNTL_Z_TEST_ENABLE			0x00000001
+-#define A5XX_RB_DEPTH_CNTL_Z_WRITE_ENABLE			0x00000002
+-#define A5XX_RB_DEPTH_CNTL_ZFUNC__MASK				0x0000001c
+-#define A5XX_RB_DEPTH_CNTL_ZFUNC__SHIFT				2
+-static inline uint32_t A5XX_RB_DEPTH_CNTL_ZFUNC(enum adreno_compare_func val)
+-{
+-	return ((val) << A5XX_RB_DEPTH_CNTL_ZFUNC__SHIFT) & A5XX_RB_DEPTH_CNTL_ZFUNC__MASK;
+-}
+-#define A5XX_RB_DEPTH_CNTL_Z_READ_ENABLE			0x00000040
+-
+-#define REG_A5XX_RB_DEPTH_BUFFER_INFO				0x0000e1b2
+-#define A5XX_RB_DEPTH_BUFFER_INFO_DEPTH_FORMAT__MASK		0x00000007
+-#define A5XX_RB_DEPTH_BUFFER_INFO_DEPTH_FORMAT__SHIFT		0
+-static inline uint32_t A5XX_RB_DEPTH_BUFFER_INFO_DEPTH_FORMAT(enum a5xx_depth_format val)
+-{
+-	return ((val) << A5XX_RB_DEPTH_BUFFER_INFO_DEPTH_FORMAT__SHIFT) & A5XX_RB_DEPTH_BUFFER_INFO_DEPTH_FORMAT__MASK;
+-}
+-
+-#define REG_A5XX_RB_DEPTH_BUFFER_BASE_LO			0x0000e1b3
+-
+-#define REG_A5XX_RB_DEPTH_BUFFER_BASE_HI			0x0000e1b4
+-
+-#define REG_A5XX_RB_DEPTH_BUFFER_PITCH				0x0000e1b5
+-#define A5XX_RB_DEPTH_BUFFER_PITCH__MASK			0xffffffff
+-#define A5XX_RB_DEPTH_BUFFER_PITCH__SHIFT			0
+-static inline uint32_t A5XX_RB_DEPTH_BUFFER_PITCH(uint32_t val)
+-{
+-	assert(!(val & 0x3f));
+-	return (((val >> 6)) << A5XX_RB_DEPTH_BUFFER_PITCH__SHIFT) & A5XX_RB_DEPTH_BUFFER_PITCH__MASK;
+-}
+-
+-#define REG_A5XX_RB_DEPTH_BUFFER_ARRAY_PITCH			0x0000e1b6
+-#define A5XX_RB_DEPTH_BUFFER_ARRAY_PITCH__MASK			0xffffffff
+-#define A5XX_RB_DEPTH_BUFFER_ARRAY_PITCH__SHIFT			0
+-static inline uint32_t A5XX_RB_DEPTH_BUFFER_ARRAY_PITCH(uint32_t val)
+-{
+-	assert(!(val & 0x3f));
+-	return (((val >> 6)) << A5XX_RB_DEPTH_BUFFER_ARRAY_PITCH__SHIFT) & A5XX_RB_DEPTH_BUFFER_ARRAY_PITCH__MASK;
+-}
+-
+-#define REG_A5XX_RB_STENCIL_CONTROL				0x0000e1c0
+-#define A5XX_RB_STENCIL_CONTROL_STENCIL_ENABLE			0x00000001
+-#define A5XX_RB_STENCIL_CONTROL_STENCIL_ENABLE_BF		0x00000002
+-#define A5XX_RB_STENCIL_CONTROL_STENCIL_READ			0x00000004
+-#define A5XX_RB_STENCIL_CONTROL_FUNC__MASK			0x00000700
+-#define A5XX_RB_STENCIL_CONTROL_FUNC__SHIFT			8
+-static inline uint32_t A5XX_RB_STENCIL_CONTROL_FUNC(enum adreno_compare_func val)
+-{
+-	return ((val) << A5XX_RB_STENCIL_CONTROL_FUNC__SHIFT) & A5XX_RB_STENCIL_CONTROL_FUNC__MASK;
+-}
+-#define A5XX_RB_STENCIL_CONTROL_FAIL__MASK			0x00003800
+-#define A5XX_RB_STENCIL_CONTROL_FAIL__SHIFT			11
+-static inline uint32_t A5XX_RB_STENCIL_CONTROL_FAIL(enum adreno_stencil_op val)
+-{
+-	return ((val) << A5XX_RB_STENCIL_CONTROL_FAIL__SHIFT) & A5XX_RB_STENCIL_CONTROL_FAIL__MASK;
+-}
+-#define A5XX_RB_STENCIL_CONTROL_ZPASS__MASK			0x0001c000
+-#define A5XX_RB_STENCIL_CONTROL_ZPASS__SHIFT			14
+-static inline uint32_t A5XX_RB_STENCIL_CONTROL_ZPASS(enum adreno_stencil_op val)
+-{
+-	return ((val) << A5XX_RB_STENCIL_CONTROL_ZPASS__SHIFT) & A5XX_RB_STENCIL_CONTROL_ZPASS__MASK;
+-}
+-#define A5XX_RB_STENCIL_CONTROL_ZFAIL__MASK			0x000e0000
+-#define A5XX_RB_STENCIL_CONTROL_ZFAIL__SHIFT			17
+-static inline uint32_t A5XX_RB_STENCIL_CONTROL_ZFAIL(enum adreno_stencil_op val)
+-{
+-	return ((val) << A5XX_RB_STENCIL_CONTROL_ZFAIL__SHIFT) & A5XX_RB_STENCIL_CONTROL_ZFAIL__MASK;
+-}
+-#define A5XX_RB_STENCIL_CONTROL_FUNC_BF__MASK			0x00700000
+-#define A5XX_RB_STENCIL_CONTROL_FUNC_BF__SHIFT			20
+-static inline uint32_t A5XX_RB_STENCIL_CONTROL_FUNC_BF(enum adreno_compare_func val)
+-{
+-	return ((val) << A5XX_RB_STENCIL_CONTROL_FUNC_BF__SHIFT) & A5XX_RB_STENCIL_CONTROL_FUNC_BF__MASK;
+-}
+-#define A5XX_RB_STENCIL_CONTROL_FAIL_BF__MASK			0x03800000
+-#define A5XX_RB_STENCIL_CONTROL_FAIL_BF__SHIFT			23
+-static inline uint32_t A5XX_RB_STENCIL_CONTROL_FAIL_BF(enum adreno_stencil_op val)
+-{
+-	return ((val) << A5XX_RB_STENCIL_CONTROL_FAIL_BF__SHIFT) & A5XX_RB_STENCIL_CONTROL_FAIL_BF__MASK;
+-}
+-#define A5XX_RB_STENCIL_CONTROL_ZPASS_BF__MASK			0x1c000000
+-#define A5XX_RB_STENCIL_CONTROL_ZPASS_BF__SHIFT			26
+-static inline uint32_t A5XX_RB_STENCIL_CONTROL_ZPASS_BF(enum adreno_stencil_op val)
+-{
+-	return ((val) << A5XX_RB_STENCIL_CONTROL_ZPASS_BF__SHIFT) & A5XX_RB_STENCIL_CONTROL_ZPASS_BF__MASK;
+-}
+-#define A5XX_RB_STENCIL_CONTROL_ZFAIL_BF__MASK			0xe0000000
+-#define A5XX_RB_STENCIL_CONTROL_ZFAIL_BF__SHIFT			29
+-static inline uint32_t A5XX_RB_STENCIL_CONTROL_ZFAIL_BF(enum adreno_stencil_op val)
+-{
+-	return ((val) << A5XX_RB_STENCIL_CONTROL_ZFAIL_BF__SHIFT) & A5XX_RB_STENCIL_CONTROL_ZFAIL_BF__MASK;
+-}
+-
+-#define REG_A5XX_RB_STENCIL_INFO				0x0000e1c1
+-#define A5XX_RB_STENCIL_INFO_SEPARATE_STENCIL			0x00000001
+-
+-#define REG_A5XX_RB_STENCIL_BASE_LO				0x0000e1c2
+-
+-#define REG_A5XX_RB_STENCIL_BASE_HI				0x0000e1c3
+-
+-#define REG_A5XX_RB_STENCIL_PITCH				0x0000e1c4
+-#define A5XX_RB_STENCIL_PITCH__MASK				0xffffffff
+-#define A5XX_RB_STENCIL_PITCH__SHIFT				0
+-static inline uint32_t A5XX_RB_STENCIL_PITCH(uint32_t val)
+-{
+-	assert(!(val & 0x3f));
+-	return (((val >> 6)) << A5XX_RB_STENCIL_PITCH__SHIFT) & A5XX_RB_STENCIL_PITCH__MASK;
+-}
+-
+-#define REG_A5XX_RB_STENCIL_ARRAY_PITCH				0x0000e1c5
+-#define A5XX_RB_STENCIL_ARRAY_PITCH__MASK			0xffffffff
+-#define A5XX_RB_STENCIL_ARRAY_PITCH__SHIFT			0
+-static inline uint32_t A5XX_RB_STENCIL_ARRAY_PITCH(uint32_t val)
+-{
+-	assert(!(val & 0x3f));
+-	return (((val >> 6)) << A5XX_RB_STENCIL_ARRAY_PITCH__SHIFT) & A5XX_RB_STENCIL_ARRAY_PITCH__MASK;
+-}
+-
+-#define REG_A5XX_RB_STENCILREFMASK				0x0000e1c6
+-#define A5XX_RB_STENCILREFMASK_STENCILREF__MASK			0x000000ff
+-#define A5XX_RB_STENCILREFMASK_STENCILREF__SHIFT		0
+-static inline uint32_t A5XX_RB_STENCILREFMASK_STENCILREF(uint32_t val)
+-{
+-	return ((val) << A5XX_RB_STENCILREFMASK_STENCILREF__SHIFT) & A5XX_RB_STENCILREFMASK_STENCILREF__MASK;
+-}
+-#define A5XX_RB_STENCILREFMASK_STENCILMASK__MASK		0x0000ff00
+-#define A5XX_RB_STENCILREFMASK_STENCILMASK__SHIFT		8
+-static inline uint32_t A5XX_RB_STENCILREFMASK_STENCILMASK(uint32_t val)
+-{
+-	return ((val) << A5XX_RB_STENCILREFMASK_STENCILMASK__SHIFT) & A5XX_RB_STENCILREFMASK_STENCILMASK__MASK;
+-}
+-#define A5XX_RB_STENCILREFMASK_STENCILWRITEMASK__MASK		0x00ff0000
+-#define A5XX_RB_STENCILREFMASK_STENCILWRITEMASK__SHIFT		16
+-static inline uint32_t A5XX_RB_STENCILREFMASK_STENCILWRITEMASK(uint32_t val)
+-{
+-	return ((val) << A5XX_RB_STENCILREFMASK_STENCILWRITEMASK__SHIFT) & A5XX_RB_STENCILREFMASK_STENCILWRITEMASK__MASK;
+-}
+-
+-#define REG_A5XX_RB_STENCILREFMASK_BF				0x0000e1c7
+-#define A5XX_RB_STENCILREFMASK_BF_STENCILREF__MASK		0x000000ff
+-#define A5XX_RB_STENCILREFMASK_BF_STENCILREF__SHIFT		0
+-static inline uint32_t A5XX_RB_STENCILREFMASK_BF_STENCILREF(uint32_t val)
+-{
+-	return ((val) << A5XX_RB_STENCILREFMASK_BF_STENCILREF__SHIFT) & A5XX_RB_STENCILREFMASK_BF_STENCILREF__MASK;
+-}
+-#define A5XX_RB_STENCILREFMASK_BF_STENCILMASK__MASK		0x0000ff00
+-#define A5XX_RB_STENCILREFMASK_BF_STENCILMASK__SHIFT		8
+-static inline uint32_t A5XX_RB_STENCILREFMASK_BF_STENCILMASK(uint32_t val)
+-{
+-	return ((val) << A5XX_RB_STENCILREFMASK_BF_STENCILMASK__SHIFT) & A5XX_RB_STENCILREFMASK_BF_STENCILMASK__MASK;
+-}
+-#define A5XX_RB_STENCILREFMASK_BF_STENCILWRITEMASK__MASK	0x00ff0000
+-#define A5XX_RB_STENCILREFMASK_BF_STENCILWRITEMASK__SHIFT	16
+-static inline uint32_t A5XX_RB_STENCILREFMASK_BF_STENCILWRITEMASK(uint32_t val)
+-{
+-	return ((val) << A5XX_RB_STENCILREFMASK_BF_STENCILWRITEMASK__SHIFT) & A5XX_RB_STENCILREFMASK_BF_STENCILWRITEMASK__MASK;
+-}
+-
+-#define REG_A5XX_RB_WINDOW_OFFSET				0x0000e1d0
+-#define A5XX_RB_WINDOW_OFFSET_WINDOW_OFFSET_DISABLE		0x80000000
+-#define A5XX_RB_WINDOW_OFFSET_X__MASK				0x00007fff
+-#define A5XX_RB_WINDOW_OFFSET_X__SHIFT				0
+-static inline uint32_t A5XX_RB_WINDOW_OFFSET_X(uint32_t val)
+-{
+-	return ((val) << A5XX_RB_WINDOW_OFFSET_X__SHIFT) & A5XX_RB_WINDOW_OFFSET_X__MASK;
+-}
+-#define A5XX_RB_WINDOW_OFFSET_Y__MASK				0x7fff0000
+-#define A5XX_RB_WINDOW_OFFSET_Y__SHIFT				16
+-static inline uint32_t A5XX_RB_WINDOW_OFFSET_Y(uint32_t val)
+-{
+-	return ((val) << A5XX_RB_WINDOW_OFFSET_Y__SHIFT) & A5XX_RB_WINDOW_OFFSET_Y__MASK;
+-}
+-
+-#define REG_A5XX_RB_SAMPLE_COUNT_CONTROL			0x0000e1d1
+-#define A5XX_RB_SAMPLE_COUNT_CONTROL_COPY			0x00000002
+-
+-#define REG_A5XX_RB_BLIT_CNTL					0x0000e210
+-#define A5XX_RB_BLIT_CNTL_BUF__MASK				0x0000000f
+-#define A5XX_RB_BLIT_CNTL_BUF__SHIFT				0
+-static inline uint32_t A5XX_RB_BLIT_CNTL_BUF(enum a5xx_blit_buf val)
+-{
+-	return ((val) << A5XX_RB_BLIT_CNTL_BUF__SHIFT) & A5XX_RB_BLIT_CNTL_BUF__MASK;
+-}
+-
+-#define REG_A5XX_RB_RESOLVE_CNTL_1				0x0000e211
+-#define A5XX_RB_RESOLVE_CNTL_1_WINDOW_OFFSET_DISABLE		0x80000000
+-#define A5XX_RB_RESOLVE_CNTL_1_X__MASK				0x00007fff
+-#define A5XX_RB_RESOLVE_CNTL_1_X__SHIFT				0
+-static inline uint32_t A5XX_RB_RESOLVE_CNTL_1_X(uint32_t val)
+-{
+-	return ((val) << A5XX_RB_RESOLVE_CNTL_1_X__SHIFT) & A5XX_RB_RESOLVE_CNTL_1_X__MASK;
+-}
+-#define A5XX_RB_RESOLVE_CNTL_1_Y__MASK				0x7fff0000
+-#define A5XX_RB_RESOLVE_CNTL_1_Y__SHIFT				16
+-static inline uint32_t A5XX_RB_RESOLVE_CNTL_1_Y(uint32_t val)
+-{
+-	return ((val) << A5XX_RB_RESOLVE_CNTL_1_Y__SHIFT) & A5XX_RB_RESOLVE_CNTL_1_Y__MASK;
+-}
+-
+-#define REG_A5XX_RB_RESOLVE_CNTL_2				0x0000e212
+-#define A5XX_RB_RESOLVE_CNTL_2_WINDOW_OFFSET_DISABLE		0x80000000
+-#define A5XX_RB_RESOLVE_CNTL_2_X__MASK				0x00007fff
+-#define A5XX_RB_RESOLVE_CNTL_2_X__SHIFT				0
+-static inline uint32_t A5XX_RB_RESOLVE_CNTL_2_X(uint32_t val)
+-{
+-	return ((val) << A5XX_RB_RESOLVE_CNTL_2_X__SHIFT) & A5XX_RB_RESOLVE_CNTL_2_X__MASK;
+-}
+-#define A5XX_RB_RESOLVE_CNTL_2_Y__MASK				0x7fff0000
+-#define A5XX_RB_RESOLVE_CNTL_2_Y__SHIFT				16
+-static inline uint32_t A5XX_RB_RESOLVE_CNTL_2_Y(uint32_t val)
+-{
+-	return ((val) << A5XX_RB_RESOLVE_CNTL_2_Y__SHIFT) & A5XX_RB_RESOLVE_CNTL_2_Y__MASK;
+-}
+-
+-#define REG_A5XX_RB_RESOLVE_CNTL_3				0x0000e213
+-#define A5XX_RB_RESOLVE_CNTL_3_TILED				0x00000001
+-
+-#define REG_A5XX_RB_BLIT_DST_LO					0x0000e214
+-
+-#define REG_A5XX_RB_BLIT_DST_HI					0x0000e215
+-
+-#define REG_A5XX_RB_BLIT_DST_PITCH				0x0000e216
+-#define A5XX_RB_BLIT_DST_PITCH__MASK				0xffffffff
+-#define A5XX_RB_BLIT_DST_PITCH__SHIFT				0
+-static inline uint32_t A5XX_RB_BLIT_DST_PITCH(uint32_t val)
+-{
+-	assert(!(val & 0x3f));
+-	return (((val >> 6)) << A5XX_RB_BLIT_DST_PITCH__SHIFT) & A5XX_RB_BLIT_DST_PITCH__MASK;
+-}
+-
+-#define REG_A5XX_RB_BLIT_DST_ARRAY_PITCH			0x0000e217
+-#define A5XX_RB_BLIT_DST_ARRAY_PITCH__MASK			0xffffffff
+-#define A5XX_RB_BLIT_DST_ARRAY_PITCH__SHIFT			0
+-static inline uint32_t A5XX_RB_BLIT_DST_ARRAY_PITCH(uint32_t val)
+-{
+-	assert(!(val & 0x3f));
+-	return (((val >> 6)) << A5XX_RB_BLIT_DST_ARRAY_PITCH__SHIFT) & A5XX_RB_BLIT_DST_ARRAY_PITCH__MASK;
+-}
+-
+-#define REG_A5XX_RB_CLEAR_COLOR_DW0				0x0000e218
+-
+-#define REG_A5XX_RB_CLEAR_COLOR_DW1				0x0000e219
+-
+-#define REG_A5XX_RB_CLEAR_COLOR_DW2				0x0000e21a
+-
+-#define REG_A5XX_RB_CLEAR_COLOR_DW3				0x0000e21b
+-
+-#define REG_A5XX_RB_CLEAR_CNTL					0x0000e21c
+-#define A5XX_RB_CLEAR_CNTL_FAST_CLEAR				0x00000002
+-#define A5XX_RB_CLEAR_CNTL_MSAA_RESOLVE				0x00000004
+-#define A5XX_RB_CLEAR_CNTL_MASK__MASK				0x000000f0
+-#define A5XX_RB_CLEAR_CNTL_MASK__SHIFT				4
+-static inline uint32_t A5XX_RB_CLEAR_CNTL_MASK(uint32_t val)
+-{
+-	return ((val) << A5XX_RB_CLEAR_CNTL_MASK__SHIFT) & A5XX_RB_CLEAR_CNTL_MASK__MASK;
+-}
+-
+-#define REG_A5XX_RB_DEPTH_FLAG_BUFFER_BASE_LO			0x0000e240
+-
+-#define REG_A5XX_RB_DEPTH_FLAG_BUFFER_BASE_HI			0x0000e241
+-
+-#define REG_A5XX_RB_DEPTH_FLAG_BUFFER_PITCH			0x0000e242
+-
+-#define REG_A5XX_RB_MRT_FLAG_BUFFER(i0) (0x0000e243 + 0x4*(i0))
+-
+-static inline uint32_t REG_A5XX_RB_MRT_FLAG_BUFFER_ADDR_LO(uint32_t i0) { return 0x0000e243 + 0x4*i0; }
+-
+-static inline uint32_t REG_A5XX_RB_MRT_FLAG_BUFFER_ADDR_HI(uint32_t i0) { return 0x0000e244 + 0x4*i0; }
+-
+-static inline uint32_t REG_A5XX_RB_MRT_FLAG_BUFFER_PITCH(uint32_t i0) { return 0x0000e245 + 0x4*i0; }
+-#define A5XX_RB_MRT_FLAG_BUFFER_PITCH__MASK			0xffffffff
+-#define A5XX_RB_MRT_FLAG_BUFFER_PITCH__SHIFT			0
+-static inline uint32_t A5XX_RB_MRT_FLAG_BUFFER_PITCH(uint32_t val)
+-{
+-	assert(!(val & 0x3f));
+-	return (((val >> 6)) << A5XX_RB_MRT_FLAG_BUFFER_PITCH__SHIFT) & A5XX_RB_MRT_FLAG_BUFFER_PITCH__MASK;
+-}
+-
+-static inline uint32_t REG_A5XX_RB_MRT_FLAG_BUFFER_ARRAY_PITCH(uint32_t i0) { return 0x0000e246 + 0x4*i0; }
+-#define A5XX_RB_MRT_FLAG_BUFFER_ARRAY_PITCH__MASK		0xffffffff
+-#define A5XX_RB_MRT_FLAG_BUFFER_ARRAY_PITCH__SHIFT		0
+-static inline uint32_t A5XX_RB_MRT_FLAG_BUFFER_ARRAY_PITCH(uint32_t val)
+-{
+-	assert(!(val & 0x3f));
+-	return (((val >> 6)) << A5XX_RB_MRT_FLAG_BUFFER_ARRAY_PITCH__SHIFT) & A5XX_RB_MRT_FLAG_BUFFER_ARRAY_PITCH__MASK;
+-}
+-
+-#define REG_A5XX_RB_BLIT_FLAG_DST_LO				0x0000e263
+-
+-#define REG_A5XX_RB_BLIT_FLAG_DST_HI				0x0000e264
+-
+-#define REG_A5XX_RB_BLIT_FLAG_DST_PITCH				0x0000e265
+-#define A5XX_RB_BLIT_FLAG_DST_PITCH__MASK			0xffffffff
+-#define A5XX_RB_BLIT_FLAG_DST_PITCH__SHIFT			0
+-static inline uint32_t A5XX_RB_BLIT_FLAG_DST_PITCH(uint32_t val)
+-{
+-	assert(!(val & 0x3f));
+-	return (((val >> 6)) << A5XX_RB_BLIT_FLAG_DST_PITCH__SHIFT) & A5XX_RB_BLIT_FLAG_DST_PITCH__MASK;
+-}
+-
+-#define REG_A5XX_RB_BLIT_FLAG_DST_ARRAY_PITCH			0x0000e266
+-#define A5XX_RB_BLIT_FLAG_DST_ARRAY_PITCH__MASK			0xffffffff
+-#define A5XX_RB_BLIT_FLAG_DST_ARRAY_PITCH__SHIFT		0
+-static inline uint32_t A5XX_RB_BLIT_FLAG_DST_ARRAY_PITCH(uint32_t val)
+-{
+-	assert(!(val & 0x3f));
+-	return (((val >> 6)) << A5XX_RB_BLIT_FLAG_DST_ARRAY_PITCH__SHIFT) & A5XX_RB_BLIT_FLAG_DST_ARRAY_PITCH__MASK;
+-}
+-
+-#define REG_A5XX_RB_SAMPLE_COUNT_ADDR_LO			0x0000e267
+-
+-#define REG_A5XX_RB_SAMPLE_COUNT_ADDR_HI			0x0000e268
+-
+-#define REG_A5XX_VPC_CNTL_0					0x0000e280
+-#define A5XX_VPC_CNTL_0_STRIDE_IN_VPC__MASK			0x0000007f
+-#define A5XX_VPC_CNTL_0_STRIDE_IN_VPC__SHIFT			0
+-static inline uint32_t A5XX_VPC_CNTL_0_STRIDE_IN_VPC(uint32_t val)
+-{
+-	return ((val) << A5XX_VPC_CNTL_0_STRIDE_IN_VPC__SHIFT) & A5XX_VPC_CNTL_0_STRIDE_IN_VPC__MASK;
+-}
+-#define A5XX_VPC_CNTL_0_VARYING					0x00000800
+-
+-#define REG_A5XX_VPC_VARYING_INTERP(i0) (0x0000e282 + 0x1*(i0))
+-
+-static inline uint32_t REG_A5XX_VPC_VARYING_INTERP_MODE(uint32_t i0) { return 0x0000e282 + 0x1*i0; }
+-
+-#define REG_A5XX_VPC_VARYING_PS_REPL(i0) (0x0000e28a + 0x1*(i0))
+-
+-static inline uint32_t REG_A5XX_VPC_VARYING_PS_REPL_MODE(uint32_t i0) { return 0x0000e28a + 0x1*i0; }
+-
+-#define REG_A5XX_UNKNOWN_E292					0x0000e292
+-
+-#define REG_A5XX_UNKNOWN_E293					0x0000e293
+-
+-#define REG_A5XX_VPC_VAR(i0) (0x0000e294 + 0x1*(i0))
+-
+-static inline uint32_t REG_A5XX_VPC_VAR_DISABLE(uint32_t i0) { return 0x0000e294 + 0x1*i0; }
+-
+-#define REG_A5XX_VPC_GS_SIV_CNTL				0x0000e298
+-
+-#define REG_A5XX_VPC_CLIP_CNTL					0x0000e29a
+-#define A5XX_VPC_CLIP_CNTL_CLIP_MASK__MASK			0x000000ff
+-#define A5XX_VPC_CLIP_CNTL_CLIP_MASK__SHIFT			0
+-static inline uint32_t A5XX_VPC_CLIP_CNTL_CLIP_MASK(uint32_t val)
+-{
+-	return ((val) << A5XX_VPC_CLIP_CNTL_CLIP_MASK__SHIFT) & A5XX_VPC_CLIP_CNTL_CLIP_MASK__MASK;
+-}
+-#define A5XX_VPC_CLIP_CNTL_CLIP_DIST_03_LOC__MASK		0x0000ff00
+-#define A5XX_VPC_CLIP_CNTL_CLIP_DIST_03_LOC__SHIFT		8
+-static inline uint32_t A5XX_VPC_CLIP_CNTL_CLIP_DIST_03_LOC(uint32_t val)
+-{
+-	return ((val) << A5XX_VPC_CLIP_CNTL_CLIP_DIST_03_LOC__SHIFT) & A5XX_VPC_CLIP_CNTL_CLIP_DIST_03_LOC__MASK;
+-}
+-#define A5XX_VPC_CLIP_CNTL_CLIP_DIST_47_LOC__MASK		0x00ff0000
+-#define A5XX_VPC_CLIP_CNTL_CLIP_DIST_47_LOC__SHIFT		16
+-static inline uint32_t A5XX_VPC_CLIP_CNTL_CLIP_DIST_47_LOC(uint32_t val)
+-{
+-	return ((val) << A5XX_VPC_CLIP_CNTL_CLIP_DIST_47_LOC__SHIFT) & A5XX_VPC_CLIP_CNTL_CLIP_DIST_47_LOC__MASK;
+-}
+-
+-#define REG_A5XX_VPC_PACK					0x0000e29d
+-#define A5XX_VPC_PACK_NUMNONPOSVAR__MASK			0x000000ff
+-#define A5XX_VPC_PACK_NUMNONPOSVAR__SHIFT			0
+-static inline uint32_t A5XX_VPC_PACK_NUMNONPOSVAR(uint32_t val)
+-{
+-	return ((val) << A5XX_VPC_PACK_NUMNONPOSVAR__SHIFT) & A5XX_VPC_PACK_NUMNONPOSVAR__MASK;
+-}
+-#define A5XX_VPC_PACK_PSIZELOC__MASK				0x0000ff00
+-#define A5XX_VPC_PACK_PSIZELOC__SHIFT				8
+-static inline uint32_t A5XX_VPC_PACK_PSIZELOC(uint32_t val)
+-{
+-	return ((val) << A5XX_VPC_PACK_PSIZELOC__SHIFT) & A5XX_VPC_PACK_PSIZELOC__MASK;
+-}
+-
+-#define REG_A5XX_VPC_FS_PRIMITIVEID_CNTL			0x0000e2a0
+-
+-#define REG_A5XX_VPC_SO_BUF_CNTL				0x0000e2a1
+-#define A5XX_VPC_SO_BUF_CNTL_BUF0				0x00000001
+-#define A5XX_VPC_SO_BUF_CNTL_BUF1				0x00000008
+-#define A5XX_VPC_SO_BUF_CNTL_BUF2				0x00000040
+-#define A5XX_VPC_SO_BUF_CNTL_BUF3				0x00000200
+-#define A5XX_VPC_SO_BUF_CNTL_ENABLE				0x00008000
+-
+-#define REG_A5XX_VPC_SO_OVERRIDE				0x0000e2a2
+-#define A5XX_VPC_SO_OVERRIDE_SO_DISABLE				0x00000001
+-
+-#define REG_A5XX_VPC_SO_CNTL					0x0000e2a3
+-#define A5XX_VPC_SO_CNTL_ENABLE					0x00010000
+-
+-#define REG_A5XX_VPC_SO_PROG					0x0000e2a4
+-#define A5XX_VPC_SO_PROG_A_BUF__MASK				0x00000003
+-#define A5XX_VPC_SO_PROG_A_BUF__SHIFT				0
+-static inline uint32_t A5XX_VPC_SO_PROG_A_BUF(uint32_t val)
+-{
+-	return ((val) << A5XX_VPC_SO_PROG_A_BUF__SHIFT) & A5XX_VPC_SO_PROG_A_BUF__MASK;
+-}
+-#define A5XX_VPC_SO_PROG_A_OFF__MASK				0x000007fc
+-#define A5XX_VPC_SO_PROG_A_OFF__SHIFT				2
+-static inline uint32_t A5XX_VPC_SO_PROG_A_OFF(uint32_t val)
+-{
+-	assert(!(val & 0x3));
+-	return (((val >> 2)) << A5XX_VPC_SO_PROG_A_OFF__SHIFT) & A5XX_VPC_SO_PROG_A_OFF__MASK;
+-}
+-#define A5XX_VPC_SO_PROG_A_EN					0x00000800
+-#define A5XX_VPC_SO_PROG_B_BUF__MASK				0x00003000
+-#define A5XX_VPC_SO_PROG_B_BUF__SHIFT				12
+-static inline uint32_t A5XX_VPC_SO_PROG_B_BUF(uint32_t val)
+-{
+-	return ((val) << A5XX_VPC_SO_PROG_B_BUF__SHIFT) & A5XX_VPC_SO_PROG_B_BUF__MASK;
+-}
+-#define A5XX_VPC_SO_PROG_B_OFF__MASK				0x007fc000
+-#define A5XX_VPC_SO_PROG_B_OFF__SHIFT				14
+-static inline uint32_t A5XX_VPC_SO_PROG_B_OFF(uint32_t val)
+-{
+-	assert(!(val & 0x3));
+-	return (((val >> 2)) << A5XX_VPC_SO_PROG_B_OFF__SHIFT) & A5XX_VPC_SO_PROG_B_OFF__MASK;
+-}
+-#define A5XX_VPC_SO_PROG_B_EN					0x00800000
+-
+-#define REG_A5XX_VPC_SO(i0) (0x0000e2a7 + 0x7*(i0))
+-
+-static inline uint32_t REG_A5XX_VPC_SO_BUFFER_BASE_LO(uint32_t i0) { return 0x0000e2a7 + 0x7*i0; }
+-
+-static inline uint32_t REG_A5XX_VPC_SO_BUFFER_BASE_HI(uint32_t i0) { return 0x0000e2a8 + 0x7*i0; }
+-
+-static inline uint32_t REG_A5XX_VPC_SO_BUFFER_SIZE(uint32_t i0) { return 0x0000e2a9 + 0x7*i0; }
+-
+-static inline uint32_t REG_A5XX_VPC_SO_NCOMP(uint32_t i0) { return 0x0000e2aa + 0x7*i0; }
+-
+-static inline uint32_t REG_A5XX_VPC_SO_BUFFER_OFFSET(uint32_t i0) { return 0x0000e2ab + 0x7*i0; }
+-
+-static inline uint32_t REG_A5XX_VPC_SO_FLUSH_BASE_LO(uint32_t i0) { return 0x0000e2ac + 0x7*i0; }
+-
+-static inline uint32_t REG_A5XX_VPC_SO_FLUSH_BASE_HI(uint32_t i0) { return 0x0000e2ad + 0x7*i0; }
+-
+-#define REG_A5XX_PC_PRIMITIVE_CNTL				0x0000e384
+-#define A5XX_PC_PRIMITIVE_CNTL_STRIDE_IN_VPC__MASK		0x0000007f
+-#define A5XX_PC_PRIMITIVE_CNTL_STRIDE_IN_VPC__SHIFT		0
+-static inline uint32_t A5XX_PC_PRIMITIVE_CNTL_STRIDE_IN_VPC(uint32_t val)
+-{
+-	return ((val) << A5XX_PC_PRIMITIVE_CNTL_STRIDE_IN_VPC__SHIFT) & A5XX_PC_PRIMITIVE_CNTL_STRIDE_IN_VPC__MASK;
+-}
+-#define A5XX_PC_PRIMITIVE_CNTL_PRIMITIVE_RESTART		0x00000100
+-#define A5XX_PC_PRIMITIVE_CNTL_COUNT_PRIMITIVES			0x00000200
+-#define A5XX_PC_PRIMITIVE_CNTL_PROVOKING_VTX_LAST		0x00000400
+-
+-#define REG_A5XX_PC_PRIM_VTX_CNTL				0x0000e385
+-#define A5XX_PC_PRIM_VTX_CNTL_PSIZE				0x00000800
+-
+-#define REG_A5XX_PC_RASTER_CNTL					0x0000e388
+-#define A5XX_PC_RASTER_CNTL_POLYMODE_FRONT_PTYPE__MASK		0x00000007
+-#define A5XX_PC_RASTER_CNTL_POLYMODE_FRONT_PTYPE__SHIFT		0
+-static inline uint32_t A5XX_PC_RASTER_CNTL_POLYMODE_FRONT_PTYPE(enum adreno_pa_su_sc_draw val)
+-{
+-	return ((val) << A5XX_PC_RASTER_CNTL_POLYMODE_FRONT_PTYPE__SHIFT) & A5XX_PC_RASTER_CNTL_POLYMODE_FRONT_PTYPE__MASK;
+-}
+-#define A5XX_PC_RASTER_CNTL_POLYMODE_BACK_PTYPE__MASK		0x00000038
+-#define A5XX_PC_RASTER_CNTL_POLYMODE_BACK_PTYPE__SHIFT		3
+-static inline uint32_t A5XX_PC_RASTER_CNTL_POLYMODE_BACK_PTYPE(enum adreno_pa_su_sc_draw val)
+-{
+-	return ((val) << A5XX_PC_RASTER_CNTL_POLYMODE_BACK_PTYPE__SHIFT) & A5XX_PC_RASTER_CNTL_POLYMODE_BACK_PTYPE__MASK;
+-}
+-#define A5XX_PC_RASTER_CNTL_POLYMODE_ENABLE			0x00000040
+-
+-#define REG_A5XX_PC_CLIP_CNTL					0x0000e389
+-#define A5XX_PC_CLIP_CNTL_CLIP_MASK__MASK			0x000000ff
+-#define A5XX_PC_CLIP_CNTL_CLIP_MASK__SHIFT			0
+-static inline uint32_t A5XX_PC_CLIP_CNTL_CLIP_MASK(uint32_t val)
+-{
+-	return ((val) << A5XX_PC_CLIP_CNTL_CLIP_MASK__SHIFT) & A5XX_PC_CLIP_CNTL_CLIP_MASK__MASK;
+-}
+-
+-#define REG_A5XX_PC_RESTART_INDEX				0x0000e38c
+-
+-#define REG_A5XX_PC_GS_LAYERED					0x0000e38d
+-
+-#define REG_A5XX_PC_GS_PARAM					0x0000e38e
+-#define A5XX_PC_GS_PARAM_MAX_VERTICES__MASK			0x000003ff
+-#define A5XX_PC_GS_PARAM_MAX_VERTICES__SHIFT			0
+-static inline uint32_t A5XX_PC_GS_PARAM_MAX_VERTICES(uint32_t val)
+-{
+-	return ((val) << A5XX_PC_GS_PARAM_MAX_VERTICES__SHIFT) & A5XX_PC_GS_PARAM_MAX_VERTICES__MASK;
+-}
+-#define A5XX_PC_GS_PARAM_INVOCATIONS__MASK			0x0000f800
+-#define A5XX_PC_GS_PARAM_INVOCATIONS__SHIFT			11
+-static inline uint32_t A5XX_PC_GS_PARAM_INVOCATIONS(uint32_t val)
+-{
+-	return ((val) << A5XX_PC_GS_PARAM_INVOCATIONS__SHIFT) & A5XX_PC_GS_PARAM_INVOCATIONS__MASK;
+-}
+-#define A5XX_PC_GS_PARAM_PRIMTYPE__MASK				0x01800000
+-#define A5XX_PC_GS_PARAM_PRIMTYPE__SHIFT			23
+-static inline uint32_t A5XX_PC_GS_PARAM_PRIMTYPE(enum adreno_pa_su_sc_draw val)
+-{
+-	return ((val) << A5XX_PC_GS_PARAM_PRIMTYPE__SHIFT) & A5XX_PC_GS_PARAM_PRIMTYPE__MASK;
+-}
+-
+-#define REG_A5XX_PC_HS_PARAM					0x0000e38f
+-#define A5XX_PC_HS_PARAM_VERTICES_OUT__MASK			0x0000003f
+-#define A5XX_PC_HS_PARAM_VERTICES_OUT__SHIFT			0
+-static inline uint32_t A5XX_PC_HS_PARAM_VERTICES_OUT(uint32_t val)
+-{
+-	return ((val) << A5XX_PC_HS_PARAM_VERTICES_OUT__SHIFT) & A5XX_PC_HS_PARAM_VERTICES_OUT__MASK;
+-}
+-#define A5XX_PC_HS_PARAM_SPACING__MASK				0x00600000
+-#define A5XX_PC_HS_PARAM_SPACING__SHIFT				21
+-static inline uint32_t A5XX_PC_HS_PARAM_SPACING(enum a4xx_tess_spacing val)
+-{
+-	return ((val) << A5XX_PC_HS_PARAM_SPACING__SHIFT) & A5XX_PC_HS_PARAM_SPACING__MASK;
+-}
+-#define A5XX_PC_HS_PARAM_CW					0x00800000
+-#define A5XX_PC_HS_PARAM_CONNECTED				0x01000000
+-
+-#define REG_A5XX_PC_POWER_CNTL					0x0000e3b0
+-
+-#define REG_A5XX_VFD_CONTROL_0					0x0000e400
+-#define A5XX_VFD_CONTROL_0_VTXCNT__MASK				0x0000003f
+-#define A5XX_VFD_CONTROL_0_VTXCNT__SHIFT			0
+-static inline uint32_t A5XX_VFD_CONTROL_0_VTXCNT(uint32_t val)
+-{
+-	return ((val) << A5XX_VFD_CONTROL_0_VTXCNT__SHIFT) & A5XX_VFD_CONTROL_0_VTXCNT__MASK;
+-}
+-
+-#define REG_A5XX_VFD_CONTROL_1					0x0000e401
+-#define A5XX_VFD_CONTROL_1_REGID4VTX__MASK			0x000000ff
+-#define A5XX_VFD_CONTROL_1_REGID4VTX__SHIFT			0
+-static inline uint32_t A5XX_VFD_CONTROL_1_REGID4VTX(uint32_t val)
+-{
+-	return ((val) << A5XX_VFD_CONTROL_1_REGID4VTX__SHIFT) & A5XX_VFD_CONTROL_1_REGID4VTX__MASK;
+-}
+-#define A5XX_VFD_CONTROL_1_REGID4INST__MASK			0x0000ff00
+-#define A5XX_VFD_CONTROL_1_REGID4INST__SHIFT			8
+-static inline uint32_t A5XX_VFD_CONTROL_1_REGID4INST(uint32_t val)
+-{
+-	return ((val) << A5XX_VFD_CONTROL_1_REGID4INST__SHIFT) & A5XX_VFD_CONTROL_1_REGID4INST__MASK;
+-}
+-#define A5XX_VFD_CONTROL_1_REGID4PRIMID__MASK			0x00ff0000
+-#define A5XX_VFD_CONTROL_1_REGID4PRIMID__SHIFT			16
+-static inline uint32_t A5XX_VFD_CONTROL_1_REGID4PRIMID(uint32_t val)
+-{
+-	return ((val) << A5XX_VFD_CONTROL_1_REGID4PRIMID__SHIFT) & A5XX_VFD_CONTROL_1_REGID4PRIMID__MASK;
+-}
+-
+-#define REG_A5XX_VFD_CONTROL_2					0x0000e402
+-#define A5XX_VFD_CONTROL_2_REGID_PATCHID__MASK			0x000000ff
+-#define A5XX_VFD_CONTROL_2_REGID_PATCHID__SHIFT			0
+-static inline uint32_t A5XX_VFD_CONTROL_2_REGID_PATCHID(uint32_t val)
+-{
+-	return ((val) << A5XX_VFD_CONTROL_2_REGID_PATCHID__SHIFT) & A5XX_VFD_CONTROL_2_REGID_PATCHID__MASK;
+-}
+-
+-#define REG_A5XX_VFD_CONTROL_3					0x0000e403
+-#define A5XX_VFD_CONTROL_3_REGID_PATCHID__MASK			0x0000ff00
+-#define A5XX_VFD_CONTROL_3_REGID_PATCHID__SHIFT			8
+-static inline uint32_t A5XX_VFD_CONTROL_3_REGID_PATCHID(uint32_t val)
+-{
+-	return ((val) << A5XX_VFD_CONTROL_3_REGID_PATCHID__SHIFT) & A5XX_VFD_CONTROL_3_REGID_PATCHID__MASK;
+-}
+-#define A5XX_VFD_CONTROL_3_REGID_TESSX__MASK			0x00ff0000
+-#define A5XX_VFD_CONTROL_3_REGID_TESSX__SHIFT			16
+-static inline uint32_t A5XX_VFD_CONTROL_3_REGID_TESSX(uint32_t val)
+-{
+-	return ((val) << A5XX_VFD_CONTROL_3_REGID_TESSX__SHIFT) & A5XX_VFD_CONTROL_3_REGID_TESSX__MASK;
+-}
+-#define A5XX_VFD_CONTROL_3_REGID_TESSY__MASK			0xff000000
+-#define A5XX_VFD_CONTROL_3_REGID_TESSY__SHIFT			24
+-static inline uint32_t A5XX_VFD_CONTROL_3_REGID_TESSY(uint32_t val)
+-{
+-	return ((val) << A5XX_VFD_CONTROL_3_REGID_TESSY__SHIFT) & A5XX_VFD_CONTROL_3_REGID_TESSY__MASK;
+-}
+-
+-#define REG_A5XX_VFD_CONTROL_4					0x0000e404
+-
+-#define REG_A5XX_VFD_CONTROL_5					0x0000e405
+-
+-#define REG_A5XX_VFD_INDEX_OFFSET				0x0000e408
+-
+-#define REG_A5XX_VFD_INSTANCE_START_OFFSET			0x0000e409
+-
+-#define REG_A5XX_VFD_FETCH(i0) (0x0000e40a + 0x4*(i0))
+-
+-static inline uint32_t REG_A5XX_VFD_FETCH_BASE_LO(uint32_t i0) { return 0x0000e40a + 0x4*i0; }
+-
+-static inline uint32_t REG_A5XX_VFD_FETCH_BASE_HI(uint32_t i0) { return 0x0000e40b + 0x4*i0; }
+-
+-static inline uint32_t REG_A5XX_VFD_FETCH_SIZE(uint32_t i0) { return 0x0000e40c + 0x4*i0; }
+-
+-static inline uint32_t REG_A5XX_VFD_FETCH_STRIDE(uint32_t i0) { return 0x0000e40d + 0x4*i0; }
+-
+-#define REG_A5XX_VFD_DECODE(i0) (0x0000e48a + 0x2*(i0))
+-
+-static inline uint32_t REG_A5XX_VFD_DECODE_INSTR(uint32_t i0) { return 0x0000e48a + 0x2*i0; }
+-#define A5XX_VFD_DECODE_INSTR_IDX__MASK				0x0000001f
+-#define A5XX_VFD_DECODE_INSTR_IDX__SHIFT			0
+-static inline uint32_t A5XX_VFD_DECODE_INSTR_IDX(uint32_t val)
+-{
+-	return ((val) << A5XX_VFD_DECODE_INSTR_IDX__SHIFT) & A5XX_VFD_DECODE_INSTR_IDX__MASK;
+-}
+-#define A5XX_VFD_DECODE_INSTR_INSTANCED				0x00020000
+-#define A5XX_VFD_DECODE_INSTR_FORMAT__MASK			0x0ff00000
+-#define A5XX_VFD_DECODE_INSTR_FORMAT__SHIFT			20
+-static inline uint32_t A5XX_VFD_DECODE_INSTR_FORMAT(enum a5xx_vtx_fmt val)
+-{
+-	return ((val) << A5XX_VFD_DECODE_INSTR_FORMAT__SHIFT) & A5XX_VFD_DECODE_INSTR_FORMAT__MASK;
+-}
+-#define A5XX_VFD_DECODE_INSTR_SWAP__MASK			0x30000000
+-#define A5XX_VFD_DECODE_INSTR_SWAP__SHIFT			28
+-static inline uint32_t A5XX_VFD_DECODE_INSTR_SWAP(enum a3xx_color_swap val)
+-{
+-	return ((val) << A5XX_VFD_DECODE_INSTR_SWAP__SHIFT) & A5XX_VFD_DECODE_INSTR_SWAP__MASK;
+-}
+-#define A5XX_VFD_DECODE_INSTR_UNK30				0x40000000
+-#define A5XX_VFD_DECODE_INSTR_FLOAT				0x80000000
+-
+-static inline uint32_t REG_A5XX_VFD_DECODE_STEP_RATE(uint32_t i0) { return 0x0000e48b + 0x2*i0; }
+-
+-#define REG_A5XX_VFD_DEST_CNTL(i0) (0x0000e4ca + 0x1*(i0))
+-
+-static inline uint32_t REG_A5XX_VFD_DEST_CNTL_INSTR(uint32_t i0) { return 0x0000e4ca + 0x1*i0; }
+-#define A5XX_VFD_DEST_CNTL_INSTR_WRITEMASK__MASK		0x0000000f
+-#define A5XX_VFD_DEST_CNTL_INSTR_WRITEMASK__SHIFT		0
+-static inline uint32_t A5XX_VFD_DEST_CNTL_INSTR_WRITEMASK(uint32_t val)
+-{
+-	return ((val) << A5XX_VFD_DEST_CNTL_INSTR_WRITEMASK__SHIFT) & A5XX_VFD_DEST_CNTL_INSTR_WRITEMASK__MASK;
+-}
+-#define A5XX_VFD_DEST_CNTL_INSTR_REGID__MASK			0x00000ff0
+-#define A5XX_VFD_DEST_CNTL_INSTR_REGID__SHIFT			4
+-static inline uint32_t A5XX_VFD_DEST_CNTL_INSTR_REGID(uint32_t val)
+-{
+-	return ((val) << A5XX_VFD_DEST_CNTL_INSTR_REGID__SHIFT) & A5XX_VFD_DEST_CNTL_INSTR_REGID__MASK;
+-}
+-
+-#define REG_A5XX_VFD_POWER_CNTL					0x0000e4f0
+-
+-#define REG_A5XX_SP_SP_CNTL					0x0000e580
+-
+-#define REG_A5XX_SP_VS_CONFIG					0x0000e584
+-#define A5XX_SP_VS_CONFIG_ENABLED				0x00000001
+-#define A5XX_SP_VS_CONFIG_CONSTOBJECTOFFSET__MASK		0x000000fe
+-#define A5XX_SP_VS_CONFIG_CONSTOBJECTOFFSET__SHIFT		1
+-static inline uint32_t A5XX_SP_VS_CONFIG_CONSTOBJECTOFFSET(uint32_t val)
+-{
+-	return ((val) << A5XX_SP_VS_CONFIG_CONSTOBJECTOFFSET__SHIFT) & A5XX_SP_VS_CONFIG_CONSTOBJECTOFFSET__MASK;
+-}
+-#define A5XX_SP_VS_CONFIG_SHADEROBJOFFSET__MASK			0x00007f00
+-#define A5XX_SP_VS_CONFIG_SHADEROBJOFFSET__SHIFT		8
+-static inline uint32_t A5XX_SP_VS_CONFIG_SHADEROBJOFFSET(uint32_t val)
+-{
+-	return ((val) << A5XX_SP_VS_CONFIG_SHADEROBJOFFSET__SHIFT) & A5XX_SP_VS_CONFIG_SHADEROBJOFFSET__MASK;
+-}
+-
+-#define REG_A5XX_SP_FS_CONFIG					0x0000e585
+-#define A5XX_SP_FS_CONFIG_ENABLED				0x00000001
+-#define A5XX_SP_FS_CONFIG_CONSTOBJECTOFFSET__MASK		0x000000fe
+-#define A5XX_SP_FS_CONFIG_CONSTOBJECTOFFSET__SHIFT		1
+-static inline uint32_t A5XX_SP_FS_CONFIG_CONSTOBJECTOFFSET(uint32_t val)
+-{
+-	return ((val) << A5XX_SP_FS_CONFIG_CONSTOBJECTOFFSET__SHIFT) & A5XX_SP_FS_CONFIG_CONSTOBJECTOFFSET__MASK;
+-}
+-#define A5XX_SP_FS_CONFIG_SHADEROBJOFFSET__MASK			0x00007f00
+-#define A5XX_SP_FS_CONFIG_SHADEROBJOFFSET__SHIFT		8
+-static inline uint32_t A5XX_SP_FS_CONFIG_SHADEROBJOFFSET(uint32_t val)
+-{
+-	return ((val) << A5XX_SP_FS_CONFIG_SHADEROBJOFFSET__SHIFT) & A5XX_SP_FS_CONFIG_SHADEROBJOFFSET__MASK;
+-}
+-
+-#define REG_A5XX_SP_HS_CONFIG					0x0000e586
+-#define A5XX_SP_HS_CONFIG_ENABLED				0x00000001
+-#define A5XX_SP_HS_CONFIG_CONSTOBJECTOFFSET__MASK		0x000000fe
+-#define A5XX_SP_HS_CONFIG_CONSTOBJECTOFFSET__SHIFT		1
+-static inline uint32_t A5XX_SP_HS_CONFIG_CONSTOBJECTOFFSET(uint32_t val)
+-{
+-	return ((val) << A5XX_SP_HS_CONFIG_CONSTOBJECTOFFSET__SHIFT) & A5XX_SP_HS_CONFIG_CONSTOBJECTOFFSET__MASK;
+-}
+-#define A5XX_SP_HS_CONFIG_SHADEROBJOFFSET__MASK			0x00007f00
+-#define A5XX_SP_HS_CONFIG_SHADEROBJOFFSET__SHIFT		8
+-static inline uint32_t A5XX_SP_HS_CONFIG_SHADEROBJOFFSET(uint32_t val)
+-{
+-	return ((val) << A5XX_SP_HS_CONFIG_SHADEROBJOFFSET__SHIFT) & A5XX_SP_HS_CONFIG_SHADEROBJOFFSET__MASK;
+-}
+-
+-#define REG_A5XX_SP_DS_CONFIG					0x0000e587
+-#define A5XX_SP_DS_CONFIG_ENABLED				0x00000001
+-#define A5XX_SP_DS_CONFIG_CONSTOBJECTOFFSET__MASK		0x000000fe
+-#define A5XX_SP_DS_CONFIG_CONSTOBJECTOFFSET__SHIFT		1
+-static inline uint32_t A5XX_SP_DS_CONFIG_CONSTOBJECTOFFSET(uint32_t val)
+-{
+-	return ((val) << A5XX_SP_DS_CONFIG_CONSTOBJECTOFFSET__SHIFT) & A5XX_SP_DS_CONFIG_CONSTOBJECTOFFSET__MASK;
+-}
+-#define A5XX_SP_DS_CONFIG_SHADEROBJOFFSET__MASK			0x00007f00
+-#define A5XX_SP_DS_CONFIG_SHADEROBJOFFSET__SHIFT		8
+-static inline uint32_t A5XX_SP_DS_CONFIG_SHADEROBJOFFSET(uint32_t val)
+-{
+-	return ((val) << A5XX_SP_DS_CONFIG_SHADEROBJOFFSET__SHIFT) & A5XX_SP_DS_CONFIG_SHADEROBJOFFSET__MASK;
+-}
+-
+-#define REG_A5XX_SP_GS_CONFIG					0x0000e588
+-#define A5XX_SP_GS_CONFIG_ENABLED				0x00000001
+-#define A5XX_SP_GS_CONFIG_CONSTOBJECTOFFSET__MASK		0x000000fe
+-#define A5XX_SP_GS_CONFIG_CONSTOBJECTOFFSET__SHIFT		1
+-static inline uint32_t A5XX_SP_GS_CONFIG_CONSTOBJECTOFFSET(uint32_t val)
+-{
+-	return ((val) << A5XX_SP_GS_CONFIG_CONSTOBJECTOFFSET__SHIFT) & A5XX_SP_GS_CONFIG_CONSTOBJECTOFFSET__MASK;
+-}
+-#define A5XX_SP_GS_CONFIG_SHADEROBJOFFSET__MASK			0x00007f00
+-#define A5XX_SP_GS_CONFIG_SHADEROBJOFFSET__SHIFT		8
+-static inline uint32_t A5XX_SP_GS_CONFIG_SHADEROBJOFFSET(uint32_t val)
+-{
+-	return ((val) << A5XX_SP_GS_CONFIG_SHADEROBJOFFSET__SHIFT) & A5XX_SP_GS_CONFIG_SHADEROBJOFFSET__MASK;
+-}
+-
+-#define REG_A5XX_SP_CS_CONFIG					0x0000e589
+-#define A5XX_SP_CS_CONFIG_ENABLED				0x00000001
+-#define A5XX_SP_CS_CONFIG_CONSTOBJECTOFFSET__MASK		0x000000fe
+-#define A5XX_SP_CS_CONFIG_CONSTOBJECTOFFSET__SHIFT		1
+-static inline uint32_t A5XX_SP_CS_CONFIG_CONSTOBJECTOFFSET(uint32_t val)
+-{
+-	return ((val) << A5XX_SP_CS_CONFIG_CONSTOBJECTOFFSET__SHIFT) & A5XX_SP_CS_CONFIG_CONSTOBJECTOFFSET__MASK;
+-}
+-#define A5XX_SP_CS_CONFIG_SHADEROBJOFFSET__MASK			0x00007f00
+-#define A5XX_SP_CS_CONFIG_SHADEROBJOFFSET__SHIFT		8
+-static inline uint32_t A5XX_SP_CS_CONFIG_SHADEROBJOFFSET(uint32_t val)
+-{
+-	return ((val) << A5XX_SP_CS_CONFIG_SHADEROBJOFFSET__SHIFT) & A5XX_SP_CS_CONFIG_SHADEROBJOFFSET__MASK;
+-}
+-
+-#define REG_A5XX_SP_VS_CONFIG_MAX_CONST				0x0000e58a
+-
+-#define REG_A5XX_SP_FS_CONFIG_MAX_CONST				0x0000e58b
+-
+-#define REG_A5XX_SP_VS_CTRL_REG0				0x0000e590
+-#define A5XX_SP_VS_CTRL_REG0_BUFFER				0x00000004
+-#define A5XX_SP_VS_CTRL_REG0_THREADSIZE__MASK			0x00000008
+-#define A5XX_SP_VS_CTRL_REG0_THREADSIZE__SHIFT			3
+-static inline uint32_t A5XX_SP_VS_CTRL_REG0_THREADSIZE(enum a3xx_threadsize val)
+-{
+-	return ((val) << A5XX_SP_VS_CTRL_REG0_THREADSIZE__SHIFT) & A5XX_SP_VS_CTRL_REG0_THREADSIZE__MASK;
+-}
+-#define A5XX_SP_VS_CTRL_REG0_HALFREGFOOTPRINT__MASK		0x000003f0
+-#define A5XX_SP_VS_CTRL_REG0_HALFREGFOOTPRINT__SHIFT		4
+-static inline uint32_t A5XX_SP_VS_CTRL_REG0_HALFREGFOOTPRINT(uint32_t val)
+-{
+-	return ((val) << A5XX_SP_VS_CTRL_REG0_HALFREGFOOTPRINT__SHIFT) & A5XX_SP_VS_CTRL_REG0_HALFREGFOOTPRINT__MASK;
+-}
+-#define A5XX_SP_VS_CTRL_REG0_FULLREGFOOTPRINT__MASK		0x0000fc00
+-#define A5XX_SP_VS_CTRL_REG0_FULLREGFOOTPRINT__SHIFT		10
+-static inline uint32_t A5XX_SP_VS_CTRL_REG0_FULLREGFOOTPRINT(uint32_t val)
+-{
+-	return ((val) << A5XX_SP_VS_CTRL_REG0_FULLREGFOOTPRINT__SHIFT) & A5XX_SP_VS_CTRL_REG0_FULLREGFOOTPRINT__MASK;
+-}
+-#define A5XX_SP_VS_CTRL_REG0_VARYING				0x00010000
+-#define A5XX_SP_VS_CTRL_REG0_PIXLODENABLE			0x00100000
+-#define A5XX_SP_VS_CTRL_REG0_BRANCHSTACK__MASK			0xfe000000
+-#define A5XX_SP_VS_CTRL_REG0_BRANCHSTACK__SHIFT			25
+-static inline uint32_t A5XX_SP_VS_CTRL_REG0_BRANCHSTACK(uint32_t val)
 -{
--	return ((val) << MDP4_VERSION_MINOR__SHIFT) & MDP4_VERSION_MINOR__MASK;
+-	return ((val) << A5XX_SP_VS_CTRL_REG0_BRANCHSTACK__SHIFT) & A5XX_SP_VS_CTRL_REG0_BRANCHSTACK__MASK;
 -}
--#define MDP4_VERSION_MAJOR__MASK				0xff000000
--#define MDP4_VERSION_MAJOR__SHIFT				24
--static inline uint32_t MDP4_VERSION_MAJOR(uint32_t val)
+-
+-#define REG_A5XX_SP_PRIMITIVE_CNTL				0x0000e592
+-#define A5XX_SP_PRIMITIVE_CNTL_VSOUT__MASK			0x0000001f
+-#define A5XX_SP_PRIMITIVE_CNTL_VSOUT__SHIFT			0
+-static inline uint32_t A5XX_SP_PRIMITIVE_CNTL_VSOUT(uint32_t val)
 -{
--	return ((val) << MDP4_VERSION_MAJOR__SHIFT) & MDP4_VERSION_MAJOR__MASK;
+-	return ((val) << A5XX_SP_PRIMITIVE_CNTL_VSOUT__SHIFT) & A5XX_SP_PRIMITIVE_CNTL_VSOUT__MASK;
 -}
 -
--#define REG_MDP4_OVLP0_KICK					0x00000004
+-#define REG_A5XX_SP_VS_OUT(i0) (0x0000e593 + 0x1*(i0))
 -
--#define REG_MDP4_OVLP1_KICK					0x00000008
+-static inline uint32_t REG_A5XX_SP_VS_OUT_REG(uint32_t i0) { return 0x0000e593 + 0x1*i0; }
+-#define A5XX_SP_VS_OUT_REG_A_REGID__MASK			0x000000ff
+-#define A5XX_SP_VS_OUT_REG_A_REGID__SHIFT			0
+-static inline uint32_t A5XX_SP_VS_OUT_REG_A_REGID(uint32_t val)
+-{
+-	return ((val) << A5XX_SP_VS_OUT_REG_A_REGID__SHIFT) & A5XX_SP_VS_OUT_REG_A_REGID__MASK;
+-}
+-#define A5XX_SP_VS_OUT_REG_A_COMPMASK__MASK			0x00000f00
+-#define A5XX_SP_VS_OUT_REG_A_COMPMASK__SHIFT			8
+-static inline uint32_t A5XX_SP_VS_OUT_REG_A_COMPMASK(uint32_t val)
+-{
+-	return ((val) << A5XX_SP_VS_OUT_REG_A_COMPMASK__SHIFT) & A5XX_SP_VS_OUT_REG_A_COMPMASK__MASK;
+-}
+-#define A5XX_SP_VS_OUT_REG_B_REGID__MASK			0x00ff0000
+-#define A5XX_SP_VS_OUT_REG_B_REGID__SHIFT			16
+-static inline uint32_t A5XX_SP_VS_OUT_REG_B_REGID(uint32_t val)
+-{
+-	return ((val) << A5XX_SP_VS_OUT_REG_B_REGID__SHIFT) & A5XX_SP_VS_OUT_REG_B_REGID__MASK;
+-}
+-#define A5XX_SP_VS_OUT_REG_B_COMPMASK__MASK			0x0f000000
+-#define A5XX_SP_VS_OUT_REG_B_COMPMASK__SHIFT			24
+-static inline uint32_t A5XX_SP_VS_OUT_REG_B_COMPMASK(uint32_t val)
+-{
+-	return ((val) << A5XX_SP_VS_OUT_REG_B_COMPMASK__SHIFT) & A5XX_SP_VS_OUT_REG_B_COMPMASK__MASK;
+-}
 -
--#define REG_MDP4_OVLP2_KICK					0x000000d0
+-#define REG_A5XX_SP_VS_VPC_DST(i0) (0x0000e5a3 + 0x1*(i0))
 -
--#define REG_MDP4_DMA_P_KICK					0x0000000c
+-static inline uint32_t REG_A5XX_SP_VS_VPC_DST_REG(uint32_t i0) { return 0x0000e5a3 + 0x1*i0; }
+-#define A5XX_SP_VS_VPC_DST_REG_OUTLOC0__MASK			0x000000ff
+-#define A5XX_SP_VS_VPC_DST_REG_OUTLOC0__SHIFT			0
+-static inline uint32_t A5XX_SP_VS_VPC_DST_REG_OUTLOC0(uint32_t val)
+-{
+-	return ((val) << A5XX_SP_VS_VPC_DST_REG_OUTLOC0__SHIFT) & A5XX_SP_VS_VPC_DST_REG_OUTLOC0__MASK;
+-}
+-#define A5XX_SP_VS_VPC_DST_REG_OUTLOC1__MASK			0x0000ff00
+-#define A5XX_SP_VS_VPC_DST_REG_OUTLOC1__SHIFT			8
+-static inline uint32_t A5XX_SP_VS_VPC_DST_REG_OUTLOC1(uint32_t val)
+-{
+-	return ((val) << A5XX_SP_VS_VPC_DST_REG_OUTLOC1__SHIFT) & A5XX_SP_VS_VPC_DST_REG_OUTLOC1__MASK;
+-}
+-#define A5XX_SP_VS_VPC_DST_REG_OUTLOC2__MASK			0x00ff0000
+-#define A5XX_SP_VS_VPC_DST_REG_OUTLOC2__SHIFT			16
+-static inline uint32_t A5XX_SP_VS_VPC_DST_REG_OUTLOC2(uint32_t val)
+-{
+-	return ((val) << A5XX_SP_VS_VPC_DST_REG_OUTLOC2__SHIFT) & A5XX_SP_VS_VPC_DST_REG_OUTLOC2__MASK;
+-}
+-#define A5XX_SP_VS_VPC_DST_REG_OUTLOC3__MASK			0xff000000
+-#define A5XX_SP_VS_VPC_DST_REG_OUTLOC3__SHIFT			24
+-static inline uint32_t A5XX_SP_VS_VPC_DST_REG_OUTLOC3(uint32_t val)
+-{
+-	return ((val) << A5XX_SP_VS_VPC_DST_REG_OUTLOC3__SHIFT) & A5XX_SP_VS_VPC_DST_REG_OUTLOC3__MASK;
+-}
 -
--#define REG_MDP4_DMA_S_KICK					0x00000010
+-#define REG_A5XX_UNKNOWN_E5AB					0x0000e5ab
 -
--#define REG_MDP4_DMA_E_KICK					0x00000014
+-#define REG_A5XX_SP_VS_OBJ_START_LO				0x0000e5ac
 -
--#define REG_MDP4_DISP_STATUS					0x00000018
+-#define REG_A5XX_SP_VS_OBJ_START_HI				0x0000e5ad
 -
--#define REG_MDP4_DISP_INTF_SEL					0x00000038
--#define MDP4_DISP_INTF_SEL_PRIM__MASK				0x00000003
--#define MDP4_DISP_INTF_SEL_PRIM__SHIFT				0
--static inline uint32_t MDP4_DISP_INTF_SEL_PRIM(enum mdp4_intf val)
+-#define REG_A5XX_SP_VS_PVT_MEM_PARAM				0x0000e5ae
+-#define A5XX_SP_VS_PVT_MEM_PARAM_MEMSIZEPERITEM__MASK		0x000000ff
+-#define A5XX_SP_VS_PVT_MEM_PARAM_MEMSIZEPERITEM__SHIFT		0
+-static inline uint32_t A5XX_SP_VS_PVT_MEM_PARAM_MEMSIZEPERITEM(uint32_t val)
 -{
--	return ((val) << MDP4_DISP_INTF_SEL_PRIM__SHIFT) & MDP4_DISP_INTF_SEL_PRIM__MASK;
+-	assert(!(val & 0x1ff));
+-	return (((val >> 9)) << A5XX_SP_VS_PVT_MEM_PARAM_MEMSIZEPERITEM__SHIFT) & A5XX_SP_VS_PVT_MEM_PARAM_MEMSIZEPERITEM__MASK;
 -}
--#define MDP4_DISP_INTF_SEL_SEC__MASK				0x0000000c
--#define MDP4_DISP_INTF_SEL_SEC__SHIFT				2
--static inline uint32_t MDP4_DISP_INTF_SEL_SEC(enum mdp4_intf val)
+-#define A5XX_SP_VS_PVT_MEM_PARAM_HWSTACKOFFSET__MASK		0x00ffff00
+-#define A5XX_SP_VS_PVT_MEM_PARAM_HWSTACKOFFSET__SHIFT		8
+-static inline uint32_t A5XX_SP_VS_PVT_MEM_PARAM_HWSTACKOFFSET(uint32_t val)
 -{
--	return ((val) << MDP4_DISP_INTF_SEL_SEC__SHIFT) & MDP4_DISP_INTF_SEL_SEC__MASK;
+-	assert(!(val & 0x7ff));
+-	return (((val >> 11)) << A5XX_SP_VS_PVT_MEM_PARAM_HWSTACKOFFSET__SHIFT) & A5XX_SP_VS_PVT_MEM_PARAM_HWSTACKOFFSET__MASK;
 -}
--#define MDP4_DISP_INTF_SEL_EXT__MASK				0x00000030
--#define MDP4_DISP_INTF_SEL_EXT__SHIFT				4
--static inline uint32_t MDP4_DISP_INTF_SEL_EXT(enum mdp4_intf val)
+-#define A5XX_SP_VS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__MASK	0xff000000
+-#define A5XX_SP_VS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__SHIFT	24
+-static inline uint32_t A5XX_SP_VS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD(uint32_t val)
 -{
--	return ((val) << MDP4_DISP_INTF_SEL_EXT__SHIFT) & MDP4_DISP_INTF_SEL_EXT__MASK;
+-	return ((val) << A5XX_SP_VS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__SHIFT) & A5XX_SP_VS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__MASK;
 -}
--#define MDP4_DISP_INTF_SEL_DSI_VIDEO				0x00000040
--#define MDP4_DISP_INTF_SEL_DSI_CMD				0x00000080
 -
--#define REG_MDP4_RESET_STATUS					0x0000003c
+-#define REG_A5XX_SP_VS_PVT_MEM_ADDR				0x0000e5af
 -
--#define REG_MDP4_READ_CNFG					0x0000004c
+-#define REG_A5XX_SP_VS_PVT_MEM_SIZE				0x0000e5b1
+-#define A5XX_SP_VS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__MASK		0x0003ffff
+-#define A5XX_SP_VS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__SHIFT		0
+-static inline uint32_t A5XX_SP_VS_PVT_MEM_SIZE_TOTALPVTMEMSIZE(uint32_t val)
+-{
+-	assert(!(val & 0xfff));
+-	return (((val >> 12)) << A5XX_SP_VS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__SHIFT) & A5XX_SP_VS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__MASK;
+-}
 -
--#define REG_MDP4_INTR_ENABLE					0x00000050
+-#define REG_A5XX_SP_FS_CTRL_REG0				0x0000e5c0
+-#define A5XX_SP_FS_CTRL_REG0_BUFFER				0x00000004
+-#define A5XX_SP_FS_CTRL_REG0_THREADSIZE__MASK			0x00000008
+-#define A5XX_SP_FS_CTRL_REG0_THREADSIZE__SHIFT			3
+-static inline uint32_t A5XX_SP_FS_CTRL_REG0_THREADSIZE(enum a3xx_threadsize val)
+-{
+-	return ((val) << A5XX_SP_FS_CTRL_REG0_THREADSIZE__SHIFT) & A5XX_SP_FS_CTRL_REG0_THREADSIZE__MASK;
+-}
+-#define A5XX_SP_FS_CTRL_REG0_HALFREGFOOTPRINT__MASK		0x000003f0
+-#define A5XX_SP_FS_CTRL_REG0_HALFREGFOOTPRINT__SHIFT		4
+-static inline uint32_t A5XX_SP_FS_CTRL_REG0_HALFREGFOOTPRINT(uint32_t val)
+-{
+-	return ((val) << A5XX_SP_FS_CTRL_REG0_HALFREGFOOTPRINT__SHIFT) & A5XX_SP_FS_CTRL_REG0_HALFREGFOOTPRINT__MASK;
+-}
+-#define A5XX_SP_FS_CTRL_REG0_FULLREGFOOTPRINT__MASK		0x0000fc00
+-#define A5XX_SP_FS_CTRL_REG0_FULLREGFOOTPRINT__SHIFT		10
+-static inline uint32_t A5XX_SP_FS_CTRL_REG0_FULLREGFOOTPRINT(uint32_t val)
+-{
+-	return ((val) << A5XX_SP_FS_CTRL_REG0_FULLREGFOOTPRINT__SHIFT) & A5XX_SP_FS_CTRL_REG0_FULLREGFOOTPRINT__MASK;
+-}
+-#define A5XX_SP_FS_CTRL_REG0_VARYING				0x00010000
+-#define A5XX_SP_FS_CTRL_REG0_PIXLODENABLE			0x00100000
+-#define A5XX_SP_FS_CTRL_REG0_BRANCHSTACK__MASK			0xfe000000
+-#define A5XX_SP_FS_CTRL_REG0_BRANCHSTACK__SHIFT			25
+-static inline uint32_t A5XX_SP_FS_CTRL_REG0_BRANCHSTACK(uint32_t val)
+-{
+-	return ((val) << A5XX_SP_FS_CTRL_REG0_BRANCHSTACK__SHIFT) & A5XX_SP_FS_CTRL_REG0_BRANCHSTACK__MASK;
+-}
 -
--#define REG_MDP4_INTR_STATUS					0x00000054
+-#define REG_A5XX_UNKNOWN_E5C2					0x0000e5c2
 -
--#define REG_MDP4_INTR_CLEAR					0x00000058
+-#define REG_A5XX_SP_FS_OBJ_START_LO				0x0000e5c3
 -
--#define REG_MDP4_EBI2_LCD0					0x00000060
+-#define REG_A5XX_SP_FS_OBJ_START_HI				0x0000e5c4
 -
--#define REG_MDP4_EBI2_LCD1					0x00000064
+-#define REG_A5XX_SP_FS_PVT_MEM_PARAM				0x0000e5c5
+-#define A5XX_SP_FS_PVT_MEM_PARAM_MEMSIZEPERITEM__MASK		0x000000ff
+-#define A5XX_SP_FS_PVT_MEM_PARAM_MEMSIZEPERITEM__SHIFT		0
+-static inline uint32_t A5XX_SP_FS_PVT_MEM_PARAM_MEMSIZEPERITEM(uint32_t val)
+-{
+-	assert(!(val & 0x1ff));
+-	return (((val >> 9)) << A5XX_SP_FS_PVT_MEM_PARAM_MEMSIZEPERITEM__SHIFT) & A5XX_SP_FS_PVT_MEM_PARAM_MEMSIZEPERITEM__MASK;
+-}
+-#define A5XX_SP_FS_PVT_MEM_PARAM_HWSTACKOFFSET__MASK		0x00ffff00
+-#define A5XX_SP_FS_PVT_MEM_PARAM_HWSTACKOFFSET__SHIFT		8
+-static inline uint32_t A5XX_SP_FS_PVT_MEM_PARAM_HWSTACKOFFSET(uint32_t val)
+-{
+-	assert(!(val & 0x7ff));
+-	return (((val >> 11)) << A5XX_SP_FS_PVT_MEM_PARAM_HWSTACKOFFSET__SHIFT) & A5XX_SP_FS_PVT_MEM_PARAM_HWSTACKOFFSET__MASK;
+-}
+-#define A5XX_SP_FS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__MASK	0xff000000
+-#define A5XX_SP_FS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__SHIFT	24
+-static inline uint32_t A5XX_SP_FS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD(uint32_t val)
+-{
+-	return ((val) << A5XX_SP_FS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__SHIFT) & A5XX_SP_FS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__MASK;
+-}
 -
--#define REG_MDP4_PORTMAP_MODE					0x00000070
+-#define REG_A5XX_SP_FS_PVT_MEM_ADDR				0x0000e5c6
 -
--#define REG_MDP4_CS_CONTROLLER0					0x000000c0
+-#define REG_A5XX_SP_FS_PVT_MEM_SIZE				0x0000e5c8
+-#define A5XX_SP_FS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__MASK		0x0003ffff
+-#define A5XX_SP_FS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__SHIFT		0
+-static inline uint32_t A5XX_SP_FS_PVT_MEM_SIZE_TOTALPVTMEMSIZE(uint32_t val)
+-{
+-	assert(!(val & 0xfff));
+-	return (((val >> 12)) << A5XX_SP_FS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__SHIFT) & A5XX_SP_FS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__MASK;
+-}
 -
--#define REG_MDP4_CS_CONTROLLER1					0x000000c4
+-#define REG_A5XX_SP_BLEND_CNTL					0x0000e5c9
+-#define A5XX_SP_BLEND_CNTL_ENABLE_BLEND__MASK			0x000000ff
+-#define A5XX_SP_BLEND_CNTL_ENABLE_BLEND__SHIFT			0
+-static inline uint32_t A5XX_SP_BLEND_CNTL_ENABLE_BLEND(uint32_t val)
+-{
+-	return ((val) << A5XX_SP_BLEND_CNTL_ENABLE_BLEND__SHIFT) & A5XX_SP_BLEND_CNTL_ENABLE_BLEND__MASK;
+-}
+-#define A5XX_SP_BLEND_CNTL_UNK8					0x00000100
+-#define A5XX_SP_BLEND_CNTL_ALPHA_TO_COVERAGE			0x00000400
 -
--#define REG_MDP4_LAYERMIXER2_IN_CFG				0x000100f0
--#define MDP4_LAYERMIXER2_IN_CFG_PIPE0__MASK			0x00000007
--#define MDP4_LAYERMIXER2_IN_CFG_PIPE0__SHIFT			0
--static inline uint32_t MDP4_LAYERMIXER2_IN_CFG_PIPE0(enum mdp_mixer_stage_id val)
+-#define REG_A5XX_SP_FS_OUTPUT_CNTL				0x0000e5ca
+-#define A5XX_SP_FS_OUTPUT_CNTL_MRT__MASK			0x0000000f
+-#define A5XX_SP_FS_OUTPUT_CNTL_MRT__SHIFT			0
+-static inline uint32_t A5XX_SP_FS_OUTPUT_CNTL_MRT(uint32_t val)
+-{
+-	return ((val) << A5XX_SP_FS_OUTPUT_CNTL_MRT__SHIFT) & A5XX_SP_FS_OUTPUT_CNTL_MRT__MASK;
+-}
+-#define A5XX_SP_FS_OUTPUT_CNTL_DEPTH_REGID__MASK		0x00001fe0
+-#define A5XX_SP_FS_OUTPUT_CNTL_DEPTH_REGID__SHIFT		5
+-static inline uint32_t A5XX_SP_FS_OUTPUT_CNTL_DEPTH_REGID(uint32_t val)
 -{
--	return ((val) << MDP4_LAYERMIXER2_IN_CFG_PIPE0__SHIFT) & MDP4_LAYERMIXER2_IN_CFG_PIPE0__MASK;
+-	return ((val) << A5XX_SP_FS_OUTPUT_CNTL_DEPTH_REGID__SHIFT) & A5XX_SP_FS_OUTPUT_CNTL_DEPTH_REGID__MASK;
 -}
--#define MDP4_LAYERMIXER2_IN_CFG_PIPE0_MIXER1			0x00000008
--#define MDP4_LAYERMIXER2_IN_CFG_PIPE1__MASK			0x00000070
--#define MDP4_LAYERMIXER2_IN_CFG_PIPE1__SHIFT			4
--static inline uint32_t MDP4_LAYERMIXER2_IN_CFG_PIPE1(enum mdp_mixer_stage_id val)
+-#define A5XX_SP_FS_OUTPUT_CNTL_SAMPLEMASK_REGID__MASK		0x001fe000
+-#define A5XX_SP_FS_OUTPUT_CNTL_SAMPLEMASK_REGID__SHIFT		13
+-static inline uint32_t A5XX_SP_FS_OUTPUT_CNTL_SAMPLEMASK_REGID(uint32_t val)
 -{
--	return ((val) << MDP4_LAYERMIXER2_IN_CFG_PIPE1__SHIFT) & MDP4_LAYERMIXER2_IN_CFG_PIPE1__MASK;
+-	return ((val) << A5XX_SP_FS_OUTPUT_CNTL_SAMPLEMASK_REGID__SHIFT) & A5XX_SP_FS_OUTPUT_CNTL_SAMPLEMASK_REGID__MASK;
 -}
--#define MDP4_LAYERMIXER2_IN_CFG_PIPE1_MIXER1			0x00000080
--#define MDP4_LAYERMIXER2_IN_CFG_PIPE2__MASK			0x00000700
--#define MDP4_LAYERMIXER2_IN_CFG_PIPE2__SHIFT			8
--static inline uint32_t MDP4_LAYERMIXER2_IN_CFG_PIPE2(enum mdp_mixer_stage_id val)
+-
+-#define REG_A5XX_SP_FS_OUTPUT(i0) (0x0000e5cb + 0x1*(i0))
+-
+-static inline uint32_t REG_A5XX_SP_FS_OUTPUT_REG(uint32_t i0) { return 0x0000e5cb + 0x1*i0; }
+-#define A5XX_SP_FS_OUTPUT_REG_REGID__MASK			0x000000ff
+-#define A5XX_SP_FS_OUTPUT_REG_REGID__SHIFT			0
+-static inline uint32_t A5XX_SP_FS_OUTPUT_REG_REGID(uint32_t val)
 -{
--	return ((val) << MDP4_LAYERMIXER2_IN_CFG_PIPE2__SHIFT) & MDP4_LAYERMIXER2_IN_CFG_PIPE2__MASK;
+-	return ((val) << A5XX_SP_FS_OUTPUT_REG_REGID__SHIFT) & A5XX_SP_FS_OUTPUT_REG_REGID__MASK;
 -}
--#define MDP4_LAYERMIXER2_IN_CFG_PIPE2_MIXER1			0x00000800
--#define MDP4_LAYERMIXER2_IN_CFG_PIPE3__MASK			0x00007000
--#define MDP4_LAYERMIXER2_IN_CFG_PIPE3__SHIFT			12
--static inline uint32_t MDP4_LAYERMIXER2_IN_CFG_PIPE3(enum mdp_mixer_stage_id val)
+-#define A5XX_SP_FS_OUTPUT_REG_HALF_PRECISION			0x00000100
+-
+-#define REG_A5XX_SP_FS_MRT(i0) (0x0000e5d3 + 0x1*(i0))
+-
+-static inline uint32_t REG_A5XX_SP_FS_MRT_REG(uint32_t i0) { return 0x0000e5d3 + 0x1*i0; }
+-#define A5XX_SP_FS_MRT_REG_COLOR_FORMAT__MASK			0x000000ff
+-#define A5XX_SP_FS_MRT_REG_COLOR_FORMAT__SHIFT			0
+-static inline uint32_t A5XX_SP_FS_MRT_REG_COLOR_FORMAT(enum a5xx_color_fmt val)
 -{
--	return ((val) << MDP4_LAYERMIXER2_IN_CFG_PIPE3__SHIFT) & MDP4_LAYERMIXER2_IN_CFG_PIPE3__MASK;
+-	return ((val) << A5XX_SP_FS_MRT_REG_COLOR_FORMAT__SHIFT) & A5XX_SP_FS_MRT_REG_COLOR_FORMAT__MASK;
 -}
--#define MDP4_LAYERMIXER2_IN_CFG_PIPE3_MIXER1			0x00008000
--#define MDP4_LAYERMIXER2_IN_CFG_PIPE4__MASK			0x00070000
--#define MDP4_LAYERMIXER2_IN_CFG_PIPE4__SHIFT			16
--static inline uint32_t MDP4_LAYERMIXER2_IN_CFG_PIPE4(enum mdp_mixer_stage_id val)
+-#define A5XX_SP_FS_MRT_REG_COLOR_SINT				0x00000100
+-#define A5XX_SP_FS_MRT_REG_COLOR_UINT				0x00000200
+-#define A5XX_SP_FS_MRT_REG_COLOR_SRGB				0x00000400
+-
+-#define REG_A5XX_UNKNOWN_E5DB					0x0000e5db
+-
+-#define REG_A5XX_SP_CS_CTRL_REG0				0x0000e5f0
+-#define A5XX_SP_CS_CTRL_REG0_BUFFER				0x00000004
+-#define A5XX_SP_CS_CTRL_REG0_THREADSIZE__MASK			0x00000008
+-#define A5XX_SP_CS_CTRL_REG0_THREADSIZE__SHIFT			3
+-static inline uint32_t A5XX_SP_CS_CTRL_REG0_THREADSIZE(enum a3xx_threadsize val)
 -{
--	return ((val) << MDP4_LAYERMIXER2_IN_CFG_PIPE4__SHIFT) & MDP4_LAYERMIXER2_IN_CFG_PIPE4__MASK;
+-	return ((val) << A5XX_SP_CS_CTRL_REG0_THREADSIZE__SHIFT) & A5XX_SP_CS_CTRL_REG0_THREADSIZE__MASK;
 -}
--#define MDP4_LAYERMIXER2_IN_CFG_PIPE4_MIXER1			0x00080000
--#define MDP4_LAYERMIXER2_IN_CFG_PIPE5__MASK			0x00700000
--#define MDP4_LAYERMIXER2_IN_CFG_PIPE5__SHIFT			20
--static inline uint32_t MDP4_LAYERMIXER2_IN_CFG_PIPE5(enum mdp_mixer_stage_id val)
+-#define A5XX_SP_CS_CTRL_REG0_HALFREGFOOTPRINT__MASK		0x000003f0
+-#define A5XX_SP_CS_CTRL_REG0_HALFREGFOOTPRINT__SHIFT		4
+-static inline uint32_t A5XX_SP_CS_CTRL_REG0_HALFREGFOOTPRINT(uint32_t val)
 -{
--	return ((val) << MDP4_LAYERMIXER2_IN_CFG_PIPE5__SHIFT) & MDP4_LAYERMIXER2_IN_CFG_PIPE5__MASK;
+-	return ((val) << A5XX_SP_CS_CTRL_REG0_HALFREGFOOTPRINT__SHIFT) & A5XX_SP_CS_CTRL_REG0_HALFREGFOOTPRINT__MASK;
 -}
--#define MDP4_LAYERMIXER2_IN_CFG_PIPE5_MIXER1			0x00800000
--#define MDP4_LAYERMIXER2_IN_CFG_PIPE6__MASK			0x07000000
--#define MDP4_LAYERMIXER2_IN_CFG_PIPE6__SHIFT			24
--static inline uint32_t MDP4_LAYERMIXER2_IN_CFG_PIPE6(enum mdp_mixer_stage_id val)
+-#define A5XX_SP_CS_CTRL_REG0_FULLREGFOOTPRINT__MASK		0x0000fc00
+-#define A5XX_SP_CS_CTRL_REG0_FULLREGFOOTPRINT__SHIFT		10
+-static inline uint32_t A5XX_SP_CS_CTRL_REG0_FULLREGFOOTPRINT(uint32_t val)
 -{
--	return ((val) << MDP4_LAYERMIXER2_IN_CFG_PIPE6__SHIFT) & MDP4_LAYERMIXER2_IN_CFG_PIPE6__MASK;
+-	return ((val) << A5XX_SP_CS_CTRL_REG0_FULLREGFOOTPRINT__SHIFT) & A5XX_SP_CS_CTRL_REG0_FULLREGFOOTPRINT__MASK;
 -}
--#define MDP4_LAYERMIXER2_IN_CFG_PIPE6_MIXER1			0x08000000
--#define MDP4_LAYERMIXER2_IN_CFG_PIPE7__MASK			0x70000000
--#define MDP4_LAYERMIXER2_IN_CFG_PIPE7__SHIFT			28
--static inline uint32_t MDP4_LAYERMIXER2_IN_CFG_PIPE7(enum mdp_mixer_stage_id val)
+-#define A5XX_SP_CS_CTRL_REG0_VARYING				0x00010000
+-#define A5XX_SP_CS_CTRL_REG0_PIXLODENABLE			0x00100000
+-#define A5XX_SP_CS_CTRL_REG0_BRANCHSTACK__MASK			0xfe000000
+-#define A5XX_SP_CS_CTRL_REG0_BRANCHSTACK__SHIFT			25
+-static inline uint32_t A5XX_SP_CS_CTRL_REG0_BRANCHSTACK(uint32_t val)
 -{
--	return ((val) << MDP4_LAYERMIXER2_IN_CFG_PIPE7__SHIFT) & MDP4_LAYERMIXER2_IN_CFG_PIPE7__MASK;
+-	return ((val) << A5XX_SP_CS_CTRL_REG0_BRANCHSTACK__SHIFT) & A5XX_SP_CS_CTRL_REG0_BRANCHSTACK__MASK;
 -}
--#define MDP4_LAYERMIXER2_IN_CFG_PIPE7_MIXER1			0x80000000
+-
+-#define REG_A5XX_UNKNOWN_E5F2					0x0000e5f2
+-
+-#define REG_A5XX_SP_CS_OBJ_START_LO				0x0000e5f3
 -
--#define REG_MDP4_LAYERMIXER_IN_CFG_UPDATE_METHOD		0x000100fc
+-#define REG_A5XX_SP_CS_OBJ_START_HI				0x0000e5f4
 -
--#define REG_MDP4_LAYERMIXER_IN_CFG				0x00010100
--#define MDP4_LAYERMIXER_IN_CFG_PIPE0__MASK			0x00000007
--#define MDP4_LAYERMIXER_IN_CFG_PIPE0__SHIFT			0
--static inline uint32_t MDP4_LAYERMIXER_IN_CFG_PIPE0(enum mdp_mixer_stage_id val)
+-#define REG_A5XX_SP_CS_PVT_MEM_PARAM				0x0000e5f5
+-#define A5XX_SP_CS_PVT_MEM_PARAM_MEMSIZEPERITEM__MASK		0x000000ff
+-#define A5XX_SP_CS_PVT_MEM_PARAM_MEMSIZEPERITEM__SHIFT		0
+-static inline uint32_t A5XX_SP_CS_PVT_MEM_PARAM_MEMSIZEPERITEM(uint32_t val)
 -{
--	return ((val) << MDP4_LAYERMIXER_IN_CFG_PIPE0__SHIFT) & MDP4_LAYERMIXER_IN_CFG_PIPE0__MASK;
+-	assert(!(val & 0x1ff));
+-	return (((val >> 9)) << A5XX_SP_CS_PVT_MEM_PARAM_MEMSIZEPERITEM__SHIFT) & A5XX_SP_CS_PVT_MEM_PARAM_MEMSIZEPERITEM__MASK;
 -}
--#define MDP4_LAYERMIXER_IN_CFG_PIPE0_MIXER1			0x00000008
--#define MDP4_LAYERMIXER_IN_CFG_PIPE1__MASK			0x00000070
--#define MDP4_LAYERMIXER_IN_CFG_PIPE1__SHIFT			4
--static inline uint32_t MDP4_LAYERMIXER_IN_CFG_PIPE1(enum mdp_mixer_stage_id val)
+-#define A5XX_SP_CS_PVT_MEM_PARAM_HWSTACKOFFSET__MASK		0x00ffff00
+-#define A5XX_SP_CS_PVT_MEM_PARAM_HWSTACKOFFSET__SHIFT		8
+-static inline uint32_t A5XX_SP_CS_PVT_MEM_PARAM_HWSTACKOFFSET(uint32_t val)
 -{
--	return ((val) << MDP4_LAYERMIXER_IN_CFG_PIPE1__SHIFT) & MDP4_LAYERMIXER_IN_CFG_PIPE1__MASK;
+-	assert(!(val & 0x7ff));
+-	return (((val >> 11)) << A5XX_SP_CS_PVT_MEM_PARAM_HWSTACKOFFSET__SHIFT) & A5XX_SP_CS_PVT_MEM_PARAM_HWSTACKOFFSET__MASK;
 -}
--#define MDP4_LAYERMIXER_IN_CFG_PIPE1_MIXER1			0x00000080
--#define MDP4_LAYERMIXER_IN_CFG_PIPE2__MASK			0x00000700
--#define MDP4_LAYERMIXER_IN_CFG_PIPE2__SHIFT			8
--static inline uint32_t MDP4_LAYERMIXER_IN_CFG_PIPE2(enum mdp_mixer_stage_id val)
+-#define A5XX_SP_CS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__MASK	0xff000000
+-#define A5XX_SP_CS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__SHIFT	24
+-static inline uint32_t A5XX_SP_CS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD(uint32_t val)
 -{
--	return ((val) << MDP4_LAYERMIXER_IN_CFG_PIPE2__SHIFT) & MDP4_LAYERMIXER_IN_CFG_PIPE2__MASK;
+-	return ((val) << A5XX_SP_CS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__SHIFT) & A5XX_SP_CS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__MASK;
 -}
--#define MDP4_LAYERMIXER_IN_CFG_PIPE2_MIXER1			0x00000800
--#define MDP4_LAYERMIXER_IN_CFG_PIPE3__MASK			0x00007000
--#define MDP4_LAYERMIXER_IN_CFG_PIPE3__SHIFT			12
--static inline uint32_t MDP4_LAYERMIXER_IN_CFG_PIPE3(enum mdp_mixer_stage_id val)
+-
+-#define REG_A5XX_SP_CS_PVT_MEM_ADDR				0x0000e5f6
+-
+-#define REG_A5XX_SP_CS_PVT_MEM_SIZE				0x0000e5f8
+-#define A5XX_SP_CS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__MASK		0x0003ffff
+-#define A5XX_SP_CS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__SHIFT		0
+-static inline uint32_t A5XX_SP_CS_PVT_MEM_SIZE_TOTALPVTMEMSIZE(uint32_t val)
 -{
--	return ((val) << MDP4_LAYERMIXER_IN_CFG_PIPE3__SHIFT) & MDP4_LAYERMIXER_IN_CFG_PIPE3__MASK;
+-	assert(!(val & 0xfff));
+-	return (((val >> 12)) << A5XX_SP_CS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__SHIFT) & A5XX_SP_CS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__MASK;
 -}
--#define MDP4_LAYERMIXER_IN_CFG_PIPE3_MIXER1			0x00008000
--#define MDP4_LAYERMIXER_IN_CFG_PIPE4__MASK			0x00070000
--#define MDP4_LAYERMIXER_IN_CFG_PIPE4__SHIFT			16
--static inline uint32_t MDP4_LAYERMIXER_IN_CFG_PIPE4(enum mdp_mixer_stage_id val)
+-
+-#define REG_A5XX_SP_HS_CTRL_REG0				0x0000e600
+-#define A5XX_SP_HS_CTRL_REG0_BUFFER				0x00000004
+-#define A5XX_SP_HS_CTRL_REG0_THREADSIZE__MASK			0x00000008
+-#define A5XX_SP_HS_CTRL_REG0_THREADSIZE__SHIFT			3
+-static inline uint32_t A5XX_SP_HS_CTRL_REG0_THREADSIZE(enum a3xx_threadsize val)
 -{
--	return ((val) << MDP4_LAYERMIXER_IN_CFG_PIPE4__SHIFT) & MDP4_LAYERMIXER_IN_CFG_PIPE4__MASK;
+-	return ((val) << A5XX_SP_HS_CTRL_REG0_THREADSIZE__SHIFT) & A5XX_SP_HS_CTRL_REG0_THREADSIZE__MASK;
 -}
--#define MDP4_LAYERMIXER_IN_CFG_PIPE4_MIXER1			0x00080000
--#define MDP4_LAYERMIXER_IN_CFG_PIPE5__MASK			0x00700000
--#define MDP4_LAYERMIXER_IN_CFG_PIPE5__SHIFT			20
--static inline uint32_t MDP4_LAYERMIXER_IN_CFG_PIPE5(enum mdp_mixer_stage_id val)
+-#define A5XX_SP_HS_CTRL_REG0_HALFREGFOOTPRINT__MASK		0x000003f0
+-#define A5XX_SP_HS_CTRL_REG0_HALFREGFOOTPRINT__SHIFT		4
+-static inline uint32_t A5XX_SP_HS_CTRL_REG0_HALFREGFOOTPRINT(uint32_t val)
 -{
--	return ((val) << MDP4_LAYERMIXER_IN_CFG_PIPE5__SHIFT) & MDP4_LAYERMIXER_IN_CFG_PIPE5__MASK;
+-	return ((val) << A5XX_SP_HS_CTRL_REG0_HALFREGFOOTPRINT__SHIFT) & A5XX_SP_HS_CTRL_REG0_HALFREGFOOTPRINT__MASK;
 -}
--#define MDP4_LAYERMIXER_IN_CFG_PIPE5_MIXER1			0x00800000
--#define MDP4_LAYERMIXER_IN_CFG_PIPE6__MASK			0x07000000
--#define MDP4_LAYERMIXER_IN_CFG_PIPE6__SHIFT			24
--static inline uint32_t MDP4_LAYERMIXER_IN_CFG_PIPE6(enum mdp_mixer_stage_id val)
+-#define A5XX_SP_HS_CTRL_REG0_FULLREGFOOTPRINT__MASK		0x0000fc00
+-#define A5XX_SP_HS_CTRL_REG0_FULLREGFOOTPRINT__SHIFT		10
+-static inline uint32_t A5XX_SP_HS_CTRL_REG0_FULLREGFOOTPRINT(uint32_t val)
 -{
--	return ((val) << MDP4_LAYERMIXER_IN_CFG_PIPE6__SHIFT) & MDP4_LAYERMIXER_IN_CFG_PIPE6__MASK;
+-	return ((val) << A5XX_SP_HS_CTRL_REG0_FULLREGFOOTPRINT__SHIFT) & A5XX_SP_HS_CTRL_REG0_FULLREGFOOTPRINT__MASK;
 -}
--#define MDP4_LAYERMIXER_IN_CFG_PIPE6_MIXER1			0x08000000
--#define MDP4_LAYERMIXER_IN_CFG_PIPE7__MASK			0x70000000
--#define MDP4_LAYERMIXER_IN_CFG_PIPE7__SHIFT			28
--static inline uint32_t MDP4_LAYERMIXER_IN_CFG_PIPE7(enum mdp_mixer_stage_id val)
+-#define A5XX_SP_HS_CTRL_REG0_VARYING				0x00010000
+-#define A5XX_SP_HS_CTRL_REG0_PIXLODENABLE			0x00100000
+-#define A5XX_SP_HS_CTRL_REG0_BRANCHSTACK__MASK			0xfe000000
+-#define A5XX_SP_HS_CTRL_REG0_BRANCHSTACK__SHIFT			25
+-static inline uint32_t A5XX_SP_HS_CTRL_REG0_BRANCHSTACK(uint32_t val)
 -{
--	return ((val) << MDP4_LAYERMIXER_IN_CFG_PIPE7__SHIFT) & MDP4_LAYERMIXER_IN_CFG_PIPE7__MASK;
+-	return ((val) << A5XX_SP_HS_CTRL_REG0_BRANCHSTACK__SHIFT) & A5XX_SP_HS_CTRL_REG0_BRANCHSTACK__MASK;
 -}
--#define MDP4_LAYERMIXER_IN_CFG_PIPE7_MIXER1			0x80000000
 -
--#define REG_MDP4_VG2_SRC_FORMAT					0x00030050
+-#define REG_A5XX_UNKNOWN_E602					0x0000e602
 -
--#define REG_MDP4_VG2_CONST_COLOR				0x00031008
+-#define REG_A5XX_SP_HS_OBJ_START_LO				0x0000e603
 -
--#define REG_MDP4_OVERLAY_FLUSH					0x00018000
--#define MDP4_OVERLAY_FLUSH_OVLP0				0x00000001
--#define MDP4_OVERLAY_FLUSH_OVLP1				0x00000002
--#define MDP4_OVERLAY_FLUSH_VG1					0x00000004
--#define MDP4_OVERLAY_FLUSH_VG2					0x00000008
--#define MDP4_OVERLAY_FLUSH_RGB1					0x00000010
--#define MDP4_OVERLAY_FLUSH_RGB2					0x00000020
+-#define REG_A5XX_SP_HS_OBJ_START_HI				0x0000e604
 -
--static inline uint32_t __offset_OVLP(uint32_t idx)
+-#define REG_A5XX_SP_HS_PVT_MEM_PARAM				0x0000e605
+-#define A5XX_SP_HS_PVT_MEM_PARAM_MEMSIZEPERITEM__MASK		0x000000ff
+-#define A5XX_SP_HS_PVT_MEM_PARAM_MEMSIZEPERITEM__SHIFT		0
+-static inline uint32_t A5XX_SP_HS_PVT_MEM_PARAM_MEMSIZEPERITEM(uint32_t val)
+-{
+-	assert(!(val & 0x1ff));
+-	return (((val >> 9)) << A5XX_SP_HS_PVT_MEM_PARAM_MEMSIZEPERITEM__SHIFT) & A5XX_SP_HS_PVT_MEM_PARAM_MEMSIZEPERITEM__MASK;
+-}
+-#define A5XX_SP_HS_PVT_MEM_PARAM_HWSTACKOFFSET__MASK		0x00ffff00
+-#define A5XX_SP_HS_PVT_MEM_PARAM_HWSTACKOFFSET__SHIFT		8
+-static inline uint32_t A5XX_SP_HS_PVT_MEM_PARAM_HWSTACKOFFSET(uint32_t val)
+-{
+-	assert(!(val & 0x7ff));
+-	return (((val >> 11)) << A5XX_SP_HS_PVT_MEM_PARAM_HWSTACKOFFSET__SHIFT) & A5XX_SP_HS_PVT_MEM_PARAM_HWSTACKOFFSET__MASK;
+-}
+-#define A5XX_SP_HS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__MASK	0xff000000
+-#define A5XX_SP_HS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__SHIFT	24
+-static inline uint32_t A5XX_SP_HS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD(uint32_t val)
 -{
--	switch (idx) {
--		case 0: return 0x00010000;
--		case 1: return 0x00018000;
--		case 2: return 0x00088000;
--		default: return INVALID_IDX(idx);
--	}
+-	return ((val) << A5XX_SP_HS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__SHIFT) & A5XX_SP_HS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__MASK;
 -}
--static inline uint32_t REG_MDP4_OVLP(uint32_t i0) { return 0x00000000 + __offset_OVLP(i0); }
+-
+-#define REG_A5XX_SP_HS_PVT_MEM_ADDR				0x0000e606
 -
--static inline uint32_t REG_MDP4_OVLP_CFG(uint32_t i0) { return 0x00000004 + __offset_OVLP(i0); }
+-#define REG_A5XX_SP_HS_PVT_MEM_SIZE				0x0000e608
+-#define A5XX_SP_HS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__MASK		0x0003ffff
+-#define A5XX_SP_HS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__SHIFT		0
+-static inline uint32_t A5XX_SP_HS_PVT_MEM_SIZE_TOTALPVTMEMSIZE(uint32_t val)
+-{
+-	assert(!(val & 0xfff));
+-	return (((val >> 12)) << A5XX_SP_HS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__SHIFT) & A5XX_SP_HS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__MASK;
+-}
 -
--static inline uint32_t REG_MDP4_OVLP_SIZE(uint32_t i0) { return 0x00000008 + __offset_OVLP(i0); }
--#define MDP4_OVLP_SIZE_HEIGHT__MASK				0xffff0000
--#define MDP4_OVLP_SIZE_HEIGHT__SHIFT				16
--static inline uint32_t MDP4_OVLP_SIZE_HEIGHT(uint32_t val)
+-#define REG_A5XX_SP_DS_CTRL_REG0				0x0000e610
+-#define A5XX_SP_DS_CTRL_REG0_BUFFER				0x00000004
+-#define A5XX_SP_DS_CTRL_REG0_THREADSIZE__MASK			0x00000008
+-#define A5XX_SP_DS_CTRL_REG0_THREADSIZE__SHIFT			3
+-static inline uint32_t A5XX_SP_DS_CTRL_REG0_THREADSIZE(enum a3xx_threadsize val)
+-{
+-	return ((val) << A5XX_SP_DS_CTRL_REG0_THREADSIZE__SHIFT) & A5XX_SP_DS_CTRL_REG0_THREADSIZE__MASK;
+-}
+-#define A5XX_SP_DS_CTRL_REG0_HALFREGFOOTPRINT__MASK		0x000003f0
+-#define A5XX_SP_DS_CTRL_REG0_HALFREGFOOTPRINT__SHIFT		4
+-static inline uint32_t A5XX_SP_DS_CTRL_REG0_HALFREGFOOTPRINT(uint32_t val)
 -{
--	return ((val) << MDP4_OVLP_SIZE_HEIGHT__SHIFT) & MDP4_OVLP_SIZE_HEIGHT__MASK;
+-	return ((val) << A5XX_SP_DS_CTRL_REG0_HALFREGFOOTPRINT__SHIFT) & A5XX_SP_DS_CTRL_REG0_HALFREGFOOTPRINT__MASK;
 -}
--#define MDP4_OVLP_SIZE_WIDTH__MASK				0x0000ffff
--#define MDP4_OVLP_SIZE_WIDTH__SHIFT				0
--static inline uint32_t MDP4_OVLP_SIZE_WIDTH(uint32_t val)
+-#define A5XX_SP_DS_CTRL_REG0_FULLREGFOOTPRINT__MASK		0x0000fc00
+-#define A5XX_SP_DS_CTRL_REG0_FULLREGFOOTPRINT__SHIFT		10
+-static inline uint32_t A5XX_SP_DS_CTRL_REG0_FULLREGFOOTPRINT(uint32_t val)
 -{
--	return ((val) << MDP4_OVLP_SIZE_WIDTH__SHIFT) & MDP4_OVLP_SIZE_WIDTH__MASK;
+-	return ((val) << A5XX_SP_DS_CTRL_REG0_FULLREGFOOTPRINT__SHIFT) & A5XX_SP_DS_CTRL_REG0_FULLREGFOOTPRINT__MASK;
 -}
+-#define A5XX_SP_DS_CTRL_REG0_VARYING				0x00010000
+-#define A5XX_SP_DS_CTRL_REG0_PIXLODENABLE			0x00100000
+-#define A5XX_SP_DS_CTRL_REG0_BRANCHSTACK__MASK			0xfe000000
+-#define A5XX_SP_DS_CTRL_REG0_BRANCHSTACK__SHIFT			25
+-static inline uint32_t A5XX_SP_DS_CTRL_REG0_BRANCHSTACK(uint32_t val)
+-{
+-	return ((val) << A5XX_SP_DS_CTRL_REG0_BRANCHSTACK__SHIFT) & A5XX_SP_DS_CTRL_REG0_BRANCHSTACK__MASK;
+-}
+-
+-#define REG_A5XX_UNKNOWN_E62B					0x0000e62b
+-
+-#define REG_A5XX_SP_DS_OBJ_START_LO				0x0000e62c
 -
--static inline uint32_t REG_MDP4_OVLP_BASE(uint32_t i0) { return 0x0000000c + __offset_OVLP(i0); }
+-#define REG_A5XX_SP_DS_OBJ_START_HI				0x0000e62d
 -
--static inline uint32_t REG_MDP4_OVLP_STRIDE(uint32_t i0) { return 0x00000010 + __offset_OVLP(i0); }
+-#define REG_A5XX_SP_DS_PVT_MEM_PARAM				0x0000e62e
+-#define A5XX_SP_DS_PVT_MEM_PARAM_MEMSIZEPERITEM__MASK		0x000000ff
+-#define A5XX_SP_DS_PVT_MEM_PARAM_MEMSIZEPERITEM__SHIFT		0
+-static inline uint32_t A5XX_SP_DS_PVT_MEM_PARAM_MEMSIZEPERITEM(uint32_t val)
+-{
+-	assert(!(val & 0x1ff));
+-	return (((val >> 9)) << A5XX_SP_DS_PVT_MEM_PARAM_MEMSIZEPERITEM__SHIFT) & A5XX_SP_DS_PVT_MEM_PARAM_MEMSIZEPERITEM__MASK;
+-}
+-#define A5XX_SP_DS_PVT_MEM_PARAM_HWSTACKOFFSET__MASK		0x00ffff00
+-#define A5XX_SP_DS_PVT_MEM_PARAM_HWSTACKOFFSET__SHIFT		8
+-static inline uint32_t A5XX_SP_DS_PVT_MEM_PARAM_HWSTACKOFFSET(uint32_t val)
+-{
+-	assert(!(val & 0x7ff));
+-	return (((val >> 11)) << A5XX_SP_DS_PVT_MEM_PARAM_HWSTACKOFFSET__SHIFT) & A5XX_SP_DS_PVT_MEM_PARAM_HWSTACKOFFSET__MASK;
+-}
+-#define A5XX_SP_DS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__MASK	0xff000000
+-#define A5XX_SP_DS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__SHIFT	24
+-static inline uint32_t A5XX_SP_DS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD(uint32_t val)
+-{
+-	return ((val) << A5XX_SP_DS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__SHIFT) & A5XX_SP_DS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__MASK;
+-}
 -
--static inline uint32_t REG_MDP4_OVLP_OPMODE(uint32_t i0) { return 0x00000014 + __offset_OVLP(i0); }
+-#define REG_A5XX_SP_DS_PVT_MEM_ADDR				0x0000e62f
 -
--static inline uint32_t __offset_STAGE(uint32_t idx)
+-#define REG_A5XX_SP_DS_PVT_MEM_SIZE				0x0000e631
+-#define A5XX_SP_DS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__MASK		0x0003ffff
+-#define A5XX_SP_DS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__SHIFT		0
+-static inline uint32_t A5XX_SP_DS_PVT_MEM_SIZE_TOTALPVTMEMSIZE(uint32_t val)
 -{
--	switch (idx) {
--		case 0: return 0x00000104;
--		case 1: return 0x00000124;
--		case 2: return 0x00000144;
--		case 3: return 0x00000160;
--		default: return INVALID_IDX(idx);
--	}
+-	assert(!(val & 0xfff));
+-	return (((val >> 12)) << A5XX_SP_DS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__SHIFT) & A5XX_SP_DS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__MASK;
 -}
--static inline uint32_t REG_MDP4_OVLP_STAGE(uint32_t i0, uint32_t i1) { return 0x00000000 + __offset_OVLP(i0) + __offset_STAGE(i1); }
 -
--static inline uint32_t REG_MDP4_OVLP_STAGE_OP(uint32_t i0, uint32_t i1) { return 0x00000000 + __offset_OVLP(i0) + __offset_STAGE(i1); }
--#define MDP4_OVLP_STAGE_OP_FG_ALPHA__MASK			0x00000003
--#define MDP4_OVLP_STAGE_OP_FG_ALPHA__SHIFT			0
--static inline uint32_t MDP4_OVLP_STAGE_OP_FG_ALPHA(enum mdp_alpha_type val)
+-#define REG_A5XX_SP_GS_CTRL_REG0				0x0000e640
+-#define A5XX_SP_GS_CTRL_REG0_BUFFER				0x00000004
+-#define A5XX_SP_GS_CTRL_REG0_THREADSIZE__MASK			0x00000008
+-#define A5XX_SP_GS_CTRL_REG0_THREADSIZE__SHIFT			3
+-static inline uint32_t A5XX_SP_GS_CTRL_REG0_THREADSIZE(enum a3xx_threadsize val)
+-{
+-	return ((val) << A5XX_SP_GS_CTRL_REG0_THREADSIZE__SHIFT) & A5XX_SP_GS_CTRL_REG0_THREADSIZE__MASK;
+-}
+-#define A5XX_SP_GS_CTRL_REG0_HALFREGFOOTPRINT__MASK		0x000003f0
+-#define A5XX_SP_GS_CTRL_REG0_HALFREGFOOTPRINT__SHIFT		4
+-static inline uint32_t A5XX_SP_GS_CTRL_REG0_HALFREGFOOTPRINT(uint32_t val)
 -{
--	return ((val) << MDP4_OVLP_STAGE_OP_FG_ALPHA__SHIFT) & MDP4_OVLP_STAGE_OP_FG_ALPHA__MASK;
+-	return ((val) << A5XX_SP_GS_CTRL_REG0_HALFREGFOOTPRINT__SHIFT) & A5XX_SP_GS_CTRL_REG0_HALFREGFOOTPRINT__MASK;
 -}
--#define MDP4_OVLP_STAGE_OP_FG_INV_ALPHA				0x00000004
--#define MDP4_OVLP_STAGE_OP_FG_MOD_ALPHA				0x00000008
--#define MDP4_OVLP_STAGE_OP_BG_ALPHA__MASK			0x00000030
--#define MDP4_OVLP_STAGE_OP_BG_ALPHA__SHIFT			4
--static inline uint32_t MDP4_OVLP_STAGE_OP_BG_ALPHA(enum mdp_alpha_type val)
+-#define A5XX_SP_GS_CTRL_REG0_FULLREGFOOTPRINT__MASK		0x0000fc00
+-#define A5XX_SP_GS_CTRL_REG0_FULLREGFOOTPRINT__SHIFT		10
+-static inline uint32_t A5XX_SP_GS_CTRL_REG0_FULLREGFOOTPRINT(uint32_t val)
 -{
--	return ((val) << MDP4_OVLP_STAGE_OP_BG_ALPHA__SHIFT) & MDP4_OVLP_STAGE_OP_BG_ALPHA__MASK;
+-	return ((val) << A5XX_SP_GS_CTRL_REG0_FULLREGFOOTPRINT__SHIFT) & A5XX_SP_GS_CTRL_REG0_FULLREGFOOTPRINT__MASK;
 -}
--#define MDP4_OVLP_STAGE_OP_BG_INV_ALPHA				0x00000040
--#define MDP4_OVLP_STAGE_OP_BG_MOD_ALPHA				0x00000080
--#define MDP4_OVLP_STAGE_OP_FG_TRANSP				0x00000100
--#define MDP4_OVLP_STAGE_OP_BG_TRANSP				0x00000200
+-#define A5XX_SP_GS_CTRL_REG0_VARYING				0x00010000
+-#define A5XX_SP_GS_CTRL_REG0_PIXLODENABLE			0x00100000
+-#define A5XX_SP_GS_CTRL_REG0_BRANCHSTACK__MASK			0xfe000000
+-#define A5XX_SP_GS_CTRL_REG0_BRANCHSTACK__SHIFT			25
+-static inline uint32_t A5XX_SP_GS_CTRL_REG0_BRANCHSTACK(uint32_t val)
+-{
+-	return ((val) << A5XX_SP_GS_CTRL_REG0_BRANCHSTACK__SHIFT) & A5XX_SP_GS_CTRL_REG0_BRANCHSTACK__MASK;
+-}
 -
--static inline uint32_t REG_MDP4_OVLP_STAGE_FG_ALPHA(uint32_t i0, uint32_t i1) { return 0x00000004 + __offset_OVLP(i0) + __offset_STAGE(i1); }
+-#define REG_A5XX_UNKNOWN_E65B					0x0000e65b
 -
--static inline uint32_t REG_MDP4_OVLP_STAGE_BG_ALPHA(uint32_t i0, uint32_t i1) { return 0x00000008 + __offset_OVLP(i0) + __offset_STAGE(i1); }
+-#define REG_A5XX_SP_GS_OBJ_START_LO				0x0000e65c
 -
--static inline uint32_t REG_MDP4_OVLP_STAGE_TRANSP_LOW0(uint32_t i0, uint32_t i1) { return 0x0000000c + __offset_OVLP(i0) + __offset_STAGE(i1); }
+-#define REG_A5XX_SP_GS_OBJ_START_HI				0x0000e65d
+-
+-#define REG_A5XX_SP_GS_PVT_MEM_PARAM				0x0000e65e
+-#define A5XX_SP_GS_PVT_MEM_PARAM_MEMSIZEPERITEM__MASK		0x000000ff
+-#define A5XX_SP_GS_PVT_MEM_PARAM_MEMSIZEPERITEM__SHIFT		0
+-static inline uint32_t A5XX_SP_GS_PVT_MEM_PARAM_MEMSIZEPERITEM(uint32_t val)
+-{
+-	assert(!(val & 0x1ff));
+-	return (((val >> 9)) << A5XX_SP_GS_PVT_MEM_PARAM_MEMSIZEPERITEM__SHIFT) & A5XX_SP_GS_PVT_MEM_PARAM_MEMSIZEPERITEM__MASK;
+-}
+-#define A5XX_SP_GS_PVT_MEM_PARAM_HWSTACKOFFSET__MASK		0x00ffff00
+-#define A5XX_SP_GS_PVT_MEM_PARAM_HWSTACKOFFSET__SHIFT		8
+-static inline uint32_t A5XX_SP_GS_PVT_MEM_PARAM_HWSTACKOFFSET(uint32_t val)
+-{
+-	assert(!(val & 0x7ff));
+-	return (((val >> 11)) << A5XX_SP_GS_PVT_MEM_PARAM_HWSTACKOFFSET__SHIFT) & A5XX_SP_GS_PVT_MEM_PARAM_HWSTACKOFFSET__MASK;
+-}
+-#define A5XX_SP_GS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__MASK	0xff000000
+-#define A5XX_SP_GS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__SHIFT	24
+-static inline uint32_t A5XX_SP_GS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD(uint32_t val)
+-{
+-	return ((val) << A5XX_SP_GS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__SHIFT) & A5XX_SP_GS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__MASK;
+-}
 -
--static inline uint32_t REG_MDP4_OVLP_STAGE_TRANSP_LOW1(uint32_t i0, uint32_t i1) { return 0x00000010 + __offset_OVLP(i0) + __offset_STAGE(i1); }
+-#define REG_A5XX_SP_GS_PVT_MEM_ADDR				0x0000e65f
 -
--static inline uint32_t REG_MDP4_OVLP_STAGE_TRANSP_HIGH0(uint32_t i0, uint32_t i1) { return 0x00000014 + __offset_OVLP(i0) + __offset_STAGE(i1); }
+-#define REG_A5XX_SP_GS_PVT_MEM_SIZE				0x0000e661
+-#define A5XX_SP_GS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__MASK		0x0003ffff
+-#define A5XX_SP_GS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__SHIFT		0
+-static inline uint32_t A5XX_SP_GS_PVT_MEM_SIZE_TOTALPVTMEMSIZE(uint32_t val)
+-{
+-	assert(!(val & 0xfff));
+-	return (((val >> 12)) << A5XX_SP_GS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__SHIFT) & A5XX_SP_GS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__MASK;
+-}
 -
--static inline uint32_t REG_MDP4_OVLP_STAGE_TRANSP_HIGH1(uint32_t i0, uint32_t i1) { return 0x00000018 + __offset_OVLP(i0) + __offset_STAGE(i1); }
+-#define REG_A5XX_TPL1_TP_RAS_MSAA_CNTL				0x0000e704
+-#define A5XX_TPL1_TP_RAS_MSAA_CNTL_SAMPLES__MASK		0x00000003
+-#define A5XX_TPL1_TP_RAS_MSAA_CNTL_SAMPLES__SHIFT		0
+-static inline uint32_t A5XX_TPL1_TP_RAS_MSAA_CNTL_SAMPLES(enum a3xx_msaa_samples val)
+-{
+-	return ((val) << A5XX_TPL1_TP_RAS_MSAA_CNTL_SAMPLES__SHIFT) & A5XX_TPL1_TP_RAS_MSAA_CNTL_SAMPLES__MASK;
+-}
 -
--static inline uint32_t __offset_STAGE_CO3(uint32_t idx)
+-#define REG_A5XX_TPL1_TP_DEST_MSAA_CNTL				0x0000e705
+-#define A5XX_TPL1_TP_DEST_MSAA_CNTL_SAMPLES__MASK		0x00000003
+-#define A5XX_TPL1_TP_DEST_MSAA_CNTL_SAMPLES__SHIFT		0
+-static inline uint32_t A5XX_TPL1_TP_DEST_MSAA_CNTL_SAMPLES(enum a3xx_msaa_samples val)
 -{
--	switch (idx) {
--		case 0: return 0x00001004;
--		case 1: return 0x00001404;
--		case 2: return 0x00001804;
--		case 3: return 0x00001b84;
--		default: return INVALID_IDX(idx);
--	}
+-	return ((val) << A5XX_TPL1_TP_DEST_MSAA_CNTL_SAMPLES__SHIFT) & A5XX_TPL1_TP_DEST_MSAA_CNTL_SAMPLES__MASK;
 -}
--static inline uint32_t REG_MDP4_OVLP_STAGE_CO3(uint32_t i0, uint32_t i1) { return 0x00000000 + __offset_OVLP(i0) + __offset_STAGE_CO3(i1); }
+-#define A5XX_TPL1_TP_DEST_MSAA_CNTL_MSAA_DISABLE		0x00000004
+-
+-#define REG_A5XX_TPL1_TP_BORDER_COLOR_BASE_ADDR_LO		0x0000e706
+-
+-#define REG_A5XX_TPL1_TP_BORDER_COLOR_BASE_ADDR_HI		0x0000e707
+-
+-#define REG_A5XX_TPL1_VS_TEX_COUNT				0x0000e700
 -
--static inline uint32_t REG_MDP4_OVLP_STAGE_CO3_SEL(uint32_t i0, uint32_t i1) { return 0x00000000 + __offset_OVLP(i0) + __offset_STAGE_CO3(i1); }
--#define MDP4_OVLP_STAGE_CO3_SEL_FG_ALPHA			0x00000001
+-#define REG_A5XX_TPL1_HS_TEX_COUNT				0x0000e701
 -
--static inline uint32_t REG_MDP4_OVLP_TRANSP_LOW0(uint32_t i0) { return 0x00000180 + __offset_OVLP(i0); }
+-#define REG_A5XX_TPL1_DS_TEX_COUNT				0x0000e702
 -
--static inline uint32_t REG_MDP4_OVLP_TRANSP_LOW1(uint32_t i0) { return 0x00000184 + __offset_OVLP(i0); }
+-#define REG_A5XX_TPL1_GS_TEX_COUNT				0x0000e703
 -
--static inline uint32_t REG_MDP4_OVLP_TRANSP_HIGH0(uint32_t i0) { return 0x00000188 + __offset_OVLP(i0); }
+-#define REG_A5XX_TPL1_VS_TEX_SAMP_LO				0x0000e722
 -
--static inline uint32_t REG_MDP4_OVLP_TRANSP_HIGH1(uint32_t i0) { return 0x0000018c + __offset_OVLP(i0); }
+-#define REG_A5XX_TPL1_VS_TEX_SAMP_HI				0x0000e723
 -
--static inline uint32_t REG_MDP4_OVLP_CSC_CONFIG(uint32_t i0) { return 0x00000200 + __offset_OVLP(i0); }
+-#define REG_A5XX_TPL1_HS_TEX_SAMP_LO				0x0000e724
 -
--static inline uint32_t REG_MDP4_OVLP_CSC(uint32_t i0) { return 0x00002000 + __offset_OVLP(i0); }
+-#define REG_A5XX_TPL1_HS_TEX_SAMP_HI				0x0000e725
 -
+-#define REG_A5XX_TPL1_DS_TEX_SAMP_LO				0x0000e726
 -
--static inline uint32_t REG_MDP4_OVLP_CSC_MV(uint32_t i0, uint32_t i1) { return 0x00002400 + __offset_OVLP(i0) + 0x4*i1; }
+-#define REG_A5XX_TPL1_DS_TEX_SAMP_HI				0x0000e727
 -
--static inline uint32_t REG_MDP4_OVLP_CSC_MV_VAL(uint32_t i0, uint32_t i1) { return 0x00002400 + __offset_OVLP(i0) + 0x4*i1; }
+-#define REG_A5XX_TPL1_GS_TEX_SAMP_LO				0x0000e728
 -
--static inline uint32_t REG_MDP4_OVLP_CSC_PRE_BV(uint32_t i0, uint32_t i1) { return 0x00002500 + __offset_OVLP(i0) + 0x4*i1; }
+-#define REG_A5XX_TPL1_GS_TEX_SAMP_HI				0x0000e729
 -
--static inline uint32_t REG_MDP4_OVLP_CSC_PRE_BV_VAL(uint32_t i0, uint32_t i1) { return 0x00002500 + __offset_OVLP(i0) + 0x4*i1; }
+-#define REG_A5XX_TPL1_VS_TEX_CONST_LO				0x0000e72a
 -
--static inline uint32_t REG_MDP4_OVLP_CSC_POST_BV(uint32_t i0, uint32_t i1) { return 0x00002580 + __offset_OVLP(i0) + 0x4*i1; }
+-#define REG_A5XX_TPL1_VS_TEX_CONST_HI				0x0000e72b
 -
--static inline uint32_t REG_MDP4_OVLP_CSC_POST_BV_VAL(uint32_t i0, uint32_t i1) { return 0x00002580 + __offset_OVLP(i0) + 0x4*i1; }
+-#define REG_A5XX_TPL1_HS_TEX_CONST_LO				0x0000e72c
 -
--static inline uint32_t REG_MDP4_OVLP_CSC_PRE_LV(uint32_t i0, uint32_t i1) { return 0x00002600 + __offset_OVLP(i0) + 0x4*i1; }
+-#define REG_A5XX_TPL1_HS_TEX_CONST_HI				0x0000e72d
 -
--static inline uint32_t REG_MDP4_OVLP_CSC_PRE_LV_VAL(uint32_t i0, uint32_t i1) { return 0x00002600 + __offset_OVLP(i0) + 0x4*i1; }
+-#define REG_A5XX_TPL1_DS_TEX_CONST_LO				0x0000e72e
 -
--static inline uint32_t REG_MDP4_OVLP_CSC_POST_LV(uint32_t i0, uint32_t i1) { return 0x00002680 + __offset_OVLP(i0) + 0x4*i1; }
+-#define REG_A5XX_TPL1_DS_TEX_CONST_HI				0x0000e72f
 -
--static inline uint32_t REG_MDP4_OVLP_CSC_POST_LV_VAL(uint32_t i0, uint32_t i1) { return 0x00002680 + __offset_OVLP(i0) + 0x4*i1; }
+-#define REG_A5XX_TPL1_GS_TEX_CONST_LO				0x0000e730
 -
--#define REG_MDP4_DMA_P_OP_MODE					0x00090070
+-#define REG_A5XX_TPL1_GS_TEX_CONST_HI				0x0000e731
 -
--static inline uint32_t REG_MDP4_LUTN(uint32_t i0) { return 0x00094800 + 0x400*i0; }
+-#define REG_A5XX_TPL1_FS_TEX_COUNT				0x0000e750
 -
--static inline uint32_t REG_MDP4_LUTN_LUT(uint32_t i0, uint32_t i1) { return 0x00094800 + 0x400*i0 + 0x4*i1; }
+-#define REG_A5XX_TPL1_CS_TEX_COUNT				0x0000e751
 -
--static inline uint32_t REG_MDP4_LUTN_LUT_VAL(uint32_t i0, uint32_t i1) { return 0x00094800 + 0x400*i0 + 0x4*i1; }
+-#define REG_A5XX_TPL1_FS_TEX_SAMP_LO				0x0000e75a
 -
--#define REG_MDP4_DMA_S_OP_MODE					0x000a0028
+-#define REG_A5XX_TPL1_FS_TEX_SAMP_HI				0x0000e75b
 -
--static inline uint32_t REG_MDP4_DMA_E_QUANT(uint32_t i0) { return 0x000b0070 + 0x4*i0; }
+-#define REG_A5XX_TPL1_CS_TEX_SAMP_LO				0x0000e75c
 -
--static inline uint32_t __offset_DMA(enum mdp4_dma idx)
+-#define REG_A5XX_TPL1_CS_TEX_SAMP_HI				0x0000e75d
+-
+-#define REG_A5XX_TPL1_FS_TEX_CONST_LO				0x0000e75e
+-
+-#define REG_A5XX_TPL1_FS_TEX_CONST_HI				0x0000e75f
+-
+-#define REG_A5XX_TPL1_CS_TEX_CONST_LO				0x0000e760
+-
+-#define REG_A5XX_TPL1_CS_TEX_CONST_HI				0x0000e761
+-
+-#define REG_A5XX_TPL1_TP_FS_ROTATION_CNTL			0x0000e764
+-
+-#define REG_A5XX_HLSQ_CONTROL_0_REG				0x0000e784
+-#define A5XX_HLSQ_CONTROL_0_REG_FSTHREADSIZE__MASK		0x00000001
+-#define A5XX_HLSQ_CONTROL_0_REG_FSTHREADSIZE__SHIFT		0
+-static inline uint32_t A5XX_HLSQ_CONTROL_0_REG_FSTHREADSIZE(enum a3xx_threadsize val)
 -{
--	switch (idx) {
--		case DMA_P: return 0x00090000;
--		case DMA_S: return 0x000a0000;
--		case DMA_E: return 0x000b0000;
--		default: return INVALID_IDX(idx);
--	}
+-	return ((val) << A5XX_HLSQ_CONTROL_0_REG_FSTHREADSIZE__SHIFT) & A5XX_HLSQ_CONTROL_0_REG_FSTHREADSIZE__MASK;
 -}
--static inline uint32_t REG_MDP4_DMA(enum mdp4_dma i0) { return 0x00000000 + __offset_DMA(i0); }
--
--static inline uint32_t REG_MDP4_DMA_CONFIG(enum mdp4_dma i0) { return 0x00000000 + __offset_DMA(i0); }
--#define MDP4_DMA_CONFIG_G_BPC__MASK				0x00000003
--#define MDP4_DMA_CONFIG_G_BPC__SHIFT				0
--static inline uint32_t MDP4_DMA_CONFIG_G_BPC(enum mdp_bpc val)
+-#define A5XX_HLSQ_CONTROL_0_REG_CSTHREADSIZE__MASK		0x00000004
+-#define A5XX_HLSQ_CONTROL_0_REG_CSTHREADSIZE__SHIFT		2
+-static inline uint32_t A5XX_HLSQ_CONTROL_0_REG_CSTHREADSIZE(enum a3xx_threadsize val)
 -{
--	return ((val) << MDP4_DMA_CONFIG_G_BPC__SHIFT) & MDP4_DMA_CONFIG_G_BPC__MASK;
+-	return ((val) << A5XX_HLSQ_CONTROL_0_REG_CSTHREADSIZE__SHIFT) & A5XX_HLSQ_CONTROL_0_REG_CSTHREADSIZE__MASK;
 -}
--#define MDP4_DMA_CONFIG_B_BPC__MASK				0x0000000c
--#define MDP4_DMA_CONFIG_B_BPC__SHIFT				2
--static inline uint32_t MDP4_DMA_CONFIG_B_BPC(enum mdp_bpc val)
+-
+-#define REG_A5XX_HLSQ_CONTROL_1_REG				0x0000e785
+-#define A5XX_HLSQ_CONTROL_1_REG_PRIMALLOCTHRESHOLD__MASK	0x0000003f
+-#define A5XX_HLSQ_CONTROL_1_REG_PRIMALLOCTHRESHOLD__SHIFT	0
+-static inline uint32_t A5XX_HLSQ_CONTROL_1_REG_PRIMALLOCTHRESHOLD(uint32_t val)
 -{
--	return ((val) << MDP4_DMA_CONFIG_B_BPC__SHIFT) & MDP4_DMA_CONFIG_B_BPC__MASK;
+-	return ((val) << A5XX_HLSQ_CONTROL_1_REG_PRIMALLOCTHRESHOLD__SHIFT) & A5XX_HLSQ_CONTROL_1_REG_PRIMALLOCTHRESHOLD__MASK;
 -}
--#define MDP4_DMA_CONFIG_R_BPC__MASK				0x00000030
--#define MDP4_DMA_CONFIG_R_BPC__SHIFT				4
--static inline uint32_t MDP4_DMA_CONFIG_R_BPC(enum mdp_bpc val)
+-
+-#define REG_A5XX_HLSQ_CONTROL_2_REG				0x0000e786
+-#define A5XX_HLSQ_CONTROL_2_REG_FACEREGID__MASK			0x000000ff
+-#define A5XX_HLSQ_CONTROL_2_REG_FACEREGID__SHIFT		0
+-static inline uint32_t A5XX_HLSQ_CONTROL_2_REG_FACEREGID(uint32_t val)
 -{
--	return ((val) << MDP4_DMA_CONFIG_R_BPC__SHIFT) & MDP4_DMA_CONFIG_R_BPC__MASK;
+-	return ((val) << A5XX_HLSQ_CONTROL_2_REG_FACEREGID__SHIFT) & A5XX_HLSQ_CONTROL_2_REG_FACEREGID__MASK;
 -}
--#define MDP4_DMA_CONFIG_PACK_ALIGN_MSB				0x00000080
--#define MDP4_DMA_CONFIG_PACK__MASK				0x0000ff00
--#define MDP4_DMA_CONFIG_PACK__SHIFT				8
--static inline uint32_t MDP4_DMA_CONFIG_PACK(uint32_t val)
+-#define A5XX_HLSQ_CONTROL_2_REG_SAMPLEID__MASK			0x0000ff00
+-#define A5XX_HLSQ_CONTROL_2_REG_SAMPLEID__SHIFT			8
+-static inline uint32_t A5XX_HLSQ_CONTROL_2_REG_SAMPLEID(uint32_t val)
 -{
--	return ((val) << MDP4_DMA_CONFIG_PACK__SHIFT) & MDP4_DMA_CONFIG_PACK__MASK;
+-	return ((val) << A5XX_HLSQ_CONTROL_2_REG_SAMPLEID__SHIFT) & A5XX_HLSQ_CONTROL_2_REG_SAMPLEID__MASK;
 -}
--#define MDP4_DMA_CONFIG_DEFLKR_EN				0x01000000
--#define MDP4_DMA_CONFIG_DITHER_EN				0x01000000
--
--static inline uint32_t REG_MDP4_DMA_SRC_SIZE(enum mdp4_dma i0) { return 0x00000004 + __offset_DMA(i0); }
--#define MDP4_DMA_SRC_SIZE_HEIGHT__MASK				0xffff0000
--#define MDP4_DMA_SRC_SIZE_HEIGHT__SHIFT				16
--static inline uint32_t MDP4_DMA_SRC_SIZE_HEIGHT(uint32_t val)
+-#define A5XX_HLSQ_CONTROL_2_REG_SAMPLEMASK__MASK		0x00ff0000
+-#define A5XX_HLSQ_CONTROL_2_REG_SAMPLEMASK__SHIFT		16
+-static inline uint32_t A5XX_HLSQ_CONTROL_2_REG_SAMPLEMASK(uint32_t val)
 -{
--	return ((val) << MDP4_DMA_SRC_SIZE_HEIGHT__SHIFT) & MDP4_DMA_SRC_SIZE_HEIGHT__MASK;
+-	return ((val) << A5XX_HLSQ_CONTROL_2_REG_SAMPLEMASK__SHIFT) & A5XX_HLSQ_CONTROL_2_REG_SAMPLEMASK__MASK;
 -}
--#define MDP4_DMA_SRC_SIZE_WIDTH__MASK				0x0000ffff
--#define MDP4_DMA_SRC_SIZE_WIDTH__SHIFT				0
--static inline uint32_t MDP4_DMA_SRC_SIZE_WIDTH(uint32_t val)
+-#define A5XX_HLSQ_CONTROL_2_REG_CENTERRHW__MASK			0xff000000
+-#define A5XX_HLSQ_CONTROL_2_REG_CENTERRHW__SHIFT		24
+-static inline uint32_t A5XX_HLSQ_CONTROL_2_REG_CENTERRHW(uint32_t val)
 -{
--	return ((val) << MDP4_DMA_SRC_SIZE_WIDTH__SHIFT) & MDP4_DMA_SRC_SIZE_WIDTH__MASK;
+-	return ((val) << A5XX_HLSQ_CONTROL_2_REG_CENTERRHW__SHIFT) & A5XX_HLSQ_CONTROL_2_REG_CENTERRHW__MASK;
 -}
--
--static inline uint32_t REG_MDP4_DMA_SRC_BASE(enum mdp4_dma i0) { return 0x00000008 + __offset_DMA(i0); }
--
--static inline uint32_t REG_MDP4_DMA_SRC_STRIDE(enum mdp4_dma i0) { return 0x0000000c + __offset_DMA(i0); }
 -
--static inline uint32_t REG_MDP4_DMA_DST_SIZE(enum mdp4_dma i0) { return 0x00000010 + __offset_DMA(i0); }
--#define MDP4_DMA_DST_SIZE_HEIGHT__MASK				0xffff0000
--#define MDP4_DMA_DST_SIZE_HEIGHT__SHIFT				16
--static inline uint32_t MDP4_DMA_DST_SIZE_HEIGHT(uint32_t val)
+-#define REG_A5XX_HLSQ_CONTROL_3_REG				0x0000e787
+-#define A5XX_HLSQ_CONTROL_3_REG_IJ_PERSP_PIXEL__MASK		0x000000ff
+-#define A5XX_HLSQ_CONTROL_3_REG_IJ_PERSP_PIXEL__SHIFT		0
+-static inline uint32_t A5XX_HLSQ_CONTROL_3_REG_IJ_PERSP_PIXEL(uint32_t val)
 -{
--	return ((val) << MDP4_DMA_DST_SIZE_HEIGHT__SHIFT) & MDP4_DMA_DST_SIZE_HEIGHT__MASK;
+-	return ((val) << A5XX_HLSQ_CONTROL_3_REG_IJ_PERSP_PIXEL__SHIFT) & A5XX_HLSQ_CONTROL_3_REG_IJ_PERSP_PIXEL__MASK;
 -}
--#define MDP4_DMA_DST_SIZE_WIDTH__MASK				0x0000ffff
--#define MDP4_DMA_DST_SIZE_WIDTH__SHIFT				0
--static inline uint32_t MDP4_DMA_DST_SIZE_WIDTH(uint32_t val)
+-#define A5XX_HLSQ_CONTROL_3_REG_IJ_LINEAR_PIXEL__MASK		0x0000ff00
+-#define A5XX_HLSQ_CONTROL_3_REG_IJ_LINEAR_PIXEL__SHIFT		8
+-static inline uint32_t A5XX_HLSQ_CONTROL_3_REG_IJ_LINEAR_PIXEL(uint32_t val)
 -{
--	return ((val) << MDP4_DMA_DST_SIZE_WIDTH__SHIFT) & MDP4_DMA_DST_SIZE_WIDTH__MASK;
+-	return ((val) << A5XX_HLSQ_CONTROL_3_REG_IJ_LINEAR_PIXEL__SHIFT) & A5XX_HLSQ_CONTROL_3_REG_IJ_LINEAR_PIXEL__MASK;
 -}
--
--static inline uint32_t REG_MDP4_DMA_CURSOR_SIZE(enum mdp4_dma i0) { return 0x00000044 + __offset_DMA(i0); }
--#define MDP4_DMA_CURSOR_SIZE_WIDTH__MASK			0x0000007f
--#define MDP4_DMA_CURSOR_SIZE_WIDTH__SHIFT			0
--static inline uint32_t MDP4_DMA_CURSOR_SIZE_WIDTH(uint32_t val)
+-#define A5XX_HLSQ_CONTROL_3_REG_IJ_PERSP_CENTROID__MASK		0x00ff0000
+-#define A5XX_HLSQ_CONTROL_3_REG_IJ_PERSP_CENTROID__SHIFT	16
+-static inline uint32_t A5XX_HLSQ_CONTROL_3_REG_IJ_PERSP_CENTROID(uint32_t val)
 -{
--	return ((val) << MDP4_DMA_CURSOR_SIZE_WIDTH__SHIFT) & MDP4_DMA_CURSOR_SIZE_WIDTH__MASK;
+-	return ((val) << A5XX_HLSQ_CONTROL_3_REG_IJ_PERSP_CENTROID__SHIFT) & A5XX_HLSQ_CONTROL_3_REG_IJ_PERSP_CENTROID__MASK;
 -}
--#define MDP4_DMA_CURSOR_SIZE_HEIGHT__MASK			0x007f0000
--#define MDP4_DMA_CURSOR_SIZE_HEIGHT__SHIFT			16
--static inline uint32_t MDP4_DMA_CURSOR_SIZE_HEIGHT(uint32_t val)
+-#define A5XX_HLSQ_CONTROL_3_REG_IJ_LINEAR_CENTROID__MASK	0xff000000
+-#define A5XX_HLSQ_CONTROL_3_REG_IJ_LINEAR_CENTROID__SHIFT	24
+-static inline uint32_t A5XX_HLSQ_CONTROL_3_REG_IJ_LINEAR_CENTROID(uint32_t val)
 -{
--	return ((val) << MDP4_DMA_CURSOR_SIZE_HEIGHT__SHIFT) & MDP4_DMA_CURSOR_SIZE_HEIGHT__MASK;
+-	return ((val) << A5XX_HLSQ_CONTROL_3_REG_IJ_LINEAR_CENTROID__SHIFT) & A5XX_HLSQ_CONTROL_3_REG_IJ_LINEAR_CENTROID__MASK;
 -}
--
--static inline uint32_t REG_MDP4_DMA_CURSOR_BASE(enum mdp4_dma i0) { return 0x00000048 + __offset_DMA(i0); }
 -
--static inline uint32_t REG_MDP4_DMA_CURSOR_POS(enum mdp4_dma i0) { return 0x0000004c + __offset_DMA(i0); }
--#define MDP4_DMA_CURSOR_POS_X__MASK				0x0000ffff
--#define MDP4_DMA_CURSOR_POS_X__SHIFT				0
--static inline uint32_t MDP4_DMA_CURSOR_POS_X(uint32_t val)
+-#define REG_A5XX_HLSQ_CONTROL_4_REG				0x0000e788
+-#define A5XX_HLSQ_CONTROL_4_REG_IJ_PERSP_SAMPLE__MASK		0x000000ff
+-#define A5XX_HLSQ_CONTROL_4_REG_IJ_PERSP_SAMPLE__SHIFT		0
+-static inline uint32_t A5XX_HLSQ_CONTROL_4_REG_IJ_PERSP_SAMPLE(uint32_t val)
 -{
--	return ((val) << MDP4_DMA_CURSOR_POS_X__SHIFT) & MDP4_DMA_CURSOR_POS_X__MASK;
+-	return ((val) << A5XX_HLSQ_CONTROL_4_REG_IJ_PERSP_SAMPLE__SHIFT) & A5XX_HLSQ_CONTROL_4_REG_IJ_PERSP_SAMPLE__MASK;
 -}
--#define MDP4_DMA_CURSOR_POS_Y__MASK				0xffff0000
--#define MDP4_DMA_CURSOR_POS_Y__SHIFT				16
--static inline uint32_t MDP4_DMA_CURSOR_POS_Y(uint32_t val)
+-#define A5XX_HLSQ_CONTROL_4_REG_IJ_LINEAR_SAMPLE__MASK		0x0000ff00
+-#define A5XX_HLSQ_CONTROL_4_REG_IJ_LINEAR_SAMPLE__SHIFT		8
+-static inline uint32_t A5XX_HLSQ_CONTROL_4_REG_IJ_LINEAR_SAMPLE(uint32_t val)
 -{
--	return ((val) << MDP4_DMA_CURSOR_POS_Y__SHIFT) & MDP4_DMA_CURSOR_POS_Y__MASK;
+-	return ((val) << A5XX_HLSQ_CONTROL_4_REG_IJ_LINEAR_SAMPLE__SHIFT) & A5XX_HLSQ_CONTROL_4_REG_IJ_LINEAR_SAMPLE__MASK;
 -}
--
--static inline uint32_t REG_MDP4_DMA_CURSOR_BLEND_CONFIG(enum mdp4_dma i0) { return 0x00000060 + __offset_DMA(i0); }
--#define MDP4_DMA_CURSOR_BLEND_CONFIG_CURSOR_EN			0x00000001
--#define MDP4_DMA_CURSOR_BLEND_CONFIG_FORMAT__MASK		0x00000006
--#define MDP4_DMA_CURSOR_BLEND_CONFIG_FORMAT__SHIFT		1
--static inline uint32_t MDP4_DMA_CURSOR_BLEND_CONFIG_FORMAT(enum mdp4_cursor_format val)
+-#define A5XX_HLSQ_CONTROL_4_REG_XYCOORDREGID__MASK		0x00ff0000
+-#define A5XX_HLSQ_CONTROL_4_REG_XYCOORDREGID__SHIFT		16
+-static inline uint32_t A5XX_HLSQ_CONTROL_4_REG_XYCOORDREGID(uint32_t val)
 -{
--	return ((val) << MDP4_DMA_CURSOR_BLEND_CONFIG_FORMAT__SHIFT) & MDP4_DMA_CURSOR_BLEND_CONFIG_FORMAT__MASK;
+-	return ((val) << A5XX_HLSQ_CONTROL_4_REG_XYCOORDREGID__SHIFT) & A5XX_HLSQ_CONTROL_4_REG_XYCOORDREGID__MASK;
 -}
--#define MDP4_DMA_CURSOR_BLEND_CONFIG_TRANSP_EN			0x00000008
--
--static inline uint32_t REG_MDP4_DMA_CURSOR_BLEND_PARAM(enum mdp4_dma i0) { return 0x00000064 + __offset_DMA(i0); }
--
--static inline uint32_t REG_MDP4_DMA_BLEND_TRANS_LOW(enum mdp4_dma i0) { return 0x00000068 + __offset_DMA(i0); }
--
--static inline uint32_t REG_MDP4_DMA_BLEND_TRANS_HIGH(enum mdp4_dma i0) { return 0x0000006c + __offset_DMA(i0); }
--
--static inline uint32_t REG_MDP4_DMA_FETCH_CONFIG(enum mdp4_dma i0) { return 0x00001004 + __offset_DMA(i0); }
--
--static inline uint32_t REG_MDP4_DMA_CSC(enum mdp4_dma i0) { return 0x00003000 + __offset_DMA(i0); }
--
--
--static inline uint32_t REG_MDP4_DMA_CSC_MV(enum mdp4_dma i0, uint32_t i1) { return 0x00003400 + __offset_DMA(i0) + 0x4*i1; }
--
--static inline uint32_t REG_MDP4_DMA_CSC_MV_VAL(enum mdp4_dma i0, uint32_t i1) { return 0x00003400 + __offset_DMA(i0) + 0x4*i1; }
--
--static inline uint32_t REG_MDP4_DMA_CSC_PRE_BV(enum mdp4_dma i0, uint32_t i1) { return 0x00003500 + __offset_DMA(i0) + 0x4*i1; }
--
--static inline uint32_t REG_MDP4_DMA_CSC_PRE_BV_VAL(enum mdp4_dma i0, uint32_t i1) { return 0x00003500 + __offset_DMA(i0) + 0x4*i1; }
--
--static inline uint32_t REG_MDP4_DMA_CSC_POST_BV(enum mdp4_dma i0, uint32_t i1) { return 0x00003580 + __offset_DMA(i0) + 0x4*i1; }
--
--static inline uint32_t REG_MDP4_DMA_CSC_POST_BV_VAL(enum mdp4_dma i0, uint32_t i1) { return 0x00003580 + __offset_DMA(i0) + 0x4*i1; }
--
--static inline uint32_t REG_MDP4_DMA_CSC_PRE_LV(enum mdp4_dma i0, uint32_t i1) { return 0x00003600 + __offset_DMA(i0) + 0x4*i1; }
--
--static inline uint32_t REG_MDP4_DMA_CSC_PRE_LV_VAL(enum mdp4_dma i0, uint32_t i1) { return 0x00003600 + __offset_DMA(i0) + 0x4*i1; }
--
--static inline uint32_t REG_MDP4_DMA_CSC_POST_LV(enum mdp4_dma i0, uint32_t i1) { return 0x00003680 + __offset_DMA(i0) + 0x4*i1; }
--
--static inline uint32_t REG_MDP4_DMA_CSC_POST_LV_VAL(enum mdp4_dma i0, uint32_t i1) { return 0x00003680 + __offset_DMA(i0) + 0x4*i1; }
+-#define A5XX_HLSQ_CONTROL_4_REG_ZWCOORDREGID__MASK		0xff000000
+-#define A5XX_HLSQ_CONTROL_4_REG_ZWCOORDREGID__SHIFT		24
+-static inline uint32_t A5XX_HLSQ_CONTROL_4_REG_ZWCOORDREGID(uint32_t val)
+-{
+-	return ((val) << A5XX_HLSQ_CONTROL_4_REG_ZWCOORDREGID__SHIFT) & A5XX_HLSQ_CONTROL_4_REG_ZWCOORDREGID__MASK;
+-}
 -
--static inline uint32_t REG_MDP4_PIPE(enum mdp4_pipe i0) { return 0x00020000 + 0x10000*i0; }
+-#define REG_A5XX_HLSQ_UPDATE_CNTL				0x0000e78a
 -
--static inline uint32_t REG_MDP4_PIPE_SRC_SIZE(enum mdp4_pipe i0) { return 0x00020000 + 0x10000*i0; }
--#define MDP4_PIPE_SRC_SIZE_HEIGHT__MASK				0xffff0000
--#define MDP4_PIPE_SRC_SIZE_HEIGHT__SHIFT			16
--static inline uint32_t MDP4_PIPE_SRC_SIZE_HEIGHT(uint32_t val)
+-#define REG_A5XX_HLSQ_VS_CONFIG					0x0000e78b
+-#define A5XX_HLSQ_VS_CONFIG_ENABLED				0x00000001
+-#define A5XX_HLSQ_VS_CONFIG_CONSTOBJECTOFFSET__MASK		0x000000fe
+-#define A5XX_HLSQ_VS_CONFIG_CONSTOBJECTOFFSET__SHIFT		1
+-static inline uint32_t A5XX_HLSQ_VS_CONFIG_CONSTOBJECTOFFSET(uint32_t val)
 -{
--	return ((val) << MDP4_PIPE_SRC_SIZE_HEIGHT__SHIFT) & MDP4_PIPE_SRC_SIZE_HEIGHT__MASK;
+-	return ((val) << A5XX_HLSQ_VS_CONFIG_CONSTOBJECTOFFSET__SHIFT) & A5XX_HLSQ_VS_CONFIG_CONSTOBJECTOFFSET__MASK;
 -}
--#define MDP4_PIPE_SRC_SIZE_WIDTH__MASK				0x0000ffff
--#define MDP4_PIPE_SRC_SIZE_WIDTH__SHIFT				0
--static inline uint32_t MDP4_PIPE_SRC_SIZE_WIDTH(uint32_t val)
+-#define A5XX_HLSQ_VS_CONFIG_SHADEROBJOFFSET__MASK		0x00007f00
+-#define A5XX_HLSQ_VS_CONFIG_SHADEROBJOFFSET__SHIFT		8
+-static inline uint32_t A5XX_HLSQ_VS_CONFIG_SHADEROBJOFFSET(uint32_t val)
 -{
--	return ((val) << MDP4_PIPE_SRC_SIZE_WIDTH__SHIFT) & MDP4_PIPE_SRC_SIZE_WIDTH__MASK;
+-	return ((val) << A5XX_HLSQ_VS_CONFIG_SHADEROBJOFFSET__SHIFT) & A5XX_HLSQ_VS_CONFIG_SHADEROBJOFFSET__MASK;
 -}
 -
--static inline uint32_t REG_MDP4_PIPE_SRC_XY(enum mdp4_pipe i0) { return 0x00020004 + 0x10000*i0; }
--#define MDP4_PIPE_SRC_XY_Y__MASK				0xffff0000
--#define MDP4_PIPE_SRC_XY_Y__SHIFT				16
--static inline uint32_t MDP4_PIPE_SRC_XY_Y(uint32_t val)
+-#define REG_A5XX_HLSQ_FS_CONFIG					0x0000e78c
+-#define A5XX_HLSQ_FS_CONFIG_ENABLED				0x00000001
+-#define A5XX_HLSQ_FS_CONFIG_CONSTOBJECTOFFSET__MASK		0x000000fe
+-#define A5XX_HLSQ_FS_CONFIG_CONSTOBJECTOFFSET__SHIFT		1
+-static inline uint32_t A5XX_HLSQ_FS_CONFIG_CONSTOBJECTOFFSET(uint32_t val)
 -{
--	return ((val) << MDP4_PIPE_SRC_XY_Y__SHIFT) & MDP4_PIPE_SRC_XY_Y__MASK;
+-	return ((val) << A5XX_HLSQ_FS_CONFIG_CONSTOBJECTOFFSET__SHIFT) & A5XX_HLSQ_FS_CONFIG_CONSTOBJECTOFFSET__MASK;
 -}
--#define MDP4_PIPE_SRC_XY_X__MASK				0x0000ffff
--#define MDP4_PIPE_SRC_XY_X__SHIFT				0
--static inline uint32_t MDP4_PIPE_SRC_XY_X(uint32_t val)
+-#define A5XX_HLSQ_FS_CONFIG_SHADEROBJOFFSET__MASK		0x00007f00
+-#define A5XX_HLSQ_FS_CONFIG_SHADEROBJOFFSET__SHIFT		8
+-static inline uint32_t A5XX_HLSQ_FS_CONFIG_SHADEROBJOFFSET(uint32_t val)
 -{
--	return ((val) << MDP4_PIPE_SRC_XY_X__SHIFT) & MDP4_PIPE_SRC_XY_X__MASK;
+-	return ((val) << A5XX_HLSQ_FS_CONFIG_SHADEROBJOFFSET__SHIFT) & A5XX_HLSQ_FS_CONFIG_SHADEROBJOFFSET__MASK;
 -}
 -
--static inline uint32_t REG_MDP4_PIPE_DST_SIZE(enum mdp4_pipe i0) { return 0x00020008 + 0x10000*i0; }
--#define MDP4_PIPE_DST_SIZE_HEIGHT__MASK				0xffff0000
--#define MDP4_PIPE_DST_SIZE_HEIGHT__SHIFT			16
--static inline uint32_t MDP4_PIPE_DST_SIZE_HEIGHT(uint32_t val)
+-#define REG_A5XX_HLSQ_HS_CONFIG					0x0000e78d
+-#define A5XX_HLSQ_HS_CONFIG_ENABLED				0x00000001
+-#define A5XX_HLSQ_HS_CONFIG_CONSTOBJECTOFFSET__MASK		0x000000fe
+-#define A5XX_HLSQ_HS_CONFIG_CONSTOBJECTOFFSET__SHIFT		1
+-static inline uint32_t A5XX_HLSQ_HS_CONFIG_CONSTOBJECTOFFSET(uint32_t val)
 -{
--	return ((val) << MDP4_PIPE_DST_SIZE_HEIGHT__SHIFT) & MDP4_PIPE_DST_SIZE_HEIGHT__MASK;
+-	return ((val) << A5XX_HLSQ_HS_CONFIG_CONSTOBJECTOFFSET__SHIFT) & A5XX_HLSQ_HS_CONFIG_CONSTOBJECTOFFSET__MASK;
 -}
--#define MDP4_PIPE_DST_SIZE_WIDTH__MASK				0x0000ffff
--#define MDP4_PIPE_DST_SIZE_WIDTH__SHIFT				0
--static inline uint32_t MDP4_PIPE_DST_SIZE_WIDTH(uint32_t val)
+-#define A5XX_HLSQ_HS_CONFIG_SHADEROBJOFFSET__MASK		0x00007f00
+-#define A5XX_HLSQ_HS_CONFIG_SHADEROBJOFFSET__SHIFT		8
+-static inline uint32_t A5XX_HLSQ_HS_CONFIG_SHADEROBJOFFSET(uint32_t val)
 -{
--	return ((val) << MDP4_PIPE_DST_SIZE_WIDTH__SHIFT) & MDP4_PIPE_DST_SIZE_WIDTH__MASK;
+-	return ((val) << A5XX_HLSQ_HS_CONFIG_SHADEROBJOFFSET__SHIFT) & A5XX_HLSQ_HS_CONFIG_SHADEROBJOFFSET__MASK;
 -}
 -
--static inline uint32_t REG_MDP4_PIPE_DST_XY(enum mdp4_pipe i0) { return 0x0002000c + 0x10000*i0; }
--#define MDP4_PIPE_DST_XY_Y__MASK				0xffff0000
--#define MDP4_PIPE_DST_XY_Y__SHIFT				16
--static inline uint32_t MDP4_PIPE_DST_XY_Y(uint32_t val)
+-#define REG_A5XX_HLSQ_DS_CONFIG					0x0000e78e
+-#define A5XX_HLSQ_DS_CONFIG_ENABLED				0x00000001
+-#define A5XX_HLSQ_DS_CONFIG_CONSTOBJECTOFFSET__MASK		0x000000fe
+-#define A5XX_HLSQ_DS_CONFIG_CONSTOBJECTOFFSET__SHIFT		1
+-static inline uint32_t A5XX_HLSQ_DS_CONFIG_CONSTOBJECTOFFSET(uint32_t val)
 -{
--	return ((val) << MDP4_PIPE_DST_XY_Y__SHIFT) & MDP4_PIPE_DST_XY_Y__MASK;
+-	return ((val) << A5XX_HLSQ_DS_CONFIG_CONSTOBJECTOFFSET__SHIFT) & A5XX_HLSQ_DS_CONFIG_CONSTOBJECTOFFSET__MASK;
 -}
--#define MDP4_PIPE_DST_XY_X__MASK				0x0000ffff
--#define MDP4_PIPE_DST_XY_X__SHIFT				0
--static inline uint32_t MDP4_PIPE_DST_XY_X(uint32_t val)
+-#define A5XX_HLSQ_DS_CONFIG_SHADEROBJOFFSET__MASK		0x00007f00
+-#define A5XX_HLSQ_DS_CONFIG_SHADEROBJOFFSET__SHIFT		8
+-static inline uint32_t A5XX_HLSQ_DS_CONFIG_SHADEROBJOFFSET(uint32_t val)
 -{
--	return ((val) << MDP4_PIPE_DST_XY_X__SHIFT) & MDP4_PIPE_DST_XY_X__MASK;
+-	return ((val) << A5XX_HLSQ_DS_CONFIG_SHADEROBJOFFSET__SHIFT) & A5XX_HLSQ_DS_CONFIG_SHADEROBJOFFSET__MASK;
 -}
--
--static inline uint32_t REG_MDP4_PIPE_SRCP0_BASE(enum mdp4_pipe i0) { return 0x00020010 + 0x10000*i0; }
--
--static inline uint32_t REG_MDP4_PIPE_SRCP1_BASE(enum mdp4_pipe i0) { return 0x00020014 + 0x10000*i0; }
--
--static inline uint32_t REG_MDP4_PIPE_SRCP2_BASE(enum mdp4_pipe i0) { return 0x00020018 + 0x10000*i0; }
 -
--static inline uint32_t REG_MDP4_PIPE_SRCP3_BASE(enum mdp4_pipe i0) { return 0x0002001c + 0x10000*i0; }
--
--static inline uint32_t REG_MDP4_PIPE_SRC_STRIDE_A(enum mdp4_pipe i0) { return 0x00020040 + 0x10000*i0; }
--#define MDP4_PIPE_SRC_STRIDE_A_P0__MASK				0x0000ffff
--#define MDP4_PIPE_SRC_STRIDE_A_P0__SHIFT			0
--static inline uint32_t MDP4_PIPE_SRC_STRIDE_A_P0(uint32_t val)
+-#define REG_A5XX_HLSQ_GS_CONFIG					0x0000e78f
+-#define A5XX_HLSQ_GS_CONFIG_ENABLED				0x00000001
+-#define A5XX_HLSQ_GS_CONFIG_CONSTOBJECTOFFSET__MASK		0x000000fe
+-#define A5XX_HLSQ_GS_CONFIG_CONSTOBJECTOFFSET__SHIFT		1
+-static inline uint32_t A5XX_HLSQ_GS_CONFIG_CONSTOBJECTOFFSET(uint32_t val)
 -{
--	return ((val) << MDP4_PIPE_SRC_STRIDE_A_P0__SHIFT) & MDP4_PIPE_SRC_STRIDE_A_P0__MASK;
+-	return ((val) << A5XX_HLSQ_GS_CONFIG_CONSTOBJECTOFFSET__SHIFT) & A5XX_HLSQ_GS_CONFIG_CONSTOBJECTOFFSET__MASK;
 -}
--#define MDP4_PIPE_SRC_STRIDE_A_P1__MASK				0xffff0000
--#define MDP4_PIPE_SRC_STRIDE_A_P1__SHIFT			16
--static inline uint32_t MDP4_PIPE_SRC_STRIDE_A_P1(uint32_t val)
+-#define A5XX_HLSQ_GS_CONFIG_SHADEROBJOFFSET__MASK		0x00007f00
+-#define A5XX_HLSQ_GS_CONFIG_SHADEROBJOFFSET__SHIFT		8
+-static inline uint32_t A5XX_HLSQ_GS_CONFIG_SHADEROBJOFFSET(uint32_t val)
 -{
--	return ((val) << MDP4_PIPE_SRC_STRIDE_A_P1__SHIFT) & MDP4_PIPE_SRC_STRIDE_A_P1__MASK;
+-	return ((val) << A5XX_HLSQ_GS_CONFIG_SHADEROBJOFFSET__SHIFT) & A5XX_HLSQ_GS_CONFIG_SHADEROBJOFFSET__MASK;
 -}
 -
--static inline uint32_t REG_MDP4_PIPE_SRC_STRIDE_B(enum mdp4_pipe i0) { return 0x00020044 + 0x10000*i0; }
--#define MDP4_PIPE_SRC_STRIDE_B_P2__MASK				0x0000ffff
--#define MDP4_PIPE_SRC_STRIDE_B_P2__SHIFT			0
--static inline uint32_t MDP4_PIPE_SRC_STRIDE_B_P2(uint32_t val)
+-#define REG_A5XX_HLSQ_CS_CONFIG					0x0000e790
+-#define A5XX_HLSQ_CS_CONFIG_ENABLED				0x00000001
+-#define A5XX_HLSQ_CS_CONFIG_CONSTOBJECTOFFSET__MASK		0x000000fe
+-#define A5XX_HLSQ_CS_CONFIG_CONSTOBJECTOFFSET__SHIFT		1
+-static inline uint32_t A5XX_HLSQ_CS_CONFIG_CONSTOBJECTOFFSET(uint32_t val)
+-{
+-	return ((val) << A5XX_HLSQ_CS_CONFIG_CONSTOBJECTOFFSET__SHIFT) & A5XX_HLSQ_CS_CONFIG_CONSTOBJECTOFFSET__MASK;
+-}
+-#define A5XX_HLSQ_CS_CONFIG_SHADEROBJOFFSET__MASK		0x00007f00
+-#define A5XX_HLSQ_CS_CONFIG_SHADEROBJOFFSET__SHIFT		8
+-static inline uint32_t A5XX_HLSQ_CS_CONFIG_SHADEROBJOFFSET(uint32_t val)
 -{
--	return ((val) << MDP4_PIPE_SRC_STRIDE_B_P2__SHIFT) & MDP4_PIPE_SRC_STRIDE_B_P2__MASK;
+-	return ((val) << A5XX_HLSQ_CS_CONFIG_SHADEROBJOFFSET__SHIFT) & A5XX_HLSQ_CS_CONFIG_SHADEROBJOFFSET__MASK;
 -}
--#define MDP4_PIPE_SRC_STRIDE_B_P3__MASK				0xffff0000
--#define MDP4_PIPE_SRC_STRIDE_B_P3__SHIFT			16
--static inline uint32_t MDP4_PIPE_SRC_STRIDE_B_P3(uint32_t val)
+-
+-#define REG_A5XX_HLSQ_VS_CNTL					0x0000e791
+-#define A5XX_HLSQ_VS_CNTL_SSBO_ENABLE				0x00000001
+-#define A5XX_HLSQ_VS_CNTL_INSTRLEN__MASK			0xfffffffe
+-#define A5XX_HLSQ_VS_CNTL_INSTRLEN__SHIFT			1
+-static inline uint32_t A5XX_HLSQ_VS_CNTL_INSTRLEN(uint32_t val)
 -{
--	return ((val) << MDP4_PIPE_SRC_STRIDE_B_P3__SHIFT) & MDP4_PIPE_SRC_STRIDE_B_P3__MASK;
+-	return ((val) << A5XX_HLSQ_VS_CNTL_INSTRLEN__SHIFT) & A5XX_HLSQ_VS_CNTL_INSTRLEN__MASK;
 -}
 -
--static inline uint32_t REG_MDP4_PIPE_SSTILE_FRAME_SIZE(enum mdp4_pipe i0) { return 0x00020048 + 0x10000*i0; }
--#define MDP4_PIPE_SSTILE_FRAME_SIZE_HEIGHT__MASK		0xffff0000
--#define MDP4_PIPE_SSTILE_FRAME_SIZE_HEIGHT__SHIFT		16
--static inline uint32_t MDP4_PIPE_SSTILE_FRAME_SIZE_HEIGHT(uint32_t val)
+-#define REG_A5XX_HLSQ_FS_CNTL					0x0000e792
+-#define A5XX_HLSQ_FS_CNTL_SSBO_ENABLE				0x00000001
+-#define A5XX_HLSQ_FS_CNTL_INSTRLEN__MASK			0xfffffffe
+-#define A5XX_HLSQ_FS_CNTL_INSTRLEN__SHIFT			1
+-static inline uint32_t A5XX_HLSQ_FS_CNTL_INSTRLEN(uint32_t val)
 -{
--	return ((val) << MDP4_PIPE_SSTILE_FRAME_SIZE_HEIGHT__SHIFT) & MDP4_PIPE_SSTILE_FRAME_SIZE_HEIGHT__MASK;
+-	return ((val) << A5XX_HLSQ_FS_CNTL_INSTRLEN__SHIFT) & A5XX_HLSQ_FS_CNTL_INSTRLEN__MASK;
 -}
--#define MDP4_PIPE_SSTILE_FRAME_SIZE_WIDTH__MASK			0x0000ffff
--#define MDP4_PIPE_SSTILE_FRAME_SIZE_WIDTH__SHIFT		0
--static inline uint32_t MDP4_PIPE_SSTILE_FRAME_SIZE_WIDTH(uint32_t val)
+-
+-#define REG_A5XX_HLSQ_HS_CNTL					0x0000e793
+-#define A5XX_HLSQ_HS_CNTL_SSBO_ENABLE				0x00000001
+-#define A5XX_HLSQ_HS_CNTL_INSTRLEN__MASK			0xfffffffe
+-#define A5XX_HLSQ_HS_CNTL_INSTRLEN__SHIFT			1
+-static inline uint32_t A5XX_HLSQ_HS_CNTL_INSTRLEN(uint32_t val)
 -{
--	return ((val) << MDP4_PIPE_SSTILE_FRAME_SIZE_WIDTH__SHIFT) & MDP4_PIPE_SSTILE_FRAME_SIZE_WIDTH__MASK;
+-	return ((val) << A5XX_HLSQ_HS_CNTL_INSTRLEN__SHIFT) & A5XX_HLSQ_HS_CNTL_INSTRLEN__MASK;
 -}
 -
--static inline uint32_t REG_MDP4_PIPE_SRC_FORMAT(enum mdp4_pipe i0) { return 0x00020050 + 0x10000*i0; }
--#define MDP4_PIPE_SRC_FORMAT_G_BPC__MASK			0x00000003
--#define MDP4_PIPE_SRC_FORMAT_G_BPC__SHIFT			0
--static inline uint32_t MDP4_PIPE_SRC_FORMAT_G_BPC(enum mdp_bpc val)
+-#define REG_A5XX_HLSQ_DS_CNTL					0x0000e794
+-#define A5XX_HLSQ_DS_CNTL_SSBO_ENABLE				0x00000001
+-#define A5XX_HLSQ_DS_CNTL_INSTRLEN__MASK			0xfffffffe
+-#define A5XX_HLSQ_DS_CNTL_INSTRLEN__SHIFT			1
+-static inline uint32_t A5XX_HLSQ_DS_CNTL_INSTRLEN(uint32_t val)
 -{
--	return ((val) << MDP4_PIPE_SRC_FORMAT_G_BPC__SHIFT) & MDP4_PIPE_SRC_FORMAT_G_BPC__MASK;
+-	return ((val) << A5XX_HLSQ_DS_CNTL_INSTRLEN__SHIFT) & A5XX_HLSQ_DS_CNTL_INSTRLEN__MASK;
 -}
--#define MDP4_PIPE_SRC_FORMAT_B_BPC__MASK			0x0000000c
--#define MDP4_PIPE_SRC_FORMAT_B_BPC__SHIFT			2
--static inline uint32_t MDP4_PIPE_SRC_FORMAT_B_BPC(enum mdp_bpc val)
+-
+-#define REG_A5XX_HLSQ_GS_CNTL					0x0000e795
+-#define A5XX_HLSQ_GS_CNTL_SSBO_ENABLE				0x00000001
+-#define A5XX_HLSQ_GS_CNTL_INSTRLEN__MASK			0xfffffffe
+-#define A5XX_HLSQ_GS_CNTL_INSTRLEN__SHIFT			1
+-static inline uint32_t A5XX_HLSQ_GS_CNTL_INSTRLEN(uint32_t val)
 -{
--	return ((val) << MDP4_PIPE_SRC_FORMAT_B_BPC__SHIFT) & MDP4_PIPE_SRC_FORMAT_B_BPC__MASK;
+-	return ((val) << A5XX_HLSQ_GS_CNTL_INSTRLEN__SHIFT) & A5XX_HLSQ_GS_CNTL_INSTRLEN__MASK;
 -}
--#define MDP4_PIPE_SRC_FORMAT_R_BPC__MASK			0x00000030
--#define MDP4_PIPE_SRC_FORMAT_R_BPC__SHIFT			4
--static inline uint32_t MDP4_PIPE_SRC_FORMAT_R_BPC(enum mdp_bpc val)
+-
+-#define REG_A5XX_HLSQ_CS_CNTL					0x0000e796
+-#define A5XX_HLSQ_CS_CNTL_SSBO_ENABLE				0x00000001
+-#define A5XX_HLSQ_CS_CNTL_INSTRLEN__MASK			0xfffffffe
+-#define A5XX_HLSQ_CS_CNTL_INSTRLEN__SHIFT			1
+-static inline uint32_t A5XX_HLSQ_CS_CNTL_INSTRLEN(uint32_t val)
 -{
--	return ((val) << MDP4_PIPE_SRC_FORMAT_R_BPC__SHIFT) & MDP4_PIPE_SRC_FORMAT_R_BPC__MASK;
+-	return ((val) << A5XX_HLSQ_CS_CNTL_INSTRLEN__SHIFT) & A5XX_HLSQ_CS_CNTL_INSTRLEN__MASK;
 -}
--#define MDP4_PIPE_SRC_FORMAT_A_BPC__MASK			0x000000c0
--#define MDP4_PIPE_SRC_FORMAT_A_BPC__SHIFT			6
--static inline uint32_t MDP4_PIPE_SRC_FORMAT_A_BPC(enum mdp_bpc_alpha val)
+-
+-#define REG_A5XX_HLSQ_CS_KERNEL_GROUP_X				0x0000e7b9
+-
+-#define REG_A5XX_HLSQ_CS_KERNEL_GROUP_Y				0x0000e7ba
+-
+-#define REG_A5XX_HLSQ_CS_KERNEL_GROUP_Z				0x0000e7bb
+-
+-#define REG_A5XX_HLSQ_CS_NDRANGE_0				0x0000e7b0
+-#define A5XX_HLSQ_CS_NDRANGE_0_KERNELDIM__MASK			0x00000003
+-#define A5XX_HLSQ_CS_NDRANGE_0_KERNELDIM__SHIFT			0
+-static inline uint32_t A5XX_HLSQ_CS_NDRANGE_0_KERNELDIM(uint32_t val)
 -{
--	return ((val) << MDP4_PIPE_SRC_FORMAT_A_BPC__SHIFT) & MDP4_PIPE_SRC_FORMAT_A_BPC__MASK;
+-	return ((val) << A5XX_HLSQ_CS_NDRANGE_0_KERNELDIM__SHIFT) & A5XX_HLSQ_CS_NDRANGE_0_KERNELDIM__MASK;
 -}
--#define MDP4_PIPE_SRC_FORMAT_ALPHA_ENABLE			0x00000100
--#define MDP4_PIPE_SRC_FORMAT_CPP__MASK				0x00000600
--#define MDP4_PIPE_SRC_FORMAT_CPP__SHIFT				9
--static inline uint32_t MDP4_PIPE_SRC_FORMAT_CPP(uint32_t val)
+-#define A5XX_HLSQ_CS_NDRANGE_0_LOCALSIZEX__MASK			0x00000ffc
+-#define A5XX_HLSQ_CS_NDRANGE_0_LOCALSIZEX__SHIFT		2
+-static inline uint32_t A5XX_HLSQ_CS_NDRANGE_0_LOCALSIZEX(uint32_t val)
 -{
--	return ((val) << MDP4_PIPE_SRC_FORMAT_CPP__SHIFT) & MDP4_PIPE_SRC_FORMAT_CPP__MASK;
+-	return ((val) << A5XX_HLSQ_CS_NDRANGE_0_LOCALSIZEX__SHIFT) & A5XX_HLSQ_CS_NDRANGE_0_LOCALSIZEX__MASK;
 -}
--#define MDP4_PIPE_SRC_FORMAT_ROTATED_90				0x00001000
--#define MDP4_PIPE_SRC_FORMAT_UNPACK_COUNT__MASK			0x00006000
--#define MDP4_PIPE_SRC_FORMAT_UNPACK_COUNT__SHIFT		13
--static inline uint32_t MDP4_PIPE_SRC_FORMAT_UNPACK_COUNT(uint32_t val)
+-#define A5XX_HLSQ_CS_NDRANGE_0_LOCALSIZEY__MASK			0x003ff000
+-#define A5XX_HLSQ_CS_NDRANGE_0_LOCALSIZEY__SHIFT		12
+-static inline uint32_t A5XX_HLSQ_CS_NDRANGE_0_LOCALSIZEY(uint32_t val)
 -{
--	return ((val) << MDP4_PIPE_SRC_FORMAT_UNPACK_COUNT__SHIFT) & MDP4_PIPE_SRC_FORMAT_UNPACK_COUNT__MASK;
+-	return ((val) << A5XX_HLSQ_CS_NDRANGE_0_LOCALSIZEY__SHIFT) & A5XX_HLSQ_CS_NDRANGE_0_LOCALSIZEY__MASK;
 -}
--#define MDP4_PIPE_SRC_FORMAT_UNPACK_TIGHT			0x00020000
--#define MDP4_PIPE_SRC_FORMAT_UNPACK_ALIGN_MSB			0x00040000
--#define MDP4_PIPE_SRC_FORMAT_FETCH_PLANES__MASK			0x00180000
--#define MDP4_PIPE_SRC_FORMAT_FETCH_PLANES__SHIFT		19
--static inline uint32_t MDP4_PIPE_SRC_FORMAT_FETCH_PLANES(uint32_t val)
+-#define A5XX_HLSQ_CS_NDRANGE_0_LOCALSIZEZ__MASK			0xffc00000
+-#define A5XX_HLSQ_CS_NDRANGE_0_LOCALSIZEZ__SHIFT		22
+-static inline uint32_t A5XX_HLSQ_CS_NDRANGE_0_LOCALSIZEZ(uint32_t val)
 -{
--	return ((val) << MDP4_PIPE_SRC_FORMAT_FETCH_PLANES__SHIFT) & MDP4_PIPE_SRC_FORMAT_FETCH_PLANES__MASK;
+-	return ((val) << A5XX_HLSQ_CS_NDRANGE_0_LOCALSIZEZ__SHIFT) & A5XX_HLSQ_CS_NDRANGE_0_LOCALSIZEZ__MASK;
 -}
--#define MDP4_PIPE_SRC_FORMAT_SOLID_FILL				0x00400000
--#define MDP4_PIPE_SRC_FORMAT_CHROMA_SAMP__MASK			0x0c000000
--#define MDP4_PIPE_SRC_FORMAT_CHROMA_SAMP__SHIFT			26
--static inline uint32_t MDP4_PIPE_SRC_FORMAT_CHROMA_SAMP(enum mdp_chroma_samp_type val)
+-
+-#define REG_A5XX_HLSQ_CS_NDRANGE_1				0x0000e7b1
+-#define A5XX_HLSQ_CS_NDRANGE_1_GLOBALSIZE_X__MASK		0xffffffff
+-#define A5XX_HLSQ_CS_NDRANGE_1_GLOBALSIZE_X__SHIFT		0
+-static inline uint32_t A5XX_HLSQ_CS_NDRANGE_1_GLOBALSIZE_X(uint32_t val)
 -{
--	return ((val) << MDP4_PIPE_SRC_FORMAT_CHROMA_SAMP__SHIFT) & MDP4_PIPE_SRC_FORMAT_CHROMA_SAMP__MASK;
+-	return ((val) << A5XX_HLSQ_CS_NDRANGE_1_GLOBALSIZE_X__SHIFT) & A5XX_HLSQ_CS_NDRANGE_1_GLOBALSIZE_X__MASK;
 -}
--#define MDP4_PIPE_SRC_FORMAT_FRAME_FORMAT__MASK			0x60000000
--#define MDP4_PIPE_SRC_FORMAT_FRAME_FORMAT__SHIFT		29
--static inline uint32_t MDP4_PIPE_SRC_FORMAT_FRAME_FORMAT(enum mdp4_frame_format val)
+-
+-#define REG_A5XX_HLSQ_CS_NDRANGE_2				0x0000e7b2
+-#define A5XX_HLSQ_CS_NDRANGE_2_GLOBALOFF_X__MASK		0xffffffff
+-#define A5XX_HLSQ_CS_NDRANGE_2_GLOBALOFF_X__SHIFT		0
+-static inline uint32_t A5XX_HLSQ_CS_NDRANGE_2_GLOBALOFF_X(uint32_t val)
 -{
--	return ((val) << MDP4_PIPE_SRC_FORMAT_FRAME_FORMAT__SHIFT) & MDP4_PIPE_SRC_FORMAT_FRAME_FORMAT__MASK;
+-	return ((val) << A5XX_HLSQ_CS_NDRANGE_2_GLOBALOFF_X__SHIFT) & A5XX_HLSQ_CS_NDRANGE_2_GLOBALOFF_X__MASK;
 -}
 -
--static inline uint32_t REG_MDP4_PIPE_SRC_UNPACK(enum mdp4_pipe i0) { return 0x00020054 + 0x10000*i0; }
--#define MDP4_PIPE_SRC_UNPACK_ELEM0__MASK			0x000000ff
--#define MDP4_PIPE_SRC_UNPACK_ELEM0__SHIFT			0
--static inline uint32_t MDP4_PIPE_SRC_UNPACK_ELEM0(uint32_t val)
+-#define REG_A5XX_HLSQ_CS_NDRANGE_3				0x0000e7b3
+-#define A5XX_HLSQ_CS_NDRANGE_3_GLOBALSIZE_Y__MASK		0xffffffff
+-#define A5XX_HLSQ_CS_NDRANGE_3_GLOBALSIZE_Y__SHIFT		0
+-static inline uint32_t A5XX_HLSQ_CS_NDRANGE_3_GLOBALSIZE_Y(uint32_t val)
 -{
--	return ((val) << MDP4_PIPE_SRC_UNPACK_ELEM0__SHIFT) & MDP4_PIPE_SRC_UNPACK_ELEM0__MASK;
+-	return ((val) << A5XX_HLSQ_CS_NDRANGE_3_GLOBALSIZE_Y__SHIFT) & A5XX_HLSQ_CS_NDRANGE_3_GLOBALSIZE_Y__MASK;
 -}
--#define MDP4_PIPE_SRC_UNPACK_ELEM1__MASK			0x0000ff00
--#define MDP4_PIPE_SRC_UNPACK_ELEM1__SHIFT			8
--static inline uint32_t MDP4_PIPE_SRC_UNPACK_ELEM1(uint32_t val)
+-
+-#define REG_A5XX_HLSQ_CS_NDRANGE_4				0x0000e7b4
+-#define A5XX_HLSQ_CS_NDRANGE_4_GLOBALOFF_Y__MASK		0xffffffff
+-#define A5XX_HLSQ_CS_NDRANGE_4_GLOBALOFF_Y__SHIFT		0
+-static inline uint32_t A5XX_HLSQ_CS_NDRANGE_4_GLOBALOFF_Y(uint32_t val)
 -{
--	return ((val) << MDP4_PIPE_SRC_UNPACK_ELEM1__SHIFT) & MDP4_PIPE_SRC_UNPACK_ELEM1__MASK;
+-	return ((val) << A5XX_HLSQ_CS_NDRANGE_4_GLOBALOFF_Y__SHIFT) & A5XX_HLSQ_CS_NDRANGE_4_GLOBALOFF_Y__MASK;
 -}
--#define MDP4_PIPE_SRC_UNPACK_ELEM2__MASK			0x00ff0000
--#define MDP4_PIPE_SRC_UNPACK_ELEM2__SHIFT			16
--static inline uint32_t MDP4_PIPE_SRC_UNPACK_ELEM2(uint32_t val)
+-
+-#define REG_A5XX_HLSQ_CS_NDRANGE_5				0x0000e7b5
+-#define A5XX_HLSQ_CS_NDRANGE_5_GLOBALSIZE_Z__MASK		0xffffffff
+-#define A5XX_HLSQ_CS_NDRANGE_5_GLOBALSIZE_Z__SHIFT		0
+-static inline uint32_t A5XX_HLSQ_CS_NDRANGE_5_GLOBALSIZE_Z(uint32_t val)
 -{
--	return ((val) << MDP4_PIPE_SRC_UNPACK_ELEM2__SHIFT) & MDP4_PIPE_SRC_UNPACK_ELEM2__MASK;
+-	return ((val) << A5XX_HLSQ_CS_NDRANGE_5_GLOBALSIZE_Z__SHIFT) & A5XX_HLSQ_CS_NDRANGE_5_GLOBALSIZE_Z__MASK;
 -}
--#define MDP4_PIPE_SRC_UNPACK_ELEM3__MASK			0xff000000
--#define MDP4_PIPE_SRC_UNPACK_ELEM3__SHIFT			24
--static inline uint32_t MDP4_PIPE_SRC_UNPACK_ELEM3(uint32_t val)
+-
+-#define REG_A5XX_HLSQ_CS_NDRANGE_6				0x0000e7b6
+-#define A5XX_HLSQ_CS_NDRANGE_6_GLOBALOFF_Z__MASK		0xffffffff
+-#define A5XX_HLSQ_CS_NDRANGE_6_GLOBALOFF_Z__SHIFT		0
+-static inline uint32_t A5XX_HLSQ_CS_NDRANGE_6_GLOBALOFF_Z(uint32_t val)
 -{
--	return ((val) << MDP4_PIPE_SRC_UNPACK_ELEM3__SHIFT) & MDP4_PIPE_SRC_UNPACK_ELEM3__MASK;
+-	return ((val) << A5XX_HLSQ_CS_NDRANGE_6_GLOBALOFF_Z__SHIFT) & A5XX_HLSQ_CS_NDRANGE_6_GLOBALOFF_Z__MASK;
 -}
 -
--static inline uint32_t REG_MDP4_PIPE_OP_MODE(enum mdp4_pipe i0) { return 0x00020058 + 0x10000*i0; }
--#define MDP4_PIPE_OP_MODE_SCALEX_EN				0x00000001
--#define MDP4_PIPE_OP_MODE_SCALEY_EN				0x00000002
--#define MDP4_PIPE_OP_MODE_SCALEX_UNIT_SEL__MASK			0x0000000c
--#define MDP4_PIPE_OP_MODE_SCALEX_UNIT_SEL__SHIFT		2
--static inline uint32_t MDP4_PIPE_OP_MODE_SCALEX_UNIT_SEL(enum mdp4_scale_unit val)
+-#define REG_A5XX_HLSQ_CS_CNTL_0					0x0000e7b7
+-#define A5XX_HLSQ_CS_CNTL_0_WGIDCONSTID__MASK			0x000000ff
+-#define A5XX_HLSQ_CS_CNTL_0_WGIDCONSTID__SHIFT			0
+-static inline uint32_t A5XX_HLSQ_CS_CNTL_0_WGIDCONSTID(uint32_t val)
+-{
+-	return ((val) << A5XX_HLSQ_CS_CNTL_0_WGIDCONSTID__SHIFT) & A5XX_HLSQ_CS_CNTL_0_WGIDCONSTID__MASK;
+-}
+-#define A5XX_HLSQ_CS_CNTL_0_UNK0__MASK				0x0000ff00
+-#define A5XX_HLSQ_CS_CNTL_0_UNK0__SHIFT				8
+-static inline uint32_t A5XX_HLSQ_CS_CNTL_0_UNK0(uint32_t val)
+-{
+-	return ((val) << A5XX_HLSQ_CS_CNTL_0_UNK0__SHIFT) & A5XX_HLSQ_CS_CNTL_0_UNK0__MASK;
+-}
+-#define A5XX_HLSQ_CS_CNTL_0_UNK1__MASK				0x00ff0000
+-#define A5XX_HLSQ_CS_CNTL_0_UNK1__SHIFT				16
+-static inline uint32_t A5XX_HLSQ_CS_CNTL_0_UNK1(uint32_t val)
 -{
--	return ((val) << MDP4_PIPE_OP_MODE_SCALEX_UNIT_SEL__SHIFT) & MDP4_PIPE_OP_MODE_SCALEX_UNIT_SEL__MASK;
+-	return ((val) << A5XX_HLSQ_CS_CNTL_0_UNK1__SHIFT) & A5XX_HLSQ_CS_CNTL_0_UNK1__MASK;
 -}
--#define MDP4_PIPE_OP_MODE_SCALEY_UNIT_SEL__MASK			0x00000030
--#define MDP4_PIPE_OP_MODE_SCALEY_UNIT_SEL__SHIFT		4
--static inline uint32_t MDP4_PIPE_OP_MODE_SCALEY_UNIT_SEL(enum mdp4_scale_unit val)
+-#define A5XX_HLSQ_CS_CNTL_0_LOCALIDREGID__MASK			0xff000000
+-#define A5XX_HLSQ_CS_CNTL_0_LOCALIDREGID__SHIFT			24
+-static inline uint32_t A5XX_HLSQ_CS_CNTL_0_LOCALIDREGID(uint32_t val)
 -{
--	return ((val) << MDP4_PIPE_OP_MODE_SCALEY_UNIT_SEL__SHIFT) & MDP4_PIPE_OP_MODE_SCALEY_UNIT_SEL__MASK;
+-	return ((val) << A5XX_HLSQ_CS_CNTL_0_LOCALIDREGID__SHIFT) & A5XX_HLSQ_CS_CNTL_0_LOCALIDREGID__MASK;
 -}
--#define MDP4_PIPE_OP_MODE_SRC_YCBCR				0x00000200
--#define MDP4_PIPE_OP_MODE_DST_YCBCR				0x00000400
--#define MDP4_PIPE_OP_MODE_CSC_EN				0x00000800
--#define MDP4_PIPE_OP_MODE_FLIP_LR				0x00002000
--#define MDP4_PIPE_OP_MODE_FLIP_UD				0x00004000
--#define MDP4_PIPE_OP_MODE_DITHER_EN				0x00008000
--#define MDP4_PIPE_OP_MODE_IGC_LUT_EN				0x00010000
--#define MDP4_PIPE_OP_MODE_DEINT_EN				0x00040000
--#define MDP4_PIPE_OP_MODE_DEINT_ODD_REF				0x00080000
 -
--static inline uint32_t REG_MDP4_PIPE_PHASEX_STEP(enum mdp4_pipe i0) { return 0x0002005c + 0x10000*i0; }
+-#define REG_A5XX_HLSQ_CS_CNTL_1					0x0000e7b8
 -
--static inline uint32_t REG_MDP4_PIPE_PHASEY_STEP(enum mdp4_pipe i0) { return 0x00020060 + 0x10000*i0; }
+-#define REG_A5XX_UNKNOWN_E7C0					0x0000e7c0
 -
--static inline uint32_t REG_MDP4_PIPE_FETCH_CONFIG(enum mdp4_pipe i0) { return 0x00021004 + 0x10000*i0; }
+-#define REG_A5XX_HLSQ_VS_CONSTLEN				0x0000e7c3
 -
--static inline uint32_t REG_MDP4_PIPE_SOLID_COLOR(enum mdp4_pipe i0) { return 0x00021008 + 0x10000*i0; }
+-#define REG_A5XX_HLSQ_VS_INSTRLEN				0x0000e7c4
 -
--static inline uint32_t REG_MDP4_PIPE_CSC(enum mdp4_pipe i0) { return 0x00024000 + 0x10000*i0; }
+-#define REG_A5XX_UNKNOWN_E7C5					0x0000e7c5
 -
+-#define REG_A5XX_HLSQ_HS_CONSTLEN				0x0000e7c8
 -
--static inline uint32_t REG_MDP4_PIPE_CSC_MV(enum mdp4_pipe i0, uint32_t i1) { return 0x00024400 + 0x10000*i0 + 0x4*i1; }
+-#define REG_A5XX_HLSQ_HS_INSTRLEN				0x0000e7c9
 -
--static inline uint32_t REG_MDP4_PIPE_CSC_MV_VAL(enum mdp4_pipe i0, uint32_t i1) { return 0x00024400 + 0x10000*i0 + 0x4*i1; }
+-#define REG_A5XX_UNKNOWN_E7CA					0x0000e7ca
 -
--static inline uint32_t REG_MDP4_PIPE_CSC_PRE_BV(enum mdp4_pipe i0, uint32_t i1) { return 0x00024500 + 0x10000*i0 + 0x4*i1; }
+-#define REG_A5XX_HLSQ_DS_CONSTLEN				0x0000e7cd
 -
--static inline uint32_t REG_MDP4_PIPE_CSC_PRE_BV_VAL(enum mdp4_pipe i0, uint32_t i1) { return 0x00024500 + 0x10000*i0 + 0x4*i1; }
+-#define REG_A5XX_HLSQ_DS_INSTRLEN				0x0000e7ce
 -
--static inline uint32_t REG_MDP4_PIPE_CSC_POST_BV(enum mdp4_pipe i0, uint32_t i1) { return 0x00024580 + 0x10000*i0 + 0x4*i1; }
+-#define REG_A5XX_UNKNOWN_E7CF					0x0000e7cf
 -
--static inline uint32_t REG_MDP4_PIPE_CSC_POST_BV_VAL(enum mdp4_pipe i0, uint32_t i1) { return 0x00024580 + 0x10000*i0 + 0x4*i1; }
+-#define REG_A5XX_HLSQ_GS_CONSTLEN				0x0000e7d2
 -
--static inline uint32_t REG_MDP4_PIPE_CSC_PRE_LV(enum mdp4_pipe i0, uint32_t i1) { return 0x00024600 + 0x10000*i0 + 0x4*i1; }
+-#define REG_A5XX_HLSQ_GS_INSTRLEN				0x0000e7d3
 -
--static inline uint32_t REG_MDP4_PIPE_CSC_PRE_LV_VAL(enum mdp4_pipe i0, uint32_t i1) { return 0x00024600 + 0x10000*i0 + 0x4*i1; }
+-#define REG_A5XX_UNKNOWN_E7D4					0x0000e7d4
 -
--static inline uint32_t REG_MDP4_PIPE_CSC_POST_LV(enum mdp4_pipe i0, uint32_t i1) { return 0x00024680 + 0x10000*i0 + 0x4*i1; }
+-#define REG_A5XX_HLSQ_FS_CONSTLEN				0x0000e7d7
 -
--static inline uint32_t REG_MDP4_PIPE_CSC_POST_LV_VAL(enum mdp4_pipe i0, uint32_t i1) { return 0x00024680 + 0x10000*i0 + 0x4*i1; }
+-#define REG_A5XX_HLSQ_FS_INSTRLEN				0x0000e7d8
 -
--#define REG_MDP4_LCDC						0x000c0000
+-#define REG_A5XX_UNKNOWN_E7D9					0x0000e7d9
 -
--#define REG_MDP4_LCDC_ENABLE					0x000c0000
+-#define REG_A5XX_HLSQ_CS_CONSTLEN				0x0000e7dc
 -
--#define REG_MDP4_LCDC_HSYNC_CTRL				0x000c0004
--#define MDP4_LCDC_HSYNC_CTRL_PULSEW__MASK			0x0000ffff
--#define MDP4_LCDC_HSYNC_CTRL_PULSEW__SHIFT			0
--static inline uint32_t MDP4_LCDC_HSYNC_CTRL_PULSEW(uint32_t val)
+-#define REG_A5XX_HLSQ_CS_INSTRLEN				0x0000e7dd
+-
+-#define REG_A5XX_RB_2D_BLIT_CNTL				0x00002100
+-
+-#define REG_A5XX_RB_2D_SRC_SOLID_DW0				0x00002101
+-
+-#define REG_A5XX_RB_2D_SRC_SOLID_DW1				0x00002102
+-
+-#define REG_A5XX_RB_2D_SRC_SOLID_DW2				0x00002103
+-
+-#define REG_A5XX_RB_2D_SRC_SOLID_DW3				0x00002104
+-
+-#define REG_A5XX_RB_2D_SRC_INFO					0x00002107
+-#define A5XX_RB_2D_SRC_INFO_COLOR_FORMAT__MASK			0x000000ff
+-#define A5XX_RB_2D_SRC_INFO_COLOR_FORMAT__SHIFT			0
+-static inline uint32_t A5XX_RB_2D_SRC_INFO_COLOR_FORMAT(enum a5xx_color_fmt val)
+-{
+-	return ((val) << A5XX_RB_2D_SRC_INFO_COLOR_FORMAT__SHIFT) & A5XX_RB_2D_SRC_INFO_COLOR_FORMAT__MASK;
+-}
+-#define A5XX_RB_2D_SRC_INFO_TILE_MODE__MASK			0x00000300
+-#define A5XX_RB_2D_SRC_INFO_TILE_MODE__SHIFT			8
+-static inline uint32_t A5XX_RB_2D_SRC_INFO_TILE_MODE(enum a5xx_tile_mode val)
 -{
--	return ((val) << MDP4_LCDC_HSYNC_CTRL_PULSEW__SHIFT) & MDP4_LCDC_HSYNC_CTRL_PULSEW__MASK;
+-	return ((val) << A5XX_RB_2D_SRC_INFO_TILE_MODE__SHIFT) & A5XX_RB_2D_SRC_INFO_TILE_MODE__MASK;
 -}
--#define MDP4_LCDC_HSYNC_CTRL_PERIOD__MASK			0xffff0000
--#define MDP4_LCDC_HSYNC_CTRL_PERIOD__SHIFT			16
--static inline uint32_t MDP4_LCDC_HSYNC_CTRL_PERIOD(uint32_t val)
+-#define A5XX_RB_2D_SRC_INFO_COLOR_SWAP__MASK			0x00000c00
+-#define A5XX_RB_2D_SRC_INFO_COLOR_SWAP__SHIFT			10
+-static inline uint32_t A5XX_RB_2D_SRC_INFO_COLOR_SWAP(enum a3xx_color_swap val)
 -{
--	return ((val) << MDP4_LCDC_HSYNC_CTRL_PERIOD__SHIFT) & MDP4_LCDC_HSYNC_CTRL_PERIOD__MASK;
+-	return ((val) << A5XX_RB_2D_SRC_INFO_COLOR_SWAP__SHIFT) & A5XX_RB_2D_SRC_INFO_COLOR_SWAP__MASK;
 -}
+-#define A5XX_RB_2D_SRC_INFO_FLAGS				0x00001000
+-#define A5XX_RB_2D_SRC_INFO_SRGB				0x00002000
 -
--#define REG_MDP4_LCDC_VSYNC_PERIOD				0x000c0008
+-#define REG_A5XX_RB_2D_SRC_LO					0x00002108
 -
--#define REG_MDP4_LCDC_VSYNC_LEN					0x000c000c
+-#define REG_A5XX_RB_2D_SRC_HI					0x00002109
 -
--#define REG_MDP4_LCDC_DISPLAY_HCTRL				0x000c0010
--#define MDP4_LCDC_DISPLAY_HCTRL_START__MASK			0x0000ffff
--#define MDP4_LCDC_DISPLAY_HCTRL_START__SHIFT			0
--static inline uint32_t MDP4_LCDC_DISPLAY_HCTRL_START(uint32_t val)
+-#define REG_A5XX_RB_2D_SRC_SIZE					0x0000210a
+-#define A5XX_RB_2D_SRC_SIZE_PITCH__MASK				0x0000ffff
+-#define A5XX_RB_2D_SRC_SIZE_PITCH__SHIFT			0
+-static inline uint32_t A5XX_RB_2D_SRC_SIZE_PITCH(uint32_t val)
 -{
--	return ((val) << MDP4_LCDC_DISPLAY_HCTRL_START__SHIFT) & MDP4_LCDC_DISPLAY_HCTRL_START__MASK;
+-	assert(!(val & 0x3f));
+-	return (((val >> 6)) << A5XX_RB_2D_SRC_SIZE_PITCH__SHIFT) & A5XX_RB_2D_SRC_SIZE_PITCH__MASK;
 -}
--#define MDP4_LCDC_DISPLAY_HCTRL_END__MASK			0xffff0000
--#define MDP4_LCDC_DISPLAY_HCTRL_END__SHIFT			16
--static inline uint32_t MDP4_LCDC_DISPLAY_HCTRL_END(uint32_t val)
+-#define A5XX_RB_2D_SRC_SIZE_ARRAY_PITCH__MASK			0xffff0000
+-#define A5XX_RB_2D_SRC_SIZE_ARRAY_PITCH__SHIFT			16
+-static inline uint32_t A5XX_RB_2D_SRC_SIZE_ARRAY_PITCH(uint32_t val)
 -{
--	return ((val) << MDP4_LCDC_DISPLAY_HCTRL_END__SHIFT) & MDP4_LCDC_DISPLAY_HCTRL_END__MASK;
+-	assert(!(val & 0x3f));
+-	return (((val >> 6)) << A5XX_RB_2D_SRC_SIZE_ARRAY_PITCH__SHIFT) & A5XX_RB_2D_SRC_SIZE_ARRAY_PITCH__MASK;
 -}
 -
--#define REG_MDP4_LCDC_DISPLAY_VSTART				0x000c0014
--
--#define REG_MDP4_LCDC_DISPLAY_VEND				0x000c0018
--
--#define REG_MDP4_LCDC_ACTIVE_HCTL				0x000c001c
--#define MDP4_LCDC_ACTIVE_HCTL_START__MASK			0x00007fff
--#define MDP4_LCDC_ACTIVE_HCTL_START__SHIFT			0
--static inline uint32_t MDP4_LCDC_ACTIVE_HCTL_START(uint32_t val)
+-#define REG_A5XX_RB_2D_DST_INFO					0x00002110
+-#define A5XX_RB_2D_DST_INFO_COLOR_FORMAT__MASK			0x000000ff
+-#define A5XX_RB_2D_DST_INFO_COLOR_FORMAT__SHIFT			0
+-static inline uint32_t A5XX_RB_2D_DST_INFO_COLOR_FORMAT(enum a5xx_color_fmt val)
 -{
--	return ((val) << MDP4_LCDC_ACTIVE_HCTL_START__SHIFT) & MDP4_LCDC_ACTIVE_HCTL_START__MASK;
+-	return ((val) << A5XX_RB_2D_DST_INFO_COLOR_FORMAT__SHIFT) & A5XX_RB_2D_DST_INFO_COLOR_FORMAT__MASK;
 -}
--#define MDP4_LCDC_ACTIVE_HCTL_END__MASK				0x7fff0000
--#define MDP4_LCDC_ACTIVE_HCTL_END__SHIFT			16
--static inline uint32_t MDP4_LCDC_ACTIVE_HCTL_END(uint32_t val)
+-#define A5XX_RB_2D_DST_INFO_TILE_MODE__MASK			0x00000300
+-#define A5XX_RB_2D_DST_INFO_TILE_MODE__SHIFT			8
+-static inline uint32_t A5XX_RB_2D_DST_INFO_TILE_MODE(enum a5xx_tile_mode val)
 -{
--	return ((val) << MDP4_LCDC_ACTIVE_HCTL_END__SHIFT) & MDP4_LCDC_ACTIVE_HCTL_END__MASK;
+-	return ((val) << A5XX_RB_2D_DST_INFO_TILE_MODE__SHIFT) & A5XX_RB_2D_DST_INFO_TILE_MODE__MASK;
 -}
--#define MDP4_LCDC_ACTIVE_HCTL_ACTIVE_START_X			0x80000000
--
--#define REG_MDP4_LCDC_ACTIVE_VSTART				0x000c0020
+-#define A5XX_RB_2D_DST_INFO_COLOR_SWAP__MASK			0x00000c00
+-#define A5XX_RB_2D_DST_INFO_COLOR_SWAP__SHIFT			10
+-static inline uint32_t A5XX_RB_2D_DST_INFO_COLOR_SWAP(enum a3xx_color_swap val)
+-{
+-	return ((val) << A5XX_RB_2D_DST_INFO_COLOR_SWAP__SHIFT) & A5XX_RB_2D_DST_INFO_COLOR_SWAP__MASK;
+-}
+-#define A5XX_RB_2D_DST_INFO_FLAGS				0x00001000
+-#define A5XX_RB_2D_DST_INFO_SRGB				0x00002000
 -
--#define REG_MDP4_LCDC_ACTIVE_VEND				0x000c0024
+-#define REG_A5XX_RB_2D_DST_LO					0x00002111
 -
--#define REG_MDP4_LCDC_BORDER_CLR				0x000c0028
+-#define REG_A5XX_RB_2D_DST_HI					0x00002112
 -
--#define REG_MDP4_LCDC_UNDERFLOW_CLR				0x000c002c
--#define MDP4_LCDC_UNDERFLOW_CLR_COLOR__MASK			0x00ffffff
--#define MDP4_LCDC_UNDERFLOW_CLR_COLOR__SHIFT			0
--static inline uint32_t MDP4_LCDC_UNDERFLOW_CLR_COLOR(uint32_t val)
+-#define REG_A5XX_RB_2D_DST_SIZE					0x00002113
+-#define A5XX_RB_2D_DST_SIZE_PITCH__MASK				0x0000ffff
+-#define A5XX_RB_2D_DST_SIZE_PITCH__SHIFT			0
+-static inline uint32_t A5XX_RB_2D_DST_SIZE_PITCH(uint32_t val)
+-{
+-	assert(!(val & 0x3f));
+-	return (((val >> 6)) << A5XX_RB_2D_DST_SIZE_PITCH__SHIFT) & A5XX_RB_2D_DST_SIZE_PITCH__MASK;
+-}
+-#define A5XX_RB_2D_DST_SIZE_ARRAY_PITCH__MASK			0xffff0000
+-#define A5XX_RB_2D_DST_SIZE_ARRAY_PITCH__SHIFT			16
+-static inline uint32_t A5XX_RB_2D_DST_SIZE_ARRAY_PITCH(uint32_t val)
 -{
--	return ((val) << MDP4_LCDC_UNDERFLOW_CLR_COLOR__SHIFT) & MDP4_LCDC_UNDERFLOW_CLR_COLOR__MASK;
+-	assert(!(val & 0x3f));
+-	return (((val >> 6)) << A5XX_RB_2D_DST_SIZE_ARRAY_PITCH__SHIFT) & A5XX_RB_2D_DST_SIZE_ARRAY_PITCH__MASK;
 -}
--#define MDP4_LCDC_UNDERFLOW_CLR_ENABLE_RECOVERY			0x80000000
 -
--#define REG_MDP4_LCDC_HSYNC_SKEW				0x000c0030
+-#define REG_A5XX_RB_2D_SRC_FLAGS_LO				0x00002140
 -
--#define REG_MDP4_LCDC_TEST_CNTL					0x000c0034
+-#define REG_A5XX_RB_2D_SRC_FLAGS_HI				0x00002141
 -
--#define REG_MDP4_LCDC_CTRL_POLARITY				0x000c0038
--#define MDP4_LCDC_CTRL_POLARITY_HSYNC_LOW			0x00000001
--#define MDP4_LCDC_CTRL_POLARITY_VSYNC_LOW			0x00000002
--#define MDP4_LCDC_CTRL_POLARITY_DATA_EN_LOW			0x00000004
+-#define REG_A5XX_RB_2D_SRC_FLAGS_PITCH				0x00002142
+-#define A5XX_RB_2D_SRC_FLAGS_PITCH__MASK			0xffffffff
+-#define A5XX_RB_2D_SRC_FLAGS_PITCH__SHIFT			0
+-static inline uint32_t A5XX_RB_2D_SRC_FLAGS_PITCH(uint32_t val)
+-{
+-	assert(!(val & 0x3f));
+-	return (((val >> 6)) << A5XX_RB_2D_SRC_FLAGS_PITCH__SHIFT) & A5XX_RB_2D_SRC_FLAGS_PITCH__MASK;
+-}
 -
--#define REG_MDP4_LCDC_LVDS_INTF_CTL				0x000c2000
--#define MDP4_LCDC_LVDS_INTF_CTL_MODE_SEL			0x00000004
--#define MDP4_LCDC_LVDS_INTF_CTL_RGB_OUT				0x00000008
--#define MDP4_LCDC_LVDS_INTF_CTL_CH_SWAP				0x00000010
--#define MDP4_LCDC_LVDS_INTF_CTL_CH1_RES_BIT			0x00000020
--#define MDP4_LCDC_LVDS_INTF_CTL_CH2_RES_BIT			0x00000040
--#define MDP4_LCDC_LVDS_INTF_CTL_ENABLE				0x00000080
--#define MDP4_LCDC_LVDS_INTF_CTL_CH1_DATA_LANE0_EN		0x00000100
--#define MDP4_LCDC_LVDS_INTF_CTL_CH1_DATA_LANE1_EN		0x00000200
--#define MDP4_LCDC_LVDS_INTF_CTL_CH1_DATA_LANE2_EN		0x00000400
--#define MDP4_LCDC_LVDS_INTF_CTL_CH1_DATA_LANE3_EN		0x00000800
--#define MDP4_LCDC_LVDS_INTF_CTL_CH2_DATA_LANE0_EN		0x00001000
--#define MDP4_LCDC_LVDS_INTF_CTL_CH2_DATA_LANE1_EN		0x00002000
--#define MDP4_LCDC_LVDS_INTF_CTL_CH2_DATA_LANE2_EN		0x00004000
--#define MDP4_LCDC_LVDS_INTF_CTL_CH2_DATA_LANE3_EN		0x00008000
--#define MDP4_LCDC_LVDS_INTF_CTL_CH1_CLK_LANE_EN			0x00010000
--#define MDP4_LCDC_LVDS_INTF_CTL_CH2_CLK_LANE_EN			0x00020000
+-#define REG_A5XX_RB_2D_DST_FLAGS_LO				0x00002143
 -
--static inline uint32_t REG_MDP4_LCDC_LVDS_MUX_CTL(uint32_t i0) { return 0x000c2014 + 0x8*i0; }
+-#define REG_A5XX_RB_2D_DST_FLAGS_HI				0x00002144
 -
--static inline uint32_t REG_MDP4_LCDC_LVDS_MUX_CTL_3_TO_0(uint32_t i0) { return 0x000c2014 + 0x8*i0; }
--#define MDP4_LCDC_LVDS_MUX_CTL_3_TO_0_BIT0__MASK		0x000000ff
--#define MDP4_LCDC_LVDS_MUX_CTL_3_TO_0_BIT0__SHIFT		0
--static inline uint32_t MDP4_LCDC_LVDS_MUX_CTL_3_TO_0_BIT0(uint32_t val)
+-#define REG_A5XX_RB_2D_DST_FLAGS_PITCH				0x00002145
+-#define A5XX_RB_2D_DST_FLAGS_PITCH__MASK			0xffffffff
+-#define A5XX_RB_2D_DST_FLAGS_PITCH__SHIFT			0
+-static inline uint32_t A5XX_RB_2D_DST_FLAGS_PITCH(uint32_t val)
 -{
--	return ((val) << MDP4_LCDC_LVDS_MUX_CTL_3_TO_0_BIT0__SHIFT) & MDP4_LCDC_LVDS_MUX_CTL_3_TO_0_BIT0__MASK;
+-	assert(!(val & 0x3f));
+-	return (((val >> 6)) << A5XX_RB_2D_DST_FLAGS_PITCH__SHIFT) & A5XX_RB_2D_DST_FLAGS_PITCH__MASK;
 -}
--#define MDP4_LCDC_LVDS_MUX_CTL_3_TO_0_BIT1__MASK		0x0000ff00
--#define MDP4_LCDC_LVDS_MUX_CTL_3_TO_0_BIT1__SHIFT		8
--static inline uint32_t MDP4_LCDC_LVDS_MUX_CTL_3_TO_0_BIT1(uint32_t val)
+-
+-#define REG_A5XX_GRAS_2D_BLIT_CNTL				0x00002180
+-
+-#define REG_A5XX_GRAS_2D_SRC_INFO				0x00002181
+-#define A5XX_GRAS_2D_SRC_INFO_COLOR_FORMAT__MASK		0x000000ff
+-#define A5XX_GRAS_2D_SRC_INFO_COLOR_FORMAT__SHIFT		0
+-static inline uint32_t A5XX_GRAS_2D_SRC_INFO_COLOR_FORMAT(enum a5xx_color_fmt val)
 -{
--	return ((val) << MDP4_LCDC_LVDS_MUX_CTL_3_TO_0_BIT1__SHIFT) & MDP4_LCDC_LVDS_MUX_CTL_3_TO_0_BIT1__MASK;
+-	return ((val) << A5XX_GRAS_2D_SRC_INFO_COLOR_FORMAT__SHIFT) & A5XX_GRAS_2D_SRC_INFO_COLOR_FORMAT__MASK;
 -}
--#define MDP4_LCDC_LVDS_MUX_CTL_3_TO_0_BIT2__MASK		0x00ff0000
--#define MDP4_LCDC_LVDS_MUX_CTL_3_TO_0_BIT2__SHIFT		16
--static inline uint32_t MDP4_LCDC_LVDS_MUX_CTL_3_TO_0_BIT2(uint32_t val)
+-#define A5XX_GRAS_2D_SRC_INFO_TILE_MODE__MASK			0x00000300
+-#define A5XX_GRAS_2D_SRC_INFO_TILE_MODE__SHIFT			8
+-static inline uint32_t A5XX_GRAS_2D_SRC_INFO_TILE_MODE(enum a5xx_tile_mode val)
 -{
--	return ((val) << MDP4_LCDC_LVDS_MUX_CTL_3_TO_0_BIT2__SHIFT) & MDP4_LCDC_LVDS_MUX_CTL_3_TO_0_BIT2__MASK;
+-	return ((val) << A5XX_GRAS_2D_SRC_INFO_TILE_MODE__SHIFT) & A5XX_GRAS_2D_SRC_INFO_TILE_MODE__MASK;
 -}
--#define MDP4_LCDC_LVDS_MUX_CTL_3_TO_0_BIT3__MASK		0xff000000
--#define MDP4_LCDC_LVDS_MUX_CTL_3_TO_0_BIT3__SHIFT		24
--static inline uint32_t MDP4_LCDC_LVDS_MUX_CTL_3_TO_0_BIT3(uint32_t val)
+-#define A5XX_GRAS_2D_SRC_INFO_COLOR_SWAP__MASK			0x00000c00
+-#define A5XX_GRAS_2D_SRC_INFO_COLOR_SWAP__SHIFT			10
+-static inline uint32_t A5XX_GRAS_2D_SRC_INFO_COLOR_SWAP(enum a3xx_color_swap val)
 -{
--	return ((val) << MDP4_LCDC_LVDS_MUX_CTL_3_TO_0_BIT3__SHIFT) & MDP4_LCDC_LVDS_MUX_CTL_3_TO_0_BIT3__MASK;
+-	return ((val) << A5XX_GRAS_2D_SRC_INFO_COLOR_SWAP__SHIFT) & A5XX_GRAS_2D_SRC_INFO_COLOR_SWAP__MASK;
 -}
+-#define A5XX_GRAS_2D_SRC_INFO_FLAGS				0x00001000
+-#define A5XX_GRAS_2D_SRC_INFO_SRGB				0x00002000
 -
--static inline uint32_t REG_MDP4_LCDC_LVDS_MUX_CTL_6_TO_4(uint32_t i0) { return 0x000c2018 + 0x8*i0; }
--#define MDP4_LCDC_LVDS_MUX_CTL_6_TO_4_BIT4__MASK		0x000000ff
--#define MDP4_LCDC_LVDS_MUX_CTL_6_TO_4_BIT4__SHIFT		0
--static inline uint32_t MDP4_LCDC_LVDS_MUX_CTL_6_TO_4_BIT4(uint32_t val)
+-#define REG_A5XX_GRAS_2D_DST_INFO				0x00002182
+-#define A5XX_GRAS_2D_DST_INFO_COLOR_FORMAT__MASK		0x000000ff
+-#define A5XX_GRAS_2D_DST_INFO_COLOR_FORMAT__SHIFT		0
+-static inline uint32_t A5XX_GRAS_2D_DST_INFO_COLOR_FORMAT(enum a5xx_color_fmt val)
 -{
--	return ((val) << MDP4_LCDC_LVDS_MUX_CTL_6_TO_4_BIT4__SHIFT) & MDP4_LCDC_LVDS_MUX_CTL_6_TO_4_BIT4__MASK;
+-	return ((val) << A5XX_GRAS_2D_DST_INFO_COLOR_FORMAT__SHIFT) & A5XX_GRAS_2D_DST_INFO_COLOR_FORMAT__MASK;
 -}
--#define MDP4_LCDC_LVDS_MUX_CTL_6_TO_4_BIT5__MASK		0x0000ff00
--#define MDP4_LCDC_LVDS_MUX_CTL_6_TO_4_BIT5__SHIFT		8
--static inline uint32_t MDP4_LCDC_LVDS_MUX_CTL_6_TO_4_BIT5(uint32_t val)
+-#define A5XX_GRAS_2D_DST_INFO_TILE_MODE__MASK			0x00000300
+-#define A5XX_GRAS_2D_DST_INFO_TILE_MODE__SHIFT			8
+-static inline uint32_t A5XX_GRAS_2D_DST_INFO_TILE_MODE(enum a5xx_tile_mode val)
 -{
--	return ((val) << MDP4_LCDC_LVDS_MUX_CTL_6_TO_4_BIT5__SHIFT) & MDP4_LCDC_LVDS_MUX_CTL_6_TO_4_BIT5__MASK;
+-	return ((val) << A5XX_GRAS_2D_DST_INFO_TILE_MODE__SHIFT) & A5XX_GRAS_2D_DST_INFO_TILE_MODE__MASK;
 -}
--#define MDP4_LCDC_LVDS_MUX_CTL_6_TO_4_BIT6__MASK		0x00ff0000
--#define MDP4_LCDC_LVDS_MUX_CTL_6_TO_4_BIT6__SHIFT		16
--static inline uint32_t MDP4_LCDC_LVDS_MUX_CTL_6_TO_4_BIT6(uint32_t val)
+-#define A5XX_GRAS_2D_DST_INFO_COLOR_SWAP__MASK			0x00000c00
+-#define A5XX_GRAS_2D_DST_INFO_COLOR_SWAP__SHIFT			10
+-static inline uint32_t A5XX_GRAS_2D_DST_INFO_COLOR_SWAP(enum a3xx_color_swap val)
 -{
--	return ((val) << MDP4_LCDC_LVDS_MUX_CTL_6_TO_4_BIT6__SHIFT) & MDP4_LCDC_LVDS_MUX_CTL_6_TO_4_BIT6__MASK;
+-	return ((val) << A5XX_GRAS_2D_DST_INFO_COLOR_SWAP__SHIFT) & A5XX_GRAS_2D_DST_INFO_COLOR_SWAP__MASK;
 -}
--
--#define REG_MDP4_LCDC_LVDS_PHY_RESET				0x000c2034
--
--#define REG_MDP4_LVDS_PHY_PLL_CTRL_0				0x000c3000
--
--#define REG_MDP4_LVDS_PHY_PLL_CTRL_1				0x000c3004
--
--#define REG_MDP4_LVDS_PHY_PLL_CTRL_2				0x000c3008
--
--#define REG_MDP4_LVDS_PHY_PLL_CTRL_3				0x000c300c
--
--#define REG_MDP4_LVDS_PHY_PLL_CTRL_5				0x000c3014
--
--#define REG_MDP4_LVDS_PHY_PLL_CTRL_6				0x000c3018
--
--#define REG_MDP4_LVDS_PHY_PLL_CTRL_7				0x000c301c
--
--#define REG_MDP4_LVDS_PHY_PLL_CTRL_8				0x000c3020
--
--#define REG_MDP4_LVDS_PHY_PLL_CTRL_9				0x000c3024
--
--#define REG_MDP4_LVDS_PHY_PLL_LOCKED				0x000c3080
--
--#define REG_MDP4_LVDS_PHY_CFG2					0x000c3108
--
--#define REG_MDP4_LVDS_PHY_CFG0					0x000c3100
--#define MDP4_LVDS_PHY_CFG0_SERIALIZATION_ENBLE			0x00000010
--#define MDP4_LVDS_PHY_CFG0_CHANNEL0				0x00000040
--#define MDP4_LVDS_PHY_CFG0_CHANNEL1				0x00000080
+-#define A5XX_GRAS_2D_DST_INFO_FLAGS				0x00001000
+-#define A5XX_GRAS_2D_DST_INFO_SRGB				0x00002000
 -
--#define REG_MDP4_DTV						0x000d0000
+-#define REG_A5XX_UNKNOWN_2184					0x00002184
 -
--#define REG_MDP4_DTV_ENABLE					0x000d0000
+-#define REG_A5XX_TEX_SAMP_0					0x00000000
+-#define A5XX_TEX_SAMP_0_MIPFILTER_LINEAR_NEAR			0x00000001
+-#define A5XX_TEX_SAMP_0_XY_MAG__MASK				0x00000006
+-#define A5XX_TEX_SAMP_0_XY_MAG__SHIFT				1
+-static inline uint32_t A5XX_TEX_SAMP_0_XY_MAG(enum a5xx_tex_filter val)
+-{
+-	return ((val) << A5XX_TEX_SAMP_0_XY_MAG__SHIFT) & A5XX_TEX_SAMP_0_XY_MAG__MASK;
+-}
+-#define A5XX_TEX_SAMP_0_XY_MIN__MASK				0x00000018
+-#define A5XX_TEX_SAMP_0_XY_MIN__SHIFT				3
+-static inline uint32_t A5XX_TEX_SAMP_0_XY_MIN(enum a5xx_tex_filter val)
+-{
+-	return ((val) << A5XX_TEX_SAMP_0_XY_MIN__SHIFT) & A5XX_TEX_SAMP_0_XY_MIN__MASK;
+-}
+-#define A5XX_TEX_SAMP_0_WRAP_S__MASK				0x000000e0
+-#define A5XX_TEX_SAMP_0_WRAP_S__SHIFT				5
+-static inline uint32_t A5XX_TEX_SAMP_0_WRAP_S(enum a5xx_tex_clamp val)
+-{
+-	return ((val) << A5XX_TEX_SAMP_0_WRAP_S__SHIFT) & A5XX_TEX_SAMP_0_WRAP_S__MASK;
+-}
+-#define A5XX_TEX_SAMP_0_WRAP_T__MASK				0x00000700
+-#define A5XX_TEX_SAMP_0_WRAP_T__SHIFT				8
+-static inline uint32_t A5XX_TEX_SAMP_0_WRAP_T(enum a5xx_tex_clamp val)
+-{
+-	return ((val) << A5XX_TEX_SAMP_0_WRAP_T__SHIFT) & A5XX_TEX_SAMP_0_WRAP_T__MASK;
+-}
+-#define A5XX_TEX_SAMP_0_WRAP_R__MASK				0x00003800
+-#define A5XX_TEX_SAMP_0_WRAP_R__SHIFT				11
+-static inline uint32_t A5XX_TEX_SAMP_0_WRAP_R(enum a5xx_tex_clamp val)
+-{
+-	return ((val) << A5XX_TEX_SAMP_0_WRAP_R__SHIFT) & A5XX_TEX_SAMP_0_WRAP_R__MASK;
+-}
+-#define A5XX_TEX_SAMP_0_ANISO__MASK				0x0001c000
+-#define A5XX_TEX_SAMP_0_ANISO__SHIFT				14
+-static inline uint32_t A5XX_TEX_SAMP_0_ANISO(enum a5xx_tex_aniso val)
+-{
+-	return ((val) << A5XX_TEX_SAMP_0_ANISO__SHIFT) & A5XX_TEX_SAMP_0_ANISO__MASK;
+-}
+-#define A5XX_TEX_SAMP_0_LOD_BIAS__MASK				0xfff80000
+-#define A5XX_TEX_SAMP_0_LOD_BIAS__SHIFT				19
+-static inline uint32_t A5XX_TEX_SAMP_0_LOD_BIAS(float val)
+-{
+-	return ((((int32_t)(val * 256.0))) << A5XX_TEX_SAMP_0_LOD_BIAS__SHIFT) & A5XX_TEX_SAMP_0_LOD_BIAS__MASK;
+-}
 -
--#define REG_MDP4_DTV_HSYNC_CTRL					0x000d0004
--#define MDP4_DTV_HSYNC_CTRL_PULSEW__MASK			0x0000ffff
--#define MDP4_DTV_HSYNC_CTRL_PULSEW__SHIFT			0
--static inline uint32_t MDP4_DTV_HSYNC_CTRL_PULSEW(uint32_t val)
+-#define REG_A5XX_TEX_SAMP_1					0x00000001
+-#define A5XX_TEX_SAMP_1_COMPARE_FUNC__MASK			0x0000000e
+-#define A5XX_TEX_SAMP_1_COMPARE_FUNC__SHIFT			1
+-static inline uint32_t A5XX_TEX_SAMP_1_COMPARE_FUNC(enum adreno_compare_func val)
+-{
+-	return ((val) << A5XX_TEX_SAMP_1_COMPARE_FUNC__SHIFT) & A5XX_TEX_SAMP_1_COMPARE_FUNC__MASK;
+-}
+-#define A5XX_TEX_SAMP_1_CUBEMAPSEAMLESSFILTOFF			0x00000010
+-#define A5XX_TEX_SAMP_1_UNNORM_COORDS				0x00000020
+-#define A5XX_TEX_SAMP_1_MIPFILTER_LINEAR_FAR			0x00000040
+-#define A5XX_TEX_SAMP_1_MAX_LOD__MASK				0x000fff00
+-#define A5XX_TEX_SAMP_1_MAX_LOD__SHIFT				8
+-static inline uint32_t A5XX_TEX_SAMP_1_MAX_LOD(float val)
 -{
--	return ((val) << MDP4_DTV_HSYNC_CTRL_PULSEW__SHIFT) & MDP4_DTV_HSYNC_CTRL_PULSEW__MASK;
+-	return ((((uint32_t)(val * 256.0))) << A5XX_TEX_SAMP_1_MAX_LOD__SHIFT) & A5XX_TEX_SAMP_1_MAX_LOD__MASK;
 -}
--#define MDP4_DTV_HSYNC_CTRL_PERIOD__MASK			0xffff0000
--#define MDP4_DTV_HSYNC_CTRL_PERIOD__SHIFT			16
--static inline uint32_t MDP4_DTV_HSYNC_CTRL_PERIOD(uint32_t val)
+-#define A5XX_TEX_SAMP_1_MIN_LOD__MASK				0xfff00000
+-#define A5XX_TEX_SAMP_1_MIN_LOD__SHIFT				20
+-static inline uint32_t A5XX_TEX_SAMP_1_MIN_LOD(float val)
 -{
--	return ((val) << MDP4_DTV_HSYNC_CTRL_PERIOD__SHIFT) & MDP4_DTV_HSYNC_CTRL_PERIOD__MASK;
+-	return ((((uint32_t)(val * 256.0))) << A5XX_TEX_SAMP_1_MIN_LOD__SHIFT) & A5XX_TEX_SAMP_1_MIN_LOD__MASK;
 -}
 -
--#define REG_MDP4_DTV_VSYNC_PERIOD				0x000d0008
+-#define REG_A5XX_TEX_SAMP_2					0x00000002
+-#define A5XX_TEX_SAMP_2_BCOLOR_OFFSET__MASK			0xffffff80
+-#define A5XX_TEX_SAMP_2_BCOLOR_OFFSET__SHIFT			7
+-static inline uint32_t A5XX_TEX_SAMP_2_BCOLOR_OFFSET(uint32_t val)
+-{
+-	return ((val) << A5XX_TEX_SAMP_2_BCOLOR_OFFSET__SHIFT) & A5XX_TEX_SAMP_2_BCOLOR_OFFSET__MASK;
+-}
 -
--#define REG_MDP4_DTV_VSYNC_LEN					0x000d000c
+-#define REG_A5XX_TEX_SAMP_3					0x00000003
 -
--#define REG_MDP4_DTV_DISPLAY_HCTRL				0x000d0018
--#define MDP4_DTV_DISPLAY_HCTRL_START__MASK			0x0000ffff
--#define MDP4_DTV_DISPLAY_HCTRL_START__SHIFT			0
--static inline uint32_t MDP4_DTV_DISPLAY_HCTRL_START(uint32_t val)
+-#define REG_A5XX_TEX_CONST_0					0x00000000
+-#define A5XX_TEX_CONST_0_TILE_MODE__MASK			0x00000003
+-#define A5XX_TEX_CONST_0_TILE_MODE__SHIFT			0
+-static inline uint32_t A5XX_TEX_CONST_0_TILE_MODE(enum a5xx_tile_mode val)
 -{
--	return ((val) << MDP4_DTV_DISPLAY_HCTRL_START__SHIFT) & MDP4_DTV_DISPLAY_HCTRL_START__MASK;
+-	return ((val) << A5XX_TEX_CONST_0_TILE_MODE__SHIFT) & A5XX_TEX_CONST_0_TILE_MODE__MASK;
 -}
--#define MDP4_DTV_DISPLAY_HCTRL_END__MASK			0xffff0000
--#define MDP4_DTV_DISPLAY_HCTRL_END__SHIFT			16
--static inline uint32_t MDP4_DTV_DISPLAY_HCTRL_END(uint32_t val)
+-#define A5XX_TEX_CONST_0_SRGB					0x00000004
+-#define A5XX_TEX_CONST_0_SWIZ_X__MASK				0x00000070
+-#define A5XX_TEX_CONST_0_SWIZ_X__SHIFT				4
+-static inline uint32_t A5XX_TEX_CONST_0_SWIZ_X(enum a5xx_tex_swiz val)
 -{
--	return ((val) << MDP4_DTV_DISPLAY_HCTRL_END__SHIFT) & MDP4_DTV_DISPLAY_HCTRL_END__MASK;
+-	return ((val) << A5XX_TEX_CONST_0_SWIZ_X__SHIFT) & A5XX_TEX_CONST_0_SWIZ_X__MASK;
 -}
--
--#define REG_MDP4_DTV_DISPLAY_VSTART				0x000d001c
--
--#define REG_MDP4_DTV_DISPLAY_VEND				0x000d0020
+-#define A5XX_TEX_CONST_0_SWIZ_Y__MASK				0x00000380
+-#define A5XX_TEX_CONST_0_SWIZ_Y__SHIFT				7
+-static inline uint32_t A5XX_TEX_CONST_0_SWIZ_Y(enum a5xx_tex_swiz val)
+-{
+-	return ((val) << A5XX_TEX_CONST_0_SWIZ_Y__SHIFT) & A5XX_TEX_CONST_0_SWIZ_Y__MASK;
+-}
+-#define A5XX_TEX_CONST_0_SWIZ_Z__MASK				0x00001c00
+-#define A5XX_TEX_CONST_0_SWIZ_Z__SHIFT				10
+-static inline uint32_t A5XX_TEX_CONST_0_SWIZ_Z(enum a5xx_tex_swiz val)
+-{
+-	return ((val) << A5XX_TEX_CONST_0_SWIZ_Z__SHIFT) & A5XX_TEX_CONST_0_SWIZ_Z__MASK;
+-}
+-#define A5XX_TEX_CONST_0_SWIZ_W__MASK				0x0000e000
+-#define A5XX_TEX_CONST_0_SWIZ_W__SHIFT				13
+-static inline uint32_t A5XX_TEX_CONST_0_SWIZ_W(enum a5xx_tex_swiz val)
+-{
+-	return ((val) << A5XX_TEX_CONST_0_SWIZ_W__SHIFT) & A5XX_TEX_CONST_0_SWIZ_W__MASK;
+-}
+-#define A5XX_TEX_CONST_0_MIPLVLS__MASK				0x000f0000
+-#define A5XX_TEX_CONST_0_MIPLVLS__SHIFT				16
+-static inline uint32_t A5XX_TEX_CONST_0_MIPLVLS(uint32_t val)
+-{
+-	return ((val) << A5XX_TEX_CONST_0_MIPLVLS__SHIFT) & A5XX_TEX_CONST_0_MIPLVLS__MASK;
+-}
+-#define A5XX_TEX_CONST_0_SAMPLES__MASK				0x00300000
+-#define A5XX_TEX_CONST_0_SAMPLES__SHIFT				20
+-static inline uint32_t A5XX_TEX_CONST_0_SAMPLES(enum a3xx_msaa_samples val)
+-{
+-	return ((val) << A5XX_TEX_CONST_0_SAMPLES__SHIFT) & A5XX_TEX_CONST_0_SAMPLES__MASK;
+-}
+-#define A5XX_TEX_CONST_0_FMT__MASK				0x3fc00000
+-#define A5XX_TEX_CONST_0_FMT__SHIFT				22
+-static inline uint32_t A5XX_TEX_CONST_0_FMT(enum a5xx_tex_fmt val)
+-{
+-	return ((val) << A5XX_TEX_CONST_0_FMT__SHIFT) & A5XX_TEX_CONST_0_FMT__MASK;
+-}
+-#define A5XX_TEX_CONST_0_SWAP__MASK				0xc0000000
+-#define A5XX_TEX_CONST_0_SWAP__SHIFT				30
+-static inline uint32_t A5XX_TEX_CONST_0_SWAP(enum a3xx_color_swap val)
+-{
+-	return ((val) << A5XX_TEX_CONST_0_SWAP__SHIFT) & A5XX_TEX_CONST_0_SWAP__MASK;
+-}
 -
--#define REG_MDP4_DTV_ACTIVE_HCTL				0x000d002c
--#define MDP4_DTV_ACTIVE_HCTL_START__MASK			0x00007fff
--#define MDP4_DTV_ACTIVE_HCTL_START__SHIFT			0
--static inline uint32_t MDP4_DTV_ACTIVE_HCTL_START(uint32_t val)
+-#define REG_A5XX_TEX_CONST_1					0x00000001
+-#define A5XX_TEX_CONST_1_WIDTH__MASK				0x00007fff
+-#define A5XX_TEX_CONST_1_WIDTH__SHIFT				0
+-static inline uint32_t A5XX_TEX_CONST_1_WIDTH(uint32_t val)
 -{
--	return ((val) << MDP4_DTV_ACTIVE_HCTL_START__SHIFT) & MDP4_DTV_ACTIVE_HCTL_START__MASK;
+-	return ((val) << A5XX_TEX_CONST_1_WIDTH__SHIFT) & A5XX_TEX_CONST_1_WIDTH__MASK;
 -}
--#define MDP4_DTV_ACTIVE_HCTL_END__MASK				0x7fff0000
--#define MDP4_DTV_ACTIVE_HCTL_END__SHIFT				16
--static inline uint32_t MDP4_DTV_ACTIVE_HCTL_END(uint32_t val)
+-#define A5XX_TEX_CONST_1_HEIGHT__MASK				0x3fff8000
+-#define A5XX_TEX_CONST_1_HEIGHT__SHIFT				15
+-static inline uint32_t A5XX_TEX_CONST_1_HEIGHT(uint32_t val)
 -{
--	return ((val) << MDP4_DTV_ACTIVE_HCTL_END__SHIFT) & MDP4_DTV_ACTIVE_HCTL_END__MASK;
+-	return ((val) << A5XX_TEX_CONST_1_HEIGHT__SHIFT) & A5XX_TEX_CONST_1_HEIGHT__MASK;
 -}
--#define MDP4_DTV_ACTIVE_HCTL_ACTIVE_START_X			0x80000000
 -
--#define REG_MDP4_DTV_ACTIVE_VSTART				0x000d0030
+-#define REG_A5XX_TEX_CONST_2					0x00000002
+-#define A5XX_TEX_CONST_2_BUFFER					0x00000010
+-#define A5XX_TEX_CONST_2_PITCHALIGN__MASK			0x0000000f
+-#define A5XX_TEX_CONST_2_PITCHALIGN__SHIFT			0
+-static inline uint32_t A5XX_TEX_CONST_2_PITCHALIGN(uint32_t val)
+-{
+-	return ((val) << A5XX_TEX_CONST_2_PITCHALIGN__SHIFT) & A5XX_TEX_CONST_2_PITCHALIGN__MASK;
+-}
+-#define A5XX_TEX_CONST_2_PITCH__MASK				0x1fffff80
+-#define A5XX_TEX_CONST_2_PITCH__SHIFT				7
+-static inline uint32_t A5XX_TEX_CONST_2_PITCH(uint32_t val)
+-{
+-	return ((val) << A5XX_TEX_CONST_2_PITCH__SHIFT) & A5XX_TEX_CONST_2_PITCH__MASK;
+-}
+-#define A5XX_TEX_CONST_2_TYPE__MASK				0xe0000000
+-#define A5XX_TEX_CONST_2_TYPE__SHIFT				29
+-static inline uint32_t A5XX_TEX_CONST_2_TYPE(enum a5xx_tex_type val)
+-{
+-	return ((val) << A5XX_TEX_CONST_2_TYPE__SHIFT) & A5XX_TEX_CONST_2_TYPE__MASK;
+-}
 -
--#define REG_MDP4_DTV_ACTIVE_VEND				0x000d0038
+-#define REG_A5XX_TEX_CONST_3					0x00000003
+-#define A5XX_TEX_CONST_3_ARRAY_PITCH__MASK			0x00003fff
+-#define A5XX_TEX_CONST_3_ARRAY_PITCH__SHIFT			0
+-static inline uint32_t A5XX_TEX_CONST_3_ARRAY_PITCH(uint32_t val)
+-{
+-	assert(!(val & 0xfff));
+-	return (((val >> 12)) << A5XX_TEX_CONST_3_ARRAY_PITCH__SHIFT) & A5XX_TEX_CONST_3_ARRAY_PITCH__MASK;
+-}
+-#define A5XX_TEX_CONST_3_MIN_LAYERSZ__MASK			0x07800000
+-#define A5XX_TEX_CONST_3_MIN_LAYERSZ__SHIFT			23
+-static inline uint32_t A5XX_TEX_CONST_3_MIN_LAYERSZ(uint32_t val)
+-{
+-	assert(!(val & 0xfff));
+-	return (((val >> 12)) << A5XX_TEX_CONST_3_MIN_LAYERSZ__SHIFT) & A5XX_TEX_CONST_3_MIN_LAYERSZ__MASK;
+-}
+-#define A5XX_TEX_CONST_3_TILE_ALL				0x08000000
+-#define A5XX_TEX_CONST_3_FLAG					0x10000000
 -
--#define REG_MDP4_DTV_BORDER_CLR					0x000d0040
+-#define REG_A5XX_TEX_CONST_4					0x00000004
+-#define A5XX_TEX_CONST_4_BASE_LO__MASK				0xffffffe0
+-#define A5XX_TEX_CONST_4_BASE_LO__SHIFT				5
+-static inline uint32_t A5XX_TEX_CONST_4_BASE_LO(uint32_t val)
+-{
+-	assert(!(val & 0x1f));
+-	return (((val >> 5)) << A5XX_TEX_CONST_4_BASE_LO__SHIFT) & A5XX_TEX_CONST_4_BASE_LO__MASK;
+-}
 -
--#define REG_MDP4_DTV_UNDERFLOW_CLR				0x000d0044
--#define MDP4_DTV_UNDERFLOW_CLR_COLOR__MASK			0x00ffffff
--#define MDP4_DTV_UNDERFLOW_CLR_COLOR__SHIFT			0
--static inline uint32_t MDP4_DTV_UNDERFLOW_CLR_COLOR(uint32_t val)
+-#define REG_A5XX_TEX_CONST_5					0x00000005
+-#define A5XX_TEX_CONST_5_BASE_HI__MASK				0x0001ffff
+-#define A5XX_TEX_CONST_5_BASE_HI__SHIFT				0
+-static inline uint32_t A5XX_TEX_CONST_5_BASE_HI(uint32_t val)
+-{
+-	return ((val) << A5XX_TEX_CONST_5_BASE_HI__SHIFT) & A5XX_TEX_CONST_5_BASE_HI__MASK;
+-}
+-#define A5XX_TEX_CONST_5_DEPTH__MASK				0x3ffe0000
+-#define A5XX_TEX_CONST_5_DEPTH__SHIFT				17
+-static inline uint32_t A5XX_TEX_CONST_5_DEPTH(uint32_t val)
 -{
--	return ((val) << MDP4_DTV_UNDERFLOW_CLR_COLOR__SHIFT) & MDP4_DTV_UNDERFLOW_CLR_COLOR__MASK;
+-	return ((val) << A5XX_TEX_CONST_5_DEPTH__SHIFT) & A5XX_TEX_CONST_5_DEPTH__MASK;
 -}
--#define MDP4_DTV_UNDERFLOW_CLR_ENABLE_RECOVERY			0x80000000
 -
--#define REG_MDP4_DTV_HSYNC_SKEW					0x000d0048
+-#define REG_A5XX_TEX_CONST_6					0x00000006
 -
--#define REG_MDP4_DTV_TEST_CNTL					0x000d004c
+-#define REG_A5XX_TEX_CONST_7					0x00000007
 -
--#define REG_MDP4_DTV_CTRL_POLARITY				0x000d0050
--#define MDP4_DTV_CTRL_POLARITY_HSYNC_LOW			0x00000001
--#define MDP4_DTV_CTRL_POLARITY_VSYNC_LOW			0x00000002
--#define MDP4_DTV_CTRL_POLARITY_DATA_EN_LOW			0x00000004
+-#define REG_A5XX_TEX_CONST_8					0x00000008
 -
--#define REG_MDP4_DSI						0x000e0000
+-#define REG_A5XX_TEX_CONST_9					0x00000009
 -
--#define REG_MDP4_DSI_ENABLE					0x000e0000
+-#define REG_A5XX_TEX_CONST_10					0x0000000a
 -
--#define REG_MDP4_DSI_HSYNC_CTRL					0x000e0004
--#define MDP4_DSI_HSYNC_CTRL_PULSEW__MASK			0x0000ffff
--#define MDP4_DSI_HSYNC_CTRL_PULSEW__SHIFT			0
--static inline uint32_t MDP4_DSI_HSYNC_CTRL_PULSEW(uint32_t val)
+-#define REG_A5XX_TEX_CONST_11					0x0000000b
+-
+-#define REG_A5XX_SSBO_0_0					0x00000000
+-#define A5XX_SSBO_0_0_BASE_LO__MASK				0xffffffe0
+-#define A5XX_SSBO_0_0_BASE_LO__SHIFT				5
+-static inline uint32_t A5XX_SSBO_0_0_BASE_LO(uint32_t val)
 -{
--	return ((val) << MDP4_DSI_HSYNC_CTRL_PULSEW__SHIFT) & MDP4_DSI_HSYNC_CTRL_PULSEW__MASK;
+-	assert(!(val & 0x1f));
+-	return (((val >> 5)) << A5XX_SSBO_0_0_BASE_LO__SHIFT) & A5XX_SSBO_0_0_BASE_LO__MASK;
 -}
--#define MDP4_DSI_HSYNC_CTRL_PERIOD__MASK			0xffff0000
--#define MDP4_DSI_HSYNC_CTRL_PERIOD__SHIFT			16
--static inline uint32_t MDP4_DSI_HSYNC_CTRL_PERIOD(uint32_t val)
+-
+-#define REG_A5XX_SSBO_0_1					0x00000001
+-#define A5XX_SSBO_0_1_PITCH__MASK				0x003fffff
+-#define A5XX_SSBO_0_1_PITCH__SHIFT				0
+-static inline uint32_t A5XX_SSBO_0_1_PITCH(uint32_t val)
 -{
--	return ((val) << MDP4_DSI_HSYNC_CTRL_PERIOD__SHIFT) & MDP4_DSI_HSYNC_CTRL_PERIOD__MASK;
+-	return ((val) << A5XX_SSBO_0_1_PITCH__SHIFT) & A5XX_SSBO_0_1_PITCH__MASK;
 -}
 -
--#define REG_MDP4_DSI_VSYNC_PERIOD				0x000e0008
+-#define REG_A5XX_SSBO_0_2					0x00000002
+-#define A5XX_SSBO_0_2_ARRAY_PITCH__MASK				0x03fff000
+-#define A5XX_SSBO_0_2_ARRAY_PITCH__SHIFT			12
+-static inline uint32_t A5XX_SSBO_0_2_ARRAY_PITCH(uint32_t val)
+-{
+-	assert(!(val & 0xfff));
+-	return (((val >> 12)) << A5XX_SSBO_0_2_ARRAY_PITCH__SHIFT) & A5XX_SSBO_0_2_ARRAY_PITCH__MASK;
+-}
 -
--#define REG_MDP4_DSI_VSYNC_LEN					0x000e000c
+-#define REG_A5XX_SSBO_0_3					0x00000003
+-#define A5XX_SSBO_0_3_CPP__MASK					0x0000003f
+-#define A5XX_SSBO_0_3_CPP__SHIFT				0
+-static inline uint32_t A5XX_SSBO_0_3_CPP(uint32_t val)
+-{
+-	return ((val) << A5XX_SSBO_0_3_CPP__SHIFT) & A5XX_SSBO_0_3_CPP__MASK;
+-}
 -
--#define REG_MDP4_DSI_DISPLAY_HCTRL				0x000e0010
--#define MDP4_DSI_DISPLAY_HCTRL_START__MASK			0x0000ffff
--#define MDP4_DSI_DISPLAY_HCTRL_START__SHIFT			0
--static inline uint32_t MDP4_DSI_DISPLAY_HCTRL_START(uint32_t val)
+-#define REG_A5XX_SSBO_1_0					0x00000000
+-#define A5XX_SSBO_1_0_FMT__MASK					0x0000ff00
+-#define A5XX_SSBO_1_0_FMT__SHIFT				8
+-static inline uint32_t A5XX_SSBO_1_0_FMT(enum a5xx_tex_fmt val)
 -{
--	return ((val) << MDP4_DSI_DISPLAY_HCTRL_START__SHIFT) & MDP4_DSI_DISPLAY_HCTRL_START__MASK;
+-	return ((val) << A5XX_SSBO_1_0_FMT__SHIFT) & A5XX_SSBO_1_0_FMT__MASK;
 -}
--#define MDP4_DSI_DISPLAY_HCTRL_END__MASK			0xffff0000
--#define MDP4_DSI_DISPLAY_HCTRL_END__SHIFT			16
--static inline uint32_t MDP4_DSI_DISPLAY_HCTRL_END(uint32_t val)
+-#define A5XX_SSBO_1_0_WIDTH__MASK				0xffff0000
+-#define A5XX_SSBO_1_0_WIDTH__SHIFT				16
+-static inline uint32_t A5XX_SSBO_1_0_WIDTH(uint32_t val)
 -{
--	return ((val) << MDP4_DSI_DISPLAY_HCTRL_END__SHIFT) & MDP4_DSI_DISPLAY_HCTRL_END__MASK;
+-	return ((val) << A5XX_SSBO_1_0_WIDTH__SHIFT) & A5XX_SSBO_1_0_WIDTH__MASK;
 -}
--
--#define REG_MDP4_DSI_DISPLAY_VSTART				0x000e0014
--
--#define REG_MDP4_DSI_DISPLAY_VEND				0x000e0018
 -
--#define REG_MDP4_DSI_ACTIVE_HCTL				0x000e001c
--#define MDP4_DSI_ACTIVE_HCTL_START__MASK			0x00007fff
--#define MDP4_DSI_ACTIVE_HCTL_START__SHIFT			0
--static inline uint32_t MDP4_DSI_ACTIVE_HCTL_START(uint32_t val)
+-#define REG_A5XX_SSBO_1_1					0x00000001
+-#define A5XX_SSBO_1_1_HEIGHT__MASK				0x0000ffff
+-#define A5XX_SSBO_1_1_HEIGHT__SHIFT				0
+-static inline uint32_t A5XX_SSBO_1_1_HEIGHT(uint32_t val)
 -{
--	return ((val) << MDP4_DSI_ACTIVE_HCTL_START__SHIFT) & MDP4_DSI_ACTIVE_HCTL_START__MASK;
+-	return ((val) << A5XX_SSBO_1_1_HEIGHT__SHIFT) & A5XX_SSBO_1_1_HEIGHT__MASK;
 -}
--#define MDP4_DSI_ACTIVE_HCTL_END__MASK				0x7fff0000
--#define MDP4_DSI_ACTIVE_HCTL_END__SHIFT				16
--static inline uint32_t MDP4_DSI_ACTIVE_HCTL_END(uint32_t val)
+-#define A5XX_SSBO_1_1_DEPTH__MASK				0xffff0000
+-#define A5XX_SSBO_1_1_DEPTH__SHIFT				16
+-static inline uint32_t A5XX_SSBO_1_1_DEPTH(uint32_t val)
 -{
--	return ((val) << MDP4_DSI_ACTIVE_HCTL_END__SHIFT) & MDP4_DSI_ACTIVE_HCTL_END__MASK;
+-	return ((val) << A5XX_SSBO_1_1_DEPTH__SHIFT) & A5XX_SSBO_1_1_DEPTH__MASK;
 -}
--#define MDP4_DSI_ACTIVE_HCTL_ACTIVE_START_X			0x80000000
 -
--#define REG_MDP4_DSI_ACTIVE_VSTART				0x000e0020
--
--#define REG_MDP4_DSI_ACTIVE_VEND				0x000e0024
--
--#define REG_MDP4_DSI_BORDER_CLR					0x000e0028
--
--#define REG_MDP4_DSI_UNDERFLOW_CLR				0x000e002c
--#define MDP4_DSI_UNDERFLOW_CLR_COLOR__MASK			0x00ffffff
--#define MDP4_DSI_UNDERFLOW_CLR_COLOR__SHIFT			0
--static inline uint32_t MDP4_DSI_UNDERFLOW_CLR_COLOR(uint32_t val)
+-#define REG_A5XX_SSBO_2_0					0x00000000
+-#define A5XX_SSBO_2_0_BASE_LO__MASK				0xffffffff
+-#define A5XX_SSBO_2_0_BASE_LO__SHIFT				0
+-static inline uint32_t A5XX_SSBO_2_0_BASE_LO(uint32_t val)
 -{
--	return ((val) << MDP4_DSI_UNDERFLOW_CLR_COLOR__SHIFT) & MDP4_DSI_UNDERFLOW_CLR_COLOR__MASK;
+-	return ((val) << A5XX_SSBO_2_0_BASE_LO__SHIFT) & A5XX_SSBO_2_0_BASE_LO__MASK;
 -}
--#define MDP4_DSI_UNDERFLOW_CLR_ENABLE_RECOVERY			0x80000000
 -
--#define REG_MDP4_DSI_HSYNC_SKEW					0x000e0030
+-#define REG_A5XX_SSBO_2_1					0x00000001
+-#define A5XX_SSBO_2_1_BASE_HI__MASK				0xffffffff
+-#define A5XX_SSBO_2_1_BASE_HI__SHIFT				0
+-static inline uint32_t A5XX_SSBO_2_1_BASE_HI(uint32_t val)
+-{
+-	return ((val) << A5XX_SSBO_2_1_BASE_HI__SHIFT) & A5XX_SSBO_2_1_BASE_HI__MASK;
+-}
 -
--#define REG_MDP4_DSI_TEST_CNTL					0x000e0034
+-#define REG_A5XX_UBO_0						0x00000000
+-#define A5XX_UBO_0_BASE_LO__MASK				0xffffffff
+-#define A5XX_UBO_0_BASE_LO__SHIFT				0
+-static inline uint32_t A5XX_UBO_0_BASE_LO(uint32_t val)
+-{
+-	return ((val) << A5XX_UBO_0_BASE_LO__SHIFT) & A5XX_UBO_0_BASE_LO__MASK;
+-}
 -
--#define REG_MDP4_DSI_CTRL_POLARITY				0x000e0038
--#define MDP4_DSI_CTRL_POLARITY_HSYNC_LOW			0x00000001
--#define MDP4_DSI_CTRL_POLARITY_VSYNC_LOW			0x00000002
--#define MDP4_DSI_CTRL_POLARITY_DATA_EN_LOW			0x00000004
+-#define REG_A5XX_UBO_1						0x00000001
+-#define A5XX_UBO_1_BASE_HI__MASK				0x0001ffff
+-#define A5XX_UBO_1_BASE_HI__SHIFT				0
+-static inline uint32_t A5XX_UBO_1_BASE_HI(uint32_t val)
+-{
+-	return ((val) << A5XX_UBO_1_BASE_HI__SHIFT) & A5XX_UBO_1_BASE_HI__MASK;
+-}
 -
+-#ifdef __cplusplus
+-#endif
 -
--#endif /* MDP4_XML */
-diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5.xml.h b/drivers/gpu/drm/msm/disp/mdp5/mdp5.xml.h
+-#endif /* A5XX_XML */
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx.xml.h b/drivers/gpu/drm/msm/adreno/a6xx.xml.h
 deleted file mode 100644
-index 270e11c904bd..000000000000
---- a/drivers/gpu/drm/msm/disp/mdp5/mdp5.xml.h
+index 92e23bf2458d..000000000000
+--- a/drivers/gpu/drm/msm/adreno/a6xx.xml.h
 +++ /dev/null
-@@ -1,1979 +0,0 @@
--#ifndef MDP5_XML
--#define MDP5_XML
+@@ -1,11858 +0,0 @@
+-#ifndef A6XX_XML
+-#define A6XX_XML
 -
 -/* Autogenerated file, DO NOT EDIT manually!
 -
--This file was generated by the rules-ng-ng headergen tool in this git repository:
--http://github.com/freedreno/envytools/
--git clone https://github.com/freedreno/envytools.git
+-This file was generated by the rules-ng-ng gen_header.py tool in this git repository:
+-http://gitlab.freedesktop.org/mesa/mesa/
+-git clone https://gitlab.freedesktop.org/mesa/mesa.git
 -
 -The rules-ng-ng source files this header was generated from are:
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/msm.xml                   (    944 bytes, from 2022-07-23 20:21:46)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/freedreno_copyright.xml   (   1572 bytes, from 2022-07-23 20:21:46)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/mdp/mdp4.xml              (  20912 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/mdp/mdp_common.xml        (   2849 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/mdp/mdp5.xml              (  37461 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi.xml               (  18746 bytes, from 2022-04-28 17:29:36)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_v2.xml        (   3236 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_28nm_8960.xml (   4935 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_28nm.xml      (   7004 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_20nm.xml      (   3712 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_14nm.xml      (   5381 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_10nm.xml      (   4499 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_7nm.xml       (  11007 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/sfpb.xml              (    602 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/mmss_cc.xml           (   1686 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/hdmi/qfprom.xml           (    600 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/hdmi/hdmi.xml             (  42350 bytes, from 2022-09-20 17:45:56)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/edp/edp.xml               (  10416 bytes, from 2022-03-08 17:40:42)
 -
--Copyright (C) 2013-2022 by the following authors:
--- Rob Clark <robdclark@gmail.com> (robclark)
--- Ilia Mirkin <imirkin@alum.mit.edu> (imirkin)
+-- /home/robclark/src/mesa/mesa/src/freedreno/registers/adreno/a6xx.xml          ( 243381 bytes, from Sat Feb 24 09:06:40 2024)
+-- /home/robclark/src/mesa/mesa/src/freedreno/registers/freedreno_copyright.xml  (   1572 bytes, from Fri Jun  2 14:59:26 2023)
+-- /home/robclark/src/mesa/mesa/src/freedreno/registers/adreno/adreno_common.xml (  15434 bytes, from Fri Jun  2 14:59:26 2023)
+-- /home/robclark/src/mesa/mesa/src/freedreno/registers/adreno/adreno_pm4.xml    (  85856 bytes, from Fri Feb 23 13:07:00 2024)
+-
+-Copyright (C) 2013-2024 by the following authors:
+-- Rob Clark <robdclark@gmail.com> Rob Clark
+-- Ilia Mirkin <imirkin@alum.mit.edu> Ilia Mirkin
 -
 -Permission is hereby granted, free of charge, to any person obtaining
 -a copy of this software and associated documentation files (the
@@ -1366,1971 +5735,11849 @@ index 270e11c904bd..000000000000
 -LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 -OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 -WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+-
 -*/
 -
+-#ifdef __KERNEL__
+-#include <linux/bug.h>
+-#define assert(x) BUG_ON(!(x))
+-#else
+-#include <assert.h>
+-#endif
 -
--enum mdp5_intf_type {
--	INTF_DISABLED = 0,
--	INTF_DSI = 1,
--	INTF_HDMI = 3,
--	INTF_LCDC = 5,
--	INTF_eDP = 9,
--	INTF_VIRTUAL = 100,
--	INTF_WB = 101,
+-#ifdef __cplusplus
+-#define __struct_cast(X)
+-#else
+-#define __struct_cast(X) (struct X)
+-#endif
+-
+-enum a6xx_tile_mode {
+-	TILE6_LINEAR = 0,
+-	TILE6_2 = 2,
+-	TILE6_3 = 3,
 -};
 -
--enum mdp5_intfnum {
--	NO_INTF = 0,
--	INTF0 = 1,
--	INTF1 = 2,
--	INTF2 = 3,
--	INTF3 = 4,
+-enum a6xx_format {
+-	FMT6_A8_UNORM = 2,
+-	FMT6_8_UNORM = 3,
+-	FMT6_8_SNORM = 4,
+-	FMT6_8_UINT = 5,
+-	FMT6_8_SINT = 6,
+-	FMT6_4_4_4_4_UNORM = 8,
+-	FMT6_5_5_5_1_UNORM = 10,
+-	FMT6_1_5_5_5_UNORM = 12,
+-	FMT6_5_6_5_UNORM = 14,
+-	FMT6_8_8_UNORM = 15,
+-	FMT6_8_8_SNORM = 16,
+-	FMT6_8_8_UINT = 17,
+-	FMT6_8_8_SINT = 18,
+-	FMT6_L8_A8_UNORM = 19,
+-	FMT6_16_UNORM = 21,
+-	FMT6_16_SNORM = 22,
+-	FMT6_16_FLOAT = 23,
+-	FMT6_16_UINT = 24,
+-	FMT6_16_SINT = 25,
+-	FMT6_8_8_8_UNORM = 33,
+-	FMT6_8_8_8_SNORM = 34,
+-	FMT6_8_8_8_UINT = 35,
+-	FMT6_8_8_8_SINT = 36,
+-	FMT6_8_8_8_8_UNORM = 48,
+-	FMT6_8_8_8_X8_UNORM = 49,
+-	FMT6_8_8_8_8_SNORM = 50,
+-	FMT6_8_8_8_8_UINT = 51,
+-	FMT6_8_8_8_8_SINT = 52,
+-	FMT6_9_9_9_E5_FLOAT = 53,
+-	FMT6_10_10_10_2_UNORM = 54,
+-	FMT6_10_10_10_2_UNORM_DEST = 55,
+-	FMT6_10_10_10_2_SNORM = 57,
+-	FMT6_10_10_10_2_UINT = 58,
+-	FMT6_10_10_10_2_SINT = 59,
+-	FMT6_11_11_10_FLOAT = 66,
+-	FMT6_16_16_UNORM = 67,
+-	FMT6_16_16_SNORM = 68,
+-	FMT6_16_16_FLOAT = 69,
+-	FMT6_16_16_UINT = 70,
+-	FMT6_16_16_SINT = 71,
+-	FMT6_32_UNORM = 72,
+-	FMT6_32_SNORM = 73,
+-	FMT6_32_FLOAT = 74,
+-	FMT6_32_UINT = 75,
+-	FMT6_32_SINT = 76,
+-	FMT6_32_FIXED = 77,
+-	FMT6_16_16_16_UNORM = 88,
+-	FMT6_16_16_16_SNORM = 89,
+-	FMT6_16_16_16_FLOAT = 90,
+-	FMT6_16_16_16_UINT = 91,
+-	FMT6_16_16_16_SINT = 92,
+-	FMT6_16_16_16_16_UNORM = 96,
+-	FMT6_16_16_16_16_SNORM = 97,
+-	FMT6_16_16_16_16_FLOAT = 98,
+-	FMT6_16_16_16_16_UINT = 99,
+-	FMT6_16_16_16_16_SINT = 100,
+-	FMT6_32_32_UNORM = 101,
+-	FMT6_32_32_SNORM = 102,
+-	FMT6_32_32_FLOAT = 103,
+-	FMT6_32_32_UINT = 104,
+-	FMT6_32_32_SINT = 105,
+-	FMT6_32_32_FIXED = 106,
+-	FMT6_32_32_32_UNORM = 112,
+-	FMT6_32_32_32_SNORM = 113,
+-	FMT6_32_32_32_UINT = 114,
+-	FMT6_32_32_32_SINT = 115,
+-	FMT6_32_32_32_FLOAT = 116,
+-	FMT6_32_32_32_FIXED = 117,
+-	FMT6_32_32_32_32_UNORM = 128,
+-	FMT6_32_32_32_32_SNORM = 129,
+-	FMT6_32_32_32_32_FLOAT = 130,
+-	FMT6_32_32_32_32_UINT = 131,
+-	FMT6_32_32_32_32_SINT = 132,
+-	FMT6_32_32_32_32_FIXED = 133,
+-	FMT6_G8R8B8R8_422_UNORM = 140,
+-	FMT6_R8G8R8B8_422_UNORM = 141,
+-	FMT6_R8_G8B8_2PLANE_420_UNORM = 142,
+-	FMT6_NV21 = 143,
+-	FMT6_R8_G8_B8_3PLANE_420_UNORM = 144,
+-	FMT6_Z24_UNORM_S8_UINT_AS_R8G8B8A8 = 145,
+-	FMT6_NV12_Y = 148,
+-	FMT6_NV12_UV = 149,
+-	FMT6_NV12_VU = 150,
+-	FMT6_NV12_4R = 151,
+-	FMT6_NV12_4R_Y = 152,
+-	FMT6_NV12_4R_UV = 153,
+-	FMT6_P010 = 154,
+-	FMT6_P010_Y = 155,
+-	FMT6_P010_UV = 156,
+-	FMT6_TP10 = 157,
+-	FMT6_TP10_Y = 158,
+-	FMT6_TP10_UV = 159,
+-	FMT6_Z24_UNORM_S8_UINT = 160,
+-	FMT6_ETC2_RG11_UNORM = 171,
+-	FMT6_ETC2_RG11_SNORM = 172,
+-	FMT6_ETC2_R11_UNORM = 173,
+-	FMT6_ETC2_R11_SNORM = 174,
+-	FMT6_ETC1 = 175,
+-	FMT6_ETC2_RGB8 = 176,
+-	FMT6_ETC2_RGBA8 = 177,
+-	FMT6_ETC2_RGB8A1 = 178,
+-	FMT6_DXT1 = 179,
+-	FMT6_DXT3 = 180,
+-	FMT6_DXT5 = 181,
+-	FMT6_RGTC1_UNORM = 183,
+-	FMT6_RGTC1_SNORM = 184,
+-	FMT6_RGTC2_UNORM = 187,
+-	FMT6_RGTC2_SNORM = 188,
+-	FMT6_BPTC_UFLOAT = 190,
+-	FMT6_BPTC_FLOAT = 191,
+-	FMT6_BPTC = 192,
+-	FMT6_ASTC_4x4 = 193,
+-	FMT6_ASTC_5x4 = 194,
+-	FMT6_ASTC_5x5 = 195,
+-	FMT6_ASTC_6x5 = 196,
+-	FMT6_ASTC_6x6 = 197,
+-	FMT6_ASTC_8x5 = 198,
+-	FMT6_ASTC_8x6 = 199,
+-	FMT6_ASTC_8x8 = 200,
+-	FMT6_ASTC_10x5 = 201,
+-	FMT6_ASTC_10x6 = 202,
+-	FMT6_ASTC_10x8 = 203,
+-	FMT6_ASTC_10x10 = 204,
+-	FMT6_ASTC_12x10 = 205,
+-	FMT6_ASTC_12x12 = 206,
+-	FMT6_Z24_UINT_S8_UINT = 234,
+-	FMT6_NONE = 255,
 -};
 -
--enum mdp5_pipe {
--	SSPP_NONE = 0,
--	SSPP_VIG0 = 1,
--	SSPP_VIG1 = 2,
--	SSPP_VIG2 = 3,
--	SSPP_RGB0 = 4,
--	SSPP_RGB1 = 5,
--	SSPP_RGB2 = 6,
--	SSPP_DMA0 = 7,
--	SSPP_DMA1 = 8,
--	SSPP_VIG3 = 9,
--	SSPP_RGB3 = 10,
--	SSPP_CURSOR0 = 11,
--	SSPP_CURSOR1 = 12,
+-enum a6xx_polygon_mode {
+-	POLYMODE6_POINTS = 1,
+-	POLYMODE6_LINES = 2,
+-	POLYMODE6_TRIANGLES = 3,
 -};
 -
--enum mdp5_format {
--	DUMMY = 0,
+-enum a6xx_depth_format {
+-	DEPTH6_NONE = 0,
+-	DEPTH6_16 = 1,
+-	DEPTH6_24_8 = 2,
+-	DEPTH6_32 = 4,
 -};
 -
--enum mdp5_ctl_mode {
--	MODE_NONE = 0,
--	MODE_WB_0_BLOCK = 1,
--	MODE_WB_1_BLOCK = 2,
--	MODE_WB_0_LINE = 3,
--	MODE_WB_1_LINE = 4,
--	MODE_WB_2_LINE = 5,
+-enum a6xx_shader_id {
+-	A6XX_TP0_TMO_DATA = 9,
+-	A6XX_TP0_SMO_DATA = 10,
+-	A6XX_TP0_MIPMAP_BASE_DATA = 11,
+-	A6XX_TP1_TMO_DATA = 25,
+-	A6XX_TP1_SMO_DATA = 26,
+-	A6XX_TP1_MIPMAP_BASE_DATA = 27,
+-	A6XX_SP_INST_DATA = 41,
+-	A6XX_SP_LB_0_DATA = 42,
+-	A6XX_SP_LB_1_DATA = 43,
+-	A6XX_SP_LB_2_DATA = 44,
+-	A6XX_SP_LB_3_DATA = 45,
+-	A6XX_SP_LB_4_DATA = 46,
+-	A6XX_SP_LB_5_DATA = 47,
+-	A6XX_SP_CB_BINDLESS_DATA = 48,
+-	A6XX_SP_CB_LEGACY_DATA = 49,
+-	A6XX_SP_UAV_DATA = 50,
+-	A6XX_SP_INST_TAG = 51,
+-	A6XX_SP_CB_BINDLESS_TAG = 52,
+-	A6XX_SP_TMO_UMO_TAG = 53,
+-	A6XX_SP_SMO_TAG = 54,
+-	A6XX_SP_STATE_DATA = 55,
+-	A6XX_HLSQ_CHUNK_CVS_RAM = 73,
+-	A6XX_HLSQ_CHUNK_CPS_RAM = 74,
+-	A6XX_HLSQ_CHUNK_CVS_RAM_TAG = 75,
+-	A6XX_HLSQ_CHUNK_CPS_RAM_TAG = 76,
+-	A6XX_HLSQ_ICB_CVS_CB_BASE_TAG = 77,
+-	A6XX_HLSQ_ICB_CPS_CB_BASE_TAG = 78,
+-	A6XX_HLSQ_CVS_MISC_RAM = 80,
+-	A6XX_HLSQ_CPS_MISC_RAM = 81,
+-	A6XX_HLSQ_INST_RAM = 82,
+-	A6XX_HLSQ_GFX_CVS_CONST_RAM = 83,
+-	A6XX_HLSQ_GFX_CPS_CONST_RAM = 84,
+-	A6XX_HLSQ_CVS_MISC_RAM_TAG = 85,
+-	A6XX_HLSQ_CPS_MISC_RAM_TAG = 86,
+-	A6XX_HLSQ_INST_RAM_TAG = 87,
+-	A6XX_HLSQ_GFX_CVS_CONST_RAM_TAG = 88,
+-	A6XX_HLSQ_GFX_CPS_CONST_RAM_TAG = 89,
+-	A6XX_HLSQ_PWR_REST_RAM = 90,
+-	A6XX_HLSQ_PWR_REST_TAG = 91,
+-	A6XX_HLSQ_DATAPATH_META = 96,
+-	A6XX_HLSQ_FRONTEND_META = 97,
+-	A6XX_HLSQ_INDIRECT_META = 98,
+-	A6XX_HLSQ_BACKEND_META = 99,
+-	A6XX_SP_LB_6_DATA = 112,
+-	A6XX_SP_LB_7_DATA = 113,
+-	A6XX_HLSQ_INST_RAM_1 = 115,
 -};
 -
--enum mdp5_pack_3d {
--	PACK_3D_FRAME_INT = 0,
--	PACK_3D_H_ROW_INT = 1,
--	PACK_3D_V_ROW_INT = 2,
--	PACK_3D_COL_INT = 3,
+-enum a7xx_statetype_id {
+-	A7XX_TP0_NCTX_REG = 0,
+-	A7XX_TP0_CTX0_3D_CVS_REG = 1,
+-	A7XX_TP0_CTX0_3D_CPS_REG = 2,
+-	A7XX_TP0_CTX1_3D_CVS_REG = 3,
+-	A7XX_TP0_CTX1_3D_CPS_REG = 4,
+-	A7XX_TP0_CTX2_3D_CPS_REG = 5,
+-	A7XX_TP0_CTX3_3D_CPS_REG = 6,
+-	A7XX_TP0_TMO_DATA = 9,
+-	A7XX_TP0_SMO_DATA = 10,
+-	A7XX_TP0_MIPMAP_BASE_DATA = 11,
+-	A7XX_SP_NCTX_REG = 32,
+-	A7XX_SP_CTX0_3D_CVS_REG = 33,
+-	A7XX_SP_CTX0_3D_CPS_REG = 34,
+-	A7XX_SP_CTX1_3D_CVS_REG = 35,
+-	A7XX_SP_CTX1_3D_CPS_REG = 36,
+-	A7XX_SP_CTX2_3D_CPS_REG = 37,
+-	A7XX_SP_CTX3_3D_CPS_REG = 38,
+-	A7XX_SP_INST_DATA = 39,
+-	A7XX_SP_INST_DATA_1 = 40,
+-	A7XX_SP_LB_0_DATA = 41,
+-	A7XX_SP_LB_1_DATA = 42,
+-	A7XX_SP_LB_2_DATA = 43,
+-	A7XX_SP_LB_3_DATA = 44,
+-	A7XX_SP_LB_4_DATA = 45,
+-	A7XX_SP_LB_5_DATA = 46,
+-	A7XX_SP_LB_6_DATA = 47,
+-	A7XX_SP_LB_7_DATA = 48,
+-	A7XX_SP_CB_RAM = 49,
+-	A7XX_SP_LB_13_DATA = 50,
+-	A7XX_SP_LB_14_DATA = 51,
+-	A7XX_SP_INST_TAG = 52,
+-	A7XX_SP_INST_DATA_2 = 53,
+-	A7XX_SP_TMO_TAG = 54,
+-	A7XX_SP_SMO_TAG = 55,
+-	A7XX_SP_STATE_DATA = 56,
+-	A7XX_SP_HWAVE_RAM = 57,
+-	A7XX_SP_L0_INST_BUF = 58,
+-	A7XX_SP_LB_8_DATA = 59,
+-	A7XX_SP_LB_9_DATA = 60,
+-	A7XX_SP_LB_10_DATA = 61,
+-	A7XX_SP_LB_11_DATA = 62,
+-	A7XX_SP_LB_12_DATA = 63,
+-	A7XX_HLSQ_DATAPATH_DSTR_META = 64,
+-	A7XX_HLSQ_L2STC_TAG_RAM = 67,
+-	A7XX_HLSQ_L2STC_INFO_CMD = 68,
+-	A7XX_HLSQ_CVS_BE_CTXT_BUF_RAM_TAG = 69,
+-	A7XX_HLSQ_CPS_BE_CTXT_BUF_RAM_TAG = 70,
+-	A7XX_HLSQ_GFX_CVS_BE_CTXT_BUF_RAM = 71,
+-	A7XX_HLSQ_GFX_CPS_BE_CTXT_BUF_RAM = 72,
+-	A7XX_HLSQ_CHUNK_CVS_RAM = 73,
+-	A7XX_HLSQ_CHUNK_CPS_RAM = 74,
+-	A7XX_HLSQ_CHUNK_CVS_RAM_TAG = 75,
+-	A7XX_HLSQ_CHUNK_CPS_RAM_TAG = 76,
+-	A7XX_HLSQ_ICB_CVS_CB_BASE_TAG = 77,
+-	A7XX_HLSQ_ICB_CPS_CB_BASE_TAG = 78,
+-	A7XX_HLSQ_CVS_MISC_RAM = 79,
+-	A7XX_HLSQ_CPS_MISC_RAM = 80,
+-	A7XX_HLSQ_CPS_MISC_RAM_1 = 81,
+-	A7XX_HLSQ_INST_RAM = 82,
+-	A7XX_HLSQ_GFX_CVS_CONST_RAM = 83,
+-	A7XX_HLSQ_GFX_CPS_CONST_RAM = 84,
+-	A7XX_HLSQ_CVS_MISC_RAM_TAG = 85,
+-	A7XX_HLSQ_CPS_MISC_RAM_TAG = 86,
+-	A7XX_HLSQ_INST_RAM_TAG = 87,
+-	A7XX_HLSQ_GFX_CVS_CONST_RAM_TAG = 88,
+-	A7XX_HLSQ_GFX_CPS_CONST_RAM_TAG = 89,
+-	A7XX_HLSQ_GFX_LOCAL_MISC_RAM = 90,
+-	A7XX_HLSQ_GFX_LOCAL_MISC_RAM_TAG = 91,
+-	A7XX_HLSQ_INST_RAM_1 = 92,
+-	A7XX_HLSQ_STPROC_META = 93,
+-	A7XX_HLSQ_BV_BE_META = 94,
+-	A7XX_HLSQ_INST_RAM_2 = 95,
+-	A7XX_HLSQ_DATAPATH_META = 96,
+-	A7XX_HLSQ_FRONTEND_META = 97,
+-	A7XX_HLSQ_INDIRECT_META = 98,
+-	A7XX_HLSQ_BACKEND_META = 99,
 -};
 -
--enum mdp5_scale_filter {
--	SCALE_FILTER_NEAREST = 0,
--	SCALE_FILTER_BIL = 1,
--	SCALE_FILTER_PCMN = 2,
--	SCALE_FILTER_CA = 3,
+-enum a6xx_debugbus_id {
+-	A6XX_DBGBUS_CP = 1,
+-	A6XX_DBGBUS_RBBM = 2,
+-	A6XX_DBGBUS_VBIF = 3,
+-	A6XX_DBGBUS_HLSQ = 4,
+-	A6XX_DBGBUS_UCHE = 5,
+-	A6XX_DBGBUS_DPM = 6,
+-	A6XX_DBGBUS_TESS = 7,
+-	A6XX_DBGBUS_PC = 8,
+-	A6XX_DBGBUS_VFDP = 9,
+-	A6XX_DBGBUS_VPC = 10,
+-	A6XX_DBGBUS_TSE = 11,
+-	A6XX_DBGBUS_RAS = 12,
+-	A6XX_DBGBUS_VSC = 13,
+-	A6XX_DBGBUS_COM = 14,
+-	A6XX_DBGBUS_LRZ = 16,
+-	A6XX_DBGBUS_A2D = 17,
+-	A6XX_DBGBUS_CCUFCHE = 18,
+-	A6XX_DBGBUS_GMU_CX = 19,
+-	A6XX_DBGBUS_RBP = 20,
+-	A6XX_DBGBUS_DCS = 21,
+-	A6XX_DBGBUS_DBGC = 22,
+-	A6XX_DBGBUS_CX = 23,
+-	A6XX_DBGBUS_GMU_GX = 24,
+-	A6XX_DBGBUS_TPFCHE = 25,
+-	A6XX_DBGBUS_GBIF_GX = 26,
+-	A6XX_DBGBUS_GPC = 29,
+-	A6XX_DBGBUS_LARC = 30,
+-	A6XX_DBGBUS_HLSQ_SPTP = 31,
+-	A6XX_DBGBUS_RB_0 = 32,
+-	A6XX_DBGBUS_RB_1 = 33,
+-	A6XX_DBGBUS_RB_2 = 34,
+-	A6XX_DBGBUS_UCHE_WRAPPER = 36,
+-	A6XX_DBGBUS_CCU_0 = 40,
+-	A6XX_DBGBUS_CCU_1 = 41,
+-	A6XX_DBGBUS_CCU_2 = 42,
+-	A6XX_DBGBUS_VFD_0 = 56,
+-	A6XX_DBGBUS_VFD_1 = 57,
+-	A6XX_DBGBUS_VFD_2 = 58,
+-	A6XX_DBGBUS_VFD_3 = 59,
+-	A6XX_DBGBUS_VFD_4 = 60,
+-	A6XX_DBGBUS_VFD_5 = 61,
+-	A6XX_DBGBUS_SP_0 = 64,
+-	A6XX_DBGBUS_SP_1 = 65,
+-	A6XX_DBGBUS_SP_2 = 66,
+-	A6XX_DBGBUS_TPL1_0 = 72,
+-	A6XX_DBGBUS_TPL1_1 = 73,
+-	A6XX_DBGBUS_TPL1_2 = 74,
+-	A6XX_DBGBUS_TPL1_3 = 75,
+-	A6XX_DBGBUS_TPL1_4 = 76,
+-	A6XX_DBGBUS_TPL1_5 = 77,
+-	A6XX_DBGBUS_SPTP_0 = 88,
+-	A6XX_DBGBUS_SPTP_1 = 89,
+-	A6XX_DBGBUS_SPTP_2 = 90,
+-	A6XX_DBGBUS_SPTP_3 = 91,
+-	A6XX_DBGBUS_SPTP_4 = 92,
+-	A6XX_DBGBUS_SPTP_5 = 93,
 -};
 -
--enum mdp5_pipe_bwc {
--	BWC_LOSSLESS = 0,
--	BWC_Q_HIGH = 1,
--	BWC_Q_MED = 2,
+-enum a7xx_state_location {
+-	A7XX_HLSQ_STATE = 0,
+-	A7XX_HLSQ_DP = 1,
+-	A7XX_SP_TOP = 2,
+-	A7XX_USPTP = 3,
 -};
 -
--enum mdp5_cursor_format {
--	CURSOR_FMT_ARGB8888 = 0,
--	CURSOR_FMT_ARGB1555 = 2,
--	CURSOR_FMT_ARGB4444 = 4,
+-enum a7xx_pipe {
+-	A7XX_PIPE_NONE = 0,
+-	A7XX_PIPE_BR = 1,
+-	A7XX_PIPE_BV = 2,
+-	A7XX_PIPE_LPAC = 3,
 -};
 -
--enum mdp5_cursor_alpha {
--	CURSOR_ALPHA_CONST = 0,
--	CURSOR_ALPHA_PER_PIXEL = 2,
+-enum a7xx_cluster {
+-	A7XX_CLUSTER_NONE = 0,
+-	A7XX_CLUSTER_FE = 1,
+-	A7XX_CLUSTER_SP_VS = 2,
+-	A7XX_CLUSTER_PC_VS = 3,
+-	A7XX_CLUSTER_GRAS = 4,
+-	A7XX_CLUSTER_SP_PS = 5,
+-	A7XX_CLUSTER_VPC_PS = 6,
+-	A7XX_CLUSTER_PS = 7,
 -};
 -
--enum mdp5_igc_type {
--	IGC_VIG = 0,
--	IGC_RGB = 1,
--	IGC_DMA = 2,
--	IGC_DSPP = 3,
+-enum a7xx_debugbus_id {
+-	A7XX_DBGBUS_CP_0_0 = 1,
+-	A7XX_DBGBUS_CP_0_1 = 2,
+-	A7XX_DBGBUS_RBBM = 3,
+-	A7XX_DBGBUS_GBIF_GX = 5,
+-	A7XX_DBGBUS_GBIF_CX = 6,
+-	A7XX_DBGBUS_HLSQ = 7,
+-	A7XX_DBGBUS_UCHE_0 = 9,
+-	A7XX_DBGBUS_UCHE_1 = 10,
+-	A7XX_DBGBUS_TESS_BR = 13,
+-	A7XX_DBGBUS_TESS_BV = 14,
+-	A7XX_DBGBUS_PC_BR = 17,
+-	A7XX_DBGBUS_PC_BV = 18,
+-	A7XX_DBGBUS_VFDP_BR = 21,
+-	A7XX_DBGBUS_VFDP_BV = 22,
+-	A7XX_DBGBUS_VPC_BR = 25,
+-	A7XX_DBGBUS_VPC_BV = 26,
+-	A7XX_DBGBUS_TSE_BR = 29,
+-	A7XX_DBGBUS_TSE_BV = 30,
+-	A7XX_DBGBUS_RAS_BR = 33,
+-	A7XX_DBGBUS_RAS_BV = 34,
+-	A7XX_DBGBUS_VSC = 37,
+-	A7XX_DBGBUS_COM_0 = 39,
+-	A7XX_DBGBUS_LRZ_BR = 43,
+-	A7XX_DBGBUS_LRZ_BV = 44,
+-	A7XX_DBGBUS_UFC_0 = 47,
+-	A7XX_DBGBUS_UFC_1 = 48,
+-	A7XX_DBGBUS_GMU_GX = 55,
+-	A7XX_DBGBUS_DBGC = 59,
+-	A7XX_DBGBUS_CX = 60,
+-	A7XX_DBGBUS_GMU_CX = 61,
+-	A7XX_DBGBUS_GPC_BR = 62,
+-	A7XX_DBGBUS_GPC_BV = 63,
+-	A7XX_DBGBUS_LARC = 66,
+-	A7XX_DBGBUS_HLSQ_SPTP = 68,
+-	A7XX_DBGBUS_RB_0 = 70,
+-	A7XX_DBGBUS_RB_1 = 71,
+-	A7XX_DBGBUS_RB_2 = 72,
+-	A7XX_DBGBUS_RB_3 = 73,
+-	A7XX_DBGBUS_RB_4 = 74,
+-	A7XX_DBGBUS_RB_5 = 75,
+-	A7XX_DBGBUS_UCHE_WRAPPER = 102,
+-	A7XX_DBGBUS_CCU_0 = 106,
+-	A7XX_DBGBUS_CCU_1 = 107,
+-	A7XX_DBGBUS_CCU_2 = 108,
+-	A7XX_DBGBUS_CCU_3 = 109,
+-	A7XX_DBGBUS_CCU_4 = 110,
+-	A7XX_DBGBUS_CCU_5 = 111,
+-	A7XX_DBGBUS_VFD_BR_0 = 138,
+-	A7XX_DBGBUS_VFD_BR_1 = 139,
+-	A7XX_DBGBUS_VFD_BR_2 = 140,
+-	A7XX_DBGBUS_VFD_BR_3 = 141,
+-	A7XX_DBGBUS_VFD_BR_4 = 142,
+-	A7XX_DBGBUS_VFD_BR_5 = 143,
+-	A7XX_DBGBUS_VFD_BR_6 = 144,
+-	A7XX_DBGBUS_VFD_BR_7 = 145,
+-	A7XX_DBGBUS_VFD_BV_0 = 202,
+-	A7XX_DBGBUS_VFD_BV_1 = 203,
+-	A7XX_DBGBUS_VFD_BV_2 = 204,
+-	A7XX_DBGBUS_VFD_BV_3 = 205,
+-	A7XX_DBGBUS_USP_0 = 234,
+-	A7XX_DBGBUS_USP_1 = 235,
+-	A7XX_DBGBUS_USP_2 = 236,
+-	A7XX_DBGBUS_USP_3 = 237,
+-	A7XX_DBGBUS_USP_4 = 238,
+-	A7XX_DBGBUS_USP_5 = 239,
+-	A7XX_DBGBUS_TP_0 = 266,
+-	A7XX_DBGBUS_TP_1 = 267,
+-	A7XX_DBGBUS_TP_2 = 268,
+-	A7XX_DBGBUS_TP_3 = 269,
+-	A7XX_DBGBUS_TP_4 = 270,
+-	A7XX_DBGBUS_TP_5 = 271,
+-	A7XX_DBGBUS_TP_6 = 272,
+-	A7XX_DBGBUS_TP_7 = 273,
+-	A7XX_DBGBUS_TP_8 = 274,
+-	A7XX_DBGBUS_TP_9 = 275,
+-	A7XX_DBGBUS_TP_10 = 276,
+-	A7XX_DBGBUS_TP_11 = 277,
+-	A7XX_DBGBUS_USPTP_0 = 330,
+-	A7XX_DBGBUS_USPTP_1 = 331,
+-	A7XX_DBGBUS_USPTP_2 = 332,
+-	A7XX_DBGBUS_USPTP_3 = 333,
+-	A7XX_DBGBUS_USPTP_4 = 334,
+-	A7XX_DBGBUS_USPTP_5 = 335,
+-	A7XX_DBGBUS_USPTP_6 = 336,
+-	A7XX_DBGBUS_USPTP_7 = 337,
+-	A7XX_DBGBUS_USPTP_8 = 338,
+-	A7XX_DBGBUS_USPTP_9 = 339,
+-	A7XX_DBGBUS_USPTP_10 = 340,
+-	A7XX_DBGBUS_USPTP_11 = 341,
+-	A7XX_DBGBUS_CCHE_0 = 396,
+-	A7XX_DBGBUS_CCHE_1 = 397,
+-	A7XX_DBGBUS_CCHE_2 = 398,
+-	A7XX_DBGBUS_VPC_DSTR_0 = 408,
+-	A7XX_DBGBUS_VPC_DSTR_1 = 409,
+-	A7XX_DBGBUS_VPC_DSTR_2 = 410,
+-	A7XX_DBGBUS_HLSQ_DP_STR_0 = 411,
+-	A7XX_DBGBUS_HLSQ_DP_STR_1 = 412,
+-	A7XX_DBGBUS_HLSQ_DP_STR_2 = 413,
+-	A7XX_DBGBUS_HLSQ_DP_STR_3 = 414,
+-	A7XX_DBGBUS_HLSQ_DP_STR_4 = 415,
+-	A7XX_DBGBUS_HLSQ_DP_STR_5 = 416,
+-	A7XX_DBGBUS_UFC_DSTR_0 = 443,
+-	A7XX_DBGBUS_UFC_DSTR_1 = 444,
+-	A7XX_DBGBUS_UFC_DSTR_2 = 445,
+-	A7XX_DBGBUS_CGC_SUBCORE = 446,
+-	A7XX_DBGBUS_CGC_CORE = 447,
 -};
 -
--enum mdp5_data_format {
--	DATA_FORMAT_RGB = 0,
--	DATA_FORMAT_YUV = 1,
+-enum a6xx_cp_perfcounter_select {
+-	PERF_CP_ALWAYS_COUNT = 0,
+-	PERF_CP_BUSY_GFX_CORE_IDLE = 1,
+-	PERF_CP_BUSY_CYCLES = 2,
+-	PERF_CP_NUM_PREEMPTIONS = 3,
+-	PERF_CP_PREEMPTION_REACTION_DELAY = 4,
+-	PERF_CP_PREEMPTION_SWITCH_OUT_TIME = 5,
+-	PERF_CP_PREEMPTION_SWITCH_IN_TIME = 6,
+-	PERF_CP_DEAD_DRAWS_IN_BIN_RENDER = 7,
+-	PERF_CP_PREDICATED_DRAWS_KILLED = 8,
+-	PERF_CP_MODE_SWITCH = 9,
+-	PERF_CP_ZPASS_DONE = 10,
+-	PERF_CP_CONTEXT_DONE = 11,
+-	PERF_CP_CACHE_FLUSH = 12,
+-	PERF_CP_LONG_PREEMPTIONS = 13,
+-	PERF_CP_SQE_I_CACHE_STARVE = 14,
+-	PERF_CP_SQE_IDLE = 15,
+-	PERF_CP_SQE_PM4_STARVE_RB_IB = 16,
+-	PERF_CP_SQE_PM4_STARVE_SDS = 17,
+-	PERF_CP_SQE_MRB_STARVE = 18,
+-	PERF_CP_SQE_RRB_STARVE = 19,
+-	PERF_CP_SQE_VSD_STARVE = 20,
+-	PERF_CP_VSD_DECODE_STARVE = 21,
+-	PERF_CP_SQE_PIPE_OUT_STALL = 22,
+-	PERF_CP_SQE_SYNC_STALL = 23,
+-	PERF_CP_SQE_PM4_WFI_STALL = 24,
+-	PERF_CP_SQE_SYS_WFI_STALL = 25,
+-	PERF_CP_SQE_T4_EXEC = 26,
+-	PERF_CP_SQE_LOAD_STATE_EXEC = 27,
+-	PERF_CP_SQE_SAVE_SDS_STATE = 28,
+-	PERF_CP_SQE_DRAW_EXEC = 29,
+-	PERF_CP_SQE_CTXT_REG_BUNCH_EXEC = 30,
+-	PERF_CP_SQE_EXEC_PROFILED = 31,
+-	PERF_CP_MEMORY_POOL_EMPTY = 32,
+-	PERF_CP_MEMORY_POOL_SYNC_STALL = 33,
+-	PERF_CP_MEMORY_POOL_ABOVE_THRESH = 34,
+-	PERF_CP_AHB_WR_STALL_PRE_DRAWS = 35,
+-	PERF_CP_AHB_STALL_SQE_GMU = 36,
+-	PERF_CP_AHB_STALL_SQE_WR_OTHER = 37,
+-	PERF_CP_AHB_STALL_SQE_RD_OTHER = 38,
+-	PERF_CP_CLUSTER0_EMPTY = 39,
+-	PERF_CP_CLUSTER1_EMPTY = 40,
+-	PERF_CP_CLUSTER2_EMPTY = 41,
+-	PERF_CP_CLUSTER3_EMPTY = 42,
+-	PERF_CP_CLUSTER4_EMPTY = 43,
+-	PERF_CP_CLUSTER5_EMPTY = 44,
+-	PERF_CP_PM4_DATA = 45,
+-	PERF_CP_PM4_HEADERS = 46,
+-	PERF_CP_VBIF_READ_BEATS = 47,
+-	PERF_CP_VBIF_WRITE_BEATS = 48,
+-	PERF_CP_SQE_INSTR_COUNTER = 49,
 -};
 -
--enum mdp5_block_size {
--	BLOCK_SIZE_64 = 0,
--	BLOCK_SIZE_128 = 1,
+-enum a6xx_rbbm_perfcounter_select {
+-	PERF_RBBM_ALWAYS_COUNT = 0,
+-	PERF_RBBM_ALWAYS_ON = 1,
+-	PERF_RBBM_TSE_BUSY = 2,
+-	PERF_RBBM_RAS_BUSY = 3,
+-	PERF_RBBM_PC_DCALL_BUSY = 4,
+-	PERF_RBBM_PC_VSD_BUSY = 5,
+-	PERF_RBBM_STATUS_MASKED = 6,
+-	PERF_RBBM_COM_BUSY = 7,
+-	PERF_RBBM_DCOM_BUSY = 8,
+-	PERF_RBBM_VBIF_BUSY = 9,
+-	PERF_RBBM_VSC_BUSY = 10,
+-	PERF_RBBM_TESS_BUSY = 11,
+-	PERF_RBBM_UCHE_BUSY = 12,
+-	PERF_RBBM_HLSQ_BUSY = 13,
 -};
 -
--enum mdp5_rotate_mode {
+-enum a6xx_pc_perfcounter_select {
+-	PERF_PC_BUSY_CYCLES = 0,
+-	PERF_PC_WORKING_CYCLES = 1,
+-	PERF_PC_STALL_CYCLES_VFD = 2,
+-	PERF_PC_STALL_CYCLES_TSE = 3,
+-	PERF_PC_STALL_CYCLES_VPC = 4,
+-	PERF_PC_STALL_CYCLES_UCHE = 5,
+-	PERF_PC_STALL_CYCLES_TESS = 6,
+-	PERF_PC_STALL_CYCLES_TSE_ONLY = 7,
+-	PERF_PC_STALL_CYCLES_VPC_ONLY = 8,
+-	PERF_PC_PASS1_TF_STALL_CYCLES = 9,
+-	PERF_PC_STARVE_CYCLES_FOR_INDEX = 10,
+-	PERF_PC_STARVE_CYCLES_FOR_TESS_FACTOR = 11,
+-	PERF_PC_STARVE_CYCLES_FOR_VIZ_STREAM = 12,
+-	PERF_PC_STARVE_CYCLES_FOR_POSITION = 13,
+-	PERF_PC_STARVE_CYCLES_DI = 14,
+-	PERF_PC_VIS_STREAMS_LOADED = 15,
+-	PERF_PC_INSTANCES = 16,
+-	PERF_PC_VPC_PRIMITIVES = 17,
+-	PERF_PC_DEAD_PRIM = 18,
+-	PERF_PC_LIVE_PRIM = 19,
+-	PERF_PC_VERTEX_HITS = 20,
+-	PERF_PC_IA_VERTICES = 21,
+-	PERF_PC_IA_PRIMITIVES = 22,
+-	PERF_PC_GS_PRIMITIVES = 23,
+-	PERF_PC_HS_INVOCATIONS = 24,
+-	PERF_PC_DS_INVOCATIONS = 25,
+-	PERF_PC_VS_INVOCATIONS = 26,
+-	PERF_PC_GS_INVOCATIONS = 27,
+-	PERF_PC_DS_PRIMITIVES = 28,
+-	PERF_PC_VPC_POS_DATA_TRANSACTION = 29,
+-	PERF_PC_3D_DRAWCALLS = 30,
+-	PERF_PC_2D_DRAWCALLS = 31,
+-	PERF_PC_NON_DRAWCALL_GLOBAL_EVENTS = 32,
+-	PERF_TESS_BUSY_CYCLES = 33,
+-	PERF_TESS_WORKING_CYCLES = 34,
+-	PERF_TESS_STALL_CYCLES_PC = 35,
+-	PERF_TESS_STARVE_CYCLES_PC = 36,
+-	PERF_PC_TSE_TRANSACTION = 37,
+-	PERF_PC_TSE_VERTEX = 38,
+-	PERF_PC_TESS_PC_UV_TRANS = 39,
+-	PERF_PC_TESS_PC_UV_PATCHES = 40,
+-	PERF_PC_TESS_FACTOR_TRANS = 41,
+-};
+-
+-enum a6xx_vfd_perfcounter_select {
+-	PERF_VFD_BUSY_CYCLES = 0,
+-	PERF_VFD_STALL_CYCLES_UCHE = 1,
+-	PERF_VFD_STALL_CYCLES_VPC_ALLOC = 2,
+-	PERF_VFD_STALL_CYCLES_SP_INFO = 3,
+-	PERF_VFD_STALL_CYCLES_SP_ATTR = 4,
+-	PERF_VFD_STARVE_CYCLES_UCHE = 5,
+-	PERF_VFD_RBUFFER_FULL = 6,
+-	PERF_VFD_ATTR_INFO_FIFO_FULL = 7,
+-	PERF_VFD_DECODED_ATTRIBUTE_BYTES = 8,
+-	PERF_VFD_NUM_ATTRIBUTES = 9,
+-	PERF_VFD_UPPER_SHADER_FIBERS = 10,
+-	PERF_VFD_LOWER_SHADER_FIBERS = 11,
+-	PERF_VFD_MODE_0_FIBERS = 12,
+-	PERF_VFD_MODE_1_FIBERS = 13,
+-	PERF_VFD_MODE_2_FIBERS = 14,
+-	PERF_VFD_MODE_3_FIBERS = 15,
+-	PERF_VFD_MODE_4_FIBERS = 16,
+-	PERF_VFD_TOTAL_VERTICES = 17,
+-	PERF_VFDP_STALL_CYCLES_VFD = 18,
+-	PERF_VFDP_STALL_CYCLES_VFD_INDEX = 19,
+-	PERF_VFDP_STALL_CYCLES_VFD_PROG = 20,
+-	PERF_VFDP_STARVE_CYCLES_PC = 21,
+-	PERF_VFDP_VS_STAGE_WAVES = 22,
+-};
+-
+-enum a6xx_hlsq_perfcounter_select {
+-	PERF_HLSQ_BUSY_CYCLES = 0,
+-	PERF_HLSQ_STALL_CYCLES_UCHE = 1,
+-	PERF_HLSQ_STALL_CYCLES_SP_STATE = 2,
+-	PERF_HLSQ_STALL_CYCLES_SP_FS_STAGE = 3,
+-	PERF_HLSQ_UCHE_LATENCY_CYCLES = 4,
+-	PERF_HLSQ_UCHE_LATENCY_COUNT = 5,
+-	PERF_HLSQ_FS_STAGE_1X_WAVES = 6,
+-	PERF_HLSQ_FS_STAGE_2X_WAVES = 7,
+-	PERF_HLSQ_QUADS = 8,
+-	PERF_HLSQ_CS_INVOCATIONS = 9,
+-	PERF_HLSQ_COMPUTE_DRAWCALLS = 10,
+-	PERF_HLSQ_FS_DATA_WAIT_PROGRAMMING = 11,
+-	PERF_HLSQ_DUAL_FS_PROG_ACTIVE = 12,
+-	PERF_HLSQ_DUAL_VS_PROG_ACTIVE = 13,
+-	PERF_HLSQ_FS_BATCH_COUNT_ZERO = 14,
+-	PERF_HLSQ_VS_BATCH_COUNT_ZERO = 15,
+-	PERF_HLSQ_WAVE_PENDING_NO_QUAD = 16,
+-	PERF_HLSQ_WAVE_PENDING_NO_PRIM_BASE = 17,
+-	PERF_HLSQ_STALL_CYCLES_VPC = 18,
+-	PERF_HLSQ_PIXELS = 19,
+-	PERF_HLSQ_DRAW_MODE_SWITCH_VSFS_SYNC = 20,
+-};
+-
+-enum a6xx_vpc_perfcounter_select {
+-	PERF_VPC_BUSY_CYCLES = 0,
+-	PERF_VPC_WORKING_CYCLES = 1,
+-	PERF_VPC_STALL_CYCLES_UCHE = 2,
+-	PERF_VPC_STALL_CYCLES_VFD_WACK = 3,
+-	PERF_VPC_STALL_CYCLES_HLSQ_PRIM_ALLOC = 4,
+-	PERF_VPC_STALL_CYCLES_PC = 5,
+-	PERF_VPC_STALL_CYCLES_SP_LM = 6,
+-	PERF_VPC_STARVE_CYCLES_SP = 7,
+-	PERF_VPC_STARVE_CYCLES_LRZ = 8,
+-	PERF_VPC_PC_PRIMITIVES = 9,
+-	PERF_VPC_SP_COMPONENTS = 10,
+-	PERF_VPC_STALL_CYCLES_VPCRAM_POS = 11,
+-	PERF_VPC_LRZ_ASSIGN_PRIMITIVES = 12,
+-	PERF_VPC_RB_VISIBLE_PRIMITIVES = 13,
+-	PERF_VPC_LM_TRANSACTION = 14,
+-	PERF_VPC_STREAMOUT_TRANSACTION = 15,
+-	PERF_VPC_VS_BUSY_CYCLES = 16,
+-	PERF_VPC_PS_BUSY_CYCLES = 17,
+-	PERF_VPC_VS_WORKING_CYCLES = 18,
+-	PERF_VPC_PS_WORKING_CYCLES = 19,
+-	PERF_VPC_STARVE_CYCLES_RB = 20,
+-	PERF_VPC_NUM_VPCRAM_READ_POS = 21,
+-	PERF_VPC_WIT_FULL_CYCLES = 22,
+-	PERF_VPC_VPCRAM_FULL_CYCLES = 23,
+-	PERF_VPC_LM_FULL_WAIT_FOR_INTP_END = 24,
+-	PERF_VPC_NUM_VPCRAM_WRITE = 25,
+-	PERF_VPC_NUM_VPCRAM_READ_SO = 26,
+-	PERF_VPC_NUM_ATTR_REQ_LM = 27,
+-};
+-
+-enum a6xx_tse_perfcounter_select {
+-	PERF_TSE_BUSY_CYCLES = 0,
+-	PERF_TSE_CLIPPING_CYCLES = 1,
+-	PERF_TSE_STALL_CYCLES_RAS = 2,
+-	PERF_TSE_STALL_CYCLES_LRZ_BARYPLANE = 3,
+-	PERF_TSE_STALL_CYCLES_LRZ_ZPLANE = 4,
+-	PERF_TSE_STARVE_CYCLES_PC = 5,
+-	PERF_TSE_INPUT_PRIM = 6,
+-	PERF_TSE_INPUT_NULL_PRIM = 7,
+-	PERF_TSE_TRIVAL_REJ_PRIM = 8,
+-	PERF_TSE_CLIPPED_PRIM = 9,
+-	PERF_TSE_ZERO_AREA_PRIM = 10,
+-	PERF_TSE_FACENESS_CULLED_PRIM = 11,
+-	PERF_TSE_ZERO_PIXEL_PRIM = 12,
+-	PERF_TSE_OUTPUT_NULL_PRIM = 13,
+-	PERF_TSE_OUTPUT_VISIBLE_PRIM = 14,
+-	PERF_TSE_CINVOCATION = 15,
+-	PERF_TSE_CPRIMITIVES = 16,
+-	PERF_TSE_2D_INPUT_PRIM = 17,
+-	PERF_TSE_2D_ALIVE_CYCLES = 18,
+-	PERF_TSE_CLIP_PLANES = 19,
+-};
+-
+-enum a6xx_ras_perfcounter_select {
+-	PERF_RAS_BUSY_CYCLES = 0,
+-	PERF_RAS_SUPERTILE_ACTIVE_CYCLES = 1,
+-	PERF_RAS_STALL_CYCLES_LRZ = 2,
+-	PERF_RAS_STARVE_CYCLES_TSE = 3,
+-	PERF_RAS_SUPER_TILES = 4,
+-	PERF_RAS_8X4_TILES = 5,
+-	PERF_RAS_MASKGEN_ACTIVE = 6,
+-	PERF_RAS_FULLY_COVERED_SUPER_TILES = 7,
+-	PERF_RAS_FULLY_COVERED_8X4_TILES = 8,
+-	PERF_RAS_PRIM_KILLED_INVISILBE = 9,
+-	PERF_RAS_SUPERTILE_GEN_ACTIVE_CYCLES = 10,
+-	PERF_RAS_LRZ_INTF_WORKING_CYCLES = 11,
+-	PERF_RAS_BLOCKS = 12,
+-};
+-
+-enum a6xx_uche_perfcounter_select {
+-	PERF_UCHE_BUSY_CYCLES = 0,
+-	PERF_UCHE_STALL_CYCLES_ARBITER = 1,
+-	PERF_UCHE_VBIF_LATENCY_CYCLES = 2,
+-	PERF_UCHE_VBIF_LATENCY_SAMPLES = 3,
+-	PERF_UCHE_VBIF_READ_BEATS_TP = 4,
+-	PERF_UCHE_VBIF_READ_BEATS_VFD = 5,
+-	PERF_UCHE_VBIF_READ_BEATS_HLSQ = 6,
+-	PERF_UCHE_VBIF_READ_BEATS_LRZ = 7,
+-	PERF_UCHE_VBIF_READ_BEATS_SP = 8,
+-	PERF_UCHE_READ_REQUESTS_TP = 9,
+-	PERF_UCHE_READ_REQUESTS_VFD = 10,
+-	PERF_UCHE_READ_REQUESTS_HLSQ = 11,
+-	PERF_UCHE_READ_REQUESTS_LRZ = 12,
+-	PERF_UCHE_READ_REQUESTS_SP = 13,
+-	PERF_UCHE_WRITE_REQUESTS_LRZ = 14,
+-	PERF_UCHE_WRITE_REQUESTS_SP = 15,
+-	PERF_UCHE_WRITE_REQUESTS_VPC = 16,
+-	PERF_UCHE_WRITE_REQUESTS_VSC = 17,
+-	PERF_UCHE_EVICTS = 18,
+-	PERF_UCHE_BANK_REQ0 = 19,
+-	PERF_UCHE_BANK_REQ1 = 20,
+-	PERF_UCHE_BANK_REQ2 = 21,
+-	PERF_UCHE_BANK_REQ3 = 22,
+-	PERF_UCHE_BANK_REQ4 = 23,
+-	PERF_UCHE_BANK_REQ5 = 24,
+-	PERF_UCHE_BANK_REQ6 = 25,
+-	PERF_UCHE_BANK_REQ7 = 26,
+-	PERF_UCHE_VBIF_READ_BEATS_CH0 = 27,
+-	PERF_UCHE_VBIF_READ_BEATS_CH1 = 28,
+-	PERF_UCHE_GMEM_READ_BEATS = 29,
+-	PERF_UCHE_TPH_REF_FULL = 30,
+-	PERF_UCHE_TPH_VICTIM_FULL = 31,
+-	PERF_UCHE_TPH_EXT_FULL = 32,
+-	PERF_UCHE_VBIF_STALL_WRITE_DATA = 33,
+-	PERF_UCHE_DCMP_LATENCY_SAMPLES = 34,
+-	PERF_UCHE_DCMP_LATENCY_CYCLES = 35,
+-	PERF_UCHE_VBIF_READ_BEATS_PC = 36,
+-	PERF_UCHE_READ_REQUESTS_PC = 37,
+-	PERF_UCHE_RAM_READ_REQ = 38,
+-	PERF_UCHE_RAM_WRITE_REQ = 39,
+-};
+-
+-enum a6xx_tp_perfcounter_select {
+-	PERF_TP_BUSY_CYCLES = 0,
+-	PERF_TP_STALL_CYCLES_UCHE = 1,
+-	PERF_TP_LATENCY_CYCLES = 2,
+-	PERF_TP_LATENCY_TRANS = 3,
+-	PERF_TP_FLAG_CACHE_REQUEST_SAMPLES = 4,
+-	PERF_TP_FLAG_CACHE_REQUEST_LATENCY = 5,
+-	PERF_TP_L1_CACHELINE_REQUESTS = 6,
+-	PERF_TP_L1_CACHELINE_MISSES = 7,
+-	PERF_TP_SP_TP_TRANS = 8,
+-	PERF_TP_TP_SP_TRANS = 9,
+-	PERF_TP_OUTPUT_PIXELS = 10,
+-	PERF_TP_FILTER_WORKLOAD_16BIT = 11,
+-	PERF_TP_FILTER_WORKLOAD_32BIT = 12,
+-	PERF_TP_QUADS_RECEIVED = 13,
+-	PERF_TP_QUADS_OFFSET = 14,
+-	PERF_TP_QUADS_SHADOW = 15,
+-	PERF_TP_QUADS_ARRAY = 16,
+-	PERF_TP_QUADS_GRADIENT = 17,
+-	PERF_TP_QUADS_1D = 18,
+-	PERF_TP_QUADS_2D = 19,
+-	PERF_TP_QUADS_BUFFER = 20,
+-	PERF_TP_QUADS_3D = 21,
+-	PERF_TP_QUADS_CUBE = 22,
+-	PERF_TP_DIVERGENT_QUADS_RECEIVED = 23,
+-	PERF_TP_PRT_NON_RESIDENT_EVENTS = 24,
+-	PERF_TP_OUTPUT_PIXELS_POINT = 25,
+-	PERF_TP_OUTPUT_PIXELS_BILINEAR = 26,
+-	PERF_TP_OUTPUT_PIXELS_MIP = 27,
+-	PERF_TP_OUTPUT_PIXELS_ANISO = 28,
+-	PERF_TP_OUTPUT_PIXELS_ZERO_LOD = 29,
+-	PERF_TP_FLAG_CACHE_REQUESTS = 30,
+-	PERF_TP_FLAG_CACHE_MISSES = 31,
+-	PERF_TP_L1_5_L2_REQUESTS = 32,
+-	PERF_TP_2D_OUTPUT_PIXELS = 33,
+-	PERF_TP_2D_OUTPUT_PIXELS_POINT = 34,
+-	PERF_TP_2D_OUTPUT_PIXELS_BILINEAR = 35,
+-	PERF_TP_2D_FILTER_WORKLOAD_16BIT = 36,
+-	PERF_TP_2D_FILTER_WORKLOAD_32BIT = 37,
+-	PERF_TP_TPA2TPC_TRANS = 38,
+-	PERF_TP_L1_MISSES_ASTC_1TILE = 39,
+-	PERF_TP_L1_MISSES_ASTC_2TILE = 40,
+-	PERF_TP_L1_MISSES_ASTC_4TILE = 41,
+-	PERF_TP_L1_5_L2_COMPRESS_REQS = 42,
+-	PERF_TP_L1_5_L2_COMPRESS_MISS = 43,
+-	PERF_TP_L1_BANK_CONFLICT = 44,
+-	PERF_TP_L1_5_MISS_LATENCY_CYCLES = 45,
+-	PERF_TP_L1_5_MISS_LATENCY_TRANS = 46,
+-	PERF_TP_QUADS_CONSTANT_MULTIPLIED = 47,
+-	PERF_TP_FRONTEND_WORKING_CYCLES = 48,
+-	PERF_TP_L1_TAG_WORKING_CYCLES = 49,
+-	PERF_TP_L1_DATA_WRITE_WORKING_CYCLES = 50,
+-	PERF_TP_PRE_L1_DECOM_WORKING_CYCLES = 51,
+-	PERF_TP_BACKEND_WORKING_CYCLES = 52,
+-	PERF_TP_FLAG_CACHE_WORKING_CYCLES = 53,
+-	PERF_TP_L1_5_CACHE_WORKING_CYCLES = 54,
+-	PERF_TP_STARVE_CYCLES_SP = 55,
+-	PERF_TP_STARVE_CYCLES_UCHE = 56,
+-};
+-
+-enum a6xx_sp_perfcounter_select {
+-	PERF_SP_BUSY_CYCLES = 0,
+-	PERF_SP_ALU_WORKING_CYCLES = 1,
+-	PERF_SP_EFU_WORKING_CYCLES = 2,
+-	PERF_SP_STALL_CYCLES_VPC = 3,
+-	PERF_SP_STALL_CYCLES_TP = 4,
+-	PERF_SP_STALL_CYCLES_UCHE = 5,
+-	PERF_SP_STALL_CYCLES_RB = 6,
+-	PERF_SP_NON_EXECUTION_CYCLES = 7,
+-	PERF_SP_WAVE_CONTEXTS = 8,
+-	PERF_SP_WAVE_CONTEXT_CYCLES = 9,
+-	PERF_SP_FS_STAGE_WAVE_CYCLES = 10,
+-	PERF_SP_FS_STAGE_WAVE_SAMPLES = 11,
+-	PERF_SP_VS_STAGE_WAVE_CYCLES = 12,
+-	PERF_SP_VS_STAGE_WAVE_SAMPLES = 13,
+-	PERF_SP_FS_STAGE_DURATION_CYCLES = 14,
+-	PERF_SP_VS_STAGE_DURATION_CYCLES = 15,
+-	PERF_SP_WAVE_CTRL_CYCLES = 16,
+-	PERF_SP_WAVE_LOAD_CYCLES = 17,
+-	PERF_SP_WAVE_EMIT_CYCLES = 18,
+-	PERF_SP_WAVE_NOP_CYCLES = 19,
+-	PERF_SP_WAVE_WAIT_CYCLES = 20,
+-	PERF_SP_WAVE_FETCH_CYCLES = 21,
+-	PERF_SP_WAVE_IDLE_CYCLES = 22,
+-	PERF_SP_WAVE_END_CYCLES = 23,
+-	PERF_SP_WAVE_LONG_SYNC_CYCLES = 24,
+-	PERF_SP_WAVE_SHORT_SYNC_CYCLES = 25,
+-	PERF_SP_WAVE_JOIN_CYCLES = 26,
+-	PERF_SP_LM_LOAD_INSTRUCTIONS = 27,
+-	PERF_SP_LM_STORE_INSTRUCTIONS = 28,
+-	PERF_SP_LM_ATOMICS = 29,
+-	PERF_SP_GM_LOAD_INSTRUCTIONS = 30,
+-	PERF_SP_GM_STORE_INSTRUCTIONS = 31,
+-	PERF_SP_GM_ATOMICS = 32,
+-	PERF_SP_VS_STAGE_TEX_INSTRUCTIONS = 33,
+-	PERF_SP_VS_STAGE_EFU_INSTRUCTIONS = 34,
+-	PERF_SP_VS_STAGE_FULL_ALU_INSTRUCTIONS = 35,
+-	PERF_SP_VS_STAGE_HALF_ALU_INSTRUCTIONS = 36,
+-	PERF_SP_FS_STAGE_TEX_INSTRUCTIONS = 37,
+-	PERF_SP_FS_STAGE_CFLOW_INSTRUCTIONS = 38,
+-	PERF_SP_FS_STAGE_EFU_INSTRUCTIONS = 39,
+-	PERF_SP_FS_STAGE_FULL_ALU_INSTRUCTIONS = 40,
+-	PERF_SP_FS_STAGE_HALF_ALU_INSTRUCTIONS = 41,
+-	PERF_SP_FS_STAGE_BARY_INSTRUCTIONS = 42,
+-	PERF_SP_VS_INSTRUCTIONS = 43,
+-	PERF_SP_FS_INSTRUCTIONS = 44,
+-	PERF_SP_ADDR_LOCK_COUNT = 45,
+-	PERF_SP_UCHE_READ_TRANS = 46,
+-	PERF_SP_UCHE_WRITE_TRANS = 47,
+-	PERF_SP_EXPORT_VPC_TRANS = 48,
+-	PERF_SP_EXPORT_RB_TRANS = 49,
+-	PERF_SP_PIXELS_KILLED = 50,
+-	PERF_SP_ICL1_REQUESTS = 51,
+-	PERF_SP_ICL1_MISSES = 52,
+-	PERF_SP_HS_INSTRUCTIONS = 53,
+-	PERF_SP_DS_INSTRUCTIONS = 54,
+-	PERF_SP_GS_INSTRUCTIONS = 55,
+-	PERF_SP_CS_INSTRUCTIONS = 56,
+-	PERF_SP_GPR_READ = 57,
+-	PERF_SP_GPR_WRITE = 58,
+-	PERF_SP_FS_STAGE_HALF_EFU_INSTRUCTIONS = 59,
+-	PERF_SP_VS_STAGE_HALF_EFU_INSTRUCTIONS = 60,
+-	PERF_SP_LM_BANK_CONFLICTS = 61,
+-	PERF_SP_TEX_CONTROL_WORKING_CYCLES = 62,
+-	PERF_SP_LOAD_CONTROL_WORKING_CYCLES = 63,
+-	PERF_SP_FLOW_CONTROL_WORKING_CYCLES = 64,
+-	PERF_SP_LM_WORKING_CYCLES = 65,
+-	PERF_SP_DISPATCHER_WORKING_CYCLES = 66,
+-	PERF_SP_SEQUENCER_WORKING_CYCLES = 67,
+-	PERF_SP_LOW_EFFICIENCY_STARVED_BY_TP = 68,
+-	PERF_SP_STARVE_CYCLES_HLSQ = 69,
+-	PERF_SP_NON_EXECUTION_LS_CYCLES = 70,
+-	PERF_SP_WORKING_EU = 71,
+-	PERF_SP_ANY_EU_WORKING = 72,
+-	PERF_SP_WORKING_EU_FS_STAGE = 73,
+-	PERF_SP_ANY_EU_WORKING_FS_STAGE = 74,
+-	PERF_SP_WORKING_EU_VS_STAGE = 75,
+-	PERF_SP_ANY_EU_WORKING_VS_STAGE = 76,
+-	PERF_SP_WORKING_EU_CS_STAGE = 77,
+-	PERF_SP_ANY_EU_WORKING_CS_STAGE = 78,
+-	PERF_SP_GPR_READ_PREFETCH = 79,
+-	PERF_SP_GPR_READ_CONFLICT = 80,
+-	PERF_SP_GPR_WRITE_CONFLICT = 81,
+-	PERF_SP_GM_LOAD_LATENCY_CYCLES = 82,
+-	PERF_SP_GM_LOAD_LATENCY_SAMPLES = 83,
+-	PERF_SP_EXECUTABLE_WAVES = 84,
+-};
+-
+-enum a6xx_rb_perfcounter_select {
+-	PERF_RB_BUSY_CYCLES = 0,
+-	PERF_RB_STALL_CYCLES_HLSQ = 1,
+-	PERF_RB_STALL_CYCLES_FIFO0_FULL = 2,
+-	PERF_RB_STALL_CYCLES_FIFO1_FULL = 3,
+-	PERF_RB_STALL_CYCLES_FIFO2_FULL = 4,
+-	PERF_RB_STARVE_CYCLES_SP = 5,
+-	PERF_RB_STARVE_CYCLES_LRZ_TILE = 6,
+-	PERF_RB_STARVE_CYCLES_CCU = 7,
+-	PERF_RB_STARVE_CYCLES_Z_PLANE = 8,
+-	PERF_RB_STARVE_CYCLES_BARY_PLANE = 9,
+-	PERF_RB_Z_WORKLOAD = 10,
+-	PERF_RB_HLSQ_ACTIVE = 11,
+-	PERF_RB_Z_READ = 12,
+-	PERF_RB_Z_WRITE = 13,
+-	PERF_RB_C_READ = 14,
+-	PERF_RB_C_WRITE = 15,
+-	PERF_RB_TOTAL_PASS = 16,
+-	PERF_RB_Z_PASS = 17,
+-	PERF_RB_Z_FAIL = 18,
+-	PERF_RB_S_FAIL = 19,
+-	PERF_RB_BLENDED_FXP_COMPONENTS = 20,
+-	PERF_RB_BLENDED_FP16_COMPONENTS = 21,
+-	PERF_RB_PS_INVOCATIONS = 22,
+-	PERF_RB_2D_ALIVE_CYCLES = 23,
+-	PERF_RB_2D_STALL_CYCLES_A2D = 24,
+-	PERF_RB_2D_STARVE_CYCLES_SRC = 25,
+-	PERF_RB_2D_STARVE_CYCLES_SP = 26,
+-	PERF_RB_2D_STARVE_CYCLES_DST = 27,
+-	PERF_RB_2D_VALID_PIXELS = 28,
+-	PERF_RB_3D_PIXELS = 29,
+-	PERF_RB_BLENDER_WORKING_CYCLES = 30,
+-	PERF_RB_ZPROC_WORKING_CYCLES = 31,
+-	PERF_RB_CPROC_WORKING_CYCLES = 32,
+-	PERF_RB_SAMPLER_WORKING_CYCLES = 33,
+-	PERF_RB_STALL_CYCLES_CCU_COLOR_READ = 34,
+-	PERF_RB_STALL_CYCLES_CCU_COLOR_WRITE = 35,
+-	PERF_RB_STALL_CYCLES_CCU_DEPTH_READ = 36,
+-	PERF_RB_STALL_CYCLES_CCU_DEPTH_WRITE = 37,
+-	PERF_RB_STALL_CYCLES_VPC = 38,
+-	PERF_RB_2D_INPUT_TRANS = 39,
+-	PERF_RB_2D_OUTPUT_RB_DST_TRANS = 40,
+-	PERF_RB_2D_OUTPUT_RB_SRC_TRANS = 41,
+-	PERF_RB_BLENDED_FP32_COMPONENTS = 42,
+-	PERF_RB_COLOR_PIX_TILES = 43,
+-	PERF_RB_STALL_CYCLES_CCU = 44,
+-	PERF_RB_EARLY_Z_ARB3_GRANT = 45,
+-	PERF_RB_LATE_Z_ARB3_GRANT = 46,
+-	PERF_RB_EARLY_Z_SKIP_GRANT = 47,
+-};
+-
+-enum a6xx_vsc_perfcounter_select {
+-	PERF_VSC_BUSY_CYCLES = 0,
+-	PERF_VSC_WORKING_CYCLES = 1,
+-	PERF_VSC_STALL_CYCLES_UCHE = 2,
+-	PERF_VSC_EOT_NUM = 3,
+-	PERF_VSC_INPUT_TILES = 4,
+-};
+-
+-enum a6xx_ccu_perfcounter_select {
+-	PERF_CCU_BUSY_CYCLES = 0,
+-	PERF_CCU_STALL_CYCLES_RB_DEPTH_RETURN = 1,
+-	PERF_CCU_STALL_CYCLES_RB_COLOR_RETURN = 2,
+-	PERF_CCU_STARVE_CYCLES_FLAG_RETURN = 3,
+-	PERF_CCU_DEPTH_BLOCKS = 4,
+-	PERF_CCU_COLOR_BLOCKS = 5,
+-	PERF_CCU_DEPTH_BLOCK_HIT = 6,
+-	PERF_CCU_COLOR_BLOCK_HIT = 7,
+-	PERF_CCU_PARTIAL_BLOCK_READ = 8,
+-	PERF_CCU_GMEM_READ = 9,
+-	PERF_CCU_GMEM_WRITE = 10,
+-	PERF_CCU_DEPTH_READ_FLAG0_COUNT = 11,
+-	PERF_CCU_DEPTH_READ_FLAG1_COUNT = 12,
+-	PERF_CCU_DEPTH_READ_FLAG2_COUNT = 13,
+-	PERF_CCU_DEPTH_READ_FLAG3_COUNT = 14,
+-	PERF_CCU_DEPTH_READ_FLAG4_COUNT = 15,
+-	PERF_CCU_DEPTH_READ_FLAG5_COUNT = 16,
+-	PERF_CCU_DEPTH_READ_FLAG6_COUNT = 17,
+-	PERF_CCU_DEPTH_READ_FLAG8_COUNT = 18,
+-	PERF_CCU_COLOR_READ_FLAG0_COUNT = 19,
+-	PERF_CCU_COLOR_READ_FLAG1_COUNT = 20,
+-	PERF_CCU_COLOR_READ_FLAG2_COUNT = 21,
+-	PERF_CCU_COLOR_READ_FLAG3_COUNT = 22,
+-	PERF_CCU_COLOR_READ_FLAG4_COUNT = 23,
+-	PERF_CCU_COLOR_READ_FLAG5_COUNT = 24,
+-	PERF_CCU_COLOR_READ_FLAG6_COUNT = 25,
+-	PERF_CCU_COLOR_READ_FLAG8_COUNT = 26,
+-	PERF_CCU_2D_RD_REQ = 27,
+-	PERF_CCU_2D_WR_REQ = 28,
+-};
+-
+-enum a6xx_lrz_perfcounter_select {
+-	PERF_LRZ_BUSY_CYCLES = 0,
+-	PERF_LRZ_STARVE_CYCLES_RAS = 1,
+-	PERF_LRZ_STALL_CYCLES_RB = 2,
+-	PERF_LRZ_STALL_CYCLES_VSC = 3,
+-	PERF_LRZ_STALL_CYCLES_VPC = 4,
+-	PERF_LRZ_STALL_CYCLES_FLAG_PREFETCH = 5,
+-	PERF_LRZ_STALL_CYCLES_UCHE = 6,
+-	PERF_LRZ_LRZ_READ = 7,
+-	PERF_LRZ_LRZ_WRITE = 8,
+-	PERF_LRZ_READ_LATENCY = 9,
+-	PERF_LRZ_MERGE_CACHE_UPDATING = 10,
+-	PERF_LRZ_PRIM_KILLED_BY_MASKGEN = 11,
+-	PERF_LRZ_PRIM_KILLED_BY_LRZ = 12,
+-	PERF_LRZ_VISIBLE_PRIM_AFTER_LRZ = 13,
+-	PERF_LRZ_FULL_8X8_TILES = 14,
+-	PERF_LRZ_PARTIAL_8X8_TILES = 15,
+-	PERF_LRZ_TILE_KILLED = 16,
+-	PERF_LRZ_TOTAL_PIXEL = 17,
+-	PERF_LRZ_VISIBLE_PIXEL_AFTER_LRZ = 18,
+-	PERF_LRZ_FULLY_COVERED_TILES = 19,
+-	PERF_LRZ_PARTIAL_COVERED_TILES = 20,
+-	PERF_LRZ_FEEDBACK_ACCEPT = 21,
+-	PERF_LRZ_FEEDBACK_DISCARD = 22,
+-	PERF_LRZ_FEEDBACK_STALL = 23,
+-	PERF_LRZ_STALL_CYCLES_RB_ZPLANE = 24,
+-	PERF_LRZ_STALL_CYCLES_RB_BPLANE = 25,
+-	PERF_LRZ_STALL_CYCLES_VC = 26,
+-	PERF_LRZ_RAS_MASK_TRANS = 27,
+-};
+-
+-enum a6xx_cmp_perfcounter_select {
+-	PERF_CMPDECMP_STALL_CYCLES_ARB = 0,
+-	PERF_CMPDECMP_VBIF_LATENCY_CYCLES = 1,
+-	PERF_CMPDECMP_VBIF_LATENCY_SAMPLES = 2,
+-	PERF_CMPDECMP_VBIF_READ_DATA_CCU = 3,
+-	PERF_CMPDECMP_VBIF_WRITE_DATA_CCU = 4,
+-	PERF_CMPDECMP_VBIF_READ_REQUEST = 5,
+-	PERF_CMPDECMP_VBIF_WRITE_REQUEST = 6,
+-	PERF_CMPDECMP_VBIF_READ_DATA = 7,
+-	PERF_CMPDECMP_VBIF_WRITE_DATA = 8,
+-	PERF_CMPDECMP_FLAG_FETCH_CYCLES = 9,
+-	PERF_CMPDECMP_FLAG_FETCH_SAMPLES = 10,
+-	PERF_CMPDECMP_DEPTH_WRITE_FLAG1_COUNT = 11,
+-	PERF_CMPDECMP_DEPTH_WRITE_FLAG2_COUNT = 12,
+-	PERF_CMPDECMP_DEPTH_WRITE_FLAG3_COUNT = 13,
+-	PERF_CMPDECMP_DEPTH_WRITE_FLAG4_COUNT = 14,
+-	PERF_CMPDECMP_DEPTH_WRITE_FLAG5_COUNT = 15,
+-	PERF_CMPDECMP_DEPTH_WRITE_FLAG6_COUNT = 16,
+-	PERF_CMPDECMP_DEPTH_WRITE_FLAG8_COUNT = 17,
+-	PERF_CMPDECMP_COLOR_WRITE_FLAG1_COUNT = 18,
+-	PERF_CMPDECMP_COLOR_WRITE_FLAG2_COUNT = 19,
+-	PERF_CMPDECMP_COLOR_WRITE_FLAG3_COUNT = 20,
+-	PERF_CMPDECMP_COLOR_WRITE_FLAG4_COUNT = 21,
+-	PERF_CMPDECMP_COLOR_WRITE_FLAG5_COUNT = 22,
+-	PERF_CMPDECMP_COLOR_WRITE_FLAG6_COUNT = 23,
+-	PERF_CMPDECMP_COLOR_WRITE_FLAG8_COUNT = 24,
+-	PERF_CMPDECMP_2D_STALL_CYCLES_VBIF_REQ = 25,
+-	PERF_CMPDECMP_2D_STALL_CYCLES_VBIF_WR = 26,
+-	PERF_CMPDECMP_2D_STALL_CYCLES_VBIF_RETURN = 27,
+-	PERF_CMPDECMP_2D_RD_DATA = 28,
+-	PERF_CMPDECMP_2D_WR_DATA = 29,
+-	PERF_CMPDECMP_VBIF_READ_DATA_UCHE_CH0 = 30,
+-	PERF_CMPDECMP_VBIF_READ_DATA_UCHE_CH1 = 31,
+-	PERF_CMPDECMP_2D_OUTPUT_TRANS = 32,
+-	PERF_CMPDECMP_VBIF_WRITE_DATA_UCHE = 33,
+-	PERF_CMPDECMP_DEPTH_WRITE_FLAG0_COUNT = 34,
+-	PERF_CMPDECMP_COLOR_WRITE_FLAG0_COUNT = 35,
+-	PERF_CMPDECMP_COLOR_WRITE_FLAGALPHA_COUNT = 36,
+-	PERF_CMPDECMP_2D_BUSY_CYCLES = 37,
+-	PERF_CMPDECMP_2D_REORDER_STARVE_CYCLES = 38,
+-	PERF_CMPDECMP_2D_PIXELS = 39,
+-};
+-
+-enum a6xx_2d_ifmt {
+-	R2D_UNORM8 = 16,
+-	R2D_INT32 = 7,
+-	R2D_INT16 = 6,
+-	R2D_INT8 = 5,
+-	R2D_FLOAT32 = 4,
+-	R2D_FLOAT16 = 3,
+-	R2D_UNORM8_SRGB = 1,
+-	R2D_RAW = 0,
+-};
+-
+-enum a6xx_ztest_mode {
+-	A6XX_EARLY_Z = 0,
+-	A6XX_LATE_Z = 1,
+-	A6XX_EARLY_LRZ_LATE_Z = 2,
+-	A6XX_INVALID_ZTEST = 3,
+-};
+-
+-enum a6xx_tess_spacing {
+-	TESS_EQUAL = 0,
+-	TESS_FRACTIONAL_ODD = 2,
+-	TESS_FRACTIONAL_EVEN = 3,
+-};
+-
+-enum a6xx_tess_output {
+-	TESS_POINTS = 0,
+-	TESS_LINES = 1,
+-	TESS_CW_TRIS = 2,
+-	TESS_CCW_TRIS = 3,
+-};
+-
+-enum a6xx_sequenced_thread_dist {
+-	DIST_SCREEN_COORD = 0,
+-	DIST_ALL_TO_RB0 = 1,
+-};
+-
+-enum a6xx_single_prim_mode {
+-	NO_FLUSH = 0,
+-	FLUSH_PER_OVERLAP_AND_OVERWRITE = 1,
+-	FLUSH_PER_OVERLAP = 3,
+-};
+-
+-enum a6xx_raster_mode {
+-	TYPE_TILED = 0,
+-	TYPE_WRITER = 1,
+-};
+-
+-enum a6xx_raster_direction {
+-	LR_TB = 0,
+-	RL_TB = 1,
+-	LR_BT = 2,
+-	RB_BT = 3,
+-};
+-
+-enum a6xx_render_mode {
+-	RENDERING_PASS = 0,
+-	BINNING_PASS = 1,
+-};
+-
+-enum a6xx_buffers_location {
+-	BUFFERS_IN_GMEM = 0,
+-	BUFFERS_IN_SYSMEM = 3,
+-};
+-
+-enum a6xx_lrz_dir_status {
+-	LRZ_DIR_LE = 1,
+-	LRZ_DIR_GE = 2,
+-	LRZ_DIR_INVALID = 3,
+-};
+-
+-enum a6xx_fragcoord_sample_mode {
+-	FRAGCOORD_CENTER = 0,
+-	FRAGCOORD_SAMPLE = 3,
+-};
+-
+-enum a6xx_rotation {
 -	ROTATE_0 = 0,
 -	ROTATE_90 = 1,
+-	ROTATE_180 = 2,
+-	ROTATE_270 = 3,
+-	ROTATE_HFLIP = 4,
+-	ROTATE_VFLIP = 5,
 -};
 -
--enum mdp5_chroma_downsample_method {
--	DS_MTHD_NO_PIXEL_DROP = 0,
--	DS_MTHD_PIXEL_DROP = 1,
+-enum a6xx_ccu_cache_size {
+-	CCU_CACHE_SIZE_FULL = 0,
+-	CCU_CACHE_SIZE_HALF = 1,
+-	CCU_CACHE_SIZE_QUARTER = 2,
+-	CCU_CACHE_SIZE_EIGHTH = 3,
 -};
 -
--#define MDP5_IRQ_WB_0_DONE					0x00000001
--#define MDP5_IRQ_WB_1_DONE					0x00000002
--#define MDP5_IRQ_WB_2_DONE					0x00000010
--#define MDP5_IRQ_PING_PONG_0_DONE				0x00000100
--#define MDP5_IRQ_PING_PONG_1_DONE				0x00000200
--#define MDP5_IRQ_PING_PONG_2_DONE				0x00000400
--#define MDP5_IRQ_PING_PONG_3_DONE				0x00000800
--#define MDP5_IRQ_PING_PONG_0_RD_PTR				0x00001000
--#define MDP5_IRQ_PING_PONG_1_RD_PTR				0x00002000
--#define MDP5_IRQ_PING_PONG_2_RD_PTR				0x00004000
--#define MDP5_IRQ_PING_PONG_3_RD_PTR				0x00008000
--#define MDP5_IRQ_PING_PONG_0_WR_PTR				0x00010000
--#define MDP5_IRQ_PING_PONG_1_WR_PTR				0x00020000
--#define MDP5_IRQ_PING_PONG_2_WR_PTR				0x00040000
--#define MDP5_IRQ_PING_PONG_3_WR_PTR				0x00080000
--#define MDP5_IRQ_PING_PONG_0_AUTO_REF				0x00100000
--#define MDP5_IRQ_PING_PONG_1_AUTO_REF				0x00200000
--#define MDP5_IRQ_PING_PONG_2_AUTO_REF				0x00400000
--#define MDP5_IRQ_PING_PONG_3_AUTO_REF				0x00800000
--#define MDP5_IRQ_INTF0_UNDER_RUN				0x01000000
--#define MDP5_IRQ_INTF0_VSYNC					0x02000000
--#define MDP5_IRQ_INTF1_UNDER_RUN				0x04000000
--#define MDP5_IRQ_INTF1_VSYNC					0x08000000
--#define MDP5_IRQ_INTF2_UNDER_RUN				0x10000000
--#define MDP5_IRQ_INTF2_VSYNC					0x20000000
--#define MDP5_IRQ_INTF3_UNDER_RUN				0x40000000
--#define MDP5_IRQ_INTF3_VSYNC					0x80000000
--#define REG_MDSS_HW_VERSION					0x00000000
--#define MDSS_HW_VERSION_STEP__MASK				0x0000ffff
--#define MDSS_HW_VERSION_STEP__SHIFT				0
--static inline uint32_t MDSS_HW_VERSION_STEP(uint32_t val)
+-enum a6xx_varying_interp_mode {
+-	INTERP_SMOOTH = 0,
+-	INTERP_FLAT = 1,
+-	INTERP_ZERO = 2,
+-	INTERP_ONE = 3,
+-};
+-
+-enum a6xx_varying_ps_repl_mode {
+-	PS_REPL_NONE = 0,
+-	PS_REPL_S = 1,
+-	PS_REPL_T = 2,
+-	PS_REPL_ONE_MINUS_T = 3,
+-};
+-
+-enum a6xx_threadsize {
+-	THREAD64 = 0,
+-	THREAD128 = 1,
+-};
+-
+-enum a6xx_bindless_descriptor_size {
+-	BINDLESS_DESCRIPTOR_16B = 1,
+-	BINDLESS_DESCRIPTOR_64B = 3,
+-};
+-
+-enum a6xx_isam_mode {
+-	ISAMMODE_CL = 1,
+-	ISAMMODE_GL = 2,
+-};
+-
+-enum a7xx_cs_yalign {
+-	CS_YALIGN_1 = 8,
+-	CS_YALIGN_2 = 4,
+-	CS_YALIGN_4 = 2,
+-	CS_YALIGN_8 = 1,
+-};
+-
+-enum a6xx_tex_filter {
+-	A6XX_TEX_NEAREST = 0,
+-	A6XX_TEX_LINEAR = 1,
+-	A6XX_TEX_ANISO = 2,
+-	A6XX_TEX_CUBIC = 3,
+-};
+-
+-enum a6xx_tex_clamp {
+-	A6XX_TEX_REPEAT = 0,
+-	A6XX_TEX_CLAMP_TO_EDGE = 1,
+-	A6XX_TEX_MIRROR_REPEAT = 2,
+-	A6XX_TEX_CLAMP_TO_BORDER = 3,
+-	A6XX_TEX_MIRROR_CLAMP = 4,
+-};
+-
+-enum a6xx_tex_aniso {
+-	A6XX_TEX_ANISO_1 = 0,
+-	A6XX_TEX_ANISO_2 = 1,
+-	A6XX_TEX_ANISO_4 = 2,
+-	A6XX_TEX_ANISO_8 = 3,
+-	A6XX_TEX_ANISO_16 = 4,
+-};
+-
+-enum a6xx_reduction_mode {
+-	A6XX_REDUCTION_MODE_AVERAGE = 0,
+-	A6XX_REDUCTION_MODE_MIN = 1,
+-	A6XX_REDUCTION_MODE_MAX = 2,
+-};
+-
+-enum a6xx_tex_swiz {
+-	A6XX_TEX_X = 0,
+-	A6XX_TEX_Y = 1,
+-	A6XX_TEX_Z = 2,
+-	A6XX_TEX_W = 3,
+-	A6XX_TEX_ZERO = 4,
+-	A6XX_TEX_ONE = 5,
+-};
+-
+-enum a6xx_tex_type {
+-	A6XX_TEX_1D = 0,
+-	A6XX_TEX_2D = 1,
+-	A6XX_TEX_CUBE = 2,
+-	A6XX_TEX_3D = 3,
+-	A6XX_TEX_BUFFER = 4,
+-};
+-
+-#define A6XX_RBBM_INT_0_MASK_RBBM_GPU_IDLE			0x00000001
+-#define A6XX_RBBM_INT_0_MASK_CP_AHB_ERROR			0x00000002
+-#define A6XX_RBBM_INT_0_MASK_CP_IPC_INTR_0			0x00000010
+-#define A6XX_RBBM_INT_0_MASK_CP_IPC_INTR_1			0x00000020
+-#define A6XX_RBBM_INT_0_MASK_RBBM_ATB_ASYNCFIFO_OVERFLOW	0x00000040
+-#define A6XX_RBBM_INT_0_MASK_RBBM_GPC_ERROR			0x00000080
+-#define A6XX_RBBM_INT_0_MASK_CP_SW				0x00000100
+-#define A6XX_RBBM_INT_0_MASK_CP_HW_ERROR			0x00000200
+-#define A6XX_RBBM_INT_0_MASK_CP_CCU_FLUSH_DEPTH_TS		0x00000400
+-#define A6XX_RBBM_INT_0_MASK_CP_CCU_FLUSH_COLOR_TS		0x00000800
+-#define A6XX_RBBM_INT_0_MASK_CP_CCU_RESOLVE_TS			0x00001000
+-#define A6XX_RBBM_INT_0_MASK_CP_IB2				0x00002000
+-#define A6XX_RBBM_INT_0_MASK_CP_IB1				0x00004000
+-#define A6XX_RBBM_INT_0_MASK_CP_RB				0x00008000
+-#define A6XX_RBBM_INT_0_MASK_PM4CPINTERRUPT			0x00008000
+-#define A6XX_RBBM_INT_0_MASK_PM4CPINTERRUPTLPAC			0x00010000
+-#define A6XX_RBBM_INT_0_MASK_CP_RB_DONE_TS			0x00020000
+-#define A6XX_RBBM_INT_0_MASK_CP_WT_DONE_TS			0x00040000
+-#define A6XX_RBBM_INT_0_MASK_CP_CACHE_FLUSH_TS			0x00100000
+-#define A6XX_RBBM_INT_0_MASK_CP_CACHE_FLUSH_TS_LPAC		0x00200000
+-#define A6XX_RBBM_INT_0_MASK_RBBM_ATB_BUS_OVERFLOW		0x00400000
+-#define A6XX_RBBM_INT_0_MASK_RBBM_HANG_DETECT			0x00800000
+-#define A6XX_RBBM_INT_0_MASK_UCHE_OOB_ACCESS			0x01000000
+-#define A6XX_RBBM_INT_0_MASK_UCHE_TRAP_INTR			0x02000000
+-#define A6XX_RBBM_INT_0_MASK_DEBBUS_INTR_0			0x04000000
+-#define A6XX_RBBM_INT_0_MASK_DEBBUS_INTR_1			0x08000000
+-#define A6XX_RBBM_INT_0_MASK_TSBWRITEERROR			0x10000000
+-#define A6XX_RBBM_INT_0_MASK_ISDB_CPU_IRQ			0x40000000
+-#define A6XX_RBBM_INT_0_MASK_ISDB_UNDER_DEBUG			0x80000000
+-
+-#define A6XX_CP_INT_CP_OPCODE_ERROR				0x00000001
+-#define A6XX_CP_INT_CP_UCODE_ERROR				0x00000002
+-#define A6XX_CP_INT_CP_HW_FAULT_ERROR				0x00000004
+-#define A6XX_CP_INT_CP_REGISTER_PROTECTION_ERROR		0x00000010
+-#define A6XX_CP_INT_CP_AHB_ERROR				0x00000020
+-#define A6XX_CP_INT_CP_VSD_PARITY_ERROR				0x00000040
+-#define A6XX_CP_INT_CP_ILLEGAL_INSTR_ERROR			0x00000080
+-#define A6XX_CP_INT_CP_OPCODE_ERROR_LPAC			0x00000100
+-#define A6XX_CP_INT_CP_UCODE_ERROR_LPAC				0x00000200
+-#define A6XX_CP_INT_CP_HW_FAULT_ERROR_LPAC			0x00000400
+-#define A6XX_CP_INT_CP_REGISTER_PROTECTION_ERROR_LPAC		0x00000800
+-#define A6XX_CP_INT_CP_ILLEGAL_INSTR_ERROR_LPAC			0x00001000
+-#define A6XX_CP_INT_CP_OPCODE_ERROR_BV				0x00002000
+-#define A6XX_CP_INT_CP_UCODE_ERROR_BV				0x00004000
+-#define A6XX_CP_INT_CP_HW_FAULT_ERROR_BV			0x00008000
+-#define A6XX_CP_INT_CP_REGISTER_PROTECTION_ERROR_BV		0x00010000
+-#define A6XX_CP_INT_CP_ILLEGAL_INSTR_ERROR_BV			0x00020000
+-
+-#define REG_A6XX_CP_RB_BASE					0x00000800
+-
+-#define REG_A6XX_CP_RB_CNTL					0x00000802
+-
+-#define REG_A6XX_CP_RB_RPTR_ADDR				0x00000804
+-
+-#define REG_A6XX_CP_RB_RPTR					0x00000806
+-
+-#define REG_A6XX_CP_RB_WPTR					0x00000807
+-
+-#define REG_A6XX_CP_SQE_CNTL					0x00000808
+-
+-#define REG_A6XX_CP_CP2GMU_STATUS				0x00000812
+-#define A6XX_CP_CP2GMU_STATUS_IFPC				0x00000001
+-
+-#define REG_A6XX_CP_HW_FAULT					0x00000821
+-
+-#define REG_A6XX_CP_INTERRUPT_STATUS				0x00000823
+-#define REG_A6XX_CP_PROTECT_STATUS				0x00000824
+-
+-#define REG_A6XX_CP_STATUS_1					0x00000825
+-
+-#define REG_A6XX_CP_SQE_INSTR_BASE				0x00000830
+-
+-#define REG_A6XX_CP_MISC_CNTL					0x00000840
+-
+-#define REG_A6XX_CP_APRIV_CNTL					0x00000844
+-#define A6XX_CP_APRIV_CNTL_CDWRITE				0x00000040
+-#define A6XX_CP_APRIV_CNTL_CDREAD				0x00000020
+-#define A6XX_CP_APRIV_CNTL_RBRPWB				0x00000008
+-#define A6XX_CP_APRIV_CNTL_RBPRIVLEVEL				0x00000004
+-#define A6XX_CP_APRIV_CNTL_RBFETCH				0x00000002
+-#define A6XX_CP_APRIV_CNTL_ICACHE				0x00000001
+-
+-#define REG_A6XX_CP_PREEMPT_THRESHOLD				0x000008c0
+-
+-#define REG_A6XX_CP_ROQ_THRESHOLDS_1				0x000008c1
+-#define A6XX_CP_ROQ_THRESHOLDS_1_MRB_START__MASK		0x000000ff
+-#define A6XX_CP_ROQ_THRESHOLDS_1_MRB_START__SHIFT		0
+-static inline uint32_t A6XX_CP_ROQ_THRESHOLDS_1_MRB_START(uint32_t val)
+-{
+-	assert(!(val & 0x3));
+-	return (((val >> 2)) << A6XX_CP_ROQ_THRESHOLDS_1_MRB_START__SHIFT) & A6XX_CP_ROQ_THRESHOLDS_1_MRB_START__MASK;
+-}
+-#define A6XX_CP_ROQ_THRESHOLDS_1_VSD_START__MASK		0x0000ff00
+-#define A6XX_CP_ROQ_THRESHOLDS_1_VSD_START__SHIFT		8
+-static inline uint32_t A6XX_CP_ROQ_THRESHOLDS_1_VSD_START(uint32_t val)
+-{
+-	assert(!(val & 0x3));
+-	return (((val >> 2)) << A6XX_CP_ROQ_THRESHOLDS_1_VSD_START__SHIFT) & A6XX_CP_ROQ_THRESHOLDS_1_VSD_START__MASK;
+-}
+-#define A6XX_CP_ROQ_THRESHOLDS_1_IB1_START__MASK		0x00ff0000
+-#define A6XX_CP_ROQ_THRESHOLDS_1_IB1_START__SHIFT		16
+-static inline uint32_t A6XX_CP_ROQ_THRESHOLDS_1_IB1_START(uint32_t val)
+-{
+-	assert(!(val & 0x3));
+-	return (((val >> 2)) << A6XX_CP_ROQ_THRESHOLDS_1_IB1_START__SHIFT) & A6XX_CP_ROQ_THRESHOLDS_1_IB1_START__MASK;
+-}
+-#define A6XX_CP_ROQ_THRESHOLDS_1_IB2_START__MASK		0xff000000
+-#define A6XX_CP_ROQ_THRESHOLDS_1_IB2_START__SHIFT		24
+-static inline uint32_t A6XX_CP_ROQ_THRESHOLDS_1_IB2_START(uint32_t val)
+-{
+-	assert(!(val & 0x3));
+-	return (((val >> 2)) << A6XX_CP_ROQ_THRESHOLDS_1_IB2_START__SHIFT) & A6XX_CP_ROQ_THRESHOLDS_1_IB2_START__MASK;
+-}
+-
+-#define REG_A6XX_CP_ROQ_THRESHOLDS_2				0x000008c2
+-#define A6XX_CP_ROQ_THRESHOLDS_2_SDS_START__MASK		0x000001ff
+-#define A6XX_CP_ROQ_THRESHOLDS_2_SDS_START__SHIFT		0
+-static inline uint32_t A6XX_CP_ROQ_THRESHOLDS_2_SDS_START(uint32_t val)
+-{
+-	assert(!(val & 0x3));
+-	return (((val >> 2)) << A6XX_CP_ROQ_THRESHOLDS_2_SDS_START__SHIFT) & A6XX_CP_ROQ_THRESHOLDS_2_SDS_START__MASK;
+-}
+-#define A6XX_CP_ROQ_THRESHOLDS_2_ROQ_SIZE__MASK			0xffff0000
+-#define A6XX_CP_ROQ_THRESHOLDS_2_ROQ_SIZE__SHIFT		16
+-static inline uint32_t A6XX_CP_ROQ_THRESHOLDS_2_ROQ_SIZE(uint32_t val)
+-{
+-	assert(!(val & 0x3));
+-	return (((val >> 2)) << A6XX_CP_ROQ_THRESHOLDS_2_ROQ_SIZE__SHIFT) & A6XX_CP_ROQ_THRESHOLDS_2_ROQ_SIZE__MASK;
+-}
+-
+-#define REG_A6XX_CP_MEM_POOL_SIZE				0x000008c3
+-
+-#define REG_A6XX_CP_CHICKEN_DBG					0x00000841
+-
+-#define REG_A6XX_CP_ADDR_MODE_CNTL				0x00000842
+-
+-#define REG_A6XX_CP_DBG_ECO_CNTL				0x00000843
+-
+-#define REG_A6XX_CP_PROTECT_CNTL				0x0000084f
+-#define A6XX_CP_PROTECT_CNTL_LAST_SPAN_INF_RANGE		0x00000008
+-#define A6XX_CP_PROTECT_CNTL_ACCESS_FAULT_ON_VIOL_EN		0x00000002
+-#define A6XX_CP_PROTECT_CNTL_ACCESS_PROT_EN			0x00000001
+-
+-#define REG_A6XX_CP_SCRATCH(i0) (0x00000883 + 0x1*(i0))
+-
+-static inline uint32_t REG_A6XX_CP_SCRATCH_REG(uint32_t i0) { return 0x00000883 + 0x1*i0; }
+-
+-#define REG_A6XX_CP_PROTECT(i0) (0x00000850 + 0x1*(i0))
+-
+-static inline uint32_t REG_A6XX_CP_PROTECT_REG(uint32_t i0) { return 0x00000850 + 0x1*i0; }
+-#define A6XX_CP_PROTECT_REG_BASE_ADDR__MASK			0x0003ffff
+-#define A6XX_CP_PROTECT_REG_BASE_ADDR__SHIFT			0
+-static inline uint32_t A6XX_CP_PROTECT_REG_BASE_ADDR(uint32_t val)
+-{
+-	return ((val) << A6XX_CP_PROTECT_REG_BASE_ADDR__SHIFT) & A6XX_CP_PROTECT_REG_BASE_ADDR__MASK;
+-}
+-#define A6XX_CP_PROTECT_REG_MASK_LEN__MASK			0x7ffc0000
+-#define A6XX_CP_PROTECT_REG_MASK_LEN__SHIFT			18
+-static inline uint32_t A6XX_CP_PROTECT_REG_MASK_LEN(uint32_t val)
+-{
+-	return ((val) << A6XX_CP_PROTECT_REG_MASK_LEN__SHIFT) & A6XX_CP_PROTECT_REG_MASK_LEN__MASK;
+-}
+-#define A6XX_CP_PROTECT_REG_READ				0x80000000
+-
+-#define REG_A6XX_CP_CONTEXT_SWITCH_CNTL				0x000008a0
+-
+-#define REG_A6XX_CP_CONTEXT_SWITCH_SMMU_INFO			0x000008a1
+-
+-#define REG_A6XX_CP_CONTEXT_SWITCH_PRIV_NON_SECURE_RESTORE_ADDR	0x000008a3
+-
+-#define REG_A6XX_CP_CONTEXT_SWITCH_PRIV_SECURE_RESTORE_ADDR	0x000008a5
+-
+-#define REG_A6XX_CP_CONTEXT_SWITCH_NON_PRIV_RESTORE_ADDR	0x000008a7
+-
+-#define REG_A7XX_CP_CONTEXT_SWITCH_LEVEL_STATUS			0x000008ab
+-
+-#define REG_A6XX_CP_PERFCTR_CP_SEL(i0) (0x000008d0 + 0x1*(i0))
+-
+-#define REG_A7XX_CP_BV_PERFCTR_CP_SEL(i0) (0x000008e0 + 0x1*(i0))
+-
+-#define REG_A6XX_CP_CRASH_SCRIPT_BASE				0x00000900
+-
+-#define REG_A6XX_CP_CRASH_DUMP_CNTL				0x00000902
+-
+-#define REG_A6XX_CP_CRASH_DUMP_STATUS				0x00000903
+-
+-#define REG_A6XX_CP_SQE_STAT_ADDR				0x00000908
+-
+-#define REG_A6XX_CP_SQE_STAT_DATA				0x00000909
+-
+-#define REG_A6XX_CP_DRAW_STATE_ADDR				0x0000090a
+-
+-#define REG_A6XX_CP_DRAW_STATE_DATA				0x0000090b
+-
+-#define REG_A6XX_CP_ROQ_DBG_ADDR				0x0000090c
+-
+-#define REG_A6XX_CP_ROQ_DBG_DATA				0x0000090d
+-
+-#define REG_A6XX_CP_MEM_POOL_DBG_ADDR				0x0000090e
+-
+-#define REG_A6XX_CP_MEM_POOL_DBG_DATA				0x0000090f
+-
+-#define REG_A6XX_CP_SQE_UCODE_DBG_ADDR				0x00000910
+-
+-#define REG_A6XX_CP_SQE_UCODE_DBG_DATA				0x00000911
+-
+-#define REG_A6XX_CP_IB1_BASE					0x00000928
+-
+-#define REG_A6XX_CP_IB1_REM_SIZE				0x0000092a
+-
+-#define REG_A6XX_CP_IB2_BASE					0x0000092b
+-
+-#define REG_A6XX_CP_IB2_REM_SIZE				0x0000092d
+-
+-#define REG_A6XX_CP_SDS_BASE					0x0000092e
+-
+-#define REG_A6XX_CP_SDS_REM_SIZE				0x00000930
+-
+-#define REG_A6XX_CP_MRB_BASE					0x00000931
+-
+-#define REG_A6XX_CP_MRB_REM_SIZE				0x00000933
+-
+-#define REG_A6XX_CP_VSD_BASE					0x00000934
+-
+-#define REG_A6XX_CP_ROQ_RB_STAT					0x00000939
+-#define A6XX_CP_ROQ_RB_STAT_RPTR__MASK				0x000003ff
+-#define A6XX_CP_ROQ_RB_STAT_RPTR__SHIFT				0
+-static inline uint32_t A6XX_CP_ROQ_RB_STAT_RPTR(uint32_t val)
+-{
+-	return ((val) << A6XX_CP_ROQ_RB_STAT_RPTR__SHIFT) & A6XX_CP_ROQ_RB_STAT_RPTR__MASK;
+-}
+-#define A6XX_CP_ROQ_RB_STAT_WPTR__MASK				0x03ff0000
+-#define A6XX_CP_ROQ_RB_STAT_WPTR__SHIFT				16
+-static inline uint32_t A6XX_CP_ROQ_RB_STAT_WPTR(uint32_t val)
+-{
+-	return ((val) << A6XX_CP_ROQ_RB_STAT_WPTR__SHIFT) & A6XX_CP_ROQ_RB_STAT_WPTR__MASK;
+-}
+-
+-#define REG_A6XX_CP_ROQ_IB1_STAT				0x0000093a
+-#define A6XX_CP_ROQ_IB1_STAT_RPTR__MASK				0x000003ff
+-#define A6XX_CP_ROQ_IB1_STAT_RPTR__SHIFT			0
+-static inline uint32_t A6XX_CP_ROQ_IB1_STAT_RPTR(uint32_t val)
+-{
+-	return ((val) << A6XX_CP_ROQ_IB1_STAT_RPTR__SHIFT) & A6XX_CP_ROQ_IB1_STAT_RPTR__MASK;
+-}
+-#define A6XX_CP_ROQ_IB1_STAT_WPTR__MASK				0x03ff0000
+-#define A6XX_CP_ROQ_IB1_STAT_WPTR__SHIFT			16
+-static inline uint32_t A6XX_CP_ROQ_IB1_STAT_WPTR(uint32_t val)
+-{
+-	return ((val) << A6XX_CP_ROQ_IB1_STAT_WPTR__SHIFT) & A6XX_CP_ROQ_IB1_STAT_WPTR__MASK;
+-}
+-
+-#define REG_A6XX_CP_ROQ_IB2_STAT				0x0000093b
+-#define A6XX_CP_ROQ_IB2_STAT_RPTR__MASK				0x000003ff
+-#define A6XX_CP_ROQ_IB2_STAT_RPTR__SHIFT			0
+-static inline uint32_t A6XX_CP_ROQ_IB2_STAT_RPTR(uint32_t val)
+-{
+-	return ((val) << A6XX_CP_ROQ_IB2_STAT_RPTR__SHIFT) & A6XX_CP_ROQ_IB2_STAT_RPTR__MASK;
+-}
+-#define A6XX_CP_ROQ_IB2_STAT_WPTR__MASK				0x03ff0000
+-#define A6XX_CP_ROQ_IB2_STAT_WPTR__SHIFT			16
+-static inline uint32_t A6XX_CP_ROQ_IB2_STAT_WPTR(uint32_t val)
+-{
+-	return ((val) << A6XX_CP_ROQ_IB2_STAT_WPTR__SHIFT) & A6XX_CP_ROQ_IB2_STAT_WPTR__MASK;
+-}
+-
+-#define REG_A6XX_CP_ROQ_SDS_STAT				0x0000093c
+-#define A6XX_CP_ROQ_SDS_STAT_RPTR__MASK				0x000003ff
+-#define A6XX_CP_ROQ_SDS_STAT_RPTR__SHIFT			0
+-static inline uint32_t A6XX_CP_ROQ_SDS_STAT_RPTR(uint32_t val)
+-{
+-	return ((val) << A6XX_CP_ROQ_SDS_STAT_RPTR__SHIFT) & A6XX_CP_ROQ_SDS_STAT_RPTR__MASK;
+-}
+-#define A6XX_CP_ROQ_SDS_STAT_WPTR__MASK				0x03ff0000
+-#define A6XX_CP_ROQ_SDS_STAT_WPTR__SHIFT			16
+-static inline uint32_t A6XX_CP_ROQ_SDS_STAT_WPTR(uint32_t val)
+-{
+-	return ((val) << A6XX_CP_ROQ_SDS_STAT_WPTR__SHIFT) & A6XX_CP_ROQ_SDS_STAT_WPTR__MASK;
+-}
+-
+-#define REG_A6XX_CP_ROQ_MRB_STAT				0x0000093d
+-#define A6XX_CP_ROQ_MRB_STAT_RPTR__MASK				0x000003ff
+-#define A6XX_CP_ROQ_MRB_STAT_RPTR__SHIFT			0
+-static inline uint32_t A6XX_CP_ROQ_MRB_STAT_RPTR(uint32_t val)
+-{
+-	return ((val) << A6XX_CP_ROQ_MRB_STAT_RPTR__SHIFT) & A6XX_CP_ROQ_MRB_STAT_RPTR__MASK;
+-}
+-#define A6XX_CP_ROQ_MRB_STAT_WPTR__MASK				0x03ff0000
+-#define A6XX_CP_ROQ_MRB_STAT_WPTR__SHIFT			16
+-static inline uint32_t A6XX_CP_ROQ_MRB_STAT_WPTR(uint32_t val)
+-{
+-	return ((val) << A6XX_CP_ROQ_MRB_STAT_WPTR__SHIFT) & A6XX_CP_ROQ_MRB_STAT_WPTR__MASK;
+-}
+-
+-#define REG_A6XX_CP_ROQ_VSD_STAT				0x0000093e
+-#define A6XX_CP_ROQ_VSD_STAT_RPTR__MASK				0x000003ff
+-#define A6XX_CP_ROQ_VSD_STAT_RPTR__SHIFT			0
+-static inline uint32_t A6XX_CP_ROQ_VSD_STAT_RPTR(uint32_t val)
+-{
+-	return ((val) << A6XX_CP_ROQ_VSD_STAT_RPTR__SHIFT) & A6XX_CP_ROQ_VSD_STAT_RPTR__MASK;
+-}
+-#define A6XX_CP_ROQ_VSD_STAT_WPTR__MASK				0x03ff0000
+-#define A6XX_CP_ROQ_VSD_STAT_WPTR__SHIFT			16
+-static inline uint32_t A6XX_CP_ROQ_VSD_STAT_WPTR(uint32_t val)
+-{
+-	return ((val) << A6XX_CP_ROQ_VSD_STAT_WPTR__SHIFT) & A6XX_CP_ROQ_VSD_STAT_WPTR__MASK;
+-}
+-
+-#define REG_A6XX_CP_IB1_DWORDS					0x00000943
+-
+-#define REG_A6XX_CP_IB2_DWORDS					0x00000944
+-
+-#define REG_A6XX_CP_SDS_DWORDS					0x00000945
+-
+-#define REG_A6XX_CP_MRB_DWORDS					0x00000946
+-
+-#define REG_A6XX_CP_VSD_DWORDS					0x00000947
+-
+-#define REG_A6XX_CP_ROQ_AVAIL_RB				0x00000948
+-#define A6XX_CP_ROQ_AVAIL_RB_REM__MASK				0xffff0000
+-#define A6XX_CP_ROQ_AVAIL_RB_REM__SHIFT				16
+-static inline uint32_t A6XX_CP_ROQ_AVAIL_RB_REM(uint32_t val)
+-{
+-	return ((val) << A6XX_CP_ROQ_AVAIL_RB_REM__SHIFT) & A6XX_CP_ROQ_AVAIL_RB_REM__MASK;
+-}
+-
+-#define REG_A6XX_CP_ROQ_AVAIL_IB1				0x00000949
+-#define A6XX_CP_ROQ_AVAIL_IB1_REM__MASK				0xffff0000
+-#define A6XX_CP_ROQ_AVAIL_IB1_REM__SHIFT			16
+-static inline uint32_t A6XX_CP_ROQ_AVAIL_IB1_REM(uint32_t val)
+-{
+-	return ((val) << A6XX_CP_ROQ_AVAIL_IB1_REM__SHIFT) & A6XX_CP_ROQ_AVAIL_IB1_REM__MASK;
+-}
+-
+-#define REG_A6XX_CP_ROQ_AVAIL_IB2				0x0000094a
+-#define A6XX_CP_ROQ_AVAIL_IB2_REM__MASK				0xffff0000
+-#define A6XX_CP_ROQ_AVAIL_IB2_REM__SHIFT			16
+-static inline uint32_t A6XX_CP_ROQ_AVAIL_IB2_REM(uint32_t val)
+-{
+-	return ((val) << A6XX_CP_ROQ_AVAIL_IB2_REM__SHIFT) & A6XX_CP_ROQ_AVAIL_IB2_REM__MASK;
+-}
+-
+-#define REG_A6XX_CP_ROQ_AVAIL_SDS				0x0000094b
+-#define A6XX_CP_ROQ_AVAIL_SDS_REM__MASK				0xffff0000
+-#define A6XX_CP_ROQ_AVAIL_SDS_REM__SHIFT			16
+-static inline uint32_t A6XX_CP_ROQ_AVAIL_SDS_REM(uint32_t val)
+-{
+-	return ((val) << A6XX_CP_ROQ_AVAIL_SDS_REM__SHIFT) & A6XX_CP_ROQ_AVAIL_SDS_REM__MASK;
+-}
+-
+-#define REG_A6XX_CP_ROQ_AVAIL_MRB				0x0000094c
+-#define A6XX_CP_ROQ_AVAIL_MRB_REM__MASK				0xffff0000
+-#define A6XX_CP_ROQ_AVAIL_MRB_REM__SHIFT			16
+-static inline uint32_t A6XX_CP_ROQ_AVAIL_MRB_REM(uint32_t val)
+-{
+-	return ((val) << A6XX_CP_ROQ_AVAIL_MRB_REM__SHIFT) & A6XX_CP_ROQ_AVAIL_MRB_REM__MASK;
+-}
+-
+-#define REG_A6XX_CP_ROQ_AVAIL_VSD				0x0000094d
+-#define A6XX_CP_ROQ_AVAIL_VSD_REM__MASK				0xffff0000
+-#define A6XX_CP_ROQ_AVAIL_VSD_REM__SHIFT			16
+-static inline uint32_t A6XX_CP_ROQ_AVAIL_VSD_REM(uint32_t val)
+-{
+-	return ((val) << A6XX_CP_ROQ_AVAIL_VSD_REM__SHIFT) & A6XX_CP_ROQ_AVAIL_VSD_REM__MASK;
+-}
+-
+-#define REG_A6XX_CP_ALWAYS_ON_COUNTER				0x00000980
+-
+-#define REG_A6XX_CP_AHB_CNTL					0x0000098d
+-
+-#define REG_A6XX_CP_APERTURE_CNTL_HOST				0x00000a00
+-
+-#define REG_A7XX_CP_APERTURE_CNTL_HOST				0x00000a00
+-#define A7XX_CP_APERTURE_CNTL_HOST_PIPE__MASK			0x00003000
+-#define A7XX_CP_APERTURE_CNTL_HOST_PIPE__SHIFT			12
+-static inline uint32_t A7XX_CP_APERTURE_CNTL_HOST_PIPE(enum a7xx_pipe val)
+-{
+-	return ((val) << A7XX_CP_APERTURE_CNTL_HOST_PIPE__SHIFT) & A7XX_CP_APERTURE_CNTL_HOST_PIPE__MASK;
+-}
+-#define A7XX_CP_APERTURE_CNTL_HOST_CLUSTER__MASK		0x00000700
+-#define A7XX_CP_APERTURE_CNTL_HOST_CLUSTER__SHIFT		8
+-static inline uint32_t A7XX_CP_APERTURE_CNTL_HOST_CLUSTER(enum a7xx_cluster val)
+-{
+-	return ((val) << A7XX_CP_APERTURE_CNTL_HOST_CLUSTER__SHIFT) & A7XX_CP_APERTURE_CNTL_HOST_CLUSTER__MASK;
+-}
+-#define A7XX_CP_APERTURE_CNTL_HOST_CONTEXT__MASK		0x00000030
+-#define A7XX_CP_APERTURE_CNTL_HOST_CONTEXT__SHIFT		4
+-static inline uint32_t A7XX_CP_APERTURE_CNTL_HOST_CONTEXT(uint32_t val)
+-{
+-	return ((val) << A7XX_CP_APERTURE_CNTL_HOST_CONTEXT__SHIFT) & A7XX_CP_APERTURE_CNTL_HOST_CONTEXT__MASK;
+-}
+-
+-#define REG_A6XX_CP_APERTURE_CNTL_CD				0x00000a03
+-
+-#define REG_A7XX_CP_APERTURE_CNTL_CD				0x00000a03
+-#define A7XX_CP_APERTURE_CNTL_CD_PIPE__MASK			0x00003000
+-#define A7XX_CP_APERTURE_CNTL_CD_PIPE__SHIFT			12
+-static inline uint32_t A7XX_CP_APERTURE_CNTL_CD_PIPE(enum a7xx_pipe val)
+-{
+-	return ((val) << A7XX_CP_APERTURE_CNTL_CD_PIPE__SHIFT) & A7XX_CP_APERTURE_CNTL_CD_PIPE__MASK;
+-}
+-#define A7XX_CP_APERTURE_CNTL_CD_CLUSTER__MASK			0x00000700
+-#define A7XX_CP_APERTURE_CNTL_CD_CLUSTER__SHIFT			8
+-static inline uint32_t A7XX_CP_APERTURE_CNTL_CD_CLUSTER(enum a7xx_cluster val)
+-{
+-	return ((val) << A7XX_CP_APERTURE_CNTL_CD_CLUSTER__SHIFT) & A7XX_CP_APERTURE_CNTL_CD_CLUSTER__MASK;
+-}
+-#define A7XX_CP_APERTURE_CNTL_CD_CONTEXT__MASK			0x00000030
+-#define A7XX_CP_APERTURE_CNTL_CD_CONTEXT__SHIFT			4
+-static inline uint32_t A7XX_CP_APERTURE_CNTL_CD_CONTEXT(uint32_t val)
+-{
+-	return ((val) << A7XX_CP_APERTURE_CNTL_CD_CONTEXT__SHIFT) & A7XX_CP_APERTURE_CNTL_CD_CONTEXT__MASK;
+-}
+-
+-#define REG_A7XX_CP_BV_PROTECT_STATUS				0x00000a61
+-
+-#define REG_A7XX_CP_BV_HW_FAULT					0x00000a64
+-
+-#define REG_A7XX_CP_BV_DRAW_STATE_ADDR				0x00000a81
+-
+-#define REG_A7XX_CP_BV_DRAW_STATE_DATA				0x00000a82
+-
+-#define REG_A7XX_CP_BV_ROQ_DBG_ADDR				0x00000a83
+-
+-#define REG_A7XX_CP_BV_ROQ_DBG_DATA				0x00000a84
+-
+-#define REG_A7XX_CP_BV_SQE_UCODE_DBG_ADDR			0x00000a85
+-
+-#define REG_A7XX_CP_BV_SQE_UCODE_DBG_DATA			0x00000a86
+-
+-#define REG_A7XX_CP_BV_SQE_STAT_ADDR				0x00000a87
+-
+-#define REG_A7XX_CP_BV_SQE_STAT_DATA				0x00000a88
+-
+-#define REG_A7XX_CP_BV_MEM_POOL_DBG_ADDR			0x00000a96
+-
+-#define REG_A7XX_CP_BV_MEM_POOL_DBG_DATA			0x00000a97
+-
+-#define REG_A7XX_CP_BV_RB_RPTR_ADDR				0x00000a98
+-
+-#define REG_A7XX_CP_RESOURCE_TBL_DBG_ADDR			0x00000a9a
+-
+-#define REG_A7XX_CP_RESOURCE_TBL_DBG_DATA			0x00000a9b
+-
+-#define REG_A7XX_CP_BV_APRIV_CNTL				0x00000ad0
+-
+-#define REG_A7XX_CP_BV_CHICKEN_DBG				0x00000ada
+-
+-#define REG_A7XX_CP_LPAC_DRAW_STATE_ADDR			0x00000b0a
+-
+-#define REG_A7XX_CP_LPAC_DRAW_STATE_DATA			0x00000b0b
+-
+-#define REG_A7XX_CP_LPAC_ROQ_DBG_ADDR				0x00000b0c
+-
+-#define REG_A7XX_CP_SQE_AC_UCODE_DBG_ADDR			0x00000b27
+-
+-#define REG_A7XX_CP_SQE_AC_UCODE_DBG_DATA			0x00000b28
+-
+-#define REG_A7XX_CP_SQE_AC_STAT_ADDR				0x00000b29
+-
+-#define REG_A7XX_CP_SQE_AC_STAT_DATA				0x00000b2a
+-
+-#define REG_A7XX_CP_LPAC_APRIV_CNTL				0x00000b31
+-
+-#define REG_A6XX_CP_LPAC_PROG_FIFO_SIZE				0x00000b34
+-
+-#define REG_A7XX_CP_LPAC_ROQ_DBG_DATA				0x00000b35
+-
+-#define REG_A7XX_CP_LPAC_FIFO_DBG_DATA				0x00000b36
+-
+-#define REG_A7XX_CP_LPAC_FIFO_DBG_ADDR				0x00000b40
+-
+-#define REG_A6XX_CP_LPAC_SQE_INSTR_BASE				0x00000b82
+-
+-#define REG_A6XX_VSC_ADDR_MODE_CNTL				0x00000c01
+-
+-#define REG_A6XX_RBBM_GPR0_CNTL					0x00000018
+-
+-#define REG_A6XX_RBBM_INT_0_STATUS				0x00000201
+-#define REG_A6XX_RBBM_STATUS					0x00000210
+-#define A6XX_RBBM_STATUS_GPU_BUSY_IGN_AHB			0x00800000
+-#define A6XX_RBBM_STATUS_GPU_BUSY_IGN_AHB_CP			0x00400000
+-#define A6XX_RBBM_STATUS_HLSQ_BUSY				0x00200000
+-#define A6XX_RBBM_STATUS_VSC_BUSY				0x00100000
+-#define A6XX_RBBM_STATUS_TPL1_BUSY				0x00080000
+-#define A6XX_RBBM_STATUS_SP_BUSY				0x00040000
+-#define A6XX_RBBM_STATUS_UCHE_BUSY				0x00020000
+-#define A6XX_RBBM_STATUS_VPC_BUSY				0x00010000
+-#define A6XX_RBBM_STATUS_VFD_BUSY				0x00008000
+-#define A6XX_RBBM_STATUS_TESS_BUSY				0x00004000
+-#define A6XX_RBBM_STATUS_PC_VSD_BUSY				0x00002000
+-#define A6XX_RBBM_STATUS_PC_DCALL_BUSY				0x00001000
+-#define A6XX_RBBM_STATUS_COM_DCOM_BUSY				0x00000800
+-#define A6XX_RBBM_STATUS_LRZ_BUSY				0x00000400
+-#define A6XX_RBBM_STATUS_A2D_BUSY				0x00000200
+-#define A6XX_RBBM_STATUS_CCU_BUSY				0x00000100
+-#define A6XX_RBBM_STATUS_RB_BUSY				0x00000080
+-#define A6XX_RBBM_STATUS_RAS_BUSY				0x00000040
+-#define A6XX_RBBM_STATUS_TSE_BUSY				0x00000020
+-#define A6XX_RBBM_STATUS_VBIF_BUSY				0x00000010
+-#define A6XX_RBBM_STATUS_GFX_DBGC_BUSY				0x00000008
+-#define A6XX_RBBM_STATUS_CP_BUSY				0x00000004
+-#define A6XX_RBBM_STATUS_CP_AHB_BUSY_CP_MASTER			0x00000002
+-#define A6XX_RBBM_STATUS_CP_AHB_BUSY_CX_MASTER			0x00000001
+-
+-#define REG_A6XX_RBBM_STATUS1					0x00000211
+-
+-#define REG_A6XX_RBBM_STATUS2					0x00000212
+-
+-#define REG_A6XX_RBBM_STATUS3					0x00000213
+-#define A6XX_RBBM_STATUS3_SMMU_STALLED_ON_FAULT			0x01000000
+-
+-#define REG_A6XX_RBBM_VBIF_GX_RESET_STATUS			0x00000215
+-
+-#define REG_A7XX_RBBM_CLOCK_MODE_CP				0x00000260
+-
+-#define REG_A7XX_RBBM_CLOCK_MODE_BV_LRZ				0x00000284
+-
+-#define REG_A7XX_RBBM_CLOCK_MODE_BV_GRAS			0x00000285
+-
+-#define REG_A7XX_RBBM_CLOCK_MODE2_GRAS				0x00000286
+-
+-#define REG_A7XX_RBBM_CLOCK_MODE_BV_VFD				0x00000287
+-
+-#define REG_A7XX_RBBM_CLOCK_MODE_BV_GPC				0x00000288
+-
+-#define REG_A6XX_RBBM_PERFCTR_CP(i0) (0x00000400 + 0x2*(i0))
+-
+-#define REG_A6XX_RBBM_PERFCTR_RBBM(i0) (0x0000041c + 0x2*(i0))
+-
+-#define REG_A6XX_RBBM_PERFCTR_PC(i0) (0x00000424 + 0x2*(i0))
+-
+-#define REG_A6XX_RBBM_PERFCTR_VFD(i0) (0x00000434 + 0x2*(i0))
+-
+-#define REG_A6XX_RBBM_PERFCTR_HLSQ(i0) (0x00000444 + 0x2*(i0))
+-
+-#define REG_A6XX_RBBM_PERFCTR_VPC(i0) (0x00000450 + 0x2*(i0))
+-
+-#define REG_A6XX_RBBM_PERFCTR_CCU(i0) (0x0000045c + 0x2*(i0))
+-
+-#define REG_A6XX_RBBM_PERFCTR_TSE(i0) (0x00000466 + 0x2*(i0))
+-
+-#define REG_A6XX_RBBM_PERFCTR_RAS(i0) (0x0000046e + 0x2*(i0))
+-
+-#define REG_A6XX_RBBM_PERFCTR_UCHE(i0) (0x00000476 + 0x2*(i0))
+-
+-#define REG_A6XX_RBBM_PERFCTR_TP(i0) (0x0000048e + 0x2*(i0))
+-
+-#define REG_A6XX_RBBM_PERFCTR_SP(i0) (0x000004a6 + 0x2*(i0))
+-
+-#define REG_A6XX_RBBM_PERFCTR_RB(i0) (0x000004d6 + 0x2*(i0))
+-
+-#define REG_A6XX_RBBM_PERFCTR_VSC(i0) (0x000004e6 + 0x2*(i0))
+-
+-#define REG_A6XX_RBBM_PERFCTR_LRZ(i0) (0x000004ea + 0x2*(i0))
+-
+-#define REG_A6XX_RBBM_PERFCTR_CMP(i0) (0x000004f2 + 0x2*(i0))
+-
+-#define REG_A7XX_RBBM_PERFCTR_CP(i0) (0x00000300 + 0x2*(i0))
+-
+-#define REG_A7XX_RBBM_PERFCTR_RBBM(i0) (0x0000031c + 0x2*(i0))
+-
+-#define REG_A7XX_RBBM_PERFCTR_PC(i0) (0x00000324 + 0x2*(i0))
+-
+-#define REG_A7XX_RBBM_PERFCTR_VFD(i0) (0x00000334 + 0x2*(i0))
+-
+-#define REG_A7XX_RBBM_PERFCTR_HLSQ(i0) (0x00000344 + 0x2*(i0))
+-
+-#define REG_A7XX_RBBM_PERFCTR_VPC(i0) (0x00000350 + 0x2*(i0))
+-
+-#define REG_A7XX_RBBM_PERFCTR_CCU(i0) (0x0000035c + 0x2*(i0))
+-
+-#define REG_A7XX_RBBM_PERFCTR_TSE(i0) (0x00000366 + 0x2*(i0))
+-
+-#define REG_A7XX_RBBM_PERFCTR_RAS(i0) (0x0000036e + 0x2*(i0))
+-
+-#define REG_A7XX_RBBM_PERFCTR_UCHE(i0) (0x00000376 + 0x2*(i0))
+-
+-#define REG_A7XX_RBBM_PERFCTR_TP(i0) (0x0000038e + 0x2*(i0))
+-
+-#define REG_A7XX_RBBM_PERFCTR_SP(i0) (0x000003a6 + 0x2*(i0))
+-
+-#define REG_A7XX_RBBM_PERFCTR_RB(i0) (0x000003d6 + 0x2*(i0))
+-
+-#define REG_A7XX_RBBM_PERFCTR_VSC(i0) (0x000003e6 + 0x2*(i0))
+-
+-#define REG_A7XX_RBBM_PERFCTR_LRZ(i0) (0x000003ea + 0x2*(i0))
+-
+-#define REG_A7XX_RBBM_PERFCTR_CMP(i0) (0x000003f2 + 0x2*(i0))
+-
+-#define REG_A7XX_RBBM_PERFCTR_UFC(i0) (0x000003fa + 0x2*(i0))
+-
+-#define REG_A7XX_RBBM_PERFCTR2_HLSQ(i0) (0x00000410 + 0x2*(i0))
+-
+-#define REG_A7XX_RBBM_PERFCTR2_CP(i0) (0x0000041c + 0x2*(i0))
+-
+-#define REG_A7XX_RBBM_PERFCTR2_SP(i0) (0x0000042a + 0x2*(i0))
+-
+-#define REG_A7XX_RBBM_PERFCTR2_TP(i0) (0x00000442 + 0x2*(i0))
+-
+-#define REG_A7XX_RBBM_PERFCTR2_UFC(i0) (0x0000044e + 0x2*(i0))
+-
+-#define REG_A7XX_RBBM_PERFCTR_BV_PC(i0) (0x00000460 + 0x2*(i0))
+-
+-#define REG_A7XX_RBBM_PERFCTR_BV_VFD(i0) (0x00000470 + 0x2*(i0))
+-
+-#define REG_A7XX_RBBM_PERFCTR_BV_VPC(i0) (0x00000480 + 0x2*(i0))
+-
+-#define REG_A7XX_RBBM_PERFCTR_BV_TSE(i0) (0x0000048c + 0x2*(i0))
+-
+-#define REG_A7XX_RBBM_PERFCTR_BV_RAS(i0) (0x00000494 + 0x2*(i0))
+-
+-#define REG_A7XX_RBBM_PERFCTR_BV_LRZ(i0) (0x0000049c + 0x2*(i0))
+-
+-#define REG_A6XX_RBBM_PERFCTR_CNTL				0x00000500
+-
+-#define REG_A6XX_RBBM_PERFCTR_LOAD_CMD0				0x00000501
+-
+-#define REG_A6XX_RBBM_PERFCTR_LOAD_CMD1				0x00000502
+-
+-#define REG_A6XX_RBBM_PERFCTR_LOAD_CMD2				0x00000503
+-
+-#define REG_A6XX_RBBM_PERFCTR_LOAD_CMD3				0x00000504
+-
+-#define REG_A6XX_RBBM_PERFCTR_LOAD_VALUE_LO			0x00000505
+-
+-#define REG_A6XX_RBBM_PERFCTR_LOAD_VALUE_HI			0x00000506
+-
+-#define REG_A6XX_RBBM_PERFCTR_RBBM_SEL(i0) (0x00000507 + 0x1*(i0))
+-
+-#define REG_A6XX_RBBM_PERFCTR_GPU_BUSY_MASKED			0x0000050b
+-
+-#define REG_A6XX_RBBM_PERFCTR_SRAM_INIT_CMD			0x0000050e
+-
+-#define REG_A6XX_RBBM_PERFCTR_SRAM_INIT_STATUS			0x0000050f
+-
+-#define REG_A6XX_RBBM_ISDB_CNT					0x00000533
+-
+-#define REG_A7XX_RBBM_NC_MODE_CNTL				0x00000534
+-
+-#define REG_A7XX_RBBM_SNAPSHOT_STATUS				0x00000535
+-
+-#define REG_A6XX_RBBM_PRIMCTR_0_LO				0x00000540
+-
+-#define REG_A6XX_RBBM_PRIMCTR_0_HI				0x00000541
+-
+-#define REG_A6XX_RBBM_PRIMCTR_1_LO				0x00000542
+-
+-#define REG_A6XX_RBBM_PRIMCTR_1_HI				0x00000543
+-
+-#define REG_A6XX_RBBM_PRIMCTR_2_LO				0x00000544
+-
+-#define REG_A6XX_RBBM_PRIMCTR_2_HI				0x00000545
+-
+-#define REG_A6XX_RBBM_PRIMCTR_3_LO				0x00000546
+-
+-#define REG_A6XX_RBBM_PRIMCTR_3_HI				0x00000547
+-
+-#define REG_A6XX_RBBM_PRIMCTR_4_LO				0x00000548
+-
+-#define REG_A6XX_RBBM_PRIMCTR_4_HI				0x00000549
+-
+-#define REG_A6XX_RBBM_PRIMCTR_5_LO				0x0000054a
+-
+-#define REG_A6XX_RBBM_PRIMCTR_5_HI				0x0000054b
+-
+-#define REG_A6XX_RBBM_PRIMCTR_6_LO				0x0000054c
+-
+-#define REG_A6XX_RBBM_PRIMCTR_6_HI				0x0000054d
+-
+-#define REG_A6XX_RBBM_PRIMCTR_7_LO				0x0000054e
+-
+-#define REG_A6XX_RBBM_PRIMCTR_7_HI				0x0000054f
+-
+-#define REG_A6XX_RBBM_PRIMCTR_8_LO				0x00000550
+-
+-#define REG_A6XX_RBBM_PRIMCTR_8_HI				0x00000551
+-
+-#define REG_A6XX_RBBM_PRIMCTR_9_LO				0x00000552
+-
+-#define REG_A6XX_RBBM_PRIMCTR_9_HI				0x00000553
+-
+-#define REG_A6XX_RBBM_PRIMCTR_10_LO				0x00000554
+-
+-#define REG_A6XX_RBBM_PRIMCTR_10_HI				0x00000555
+-
+-#define REG_A6XX_RBBM_SECVID_TRUST_CNTL				0x0000f400
+-
+-#define REG_A6XX_RBBM_SECVID_TSB_TRUSTED_BASE			0x0000f800
+-
+-#define REG_A6XX_RBBM_SECVID_TSB_TRUSTED_SIZE			0x0000f802
+-
+-#define REG_A6XX_RBBM_SECVID_TSB_CNTL				0x0000f803
+-
+-#define REG_A6XX_RBBM_SECVID_TSB_ADDR_MODE_CNTL			0x0000f810
+-
+-#define REG_A7XX_RBBM_SECVID_TSB_STATUS				0x0000fc00
+-
+-#define REG_A6XX_RBBM_VBIF_CLIENT_QOS_CNTL			0x00000010
+-
+-#define REG_A6XX_RBBM_GBIF_CLIENT_QOS_CNTL			0x00000011
+-
+-#define REG_A6XX_RBBM_GBIF_HALT					0x00000016
+-
+-#define REG_A6XX_RBBM_GBIF_HALT_ACK				0x00000017
+-
+-#define REG_A6XX_RBBM_WAIT_FOR_GPU_IDLE_CMD			0x0000001c
+-#define A6XX_RBBM_WAIT_FOR_GPU_IDLE_CMD_WAIT_GPU_IDLE		0x00000001
+-
+-#define REG_A7XX_RBBM_GBIF_HALT					0x00000016
+-
+-#define REG_A7XX_RBBM_GBIF_HALT_ACK				0x00000017
+-
+-#define REG_A6XX_RBBM_INTERFACE_HANG_INT_CNTL			0x0000001f
+-
+-#define REG_A6XX_RBBM_INT_CLEAR_CMD				0x00000037
+-#define REG_A6XX_RBBM_INT_0_MASK				0x00000038
+-#define REG_A7XX_RBBM_INT_2_MASK				0x0000003a
+-
+-#define REG_A6XX_RBBM_SP_HYST_CNT				0x00000042
+-
+-#define REG_A6XX_RBBM_SW_RESET_CMD				0x00000043
+-
+-#define REG_A6XX_RBBM_RAC_THRESHOLD_CNT				0x00000044
+-
+-#define REG_A6XX_RBBM_BLOCK_SW_RESET_CMD			0x00000045
+-
+-#define REG_A6XX_RBBM_BLOCK_SW_RESET_CMD2			0x00000046
+-
+-#define REG_A7XX_RBBM_CLOCK_CNTL_GLOBAL				0x000000ad
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL				0x000000ae
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL_SP0				0x000000b0
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL_SP1				0x000000b1
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL_SP2				0x000000b2
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL_SP3				0x000000b3
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL2_SP0				0x000000b4
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL2_SP1				0x000000b5
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL2_SP2				0x000000b6
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL2_SP3				0x000000b7
+-
+-#define REG_A6XX_RBBM_CLOCK_DELAY_SP0				0x000000b8
+-
+-#define REG_A6XX_RBBM_CLOCK_DELAY_SP1				0x000000b9
+-
+-#define REG_A6XX_RBBM_CLOCK_DELAY_SP2				0x000000ba
+-
+-#define REG_A6XX_RBBM_CLOCK_DELAY_SP3				0x000000bb
+-
+-#define REG_A6XX_RBBM_CLOCK_HYST_SP0				0x000000bc
+-
+-#define REG_A6XX_RBBM_CLOCK_HYST_SP1				0x000000bd
+-
+-#define REG_A6XX_RBBM_CLOCK_HYST_SP2				0x000000be
+-
+-#define REG_A6XX_RBBM_CLOCK_HYST_SP3				0x000000bf
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL_TP0				0x000000c0
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL_TP1				0x000000c1
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL_TP2				0x000000c2
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL_TP3				0x000000c3
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL2_TP0				0x000000c4
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL2_TP1				0x000000c5
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL2_TP2				0x000000c6
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL2_TP3				0x000000c7
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL3_TP0				0x000000c8
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL3_TP1				0x000000c9
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL3_TP2				0x000000ca
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL3_TP3				0x000000cb
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL4_TP0				0x000000cc
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL4_TP1				0x000000cd
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL4_TP2				0x000000ce
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL4_TP3				0x000000cf
+-
+-#define REG_A6XX_RBBM_CLOCK_DELAY_TP0				0x000000d0
+-
+-#define REG_A6XX_RBBM_CLOCK_DELAY_TP1				0x000000d1
+-
+-#define REG_A6XX_RBBM_CLOCK_DELAY_TP2				0x000000d2
+-
+-#define REG_A6XX_RBBM_CLOCK_DELAY_TP3				0x000000d3
+-
+-#define REG_A6XX_RBBM_CLOCK_DELAY2_TP0				0x000000d4
+-
+-#define REG_A6XX_RBBM_CLOCK_DELAY2_TP1				0x000000d5
+-
+-#define REG_A6XX_RBBM_CLOCK_DELAY2_TP2				0x000000d6
+-
+-#define REG_A6XX_RBBM_CLOCK_DELAY2_TP3				0x000000d7
+-
+-#define REG_A6XX_RBBM_CLOCK_DELAY3_TP0				0x000000d8
+-
+-#define REG_A6XX_RBBM_CLOCK_DELAY3_TP1				0x000000d9
+-
+-#define REG_A6XX_RBBM_CLOCK_DELAY3_TP2				0x000000da
+-
+-#define REG_A6XX_RBBM_CLOCK_DELAY3_TP3				0x000000db
+-
+-#define REG_A6XX_RBBM_CLOCK_DELAY4_TP0				0x000000dc
+-
+-#define REG_A6XX_RBBM_CLOCK_DELAY4_TP1				0x000000dd
+-
+-#define REG_A6XX_RBBM_CLOCK_DELAY4_TP2				0x000000de
+-
+-#define REG_A6XX_RBBM_CLOCK_DELAY4_TP3				0x000000df
+-
+-#define REG_A6XX_RBBM_CLOCK_HYST_TP0				0x000000e0
+-
+-#define REG_A6XX_RBBM_CLOCK_HYST_TP1				0x000000e1
+-
+-#define REG_A6XX_RBBM_CLOCK_HYST_TP2				0x000000e2
+-
+-#define REG_A6XX_RBBM_CLOCK_HYST_TP3				0x000000e3
+-
+-#define REG_A6XX_RBBM_CLOCK_HYST2_TP0				0x000000e4
+-
+-#define REG_A6XX_RBBM_CLOCK_HYST2_TP1				0x000000e5
+-
+-#define REG_A6XX_RBBM_CLOCK_HYST2_TP2				0x000000e6
+-
+-#define REG_A6XX_RBBM_CLOCK_HYST2_TP3				0x000000e7
+-
+-#define REG_A6XX_RBBM_CLOCK_HYST3_TP0				0x000000e8
+-
+-#define REG_A6XX_RBBM_CLOCK_HYST3_TP1				0x000000e9
+-
+-#define REG_A6XX_RBBM_CLOCK_HYST3_TP2				0x000000ea
+-
+-#define REG_A6XX_RBBM_CLOCK_HYST3_TP3				0x000000eb
+-
+-#define REG_A6XX_RBBM_CLOCK_HYST4_TP0				0x000000ec
+-
+-#define REG_A6XX_RBBM_CLOCK_HYST4_TP1				0x000000ed
+-
+-#define REG_A6XX_RBBM_CLOCK_HYST4_TP2				0x000000ee
+-
+-#define REG_A6XX_RBBM_CLOCK_HYST4_TP3				0x000000ef
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL_RB0				0x000000f0
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL_RB1				0x000000f1
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL_RB2				0x000000f2
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL_RB3				0x000000f3
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL2_RB0				0x000000f4
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL2_RB1				0x000000f5
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL2_RB2				0x000000f6
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL2_RB3				0x000000f7
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL_CCU0				0x000000f8
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL_CCU1				0x000000f9
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL_CCU2				0x000000fa
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL_CCU3				0x000000fb
+-
+-#define REG_A6XX_RBBM_CLOCK_HYST_RB_CCU0			0x00000100
+-
+-#define REG_A6XX_RBBM_CLOCK_HYST_RB_CCU1			0x00000101
+-
+-#define REG_A6XX_RBBM_CLOCK_HYST_RB_CCU2			0x00000102
+-
+-#define REG_A6XX_RBBM_CLOCK_HYST_RB_CCU3			0x00000103
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL_RAC				0x00000104
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL2_RAC				0x00000105
+-
+-#define REG_A6XX_RBBM_CLOCK_DELAY_RAC				0x00000106
+-
+-#define REG_A6XX_RBBM_CLOCK_HYST_RAC				0x00000107
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL_TSE_RAS_RBBM			0x00000108
+-
+-#define REG_A6XX_RBBM_CLOCK_DELAY_TSE_RAS_RBBM			0x00000109
+-
+-#define REG_A6XX_RBBM_CLOCK_HYST_TSE_RAS_RBBM			0x0000010a
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL_UCHE				0x0000010b
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL2_UCHE				0x0000010c
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL3_UCHE				0x0000010d
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL4_UCHE				0x0000010e
+-
+-#define REG_A6XX_RBBM_CLOCK_DELAY_UCHE				0x0000010f
+-
+-#define REG_A6XX_RBBM_CLOCK_HYST_UCHE				0x00000110
+-
+-#define REG_A6XX_RBBM_CLOCK_MODE_VFD				0x00000111
+-
+-#define REG_A6XX_RBBM_CLOCK_DELAY_VFD				0x00000112
+-
+-#define REG_A6XX_RBBM_CLOCK_HYST_VFD				0x00000113
+-
+-#define REG_A6XX_RBBM_CLOCK_MODE_GPC				0x00000114
+-
+-#define REG_A6XX_RBBM_CLOCK_DELAY_GPC				0x00000115
+-
+-#define REG_A6XX_RBBM_CLOCK_HYST_GPC				0x00000116
+-
+-#define REG_A6XX_RBBM_CLOCK_DELAY_HLSQ_2			0x00000117
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL_GMU_GX				0x00000118
+-
+-#define REG_A6XX_RBBM_CLOCK_DELAY_GMU_GX			0x00000119
+-
+-#define REG_A6XX_RBBM_CLOCK_HYST_GMU_GX				0x0000011a
+-
+-#define REG_A6XX_RBBM_CLOCK_MODE_HLSQ				0x0000011b
+-
+-#define REG_A6XX_RBBM_CLOCK_DELAY_HLSQ				0x0000011c
+-
+-#define REG_A6XX_RBBM_CLOCK_HYST_HLSQ				0x0000011d
+-
+-#define REG_A7XX_RBBM_CGC_GLOBAL_LOAD_CMD			0x0000011e
+-
+-#define REG_A7XX_RBBM_CGC_P2S_TRIG_CMD				0x0000011f
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL_TEX_FCHE			0x00000120
+-
+-#define REG_A6XX_RBBM_CLOCK_DELAY_TEX_FCHE			0x00000121
+-
+-#define REG_A6XX_RBBM_CLOCK_HYST_TEX_FCHE			0x00000122
+-
+-#define REG_A7XX_RBBM_CGC_P2S_STATUS				0x00000122
+-#define A7XX_RBBM_CGC_P2S_STATUS_TXDONE				0x00000001
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL_FCHE				0x00000123
+-
+-#define REG_A6XX_RBBM_CLOCK_DELAY_FCHE				0x00000124
+-
+-#define REG_A6XX_RBBM_CLOCK_HYST_FCHE				0x00000125
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL_MHUB				0x00000126
+-
+-#define REG_A6XX_RBBM_CLOCK_DELAY_MHUB				0x00000127
+-
+-#define REG_A6XX_RBBM_CLOCK_HYST_MHUB				0x00000128
+-
+-#define REG_A6XX_RBBM_CLOCK_DELAY_GLC				0x00000129
+-
+-#define REG_A6XX_RBBM_CLOCK_HYST_GLC				0x0000012a
+-
+-#define REG_A6XX_RBBM_CLOCK_CNTL_GLC				0x0000012b
+-
+-#define REG_A7XX_RBBM_CLOCK_HYST2_VFD				0x0000012f
+-
+-#define REG_A6XX_RBBM_LPAC_GBIF_CLIENT_QOS_CNTL			0x000005ff
+-
+-#define REG_A6XX_DBGC_CFG_DBGBUS_SEL_A				0x00000600
+-
+-#define REG_A6XX_DBGC_CFG_DBGBUS_SEL_B				0x00000601
+-
+-#define REG_A6XX_DBGC_CFG_DBGBUS_SEL_C				0x00000602
+-
+-#define REG_A6XX_DBGC_CFG_DBGBUS_SEL_D				0x00000603
+-#define A6XX_DBGC_CFG_DBGBUS_SEL_D_PING_INDEX__MASK		0x000000ff
+-#define A6XX_DBGC_CFG_DBGBUS_SEL_D_PING_INDEX__SHIFT		0
+-static inline uint32_t A6XX_DBGC_CFG_DBGBUS_SEL_D_PING_INDEX(uint32_t val)
+-{
+-	return ((val) << A6XX_DBGC_CFG_DBGBUS_SEL_D_PING_INDEX__SHIFT) & A6XX_DBGC_CFG_DBGBUS_SEL_D_PING_INDEX__MASK;
+-}
+-#define A6XX_DBGC_CFG_DBGBUS_SEL_D_PING_BLK_SEL__MASK		0x0000ff00
+-#define A6XX_DBGC_CFG_DBGBUS_SEL_D_PING_BLK_SEL__SHIFT		8
+-static inline uint32_t A6XX_DBGC_CFG_DBGBUS_SEL_D_PING_BLK_SEL(uint32_t val)
+-{
+-	return ((val) << A6XX_DBGC_CFG_DBGBUS_SEL_D_PING_BLK_SEL__SHIFT) & A6XX_DBGC_CFG_DBGBUS_SEL_D_PING_BLK_SEL__MASK;
+-}
+-
+-#define REG_A6XX_DBGC_CFG_DBGBUS_CNTLT				0x00000604
+-#define A6XX_DBGC_CFG_DBGBUS_CNTLT_TRACEEN__MASK		0x0000003f
+-#define A6XX_DBGC_CFG_DBGBUS_CNTLT_TRACEEN__SHIFT		0
+-static inline uint32_t A6XX_DBGC_CFG_DBGBUS_CNTLT_TRACEEN(uint32_t val)
+-{
+-	return ((val) << A6XX_DBGC_CFG_DBGBUS_CNTLT_TRACEEN__SHIFT) & A6XX_DBGC_CFG_DBGBUS_CNTLT_TRACEEN__MASK;
+-}
+-#define A6XX_DBGC_CFG_DBGBUS_CNTLT_GRANU__MASK			0x00007000
+-#define A6XX_DBGC_CFG_DBGBUS_CNTLT_GRANU__SHIFT			12
+-static inline uint32_t A6XX_DBGC_CFG_DBGBUS_CNTLT_GRANU(uint32_t val)
+-{
+-	return ((val) << A6XX_DBGC_CFG_DBGBUS_CNTLT_GRANU__SHIFT) & A6XX_DBGC_CFG_DBGBUS_CNTLT_GRANU__MASK;
+-}
+-#define A6XX_DBGC_CFG_DBGBUS_CNTLT_SEGT__MASK			0xf0000000
+-#define A6XX_DBGC_CFG_DBGBUS_CNTLT_SEGT__SHIFT			28
+-static inline uint32_t A6XX_DBGC_CFG_DBGBUS_CNTLT_SEGT(uint32_t val)
+-{
+-	return ((val) << A6XX_DBGC_CFG_DBGBUS_CNTLT_SEGT__SHIFT) & A6XX_DBGC_CFG_DBGBUS_CNTLT_SEGT__MASK;
+-}
+-
+-#define REG_A6XX_DBGC_CFG_DBGBUS_CNTLM				0x00000605
+-#define A6XX_DBGC_CFG_DBGBUS_CNTLM_ENABLE__MASK			0x0f000000
+-#define A6XX_DBGC_CFG_DBGBUS_CNTLM_ENABLE__SHIFT		24
+-static inline uint32_t A6XX_DBGC_CFG_DBGBUS_CNTLM_ENABLE(uint32_t val)
+-{
+-	return ((val) << A6XX_DBGC_CFG_DBGBUS_CNTLM_ENABLE__SHIFT) & A6XX_DBGC_CFG_DBGBUS_CNTLM_ENABLE__MASK;
+-}
+-
+-#define REG_A6XX_DBGC_CFG_DBGBUS_IVTL_0				0x00000608
+-
+-#define REG_A6XX_DBGC_CFG_DBGBUS_IVTL_1				0x00000609
+-
+-#define REG_A6XX_DBGC_CFG_DBGBUS_IVTL_2				0x0000060a
+-
+-#define REG_A6XX_DBGC_CFG_DBGBUS_IVTL_3				0x0000060b
+-
+-#define REG_A6XX_DBGC_CFG_DBGBUS_MASKL_0			0x0000060c
+-
+-#define REG_A6XX_DBGC_CFG_DBGBUS_MASKL_1			0x0000060d
+-
+-#define REG_A6XX_DBGC_CFG_DBGBUS_MASKL_2			0x0000060e
+-
+-#define REG_A6XX_DBGC_CFG_DBGBUS_MASKL_3			0x0000060f
+-
+-#define REG_A6XX_DBGC_CFG_DBGBUS_BYTEL_0			0x00000610
+-#define A6XX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL0__MASK		0x0000000f
+-#define A6XX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL0__SHIFT		0
+-static inline uint32_t A6XX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL0(uint32_t val)
+-{
+-	return ((val) << A6XX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL0__SHIFT) & A6XX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL0__MASK;
+-}
+-#define A6XX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL1__MASK		0x000000f0
+-#define A6XX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL1__SHIFT		4
+-static inline uint32_t A6XX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL1(uint32_t val)
+-{
+-	return ((val) << A6XX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL1__SHIFT) & A6XX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL1__MASK;
+-}
+-#define A6XX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL2__MASK		0x00000f00
+-#define A6XX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL2__SHIFT		8
+-static inline uint32_t A6XX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL2(uint32_t val)
+-{
+-	return ((val) << A6XX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL2__SHIFT) & A6XX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL2__MASK;
+-}
+-#define A6XX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL3__MASK		0x0000f000
+-#define A6XX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL3__SHIFT		12
+-static inline uint32_t A6XX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL3(uint32_t val)
+-{
+-	return ((val) << A6XX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL3__SHIFT) & A6XX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL3__MASK;
+-}
+-#define A6XX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL4__MASK		0x000f0000
+-#define A6XX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL4__SHIFT		16
+-static inline uint32_t A6XX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL4(uint32_t val)
+-{
+-	return ((val) << A6XX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL4__SHIFT) & A6XX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL4__MASK;
+-}
+-#define A6XX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL5__MASK		0x00f00000
+-#define A6XX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL5__SHIFT		20
+-static inline uint32_t A6XX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL5(uint32_t val)
+-{
+-	return ((val) << A6XX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL5__SHIFT) & A6XX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL5__MASK;
+-}
+-#define A6XX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL6__MASK		0x0f000000
+-#define A6XX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL6__SHIFT		24
+-static inline uint32_t A6XX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL6(uint32_t val)
+-{
+-	return ((val) << A6XX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL6__SHIFT) & A6XX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL6__MASK;
+-}
+-#define A6XX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL7__MASK		0xf0000000
+-#define A6XX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL7__SHIFT		28
+-static inline uint32_t A6XX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL7(uint32_t val)
+-{
+-	return ((val) << A6XX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL7__SHIFT) & A6XX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL7__MASK;
+-}
+-
+-#define REG_A6XX_DBGC_CFG_DBGBUS_BYTEL_1			0x00000611
+-#define A6XX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL8__MASK		0x0000000f
+-#define A6XX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL8__SHIFT		0
+-static inline uint32_t A6XX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL8(uint32_t val)
+-{
+-	return ((val) << A6XX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL8__SHIFT) & A6XX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL8__MASK;
+-}
+-#define A6XX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL9__MASK		0x000000f0
+-#define A6XX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL9__SHIFT		4
+-static inline uint32_t A6XX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL9(uint32_t val)
+-{
+-	return ((val) << A6XX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL9__SHIFT) & A6XX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL9__MASK;
+-}
+-#define A6XX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL10__MASK		0x00000f00
+-#define A6XX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL10__SHIFT		8
+-static inline uint32_t A6XX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL10(uint32_t val)
+-{
+-	return ((val) << A6XX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL10__SHIFT) & A6XX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL10__MASK;
+-}
+-#define A6XX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL11__MASK		0x0000f000
+-#define A6XX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL11__SHIFT		12
+-static inline uint32_t A6XX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL11(uint32_t val)
+-{
+-	return ((val) << A6XX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL11__SHIFT) & A6XX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL11__MASK;
+-}
+-#define A6XX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL12__MASK		0x000f0000
+-#define A6XX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL12__SHIFT		16
+-static inline uint32_t A6XX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL12(uint32_t val)
+-{
+-	return ((val) << A6XX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL12__SHIFT) & A6XX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL12__MASK;
+-}
+-#define A6XX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL13__MASK		0x00f00000
+-#define A6XX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL13__SHIFT		20
+-static inline uint32_t A6XX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL13(uint32_t val)
+-{
+-	return ((val) << A6XX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL13__SHIFT) & A6XX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL13__MASK;
+-}
+-#define A6XX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL14__MASK		0x0f000000
+-#define A6XX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL14__SHIFT		24
+-static inline uint32_t A6XX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL14(uint32_t val)
+-{
+-	return ((val) << A6XX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL14__SHIFT) & A6XX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL14__MASK;
+-}
+-#define A6XX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL15__MASK		0xf0000000
+-#define A6XX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL15__SHIFT		28
+-static inline uint32_t A6XX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL15(uint32_t val)
+-{
+-	return ((val) << A6XX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL15__SHIFT) & A6XX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL15__MASK;
+-}
+-
+-#define REG_A6XX_DBGC_CFG_DBGBUS_TRACE_BUF1			0x0000062f
+-
+-#define REG_A6XX_DBGC_CFG_DBGBUS_TRACE_BUF2			0x00000630
+-
+-#define REG_A6XX_VSC_PERFCTR_VSC_SEL(i0) (0x00000cd8 + 0x1*(i0))
+-
+-#define REG_A7XX_VSC_UNKNOWN_0CD8				0x00000cd8
+-#define A7XX_VSC_UNKNOWN_0CD8_BINNING				0x00000001
+-
+-#define REG_A6XX_HLSQ_DBG_AHB_READ_APERTURE			0x0000c800
+-
+-#define REG_A6XX_HLSQ_DBG_READ_SEL				0x0000d000
+-
+-#define REG_A6XX_UCHE_ADDR_MODE_CNTL				0x00000e00
+-
+-#define REG_A6XX_UCHE_MODE_CNTL					0x00000e01
+-
+-#define REG_A6XX_UCHE_WRITE_RANGE_MAX				0x00000e05
+-
+-#define REG_A6XX_UCHE_WRITE_THRU_BASE				0x00000e07
+-
+-#define REG_A6XX_UCHE_TRAP_BASE					0x00000e09
+-
+-#define REG_A6XX_UCHE_GMEM_RANGE_MIN				0x00000e0b
+-
+-#define REG_A6XX_UCHE_GMEM_RANGE_MAX				0x00000e0d
+-
+-#define REG_A6XX_UCHE_CACHE_WAYS				0x00000e17
+-
+-#define REG_A6XX_UCHE_FILTER_CNTL				0x00000e18
+-
+-#define REG_A6XX_UCHE_CLIENT_PF					0x00000e19
+-#define A6XX_UCHE_CLIENT_PF_PERFSEL__MASK			0x000000ff
+-#define A6XX_UCHE_CLIENT_PF_PERFSEL__SHIFT			0
+-static inline uint32_t A6XX_UCHE_CLIENT_PF_PERFSEL(uint32_t val)
+-{
+-	return ((val) << A6XX_UCHE_CLIENT_PF_PERFSEL__SHIFT) & A6XX_UCHE_CLIENT_PF_PERFSEL__MASK;
+-}
+-
+-#define REG_A6XX_UCHE_PERFCTR_UCHE_SEL(i0) (0x00000e1c + 0x1*(i0))
+-
+-#define REG_A6XX_UCHE_GBIF_GX_CONFIG				0x00000e3a
+-
+-#define REG_A6XX_UCHE_CMDQ_CONFIG				0x00000e3c
+-
+-#define REG_A6XX_VBIF_VERSION					0x00003000
+-
+-#define REG_A6XX_VBIF_CLKON					0x00003001
+-#define A6XX_VBIF_CLKON_FORCE_ON_TESTBUS			0x00000002
+-
+-#define REG_A6XX_VBIF_GATE_OFF_WRREQ_EN				0x0000302a
+-
+-#define REG_A6XX_VBIF_XIN_HALT_CTRL0				0x00003080
+-
+-#define REG_A6XX_VBIF_XIN_HALT_CTRL1				0x00003081
+-
+-#define REG_A6XX_VBIF_TEST_BUS_OUT_CTRL				0x00003084
+-
+-#define REG_A6XX_VBIF_TEST_BUS1_CTRL0				0x00003085
+-
+-#define REG_A6XX_VBIF_TEST_BUS1_CTRL1				0x00003086
+-#define A6XX_VBIF_TEST_BUS1_CTRL1_DATA_SEL__MASK		0x0000000f
+-#define A6XX_VBIF_TEST_BUS1_CTRL1_DATA_SEL__SHIFT		0
+-static inline uint32_t A6XX_VBIF_TEST_BUS1_CTRL1_DATA_SEL(uint32_t val)
+-{
+-	return ((val) << A6XX_VBIF_TEST_BUS1_CTRL1_DATA_SEL__SHIFT) & A6XX_VBIF_TEST_BUS1_CTRL1_DATA_SEL__MASK;
+-}
+-
+-#define REG_A6XX_VBIF_TEST_BUS2_CTRL0				0x00003087
+-
+-#define REG_A6XX_VBIF_TEST_BUS2_CTRL1				0x00003088
+-#define A6XX_VBIF_TEST_BUS2_CTRL1_DATA_SEL__MASK		0x000001ff
+-#define A6XX_VBIF_TEST_BUS2_CTRL1_DATA_SEL__SHIFT		0
+-static inline uint32_t A6XX_VBIF_TEST_BUS2_CTRL1_DATA_SEL(uint32_t val)
+-{
+-	return ((val) << A6XX_VBIF_TEST_BUS2_CTRL1_DATA_SEL__SHIFT) & A6XX_VBIF_TEST_BUS2_CTRL1_DATA_SEL__MASK;
+-}
+-
+-#define REG_A6XX_VBIF_TEST_BUS_OUT				0x0000308c
+-
+-#define REG_A6XX_VBIF_PERF_CNT_SEL0				0x000030d0
+-
+-#define REG_A6XX_VBIF_PERF_CNT_SEL1				0x000030d1
+-
+-#define REG_A6XX_VBIF_PERF_CNT_SEL2				0x000030d2
+-
+-#define REG_A6XX_VBIF_PERF_CNT_SEL3				0x000030d3
+-
+-#define REG_A6XX_VBIF_PERF_CNT_LOW0				0x000030d8
+-
+-#define REG_A6XX_VBIF_PERF_CNT_LOW1				0x000030d9
+-
+-#define REG_A6XX_VBIF_PERF_CNT_LOW2				0x000030da
+-
+-#define REG_A6XX_VBIF_PERF_CNT_LOW3				0x000030db
+-
+-#define REG_A6XX_VBIF_PERF_CNT_HIGH0				0x000030e0
+-
+-#define REG_A6XX_VBIF_PERF_CNT_HIGH1				0x000030e1
+-
+-#define REG_A6XX_VBIF_PERF_CNT_HIGH2				0x000030e2
+-
+-#define REG_A6XX_VBIF_PERF_CNT_HIGH3				0x000030e3
+-
+-#define REG_A6XX_VBIF_PERF_PWR_CNT_EN0				0x00003100
+-
+-#define REG_A6XX_VBIF_PERF_PWR_CNT_EN1				0x00003101
+-
+-#define REG_A6XX_VBIF_PERF_PWR_CNT_EN2				0x00003102
+-
+-#define REG_A6XX_VBIF_PERF_PWR_CNT_LOW0				0x00003110
+-
+-#define REG_A6XX_VBIF_PERF_PWR_CNT_LOW1				0x00003111
+-
+-#define REG_A6XX_VBIF_PERF_PWR_CNT_LOW2				0x00003112
+-
+-#define REG_A6XX_VBIF_PERF_PWR_CNT_HIGH0			0x00003118
+-
+-#define REG_A6XX_VBIF_PERF_PWR_CNT_HIGH1			0x00003119
+-
+-#define REG_A6XX_VBIF_PERF_PWR_CNT_HIGH2			0x0000311a
+-
+-#define REG_A6XX_GBIF_SCACHE_CNTL0				0x00003c01
+-
+-#define REG_A6XX_GBIF_SCACHE_CNTL1				0x00003c02
+-
+-#define REG_A6XX_GBIF_QSB_SIDE0					0x00003c03
+-
+-#define REG_A6XX_GBIF_QSB_SIDE1					0x00003c04
+-
+-#define REG_A6XX_GBIF_QSB_SIDE2					0x00003c05
+-
+-#define REG_A6XX_GBIF_QSB_SIDE3					0x00003c06
+-
+-#define REG_A6XX_GBIF_HALT					0x00003c45
+-
+-#define REG_A6XX_GBIF_HALT_ACK					0x00003c46
+-
+-#define REG_A6XX_GBIF_PERF_PWR_CNT_EN				0x00003cc0
+-
+-#define REG_A6XX_GBIF_PERF_PWR_CNT_CLR				0x00003cc1
+-
+-#define REG_A6XX_GBIF_PERF_CNT_SEL				0x00003cc2
+-
+-#define REG_A6XX_GBIF_PERF_PWR_CNT_SEL				0x00003cc3
+-
+-#define REG_A6XX_GBIF_PERF_CNT_LOW0				0x00003cc4
+-
+-#define REG_A6XX_GBIF_PERF_CNT_LOW1				0x00003cc5
+-
+-#define REG_A6XX_GBIF_PERF_CNT_LOW2				0x00003cc6
+-
+-#define REG_A6XX_GBIF_PERF_CNT_LOW3				0x00003cc7
+-
+-#define REG_A6XX_GBIF_PERF_CNT_HIGH0				0x00003cc8
+-
+-#define REG_A6XX_GBIF_PERF_CNT_HIGH1				0x00003cc9
+-
+-#define REG_A6XX_GBIF_PERF_CNT_HIGH2				0x00003cca
+-
+-#define REG_A6XX_GBIF_PERF_CNT_HIGH3				0x00003ccb
+-
+-#define REG_A6XX_GBIF_PWR_CNT_LOW0				0x00003ccc
+-
+-#define REG_A6XX_GBIF_PWR_CNT_LOW1				0x00003ccd
+-
+-#define REG_A6XX_GBIF_PWR_CNT_LOW2				0x00003cce
+-
+-#define REG_A6XX_GBIF_PWR_CNT_HIGH0				0x00003ccf
+-
+-#define REG_A6XX_GBIF_PWR_CNT_HIGH1				0x00003cd0
+-
+-#define REG_A6XX_GBIF_PWR_CNT_HIGH2				0x00003cd1
+-
+-#define REG_A6XX_VSC_DBG_ECO_CNTL				0x00000c00
+-
+-#define REG_A6XX_VSC_BIN_SIZE					0x00000c02
+-#define A6XX_VSC_BIN_SIZE_WIDTH__MASK				0x000000ff
+-#define A6XX_VSC_BIN_SIZE_WIDTH__SHIFT				0
+-static inline uint32_t A6XX_VSC_BIN_SIZE_WIDTH(uint32_t val)
+-{
+-	assert(!(val & 0x1f));
+-	return (((val >> 5)) << A6XX_VSC_BIN_SIZE_WIDTH__SHIFT) & A6XX_VSC_BIN_SIZE_WIDTH__MASK;
+-}
+-#define A6XX_VSC_BIN_SIZE_HEIGHT__MASK				0x0001ff00
+-#define A6XX_VSC_BIN_SIZE_HEIGHT__SHIFT				8
+-static inline uint32_t A6XX_VSC_BIN_SIZE_HEIGHT(uint32_t val)
+-{
+-	assert(!(val & 0xf));
+-	return (((val >> 4)) << A6XX_VSC_BIN_SIZE_HEIGHT__SHIFT) & A6XX_VSC_BIN_SIZE_HEIGHT__MASK;
+-}
+-
+-#define REG_A6XX_VSC_DRAW_STRM_SIZE_ADDRESS			0x00000c03
+-
+-#define REG_A6XX_VSC_BIN_COUNT					0x00000c06
+-#define A6XX_VSC_BIN_COUNT_NX__MASK				0x000007fe
+-#define A6XX_VSC_BIN_COUNT_NX__SHIFT				1
+-static inline uint32_t A6XX_VSC_BIN_COUNT_NX(uint32_t val)
+-{
+-	return ((val) << A6XX_VSC_BIN_COUNT_NX__SHIFT) & A6XX_VSC_BIN_COUNT_NX__MASK;
+-}
+-#define A6XX_VSC_BIN_COUNT_NY__MASK				0x001ff800
+-#define A6XX_VSC_BIN_COUNT_NY__SHIFT				11
+-static inline uint32_t A6XX_VSC_BIN_COUNT_NY(uint32_t val)
+-{
+-	return ((val) << A6XX_VSC_BIN_COUNT_NY__SHIFT) & A6XX_VSC_BIN_COUNT_NY__MASK;
+-}
+-
+-#define REG_A6XX_VSC_PIPE_CONFIG(i0) (0x00000c10 + 0x1*(i0))
+-
+-static inline uint32_t REG_A6XX_VSC_PIPE_CONFIG_REG(uint32_t i0) { return 0x00000c10 + 0x1*i0; }
+-#define A6XX_VSC_PIPE_CONFIG_REG_X__MASK			0x000003ff
+-#define A6XX_VSC_PIPE_CONFIG_REG_X__SHIFT			0
+-static inline uint32_t A6XX_VSC_PIPE_CONFIG_REG_X(uint32_t val)
+-{
+-	return ((val) << A6XX_VSC_PIPE_CONFIG_REG_X__SHIFT) & A6XX_VSC_PIPE_CONFIG_REG_X__MASK;
+-}
+-#define A6XX_VSC_PIPE_CONFIG_REG_Y__MASK			0x000ffc00
+-#define A6XX_VSC_PIPE_CONFIG_REG_Y__SHIFT			10
+-static inline uint32_t A6XX_VSC_PIPE_CONFIG_REG_Y(uint32_t val)
+-{
+-	return ((val) << A6XX_VSC_PIPE_CONFIG_REG_Y__SHIFT) & A6XX_VSC_PIPE_CONFIG_REG_Y__MASK;
+-}
+-#define A6XX_VSC_PIPE_CONFIG_REG_W__MASK			0x03f00000
+-#define A6XX_VSC_PIPE_CONFIG_REG_W__SHIFT			20
+-static inline uint32_t A6XX_VSC_PIPE_CONFIG_REG_W(uint32_t val)
+-{
+-	return ((val) << A6XX_VSC_PIPE_CONFIG_REG_W__SHIFT) & A6XX_VSC_PIPE_CONFIG_REG_W__MASK;
+-}
+-#define A6XX_VSC_PIPE_CONFIG_REG_H__MASK			0xfc000000
+-#define A6XX_VSC_PIPE_CONFIG_REG_H__SHIFT			26
+-static inline uint32_t A6XX_VSC_PIPE_CONFIG_REG_H(uint32_t val)
+-{
+-	return ((val) << A6XX_VSC_PIPE_CONFIG_REG_H__SHIFT) & A6XX_VSC_PIPE_CONFIG_REG_H__MASK;
+-}
+-
+-#define REG_A6XX_VSC_PRIM_STRM_ADDRESS				0x00000c30
+-
+-#define REG_A6XX_VSC_PRIM_STRM_PITCH				0x00000c32
+-
+-#define REG_A6XX_VSC_PRIM_STRM_LIMIT				0x00000c33
+-
+-#define REG_A6XX_VSC_DRAW_STRM_ADDRESS				0x00000c34
+-
+-#define REG_A6XX_VSC_DRAW_STRM_PITCH				0x00000c36
+-
+-#define REG_A6XX_VSC_DRAW_STRM_LIMIT				0x00000c37
+-
+-#define REG_A6XX_VSC_STATE(i0) (0x00000c38 + 0x1*(i0))
+-
+-static inline uint32_t REG_A6XX_VSC_STATE_REG(uint32_t i0) { return 0x00000c38 + 0x1*i0; }
+-
+-#define REG_A6XX_VSC_PRIM_STRM_SIZE(i0) (0x00000c58 + 0x1*(i0))
+-
+-static inline uint32_t REG_A6XX_VSC_PRIM_STRM_SIZE_REG(uint32_t i0) { return 0x00000c58 + 0x1*i0; }
+-
+-#define REG_A6XX_VSC_DRAW_STRM_SIZE(i0) (0x00000c78 + 0x1*(i0))
+-
+-static inline uint32_t REG_A6XX_VSC_DRAW_STRM_SIZE_REG(uint32_t i0) { return 0x00000c78 + 0x1*i0; }
+-
+-#define REG_A7XX_UCHE_UNKNOWN_0E10				0x00000e10
+-
+-#define REG_A7XX_UCHE_UNKNOWN_0E11				0x00000e11
+-
+-#define REG_A6XX_UCHE_UNKNOWN_0E12				0x00000e12
+-
+-#define REG_A6XX_GRAS_CL_CNTL					0x00008000
+-#define A6XX_GRAS_CL_CNTL_CLIP_DISABLE				0x00000001
+-#define A6XX_GRAS_CL_CNTL_ZNEAR_CLIP_DISABLE			0x00000002
+-#define A6XX_GRAS_CL_CNTL_ZFAR_CLIP_DISABLE			0x00000004
+-#define A6XX_GRAS_CL_CNTL_Z_CLAMP_ENABLE			0x00000020
+-#define A6XX_GRAS_CL_CNTL_ZERO_GB_SCALE_Z			0x00000040
+-#define A6XX_GRAS_CL_CNTL_VP_CLIP_CODE_IGNORE			0x00000080
+-#define A6XX_GRAS_CL_CNTL_VP_XFORM_DISABLE			0x00000100
+-#define A6XX_GRAS_CL_CNTL_PERSP_DIVISION_DISABLE		0x00000200
+-
+-#define REG_A6XX_GRAS_VS_CL_CNTL				0x00008001
+-#define A6XX_GRAS_VS_CL_CNTL_CLIP_MASK__MASK			0x000000ff
+-#define A6XX_GRAS_VS_CL_CNTL_CLIP_MASK__SHIFT			0
+-static inline uint32_t A6XX_GRAS_VS_CL_CNTL_CLIP_MASK(uint32_t val)
+-{
+-	return ((val) << A6XX_GRAS_VS_CL_CNTL_CLIP_MASK__SHIFT) & A6XX_GRAS_VS_CL_CNTL_CLIP_MASK__MASK;
+-}
+-#define A6XX_GRAS_VS_CL_CNTL_CULL_MASK__MASK			0x0000ff00
+-#define A6XX_GRAS_VS_CL_CNTL_CULL_MASK__SHIFT			8
+-static inline uint32_t A6XX_GRAS_VS_CL_CNTL_CULL_MASK(uint32_t val)
+-{
+-	return ((val) << A6XX_GRAS_VS_CL_CNTL_CULL_MASK__SHIFT) & A6XX_GRAS_VS_CL_CNTL_CULL_MASK__MASK;
+-}
+-
+-#define REG_A6XX_GRAS_DS_CL_CNTL				0x00008002
+-#define A6XX_GRAS_DS_CL_CNTL_CLIP_MASK__MASK			0x000000ff
+-#define A6XX_GRAS_DS_CL_CNTL_CLIP_MASK__SHIFT			0
+-static inline uint32_t A6XX_GRAS_DS_CL_CNTL_CLIP_MASK(uint32_t val)
+-{
+-	return ((val) << A6XX_GRAS_DS_CL_CNTL_CLIP_MASK__SHIFT) & A6XX_GRAS_DS_CL_CNTL_CLIP_MASK__MASK;
+-}
+-#define A6XX_GRAS_DS_CL_CNTL_CULL_MASK__MASK			0x0000ff00
+-#define A6XX_GRAS_DS_CL_CNTL_CULL_MASK__SHIFT			8
+-static inline uint32_t A6XX_GRAS_DS_CL_CNTL_CULL_MASK(uint32_t val)
+-{
+-	return ((val) << A6XX_GRAS_DS_CL_CNTL_CULL_MASK__SHIFT) & A6XX_GRAS_DS_CL_CNTL_CULL_MASK__MASK;
+-}
+-
+-#define REG_A6XX_GRAS_GS_CL_CNTL				0x00008003
+-#define A6XX_GRAS_GS_CL_CNTL_CLIP_MASK__MASK			0x000000ff
+-#define A6XX_GRAS_GS_CL_CNTL_CLIP_MASK__SHIFT			0
+-static inline uint32_t A6XX_GRAS_GS_CL_CNTL_CLIP_MASK(uint32_t val)
+-{
+-	return ((val) << A6XX_GRAS_GS_CL_CNTL_CLIP_MASK__SHIFT) & A6XX_GRAS_GS_CL_CNTL_CLIP_MASK__MASK;
+-}
+-#define A6XX_GRAS_GS_CL_CNTL_CULL_MASK__MASK			0x0000ff00
+-#define A6XX_GRAS_GS_CL_CNTL_CULL_MASK__SHIFT			8
+-static inline uint32_t A6XX_GRAS_GS_CL_CNTL_CULL_MASK(uint32_t val)
+-{
+-	return ((val) << A6XX_GRAS_GS_CL_CNTL_CULL_MASK__SHIFT) & A6XX_GRAS_GS_CL_CNTL_CULL_MASK__MASK;
+-}
+-
+-#define REG_A6XX_GRAS_MAX_LAYER_INDEX				0x00008004
+-
+-#define REG_A6XX_GRAS_CNTL					0x00008005
+-#define A6XX_GRAS_CNTL_IJ_PERSP_PIXEL				0x00000001
+-#define A6XX_GRAS_CNTL_IJ_PERSP_CENTROID			0x00000002
+-#define A6XX_GRAS_CNTL_IJ_PERSP_SAMPLE				0x00000004
+-#define A6XX_GRAS_CNTL_IJ_LINEAR_PIXEL				0x00000008
+-#define A6XX_GRAS_CNTL_IJ_LINEAR_CENTROID			0x00000010
+-#define A6XX_GRAS_CNTL_IJ_LINEAR_SAMPLE				0x00000020
+-#define A6XX_GRAS_CNTL_COORD_MASK__MASK				0x000003c0
+-#define A6XX_GRAS_CNTL_COORD_MASK__SHIFT			6
+-static inline uint32_t A6XX_GRAS_CNTL_COORD_MASK(uint32_t val)
+-{
+-	return ((val) << A6XX_GRAS_CNTL_COORD_MASK__SHIFT) & A6XX_GRAS_CNTL_COORD_MASK__MASK;
+-}
+-#define A6XX_GRAS_CNTL_UNK10					0x00000400
+-#define A6XX_GRAS_CNTL_UNK11					0x00000800
+-
+-#define REG_A6XX_GRAS_CL_GUARDBAND_CLIP_ADJ			0x00008006
+-#define A6XX_GRAS_CL_GUARDBAND_CLIP_ADJ_HORZ__MASK		0x000001ff
+-#define A6XX_GRAS_CL_GUARDBAND_CLIP_ADJ_HORZ__SHIFT		0
+-static inline uint32_t A6XX_GRAS_CL_GUARDBAND_CLIP_ADJ_HORZ(uint32_t val)
+-{
+-	return ((val) << A6XX_GRAS_CL_GUARDBAND_CLIP_ADJ_HORZ__SHIFT) & A6XX_GRAS_CL_GUARDBAND_CLIP_ADJ_HORZ__MASK;
+-}
+-#define A6XX_GRAS_CL_GUARDBAND_CLIP_ADJ_VERT__MASK		0x0007fc00
+-#define A6XX_GRAS_CL_GUARDBAND_CLIP_ADJ_VERT__SHIFT		10
+-static inline uint32_t A6XX_GRAS_CL_GUARDBAND_CLIP_ADJ_VERT(uint32_t val)
+-{
+-	return ((val) << A6XX_GRAS_CL_GUARDBAND_CLIP_ADJ_VERT__SHIFT) & A6XX_GRAS_CL_GUARDBAND_CLIP_ADJ_VERT__MASK;
+-}
+-
+-#define REG_A7XX_GRAS_UNKNOWN_8007				0x00008007
+-
+-#define REG_A7XX_GRAS_UNKNOWN_8008				0x00008008
+-
+-#define REG_A7XX_GRAS_UNKNOWN_8009				0x00008009
+-
+-#define REG_A7XX_GRAS_UNKNOWN_800A				0x0000800a
+-
+-#define REG_A7XX_GRAS_UNKNOWN_800B				0x0000800b
+-
+-#define REG_A7XX_GRAS_UNKNOWN_800C				0x0000800c
+-
+-#define REG_A6XX_GRAS_CL_VPORT(i0) (0x00008010 + 0x6*(i0))
+-
+-static inline uint32_t REG_A6XX_GRAS_CL_VPORT_XOFFSET(uint32_t i0) { return 0x00008010 + 0x6*i0; }
+-#define A6XX_GRAS_CL_VPORT_XOFFSET__MASK			0xffffffff
+-#define A6XX_GRAS_CL_VPORT_XOFFSET__SHIFT			0
+-static inline uint32_t A6XX_GRAS_CL_VPORT_XOFFSET(float val)
+-{
+-	return ((fui(val)) << A6XX_GRAS_CL_VPORT_XOFFSET__SHIFT) & A6XX_GRAS_CL_VPORT_XOFFSET__MASK;
+-}
+-
+-static inline uint32_t REG_A6XX_GRAS_CL_VPORT_XSCALE(uint32_t i0) { return 0x00008011 + 0x6*i0; }
+-#define A6XX_GRAS_CL_VPORT_XSCALE__MASK				0xffffffff
+-#define A6XX_GRAS_CL_VPORT_XSCALE__SHIFT			0
+-static inline uint32_t A6XX_GRAS_CL_VPORT_XSCALE(float val)
+-{
+-	return ((fui(val)) << A6XX_GRAS_CL_VPORT_XSCALE__SHIFT) & A6XX_GRAS_CL_VPORT_XSCALE__MASK;
+-}
+-
+-static inline uint32_t REG_A6XX_GRAS_CL_VPORT_YOFFSET(uint32_t i0) { return 0x00008012 + 0x6*i0; }
+-#define A6XX_GRAS_CL_VPORT_YOFFSET__MASK			0xffffffff
+-#define A6XX_GRAS_CL_VPORT_YOFFSET__SHIFT			0
+-static inline uint32_t A6XX_GRAS_CL_VPORT_YOFFSET(float val)
+-{
+-	return ((fui(val)) << A6XX_GRAS_CL_VPORT_YOFFSET__SHIFT) & A6XX_GRAS_CL_VPORT_YOFFSET__MASK;
+-}
+-
+-static inline uint32_t REG_A6XX_GRAS_CL_VPORT_YSCALE(uint32_t i0) { return 0x00008013 + 0x6*i0; }
+-#define A6XX_GRAS_CL_VPORT_YSCALE__MASK				0xffffffff
+-#define A6XX_GRAS_CL_VPORT_YSCALE__SHIFT			0
+-static inline uint32_t A6XX_GRAS_CL_VPORT_YSCALE(float val)
+-{
+-	return ((fui(val)) << A6XX_GRAS_CL_VPORT_YSCALE__SHIFT) & A6XX_GRAS_CL_VPORT_YSCALE__MASK;
+-}
+-
+-static inline uint32_t REG_A6XX_GRAS_CL_VPORT_ZOFFSET(uint32_t i0) { return 0x00008014 + 0x6*i0; }
+-#define A6XX_GRAS_CL_VPORT_ZOFFSET__MASK			0xffffffff
+-#define A6XX_GRAS_CL_VPORT_ZOFFSET__SHIFT			0
+-static inline uint32_t A6XX_GRAS_CL_VPORT_ZOFFSET(float val)
+-{
+-	return ((fui(val)) << A6XX_GRAS_CL_VPORT_ZOFFSET__SHIFT) & A6XX_GRAS_CL_VPORT_ZOFFSET__MASK;
+-}
+-
+-static inline uint32_t REG_A6XX_GRAS_CL_VPORT_ZSCALE(uint32_t i0) { return 0x00008015 + 0x6*i0; }
+-#define A6XX_GRAS_CL_VPORT_ZSCALE__MASK				0xffffffff
+-#define A6XX_GRAS_CL_VPORT_ZSCALE__SHIFT			0
+-static inline uint32_t A6XX_GRAS_CL_VPORT_ZSCALE(float val)
+-{
+-	return ((fui(val)) << A6XX_GRAS_CL_VPORT_ZSCALE__SHIFT) & A6XX_GRAS_CL_VPORT_ZSCALE__MASK;
+-}
+-
+-#define REG_A6XX_GRAS_CL_Z_CLAMP(i0) (0x00008070 + 0x2*(i0))
+-
+-static inline uint32_t REG_A6XX_GRAS_CL_Z_CLAMP_MIN(uint32_t i0) { return 0x00008070 + 0x2*i0; }
+-#define A6XX_GRAS_CL_Z_CLAMP_MIN__MASK				0xffffffff
+-#define A6XX_GRAS_CL_Z_CLAMP_MIN__SHIFT				0
+-static inline uint32_t A6XX_GRAS_CL_Z_CLAMP_MIN(float val)
+-{
+-	return ((fui(val)) << A6XX_GRAS_CL_Z_CLAMP_MIN__SHIFT) & A6XX_GRAS_CL_Z_CLAMP_MIN__MASK;
+-}
+-
+-static inline uint32_t REG_A6XX_GRAS_CL_Z_CLAMP_MAX(uint32_t i0) { return 0x00008071 + 0x2*i0; }
+-#define A6XX_GRAS_CL_Z_CLAMP_MAX__MASK				0xffffffff
+-#define A6XX_GRAS_CL_Z_CLAMP_MAX__SHIFT				0
+-static inline uint32_t A6XX_GRAS_CL_Z_CLAMP_MAX(float val)
+-{
+-	return ((fui(val)) << A6XX_GRAS_CL_Z_CLAMP_MAX__SHIFT) & A6XX_GRAS_CL_Z_CLAMP_MAX__MASK;
+-}
+-
+-#define REG_A6XX_GRAS_SU_CNTL					0x00008090
+-#define A6XX_GRAS_SU_CNTL_CULL_FRONT				0x00000001
+-#define A6XX_GRAS_SU_CNTL_CULL_BACK				0x00000002
+-#define A6XX_GRAS_SU_CNTL_FRONT_CW				0x00000004
+-#define A6XX_GRAS_SU_CNTL_LINEHALFWIDTH__MASK			0x000007f8
+-#define A6XX_GRAS_SU_CNTL_LINEHALFWIDTH__SHIFT			3
+-static inline uint32_t A6XX_GRAS_SU_CNTL_LINEHALFWIDTH(float val)
+-{
+-	return ((((int32_t)(val * 4.0))) << A6XX_GRAS_SU_CNTL_LINEHALFWIDTH__SHIFT) & A6XX_GRAS_SU_CNTL_LINEHALFWIDTH__MASK;
+-}
+-#define A6XX_GRAS_SU_CNTL_POLY_OFFSET				0x00000800
+-#define A6XX_GRAS_SU_CNTL_UNK12					0x00001000
+-#define A6XX_GRAS_SU_CNTL_LINE_MODE__MASK			0x00002000
+-#define A6XX_GRAS_SU_CNTL_LINE_MODE__SHIFT			13
+-static inline uint32_t A6XX_GRAS_SU_CNTL_LINE_MODE(enum a5xx_line_mode val)
+-{
+-	return ((val) << A6XX_GRAS_SU_CNTL_LINE_MODE__SHIFT) & A6XX_GRAS_SU_CNTL_LINE_MODE__MASK;
+-}
+-#define A6XX_GRAS_SU_CNTL_UNK15__MASK				0x00018000
+-#define A6XX_GRAS_SU_CNTL_UNK15__SHIFT				15
+-static inline uint32_t A6XX_GRAS_SU_CNTL_UNK15(uint32_t val)
+-{
+-	return ((val) << A6XX_GRAS_SU_CNTL_UNK15__SHIFT) & A6XX_GRAS_SU_CNTL_UNK15__MASK;
+-}
+-#define A6XX_GRAS_SU_CNTL_MULTIVIEW_ENABLE			0x00020000
+-#define A6XX_GRAS_SU_CNTL_RENDERTARGETINDEXINCR			0x00040000
+-#define A6XX_GRAS_SU_CNTL_VIEWPORTINDEXINCR			0x00080000
+-#define A6XX_GRAS_SU_CNTL_UNK20__MASK				0x00700000
+-#define A6XX_GRAS_SU_CNTL_UNK20__SHIFT				20
+-static inline uint32_t A6XX_GRAS_SU_CNTL_UNK20(uint32_t val)
+-{
+-	return ((val) << A6XX_GRAS_SU_CNTL_UNK20__SHIFT) & A6XX_GRAS_SU_CNTL_UNK20__MASK;
+-}
+-
+-#define REG_A6XX_GRAS_SU_POINT_MINMAX				0x00008091
+-#define A6XX_GRAS_SU_POINT_MINMAX_MIN__MASK			0x0000ffff
+-#define A6XX_GRAS_SU_POINT_MINMAX_MIN__SHIFT			0
+-static inline uint32_t A6XX_GRAS_SU_POINT_MINMAX_MIN(float val)
+-{
+-	return ((((uint32_t)(val * 16.0))) << A6XX_GRAS_SU_POINT_MINMAX_MIN__SHIFT) & A6XX_GRAS_SU_POINT_MINMAX_MIN__MASK;
+-}
+-#define A6XX_GRAS_SU_POINT_MINMAX_MAX__MASK			0xffff0000
+-#define A6XX_GRAS_SU_POINT_MINMAX_MAX__SHIFT			16
+-static inline uint32_t A6XX_GRAS_SU_POINT_MINMAX_MAX(float val)
+-{
+-	return ((((uint32_t)(val * 16.0))) << A6XX_GRAS_SU_POINT_MINMAX_MAX__SHIFT) & A6XX_GRAS_SU_POINT_MINMAX_MAX__MASK;
+-}
+-
+-#define REG_A6XX_GRAS_SU_POINT_SIZE				0x00008092
+-#define A6XX_GRAS_SU_POINT_SIZE__MASK				0x0000ffff
+-#define A6XX_GRAS_SU_POINT_SIZE__SHIFT				0
+-static inline uint32_t A6XX_GRAS_SU_POINT_SIZE(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_GRAS_SU_POINT_SIZE__SHIFT) & A6XX_GRAS_SU_POINT_SIZE__MASK;
+-}
+-
+-#define REG_A6XX_GRAS_SU_DEPTH_PLANE_CNTL			0x00008094
+-#define A6XX_GRAS_SU_DEPTH_PLANE_CNTL_Z_MODE__MASK		0x00000003
+-#define A6XX_GRAS_SU_DEPTH_PLANE_CNTL_Z_MODE__SHIFT		0
+-static inline uint32_t A6XX_GRAS_SU_DEPTH_PLANE_CNTL_Z_MODE(enum a6xx_ztest_mode val)
+-{
+-	return ((val) << A6XX_GRAS_SU_DEPTH_PLANE_CNTL_Z_MODE__SHIFT) & A6XX_GRAS_SU_DEPTH_PLANE_CNTL_Z_MODE__MASK;
+-}
+-
+-#define REG_A6XX_GRAS_SU_POLY_OFFSET_SCALE			0x00008095
+-#define A6XX_GRAS_SU_POLY_OFFSET_SCALE__MASK			0xffffffff
+-#define A6XX_GRAS_SU_POLY_OFFSET_SCALE__SHIFT			0
+-static inline uint32_t A6XX_GRAS_SU_POLY_OFFSET_SCALE(float val)
+-{
+-	return ((fui(val)) << A6XX_GRAS_SU_POLY_OFFSET_SCALE__SHIFT) & A6XX_GRAS_SU_POLY_OFFSET_SCALE__MASK;
+-}
+-
+-#define REG_A6XX_GRAS_SU_POLY_OFFSET_OFFSET			0x00008096
+-#define A6XX_GRAS_SU_POLY_OFFSET_OFFSET__MASK			0xffffffff
+-#define A6XX_GRAS_SU_POLY_OFFSET_OFFSET__SHIFT			0
+-static inline uint32_t A6XX_GRAS_SU_POLY_OFFSET_OFFSET(float val)
+-{
+-	return ((fui(val)) << A6XX_GRAS_SU_POLY_OFFSET_OFFSET__SHIFT) & A6XX_GRAS_SU_POLY_OFFSET_OFFSET__MASK;
+-}
+-
+-#define REG_A6XX_GRAS_SU_POLY_OFFSET_OFFSET_CLAMP		0x00008097
+-#define A6XX_GRAS_SU_POLY_OFFSET_OFFSET_CLAMP__MASK		0xffffffff
+-#define A6XX_GRAS_SU_POLY_OFFSET_OFFSET_CLAMP__SHIFT		0
+-static inline uint32_t A6XX_GRAS_SU_POLY_OFFSET_OFFSET_CLAMP(float val)
+-{
+-	return ((fui(val)) << A6XX_GRAS_SU_POLY_OFFSET_OFFSET_CLAMP__SHIFT) & A6XX_GRAS_SU_POLY_OFFSET_OFFSET_CLAMP__MASK;
+-}
+-
+-#define REG_A6XX_GRAS_SU_DEPTH_BUFFER_INFO			0x00008098
+-#define A6XX_GRAS_SU_DEPTH_BUFFER_INFO_DEPTH_FORMAT__MASK	0x00000007
+-#define A6XX_GRAS_SU_DEPTH_BUFFER_INFO_DEPTH_FORMAT__SHIFT	0
+-static inline uint32_t A6XX_GRAS_SU_DEPTH_BUFFER_INFO_DEPTH_FORMAT(enum a6xx_depth_format val)
+-{
+-	return ((val) << A6XX_GRAS_SU_DEPTH_BUFFER_INFO_DEPTH_FORMAT__SHIFT) & A6XX_GRAS_SU_DEPTH_BUFFER_INFO_DEPTH_FORMAT__MASK;
+-}
+-#define A6XX_GRAS_SU_DEPTH_BUFFER_INFO_UNK3			0x00000008
+-
+-#define REG_A6XX_GRAS_SU_CONSERVATIVE_RAS_CNTL			0x00008099
+-#define A6XX_GRAS_SU_CONSERVATIVE_RAS_CNTL_CONSERVATIVERASEN	0x00000001
+-#define A6XX_GRAS_SU_CONSERVATIVE_RAS_CNTL_SHIFTAMOUNT__MASK	0x00000006
+-#define A6XX_GRAS_SU_CONSERVATIVE_RAS_CNTL_SHIFTAMOUNT__SHIFT	1
+-static inline uint32_t A6XX_GRAS_SU_CONSERVATIVE_RAS_CNTL_SHIFTAMOUNT(uint32_t val)
+-{
+-	return ((val) << A6XX_GRAS_SU_CONSERVATIVE_RAS_CNTL_SHIFTAMOUNT__SHIFT) & A6XX_GRAS_SU_CONSERVATIVE_RAS_CNTL_SHIFTAMOUNT__MASK;
+-}
+-#define A6XX_GRAS_SU_CONSERVATIVE_RAS_CNTL_INNERCONSERVATIVERASEN	0x00000008
+-#define A6XX_GRAS_SU_CONSERVATIVE_RAS_CNTL_UNK4__MASK		0x00000030
+-#define A6XX_GRAS_SU_CONSERVATIVE_RAS_CNTL_UNK4__SHIFT		4
+-static inline uint32_t A6XX_GRAS_SU_CONSERVATIVE_RAS_CNTL_UNK4(uint32_t val)
+-{
+-	return ((val) << A6XX_GRAS_SU_CONSERVATIVE_RAS_CNTL_UNK4__SHIFT) & A6XX_GRAS_SU_CONSERVATIVE_RAS_CNTL_UNK4__MASK;
+-}
+-
+-#define REG_A6XX_GRAS_SU_PATH_RENDERING_CNTL			0x0000809a
+-#define A6XX_GRAS_SU_PATH_RENDERING_CNTL_UNK0			0x00000001
+-#define A6XX_GRAS_SU_PATH_RENDERING_CNTL_LINELENGTHEN		0x00000002
+-
+-#define REG_A6XX_GRAS_VS_LAYER_CNTL				0x0000809b
+-#define A6XX_GRAS_VS_LAYER_CNTL_WRITES_LAYER			0x00000001
+-#define A6XX_GRAS_VS_LAYER_CNTL_WRITES_VIEW			0x00000002
+-
+-#define REG_A6XX_GRAS_GS_LAYER_CNTL				0x0000809c
+-#define A6XX_GRAS_GS_LAYER_CNTL_WRITES_LAYER			0x00000001
+-#define A6XX_GRAS_GS_LAYER_CNTL_WRITES_VIEW			0x00000002
+-
+-#define REG_A6XX_GRAS_DS_LAYER_CNTL				0x0000809d
+-#define A6XX_GRAS_DS_LAYER_CNTL_WRITES_LAYER			0x00000001
+-#define A6XX_GRAS_DS_LAYER_CNTL_WRITES_VIEW			0x00000002
+-
+-#define REG_A6XX_GRAS_SC_CNTL					0x000080a0
+-#define A6XX_GRAS_SC_CNTL_CCUSINGLECACHELINESIZE__MASK		0x00000007
+-#define A6XX_GRAS_SC_CNTL_CCUSINGLECACHELINESIZE__SHIFT		0
+-static inline uint32_t A6XX_GRAS_SC_CNTL_CCUSINGLECACHELINESIZE(uint32_t val)
+-{
+-	return ((val) << A6XX_GRAS_SC_CNTL_CCUSINGLECACHELINESIZE__SHIFT) & A6XX_GRAS_SC_CNTL_CCUSINGLECACHELINESIZE__MASK;
+-}
+-#define A6XX_GRAS_SC_CNTL_SINGLE_PRIM_MODE__MASK		0x00000018
+-#define A6XX_GRAS_SC_CNTL_SINGLE_PRIM_MODE__SHIFT		3
+-static inline uint32_t A6XX_GRAS_SC_CNTL_SINGLE_PRIM_MODE(enum a6xx_single_prim_mode val)
+-{
+-	return ((val) << A6XX_GRAS_SC_CNTL_SINGLE_PRIM_MODE__SHIFT) & A6XX_GRAS_SC_CNTL_SINGLE_PRIM_MODE__MASK;
+-}
+-#define A6XX_GRAS_SC_CNTL_RASTER_MODE__MASK			0x00000020
+-#define A6XX_GRAS_SC_CNTL_RASTER_MODE__SHIFT			5
+-static inline uint32_t A6XX_GRAS_SC_CNTL_RASTER_MODE(enum a6xx_raster_mode val)
+-{
+-	return ((val) << A6XX_GRAS_SC_CNTL_RASTER_MODE__SHIFT) & A6XX_GRAS_SC_CNTL_RASTER_MODE__MASK;
+-}
+-#define A6XX_GRAS_SC_CNTL_RASTER_DIRECTION__MASK		0x000000c0
+-#define A6XX_GRAS_SC_CNTL_RASTER_DIRECTION__SHIFT		6
+-static inline uint32_t A6XX_GRAS_SC_CNTL_RASTER_DIRECTION(enum a6xx_raster_direction val)
+-{
+-	return ((val) << A6XX_GRAS_SC_CNTL_RASTER_DIRECTION__SHIFT) & A6XX_GRAS_SC_CNTL_RASTER_DIRECTION__MASK;
+-}
+-#define A6XX_GRAS_SC_CNTL_SEQUENCED_THREAD_DISTRIBUTION__MASK	0x00000100
+-#define A6XX_GRAS_SC_CNTL_SEQUENCED_THREAD_DISTRIBUTION__SHIFT	8
+-static inline uint32_t A6XX_GRAS_SC_CNTL_SEQUENCED_THREAD_DISTRIBUTION(enum a6xx_sequenced_thread_dist val)
+-{
+-	return ((val) << A6XX_GRAS_SC_CNTL_SEQUENCED_THREAD_DISTRIBUTION__SHIFT) & A6XX_GRAS_SC_CNTL_SEQUENCED_THREAD_DISTRIBUTION__MASK;
+-}
+-#define A6XX_GRAS_SC_CNTL_UNK9					0x00000200
+-#define A6XX_GRAS_SC_CNTL_ROTATION__MASK			0x00000c00
+-#define A6XX_GRAS_SC_CNTL_ROTATION__SHIFT			10
+-static inline uint32_t A6XX_GRAS_SC_CNTL_ROTATION(uint32_t val)
+-{
+-	return ((val) << A6XX_GRAS_SC_CNTL_ROTATION__SHIFT) & A6XX_GRAS_SC_CNTL_ROTATION__MASK;
+-}
+-#define A6XX_GRAS_SC_CNTL_EARLYVIZOUTEN				0x00001000
+-
+-#define REG_A6XX_GRAS_BIN_CONTROL				0x000080a1
+-#define A6XX_GRAS_BIN_CONTROL_BINW__MASK			0x0000003f
+-#define A6XX_GRAS_BIN_CONTROL_BINW__SHIFT			0
+-static inline uint32_t A6XX_GRAS_BIN_CONTROL_BINW(uint32_t val)
+-{
+-	assert(!(val & 0x1f));
+-	return (((val >> 5)) << A6XX_GRAS_BIN_CONTROL_BINW__SHIFT) & A6XX_GRAS_BIN_CONTROL_BINW__MASK;
+-}
+-#define A6XX_GRAS_BIN_CONTROL_BINH__MASK			0x00007f00
+-#define A6XX_GRAS_BIN_CONTROL_BINH__SHIFT			8
+-static inline uint32_t A6XX_GRAS_BIN_CONTROL_BINH(uint32_t val)
+-{
+-	assert(!(val & 0xf));
+-	return (((val >> 4)) << A6XX_GRAS_BIN_CONTROL_BINH__SHIFT) & A6XX_GRAS_BIN_CONTROL_BINH__MASK;
+-}
+-#define A6XX_GRAS_BIN_CONTROL_RENDER_MODE__MASK			0x001c0000
+-#define A6XX_GRAS_BIN_CONTROL_RENDER_MODE__SHIFT		18
+-static inline uint32_t A6XX_GRAS_BIN_CONTROL_RENDER_MODE(enum a6xx_render_mode val)
+-{
+-	return ((val) << A6XX_GRAS_BIN_CONTROL_RENDER_MODE__SHIFT) & A6XX_GRAS_BIN_CONTROL_RENDER_MODE__MASK;
+-}
+-#define A6XX_GRAS_BIN_CONTROL_FORCE_LRZ_WRITE_DIS		0x00200000
+-#define A6XX_GRAS_BIN_CONTROL_BUFFERS_LOCATION__MASK		0x00c00000
+-#define A6XX_GRAS_BIN_CONTROL_BUFFERS_LOCATION__SHIFT		22
+-static inline uint32_t A6XX_GRAS_BIN_CONTROL_BUFFERS_LOCATION(enum a6xx_buffers_location val)
+-{
+-	return ((val) << A6XX_GRAS_BIN_CONTROL_BUFFERS_LOCATION__SHIFT) & A6XX_GRAS_BIN_CONTROL_BUFFERS_LOCATION__MASK;
+-}
+-#define A6XX_GRAS_BIN_CONTROL_LRZ_FEEDBACK_ZMODE_MASK__MASK	0x07000000
+-#define A6XX_GRAS_BIN_CONTROL_LRZ_FEEDBACK_ZMODE_MASK__SHIFT	24
+-static inline uint32_t A6XX_GRAS_BIN_CONTROL_LRZ_FEEDBACK_ZMODE_MASK(uint32_t val)
+-{
+-	return ((val) << A6XX_GRAS_BIN_CONTROL_LRZ_FEEDBACK_ZMODE_MASK__SHIFT) & A6XX_GRAS_BIN_CONTROL_LRZ_FEEDBACK_ZMODE_MASK__MASK;
+-}
+-#define A6XX_GRAS_BIN_CONTROL_UNK27				0x08000000
+-
+-#define REG_A6XX_GRAS_RAS_MSAA_CNTL				0x000080a2
+-#define A6XX_GRAS_RAS_MSAA_CNTL_SAMPLES__MASK			0x00000003
+-#define A6XX_GRAS_RAS_MSAA_CNTL_SAMPLES__SHIFT			0
+-static inline uint32_t A6XX_GRAS_RAS_MSAA_CNTL_SAMPLES(enum a3xx_msaa_samples val)
+-{
+-	return ((val) << A6XX_GRAS_RAS_MSAA_CNTL_SAMPLES__SHIFT) & A6XX_GRAS_RAS_MSAA_CNTL_SAMPLES__MASK;
+-}
+-#define A6XX_GRAS_RAS_MSAA_CNTL_UNK2				0x00000004
+-#define A6XX_GRAS_RAS_MSAA_CNTL_UNK3				0x00000008
+-
+-#define REG_A6XX_GRAS_DEST_MSAA_CNTL				0x000080a3
+-#define A6XX_GRAS_DEST_MSAA_CNTL_SAMPLES__MASK			0x00000003
+-#define A6XX_GRAS_DEST_MSAA_CNTL_SAMPLES__SHIFT			0
+-static inline uint32_t A6XX_GRAS_DEST_MSAA_CNTL_SAMPLES(enum a3xx_msaa_samples val)
+-{
+-	return ((val) << A6XX_GRAS_DEST_MSAA_CNTL_SAMPLES__SHIFT) & A6XX_GRAS_DEST_MSAA_CNTL_SAMPLES__MASK;
+-}
+-#define A6XX_GRAS_DEST_MSAA_CNTL_MSAA_DISABLE			0x00000004
+-
+-#define REG_A6XX_GRAS_SAMPLE_CONFIG				0x000080a4
+-#define A6XX_GRAS_SAMPLE_CONFIG_UNK0				0x00000001
+-#define A6XX_GRAS_SAMPLE_CONFIG_LOCATION_ENABLE			0x00000002
+-
+-#define REG_A6XX_GRAS_SAMPLE_LOCATION_0				0x000080a5
+-#define A6XX_GRAS_SAMPLE_LOCATION_0_SAMPLE_0_X__MASK		0x0000000f
+-#define A6XX_GRAS_SAMPLE_LOCATION_0_SAMPLE_0_X__SHIFT		0
+-static inline uint32_t A6XX_GRAS_SAMPLE_LOCATION_0_SAMPLE_0_X(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_GRAS_SAMPLE_LOCATION_0_SAMPLE_0_X__SHIFT) & A6XX_GRAS_SAMPLE_LOCATION_0_SAMPLE_0_X__MASK;
+-}
+-#define A6XX_GRAS_SAMPLE_LOCATION_0_SAMPLE_0_Y__MASK		0x000000f0
+-#define A6XX_GRAS_SAMPLE_LOCATION_0_SAMPLE_0_Y__SHIFT		4
+-static inline uint32_t A6XX_GRAS_SAMPLE_LOCATION_0_SAMPLE_0_Y(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_GRAS_SAMPLE_LOCATION_0_SAMPLE_0_Y__SHIFT) & A6XX_GRAS_SAMPLE_LOCATION_0_SAMPLE_0_Y__MASK;
+-}
+-#define A6XX_GRAS_SAMPLE_LOCATION_0_SAMPLE_1_X__MASK		0x00000f00
+-#define A6XX_GRAS_SAMPLE_LOCATION_0_SAMPLE_1_X__SHIFT		8
+-static inline uint32_t A6XX_GRAS_SAMPLE_LOCATION_0_SAMPLE_1_X(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_GRAS_SAMPLE_LOCATION_0_SAMPLE_1_X__SHIFT) & A6XX_GRAS_SAMPLE_LOCATION_0_SAMPLE_1_X__MASK;
+-}
+-#define A6XX_GRAS_SAMPLE_LOCATION_0_SAMPLE_1_Y__MASK		0x0000f000
+-#define A6XX_GRAS_SAMPLE_LOCATION_0_SAMPLE_1_Y__SHIFT		12
+-static inline uint32_t A6XX_GRAS_SAMPLE_LOCATION_0_SAMPLE_1_Y(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_GRAS_SAMPLE_LOCATION_0_SAMPLE_1_Y__SHIFT) & A6XX_GRAS_SAMPLE_LOCATION_0_SAMPLE_1_Y__MASK;
+-}
+-#define A6XX_GRAS_SAMPLE_LOCATION_0_SAMPLE_2_X__MASK		0x000f0000
+-#define A6XX_GRAS_SAMPLE_LOCATION_0_SAMPLE_2_X__SHIFT		16
+-static inline uint32_t A6XX_GRAS_SAMPLE_LOCATION_0_SAMPLE_2_X(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_GRAS_SAMPLE_LOCATION_0_SAMPLE_2_X__SHIFT) & A6XX_GRAS_SAMPLE_LOCATION_0_SAMPLE_2_X__MASK;
+-}
+-#define A6XX_GRAS_SAMPLE_LOCATION_0_SAMPLE_2_Y__MASK		0x00f00000
+-#define A6XX_GRAS_SAMPLE_LOCATION_0_SAMPLE_2_Y__SHIFT		20
+-static inline uint32_t A6XX_GRAS_SAMPLE_LOCATION_0_SAMPLE_2_Y(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_GRAS_SAMPLE_LOCATION_0_SAMPLE_2_Y__SHIFT) & A6XX_GRAS_SAMPLE_LOCATION_0_SAMPLE_2_Y__MASK;
+-}
+-#define A6XX_GRAS_SAMPLE_LOCATION_0_SAMPLE_3_X__MASK		0x0f000000
+-#define A6XX_GRAS_SAMPLE_LOCATION_0_SAMPLE_3_X__SHIFT		24
+-static inline uint32_t A6XX_GRAS_SAMPLE_LOCATION_0_SAMPLE_3_X(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_GRAS_SAMPLE_LOCATION_0_SAMPLE_3_X__SHIFT) & A6XX_GRAS_SAMPLE_LOCATION_0_SAMPLE_3_X__MASK;
+-}
+-#define A6XX_GRAS_SAMPLE_LOCATION_0_SAMPLE_3_Y__MASK		0xf0000000
+-#define A6XX_GRAS_SAMPLE_LOCATION_0_SAMPLE_3_Y__SHIFT		28
+-static inline uint32_t A6XX_GRAS_SAMPLE_LOCATION_0_SAMPLE_3_Y(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_GRAS_SAMPLE_LOCATION_0_SAMPLE_3_Y__SHIFT) & A6XX_GRAS_SAMPLE_LOCATION_0_SAMPLE_3_Y__MASK;
+-}
+-
+-#define REG_A6XX_GRAS_SAMPLE_LOCATION_1				0x000080a6
+-#define A6XX_GRAS_SAMPLE_LOCATION_1_SAMPLE_0_X__MASK		0x0000000f
+-#define A6XX_GRAS_SAMPLE_LOCATION_1_SAMPLE_0_X__SHIFT		0
+-static inline uint32_t A6XX_GRAS_SAMPLE_LOCATION_1_SAMPLE_0_X(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_GRAS_SAMPLE_LOCATION_1_SAMPLE_0_X__SHIFT) & A6XX_GRAS_SAMPLE_LOCATION_1_SAMPLE_0_X__MASK;
+-}
+-#define A6XX_GRAS_SAMPLE_LOCATION_1_SAMPLE_0_Y__MASK		0x000000f0
+-#define A6XX_GRAS_SAMPLE_LOCATION_1_SAMPLE_0_Y__SHIFT		4
+-static inline uint32_t A6XX_GRAS_SAMPLE_LOCATION_1_SAMPLE_0_Y(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_GRAS_SAMPLE_LOCATION_1_SAMPLE_0_Y__SHIFT) & A6XX_GRAS_SAMPLE_LOCATION_1_SAMPLE_0_Y__MASK;
+-}
+-#define A6XX_GRAS_SAMPLE_LOCATION_1_SAMPLE_1_X__MASK		0x00000f00
+-#define A6XX_GRAS_SAMPLE_LOCATION_1_SAMPLE_1_X__SHIFT		8
+-static inline uint32_t A6XX_GRAS_SAMPLE_LOCATION_1_SAMPLE_1_X(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_GRAS_SAMPLE_LOCATION_1_SAMPLE_1_X__SHIFT) & A6XX_GRAS_SAMPLE_LOCATION_1_SAMPLE_1_X__MASK;
+-}
+-#define A6XX_GRAS_SAMPLE_LOCATION_1_SAMPLE_1_Y__MASK		0x0000f000
+-#define A6XX_GRAS_SAMPLE_LOCATION_1_SAMPLE_1_Y__SHIFT		12
+-static inline uint32_t A6XX_GRAS_SAMPLE_LOCATION_1_SAMPLE_1_Y(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_GRAS_SAMPLE_LOCATION_1_SAMPLE_1_Y__SHIFT) & A6XX_GRAS_SAMPLE_LOCATION_1_SAMPLE_1_Y__MASK;
+-}
+-#define A6XX_GRAS_SAMPLE_LOCATION_1_SAMPLE_2_X__MASK		0x000f0000
+-#define A6XX_GRAS_SAMPLE_LOCATION_1_SAMPLE_2_X__SHIFT		16
+-static inline uint32_t A6XX_GRAS_SAMPLE_LOCATION_1_SAMPLE_2_X(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_GRAS_SAMPLE_LOCATION_1_SAMPLE_2_X__SHIFT) & A6XX_GRAS_SAMPLE_LOCATION_1_SAMPLE_2_X__MASK;
+-}
+-#define A6XX_GRAS_SAMPLE_LOCATION_1_SAMPLE_2_Y__MASK		0x00f00000
+-#define A6XX_GRAS_SAMPLE_LOCATION_1_SAMPLE_2_Y__SHIFT		20
+-static inline uint32_t A6XX_GRAS_SAMPLE_LOCATION_1_SAMPLE_2_Y(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_GRAS_SAMPLE_LOCATION_1_SAMPLE_2_Y__SHIFT) & A6XX_GRAS_SAMPLE_LOCATION_1_SAMPLE_2_Y__MASK;
+-}
+-#define A6XX_GRAS_SAMPLE_LOCATION_1_SAMPLE_3_X__MASK		0x0f000000
+-#define A6XX_GRAS_SAMPLE_LOCATION_1_SAMPLE_3_X__SHIFT		24
+-static inline uint32_t A6XX_GRAS_SAMPLE_LOCATION_1_SAMPLE_3_X(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_GRAS_SAMPLE_LOCATION_1_SAMPLE_3_X__SHIFT) & A6XX_GRAS_SAMPLE_LOCATION_1_SAMPLE_3_X__MASK;
+-}
+-#define A6XX_GRAS_SAMPLE_LOCATION_1_SAMPLE_3_Y__MASK		0xf0000000
+-#define A6XX_GRAS_SAMPLE_LOCATION_1_SAMPLE_3_Y__SHIFT		28
+-static inline uint32_t A6XX_GRAS_SAMPLE_LOCATION_1_SAMPLE_3_Y(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_GRAS_SAMPLE_LOCATION_1_SAMPLE_3_Y__SHIFT) & A6XX_GRAS_SAMPLE_LOCATION_1_SAMPLE_3_Y__MASK;
+-}
+-
+-#define REG_A7XX_GRAS_UNKNOWN_80A7				0x000080a7
+-
+-#define REG_A6XX_GRAS_UNKNOWN_80AF				0x000080af
+-
+-#define REG_A6XX_GRAS_SC_SCREEN_SCISSOR(i0) (0x000080b0 + 0x2*(i0))
+-
+-static inline uint32_t REG_A6XX_GRAS_SC_SCREEN_SCISSOR_TL(uint32_t i0) { return 0x000080b0 + 0x2*i0; }
+-#define A6XX_GRAS_SC_SCREEN_SCISSOR_TL_X__MASK			0x0000ffff
+-#define A6XX_GRAS_SC_SCREEN_SCISSOR_TL_X__SHIFT			0
+-static inline uint32_t A6XX_GRAS_SC_SCREEN_SCISSOR_TL_X(uint32_t val)
+-{
+-	return ((val) << A6XX_GRAS_SC_SCREEN_SCISSOR_TL_X__SHIFT) & A6XX_GRAS_SC_SCREEN_SCISSOR_TL_X__MASK;
+-}
+-#define A6XX_GRAS_SC_SCREEN_SCISSOR_TL_Y__MASK			0xffff0000
+-#define A6XX_GRAS_SC_SCREEN_SCISSOR_TL_Y__SHIFT			16
+-static inline uint32_t A6XX_GRAS_SC_SCREEN_SCISSOR_TL_Y(uint32_t val)
+-{
+-	return ((val) << A6XX_GRAS_SC_SCREEN_SCISSOR_TL_Y__SHIFT) & A6XX_GRAS_SC_SCREEN_SCISSOR_TL_Y__MASK;
+-}
+-
+-static inline uint32_t REG_A6XX_GRAS_SC_SCREEN_SCISSOR_BR(uint32_t i0) { return 0x000080b1 + 0x2*i0; }
+-#define A6XX_GRAS_SC_SCREEN_SCISSOR_BR_X__MASK			0x0000ffff
+-#define A6XX_GRAS_SC_SCREEN_SCISSOR_BR_X__SHIFT			0
+-static inline uint32_t A6XX_GRAS_SC_SCREEN_SCISSOR_BR_X(uint32_t val)
+-{
+-	return ((val) << A6XX_GRAS_SC_SCREEN_SCISSOR_BR_X__SHIFT) & A6XX_GRAS_SC_SCREEN_SCISSOR_BR_X__MASK;
+-}
+-#define A6XX_GRAS_SC_SCREEN_SCISSOR_BR_Y__MASK			0xffff0000
+-#define A6XX_GRAS_SC_SCREEN_SCISSOR_BR_Y__SHIFT			16
+-static inline uint32_t A6XX_GRAS_SC_SCREEN_SCISSOR_BR_Y(uint32_t val)
+-{
+-	return ((val) << A6XX_GRAS_SC_SCREEN_SCISSOR_BR_Y__SHIFT) & A6XX_GRAS_SC_SCREEN_SCISSOR_BR_Y__MASK;
+-}
+-
+-#define REG_A6XX_GRAS_SC_VIEWPORT_SCISSOR(i0) (0x000080d0 + 0x2*(i0))
+-
+-static inline uint32_t REG_A6XX_GRAS_SC_VIEWPORT_SCISSOR_TL(uint32_t i0) { return 0x000080d0 + 0x2*i0; }
+-#define A6XX_GRAS_SC_VIEWPORT_SCISSOR_TL_X__MASK		0x0000ffff
+-#define A6XX_GRAS_SC_VIEWPORT_SCISSOR_TL_X__SHIFT		0
+-static inline uint32_t A6XX_GRAS_SC_VIEWPORT_SCISSOR_TL_X(uint32_t val)
+-{
+-	return ((val) << A6XX_GRAS_SC_VIEWPORT_SCISSOR_TL_X__SHIFT) & A6XX_GRAS_SC_VIEWPORT_SCISSOR_TL_X__MASK;
+-}
+-#define A6XX_GRAS_SC_VIEWPORT_SCISSOR_TL_Y__MASK		0xffff0000
+-#define A6XX_GRAS_SC_VIEWPORT_SCISSOR_TL_Y__SHIFT		16
+-static inline uint32_t A6XX_GRAS_SC_VIEWPORT_SCISSOR_TL_Y(uint32_t val)
+-{
+-	return ((val) << A6XX_GRAS_SC_VIEWPORT_SCISSOR_TL_Y__SHIFT) & A6XX_GRAS_SC_VIEWPORT_SCISSOR_TL_Y__MASK;
+-}
+-
+-static inline uint32_t REG_A6XX_GRAS_SC_VIEWPORT_SCISSOR_BR(uint32_t i0) { return 0x000080d1 + 0x2*i0; }
+-#define A6XX_GRAS_SC_VIEWPORT_SCISSOR_BR_X__MASK		0x0000ffff
+-#define A6XX_GRAS_SC_VIEWPORT_SCISSOR_BR_X__SHIFT		0
+-static inline uint32_t A6XX_GRAS_SC_VIEWPORT_SCISSOR_BR_X(uint32_t val)
+-{
+-	return ((val) << A6XX_GRAS_SC_VIEWPORT_SCISSOR_BR_X__SHIFT) & A6XX_GRAS_SC_VIEWPORT_SCISSOR_BR_X__MASK;
+-}
+-#define A6XX_GRAS_SC_VIEWPORT_SCISSOR_BR_Y__MASK		0xffff0000
+-#define A6XX_GRAS_SC_VIEWPORT_SCISSOR_BR_Y__SHIFT		16
+-static inline uint32_t A6XX_GRAS_SC_VIEWPORT_SCISSOR_BR_Y(uint32_t val)
+-{
+-	return ((val) << A6XX_GRAS_SC_VIEWPORT_SCISSOR_BR_Y__SHIFT) & A6XX_GRAS_SC_VIEWPORT_SCISSOR_BR_Y__MASK;
+-}
+-
+-#define REG_A6XX_GRAS_SC_WINDOW_SCISSOR_TL			0x000080f0
+-#define A6XX_GRAS_SC_WINDOW_SCISSOR_TL_X__MASK			0x00003fff
+-#define A6XX_GRAS_SC_WINDOW_SCISSOR_TL_X__SHIFT			0
+-static inline uint32_t A6XX_GRAS_SC_WINDOW_SCISSOR_TL_X(uint32_t val)
+-{
+-	return ((val) << A6XX_GRAS_SC_WINDOW_SCISSOR_TL_X__SHIFT) & A6XX_GRAS_SC_WINDOW_SCISSOR_TL_X__MASK;
+-}
+-#define A6XX_GRAS_SC_WINDOW_SCISSOR_TL_Y__MASK			0x3fff0000
+-#define A6XX_GRAS_SC_WINDOW_SCISSOR_TL_Y__SHIFT			16
+-static inline uint32_t A6XX_GRAS_SC_WINDOW_SCISSOR_TL_Y(uint32_t val)
+-{
+-	return ((val) << A6XX_GRAS_SC_WINDOW_SCISSOR_TL_Y__SHIFT) & A6XX_GRAS_SC_WINDOW_SCISSOR_TL_Y__MASK;
+-}
+-
+-#define REG_A6XX_GRAS_SC_WINDOW_SCISSOR_BR			0x000080f1
+-#define A6XX_GRAS_SC_WINDOW_SCISSOR_BR_X__MASK			0x00003fff
+-#define A6XX_GRAS_SC_WINDOW_SCISSOR_BR_X__SHIFT			0
+-static inline uint32_t A6XX_GRAS_SC_WINDOW_SCISSOR_BR_X(uint32_t val)
+-{
+-	return ((val) << A6XX_GRAS_SC_WINDOW_SCISSOR_BR_X__SHIFT) & A6XX_GRAS_SC_WINDOW_SCISSOR_BR_X__MASK;
+-}
+-#define A6XX_GRAS_SC_WINDOW_SCISSOR_BR_Y__MASK			0x3fff0000
+-#define A6XX_GRAS_SC_WINDOW_SCISSOR_BR_Y__SHIFT			16
+-static inline uint32_t A6XX_GRAS_SC_WINDOW_SCISSOR_BR_Y(uint32_t val)
+-{
+-	return ((val) << A6XX_GRAS_SC_WINDOW_SCISSOR_BR_Y__SHIFT) & A6XX_GRAS_SC_WINDOW_SCISSOR_BR_Y__MASK;
+-}
+-
+-#define REG_A7XX_GRAS_UNKNOWN_80F4				0x000080f4
+-
+-#define REG_A7XX_GRAS_UNKNOWN_80F5				0x000080f5
+-
+-#define REG_A7XX_GRAS_UNKNOWN_80F6				0x000080f6
+-
+-#define REG_A7XX_GRAS_UNKNOWN_80F8				0x000080f8
+-
+-#define REG_A7XX_GRAS_UNKNOWN_80F9				0x000080f9
+-
+-#define REG_A7XX_GRAS_UNKNOWN_80FA				0x000080fa
+-
+-#define REG_A6XX_GRAS_LRZ_CNTL					0x00008100
+-#define A6XX_GRAS_LRZ_CNTL_ENABLE				0x00000001
+-#define A6XX_GRAS_LRZ_CNTL_LRZ_WRITE				0x00000002
+-#define A6XX_GRAS_LRZ_CNTL_GREATER				0x00000004
+-#define A6XX_GRAS_LRZ_CNTL_FC_ENABLE				0x00000008
+-#define A6XX_GRAS_LRZ_CNTL_Z_TEST_ENABLE			0x00000010
+-#define A6XX_GRAS_LRZ_CNTL_Z_BOUNDS_ENABLE			0x00000020
+-#define A6XX_GRAS_LRZ_CNTL_DIR__MASK				0x000000c0
+-#define A6XX_GRAS_LRZ_CNTL_DIR__SHIFT				6
+-static inline uint32_t A6XX_GRAS_LRZ_CNTL_DIR(enum a6xx_lrz_dir_status val)
+-{
+-	return ((val) << A6XX_GRAS_LRZ_CNTL_DIR__SHIFT) & A6XX_GRAS_LRZ_CNTL_DIR__MASK;
+-}
+-#define A6XX_GRAS_LRZ_CNTL_DIR_WRITE				0x00000100
+-#define A6XX_GRAS_LRZ_CNTL_DISABLE_ON_WRONG_DIR			0x00000200
+-#define A6XX_GRAS_LRZ_CNTL_Z_FUNC__MASK				0x00003800
+-#define A6XX_GRAS_LRZ_CNTL_Z_FUNC__SHIFT			11
+-static inline uint32_t A6XX_GRAS_LRZ_CNTL_Z_FUNC(enum adreno_compare_func val)
+-{
+-	return ((val) << A6XX_GRAS_LRZ_CNTL_Z_FUNC__SHIFT) & A6XX_GRAS_LRZ_CNTL_Z_FUNC__MASK;
+-}
+-
+-#define REG_A6XX_GRAS_LRZ_PS_INPUT_CNTL				0x00008101
+-#define A6XX_GRAS_LRZ_PS_INPUT_CNTL_SAMPLEID			0x00000001
+-#define A6XX_GRAS_LRZ_PS_INPUT_CNTL_FRAGCOORDSAMPLEMODE__MASK	0x00000006
+-#define A6XX_GRAS_LRZ_PS_INPUT_CNTL_FRAGCOORDSAMPLEMODE__SHIFT	1
+-static inline uint32_t A6XX_GRAS_LRZ_PS_INPUT_CNTL_FRAGCOORDSAMPLEMODE(enum a6xx_fragcoord_sample_mode val)
+-{
+-	return ((val) << A6XX_GRAS_LRZ_PS_INPUT_CNTL_FRAGCOORDSAMPLEMODE__SHIFT) & A6XX_GRAS_LRZ_PS_INPUT_CNTL_FRAGCOORDSAMPLEMODE__MASK;
+-}
+-
+-#define REG_A6XX_GRAS_LRZ_MRT_BUF_INFO_0			0x00008102
+-#define A6XX_GRAS_LRZ_MRT_BUF_INFO_0_COLOR_FORMAT__MASK		0x000000ff
+-#define A6XX_GRAS_LRZ_MRT_BUF_INFO_0_COLOR_FORMAT__SHIFT	0
+-static inline uint32_t A6XX_GRAS_LRZ_MRT_BUF_INFO_0_COLOR_FORMAT(enum a6xx_format val)
+-{
+-	return ((val) << A6XX_GRAS_LRZ_MRT_BUF_INFO_0_COLOR_FORMAT__SHIFT) & A6XX_GRAS_LRZ_MRT_BUF_INFO_0_COLOR_FORMAT__MASK;
+-}
+-
+-#define REG_A6XX_GRAS_LRZ_BUFFER_BASE				0x00008103
+-
+-#define REG_A6XX_GRAS_LRZ_BUFFER_PITCH				0x00008105
+-#define A6XX_GRAS_LRZ_BUFFER_PITCH_PITCH__MASK			0x000000ff
+-#define A6XX_GRAS_LRZ_BUFFER_PITCH_PITCH__SHIFT			0
+-static inline uint32_t A6XX_GRAS_LRZ_BUFFER_PITCH_PITCH(uint32_t val)
+-{
+-	assert(!(val & 0x1f));
+-	return (((val >> 5)) << A6XX_GRAS_LRZ_BUFFER_PITCH_PITCH__SHIFT) & A6XX_GRAS_LRZ_BUFFER_PITCH_PITCH__MASK;
+-}
+-#define A6XX_GRAS_LRZ_BUFFER_PITCH_ARRAY_PITCH__MASK		0x1ffffc00
+-#define A6XX_GRAS_LRZ_BUFFER_PITCH_ARRAY_PITCH__SHIFT		10
+-static inline uint32_t A6XX_GRAS_LRZ_BUFFER_PITCH_ARRAY_PITCH(uint32_t val)
+-{
+-	assert(!(val & 0xf));
+-	return (((val >> 4)) << A6XX_GRAS_LRZ_BUFFER_PITCH_ARRAY_PITCH__SHIFT) & A6XX_GRAS_LRZ_BUFFER_PITCH_ARRAY_PITCH__MASK;
+-}
+-
+-#define REG_A6XX_GRAS_LRZ_FAST_CLEAR_BUFFER_BASE		0x00008106
+-
+-#define REG_A6XX_GRAS_SAMPLE_CNTL				0x00008109
+-#define A6XX_GRAS_SAMPLE_CNTL_PER_SAMP_MODE			0x00000001
+-
+-#define REG_A6XX_GRAS_LRZ_DEPTH_VIEW				0x0000810a
+-#define A6XX_GRAS_LRZ_DEPTH_VIEW_BASE_LAYER__MASK		0x000007ff
+-#define A6XX_GRAS_LRZ_DEPTH_VIEW_BASE_LAYER__SHIFT		0
+-static inline uint32_t A6XX_GRAS_LRZ_DEPTH_VIEW_BASE_LAYER(uint32_t val)
+-{
+-	return ((val) << A6XX_GRAS_LRZ_DEPTH_VIEW_BASE_LAYER__SHIFT) & A6XX_GRAS_LRZ_DEPTH_VIEW_BASE_LAYER__MASK;
+-}
+-#define A6XX_GRAS_LRZ_DEPTH_VIEW_LAYER_COUNT__MASK		0x07ff0000
+-#define A6XX_GRAS_LRZ_DEPTH_VIEW_LAYER_COUNT__SHIFT		16
+-static inline uint32_t A6XX_GRAS_LRZ_DEPTH_VIEW_LAYER_COUNT(uint32_t val)
+-{
+-	return ((val) << A6XX_GRAS_LRZ_DEPTH_VIEW_LAYER_COUNT__SHIFT) & A6XX_GRAS_LRZ_DEPTH_VIEW_LAYER_COUNT__MASK;
+-}
+-#define A6XX_GRAS_LRZ_DEPTH_VIEW_BASE_MIP_LEVEL__MASK		0xf0000000
+-#define A6XX_GRAS_LRZ_DEPTH_VIEW_BASE_MIP_LEVEL__SHIFT		28
+-static inline uint32_t A6XX_GRAS_LRZ_DEPTH_VIEW_BASE_MIP_LEVEL(uint32_t val)
+-{
+-	return ((val) << A6XX_GRAS_LRZ_DEPTH_VIEW_BASE_MIP_LEVEL__SHIFT) & A6XX_GRAS_LRZ_DEPTH_VIEW_BASE_MIP_LEVEL__MASK;
+-}
+-
+-#define REG_A7XX_GRAS_UNKNOWN_810B				0x0000810b
+-
+-#define REG_A6XX_GRAS_UNKNOWN_8110				0x00008110
+-
+-#define REG_A7XX_GRAS_LRZ_CLEAR_DEPTH_F32			0x00008111
+-#define A7XX_GRAS_LRZ_CLEAR_DEPTH_F32__MASK			0xffffffff
+-#define A7XX_GRAS_LRZ_CLEAR_DEPTH_F32__SHIFT			0
+-static inline uint32_t A7XX_GRAS_LRZ_CLEAR_DEPTH_F32(float val)
+-{
+-	return ((fui(val)) << A7XX_GRAS_LRZ_CLEAR_DEPTH_F32__SHIFT) & A7XX_GRAS_LRZ_CLEAR_DEPTH_F32__MASK;
+-}
+-
+-#define REG_A7XX_GRAS_UNKNOWN_8113				0x00008113
+-
+-#define REG_A7XX_GRAS_UNKNOWN_8120				0x00008120
+-
+-#define REG_A7XX_GRAS_UNKNOWN_8121				0x00008121
+-
+-#define REG_A6XX_GRAS_2D_BLIT_CNTL				0x00008400
+-#define A6XX_GRAS_2D_BLIT_CNTL_ROTATE__MASK			0x00000007
+-#define A6XX_GRAS_2D_BLIT_CNTL_ROTATE__SHIFT			0
+-static inline uint32_t A6XX_GRAS_2D_BLIT_CNTL_ROTATE(enum a6xx_rotation val)
+-{
+-	return ((val) << A6XX_GRAS_2D_BLIT_CNTL_ROTATE__SHIFT) & A6XX_GRAS_2D_BLIT_CNTL_ROTATE__MASK;
+-}
+-#define A6XX_GRAS_2D_BLIT_CNTL_OVERWRITEEN			0x00000008
+-#define A6XX_GRAS_2D_BLIT_CNTL_UNK4__MASK			0x00000070
+-#define A6XX_GRAS_2D_BLIT_CNTL_UNK4__SHIFT			4
+-static inline uint32_t A6XX_GRAS_2D_BLIT_CNTL_UNK4(uint32_t val)
+-{
+-	return ((val) << A6XX_GRAS_2D_BLIT_CNTL_UNK4__SHIFT) & A6XX_GRAS_2D_BLIT_CNTL_UNK4__MASK;
+-}
+-#define A6XX_GRAS_2D_BLIT_CNTL_SOLID_COLOR			0x00000080
+-#define A6XX_GRAS_2D_BLIT_CNTL_COLOR_FORMAT__MASK		0x0000ff00
+-#define A6XX_GRAS_2D_BLIT_CNTL_COLOR_FORMAT__SHIFT		8
+-static inline uint32_t A6XX_GRAS_2D_BLIT_CNTL_COLOR_FORMAT(enum a6xx_format val)
+-{
+-	return ((val) << A6XX_GRAS_2D_BLIT_CNTL_COLOR_FORMAT__SHIFT) & A6XX_GRAS_2D_BLIT_CNTL_COLOR_FORMAT__MASK;
+-}
+-#define A6XX_GRAS_2D_BLIT_CNTL_SCISSOR				0x00010000
+-#define A6XX_GRAS_2D_BLIT_CNTL_UNK17__MASK			0x00060000
+-#define A6XX_GRAS_2D_BLIT_CNTL_UNK17__SHIFT			17
+-static inline uint32_t A6XX_GRAS_2D_BLIT_CNTL_UNK17(uint32_t val)
+-{
+-	return ((val) << A6XX_GRAS_2D_BLIT_CNTL_UNK17__SHIFT) & A6XX_GRAS_2D_BLIT_CNTL_UNK17__MASK;
+-}
+-#define A6XX_GRAS_2D_BLIT_CNTL_D24S8				0x00080000
+-#define A6XX_GRAS_2D_BLIT_CNTL_MASK__MASK			0x00f00000
+-#define A6XX_GRAS_2D_BLIT_CNTL_MASK__SHIFT			20
+-static inline uint32_t A6XX_GRAS_2D_BLIT_CNTL_MASK(uint32_t val)
+-{
+-	return ((val) << A6XX_GRAS_2D_BLIT_CNTL_MASK__SHIFT) & A6XX_GRAS_2D_BLIT_CNTL_MASK__MASK;
+-}
+-#define A6XX_GRAS_2D_BLIT_CNTL_IFMT__MASK			0x1f000000
+-#define A6XX_GRAS_2D_BLIT_CNTL_IFMT__SHIFT			24
+-static inline uint32_t A6XX_GRAS_2D_BLIT_CNTL_IFMT(enum a6xx_2d_ifmt val)
+-{
+-	return ((val) << A6XX_GRAS_2D_BLIT_CNTL_IFMT__SHIFT) & A6XX_GRAS_2D_BLIT_CNTL_IFMT__MASK;
+-}
+-#define A6XX_GRAS_2D_BLIT_CNTL_RASTER_MODE__MASK		0x20000000
+-#define A6XX_GRAS_2D_BLIT_CNTL_RASTER_MODE__SHIFT		29
+-static inline uint32_t A6XX_GRAS_2D_BLIT_CNTL_RASTER_MODE(enum a6xx_raster_mode val)
+-{
+-	return ((val) << A6XX_GRAS_2D_BLIT_CNTL_RASTER_MODE__SHIFT) & A6XX_GRAS_2D_BLIT_CNTL_RASTER_MODE__MASK;
+-}
+-#define A6XX_GRAS_2D_BLIT_CNTL_UNK30				0x40000000
+-
+-#define REG_A6XX_GRAS_2D_SRC_TL_X				0x00008401
+-#define A6XX_GRAS_2D_SRC_TL_X__MASK				0x01ffff00
+-#define A6XX_GRAS_2D_SRC_TL_X__SHIFT				8
+-static inline uint32_t A6XX_GRAS_2D_SRC_TL_X(int32_t val)
+-{
+-	return ((val) << A6XX_GRAS_2D_SRC_TL_X__SHIFT) & A6XX_GRAS_2D_SRC_TL_X__MASK;
+-}
+-
+-#define REG_A6XX_GRAS_2D_SRC_BR_X				0x00008402
+-#define A6XX_GRAS_2D_SRC_BR_X__MASK				0x01ffff00
+-#define A6XX_GRAS_2D_SRC_BR_X__SHIFT				8
+-static inline uint32_t A6XX_GRAS_2D_SRC_BR_X(int32_t val)
+-{
+-	return ((val) << A6XX_GRAS_2D_SRC_BR_X__SHIFT) & A6XX_GRAS_2D_SRC_BR_X__MASK;
+-}
+-
+-#define REG_A6XX_GRAS_2D_SRC_TL_Y				0x00008403
+-#define A6XX_GRAS_2D_SRC_TL_Y__MASK				0x01ffff00
+-#define A6XX_GRAS_2D_SRC_TL_Y__SHIFT				8
+-static inline uint32_t A6XX_GRAS_2D_SRC_TL_Y(int32_t val)
+-{
+-	return ((val) << A6XX_GRAS_2D_SRC_TL_Y__SHIFT) & A6XX_GRAS_2D_SRC_TL_Y__MASK;
+-}
+-
+-#define REG_A6XX_GRAS_2D_SRC_BR_Y				0x00008404
+-#define A6XX_GRAS_2D_SRC_BR_Y__MASK				0x01ffff00
+-#define A6XX_GRAS_2D_SRC_BR_Y__SHIFT				8
+-static inline uint32_t A6XX_GRAS_2D_SRC_BR_Y(int32_t val)
+-{
+-	return ((val) << A6XX_GRAS_2D_SRC_BR_Y__SHIFT) & A6XX_GRAS_2D_SRC_BR_Y__MASK;
+-}
+-
+-#define REG_A6XX_GRAS_2D_DST_TL					0x00008405
+-#define A6XX_GRAS_2D_DST_TL_X__MASK				0x00003fff
+-#define A6XX_GRAS_2D_DST_TL_X__SHIFT				0
+-static inline uint32_t A6XX_GRAS_2D_DST_TL_X(uint32_t val)
+-{
+-	return ((val) << A6XX_GRAS_2D_DST_TL_X__SHIFT) & A6XX_GRAS_2D_DST_TL_X__MASK;
+-}
+-#define A6XX_GRAS_2D_DST_TL_Y__MASK				0x3fff0000
+-#define A6XX_GRAS_2D_DST_TL_Y__SHIFT				16
+-static inline uint32_t A6XX_GRAS_2D_DST_TL_Y(uint32_t val)
+-{
+-	return ((val) << A6XX_GRAS_2D_DST_TL_Y__SHIFT) & A6XX_GRAS_2D_DST_TL_Y__MASK;
+-}
+-
+-#define REG_A6XX_GRAS_2D_DST_BR					0x00008406
+-#define A6XX_GRAS_2D_DST_BR_X__MASK				0x00003fff
+-#define A6XX_GRAS_2D_DST_BR_X__SHIFT				0
+-static inline uint32_t A6XX_GRAS_2D_DST_BR_X(uint32_t val)
+-{
+-	return ((val) << A6XX_GRAS_2D_DST_BR_X__SHIFT) & A6XX_GRAS_2D_DST_BR_X__MASK;
+-}
+-#define A6XX_GRAS_2D_DST_BR_Y__MASK				0x3fff0000
+-#define A6XX_GRAS_2D_DST_BR_Y__SHIFT				16
+-static inline uint32_t A6XX_GRAS_2D_DST_BR_Y(uint32_t val)
+-{
+-	return ((val) << A6XX_GRAS_2D_DST_BR_Y__SHIFT) & A6XX_GRAS_2D_DST_BR_Y__MASK;
+-}
+-
+-#define REG_A6XX_GRAS_2D_UNKNOWN_8407				0x00008407
+-
+-#define REG_A6XX_GRAS_2D_UNKNOWN_8408				0x00008408
+-
+-#define REG_A6XX_GRAS_2D_UNKNOWN_8409				0x00008409
+-
+-#define REG_A6XX_GRAS_2D_RESOLVE_CNTL_1				0x0000840a
+-#define A6XX_GRAS_2D_RESOLVE_CNTL_1_X__MASK			0x00003fff
+-#define A6XX_GRAS_2D_RESOLVE_CNTL_1_X__SHIFT			0
+-static inline uint32_t A6XX_GRAS_2D_RESOLVE_CNTL_1_X(uint32_t val)
+-{
+-	return ((val) << A6XX_GRAS_2D_RESOLVE_CNTL_1_X__SHIFT) & A6XX_GRAS_2D_RESOLVE_CNTL_1_X__MASK;
+-}
+-#define A6XX_GRAS_2D_RESOLVE_CNTL_1_Y__MASK			0x3fff0000
+-#define A6XX_GRAS_2D_RESOLVE_CNTL_1_Y__SHIFT			16
+-static inline uint32_t A6XX_GRAS_2D_RESOLVE_CNTL_1_Y(uint32_t val)
+-{
+-	return ((val) << A6XX_GRAS_2D_RESOLVE_CNTL_1_Y__SHIFT) & A6XX_GRAS_2D_RESOLVE_CNTL_1_Y__MASK;
+-}
+-
+-#define REG_A6XX_GRAS_2D_RESOLVE_CNTL_2				0x0000840b
+-#define A6XX_GRAS_2D_RESOLVE_CNTL_2_X__MASK			0x00003fff
+-#define A6XX_GRAS_2D_RESOLVE_CNTL_2_X__SHIFT			0
+-static inline uint32_t A6XX_GRAS_2D_RESOLVE_CNTL_2_X(uint32_t val)
+-{
+-	return ((val) << A6XX_GRAS_2D_RESOLVE_CNTL_2_X__SHIFT) & A6XX_GRAS_2D_RESOLVE_CNTL_2_X__MASK;
+-}
+-#define A6XX_GRAS_2D_RESOLVE_CNTL_2_Y__MASK			0x3fff0000
+-#define A6XX_GRAS_2D_RESOLVE_CNTL_2_Y__SHIFT			16
+-static inline uint32_t A6XX_GRAS_2D_RESOLVE_CNTL_2_Y(uint32_t val)
+-{
+-	return ((val) << A6XX_GRAS_2D_RESOLVE_CNTL_2_Y__SHIFT) & A6XX_GRAS_2D_RESOLVE_CNTL_2_Y__MASK;
+-}
+-
+-#define REG_A6XX_GRAS_DBG_ECO_CNTL				0x00008600
+-#define A6XX_GRAS_DBG_ECO_CNTL_UNK7				0x00000080
+-#define A6XX_GRAS_DBG_ECO_CNTL_LRZCACHELOCKDIS			0x00000800
+-
+-#define REG_A6XX_GRAS_ADDR_MODE_CNTL				0x00008601
+-
+-#define REG_A7XX_GRAS_NC_MODE_CNTL				0x00008602
+-
+-#define REG_A6XX_GRAS_PERFCTR_TSE_SEL(i0) (0x00008610 + 0x1*(i0))
+-
+-#define REG_A6XX_GRAS_PERFCTR_RAS_SEL(i0) (0x00008614 + 0x1*(i0))
+-
+-#define REG_A6XX_GRAS_PERFCTR_LRZ_SEL(i0) (0x00008618 + 0x1*(i0))
+-
+-#define REG_A6XX_RB_BIN_CONTROL					0x00008800
+-#define A6XX_RB_BIN_CONTROL_BINW__MASK				0x0000003f
+-#define A6XX_RB_BIN_CONTROL_BINW__SHIFT				0
+-static inline uint32_t A6XX_RB_BIN_CONTROL_BINW(uint32_t val)
+-{
+-	assert(!(val & 0x1f));
+-	return (((val >> 5)) << A6XX_RB_BIN_CONTROL_BINW__SHIFT) & A6XX_RB_BIN_CONTROL_BINW__MASK;
+-}
+-#define A6XX_RB_BIN_CONTROL_BINH__MASK				0x00007f00
+-#define A6XX_RB_BIN_CONTROL_BINH__SHIFT				8
+-static inline uint32_t A6XX_RB_BIN_CONTROL_BINH(uint32_t val)
+-{
+-	assert(!(val & 0xf));
+-	return (((val >> 4)) << A6XX_RB_BIN_CONTROL_BINH__SHIFT) & A6XX_RB_BIN_CONTROL_BINH__MASK;
+-}
+-#define A6XX_RB_BIN_CONTROL_RENDER_MODE__MASK			0x001c0000
+-#define A6XX_RB_BIN_CONTROL_RENDER_MODE__SHIFT			18
+-static inline uint32_t A6XX_RB_BIN_CONTROL_RENDER_MODE(enum a6xx_render_mode val)
+-{
+-	return ((val) << A6XX_RB_BIN_CONTROL_RENDER_MODE__SHIFT) & A6XX_RB_BIN_CONTROL_RENDER_MODE__MASK;
+-}
+-#define A6XX_RB_BIN_CONTROL_FORCE_LRZ_WRITE_DIS			0x00200000
+-#define A6XX_RB_BIN_CONTROL_BUFFERS_LOCATION__MASK		0x00c00000
+-#define A6XX_RB_BIN_CONTROL_BUFFERS_LOCATION__SHIFT		22
+-static inline uint32_t A6XX_RB_BIN_CONTROL_BUFFERS_LOCATION(enum a6xx_buffers_location val)
+-{
+-	return ((val) << A6XX_RB_BIN_CONTROL_BUFFERS_LOCATION__SHIFT) & A6XX_RB_BIN_CONTROL_BUFFERS_LOCATION__MASK;
+-}
+-#define A6XX_RB_BIN_CONTROL_LRZ_FEEDBACK_ZMODE_MASK__MASK	0x07000000
+-#define A6XX_RB_BIN_CONTROL_LRZ_FEEDBACK_ZMODE_MASK__SHIFT	24
+-static inline uint32_t A6XX_RB_BIN_CONTROL_LRZ_FEEDBACK_ZMODE_MASK(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_BIN_CONTROL_LRZ_FEEDBACK_ZMODE_MASK__SHIFT) & A6XX_RB_BIN_CONTROL_LRZ_FEEDBACK_ZMODE_MASK__MASK;
+-}
+-
+-#define REG_A7XX_RB_BIN_CONTROL					0x00008800
+-#define A7XX_RB_BIN_CONTROL_BINW__MASK				0x0000003f
+-#define A7XX_RB_BIN_CONTROL_BINW__SHIFT				0
+-static inline uint32_t A7XX_RB_BIN_CONTROL_BINW(uint32_t val)
+-{
+-	assert(!(val & 0x1f));
+-	return (((val >> 5)) << A7XX_RB_BIN_CONTROL_BINW__SHIFT) & A7XX_RB_BIN_CONTROL_BINW__MASK;
+-}
+-#define A7XX_RB_BIN_CONTROL_BINH__MASK				0x00007f00
+-#define A7XX_RB_BIN_CONTROL_BINH__SHIFT				8
+-static inline uint32_t A7XX_RB_BIN_CONTROL_BINH(uint32_t val)
+-{
+-	assert(!(val & 0xf));
+-	return (((val >> 4)) << A7XX_RB_BIN_CONTROL_BINH__SHIFT) & A7XX_RB_BIN_CONTROL_BINH__MASK;
+-}
+-#define A7XX_RB_BIN_CONTROL_RENDER_MODE__MASK			0x001c0000
+-#define A7XX_RB_BIN_CONTROL_RENDER_MODE__SHIFT			18
+-static inline uint32_t A7XX_RB_BIN_CONTROL_RENDER_MODE(enum a6xx_render_mode val)
+-{
+-	return ((val) << A7XX_RB_BIN_CONTROL_RENDER_MODE__SHIFT) & A7XX_RB_BIN_CONTROL_RENDER_MODE__MASK;
+-}
+-#define A7XX_RB_BIN_CONTROL_FORCE_LRZ_WRITE_DIS			0x00200000
+-#define A7XX_RB_BIN_CONTROL_LRZ_FEEDBACK_ZMODE_MASK__MASK	0x07000000
+-#define A7XX_RB_BIN_CONTROL_LRZ_FEEDBACK_ZMODE_MASK__SHIFT	24
+-static inline uint32_t A7XX_RB_BIN_CONTROL_LRZ_FEEDBACK_ZMODE_MASK(uint32_t val)
+-{
+-	return ((val) << A7XX_RB_BIN_CONTROL_LRZ_FEEDBACK_ZMODE_MASK__SHIFT) & A7XX_RB_BIN_CONTROL_LRZ_FEEDBACK_ZMODE_MASK__MASK;
+-}
+-
+-#define REG_A6XX_RB_RENDER_CNTL					0x00008801
+-#define A6XX_RB_RENDER_CNTL_CCUSINGLECACHELINESIZE__MASK	0x00000038
+-#define A6XX_RB_RENDER_CNTL_CCUSINGLECACHELINESIZE__SHIFT	3
+-static inline uint32_t A6XX_RB_RENDER_CNTL_CCUSINGLECACHELINESIZE(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_RENDER_CNTL_CCUSINGLECACHELINESIZE__SHIFT) & A6XX_RB_RENDER_CNTL_CCUSINGLECACHELINESIZE__MASK;
+-}
+-#define A6XX_RB_RENDER_CNTL_EARLYVIZOUTEN			0x00000040
+-#define A6XX_RB_RENDER_CNTL_BINNING				0x00000080
+-#define A6XX_RB_RENDER_CNTL_UNK8__MASK				0x00000700
+-#define A6XX_RB_RENDER_CNTL_UNK8__SHIFT				8
+-static inline uint32_t A6XX_RB_RENDER_CNTL_UNK8(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_RENDER_CNTL_UNK8__SHIFT) & A6XX_RB_RENDER_CNTL_UNK8__MASK;
+-}
+-#define A6XX_RB_RENDER_CNTL_RASTER_MODE__MASK			0x00000100
+-#define A6XX_RB_RENDER_CNTL_RASTER_MODE__SHIFT			8
+-static inline uint32_t A6XX_RB_RENDER_CNTL_RASTER_MODE(enum a6xx_raster_mode val)
+-{
+-	return ((val) << A6XX_RB_RENDER_CNTL_RASTER_MODE__SHIFT) & A6XX_RB_RENDER_CNTL_RASTER_MODE__MASK;
+-}
+-#define A6XX_RB_RENDER_CNTL_RASTER_DIRECTION__MASK		0x00000600
+-#define A6XX_RB_RENDER_CNTL_RASTER_DIRECTION__SHIFT		9
+-static inline uint32_t A6XX_RB_RENDER_CNTL_RASTER_DIRECTION(enum a6xx_raster_direction val)
+-{
+-	return ((val) << A6XX_RB_RENDER_CNTL_RASTER_DIRECTION__SHIFT) & A6XX_RB_RENDER_CNTL_RASTER_DIRECTION__MASK;
+-}
+-#define A6XX_RB_RENDER_CNTL_CONSERVATIVERASEN			0x00000800
+-#define A6XX_RB_RENDER_CNTL_INNERCONSERVATIVERASEN		0x00001000
+-#define A6XX_RB_RENDER_CNTL_FLAG_DEPTH				0x00004000
+-#define A6XX_RB_RENDER_CNTL_FLAG_MRTS__MASK			0x00ff0000
+-#define A6XX_RB_RENDER_CNTL_FLAG_MRTS__SHIFT			16
+-static inline uint32_t A6XX_RB_RENDER_CNTL_FLAG_MRTS(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_RENDER_CNTL_FLAG_MRTS__SHIFT) & A6XX_RB_RENDER_CNTL_FLAG_MRTS__MASK;
+-}
+-
+-#define REG_A7XX_RB_RENDER_CNTL					0x00008801
+-#define A7XX_RB_RENDER_CNTL_EARLYVIZOUTEN			0x00000040
+-#define A7XX_RB_RENDER_CNTL_BINNING				0x00000080
+-#define A7XX_RB_RENDER_CNTL_RASTER_MODE__MASK			0x00000100
+-#define A7XX_RB_RENDER_CNTL_RASTER_MODE__SHIFT			8
+-static inline uint32_t A7XX_RB_RENDER_CNTL_RASTER_MODE(enum a6xx_raster_mode val)
+-{
+-	return ((val) << A7XX_RB_RENDER_CNTL_RASTER_MODE__SHIFT) & A7XX_RB_RENDER_CNTL_RASTER_MODE__MASK;
+-}
+-#define A7XX_RB_RENDER_CNTL_RASTER_DIRECTION__MASK		0x00000600
+-#define A7XX_RB_RENDER_CNTL_RASTER_DIRECTION__SHIFT		9
+-static inline uint32_t A7XX_RB_RENDER_CNTL_RASTER_DIRECTION(enum a6xx_raster_direction val)
+-{
+-	return ((val) << A7XX_RB_RENDER_CNTL_RASTER_DIRECTION__SHIFT) & A7XX_RB_RENDER_CNTL_RASTER_DIRECTION__MASK;
+-}
+-#define A7XX_RB_RENDER_CNTL_CONSERVATIVERASEN			0x00000800
+-#define A7XX_RB_RENDER_CNTL_INNERCONSERVATIVERASEN		0x00001000
+-
+-#define REG_A7XX_GRAS_SU_RENDER_CNTL				0x00008116
+-#define A7XX_GRAS_SU_RENDER_CNTL_BINNING			0x00000080
+-
+-#define REG_A6XX_RB_RAS_MSAA_CNTL				0x00008802
+-#define A6XX_RB_RAS_MSAA_CNTL_SAMPLES__MASK			0x00000003
+-#define A6XX_RB_RAS_MSAA_CNTL_SAMPLES__SHIFT			0
+-static inline uint32_t A6XX_RB_RAS_MSAA_CNTL_SAMPLES(enum a3xx_msaa_samples val)
+-{
+-	return ((val) << A6XX_RB_RAS_MSAA_CNTL_SAMPLES__SHIFT) & A6XX_RB_RAS_MSAA_CNTL_SAMPLES__MASK;
+-}
+-#define A6XX_RB_RAS_MSAA_CNTL_UNK2				0x00000004
+-#define A6XX_RB_RAS_MSAA_CNTL_UNK3				0x00000008
+-
+-#define REG_A6XX_RB_DEST_MSAA_CNTL				0x00008803
+-#define A6XX_RB_DEST_MSAA_CNTL_SAMPLES__MASK			0x00000003
+-#define A6XX_RB_DEST_MSAA_CNTL_SAMPLES__SHIFT			0
+-static inline uint32_t A6XX_RB_DEST_MSAA_CNTL_SAMPLES(enum a3xx_msaa_samples val)
+-{
+-	return ((val) << A6XX_RB_DEST_MSAA_CNTL_SAMPLES__SHIFT) & A6XX_RB_DEST_MSAA_CNTL_SAMPLES__MASK;
+-}
+-#define A6XX_RB_DEST_MSAA_CNTL_MSAA_DISABLE			0x00000004
+-
+-#define REG_A6XX_RB_SAMPLE_CONFIG				0x00008804
+-#define A6XX_RB_SAMPLE_CONFIG_UNK0				0x00000001
+-#define A6XX_RB_SAMPLE_CONFIG_LOCATION_ENABLE			0x00000002
+-
+-#define REG_A6XX_RB_SAMPLE_LOCATION_0				0x00008805
+-#define A6XX_RB_SAMPLE_LOCATION_0_SAMPLE_0_X__MASK		0x0000000f
+-#define A6XX_RB_SAMPLE_LOCATION_0_SAMPLE_0_X__SHIFT		0
+-static inline uint32_t A6XX_RB_SAMPLE_LOCATION_0_SAMPLE_0_X(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_RB_SAMPLE_LOCATION_0_SAMPLE_0_X__SHIFT) & A6XX_RB_SAMPLE_LOCATION_0_SAMPLE_0_X__MASK;
+-}
+-#define A6XX_RB_SAMPLE_LOCATION_0_SAMPLE_0_Y__MASK		0x000000f0
+-#define A6XX_RB_SAMPLE_LOCATION_0_SAMPLE_0_Y__SHIFT		4
+-static inline uint32_t A6XX_RB_SAMPLE_LOCATION_0_SAMPLE_0_Y(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_RB_SAMPLE_LOCATION_0_SAMPLE_0_Y__SHIFT) & A6XX_RB_SAMPLE_LOCATION_0_SAMPLE_0_Y__MASK;
+-}
+-#define A6XX_RB_SAMPLE_LOCATION_0_SAMPLE_1_X__MASK		0x00000f00
+-#define A6XX_RB_SAMPLE_LOCATION_0_SAMPLE_1_X__SHIFT		8
+-static inline uint32_t A6XX_RB_SAMPLE_LOCATION_0_SAMPLE_1_X(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_RB_SAMPLE_LOCATION_0_SAMPLE_1_X__SHIFT) & A6XX_RB_SAMPLE_LOCATION_0_SAMPLE_1_X__MASK;
+-}
+-#define A6XX_RB_SAMPLE_LOCATION_0_SAMPLE_1_Y__MASK		0x0000f000
+-#define A6XX_RB_SAMPLE_LOCATION_0_SAMPLE_1_Y__SHIFT		12
+-static inline uint32_t A6XX_RB_SAMPLE_LOCATION_0_SAMPLE_1_Y(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_RB_SAMPLE_LOCATION_0_SAMPLE_1_Y__SHIFT) & A6XX_RB_SAMPLE_LOCATION_0_SAMPLE_1_Y__MASK;
+-}
+-#define A6XX_RB_SAMPLE_LOCATION_0_SAMPLE_2_X__MASK		0x000f0000
+-#define A6XX_RB_SAMPLE_LOCATION_0_SAMPLE_2_X__SHIFT		16
+-static inline uint32_t A6XX_RB_SAMPLE_LOCATION_0_SAMPLE_2_X(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_RB_SAMPLE_LOCATION_0_SAMPLE_2_X__SHIFT) & A6XX_RB_SAMPLE_LOCATION_0_SAMPLE_2_X__MASK;
+-}
+-#define A6XX_RB_SAMPLE_LOCATION_0_SAMPLE_2_Y__MASK		0x00f00000
+-#define A6XX_RB_SAMPLE_LOCATION_0_SAMPLE_2_Y__SHIFT		20
+-static inline uint32_t A6XX_RB_SAMPLE_LOCATION_0_SAMPLE_2_Y(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_RB_SAMPLE_LOCATION_0_SAMPLE_2_Y__SHIFT) & A6XX_RB_SAMPLE_LOCATION_0_SAMPLE_2_Y__MASK;
+-}
+-#define A6XX_RB_SAMPLE_LOCATION_0_SAMPLE_3_X__MASK		0x0f000000
+-#define A6XX_RB_SAMPLE_LOCATION_0_SAMPLE_3_X__SHIFT		24
+-static inline uint32_t A6XX_RB_SAMPLE_LOCATION_0_SAMPLE_3_X(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_RB_SAMPLE_LOCATION_0_SAMPLE_3_X__SHIFT) & A6XX_RB_SAMPLE_LOCATION_0_SAMPLE_3_X__MASK;
+-}
+-#define A6XX_RB_SAMPLE_LOCATION_0_SAMPLE_3_Y__MASK		0xf0000000
+-#define A6XX_RB_SAMPLE_LOCATION_0_SAMPLE_3_Y__SHIFT		28
+-static inline uint32_t A6XX_RB_SAMPLE_LOCATION_0_SAMPLE_3_Y(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_RB_SAMPLE_LOCATION_0_SAMPLE_3_Y__SHIFT) & A6XX_RB_SAMPLE_LOCATION_0_SAMPLE_3_Y__MASK;
+-}
+-
+-#define REG_A6XX_RB_SAMPLE_LOCATION_1				0x00008806
+-#define A6XX_RB_SAMPLE_LOCATION_1_SAMPLE_0_X__MASK		0x0000000f
+-#define A6XX_RB_SAMPLE_LOCATION_1_SAMPLE_0_X__SHIFT		0
+-static inline uint32_t A6XX_RB_SAMPLE_LOCATION_1_SAMPLE_0_X(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_RB_SAMPLE_LOCATION_1_SAMPLE_0_X__SHIFT) & A6XX_RB_SAMPLE_LOCATION_1_SAMPLE_0_X__MASK;
+-}
+-#define A6XX_RB_SAMPLE_LOCATION_1_SAMPLE_0_Y__MASK		0x000000f0
+-#define A6XX_RB_SAMPLE_LOCATION_1_SAMPLE_0_Y__SHIFT		4
+-static inline uint32_t A6XX_RB_SAMPLE_LOCATION_1_SAMPLE_0_Y(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_RB_SAMPLE_LOCATION_1_SAMPLE_0_Y__SHIFT) & A6XX_RB_SAMPLE_LOCATION_1_SAMPLE_0_Y__MASK;
+-}
+-#define A6XX_RB_SAMPLE_LOCATION_1_SAMPLE_1_X__MASK		0x00000f00
+-#define A6XX_RB_SAMPLE_LOCATION_1_SAMPLE_1_X__SHIFT		8
+-static inline uint32_t A6XX_RB_SAMPLE_LOCATION_1_SAMPLE_1_X(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_RB_SAMPLE_LOCATION_1_SAMPLE_1_X__SHIFT) & A6XX_RB_SAMPLE_LOCATION_1_SAMPLE_1_X__MASK;
+-}
+-#define A6XX_RB_SAMPLE_LOCATION_1_SAMPLE_1_Y__MASK		0x0000f000
+-#define A6XX_RB_SAMPLE_LOCATION_1_SAMPLE_1_Y__SHIFT		12
+-static inline uint32_t A6XX_RB_SAMPLE_LOCATION_1_SAMPLE_1_Y(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_RB_SAMPLE_LOCATION_1_SAMPLE_1_Y__SHIFT) & A6XX_RB_SAMPLE_LOCATION_1_SAMPLE_1_Y__MASK;
+-}
+-#define A6XX_RB_SAMPLE_LOCATION_1_SAMPLE_2_X__MASK		0x000f0000
+-#define A6XX_RB_SAMPLE_LOCATION_1_SAMPLE_2_X__SHIFT		16
+-static inline uint32_t A6XX_RB_SAMPLE_LOCATION_1_SAMPLE_2_X(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_RB_SAMPLE_LOCATION_1_SAMPLE_2_X__SHIFT) & A6XX_RB_SAMPLE_LOCATION_1_SAMPLE_2_X__MASK;
+-}
+-#define A6XX_RB_SAMPLE_LOCATION_1_SAMPLE_2_Y__MASK		0x00f00000
+-#define A6XX_RB_SAMPLE_LOCATION_1_SAMPLE_2_Y__SHIFT		20
+-static inline uint32_t A6XX_RB_SAMPLE_LOCATION_1_SAMPLE_2_Y(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_RB_SAMPLE_LOCATION_1_SAMPLE_2_Y__SHIFT) & A6XX_RB_SAMPLE_LOCATION_1_SAMPLE_2_Y__MASK;
+-}
+-#define A6XX_RB_SAMPLE_LOCATION_1_SAMPLE_3_X__MASK		0x0f000000
+-#define A6XX_RB_SAMPLE_LOCATION_1_SAMPLE_3_X__SHIFT		24
+-static inline uint32_t A6XX_RB_SAMPLE_LOCATION_1_SAMPLE_3_X(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_RB_SAMPLE_LOCATION_1_SAMPLE_3_X__SHIFT) & A6XX_RB_SAMPLE_LOCATION_1_SAMPLE_3_X__MASK;
+-}
+-#define A6XX_RB_SAMPLE_LOCATION_1_SAMPLE_3_Y__MASK		0xf0000000
+-#define A6XX_RB_SAMPLE_LOCATION_1_SAMPLE_3_Y__SHIFT		28
+-static inline uint32_t A6XX_RB_SAMPLE_LOCATION_1_SAMPLE_3_Y(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_RB_SAMPLE_LOCATION_1_SAMPLE_3_Y__SHIFT) & A6XX_RB_SAMPLE_LOCATION_1_SAMPLE_3_Y__MASK;
+-}
+-
+-#define REG_A6XX_RB_RENDER_CONTROL0				0x00008809
+-#define A6XX_RB_RENDER_CONTROL0_IJ_PERSP_PIXEL			0x00000001
+-#define A6XX_RB_RENDER_CONTROL0_IJ_PERSP_CENTROID		0x00000002
+-#define A6XX_RB_RENDER_CONTROL0_IJ_PERSP_SAMPLE			0x00000004
+-#define A6XX_RB_RENDER_CONTROL0_IJ_LINEAR_PIXEL			0x00000008
+-#define A6XX_RB_RENDER_CONTROL0_IJ_LINEAR_CENTROID		0x00000010
+-#define A6XX_RB_RENDER_CONTROL0_IJ_LINEAR_SAMPLE		0x00000020
+-#define A6XX_RB_RENDER_CONTROL0_COORD_MASK__MASK		0x000003c0
+-#define A6XX_RB_RENDER_CONTROL0_COORD_MASK__SHIFT		6
+-static inline uint32_t A6XX_RB_RENDER_CONTROL0_COORD_MASK(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_RENDER_CONTROL0_COORD_MASK__SHIFT) & A6XX_RB_RENDER_CONTROL0_COORD_MASK__MASK;
+-}
+-#define A6XX_RB_RENDER_CONTROL0_UNK10				0x00000400
+-
+-#define REG_A6XX_RB_RENDER_CONTROL1				0x0000880a
+-#define A6XX_RB_RENDER_CONTROL1_SAMPLEMASK			0x00000001
+-#define A6XX_RB_RENDER_CONTROL1_POSTDEPTHCOVERAGE		0x00000002
+-#define A6XX_RB_RENDER_CONTROL1_FACENESS			0x00000004
+-#define A6XX_RB_RENDER_CONTROL1_SAMPLEID			0x00000008
+-#define A6XX_RB_RENDER_CONTROL1_FRAGCOORDSAMPLEMODE__MASK	0x00000030
+-#define A6XX_RB_RENDER_CONTROL1_FRAGCOORDSAMPLEMODE__SHIFT	4
+-static inline uint32_t A6XX_RB_RENDER_CONTROL1_FRAGCOORDSAMPLEMODE(enum a6xx_fragcoord_sample_mode val)
+-{
+-	return ((val) << A6XX_RB_RENDER_CONTROL1_FRAGCOORDSAMPLEMODE__SHIFT) & A6XX_RB_RENDER_CONTROL1_FRAGCOORDSAMPLEMODE__MASK;
+-}
+-#define A6XX_RB_RENDER_CONTROL1_CENTERRHW			0x00000040
+-#define A6XX_RB_RENDER_CONTROL1_LINELENGTHEN			0x00000080
+-#define A6XX_RB_RENDER_CONTROL1_FOVEATION			0x00000100
+-
+-#define REG_A6XX_RB_FS_OUTPUT_CNTL0				0x0000880b
+-#define A6XX_RB_FS_OUTPUT_CNTL0_DUAL_COLOR_IN_ENABLE		0x00000001
+-#define A6XX_RB_FS_OUTPUT_CNTL0_FRAG_WRITES_Z			0x00000002
+-#define A6XX_RB_FS_OUTPUT_CNTL0_FRAG_WRITES_SAMPMASK		0x00000004
+-#define A6XX_RB_FS_OUTPUT_CNTL0_FRAG_WRITES_STENCILREF		0x00000008
+-
+-#define REG_A6XX_RB_FS_OUTPUT_CNTL1				0x0000880c
+-#define A6XX_RB_FS_OUTPUT_CNTL1_MRT__MASK			0x0000000f
+-#define A6XX_RB_FS_OUTPUT_CNTL1_MRT__SHIFT			0
+-static inline uint32_t A6XX_RB_FS_OUTPUT_CNTL1_MRT(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_FS_OUTPUT_CNTL1_MRT__SHIFT) & A6XX_RB_FS_OUTPUT_CNTL1_MRT__MASK;
+-}
+-
+-#define REG_A6XX_RB_RENDER_COMPONENTS				0x0000880d
+-#define A6XX_RB_RENDER_COMPONENTS_RT0__MASK			0x0000000f
+-#define A6XX_RB_RENDER_COMPONENTS_RT0__SHIFT			0
+-static inline uint32_t A6XX_RB_RENDER_COMPONENTS_RT0(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_RENDER_COMPONENTS_RT0__SHIFT) & A6XX_RB_RENDER_COMPONENTS_RT0__MASK;
+-}
+-#define A6XX_RB_RENDER_COMPONENTS_RT1__MASK			0x000000f0
+-#define A6XX_RB_RENDER_COMPONENTS_RT1__SHIFT			4
+-static inline uint32_t A6XX_RB_RENDER_COMPONENTS_RT1(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_RENDER_COMPONENTS_RT1__SHIFT) & A6XX_RB_RENDER_COMPONENTS_RT1__MASK;
+-}
+-#define A6XX_RB_RENDER_COMPONENTS_RT2__MASK			0x00000f00
+-#define A6XX_RB_RENDER_COMPONENTS_RT2__SHIFT			8
+-static inline uint32_t A6XX_RB_RENDER_COMPONENTS_RT2(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_RENDER_COMPONENTS_RT2__SHIFT) & A6XX_RB_RENDER_COMPONENTS_RT2__MASK;
+-}
+-#define A6XX_RB_RENDER_COMPONENTS_RT3__MASK			0x0000f000
+-#define A6XX_RB_RENDER_COMPONENTS_RT3__SHIFT			12
+-static inline uint32_t A6XX_RB_RENDER_COMPONENTS_RT3(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_RENDER_COMPONENTS_RT3__SHIFT) & A6XX_RB_RENDER_COMPONENTS_RT3__MASK;
+-}
+-#define A6XX_RB_RENDER_COMPONENTS_RT4__MASK			0x000f0000
+-#define A6XX_RB_RENDER_COMPONENTS_RT4__SHIFT			16
+-static inline uint32_t A6XX_RB_RENDER_COMPONENTS_RT4(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_RENDER_COMPONENTS_RT4__SHIFT) & A6XX_RB_RENDER_COMPONENTS_RT4__MASK;
+-}
+-#define A6XX_RB_RENDER_COMPONENTS_RT5__MASK			0x00f00000
+-#define A6XX_RB_RENDER_COMPONENTS_RT5__SHIFT			20
+-static inline uint32_t A6XX_RB_RENDER_COMPONENTS_RT5(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_RENDER_COMPONENTS_RT5__SHIFT) & A6XX_RB_RENDER_COMPONENTS_RT5__MASK;
+-}
+-#define A6XX_RB_RENDER_COMPONENTS_RT6__MASK			0x0f000000
+-#define A6XX_RB_RENDER_COMPONENTS_RT6__SHIFT			24
+-static inline uint32_t A6XX_RB_RENDER_COMPONENTS_RT6(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_RENDER_COMPONENTS_RT6__SHIFT) & A6XX_RB_RENDER_COMPONENTS_RT6__MASK;
+-}
+-#define A6XX_RB_RENDER_COMPONENTS_RT7__MASK			0xf0000000
+-#define A6XX_RB_RENDER_COMPONENTS_RT7__SHIFT			28
+-static inline uint32_t A6XX_RB_RENDER_COMPONENTS_RT7(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_RENDER_COMPONENTS_RT7__SHIFT) & A6XX_RB_RENDER_COMPONENTS_RT7__MASK;
+-}
+-
+-#define REG_A6XX_RB_DITHER_CNTL					0x0000880e
+-#define A6XX_RB_DITHER_CNTL_DITHER_MODE_MRT0__MASK		0x00000003
+-#define A6XX_RB_DITHER_CNTL_DITHER_MODE_MRT0__SHIFT		0
+-static inline uint32_t A6XX_RB_DITHER_CNTL_DITHER_MODE_MRT0(enum adreno_rb_dither_mode val)
+-{
+-	return ((val) << A6XX_RB_DITHER_CNTL_DITHER_MODE_MRT0__SHIFT) & A6XX_RB_DITHER_CNTL_DITHER_MODE_MRT0__MASK;
+-}
+-#define A6XX_RB_DITHER_CNTL_DITHER_MODE_MRT1__MASK		0x0000000c
+-#define A6XX_RB_DITHER_CNTL_DITHER_MODE_MRT1__SHIFT		2
+-static inline uint32_t A6XX_RB_DITHER_CNTL_DITHER_MODE_MRT1(enum adreno_rb_dither_mode val)
+-{
+-	return ((val) << A6XX_RB_DITHER_CNTL_DITHER_MODE_MRT1__SHIFT) & A6XX_RB_DITHER_CNTL_DITHER_MODE_MRT1__MASK;
+-}
+-#define A6XX_RB_DITHER_CNTL_DITHER_MODE_MRT2__MASK		0x00000030
+-#define A6XX_RB_DITHER_CNTL_DITHER_MODE_MRT2__SHIFT		4
+-static inline uint32_t A6XX_RB_DITHER_CNTL_DITHER_MODE_MRT2(enum adreno_rb_dither_mode val)
+-{
+-	return ((val) << A6XX_RB_DITHER_CNTL_DITHER_MODE_MRT2__SHIFT) & A6XX_RB_DITHER_CNTL_DITHER_MODE_MRT2__MASK;
+-}
+-#define A6XX_RB_DITHER_CNTL_DITHER_MODE_MRT3__MASK		0x000000c0
+-#define A6XX_RB_DITHER_CNTL_DITHER_MODE_MRT3__SHIFT		6
+-static inline uint32_t A6XX_RB_DITHER_CNTL_DITHER_MODE_MRT3(enum adreno_rb_dither_mode val)
+-{
+-	return ((val) << A6XX_RB_DITHER_CNTL_DITHER_MODE_MRT3__SHIFT) & A6XX_RB_DITHER_CNTL_DITHER_MODE_MRT3__MASK;
+-}
+-#define A6XX_RB_DITHER_CNTL_DITHER_MODE_MRT4__MASK		0x00000300
+-#define A6XX_RB_DITHER_CNTL_DITHER_MODE_MRT4__SHIFT		8
+-static inline uint32_t A6XX_RB_DITHER_CNTL_DITHER_MODE_MRT4(enum adreno_rb_dither_mode val)
+-{
+-	return ((val) << A6XX_RB_DITHER_CNTL_DITHER_MODE_MRT4__SHIFT) & A6XX_RB_DITHER_CNTL_DITHER_MODE_MRT4__MASK;
+-}
+-#define A6XX_RB_DITHER_CNTL_DITHER_MODE_MRT5__MASK		0x00000c00
+-#define A6XX_RB_DITHER_CNTL_DITHER_MODE_MRT5__SHIFT		10
+-static inline uint32_t A6XX_RB_DITHER_CNTL_DITHER_MODE_MRT5(enum adreno_rb_dither_mode val)
+-{
+-	return ((val) << A6XX_RB_DITHER_CNTL_DITHER_MODE_MRT5__SHIFT) & A6XX_RB_DITHER_CNTL_DITHER_MODE_MRT5__MASK;
+-}
+-#define A6XX_RB_DITHER_CNTL_DITHER_MODE_MRT6__MASK		0x00003000
+-#define A6XX_RB_DITHER_CNTL_DITHER_MODE_MRT6__SHIFT		12
+-static inline uint32_t A6XX_RB_DITHER_CNTL_DITHER_MODE_MRT6(enum adreno_rb_dither_mode val)
+-{
+-	return ((val) << A6XX_RB_DITHER_CNTL_DITHER_MODE_MRT6__SHIFT) & A6XX_RB_DITHER_CNTL_DITHER_MODE_MRT6__MASK;
+-}
+-#define A6XX_RB_DITHER_CNTL_DITHER_MODE_MRT7__MASK		0x0000c000
+-#define A6XX_RB_DITHER_CNTL_DITHER_MODE_MRT7__SHIFT		14
+-static inline uint32_t A6XX_RB_DITHER_CNTL_DITHER_MODE_MRT7(enum adreno_rb_dither_mode val)
+-{
+-	return ((val) << A6XX_RB_DITHER_CNTL_DITHER_MODE_MRT7__SHIFT) & A6XX_RB_DITHER_CNTL_DITHER_MODE_MRT7__MASK;
+-}
+-
+-#define REG_A6XX_RB_SRGB_CNTL					0x0000880f
+-#define A6XX_RB_SRGB_CNTL_SRGB_MRT0				0x00000001
+-#define A6XX_RB_SRGB_CNTL_SRGB_MRT1				0x00000002
+-#define A6XX_RB_SRGB_CNTL_SRGB_MRT2				0x00000004
+-#define A6XX_RB_SRGB_CNTL_SRGB_MRT3				0x00000008
+-#define A6XX_RB_SRGB_CNTL_SRGB_MRT4				0x00000010
+-#define A6XX_RB_SRGB_CNTL_SRGB_MRT5				0x00000020
+-#define A6XX_RB_SRGB_CNTL_SRGB_MRT6				0x00000040
+-#define A6XX_RB_SRGB_CNTL_SRGB_MRT7				0x00000080
+-
+-#define REG_A6XX_RB_SAMPLE_CNTL					0x00008810
+-#define A6XX_RB_SAMPLE_CNTL_PER_SAMP_MODE			0x00000001
+-
+-#define REG_A6XX_RB_UNKNOWN_8811				0x00008811
+-
+-#define REG_A7XX_RB_UNKNOWN_8812				0x00008812
+-
+-#define REG_A6XX_RB_UNKNOWN_8818				0x00008818
+-
+-#define REG_A6XX_RB_UNKNOWN_8819				0x00008819
+-
+-#define REG_A6XX_RB_UNKNOWN_881A				0x0000881a
+-
+-#define REG_A6XX_RB_UNKNOWN_881B				0x0000881b
+-
+-#define REG_A6XX_RB_UNKNOWN_881C				0x0000881c
+-
+-#define REG_A6XX_RB_UNKNOWN_881D				0x0000881d
+-
+-#define REG_A6XX_RB_UNKNOWN_881E				0x0000881e
+-
+-#define REG_A6XX_RB_MRT(i0) (0x00008820 + 0x8*(i0))
+-
+-static inline uint32_t REG_A6XX_RB_MRT_CONTROL(uint32_t i0) { return 0x00008820 + 0x8*i0; }
+-#define A6XX_RB_MRT_CONTROL_BLEND				0x00000001
+-#define A6XX_RB_MRT_CONTROL_BLEND2				0x00000002
+-#define A6XX_RB_MRT_CONTROL_ROP_ENABLE				0x00000004
+-#define A6XX_RB_MRT_CONTROL_ROP_CODE__MASK			0x00000078
+-#define A6XX_RB_MRT_CONTROL_ROP_CODE__SHIFT			3
+-static inline uint32_t A6XX_RB_MRT_CONTROL_ROP_CODE(enum a3xx_rop_code val)
+-{
+-	return ((val) << A6XX_RB_MRT_CONTROL_ROP_CODE__SHIFT) & A6XX_RB_MRT_CONTROL_ROP_CODE__MASK;
+-}
+-#define A6XX_RB_MRT_CONTROL_COMPONENT_ENABLE__MASK		0x00000780
+-#define A6XX_RB_MRT_CONTROL_COMPONENT_ENABLE__SHIFT		7
+-static inline uint32_t A6XX_RB_MRT_CONTROL_COMPONENT_ENABLE(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_MRT_CONTROL_COMPONENT_ENABLE__SHIFT) & A6XX_RB_MRT_CONTROL_COMPONENT_ENABLE__MASK;
+-}
+-
+-static inline uint32_t REG_A6XX_RB_MRT_BLEND_CONTROL(uint32_t i0) { return 0x00008821 + 0x8*i0; }
+-#define A6XX_RB_MRT_BLEND_CONTROL_RGB_SRC_FACTOR__MASK		0x0000001f
+-#define A6XX_RB_MRT_BLEND_CONTROL_RGB_SRC_FACTOR__SHIFT		0
+-static inline uint32_t A6XX_RB_MRT_BLEND_CONTROL_RGB_SRC_FACTOR(enum adreno_rb_blend_factor val)
+-{
+-	return ((val) << A6XX_RB_MRT_BLEND_CONTROL_RGB_SRC_FACTOR__SHIFT) & A6XX_RB_MRT_BLEND_CONTROL_RGB_SRC_FACTOR__MASK;
+-}
+-#define A6XX_RB_MRT_BLEND_CONTROL_RGB_BLEND_OPCODE__MASK	0x000000e0
+-#define A6XX_RB_MRT_BLEND_CONTROL_RGB_BLEND_OPCODE__SHIFT	5
+-static inline uint32_t A6XX_RB_MRT_BLEND_CONTROL_RGB_BLEND_OPCODE(enum a3xx_rb_blend_opcode val)
+-{
+-	return ((val) << A6XX_RB_MRT_BLEND_CONTROL_RGB_BLEND_OPCODE__SHIFT) & A6XX_RB_MRT_BLEND_CONTROL_RGB_BLEND_OPCODE__MASK;
+-}
+-#define A6XX_RB_MRT_BLEND_CONTROL_RGB_DEST_FACTOR__MASK		0x00001f00
+-#define A6XX_RB_MRT_BLEND_CONTROL_RGB_DEST_FACTOR__SHIFT	8
+-static inline uint32_t A6XX_RB_MRT_BLEND_CONTROL_RGB_DEST_FACTOR(enum adreno_rb_blend_factor val)
+-{
+-	return ((val) << A6XX_RB_MRT_BLEND_CONTROL_RGB_DEST_FACTOR__SHIFT) & A6XX_RB_MRT_BLEND_CONTROL_RGB_DEST_FACTOR__MASK;
+-}
+-#define A6XX_RB_MRT_BLEND_CONTROL_ALPHA_SRC_FACTOR__MASK	0x001f0000
+-#define A6XX_RB_MRT_BLEND_CONTROL_ALPHA_SRC_FACTOR__SHIFT	16
+-static inline uint32_t A6XX_RB_MRT_BLEND_CONTROL_ALPHA_SRC_FACTOR(enum adreno_rb_blend_factor val)
+-{
+-	return ((val) << A6XX_RB_MRT_BLEND_CONTROL_ALPHA_SRC_FACTOR__SHIFT) & A6XX_RB_MRT_BLEND_CONTROL_ALPHA_SRC_FACTOR__MASK;
+-}
+-#define A6XX_RB_MRT_BLEND_CONTROL_ALPHA_BLEND_OPCODE__MASK	0x00e00000
+-#define A6XX_RB_MRT_BLEND_CONTROL_ALPHA_BLEND_OPCODE__SHIFT	21
+-static inline uint32_t A6XX_RB_MRT_BLEND_CONTROL_ALPHA_BLEND_OPCODE(enum a3xx_rb_blend_opcode val)
+-{
+-	return ((val) << A6XX_RB_MRT_BLEND_CONTROL_ALPHA_BLEND_OPCODE__SHIFT) & A6XX_RB_MRT_BLEND_CONTROL_ALPHA_BLEND_OPCODE__MASK;
+-}
+-#define A6XX_RB_MRT_BLEND_CONTROL_ALPHA_DEST_FACTOR__MASK	0x1f000000
+-#define A6XX_RB_MRT_BLEND_CONTROL_ALPHA_DEST_FACTOR__SHIFT	24
+-static inline uint32_t A6XX_RB_MRT_BLEND_CONTROL_ALPHA_DEST_FACTOR(enum adreno_rb_blend_factor val)
+-{
+-	return ((val) << A6XX_RB_MRT_BLEND_CONTROL_ALPHA_DEST_FACTOR__SHIFT) & A6XX_RB_MRT_BLEND_CONTROL_ALPHA_DEST_FACTOR__MASK;
+-}
+-
+-static inline uint32_t REG_A6XX_RB_MRT_BUF_INFO(uint32_t i0) { return 0x00008822 + 0x8*i0; }
+-#define A6XX_RB_MRT_BUF_INFO_COLOR_FORMAT__MASK			0x000000ff
+-#define A6XX_RB_MRT_BUF_INFO_COLOR_FORMAT__SHIFT		0
+-static inline uint32_t A6XX_RB_MRT_BUF_INFO_COLOR_FORMAT(enum a6xx_format val)
+-{
+-	return ((val) << A6XX_RB_MRT_BUF_INFO_COLOR_FORMAT__SHIFT) & A6XX_RB_MRT_BUF_INFO_COLOR_FORMAT__MASK;
+-}
+-#define A6XX_RB_MRT_BUF_INFO_COLOR_TILE_MODE__MASK		0x00000300
+-#define A6XX_RB_MRT_BUF_INFO_COLOR_TILE_MODE__SHIFT		8
+-static inline uint32_t A6XX_RB_MRT_BUF_INFO_COLOR_TILE_MODE(enum a6xx_tile_mode val)
+-{
+-	return ((val) << A6XX_RB_MRT_BUF_INFO_COLOR_TILE_MODE__SHIFT) & A6XX_RB_MRT_BUF_INFO_COLOR_TILE_MODE__MASK;
+-}
+-#define A6XX_RB_MRT_BUF_INFO_UNK10				0x00000400
+-#define A6XX_RB_MRT_BUF_INFO_COLOR_SWAP__MASK			0x00006000
+-#define A6XX_RB_MRT_BUF_INFO_COLOR_SWAP__SHIFT			13
+-static inline uint32_t A6XX_RB_MRT_BUF_INFO_COLOR_SWAP(enum a3xx_color_swap val)
+-{
+-	return ((val) << A6XX_RB_MRT_BUF_INFO_COLOR_SWAP__SHIFT) & A6XX_RB_MRT_BUF_INFO_COLOR_SWAP__MASK;
+-}
+-
+-static inline uint32_t REG_A7XX_RB_MRT_BUF_INFO(uint32_t i0) { return 0x00008822 + 0x8*i0; }
+-#define A7XX_RB_MRT_BUF_INFO_COLOR_FORMAT__MASK			0x000000ff
+-#define A7XX_RB_MRT_BUF_INFO_COLOR_FORMAT__SHIFT		0
+-static inline uint32_t A7XX_RB_MRT_BUF_INFO_COLOR_FORMAT(enum a6xx_format val)
+-{
+-	return ((val) << A7XX_RB_MRT_BUF_INFO_COLOR_FORMAT__SHIFT) & A7XX_RB_MRT_BUF_INFO_COLOR_FORMAT__MASK;
+-}
+-#define A7XX_RB_MRT_BUF_INFO_COLOR_TILE_MODE__MASK		0x00000300
+-#define A7XX_RB_MRT_BUF_INFO_COLOR_TILE_MODE__SHIFT		8
+-static inline uint32_t A7XX_RB_MRT_BUF_INFO_COLOR_TILE_MODE(enum a6xx_tile_mode val)
+-{
+-	return ((val) << A7XX_RB_MRT_BUF_INFO_COLOR_TILE_MODE__SHIFT) & A7XX_RB_MRT_BUF_INFO_COLOR_TILE_MODE__MASK;
+-}
+-#define A7XX_RB_MRT_BUF_INFO_UNK10				0x00000400
+-#define A7XX_RB_MRT_BUF_INFO_LOSSLESSCOMPEN			0x00000800
+-#define A7XX_RB_MRT_BUF_INFO_COLOR_SWAP__MASK			0x00006000
+-#define A7XX_RB_MRT_BUF_INFO_COLOR_SWAP__SHIFT			13
+-static inline uint32_t A7XX_RB_MRT_BUF_INFO_COLOR_SWAP(enum a3xx_color_swap val)
+-{
+-	return ((val) << A7XX_RB_MRT_BUF_INFO_COLOR_SWAP__SHIFT) & A7XX_RB_MRT_BUF_INFO_COLOR_SWAP__MASK;
+-}
+-
+-static inline uint32_t REG_A6XX_RB_MRT_PITCH(uint32_t i0) { return 0x00008823 + 0x8*i0; }
+-#define A6XX_RB_MRT_PITCH__MASK					0xffffffff
+-#define A6XX_RB_MRT_PITCH__SHIFT				0
+-static inline uint32_t A6XX_RB_MRT_PITCH(uint32_t val)
+-{
+-	assert(!(val & 0x3f));
+-	return (((val >> 6)) << A6XX_RB_MRT_PITCH__SHIFT) & A6XX_RB_MRT_PITCH__MASK;
+-}
+-
+-static inline uint32_t REG_A6XX_RB_MRT_ARRAY_PITCH(uint32_t i0) { return 0x00008824 + 0x8*i0; }
+-#define A6XX_RB_MRT_ARRAY_PITCH__MASK				0xffffffff
+-#define A6XX_RB_MRT_ARRAY_PITCH__SHIFT				0
+-static inline uint32_t A6XX_RB_MRT_ARRAY_PITCH(uint32_t val)
+-{
+-	assert(!(val & 0x3f));
+-	return (((val >> 6)) << A6XX_RB_MRT_ARRAY_PITCH__SHIFT) & A6XX_RB_MRT_ARRAY_PITCH__MASK;
+-}
+-
+-static inline uint32_t REG_A6XX_RB_MRT_BASE(uint32_t i0) { return 0x00008825 + 0x8*i0; }
+-
+-static inline uint32_t REG_A6XX_RB_MRT_BASE_GMEM(uint32_t i0) { return 0x00008827 + 0x8*i0; }
+-
+-#define REG_A6XX_RB_BLEND_RED_F32				0x00008860
+-#define A6XX_RB_BLEND_RED_F32__MASK				0xffffffff
+-#define A6XX_RB_BLEND_RED_F32__SHIFT				0
+-static inline uint32_t A6XX_RB_BLEND_RED_F32(float val)
+-{
+-	return ((fui(val)) << A6XX_RB_BLEND_RED_F32__SHIFT) & A6XX_RB_BLEND_RED_F32__MASK;
+-}
+-
+-#define REG_A6XX_RB_BLEND_GREEN_F32				0x00008861
+-#define A6XX_RB_BLEND_GREEN_F32__MASK				0xffffffff
+-#define A6XX_RB_BLEND_GREEN_F32__SHIFT				0
+-static inline uint32_t A6XX_RB_BLEND_GREEN_F32(float val)
+-{
+-	return ((fui(val)) << A6XX_RB_BLEND_GREEN_F32__SHIFT) & A6XX_RB_BLEND_GREEN_F32__MASK;
+-}
+-
+-#define REG_A6XX_RB_BLEND_BLUE_F32				0x00008862
+-#define A6XX_RB_BLEND_BLUE_F32__MASK				0xffffffff
+-#define A6XX_RB_BLEND_BLUE_F32__SHIFT				0
+-static inline uint32_t A6XX_RB_BLEND_BLUE_F32(float val)
+-{
+-	return ((fui(val)) << A6XX_RB_BLEND_BLUE_F32__SHIFT) & A6XX_RB_BLEND_BLUE_F32__MASK;
+-}
+-
+-#define REG_A6XX_RB_BLEND_ALPHA_F32				0x00008863
+-#define A6XX_RB_BLEND_ALPHA_F32__MASK				0xffffffff
+-#define A6XX_RB_BLEND_ALPHA_F32__SHIFT				0
+-static inline uint32_t A6XX_RB_BLEND_ALPHA_F32(float val)
+-{
+-	return ((fui(val)) << A6XX_RB_BLEND_ALPHA_F32__SHIFT) & A6XX_RB_BLEND_ALPHA_F32__MASK;
+-}
+-
+-#define REG_A6XX_RB_ALPHA_CONTROL				0x00008864
+-#define A6XX_RB_ALPHA_CONTROL_ALPHA_REF__MASK			0x000000ff
+-#define A6XX_RB_ALPHA_CONTROL_ALPHA_REF__SHIFT			0
+-static inline uint32_t A6XX_RB_ALPHA_CONTROL_ALPHA_REF(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_ALPHA_CONTROL_ALPHA_REF__SHIFT) & A6XX_RB_ALPHA_CONTROL_ALPHA_REF__MASK;
+-}
+-#define A6XX_RB_ALPHA_CONTROL_ALPHA_TEST			0x00000100
+-#define A6XX_RB_ALPHA_CONTROL_ALPHA_TEST_FUNC__MASK		0x00000e00
+-#define A6XX_RB_ALPHA_CONTROL_ALPHA_TEST_FUNC__SHIFT		9
+-static inline uint32_t A6XX_RB_ALPHA_CONTROL_ALPHA_TEST_FUNC(enum adreno_compare_func val)
+-{
+-	return ((val) << A6XX_RB_ALPHA_CONTROL_ALPHA_TEST_FUNC__SHIFT) & A6XX_RB_ALPHA_CONTROL_ALPHA_TEST_FUNC__MASK;
+-}
+-
+-#define REG_A6XX_RB_BLEND_CNTL					0x00008865
+-#define A6XX_RB_BLEND_CNTL_ENABLE_BLEND__MASK			0x000000ff
+-#define A6XX_RB_BLEND_CNTL_ENABLE_BLEND__SHIFT			0
+-static inline uint32_t A6XX_RB_BLEND_CNTL_ENABLE_BLEND(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_BLEND_CNTL_ENABLE_BLEND__SHIFT) & A6XX_RB_BLEND_CNTL_ENABLE_BLEND__MASK;
+-}
+-#define A6XX_RB_BLEND_CNTL_INDEPENDENT_BLEND			0x00000100
+-#define A6XX_RB_BLEND_CNTL_DUAL_COLOR_IN_ENABLE			0x00000200
+-#define A6XX_RB_BLEND_CNTL_ALPHA_TO_COVERAGE			0x00000400
+-#define A6XX_RB_BLEND_CNTL_ALPHA_TO_ONE				0x00000800
+-#define A6XX_RB_BLEND_CNTL_SAMPLE_MASK__MASK			0xffff0000
+-#define A6XX_RB_BLEND_CNTL_SAMPLE_MASK__SHIFT			16
+-static inline uint32_t A6XX_RB_BLEND_CNTL_SAMPLE_MASK(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_BLEND_CNTL_SAMPLE_MASK__SHIFT) & A6XX_RB_BLEND_CNTL_SAMPLE_MASK__MASK;
+-}
+-
+-#define REG_A6XX_RB_DEPTH_PLANE_CNTL				0x00008870
+-#define A6XX_RB_DEPTH_PLANE_CNTL_Z_MODE__MASK			0x00000003
+-#define A6XX_RB_DEPTH_PLANE_CNTL_Z_MODE__SHIFT			0
+-static inline uint32_t A6XX_RB_DEPTH_PLANE_CNTL_Z_MODE(enum a6xx_ztest_mode val)
+-{
+-	return ((val) << A6XX_RB_DEPTH_PLANE_CNTL_Z_MODE__SHIFT) & A6XX_RB_DEPTH_PLANE_CNTL_Z_MODE__MASK;
+-}
+-
+-#define REG_A6XX_RB_DEPTH_CNTL					0x00008871
+-#define A6XX_RB_DEPTH_CNTL_Z_TEST_ENABLE			0x00000001
+-#define A6XX_RB_DEPTH_CNTL_Z_WRITE_ENABLE			0x00000002
+-#define A6XX_RB_DEPTH_CNTL_ZFUNC__MASK				0x0000001c
+-#define A6XX_RB_DEPTH_CNTL_ZFUNC__SHIFT				2
+-static inline uint32_t A6XX_RB_DEPTH_CNTL_ZFUNC(enum adreno_compare_func val)
+-{
+-	return ((val) << A6XX_RB_DEPTH_CNTL_ZFUNC__SHIFT) & A6XX_RB_DEPTH_CNTL_ZFUNC__MASK;
+-}
+-#define A6XX_RB_DEPTH_CNTL_Z_CLAMP_ENABLE			0x00000020
+-#define A6XX_RB_DEPTH_CNTL_Z_READ_ENABLE			0x00000040
+-#define A6XX_RB_DEPTH_CNTL_Z_BOUNDS_ENABLE			0x00000080
+-
+-#define REG_A6XX_GRAS_SU_DEPTH_CNTL				0x00008114
+-#define A6XX_GRAS_SU_DEPTH_CNTL_Z_TEST_ENABLE			0x00000001
+-
+-#define REG_A6XX_RB_DEPTH_BUFFER_INFO				0x00008872
+-#define A6XX_RB_DEPTH_BUFFER_INFO_DEPTH_FORMAT__MASK		0x00000007
+-#define A6XX_RB_DEPTH_BUFFER_INFO_DEPTH_FORMAT__SHIFT		0
+-static inline uint32_t A6XX_RB_DEPTH_BUFFER_INFO_DEPTH_FORMAT(enum a6xx_depth_format val)
+-{
+-	return ((val) << A6XX_RB_DEPTH_BUFFER_INFO_DEPTH_FORMAT__SHIFT) & A6XX_RB_DEPTH_BUFFER_INFO_DEPTH_FORMAT__MASK;
+-}
+-#define A6XX_RB_DEPTH_BUFFER_INFO_UNK3__MASK			0x00000018
+-#define A6XX_RB_DEPTH_BUFFER_INFO_UNK3__SHIFT			3
+-static inline uint32_t A6XX_RB_DEPTH_BUFFER_INFO_UNK3(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_DEPTH_BUFFER_INFO_UNK3__SHIFT) & A6XX_RB_DEPTH_BUFFER_INFO_UNK3__MASK;
+-}
+-
+-#define REG_A7XX_RB_DEPTH_BUFFER_INFO				0x00008872
+-#define A7XX_RB_DEPTH_BUFFER_INFO_DEPTH_FORMAT__MASK		0x00000007
+-#define A7XX_RB_DEPTH_BUFFER_INFO_DEPTH_FORMAT__SHIFT		0
+-static inline uint32_t A7XX_RB_DEPTH_BUFFER_INFO_DEPTH_FORMAT(enum a6xx_depth_format val)
+-{
+-	return ((val) << A7XX_RB_DEPTH_BUFFER_INFO_DEPTH_FORMAT__SHIFT) & A7XX_RB_DEPTH_BUFFER_INFO_DEPTH_FORMAT__MASK;
+-}
+-#define A7XX_RB_DEPTH_BUFFER_INFO_UNK3__MASK			0x00000018
+-#define A7XX_RB_DEPTH_BUFFER_INFO_UNK3__SHIFT			3
+-static inline uint32_t A7XX_RB_DEPTH_BUFFER_INFO_UNK3(uint32_t val)
+-{
+-	return ((val) << A7XX_RB_DEPTH_BUFFER_INFO_UNK3__SHIFT) & A7XX_RB_DEPTH_BUFFER_INFO_UNK3__MASK;
+-}
+-#define A7XX_RB_DEPTH_BUFFER_INFO_TILEMODE__MASK		0x00000060
+-#define A7XX_RB_DEPTH_BUFFER_INFO_TILEMODE__SHIFT		5
+-static inline uint32_t A7XX_RB_DEPTH_BUFFER_INFO_TILEMODE(enum a6xx_tile_mode val)
+-{
+-	return ((val) << A7XX_RB_DEPTH_BUFFER_INFO_TILEMODE__SHIFT) & A7XX_RB_DEPTH_BUFFER_INFO_TILEMODE__MASK;
+-}
+-#define A7XX_RB_DEPTH_BUFFER_INFO_LOSSLESSCOMPEN		0x00000080
+-
+-#define REG_A6XX_RB_DEPTH_BUFFER_PITCH				0x00008873
+-#define A6XX_RB_DEPTH_BUFFER_PITCH__MASK			0x00003fff
+-#define A6XX_RB_DEPTH_BUFFER_PITCH__SHIFT			0
+-static inline uint32_t A6XX_RB_DEPTH_BUFFER_PITCH(uint32_t val)
+-{
+-	assert(!(val & 0x3f));
+-	return (((val >> 6)) << A6XX_RB_DEPTH_BUFFER_PITCH__SHIFT) & A6XX_RB_DEPTH_BUFFER_PITCH__MASK;
+-}
+-
+-#define REG_A6XX_RB_DEPTH_BUFFER_ARRAY_PITCH			0x00008874
+-#define A6XX_RB_DEPTH_BUFFER_ARRAY_PITCH__MASK			0x0fffffff
+-#define A6XX_RB_DEPTH_BUFFER_ARRAY_PITCH__SHIFT			0
+-static inline uint32_t A6XX_RB_DEPTH_BUFFER_ARRAY_PITCH(uint32_t val)
+-{
+-	assert(!(val & 0x3f));
+-	return (((val >> 6)) << A6XX_RB_DEPTH_BUFFER_ARRAY_PITCH__SHIFT) & A6XX_RB_DEPTH_BUFFER_ARRAY_PITCH__MASK;
+-}
+-
+-#define REG_A6XX_RB_DEPTH_BUFFER_BASE				0x00008875
+-
+-#define REG_A6XX_RB_DEPTH_BUFFER_BASE_GMEM			0x00008877
+-
+-#define REG_A6XX_RB_Z_BOUNDS_MIN				0x00008878
+-#define A6XX_RB_Z_BOUNDS_MIN__MASK				0xffffffff
+-#define A6XX_RB_Z_BOUNDS_MIN__SHIFT				0
+-static inline uint32_t A6XX_RB_Z_BOUNDS_MIN(float val)
+-{
+-	return ((fui(val)) << A6XX_RB_Z_BOUNDS_MIN__SHIFT) & A6XX_RB_Z_BOUNDS_MIN__MASK;
+-}
+-
+-#define REG_A6XX_RB_Z_BOUNDS_MAX				0x00008879
+-#define A6XX_RB_Z_BOUNDS_MAX__MASK				0xffffffff
+-#define A6XX_RB_Z_BOUNDS_MAX__SHIFT				0
+-static inline uint32_t A6XX_RB_Z_BOUNDS_MAX(float val)
+-{
+-	return ((fui(val)) << A6XX_RB_Z_BOUNDS_MAX__SHIFT) & A6XX_RB_Z_BOUNDS_MAX__MASK;
+-}
+-
+-#define REG_A6XX_RB_STENCIL_CONTROL				0x00008880
+-#define A6XX_RB_STENCIL_CONTROL_STENCIL_ENABLE			0x00000001
+-#define A6XX_RB_STENCIL_CONTROL_STENCIL_ENABLE_BF		0x00000002
+-#define A6XX_RB_STENCIL_CONTROL_STENCIL_READ			0x00000004
+-#define A6XX_RB_STENCIL_CONTROL_FUNC__MASK			0x00000700
+-#define A6XX_RB_STENCIL_CONTROL_FUNC__SHIFT			8
+-static inline uint32_t A6XX_RB_STENCIL_CONTROL_FUNC(enum adreno_compare_func val)
+-{
+-	return ((val) << A6XX_RB_STENCIL_CONTROL_FUNC__SHIFT) & A6XX_RB_STENCIL_CONTROL_FUNC__MASK;
+-}
+-#define A6XX_RB_STENCIL_CONTROL_FAIL__MASK			0x00003800
+-#define A6XX_RB_STENCIL_CONTROL_FAIL__SHIFT			11
+-static inline uint32_t A6XX_RB_STENCIL_CONTROL_FAIL(enum adreno_stencil_op val)
+-{
+-	return ((val) << A6XX_RB_STENCIL_CONTROL_FAIL__SHIFT) & A6XX_RB_STENCIL_CONTROL_FAIL__MASK;
+-}
+-#define A6XX_RB_STENCIL_CONTROL_ZPASS__MASK			0x0001c000
+-#define A6XX_RB_STENCIL_CONTROL_ZPASS__SHIFT			14
+-static inline uint32_t A6XX_RB_STENCIL_CONTROL_ZPASS(enum adreno_stencil_op val)
+-{
+-	return ((val) << A6XX_RB_STENCIL_CONTROL_ZPASS__SHIFT) & A6XX_RB_STENCIL_CONTROL_ZPASS__MASK;
+-}
+-#define A6XX_RB_STENCIL_CONTROL_ZFAIL__MASK			0x000e0000
+-#define A6XX_RB_STENCIL_CONTROL_ZFAIL__SHIFT			17
+-static inline uint32_t A6XX_RB_STENCIL_CONTROL_ZFAIL(enum adreno_stencil_op val)
+-{
+-	return ((val) << A6XX_RB_STENCIL_CONTROL_ZFAIL__SHIFT) & A6XX_RB_STENCIL_CONTROL_ZFAIL__MASK;
+-}
+-#define A6XX_RB_STENCIL_CONTROL_FUNC_BF__MASK			0x00700000
+-#define A6XX_RB_STENCIL_CONTROL_FUNC_BF__SHIFT			20
+-static inline uint32_t A6XX_RB_STENCIL_CONTROL_FUNC_BF(enum adreno_compare_func val)
+-{
+-	return ((val) << A6XX_RB_STENCIL_CONTROL_FUNC_BF__SHIFT) & A6XX_RB_STENCIL_CONTROL_FUNC_BF__MASK;
+-}
+-#define A6XX_RB_STENCIL_CONTROL_FAIL_BF__MASK			0x03800000
+-#define A6XX_RB_STENCIL_CONTROL_FAIL_BF__SHIFT			23
+-static inline uint32_t A6XX_RB_STENCIL_CONTROL_FAIL_BF(enum adreno_stencil_op val)
+-{
+-	return ((val) << A6XX_RB_STENCIL_CONTROL_FAIL_BF__SHIFT) & A6XX_RB_STENCIL_CONTROL_FAIL_BF__MASK;
+-}
+-#define A6XX_RB_STENCIL_CONTROL_ZPASS_BF__MASK			0x1c000000
+-#define A6XX_RB_STENCIL_CONTROL_ZPASS_BF__SHIFT			26
+-static inline uint32_t A6XX_RB_STENCIL_CONTROL_ZPASS_BF(enum adreno_stencil_op val)
+-{
+-	return ((val) << A6XX_RB_STENCIL_CONTROL_ZPASS_BF__SHIFT) & A6XX_RB_STENCIL_CONTROL_ZPASS_BF__MASK;
+-}
+-#define A6XX_RB_STENCIL_CONTROL_ZFAIL_BF__MASK			0xe0000000
+-#define A6XX_RB_STENCIL_CONTROL_ZFAIL_BF__SHIFT			29
+-static inline uint32_t A6XX_RB_STENCIL_CONTROL_ZFAIL_BF(enum adreno_stencil_op val)
+-{
+-	return ((val) << A6XX_RB_STENCIL_CONTROL_ZFAIL_BF__SHIFT) & A6XX_RB_STENCIL_CONTROL_ZFAIL_BF__MASK;
+-}
+-
+-#define REG_A6XX_GRAS_SU_STENCIL_CNTL				0x00008115
+-#define A6XX_GRAS_SU_STENCIL_CNTL_STENCIL_ENABLE		0x00000001
+-
+-#define REG_A6XX_RB_STENCIL_INFO				0x00008881
+-#define A6XX_RB_STENCIL_INFO_SEPARATE_STENCIL			0x00000001
+-#define A6XX_RB_STENCIL_INFO_UNK1				0x00000002
+-
+-#define REG_A7XX_RB_STENCIL_INFO				0x00008881
+-#define A7XX_RB_STENCIL_INFO_SEPARATE_STENCIL			0x00000001
+-#define A7XX_RB_STENCIL_INFO_UNK1				0x00000002
+-#define A7XX_RB_STENCIL_INFO_TILEMODE__MASK			0x0000000c
+-#define A7XX_RB_STENCIL_INFO_TILEMODE__SHIFT			2
+-static inline uint32_t A7XX_RB_STENCIL_INFO_TILEMODE(enum a6xx_tile_mode val)
+-{
+-	return ((val) << A7XX_RB_STENCIL_INFO_TILEMODE__SHIFT) & A7XX_RB_STENCIL_INFO_TILEMODE__MASK;
+-}
+-
+-#define REG_A6XX_RB_STENCIL_BUFFER_PITCH			0x00008882
+-#define A6XX_RB_STENCIL_BUFFER_PITCH__MASK			0x00000fff
+-#define A6XX_RB_STENCIL_BUFFER_PITCH__SHIFT			0
+-static inline uint32_t A6XX_RB_STENCIL_BUFFER_PITCH(uint32_t val)
+-{
+-	assert(!(val & 0x3f));
+-	return (((val >> 6)) << A6XX_RB_STENCIL_BUFFER_PITCH__SHIFT) & A6XX_RB_STENCIL_BUFFER_PITCH__MASK;
+-}
+-
+-#define REG_A6XX_RB_STENCIL_BUFFER_ARRAY_PITCH			0x00008883
+-#define A6XX_RB_STENCIL_BUFFER_ARRAY_PITCH__MASK		0x00ffffff
+-#define A6XX_RB_STENCIL_BUFFER_ARRAY_PITCH__SHIFT		0
+-static inline uint32_t A6XX_RB_STENCIL_BUFFER_ARRAY_PITCH(uint32_t val)
+-{
+-	assert(!(val & 0x3f));
+-	return (((val >> 6)) << A6XX_RB_STENCIL_BUFFER_ARRAY_PITCH__SHIFT) & A6XX_RB_STENCIL_BUFFER_ARRAY_PITCH__MASK;
+-}
+-
+-#define REG_A6XX_RB_STENCIL_BUFFER_BASE				0x00008884
+-
+-#define REG_A6XX_RB_STENCIL_BUFFER_BASE_GMEM			0x00008886
+-
+-#define REG_A6XX_RB_STENCILREF					0x00008887
+-#define A6XX_RB_STENCILREF_REF__MASK				0x000000ff
+-#define A6XX_RB_STENCILREF_REF__SHIFT				0
+-static inline uint32_t A6XX_RB_STENCILREF_REF(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_STENCILREF_REF__SHIFT) & A6XX_RB_STENCILREF_REF__MASK;
+-}
+-#define A6XX_RB_STENCILREF_BFREF__MASK				0x0000ff00
+-#define A6XX_RB_STENCILREF_BFREF__SHIFT				8
+-static inline uint32_t A6XX_RB_STENCILREF_BFREF(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_STENCILREF_BFREF__SHIFT) & A6XX_RB_STENCILREF_BFREF__MASK;
+-}
+-
+-#define REG_A6XX_RB_STENCILMASK					0x00008888
+-#define A6XX_RB_STENCILMASK_MASK__MASK				0x000000ff
+-#define A6XX_RB_STENCILMASK_MASK__SHIFT				0
+-static inline uint32_t A6XX_RB_STENCILMASK_MASK(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_STENCILMASK_MASK__SHIFT) & A6XX_RB_STENCILMASK_MASK__MASK;
+-}
+-#define A6XX_RB_STENCILMASK_BFMASK__MASK			0x0000ff00
+-#define A6XX_RB_STENCILMASK_BFMASK__SHIFT			8
+-static inline uint32_t A6XX_RB_STENCILMASK_BFMASK(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_STENCILMASK_BFMASK__SHIFT) & A6XX_RB_STENCILMASK_BFMASK__MASK;
+-}
+-
+-#define REG_A6XX_RB_STENCILWRMASK				0x00008889
+-#define A6XX_RB_STENCILWRMASK_WRMASK__MASK			0x000000ff
+-#define A6XX_RB_STENCILWRMASK_WRMASK__SHIFT			0
+-static inline uint32_t A6XX_RB_STENCILWRMASK_WRMASK(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_STENCILWRMASK_WRMASK__SHIFT) & A6XX_RB_STENCILWRMASK_WRMASK__MASK;
+-}
+-#define A6XX_RB_STENCILWRMASK_BFWRMASK__MASK			0x0000ff00
+-#define A6XX_RB_STENCILWRMASK_BFWRMASK__SHIFT			8
+-static inline uint32_t A6XX_RB_STENCILWRMASK_BFWRMASK(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_STENCILWRMASK_BFWRMASK__SHIFT) & A6XX_RB_STENCILWRMASK_BFWRMASK__MASK;
+-}
+-
+-#define REG_A6XX_RB_WINDOW_OFFSET				0x00008890
+-#define A6XX_RB_WINDOW_OFFSET_X__MASK				0x00003fff
+-#define A6XX_RB_WINDOW_OFFSET_X__SHIFT				0
+-static inline uint32_t A6XX_RB_WINDOW_OFFSET_X(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_WINDOW_OFFSET_X__SHIFT) & A6XX_RB_WINDOW_OFFSET_X__MASK;
+-}
+-#define A6XX_RB_WINDOW_OFFSET_Y__MASK				0x3fff0000
+-#define A6XX_RB_WINDOW_OFFSET_Y__SHIFT				16
+-static inline uint32_t A6XX_RB_WINDOW_OFFSET_Y(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_WINDOW_OFFSET_Y__SHIFT) & A6XX_RB_WINDOW_OFFSET_Y__MASK;
+-}
+-
+-#define REG_A6XX_RB_SAMPLE_COUNT_CONTROL			0x00008891
+-#define A6XX_RB_SAMPLE_COUNT_CONTROL_DISABLE			0x00000001
+-#define A6XX_RB_SAMPLE_COUNT_CONTROL_COPY			0x00000002
+-
+-#define REG_A6XX_RB_LRZ_CNTL					0x00008898
+-#define A6XX_RB_LRZ_CNTL_ENABLE					0x00000001
+-
+-#define REG_A7XX_RB_UNKNOWN_8899				0x00008899
+-
+-#define REG_A6XX_RB_Z_CLAMP_MIN					0x000088c0
+-#define A6XX_RB_Z_CLAMP_MIN__MASK				0xffffffff
+-#define A6XX_RB_Z_CLAMP_MIN__SHIFT				0
+-static inline uint32_t A6XX_RB_Z_CLAMP_MIN(float val)
+-{
+-	return ((fui(val)) << A6XX_RB_Z_CLAMP_MIN__SHIFT) & A6XX_RB_Z_CLAMP_MIN__MASK;
+-}
+-
+-#define REG_A6XX_RB_Z_CLAMP_MAX					0x000088c1
+-#define A6XX_RB_Z_CLAMP_MAX__MASK				0xffffffff
+-#define A6XX_RB_Z_CLAMP_MAX__SHIFT				0
+-static inline uint32_t A6XX_RB_Z_CLAMP_MAX(float val)
+-{
+-	return ((fui(val)) << A6XX_RB_Z_CLAMP_MAX__SHIFT) & A6XX_RB_Z_CLAMP_MAX__MASK;
+-}
+-
+-#define REG_A6XX_RB_UNKNOWN_88D0				0x000088d0
+-#define A6XX_RB_UNKNOWN_88D0_UNK0__MASK				0x00001fff
+-#define A6XX_RB_UNKNOWN_88D0_UNK0__SHIFT			0
+-static inline uint32_t A6XX_RB_UNKNOWN_88D0_UNK0(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_UNKNOWN_88D0_UNK0__SHIFT) & A6XX_RB_UNKNOWN_88D0_UNK0__MASK;
+-}
+-#define A6XX_RB_UNKNOWN_88D0_UNK16__MASK			0x07ff0000
+-#define A6XX_RB_UNKNOWN_88D0_UNK16__SHIFT			16
+-static inline uint32_t A6XX_RB_UNKNOWN_88D0_UNK16(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_UNKNOWN_88D0_UNK16__SHIFT) & A6XX_RB_UNKNOWN_88D0_UNK16__MASK;
+-}
+-
+-#define REG_A6XX_RB_BLIT_SCISSOR_TL				0x000088d1
+-#define A6XX_RB_BLIT_SCISSOR_TL_X__MASK				0x00003fff
+-#define A6XX_RB_BLIT_SCISSOR_TL_X__SHIFT			0
+-static inline uint32_t A6XX_RB_BLIT_SCISSOR_TL_X(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_BLIT_SCISSOR_TL_X__SHIFT) & A6XX_RB_BLIT_SCISSOR_TL_X__MASK;
+-}
+-#define A6XX_RB_BLIT_SCISSOR_TL_Y__MASK				0x3fff0000
+-#define A6XX_RB_BLIT_SCISSOR_TL_Y__SHIFT			16
+-static inline uint32_t A6XX_RB_BLIT_SCISSOR_TL_Y(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_BLIT_SCISSOR_TL_Y__SHIFT) & A6XX_RB_BLIT_SCISSOR_TL_Y__MASK;
+-}
+-
+-#define REG_A6XX_RB_BLIT_SCISSOR_BR				0x000088d2
+-#define A6XX_RB_BLIT_SCISSOR_BR_X__MASK				0x00003fff
+-#define A6XX_RB_BLIT_SCISSOR_BR_X__SHIFT			0
+-static inline uint32_t A6XX_RB_BLIT_SCISSOR_BR_X(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_BLIT_SCISSOR_BR_X__SHIFT) & A6XX_RB_BLIT_SCISSOR_BR_X__MASK;
+-}
+-#define A6XX_RB_BLIT_SCISSOR_BR_Y__MASK				0x3fff0000
+-#define A6XX_RB_BLIT_SCISSOR_BR_Y__SHIFT			16
+-static inline uint32_t A6XX_RB_BLIT_SCISSOR_BR_Y(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_BLIT_SCISSOR_BR_Y__SHIFT) & A6XX_RB_BLIT_SCISSOR_BR_Y__MASK;
+-}
+-
+-#define REG_A6XX_RB_BIN_CONTROL2				0x000088d3
+-#define A6XX_RB_BIN_CONTROL2_BINW__MASK				0x0000003f
+-#define A6XX_RB_BIN_CONTROL2_BINW__SHIFT			0
+-static inline uint32_t A6XX_RB_BIN_CONTROL2_BINW(uint32_t val)
+-{
+-	assert(!(val & 0x1f));
+-	return (((val >> 5)) << A6XX_RB_BIN_CONTROL2_BINW__SHIFT) & A6XX_RB_BIN_CONTROL2_BINW__MASK;
+-}
+-#define A6XX_RB_BIN_CONTROL2_BINH__MASK				0x00007f00
+-#define A6XX_RB_BIN_CONTROL2_BINH__SHIFT			8
+-static inline uint32_t A6XX_RB_BIN_CONTROL2_BINH(uint32_t val)
+-{
+-	assert(!(val & 0xf));
+-	return (((val >> 4)) << A6XX_RB_BIN_CONTROL2_BINH__SHIFT) & A6XX_RB_BIN_CONTROL2_BINH__MASK;
+-}
+-
+-#define REG_A6XX_RB_WINDOW_OFFSET2				0x000088d4
+-#define A6XX_RB_WINDOW_OFFSET2_X__MASK				0x00003fff
+-#define A6XX_RB_WINDOW_OFFSET2_X__SHIFT				0
+-static inline uint32_t A6XX_RB_WINDOW_OFFSET2_X(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_WINDOW_OFFSET2_X__SHIFT) & A6XX_RB_WINDOW_OFFSET2_X__MASK;
+-}
+-#define A6XX_RB_WINDOW_OFFSET2_Y__MASK				0x3fff0000
+-#define A6XX_RB_WINDOW_OFFSET2_Y__SHIFT				16
+-static inline uint32_t A6XX_RB_WINDOW_OFFSET2_Y(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_WINDOW_OFFSET2_Y__SHIFT) & A6XX_RB_WINDOW_OFFSET2_Y__MASK;
+-}
+-
+-#define REG_A6XX_RB_BLIT_GMEM_MSAA_CNTL				0x000088d5
+-#define A6XX_RB_BLIT_GMEM_MSAA_CNTL_SAMPLES__MASK		0x00000018
+-#define A6XX_RB_BLIT_GMEM_MSAA_CNTL_SAMPLES__SHIFT		3
+-static inline uint32_t A6XX_RB_BLIT_GMEM_MSAA_CNTL_SAMPLES(enum a3xx_msaa_samples val)
+-{
+-	return ((val) << A6XX_RB_BLIT_GMEM_MSAA_CNTL_SAMPLES__SHIFT) & A6XX_RB_BLIT_GMEM_MSAA_CNTL_SAMPLES__MASK;
+-}
+-
+-#define REG_A6XX_RB_BLIT_BASE_GMEM				0x000088d6
+-
+-#define REG_A6XX_RB_BLIT_DST_INFO				0x000088d7
+-#define A6XX_RB_BLIT_DST_INFO_TILE_MODE__MASK			0x00000003
+-#define A6XX_RB_BLIT_DST_INFO_TILE_MODE__SHIFT			0
+-static inline uint32_t A6XX_RB_BLIT_DST_INFO_TILE_MODE(enum a6xx_tile_mode val)
+-{
+-	return ((val) << A6XX_RB_BLIT_DST_INFO_TILE_MODE__SHIFT) & A6XX_RB_BLIT_DST_INFO_TILE_MODE__MASK;
+-}
+-#define A6XX_RB_BLIT_DST_INFO_FLAGS				0x00000004
+-#define A6XX_RB_BLIT_DST_INFO_SAMPLES__MASK			0x00000018
+-#define A6XX_RB_BLIT_DST_INFO_SAMPLES__SHIFT			3
+-static inline uint32_t A6XX_RB_BLIT_DST_INFO_SAMPLES(enum a3xx_msaa_samples val)
+-{
+-	return ((val) << A6XX_RB_BLIT_DST_INFO_SAMPLES__SHIFT) & A6XX_RB_BLIT_DST_INFO_SAMPLES__MASK;
+-}
+-#define A6XX_RB_BLIT_DST_INFO_COLOR_SWAP__MASK			0x00000060
+-#define A6XX_RB_BLIT_DST_INFO_COLOR_SWAP__SHIFT			5
+-static inline uint32_t A6XX_RB_BLIT_DST_INFO_COLOR_SWAP(enum a3xx_color_swap val)
+-{
+-	return ((val) << A6XX_RB_BLIT_DST_INFO_COLOR_SWAP__SHIFT) & A6XX_RB_BLIT_DST_INFO_COLOR_SWAP__MASK;
+-}
+-#define A6XX_RB_BLIT_DST_INFO_COLOR_FORMAT__MASK		0x00007f80
+-#define A6XX_RB_BLIT_DST_INFO_COLOR_FORMAT__SHIFT		7
+-static inline uint32_t A6XX_RB_BLIT_DST_INFO_COLOR_FORMAT(enum a6xx_format val)
+-{
+-	return ((val) << A6XX_RB_BLIT_DST_INFO_COLOR_FORMAT__SHIFT) & A6XX_RB_BLIT_DST_INFO_COLOR_FORMAT__MASK;
+-}
+-#define A6XX_RB_BLIT_DST_INFO_UNK15				0x00008000
+-
+-#define REG_A6XX_RB_BLIT_DST					0x000088d8
+-
+-#define REG_A6XX_RB_BLIT_DST_PITCH				0x000088da
+-#define A6XX_RB_BLIT_DST_PITCH__MASK				0x0000ffff
+-#define A6XX_RB_BLIT_DST_PITCH__SHIFT				0
+-static inline uint32_t A6XX_RB_BLIT_DST_PITCH(uint32_t val)
+-{
+-	assert(!(val & 0x3f));
+-	return (((val >> 6)) << A6XX_RB_BLIT_DST_PITCH__SHIFT) & A6XX_RB_BLIT_DST_PITCH__MASK;
+-}
+-
+-#define REG_A6XX_RB_BLIT_DST_ARRAY_PITCH			0x000088db
+-#define A6XX_RB_BLIT_DST_ARRAY_PITCH__MASK			0x1fffffff
+-#define A6XX_RB_BLIT_DST_ARRAY_PITCH__SHIFT			0
+-static inline uint32_t A6XX_RB_BLIT_DST_ARRAY_PITCH(uint32_t val)
+-{
+-	assert(!(val & 0x3f));
+-	return (((val >> 6)) << A6XX_RB_BLIT_DST_ARRAY_PITCH__SHIFT) & A6XX_RB_BLIT_DST_ARRAY_PITCH__MASK;
+-}
+-
+-#define REG_A6XX_RB_BLIT_FLAG_DST				0x000088dc
+-
+-#define REG_A6XX_RB_BLIT_FLAG_DST_PITCH				0x000088de
+-#define A6XX_RB_BLIT_FLAG_DST_PITCH_PITCH__MASK			0x000007ff
+-#define A6XX_RB_BLIT_FLAG_DST_PITCH_PITCH__SHIFT		0
+-static inline uint32_t A6XX_RB_BLIT_FLAG_DST_PITCH_PITCH(uint32_t val)
+-{
+-	assert(!(val & 0x3f));
+-	return (((val >> 6)) << A6XX_RB_BLIT_FLAG_DST_PITCH_PITCH__SHIFT) & A6XX_RB_BLIT_FLAG_DST_PITCH_PITCH__MASK;
+-}
+-#define A6XX_RB_BLIT_FLAG_DST_PITCH_ARRAY_PITCH__MASK		0x0ffff800
+-#define A6XX_RB_BLIT_FLAG_DST_PITCH_ARRAY_PITCH__SHIFT		11
+-static inline uint32_t A6XX_RB_BLIT_FLAG_DST_PITCH_ARRAY_PITCH(uint32_t val)
+-{
+-	assert(!(val & 0x7f));
+-	return (((val >> 7)) << A6XX_RB_BLIT_FLAG_DST_PITCH_ARRAY_PITCH__SHIFT) & A6XX_RB_BLIT_FLAG_DST_PITCH_ARRAY_PITCH__MASK;
+-}
+-
+-#define REG_A6XX_RB_BLIT_CLEAR_COLOR_DW0			0x000088df
+-
+-#define REG_A6XX_RB_BLIT_CLEAR_COLOR_DW1			0x000088e0
+-
+-#define REG_A6XX_RB_BLIT_CLEAR_COLOR_DW2			0x000088e1
+-
+-#define REG_A6XX_RB_BLIT_CLEAR_COLOR_DW3			0x000088e2
+-
+-#define REG_A6XX_RB_BLIT_INFO					0x000088e3
+-#define A6XX_RB_BLIT_INFO_UNK0					0x00000001
+-#define A6XX_RB_BLIT_INFO_GMEM					0x00000002
+-#define A6XX_RB_BLIT_INFO_SAMPLE_0				0x00000004
+-#define A6XX_RB_BLIT_INFO_DEPTH					0x00000008
+-#define A6XX_RB_BLIT_INFO_CLEAR_MASK__MASK			0x000000f0
+-#define A6XX_RB_BLIT_INFO_CLEAR_MASK__SHIFT			4
+-static inline uint32_t A6XX_RB_BLIT_INFO_CLEAR_MASK(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_BLIT_INFO_CLEAR_MASK__SHIFT) & A6XX_RB_BLIT_INFO_CLEAR_MASK__MASK;
+-}
+-#define A6XX_RB_BLIT_INFO_LAST__MASK				0x00000300
+-#define A6XX_RB_BLIT_INFO_LAST__SHIFT				8
+-static inline uint32_t A6XX_RB_BLIT_INFO_LAST(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_BLIT_INFO_LAST__SHIFT) & A6XX_RB_BLIT_INFO_LAST__MASK;
+-}
+-#define A6XX_RB_BLIT_INFO_BUFFER_ID__MASK			0x0000f000
+-#define A6XX_RB_BLIT_INFO_BUFFER_ID__SHIFT			12
+-static inline uint32_t A6XX_RB_BLIT_INFO_BUFFER_ID(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_BLIT_INFO_BUFFER_ID__SHIFT) & A6XX_RB_BLIT_INFO_BUFFER_ID__MASK;
+-}
+-
+-#define REG_A7XX_RB_UNKNOWN_88E4				0x000088e4
+-#define A7XX_RB_UNKNOWN_88E4_UNK0				0x00000001
+-
+-#define REG_A7XX_RB_CCU_CNTL2					0x000088e5
+-#define A7XX_RB_CCU_CNTL2_DEPTH_OFFSET_HI__MASK			0x00000001
+-#define A7XX_RB_CCU_CNTL2_DEPTH_OFFSET_HI__SHIFT		0
+-static inline uint32_t A7XX_RB_CCU_CNTL2_DEPTH_OFFSET_HI(uint32_t val)
+-{
+-	return ((val) << A7XX_RB_CCU_CNTL2_DEPTH_OFFSET_HI__SHIFT) & A7XX_RB_CCU_CNTL2_DEPTH_OFFSET_HI__MASK;
+-}
+-#define A7XX_RB_CCU_CNTL2_COLOR_OFFSET_HI__MASK			0x00000004
+-#define A7XX_RB_CCU_CNTL2_COLOR_OFFSET_HI__SHIFT		2
+-static inline uint32_t A7XX_RB_CCU_CNTL2_COLOR_OFFSET_HI(uint32_t val)
+-{
+-	return ((val) << A7XX_RB_CCU_CNTL2_COLOR_OFFSET_HI__SHIFT) & A7XX_RB_CCU_CNTL2_COLOR_OFFSET_HI__MASK;
+-}
+-#define A7XX_RB_CCU_CNTL2_DEPTH_CACHE_SIZE__MASK		0x00000c00
+-#define A7XX_RB_CCU_CNTL2_DEPTH_CACHE_SIZE__SHIFT		10
+-static inline uint32_t A7XX_RB_CCU_CNTL2_DEPTH_CACHE_SIZE(enum a6xx_ccu_cache_size val)
+-{
+-	return ((val) << A7XX_RB_CCU_CNTL2_DEPTH_CACHE_SIZE__SHIFT) & A7XX_RB_CCU_CNTL2_DEPTH_CACHE_SIZE__MASK;
+-}
+-#define A7XX_RB_CCU_CNTL2_DEPTH_OFFSET__MASK			0x001ff000
+-#define A7XX_RB_CCU_CNTL2_DEPTH_OFFSET__SHIFT			12
+-static inline uint32_t A7XX_RB_CCU_CNTL2_DEPTH_OFFSET(uint32_t val)
+-{
+-	assert(!(val & 0xfff));
+-	return (((val >> 12)) << A7XX_RB_CCU_CNTL2_DEPTH_OFFSET__SHIFT) & A7XX_RB_CCU_CNTL2_DEPTH_OFFSET__MASK;
+-}
+-#define A7XX_RB_CCU_CNTL2_COLOR_CACHE_SIZE__MASK		0x00600000
+-#define A7XX_RB_CCU_CNTL2_COLOR_CACHE_SIZE__SHIFT		21
+-static inline uint32_t A7XX_RB_CCU_CNTL2_COLOR_CACHE_SIZE(enum a6xx_ccu_cache_size val)
+-{
+-	return ((val) << A7XX_RB_CCU_CNTL2_COLOR_CACHE_SIZE__SHIFT) & A7XX_RB_CCU_CNTL2_COLOR_CACHE_SIZE__MASK;
+-}
+-#define A7XX_RB_CCU_CNTL2_COLOR_OFFSET__MASK			0xff800000
+-#define A7XX_RB_CCU_CNTL2_COLOR_OFFSET__SHIFT			23
+-static inline uint32_t A7XX_RB_CCU_CNTL2_COLOR_OFFSET(uint32_t val)
+-{
+-	assert(!(val & 0xfff));
+-	return (((val >> 12)) << A7XX_RB_CCU_CNTL2_COLOR_OFFSET__SHIFT) & A7XX_RB_CCU_CNTL2_COLOR_OFFSET__MASK;
+-}
+-
+-#define REG_A6XX_RB_UNKNOWN_88F0				0x000088f0
+-
+-#define REG_A6XX_RB_UNK_FLAG_BUFFER_BASE			0x000088f1
+-
+-#define REG_A6XX_RB_UNK_FLAG_BUFFER_PITCH			0x000088f3
+-#define A6XX_RB_UNK_FLAG_BUFFER_PITCH_PITCH__MASK		0x000007ff
+-#define A6XX_RB_UNK_FLAG_BUFFER_PITCH_PITCH__SHIFT		0
+-static inline uint32_t A6XX_RB_UNK_FLAG_BUFFER_PITCH_PITCH(uint32_t val)
+-{
+-	assert(!(val & 0x3f));
+-	return (((val >> 6)) << A6XX_RB_UNK_FLAG_BUFFER_PITCH_PITCH__SHIFT) & A6XX_RB_UNK_FLAG_BUFFER_PITCH_PITCH__MASK;
+-}
+-#define A6XX_RB_UNK_FLAG_BUFFER_PITCH_ARRAY_PITCH__MASK		0x00fff800
+-#define A6XX_RB_UNK_FLAG_BUFFER_PITCH_ARRAY_PITCH__SHIFT	11
+-static inline uint32_t A6XX_RB_UNK_FLAG_BUFFER_PITCH_ARRAY_PITCH(uint32_t val)
+-{
+-	assert(!(val & 0x7f));
+-	return (((val >> 7)) << A6XX_RB_UNK_FLAG_BUFFER_PITCH_ARRAY_PITCH__SHIFT) & A6XX_RB_UNK_FLAG_BUFFER_PITCH_ARRAY_PITCH__MASK;
+-}
+-
+-#define REG_A6XX_RB_UNKNOWN_88F4				0x000088f4
+-
+-#define REG_A7XX_RB_UNKNOWN_88F5				0x000088f5
+-
+-#define REG_A6XX_RB_DEPTH_FLAG_BUFFER_BASE			0x00008900
+-
+-#define REG_A6XX_RB_DEPTH_FLAG_BUFFER_PITCH			0x00008902
+-#define A6XX_RB_DEPTH_FLAG_BUFFER_PITCH_PITCH__MASK		0x0000007f
+-#define A6XX_RB_DEPTH_FLAG_BUFFER_PITCH_PITCH__SHIFT		0
+-static inline uint32_t A6XX_RB_DEPTH_FLAG_BUFFER_PITCH_PITCH(uint32_t val)
+-{
+-	assert(!(val & 0x3f));
+-	return (((val >> 6)) << A6XX_RB_DEPTH_FLAG_BUFFER_PITCH_PITCH__SHIFT) & A6XX_RB_DEPTH_FLAG_BUFFER_PITCH_PITCH__MASK;
+-}
+-#define A6XX_RB_DEPTH_FLAG_BUFFER_PITCH_UNK8__MASK		0x00000700
+-#define A6XX_RB_DEPTH_FLAG_BUFFER_PITCH_UNK8__SHIFT		8
+-static inline uint32_t A6XX_RB_DEPTH_FLAG_BUFFER_PITCH_UNK8(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_DEPTH_FLAG_BUFFER_PITCH_UNK8__SHIFT) & A6XX_RB_DEPTH_FLAG_BUFFER_PITCH_UNK8__MASK;
+-}
+-#define A6XX_RB_DEPTH_FLAG_BUFFER_PITCH_ARRAY_PITCH__MASK	0x0ffff800
+-#define A6XX_RB_DEPTH_FLAG_BUFFER_PITCH_ARRAY_PITCH__SHIFT	11
+-static inline uint32_t A6XX_RB_DEPTH_FLAG_BUFFER_PITCH_ARRAY_PITCH(uint32_t val)
+-{
+-	assert(!(val & 0x7f));
+-	return (((val >> 7)) << A6XX_RB_DEPTH_FLAG_BUFFER_PITCH_ARRAY_PITCH__SHIFT) & A6XX_RB_DEPTH_FLAG_BUFFER_PITCH_ARRAY_PITCH__MASK;
+-}
+-
+-#define REG_A6XX_RB_MRT_FLAG_BUFFER(i0) (0x00008903 + 0x3*(i0))
+-
+-static inline uint32_t REG_A6XX_RB_MRT_FLAG_BUFFER_ADDR(uint32_t i0) { return 0x00008903 + 0x3*i0; }
+-
+-static inline uint32_t REG_A6XX_RB_MRT_FLAG_BUFFER_PITCH(uint32_t i0) { return 0x00008905 + 0x3*i0; }
+-#define A6XX_RB_MRT_FLAG_BUFFER_PITCH_PITCH__MASK		0x000007ff
+-#define A6XX_RB_MRT_FLAG_BUFFER_PITCH_PITCH__SHIFT		0
+-static inline uint32_t A6XX_RB_MRT_FLAG_BUFFER_PITCH_PITCH(uint32_t val)
+-{
+-	assert(!(val & 0x3f));
+-	return (((val >> 6)) << A6XX_RB_MRT_FLAG_BUFFER_PITCH_PITCH__SHIFT) & A6XX_RB_MRT_FLAG_BUFFER_PITCH_PITCH__MASK;
+-}
+-#define A6XX_RB_MRT_FLAG_BUFFER_PITCH_ARRAY_PITCH__MASK		0x1ffff800
+-#define A6XX_RB_MRT_FLAG_BUFFER_PITCH_ARRAY_PITCH__SHIFT	11
+-static inline uint32_t A6XX_RB_MRT_FLAG_BUFFER_PITCH_ARRAY_PITCH(uint32_t val)
+-{
+-	assert(!(val & 0x7f));
+-	return (((val >> 7)) << A6XX_RB_MRT_FLAG_BUFFER_PITCH_ARRAY_PITCH__SHIFT) & A6XX_RB_MRT_FLAG_BUFFER_PITCH_ARRAY_PITCH__MASK;
+-}
+-
+-#define REG_A6XX_RB_SAMPLE_COUNT_ADDR				0x00008927
+-
+-#define REG_A6XX_RB_UNKNOWN_8A00				0x00008a00
+-
+-#define REG_A6XX_RB_UNKNOWN_8A10				0x00008a10
+-
+-#define REG_A6XX_RB_UNKNOWN_8A20				0x00008a20
+-
+-#define REG_A6XX_RB_UNKNOWN_8A30				0x00008a30
+-
+-#define REG_A6XX_RB_2D_BLIT_CNTL				0x00008c00
+-#define A6XX_RB_2D_BLIT_CNTL_ROTATE__MASK			0x00000007
+-#define A6XX_RB_2D_BLIT_CNTL_ROTATE__SHIFT			0
+-static inline uint32_t A6XX_RB_2D_BLIT_CNTL_ROTATE(enum a6xx_rotation val)
+-{
+-	return ((val) << A6XX_RB_2D_BLIT_CNTL_ROTATE__SHIFT) & A6XX_RB_2D_BLIT_CNTL_ROTATE__MASK;
+-}
+-#define A6XX_RB_2D_BLIT_CNTL_OVERWRITEEN			0x00000008
+-#define A6XX_RB_2D_BLIT_CNTL_UNK4__MASK				0x00000070
+-#define A6XX_RB_2D_BLIT_CNTL_UNK4__SHIFT			4
+-static inline uint32_t A6XX_RB_2D_BLIT_CNTL_UNK4(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_2D_BLIT_CNTL_UNK4__SHIFT) & A6XX_RB_2D_BLIT_CNTL_UNK4__MASK;
+-}
+-#define A6XX_RB_2D_BLIT_CNTL_SOLID_COLOR			0x00000080
+-#define A6XX_RB_2D_BLIT_CNTL_COLOR_FORMAT__MASK			0x0000ff00
+-#define A6XX_RB_2D_BLIT_CNTL_COLOR_FORMAT__SHIFT		8
+-static inline uint32_t A6XX_RB_2D_BLIT_CNTL_COLOR_FORMAT(enum a6xx_format val)
+-{
+-	return ((val) << A6XX_RB_2D_BLIT_CNTL_COLOR_FORMAT__SHIFT) & A6XX_RB_2D_BLIT_CNTL_COLOR_FORMAT__MASK;
+-}
+-#define A6XX_RB_2D_BLIT_CNTL_SCISSOR				0x00010000
+-#define A6XX_RB_2D_BLIT_CNTL_UNK17__MASK			0x00060000
+-#define A6XX_RB_2D_BLIT_CNTL_UNK17__SHIFT			17
+-static inline uint32_t A6XX_RB_2D_BLIT_CNTL_UNK17(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_2D_BLIT_CNTL_UNK17__SHIFT) & A6XX_RB_2D_BLIT_CNTL_UNK17__MASK;
+-}
+-#define A6XX_RB_2D_BLIT_CNTL_D24S8				0x00080000
+-#define A6XX_RB_2D_BLIT_CNTL_MASK__MASK				0x00f00000
+-#define A6XX_RB_2D_BLIT_CNTL_MASK__SHIFT			20
+-static inline uint32_t A6XX_RB_2D_BLIT_CNTL_MASK(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_2D_BLIT_CNTL_MASK__SHIFT) & A6XX_RB_2D_BLIT_CNTL_MASK__MASK;
+-}
+-#define A6XX_RB_2D_BLIT_CNTL_IFMT__MASK				0x1f000000
+-#define A6XX_RB_2D_BLIT_CNTL_IFMT__SHIFT			24
+-static inline uint32_t A6XX_RB_2D_BLIT_CNTL_IFMT(enum a6xx_2d_ifmt val)
+-{
+-	return ((val) << A6XX_RB_2D_BLIT_CNTL_IFMT__SHIFT) & A6XX_RB_2D_BLIT_CNTL_IFMT__MASK;
+-}
+-#define A6XX_RB_2D_BLIT_CNTL_RASTER_MODE__MASK			0x20000000
+-#define A6XX_RB_2D_BLIT_CNTL_RASTER_MODE__SHIFT			29
+-static inline uint32_t A6XX_RB_2D_BLIT_CNTL_RASTER_MODE(enum a6xx_raster_mode val)
+-{
+-	return ((val) << A6XX_RB_2D_BLIT_CNTL_RASTER_MODE__SHIFT) & A6XX_RB_2D_BLIT_CNTL_RASTER_MODE__MASK;
+-}
+-#define A6XX_RB_2D_BLIT_CNTL_UNK30				0x40000000
+-
+-#define REG_A6XX_RB_2D_UNKNOWN_8C01				0x00008c01
+-
+-#define REG_A6XX_RB_2D_DST_INFO					0x00008c17
+-#define A6XX_RB_2D_DST_INFO_COLOR_FORMAT__MASK			0x000000ff
+-#define A6XX_RB_2D_DST_INFO_COLOR_FORMAT__SHIFT			0
+-static inline uint32_t A6XX_RB_2D_DST_INFO_COLOR_FORMAT(enum a6xx_format val)
+-{
+-	return ((val) << A6XX_RB_2D_DST_INFO_COLOR_FORMAT__SHIFT) & A6XX_RB_2D_DST_INFO_COLOR_FORMAT__MASK;
+-}
+-#define A6XX_RB_2D_DST_INFO_TILE_MODE__MASK			0x00000300
+-#define A6XX_RB_2D_DST_INFO_TILE_MODE__SHIFT			8
+-static inline uint32_t A6XX_RB_2D_DST_INFO_TILE_MODE(enum a6xx_tile_mode val)
+-{
+-	return ((val) << A6XX_RB_2D_DST_INFO_TILE_MODE__SHIFT) & A6XX_RB_2D_DST_INFO_TILE_MODE__MASK;
+-}
+-#define A6XX_RB_2D_DST_INFO_COLOR_SWAP__MASK			0x00000c00
+-#define A6XX_RB_2D_DST_INFO_COLOR_SWAP__SHIFT			10
+-static inline uint32_t A6XX_RB_2D_DST_INFO_COLOR_SWAP(enum a3xx_color_swap val)
+-{
+-	return ((val) << A6XX_RB_2D_DST_INFO_COLOR_SWAP__SHIFT) & A6XX_RB_2D_DST_INFO_COLOR_SWAP__MASK;
+-}
+-#define A6XX_RB_2D_DST_INFO_FLAGS				0x00001000
+-#define A6XX_RB_2D_DST_INFO_SRGB				0x00002000
+-#define A6XX_RB_2D_DST_INFO_SAMPLES__MASK			0x0000c000
+-#define A6XX_RB_2D_DST_INFO_SAMPLES__SHIFT			14
+-static inline uint32_t A6XX_RB_2D_DST_INFO_SAMPLES(enum a3xx_msaa_samples val)
+-{
+-	return ((val) << A6XX_RB_2D_DST_INFO_SAMPLES__SHIFT) & A6XX_RB_2D_DST_INFO_SAMPLES__MASK;
+-}
+-#define A6XX_RB_2D_DST_INFO_FILTER				0x00010000
+-#define A6XX_RB_2D_DST_INFO_UNK17				0x00020000
+-#define A6XX_RB_2D_DST_INFO_SAMPLES_AVERAGE			0x00040000
+-#define A6XX_RB_2D_DST_INFO_UNK19				0x00080000
+-#define A6XX_RB_2D_DST_INFO_UNK20				0x00100000
+-#define A6XX_RB_2D_DST_INFO_UNK21				0x00200000
+-#define A6XX_RB_2D_DST_INFO_UNK22				0x00400000
+-#define A6XX_RB_2D_DST_INFO_UNK23__MASK				0x07800000
+-#define A6XX_RB_2D_DST_INFO_UNK23__SHIFT			23
+-static inline uint32_t A6XX_RB_2D_DST_INFO_UNK23(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_2D_DST_INFO_UNK23__SHIFT) & A6XX_RB_2D_DST_INFO_UNK23__MASK;
+-}
+-#define A6XX_RB_2D_DST_INFO_UNK28				0x10000000
+-
+-#define REG_A6XX_RB_2D_DST					0x00008c18
+-
+-#define REG_A6XX_RB_2D_DST_PITCH				0x00008c1a
+-#define A6XX_RB_2D_DST_PITCH__MASK				0x0000ffff
+-#define A6XX_RB_2D_DST_PITCH__SHIFT				0
+-static inline uint32_t A6XX_RB_2D_DST_PITCH(uint32_t val)
+-{
+-	assert(!(val & 0x3f));
+-	return (((val >> 6)) << A6XX_RB_2D_DST_PITCH__SHIFT) & A6XX_RB_2D_DST_PITCH__MASK;
+-}
+-
+-#define REG_A6XX_RB_2D_DST_PLANE1				0x00008c1b
+-
+-#define REG_A6XX_RB_2D_DST_PLANE_PITCH				0x00008c1d
+-#define A6XX_RB_2D_DST_PLANE_PITCH__MASK			0x0000ffff
+-#define A6XX_RB_2D_DST_PLANE_PITCH__SHIFT			0
+-static inline uint32_t A6XX_RB_2D_DST_PLANE_PITCH(uint32_t val)
+-{
+-	assert(!(val & 0x3f));
+-	return (((val >> 6)) << A6XX_RB_2D_DST_PLANE_PITCH__SHIFT) & A6XX_RB_2D_DST_PLANE_PITCH__MASK;
+-}
+-
+-#define REG_A6XX_RB_2D_DST_PLANE2				0x00008c1e
+-
+-#define REG_A6XX_RB_2D_DST_FLAGS				0x00008c20
+-
+-#define REG_A6XX_RB_2D_DST_FLAGS_PITCH				0x00008c22
+-#define A6XX_RB_2D_DST_FLAGS_PITCH__MASK			0x000000ff
+-#define A6XX_RB_2D_DST_FLAGS_PITCH__SHIFT			0
+-static inline uint32_t A6XX_RB_2D_DST_FLAGS_PITCH(uint32_t val)
+-{
+-	assert(!(val & 0x3f));
+-	return (((val >> 6)) << A6XX_RB_2D_DST_FLAGS_PITCH__SHIFT) & A6XX_RB_2D_DST_FLAGS_PITCH__MASK;
+-}
+-
+-#define REG_A6XX_RB_2D_DST_FLAGS_PLANE				0x00008c23
+-
+-#define REG_A6XX_RB_2D_DST_FLAGS_PLANE_PITCH			0x00008c25
+-#define A6XX_RB_2D_DST_FLAGS_PLANE_PITCH__MASK			0x000000ff
+-#define A6XX_RB_2D_DST_FLAGS_PLANE_PITCH__SHIFT			0
+-static inline uint32_t A6XX_RB_2D_DST_FLAGS_PLANE_PITCH(uint32_t val)
+-{
+-	assert(!(val & 0x3f));
+-	return (((val >> 6)) << A6XX_RB_2D_DST_FLAGS_PLANE_PITCH__SHIFT) & A6XX_RB_2D_DST_FLAGS_PLANE_PITCH__MASK;
+-}
+-
+-#define REG_A6XX_RB_2D_SRC_SOLID_C0				0x00008c2c
+-
+-#define REG_A6XX_RB_2D_SRC_SOLID_C1				0x00008c2d
+-
+-#define REG_A6XX_RB_2D_SRC_SOLID_C2				0x00008c2e
+-
+-#define REG_A6XX_RB_2D_SRC_SOLID_C3				0x00008c2f
+-
+-#define REG_A6XX_RB_UNKNOWN_8E01				0x00008e01
+-
+-#define REG_A6XX_RB_DBG_ECO_CNTL				0x00008e04
+-
+-#define REG_A6XX_RB_ADDR_MODE_CNTL				0x00008e05
+-
+-#define REG_A7XX_RB_UNKNOWN_8E06				0x00008e06
+-
+-#define REG_A6XX_RB_CCU_CNTL					0x00008e07
+-#define A6XX_RB_CCU_CNTL_GMEM_FAST_CLEAR_DISABLE		0x00000001
+-#define A6XX_RB_CCU_CNTL_CONCURRENT_RESOLVE			0x00000004
+-#define A6XX_RB_CCU_CNTL_DEPTH_OFFSET_HI__MASK			0x00000080
+-#define A6XX_RB_CCU_CNTL_DEPTH_OFFSET_HI__SHIFT			7
+-static inline uint32_t A6XX_RB_CCU_CNTL_DEPTH_OFFSET_HI(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_CCU_CNTL_DEPTH_OFFSET_HI__SHIFT) & A6XX_RB_CCU_CNTL_DEPTH_OFFSET_HI__MASK;
+-}
+-#define A6XX_RB_CCU_CNTL_COLOR_OFFSET_HI__MASK			0x00000200
+-#define A6XX_RB_CCU_CNTL_COLOR_OFFSET_HI__SHIFT			9
+-static inline uint32_t A6XX_RB_CCU_CNTL_COLOR_OFFSET_HI(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_CCU_CNTL_COLOR_OFFSET_HI__SHIFT) & A6XX_RB_CCU_CNTL_COLOR_OFFSET_HI__MASK;
+-}
+-#define A6XX_RB_CCU_CNTL_DEPTH_CACHE_SIZE__MASK			0x00000c00
+-#define A6XX_RB_CCU_CNTL_DEPTH_CACHE_SIZE__SHIFT		10
+-static inline uint32_t A6XX_RB_CCU_CNTL_DEPTH_CACHE_SIZE(enum a6xx_ccu_cache_size val)
+-{
+-	return ((val) << A6XX_RB_CCU_CNTL_DEPTH_CACHE_SIZE__SHIFT) & A6XX_RB_CCU_CNTL_DEPTH_CACHE_SIZE__MASK;
+-}
+-#define A6XX_RB_CCU_CNTL_DEPTH_OFFSET__MASK			0x001ff000
+-#define A6XX_RB_CCU_CNTL_DEPTH_OFFSET__SHIFT			12
+-static inline uint32_t A6XX_RB_CCU_CNTL_DEPTH_OFFSET(uint32_t val)
+-{
+-	assert(!(val & 0xfff));
+-	return (((val >> 12)) << A6XX_RB_CCU_CNTL_DEPTH_OFFSET__SHIFT) & A6XX_RB_CCU_CNTL_DEPTH_OFFSET__MASK;
+-}
+-#define A6XX_RB_CCU_CNTL_COLOR_CACHE_SIZE__MASK			0x00600000
+-#define A6XX_RB_CCU_CNTL_COLOR_CACHE_SIZE__SHIFT		21
+-static inline uint32_t A6XX_RB_CCU_CNTL_COLOR_CACHE_SIZE(enum a6xx_ccu_cache_size val)
+-{
+-	return ((val) << A6XX_RB_CCU_CNTL_COLOR_CACHE_SIZE__SHIFT) & A6XX_RB_CCU_CNTL_COLOR_CACHE_SIZE__MASK;
+-}
+-#define A6XX_RB_CCU_CNTL_COLOR_OFFSET__MASK			0xff800000
+-#define A6XX_RB_CCU_CNTL_COLOR_OFFSET__SHIFT			23
+-static inline uint32_t A6XX_RB_CCU_CNTL_COLOR_OFFSET(uint32_t val)
+-{
+-	assert(!(val & 0xfff));
+-	return (((val >> 12)) << A6XX_RB_CCU_CNTL_COLOR_OFFSET__SHIFT) & A6XX_RB_CCU_CNTL_COLOR_OFFSET__MASK;
+-}
+-
+-#define REG_A7XX_RB_CCU_CNTL					0x00008e07
+-#define A7XX_RB_CCU_CNTL_GMEM_FAST_CLEAR_DISABLE		0x00000001
+-#define A7XX_RB_CCU_CNTL_CONCURRENT_RESOLVE			0x00000004
+-
+-#define REG_A6XX_RB_NC_MODE_CNTL				0x00008e08
+-#define A6XX_RB_NC_MODE_CNTL_MODE				0x00000001
+-#define A6XX_RB_NC_MODE_CNTL_LOWER_BIT__MASK			0x00000006
+-#define A6XX_RB_NC_MODE_CNTL_LOWER_BIT__SHIFT			1
+-static inline uint32_t A6XX_RB_NC_MODE_CNTL_LOWER_BIT(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_NC_MODE_CNTL_LOWER_BIT__SHIFT) & A6XX_RB_NC_MODE_CNTL_LOWER_BIT__MASK;
+-}
+-#define A6XX_RB_NC_MODE_CNTL_MIN_ACCESS_LENGTH			0x00000008
+-#define A6XX_RB_NC_MODE_CNTL_AMSBC				0x00000010
+-#define A6XX_RB_NC_MODE_CNTL_UPPER_BIT__MASK			0x00000400
+-#define A6XX_RB_NC_MODE_CNTL_UPPER_BIT__SHIFT			10
+-static inline uint32_t A6XX_RB_NC_MODE_CNTL_UPPER_BIT(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_NC_MODE_CNTL_UPPER_BIT__SHIFT) & A6XX_RB_NC_MODE_CNTL_UPPER_BIT__MASK;
+-}
+-#define A6XX_RB_NC_MODE_CNTL_RGB565_PREDICATOR			0x00000800
+-#define A6XX_RB_NC_MODE_CNTL_UNK12__MASK			0x00003000
+-#define A6XX_RB_NC_MODE_CNTL_UNK12__SHIFT			12
+-static inline uint32_t A6XX_RB_NC_MODE_CNTL_UNK12(uint32_t val)
+-{
+-	return ((val) << A6XX_RB_NC_MODE_CNTL_UNK12__SHIFT) & A6XX_RB_NC_MODE_CNTL_UNK12__MASK;
+-}
+-
+-#define REG_A7XX_RB_UNKNOWN_8E09				0x00008e09
+-
+-#define REG_A6XX_RB_PERFCTR_RB_SEL(i0) (0x00008e10 + 0x1*(i0))
+-
+-#define REG_A6XX_RB_PERFCTR_CCU_SEL(i0) (0x00008e18 + 0x1*(i0))
+-
+-#define REG_A6XX_RB_UNKNOWN_8E28				0x00008e28
+-
+-#define REG_A6XX_RB_PERFCTR_CMP_SEL(i0) (0x00008e2c + 0x1*(i0))
+-
+-#define REG_A7XX_RB_PERFCTR_UFC_SEL(i0) (0x00008e30 + 0x1*(i0))
+-
+-#define REG_A6XX_RB_RB_SUB_BLOCK_SEL_CNTL_HOST			0x00008e3b
+-
+-#define REG_A6XX_RB_RB_SUB_BLOCK_SEL_CNTL_CD			0x00008e3d
+-
+-#define REG_A6XX_RB_CONTEXT_SWITCH_GMEM_SAVE_RESTORE		0x00008e50
+-
+-#define REG_A6XX_RB_UNKNOWN_8E51				0x00008e51
+-
+-#define REG_A7XX_RB_UNKNOWN_8E79				0x00008e79
+-
+-#define REG_A6XX_VPC_GS_PARAM					0x00009100
+-#define A6XX_VPC_GS_PARAM_LINELENGTHLOC__MASK			0x000000ff
+-#define A6XX_VPC_GS_PARAM_LINELENGTHLOC__SHIFT			0
+-static inline uint32_t A6XX_VPC_GS_PARAM_LINELENGTHLOC(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_GS_PARAM_LINELENGTHLOC__SHIFT) & A6XX_VPC_GS_PARAM_LINELENGTHLOC__MASK;
+-}
+-
+-#define REG_A6XX_VPC_VS_CLIP_CNTL				0x00009101
+-#define A6XX_VPC_VS_CLIP_CNTL_CLIP_MASK__MASK			0x000000ff
+-#define A6XX_VPC_VS_CLIP_CNTL_CLIP_MASK__SHIFT			0
+-static inline uint32_t A6XX_VPC_VS_CLIP_CNTL_CLIP_MASK(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_VS_CLIP_CNTL_CLIP_MASK__SHIFT) & A6XX_VPC_VS_CLIP_CNTL_CLIP_MASK__MASK;
+-}
+-#define A6XX_VPC_VS_CLIP_CNTL_CLIP_DIST_03_LOC__MASK		0x0000ff00
+-#define A6XX_VPC_VS_CLIP_CNTL_CLIP_DIST_03_LOC__SHIFT		8
+-static inline uint32_t A6XX_VPC_VS_CLIP_CNTL_CLIP_DIST_03_LOC(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_VS_CLIP_CNTL_CLIP_DIST_03_LOC__SHIFT) & A6XX_VPC_VS_CLIP_CNTL_CLIP_DIST_03_LOC__MASK;
+-}
+-#define A6XX_VPC_VS_CLIP_CNTL_CLIP_DIST_47_LOC__MASK		0x00ff0000
+-#define A6XX_VPC_VS_CLIP_CNTL_CLIP_DIST_47_LOC__SHIFT		16
+-static inline uint32_t A6XX_VPC_VS_CLIP_CNTL_CLIP_DIST_47_LOC(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_VS_CLIP_CNTL_CLIP_DIST_47_LOC__SHIFT) & A6XX_VPC_VS_CLIP_CNTL_CLIP_DIST_47_LOC__MASK;
+-}
+-
+-#define REG_A6XX_VPC_GS_CLIP_CNTL				0x00009102
+-#define A6XX_VPC_GS_CLIP_CNTL_CLIP_MASK__MASK			0x000000ff
+-#define A6XX_VPC_GS_CLIP_CNTL_CLIP_MASK__SHIFT			0
+-static inline uint32_t A6XX_VPC_GS_CLIP_CNTL_CLIP_MASK(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_GS_CLIP_CNTL_CLIP_MASK__SHIFT) & A6XX_VPC_GS_CLIP_CNTL_CLIP_MASK__MASK;
+-}
+-#define A6XX_VPC_GS_CLIP_CNTL_CLIP_DIST_03_LOC__MASK		0x0000ff00
+-#define A6XX_VPC_GS_CLIP_CNTL_CLIP_DIST_03_LOC__SHIFT		8
+-static inline uint32_t A6XX_VPC_GS_CLIP_CNTL_CLIP_DIST_03_LOC(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_GS_CLIP_CNTL_CLIP_DIST_03_LOC__SHIFT) & A6XX_VPC_GS_CLIP_CNTL_CLIP_DIST_03_LOC__MASK;
+-}
+-#define A6XX_VPC_GS_CLIP_CNTL_CLIP_DIST_47_LOC__MASK		0x00ff0000
+-#define A6XX_VPC_GS_CLIP_CNTL_CLIP_DIST_47_LOC__SHIFT		16
+-static inline uint32_t A6XX_VPC_GS_CLIP_CNTL_CLIP_DIST_47_LOC(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_GS_CLIP_CNTL_CLIP_DIST_47_LOC__SHIFT) & A6XX_VPC_GS_CLIP_CNTL_CLIP_DIST_47_LOC__MASK;
+-}
+-
+-#define REG_A6XX_VPC_DS_CLIP_CNTL				0x00009103
+-#define A6XX_VPC_DS_CLIP_CNTL_CLIP_MASK__MASK			0x000000ff
+-#define A6XX_VPC_DS_CLIP_CNTL_CLIP_MASK__SHIFT			0
+-static inline uint32_t A6XX_VPC_DS_CLIP_CNTL_CLIP_MASK(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_DS_CLIP_CNTL_CLIP_MASK__SHIFT) & A6XX_VPC_DS_CLIP_CNTL_CLIP_MASK__MASK;
+-}
+-#define A6XX_VPC_DS_CLIP_CNTL_CLIP_DIST_03_LOC__MASK		0x0000ff00
+-#define A6XX_VPC_DS_CLIP_CNTL_CLIP_DIST_03_LOC__SHIFT		8
+-static inline uint32_t A6XX_VPC_DS_CLIP_CNTL_CLIP_DIST_03_LOC(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_DS_CLIP_CNTL_CLIP_DIST_03_LOC__SHIFT) & A6XX_VPC_DS_CLIP_CNTL_CLIP_DIST_03_LOC__MASK;
+-}
+-#define A6XX_VPC_DS_CLIP_CNTL_CLIP_DIST_47_LOC__MASK		0x00ff0000
+-#define A6XX_VPC_DS_CLIP_CNTL_CLIP_DIST_47_LOC__SHIFT		16
+-static inline uint32_t A6XX_VPC_DS_CLIP_CNTL_CLIP_DIST_47_LOC(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_DS_CLIP_CNTL_CLIP_DIST_47_LOC__SHIFT) & A6XX_VPC_DS_CLIP_CNTL_CLIP_DIST_47_LOC__MASK;
+-}
+-
+-#define REG_A6XX_VPC_VS_CLIP_CNTL_V2				0x00009311
+-#define A6XX_VPC_VS_CLIP_CNTL_V2_CLIP_MASK__MASK		0x000000ff
+-#define A6XX_VPC_VS_CLIP_CNTL_V2_CLIP_MASK__SHIFT		0
+-static inline uint32_t A6XX_VPC_VS_CLIP_CNTL_V2_CLIP_MASK(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_VS_CLIP_CNTL_V2_CLIP_MASK__SHIFT) & A6XX_VPC_VS_CLIP_CNTL_V2_CLIP_MASK__MASK;
+-}
+-#define A6XX_VPC_VS_CLIP_CNTL_V2_CLIP_DIST_03_LOC__MASK		0x0000ff00
+-#define A6XX_VPC_VS_CLIP_CNTL_V2_CLIP_DIST_03_LOC__SHIFT	8
+-static inline uint32_t A6XX_VPC_VS_CLIP_CNTL_V2_CLIP_DIST_03_LOC(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_VS_CLIP_CNTL_V2_CLIP_DIST_03_LOC__SHIFT) & A6XX_VPC_VS_CLIP_CNTL_V2_CLIP_DIST_03_LOC__MASK;
+-}
+-#define A6XX_VPC_VS_CLIP_CNTL_V2_CLIP_DIST_47_LOC__MASK		0x00ff0000
+-#define A6XX_VPC_VS_CLIP_CNTL_V2_CLIP_DIST_47_LOC__SHIFT	16
+-static inline uint32_t A6XX_VPC_VS_CLIP_CNTL_V2_CLIP_DIST_47_LOC(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_VS_CLIP_CNTL_V2_CLIP_DIST_47_LOC__SHIFT) & A6XX_VPC_VS_CLIP_CNTL_V2_CLIP_DIST_47_LOC__MASK;
+-}
+-
+-#define REG_A6XX_VPC_GS_CLIP_CNTL_V2				0x00009312
+-#define A6XX_VPC_GS_CLIP_CNTL_V2_CLIP_MASK__MASK		0x000000ff
+-#define A6XX_VPC_GS_CLIP_CNTL_V2_CLIP_MASK__SHIFT		0
+-static inline uint32_t A6XX_VPC_GS_CLIP_CNTL_V2_CLIP_MASK(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_GS_CLIP_CNTL_V2_CLIP_MASK__SHIFT) & A6XX_VPC_GS_CLIP_CNTL_V2_CLIP_MASK__MASK;
+-}
+-#define A6XX_VPC_GS_CLIP_CNTL_V2_CLIP_DIST_03_LOC__MASK		0x0000ff00
+-#define A6XX_VPC_GS_CLIP_CNTL_V2_CLIP_DIST_03_LOC__SHIFT	8
+-static inline uint32_t A6XX_VPC_GS_CLIP_CNTL_V2_CLIP_DIST_03_LOC(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_GS_CLIP_CNTL_V2_CLIP_DIST_03_LOC__SHIFT) & A6XX_VPC_GS_CLIP_CNTL_V2_CLIP_DIST_03_LOC__MASK;
+-}
+-#define A6XX_VPC_GS_CLIP_CNTL_V2_CLIP_DIST_47_LOC__MASK		0x00ff0000
+-#define A6XX_VPC_GS_CLIP_CNTL_V2_CLIP_DIST_47_LOC__SHIFT	16
+-static inline uint32_t A6XX_VPC_GS_CLIP_CNTL_V2_CLIP_DIST_47_LOC(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_GS_CLIP_CNTL_V2_CLIP_DIST_47_LOC__SHIFT) & A6XX_VPC_GS_CLIP_CNTL_V2_CLIP_DIST_47_LOC__MASK;
+-}
+-
+-#define REG_A6XX_VPC_DS_CLIP_CNTL_V2				0x00009313
+-#define A6XX_VPC_DS_CLIP_CNTL_V2_CLIP_MASK__MASK		0x000000ff
+-#define A6XX_VPC_DS_CLIP_CNTL_V2_CLIP_MASK__SHIFT		0
+-static inline uint32_t A6XX_VPC_DS_CLIP_CNTL_V2_CLIP_MASK(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_DS_CLIP_CNTL_V2_CLIP_MASK__SHIFT) & A6XX_VPC_DS_CLIP_CNTL_V2_CLIP_MASK__MASK;
+-}
+-#define A6XX_VPC_DS_CLIP_CNTL_V2_CLIP_DIST_03_LOC__MASK		0x0000ff00
+-#define A6XX_VPC_DS_CLIP_CNTL_V2_CLIP_DIST_03_LOC__SHIFT	8
+-static inline uint32_t A6XX_VPC_DS_CLIP_CNTL_V2_CLIP_DIST_03_LOC(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_DS_CLIP_CNTL_V2_CLIP_DIST_03_LOC__SHIFT) & A6XX_VPC_DS_CLIP_CNTL_V2_CLIP_DIST_03_LOC__MASK;
+-}
+-#define A6XX_VPC_DS_CLIP_CNTL_V2_CLIP_DIST_47_LOC__MASK		0x00ff0000
+-#define A6XX_VPC_DS_CLIP_CNTL_V2_CLIP_DIST_47_LOC__SHIFT	16
+-static inline uint32_t A6XX_VPC_DS_CLIP_CNTL_V2_CLIP_DIST_47_LOC(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_DS_CLIP_CNTL_V2_CLIP_DIST_47_LOC__SHIFT) & A6XX_VPC_DS_CLIP_CNTL_V2_CLIP_DIST_47_LOC__MASK;
+-}
+-
+-#define REG_A6XX_VPC_VS_LAYER_CNTL				0x00009104
+-#define A6XX_VPC_VS_LAYER_CNTL_LAYERLOC__MASK			0x000000ff
+-#define A6XX_VPC_VS_LAYER_CNTL_LAYERLOC__SHIFT			0
+-static inline uint32_t A6XX_VPC_VS_LAYER_CNTL_LAYERLOC(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_VS_LAYER_CNTL_LAYERLOC__SHIFT) & A6XX_VPC_VS_LAYER_CNTL_LAYERLOC__MASK;
+-}
+-#define A6XX_VPC_VS_LAYER_CNTL_VIEWLOC__MASK			0x0000ff00
+-#define A6XX_VPC_VS_LAYER_CNTL_VIEWLOC__SHIFT			8
+-static inline uint32_t A6XX_VPC_VS_LAYER_CNTL_VIEWLOC(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_VS_LAYER_CNTL_VIEWLOC__SHIFT) & A6XX_VPC_VS_LAYER_CNTL_VIEWLOC__MASK;
+-}
+-#define A6XX_VPC_VS_LAYER_CNTL_SHADINGRATELOC__MASK		0x00ff0000
+-#define A6XX_VPC_VS_LAYER_CNTL_SHADINGRATELOC__SHIFT		16
+-static inline uint32_t A6XX_VPC_VS_LAYER_CNTL_SHADINGRATELOC(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_VS_LAYER_CNTL_SHADINGRATELOC__SHIFT) & A6XX_VPC_VS_LAYER_CNTL_SHADINGRATELOC__MASK;
+-}
+-
+-#define REG_A6XX_VPC_GS_LAYER_CNTL				0x00009105
+-#define A6XX_VPC_GS_LAYER_CNTL_LAYERLOC__MASK			0x000000ff
+-#define A6XX_VPC_GS_LAYER_CNTL_LAYERLOC__SHIFT			0
+-static inline uint32_t A6XX_VPC_GS_LAYER_CNTL_LAYERLOC(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_GS_LAYER_CNTL_LAYERLOC__SHIFT) & A6XX_VPC_GS_LAYER_CNTL_LAYERLOC__MASK;
+-}
+-#define A6XX_VPC_GS_LAYER_CNTL_VIEWLOC__MASK			0x0000ff00
+-#define A6XX_VPC_GS_LAYER_CNTL_VIEWLOC__SHIFT			8
+-static inline uint32_t A6XX_VPC_GS_LAYER_CNTL_VIEWLOC(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_GS_LAYER_CNTL_VIEWLOC__SHIFT) & A6XX_VPC_GS_LAYER_CNTL_VIEWLOC__MASK;
+-}
+-#define A6XX_VPC_GS_LAYER_CNTL_SHADINGRATELOC__MASK		0x00ff0000
+-#define A6XX_VPC_GS_LAYER_CNTL_SHADINGRATELOC__SHIFT		16
+-static inline uint32_t A6XX_VPC_GS_LAYER_CNTL_SHADINGRATELOC(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_GS_LAYER_CNTL_SHADINGRATELOC__SHIFT) & A6XX_VPC_GS_LAYER_CNTL_SHADINGRATELOC__MASK;
+-}
+-
+-#define REG_A6XX_VPC_DS_LAYER_CNTL				0x00009106
+-#define A6XX_VPC_DS_LAYER_CNTL_LAYERLOC__MASK			0x000000ff
+-#define A6XX_VPC_DS_LAYER_CNTL_LAYERLOC__SHIFT			0
+-static inline uint32_t A6XX_VPC_DS_LAYER_CNTL_LAYERLOC(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_DS_LAYER_CNTL_LAYERLOC__SHIFT) & A6XX_VPC_DS_LAYER_CNTL_LAYERLOC__MASK;
+-}
+-#define A6XX_VPC_DS_LAYER_CNTL_VIEWLOC__MASK			0x0000ff00
+-#define A6XX_VPC_DS_LAYER_CNTL_VIEWLOC__SHIFT			8
+-static inline uint32_t A6XX_VPC_DS_LAYER_CNTL_VIEWLOC(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_DS_LAYER_CNTL_VIEWLOC__SHIFT) & A6XX_VPC_DS_LAYER_CNTL_VIEWLOC__MASK;
+-}
+-#define A6XX_VPC_DS_LAYER_CNTL_SHADINGRATELOC__MASK		0x00ff0000
+-#define A6XX_VPC_DS_LAYER_CNTL_SHADINGRATELOC__SHIFT		16
+-static inline uint32_t A6XX_VPC_DS_LAYER_CNTL_SHADINGRATELOC(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_DS_LAYER_CNTL_SHADINGRATELOC__SHIFT) & A6XX_VPC_DS_LAYER_CNTL_SHADINGRATELOC__MASK;
+-}
+-
+-#define REG_A6XX_VPC_VS_LAYER_CNTL_V2				0x00009314
+-#define A6XX_VPC_VS_LAYER_CNTL_V2_LAYERLOC__MASK		0x000000ff
+-#define A6XX_VPC_VS_LAYER_CNTL_V2_LAYERLOC__SHIFT		0
+-static inline uint32_t A6XX_VPC_VS_LAYER_CNTL_V2_LAYERLOC(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_VS_LAYER_CNTL_V2_LAYERLOC__SHIFT) & A6XX_VPC_VS_LAYER_CNTL_V2_LAYERLOC__MASK;
+-}
+-#define A6XX_VPC_VS_LAYER_CNTL_V2_VIEWLOC__MASK			0x0000ff00
+-#define A6XX_VPC_VS_LAYER_CNTL_V2_VIEWLOC__SHIFT		8
+-static inline uint32_t A6XX_VPC_VS_LAYER_CNTL_V2_VIEWLOC(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_VS_LAYER_CNTL_V2_VIEWLOC__SHIFT) & A6XX_VPC_VS_LAYER_CNTL_V2_VIEWLOC__MASK;
+-}
+-#define A6XX_VPC_VS_LAYER_CNTL_V2_SHADINGRATELOC__MASK		0x00ff0000
+-#define A6XX_VPC_VS_LAYER_CNTL_V2_SHADINGRATELOC__SHIFT		16
+-static inline uint32_t A6XX_VPC_VS_LAYER_CNTL_V2_SHADINGRATELOC(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_VS_LAYER_CNTL_V2_SHADINGRATELOC__SHIFT) & A6XX_VPC_VS_LAYER_CNTL_V2_SHADINGRATELOC__MASK;
+-}
+-
+-#define REG_A6XX_VPC_GS_LAYER_CNTL_V2				0x00009315
+-#define A6XX_VPC_GS_LAYER_CNTL_V2_LAYERLOC__MASK		0x000000ff
+-#define A6XX_VPC_GS_LAYER_CNTL_V2_LAYERLOC__SHIFT		0
+-static inline uint32_t A6XX_VPC_GS_LAYER_CNTL_V2_LAYERLOC(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_GS_LAYER_CNTL_V2_LAYERLOC__SHIFT) & A6XX_VPC_GS_LAYER_CNTL_V2_LAYERLOC__MASK;
+-}
+-#define A6XX_VPC_GS_LAYER_CNTL_V2_VIEWLOC__MASK			0x0000ff00
+-#define A6XX_VPC_GS_LAYER_CNTL_V2_VIEWLOC__SHIFT		8
+-static inline uint32_t A6XX_VPC_GS_LAYER_CNTL_V2_VIEWLOC(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_GS_LAYER_CNTL_V2_VIEWLOC__SHIFT) & A6XX_VPC_GS_LAYER_CNTL_V2_VIEWLOC__MASK;
+-}
+-#define A6XX_VPC_GS_LAYER_CNTL_V2_SHADINGRATELOC__MASK		0x00ff0000
+-#define A6XX_VPC_GS_LAYER_CNTL_V2_SHADINGRATELOC__SHIFT		16
+-static inline uint32_t A6XX_VPC_GS_LAYER_CNTL_V2_SHADINGRATELOC(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_GS_LAYER_CNTL_V2_SHADINGRATELOC__SHIFT) & A6XX_VPC_GS_LAYER_CNTL_V2_SHADINGRATELOC__MASK;
+-}
+-
+-#define REG_A6XX_VPC_DS_LAYER_CNTL_V2				0x00009316
+-#define A6XX_VPC_DS_LAYER_CNTL_V2_LAYERLOC__MASK		0x000000ff
+-#define A6XX_VPC_DS_LAYER_CNTL_V2_LAYERLOC__SHIFT		0
+-static inline uint32_t A6XX_VPC_DS_LAYER_CNTL_V2_LAYERLOC(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_DS_LAYER_CNTL_V2_LAYERLOC__SHIFT) & A6XX_VPC_DS_LAYER_CNTL_V2_LAYERLOC__MASK;
+-}
+-#define A6XX_VPC_DS_LAYER_CNTL_V2_VIEWLOC__MASK			0x0000ff00
+-#define A6XX_VPC_DS_LAYER_CNTL_V2_VIEWLOC__SHIFT		8
+-static inline uint32_t A6XX_VPC_DS_LAYER_CNTL_V2_VIEWLOC(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_DS_LAYER_CNTL_V2_VIEWLOC__SHIFT) & A6XX_VPC_DS_LAYER_CNTL_V2_VIEWLOC__MASK;
+-}
+-#define A6XX_VPC_DS_LAYER_CNTL_V2_SHADINGRATELOC__MASK		0x00ff0000
+-#define A6XX_VPC_DS_LAYER_CNTL_V2_SHADINGRATELOC__SHIFT		16
+-static inline uint32_t A6XX_VPC_DS_LAYER_CNTL_V2_SHADINGRATELOC(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_DS_LAYER_CNTL_V2_SHADINGRATELOC__SHIFT) & A6XX_VPC_DS_LAYER_CNTL_V2_SHADINGRATELOC__MASK;
+-}
+-
+-#define REG_A6XX_VPC_UNKNOWN_9107				0x00009107
+-#define A6XX_VPC_UNKNOWN_9107_RASTER_DISCARD			0x00000001
+-#define A6XX_VPC_UNKNOWN_9107_UNK2				0x00000004
+-
+-#define REG_A6XX_VPC_POLYGON_MODE				0x00009108
+-#define A6XX_VPC_POLYGON_MODE_MODE__MASK			0x00000003
+-#define A6XX_VPC_POLYGON_MODE_MODE__SHIFT			0
+-static inline uint32_t A6XX_VPC_POLYGON_MODE_MODE(enum a6xx_polygon_mode val)
+-{
+-	return ((val) << A6XX_VPC_POLYGON_MODE_MODE__SHIFT) & A6XX_VPC_POLYGON_MODE_MODE__MASK;
+-}
+-
+-#define REG_A7XX_VPC_PRIMITIVE_CNTL_0				0x00009109
+-#define A7XX_VPC_PRIMITIVE_CNTL_0_PRIMITIVE_RESTART		0x00000001
+-#define A7XX_VPC_PRIMITIVE_CNTL_0_PROVOKING_VTX_LAST		0x00000002
+-#define A7XX_VPC_PRIMITIVE_CNTL_0_D3D_VERTEX_ORDERING		0x00000004
+-#define A7XX_VPC_PRIMITIVE_CNTL_0_UNK3				0x00000008
+-
+-#define REG_A7XX_VPC_PRIMITIVE_CNTL_5				0x0000910a
+-#define A7XX_VPC_PRIMITIVE_CNTL_5_GS_VERTICES_OUT__MASK		0x000000ff
+-#define A7XX_VPC_PRIMITIVE_CNTL_5_GS_VERTICES_OUT__SHIFT	0
+-static inline uint32_t A7XX_VPC_PRIMITIVE_CNTL_5_GS_VERTICES_OUT(uint32_t val)
+-{
+-	return ((val) << A7XX_VPC_PRIMITIVE_CNTL_5_GS_VERTICES_OUT__SHIFT) & A7XX_VPC_PRIMITIVE_CNTL_5_GS_VERTICES_OUT__MASK;
+-}
+-#define A7XX_VPC_PRIMITIVE_CNTL_5_GS_INVOCATIONS__MASK		0x00007c00
+-#define A7XX_VPC_PRIMITIVE_CNTL_5_GS_INVOCATIONS__SHIFT		10
+-static inline uint32_t A7XX_VPC_PRIMITIVE_CNTL_5_GS_INVOCATIONS(uint32_t val)
+-{
+-	return ((val) << A7XX_VPC_PRIMITIVE_CNTL_5_GS_INVOCATIONS__SHIFT) & A7XX_VPC_PRIMITIVE_CNTL_5_GS_INVOCATIONS__MASK;
+-}
+-#define A7XX_VPC_PRIMITIVE_CNTL_5_LINELENGTHEN			0x00008000
+-#define A7XX_VPC_PRIMITIVE_CNTL_5_GS_OUTPUT__MASK		0x00030000
+-#define A7XX_VPC_PRIMITIVE_CNTL_5_GS_OUTPUT__SHIFT		16
+-static inline uint32_t A7XX_VPC_PRIMITIVE_CNTL_5_GS_OUTPUT(enum a6xx_tess_output val)
+-{
+-	return ((val) << A7XX_VPC_PRIMITIVE_CNTL_5_GS_OUTPUT__SHIFT) & A7XX_VPC_PRIMITIVE_CNTL_5_GS_OUTPUT__MASK;
+-}
+-#define A7XX_VPC_PRIMITIVE_CNTL_5_UNK18				0x00040000
+-
+-#define REG_A7XX_VPC_MULTIVIEW_MASK				0x0000910b
+-
+-#define REG_A7XX_VPC_MULTIVIEW_CNTL				0x0000910c
+-#define A7XX_VPC_MULTIVIEW_CNTL_ENABLE				0x00000001
+-#define A7XX_VPC_MULTIVIEW_CNTL_DISABLEMULTIPOS			0x00000002
+-#define A7XX_VPC_MULTIVIEW_CNTL_VIEWS__MASK			0x0000007c
+-#define A7XX_VPC_MULTIVIEW_CNTL_VIEWS__SHIFT			2
+-static inline uint32_t A7XX_VPC_MULTIVIEW_CNTL_VIEWS(uint32_t val)
+-{
+-	return ((val) << A7XX_VPC_MULTIVIEW_CNTL_VIEWS__SHIFT) & A7XX_VPC_MULTIVIEW_CNTL_VIEWS__MASK;
+-}
+-
+-#define REG_A6XX_VPC_VARYING_INTERP(i0) (0x00009200 + 0x1*(i0))
+-
+-static inline uint32_t REG_A6XX_VPC_VARYING_INTERP_MODE(uint32_t i0) { return 0x00009200 + 0x1*i0; }
+-
+-#define REG_A6XX_VPC_VARYING_PS_REPL(i0) (0x00009208 + 0x1*(i0))
+-
+-static inline uint32_t REG_A6XX_VPC_VARYING_PS_REPL_MODE(uint32_t i0) { return 0x00009208 + 0x1*i0; }
+-
+-#define REG_A6XX_VPC_UNKNOWN_9210				0x00009210
+-
+-#define REG_A6XX_VPC_UNKNOWN_9211				0x00009211
+-
+-#define REG_A6XX_VPC_VAR(i0) (0x00009212 + 0x1*(i0))
+-
+-static inline uint32_t REG_A6XX_VPC_VAR_DISABLE(uint32_t i0) { return 0x00009212 + 0x1*i0; }
+-
+-#define REG_A6XX_VPC_SO_CNTL					0x00009216
+-#define A6XX_VPC_SO_CNTL_ADDR__MASK				0x000000ff
+-#define A6XX_VPC_SO_CNTL_ADDR__SHIFT				0
+-static inline uint32_t A6XX_VPC_SO_CNTL_ADDR(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_SO_CNTL_ADDR__SHIFT) & A6XX_VPC_SO_CNTL_ADDR__MASK;
+-}
+-#define A6XX_VPC_SO_CNTL_RESET					0x00010000
+-
+-#define REG_A6XX_VPC_SO_PROG					0x00009217
+-#define A6XX_VPC_SO_PROG_A_BUF__MASK				0x00000003
+-#define A6XX_VPC_SO_PROG_A_BUF__SHIFT				0
+-static inline uint32_t A6XX_VPC_SO_PROG_A_BUF(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_SO_PROG_A_BUF__SHIFT) & A6XX_VPC_SO_PROG_A_BUF__MASK;
+-}
+-#define A6XX_VPC_SO_PROG_A_OFF__MASK				0x000007fc
+-#define A6XX_VPC_SO_PROG_A_OFF__SHIFT				2
+-static inline uint32_t A6XX_VPC_SO_PROG_A_OFF(uint32_t val)
+-{
+-	assert(!(val & 0x3));
+-	return (((val >> 2)) << A6XX_VPC_SO_PROG_A_OFF__SHIFT) & A6XX_VPC_SO_PROG_A_OFF__MASK;
+-}
+-#define A6XX_VPC_SO_PROG_A_EN					0x00000800
+-#define A6XX_VPC_SO_PROG_B_BUF__MASK				0x00003000
+-#define A6XX_VPC_SO_PROG_B_BUF__SHIFT				12
+-static inline uint32_t A6XX_VPC_SO_PROG_B_BUF(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_SO_PROG_B_BUF__SHIFT) & A6XX_VPC_SO_PROG_B_BUF__MASK;
+-}
+-#define A6XX_VPC_SO_PROG_B_OFF__MASK				0x007fc000
+-#define A6XX_VPC_SO_PROG_B_OFF__SHIFT				14
+-static inline uint32_t A6XX_VPC_SO_PROG_B_OFF(uint32_t val)
+-{
+-	assert(!(val & 0x3));
+-	return (((val >> 2)) << A6XX_VPC_SO_PROG_B_OFF__SHIFT) & A6XX_VPC_SO_PROG_B_OFF__MASK;
+-}
+-#define A6XX_VPC_SO_PROG_B_EN					0x00800000
+-
+-#define REG_A6XX_VPC_SO_STREAM_COUNTS				0x00009218
+-
+-#define REG_A6XX_VPC_SO(i0) (0x0000921a + 0x7*(i0))
+-
+-static inline uint32_t REG_A6XX_VPC_SO_BUFFER_BASE(uint32_t i0) { return 0x0000921a + 0x7*i0; }
+-
+-static inline uint32_t REG_A6XX_VPC_SO_BUFFER_SIZE(uint32_t i0) { return 0x0000921c + 0x7*i0; }
+-
+-static inline uint32_t REG_A6XX_VPC_SO_BUFFER_STRIDE(uint32_t i0) { return 0x0000921d + 0x7*i0; }
+-
+-static inline uint32_t REG_A6XX_VPC_SO_BUFFER_OFFSET(uint32_t i0) { return 0x0000921e + 0x7*i0; }
+-
+-static inline uint32_t REG_A6XX_VPC_SO_FLUSH_BASE(uint32_t i0) { return 0x0000921f + 0x7*i0; }
+-
+-#define REG_A6XX_VPC_POINT_COORD_INVERT				0x00009236
+-#define A6XX_VPC_POINT_COORD_INVERT_INVERT			0x00000001
+-
+-#define REG_A6XX_VPC_UNKNOWN_9300				0x00009300
+-
+-#define REG_A6XX_VPC_VS_PACK					0x00009301
+-#define A6XX_VPC_VS_PACK_STRIDE_IN_VPC__MASK			0x000000ff
+-#define A6XX_VPC_VS_PACK_STRIDE_IN_VPC__SHIFT			0
+-static inline uint32_t A6XX_VPC_VS_PACK_STRIDE_IN_VPC(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_VS_PACK_STRIDE_IN_VPC__SHIFT) & A6XX_VPC_VS_PACK_STRIDE_IN_VPC__MASK;
+-}
+-#define A6XX_VPC_VS_PACK_POSITIONLOC__MASK			0x0000ff00
+-#define A6XX_VPC_VS_PACK_POSITIONLOC__SHIFT			8
+-static inline uint32_t A6XX_VPC_VS_PACK_POSITIONLOC(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_VS_PACK_POSITIONLOC__SHIFT) & A6XX_VPC_VS_PACK_POSITIONLOC__MASK;
+-}
+-#define A6XX_VPC_VS_PACK_PSIZELOC__MASK				0x00ff0000
+-#define A6XX_VPC_VS_PACK_PSIZELOC__SHIFT			16
+-static inline uint32_t A6XX_VPC_VS_PACK_PSIZELOC(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_VS_PACK_PSIZELOC__SHIFT) & A6XX_VPC_VS_PACK_PSIZELOC__MASK;
+-}
+-#define A6XX_VPC_VS_PACK_EXTRAPOS__MASK				0x0f000000
+-#define A6XX_VPC_VS_PACK_EXTRAPOS__SHIFT			24
+-static inline uint32_t A6XX_VPC_VS_PACK_EXTRAPOS(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_VS_PACK_EXTRAPOS__SHIFT) & A6XX_VPC_VS_PACK_EXTRAPOS__MASK;
+-}
+-
+-#define REG_A6XX_VPC_GS_PACK					0x00009302
+-#define A6XX_VPC_GS_PACK_STRIDE_IN_VPC__MASK			0x000000ff
+-#define A6XX_VPC_GS_PACK_STRIDE_IN_VPC__SHIFT			0
+-static inline uint32_t A6XX_VPC_GS_PACK_STRIDE_IN_VPC(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_GS_PACK_STRIDE_IN_VPC__SHIFT) & A6XX_VPC_GS_PACK_STRIDE_IN_VPC__MASK;
+-}
+-#define A6XX_VPC_GS_PACK_POSITIONLOC__MASK			0x0000ff00
+-#define A6XX_VPC_GS_PACK_POSITIONLOC__SHIFT			8
+-static inline uint32_t A6XX_VPC_GS_PACK_POSITIONLOC(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_GS_PACK_POSITIONLOC__SHIFT) & A6XX_VPC_GS_PACK_POSITIONLOC__MASK;
+-}
+-#define A6XX_VPC_GS_PACK_PSIZELOC__MASK				0x00ff0000
+-#define A6XX_VPC_GS_PACK_PSIZELOC__SHIFT			16
+-static inline uint32_t A6XX_VPC_GS_PACK_PSIZELOC(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_GS_PACK_PSIZELOC__SHIFT) & A6XX_VPC_GS_PACK_PSIZELOC__MASK;
+-}
+-#define A6XX_VPC_GS_PACK_EXTRAPOS__MASK				0x0f000000
+-#define A6XX_VPC_GS_PACK_EXTRAPOS__SHIFT			24
+-static inline uint32_t A6XX_VPC_GS_PACK_EXTRAPOS(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_GS_PACK_EXTRAPOS__SHIFT) & A6XX_VPC_GS_PACK_EXTRAPOS__MASK;
+-}
+-
+-#define REG_A6XX_VPC_DS_PACK					0x00009303
+-#define A6XX_VPC_DS_PACK_STRIDE_IN_VPC__MASK			0x000000ff
+-#define A6XX_VPC_DS_PACK_STRIDE_IN_VPC__SHIFT			0
+-static inline uint32_t A6XX_VPC_DS_PACK_STRIDE_IN_VPC(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_DS_PACK_STRIDE_IN_VPC__SHIFT) & A6XX_VPC_DS_PACK_STRIDE_IN_VPC__MASK;
+-}
+-#define A6XX_VPC_DS_PACK_POSITIONLOC__MASK			0x0000ff00
+-#define A6XX_VPC_DS_PACK_POSITIONLOC__SHIFT			8
+-static inline uint32_t A6XX_VPC_DS_PACK_POSITIONLOC(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_DS_PACK_POSITIONLOC__SHIFT) & A6XX_VPC_DS_PACK_POSITIONLOC__MASK;
+-}
+-#define A6XX_VPC_DS_PACK_PSIZELOC__MASK				0x00ff0000
+-#define A6XX_VPC_DS_PACK_PSIZELOC__SHIFT			16
+-static inline uint32_t A6XX_VPC_DS_PACK_PSIZELOC(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_DS_PACK_PSIZELOC__SHIFT) & A6XX_VPC_DS_PACK_PSIZELOC__MASK;
+-}
+-#define A6XX_VPC_DS_PACK_EXTRAPOS__MASK				0x0f000000
+-#define A6XX_VPC_DS_PACK_EXTRAPOS__SHIFT			24
+-static inline uint32_t A6XX_VPC_DS_PACK_EXTRAPOS(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_DS_PACK_EXTRAPOS__SHIFT) & A6XX_VPC_DS_PACK_EXTRAPOS__MASK;
+-}
+-
+-#define REG_A6XX_VPC_CNTL_0					0x00009304
+-#define A6XX_VPC_CNTL_0_NUMNONPOSVAR__MASK			0x000000ff
+-#define A6XX_VPC_CNTL_0_NUMNONPOSVAR__SHIFT			0
+-static inline uint32_t A6XX_VPC_CNTL_0_NUMNONPOSVAR(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_CNTL_0_NUMNONPOSVAR__SHIFT) & A6XX_VPC_CNTL_0_NUMNONPOSVAR__MASK;
+-}
+-#define A6XX_VPC_CNTL_0_PRIMIDLOC__MASK				0x0000ff00
+-#define A6XX_VPC_CNTL_0_PRIMIDLOC__SHIFT			8
+-static inline uint32_t A6XX_VPC_CNTL_0_PRIMIDLOC(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_CNTL_0_PRIMIDLOC__SHIFT) & A6XX_VPC_CNTL_0_PRIMIDLOC__MASK;
+-}
+-#define A6XX_VPC_CNTL_0_VARYING					0x00010000
+-#define A6XX_VPC_CNTL_0_VIEWIDLOC__MASK				0xff000000
+-#define A6XX_VPC_CNTL_0_VIEWIDLOC__SHIFT			24
+-static inline uint32_t A6XX_VPC_CNTL_0_VIEWIDLOC(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_CNTL_0_VIEWIDLOC__SHIFT) & A6XX_VPC_CNTL_0_VIEWIDLOC__MASK;
+-}
+-
+-#define REG_A6XX_VPC_SO_STREAM_CNTL				0x00009305
+-#define A6XX_VPC_SO_STREAM_CNTL_BUF0_STREAM__MASK		0x00000007
+-#define A6XX_VPC_SO_STREAM_CNTL_BUF0_STREAM__SHIFT		0
+-static inline uint32_t A6XX_VPC_SO_STREAM_CNTL_BUF0_STREAM(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_SO_STREAM_CNTL_BUF0_STREAM__SHIFT) & A6XX_VPC_SO_STREAM_CNTL_BUF0_STREAM__MASK;
+-}
+-#define A6XX_VPC_SO_STREAM_CNTL_BUF1_STREAM__MASK		0x00000038
+-#define A6XX_VPC_SO_STREAM_CNTL_BUF1_STREAM__SHIFT		3
+-static inline uint32_t A6XX_VPC_SO_STREAM_CNTL_BUF1_STREAM(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_SO_STREAM_CNTL_BUF1_STREAM__SHIFT) & A6XX_VPC_SO_STREAM_CNTL_BUF1_STREAM__MASK;
+-}
+-#define A6XX_VPC_SO_STREAM_CNTL_BUF2_STREAM__MASK		0x000001c0
+-#define A6XX_VPC_SO_STREAM_CNTL_BUF2_STREAM__SHIFT		6
+-static inline uint32_t A6XX_VPC_SO_STREAM_CNTL_BUF2_STREAM(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_SO_STREAM_CNTL_BUF2_STREAM__SHIFT) & A6XX_VPC_SO_STREAM_CNTL_BUF2_STREAM__MASK;
+-}
+-#define A6XX_VPC_SO_STREAM_CNTL_BUF3_STREAM__MASK		0x00000e00
+-#define A6XX_VPC_SO_STREAM_CNTL_BUF3_STREAM__SHIFT		9
+-static inline uint32_t A6XX_VPC_SO_STREAM_CNTL_BUF3_STREAM(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_SO_STREAM_CNTL_BUF3_STREAM__SHIFT) & A6XX_VPC_SO_STREAM_CNTL_BUF3_STREAM__MASK;
+-}
+-#define A6XX_VPC_SO_STREAM_CNTL_STREAM_ENABLE__MASK		0x00078000
+-#define A6XX_VPC_SO_STREAM_CNTL_STREAM_ENABLE__SHIFT		15
+-static inline uint32_t A6XX_VPC_SO_STREAM_CNTL_STREAM_ENABLE(uint32_t val)
+-{
+-	return ((val) << A6XX_VPC_SO_STREAM_CNTL_STREAM_ENABLE__SHIFT) & A6XX_VPC_SO_STREAM_CNTL_STREAM_ENABLE__MASK;
+-}
+-
+-#define REG_A6XX_VPC_SO_DISABLE					0x00009306
+-#define A6XX_VPC_SO_DISABLE_DISABLE				0x00000001
+-
+-#define REG_A7XX_VPC_POLYGON_MODE2				0x00009307
+-#define A7XX_VPC_POLYGON_MODE2_MODE__MASK			0x00000003
+-#define A7XX_VPC_POLYGON_MODE2_MODE__SHIFT			0
+-static inline uint32_t A7XX_VPC_POLYGON_MODE2_MODE(enum a6xx_polygon_mode val)
+-{
+-	return ((val) << A7XX_VPC_POLYGON_MODE2_MODE__SHIFT) & A7XX_VPC_POLYGON_MODE2_MODE__MASK;
+-}
+-
+-#define REG_A7XX_VPC_ATTR_BUF_SIZE_GMEM				0x00009308
+-#define A7XX_VPC_ATTR_BUF_SIZE_GMEM_SIZE_GMEM__MASK		0xffffffff
+-#define A7XX_VPC_ATTR_BUF_SIZE_GMEM_SIZE_GMEM__SHIFT		0
+-static inline uint32_t A7XX_VPC_ATTR_BUF_SIZE_GMEM_SIZE_GMEM(uint32_t val)
+-{
+-	return ((val) << A7XX_VPC_ATTR_BUF_SIZE_GMEM_SIZE_GMEM__SHIFT) & A7XX_VPC_ATTR_BUF_SIZE_GMEM_SIZE_GMEM__MASK;
+-}
+-
+-#define REG_A7XX_VPC_ATTR_BUF_BASE_GMEM				0x00009309
+-#define A7XX_VPC_ATTR_BUF_BASE_GMEM_BASE_GMEM__MASK		0xffffffff
+-#define A7XX_VPC_ATTR_BUF_BASE_GMEM_BASE_GMEM__SHIFT		0
+-static inline uint32_t A7XX_VPC_ATTR_BUF_BASE_GMEM_BASE_GMEM(uint32_t val)
+-{
+-	return ((val) << A7XX_VPC_ATTR_BUF_BASE_GMEM_BASE_GMEM__SHIFT) & A7XX_VPC_ATTR_BUF_BASE_GMEM_BASE_GMEM__MASK;
+-}
+-
+-#define REG_A7XX_PC_ATTR_BUF_SIZE_GMEM				0x00009b09
+-#define A7XX_PC_ATTR_BUF_SIZE_GMEM_SIZE_GMEM__MASK		0xffffffff
+-#define A7XX_PC_ATTR_BUF_SIZE_GMEM_SIZE_GMEM__SHIFT		0
+-static inline uint32_t A7XX_PC_ATTR_BUF_SIZE_GMEM_SIZE_GMEM(uint32_t val)
+-{
+-	return ((val) << A7XX_PC_ATTR_BUF_SIZE_GMEM_SIZE_GMEM__SHIFT) & A7XX_PC_ATTR_BUF_SIZE_GMEM_SIZE_GMEM__MASK;
+-}
+-
+-#define REG_A6XX_VPC_DBG_ECO_CNTL				0x00009600
+-
+-#define REG_A6XX_VPC_ADDR_MODE_CNTL				0x00009601
+-
+-#define REG_A6XX_VPC_UNKNOWN_9602				0x00009602
+-
+-#define REG_A6XX_VPC_UNKNOWN_9603				0x00009603
+-
+-#define REG_A6XX_VPC_PERFCTR_VPC_SEL(i0) (0x00009604 + 0x1*(i0))
+-
+-#define REG_A7XX_VPC_PERFCTR_VPC_SEL(i0) (0x0000960b + 0x1*(i0))
+-
+-#define REG_A6XX_PC_TESS_NUM_VERTEX				0x00009800
+-
+-#define REG_A6XX_PC_HS_INPUT_SIZE				0x00009801
+-#define A6XX_PC_HS_INPUT_SIZE_SIZE__MASK			0x000007ff
+-#define A6XX_PC_HS_INPUT_SIZE_SIZE__SHIFT			0
+-static inline uint32_t A6XX_PC_HS_INPUT_SIZE_SIZE(uint32_t val)
+-{
+-	return ((val) << A6XX_PC_HS_INPUT_SIZE_SIZE__SHIFT) & A6XX_PC_HS_INPUT_SIZE_SIZE__MASK;
+-}
+-#define A6XX_PC_HS_INPUT_SIZE_UNK13				0x00002000
+-
+-#define REG_A6XX_PC_TESS_CNTL					0x00009802
+-#define A6XX_PC_TESS_CNTL_SPACING__MASK				0x00000003
+-#define A6XX_PC_TESS_CNTL_SPACING__SHIFT			0
+-static inline uint32_t A6XX_PC_TESS_CNTL_SPACING(enum a6xx_tess_spacing val)
+-{
+-	return ((val) << A6XX_PC_TESS_CNTL_SPACING__SHIFT) & A6XX_PC_TESS_CNTL_SPACING__MASK;
+-}
+-#define A6XX_PC_TESS_CNTL_OUTPUT__MASK				0x0000000c
+-#define A6XX_PC_TESS_CNTL_OUTPUT__SHIFT				2
+-static inline uint32_t A6XX_PC_TESS_CNTL_OUTPUT(enum a6xx_tess_output val)
+-{
+-	return ((val) << A6XX_PC_TESS_CNTL_OUTPUT__SHIFT) & A6XX_PC_TESS_CNTL_OUTPUT__MASK;
+-}
+-
+-#define REG_A6XX_PC_RESTART_INDEX				0x00009803
+-
+-#define REG_A6XX_PC_MODE_CNTL					0x00009804
+-
+-#define REG_A6XX_PC_POWER_CNTL					0x00009805
+-
+-#define REG_A6XX_PC_PS_CNTL					0x00009806
+-#define A6XX_PC_PS_CNTL_PRIMITIVEIDEN				0x00000001
+-
+-#define REG_A6XX_PC_SO_STREAM_CNTL				0x00009808
+-#define A6XX_PC_SO_STREAM_CNTL_STREAM_ENABLE__MASK		0x00078000
+-#define A6XX_PC_SO_STREAM_CNTL_STREAM_ENABLE__SHIFT		15
+-static inline uint32_t A6XX_PC_SO_STREAM_CNTL_STREAM_ENABLE(uint32_t val)
+-{
+-	return ((val) << A6XX_PC_SO_STREAM_CNTL_STREAM_ENABLE__SHIFT) & A6XX_PC_SO_STREAM_CNTL_STREAM_ENABLE__MASK;
+-}
+-
+-#define REG_A6XX_PC_DGEN_SU_CONSERVATIVE_RAS_CNTL		0x0000980a
+-#define A6XX_PC_DGEN_SU_CONSERVATIVE_RAS_CNTL_CONSERVATIVERASEN	0x00000001
+-
+-#define REG_A6XX_PC_DRAW_CMD					0x00009840
+-#define A6XX_PC_DRAW_CMD_STATE_ID__MASK				0x000000ff
+-#define A6XX_PC_DRAW_CMD_STATE_ID__SHIFT			0
+-static inline uint32_t A6XX_PC_DRAW_CMD_STATE_ID(uint32_t val)
+-{
+-	return ((val) << A6XX_PC_DRAW_CMD_STATE_ID__SHIFT) & A6XX_PC_DRAW_CMD_STATE_ID__MASK;
+-}
+-
+-#define REG_A6XX_PC_DISPATCH_CMD				0x00009841
+-#define A6XX_PC_DISPATCH_CMD_STATE_ID__MASK			0x000000ff
+-#define A6XX_PC_DISPATCH_CMD_STATE_ID__SHIFT			0
+-static inline uint32_t A6XX_PC_DISPATCH_CMD_STATE_ID(uint32_t val)
+-{
+-	return ((val) << A6XX_PC_DISPATCH_CMD_STATE_ID__SHIFT) & A6XX_PC_DISPATCH_CMD_STATE_ID__MASK;
+-}
+-
+-#define REG_A6XX_PC_EVENT_CMD					0x00009842
+-#define A6XX_PC_EVENT_CMD_STATE_ID__MASK			0x00ff0000
+-#define A6XX_PC_EVENT_CMD_STATE_ID__SHIFT			16
+-static inline uint32_t A6XX_PC_EVENT_CMD_STATE_ID(uint32_t val)
+-{
+-	return ((val) << A6XX_PC_EVENT_CMD_STATE_ID__SHIFT) & A6XX_PC_EVENT_CMD_STATE_ID__MASK;
+-}
+-#define A6XX_PC_EVENT_CMD_EVENT__MASK				0x0000007f
+-#define A6XX_PC_EVENT_CMD_EVENT__SHIFT				0
+-static inline uint32_t A6XX_PC_EVENT_CMD_EVENT(enum vgt_event_type val)
+-{
+-	return ((val) << A6XX_PC_EVENT_CMD_EVENT__SHIFT) & A6XX_PC_EVENT_CMD_EVENT__MASK;
+-}
+-
+-#define REG_A6XX_PC_MARKER					0x00009880
+-
+-#define REG_A6XX_PC_POLYGON_MODE				0x00009981
+-#define A6XX_PC_POLYGON_MODE_MODE__MASK				0x00000003
+-#define A6XX_PC_POLYGON_MODE_MODE__SHIFT			0
+-static inline uint32_t A6XX_PC_POLYGON_MODE_MODE(enum a6xx_polygon_mode val)
+-{
+-	return ((val) << A6XX_PC_POLYGON_MODE_MODE__SHIFT) & A6XX_PC_POLYGON_MODE_MODE__MASK;
+-}
+-
+-#define REG_A7XX_PC_POLYGON_MODE				0x00009809
+-#define A7XX_PC_POLYGON_MODE_MODE__MASK				0x00000003
+-#define A7XX_PC_POLYGON_MODE_MODE__SHIFT			0
+-static inline uint32_t A7XX_PC_POLYGON_MODE_MODE(enum a6xx_polygon_mode val)
+-{
+-	return ((val) << A7XX_PC_POLYGON_MODE_MODE__SHIFT) & A7XX_PC_POLYGON_MODE_MODE__MASK;
+-}
+-
+-#define REG_A6XX_PC_RASTER_CNTL					0x00009980
+-#define A6XX_PC_RASTER_CNTL_STREAM__MASK			0x00000003
+-#define A6XX_PC_RASTER_CNTL_STREAM__SHIFT			0
+-static inline uint32_t A6XX_PC_RASTER_CNTL_STREAM(uint32_t val)
+-{
+-	return ((val) << A6XX_PC_RASTER_CNTL_STREAM__SHIFT) & A6XX_PC_RASTER_CNTL_STREAM__MASK;
+-}
+-#define A6XX_PC_RASTER_CNTL_DISCARD				0x00000004
+-
+-#define REG_A7XX_PC_RASTER_CNTL					0x00009107
+-#define A7XX_PC_RASTER_CNTL_STREAM__MASK			0x00000003
+-#define A7XX_PC_RASTER_CNTL_STREAM__SHIFT			0
+-static inline uint32_t A7XX_PC_RASTER_CNTL_STREAM(uint32_t val)
+-{
+-	return ((val) << A7XX_PC_RASTER_CNTL_STREAM__SHIFT) & A7XX_PC_RASTER_CNTL_STREAM__MASK;
+-}
+-#define A7XX_PC_RASTER_CNTL_DISCARD				0x00000004
+-
+-#define REG_A7XX_PC_RASTER_CNTL_V2				0x00009317
+-#define A7XX_PC_RASTER_CNTL_V2_STREAM__MASK			0x00000003
+-#define A7XX_PC_RASTER_CNTL_V2_STREAM__SHIFT			0
+-static inline uint32_t A7XX_PC_RASTER_CNTL_V2_STREAM(uint32_t val)
+-{
+-	return ((val) << A7XX_PC_RASTER_CNTL_V2_STREAM__SHIFT) & A7XX_PC_RASTER_CNTL_V2_STREAM__MASK;
+-}
+-#define A7XX_PC_RASTER_CNTL_V2_DISCARD				0x00000004
+-
+-#define REG_A6XX_PC_PRIMITIVE_CNTL_0				0x00009b00
+-#define A6XX_PC_PRIMITIVE_CNTL_0_PRIMITIVE_RESTART		0x00000001
+-#define A6XX_PC_PRIMITIVE_CNTL_0_PROVOKING_VTX_LAST		0x00000002
+-#define A6XX_PC_PRIMITIVE_CNTL_0_D3D_VERTEX_ORDERING		0x00000004
+-#define A6XX_PC_PRIMITIVE_CNTL_0_UNK3				0x00000008
+-
+-#define REG_A6XX_PC_VS_OUT_CNTL					0x00009b01
+-#define A6XX_PC_VS_OUT_CNTL_STRIDE_IN_VPC__MASK			0x000000ff
+-#define A6XX_PC_VS_OUT_CNTL_STRIDE_IN_VPC__SHIFT		0
+-static inline uint32_t A6XX_PC_VS_OUT_CNTL_STRIDE_IN_VPC(uint32_t val)
+-{
+-	return ((val) << A6XX_PC_VS_OUT_CNTL_STRIDE_IN_VPC__SHIFT) & A6XX_PC_VS_OUT_CNTL_STRIDE_IN_VPC__MASK;
+-}
+-#define A6XX_PC_VS_OUT_CNTL_PSIZE				0x00000100
+-#define A6XX_PC_VS_OUT_CNTL_LAYER				0x00000200
+-#define A6XX_PC_VS_OUT_CNTL_VIEW				0x00000400
+-#define A6XX_PC_VS_OUT_CNTL_PRIMITIVE_ID			0x00000800
+-#define A6XX_PC_VS_OUT_CNTL_CLIP_MASK__MASK			0x00ff0000
+-#define A6XX_PC_VS_OUT_CNTL_CLIP_MASK__SHIFT			16
+-static inline uint32_t A6XX_PC_VS_OUT_CNTL_CLIP_MASK(uint32_t val)
+-{
+-	return ((val) << A6XX_PC_VS_OUT_CNTL_CLIP_MASK__SHIFT) & A6XX_PC_VS_OUT_CNTL_CLIP_MASK__MASK;
+-}
+-#define A6XX_PC_VS_OUT_CNTL_SHADINGRATE				0x01000000
+-
+-#define REG_A6XX_PC_GS_OUT_CNTL					0x00009b02
+-#define A6XX_PC_GS_OUT_CNTL_STRIDE_IN_VPC__MASK			0x000000ff
+-#define A6XX_PC_GS_OUT_CNTL_STRIDE_IN_VPC__SHIFT		0
+-static inline uint32_t A6XX_PC_GS_OUT_CNTL_STRIDE_IN_VPC(uint32_t val)
+-{
+-	return ((val) << A6XX_PC_GS_OUT_CNTL_STRIDE_IN_VPC__SHIFT) & A6XX_PC_GS_OUT_CNTL_STRIDE_IN_VPC__MASK;
+-}
+-#define A6XX_PC_GS_OUT_CNTL_PSIZE				0x00000100
+-#define A6XX_PC_GS_OUT_CNTL_LAYER				0x00000200
+-#define A6XX_PC_GS_OUT_CNTL_VIEW				0x00000400
+-#define A6XX_PC_GS_OUT_CNTL_PRIMITIVE_ID			0x00000800
+-#define A6XX_PC_GS_OUT_CNTL_CLIP_MASK__MASK			0x00ff0000
+-#define A6XX_PC_GS_OUT_CNTL_CLIP_MASK__SHIFT			16
+-static inline uint32_t A6XX_PC_GS_OUT_CNTL_CLIP_MASK(uint32_t val)
+-{
+-	return ((val) << A6XX_PC_GS_OUT_CNTL_CLIP_MASK__SHIFT) & A6XX_PC_GS_OUT_CNTL_CLIP_MASK__MASK;
+-}
+-#define A6XX_PC_GS_OUT_CNTL_SHADINGRATE				0x01000000
+-
+-#define REG_A6XX_PC_HS_OUT_CNTL					0x00009b03
+-#define A6XX_PC_HS_OUT_CNTL_STRIDE_IN_VPC__MASK			0x000000ff
+-#define A6XX_PC_HS_OUT_CNTL_STRIDE_IN_VPC__SHIFT		0
+-static inline uint32_t A6XX_PC_HS_OUT_CNTL_STRIDE_IN_VPC(uint32_t val)
+-{
+-	return ((val) << A6XX_PC_HS_OUT_CNTL_STRIDE_IN_VPC__SHIFT) & A6XX_PC_HS_OUT_CNTL_STRIDE_IN_VPC__MASK;
+-}
+-#define A6XX_PC_HS_OUT_CNTL_PSIZE				0x00000100
+-#define A6XX_PC_HS_OUT_CNTL_LAYER				0x00000200
+-#define A6XX_PC_HS_OUT_CNTL_VIEW				0x00000400
+-#define A6XX_PC_HS_OUT_CNTL_PRIMITIVE_ID			0x00000800
+-#define A6XX_PC_HS_OUT_CNTL_CLIP_MASK__MASK			0x00ff0000
+-#define A6XX_PC_HS_OUT_CNTL_CLIP_MASK__SHIFT			16
+-static inline uint32_t A6XX_PC_HS_OUT_CNTL_CLIP_MASK(uint32_t val)
+-{
+-	return ((val) << A6XX_PC_HS_OUT_CNTL_CLIP_MASK__SHIFT) & A6XX_PC_HS_OUT_CNTL_CLIP_MASK__MASK;
+-}
+-#define A6XX_PC_HS_OUT_CNTL_SHADINGRATE				0x01000000
+-
+-#define REG_A6XX_PC_DS_OUT_CNTL					0x00009b04
+-#define A6XX_PC_DS_OUT_CNTL_STRIDE_IN_VPC__MASK			0x000000ff
+-#define A6XX_PC_DS_OUT_CNTL_STRIDE_IN_VPC__SHIFT		0
+-static inline uint32_t A6XX_PC_DS_OUT_CNTL_STRIDE_IN_VPC(uint32_t val)
+-{
+-	return ((val) << A6XX_PC_DS_OUT_CNTL_STRIDE_IN_VPC__SHIFT) & A6XX_PC_DS_OUT_CNTL_STRIDE_IN_VPC__MASK;
+-}
+-#define A6XX_PC_DS_OUT_CNTL_PSIZE				0x00000100
+-#define A6XX_PC_DS_OUT_CNTL_LAYER				0x00000200
+-#define A6XX_PC_DS_OUT_CNTL_VIEW				0x00000400
+-#define A6XX_PC_DS_OUT_CNTL_PRIMITIVE_ID			0x00000800
+-#define A6XX_PC_DS_OUT_CNTL_CLIP_MASK__MASK			0x00ff0000
+-#define A6XX_PC_DS_OUT_CNTL_CLIP_MASK__SHIFT			16
+-static inline uint32_t A6XX_PC_DS_OUT_CNTL_CLIP_MASK(uint32_t val)
+-{
+-	return ((val) << A6XX_PC_DS_OUT_CNTL_CLIP_MASK__SHIFT) & A6XX_PC_DS_OUT_CNTL_CLIP_MASK__MASK;
+-}
+-#define A6XX_PC_DS_OUT_CNTL_SHADINGRATE				0x01000000
+-
+-#define REG_A6XX_PC_PRIMITIVE_CNTL_5				0x00009b05
+-#define A6XX_PC_PRIMITIVE_CNTL_5_GS_VERTICES_OUT__MASK		0x000000ff
+-#define A6XX_PC_PRIMITIVE_CNTL_5_GS_VERTICES_OUT__SHIFT		0
+-static inline uint32_t A6XX_PC_PRIMITIVE_CNTL_5_GS_VERTICES_OUT(uint32_t val)
+-{
+-	return ((val) << A6XX_PC_PRIMITIVE_CNTL_5_GS_VERTICES_OUT__SHIFT) & A6XX_PC_PRIMITIVE_CNTL_5_GS_VERTICES_OUT__MASK;
+-}
+-#define A6XX_PC_PRIMITIVE_CNTL_5_GS_INVOCATIONS__MASK		0x00007c00
+-#define A6XX_PC_PRIMITIVE_CNTL_5_GS_INVOCATIONS__SHIFT		10
+-static inline uint32_t A6XX_PC_PRIMITIVE_CNTL_5_GS_INVOCATIONS(uint32_t val)
+-{
+-	return ((val) << A6XX_PC_PRIMITIVE_CNTL_5_GS_INVOCATIONS__SHIFT) & A6XX_PC_PRIMITIVE_CNTL_5_GS_INVOCATIONS__MASK;
+-}
+-#define A6XX_PC_PRIMITIVE_CNTL_5_LINELENGTHEN			0x00008000
+-#define A6XX_PC_PRIMITIVE_CNTL_5_GS_OUTPUT__MASK		0x00030000
+-#define A6XX_PC_PRIMITIVE_CNTL_5_GS_OUTPUT__SHIFT		16
+-static inline uint32_t A6XX_PC_PRIMITIVE_CNTL_5_GS_OUTPUT(enum a6xx_tess_output val)
+-{
+-	return ((val) << A6XX_PC_PRIMITIVE_CNTL_5_GS_OUTPUT__SHIFT) & A6XX_PC_PRIMITIVE_CNTL_5_GS_OUTPUT__MASK;
+-}
+-#define A6XX_PC_PRIMITIVE_CNTL_5_UNK18				0x00040000
+-
+-#define REG_A6XX_PC_PRIMITIVE_CNTL_6				0x00009b06
+-#define A6XX_PC_PRIMITIVE_CNTL_6_STRIDE_IN_VPC__MASK		0x000007ff
+-#define A6XX_PC_PRIMITIVE_CNTL_6_STRIDE_IN_VPC__SHIFT		0
+-static inline uint32_t A6XX_PC_PRIMITIVE_CNTL_6_STRIDE_IN_VPC(uint32_t val)
+-{
+-	return ((val) << A6XX_PC_PRIMITIVE_CNTL_6_STRIDE_IN_VPC__SHIFT) & A6XX_PC_PRIMITIVE_CNTL_6_STRIDE_IN_VPC__MASK;
+-}
+-
+-#define REG_A6XX_PC_MULTIVIEW_CNTL				0x00009b07
+-#define A6XX_PC_MULTIVIEW_CNTL_ENABLE				0x00000001
+-#define A6XX_PC_MULTIVIEW_CNTL_DISABLEMULTIPOS			0x00000002
+-#define A6XX_PC_MULTIVIEW_CNTL_VIEWS__MASK			0x0000007c
+-#define A6XX_PC_MULTIVIEW_CNTL_VIEWS__SHIFT			2
+-static inline uint32_t A6XX_PC_MULTIVIEW_CNTL_VIEWS(uint32_t val)
+-{
+-	return ((val) << A6XX_PC_MULTIVIEW_CNTL_VIEWS__SHIFT) & A6XX_PC_MULTIVIEW_CNTL_VIEWS__MASK;
+-}
+-
+-#define REG_A6XX_PC_MULTIVIEW_MASK				0x00009b08
+-
+-#define REG_A6XX_PC_2D_EVENT_CMD				0x00009c00
+-#define A6XX_PC_2D_EVENT_CMD_EVENT__MASK			0x0000007f
+-#define A6XX_PC_2D_EVENT_CMD_EVENT__SHIFT			0
+-static inline uint32_t A6XX_PC_2D_EVENT_CMD_EVENT(enum vgt_event_type val)
+-{
+-	return ((val) << A6XX_PC_2D_EVENT_CMD_EVENT__SHIFT) & A6XX_PC_2D_EVENT_CMD_EVENT__MASK;
+-}
+-#define A6XX_PC_2D_EVENT_CMD_STATE_ID__MASK			0x0000ff00
+-#define A6XX_PC_2D_EVENT_CMD_STATE_ID__SHIFT			8
+-static inline uint32_t A6XX_PC_2D_EVENT_CMD_STATE_ID(uint32_t val)
+-{
+-	return ((val) << A6XX_PC_2D_EVENT_CMD_STATE_ID__SHIFT) & A6XX_PC_2D_EVENT_CMD_STATE_ID__MASK;
+-}
+-
+-#define REG_A6XX_PC_DBG_ECO_CNTL				0x00009e00
+-
+-#define REG_A6XX_PC_ADDR_MODE_CNTL				0x00009e01
+-
+-#define REG_A6XX_PC_DRAW_INDX_BASE				0x00009e04
+-
+-#define REG_A6XX_PC_DRAW_FIRST_INDX				0x00009e06
+-
+-#define REG_A6XX_PC_DRAW_MAX_INDICES				0x00009e07
+-
+-#define REG_A6XX_PC_TESSFACTOR_ADDR				0x00009e08
+-
+-#define REG_A7XX_PC_TESSFACTOR_ADDR				0x00009810
+-
+-#define REG_A6XX_PC_DRAW_INITIATOR				0x00009e0b
+-#define A6XX_PC_DRAW_INITIATOR_PRIM_TYPE__MASK			0x0000003f
+-#define A6XX_PC_DRAW_INITIATOR_PRIM_TYPE__SHIFT			0
+-static inline uint32_t A6XX_PC_DRAW_INITIATOR_PRIM_TYPE(enum pc_di_primtype val)
+-{
+-	return ((val) << A6XX_PC_DRAW_INITIATOR_PRIM_TYPE__SHIFT) & A6XX_PC_DRAW_INITIATOR_PRIM_TYPE__MASK;
+-}
+-#define A6XX_PC_DRAW_INITIATOR_SOURCE_SELECT__MASK		0x000000c0
+-#define A6XX_PC_DRAW_INITIATOR_SOURCE_SELECT__SHIFT		6
+-static inline uint32_t A6XX_PC_DRAW_INITIATOR_SOURCE_SELECT(enum pc_di_src_sel val)
+-{
+-	return ((val) << A6XX_PC_DRAW_INITIATOR_SOURCE_SELECT__SHIFT) & A6XX_PC_DRAW_INITIATOR_SOURCE_SELECT__MASK;
+-}
+-#define A6XX_PC_DRAW_INITIATOR_VIS_CULL__MASK			0x00000300
+-#define A6XX_PC_DRAW_INITIATOR_VIS_CULL__SHIFT			8
+-static inline uint32_t A6XX_PC_DRAW_INITIATOR_VIS_CULL(enum pc_di_vis_cull_mode val)
+-{
+-	return ((val) << A6XX_PC_DRAW_INITIATOR_VIS_CULL__SHIFT) & A6XX_PC_DRAW_INITIATOR_VIS_CULL__MASK;
+-}
+-#define A6XX_PC_DRAW_INITIATOR_INDEX_SIZE__MASK			0x00000c00
+-#define A6XX_PC_DRAW_INITIATOR_INDEX_SIZE__SHIFT		10
+-static inline uint32_t A6XX_PC_DRAW_INITIATOR_INDEX_SIZE(enum a4xx_index_size val)
+-{
+-	return ((val) << A6XX_PC_DRAW_INITIATOR_INDEX_SIZE__SHIFT) & A6XX_PC_DRAW_INITIATOR_INDEX_SIZE__MASK;
+-}
+-#define A6XX_PC_DRAW_INITIATOR_PATCH_TYPE__MASK			0x00003000
+-#define A6XX_PC_DRAW_INITIATOR_PATCH_TYPE__SHIFT		12
+-static inline uint32_t A6XX_PC_DRAW_INITIATOR_PATCH_TYPE(enum a6xx_patch_type val)
+-{
+-	return ((val) << A6XX_PC_DRAW_INITIATOR_PATCH_TYPE__SHIFT) & A6XX_PC_DRAW_INITIATOR_PATCH_TYPE__MASK;
+-}
+-#define A6XX_PC_DRAW_INITIATOR_GS_ENABLE			0x00010000
+-#define A6XX_PC_DRAW_INITIATOR_TESS_ENABLE			0x00020000
+-
+-#define REG_A6XX_PC_DRAW_NUM_INSTANCES				0x00009e0c
+-
+-#define REG_A6XX_PC_DRAW_NUM_INDICES				0x00009e0d
+-
+-#define REG_A6XX_PC_VSTREAM_CONTROL				0x00009e11
+-#define A6XX_PC_VSTREAM_CONTROL_UNK0__MASK			0x0000ffff
+-#define A6XX_PC_VSTREAM_CONTROL_UNK0__SHIFT			0
+-static inline uint32_t A6XX_PC_VSTREAM_CONTROL_UNK0(uint32_t val)
+-{
+-	return ((val) << A6XX_PC_VSTREAM_CONTROL_UNK0__SHIFT) & A6XX_PC_VSTREAM_CONTROL_UNK0__MASK;
+-}
+-#define A6XX_PC_VSTREAM_CONTROL_VSC_SIZE__MASK			0x003f0000
+-#define A6XX_PC_VSTREAM_CONTROL_VSC_SIZE__SHIFT			16
+-static inline uint32_t A6XX_PC_VSTREAM_CONTROL_VSC_SIZE(uint32_t val)
+-{
+-	return ((val) << A6XX_PC_VSTREAM_CONTROL_VSC_SIZE__SHIFT) & A6XX_PC_VSTREAM_CONTROL_VSC_SIZE__MASK;
+-}
+-#define A6XX_PC_VSTREAM_CONTROL_VSC_N__MASK			0x07c00000
+-#define A6XX_PC_VSTREAM_CONTROL_VSC_N__SHIFT			22
+-static inline uint32_t A6XX_PC_VSTREAM_CONTROL_VSC_N(uint32_t val)
+-{
+-	return ((val) << A6XX_PC_VSTREAM_CONTROL_VSC_N__SHIFT) & A6XX_PC_VSTREAM_CONTROL_VSC_N__MASK;
+-}
+-
+-#define REG_A6XX_PC_BIN_PRIM_STRM				0x00009e12
+-
+-#define REG_A6XX_PC_BIN_DRAW_STRM				0x00009e14
+-
+-#define REG_A6XX_PC_VISIBILITY_OVERRIDE				0x00009e1c
+-#define A6XX_PC_VISIBILITY_OVERRIDE_OVERRIDE			0x00000001
+-
+-#define REG_A7XX_PC_UNKNOWN_9E24				0x00009e24
+-
+-#define REG_A6XX_PC_PERFCTR_PC_SEL(i0) (0x00009e34 + 0x1*(i0))
+-
+-#define REG_A7XX_PC_PERFCTR_PC_SEL(i0) (0x00009e42 + 0x1*(i0))
+-
+-#define REG_A6XX_PC_UNKNOWN_9E72				0x00009e72
+-
+-#define REG_A6XX_VFD_CONTROL_0					0x0000a000
+-#define A6XX_VFD_CONTROL_0_FETCH_CNT__MASK			0x0000003f
+-#define A6XX_VFD_CONTROL_0_FETCH_CNT__SHIFT			0
+-static inline uint32_t A6XX_VFD_CONTROL_0_FETCH_CNT(uint32_t val)
+-{
+-	return ((val) << A6XX_VFD_CONTROL_0_FETCH_CNT__SHIFT) & A6XX_VFD_CONTROL_0_FETCH_CNT__MASK;
+-}
+-#define A6XX_VFD_CONTROL_0_DECODE_CNT__MASK			0x00003f00
+-#define A6XX_VFD_CONTROL_0_DECODE_CNT__SHIFT			8
+-static inline uint32_t A6XX_VFD_CONTROL_0_DECODE_CNT(uint32_t val)
+-{
+-	return ((val) << A6XX_VFD_CONTROL_0_DECODE_CNT__SHIFT) & A6XX_VFD_CONTROL_0_DECODE_CNT__MASK;
+-}
+-
+-#define REG_A6XX_VFD_CONTROL_1					0x0000a001
+-#define A6XX_VFD_CONTROL_1_REGID4VTX__MASK			0x000000ff
+-#define A6XX_VFD_CONTROL_1_REGID4VTX__SHIFT			0
+-static inline uint32_t A6XX_VFD_CONTROL_1_REGID4VTX(uint32_t val)
+-{
+-	return ((val) << A6XX_VFD_CONTROL_1_REGID4VTX__SHIFT) & A6XX_VFD_CONTROL_1_REGID4VTX__MASK;
+-}
+-#define A6XX_VFD_CONTROL_1_REGID4INST__MASK			0x0000ff00
+-#define A6XX_VFD_CONTROL_1_REGID4INST__SHIFT			8
+-static inline uint32_t A6XX_VFD_CONTROL_1_REGID4INST(uint32_t val)
+-{
+-	return ((val) << A6XX_VFD_CONTROL_1_REGID4INST__SHIFT) & A6XX_VFD_CONTROL_1_REGID4INST__MASK;
+-}
+-#define A6XX_VFD_CONTROL_1_REGID4PRIMID__MASK			0x00ff0000
+-#define A6XX_VFD_CONTROL_1_REGID4PRIMID__SHIFT			16
+-static inline uint32_t A6XX_VFD_CONTROL_1_REGID4PRIMID(uint32_t val)
+-{
+-	return ((val) << A6XX_VFD_CONTROL_1_REGID4PRIMID__SHIFT) & A6XX_VFD_CONTROL_1_REGID4PRIMID__MASK;
+-}
+-#define A6XX_VFD_CONTROL_1_REGID4VIEWID__MASK			0xff000000
+-#define A6XX_VFD_CONTROL_1_REGID4VIEWID__SHIFT			24
+-static inline uint32_t A6XX_VFD_CONTROL_1_REGID4VIEWID(uint32_t val)
+-{
+-	return ((val) << A6XX_VFD_CONTROL_1_REGID4VIEWID__SHIFT) & A6XX_VFD_CONTROL_1_REGID4VIEWID__MASK;
+-}
+-
+-#define REG_A6XX_VFD_CONTROL_2					0x0000a002
+-#define A6XX_VFD_CONTROL_2_REGID_HSRELPATCHID__MASK		0x000000ff
+-#define A6XX_VFD_CONTROL_2_REGID_HSRELPATCHID__SHIFT		0
+-static inline uint32_t A6XX_VFD_CONTROL_2_REGID_HSRELPATCHID(uint32_t val)
+-{
+-	return ((val) << A6XX_VFD_CONTROL_2_REGID_HSRELPATCHID__SHIFT) & A6XX_VFD_CONTROL_2_REGID_HSRELPATCHID__MASK;
+-}
+-#define A6XX_VFD_CONTROL_2_REGID_INVOCATIONID__MASK		0x0000ff00
+-#define A6XX_VFD_CONTROL_2_REGID_INVOCATIONID__SHIFT		8
+-static inline uint32_t A6XX_VFD_CONTROL_2_REGID_INVOCATIONID(uint32_t val)
+-{
+-	return ((val) << A6XX_VFD_CONTROL_2_REGID_INVOCATIONID__SHIFT) & A6XX_VFD_CONTROL_2_REGID_INVOCATIONID__MASK;
+-}
+-
+-#define REG_A6XX_VFD_CONTROL_3					0x0000a003
+-#define A6XX_VFD_CONTROL_3_REGID_DSPRIMID__MASK			0x000000ff
+-#define A6XX_VFD_CONTROL_3_REGID_DSPRIMID__SHIFT		0
+-static inline uint32_t A6XX_VFD_CONTROL_3_REGID_DSPRIMID(uint32_t val)
+-{
+-	return ((val) << A6XX_VFD_CONTROL_3_REGID_DSPRIMID__SHIFT) & A6XX_VFD_CONTROL_3_REGID_DSPRIMID__MASK;
+-}
+-#define A6XX_VFD_CONTROL_3_REGID_DSRELPATCHID__MASK		0x0000ff00
+-#define A6XX_VFD_CONTROL_3_REGID_DSRELPATCHID__SHIFT		8
+-static inline uint32_t A6XX_VFD_CONTROL_3_REGID_DSRELPATCHID(uint32_t val)
+-{
+-	return ((val) << A6XX_VFD_CONTROL_3_REGID_DSRELPATCHID__SHIFT) & A6XX_VFD_CONTROL_3_REGID_DSRELPATCHID__MASK;
+-}
+-#define A6XX_VFD_CONTROL_3_REGID_TESSX__MASK			0x00ff0000
+-#define A6XX_VFD_CONTROL_3_REGID_TESSX__SHIFT			16
+-static inline uint32_t A6XX_VFD_CONTROL_3_REGID_TESSX(uint32_t val)
+-{
+-	return ((val) << A6XX_VFD_CONTROL_3_REGID_TESSX__SHIFT) & A6XX_VFD_CONTROL_3_REGID_TESSX__MASK;
+-}
+-#define A6XX_VFD_CONTROL_3_REGID_TESSY__MASK			0xff000000
+-#define A6XX_VFD_CONTROL_3_REGID_TESSY__SHIFT			24
+-static inline uint32_t A6XX_VFD_CONTROL_3_REGID_TESSY(uint32_t val)
+-{
+-	return ((val) << A6XX_VFD_CONTROL_3_REGID_TESSY__SHIFT) & A6XX_VFD_CONTROL_3_REGID_TESSY__MASK;
+-}
+-
+-#define REG_A6XX_VFD_CONTROL_4					0x0000a004
+-#define A6XX_VFD_CONTROL_4_UNK0__MASK				0x000000ff
+-#define A6XX_VFD_CONTROL_4_UNK0__SHIFT				0
+-static inline uint32_t A6XX_VFD_CONTROL_4_UNK0(uint32_t val)
+-{
+-	return ((val) << A6XX_VFD_CONTROL_4_UNK0__SHIFT) & A6XX_VFD_CONTROL_4_UNK0__MASK;
+-}
+-
+-#define REG_A6XX_VFD_CONTROL_5					0x0000a005
+-#define A6XX_VFD_CONTROL_5_REGID_GSHEADER__MASK			0x000000ff
+-#define A6XX_VFD_CONTROL_5_REGID_GSHEADER__SHIFT		0
+-static inline uint32_t A6XX_VFD_CONTROL_5_REGID_GSHEADER(uint32_t val)
+-{
+-	return ((val) << A6XX_VFD_CONTROL_5_REGID_GSHEADER__SHIFT) & A6XX_VFD_CONTROL_5_REGID_GSHEADER__MASK;
+-}
+-#define A6XX_VFD_CONTROL_5_UNK8__MASK				0x0000ff00
+-#define A6XX_VFD_CONTROL_5_UNK8__SHIFT				8
+-static inline uint32_t A6XX_VFD_CONTROL_5_UNK8(uint32_t val)
+-{
+-	return ((val) << A6XX_VFD_CONTROL_5_UNK8__SHIFT) & A6XX_VFD_CONTROL_5_UNK8__MASK;
+-}
+-
+-#define REG_A6XX_VFD_CONTROL_6					0x0000a006
+-#define A6XX_VFD_CONTROL_6_PRIMID4PSEN				0x00000001
+-
+-#define REG_A6XX_VFD_MODE_CNTL					0x0000a007
+-#define A6XX_VFD_MODE_CNTL_RENDER_MODE__MASK			0x00000007
+-#define A6XX_VFD_MODE_CNTL_RENDER_MODE__SHIFT			0
+-static inline uint32_t A6XX_VFD_MODE_CNTL_RENDER_MODE(enum a6xx_render_mode val)
+-{
+-	return ((val) << A6XX_VFD_MODE_CNTL_RENDER_MODE__SHIFT) & A6XX_VFD_MODE_CNTL_RENDER_MODE__MASK;
+-}
+-
+-#define REG_A6XX_VFD_MULTIVIEW_CNTL				0x0000a008
+-#define A6XX_VFD_MULTIVIEW_CNTL_ENABLE				0x00000001
+-#define A6XX_VFD_MULTIVIEW_CNTL_DISABLEMULTIPOS			0x00000002
+-#define A6XX_VFD_MULTIVIEW_CNTL_VIEWS__MASK			0x0000007c
+-#define A6XX_VFD_MULTIVIEW_CNTL_VIEWS__SHIFT			2
+-static inline uint32_t A6XX_VFD_MULTIVIEW_CNTL_VIEWS(uint32_t val)
+-{
+-	return ((val) << A6XX_VFD_MULTIVIEW_CNTL_VIEWS__SHIFT) & A6XX_VFD_MULTIVIEW_CNTL_VIEWS__MASK;
+-}
+-
+-#define REG_A6XX_VFD_ADD_OFFSET					0x0000a009
+-#define A6XX_VFD_ADD_OFFSET_VERTEX				0x00000001
+-#define A6XX_VFD_ADD_OFFSET_INSTANCE				0x00000002
+-
+-#define REG_A6XX_VFD_INDEX_OFFSET				0x0000a00e
+-
+-#define REG_A6XX_VFD_INSTANCE_START_OFFSET			0x0000a00f
+-
+-#define REG_A6XX_VFD_FETCH(i0) (0x0000a010 + 0x4*(i0))
+-
+-static inline uint32_t REG_A6XX_VFD_FETCH_BASE(uint32_t i0) { return 0x0000a010 + 0x4*i0; }
+-
+-static inline uint32_t REG_A6XX_VFD_FETCH_SIZE(uint32_t i0) { return 0x0000a012 + 0x4*i0; }
+-
+-static inline uint32_t REG_A6XX_VFD_FETCH_STRIDE(uint32_t i0) { return 0x0000a013 + 0x4*i0; }
+-
+-#define REG_A6XX_VFD_DECODE(i0) (0x0000a090 + 0x2*(i0))
+-
+-static inline uint32_t REG_A6XX_VFD_DECODE_INSTR(uint32_t i0) { return 0x0000a090 + 0x2*i0; }
+-#define A6XX_VFD_DECODE_INSTR_IDX__MASK				0x0000001f
+-#define A6XX_VFD_DECODE_INSTR_IDX__SHIFT			0
+-static inline uint32_t A6XX_VFD_DECODE_INSTR_IDX(uint32_t val)
+-{
+-	return ((val) << A6XX_VFD_DECODE_INSTR_IDX__SHIFT) & A6XX_VFD_DECODE_INSTR_IDX__MASK;
+-}
+-#define A6XX_VFD_DECODE_INSTR_OFFSET__MASK			0x0001ffe0
+-#define A6XX_VFD_DECODE_INSTR_OFFSET__SHIFT			5
+-static inline uint32_t A6XX_VFD_DECODE_INSTR_OFFSET(uint32_t val)
+-{
+-	return ((val) << A6XX_VFD_DECODE_INSTR_OFFSET__SHIFT) & A6XX_VFD_DECODE_INSTR_OFFSET__MASK;
+-}
+-#define A6XX_VFD_DECODE_INSTR_INSTANCED				0x00020000
+-#define A6XX_VFD_DECODE_INSTR_FORMAT__MASK			0x0ff00000
+-#define A6XX_VFD_DECODE_INSTR_FORMAT__SHIFT			20
+-static inline uint32_t A6XX_VFD_DECODE_INSTR_FORMAT(enum a6xx_format val)
+-{
+-	return ((val) << A6XX_VFD_DECODE_INSTR_FORMAT__SHIFT) & A6XX_VFD_DECODE_INSTR_FORMAT__MASK;
+-}
+-#define A6XX_VFD_DECODE_INSTR_SWAP__MASK			0x30000000
+-#define A6XX_VFD_DECODE_INSTR_SWAP__SHIFT			28
+-static inline uint32_t A6XX_VFD_DECODE_INSTR_SWAP(enum a3xx_color_swap val)
+-{
+-	return ((val) << A6XX_VFD_DECODE_INSTR_SWAP__SHIFT) & A6XX_VFD_DECODE_INSTR_SWAP__MASK;
+-}
+-#define A6XX_VFD_DECODE_INSTR_UNK30				0x40000000
+-#define A6XX_VFD_DECODE_INSTR_FLOAT				0x80000000
+-
+-static inline uint32_t REG_A6XX_VFD_DECODE_STEP_RATE(uint32_t i0) { return 0x0000a091 + 0x2*i0; }
+-
+-#define REG_A6XX_VFD_DEST_CNTL(i0) (0x0000a0d0 + 0x1*(i0))
+-
+-static inline uint32_t REG_A6XX_VFD_DEST_CNTL_INSTR(uint32_t i0) { return 0x0000a0d0 + 0x1*i0; }
+-#define A6XX_VFD_DEST_CNTL_INSTR_WRITEMASK__MASK		0x0000000f
+-#define A6XX_VFD_DEST_CNTL_INSTR_WRITEMASK__SHIFT		0
+-static inline uint32_t A6XX_VFD_DEST_CNTL_INSTR_WRITEMASK(uint32_t val)
+-{
+-	return ((val) << A6XX_VFD_DEST_CNTL_INSTR_WRITEMASK__SHIFT) & A6XX_VFD_DEST_CNTL_INSTR_WRITEMASK__MASK;
+-}
+-#define A6XX_VFD_DEST_CNTL_INSTR_REGID__MASK			0x00000ff0
+-#define A6XX_VFD_DEST_CNTL_INSTR_REGID__SHIFT			4
+-static inline uint32_t A6XX_VFD_DEST_CNTL_INSTR_REGID(uint32_t val)
+-{
+-	return ((val) << A6XX_VFD_DEST_CNTL_INSTR_REGID__SHIFT) & A6XX_VFD_DEST_CNTL_INSTR_REGID__MASK;
+-}
+-
+-#define REG_A6XX_VFD_POWER_CNTL					0x0000a0f8
+-
+-#define REG_A7XX_VFD_UNKNOWN_A600				0x0000a600
+-
+-#define REG_A6XX_VFD_ADDR_MODE_CNTL				0x0000a601
+-
+-#define REG_A6XX_VFD_PERFCTR_VFD_SEL(i0) (0x0000a610 + 0x1*(i0))
+-
+-#define REG_A7XX_VFD_PERFCTR_VFD_SEL(i0) (0x0000a610 + 0x1*(i0))
+-
+-#define REG_A6XX_SP_VS_CTRL_REG0				0x0000a800
+-#define A6XX_SP_VS_CTRL_REG0_THREADMODE__MASK			0x00000001
+-#define A6XX_SP_VS_CTRL_REG0_THREADMODE__SHIFT			0
+-static inline uint32_t A6XX_SP_VS_CTRL_REG0_THREADMODE(enum a3xx_threadmode val)
+-{
+-	return ((val) << A6XX_SP_VS_CTRL_REG0_THREADMODE__SHIFT) & A6XX_SP_VS_CTRL_REG0_THREADMODE__MASK;
+-}
+-#define A6XX_SP_VS_CTRL_REG0_HALFREGFOOTPRINT__MASK		0x0000007e
+-#define A6XX_SP_VS_CTRL_REG0_HALFREGFOOTPRINT__SHIFT		1
+-static inline uint32_t A6XX_SP_VS_CTRL_REG0_HALFREGFOOTPRINT(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_VS_CTRL_REG0_HALFREGFOOTPRINT__SHIFT) & A6XX_SP_VS_CTRL_REG0_HALFREGFOOTPRINT__MASK;
+-}
+-#define A6XX_SP_VS_CTRL_REG0_FULLREGFOOTPRINT__MASK		0x00001f80
+-#define A6XX_SP_VS_CTRL_REG0_FULLREGFOOTPRINT__SHIFT		7
+-static inline uint32_t A6XX_SP_VS_CTRL_REG0_FULLREGFOOTPRINT(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_VS_CTRL_REG0_FULLREGFOOTPRINT__SHIFT) & A6XX_SP_VS_CTRL_REG0_FULLREGFOOTPRINT__MASK;
+-}
+-#define A6XX_SP_VS_CTRL_REG0_UNK13				0x00002000
+-#define A6XX_SP_VS_CTRL_REG0_BRANCHSTACK__MASK			0x000fc000
+-#define A6XX_SP_VS_CTRL_REG0_BRANCHSTACK__SHIFT			14
+-static inline uint32_t A6XX_SP_VS_CTRL_REG0_BRANCHSTACK(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_VS_CTRL_REG0_BRANCHSTACK__SHIFT) & A6XX_SP_VS_CTRL_REG0_BRANCHSTACK__MASK;
+-}
+-#define A6XX_SP_VS_CTRL_REG0_MERGEDREGS				0x00100000
+-#define A6XX_SP_VS_CTRL_REG0_EARLYPREAMBLE			0x00200000
+-
+-#define REG_A6XX_SP_VS_BRANCH_COND				0x0000a801
+-
+-#define REG_A6XX_SP_VS_PRIMITIVE_CNTL				0x0000a802
+-#define A6XX_SP_VS_PRIMITIVE_CNTL_OUT__MASK			0x0000003f
+-#define A6XX_SP_VS_PRIMITIVE_CNTL_OUT__SHIFT			0
+-static inline uint32_t A6XX_SP_VS_PRIMITIVE_CNTL_OUT(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_VS_PRIMITIVE_CNTL_OUT__SHIFT) & A6XX_SP_VS_PRIMITIVE_CNTL_OUT__MASK;
+-}
+-#define A6XX_SP_VS_PRIMITIVE_CNTL_FLAGS_REGID__MASK		0x00003fc0
+-#define A6XX_SP_VS_PRIMITIVE_CNTL_FLAGS_REGID__SHIFT		6
+-static inline uint32_t A6XX_SP_VS_PRIMITIVE_CNTL_FLAGS_REGID(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_VS_PRIMITIVE_CNTL_FLAGS_REGID__SHIFT) & A6XX_SP_VS_PRIMITIVE_CNTL_FLAGS_REGID__MASK;
+-}
+-
+-#define REG_A6XX_SP_VS_OUT(i0) (0x0000a803 + 0x1*(i0))
+-
+-static inline uint32_t REG_A6XX_SP_VS_OUT_REG(uint32_t i0) { return 0x0000a803 + 0x1*i0; }
+-#define A6XX_SP_VS_OUT_REG_A_REGID__MASK			0x000000ff
+-#define A6XX_SP_VS_OUT_REG_A_REGID__SHIFT			0
+-static inline uint32_t A6XX_SP_VS_OUT_REG_A_REGID(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_VS_OUT_REG_A_REGID__SHIFT) & A6XX_SP_VS_OUT_REG_A_REGID__MASK;
+-}
+-#define A6XX_SP_VS_OUT_REG_A_COMPMASK__MASK			0x00000f00
+-#define A6XX_SP_VS_OUT_REG_A_COMPMASK__SHIFT			8
+-static inline uint32_t A6XX_SP_VS_OUT_REG_A_COMPMASK(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_VS_OUT_REG_A_COMPMASK__SHIFT) & A6XX_SP_VS_OUT_REG_A_COMPMASK__MASK;
+-}
+-#define A6XX_SP_VS_OUT_REG_B_REGID__MASK			0x00ff0000
+-#define A6XX_SP_VS_OUT_REG_B_REGID__SHIFT			16
+-static inline uint32_t A6XX_SP_VS_OUT_REG_B_REGID(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_VS_OUT_REG_B_REGID__SHIFT) & A6XX_SP_VS_OUT_REG_B_REGID__MASK;
+-}
+-#define A6XX_SP_VS_OUT_REG_B_COMPMASK__MASK			0x0f000000
+-#define A6XX_SP_VS_OUT_REG_B_COMPMASK__SHIFT			24
+-static inline uint32_t A6XX_SP_VS_OUT_REG_B_COMPMASK(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_VS_OUT_REG_B_COMPMASK__SHIFT) & A6XX_SP_VS_OUT_REG_B_COMPMASK__MASK;
+-}
+-
+-#define REG_A6XX_SP_VS_VPC_DST(i0) (0x0000a813 + 0x1*(i0))
+-
+-static inline uint32_t REG_A6XX_SP_VS_VPC_DST_REG(uint32_t i0) { return 0x0000a813 + 0x1*i0; }
+-#define A6XX_SP_VS_VPC_DST_REG_OUTLOC0__MASK			0x000000ff
+-#define A6XX_SP_VS_VPC_DST_REG_OUTLOC0__SHIFT			0
+-static inline uint32_t A6XX_SP_VS_VPC_DST_REG_OUTLOC0(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_VS_VPC_DST_REG_OUTLOC0__SHIFT) & A6XX_SP_VS_VPC_DST_REG_OUTLOC0__MASK;
+-}
+-#define A6XX_SP_VS_VPC_DST_REG_OUTLOC1__MASK			0x0000ff00
+-#define A6XX_SP_VS_VPC_DST_REG_OUTLOC1__SHIFT			8
+-static inline uint32_t A6XX_SP_VS_VPC_DST_REG_OUTLOC1(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_VS_VPC_DST_REG_OUTLOC1__SHIFT) & A6XX_SP_VS_VPC_DST_REG_OUTLOC1__MASK;
+-}
+-#define A6XX_SP_VS_VPC_DST_REG_OUTLOC2__MASK			0x00ff0000
+-#define A6XX_SP_VS_VPC_DST_REG_OUTLOC2__SHIFT			16
+-static inline uint32_t A6XX_SP_VS_VPC_DST_REG_OUTLOC2(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_VS_VPC_DST_REG_OUTLOC2__SHIFT) & A6XX_SP_VS_VPC_DST_REG_OUTLOC2__MASK;
+-}
+-#define A6XX_SP_VS_VPC_DST_REG_OUTLOC3__MASK			0xff000000
+-#define A6XX_SP_VS_VPC_DST_REG_OUTLOC3__SHIFT			24
+-static inline uint32_t A6XX_SP_VS_VPC_DST_REG_OUTLOC3(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_VS_VPC_DST_REG_OUTLOC3__SHIFT) & A6XX_SP_VS_VPC_DST_REG_OUTLOC3__MASK;
+-}
+-
+-#define REG_A6XX_SP_VS_OBJ_FIRST_EXEC_OFFSET			0x0000a81b
+-
+-#define REG_A6XX_SP_VS_OBJ_START				0x0000a81c
+-
+-#define REG_A6XX_SP_VS_PVT_MEM_PARAM				0x0000a81e
+-#define A6XX_SP_VS_PVT_MEM_PARAM_MEMSIZEPERITEM__MASK		0x000000ff
+-#define A6XX_SP_VS_PVT_MEM_PARAM_MEMSIZEPERITEM__SHIFT		0
+-static inline uint32_t A6XX_SP_VS_PVT_MEM_PARAM_MEMSIZEPERITEM(uint32_t val)
+-{
+-	assert(!(val & 0x1ff));
+-	return (((val >> 9)) << A6XX_SP_VS_PVT_MEM_PARAM_MEMSIZEPERITEM__SHIFT) & A6XX_SP_VS_PVT_MEM_PARAM_MEMSIZEPERITEM__MASK;
+-}
+-#define A6XX_SP_VS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__MASK	0xff000000
+-#define A6XX_SP_VS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__SHIFT	24
+-static inline uint32_t A6XX_SP_VS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_VS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__SHIFT) & A6XX_SP_VS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__MASK;
+-}
+-
+-#define REG_A6XX_SP_VS_PVT_MEM_ADDR				0x0000a81f
+-
+-#define REG_A6XX_SP_VS_PVT_MEM_SIZE				0x0000a821
+-#define A6XX_SP_VS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__MASK		0x0003ffff
+-#define A6XX_SP_VS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__SHIFT		0
+-static inline uint32_t A6XX_SP_VS_PVT_MEM_SIZE_TOTALPVTMEMSIZE(uint32_t val)
+-{
+-	assert(!(val & 0xfff));
+-	return (((val >> 12)) << A6XX_SP_VS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__SHIFT) & A6XX_SP_VS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__MASK;
+-}
+-#define A6XX_SP_VS_PVT_MEM_SIZE_PERWAVEMEMLAYOUT		0x80000000
+-
+-#define REG_A6XX_SP_VS_TEX_COUNT				0x0000a822
+-
+-#define REG_A6XX_SP_VS_CONFIG					0x0000a823
+-#define A6XX_SP_VS_CONFIG_BINDLESS_TEX				0x00000001
+-#define A6XX_SP_VS_CONFIG_BINDLESS_SAMP				0x00000002
+-#define A6XX_SP_VS_CONFIG_BINDLESS_IBO				0x00000004
+-#define A6XX_SP_VS_CONFIG_BINDLESS_UBO				0x00000008
+-#define A6XX_SP_VS_CONFIG_ENABLED				0x00000100
+-#define A6XX_SP_VS_CONFIG_NTEX__MASK				0x0001fe00
+-#define A6XX_SP_VS_CONFIG_NTEX__SHIFT				9
+-static inline uint32_t A6XX_SP_VS_CONFIG_NTEX(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_VS_CONFIG_NTEX__SHIFT) & A6XX_SP_VS_CONFIG_NTEX__MASK;
+-}
+-#define A6XX_SP_VS_CONFIG_NSAMP__MASK				0x003e0000
+-#define A6XX_SP_VS_CONFIG_NSAMP__SHIFT				17
+-static inline uint32_t A6XX_SP_VS_CONFIG_NSAMP(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_VS_CONFIG_NSAMP__SHIFT) & A6XX_SP_VS_CONFIG_NSAMP__MASK;
+-}
+-#define A6XX_SP_VS_CONFIG_NIBO__MASK				0x1fc00000
+-#define A6XX_SP_VS_CONFIG_NIBO__SHIFT				22
+-static inline uint32_t A6XX_SP_VS_CONFIG_NIBO(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_VS_CONFIG_NIBO__SHIFT) & A6XX_SP_VS_CONFIG_NIBO__MASK;
+-}
+-
+-#define REG_A6XX_SP_VS_INSTRLEN					0x0000a824
+-
+-#define REG_A6XX_SP_VS_PVT_MEM_HW_STACK_OFFSET			0x0000a825
+-#define A6XX_SP_VS_PVT_MEM_HW_STACK_OFFSET_OFFSET__MASK		0x0007ffff
+-#define A6XX_SP_VS_PVT_MEM_HW_STACK_OFFSET_OFFSET__SHIFT	0
+-static inline uint32_t A6XX_SP_VS_PVT_MEM_HW_STACK_OFFSET_OFFSET(uint32_t val)
+-{
+-	assert(!(val & 0x7ff));
+-	return (((val >> 11)) << A6XX_SP_VS_PVT_MEM_HW_STACK_OFFSET_OFFSET__SHIFT) & A6XX_SP_VS_PVT_MEM_HW_STACK_OFFSET_OFFSET__MASK;
+-}
+-
+-#define REG_A7XX_SP_VS_VGPR_CONFIG				0x0000a82d
+-
+-#define REG_A6XX_SP_HS_CTRL_REG0				0x0000a830
+-#define A6XX_SP_HS_CTRL_REG0_THREADMODE__MASK			0x00000001
+-#define A6XX_SP_HS_CTRL_REG0_THREADMODE__SHIFT			0
+-static inline uint32_t A6XX_SP_HS_CTRL_REG0_THREADMODE(enum a3xx_threadmode val)
+-{
+-	return ((val) << A6XX_SP_HS_CTRL_REG0_THREADMODE__SHIFT) & A6XX_SP_HS_CTRL_REG0_THREADMODE__MASK;
+-}
+-#define A6XX_SP_HS_CTRL_REG0_HALFREGFOOTPRINT__MASK		0x0000007e
+-#define A6XX_SP_HS_CTRL_REG0_HALFREGFOOTPRINT__SHIFT		1
+-static inline uint32_t A6XX_SP_HS_CTRL_REG0_HALFREGFOOTPRINT(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_HS_CTRL_REG0_HALFREGFOOTPRINT__SHIFT) & A6XX_SP_HS_CTRL_REG0_HALFREGFOOTPRINT__MASK;
+-}
+-#define A6XX_SP_HS_CTRL_REG0_FULLREGFOOTPRINT__MASK		0x00001f80
+-#define A6XX_SP_HS_CTRL_REG0_FULLREGFOOTPRINT__SHIFT		7
+-static inline uint32_t A6XX_SP_HS_CTRL_REG0_FULLREGFOOTPRINT(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_HS_CTRL_REG0_FULLREGFOOTPRINT__SHIFT) & A6XX_SP_HS_CTRL_REG0_FULLREGFOOTPRINT__MASK;
+-}
+-#define A6XX_SP_HS_CTRL_REG0_UNK13				0x00002000
+-#define A6XX_SP_HS_CTRL_REG0_BRANCHSTACK__MASK			0x000fc000
+-#define A6XX_SP_HS_CTRL_REG0_BRANCHSTACK__SHIFT			14
+-static inline uint32_t A6XX_SP_HS_CTRL_REG0_BRANCHSTACK(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_HS_CTRL_REG0_BRANCHSTACK__SHIFT) & A6XX_SP_HS_CTRL_REG0_BRANCHSTACK__MASK;
+-}
+-#define A6XX_SP_HS_CTRL_REG0_EARLYPREAMBLE			0x00100000
+-
+-#define REG_A6XX_SP_HS_WAVE_INPUT_SIZE				0x0000a831
+-
+-#define REG_A6XX_SP_HS_BRANCH_COND				0x0000a832
+-
+-#define REG_A6XX_SP_HS_OBJ_FIRST_EXEC_OFFSET			0x0000a833
+-
+-#define REG_A6XX_SP_HS_OBJ_START				0x0000a834
+-
+-#define REG_A6XX_SP_HS_PVT_MEM_PARAM				0x0000a836
+-#define A6XX_SP_HS_PVT_MEM_PARAM_MEMSIZEPERITEM__MASK		0x000000ff
+-#define A6XX_SP_HS_PVT_MEM_PARAM_MEMSIZEPERITEM__SHIFT		0
+-static inline uint32_t A6XX_SP_HS_PVT_MEM_PARAM_MEMSIZEPERITEM(uint32_t val)
+-{
+-	assert(!(val & 0x1ff));
+-	return (((val >> 9)) << A6XX_SP_HS_PVT_MEM_PARAM_MEMSIZEPERITEM__SHIFT) & A6XX_SP_HS_PVT_MEM_PARAM_MEMSIZEPERITEM__MASK;
+-}
+-#define A6XX_SP_HS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__MASK	0xff000000
+-#define A6XX_SP_HS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__SHIFT	24
+-static inline uint32_t A6XX_SP_HS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_HS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__SHIFT) & A6XX_SP_HS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__MASK;
+-}
+-
+-#define REG_A6XX_SP_HS_PVT_MEM_ADDR				0x0000a837
+-
+-#define REG_A6XX_SP_HS_PVT_MEM_SIZE				0x0000a839
+-#define A6XX_SP_HS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__MASK		0x0003ffff
+-#define A6XX_SP_HS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__SHIFT		0
+-static inline uint32_t A6XX_SP_HS_PVT_MEM_SIZE_TOTALPVTMEMSIZE(uint32_t val)
+-{
+-	assert(!(val & 0xfff));
+-	return (((val >> 12)) << A6XX_SP_HS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__SHIFT) & A6XX_SP_HS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__MASK;
+-}
+-#define A6XX_SP_HS_PVT_MEM_SIZE_PERWAVEMEMLAYOUT		0x80000000
+-
+-#define REG_A6XX_SP_HS_TEX_COUNT				0x0000a83a
+-
+-#define REG_A6XX_SP_HS_CONFIG					0x0000a83b
+-#define A6XX_SP_HS_CONFIG_BINDLESS_TEX				0x00000001
+-#define A6XX_SP_HS_CONFIG_BINDLESS_SAMP				0x00000002
+-#define A6XX_SP_HS_CONFIG_BINDLESS_IBO				0x00000004
+-#define A6XX_SP_HS_CONFIG_BINDLESS_UBO				0x00000008
+-#define A6XX_SP_HS_CONFIG_ENABLED				0x00000100
+-#define A6XX_SP_HS_CONFIG_NTEX__MASK				0x0001fe00
+-#define A6XX_SP_HS_CONFIG_NTEX__SHIFT				9
+-static inline uint32_t A6XX_SP_HS_CONFIG_NTEX(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_HS_CONFIG_NTEX__SHIFT) & A6XX_SP_HS_CONFIG_NTEX__MASK;
+-}
+-#define A6XX_SP_HS_CONFIG_NSAMP__MASK				0x003e0000
+-#define A6XX_SP_HS_CONFIG_NSAMP__SHIFT				17
+-static inline uint32_t A6XX_SP_HS_CONFIG_NSAMP(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_HS_CONFIG_NSAMP__SHIFT) & A6XX_SP_HS_CONFIG_NSAMP__MASK;
+-}
+-#define A6XX_SP_HS_CONFIG_NIBO__MASK				0x1fc00000
+-#define A6XX_SP_HS_CONFIG_NIBO__SHIFT				22
+-static inline uint32_t A6XX_SP_HS_CONFIG_NIBO(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_HS_CONFIG_NIBO__SHIFT) & A6XX_SP_HS_CONFIG_NIBO__MASK;
+-}
+-
+-#define REG_A6XX_SP_HS_INSTRLEN					0x0000a83c
+-
+-#define REG_A6XX_SP_HS_PVT_MEM_HW_STACK_OFFSET			0x0000a83d
+-#define A6XX_SP_HS_PVT_MEM_HW_STACK_OFFSET_OFFSET__MASK		0x0007ffff
+-#define A6XX_SP_HS_PVT_MEM_HW_STACK_OFFSET_OFFSET__SHIFT	0
+-static inline uint32_t A6XX_SP_HS_PVT_MEM_HW_STACK_OFFSET_OFFSET(uint32_t val)
+-{
+-	assert(!(val & 0x7ff));
+-	return (((val >> 11)) << A6XX_SP_HS_PVT_MEM_HW_STACK_OFFSET_OFFSET__SHIFT) & A6XX_SP_HS_PVT_MEM_HW_STACK_OFFSET_OFFSET__MASK;
+-}
+-
+-#define REG_A7XX_SP_HS_VGPR_CONFIG				0x0000a82f
+-
+-#define REG_A6XX_SP_DS_CTRL_REG0				0x0000a840
+-#define A6XX_SP_DS_CTRL_REG0_THREADMODE__MASK			0x00000001
+-#define A6XX_SP_DS_CTRL_REG0_THREADMODE__SHIFT			0
+-static inline uint32_t A6XX_SP_DS_CTRL_REG0_THREADMODE(enum a3xx_threadmode val)
+-{
+-	return ((val) << A6XX_SP_DS_CTRL_REG0_THREADMODE__SHIFT) & A6XX_SP_DS_CTRL_REG0_THREADMODE__MASK;
+-}
+-#define A6XX_SP_DS_CTRL_REG0_HALFREGFOOTPRINT__MASK		0x0000007e
+-#define A6XX_SP_DS_CTRL_REG0_HALFREGFOOTPRINT__SHIFT		1
+-static inline uint32_t A6XX_SP_DS_CTRL_REG0_HALFREGFOOTPRINT(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_DS_CTRL_REG0_HALFREGFOOTPRINT__SHIFT) & A6XX_SP_DS_CTRL_REG0_HALFREGFOOTPRINT__MASK;
+-}
+-#define A6XX_SP_DS_CTRL_REG0_FULLREGFOOTPRINT__MASK		0x00001f80
+-#define A6XX_SP_DS_CTRL_REG0_FULLREGFOOTPRINT__SHIFT		7
+-static inline uint32_t A6XX_SP_DS_CTRL_REG0_FULLREGFOOTPRINT(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_DS_CTRL_REG0_FULLREGFOOTPRINT__SHIFT) & A6XX_SP_DS_CTRL_REG0_FULLREGFOOTPRINT__MASK;
+-}
+-#define A6XX_SP_DS_CTRL_REG0_UNK13				0x00002000
+-#define A6XX_SP_DS_CTRL_REG0_BRANCHSTACK__MASK			0x000fc000
+-#define A6XX_SP_DS_CTRL_REG0_BRANCHSTACK__SHIFT			14
+-static inline uint32_t A6XX_SP_DS_CTRL_REG0_BRANCHSTACK(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_DS_CTRL_REG0_BRANCHSTACK__SHIFT) & A6XX_SP_DS_CTRL_REG0_BRANCHSTACK__MASK;
+-}
+-#define A6XX_SP_DS_CTRL_REG0_EARLYPREAMBLE			0x00100000
+-
+-#define REG_A6XX_SP_DS_BRANCH_COND				0x0000a841
+-
+-#define REG_A6XX_SP_DS_PRIMITIVE_CNTL				0x0000a842
+-#define A6XX_SP_DS_PRIMITIVE_CNTL_OUT__MASK			0x0000003f
+-#define A6XX_SP_DS_PRIMITIVE_CNTL_OUT__SHIFT			0
+-static inline uint32_t A6XX_SP_DS_PRIMITIVE_CNTL_OUT(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_DS_PRIMITIVE_CNTL_OUT__SHIFT) & A6XX_SP_DS_PRIMITIVE_CNTL_OUT__MASK;
+-}
+-#define A6XX_SP_DS_PRIMITIVE_CNTL_FLAGS_REGID__MASK		0x00003fc0
+-#define A6XX_SP_DS_PRIMITIVE_CNTL_FLAGS_REGID__SHIFT		6
+-static inline uint32_t A6XX_SP_DS_PRIMITIVE_CNTL_FLAGS_REGID(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_DS_PRIMITIVE_CNTL_FLAGS_REGID__SHIFT) & A6XX_SP_DS_PRIMITIVE_CNTL_FLAGS_REGID__MASK;
+-}
+-
+-#define REG_A6XX_SP_DS_OUT(i0) (0x0000a843 + 0x1*(i0))
+-
+-static inline uint32_t REG_A6XX_SP_DS_OUT_REG(uint32_t i0) { return 0x0000a843 + 0x1*i0; }
+-#define A6XX_SP_DS_OUT_REG_A_REGID__MASK			0x000000ff
+-#define A6XX_SP_DS_OUT_REG_A_REGID__SHIFT			0
+-static inline uint32_t A6XX_SP_DS_OUT_REG_A_REGID(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_DS_OUT_REG_A_REGID__SHIFT) & A6XX_SP_DS_OUT_REG_A_REGID__MASK;
+-}
+-#define A6XX_SP_DS_OUT_REG_A_COMPMASK__MASK			0x00000f00
+-#define A6XX_SP_DS_OUT_REG_A_COMPMASK__SHIFT			8
+-static inline uint32_t A6XX_SP_DS_OUT_REG_A_COMPMASK(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_DS_OUT_REG_A_COMPMASK__SHIFT) & A6XX_SP_DS_OUT_REG_A_COMPMASK__MASK;
+-}
+-#define A6XX_SP_DS_OUT_REG_B_REGID__MASK			0x00ff0000
+-#define A6XX_SP_DS_OUT_REG_B_REGID__SHIFT			16
+-static inline uint32_t A6XX_SP_DS_OUT_REG_B_REGID(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_DS_OUT_REG_B_REGID__SHIFT) & A6XX_SP_DS_OUT_REG_B_REGID__MASK;
+-}
+-#define A6XX_SP_DS_OUT_REG_B_COMPMASK__MASK			0x0f000000
+-#define A6XX_SP_DS_OUT_REG_B_COMPMASK__SHIFT			24
+-static inline uint32_t A6XX_SP_DS_OUT_REG_B_COMPMASK(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_DS_OUT_REG_B_COMPMASK__SHIFT) & A6XX_SP_DS_OUT_REG_B_COMPMASK__MASK;
+-}
+-
+-#define REG_A6XX_SP_DS_VPC_DST(i0) (0x0000a853 + 0x1*(i0))
+-
+-static inline uint32_t REG_A6XX_SP_DS_VPC_DST_REG(uint32_t i0) { return 0x0000a853 + 0x1*i0; }
+-#define A6XX_SP_DS_VPC_DST_REG_OUTLOC0__MASK			0x000000ff
+-#define A6XX_SP_DS_VPC_DST_REG_OUTLOC0__SHIFT			0
+-static inline uint32_t A6XX_SP_DS_VPC_DST_REG_OUTLOC0(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_DS_VPC_DST_REG_OUTLOC0__SHIFT) & A6XX_SP_DS_VPC_DST_REG_OUTLOC0__MASK;
+-}
+-#define A6XX_SP_DS_VPC_DST_REG_OUTLOC1__MASK			0x0000ff00
+-#define A6XX_SP_DS_VPC_DST_REG_OUTLOC1__SHIFT			8
+-static inline uint32_t A6XX_SP_DS_VPC_DST_REG_OUTLOC1(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_DS_VPC_DST_REG_OUTLOC1__SHIFT) & A6XX_SP_DS_VPC_DST_REG_OUTLOC1__MASK;
+-}
+-#define A6XX_SP_DS_VPC_DST_REG_OUTLOC2__MASK			0x00ff0000
+-#define A6XX_SP_DS_VPC_DST_REG_OUTLOC2__SHIFT			16
+-static inline uint32_t A6XX_SP_DS_VPC_DST_REG_OUTLOC2(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_DS_VPC_DST_REG_OUTLOC2__SHIFT) & A6XX_SP_DS_VPC_DST_REG_OUTLOC2__MASK;
+-}
+-#define A6XX_SP_DS_VPC_DST_REG_OUTLOC3__MASK			0xff000000
+-#define A6XX_SP_DS_VPC_DST_REG_OUTLOC3__SHIFT			24
+-static inline uint32_t A6XX_SP_DS_VPC_DST_REG_OUTLOC3(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_DS_VPC_DST_REG_OUTLOC3__SHIFT) & A6XX_SP_DS_VPC_DST_REG_OUTLOC3__MASK;
+-}
+-
+-#define REG_A6XX_SP_DS_OBJ_FIRST_EXEC_OFFSET			0x0000a85b
+-
+-#define REG_A6XX_SP_DS_OBJ_START				0x0000a85c
+-
+-#define REG_A6XX_SP_DS_PVT_MEM_PARAM				0x0000a85e
+-#define A6XX_SP_DS_PVT_MEM_PARAM_MEMSIZEPERITEM__MASK		0x000000ff
+-#define A6XX_SP_DS_PVT_MEM_PARAM_MEMSIZEPERITEM__SHIFT		0
+-static inline uint32_t A6XX_SP_DS_PVT_MEM_PARAM_MEMSIZEPERITEM(uint32_t val)
+-{
+-	assert(!(val & 0x1ff));
+-	return (((val >> 9)) << A6XX_SP_DS_PVT_MEM_PARAM_MEMSIZEPERITEM__SHIFT) & A6XX_SP_DS_PVT_MEM_PARAM_MEMSIZEPERITEM__MASK;
+-}
+-#define A6XX_SP_DS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__MASK	0xff000000
+-#define A6XX_SP_DS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__SHIFT	24
+-static inline uint32_t A6XX_SP_DS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_DS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__SHIFT) & A6XX_SP_DS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__MASK;
+-}
+-
+-#define REG_A6XX_SP_DS_PVT_MEM_ADDR				0x0000a85f
+-
+-#define REG_A6XX_SP_DS_PVT_MEM_SIZE				0x0000a861
+-#define A6XX_SP_DS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__MASK		0x0003ffff
+-#define A6XX_SP_DS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__SHIFT		0
+-static inline uint32_t A6XX_SP_DS_PVT_MEM_SIZE_TOTALPVTMEMSIZE(uint32_t val)
+-{
+-	assert(!(val & 0xfff));
+-	return (((val >> 12)) << A6XX_SP_DS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__SHIFT) & A6XX_SP_DS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__MASK;
+-}
+-#define A6XX_SP_DS_PVT_MEM_SIZE_PERWAVEMEMLAYOUT		0x80000000
+-
+-#define REG_A6XX_SP_DS_TEX_COUNT				0x0000a862
+-
+-#define REG_A6XX_SP_DS_CONFIG					0x0000a863
+-#define A6XX_SP_DS_CONFIG_BINDLESS_TEX				0x00000001
+-#define A6XX_SP_DS_CONFIG_BINDLESS_SAMP				0x00000002
+-#define A6XX_SP_DS_CONFIG_BINDLESS_IBO				0x00000004
+-#define A6XX_SP_DS_CONFIG_BINDLESS_UBO				0x00000008
+-#define A6XX_SP_DS_CONFIG_ENABLED				0x00000100
+-#define A6XX_SP_DS_CONFIG_NTEX__MASK				0x0001fe00
+-#define A6XX_SP_DS_CONFIG_NTEX__SHIFT				9
+-static inline uint32_t A6XX_SP_DS_CONFIG_NTEX(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_DS_CONFIG_NTEX__SHIFT) & A6XX_SP_DS_CONFIG_NTEX__MASK;
+-}
+-#define A6XX_SP_DS_CONFIG_NSAMP__MASK				0x003e0000
+-#define A6XX_SP_DS_CONFIG_NSAMP__SHIFT				17
+-static inline uint32_t A6XX_SP_DS_CONFIG_NSAMP(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_DS_CONFIG_NSAMP__SHIFT) & A6XX_SP_DS_CONFIG_NSAMP__MASK;
+-}
+-#define A6XX_SP_DS_CONFIG_NIBO__MASK				0x1fc00000
+-#define A6XX_SP_DS_CONFIG_NIBO__SHIFT				22
+-static inline uint32_t A6XX_SP_DS_CONFIG_NIBO(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_DS_CONFIG_NIBO__SHIFT) & A6XX_SP_DS_CONFIG_NIBO__MASK;
+-}
+-
+-#define REG_A6XX_SP_DS_INSTRLEN					0x0000a864
+-
+-#define REG_A6XX_SP_DS_PVT_MEM_HW_STACK_OFFSET			0x0000a865
+-#define A6XX_SP_DS_PVT_MEM_HW_STACK_OFFSET_OFFSET__MASK		0x0007ffff
+-#define A6XX_SP_DS_PVT_MEM_HW_STACK_OFFSET_OFFSET__SHIFT	0
+-static inline uint32_t A6XX_SP_DS_PVT_MEM_HW_STACK_OFFSET_OFFSET(uint32_t val)
+-{
+-	assert(!(val & 0x7ff));
+-	return (((val >> 11)) << A6XX_SP_DS_PVT_MEM_HW_STACK_OFFSET_OFFSET__SHIFT) & A6XX_SP_DS_PVT_MEM_HW_STACK_OFFSET_OFFSET__MASK;
+-}
+-
+-#define REG_A7XX_SP_DS_VGPR_CONFIG				0x0000a868
+-
+-#define REG_A6XX_SP_GS_CTRL_REG0				0x0000a870
+-#define A6XX_SP_GS_CTRL_REG0_THREADMODE__MASK			0x00000001
+-#define A6XX_SP_GS_CTRL_REG0_THREADMODE__SHIFT			0
+-static inline uint32_t A6XX_SP_GS_CTRL_REG0_THREADMODE(enum a3xx_threadmode val)
+-{
+-	return ((val) << A6XX_SP_GS_CTRL_REG0_THREADMODE__SHIFT) & A6XX_SP_GS_CTRL_REG0_THREADMODE__MASK;
+-}
+-#define A6XX_SP_GS_CTRL_REG0_HALFREGFOOTPRINT__MASK		0x0000007e
+-#define A6XX_SP_GS_CTRL_REG0_HALFREGFOOTPRINT__SHIFT		1
+-static inline uint32_t A6XX_SP_GS_CTRL_REG0_HALFREGFOOTPRINT(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_GS_CTRL_REG0_HALFREGFOOTPRINT__SHIFT) & A6XX_SP_GS_CTRL_REG0_HALFREGFOOTPRINT__MASK;
+-}
+-#define A6XX_SP_GS_CTRL_REG0_FULLREGFOOTPRINT__MASK		0x00001f80
+-#define A6XX_SP_GS_CTRL_REG0_FULLREGFOOTPRINT__SHIFT		7
+-static inline uint32_t A6XX_SP_GS_CTRL_REG0_FULLREGFOOTPRINT(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_GS_CTRL_REG0_FULLREGFOOTPRINT__SHIFT) & A6XX_SP_GS_CTRL_REG0_FULLREGFOOTPRINT__MASK;
+-}
+-#define A6XX_SP_GS_CTRL_REG0_UNK13				0x00002000
+-#define A6XX_SP_GS_CTRL_REG0_BRANCHSTACK__MASK			0x000fc000
+-#define A6XX_SP_GS_CTRL_REG0_BRANCHSTACK__SHIFT			14
+-static inline uint32_t A6XX_SP_GS_CTRL_REG0_BRANCHSTACK(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_GS_CTRL_REG0_BRANCHSTACK__SHIFT) & A6XX_SP_GS_CTRL_REG0_BRANCHSTACK__MASK;
+-}
+-#define A6XX_SP_GS_CTRL_REG0_EARLYPREAMBLE			0x00100000
+-
+-#define REG_A6XX_SP_GS_PRIM_SIZE				0x0000a871
+-
+-#define REG_A6XX_SP_GS_BRANCH_COND				0x0000a872
+-
+-#define REG_A6XX_SP_GS_PRIMITIVE_CNTL				0x0000a873
+-#define A6XX_SP_GS_PRIMITIVE_CNTL_OUT__MASK			0x0000003f
+-#define A6XX_SP_GS_PRIMITIVE_CNTL_OUT__SHIFT			0
+-static inline uint32_t A6XX_SP_GS_PRIMITIVE_CNTL_OUT(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_GS_PRIMITIVE_CNTL_OUT__SHIFT) & A6XX_SP_GS_PRIMITIVE_CNTL_OUT__MASK;
+-}
+-#define A6XX_SP_GS_PRIMITIVE_CNTL_FLAGS_REGID__MASK		0x00003fc0
+-#define A6XX_SP_GS_PRIMITIVE_CNTL_FLAGS_REGID__SHIFT		6
+-static inline uint32_t A6XX_SP_GS_PRIMITIVE_CNTL_FLAGS_REGID(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_GS_PRIMITIVE_CNTL_FLAGS_REGID__SHIFT) & A6XX_SP_GS_PRIMITIVE_CNTL_FLAGS_REGID__MASK;
+-}
+-
+-#define REG_A6XX_SP_GS_OUT(i0) (0x0000a874 + 0x1*(i0))
+-
+-static inline uint32_t REG_A6XX_SP_GS_OUT_REG(uint32_t i0) { return 0x0000a874 + 0x1*i0; }
+-#define A6XX_SP_GS_OUT_REG_A_REGID__MASK			0x000000ff
+-#define A6XX_SP_GS_OUT_REG_A_REGID__SHIFT			0
+-static inline uint32_t A6XX_SP_GS_OUT_REG_A_REGID(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_GS_OUT_REG_A_REGID__SHIFT) & A6XX_SP_GS_OUT_REG_A_REGID__MASK;
+-}
+-#define A6XX_SP_GS_OUT_REG_A_COMPMASK__MASK			0x00000f00
+-#define A6XX_SP_GS_OUT_REG_A_COMPMASK__SHIFT			8
+-static inline uint32_t A6XX_SP_GS_OUT_REG_A_COMPMASK(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_GS_OUT_REG_A_COMPMASK__SHIFT) & A6XX_SP_GS_OUT_REG_A_COMPMASK__MASK;
+-}
+-#define A6XX_SP_GS_OUT_REG_B_REGID__MASK			0x00ff0000
+-#define A6XX_SP_GS_OUT_REG_B_REGID__SHIFT			16
+-static inline uint32_t A6XX_SP_GS_OUT_REG_B_REGID(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_GS_OUT_REG_B_REGID__SHIFT) & A6XX_SP_GS_OUT_REG_B_REGID__MASK;
+-}
+-#define A6XX_SP_GS_OUT_REG_B_COMPMASK__MASK			0x0f000000
+-#define A6XX_SP_GS_OUT_REG_B_COMPMASK__SHIFT			24
+-static inline uint32_t A6XX_SP_GS_OUT_REG_B_COMPMASK(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_GS_OUT_REG_B_COMPMASK__SHIFT) & A6XX_SP_GS_OUT_REG_B_COMPMASK__MASK;
+-}
+-
+-#define REG_A6XX_SP_GS_VPC_DST(i0) (0x0000a884 + 0x1*(i0))
+-
+-static inline uint32_t REG_A6XX_SP_GS_VPC_DST_REG(uint32_t i0) { return 0x0000a884 + 0x1*i0; }
+-#define A6XX_SP_GS_VPC_DST_REG_OUTLOC0__MASK			0x000000ff
+-#define A6XX_SP_GS_VPC_DST_REG_OUTLOC0__SHIFT			0
+-static inline uint32_t A6XX_SP_GS_VPC_DST_REG_OUTLOC0(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_GS_VPC_DST_REG_OUTLOC0__SHIFT) & A6XX_SP_GS_VPC_DST_REG_OUTLOC0__MASK;
+-}
+-#define A6XX_SP_GS_VPC_DST_REG_OUTLOC1__MASK			0x0000ff00
+-#define A6XX_SP_GS_VPC_DST_REG_OUTLOC1__SHIFT			8
+-static inline uint32_t A6XX_SP_GS_VPC_DST_REG_OUTLOC1(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_GS_VPC_DST_REG_OUTLOC1__SHIFT) & A6XX_SP_GS_VPC_DST_REG_OUTLOC1__MASK;
+-}
+-#define A6XX_SP_GS_VPC_DST_REG_OUTLOC2__MASK			0x00ff0000
+-#define A6XX_SP_GS_VPC_DST_REG_OUTLOC2__SHIFT			16
+-static inline uint32_t A6XX_SP_GS_VPC_DST_REG_OUTLOC2(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_GS_VPC_DST_REG_OUTLOC2__SHIFT) & A6XX_SP_GS_VPC_DST_REG_OUTLOC2__MASK;
+-}
+-#define A6XX_SP_GS_VPC_DST_REG_OUTLOC3__MASK			0xff000000
+-#define A6XX_SP_GS_VPC_DST_REG_OUTLOC3__SHIFT			24
+-static inline uint32_t A6XX_SP_GS_VPC_DST_REG_OUTLOC3(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_GS_VPC_DST_REG_OUTLOC3__SHIFT) & A6XX_SP_GS_VPC_DST_REG_OUTLOC3__MASK;
+-}
+-
+-#define REG_A6XX_SP_GS_OBJ_FIRST_EXEC_OFFSET			0x0000a88c
+-
+-#define REG_A6XX_SP_GS_OBJ_START				0x0000a88d
+-
+-#define REG_A6XX_SP_GS_PVT_MEM_PARAM				0x0000a88f
+-#define A6XX_SP_GS_PVT_MEM_PARAM_MEMSIZEPERITEM__MASK		0x000000ff
+-#define A6XX_SP_GS_PVT_MEM_PARAM_MEMSIZEPERITEM__SHIFT		0
+-static inline uint32_t A6XX_SP_GS_PVT_MEM_PARAM_MEMSIZEPERITEM(uint32_t val)
+-{
+-	assert(!(val & 0x1ff));
+-	return (((val >> 9)) << A6XX_SP_GS_PVT_MEM_PARAM_MEMSIZEPERITEM__SHIFT) & A6XX_SP_GS_PVT_MEM_PARAM_MEMSIZEPERITEM__MASK;
+-}
+-#define A6XX_SP_GS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__MASK	0xff000000
+-#define A6XX_SP_GS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__SHIFT	24
+-static inline uint32_t A6XX_SP_GS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_GS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__SHIFT) & A6XX_SP_GS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__MASK;
+-}
+-
+-#define REG_A6XX_SP_GS_PVT_MEM_ADDR				0x0000a890
+-
+-#define REG_A6XX_SP_GS_PVT_MEM_SIZE				0x0000a892
+-#define A6XX_SP_GS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__MASK		0x0003ffff
+-#define A6XX_SP_GS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__SHIFT		0
+-static inline uint32_t A6XX_SP_GS_PVT_MEM_SIZE_TOTALPVTMEMSIZE(uint32_t val)
+-{
+-	assert(!(val & 0xfff));
+-	return (((val >> 12)) << A6XX_SP_GS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__SHIFT) & A6XX_SP_GS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__MASK;
+-}
+-#define A6XX_SP_GS_PVT_MEM_SIZE_PERWAVEMEMLAYOUT		0x80000000
+-
+-#define REG_A6XX_SP_GS_TEX_COUNT				0x0000a893
+-
+-#define REG_A6XX_SP_GS_CONFIG					0x0000a894
+-#define A6XX_SP_GS_CONFIG_BINDLESS_TEX				0x00000001
+-#define A6XX_SP_GS_CONFIG_BINDLESS_SAMP				0x00000002
+-#define A6XX_SP_GS_CONFIG_BINDLESS_IBO				0x00000004
+-#define A6XX_SP_GS_CONFIG_BINDLESS_UBO				0x00000008
+-#define A6XX_SP_GS_CONFIG_ENABLED				0x00000100
+-#define A6XX_SP_GS_CONFIG_NTEX__MASK				0x0001fe00
+-#define A6XX_SP_GS_CONFIG_NTEX__SHIFT				9
+-static inline uint32_t A6XX_SP_GS_CONFIG_NTEX(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_GS_CONFIG_NTEX__SHIFT) & A6XX_SP_GS_CONFIG_NTEX__MASK;
+-}
+-#define A6XX_SP_GS_CONFIG_NSAMP__MASK				0x003e0000
+-#define A6XX_SP_GS_CONFIG_NSAMP__SHIFT				17
+-static inline uint32_t A6XX_SP_GS_CONFIG_NSAMP(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_GS_CONFIG_NSAMP__SHIFT) & A6XX_SP_GS_CONFIG_NSAMP__MASK;
+-}
+-#define A6XX_SP_GS_CONFIG_NIBO__MASK				0x1fc00000
+-#define A6XX_SP_GS_CONFIG_NIBO__SHIFT				22
+-static inline uint32_t A6XX_SP_GS_CONFIG_NIBO(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_GS_CONFIG_NIBO__SHIFT) & A6XX_SP_GS_CONFIG_NIBO__MASK;
+-}
+-
+-#define REG_A6XX_SP_GS_INSTRLEN					0x0000a895
+-
+-#define REG_A6XX_SP_GS_PVT_MEM_HW_STACK_OFFSET			0x0000a896
+-#define A6XX_SP_GS_PVT_MEM_HW_STACK_OFFSET_OFFSET__MASK		0x0007ffff
+-#define A6XX_SP_GS_PVT_MEM_HW_STACK_OFFSET_OFFSET__SHIFT	0
+-static inline uint32_t A6XX_SP_GS_PVT_MEM_HW_STACK_OFFSET_OFFSET(uint32_t val)
+-{
+-	assert(!(val & 0x7ff));
+-	return (((val >> 11)) << A6XX_SP_GS_PVT_MEM_HW_STACK_OFFSET_OFFSET__SHIFT) & A6XX_SP_GS_PVT_MEM_HW_STACK_OFFSET_OFFSET__MASK;
+-}
+-
+-#define REG_A7XX_SP_GS_VGPR_CONFIG				0x0000a899
+-
+-#define REG_A6XX_SP_VS_TEX_SAMP					0x0000a8a0
+-
+-#define REG_A6XX_SP_HS_TEX_SAMP					0x0000a8a2
+-
+-#define REG_A6XX_SP_DS_TEX_SAMP					0x0000a8a4
+-
+-#define REG_A6XX_SP_GS_TEX_SAMP					0x0000a8a6
+-
+-#define REG_A6XX_SP_VS_TEX_CONST				0x0000a8a8
+-
+-#define REG_A6XX_SP_HS_TEX_CONST				0x0000a8aa
+-
+-#define REG_A6XX_SP_DS_TEX_CONST				0x0000a8ac
+-
+-#define REG_A6XX_SP_GS_TEX_CONST				0x0000a8ae
+-
+-#define REG_A6XX_SP_FS_CTRL_REG0				0x0000a980
+-#define A6XX_SP_FS_CTRL_REG0_THREADMODE__MASK			0x00000001
+-#define A6XX_SP_FS_CTRL_REG0_THREADMODE__SHIFT			0
+-static inline uint32_t A6XX_SP_FS_CTRL_REG0_THREADMODE(enum a3xx_threadmode val)
+-{
+-	return ((val) << A6XX_SP_FS_CTRL_REG0_THREADMODE__SHIFT) & A6XX_SP_FS_CTRL_REG0_THREADMODE__MASK;
+-}
+-#define A6XX_SP_FS_CTRL_REG0_HALFREGFOOTPRINT__MASK		0x0000007e
+-#define A6XX_SP_FS_CTRL_REG0_HALFREGFOOTPRINT__SHIFT		1
+-static inline uint32_t A6XX_SP_FS_CTRL_REG0_HALFREGFOOTPRINT(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_FS_CTRL_REG0_HALFREGFOOTPRINT__SHIFT) & A6XX_SP_FS_CTRL_REG0_HALFREGFOOTPRINT__MASK;
+-}
+-#define A6XX_SP_FS_CTRL_REG0_FULLREGFOOTPRINT__MASK		0x00001f80
+-#define A6XX_SP_FS_CTRL_REG0_FULLREGFOOTPRINT__SHIFT		7
+-static inline uint32_t A6XX_SP_FS_CTRL_REG0_FULLREGFOOTPRINT(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_FS_CTRL_REG0_FULLREGFOOTPRINT__SHIFT) & A6XX_SP_FS_CTRL_REG0_FULLREGFOOTPRINT__MASK;
+-}
+-#define A6XX_SP_FS_CTRL_REG0_UNK13				0x00002000
+-#define A6XX_SP_FS_CTRL_REG0_BRANCHSTACK__MASK			0x000fc000
+-#define A6XX_SP_FS_CTRL_REG0_BRANCHSTACK__SHIFT			14
+-static inline uint32_t A6XX_SP_FS_CTRL_REG0_BRANCHSTACK(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_FS_CTRL_REG0_BRANCHSTACK__SHIFT) & A6XX_SP_FS_CTRL_REG0_BRANCHSTACK__MASK;
+-}
+-#define A6XX_SP_FS_CTRL_REG0_THREADSIZE__MASK			0x00100000
+-#define A6XX_SP_FS_CTRL_REG0_THREADSIZE__SHIFT			20
+-static inline uint32_t A6XX_SP_FS_CTRL_REG0_THREADSIZE(enum a6xx_threadsize val)
+-{
+-	return ((val) << A6XX_SP_FS_CTRL_REG0_THREADSIZE__SHIFT) & A6XX_SP_FS_CTRL_REG0_THREADSIZE__MASK;
+-}
+-#define A6XX_SP_FS_CTRL_REG0_UNK21				0x00200000
+-#define A6XX_SP_FS_CTRL_REG0_VARYING				0x00400000
+-#define A6XX_SP_FS_CTRL_REG0_LODPIXMASK				0x00800000
+-#define A6XX_SP_FS_CTRL_REG0_UNK24				0x01000000
+-#define A6XX_SP_FS_CTRL_REG0_UNK25				0x02000000
+-#define A6XX_SP_FS_CTRL_REG0_PIXLODENABLE			0x04000000
+-#define A6XX_SP_FS_CTRL_REG0_UNK27				0x08000000
+-#define A6XX_SP_FS_CTRL_REG0_EARLYPREAMBLE			0x10000000
+-#define A6XX_SP_FS_CTRL_REG0_MERGEDREGS				0x80000000
+-
+-#define REG_A6XX_SP_FS_BRANCH_COND				0x0000a981
+-
+-#define REG_A6XX_SP_FS_OBJ_FIRST_EXEC_OFFSET			0x0000a982
+-
+-#define REG_A6XX_SP_FS_OBJ_START				0x0000a983
+-
+-#define REG_A6XX_SP_FS_PVT_MEM_PARAM				0x0000a985
+-#define A6XX_SP_FS_PVT_MEM_PARAM_MEMSIZEPERITEM__MASK		0x000000ff
+-#define A6XX_SP_FS_PVT_MEM_PARAM_MEMSIZEPERITEM__SHIFT		0
+-static inline uint32_t A6XX_SP_FS_PVT_MEM_PARAM_MEMSIZEPERITEM(uint32_t val)
+-{
+-	assert(!(val & 0x1ff));
+-	return (((val >> 9)) << A6XX_SP_FS_PVT_MEM_PARAM_MEMSIZEPERITEM__SHIFT) & A6XX_SP_FS_PVT_MEM_PARAM_MEMSIZEPERITEM__MASK;
+-}
+-#define A6XX_SP_FS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__MASK	0xff000000
+-#define A6XX_SP_FS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__SHIFT	24
+-static inline uint32_t A6XX_SP_FS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_FS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__SHIFT) & A6XX_SP_FS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__MASK;
+-}
+-
+-#define REG_A6XX_SP_FS_PVT_MEM_ADDR				0x0000a986
+-
+-#define REG_A6XX_SP_FS_PVT_MEM_SIZE				0x0000a988
+-#define A6XX_SP_FS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__MASK		0x0003ffff
+-#define A6XX_SP_FS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__SHIFT		0
+-static inline uint32_t A6XX_SP_FS_PVT_MEM_SIZE_TOTALPVTMEMSIZE(uint32_t val)
+-{
+-	assert(!(val & 0xfff));
+-	return (((val >> 12)) << A6XX_SP_FS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__SHIFT) & A6XX_SP_FS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__MASK;
+-}
+-#define A6XX_SP_FS_PVT_MEM_SIZE_PERWAVEMEMLAYOUT		0x80000000
+-
+-#define REG_A6XX_SP_BLEND_CNTL					0x0000a989
+-#define A6XX_SP_BLEND_CNTL_ENABLE_BLEND__MASK			0x000000ff
+-#define A6XX_SP_BLEND_CNTL_ENABLE_BLEND__SHIFT			0
+-static inline uint32_t A6XX_SP_BLEND_CNTL_ENABLE_BLEND(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_BLEND_CNTL_ENABLE_BLEND__SHIFT) & A6XX_SP_BLEND_CNTL_ENABLE_BLEND__MASK;
+-}
+-#define A6XX_SP_BLEND_CNTL_UNK8					0x00000100
+-#define A6XX_SP_BLEND_CNTL_DUAL_COLOR_IN_ENABLE			0x00000200
+-#define A6XX_SP_BLEND_CNTL_ALPHA_TO_COVERAGE			0x00000400
+-
+-#define REG_A6XX_SP_SRGB_CNTL					0x0000a98a
+-#define A6XX_SP_SRGB_CNTL_SRGB_MRT0				0x00000001
+-#define A6XX_SP_SRGB_CNTL_SRGB_MRT1				0x00000002
+-#define A6XX_SP_SRGB_CNTL_SRGB_MRT2				0x00000004
+-#define A6XX_SP_SRGB_CNTL_SRGB_MRT3				0x00000008
+-#define A6XX_SP_SRGB_CNTL_SRGB_MRT4				0x00000010
+-#define A6XX_SP_SRGB_CNTL_SRGB_MRT5				0x00000020
+-#define A6XX_SP_SRGB_CNTL_SRGB_MRT6				0x00000040
+-#define A6XX_SP_SRGB_CNTL_SRGB_MRT7				0x00000080
+-
+-#define REG_A6XX_SP_FS_RENDER_COMPONENTS			0x0000a98b
+-#define A6XX_SP_FS_RENDER_COMPONENTS_RT0__MASK			0x0000000f
+-#define A6XX_SP_FS_RENDER_COMPONENTS_RT0__SHIFT			0
+-static inline uint32_t A6XX_SP_FS_RENDER_COMPONENTS_RT0(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_FS_RENDER_COMPONENTS_RT0__SHIFT) & A6XX_SP_FS_RENDER_COMPONENTS_RT0__MASK;
+-}
+-#define A6XX_SP_FS_RENDER_COMPONENTS_RT1__MASK			0x000000f0
+-#define A6XX_SP_FS_RENDER_COMPONENTS_RT1__SHIFT			4
+-static inline uint32_t A6XX_SP_FS_RENDER_COMPONENTS_RT1(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_FS_RENDER_COMPONENTS_RT1__SHIFT) & A6XX_SP_FS_RENDER_COMPONENTS_RT1__MASK;
+-}
+-#define A6XX_SP_FS_RENDER_COMPONENTS_RT2__MASK			0x00000f00
+-#define A6XX_SP_FS_RENDER_COMPONENTS_RT2__SHIFT			8
+-static inline uint32_t A6XX_SP_FS_RENDER_COMPONENTS_RT2(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_FS_RENDER_COMPONENTS_RT2__SHIFT) & A6XX_SP_FS_RENDER_COMPONENTS_RT2__MASK;
+-}
+-#define A6XX_SP_FS_RENDER_COMPONENTS_RT3__MASK			0x0000f000
+-#define A6XX_SP_FS_RENDER_COMPONENTS_RT3__SHIFT			12
+-static inline uint32_t A6XX_SP_FS_RENDER_COMPONENTS_RT3(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_FS_RENDER_COMPONENTS_RT3__SHIFT) & A6XX_SP_FS_RENDER_COMPONENTS_RT3__MASK;
+-}
+-#define A6XX_SP_FS_RENDER_COMPONENTS_RT4__MASK			0x000f0000
+-#define A6XX_SP_FS_RENDER_COMPONENTS_RT4__SHIFT			16
+-static inline uint32_t A6XX_SP_FS_RENDER_COMPONENTS_RT4(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_FS_RENDER_COMPONENTS_RT4__SHIFT) & A6XX_SP_FS_RENDER_COMPONENTS_RT4__MASK;
+-}
+-#define A6XX_SP_FS_RENDER_COMPONENTS_RT5__MASK			0x00f00000
+-#define A6XX_SP_FS_RENDER_COMPONENTS_RT5__SHIFT			20
+-static inline uint32_t A6XX_SP_FS_RENDER_COMPONENTS_RT5(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_FS_RENDER_COMPONENTS_RT5__SHIFT) & A6XX_SP_FS_RENDER_COMPONENTS_RT5__MASK;
+-}
+-#define A6XX_SP_FS_RENDER_COMPONENTS_RT6__MASK			0x0f000000
+-#define A6XX_SP_FS_RENDER_COMPONENTS_RT6__SHIFT			24
+-static inline uint32_t A6XX_SP_FS_RENDER_COMPONENTS_RT6(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_FS_RENDER_COMPONENTS_RT6__SHIFT) & A6XX_SP_FS_RENDER_COMPONENTS_RT6__MASK;
+-}
+-#define A6XX_SP_FS_RENDER_COMPONENTS_RT7__MASK			0xf0000000
+-#define A6XX_SP_FS_RENDER_COMPONENTS_RT7__SHIFT			28
+-static inline uint32_t A6XX_SP_FS_RENDER_COMPONENTS_RT7(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_FS_RENDER_COMPONENTS_RT7__SHIFT) & A6XX_SP_FS_RENDER_COMPONENTS_RT7__MASK;
+-}
+-
+-#define REG_A6XX_SP_FS_OUTPUT_CNTL0				0x0000a98c
+-#define A6XX_SP_FS_OUTPUT_CNTL0_DUAL_COLOR_IN_ENABLE		0x00000001
+-#define A6XX_SP_FS_OUTPUT_CNTL0_DEPTH_REGID__MASK		0x0000ff00
+-#define A6XX_SP_FS_OUTPUT_CNTL0_DEPTH_REGID__SHIFT		8
+-static inline uint32_t A6XX_SP_FS_OUTPUT_CNTL0_DEPTH_REGID(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_FS_OUTPUT_CNTL0_DEPTH_REGID__SHIFT) & A6XX_SP_FS_OUTPUT_CNTL0_DEPTH_REGID__MASK;
+-}
+-#define A6XX_SP_FS_OUTPUT_CNTL0_SAMPMASK_REGID__MASK		0x00ff0000
+-#define A6XX_SP_FS_OUTPUT_CNTL0_SAMPMASK_REGID__SHIFT		16
+-static inline uint32_t A6XX_SP_FS_OUTPUT_CNTL0_SAMPMASK_REGID(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_FS_OUTPUT_CNTL0_SAMPMASK_REGID__SHIFT) & A6XX_SP_FS_OUTPUT_CNTL0_SAMPMASK_REGID__MASK;
+-}
+-#define A6XX_SP_FS_OUTPUT_CNTL0_STENCILREF_REGID__MASK		0xff000000
+-#define A6XX_SP_FS_OUTPUT_CNTL0_STENCILREF_REGID__SHIFT		24
+-static inline uint32_t A6XX_SP_FS_OUTPUT_CNTL0_STENCILREF_REGID(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_FS_OUTPUT_CNTL0_STENCILREF_REGID__SHIFT) & A6XX_SP_FS_OUTPUT_CNTL0_STENCILREF_REGID__MASK;
+-}
+-
+-#define REG_A6XX_SP_FS_OUTPUT_CNTL1				0x0000a98d
+-#define A6XX_SP_FS_OUTPUT_CNTL1_MRT__MASK			0x0000000f
+-#define A6XX_SP_FS_OUTPUT_CNTL1_MRT__SHIFT			0
+-static inline uint32_t A6XX_SP_FS_OUTPUT_CNTL1_MRT(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_FS_OUTPUT_CNTL1_MRT__SHIFT) & A6XX_SP_FS_OUTPUT_CNTL1_MRT__MASK;
+-}
+-
+-#define REG_A6XX_SP_FS_OUTPUT(i0) (0x0000a98e + 0x1*(i0))
+-
+-static inline uint32_t REG_A6XX_SP_FS_OUTPUT_REG(uint32_t i0) { return 0x0000a98e + 0x1*i0; }
+-#define A6XX_SP_FS_OUTPUT_REG_REGID__MASK			0x000000ff
+-#define A6XX_SP_FS_OUTPUT_REG_REGID__SHIFT			0
+-static inline uint32_t A6XX_SP_FS_OUTPUT_REG_REGID(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_FS_OUTPUT_REG_REGID__SHIFT) & A6XX_SP_FS_OUTPUT_REG_REGID__MASK;
+-}
+-#define A6XX_SP_FS_OUTPUT_REG_HALF_PRECISION			0x00000100
+-
+-#define REG_A6XX_SP_FS_MRT(i0) (0x0000a996 + 0x1*(i0))
+-
+-static inline uint32_t REG_A6XX_SP_FS_MRT_REG(uint32_t i0) { return 0x0000a996 + 0x1*i0; }
+-#define A6XX_SP_FS_MRT_REG_COLOR_FORMAT__MASK			0x000000ff
+-#define A6XX_SP_FS_MRT_REG_COLOR_FORMAT__SHIFT			0
+-static inline uint32_t A6XX_SP_FS_MRT_REG_COLOR_FORMAT(enum a6xx_format val)
+-{
+-	return ((val) << A6XX_SP_FS_MRT_REG_COLOR_FORMAT__SHIFT) & A6XX_SP_FS_MRT_REG_COLOR_FORMAT__MASK;
+-}
+-#define A6XX_SP_FS_MRT_REG_COLOR_SINT				0x00000100
+-#define A6XX_SP_FS_MRT_REG_COLOR_UINT				0x00000200
+-#define A6XX_SP_FS_MRT_REG_UNK10				0x00000400
+-
+-#define REG_A6XX_SP_FS_PREFETCH_CNTL				0x0000a99e
+-#define A6XX_SP_FS_PREFETCH_CNTL_COUNT__MASK			0x00000007
+-#define A6XX_SP_FS_PREFETCH_CNTL_COUNT__SHIFT			0
+-static inline uint32_t A6XX_SP_FS_PREFETCH_CNTL_COUNT(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_FS_PREFETCH_CNTL_COUNT__SHIFT) & A6XX_SP_FS_PREFETCH_CNTL_COUNT__MASK;
+-}
+-#define A6XX_SP_FS_PREFETCH_CNTL_IJ_WRITE_DISABLE		0x00000008
+-#define A6XX_SP_FS_PREFETCH_CNTL_ENDOFQUAD			0x00000010
+-#define A6XX_SP_FS_PREFETCH_CNTL_WRITE_COLOR_TO_OUTPUT		0x00000020
+-#define A6XX_SP_FS_PREFETCH_CNTL_CONSTSLOTID__MASK		0x00007fc0
+-#define A6XX_SP_FS_PREFETCH_CNTL_CONSTSLOTID__SHIFT		6
+-static inline uint32_t A6XX_SP_FS_PREFETCH_CNTL_CONSTSLOTID(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_FS_PREFETCH_CNTL_CONSTSLOTID__SHIFT) & A6XX_SP_FS_PREFETCH_CNTL_CONSTSLOTID__MASK;
+-}
+-#define A6XX_SP_FS_PREFETCH_CNTL_CONSTSLOTID4COORD__MASK	0x01ff0000
+-#define A6XX_SP_FS_PREFETCH_CNTL_CONSTSLOTID4COORD__SHIFT	16
+-static inline uint32_t A6XX_SP_FS_PREFETCH_CNTL_CONSTSLOTID4COORD(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_FS_PREFETCH_CNTL_CONSTSLOTID4COORD__SHIFT) & A6XX_SP_FS_PREFETCH_CNTL_CONSTSLOTID4COORD__MASK;
+-}
+-
+-#define REG_A6XX_SP_FS_PREFETCH(i0) (0x0000a99f + 0x1*(i0))
+-
+-static inline uint32_t REG_A6XX_SP_FS_PREFETCH_CMD(uint32_t i0) { return 0x0000a99f + 0x1*i0; }
+-#define A6XX_SP_FS_PREFETCH_CMD_SRC__MASK			0x0000007f
+-#define A6XX_SP_FS_PREFETCH_CMD_SRC__SHIFT			0
+-static inline uint32_t A6XX_SP_FS_PREFETCH_CMD_SRC(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_FS_PREFETCH_CMD_SRC__SHIFT) & A6XX_SP_FS_PREFETCH_CMD_SRC__MASK;
+-}
+-#define A6XX_SP_FS_PREFETCH_CMD_SAMP_ID__MASK			0x00000780
+-#define A6XX_SP_FS_PREFETCH_CMD_SAMP_ID__SHIFT			7
+-static inline uint32_t A6XX_SP_FS_PREFETCH_CMD_SAMP_ID(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_FS_PREFETCH_CMD_SAMP_ID__SHIFT) & A6XX_SP_FS_PREFETCH_CMD_SAMP_ID__MASK;
+-}
+-#define A6XX_SP_FS_PREFETCH_CMD_TEX_ID__MASK			0x0000f800
+-#define A6XX_SP_FS_PREFETCH_CMD_TEX_ID__SHIFT			11
+-static inline uint32_t A6XX_SP_FS_PREFETCH_CMD_TEX_ID(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_FS_PREFETCH_CMD_TEX_ID__SHIFT) & A6XX_SP_FS_PREFETCH_CMD_TEX_ID__MASK;
+-}
+-#define A6XX_SP_FS_PREFETCH_CMD_DST__MASK			0x003f0000
+-#define A6XX_SP_FS_PREFETCH_CMD_DST__SHIFT			16
+-static inline uint32_t A6XX_SP_FS_PREFETCH_CMD_DST(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_FS_PREFETCH_CMD_DST__SHIFT) & A6XX_SP_FS_PREFETCH_CMD_DST__MASK;
+-}
+-#define A6XX_SP_FS_PREFETCH_CMD_WRMASK__MASK			0x03c00000
+-#define A6XX_SP_FS_PREFETCH_CMD_WRMASK__SHIFT			22
+-static inline uint32_t A6XX_SP_FS_PREFETCH_CMD_WRMASK(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_FS_PREFETCH_CMD_WRMASK__SHIFT) & A6XX_SP_FS_PREFETCH_CMD_WRMASK__MASK;
+-}
+-#define A6XX_SP_FS_PREFETCH_CMD_HALF				0x04000000
+-#define A6XX_SP_FS_PREFETCH_CMD_UNK27				0x08000000
+-#define A6XX_SP_FS_PREFETCH_CMD_BINDLESS			0x10000000
+-#define A6XX_SP_FS_PREFETCH_CMD_CMD__MASK			0xe0000000
+-#define A6XX_SP_FS_PREFETCH_CMD_CMD__SHIFT			29
+-static inline uint32_t A6XX_SP_FS_PREFETCH_CMD_CMD(enum a6xx_tex_prefetch_cmd val)
+-{
+-	return ((val) << A6XX_SP_FS_PREFETCH_CMD_CMD__SHIFT) & A6XX_SP_FS_PREFETCH_CMD_CMD__MASK;
+-}
+-
+-#define REG_A7XX_SP_FS_PREFETCH(i0) (0x0000a99f + 0x1*(i0))
+-
+-static inline uint32_t REG_A7XX_SP_FS_PREFETCH_CMD(uint32_t i0) { return 0x0000a99f + 0x1*i0; }
+-#define A7XX_SP_FS_PREFETCH_CMD_SRC__MASK			0x0000007f
+-#define A7XX_SP_FS_PREFETCH_CMD_SRC__SHIFT			0
+-static inline uint32_t A7XX_SP_FS_PREFETCH_CMD_SRC(uint32_t val)
+-{
+-	return ((val) << A7XX_SP_FS_PREFETCH_CMD_SRC__SHIFT) & A7XX_SP_FS_PREFETCH_CMD_SRC__MASK;
+-}
+-#define A7XX_SP_FS_PREFETCH_CMD_SAMP_ID__MASK			0x00000380
+-#define A7XX_SP_FS_PREFETCH_CMD_SAMP_ID__SHIFT			7
+-static inline uint32_t A7XX_SP_FS_PREFETCH_CMD_SAMP_ID(uint32_t val)
+-{
+-	return ((val) << A7XX_SP_FS_PREFETCH_CMD_SAMP_ID__SHIFT) & A7XX_SP_FS_PREFETCH_CMD_SAMP_ID__MASK;
+-}
+-#define A7XX_SP_FS_PREFETCH_CMD_TEX_ID__MASK			0x00001c00
+-#define A7XX_SP_FS_PREFETCH_CMD_TEX_ID__SHIFT			10
+-static inline uint32_t A7XX_SP_FS_PREFETCH_CMD_TEX_ID(uint32_t val)
+-{
+-	return ((val) << A7XX_SP_FS_PREFETCH_CMD_TEX_ID__SHIFT) & A7XX_SP_FS_PREFETCH_CMD_TEX_ID__MASK;
+-}
+-#define A7XX_SP_FS_PREFETCH_CMD_DST__MASK			0x0007e000
+-#define A7XX_SP_FS_PREFETCH_CMD_DST__SHIFT			13
+-static inline uint32_t A7XX_SP_FS_PREFETCH_CMD_DST(uint32_t val)
+-{
+-	return ((val) << A7XX_SP_FS_PREFETCH_CMD_DST__SHIFT) & A7XX_SP_FS_PREFETCH_CMD_DST__MASK;
+-}
+-#define A7XX_SP_FS_PREFETCH_CMD_WRMASK__MASK			0x00780000
+-#define A7XX_SP_FS_PREFETCH_CMD_WRMASK__SHIFT			19
+-static inline uint32_t A7XX_SP_FS_PREFETCH_CMD_WRMASK(uint32_t val)
+-{
+-	return ((val) << A7XX_SP_FS_PREFETCH_CMD_WRMASK__SHIFT) & A7XX_SP_FS_PREFETCH_CMD_WRMASK__MASK;
+-}
+-#define A7XX_SP_FS_PREFETCH_CMD_HALF				0x00800000
+-#define A7XX_SP_FS_PREFETCH_CMD_BINDLESS			0x02000000
+-#define A7XX_SP_FS_PREFETCH_CMD_CMD__MASK			0x3c000000
+-#define A7XX_SP_FS_PREFETCH_CMD_CMD__SHIFT			26
+-static inline uint32_t A7XX_SP_FS_PREFETCH_CMD_CMD(enum a6xx_tex_prefetch_cmd val)
+-{
+-	return ((val) << A7XX_SP_FS_PREFETCH_CMD_CMD__SHIFT) & A7XX_SP_FS_PREFETCH_CMD_CMD__MASK;
+-}
+-
+-#define REG_A6XX_SP_FS_BINDLESS_PREFETCH(i0) (0x0000a9a3 + 0x1*(i0))
+-
+-static inline uint32_t REG_A6XX_SP_FS_BINDLESS_PREFETCH_CMD(uint32_t i0) { return 0x0000a9a3 + 0x1*i0; }
+-#define A6XX_SP_FS_BINDLESS_PREFETCH_CMD_SAMP_ID__MASK		0x0000ffff
+-#define A6XX_SP_FS_BINDLESS_PREFETCH_CMD_SAMP_ID__SHIFT		0
+-static inline uint32_t A6XX_SP_FS_BINDLESS_PREFETCH_CMD_SAMP_ID(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_FS_BINDLESS_PREFETCH_CMD_SAMP_ID__SHIFT) & A6XX_SP_FS_BINDLESS_PREFETCH_CMD_SAMP_ID__MASK;
+-}
+-#define A6XX_SP_FS_BINDLESS_PREFETCH_CMD_TEX_ID__MASK		0xffff0000
+-#define A6XX_SP_FS_BINDLESS_PREFETCH_CMD_TEX_ID__SHIFT		16
+-static inline uint32_t A6XX_SP_FS_BINDLESS_PREFETCH_CMD_TEX_ID(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_FS_BINDLESS_PREFETCH_CMD_TEX_ID__SHIFT) & A6XX_SP_FS_BINDLESS_PREFETCH_CMD_TEX_ID__MASK;
+-}
+-
+-#define REG_A6XX_SP_FS_TEX_COUNT				0x0000a9a7
+-
+-#define REG_A6XX_SP_UNKNOWN_A9A8				0x0000a9a8
+-
+-#define REG_A6XX_SP_FS_PVT_MEM_HW_STACK_OFFSET			0x0000a9a9
+-#define A6XX_SP_FS_PVT_MEM_HW_STACK_OFFSET_OFFSET__MASK		0x0007ffff
+-#define A6XX_SP_FS_PVT_MEM_HW_STACK_OFFSET_OFFSET__SHIFT	0
+-static inline uint32_t A6XX_SP_FS_PVT_MEM_HW_STACK_OFFSET_OFFSET(uint32_t val)
+-{
+-	assert(!(val & 0x7ff));
+-	return (((val >> 11)) << A6XX_SP_FS_PVT_MEM_HW_STACK_OFFSET_OFFSET__SHIFT) & A6XX_SP_FS_PVT_MEM_HW_STACK_OFFSET_OFFSET__MASK;
+-}
+-
+-#define REG_A6XX_SP_CS_CTRL_REG0				0x0000a9b0
+-#define A6XX_SP_CS_CTRL_REG0_THREADMODE__MASK			0x00000001
+-#define A6XX_SP_CS_CTRL_REG0_THREADMODE__SHIFT			0
+-static inline uint32_t A6XX_SP_CS_CTRL_REG0_THREADMODE(enum a3xx_threadmode val)
+-{
+-	return ((val) << A6XX_SP_CS_CTRL_REG0_THREADMODE__SHIFT) & A6XX_SP_CS_CTRL_REG0_THREADMODE__MASK;
+-}
+-#define A6XX_SP_CS_CTRL_REG0_HALFREGFOOTPRINT__MASK		0x0000007e
+-#define A6XX_SP_CS_CTRL_REG0_HALFREGFOOTPRINT__SHIFT		1
+-static inline uint32_t A6XX_SP_CS_CTRL_REG0_HALFREGFOOTPRINT(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_CS_CTRL_REG0_HALFREGFOOTPRINT__SHIFT) & A6XX_SP_CS_CTRL_REG0_HALFREGFOOTPRINT__MASK;
+-}
+-#define A6XX_SP_CS_CTRL_REG0_FULLREGFOOTPRINT__MASK		0x00001f80
+-#define A6XX_SP_CS_CTRL_REG0_FULLREGFOOTPRINT__SHIFT		7
+-static inline uint32_t A6XX_SP_CS_CTRL_REG0_FULLREGFOOTPRINT(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_CS_CTRL_REG0_FULLREGFOOTPRINT__SHIFT) & A6XX_SP_CS_CTRL_REG0_FULLREGFOOTPRINT__MASK;
+-}
+-#define A6XX_SP_CS_CTRL_REG0_UNK13				0x00002000
+-#define A6XX_SP_CS_CTRL_REG0_BRANCHSTACK__MASK			0x000fc000
+-#define A6XX_SP_CS_CTRL_REG0_BRANCHSTACK__SHIFT			14
+-static inline uint32_t A6XX_SP_CS_CTRL_REG0_BRANCHSTACK(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_CS_CTRL_REG0_BRANCHSTACK__SHIFT) & A6XX_SP_CS_CTRL_REG0_BRANCHSTACK__MASK;
+-}
+-#define A6XX_SP_CS_CTRL_REG0_THREADSIZE__MASK			0x00100000
+-#define A6XX_SP_CS_CTRL_REG0_THREADSIZE__SHIFT			20
+-static inline uint32_t A6XX_SP_CS_CTRL_REG0_THREADSIZE(enum a6xx_threadsize val)
+-{
+-	return ((val) << A6XX_SP_CS_CTRL_REG0_THREADSIZE__SHIFT) & A6XX_SP_CS_CTRL_REG0_THREADSIZE__MASK;
+-}
+-#define A6XX_SP_CS_CTRL_REG0_UNK21				0x00200000
+-#define A6XX_SP_CS_CTRL_REG0_UNK22				0x00400000
+-#define A6XX_SP_CS_CTRL_REG0_EARLYPREAMBLE			0x00800000
+-#define A6XX_SP_CS_CTRL_REG0_MERGEDREGS				0x80000000
+-
+-#define REG_A6XX_SP_CS_UNKNOWN_A9B1				0x0000a9b1
+-#define A6XX_SP_CS_UNKNOWN_A9B1_SHARED_SIZE__MASK		0x0000001f
+-#define A6XX_SP_CS_UNKNOWN_A9B1_SHARED_SIZE__SHIFT		0
+-static inline uint32_t A6XX_SP_CS_UNKNOWN_A9B1_SHARED_SIZE(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_CS_UNKNOWN_A9B1_SHARED_SIZE__SHIFT) & A6XX_SP_CS_UNKNOWN_A9B1_SHARED_SIZE__MASK;
+-}
+-#define A6XX_SP_CS_UNKNOWN_A9B1_UNK5				0x00000020
+-#define A6XX_SP_CS_UNKNOWN_A9B1_UNK6				0x00000040
+-
+-#define REG_A6XX_SP_CS_BRANCH_COND				0x0000a9b2
+-
+-#define REG_A6XX_SP_CS_OBJ_FIRST_EXEC_OFFSET			0x0000a9b3
+-
+-#define REG_A6XX_SP_CS_OBJ_START				0x0000a9b4
+-
+-#define REG_A6XX_SP_CS_PVT_MEM_PARAM				0x0000a9b6
+-#define A6XX_SP_CS_PVT_MEM_PARAM_MEMSIZEPERITEM__MASK		0x000000ff
+-#define A6XX_SP_CS_PVT_MEM_PARAM_MEMSIZEPERITEM__SHIFT		0
+-static inline uint32_t A6XX_SP_CS_PVT_MEM_PARAM_MEMSIZEPERITEM(uint32_t val)
+-{
+-	assert(!(val & 0x1ff));
+-	return (((val >> 9)) << A6XX_SP_CS_PVT_MEM_PARAM_MEMSIZEPERITEM__SHIFT) & A6XX_SP_CS_PVT_MEM_PARAM_MEMSIZEPERITEM__MASK;
+-}
+-#define A6XX_SP_CS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__MASK	0xff000000
+-#define A6XX_SP_CS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__SHIFT	24
+-static inline uint32_t A6XX_SP_CS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_CS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__SHIFT) & A6XX_SP_CS_PVT_MEM_PARAM_HWSTACKSIZEPERTHREAD__MASK;
+-}
+-
+-#define REG_A6XX_SP_CS_PVT_MEM_ADDR				0x0000a9b7
+-
+-#define REG_A6XX_SP_CS_PVT_MEM_SIZE				0x0000a9b9
+-#define A6XX_SP_CS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__MASK		0x0003ffff
+-#define A6XX_SP_CS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__SHIFT		0
+-static inline uint32_t A6XX_SP_CS_PVT_MEM_SIZE_TOTALPVTMEMSIZE(uint32_t val)
+-{
+-	assert(!(val & 0xfff));
+-	return (((val >> 12)) << A6XX_SP_CS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__SHIFT) & A6XX_SP_CS_PVT_MEM_SIZE_TOTALPVTMEMSIZE__MASK;
+-}
+-#define A6XX_SP_CS_PVT_MEM_SIZE_PERWAVEMEMLAYOUT		0x80000000
+-
+-#define REG_A6XX_SP_CS_TEX_COUNT				0x0000a9ba
+-
+-#define REG_A6XX_SP_CS_CONFIG					0x0000a9bb
+-#define A6XX_SP_CS_CONFIG_BINDLESS_TEX				0x00000001
+-#define A6XX_SP_CS_CONFIG_BINDLESS_SAMP				0x00000002
+-#define A6XX_SP_CS_CONFIG_BINDLESS_IBO				0x00000004
+-#define A6XX_SP_CS_CONFIG_BINDLESS_UBO				0x00000008
+-#define A6XX_SP_CS_CONFIG_ENABLED				0x00000100
+-#define A6XX_SP_CS_CONFIG_NTEX__MASK				0x0001fe00
+-#define A6XX_SP_CS_CONFIG_NTEX__SHIFT				9
+-static inline uint32_t A6XX_SP_CS_CONFIG_NTEX(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_CS_CONFIG_NTEX__SHIFT) & A6XX_SP_CS_CONFIG_NTEX__MASK;
+-}
+-#define A6XX_SP_CS_CONFIG_NSAMP__MASK				0x003e0000
+-#define A6XX_SP_CS_CONFIG_NSAMP__SHIFT				17
+-static inline uint32_t A6XX_SP_CS_CONFIG_NSAMP(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_CS_CONFIG_NSAMP__SHIFT) & A6XX_SP_CS_CONFIG_NSAMP__MASK;
+-}
+-#define A6XX_SP_CS_CONFIG_NIBO__MASK				0x1fc00000
+-#define A6XX_SP_CS_CONFIG_NIBO__SHIFT				22
+-static inline uint32_t A6XX_SP_CS_CONFIG_NIBO(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_CS_CONFIG_NIBO__SHIFT) & A6XX_SP_CS_CONFIG_NIBO__MASK;
+-}
+-
+-#define REG_A6XX_SP_CS_INSTRLEN					0x0000a9bc
+-
+-#define REG_A6XX_SP_CS_PVT_MEM_HW_STACK_OFFSET			0x0000a9bd
+-#define A6XX_SP_CS_PVT_MEM_HW_STACK_OFFSET_OFFSET__MASK		0x0007ffff
+-#define A6XX_SP_CS_PVT_MEM_HW_STACK_OFFSET_OFFSET__SHIFT	0
+-static inline uint32_t A6XX_SP_CS_PVT_MEM_HW_STACK_OFFSET_OFFSET(uint32_t val)
+-{
+-	assert(!(val & 0x7ff));
+-	return (((val >> 11)) << A6XX_SP_CS_PVT_MEM_HW_STACK_OFFSET_OFFSET__SHIFT) & A6XX_SP_CS_PVT_MEM_HW_STACK_OFFSET_OFFSET__MASK;
+-}
+-
+-#define REG_A7XX_SP_CS_UNKNOWN_A9BE				0x0000a9be
+-
+-#define REG_A7XX_SP_CS_VGPR_CONFIG				0x0000a9c5
+-
+-#define REG_A6XX_SP_CS_CNTL_0					0x0000a9c2
+-#define A6XX_SP_CS_CNTL_0_WGIDCONSTID__MASK			0x000000ff
+-#define A6XX_SP_CS_CNTL_0_WGIDCONSTID__SHIFT			0
+-static inline uint32_t A6XX_SP_CS_CNTL_0_WGIDCONSTID(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_CS_CNTL_0_WGIDCONSTID__SHIFT) & A6XX_SP_CS_CNTL_0_WGIDCONSTID__MASK;
+-}
+-#define A6XX_SP_CS_CNTL_0_WGSIZECONSTID__MASK			0x0000ff00
+-#define A6XX_SP_CS_CNTL_0_WGSIZECONSTID__SHIFT			8
+-static inline uint32_t A6XX_SP_CS_CNTL_0_WGSIZECONSTID(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_CS_CNTL_0_WGSIZECONSTID__SHIFT) & A6XX_SP_CS_CNTL_0_WGSIZECONSTID__MASK;
+-}
+-#define A6XX_SP_CS_CNTL_0_WGOFFSETCONSTID__MASK			0x00ff0000
+-#define A6XX_SP_CS_CNTL_0_WGOFFSETCONSTID__SHIFT		16
+-static inline uint32_t A6XX_SP_CS_CNTL_0_WGOFFSETCONSTID(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_CS_CNTL_0_WGOFFSETCONSTID__SHIFT) & A6XX_SP_CS_CNTL_0_WGOFFSETCONSTID__MASK;
+-}
+-#define A6XX_SP_CS_CNTL_0_LOCALIDREGID__MASK			0xff000000
+-#define A6XX_SP_CS_CNTL_0_LOCALIDREGID__SHIFT			24
+-static inline uint32_t A6XX_SP_CS_CNTL_0_LOCALIDREGID(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_CS_CNTL_0_LOCALIDREGID__SHIFT) & A6XX_SP_CS_CNTL_0_LOCALIDREGID__MASK;
+-}
+-
+-#define REG_A6XX_SP_CS_CNTL_1					0x0000a9c3
+-#define A6XX_SP_CS_CNTL_1_LINEARLOCALIDREGID__MASK		0x000000ff
+-#define A6XX_SP_CS_CNTL_1_LINEARLOCALIDREGID__SHIFT		0
+-static inline uint32_t A6XX_SP_CS_CNTL_1_LINEARLOCALIDREGID(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_CS_CNTL_1_LINEARLOCALIDREGID__SHIFT) & A6XX_SP_CS_CNTL_1_LINEARLOCALIDREGID__MASK;
+-}
+-#define A6XX_SP_CS_CNTL_1_SINGLE_SP_CORE			0x00000100
+-#define A6XX_SP_CS_CNTL_1_THREADSIZE__MASK			0x00000200
+-#define A6XX_SP_CS_CNTL_1_THREADSIZE__SHIFT			9
+-static inline uint32_t A6XX_SP_CS_CNTL_1_THREADSIZE(enum a6xx_threadsize val)
+-{
+-	return ((val) << A6XX_SP_CS_CNTL_1_THREADSIZE__SHIFT) & A6XX_SP_CS_CNTL_1_THREADSIZE__MASK;
+-}
+-#define A6XX_SP_CS_CNTL_1_THREADSIZE_SCALAR			0x00000400
+-
+-#define REG_A7XX_SP_CS_CNTL_1					0x0000a9c3
+-#define A7XX_SP_CS_CNTL_1_LINEARLOCALIDREGID__MASK		0x000000ff
+-#define A7XX_SP_CS_CNTL_1_LINEARLOCALIDREGID__SHIFT		0
+-static inline uint32_t A7XX_SP_CS_CNTL_1_LINEARLOCALIDREGID(uint32_t val)
+-{
+-	return ((val) << A7XX_SP_CS_CNTL_1_LINEARLOCALIDREGID__SHIFT) & A7XX_SP_CS_CNTL_1_LINEARLOCALIDREGID__MASK;
+-}
+-#define A7XX_SP_CS_CNTL_1_THREADSIZE__MASK			0x00000100
+-#define A7XX_SP_CS_CNTL_1_THREADSIZE__SHIFT			8
+-static inline uint32_t A7XX_SP_CS_CNTL_1_THREADSIZE(enum a6xx_threadsize val)
+-{
+-	return ((val) << A7XX_SP_CS_CNTL_1_THREADSIZE__SHIFT) & A7XX_SP_CS_CNTL_1_THREADSIZE__MASK;
+-}
+-#define A7XX_SP_CS_CNTL_1_THREADSIZE_SCALAR			0x00000200
+-#define A7XX_SP_CS_CNTL_1_UNK15					0x00008000
+-
+-#define REG_A6XX_SP_FS_TEX_SAMP					0x0000a9e0
+-
+-#define REG_A6XX_SP_CS_TEX_SAMP					0x0000a9e2
+-
+-#define REG_A6XX_SP_FS_TEX_CONST				0x0000a9e4
+-
+-#define REG_A6XX_SP_CS_TEX_CONST				0x0000a9e6
+-
+-#define REG_A6XX_SP_CS_BINDLESS_BASE(i0) (0x0000a9e8 + 0x2*(i0))
+-
+-static inline uint32_t REG_A6XX_SP_CS_BINDLESS_BASE_DESCRIPTOR(uint32_t i0) { return 0x0000a9e8 + 0x2*i0; }
+-#define A6XX_SP_CS_BINDLESS_BASE_DESCRIPTOR_DESC_SIZE__MASK	0x00000003
+-#define A6XX_SP_CS_BINDLESS_BASE_DESCRIPTOR_DESC_SIZE__SHIFT	0
+-static inline uint32_t A6XX_SP_CS_BINDLESS_BASE_DESCRIPTOR_DESC_SIZE(enum a6xx_bindless_descriptor_size val)
+-{
+-	return ((val) << A6XX_SP_CS_BINDLESS_BASE_DESCRIPTOR_DESC_SIZE__SHIFT) & A6XX_SP_CS_BINDLESS_BASE_DESCRIPTOR_DESC_SIZE__MASK;
+-}
+-#define A6XX_SP_CS_BINDLESS_BASE_DESCRIPTOR_ADDR__MASK		0xfffffffffffffffc
+-#define A6XX_SP_CS_BINDLESS_BASE_DESCRIPTOR_ADDR__SHIFT		2
+-static inline uint32_t A6XX_SP_CS_BINDLESS_BASE_DESCRIPTOR_ADDR(uint64_t val)
+-{
+-	assert(!(val & 0x3));
+-	return (((val >> 2)) << A6XX_SP_CS_BINDLESS_BASE_DESCRIPTOR_ADDR__SHIFT) & A6XX_SP_CS_BINDLESS_BASE_DESCRIPTOR_ADDR__MASK;
+-}
+-
+-#define REG_A7XX_SP_CS_BINDLESS_BASE(i0) (0x0000a9e8 + 0x2*(i0))
+-
+-static inline uint32_t REG_A7XX_SP_CS_BINDLESS_BASE_DESCRIPTOR(uint32_t i0) { return 0x0000a9e8 + 0x2*i0; }
+-#define A7XX_SP_CS_BINDLESS_BASE_DESCRIPTOR_DESC_SIZE__MASK	0x00000003
+-#define A7XX_SP_CS_BINDLESS_BASE_DESCRIPTOR_DESC_SIZE__SHIFT	0
+-static inline uint32_t A7XX_SP_CS_BINDLESS_BASE_DESCRIPTOR_DESC_SIZE(enum a6xx_bindless_descriptor_size val)
+-{
+-	return ((val) << A7XX_SP_CS_BINDLESS_BASE_DESCRIPTOR_DESC_SIZE__SHIFT) & A7XX_SP_CS_BINDLESS_BASE_DESCRIPTOR_DESC_SIZE__MASK;
+-}
+-#define A7XX_SP_CS_BINDLESS_BASE_DESCRIPTOR_ADDR__MASK		0xfffffffffffffffc
+-#define A7XX_SP_CS_BINDLESS_BASE_DESCRIPTOR_ADDR__SHIFT		2
+-static inline uint32_t A7XX_SP_CS_BINDLESS_BASE_DESCRIPTOR_ADDR(uint64_t val)
+-{
+-	assert(!(val & 0x3));
+-	return (((val >> 2)) << A7XX_SP_CS_BINDLESS_BASE_DESCRIPTOR_ADDR__SHIFT) & A7XX_SP_CS_BINDLESS_BASE_DESCRIPTOR_ADDR__MASK;
+-}
+-
+-#define REG_A6XX_SP_CS_IBO					0x0000a9f2
+-
+-#define REG_A6XX_SP_CS_IBO_COUNT				0x0000aa00
+-
+-#define REG_A7XX_SP_FS_VGPR_CONFIG				0x0000aa01
+-
+-#define REG_A7XX_SP_PS_ALIASED_COMPONENTS_CONTROL		0x0000aa02
+-#define A7XX_SP_PS_ALIASED_COMPONENTS_CONTROL_ENABLED		0x00000001
+-
+-#define REG_A7XX_SP_PS_ALIASED_COMPONENTS			0x0000aa03
+-#define A7XX_SP_PS_ALIASED_COMPONENTS_RT0__MASK			0x0000000f
+-#define A7XX_SP_PS_ALIASED_COMPONENTS_RT0__SHIFT		0
+-static inline uint32_t A7XX_SP_PS_ALIASED_COMPONENTS_RT0(uint32_t val)
+-{
+-	return ((val) << A7XX_SP_PS_ALIASED_COMPONENTS_RT0__SHIFT) & A7XX_SP_PS_ALIASED_COMPONENTS_RT0__MASK;
+-}
+-#define A7XX_SP_PS_ALIASED_COMPONENTS_RT1__MASK			0x000000f0
+-#define A7XX_SP_PS_ALIASED_COMPONENTS_RT1__SHIFT		4
+-static inline uint32_t A7XX_SP_PS_ALIASED_COMPONENTS_RT1(uint32_t val)
+-{
+-	return ((val) << A7XX_SP_PS_ALIASED_COMPONENTS_RT1__SHIFT) & A7XX_SP_PS_ALIASED_COMPONENTS_RT1__MASK;
+-}
+-#define A7XX_SP_PS_ALIASED_COMPONENTS_RT2__MASK			0x00000f00
+-#define A7XX_SP_PS_ALIASED_COMPONENTS_RT2__SHIFT		8
+-static inline uint32_t A7XX_SP_PS_ALIASED_COMPONENTS_RT2(uint32_t val)
+-{
+-	return ((val) << A7XX_SP_PS_ALIASED_COMPONENTS_RT2__SHIFT) & A7XX_SP_PS_ALIASED_COMPONENTS_RT2__MASK;
+-}
+-#define A7XX_SP_PS_ALIASED_COMPONENTS_RT3__MASK			0x0000f000
+-#define A7XX_SP_PS_ALIASED_COMPONENTS_RT3__SHIFT		12
+-static inline uint32_t A7XX_SP_PS_ALIASED_COMPONENTS_RT3(uint32_t val)
+-{
+-	return ((val) << A7XX_SP_PS_ALIASED_COMPONENTS_RT3__SHIFT) & A7XX_SP_PS_ALIASED_COMPONENTS_RT3__MASK;
+-}
+-#define A7XX_SP_PS_ALIASED_COMPONENTS_RT4__MASK			0x000f0000
+-#define A7XX_SP_PS_ALIASED_COMPONENTS_RT4__SHIFT		16
+-static inline uint32_t A7XX_SP_PS_ALIASED_COMPONENTS_RT4(uint32_t val)
+-{
+-	return ((val) << A7XX_SP_PS_ALIASED_COMPONENTS_RT4__SHIFT) & A7XX_SP_PS_ALIASED_COMPONENTS_RT4__MASK;
+-}
+-#define A7XX_SP_PS_ALIASED_COMPONENTS_RT5__MASK			0x00f00000
+-#define A7XX_SP_PS_ALIASED_COMPONENTS_RT5__SHIFT		20
+-static inline uint32_t A7XX_SP_PS_ALIASED_COMPONENTS_RT5(uint32_t val)
+-{
+-	return ((val) << A7XX_SP_PS_ALIASED_COMPONENTS_RT5__SHIFT) & A7XX_SP_PS_ALIASED_COMPONENTS_RT5__MASK;
+-}
+-#define A7XX_SP_PS_ALIASED_COMPONENTS_RT6__MASK			0x0f000000
+-#define A7XX_SP_PS_ALIASED_COMPONENTS_RT6__SHIFT		24
+-static inline uint32_t A7XX_SP_PS_ALIASED_COMPONENTS_RT6(uint32_t val)
+-{
+-	return ((val) << A7XX_SP_PS_ALIASED_COMPONENTS_RT6__SHIFT) & A7XX_SP_PS_ALIASED_COMPONENTS_RT6__MASK;
+-}
+-#define A7XX_SP_PS_ALIASED_COMPONENTS_RT7__MASK			0xf0000000
+-#define A7XX_SP_PS_ALIASED_COMPONENTS_RT7__SHIFT		28
+-static inline uint32_t A7XX_SP_PS_ALIASED_COMPONENTS_RT7(uint32_t val)
+-{
+-	return ((val) << A7XX_SP_PS_ALIASED_COMPONENTS_RT7__SHIFT) & A7XX_SP_PS_ALIASED_COMPONENTS_RT7__MASK;
+-}
+-
+-#define REG_A6XX_SP_UNKNOWN_AAF2				0x0000aaf2
+-
+-#define REG_A6XX_SP_MODE_CONTROL				0x0000ab00
+-#define A6XX_SP_MODE_CONTROL_CONSTANT_DEMOTION_ENABLE		0x00000001
+-#define A6XX_SP_MODE_CONTROL_ISAMMODE__MASK			0x00000006
+-#define A6XX_SP_MODE_CONTROL_ISAMMODE__SHIFT			1
+-static inline uint32_t A6XX_SP_MODE_CONTROL_ISAMMODE(enum a6xx_isam_mode val)
+-{
+-	return ((val) << A6XX_SP_MODE_CONTROL_ISAMMODE__SHIFT) & A6XX_SP_MODE_CONTROL_ISAMMODE__MASK;
+-}
+-#define A6XX_SP_MODE_CONTROL_SHARED_CONSTS_ENABLE		0x00000008
+-
+-#define REG_A7XX_SP_UNKNOWN_AB01				0x0000ab01
+-
+-#define REG_A7XX_SP_UNKNOWN_AB02				0x0000ab02
+-
+-#define REG_A6XX_SP_FS_CONFIG					0x0000ab04
+-#define A6XX_SP_FS_CONFIG_BINDLESS_TEX				0x00000001
+-#define A6XX_SP_FS_CONFIG_BINDLESS_SAMP				0x00000002
+-#define A6XX_SP_FS_CONFIG_BINDLESS_IBO				0x00000004
+-#define A6XX_SP_FS_CONFIG_BINDLESS_UBO				0x00000008
+-#define A6XX_SP_FS_CONFIG_ENABLED				0x00000100
+-#define A6XX_SP_FS_CONFIG_NTEX__MASK				0x0001fe00
+-#define A6XX_SP_FS_CONFIG_NTEX__SHIFT				9
+-static inline uint32_t A6XX_SP_FS_CONFIG_NTEX(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_FS_CONFIG_NTEX__SHIFT) & A6XX_SP_FS_CONFIG_NTEX__MASK;
+-}
+-#define A6XX_SP_FS_CONFIG_NSAMP__MASK				0x003e0000
+-#define A6XX_SP_FS_CONFIG_NSAMP__SHIFT				17
+-static inline uint32_t A6XX_SP_FS_CONFIG_NSAMP(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_FS_CONFIG_NSAMP__SHIFT) & A6XX_SP_FS_CONFIG_NSAMP__MASK;
+-}
+-#define A6XX_SP_FS_CONFIG_NIBO__MASK				0x1fc00000
+-#define A6XX_SP_FS_CONFIG_NIBO__SHIFT				22
+-static inline uint32_t A6XX_SP_FS_CONFIG_NIBO(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_FS_CONFIG_NIBO__SHIFT) & A6XX_SP_FS_CONFIG_NIBO__MASK;
+-}
+-
+-#define REG_A6XX_SP_FS_INSTRLEN					0x0000ab05
+-
+-#define REG_A6XX_SP_BINDLESS_BASE(i0) (0x0000ab10 + 0x2*(i0))
+-
+-static inline uint32_t REG_A6XX_SP_BINDLESS_BASE_DESCRIPTOR(uint32_t i0) { return 0x0000ab10 + 0x2*i0; }
+-#define A6XX_SP_BINDLESS_BASE_DESCRIPTOR_DESC_SIZE__MASK	0x00000003
+-#define A6XX_SP_BINDLESS_BASE_DESCRIPTOR_DESC_SIZE__SHIFT	0
+-static inline uint32_t A6XX_SP_BINDLESS_BASE_DESCRIPTOR_DESC_SIZE(enum a6xx_bindless_descriptor_size val)
+-{
+-	return ((val) << A6XX_SP_BINDLESS_BASE_DESCRIPTOR_DESC_SIZE__SHIFT) & A6XX_SP_BINDLESS_BASE_DESCRIPTOR_DESC_SIZE__MASK;
+-}
+-#define A6XX_SP_BINDLESS_BASE_DESCRIPTOR_ADDR__MASK		0xfffffffffffffffc
+-#define A6XX_SP_BINDLESS_BASE_DESCRIPTOR_ADDR__SHIFT		2
+-static inline uint32_t A6XX_SP_BINDLESS_BASE_DESCRIPTOR_ADDR(uint64_t val)
+-{
+-	assert(!(val & 0x3));
+-	return (((val >> 2)) << A6XX_SP_BINDLESS_BASE_DESCRIPTOR_ADDR__SHIFT) & A6XX_SP_BINDLESS_BASE_DESCRIPTOR_ADDR__MASK;
+-}
+-
+-#define REG_A7XX_SP_BINDLESS_BASE(i0) (0x0000ab0a + 0x2*(i0))
+-
+-static inline uint32_t REG_A7XX_SP_BINDLESS_BASE_DESCRIPTOR(uint32_t i0) { return 0x0000ab0a + 0x2*i0; }
+-#define A7XX_SP_BINDLESS_BASE_DESCRIPTOR_DESC_SIZE__MASK	0x00000003
+-#define A7XX_SP_BINDLESS_BASE_DESCRIPTOR_DESC_SIZE__SHIFT	0
+-static inline uint32_t A7XX_SP_BINDLESS_BASE_DESCRIPTOR_DESC_SIZE(enum a6xx_bindless_descriptor_size val)
 -{
--	return ((val) << MDSS_HW_VERSION_STEP__SHIFT) & MDSS_HW_VERSION_STEP__MASK;
+-	return ((val) << A7XX_SP_BINDLESS_BASE_DESCRIPTOR_DESC_SIZE__SHIFT) & A7XX_SP_BINDLESS_BASE_DESCRIPTOR_DESC_SIZE__MASK;
+-}
+-#define A7XX_SP_BINDLESS_BASE_DESCRIPTOR_ADDR__MASK		0xfffffffffffffffc
+-#define A7XX_SP_BINDLESS_BASE_DESCRIPTOR_ADDR__SHIFT		2
+-static inline uint32_t A7XX_SP_BINDLESS_BASE_DESCRIPTOR_ADDR(uint64_t val)
+-{
+-	assert(!(val & 0x3));
+-	return (((val >> 2)) << A7XX_SP_BINDLESS_BASE_DESCRIPTOR_ADDR__SHIFT) & A7XX_SP_BINDLESS_BASE_DESCRIPTOR_ADDR__MASK;
+-}
+-
+-#define REG_A6XX_SP_IBO						0x0000ab1a
+-
+-#define REG_A6XX_SP_IBO_COUNT					0x0000ab20
+-
+-#define REG_A7XX_SP_UNKNOWN_AB22				0x0000ab22
+-
+-#define REG_A6XX_SP_2D_DST_FORMAT				0x0000acc0
+-#define A6XX_SP_2D_DST_FORMAT_NORM				0x00000001
+-#define A6XX_SP_2D_DST_FORMAT_SINT				0x00000002
+-#define A6XX_SP_2D_DST_FORMAT_UINT				0x00000004
+-#define A6XX_SP_2D_DST_FORMAT_COLOR_FORMAT__MASK		0x000007f8
+-#define A6XX_SP_2D_DST_FORMAT_COLOR_FORMAT__SHIFT		3
+-static inline uint32_t A6XX_SP_2D_DST_FORMAT_COLOR_FORMAT(enum a6xx_format val)
+-{
+-	return ((val) << A6XX_SP_2D_DST_FORMAT_COLOR_FORMAT__SHIFT) & A6XX_SP_2D_DST_FORMAT_COLOR_FORMAT__MASK;
+-}
+-#define A6XX_SP_2D_DST_FORMAT_SRGB				0x00000800
+-#define A6XX_SP_2D_DST_FORMAT_MASK__MASK			0x0000f000
+-#define A6XX_SP_2D_DST_FORMAT_MASK__SHIFT			12
+-static inline uint32_t A6XX_SP_2D_DST_FORMAT_MASK(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_2D_DST_FORMAT_MASK__SHIFT) & A6XX_SP_2D_DST_FORMAT_MASK__MASK;
+-}
+-
+-#define REG_A7XX_SP_2D_DST_FORMAT				0x0000a9bf
+-#define A7XX_SP_2D_DST_FORMAT_NORM				0x00000001
+-#define A7XX_SP_2D_DST_FORMAT_SINT				0x00000002
+-#define A7XX_SP_2D_DST_FORMAT_UINT				0x00000004
+-#define A7XX_SP_2D_DST_FORMAT_COLOR_FORMAT__MASK		0x000007f8
+-#define A7XX_SP_2D_DST_FORMAT_COLOR_FORMAT__SHIFT		3
+-static inline uint32_t A7XX_SP_2D_DST_FORMAT_COLOR_FORMAT(enum a6xx_format val)
+-{
+-	return ((val) << A7XX_SP_2D_DST_FORMAT_COLOR_FORMAT__SHIFT) & A7XX_SP_2D_DST_FORMAT_COLOR_FORMAT__MASK;
+-}
+-#define A7XX_SP_2D_DST_FORMAT_SRGB				0x00000800
+-#define A7XX_SP_2D_DST_FORMAT_MASK__MASK			0x0000f000
+-#define A7XX_SP_2D_DST_FORMAT_MASK__SHIFT			12
+-static inline uint32_t A7XX_SP_2D_DST_FORMAT_MASK(uint32_t val)
+-{
+-	return ((val) << A7XX_SP_2D_DST_FORMAT_MASK__SHIFT) & A7XX_SP_2D_DST_FORMAT_MASK__MASK;
+-}
+-
+-#define REG_A6XX_SP_DBG_ECO_CNTL				0x0000ae00
+-
+-#define REG_A6XX_SP_ADDR_MODE_CNTL				0x0000ae01
+-
+-#define REG_A6XX_SP_NC_MODE_CNTL				0x0000ae02
+-
+-#define REG_A6XX_SP_CHICKEN_BITS				0x0000ae03
+-
+-#define REG_A6XX_SP_FLOAT_CNTL					0x0000ae04
+-#define A6XX_SP_FLOAT_CNTL_F16_NO_INF				0x00000008
+-
+-#define REG_A7XX_SP_UNKNOWN_AE06				0x0000ae06
+-
+-#define REG_A7XX_SP_UNKNOWN_AE08				0x0000ae08
+-
+-#define REG_A7XX_SP_UNKNOWN_AE09				0x0000ae09
+-
+-#define REG_A7XX_SP_UNKNOWN_AE0A				0x0000ae0a
+-
+-#define REG_A6XX_SP_PERFCTR_ENABLE				0x0000ae0f
+-#define A6XX_SP_PERFCTR_ENABLE_VS				0x00000001
+-#define A6XX_SP_PERFCTR_ENABLE_HS				0x00000002
+-#define A6XX_SP_PERFCTR_ENABLE_DS				0x00000004
+-#define A6XX_SP_PERFCTR_ENABLE_GS				0x00000008
+-#define A6XX_SP_PERFCTR_ENABLE_FS				0x00000010
+-#define A6XX_SP_PERFCTR_ENABLE_CS				0x00000020
+-
+-#define REG_A6XX_SP_PERFCTR_SP_SEL(i0) (0x0000ae10 + 0x1*(i0))
+-
+-#define REG_A7XX_SP_PERFCTR_HLSQ_SEL(i0) (0x0000ae60 + 0x1*(i0))
+-
+-#define REG_A7XX_SP_UNKNOWN_AE6A				0x0000ae6a
+-
+-#define REG_A7XX_SP_UNKNOWN_AE6B				0x0000ae6b
+-
+-#define REG_A7XX_SP_UNKNOWN_AE6C				0x0000ae6c
+-
+-#define REG_A7XX_SP_READ_SEL					0x0000ae6d
+-#define A7XX_SP_READ_SEL_LOCATION__MASK				0x000c0000
+-#define A7XX_SP_READ_SEL_LOCATION__SHIFT			18
+-static inline uint32_t A7XX_SP_READ_SEL_LOCATION(enum a7xx_state_location val)
+-{
+-	return ((val) << A7XX_SP_READ_SEL_LOCATION__SHIFT) & A7XX_SP_READ_SEL_LOCATION__MASK;
+-}
+-#define A7XX_SP_READ_SEL_PIPE__MASK				0x00030000
+-#define A7XX_SP_READ_SEL_PIPE__SHIFT				16
+-static inline uint32_t A7XX_SP_READ_SEL_PIPE(enum a7xx_pipe val)
+-{
+-	return ((val) << A7XX_SP_READ_SEL_PIPE__SHIFT) & A7XX_SP_READ_SEL_PIPE__MASK;
+-}
+-#define A7XX_SP_READ_SEL_STATETYPE__MASK			0x0000ff00
+-#define A7XX_SP_READ_SEL_STATETYPE__SHIFT			8
+-static inline uint32_t A7XX_SP_READ_SEL_STATETYPE(enum a7xx_statetype_id val)
+-{
+-	return ((val) << A7XX_SP_READ_SEL_STATETYPE__SHIFT) & A7XX_SP_READ_SEL_STATETYPE__MASK;
+-}
+-#define A7XX_SP_READ_SEL_USPTP__MASK				0x000000f0
+-#define A7XX_SP_READ_SEL_USPTP__SHIFT				4
+-static inline uint32_t A7XX_SP_READ_SEL_USPTP(uint32_t val)
+-{
+-	return ((val) << A7XX_SP_READ_SEL_USPTP__SHIFT) & A7XX_SP_READ_SEL_USPTP__MASK;
+-}
+-#define A7XX_SP_READ_SEL_SPTP__MASK				0x0000000f
+-#define A7XX_SP_READ_SEL_SPTP__SHIFT				0
+-static inline uint32_t A7XX_SP_READ_SEL_SPTP(uint32_t val)
+-{
+-	return ((val) << A7XX_SP_READ_SEL_SPTP__SHIFT) & A7XX_SP_READ_SEL_SPTP__MASK;
+-}
+-
+-#define REG_A7XX_SP_DBG_CNTL					0x0000ae71
+-
+-#define REG_A7XX_SP_UNKNOWN_AE73				0x0000ae73
+-
+-#define REG_A7XX_SP_PERFCTR_SP_SEL(i0) (0x0000ae80 + 0x1*(i0))
+-
+-#define REG_A6XX_SP_CONTEXT_SWITCH_GFX_PREEMPTION_SAFE_MODE	0x0000be22
+-
+-#define REG_A6XX_SP_PS_TP_BORDER_COLOR_BASE_ADDR		0x0000b180
+-
+-#define REG_A6XX_SP_UNKNOWN_B182				0x0000b182
+-
+-#define REG_A6XX_SP_UNKNOWN_B183				0x0000b183
+-
+-#define REG_A6XX_SP_UNKNOWN_B190				0x0000b190
+-
+-#define REG_A6XX_SP_UNKNOWN_B191				0x0000b191
+-
+-#define REG_A6XX_SP_TP_RAS_MSAA_CNTL				0x0000b300
+-#define A6XX_SP_TP_RAS_MSAA_CNTL_SAMPLES__MASK			0x00000003
+-#define A6XX_SP_TP_RAS_MSAA_CNTL_SAMPLES__SHIFT			0
+-static inline uint32_t A6XX_SP_TP_RAS_MSAA_CNTL_SAMPLES(enum a3xx_msaa_samples val)
+-{
+-	return ((val) << A6XX_SP_TP_RAS_MSAA_CNTL_SAMPLES__SHIFT) & A6XX_SP_TP_RAS_MSAA_CNTL_SAMPLES__MASK;
+-}
+-#define A6XX_SP_TP_RAS_MSAA_CNTL_UNK2__MASK			0x0000000c
+-#define A6XX_SP_TP_RAS_MSAA_CNTL_UNK2__SHIFT			2
+-static inline uint32_t A6XX_SP_TP_RAS_MSAA_CNTL_UNK2(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_TP_RAS_MSAA_CNTL_UNK2__SHIFT) & A6XX_SP_TP_RAS_MSAA_CNTL_UNK2__MASK;
+-}
+-
+-#define REG_A6XX_SP_TP_DEST_MSAA_CNTL				0x0000b301
+-#define A6XX_SP_TP_DEST_MSAA_CNTL_SAMPLES__MASK			0x00000003
+-#define A6XX_SP_TP_DEST_MSAA_CNTL_SAMPLES__SHIFT		0
+-static inline uint32_t A6XX_SP_TP_DEST_MSAA_CNTL_SAMPLES(enum a3xx_msaa_samples val)
+-{
+-	return ((val) << A6XX_SP_TP_DEST_MSAA_CNTL_SAMPLES__SHIFT) & A6XX_SP_TP_DEST_MSAA_CNTL_SAMPLES__MASK;
+-}
+-#define A6XX_SP_TP_DEST_MSAA_CNTL_MSAA_DISABLE			0x00000004
+-
+-#define REG_A6XX_SP_TP_BORDER_COLOR_BASE_ADDR			0x0000b302
+-
+-#define REG_A6XX_SP_TP_SAMPLE_CONFIG				0x0000b304
+-#define A6XX_SP_TP_SAMPLE_CONFIG_UNK0				0x00000001
+-#define A6XX_SP_TP_SAMPLE_CONFIG_LOCATION_ENABLE		0x00000002
+-
+-#define REG_A6XX_SP_TP_SAMPLE_LOCATION_0			0x0000b305
+-#define A6XX_SP_TP_SAMPLE_LOCATION_0_SAMPLE_0_X__MASK		0x0000000f
+-#define A6XX_SP_TP_SAMPLE_LOCATION_0_SAMPLE_0_X__SHIFT		0
+-static inline uint32_t A6XX_SP_TP_SAMPLE_LOCATION_0_SAMPLE_0_X(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_SP_TP_SAMPLE_LOCATION_0_SAMPLE_0_X__SHIFT) & A6XX_SP_TP_SAMPLE_LOCATION_0_SAMPLE_0_X__MASK;
+-}
+-#define A6XX_SP_TP_SAMPLE_LOCATION_0_SAMPLE_0_Y__MASK		0x000000f0
+-#define A6XX_SP_TP_SAMPLE_LOCATION_0_SAMPLE_0_Y__SHIFT		4
+-static inline uint32_t A6XX_SP_TP_SAMPLE_LOCATION_0_SAMPLE_0_Y(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_SP_TP_SAMPLE_LOCATION_0_SAMPLE_0_Y__SHIFT) & A6XX_SP_TP_SAMPLE_LOCATION_0_SAMPLE_0_Y__MASK;
+-}
+-#define A6XX_SP_TP_SAMPLE_LOCATION_0_SAMPLE_1_X__MASK		0x00000f00
+-#define A6XX_SP_TP_SAMPLE_LOCATION_0_SAMPLE_1_X__SHIFT		8
+-static inline uint32_t A6XX_SP_TP_SAMPLE_LOCATION_0_SAMPLE_1_X(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_SP_TP_SAMPLE_LOCATION_0_SAMPLE_1_X__SHIFT) & A6XX_SP_TP_SAMPLE_LOCATION_0_SAMPLE_1_X__MASK;
+-}
+-#define A6XX_SP_TP_SAMPLE_LOCATION_0_SAMPLE_1_Y__MASK		0x0000f000
+-#define A6XX_SP_TP_SAMPLE_LOCATION_0_SAMPLE_1_Y__SHIFT		12
+-static inline uint32_t A6XX_SP_TP_SAMPLE_LOCATION_0_SAMPLE_1_Y(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_SP_TP_SAMPLE_LOCATION_0_SAMPLE_1_Y__SHIFT) & A6XX_SP_TP_SAMPLE_LOCATION_0_SAMPLE_1_Y__MASK;
+-}
+-#define A6XX_SP_TP_SAMPLE_LOCATION_0_SAMPLE_2_X__MASK		0x000f0000
+-#define A6XX_SP_TP_SAMPLE_LOCATION_0_SAMPLE_2_X__SHIFT		16
+-static inline uint32_t A6XX_SP_TP_SAMPLE_LOCATION_0_SAMPLE_2_X(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_SP_TP_SAMPLE_LOCATION_0_SAMPLE_2_X__SHIFT) & A6XX_SP_TP_SAMPLE_LOCATION_0_SAMPLE_2_X__MASK;
+-}
+-#define A6XX_SP_TP_SAMPLE_LOCATION_0_SAMPLE_2_Y__MASK		0x00f00000
+-#define A6XX_SP_TP_SAMPLE_LOCATION_0_SAMPLE_2_Y__SHIFT		20
+-static inline uint32_t A6XX_SP_TP_SAMPLE_LOCATION_0_SAMPLE_2_Y(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_SP_TP_SAMPLE_LOCATION_0_SAMPLE_2_Y__SHIFT) & A6XX_SP_TP_SAMPLE_LOCATION_0_SAMPLE_2_Y__MASK;
+-}
+-#define A6XX_SP_TP_SAMPLE_LOCATION_0_SAMPLE_3_X__MASK		0x0f000000
+-#define A6XX_SP_TP_SAMPLE_LOCATION_0_SAMPLE_3_X__SHIFT		24
+-static inline uint32_t A6XX_SP_TP_SAMPLE_LOCATION_0_SAMPLE_3_X(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_SP_TP_SAMPLE_LOCATION_0_SAMPLE_3_X__SHIFT) & A6XX_SP_TP_SAMPLE_LOCATION_0_SAMPLE_3_X__MASK;
+-}
+-#define A6XX_SP_TP_SAMPLE_LOCATION_0_SAMPLE_3_Y__MASK		0xf0000000
+-#define A6XX_SP_TP_SAMPLE_LOCATION_0_SAMPLE_3_Y__SHIFT		28
+-static inline uint32_t A6XX_SP_TP_SAMPLE_LOCATION_0_SAMPLE_3_Y(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_SP_TP_SAMPLE_LOCATION_0_SAMPLE_3_Y__SHIFT) & A6XX_SP_TP_SAMPLE_LOCATION_0_SAMPLE_3_Y__MASK;
+-}
+-
+-#define REG_A6XX_SP_TP_SAMPLE_LOCATION_1			0x0000b306
+-#define A6XX_SP_TP_SAMPLE_LOCATION_1_SAMPLE_0_X__MASK		0x0000000f
+-#define A6XX_SP_TP_SAMPLE_LOCATION_1_SAMPLE_0_X__SHIFT		0
+-static inline uint32_t A6XX_SP_TP_SAMPLE_LOCATION_1_SAMPLE_0_X(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_SP_TP_SAMPLE_LOCATION_1_SAMPLE_0_X__SHIFT) & A6XX_SP_TP_SAMPLE_LOCATION_1_SAMPLE_0_X__MASK;
+-}
+-#define A6XX_SP_TP_SAMPLE_LOCATION_1_SAMPLE_0_Y__MASK		0x000000f0
+-#define A6XX_SP_TP_SAMPLE_LOCATION_1_SAMPLE_0_Y__SHIFT		4
+-static inline uint32_t A6XX_SP_TP_SAMPLE_LOCATION_1_SAMPLE_0_Y(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_SP_TP_SAMPLE_LOCATION_1_SAMPLE_0_Y__SHIFT) & A6XX_SP_TP_SAMPLE_LOCATION_1_SAMPLE_0_Y__MASK;
 -}
--#define MDSS_HW_VERSION_MINOR__MASK				0x0fff0000
--#define MDSS_HW_VERSION_MINOR__SHIFT				16
--static inline uint32_t MDSS_HW_VERSION_MINOR(uint32_t val)
+-#define A6XX_SP_TP_SAMPLE_LOCATION_1_SAMPLE_1_X__MASK		0x00000f00
+-#define A6XX_SP_TP_SAMPLE_LOCATION_1_SAMPLE_1_X__SHIFT		8
+-static inline uint32_t A6XX_SP_TP_SAMPLE_LOCATION_1_SAMPLE_1_X(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_SP_TP_SAMPLE_LOCATION_1_SAMPLE_1_X__SHIFT) & A6XX_SP_TP_SAMPLE_LOCATION_1_SAMPLE_1_X__MASK;
+-}
+-#define A6XX_SP_TP_SAMPLE_LOCATION_1_SAMPLE_1_Y__MASK		0x0000f000
+-#define A6XX_SP_TP_SAMPLE_LOCATION_1_SAMPLE_1_Y__SHIFT		12
+-static inline uint32_t A6XX_SP_TP_SAMPLE_LOCATION_1_SAMPLE_1_Y(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_SP_TP_SAMPLE_LOCATION_1_SAMPLE_1_Y__SHIFT) & A6XX_SP_TP_SAMPLE_LOCATION_1_SAMPLE_1_Y__MASK;
+-}
+-#define A6XX_SP_TP_SAMPLE_LOCATION_1_SAMPLE_2_X__MASK		0x000f0000
+-#define A6XX_SP_TP_SAMPLE_LOCATION_1_SAMPLE_2_X__SHIFT		16
+-static inline uint32_t A6XX_SP_TP_SAMPLE_LOCATION_1_SAMPLE_2_X(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_SP_TP_SAMPLE_LOCATION_1_SAMPLE_2_X__SHIFT) & A6XX_SP_TP_SAMPLE_LOCATION_1_SAMPLE_2_X__MASK;
+-}
+-#define A6XX_SP_TP_SAMPLE_LOCATION_1_SAMPLE_2_Y__MASK		0x00f00000
+-#define A6XX_SP_TP_SAMPLE_LOCATION_1_SAMPLE_2_Y__SHIFT		20
+-static inline uint32_t A6XX_SP_TP_SAMPLE_LOCATION_1_SAMPLE_2_Y(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_SP_TP_SAMPLE_LOCATION_1_SAMPLE_2_Y__SHIFT) & A6XX_SP_TP_SAMPLE_LOCATION_1_SAMPLE_2_Y__MASK;
+-}
+-#define A6XX_SP_TP_SAMPLE_LOCATION_1_SAMPLE_3_X__MASK		0x0f000000
+-#define A6XX_SP_TP_SAMPLE_LOCATION_1_SAMPLE_3_X__SHIFT		24
+-static inline uint32_t A6XX_SP_TP_SAMPLE_LOCATION_1_SAMPLE_3_X(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_SP_TP_SAMPLE_LOCATION_1_SAMPLE_3_X__SHIFT) & A6XX_SP_TP_SAMPLE_LOCATION_1_SAMPLE_3_X__MASK;
+-}
+-#define A6XX_SP_TP_SAMPLE_LOCATION_1_SAMPLE_3_Y__MASK		0xf0000000
+-#define A6XX_SP_TP_SAMPLE_LOCATION_1_SAMPLE_3_Y__SHIFT		28
+-static inline uint32_t A6XX_SP_TP_SAMPLE_LOCATION_1_SAMPLE_3_Y(float val)
+-{
+-	return ((((int32_t)(val * 16.0))) << A6XX_SP_TP_SAMPLE_LOCATION_1_SAMPLE_3_Y__SHIFT) & A6XX_SP_TP_SAMPLE_LOCATION_1_SAMPLE_3_Y__MASK;
+-}
+-
+-#define REG_A6XX_SP_TP_WINDOW_OFFSET				0x0000b307
+-#define A6XX_SP_TP_WINDOW_OFFSET_X__MASK			0x00003fff
+-#define A6XX_SP_TP_WINDOW_OFFSET_X__SHIFT			0
+-static inline uint32_t A6XX_SP_TP_WINDOW_OFFSET_X(uint32_t val)
 -{
--	return ((val) << MDSS_HW_VERSION_MINOR__SHIFT) & MDSS_HW_VERSION_MINOR__MASK;
+-	return ((val) << A6XX_SP_TP_WINDOW_OFFSET_X__SHIFT) & A6XX_SP_TP_WINDOW_OFFSET_X__MASK;
+-}
+-#define A6XX_SP_TP_WINDOW_OFFSET_Y__MASK			0x3fff0000
+-#define A6XX_SP_TP_WINDOW_OFFSET_Y__SHIFT			16
+-static inline uint32_t A6XX_SP_TP_WINDOW_OFFSET_Y(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_TP_WINDOW_OFFSET_Y__SHIFT) & A6XX_SP_TP_WINDOW_OFFSET_Y__MASK;
 -}
--#define MDSS_HW_VERSION_MAJOR__MASK				0xf0000000
--#define MDSS_HW_VERSION_MAJOR__SHIFT				28
--static inline uint32_t MDSS_HW_VERSION_MAJOR(uint32_t val)
+-
+-#define REG_A6XX_SP_TP_MODE_CNTL				0x0000b309
+-#define A6XX_SP_TP_MODE_CNTL_ISAMMODE__MASK			0x00000003
+-#define A6XX_SP_TP_MODE_CNTL_ISAMMODE__SHIFT			0
+-static inline uint32_t A6XX_SP_TP_MODE_CNTL_ISAMMODE(enum a6xx_isam_mode val)
 -{
--	return ((val) << MDSS_HW_VERSION_MAJOR__SHIFT) & MDSS_HW_VERSION_MAJOR__MASK;
+-	return ((val) << A6XX_SP_TP_MODE_CNTL_ISAMMODE__SHIFT) & A6XX_SP_TP_MODE_CNTL_ISAMMODE__MASK;
+-}
+-#define A6XX_SP_TP_MODE_CNTL_UNK3__MASK				0x000000fc
+-#define A6XX_SP_TP_MODE_CNTL_UNK3__SHIFT			2
+-static inline uint32_t A6XX_SP_TP_MODE_CNTL_UNK3(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_TP_MODE_CNTL_UNK3__SHIFT) & A6XX_SP_TP_MODE_CNTL_UNK3__MASK;
 -}
 -
--#define REG_MDSS_HW_INTR_STATUS					0x00000010
--#define MDSS_HW_INTR_STATUS_INTR_MDP				0x00000001
--#define MDSS_HW_INTR_STATUS_INTR_DSI0				0x00000010
--#define MDSS_HW_INTR_STATUS_INTR_DSI1				0x00000020
--#define MDSS_HW_INTR_STATUS_INTR_HDMI				0x00000100
--#define MDSS_HW_INTR_STATUS_INTR_EDP				0x00001000
+-#define REG_A7XX_SP_UNKNOWN_B310				0x0000b310
 -
--#define REG_MDP5_HW_VERSION					0x00000000
--#define MDP5_HW_VERSION_STEP__MASK				0x0000ffff
--#define MDP5_HW_VERSION_STEP__SHIFT				0
--static inline uint32_t MDP5_HW_VERSION_STEP(uint32_t val)
+-#define REG_A6XX_SP_PS_2D_SRC_INFO				0x0000b4c0
+-#define A6XX_SP_PS_2D_SRC_INFO_COLOR_FORMAT__MASK		0x000000ff
+-#define A6XX_SP_PS_2D_SRC_INFO_COLOR_FORMAT__SHIFT		0
+-static inline uint32_t A6XX_SP_PS_2D_SRC_INFO_COLOR_FORMAT(enum a6xx_format val)
 -{
--	return ((val) << MDP5_HW_VERSION_STEP__SHIFT) & MDP5_HW_VERSION_STEP__MASK;
+-	return ((val) << A6XX_SP_PS_2D_SRC_INFO_COLOR_FORMAT__SHIFT) & A6XX_SP_PS_2D_SRC_INFO_COLOR_FORMAT__MASK;
 -}
--#define MDP5_HW_VERSION_MINOR__MASK				0x0fff0000
--#define MDP5_HW_VERSION_MINOR__SHIFT				16
--static inline uint32_t MDP5_HW_VERSION_MINOR(uint32_t val)
--{
--	return ((val) << MDP5_HW_VERSION_MINOR__SHIFT) & MDP5_HW_VERSION_MINOR__MASK;
+-#define A6XX_SP_PS_2D_SRC_INFO_TILE_MODE__MASK			0x00000300
+-#define A6XX_SP_PS_2D_SRC_INFO_TILE_MODE__SHIFT			8
+-static inline uint32_t A6XX_SP_PS_2D_SRC_INFO_TILE_MODE(enum a6xx_tile_mode val)
+-{
+-	return ((val) << A6XX_SP_PS_2D_SRC_INFO_TILE_MODE__SHIFT) & A6XX_SP_PS_2D_SRC_INFO_TILE_MODE__MASK;
 -}
--#define MDP5_HW_VERSION_MAJOR__MASK				0xf0000000
--#define MDP5_HW_VERSION_MAJOR__SHIFT				28
--static inline uint32_t MDP5_HW_VERSION_MAJOR(uint32_t val)
--{
--	return ((val) << MDP5_HW_VERSION_MAJOR__SHIFT) & MDP5_HW_VERSION_MAJOR__MASK;
+-#define A6XX_SP_PS_2D_SRC_INFO_COLOR_SWAP__MASK			0x00000c00
+-#define A6XX_SP_PS_2D_SRC_INFO_COLOR_SWAP__SHIFT		10
+-static inline uint32_t A6XX_SP_PS_2D_SRC_INFO_COLOR_SWAP(enum a3xx_color_swap val)
+-{
+-	return ((val) << A6XX_SP_PS_2D_SRC_INFO_COLOR_SWAP__SHIFT) & A6XX_SP_PS_2D_SRC_INFO_COLOR_SWAP__MASK;
 -}
+-#define A6XX_SP_PS_2D_SRC_INFO_FLAGS				0x00001000
+-#define A6XX_SP_PS_2D_SRC_INFO_SRGB				0x00002000
+-#define A6XX_SP_PS_2D_SRC_INFO_SAMPLES__MASK			0x0000c000
+-#define A6XX_SP_PS_2D_SRC_INFO_SAMPLES__SHIFT			14
+-static inline uint32_t A6XX_SP_PS_2D_SRC_INFO_SAMPLES(enum a3xx_msaa_samples val)
+-{
+-	return ((val) << A6XX_SP_PS_2D_SRC_INFO_SAMPLES__SHIFT) & A6XX_SP_PS_2D_SRC_INFO_SAMPLES__MASK;
+-}
+-#define A6XX_SP_PS_2D_SRC_INFO_FILTER				0x00010000
+-#define A6XX_SP_PS_2D_SRC_INFO_UNK17				0x00020000
+-#define A6XX_SP_PS_2D_SRC_INFO_SAMPLES_AVERAGE			0x00040000
+-#define A6XX_SP_PS_2D_SRC_INFO_UNK19				0x00080000
+-#define A6XX_SP_PS_2D_SRC_INFO_UNK20				0x00100000
+-#define A6XX_SP_PS_2D_SRC_INFO_UNK21				0x00200000
+-#define A6XX_SP_PS_2D_SRC_INFO_UNK22				0x00400000
+-#define A6XX_SP_PS_2D_SRC_INFO_UNK23__MASK			0x07800000
+-#define A6XX_SP_PS_2D_SRC_INFO_UNK23__SHIFT			23
+-static inline uint32_t A6XX_SP_PS_2D_SRC_INFO_UNK23(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_PS_2D_SRC_INFO_UNK23__SHIFT) & A6XX_SP_PS_2D_SRC_INFO_UNK23__MASK;
+-}
+-#define A6XX_SP_PS_2D_SRC_INFO_UNK28				0x10000000
 -
--#define REG_MDP5_DISP_INTF_SEL					0x00000004
--#define MDP5_DISP_INTF_SEL_INTF0__MASK				0x000000ff
--#define MDP5_DISP_INTF_SEL_INTF0__SHIFT				0
--static inline uint32_t MDP5_DISP_INTF_SEL_INTF0(enum mdp5_intf_type val)
+-#define REG_A6XX_SP_PS_2D_SRC_SIZE				0x0000b4c1
+-#define A6XX_SP_PS_2D_SRC_SIZE_WIDTH__MASK			0x00007fff
+-#define A6XX_SP_PS_2D_SRC_SIZE_WIDTH__SHIFT			0
+-static inline uint32_t A6XX_SP_PS_2D_SRC_SIZE_WIDTH(uint32_t val)
 -{
--	return ((val) << MDP5_DISP_INTF_SEL_INTF0__SHIFT) & MDP5_DISP_INTF_SEL_INTF0__MASK;
+-	return ((val) << A6XX_SP_PS_2D_SRC_SIZE_WIDTH__SHIFT) & A6XX_SP_PS_2D_SRC_SIZE_WIDTH__MASK;
 -}
--#define MDP5_DISP_INTF_SEL_INTF1__MASK				0x0000ff00
--#define MDP5_DISP_INTF_SEL_INTF1__SHIFT				8
--static inline uint32_t MDP5_DISP_INTF_SEL_INTF1(enum mdp5_intf_type val)
+-#define A6XX_SP_PS_2D_SRC_SIZE_HEIGHT__MASK			0x3fff8000
+-#define A6XX_SP_PS_2D_SRC_SIZE_HEIGHT__SHIFT			15
+-static inline uint32_t A6XX_SP_PS_2D_SRC_SIZE_HEIGHT(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_PS_2D_SRC_SIZE_HEIGHT__SHIFT) & A6XX_SP_PS_2D_SRC_SIZE_HEIGHT__MASK;
+-}
+-
+-#define REG_A6XX_SP_PS_2D_SRC					0x0000b4c2
+-
+-#define REG_A6XX_SP_PS_2D_SRC_PITCH				0x0000b4c4
+-#define A6XX_SP_PS_2D_SRC_PITCH_UNK0__MASK			0x000001ff
+-#define A6XX_SP_PS_2D_SRC_PITCH_UNK0__SHIFT			0
+-static inline uint32_t A6XX_SP_PS_2D_SRC_PITCH_UNK0(uint32_t val)
 -{
--	return ((val) << MDP5_DISP_INTF_SEL_INTF1__SHIFT) & MDP5_DISP_INTF_SEL_INTF1__MASK;
+-	return ((val) << A6XX_SP_PS_2D_SRC_PITCH_UNK0__SHIFT) & A6XX_SP_PS_2D_SRC_PITCH_UNK0__MASK;
+-}
+-#define A6XX_SP_PS_2D_SRC_PITCH_PITCH__MASK			0x00fffe00
+-#define A6XX_SP_PS_2D_SRC_PITCH_PITCH__SHIFT			9
+-static inline uint32_t A6XX_SP_PS_2D_SRC_PITCH_PITCH(uint32_t val)
+-{
+-	assert(!(val & 0x3f));
+-	return (((val >> 6)) << A6XX_SP_PS_2D_SRC_PITCH_PITCH__SHIFT) & A6XX_SP_PS_2D_SRC_PITCH_PITCH__MASK;
 -}
--#define MDP5_DISP_INTF_SEL_INTF2__MASK				0x00ff0000
--#define MDP5_DISP_INTF_SEL_INTF2__SHIFT				16
--static inline uint32_t MDP5_DISP_INTF_SEL_INTF2(enum mdp5_intf_type val)
+-
+-#define REG_A7XX_SP_PS_2D_SRC_INFO				0x0000b2c0
+-#define A7XX_SP_PS_2D_SRC_INFO_COLOR_FORMAT__MASK		0x000000ff
+-#define A7XX_SP_PS_2D_SRC_INFO_COLOR_FORMAT__SHIFT		0
+-static inline uint32_t A7XX_SP_PS_2D_SRC_INFO_COLOR_FORMAT(enum a6xx_format val)
 -{
--	return ((val) << MDP5_DISP_INTF_SEL_INTF2__SHIFT) & MDP5_DISP_INTF_SEL_INTF2__MASK;
+-	return ((val) << A7XX_SP_PS_2D_SRC_INFO_COLOR_FORMAT__SHIFT) & A7XX_SP_PS_2D_SRC_INFO_COLOR_FORMAT__MASK;
+-}
+-#define A7XX_SP_PS_2D_SRC_INFO_TILE_MODE__MASK			0x00000300
+-#define A7XX_SP_PS_2D_SRC_INFO_TILE_MODE__SHIFT			8
+-static inline uint32_t A7XX_SP_PS_2D_SRC_INFO_TILE_MODE(enum a6xx_tile_mode val)
+-{
+-	return ((val) << A7XX_SP_PS_2D_SRC_INFO_TILE_MODE__SHIFT) & A7XX_SP_PS_2D_SRC_INFO_TILE_MODE__MASK;
 -}
--#define MDP5_DISP_INTF_SEL_INTF3__MASK				0xff000000
--#define MDP5_DISP_INTF_SEL_INTF3__SHIFT				24
--static inline uint32_t MDP5_DISP_INTF_SEL_INTF3(enum mdp5_intf_type val)
+-#define A7XX_SP_PS_2D_SRC_INFO_COLOR_SWAP__MASK			0x00000c00
+-#define A7XX_SP_PS_2D_SRC_INFO_COLOR_SWAP__SHIFT		10
+-static inline uint32_t A7XX_SP_PS_2D_SRC_INFO_COLOR_SWAP(enum a3xx_color_swap val)
+-{
+-	return ((val) << A7XX_SP_PS_2D_SRC_INFO_COLOR_SWAP__SHIFT) & A7XX_SP_PS_2D_SRC_INFO_COLOR_SWAP__MASK;
+-}
+-#define A7XX_SP_PS_2D_SRC_INFO_FLAGS				0x00001000
+-#define A7XX_SP_PS_2D_SRC_INFO_SRGB				0x00002000
+-#define A7XX_SP_PS_2D_SRC_INFO_SAMPLES__MASK			0x0000c000
+-#define A7XX_SP_PS_2D_SRC_INFO_SAMPLES__SHIFT			14
+-static inline uint32_t A7XX_SP_PS_2D_SRC_INFO_SAMPLES(enum a3xx_msaa_samples val)
+-{
+-	return ((val) << A7XX_SP_PS_2D_SRC_INFO_SAMPLES__SHIFT) & A7XX_SP_PS_2D_SRC_INFO_SAMPLES__MASK;
+-}
+-#define A7XX_SP_PS_2D_SRC_INFO_FILTER				0x00010000
+-#define A7XX_SP_PS_2D_SRC_INFO_UNK17				0x00020000
+-#define A7XX_SP_PS_2D_SRC_INFO_SAMPLES_AVERAGE			0x00040000
+-#define A7XX_SP_PS_2D_SRC_INFO_UNK19				0x00080000
+-#define A7XX_SP_PS_2D_SRC_INFO_UNK20				0x00100000
+-#define A7XX_SP_PS_2D_SRC_INFO_UNK21				0x00200000
+-#define A7XX_SP_PS_2D_SRC_INFO_UNK22				0x00400000
+-#define A7XX_SP_PS_2D_SRC_INFO_UNK23__MASK			0x07800000
+-#define A7XX_SP_PS_2D_SRC_INFO_UNK23__SHIFT			23
+-static inline uint32_t A7XX_SP_PS_2D_SRC_INFO_UNK23(uint32_t val)
+-{
+-	return ((val) << A7XX_SP_PS_2D_SRC_INFO_UNK23__SHIFT) & A7XX_SP_PS_2D_SRC_INFO_UNK23__MASK;
+-}
+-#define A7XX_SP_PS_2D_SRC_INFO_UNK28				0x10000000
+-
+-#define REG_A7XX_SP_PS_2D_SRC_SIZE				0x0000b2c1
+-#define A7XX_SP_PS_2D_SRC_SIZE_WIDTH__MASK			0x00007fff
+-#define A7XX_SP_PS_2D_SRC_SIZE_WIDTH__SHIFT			0
+-static inline uint32_t A7XX_SP_PS_2D_SRC_SIZE_WIDTH(uint32_t val)
 -{
--	return ((val) << MDP5_DISP_INTF_SEL_INTF3__SHIFT) & MDP5_DISP_INTF_SEL_INTF3__MASK;
+-	return ((val) << A7XX_SP_PS_2D_SRC_SIZE_WIDTH__SHIFT) & A7XX_SP_PS_2D_SRC_SIZE_WIDTH__MASK;
 -}
+-#define A7XX_SP_PS_2D_SRC_SIZE_HEIGHT__MASK			0x3fff8000
+-#define A7XX_SP_PS_2D_SRC_SIZE_HEIGHT__SHIFT			15
+-static inline uint32_t A7XX_SP_PS_2D_SRC_SIZE_HEIGHT(uint32_t val)
+-{
+-	return ((val) << A7XX_SP_PS_2D_SRC_SIZE_HEIGHT__SHIFT) & A7XX_SP_PS_2D_SRC_SIZE_HEIGHT__MASK;
+-}
+-
+-#define REG_A7XX_SP_PS_2D_SRC					0x0000b2c2
 -
--#define REG_MDP5_INTR_EN					0x00000010
+-#define REG_A7XX_SP_PS_2D_SRC_PITCH				0x0000b2c4
+-#define A7XX_SP_PS_2D_SRC_PITCH_UNK0__MASK			0x000001ff
+-#define A7XX_SP_PS_2D_SRC_PITCH_UNK0__SHIFT			0
+-static inline uint32_t A7XX_SP_PS_2D_SRC_PITCH_UNK0(uint32_t val)
+-{
+-	return ((val) << A7XX_SP_PS_2D_SRC_PITCH_UNK0__SHIFT) & A7XX_SP_PS_2D_SRC_PITCH_UNK0__MASK;
+-}
+-#define A7XX_SP_PS_2D_SRC_PITCH_PITCH__MASK			0x00fffe00
+-#define A7XX_SP_PS_2D_SRC_PITCH_PITCH__SHIFT			9
+-static inline uint32_t A7XX_SP_PS_2D_SRC_PITCH_PITCH(uint32_t val)
+-{
+-	assert(!(val & 0x3f));
+-	return (((val >> 6)) << A7XX_SP_PS_2D_SRC_PITCH_PITCH__SHIFT) & A7XX_SP_PS_2D_SRC_PITCH_PITCH__MASK;
+-}
 -
--#define REG_MDP5_INTR_STATUS					0x00000014
+-#define REG_A6XX_SP_PS_2D_SRC_PLANE1				0x0000b4c5
 -
--#define REG_MDP5_INTR_CLEAR					0x00000018
+-#define REG_A6XX_SP_PS_2D_SRC_PLANE_PITCH			0x0000b4c7
+-#define A6XX_SP_PS_2D_SRC_PLANE_PITCH__MASK			0x00000fff
+-#define A6XX_SP_PS_2D_SRC_PLANE_PITCH__SHIFT			0
+-static inline uint32_t A6XX_SP_PS_2D_SRC_PLANE_PITCH(uint32_t val)
+-{
+-	assert(!(val & 0x3f));
+-	return (((val >> 6)) << A6XX_SP_PS_2D_SRC_PLANE_PITCH__SHIFT) & A6XX_SP_PS_2D_SRC_PLANE_PITCH__MASK;
+-}
 -
--#define REG_MDP5_HIST_INTR_EN					0x0000001c
+-#define REG_A6XX_SP_PS_2D_SRC_PLANE2				0x0000b4c8
 -
--#define REG_MDP5_HIST_INTR_STATUS				0x00000020
+-#define REG_A7XX_SP_PS_2D_SRC_PLANE1				0x0000b2c5
 -
--#define REG_MDP5_HIST_INTR_CLEAR				0x00000024
+-#define REG_A7XX_SP_PS_2D_SRC_PLANE_PITCH			0x0000b2c7
+-#define A7XX_SP_PS_2D_SRC_PLANE_PITCH__MASK			0x00000fff
+-#define A7XX_SP_PS_2D_SRC_PLANE_PITCH__SHIFT			0
+-static inline uint32_t A7XX_SP_PS_2D_SRC_PLANE_PITCH(uint32_t val)
+-{
+-	assert(!(val & 0x3f));
+-	return (((val >> 6)) << A7XX_SP_PS_2D_SRC_PLANE_PITCH__SHIFT) & A7XX_SP_PS_2D_SRC_PLANE_PITCH__MASK;
+-}
 -
--#define REG_MDP5_SPARE_0					0x00000028
--#define MDP5_SPARE_0_SPLIT_DPL_SINGLE_FLUSH_EN			0x00000001
+-#define REG_A7XX_SP_PS_2D_SRC_PLANE2				0x0000b2c8
 -
--static inline uint32_t REG_MDP5_SMP_ALLOC_W(uint32_t i0) { return 0x00000080 + 0x4*i0; }
+-#define REG_A6XX_SP_PS_2D_SRC_FLAGS				0x0000b4ca
 -
--static inline uint32_t REG_MDP5_SMP_ALLOC_W_REG(uint32_t i0) { return 0x00000080 + 0x4*i0; }
--#define MDP5_SMP_ALLOC_W_REG_CLIENT0__MASK			0x000000ff
--#define MDP5_SMP_ALLOC_W_REG_CLIENT0__SHIFT			0
--static inline uint32_t MDP5_SMP_ALLOC_W_REG_CLIENT0(uint32_t val)
+-#define REG_A6XX_SP_PS_2D_SRC_FLAGS_PITCH			0x0000b4cc
+-#define A6XX_SP_PS_2D_SRC_FLAGS_PITCH__MASK			0x000000ff
+-#define A6XX_SP_PS_2D_SRC_FLAGS_PITCH__SHIFT			0
+-static inline uint32_t A6XX_SP_PS_2D_SRC_FLAGS_PITCH(uint32_t val)
 -{
--	return ((val) << MDP5_SMP_ALLOC_W_REG_CLIENT0__SHIFT) & MDP5_SMP_ALLOC_W_REG_CLIENT0__MASK;
+-	assert(!(val & 0x3f));
+-	return (((val >> 6)) << A6XX_SP_PS_2D_SRC_FLAGS_PITCH__SHIFT) & A6XX_SP_PS_2D_SRC_FLAGS_PITCH__MASK;
 -}
--#define MDP5_SMP_ALLOC_W_REG_CLIENT1__MASK			0x0000ff00
--#define MDP5_SMP_ALLOC_W_REG_CLIENT1__SHIFT			8
--static inline uint32_t MDP5_SMP_ALLOC_W_REG_CLIENT1(uint32_t val)
+-
+-#define REG_A7XX_SP_PS_2D_SRC_FLAGS				0x0000b2ca
+-
+-#define REG_A7XX_SP_PS_2D_SRC_FLAGS_PITCH			0x0000b2cc
+-#define A7XX_SP_PS_2D_SRC_FLAGS_PITCH__MASK			0x000000ff
+-#define A7XX_SP_PS_2D_SRC_FLAGS_PITCH__SHIFT			0
+-static inline uint32_t A7XX_SP_PS_2D_SRC_FLAGS_PITCH(uint32_t val)
 -{
--	return ((val) << MDP5_SMP_ALLOC_W_REG_CLIENT1__SHIFT) & MDP5_SMP_ALLOC_W_REG_CLIENT1__MASK;
+-	assert(!(val & 0x3f));
+-	return (((val >> 6)) << A7XX_SP_PS_2D_SRC_FLAGS_PITCH__SHIFT) & A7XX_SP_PS_2D_SRC_FLAGS_PITCH__MASK;
 -}
--#define MDP5_SMP_ALLOC_W_REG_CLIENT2__MASK			0x00ff0000
--#define MDP5_SMP_ALLOC_W_REG_CLIENT2__SHIFT			16
--static inline uint32_t MDP5_SMP_ALLOC_W_REG_CLIENT2(uint32_t val)
+-
+-#define REG_A6XX_SP_PS_UNKNOWN_B4CD				0x0000b4cd
+-
+-#define REG_A6XX_SP_PS_UNKNOWN_B4CE				0x0000b4ce
+-
+-#define REG_A6XX_SP_PS_UNKNOWN_B4CF				0x0000b4cf
+-
+-#define REG_A6XX_SP_PS_UNKNOWN_B4D0				0x0000b4d0
+-
+-#define REG_A6XX_SP_WINDOW_OFFSET				0x0000b4d1
+-#define A6XX_SP_WINDOW_OFFSET_X__MASK				0x00003fff
+-#define A6XX_SP_WINDOW_OFFSET_X__SHIFT				0
+-static inline uint32_t A6XX_SP_WINDOW_OFFSET_X(uint32_t val)
 -{
--	return ((val) << MDP5_SMP_ALLOC_W_REG_CLIENT2__SHIFT) & MDP5_SMP_ALLOC_W_REG_CLIENT2__MASK;
+-	return ((val) << A6XX_SP_WINDOW_OFFSET_X__SHIFT) & A6XX_SP_WINDOW_OFFSET_X__MASK;
 -}
+-#define A6XX_SP_WINDOW_OFFSET_Y__MASK				0x3fff0000
+-#define A6XX_SP_WINDOW_OFFSET_Y__SHIFT				16
+-static inline uint32_t A6XX_SP_WINDOW_OFFSET_Y(uint32_t val)
+-{
+-	return ((val) << A6XX_SP_WINDOW_OFFSET_Y__SHIFT) & A6XX_SP_WINDOW_OFFSET_Y__MASK;
+-}
+-
+-#define REG_A7XX_SP_PS_UNKNOWN_B4CD				0x0000b2cd
+-
+-#define REG_A7XX_SP_PS_UNKNOWN_B4CE				0x0000b2ce
+-
+-#define REG_A7XX_SP_PS_UNKNOWN_B4CF				0x0000b2cf
 -
--static inline uint32_t REG_MDP5_SMP_ALLOC_R(uint32_t i0) { return 0x00000130 + 0x4*i0; }
+-#define REG_A7XX_SP_PS_UNKNOWN_B4D0				0x0000b2d0
 -
--static inline uint32_t REG_MDP5_SMP_ALLOC_R_REG(uint32_t i0) { return 0x00000130 + 0x4*i0; }
--#define MDP5_SMP_ALLOC_R_REG_CLIENT0__MASK			0x000000ff
--#define MDP5_SMP_ALLOC_R_REG_CLIENT0__SHIFT			0
--static inline uint32_t MDP5_SMP_ALLOC_R_REG_CLIENT0(uint32_t val)
+-#define REG_A7XX_SP_PS_2D_WINDOW_OFFSET				0x0000b2d1
+-#define A7XX_SP_PS_2D_WINDOW_OFFSET_X__MASK			0x00003fff
+-#define A7XX_SP_PS_2D_WINDOW_OFFSET_X__SHIFT			0
+-static inline uint32_t A7XX_SP_PS_2D_WINDOW_OFFSET_X(uint32_t val)
 -{
--	return ((val) << MDP5_SMP_ALLOC_R_REG_CLIENT0__SHIFT) & MDP5_SMP_ALLOC_R_REG_CLIENT0__MASK;
+-	return ((val) << A7XX_SP_PS_2D_WINDOW_OFFSET_X__SHIFT) & A7XX_SP_PS_2D_WINDOW_OFFSET_X__MASK;
 -}
--#define MDP5_SMP_ALLOC_R_REG_CLIENT1__MASK			0x0000ff00
--#define MDP5_SMP_ALLOC_R_REG_CLIENT1__SHIFT			8
--static inline uint32_t MDP5_SMP_ALLOC_R_REG_CLIENT1(uint32_t val)
--{
--	return ((val) << MDP5_SMP_ALLOC_R_REG_CLIENT1__SHIFT) & MDP5_SMP_ALLOC_R_REG_CLIENT1__MASK;
+-#define A7XX_SP_PS_2D_WINDOW_OFFSET_Y__MASK			0x3fff0000
+-#define A7XX_SP_PS_2D_WINDOW_OFFSET_Y__SHIFT			16
+-static inline uint32_t A7XX_SP_PS_2D_WINDOW_OFFSET_Y(uint32_t val)
+-{
+-	return ((val) << A7XX_SP_PS_2D_WINDOW_OFFSET_Y__SHIFT) & A7XX_SP_PS_2D_WINDOW_OFFSET_Y__MASK;
 -}
--#define MDP5_SMP_ALLOC_R_REG_CLIENT2__MASK			0x00ff0000
--#define MDP5_SMP_ALLOC_R_REG_CLIENT2__SHIFT			16
--static inline uint32_t MDP5_SMP_ALLOC_R_REG_CLIENT2(uint32_t val)
+-
+-#define REG_A7XX_SP_PS_UNKNOWN_B2D2				0x0000b2d2
+-
+-#define REG_A7XX_SP_WINDOW_OFFSET				0x0000ab21
+-#define A7XX_SP_WINDOW_OFFSET_X__MASK				0x00003fff
+-#define A7XX_SP_WINDOW_OFFSET_X__SHIFT				0
+-static inline uint32_t A7XX_SP_WINDOW_OFFSET_X(uint32_t val)
 -{
--	return ((val) << MDP5_SMP_ALLOC_R_REG_CLIENT2__SHIFT) & MDP5_SMP_ALLOC_R_REG_CLIENT2__MASK;
+-	return ((val) << A7XX_SP_WINDOW_OFFSET_X__SHIFT) & A7XX_SP_WINDOW_OFFSET_X__MASK;
+-}
+-#define A7XX_SP_WINDOW_OFFSET_Y__MASK				0x3fff0000
+-#define A7XX_SP_WINDOW_OFFSET_Y__SHIFT				16
+-static inline uint32_t A7XX_SP_WINDOW_OFFSET_Y(uint32_t val)
+-{
+-	return ((val) << A7XX_SP_WINDOW_OFFSET_Y__SHIFT) & A7XX_SP_WINDOW_OFFSET_Y__MASK;
 -}
 -
--static inline uint32_t __offset_IGC(enum mdp5_igc_type idx)
+-#define REG_A6XX_TPL1_DBG_ECO_CNTL				0x0000b600
+-
+-#define REG_A6XX_TPL1_ADDR_MODE_CNTL				0x0000b601
+-
+-#define REG_A6XX_TPL1_UNKNOWN_B602				0x0000b602
+-
+-#define REG_A6XX_TPL1_NC_MODE_CNTL				0x0000b604
+-#define A6XX_TPL1_NC_MODE_CNTL_MODE				0x00000001
+-#define A6XX_TPL1_NC_MODE_CNTL_LOWER_BIT__MASK			0x00000006
+-#define A6XX_TPL1_NC_MODE_CNTL_LOWER_BIT__SHIFT			1
+-static inline uint32_t A6XX_TPL1_NC_MODE_CNTL_LOWER_BIT(uint32_t val)
 -{
--	switch (idx) {
--		case IGC_VIG: return 0x00000200;
--		case IGC_RGB: return 0x00000210;
--		case IGC_DMA: return 0x00000220;
--		case IGC_DSPP: return 0x00000300;
--		default: return INVALID_IDX(idx);
--	}
+-	return ((val) << A6XX_TPL1_NC_MODE_CNTL_LOWER_BIT__SHIFT) & A6XX_TPL1_NC_MODE_CNTL_LOWER_BIT__MASK;
+-}
+-#define A6XX_TPL1_NC_MODE_CNTL_MIN_ACCESS_LENGTH		0x00000008
+-#define A6XX_TPL1_NC_MODE_CNTL_UPPER_BIT__MASK			0x00000010
+-#define A6XX_TPL1_NC_MODE_CNTL_UPPER_BIT__SHIFT			4
+-static inline uint32_t A6XX_TPL1_NC_MODE_CNTL_UPPER_BIT(uint32_t val)
+-{
+-	return ((val) << A6XX_TPL1_NC_MODE_CNTL_UPPER_BIT__SHIFT) & A6XX_TPL1_NC_MODE_CNTL_UPPER_BIT__MASK;
 -}
--static inline uint32_t REG_MDP5_IGC(enum mdp5_igc_type i0) { return 0x00000000 + __offset_IGC(i0); }
+-#define A6XX_TPL1_NC_MODE_CNTL_UNK6__MASK			0x000000c0
+-#define A6XX_TPL1_NC_MODE_CNTL_UNK6__SHIFT			6
+-static inline uint32_t A6XX_TPL1_NC_MODE_CNTL_UNK6(uint32_t val)
+-{
+-	return ((val) << A6XX_TPL1_NC_MODE_CNTL_UNK6__SHIFT) & A6XX_TPL1_NC_MODE_CNTL_UNK6__MASK;
+-}
+-
+-#define REG_A6XX_TPL1_UNKNOWN_B605				0x0000b605
+-
+-#define REG_A6XX_TPL1_BICUBIC_WEIGHTS_TABLE_0			0x0000b608
+-
+-#define REG_A6XX_TPL1_BICUBIC_WEIGHTS_TABLE_1			0x0000b609
+-
+-#define REG_A6XX_TPL1_BICUBIC_WEIGHTS_TABLE_2			0x0000b60a
+-
+-#define REG_A6XX_TPL1_BICUBIC_WEIGHTS_TABLE_3			0x0000b60b
+-
+-#define REG_A6XX_TPL1_BICUBIC_WEIGHTS_TABLE_4			0x0000b60c
+-
+-#define REG_A7XX_TPL1_BICUBIC_WEIGHTS_TABLE_0			0x0000b608
+-
+-#define REG_A7XX_TPL1_BICUBIC_WEIGHTS_TABLE_1			0x0000b609
+-
+-#define REG_A7XX_TPL1_BICUBIC_WEIGHTS_TABLE_2			0x0000b60a
+-
+-#define REG_A7XX_TPL1_BICUBIC_WEIGHTS_TABLE_3			0x0000b60b
+-
+-#define REG_A7XX_TPL1_BICUBIC_WEIGHTS_TABLE_4			0x0000b60c
 -
--static inline uint32_t REG_MDP5_IGC_LUT(enum mdp5_igc_type i0, uint32_t i1) { return 0x00000000 + __offset_IGC(i0) + 0x4*i1; }
+-#define REG_A6XX_TPL1_PERFCTR_TP_SEL(i0) (0x0000b610 + 0x1*(i0))
 -
--static inline uint32_t REG_MDP5_IGC_LUT_REG(enum mdp5_igc_type i0, uint32_t i1) { return 0x00000000 + __offset_IGC(i0) + 0x4*i1; }
--#define MDP5_IGC_LUT_REG_VAL__MASK				0x00000fff
--#define MDP5_IGC_LUT_REG_VAL__SHIFT				0
--static inline uint32_t MDP5_IGC_LUT_REG_VAL(uint32_t val)
+-#define REG_A6XX_HLSQ_VS_CNTL					0x0000b800
+-#define A6XX_HLSQ_VS_CNTL_CONSTLEN__MASK			0x000000ff
+-#define A6XX_HLSQ_VS_CNTL_CONSTLEN__SHIFT			0
+-static inline uint32_t A6XX_HLSQ_VS_CNTL_CONSTLEN(uint32_t val)
 -{
--	return ((val) << MDP5_IGC_LUT_REG_VAL__SHIFT) & MDP5_IGC_LUT_REG_VAL__MASK;
+-	assert(!(val & 0x3));
+-	return (((val >> 2)) << A6XX_HLSQ_VS_CNTL_CONSTLEN__SHIFT) & A6XX_HLSQ_VS_CNTL_CONSTLEN__MASK;
 -}
--#define MDP5_IGC_LUT_REG_INDEX_UPDATE				0x02000000
--#define MDP5_IGC_LUT_REG_DISABLE_PIPE_0				0x10000000
--#define MDP5_IGC_LUT_REG_DISABLE_PIPE_1				0x20000000
--#define MDP5_IGC_LUT_REG_DISABLE_PIPE_2				0x40000000
+-#define A6XX_HLSQ_VS_CNTL_ENABLED				0x00000100
+-#define A6XX_HLSQ_VS_CNTL_READ_IMM_SHARED_CONSTS		0x00000200
+-
+-#define REG_A6XX_HLSQ_HS_CNTL					0x0000b801
+-#define A6XX_HLSQ_HS_CNTL_CONSTLEN__MASK			0x000000ff
+-#define A6XX_HLSQ_HS_CNTL_CONSTLEN__SHIFT			0
+-static inline uint32_t A6XX_HLSQ_HS_CNTL_CONSTLEN(uint32_t val)
+-{
+-	assert(!(val & 0x3));
+-	return (((val >> 2)) << A6XX_HLSQ_HS_CNTL_CONSTLEN__SHIFT) & A6XX_HLSQ_HS_CNTL_CONSTLEN__MASK;
+-}
+-#define A6XX_HLSQ_HS_CNTL_ENABLED				0x00000100
+-#define A6XX_HLSQ_HS_CNTL_READ_IMM_SHARED_CONSTS		0x00000200
+-
+-#define REG_A6XX_HLSQ_DS_CNTL					0x0000b802
+-#define A6XX_HLSQ_DS_CNTL_CONSTLEN__MASK			0x000000ff
+-#define A6XX_HLSQ_DS_CNTL_CONSTLEN__SHIFT			0
+-static inline uint32_t A6XX_HLSQ_DS_CNTL_CONSTLEN(uint32_t val)
+-{
+-	assert(!(val & 0x3));
+-	return (((val >> 2)) << A6XX_HLSQ_DS_CNTL_CONSTLEN__SHIFT) & A6XX_HLSQ_DS_CNTL_CONSTLEN__MASK;
+-}
+-#define A6XX_HLSQ_DS_CNTL_ENABLED				0x00000100
+-#define A6XX_HLSQ_DS_CNTL_READ_IMM_SHARED_CONSTS		0x00000200
+-
+-#define REG_A6XX_HLSQ_GS_CNTL					0x0000b803
+-#define A6XX_HLSQ_GS_CNTL_CONSTLEN__MASK			0x000000ff
+-#define A6XX_HLSQ_GS_CNTL_CONSTLEN__SHIFT			0
+-static inline uint32_t A6XX_HLSQ_GS_CNTL_CONSTLEN(uint32_t val)
+-{
+-	assert(!(val & 0x3));
+-	return (((val >> 2)) << A6XX_HLSQ_GS_CNTL_CONSTLEN__SHIFT) & A6XX_HLSQ_GS_CNTL_CONSTLEN__MASK;
+-}
+-#define A6XX_HLSQ_GS_CNTL_ENABLED				0x00000100
+-#define A6XX_HLSQ_GS_CNTL_READ_IMM_SHARED_CONSTS		0x00000200
+-
+-#define REG_A7XX_HLSQ_VS_CNTL					0x0000a827
+-#define A7XX_HLSQ_VS_CNTL_CONSTLEN__MASK			0x000000ff
+-#define A7XX_HLSQ_VS_CNTL_CONSTLEN__SHIFT			0
+-static inline uint32_t A7XX_HLSQ_VS_CNTL_CONSTLEN(uint32_t val)
+-{
+-	assert(!(val & 0x3));
+-	return (((val >> 2)) << A7XX_HLSQ_VS_CNTL_CONSTLEN__SHIFT) & A7XX_HLSQ_VS_CNTL_CONSTLEN__MASK;
+-}
+-#define A7XX_HLSQ_VS_CNTL_ENABLED				0x00000100
+-#define A7XX_HLSQ_VS_CNTL_READ_IMM_SHARED_CONSTS		0x00000200
+-
+-#define REG_A7XX_HLSQ_HS_CNTL					0x0000a83f
+-#define A7XX_HLSQ_HS_CNTL_CONSTLEN__MASK			0x000000ff
+-#define A7XX_HLSQ_HS_CNTL_CONSTLEN__SHIFT			0
+-static inline uint32_t A7XX_HLSQ_HS_CNTL_CONSTLEN(uint32_t val)
+-{
+-	assert(!(val & 0x3));
+-	return (((val >> 2)) << A7XX_HLSQ_HS_CNTL_CONSTLEN__SHIFT) & A7XX_HLSQ_HS_CNTL_CONSTLEN__MASK;
+-}
+-#define A7XX_HLSQ_HS_CNTL_ENABLED				0x00000100
+-#define A7XX_HLSQ_HS_CNTL_READ_IMM_SHARED_CONSTS		0x00000200
+-
+-#define REG_A7XX_HLSQ_DS_CNTL					0x0000a867
+-#define A7XX_HLSQ_DS_CNTL_CONSTLEN__MASK			0x000000ff
+-#define A7XX_HLSQ_DS_CNTL_CONSTLEN__SHIFT			0
+-static inline uint32_t A7XX_HLSQ_DS_CNTL_CONSTLEN(uint32_t val)
+-{
+-	assert(!(val & 0x3));
+-	return (((val >> 2)) << A7XX_HLSQ_DS_CNTL_CONSTLEN__SHIFT) & A7XX_HLSQ_DS_CNTL_CONSTLEN__MASK;
+-}
+-#define A7XX_HLSQ_DS_CNTL_ENABLED				0x00000100
+-#define A7XX_HLSQ_DS_CNTL_READ_IMM_SHARED_CONSTS		0x00000200
+-
+-#define REG_A7XX_HLSQ_GS_CNTL					0x0000a898
+-#define A7XX_HLSQ_GS_CNTL_CONSTLEN__MASK			0x000000ff
+-#define A7XX_HLSQ_GS_CNTL_CONSTLEN__SHIFT			0
+-static inline uint32_t A7XX_HLSQ_GS_CNTL_CONSTLEN(uint32_t val)
+-{
+-	assert(!(val & 0x3));
+-	return (((val >> 2)) << A7XX_HLSQ_GS_CNTL_CONSTLEN__SHIFT) & A7XX_HLSQ_GS_CNTL_CONSTLEN__MASK;
+-}
+-#define A7XX_HLSQ_GS_CNTL_ENABLED				0x00000100
+-#define A7XX_HLSQ_GS_CNTL_READ_IMM_SHARED_CONSTS		0x00000200
 -
--#define REG_MDP5_SPLIT_DPL_EN					0x000002f4
+-#define REG_A7XX_HLSQ_FS_UNKNOWN_A9AA				0x0000a9aa
+-#define A7XX_HLSQ_FS_UNKNOWN_A9AA_CONSTS_LOAD_DISABLE		0x00000001
 -
--#define REG_MDP5_SPLIT_DPL_UPPER				0x000002f8
--#define MDP5_SPLIT_DPL_UPPER_SMART_PANEL			0x00000002
--#define MDP5_SPLIT_DPL_UPPER_SMART_PANEL_FREE_RUN		0x00000004
--#define MDP5_SPLIT_DPL_UPPER_INTF1_SW_TRG_MUX			0x00000010
--#define MDP5_SPLIT_DPL_UPPER_INTF2_SW_TRG_MUX			0x00000100
+-#define REG_A7XX_HLSQ_UNKNOWN_A9AC				0x0000a9ac
 -
--#define REG_MDP5_SPLIT_DPL_LOWER				0x000003f0
--#define MDP5_SPLIT_DPL_LOWER_SMART_PANEL			0x00000002
--#define MDP5_SPLIT_DPL_LOWER_SMART_PANEL_FREE_RUN		0x00000004
--#define MDP5_SPLIT_DPL_LOWER_INTF1_TG_SYNC			0x00000010
--#define MDP5_SPLIT_DPL_LOWER_INTF2_TG_SYNC			0x00000100
+-#define REG_A7XX_HLSQ_UNKNOWN_A9AD				0x0000a9ad
 -
--static inline uint32_t __offset_CTL(uint32_t idx)
+-#define REG_A7XX_HLSQ_UNKNOWN_A9AE				0x0000a9ae
+-#define A7XX_HLSQ_UNKNOWN_A9AE_SYSVAL_REGS_COUNT__MASK		0x000000ff
+-#define A7XX_HLSQ_UNKNOWN_A9AE_SYSVAL_REGS_COUNT__SHIFT		0
+-static inline uint32_t A7XX_HLSQ_UNKNOWN_A9AE_SYSVAL_REGS_COUNT(uint32_t val)
 -{
--	switch (idx) {
--		case 0: return (mdp5_cfg->ctl.base[0]);
--		case 1: return (mdp5_cfg->ctl.base[1]);
--		case 2: return (mdp5_cfg->ctl.base[2]);
--		case 3: return (mdp5_cfg->ctl.base[3]);
--		case 4: return (mdp5_cfg->ctl.base[4]);
--		default: return INVALID_IDX(idx);
--	}
+-	return ((val) << A7XX_HLSQ_UNKNOWN_A9AE_SYSVAL_REGS_COUNT__SHIFT) & A7XX_HLSQ_UNKNOWN_A9AE_SYSVAL_REGS_COUNT__MASK;
 -}
--static inline uint32_t REG_MDP5_CTL(uint32_t i0) { return 0x00000000 + __offset_CTL(i0); }
+-#define A7XX_HLSQ_UNKNOWN_A9AE_UNK8				0x00000100
+-#define A7XX_HLSQ_UNKNOWN_A9AE_UNK9				0x00000200
+-
+-#define REG_A6XX_HLSQ_LOAD_STATE_GEOM_CMD			0x0000b820
 -
--static inline uint32_t __offset_LAYER(uint32_t idx)
+-#define REG_A6XX_HLSQ_LOAD_STATE_GEOM_EXT_SRC_ADDR		0x0000b821
+-
+-#define REG_A6XX_HLSQ_LOAD_STATE_GEOM_DATA			0x0000b823
+-
+-#define REG_A6XX_HLSQ_FS_CNTL_0					0x0000b980
+-#define A6XX_HLSQ_FS_CNTL_0_THREADSIZE__MASK			0x00000001
+-#define A6XX_HLSQ_FS_CNTL_0_THREADSIZE__SHIFT			0
+-static inline uint32_t A6XX_HLSQ_FS_CNTL_0_THREADSIZE(enum a6xx_threadsize val)
 -{
--	switch (idx) {
--		case 0: return 0x00000000;
--		case 1: return 0x00000004;
--		case 2: return 0x00000008;
--		case 3: return 0x0000000c;
--		case 4: return 0x00000010;
--		case 5: return 0x00000024;
--		default: return INVALID_IDX(idx);
--	}
+-	return ((val) << A6XX_HLSQ_FS_CNTL_0_THREADSIZE__SHIFT) & A6XX_HLSQ_FS_CNTL_0_THREADSIZE__MASK;
 -}
--static inline uint32_t REG_MDP5_CTL_LAYER(uint32_t i0, uint32_t i1) { return 0x00000000 + __offset_CTL(i0) + __offset_LAYER(i1); }
+-#define A6XX_HLSQ_FS_CNTL_0_VARYINGS				0x00000002
+-#define A6XX_HLSQ_FS_CNTL_0_UNK2__MASK				0x00000ffc
+-#define A6XX_HLSQ_FS_CNTL_0_UNK2__SHIFT				2
+-static inline uint32_t A6XX_HLSQ_FS_CNTL_0_UNK2(uint32_t val)
+-{
+-	return ((val) << A6XX_HLSQ_FS_CNTL_0_UNK2__SHIFT) & A6XX_HLSQ_FS_CNTL_0_UNK2__MASK;
+-}
+-
+-#define REG_A6XX_HLSQ_UNKNOWN_B981				0x0000b981
 -
--static inline uint32_t REG_MDP5_CTL_LAYER_REG(uint32_t i0, uint32_t i1) { return 0x00000000 + __offset_CTL(i0) + __offset_LAYER(i1); }
--#define MDP5_CTL_LAYER_REG_VIG0__MASK				0x00000007
--#define MDP5_CTL_LAYER_REG_VIG0__SHIFT				0
--static inline uint32_t MDP5_CTL_LAYER_REG_VIG0(uint32_t val)
+-#define REG_A6XX_HLSQ_CONTROL_1_REG				0x0000b982
+-#define A6XX_HLSQ_CONTROL_1_REG_PRIMALLOCTHRESHOLD__MASK	0x00000007
+-#define A6XX_HLSQ_CONTROL_1_REG_PRIMALLOCTHRESHOLD__SHIFT	0
+-static inline uint32_t A6XX_HLSQ_CONTROL_1_REG_PRIMALLOCTHRESHOLD(uint32_t val)
 -{
--	return ((val) << MDP5_CTL_LAYER_REG_VIG0__SHIFT) & MDP5_CTL_LAYER_REG_VIG0__MASK;
+-	return ((val) << A6XX_HLSQ_CONTROL_1_REG_PRIMALLOCTHRESHOLD__SHIFT) & A6XX_HLSQ_CONTROL_1_REG_PRIMALLOCTHRESHOLD__MASK;
 -}
--#define MDP5_CTL_LAYER_REG_VIG1__MASK				0x00000038
--#define MDP5_CTL_LAYER_REG_VIG1__SHIFT				3
--static inline uint32_t MDP5_CTL_LAYER_REG_VIG1(uint32_t val)
+-
+-#define REG_A6XX_HLSQ_CONTROL_2_REG				0x0000b983
+-#define A6XX_HLSQ_CONTROL_2_REG_FACEREGID__MASK			0x000000ff
+-#define A6XX_HLSQ_CONTROL_2_REG_FACEREGID__SHIFT		0
+-static inline uint32_t A6XX_HLSQ_CONTROL_2_REG_FACEREGID(uint32_t val)
 -{
--	return ((val) << MDP5_CTL_LAYER_REG_VIG1__SHIFT) & MDP5_CTL_LAYER_REG_VIG1__MASK;
+-	return ((val) << A6XX_HLSQ_CONTROL_2_REG_FACEREGID__SHIFT) & A6XX_HLSQ_CONTROL_2_REG_FACEREGID__MASK;
 -}
--#define MDP5_CTL_LAYER_REG_VIG2__MASK				0x000001c0
--#define MDP5_CTL_LAYER_REG_VIG2__SHIFT				6
--static inline uint32_t MDP5_CTL_LAYER_REG_VIG2(uint32_t val)
--{
--	return ((val) << MDP5_CTL_LAYER_REG_VIG2__SHIFT) & MDP5_CTL_LAYER_REG_VIG2__MASK;
+-#define A6XX_HLSQ_CONTROL_2_REG_SAMPLEID__MASK			0x0000ff00
+-#define A6XX_HLSQ_CONTROL_2_REG_SAMPLEID__SHIFT			8
+-static inline uint32_t A6XX_HLSQ_CONTROL_2_REG_SAMPLEID(uint32_t val)
+-{
+-	return ((val) << A6XX_HLSQ_CONTROL_2_REG_SAMPLEID__SHIFT) & A6XX_HLSQ_CONTROL_2_REG_SAMPLEID__MASK;
 -}
--#define MDP5_CTL_LAYER_REG_RGB0__MASK				0x00000e00
--#define MDP5_CTL_LAYER_REG_RGB0__SHIFT				9
--static inline uint32_t MDP5_CTL_LAYER_REG_RGB0(uint32_t val)
--{
--	return ((val) << MDP5_CTL_LAYER_REG_RGB0__SHIFT) & MDP5_CTL_LAYER_REG_RGB0__MASK;
+-#define A6XX_HLSQ_CONTROL_2_REG_SAMPLEMASK__MASK		0x00ff0000
+-#define A6XX_HLSQ_CONTROL_2_REG_SAMPLEMASK__SHIFT		16
+-static inline uint32_t A6XX_HLSQ_CONTROL_2_REG_SAMPLEMASK(uint32_t val)
+-{
+-	return ((val) << A6XX_HLSQ_CONTROL_2_REG_SAMPLEMASK__SHIFT) & A6XX_HLSQ_CONTROL_2_REG_SAMPLEMASK__MASK;
 -}
--#define MDP5_CTL_LAYER_REG_RGB1__MASK				0x00007000
--#define MDP5_CTL_LAYER_REG_RGB1__SHIFT				12
--static inline uint32_t MDP5_CTL_LAYER_REG_RGB1(uint32_t val)
--{
--	return ((val) << MDP5_CTL_LAYER_REG_RGB1__SHIFT) & MDP5_CTL_LAYER_REG_RGB1__MASK;
+-#define A6XX_HLSQ_CONTROL_2_REG_CENTERRHW__MASK			0xff000000
+-#define A6XX_HLSQ_CONTROL_2_REG_CENTERRHW__SHIFT		24
+-static inline uint32_t A6XX_HLSQ_CONTROL_2_REG_CENTERRHW(uint32_t val)
+-{
+-	return ((val) << A6XX_HLSQ_CONTROL_2_REG_CENTERRHW__SHIFT) & A6XX_HLSQ_CONTROL_2_REG_CENTERRHW__MASK;
 -}
--#define MDP5_CTL_LAYER_REG_RGB2__MASK				0x00038000
--#define MDP5_CTL_LAYER_REG_RGB2__SHIFT				15
--static inline uint32_t MDP5_CTL_LAYER_REG_RGB2(uint32_t val)
+-
+-#define REG_A6XX_HLSQ_CONTROL_3_REG				0x0000b984
+-#define A6XX_HLSQ_CONTROL_3_REG_IJ_PERSP_PIXEL__MASK		0x000000ff
+-#define A6XX_HLSQ_CONTROL_3_REG_IJ_PERSP_PIXEL__SHIFT		0
+-static inline uint32_t A6XX_HLSQ_CONTROL_3_REG_IJ_PERSP_PIXEL(uint32_t val)
 -{
--	return ((val) << MDP5_CTL_LAYER_REG_RGB2__SHIFT) & MDP5_CTL_LAYER_REG_RGB2__MASK;
+-	return ((val) << A6XX_HLSQ_CONTROL_3_REG_IJ_PERSP_PIXEL__SHIFT) & A6XX_HLSQ_CONTROL_3_REG_IJ_PERSP_PIXEL__MASK;
 -}
--#define MDP5_CTL_LAYER_REG_DMA0__MASK				0x001c0000
--#define MDP5_CTL_LAYER_REG_DMA0__SHIFT				18
--static inline uint32_t MDP5_CTL_LAYER_REG_DMA0(uint32_t val)
--{
--	return ((val) << MDP5_CTL_LAYER_REG_DMA0__SHIFT) & MDP5_CTL_LAYER_REG_DMA0__MASK;
+-#define A6XX_HLSQ_CONTROL_3_REG_IJ_LINEAR_PIXEL__MASK		0x0000ff00
+-#define A6XX_HLSQ_CONTROL_3_REG_IJ_LINEAR_PIXEL__SHIFT		8
+-static inline uint32_t A6XX_HLSQ_CONTROL_3_REG_IJ_LINEAR_PIXEL(uint32_t val)
+-{
+-	return ((val) << A6XX_HLSQ_CONTROL_3_REG_IJ_LINEAR_PIXEL__SHIFT) & A6XX_HLSQ_CONTROL_3_REG_IJ_LINEAR_PIXEL__MASK;
 -}
--#define MDP5_CTL_LAYER_REG_DMA1__MASK				0x00e00000
--#define MDP5_CTL_LAYER_REG_DMA1__SHIFT				21
--static inline uint32_t MDP5_CTL_LAYER_REG_DMA1(uint32_t val)
--{
--	return ((val) << MDP5_CTL_LAYER_REG_DMA1__SHIFT) & MDP5_CTL_LAYER_REG_DMA1__MASK;
+-#define A6XX_HLSQ_CONTROL_3_REG_IJ_PERSP_CENTROID__MASK		0x00ff0000
+-#define A6XX_HLSQ_CONTROL_3_REG_IJ_PERSP_CENTROID__SHIFT	16
+-static inline uint32_t A6XX_HLSQ_CONTROL_3_REG_IJ_PERSP_CENTROID(uint32_t val)
+-{
+-	return ((val) << A6XX_HLSQ_CONTROL_3_REG_IJ_PERSP_CENTROID__SHIFT) & A6XX_HLSQ_CONTROL_3_REG_IJ_PERSP_CENTROID__MASK;
 -}
--#define MDP5_CTL_LAYER_REG_BORDER_COLOR				0x01000000
--#define MDP5_CTL_LAYER_REG_CURSOR_OUT				0x02000000
--#define MDP5_CTL_LAYER_REG_VIG3__MASK				0x1c000000
--#define MDP5_CTL_LAYER_REG_VIG3__SHIFT				26
--static inline uint32_t MDP5_CTL_LAYER_REG_VIG3(uint32_t val)
--{
--	return ((val) << MDP5_CTL_LAYER_REG_VIG3__SHIFT) & MDP5_CTL_LAYER_REG_VIG3__MASK;
+-#define A6XX_HLSQ_CONTROL_3_REG_IJ_LINEAR_CENTROID__MASK	0xff000000
+-#define A6XX_HLSQ_CONTROL_3_REG_IJ_LINEAR_CENTROID__SHIFT	24
+-static inline uint32_t A6XX_HLSQ_CONTROL_3_REG_IJ_LINEAR_CENTROID(uint32_t val)
+-{
+-	return ((val) << A6XX_HLSQ_CONTROL_3_REG_IJ_LINEAR_CENTROID__SHIFT) & A6XX_HLSQ_CONTROL_3_REG_IJ_LINEAR_CENTROID__MASK;
 -}
--#define MDP5_CTL_LAYER_REG_RGB3__MASK				0xe0000000
--#define MDP5_CTL_LAYER_REG_RGB3__SHIFT				29
--static inline uint32_t MDP5_CTL_LAYER_REG_RGB3(uint32_t val)
+-
+-#define REG_A6XX_HLSQ_CONTROL_4_REG				0x0000b985
+-#define A6XX_HLSQ_CONTROL_4_REG_IJ_PERSP_SAMPLE__MASK		0x000000ff
+-#define A6XX_HLSQ_CONTROL_4_REG_IJ_PERSP_SAMPLE__SHIFT		0
+-static inline uint32_t A6XX_HLSQ_CONTROL_4_REG_IJ_PERSP_SAMPLE(uint32_t val)
 -{
--	return ((val) << MDP5_CTL_LAYER_REG_RGB3__SHIFT) & MDP5_CTL_LAYER_REG_RGB3__MASK;
+-	return ((val) << A6XX_HLSQ_CONTROL_4_REG_IJ_PERSP_SAMPLE__SHIFT) & A6XX_HLSQ_CONTROL_4_REG_IJ_PERSP_SAMPLE__MASK;
+-}
+-#define A6XX_HLSQ_CONTROL_4_REG_IJ_LINEAR_SAMPLE__MASK		0x0000ff00
+-#define A6XX_HLSQ_CONTROL_4_REG_IJ_LINEAR_SAMPLE__SHIFT		8
+-static inline uint32_t A6XX_HLSQ_CONTROL_4_REG_IJ_LINEAR_SAMPLE(uint32_t val)
+-{
+-	return ((val) << A6XX_HLSQ_CONTROL_4_REG_IJ_LINEAR_SAMPLE__SHIFT) & A6XX_HLSQ_CONTROL_4_REG_IJ_LINEAR_SAMPLE__MASK;
+-}
+-#define A6XX_HLSQ_CONTROL_4_REG_XYCOORDREGID__MASK		0x00ff0000
+-#define A6XX_HLSQ_CONTROL_4_REG_XYCOORDREGID__SHIFT		16
+-static inline uint32_t A6XX_HLSQ_CONTROL_4_REG_XYCOORDREGID(uint32_t val)
+-{
+-	return ((val) << A6XX_HLSQ_CONTROL_4_REG_XYCOORDREGID__SHIFT) & A6XX_HLSQ_CONTROL_4_REG_XYCOORDREGID__MASK;
+-}
+-#define A6XX_HLSQ_CONTROL_4_REG_ZWCOORDREGID__MASK		0xff000000
+-#define A6XX_HLSQ_CONTROL_4_REG_ZWCOORDREGID__SHIFT		24
+-static inline uint32_t A6XX_HLSQ_CONTROL_4_REG_ZWCOORDREGID(uint32_t val)
+-{
+-	return ((val) << A6XX_HLSQ_CONTROL_4_REG_ZWCOORDREGID__SHIFT) & A6XX_HLSQ_CONTROL_4_REG_ZWCOORDREGID__MASK;
 -}
 -
--static inline uint32_t REG_MDP5_CTL_OP(uint32_t i0) { return 0x00000014 + __offset_CTL(i0); }
--#define MDP5_CTL_OP_MODE__MASK					0x0000000f
--#define MDP5_CTL_OP_MODE__SHIFT					0
--static inline uint32_t MDP5_CTL_OP_MODE(enum mdp5_ctl_mode val)
+-#define REG_A6XX_HLSQ_CONTROL_5_REG				0x0000b986
+-#define A6XX_HLSQ_CONTROL_5_REG_LINELENGTHREGID__MASK		0x000000ff
+-#define A6XX_HLSQ_CONTROL_5_REG_LINELENGTHREGID__SHIFT		0
+-static inline uint32_t A6XX_HLSQ_CONTROL_5_REG_LINELENGTHREGID(uint32_t val)
 -{
--	return ((val) << MDP5_CTL_OP_MODE__SHIFT) & MDP5_CTL_OP_MODE__MASK;
+-	return ((val) << A6XX_HLSQ_CONTROL_5_REG_LINELENGTHREGID__SHIFT) & A6XX_HLSQ_CONTROL_5_REG_LINELENGTHREGID__MASK;
 -}
--#define MDP5_CTL_OP_INTF_NUM__MASK				0x00000070
--#define MDP5_CTL_OP_INTF_NUM__SHIFT				4
--static inline uint32_t MDP5_CTL_OP_INTF_NUM(enum mdp5_intfnum val)
--{
--	return ((val) << MDP5_CTL_OP_INTF_NUM__SHIFT) & MDP5_CTL_OP_INTF_NUM__MASK;
+-#define A6XX_HLSQ_CONTROL_5_REG_FOVEATIONQUALITYREGID__MASK	0x0000ff00
+-#define A6XX_HLSQ_CONTROL_5_REG_FOVEATIONQUALITYREGID__SHIFT	8
+-static inline uint32_t A6XX_HLSQ_CONTROL_5_REG_FOVEATIONQUALITYREGID(uint32_t val)
+-{
+-	return ((val) << A6XX_HLSQ_CONTROL_5_REG_FOVEATIONQUALITYREGID__SHIFT) & A6XX_HLSQ_CONTROL_5_REG_FOVEATIONQUALITYREGID__MASK;
 -}
--#define MDP5_CTL_OP_CMD_MODE					0x00020000
--#define MDP5_CTL_OP_PACK_3D_ENABLE				0x00080000
--#define MDP5_CTL_OP_PACK_3D__MASK				0x00300000
--#define MDP5_CTL_OP_PACK_3D__SHIFT				20
--static inline uint32_t MDP5_CTL_OP_PACK_3D(enum mdp5_pack_3d val)
+-
+-#define REG_A6XX_HLSQ_CS_CNTL					0x0000b987
+-#define A6XX_HLSQ_CS_CNTL_CONSTLEN__MASK			0x000000ff
+-#define A6XX_HLSQ_CS_CNTL_CONSTLEN__SHIFT			0
+-static inline uint32_t A6XX_HLSQ_CS_CNTL_CONSTLEN(uint32_t val)
 -{
--	return ((val) << MDP5_CTL_OP_PACK_3D__SHIFT) & MDP5_CTL_OP_PACK_3D__MASK;
+-	assert(!(val & 0x3));
+-	return (((val >> 2)) << A6XX_HLSQ_CS_CNTL_CONSTLEN__SHIFT) & A6XX_HLSQ_CS_CNTL_CONSTLEN__MASK;
 -}
--
--static inline uint32_t REG_MDP5_CTL_FLUSH(uint32_t i0) { return 0x00000018 + __offset_CTL(i0); }
--#define MDP5_CTL_FLUSH_VIG0					0x00000001
--#define MDP5_CTL_FLUSH_VIG1					0x00000002
--#define MDP5_CTL_FLUSH_VIG2					0x00000004
--#define MDP5_CTL_FLUSH_RGB0					0x00000008
--#define MDP5_CTL_FLUSH_RGB1					0x00000010
--#define MDP5_CTL_FLUSH_RGB2					0x00000020
--#define MDP5_CTL_FLUSH_LM0					0x00000040
--#define MDP5_CTL_FLUSH_LM1					0x00000080
--#define MDP5_CTL_FLUSH_LM2					0x00000100
--#define MDP5_CTL_FLUSH_LM3					0x00000200
--#define MDP5_CTL_FLUSH_LM4					0x00000400
--#define MDP5_CTL_FLUSH_DMA0					0x00000800
--#define MDP5_CTL_FLUSH_DMA1					0x00001000
--#define MDP5_CTL_FLUSH_DSPP0					0x00002000
--#define MDP5_CTL_FLUSH_DSPP1					0x00004000
--#define MDP5_CTL_FLUSH_DSPP2					0x00008000
--#define MDP5_CTL_FLUSH_WB					0x00010000
--#define MDP5_CTL_FLUSH_CTL					0x00020000
--#define MDP5_CTL_FLUSH_VIG3					0x00040000
--#define MDP5_CTL_FLUSH_RGB3					0x00080000
--#define MDP5_CTL_FLUSH_LM5					0x00100000
--#define MDP5_CTL_FLUSH_DSPP3					0x00200000
--#define MDP5_CTL_FLUSH_CURSOR_0					0x00400000
--#define MDP5_CTL_FLUSH_CURSOR_1					0x00800000
--#define MDP5_CTL_FLUSH_CHROMADOWN_0				0x04000000
--#define MDP5_CTL_FLUSH_TIMING_3					0x10000000
--#define MDP5_CTL_FLUSH_TIMING_2					0x20000000
--#define MDP5_CTL_FLUSH_TIMING_1					0x40000000
--#define MDP5_CTL_FLUSH_TIMING_0					0x80000000
--
--static inline uint32_t REG_MDP5_CTL_START(uint32_t i0) { return 0x0000001c + __offset_CTL(i0); }
--
--static inline uint32_t REG_MDP5_CTL_PACK_3D(uint32_t i0) { return 0x00000020 + __offset_CTL(i0); }
+-#define A6XX_HLSQ_CS_CNTL_ENABLED				0x00000100
+-#define A6XX_HLSQ_CS_CNTL_READ_IMM_SHARED_CONSTS		0x00000200
+-
+-#define REG_A7XX_HLSQ_FS_CNTL_0					0x0000a9c6
+-#define A7XX_HLSQ_FS_CNTL_0_THREADSIZE__MASK			0x00000001
+-#define A7XX_HLSQ_FS_CNTL_0_THREADSIZE__SHIFT			0
+-static inline uint32_t A7XX_HLSQ_FS_CNTL_0_THREADSIZE(enum a6xx_threadsize val)
+-{
+-	return ((val) << A7XX_HLSQ_FS_CNTL_0_THREADSIZE__SHIFT) & A7XX_HLSQ_FS_CNTL_0_THREADSIZE__MASK;
+-}
+-#define A7XX_HLSQ_FS_CNTL_0_VARYINGS				0x00000002
+-#define A7XX_HLSQ_FS_CNTL_0_UNK2__MASK				0x00000ffc
+-#define A7XX_HLSQ_FS_CNTL_0_UNK2__SHIFT				2
+-static inline uint32_t A7XX_HLSQ_FS_CNTL_0_UNK2(uint32_t val)
+-{
+-	return ((val) << A7XX_HLSQ_FS_CNTL_0_UNK2__SHIFT) & A7XX_HLSQ_FS_CNTL_0_UNK2__MASK;
+-}
 -
--static inline uint32_t __offset_LAYER_EXT(uint32_t idx)
+-#define REG_A7XX_HLSQ_CONTROL_1_REG				0x0000a9c7
+-#define A7XX_HLSQ_CONTROL_1_REG_PRIMALLOCTHRESHOLD__MASK	0x00000007
+-#define A7XX_HLSQ_CONTROL_1_REG_PRIMALLOCTHRESHOLD__SHIFT	0
+-static inline uint32_t A7XX_HLSQ_CONTROL_1_REG_PRIMALLOCTHRESHOLD(uint32_t val)
 -{
--	switch (idx) {
--		case 0: return 0x00000040;
--		case 1: return 0x00000044;
--		case 2: return 0x00000048;
--		case 3: return 0x0000004c;
--		case 4: return 0x00000050;
--		case 5: return 0x00000054;
--		default: return INVALID_IDX(idx);
--	}
+-	return ((val) << A7XX_HLSQ_CONTROL_1_REG_PRIMALLOCTHRESHOLD__SHIFT) & A7XX_HLSQ_CONTROL_1_REG_PRIMALLOCTHRESHOLD__MASK;
 -}
--static inline uint32_t REG_MDP5_CTL_LAYER_EXT(uint32_t i0, uint32_t i1) { return 0x00000000 + __offset_CTL(i0) + __offset_LAYER_EXT(i1); }
 -
--static inline uint32_t REG_MDP5_CTL_LAYER_EXT_REG(uint32_t i0, uint32_t i1) { return 0x00000000 + __offset_CTL(i0) + __offset_LAYER_EXT(i1); }
--#define MDP5_CTL_LAYER_EXT_REG_VIG0_BIT3			0x00000001
--#define MDP5_CTL_LAYER_EXT_REG_VIG1_BIT3			0x00000004
--#define MDP5_CTL_LAYER_EXT_REG_VIG2_BIT3			0x00000010
--#define MDP5_CTL_LAYER_EXT_REG_VIG3_BIT3			0x00000040
--#define MDP5_CTL_LAYER_EXT_REG_RGB0_BIT3			0x00000100
--#define MDP5_CTL_LAYER_EXT_REG_RGB1_BIT3			0x00000400
--#define MDP5_CTL_LAYER_EXT_REG_RGB2_BIT3			0x00001000
--#define MDP5_CTL_LAYER_EXT_REG_RGB3_BIT3			0x00004000
--#define MDP5_CTL_LAYER_EXT_REG_DMA0_BIT3			0x00010000
--#define MDP5_CTL_LAYER_EXT_REG_DMA1_BIT3			0x00040000
--#define MDP5_CTL_LAYER_EXT_REG_CURSOR0__MASK			0x00f00000
--#define MDP5_CTL_LAYER_EXT_REG_CURSOR0__SHIFT			20
--static inline uint32_t MDP5_CTL_LAYER_EXT_REG_CURSOR0(enum mdp_mixer_stage_id val)
+-#define REG_A7XX_HLSQ_CONTROL_2_REG				0x0000a9c8
+-#define A7XX_HLSQ_CONTROL_2_REG_FACEREGID__MASK			0x000000ff
+-#define A7XX_HLSQ_CONTROL_2_REG_FACEREGID__SHIFT		0
+-static inline uint32_t A7XX_HLSQ_CONTROL_2_REG_FACEREGID(uint32_t val)
 -{
--	return ((val) << MDP5_CTL_LAYER_EXT_REG_CURSOR0__SHIFT) & MDP5_CTL_LAYER_EXT_REG_CURSOR0__MASK;
+-	return ((val) << A7XX_HLSQ_CONTROL_2_REG_FACEREGID__SHIFT) & A7XX_HLSQ_CONTROL_2_REG_FACEREGID__MASK;
 -}
--#define MDP5_CTL_LAYER_EXT_REG_CURSOR1__MASK			0x3c000000
--#define MDP5_CTL_LAYER_EXT_REG_CURSOR1__SHIFT			26
--static inline uint32_t MDP5_CTL_LAYER_EXT_REG_CURSOR1(enum mdp_mixer_stage_id val)
--{
--	return ((val) << MDP5_CTL_LAYER_EXT_REG_CURSOR1__SHIFT) & MDP5_CTL_LAYER_EXT_REG_CURSOR1__MASK;
+-#define A7XX_HLSQ_CONTROL_2_REG_SAMPLEID__MASK			0x0000ff00
+-#define A7XX_HLSQ_CONTROL_2_REG_SAMPLEID__SHIFT			8
+-static inline uint32_t A7XX_HLSQ_CONTROL_2_REG_SAMPLEID(uint32_t val)
+-{
+-	return ((val) << A7XX_HLSQ_CONTROL_2_REG_SAMPLEID__SHIFT) & A7XX_HLSQ_CONTROL_2_REG_SAMPLEID__MASK;
 -}
+-#define A7XX_HLSQ_CONTROL_2_REG_SAMPLEMASK__MASK		0x00ff0000
+-#define A7XX_HLSQ_CONTROL_2_REG_SAMPLEMASK__SHIFT		16
+-static inline uint32_t A7XX_HLSQ_CONTROL_2_REG_SAMPLEMASK(uint32_t val)
+-{
+-	return ((val) << A7XX_HLSQ_CONTROL_2_REG_SAMPLEMASK__SHIFT) & A7XX_HLSQ_CONTROL_2_REG_SAMPLEMASK__MASK;
+-}
+-#define A7XX_HLSQ_CONTROL_2_REG_CENTERRHW__MASK			0xff000000
+-#define A7XX_HLSQ_CONTROL_2_REG_CENTERRHW__SHIFT		24
+-static inline uint32_t A7XX_HLSQ_CONTROL_2_REG_CENTERRHW(uint32_t val)
+-{
+-	return ((val) << A7XX_HLSQ_CONTROL_2_REG_CENTERRHW__SHIFT) & A7XX_HLSQ_CONTROL_2_REG_CENTERRHW__MASK;
+-}
 -
--static inline uint32_t __offset_PIPE(enum mdp5_pipe idx)
+-#define REG_A7XX_HLSQ_CONTROL_3_REG				0x0000a9c9
+-#define A7XX_HLSQ_CONTROL_3_REG_IJ_PERSP_PIXEL__MASK		0x000000ff
+-#define A7XX_HLSQ_CONTROL_3_REG_IJ_PERSP_PIXEL__SHIFT		0
+-static inline uint32_t A7XX_HLSQ_CONTROL_3_REG_IJ_PERSP_PIXEL(uint32_t val)
 -{
--	switch (idx) {
--		case SSPP_NONE: return (INVALID_IDX(idx));
--		case SSPP_VIG0: return (mdp5_cfg->pipe_vig.base[0]);
--		case SSPP_VIG1: return (mdp5_cfg->pipe_vig.base[1]);
--		case SSPP_VIG2: return (mdp5_cfg->pipe_vig.base[2]);
--		case SSPP_RGB0: return (mdp5_cfg->pipe_rgb.base[0]);
--		case SSPP_RGB1: return (mdp5_cfg->pipe_rgb.base[1]);
--		case SSPP_RGB2: return (mdp5_cfg->pipe_rgb.base[2]);
--		case SSPP_DMA0: return (mdp5_cfg->pipe_dma.base[0]);
--		case SSPP_DMA1: return (mdp5_cfg->pipe_dma.base[1]);
--		case SSPP_VIG3: return (mdp5_cfg->pipe_vig.base[3]);
--		case SSPP_RGB3: return (mdp5_cfg->pipe_rgb.base[3]);
--		case SSPP_CURSOR0: return (mdp5_cfg->pipe_cursor.base[0]);
--		case SSPP_CURSOR1: return (mdp5_cfg->pipe_cursor.base[1]);
--		default: return INVALID_IDX(idx);
--	}
+-	return ((val) << A7XX_HLSQ_CONTROL_3_REG_IJ_PERSP_PIXEL__SHIFT) & A7XX_HLSQ_CONTROL_3_REG_IJ_PERSP_PIXEL__MASK;
+-}
+-#define A7XX_HLSQ_CONTROL_3_REG_IJ_LINEAR_PIXEL__MASK		0x0000ff00
+-#define A7XX_HLSQ_CONTROL_3_REG_IJ_LINEAR_PIXEL__SHIFT		8
+-static inline uint32_t A7XX_HLSQ_CONTROL_3_REG_IJ_LINEAR_PIXEL(uint32_t val)
+-{
+-	return ((val) << A7XX_HLSQ_CONTROL_3_REG_IJ_LINEAR_PIXEL__SHIFT) & A7XX_HLSQ_CONTROL_3_REG_IJ_LINEAR_PIXEL__MASK;
+-}
+-#define A7XX_HLSQ_CONTROL_3_REG_IJ_PERSP_CENTROID__MASK		0x00ff0000
+-#define A7XX_HLSQ_CONTROL_3_REG_IJ_PERSP_CENTROID__SHIFT	16
+-static inline uint32_t A7XX_HLSQ_CONTROL_3_REG_IJ_PERSP_CENTROID(uint32_t val)
+-{
+-	return ((val) << A7XX_HLSQ_CONTROL_3_REG_IJ_PERSP_CENTROID__SHIFT) & A7XX_HLSQ_CONTROL_3_REG_IJ_PERSP_CENTROID__MASK;
 -}
--static inline uint32_t REG_MDP5_PIPE(enum mdp5_pipe i0) { return 0x00000000 + __offset_PIPE(i0); }
+-#define A7XX_HLSQ_CONTROL_3_REG_IJ_LINEAR_CENTROID__MASK	0xff000000
+-#define A7XX_HLSQ_CONTROL_3_REG_IJ_LINEAR_CENTROID__SHIFT	24
+-static inline uint32_t A7XX_HLSQ_CONTROL_3_REG_IJ_LINEAR_CENTROID(uint32_t val)
+-{
+-	return ((val) << A7XX_HLSQ_CONTROL_3_REG_IJ_LINEAR_CENTROID__SHIFT) & A7XX_HLSQ_CONTROL_3_REG_IJ_LINEAR_CENTROID__MASK;
+-}
 -
--static inline uint32_t REG_MDP5_PIPE_OP_MODE(enum mdp5_pipe i0) { return 0x00000200 + __offset_PIPE(i0); }
--#define MDP5_PIPE_OP_MODE_CSC_DST_DATA_FORMAT__MASK		0x00080000
--#define MDP5_PIPE_OP_MODE_CSC_DST_DATA_FORMAT__SHIFT		19
--static inline uint32_t MDP5_PIPE_OP_MODE_CSC_DST_DATA_FORMAT(enum mdp5_data_format val)
+-#define REG_A7XX_HLSQ_CONTROL_4_REG				0x0000a9ca
+-#define A7XX_HLSQ_CONTROL_4_REG_IJ_PERSP_SAMPLE__MASK		0x000000ff
+-#define A7XX_HLSQ_CONTROL_4_REG_IJ_PERSP_SAMPLE__SHIFT		0
+-static inline uint32_t A7XX_HLSQ_CONTROL_4_REG_IJ_PERSP_SAMPLE(uint32_t val)
 -{
--	return ((val) << MDP5_PIPE_OP_MODE_CSC_DST_DATA_FORMAT__SHIFT) & MDP5_PIPE_OP_MODE_CSC_DST_DATA_FORMAT__MASK;
+-	return ((val) << A7XX_HLSQ_CONTROL_4_REG_IJ_PERSP_SAMPLE__SHIFT) & A7XX_HLSQ_CONTROL_4_REG_IJ_PERSP_SAMPLE__MASK;
 -}
--#define MDP5_PIPE_OP_MODE_CSC_SRC_DATA_FORMAT__MASK		0x00040000
--#define MDP5_PIPE_OP_MODE_CSC_SRC_DATA_FORMAT__SHIFT		18
--static inline uint32_t MDP5_PIPE_OP_MODE_CSC_SRC_DATA_FORMAT(enum mdp5_data_format val)
--{
--	return ((val) << MDP5_PIPE_OP_MODE_CSC_SRC_DATA_FORMAT__SHIFT) & MDP5_PIPE_OP_MODE_CSC_SRC_DATA_FORMAT__MASK;
+-#define A7XX_HLSQ_CONTROL_4_REG_IJ_LINEAR_SAMPLE__MASK		0x0000ff00
+-#define A7XX_HLSQ_CONTROL_4_REG_IJ_LINEAR_SAMPLE__SHIFT		8
+-static inline uint32_t A7XX_HLSQ_CONTROL_4_REG_IJ_LINEAR_SAMPLE(uint32_t val)
+-{
+-	return ((val) << A7XX_HLSQ_CONTROL_4_REG_IJ_LINEAR_SAMPLE__SHIFT) & A7XX_HLSQ_CONTROL_4_REG_IJ_LINEAR_SAMPLE__MASK;
 -}
--#define MDP5_PIPE_OP_MODE_CSC_1_EN				0x00020000
--
--static inline uint32_t REG_MDP5_PIPE_HIST_CTL_BASE(enum mdp5_pipe i0) { return 0x000002c4 + __offset_PIPE(i0); }
--
--static inline uint32_t REG_MDP5_PIPE_HIST_LUT_BASE(enum mdp5_pipe i0) { return 0x000002f0 + __offset_PIPE(i0); }
--
--static inline uint32_t REG_MDP5_PIPE_HIST_LUT_SWAP(enum mdp5_pipe i0) { return 0x00000300 + __offset_PIPE(i0); }
+-#define A7XX_HLSQ_CONTROL_4_REG_XYCOORDREGID__MASK		0x00ff0000
+-#define A7XX_HLSQ_CONTROL_4_REG_XYCOORDREGID__SHIFT		16
+-static inline uint32_t A7XX_HLSQ_CONTROL_4_REG_XYCOORDREGID(uint32_t val)
+-{
+-	return ((val) << A7XX_HLSQ_CONTROL_4_REG_XYCOORDREGID__SHIFT) & A7XX_HLSQ_CONTROL_4_REG_XYCOORDREGID__MASK;
+-}
+-#define A7XX_HLSQ_CONTROL_4_REG_ZWCOORDREGID__MASK		0xff000000
+-#define A7XX_HLSQ_CONTROL_4_REG_ZWCOORDREGID__SHIFT		24
+-static inline uint32_t A7XX_HLSQ_CONTROL_4_REG_ZWCOORDREGID(uint32_t val)
+-{
+-	return ((val) << A7XX_HLSQ_CONTROL_4_REG_ZWCOORDREGID__SHIFT) & A7XX_HLSQ_CONTROL_4_REG_ZWCOORDREGID__MASK;
+-}
 -
--static inline uint32_t REG_MDP5_PIPE_CSC_1_MATRIX_COEFF_0(enum mdp5_pipe i0) { return 0x00000320 + __offset_PIPE(i0); }
--#define MDP5_PIPE_CSC_1_MATRIX_COEFF_0_COEFF_11__MASK		0x00001fff
--#define MDP5_PIPE_CSC_1_MATRIX_COEFF_0_COEFF_11__SHIFT		0
--static inline uint32_t MDP5_PIPE_CSC_1_MATRIX_COEFF_0_COEFF_11(uint32_t val)
+-#define REG_A7XX_HLSQ_CONTROL_5_REG				0x0000a9cb
+-#define A7XX_HLSQ_CONTROL_5_REG_LINELENGTHREGID__MASK		0x000000ff
+-#define A7XX_HLSQ_CONTROL_5_REG_LINELENGTHREGID__SHIFT		0
+-static inline uint32_t A7XX_HLSQ_CONTROL_5_REG_LINELENGTHREGID(uint32_t val)
 -{
--	return ((val) << MDP5_PIPE_CSC_1_MATRIX_COEFF_0_COEFF_11__SHIFT) & MDP5_PIPE_CSC_1_MATRIX_COEFF_0_COEFF_11__MASK;
+-	return ((val) << A7XX_HLSQ_CONTROL_5_REG_LINELENGTHREGID__SHIFT) & A7XX_HLSQ_CONTROL_5_REG_LINELENGTHREGID__MASK;
 -}
--#define MDP5_PIPE_CSC_1_MATRIX_COEFF_0_COEFF_12__MASK		0x1fff0000
--#define MDP5_PIPE_CSC_1_MATRIX_COEFF_0_COEFF_12__SHIFT		16
--static inline uint32_t MDP5_PIPE_CSC_1_MATRIX_COEFF_0_COEFF_12(uint32_t val)
--{
--	return ((val) << MDP5_PIPE_CSC_1_MATRIX_COEFF_0_COEFF_12__SHIFT) & MDP5_PIPE_CSC_1_MATRIX_COEFF_0_COEFF_12__MASK;
+-#define A7XX_HLSQ_CONTROL_5_REG_FOVEATIONQUALITYREGID__MASK	0x0000ff00
+-#define A7XX_HLSQ_CONTROL_5_REG_FOVEATIONQUALITYREGID__SHIFT	8
+-static inline uint32_t A7XX_HLSQ_CONTROL_5_REG_FOVEATIONQUALITYREGID(uint32_t val)
+-{
+-	return ((val) << A7XX_HLSQ_CONTROL_5_REG_FOVEATIONQUALITYREGID__SHIFT) & A7XX_HLSQ_CONTROL_5_REG_FOVEATIONQUALITYREGID__MASK;
 -}
 -
--static inline uint32_t REG_MDP5_PIPE_CSC_1_MATRIX_COEFF_1(enum mdp5_pipe i0) { return 0x00000324 + __offset_PIPE(i0); }
--#define MDP5_PIPE_CSC_1_MATRIX_COEFF_1_COEFF_13__MASK		0x00001fff
--#define MDP5_PIPE_CSC_1_MATRIX_COEFF_1_COEFF_13__SHIFT		0
--static inline uint32_t MDP5_PIPE_CSC_1_MATRIX_COEFF_1_COEFF_13(uint32_t val)
+-#define REG_A7XX_HLSQ_CS_CNTL					0x0000a9cd
+-#define A7XX_HLSQ_CS_CNTL_CONSTLEN__MASK			0x000000ff
+-#define A7XX_HLSQ_CS_CNTL_CONSTLEN__SHIFT			0
+-static inline uint32_t A7XX_HLSQ_CS_CNTL_CONSTLEN(uint32_t val)
 -{
--	return ((val) << MDP5_PIPE_CSC_1_MATRIX_COEFF_1_COEFF_13__SHIFT) & MDP5_PIPE_CSC_1_MATRIX_COEFF_1_COEFF_13__MASK;
+-	assert(!(val & 0x3));
+-	return (((val >> 2)) << A7XX_HLSQ_CS_CNTL_CONSTLEN__SHIFT) & A7XX_HLSQ_CS_CNTL_CONSTLEN__MASK;
 -}
--#define MDP5_PIPE_CSC_1_MATRIX_COEFF_1_COEFF_21__MASK		0x1fff0000
--#define MDP5_PIPE_CSC_1_MATRIX_COEFF_1_COEFF_21__SHIFT		16
--static inline uint32_t MDP5_PIPE_CSC_1_MATRIX_COEFF_1_COEFF_21(uint32_t val)
--{
--	return ((val) << MDP5_PIPE_CSC_1_MATRIX_COEFF_1_COEFF_21__SHIFT) & MDP5_PIPE_CSC_1_MATRIX_COEFF_1_COEFF_21__MASK;
+-#define A7XX_HLSQ_CS_CNTL_ENABLED				0x00000100
+-#define A7XX_HLSQ_CS_CNTL_READ_IMM_SHARED_CONSTS		0x00000200
+-
+-#define REG_A6XX_HLSQ_CS_NDRANGE_0				0x0000b990
+-#define A6XX_HLSQ_CS_NDRANGE_0_KERNELDIM__MASK			0x00000003
+-#define A6XX_HLSQ_CS_NDRANGE_0_KERNELDIM__SHIFT			0
+-static inline uint32_t A6XX_HLSQ_CS_NDRANGE_0_KERNELDIM(uint32_t val)
+-{
+-	return ((val) << A6XX_HLSQ_CS_NDRANGE_0_KERNELDIM__SHIFT) & A6XX_HLSQ_CS_NDRANGE_0_KERNELDIM__MASK;
+-}
+-#define A6XX_HLSQ_CS_NDRANGE_0_LOCALSIZEX__MASK			0x00000ffc
+-#define A6XX_HLSQ_CS_NDRANGE_0_LOCALSIZEX__SHIFT		2
+-static inline uint32_t A6XX_HLSQ_CS_NDRANGE_0_LOCALSIZEX(uint32_t val)
+-{
+-	return ((val) << A6XX_HLSQ_CS_NDRANGE_0_LOCALSIZEX__SHIFT) & A6XX_HLSQ_CS_NDRANGE_0_LOCALSIZEX__MASK;
+-}
+-#define A6XX_HLSQ_CS_NDRANGE_0_LOCALSIZEY__MASK			0x003ff000
+-#define A6XX_HLSQ_CS_NDRANGE_0_LOCALSIZEY__SHIFT		12
+-static inline uint32_t A6XX_HLSQ_CS_NDRANGE_0_LOCALSIZEY(uint32_t val)
+-{
+-	return ((val) << A6XX_HLSQ_CS_NDRANGE_0_LOCALSIZEY__SHIFT) & A6XX_HLSQ_CS_NDRANGE_0_LOCALSIZEY__MASK;
+-}
+-#define A6XX_HLSQ_CS_NDRANGE_0_LOCALSIZEZ__MASK			0xffc00000
+-#define A6XX_HLSQ_CS_NDRANGE_0_LOCALSIZEZ__SHIFT		22
+-static inline uint32_t A6XX_HLSQ_CS_NDRANGE_0_LOCALSIZEZ(uint32_t val)
+-{
+-	return ((val) << A6XX_HLSQ_CS_NDRANGE_0_LOCALSIZEZ__SHIFT) & A6XX_HLSQ_CS_NDRANGE_0_LOCALSIZEZ__MASK;
 -}
 -
--static inline uint32_t REG_MDP5_PIPE_CSC_1_MATRIX_COEFF_2(enum mdp5_pipe i0) { return 0x00000328 + __offset_PIPE(i0); }
--#define MDP5_PIPE_CSC_1_MATRIX_COEFF_2_COEFF_22__MASK		0x00001fff
--#define MDP5_PIPE_CSC_1_MATRIX_COEFF_2_COEFF_22__SHIFT		0
--static inline uint32_t MDP5_PIPE_CSC_1_MATRIX_COEFF_2_COEFF_22(uint32_t val)
+-#define REG_A6XX_HLSQ_CS_NDRANGE_1				0x0000b991
+-#define A6XX_HLSQ_CS_NDRANGE_1_GLOBALSIZE_X__MASK		0xffffffff
+-#define A6XX_HLSQ_CS_NDRANGE_1_GLOBALSIZE_X__SHIFT		0
+-static inline uint32_t A6XX_HLSQ_CS_NDRANGE_1_GLOBALSIZE_X(uint32_t val)
 -{
--	return ((val) << MDP5_PIPE_CSC_1_MATRIX_COEFF_2_COEFF_22__SHIFT) & MDP5_PIPE_CSC_1_MATRIX_COEFF_2_COEFF_22__MASK;
+-	return ((val) << A6XX_HLSQ_CS_NDRANGE_1_GLOBALSIZE_X__SHIFT) & A6XX_HLSQ_CS_NDRANGE_1_GLOBALSIZE_X__MASK;
 -}
--#define MDP5_PIPE_CSC_1_MATRIX_COEFF_2_COEFF_23__MASK		0x1fff0000
--#define MDP5_PIPE_CSC_1_MATRIX_COEFF_2_COEFF_23__SHIFT		16
--static inline uint32_t MDP5_PIPE_CSC_1_MATRIX_COEFF_2_COEFF_23(uint32_t val)
+-
+-#define REG_A6XX_HLSQ_CS_NDRANGE_2				0x0000b992
+-#define A6XX_HLSQ_CS_NDRANGE_2_GLOBALOFF_X__MASK		0xffffffff
+-#define A6XX_HLSQ_CS_NDRANGE_2_GLOBALOFF_X__SHIFT		0
+-static inline uint32_t A6XX_HLSQ_CS_NDRANGE_2_GLOBALOFF_X(uint32_t val)
 -{
--	return ((val) << MDP5_PIPE_CSC_1_MATRIX_COEFF_2_COEFF_23__SHIFT) & MDP5_PIPE_CSC_1_MATRIX_COEFF_2_COEFF_23__MASK;
+-	return ((val) << A6XX_HLSQ_CS_NDRANGE_2_GLOBALOFF_X__SHIFT) & A6XX_HLSQ_CS_NDRANGE_2_GLOBALOFF_X__MASK;
 -}
 -
--static inline uint32_t REG_MDP5_PIPE_CSC_1_MATRIX_COEFF_3(enum mdp5_pipe i0) { return 0x0000032c + __offset_PIPE(i0); }
--#define MDP5_PIPE_CSC_1_MATRIX_COEFF_3_COEFF_31__MASK		0x00001fff
--#define MDP5_PIPE_CSC_1_MATRIX_COEFF_3_COEFF_31__SHIFT		0
--static inline uint32_t MDP5_PIPE_CSC_1_MATRIX_COEFF_3_COEFF_31(uint32_t val)
+-#define REG_A6XX_HLSQ_CS_NDRANGE_3				0x0000b993
+-#define A6XX_HLSQ_CS_NDRANGE_3_GLOBALSIZE_Y__MASK		0xffffffff
+-#define A6XX_HLSQ_CS_NDRANGE_3_GLOBALSIZE_Y__SHIFT		0
+-static inline uint32_t A6XX_HLSQ_CS_NDRANGE_3_GLOBALSIZE_Y(uint32_t val)
 -{
--	return ((val) << MDP5_PIPE_CSC_1_MATRIX_COEFF_3_COEFF_31__SHIFT) & MDP5_PIPE_CSC_1_MATRIX_COEFF_3_COEFF_31__MASK;
+-	return ((val) << A6XX_HLSQ_CS_NDRANGE_3_GLOBALSIZE_Y__SHIFT) & A6XX_HLSQ_CS_NDRANGE_3_GLOBALSIZE_Y__MASK;
 -}
--#define MDP5_PIPE_CSC_1_MATRIX_COEFF_3_COEFF_32__MASK		0x1fff0000
--#define MDP5_PIPE_CSC_1_MATRIX_COEFF_3_COEFF_32__SHIFT		16
--static inline uint32_t MDP5_PIPE_CSC_1_MATRIX_COEFF_3_COEFF_32(uint32_t val)
+-
+-#define REG_A6XX_HLSQ_CS_NDRANGE_4				0x0000b994
+-#define A6XX_HLSQ_CS_NDRANGE_4_GLOBALOFF_Y__MASK		0xffffffff
+-#define A6XX_HLSQ_CS_NDRANGE_4_GLOBALOFF_Y__SHIFT		0
+-static inline uint32_t A6XX_HLSQ_CS_NDRANGE_4_GLOBALOFF_Y(uint32_t val)
 -{
--	return ((val) << MDP5_PIPE_CSC_1_MATRIX_COEFF_3_COEFF_32__SHIFT) & MDP5_PIPE_CSC_1_MATRIX_COEFF_3_COEFF_32__MASK;
+-	return ((val) << A6XX_HLSQ_CS_NDRANGE_4_GLOBALOFF_Y__SHIFT) & A6XX_HLSQ_CS_NDRANGE_4_GLOBALOFF_Y__MASK;
 -}
 -
--static inline uint32_t REG_MDP5_PIPE_CSC_1_MATRIX_COEFF_4(enum mdp5_pipe i0) { return 0x00000330 + __offset_PIPE(i0); }
--#define MDP5_PIPE_CSC_1_MATRIX_COEFF_4_COEFF_33__MASK		0x00001fff
--#define MDP5_PIPE_CSC_1_MATRIX_COEFF_4_COEFF_33__SHIFT		0
--static inline uint32_t MDP5_PIPE_CSC_1_MATRIX_COEFF_4_COEFF_33(uint32_t val)
+-#define REG_A6XX_HLSQ_CS_NDRANGE_5				0x0000b995
+-#define A6XX_HLSQ_CS_NDRANGE_5_GLOBALSIZE_Z__MASK		0xffffffff
+-#define A6XX_HLSQ_CS_NDRANGE_5_GLOBALSIZE_Z__SHIFT		0
+-static inline uint32_t A6XX_HLSQ_CS_NDRANGE_5_GLOBALSIZE_Z(uint32_t val)
 -{
--	return ((val) << MDP5_PIPE_CSC_1_MATRIX_COEFF_4_COEFF_33__SHIFT) & MDP5_PIPE_CSC_1_MATRIX_COEFF_4_COEFF_33__MASK;
+-	return ((val) << A6XX_HLSQ_CS_NDRANGE_5_GLOBALSIZE_Z__SHIFT) & A6XX_HLSQ_CS_NDRANGE_5_GLOBALSIZE_Z__MASK;
 -}
 -
--static inline uint32_t REG_MDP5_PIPE_CSC_1_PRE_CLAMP(enum mdp5_pipe i0, uint32_t i1) { return 0x00000334 + __offset_PIPE(i0) + 0x4*i1; }
--
--static inline uint32_t REG_MDP5_PIPE_CSC_1_PRE_CLAMP_REG(enum mdp5_pipe i0, uint32_t i1) { return 0x00000334 + __offset_PIPE(i0) + 0x4*i1; }
--#define MDP5_PIPE_CSC_1_PRE_CLAMP_REG_HIGH__MASK		0x000000ff
--#define MDP5_PIPE_CSC_1_PRE_CLAMP_REG_HIGH__SHIFT		0
--static inline uint32_t MDP5_PIPE_CSC_1_PRE_CLAMP_REG_HIGH(uint32_t val)
+-#define REG_A6XX_HLSQ_CS_NDRANGE_6				0x0000b996
+-#define A6XX_HLSQ_CS_NDRANGE_6_GLOBALOFF_Z__MASK		0xffffffff
+-#define A6XX_HLSQ_CS_NDRANGE_6_GLOBALOFF_Z__SHIFT		0
+-static inline uint32_t A6XX_HLSQ_CS_NDRANGE_6_GLOBALOFF_Z(uint32_t val)
 -{
--	return ((val) << MDP5_PIPE_CSC_1_PRE_CLAMP_REG_HIGH__SHIFT) & MDP5_PIPE_CSC_1_PRE_CLAMP_REG_HIGH__MASK;
+-	return ((val) << A6XX_HLSQ_CS_NDRANGE_6_GLOBALOFF_Z__SHIFT) & A6XX_HLSQ_CS_NDRANGE_6_GLOBALOFF_Z__MASK;
 -}
--#define MDP5_PIPE_CSC_1_PRE_CLAMP_REG_LOW__MASK			0x0000ff00
--#define MDP5_PIPE_CSC_1_PRE_CLAMP_REG_LOW__SHIFT		8
--static inline uint32_t MDP5_PIPE_CSC_1_PRE_CLAMP_REG_LOW(uint32_t val)
+-
+-#define REG_A6XX_HLSQ_CS_CNTL_0					0x0000b997
+-#define A6XX_HLSQ_CS_CNTL_0_WGIDCONSTID__MASK			0x000000ff
+-#define A6XX_HLSQ_CS_CNTL_0_WGIDCONSTID__SHIFT			0
+-static inline uint32_t A6XX_HLSQ_CS_CNTL_0_WGIDCONSTID(uint32_t val)
 -{
--	return ((val) << MDP5_PIPE_CSC_1_PRE_CLAMP_REG_LOW__SHIFT) & MDP5_PIPE_CSC_1_PRE_CLAMP_REG_LOW__MASK;
+-	return ((val) << A6XX_HLSQ_CS_CNTL_0_WGIDCONSTID__SHIFT) & A6XX_HLSQ_CS_CNTL_0_WGIDCONSTID__MASK;
 -}
--
--static inline uint32_t REG_MDP5_PIPE_CSC_1_POST_CLAMP(enum mdp5_pipe i0, uint32_t i1) { return 0x00000340 + __offset_PIPE(i0) + 0x4*i1; }
+-#define A6XX_HLSQ_CS_CNTL_0_WGSIZECONSTID__MASK			0x0000ff00
+-#define A6XX_HLSQ_CS_CNTL_0_WGSIZECONSTID__SHIFT		8
+-static inline uint32_t A6XX_HLSQ_CS_CNTL_0_WGSIZECONSTID(uint32_t val)
+-{
+-	return ((val) << A6XX_HLSQ_CS_CNTL_0_WGSIZECONSTID__SHIFT) & A6XX_HLSQ_CS_CNTL_0_WGSIZECONSTID__MASK;
+-}
+-#define A6XX_HLSQ_CS_CNTL_0_WGOFFSETCONSTID__MASK		0x00ff0000
+-#define A6XX_HLSQ_CS_CNTL_0_WGOFFSETCONSTID__SHIFT		16
+-static inline uint32_t A6XX_HLSQ_CS_CNTL_0_WGOFFSETCONSTID(uint32_t val)
+-{
+-	return ((val) << A6XX_HLSQ_CS_CNTL_0_WGOFFSETCONSTID__SHIFT) & A6XX_HLSQ_CS_CNTL_0_WGOFFSETCONSTID__MASK;
+-}
+-#define A6XX_HLSQ_CS_CNTL_0_LOCALIDREGID__MASK			0xff000000
+-#define A6XX_HLSQ_CS_CNTL_0_LOCALIDREGID__SHIFT			24
+-static inline uint32_t A6XX_HLSQ_CS_CNTL_0_LOCALIDREGID(uint32_t val)
+-{
+-	return ((val) << A6XX_HLSQ_CS_CNTL_0_LOCALIDREGID__SHIFT) & A6XX_HLSQ_CS_CNTL_0_LOCALIDREGID__MASK;
+-}
 -
--static inline uint32_t REG_MDP5_PIPE_CSC_1_POST_CLAMP_REG(enum mdp5_pipe i0, uint32_t i1) { return 0x00000340 + __offset_PIPE(i0) + 0x4*i1; }
--#define MDP5_PIPE_CSC_1_POST_CLAMP_REG_HIGH__MASK		0x000000ff
--#define MDP5_PIPE_CSC_1_POST_CLAMP_REG_HIGH__SHIFT		0
--static inline uint32_t MDP5_PIPE_CSC_1_POST_CLAMP_REG_HIGH(uint32_t val)
+-#define REG_A6XX_HLSQ_CS_CNTL_1					0x0000b998
+-#define A6XX_HLSQ_CS_CNTL_1_LINEARLOCALIDREGID__MASK		0x000000ff
+-#define A6XX_HLSQ_CS_CNTL_1_LINEARLOCALIDREGID__SHIFT		0
+-static inline uint32_t A6XX_HLSQ_CS_CNTL_1_LINEARLOCALIDREGID(uint32_t val)
 -{
--	return ((val) << MDP5_PIPE_CSC_1_POST_CLAMP_REG_HIGH__SHIFT) & MDP5_PIPE_CSC_1_POST_CLAMP_REG_HIGH__MASK;
+-	return ((val) << A6XX_HLSQ_CS_CNTL_1_LINEARLOCALIDREGID__SHIFT) & A6XX_HLSQ_CS_CNTL_1_LINEARLOCALIDREGID__MASK;
 -}
--#define MDP5_PIPE_CSC_1_POST_CLAMP_REG_LOW__MASK		0x0000ff00
--#define MDP5_PIPE_CSC_1_POST_CLAMP_REG_LOW__SHIFT		8
--static inline uint32_t MDP5_PIPE_CSC_1_POST_CLAMP_REG_LOW(uint32_t val)
--{
--	return ((val) << MDP5_PIPE_CSC_1_POST_CLAMP_REG_LOW__SHIFT) & MDP5_PIPE_CSC_1_POST_CLAMP_REG_LOW__MASK;
+-#define A6XX_HLSQ_CS_CNTL_1_SINGLE_SP_CORE			0x00000100
+-#define A6XX_HLSQ_CS_CNTL_1_THREADSIZE__MASK			0x00000200
+-#define A6XX_HLSQ_CS_CNTL_1_THREADSIZE__SHIFT			9
+-static inline uint32_t A6XX_HLSQ_CS_CNTL_1_THREADSIZE(enum a6xx_threadsize val)
+-{
+-	return ((val) << A6XX_HLSQ_CS_CNTL_1_THREADSIZE__SHIFT) & A6XX_HLSQ_CS_CNTL_1_THREADSIZE__MASK;
 -}
+-#define A6XX_HLSQ_CS_CNTL_1_THREADSIZE_SCALAR			0x00000400
 -
--static inline uint32_t REG_MDP5_PIPE_CSC_1_PRE_BIAS(enum mdp5_pipe i0, uint32_t i1) { return 0x0000034c + __offset_PIPE(i0) + 0x4*i1; }
+-#define REG_A6XX_HLSQ_CS_KERNEL_GROUP_X				0x0000b999
 -
--static inline uint32_t REG_MDP5_PIPE_CSC_1_PRE_BIAS_REG(enum mdp5_pipe i0, uint32_t i1) { return 0x0000034c + __offset_PIPE(i0) + 0x4*i1; }
--#define MDP5_PIPE_CSC_1_PRE_BIAS_REG_VALUE__MASK		0x000001ff
--#define MDP5_PIPE_CSC_1_PRE_BIAS_REG_VALUE__SHIFT		0
--static inline uint32_t MDP5_PIPE_CSC_1_PRE_BIAS_REG_VALUE(uint32_t val)
--{
--	return ((val) << MDP5_PIPE_CSC_1_PRE_BIAS_REG_VALUE__SHIFT) & MDP5_PIPE_CSC_1_PRE_BIAS_REG_VALUE__MASK;
--}
+-#define REG_A6XX_HLSQ_CS_KERNEL_GROUP_Y				0x0000b99a
 -
--static inline uint32_t REG_MDP5_PIPE_CSC_1_POST_BIAS(enum mdp5_pipe i0, uint32_t i1) { return 0x00000358 + __offset_PIPE(i0) + 0x4*i1; }
+-#define REG_A6XX_HLSQ_CS_KERNEL_GROUP_Z				0x0000b99b
 -
--static inline uint32_t REG_MDP5_PIPE_CSC_1_POST_BIAS_REG(enum mdp5_pipe i0, uint32_t i1) { return 0x00000358 + __offset_PIPE(i0) + 0x4*i1; }
--#define MDP5_PIPE_CSC_1_POST_BIAS_REG_VALUE__MASK		0x000001ff
--#define MDP5_PIPE_CSC_1_POST_BIAS_REG_VALUE__SHIFT		0
--static inline uint32_t MDP5_PIPE_CSC_1_POST_BIAS_REG_VALUE(uint32_t val)
+-#define REG_A7XX_HLSQ_CS_NDRANGE_0				0x0000a9d4
+-#define A7XX_HLSQ_CS_NDRANGE_0_KERNELDIM__MASK			0x00000003
+-#define A7XX_HLSQ_CS_NDRANGE_0_KERNELDIM__SHIFT			0
+-static inline uint32_t A7XX_HLSQ_CS_NDRANGE_0_KERNELDIM(uint32_t val)
 -{
--	return ((val) << MDP5_PIPE_CSC_1_POST_BIAS_REG_VALUE__SHIFT) & MDP5_PIPE_CSC_1_POST_BIAS_REG_VALUE__MASK;
+-	return ((val) << A7XX_HLSQ_CS_NDRANGE_0_KERNELDIM__SHIFT) & A7XX_HLSQ_CS_NDRANGE_0_KERNELDIM__MASK;
+-}
+-#define A7XX_HLSQ_CS_NDRANGE_0_LOCALSIZEX__MASK			0x00000ffc
+-#define A7XX_HLSQ_CS_NDRANGE_0_LOCALSIZEX__SHIFT		2
+-static inline uint32_t A7XX_HLSQ_CS_NDRANGE_0_LOCALSIZEX(uint32_t val)
+-{
+-	return ((val) << A7XX_HLSQ_CS_NDRANGE_0_LOCALSIZEX__SHIFT) & A7XX_HLSQ_CS_NDRANGE_0_LOCALSIZEX__MASK;
 -}
+-#define A7XX_HLSQ_CS_NDRANGE_0_LOCALSIZEY__MASK			0x003ff000
+-#define A7XX_HLSQ_CS_NDRANGE_0_LOCALSIZEY__SHIFT		12
+-static inline uint32_t A7XX_HLSQ_CS_NDRANGE_0_LOCALSIZEY(uint32_t val)
+-{
+-	return ((val) << A7XX_HLSQ_CS_NDRANGE_0_LOCALSIZEY__SHIFT) & A7XX_HLSQ_CS_NDRANGE_0_LOCALSIZEY__MASK;
+-}
+-#define A7XX_HLSQ_CS_NDRANGE_0_LOCALSIZEZ__MASK			0xffc00000
+-#define A7XX_HLSQ_CS_NDRANGE_0_LOCALSIZEZ__SHIFT		22
+-static inline uint32_t A7XX_HLSQ_CS_NDRANGE_0_LOCALSIZEZ(uint32_t val)
+-{
+-	return ((val) << A7XX_HLSQ_CS_NDRANGE_0_LOCALSIZEZ__SHIFT) & A7XX_HLSQ_CS_NDRANGE_0_LOCALSIZEZ__MASK;
+-}
 -
--static inline uint32_t REG_MDP5_PIPE_SRC_SIZE(enum mdp5_pipe i0) { return 0x00000000 + __offset_PIPE(i0); }
--#define MDP5_PIPE_SRC_SIZE_HEIGHT__MASK				0xffff0000
--#define MDP5_PIPE_SRC_SIZE_HEIGHT__SHIFT			16
--static inline uint32_t MDP5_PIPE_SRC_SIZE_HEIGHT(uint32_t val)
+-#define REG_A7XX_HLSQ_CS_NDRANGE_1				0x0000a9d5
+-#define A7XX_HLSQ_CS_NDRANGE_1_GLOBALSIZE_X__MASK		0xffffffff
+-#define A7XX_HLSQ_CS_NDRANGE_1_GLOBALSIZE_X__SHIFT		0
+-static inline uint32_t A7XX_HLSQ_CS_NDRANGE_1_GLOBALSIZE_X(uint32_t val)
 -{
--	return ((val) << MDP5_PIPE_SRC_SIZE_HEIGHT__SHIFT) & MDP5_PIPE_SRC_SIZE_HEIGHT__MASK;
+-	return ((val) << A7XX_HLSQ_CS_NDRANGE_1_GLOBALSIZE_X__SHIFT) & A7XX_HLSQ_CS_NDRANGE_1_GLOBALSIZE_X__MASK;
 -}
--#define MDP5_PIPE_SRC_SIZE_WIDTH__MASK				0x0000ffff
--#define MDP5_PIPE_SRC_SIZE_WIDTH__SHIFT				0
--static inline uint32_t MDP5_PIPE_SRC_SIZE_WIDTH(uint32_t val)
+-
+-#define REG_A7XX_HLSQ_CS_NDRANGE_2				0x0000a9d6
+-#define A7XX_HLSQ_CS_NDRANGE_2_GLOBALOFF_X__MASK		0xffffffff
+-#define A7XX_HLSQ_CS_NDRANGE_2_GLOBALOFF_X__SHIFT		0
+-static inline uint32_t A7XX_HLSQ_CS_NDRANGE_2_GLOBALOFF_X(uint32_t val)
 -{
--	return ((val) << MDP5_PIPE_SRC_SIZE_WIDTH__SHIFT) & MDP5_PIPE_SRC_SIZE_WIDTH__MASK;
+-	return ((val) << A7XX_HLSQ_CS_NDRANGE_2_GLOBALOFF_X__SHIFT) & A7XX_HLSQ_CS_NDRANGE_2_GLOBALOFF_X__MASK;
 -}
 -
--static inline uint32_t REG_MDP5_PIPE_SRC_IMG_SIZE(enum mdp5_pipe i0) { return 0x00000004 + __offset_PIPE(i0); }
--#define MDP5_PIPE_SRC_IMG_SIZE_HEIGHT__MASK			0xffff0000
--#define MDP5_PIPE_SRC_IMG_SIZE_HEIGHT__SHIFT			16
--static inline uint32_t MDP5_PIPE_SRC_IMG_SIZE_HEIGHT(uint32_t val)
+-#define REG_A7XX_HLSQ_CS_NDRANGE_3				0x0000a9d7
+-#define A7XX_HLSQ_CS_NDRANGE_3_GLOBALSIZE_Y__MASK		0xffffffff
+-#define A7XX_HLSQ_CS_NDRANGE_3_GLOBALSIZE_Y__SHIFT		0
+-static inline uint32_t A7XX_HLSQ_CS_NDRANGE_3_GLOBALSIZE_Y(uint32_t val)
 -{
--	return ((val) << MDP5_PIPE_SRC_IMG_SIZE_HEIGHT__SHIFT) & MDP5_PIPE_SRC_IMG_SIZE_HEIGHT__MASK;
+-	return ((val) << A7XX_HLSQ_CS_NDRANGE_3_GLOBALSIZE_Y__SHIFT) & A7XX_HLSQ_CS_NDRANGE_3_GLOBALSIZE_Y__MASK;
 -}
--#define MDP5_PIPE_SRC_IMG_SIZE_WIDTH__MASK			0x0000ffff
--#define MDP5_PIPE_SRC_IMG_SIZE_WIDTH__SHIFT			0
--static inline uint32_t MDP5_PIPE_SRC_IMG_SIZE_WIDTH(uint32_t val)
+-
+-#define REG_A7XX_HLSQ_CS_NDRANGE_4				0x0000a9d8
+-#define A7XX_HLSQ_CS_NDRANGE_4_GLOBALOFF_Y__MASK		0xffffffff
+-#define A7XX_HLSQ_CS_NDRANGE_4_GLOBALOFF_Y__SHIFT		0
+-static inline uint32_t A7XX_HLSQ_CS_NDRANGE_4_GLOBALOFF_Y(uint32_t val)
 -{
--	return ((val) << MDP5_PIPE_SRC_IMG_SIZE_WIDTH__SHIFT) & MDP5_PIPE_SRC_IMG_SIZE_WIDTH__MASK;
+-	return ((val) << A7XX_HLSQ_CS_NDRANGE_4_GLOBALOFF_Y__SHIFT) & A7XX_HLSQ_CS_NDRANGE_4_GLOBALOFF_Y__MASK;
 -}
 -
--static inline uint32_t REG_MDP5_PIPE_SRC_XY(enum mdp5_pipe i0) { return 0x00000008 + __offset_PIPE(i0); }
--#define MDP5_PIPE_SRC_XY_Y__MASK				0xffff0000
--#define MDP5_PIPE_SRC_XY_Y__SHIFT				16
--static inline uint32_t MDP5_PIPE_SRC_XY_Y(uint32_t val)
+-#define REG_A7XX_HLSQ_CS_NDRANGE_5				0x0000a9d9
+-#define A7XX_HLSQ_CS_NDRANGE_5_GLOBALSIZE_Z__MASK		0xffffffff
+-#define A7XX_HLSQ_CS_NDRANGE_5_GLOBALSIZE_Z__SHIFT		0
+-static inline uint32_t A7XX_HLSQ_CS_NDRANGE_5_GLOBALSIZE_Z(uint32_t val)
 -{
--	return ((val) << MDP5_PIPE_SRC_XY_Y__SHIFT) & MDP5_PIPE_SRC_XY_Y__MASK;
+-	return ((val) << A7XX_HLSQ_CS_NDRANGE_5_GLOBALSIZE_Z__SHIFT) & A7XX_HLSQ_CS_NDRANGE_5_GLOBALSIZE_Z__MASK;
 -}
--#define MDP5_PIPE_SRC_XY_X__MASK				0x0000ffff
--#define MDP5_PIPE_SRC_XY_X__SHIFT				0
--static inline uint32_t MDP5_PIPE_SRC_XY_X(uint32_t val)
+-
+-#define REG_A7XX_HLSQ_CS_NDRANGE_6				0x0000a9da
+-#define A7XX_HLSQ_CS_NDRANGE_6_GLOBALOFF_Z__MASK		0xffffffff
+-#define A7XX_HLSQ_CS_NDRANGE_6_GLOBALOFF_Z__SHIFT		0
+-static inline uint32_t A7XX_HLSQ_CS_NDRANGE_6_GLOBALOFF_Z(uint32_t val)
 -{
--	return ((val) << MDP5_PIPE_SRC_XY_X__SHIFT) & MDP5_PIPE_SRC_XY_X__MASK;
+-	return ((val) << A7XX_HLSQ_CS_NDRANGE_6_GLOBALOFF_Z__SHIFT) & A7XX_HLSQ_CS_NDRANGE_6_GLOBALOFF_Z__MASK;
 -}
+-
+-#define REG_A7XX_HLSQ_CS_KERNEL_GROUP_X				0x0000a9dc
+-
+-#define REG_A7XX_HLSQ_CS_KERNEL_GROUP_Y				0x0000a9dd
+-
+-#define REG_A7XX_HLSQ_CS_KERNEL_GROUP_Z				0x0000a9de
 -
--static inline uint32_t REG_MDP5_PIPE_OUT_SIZE(enum mdp5_pipe i0) { return 0x0000000c + __offset_PIPE(i0); }
--#define MDP5_PIPE_OUT_SIZE_HEIGHT__MASK				0xffff0000
--#define MDP5_PIPE_OUT_SIZE_HEIGHT__SHIFT			16
--static inline uint32_t MDP5_PIPE_OUT_SIZE_HEIGHT(uint32_t val)
+-#define REG_A7XX_HLSQ_CS_CNTL_1					0x0000a9db
+-#define A7XX_HLSQ_CS_CNTL_1_LINEARLOCALIDREGID__MASK		0x000000ff
+-#define A7XX_HLSQ_CS_CNTL_1_LINEARLOCALIDREGID__SHIFT		0
+-static inline uint32_t A7XX_HLSQ_CS_CNTL_1_LINEARLOCALIDREGID(uint32_t val)
 -{
--	return ((val) << MDP5_PIPE_OUT_SIZE_HEIGHT__SHIFT) & MDP5_PIPE_OUT_SIZE_HEIGHT__MASK;
+-	return ((val) << A7XX_HLSQ_CS_CNTL_1_LINEARLOCALIDREGID__SHIFT) & A7XX_HLSQ_CS_CNTL_1_LINEARLOCALIDREGID__MASK;
 -}
--#define MDP5_PIPE_OUT_SIZE_WIDTH__MASK				0x0000ffff
--#define MDP5_PIPE_OUT_SIZE_WIDTH__SHIFT				0
--static inline uint32_t MDP5_PIPE_OUT_SIZE_WIDTH(uint32_t val)
--{
--	return ((val) << MDP5_PIPE_OUT_SIZE_WIDTH__SHIFT) & MDP5_PIPE_OUT_SIZE_WIDTH__MASK;
+-#define A7XX_HLSQ_CS_CNTL_1_THREADSIZE__MASK			0x00000200
+-#define A7XX_HLSQ_CS_CNTL_1_THREADSIZE__SHIFT			9
+-static inline uint32_t A7XX_HLSQ_CS_CNTL_1_THREADSIZE(enum a6xx_threadsize val)
+-{
+-	return ((val) << A7XX_HLSQ_CS_CNTL_1_THREADSIZE__SHIFT) & A7XX_HLSQ_CS_CNTL_1_THREADSIZE__MASK;
+-}
+-#define A7XX_HLSQ_CS_CNTL_1_UNK11				0x00000800
+-#define A7XX_HLSQ_CS_CNTL_1_UNK22				0x00400000
+-#define A7XX_HLSQ_CS_CNTL_1_UNK26				0x04000000
+-#define A7XX_HLSQ_CS_CNTL_1_YALIGN__MASK			0x78000000
+-#define A7XX_HLSQ_CS_CNTL_1_YALIGN__SHIFT			27
+-static inline uint32_t A7XX_HLSQ_CS_CNTL_1_YALIGN(enum a7xx_cs_yalign val)
+-{
+-	return ((val) << A7XX_HLSQ_CS_CNTL_1_YALIGN__SHIFT) & A7XX_HLSQ_CS_CNTL_1_YALIGN__MASK;
 -}
 -
--static inline uint32_t REG_MDP5_PIPE_OUT_XY(enum mdp5_pipe i0) { return 0x00000010 + __offset_PIPE(i0); }
--#define MDP5_PIPE_OUT_XY_Y__MASK				0xffff0000
--#define MDP5_PIPE_OUT_XY_Y__SHIFT				16
--static inline uint32_t MDP5_PIPE_OUT_XY_Y(uint32_t val)
+-#define REG_A7XX_HLSQ_CS_LOCAL_SIZE				0x0000a9df
+-#define A7XX_HLSQ_CS_LOCAL_SIZE_LOCALSIZEX__MASK		0x00000ffc
+-#define A7XX_HLSQ_CS_LOCAL_SIZE_LOCALSIZEX__SHIFT		2
+-static inline uint32_t A7XX_HLSQ_CS_LOCAL_SIZE_LOCALSIZEX(uint32_t val)
 -{
--	return ((val) << MDP5_PIPE_OUT_XY_Y__SHIFT) & MDP5_PIPE_OUT_XY_Y__MASK;
+-	return ((val) << A7XX_HLSQ_CS_LOCAL_SIZE_LOCALSIZEX__SHIFT) & A7XX_HLSQ_CS_LOCAL_SIZE_LOCALSIZEX__MASK;
 -}
--#define MDP5_PIPE_OUT_XY_X__MASK				0x0000ffff
--#define MDP5_PIPE_OUT_XY_X__SHIFT				0
--static inline uint32_t MDP5_PIPE_OUT_XY_X(uint32_t val)
--{
--	return ((val) << MDP5_PIPE_OUT_XY_X__SHIFT) & MDP5_PIPE_OUT_XY_X__MASK;
+-#define A7XX_HLSQ_CS_LOCAL_SIZE_LOCALSIZEY__MASK		0x003ff000
+-#define A7XX_HLSQ_CS_LOCAL_SIZE_LOCALSIZEY__SHIFT		12
+-static inline uint32_t A7XX_HLSQ_CS_LOCAL_SIZE_LOCALSIZEY(uint32_t val)
+-{
+-	return ((val) << A7XX_HLSQ_CS_LOCAL_SIZE_LOCALSIZEY__SHIFT) & A7XX_HLSQ_CS_LOCAL_SIZE_LOCALSIZEY__MASK;
+-}
+-#define A7XX_HLSQ_CS_LOCAL_SIZE_LOCALSIZEZ__MASK		0xffc00000
+-#define A7XX_HLSQ_CS_LOCAL_SIZE_LOCALSIZEZ__SHIFT		22
+-static inline uint32_t A7XX_HLSQ_CS_LOCAL_SIZE_LOCALSIZEZ(uint32_t val)
+-{
+-	return ((val) << A7XX_HLSQ_CS_LOCAL_SIZE_LOCALSIZEZ__SHIFT) & A7XX_HLSQ_CS_LOCAL_SIZE_LOCALSIZEZ__MASK;
 -}
 -
--static inline uint32_t REG_MDP5_PIPE_SRC0_ADDR(enum mdp5_pipe i0) { return 0x00000014 + __offset_PIPE(i0); }
+-#define REG_A6XX_HLSQ_LOAD_STATE_FRAG_CMD			0x0000b9a0
 -
--static inline uint32_t REG_MDP5_PIPE_SRC1_ADDR(enum mdp5_pipe i0) { return 0x00000018 + __offset_PIPE(i0); }
+-#define REG_A6XX_HLSQ_LOAD_STATE_FRAG_EXT_SRC_ADDR		0x0000b9a1
 -
--static inline uint32_t REG_MDP5_PIPE_SRC2_ADDR(enum mdp5_pipe i0) { return 0x0000001c + __offset_PIPE(i0); }
+-#define REG_A6XX_HLSQ_LOAD_STATE_FRAG_DATA			0x0000b9a3
 -
--static inline uint32_t REG_MDP5_PIPE_SRC3_ADDR(enum mdp5_pipe i0) { return 0x00000020 + __offset_PIPE(i0); }
+-#define REG_A6XX_HLSQ_CS_BINDLESS_BASE(i0) (0x0000b9c0 + 0x2*(i0))
 -
--static inline uint32_t REG_MDP5_PIPE_SRC_STRIDE_A(enum mdp5_pipe i0) { return 0x00000024 + __offset_PIPE(i0); }
--#define MDP5_PIPE_SRC_STRIDE_A_P0__MASK				0x0000ffff
--#define MDP5_PIPE_SRC_STRIDE_A_P0__SHIFT			0
--static inline uint32_t MDP5_PIPE_SRC_STRIDE_A_P0(uint32_t val)
+-static inline uint32_t REG_A6XX_HLSQ_CS_BINDLESS_BASE_DESCRIPTOR(uint32_t i0) { return 0x0000b9c0 + 0x2*i0; }
+-#define A6XX_HLSQ_CS_BINDLESS_BASE_DESCRIPTOR_DESC_SIZE__MASK	0x00000003
+-#define A6XX_HLSQ_CS_BINDLESS_BASE_DESCRIPTOR_DESC_SIZE__SHIFT	0
+-static inline uint32_t A6XX_HLSQ_CS_BINDLESS_BASE_DESCRIPTOR_DESC_SIZE(enum a6xx_bindless_descriptor_size val)
 -{
--	return ((val) << MDP5_PIPE_SRC_STRIDE_A_P0__SHIFT) & MDP5_PIPE_SRC_STRIDE_A_P0__MASK;
+-	return ((val) << A6XX_HLSQ_CS_BINDLESS_BASE_DESCRIPTOR_DESC_SIZE__SHIFT) & A6XX_HLSQ_CS_BINDLESS_BASE_DESCRIPTOR_DESC_SIZE__MASK;
 -}
--#define MDP5_PIPE_SRC_STRIDE_A_P1__MASK				0xffff0000
--#define MDP5_PIPE_SRC_STRIDE_A_P1__SHIFT			16
--static inline uint32_t MDP5_PIPE_SRC_STRIDE_A_P1(uint32_t val)
--{
--	return ((val) << MDP5_PIPE_SRC_STRIDE_A_P1__SHIFT) & MDP5_PIPE_SRC_STRIDE_A_P1__MASK;
+-#define A6XX_HLSQ_CS_BINDLESS_BASE_DESCRIPTOR_ADDR__MASK	0xfffffffffffffffc
+-#define A6XX_HLSQ_CS_BINDLESS_BASE_DESCRIPTOR_ADDR__SHIFT	2
+-static inline uint32_t A6XX_HLSQ_CS_BINDLESS_BASE_DESCRIPTOR_ADDR(uint64_t val)
+-{
+-	assert(!(val & 0x3));
+-	return (((val >> 2)) << A6XX_HLSQ_CS_BINDLESS_BASE_DESCRIPTOR_ADDR__SHIFT) & A6XX_HLSQ_CS_BINDLESS_BASE_DESCRIPTOR_ADDR__MASK;
 -}
 -
--static inline uint32_t REG_MDP5_PIPE_SRC_STRIDE_B(enum mdp5_pipe i0) { return 0x00000028 + __offset_PIPE(i0); }
--#define MDP5_PIPE_SRC_STRIDE_B_P2__MASK				0x0000ffff
--#define MDP5_PIPE_SRC_STRIDE_B_P2__SHIFT			0
--static inline uint32_t MDP5_PIPE_SRC_STRIDE_B_P2(uint32_t val)
+-#define REG_A6XX_HLSQ_CS_UNKNOWN_B9D0				0x0000b9d0
+-#define A6XX_HLSQ_CS_UNKNOWN_B9D0_SHARED_SIZE__MASK		0x0000001f
+-#define A6XX_HLSQ_CS_UNKNOWN_B9D0_SHARED_SIZE__SHIFT		0
+-static inline uint32_t A6XX_HLSQ_CS_UNKNOWN_B9D0_SHARED_SIZE(uint32_t val)
 -{
--	return ((val) << MDP5_PIPE_SRC_STRIDE_B_P2__SHIFT) & MDP5_PIPE_SRC_STRIDE_B_P2__MASK;
+-	return ((val) << A6XX_HLSQ_CS_UNKNOWN_B9D0_SHARED_SIZE__SHIFT) & A6XX_HLSQ_CS_UNKNOWN_B9D0_SHARED_SIZE__MASK;
 -}
--#define MDP5_PIPE_SRC_STRIDE_B_P3__MASK				0xffff0000
--#define MDP5_PIPE_SRC_STRIDE_B_P3__SHIFT			16
--static inline uint32_t MDP5_PIPE_SRC_STRIDE_B_P3(uint32_t val)
--{
--	return ((val) << MDP5_PIPE_SRC_STRIDE_B_P3__SHIFT) & MDP5_PIPE_SRC_STRIDE_B_P3__MASK;
+-#define A6XX_HLSQ_CS_UNKNOWN_B9D0_UNK5				0x00000020
+-#define A6XX_HLSQ_CS_UNKNOWN_B9D0_UNK6				0x00000040
+-
+-#define REG_A6XX_HLSQ_DRAW_CMD					0x0000bb00
+-#define A6XX_HLSQ_DRAW_CMD_STATE_ID__MASK			0x000000ff
+-#define A6XX_HLSQ_DRAW_CMD_STATE_ID__SHIFT			0
+-static inline uint32_t A6XX_HLSQ_DRAW_CMD_STATE_ID(uint32_t val)
+-{
+-	return ((val) << A6XX_HLSQ_DRAW_CMD_STATE_ID__SHIFT) & A6XX_HLSQ_DRAW_CMD_STATE_ID__MASK;
 -}
 -
--static inline uint32_t REG_MDP5_PIPE_STILE_FRAME_SIZE(enum mdp5_pipe i0) { return 0x0000002c + __offset_PIPE(i0); }
--
--static inline uint32_t REG_MDP5_PIPE_SRC_FORMAT(enum mdp5_pipe i0) { return 0x00000030 + __offset_PIPE(i0); }
--#define MDP5_PIPE_SRC_FORMAT_G_BPC__MASK			0x00000003
--#define MDP5_PIPE_SRC_FORMAT_G_BPC__SHIFT			0
--static inline uint32_t MDP5_PIPE_SRC_FORMAT_G_BPC(enum mdp_bpc val)
--{
--	return ((val) << MDP5_PIPE_SRC_FORMAT_G_BPC__SHIFT) & MDP5_PIPE_SRC_FORMAT_G_BPC__MASK;
--}
--#define MDP5_PIPE_SRC_FORMAT_B_BPC__MASK			0x0000000c
--#define MDP5_PIPE_SRC_FORMAT_B_BPC__SHIFT			2
--static inline uint32_t MDP5_PIPE_SRC_FORMAT_B_BPC(enum mdp_bpc val)
+-#define REG_A6XX_HLSQ_DISPATCH_CMD				0x0000bb01
+-#define A6XX_HLSQ_DISPATCH_CMD_STATE_ID__MASK			0x000000ff
+-#define A6XX_HLSQ_DISPATCH_CMD_STATE_ID__SHIFT			0
+-static inline uint32_t A6XX_HLSQ_DISPATCH_CMD_STATE_ID(uint32_t val)
 -{
--	return ((val) << MDP5_PIPE_SRC_FORMAT_B_BPC__SHIFT) & MDP5_PIPE_SRC_FORMAT_B_BPC__MASK;
+-	return ((val) << A6XX_HLSQ_DISPATCH_CMD_STATE_ID__SHIFT) & A6XX_HLSQ_DISPATCH_CMD_STATE_ID__MASK;
 -}
--#define MDP5_PIPE_SRC_FORMAT_R_BPC__MASK			0x00000030
--#define MDP5_PIPE_SRC_FORMAT_R_BPC__SHIFT			4
--static inline uint32_t MDP5_PIPE_SRC_FORMAT_R_BPC(enum mdp_bpc val)
+-
+-#define REG_A6XX_HLSQ_EVENT_CMD					0x0000bb02
+-#define A6XX_HLSQ_EVENT_CMD_STATE_ID__MASK			0x00ff0000
+-#define A6XX_HLSQ_EVENT_CMD_STATE_ID__SHIFT			16
+-static inline uint32_t A6XX_HLSQ_EVENT_CMD_STATE_ID(uint32_t val)
 -{
--	return ((val) << MDP5_PIPE_SRC_FORMAT_R_BPC__SHIFT) & MDP5_PIPE_SRC_FORMAT_R_BPC__MASK;
+-	return ((val) << A6XX_HLSQ_EVENT_CMD_STATE_ID__SHIFT) & A6XX_HLSQ_EVENT_CMD_STATE_ID__MASK;
 -}
--#define MDP5_PIPE_SRC_FORMAT_A_BPC__MASK			0x000000c0
--#define MDP5_PIPE_SRC_FORMAT_A_BPC__SHIFT			6
--static inline uint32_t MDP5_PIPE_SRC_FORMAT_A_BPC(enum mdp_bpc_alpha val)
--{
--	return ((val) << MDP5_PIPE_SRC_FORMAT_A_BPC__SHIFT) & MDP5_PIPE_SRC_FORMAT_A_BPC__MASK;
+-#define A6XX_HLSQ_EVENT_CMD_EVENT__MASK				0x0000007f
+-#define A6XX_HLSQ_EVENT_CMD_EVENT__SHIFT			0
+-static inline uint32_t A6XX_HLSQ_EVENT_CMD_EVENT(enum vgt_event_type val)
+-{
+-	return ((val) << A6XX_HLSQ_EVENT_CMD_EVENT__SHIFT) & A6XX_HLSQ_EVENT_CMD_EVENT__MASK;
 -}
--#define MDP5_PIPE_SRC_FORMAT_ALPHA_ENABLE			0x00000100
--#define MDP5_PIPE_SRC_FORMAT_CPP__MASK				0x00000600
--#define MDP5_PIPE_SRC_FORMAT_CPP__SHIFT				9
--static inline uint32_t MDP5_PIPE_SRC_FORMAT_CPP(uint32_t val)
--{
--	return ((val) << MDP5_PIPE_SRC_FORMAT_CPP__SHIFT) & MDP5_PIPE_SRC_FORMAT_CPP__MASK;
+-
+-#define REG_A6XX_HLSQ_INVALIDATE_CMD				0x0000bb08
+-#define A6XX_HLSQ_INVALIDATE_CMD_VS_STATE			0x00000001
+-#define A6XX_HLSQ_INVALIDATE_CMD_HS_STATE			0x00000002
+-#define A6XX_HLSQ_INVALIDATE_CMD_DS_STATE			0x00000004
+-#define A6XX_HLSQ_INVALIDATE_CMD_GS_STATE			0x00000008
+-#define A6XX_HLSQ_INVALIDATE_CMD_FS_STATE			0x00000010
+-#define A6XX_HLSQ_INVALIDATE_CMD_CS_STATE			0x00000020
+-#define A6XX_HLSQ_INVALIDATE_CMD_CS_IBO				0x00000040
+-#define A6XX_HLSQ_INVALIDATE_CMD_GFX_IBO			0x00000080
+-#define A6XX_HLSQ_INVALIDATE_CMD_CS_SHARED_CONST		0x00080000
+-#define A6XX_HLSQ_INVALIDATE_CMD_GFX_SHARED_CONST		0x00000100
+-#define A6XX_HLSQ_INVALIDATE_CMD_CS_BINDLESS__MASK		0x00003e00
+-#define A6XX_HLSQ_INVALIDATE_CMD_CS_BINDLESS__SHIFT		9
+-static inline uint32_t A6XX_HLSQ_INVALIDATE_CMD_CS_BINDLESS(uint32_t val)
+-{
+-	return ((val) << A6XX_HLSQ_INVALIDATE_CMD_CS_BINDLESS__SHIFT) & A6XX_HLSQ_INVALIDATE_CMD_CS_BINDLESS__MASK;
 -}
--#define MDP5_PIPE_SRC_FORMAT_ROT90				0x00000800
--#define MDP5_PIPE_SRC_FORMAT_UNPACK_COUNT__MASK			0x00003000
--#define MDP5_PIPE_SRC_FORMAT_UNPACK_COUNT__SHIFT		12
--static inline uint32_t MDP5_PIPE_SRC_FORMAT_UNPACK_COUNT(uint32_t val)
--{
--	return ((val) << MDP5_PIPE_SRC_FORMAT_UNPACK_COUNT__SHIFT) & MDP5_PIPE_SRC_FORMAT_UNPACK_COUNT__MASK;
+-#define A6XX_HLSQ_INVALIDATE_CMD_GFX_BINDLESS__MASK		0x0007c000
+-#define A6XX_HLSQ_INVALIDATE_CMD_GFX_BINDLESS__SHIFT		14
+-static inline uint32_t A6XX_HLSQ_INVALIDATE_CMD_GFX_BINDLESS(uint32_t val)
+-{
+-	return ((val) << A6XX_HLSQ_INVALIDATE_CMD_GFX_BINDLESS__SHIFT) & A6XX_HLSQ_INVALIDATE_CMD_GFX_BINDLESS__MASK;
 -}
--#define MDP5_PIPE_SRC_FORMAT_UNPACK_TIGHT			0x00020000
--#define MDP5_PIPE_SRC_FORMAT_UNPACK_ALIGN_MSB			0x00040000
--#define MDP5_PIPE_SRC_FORMAT_FETCH_TYPE__MASK			0x00180000
--#define MDP5_PIPE_SRC_FORMAT_FETCH_TYPE__SHIFT			19
--static inline uint32_t MDP5_PIPE_SRC_FORMAT_FETCH_TYPE(enum mdp_fetch_type val)
--{
--	return ((val) << MDP5_PIPE_SRC_FORMAT_FETCH_TYPE__SHIFT) & MDP5_PIPE_SRC_FORMAT_FETCH_TYPE__MASK;
+-
+-#define REG_A7XX_HLSQ_INVALIDATE_CMD				0x0000ab1f
+-#define A7XX_HLSQ_INVALIDATE_CMD_VS_STATE			0x00000001
+-#define A7XX_HLSQ_INVALIDATE_CMD_HS_STATE			0x00000002
+-#define A7XX_HLSQ_INVALIDATE_CMD_DS_STATE			0x00000004
+-#define A7XX_HLSQ_INVALIDATE_CMD_GS_STATE			0x00000008
+-#define A7XX_HLSQ_INVALIDATE_CMD_FS_STATE			0x00000010
+-#define A7XX_HLSQ_INVALIDATE_CMD_CS_STATE			0x00000020
+-#define A7XX_HLSQ_INVALIDATE_CMD_CS_IBO				0x00000040
+-#define A7XX_HLSQ_INVALIDATE_CMD_GFX_IBO			0x00000080
+-#define A7XX_HLSQ_INVALIDATE_CMD_CS_BINDLESS__MASK		0x0001fe00
+-#define A7XX_HLSQ_INVALIDATE_CMD_CS_BINDLESS__SHIFT		9
+-static inline uint32_t A7XX_HLSQ_INVALIDATE_CMD_CS_BINDLESS(uint32_t val)
+-{
+-	return ((val) << A7XX_HLSQ_INVALIDATE_CMD_CS_BINDLESS__SHIFT) & A7XX_HLSQ_INVALIDATE_CMD_CS_BINDLESS__MASK;
 -}
--#define MDP5_PIPE_SRC_FORMAT_CHROMA_SAMP__MASK			0x01800000
--#define MDP5_PIPE_SRC_FORMAT_CHROMA_SAMP__SHIFT			23
--static inline uint32_t MDP5_PIPE_SRC_FORMAT_CHROMA_SAMP(enum mdp_chroma_samp_type val)
--{
--	return ((val) << MDP5_PIPE_SRC_FORMAT_CHROMA_SAMP__SHIFT) & MDP5_PIPE_SRC_FORMAT_CHROMA_SAMP__MASK;
+-#define A7XX_HLSQ_INVALIDATE_CMD_GFX_BINDLESS__MASK		0x01fe0000
+-#define A7XX_HLSQ_INVALIDATE_CMD_GFX_BINDLESS__SHIFT		17
+-static inline uint32_t A7XX_HLSQ_INVALIDATE_CMD_GFX_BINDLESS(uint32_t val)
+-{
+-	return ((val) << A7XX_HLSQ_INVALIDATE_CMD_GFX_BINDLESS__SHIFT) & A7XX_HLSQ_INVALIDATE_CMD_GFX_BINDLESS__MASK;
 -}
 -
--static inline uint32_t REG_MDP5_PIPE_SRC_UNPACK(enum mdp5_pipe i0) { return 0x00000034 + __offset_PIPE(i0); }
--#define MDP5_PIPE_SRC_UNPACK_ELEM0__MASK			0x000000ff
--#define MDP5_PIPE_SRC_UNPACK_ELEM0__SHIFT			0
--static inline uint32_t MDP5_PIPE_SRC_UNPACK_ELEM0(uint32_t val)
+-#define REG_A6XX_HLSQ_FS_CNTL					0x0000bb10
+-#define A6XX_HLSQ_FS_CNTL_CONSTLEN__MASK			0x000000ff
+-#define A6XX_HLSQ_FS_CNTL_CONSTLEN__SHIFT			0
+-static inline uint32_t A6XX_HLSQ_FS_CNTL_CONSTLEN(uint32_t val)
 -{
--	return ((val) << MDP5_PIPE_SRC_UNPACK_ELEM0__SHIFT) & MDP5_PIPE_SRC_UNPACK_ELEM0__MASK;
+-	assert(!(val & 0x3));
+-	return (((val >> 2)) << A6XX_HLSQ_FS_CNTL_CONSTLEN__SHIFT) & A6XX_HLSQ_FS_CNTL_CONSTLEN__MASK;
 -}
--#define MDP5_PIPE_SRC_UNPACK_ELEM1__MASK			0x0000ff00
--#define MDP5_PIPE_SRC_UNPACK_ELEM1__SHIFT			8
--static inline uint32_t MDP5_PIPE_SRC_UNPACK_ELEM1(uint32_t val)
--{
--	return ((val) << MDP5_PIPE_SRC_UNPACK_ELEM1__SHIFT) & MDP5_PIPE_SRC_UNPACK_ELEM1__MASK;
+-#define A6XX_HLSQ_FS_CNTL_ENABLED				0x00000100
+-#define A6XX_HLSQ_FS_CNTL_READ_IMM_SHARED_CONSTS		0x00000200
+-
+-#define REG_A7XX_HLSQ_FS_CNTL					0x0000ab03
+-#define A7XX_HLSQ_FS_CNTL_CONSTLEN__MASK			0x000000ff
+-#define A7XX_HLSQ_FS_CNTL_CONSTLEN__SHIFT			0
+-static inline uint32_t A7XX_HLSQ_FS_CNTL_CONSTLEN(uint32_t val)
+-{
+-	assert(!(val & 0x3));
+-	return (((val >> 2)) << A7XX_HLSQ_FS_CNTL_CONSTLEN__SHIFT) & A7XX_HLSQ_FS_CNTL_CONSTLEN__MASK;
 -}
--#define MDP5_PIPE_SRC_UNPACK_ELEM2__MASK			0x00ff0000
--#define MDP5_PIPE_SRC_UNPACK_ELEM2__SHIFT			16
--static inline uint32_t MDP5_PIPE_SRC_UNPACK_ELEM2(uint32_t val)
+-#define A7XX_HLSQ_FS_CNTL_ENABLED				0x00000100
+-#define A7XX_HLSQ_FS_CNTL_READ_IMM_SHARED_CONSTS		0x00000200
+-
+-#define REG_A7XX_HLSQ_SHARED_CONSTS_IMM(i0) (0x0000ab40 + 0x1*(i0))
+-
+-#define REG_A6XX_HLSQ_SHARED_CONSTS				0x0000bb11
+-#define A6XX_HLSQ_SHARED_CONSTS_ENABLE				0x00000001
+-
+-#define REG_A6XX_HLSQ_BINDLESS_BASE(i0) (0x0000bb20 + 0x2*(i0))
+-
+-static inline uint32_t REG_A6XX_HLSQ_BINDLESS_BASE_DESCRIPTOR(uint32_t i0) { return 0x0000bb20 + 0x2*i0; }
+-#define A6XX_HLSQ_BINDLESS_BASE_DESCRIPTOR_DESC_SIZE__MASK	0x00000003
+-#define A6XX_HLSQ_BINDLESS_BASE_DESCRIPTOR_DESC_SIZE__SHIFT	0
+-static inline uint32_t A6XX_HLSQ_BINDLESS_BASE_DESCRIPTOR_DESC_SIZE(enum a6xx_bindless_descriptor_size val)
 -{
--	return ((val) << MDP5_PIPE_SRC_UNPACK_ELEM2__SHIFT) & MDP5_PIPE_SRC_UNPACK_ELEM2__MASK;
+-	return ((val) << A6XX_HLSQ_BINDLESS_BASE_DESCRIPTOR_DESC_SIZE__SHIFT) & A6XX_HLSQ_BINDLESS_BASE_DESCRIPTOR_DESC_SIZE__MASK;
 -}
--#define MDP5_PIPE_SRC_UNPACK_ELEM3__MASK			0xff000000
--#define MDP5_PIPE_SRC_UNPACK_ELEM3__SHIFT			24
--static inline uint32_t MDP5_PIPE_SRC_UNPACK_ELEM3(uint32_t val)
--{
--	return ((val) << MDP5_PIPE_SRC_UNPACK_ELEM3__SHIFT) & MDP5_PIPE_SRC_UNPACK_ELEM3__MASK;
+-#define A6XX_HLSQ_BINDLESS_BASE_DESCRIPTOR_ADDR__MASK		0xfffffffffffffffc
+-#define A6XX_HLSQ_BINDLESS_BASE_DESCRIPTOR_ADDR__SHIFT		2
+-static inline uint32_t A6XX_HLSQ_BINDLESS_BASE_DESCRIPTOR_ADDR(uint64_t val)
+-{
+-	assert(!(val & 0x3));
+-	return (((val >> 2)) << A6XX_HLSQ_BINDLESS_BASE_DESCRIPTOR_ADDR__SHIFT) & A6XX_HLSQ_BINDLESS_BASE_DESCRIPTOR_ADDR__MASK;
 -}
 -
--static inline uint32_t REG_MDP5_PIPE_SRC_OP_MODE(enum mdp5_pipe i0) { return 0x00000038 + __offset_PIPE(i0); }
--#define MDP5_PIPE_SRC_OP_MODE_BWC_EN				0x00000001
--#define MDP5_PIPE_SRC_OP_MODE_BWC__MASK				0x00000006
--#define MDP5_PIPE_SRC_OP_MODE_BWC__SHIFT			1
--static inline uint32_t MDP5_PIPE_SRC_OP_MODE_BWC(enum mdp5_pipe_bwc val)
+-#define REG_A6XX_HLSQ_2D_EVENT_CMD				0x0000bd80
+-#define A6XX_HLSQ_2D_EVENT_CMD_STATE_ID__MASK			0x0000ff00
+-#define A6XX_HLSQ_2D_EVENT_CMD_STATE_ID__SHIFT			8
+-static inline uint32_t A6XX_HLSQ_2D_EVENT_CMD_STATE_ID(uint32_t val)
 -{
--	return ((val) << MDP5_PIPE_SRC_OP_MODE_BWC__SHIFT) & MDP5_PIPE_SRC_OP_MODE_BWC__MASK;
+-	return ((val) << A6XX_HLSQ_2D_EVENT_CMD_STATE_ID__SHIFT) & A6XX_HLSQ_2D_EVENT_CMD_STATE_ID__MASK;
+-}
+-#define A6XX_HLSQ_2D_EVENT_CMD_EVENT__MASK			0x0000007f
+-#define A6XX_HLSQ_2D_EVENT_CMD_EVENT__SHIFT			0
+-static inline uint32_t A6XX_HLSQ_2D_EVENT_CMD_EVENT(enum vgt_event_type val)
+-{
+-	return ((val) << A6XX_HLSQ_2D_EVENT_CMD_EVENT__SHIFT) & A6XX_HLSQ_2D_EVENT_CMD_EVENT__MASK;
 -}
--#define MDP5_PIPE_SRC_OP_MODE_FLIP_LR				0x00002000
--#define MDP5_PIPE_SRC_OP_MODE_FLIP_UD				0x00004000
--#define MDP5_PIPE_SRC_OP_MODE_IGC_EN				0x00010000
--#define MDP5_PIPE_SRC_OP_MODE_IGC_ROM_0				0x00020000
--#define MDP5_PIPE_SRC_OP_MODE_IGC_ROM_1				0x00040000
--#define MDP5_PIPE_SRC_OP_MODE_DEINTERLACE			0x00400000
--#define MDP5_PIPE_SRC_OP_MODE_DEINTERLACE_ODD			0x00800000
--#define MDP5_PIPE_SRC_OP_MODE_SW_PIX_EXT_OVERRIDE		0x80000000
 -
--static inline uint32_t REG_MDP5_PIPE_SRC_CONSTANT_COLOR(enum mdp5_pipe i0) { return 0x0000003c + __offset_PIPE(i0); }
+-#define REG_A6XX_HLSQ_UNKNOWN_BE00				0x0000be00
 -
--static inline uint32_t REG_MDP5_PIPE_FETCH_CONFIG(enum mdp5_pipe i0) { return 0x00000048 + __offset_PIPE(i0); }
+-#define REG_A6XX_HLSQ_UNKNOWN_BE01				0x0000be01
 -
--static inline uint32_t REG_MDP5_PIPE_VC1_RANGE(enum mdp5_pipe i0) { return 0x0000004c + __offset_PIPE(i0); }
+-#define REG_A6XX_HLSQ_DBG_ECO_CNTL				0x0000be04
 -
--static inline uint32_t REG_MDP5_PIPE_REQPRIO_FIFO_WM_0(enum mdp5_pipe i0) { return 0x00000050 + __offset_PIPE(i0); }
+-#define REG_A6XX_HLSQ_ADDR_MODE_CNTL				0x0000be05
 -
--static inline uint32_t REG_MDP5_PIPE_REQPRIO_FIFO_WM_1(enum mdp5_pipe i0) { return 0x00000054 + __offset_PIPE(i0); }
+-#define REG_A6XX_HLSQ_UNKNOWN_BE08				0x0000be08
 -
--static inline uint32_t REG_MDP5_PIPE_REQPRIO_FIFO_WM_2(enum mdp5_pipe i0) { return 0x00000058 + __offset_PIPE(i0); }
+-#define REG_A6XX_HLSQ_PERFCTR_HLSQ_SEL(i0) (0x0000be10 + 0x1*(i0))
 -
--static inline uint32_t REG_MDP5_PIPE_SRC_ADDR_SW_STATUS(enum mdp5_pipe i0) { return 0x00000070 + __offset_PIPE(i0); }
+-#define REG_A6XX_HLSQ_CONTEXT_SWITCH_GFX_PREEMPTION_SAFE_MODE	0x0000be22
 -
--static inline uint32_t REG_MDP5_PIPE_CURRENT_SRC0_ADDR(enum mdp5_pipe i0) { return 0x000000a4 + __offset_PIPE(i0); }
+-#define REG_A7XX_SP_AHB_READ_APERTURE				0x0000c000
 -
--static inline uint32_t REG_MDP5_PIPE_CURRENT_SRC1_ADDR(enum mdp5_pipe i0) { return 0x000000a8 + __offset_PIPE(i0); }
+-#define REG_A7XX_SP_UNKNOWN_0CE2				0x00000ce2
 -
--static inline uint32_t REG_MDP5_PIPE_CURRENT_SRC2_ADDR(enum mdp5_pipe i0) { return 0x000000ac + __offset_PIPE(i0); }
+-#define REG_A7XX_SP_UNKNOWN_0CE4				0x00000ce4
 -
--static inline uint32_t REG_MDP5_PIPE_CURRENT_SRC3_ADDR(enum mdp5_pipe i0) { return 0x000000b0 + __offset_PIPE(i0); }
+-#define REG_A7XX_SP_UNKNOWN_0CE6				0x00000ce6
 -
--static inline uint32_t REG_MDP5_PIPE_DECIMATION(enum mdp5_pipe i0) { return 0x000000b4 + __offset_PIPE(i0); }
--#define MDP5_PIPE_DECIMATION_VERT__MASK				0x000000ff
--#define MDP5_PIPE_DECIMATION_VERT__SHIFT			0
--static inline uint32_t MDP5_PIPE_DECIMATION_VERT(uint32_t val)
+-#define REG_A6XX_CP_EVENT_START					0x0000d600
+-#define A6XX_CP_EVENT_START_STATE_ID__MASK			0x000000ff
+-#define A6XX_CP_EVENT_START_STATE_ID__SHIFT			0
+-static inline uint32_t A6XX_CP_EVENT_START_STATE_ID(uint32_t val)
 -{
--	return ((val) << MDP5_PIPE_DECIMATION_VERT__SHIFT) & MDP5_PIPE_DECIMATION_VERT__MASK;
+-	return ((val) << A6XX_CP_EVENT_START_STATE_ID__SHIFT) & A6XX_CP_EVENT_START_STATE_ID__MASK;
 -}
--#define MDP5_PIPE_DECIMATION_HORZ__MASK				0x0000ff00
--#define MDP5_PIPE_DECIMATION_HORZ__SHIFT			8
--static inline uint32_t MDP5_PIPE_DECIMATION_HORZ(uint32_t val)
+-
+-#define REG_A6XX_CP_EVENT_END					0x0000d601
+-#define A6XX_CP_EVENT_END_STATE_ID__MASK			0x000000ff
+-#define A6XX_CP_EVENT_END_STATE_ID__SHIFT			0
+-static inline uint32_t A6XX_CP_EVENT_END_STATE_ID(uint32_t val)
 -{
--	return ((val) << MDP5_PIPE_DECIMATION_HORZ__SHIFT) & MDP5_PIPE_DECIMATION_HORZ__MASK;
+-	return ((val) << A6XX_CP_EVENT_END_STATE_ID__SHIFT) & A6XX_CP_EVENT_END_STATE_ID__MASK;
 -}
 -
--static inline uint32_t __offset_SW_PIX_EXT(enum mdp_component_type idx)
+-#define REG_A6XX_CP_2D_EVENT_START				0x0000d700
+-#define A6XX_CP_2D_EVENT_START_STATE_ID__MASK			0x000000ff
+-#define A6XX_CP_2D_EVENT_START_STATE_ID__SHIFT			0
+-static inline uint32_t A6XX_CP_2D_EVENT_START_STATE_ID(uint32_t val)
 -{
--	switch (idx) {
--		case COMP_0: return 0x00000100;
--		case COMP_1_2: return 0x00000110;
--		case COMP_3: return 0x00000120;
--		default: return INVALID_IDX(idx);
--	}
+-	return ((val) << A6XX_CP_2D_EVENT_START_STATE_ID__SHIFT) & A6XX_CP_2D_EVENT_START_STATE_ID__MASK;
 -}
--static inline uint32_t REG_MDP5_PIPE_SW_PIX_EXT(enum mdp5_pipe i0, enum mdp_component_type i1) { return 0x00000000 + __offset_PIPE(i0) + __offset_SW_PIX_EXT(i1); }
 -
--static inline uint32_t REG_MDP5_PIPE_SW_PIX_EXT_LR(enum mdp5_pipe i0, enum mdp_component_type i1) { return 0x00000000 + __offset_PIPE(i0) + __offset_SW_PIX_EXT(i1); }
--#define MDP5_PIPE_SW_PIX_EXT_LR_LEFT_RPT__MASK			0x000000ff
--#define MDP5_PIPE_SW_PIX_EXT_LR_LEFT_RPT__SHIFT			0
--static inline uint32_t MDP5_PIPE_SW_PIX_EXT_LR_LEFT_RPT(uint32_t val)
+-#define REG_A6XX_CP_2D_EVENT_END				0x0000d701
+-#define A6XX_CP_2D_EVENT_END_STATE_ID__MASK			0x000000ff
+-#define A6XX_CP_2D_EVENT_END_STATE_ID__SHIFT			0
+-static inline uint32_t A6XX_CP_2D_EVENT_END_STATE_ID(uint32_t val)
 -{
--	return ((val) << MDP5_PIPE_SW_PIX_EXT_LR_LEFT_RPT__SHIFT) & MDP5_PIPE_SW_PIX_EXT_LR_LEFT_RPT__MASK;
+-	return ((val) << A6XX_CP_2D_EVENT_END_STATE_ID__SHIFT) & A6XX_CP_2D_EVENT_END_STATE_ID__MASK;
 -}
--#define MDP5_PIPE_SW_PIX_EXT_LR_LEFT_OVF__MASK			0x0000ff00
--#define MDP5_PIPE_SW_PIX_EXT_LR_LEFT_OVF__SHIFT			8
--static inline uint32_t MDP5_PIPE_SW_PIX_EXT_LR_LEFT_OVF(int32_t val)
+-
+-#define REG_A6XX_TEX_SAMP_0					0x00000000
+-#define A6XX_TEX_SAMP_0_MIPFILTER_LINEAR_NEAR			0x00000001
+-#define A6XX_TEX_SAMP_0_XY_MAG__MASK				0x00000006
+-#define A6XX_TEX_SAMP_0_XY_MAG__SHIFT				1
+-static inline uint32_t A6XX_TEX_SAMP_0_XY_MAG(enum a6xx_tex_filter val)
 -{
--	return ((val) << MDP5_PIPE_SW_PIX_EXT_LR_LEFT_OVF__SHIFT) & MDP5_PIPE_SW_PIX_EXT_LR_LEFT_OVF__MASK;
+-	return ((val) << A6XX_TEX_SAMP_0_XY_MAG__SHIFT) & A6XX_TEX_SAMP_0_XY_MAG__MASK;
 -}
--#define MDP5_PIPE_SW_PIX_EXT_LR_RIGHT_RPT__MASK			0x00ff0000
--#define MDP5_PIPE_SW_PIX_EXT_LR_RIGHT_RPT__SHIFT		16
--static inline uint32_t MDP5_PIPE_SW_PIX_EXT_LR_RIGHT_RPT(uint32_t val)
--{
--	return ((val) << MDP5_PIPE_SW_PIX_EXT_LR_RIGHT_RPT__SHIFT) & MDP5_PIPE_SW_PIX_EXT_LR_RIGHT_RPT__MASK;
+-#define A6XX_TEX_SAMP_0_XY_MIN__MASK				0x00000018
+-#define A6XX_TEX_SAMP_0_XY_MIN__SHIFT				3
+-static inline uint32_t A6XX_TEX_SAMP_0_XY_MIN(enum a6xx_tex_filter val)
+-{
+-	return ((val) << A6XX_TEX_SAMP_0_XY_MIN__SHIFT) & A6XX_TEX_SAMP_0_XY_MIN__MASK;
 -}
--#define MDP5_PIPE_SW_PIX_EXT_LR_RIGHT_OVF__MASK			0xff000000
--#define MDP5_PIPE_SW_PIX_EXT_LR_RIGHT_OVF__SHIFT		24
--static inline uint32_t MDP5_PIPE_SW_PIX_EXT_LR_RIGHT_OVF(int32_t val)
--{
--	return ((val) << MDP5_PIPE_SW_PIX_EXT_LR_RIGHT_OVF__SHIFT) & MDP5_PIPE_SW_PIX_EXT_LR_RIGHT_OVF__MASK;
+-#define A6XX_TEX_SAMP_0_WRAP_S__MASK				0x000000e0
+-#define A6XX_TEX_SAMP_0_WRAP_S__SHIFT				5
+-static inline uint32_t A6XX_TEX_SAMP_0_WRAP_S(enum a6xx_tex_clamp val)
+-{
+-	return ((val) << A6XX_TEX_SAMP_0_WRAP_S__SHIFT) & A6XX_TEX_SAMP_0_WRAP_S__MASK;
 -}
--
--static inline uint32_t REG_MDP5_PIPE_SW_PIX_EXT_TB(enum mdp5_pipe i0, enum mdp_component_type i1) { return 0x00000004 + __offset_PIPE(i0) + __offset_SW_PIX_EXT(i1); }
--#define MDP5_PIPE_SW_PIX_EXT_TB_TOP_RPT__MASK			0x000000ff
--#define MDP5_PIPE_SW_PIX_EXT_TB_TOP_RPT__SHIFT			0
--static inline uint32_t MDP5_PIPE_SW_PIX_EXT_TB_TOP_RPT(uint32_t val)
--{
--	return ((val) << MDP5_PIPE_SW_PIX_EXT_TB_TOP_RPT__SHIFT) & MDP5_PIPE_SW_PIX_EXT_TB_TOP_RPT__MASK;
+-#define A6XX_TEX_SAMP_0_WRAP_T__MASK				0x00000700
+-#define A6XX_TEX_SAMP_0_WRAP_T__SHIFT				8
+-static inline uint32_t A6XX_TEX_SAMP_0_WRAP_T(enum a6xx_tex_clamp val)
+-{
+-	return ((val) << A6XX_TEX_SAMP_0_WRAP_T__SHIFT) & A6XX_TEX_SAMP_0_WRAP_T__MASK;
 -}
--#define MDP5_PIPE_SW_PIX_EXT_TB_TOP_OVF__MASK			0x0000ff00
--#define MDP5_PIPE_SW_PIX_EXT_TB_TOP_OVF__SHIFT			8
--static inline uint32_t MDP5_PIPE_SW_PIX_EXT_TB_TOP_OVF(int32_t val)
--{
--	return ((val) << MDP5_PIPE_SW_PIX_EXT_TB_TOP_OVF__SHIFT) & MDP5_PIPE_SW_PIX_EXT_TB_TOP_OVF__MASK;
+-#define A6XX_TEX_SAMP_0_WRAP_R__MASK				0x00003800
+-#define A6XX_TEX_SAMP_0_WRAP_R__SHIFT				11
+-static inline uint32_t A6XX_TEX_SAMP_0_WRAP_R(enum a6xx_tex_clamp val)
+-{
+-	return ((val) << A6XX_TEX_SAMP_0_WRAP_R__SHIFT) & A6XX_TEX_SAMP_0_WRAP_R__MASK;
 -}
--#define MDP5_PIPE_SW_PIX_EXT_TB_BOTTOM_RPT__MASK		0x00ff0000
--#define MDP5_PIPE_SW_PIX_EXT_TB_BOTTOM_RPT__SHIFT		16
--static inline uint32_t MDP5_PIPE_SW_PIX_EXT_TB_BOTTOM_RPT(uint32_t val)
--{
--	return ((val) << MDP5_PIPE_SW_PIX_EXT_TB_BOTTOM_RPT__SHIFT) & MDP5_PIPE_SW_PIX_EXT_TB_BOTTOM_RPT__MASK;
+-#define A6XX_TEX_SAMP_0_ANISO__MASK				0x0001c000
+-#define A6XX_TEX_SAMP_0_ANISO__SHIFT				14
+-static inline uint32_t A6XX_TEX_SAMP_0_ANISO(enum a6xx_tex_aniso val)
+-{
+-	return ((val) << A6XX_TEX_SAMP_0_ANISO__SHIFT) & A6XX_TEX_SAMP_0_ANISO__MASK;
 -}
--#define MDP5_PIPE_SW_PIX_EXT_TB_BOTTOM_OVF__MASK		0xff000000
--#define MDP5_PIPE_SW_PIX_EXT_TB_BOTTOM_OVF__SHIFT		24
--static inline uint32_t MDP5_PIPE_SW_PIX_EXT_TB_BOTTOM_OVF(int32_t val)
--{
--	return ((val) << MDP5_PIPE_SW_PIX_EXT_TB_BOTTOM_OVF__SHIFT) & MDP5_PIPE_SW_PIX_EXT_TB_BOTTOM_OVF__MASK;
+-#define A6XX_TEX_SAMP_0_LOD_BIAS__MASK				0xfff80000
+-#define A6XX_TEX_SAMP_0_LOD_BIAS__SHIFT				19
+-static inline uint32_t A6XX_TEX_SAMP_0_LOD_BIAS(float val)
+-{
+-	return ((((int32_t)(val * 256.0))) << A6XX_TEX_SAMP_0_LOD_BIAS__SHIFT) & A6XX_TEX_SAMP_0_LOD_BIAS__MASK;
 -}
 -
--static inline uint32_t REG_MDP5_PIPE_SW_PIX_EXT_REQ_PIXELS(enum mdp5_pipe i0, enum mdp_component_type i1) { return 0x00000008 + __offset_PIPE(i0) + __offset_SW_PIX_EXT(i1); }
--#define MDP5_PIPE_SW_PIX_EXT_REQ_PIXELS_LEFT_RIGHT__MASK	0x0000ffff
--#define MDP5_PIPE_SW_PIX_EXT_REQ_PIXELS_LEFT_RIGHT__SHIFT	0
--static inline uint32_t MDP5_PIPE_SW_PIX_EXT_REQ_PIXELS_LEFT_RIGHT(uint32_t val)
+-#define REG_A6XX_TEX_SAMP_1					0x00000001
+-#define A6XX_TEX_SAMP_1_CLAMPENABLE				0x00000001
+-#define A6XX_TEX_SAMP_1_COMPARE_FUNC__MASK			0x0000000e
+-#define A6XX_TEX_SAMP_1_COMPARE_FUNC__SHIFT			1
+-static inline uint32_t A6XX_TEX_SAMP_1_COMPARE_FUNC(enum adreno_compare_func val)
 -{
--	return ((val) << MDP5_PIPE_SW_PIX_EXT_REQ_PIXELS_LEFT_RIGHT__SHIFT) & MDP5_PIPE_SW_PIX_EXT_REQ_PIXELS_LEFT_RIGHT__MASK;
+-	return ((val) << A6XX_TEX_SAMP_1_COMPARE_FUNC__SHIFT) & A6XX_TEX_SAMP_1_COMPARE_FUNC__MASK;
 -}
--#define MDP5_PIPE_SW_PIX_EXT_REQ_PIXELS_TOP_BOTTOM__MASK	0xffff0000
--#define MDP5_PIPE_SW_PIX_EXT_REQ_PIXELS_TOP_BOTTOM__SHIFT	16
--static inline uint32_t MDP5_PIPE_SW_PIX_EXT_REQ_PIXELS_TOP_BOTTOM(uint32_t val)
--{
--	return ((val) << MDP5_PIPE_SW_PIX_EXT_REQ_PIXELS_TOP_BOTTOM__SHIFT) & MDP5_PIPE_SW_PIX_EXT_REQ_PIXELS_TOP_BOTTOM__MASK;
+-#define A6XX_TEX_SAMP_1_CUBEMAPSEAMLESSFILTOFF			0x00000010
+-#define A6XX_TEX_SAMP_1_UNNORM_COORDS				0x00000020
+-#define A6XX_TEX_SAMP_1_MIPFILTER_LINEAR_FAR			0x00000040
+-#define A6XX_TEX_SAMP_1_MAX_LOD__MASK				0x000fff00
+-#define A6XX_TEX_SAMP_1_MAX_LOD__SHIFT				8
+-static inline uint32_t A6XX_TEX_SAMP_1_MAX_LOD(float val)
+-{
+-	return ((((uint32_t)(val * 256.0))) << A6XX_TEX_SAMP_1_MAX_LOD__SHIFT) & A6XX_TEX_SAMP_1_MAX_LOD__MASK;
 -}
+-#define A6XX_TEX_SAMP_1_MIN_LOD__MASK				0xfff00000
+-#define A6XX_TEX_SAMP_1_MIN_LOD__SHIFT				20
+-static inline uint32_t A6XX_TEX_SAMP_1_MIN_LOD(float val)
+-{
+-	return ((((uint32_t)(val * 256.0))) << A6XX_TEX_SAMP_1_MIN_LOD__SHIFT) & A6XX_TEX_SAMP_1_MIN_LOD__MASK;
+-}
 -
--static inline uint32_t REG_MDP5_PIPE_SCALE_CONFIG(enum mdp5_pipe i0) { return 0x00000204 + __offset_PIPE(i0); }
--#define MDP5_PIPE_SCALE_CONFIG_SCALEX_EN			0x00000001
--#define MDP5_PIPE_SCALE_CONFIG_SCALEY_EN			0x00000002
--#define MDP5_PIPE_SCALE_CONFIG_SCALEX_FILTER_COMP_0__MASK	0x00000300
--#define MDP5_PIPE_SCALE_CONFIG_SCALEX_FILTER_COMP_0__SHIFT	8
--static inline uint32_t MDP5_PIPE_SCALE_CONFIG_SCALEX_FILTER_COMP_0(enum mdp5_scale_filter val)
+-#define REG_A6XX_TEX_SAMP_2					0x00000002
+-#define A6XX_TEX_SAMP_2_REDUCTION_MODE__MASK			0x00000003
+-#define A6XX_TEX_SAMP_2_REDUCTION_MODE__SHIFT			0
+-static inline uint32_t A6XX_TEX_SAMP_2_REDUCTION_MODE(enum a6xx_reduction_mode val)
 -{
--	return ((val) << MDP5_PIPE_SCALE_CONFIG_SCALEX_FILTER_COMP_0__SHIFT) & MDP5_PIPE_SCALE_CONFIG_SCALEX_FILTER_COMP_0__MASK;
+-	return ((val) << A6XX_TEX_SAMP_2_REDUCTION_MODE__SHIFT) & A6XX_TEX_SAMP_2_REDUCTION_MODE__MASK;
 -}
--#define MDP5_PIPE_SCALE_CONFIG_SCALEY_FILTER_COMP_0__MASK	0x00000c00
--#define MDP5_PIPE_SCALE_CONFIG_SCALEY_FILTER_COMP_0__SHIFT	10
--static inline uint32_t MDP5_PIPE_SCALE_CONFIG_SCALEY_FILTER_COMP_0(enum mdp5_scale_filter val)
--{
--	return ((val) << MDP5_PIPE_SCALE_CONFIG_SCALEY_FILTER_COMP_0__SHIFT) & MDP5_PIPE_SCALE_CONFIG_SCALEY_FILTER_COMP_0__MASK;
+-#define A6XX_TEX_SAMP_2_CHROMA_LINEAR				0x00000020
+-#define A6XX_TEX_SAMP_2_BCOLOR__MASK				0xffffff80
+-#define A6XX_TEX_SAMP_2_BCOLOR__SHIFT				7
+-static inline uint32_t A6XX_TEX_SAMP_2_BCOLOR(uint32_t val)
+-{
+-	return ((val) << A6XX_TEX_SAMP_2_BCOLOR__SHIFT) & A6XX_TEX_SAMP_2_BCOLOR__MASK;
 -}
--#define MDP5_PIPE_SCALE_CONFIG_SCALEX_FILTER_COMP_1_2__MASK	0x00003000
--#define MDP5_PIPE_SCALE_CONFIG_SCALEX_FILTER_COMP_1_2__SHIFT	12
--static inline uint32_t MDP5_PIPE_SCALE_CONFIG_SCALEX_FILTER_COMP_1_2(enum mdp5_scale_filter val)
+-
+-#define REG_A6XX_TEX_SAMP_3					0x00000003
+-
+-#define REG_A6XX_TEX_CONST_0					0x00000000
+-#define A6XX_TEX_CONST_0_TILE_MODE__MASK			0x00000003
+-#define A6XX_TEX_CONST_0_TILE_MODE__SHIFT			0
+-static inline uint32_t A6XX_TEX_CONST_0_TILE_MODE(enum a6xx_tile_mode val)
 -{
--	return ((val) << MDP5_PIPE_SCALE_CONFIG_SCALEX_FILTER_COMP_1_2__SHIFT) & MDP5_PIPE_SCALE_CONFIG_SCALEX_FILTER_COMP_1_2__MASK;
+-	return ((val) << A6XX_TEX_CONST_0_TILE_MODE__SHIFT) & A6XX_TEX_CONST_0_TILE_MODE__MASK;
 -}
--#define MDP5_PIPE_SCALE_CONFIG_SCALEY_FILTER_COMP_1_2__MASK	0x0000c000
--#define MDP5_PIPE_SCALE_CONFIG_SCALEY_FILTER_COMP_1_2__SHIFT	14
--static inline uint32_t MDP5_PIPE_SCALE_CONFIG_SCALEY_FILTER_COMP_1_2(enum mdp5_scale_filter val)
--{
--	return ((val) << MDP5_PIPE_SCALE_CONFIG_SCALEY_FILTER_COMP_1_2__SHIFT) & MDP5_PIPE_SCALE_CONFIG_SCALEY_FILTER_COMP_1_2__MASK;
+-#define A6XX_TEX_CONST_0_SRGB					0x00000004
+-#define A6XX_TEX_CONST_0_SWIZ_X__MASK				0x00000070
+-#define A6XX_TEX_CONST_0_SWIZ_X__SHIFT				4
+-static inline uint32_t A6XX_TEX_CONST_0_SWIZ_X(enum a6xx_tex_swiz val)
+-{
+-	return ((val) << A6XX_TEX_CONST_0_SWIZ_X__SHIFT) & A6XX_TEX_CONST_0_SWIZ_X__MASK;
 -}
--#define MDP5_PIPE_SCALE_CONFIG_SCALEX_FILTER_COMP_3__MASK	0x00030000
--#define MDP5_PIPE_SCALE_CONFIG_SCALEX_FILTER_COMP_3__SHIFT	16
--static inline uint32_t MDP5_PIPE_SCALE_CONFIG_SCALEX_FILTER_COMP_3(enum mdp5_scale_filter val)
--{
--	return ((val) << MDP5_PIPE_SCALE_CONFIG_SCALEX_FILTER_COMP_3__SHIFT) & MDP5_PIPE_SCALE_CONFIG_SCALEX_FILTER_COMP_3__MASK;
+-#define A6XX_TEX_CONST_0_SWIZ_Y__MASK				0x00000380
+-#define A6XX_TEX_CONST_0_SWIZ_Y__SHIFT				7
+-static inline uint32_t A6XX_TEX_CONST_0_SWIZ_Y(enum a6xx_tex_swiz val)
+-{
+-	return ((val) << A6XX_TEX_CONST_0_SWIZ_Y__SHIFT) & A6XX_TEX_CONST_0_SWIZ_Y__MASK;
 -}
--#define MDP5_PIPE_SCALE_CONFIG_SCALEY_FILTER_COMP_3__MASK	0x000c0000
--#define MDP5_PIPE_SCALE_CONFIG_SCALEY_FILTER_COMP_3__SHIFT	18
--static inline uint32_t MDP5_PIPE_SCALE_CONFIG_SCALEY_FILTER_COMP_3(enum mdp5_scale_filter val)
--{
--	return ((val) << MDP5_PIPE_SCALE_CONFIG_SCALEY_FILTER_COMP_3__SHIFT) & MDP5_PIPE_SCALE_CONFIG_SCALEY_FILTER_COMP_3__MASK;
+-#define A6XX_TEX_CONST_0_SWIZ_Z__MASK				0x00001c00
+-#define A6XX_TEX_CONST_0_SWIZ_Z__SHIFT				10
+-static inline uint32_t A6XX_TEX_CONST_0_SWIZ_Z(enum a6xx_tex_swiz val)
+-{
+-	return ((val) << A6XX_TEX_CONST_0_SWIZ_Z__SHIFT) & A6XX_TEX_CONST_0_SWIZ_Z__MASK;
 -}
--
--static inline uint32_t REG_MDP5_PIPE_SCALE_PHASE_STEP_X(enum mdp5_pipe i0) { return 0x00000210 + __offset_PIPE(i0); }
--
--static inline uint32_t REG_MDP5_PIPE_SCALE_PHASE_STEP_Y(enum mdp5_pipe i0) { return 0x00000214 + __offset_PIPE(i0); }
--
--static inline uint32_t REG_MDP5_PIPE_SCALE_CR_PHASE_STEP_X(enum mdp5_pipe i0) { return 0x00000218 + __offset_PIPE(i0); }
--
--static inline uint32_t REG_MDP5_PIPE_SCALE_CR_PHASE_STEP_Y(enum mdp5_pipe i0) { return 0x0000021c + __offset_PIPE(i0); }
--
--static inline uint32_t REG_MDP5_PIPE_SCALE_INIT_PHASE_X(enum mdp5_pipe i0) { return 0x00000220 + __offset_PIPE(i0); }
--
--static inline uint32_t REG_MDP5_PIPE_SCALE_INIT_PHASE_Y(enum mdp5_pipe i0) { return 0x00000224 + __offset_PIPE(i0); }
--
--static inline uint32_t __offset_LM(uint32_t idx)
--{
--	switch (idx) {
--		case 0: return (mdp5_cfg->lm.base[0]);
--		case 1: return (mdp5_cfg->lm.base[1]);
--		case 2: return (mdp5_cfg->lm.base[2]);
--		case 3: return (mdp5_cfg->lm.base[3]);
--		case 4: return (mdp5_cfg->lm.base[4]);
--		case 5: return (mdp5_cfg->lm.base[5]);
--		default: return INVALID_IDX(idx);
--	}
+-#define A6XX_TEX_CONST_0_SWIZ_W__MASK				0x0000e000
+-#define A6XX_TEX_CONST_0_SWIZ_W__SHIFT				13
+-static inline uint32_t A6XX_TEX_CONST_0_SWIZ_W(enum a6xx_tex_swiz val)
+-{
+-	return ((val) << A6XX_TEX_CONST_0_SWIZ_W__SHIFT) & A6XX_TEX_CONST_0_SWIZ_W__MASK;
 -}
--static inline uint32_t REG_MDP5_LM(uint32_t i0) { return 0x00000000 + __offset_LM(i0); }
--
--static inline uint32_t REG_MDP5_LM_BLEND_COLOR_OUT(uint32_t i0) { return 0x00000000 + __offset_LM(i0); }
--#define MDP5_LM_BLEND_COLOR_OUT_STAGE0_FG_ALPHA			0x00000002
--#define MDP5_LM_BLEND_COLOR_OUT_STAGE1_FG_ALPHA			0x00000004
--#define MDP5_LM_BLEND_COLOR_OUT_STAGE2_FG_ALPHA			0x00000008
--#define MDP5_LM_BLEND_COLOR_OUT_STAGE3_FG_ALPHA			0x00000010
--#define MDP5_LM_BLEND_COLOR_OUT_STAGE4_FG_ALPHA			0x00000020
--#define MDP5_LM_BLEND_COLOR_OUT_STAGE5_FG_ALPHA			0x00000040
--#define MDP5_LM_BLEND_COLOR_OUT_STAGE6_FG_ALPHA			0x00000080
--#define MDP5_LM_BLEND_COLOR_OUT_SPLIT_LEFT_RIGHT		0x80000000
+-#define A6XX_TEX_CONST_0_MIPLVLS__MASK				0x000f0000
+-#define A6XX_TEX_CONST_0_MIPLVLS__SHIFT				16
+-static inline uint32_t A6XX_TEX_CONST_0_MIPLVLS(uint32_t val)
+-{
+-	return ((val) << A6XX_TEX_CONST_0_MIPLVLS__SHIFT) & A6XX_TEX_CONST_0_MIPLVLS__MASK;
+-}
+-#define A6XX_TEX_CONST_0_CHROMA_MIDPOINT_X			0x00010000
+-#define A6XX_TEX_CONST_0_CHROMA_MIDPOINT_Y			0x00040000
+-#define A6XX_TEX_CONST_0_SAMPLES__MASK				0x00300000
+-#define A6XX_TEX_CONST_0_SAMPLES__SHIFT				20
+-static inline uint32_t A6XX_TEX_CONST_0_SAMPLES(enum a3xx_msaa_samples val)
+-{
+-	return ((val) << A6XX_TEX_CONST_0_SAMPLES__SHIFT) & A6XX_TEX_CONST_0_SAMPLES__MASK;
+-}
+-#define A6XX_TEX_CONST_0_FMT__MASK				0x3fc00000
+-#define A6XX_TEX_CONST_0_FMT__SHIFT				22
+-static inline uint32_t A6XX_TEX_CONST_0_FMT(enum a6xx_format val)
+-{
+-	return ((val) << A6XX_TEX_CONST_0_FMT__SHIFT) & A6XX_TEX_CONST_0_FMT__MASK;
+-}
+-#define A6XX_TEX_CONST_0_SWAP__MASK				0xc0000000
+-#define A6XX_TEX_CONST_0_SWAP__SHIFT				30
+-static inline uint32_t A6XX_TEX_CONST_0_SWAP(enum a3xx_color_swap val)
+-{
+-	return ((val) << A6XX_TEX_CONST_0_SWAP__SHIFT) & A6XX_TEX_CONST_0_SWAP__MASK;
+-}
 -
--static inline uint32_t REG_MDP5_LM_OUT_SIZE(uint32_t i0) { return 0x00000004 + __offset_LM(i0); }
--#define MDP5_LM_OUT_SIZE_HEIGHT__MASK				0xffff0000
--#define MDP5_LM_OUT_SIZE_HEIGHT__SHIFT				16
--static inline uint32_t MDP5_LM_OUT_SIZE_HEIGHT(uint32_t val)
+-#define REG_A6XX_TEX_CONST_1					0x00000001
+-#define A6XX_TEX_CONST_1_WIDTH__MASK				0x00007fff
+-#define A6XX_TEX_CONST_1_WIDTH__SHIFT				0
+-static inline uint32_t A6XX_TEX_CONST_1_WIDTH(uint32_t val)
 -{
--	return ((val) << MDP5_LM_OUT_SIZE_HEIGHT__SHIFT) & MDP5_LM_OUT_SIZE_HEIGHT__MASK;
+-	return ((val) << A6XX_TEX_CONST_1_WIDTH__SHIFT) & A6XX_TEX_CONST_1_WIDTH__MASK;
 -}
--#define MDP5_LM_OUT_SIZE_WIDTH__MASK				0x0000ffff
--#define MDP5_LM_OUT_SIZE_WIDTH__SHIFT				0
--static inline uint32_t MDP5_LM_OUT_SIZE_WIDTH(uint32_t val)
--{
--	return ((val) << MDP5_LM_OUT_SIZE_WIDTH__SHIFT) & MDP5_LM_OUT_SIZE_WIDTH__MASK;
+-#define A6XX_TEX_CONST_1_HEIGHT__MASK				0x3fff8000
+-#define A6XX_TEX_CONST_1_HEIGHT__SHIFT				15
+-static inline uint32_t A6XX_TEX_CONST_1_HEIGHT(uint32_t val)
+-{
+-	return ((val) << A6XX_TEX_CONST_1_HEIGHT__SHIFT) & A6XX_TEX_CONST_1_HEIGHT__MASK;
 -}
--
--static inline uint32_t REG_MDP5_LM_BORDER_COLOR_0(uint32_t i0) { return 0x00000008 + __offset_LM(i0); }
 -
--static inline uint32_t REG_MDP5_LM_BORDER_COLOR_1(uint32_t i0) { return 0x00000010 + __offset_LM(i0); }
--
--static inline uint32_t __offset_BLEND(uint32_t idx)
+-#define REG_A6XX_TEX_CONST_2					0x00000002
+-#define A6XX_TEX_CONST_2_STRUCTSIZETEXELS__MASK			0x0000fff0
+-#define A6XX_TEX_CONST_2_STRUCTSIZETEXELS__SHIFT		4
+-static inline uint32_t A6XX_TEX_CONST_2_STRUCTSIZETEXELS(uint32_t val)
 -{
--	switch (idx) {
--		case 0: return 0x00000020;
--		case 1: return 0x00000050;
--		case 2: return 0x00000080;
--		case 3: return 0x000000b0;
--		case 4: return 0x00000230;
--		case 5: return 0x00000260;
--		case 6: return 0x00000290;
--		default: return INVALID_IDX(idx);
--	}
+-	return ((val) << A6XX_TEX_CONST_2_STRUCTSIZETEXELS__SHIFT) & A6XX_TEX_CONST_2_STRUCTSIZETEXELS__MASK;
+-}
+-#define A6XX_TEX_CONST_2_STARTOFFSETTEXELS__MASK		0x003f0000
+-#define A6XX_TEX_CONST_2_STARTOFFSETTEXELS__SHIFT		16
+-static inline uint32_t A6XX_TEX_CONST_2_STARTOFFSETTEXELS(uint32_t val)
+-{
+-	return ((val) << A6XX_TEX_CONST_2_STARTOFFSETTEXELS__SHIFT) & A6XX_TEX_CONST_2_STARTOFFSETTEXELS__MASK;
+-}
+-#define A6XX_TEX_CONST_2_PITCHALIGN__MASK			0x0000000f
+-#define A6XX_TEX_CONST_2_PITCHALIGN__SHIFT			0
+-static inline uint32_t A6XX_TEX_CONST_2_PITCHALIGN(uint32_t val)
+-{
+-	return ((val) << A6XX_TEX_CONST_2_PITCHALIGN__SHIFT) & A6XX_TEX_CONST_2_PITCHALIGN__MASK;
+-}
+-#define A6XX_TEX_CONST_2_PITCH__MASK				0x1fffff80
+-#define A6XX_TEX_CONST_2_PITCH__SHIFT				7
+-static inline uint32_t A6XX_TEX_CONST_2_PITCH(uint32_t val)
+-{
+-	return ((val) << A6XX_TEX_CONST_2_PITCH__SHIFT) & A6XX_TEX_CONST_2_PITCH__MASK;
 -}
--static inline uint32_t REG_MDP5_LM_BLEND(uint32_t i0, uint32_t i1) { return 0x00000000 + __offset_LM(i0) + __offset_BLEND(i1); }
+-#define A6XX_TEX_CONST_2_TYPE__MASK				0xe0000000
+-#define A6XX_TEX_CONST_2_TYPE__SHIFT				29
+-static inline uint32_t A6XX_TEX_CONST_2_TYPE(enum a6xx_tex_type val)
+-{
+-	return ((val) << A6XX_TEX_CONST_2_TYPE__SHIFT) & A6XX_TEX_CONST_2_TYPE__MASK;
+-}
 -
--static inline uint32_t REG_MDP5_LM_BLEND_OP_MODE(uint32_t i0, uint32_t i1) { return 0x00000000 + __offset_LM(i0) + __offset_BLEND(i1); }
--#define MDP5_LM_BLEND_OP_MODE_FG_ALPHA__MASK			0x00000003
--#define MDP5_LM_BLEND_OP_MODE_FG_ALPHA__SHIFT			0
--static inline uint32_t MDP5_LM_BLEND_OP_MODE_FG_ALPHA(enum mdp_alpha_type val)
+-#define REG_A6XX_TEX_CONST_3					0x00000003
+-#define A6XX_TEX_CONST_3_ARRAY_PITCH__MASK			0x007fffff
+-#define A6XX_TEX_CONST_3_ARRAY_PITCH__SHIFT			0
+-static inline uint32_t A6XX_TEX_CONST_3_ARRAY_PITCH(uint32_t val)
 -{
--	return ((val) << MDP5_LM_BLEND_OP_MODE_FG_ALPHA__SHIFT) & MDP5_LM_BLEND_OP_MODE_FG_ALPHA__MASK;
+-	assert(!(val & 0xfff));
+-	return (((val >> 12)) << A6XX_TEX_CONST_3_ARRAY_PITCH__SHIFT) & A6XX_TEX_CONST_3_ARRAY_PITCH__MASK;
 -}
--#define MDP5_LM_BLEND_OP_MODE_FG_INV_ALPHA			0x00000004
--#define MDP5_LM_BLEND_OP_MODE_FG_MOD_ALPHA			0x00000008
--#define MDP5_LM_BLEND_OP_MODE_FG_INV_MOD_ALPHA			0x00000010
--#define MDP5_LM_BLEND_OP_MODE_FG_TRANSP_EN			0x00000020
--#define MDP5_LM_BLEND_OP_MODE_BG_ALPHA__MASK			0x00000300
--#define MDP5_LM_BLEND_OP_MODE_BG_ALPHA__SHIFT			8
--static inline uint32_t MDP5_LM_BLEND_OP_MODE_BG_ALPHA(enum mdp_alpha_type val)
--{
--	return ((val) << MDP5_LM_BLEND_OP_MODE_BG_ALPHA__SHIFT) & MDP5_LM_BLEND_OP_MODE_BG_ALPHA__MASK;
+-#define A6XX_TEX_CONST_3_MIN_LAYERSZ__MASK			0x07800000
+-#define A6XX_TEX_CONST_3_MIN_LAYERSZ__SHIFT			23
+-static inline uint32_t A6XX_TEX_CONST_3_MIN_LAYERSZ(uint32_t val)
+-{
+-	assert(!(val & 0xfff));
+-	return (((val >> 12)) << A6XX_TEX_CONST_3_MIN_LAYERSZ__SHIFT) & A6XX_TEX_CONST_3_MIN_LAYERSZ__MASK;
 -}
--#define MDP5_LM_BLEND_OP_MODE_BG_INV_ALPHA			0x00000400
--#define MDP5_LM_BLEND_OP_MODE_BG_MOD_ALPHA			0x00000800
--#define MDP5_LM_BLEND_OP_MODE_BG_INV_MOD_ALPHA			0x00001000
--#define MDP5_LM_BLEND_OP_MODE_BG_TRANSP_EN			0x00002000
--
--static inline uint32_t REG_MDP5_LM_BLEND_FG_ALPHA(uint32_t i0, uint32_t i1) { return 0x00000004 + __offset_LM(i0) + __offset_BLEND(i1); }
--
--static inline uint32_t REG_MDP5_LM_BLEND_BG_ALPHA(uint32_t i0, uint32_t i1) { return 0x00000008 + __offset_LM(i0) + __offset_BLEND(i1); }
--
--static inline uint32_t REG_MDP5_LM_BLEND_FG_TRANSP_LOW0(uint32_t i0, uint32_t i1) { return 0x0000000c + __offset_LM(i0) + __offset_BLEND(i1); }
--
--static inline uint32_t REG_MDP5_LM_BLEND_FG_TRANSP_LOW1(uint32_t i0, uint32_t i1) { return 0x00000010 + __offset_LM(i0) + __offset_BLEND(i1); }
--
--static inline uint32_t REG_MDP5_LM_BLEND_FG_TRANSP_HIGH0(uint32_t i0, uint32_t i1) { return 0x00000014 + __offset_LM(i0) + __offset_BLEND(i1); }
--
--static inline uint32_t REG_MDP5_LM_BLEND_FG_TRANSP_HIGH1(uint32_t i0, uint32_t i1) { return 0x00000018 + __offset_LM(i0) + __offset_BLEND(i1); }
--
--static inline uint32_t REG_MDP5_LM_BLEND_BG_TRANSP_LOW0(uint32_t i0, uint32_t i1) { return 0x0000001c + __offset_LM(i0) + __offset_BLEND(i1); }
--
--static inline uint32_t REG_MDP5_LM_BLEND_BG_TRANSP_LOW1(uint32_t i0, uint32_t i1) { return 0x00000020 + __offset_LM(i0) + __offset_BLEND(i1); }
--
--static inline uint32_t REG_MDP5_LM_BLEND_BG_TRANSP_HIGH0(uint32_t i0, uint32_t i1) { return 0x00000024 + __offset_LM(i0) + __offset_BLEND(i1); }
--
--static inline uint32_t REG_MDP5_LM_BLEND_BG_TRANSP_HIGH1(uint32_t i0, uint32_t i1) { return 0x00000028 + __offset_LM(i0) + __offset_BLEND(i1); }
+-#define A6XX_TEX_CONST_3_TILE_ALL				0x08000000
+-#define A6XX_TEX_CONST_3_FLAG					0x10000000
+-
+-#define REG_A6XX_TEX_CONST_4					0x00000004
+-#define A6XX_TEX_CONST_4_BASE_LO__MASK				0xffffffe0
+-#define A6XX_TEX_CONST_4_BASE_LO__SHIFT				5
+-static inline uint32_t A6XX_TEX_CONST_4_BASE_LO(uint32_t val)
+-{
+-	assert(!(val & 0x1f));
+-	return (((val >> 5)) << A6XX_TEX_CONST_4_BASE_LO__SHIFT) & A6XX_TEX_CONST_4_BASE_LO__MASK;
+-}
 -
--static inline uint32_t REG_MDP5_LM_CURSOR_IMG_SIZE(uint32_t i0) { return 0x000000e0 + __offset_LM(i0); }
--#define MDP5_LM_CURSOR_IMG_SIZE_SRC_W__MASK			0x0000ffff
--#define MDP5_LM_CURSOR_IMG_SIZE_SRC_W__SHIFT			0
--static inline uint32_t MDP5_LM_CURSOR_IMG_SIZE_SRC_W(uint32_t val)
+-#define REG_A6XX_TEX_CONST_5					0x00000005
+-#define A6XX_TEX_CONST_5_BASE_HI__MASK				0x0001ffff
+-#define A6XX_TEX_CONST_5_BASE_HI__SHIFT				0
+-static inline uint32_t A6XX_TEX_CONST_5_BASE_HI(uint32_t val)
 -{
--	return ((val) << MDP5_LM_CURSOR_IMG_SIZE_SRC_W__SHIFT) & MDP5_LM_CURSOR_IMG_SIZE_SRC_W__MASK;
+-	return ((val) << A6XX_TEX_CONST_5_BASE_HI__SHIFT) & A6XX_TEX_CONST_5_BASE_HI__MASK;
 -}
--#define MDP5_LM_CURSOR_IMG_SIZE_SRC_H__MASK			0xffff0000
--#define MDP5_LM_CURSOR_IMG_SIZE_SRC_H__SHIFT			16
--static inline uint32_t MDP5_LM_CURSOR_IMG_SIZE_SRC_H(uint32_t val)
--{
--	return ((val) << MDP5_LM_CURSOR_IMG_SIZE_SRC_H__SHIFT) & MDP5_LM_CURSOR_IMG_SIZE_SRC_H__MASK;
+-#define A6XX_TEX_CONST_5_DEPTH__MASK				0x3ffe0000
+-#define A6XX_TEX_CONST_5_DEPTH__SHIFT				17
+-static inline uint32_t A6XX_TEX_CONST_5_DEPTH(uint32_t val)
+-{
+-	return ((val) << A6XX_TEX_CONST_5_DEPTH__SHIFT) & A6XX_TEX_CONST_5_DEPTH__MASK;
 -}
 -
--static inline uint32_t REG_MDP5_LM_CURSOR_SIZE(uint32_t i0) { return 0x000000e4 + __offset_LM(i0); }
--#define MDP5_LM_CURSOR_SIZE_ROI_W__MASK				0x0000ffff
--#define MDP5_LM_CURSOR_SIZE_ROI_W__SHIFT			0
--static inline uint32_t MDP5_LM_CURSOR_SIZE_ROI_W(uint32_t val)
+-#define REG_A6XX_TEX_CONST_6					0x00000006
+-#define A6XX_TEX_CONST_6_MIN_LOD_CLAMP__MASK			0x00000fff
+-#define A6XX_TEX_CONST_6_MIN_LOD_CLAMP__SHIFT			0
+-static inline uint32_t A6XX_TEX_CONST_6_MIN_LOD_CLAMP(float val)
 -{
--	return ((val) << MDP5_LM_CURSOR_SIZE_ROI_W__SHIFT) & MDP5_LM_CURSOR_SIZE_ROI_W__MASK;
+-	return ((((uint32_t)(val * 256.0))) << A6XX_TEX_CONST_6_MIN_LOD_CLAMP__SHIFT) & A6XX_TEX_CONST_6_MIN_LOD_CLAMP__MASK;
 -}
--#define MDP5_LM_CURSOR_SIZE_ROI_H__MASK				0xffff0000
--#define MDP5_LM_CURSOR_SIZE_ROI_H__SHIFT			16
--static inline uint32_t MDP5_LM_CURSOR_SIZE_ROI_H(uint32_t val)
--{
--	return ((val) << MDP5_LM_CURSOR_SIZE_ROI_H__SHIFT) & MDP5_LM_CURSOR_SIZE_ROI_H__MASK;
+-#define A6XX_TEX_CONST_6_PLANE_PITCH__MASK			0xffffff00
+-#define A6XX_TEX_CONST_6_PLANE_PITCH__SHIFT			8
+-static inline uint32_t A6XX_TEX_CONST_6_PLANE_PITCH(uint32_t val)
+-{
+-	return ((val) << A6XX_TEX_CONST_6_PLANE_PITCH__SHIFT) & A6XX_TEX_CONST_6_PLANE_PITCH__MASK;
 -}
 -
--static inline uint32_t REG_MDP5_LM_CURSOR_XY(uint32_t i0) { return 0x000000e8 + __offset_LM(i0); }
--#define MDP5_LM_CURSOR_XY_SRC_X__MASK				0x0000ffff
--#define MDP5_LM_CURSOR_XY_SRC_X__SHIFT				0
--static inline uint32_t MDP5_LM_CURSOR_XY_SRC_X(uint32_t val)
+-#define REG_A6XX_TEX_CONST_7					0x00000007
+-#define A6XX_TEX_CONST_7_FLAG_LO__MASK				0xffffffe0
+-#define A6XX_TEX_CONST_7_FLAG_LO__SHIFT				5
+-static inline uint32_t A6XX_TEX_CONST_7_FLAG_LO(uint32_t val)
 -{
--	return ((val) << MDP5_LM_CURSOR_XY_SRC_X__SHIFT) & MDP5_LM_CURSOR_XY_SRC_X__MASK;
+-	assert(!(val & 0x1f));
+-	return (((val >> 5)) << A6XX_TEX_CONST_7_FLAG_LO__SHIFT) & A6XX_TEX_CONST_7_FLAG_LO__MASK;
 -}
--#define MDP5_LM_CURSOR_XY_SRC_Y__MASK				0xffff0000
--#define MDP5_LM_CURSOR_XY_SRC_Y__SHIFT				16
--static inline uint32_t MDP5_LM_CURSOR_XY_SRC_Y(uint32_t val)
+-
+-#define REG_A6XX_TEX_CONST_8					0x00000008
+-#define A6XX_TEX_CONST_8_FLAG_HI__MASK				0x0001ffff
+-#define A6XX_TEX_CONST_8_FLAG_HI__SHIFT				0
+-static inline uint32_t A6XX_TEX_CONST_8_FLAG_HI(uint32_t val)
 -{
--	return ((val) << MDP5_LM_CURSOR_XY_SRC_Y__SHIFT) & MDP5_LM_CURSOR_XY_SRC_Y__MASK;
+-	return ((val) << A6XX_TEX_CONST_8_FLAG_HI__SHIFT) & A6XX_TEX_CONST_8_FLAG_HI__MASK;
 -}
 -
--static inline uint32_t REG_MDP5_LM_CURSOR_STRIDE(uint32_t i0) { return 0x000000dc + __offset_LM(i0); }
--#define MDP5_LM_CURSOR_STRIDE_STRIDE__MASK			0x0000ffff
--#define MDP5_LM_CURSOR_STRIDE_STRIDE__SHIFT			0
--static inline uint32_t MDP5_LM_CURSOR_STRIDE_STRIDE(uint32_t val)
+-#define REG_A6XX_TEX_CONST_9					0x00000009
+-#define A6XX_TEX_CONST_9_FLAG_BUFFER_ARRAY_PITCH__MASK		0x0001ffff
+-#define A6XX_TEX_CONST_9_FLAG_BUFFER_ARRAY_PITCH__SHIFT		0
+-static inline uint32_t A6XX_TEX_CONST_9_FLAG_BUFFER_ARRAY_PITCH(uint32_t val)
 -{
--	return ((val) << MDP5_LM_CURSOR_STRIDE_STRIDE__SHIFT) & MDP5_LM_CURSOR_STRIDE_STRIDE__MASK;
+-	assert(!(val & 0xf));
+-	return (((val >> 4)) << A6XX_TEX_CONST_9_FLAG_BUFFER_ARRAY_PITCH__SHIFT) & A6XX_TEX_CONST_9_FLAG_BUFFER_ARRAY_PITCH__MASK;
 -}
 -
--static inline uint32_t REG_MDP5_LM_CURSOR_FORMAT(uint32_t i0) { return 0x000000ec + __offset_LM(i0); }
--#define MDP5_LM_CURSOR_FORMAT_FORMAT__MASK			0x00000007
--#define MDP5_LM_CURSOR_FORMAT_FORMAT__SHIFT			0
--static inline uint32_t MDP5_LM_CURSOR_FORMAT_FORMAT(enum mdp5_cursor_format val)
+-#define REG_A6XX_TEX_CONST_10					0x0000000a
+-#define A6XX_TEX_CONST_10_FLAG_BUFFER_PITCH__MASK		0x0000007f
+-#define A6XX_TEX_CONST_10_FLAG_BUFFER_PITCH__SHIFT		0
+-static inline uint32_t A6XX_TEX_CONST_10_FLAG_BUFFER_PITCH(uint32_t val)
 -{
--	return ((val) << MDP5_LM_CURSOR_FORMAT_FORMAT__SHIFT) & MDP5_LM_CURSOR_FORMAT_FORMAT__MASK;
+-	assert(!(val & 0x3f));
+-	return (((val >> 6)) << A6XX_TEX_CONST_10_FLAG_BUFFER_PITCH__SHIFT) & A6XX_TEX_CONST_10_FLAG_BUFFER_PITCH__MASK;
 -}
+-#define A6XX_TEX_CONST_10_FLAG_BUFFER_LOGW__MASK		0x00000f00
+-#define A6XX_TEX_CONST_10_FLAG_BUFFER_LOGW__SHIFT		8
+-static inline uint32_t A6XX_TEX_CONST_10_FLAG_BUFFER_LOGW(uint32_t val)
+-{
+-	return ((val) << A6XX_TEX_CONST_10_FLAG_BUFFER_LOGW__SHIFT) & A6XX_TEX_CONST_10_FLAG_BUFFER_LOGW__MASK;
+-}
+-#define A6XX_TEX_CONST_10_FLAG_BUFFER_LOGH__MASK		0x0000f000
+-#define A6XX_TEX_CONST_10_FLAG_BUFFER_LOGH__SHIFT		12
+-static inline uint32_t A6XX_TEX_CONST_10_FLAG_BUFFER_LOGH(uint32_t val)
+-{
+-	return ((val) << A6XX_TEX_CONST_10_FLAG_BUFFER_LOGH__SHIFT) & A6XX_TEX_CONST_10_FLAG_BUFFER_LOGH__MASK;
+-}
 -
--static inline uint32_t REG_MDP5_LM_CURSOR_BASE_ADDR(uint32_t i0) { return 0x000000f0 + __offset_LM(i0); }
+-#define REG_A6XX_TEX_CONST_11					0x0000000b
 -
--static inline uint32_t REG_MDP5_LM_CURSOR_START_XY(uint32_t i0) { return 0x000000f4 + __offset_LM(i0); }
--#define MDP5_LM_CURSOR_START_XY_X_START__MASK			0x0000ffff
--#define MDP5_LM_CURSOR_START_XY_X_START__SHIFT			0
--static inline uint32_t MDP5_LM_CURSOR_START_XY_X_START(uint32_t val)
--{
--	return ((val) << MDP5_LM_CURSOR_START_XY_X_START__SHIFT) & MDP5_LM_CURSOR_START_XY_X_START__MASK;
--}
--#define MDP5_LM_CURSOR_START_XY_Y_START__MASK			0xffff0000
--#define MDP5_LM_CURSOR_START_XY_Y_START__SHIFT			16
--static inline uint32_t MDP5_LM_CURSOR_START_XY_Y_START(uint32_t val)
+-#define REG_A6XX_TEX_CONST_12					0x0000000c
+-
+-#define REG_A6XX_TEX_CONST_13					0x0000000d
+-
+-#define REG_A6XX_TEX_CONST_14					0x0000000e
+-
+-#define REG_A6XX_TEX_CONST_15					0x0000000f
+-
+-#define REG_A6XX_UBO_0						0x00000000
+-#define A6XX_UBO_0_BASE_LO__MASK				0xffffffff
+-#define A6XX_UBO_0_BASE_LO__SHIFT				0
+-static inline uint32_t A6XX_UBO_0_BASE_LO(uint32_t val)
 -{
--	return ((val) << MDP5_LM_CURSOR_START_XY_Y_START__SHIFT) & MDP5_LM_CURSOR_START_XY_Y_START__MASK;
+-	return ((val) << A6XX_UBO_0_BASE_LO__SHIFT) & A6XX_UBO_0_BASE_LO__MASK;
 -}
 -
--static inline uint32_t REG_MDP5_LM_CURSOR_BLEND_CONFIG(uint32_t i0) { return 0x000000f8 + __offset_LM(i0); }
--#define MDP5_LM_CURSOR_BLEND_CONFIG_BLEND_EN			0x00000001
--#define MDP5_LM_CURSOR_BLEND_CONFIG_BLEND_ALPHA_SEL__MASK	0x00000006
--#define MDP5_LM_CURSOR_BLEND_CONFIG_BLEND_ALPHA_SEL__SHIFT	1
--static inline uint32_t MDP5_LM_CURSOR_BLEND_CONFIG_BLEND_ALPHA_SEL(enum mdp5_cursor_alpha val)
+-#define REG_A6XX_UBO_1						0x00000001
+-#define A6XX_UBO_1_BASE_HI__MASK				0x0001ffff
+-#define A6XX_UBO_1_BASE_HI__SHIFT				0
+-static inline uint32_t A6XX_UBO_1_BASE_HI(uint32_t val)
 -{
--	return ((val) << MDP5_LM_CURSOR_BLEND_CONFIG_BLEND_ALPHA_SEL__SHIFT) & MDP5_LM_CURSOR_BLEND_CONFIG_BLEND_ALPHA_SEL__MASK;
+-	return ((val) << A6XX_UBO_1_BASE_HI__SHIFT) & A6XX_UBO_1_BASE_HI__MASK;
 -}
--#define MDP5_LM_CURSOR_BLEND_CONFIG_BLEND_TRANSP_EN		0x00000008
+-#define A6XX_UBO_1_SIZE__MASK					0xfffe0000
+-#define A6XX_UBO_1_SIZE__SHIFT					17
+-static inline uint32_t A6XX_UBO_1_SIZE(uint32_t val)
+-{
+-	return ((val) << A6XX_UBO_1_SIZE__SHIFT) & A6XX_UBO_1_SIZE__MASK;
+-}
 -
--static inline uint32_t REG_MDP5_LM_CURSOR_BLEND_PARAM(uint32_t i0) { return 0x000000fc + __offset_LM(i0); }
+-#define REG_A6XX_PDC_GPU_ENABLE_PDC				0x00001140
 -
--static inline uint32_t REG_MDP5_LM_CURSOR_BLEND_TRANSP_LOW0(uint32_t i0) { return 0x00000100 + __offset_LM(i0); }
+-#define REG_A6XX_PDC_GPU_SEQ_START_ADDR				0x00001148
 -
--static inline uint32_t REG_MDP5_LM_CURSOR_BLEND_TRANSP_LOW1(uint32_t i0) { return 0x00000104 + __offset_LM(i0); }
+-#define REG_A6XX_PDC_GPU_TCS0_CONTROL				0x00001540
 -
--static inline uint32_t REG_MDP5_LM_CURSOR_BLEND_TRANSP_HIGH0(uint32_t i0) { return 0x00000108 + __offset_LM(i0); }
+-#define REG_A6XX_PDC_GPU_TCS0_CMD_ENABLE_BANK			0x00001541
 -
--static inline uint32_t REG_MDP5_LM_CURSOR_BLEND_TRANSP_HIGH1(uint32_t i0) { return 0x0000010c + __offset_LM(i0); }
+-#define REG_A6XX_PDC_GPU_TCS0_CMD_WAIT_FOR_CMPL_BANK		0x00001542
 -
--static inline uint32_t REG_MDP5_LM_GC_LUT_BASE(uint32_t i0) { return 0x00000110 + __offset_LM(i0); }
+-#define REG_A6XX_PDC_GPU_TCS0_CMD0_MSGID			0x00001543
 -
--static inline uint32_t __offset_DSPP(uint32_t idx)
--{
--	switch (idx) {
--		case 0: return (mdp5_cfg->dspp.base[0]);
--		case 1: return (mdp5_cfg->dspp.base[1]);
--		case 2: return (mdp5_cfg->dspp.base[2]);
--		case 3: return (mdp5_cfg->dspp.base[3]);
--		default: return INVALID_IDX(idx);
--	}
--}
--static inline uint32_t REG_MDP5_DSPP(uint32_t i0) { return 0x00000000 + __offset_DSPP(i0); }
+-#define REG_A6XX_PDC_GPU_TCS0_CMD0_ADDR				0x00001544
 -
--static inline uint32_t REG_MDP5_DSPP_OP_MODE(uint32_t i0) { return 0x00000000 + __offset_DSPP(i0); }
--#define MDP5_DSPP_OP_MODE_IGC_LUT_EN				0x00000001
--#define MDP5_DSPP_OP_MODE_IGC_TBL_IDX__MASK			0x0000000e
--#define MDP5_DSPP_OP_MODE_IGC_TBL_IDX__SHIFT			1
--static inline uint32_t MDP5_DSPP_OP_MODE_IGC_TBL_IDX(uint32_t val)
--{
--	return ((val) << MDP5_DSPP_OP_MODE_IGC_TBL_IDX__SHIFT) & MDP5_DSPP_OP_MODE_IGC_TBL_IDX__MASK;
--}
--#define MDP5_DSPP_OP_MODE_PCC_EN				0x00000010
--#define MDP5_DSPP_OP_MODE_DITHER_EN				0x00000100
--#define MDP5_DSPP_OP_MODE_HIST_EN				0x00010000
--#define MDP5_DSPP_OP_MODE_AUTO_CLEAR				0x00020000
--#define MDP5_DSPP_OP_MODE_HIST_LUT_EN				0x00080000
--#define MDP5_DSPP_OP_MODE_PA_EN					0x00100000
--#define MDP5_DSPP_OP_MODE_GAMUT_EN				0x00800000
--#define MDP5_DSPP_OP_MODE_GAMUT_ORDER				0x01000000
+-#define REG_A6XX_PDC_GPU_TCS0_CMD0_DATA				0x00001545
 -
--static inline uint32_t REG_MDP5_DSPP_PCC_BASE(uint32_t i0) { return 0x00000030 + __offset_DSPP(i0); }
+-#define REG_A6XX_PDC_GPU_TCS1_CONTROL				0x00001572
 -
--static inline uint32_t REG_MDP5_DSPP_DITHER_DEPTH(uint32_t i0) { return 0x00000150 + __offset_DSPP(i0); }
+-#define REG_A6XX_PDC_GPU_TCS1_CMD_ENABLE_BANK			0x00001573
 -
--static inline uint32_t REG_MDP5_DSPP_HIST_CTL_BASE(uint32_t i0) { return 0x00000210 + __offset_DSPP(i0); }
+-#define REG_A6XX_PDC_GPU_TCS1_CMD_WAIT_FOR_CMPL_BANK		0x00001574
 -
--static inline uint32_t REG_MDP5_DSPP_HIST_LUT_BASE(uint32_t i0) { return 0x00000230 + __offset_DSPP(i0); }
+-#define REG_A6XX_PDC_GPU_TCS1_CMD0_MSGID			0x00001575
 -
--static inline uint32_t REG_MDP5_DSPP_HIST_LUT_SWAP(uint32_t i0) { return 0x00000234 + __offset_DSPP(i0); }
+-#define REG_A6XX_PDC_GPU_TCS1_CMD0_ADDR				0x00001576
 -
--static inline uint32_t REG_MDP5_DSPP_PA_BASE(uint32_t i0) { return 0x00000238 + __offset_DSPP(i0); }
+-#define REG_A6XX_PDC_GPU_TCS1_CMD0_DATA				0x00001577
 -
--static inline uint32_t REG_MDP5_DSPP_GAMUT_BASE(uint32_t i0) { return 0x000002dc + __offset_DSPP(i0); }
+-#define REG_A6XX_PDC_GPU_TCS2_CONTROL				0x000015a4
 -
--static inline uint32_t REG_MDP5_DSPP_GC_BASE(uint32_t i0) { return 0x000002b0 + __offset_DSPP(i0); }
+-#define REG_A6XX_PDC_GPU_TCS2_CMD_ENABLE_BANK			0x000015a5
 -
--static inline uint32_t __offset_PP(uint32_t idx)
--{
--	switch (idx) {
--		case 0: return (mdp5_cfg->pp.base[0]);
--		case 1: return (mdp5_cfg->pp.base[1]);
--		case 2: return (mdp5_cfg->pp.base[2]);
--		case 3: return (mdp5_cfg->pp.base[3]);
--		default: return INVALID_IDX(idx);
--	}
--}
--static inline uint32_t REG_MDP5_PP(uint32_t i0) { return 0x00000000 + __offset_PP(i0); }
+-#define REG_A6XX_PDC_GPU_TCS2_CMD_WAIT_FOR_CMPL_BANK		0x000015a6
 -
--static inline uint32_t REG_MDP5_PP_TEAR_CHECK_EN(uint32_t i0) { return 0x00000000 + __offset_PP(i0); }
+-#define REG_A6XX_PDC_GPU_TCS2_CMD0_MSGID			0x000015a7
 -
--static inline uint32_t REG_MDP5_PP_SYNC_CONFIG_VSYNC(uint32_t i0) { return 0x00000004 + __offset_PP(i0); }
--#define MDP5_PP_SYNC_CONFIG_VSYNC_COUNT__MASK			0x0007ffff
--#define MDP5_PP_SYNC_CONFIG_VSYNC_COUNT__SHIFT			0
--static inline uint32_t MDP5_PP_SYNC_CONFIG_VSYNC_COUNT(uint32_t val)
--{
--	return ((val) << MDP5_PP_SYNC_CONFIG_VSYNC_COUNT__SHIFT) & MDP5_PP_SYNC_CONFIG_VSYNC_COUNT__MASK;
--}
--#define MDP5_PP_SYNC_CONFIG_VSYNC_COUNTER_EN			0x00080000
--#define MDP5_PP_SYNC_CONFIG_VSYNC_IN_EN				0x00100000
+-#define REG_A6XX_PDC_GPU_TCS2_CMD0_ADDR				0x000015a8
+-
+-#define REG_A6XX_PDC_GPU_TCS2_CMD0_DATA				0x000015a9
+-
+-#define REG_A6XX_PDC_GPU_TCS3_CONTROL				0x000015d6
+-
+-#define REG_A6XX_PDC_GPU_TCS3_CMD_ENABLE_BANK			0x000015d7
+-
+-#define REG_A6XX_PDC_GPU_TCS3_CMD_WAIT_FOR_CMPL_BANK		0x000015d8
+-
+-#define REG_A6XX_PDC_GPU_TCS3_CMD0_MSGID			0x000015d9
+-
+-#define REG_A6XX_PDC_GPU_TCS3_CMD0_ADDR				0x000015da
+-
+-#define REG_A6XX_PDC_GPU_TCS3_CMD0_DATA				0x000015db
 -
--static inline uint32_t REG_MDP5_PP_SYNC_CONFIG_HEIGHT(uint32_t i0) { return 0x00000008 + __offset_PP(i0); }
+-#define REG_A6XX_PDC_GPU_SEQ_MEM_0				0x00000000
 -
--static inline uint32_t REG_MDP5_PP_SYNC_WRCOUNT(uint32_t i0) { return 0x0000000c + __offset_PP(i0); }
--#define MDP5_PP_SYNC_WRCOUNT_LINE_COUNT__MASK			0x0000ffff
--#define MDP5_PP_SYNC_WRCOUNT_LINE_COUNT__SHIFT			0
--static inline uint32_t MDP5_PP_SYNC_WRCOUNT_LINE_COUNT(uint32_t val)
+-#define REG_A6XX_CX_DBGC_CFG_DBGBUS_SEL_A			0x00000000
+-#define A6XX_CX_DBGC_CFG_DBGBUS_SEL_A_PING_INDEX__MASK		0x000000ff
+-#define A6XX_CX_DBGC_CFG_DBGBUS_SEL_A_PING_INDEX__SHIFT		0
+-static inline uint32_t A6XX_CX_DBGC_CFG_DBGBUS_SEL_A_PING_INDEX(uint32_t val)
 -{
--	return ((val) << MDP5_PP_SYNC_WRCOUNT_LINE_COUNT__SHIFT) & MDP5_PP_SYNC_WRCOUNT_LINE_COUNT__MASK;
+-	return ((val) << A6XX_CX_DBGC_CFG_DBGBUS_SEL_A_PING_INDEX__SHIFT) & A6XX_CX_DBGC_CFG_DBGBUS_SEL_A_PING_INDEX__MASK;
 -}
--#define MDP5_PP_SYNC_WRCOUNT_FRAME_COUNT__MASK			0xffff0000
--#define MDP5_PP_SYNC_WRCOUNT_FRAME_COUNT__SHIFT			16
--static inline uint32_t MDP5_PP_SYNC_WRCOUNT_FRAME_COUNT(uint32_t val)
--{
--	return ((val) << MDP5_PP_SYNC_WRCOUNT_FRAME_COUNT__SHIFT) & MDP5_PP_SYNC_WRCOUNT_FRAME_COUNT__MASK;
+-#define A6XX_CX_DBGC_CFG_DBGBUS_SEL_A_PING_BLK_SEL__MASK	0x0000ff00
+-#define A6XX_CX_DBGC_CFG_DBGBUS_SEL_A_PING_BLK_SEL__SHIFT	8
+-static inline uint32_t A6XX_CX_DBGC_CFG_DBGBUS_SEL_A_PING_BLK_SEL(uint32_t val)
+-{
+-	return ((val) << A6XX_CX_DBGC_CFG_DBGBUS_SEL_A_PING_BLK_SEL__SHIFT) & A6XX_CX_DBGC_CFG_DBGBUS_SEL_A_PING_BLK_SEL__MASK;
 -}
+-
+-#define REG_A6XX_CX_DBGC_CFG_DBGBUS_SEL_B			0x00000001
 -
--static inline uint32_t REG_MDP5_PP_VSYNC_INIT_VAL(uint32_t i0) { return 0x00000010 + __offset_PP(i0); }
+-#define REG_A6XX_CX_DBGC_CFG_DBGBUS_SEL_C			0x00000002
 -
--static inline uint32_t REG_MDP5_PP_INT_COUNT_VAL(uint32_t i0) { return 0x00000014 + __offset_PP(i0); }
--#define MDP5_PP_INT_COUNT_VAL_LINE_COUNT__MASK			0x0000ffff
--#define MDP5_PP_INT_COUNT_VAL_LINE_COUNT__SHIFT			0
--static inline uint32_t MDP5_PP_INT_COUNT_VAL_LINE_COUNT(uint32_t val)
+-#define REG_A6XX_CX_DBGC_CFG_DBGBUS_SEL_D			0x00000003
+-
+-#define REG_A6XX_CX_DBGC_CFG_DBGBUS_CNTLT			0x00000004
+-#define A6XX_CX_DBGC_CFG_DBGBUS_CNTLT_TRACEEN__MASK		0x0000003f
+-#define A6XX_CX_DBGC_CFG_DBGBUS_CNTLT_TRACEEN__SHIFT		0
+-static inline uint32_t A6XX_CX_DBGC_CFG_DBGBUS_CNTLT_TRACEEN(uint32_t val)
 -{
--	return ((val) << MDP5_PP_INT_COUNT_VAL_LINE_COUNT__SHIFT) & MDP5_PP_INT_COUNT_VAL_LINE_COUNT__MASK;
+-	return ((val) << A6XX_CX_DBGC_CFG_DBGBUS_CNTLT_TRACEEN__SHIFT) & A6XX_CX_DBGC_CFG_DBGBUS_CNTLT_TRACEEN__MASK;
 -}
--#define MDP5_PP_INT_COUNT_VAL_FRAME_COUNT__MASK			0xffff0000
--#define MDP5_PP_INT_COUNT_VAL_FRAME_COUNT__SHIFT		16
--static inline uint32_t MDP5_PP_INT_COUNT_VAL_FRAME_COUNT(uint32_t val)
--{
--	return ((val) << MDP5_PP_INT_COUNT_VAL_FRAME_COUNT__SHIFT) & MDP5_PP_INT_COUNT_VAL_FRAME_COUNT__MASK;
+-#define A6XX_CX_DBGC_CFG_DBGBUS_CNTLT_GRANU__MASK		0x00007000
+-#define A6XX_CX_DBGC_CFG_DBGBUS_CNTLT_GRANU__SHIFT		12
+-static inline uint32_t A6XX_CX_DBGC_CFG_DBGBUS_CNTLT_GRANU(uint32_t val)
+-{
+-	return ((val) << A6XX_CX_DBGC_CFG_DBGBUS_CNTLT_GRANU__SHIFT) & A6XX_CX_DBGC_CFG_DBGBUS_CNTLT_GRANU__MASK;
 -}
--
--static inline uint32_t REG_MDP5_PP_SYNC_THRESH(uint32_t i0) { return 0x00000018 + __offset_PP(i0); }
--#define MDP5_PP_SYNC_THRESH_START__MASK				0x0000ffff
--#define MDP5_PP_SYNC_THRESH_START__SHIFT			0
--static inline uint32_t MDP5_PP_SYNC_THRESH_START(uint32_t val)
--{
--	return ((val) << MDP5_PP_SYNC_THRESH_START__SHIFT) & MDP5_PP_SYNC_THRESH_START__MASK;
+-#define A6XX_CX_DBGC_CFG_DBGBUS_CNTLT_SEGT__MASK		0xf0000000
+-#define A6XX_CX_DBGC_CFG_DBGBUS_CNTLT_SEGT__SHIFT		28
+-static inline uint32_t A6XX_CX_DBGC_CFG_DBGBUS_CNTLT_SEGT(uint32_t val)
+-{
+-	return ((val) << A6XX_CX_DBGC_CFG_DBGBUS_CNTLT_SEGT__SHIFT) & A6XX_CX_DBGC_CFG_DBGBUS_CNTLT_SEGT__MASK;
 -}
--#define MDP5_PP_SYNC_THRESH_CONTINUE__MASK			0xffff0000
--#define MDP5_PP_SYNC_THRESH_CONTINUE__SHIFT			16
--static inline uint32_t MDP5_PP_SYNC_THRESH_CONTINUE(uint32_t val)
+-
+-#define REG_A6XX_CX_DBGC_CFG_DBGBUS_CNTLM			0x00000005
+-#define A6XX_CX_DBGC_CFG_DBGBUS_CNTLM_ENABLE__MASK		0x0f000000
+-#define A6XX_CX_DBGC_CFG_DBGBUS_CNTLM_ENABLE__SHIFT		24
+-static inline uint32_t A6XX_CX_DBGC_CFG_DBGBUS_CNTLM_ENABLE(uint32_t val)
 -{
--	return ((val) << MDP5_PP_SYNC_THRESH_CONTINUE__SHIFT) & MDP5_PP_SYNC_THRESH_CONTINUE__MASK;
+-	return ((val) << A6XX_CX_DBGC_CFG_DBGBUS_CNTLM_ENABLE__SHIFT) & A6XX_CX_DBGC_CFG_DBGBUS_CNTLM_ENABLE__MASK;
 -}
 -
--static inline uint32_t REG_MDP5_PP_START_POS(uint32_t i0) { return 0x0000001c + __offset_PP(i0); }
+-#define REG_A6XX_CX_DBGC_CFG_DBGBUS_IVTL_0			0x00000008
 -
--static inline uint32_t REG_MDP5_PP_RD_PTR_IRQ(uint32_t i0) { return 0x00000020 + __offset_PP(i0); }
+-#define REG_A6XX_CX_DBGC_CFG_DBGBUS_IVTL_1			0x00000009
 -
--static inline uint32_t REG_MDP5_PP_WR_PTR_IRQ(uint32_t i0) { return 0x00000024 + __offset_PP(i0); }
+-#define REG_A6XX_CX_DBGC_CFG_DBGBUS_IVTL_2			0x0000000a
 -
--static inline uint32_t REG_MDP5_PP_OUT_LINE_COUNT(uint32_t i0) { return 0x00000028 + __offset_PP(i0); }
+-#define REG_A6XX_CX_DBGC_CFG_DBGBUS_IVTL_3			0x0000000b
 -
--static inline uint32_t REG_MDP5_PP_PP_LINE_COUNT(uint32_t i0) { return 0x0000002c + __offset_PP(i0); }
+-#define REG_A6XX_CX_DBGC_CFG_DBGBUS_MASKL_0			0x0000000c
 -
--static inline uint32_t REG_MDP5_PP_AUTOREFRESH_CONFIG(uint32_t i0) { return 0x00000030 + __offset_PP(i0); }
+-#define REG_A6XX_CX_DBGC_CFG_DBGBUS_MASKL_1			0x0000000d
 -
--static inline uint32_t REG_MDP5_PP_FBC_MODE(uint32_t i0) { return 0x00000034 + __offset_PP(i0); }
+-#define REG_A6XX_CX_DBGC_CFG_DBGBUS_MASKL_2			0x0000000e
 -
--static inline uint32_t REG_MDP5_PP_FBC_BUDGET_CTL(uint32_t i0) { return 0x00000038 + __offset_PP(i0); }
+-#define REG_A6XX_CX_DBGC_CFG_DBGBUS_MASKL_3			0x0000000f
 -
--static inline uint32_t REG_MDP5_PP_FBC_LOSSY_MODE(uint32_t i0) { return 0x0000003c + __offset_PP(i0); }
+-#define REG_A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_0			0x00000010
+-#define A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL0__MASK		0x0000000f
+-#define A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL0__SHIFT		0
+-static inline uint32_t A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL0(uint32_t val)
+-{
+-	return ((val) << A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL0__SHIFT) & A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL0__MASK;
+-}
+-#define A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL1__MASK		0x000000f0
+-#define A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL1__SHIFT		4
+-static inline uint32_t A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL1(uint32_t val)
+-{
+-	return ((val) << A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL1__SHIFT) & A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL1__MASK;
+-}
+-#define A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL2__MASK		0x00000f00
+-#define A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL2__SHIFT		8
+-static inline uint32_t A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL2(uint32_t val)
+-{
+-	return ((val) << A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL2__SHIFT) & A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL2__MASK;
+-}
+-#define A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL3__MASK		0x0000f000
+-#define A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL3__SHIFT		12
+-static inline uint32_t A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL3(uint32_t val)
+-{
+-	return ((val) << A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL3__SHIFT) & A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL3__MASK;
+-}
+-#define A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL4__MASK		0x000f0000
+-#define A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL4__SHIFT		16
+-static inline uint32_t A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL4(uint32_t val)
+-{
+-	return ((val) << A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL4__SHIFT) & A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL4__MASK;
+-}
+-#define A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL5__MASK		0x00f00000
+-#define A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL5__SHIFT		20
+-static inline uint32_t A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL5(uint32_t val)
+-{
+-	return ((val) << A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL5__SHIFT) & A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL5__MASK;
+-}
+-#define A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL6__MASK		0x0f000000
+-#define A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL6__SHIFT		24
+-static inline uint32_t A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL6(uint32_t val)
+-{
+-	return ((val) << A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL6__SHIFT) & A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL6__MASK;
+-}
+-#define A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL7__MASK		0xf0000000
+-#define A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL7__SHIFT		28
+-static inline uint32_t A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL7(uint32_t val)
+-{
+-	return ((val) << A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL7__SHIFT) & A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_0_BYTEL7__MASK;
+-}
 -
--static inline uint32_t __offset_WB(uint32_t idx)
+-#define REG_A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_1			0x00000011
+-#define A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL8__MASK		0x0000000f
+-#define A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL8__SHIFT		0
+-static inline uint32_t A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL8(uint32_t val)
 -{
--	switch (idx) {
--#if 0  /* TEMPORARY until patch that adds wb.base[] is merged */
--		case 0: return (mdp5_cfg->wb.base[0]);
--		case 1: return (mdp5_cfg->wb.base[1]);
--		case 2: return (mdp5_cfg->wb.base[2]);
--		case 3: return (mdp5_cfg->wb.base[3]);
--		case 4: return (mdp5_cfg->wb.base[4]);
+-	return ((val) << A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL8__SHIFT) & A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL8__MASK;
+-}
+-#define A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL9__MASK		0x000000f0
+-#define A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL9__SHIFT		4
+-static inline uint32_t A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL9(uint32_t val)
+-{
+-	return ((val) << A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL9__SHIFT) & A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL9__MASK;
+-}
+-#define A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL10__MASK		0x00000f00
+-#define A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL10__SHIFT		8
+-static inline uint32_t A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL10(uint32_t val)
+-{
+-	return ((val) << A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL10__SHIFT) & A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL10__MASK;
+-}
+-#define A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL11__MASK		0x0000f000
+-#define A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL11__SHIFT		12
+-static inline uint32_t A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL11(uint32_t val)
+-{
+-	return ((val) << A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL11__SHIFT) & A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL11__MASK;
+-}
+-#define A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL12__MASK		0x000f0000
+-#define A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL12__SHIFT		16
+-static inline uint32_t A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL12(uint32_t val)
+-{
+-	return ((val) << A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL12__SHIFT) & A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL12__MASK;
+-}
+-#define A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL13__MASK		0x00f00000
+-#define A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL13__SHIFT		20
+-static inline uint32_t A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL13(uint32_t val)
+-{
+-	return ((val) << A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL13__SHIFT) & A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL13__MASK;
+-}
+-#define A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL14__MASK		0x0f000000
+-#define A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL14__SHIFT		24
+-static inline uint32_t A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL14(uint32_t val)
+-{
+-	return ((val) << A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL14__SHIFT) & A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL14__MASK;
+-}
+-#define A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL15__MASK		0xf0000000
+-#define A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL15__SHIFT		28
+-static inline uint32_t A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL15(uint32_t val)
+-{
+-	return ((val) << A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL15__SHIFT) & A6XX_CX_DBGC_CFG_DBGBUS_BYTEL_1_BYTEL15__MASK;
+-}
+-
+-#define REG_A6XX_CX_DBGC_CFG_DBGBUS_TRACE_BUF1			0x0000002f
+-
+-#define REG_A6XX_CX_DBGC_CFG_DBGBUS_TRACE_BUF2			0x00000030
+-
+-#define REG_A6XX_CX_MISC_SYSTEM_CACHE_CNTL_0			0x00000001
+-
+-#define REG_A6XX_CX_MISC_SYSTEM_CACHE_CNTL_1			0x00000002
+-
+-#define REG_A7XX_CX_MISC_TCM_RET_CNTL				0x00000039
+-
+-#ifdef __cplusplus
+-template<chip CHIP> constexpr inline uint16_t CMD_REGS[] = {};
+-template<chip CHIP> constexpr inline uint16_t RP_BLIT_REGS[] = {};
+-template<> constexpr inline uint16_t CMD_REGS<A6XX>[] = {
+-	0xc03,
+-	0xc04,
+-	0xc30,
+-	0xc31,
+-	0xc32,
+-	0xc33,
+-	0xc34,
+-	0xc35,
+-	0xc36,
+-	0xc37,
+-	0xe12,
+-	0xe17,
+-	0xe19,
+-	0x8099,
+-	0x80af,
+-	0x810a,
+-	0x8110,
+-	0x8600,
+-	0x880e,
+-	0x8811,
+-	0x8818,
+-	0x8819,
+-	0x881a,
+-	0x881b,
+-	0x881c,
+-	0x881d,
+-	0x881e,
+-	0x8864,
+-	0x8891,
+-	0x88f0,
+-	0x8927,
+-	0x8928,
+-	0x8e01,
+-	0x8e04,
+-	0x8e07,
+-	0x9210,
+-	0x9211,
+-	0x9218,
+-	0x9219,
+-	0x921a,
+-	0x921b,
+-	0x921c,
+-	0x921d,
+-	0x921e,
+-	0x921f,
+-	0x9220,
+-	0x9221,
+-	0x9222,
+-	0x9223,
+-	0x9224,
+-	0x9225,
+-	0x9226,
+-	0x9227,
+-	0x9228,
+-	0x9229,
+-	0x922a,
+-	0x922b,
+-	0x922c,
+-	0x922d,
+-	0x922e,
+-	0x922f,
+-	0x9230,
+-	0x9231,
+-	0x9232,
+-	0x9233,
+-	0x9234,
+-	0x9235,
+-	0x9236,
+-	0x9300,
+-	0x9600,
+-	0x9601,
+-	0x9602,
+-	0x9e08,
+-	0x9e09,
+-	0x9e72,
+-	0xa007,
+-	0xa009,
+-	0xa8a0,
+-	0xa8a1,
+-	0xa8a2,
+-	0xa8a3,
+-	0xa8a4,
+-	0xa8a5,
+-	0xa8a6,
+-	0xa8a7,
+-	0xa8a8,
+-	0xa8a9,
+-	0xa8aa,
+-	0xa8ab,
+-	0xa8ac,
+-	0xa8ad,
+-	0xa8ae,
+-	0xa8af,
+-	0xa9a8,
+-	0xa9b0,
+-	0xa9b1,
+-	0xa9b2,
+-	0xa9b3,
+-	0xa9b4,
+-	0xa9b5,
+-	0xa9b6,
+-	0xa9b7,
+-	0xa9b8,
+-	0xa9b9,
+-	0xa9ba,
+-	0xa9bb,
+-	0xa9bc,
+-	0xa9bd,
+-	0xa9c2,
+-	0xa9c3,
+-	0xa9e2,
+-	0xa9e3,
+-	0xa9e6,
+-	0xa9e7,
+-	0xa9e8,
+-	0xa9e9,
+-	0xa9ea,
+-	0xa9eb,
+-	0xa9ec,
+-	0xa9ed,
+-	0xa9ee,
+-	0xa9ef,
+-	0xa9f0,
+-	0xa9f1,
+-	0xaaf2,
+-	0xab1a,
+-	0xab1b,
+-	0xab20,
+-	0xae00,
+-	0xae03,
+-	0xae04,
+-	0xae0f,
+-	0xb180,
+-	0xb181,
+-	0xb182,
+-	0xb183,
+-	0xb302,
+-	0xb303,
+-	0xb309,
+-	0xb600,
+-	0xb602,
+-	0xb605,
+-	0xb987,
+-	0xb9d0,
+-	0xbb08,
+-	0xbb11,
+-	0xbb20,
+-	0xbb21,
+-	0xbb22,
+-	0xbb23,
+-	0xbb24,
+-	0xbb25,
+-	0xbb26,
+-	0xbb27,
+-	0xbb28,
+-	0xbb29,
+-	0xbe00,
+-	0xbe01,
+-	0xbe04,
+-};
+-template<> constexpr inline uint16_t CMD_REGS<A7XX>[] = {
+-	0xc03,
+-	0xc04,
+-	0xc30,
+-	0xc31,
+-	0xc32,
+-	0xc33,
+-	0xc34,
+-	0xc35,
+-	0xc36,
+-	0xc37,
+-	0xce2,
+-	0xce3,
+-	0xce4,
+-	0xce5,
+-	0xce6,
+-	0xce7,
+-	0xe10,
+-	0xe11,
+-	0xe12,
+-	0xe17,
+-	0xe19,
+-	0x8008,
+-	0x8009,
+-	0x800a,
+-	0x800b,
+-	0x800c,
+-	0x8099,
+-	0x80a7,
+-	0x80af,
+-	0x80f4,
+-	0x80f5,
+-	0x80f5,
+-	0x80f6,
+-	0x80f6,
+-	0x80f7,
+-	0x80f8,
+-	0x80f9,
+-	0x80f9,
+-	0x80fa,
+-	0x80fa,
+-	0x80fb,
+-	0x810a,
+-	0x810b,
+-	0x8110,
+-	0x8120,
+-	0x8121,
+-	0x8600,
+-	0x880e,
+-	0x8811,
+-	0x8818,
+-	0x8819,
+-	0x881a,
+-	0x881b,
+-	0x881c,
+-	0x881d,
+-	0x881e,
+-	0x8864,
+-	0x8891,
+-	0x8899,
+-	0x88e5,
+-	0x88f0,
+-	0x8927,
+-	0x8928,
+-	0x8e01,
+-	0x8e04,
+-	0x8e06,
+-	0x8e07,
+-	0x8e09,
+-	0x8e79,
+-	0x9218,
+-	0x9219,
+-	0x921a,
+-	0x921b,
+-	0x921c,
+-	0x921d,
+-	0x921e,
+-	0x921f,
+-	0x9220,
+-	0x9221,
+-	0x9222,
+-	0x9223,
+-	0x9224,
+-	0x9225,
+-	0x9226,
+-	0x9227,
+-	0x9228,
+-	0x9229,
+-	0x922a,
+-	0x922b,
+-	0x922c,
+-	0x922d,
+-	0x922e,
+-	0x922f,
+-	0x9230,
+-	0x9231,
+-	0x9232,
+-	0x9233,
+-	0x9234,
+-	0x9235,
+-	0x9236,
+-	0x9300,
+-	0x9600,
+-	0x9601,
+-	0x9602,
+-	0x9810,
+-	0x9811,
+-	0x9e24,
+-	0x9e72,
+-	0xa007,
+-	0xa009,
+-	0xa600,
+-	0xa82d,
+-	0xa82f,
+-	0xa868,
+-	0xa899,
+-	0xa8a0,
+-	0xa8a1,
+-	0xa8a2,
+-	0xa8a3,
+-	0xa8a4,
+-	0xa8a5,
+-	0xa8a6,
+-	0xa8a7,
+-	0xa8a8,
+-	0xa8a9,
+-	0xa8aa,
+-	0xa8ab,
+-	0xa8ac,
+-	0xa8ad,
+-	0xa8ae,
+-	0xa8af,
+-	0xa9a8,
+-	0xa9ac,
+-	0xa9ad,
+-	0xa9b0,
+-	0xa9b1,
+-	0xa9b2,
+-	0xa9b3,
+-	0xa9b4,
+-	0xa9b5,
+-	0xa9b6,
+-	0xa9b7,
+-	0xa9b8,
+-	0xa9b9,
+-	0xa9ba,
+-	0xa9bb,
+-	0xa9bc,
+-	0xa9bd,
+-	0xa9be,
+-	0xa9c2,
+-	0xa9c3,
+-	0xa9c5,
+-	0xa9cd,
+-	0xa9df,
+-	0xa9e2,
+-	0xa9e3,
+-	0xa9e6,
+-	0xa9e7,
+-	0xa9e8,
+-	0xa9e9,
+-	0xa9ea,
+-	0xa9eb,
+-	0xa9ec,
+-	0xa9ed,
+-	0xa9ee,
+-	0xa9ef,
+-	0xa9f0,
+-	0xa9f1,
+-	0xa9f2,
+-	0xa9f3,
+-	0xa9f4,
+-	0xa9f5,
+-	0xa9f6,
+-	0xa9f7,
+-	0xaa01,
+-	0xaa02,
+-	0xaa03,
+-	0xaaf2,
+-	0xab01,
+-	0xab02,
+-	0xab1a,
+-	0xab1b,
+-	0xab1f,
+-	0xab20,
+-	0xab22,
+-	0xae00,
+-	0xae03,
+-	0xae04,
+-	0xae06,
+-	0xae08,
+-	0xae09,
+-	0xae0a,
+-	0xae0f,
+-	0xae6a,
+-	0xae6b,
+-	0xae6c,
+-	0xae73,
+-	0xb180,
+-	0xb181,
+-	0xb182,
+-	0xb183,
+-	0xb302,
+-	0xb303,
+-	0xb309,
+-	0xb310,
+-	0xb600,
+-	0xb602,
+-	0xb608,
+-	0xb609,
+-	0xb60a,
+-	0xb60b,
+-	0xb60c,
+-};
+-template<> constexpr inline uint16_t RP_BLIT_REGS<A6XX>[] = {
+-	0xc02,
+-	0xc06,
+-	0xc10,
+-	0xc11,
+-	0xc12,
+-	0xc13,
+-	0xc14,
+-	0xc15,
+-	0xc16,
+-	0xc17,
+-	0xc18,
+-	0xc19,
+-	0xc1a,
+-	0xc1b,
+-	0xc1c,
+-	0xc1d,
+-	0xc1e,
+-	0xc1f,
+-	0xc20,
+-	0xc21,
+-	0xc22,
+-	0xc23,
+-	0xc24,
+-	0xc25,
+-	0xc26,
+-	0xc27,
+-	0xc28,
+-	0xc29,
+-	0xc2a,
+-	0xc2b,
+-	0xc2c,
+-	0xc2d,
+-	0xc2e,
+-	0xc2f,
+-	0xc38,
+-	0xc39,
+-	0xc3a,
+-	0xc3b,
+-	0xc3c,
+-	0xc3d,
+-	0xc3e,
+-	0xc3f,
+-	0xc40,
+-	0xc41,
+-	0xc42,
+-	0xc43,
+-	0xc44,
+-	0xc45,
+-	0xc46,
+-	0xc47,
+-	0xc48,
+-	0xc49,
+-	0xc4a,
+-	0xc4b,
+-	0xc4c,
+-	0xc4d,
+-	0xc4e,
+-	0xc4f,
+-	0xc50,
+-	0xc51,
+-	0xc52,
+-	0xc53,
+-	0xc54,
+-	0xc55,
+-	0xc56,
+-	0xc57,
+-	0xc58,
+-	0xc59,
+-	0xc5a,
+-	0xc5b,
+-	0xc5c,
+-	0xc5d,
+-	0xc5e,
+-	0xc5f,
+-	0xc60,
+-	0xc61,
+-	0xc62,
+-	0xc63,
+-	0xc64,
+-	0xc65,
+-	0xc66,
+-	0xc67,
+-	0xc68,
+-	0xc69,
+-	0xc6a,
+-	0xc6b,
+-	0xc6c,
+-	0xc6d,
+-	0xc6e,
+-	0xc6f,
+-	0xc70,
+-	0xc71,
+-	0xc72,
+-	0xc73,
+-	0xc74,
+-	0xc75,
+-	0xc76,
+-	0xc77,
+-	0xc78,
+-	0xc79,
+-	0xc7a,
+-	0xc7b,
+-	0xc7c,
+-	0xc7d,
+-	0xc7e,
+-	0xc7f,
+-	0xc80,
+-	0xc81,
+-	0xc82,
+-	0xc83,
+-	0xc84,
+-	0xc85,
+-	0xc86,
+-	0xc87,
+-	0xc88,
+-	0xc89,
+-	0xc8a,
+-	0xc8b,
+-	0xc8c,
+-	0xc8d,
+-	0xc8e,
+-	0xc8f,
+-	0xc90,
+-	0xc91,
+-	0xc92,
+-	0xc93,
+-	0xc94,
+-	0xc95,
+-	0xc96,
+-	0xc97,
+-	0x8000,
+-	0x8001,
+-	0x8002,
+-	0x8003,
+-	0x8004,
+-	0x8005,
+-	0x8006,
+-	0x8010,
+-	0x8011,
+-	0x8012,
+-	0x8013,
+-	0x8014,
+-	0x8015,
+-	0x8016,
+-	0x8017,
+-	0x8018,
+-	0x8019,
+-	0x801a,
+-	0x801b,
+-	0x801c,
+-	0x801d,
+-	0x801e,
+-	0x801f,
+-	0x8020,
+-	0x8021,
+-	0x8022,
+-	0x8023,
+-	0x8024,
+-	0x8025,
+-	0x8026,
+-	0x8027,
+-	0x8028,
+-	0x8029,
+-	0x802a,
+-	0x802b,
+-	0x802c,
+-	0x802d,
+-	0x802e,
+-	0x802f,
+-	0x8030,
+-	0x8031,
+-	0x8032,
+-	0x8033,
+-	0x8034,
+-	0x8035,
+-	0x8036,
+-	0x8037,
+-	0x8038,
+-	0x8039,
+-	0x803a,
+-	0x803b,
+-	0x803c,
+-	0x803d,
+-	0x803e,
+-	0x803f,
+-	0x8040,
+-	0x8041,
+-	0x8042,
+-	0x8043,
+-	0x8044,
+-	0x8045,
+-	0x8046,
+-	0x8047,
+-	0x8048,
+-	0x8049,
+-	0x804a,
+-	0x804b,
+-	0x804c,
+-	0x804d,
+-	0x804e,
+-	0x804f,
+-	0x8050,
+-	0x8051,
+-	0x8052,
+-	0x8053,
+-	0x8054,
+-	0x8055,
+-	0x8056,
+-	0x8057,
+-	0x8058,
+-	0x8059,
+-	0x805a,
+-	0x805b,
+-	0x805c,
+-	0x805d,
+-	0x805e,
+-	0x805f,
+-	0x8060,
+-	0x8061,
+-	0x8062,
+-	0x8063,
+-	0x8064,
+-	0x8065,
+-	0x8066,
+-	0x8067,
+-	0x8068,
+-	0x8069,
+-	0x806a,
+-	0x806b,
+-	0x806c,
+-	0x806d,
+-	0x806e,
+-	0x806f,
+-	0x8070,
+-	0x8071,
+-	0x8072,
+-	0x8073,
+-	0x8074,
+-	0x8075,
+-	0x8076,
+-	0x8077,
+-	0x8078,
+-	0x8079,
+-	0x807a,
+-	0x807b,
+-	0x807c,
+-	0x807d,
+-	0x807e,
+-	0x807f,
+-	0x8080,
+-	0x8081,
+-	0x8082,
+-	0x8083,
+-	0x8084,
+-	0x8085,
+-	0x8086,
+-	0x8087,
+-	0x8088,
+-	0x8089,
+-	0x808a,
+-	0x808b,
+-	0x808c,
+-	0x808d,
+-	0x808e,
+-	0x808f,
+-	0x8090,
+-	0x8091,
+-	0x8092,
+-	0x8094,
+-	0x8095,
+-	0x8096,
+-	0x8097,
+-	0x8098,
+-	0x809b,
+-	0x809c,
+-	0x809d,
+-	0x80a0,
+-	0x80a1,
+-	0x80a2,
+-	0x80a3,
+-	0x80a4,
+-	0x80a5,
+-	0x80a6,
+-	0x80b0,
+-	0x80b1,
+-	0x80b2,
+-	0x80b3,
+-	0x80b4,
+-	0x80b5,
+-	0x80b6,
+-	0x80b7,
+-	0x80b8,
+-	0x80b9,
+-	0x80ba,
+-	0x80bb,
+-	0x80bc,
+-	0x80bd,
+-	0x80be,
+-	0x80bf,
+-	0x80c0,
+-	0x80c1,
+-	0x80c2,
+-	0x80c3,
+-	0x80c4,
+-	0x80c5,
+-	0x80c6,
+-	0x80c7,
+-	0x80c8,
+-	0x80c9,
+-	0x80ca,
+-	0x80cb,
+-	0x80cc,
+-	0x80cd,
+-	0x80ce,
+-	0x80cf,
+-	0x80d0,
+-	0x80d1,
+-	0x80d2,
+-	0x80d3,
+-	0x80d4,
+-	0x80d5,
+-	0x80d6,
+-	0x80d7,
+-	0x80d8,
+-	0x80d9,
+-	0x80da,
+-	0x80db,
+-	0x80dc,
+-	0x80dd,
+-	0x80de,
+-	0x80df,
+-	0x80e0,
+-	0x80e1,
+-	0x80e2,
+-	0x80e3,
+-	0x80e4,
+-	0x80e5,
+-	0x80e6,
+-	0x80e7,
+-	0x80e8,
+-	0x80e9,
+-	0x80ea,
+-	0x80eb,
+-	0x80ec,
+-	0x80ed,
+-	0x80ee,
+-	0x80ef,
+-	0x80f0,
+-	0x80f1,
+-	0x8100,
+-	0x8101,
+-	0x8102,
+-	0x8103,
+-	0x8104,
+-	0x8105,
+-	0x8106,
+-	0x8107,
+-	0x8109,
+-	0x8114,
+-	0x8115,
+-	0x8400,
+-	0x8401,
+-	0x8402,
+-	0x8403,
+-	0x8404,
+-	0x8405,
+-	0x8406,
+-	0x840a,
+-	0x840b,
+-	0x8800,
+-	0x8801,
+-	0x8802,
+-	0x8803,
+-	0x8804,
+-	0x8805,
+-	0x8806,
+-	0x8809,
+-	0x880a,
+-	0x880b,
+-	0x880c,
+-	0x880d,
+-	0x880f,
+-	0x8810,
+-	0x8820,
+-	0x8821,
+-	0x8822,
+-	0x8823,
+-	0x8824,
+-	0x8825,
+-	0x8826,
+-	0x8827,
+-	0x8828,
+-	0x8829,
+-	0x882a,
+-	0x882b,
+-	0x882c,
+-	0x882d,
+-	0x882e,
+-	0x882f,
+-	0x8830,
+-	0x8831,
+-	0x8832,
+-	0x8833,
+-	0x8834,
+-	0x8835,
+-	0x8836,
+-	0x8837,
+-	0x8838,
+-	0x8839,
+-	0x883a,
+-	0x883b,
+-	0x883c,
+-	0x883d,
+-	0x883e,
+-	0x883f,
+-	0x8840,
+-	0x8841,
+-	0x8842,
+-	0x8843,
+-	0x8844,
+-	0x8845,
+-	0x8846,
+-	0x8847,
+-	0x8848,
+-	0x8849,
+-	0x884a,
+-	0x884b,
+-	0x884c,
+-	0x884d,
+-	0x884e,
+-	0x884f,
+-	0x8850,
+-	0x8851,
+-	0x8852,
+-	0x8853,
+-	0x8854,
+-	0x8855,
+-	0x8856,
+-	0x8857,
+-	0x8858,
+-	0x8859,
+-	0x885a,
+-	0x885b,
+-	0x885c,
+-	0x885d,
+-	0x885e,
+-	0x885f,
+-	0x8860,
+-	0x8861,
+-	0x8862,
+-	0x8863,
+-	0x8865,
+-	0x8870,
+-	0x8871,
+-	0x8872,
+-	0x8873,
+-	0x8874,
+-	0x8875,
+-	0x8876,
+-	0x8877,
+-	0x8878,
+-	0x8879,
+-	0x8880,
+-	0x8881,
+-	0x8882,
+-	0x8883,
+-	0x8884,
+-	0x8885,
+-	0x8886,
+-	0x8887,
+-	0x8888,
+-	0x8889,
+-	0x8890,
+-	0x8898,
+-	0x88c0,
+-	0x88c1,
+-	0x88d0,
+-	0x88d1,
+-	0x88d2,
+-	0x88d3,
+-	0x88d4,
+-	0x88d5,
+-	0x88d6,
+-	0x88d7,
+-	0x88d8,
+-	0x88d9,
+-	0x88da,
+-	0x88db,
+-	0x88dc,
+-	0x88dd,
+-	0x88de,
+-	0x88df,
+-	0x88e0,
+-	0x88e1,
+-	0x88e2,
+-	0x88e3,
+-	0x8900,
+-	0x8901,
+-	0x8902,
+-	0x8903,
+-	0x8904,
+-	0x8905,
+-	0x8906,
+-	0x8907,
+-	0x8908,
+-	0x8909,
+-	0x890a,
+-	0x890b,
+-	0x890c,
+-	0x890d,
+-	0x890e,
+-	0x890f,
+-	0x8910,
+-	0x8911,
+-	0x8912,
+-	0x8913,
+-	0x8914,
+-	0x8915,
+-	0x8916,
+-	0x8917,
+-	0x8918,
+-	0x8919,
+-	0x891a,
+-	0x8a00,
+-	0x8a10,
+-	0x8a20,
+-	0x8a30,
+-	0x8c00,
+-	0x8c01,
+-	0x8c17,
+-	0x8c18,
+-	0x8c19,
+-	0x8c1a,
+-	0x8c1b,
+-	0x8c1c,
+-	0x8c1d,
+-	0x8c1e,
+-	0x8c1f,
+-	0x8c20,
+-	0x8c21,
+-	0x8c22,
+-	0x8c23,
+-	0x8c24,
+-	0x8c25,
+-	0x8c2c,
+-	0x8c2d,
+-	0x8c2e,
+-	0x8c2f,
+-	0x9100,
+-	0x9101,
+-	0x9102,
+-	0x9103,
+-	0x9104,
+-	0x9105,
+-	0x9106,
+-	0x9107,
+-	0x9108,
+-	0x9200,
+-	0x9201,
+-	0x9202,
+-	0x9203,
+-	0x9204,
+-	0x9205,
+-	0x9206,
+-	0x9207,
+-	0x9208,
+-	0x9209,
+-	0x920a,
+-	0x920b,
+-	0x920c,
+-	0x920d,
+-	0x920e,
+-	0x920f,
+-	0x9212,
+-	0x9213,
+-	0x9214,
+-	0x9215,
+-	0x9216,
+-	0x9217,
+-	0x9301,
+-	0x9302,
+-	0x9303,
+-	0x9304,
+-	0x9305,
+-	0x9306,
+-	0x9311,
+-	0x9312,
+-	0x9313,
+-	0x9314,
+-	0x9315,
+-	0x9316,
+-	0x9800,
+-	0x9801,
+-	0x9802,
+-	0x9803,
+-	0x9804,
+-	0x9805,
+-	0x9806,
+-	0x9808,
+-	0x9980,
+-	0x9981,
+-	0x9b00,
+-	0x9b01,
+-	0x9b02,
+-	0x9b03,
+-	0x9b04,
+-	0x9b05,
+-	0x9b06,
+-	0x9b07,
+-	0x9b08,
+-	0xa000,
+-	0xa001,
+-	0xa002,
+-	0xa003,
+-	0xa004,
+-	0xa005,
+-	0xa006,
+-	0xa008,
+-	0xa00e,
+-	0xa00f,
+-	0xa010,
+-	0xa011,
+-	0xa012,
+-	0xa013,
+-	0xa014,
+-	0xa015,
+-	0xa016,
+-	0xa017,
+-	0xa018,
+-	0xa019,
+-	0xa01a,
+-	0xa01b,
+-	0xa01c,
+-	0xa01d,
+-	0xa01e,
+-	0xa01f,
+-	0xa020,
+-	0xa021,
+-	0xa022,
+-	0xa023,
+-	0xa024,
+-	0xa025,
+-	0xa026,
+-	0xa027,
+-	0xa028,
+-	0xa029,
+-	0xa02a,
+-	0xa02b,
+-	0xa02c,
+-	0xa02d,
+-	0xa02e,
+-	0xa02f,
+-	0xa030,
+-	0xa031,
+-	0xa032,
+-	0xa033,
+-	0xa034,
+-	0xa035,
+-	0xa036,
+-	0xa037,
+-	0xa038,
+-	0xa039,
+-	0xa03a,
+-	0xa03b,
+-	0xa03c,
+-	0xa03d,
+-	0xa03e,
+-	0xa03f,
+-	0xa040,
+-	0xa041,
+-	0xa042,
+-	0xa043,
+-	0xa044,
+-	0xa045,
+-	0xa046,
+-	0xa047,
+-	0xa048,
+-	0xa049,
+-	0xa04a,
+-	0xa04b,
+-	0xa04c,
+-	0xa04d,
+-	0xa04e,
+-	0xa04f,
+-	0xa050,
+-	0xa051,
+-	0xa052,
+-	0xa053,
+-	0xa054,
+-	0xa055,
+-	0xa056,
+-	0xa057,
+-	0xa058,
+-	0xa059,
+-	0xa05a,
+-	0xa05b,
+-	0xa05c,
+-	0xa05d,
+-	0xa05e,
+-	0xa05f,
+-	0xa060,
+-	0xa061,
+-	0xa062,
+-	0xa063,
+-	0xa064,
+-	0xa065,
+-	0xa066,
+-	0xa067,
+-	0xa068,
+-	0xa069,
+-	0xa06a,
+-	0xa06b,
+-	0xa06c,
+-	0xa06d,
+-	0xa06e,
+-	0xa06f,
+-	0xa070,
+-	0xa071,
+-	0xa072,
+-	0xa073,
+-	0xa074,
+-	0xa075,
+-	0xa076,
+-	0xa077,
+-	0xa078,
+-	0xa079,
+-	0xa07a,
+-	0xa07b,
+-	0xa07c,
+-	0xa07d,
+-	0xa07e,
+-	0xa07f,
+-	0xa080,
+-	0xa081,
+-	0xa082,
+-	0xa083,
+-	0xa084,
+-	0xa085,
+-	0xa086,
+-	0xa087,
+-	0xa088,
+-	0xa089,
+-	0xa08a,
+-	0xa08b,
+-	0xa08c,
+-	0xa08d,
+-	0xa08e,
+-	0xa08f,
+-	0xa090,
+-	0xa091,
+-	0xa092,
+-	0xa093,
+-	0xa094,
+-	0xa095,
+-	0xa096,
+-	0xa097,
+-	0xa098,
+-	0xa099,
+-	0xa09a,
+-	0xa09b,
+-	0xa09c,
+-	0xa09d,
+-	0xa09e,
+-	0xa09f,
+-	0xa0a0,
+-	0xa0a1,
+-	0xa0a2,
+-	0xa0a3,
+-	0xa0a4,
+-	0xa0a5,
+-	0xa0a6,
+-	0xa0a7,
+-	0xa0a8,
+-	0xa0a9,
+-	0xa0aa,
+-	0xa0ab,
+-	0xa0ac,
+-	0xa0ad,
+-	0xa0ae,
+-	0xa0af,
+-	0xa0b0,
+-	0xa0b1,
+-	0xa0b2,
+-	0xa0b3,
+-	0xa0b4,
+-	0xa0b5,
+-	0xa0b6,
+-	0xa0b7,
+-	0xa0b8,
+-	0xa0b9,
+-	0xa0ba,
+-	0xa0bb,
+-	0xa0bc,
+-	0xa0bd,
+-	0xa0be,
+-	0xa0bf,
+-	0xa0c0,
+-	0xa0c1,
+-	0xa0c2,
+-	0xa0c3,
+-	0xa0c4,
+-	0xa0c5,
+-	0xa0c6,
+-	0xa0c7,
+-	0xa0c8,
+-	0xa0c9,
+-	0xa0ca,
+-	0xa0cb,
+-	0xa0cc,
+-	0xa0cd,
+-	0xa0ce,
+-	0xa0cf,
+-	0xa0d0,
+-	0xa0d1,
+-	0xa0d2,
+-	0xa0d3,
+-	0xa0d4,
+-	0xa0d5,
+-	0xa0d6,
+-	0xa0d7,
+-	0xa0d8,
+-	0xa0d9,
+-	0xa0da,
+-	0xa0db,
+-	0xa0dc,
+-	0xa0dd,
+-	0xa0de,
+-	0xa0df,
+-	0xa0e0,
+-	0xa0e1,
+-	0xa0e2,
+-	0xa0e3,
+-	0xa0e4,
+-	0xa0e5,
+-	0xa0e6,
+-	0xa0e7,
+-	0xa0e8,
+-	0xa0e9,
+-	0xa0ea,
+-	0xa0eb,
+-	0xa0ec,
+-	0xa0ed,
+-	0xa0ee,
+-	0xa0ef,
+-	0xa0f8,
+-	0xa800,
+-	0xa802,
+-	0xa803,
+-	0xa804,
+-	0xa805,
+-	0xa806,
+-	0xa807,
+-	0xa808,
+-	0xa809,
+-	0xa80a,
+-	0xa80b,
+-	0xa80c,
+-	0xa80d,
+-	0xa80e,
+-	0xa80f,
+-	0xa810,
+-	0xa811,
+-	0xa812,
+-	0xa813,
+-	0xa814,
+-	0xa815,
+-	0xa816,
+-	0xa817,
+-	0xa818,
+-	0xa819,
+-	0xa81a,
+-	0xa81b,
+-	0xa81c,
+-	0xa81d,
+-	0xa81e,
+-	0xa81f,
+-	0xa820,
+-	0xa821,
+-	0xa822,
+-	0xa823,
+-	0xa824,
+-	0xa825,
+-	0xa830,
+-	0xa831,
+-	0xa832,
+-	0xa833,
+-	0xa834,
+-	0xa835,
+-	0xa836,
+-	0xa837,
+-	0xa838,
+-	0xa839,
+-	0xa83a,
+-	0xa83b,
+-	0xa83c,
+-	0xa83d,
+-	0xa840,
+-	0xa842,
+-	0xa843,
+-	0xa844,
+-	0xa845,
+-	0xa846,
+-	0xa847,
+-	0xa848,
+-	0xa849,
+-	0xa84a,
+-	0xa84b,
+-	0xa84c,
+-	0xa84d,
+-	0xa84e,
+-	0xa84f,
+-	0xa850,
+-	0xa851,
+-	0xa852,
+-	0xa853,
+-	0xa854,
+-	0xa855,
+-	0xa856,
+-	0xa857,
+-	0xa858,
+-	0xa859,
+-	0xa85a,
+-	0xa85b,
+-	0xa85c,
+-	0xa85d,
+-	0xa85e,
+-	0xa85f,
+-	0xa860,
+-	0xa861,
+-	0xa862,
+-	0xa863,
+-	0xa864,
+-	0xa865,
+-	0xa870,
+-	0xa871,
+-	0xa872,
+-	0xa873,
+-	0xa874,
+-	0xa875,
+-	0xa876,
+-	0xa877,
+-	0xa878,
+-	0xa879,
+-	0xa87a,
+-	0xa87b,
+-	0xa87c,
+-	0xa87d,
+-	0xa87e,
+-	0xa87f,
+-	0xa880,
+-	0xa881,
+-	0xa882,
+-	0xa883,
+-	0xa884,
+-	0xa885,
+-	0xa886,
+-	0xa887,
+-	0xa888,
+-	0xa889,
+-	0xa88a,
+-	0xa88b,
+-	0xa88c,
+-	0xa88d,
+-	0xa88e,
+-	0xa88f,
+-	0xa890,
+-	0xa891,
+-	0xa892,
+-	0xa893,
+-	0xa894,
+-	0xa895,
+-	0xa896,
+-	0xa980,
+-	0xa982,
+-	0xa983,
+-	0xa984,
+-	0xa985,
+-	0xa986,
+-	0xa987,
+-	0xa988,
+-	0xa989,
+-	0xa98a,
+-	0xa98b,
+-	0xa98c,
+-	0xa98d,
+-	0xa98e,
+-	0xa98f,
+-	0xa990,
+-	0xa991,
+-	0xa992,
+-	0xa993,
+-	0xa994,
+-	0xa995,
+-	0xa996,
+-	0xa997,
+-	0xa998,
+-	0xa999,
+-	0xa99a,
+-	0xa99b,
+-	0xa99c,
+-	0xa99d,
+-	0xa99e,
+-	0xa99f,
+-	0xa9a0,
+-	0xa9a1,
+-	0xa9a2,
+-	0xa9a3,
+-	0xa9a4,
+-	0xa9a5,
+-	0xa9a6,
+-	0xa9a7,
+-	0xa9a9,
+-	0xa9e0,
+-	0xa9e1,
+-	0xa9e4,
+-	0xa9e5,
+-	0xab00,
+-	0xab04,
+-	0xab05,
+-	0xab10,
+-	0xab11,
+-	0xab12,
+-	0xab13,
+-	0xab14,
+-	0xab15,
+-	0xab16,
+-	0xab17,
+-	0xab18,
+-	0xab19,
+-	0xacc0,
+-	0xb300,
+-	0xb301,
+-	0xb304,
+-	0xb305,
+-	0xb306,
+-	0xb307,
+-	0xb4c0,
+-	0xb4c1,
+-	0xb4c2,
+-	0xb4c3,
+-	0xb4c4,
+-	0xb4ca,
+-	0xb4cb,
+-	0xb4cc,
+-	0xb4d1,
+-	0xb800,
+-	0xb801,
+-	0xb802,
+-	0xb803,
+-	0xb980,
+-	0xb982,
+-	0xb983,
+-	0xb984,
+-	0xb985,
+-	0xb986,
+-	0xb990,
+-	0xb991,
+-	0xb992,
+-	0xb993,
+-	0xb994,
+-	0xb995,
+-	0xb996,
+-	0xb997,
+-	0xb998,
+-	0xb999,
+-	0xb99a,
+-	0xb99b,
+-	0xb9c0,
+-	0xb9c1,
+-	0xb9c2,
+-	0xb9c3,
+-	0xb9c4,
+-	0xb9c5,
+-	0xb9c6,
+-	0xb9c7,
+-	0xb9c8,
+-	0xb9c9,
+-	0xbb10,
+-};
+-template<> constexpr inline uint16_t RP_BLIT_REGS<A7XX>[] = {
+-	0xc02,
+-	0xc06,
+-	0xc10,
+-	0xc11,
+-	0xc12,
+-	0xc13,
+-	0xc14,
+-	0xc15,
+-	0xc16,
+-	0xc17,
+-	0xc18,
+-	0xc19,
+-	0xc1a,
+-	0xc1b,
+-	0xc1c,
+-	0xc1d,
+-	0xc1e,
+-	0xc1f,
+-	0xc20,
+-	0xc21,
+-	0xc22,
+-	0xc23,
+-	0xc24,
+-	0xc25,
+-	0xc26,
+-	0xc27,
+-	0xc28,
+-	0xc29,
+-	0xc2a,
+-	0xc2b,
+-	0xc2c,
+-	0xc2d,
+-	0xc2e,
+-	0xc2f,
+-	0xc38,
+-	0xc39,
+-	0xc3a,
+-	0xc3b,
+-	0xc3c,
+-	0xc3d,
+-	0xc3e,
+-	0xc3f,
+-	0xc40,
+-	0xc41,
+-	0xc42,
+-	0xc43,
+-	0xc44,
+-	0xc45,
+-	0xc46,
+-	0xc47,
+-	0xc48,
+-	0xc49,
+-	0xc4a,
+-	0xc4b,
+-	0xc4c,
+-	0xc4d,
+-	0xc4e,
+-	0xc4f,
+-	0xc50,
+-	0xc51,
+-	0xc52,
+-	0xc53,
+-	0xc54,
+-	0xc55,
+-	0xc56,
+-	0xc57,
+-	0x8000,
+-	0x8001,
+-	0x8002,
+-	0x8003,
+-	0x8004,
+-	0x8005,
+-	0x8006,
+-	0x8007,
+-	0x8010,
+-	0x8011,
+-	0x8012,
+-	0x8013,
+-	0x8014,
+-	0x8015,
+-	0x8016,
+-	0x8017,
+-	0x8018,
+-	0x8019,
+-	0x801a,
+-	0x801b,
+-	0x801c,
+-	0x801d,
+-	0x801e,
+-	0x801f,
+-	0x8020,
+-	0x8021,
+-	0x8022,
+-	0x8023,
+-	0x8024,
+-	0x8025,
+-	0x8026,
+-	0x8027,
+-	0x8028,
+-	0x8029,
+-	0x802a,
+-	0x802b,
+-	0x802c,
+-	0x802d,
+-	0x802e,
+-	0x802f,
+-	0x8030,
+-	0x8031,
+-	0x8032,
+-	0x8033,
+-	0x8034,
+-	0x8035,
+-	0x8036,
+-	0x8037,
+-	0x8038,
+-	0x8039,
+-	0x803a,
+-	0x803b,
+-	0x803c,
+-	0x803d,
+-	0x803e,
+-	0x803f,
+-	0x8040,
+-	0x8041,
+-	0x8042,
+-	0x8043,
+-	0x8044,
+-	0x8045,
+-	0x8046,
+-	0x8047,
+-	0x8048,
+-	0x8049,
+-	0x804a,
+-	0x804b,
+-	0x804c,
+-	0x804d,
+-	0x804e,
+-	0x804f,
+-	0x8050,
+-	0x8051,
+-	0x8052,
+-	0x8053,
+-	0x8054,
+-	0x8055,
+-	0x8056,
+-	0x8057,
+-	0x8058,
+-	0x8059,
+-	0x805a,
+-	0x805b,
+-	0x805c,
+-	0x805d,
+-	0x805e,
+-	0x805f,
+-	0x8060,
+-	0x8061,
+-	0x8062,
+-	0x8063,
+-	0x8064,
+-	0x8065,
+-	0x8066,
+-	0x8067,
+-	0x8068,
+-	0x8069,
+-	0x806a,
+-	0x806b,
+-	0x806c,
+-	0x806d,
+-	0x806e,
+-	0x806f,
+-	0x8070,
+-	0x8071,
+-	0x8072,
+-	0x8073,
+-	0x8074,
+-	0x8075,
+-	0x8076,
+-	0x8077,
+-	0x8078,
+-	0x8079,
+-	0x807a,
+-	0x807b,
+-	0x807c,
+-	0x807d,
+-	0x807e,
+-	0x807f,
+-	0x8080,
+-	0x8081,
+-	0x8082,
+-	0x8083,
+-	0x8084,
+-	0x8085,
+-	0x8086,
+-	0x8087,
+-	0x8088,
+-	0x8089,
+-	0x808a,
+-	0x808b,
+-	0x808c,
+-	0x808d,
+-	0x808e,
+-	0x808f,
+-	0x8090,
+-	0x8091,
+-	0x8092,
+-	0x8094,
+-	0x8095,
+-	0x8096,
+-	0x8097,
+-	0x8098,
+-	0x809b,
+-	0x809c,
+-	0x809d,
+-	0x80a0,
+-	0x80a1,
+-	0x80a2,
+-	0x80a3,
+-	0x80a4,
+-	0x80a5,
+-	0x80a6,
+-	0x80b0,
+-	0x80b1,
+-	0x80b2,
+-	0x80b3,
+-	0x80b4,
+-	0x80b5,
+-	0x80b6,
+-	0x80b7,
+-	0x80b8,
+-	0x80b9,
+-	0x80ba,
+-	0x80bb,
+-	0x80bc,
+-	0x80bd,
+-	0x80be,
+-	0x80bf,
+-	0x80c0,
+-	0x80c1,
+-	0x80c2,
+-	0x80c3,
+-	0x80c4,
+-	0x80c5,
+-	0x80c6,
+-	0x80c7,
+-	0x80c8,
+-	0x80c9,
+-	0x80ca,
+-	0x80cb,
+-	0x80cc,
+-	0x80cd,
+-	0x80ce,
+-	0x80cf,
+-	0x80d0,
+-	0x80d1,
+-	0x80d2,
+-	0x80d3,
+-	0x80d4,
+-	0x80d5,
+-	0x80d6,
+-	0x80d7,
+-	0x80d8,
+-	0x80d9,
+-	0x80da,
+-	0x80db,
+-	0x80dc,
+-	0x80dd,
+-	0x80de,
+-	0x80df,
+-	0x80e0,
+-	0x80e1,
+-	0x80e2,
+-	0x80e3,
+-	0x80e4,
+-	0x80e5,
+-	0x80e6,
+-	0x80e7,
+-	0x80e8,
+-	0x80e9,
+-	0x80ea,
+-	0x80eb,
+-	0x80ec,
+-	0x80ed,
+-	0x80ee,
+-	0x80ef,
+-	0x80f0,
+-	0x80f1,
+-	0x8100,
+-	0x8101,
+-	0x8102,
+-	0x8103,
+-	0x8104,
+-	0x8105,
+-	0x8106,
+-	0x8107,
+-	0x8109,
+-	0x8113,
+-	0x8114,
+-	0x8115,
+-	0x8116,
+-	0x8400,
+-	0x8401,
+-	0x8402,
+-	0x8403,
+-	0x8404,
+-	0x8405,
+-	0x8406,
+-	0x840a,
+-	0x840b,
+-	0x8800,
+-	0x8801,
+-	0x8802,
+-	0x8803,
+-	0x8804,
+-	0x8805,
+-	0x8806,
+-	0x8809,
+-	0x880a,
+-	0x880b,
+-	0x880c,
+-	0x880d,
+-	0x880f,
+-	0x8810,
+-	0x8812,
+-	0x8820,
+-	0x8821,
+-	0x8822,
+-	0x8823,
+-	0x8824,
+-	0x8825,
+-	0x8826,
+-	0x8827,
+-	0x8828,
+-	0x8829,
+-	0x882a,
+-	0x882b,
+-	0x882c,
+-	0x882d,
+-	0x882e,
+-	0x882f,
+-	0x8830,
+-	0x8831,
+-	0x8832,
+-	0x8833,
+-	0x8834,
+-	0x8835,
+-	0x8836,
+-	0x8837,
+-	0x8838,
+-	0x8839,
+-	0x883a,
+-	0x883b,
+-	0x883c,
+-	0x883d,
+-	0x883e,
+-	0x883f,
+-	0x8840,
+-	0x8841,
+-	0x8842,
+-	0x8843,
+-	0x8844,
+-	0x8845,
+-	0x8846,
+-	0x8847,
+-	0x8848,
+-	0x8849,
+-	0x884a,
+-	0x884b,
+-	0x884c,
+-	0x884d,
+-	0x884e,
+-	0x884f,
+-	0x8850,
+-	0x8851,
+-	0x8852,
+-	0x8853,
+-	0x8854,
+-	0x8855,
+-	0x8856,
+-	0x8857,
+-	0x8858,
+-	0x8859,
+-	0x885a,
+-	0x885b,
+-	0x885c,
+-	0x885d,
+-	0x885e,
+-	0x885f,
+-	0x8860,
+-	0x8861,
+-	0x8862,
+-	0x8863,
+-	0x8865,
+-	0x8870,
+-	0x8871,
+-	0x8872,
+-	0x8873,
+-	0x8874,
+-	0x8875,
+-	0x8876,
+-	0x8877,
+-	0x8878,
+-	0x8879,
+-	0x8880,
+-	0x8881,
+-	0x8882,
+-	0x8883,
+-	0x8884,
+-	0x8885,
+-	0x8886,
+-	0x8887,
+-	0x8888,
+-	0x8889,
+-	0x8890,
+-	0x8898,
+-	0x88c0,
+-	0x88c1,
+-	0x88d0,
+-	0x88d1,
+-	0x88d2,
+-	0x88d3,
+-	0x88d4,
+-	0x88d5,
+-	0x88d6,
+-	0x88d7,
+-	0x88d8,
+-	0x88d9,
+-	0x88da,
+-	0x88db,
+-	0x88dc,
+-	0x88dd,
+-	0x88de,
+-	0x88df,
+-	0x88e0,
+-	0x88e1,
+-	0x88e2,
+-	0x88e3,
+-	0x8900,
+-	0x8901,
+-	0x8902,
+-	0x8903,
+-	0x8904,
+-	0x8905,
+-	0x8906,
+-	0x8907,
+-	0x8908,
+-	0x8909,
+-	0x890a,
+-	0x890b,
+-	0x890c,
+-	0x890d,
+-	0x890e,
+-	0x890f,
+-	0x8910,
+-	0x8911,
+-	0x8912,
+-	0x8913,
+-	0x8914,
+-	0x8915,
+-	0x8916,
+-	0x8917,
+-	0x8918,
+-	0x8919,
+-	0x891a,
+-	0x8c00,
+-	0x8c01,
+-	0x8c17,
+-	0x8c18,
+-	0x8c19,
+-	0x8c1a,
+-	0x8c1b,
+-	0x8c1c,
+-	0x8c1d,
+-	0x8c1e,
+-	0x8c1f,
+-	0x8c20,
+-	0x8c21,
+-	0x8c22,
+-	0x8c23,
+-	0x8c24,
+-	0x8c25,
+-	0x8c2c,
+-	0x8c2d,
+-	0x8c2e,
+-	0x8c2f,
+-	0x9101,
+-	0x9102,
+-	0x9103,
+-	0x9104,
+-	0x9105,
+-	0x9106,
+-	0x9107,
+-	0x9108,
+-	0x9109,
+-	0x910a,
+-	0x910b,
+-	0x910c,
+-	0x9200,
+-	0x9201,
+-	0x9202,
+-	0x9203,
+-	0x9204,
+-	0x9205,
+-	0x9206,
+-	0x9207,
+-	0x9208,
+-	0x9209,
+-	0x920a,
+-	0x920b,
+-	0x920c,
+-	0x920d,
+-	0x920e,
+-	0x920f,
+-	0x9212,
+-	0x9213,
+-	0x9214,
+-	0x9215,
+-	0x9216,
+-	0x9217,
+-	0x9301,
+-	0x9302,
+-	0x9303,
+-	0x9304,
+-	0x9305,
+-	0x9306,
+-	0x9307,
+-	0x9308,
+-	0x9309,
+-	0x9311,
+-	0x9312,
+-	0x9313,
+-	0x9314,
+-	0x9315,
+-	0x9316,
+-	0x9317,
+-	0x9800,
+-	0x9801,
+-	0x9802,
+-	0x9803,
+-	0x9804,
+-	0x9805,
+-	0x9806,
+-	0x9808,
+-	0x9809,
+-	0x9b00,
+-	0x9b01,
+-	0x9b02,
+-	0x9b03,
+-	0x9b04,
+-	0x9b05,
+-	0x9b07,
+-	0x9b08,
+-	0x9b09,
+-	0xa000,
+-	0xa001,
+-	0xa002,
+-	0xa003,
+-	0xa004,
+-	0xa005,
+-	0xa006,
+-	0xa008,
+-	0xa00e,
+-	0xa00f,
+-	0xa010,
+-	0xa011,
+-	0xa012,
+-	0xa013,
+-	0xa014,
+-	0xa015,
+-	0xa016,
+-	0xa017,
+-	0xa018,
+-	0xa019,
+-	0xa01a,
+-	0xa01b,
+-	0xa01c,
+-	0xa01d,
+-	0xa01e,
+-	0xa01f,
+-	0xa020,
+-	0xa021,
+-	0xa022,
+-	0xa023,
+-	0xa024,
+-	0xa025,
+-	0xa026,
+-	0xa027,
+-	0xa028,
+-	0xa029,
+-	0xa02a,
+-	0xa02b,
+-	0xa02c,
+-	0xa02d,
+-	0xa02e,
+-	0xa02f,
+-	0xa030,
+-	0xa031,
+-	0xa032,
+-	0xa033,
+-	0xa034,
+-	0xa035,
+-	0xa036,
+-	0xa037,
+-	0xa038,
+-	0xa039,
+-	0xa03a,
+-	0xa03b,
+-	0xa03c,
+-	0xa03d,
+-	0xa03e,
+-	0xa03f,
+-	0xa040,
+-	0xa041,
+-	0xa042,
+-	0xa043,
+-	0xa044,
+-	0xa045,
+-	0xa046,
+-	0xa047,
+-	0xa048,
+-	0xa049,
+-	0xa04a,
+-	0xa04b,
+-	0xa04c,
+-	0xa04d,
+-	0xa04e,
+-	0xa04f,
+-	0xa050,
+-	0xa051,
+-	0xa052,
+-	0xa053,
+-	0xa054,
+-	0xa055,
+-	0xa056,
+-	0xa057,
+-	0xa058,
+-	0xa059,
+-	0xa05a,
+-	0xa05b,
+-	0xa05c,
+-	0xa05d,
+-	0xa05e,
+-	0xa05f,
+-	0xa060,
+-	0xa061,
+-	0xa062,
+-	0xa063,
+-	0xa064,
+-	0xa065,
+-	0xa066,
+-	0xa067,
+-	0xa068,
+-	0xa069,
+-	0xa06a,
+-	0xa06b,
+-	0xa06c,
+-	0xa06d,
+-	0xa06e,
+-	0xa06f,
+-	0xa070,
+-	0xa071,
+-	0xa072,
+-	0xa073,
+-	0xa074,
+-	0xa075,
+-	0xa076,
+-	0xa077,
+-	0xa078,
+-	0xa079,
+-	0xa07a,
+-	0xa07b,
+-	0xa07c,
+-	0xa07d,
+-	0xa07e,
+-	0xa07f,
+-	0xa080,
+-	0xa081,
+-	0xa082,
+-	0xa083,
+-	0xa084,
+-	0xa085,
+-	0xa086,
+-	0xa087,
+-	0xa088,
+-	0xa089,
+-	0xa08a,
+-	0xa08b,
+-	0xa08c,
+-	0xa08d,
+-	0xa08e,
+-	0xa08f,
+-	0xa090,
+-	0xa091,
+-	0xa092,
+-	0xa093,
+-	0xa094,
+-	0xa095,
+-	0xa096,
+-	0xa097,
+-	0xa098,
+-	0xa099,
+-	0xa09a,
+-	0xa09b,
+-	0xa09c,
+-	0xa09d,
+-	0xa09e,
+-	0xa09f,
+-	0xa0a0,
+-	0xa0a1,
+-	0xa0a2,
+-	0xa0a3,
+-	0xa0a4,
+-	0xa0a5,
+-	0xa0a6,
+-	0xa0a7,
+-	0xa0a8,
+-	0xa0a9,
+-	0xa0aa,
+-	0xa0ab,
+-	0xa0ac,
+-	0xa0ad,
+-	0xa0ae,
+-	0xa0af,
+-	0xa0b0,
+-	0xa0b1,
+-	0xa0b2,
+-	0xa0b3,
+-	0xa0b4,
+-	0xa0b5,
+-	0xa0b6,
+-	0xa0b7,
+-	0xa0b8,
+-	0xa0b9,
+-	0xa0ba,
+-	0xa0bb,
+-	0xa0bc,
+-	0xa0bd,
+-	0xa0be,
+-	0xa0bf,
+-	0xa0c0,
+-	0xa0c1,
+-	0xa0c2,
+-	0xa0c3,
+-	0xa0c4,
+-	0xa0c5,
+-	0xa0c6,
+-	0xa0c7,
+-	0xa0c8,
+-	0xa0c9,
+-	0xa0ca,
+-	0xa0cb,
+-	0xa0cc,
+-	0xa0cd,
+-	0xa0ce,
+-	0xa0cf,
+-	0xa0d0,
+-	0xa0d1,
+-	0xa0d2,
+-	0xa0d3,
+-	0xa0d4,
+-	0xa0d5,
+-	0xa0d6,
+-	0xa0d7,
+-	0xa0d8,
+-	0xa0d9,
+-	0xa0da,
+-	0xa0db,
+-	0xa0dc,
+-	0xa0dd,
+-	0xa0de,
+-	0xa0df,
+-	0xa0e0,
+-	0xa0e1,
+-	0xa0e2,
+-	0xa0e3,
+-	0xa0e4,
+-	0xa0e5,
+-	0xa0e6,
+-	0xa0e7,
+-	0xa0e8,
+-	0xa0e9,
+-	0xa0ea,
+-	0xa0eb,
+-	0xa0ec,
+-	0xa0ed,
+-	0xa0ee,
+-	0xa0ef,
+-	0xa0f8,
+-	0xa800,
+-	0xa802,
+-	0xa803,
+-	0xa804,
+-	0xa805,
+-	0xa806,
+-	0xa807,
+-	0xa808,
+-	0xa809,
+-	0xa80a,
+-	0xa80b,
+-	0xa80c,
+-	0xa80d,
+-	0xa80e,
+-	0xa80f,
+-	0xa810,
+-	0xa811,
+-	0xa812,
+-	0xa813,
+-	0xa814,
+-	0xa815,
+-	0xa816,
+-	0xa817,
+-	0xa818,
+-	0xa819,
+-	0xa81a,
+-	0xa81b,
+-	0xa81c,
+-	0xa81d,
+-	0xa81e,
+-	0xa81f,
+-	0xa820,
+-	0xa821,
+-	0xa822,
+-	0xa823,
+-	0xa824,
+-	0xa825,
+-	0xa827,
+-	0xa830,
+-	0xa831,
+-	0xa832,
+-	0xa833,
+-	0xa834,
+-	0xa835,
+-	0xa836,
+-	0xa837,
+-	0xa838,
+-	0xa839,
+-	0xa83a,
+-	0xa83b,
+-	0xa83c,
+-	0xa83d,
+-	0xa83f,
+-	0xa840,
+-	0xa842,
+-	0xa843,
+-	0xa844,
+-	0xa845,
+-	0xa846,
+-	0xa847,
+-	0xa848,
+-	0xa849,
+-	0xa84a,
+-	0xa84b,
+-	0xa84c,
+-	0xa84d,
+-	0xa84e,
+-	0xa84f,
+-	0xa850,
+-	0xa851,
+-	0xa852,
+-	0xa853,
+-	0xa854,
+-	0xa855,
+-	0xa856,
+-	0xa857,
+-	0xa858,
+-	0xa859,
+-	0xa85a,
+-	0xa85b,
+-	0xa85c,
+-	0xa85d,
+-	0xa85e,
+-	0xa85f,
+-	0xa860,
+-	0xa861,
+-	0xa862,
+-	0xa863,
+-	0xa864,
+-	0xa865,
+-	0xa867,
+-	0xa870,
+-	0xa871,
+-	0xa872,
+-	0xa873,
+-	0xa874,
+-	0xa875,
+-	0xa876,
+-	0xa877,
+-	0xa878,
+-	0xa879,
+-	0xa87a,
+-	0xa87b,
+-	0xa87c,
+-	0xa87d,
+-	0xa87e,
+-	0xa87f,
+-	0xa880,
+-	0xa881,
+-	0xa882,
+-	0xa883,
+-	0xa884,
+-	0xa885,
+-	0xa886,
+-	0xa887,
+-	0xa888,
+-	0xa889,
+-	0xa88a,
+-	0xa88b,
+-	0xa88c,
+-	0xa88d,
+-	0xa88e,
+-	0xa88f,
+-	0xa890,
+-	0xa891,
+-	0xa892,
+-	0xa893,
+-	0xa894,
+-	0xa895,
+-	0xa896,
+-	0xa898,
+-	0xa980,
+-	0xa982,
+-	0xa983,
+-	0xa984,
+-	0xa985,
+-	0xa986,
+-	0xa987,
+-	0xa988,
+-	0xa989,
+-	0xa98a,
+-	0xa98b,
+-	0xa98c,
+-	0xa98d,
+-	0xa98e,
+-	0xa98f,
+-	0xa990,
+-	0xa991,
+-	0xa992,
+-	0xa993,
+-	0xa994,
+-	0xa995,
+-	0xa996,
+-	0xa997,
+-	0xa998,
+-	0xa999,
+-	0xa99a,
+-	0xa99b,
+-	0xa99c,
+-	0xa99d,
+-	0xa99e,
+-	0xa99f,
+-	0xa9a0,
+-	0xa9a1,
+-	0xa9a2,
+-	0xa9a3,
+-	0xa9a4,
+-	0xa9a5,
+-	0xa9a6,
+-	0xa9a7,
+-	0xa9a9,
+-	0xa9aa,
+-	0xa9ae,
+-	0xa9bf,
+-	0xa9c6,
+-	0xa9c7,
+-	0xa9c8,
+-	0xa9c9,
+-	0xa9ca,
+-	0xa9cb,
+-	0xa9d4,
+-	0xa9d5,
+-	0xa9d6,
+-	0xa9d7,
+-	0xa9d8,
+-	0xa9d9,
+-	0xa9da,
+-	0xa9db,
+-	0xa9dc,
+-	0xa9dd,
+-	0xa9de,
+-	0xa9e0,
+-	0xa9e1,
+-	0xa9e4,
+-	0xa9e5,
+-	0xab00,
+-	0xab03,
+-	0xab04,
+-	0xab05,
+-	0xab0a,
+-	0xab0b,
+-	0xab0c,
+-	0xab0d,
+-	0xab0e,
+-	0xab0f,
+-	0xab10,
+-	0xab11,
+-	0xab12,
+-	0xab13,
+-	0xab14,
+-	0xab15,
+-	0xab16,
+-	0xab17,
+-	0xab18,
+-	0xab19,
+-	0xab21,
+-	0xb2c0,
+-	0xb2c2,
+-	0xb2c3,
+-	0xb2ca,
+-	0xb2cb,
+-	0xb2cc,
+-	0xb2d2,
+-	0xb300,
+-	0xb301,
+-	0xb304,
+-	0xb305,
+-	0xb306,
+-	0xb307,
+-};
 -#endif
--		default: return INVALID_IDX(idx);
--	}
--}
--static inline uint32_t REG_MDP5_WB(uint32_t i0) { return 0x00000000 + __offset_WB(i0); }
 -
--static inline uint32_t REG_MDP5_WB_DST_FORMAT(uint32_t i0) { return 0x00000000 + __offset_WB(i0); }
--#define MDP5_WB_DST_FORMAT_DSTC0_OUT__MASK			0x00000003
--#define MDP5_WB_DST_FORMAT_DSTC0_OUT__SHIFT			0
--static inline uint32_t MDP5_WB_DST_FORMAT_DSTC0_OUT(uint32_t val)
--{
--	return ((val) << MDP5_WB_DST_FORMAT_DSTC0_OUT__SHIFT) & MDP5_WB_DST_FORMAT_DSTC0_OUT__MASK;
--}
--#define MDP5_WB_DST_FORMAT_DSTC1_OUT__MASK			0x0000000c
--#define MDP5_WB_DST_FORMAT_DSTC1_OUT__SHIFT			2
--static inline uint32_t MDP5_WB_DST_FORMAT_DSTC1_OUT(uint32_t val)
--{
--	return ((val) << MDP5_WB_DST_FORMAT_DSTC1_OUT__SHIFT) & MDP5_WB_DST_FORMAT_DSTC1_OUT__MASK;
--}
--#define MDP5_WB_DST_FORMAT_DSTC2_OUT__MASK			0x00000030
--#define MDP5_WB_DST_FORMAT_DSTC2_OUT__SHIFT			4
--static inline uint32_t MDP5_WB_DST_FORMAT_DSTC2_OUT(uint32_t val)
--{
--	return ((val) << MDP5_WB_DST_FORMAT_DSTC2_OUT__SHIFT) & MDP5_WB_DST_FORMAT_DSTC2_OUT__MASK;
--}
--#define MDP5_WB_DST_FORMAT_DSTC3_OUT__MASK			0x000000c0
--#define MDP5_WB_DST_FORMAT_DSTC3_OUT__SHIFT			6
--static inline uint32_t MDP5_WB_DST_FORMAT_DSTC3_OUT(uint32_t val)
--{
--	return ((val) << MDP5_WB_DST_FORMAT_DSTC3_OUT__SHIFT) & MDP5_WB_DST_FORMAT_DSTC3_OUT__MASK;
--}
--#define MDP5_WB_DST_FORMAT_DSTC3_EN				0x00000100
--#define MDP5_WB_DST_FORMAT_DST_BPP__MASK			0x00000600
--#define MDP5_WB_DST_FORMAT_DST_BPP__SHIFT			9
--static inline uint32_t MDP5_WB_DST_FORMAT_DST_BPP(uint32_t val)
--{
--	return ((val) << MDP5_WB_DST_FORMAT_DST_BPP__SHIFT) & MDP5_WB_DST_FORMAT_DST_BPP__MASK;
--}
--#define MDP5_WB_DST_FORMAT_PACK_COUNT__MASK			0x00003000
--#define MDP5_WB_DST_FORMAT_PACK_COUNT__SHIFT			12
--static inline uint32_t MDP5_WB_DST_FORMAT_PACK_COUNT(uint32_t val)
--{
--	return ((val) << MDP5_WB_DST_FORMAT_PACK_COUNT__SHIFT) & MDP5_WB_DST_FORMAT_PACK_COUNT__MASK;
--}
--#define MDP5_WB_DST_FORMAT_DST_ALPHA_X				0x00004000
--#define MDP5_WB_DST_FORMAT_PACK_TIGHT				0x00020000
--#define MDP5_WB_DST_FORMAT_PACK_ALIGN_MSB			0x00040000
--#define MDP5_WB_DST_FORMAT_WRITE_PLANES__MASK			0x00180000
--#define MDP5_WB_DST_FORMAT_WRITE_PLANES__SHIFT			19
--static inline uint32_t MDP5_WB_DST_FORMAT_WRITE_PLANES(uint32_t val)
--{
--	return ((val) << MDP5_WB_DST_FORMAT_WRITE_PLANES__SHIFT) & MDP5_WB_DST_FORMAT_WRITE_PLANES__MASK;
--}
--#define MDP5_WB_DST_FORMAT_DST_DITHER_EN			0x00400000
--#define MDP5_WB_DST_FORMAT_DST_CHROMA_SAMP__MASK		0x03800000
--#define MDP5_WB_DST_FORMAT_DST_CHROMA_SAMP__SHIFT		23
--static inline uint32_t MDP5_WB_DST_FORMAT_DST_CHROMA_SAMP(uint32_t val)
--{
--	return ((val) << MDP5_WB_DST_FORMAT_DST_CHROMA_SAMP__SHIFT) & MDP5_WB_DST_FORMAT_DST_CHROMA_SAMP__MASK;
--}
--#define MDP5_WB_DST_FORMAT_DST_CHROMA_SITE__MASK		0x3c000000
--#define MDP5_WB_DST_FORMAT_DST_CHROMA_SITE__SHIFT		26
--static inline uint32_t MDP5_WB_DST_FORMAT_DST_CHROMA_SITE(uint32_t val)
--{
--	return ((val) << MDP5_WB_DST_FORMAT_DST_CHROMA_SITE__SHIFT) & MDP5_WB_DST_FORMAT_DST_CHROMA_SITE__MASK;
--}
--#define MDP5_WB_DST_FORMAT_FRAME_FORMAT__MASK			0xc0000000
--#define MDP5_WB_DST_FORMAT_FRAME_FORMAT__SHIFT			30
--static inline uint32_t MDP5_WB_DST_FORMAT_FRAME_FORMAT(uint32_t val)
--{
--	return ((val) << MDP5_WB_DST_FORMAT_FRAME_FORMAT__SHIFT) & MDP5_WB_DST_FORMAT_FRAME_FORMAT__MASK;
--}
--
--static inline uint32_t REG_MDP5_WB_DST_OP_MODE(uint32_t i0) { return 0x00000004 + __offset_WB(i0); }
--#define MDP5_WB_DST_OP_MODE_BWC_ENC_EN				0x00000001
--#define MDP5_WB_DST_OP_MODE_BWC_ENC_OP__MASK			0x00000006
--#define MDP5_WB_DST_OP_MODE_BWC_ENC_OP__SHIFT			1
--static inline uint32_t MDP5_WB_DST_OP_MODE_BWC_ENC_OP(uint32_t val)
--{
--	return ((val) << MDP5_WB_DST_OP_MODE_BWC_ENC_OP__SHIFT) & MDP5_WB_DST_OP_MODE_BWC_ENC_OP__MASK;
--}
--#define MDP5_WB_DST_OP_MODE_BLOCK_SIZE__MASK			0x00000010
--#define MDP5_WB_DST_OP_MODE_BLOCK_SIZE__SHIFT			4
--static inline uint32_t MDP5_WB_DST_OP_MODE_BLOCK_SIZE(uint32_t val)
--{
--	return ((val) << MDP5_WB_DST_OP_MODE_BLOCK_SIZE__SHIFT) & MDP5_WB_DST_OP_MODE_BLOCK_SIZE__MASK;
--}
--#define MDP5_WB_DST_OP_MODE_ROT_MODE__MASK			0x00000020
--#define MDP5_WB_DST_OP_MODE_ROT_MODE__SHIFT			5
--static inline uint32_t MDP5_WB_DST_OP_MODE_ROT_MODE(uint32_t val)
--{
--	return ((val) << MDP5_WB_DST_OP_MODE_ROT_MODE__SHIFT) & MDP5_WB_DST_OP_MODE_ROT_MODE__MASK;
--}
--#define MDP5_WB_DST_OP_MODE_ROT_EN				0x00000040
--#define MDP5_WB_DST_OP_MODE_CSC_EN				0x00000100
--#define MDP5_WB_DST_OP_MODE_CSC_SRC_DATA_FORMAT__MASK		0x00000200
--#define MDP5_WB_DST_OP_MODE_CSC_SRC_DATA_FORMAT__SHIFT		9
--static inline uint32_t MDP5_WB_DST_OP_MODE_CSC_SRC_DATA_FORMAT(uint32_t val)
--{
--	return ((val) << MDP5_WB_DST_OP_MODE_CSC_SRC_DATA_FORMAT__SHIFT) & MDP5_WB_DST_OP_MODE_CSC_SRC_DATA_FORMAT__MASK;
--}
--#define MDP5_WB_DST_OP_MODE_CSC_DST_DATA_FORMAT__MASK		0x00000400
--#define MDP5_WB_DST_OP_MODE_CSC_DST_DATA_FORMAT__SHIFT		10
--static inline uint32_t MDP5_WB_DST_OP_MODE_CSC_DST_DATA_FORMAT(uint32_t val)
--{
--	return ((val) << MDP5_WB_DST_OP_MODE_CSC_DST_DATA_FORMAT__SHIFT) & MDP5_WB_DST_OP_MODE_CSC_DST_DATA_FORMAT__MASK;
--}
--#define MDP5_WB_DST_OP_MODE_CHROMA_DWN_SAMPLE_EN		0x00000800
--#define MDP5_WB_DST_OP_MODE_CHROMA_DWN_SAMPLE_FORMAT__MASK	0x00001000
--#define MDP5_WB_DST_OP_MODE_CHROMA_DWN_SAMPLE_FORMAT__SHIFT	12
--static inline uint32_t MDP5_WB_DST_OP_MODE_CHROMA_DWN_SAMPLE_FORMAT(uint32_t val)
--{
--	return ((val) << MDP5_WB_DST_OP_MODE_CHROMA_DWN_SAMPLE_FORMAT__SHIFT) & MDP5_WB_DST_OP_MODE_CHROMA_DWN_SAMPLE_FORMAT__MASK;
--}
--#define MDP5_WB_DST_OP_MODE_CHROMA_DWN_SAMPLE_H_MTHD__MASK	0x00002000
--#define MDP5_WB_DST_OP_MODE_CHROMA_DWN_SAMPLE_H_MTHD__SHIFT	13
--static inline uint32_t MDP5_WB_DST_OP_MODE_CHROMA_DWN_SAMPLE_H_MTHD(uint32_t val)
--{
--	return ((val) << MDP5_WB_DST_OP_MODE_CHROMA_DWN_SAMPLE_H_MTHD__SHIFT) & MDP5_WB_DST_OP_MODE_CHROMA_DWN_SAMPLE_H_MTHD__MASK;
--}
--#define MDP5_WB_DST_OP_MODE_CHROMA_DWN_SAMPLE_V_MTHD__MASK	0x00004000
--#define MDP5_WB_DST_OP_MODE_CHROMA_DWN_SAMPLE_V_MTHD__SHIFT	14
--static inline uint32_t MDP5_WB_DST_OP_MODE_CHROMA_DWN_SAMPLE_V_MTHD(uint32_t val)
--{
--	return ((val) << MDP5_WB_DST_OP_MODE_CHROMA_DWN_SAMPLE_V_MTHD__SHIFT) & MDP5_WB_DST_OP_MODE_CHROMA_DWN_SAMPLE_V_MTHD__MASK;
--}
--
--static inline uint32_t REG_MDP5_WB_DST_PACK_PATTERN(uint32_t i0) { return 0x00000008 + __offset_WB(i0); }
--#define MDP5_WB_DST_PACK_PATTERN_ELEMENT0__MASK			0x00000003
--#define MDP5_WB_DST_PACK_PATTERN_ELEMENT0__SHIFT		0
--static inline uint32_t MDP5_WB_DST_PACK_PATTERN_ELEMENT0(uint32_t val)
--{
--	return ((val) << MDP5_WB_DST_PACK_PATTERN_ELEMENT0__SHIFT) & MDP5_WB_DST_PACK_PATTERN_ELEMENT0__MASK;
--}
--#define MDP5_WB_DST_PACK_PATTERN_ELEMENT1__MASK			0x00000300
--#define MDP5_WB_DST_PACK_PATTERN_ELEMENT1__SHIFT		8
--static inline uint32_t MDP5_WB_DST_PACK_PATTERN_ELEMENT1(uint32_t val)
--{
--	return ((val) << MDP5_WB_DST_PACK_PATTERN_ELEMENT1__SHIFT) & MDP5_WB_DST_PACK_PATTERN_ELEMENT1__MASK;
--}
--#define MDP5_WB_DST_PACK_PATTERN_ELEMENT2__MASK			0x00030000
--#define MDP5_WB_DST_PACK_PATTERN_ELEMENT2__SHIFT		16
--static inline uint32_t MDP5_WB_DST_PACK_PATTERN_ELEMENT2(uint32_t val)
--{
--	return ((val) << MDP5_WB_DST_PACK_PATTERN_ELEMENT2__SHIFT) & MDP5_WB_DST_PACK_PATTERN_ELEMENT2__MASK;
--}
--#define MDP5_WB_DST_PACK_PATTERN_ELEMENT3__MASK			0x03000000
--#define MDP5_WB_DST_PACK_PATTERN_ELEMENT3__SHIFT		24
--static inline uint32_t MDP5_WB_DST_PACK_PATTERN_ELEMENT3(uint32_t val)
--{
--	return ((val) << MDP5_WB_DST_PACK_PATTERN_ELEMENT3__SHIFT) & MDP5_WB_DST_PACK_PATTERN_ELEMENT3__MASK;
--}
--
--static inline uint32_t REG_MDP5_WB_DST0_ADDR(uint32_t i0) { return 0x0000000c + __offset_WB(i0); }
--
--static inline uint32_t REG_MDP5_WB_DST1_ADDR(uint32_t i0) { return 0x00000010 + __offset_WB(i0); }
--
--static inline uint32_t REG_MDP5_WB_DST2_ADDR(uint32_t i0) { return 0x00000014 + __offset_WB(i0); }
--
--static inline uint32_t REG_MDP5_WB_DST3_ADDR(uint32_t i0) { return 0x00000018 + __offset_WB(i0); }
--
--static inline uint32_t REG_MDP5_WB_DST_YSTRIDE0(uint32_t i0) { return 0x0000001c + __offset_WB(i0); }
--#define MDP5_WB_DST_YSTRIDE0_DST0_YSTRIDE__MASK			0x0000ffff
--#define MDP5_WB_DST_YSTRIDE0_DST0_YSTRIDE__SHIFT		0
--static inline uint32_t MDP5_WB_DST_YSTRIDE0_DST0_YSTRIDE(uint32_t val)
--{
--	return ((val) << MDP5_WB_DST_YSTRIDE0_DST0_YSTRIDE__SHIFT) & MDP5_WB_DST_YSTRIDE0_DST0_YSTRIDE__MASK;
--}
--#define MDP5_WB_DST_YSTRIDE0_DST1_YSTRIDE__MASK			0xffff0000
--#define MDP5_WB_DST_YSTRIDE0_DST1_YSTRIDE__SHIFT		16
--static inline uint32_t MDP5_WB_DST_YSTRIDE0_DST1_YSTRIDE(uint32_t val)
--{
--	return ((val) << MDP5_WB_DST_YSTRIDE0_DST1_YSTRIDE__SHIFT) & MDP5_WB_DST_YSTRIDE0_DST1_YSTRIDE__MASK;
--}
--
--static inline uint32_t REG_MDP5_WB_DST_YSTRIDE1(uint32_t i0) { return 0x00000020 + __offset_WB(i0); }
--#define MDP5_WB_DST_YSTRIDE1_DST2_YSTRIDE__MASK			0x0000ffff
--#define MDP5_WB_DST_YSTRIDE1_DST2_YSTRIDE__SHIFT		0
--static inline uint32_t MDP5_WB_DST_YSTRIDE1_DST2_YSTRIDE(uint32_t val)
--{
--	return ((val) << MDP5_WB_DST_YSTRIDE1_DST2_YSTRIDE__SHIFT) & MDP5_WB_DST_YSTRIDE1_DST2_YSTRIDE__MASK;
--}
--#define MDP5_WB_DST_YSTRIDE1_DST3_YSTRIDE__MASK			0xffff0000
--#define MDP5_WB_DST_YSTRIDE1_DST3_YSTRIDE__SHIFT		16
--static inline uint32_t MDP5_WB_DST_YSTRIDE1_DST3_YSTRIDE(uint32_t val)
--{
--	return ((val) << MDP5_WB_DST_YSTRIDE1_DST3_YSTRIDE__SHIFT) & MDP5_WB_DST_YSTRIDE1_DST3_YSTRIDE__MASK;
--}
--
--static inline uint32_t REG_MDP5_WB_DST_DITHER_BITDEPTH(uint32_t i0) { return 0x00000024 + __offset_WB(i0); }
--
--static inline uint32_t REG_MDP5_WB_DITHER_MATRIX_ROW0(uint32_t i0) { return 0x00000030 + __offset_WB(i0); }
--
--static inline uint32_t REG_MDP5_WB_DITHER_MATRIX_ROW1(uint32_t i0) { return 0x00000034 + __offset_WB(i0); }
--
--static inline uint32_t REG_MDP5_WB_DITHER_MATRIX_ROW2(uint32_t i0) { return 0x00000038 + __offset_WB(i0); }
--
--static inline uint32_t REG_MDP5_WB_DITHER_MATRIX_ROW3(uint32_t i0) { return 0x0000003c + __offset_WB(i0); }
--
--static inline uint32_t REG_MDP5_WB_DST_WRITE_CONFIG(uint32_t i0) { return 0x00000048 + __offset_WB(i0); }
--
--static inline uint32_t REG_MDP5_WB_ROTATION_DNSCALER(uint32_t i0) { return 0x00000050 + __offset_WB(i0); }
--
--static inline uint32_t REG_MDP5_WB_N16_INIT_PHASE_X_0_3(uint32_t i0) { return 0x00000060 + __offset_WB(i0); }
--
--static inline uint32_t REG_MDP5_WB_N16_INIT_PHASE_X_1_2(uint32_t i0) { return 0x00000064 + __offset_WB(i0); }
--
--static inline uint32_t REG_MDP5_WB_N16_INIT_PHASE_Y_0_3(uint32_t i0) { return 0x00000068 + __offset_WB(i0); }
--
--static inline uint32_t REG_MDP5_WB_N16_INIT_PHASE_Y_1_2(uint32_t i0) { return 0x0000006c + __offset_WB(i0); }
--
--static inline uint32_t REG_MDP5_WB_OUT_SIZE(uint32_t i0) { return 0x00000074 + __offset_WB(i0); }
--#define MDP5_WB_OUT_SIZE_DST_W__MASK				0x0000ffff
--#define MDP5_WB_OUT_SIZE_DST_W__SHIFT				0
--static inline uint32_t MDP5_WB_OUT_SIZE_DST_W(uint32_t val)
--{
--	return ((val) << MDP5_WB_OUT_SIZE_DST_W__SHIFT) & MDP5_WB_OUT_SIZE_DST_W__MASK;
--}
--#define MDP5_WB_OUT_SIZE_DST_H__MASK				0xffff0000
--#define MDP5_WB_OUT_SIZE_DST_H__SHIFT				16
--static inline uint32_t MDP5_WB_OUT_SIZE_DST_H(uint32_t val)
--{
--	return ((val) << MDP5_WB_OUT_SIZE_DST_H__SHIFT) & MDP5_WB_OUT_SIZE_DST_H__MASK;
--}
--
--static inline uint32_t REG_MDP5_WB_ALPHA_X_VALUE(uint32_t i0) { return 0x00000078 + __offset_WB(i0); }
--
--static inline uint32_t REG_MDP5_WB_CSC_MATRIX_COEFF_0(uint32_t i0) { return 0x00000260 + __offset_WB(i0); }
--#define MDP5_WB_CSC_MATRIX_COEFF_0_COEFF_11__MASK		0x00001fff
--#define MDP5_WB_CSC_MATRIX_COEFF_0_COEFF_11__SHIFT		0
--static inline uint32_t MDP5_WB_CSC_MATRIX_COEFF_0_COEFF_11(uint32_t val)
--{
--	return ((val) << MDP5_WB_CSC_MATRIX_COEFF_0_COEFF_11__SHIFT) & MDP5_WB_CSC_MATRIX_COEFF_0_COEFF_11__MASK;
--}
--#define MDP5_WB_CSC_MATRIX_COEFF_0_COEFF_12__MASK		0x1fff0000
--#define MDP5_WB_CSC_MATRIX_COEFF_0_COEFF_12__SHIFT		16
--static inline uint32_t MDP5_WB_CSC_MATRIX_COEFF_0_COEFF_12(uint32_t val)
--{
--	return ((val) << MDP5_WB_CSC_MATRIX_COEFF_0_COEFF_12__SHIFT) & MDP5_WB_CSC_MATRIX_COEFF_0_COEFF_12__MASK;
--}
--
--static inline uint32_t REG_MDP5_WB_CSC_MATRIX_COEFF_1(uint32_t i0) { return 0x00000264 + __offset_WB(i0); }
--#define MDP5_WB_CSC_MATRIX_COEFF_1_COEFF_13__MASK		0x00001fff
--#define MDP5_WB_CSC_MATRIX_COEFF_1_COEFF_13__SHIFT		0
--static inline uint32_t MDP5_WB_CSC_MATRIX_COEFF_1_COEFF_13(uint32_t val)
--{
--	return ((val) << MDP5_WB_CSC_MATRIX_COEFF_1_COEFF_13__SHIFT) & MDP5_WB_CSC_MATRIX_COEFF_1_COEFF_13__MASK;
--}
--#define MDP5_WB_CSC_MATRIX_COEFF_1_COEFF_21__MASK		0x1fff0000
--#define MDP5_WB_CSC_MATRIX_COEFF_1_COEFF_21__SHIFT		16
--static inline uint32_t MDP5_WB_CSC_MATRIX_COEFF_1_COEFF_21(uint32_t val)
--{
--	return ((val) << MDP5_WB_CSC_MATRIX_COEFF_1_COEFF_21__SHIFT) & MDP5_WB_CSC_MATRIX_COEFF_1_COEFF_21__MASK;
--}
--
--static inline uint32_t REG_MDP5_WB_CSC_MATRIX_COEFF_2(uint32_t i0) { return 0x00000268 + __offset_WB(i0); }
--#define MDP5_WB_CSC_MATRIX_COEFF_2_COEFF_22__MASK		0x00001fff
--#define MDP5_WB_CSC_MATRIX_COEFF_2_COEFF_22__SHIFT		0
--static inline uint32_t MDP5_WB_CSC_MATRIX_COEFF_2_COEFF_22(uint32_t val)
--{
--	return ((val) << MDP5_WB_CSC_MATRIX_COEFF_2_COEFF_22__SHIFT) & MDP5_WB_CSC_MATRIX_COEFF_2_COEFF_22__MASK;
--}
--#define MDP5_WB_CSC_MATRIX_COEFF_2_COEFF_23__MASK		0x1fff0000
--#define MDP5_WB_CSC_MATRIX_COEFF_2_COEFF_23__SHIFT		16
--static inline uint32_t MDP5_WB_CSC_MATRIX_COEFF_2_COEFF_23(uint32_t val)
--{
--	return ((val) << MDP5_WB_CSC_MATRIX_COEFF_2_COEFF_23__SHIFT) & MDP5_WB_CSC_MATRIX_COEFF_2_COEFF_23__MASK;
--}
--
--static inline uint32_t REG_MDP5_WB_CSC_MATRIX_COEFF_3(uint32_t i0) { return 0x0000026c + __offset_WB(i0); }
--#define MDP5_WB_CSC_MATRIX_COEFF_3_COEFF_31__MASK		0x00001fff
--#define MDP5_WB_CSC_MATRIX_COEFF_3_COEFF_31__SHIFT		0
--static inline uint32_t MDP5_WB_CSC_MATRIX_COEFF_3_COEFF_31(uint32_t val)
--{
--	return ((val) << MDP5_WB_CSC_MATRIX_COEFF_3_COEFF_31__SHIFT) & MDP5_WB_CSC_MATRIX_COEFF_3_COEFF_31__MASK;
--}
--#define MDP5_WB_CSC_MATRIX_COEFF_3_COEFF_32__MASK		0x1fff0000
--#define MDP5_WB_CSC_MATRIX_COEFF_3_COEFF_32__SHIFT		16
--static inline uint32_t MDP5_WB_CSC_MATRIX_COEFF_3_COEFF_32(uint32_t val)
--{
--	return ((val) << MDP5_WB_CSC_MATRIX_COEFF_3_COEFF_32__SHIFT) & MDP5_WB_CSC_MATRIX_COEFF_3_COEFF_32__MASK;
--}
--
--static inline uint32_t REG_MDP5_WB_CSC_MATRIX_COEFF_4(uint32_t i0) { return 0x00000270 + __offset_WB(i0); }
--#define MDP5_WB_CSC_MATRIX_COEFF_4_COEFF_33__MASK		0x00001fff
--#define MDP5_WB_CSC_MATRIX_COEFF_4_COEFF_33__SHIFT		0
--static inline uint32_t MDP5_WB_CSC_MATRIX_COEFF_4_COEFF_33(uint32_t val)
--{
--	return ((val) << MDP5_WB_CSC_MATRIX_COEFF_4_COEFF_33__SHIFT) & MDP5_WB_CSC_MATRIX_COEFF_4_COEFF_33__MASK;
--}
--
--static inline uint32_t REG_MDP5_WB_CSC_COMP_PRECLAMP(uint32_t i0, uint32_t i1) { return 0x00000274 + __offset_WB(i0) + 0x4*i1; }
--
--static inline uint32_t REG_MDP5_WB_CSC_COMP_PRECLAMP_REG(uint32_t i0, uint32_t i1) { return 0x00000274 + __offset_WB(i0) + 0x4*i1; }
--#define MDP5_WB_CSC_COMP_PRECLAMP_REG_HIGH__MASK		0x000000ff
--#define MDP5_WB_CSC_COMP_PRECLAMP_REG_HIGH__SHIFT		0
--static inline uint32_t MDP5_WB_CSC_COMP_PRECLAMP_REG_HIGH(uint32_t val)
--{
--	return ((val) << MDP5_WB_CSC_COMP_PRECLAMP_REG_HIGH__SHIFT) & MDP5_WB_CSC_COMP_PRECLAMP_REG_HIGH__MASK;
--}
--#define MDP5_WB_CSC_COMP_PRECLAMP_REG_LOW__MASK			0x0000ff00
--#define MDP5_WB_CSC_COMP_PRECLAMP_REG_LOW__SHIFT		8
--static inline uint32_t MDP5_WB_CSC_COMP_PRECLAMP_REG_LOW(uint32_t val)
--{
--	return ((val) << MDP5_WB_CSC_COMP_PRECLAMP_REG_LOW__SHIFT) & MDP5_WB_CSC_COMP_PRECLAMP_REG_LOW__MASK;
--}
--
--static inline uint32_t REG_MDP5_WB_CSC_COMP_POSTCLAMP(uint32_t i0, uint32_t i1) { return 0x00000280 + __offset_WB(i0) + 0x4*i1; }
--
--static inline uint32_t REG_MDP5_WB_CSC_COMP_POSTCLAMP_REG(uint32_t i0, uint32_t i1) { return 0x00000280 + __offset_WB(i0) + 0x4*i1; }
--#define MDP5_WB_CSC_COMP_POSTCLAMP_REG_HIGH__MASK		0x000000ff
--#define MDP5_WB_CSC_COMP_POSTCLAMP_REG_HIGH__SHIFT		0
--static inline uint32_t MDP5_WB_CSC_COMP_POSTCLAMP_REG_HIGH(uint32_t val)
--{
--	return ((val) << MDP5_WB_CSC_COMP_POSTCLAMP_REG_HIGH__SHIFT) & MDP5_WB_CSC_COMP_POSTCLAMP_REG_HIGH__MASK;
--}
--#define MDP5_WB_CSC_COMP_POSTCLAMP_REG_LOW__MASK		0x0000ff00
--#define MDP5_WB_CSC_COMP_POSTCLAMP_REG_LOW__SHIFT		8
--static inline uint32_t MDP5_WB_CSC_COMP_POSTCLAMP_REG_LOW(uint32_t val)
--{
--	return ((val) << MDP5_WB_CSC_COMP_POSTCLAMP_REG_LOW__SHIFT) & MDP5_WB_CSC_COMP_POSTCLAMP_REG_LOW__MASK;
--}
--
--static inline uint32_t REG_MDP5_WB_CSC_COMP_PREBIAS(uint32_t i0, uint32_t i1) { return 0x0000028c + __offset_WB(i0) + 0x4*i1; }
--
--static inline uint32_t REG_MDP5_WB_CSC_COMP_PREBIAS_REG(uint32_t i0, uint32_t i1) { return 0x0000028c + __offset_WB(i0) + 0x4*i1; }
--#define MDP5_WB_CSC_COMP_PREBIAS_REG_VALUE__MASK		0x000001ff
--#define MDP5_WB_CSC_COMP_PREBIAS_REG_VALUE__SHIFT		0
--static inline uint32_t MDP5_WB_CSC_COMP_PREBIAS_REG_VALUE(uint32_t val)
--{
--	return ((val) << MDP5_WB_CSC_COMP_PREBIAS_REG_VALUE__SHIFT) & MDP5_WB_CSC_COMP_PREBIAS_REG_VALUE__MASK;
--}
--
--static inline uint32_t REG_MDP5_WB_CSC_COMP_POSTBIAS(uint32_t i0, uint32_t i1) { return 0x00000298 + __offset_WB(i0) + 0x4*i1; }
--
--static inline uint32_t REG_MDP5_WB_CSC_COMP_POSTBIAS_REG(uint32_t i0, uint32_t i1) { return 0x00000298 + __offset_WB(i0) + 0x4*i1; }
--#define MDP5_WB_CSC_COMP_POSTBIAS_REG_VALUE__MASK		0x000001ff
--#define MDP5_WB_CSC_COMP_POSTBIAS_REG_VALUE__SHIFT		0
--static inline uint32_t MDP5_WB_CSC_COMP_POSTBIAS_REG_VALUE(uint32_t val)
--{
--	return ((val) << MDP5_WB_CSC_COMP_POSTBIAS_REG_VALUE__SHIFT) & MDP5_WB_CSC_COMP_POSTBIAS_REG_VALUE__MASK;
--}
--
--static inline uint32_t __offset_INTF(uint32_t idx)
--{
--	switch (idx) {
--		case 0: return (mdp5_cfg->intf.base[0]);
--		case 1: return (mdp5_cfg->intf.base[1]);
--		case 2: return (mdp5_cfg->intf.base[2]);
--		case 3: return (mdp5_cfg->intf.base[3]);
--		case 4: return (mdp5_cfg->intf.base[4]);
--		default: return INVALID_IDX(idx);
--	}
--}
--static inline uint32_t REG_MDP5_INTF(uint32_t i0) { return 0x00000000 + __offset_INTF(i0); }
--
--static inline uint32_t REG_MDP5_INTF_TIMING_ENGINE_EN(uint32_t i0) { return 0x00000000 + __offset_INTF(i0); }
--
--static inline uint32_t REG_MDP5_INTF_CONFIG(uint32_t i0) { return 0x00000004 + __offset_INTF(i0); }
--
--static inline uint32_t REG_MDP5_INTF_HSYNC_CTL(uint32_t i0) { return 0x00000008 + __offset_INTF(i0); }
--#define MDP5_INTF_HSYNC_CTL_PULSEW__MASK			0x0000ffff
--#define MDP5_INTF_HSYNC_CTL_PULSEW__SHIFT			0
--static inline uint32_t MDP5_INTF_HSYNC_CTL_PULSEW(uint32_t val)
--{
--	return ((val) << MDP5_INTF_HSYNC_CTL_PULSEW__SHIFT) & MDP5_INTF_HSYNC_CTL_PULSEW__MASK;
--}
--#define MDP5_INTF_HSYNC_CTL_PERIOD__MASK			0xffff0000
--#define MDP5_INTF_HSYNC_CTL_PERIOD__SHIFT			16
--static inline uint32_t MDP5_INTF_HSYNC_CTL_PERIOD(uint32_t val)
--{
--	return ((val) << MDP5_INTF_HSYNC_CTL_PERIOD__SHIFT) & MDP5_INTF_HSYNC_CTL_PERIOD__MASK;
--}
--
--static inline uint32_t REG_MDP5_INTF_VSYNC_PERIOD_F0(uint32_t i0) { return 0x0000000c + __offset_INTF(i0); }
--
--static inline uint32_t REG_MDP5_INTF_VSYNC_PERIOD_F1(uint32_t i0) { return 0x00000010 + __offset_INTF(i0); }
--
--static inline uint32_t REG_MDP5_INTF_VSYNC_LEN_F0(uint32_t i0) { return 0x00000014 + __offset_INTF(i0); }
--
--static inline uint32_t REG_MDP5_INTF_VSYNC_LEN_F1(uint32_t i0) { return 0x00000018 + __offset_INTF(i0); }
--
--static inline uint32_t REG_MDP5_INTF_DISPLAY_VSTART_F0(uint32_t i0) { return 0x0000001c + __offset_INTF(i0); }
--
--static inline uint32_t REG_MDP5_INTF_DISPLAY_VSTART_F1(uint32_t i0) { return 0x00000020 + __offset_INTF(i0); }
--
--static inline uint32_t REG_MDP5_INTF_DISPLAY_VEND_F0(uint32_t i0) { return 0x00000024 + __offset_INTF(i0); }
--
--static inline uint32_t REG_MDP5_INTF_DISPLAY_VEND_F1(uint32_t i0) { return 0x00000028 + __offset_INTF(i0); }
--
--static inline uint32_t REG_MDP5_INTF_ACTIVE_VSTART_F0(uint32_t i0) { return 0x0000002c + __offset_INTF(i0); }
--#define MDP5_INTF_ACTIVE_VSTART_F0_VAL__MASK			0x7fffffff
--#define MDP5_INTF_ACTIVE_VSTART_F0_VAL__SHIFT			0
--static inline uint32_t MDP5_INTF_ACTIVE_VSTART_F0_VAL(uint32_t val)
--{
--	return ((val) << MDP5_INTF_ACTIVE_VSTART_F0_VAL__SHIFT) & MDP5_INTF_ACTIVE_VSTART_F0_VAL__MASK;
--}
--#define MDP5_INTF_ACTIVE_VSTART_F0_ACTIVE_V_ENABLE		0x80000000
--
--static inline uint32_t REG_MDP5_INTF_ACTIVE_VSTART_F1(uint32_t i0) { return 0x00000030 + __offset_INTF(i0); }
--#define MDP5_INTF_ACTIVE_VSTART_F1_VAL__MASK			0x7fffffff
--#define MDP5_INTF_ACTIVE_VSTART_F1_VAL__SHIFT			0
--static inline uint32_t MDP5_INTF_ACTIVE_VSTART_F1_VAL(uint32_t val)
--{
--	return ((val) << MDP5_INTF_ACTIVE_VSTART_F1_VAL__SHIFT) & MDP5_INTF_ACTIVE_VSTART_F1_VAL__MASK;
--}
--
--static inline uint32_t REG_MDP5_INTF_ACTIVE_VEND_F0(uint32_t i0) { return 0x00000034 + __offset_INTF(i0); }
--
--static inline uint32_t REG_MDP5_INTF_ACTIVE_VEND_F1(uint32_t i0) { return 0x00000038 + __offset_INTF(i0); }
--
--static inline uint32_t REG_MDP5_INTF_DISPLAY_HCTL(uint32_t i0) { return 0x0000003c + __offset_INTF(i0); }
--#define MDP5_INTF_DISPLAY_HCTL_START__MASK			0x0000ffff
--#define MDP5_INTF_DISPLAY_HCTL_START__SHIFT			0
--static inline uint32_t MDP5_INTF_DISPLAY_HCTL_START(uint32_t val)
--{
--	return ((val) << MDP5_INTF_DISPLAY_HCTL_START__SHIFT) & MDP5_INTF_DISPLAY_HCTL_START__MASK;
--}
--#define MDP5_INTF_DISPLAY_HCTL_END__MASK			0xffff0000
--#define MDP5_INTF_DISPLAY_HCTL_END__SHIFT			16
--static inline uint32_t MDP5_INTF_DISPLAY_HCTL_END(uint32_t val)
--{
--	return ((val) << MDP5_INTF_DISPLAY_HCTL_END__SHIFT) & MDP5_INTF_DISPLAY_HCTL_END__MASK;
--}
--
--static inline uint32_t REG_MDP5_INTF_ACTIVE_HCTL(uint32_t i0) { return 0x00000040 + __offset_INTF(i0); }
--#define MDP5_INTF_ACTIVE_HCTL_START__MASK			0x00007fff
--#define MDP5_INTF_ACTIVE_HCTL_START__SHIFT			0
--static inline uint32_t MDP5_INTF_ACTIVE_HCTL_START(uint32_t val)
--{
--	return ((val) << MDP5_INTF_ACTIVE_HCTL_START__SHIFT) & MDP5_INTF_ACTIVE_HCTL_START__MASK;
--}
--#define MDP5_INTF_ACTIVE_HCTL_END__MASK				0x7fff0000
--#define MDP5_INTF_ACTIVE_HCTL_END__SHIFT			16
--static inline uint32_t MDP5_INTF_ACTIVE_HCTL_END(uint32_t val)
--{
--	return ((val) << MDP5_INTF_ACTIVE_HCTL_END__SHIFT) & MDP5_INTF_ACTIVE_HCTL_END__MASK;
--}
--#define MDP5_INTF_ACTIVE_HCTL_ACTIVE_H_ENABLE			0x80000000
--
--static inline uint32_t REG_MDP5_INTF_BORDER_COLOR(uint32_t i0) { return 0x00000044 + __offset_INTF(i0); }
--
--static inline uint32_t REG_MDP5_INTF_UNDERFLOW_COLOR(uint32_t i0) { return 0x00000048 + __offset_INTF(i0); }
--
--static inline uint32_t REG_MDP5_INTF_HSYNC_SKEW(uint32_t i0) { return 0x0000004c + __offset_INTF(i0); }
--
--static inline uint32_t REG_MDP5_INTF_POLARITY_CTL(uint32_t i0) { return 0x00000050 + __offset_INTF(i0); }
--#define MDP5_INTF_POLARITY_CTL_HSYNC_LOW			0x00000001
--#define MDP5_INTF_POLARITY_CTL_VSYNC_LOW			0x00000002
--#define MDP5_INTF_POLARITY_CTL_DATA_EN_LOW			0x00000004
--
--static inline uint32_t REG_MDP5_INTF_TEST_CTL(uint32_t i0) { return 0x00000054 + __offset_INTF(i0); }
--
--static inline uint32_t REG_MDP5_INTF_TP_COLOR0(uint32_t i0) { return 0x00000058 + __offset_INTF(i0); }
--
--static inline uint32_t REG_MDP5_INTF_TP_COLOR1(uint32_t i0) { return 0x0000005c + __offset_INTF(i0); }
--
--static inline uint32_t REG_MDP5_INTF_DSI_CMD_MODE_TRIGGER_EN(uint32_t i0) { return 0x00000084 + __offset_INTF(i0); }
--
--static inline uint32_t REG_MDP5_INTF_PANEL_FORMAT(uint32_t i0) { return 0x00000090 + __offset_INTF(i0); }
--
--static inline uint32_t REG_MDP5_INTF_FRAME_LINE_COUNT_EN(uint32_t i0) { return 0x000000a8 + __offset_INTF(i0); }
--
--static inline uint32_t REG_MDP5_INTF_FRAME_COUNT(uint32_t i0) { return 0x000000ac + __offset_INTF(i0); }
--
--static inline uint32_t REG_MDP5_INTF_LINE_COUNT(uint32_t i0) { return 0x000000b0 + __offset_INTF(i0); }
--
--static inline uint32_t REG_MDP5_INTF_DEFLICKER_CONFIG(uint32_t i0) { return 0x000000f0 + __offset_INTF(i0); }
--
--static inline uint32_t REG_MDP5_INTF_DEFLICKER_STRNG_COEFF(uint32_t i0) { return 0x000000f4 + __offset_INTF(i0); }
--
--static inline uint32_t REG_MDP5_INTF_DEFLICKER_WEAK_COEFF(uint32_t i0) { return 0x000000f8 + __offset_INTF(i0); }
--
--static inline uint32_t REG_MDP5_INTF_TPG_ENABLE(uint32_t i0) { return 0x00000100 + __offset_INTF(i0); }
--
--static inline uint32_t REG_MDP5_INTF_TPG_MAIN_CONTROL(uint32_t i0) { return 0x00000104 + __offset_INTF(i0); }
--
--static inline uint32_t REG_MDP5_INTF_TPG_VIDEO_CONFIG(uint32_t i0) { return 0x00000108 + __offset_INTF(i0); }
--
--static inline uint32_t REG_MDP5_INTF_TPG_COMPONENT_LIMITS(uint32_t i0) { return 0x0000010c + __offset_INTF(i0); }
--
--static inline uint32_t REG_MDP5_INTF_TPG_RECTANGLE(uint32_t i0) { return 0x00000110 + __offset_INTF(i0); }
--
--static inline uint32_t REG_MDP5_INTF_TPG_INITIAL_VALUE(uint32_t i0) { return 0x00000114 + __offset_INTF(i0); }
--
--static inline uint32_t REG_MDP5_INTF_TPG_BLK_WHITE_PATTERN_FRAME(uint32_t i0) { return 0x00000118 + __offset_INTF(i0); }
--
--static inline uint32_t REG_MDP5_INTF_TPG_RGB_MAPPING(uint32_t i0) { return 0x0000011c + __offset_INTF(i0); }
--
--static inline uint32_t __offset_AD(uint32_t idx)
--{
--	switch (idx) {
--		case 0: return (mdp5_cfg->ad.base[0]);
--		case 1: return (mdp5_cfg->ad.base[1]);
--		default: return INVALID_IDX(idx);
--	}
--}
--static inline uint32_t REG_MDP5_AD(uint32_t i0) { return 0x00000000 + __offset_AD(i0); }
--
--static inline uint32_t REG_MDP5_AD_BYPASS(uint32_t i0) { return 0x00000000 + __offset_AD(i0); }
--
--static inline uint32_t REG_MDP5_AD_CTRL_0(uint32_t i0) { return 0x00000004 + __offset_AD(i0); }
--
--static inline uint32_t REG_MDP5_AD_CTRL_1(uint32_t i0) { return 0x00000008 + __offset_AD(i0); }
--
--static inline uint32_t REG_MDP5_AD_FRAME_SIZE(uint32_t i0) { return 0x0000000c + __offset_AD(i0); }
--
--static inline uint32_t REG_MDP5_AD_CON_CTRL_0(uint32_t i0) { return 0x00000010 + __offset_AD(i0); }
--
--static inline uint32_t REG_MDP5_AD_CON_CTRL_1(uint32_t i0) { return 0x00000014 + __offset_AD(i0); }
--
--static inline uint32_t REG_MDP5_AD_STR_MAN(uint32_t i0) { return 0x00000018 + __offset_AD(i0); }
--
--static inline uint32_t REG_MDP5_AD_VAR(uint32_t i0) { return 0x0000001c + __offset_AD(i0); }
--
--static inline uint32_t REG_MDP5_AD_DITH(uint32_t i0) { return 0x00000020 + __offset_AD(i0); }
--
--static inline uint32_t REG_MDP5_AD_DITH_CTRL(uint32_t i0) { return 0x00000024 + __offset_AD(i0); }
--
--static inline uint32_t REG_MDP5_AD_AMP_LIM(uint32_t i0) { return 0x00000028 + __offset_AD(i0); }
--
--static inline uint32_t REG_MDP5_AD_SLOPE(uint32_t i0) { return 0x0000002c + __offset_AD(i0); }
--
--static inline uint32_t REG_MDP5_AD_BW_LVL(uint32_t i0) { return 0x00000030 + __offset_AD(i0); }
--
--static inline uint32_t REG_MDP5_AD_LOGO_POS(uint32_t i0) { return 0x00000034 + __offset_AD(i0); }
--
--static inline uint32_t REG_MDP5_AD_LUT_FI(uint32_t i0) { return 0x00000038 + __offset_AD(i0); }
--
--static inline uint32_t REG_MDP5_AD_LUT_CC(uint32_t i0) { return 0x0000007c + __offset_AD(i0); }
--
--static inline uint32_t REG_MDP5_AD_STR_LIM(uint32_t i0) { return 0x000000c8 + __offset_AD(i0); }
--
--static inline uint32_t REG_MDP5_AD_CALIB_AB(uint32_t i0) { return 0x000000cc + __offset_AD(i0); }
--
--static inline uint32_t REG_MDP5_AD_CALIB_CD(uint32_t i0) { return 0x000000d0 + __offset_AD(i0); }
--
--static inline uint32_t REG_MDP5_AD_MODE_SEL(uint32_t i0) { return 0x000000d4 + __offset_AD(i0); }
--
--static inline uint32_t REG_MDP5_AD_TFILT_CTRL(uint32_t i0) { return 0x000000d8 + __offset_AD(i0); }
--
--static inline uint32_t REG_MDP5_AD_BL_MINMAX(uint32_t i0) { return 0x000000dc + __offset_AD(i0); }
--
--static inline uint32_t REG_MDP5_AD_BL(uint32_t i0) { return 0x000000e0 + __offset_AD(i0); }
--
--static inline uint32_t REG_MDP5_AD_BL_MAX(uint32_t i0) { return 0x000000e8 + __offset_AD(i0); }
--
--static inline uint32_t REG_MDP5_AD_AL(uint32_t i0) { return 0x000000ec + __offset_AD(i0); }
--
--static inline uint32_t REG_MDP5_AD_AL_MIN(uint32_t i0) { return 0x000000f0 + __offset_AD(i0); }
--
--static inline uint32_t REG_MDP5_AD_AL_FILT(uint32_t i0) { return 0x000000f4 + __offset_AD(i0); }
--
--static inline uint32_t REG_MDP5_AD_CFG_BUF(uint32_t i0) { return 0x000000f8 + __offset_AD(i0); }
--
--static inline uint32_t REG_MDP5_AD_LUT_AL(uint32_t i0) { return 0x00000100 + __offset_AD(i0); }
--
--static inline uint32_t REG_MDP5_AD_TARG_STR(uint32_t i0) { return 0x00000144 + __offset_AD(i0); }
--
--static inline uint32_t REG_MDP5_AD_START_CALC(uint32_t i0) { return 0x00000148 + __offset_AD(i0); }
--
--static inline uint32_t REG_MDP5_AD_STR_OUT(uint32_t i0) { return 0x0000014c + __offset_AD(i0); }
--
--static inline uint32_t REG_MDP5_AD_BL_OUT(uint32_t i0) { return 0x00000154 + __offset_AD(i0); }
--
--static inline uint32_t REG_MDP5_AD_CALC_DONE(uint32_t i0) { return 0x00000158 + __offset_AD(i0); }
--
--
--#endif /* MDP5_XML */
-diff --git a/drivers/gpu/drm/msm/disp/mdp_common.xml.h b/drivers/gpu/drm/msm/disp/mdp_common.xml.h
+-#endif /* A6XX_XML */
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.xml.h b/drivers/gpu/drm/msm/adreno/a6xx_gmu.xml.h
 deleted file mode 100644
-index 4dd8d7db2862..000000000000
---- a/drivers/gpu/drm/msm/disp/mdp_common.xml.h
+index 9d7f93929367..000000000000
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.xml.h
 +++ /dev/null
-@@ -1,111 +0,0 @@
--#ifndef MDP_COMMON_XML
--#define MDP_COMMON_XML
+@@ -1,422 +0,0 @@
+-#ifndef A6XX_GMU_XML
+-#define A6XX_GMU_XML
 -
 -/* Autogenerated file, DO NOT EDIT manually!
 -
--This file was generated by the rules-ng-ng headergen tool in this git repository:
--http://github.com/freedreno/envytools/
--git clone https://github.com/freedreno/envytools.git
+-This file was generated by the rules-ng-ng gen_header.py tool in this git repository:
+-http://gitlab.freedesktop.org/mesa/mesa/
+-git clone https://gitlab.freedesktop.org/mesa/mesa.git
 -
 -The rules-ng-ng source files this header was generated from are:
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/msm.xml                   (    944 bytes, from 2022-07-23 20:21:46)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/freedreno_copyright.xml   (   1572 bytes, from 2022-07-23 20:21:46)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/mdp/mdp4.xml              (  20912 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/mdp/mdp_common.xml        (   2849 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/mdp/mdp5.xml              (  37461 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi.xml               (  18746 bytes, from 2022-04-28 17:29:36)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_v2.xml        (   3236 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_28nm_8960.xml (   4935 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_28nm.xml      (   7004 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_20nm.xml      (   3712 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_14nm.xml      (   5381 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_10nm.xml      (   4499 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_7nm.xml       (  11007 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/sfpb.xml              (    602 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/mmss_cc.xml           (   1686 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/hdmi/qfprom.xml           (    600 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/hdmi/hdmi.xml             (  42350 bytes, from 2022-09-20 17:45:56)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/edp/edp.xml               (  10416 bytes, from 2022-03-08 17:40:42)
 -
--Copyright (C) 2013-2022 by the following authors:
--- Rob Clark <robdclark@gmail.com> (robclark)
--- Ilia Mirkin <imirkin@alum.mit.edu> (imirkin)
+-- /home/robclark/src/mesa/mesa/src/freedreno/registers/adreno/a6xx_gmu.xml      (  11820 bytes, from Fri Jun  2 14:59:26 2023)
+-- /home/robclark/src/mesa/mesa/src/freedreno/registers/freedreno_copyright.xml  (   1572 bytes, from Fri Jun  2 14:59:26 2023)
+-- /home/robclark/src/mesa/mesa/src/freedreno/registers/adreno/adreno_common.xml (  15434 bytes, from Fri Jun  2 14:59:26 2023)
+-
+-Copyright (C) 2013-2024 by the following authors:
+-- Rob Clark <robdclark@gmail.com> Rob Clark
+-- Ilia Mirkin <imirkin@alum.mit.edu> Ilia Mirkin
 -
 -Permission is hereby granted, free of charge, to any person obtaining
 -a copy of this software and associated documentation files (the
@@ -3351,4304 +17598,390 @@ index 4dd8d7db2862..000000000000
 -LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 -OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 -WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+-
 -*/
 -
+-#ifdef __KERNEL__
+-#include <linux/bug.h>
+-#define assert(x) BUG_ON(!(x))
+-#else
+-#include <assert.h>
+-#endif
 -
--enum mdp_chroma_samp_type {
--	CHROMA_FULL = 0,
--	CHROMA_H2V1 = 1,
--	CHROMA_H1V2 = 2,
--	CHROMA_420 = 3,
--};
--
--enum mdp_fetch_type {
--	MDP_PLANE_INTERLEAVED = 0,
--	MDP_PLANE_PLANAR = 1,
--	MDP_PLANE_PSEUDO_PLANAR = 2,
--};
--
--enum mdp_mixer_stage_id {
--	STAGE_UNUSED = 0,
--	STAGE_BASE = 1,
--	STAGE0 = 2,
--	STAGE1 = 3,
--	STAGE2 = 4,
--	STAGE3 = 5,
--	STAGE4 = 6,
--	STAGE5 = 7,
--	STAGE6 = 8,
--	STAGE_MAX = 8,
--};
--
--enum mdp_alpha_type {
--	FG_CONST = 0,
--	BG_CONST = 1,
--	FG_PIXEL = 2,
--	BG_PIXEL = 3,
--};
--
--enum mdp_component_type {
--	COMP_0 = 0,
--	COMP_1_2 = 1,
--	COMP_3 = 2,
--	COMP_MAX = 3,
--};
--
--enum mdp_bpc {
--	BPC1 = 0,
--	BPC5 = 1,
--	BPC6 = 2,
--	BPC8 = 3,
--};
--
--enum mdp_bpc_alpha {
--	BPC1A = 0,
--	BPC4A = 1,
--	BPC6A = 2,
--	BPC8A = 3,
--};
--
--
--#endif /* MDP_COMMON_XML */
-diff --git a/drivers/gpu/drm/msm/dsi/dsi.xml.h b/drivers/gpu/drm/msm/dsi/dsi.xml.h
-deleted file mode 100644
-index 2a7d980e12c3..000000000000
---- a/drivers/gpu/drm/msm/dsi/dsi.xml.h
-+++ /dev/null
-@@ -1,790 +0,0 @@
--#ifndef DSI_XML
--#define DSI_XML
--
--/* Autogenerated file, DO NOT EDIT manually!
--
--This file was generated by the rules-ng-ng headergen tool in this git repository:
--http://github.com/freedreno/envytools/
--git clone https://github.com/freedreno/envytools.git
--
--The rules-ng-ng source files this header was generated from are:
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/msm.xml                   (    944 bytes, from 2022-07-23 20:21:46)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/freedreno_copyright.xml   (   1572 bytes, from 2022-07-23 20:21:46)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/mdp/mdp4.xml              (  20912 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/mdp/mdp_common.xml        (   2849 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/mdp/mdp5.xml              (  37461 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi.xml               (  18746 bytes, from 2022-04-28 17:29:36)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_v2.xml        (   3236 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_28nm_8960.xml (   4935 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_28nm.xml      (   7004 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_20nm.xml      (   3712 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_14nm.xml      (   5381 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_10nm.xml      (   4499 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_7nm.xml       (  11007 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/sfpb.xml              (    602 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/mmss_cc.xml           (   1686 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/hdmi/qfprom.xml           (    600 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/hdmi/hdmi.xml             (  42350 bytes, from 2022-09-20 17:45:56)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/edp/edp.xml               (  10416 bytes, from 2022-03-08 17:40:42)
--
--Copyright (C) 2013-2022 by the following authors:
--- Rob Clark <robdclark@gmail.com> (robclark)
--- Ilia Mirkin <imirkin@alum.mit.edu> (imirkin)
--
--Permission is hereby granted, free of charge, to any person obtaining
--a copy of this software and associated documentation files (the
--"Software"), to deal in the Software without restriction, including
--without limitation the rights to use, copy, modify, merge, publish,
--distribute, sublicense, and/or sell copies of the Software, and to
--permit persons to whom the Software is furnished to do so, subject to
--the following conditions:
--
--The above copyright notice and this permission notice (including the
--next paragraph) shall be included in all copies or substantial
--portions of the Software.
--
--THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
--EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
--MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
--IN NO EVENT SHALL THE COPYRIGHT OWNER(S) AND/OR ITS SUPPLIERS BE
--LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
--OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
--WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
--*/
--
--
--enum dsi_traffic_mode {
--	NON_BURST_SYNCH_PULSE = 0,
--	NON_BURST_SYNCH_EVENT = 1,
--	BURST_MODE = 2,
--};
--
--enum dsi_vid_dst_format {
--	VID_DST_FORMAT_RGB565 = 0,
--	VID_DST_FORMAT_RGB666 = 1,
--	VID_DST_FORMAT_RGB666_LOOSE = 2,
--	VID_DST_FORMAT_RGB888 = 3,
--};
--
--enum dsi_rgb_swap {
--	SWAP_RGB = 0,
--	SWAP_RBG = 1,
--	SWAP_BGR = 2,
--	SWAP_BRG = 3,
--	SWAP_GRB = 4,
--	SWAP_GBR = 5,
--};
--
--enum dsi_cmd_trigger {
--	TRIGGER_NONE = 0,
--	TRIGGER_SEOF = 1,
--	TRIGGER_TE = 2,
--	TRIGGER_SW = 4,
--	TRIGGER_SW_SEOF = 5,
--	TRIGGER_SW_TE = 6,
--};
--
--enum dsi_cmd_dst_format {
--	CMD_DST_FORMAT_RGB111 = 0,
--	CMD_DST_FORMAT_RGB332 = 3,
--	CMD_DST_FORMAT_RGB444 = 4,
--	CMD_DST_FORMAT_RGB565 = 6,
--	CMD_DST_FORMAT_RGB666 = 7,
--	CMD_DST_FORMAT_RGB888 = 8,
--};
--
--enum dsi_lane_swap {
--	LANE_SWAP_0123 = 0,
--	LANE_SWAP_3012 = 1,
--	LANE_SWAP_2301 = 2,
--	LANE_SWAP_1230 = 3,
--	LANE_SWAP_0321 = 4,
--	LANE_SWAP_1032 = 5,
--	LANE_SWAP_2103 = 6,
--	LANE_SWAP_3210 = 7,
--};
--
--enum video_config_bpp {
--	VIDEO_CONFIG_18BPP = 0,
--	VIDEO_CONFIG_24BPP = 1,
--};
--
--enum video_pattern_sel {
--	VID_PRBS = 0,
--	VID_INCREMENTAL = 1,
--	VID_FIXED = 2,
--	VID_MDSS_GENERAL_PATTERN = 3,
--};
--
--enum cmd_mdp_stream0_pattern_sel {
--	CMD_MDP_PRBS = 0,
--	CMD_MDP_INCREMENTAL = 1,
--	CMD_MDP_FIXED = 2,
--	CMD_MDP_MDSS_GENERAL_PATTERN = 3,
--};
--
--enum cmd_dma_pattern_sel {
--	CMD_DMA_PRBS = 0,
--	CMD_DMA_INCREMENTAL = 1,
--	CMD_DMA_FIXED = 2,
--	CMD_DMA_CUSTOM_PATTERN_DMA_FIFO = 3,
--};
--
--#define DSI_IRQ_CMD_DMA_DONE					0x00000001
--#define DSI_IRQ_MASK_CMD_DMA_DONE				0x00000002
--#define DSI_IRQ_CMD_MDP_DONE					0x00000100
--#define DSI_IRQ_MASK_CMD_MDP_DONE				0x00000200
--#define DSI_IRQ_VIDEO_DONE					0x00010000
--#define DSI_IRQ_MASK_VIDEO_DONE					0x00020000
--#define DSI_IRQ_BTA_DONE					0x00100000
--#define DSI_IRQ_MASK_BTA_DONE					0x00200000
--#define DSI_IRQ_ERROR						0x01000000
--#define DSI_IRQ_MASK_ERROR					0x02000000
--#define REG_DSI_6G_HW_VERSION					0x00000000
--#define DSI_6G_HW_VERSION_MAJOR__MASK				0xf0000000
--#define DSI_6G_HW_VERSION_MAJOR__SHIFT				28
--static inline uint32_t DSI_6G_HW_VERSION_MAJOR(uint32_t val)
--{
--	return ((val) << DSI_6G_HW_VERSION_MAJOR__SHIFT) & DSI_6G_HW_VERSION_MAJOR__MASK;
--}
--#define DSI_6G_HW_VERSION_MINOR__MASK				0x0fff0000
--#define DSI_6G_HW_VERSION_MINOR__SHIFT				16
--static inline uint32_t DSI_6G_HW_VERSION_MINOR(uint32_t val)
--{
--	return ((val) << DSI_6G_HW_VERSION_MINOR__SHIFT) & DSI_6G_HW_VERSION_MINOR__MASK;
--}
--#define DSI_6G_HW_VERSION_STEP__MASK				0x0000ffff
--#define DSI_6G_HW_VERSION_STEP__SHIFT				0
--static inline uint32_t DSI_6G_HW_VERSION_STEP(uint32_t val)
--{
--	return ((val) << DSI_6G_HW_VERSION_STEP__SHIFT) & DSI_6G_HW_VERSION_STEP__MASK;
--}
--
--#define REG_DSI_CTRL						0x00000000
--#define DSI_CTRL_ENABLE						0x00000001
--#define DSI_CTRL_VID_MODE_EN					0x00000002
--#define DSI_CTRL_CMD_MODE_EN					0x00000004
--#define DSI_CTRL_LANE0						0x00000010
--#define DSI_CTRL_LANE1						0x00000020
--#define DSI_CTRL_LANE2						0x00000040
--#define DSI_CTRL_LANE3						0x00000080
--#define DSI_CTRL_CLK_EN						0x00000100
--#define DSI_CTRL_ECC_CHECK					0x00100000
--#define DSI_CTRL_CRC_CHECK					0x01000000
--
--#define REG_DSI_STATUS0						0x00000004
--#define DSI_STATUS0_CMD_MODE_ENGINE_BUSY			0x00000001
--#define DSI_STATUS0_CMD_MODE_DMA_BUSY				0x00000002
--#define DSI_STATUS0_CMD_MODE_MDP_BUSY				0x00000004
--#define DSI_STATUS0_VIDEO_MODE_ENGINE_BUSY			0x00000008
--#define DSI_STATUS0_DSI_BUSY					0x00000010
--#define DSI_STATUS0_INTERLEAVE_OP_CONTENTION			0x80000000
--
--#define REG_DSI_FIFO_STATUS					0x00000008
--#define DSI_FIFO_STATUS_VIDEO_MDP_FIFO_OVERFLOW			0x00000001
--#define DSI_FIFO_STATUS_VIDEO_MDP_FIFO_UNDERFLOW		0x00000008
--#define DSI_FIFO_STATUS_CMD_MDP_FIFO_UNDERFLOW			0x00000080
--#define DSI_FIFO_STATUS_CMD_DMA_FIFO_RD_WATERMARK_REACH		0x00000100
--#define DSI_FIFO_STATUS_CMD_DMA_FIFO_WR_WATERMARK_REACH		0x00000200
--#define DSI_FIFO_STATUS_CMD_DMA_FIFO_UNDERFLOW			0x00000400
--#define DSI_FIFO_STATUS_DLN0_LP_FIFO_EMPTY			0x00001000
--#define DSI_FIFO_STATUS_DLN0_LP_FIFO_FULL			0x00002000
--#define DSI_FIFO_STATUS_DLN0_LP_FIFO_OVERFLOW			0x00004000
--#define DSI_FIFO_STATUS_DLN0_HS_FIFO_EMPTY			0x00010000
--#define DSI_FIFO_STATUS_DLN0_HS_FIFO_FULL			0x00020000
--#define DSI_FIFO_STATUS_DLN0_HS_FIFO_OVERFLOW			0x00040000
--#define DSI_FIFO_STATUS_DLN0_HS_FIFO_UNDERFLOW			0x00080000
--#define DSI_FIFO_STATUS_DLN1_HS_FIFO_EMPTY			0x00100000
--#define DSI_FIFO_STATUS_DLN1_HS_FIFO_FULL			0x00200000
--#define DSI_FIFO_STATUS_DLN1_HS_FIFO_OVERFLOW			0x00400000
--#define DSI_FIFO_STATUS_DLN1_HS_FIFO_UNDERFLOW			0x00800000
--#define DSI_FIFO_STATUS_DLN2_HS_FIFO_EMPTY			0x01000000
--#define DSI_FIFO_STATUS_DLN2_HS_FIFO_FULL			0x02000000
--#define DSI_FIFO_STATUS_DLN2_HS_FIFO_OVERFLOW			0x04000000
--#define DSI_FIFO_STATUS_DLN2_HS_FIFO_UNDERFLOW			0x08000000
--#define DSI_FIFO_STATUS_DLN3_HS_FIFO_EMPTY			0x10000000
--#define DSI_FIFO_STATUS_DLN3_HS_FIFO_FULL			0x20000000
--#define DSI_FIFO_STATUS_DLN3_HS_FIFO_OVERFLOW			0x40000000
--#define DSI_FIFO_STATUS_DLN3_HS_FIFO_UNDERFLOW			0x80000000
--
--#define REG_DSI_VID_CFG0					0x0000000c
--#define DSI_VID_CFG0_VIRT_CHANNEL__MASK				0x00000003
--#define DSI_VID_CFG0_VIRT_CHANNEL__SHIFT			0
--static inline uint32_t DSI_VID_CFG0_VIRT_CHANNEL(uint32_t val)
--{
--	return ((val) << DSI_VID_CFG0_VIRT_CHANNEL__SHIFT) & DSI_VID_CFG0_VIRT_CHANNEL__MASK;
--}
--#define DSI_VID_CFG0_DST_FORMAT__MASK				0x00000030
--#define DSI_VID_CFG0_DST_FORMAT__SHIFT				4
--static inline uint32_t DSI_VID_CFG0_DST_FORMAT(enum dsi_vid_dst_format val)
--{
--	return ((val) << DSI_VID_CFG0_DST_FORMAT__SHIFT) & DSI_VID_CFG0_DST_FORMAT__MASK;
--}
--#define DSI_VID_CFG0_TRAFFIC_MODE__MASK				0x00000300
--#define DSI_VID_CFG0_TRAFFIC_MODE__SHIFT			8
--static inline uint32_t DSI_VID_CFG0_TRAFFIC_MODE(enum dsi_traffic_mode val)
--{
--	return ((val) << DSI_VID_CFG0_TRAFFIC_MODE__SHIFT) & DSI_VID_CFG0_TRAFFIC_MODE__MASK;
--}
--#define DSI_VID_CFG0_BLLP_POWER_STOP				0x00001000
--#define DSI_VID_CFG0_EOF_BLLP_POWER_STOP			0x00008000
--#define DSI_VID_CFG0_HSA_POWER_STOP				0x00010000
--#define DSI_VID_CFG0_HBP_POWER_STOP				0x00100000
--#define DSI_VID_CFG0_HFP_POWER_STOP				0x01000000
--#define DSI_VID_CFG0_PULSE_MODE_HSA_HE				0x10000000
--
--#define REG_DSI_VID_CFG1					0x0000001c
--#define DSI_VID_CFG1_R_SEL					0x00000001
--#define DSI_VID_CFG1_G_SEL					0x00000010
--#define DSI_VID_CFG1_B_SEL					0x00000100
--#define DSI_VID_CFG1_RGB_SWAP__MASK				0x00007000
--#define DSI_VID_CFG1_RGB_SWAP__SHIFT				12
--static inline uint32_t DSI_VID_CFG1_RGB_SWAP(enum dsi_rgb_swap val)
--{
--	return ((val) << DSI_VID_CFG1_RGB_SWAP__SHIFT) & DSI_VID_CFG1_RGB_SWAP__MASK;
--}
--
--#define REG_DSI_ACTIVE_H					0x00000020
--#define DSI_ACTIVE_H_START__MASK				0x00000fff
--#define DSI_ACTIVE_H_START__SHIFT				0
--static inline uint32_t DSI_ACTIVE_H_START(uint32_t val)
--{
--	return ((val) << DSI_ACTIVE_H_START__SHIFT) & DSI_ACTIVE_H_START__MASK;
--}
--#define DSI_ACTIVE_H_END__MASK					0x0fff0000
--#define DSI_ACTIVE_H_END__SHIFT					16
--static inline uint32_t DSI_ACTIVE_H_END(uint32_t val)
--{
--	return ((val) << DSI_ACTIVE_H_END__SHIFT) & DSI_ACTIVE_H_END__MASK;
--}
--
--#define REG_DSI_ACTIVE_V					0x00000024
--#define DSI_ACTIVE_V_START__MASK				0x00000fff
--#define DSI_ACTIVE_V_START__SHIFT				0
--static inline uint32_t DSI_ACTIVE_V_START(uint32_t val)
--{
--	return ((val) << DSI_ACTIVE_V_START__SHIFT) & DSI_ACTIVE_V_START__MASK;
--}
--#define DSI_ACTIVE_V_END__MASK					0x0fff0000
--#define DSI_ACTIVE_V_END__SHIFT					16
--static inline uint32_t DSI_ACTIVE_V_END(uint32_t val)
--{
--	return ((val) << DSI_ACTIVE_V_END__SHIFT) & DSI_ACTIVE_V_END__MASK;
--}
--
--#define REG_DSI_TOTAL						0x00000028
--#define DSI_TOTAL_H_TOTAL__MASK					0x00000fff
--#define DSI_TOTAL_H_TOTAL__SHIFT				0
--static inline uint32_t DSI_TOTAL_H_TOTAL(uint32_t val)
--{
--	return ((val) << DSI_TOTAL_H_TOTAL__SHIFT) & DSI_TOTAL_H_TOTAL__MASK;
--}
--#define DSI_TOTAL_V_TOTAL__MASK					0x0fff0000
--#define DSI_TOTAL_V_TOTAL__SHIFT				16
--static inline uint32_t DSI_TOTAL_V_TOTAL(uint32_t val)
--{
--	return ((val) << DSI_TOTAL_V_TOTAL__SHIFT) & DSI_TOTAL_V_TOTAL__MASK;
--}
--
--#define REG_DSI_ACTIVE_HSYNC					0x0000002c
--#define DSI_ACTIVE_HSYNC_START__MASK				0x00000fff
--#define DSI_ACTIVE_HSYNC_START__SHIFT				0
--static inline uint32_t DSI_ACTIVE_HSYNC_START(uint32_t val)
--{
--	return ((val) << DSI_ACTIVE_HSYNC_START__SHIFT) & DSI_ACTIVE_HSYNC_START__MASK;
--}
--#define DSI_ACTIVE_HSYNC_END__MASK				0x0fff0000
--#define DSI_ACTIVE_HSYNC_END__SHIFT				16
--static inline uint32_t DSI_ACTIVE_HSYNC_END(uint32_t val)
--{
--	return ((val) << DSI_ACTIVE_HSYNC_END__SHIFT) & DSI_ACTIVE_HSYNC_END__MASK;
--}
--
--#define REG_DSI_ACTIVE_VSYNC_HPOS				0x00000030
--#define DSI_ACTIVE_VSYNC_HPOS_START__MASK			0x00000fff
--#define DSI_ACTIVE_VSYNC_HPOS_START__SHIFT			0
--static inline uint32_t DSI_ACTIVE_VSYNC_HPOS_START(uint32_t val)
--{
--	return ((val) << DSI_ACTIVE_VSYNC_HPOS_START__SHIFT) & DSI_ACTIVE_VSYNC_HPOS_START__MASK;
--}
--#define DSI_ACTIVE_VSYNC_HPOS_END__MASK				0x0fff0000
--#define DSI_ACTIVE_VSYNC_HPOS_END__SHIFT			16
--static inline uint32_t DSI_ACTIVE_VSYNC_HPOS_END(uint32_t val)
--{
--	return ((val) << DSI_ACTIVE_VSYNC_HPOS_END__SHIFT) & DSI_ACTIVE_VSYNC_HPOS_END__MASK;
--}
--
--#define REG_DSI_ACTIVE_VSYNC_VPOS				0x00000034
--#define DSI_ACTIVE_VSYNC_VPOS_START__MASK			0x00000fff
--#define DSI_ACTIVE_VSYNC_VPOS_START__SHIFT			0
--static inline uint32_t DSI_ACTIVE_VSYNC_VPOS_START(uint32_t val)
--{
--	return ((val) << DSI_ACTIVE_VSYNC_VPOS_START__SHIFT) & DSI_ACTIVE_VSYNC_VPOS_START__MASK;
--}
--#define DSI_ACTIVE_VSYNC_VPOS_END__MASK				0x0fff0000
--#define DSI_ACTIVE_VSYNC_VPOS_END__SHIFT			16
--static inline uint32_t DSI_ACTIVE_VSYNC_VPOS_END(uint32_t val)
--{
--	return ((val) << DSI_ACTIVE_VSYNC_VPOS_END__SHIFT) & DSI_ACTIVE_VSYNC_VPOS_END__MASK;
--}
--
--#define REG_DSI_CMD_DMA_CTRL					0x00000038
--#define DSI_CMD_DMA_CTRL_BROADCAST_EN				0x80000000
--#define DSI_CMD_DMA_CTRL_FROM_FRAME_BUFFER			0x10000000
--#define DSI_CMD_DMA_CTRL_LOW_POWER				0x04000000
--
--#define REG_DSI_CMD_CFG0					0x0000003c
--#define DSI_CMD_CFG0_DST_FORMAT__MASK				0x0000000f
--#define DSI_CMD_CFG0_DST_FORMAT__SHIFT				0
--static inline uint32_t DSI_CMD_CFG0_DST_FORMAT(enum dsi_cmd_dst_format val)
--{
--	return ((val) << DSI_CMD_CFG0_DST_FORMAT__SHIFT) & DSI_CMD_CFG0_DST_FORMAT__MASK;
--}
--#define DSI_CMD_CFG0_R_SEL					0x00000010
--#define DSI_CMD_CFG0_G_SEL					0x00000100
--#define DSI_CMD_CFG0_B_SEL					0x00001000
--#define DSI_CMD_CFG0_INTERLEAVE_MAX__MASK			0x00f00000
--#define DSI_CMD_CFG0_INTERLEAVE_MAX__SHIFT			20
--static inline uint32_t DSI_CMD_CFG0_INTERLEAVE_MAX(uint32_t val)
--{
--	return ((val) << DSI_CMD_CFG0_INTERLEAVE_MAX__SHIFT) & DSI_CMD_CFG0_INTERLEAVE_MAX__MASK;
--}
--#define DSI_CMD_CFG0_RGB_SWAP__MASK				0x00070000
--#define DSI_CMD_CFG0_RGB_SWAP__SHIFT				16
--static inline uint32_t DSI_CMD_CFG0_RGB_SWAP(enum dsi_rgb_swap val)
--{
--	return ((val) << DSI_CMD_CFG0_RGB_SWAP__SHIFT) & DSI_CMD_CFG0_RGB_SWAP__MASK;
--}
--
--#define REG_DSI_CMD_CFG1					0x00000040
--#define DSI_CMD_CFG1_WR_MEM_START__MASK				0x000000ff
--#define DSI_CMD_CFG1_WR_MEM_START__SHIFT			0
--static inline uint32_t DSI_CMD_CFG1_WR_MEM_START(uint32_t val)
--{
--	return ((val) << DSI_CMD_CFG1_WR_MEM_START__SHIFT) & DSI_CMD_CFG1_WR_MEM_START__MASK;
--}
--#define DSI_CMD_CFG1_WR_MEM_CONTINUE__MASK			0x0000ff00
--#define DSI_CMD_CFG1_WR_MEM_CONTINUE__SHIFT			8
--static inline uint32_t DSI_CMD_CFG1_WR_MEM_CONTINUE(uint32_t val)
--{
--	return ((val) << DSI_CMD_CFG1_WR_MEM_CONTINUE__SHIFT) & DSI_CMD_CFG1_WR_MEM_CONTINUE__MASK;
--}
--#define DSI_CMD_CFG1_INSERT_DCS_COMMAND				0x00010000
--
--#define REG_DSI_DMA_BASE					0x00000044
--
--#define REG_DSI_DMA_LEN						0x00000048
--
--#define REG_DSI_CMD_MDP_STREAM0_CTRL				0x00000054
--#define DSI_CMD_MDP_STREAM0_CTRL_DATA_TYPE__MASK		0x0000003f
--#define DSI_CMD_MDP_STREAM0_CTRL_DATA_TYPE__SHIFT		0
--static inline uint32_t DSI_CMD_MDP_STREAM0_CTRL_DATA_TYPE(uint32_t val)
--{
--	return ((val) << DSI_CMD_MDP_STREAM0_CTRL_DATA_TYPE__SHIFT) & DSI_CMD_MDP_STREAM0_CTRL_DATA_TYPE__MASK;
--}
--#define DSI_CMD_MDP_STREAM0_CTRL_VIRTUAL_CHANNEL__MASK		0x00000300
--#define DSI_CMD_MDP_STREAM0_CTRL_VIRTUAL_CHANNEL__SHIFT		8
--static inline uint32_t DSI_CMD_MDP_STREAM0_CTRL_VIRTUAL_CHANNEL(uint32_t val)
--{
--	return ((val) << DSI_CMD_MDP_STREAM0_CTRL_VIRTUAL_CHANNEL__SHIFT) & DSI_CMD_MDP_STREAM0_CTRL_VIRTUAL_CHANNEL__MASK;
--}
--#define DSI_CMD_MDP_STREAM0_CTRL_WORD_COUNT__MASK		0xffff0000
--#define DSI_CMD_MDP_STREAM0_CTRL_WORD_COUNT__SHIFT		16
--static inline uint32_t DSI_CMD_MDP_STREAM0_CTRL_WORD_COUNT(uint32_t val)
--{
--	return ((val) << DSI_CMD_MDP_STREAM0_CTRL_WORD_COUNT__SHIFT) & DSI_CMD_MDP_STREAM0_CTRL_WORD_COUNT__MASK;
--}
--
--#define REG_DSI_CMD_MDP_STREAM0_TOTAL				0x00000058
--#define DSI_CMD_MDP_STREAM0_TOTAL_H_TOTAL__MASK			0x00000fff
--#define DSI_CMD_MDP_STREAM0_TOTAL_H_TOTAL__SHIFT		0
--static inline uint32_t DSI_CMD_MDP_STREAM0_TOTAL_H_TOTAL(uint32_t val)
--{
--	return ((val) << DSI_CMD_MDP_STREAM0_TOTAL_H_TOTAL__SHIFT) & DSI_CMD_MDP_STREAM0_TOTAL_H_TOTAL__MASK;
--}
--#define DSI_CMD_MDP_STREAM0_TOTAL_V_TOTAL__MASK			0x0fff0000
--#define DSI_CMD_MDP_STREAM0_TOTAL_V_TOTAL__SHIFT		16
--static inline uint32_t DSI_CMD_MDP_STREAM0_TOTAL_V_TOTAL(uint32_t val)
--{
--	return ((val) << DSI_CMD_MDP_STREAM0_TOTAL_V_TOTAL__SHIFT) & DSI_CMD_MDP_STREAM0_TOTAL_V_TOTAL__MASK;
--}
--
--#define REG_DSI_CMD_MDP_STREAM1_CTRL				0x0000005c
--#define DSI_CMD_MDP_STREAM1_CTRL_DATA_TYPE__MASK		0x0000003f
--#define DSI_CMD_MDP_STREAM1_CTRL_DATA_TYPE__SHIFT		0
--static inline uint32_t DSI_CMD_MDP_STREAM1_CTRL_DATA_TYPE(uint32_t val)
--{
--	return ((val) << DSI_CMD_MDP_STREAM1_CTRL_DATA_TYPE__SHIFT) & DSI_CMD_MDP_STREAM1_CTRL_DATA_TYPE__MASK;
--}
--#define DSI_CMD_MDP_STREAM1_CTRL_VIRTUAL_CHANNEL__MASK		0x00000300
--#define DSI_CMD_MDP_STREAM1_CTRL_VIRTUAL_CHANNEL__SHIFT		8
--static inline uint32_t DSI_CMD_MDP_STREAM1_CTRL_VIRTUAL_CHANNEL(uint32_t val)
--{
--	return ((val) << DSI_CMD_MDP_STREAM1_CTRL_VIRTUAL_CHANNEL__SHIFT) & DSI_CMD_MDP_STREAM1_CTRL_VIRTUAL_CHANNEL__MASK;
--}
--#define DSI_CMD_MDP_STREAM1_CTRL_WORD_COUNT__MASK		0xffff0000
--#define DSI_CMD_MDP_STREAM1_CTRL_WORD_COUNT__SHIFT		16
--static inline uint32_t DSI_CMD_MDP_STREAM1_CTRL_WORD_COUNT(uint32_t val)
--{
--	return ((val) << DSI_CMD_MDP_STREAM1_CTRL_WORD_COUNT__SHIFT) & DSI_CMD_MDP_STREAM1_CTRL_WORD_COUNT__MASK;
--}
--
--#define REG_DSI_CMD_MDP_STREAM1_TOTAL				0x00000060
--#define DSI_CMD_MDP_STREAM1_TOTAL_H_TOTAL__MASK			0x0000ffff
--#define DSI_CMD_MDP_STREAM1_TOTAL_H_TOTAL__SHIFT		0
--static inline uint32_t DSI_CMD_MDP_STREAM1_TOTAL_H_TOTAL(uint32_t val)
--{
--	return ((val) << DSI_CMD_MDP_STREAM1_TOTAL_H_TOTAL__SHIFT) & DSI_CMD_MDP_STREAM1_TOTAL_H_TOTAL__MASK;
--}
--#define DSI_CMD_MDP_STREAM1_TOTAL_V_TOTAL__MASK			0xffff0000
--#define DSI_CMD_MDP_STREAM1_TOTAL_V_TOTAL__SHIFT		16
--static inline uint32_t DSI_CMD_MDP_STREAM1_TOTAL_V_TOTAL(uint32_t val)
--{
--	return ((val) << DSI_CMD_MDP_STREAM1_TOTAL_V_TOTAL__SHIFT) & DSI_CMD_MDP_STREAM1_TOTAL_V_TOTAL__MASK;
--}
--
--#define REG_DSI_ACK_ERR_STATUS					0x00000064
--
--static inline uint32_t REG_DSI_RDBK(uint32_t i0) { return 0x00000068 + 0x4*i0; }
--
--static inline uint32_t REG_DSI_RDBK_DATA(uint32_t i0) { return 0x00000068 + 0x4*i0; }
--
--#define REG_DSI_TRIG_CTRL					0x00000080
--#define DSI_TRIG_CTRL_DMA_TRIGGER__MASK				0x00000007
--#define DSI_TRIG_CTRL_DMA_TRIGGER__SHIFT			0
--static inline uint32_t DSI_TRIG_CTRL_DMA_TRIGGER(enum dsi_cmd_trigger val)
--{
--	return ((val) << DSI_TRIG_CTRL_DMA_TRIGGER__SHIFT) & DSI_TRIG_CTRL_DMA_TRIGGER__MASK;
--}
--#define DSI_TRIG_CTRL_MDP_TRIGGER__MASK				0x00000070
--#define DSI_TRIG_CTRL_MDP_TRIGGER__SHIFT			4
--static inline uint32_t DSI_TRIG_CTRL_MDP_TRIGGER(enum dsi_cmd_trigger val)
--{
--	return ((val) << DSI_TRIG_CTRL_MDP_TRIGGER__SHIFT) & DSI_TRIG_CTRL_MDP_TRIGGER__MASK;
--}
--#define DSI_TRIG_CTRL_STREAM__MASK				0x00000300
--#define DSI_TRIG_CTRL_STREAM__SHIFT				8
--static inline uint32_t DSI_TRIG_CTRL_STREAM(uint32_t val)
--{
--	return ((val) << DSI_TRIG_CTRL_STREAM__SHIFT) & DSI_TRIG_CTRL_STREAM__MASK;
--}
--#define DSI_TRIG_CTRL_BLOCK_DMA_WITHIN_FRAME			0x00001000
--#define DSI_TRIG_CTRL_TE					0x80000000
--
--#define REG_DSI_TRIG_DMA					0x0000008c
--
--#define REG_DSI_DLN0_PHY_ERR					0x000000b0
--#define DSI_DLN0_PHY_ERR_DLN0_ERR_ESC				0x00000001
--#define DSI_DLN0_PHY_ERR_DLN0_ERR_SYNC_ESC			0x00000010
--#define DSI_DLN0_PHY_ERR_DLN0_ERR_CONTROL			0x00000100
--#define DSI_DLN0_PHY_ERR_DLN0_ERR_CONTENTION_LP0		0x00001000
--#define DSI_DLN0_PHY_ERR_DLN0_ERR_CONTENTION_LP1		0x00010000
--
--#define REG_DSI_LP_TIMER_CTRL					0x000000b4
--#define DSI_LP_TIMER_CTRL_LP_RX_TO__MASK			0x0000ffff
--#define DSI_LP_TIMER_CTRL_LP_RX_TO__SHIFT			0
--static inline uint32_t DSI_LP_TIMER_CTRL_LP_RX_TO(uint32_t val)
--{
--	return ((val) << DSI_LP_TIMER_CTRL_LP_RX_TO__SHIFT) & DSI_LP_TIMER_CTRL_LP_RX_TO__MASK;
--}
--#define DSI_LP_TIMER_CTRL_BTA_TO__MASK				0xffff0000
--#define DSI_LP_TIMER_CTRL_BTA_TO__SHIFT				16
--static inline uint32_t DSI_LP_TIMER_CTRL_BTA_TO(uint32_t val)
--{
--	return ((val) << DSI_LP_TIMER_CTRL_BTA_TO__SHIFT) & DSI_LP_TIMER_CTRL_BTA_TO__MASK;
--}
--
--#define REG_DSI_HS_TIMER_CTRL					0x000000b8
--#define DSI_HS_TIMER_CTRL_HS_TX_TO__MASK			0x0000ffff
--#define DSI_HS_TIMER_CTRL_HS_TX_TO__SHIFT			0
--static inline uint32_t DSI_HS_TIMER_CTRL_HS_TX_TO(uint32_t val)
--{
--	return ((val) << DSI_HS_TIMER_CTRL_HS_TX_TO__SHIFT) & DSI_HS_TIMER_CTRL_HS_TX_TO__MASK;
--}
--#define DSI_HS_TIMER_CTRL_TIMER_RESOLUTION__MASK		0x000f0000
--#define DSI_HS_TIMER_CTRL_TIMER_RESOLUTION__SHIFT		16
--static inline uint32_t DSI_HS_TIMER_CTRL_TIMER_RESOLUTION(uint32_t val)
--{
--	return ((val) << DSI_HS_TIMER_CTRL_TIMER_RESOLUTION__SHIFT) & DSI_HS_TIMER_CTRL_TIMER_RESOLUTION__MASK;
--}
--#define DSI_HS_TIMER_CTRL_HS_TX_TO_STOP_EN			0x10000000
--
--#define REG_DSI_TIMEOUT_STATUS					0x000000bc
--
--#define REG_DSI_CLKOUT_TIMING_CTRL				0x000000c0
--#define DSI_CLKOUT_TIMING_CTRL_T_CLK_PRE__MASK			0x0000003f
--#define DSI_CLKOUT_TIMING_CTRL_T_CLK_PRE__SHIFT			0
--static inline uint32_t DSI_CLKOUT_TIMING_CTRL_T_CLK_PRE(uint32_t val)
--{
--	return ((val) << DSI_CLKOUT_TIMING_CTRL_T_CLK_PRE__SHIFT) & DSI_CLKOUT_TIMING_CTRL_T_CLK_PRE__MASK;
--}
--#define DSI_CLKOUT_TIMING_CTRL_T_CLK_POST__MASK			0x00003f00
--#define DSI_CLKOUT_TIMING_CTRL_T_CLK_POST__SHIFT		8
--static inline uint32_t DSI_CLKOUT_TIMING_CTRL_T_CLK_POST(uint32_t val)
--{
--	return ((val) << DSI_CLKOUT_TIMING_CTRL_T_CLK_POST__SHIFT) & DSI_CLKOUT_TIMING_CTRL_T_CLK_POST__MASK;
--}
--
--#define REG_DSI_EOT_PACKET_CTRL					0x000000c8
--#define DSI_EOT_PACKET_CTRL_TX_EOT_APPEND			0x00000001
--#define DSI_EOT_PACKET_CTRL_RX_EOT_IGNORE			0x00000010
--
--#define REG_DSI_LANE_STATUS					0x000000a4
--#define DSI_LANE_STATUS_DLN0_STOPSTATE				0x00000001
--#define DSI_LANE_STATUS_DLN1_STOPSTATE				0x00000002
--#define DSI_LANE_STATUS_DLN2_STOPSTATE				0x00000004
--#define DSI_LANE_STATUS_DLN3_STOPSTATE				0x00000008
--#define DSI_LANE_STATUS_CLKLN_STOPSTATE				0x00000010
--#define DSI_LANE_STATUS_DLN0_ULPS_ACTIVE_NOT			0x00000100
--#define DSI_LANE_STATUS_DLN1_ULPS_ACTIVE_NOT			0x00000200
--#define DSI_LANE_STATUS_DLN2_ULPS_ACTIVE_NOT			0x00000400
--#define DSI_LANE_STATUS_DLN3_ULPS_ACTIVE_NOT			0x00000800
--#define DSI_LANE_STATUS_CLKLN_ULPS_ACTIVE_NOT			0x00001000
--#define DSI_LANE_STATUS_DLN0_DIRECTION				0x00010000
--
--#define REG_DSI_LANE_CTRL					0x000000a8
--#define DSI_LANE_CTRL_HS_REQ_SEL_PHY				0x01000000
--#define DSI_LANE_CTRL_CLKLN_HS_FORCE_REQUEST			0x10000000
--
--#define REG_DSI_LANE_SWAP_CTRL					0x000000ac
--#define DSI_LANE_SWAP_CTRL_DLN_SWAP_SEL__MASK			0x00000007
--#define DSI_LANE_SWAP_CTRL_DLN_SWAP_SEL__SHIFT			0
--static inline uint32_t DSI_LANE_SWAP_CTRL_DLN_SWAP_SEL(enum dsi_lane_swap val)
--{
--	return ((val) << DSI_LANE_SWAP_CTRL_DLN_SWAP_SEL__SHIFT) & DSI_LANE_SWAP_CTRL_DLN_SWAP_SEL__MASK;
--}
--
--#define REG_DSI_ERR_INT_MASK0					0x00000108
--
--#define REG_DSI_INTR_CTRL					0x0000010c
--
--#define REG_DSI_RESET						0x00000114
--
--#define REG_DSI_CLK_CTRL					0x00000118
--#define DSI_CLK_CTRL_AHBS_HCLK_ON				0x00000001
--#define DSI_CLK_CTRL_AHBM_SCLK_ON				0x00000002
--#define DSI_CLK_CTRL_PCLK_ON					0x00000004
--#define DSI_CLK_CTRL_DSICLK_ON					0x00000008
--#define DSI_CLK_CTRL_BYTECLK_ON					0x00000010
--#define DSI_CLK_CTRL_ESCCLK_ON					0x00000020
--#define DSI_CLK_CTRL_FORCE_ON_DYN_AHBM_HCLK			0x00000200
--
--#define REG_DSI_CLK_STATUS					0x0000011c
--#define DSI_CLK_STATUS_DSI_AON_AHBM_HCLK_ACTIVE			0x00000001
--#define DSI_CLK_STATUS_DSI_DYN_AHBM_HCLK_ACTIVE			0x00000002
--#define DSI_CLK_STATUS_DSI_AON_AHBS_HCLK_ACTIVE			0x00000004
--#define DSI_CLK_STATUS_DSI_DYN_AHBS_HCLK_ACTIVE			0x00000008
--#define DSI_CLK_STATUS_DSI_AON_DSICLK_ACTIVE			0x00000010
--#define DSI_CLK_STATUS_DSI_DYN_DSICLK_ACTIVE			0x00000020
--#define DSI_CLK_STATUS_DSI_AON_BYTECLK_ACTIVE			0x00000040
--#define DSI_CLK_STATUS_DSI_DYN_BYTECLK_ACTIVE			0x00000080
--#define DSI_CLK_STATUS_DSI_AON_ESCCLK_ACTIVE			0x00000100
--#define DSI_CLK_STATUS_DSI_AON_PCLK_ACTIVE			0x00000200
--#define DSI_CLK_STATUS_DSI_DYN_PCLK_ACTIVE			0x00000400
--#define DSI_CLK_STATUS_DSI_DYN_CMD_PCLK_ACTIVE			0x00001000
--#define DSI_CLK_STATUS_DSI_CMD_PCLK_ACTIVE			0x00002000
--#define DSI_CLK_STATUS_DSI_VID_PCLK_ACTIVE			0x00004000
--#define DSI_CLK_STATUS_DSI_CAM_BIST_PCLK_ACT			0x00008000
--#define DSI_CLK_STATUS_PLL_UNLOCKED				0x00010000
--
--#define REG_DSI_PHY_RESET					0x00000128
--#define DSI_PHY_RESET_RESET					0x00000001
--
--#define REG_DSI_TEST_PATTERN_GEN_VIDEO_INIT_VAL			0x00000160
--
--#define REG_DSI_TPG_MAIN_CONTROL				0x00000198
--#define DSI_TPG_MAIN_CONTROL_CHECKERED_RECTANGLE_PATTERN	0x00000100
--
--#define REG_DSI_TPG_VIDEO_CONFIG				0x000001a0
--#define DSI_TPG_VIDEO_CONFIG_BPP__MASK				0x00000003
--#define DSI_TPG_VIDEO_CONFIG_BPP__SHIFT				0
--static inline uint32_t DSI_TPG_VIDEO_CONFIG_BPP(enum video_config_bpp val)
--{
--	return ((val) << DSI_TPG_VIDEO_CONFIG_BPP__SHIFT) & DSI_TPG_VIDEO_CONFIG_BPP__MASK;
--}
--#define DSI_TPG_VIDEO_CONFIG_RGB				0x00000004
--
--#define REG_DSI_TEST_PATTERN_GEN_CTRL				0x00000158
--#define DSI_TEST_PATTERN_GEN_CTRL_CMD_DMA_PATTERN_SEL__MASK	0x00030000
--#define DSI_TEST_PATTERN_GEN_CTRL_CMD_DMA_PATTERN_SEL__SHIFT	16
--static inline uint32_t DSI_TEST_PATTERN_GEN_CTRL_CMD_DMA_PATTERN_SEL(enum cmd_dma_pattern_sel val)
--{
--	return ((val) << DSI_TEST_PATTERN_GEN_CTRL_CMD_DMA_PATTERN_SEL__SHIFT) & DSI_TEST_PATTERN_GEN_CTRL_CMD_DMA_PATTERN_SEL__MASK;
--}
--#define DSI_TEST_PATTERN_GEN_CTRL_CMD_MDP_STREAM0_PATTERN_SEL__MASK	0x00000300
--#define DSI_TEST_PATTERN_GEN_CTRL_CMD_MDP_STREAM0_PATTERN_SEL__SHIFT	8
--static inline uint32_t DSI_TEST_PATTERN_GEN_CTRL_CMD_MDP_STREAM0_PATTERN_SEL(enum cmd_mdp_stream0_pattern_sel val)
--{
--	return ((val) << DSI_TEST_PATTERN_GEN_CTRL_CMD_MDP_STREAM0_PATTERN_SEL__SHIFT) & DSI_TEST_PATTERN_GEN_CTRL_CMD_MDP_STREAM0_PATTERN_SEL__MASK;
--}
--#define DSI_TEST_PATTERN_GEN_CTRL_VIDEO_PATTERN_SEL__MASK	0x00000030
--#define DSI_TEST_PATTERN_GEN_CTRL_VIDEO_PATTERN_SEL__SHIFT	4
--static inline uint32_t DSI_TEST_PATTERN_GEN_CTRL_VIDEO_PATTERN_SEL(enum video_pattern_sel val)
--{
--	return ((val) << DSI_TEST_PATTERN_GEN_CTRL_VIDEO_PATTERN_SEL__SHIFT) & DSI_TEST_PATTERN_GEN_CTRL_VIDEO_PATTERN_SEL__MASK;
--}
--#define DSI_TEST_PATTERN_GEN_CTRL_TPG_DMA_FIFO_MODE		0x00000004
--#define DSI_TEST_PATTERN_GEN_CTRL_CMD_DMA_TPG_EN		0x00000002
--#define DSI_TEST_PATTERN_GEN_CTRL_EN				0x00000001
--
--#define REG_DSI_TEST_PATTERN_GEN_CMD_MDP_INIT_VAL0		0x00000168
--
--#define REG_DSI_TEST_PATTERN_GEN_CMD_STREAM0_TRIGGER		0x00000180
--#define DSI_TEST_PATTERN_GEN_CMD_STREAM0_TRIGGER_SW_TRIGGER	0x00000001
--
--#define REG_DSI_TPG_MAIN_CONTROL2				0x0000019c
--#define DSI_TPG_MAIN_CONTROL2_CMD_MDP0_CHECKERED_RECTANGLE_PATTERN	0x00000080
--#define DSI_TPG_MAIN_CONTROL2_CMD_MDP1_CHECKERED_RECTANGLE_PATTERN	0x00010000
--#define DSI_TPG_MAIN_CONTROL2_CMD_MDP2_CHECKERED_RECTANGLE_PATTERN	0x02000000
--
--#define REG_DSI_T_CLK_PRE_EXTEND				0x0000017c
--#define DSI_T_CLK_PRE_EXTEND_INC_BY_2_BYTECLK			0x00000001
--
--#define REG_DSI_CMD_MODE_MDP_CTRL2				0x000001b4
--#define DSI_CMD_MODE_MDP_CTRL2_DST_FORMAT2__MASK		0x0000000f
--#define DSI_CMD_MODE_MDP_CTRL2_DST_FORMAT2__SHIFT		0
--static inline uint32_t DSI_CMD_MODE_MDP_CTRL2_DST_FORMAT2(enum dsi_cmd_dst_format val)
--{
--	return ((val) << DSI_CMD_MODE_MDP_CTRL2_DST_FORMAT2__SHIFT) & DSI_CMD_MODE_MDP_CTRL2_DST_FORMAT2__MASK;
--}
--#define DSI_CMD_MODE_MDP_CTRL2_R_SEL				0x00000010
--#define DSI_CMD_MODE_MDP_CTRL2_G_SEL				0x00000020
--#define DSI_CMD_MODE_MDP_CTRL2_B_SEL				0x00000040
--#define DSI_CMD_MODE_MDP_CTRL2_BYTE_MSB_LSB_FLIP		0x00000080
--#define DSI_CMD_MODE_MDP_CTRL2_RGB_SWAP__MASK			0x00000700
--#define DSI_CMD_MODE_MDP_CTRL2_RGB_SWAP__SHIFT			8
--static inline uint32_t DSI_CMD_MODE_MDP_CTRL2_RGB_SWAP(enum dsi_rgb_swap val)
--{
--	return ((val) << DSI_CMD_MODE_MDP_CTRL2_RGB_SWAP__SHIFT) & DSI_CMD_MODE_MDP_CTRL2_RGB_SWAP__MASK;
--}
--#define DSI_CMD_MODE_MDP_CTRL2_INPUT_RGB_SWAP__MASK		0x00007000
--#define DSI_CMD_MODE_MDP_CTRL2_INPUT_RGB_SWAP__SHIFT		12
--static inline uint32_t DSI_CMD_MODE_MDP_CTRL2_INPUT_RGB_SWAP(enum dsi_rgb_swap val)
--{
--	return ((val) << DSI_CMD_MODE_MDP_CTRL2_INPUT_RGB_SWAP__SHIFT) & DSI_CMD_MODE_MDP_CTRL2_INPUT_RGB_SWAP__MASK;
--}
--#define DSI_CMD_MODE_MDP_CTRL2_BURST_MODE			0x00010000
--#define DSI_CMD_MODE_MDP_CTRL2_DATABUS_WIDEN			0x00100000
--
--#define REG_DSI_CMD_MODE_MDP_STREAM2_CTRL			0x000001b8
--#define DSI_CMD_MODE_MDP_STREAM2_CTRL_DATA_TYPE__MASK		0x0000003f
--#define DSI_CMD_MODE_MDP_STREAM2_CTRL_DATA_TYPE__SHIFT		0
--static inline uint32_t DSI_CMD_MODE_MDP_STREAM2_CTRL_DATA_TYPE(uint32_t val)
--{
--	return ((val) << DSI_CMD_MODE_MDP_STREAM2_CTRL_DATA_TYPE__SHIFT) & DSI_CMD_MODE_MDP_STREAM2_CTRL_DATA_TYPE__MASK;
--}
--#define DSI_CMD_MODE_MDP_STREAM2_CTRL_VIRTUAL_CHANNEL__MASK	0x00000300
--#define DSI_CMD_MODE_MDP_STREAM2_CTRL_VIRTUAL_CHANNEL__SHIFT	8
--static inline uint32_t DSI_CMD_MODE_MDP_STREAM2_CTRL_VIRTUAL_CHANNEL(uint32_t val)
--{
--	return ((val) << DSI_CMD_MODE_MDP_STREAM2_CTRL_VIRTUAL_CHANNEL__SHIFT) & DSI_CMD_MODE_MDP_STREAM2_CTRL_VIRTUAL_CHANNEL__MASK;
--}
--#define DSI_CMD_MODE_MDP_STREAM2_CTRL_WORD_COUNT__MASK		0xffff0000
--#define DSI_CMD_MODE_MDP_STREAM2_CTRL_WORD_COUNT__SHIFT		16
--static inline uint32_t DSI_CMD_MODE_MDP_STREAM2_CTRL_WORD_COUNT(uint32_t val)
--{
--	return ((val) << DSI_CMD_MODE_MDP_STREAM2_CTRL_WORD_COUNT__SHIFT) & DSI_CMD_MODE_MDP_STREAM2_CTRL_WORD_COUNT__MASK;
--}
+-#ifdef __cplusplus
+-#define __struct_cast(X)
+-#else
+-#define __struct_cast(X) (struct X)
+-#endif
 -
--#define REG_DSI_RDBK_DATA_CTRL					0x000001d0
--#define DSI_RDBK_DATA_CTRL_COUNT__MASK				0x00ff0000
--#define DSI_RDBK_DATA_CTRL_COUNT__SHIFT				16
--static inline uint32_t DSI_RDBK_DATA_CTRL_COUNT(uint32_t val)
--{
--	return ((val) << DSI_RDBK_DATA_CTRL_COUNT__SHIFT) & DSI_RDBK_DATA_CTRL_COUNT__MASK;
--}
--#define DSI_RDBK_DATA_CTRL_CLR					0x00000001
--
--#define REG_DSI_VERSION						0x000001f0
--#define DSI_VERSION_MAJOR__MASK					0xff000000
--#define DSI_VERSION_MAJOR__SHIFT				24
--static inline uint32_t DSI_VERSION_MAJOR(uint32_t val)
--{
--	return ((val) << DSI_VERSION_MAJOR__SHIFT) & DSI_VERSION_MAJOR__MASK;
--}
+-#define A6XX_GMU_GPU_IDLE_STATUS_BUSY_IGN_AHB			0x00800000
+-#define A6XX_GMU_GPU_IDLE_STATUS_CX_GX_CPU_BUSY_IGN_AHB		0x40000000
 -
--#define REG_DSI_CPHY_MODE_CTRL					0x000002d4
+-#define A6XX_GMU_OOB_BOOT_SLUMBER_SET_MASK			0x00400000
+-#define A6XX_GMU_OOB_BOOT_SLUMBER_CHECK_MASK			0x40000000
+-#define A6XX_GMU_OOB_BOOT_SLUMBER_CLEAR_MASK			0x40000000
+-#define A6XX_GMU_OOB_DCVS_SET_MASK				0x00800000
+-#define A6XX_GMU_OOB_DCVS_CHECK_MASK				0x80000000
+-#define A6XX_GMU_OOB_DCVS_CLEAR_MASK				0x80000000
+-#define A6XX_GMU_OOB_GPU_SET_MASK				0x00040000
+-#define A6XX_GMU_OOB_GPU_CHECK_MASK				0x04000000
+-#define A6XX_GMU_OOB_GPU_CLEAR_MASK				0x04000000
+-#define A6XX_GMU_OOB_PERFCNTR_SET_MASK				0x00020000
+-#define A6XX_GMU_OOB_PERFCNTR_CHECK_MASK			0x02000000
+-#define A6XX_GMU_OOB_PERFCNTR_CLEAR_MASK			0x02000000
 -
--#define REG_DSI_VIDEO_COMPRESSION_MODE_CTRL			0x0000029c
--#define DSI_VIDEO_COMPRESSION_MODE_CTRL_WC__MASK		0xffff0000
--#define DSI_VIDEO_COMPRESSION_MODE_CTRL_WC__SHIFT		16
--static inline uint32_t DSI_VIDEO_COMPRESSION_MODE_CTRL_WC(uint32_t val)
--{
--	return ((val) << DSI_VIDEO_COMPRESSION_MODE_CTRL_WC__SHIFT) & DSI_VIDEO_COMPRESSION_MODE_CTRL_WC__MASK;
--}
--#define DSI_VIDEO_COMPRESSION_MODE_CTRL_DATATYPE__MASK		0x00003f00
--#define DSI_VIDEO_COMPRESSION_MODE_CTRL_DATATYPE__SHIFT		8
--static inline uint32_t DSI_VIDEO_COMPRESSION_MODE_CTRL_DATATYPE(uint32_t val)
--{
--	return ((val) << DSI_VIDEO_COMPRESSION_MODE_CTRL_DATATYPE__SHIFT) & DSI_VIDEO_COMPRESSION_MODE_CTRL_DATATYPE__MASK;
--}
--#define DSI_VIDEO_COMPRESSION_MODE_CTRL_PKT_PER_LINE__MASK	0x000000c0
--#define DSI_VIDEO_COMPRESSION_MODE_CTRL_PKT_PER_LINE__SHIFT	6
--static inline uint32_t DSI_VIDEO_COMPRESSION_MODE_CTRL_PKT_PER_LINE(uint32_t val)
--{
--	return ((val) << DSI_VIDEO_COMPRESSION_MODE_CTRL_PKT_PER_LINE__SHIFT) & DSI_VIDEO_COMPRESSION_MODE_CTRL_PKT_PER_LINE__MASK;
--}
--#define DSI_VIDEO_COMPRESSION_MODE_CTRL_EOL_BYTE_NUM__MASK	0x00000030
--#define DSI_VIDEO_COMPRESSION_MODE_CTRL_EOL_BYTE_NUM__SHIFT	4
--static inline uint32_t DSI_VIDEO_COMPRESSION_MODE_CTRL_EOL_BYTE_NUM(uint32_t val)
--{
--	return ((val) << DSI_VIDEO_COMPRESSION_MODE_CTRL_EOL_BYTE_NUM__SHIFT) & DSI_VIDEO_COMPRESSION_MODE_CTRL_EOL_BYTE_NUM__MASK;
--}
--#define DSI_VIDEO_COMPRESSION_MODE_CTRL_EN			0x00000001
--
--#define REG_DSI_COMMAND_COMPRESSION_MODE_CTRL			0x000002a4
--#define DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM1_DATATYPE__MASK	0x3f000000
--#define DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM1_DATATYPE__SHIFT	24
--static inline uint32_t DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM1_DATATYPE(uint32_t val)
+-#define A6XX_HFI_IRQ_MSGQ_MASK					0x00000001
+-#define A6XX_HFI_IRQ_DSGQ_MASK					0x00000002
+-#define A6XX_HFI_IRQ_BLOCKED_MSG_MASK				0x00000004
+-#define A6XX_HFI_IRQ_CM3_FAULT_MASK				0x00800000
+-#define A6XX_HFI_IRQ_GMU_ERR_MASK__MASK				0x007f0000
+-#define A6XX_HFI_IRQ_GMU_ERR_MASK__SHIFT			16
+-static inline uint32_t A6XX_HFI_IRQ_GMU_ERR_MASK(uint32_t val)
 -{
--	return ((val) << DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM1_DATATYPE__SHIFT) & DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM1_DATATYPE__MASK;
+-	return ((val) << A6XX_HFI_IRQ_GMU_ERR_MASK__SHIFT) & A6XX_HFI_IRQ_GMU_ERR_MASK__MASK;
 -}
--#define DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM1_PKT_PER_LINE__MASK	0x00c00000
--#define DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM1_PKT_PER_LINE__SHIFT	22
--static inline uint32_t DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM1_PKT_PER_LINE(uint32_t val)
+-#define A6XX_HFI_IRQ_OOB_MASK__MASK				0xff000000
+-#define A6XX_HFI_IRQ_OOB_MASK__SHIFT				24
+-static inline uint32_t A6XX_HFI_IRQ_OOB_MASK(uint32_t val)
 -{
--	return ((val) << DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM1_PKT_PER_LINE__SHIFT) & DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM1_PKT_PER_LINE__MASK;
+-	return ((val) << A6XX_HFI_IRQ_OOB_MASK__SHIFT) & A6XX_HFI_IRQ_OOB_MASK__MASK;
 -}
--#define DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM1_EOL_BYTE_NUM__MASK	0x00300000
--#define DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM1_EOL_BYTE_NUM__SHIFT	20
--static inline uint32_t DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM1_EOL_BYTE_NUM(uint32_t val)
--{
--	return ((val) << DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM1_EOL_BYTE_NUM__SHIFT) & DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM1_EOL_BYTE_NUM__MASK;
--}
--#define DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM1_EN		0x00010000
--#define DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_DATATYPE__MASK	0x00003f00
--#define DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_DATATYPE__SHIFT	8
--static inline uint32_t DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_DATATYPE(uint32_t val)
--{
--	return ((val) << DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_DATATYPE__SHIFT) & DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_DATATYPE__MASK;
--}
--#define DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_PKT_PER_LINE__MASK	0x000000c0
--#define DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_PKT_PER_LINE__SHIFT	6
--static inline uint32_t DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_PKT_PER_LINE(uint32_t val)
--{
--	return ((val) << DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_PKT_PER_LINE__SHIFT) & DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_PKT_PER_LINE__MASK;
--}
--#define DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_EOL_BYTE_NUM__MASK	0x00000030
--#define DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_EOL_BYTE_NUM__SHIFT	4
--static inline uint32_t DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_EOL_BYTE_NUM(uint32_t val)
--{
--	return ((val) << DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_EOL_BYTE_NUM__SHIFT) & DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_EOL_BYTE_NUM__MASK;
--}
--#define DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_EN		0x00000001
--
--#define REG_DSI_COMMAND_COMPRESSION_MODE_CTRL2			0x000002a8
--#define DSI_COMMAND_COMPRESSION_MODE_CTRL2_STREAM1_SLICE_WIDTH__MASK	0xffff0000
--#define DSI_COMMAND_COMPRESSION_MODE_CTRL2_STREAM1_SLICE_WIDTH__SHIFT	16
--static inline uint32_t DSI_COMMAND_COMPRESSION_MODE_CTRL2_STREAM1_SLICE_WIDTH(uint32_t val)
--{
--	return ((val) << DSI_COMMAND_COMPRESSION_MODE_CTRL2_STREAM1_SLICE_WIDTH__SHIFT) & DSI_COMMAND_COMPRESSION_MODE_CTRL2_STREAM1_SLICE_WIDTH__MASK;
--}
--#define DSI_COMMAND_COMPRESSION_MODE_CTRL2_STREAM0_SLICE_WIDTH__MASK	0x0000ffff
--#define DSI_COMMAND_COMPRESSION_MODE_CTRL2_STREAM0_SLICE_WIDTH__SHIFT	0
--static inline uint32_t DSI_COMMAND_COMPRESSION_MODE_CTRL2_STREAM0_SLICE_WIDTH(uint32_t val)
--{
--	return ((val) << DSI_COMMAND_COMPRESSION_MODE_CTRL2_STREAM0_SLICE_WIDTH__SHIFT) & DSI_COMMAND_COMPRESSION_MODE_CTRL2_STREAM0_SLICE_WIDTH__MASK;
--}
--
--
--#endif /* DSI_XML */
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_phy_10nm.xml.h b/drivers/gpu/drm/msm/dsi/dsi_phy_10nm.xml.h
-deleted file mode 100644
-index a2ae8777e59e..000000000000
---- a/drivers/gpu/drm/msm/dsi/dsi_phy_10nm.xml.h
-+++ /dev/null
-@@ -1,227 +0,0 @@
--#ifndef DSI_PHY_10NM_XML
--#define DSI_PHY_10NM_XML
--
--/* Autogenerated file, DO NOT EDIT manually!
--
--This file was generated by the rules-ng-ng headergen tool in this git repository:
--http://github.com/freedreno/envytools/
--git clone https://github.com/freedreno/envytools.git
--
--The rules-ng-ng source files this header was generated from are:
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/msm.xml                   (    944 bytes, from 2022-07-23 20:21:46)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/freedreno_copyright.xml   (   1572 bytes, from 2022-07-23 20:21:46)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/mdp/mdp4.xml              (  20912 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/mdp/mdp_common.xml        (   2849 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/mdp/mdp5.xml              (  37461 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi.xml               (  18746 bytes, from 2022-04-28 17:29:36)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_v2.xml        (   3236 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_28nm_8960.xml (   4935 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_28nm.xml      (   7004 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_20nm.xml      (   3712 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_14nm.xml      (   5381 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_10nm.xml      (   4499 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_7nm.xml       (  11007 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/sfpb.xml              (    602 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/mmss_cc.xml           (   1686 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/hdmi/qfprom.xml           (    600 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/hdmi/hdmi.xml             (  42350 bytes, from 2022-09-20 17:45:56)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/edp/edp.xml               (  10416 bytes, from 2022-03-08 17:40:42)
--
--Copyright (C) 2013-2022 by the following authors:
--- Rob Clark <robdclark@gmail.com> (robclark)
--- Ilia Mirkin <imirkin@alum.mit.edu> (imirkin)
--
--Permission is hereby granted, free of charge, to any person obtaining
--a copy of this software and associated documentation files (the
--"Software"), to deal in the Software without restriction, including
--without limitation the rights to use, copy, modify, merge, publish,
--distribute, sublicense, and/or sell copies of the Software, and to
--permit persons to whom the Software is furnished to do so, subject to
--the following conditions:
--
--The above copyright notice and this permission notice (including the
--next paragraph) shall be included in all copies or substantial
--portions of the Software.
--
--THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
--EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
--MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
--IN NO EVENT SHALL THE COPYRIGHT OWNER(S) AND/OR ITS SUPPLIERS BE
--LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
--OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
--WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
--*/
--
--
--#define REG_DSI_10nm_PHY_CMN_REVISION_ID0			0x00000000
--
--#define REG_DSI_10nm_PHY_CMN_REVISION_ID1			0x00000004
--
--#define REG_DSI_10nm_PHY_CMN_REVISION_ID2			0x00000008
--
--#define REG_DSI_10nm_PHY_CMN_REVISION_ID3			0x0000000c
--
--#define REG_DSI_10nm_PHY_CMN_CLK_CFG0				0x00000010
--
--#define REG_DSI_10nm_PHY_CMN_CLK_CFG1				0x00000014
--
--#define REG_DSI_10nm_PHY_CMN_GLBL_CTRL				0x00000018
--
--#define REG_DSI_10nm_PHY_CMN_RBUF_CTRL				0x0000001c
--
--#define REG_DSI_10nm_PHY_CMN_VREG_CTRL				0x00000020
--
--#define REG_DSI_10nm_PHY_CMN_CTRL_0				0x00000024
--
--#define REG_DSI_10nm_PHY_CMN_CTRL_1				0x00000028
--
--#define REG_DSI_10nm_PHY_CMN_CTRL_2				0x0000002c
--
--#define REG_DSI_10nm_PHY_CMN_LANE_CFG0				0x00000030
--
--#define REG_DSI_10nm_PHY_CMN_LANE_CFG1				0x00000034
--
--#define REG_DSI_10nm_PHY_CMN_PLL_CNTRL				0x00000038
--
--#define REG_DSI_10nm_PHY_CMN_LANE_CTRL0				0x00000098
--
--#define REG_DSI_10nm_PHY_CMN_LANE_CTRL1				0x0000009c
--
--#define REG_DSI_10nm_PHY_CMN_LANE_CTRL2				0x000000a0
--
--#define REG_DSI_10nm_PHY_CMN_LANE_CTRL3				0x000000a4
--
--#define REG_DSI_10nm_PHY_CMN_LANE_CTRL4				0x000000a8
--
--#define REG_DSI_10nm_PHY_CMN_TIMING_CTRL_0			0x000000ac
--
--#define REG_DSI_10nm_PHY_CMN_TIMING_CTRL_1			0x000000b0
--
--#define REG_DSI_10nm_PHY_CMN_TIMING_CTRL_2			0x000000b4
--
--#define REG_DSI_10nm_PHY_CMN_TIMING_CTRL_3			0x000000b8
--
--#define REG_DSI_10nm_PHY_CMN_TIMING_CTRL_4			0x000000bc
--
--#define REG_DSI_10nm_PHY_CMN_TIMING_CTRL_5			0x000000c0
 -
--#define REG_DSI_10nm_PHY_CMN_TIMING_CTRL_6			0x000000c4
+-#define A6XX_HFI_H2F_IRQ_MASK_BIT				0x00000001
 -
--#define REG_DSI_10nm_PHY_CMN_TIMING_CTRL_7			0x000000c8
+-#define REG_A6XX_GPU_GMU_GX_SPTPRAC_CLOCK_CONTROL		0x00000080
 -
--#define REG_DSI_10nm_PHY_CMN_TIMING_CTRL_8			0x000000cc
+-#define REG_A6XX_GMU_GX_SPTPRAC_POWER_CONTROL			0x00000081
 -
--#define REG_DSI_10nm_PHY_CMN_TIMING_CTRL_9			0x000000d0
+-#define REG_A6XX_GMU_CM3_ITCM_START				0x00000c00
 -
--#define REG_DSI_10nm_PHY_CMN_TIMING_CTRL_10			0x000000d4
+-#define REG_A6XX_GMU_CM3_DTCM_START				0x00001c00
 -
--#define REG_DSI_10nm_PHY_CMN_TIMING_CTRL_11			0x000000d8
+-#define REG_A6XX_GMU_NMI_CONTROL_STATUS				0x000023f0
 -
--#define REG_DSI_10nm_PHY_CMN_PHY_STATUS				0x000000ec
+-#define REG_A6XX_GMU_BOOT_SLUMBER_OPTION			0x000023f8
 -
--#define REG_DSI_10nm_PHY_CMN_LANE_STATUS0			0x000000f4
+-#define REG_A6XX_GMU_GX_VOTE_IDX				0x000023f9
 -
--#define REG_DSI_10nm_PHY_CMN_LANE_STATUS1			0x000000f8
+-#define REG_A6XX_GMU_MX_VOTE_IDX				0x000023fa
 -
--static inline uint32_t REG_DSI_10nm_PHY_LN(uint32_t i0) { return 0x00000000 + 0x80*i0; }
+-#define REG_A6XX_GMU_DCVS_ACK_OPTION				0x000023fc
 -
--static inline uint32_t REG_DSI_10nm_PHY_LN_CFG0(uint32_t i0) { return 0x00000000 + 0x80*i0; }
+-#define REG_A6XX_GMU_DCVS_PERF_SETTING				0x000023fd
 -
--static inline uint32_t REG_DSI_10nm_PHY_LN_CFG1(uint32_t i0) { return 0x00000004 + 0x80*i0; }
+-#define REG_A6XX_GMU_DCVS_BW_SETTING				0x000023fe
 -
--static inline uint32_t REG_DSI_10nm_PHY_LN_CFG2(uint32_t i0) { return 0x00000008 + 0x80*i0; }
+-#define REG_A6XX_GMU_DCVS_RETURN				0x000023ff
 -
--static inline uint32_t REG_DSI_10nm_PHY_LN_CFG3(uint32_t i0) { return 0x0000000c + 0x80*i0; }
+-#define REG_A6XX_GMU_ICACHE_CONFIG				0x00004c00
 -
--static inline uint32_t REG_DSI_10nm_PHY_LN_TEST_DATAPATH(uint32_t i0) { return 0x00000010 + 0x80*i0; }
+-#define REG_A6XX_GMU_DCACHE_CONFIG				0x00004c01
 -
--static inline uint32_t REG_DSI_10nm_PHY_LN_PIN_SWAP(uint32_t i0) { return 0x00000014 + 0x80*i0; }
+-#define REG_A6XX_GMU_SYS_BUS_CONFIG				0x00004c0f
 -
--static inline uint32_t REG_DSI_10nm_PHY_LN_HSTX_STR_CTRL(uint32_t i0) { return 0x00000018 + 0x80*i0; }
+-#define REG_A6XX_GMU_CM3_SYSRESET				0x00005000
 -
--static inline uint32_t REG_DSI_10nm_PHY_LN_OFFSET_TOP_CTRL(uint32_t i0) { return 0x0000001c + 0x80*i0; }
+-#define REG_A6XX_GMU_CM3_BOOT_CONFIG				0x00005001
 -
--static inline uint32_t REG_DSI_10nm_PHY_LN_OFFSET_BOT_CTRL(uint32_t i0) { return 0x00000020 + 0x80*i0; }
+-#define REG_A6XX_GMU_CM3_FW_BUSY				0x0000501a
 -
--static inline uint32_t REG_DSI_10nm_PHY_LN_LPTX_STR_CTRL(uint32_t i0) { return 0x00000024 + 0x80*i0; }
+-#define REG_A6XX_GMU_CM3_FW_INIT_RESULT				0x0000501c
 -
--static inline uint32_t REG_DSI_10nm_PHY_LN_LPRX_CTRL(uint32_t i0) { return 0x00000028 + 0x80*i0; }
+-#define REG_A6XX_GMU_CM3_CFG					0x0000502d
 -
--static inline uint32_t REG_DSI_10nm_PHY_LN_TX_DCTRL(uint32_t i0) { return 0x0000002c + 0x80*i0; }
+-#define REG_A6XX_GMU_CX_GMU_POWER_COUNTER_ENABLE		0x00005040
 -
--#define REG_DSI_10nm_PHY_PLL_ANALOG_CONTROLS_ONE		0x00000000
+-#define REG_A6XX_GMU_CX_GMU_POWER_COUNTER_SELECT_0		0x00005041
 -
--#define REG_DSI_10nm_PHY_PLL_ANALOG_CONTROLS_TWO		0x00000004
+-#define REG_A6XX_GMU_CX_GMU_POWER_COUNTER_SELECT_1		0x00005042
 -
--#define REG_DSI_10nm_PHY_PLL_ANALOG_CONTROLS_THREE		0x00000010
+-#define REG_A6XX_GMU_CX_GMU_POWER_COUNTER_XOCLK_0_L		0x00005044
 -
--#define REG_DSI_10nm_PHY_PLL_DSM_DIVIDER			0x0000001c
+-#define REG_A6XX_GMU_CX_GMU_POWER_COUNTER_XOCLK_0_H		0x00005045
 -
--#define REG_DSI_10nm_PHY_PLL_FEEDBACK_DIVIDER			0x00000020
+-#define REG_A6XX_GMU_CX_GMU_POWER_COUNTER_XOCLK_1_L		0x00005046
 -
--#define REG_DSI_10nm_PHY_PLL_SYSTEM_MUXES			0x00000024
+-#define REG_A6XX_GMU_CX_GMU_POWER_COUNTER_XOCLK_1_H		0x00005047
 -
--#define REG_DSI_10nm_PHY_PLL_CMODE				0x0000002c
+-#define REG_A6XX_GMU_CX_GMU_POWER_COUNTER_XOCLK_2_L		0x00005048
 -
--#define REG_DSI_10nm_PHY_PLL_CALIBRATION_SETTINGS		0x00000030
+-#define REG_A6XX_GMU_CX_GMU_POWER_COUNTER_XOCLK_2_H		0x00005049
 -
--#define REG_DSI_10nm_PHY_PLL_BAND_SEL_CAL_SETTINGS_THREE	0x00000054
+-#define REG_A6XX_GMU_CX_GMU_POWER_COUNTER_XOCLK_3_L		0x0000504a
 -
--#define REG_DSI_10nm_PHY_PLL_FREQ_DETECT_SETTINGS_ONE		0x00000064
+-#define REG_A6XX_GMU_CX_GMU_POWER_COUNTER_XOCLK_3_H		0x0000504b
 -
--#define REG_DSI_10nm_PHY_PLL_PFILT				0x0000007c
+-#define REG_A6XX_GMU_CX_GMU_POWER_COUNTER_XOCLK_4_L		0x0000504c
 -
--#define REG_DSI_10nm_PHY_PLL_IFILT				0x00000080
+-#define REG_A6XX_GMU_CX_GMU_POWER_COUNTER_XOCLK_4_H		0x0000504d
 -
--#define REG_DSI_10nm_PHY_PLL_OUTDIV				0x00000094
+-#define REG_A6XX_GMU_CX_GMU_POWER_COUNTER_XOCLK_5_L		0x0000504e
 -
--#define REG_DSI_10nm_PHY_PLL_CORE_OVERRIDE			0x000000a4
+-#define REG_A6XX_GMU_CX_GMU_POWER_COUNTER_XOCLK_5_H		0x0000504f
 -
--#define REG_DSI_10nm_PHY_PLL_CORE_INPUT_OVERRIDE		0x000000a8
--
--#define REG_DSI_10nm_PHY_PLL_PLL_DIGITAL_TIMERS_TWO		0x000000b4
--
--#define REG_DSI_10nm_PHY_PLL_DECIMAL_DIV_START_1		0x000000cc
--
--#define REG_DSI_10nm_PHY_PLL_FRAC_DIV_START_LOW_1		0x000000d0
--
--#define REG_DSI_10nm_PHY_PLL_FRAC_DIV_START_MID_1		0x000000d4
--
--#define REG_DSI_10nm_PHY_PLL_FRAC_DIV_START_HIGH_1		0x000000d8
--
--#define REG_DSI_10nm_PHY_PLL_SSC_STEPSIZE_LOW_1			0x0000010c
--
--#define REG_DSI_10nm_PHY_PLL_SSC_STEPSIZE_HIGH_1		0x00000110
--
--#define REG_DSI_10nm_PHY_PLL_SSC_DIV_PER_LOW_1			0x00000114
--
--#define REG_DSI_10nm_PHY_PLL_SSC_DIV_PER_HIGH_1			0x00000118
--
--#define REG_DSI_10nm_PHY_PLL_SSC_DIV_ADJPER_LOW_1		0x0000011c
--
--#define REG_DSI_10nm_PHY_PLL_SSC_DIV_ADJPER_HIGH_1		0x00000120
--
--#define REG_DSI_10nm_PHY_PLL_SSC_CONTROL			0x0000013c
--
--#define REG_DSI_10nm_PHY_PLL_PLL_OUTDIV_RATE			0x00000140
--
--#define REG_DSI_10nm_PHY_PLL_PLL_LOCKDET_RATE_1			0x00000144
--
--#define REG_DSI_10nm_PHY_PLL_PLL_PROP_GAIN_RATE_1		0x0000014c
--
--#define REG_DSI_10nm_PHY_PLL_PLL_BAND_SET_RATE_1		0x00000154
--
--#define REG_DSI_10nm_PHY_PLL_PLL_INT_GAIN_IFILT_BAND_1		0x0000015c
--
--#define REG_DSI_10nm_PHY_PLL_PLL_FL_INT_GAIN_PFILT_BAND_1	0x00000164
--
--#define REG_DSI_10nm_PHY_PLL_PLL_LOCK_OVERRIDE			0x00000180
--
--#define REG_DSI_10nm_PHY_PLL_PLL_LOCK_DELAY			0x00000184
--
--#define REG_DSI_10nm_PHY_PLL_CLOCK_INVERTERS			0x0000018c
--
--#define REG_DSI_10nm_PHY_PLL_COMMON_STATUS_ONE			0x000001a0
--
--
--#endif /* DSI_PHY_10NM_XML */
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_phy_14nm.xml.h b/drivers/gpu/drm/msm/dsi/dsi_phy_14nm.xml.h
-deleted file mode 100644
-index 24e2fdc0cde1..000000000000
---- a/drivers/gpu/drm/msm/dsi/dsi_phy_14nm.xml.h
-+++ /dev/null
-@@ -1,309 +0,0 @@
--#ifndef DSI_PHY_14NM_XML
--#define DSI_PHY_14NM_XML
--
--/* Autogenerated file, DO NOT EDIT manually!
--
--This file was generated by the rules-ng-ng headergen tool in this git repository:
--http://github.com/freedreno/envytools/
--git clone https://github.com/freedreno/envytools.git
--
--The rules-ng-ng source files this header was generated from are:
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/msm.xml                   (    944 bytes, from 2022-07-23 20:21:46)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/freedreno_copyright.xml   (   1572 bytes, from 2022-07-23 20:21:46)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/mdp/mdp4.xml              (  20912 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/mdp/mdp_common.xml        (   2849 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/mdp/mdp5.xml              (  37461 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi.xml               (  18746 bytes, from 2022-04-28 17:29:36)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_v2.xml        (   3236 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_28nm_8960.xml (   4935 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_28nm.xml      (   7004 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_20nm.xml      (   3712 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_14nm.xml      (   5381 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_10nm.xml      (   4499 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_7nm.xml       (  11007 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/sfpb.xml              (    602 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/mmss_cc.xml           (   1686 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/hdmi/qfprom.xml           (    600 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/hdmi/hdmi.xml             (  42350 bytes, from 2022-09-20 17:45:56)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/edp/edp.xml               (  10416 bytes, from 2022-03-08 17:40:42)
--
--Copyright (C) 2013-2022 by the following authors:
--- Rob Clark <robdclark@gmail.com> (robclark)
--- Ilia Mirkin <imirkin@alum.mit.edu> (imirkin)
--
--Permission is hereby granted, free of charge, to any person obtaining
--a copy of this software and associated documentation files (the
--"Software"), to deal in the Software without restriction, including
--without limitation the rights to use, copy, modify, merge, publish,
--distribute, sublicense, and/or sell copies of the Software, and to
--permit persons to whom the Software is furnished to do so, subject to
--the following conditions:
--
--The above copyright notice and this permission notice (including the
--next paragraph) shall be included in all copies or substantial
--portions of the Software.
--
--THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
--EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
--MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
--IN NO EVENT SHALL THE COPYRIGHT OWNER(S) AND/OR ITS SUPPLIERS BE
--LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
--OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
--WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
--*/
--
--
--#define REG_DSI_14nm_PHY_CMN_REVISION_ID0			0x00000000
--
--#define REG_DSI_14nm_PHY_CMN_REVISION_ID1			0x00000004
--
--#define REG_DSI_14nm_PHY_CMN_REVISION_ID2			0x00000008
--
--#define REG_DSI_14nm_PHY_CMN_REVISION_ID3			0x0000000c
--
--#define REG_DSI_14nm_PHY_CMN_CLK_CFG0				0x00000010
--#define DSI_14nm_PHY_CMN_CLK_CFG0_DIV_CTRL_3_0__MASK		0x000000f0
--#define DSI_14nm_PHY_CMN_CLK_CFG0_DIV_CTRL_3_0__SHIFT		4
--static inline uint32_t DSI_14nm_PHY_CMN_CLK_CFG0_DIV_CTRL_3_0(uint32_t val)
--{
--	return ((val) << DSI_14nm_PHY_CMN_CLK_CFG0_DIV_CTRL_3_0__SHIFT) & DSI_14nm_PHY_CMN_CLK_CFG0_DIV_CTRL_3_0__MASK;
--}
--#define DSI_14nm_PHY_CMN_CLK_CFG0_DIV_CTRL_7_4__MASK		0x000000f0
--#define DSI_14nm_PHY_CMN_CLK_CFG0_DIV_CTRL_7_4__SHIFT		4
--static inline uint32_t DSI_14nm_PHY_CMN_CLK_CFG0_DIV_CTRL_7_4(uint32_t val)
--{
--	return ((val) << DSI_14nm_PHY_CMN_CLK_CFG0_DIV_CTRL_7_4__SHIFT) & DSI_14nm_PHY_CMN_CLK_CFG0_DIV_CTRL_7_4__MASK;
--}
--
--#define REG_DSI_14nm_PHY_CMN_CLK_CFG1				0x00000014
--#define DSI_14nm_PHY_CMN_CLK_CFG1_DSICLK_SEL			0x00000001
--
--#define REG_DSI_14nm_PHY_CMN_GLBL_TEST_CTRL			0x00000018
--#define DSI_14nm_PHY_CMN_GLBL_TEST_CTRL_BITCLK_HS_SEL		0x00000004
--
--#define REG_DSI_14nm_PHY_CMN_CTRL_0				0x0000001c
--
--#define REG_DSI_14nm_PHY_CMN_CTRL_1				0x00000020
--
--#define REG_DSI_14nm_PHY_CMN_HW_TRIGGER				0x00000024
--
--#define REG_DSI_14nm_PHY_CMN_SW_CFG0				0x00000028
--
--#define REG_DSI_14nm_PHY_CMN_SW_CFG1				0x0000002c
--
--#define REG_DSI_14nm_PHY_CMN_SW_CFG2				0x00000030
--
--#define REG_DSI_14nm_PHY_CMN_HW_CFG0				0x00000034
--
--#define REG_DSI_14nm_PHY_CMN_HW_CFG1				0x00000038
--
--#define REG_DSI_14nm_PHY_CMN_HW_CFG2				0x0000003c
--
--#define REG_DSI_14nm_PHY_CMN_HW_CFG3				0x00000040
--
--#define REG_DSI_14nm_PHY_CMN_HW_CFG4				0x00000044
--
--#define REG_DSI_14nm_PHY_CMN_PLL_CNTRL				0x00000048
--#define DSI_14nm_PHY_CMN_PLL_CNTRL_PLL_START			0x00000001
--
--#define REG_DSI_14nm_PHY_CMN_LDO_CNTRL				0x0000004c
--#define DSI_14nm_PHY_CMN_LDO_CNTRL_VREG_CTRL__MASK		0x0000003f
--#define DSI_14nm_PHY_CMN_LDO_CNTRL_VREG_CTRL__SHIFT		0
--static inline uint32_t DSI_14nm_PHY_CMN_LDO_CNTRL_VREG_CTRL(uint32_t val)
+-#define REG_A6XX_GMU_PWR_COL_INTER_FRAME_CTRL			0x000050c0
+-#define A6XX_GMU_PWR_COL_INTER_FRAME_CTRL_IFPC_ENABLE		0x00000001
+-#define A6XX_GMU_PWR_COL_INTER_FRAME_CTRL_HM_POWER_COLLAPSE_ENABLE	0x00000002
+-#define A6XX_GMU_PWR_COL_INTER_FRAME_CTRL_SPTPRAC_POWER_CONTROL_ENABLE	0x00000004
+-#define A6XX_GMU_PWR_COL_INTER_FRAME_CTRL_NUM_PASS_SKIPS__MASK	0x00003c00
+-#define A6XX_GMU_PWR_COL_INTER_FRAME_CTRL_NUM_PASS_SKIPS__SHIFT	10
+-static inline uint32_t A6XX_GMU_PWR_COL_INTER_FRAME_CTRL_NUM_PASS_SKIPS(uint32_t val)
 -{
--	return ((val) << DSI_14nm_PHY_CMN_LDO_CNTRL_VREG_CTRL__SHIFT) & DSI_14nm_PHY_CMN_LDO_CNTRL_VREG_CTRL__MASK;
+-	return ((val) << A6XX_GMU_PWR_COL_INTER_FRAME_CTRL_NUM_PASS_SKIPS__SHIFT) & A6XX_GMU_PWR_COL_INTER_FRAME_CTRL_NUM_PASS_SKIPS__MASK;
 -}
--
--static inline uint32_t REG_DSI_14nm_PHY_LN(uint32_t i0) { return 0x00000000 + 0x80*i0; }
--
--static inline uint32_t REG_DSI_14nm_PHY_LN_CFG0(uint32_t i0) { return 0x00000000 + 0x80*i0; }
--#define DSI_14nm_PHY_LN_CFG0_PREPARE_DLY__MASK			0x000000c0
--#define DSI_14nm_PHY_LN_CFG0_PREPARE_DLY__SHIFT			6
--static inline uint32_t DSI_14nm_PHY_LN_CFG0_PREPARE_DLY(uint32_t val)
+-#define A6XX_GMU_PWR_COL_INTER_FRAME_CTRL_MIN_PASS_LENGTH__MASK	0xffffc000
+-#define A6XX_GMU_PWR_COL_INTER_FRAME_CTRL_MIN_PASS_LENGTH__SHIFT	14
+-static inline uint32_t A6XX_GMU_PWR_COL_INTER_FRAME_CTRL_MIN_PASS_LENGTH(uint32_t val)
 -{
--	return ((val) << DSI_14nm_PHY_LN_CFG0_PREPARE_DLY__SHIFT) & DSI_14nm_PHY_LN_CFG0_PREPARE_DLY__MASK;
+-	return ((val) << A6XX_GMU_PWR_COL_INTER_FRAME_CTRL_MIN_PASS_LENGTH__SHIFT) & A6XX_GMU_PWR_COL_INTER_FRAME_CTRL_MIN_PASS_LENGTH__MASK;
 -}
--
--static inline uint32_t REG_DSI_14nm_PHY_LN_CFG1(uint32_t i0) { return 0x00000004 + 0x80*i0; }
--#define DSI_14nm_PHY_LN_CFG1_HALFBYTECLK_EN			0x00000001
--
--static inline uint32_t REG_DSI_14nm_PHY_LN_CFG2(uint32_t i0) { return 0x00000008 + 0x80*i0; }
 -
--static inline uint32_t REG_DSI_14nm_PHY_LN_CFG3(uint32_t i0) { return 0x0000000c + 0x80*i0; }
+-#define REG_A6XX_GMU_PWR_COL_INTER_FRAME_HYST			0x000050c1
 -
--static inline uint32_t REG_DSI_14nm_PHY_LN_TEST_DATAPATH(uint32_t i0) { return 0x00000010 + 0x80*i0; }
+-#define REG_A6XX_GMU_PWR_COL_SPTPRAC_HYST			0x000050c2
 -
--static inline uint32_t REG_DSI_14nm_PHY_LN_TEST_STR(uint32_t i0) { return 0x00000014 + 0x80*i0; }
+-#define REG_A6XX_GMU_SPTPRAC_PWR_CLK_STATUS			0x000050d0
+-#define A6XX_GMU_SPTPRAC_PWR_CLK_STATUS_SPTPRAC_GDSC_POWERING_OFF	0x00000001
+-#define A6XX_GMU_SPTPRAC_PWR_CLK_STATUS_SPTPRAC_GDSC_POWERING_ON	0x00000002
+-#define A6XX_GMU_SPTPRAC_PWR_CLK_STATUS_SPTPRAC_GDSC_POWER_OFF	0x00000004
+-#define A6XX_GMU_SPTPRAC_PWR_CLK_STATUS_SPTPRAC_GDSC_POWER_ON	0x00000008
+-#define A6XX_GMU_SPTPRAC_PWR_CLK_STATUS_SP_CLOCK_OFF		0x00000010
+-#define A6XX_GMU_SPTPRAC_PWR_CLK_STATUS_GMU_UP_POWER_STATE	0x00000020
+-#define A6XX_GMU_SPTPRAC_PWR_CLK_STATUS_GX_HM_GDSC_POWER_OFF	0x00000040
+-#define A6XX_GMU_SPTPRAC_PWR_CLK_STATUS_GX_HM_CLK_OFF		0x00000080
 -
--static inline uint32_t REG_DSI_14nm_PHY_LN_TIMING_CTRL_4(uint32_t i0) { return 0x00000018 + 0x80*i0; }
--#define DSI_14nm_PHY_LN_TIMING_CTRL_4_HS_EXIT__MASK		0x000000ff
--#define DSI_14nm_PHY_LN_TIMING_CTRL_4_HS_EXIT__SHIFT		0
--static inline uint32_t DSI_14nm_PHY_LN_TIMING_CTRL_4_HS_EXIT(uint32_t val)
+-#define REG_A6XX_GMU_GPU_NAP_CTRL				0x000050e4
+-#define A6XX_GMU_GPU_NAP_CTRL_HW_NAP_ENABLE			0x00000001
+-#define A6XX_GMU_GPU_NAP_CTRL_SID__MASK				0x000001f0
+-#define A6XX_GMU_GPU_NAP_CTRL_SID__SHIFT			4
+-static inline uint32_t A6XX_GMU_GPU_NAP_CTRL_SID(uint32_t val)
 -{
--	return ((val) << DSI_14nm_PHY_LN_TIMING_CTRL_4_HS_EXIT__SHIFT) & DSI_14nm_PHY_LN_TIMING_CTRL_4_HS_EXIT__MASK;
+-	return ((val) << A6XX_GMU_GPU_NAP_CTRL_SID__SHIFT) & A6XX_GMU_GPU_NAP_CTRL_SID__MASK;
 -}
--
--static inline uint32_t REG_DSI_14nm_PHY_LN_TIMING_CTRL_5(uint32_t i0) { return 0x0000001c + 0x80*i0; }
--#define DSI_14nm_PHY_LN_TIMING_CTRL_5_HS_ZERO__MASK		0x000000ff
--#define DSI_14nm_PHY_LN_TIMING_CTRL_5_HS_ZERO__SHIFT		0
--static inline uint32_t DSI_14nm_PHY_LN_TIMING_CTRL_5_HS_ZERO(uint32_t val)
--{
--	return ((val) << DSI_14nm_PHY_LN_TIMING_CTRL_5_HS_ZERO__SHIFT) & DSI_14nm_PHY_LN_TIMING_CTRL_5_HS_ZERO__MASK;
--}
--
--static inline uint32_t REG_DSI_14nm_PHY_LN_TIMING_CTRL_6(uint32_t i0) { return 0x00000020 + 0x80*i0; }
--#define DSI_14nm_PHY_LN_TIMING_CTRL_6_HS_PREPARE__MASK		0x000000ff
--#define DSI_14nm_PHY_LN_TIMING_CTRL_6_HS_PREPARE__SHIFT		0
--static inline uint32_t DSI_14nm_PHY_LN_TIMING_CTRL_6_HS_PREPARE(uint32_t val)
--{
--	return ((val) << DSI_14nm_PHY_LN_TIMING_CTRL_6_HS_PREPARE__SHIFT) & DSI_14nm_PHY_LN_TIMING_CTRL_6_HS_PREPARE__MASK;
--}
--
--static inline uint32_t REG_DSI_14nm_PHY_LN_TIMING_CTRL_7(uint32_t i0) { return 0x00000024 + 0x80*i0; }
--#define DSI_14nm_PHY_LN_TIMING_CTRL_7_HS_TRAIL__MASK		0x000000ff
--#define DSI_14nm_PHY_LN_TIMING_CTRL_7_HS_TRAIL__SHIFT		0
--static inline uint32_t DSI_14nm_PHY_LN_TIMING_CTRL_7_HS_TRAIL(uint32_t val)
--{
--	return ((val) << DSI_14nm_PHY_LN_TIMING_CTRL_7_HS_TRAIL__SHIFT) & DSI_14nm_PHY_LN_TIMING_CTRL_7_HS_TRAIL__MASK;
--}
--
--static inline uint32_t REG_DSI_14nm_PHY_LN_TIMING_CTRL_8(uint32_t i0) { return 0x00000028 + 0x80*i0; }
--#define DSI_14nm_PHY_LN_TIMING_CTRL_8_HS_RQST__MASK		0x000000ff
--#define DSI_14nm_PHY_LN_TIMING_CTRL_8_HS_RQST__SHIFT		0
--static inline uint32_t DSI_14nm_PHY_LN_TIMING_CTRL_8_HS_RQST(uint32_t val)
--{
--	return ((val) << DSI_14nm_PHY_LN_TIMING_CTRL_8_HS_RQST__SHIFT) & DSI_14nm_PHY_LN_TIMING_CTRL_8_HS_RQST__MASK;
--}
--
--static inline uint32_t REG_DSI_14nm_PHY_LN_TIMING_CTRL_9(uint32_t i0) { return 0x0000002c + 0x80*i0; }
--#define DSI_14nm_PHY_LN_TIMING_CTRL_9_TA_GO__MASK		0x00000007
--#define DSI_14nm_PHY_LN_TIMING_CTRL_9_TA_GO__SHIFT		0
--static inline uint32_t DSI_14nm_PHY_LN_TIMING_CTRL_9_TA_GO(uint32_t val)
--{
--	return ((val) << DSI_14nm_PHY_LN_TIMING_CTRL_9_TA_GO__SHIFT) & DSI_14nm_PHY_LN_TIMING_CTRL_9_TA_GO__MASK;
--}
--#define DSI_14nm_PHY_LN_TIMING_CTRL_9_TA_SURE__MASK		0x00000070
--#define DSI_14nm_PHY_LN_TIMING_CTRL_9_TA_SURE__SHIFT		4
--static inline uint32_t DSI_14nm_PHY_LN_TIMING_CTRL_9_TA_SURE(uint32_t val)
--{
--	return ((val) << DSI_14nm_PHY_LN_TIMING_CTRL_9_TA_SURE__SHIFT) & DSI_14nm_PHY_LN_TIMING_CTRL_9_TA_SURE__MASK;
--}
--
--static inline uint32_t REG_DSI_14nm_PHY_LN_TIMING_CTRL_10(uint32_t i0) { return 0x00000030 + 0x80*i0; }
--#define DSI_14nm_PHY_LN_TIMING_CTRL_10_TA_GET__MASK		0x00000007
--#define DSI_14nm_PHY_LN_TIMING_CTRL_10_TA_GET__SHIFT		0
--static inline uint32_t DSI_14nm_PHY_LN_TIMING_CTRL_10_TA_GET(uint32_t val)
--{
--	return ((val) << DSI_14nm_PHY_LN_TIMING_CTRL_10_TA_GET__SHIFT) & DSI_14nm_PHY_LN_TIMING_CTRL_10_TA_GET__MASK;
--}
--
--static inline uint32_t REG_DSI_14nm_PHY_LN_TIMING_CTRL_11(uint32_t i0) { return 0x00000034 + 0x80*i0; }
--#define DSI_14nm_PHY_LN_TIMING_CTRL_11_TRIG3_CMD__MASK		0x000000ff
--#define DSI_14nm_PHY_LN_TIMING_CTRL_11_TRIG3_CMD__SHIFT		0
--static inline uint32_t DSI_14nm_PHY_LN_TIMING_CTRL_11_TRIG3_CMD(uint32_t val)
--{
--	return ((val) << DSI_14nm_PHY_LN_TIMING_CTRL_11_TRIG3_CMD__SHIFT) & DSI_14nm_PHY_LN_TIMING_CTRL_11_TRIG3_CMD__MASK;
--}
--
--static inline uint32_t REG_DSI_14nm_PHY_LN_STRENGTH_CTRL_0(uint32_t i0) { return 0x00000038 + 0x80*i0; }
--
--static inline uint32_t REG_DSI_14nm_PHY_LN_STRENGTH_CTRL_1(uint32_t i0) { return 0x0000003c + 0x80*i0; }
--
--static inline uint32_t REG_DSI_14nm_PHY_LN_VREG_CNTRL(uint32_t i0) { return 0x00000064 + 0x80*i0; }
--
--#define REG_DSI_14nm_PHY_PLL_IE_TRIM				0x00000000
--
--#define REG_DSI_14nm_PHY_PLL_IP_TRIM				0x00000004
--
--#define REG_DSI_14nm_PHY_PLL_IPTAT_TRIM				0x00000010
--
--#define REG_DSI_14nm_PHY_PLL_CLKBUFLR_EN			0x0000001c
--
--#define REG_DSI_14nm_PHY_PLL_SYSCLK_EN_RESET			0x00000028
--
--#define REG_DSI_14nm_PHY_PLL_RESETSM_CNTRL			0x0000002c
--
--#define REG_DSI_14nm_PHY_PLL_RESETSM_CNTRL2			0x00000030
--
--#define REG_DSI_14nm_PHY_PLL_RESETSM_CNTRL3			0x00000034
--
--#define REG_DSI_14nm_PHY_PLL_RESETSM_CNTRL4			0x00000038
--
--#define REG_DSI_14nm_PHY_PLL_RESETSM_CNTRL5			0x0000003c
--
--#define REG_DSI_14nm_PHY_PLL_KVCO_DIV_REF1			0x00000040
--
--#define REG_DSI_14nm_PHY_PLL_KVCO_DIV_REF2			0x00000044
--
--#define REG_DSI_14nm_PHY_PLL_KVCO_COUNT1			0x00000048
--
--#define REG_DSI_14nm_PHY_PLL_KVCO_COUNT2			0x0000004c
--
--#define REG_DSI_14nm_PHY_PLL_VREF_CFG1				0x0000005c
--
--#define REG_DSI_14nm_PHY_PLL_KVCO_CODE				0x00000058
--
--#define REG_DSI_14nm_PHY_PLL_VCO_DIV_REF1			0x0000006c
--
--#define REG_DSI_14nm_PHY_PLL_VCO_DIV_REF2			0x00000070
--
--#define REG_DSI_14nm_PHY_PLL_VCO_COUNT1				0x00000074
--
--#define REG_DSI_14nm_PHY_PLL_VCO_COUNT2				0x00000078
--
--#define REG_DSI_14nm_PHY_PLL_PLLLOCK_CMP1			0x0000007c
--
--#define REG_DSI_14nm_PHY_PLL_PLLLOCK_CMP2			0x00000080
--
--#define REG_DSI_14nm_PHY_PLL_PLLLOCK_CMP3			0x00000084
--
--#define REG_DSI_14nm_PHY_PLL_PLLLOCK_CMP_EN			0x00000088
--
--#define REG_DSI_14nm_PHY_PLL_PLL_VCO_TUNE			0x0000008c
--
--#define REG_DSI_14nm_PHY_PLL_DEC_START				0x00000090
--
--#define REG_DSI_14nm_PHY_PLL_SSC_EN_CENTER			0x00000094
--
--#define REG_DSI_14nm_PHY_PLL_SSC_ADJ_PER1			0x00000098
--
--#define REG_DSI_14nm_PHY_PLL_SSC_ADJ_PER2			0x0000009c
--
--#define REG_DSI_14nm_PHY_PLL_SSC_PER1				0x000000a0
--
--#define REG_DSI_14nm_PHY_PLL_SSC_PER2				0x000000a4
--
--#define REG_DSI_14nm_PHY_PLL_SSC_STEP_SIZE1			0x000000a8
--
--#define REG_DSI_14nm_PHY_PLL_SSC_STEP_SIZE2			0x000000ac
--
--#define REG_DSI_14nm_PHY_PLL_DIV_FRAC_START1			0x000000b4
--
--#define REG_DSI_14nm_PHY_PLL_DIV_FRAC_START2			0x000000b8
--
--#define REG_DSI_14nm_PHY_PLL_DIV_FRAC_START3			0x000000bc
--
--#define REG_DSI_14nm_PHY_PLL_TXCLK_EN				0x000000c0
--
--#define REG_DSI_14nm_PHY_PLL_PLL_CRCTRL				0x000000c4
--
--#define REG_DSI_14nm_PHY_PLL_RESET_SM_READY_STATUS		0x000000cc
--
--#define REG_DSI_14nm_PHY_PLL_PLL_MISC1				0x000000e8
--
--#define REG_DSI_14nm_PHY_PLL_CP_SET_CUR				0x000000f0
--
--#define REG_DSI_14nm_PHY_PLL_PLL_ICPMSET			0x000000f4
--
--#define REG_DSI_14nm_PHY_PLL_PLL_ICPCSET			0x000000f8
--
--#define REG_DSI_14nm_PHY_PLL_PLL_ICP_SET			0x000000fc
--
--#define REG_DSI_14nm_PHY_PLL_PLL_LPF1				0x00000100
--
--#define REG_DSI_14nm_PHY_PLL_PLL_LPF2_POSTDIV			0x00000104
--
--#define REG_DSI_14nm_PHY_PLL_PLL_BANDGAP			0x00000108
--
--
--#endif /* DSI_PHY_14NM_XML */
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_phy_20nm.xml.h b/drivers/gpu/drm/msm/dsi/dsi_phy_20nm.xml.h
-deleted file mode 100644
-index 6352541f37e9..000000000000
---- a/drivers/gpu/drm/msm/dsi/dsi_phy_20nm.xml.h
-+++ /dev/null
-@@ -1,237 +0,0 @@
--#ifndef DSI_PHY_20NM_XML
--#define DSI_PHY_20NM_XML
--
--/* Autogenerated file, DO NOT EDIT manually!
--
--This file was generated by the rules-ng-ng headergen tool in this git repository:
--http://github.com/freedreno/envytools/
--git clone https://github.com/freedreno/envytools.git
--
--The rules-ng-ng source files this header was generated from are:
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/msm.xml                   (    944 bytes, from 2022-07-23 20:21:46)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/freedreno_copyright.xml   (   1572 bytes, from 2022-07-23 20:21:46)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/mdp/mdp4.xml              (  20912 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/mdp/mdp_common.xml        (   2849 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/mdp/mdp5.xml              (  37461 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi.xml               (  18746 bytes, from 2022-04-28 17:29:36)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_v2.xml        (   3236 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_28nm_8960.xml (   4935 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_28nm.xml      (   7004 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_20nm.xml      (   3712 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_14nm.xml      (   5381 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_10nm.xml      (   4499 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_7nm.xml       (  11007 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/sfpb.xml              (    602 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/mmss_cc.xml           (   1686 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/hdmi/qfprom.xml           (    600 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/hdmi/hdmi.xml             (  42350 bytes, from 2022-09-20 17:45:56)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/edp/edp.xml               (  10416 bytes, from 2022-03-08 17:40:42)
--
--Copyright (C) 2013-2022 by the following authors:
--- Rob Clark <robdclark@gmail.com> (robclark)
--- Ilia Mirkin <imirkin@alum.mit.edu> (imirkin)
--
--Permission is hereby granted, free of charge, to any person obtaining
--a copy of this software and associated documentation files (the
--"Software"), to deal in the Software without restriction, including
--without limitation the rights to use, copy, modify, merge, publish,
--distribute, sublicense, and/or sell copies of the Software, and to
--permit persons to whom the Software is furnished to do so, subject to
--the following conditions:
--
--The above copyright notice and this permission notice (including the
--next paragraph) shall be included in all copies or substantial
--portions of the Software.
--
--THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
--EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
--MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
--IN NO EVENT SHALL THE COPYRIGHT OWNER(S) AND/OR ITS SUPPLIERS BE
--LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
--OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
--WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
--*/
--
--
--static inline uint32_t REG_DSI_20nm_PHY_LN(uint32_t i0) { return 0x00000000 + 0x40*i0; }
--
--static inline uint32_t REG_DSI_20nm_PHY_LN_CFG_0(uint32_t i0) { return 0x00000000 + 0x40*i0; }
--
--static inline uint32_t REG_DSI_20nm_PHY_LN_CFG_1(uint32_t i0) { return 0x00000004 + 0x40*i0; }
--
--static inline uint32_t REG_DSI_20nm_PHY_LN_CFG_2(uint32_t i0) { return 0x00000008 + 0x40*i0; }
--
--static inline uint32_t REG_DSI_20nm_PHY_LN_CFG_3(uint32_t i0) { return 0x0000000c + 0x40*i0; }
--
--static inline uint32_t REG_DSI_20nm_PHY_LN_CFG_4(uint32_t i0) { return 0x00000010 + 0x40*i0; }
--
--static inline uint32_t REG_DSI_20nm_PHY_LN_TEST_DATAPATH(uint32_t i0) { return 0x00000014 + 0x40*i0; }
--
--static inline uint32_t REG_DSI_20nm_PHY_LN_DEBUG_SEL(uint32_t i0) { return 0x00000018 + 0x40*i0; }
--
--static inline uint32_t REG_DSI_20nm_PHY_LN_TEST_STR_0(uint32_t i0) { return 0x0000001c + 0x40*i0; }
--
--static inline uint32_t REG_DSI_20nm_PHY_LN_TEST_STR_1(uint32_t i0) { return 0x00000020 + 0x40*i0; }
--
--#define REG_DSI_20nm_PHY_LNCK_CFG_0				0x00000100
--
--#define REG_DSI_20nm_PHY_LNCK_CFG_1				0x00000104
--
--#define REG_DSI_20nm_PHY_LNCK_CFG_2				0x00000108
--
--#define REG_DSI_20nm_PHY_LNCK_CFG_3				0x0000010c
--
--#define REG_DSI_20nm_PHY_LNCK_CFG_4				0x00000110
--
--#define REG_DSI_20nm_PHY_LNCK_TEST_DATAPATH			0x00000114
--
--#define REG_DSI_20nm_PHY_LNCK_DEBUG_SEL				0x00000118
--
--#define REG_DSI_20nm_PHY_LNCK_TEST_STR0				0x0000011c
--
--#define REG_DSI_20nm_PHY_LNCK_TEST_STR1				0x00000120
--
--#define REG_DSI_20nm_PHY_TIMING_CTRL_0				0x00000140
--#define DSI_20nm_PHY_TIMING_CTRL_0_CLK_ZERO__MASK		0x000000ff
--#define DSI_20nm_PHY_TIMING_CTRL_0_CLK_ZERO__SHIFT		0
--static inline uint32_t DSI_20nm_PHY_TIMING_CTRL_0_CLK_ZERO(uint32_t val)
--{
--	return ((val) << DSI_20nm_PHY_TIMING_CTRL_0_CLK_ZERO__SHIFT) & DSI_20nm_PHY_TIMING_CTRL_0_CLK_ZERO__MASK;
--}
--
--#define REG_DSI_20nm_PHY_TIMING_CTRL_1				0x00000144
--#define DSI_20nm_PHY_TIMING_CTRL_1_CLK_TRAIL__MASK		0x000000ff
--#define DSI_20nm_PHY_TIMING_CTRL_1_CLK_TRAIL__SHIFT		0
--static inline uint32_t DSI_20nm_PHY_TIMING_CTRL_1_CLK_TRAIL(uint32_t val)
--{
--	return ((val) << DSI_20nm_PHY_TIMING_CTRL_1_CLK_TRAIL__SHIFT) & DSI_20nm_PHY_TIMING_CTRL_1_CLK_TRAIL__MASK;
--}
--
--#define REG_DSI_20nm_PHY_TIMING_CTRL_2				0x00000148
--#define DSI_20nm_PHY_TIMING_CTRL_2_CLK_PREPARE__MASK		0x000000ff
--#define DSI_20nm_PHY_TIMING_CTRL_2_CLK_PREPARE__SHIFT		0
--static inline uint32_t DSI_20nm_PHY_TIMING_CTRL_2_CLK_PREPARE(uint32_t val)
--{
--	return ((val) << DSI_20nm_PHY_TIMING_CTRL_2_CLK_PREPARE__SHIFT) & DSI_20nm_PHY_TIMING_CTRL_2_CLK_PREPARE__MASK;
--}
--
--#define REG_DSI_20nm_PHY_TIMING_CTRL_3				0x0000014c
--#define DSI_20nm_PHY_TIMING_CTRL_3_CLK_ZERO_8			0x00000001
--
--#define REG_DSI_20nm_PHY_TIMING_CTRL_4				0x00000150
--#define DSI_20nm_PHY_TIMING_CTRL_4_HS_EXIT__MASK		0x000000ff
--#define DSI_20nm_PHY_TIMING_CTRL_4_HS_EXIT__SHIFT		0
--static inline uint32_t DSI_20nm_PHY_TIMING_CTRL_4_HS_EXIT(uint32_t val)
--{
--	return ((val) << DSI_20nm_PHY_TIMING_CTRL_4_HS_EXIT__SHIFT) & DSI_20nm_PHY_TIMING_CTRL_4_HS_EXIT__MASK;
--}
--
--#define REG_DSI_20nm_PHY_TIMING_CTRL_5				0x00000154
--#define DSI_20nm_PHY_TIMING_CTRL_5_HS_ZERO__MASK		0x000000ff
--#define DSI_20nm_PHY_TIMING_CTRL_5_HS_ZERO__SHIFT		0
--static inline uint32_t DSI_20nm_PHY_TIMING_CTRL_5_HS_ZERO(uint32_t val)
--{
--	return ((val) << DSI_20nm_PHY_TIMING_CTRL_5_HS_ZERO__SHIFT) & DSI_20nm_PHY_TIMING_CTRL_5_HS_ZERO__MASK;
--}
--
--#define REG_DSI_20nm_PHY_TIMING_CTRL_6				0x00000158
--#define DSI_20nm_PHY_TIMING_CTRL_6_HS_PREPARE__MASK		0x000000ff
--#define DSI_20nm_PHY_TIMING_CTRL_6_HS_PREPARE__SHIFT		0
--static inline uint32_t DSI_20nm_PHY_TIMING_CTRL_6_HS_PREPARE(uint32_t val)
--{
--	return ((val) << DSI_20nm_PHY_TIMING_CTRL_6_HS_PREPARE__SHIFT) & DSI_20nm_PHY_TIMING_CTRL_6_HS_PREPARE__MASK;
--}
--
--#define REG_DSI_20nm_PHY_TIMING_CTRL_7				0x0000015c
--#define DSI_20nm_PHY_TIMING_CTRL_7_HS_TRAIL__MASK		0x000000ff
--#define DSI_20nm_PHY_TIMING_CTRL_7_HS_TRAIL__SHIFT		0
--static inline uint32_t DSI_20nm_PHY_TIMING_CTRL_7_HS_TRAIL(uint32_t val)
--{
--	return ((val) << DSI_20nm_PHY_TIMING_CTRL_7_HS_TRAIL__SHIFT) & DSI_20nm_PHY_TIMING_CTRL_7_HS_TRAIL__MASK;
--}
--
--#define REG_DSI_20nm_PHY_TIMING_CTRL_8				0x00000160
--#define DSI_20nm_PHY_TIMING_CTRL_8_HS_RQST__MASK		0x000000ff
--#define DSI_20nm_PHY_TIMING_CTRL_8_HS_RQST__SHIFT		0
--static inline uint32_t DSI_20nm_PHY_TIMING_CTRL_8_HS_RQST(uint32_t val)
--{
--	return ((val) << DSI_20nm_PHY_TIMING_CTRL_8_HS_RQST__SHIFT) & DSI_20nm_PHY_TIMING_CTRL_8_HS_RQST__MASK;
--}
--
--#define REG_DSI_20nm_PHY_TIMING_CTRL_9				0x00000164
--#define DSI_20nm_PHY_TIMING_CTRL_9_TA_GO__MASK			0x00000007
--#define DSI_20nm_PHY_TIMING_CTRL_9_TA_GO__SHIFT			0
--static inline uint32_t DSI_20nm_PHY_TIMING_CTRL_9_TA_GO(uint32_t val)
--{
--	return ((val) << DSI_20nm_PHY_TIMING_CTRL_9_TA_GO__SHIFT) & DSI_20nm_PHY_TIMING_CTRL_9_TA_GO__MASK;
--}
--#define DSI_20nm_PHY_TIMING_CTRL_9_TA_SURE__MASK		0x00000070
--#define DSI_20nm_PHY_TIMING_CTRL_9_TA_SURE__SHIFT		4
--static inline uint32_t DSI_20nm_PHY_TIMING_CTRL_9_TA_SURE(uint32_t val)
--{
--	return ((val) << DSI_20nm_PHY_TIMING_CTRL_9_TA_SURE__SHIFT) & DSI_20nm_PHY_TIMING_CTRL_9_TA_SURE__MASK;
--}
--
--#define REG_DSI_20nm_PHY_TIMING_CTRL_10				0x00000168
--#define DSI_20nm_PHY_TIMING_CTRL_10_TA_GET__MASK		0x00000007
--#define DSI_20nm_PHY_TIMING_CTRL_10_TA_GET__SHIFT		0
--static inline uint32_t DSI_20nm_PHY_TIMING_CTRL_10_TA_GET(uint32_t val)
--{
--	return ((val) << DSI_20nm_PHY_TIMING_CTRL_10_TA_GET__SHIFT) & DSI_20nm_PHY_TIMING_CTRL_10_TA_GET__MASK;
--}
--
--#define REG_DSI_20nm_PHY_TIMING_CTRL_11				0x0000016c
--#define DSI_20nm_PHY_TIMING_CTRL_11_TRIG3_CMD__MASK		0x000000ff
--#define DSI_20nm_PHY_TIMING_CTRL_11_TRIG3_CMD__SHIFT		0
--static inline uint32_t DSI_20nm_PHY_TIMING_CTRL_11_TRIG3_CMD(uint32_t val)
--{
--	return ((val) << DSI_20nm_PHY_TIMING_CTRL_11_TRIG3_CMD__SHIFT) & DSI_20nm_PHY_TIMING_CTRL_11_TRIG3_CMD__MASK;
--}
--
--#define REG_DSI_20nm_PHY_CTRL_0					0x00000170
--
--#define REG_DSI_20nm_PHY_CTRL_1					0x00000174
--
--#define REG_DSI_20nm_PHY_CTRL_2					0x00000178
--
--#define REG_DSI_20nm_PHY_CTRL_3					0x0000017c
--
--#define REG_DSI_20nm_PHY_CTRL_4					0x00000180
--
--#define REG_DSI_20nm_PHY_STRENGTH_0				0x00000184
--
--#define REG_DSI_20nm_PHY_STRENGTH_1				0x00000188
--
--#define REG_DSI_20nm_PHY_BIST_CTRL_0				0x000001b4
--
--#define REG_DSI_20nm_PHY_BIST_CTRL_1				0x000001b8
--
--#define REG_DSI_20nm_PHY_BIST_CTRL_2				0x000001bc
--
--#define REG_DSI_20nm_PHY_BIST_CTRL_3				0x000001c0
--
--#define REG_DSI_20nm_PHY_BIST_CTRL_4				0x000001c4
--
--#define REG_DSI_20nm_PHY_BIST_CTRL_5				0x000001c8
--
--#define REG_DSI_20nm_PHY_GLBL_TEST_CTRL				0x000001d4
--#define DSI_20nm_PHY_GLBL_TEST_CTRL_BITCLK_HS_SEL		0x00000001
--
--#define REG_DSI_20nm_PHY_LDO_CNTRL				0x000001dc
--
--#define REG_DSI_20nm_PHY_REGULATOR_CTRL_0			0x00000000
--
--#define REG_DSI_20nm_PHY_REGULATOR_CTRL_1			0x00000004
--
--#define REG_DSI_20nm_PHY_REGULATOR_CTRL_2			0x00000008
--
--#define REG_DSI_20nm_PHY_REGULATOR_CTRL_3			0x0000000c
--
--#define REG_DSI_20nm_PHY_REGULATOR_CTRL_4			0x00000010
--
--#define REG_DSI_20nm_PHY_REGULATOR_CTRL_5			0x00000014
--
--#define REG_DSI_20nm_PHY_REGULATOR_CAL_PWR_CFG			0x00000018
--
--
--#endif /* DSI_PHY_20NM_XML */
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_phy_28nm.xml.h b/drivers/gpu/drm/msm/dsi/dsi_phy_28nm.xml.h
-deleted file mode 100644
-index 178bd4fd7893..000000000000
---- a/drivers/gpu/drm/msm/dsi/dsi_phy_28nm.xml.h
-+++ /dev/null
-@@ -1,384 +0,0 @@
--#ifndef DSI_PHY_28NM_XML
--#define DSI_PHY_28NM_XML
--
--/* Autogenerated file, DO NOT EDIT manually!
--
--This file was generated by the rules-ng-ng headergen tool in this git repository:
--http://github.com/freedreno/envytools/
--git clone https://github.com/freedreno/envytools.git
--
--The rules-ng-ng source files this header was generated from are:
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/msm.xml                   (    944 bytes, from 2022-07-23 20:21:46)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/freedreno_copyright.xml   (   1572 bytes, from 2022-07-23 20:21:46)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/mdp/mdp4.xml              (  20912 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/mdp/mdp_common.xml        (   2849 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/mdp/mdp5.xml              (  37461 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi.xml               (  18746 bytes, from 2022-04-28 17:29:36)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_v2.xml        (   3236 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_28nm_8960.xml (   4935 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_28nm.xml      (   7004 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_20nm.xml      (   3712 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_14nm.xml      (   5381 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_10nm.xml      (   4499 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_7nm.xml       (  11007 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/sfpb.xml              (    602 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/mmss_cc.xml           (   1686 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/hdmi/qfprom.xml           (    600 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/hdmi/hdmi.xml             (  42350 bytes, from 2022-09-20 17:45:56)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/edp/edp.xml               (  10416 bytes, from 2022-03-08 17:40:42)
--
--Copyright (C) 2013-2022 by the following authors:
--- Rob Clark <robdclark@gmail.com> (robclark)
--- Ilia Mirkin <imirkin@alum.mit.edu> (imirkin)
--
--Permission is hereby granted, free of charge, to any person obtaining
--a copy of this software and associated documentation files (the
--"Software"), to deal in the Software without restriction, including
--without limitation the rights to use, copy, modify, merge, publish,
--distribute, sublicense, and/or sell copies of the Software, and to
--permit persons to whom the Software is furnished to do so, subject to
--the following conditions:
--
--The above copyright notice and this permission notice (including the
--next paragraph) shall be included in all copies or substantial
--portions of the Software.
--
--THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
--EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
--MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
--IN NO EVENT SHALL THE COPYRIGHT OWNER(S) AND/OR ITS SUPPLIERS BE
--LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
--OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
--WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
--*/
--
--
--static inline uint32_t REG_DSI_28nm_PHY_LN(uint32_t i0) { return 0x00000000 + 0x40*i0; }
--
--static inline uint32_t REG_DSI_28nm_PHY_LN_CFG_0(uint32_t i0) { return 0x00000000 + 0x40*i0; }
--
--static inline uint32_t REG_DSI_28nm_PHY_LN_CFG_1(uint32_t i0) { return 0x00000004 + 0x40*i0; }
--
--static inline uint32_t REG_DSI_28nm_PHY_LN_CFG_2(uint32_t i0) { return 0x00000008 + 0x40*i0; }
--
--static inline uint32_t REG_DSI_28nm_PHY_LN_CFG_3(uint32_t i0) { return 0x0000000c + 0x40*i0; }
--
--static inline uint32_t REG_DSI_28nm_PHY_LN_CFG_4(uint32_t i0) { return 0x00000010 + 0x40*i0; }
--
--static inline uint32_t REG_DSI_28nm_PHY_LN_TEST_DATAPATH(uint32_t i0) { return 0x00000014 + 0x40*i0; }
--
--static inline uint32_t REG_DSI_28nm_PHY_LN_DEBUG_SEL(uint32_t i0) { return 0x00000018 + 0x40*i0; }
--
--static inline uint32_t REG_DSI_28nm_PHY_LN_TEST_STR_0(uint32_t i0) { return 0x0000001c + 0x40*i0; }
--
--static inline uint32_t REG_DSI_28nm_PHY_LN_TEST_STR_1(uint32_t i0) { return 0x00000020 + 0x40*i0; }
--
--#define REG_DSI_28nm_PHY_LNCK_CFG_0				0x00000100
--
--#define REG_DSI_28nm_PHY_LNCK_CFG_1				0x00000104
--
--#define REG_DSI_28nm_PHY_LNCK_CFG_2				0x00000108
--
--#define REG_DSI_28nm_PHY_LNCK_CFG_3				0x0000010c
--
--#define REG_DSI_28nm_PHY_LNCK_CFG_4				0x00000110
--
--#define REG_DSI_28nm_PHY_LNCK_TEST_DATAPATH			0x00000114
--
--#define REG_DSI_28nm_PHY_LNCK_DEBUG_SEL				0x00000118
--
--#define REG_DSI_28nm_PHY_LNCK_TEST_STR0				0x0000011c
--
--#define REG_DSI_28nm_PHY_LNCK_TEST_STR1				0x00000120
--
--#define REG_DSI_28nm_PHY_TIMING_CTRL_0				0x00000140
--#define DSI_28nm_PHY_TIMING_CTRL_0_CLK_ZERO__MASK		0x000000ff
--#define DSI_28nm_PHY_TIMING_CTRL_0_CLK_ZERO__SHIFT		0
--static inline uint32_t DSI_28nm_PHY_TIMING_CTRL_0_CLK_ZERO(uint32_t val)
--{
--	return ((val) << DSI_28nm_PHY_TIMING_CTRL_0_CLK_ZERO__SHIFT) & DSI_28nm_PHY_TIMING_CTRL_0_CLK_ZERO__MASK;
--}
--
--#define REG_DSI_28nm_PHY_TIMING_CTRL_1				0x00000144
--#define DSI_28nm_PHY_TIMING_CTRL_1_CLK_TRAIL__MASK		0x000000ff
--#define DSI_28nm_PHY_TIMING_CTRL_1_CLK_TRAIL__SHIFT		0
--static inline uint32_t DSI_28nm_PHY_TIMING_CTRL_1_CLK_TRAIL(uint32_t val)
--{
--	return ((val) << DSI_28nm_PHY_TIMING_CTRL_1_CLK_TRAIL__SHIFT) & DSI_28nm_PHY_TIMING_CTRL_1_CLK_TRAIL__MASK;
--}
--
--#define REG_DSI_28nm_PHY_TIMING_CTRL_2				0x00000148
--#define DSI_28nm_PHY_TIMING_CTRL_2_CLK_PREPARE__MASK		0x000000ff
--#define DSI_28nm_PHY_TIMING_CTRL_2_CLK_PREPARE__SHIFT		0
--static inline uint32_t DSI_28nm_PHY_TIMING_CTRL_2_CLK_PREPARE(uint32_t val)
--{
--	return ((val) << DSI_28nm_PHY_TIMING_CTRL_2_CLK_PREPARE__SHIFT) & DSI_28nm_PHY_TIMING_CTRL_2_CLK_PREPARE__MASK;
--}
--
--#define REG_DSI_28nm_PHY_TIMING_CTRL_3				0x0000014c
--#define DSI_28nm_PHY_TIMING_CTRL_3_CLK_ZERO_8			0x00000001
--
--#define REG_DSI_28nm_PHY_TIMING_CTRL_4				0x00000150
--#define DSI_28nm_PHY_TIMING_CTRL_4_HS_EXIT__MASK		0x000000ff
--#define DSI_28nm_PHY_TIMING_CTRL_4_HS_EXIT__SHIFT		0
--static inline uint32_t DSI_28nm_PHY_TIMING_CTRL_4_HS_EXIT(uint32_t val)
--{
--	return ((val) << DSI_28nm_PHY_TIMING_CTRL_4_HS_EXIT__SHIFT) & DSI_28nm_PHY_TIMING_CTRL_4_HS_EXIT__MASK;
--}
--
--#define REG_DSI_28nm_PHY_TIMING_CTRL_5				0x00000154
--#define DSI_28nm_PHY_TIMING_CTRL_5_HS_ZERO__MASK		0x000000ff
--#define DSI_28nm_PHY_TIMING_CTRL_5_HS_ZERO__SHIFT		0
--static inline uint32_t DSI_28nm_PHY_TIMING_CTRL_5_HS_ZERO(uint32_t val)
--{
--	return ((val) << DSI_28nm_PHY_TIMING_CTRL_5_HS_ZERO__SHIFT) & DSI_28nm_PHY_TIMING_CTRL_5_HS_ZERO__MASK;
--}
--
--#define REG_DSI_28nm_PHY_TIMING_CTRL_6				0x00000158
--#define DSI_28nm_PHY_TIMING_CTRL_6_HS_PREPARE__MASK		0x000000ff
--#define DSI_28nm_PHY_TIMING_CTRL_6_HS_PREPARE__SHIFT		0
--static inline uint32_t DSI_28nm_PHY_TIMING_CTRL_6_HS_PREPARE(uint32_t val)
--{
--	return ((val) << DSI_28nm_PHY_TIMING_CTRL_6_HS_PREPARE__SHIFT) & DSI_28nm_PHY_TIMING_CTRL_6_HS_PREPARE__MASK;
--}
--
--#define REG_DSI_28nm_PHY_TIMING_CTRL_7				0x0000015c
--#define DSI_28nm_PHY_TIMING_CTRL_7_HS_TRAIL__MASK		0x000000ff
--#define DSI_28nm_PHY_TIMING_CTRL_7_HS_TRAIL__SHIFT		0
--static inline uint32_t DSI_28nm_PHY_TIMING_CTRL_7_HS_TRAIL(uint32_t val)
--{
--	return ((val) << DSI_28nm_PHY_TIMING_CTRL_7_HS_TRAIL__SHIFT) & DSI_28nm_PHY_TIMING_CTRL_7_HS_TRAIL__MASK;
--}
--
--#define REG_DSI_28nm_PHY_TIMING_CTRL_8				0x00000160
--#define DSI_28nm_PHY_TIMING_CTRL_8_HS_RQST__MASK		0x000000ff
--#define DSI_28nm_PHY_TIMING_CTRL_8_HS_RQST__SHIFT		0
--static inline uint32_t DSI_28nm_PHY_TIMING_CTRL_8_HS_RQST(uint32_t val)
--{
--	return ((val) << DSI_28nm_PHY_TIMING_CTRL_8_HS_RQST__SHIFT) & DSI_28nm_PHY_TIMING_CTRL_8_HS_RQST__MASK;
--}
--
--#define REG_DSI_28nm_PHY_TIMING_CTRL_9				0x00000164
--#define DSI_28nm_PHY_TIMING_CTRL_9_TA_GO__MASK			0x00000007
--#define DSI_28nm_PHY_TIMING_CTRL_9_TA_GO__SHIFT			0
--static inline uint32_t DSI_28nm_PHY_TIMING_CTRL_9_TA_GO(uint32_t val)
--{
--	return ((val) << DSI_28nm_PHY_TIMING_CTRL_9_TA_GO__SHIFT) & DSI_28nm_PHY_TIMING_CTRL_9_TA_GO__MASK;
--}
--#define DSI_28nm_PHY_TIMING_CTRL_9_TA_SURE__MASK		0x00000070
--#define DSI_28nm_PHY_TIMING_CTRL_9_TA_SURE__SHIFT		4
--static inline uint32_t DSI_28nm_PHY_TIMING_CTRL_9_TA_SURE(uint32_t val)
--{
--	return ((val) << DSI_28nm_PHY_TIMING_CTRL_9_TA_SURE__SHIFT) & DSI_28nm_PHY_TIMING_CTRL_9_TA_SURE__MASK;
--}
--
--#define REG_DSI_28nm_PHY_TIMING_CTRL_10				0x00000168
--#define DSI_28nm_PHY_TIMING_CTRL_10_TA_GET__MASK		0x00000007
--#define DSI_28nm_PHY_TIMING_CTRL_10_TA_GET__SHIFT		0
--static inline uint32_t DSI_28nm_PHY_TIMING_CTRL_10_TA_GET(uint32_t val)
--{
--	return ((val) << DSI_28nm_PHY_TIMING_CTRL_10_TA_GET__SHIFT) & DSI_28nm_PHY_TIMING_CTRL_10_TA_GET__MASK;
--}
--
--#define REG_DSI_28nm_PHY_TIMING_CTRL_11				0x0000016c
--#define DSI_28nm_PHY_TIMING_CTRL_11_TRIG3_CMD__MASK		0x000000ff
--#define DSI_28nm_PHY_TIMING_CTRL_11_TRIG3_CMD__SHIFT		0
--static inline uint32_t DSI_28nm_PHY_TIMING_CTRL_11_TRIG3_CMD(uint32_t val)
--{
--	return ((val) << DSI_28nm_PHY_TIMING_CTRL_11_TRIG3_CMD__SHIFT) & DSI_28nm_PHY_TIMING_CTRL_11_TRIG3_CMD__MASK;
--}
--
--#define REG_DSI_28nm_PHY_CTRL_0					0x00000170
--
--#define REG_DSI_28nm_PHY_CTRL_1					0x00000174
--
--#define REG_DSI_28nm_PHY_CTRL_2					0x00000178
--
--#define REG_DSI_28nm_PHY_CTRL_3					0x0000017c
--
--#define REG_DSI_28nm_PHY_CTRL_4					0x00000180
--
--#define REG_DSI_28nm_PHY_STRENGTH_0				0x00000184
--
--#define REG_DSI_28nm_PHY_STRENGTH_1				0x00000188
--
--#define REG_DSI_28nm_PHY_BIST_CTRL_0				0x000001b4
--
--#define REG_DSI_28nm_PHY_BIST_CTRL_1				0x000001b8
--
--#define REG_DSI_28nm_PHY_BIST_CTRL_2				0x000001bc
--
--#define REG_DSI_28nm_PHY_BIST_CTRL_3				0x000001c0
--
--#define REG_DSI_28nm_PHY_BIST_CTRL_4				0x000001c4
--
--#define REG_DSI_28nm_PHY_BIST_CTRL_5				0x000001c8
--
--#define REG_DSI_28nm_PHY_GLBL_TEST_CTRL				0x000001d4
--#define DSI_28nm_PHY_GLBL_TEST_CTRL_BITCLK_HS_SEL		0x00000001
--
--#define REG_DSI_28nm_PHY_LDO_CNTRL				0x000001dc
--
--#define REG_DSI_28nm_PHY_REGULATOR_CTRL_0			0x00000000
--
--#define REG_DSI_28nm_PHY_REGULATOR_CTRL_1			0x00000004
--
--#define REG_DSI_28nm_PHY_REGULATOR_CTRL_2			0x00000008
--
--#define REG_DSI_28nm_PHY_REGULATOR_CTRL_3			0x0000000c
--
--#define REG_DSI_28nm_PHY_REGULATOR_CTRL_4			0x00000010
--
--#define REG_DSI_28nm_PHY_REGULATOR_CTRL_5			0x00000014
--
--#define REG_DSI_28nm_PHY_REGULATOR_CAL_PWR_CFG			0x00000018
--
--#define REG_DSI_28nm_PHY_PLL_REFCLK_CFG				0x00000000
--#define DSI_28nm_PHY_PLL_REFCLK_CFG_DBLR			0x00000001
--
--#define REG_DSI_28nm_PHY_PLL_POSTDIV1_CFG			0x00000004
--
--#define REG_DSI_28nm_PHY_PLL_CHGPUMP_CFG			0x00000008
--
--#define REG_DSI_28nm_PHY_PLL_VCOLPF_CFG				0x0000000c
--
--#define REG_DSI_28nm_PHY_PLL_VREG_CFG				0x00000010
--#define DSI_28nm_PHY_PLL_VREG_CFG_POSTDIV1_BYPASS_B		0x00000002
--
--#define REG_DSI_28nm_PHY_PLL_PWRGEN_CFG				0x00000014
--
--#define REG_DSI_28nm_PHY_PLL_DMUX_CFG				0x00000018
--
--#define REG_DSI_28nm_PHY_PLL_AMUX_CFG				0x0000001c
--
--#define REG_DSI_28nm_PHY_PLL_GLB_CFG				0x00000020
--#define DSI_28nm_PHY_PLL_GLB_CFG_PLL_PWRDN_B			0x00000001
--#define DSI_28nm_PHY_PLL_GLB_CFG_PLL_LDO_PWRDN_B		0x00000002
--#define DSI_28nm_PHY_PLL_GLB_CFG_PLL_PWRGEN_PWRDN_B		0x00000004
--#define DSI_28nm_PHY_PLL_GLB_CFG_PLL_ENABLE			0x00000008
--
--#define REG_DSI_28nm_PHY_PLL_POSTDIV2_CFG			0x00000024
--
--#define REG_DSI_28nm_PHY_PLL_POSTDIV3_CFG			0x00000028
--
--#define REG_DSI_28nm_PHY_PLL_LPFR_CFG				0x0000002c
--
--#define REG_DSI_28nm_PHY_PLL_LPFC1_CFG				0x00000030
--
--#define REG_DSI_28nm_PHY_PLL_LPFC2_CFG				0x00000034
--
--#define REG_DSI_28nm_PHY_PLL_SDM_CFG0				0x00000038
--#define DSI_28nm_PHY_PLL_SDM_CFG0_BYP_DIV__MASK			0x0000003f
--#define DSI_28nm_PHY_PLL_SDM_CFG0_BYP_DIV__SHIFT		0
--static inline uint32_t DSI_28nm_PHY_PLL_SDM_CFG0_BYP_DIV(uint32_t val)
--{
--	return ((val) << DSI_28nm_PHY_PLL_SDM_CFG0_BYP_DIV__SHIFT) & DSI_28nm_PHY_PLL_SDM_CFG0_BYP_DIV__MASK;
--}
--#define DSI_28nm_PHY_PLL_SDM_CFG0_BYP				0x00000040
--
--#define REG_DSI_28nm_PHY_PLL_SDM_CFG1				0x0000003c
--#define DSI_28nm_PHY_PLL_SDM_CFG1_DC_OFFSET__MASK		0x0000003f
--#define DSI_28nm_PHY_PLL_SDM_CFG1_DC_OFFSET__SHIFT		0
--static inline uint32_t DSI_28nm_PHY_PLL_SDM_CFG1_DC_OFFSET(uint32_t val)
--{
--	return ((val) << DSI_28nm_PHY_PLL_SDM_CFG1_DC_OFFSET__SHIFT) & DSI_28nm_PHY_PLL_SDM_CFG1_DC_OFFSET__MASK;
--}
--#define DSI_28nm_PHY_PLL_SDM_CFG1_DITHER_EN__MASK		0x00000040
--#define DSI_28nm_PHY_PLL_SDM_CFG1_DITHER_EN__SHIFT		6
--static inline uint32_t DSI_28nm_PHY_PLL_SDM_CFG1_DITHER_EN(uint32_t val)
--{
--	return ((val) << DSI_28nm_PHY_PLL_SDM_CFG1_DITHER_EN__SHIFT) & DSI_28nm_PHY_PLL_SDM_CFG1_DITHER_EN__MASK;
--}
--
--#define REG_DSI_28nm_PHY_PLL_SDM_CFG2				0x00000040
--#define DSI_28nm_PHY_PLL_SDM_CFG2_FREQ_SEED_7_0__MASK		0x000000ff
--#define DSI_28nm_PHY_PLL_SDM_CFG2_FREQ_SEED_7_0__SHIFT		0
--static inline uint32_t DSI_28nm_PHY_PLL_SDM_CFG2_FREQ_SEED_7_0(uint32_t val)
--{
--	return ((val) << DSI_28nm_PHY_PLL_SDM_CFG2_FREQ_SEED_7_0__SHIFT) & DSI_28nm_PHY_PLL_SDM_CFG2_FREQ_SEED_7_0__MASK;
--}
--
--#define REG_DSI_28nm_PHY_PLL_SDM_CFG3				0x00000044
--#define DSI_28nm_PHY_PLL_SDM_CFG3_FREQ_SEED_15_8__MASK		0x000000ff
--#define DSI_28nm_PHY_PLL_SDM_CFG3_FREQ_SEED_15_8__SHIFT		0
--static inline uint32_t DSI_28nm_PHY_PLL_SDM_CFG3_FREQ_SEED_15_8(uint32_t val)
--{
--	return ((val) << DSI_28nm_PHY_PLL_SDM_CFG3_FREQ_SEED_15_8__SHIFT) & DSI_28nm_PHY_PLL_SDM_CFG3_FREQ_SEED_15_8__MASK;
--}
--
--#define REG_DSI_28nm_PHY_PLL_SDM_CFG4				0x00000048
--
--#define REG_DSI_28nm_PHY_PLL_SSC_CFG0				0x0000004c
--
--#define REG_DSI_28nm_PHY_PLL_SSC_CFG1				0x00000050
--
--#define REG_DSI_28nm_PHY_PLL_SSC_CFG2				0x00000054
--
--#define REG_DSI_28nm_PHY_PLL_SSC_CFG3				0x00000058
--
--#define REG_DSI_28nm_PHY_PLL_LKDET_CFG0				0x0000005c
--
--#define REG_DSI_28nm_PHY_PLL_LKDET_CFG1				0x00000060
--
--#define REG_DSI_28nm_PHY_PLL_LKDET_CFG2				0x00000064
--
--#define REG_DSI_28nm_PHY_PLL_TEST_CFG				0x00000068
--#define DSI_28nm_PHY_PLL_TEST_CFG_PLL_SW_RESET			0x00000001
--
--#define REG_DSI_28nm_PHY_PLL_CAL_CFG0				0x0000006c
--
--#define REG_DSI_28nm_PHY_PLL_CAL_CFG1				0x00000070
--
--#define REG_DSI_28nm_PHY_PLL_CAL_CFG2				0x00000074
--
--#define REG_DSI_28nm_PHY_PLL_CAL_CFG3				0x00000078
--
--#define REG_DSI_28nm_PHY_PLL_CAL_CFG4				0x0000007c
--
--#define REG_DSI_28nm_PHY_PLL_CAL_CFG5				0x00000080
--
--#define REG_DSI_28nm_PHY_PLL_CAL_CFG6				0x00000084
--
--#define REG_DSI_28nm_PHY_PLL_CAL_CFG7				0x00000088
--
--#define REG_DSI_28nm_PHY_PLL_CAL_CFG8				0x0000008c
--
--#define REG_DSI_28nm_PHY_PLL_CAL_CFG9				0x00000090
--
--#define REG_DSI_28nm_PHY_PLL_CAL_CFG10				0x00000094
--
--#define REG_DSI_28nm_PHY_PLL_CAL_CFG11				0x00000098
--
--#define REG_DSI_28nm_PHY_PLL_EFUSE_CFG				0x0000009c
--
--#define REG_DSI_28nm_PHY_PLL_DEBUG_BUS_SEL			0x000000a0
--
--#define REG_DSI_28nm_PHY_PLL_CTRL_42				0x000000a4
--
--#define REG_DSI_28nm_PHY_PLL_CTRL_43				0x000000a8
--
--#define REG_DSI_28nm_PHY_PLL_CTRL_44				0x000000ac
--
--#define REG_DSI_28nm_PHY_PLL_CTRL_45				0x000000b0
--
--#define REG_DSI_28nm_PHY_PLL_CTRL_46				0x000000b4
--
--#define REG_DSI_28nm_PHY_PLL_CTRL_47				0x000000b8
--
--#define REG_DSI_28nm_PHY_PLL_CTRL_48				0x000000bc
--
--#define REG_DSI_28nm_PHY_PLL_STATUS				0x000000c0
--#define DSI_28nm_PHY_PLL_STATUS_PLL_RDY				0x00000001
--
--#define REG_DSI_28nm_PHY_PLL_DEBUG_BUS0				0x000000c4
--
--#define REG_DSI_28nm_PHY_PLL_DEBUG_BUS1				0x000000c8
--
--#define REG_DSI_28nm_PHY_PLL_DEBUG_BUS2				0x000000cc
--
--#define REG_DSI_28nm_PHY_PLL_DEBUG_BUS3				0x000000d0
--
--#define REG_DSI_28nm_PHY_PLL_CTRL_54				0x000000d4
--
--
--#endif /* DSI_PHY_28NM_XML */
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_phy_28nm_8960.xml.h b/drivers/gpu/drm/msm/dsi/dsi_phy_28nm_8960.xml.h
-deleted file mode 100644
-index 5f900bb53519..000000000000
---- a/drivers/gpu/drm/msm/dsi/dsi_phy_28nm_8960.xml.h
-+++ /dev/null
-@@ -1,286 +0,0 @@
--#ifndef DSI_PHY_28NM_8960_XML
--#define DSI_PHY_28NM_8960_XML
--
--/* Autogenerated file, DO NOT EDIT manually!
--
--This file was generated by the rules-ng-ng headergen tool in this git repository:
--http://github.com/freedreno/envytools/
--git clone https://github.com/freedreno/envytools.git
--
--The rules-ng-ng source files this header was generated from are:
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/msm.xml                   (    944 bytes, from 2022-07-23 20:21:46)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/freedreno_copyright.xml   (   1572 bytes, from 2022-07-23 20:21:46)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/mdp/mdp4.xml              (  20912 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/mdp/mdp_common.xml        (   2849 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/mdp/mdp5.xml              (  37461 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi.xml               (  18746 bytes, from 2022-04-28 17:29:36)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_v2.xml        (   3236 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_28nm_8960.xml (   4935 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_28nm.xml      (   7004 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_20nm.xml      (   3712 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_14nm.xml      (   5381 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_10nm.xml      (   4499 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_7nm.xml       (  11007 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/sfpb.xml              (    602 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/mmss_cc.xml           (   1686 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/hdmi/qfprom.xml           (    600 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/hdmi/hdmi.xml             (  42350 bytes, from 2022-09-20 17:45:56)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/edp/edp.xml               (  10416 bytes, from 2022-03-08 17:40:42)
--
--Copyright (C) 2013-2022 by the following authors:
--- Rob Clark <robdclark@gmail.com> (robclark)
--- Ilia Mirkin <imirkin@alum.mit.edu> (imirkin)
--
--Permission is hereby granted, free of charge, to any person obtaining
--a copy of this software and associated documentation files (the
--"Software"), to deal in the Software without restriction, including
--without limitation the rights to use, copy, modify, merge, publish,
--distribute, sublicense, and/or sell copies of the Software, and to
--permit persons to whom the Software is furnished to do so, subject to
--the following conditions:
--
--The above copyright notice and this permission notice (including the
--next paragraph) shall be included in all copies or substantial
--portions of the Software.
--
--THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
--EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
--MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
--IN NO EVENT SHALL THE COPYRIGHT OWNER(S) AND/OR ITS SUPPLIERS BE
--LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
--OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
--WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
--*/
--
--
--static inline uint32_t REG_DSI_28nm_8960_PHY_LN(uint32_t i0) { return 0x00000000 + 0x40*i0; }
--
--static inline uint32_t REG_DSI_28nm_8960_PHY_LN_CFG_0(uint32_t i0) { return 0x00000000 + 0x40*i0; }
--
--static inline uint32_t REG_DSI_28nm_8960_PHY_LN_CFG_1(uint32_t i0) { return 0x00000004 + 0x40*i0; }
--
--static inline uint32_t REG_DSI_28nm_8960_PHY_LN_CFG_2(uint32_t i0) { return 0x00000008 + 0x40*i0; }
--
--static inline uint32_t REG_DSI_28nm_8960_PHY_LN_TEST_DATAPATH(uint32_t i0) { return 0x0000000c + 0x40*i0; }
--
--static inline uint32_t REG_DSI_28nm_8960_PHY_LN_TEST_STR_0(uint32_t i0) { return 0x00000014 + 0x40*i0; }
--
--static inline uint32_t REG_DSI_28nm_8960_PHY_LN_TEST_STR_1(uint32_t i0) { return 0x00000018 + 0x40*i0; }
--
--#define REG_DSI_28nm_8960_PHY_LNCK_CFG_0			0x00000100
--
--#define REG_DSI_28nm_8960_PHY_LNCK_CFG_1			0x00000104
--
--#define REG_DSI_28nm_8960_PHY_LNCK_CFG_2			0x00000108
--
--#define REG_DSI_28nm_8960_PHY_LNCK_TEST_DATAPATH		0x0000010c
--
--#define REG_DSI_28nm_8960_PHY_LNCK_TEST_STR0			0x00000114
--
--#define REG_DSI_28nm_8960_PHY_LNCK_TEST_STR1			0x00000118
--
--#define REG_DSI_28nm_8960_PHY_TIMING_CTRL_0			0x00000140
--#define DSI_28nm_8960_PHY_TIMING_CTRL_0_CLK_ZERO__MASK		0x000000ff
--#define DSI_28nm_8960_PHY_TIMING_CTRL_0_CLK_ZERO__SHIFT		0
--static inline uint32_t DSI_28nm_8960_PHY_TIMING_CTRL_0_CLK_ZERO(uint32_t val)
--{
--	return ((val) << DSI_28nm_8960_PHY_TIMING_CTRL_0_CLK_ZERO__SHIFT) & DSI_28nm_8960_PHY_TIMING_CTRL_0_CLK_ZERO__MASK;
--}
--
--#define REG_DSI_28nm_8960_PHY_TIMING_CTRL_1			0x00000144
--#define DSI_28nm_8960_PHY_TIMING_CTRL_1_CLK_TRAIL__MASK		0x000000ff
--#define DSI_28nm_8960_PHY_TIMING_CTRL_1_CLK_TRAIL__SHIFT	0
--static inline uint32_t DSI_28nm_8960_PHY_TIMING_CTRL_1_CLK_TRAIL(uint32_t val)
--{
--	return ((val) << DSI_28nm_8960_PHY_TIMING_CTRL_1_CLK_TRAIL__SHIFT) & DSI_28nm_8960_PHY_TIMING_CTRL_1_CLK_TRAIL__MASK;
--}
--
--#define REG_DSI_28nm_8960_PHY_TIMING_CTRL_2			0x00000148
--#define DSI_28nm_8960_PHY_TIMING_CTRL_2_CLK_PREPARE__MASK	0x000000ff
--#define DSI_28nm_8960_PHY_TIMING_CTRL_2_CLK_PREPARE__SHIFT	0
--static inline uint32_t DSI_28nm_8960_PHY_TIMING_CTRL_2_CLK_PREPARE(uint32_t val)
--{
--	return ((val) << DSI_28nm_8960_PHY_TIMING_CTRL_2_CLK_PREPARE__SHIFT) & DSI_28nm_8960_PHY_TIMING_CTRL_2_CLK_PREPARE__MASK;
--}
--
--#define REG_DSI_28nm_8960_PHY_TIMING_CTRL_3			0x0000014c
--
--#define REG_DSI_28nm_8960_PHY_TIMING_CTRL_4			0x00000150
--#define DSI_28nm_8960_PHY_TIMING_CTRL_4_HS_EXIT__MASK		0x000000ff
--#define DSI_28nm_8960_PHY_TIMING_CTRL_4_HS_EXIT__SHIFT		0
--static inline uint32_t DSI_28nm_8960_PHY_TIMING_CTRL_4_HS_EXIT(uint32_t val)
--{
--	return ((val) << DSI_28nm_8960_PHY_TIMING_CTRL_4_HS_EXIT__SHIFT) & DSI_28nm_8960_PHY_TIMING_CTRL_4_HS_EXIT__MASK;
--}
--
--#define REG_DSI_28nm_8960_PHY_TIMING_CTRL_5			0x00000154
--#define DSI_28nm_8960_PHY_TIMING_CTRL_5_HS_ZERO__MASK		0x000000ff
--#define DSI_28nm_8960_PHY_TIMING_CTRL_5_HS_ZERO__SHIFT		0
--static inline uint32_t DSI_28nm_8960_PHY_TIMING_CTRL_5_HS_ZERO(uint32_t val)
--{
--	return ((val) << DSI_28nm_8960_PHY_TIMING_CTRL_5_HS_ZERO__SHIFT) & DSI_28nm_8960_PHY_TIMING_CTRL_5_HS_ZERO__MASK;
--}
--
--#define REG_DSI_28nm_8960_PHY_TIMING_CTRL_6			0x00000158
--#define DSI_28nm_8960_PHY_TIMING_CTRL_6_HS_PREPARE__MASK	0x000000ff
--#define DSI_28nm_8960_PHY_TIMING_CTRL_6_HS_PREPARE__SHIFT	0
--static inline uint32_t DSI_28nm_8960_PHY_TIMING_CTRL_6_HS_PREPARE(uint32_t val)
--{
--	return ((val) << DSI_28nm_8960_PHY_TIMING_CTRL_6_HS_PREPARE__SHIFT) & DSI_28nm_8960_PHY_TIMING_CTRL_6_HS_PREPARE__MASK;
--}
--
--#define REG_DSI_28nm_8960_PHY_TIMING_CTRL_7			0x0000015c
--#define DSI_28nm_8960_PHY_TIMING_CTRL_7_HS_TRAIL__MASK		0x000000ff
--#define DSI_28nm_8960_PHY_TIMING_CTRL_7_HS_TRAIL__SHIFT		0
--static inline uint32_t DSI_28nm_8960_PHY_TIMING_CTRL_7_HS_TRAIL(uint32_t val)
--{
--	return ((val) << DSI_28nm_8960_PHY_TIMING_CTRL_7_HS_TRAIL__SHIFT) & DSI_28nm_8960_PHY_TIMING_CTRL_7_HS_TRAIL__MASK;
--}
--
--#define REG_DSI_28nm_8960_PHY_TIMING_CTRL_8			0x00000160
--#define DSI_28nm_8960_PHY_TIMING_CTRL_8_HS_RQST__MASK		0x000000ff
--#define DSI_28nm_8960_PHY_TIMING_CTRL_8_HS_RQST__SHIFT		0
--static inline uint32_t DSI_28nm_8960_PHY_TIMING_CTRL_8_HS_RQST(uint32_t val)
--{
--	return ((val) << DSI_28nm_8960_PHY_TIMING_CTRL_8_HS_RQST__SHIFT) & DSI_28nm_8960_PHY_TIMING_CTRL_8_HS_RQST__MASK;
--}
--
--#define REG_DSI_28nm_8960_PHY_TIMING_CTRL_9			0x00000164
--#define DSI_28nm_8960_PHY_TIMING_CTRL_9_TA_GO__MASK		0x00000007
--#define DSI_28nm_8960_PHY_TIMING_CTRL_9_TA_GO__SHIFT		0
--static inline uint32_t DSI_28nm_8960_PHY_TIMING_CTRL_9_TA_GO(uint32_t val)
--{
--	return ((val) << DSI_28nm_8960_PHY_TIMING_CTRL_9_TA_GO__SHIFT) & DSI_28nm_8960_PHY_TIMING_CTRL_9_TA_GO__MASK;
--}
--#define DSI_28nm_8960_PHY_TIMING_CTRL_9_TA_SURE__MASK		0x00000070
--#define DSI_28nm_8960_PHY_TIMING_CTRL_9_TA_SURE__SHIFT		4
--static inline uint32_t DSI_28nm_8960_PHY_TIMING_CTRL_9_TA_SURE(uint32_t val)
--{
--	return ((val) << DSI_28nm_8960_PHY_TIMING_CTRL_9_TA_SURE__SHIFT) & DSI_28nm_8960_PHY_TIMING_CTRL_9_TA_SURE__MASK;
--}
--
--#define REG_DSI_28nm_8960_PHY_TIMING_CTRL_10			0x00000168
--#define DSI_28nm_8960_PHY_TIMING_CTRL_10_TA_GET__MASK		0x00000007
--#define DSI_28nm_8960_PHY_TIMING_CTRL_10_TA_GET__SHIFT		0
--static inline uint32_t DSI_28nm_8960_PHY_TIMING_CTRL_10_TA_GET(uint32_t val)
--{
--	return ((val) << DSI_28nm_8960_PHY_TIMING_CTRL_10_TA_GET__SHIFT) & DSI_28nm_8960_PHY_TIMING_CTRL_10_TA_GET__MASK;
--}
--
--#define REG_DSI_28nm_8960_PHY_TIMING_CTRL_11			0x0000016c
--#define DSI_28nm_8960_PHY_TIMING_CTRL_11_TRIG3_CMD__MASK	0x000000ff
--#define DSI_28nm_8960_PHY_TIMING_CTRL_11_TRIG3_CMD__SHIFT	0
--static inline uint32_t DSI_28nm_8960_PHY_TIMING_CTRL_11_TRIG3_CMD(uint32_t val)
--{
--	return ((val) << DSI_28nm_8960_PHY_TIMING_CTRL_11_TRIG3_CMD__SHIFT) & DSI_28nm_8960_PHY_TIMING_CTRL_11_TRIG3_CMD__MASK;
--}
--
--#define REG_DSI_28nm_8960_PHY_CTRL_0				0x00000170
--
--#define REG_DSI_28nm_8960_PHY_CTRL_1				0x00000174
--
--#define REG_DSI_28nm_8960_PHY_CTRL_2				0x00000178
--
--#define REG_DSI_28nm_8960_PHY_CTRL_3				0x0000017c
--
--#define REG_DSI_28nm_8960_PHY_STRENGTH_0			0x00000180
--
--#define REG_DSI_28nm_8960_PHY_STRENGTH_1			0x00000184
--
--#define REG_DSI_28nm_8960_PHY_STRENGTH_2			0x00000188
--
--#define REG_DSI_28nm_8960_PHY_BIST_CTRL_0			0x0000018c
--
--#define REG_DSI_28nm_8960_PHY_BIST_CTRL_1			0x00000190
--
--#define REG_DSI_28nm_8960_PHY_BIST_CTRL_2			0x00000194
--
--#define REG_DSI_28nm_8960_PHY_BIST_CTRL_3			0x00000198
--
--#define REG_DSI_28nm_8960_PHY_BIST_CTRL_4			0x0000019c
--
--#define REG_DSI_28nm_8960_PHY_LDO_CTRL				0x000001b0
--
--#define REG_DSI_28nm_8960_PHY_MISC_REGULATOR_CTRL_0		0x00000000
--
--#define REG_DSI_28nm_8960_PHY_MISC_REGULATOR_CTRL_1		0x00000004
--
--#define REG_DSI_28nm_8960_PHY_MISC_REGULATOR_CTRL_2		0x00000008
--
--#define REG_DSI_28nm_8960_PHY_MISC_REGULATOR_CTRL_3		0x0000000c
--
--#define REG_DSI_28nm_8960_PHY_MISC_REGULATOR_CTRL_4		0x00000010
--
--#define REG_DSI_28nm_8960_PHY_MISC_REGULATOR_CTRL_5		0x00000014
--
--#define REG_DSI_28nm_8960_PHY_MISC_REGULATOR_CAL_PWR_CFG	0x00000018
--
--#define REG_DSI_28nm_8960_PHY_MISC_CAL_HW_TRIGGER		0x00000028
--
--#define REG_DSI_28nm_8960_PHY_MISC_CAL_SW_CFG_0			0x0000002c
--
--#define REG_DSI_28nm_8960_PHY_MISC_CAL_SW_CFG_1			0x00000030
--
--#define REG_DSI_28nm_8960_PHY_MISC_CAL_SW_CFG_2			0x00000034
--
--#define REG_DSI_28nm_8960_PHY_MISC_CAL_HW_CFG_0			0x00000038
--
--#define REG_DSI_28nm_8960_PHY_MISC_CAL_HW_CFG_1			0x0000003c
--
--#define REG_DSI_28nm_8960_PHY_MISC_CAL_HW_CFG_2			0x00000040
--
--#define REG_DSI_28nm_8960_PHY_MISC_CAL_HW_CFG_3			0x00000044
--
--#define REG_DSI_28nm_8960_PHY_MISC_CAL_HW_CFG_4			0x00000048
--
--#define REG_DSI_28nm_8960_PHY_MISC_CAL_STATUS			0x00000050
--#define DSI_28nm_8960_PHY_MISC_CAL_STATUS_CAL_BUSY		0x00000010
--
--#define REG_DSI_28nm_8960_PHY_PLL_CTRL_0			0x00000000
--#define DSI_28nm_8960_PHY_PLL_CTRL_0_ENABLE			0x00000001
--
--#define REG_DSI_28nm_8960_PHY_PLL_CTRL_1			0x00000004
--
--#define REG_DSI_28nm_8960_PHY_PLL_CTRL_2			0x00000008
--
--#define REG_DSI_28nm_8960_PHY_PLL_CTRL_3			0x0000000c
--
--#define REG_DSI_28nm_8960_PHY_PLL_CTRL_4			0x00000010
--
--#define REG_DSI_28nm_8960_PHY_PLL_CTRL_5			0x00000014
--
--#define REG_DSI_28nm_8960_PHY_PLL_CTRL_6			0x00000018
--
--#define REG_DSI_28nm_8960_PHY_PLL_CTRL_7			0x0000001c
--
--#define REG_DSI_28nm_8960_PHY_PLL_CTRL_8			0x00000020
--
--#define REG_DSI_28nm_8960_PHY_PLL_CTRL_9			0x00000024
--
--#define REG_DSI_28nm_8960_PHY_PLL_CTRL_10			0x00000028
--
--#define REG_DSI_28nm_8960_PHY_PLL_CTRL_11			0x0000002c
--
--#define REG_DSI_28nm_8960_PHY_PLL_CTRL_12			0x00000030
--
--#define REG_DSI_28nm_8960_PHY_PLL_CTRL_13			0x00000034
--
--#define REG_DSI_28nm_8960_PHY_PLL_CTRL_14			0x00000038
--
--#define REG_DSI_28nm_8960_PHY_PLL_CTRL_15			0x0000003c
--
--#define REG_DSI_28nm_8960_PHY_PLL_CTRL_16			0x00000040
--
--#define REG_DSI_28nm_8960_PHY_PLL_CTRL_17			0x00000044
--
--#define REG_DSI_28nm_8960_PHY_PLL_CTRL_18			0x00000048
--
--#define REG_DSI_28nm_8960_PHY_PLL_CTRL_19			0x0000004c
--
--#define REG_DSI_28nm_8960_PHY_PLL_CTRL_20			0x00000050
--
--#define REG_DSI_28nm_8960_PHY_PLL_RDY				0x00000080
--#define DSI_28nm_8960_PHY_PLL_RDY_PLL_RDY			0x00000001
--
--
--#endif /* DSI_PHY_28NM_8960_XML */
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_phy_7nm.xml.h b/drivers/gpu/drm/msm/dsi/dsi_phy_7nm.xml.h
-deleted file mode 100644
-index 584cbd0205ef..000000000000
---- a/drivers/gpu/drm/msm/dsi/dsi_phy_7nm.xml.h
-+++ /dev/null
-@@ -1,483 +0,0 @@
--#ifndef DSI_PHY_7NM_XML
--#define DSI_PHY_7NM_XML
--
--/* Autogenerated file, DO NOT EDIT manually!
--
--This file was generated by the rules-ng-ng headergen tool in this git repository:
--http://github.com/freedreno/envytools/
--git clone https://github.com/freedreno/envytools.git
--
--The rules-ng-ng source files this header was generated from are:
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/msm.xml                   (    944 bytes, from 2022-07-23 20:21:46)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/freedreno_copyright.xml   (   1572 bytes, from 2022-07-23 20:21:46)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/mdp/mdp4.xml              (  20912 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/mdp/mdp_common.xml        (   2849 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/mdp/mdp5.xml              (  37461 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi.xml               (  18746 bytes, from 2022-04-28 17:29:36)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_v2.xml        (   3236 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_28nm_8960.xml (   4935 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_28nm.xml      (   7004 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_20nm.xml      (   3712 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_14nm.xml      (   5381 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_10nm.xml      (   4499 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_7nm.xml       (  11007 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/sfpb.xml              (    602 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/mmss_cc.xml           (   1686 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/hdmi/qfprom.xml           (    600 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/hdmi/hdmi.xml             (  42350 bytes, from 2022-09-20 17:45:56)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/edp/edp.xml               (  10416 bytes, from 2022-03-08 17:40:42)
--
--Copyright (C) 2013-2022 by the following authors:
--- Rob Clark <robdclark@gmail.com> (robclark)
--- Ilia Mirkin <imirkin@alum.mit.edu> (imirkin)
--
--Permission is hereby granted, free of charge, to any person obtaining
--a copy of this software and associated documentation files (the
--"Software"), to deal in the Software without restriction, including
--without limitation the rights to use, copy, modify, merge, publish,
--distribute, sublicense, and/or sell copies of the Software, and to
--permit persons to whom the Software is furnished to do so, subject to
--the following conditions:
--
--The above copyright notice and this permission notice (including the
--next paragraph) shall be included in all copies or substantial
--portions of the Software.
--
--THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
--EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
--MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
--IN NO EVENT SHALL THE COPYRIGHT OWNER(S) AND/OR ITS SUPPLIERS BE
--LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
--OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
--WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
--*/
--
--
--#define REG_DSI_7nm_PHY_CMN_REVISION_ID0			0x00000000
--
--#define REG_DSI_7nm_PHY_CMN_REVISION_ID1			0x00000004
--
--#define REG_DSI_7nm_PHY_CMN_REVISION_ID2			0x00000008
--
--#define REG_DSI_7nm_PHY_CMN_REVISION_ID3			0x0000000c
--
--#define REG_DSI_7nm_PHY_CMN_CLK_CFG0				0x00000010
--
--#define REG_DSI_7nm_PHY_CMN_CLK_CFG1				0x00000014
--
--#define REG_DSI_7nm_PHY_CMN_GLBL_CTRL				0x00000018
--
--#define REG_DSI_7nm_PHY_CMN_RBUF_CTRL				0x0000001c
--
--#define REG_DSI_7nm_PHY_CMN_VREG_CTRL_0				0x00000020
--
--#define REG_DSI_7nm_PHY_CMN_CTRL_0				0x00000024
--
--#define REG_DSI_7nm_PHY_CMN_CTRL_1				0x00000028
--
--#define REG_DSI_7nm_PHY_CMN_CTRL_2				0x0000002c
--
--#define REG_DSI_7nm_PHY_CMN_CTRL_3				0x00000030
--
--#define REG_DSI_7nm_PHY_CMN_LANE_CFG0				0x00000034
--
--#define REG_DSI_7nm_PHY_CMN_LANE_CFG1				0x00000038
--
--#define REG_DSI_7nm_PHY_CMN_PLL_CNTRL				0x0000003c
--
--#define REG_DSI_7nm_PHY_CMN_DPHY_SOT				0x00000040
--
--#define REG_DSI_7nm_PHY_CMN_LANE_CTRL0				0x000000a0
--
--#define REG_DSI_7nm_PHY_CMN_LANE_CTRL1				0x000000a4
--
--#define REG_DSI_7nm_PHY_CMN_LANE_CTRL2				0x000000a8
--
--#define REG_DSI_7nm_PHY_CMN_LANE_CTRL3				0x000000ac
--
--#define REG_DSI_7nm_PHY_CMN_LANE_CTRL4				0x000000b0
--
--#define REG_DSI_7nm_PHY_CMN_TIMING_CTRL_0			0x000000b4
--
--#define REG_DSI_7nm_PHY_CMN_TIMING_CTRL_1			0x000000b8
--
--#define REG_DSI_7nm_PHY_CMN_TIMING_CTRL_2			0x000000bc
--
--#define REG_DSI_7nm_PHY_CMN_TIMING_CTRL_3			0x000000c0
--
--#define REG_DSI_7nm_PHY_CMN_TIMING_CTRL_4			0x000000c4
--
--#define REG_DSI_7nm_PHY_CMN_TIMING_CTRL_5			0x000000c8
--
--#define REG_DSI_7nm_PHY_CMN_TIMING_CTRL_6			0x000000cc
--
--#define REG_DSI_7nm_PHY_CMN_TIMING_CTRL_7			0x000000d0
--
--#define REG_DSI_7nm_PHY_CMN_TIMING_CTRL_8			0x000000d4
--
--#define REG_DSI_7nm_PHY_CMN_TIMING_CTRL_9			0x000000d8
--
--#define REG_DSI_7nm_PHY_CMN_TIMING_CTRL_10			0x000000dc
--
--#define REG_DSI_7nm_PHY_CMN_TIMING_CTRL_11			0x000000e0
--
--#define REG_DSI_7nm_PHY_CMN_TIMING_CTRL_12			0x000000e4
--
--#define REG_DSI_7nm_PHY_CMN_TIMING_CTRL_13			0x000000e8
--
--#define REG_DSI_7nm_PHY_CMN_GLBL_HSTX_STR_CTRL_0		0x000000ec
--
--#define REG_DSI_7nm_PHY_CMN_GLBL_HSTX_STR_CTRL_1		0x000000f0
--
--#define REG_DSI_7nm_PHY_CMN_GLBL_RESCODE_OFFSET_TOP_CTRL	0x000000f4
--
--#define REG_DSI_7nm_PHY_CMN_GLBL_RESCODE_OFFSET_BOT_CTRL	0x000000f8
--
--#define REG_DSI_7nm_PHY_CMN_GLBL_RESCODE_OFFSET_MID_CTRL	0x000000fc
--
--#define REG_DSI_7nm_PHY_CMN_GLBL_LPTX_STR_CTRL			0x00000100
--
--#define REG_DSI_7nm_PHY_CMN_GLBL_PEMPH_CTRL_0			0x00000104
--
--#define REG_DSI_7nm_PHY_CMN_GLBL_PEMPH_CTRL_1			0x00000108
--
--#define REG_DSI_7nm_PHY_CMN_GLBL_STR_SWI_CAL_SEL_CTRL		0x0000010c
--
--#define REG_DSI_7nm_PHY_CMN_VREG_CTRL_1				0x00000110
--
--#define REG_DSI_7nm_PHY_CMN_CTRL_4				0x00000114
--
--#define REG_DSI_7nm_PHY_CMN_GLBL_DIGTOP_SPARE4			0x00000128
--
--#define REG_DSI_7nm_PHY_CMN_PHY_STATUS				0x00000140
--
--#define REG_DSI_7nm_PHY_CMN_LANE_STATUS0			0x00000148
--
--#define REG_DSI_7nm_PHY_CMN_LANE_STATUS1			0x0000014c
--
--#define REG_DSI_7nm_PHY_CMN_GLBL_DIGTOP_SPARE10			0x000001ac
--
--static inline uint32_t REG_DSI_7nm_PHY_LN(uint32_t i0) { return 0x00000000 + 0x80*i0; }
--
--static inline uint32_t REG_DSI_7nm_PHY_LN_CFG0(uint32_t i0) { return 0x00000000 + 0x80*i0; }
--
--static inline uint32_t REG_DSI_7nm_PHY_LN_CFG1(uint32_t i0) { return 0x00000004 + 0x80*i0; }
--
--static inline uint32_t REG_DSI_7nm_PHY_LN_CFG2(uint32_t i0) { return 0x00000008 + 0x80*i0; }
--
--static inline uint32_t REG_DSI_7nm_PHY_LN_TEST_DATAPATH(uint32_t i0) { return 0x0000000c + 0x80*i0; }
--
--static inline uint32_t REG_DSI_7nm_PHY_LN_PIN_SWAP(uint32_t i0) { return 0x00000010 + 0x80*i0; }
--
--static inline uint32_t REG_DSI_7nm_PHY_LN_LPRX_CTRL(uint32_t i0) { return 0x00000014 + 0x80*i0; }
--
--static inline uint32_t REG_DSI_7nm_PHY_LN_TX_DCTRL(uint32_t i0) { return 0x00000018 + 0x80*i0; }
--
--#define REG_DSI_7nm_PHY_PLL_ANALOG_CONTROLS_ONE			0x00000000
--
--#define REG_DSI_7nm_PHY_PLL_ANALOG_CONTROLS_TWO			0x00000004
--
--#define REG_DSI_7nm_PHY_PLL_INT_LOOP_SETTINGS			0x00000008
--
--#define REG_DSI_7nm_PHY_PLL_INT_LOOP_SETTINGS_TWO		0x0000000c
--
--#define REG_DSI_7nm_PHY_PLL_ANALOG_CONTROLS_THREE		0x00000010
--
--#define REG_DSI_7nm_PHY_PLL_ANALOG_CONTROLS_FOUR		0x00000014
--
--#define REG_DSI_7nm_PHY_PLL_ANALOG_CONTROLS_FIVE		0x00000018
--
--#define REG_DSI_7nm_PHY_PLL_INT_LOOP_CONTROLS			0x0000001c
--
--#define REG_DSI_7nm_PHY_PLL_DSM_DIVIDER				0x00000020
--
--#define REG_DSI_7nm_PHY_PLL_FEEDBACK_DIVIDER			0x00000024
--
--#define REG_DSI_7nm_PHY_PLL_SYSTEM_MUXES			0x00000028
--
--#define REG_DSI_7nm_PHY_PLL_FREQ_UPDATE_CONTROL_OVERRIDES	0x0000002c
--
--#define REG_DSI_7nm_PHY_PLL_CMODE				0x00000030
--
--#define REG_DSI_7nm_PHY_PLL_PSM_CTRL				0x00000034
--
--#define REG_DSI_7nm_PHY_PLL_RSM_CTRL				0x00000038
--
--#define REG_DSI_7nm_PHY_PLL_VCO_TUNE_MAP			0x0000003c
--
--#define REG_DSI_7nm_PHY_PLL_PLL_CNTRL				0x00000040
--
--#define REG_DSI_7nm_PHY_PLL_CALIBRATION_SETTINGS		0x00000044
--
--#define REG_DSI_7nm_PHY_PLL_BAND_SEL_CAL_TIMER_LOW		0x00000048
--
--#define REG_DSI_7nm_PHY_PLL_BAND_SEL_CAL_TIMER_HIGH		0x0000004c
--
--#define REG_DSI_7nm_PHY_PLL_BAND_SEL_CAL_SETTINGS		0x00000050
--
--#define REG_DSI_7nm_PHY_PLL_BAND_SEL_MIN			0x00000054
--
--#define REG_DSI_7nm_PHY_PLL_BAND_SEL_MAX			0x00000058
--
--#define REG_DSI_7nm_PHY_PLL_BAND_SEL_PFILT			0x0000005c
--
--#define REG_DSI_7nm_PHY_PLL_BAND_SEL_IFILT			0x00000060
--
--#define REG_DSI_7nm_PHY_PLL_BAND_SEL_CAL_SETTINGS_TWO		0x00000064
--
--#define REG_DSI_7nm_PHY_PLL_BAND_SEL_CAL_SETTINGS_THREE		0x00000068
--
--#define REG_DSI_7nm_PHY_PLL_BAND_SEL_CAL_SETTINGS_FOUR		0x0000006c
--
--#define REG_DSI_7nm_PHY_PLL_BAND_SEL_ICODE_HIGH			0x00000070
--
--#define REG_DSI_7nm_PHY_PLL_BAND_SEL_ICODE_LOW			0x00000074
--
--#define REG_DSI_7nm_PHY_PLL_FREQ_DETECT_SETTINGS_ONE		0x00000078
--
--#define REG_DSI_7nm_PHY_PLL_FREQ_DETECT_THRESH			0x0000007c
--
--#define REG_DSI_7nm_PHY_PLL_FREQ_DET_REFCLK_HIGH		0x00000080
--
--#define REG_DSI_7nm_PHY_PLL_FREQ_DET_REFCLK_LOW			0x00000084
--
--#define REG_DSI_7nm_PHY_PLL_FREQ_DET_PLLCLK_HIGH		0x00000088
--
--#define REG_DSI_7nm_PHY_PLL_FREQ_DET_PLLCLK_LOW			0x0000008c
--
--#define REG_DSI_7nm_PHY_PLL_PFILT				0x00000090
--
--#define REG_DSI_7nm_PHY_PLL_IFILT				0x00000094
--
--#define REG_DSI_7nm_PHY_PLL_PLL_GAIN				0x00000098
--
--#define REG_DSI_7nm_PHY_PLL_ICODE_LOW				0x0000009c
--
--#define REG_DSI_7nm_PHY_PLL_ICODE_HIGH				0x000000a0
--
--#define REG_DSI_7nm_PHY_PLL_LOCKDET				0x000000a4
--
--#define REG_DSI_7nm_PHY_PLL_OUTDIV				0x000000a8
--
--#define REG_DSI_7nm_PHY_PLL_FASTLOCK_CONTROL			0x000000ac
--
--#define REG_DSI_7nm_PHY_PLL_PASS_OUT_OVERRIDE_ONE		0x000000b0
--
--#define REG_DSI_7nm_PHY_PLL_PASS_OUT_OVERRIDE_TWO		0x000000b4
--
--#define REG_DSI_7nm_PHY_PLL_CORE_OVERRIDE			0x000000b8
--
--#define REG_DSI_7nm_PHY_PLL_CORE_INPUT_OVERRIDE			0x000000bc
--
--#define REG_DSI_7nm_PHY_PLL_RATE_CHANGE				0x000000c0
--
--#define REG_DSI_7nm_PHY_PLL_PLL_DIGITAL_TIMERS			0x000000c4
--
--#define REG_DSI_7nm_PHY_PLL_PLL_DIGITAL_TIMERS_TWO		0x000000c8
--
--#define REG_DSI_7nm_PHY_PLL_DECIMAL_DIV_START			0x000000cc
--
--#define REG_DSI_7nm_PHY_PLL_FRAC_DIV_START_LOW			0x000000d0
--
--#define REG_DSI_7nm_PHY_PLL_FRAC_DIV_START_MID			0x000000d4
--
--#define REG_DSI_7nm_PHY_PLL_FRAC_DIV_START_HIGH			0x000000d8
--
--#define REG_DSI_7nm_PHY_PLL_DEC_FRAC_MUXES			0x000000dc
--
--#define REG_DSI_7nm_PHY_PLL_DECIMAL_DIV_START_1			0x000000e0
--
--#define REG_DSI_7nm_PHY_PLL_FRAC_DIV_START_LOW_1		0x000000e4
--
--#define REG_DSI_7nm_PHY_PLL_FRAC_DIV_START_MID_1		0x000000e8
--
--#define REG_DSI_7nm_PHY_PLL_FRAC_DIV_START_HIGH_1		0x000000ec
--
--#define REG_DSI_7nm_PHY_PLL_DECIMAL_DIV_START_2			0x000000f0
--
--#define REG_DSI_7nm_PHY_PLL_FRAC_DIV_START_LOW_2		0x000000f4
--
--#define REG_DSI_7nm_PHY_PLL_FRAC_DIV_START_MID_2		0x000000f8
--
--#define REG_DSI_7nm_PHY_PLL_FRAC_DIV_START_HIGH_2		0x000000fc
--
--#define REG_DSI_7nm_PHY_PLL_MASH_CONTROL			0x00000100
--
--#define REG_DSI_7nm_PHY_PLL_SSC_STEPSIZE_LOW			0x00000104
--
--#define REG_DSI_7nm_PHY_PLL_SSC_STEPSIZE_HIGH			0x00000108
--
--#define REG_DSI_7nm_PHY_PLL_SSC_DIV_PER_LOW			0x0000010c
--
--#define REG_DSI_7nm_PHY_PLL_SSC_DIV_PER_HIGH			0x00000110
--
--#define REG_DSI_7nm_PHY_PLL_SSC_ADJPER_LOW			0x00000114
--
--#define REG_DSI_7nm_PHY_PLL_SSC_ADJPER_HIGH			0x00000118
--
--#define REG_DSI_7nm_PHY_PLL_SSC_MUX_CONTROL			0x0000011c
--
--#define REG_DSI_7nm_PHY_PLL_SSC_STEPSIZE_LOW_1			0x00000120
--
--#define REG_DSI_7nm_PHY_PLL_SSC_STEPSIZE_HIGH_1			0x00000124
--
--#define REG_DSI_7nm_PHY_PLL_SSC_DIV_PER_LOW_1			0x00000128
--
--#define REG_DSI_7nm_PHY_PLL_SSC_DIV_PER_HIGH_1			0x0000012c
--
--#define REG_DSI_7nm_PHY_PLL_SSC_ADJPER_LOW_1			0x00000130
--
--#define REG_DSI_7nm_PHY_PLL_SSC_ADJPER_HIGH_1			0x00000134
--
--#define REG_DSI_7nm_PHY_PLL_SSC_STEPSIZE_LOW_2			0x00000138
--
--#define REG_DSI_7nm_PHY_PLL_SSC_STEPSIZE_HIGH_2			0x0000013c
--
--#define REG_DSI_7nm_PHY_PLL_SSC_DIV_PER_LOW_2			0x00000140
--
--#define REG_DSI_7nm_PHY_PLL_SSC_DIV_PER_HIGH_2			0x00000144
--
--#define REG_DSI_7nm_PHY_PLL_SSC_ADJPER_LOW_2			0x00000148
--
--#define REG_DSI_7nm_PHY_PLL_SSC_ADJPER_HIGH_2			0x0000014c
--
--#define REG_DSI_7nm_PHY_PLL_SSC_CONTROL				0x00000150
--
--#define REG_DSI_7nm_PHY_PLL_PLL_OUTDIV_RATE			0x00000154
--
--#define REG_DSI_7nm_PHY_PLL_PLL_LOCKDET_RATE_1			0x00000158
--
--#define REG_DSI_7nm_PHY_PLL_PLL_LOCKDET_RATE_2			0x0000015c
--
--#define REG_DSI_7nm_PHY_PLL_PLL_PROP_GAIN_RATE_1		0x00000160
--
--#define REG_DSI_7nm_PHY_PLL_PLL_PROP_GAIN_RATE_2		0x00000164
--
--#define REG_DSI_7nm_PHY_PLL_PLL_BAND_SEL_RATE_1			0x00000168
--
--#define REG_DSI_7nm_PHY_PLL_PLL_BAND_SEL_RATE_2			0x0000016c
--
--#define REG_DSI_7nm_PHY_PLL_PLL_INT_GAIN_IFILT_BAND_1		0x00000170
--
--#define REG_DSI_7nm_PHY_PLL_PLL_INT_GAIN_IFILT_BAND_2		0x00000174
--
--#define REG_DSI_7nm_PHY_PLL_PLL_FL_INT_GAIN_PFILT_BAND_1	0x00000178
--
--#define REG_DSI_7nm_PHY_PLL_PLL_FL_INT_GAIN_PFILT_BAND_2	0x0000017c
--
--#define REG_DSI_7nm_PHY_PLL_PLL_FASTLOCK_EN_BAND		0x00000180
--
--#define REG_DSI_7nm_PHY_PLL_FREQ_TUNE_ACCUM_INIT_MID		0x00000184
--
--#define REG_DSI_7nm_PHY_PLL_FREQ_TUNE_ACCUM_INIT_HIGH		0x00000188
--
--#define REG_DSI_7nm_PHY_PLL_FREQ_TUNE_ACCUM_INIT_MUX		0x0000018c
--
--#define REG_DSI_7nm_PHY_PLL_PLL_LOCK_OVERRIDE			0x00000190
--
--#define REG_DSI_7nm_PHY_PLL_PLL_LOCK_DELAY			0x00000194
--
--#define REG_DSI_7nm_PHY_PLL_PLL_LOCK_MIN_DELAY			0x00000198
--
--#define REG_DSI_7nm_PHY_PLL_CLOCK_INVERTERS			0x0000019c
--
--#define REG_DSI_7nm_PHY_PLL_SPARE_AND_JPC_OVERRIDES		0x000001a0
--
--#define REG_DSI_7nm_PHY_PLL_BIAS_CONTROL_1			0x000001a4
--
--#define REG_DSI_7nm_PHY_PLL_BIAS_CONTROL_2			0x000001a8
--
--#define REG_DSI_7nm_PHY_PLL_ALOG_OBSV_BUS_CTRL_1		0x000001ac
--
--#define REG_DSI_7nm_PHY_PLL_COMMON_STATUS_ONE			0x000001b0
--
--#define REG_DSI_7nm_PHY_PLL_COMMON_STATUS_TWO			0x000001b4
--
--#define REG_DSI_7nm_PHY_PLL_BAND_SEL_CAL			0x000001b8
--
--#define REG_DSI_7nm_PHY_PLL_ICODE_ACCUM_STATUS_LOW		0x000001bc
--
--#define REG_DSI_7nm_PHY_PLL_ICODE_ACCUM_STATUS_HIGH		0x000001c0
--
--#define REG_DSI_7nm_PHY_PLL_FD_OUT_LOW				0x000001c4
--
--#define REG_DSI_7nm_PHY_PLL_FD_OUT_HIGH				0x000001c8
--
--#define REG_DSI_7nm_PHY_PLL_ALOG_OBSV_BUS_STATUS_1		0x000001cc
--
--#define REG_DSI_7nm_PHY_PLL_PLL_MISC_CONFIG			0x000001d0
--
--#define REG_DSI_7nm_PHY_PLL_FLL_CONFIG				0x000001d4
--
--#define REG_DSI_7nm_PHY_PLL_FLL_FREQ_ACQ_TIME			0x000001d8
--
--#define REG_DSI_7nm_PHY_PLL_FLL_CODE0				0x000001dc
--
--#define REG_DSI_7nm_PHY_PLL_FLL_CODE1				0x000001e0
--
--#define REG_DSI_7nm_PHY_PLL_FLL_GAIN0				0x000001e4
--
--#define REG_DSI_7nm_PHY_PLL_FLL_GAIN1				0x000001e8
--
--#define REG_DSI_7nm_PHY_PLL_SW_RESET				0x000001ec
--
--#define REG_DSI_7nm_PHY_PLL_FAST_PWRUP				0x000001f0
--
--#define REG_DSI_7nm_PHY_PLL_LOCKTIME0				0x000001f4
--
--#define REG_DSI_7nm_PHY_PLL_LOCKTIME1				0x000001f8
--
--#define REG_DSI_7nm_PHY_PLL_DEBUG_BUS_SEL			0x000001fc
--
--#define REG_DSI_7nm_PHY_PLL_DEBUG_BUS0				0x00000200
--
--#define REG_DSI_7nm_PHY_PLL_DEBUG_BUS1				0x00000204
--
--#define REG_DSI_7nm_PHY_PLL_DEBUG_BUS2				0x00000208
--
--#define REG_DSI_7nm_PHY_PLL_DEBUG_BUS3				0x0000020c
--
--#define REG_DSI_7nm_PHY_PLL_ANALOG_FLL_CONTROL_OVERRIDES	0x00000210
--
--#define REG_DSI_7nm_PHY_PLL_VCO_CONFIG				0x00000214
--
--#define REG_DSI_7nm_PHY_PLL_VCO_CAL_CODE1_MODE0_STATUS		0x00000218
--
--#define REG_DSI_7nm_PHY_PLL_VCO_CAL_CODE1_MODE1_STATUS		0x0000021c
--
--#define REG_DSI_7nm_PHY_PLL_RESET_SM_STATUS			0x00000220
--
--#define REG_DSI_7nm_PHY_PLL_TDC_OFFSET				0x00000224
--
--#define REG_DSI_7nm_PHY_PLL_PS3_PWRDOWN_CONTROLS		0x00000228
--
--#define REG_DSI_7nm_PHY_PLL_PS4_PWRDOWN_CONTROLS		0x0000022c
--
--#define REG_DSI_7nm_PHY_PLL_PLL_RST_CONTROLS			0x00000230
--
--#define REG_DSI_7nm_PHY_PLL_GEAR_BAND_SELECT_CONTROLS		0x00000234
--
--#define REG_DSI_7nm_PHY_PLL_PSM_CLK_CONTROLS			0x00000238
--
--#define REG_DSI_7nm_PHY_PLL_SYSTEM_MUXES_2			0x0000023c
--
--#define REG_DSI_7nm_PHY_PLL_VCO_CONFIG_1			0x00000240
--
--#define REG_DSI_7nm_PHY_PLL_VCO_CONFIG_2			0x00000244
--
--#define REG_DSI_7nm_PHY_PLL_CLOCK_INVERTERS_1			0x00000248
--
--#define REG_DSI_7nm_PHY_PLL_CLOCK_INVERTERS_2			0x0000024c
--
--#define REG_DSI_7nm_PHY_PLL_CMODE_1				0x00000250
--
--#define REG_DSI_7nm_PHY_PLL_CMODE_2				0x00000254
--
--#define REG_DSI_7nm_PHY_PLL_ANALOG_CONTROLS_FIVE_1		0x00000258
--
--#define REG_DSI_7nm_PHY_PLL_ANALOG_CONTROLS_FIVE_2		0x0000025c
--
--#define REG_DSI_7nm_PHY_PLL_PERF_OPTIMIZE			0x00000260
--
--
--#endif /* DSI_PHY_7NM_XML */
-diff --git a/drivers/gpu/drm/msm/dsi/sfpb.xml.h b/drivers/gpu/drm/msm/dsi/sfpb.xml.h
-deleted file mode 100644
-index 344a1a1620cd..000000000000
---- a/drivers/gpu/drm/msm/dsi/sfpb.xml.h
-+++ /dev/null
-@@ -1,70 +0,0 @@
--#ifndef SFPB_XML
--#define SFPB_XML
--
--/* Autogenerated file, DO NOT EDIT manually!
--
--This file was generated by the rules-ng-ng headergen tool in this git repository:
--http://github.com/freedreno/envytools/
--git clone https://github.com/freedreno/envytools.git
--
--The rules-ng-ng source files this header was generated from are:
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/msm.xml                   (    944 bytes, from 2022-07-23 20:21:46)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/freedreno_copyright.xml   (   1572 bytes, from 2022-07-23 20:21:46)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/mdp/mdp4.xml              (  20912 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/mdp/mdp_common.xml        (   2849 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/mdp/mdp5.xml              (  37461 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi.xml               (  18746 bytes, from 2022-04-28 17:29:36)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_v2.xml        (   3236 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_28nm_8960.xml (   4935 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_28nm.xml      (   7004 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_20nm.xml      (   3712 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_14nm.xml      (   5381 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_10nm.xml      (   4499 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_7nm.xml       (  11007 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/sfpb.xml              (    602 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/mmss_cc.xml           (   1686 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/hdmi/qfprom.xml           (    600 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/hdmi/hdmi.xml             (  42350 bytes, from 2022-09-20 17:45:56)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/edp/edp.xml               (  10416 bytes, from 2022-03-08 17:40:42)
--
--Copyright (C) 2013-2022 by the following authors:
--- Rob Clark <robdclark@gmail.com> (robclark)
--- Ilia Mirkin <imirkin@alum.mit.edu> (imirkin)
--
--Permission is hereby granted, free of charge, to any person obtaining
--a copy of this software and associated documentation files (the
--"Software"), to deal in the Software without restriction, including
--without limitation the rights to use, copy, modify, merge, publish,
--distribute, sublicense, and/or sell copies of the Software, and to
--permit persons to whom the Software is furnished to do so, subject to
--the following conditions:
--
--The above copyright notice and this permission notice (including the
--next paragraph) shall be included in all copies or substantial
--portions of the Software.
--
--THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
--EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
--MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
--IN NO EVENT SHALL THE COPYRIGHT OWNER(S) AND/OR ITS SUPPLIERS BE
--LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
--OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
--WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
--*/
--
--
--enum sfpb_ahb_arb_master_port_en {
--	SFPB_MASTER_PORT_ENABLE = 3,
--	SFPB_MASTER_PORT_DISABLE = 0,
--};
--
--#define REG_SFPB_GPREG						0x00000058
--#define SFPB_GPREG_MASTER_PORT_EN__MASK				0x00001800
--#define SFPB_GPREG_MASTER_PORT_EN__SHIFT			11
--static inline uint32_t SFPB_GPREG_MASTER_PORT_EN(enum sfpb_ahb_arb_master_port_en val)
--{
--	return ((val) << SFPB_GPREG_MASTER_PORT_EN__SHIFT) & SFPB_GPREG_MASTER_PORT_EN__MASK;
--}
--
--
--#endif /* SFPB_XML */
-diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.xml.h b/drivers/gpu/drm/msm/hdmi/hdmi.xml.h
-deleted file mode 100644
-index 973b460486a5..000000000000
---- a/drivers/gpu/drm/msm/hdmi/hdmi.xml.h
-+++ /dev/null
-@@ -1,1399 +0,0 @@
--#ifndef HDMI_XML
--#define HDMI_XML
--
--/* Autogenerated file, DO NOT EDIT manually!
--
--This file was generated by the rules-ng-ng headergen tool in this git repository:
--http://github.com/freedreno/envytools/
--git clone https://github.com/freedreno/envytools.git
--
--The rules-ng-ng source files this header was generated from are:
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/msm.xml                   (    944 bytes, from 2022-07-23 20:21:46)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/freedreno_copyright.xml   (   1572 bytes, from 2022-07-23 20:21:46)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/mdp/mdp4.xml              (  20912 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/mdp/mdp_common.xml        (   2849 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/mdp/mdp5.xml              (  37461 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi.xml               (  18746 bytes, from 2022-04-28 17:29:36)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_v2.xml        (   3236 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_28nm_8960.xml (   4935 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_28nm.xml      (   7004 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_20nm.xml      (   3712 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_14nm.xml      (   5381 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_10nm.xml      (   4499 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/dsi_phy_7nm.xml       (  11007 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/sfpb.xml              (    602 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/dsi/mmss_cc.xml           (   1686 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/hdmi/qfprom.xml           (    600 bytes, from 2022-03-08 17:40:42)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/hdmi/hdmi.xml             (  42350 bytes, from 2022-09-20 17:45:56)
--- /home/robclark/src/mesa/mesa/src/freedreno/registers/edp/edp.xml               (  10416 bytes, from 2022-03-08 17:40:42)
--
--Copyright (C) 2013-2022 by the following authors:
--- Rob Clark <robdclark@gmail.com> (robclark)
--- Ilia Mirkin <imirkin@alum.mit.edu> (imirkin)
--
--Permission is hereby granted, free of charge, to any person obtaining
--a copy of this software and associated documentation files (the
--"Software"), to deal in the Software without restriction, including
--without limitation the rights to use, copy, modify, merge, publish,
--distribute, sublicense, and/or sell copies of the Software, and to
--permit persons to whom the Software is furnished to do so, subject to
--the following conditions:
--
--The above copyright notice and this permission notice (including the
--next paragraph) shall be included in all copies or substantial
--portions of the Software.
--
--THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
--EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
--MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
--IN NO EVENT SHALL THE COPYRIGHT OWNER(S) AND/OR ITS SUPPLIERS BE
--LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
--OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
--WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
--*/
--
--
--enum hdmi_hdcp_key_state {
--	HDCP_KEYS_STATE_NO_KEYS = 0,
--	HDCP_KEYS_STATE_NOT_CHECKED = 1,
--	HDCP_KEYS_STATE_CHECKING = 2,
--	HDCP_KEYS_STATE_VALID = 3,
--	HDCP_KEYS_STATE_AKSV_NOT_VALID = 4,
--	HDCP_KEYS_STATE_CHKSUM_MISMATCH = 5,
--	HDCP_KEYS_STATE_PROD_AKSV = 6,
--	HDCP_KEYS_STATE_RESERVED = 7,
--};
--
--enum hdmi_ddc_read_write {
--	DDC_WRITE = 0,
--	DDC_READ = 1,
--};
--
--enum hdmi_acr_cts {
--	ACR_NONE = 0,
--	ACR_32 = 1,
--	ACR_44 = 2,
--	ACR_48 = 3,
--};
--
--#define REG_HDMI_CTRL						0x00000000
--#define HDMI_CTRL_ENABLE					0x00000001
--#define HDMI_CTRL_HDMI						0x00000002
--#define HDMI_CTRL_ENCRYPTED					0x00000004
--
--#define REG_HDMI_AUDIO_PKT_CTRL1				0x00000020
--#define HDMI_AUDIO_PKT_CTRL1_AUDIO_SAMPLE_SEND			0x00000001
--
--#define REG_HDMI_ACR_PKT_CTRL					0x00000024
--#define HDMI_ACR_PKT_CTRL_CONT					0x00000001
--#define HDMI_ACR_PKT_CTRL_SEND					0x00000002
--#define HDMI_ACR_PKT_CTRL_SELECT__MASK				0x00000030
--#define HDMI_ACR_PKT_CTRL_SELECT__SHIFT				4
--static inline uint32_t HDMI_ACR_PKT_CTRL_SELECT(enum hdmi_acr_cts val)
--{
--	return ((val) << HDMI_ACR_PKT_CTRL_SELECT__SHIFT) & HDMI_ACR_PKT_CTRL_SELECT__MASK;
--}
--#define HDMI_ACR_PKT_CTRL_SOURCE				0x00000100
--#define HDMI_ACR_PKT_CTRL_N_MULTIPLIER__MASK			0x00070000
--#define HDMI_ACR_PKT_CTRL_N_MULTIPLIER__SHIFT			16
--static inline uint32_t HDMI_ACR_PKT_CTRL_N_MULTIPLIER(uint32_t val)
--{
--	return ((val) << HDMI_ACR_PKT_CTRL_N_MULTIPLIER__SHIFT) & HDMI_ACR_PKT_CTRL_N_MULTIPLIER__MASK;
--}
--#define HDMI_ACR_PKT_CTRL_AUDIO_PRIORITY			0x80000000
--
--#define REG_HDMI_VBI_PKT_CTRL					0x00000028
--#define HDMI_VBI_PKT_CTRL_GC_ENABLE				0x00000010
--#define HDMI_VBI_PKT_CTRL_GC_EVERY_FRAME			0x00000020
--#define HDMI_VBI_PKT_CTRL_ISRC_SEND				0x00000100
--#define HDMI_VBI_PKT_CTRL_ISRC_CONTINUOUS			0x00000200
--#define HDMI_VBI_PKT_CTRL_ACP_SEND				0x00001000
--#define HDMI_VBI_PKT_CTRL_ACP_SRC_SW				0x00002000
--
--#define REG_HDMI_INFOFRAME_CTRL0				0x0000002c
--#define HDMI_INFOFRAME_CTRL0_AVI_SEND				0x00000001
--#define HDMI_INFOFRAME_CTRL0_AVI_CONT				0x00000002
--#define HDMI_INFOFRAME_CTRL0_AUDIO_INFO_SEND			0x00000010
--#define HDMI_INFOFRAME_CTRL0_AUDIO_INFO_CONT			0x00000020
--#define HDMI_INFOFRAME_CTRL0_AUDIO_INFO_SOURCE			0x00000040
--#define HDMI_INFOFRAME_CTRL0_AUDIO_INFO_UPDATE			0x00000080
--
--#define REG_HDMI_INFOFRAME_CTRL1				0x00000030
--#define HDMI_INFOFRAME_CTRL1_AVI_INFO_LINE__MASK		0x0000003f
--#define HDMI_INFOFRAME_CTRL1_AVI_INFO_LINE__SHIFT		0
--static inline uint32_t HDMI_INFOFRAME_CTRL1_AVI_INFO_LINE(uint32_t val)
--{
--	return ((val) << HDMI_INFOFRAME_CTRL1_AVI_INFO_LINE__SHIFT) & HDMI_INFOFRAME_CTRL1_AVI_INFO_LINE__MASK;
--}
--#define HDMI_INFOFRAME_CTRL1_AUDIO_INFO_LINE__MASK		0x00003f00
--#define HDMI_INFOFRAME_CTRL1_AUDIO_INFO_LINE__SHIFT		8
--static inline uint32_t HDMI_INFOFRAME_CTRL1_AUDIO_INFO_LINE(uint32_t val)
--{
--	return ((val) << HDMI_INFOFRAME_CTRL1_AUDIO_INFO_LINE__SHIFT) & HDMI_INFOFRAME_CTRL1_AUDIO_INFO_LINE__MASK;
--}
--#define HDMI_INFOFRAME_CTRL1_MPEG_INFO_LINE__MASK		0x003f0000
--#define HDMI_INFOFRAME_CTRL1_MPEG_INFO_LINE__SHIFT		16
--static inline uint32_t HDMI_INFOFRAME_CTRL1_MPEG_INFO_LINE(uint32_t val)
--{
--	return ((val) << HDMI_INFOFRAME_CTRL1_MPEG_INFO_LINE__SHIFT) & HDMI_INFOFRAME_CTRL1_MPEG_INFO_LINE__MASK;
--}
--#define HDMI_INFOFRAME_CTRL1_VENSPEC_INFO_LINE__MASK		0x3f000000
--#define HDMI_INFOFRAME_CTRL1_VENSPEC_INFO_LINE__SHIFT		24
--static inline uint32_t HDMI_INFOFRAME_CTRL1_VENSPEC_INFO_LINE(uint32_t val)
--{
--	return ((val) << HDMI_INFOFRAME_CTRL1_VENSPEC_INFO_LINE__SHIFT) & HDMI_INFOFRAME_CTRL1_VENSPEC_INFO_LINE__MASK;
--}
--
--#define REG_HDMI_GEN_PKT_CTRL					0x00000034
--#define HDMI_GEN_PKT_CTRL_GENERIC0_SEND				0x00000001
--#define HDMI_GEN_PKT_CTRL_GENERIC0_CONT				0x00000002
--#define HDMI_GEN_PKT_CTRL_GENERIC0_UPDATE__MASK			0x0000000c
--#define HDMI_GEN_PKT_CTRL_GENERIC0_UPDATE__SHIFT		2
--static inline uint32_t HDMI_GEN_PKT_CTRL_GENERIC0_UPDATE(uint32_t val)
--{
--	return ((val) << HDMI_GEN_PKT_CTRL_GENERIC0_UPDATE__SHIFT) & HDMI_GEN_PKT_CTRL_GENERIC0_UPDATE__MASK;
--}
--#define HDMI_GEN_PKT_CTRL_GENERIC1_SEND				0x00000010
--#define HDMI_GEN_PKT_CTRL_GENERIC1_CONT				0x00000020
--#define HDMI_GEN_PKT_CTRL_GENERIC0_LINE__MASK			0x003f0000
--#define HDMI_GEN_PKT_CTRL_GENERIC0_LINE__SHIFT			16
--static inline uint32_t HDMI_GEN_PKT_CTRL_GENERIC0_LINE(uint32_t val)
--{
--	return ((val) << HDMI_GEN_PKT_CTRL_GENERIC0_LINE__SHIFT) & HDMI_GEN_PKT_CTRL_GENERIC0_LINE__MASK;
--}
--#define HDMI_GEN_PKT_CTRL_GENERIC1_LINE__MASK			0x3f000000
--#define HDMI_GEN_PKT_CTRL_GENERIC1_LINE__SHIFT			24
--static inline uint32_t HDMI_GEN_PKT_CTRL_GENERIC1_LINE(uint32_t val)
--{
--	return ((val) << HDMI_GEN_PKT_CTRL_GENERIC1_LINE__SHIFT) & HDMI_GEN_PKT_CTRL_GENERIC1_LINE__MASK;
--}
--
--#define REG_HDMI_GC						0x00000040
--#define HDMI_GC_MUTE						0x00000001
--
--#define REG_HDMI_AUDIO_PKT_CTRL2				0x00000044
--#define HDMI_AUDIO_PKT_CTRL2_OVERRIDE				0x00000001
--#define HDMI_AUDIO_PKT_CTRL2_LAYOUT				0x00000002
--
--static inline uint32_t REG_HDMI_AVI_INFO(uint32_t i0) { return 0x0000006c + 0x4*i0; }
--
--#define REG_HDMI_GENERIC0_HDR					0x00000084
--
--static inline uint32_t REG_HDMI_GENERIC0(uint32_t i0) { return 0x00000088 + 0x4*i0; }
--
--#define REG_HDMI_GENERIC1_HDR					0x000000a4
--
--static inline uint32_t REG_HDMI_GENERIC1(uint32_t i0) { return 0x000000a8 + 0x4*i0; }
--
--static inline uint32_t REG_HDMI_ACR(enum hdmi_acr_cts i0) { return 0x000000c4 + 0x8*i0; }
--
--static inline uint32_t REG_HDMI_ACR_0(enum hdmi_acr_cts i0) { return 0x000000c4 + 0x8*i0; }
--#define HDMI_ACR_0_CTS__MASK					0xfffff000
--#define HDMI_ACR_0_CTS__SHIFT					12
--static inline uint32_t HDMI_ACR_0_CTS(uint32_t val)
--{
--	return ((val) << HDMI_ACR_0_CTS__SHIFT) & HDMI_ACR_0_CTS__MASK;
--}
--
--static inline uint32_t REG_HDMI_ACR_1(enum hdmi_acr_cts i0) { return 0x000000c8 + 0x8*i0; }
--#define HDMI_ACR_1_N__MASK					0xffffffff
--#define HDMI_ACR_1_N__SHIFT					0
--static inline uint32_t HDMI_ACR_1_N(uint32_t val)
--{
--	return ((val) << HDMI_ACR_1_N__SHIFT) & HDMI_ACR_1_N__MASK;
--}
--
--#define REG_HDMI_AUDIO_INFO0					0x000000e4
--#define HDMI_AUDIO_INFO0_CHECKSUM__MASK				0x000000ff
--#define HDMI_AUDIO_INFO0_CHECKSUM__SHIFT			0
--static inline uint32_t HDMI_AUDIO_INFO0_CHECKSUM(uint32_t val)
--{
--	return ((val) << HDMI_AUDIO_INFO0_CHECKSUM__SHIFT) & HDMI_AUDIO_INFO0_CHECKSUM__MASK;
--}
--#define HDMI_AUDIO_INFO0_CC__MASK				0x00000700
--#define HDMI_AUDIO_INFO0_CC__SHIFT				8
--static inline uint32_t HDMI_AUDIO_INFO0_CC(uint32_t val)
--{
--	return ((val) << HDMI_AUDIO_INFO0_CC__SHIFT) & HDMI_AUDIO_INFO0_CC__MASK;
--}
--
--#define REG_HDMI_AUDIO_INFO1					0x000000e8
--#define HDMI_AUDIO_INFO1_CA__MASK				0x000000ff
--#define HDMI_AUDIO_INFO1_CA__SHIFT				0
--static inline uint32_t HDMI_AUDIO_INFO1_CA(uint32_t val)
--{
--	return ((val) << HDMI_AUDIO_INFO1_CA__SHIFT) & HDMI_AUDIO_INFO1_CA__MASK;
--}
--#define HDMI_AUDIO_INFO1_LSV__MASK				0x00007800
--#define HDMI_AUDIO_INFO1_LSV__SHIFT				11
--static inline uint32_t HDMI_AUDIO_INFO1_LSV(uint32_t val)
--{
--	return ((val) << HDMI_AUDIO_INFO1_LSV__SHIFT) & HDMI_AUDIO_INFO1_LSV__MASK;
--}
--#define HDMI_AUDIO_INFO1_DM_INH					0x00008000
--
--#define REG_HDMI_HDCP_CTRL					0x00000110
--#define HDMI_HDCP_CTRL_ENABLE					0x00000001
--#define HDMI_HDCP_CTRL_ENCRYPTION_ENABLE			0x00000100
--
--#define REG_HDMI_HDCP_DEBUG_CTRL				0x00000114
--#define HDMI_HDCP_DEBUG_CTRL_RNG_CIPHER				0x00000004
--
--#define REG_HDMI_HDCP_INT_CTRL					0x00000118
--#define HDMI_HDCP_INT_CTRL_AUTH_SUCCESS_INT			0x00000001
--#define HDMI_HDCP_INT_CTRL_AUTH_SUCCESS_ACK			0x00000002
--#define HDMI_HDCP_INT_CTRL_AUTH_SUCCESS_MASK			0x00000004
--#define HDMI_HDCP_INT_CTRL_AUTH_FAIL_INT			0x00000010
--#define HDMI_HDCP_INT_CTRL_AUTH_FAIL_ACK			0x00000020
--#define HDMI_HDCP_INT_CTRL_AUTH_FAIL_MASK			0x00000040
--#define HDMI_HDCP_INT_CTRL_AUTH_FAIL_INFO_ACK			0x00000080
--#define HDMI_HDCP_INT_CTRL_AUTH_XFER_REQ_INT			0x00000100
--#define HDMI_HDCP_INT_CTRL_AUTH_XFER_REQ_ACK			0x00000200
--#define HDMI_HDCP_INT_CTRL_AUTH_XFER_REQ_MASK			0x00000400
--#define HDMI_HDCP_INT_CTRL_AUTH_XFER_DONE_INT			0x00001000
--#define HDMI_HDCP_INT_CTRL_AUTH_XFER_DONE_ACK			0x00002000
--#define HDMI_HDCP_INT_CTRL_AUTH_XFER_DONE_MASK			0x00004000
--
--#define REG_HDMI_HDCP_LINK0_STATUS				0x0000011c
--#define HDMI_HDCP_LINK0_STATUS_AN_0_READY			0x00000100
--#define HDMI_HDCP_LINK0_STATUS_AN_1_READY			0x00000200
--#define HDMI_HDCP_LINK0_STATUS_RI_MATCHES			0x00001000
--#define HDMI_HDCP_LINK0_STATUS_V_MATCHES			0x00100000
--#define HDMI_HDCP_LINK0_STATUS_KEY_STATE__MASK			0x70000000
--#define HDMI_HDCP_LINK0_STATUS_KEY_STATE__SHIFT			28
--static inline uint32_t HDMI_HDCP_LINK0_STATUS_KEY_STATE(enum hdmi_hdcp_key_state val)
--{
--	return ((val) << HDMI_HDCP_LINK0_STATUS_KEY_STATE__SHIFT) & HDMI_HDCP_LINK0_STATUS_KEY_STATE__MASK;
--}
--
--#define REG_HDMI_HDCP_DDC_CTRL_0				0x00000120
--#define HDMI_HDCP_DDC_CTRL_0_DISABLE				0x00000001
--
--#define REG_HDMI_HDCP_DDC_CTRL_1				0x00000124
--#define HDMI_HDCP_DDC_CTRL_1_FAILED_ACK				0x00000001
--
--#define REG_HDMI_HDCP_DDC_STATUS				0x00000128
--#define HDMI_HDCP_DDC_STATUS_XFER_REQ				0x00000010
--#define HDMI_HDCP_DDC_STATUS_XFER_DONE				0x00000400
--#define HDMI_HDCP_DDC_STATUS_ABORTED				0x00001000
--#define HDMI_HDCP_DDC_STATUS_TIMEOUT				0x00002000
--#define HDMI_HDCP_DDC_STATUS_NACK0				0x00004000
--#define HDMI_HDCP_DDC_STATUS_NACK1				0x00008000
--#define HDMI_HDCP_DDC_STATUS_FAILED				0x00010000
--
--#define REG_HDMI_HDCP_ENTROPY_CTRL0				0x0000012c
--
--#define REG_HDMI_HDCP_ENTROPY_CTRL1				0x0000025c
--
--#define REG_HDMI_HDCP_RESET					0x00000130
--#define HDMI_HDCP_RESET_LINK0_DEAUTHENTICATE			0x00000001
--
--#define REG_HDMI_HDCP_RCVPORT_DATA0				0x00000134
--
--#define REG_HDMI_HDCP_RCVPORT_DATA1				0x00000138
--
--#define REG_HDMI_HDCP_RCVPORT_DATA2_0				0x0000013c
--
--#define REG_HDMI_HDCP_RCVPORT_DATA2_1				0x00000140
--
--#define REG_HDMI_HDCP_RCVPORT_DATA3				0x00000144
--
--#define REG_HDMI_HDCP_RCVPORT_DATA4				0x00000148
--
--#define REG_HDMI_HDCP_RCVPORT_DATA5				0x0000014c
--
--#define REG_HDMI_HDCP_RCVPORT_DATA6				0x00000150
--
--#define REG_HDMI_HDCP_RCVPORT_DATA7				0x00000154
--
--#define REG_HDMI_HDCP_RCVPORT_DATA8				0x00000158
--
--#define REG_HDMI_HDCP_RCVPORT_DATA9				0x0000015c
--
--#define REG_HDMI_HDCP_RCVPORT_DATA10				0x00000160
--
--#define REG_HDMI_HDCP_RCVPORT_DATA11				0x00000164
--
--#define REG_HDMI_HDCP_RCVPORT_DATA12				0x00000168
--
--#define REG_HDMI_VENSPEC_INFO0					0x0000016c
--
--#define REG_HDMI_VENSPEC_INFO1					0x00000170
--
--#define REG_HDMI_VENSPEC_INFO2					0x00000174
--
--#define REG_HDMI_VENSPEC_INFO3					0x00000178
--
--#define REG_HDMI_VENSPEC_INFO4					0x0000017c
--
--#define REG_HDMI_VENSPEC_INFO5					0x00000180
--
--#define REG_HDMI_VENSPEC_INFO6					0x00000184
--
--#define REG_HDMI_AUDIO_CFG					0x000001d0
--#define HDMI_AUDIO_CFG_ENGINE_ENABLE				0x00000001
--#define HDMI_AUDIO_CFG_FIFO_WATERMARK__MASK			0x000000f0
--#define HDMI_AUDIO_CFG_FIFO_WATERMARK__SHIFT			4
--static inline uint32_t HDMI_AUDIO_CFG_FIFO_WATERMARK(uint32_t val)
--{
--	return ((val) << HDMI_AUDIO_CFG_FIFO_WATERMARK__SHIFT) & HDMI_AUDIO_CFG_FIFO_WATERMARK__MASK;
--}
--
--#define REG_HDMI_USEC_REFTIMER					0x00000208
--
--#define REG_HDMI_DDC_CTRL					0x0000020c
--#define HDMI_DDC_CTRL_GO					0x00000001
--#define HDMI_DDC_CTRL_SOFT_RESET				0x00000002
--#define HDMI_DDC_CTRL_SEND_RESET				0x00000004
--#define HDMI_DDC_CTRL_SW_STATUS_RESET				0x00000008
--#define HDMI_DDC_CTRL_TRANSACTION_CNT__MASK			0x00300000
--#define HDMI_DDC_CTRL_TRANSACTION_CNT__SHIFT			20
--static inline uint32_t HDMI_DDC_CTRL_TRANSACTION_CNT(uint32_t val)
--{
--	return ((val) << HDMI_DDC_CTRL_TRANSACTION_CNT__SHIFT) & HDMI_DDC_CTRL_TRANSACTION_CNT__MASK;
--}
--
--#define REG_HDMI_DDC_ARBITRATION				0x00000210
--#define HDMI_DDC_ARBITRATION_HW_ARBITRATION			0x00000010
--
--#define REG_HDMI_DDC_INT_CTRL					0x00000214
--#define HDMI_DDC_INT_CTRL_SW_DONE_INT				0x00000001
--#define HDMI_DDC_INT_CTRL_SW_DONE_ACK				0x00000002
--#define HDMI_DDC_INT_CTRL_SW_DONE_MASK				0x00000004
--
--#define REG_HDMI_DDC_SW_STATUS					0x00000218
--#define HDMI_DDC_SW_STATUS_NACK0				0x00001000
--#define HDMI_DDC_SW_STATUS_NACK1				0x00002000
--#define HDMI_DDC_SW_STATUS_NACK2				0x00004000
--#define HDMI_DDC_SW_STATUS_NACK3				0x00008000
--
--#define REG_HDMI_DDC_HW_STATUS					0x0000021c
--#define HDMI_DDC_HW_STATUS_DONE					0x00000008
--
--#define REG_HDMI_DDC_SPEED					0x00000220
--#define HDMI_DDC_SPEED_THRESHOLD__MASK				0x00000003
--#define HDMI_DDC_SPEED_THRESHOLD__SHIFT				0
--static inline uint32_t HDMI_DDC_SPEED_THRESHOLD(uint32_t val)
--{
--	return ((val) << HDMI_DDC_SPEED_THRESHOLD__SHIFT) & HDMI_DDC_SPEED_THRESHOLD__MASK;
--}
--#define HDMI_DDC_SPEED_PRESCALE__MASK				0xffff0000
--#define HDMI_DDC_SPEED_PRESCALE__SHIFT				16
--static inline uint32_t HDMI_DDC_SPEED_PRESCALE(uint32_t val)
--{
--	return ((val) << HDMI_DDC_SPEED_PRESCALE__SHIFT) & HDMI_DDC_SPEED_PRESCALE__MASK;
--}
--
--#define REG_HDMI_DDC_SETUP					0x00000224
--#define HDMI_DDC_SETUP_TIMEOUT__MASK				0xff000000
--#define HDMI_DDC_SETUP_TIMEOUT__SHIFT				24
--static inline uint32_t HDMI_DDC_SETUP_TIMEOUT(uint32_t val)
--{
--	return ((val) << HDMI_DDC_SETUP_TIMEOUT__SHIFT) & HDMI_DDC_SETUP_TIMEOUT__MASK;
--}
--
--static inline uint32_t REG_HDMI_I2C_TRANSACTION(uint32_t i0) { return 0x00000228 + 0x4*i0; }
--
--static inline uint32_t REG_HDMI_I2C_TRANSACTION_REG(uint32_t i0) { return 0x00000228 + 0x4*i0; }
--#define HDMI_I2C_TRANSACTION_REG_RW__MASK			0x00000001
--#define HDMI_I2C_TRANSACTION_REG_RW__SHIFT			0
--static inline uint32_t HDMI_I2C_TRANSACTION_REG_RW(enum hdmi_ddc_read_write val)
--{
--	return ((val) << HDMI_I2C_TRANSACTION_REG_RW__SHIFT) & HDMI_I2C_TRANSACTION_REG_RW__MASK;
--}
--#define HDMI_I2C_TRANSACTION_REG_STOP_ON_NACK			0x00000100
--#define HDMI_I2C_TRANSACTION_REG_START				0x00001000
--#define HDMI_I2C_TRANSACTION_REG_STOP				0x00002000
--#define HDMI_I2C_TRANSACTION_REG_CNT__MASK			0x00ff0000
--#define HDMI_I2C_TRANSACTION_REG_CNT__SHIFT			16
--static inline uint32_t HDMI_I2C_TRANSACTION_REG_CNT(uint32_t val)
--{
--	return ((val) << HDMI_I2C_TRANSACTION_REG_CNT__SHIFT) & HDMI_I2C_TRANSACTION_REG_CNT__MASK;
--}
--
--#define REG_HDMI_DDC_DATA					0x00000238
--#define HDMI_DDC_DATA_DATA_RW__MASK				0x00000001
--#define HDMI_DDC_DATA_DATA_RW__SHIFT				0
--static inline uint32_t HDMI_DDC_DATA_DATA_RW(enum hdmi_ddc_read_write val)
--{
--	return ((val) << HDMI_DDC_DATA_DATA_RW__SHIFT) & HDMI_DDC_DATA_DATA_RW__MASK;
--}
--#define HDMI_DDC_DATA_DATA__MASK				0x0000ff00
--#define HDMI_DDC_DATA_DATA__SHIFT				8
--static inline uint32_t HDMI_DDC_DATA_DATA(uint32_t val)
--{
--	return ((val) << HDMI_DDC_DATA_DATA__SHIFT) & HDMI_DDC_DATA_DATA__MASK;
--}
--#define HDMI_DDC_DATA_INDEX__MASK				0x00ff0000
--#define HDMI_DDC_DATA_INDEX__SHIFT				16
--static inline uint32_t HDMI_DDC_DATA_INDEX(uint32_t val)
--{
--	return ((val) << HDMI_DDC_DATA_INDEX__SHIFT) & HDMI_DDC_DATA_INDEX__MASK;
--}
--#define HDMI_DDC_DATA_INDEX_WRITE				0x80000000
--
--#define REG_HDMI_HDCP_SHA_CTRL					0x0000023c
--
--#define REG_HDMI_HDCP_SHA_STATUS				0x00000240
--#define HDMI_HDCP_SHA_STATUS_BLOCK_DONE				0x00000001
--#define HDMI_HDCP_SHA_STATUS_COMP_DONE				0x00000010
--
--#define REG_HDMI_HDCP_SHA_DATA					0x00000244
--#define HDMI_HDCP_SHA_DATA_DONE					0x00000001
--
--#define REG_HDMI_HPD_INT_STATUS					0x00000250
--#define HDMI_HPD_INT_STATUS_INT					0x00000001
--#define HDMI_HPD_INT_STATUS_CABLE_DETECTED			0x00000002
--
--#define REG_HDMI_HPD_INT_CTRL					0x00000254
--#define HDMI_HPD_INT_CTRL_INT_ACK				0x00000001
--#define HDMI_HPD_INT_CTRL_INT_CONNECT				0x00000002
--#define HDMI_HPD_INT_CTRL_INT_EN				0x00000004
--#define HDMI_HPD_INT_CTRL_RX_INT_ACK				0x00000010
--#define HDMI_HPD_INT_CTRL_RX_INT_EN				0x00000020
--#define HDMI_HPD_INT_CTRL_RCV_PLUGIN_DET_MASK			0x00000200
--
--#define REG_HDMI_HPD_CTRL					0x00000258
--#define HDMI_HPD_CTRL_TIMEOUT__MASK				0x00001fff
--#define HDMI_HPD_CTRL_TIMEOUT__SHIFT				0
--static inline uint32_t HDMI_HPD_CTRL_TIMEOUT(uint32_t val)
--{
--	return ((val) << HDMI_HPD_CTRL_TIMEOUT__SHIFT) & HDMI_HPD_CTRL_TIMEOUT__MASK;
--}
--#define HDMI_HPD_CTRL_ENABLE					0x10000000
--
--#define REG_HDMI_DDC_REF					0x0000027c
--#define HDMI_DDC_REF_REFTIMER_ENABLE				0x00010000
--#define HDMI_DDC_REF_REFTIMER__MASK				0x0000ffff
--#define HDMI_DDC_REF_REFTIMER__SHIFT				0
--static inline uint32_t HDMI_DDC_REF_REFTIMER(uint32_t val)
--{
--	return ((val) << HDMI_DDC_REF_REFTIMER__SHIFT) & HDMI_DDC_REF_REFTIMER__MASK;
--}
--
--#define REG_HDMI_HDCP_SW_UPPER_AKSV				0x00000284
--
--#define REG_HDMI_HDCP_SW_LOWER_AKSV				0x00000288
--
--#define REG_HDMI_CEC_CTRL					0x0000028c
--
--#define REG_HDMI_CEC_WR_DATA					0x00000290
--
--#define REG_HDMI_CEC_CEC_RETRANSMIT				0x00000294
--
--#define REG_HDMI_CEC_STATUS					0x00000298
--
--#define REG_HDMI_CEC_INT					0x0000029c
--
--#define REG_HDMI_CEC_ADDR					0x000002a0
--
--#define REG_HDMI_CEC_TIME					0x000002a4
--
--#define REG_HDMI_CEC_REFTIMER					0x000002a8
--
--#define REG_HDMI_CEC_RD_DATA					0x000002ac
--
--#define REG_HDMI_CEC_RD_FILTER					0x000002b0
--
--#define REG_HDMI_ACTIVE_HSYNC					0x000002b4
--#define HDMI_ACTIVE_HSYNC_START__MASK				0x00001fff
--#define HDMI_ACTIVE_HSYNC_START__SHIFT				0
--static inline uint32_t HDMI_ACTIVE_HSYNC_START(uint32_t val)
--{
--	return ((val) << HDMI_ACTIVE_HSYNC_START__SHIFT) & HDMI_ACTIVE_HSYNC_START__MASK;
--}
--#define HDMI_ACTIVE_HSYNC_END__MASK				0x0fff0000
--#define HDMI_ACTIVE_HSYNC_END__SHIFT				16
--static inline uint32_t HDMI_ACTIVE_HSYNC_END(uint32_t val)
--{
--	return ((val) << HDMI_ACTIVE_HSYNC_END__SHIFT) & HDMI_ACTIVE_HSYNC_END__MASK;
--}
--
--#define REG_HDMI_ACTIVE_VSYNC					0x000002b8
--#define HDMI_ACTIVE_VSYNC_START__MASK				0x00001fff
--#define HDMI_ACTIVE_VSYNC_START__SHIFT				0
--static inline uint32_t HDMI_ACTIVE_VSYNC_START(uint32_t val)
--{
--	return ((val) << HDMI_ACTIVE_VSYNC_START__SHIFT) & HDMI_ACTIVE_VSYNC_START__MASK;
--}
--#define HDMI_ACTIVE_VSYNC_END__MASK				0x1fff0000
--#define HDMI_ACTIVE_VSYNC_END__SHIFT				16
--static inline uint32_t HDMI_ACTIVE_VSYNC_END(uint32_t val)
--{
--	return ((val) << HDMI_ACTIVE_VSYNC_END__SHIFT) & HDMI_ACTIVE_VSYNC_END__MASK;
--}
--
--#define REG_HDMI_VSYNC_ACTIVE_F2				0x000002bc
--#define HDMI_VSYNC_ACTIVE_F2_START__MASK			0x00001fff
--#define HDMI_VSYNC_ACTIVE_F2_START__SHIFT			0
--static inline uint32_t HDMI_VSYNC_ACTIVE_F2_START(uint32_t val)
--{
--	return ((val) << HDMI_VSYNC_ACTIVE_F2_START__SHIFT) & HDMI_VSYNC_ACTIVE_F2_START__MASK;
--}
--#define HDMI_VSYNC_ACTIVE_F2_END__MASK				0x1fff0000
--#define HDMI_VSYNC_ACTIVE_F2_END__SHIFT				16
--static inline uint32_t HDMI_VSYNC_ACTIVE_F2_END(uint32_t val)
--{
--	return ((val) << HDMI_VSYNC_ACTIVE_F2_END__SHIFT) & HDMI_VSYNC_ACTIVE_F2_END__MASK;
--}
--
--#define REG_HDMI_TOTAL						0x000002c0
--#define HDMI_TOTAL_H_TOTAL__MASK				0x00001fff
--#define HDMI_TOTAL_H_TOTAL__SHIFT				0
--static inline uint32_t HDMI_TOTAL_H_TOTAL(uint32_t val)
--{
--	return ((val) << HDMI_TOTAL_H_TOTAL__SHIFT) & HDMI_TOTAL_H_TOTAL__MASK;
--}
--#define HDMI_TOTAL_V_TOTAL__MASK				0x1fff0000
--#define HDMI_TOTAL_V_TOTAL__SHIFT				16
--static inline uint32_t HDMI_TOTAL_V_TOTAL(uint32_t val)
--{
--	return ((val) << HDMI_TOTAL_V_TOTAL__SHIFT) & HDMI_TOTAL_V_TOTAL__MASK;
--}
--
--#define REG_HDMI_VSYNC_TOTAL_F2					0x000002c4
--#define HDMI_VSYNC_TOTAL_F2_V_TOTAL__MASK			0x00001fff
--#define HDMI_VSYNC_TOTAL_F2_V_TOTAL__SHIFT			0
--static inline uint32_t HDMI_VSYNC_TOTAL_F2_V_TOTAL(uint32_t val)
--{
--	return ((val) << HDMI_VSYNC_TOTAL_F2_V_TOTAL__SHIFT) & HDMI_VSYNC_TOTAL_F2_V_TOTAL__MASK;
--}
--
--#define REG_HDMI_FRAME_CTRL					0x000002c8
--#define HDMI_FRAME_CTRL_RGB_MUX_SEL_BGR				0x00001000
--#define HDMI_FRAME_CTRL_VSYNC_LOW				0x10000000
--#define HDMI_FRAME_CTRL_HSYNC_LOW				0x20000000
--#define HDMI_FRAME_CTRL_INTERLACED_EN				0x80000000
--
--#define REG_HDMI_AUD_INT					0x000002cc
--#define HDMI_AUD_INT_AUD_FIFO_URUN_INT				0x00000001
--#define HDMI_AUD_INT_AUD_FIFO_URAN_MASK				0x00000002
--#define HDMI_AUD_INT_AUD_SAM_DROP_INT				0x00000004
--#define HDMI_AUD_INT_AUD_SAM_DROP_MASK				0x00000008
--
--#define REG_HDMI_PHY_CTRL					0x000002d4
--#define HDMI_PHY_CTRL_SW_RESET_PLL				0x00000001
--#define HDMI_PHY_CTRL_SW_RESET_PLL_LOW				0x00000002
--#define HDMI_PHY_CTRL_SW_RESET					0x00000004
--#define HDMI_PHY_CTRL_SW_RESET_LOW				0x00000008
--
--#define REG_HDMI_CEC_WR_RANGE					0x000002dc
--
--#define REG_HDMI_CEC_RD_RANGE					0x000002e0
--
--#define REG_HDMI_VERSION					0x000002e4
--
--#define REG_HDMI_CEC_COMPL_CTL					0x00000360
--
--#define REG_HDMI_CEC_RD_START_RANGE				0x00000364
--
--#define REG_HDMI_CEC_RD_TOTAL_RANGE				0x00000368
--
--#define REG_HDMI_CEC_RD_ERR_RESP_LO				0x0000036c
--
--#define REG_HDMI_CEC_WR_CHECK_CONFIG				0x00000370
--
--#define REG_HDMI_8x60_PHY_REG0					0x00000000
--#define HDMI_8x60_PHY_REG0_DESER_DEL_CTRL__MASK			0x0000001c
--#define HDMI_8x60_PHY_REG0_DESER_DEL_CTRL__SHIFT		2
--static inline uint32_t HDMI_8x60_PHY_REG0_DESER_DEL_CTRL(uint32_t val)
--{
--	return ((val) << HDMI_8x60_PHY_REG0_DESER_DEL_CTRL__SHIFT) & HDMI_8x60_PHY_REG0_DESER_DEL_CTRL__MASK;
--}
--
--#define REG_HDMI_8x60_PHY_REG1					0x00000004
--#define HDMI_8x60_PHY_REG1_DTEST_MUX_SEL__MASK			0x000000f0
--#define HDMI_8x60_PHY_REG1_DTEST_MUX_SEL__SHIFT			4
--static inline uint32_t HDMI_8x60_PHY_REG1_DTEST_MUX_SEL(uint32_t val)
--{
--	return ((val) << HDMI_8x60_PHY_REG1_DTEST_MUX_SEL__SHIFT) & HDMI_8x60_PHY_REG1_DTEST_MUX_SEL__MASK;
--}
--#define HDMI_8x60_PHY_REG1_OUTVOL_SWING_CTRL__MASK		0x0000000f
--#define HDMI_8x60_PHY_REG1_OUTVOL_SWING_CTRL__SHIFT		0
--static inline uint32_t HDMI_8x60_PHY_REG1_OUTVOL_SWING_CTRL(uint32_t val)
--{
--	return ((val) << HDMI_8x60_PHY_REG1_OUTVOL_SWING_CTRL__SHIFT) & HDMI_8x60_PHY_REG1_OUTVOL_SWING_CTRL__MASK;
--}
--
--#define REG_HDMI_8x60_PHY_REG2					0x00000008
--#define HDMI_8x60_PHY_REG2_PD_DESER				0x00000001
--#define HDMI_8x60_PHY_REG2_PD_DRIVE_1				0x00000002
--#define HDMI_8x60_PHY_REG2_PD_DRIVE_2				0x00000004
--#define HDMI_8x60_PHY_REG2_PD_DRIVE_3				0x00000008
--#define HDMI_8x60_PHY_REG2_PD_DRIVE_4				0x00000010
--#define HDMI_8x60_PHY_REG2_PD_PLL				0x00000020
--#define HDMI_8x60_PHY_REG2_PD_PWRGEN				0x00000040
--#define HDMI_8x60_PHY_REG2_RCV_SENSE_EN				0x00000080
--
--#define REG_HDMI_8x60_PHY_REG3					0x0000000c
--#define HDMI_8x60_PHY_REG3_PLL_ENABLE				0x00000001
--
--#define REG_HDMI_8x60_PHY_REG4					0x00000010
--
--#define REG_HDMI_8x60_PHY_REG5					0x00000014
--
--#define REG_HDMI_8x60_PHY_REG6					0x00000018
--
--#define REG_HDMI_8x60_PHY_REG7					0x0000001c
--
--#define REG_HDMI_8x60_PHY_REG8					0x00000020
--
--#define REG_HDMI_8x60_PHY_REG9					0x00000024
--
--#define REG_HDMI_8x60_PHY_REG10					0x00000028
--
--#define REG_HDMI_8x60_PHY_REG11					0x0000002c
--
--#define REG_HDMI_8x60_PHY_REG12					0x00000030
--#define HDMI_8x60_PHY_REG12_RETIMING_EN				0x00000001
--#define HDMI_8x60_PHY_REG12_PLL_LOCK_DETECT_EN			0x00000002
--#define HDMI_8x60_PHY_REG12_FORCE_LOCK				0x00000010
--
--#define REG_HDMI_8960_PHY_REG0					0x00000000
--
--#define REG_HDMI_8960_PHY_REG1					0x00000004
--
--#define REG_HDMI_8960_PHY_REG2					0x00000008
--
--#define REG_HDMI_8960_PHY_REG3					0x0000000c
--
--#define REG_HDMI_8960_PHY_REG4					0x00000010
--
--#define REG_HDMI_8960_PHY_REG5					0x00000014
--
--#define REG_HDMI_8960_PHY_REG6					0x00000018
--
--#define REG_HDMI_8960_PHY_REG7					0x0000001c
--
--#define REG_HDMI_8960_PHY_REG8					0x00000020
--
--#define REG_HDMI_8960_PHY_REG9					0x00000024
--
--#define REG_HDMI_8960_PHY_REG10					0x00000028
--
--#define REG_HDMI_8960_PHY_REG11					0x0000002c
--
--#define REG_HDMI_8960_PHY_REG12					0x00000030
--#define HDMI_8960_PHY_REG12_SW_RESET				0x00000020
--#define HDMI_8960_PHY_REG12_PWRDN_B				0x00000080
--
--#define REG_HDMI_8960_PHY_REG_BIST_CFG				0x00000034
--
--#define REG_HDMI_8960_PHY_DEBUG_BUS_SEL				0x00000038
--
--#define REG_HDMI_8960_PHY_REG_MISC0				0x0000003c
--
--#define REG_HDMI_8960_PHY_REG13					0x00000040
--
--#define REG_HDMI_8960_PHY_REG14					0x00000044
--
--#define REG_HDMI_8960_PHY_REG15					0x00000048
--
--#define REG_HDMI_8960_PHY_PLL_REFCLK_CFG			0x00000000
--
--#define REG_HDMI_8960_PHY_PLL_CHRG_PUMP_CFG			0x00000004
--
--#define REG_HDMI_8960_PHY_PLL_LOOP_FLT_CFG0			0x00000008
--
--#define REG_HDMI_8960_PHY_PLL_LOOP_FLT_CFG1			0x0000000c
--
--#define REG_HDMI_8960_PHY_PLL_IDAC_ADJ_CFG			0x00000010
--
--#define REG_HDMI_8960_PHY_PLL_I_VI_KVCO_CFG			0x00000014
--
--#define REG_HDMI_8960_PHY_PLL_PWRDN_B				0x00000018
--#define HDMI_8960_PHY_PLL_PWRDN_B_PD_PLL			0x00000002
--#define HDMI_8960_PHY_PLL_PWRDN_B_PLL_PWRDN_B			0x00000008
--
--#define REG_HDMI_8960_PHY_PLL_SDM_CFG0				0x0000001c
--
--#define REG_HDMI_8960_PHY_PLL_SDM_CFG1				0x00000020
--
--#define REG_HDMI_8960_PHY_PLL_SDM_CFG2				0x00000024
--
--#define REG_HDMI_8960_PHY_PLL_SDM_CFG3				0x00000028
--
--#define REG_HDMI_8960_PHY_PLL_SDM_CFG4				0x0000002c
--
--#define REG_HDMI_8960_PHY_PLL_SSC_CFG0				0x00000030
--
--#define REG_HDMI_8960_PHY_PLL_SSC_CFG1				0x00000034
--
--#define REG_HDMI_8960_PHY_PLL_SSC_CFG2				0x00000038
--
--#define REG_HDMI_8960_PHY_PLL_SSC_CFG3				0x0000003c
--
--#define REG_HDMI_8960_PHY_PLL_LOCKDET_CFG0			0x00000040
--
--#define REG_HDMI_8960_PHY_PLL_LOCKDET_CFG1			0x00000044
--
--#define REG_HDMI_8960_PHY_PLL_LOCKDET_CFG2			0x00000048
--
--#define REG_HDMI_8960_PHY_PLL_VCOCAL_CFG0			0x0000004c
--
--#define REG_HDMI_8960_PHY_PLL_VCOCAL_CFG1			0x00000050
--
--#define REG_HDMI_8960_PHY_PLL_VCOCAL_CFG2			0x00000054
--
--#define REG_HDMI_8960_PHY_PLL_VCOCAL_CFG3			0x00000058
--
--#define REG_HDMI_8960_PHY_PLL_VCOCAL_CFG4			0x0000005c
--
--#define REG_HDMI_8960_PHY_PLL_VCOCAL_CFG5			0x00000060
--
--#define REG_HDMI_8960_PHY_PLL_VCOCAL_CFG6			0x00000064
--
--#define REG_HDMI_8960_PHY_PLL_VCOCAL_CFG7			0x00000068
--
--#define REG_HDMI_8960_PHY_PLL_DEBUG_SEL				0x0000006c
--
--#define REG_HDMI_8960_PHY_PLL_MISC0				0x00000070
--
--#define REG_HDMI_8960_PHY_PLL_MISC1				0x00000074
--
--#define REG_HDMI_8960_PHY_PLL_MISC2				0x00000078
--
--#define REG_HDMI_8960_PHY_PLL_MISC3				0x0000007c
--
--#define REG_HDMI_8960_PHY_PLL_MISC4				0x00000080
--
--#define REG_HDMI_8960_PHY_PLL_MISC5				0x00000084
--
--#define REG_HDMI_8960_PHY_PLL_MISC6				0x00000088
--
--#define REG_HDMI_8960_PHY_PLL_DEBUG_BUS0			0x0000008c
--
--#define REG_HDMI_8960_PHY_PLL_DEBUG_BUS1			0x00000090
--
--#define REG_HDMI_8960_PHY_PLL_DEBUG_BUS2			0x00000094
--
--#define REG_HDMI_8960_PHY_PLL_STATUS0				0x00000098
--#define HDMI_8960_PHY_PLL_STATUS0_PLL_LOCK			0x00000001
--
--#define REG_HDMI_8960_PHY_PLL_STATUS1				0x0000009c
--
--#define REG_HDMI_8x74_ANA_CFG0					0x00000000
--
--#define REG_HDMI_8x74_ANA_CFG1					0x00000004
--
--#define REG_HDMI_8x74_ANA_CFG2					0x00000008
--
--#define REG_HDMI_8x74_ANA_CFG3					0x0000000c
--
--#define REG_HDMI_8x74_PD_CTRL0					0x00000010
--
--#define REG_HDMI_8x74_PD_CTRL1					0x00000014
--
--#define REG_HDMI_8x74_GLB_CFG					0x00000018
--
--#define REG_HDMI_8x74_DCC_CFG0					0x0000001c
--
--#define REG_HDMI_8x74_DCC_CFG1					0x00000020
--
--#define REG_HDMI_8x74_TXCAL_CFG0				0x00000024
--
--#define REG_HDMI_8x74_TXCAL_CFG1				0x00000028
--
--#define REG_HDMI_8x74_TXCAL_CFG2				0x0000002c
--
--#define REG_HDMI_8x74_TXCAL_CFG3				0x00000030
--
--#define REG_HDMI_8x74_BIST_CFG0					0x00000034
--
--#define REG_HDMI_8x74_BIST_PATN0				0x0000003c
--
--#define REG_HDMI_8x74_BIST_PATN1				0x00000040
--
--#define REG_HDMI_8x74_BIST_PATN2				0x00000044
--
--#define REG_HDMI_8x74_BIST_PATN3				0x00000048
--
--#define REG_HDMI_8x74_STATUS					0x0000005c
--
--#define REG_HDMI_28nm_PHY_PLL_REFCLK_CFG			0x00000000
--
--#define REG_HDMI_28nm_PHY_PLL_POSTDIV1_CFG			0x00000004
--
--#define REG_HDMI_28nm_PHY_PLL_CHGPUMP_CFG			0x00000008
--
--#define REG_HDMI_28nm_PHY_PLL_VCOLPF_CFG			0x0000000c
--
--#define REG_HDMI_28nm_PHY_PLL_VREG_CFG				0x00000010
--
--#define REG_HDMI_28nm_PHY_PLL_PWRGEN_CFG			0x00000014
--
--#define REG_HDMI_28nm_PHY_PLL_DMUX_CFG				0x00000018
--
--#define REG_HDMI_28nm_PHY_PLL_AMUX_CFG				0x0000001c
--
--#define REG_HDMI_28nm_PHY_PLL_GLB_CFG				0x00000020
--#define HDMI_28nm_PHY_PLL_GLB_CFG_PLL_PWRDN_B			0x00000001
--#define HDMI_28nm_PHY_PLL_GLB_CFG_PLL_LDO_PWRDN_B		0x00000002
--#define HDMI_28nm_PHY_PLL_GLB_CFG_PLL_PWRGEN_PWRDN_B		0x00000004
--#define HDMI_28nm_PHY_PLL_GLB_CFG_PLL_ENABLE			0x00000008
--
--#define REG_HDMI_28nm_PHY_PLL_POSTDIV2_CFG			0x00000024
--
--#define REG_HDMI_28nm_PHY_PLL_POSTDIV3_CFG			0x00000028
--
--#define REG_HDMI_28nm_PHY_PLL_LPFR_CFG				0x0000002c
--
--#define REG_HDMI_28nm_PHY_PLL_LPFC1_CFG				0x00000030
--
--#define REG_HDMI_28nm_PHY_PLL_LPFC2_CFG				0x00000034
--
--#define REG_HDMI_28nm_PHY_PLL_SDM_CFG0				0x00000038
--
--#define REG_HDMI_28nm_PHY_PLL_SDM_CFG1				0x0000003c
--
--#define REG_HDMI_28nm_PHY_PLL_SDM_CFG2				0x00000040
--
--#define REG_HDMI_28nm_PHY_PLL_SDM_CFG3				0x00000044
--
--#define REG_HDMI_28nm_PHY_PLL_SDM_CFG4				0x00000048
--
--#define REG_HDMI_28nm_PHY_PLL_SSC_CFG0				0x0000004c
--
--#define REG_HDMI_28nm_PHY_PLL_SSC_CFG1				0x00000050
--
--#define REG_HDMI_28nm_PHY_PLL_SSC_CFG2				0x00000054
--
--#define REG_HDMI_28nm_PHY_PLL_SSC_CFG3				0x00000058
--
--#define REG_HDMI_28nm_PHY_PLL_LKDET_CFG0			0x0000005c
--
--#define REG_HDMI_28nm_PHY_PLL_LKDET_CFG1			0x00000060
--
--#define REG_HDMI_28nm_PHY_PLL_LKDET_CFG2			0x00000064
--
--#define REG_HDMI_28nm_PHY_PLL_TEST_CFG				0x00000068
--#define HDMI_28nm_PHY_PLL_TEST_CFG_PLL_SW_RESET			0x00000001
--
--#define REG_HDMI_28nm_PHY_PLL_CAL_CFG0				0x0000006c
--
--#define REG_HDMI_28nm_PHY_PLL_CAL_CFG1				0x00000070
--
--#define REG_HDMI_28nm_PHY_PLL_CAL_CFG2				0x00000074
--
--#define REG_HDMI_28nm_PHY_PLL_CAL_CFG3				0x00000078
--
--#define REG_HDMI_28nm_PHY_PLL_CAL_CFG4				0x0000007c
--
--#define REG_HDMI_28nm_PHY_PLL_CAL_CFG5				0x00000080
--
--#define REG_HDMI_28nm_PHY_PLL_CAL_CFG6				0x00000084
--
--#define REG_HDMI_28nm_PHY_PLL_CAL_CFG7				0x00000088
--
--#define REG_HDMI_28nm_PHY_PLL_CAL_CFG8				0x0000008c
--
--#define REG_HDMI_28nm_PHY_PLL_CAL_CFG9				0x00000090
--
--#define REG_HDMI_28nm_PHY_PLL_CAL_CFG10				0x00000094
--
--#define REG_HDMI_28nm_PHY_PLL_CAL_CFG11				0x00000098
--
--#define REG_HDMI_28nm_PHY_PLL_EFUSE_CFG				0x0000009c
--
--#define REG_HDMI_28nm_PHY_PLL_DEBUG_BUS_SEL			0x000000a0
--
--#define REG_HDMI_28nm_PHY_PLL_STATUS				0x000000c0
--
--#define REG_HDMI_8996_PHY_CFG					0x00000000
--
--#define REG_HDMI_8996_PHY_PD_CTL				0x00000004
--
--#define REG_HDMI_8996_PHY_MODE					0x00000008
--
--#define REG_HDMI_8996_PHY_MISR_CLEAR				0x0000000c
--
--#define REG_HDMI_8996_PHY_TX0_TX1_BIST_CFG0			0x00000010
--
--#define REG_HDMI_8996_PHY_TX0_TX1_BIST_CFG1			0x00000014
--
--#define REG_HDMI_8996_PHY_TX0_TX1_PRBS_SEED_BYTE0		0x00000018
--
--#define REG_HDMI_8996_PHY_TX0_TX1_PRBS_SEED_BYTE1		0x0000001c
--
--#define REG_HDMI_8996_PHY_TX0_TX1_BIST_PATTERN0			0x00000020
--
--#define REG_HDMI_8996_PHY_TX0_TX1_BIST_PATTERN1			0x00000024
--
--#define REG_HDMI_8996_PHY_TX2_TX3_BIST_CFG0			0x00000028
--
--#define REG_HDMI_8996_PHY_TX2_TX3_BIST_CFG1			0x0000002c
--
--#define REG_HDMI_8996_PHY_TX2_TX3_PRBS_SEED_BYTE0		0x00000030
--
--#define REG_HDMI_8996_PHY_TX2_TX3_PRBS_SEED_BYTE1		0x00000034
--
--#define REG_HDMI_8996_PHY_TX2_TX3_BIST_PATTERN0			0x00000038
--
--#define REG_HDMI_8996_PHY_TX2_TX3_BIST_PATTERN1			0x0000003c
--
--#define REG_HDMI_8996_PHY_DEBUG_BUS_SEL				0x00000040
--
--#define REG_HDMI_8996_PHY_TXCAL_CFG0				0x00000044
--
--#define REG_HDMI_8996_PHY_TXCAL_CFG1				0x00000048
--
--#define REG_HDMI_8996_PHY_TX0_TX1_LANE_CTL			0x0000004c
--
--#define REG_HDMI_8996_PHY_TX2_TX3_LANE_CTL			0x00000050
--
--#define REG_HDMI_8996_PHY_LANE_BIST_CONFIG			0x00000054
--
--#define REG_HDMI_8996_PHY_CLOCK					0x00000058
--
--#define REG_HDMI_8996_PHY_MISC1					0x0000005c
--
--#define REG_HDMI_8996_PHY_MISC2					0x00000060
--
--#define REG_HDMI_8996_PHY_TX0_TX1_BIST_STATUS0			0x00000064
--
--#define REG_HDMI_8996_PHY_TX0_TX1_BIST_STATUS1			0x00000068
--
--#define REG_HDMI_8996_PHY_TX0_TX1_BIST_STATUS2			0x0000006c
--
--#define REG_HDMI_8996_PHY_TX2_TX3_BIST_STATUS0			0x00000070
--
--#define REG_HDMI_8996_PHY_TX2_TX3_BIST_STATUS1			0x00000074
--
--#define REG_HDMI_8996_PHY_TX2_TX3_BIST_STATUS2			0x00000078
--
--#define REG_HDMI_8996_PHY_PRE_MISR_STATUS0			0x0000007c
--
--#define REG_HDMI_8996_PHY_PRE_MISR_STATUS1			0x00000080
--
--#define REG_HDMI_8996_PHY_PRE_MISR_STATUS2			0x00000084
--
--#define REG_HDMI_8996_PHY_PRE_MISR_STATUS3			0x00000088
--
--#define REG_HDMI_8996_PHY_POST_MISR_STATUS0			0x0000008c
--
--#define REG_HDMI_8996_PHY_POST_MISR_STATUS1			0x00000090
--
--#define REG_HDMI_8996_PHY_POST_MISR_STATUS2			0x00000094
--
--#define REG_HDMI_8996_PHY_POST_MISR_STATUS3			0x00000098
--
--#define REG_HDMI_8996_PHY_STATUS				0x0000009c
--
--#define REG_HDMI_8996_PHY_MISC3_STATUS				0x000000a0
--
--#define REG_HDMI_8996_PHY_MISC4_STATUS				0x000000a4
--
--#define REG_HDMI_8996_PHY_DEBUG_BUS0				0x000000a8
--
--#define REG_HDMI_8996_PHY_DEBUG_BUS1				0x000000ac
--
--#define REG_HDMI_8996_PHY_DEBUG_BUS2				0x000000b0
--
--#define REG_HDMI_8996_PHY_DEBUG_BUS3				0x000000b4
--
--#define REG_HDMI_8996_PHY_PHY_REVISION_ID0			0x000000b8
--
--#define REG_HDMI_8996_PHY_PHY_REVISION_ID1			0x000000bc
--
--#define REG_HDMI_8996_PHY_PHY_REVISION_ID2			0x000000c0
--
--#define REG_HDMI_8996_PHY_PHY_REVISION_ID3			0x000000c4
--
--#define REG_HDMI_PHY_QSERDES_COM_ATB_SEL1			0x00000000
--
--#define REG_HDMI_PHY_QSERDES_COM_ATB_SEL2			0x00000004
--
--#define REG_HDMI_PHY_QSERDES_COM_FREQ_UPDATE			0x00000008
--
--#define REG_HDMI_PHY_QSERDES_COM_BG_TIMER			0x0000000c
--
--#define REG_HDMI_PHY_QSERDES_COM_SSC_EN_CENTER			0x00000010
--
--#define REG_HDMI_PHY_QSERDES_COM_SSC_ADJ_PER1			0x00000014
--
--#define REG_HDMI_PHY_QSERDES_COM_SSC_ADJ_PER2			0x00000018
--
--#define REG_HDMI_PHY_QSERDES_COM_SSC_PER1			0x0000001c
--
--#define REG_HDMI_PHY_QSERDES_COM_SSC_PER2			0x00000020
--
--#define REG_HDMI_PHY_QSERDES_COM_SSC_STEP_SIZE1			0x00000024
--
--#define REG_HDMI_PHY_QSERDES_COM_SSC_STEP_SIZE2			0x00000028
--
--#define REG_HDMI_PHY_QSERDES_COM_POST_DIV			0x0000002c
--
--#define REG_HDMI_PHY_QSERDES_COM_POST_DIV_MUX			0x00000030
--
--#define REG_HDMI_PHY_QSERDES_COM_BIAS_EN_CLKBUFLR_EN		0x00000034
--
--#define REG_HDMI_PHY_QSERDES_COM_CLK_ENABLE1			0x00000038
--
--#define REG_HDMI_PHY_QSERDES_COM_SYS_CLK_CTRL			0x0000003c
--
--#define REG_HDMI_PHY_QSERDES_COM_SYSCLK_BUF_ENABLE		0x00000040
--
--#define REG_HDMI_PHY_QSERDES_COM_PLL_EN				0x00000044
--
--#define REG_HDMI_PHY_QSERDES_COM_PLL_IVCO			0x00000048
--
--#define REG_HDMI_PHY_QSERDES_COM_LOCK_CMP1_MODE0		0x0000004c
--
--#define REG_HDMI_PHY_QSERDES_COM_LOCK_CMP2_MODE0		0x00000050
--
--#define REG_HDMI_PHY_QSERDES_COM_LOCK_CMP3_MODE0		0x00000054
--
--#define REG_HDMI_PHY_QSERDES_COM_LOCK_CMP1_MODE1		0x00000058
--
--#define REG_HDMI_PHY_QSERDES_COM_LOCK_CMP2_MODE1		0x0000005c
--
--#define REG_HDMI_PHY_QSERDES_COM_LOCK_CMP3_MODE1		0x00000060
--
--#define REG_HDMI_PHY_QSERDES_COM_LOCK_CMP1_MODE2		0x00000064
--
--#define REG_HDMI_PHY_QSERDES_COM_CMN_RSVD0			0x00000064
--
--#define REG_HDMI_PHY_QSERDES_COM_LOCK_CMP2_MODE2		0x00000068
--
--#define REG_HDMI_PHY_QSERDES_COM_EP_CLOCK_DETECT_CTRL		0x00000068
--
--#define REG_HDMI_PHY_QSERDES_COM_LOCK_CMP3_MODE2		0x0000006c
--
--#define REG_HDMI_PHY_QSERDES_COM_SYSCLK_DET_COMP_STATUS		0x0000006c
--
--#define REG_HDMI_PHY_QSERDES_COM_BG_TRIM			0x00000070
--
--#define REG_HDMI_PHY_QSERDES_COM_CLK_EP_DIV			0x00000074
--
--#define REG_HDMI_PHY_QSERDES_COM_CP_CTRL_MODE0			0x00000078
--
--#define REG_HDMI_PHY_QSERDES_COM_CP_CTRL_MODE1			0x0000007c
--
--#define REG_HDMI_PHY_QSERDES_COM_CP_CTRL_MODE2			0x00000080
--
--#define REG_HDMI_PHY_QSERDES_COM_CMN_RSVD1			0x00000080
--
--#define REG_HDMI_PHY_QSERDES_COM_PLL_RCTRL_MODE0		0x00000084
--
--#define REG_HDMI_PHY_QSERDES_COM_PLL_RCTRL_MODE1		0x00000088
--
--#define REG_HDMI_PHY_QSERDES_COM_PLL_RCTRL_MODE2		0x0000008c
--
--#define REG_HDMI_PHY_QSERDES_COM_CMN_RSVD2			0x0000008c
--
--#define REG_HDMI_PHY_QSERDES_COM_PLL_CCTRL_MODE0		0x00000090
--
--#define REG_HDMI_PHY_QSERDES_COM_PLL_CCTRL_MODE1		0x00000094
--
--#define REG_HDMI_PHY_QSERDES_COM_PLL_CCTRL_MODE2		0x00000098
--
--#define REG_HDMI_PHY_QSERDES_COM_CMN_RSVD3			0x00000098
--
--#define REG_HDMI_PHY_QSERDES_COM_PLL_CNTRL			0x0000009c
--
--#define REG_HDMI_PHY_QSERDES_COM_PHASE_SEL_CTRL			0x000000a0
--
--#define REG_HDMI_PHY_QSERDES_COM_PHASE_SEL_DC			0x000000a4
--
--#define REG_HDMI_PHY_QSERDES_COM_CORE_CLK_IN_SYNC_SEL		0x000000a8
--
--#define REG_HDMI_PHY_QSERDES_COM_BIAS_EN_CTRL_BY_PSM		0x000000a8
--
--#define REG_HDMI_PHY_QSERDES_COM_SYSCLK_EN_SEL			0x000000ac
--
--#define REG_HDMI_PHY_QSERDES_COM_CML_SYSCLK_SEL			0x000000b0
--
--#define REG_HDMI_PHY_QSERDES_COM_RESETSM_CNTRL			0x000000b4
--
--#define REG_HDMI_PHY_QSERDES_COM_RESETSM_CNTRL2			0x000000b8
--
--#define REG_HDMI_PHY_QSERDES_COM_RESTRIM_CTRL			0x000000bc
--
--#define REG_HDMI_PHY_QSERDES_COM_RESTRIM_CTRL2			0x000000c0
--
--#define REG_HDMI_PHY_QSERDES_COM_RESCODE_DIV_NUM		0x000000c4
--
--#define REG_HDMI_PHY_QSERDES_COM_LOCK_CMP_EN			0x000000c8
--
--#define REG_HDMI_PHY_QSERDES_COM_LOCK_CMP_CFG			0x000000cc
--
--#define REG_HDMI_PHY_QSERDES_COM_DEC_START_MODE0		0x000000d0
--
--#define REG_HDMI_PHY_QSERDES_COM_DEC_START_MODE1		0x000000d4
--
--#define REG_HDMI_PHY_QSERDES_COM_DEC_START_MODE2		0x000000d8
--
--#define REG_HDMI_PHY_QSERDES_COM_VCOCAL_DEADMAN_CTRL		0x000000d8
--
--#define REG_HDMI_PHY_QSERDES_COM_DIV_FRAC_START1_MODE0		0x000000dc
--
--#define REG_HDMI_PHY_QSERDES_COM_DIV_FRAC_START2_MODE0		0x000000e0
--
--#define REG_HDMI_PHY_QSERDES_COM_DIV_FRAC_START3_MODE0		0x000000e4
--
--#define REG_HDMI_PHY_QSERDES_COM_DIV_FRAC_START1_MODE1		0x000000e8
--
--#define REG_HDMI_PHY_QSERDES_COM_DIV_FRAC_START2_MODE1		0x000000ec
--
--#define REG_HDMI_PHY_QSERDES_COM_DIV_FRAC_START3_MODE1		0x000000f0
--
--#define REG_HDMI_PHY_QSERDES_COM_DIV_FRAC_START1_MODE2		0x000000f4
--
--#define REG_HDMI_PHY_QSERDES_COM_VCO_TUNE_MINVAL1		0x000000f4
--
--#define REG_HDMI_PHY_QSERDES_COM_DIV_FRAC_START2_MODE2		0x000000f8
--
--#define REG_HDMI_PHY_QSERDES_COM_VCO_TUNE_MINVAL2		0x000000f8
--
--#define REG_HDMI_PHY_QSERDES_COM_DIV_FRAC_START3_MODE2		0x000000fc
--
--#define REG_HDMI_PHY_QSERDES_COM_CMN_RSVD4			0x000000fc
--
--#define REG_HDMI_PHY_QSERDES_COM_INTEGLOOP_INITVAL		0x00000100
--
--#define REG_HDMI_PHY_QSERDES_COM_INTEGLOOP_EN			0x00000104
--
--#define REG_HDMI_PHY_QSERDES_COM_INTEGLOOP_GAIN0_MODE0		0x00000108
--
--#define REG_HDMI_PHY_QSERDES_COM_INTEGLOOP_GAIN1_MODE0		0x0000010c
--
--#define REG_HDMI_PHY_QSERDES_COM_INTEGLOOP_GAIN0_MODE1		0x00000110
--
--#define REG_HDMI_PHY_QSERDES_COM_INTEGLOOP_GAIN1_MODE1		0x00000114
--
--#define REG_HDMI_PHY_QSERDES_COM_INTEGLOOP_GAIN0_MODE2		0x00000118
--
--#define REG_HDMI_PHY_QSERDES_COM_VCO_TUNE_MAXVAL1		0x00000118
--
--#define REG_HDMI_PHY_QSERDES_COM_INTEGLOOP_GAIN1_MODE2		0x0000011c
--
--#define REG_HDMI_PHY_QSERDES_COM_VCO_TUNE_MAXVAL2		0x0000011c
--
--#define REG_HDMI_PHY_QSERDES_COM_RES_TRIM_CONTROL2		0x00000120
--
--#define REG_HDMI_PHY_QSERDES_COM_VCO_TUNE_CTRL			0x00000124
--
--#define REG_HDMI_PHY_QSERDES_COM_VCO_TUNE_MAP			0x00000128
--
--#define REG_HDMI_PHY_QSERDES_COM_VCO_TUNE1_MODE0		0x0000012c
--
--#define REG_HDMI_PHY_QSERDES_COM_VCO_TUNE2_MODE0		0x00000130
--
--#define REG_HDMI_PHY_QSERDES_COM_VCO_TUNE1_MODE1		0x00000134
--
--#define REG_HDMI_PHY_QSERDES_COM_VCO_TUNE2_MODE1		0x00000138
--
--#define REG_HDMI_PHY_QSERDES_COM_VCO_TUNE1_MODE2		0x0000013c
--
--#define REG_HDMI_PHY_QSERDES_COM_VCO_TUNE_INITVAL1		0x0000013c
--
--#define REG_HDMI_PHY_QSERDES_COM_VCO_TUNE2_MODE2		0x00000140
--
--#define REG_HDMI_PHY_QSERDES_COM_VCO_TUNE_INITVAL2		0x00000140
--
--#define REG_HDMI_PHY_QSERDES_COM_VCO_TUNE_TIMER1		0x00000144
--
--#define REG_HDMI_PHY_QSERDES_COM_VCO_TUNE_TIMER2		0x00000148
 -
--#define REG_HDMI_PHY_QSERDES_COM_SAR				0x0000014c
+-#define REG_A6XX_GMU_RPMH_CTRL					0x000050e8
+-#define A6XX_GMU_RPMH_CTRL_RPMH_INTERFACE_ENABLE		0x00000001
+-#define A6XX_GMU_RPMH_CTRL_LLC_VOTE_ENABLE			0x00000010
+-#define A6XX_GMU_RPMH_CTRL_DDR_VOTE_ENABLE			0x00000100
+-#define A6XX_GMU_RPMH_CTRL_MX_VOTE_ENABLE			0x00000200
+-#define A6XX_GMU_RPMH_CTRL_CX_VOTE_ENABLE			0x00000400
+-#define A6XX_GMU_RPMH_CTRL_GFX_VOTE_ENABLE			0x00000800
+-#define A6XX_GMU_RPMH_CTRL_DDR_MIN_VOTE_ENABLE			0x00001000
+-#define A6XX_GMU_RPMH_CTRL_MX_MIN_VOTE_ENABLE			0x00002000
+-#define A6XX_GMU_RPMH_CTRL_CX_MIN_VOTE_ENABLE			0x00004000
+-#define A6XX_GMU_RPMH_CTRL_GFX_MIN_VOTE_ENABLE			0x00008000
 -
--#define REG_HDMI_PHY_QSERDES_COM_SAR_CLK			0x00000150
+-#define REG_A6XX_GMU_RPMH_HYST_CTRL				0x000050e9
 -
--#define REG_HDMI_PHY_QSERDES_COM_SAR_CODE_OUT_STATUS		0x00000154
+-#define REG_A6XX_GPU_GMU_CX_GMU_RPMH_POWER_STATE		0x000050ec
 -
--#define REG_HDMI_PHY_QSERDES_COM_SAR_CODE_READY_STATUS		0x00000158
+-#define REG_A6XX_GPU_GMU_CX_GMU_CX_FAL_INTF			0x000050f0
 -
--#define REG_HDMI_PHY_QSERDES_COM_CMN_STATUS			0x0000015c
+-#define REG_A6XX_GPU_GMU_CX_GMU_CX_FALNEXT_INTF			0x000050f1
 -
--#define REG_HDMI_PHY_QSERDES_COM_RESET_SM_STATUS		0x00000160
+-#define REG_A6XX_GPU_GMU_CX_GMU_PWR_COL_CP_MSG			0x00005100
 -
--#define REG_HDMI_PHY_QSERDES_COM_RESTRIM_CODE_STATUS		0x00000164
+-#define REG_A6XX_GPU_GMU_CX_GMU_PWR_COL_CP_RESP			0x00005101
 -
--#define REG_HDMI_PHY_QSERDES_COM_PLLCAL_CODE1_STATUS		0x00000168
+-#define REG_A6XX_GMU_BOOT_KMD_LM_HANDSHAKE			0x000051f0
 -
--#define REG_HDMI_PHY_QSERDES_COM_PLLCAL_CODE2_STATUS		0x0000016c
+-#define REG_A6XX_GMU_LLM_GLM_SLEEP_CTRL				0x00005157
 -
--#define REG_HDMI_PHY_QSERDES_COM_BG_CTRL			0x00000170
+-#define REG_A6XX_GMU_LLM_GLM_SLEEP_STATUS			0x00005158
 -
--#define REG_HDMI_PHY_QSERDES_COM_CLK_SELECT			0x00000174
+-#define REG_A6XX_GMU_ALWAYS_ON_COUNTER_L			0x00005088
 -
--#define REG_HDMI_PHY_QSERDES_COM_HSCLK_SEL			0x00000178
+-#define REG_A6XX_GMU_ALWAYS_ON_COUNTER_H			0x00005089
 -
--#define REG_HDMI_PHY_QSERDES_COM_INTEGLOOP_BINCODE_STATUS	0x0000017c
+-#define REG_A6XX_GMU_GMU_PWR_COL_KEEPALIVE			0x000050c3
 -
--#define REG_HDMI_PHY_QSERDES_COM_PLL_ANALOG			0x00000180
+-#define REG_A6XX_GMU_HFI_CTRL_STATUS				0x00005180
 -
--#define REG_HDMI_PHY_QSERDES_COM_CORECLK_DIV			0x00000184
+-#define REG_A6XX_GMU_HFI_VERSION_INFO				0x00005181
 -
--#define REG_HDMI_PHY_QSERDES_COM_SW_RESET			0x00000188
+-#define REG_A6XX_GMU_HFI_SFR_ADDR				0x00005182
 -
--#define REG_HDMI_PHY_QSERDES_COM_CORE_CLK_EN			0x0000018c
+-#define REG_A6XX_GMU_HFI_MMAP_ADDR				0x00005183
 -
--#define REG_HDMI_PHY_QSERDES_COM_C_READY_STATUS			0x00000190
+-#define REG_A6XX_GMU_HFI_QTBL_INFO				0x00005184
 -
--#define REG_HDMI_PHY_QSERDES_COM_CMN_CONFIG			0x00000194
+-#define REG_A6XX_GMU_HFI_QTBL_ADDR				0x00005185
 -
--#define REG_HDMI_PHY_QSERDES_COM_CMN_RATE_OVERRIDE		0x00000198
+-#define REG_A6XX_GMU_HFI_CTRL_INIT				0x00005186
 -
--#define REG_HDMI_PHY_QSERDES_COM_SVS_MODE_CLK_SEL		0x0000019c
+-#define REG_A6XX_GMU_GMU2HOST_INTR_SET				0x00005190
 -
--#define REG_HDMI_PHY_QSERDES_COM_DEBUG_BUS0			0x000001a0
+-#define REG_A6XX_GMU_GMU2HOST_INTR_CLR				0x00005191
 -
--#define REG_HDMI_PHY_QSERDES_COM_DEBUG_BUS1			0x000001a4
+-#define REG_A6XX_GMU_GMU2HOST_INTR_INFO				0x00005192
+-#define A6XX_GMU_GMU2HOST_INTR_INFO_MSGQ			0x00000001
+-#define A6XX_GMU_GMU2HOST_INTR_INFO_CM3_FAULT			0x00800000
 -
--#define REG_HDMI_PHY_QSERDES_COM_DEBUG_BUS2			0x000001a8
+-#define REG_A6XX_GMU_GMU2HOST_INTR_MASK				0x00005193
 -
--#define REG_HDMI_PHY_QSERDES_COM_DEBUG_BUS3			0x000001ac
+-#define REG_A6XX_GMU_HOST2GMU_INTR_SET				0x00005194
 -
--#define REG_HDMI_PHY_QSERDES_COM_DEBUG_BUS_SEL			0x000001b0
+-#define REG_A6XX_GMU_HOST2GMU_INTR_CLR				0x00005195
 -
--#define REG_HDMI_PHY_QSERDES_COM_CMN_MISC1			0x000001b4
+-#define REG_A6XX_GMU_HOST2GMU_INTR_RAW_INFO			0x00005196
 -
--#define REG_HDMI_PHY_QSERDES_COM_CMN_MISC2			0x000001b8
+-#define REG_A6XX_GMU_HOST2GMU_INTR_EN_0				0x00005197
 -
--#define REG_HDMI_PHY_QSERDES_COM_CORECLK_DIV_MODE1		0x000001bc
+-#define REG_A6XX_GMU_HOST2GMU_INTR_EN_1				0x00005198
 -
--#define REG_HDMI_PHY_QSERDES_COM_CORECLK_DIV_MODE2		0x000001c0
+-#define REG_A6XX_GMU_HOST2GMU_INTR_EN_2				0x00005199
 -
--#define REG_HDMI_PHY_QSERDES_COM_CMN_RSVD5			0x000001c4
+-#define REG_A6XX_GMU_HOST2GMU_INTR_EN_3				0x0000519a
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_BIST_MODE_LANENO		0x00000000
+-#define REG_A6XX_GMU_HOST2GMU_INTR_INFO_0			0x0000519b
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_BIST_INVERT			0x00000004
+-#define REG_A6XX_GMU_HOST2GMU_INTR_INFO_1			0x0000519c
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_CLKBUF_ENABLE		0x00000008
+-#define REG_A6XX_GMU_HOST2GMU_INTR_INFO_2			0x0000519d
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_CMN_CONTROL_ONE		0x0000000c
+-#define REG_A6XX_GMU_HOST2GMU_INTR_INFO_3			0x0000519e
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_CMN_CONTROL_TWO		0x00000010
+-#define REG_A6XX_GMU_GENERAL_0					0x000051c5
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_CMN_CONTROL_THREE		0x00000014
+-#define REG_A6XX_GMU_GENERAL_1					0x000051c6
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_TX_EMP_POST1_LVL		0x00000018
+-#define REG_A6XX_GMU_GENERAL_6					0x000051cb
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_TX_POST2_EMPH		0x0000001c
+-#define REG_A6XX_GMU_GENERAL_7					0x000051cc
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_TX_BOOST_LVL_UP_DN		0x00000020
+-#define REG_A7XX_GMU_GENERAL_8					0x000051cd
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_HP_PD_ENABLES		0x00000024
+-#define REG_A7XX_GMU_GENERAL_9					0x000051ce
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_TX_IDLE_LVL_LARGE_AMP	0x00000028
+-#define REG_A7XX_GMU_GENERAL_10					0x000051cf
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_TX_DRV_LVL			0x0000002c
+-#define REG_A6XX_GMU_ISENSE_CTRL				0x0000515d
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_TX_DRV_LVL_OFFSET		0x00000030
+-#define REG_A6XX_GPU_CS_ENABLE_REG				0x00008920
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_RESET_TSYNC_EN		0x00000034
+-#define REG_A6XX_GPU_GMU_CX_GMU_ISENSE_CTRL			0x0000515d
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_PRE_STALL_LDO_BOOST_EN	0x00000038
+-#define REG_A6XX_GPU_CS_AMP_CALIBRATION_CONTROL3		0x00008578
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_TX_BAND			0x0000003c
+-#define REG_A6XX_GPU_CS_AMP_CALIBRATION_CONTROL2		0x00008558
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_SLEW_CNTL			0x00000040
+-#define REG_A6XX_GPU_CS_A_SENSOR_CTRL_0				0x00008580
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_INTERFACE_SELECT		0x00000044
+-#define REG_A6XX_GPU_CS_A_SENSOR_CTRL_2				0x00027ada
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_LPB_EN			0x00000048
+-#define REG_A6XX_GPU_CS_SENSOR_GENERAL_STATUS			0x0000881a
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_RES_CODE_LANE_TX		0x0000004c
+-#define REG_A6XX_GPU_CS_AMP_CALIBRATION_CONTROL1		0x00008957
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_RES_CODE_LANE_RX		0x00000050
+-#define REG_A6XX_GPU_CS_SENSOR_GENERAL_STATUS			0x0000881a
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_RES_CODE_LANE_OFFSET		0x00000054
+-#define REG_A6XX_GPU_CS_AMP_CALIBRATION_STATUS1_0		0x0000881d
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_PERL_LENGTH1			0x00000058
+-#define REG_A6XX_GPU_CS_AMP_CALIBRATION_STATUS1_2		0x0000881f
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_PERL_LENGTH2			0x0000005c
+-#define REG_A6XX_GPU_CS_AMP_CALIBRATION_STATUS1_4		0x00008821
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_SERDES_BYP_EN_OUT		0x00000060
+-#define REG_A6XX_GPU_CS_AMP_CALIBRATION_DONE			0x00008965
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_DEBUG_BUS_SEL		0x00000064
+-#define REG_A6XX_GPU_CS_AMP_PERIOD_CTRL				0x0000896d
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_HIGHZ_TRANSCEIVEREN_BIAS_DRVR_EN	0x00000068
+-#define REG_A6XX_GPU_CS_AMP_CALIBRATION_DONE			0x00008965
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_TX_POL_INV			0x0000006c
+-#define REG_A6XX_GPU_GMU_CX_GMU_PWR_THRESHOLD			0x0000514d
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_PARRATE_REC_DETECT_IDLE_EN	0x00000070
+-#define REG_A6XX_GMU_AO_INTERRUPT_EN				0x00009303
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_BIST_PATTERN1		0x00000074
+-#define REG_A6XX_GMU_AO_HOST_INTERRUPT_CLR			0x00009304
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_BIST_PATTERN2		0x00000078
+-#define REG_A6XX_GMU_AO_HOST_INTERRUPT_STATUS			0x00009305
+-#define A6XX_GMU_AO_HOST_INTERRUPT_STATUS_WDOG_BITE		0x00000001
+-#define A6XX_GMU_AO_HOST_INTERRUPT_STATUS_RSCC_COMP		0x00000002
+-#define A6XX_GMU_AO_HOST_INTERRUPT_STATUS_VDROOP		0x00000004
+-#define A6XX_GMU_AO_HOST_INTERRUPT_STATUS_FENCE_ERR		0x00000008
+-#define A6XX_GMU_AO_HOST_INTERRUPT_STATUS_DBD_WAKEUP		0x00000010
+-#define A6XX_GMU_AO_HOST_INTERRUPT_STATUS_HOST_AHB_BUS_ERROR	0x00000020
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_BIST_PATTERN3		0x0000007c
+-#define REG_A6XX_GMU_AO_HOST_INTERRUPT_MASK			0x00009306
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_BIST_PATTERN4		0x00000080
+-#define REG_A6XX_GPU_GMU_AO_GMU_CGC_MODE_CNTL			0x00009309
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_BIST_PATTERN5		0x00000084
+-#define REG_A6XX_GPU_GMU_AO_GMU_CGC_DELAY_CNTL			0x0000930a
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_BIST_PATTERN6		0x00000088
+-#define REG_A6XX_GPU_GMU_AO_GMU_CGC_HYST_CNTL			0x0000930b
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_BIST_PATTERN7		0x0000008c
+-#define REG_A6XX_GPU_GMU_AO_GPU_CX_BUSY_STATUS			0x0000930c
+-#define A6XX_GPU_GMU_AO_GPU_CX_BUSY_STATUS_GPUBUSYIGNAHB	0x00800000
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_BIST_PATTERN8		0x00000090
+-#define REG_A6XX_GPU_GMU_AO_GPU_CX_BUSY_STATUS2			0x0000930d
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_LANE_MODE			0x00000094
+-#define REG_A6XX_GPU_GMU_AO_GPU_CX_BUSY_MASK			0x0000930e
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_IDAC_CAL_LANE_MODE		0x00000098
+-#define REG_A6XX_GMU_AO_AHB_FENCE_CTRL				0x00009310
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_IDAC_CAL_LANE_MODE_CONFIGURATION	0x0000009c
+-#define REG_A6XX_GMU_AHB_FENCE_STATUS				0x00009313
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_ATB_SEL1			0x000000a0
+-#define REG_A6XX_GMU_AHB_FENCE_STATUS_CLR			0x00009314
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_ATB_SEL2			0x000000a4
+-#define REG_A6XX_GMU_RBBM_INT_UNMASKED_STATUS			0x00009315
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_RCV_DETECT_LVL		0x000000a8
+-#define REG_A6XX_GMU_AO_SPARE_CNTL				0x00009316
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_RCV_DETECT_LVL_2		0x000000ac
+-#define REG_A6XX_GMU_RSCC_CONTROL_REQ				0x00009307
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_PRBS_SEED1			0x000000b0
+-#define REG_A6XX_GMU_RSCC_CONTROL_ACK				0x00009308
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_PRBS_SEED2			0x000000b4
+-#define REG_A6XX_GMU_AHB_FENCE_RANGE_0				0x00009311
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_PRBS_SEED3			0x000000b8
+-#define REG_A6XX_GMU_AHB_FENCE_RANGE_1				0x00009312
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_PRBS_SEED4			0x000000bc
+-#define REG_A6XX_GPU_CC_GX_GDSCR				0x00009c03
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_RESET_GEN			0x000000c0
+-#define REG_A6XX_GPU_CC_GX_DOMAIN_MISC				0x00009d42
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_RESET_GEN_MUXES		0x000000c4
+-#define REG_A6XX_GPU_CPR_FSM_CTL				0x0000c001
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_TRAN_DRVR_EMP_EN		0x000000c8
+-#define REG_A6XX_GPU_RSCC_RSC_STATUS0_DRV0			0x00000004
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_TX_INTERFACE_MODE		0x000000cc
+-#define REG_A6XX_RSCC_PDC_SEQ_START_ADDR			0x00000008
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_PWM_CTRL			0x000000d0
+-#define REG_A6XX_RSCC_PDC_MATCH_VALUE_LO			0x00000009
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_PWM_ENCODED_OR_DATA		0x000000d4
+-#define REG_A6XX_RSCC_PDC_MATCH_VALUE_HI			0x0000000a
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_PWM_GEAR_1_DIVIDER_BAND2	0x000000d8
+-#define REG_A6XX_RSCC_PDC_SLAVE_ID_DRV0				0x0000000b
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_PWM_GEAR_2_DIVIDER_BAND2	0x000000dc
+-#define REG_A6XX_RSCC_HIDDEN_TCS_CMD0_ADDR			0x0000000d
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_PWM_GEAR_3_DIVIDER_BAND2	0x000000e0
+-#define REG_A6XX_RSCC_HIDDEN_TCS_CMD0_DATA			0x0000000e
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_PWM_GEAR_4_DIVIDER_BAND2	0x000000e4
+-#define REG_A6XX_RSCC_TIMESTAMP_UNIT0_TIMESTAMP_L_DRV0		0x00000082
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_PWM_GEAR_1_DIVIDER_BAND0_1	0x000000e8
+-#define REG_A6XX_RSCC_TIMESTAMP_UNIT0_TIMESTAMP_H_DRV0		0x00000083
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_PWM_GEAR_2_DIVIDER_BAND0_1	0x000000ec
+-#define REG_A6XX_RSCC_TIMESTAMP_UNIT1_EN_DRV0			0x00000089
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_PWM_GEAR_3_DIVIDER_BAND0_1	0x000000f0
+-#define REG_A6XX_RSCC_TIMESTAMP_UNIT1_OUTPUT_DRV0		0x0000008c
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_PWM_GEAR_4_DIVIDER_BAND0_1	0x000000f4
+-#define REG_A6XX_RSCC_OVERRIDE_START_ADDR			0x00000100
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_VMODE_CTRL1			0x000000f8
+-#define REG_A6XX_RSCC_SEQ_BUSY_DRV0				0x00000101
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_VMODE_CTRL2			0x000000fc
+-#define REG_A7XX_RSCC_SEQ_MEM_0_DRV0_A740			0x00000154
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_TX_ALOG_INTF_OBSV_CNTL	0x00000100
+-#define REG_A6XX_RSCC_SEQ_MEM_0_DRV0				0x00000180
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_BIST_STATUS			0x00000104
+-#define REG_A6XX_RSCC_TCS0_DRV0_STATUS				0x00000346
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_BIST_ERROR_COUNT1		0x00000108
+-#define REG_A6XX_RSCC_TCS1_DRV0_STATUS				0x000003ee
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_BIST_ERROR_COUNT2		0x0000010c
+-#define REG_A6XX_RSCC_TCS2_DRV0_STATUS				0x00000496
 -
--#define REG_HDMI_PHY_QSERDES_TX_LX_TX_ALOG_INTF_OBSV		0x00000110
+-#define REG_A6XX_RSCC_TCS3_DRV0_STATUS				0x0000053e
 -
+-#ifdef __cplusplus
+-#endif
 -
--#endif /* HDMI_XML */
+-#endif /* A6XX_GMU_XML */
 
 -- 
 2.39.2
