@@ -1,110 +1,177 @@
-Return-Path: <linux-kbuild+bounces-1242-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1243-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A967687C783
-	for <lists+linux-kbuild@lfdr.de>; Fri, 15 Mar 2024 03:31:11 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 266A787C8FD
+	for <lists+linux-kbuild@lfdr.de>; Fri, 15 Mar 2024 08:24:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 498921F2182A
-	for <lists+linux-kbuild@lfdr.de>; Fri, 15 Mar 2024 02:31:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C69241F22579
+	for <lists+linux-kbuild@lfdr.de>; Fri, 15 Mar 2024 07:24:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF14A1A38E9;
-	Fri, 15 Mar 2024 02:30:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B2E412E7E;
+	Fri, 15 Mar 2024 07:16:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N+uvzB94"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b="Yp2GKtFU"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FAF86FB1;
-	Fri, 15 Mar 2024 02:30:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E449113AE2;
+	Fri, 15 Mar 2024 07:16:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.63.252.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710469858; cv=none; b=BwOdbTpT9bsNKHE7dK02LqHLlaT1+0+39OlDMoLUzHsc9WBztv6EG6OYwmzbSBdhvdqqW+YTNUf010xKpKdNGm01y7gICRb0w3HI9mvDj7HfZRGG83fNchIjx5Z0wQM8J9pdOWVFUB78k6Kl7qH9Z+UULCZNtzDmecDeTFhh/Fc=
+	t=1710487007; cv=none; b=mJoImswYviWdn5PDneQwJEQBp+z7FXMPbc8hkT8Xwua8vqSYZhWxkl4JOXoqzCx+LHvRYuufJiPhxkNFD1xLYb8LEv0Y0K0YYB/NXfK9Qcaccl5E3X7XvMbXx7Pml4MK4XA7xDlHD+y4RKalrnQbxBcICTcJR0gbX3edmwMaoUM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710469858; c=relaxed/simple;
-	bh=dpVUTr5Plhl058/uH4Kri3LO8Jz2P9RHi3V4RJfMjhs=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=bmchRuuI+/mY/kMfP5Ke1J9Zag9qBrdsKW6aY8RlfiWtk8jEldgt6Mv60yM5CkvuVuT8sOZh9IKd8kzb+Gd5MI28SxBtn9iscSJMxJ2HaM48zSGKj6TBIb8h7KZzz4FeB7pXKYAV9KAnBrrMKNx2rhO+T3+Vxs1lwloKteoysZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N+uvzB94; arc=none smtp.client-ip=209.85.219.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-6910c1f983bso9779006d6.0;
-        Thu, 14 Mar 2024 19:30:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710469856; x=1711074656; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4ejYFjYDwJWT4LMREbSvJVA0/AZZXGt31sFPEUshDaM=;
-        b=N+uvzB94ntlYXes0MCqinhl6lRJfxCXWT+GhdfAah4FAqgN4K8gCqcc1ShUcz0RF5z
-         oaiMxmWco07J754LIv63ZcZMHd4Z4BV1b+GD/xRb9rwh0Ecl1XlUvz3V57pAza1xpaIY
-         RaLBFSMpNquQNWMbtqTLfCv2WpffiiLly1zHUFJJ4pV43HUQH4A5/Bhfu7owQ/qOa5IM
-         +3gswgEcoymFahrYEefZI3yyjZPFsehKBdFeWgqsmMUXzJD4zVEXZX/6JFILOfNq8WEQ
-         Z8+nSQ7gIE2t0eIDf0FvMrFiW4RWqmnNxQJNlRXtdgc5gHPWGW22LQ0CqDR6mOjcQyHG
-         gPgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710469856; x=1711074656;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4ejYFjYDwJWT4LMREbSvJVA0/AZZXGt31sFPEUshDaM=;
-        b=koFgU+OwqFHYGihrpy+ahu7TqTJDfu5mEIkqsboh5JIXq3zs6vbCW1I8GxS+IgN5W1
-         GyZ019sqxPWrPhfiDQqYCU05fFqb/YVKBtobtxmRoEyP5hP4/PKmpgKuNruHCdaBFdsI
-         KCExp8mDB5SZXLq370kyUe3K7umBpDXE1PvGWiKy1LULpra1oGUGI3YpCgpioykrzZlo
-         8l2xG4zYjulQve7MM7LKFov8bm4nXIXFTufTndfWna6ixLQ4qFrVhtw4A63agps8A/LB
-         tJdwymDoJgo5fv7FbtAhenVy/01ha8tZieahK7xXD0Pv0mmpCxY4ApWI48cAXILyPWQF
-         8Eyw==
-X-Forwarded-Encrypted: i=1; AJvYcCVr6h2A1JlgdZrO4bQau+Z3pK6U8JpJpxjyxnslXftkWdm1aK7mHRZVQ6IuKDwr/diqeBgIQ0PYOp+xU9/dm3PFNTqd8Y/8Yho1irz7l0idUun4CXDeaXw0Bh4fL2JRLRk26izwuBhg0oiB
-X-Gm-Message-State: AOJu0YyS56wFRj41Pvn3tpuKdQ7nE6ibK0kXQNHewIIl23jyYLqxZUjM
-	/oPbs234ycTtrDsy1CvqShdrduFLv8QIIgn0LmBklRyg+koplfGh
-X-Google-Smtp-Source: AGHT+IGBD4YCat38Hgt0nDvoW+vYKiJwyKQRJNNvXlsrqMytJXWp8/MfZkqgJ7FC+uUYvVjKiFpA/A==
-X-Received: by 2002:a0c:f8c9:0:b0:690:ad9f:e3dd with SMTP id h9-20020a0cf8c9000000b00690ad9fe3ddmr2540083qvo.63.1710469856213;
-        Thu, 14 Mar 2024 19:30:56 -0700 (PDT)
-Received: from Slackware.localdomain ([191.96.227.83])
-        by smtp.gmail.com with ESMTPSA id im14-20020a056214246e00b0069049298fccsm1292579qvb.65.2024.03.14.19.30.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Mar 2024 19:30:55 -0700 (PDT)
-From: Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To: masahiroy@kernel.org,
-	nathan@kernel.org,
-	nicolas@fjasle.eu,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Bhaskar Chowdhury <unixbhaskar@gmail.com>
-Subject: [PATCH] scripts: Improve source code readability by eliminating too many slashes
-Date: Fri, 15 Mar 2024 08:00:38 +0530
-Message-Id: <20240315023038.4320-1-unixbhaskar@gmail.com>
-X-Mailer: git-send-email 2.35.8
+	s=arc-20240116; t=1710487007; c=relaxed/simple;
+	bh=7sWoJBmiM1RTh/+whohKr626E2AEwZKJYgfI3B+qws4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=j4GnlZ+akaC5wt53dp8HdB/Z71z6wF+cRNClf1HwrvbNvf7kjp5iQ85AxxHjo84t+OTHcA+gsQoWFpNDUxFa6RrztRGkzdc5ZyeC6f/U5zwh4UliYbtTi9lI6azG7qxkyKF88ZD+W8esqQOKyZjBgXRV1zOgjwwRPj2xcmAMfPs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu; spf=pass smtp.mailfrom=fjasle.eu; dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b=Yp2GKtFU; arc=none smtp.client-ip=194.63.252.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fjasle.eu
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=fjasle.eu;
+	s=ds202307; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=/HshpHEiyxloK86klFo4GEh2BmozhDHk+34Y4SmA++0=; b=Yp2GKtFUaBTCTnmkkKwzoqgsQY
+	AZf/lbIS+hcFqLaOuFdtohOEcP9Ox1E64e5GkXLyfXolLkSEFpWyHtOnOiPPCCYNulvg/4czaTiNB
+	i9t7XcrTy1GWC/Yjz/ds8NJs/BF8Zbo2QBPB+sbaYcOZ7gONcQ4o0kDsLJC5KlNcpQkb/aDrVc3vD
+	p08YyVsZLWu+PnEKHI1BlPXC70f6smzmmD8y+54JUwV1sQSdsEBSXBk0Gvu4pCtB6LG03veqvJzVH
+	7efFBeF41A52a+F+1+bfSV1duTAcwccPlj1vhjosSy2baImNWwSujXBdNBUNWMQD1kXuGcQuLWqnZ
+	/fU0NvEg==;
+Received: from [2001:9e8:9d7:fc01:6f0:21ff:fe91:394] (port=46020 helo=bergen.fjasle.eu)
+	by smtp.domeneshop.no with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <nicolas@fjasle.eu>)
+	id 1rl1nn-004Lkq-Sv;
+	Fri, 15 Mar 2024 08:16:27 +0100
+Date: Fri, 15 Mar 2024 08:16:21 +0100
+From: Nicolas Schier <nicolas@fjasle.eu>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>, kernel@pengutronix.de,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] lib/build_OID_registry: Don't mention the full path
+ of the script in output
+Message-ID: <ZfP1xdcYlUawm3uV@bergen.fjasle.eu>
+References: <20240313211957.884561-2-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="0mj95xAbx5R1PIon"
+Content-Disposition: inline
+In-Reply-To: <20240313211957.884561-2-u.kleine-koenig@pengutronix.de>
+X-Operating-System: Debian GNU/Linux trixie/sid
+Jabber-ID: nicolas@jabber.no
 
-I have tried to eliminate the convolution(visual) of forward slashes.
 
-Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
----
- scripts/mkcompile_h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--0mj95xAbx5R1PIon
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/scripts/mkcompile_h b/scripts/mkcompile_h
-index 2596f78e52ef..d6a7b22d23e3 100755
---- a/scripts/mkcompile_h
-+++ b/scripts/mkcompile_h
-@@ -6,7 +6,7 @@ CC_VERSION="$2"
- LD=$3
+On Wed 13 Mar 2024 22:19:56 GMT, Uwe Kleine-K=F6nig wrote:
+> Date: Wed, 13 Mar 2024 22:19:56 +0100
+> From: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+> To: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Masahiro Yamada <masahiroy@kernel.org>, kernel@pengutronix.de,
+>  linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+> Subject: [PATCH v2] lib/build_OID_registry: Don't mention the full path of
+>  the script in output
+> Message-ID: <20240313211957.884561-2-u.kleine-koenig@pengutronix.de>
+> X-Mailer: git-send-email 2.43.0
+> X-Mailing-List: linux-kbuild@vger.kernel.org
+>=20
+> This change strips the full path of the script generating
+> lib/oid_registry_data.c to just lib/build_OID_registry. The motivation
+> for this change is Yocto emitting a build warning
+>=20
+> 	File /usr/src/debug/linux-lxatac/6.7-r0/lib/oid_registry_data.c in packa=
+ge linux-lxatac-src contains reference to TMPDIR [buildpaths]
+>=20
+> So this change brings us one step closer to make the build result
+> reproducible independent of the build path.
+>=20
+> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+> ---
+> Changes since (implicit) v1, archived at
+> https://lore.kernel.org/lkml/20240311110121.459581-2-u.kleine-koenig@peng=
+utronix.de:
+>=20
+>  - Handle abs_srctree not being exported any more
+>=20
+> The v1 patch made it into next but im combination with commit e2bad142bb3d
+> ("kbuild: unexport abs_srctree and abs_objtree") resulted in a build warn=
+ing
+> about $ENV{"abs_srctree"} being uninitialized which required this respin.
+>=20
+> Best regards
+> Uwe
+>=20
+>  lib/build_OID_registry | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/lib/build_OID_registry b/lib/build_OID_registry
+> index d7fc32ea8ac2..56d8bafeb848 100755
+> --- a/lib/build_OID_registry
+> +++ b/lib/build_OID_registry
+> @@ -8,6 +8,7 @@
+>  #
+> =20
+>  use strict;
+> +use Cwd qw(abs_path);
+> =20
+>  my @names =3D ();
+>  my @oids =3D ();
+> @@ -17,6 +18,8 @@ if ($#ARGV !=3D 1) {
+>      exit(2);
+>  }
+> =20
+> +my $abs_srctree =3D abs_path($ENV{'srctree'});
+> +
+>  #
+>  # Open the file to read from
+>  #
+> @@ -35,7 +38,7 @@ close IN_FILE || die;
+>  #
+>  open C_FILE, ">$ARGV[1]" or die;
+>  print C_FILE "/*\n";
+> -print C_FILE " * Automatically generated by ", $0, ".  Do not edit\n";
+> +print C_FILE " * Automatically generated by ", $0 =3D~ s#^\Q$abs_srctree=
+/\E##r, ".  Do not edit\n";
 
- if test -z "$KBUILD_BUILD_USER"; then
--	LINUX_COMPILE_BY=$(whoami | sed 's/\\/\\\\/')
-+	LINUX_COMPILE_BY=$(whoami | sed 's#\\#\\\\#')
- else
- 	LINUX_COMPILE_BY=$KBUILD_BUILD_USER
- fi
---
-2.35.8
+I'd rather remove the script name from the comment or hard-code the=20
+file name, but this is correct as it is.
 
+Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
+
+--0mj95xAbx5R1PIon
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmXz9b8ACgkQB1IKcBYm
+Emk/AxAA2HczsXAYEJ0izKaGPxnW0T2YOi1oC5XuGrjmnzeLZuu/JJIpmQdPyP2T
+iJ2YpbcbZfAhBGteDjzDFjoDLnED5YjfTDWD+pQWYkrWXy27AzvfykdvMRwECFRD
+FdSn2RoKrQChljtSz5OLoIcxSesGU+/iPhdDR98VimlNyaS8uPvjkXcj4r6me84a
+qvrdC4CyhA2fCe3lk2d1nGc/ZJudqYJRAhNuIFo84WDUVPIA62lxNK/K5J69/mdI
+foci2JMqouPdgqnTXBmlri4uwaUJDQgiGFCkPpTw6T8+jxRoSnFu1t41mkTBg9Yd
+rLzOKVJooD6F2ihrkWyGUL5+d7xr6cDChyUnwYBpiPmGPamL/cRK/pJQFwq7Bzy4
+CB1pMBqDvp1EwM9DSC4665SawZhzbBNfu01mwYmTjiIhFzN+Qq/qiA9DsKj5NzBu
+lQfPoOcVEJ6RC3Y8QfsupmFlFBO1mYQOtoSlHGgh9kYnRq9bHKAWB0e8iZta2nOz
+eGH3gE9MgvRiV8cHWyr87R3pMHnbW6N8x9CIghwF5Exp27MyQN8mgNUZfH5VqFXU
+a374p1FjFC17FktlXuSgJtDwIoQHDpEc37Tvz49TWNXjGt8lmA/GIthGDZBaQDGN
+yWt2OpQpL0K7WbVFbPJ0mLOI8rWwpEkHxiC68WTrKOYiR2IAYDU=
+=VqKJ
+-----END PGP SIGNATURE-----
+
+--0mj95xAbx5R1PIon--
 
