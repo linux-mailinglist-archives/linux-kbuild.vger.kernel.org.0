@@ -1,59 +1,52 @@
-Return-Path: <linux-kbuild+bounces-1266-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1267-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CD538814CE
-	for <lists+linux-kbuild@lfdr.de>; Wed, 20 Mar 2024 16:43:45 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F22F8815E6
+	for <lists+linux-kbuild@lfdr.de>; Wed, 20 Mar 2024 17:52:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2D074284A10
-	for <lists+linux-kbuild@lfdr.de>; Wed, 20 Mar 2024 15:43:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1F2E31F22665
+	for <lists+linux-kbuild@lfdr.de>; Wed, 20 Mar 2024 16:52:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B80954E1CA;
-	Wed, 20 Mar 2024 15:43:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C15A69DE8;
+	Wed, 20 Mar 2024 16:52:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B1bwb+0R"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YgZmBreY"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D9191364;
-	Wed, 20 Mar 2024 15:43:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02F8769DE6;
+	Wed, 20 Mar 2024 16:52:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710949420; cv=none; b=glTemy0GxLK8ZBb1ONl0ZCrd+QMa5WaDKeFE7ujMuiinrQ2+F6c78WtG2KfjOFF8zAtIyAfnDgUDAemcMQOVzcyQ0uauiaxHy692F9S74EEyBeXlEdpiY/ZTTXkKcbT7eHlFK15kDNccQbokEUAuUCLmKgsSc3wvwnp78KOBnR4=
+	t=1710953536; cv=none; b=i0a7/8WJvFueVQeDo4oTQAQh2xUbu4uh2Sq012yibIlFuE9y4O+V0a6g71D4SWLge4Aw5onWjB+ovVmQxyvNY+pxWkp4WyevO0pGRsNkmzja/V0E1fKjk3KzWwdzD/xPrxfamYhNihgD2tTTHALJwNrL8eZhIg6q+9mXBDk4tWg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710949420; c=relaxed/simple;
-	bh=1hvlb+dBq1uqMaMG6m7WOPZeFA1zoDxT5KLD5wMVj78=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=a6WwSJWRMgc8BAGOdPT502tM7/Ojb1XjKoOUB4JtRN9awLs7oWnb2xwH2BPEYONaSIL6NoBgh+F0u0rNMV1mvyhqid4MKl409QlK557IbM0HiLYR2m1nG2vrNeglYZN+kUuG4/4QHiQmWvtMrv2PnZZ9V2YgWZEcWQqjZjUbbRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B1bwb+0R; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D07B2C433F1;
-	Wed, 20 Mar 2024 15:43:37 +0000 (UTC)
+	s=arc-20240116; t=1710953536; c=relaxed/simple;
+	bh=NR9sR85xAHzVG2coKJ4Iltba6VffU0YEvzAwFcIjHWc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=n0dCU42xCq8hiuYlLze3PG+yXmEBNpPr9MVUNpGZJvo5I+DLQXIBJEmB9mcp2TlxJCL+5givKQvlWlUCxX5XW6/sB382nLsEeuONDxppsskWhG31BACMYFG4sNELlONg7SrEcJZtwMJB744Xhvk5WMgZTb5lRYB6/TEQcRMCCoY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YgZmBreY; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3DCCC433F1;
+	Wed, 20 Mar 2024 16:52:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710949420;
-	bh=1hvlb+dBq1uqMaMG6m7WOPZeFA1zoDxT5KLD5wMVj78=;
+	s=k20201202; t=1710953535;
+	bh=NR9sR85xAHzVG2coKJ4Iltba6VffU0YEvzAwFcIjHWc=;
 	h=From:To:Cc:Subject:Date:From;
-	b=B1bwb+0R3MFIKhh9B/6DLhVFYStUBi0lMDkeqcA1X81AYfUVkRVMDfPOgMHiva5EA
-	 Pe+F6T4HGo1DFkaRXVp2KhCjHrWWdbQQovnxs8zXohXrZPjpUPL+G7iSIK0fYVDq3j
-	 9plSGoyqcsbZ58I54D7zo5svC/RWSRHFS7PhI46acb5KPveLmf0tADJoaFArqSv+/z
-	 LfvgClpvX0wvi9Y2fycwnF72KouOWmyh5bI48MpZ6pnJaaw6TCcumKo/UNzk5hJGbG
-	 zmJjIW+5vkdt0Jk11qQiJL2HIUV6yn9zgBGm3Xy1ZHhHtqO71S4fuWIlT5UrB9lL6E
-	 wR4lyG3EVpunw==
+	b=YgZmBreYRE7m98v1KM/B01ectHsmH12QI3mmlwiGA7v+pLyLzaQtfJUD30qV51z1J
+	 38t3lYNfPJjfyD/NcyFu1Xc4JMyQcF+Sb1A2qv0JwqhAFWPktUhCx0N7Tr36xbqz46
+	 K+ezG3ePOdijFH20nwlDDYEY3k1v9A79DJFs+t4PtfTpSQ3YRiXsnt/89r2Cq8mVY9
+	 33fFL1DxYyo28MsfL6oCAUzVoBZQRcsk3SbnVhS//RFUJAMF/lTq1xpQYmUaAfVpN0
+	 JVaC5AIZJT8V9jWhQZKLRpse1abcq+g4QX5RHY5j5WLuTQ/4BcOxob9JGL44OCE43i
+	 b2aqJrDD4luAQ==
 From: Masahiro Yamada <masahiroy@kernel.org>
-To: x86@kernel.org,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>
-Cc: linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
+To: linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
 	Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH] x86: tinyconfig: fix warning for 'make ARCH=x86_64 tinyconfig'
-Date: Thu, 21 Mar 2024 00:43:12 +0900
-Message-Id: <20240320154313.612342-1-masahiroy@kernel.org>
+Subject: [PATCH 1/3] kconfig: tests: support KCONFIG_SEED for the randconfig runner
+Date: Thu, 21 Mar 2024 01:52:09 +0900
+Message-Id: <20240320165211.697584-1-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
@@ -63,39 +56,55 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Kconfig emits a warning for the following command:
-
-  $ make ARCH=x86_64 tinyconfig
-    [ snip ]
-  .config:1380:warning: override: UNWINDER_GUESS changes choice state
-
-When X86_64=y, the unwinder is exclusively selected from the following
-three options:
-
- - UNWINDER_ORC
- - UNWINDER_FRAME_POINTER
- - UNWINDER_GUESS
-
-However, arch/x86/configs/tiny.config only specifies the values of the
-last two. UNWINDER_ORC must be explicitly disabled.
+This will help get consistent results for randconfig tests.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- arch/x86/configs/tiny.config | 1 +
- 1 file changed, 1 insertion(+)
+ scripts/kconfig/tests/conftest.py | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/arch/x86/configs/tiny.config b/arch/x86/configs/tiny.config
-index 66c9e2aab16c..be3ee4294903 100644
---- a/arch/x86/configs/tiny.config
-+++ b/arch/x86/configs/tiny.config
-@@ -1,5 +1,6 @@
- CONFIG_NOHIGHMEM=y
- # CONFIG_HIGHMEM4G is not set
- # CONFIG_HIGHMEM64G is not set
-+# CONFIG_UNWINDER_ORC is not set
- CONFIG_UNWINDER_GUESS=y
- # CONFIG_UNWINDER_FRAME_POINTER is not set
+diff --git a/scripts/kconfig/tests/conftest.py b/scripts/kconfig/tests/conftest.py
+index af8774a5697c..2a2a7e2da060 100644
+--- a/scripts/kconfig/tests/conftest.py
++++ b/scripts/kconfig/tests/conftest.py
+@@ -154,12 +154,10 @@ class Conf:
+         defconfig_path = os.path.join(self._test_dir, defconfig)
+         return self._run_conf('--defconfig={}'.format(defconfig_path))
+ 
+-    def _allconfig(self, mode, all_config):
++    def _allconfig(self, mode, all_config, extra_env={}):
+         if all_config:
+             all_config_path = os.path.join(self._test_dir, all_config)
+-            extra_env = {'KCONFIG_ALLCONFIG': all_config_path}
+-        else:
+-            extra_env = {}
++            extra_env['KCONFIG_ALLCONFIG'] = all_config_path
+ 
+         return self._run_conf('--{}config'.format(mode), extra_env=extra_env)
+ 
+@@ -195,13 +193,19 @@ class Conf:
+         """
+         return self._allconfig('alldef', all_config)
+ 
+-    def randconfig(self, all_config=None):
++    def randconfig(self, all_config=None, seed=None):
+         """Run randconfig.
+ 
+         all_config: fragment config file for KCONFIG_ALLCONFIG (optional)
++        seed: the seed for randconfig (optional)
+         returncode: exit status of the Kconfig executable
+         """
+-        return self._allconfig('rand', all_config)
++        if seed is not None:
++            extra_env = {'KCONFIG_SEED': hex(seed)}
++        else:
++            extra_env = {}
++
++        return self._allconfig('rand', all_config, extra_env=extra_env)
+ 
+     def savedefconfig(self, dot_config):
+         """Run savedefconfig.
 -- 
 2.40.1
 
