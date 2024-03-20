@@ -1,56 +1,59 @@
-Return-Path: <linux-kbuild+bounces-1269-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1270-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68B108815EA
-	for <lists+linux-kbuild@lfdr.de>; Wed, 20 Mar 2024 17:52:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 585CA881700
+	for <lists+linux-kbuild@lfdr.de>; Wed, 20 Mar 2024 19:01:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 57804B21B2B
-	for <lists+linux-kbuild@lfdr.de>; Wed, 20 Mar 2024 16:52:36 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2E7E2B234C3
+	for <lists+linux-kbuild@lfdr.de>; Wed, 20 Mar 2024 18:01:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 635A76A013;
-	Wed, 20 Mar 2024 16:52:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77AB26A8A8;
+	Wed, 20 Mar 2024 18:01:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DdIoDaO2"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gwPoVxfw"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B21D6A00C;
-	Wed, 20 Mar 2024 16:52:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ED946A35B;
+	Wed, 20 Mar 2024 18:01:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710953538; cv=none; b=QH4g46qsH8vMvP97KI98MzySLqiRZ9Ydb4YMYo7nIOxtF/Vok8QBFOwV/yOSJIXLecpEPKojkzABwGTotvxycUYLF/mZVQJoW5FB/ksCYbjARiu5vY8l7s1htTccGkT441iuwbvd1Iq4tScCcpb0WPon4FC6avMYvcXuI+dmd2Q=
+	t=1710957699; cv=none; b=kZpmBy2Hg5te9c3hx/1ox4ZitV/ygas0LZ042ibp9bNHj1HAV6oPLPXRB9uXDukCGsljRAPbVEKbPXMsmY2LAh5B1cdF7G6iUafpZJS5ajHK1HDubVtCIdjB5Jw5UChcpSy5/+i/IDMYzeNics5OnCnTw3iuvYJgm7FE5bqGXWw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710953538; c=relaxed/simple;
-	bh=oH45crn/4yGs/ur5w7wZpa4kx7+grNNIEqXM5CcoE7U=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=j93ad2mcGgBpwwWnEd/97E0A8I206+aBQ+6n7Hp8pO4OlHqnXKhlKVCBYyUJFhejJ2bPDY9uaS+8JlySkeLUL9fCOUWtyh24AHJx3j3xK/RxL7/gbrxWInNQz5fmWgEx1wbzTmBCQLRCiruxb12URbcbXjCH7BZwXYdgeVYU5fw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DdIoDaO2; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E191C433C7;
-	Wed, 20 Mar 2024 16:52:17 +0000 (UTC)
+	s=arc-20240116; t=1710957699; c=relaxed/simple;
+	bh=llIBXk76Yuad8T3alnGEbUTLVx756v+KmjcXU9Ak8MA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=m8WBTCLHzLzwbsS5ufjDzjqmJW6hDrniRZAwElLx8m5/SeQVXzkMCn2vWeLjC/kPk8zJRlU0P1Un0UWILkJRXtOqGMmG/9zwja08Y/sIweWk2uTRDrMZPjuP0B8xsJ+5SKcePrQALbk3RBvUc+vpprqNrwA4Y1SQ0/oLWygxfzQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gwPoVxfw; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15A32C433C7;
+	Wed, 20 Mar 2024 18:01:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710953537;
-	bh=oH45crn/4yGs/ur5w7wZpa4kx7+grNNIEqXM5CcoE7U=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=DdIoDaO2PwVD0nbFM9RA7zE4uWmIJNFVwjOycSnxHZqBt0sWms7zcIvojWgk789Pw
-	 0DaGpBgR3vPY1myLHQZ+MGdwOmCXkQELe+Si7p4Yal2aaLwf2Epaj1qJ5D6EO+iGIE
-	 2wFuIdY6Tof4Th4KAt+4etowD8hoBk+u69MviMu27dBU0yOq/5grYOHC4x/776C6qW
-	 bwHxTMHgBFK3OJAHd/TWtA3hgMKVmabMM6LY+jNd9tZ+lPMH2gVoAZXg0JsVYVodWl
-	 uFhtSTl2QPKlUOTlmGwhJDfwzWjPPAJVozeoA3pnQx0X4lEsDUNRBIHFP3wmwbAeLX
-	 jQrnTe4HhC8fg==
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: linux-kbuild@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH 3/3] kconfig: tests: test dependency after shuffling choices
-Date: Thu, 21 Mar 2024 01:52:11 +0900
-Message-Id: <20240320165211.697584-3-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20240320165211.697584-1-masahiroy@kernel.org>
-References: <20240320165211.697584-1-masahiroy@kernel.org>
+	s=k20201202; t=1710957699;
+	bh=llIBXk76Yuad8T3alnGEbUTLVx756v+KmjcXU9Ak8MA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=gwPoVxfwRZjCBKMju8mA83r6FEoT8PmuO0bob0NvMR2jWn/xwGFZZV4uEV9mG9rh9
+	 dSphKTn11rgn/UyOJ0FZYKqS9Xzh4No/BlfvkbzqaNaXlsLDFn/WuR5ZghgWyWx8PI
+	 08UkSDQGGtwXwJTukevbXDLZyQo58se/7m4N6U3klbycY1A/ukx9ubUYWehVePimC3
+	 LkIUC8IxgydlIEL138wzx6G0IezxFVc+c50zzoyGgprPF47KQok/fArXghUFejLgF0
+	 6gB1EkNtKPlDxf8pgEIaLDEAswHWYrw62VFrl101YqgzGCvvUNSo77+VBdje65XrJV
+	 4MsqNcq4ItQqg==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Tony Finch <dot@dotat.at>,
+	Sam Ravnborg <sam@ravnborg.org>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	linux-kbuild@vger.kernel.org,
+	Michal Marek <mmarek@suse.cz>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] scripts/unifdef: avoid constexpr keyword
+Date: Wed, 20 Mar 2024 18:59:25 +0100
+Message-Id: <20240320180134.100863-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -59,140 +62,75 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Commit c8fb7d7e48d1 ("kconfig: fix broken dependency in randconfig-
-generated .config") fixed the issue, but I did not add a test case.
+From: Arnd Bergmann <arnd@arndb.de>
 
-This commit adds a test case that emulates the reported situation.
-The test would fail without c8fb7d7e48d1.
+Starting with c23, 'constexpr' is a keyword in C like in C++ and cannot
+be used as an identifier:
 
-To handle the choice "choose X", FOO must be calculated beforehand.
-FOO depends on A, which is a member of another choice "choose A or B".
-Kconfig _temporarily_ assumes the value of A to proceed. The choice
-"choose A or B" will be shuffled later, but the result may or may not
-meet "FOO depends on A". Kconfig should invalidate the symbol values
-and recompute them.
+scripts/unifdef.c:206:25: error: 'constexpr' can only be used in variable declarations
+  206 | static bool             constexpr;              /* constant #if expression */
+      |                         ^
+scripts/unifdef.c:880:13: error: expected identifier or '('
+  880 |                 constexpr = false;
+      |                           ^
 
-In the real example for ARCH=arm64, the choice "Instrumentation type"
-needs the value of CPU_BIG_ENDIAN. The choice "Endianness" will be
-shuffled later.
+Rename this instance to allow changing to C23 at some point in the future.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Fixes: d8379ab1dde3 ("unifdef: update to upstream revision 1.190")
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>
+Cc: Nicolas Schier <nicolas@fjasle.eu>
+Cc: linux-kbuild@vger.kernel.org
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
+ scripts/unifdef.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
- .../kconfig/tests/choice_randomize2/Kconfig   | 32 +++++++++++++++++++
- .../tests/choice_randomize2/__init__.py       | 18 +++++++++++
- .../tests/choice_randomize2/expected_config0  |  8 +++++
- .../tests/choice_randomize2/expected_config1  |  7 ++++
- .../tests/choice_randomize2/expected_config2  |  6 ++++
- 5 files changed, 71 insertions(+)
- create mode 100644 scripts/kconfig/tests/choice_randomize2/Kconfig
- create mode 100644 scripts/kconfig/tests/choice_randomize2/__init__.py
- create mode 100644 scripts/kconfig/tests/choice_randomize2/expected_config0
- create mode 100644 scripts/kconfig/tests/choice_randomize2/expected_config1
- create mode 100644 scripts/kconfig/tests/choice_randomize2/expected_config2
-
-diff --git a/scripts/kconfig/tests/choice_randomize2/Kconfig b/scripts/kconfig/tests/choice_randomize2/Kconfig
-new file mode 100644
-index 000000000000..530cf2ef7f47
---- /dev/null
-+++ b/scripts/kconfig/tests/choice_randomize2/Kconfig
-@@ -0,0 +1,32 @@
-+choice
-+	prompt "This is always invisible"
-+	depends on n
-+
-+config DUMMY
-+	bool "DUMMY"
-+
-+endchoice
-+
-+choice
-+	prompt "Choose A or B"
-+
-+config A
-+	bool "A"
-+
-+config B
-+	bool "B"
-+
-+endchoice
-+
-+config FOO
-+	bool "FOO"
-+	depends on A
-+
-+choice
-+	prompt "Choose X"
-+	depends on FOO
-+
-+config X
-+	bool "X"
-+
-+endchoice
-diff --git a/scripts/kconfig/tests/choice_randomize2/__init__.py b/scripts/kconfig/tests/choice_randomize2/__init__.py
-new file mode 100644
-index 000000000000..2066757b80b9
---- /dev/null
-+++ b/scripts/kconfig/tests/choice_randomize2/__init__.py
-@@ -0,0 +1,18 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+"""
-+Randomize choices with correct dependencies
-+
-+When shuffling a choice may potentially disrupt certain dependencies, symbol
-+values must be recalculated.
-+
-+Related Linux commits:
-+  - c8fb7d7e48d11520ad24808cfce7afb7b9c9f798
-+"""
-+
-+
-+def test(conf):
-+    for i in range(20):
-+        assert conf.randconfig(seed=i) == 0
-+        assert (conf.config_matches('expected_config0') or
-+                conf.config_matches('expected_config1') or
-+                conf.config_matches('expected_config2'))
-diff --git a/scripts/kconfig/tests/choice_randomize2/expected_config0 b/scripts/kconfig/tests/choice_randomize2/expected_config0
-new file mode 100644
-index 000000000000..5c9e1c172c15
---- /dev/null
-+++ b/scripts/kconfig/tests/choice_randomize2/expected_config0
-@@ -0,0 +1,8 @@
-+#
-+# Automatically generated file; DO NOT EDIT.
-+# Main menu
-+#
-+CONFIG_A=y
-+# CONFIG_B is not set
-+CONFIG_FOO=y
-+CONFIG_X=y
-diff --git a/scripts/kconfig/tests/choice_randomize2/expected_config1 b/scripts/kconfig/tests/choice_randomize2/expected_config1
-new file mode 100644
-index 000000000000..5b975d91bef1
---- /dev/null
-+++ b/scripts/kconfig/tests/choice_randomize2/expected_config1
-@@ -0,0 +1,7 @@
-+#
-+# Automatically generated file; DO NOT EDIT.
-+# Main menu
-+#
-+CONFIG_A=y
-+# CONFIG_B is not set
-+# CONFIG_FOO is not set
-diff --git a/scripts/kconfig/tests/choice_randomize2/expected_config2 b/scripts/kconfig/tests/choice_randomize2/expected_config2
-new file mode 100644
-index 000000000000..5a5ebb90d1d7
---- /dev/null
-+++ b/scripts/kconfig/tests/choice_randomize2/expected_config2
-@@ -0,0 +1,6 @@
-+#
-+# Automatically generated file; DO NOT EDIT.
-+# Main menu
-+#
-+# CONFIG_A is not set
-+CONFIG_B=y
+diff --git a/scripts/unifdef.c b/scripts/unifdef.c
+index db00e3e30a59..1cc31448fd10 100644
+--- a/scripts/unifdef.c
++++ b/scripts/unifdef.c
+@@ -203,7 +203,7 @@ static int              depth;			/* current #if nesting */
+ static int              delcount;		/* count of deleted lines */
+ static unsigned         blankcount;		/* count of blank lines */
+ static unsigned         blankmax;		/* maximum recent blankcount */
+-static bool             constexpr;		/* constant #if expression */
++static bool             constexpression;	/* constant #if expression */
+ static bool             zerosyms = true;	/* to format symdepth output */
+ static bool             firstsym;		/* ditto */
+ 
+@@ -877,7 +877,7 @@ eval_unary(const struct ops *ops, int *valp, const char **cpp)
+ 		cp = skipcomment(cp);
+ 		if (defparen && *cp++ != ')')
+ 			return (LT_ERROR);
+-		constexpr = false;
++		constexpression = false;
+ 	} else if (!endsym(*cp)) {
+ 		debug("eval%d symbol", ops - eval_ops);
+ 		sym = findsym(cp);
+@@ -895,7 +895,7 @@ eval_unary(const struct ops *ops, int *valp, const char **cpp)
+ 			lt = *valp ? LT_TRUE : LT_FALSE;
+ 			cp = skipargs(cp);
+ 		}
+-		constexpr = false;
++		constexpression = false;
+ 	} else {
+ 		debug("eval%d bad expr", ops - eval_ops);
+ 		return (LT_ERROR);
+@@ -955,10 +955,10 @@ ifeval(const char **cpp)
+ 	int val = 0;
+ 
+ 	debug("eval %s", *cpp);
+-	constexpr = killconsts ? false : true;
++	constexpression = killconsts ? false : true;
+ 	ret = eval_table(eval_ops, &val, cpp);
+ 	debug("eval = %d", val);
+-	return (constexpr ? LT_IF : ret == LT_ERROR ? LT_IF : ret);
++	return (constexpression ? LT_IF : ret == LT_ERROR ? LT_IF : ret);
+ }
+ 
+ /*
 -- 
-2.40.1
+2.39.2
 
 
