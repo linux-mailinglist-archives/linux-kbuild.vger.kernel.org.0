@@ -1,79 +1,117 @@
-Return-Path: <linux-kbuild+bounces-1275-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1276-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C954488633D
-	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Mar 2024 23:25:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BD93886859
+	for <lists+linux-kbuild@lfdr.de>; Fri, 22 Mar 2024 09:40:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 692791F232ED
-	for <lists+linux-kbuild@lfdr.de>; Thu, 21 Mar 2024 22:25:26 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C547A1F2335B
+	for <lists+linux-kbuild@lfdr.de>; Fri, 22 Mar 2024 08:40:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39F8913667C;
-	Thu, 21 Mar 2024 22:25:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F0D818629;
+	Fri, 22 Mar 2024 08:39:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mmkJeFNN"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="HbD1IvwZ"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14312136676;
-	Thu, 21 Mar 2024 22:25:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E79411BDD9;
+	Fri, 22 Mar 2024 08:39:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711059922; cv=none; b=jIuakf58LswHLDXvK+E4LiWPU5ovi7l3MzwcbRJamFChlEjZGR+bjlmuylC2aEqw3wMPNheVCiPGivIBJOkmq3v02mmrmyqqKT8+g639CGcoosLwnxNmW1y3G4uNNFKoHXAflBI2xqLbrG+Fqg8/w2SGXXdRUqrP1oO5FTK4Wew=
+	t=1711096779; cv=none; b=ZJD+CQaEERVZMwnyFqMwcnhrTgXwIPCKbXOrhtncqX98lCASCqSkg12dkRXpeLFbUut2jNnegfLLNiA3J0HDX4CuSpl01DcaPeKWqvhXg3CIaNKunecpWNTab5YpC2P88oHMoGQpNKjsVTank4MLyOBKNn34t/zQvxcd1fr5s+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711059922; c=relaxed/simple;
-	bh=FbC+Z4ar0Eyslh7DePrwrGbUNQ8gk+cAMEUHdiHXg4k=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=LmNFCTMFl686R/d/L6SJlBkoiTzbIUg2OQdQ9oxoAGSOqM+5bMHWzj1CToL4YdGkwx3TvgVeEIici8Wc+TREccE9wGouFzry/o3ysBRz1fn5FnCynwOzRC6BVA0Xgk72C8Se6zgjZRNE8wQaFQHEhjsWoCOo9nkvHKXXfWYg04Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mmkJeFNN; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id EA6DEC433C7;
-	Thu, 21 Mar 2024 22:25:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711059922;
-	bh=FbC+Z4ar0Eyslh7DePrwrGbUNQ8gk+cAMEUHdiHXg4k=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=mmkJeFNNp3PLqoSL4pyHWDNF7tDZcobtBExkBs5cfVGBTCwbpi50UCHEGIvxGeyDX
-	 2kNFWuomEk2FzwDMGPKVnV0O1aY3gp2l/EXBSTicGy6ZOFH58BKdGyGJ9RC+oy51og
-	 pmQToWfI6WPT5Eblr8aoVmkVukoGLxJHvKaKIOUKsgZTQ2FZRfkf5BPE8y6/xSkhOB
-	 TCzenKG5EbhOxCDyEk7Bc7Eaz8dXMEtLQWz7OGyPOfWvCViyBHFYKTZVJy7fumv76w
-	 8yqlUqlCivFnPej9SJ6x0lXJb6tv2CERftuqXZVefXSghwlez8gnUw4e1zkuszD7pN
-	 WFSWU/UYJSQBQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id DE713D84BA9;
-	Thu, 21 Mar 2024 22:25:21 +0000 (UTC)
-Subject: Re: [GIT PULL] Kbuild updates for v6.9-rc1
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAK7LNARXef6Myb_Gd4jyGfwujoBAjmjzLZBzgkm4T1KmfHP0MQ@mail.gmail.com>
-References: <CAK7LNARXef6Myb_Gd4jyGfwujoBAjmjzLZBzgkm4T1KmfHP0MQ@mail.gmail.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAK7LNARXef6Myb_Gd4jyGfwujoBAjmjzLZBzgkm4T1KmfHP0MQ@mail.gmail.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-v6.9
-X-PR-Tracked-Commit-Id: f2fd2aad1908554fbc4ad6e8ef23bad3086bebd1
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 1d35aae78ffe739bf46c2bf9dea7b51a4eebfbe0
-Message-Id: <171105992190.29795.5852363316408995831.pr-tracker-bot@kernel.org>
-Date: Thu, 21 Mar 2024 22:25:21 +0000
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+	s=arc-20240116; t=1711096779; c=relaxed/simple;
+	bh=8qz9C1oFZqtOS8DKNo2scRc67XzoLfuI7Z79A8V/CMs=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=DHok/06blzm4XFyFhYaVugFmrOgA3XI+NS/jkuWsMOSFzdalfbhE/PexyinIkjcW0qGCS72cQsV9UqNrvgIgiT5wxSi1YjxA+RMttbhIacaXtllDZ7snGSnJw566tmeK8cd6DUlfx8/x5RcujQ/0YfJqZZfz1jNgTSYuLyOdfXI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=HbD1IvwZ; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1711096379;
+	bh=8qz9C1oFZqtOS8DKNo2scRc67XzoLfuI7Z79A8V/CMs=;
+	h=From:Date:Subject:To:Cc:From;
+	b=HbD1IvwZU+Fa0R5+dXd4Z5PtorJ9kamLlngsQfK0DXHSSogIt7EswCusDU8mv0oyu
+	 gqqDARm5PcYZcx9Z9domjyy5fu4OkBPYPRXMiQGYGkAH09iF5Zmt2r4575I3D75+1k
+	 CXlr7MqC0963vTRwAT9PxZIv7q23tpRMGhGycHOg=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Date: Fri, 22 Mar 2024 09:31:19 +0100
+Subject: [PATCH] kbuild: disable pahole multithreading for reproducible
+ builds
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20240322-pahole-reprodicible-v1-1-3eaafb1842da@weissschuh.net>
+X-B4-Tracking: v=1; b=H4sIANZB/WUC/x3MSwqAMAxF0a1IxhZqrKJuRRz4eWpAbElBBHHvF
+ odncO9DESqI1GUPKS6J4s+EIs9o3sdzg5ElmdiysyWzCePuDxhFUL/ILFOCZbTWwVV1U1Mqg2K
+ V+7/2w/t+PO3FuGUAAAA=
+To: Alexei Starovoitov <ast@kernel.org>, 
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
+ Martin KaFai Lau <martin.lau@linux.dev>, 
+ Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+ Yonghong Song <yonghong.song@linux.dev>, 
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, 
+ Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
+ Jiri Olsa <jolsa@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>
+Cc: bpf@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1711096377; l=1459;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=8qz9C1oFZqtOS8DKNo2scRc67XzoLfuI7Z79A8V/CMs=;
+ b=+1w57nbzBpgRD+AXa4yunHz9+Ji2wjrUngukytktGDUCX3+WZfibC3N9MyodM4RVgH+F813g6
+ SR22gH31hmICRM3DTrBN3/7Gg8xNO/qXW16Ne5R8f5pg+i+KcKkCtIy
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-The pull request you sent on Fri, 22 Mar 2024 00:02:37 +0900:
+A BTF type_id is a numeric identifier allocated by pahole through
+libbpfd. Ids are incremented for each allocation.
+Running pahole multithreaded makes the sequence of allocations
+non-deterministic which also makes the type_id itself non-deterministic.
+As the type_id end up in the binary this breaks reproducibility.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-v6.9
+Therefore, if the kernel is built reproducibly as indicated by
+KBUILD_BUILD_TIMESTAMP, disable threading in pahole.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/1d35aae78ffe739bf46c2bf9dea7b51a4eebfbe0
+Fixes: b4f72786429c ("scripts/pahole-flags.sh: Parse DWARF and generate BTF with multithreading.")
+Fixes: 72d091846de9 ("kbuild: avoid too many execution of scripts/pahole-flags.sh")
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+---
+ scripts/Makefile.btf | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Thank you!
+diff --git a/scripts/Makefile.btf b/scripts/Makefile.btf
+index 82377e470aed..2356929e62e4 100644
+--- a/scripts/Makefile.btf
++++ b/scripts/Makefile.btf
+@@ -10,7 +10,10 @@ endif
+ 
+ pahole-flags-$(call test-ge, $(pahole-ver), 121)	+= --btf_gen_floats
+ 
++# threaded execution randomizes BTF type_id allocation, breaking reproducibility
++ifeq ($(KBUILD_BUILD_TIMESTAMP),)
+ pahole-flags-$(call test-ge, $(pahole-ver), 122)	+= -j
++endif
+ 
+ pahole-flags-$(CONFIG_PAHOLE_HAS_LANG_EXCLUDE)		+= --lang_exclude=rust
+ 
 
+---
+base-commit: 8e938e39866920ddc266898e6ae1fffc5c8f51aa
+change-id: 20240322-pahole-reprodicible-02e904e45686
+
+Best regards,
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Thomas Weißschuh <linux@weissschuh.net>
+
 
