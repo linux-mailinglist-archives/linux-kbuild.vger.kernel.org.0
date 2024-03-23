@@ -1,58 +1,55 @@
-Return-Path: <linux-kbuild+bounces-1300-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1301-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEBCC8877B4
-	for <lists+linux-kbuild@lfdr.de>; Sat, 23 Mar 2024 10:06:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B557E88783F
+	for <lists+linux-kbuild@lfdr.de>; Sat, 23 Mar 2024 12:45:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 27CAE282D97
-	for <lists+linux-kbuild@lfdr.de>; Sat, 23 Mar 2024 09:06:39 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2419B2825FB
+	for <lists+linux-kbuild@lfdr.de>; Sat, 23 Mar 2024 11:45:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 613DCDDB7;
-	Sat, 23 Mar 2024 09:06:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FC92168A9;
+	Sat, 23 Mar 2024 11:45:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k9n2IhuT"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l35s4/1q"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32AEB53A6;
-	Sat, 23 Mar 2024 09:06:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 242732C80;
+	Sat, 23 Mar 2024 11:45:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711184795; cv=none; b=dv96qe6oCOmJt4Sf3OxySY6jJ9CNIPPjTiw/9Ab/7WD3kDVs77+khupz6QixmtrMyXIPfzGt2a11j6sYpuNnToXQRyQllRuGdVDuTEyAL0VzLZPxBBgvIYrOaf/blvCFbknms94S/9PzMHhwDajCoxyGmfVeLyYllKSAAWMevSk=
+	t=1711194321; cv=none; b=B9O4wsH94QrBgpM7XajLVlaQVL+H0W7REGBF2whZpMMte3aEjoTa34OGLjpKj+cPrL+OzuhpYGi9e2fTmK0GKmnNm3HF1RcGuOxsWIz/MBr1FhYwyoV9vAqbZ5mPkxy4T50B2Q1j9aUSmP7VnrpGxF419VUfVnln0/CqzF8UhNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711184795; c=relaxed/simple;
-	bh=ZOv3sSaesxblVEAdTM44UPJ7JatqCSeSPmXcVNQm2nw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=JQRH0XrNGRuL/V7LNdV+sOouuK/5exqlF+bwzwcPucHx1pRzQxgnthunZW/vAjXIGC7u5HJUIihtQvmcuN45G8crgeQhNwQ6G9sgpz1WpaPL4mMMvq2ch8g7z6Ge1nGaT9RXvWaGKujZZWodoit07kmfMRWVDc55mG0tzyASrKQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k9n2IhuT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 738D9C433F1;
-	Sat, 23 Mar 2024 09:06:28 +0000 (UTC)
+	s=arc-20240116; t=1711194321; c=relaxed/simple;
+	bh=17RFStLEDNlrMuDxB5LQdmbGIXnoteDvrGHTjRkVgSs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=d91oxjrPFAbVMOx2TSrpU6Mz91cABgfOcVqustcdv9CmIXL45wwqbtXCEDRZV/s36lOoCmwlvaEtTVGhzM/XfVeGBFbHUPVIxYkdUi7ERrGvX6XxbgU/CHCSiwlFAwVUSqDa5OqWp3Rw7/IbGzUQKG6dPB8MJMt2uEUISOeVDrY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l35s4/1q; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7BB8C433F1;
+	Sat, 23 Mar 2024 11:45:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711184794;
-	bh=ZOv3sSaesxblVEAdTM44UPJ7JatqCSeSPmXcVNQm2nw=;
+	s=k20201202; t=1711194320;
+	bh=17RFStLEDNlrMuDxB5LQdmbGIXnoteDvrGHTjRkVgSs=;
 	h=From:To:Cc:Subject:Date:From;
-	b=k9n2IhuTRpWMUr22Rqdcy09O2XfV33rrrY9XT7OPmgJ0laQCujJxF7Xt1mhHlmSYG
-	 v8HI4rH3Y3w2mC/psMahQK9PkPw4atJRajpRe2kaLrI+1rkqq9enn7Jrl77O+ja1pp
-	 HSxA/r7b0E9jERyxy1NhCYPLgD6CF3Z4S4yyHYPcVDWe0iACbegoR3P5CQb9rmQfaA
-	 4i84kcbPNdpigQ9bpkWe+Zq0uXIlh+6otMFtSHZKd1tvMZ8abnBvJCkvUpTfvrKS9R
-	 1egt38OH1p0o/dBRm2WdDk9S6Cdn6bZXKBVEdfL7a4VKqlwmIs5nOQz+tV2Lv5P/1M
-	 HZlO2YOvXWM3Q==
+	b=l35s4/1qrR7QLMF/m1BkHeE2+6Qli6wZ5ybxop0snCYEqbIUHEI0xqZWqXiw73IsA
+	 FJh6dzDt8vK3UFHwwQ1XAQgacR/hh6cSCXF7MgHlkcKvtJaOHcJ7f6cgDNqAbYYXkU
+	 zx+jZLjSmB46FFHz8peSrlRFxxmdLj9SP0EMjIggY9vUbCgBgCQ8FUDaRio3e3NNR8
+	 PdQeO6fwWg+p36IzeuauuVHuxljF90FrzN8wYgNxENcr2YPGDdv+zo+Q++zIMP79k8
+	 PMCfy8LEVmfaZrVJCeITDuMcs27BXefJXq55pYwfgP1Xf+6thojb9I4W2k4GFcH2zF
+	 XeeOsKZRoaNFQ==
 From: Masahiro Yamada <masahiroy@kernel.org>
 To: linux-kbuild@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
 	Masahiro Yamada <masahiroy@kernel.org>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	linux-arch@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Subject: [PATCH] export.h: remove include/asm-generic/export.h
-Date: Sat, 23 Mar 2024 18:06:15 +0900
-Message-Id: <20240323090615.1244904-1-masahiroy@kernel.org>
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Nicolas Schier <nicolas@fjasle.eu>
+Subject: [PATCH] modpost: do not make find_tosym() return NULL
+Date: Sat, 23 Mar 2024 20:45:11 +0900
+Message-Id: <20240323114511.1250145-1-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
@@ -62,36 +59,48 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Commit 3a6dd5f614a1 ("riscv: remove unneeded #include
-<asm-generic/export.h>") removed the last use of
-include/asm-generic/export.h.
+As mentioned in commit 397586506c3d ("modpost: Add '.ltext' and
+'.ltext.*' to TEXT_SECTIONS"), modpost can result in a segmentation
+fault due to a NULL pointer dereference in default_mismatch_handler().
 
-This deprecated header can go away.
+find_tosym() does not need to return the NULL pointer. It can return
+the original symbol pointer if a better one is not found.
 
+This fixes the reported segmentation fault.
+
+Fixes: a23e7584ecf3 ("modpost: unify 'sym' and 'to' in default_mismatch_handler()")
+Reported-by: Nathan Chancellor <nathan@kernel.org>
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- include/asm-generic/export.h | 11 -----------
- 1 file changed, 11 deletions(-)
- delete mode 100644 include/asm-generic/export.h
+ scripts/mod/modpost.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/include/asm-generic/export.h b/include/asm-generic/export.h
-deleted file mode 100644
-index 570cd4da7210..000000000000
---- a/include/asm-generic/export.h
-+++ /dev/null
-@@ -1,11 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0-only */
--#ifndef __ASM_GENERIC_EXPORT_H
--#define __ASM_GENERIC_EXPORT_H
--
--/*
-- * <asm/export.h> and <asm-generic/export.h> are deprecated.
-- * Please include <linux/export.h> directly.
-- */
--#include <linux/export.h>
--
--#endif
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index 6b37039c9e92..2f5b91da5afa 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -1007,6 +1007,8 @@ static Elf_Sym *find_fromsym(struct elf_info *elf, Elf_Addr addr,
+ 
+ static Elf_Sym *find_tosym(struct elf_info *elf, Elf_Addr addr, Elf_Sym *sym)
+ {
++	Elf_Sym *new_sym;
++
+ 	/* If the supplied symbol has a valid name, return it */
+ 	if (is_valid_name(elf, sym))
+ 		return sym;
+@@ -1015,8 +1017,9 @@ static Elf_Sym *find_tosym(struct elf_info *elf, Elf_Addr addr, Elf_Sym *sym)
+ 	 * Strive to find a better symbol name, but the resulting name may not
+ 	 * match the symbol referenced in the original code.
+ 	 */
+-	return symsearch_find_nearest(elf, addr, get_secindex(elf, sym),
+-				      true, 20);
++	new_sym = symsearch_find_nearest(elf, addr, get_secindex(elf, sym),
++					 true, 20);
++	return new_sym ? new_sym : sym;
+ }
+ 
+ static bool is_executable_section(struct elf_info *elf, unsigned int secndx)
 -- 
 2.40.1
 
