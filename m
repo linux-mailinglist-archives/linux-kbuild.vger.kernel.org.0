@@ -1,120 +1,110 @@
-Return-Path: <linux-kbuild+bounces-1306-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1307-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 808AA887C47
-	for <lists+linux-kbuild@lfdr.de>; Sun, 24 Mar 2024 11:38:32 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5E7C887C5F
+	for <lists+linux-kbuild@lfdr.de>; Sun, 24 Mar 2024 11:58:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8D02A1C20DAA
-	for <lists+linux-kbuild@lfdr.de>; Sun, 24 Mar 2024 10:38:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 548971F212AC
+	for <lists+linux-kbuild@lfdr.de>; Sun, 24 Mar 2024 10:58:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9767C16415;
-	Sun, 24 Mar 2024 10:38:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 176E11758E;
+	Sun, 24 Mar 2024 10:57:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="G95JJGm6"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DF83168B9
-	for <linux-kbuild@vger.kernel.org>; Sun, 24 Mar 2024 10:38:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CBC1171B6
+	for <linux-kbuild@vger.kernel.org>; Sun, 24 Mar 2024 10:57:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711276707; cv=none; b=E7QKlwbe1OFep9QY0LIfH9hDCxj/DOgsKKe4EC2fzcJzLcdkbXAl2N1R+Ny/Poi4zo7L4Y1fbA51KDvjck7GQBjte0u3+yM+Poh8Ng7CjiqzJXoopc3H5Sef6UXTbzfejBbN6RZRQoiGcAKh41fVkhBZ78ZemUQQs4CwO412Mnw=
+	t=1711277877; cv=none; b=jaQWlCLw3nm6s53HDB+GkbzzZu00IKxdgnORrOlEa+sHXglNg8Jeecx8wHD38r+YsZU+u+XI3BxWI9sbI/FgeQxizNnsIALNVLu0tKdrvoiLtAX9UebqfyDcMyN3z0SQegjDe2mjXOmiUCqWbjrgp8t9JAVIKXY3hu8vZdpSfWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711276707; c=relaxed/simple;
-	bh=rK4d9VOTT3BVvLRrZvPHJ6EKRFskVgbNvD2QQmetaBE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=NCo3x9NiDtpLUibFdL1ervt0gWml6p4WskAGdWRd90tYasa1wbR089eEwGT9EK2dV/JX9rVFQj91osLuirFWu9St3uWfryrbtIWdv/X/B9zpvqyALF81FIdJR60QA2pZHJnReYjn/4fZaIplZzllJNcMJcvtw65iQEwxOq9MVHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1roLEy-0000Fj-Cx; Sun, 24 Mar 2024 11:38:12 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1roLEu-008Cns-EX; Sun, 24 Mar 2024 11:38:08 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1roLEu-00AL9N-19;
-	Sun, 24 Mar 2024 11:38:08 +0100
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Olivia Mackall <olivia@selenic.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>
-Cc: linux-crypto@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
-	kernel@pengutronix.de
-Subject: [PATCH] hwrng: mxc-rnga: Drop usage of platform_driver_probe()
-Date: Sun, 24 Mar 2024 11:37:59 +0100
-Message-ID: <20240324103759.228009-2-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1711277877; c=relaxed/simple;
+	bh=1iLGzSY1OQz1GUJJdmZTp9JlAi+kFWZEwt2u9TKtmjU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=E3jpO4hUCbl2i25z31NBWmsY96HhMttCcdVmdIKZA/cz9VwvlrTVKU8QQNS6JgnB8g2h/ybsHYM/M4eKolJwENJHiqMOvU3+8lfUfEEDS34/cy3rZEhrza68L0390ST1TlK3Ii7R71rb9cBngmqlGlTHa2wyxlauo+tl42ZD/NE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=G95JJGm6; arc=none smtp.client-ip=209.85.128.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-60a0579a955so42310667b3.3
+        for <linux-kbuild@vger.kernel.org>; Sun, 24 Mar 2024 03:57:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1711277874; x=1711882674; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=dKOizG9PbYAwIIoEzDwzNQWV7wqYGQ4/VdGXW3+D0uE=;
+        b=G95JJGm6unS//N9x0v8eXrpjUfSiplSVmJjI6ns0eC3BZ/rnrUgyrarS9NiWZIAX3q
+         r4Jktkef/daM6jVBgpYAdMWEKAMyzYj+p/U9paD8hOWrUUNuXUMjfqV2uf5mnvuqMMjo
+         jnJOms1HgOTobG1RKUW6VqXPlcy/m7oSSNUniPqDq+XS7o5WtIf2u8A/nyWpo7lVLBGz
+         206vRCCcr7Viop48zGxJra68/55xFkx+bYfKqDyjdUYsKn6IBwk+gIcrn6Az9QZn3KyO
+         FyAXkcGSphnlp6PKaMRisdfXlP2ye3qeqDl+M5mjfq2umKvpTFdLfN5k0XJbj7SfTxYf
+         ePvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711277874; x=1711882674;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dKOizG9PbYAwIIoEzDwzNQWV7wqYGQ4/VdGXW3+D0uE=;
+        b=BCdCPOfRbdmiU+IONJygBICPlLaBdWdGwGIuo48RxCW0J79Bhf3MfsRxob6kAnFSSZ
+         MSjahmzJ5K+Gm8sXzxM1MKQJsl54OJzqBCs3MQ3Ugy+lTu1P1gWUQVvZPIDfA5RT5IV5
+         i/oa1qpp30KbwOkLGW6PFdv1byJv8tBn5UKjgmqBtSxAXB56piInoSCQ7iwtOjaAUt3D
+         CMDVeMO1+EPp3rjm4aUXIc9sSRGBbei2bzF5duvtvGXIquWJBa0uffhzdq1qbFEE6XvZ
+         zd3to2+l0tHhAfC83VPiT/oedtNbwGcR1K8/ftjw0QZwM/KTucloM1H64AlKcN8Zlj/Q
+         YDXg==
+X-Forwarded-Encrypted: i=1; AJvYcCXykkEEHAgy7UxTsNH/k89Kz9YSpU83f76xuBtLpmsrWb/vgfQhnmiAP6Y7FoQdrPV4bFg+c715sdFZyyDF8wl7pN8/k5uooq/ejf6M
+X-Gm-Message-State: AOJu0YxAeKbeCIHLUAf/LRTdBZKy/Hc22XFS4UwzPKDBMkjknr259+BV
+	Kt+aYddrbChwXFXVj3b+BsKBSyn3gT8zwd10bBl7fDvCuTvhG0N7EyGKehLdZDN7eCo3ir+V7kp
+	IcOt5OsHWt4lT3W6B5Lng6l5r1WwCpUQg7pZ7ZQ==
+X-Google-Smtp-Source: AGHT+IFkNNzpGCHNVGuHvvSWfPZSgwg1RAQpdjkiNapdwrzO0RfGnrZYm+TKLaP2muu4ukqjYZ8fO611rcTztYESaRU=
+X-Received: by 2002:a05:690c:ec6:b0:611:2f86:7864 with SMTP id
+ cs6-20020a05690c0ec600b006112f867864mr4318637ywb.3.1711277874516; Sun, 24 Mar
+ 2024 03:57:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1771; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=rK4d9VOTT3BVvLRrZvPHJ6EKRFskVgbNvD2QQmetaBE=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBmAAKHobRFJLwPEXnXAjYarqkSYO0QaSNwAclxI PMCZbyXguiJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZgAChwAKCRCPgPtYfRL+ Tj+6B/9tJoseCgviIfCIjFMT5nEMb4MhAPKqsvfUl7/jBz67MByh0SAMiq4+vBH3Xfr9Gwnjbie QbM+ujoXb06HO0yWChapxsibOXnJ9gtkEkKWAS+VQ83RYkkIVSfJmSO51XUQ/lWQS+WwHzz3hhV xyvdqZgnoqvUTzZa/uIXZQNujH5YqoNtwdwnL+gMYzhvolu4wsS+PaxRguTssamOgM3EHMbeI7K CLJHwaa9y8uo5lNX2OgbOxrXAG7vxO88LeY9bYfM4QnYV99e0C39x/Dpi4tIHFnw7Z2lkbrSear V6TIUihG7JYXyNQ3uCICIj74CXwwoz1pzE92p8OCVpXPpmZs
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-kbuild@vger.kernel.org
+References: <20240323-fd-xml-shipped-v4-0-cca5e8457b9e@linaro.org>
+ <20240323-fd-xml-shipped-v4-10-cca5e8457b9e@linaro.org> <20240324102936.6eojmk3k2qabtasq@hu-akhilpo-hyd.qualcomm.com>
+In-Reply-To: <20240324102936.6eojmk3k2qabtasq@hu-akhilpo-hyd.qualcomm.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Sun, 24 Mar 2024 12:57:43 +0200
+Message-ID: <CAA8EJppO8zMq5R7hBPG04Zsr9c3-Z9mqpnJQ88Dbjv3uYDbrUQ@mail.gmail.com>
+Subject: Re: [PATCH v4 10/16] drm/msm: generate headers on the fly
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Rob Clark <robdclark@gmail.com>, 
+	Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+	Marijn Suijten <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, linux-kbuild@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	freedreno@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
 
-There are considerations to drop platform_driver_probe() as a concept
-that isn't relevant any more today. It comes with an added complexity
-that makes many users hold it wrong. (E.g. this driver should have mark
-the driver struct with __refdata.)
+On Sun, 24 Mar 2024 at 12:30, Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
+>
+> On Sat, Mar 23, 2024 at 12:57:02AM +0200, Dmitry Baryshkov wrote:
+> > Generate DRM/MSM headers on the fly during kernel build. This removes a
+> > need to push register changes to Mesa with the following manual
+> > synchronization step. Existing headers will be removed in the following
+> > commits (split away to ease reviews).
+>
+> Is this approach common in upstream kernel? Isn't it a bit awkward from
+> legal perspective to rely on a source file outside of kernel during
+> compilation?
 
-Convert the driver to the more usual module_platform_driver().
+As long as the source file for that file is available. For examples of
+non-trivial generated files see
+arch/arm64/include/generated/sysreg-defs.h and
+arch/arm64/include/generated/cpucap-defs.h
 
-This fixes a W=1 build warning:
-
-	WARNING: modpost: drivers/char/hw_random/mxc-rnga: section mismatch in reference: mxc_rnga_driver+0x10 (section: .data) -> mxc_rnga_remove (section: .exit.text)
-
-with CONFIG_HW_RANDOM_MXC_RNGA=m.
-
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/char/hw_random/mxc-rnga.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/char/hw_random/mxc-rnga.c b/drivers/char/hw_random/mxc-rnga.c
-index 07ec000e4cd7..5d1512b08d9e 100644
---- a/drivers/char/hw_random/mxc-rnga.c
-+++ b/drivers/char/hw_random/mxc-rnga.c
-@@ -176,7 +176,7 @@ static int __init mxc_rnga_probe(struct platform_device *pdev)
- 	return err;
- }
- 
--static void __exit mxc_rnga_remove(struct platform_device *pdev)
-+static void mxc_rnga_remove(struct platform_device *pdev)
- {
- 	struct mxc_rng *mxc_rng = platform_get_drvdata(pdev);
- 
-@@ -197,10 +197,11 @@ static struct platform_driver mxc_rnga_driver = {
- 		.name = "mxc_rnga",
- 		.of_match_table = mxc_rnga_of_match,
- 	},
--	.remove_new = __exit_p(mxc_rnga_remove),
-+	.probe = mxc_rnga_probe,
-+	.remove_new = mxc_rnga_remove,
- };
- 
--module_platform_driver_probe(mxc_rnga_driver, mxc_rnga_probe);
-+module_platform_driver(mxc_rnga_driver);
- 
- MODULE_AUTHOR("Freescale Semiconductor, Inc.");
- MODULE_DESCRIPTION("H/W RNGA driver for i.MX");
-
-base-commit: 70293240c5ce675a67bfc48f419b093023b862b3
 -- 
-2.43.0
-
+With best wishes
+Dmitry
 
