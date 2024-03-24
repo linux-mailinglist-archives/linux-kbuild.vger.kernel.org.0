@@ -1,119 +1,112 @@
-Return-Path: <linux-kbuild+bounces-1308-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1309-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9309887C79
-	for <lists+linux-kbuild@lfdr.de>; Sun, 24 Mar 2024 12:14:13 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 869EA887C89
+	for <lists+linux-kbuild@lfdr.de>; Sun, 24 Mar 2024 12:40:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7247C1F214BF
-	for <lists+linux-kbuild@lfdr.de>; Sun, 24 Mar 2024 11:14:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3DAC5281A97
+	for <lists+linux-kbuild@lfdr.de>; Sun, 24 Mar 2024 11:40:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3137A175AD;
-	Sun, 24 Mar 2024 11:14:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Z1rs1EkZ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7DEA33F9;
+	Sun, 24 Mar 2024 11:40:32 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BC9BC147
-	for <linux-kbuild@vger.kernel.org>; Sun, 24 Mar 2024 11:14:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04DFC175BC
+	for <linux-kbuild@vger.kernel.org>; Sun, 24 Mar 2024 11:40:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711278849; cv=none; b=WzXMVw9Tm2f9OB/uPuFdzEKD+TCLuSQdf1MpixkSDKvxMxC87TUrDaopTUIp8X0dfNMgdfjdNNvLxgy6lwz06G5jAvNbsDg3IPz1PBqPwkWQ73uTOEbVpBkaLp8+ff2a22+nASAjEUJlS56BjVkbO9LwNIt1Zeg0wvhPogGetfQ=
+	t=1711280432; cv=none; b=Px1R4t7o4tkUAMJwh9ix3otapX/wiP3qFZYYMmS8wur6l9Ch4+H4JemMO6vy77j500lvFV7iqWGonaBzn1dRI7Xfo/bAcrdMvhrQgxSWBkojquZyfphrZWtSo177EN0Uvxlw2rO4umXwP7IGUag6vvHY+zwdIoj2sA4sl8bd2i0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711278849; c=relaxed/simple;
-	bh=DKhvmdnKiY2QDkDmlA6mpQIx6SSE7kocCGPFKwy6JFs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NsiS0T8ehnYl6mLBrfc27/PfVHYdNqSxl2hTA6YSKX3TGWgfkO6OHlX98fBpNNMYq34Cnfnd5eWjLb2uRUmVnoGwMuYkIAelMP0ezyB5lxcwcvWYJXRm+1xwSMM6HlGHJbSMloHGazTL0JQH4YZ80gQviy08ND3jV3PB/E11Ty0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Z1rs1EkZ; arc=none smtp.client-ip=209.85.219.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-d9b9adaf291so3170797276.1
-        for <linux-kbuild@vger.kernel.org>; Sun, 24 Mar 2024 04:14:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711278846; x=1711883646; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Mj6u+B8xlCB9159mUHz7E1aaC9KkzXuH6GFNH3xNBoM=;
-        b=Z1rs1EkZyHr5vSwtWN2K8x28CDwFhPZU4pQWj2syjwrO8sMpXuBZ3Zcxu7HQ87Hb5M
-         CJNFXTyKhYwOzMc4PgqqeWf1NCbP+y2ZdDbgyI6i9wiwzJJ/5tvhGEic5s/foptavqC4
-         IqPJKpVGrFRYn0OguSyXSZiqxuSeJIkAhsEvPmURXOK+xYMKjdy8muSjUwJKTqDk8sea
-         Pl8Se81JUvR8x0udL23BTrn4/mrMMn4w0Lo2QxZYCGu+ck633V82SjPaen/PC0kKio8Q
-         yZMiYFsXJM62RXnWGWE3VmV0InK3PVniRYQJGNecDMOMnXyIT07jd7M9AsQnpUYVpTMG
-         pMVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711278846; x=1711883646;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Mj6u+B8xlCB9159mUHz7E1aaC9KkzXuH6GFNH3xNBoM=;
-        b=PHITGuv6/BivaBMZXBb5kMg4D2IEKXamgpQ5WwIIvqDhjAkDHl3fSdfqhk8IUVlViT
-         UeQT3OhRpO6/z2dwQycqIFJGB+f9U7DBCSdtzEs5pN7pGstj1jCg6TrXo9EDRr/9A6vL
-         me2JvYWFw+voeWOQf0qJcoomCdSMpzS76JOwRdJx6+CTZhRUn3D8mAMiGc8EjpBa3LKx
-         K3OhCsHQGya5ukR/JEelUdCqTDMd3q3nzMJnTNZJcIW53p+TduRXOjrZTcnGXPQY1i8Z
-         Jl3GUflTKeDWXqhGeFArLY8lZWZWunB0KfDcdX0npF4hZnTVuHntWz1VBdLyWHsH5MSH
-         PXvQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVoScgWnDj9RsC7N+vl9vsuaMAuT8+apCSgUJlta4Y3ov7RZRskdN+UUwZbN5RVQMBZ+1ejm+c0nDNNuid2+E/9qXaE4M33ilhLPvml
-X-Gm-Message-State: AOJu0Yzyt79poAabWddF82ue4m9CbDKeSCARcp01WVTAQAPLC/IM/CL0
-	acpLCKIu5YGW5H2rmTYB1UvJdr/UsS409Bv+etx0hIvxaVSrUYKSqpvOJmxuXaMIt4TwrAL6BhI
-	ZaL4hbsyrdrWOIED+n0I1UY6plM4SCTbnEeOxBA==
-X-Google-Smtp-Source: AGHT+IGr0tNnaqUlmK0eR1f5FzQiWKbsnubMD9+Wo9vIvgCqe8WTw3q8zUfy/4luXP0YRCD2+8dSeF51lmB7BvOZ22A=
-X-Received: by 2002:a25:ba90:0:b0:dcd:a28e:e5e0 with SMTP id
- s16-20020a25ba90000000b00dcda28ee5e0mr2155613ybg.25.1711278846456; Sun, 24
- Mar 2024 04:14:06 -0700 (PDT)
+	s=arc-20240116; t=1711280432; c=relaxed/simple;
+	bh=eWA1KsQbyFsxavGLt/r1WcVfv5RPxFSgRbK0beCUjbc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=TTPmLpRzJXV6tFEORWjq+LTxua+gi2AsP2C+VbnckPzju/btRGKbBIHUgCIFFaFKB1rGX1sSpdAZdxyVVBHZ68372oUpsyal5zIedSjuj8iA7ikVJLlhk65G94aiZt7Df/FacMFYjhi7Du2uviaV80JAYFF/kWpeUY+Piqbormg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1roMDD-00050i-6Y; Sun, 24 Mar 2024 12:40:27 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1roMDC-008DGj-Gc; Sun, 24 Mar 2024 12:40:26 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1roMDC-00AMY4-1N;
+	Sun, 24 Mar 2024 12:40:26 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Ulf Hansson <ulf.hansson@linaro.org>
+Cc: linux-mmc@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	kernel@pengutronix.de
+Subject: [PATCH] mmc: davinci: Don't strip remove function when driver is builtin
+Date: Sun, 24 Mar 2024 12:40:17 +0100
+Message-ID: <20240324114017.231936-2-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240323-fd-xml-shipped-v4-0-cca5e8457b9e@linaro.org>
- <20240323-fd-xml-shipped-v4-4-cca5e8457b9e@linaro.org> <20240324095222.ldnwumjkxk6uymmc@hu-akhilpo-hyd.qualcomm.com>
-In-Reply-To: <20240324095222.ldnwumjkxk6uymmc@hu-akhilpo-hyd.qualcomm.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sun, 24 Mar 2024 13:13:55 +0200
-Message-ID: <CAA8EJppAsy9a0b4WzqWCaa=-fPYrKOMePo3vsAaJ4Nu3okoL7Q@mail.gmail.com>
-Subject: Re: [PATCH v4 04/16] drm/msm: move msm_gpummu.c to adreno/a2xx_gpummu.c
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Rob Clark <robdclark@gmail.com>, 
-	Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
-	Marijn Suijten <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, linux-kbuild@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1670; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=eWA1KsQbyFsxavGLt/r1WcVfv5RPxFSgRbK0beCUjbc=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBmABEiGfPhWHdGW1KXxwS7Szv+JX/yU0gSB5Jfx IjLqDd4mMuJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZgARIgAKCRCPgPtYfRL+ TrHMCACCwXNSIYYedv7CVLnH1c5zSvxdr0y1J4+XayZ4hoDnWvVcio5RtODwtc8v4kurQC6Wi1V Q2BlQoVPSsQDd8dKMMkWatMr924TpHUjV1rTrxOiAIa/59/BTzcykQEipUQhkMvnwq5pceFSF8a u45bHN2vsasEdF4L/8k8bajj+ylybgbjPAGXTtLps1+yneTdiOQ7V8PiNMqIW3XZG92UH1QrR9l MdctMx2vi1yLnw7Wk3jlZqw+bnR6zHWqggggAGZ+kRpx0EWNEOcsYUQ14mkSOoyC9DtO4ZrsYzV 8XCE7IZ7HlDmt8wkDGBd+ROx9Yt6q6c+9noMXzeQSc1JerpE
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-kbuild@vger.kernel.org
 
-On Sun, 24 Mar 2024 at 11:55, Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
->
-> On Sat, Mar 23, 2024 at 12:56:56AM +0200, Dmitry Baryshkov wrote:
-> > The msm_gpummu.c implementation is used only on A2xx and it is tied to
-> > the A2xx registers. Rename the source file accordingly.
-> >
->
-> There are very few functions in this file and a2xx_gpu.c is a relatively
-> small source file too. Shall we just move them to a2xx_gpu.c instead of
-> renaming?
+Using __exit for the remove function results in the remove callback
+being discarded with CONFIG_MMC_DAVINCI=y. When such a device gets
+unbound (e.g. using sysfs or hotplug), the driver is just removed
+without the cleanup being performed. This results in resource leaks. Fix
+it by compiling in the remove callback unconditionally.
 
-I'd prefer to keep them separate, at least within this series. Let's
-leave that to Rob's discretion.
+This also fixes a W=1 modpost warning:
 
-> -Akhil
->
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > ---
-> >  drivers/gpu/drm/msm/Makefile                       |  2 +-
-> >  drivers/gpu/drm/msm/adreno/a2xx_gpu.c              |  4 +-
-> >  drivers/gpu/drm/msm/adreno/a2xx_gpu.h              |  4 ++
-> >  .../drm/msm/{msm_gpummu.c => adreno/a2xx_gpummu.c} | 45 ++++++++++++----------
-> >  drivers/gpu/drm/msm/msm_mmu.h                      |  5 ---
-> >  5 files changed, 31 insertions(+), 29 deletions(-)
+	WARNING: modpost: drivers/mmc/host/davinci_mmc: section mismatch in reference: davinci_mmcsd_driver+0x10 (section: .data) -> davinci_mmcsd_remove (section: .exit.text)
 
+Fixes: b4cff4549b7a ("DaVinci: MMC: MMC/SD controller driver for DaVinci family")
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/mmc/host/davinci_mmc.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/mmc/host/davinci_mmc.c b/drivers/mmc/host/davinci_mmc.c
+index 8bd938919687..d7427894e0bc 100644
+--- a/drivers/mmc/host/davinci_mmc.c
++++ b/drivers/mmc/host/davinci_mmc.c
+@@ -1337,7 +1337,7 @@ static int davinci_mmcsd_probe(struct platform_device *pdev)
+ 	return ret;
+ }
+ 
+-static void __exit davinci_mmcsd_remove(struct platform_device *pdev)
++static void davinci_mmcsd_remove(struct platform_device *pdev)
+ {
+ 	struct mmc_davinci_host *host = platform_get_drvdata(pdev);
+ 
+@@ -1392,7 +1392,7 @@ static struct platform_driver davinci_mmcsd_driver = {
+ 		.of_match_table = davinci_mmc_dt_ids,
+ 	},
+ 	.probe		= davinci_mmcsd_probe,
+-	.remove_new	= __exit_p(davinci_mmcsd_remove),
++	.remove_new	= davinci_mmcsd_remove,
+ 	.id_table	= davinci_mmc_devtype,
+ };
+ 
+
+base-commit: 70293240c5ce675a67bfc48f419b093023b862b3
 -- 
-With best wishes
-Dmitry
+2.43.0
+
 
