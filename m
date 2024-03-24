@@ -1,117 +1,319 @@
-Return-Path: <linux-kbuild+bounces-1303-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1304-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2436B88792E
-	for <lists+linux-kbuild@lfdr.de>; Sat, 23 Mar 2024 16:05:13 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA601887C2F
+	for <lists+linux-kbuild@lfdr.de>; Sun, 24 Mar 2024 10:55:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4D9211C20C73
-	for <lists+linux-kbuild@lfdr.de>; Sat, 23 Mar 2024 15:05:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D969F1C20B4C
+	for <lists+linux-kbuild@lfdr.de>; Sun, 24 Mar 2024 09:55:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01D513D0D5;
-	Sat, 23 Mar 2024 15:05:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08F8D7F9;
+	Sun, 24 Mar 2024 09:55:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ravnborg.org header.i=@ravnborg.org header.b="ZUGKPYGj";
-	dkim=permerror (0-bit key) header.d=ravnborg.org header.i=@ravnborg.org header.b="uFhlVOJ4"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="LaWBTe0u"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mailrelay6-1.pub.mailoutpod2-cph3.one.com (mailrelay6-1.pub.mailoutpod2-cph3.one.com [46.30.211.181])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D32CF10A0C
-	for <linux-kbuild@vger.kernel.org>; Sat, 23 Mar 2024 15:05:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.30.211.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0418715E96;
+	Sun, 24 Mar 2024 09:55:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711206307; cv=none; b=M1CsF0yT5geJHQ5ktWycQ+JW82Jy+hLc1SFgtT52fel+5xfAVWNTCAd28bloG51I+8vbH54MhMR6UWVvzW4AXmlQ2m5w88jIt/u/DJa2zBsuN82gYl9dwSVVEgaIqW3pLy3j/7yMdr0Ya40gjP/kbKzxUHeIfuOad0AswGfEAV4=
+	t=1711274117; cv=none; b=hzUBnMyF67eVxN6tvjJorrPhpRjRRahVs4MP/F4e8xw0XJwzaDX1lXJW3gvBb8GDnn10T+4KNkv+0a7dg/Yk0UaLvZi+EqGGrL2tzUwGhCy9I9ZsQoSHlxMFXFZsHRtGN919Di2AF38bLxSBGBGoQFdVyasXhOj0CznROY8HBhg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711206307; c=relaxed/simple;
-	bh=DmjwTsURvWnAZTwfEJ7AZFEQbMFRgd4LbcGm+vqXblI=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E5+DD4LFFUYPufNHTYvKOUr4+Wb0dTfvZ0pNtFWyFIfdEDGw1OQ8MhMK7RP4Hg5xHQRcXcaCbm7qFlIqZYMMX3gFsJXbpGhEOAEA8MWjvQlHG1UQszV9lyeq0P8gTmbbVmzTaH6qnaqknbDDSGHNjvbt+VC+peR1qKL8uusEGSs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ravnborg.org; spf=none smtp.mailfrom=ravnborg.org; dkim=pass (2048-bit key) header.d=ravnborg.org header.i=@ravnborg.org header.b=ZUGKPYGj; dkim=permerror (0-bit key) header.d=ravnborg.org header.i=@ravnborg.org header.b=uFhlVOJ4; arc=none smtp.client-ip=46.30.211.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ravnborg.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ravnborg.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ravnborg.org; s=rsa2;
-	h=in-reply-to:content-type:mime-version:references:message-id:subject:to:from:
-	 date:from;
-	bh=hTD37jtbF2IkLbRevRKol8O2fXTT+UqURCu+UVRCX4M=;
-	b=ZUGKPYGjIkJknsOZLWsZbRSDIiBc76u/xflY0A5hKZLnpx6rIVin1Pn/prkOkKamqEGzijP7yQuxX
-	 MYcTf7SmPcIpQwzDtvLchB9maeKT1bE0zrFb+lRa0hQs7/PjNFgpKv8MSZSVb6fMrmGaZVpTr7rP/y
-	 Ycl89/ykaurMxC284fOi82evcHkdY8UZutm7ZXjdRiRkgqn03qZFTC1in1K2lzzW9NMUR42u8Ogy8E
-	 OhpLQTZUOIdt4TUXKK2+4v64BVNLJbgyg36dvJGgdHFwulhJreBMJUyafYCXWV+stuh7aGI1YYd+bw
-	 d9D/8wSRWCaaMBbwsgjGgQxl2fFhQRA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
-	d=ravnborg.org; s=ed2;
-	h=in-reply-to:content-type:mime-version:references:message-id:subject:to:from:
-	 date:from;
-	bh=hTD37jtbF2IkLbRevRKol8O2fXTT+UqURCu+UVRCX4M=;
-	b=uFhlVOJ4VTnu9mqrBs3w2Y45hODnUzJomgv8cxvnI3gVf8/yOtsj0GZEUPEvXhvjm4zFUOx66LWD4
-	 PmM89oKBA==
-X-HalOne-ID: 8e6306b9-e926-11ee-b332-dfbeffc51846
-Received: from ravnborg.org (2-105-2-98-cable.dk.customer.tdc.net [2.105.2.98])
-	by mailrelay6.pub.mailoutpod2-cph3.one.com (Halon) with ESMTPSA
-	id 8e6306b9-e926-11ee-b332-dfbeffc51846;
-	Sat, 23 Mar 2024 15:03:51 +0000 (UTC)
-Date: Sat, 23 Mar 2024 16:03:50 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: linux-kbuild@vger.kernel.org
-Subject: Re: How to avoid "version generation failed" warning?
-Message-ID: <20240323150350.GA936705@ravnborg.org>
-References: <20240323131407.GA897267@ravnborg.org>
+	s=arc-20240116; t=1711274117; c=relaxed/simple;
+	bh=TNmRzK+xTaqcUqG2ruPDDAi/qaf/+LPpvkTZqxrXnNc=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pf36OtzDao7PDYtPxn8xHjbTSY16f8/0jManZPqRan7bzOrBdEbzRNgiu++PNtO48Uzhvhh6pn8mxITZqdW6qLMq3Wkgf4x+GC66M+0cYaQfXYNpn6kz09m+g3e2v5fZqGfolzzzrcWrYT+6sOx9vxAZzDZgsBDi/+pWgTZVlI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=LaWBTe0u; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42O9oNRs031484;
+	Sun, 24 Mar 2024 09:54:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=qcppdkim1; bh=AjaFl7g03vwI4sThHBoGG
+	IckgLDPCRTa7YcKZWTVpno=; b=LaWBTe0uZHYhAan7AzYzk+Z3u1gTDLdM3gv6l
+	Bn6MOf5rodnpVJijYgwoqYvirSPWFDvRoNmFY79Q7spHPq13gkoR4VSZd6MA9Nn0
+	m2PW5pFIrJgqdW3YPZfyGZB0A6d4NOeap9nV66xyR3AItIZaBsLQ0EK8vRY7juyM
+	Ojvj3MHxY0l6RwFvsQX6drQOkI/fHs5amW+S1t7IhwF5Sqy3QUYX9ldJU01Twig5
+	apKiFapY344ghXMcuNki2cQQCQK1uxOn4eU3DF1nQyg4EXdY9QhUKYsq5iTwJ/9G
+	uG7AUu5xpf4yTyh8xecEzMwhRowgXDbwGeJ17gFRO7ZlCFxjA==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3x1q60m9ba-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sun, 24 Mar 2024 09:54:45 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 42O9siLb018166
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sun, 24 Mar 2024 09:54:44 GMT
+Received: from hu-akhilpo-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Sun, 24 Mar 2024 02:54:39 -0700
+Date: Sun, 24 Mar 2024 15:22:22 +0530
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor
+	<nathan@kernel.org>,
+        Nicolas Schier <nicolas@fjasle.eu>, Rob Clark
+	<robdclark@gmail.com>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        Sean Paul
+	<sean@poorly.run>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        "David
+ Airlie" <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+        <linux-kbuild@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>
+Subject: Re: [PATCH v4 04/16] drm/msm: move msm_gpummu.c to
+ adreno/a2xx_gpummu.c
+Message-ID: <20240324095222.ldnwumjkxk6uymmc@hu-akhilpo-hyd.qualcomm.com>
+References: <20240323-fd-xml-shipped-v4-0-cca5e8457b9e@linaro.org>
+ <20240323-fd-xml-shipped-v4-4-cca5e8457b9e@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20240323131407.GA897267@ravnborg.org>
+In-Reply-To: <20240323-fd-xml-shipped-v4-4-cca5e8457b9e@linaro.org>
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: ccV9tcYtGZtWQxhc3uQ7qiZeooQ7HHyZ
+X-Proofpoint-GUID: ccV9tcYtGZtWQxhc3uQ7qiZeooQ7HHyZ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-24_06,2024-03-21_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 suspectscore=0
+ impostorscore=0 spamscore=0 bulkscore=0 mlxlogscore=999 adultscore=0
+ malwarescore=0 clxscore=1011 lowpriorityscore=0 mlxscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2403210001 definitions=main-2403240062
 
-Hi all.
-
-On Sat, Mar 23, 2024 at 02:14:07PM +0100, Sam Ravnborg wrote:
-> Hi all.
+On Sat, Mar 23, 2024 at 12:56:56AM +0200, Dmitry Baryshkov wrote:
+> The msm_gpummu.c implementation is used only on A2xx and it is tied to
+> the A2xx registers. Rename the source file accordingly.
 > 
-> When building sparc32 allmodconfig I see a lot of warnings like these:
+
+There are very few functions in this file and a2xx_gpu.c is a relatively
+small source file too. Shall we just move them to a2xx_gpu.c instead of
+renaming?
+
+-Akhil
+
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  drivers/gpu/drm/msm/Makefile                       |  2 +-
+>  drivers/gpu/drm/msm/adreno/a2xx_gpu.c              |  4 +-
+>  drivers/gpu/drm/msm/adreno/a2xx_gpu.h              |  4 ++
+>  .../drm/msm/{msm_gpummu.c => adreno/a2xx_gpummu.c} | 45 ++++++++++++----------
+>  drivers/gpu/drm/msm/msm_mmu.h                      |  5 ---
+>  5 files changed, 31 insertions(+), 29 deletions(-)
 > 
-> WARNING: modpost: EXPORT symbol "empty_zero_page" [vmlinux] version generation failed, symbol will not be versioned.
-> Is "empty_zero_page" prototyped in <asm/asm-prototypes.h>?
-> WARNING: modpost: EXPORT symbol "__udelay" [vmlinux] version generation failed, symbol will not be versioned.
-> Is "__udelay" prototyped in <asm/asm-prototypes.h>?
-> WARNING: modpost: EXPORT symbol "__ndelay" [vmlinux] version generation failed, symbol will not be versioned.
-> Is "__ndelay" prototyped in <asm/asm-prototypes.h>?
-> WARNING: modpost: EXPORT symbol "__ashldi3" [vmlinux] version generation failed, symbol will not be versioned.
-> Is "__ashldi3" prototyped in <asm/asm-prototypes.h>?
-> WARNING: modpost: EXPORT symbol "__ashrdi3" [vmlinux] version generation failed, symbol will not be versioned.
-> Is "__ashrdi3" prototyped in <asm/asm-prototypes.h>?
-> WARNING: modpost: EXPORT symbol "__lshrdi3" [vmlinux] version generation failed, symbol will not be versioned.
-> Is "__lshrdi3" prototyped in <asm/asm-prototypes.h>?
-> WARNING: modpost: "__udelay" [kernel/locking/locktorture.ko] has no CRC!
-> WARNING: modpost: "__udelay" [kernel/rcu/rcutorture.ko] has no CRC!
-> WARNING: modpost: "__udelay" [kernel/rcu/rcuscale.ko] has no CRC!
-> WARNING: modpost: "__udelay" [kernel/rcu/refscale.ko] has no CRC!
-> WARNING: modpost: "__ndelay" [kernel/rcu/refscale.ko] has no CRC!
-> WARNING: modpost: "__udelay" [kernel/time/test_udelay.ko] has no CRC!
-> WARNING: modpost: "__udelay" [kernel/scftorture.ko] has no CRC!
-> WARNING: modpost: "__ashrdi3" [fs/quota/quota_tree.ko] has no CRC!
-> WARNING: modpost: "__ashldi3" [fs/ext4/ext4.ko] has no CRC!
-> ...
+> diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
+> index b21ae2880c71..26ed4f443149 100644
+> --- a/drivers/gpu/drm/msm/Makefile
+> +++ b/drivers/gpu/drm/msm/Makefile
+> @@ -8,6 +8,7 @@ msm-y := \
+>  	adreno/adreno_device.o \
+>  	adreno/adreno_gpu.o \
+>  	adreno/a2xx_gpu.o \
+> +	adreno/a2xx_gpummu.o \
+>  	adreno/a3xx_gpu.o \
+>  	adreno/a4xx_gpu.o \
+>  	adreno/a5xx_gpu.o \
+> @@ -113,7 +114,6 @@ msm-y += \
+>  	msm_ringbuffer.o \
+>  	msm_submitqueue.o \
+>  	msm_gpu_tracepoints.o \
+> -	msm_gpummu.o
+>  
+>  msm-$(CONFIG_DEBUG_FS) += adreno/a5xx_debugfs.o \
+>  	dp/dp_debug.o
+> diff --git a/drivers/gpu/drm/msm/adreno/a2xx_gpu.c b/drivers/gpu/drm/msm/adreno/a2xx_gpu.c
+> index 0d8133f3174b..0dc255ddf5ce 100644
+> --- a/drivers/gpu/drm/msm/adreno/a2xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a2xx_gpu.c
+> @@ -113,7 +113,7 @@ static int a2xx_hw_init(struct msm_gpu *gpu)
+>  	uint32_t *ptr, len;
+>  	int i, ret;
+>  
+> -	msm_gpummu_params(gpu->aspace->mmu, &pt_base, &tran_error);
+> +	a2xx_gpummu_params(gpu->aspace->mmu, &pt_base, &tran_error);
+>  
+>  	DBG("%s", gpu->name);
+>  
+> @@ -469,7 +469,7 @@ static struct msm_gpu_state *a2xx_gpu_state_get(struct msm_gpu *gpu)
+>  static struct msm_gem_address_space *
+>  a2xx_create_address_space(struct msm_gpu *gpu, struct platform_device *pdev)
+>  {
+> -	struct msm_mmu *mmu = msm_gpummu_new(&pdev->dev, gpu);
+> +	struct msm_mmu *mmu = a2xx_gpummu_new(&pdev->dev, gpu);
+>  	struct msm_gem_address_space *aspace;
+>  
+>  	aspace = msm_gem_address_space_create(mmu, "gpu", SZ_16M,
+> diff --git a/drivers/gpu/drm/msm/adreno/a2xx_gpu.h b/drivers/gpu/drm/msm/adreno/a2xx_gpu.h
+> index 161a075f94af..53702f19990f 100644
+> --- a/drivers/gpu/drm/msm/adreno/a2xx_gpu.h
+> +++ b/drivers/gpu/drm/msm/adreno/a2xx_gpu.h
+> @@ -19,4 +19,8 @@ struct a2xx_gpu {
+>  };
+>  #define to_a2xx_gpu(x) container_of(x, struct a2xx_gpu, base)
+>  
+> +struct msm_mmu *a2xx_gpummu_new(struct device *dev, struct msm_gpu *gpu);
+> +void a2xx_gpummu_params(struct msm_mmu *mmu, dma_addr_t *pt_base,
+> +		dma_addr_t *tran_error);
+> +
+>  #endif /* __A2XX_GPU_H__ */
+> diff --git a/drivers/gpu/drm/msm/msm_gpummu.c b/drivers/gpu/drm/msm/adreno/a2xx_gpummu.c
+> similarity index 67%
+> rename from drivers/gpu/drm/msm/msm_gpummu.c
+> rename to drivers/gpu/drm/msm/adreno/a2xx_gpummu.c
+> index f7d1945e0c9f..39641551eeb6 100644
+> --- a/drivers/gpu/drm/msm/msm_gpummu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a2xx_gpummu.c
+> @@ -5,30 +5,33 @@
+>  
+>  #include "msm_drv.h"
+>  #include "msm_mmu.h"
+> -#include "adreno/adreno_gpu.h"
+> -#include "adreno/a2xx.xml.h"
+>  
+> -struct msm_gpummu {
+> +#include "adreno_gpu.h"
+> +#include "a2xx_gpu.h"
+> +
+> +#include "a2xx.xml.h"
+> +
+> +struct a2xx_gpummu {
+>  	struct msm_mmu base;
+>  	struct msm_gpu *gpu;
+>  	dma_addr_t pt_base;
+>  	uint32_t *table;
+>  };
+> -#define to_msm_gpummu(x) container_of(x, struct msm_gpummu, base)
+> +#define to_a2xx_gpummu(x) container_of(x, struct a2xx_gpummu, base)
+>  
+>  #define GPUMMU_VA_START SZ_16M
+>  #define GPUMMU_VA_RANGE (0xfff * SZ_64K)
+>  #define GPUMMU_PAGE_SIZE SZ_4K
+>  #define TABLE_SIZE (sizeof(uint32_t) * GPUMMU_VA_RANGE / GPUMMU_PAGE_SIZE)
+>  
+> -static void msm_gpummu_detach(struct msm_mmu *mmu)
+> +static void a2xx_gpummu_detach(struct msm_mmu *mmu)
+>  {
+>  }
+>  
+> -static int msm_gpummu_map(struct msm_mmu *mmu, uint64_t iova,
+> +static int a2xx_gpummu_map(struct msm_mmu *mmu, uint64_t iova,
+>  		struct sg_table *sgt, size_t len, int prot)
+>  {
+> -	struct msm_gpummu *gpummu = to_msm_gpummu(mmu);
+> +	struct a2xx_gpummu *gpummu = to_a2xx_gpummu(mmu);
+>  	unsigned idx = (iova - GPUMMU_VA_START) / GPUMMU_PAGE_SIZE;
+>  	struct sg_dma_page_iter dma_iter;
+>  	unsigned prot_bits = 0;
+> @@ -53,9 +56,9 @@ static int msm_gpummu_map(struct msm_mmu *mmu, uint64_t iova,
+>  	return 0;
+>  }
+>  
+> -static int msm_gpummu_unmap(struct msm_mmu *mmu, uint64_t iova, size_t len)
+> +static int a2xx_gpummu_unmap(struct msm_mmu *mmu, uint64_t iova, size_t len)
+>  {
+> -	struct msm_gpummu *gpummu = to_msm_gpummu(mmu);
+> +	struct a2xx_gpummu *gpummu = to_a2xx_gpummu(mmu);
+>  	unsigned idx = (iova - GPUMMU_VA_START) / GPUMMU_PAGE_SIZE;
+>  	unsigned i;
+>  
+> @@ -68,13 +71,13 @@ static int msm_gpummu_unmap(struct msm_mmu *mmu, uint64_t iova, size_t len)
+>  	return 0;
+>  }
+>  
+> -static void msm_gpummu_resume_translation(struct msm_mmu *mmu)
+> +static void a2xx_gpummu_resume_translation(struct msm_mmu *mmu)
+>  {
+>  }
+>  
+> -static void msm_gpummu_destroy(struct msm_mmu *mmu)
+> +static void a2xx_gpummu_destroy(struct msm_mmu *mmu)
+>  {
+> -	struct msm_gpummu *gpummu = to_msm_gpummu(mmu);
+> +	struct a2xx_gpummu *gpummu = to_a2xx_gpummu(mmu);
+>  
+>  	dma_free_attrs(mmu->dev, TABLE_SIZE, gpummu->table, gpummu->pt_base,
+>  		DMA_ATTR_FORCE_CONTIGUOUS);
+> @@ -83,16 +86,16 @@ static void msm_gpummu_destroy(struct msm_mmu *mmu)
+>  }
+>  
+>  static const struct msm_mmu_funcs funcs = {
+> -		.detach = msm_gpummu_detach,
+> -		.map = msm_gpummu_map,
+> -		.unmap = msm_gpummu_unmap,
+> -		.destroy = msm_gpummu_destroy,
+> -		.resume_translation = msm_gpummu_resume_translation,
+> +		.detach = a2xx_gpummu_detach,
+> +		.map = a2xx_gpummu_map,
+> +		.unmap = a2xx_gpummu_unmap,
+> +		.destroy = a2xx_gpummu_destroy,
+> +		.resume_translation = a2xx_gpummu_resume_translation,
+>  };
+>  
+> -struct msm_mmu *msm_gpummu_new(struct device *dev, struct msm_gpu *gpu)
+> +struct msm_mmu *a2xx_gpummu_new(struct device *dev, struct msm_gpu *gpu)
+>  {
+> -	struct msm_gpummu *gpummu;
+> +	struct a2xx_gpummu *gpummu;
+>  
+>  	gpummu = kzalloc(sizeof(*gpummu), GFP_KERNEL);
+>  	if (!gpummu)
+> @@ -111,10 +114,10 @@ struct msm_mmu *msm_gpummu_new(struct device *dev, struct msm_gpu *gpu)
+>  	return &gpummu->base;
+>  }
+>  
+> -void msm_gpummu_params(struct msm_mmu *mmu, dma_addr_t *pt_base,
+> +void a2xx_gpummu_params(struct msm_mmu *mmu, dma_addr_t *pt_base,
+>  		dma_addr_t *tran_error)
+>  {
+> -	dma_addr_t base = to_msm_gpummu(mmu)->pt_base;
+> +	dma_addr_t base = to_a2xx_gpummu(mmu)->pt_base;
+>  
+>  	*pt_base = base;
+>  	*tran_error = base + TABLE_SIZE; /* 32-byte aligned */
+> diff --git a/drivers/gpu/drm/msm/msm_mmu.h b/drivers/gpu/drm/msm/msm_mmu.h
+> index eb72d3645c1d..88af4f490881 100644
+> --- a/drivers/gpu/drm/msm/msm_mmu.h
+> +++ b/drivers/gpu/drm/msm/msm_mmu.h
+> @@ -42,7 +42,6 @@ static inline void msm_mmu_init(struct msm_mmu *mmu, struct device *dev,
+>  
+>  struct msm_mmu *msm_iommu_new(struct device *dev, unsigned long quirks);
+>  struct msm_mmu *msm_iommu_gpu_new(struct device *dev, struct msm_gpu *gpu, unsigned long quirks);
+> -struct msm_mmu *msm_gpummu_new(struct device *dev, struct msm_gpu *gpu);
+>  
+>  static inline void msm_mmu_set_fault_handler(struct msm_mmu *mmu, void *arg,
+>  		int (*handler)(void *arg, unsigned long iova, int flags, void *data))
+> @@ -53,10 +52,6 @@ static inline void msm_mmu_set_fault_handler(struct msm_mmu *mmu, void *arg,
+>  
+>  struct msm_mmu *msm_iommu_pagetable_create(struct msm_mmu *parent);
+>  
+> -void msm_gpummu_params(struct msm_mmu *mmu, dma_addr_t *pt_base,
+> -		dma_addr_t *tran_error);
+> -
+> -
+>  int msm_iommu_pagetable_params(struct msm_mmu *mmu, phys_addr_t *ttbr,
+>  		int *asid);
+>  struct iommu_domain_geometry *msm_iommu_get_geometry(struct msm_mmu *mmu);
 > 
-> I already tried to add the prototypes to asm/asm-prototypes.h - but this
-> did not have any effect.
-
-When I triggered a re-build of the affected .S files it worked.
-(I am used to kbuild handle all dependencies so well...)
-
-Solution seems simple:
-- Add missing includes and missing prototypes.
-- Include the asm-prototypes in the relevant .S files to trigger rebuild
-  when the asm-prototype file changes.
-
-I will prepare a patch and submit it to the sparc list.
-
-	Sam
+> -- 
+> 2.39.2
+> 
 
