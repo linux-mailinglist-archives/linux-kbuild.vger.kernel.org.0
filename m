@@ -1,49 +1,49 @@
-Return-Path: <linux-kbuild+bounces-1312-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1313-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C104D889661
-	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Mar 2024 09:50:11 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F3D1889FF7
+	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Mar 2024 13:45:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F2C381C30053
-	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Mar 2024 08:50:10 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 368501F3976F
+	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Mar 2024 12:45:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B700144D2A;
-	Mon, 25 Mar 2024 05:46:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B60A45BE6;
+	Mon, 25 Mar 2024 07:32:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UHuXb0gn"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iZ/b0NE+"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9E14153566;
-	Mon, 25 Mar 2024 02:13:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EF311C2576;
+	Mon, 25 Mar 2024 04:42:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711332789; cv=none; b=gO5tC6JN+wkEVuRI3CJP48UneLeo9zqcd44CBJSoRxZhNc4KS2OKorqIA/fatwS0rDcfQkHG01cTpTbgcFgmBQq45PlfVMQh/5uYX1CWX/bWNqhuLG/qEG8PfGdOKrT1Xh5qtTPtzHgxndzL64JDvH8ILZIlixVaanCWplnLIeY=
+	t=1711341755; cv=none; b=GcfYOtFPHZuiEN0TjCQMJWN/8wd+TPUOCtJyGCZPDZoYo/Wt/0KMmSaCrq6JT6KiQYXur+YRcZIlhOpJ/4jIXypKWAEKJnVeT0C6ZBeS4MgzWJhlbBLIkcU7cIcCG67iqXqz6ng30/0wxYZQRXY06588GHzIwgK67MczfdJz8Do=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711332789; c=relaxed/simple;
-	bh=MZnsBg6kd6EgY31Xfo3r2efSeJzcGFTikmm5cMaNdW8=;
+	s=arc-20240116; t=1711341755; c=relaxed/simple;
+	bh=duVRPOkUwtqb9I+6o5VQiYAgtSlpWGf+X+0yQv8TjAs=;
 	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=EZZxESDDL9+eUBelZRcxe9MC7Jf5VmCgcEI5d+ukLoEr/wM+DlbvWVFuCvuim5dZFJnFyzqjaeYh80nbUKIoMWcCLfI3eE5z5bVLfXPJKKynOLUIi5c+iyHU4jn901QV+g/Wx0fSyV3cA3EV4jvH8rOnZ0UTuf5pPP7fjpfWivE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UHuXb0gn; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 88787C43330;
-	Mon, 25 Mar 2024 02:13:07 +0000 (UTC)
+	 In-Reply-To:To:Cc; b=MWMKsXohZxFE3o8hOmpsPaH6/T+4BT8WFE0HdxtN//tN69grlx1Kwts9UlgyljFJCyAiKvFfWY4c/ho5oS67yhXvaenweWYbeuF80XOX8ELdAvLJrOp+EQfgdfgAzd3otFXyGo+npsE0MoHJWdHOSlm+cRRHLVmsoig5ErdjeMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iZ/b0NE+; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B5273C43399;
+	Mon, 25 Mar 2024 04:42:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711332787;
-	bh=MZnsBg6kd6EgY31Xfo3r2efSeJzcGFTikmm5cMaNdW8=;
+	s=k20201202; t=1711341754;
+	bh=duVRPOkUwtqb9I+6o5VQiYAgtSlpWGf+X+0yQv8TjAs=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=UHuXb0gn8ME3oLxnbcGZw/hvAvm3EfiLqfib6Xdv5Zb9+y4gxhJF5pue6Uu+KGrkV
-	 wXj6cQaBf21G9A0P9TPtlgvH7OsdTGBel/cD8PMOCPbw+rulqlxU20f6ccfU2L12Mf
-	 IAcy1muYwbg+hNeSWoTP2aBkN9V/jZhCB2zlhRfGXTOFlUNQ87UmlKUNfwCW0WC37C
-	 NER5RJ9cL1s1lpb4sDf9G214uD1PTr1ZWuSASQyOw4WVhDJJXj1WfulxJOVHqeZY64
-	 +KxcCr9qVM6E8jnp+xggnuN214zxq8BH8knav36O4YF7PjJARdTUZdGx+31qDt0+8O
-	 N7gbuMRdReg4w==
+	b=iZ/b0NE+i7+do8pgZkg46x1uBB/MQJfp/c/XhpH71z/wGKatNJQnfFVi4TsSrJUcx
+	 p9B9v3m0m2h+2n352ZneEdcJs25ZuYmCkptcEJJi14CEjUg6fZRWGQjsnzSbTTqpuQ
+	 jBLNyyJKgrClKH6Ar2Sk8/u0rVBaZT96gqSwdlSHBYKiJ8LneSrMklScm8Ww85dTEe
+	 eja5sWn2jN4CV4FDoeaf5TOJPL86Efy9rTKDI0W7hc3GLlwluHdA9GYm7yTBbMYg6F
+	 MrrxjzojsaA/BYbk4OYMb2sE8+b4REldcJ8JhTboSwFB0wiYQTm1AKpQdnuWO2wot9
+	 CNckLCoG3Oykg==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 6CD16D2D0E5;
-	Mon, 25 Mar 2024 02:13:07 +0000 (UTC)
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 9F5E8D95071;
+	Mon, 25 Mar 2024 04:42:34 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
@@ -52,49 +52,46 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v4 0/4] Allow coreboot modules to autoload and enable cbmem
- in the arm64 defconfig
-From: patchwork-bot+chrome-platform@kernel.org
+Subject: Re: [PATCH 00/11] Bump the minimum supported version of LLVM to 13.0.1
+From: patchwork-bot+linux-riscv@kernel.org
 Message-Id: 
- <171133278744.9916.4500686862665628115.git-patchwork-notify@kernel.org>
-Date: Mon, 25 Mar 2024 02:13:07 +0000
-References: <20240212-coreboot-mod-defconfig-v4-0-d14172676f6d@collabora.com>
-In-Reply-To: <20240212-coreboot-mod-defconfig-v4-0-d14172676f6d@collabora.com>
-To: =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado_=3Cnfraprado=40collabora=2Ecom?=@codeaurora.org,
-	=?utf-8?q?=3E?=@codeaurora.org
-Cc: tzungbi@kernel.org, arnd@arndb.de, briannorris@chromium.org,
- jwerner@chromium.org, masahiroy@kernel.org, nathan@kernel.org,
- nicolas@fjasle.eu, catalin.marinas@arm.com, will@kernel.org,
- angelogioacchino.delregno@collabora.com, andriy.shevchenko@linux.intel.com,
- gregkh@linuxfoundation.org, kernel@collabora.com,
- chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-kbuild@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+ <171134175464.18749.18342004135343709281.git-patchwork-notify@kernel.org>
+Date: Mon, 25 Mar 2024 04:42:34 +0000
+References: <20240125-bump-min-llvm-ver-to-13-0-1-v1-0-f5ff9bda41c5@kernel.org>
+In-Reply-To: <20240125-bump-min-llvm-ver-to-13-0-1-v1-0-f5ff9bda41c5@kernel.org>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: linux-riscv@lists.infradead.org, akpm@linux-foundation.org,
+ masahiroy@kernel.org, nicolas@fjasle.eu, linux-kbuild@vger.kernel.org,
+ llvm@lists.linux.dev, patches@lists.linux.dev, linux-kernel@vger.kernel.org,
+ tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com, x86@kernel.org, linux@armlinux.org.uk,
+ ardb@kernel.org, linux-arm-kernel@lists.infradead.org,
+ catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com,
+ mpe@ellerman.id.au, npiggin@gmail.com, aneesh.kumar@kernel.org,
+ naveen.n.rao@linux.ibm.com, linuxppc-dev@lists.ozlabs.org,
+ paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu,
+ conor@kernel.org, keescook@chromium.org, linux-hardening@vger.kernel.org
 
 Hello:
 
-This series was applied to chrome-platform/linux.git (for-next)
-by Tzung-Bi Shih <tzungbi@kernel.org>:
+This series was applied to riscv/linux.git (fixes)
+by Andrew Morton <akpm@linux-foundation.org>:
 
-On Mon, 12 Feb 2024 09:50:04 -0500 you wrote:
-> This series adds the missing pieces to the coreboot bus and the module
-> alias generation to allow coreboot modules to be automatically loaded
-> when matching devices are detected.
+On Thu, 25 Jan 2024 15:55:06 -0700 you wrote:
+> Hi all,
 > 
-> The configs for cbmem coreboot entries are then enabled in the arm64
-> defconfig, as modules, to allow reading logs from coreboot on arm64
-> Chromebooks, which is useful for debugging the boot process.
+> This series bumps the minimum supported version of LLVM for building the
+> kernel to 13.0.1. The first patch does the bump and all subsequent
+> patches clean up all the various workarounds and checks for earlier
+> versions.
 > 
 > [...]
 
 Here is the summary with links:
-  - [v4,1/4] firmware: coreboot: Generate modalias uevent for devices
-    https://git.kernel.org/chrome-platform/c/c2b28f6806d2
-  - [v4,2/4] firmware: coreboot: Generate aliases for coreboot modules
-    https://git.kernel.org/chrome-platform/c/f1cebae1dbf8
-  - [v4,3/4] firmware: coreboot: Replace tag with id table in driver struct
-    https://git.kernel.org/chrome-platform/c/8a0a62941a04
-  - [v4,4/4] arm64: defconfig: Enable support for cbmem entries in the coreboot table
-    (no matching commit)
+  - [07/11] riscv: Remove MCOUNT_NAME workaround
+    https://git.kernel.org/riscv/c/de5f3984664e
+  - [08/11] riscv: Kconfig: Remove version dependency from CONFIG_CLANG_SUPPORTS_DYNAMIC_FTRACE
+    https://git.kernel.org/riscv/c/a38d97181271
 
 You are awesome, thank you!
 -- 
