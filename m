@@ -1,49 +1,49 @@
-Return-Path: <linux-kbuild+bounces-1311-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1312-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 522248899B2
-	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Mar 2024 11:15:26 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C104D889661
+	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Mar 2024 09:50:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0BEE429E9FF
-	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Mar 2024 10:15:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F2C381C30053
+	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Mar 2024 08:50:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B38012F596;
-	Mon, 25 Mar 2024 05:31:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B700144D2A;
+	Mon, 25 Mar 2024 05:46:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rL3+HMty"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UHuXb0gn"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD8BB14A606;
-	Mon, 25 Mar 2024 01:54:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9E14153566;
+	Mon, 25 Mar 2024 02:13:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711331663; cv=none; b=R2TkN1px4vuLS+vcLlOmYx8at8lOBxHIM+zVtL56H0LKjF3LknOurJFOnSZJHPJRPnMB+LsLruuk+XnMcz6befx0qOosgNgA75GP9OmZQeno+bwtlIWf+MAX//Uc3AtzuGeg4icAAfN5QbbHGxGI3HDGDgl/QJMSZLM2khN+KUc=
+	t=1711332789; cv=none; b=gO5tC6JN+wkEVuRI3CJP48UneLeo9zqcd44CBJSoRxZhNc4KS2OKorqIA/fatwS0rDcfQkHG01cTpTbgcFgmBQq45PlfVMQh/5uYX1CWX/bWNqhuLG/qEG8PfGdOKrT1Xh5qtTPtzHgxndzL64JDvH8ILZIlixVaanCWplnLIeY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711331663; c=relaxed/simple;
-	bh=ojOvuJS5jAKIVgnuu4Wz3oDaixRKiajNf9MRBrzuQ5Q=;
+	s=arc-20240116; t=1711332789; c=relaxed/simple;
+	bh=MZnsBg6kd6EgY31Xfo3r2efSeJzcGFTikmm5cMaNdW8=;
 	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=mmlI5TcJvhdX7WLSgRFeDRQSuCVghi6OqZP3d+wKgTzR5Y3hRnHJn83OCzxqUjRFLjPjLsrVsMUj3tYZy3Ce2nLK8ff8JpLU75xkhi99LL56HB15A/XrsE6NhHz8EiGUGKMry5Te7IcVIGsjI6C65Mc20lCyY5j2LcQMdf732so=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rL3+HMty; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 854ADC433B2;
-	Mon, 25 Mar 2024 01:54:22 +0000 (UTC)
+	 In-Reply-To:To:Cc; b=EZZxESDDL9+eUBelZRcxe9MC7Jf5VmCgcEI5d+ukLoEr/wM+DlbvWVFuCvuim5dZFJnFyzqjaeYh80nbUKIoMWcCLfI3eE5z5bVLfXPJKKynOLUIi5c+iyHU4jn901QV+g/Wx0fSyV3cA3EV4jvH8rOnZ0UTuf5pPP7fjpfWivE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UHuXb0gn; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 88787C43330;
+	Mon, 25 Mar 2024 02:13:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711331662;
-	bh=ojOvuJS5jAKIVgnuu4Wz3oDaixRKiajNf9MRBrzuQ5Q=;
+	s=k20201202; t=1711332787;
+	bh=MZnsBg6kd6EgY31Xfo3r2efSeJzcGFTikmm5cMaNdW8=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=rL3+HMtypHYBa4J7uPg7by0dwLSvnBXl3ADMS5FAGRkhMQuz1yb7QxSprvv8h5w+O
-	 VR0SOphVx5QiK4LWWWG7g4lPmjsmWKPfbrttgecDxFjAuf4RKjN9+6L0cehPrFAVdL
-	 hgcrODZvBAkGd5q0pgFstXbhIDGDmk97mtQEmSndRxo+xBSljiPrLgdtyR7qRnXksL
-	 W5tkbEOnOhE7GiKau/9sUZ4xiMB6SonhQyE85kx9yaaow9Qet8YSMOBuZcgSlttPi6
-	 +S6iFSfIp8Y61YVa00fCb3OlaEL/5m43MOcCZbus46mVj9tarGw5AYGmr5OKaZctt0
-	 JSEYFP48at7AA==
+	b=UHuXb0gn8ME3oLxnbcGZw/hvAvm3EfiLqfib6Xdv5Zb9+y4gxhJF5pue6Uu+KGrkV
+	 wXj6cQaBf21G9A0P9TPtlgvH7OsdTGBel/cD8PMOCPbw+rulqlxU20f6ccfU2L12Mf
+	 IAcy1muYwbg+hNeSWoTP2aBkN9V/jZhCB2zlhRfGXTOFlUNQ87UmlKUNfwCW0WC37C
+	 NER5RJ9cL1s1lpb4sDf9G214uD1PTr1ZWuSASQyOw4WVhDJJXj1WfulxJOVHqeZY64
+	 +KxcCr9qVM6E8jnp+xggnuN214zxq8BH8knav36O4YF7PjJARdTUZdGx+31qDt0+8O
+	 N7gbuMRdReg4w==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 6B479D2D0E5;
-	Mon, 25 Mar 2024 01:54:22 +0000 (UTC)
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 6CD16D2D0E5;
+	Mon, 25 Mar 2024 02:13:07 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
@@ -56,8 +56,8 @@ Subject: Re: [PATCH v4 0/4] Allow coreboot modules to autoload and enable cbmem
  in the arm64 defconfig
 From: patchwork-bot+chrome-platform@kernel.org
 Message-Id: 
- <171133166243.9916.3802194200601946624.git-patchwork-notify@kernel.org>
-Date: Mon, 25 Mar 2024 01:54:22 +0000
+ <171133278744.9916.4500686862665628115.git-patchwork-notify@kernel.org>
+Date: Mon, 25 Mar 2024 02:13:07 +0000
 References: <20240212-coreboot-mod-defconfig-v4-0-d14172676f6d@collabora.com>
 In-Reply-To: <20240212-coreboot-mod-defconfig-v4-0-d14172676f6d@collabora.com>
 To: =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado_=3Cnfraprado=40collabora=2Ecom?=@codeaurora.org,
@@ -72,7 +72,7 @@ Cc: tzungbi@kernel.org, arnd@arndb.de, briannorris@chromium.org,
 
 Hello:
 
-This series was applied to chrome-platform/linux.git (for-kernelci)
+This series was applied to chrome-platform/linux.git (for-next)
 by Tzung-Bi Shih <tzungbi@kernel.org>:
 
 On Mon, 12 Feb 2024 09:50:04 -0500 you wrote:
