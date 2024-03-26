@@ -1,167 +1,198 @@
-Return-Path: <linux-kbuild+bounces-1318-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1319-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1A7188C552
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Mar 2024 15:39:28 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ED7488C59F
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Mar 2024 15:48:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9D7792E0CF1
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Mar 2024 14:39:27 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9C53AB25725
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Mar 2024 14:48:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11AFE13C3E7;
-	Tue, 26 Mar 2024 14:39:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CE9312D75D;
+	Tue, 26 Mar 2024 14:47:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pjwfmNZ1"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E4BQDDTk"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D49B613C3DB;
-	Tue, 26 Mar 2024 14:39:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC2EFED9;
+	Tue, 26 Mar 2024 14:47:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711463962; cv=none; b=QH5GfCddvh/CJdgv2HHYo2eZBVEmab21APzVSET279vBECmE7WKe6MQzk1yCcgq/kXTlMHFicqweB4zDxLq4eGuPmegNS9kqEnx5lzhvx2mSmDCNJETyxoRhR8XYnXugbK8GK0EBoczB/cElD3dpgT8Y1fsupTZ9vYuT2mRsHSE=
+	t=1711464475; cv=none; b=PAfCurn4xudZRybbuD85+d1vw6LsFdeT7zqCxPDo39QLV7XhXMOJGm1k1yxRKqyi/JSfoG5+YLF4ugZ6nQjqqvREPql0L07GKtHxjbtZpDu9b+lkaM+lIs+RJpyd7A7k6CQ1yWwUuidiIwpPiYFOs/JkpbbCUNCgv3waKKlOwc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711463962; c=relaxed/simple;
-	bh=694uUrQurged0DpiGcIKRXaR7f7IY1ihpJjxlFzcTmk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=u9thdaV3hks+RekVD9pMZgNn6U5xUs/AQ/ig50vpXkn91BKYO6S1W13M0tPlQ9mijmfBPq7YpQjnuMBJ68L4LOxBSp6XLoYBYOvQJLFpDfqgCGVMtU9yu3be0HLdI8MniVSkUM24Sgj289Vi5XieSr9KX06f0NrHJUIN05ItZYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pjwfmNZ1; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D684C433F1;
-	Tue, 26 Mar 2024 14:39:21 +0000 (UTC)
+	s=arc-20240116; t=1711464475; c=relaxed/simple;
+	bh=2VRodtLYji0E2iO14KF37hDwen2VjVMAvwAcrcgPpT4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=RP8DQWyViGOgZmbG2QgzfPgzfywKA/8kNopgnvNdc4T6EGj7lUY4r7gXw1Opte+0uc+fUuisIXtCDlUPqjnQW03IOAW28kHepgtmA8eSrcorHK9W+3xOlMOLutz9UQHP5vIMjzlkvWulGnlVHp5NSC5gpQjGL6gYvjuJAQ743BE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E4BQDDTk; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C54DC433F1;
+	Tue, 26 Mar 2024 14:47:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711463961;
-	bh=694uUrQurged0DpiGcIKRXaR7f7IY1ihpJjxlFzcTmk=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=pjwfmNZ1TweH9ISfP9b/Kmwt/5cyA42r1F1XKtie1SFE90bnSPsWUp9mgj5sz+wu5
-	 9oR4383cI/j5IDxSLXpccKFuY1VW5mv4ekQIvXjMjaTRN6sUadwz5tnOFnUEoQ7Q90
-	 SFFn0WTcQyUJ7PvU+q85kgC3ZL1jYp1f+QAl0CyaPZvhQbSNn2oPG0EwowtfaPih8s
-	 FQMoex/0eXJdAaHxVcC+ygzwkQq9/URLvpyrRhbSj/CFbpcsp56k8G2EtuY457hP9z
-	 i61md7kqXW1ZV7XJWmNRXkW8r71RDsG10R43ip/GT55jceOu/yLNSFwMxutiP9+i3z
-	 fu3as+SmNMIAA==
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2d6c8d741e8so48994441fa.3;
-        Tue, 26 Mar 2024 07:39:21 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXeT0BG2NVCKm0VqavueHPCRlBYAoNoSjbLFsnkwzvAXRp1JusySytZ5ji6EGPgVDfLw8pJHHfx32hzw0i/vgzUjewsH38KDVwXztWlK4r4dugo0cCsk2uAPXfFDq3xAW6QpU7zHYDFEuXRcEUeqCu2SOXqTXmhQ1yuRWVgBHyQ9KQs/3d7PcHTmONuwBs8u5ySW+xGzN86y3xA6enIl3ma
-X-Gm-Message-State: AOJu0YxfjLQgy9PWFYjKfJP/9f5DarWrGtMq2iruwop4aOjWVLKT4bEW
-	4PZ9EBp2Q9CpVatBYsnAUukmzFL35eNeY7MlYWxk9iP4Zsf1GJMHaUrGlH8//R6wxxB8CpMaWMG
-	KyLFoZ2k3PvO6gZCjWETJ+yBZSQs=
-X-Google-Smtp-Source: AGHT+IHRLtVwQBliK06CNyOkOnUVQC6pejo7AnQDeCYkZeCtaGd/3ULk5T8a2lopDISmhpKZBiypht1J7vGrFSjSdRI=
-X-Received: by 2002:a2e:989a:0:b0:2d2:3fac:5fc7 with SMTP id
- b26-20020a2e989a000000b002d23fac5fc7mr5651686ljj.45.1711463960202; Tue, 26
- Mar 2024 07:39:20 -0700 (PDT)
+	s=k20201202; t=1711464475;
+	bh=2VRodtLYji0E2iO14KF37hDwen2VjVMAvwAcrcgPpT4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=E4BQDDTkgrdwdIkmMvielkRpTAsqHIEG3dNSrY21fnxwoLYvLOoCje+XGKi0Q6+lb
+	 vXFNIViLU9NTXcLVTR3XwdRIIouf6xWYpzwnmHI2t5ZxiCoyK5CtJGLAMaMQhP4GqM
+	 LFJItP61E8WSzWQOgV3iidHNLT5C63yxLkS/wCtha2CzziKBhSzJgJ8mdUJnDc4MsM
+	 mHMWnrCmz0M9BMr26mXQL/Ot8TdiiiLpbc7Z6ykNI9wEj4r4WuyvPMGjqE0R7U0B4a
+	 JYlh8463XR1dZ+1yi/iNsx2NnACkLOIgc70LBf5p2SbJ28JbOOieq3jHp29R//i1VX
+	 XyBZZot1G0W0w==
+From: Arnd Bergmann <arnd@kernel.org>
+To: linux-kbuild@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>
+Cc: Nicolas Schier <nicolas@fjasle.eu>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Bill Metzenthen <billm@melbpc.org.au>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	x86@kernel.org,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Jean Delvare <jdelvare@suse.com>,
+	Harry Wentland <harry.wentland@amd.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Sergey Shtylyov <s.shtylyov@omp.ru>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	"Manoj N. Kumar" <manoj@linux.ibm.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Greg Kroah-Hartman <gregkh@suse.de>,
+	linux-kernel@vger.kernel.org,
+	linux-ide@vger.kernel.org,
+	amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org,
+	nouveau@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org,
+	netdev@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-scsi@vger.kernel.org,
+	bpf@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-modules@vger.kernel.org,
+	linux-mm@kvack.org,
+	llvm@lists.linux.dev
+Subject: [PATCH 00/12] kbuild: enable some -Wextra warnings by default
+Date: Tue, 26 Mar 2024 15:47:15 +0100
+Message-Id: <20240326144741.3094687-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240314042659.232142-1-sjg@chromium.org> <20240314042659.232142-3-sjg@chromium.org>
-In-Reply-To: <20240314042659.232142-3-sjg@chromium.org>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 26 Mar 2024 23:38:44 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASWKyTXuPwj0_xaD=8_WfbXhejCe_Z+2Os2MD+mU_D5Fg@mail.gmail.com>
-Message-ID: <CAK7LNASWKyTXuPwj0_xaD=8_WfbXhejCe_Z+2Os2MD+mU_D5Fg@mail.gmail.com>
-Subject: Re: [PATCH v11 2/2] arm64: boot: Support Flat Image Tree
-To: Simon Glass <sjg@chromium.org>
-Cc: linux-arm-kernel@lists.infradead.org, 
-	Ahmad Fatoum <a.fatoum@pengutronix.de>, Nicolas Schier <nicolas@fjasle.eu>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>, Will Deacon <will@kernel.org>, 
-	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, workflows@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Mar 14, 2024 at 1:28=E2=80=AFPM Simon Glass <sjg@chromium.org> wrot=
-e:
->
-> Add a script which produces a Flat Image Tree (FIT), a single file
-> containing the built kernel and associated devicetree files.
-> Compression defaults to gzip which gives a good balance of size and
-> performance.
->
-> The files compress from about 86MB to 24MB using this approach.
->
-> The FIT can be used by bootloaders which support it, such as U-Boot
-> and Linuxboot. It permits automatic selection of the correct
-> devicetree, matching the compatible string of the running board with
-> the closest compatible string in the FIT. There is no need for
-> filenames or other workarounds.
->
-> Add a 'make image.fit' build target for arm64, as well.
->
-> The FIT can be examined using 'dumpimage -l'.
->
-> This uses the 'dtbs-list' file but processes only .dtb files, ignoring
-> the overlay .dtbo files.
->
-> This features requires pylibfdt (use 'pip install libfdt'). It also
-> requires compression utilities for the algorithm being used. Supported
-> compression options are the same as the Image.xxx files. Use
-> FIT_COMPRESSION to select an algorithm other than gzip.
->
-> While FIT supports a ramdisk / initrd, no attempt is made to support
-> this here, since it must be built separately from the Linux build.
->
-> Signed-off-by: Simon Glass <sjg@chromium.org>
-> ---
->
-> Changes in v11:
-> - Use dtbslist file in image.fit rule
-> - Update cmd_fit rule as per Masahiro
-> - Don't mention ignoring files without a .dtb prefix
-> - Use argparse fromfile_prefix_chars feature
-> - Add a -v option and use it for output (with make V=3D1)
-> - rename srcdir to dtbs
-> - Use -o for the output file instead of -f
->
+From: Arnd Bergmann <arnd@arndb.de>
 
+This is a follow-up on a couple of patch series I sent in the past,
+enabling -Wextra (aside from stuff that is explicitly disabled),
+-Wcast-function-pointer-strict and -Wrestrict.
 
+I have tested these on 'defconfig' and 'allmodconfig' builds across
+all architectures, as well as many 'randconfig' builds on x86, arm and
+arm64. It would be nice to have all the Makefile.extrawarn changes in
+v6.10, hopefully with the driver fixes going in before that through
+the respective subsystem trees.
 
+     Arnd
 
-> --- a/scripts/Makefile.lib
-> +++ b/scripts/Makefile.lib
-> @@ -504,6 +504,21 @@ quiet_cmd_uimage =3D UIMAGE  $@
->                         -a $(UIMAGE_LOADADDR) -e $(UIMAGE_ENTRYADDR) \
->                         -n '$(UIMAGE_NAME)' -d $< $@
->
-> +# Flat Image Tree (FIT)
-> +# This allows for packaging of a kernel and all devicetrees files, using
-> +# compression.
-> +# ----------------------------------------------------------------------=
------
-> +
-> +MAKE_FIT :=3D $(srctree)/scripts/make_fit.py
-> +
-> +# Use this to override the compression algorithm
-> +FIT_COMPRESSION ?=3D gzip
-> +
-> +quiet_cmd_fit =3D FIT     $@
-> +      cmd_fit =3D $(MAKE_FIT) -o $@ --arch $(UIMAGE_ARCH) --os linux \
-> +               --name '$(UIMAGE_NAME)' $(if $(V),-v) \
-> +               --compress $(FIT_COMPRESSION) -k $< @$(word 2,$^)
-> +
+Arnd Bergmann (12):
+  kbuild: make -Woverride-init warnings more consistent
+  [v3] parport: mfc3: avoid empty-body warning
+  kbuild: turn on -Wextra by default
+  kbuild: remove redundant extra warning flags
+  firmware: dmi-id: add a release callback function
+  nouveau: fix function cast warning
+  cxlflash: fix function pointer cast warnings
+  x86: math-emu: fix function cast warnings
+  kbuild: enable -Wcast-function-type-strict unconditionally
+  sata: sx4: fix pdc20621_get_from_dimm() on 64-bit
+  [v4] kallsyms: rework symbol lookup return codes
+  kbuild: turn on -Wrestrict by default
 
+ arch/x86/math-emu/fpu_etc.c                   |  9 +++--
+ arch/x86/math-emu/fpu_trig.c                  |  6 ++--
+ arch/x86/math-emu/reg_constant.c              |  7 +++-
+ drivers/ata/sata_sx4.c                        |  6 ++--
+ drivers/firmware/dmi-id.c                     |  7 +++-
+ .../gpu/drm/amd/display/dc/dce110/Makefile    |  2 +-
+ .../gpu/drm/amd/display/dc/dce112/Makefile    |  2 +-
+ .../gpu/drm/amd/display/dc/dce120/Makefile    |  2 +-
+ drivers/gpu/drm/amd/display/dc/dce60/Makefile |  2 +-
+ drivers/gpu/drm/amd/display/dc/dce80/Makefile |  2 +-
+ drivers/gpu/drm/i915/Makefile                 |  6 ++--
+ .../drm/nouveau/nvkm/subdev/bios/shadowof.c   |  7 +++-
+ drivers/gpu/drm/xe/Makefile                   |  4 +--
+ drivers/net/ethernet/renesas/sh_eth.c         |  2 +-
+ drivers/parport/parport_mfc3.c                |  3 +-
+ drivers/pinctrl/aspeed/Makefile               |  2 +-
+ drivers/scsi/cxlflash/lunmgt.c                |  4 +--
+ drivers/scsi/cxlflash/main.c                  | 14 ++++----
+ drivers/scsi/cxlflash/superpipe.c             | 34 +++++++++----------
+ drivers/scsi/cxlflash/superpipe.h             | 11 +++---
+ drivers/scsi/cxlflash/vlun.c                  |  7 ++--
+ fs/proc/Makefile                              |  2 +-
+ include/linux/filter.h                        | 14 ++++----
+ include/linux/ftrace.h                        |  6 ++--
+ include/linux/module.h                        | 14 ++++----
+ kernel/bpf/Makefile                           |  2 +-
+ kernel/bpf/core.c                             |  7 ++--
+ kernel/kallsyms.c                             | 23 +++++++------
+ kernel/module/kallsyms.c                      | 26 +++++++-------
+ kernel/trace/ftrace.c                         | 13 +++----
+ mm/Makefile                                   |  3 +-
+ scripts/Makefile.extrawarn                    | 33 ++++--------------
+ 32 files changed, 134 insertions(+), 148 deletions(-)
 
+-- 
+2.39.2
 
-
-A nit in your new code.
-
-
-$(if $(V),-v) does not work for KBUILD_VERBOSE env variable.
-
-
-It should be
-
-    $(if $(findstring 1,$(KBUILD_VERBOSE)),-v)
-
-
-
-
-
---=20
-Best Regards
-Masahiro Yamada
+Cc: Bill Metzenthen <billm@melbpc.org.au>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: x86@kernel.org
+Cc: Damien Le Moal <dlemoal@kernel.org>
+Cc: Jean Delvare <jdelvare@suse.com>
+Cc: Harry Wentland <harry.wentland@amd.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Sergey Shtylyov <s.shtylyov@omp.ru>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+Cc: Andrew Jeffery <andrew@codeconstruct.com.au>
+Cc: "Manoj N. Kumar" <manoj@linux.ibm.com>
+Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
+Cc: Alexei Starovoitov <ast@kernel.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: Luis Chamberlain <mcgrof@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>
+Cc: Nicolas Schier <nicolas@fjasle.eu>
+Cc: Greg Kroah-Hartman <gregkh@suse.de>
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-ide@vger.kernel.org
+Cc: amd-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org
+Cc: intel-xe@lists.freedesktop.org
+Cc: netdev@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-scsi@vger.kernel.org
+Cc: bpf@vger.kernel.org
+Cc: linux-trace-kernel@vger.kernel.org
+Cc: linux-modules@vger.kernel.org
+Cc: linux-mm@kvack.org
+Cc: linux-kbuild@vger.kernel.org
+Cc: llvm@lists.linux.dev
 
