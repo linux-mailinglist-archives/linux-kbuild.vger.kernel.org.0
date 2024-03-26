@@ -1,208 +1,149 @@
-Return-Path: <linux-kbuild+bounces-1341-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1342-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC12588CF30
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Mar 2024 21:42:51 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0886988CF79
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Mar 2024 21:56:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E01501C66EEF
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Mar 2024 20:42:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 180C81C28411
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Mar 2024 20:56:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0755118059;
-	Tue, 26 Mar 2024 20:42:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F6E213D2B2;
+	Tue, 26 Mar 2024 20:56:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="AQ9F7CAy"
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="WlOtjyaZ";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="oTYV8adQ"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout7-smtp.messagingengine.com (fout7-smtp.messagingengine.com [103.168.172.150])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CC06FC0E
-	for <linux-kbuild@vger.kernel.org>; Tue, 26 Mar 2024 20:42:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A44A612C7FF;
+	Tue, 26 Mar 2024 20:56:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711485751; cv=none; b=Uz+PYHlE+gtX17cmtdkEsssRinXQI8RCzSjo7ivoJxw78n/w3QhkdhAnyMNsm1EgJuN3Z8WUKv43mRMcEJMD3yz0KmyYYNKIpxmHilLl27/Ay/eAl2SITWWiA3ME45w/0KtHUEQcOVHMuCj68IKAf6SFoxDVZq71tGj61Yz2xUE=
+	t=1711486581; cv=none; b=n0H4jbt+v3h9VHuac52zXXKvPD4riyIZCrdL97sW7XuEi2Q1h0FCOvwnjJNBfm8qLFvR4GmRlyjy500Yg5XPjGoXpZwSeTneO6Gq9eY3DDAi4/fcFm9VKIkFko1bhu034cgtZpEkaRBXjg0+46ME8BP9bsmTliM7rdwHhT2tXR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711485751; c=relaxed/simple;
-	bh=pLHWzs987kbANZLhWn+OVDYNz1mbnSNZ0ZnNwiv7Qs4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=A2pSRc1Gp6oDoBBXw4LSFTws5fb3wFFmBbR8hvXsaYp5jn8xGKs10OoxhyQ3sA1kgiaYfMiXnE4igLpXkXo4wcGQQ+KyeWN1brFPNk+o3vM8bWa7M2y3nZ1CYSa39jXoCxyGdFlYwwpn6kYWfkdNHk+dIzg1ftfJ4n61KOWjp9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=AQ9F7CAy; arc=none smtp.client-ip=209.85.221.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-4d86ef290e0so105100e0c.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 26 Mar 2024 13:42:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1711485749; x=1712090549; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=WXbMV//iCVDcmmeY0RArWtkZ2QeUzFh9TWNfWy7C9Pk=;
-        b=AQ9F7CAyYu031wbKs1aGnu9bXs392xQBUMzvA2w60O7IGoAQyjJ0PUzN6j8QKyNi8L
-         3mE2HQSCx7+icQ/359I52RxjMKy4cgxedF+WZeyTpD1ZaUjM3gJQ1On75CNUl5xJ8Nnl
-         EeCFTfFICgcPD3tngZicsaJZLhYfOEnygZeWJFQZkl8u3h53ZKvWdi12Kzs7AuKY1w66
-         OCOJHsIUaBZZod3TCCEoFrnuZ8po0nZaW9NjiRzdrXWWvj6EZaSU/e9HzKzsnjGdWTf5
-         f2hwY6UZz8zwzBFhGHSyRpcM/YuDfGNCfiABAz4idshPyq+z4zN/dkoBXjImak3o3Ws3
-         2lpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711485749; x=1712090549;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WXbMV//iCVDcmmeY0RArWtkZ2QeUzFh9TWNfWy7C9Pk=;
-        b=ddnTUeKTAg86Y8MVFi4uR+SbOEhZDj4m22LR6iszRRWLERUiKqMieEXQU6NHwauMYG
-         mfQ2/CCP5hHHIqE3f4clByA2rMk341LPvAs9+ug8mBcFCYFHmm8vPaptjV4Ig4K/uB1p
-         NauW1AagMx9cAWATz75qkdbMGPcBXGZxAzd49jjVhNbTLtvcgirKWXGjOOeflU1PKEzK
-         vOpJX3CNP12i7Pj6yOEtiVhWN9/yF82IDcfM+IPydDpQd6UCJlds38dUD7ZZluoxVWLl
-         WlAPiEJK6kOo6LHj6MTaGe1cCmX929Npxk+xBLFIHJ3p61WdKIOoL4f8wGIieSsuYggv
-         4myw==
-X-Forwarded-Encrypted: i=1; AJvYcCWP7ErbE2tdi9GkzdydHZapmBBPCeRpLoXM5g7YbQk3Oh1eO7fh47NQ1EgKT7fXm0xTNFQEwvSdvJ7dqcFDLey+qEsEv3v6iOHVuP6G
-X-Gm-Message-State: AOJu0YwS4nms5xcA2zal0b5lyv9TTcr5jf1J99F47gCJBcY+PRjDr77F
-	+mSXK4oETvnakFtqTaZNXUUnCJQTKcXaLXIfBsOfJUtFatOE+XEUT5oqiuMDTxnqM2fu9qtveF0
-	nsDe1vbsoUjeAbKapITaa719LbGoTV3+RahzO
-X-Google-Smtp-Source: AGHT+IEEPd7cbBYNSs6jDBcU4yy5IaPB7/HfMZQ44tBZJVln+87cjP8JeA/iYHT88HbKfAHsVw8BjLKn2q9CrpQ8eQg=
-X-Received: by 2002:a05:6122:181c:b0:4d4:4ff8:c367 with SMTP id
- ay28-20020a056122181c00b004d44ff8c367mr2307752vkb.6.1711485748894; Tue, 26
- Mar 2024 13:42:28 -0700 (PDT)
+	s=arc-20240116; t=1711486581; c=relaxed/simple;
+	bh=Olz4AkNkzYVK19w+Jh6klcHV6fbs+XGQtH12Ue6EbtA=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=Gejj+PHDoJ261zFF/+liw9o/R62sP6a4rd175No5dgw8qi7NrqYVi+wbxNFA2BNXr7THYuelVsCIx0T66TcS0fYu9mancmrvgukgBOyCyn0ev/ch45Az3yFqKLKW9AvtZRqOjyiC5LTlqkyN4M7QWxkTbZg2Z6T/MMINC3J9S4g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=WlOtjyaZ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=oTYV8adQ; arc=none smtp.client-ip=103.168.172.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailfout.nyi.internal (Postfix) with ESMTP id C0777138014E;
+	Tue, 26 Mar 2024 16:56:17 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Tue, 26 Mar 2024 16:56:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm1; t=1711486577; x=1711572977; bh=bTK7qxB/Dz
+	ZvcacQ3ARgA6AoDzT5XFaivWWd8YVHcDs=; b=WlOtjyaZiklsRi4cCh1jYIRpIM
+	pLVHILPIPgQ/oogUIpqoqYnwK1W+6v8z0OA+zU38ovpQrKeC5G+uoNavTn26eOcw
+	Rx9zFSqTneqsXKVF54y5rwO2vHU/viQNr11OsBlahezKkGRdxR1vhDu/HNpjHWZH
+	Hw8/5n6K5X+u1wgp5XcZivytgK6eq1An+lKKX426vYBoEHRjKtJ2g5tzqxxS1pN5
+	GnkBq5GRV0kmxf1/iX6DMkND5yOLsrsoGUtnkkew0BYhBhDf12kqBMhkcdMKdzRv
+	1ZZvx0c+58bG33DpLg54XvIvoERfC3DtCU/rHLAyGy1/fVXzvUpuuDc60MwA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1711486577; x=1711572977; bh=bTK7qxB/DzZvcacQ3ARgA6AoDzT5
+	XFaivWWd8YVHcDs=; b=oTYV8adQxdjRh9Snl2cz1eHQHqctI5puzvhK2J/F+mJ8
+	7tl0gvwKM0afyXZkz8C6MXAAifZckQygqw5ORc7w0qpS1TPlbO+w9G7jd3heTiCC
+	r8I6RrrlNvFIk91tWPjbL747c8kuc3cUPm9wPnAItnHcvIkE5C+9ExKz8Ajn6gg4
+	XtFClsZhAv7KlA2mcHHBjgSBHAdbPX7syjzicTpPVslBt7hIXn/nym+aa8280ApW
+	IeFHW75gBBPdbNdhp32G4czj+aGTUaSrQiNUAlmapyxtBNnRSxScoAW/oimlmTKi
+	uS/mrXXVeAnS/EwrWwW0shCoI/5h1CnBk3kKJ1UCxw==
+X-ME-Sender: <xms:cDYDZnJ8rnTBWm06xK346QIC-QafLXL2gNmwIgqfmVnvDbkBSqHQWQ>
+    <xme:cDYDZrKEJ0-53M2cA3w9Y_dAEKcjYEVn8bzx34Tifka9Xow_kVoe0xGHM4NN3qkKF
+    gRRP3ldGGLjW5vpIVI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledruddufedgudegfecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
+    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
+    htthgvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedt
+    keetffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    grrhhnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:cDYDZvvDg9wFUZ4OAUyKEggLe0cNB4rFNN936cbq-sR_6OTqjVXIrw>
+    <xmx:cDYDZgZgdeDjBNgszo_zOpuYNlLc03uqLjysmZTeLwTAqDSTOmltzw>
+    <xmx:cDYDZuYKC_wI7ro2wW0eBCrJnbpxAudYAU5P82Iecn1qctEWiMRPFw>
+    <xmx:cDYDZkDkbD19cuKpTJQbi0S_atQZTcbT2a9iBKqGsY57IhQu9VXbdA>
+    <xmx:cTYDZgYxthdidcJydzecKKASkiaYUTKEbJFDurjUEzrMsGAkjExe_w>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 658BDB6008D; Tue, 26 Mar 2024 16:56:16 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-328-gc998c829b7-fm-20240325.002-gc998c829
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <0851a207-7143-417e-be31-8bf2b3afb57d@molgen.mpg.de>
- <47e032a0-c9a0-4639-867b-cb3d67076eaf@suse.com> <20240326155247.GJZgLvT_AZi3XPPpBM@fat_crate.local>
- <80582244-8c1c-4eb4-8881-db68a1428817@suse.com> <20240326191211.GKZgMeC21uxi7H16o_@fat_crate.local>
- <CANpmjNOcKzEvLHoGGeL-boWDHJobwfwyVxUqMq2kWeka3N4tXA@mail.gmail.com> <20240326202548.GLZgMvTGpPfQcs2cQ_@fat_crate.local>
-In-Reply-To: <20240326202548.GLZgMvTGpPfQcs2cQ_@fat_crate.local>
-From: Marco Elver <elver@google.com>
-Date: Tue, 26 Mar 2024 21:41:50 +0100
-Message-ID: <CANpmjNM0fnqDJHZYxvy6dfTHE3jeCv-rXmaJiD5XXx+bodF1-A@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: Disable KCSAN for autogenerated *.mod.c intermediaries
-To: Borislav Petkov <bp@alien8.de>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
-	Nikolay Borisov <nik.borisov@suse.com>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	Paul Menzel <pmenzel@molgen.mpg.de>, Thomas Gleixner <tglx@linutronix.de>, 
-	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	LKML <linux-kernel@vger.kernel.org>, kasan-dev@googlegroups.com, 
-	David Kaplan <David.Kaplan@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+Message-Id: <cb853762-06d4-401c-a1c8-07a0c031b499@app.fastmail.com>
+In-Reply-To: <87jzlohhbc.fsf@intel.com>
+References: <20240326144741.3094687-1-arnd@kernel.org>
+ <20240326144741.3094687-2-arnd@kernel.org> <87jzlohhbc.fsf@intel.com>
+Date: Tue, 26 Mar 2024 21:55:46 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Jani Nikula" <jani.nikula@linux.intel.com>,
+ "Arnd Bergmann" <arnd@kernel.org>, linux-kbuild@vger.kernel.org,
+ "Masahiro Yamada" <masahiroy@kernel.org>,
+ "Harry Wentland" <harry.wentland@amd.com>,
+ "Alex Deucher" <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Lucas De Marchi" <lucas.demarchi@intel.com>,
+ "Oded Gabbay" <ogabbay@kernel.org>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>,
+ "Jakub Kicinski" <kuba@kernel.org>, "Paolo Abeni" <pabeni@redhat.com>,
+ "Andrew Jeffery" <andrew@codeconstruct.com.au>,
+ "Linus Walleij" <linus.walleij@linaro.org>, "Joel Stanley" <joel@jms.id.au>,
+ "Alexei Starovoitov" <ast@kernel.org>,
+ "Daniel Borkmann" <daniel@iogearbox.net>,
+ "Andrew Morton" <akpm@linux-foundation.org>,
+ "Nathan Chancellor" <nathan@kernel.org>
+Cc: "Nicolas Schier" <nicolas@fjasle.eu>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Netdev <netdev@vger.kernel.org>,
+ linux-mm@kvack.org, llvm@lists.linux.dev
+Subject: Re: [PATCH 01/12] kbuild: make -Woverride-init warnings more consistent
+Content-Type: text/plain
 
-On Tue, 26 Mar 2024 at 21:26, Borislav Petkov <bp@alien8.de> wrote:
+On Tue, Mar 26, 2024, at 21:24, Jani Nikula wrote:
+> On Tue, 26 Mar 2024, Arnd Bergmann <arnd@kernel.org> wrote:
+>> From: Arnd Bergmann <arnd@arndb.de>
+>> index 475e1e8c1d35..0786eb0da391 100644
+>> --- a/drivers/net/ethernet/renesas/sh_eth.c
+>> +++ b/drivers/net/ethernet/renesas/sh_eth.c
+>> @@ -50,7 +50,7 @@
+>>   * the macros available to do this only define GCC 8.
+>>   */
+>>  __diag_push();
+>> -__diag_ignore(GCC, 8, "-Woverride-init",
+>> +__diag_ignore_all("-Woverride-init",
+>>  	      "logic to initialize all and then override some is OK");
 >
-> On Tue, Mar 26, 2024 at 08:33:31PM +0100, Marco Elver wrote:
-> > I think just removing instrumentation from the mod.c files is very reasonable.
->
-> Thanks!
->
-> @Masahiro: pls send this to Linus now as the commit which adds the
-> warning is in 6.9 so we should make sure we release it with all issues
-> fixed.
->
-> Thx.
->
-> ---
-> From: "Borislav Petkov (AMD)" <bp@alien8.de>
-> Date: Tue, 26 Mar 2024 21:11:01 +0100
->
-> When KCSAN and CONSTRUCTORS are enabled, one can trigger the
->
->   "Unpatched return thunk in use. This should not happen!"
->
-> catch-all warning.
->
-> Usually, when objtool runs on the .o objects, it does generate a section
-> .return_sites which contains all offsets in the objects to the return
-> thunks of the functions present there. Those return thunks then get
-> patched at runtime by the alternatives.
->
-> KCSAN and CONSTRUCTORS add this to the the object file's .text.startup
-> section:
->
->   -------------------
->   Disassembly of section .text.startup:
->
->   ...
->
->   0000000000000010 <_sub_I_00099_0>:
->     10:   f3 0f 1e fa             endbr64
->     14:   e8 00 00 00 00          call   19 <_sub_I_00099_0+0x9>
->                           15: R_X86_64_PLT32      __tsan_init-0x4
->     19:   e9 00 00 00 00          jmp    1e <__UNIQUE_ID___addressable_cryptd_alloc_aead349+0x6>
->                           1a: R_X86_64_PLT32      __x86_return_thunk-0x4
->   -------------------
->
-> which, if it is built as a module goes through the intermediary stage of
-> creating a <module>.mod.c file which, when translated, receives a second
-> constructor:
->
->   -------------------
->   Disassembly of section .text.startup:
->
->   0000000000000010 <_sub_I_00099_0>:
->     10:   f3 0f 1e fa             endbr64
->     14:   e8 00 00 00 00          call   19 <_sub_I_00099_0+0x9>
->                           15: R_X86_64_PLT32      __tsan_init-0x4
->     19:   e9 00 00 00 00          jmp    1e <_sub_I_00099_0+0xe>
->                           1a: R_X86_64_PLT32      __x86_return_thunk-0x4
->
->   ...
->
->   0000000000000030 <_sub_I_00099_0>:
->     30:   f3 0f 1e fa             endbr64
->     34:   e8 00 00 00 00          call   39 <_sub_I_00099_0+0x9>
->                           35: R_X86_64_PLT32      __tsan_init-0x4
->     39:   e9 00 00 00 00          jmp    3e <__ksymtab_cryptd_alloc_ahash+0x2>
->                           3a: R_X86_64_PLT32      __x86_return_thunk-0x4
->   -------------------
->
-> in the .ko file.
->
-> Objtool has run already so that second constructor's return thunk cannot
-> be added to the .return_sites section and thus the return thunk remains
-> unpatched and the warning rightfully fires.
->
-> Drop KCSAN flags from the mod.c generation stage as those constructors
-> do not contain data races one would be interested about.
->
-> Debugged together with David Kaplan <David.Kaplan@amd.com> and Nikolay
-> Borisov <nik.borisov@suse.com>.
->
-> Reported-by: Paul Menzel <pmenzel@molgen.mpg.de>
-> Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
-> Link: https://lore.kernel.org/r/0851a207-7143-417e-be31-8bf2b3afb57d@molgen.mpg.de
+> This is nice because it's more localized than the per-file
+> disable. However, we tried to do this in i915, but this doesn't work for
+> GCC versions < 8, and some defconfigs enabling -Werror forced us to
+> revert. See commit 290d16104575 ("Revert "drm/i915: use localized
+> __diag_ignore_all() instead of per file"").
 
-Reviewed-by: Marco Elver <elver@google.com>
+It works now.
 
-Thanks!
+The original __diag_ignore_all() only did it for gcc-8 and above
+because that was initially needed to suppress warnings that
+got added in that version, but this was always a mistake.
 
-> ---
->  scripts/Makefile.modfinal | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
-> index 8568d256d6fb..79fcf2731686 100644
-> --- a/scripts/Makefile.modfinal
-> +++ b/scripts/Makefile.modfinal
-> @@ -23,7 +23,7 @@ modname = $(notdir $(@:.mod.o=))
->  part-of-module = y
->
->  quiet_cmd_cc_o_c = CC [M]  $@
-> -      cmd_cc_o_c = $(CC) $(filter-out $(CC_FLAGS_CFI) $(CFLAGS_GCOV), $(c_flags)) -c -o $@ $<
-> +      cmd_cc_o_c = $(CC) $(filter-out $(CC_FLAGS_CFI) $(CFLAGS_GCOV) $(CFLAGS_KCSAN), $(c_flags)) -c -o $@ $<
->
->  %.mod.o: %.mod.c FORCE
->         $(call if_changed_dep,cc_o_c)
-> --
-> 2.43.0
->
->
->
-> --
-> Regards/Gruss,
->     Boris.
->
-> https://people.kernel.org/tglx/notes-about-netiquette
+689b097a06ba ("compiler-gcc: Suppress -Wmissing-prototypes
+warning for all supported GCC") made it work correctly.
+
+     Arnd
 
