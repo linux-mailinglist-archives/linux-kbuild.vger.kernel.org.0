@@ -1,56 +1,61 @@
-Return-Path: <linux-kbuild+bounces-1328-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1329-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEDEE88C5F2
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Mar 2024 15:54:25 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BB6488C5F4
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Mar 2024 15:54:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 23D0130556D
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Mar 2024 14:54:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 23AF41F6418E
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Mar 2024 14:54:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F31F13C8E6;
-	Tue, 26 Mar 2024 14:53:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B37D813C695;
+	Tue, 26 Mar 2024 14:53:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JB9p/fQV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QXSi1TwM"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79B5413C838;
-	Tue, 26 Mar 2024 14:53:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8931813C687;
+	Tue, 26 Mar 2024 14:53:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711464813; cv=none; b=KeHlEmhx1GM6sIwUB4ephoTIpaecFDEMf3t+Os/uSMrT3SryULbv9/18aoe7wayA8c11renlkej2xzdIYUqZqeZYhua5IMAfgrez1jLTr9o0f7xgdEx1rofvYK9uvEbYT8PHV91Sv5KjxSIdDV+43PtgydJuq+5iHs5mU2XTC3s=
+	t=1711464834; cv=none; b=fu+M3MivWYfTjKB0Z/pIG5p+ytzW+WaxYYdwXDSLfM8RqlsIpdB11oWKk6YgqXoxd6As+MmEh9vcA2WRee/oAUkdVg5dCKk2OvquSye1p7P09pAgd/hrRCdY2JH5j5lrxfveNAb/sjV9UPLGusAn3/qkNNLymayHARS3ZtPieRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711464813; c=relaxed/simple;
-	bh=AX24N6tngsyhhImQGkFDPYqJJEewhb6t+11+7XBmXQk=;
+	s=arc-20240116; t=1711464834; c=relaxed/simple;
+	bh=jkUwCCs2ehDNVM/jmHEp5augAJwEF3YMSQWolNWMTfg=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=MDShPjoslL1Be6Zpp/AKE2JXlJr4KPHNzGIyBcF0MOAb+xgmS5kHzhGf9zUZTLSEFyw/Q6YXhLcPvVmn5yMCWqFjBSRSdAI91WTQxnYo1n1FZJKstsSIxtNoc7DEk7KRLpsTY/Uj+4BBi2Jvh6hTetZd2E8O5CbGk7EUm+OGBo4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JB9p/fQV; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A29B7C433F1;
-	Tue, 26 Mar 2024 14:53:31 +0000 (UTC)
+	 MIME-Version; b=q6p0IK1n+NFm4FxKfCykE6c5YZRbXAeYEgGL6uC3bK0Gh3TaenLGzS1IEYFw2i8kd8kE1/tGj5UCeYYAsSF32/947TNWc0ZhvxjdZPgKFKC0U8RX5tiJUtkF6SpCR1Ro3+DjnLec7EKJSx4trS5kkOhw+ujtnTEyZ2OTtJE35vo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QXSi1TwM; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89622C433F1;
+	Tue, 26 Mar 2024 14:53:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711464813;
-	bh=AX24N6tngsyhhImQGkFDPYqJJEewhb6t+11+7XBmXQk=;
+	s=k20201202; t=1711464834;
+	bh=jkUwCCs2ehDNVM/jmHEp5augAJwEF3YMSQWolNWMTfg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=JB9p/fQVoKswYRxtH6BN5aHtw2Iy7ztz67Xr1DuNLWdDsWXwqzfFHnxqI5h+EbuqX
-	 fx+1ETTUqXh3l51tKZHbnWdvOYIPegOJHfrb5tS5MkZcia3xCcGR1eVZdPoXRX7XrI
-	 D74Zuuo2o/z74JaXnqkkMVy5JWfpwa2yjlXWijdqOxNCFnRr8vsQXoYY8/AAUihDKX
-	 zgGDCBI7tzDjZkPGJnVGlLe9r39Xxyx3WgOroJtVHWU7mpfILTQ/eWZA7c0AvukaAb
-	 1DdNSXLgFrU1oPLXfUIJWuGj3Tl4kMM1+SDM1OlxFWZn2Rzzxt55yCz8f3pZkec6+N
-	 mzweStTnO9Dbg==
+	b=QXSi1TwM8UlBSQOOZ6bV0PCri437P+ddY42TMgKB9+d+xHoMGe6rj6ApVgAaPVOVf
+	 F7csm0GeCe0embSNPker9mie0sw55BK1KxYbjnq3O//uHZZoeU9SnHxGpQ6kLfb2fs
+	 mQfEbmIpi/0i56u1WMX+zAf0K0wxw/d+ORbq6ueii6LYDlNe/GXvABo/TNnhTL/NbV
+	 HT73L6fk8EDZ+bsmkXqcwSaAmxI4Uh48griGQieXPO9nkEBtCagKVPJSlE1w/PLO0h
+	 nt+5ZCPybbpit83cSMCG+6CEWXDM+WfXrJQjUBfami36qqByn1OoCeeKK807yc0Ph1
+	 P0tO+DJucITiw==
 From: Arnd Bergmann <arnd@kernel.org>
 To: linux-kbuild@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Niklas Cassel <cassel@kernel.org>
 Cc: Nicolas Schier <nicolas@fjasle.eu>,
 	Nathan Chancellor <nathan@kernel.org>,
 	Arnd Bergmann <arnd@arndb.de>,
+	John Garry <john.g.garry@oracle.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	linux-ide@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 09/12] kbuild: enable -Wcast-function-type-strict unconditionally
-Date: Tue, 26 Mar 2024 15:51:34 +0100
-Message-Id: <20240326145140.3257163-8-arnd@kernel.org>
+Subject: [PATCH 10/12] sata: sx4: fix pdc20621_get_from_dimm() on 64-bit
+Date: Tue, 26 Mar 2024 15:53:37 +0100
+Message-Id: <20240326145348.3318887-1-arnd@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240326144741.3094687-1-arnd@kernel.org>
 References: <20240326144741.3094687-1-arnd@kernel.org>
@@ -64,26 +69,63 @@ Content-Transfer-Encoding: 8bit
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-All known function cast warnings are now addressed, so the warning can
-be enabled globally to catch new ones more quickly.
+gcc warns about a memcpy() with overlapping pointers because of an
+incorrect size calculation:
 
+In file included from include/linux/string.h:369,
+                 from drivers/ata/sata_sx4.c:66:
+In function 'memcpy_fromio',
+    inlined from 'pdc20621_get_from_dimm.constprop' at drivers/ata/sata_sx4.c:962:2:
+include/linux/fortify-string.h:97:33: error: '__builtin_memcpy' accessing 4294934464 bytes at offsets 0 and [16, 16400] overlaps 6442385281 bytes at offset -2147450817 [-Werror=restrict]
+   97 | #define __underlying_memcpy     __builtin_memcpy
+      |                                 ^
+include/linux/fortify-string.h:620:9: note: in expansion of macro '__underlying_memcpy'
+  620 |         __underlying_##op(p, q, __fortify_size);                        \
+      |         ^~~~~~~~~~~~~
+include/linux/fortify-string.h:665:26: note: in expansion of macro '__fortify_memcpy_chk'
+  665 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+      |                          ^~~~~~~~~~~~~~~~~~~~
+include/asm-generic/io.h:1184:9: note: in expansion of macro 'memcpy'
+ 1184 |         memcpy(buffer, __io_virt(addr), size);
+      |         ^~~~~~
+
+The problem here is the overflow of an unsigned 32-bit number to a
+negative that gets converted into a signed 'long', keeping a large
+positive number.
+
+Replace the complex calculation with a more readable min() variant
+that avoids the warning.
+
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- scripts/Makefile.extrawarn | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/ata/sata_sx4.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
-index 17b00d85f6aa..889c0593a0c3 100644
---- a/scripts/Makefile.extrawarn
-+++ b/scripts/Makefile.extrawarn
-@@ -122,7 +122,6 @@ endif
- KBUILD_CFLAGS += $(call cc-disable-warning, pointer-to-enum-cast)
- KBUILD_CFLAGS += -Wno-tautological-constant-out-of-range-compare
- KBUILD_CFLAGS += $(call cc-disable-warning, unaligned-access)
--KBUILD_CFLAGS += $(call cc-disable-warning, cast-function-type-strict)
- KBUILD_CFLAGS += -Wno-enum-compare-conditional
- KBUILD_CFLAGS += -Wno-enum-enum-conversion
- endif
+diff --git a/drivers/ata/sata_sx4.c b/drivers/ata/sata_sx4.c
+index b51d7a9d0d90..a482741eb181 100644
+--- a/drivers/ata/sata_sx4.c
++++ b/drivers/ata/sata_sx4.c
+@@ -957,8 +957,7 @@ static void pdc20621_get_from_dimm(struct ata_host *host, void *psource,
+ 
+ 	offset -= (idx * window_size);
+ 	idx++;
+-	dist = ((long) (window_size - (offset + size))) >= 0 ? size :
+-		(long) (window_size - offset);
++	dist = min(size, window_size - offset);
+ 	memcpy_fromio(psource, dimm_mmio + offset / 4, dist);
+ 
+ 	psource += dist;
+@@ -1005,8 +1004,7 @@ static void pdc20621_put_to_dimm(struct ata_host *host, void *psource,
+ 	readl(mmio + PDC_DIMM_WINDOW_CTLR);
+ 	offset -= (idx * window_size);
+ 	idx++;
+-	dist = ((long)(s32)(window_size - (offset + size))) >= 0 ? size :
+-		(long) (window_size - offset);
++	dist = min(size, window_size - offset);
+ 	memcpy_toio(dimm_mmio + offset / 4, psource, dist);
+ 	writel(0x01, mmio + PDC_GENERAL_CTLR);
+ 	readl(mmio + PDC_GENERAL_CTLR);
 -- 
 2.39.2
 
