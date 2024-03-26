@@ -1,101 +1,142 @@
-Return-Path: <linux-kbuild+bounces-1333-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1334-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9586D88C80E
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Mar 2024 16:53:15 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0B0488C863
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Mar 2024 17:02:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1A8361F80D58
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Mar 2024 15:53:15 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2BB32B21781
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Mar 2024 16:02:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B0EB13C9AA;
-	Tue, 26 Mar 2024 15:42:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B295213C8ED;
+	Tue, 26 Mar 2024 16:02:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KmC9PRCr"
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="mjCT9fo6";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="R8Az+nHD"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh8-smtp.messagingengine.com (fhigh8-smtp.messagingengine.com [103.168.172.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56F4C13D50C
-	for <linux-kbuild@vger.kernel.org>; Tue, 26 Mar 2024 15:42:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD9EC13C83A;
+	Tue, 26 Mar 2024 16:02:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711467726; cv=none; b=oFSHXE9/QR+RqZq9H+8sS4pW134cDxKuzxYLsmz73Eacg/AiTljgibrZ6iL+S+uq1/nYMSjWMQJFs4D5diz0y2hVOCAFTobXs5iHw8WnQSjleyXPNu8njhE5+waJFfxMgmzLQN8jsSTgKorHt2gflD6+BN+A4aR+owPP5slleGY=
+	t=1711468955; cv=none; b=jN8usJTrs5fHo9xrnrODADltz3eJ3Qko2i5ELqwDBnoihZjtqNXkcme/MgDJ4xP5LUgWmYrNeOWanJjaAYaKbDMp2hw5i5d3zoiAjdUGlI3Pc30DrWafD5VriafPYPxhQIsViHbREl8vZLLlZx0QYJ+2GuMmj1vB2L2ZikHxQ/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711467726; c=relaxed/simple;
-	bh=WjxorTNm16pmawi2QrpcbXtzMMk9UnMvAB/SISpbzEs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OjhMBLoDmJ8HZZYa3fpTsNGMepmRp/27RTxx+9pesCtFfHujWfVLsBk3fWxlUSmgzUscDDl6WuYqR5vy6ELIImrAk0iIr86psSL8kKPPkH7utlv2siUzgpZUiSFUzjgKVaZJlTGpLHCCMvI23zbmkSyPS2CQEhlqmXVeOCZ7llk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KmC9PRCr; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9C06C43330
-	for <linux-kbuild@vger.kernel.org>; Tue, 26 Mar 2024 15:42:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711467725;
-	bh=WjxorTNm16pmawi2QrpcbXtzMMk9UnMvAB/SISpbzEs=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=KmC9PRCrEZu4SiGvHWvtThKdCe+eW/4/k6AIv1L2zpXChZqs3VPvY7bItW1xXmBi8
-	 cHwdxcgZEgsR8wbT3F8gmDqX7prdF26/kSAIR+bShkk7ILh2RyBU+BTbhwClMu3+S/
-	 xS4ZK8da8lj9q1ezivMGAI9+QiFFWyoHB7devsqYZxmpSrgFEFMuqXad2Zpmbx8wNN
-	 teCaYwpD0Ne2kSuu9+HWcclzmsUsVBJLl/O/qf3krP6HyMt+MVE1lmI4pKXT/IQ3t2
-	 Dj+t1x1IIIUZHWC9esARSVLXi7sQMODkPxTfDxGlmFcADXYpmVBW5odt24C5p1lXRh
-	 ZLdSmfNtT3ErA==
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2d475b6609eso71433051fa.2
-        for <linux-kbuild@vger.kernel.org>; Tue, 26 Mar 2024 08:42:05 -0700 (PDT)
-X-Gm-Message-State: AOJu0YyNNuFE74evuak/D1g4n7swqdgoIslYEy8IYENPGQ3ob55BbDV3
-	TMpUwhM/KSNDCkxDyt6rIjcb6IB6CkgX5+6HTRLGIZxJ/SGkesaAFPQDSEmPEGdvl6prsY7mjdq
-	9QC1pHSd43sXQFMoRM1qpL0hdYag=
-X-Google-Smtp-Source: AGHT+IGBjbfnutWizOG4D+Y2Ce7JcBLvcXREvmL/5vUZ5omtP/DI9YkkoY1H5oFNMwi+Mh0v0WtWKqlJd4crDHOnXGo=
-X-Received: by 2002:a2e:3613:0:b0:2d4:6bc3:192b with SMTP id
- d19-20020a2e3613000000b002d46bc3192bmr6902404lja.31.1711467724641; Tue, 26
- Mar 2024 08:42:04 -0700 (PDT)
+	s=arc-20240116; t=1711468955; c=relaxed/simple;
+	bh=WEETTdtmXnNUUxdJnrKz4FTNJRHDYO+nDraQbw59R0o=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=Ayu50rvq4WbvWG7QiytbZiE6SjmFlwK3ni9nJGhatI4WILECUUbksLhke6S+hcp0jcio1JWe6KXCUTi8bEA9A9wjb4oUQZGHpfUZE8ZIyxPEu+r/vZa0VxWL50V4iLJVQO/8OY4IBAv3dOfwn70yvYTOq/S2YndVWlMbEQzcUPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=mjCT9fo6; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=R8Az+nHD; arc=none smtp.client-ip=103.168.172.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailfhigh.nyi.internal (Postfix) with ESMTP id E88BB114008C;
+	Tue, 26 Mar 2024 12:02:32 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Tue, 26 Mar 2024 12:02:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1711468952;
+	 x=1711555352; bh=uZQNPynhKPF46EB/VI6vYwBBa1dqaara1pLLBIisxc8=; b=
+	mjCT9fo6BpB7CSjlxicGaG/bS9hBLKCK3w6UShjKUvJktIIjba0cHRBKQAimrc5Q
+	Emv6TmTcP0KOyBxUFeKu7CE83/rb1jMarfYe0oIwxsWa65ehQ8LTpZFtTFQDVOuo
+	wDBcHV1cN4ZnimtBxcgqh0RhCjGYsF9Sg7tKIvkfjgc7IZqiG3+oiX4kjl3YqZt9
+	ORsRs+LHyp48c1UEPbHS/AnyUCJHWBWmNbxtsAZU3yrh917L6a7wt6A2JfqnKE5w
+	MnJ3d9DHRmb2vQE3TEOK9phybyGejur466HXU1Ve6Tylxan1k7JO4XG+f+63cVut
+	Zsmng4dpx0203Bo+/PR1Kw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1711468952; x=
+	1711555352; bh=uZQNPynhKPF46EB/VI6vYwBBa1dqaara1pLLBIisxc8=; b=R
+	8Az+nHDQmgC0yNbisHXJ3de+Z7rjacbhC5d6IM8Pa/bXUI0Sd3iTpgvvmFOrS0XU
+	4gp2B6BhmcXpSUScqla22drDVDBJr5u4AMhja1b/rJqrH8uSG13hPOlwPt734Oaq
+	1XWClBMuivbPZ3QXR0XzJJOoTtjwk9co108Jbaw8+MmyDuhT27H5bCmwCTCvz3BI
+	zGV8mMLxna7ZeEakS/YOIZlGq8uaP9w7g4X/+kc+WLgzXsz7Az25CW8GngrZ6roY
+	tC4sy+dQ2y4+Zy3CqE0dr/pgKcc5/+UFr424G3twWiW+OTXI10K0dYngGx3w5Rlg
+	6RzWNHNFxT8Ms9gzRhQLw==
+X-ME-Sender: <xms:mPECZmlxNndyoYvxX8n8aZ8p-SODnrkhPolr7FnGtnOaDXgFEmFSsA>
+    <xme:mPECZt271I6AHIkNXTxfSLwq6bbyzElUmhfR_acKZVgknUhqzx8HjaNoVUFTfyUrM
+    Os5coHg9CEiyXGBIxU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledruddufedgkeefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdet
+    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
+    htthgvrhhnpeegfeejhedvledvffeijeeijeeivddvhfeliedvleevheejleetgedukedt
+    gfejveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    grrhhnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:mPECZkrjeL7nPoJNmijVdb-ahSvhcg_bE8hgRozi4GcjyMeD6uj5KQ>
+    <xmx:mPECZqmuyK4ZJG0f6NfE0gTIEWVqFYcNmZ6yW5uATjejt6Zt_qvF-Q>
+    <xmx:mPECZk34bYanMNteHxGz8LdvyuGNWD--R_2OSUu9BfTL_8dTOR_-gQ>
+    <xmx:mPECZhuDyjdOTdo5KtUM54qOIaombyJlL0JbTmzdK79dXiL-pAqLCg>
+    <xmx:mPECZl78g8uWX-GHxDXztR0_nDoF-pERrigkFb2Ez_-UbX0ZndJ7MQ>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id E4F75B6008D; Tue, 26 Mar 2024 12:02:31 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-328-gc998c829b7-fm-20240325.002-gc998c829
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <4edd1c5e-aacb-4513-97ae-e6b2130476fc@imgtec.com>
-In-Reply-To: <4edd1c5e-aacb-4513-97ae-e6b2130476fc@imgtec.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Wed, 27 Mar 2024 00:41:28 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASeOf2ythmXoFS7-fdE40R1BX=JT=v4SmHxq61Hww1Vqw@mail.gmail.com>
-Message-ID: <CAK7LNASeOf2ythmXoFS7-fdE40R1BX=JT=v4SmHxq61Hww1Vqw@mail.gmail.com>
-Subject: Re: [PATCH] scripts/package: buildtar: Output as vmlinuz for riscv
-To: Matt Coster <Matt.Coster@imgtec.com>
-Cc: "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>, 
-	Karolis Mituzas <Karolis.Mituzas@imgtec.com>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Carlos de Paula <me@carlosedp.com>, 
-	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Message-Id: <e1ec2f8c-c1e9-4459-a6d4-c14ca57404fe@app.fastmail.com>
+In-Reply-To: <ddd9519fa51f95eb14a6dd3f2a4b7d67ae7e47a9.camel@nvidia.com>
+References: <20240326144741.3094687-1-arnd@kernel.org>
+ <20240326145140.3257163-5-arnd@kernel.org>
+ <ddd9519fa51f95eb14a6dd3f2a4b7d67ae7e47a9.camel@nvidia.com>
+Date: Tue, 26 Mar 2024 17:02:11 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Timur Tabi" <ttabi@nvidia.com>, "Masahiro Yamada" <masahiroy@kernel.org>,
+ "kherbst@redhat.com" <kherbst@redhat.com>,
+ "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+ "Arnd Bergmann" <arnd@kernel.org>, "Lyude Paul" <lyude@redhat.com>,
+ "bskeggs@redhat.com" <bskeggs@redhat.com>, "Dave Airlie" <airlied@gmail.com>,
+ "Danilo Krummrich" <dakr@redhat.com>,
+ "Nathan Chancellor" <nathan@kernel.org>, "Daniel Vetter" <daniel@ffwll.ch>
+Cc: "Justin Stitt" <justinstitt@google.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "Bill Wendling" <morbo@google.com>,
+ "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+ "Nicolas Schier" <nicolas@fjasle.eu>,
+ "Nick Desaulniers" <ndesaulniers@google.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "llvm@lists.linux.dev" <llvm@lists.linux.dev>
+Subject: Re: [PATCH 06/12] nouveau: fix function cast warning
+Content-Type: text/plain;charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 21, 2024 at 8:59=E2=80=AFPM Matt Coster <Matt.Coster@imgtec.com=
-> wrote:
+On Tue, Mar 26, 2024, at 16:20, Timur Tabi wrote:
+> On Tue, 2024-03-26 at 15:51 +0100, Arnd Bergmann wrote:
+>> Calling a function through an incompatible pointer type causes breaks
+>> kcfi, so clang warns about the assignment:
+>>=20
 >
-> From: Karolis Mituzas <karolis.mituzas@imgtec.com>
+> ...
 >
-> This matches the behavior for arm64 [1] and prevents clobbering of
-> vmlinux-${KERNELRELEASE}.
+>> +static void of_fini(void *p)
+>> +{
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return kfree(p);
+>> +}
+>> +
+>
+> I don't know anything about kfci, but shouldn't this just be "kfree(p)=
+",
+> without the "return"?
 
+You are right, fixed this up locally now, waiting for more
+comments before I resend patches from my series.
 
+I think it works because of a gcc extension, but isn't
+valid C otherwise, and I did not mean to rely on this.
 
-
-What problem are you trying to solve?
-
-
-Why is clobbering vmlinux-${KERNELRELEASE} a problem?
-
-
-
-
-
-
-
---=20
-Best Regards
-Masahiro Yamada
+     Arnd
 
