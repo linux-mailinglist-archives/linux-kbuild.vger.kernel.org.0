@@ -1,56 +1,62 @@
-Return-Path: <linux-kbuild+bounces-1323-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1324-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54F3788C5D6
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Mar 2024 15:52:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B87488C5D8
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Mar 2024 15:52:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D8C711C62D0A
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Mar 2024 14:52:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AD6811C250B7
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Mar 2024 14:52:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98B2E13C687;
-	Tue, 26 Mar 2024 14:52:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF74413C680;
+	Tue, 26 Mar 2024 14:52:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bc0Z5Ray"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cUbmDVlb"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71694ED9;
-	Tue, 26 Mar 2024 14:52:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A659013C3E8;
+	Tue, 26 Mar 2024 14:52:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711464727; cv=none; b=Hsf9TQoNtrFpV69wy+M99+LKpnBkBeDIuusQ8ep/k3ZgS00Mj6Hz//vMZC7WVhCVW6/B7FfgJ1hmNCiC++8sA8/Nl4cYdqPwqKLih1OCemqUpRihA/lqi//0ZToj3FFuNXvpqtP7hbqjKA0yb5t4TJhc5mP2CqsaBFrJcO4Ky8E=
+	t=1711464757; cv=none; b=sVzkR/TWo2wicLbHD4wX6YFsgiBgQFK/Adq0UY6cPgS2X0z4KBpk/QWxPn2NFlJ5vX76mA0cQrf3Z8sPaiHJV0uNcmqfj9bahqsUcZNB27EkaNhBSqPGD9J0s9dD+iyrZGNtQpYDOtoWM6pe7warEewuk3fpS4VFMHAFYvqrLv4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711464727; c=relaxed/simple;
-	bh=0okQEvlY3/SmSkoMjSltwkYaqxJU8EJLgR7wUY2TM0k=;
+	s=arc-20240116; t=1711464757; c=relaxed/simple;
+	bh=9Zh9r/IExbwuD6PUJoYWn+L19V/xILVXS9xvRzthMQY=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ewIQXods4zGzd7ibNKoeMno/6pAvDLP+Lt+HK3S86kvvVLSL3JkHlIvxVSvTddXiOwCCdSpzdHyCM6eGjb+i2HZ25S7qWHhQudoN8K5ZphitQADDYLUvWy7+Y9AoCBSJHU/fvq8X2HliyEE3Vqrfw0ocSVTMzLyKTIGchAZfmx4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bc0Z5Ray; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 909C6C433C7;
-	Tue, 26 Mar 2024 14:52:05 +0000 (UTC)
+	 MIME-Version; b=SipAG1QgB23zZPHnSB0x5T4sy5HzPl+pj1dE4006o0V9JHDVbQgOWOoKmmbiJNc1WJh8zg+cm8ppG4Cqr3GyiPcdEhhO/vleKP0xH6isoaO40mO9n/wyJoKhhsg7FsrVQlLuZzKreSiQmRH8oZMujy6sBni2Jgb9MrrXAKWNwlc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cUbmDVlb; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0A2AC433F1;
+	Tue, 26 Mar 2024 14:52:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711464727;
-	bh=0okQEvlY3/SmSkoMjSltwkYaqxJU8EJLgR7wUY2TM0k=;
+	s=k20201202; t=1711464757;
+	bh=9Zh9r/IExbwuD6PUJoYWn+L19V/xILVXS9xvRzthMQY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=bc0Z5RayV1XemfrTMDXsxDPJZXCN3VR61E91hT+mSImmGfzt7ozPFX3xpbUh7fYQm
-	 zLYnyYJZeyyAt3NK0/UWbgU7S013p4YximxvX8rAk8k4+l1StTXNcS9Mz+meREfb10
-	 7bOBiMDMcsvLi3nb2enppeHxmOpc3ElHM/3Cj66YKRKDQs095ZPRdTQp7Us98e5hxp
-	 78YU5tu/pteXz0K3qKvPh+OBnXyWHMzbzmgqr6Mg6LcPBPlP4V3yjJcnVvFNyA4+MP
-	 iT0AvyPIgKgq69FDIHG8p0rLsa+m3rlJ7zuei7FGVXEgeFaW+prLcGPDnWNseU8sJW
-	 xt2xbOEG7Q+JQ==
+	b=cUbmDVlbj2He+YwrB/NnIPO9G2q7g7VXGpKRaC9FlE7V/XKaIdf46bvyuAYXOsavm
+	 TB+dOCV9RYMJig9OEsF/vF6vUHGno2xQXaH5D4lrnblzQrsDj30D1WCJVmoAEBtP2V
+	 KIrbEcxFW/pgv3xr03HR86mncXQBTlOZ6XWkiikodaW+y0JgaovV8hCP+zbeEsacrn
+	 Scb0CuKcRAqc+PH4Ooh5fE/e6KURL5ZcT85/JDUjhYaj2RH4ztlXB83iOc6HN+Y+hw
+	 I90F8Sn//jAHHMjulbYqVx4d+nnNVoII9URgQzzDsVDP1j4non1RIf9DGEMXTkGh6B
+	 fWOzUYBXsC1Vg==
 From: Arnd Bergmann <arnd@kernel.org>
 To: linux-kbuild@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>
-Cc: Nicolas Schier <nicolas@fjasle.eu>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Jean Delvare <jdelvare@suse.com>,
 	Nathan Chancellor <nathan@kernel.org>,
+	Greg Kroah-Hartman <gregkh@suse.de>
+Cc: Nicolas Schier <nicolas@fjasle.eu>,
 	Arnd Bergmann <arnd@arndb.de>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 04/12] kbuild: remove redundant extra warning flags
-Date: Tue, 26 Mar 2024 15:51:29 +0100
-Message-Id: <20240326145140.3257163-3-arnd@kernel.org>
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: [PATCH 05/12] firmware: dmi-id: add a release callback function
+Date: Tue, 26 Mar 2024 15:51:30 +0100
+Message-Id: <20240326145140.3257163-4-arnd@kernel.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240326144741.3094687-1-arnd@kernel.org>
 References: <20240326144741.3094687-1-arnd@kernel.org>
@@ -64,63 +70,44 @@ Content-Transfer-Encoding: 8bit
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-There is no point in turning individual options off and then on again,
-or vice versa, as the last one always wins. Now that -Wextra always
-gets passed first, remove all the redundant lines about warnings
-that are implied by either -Wall or -Wextra, and keep only the last
-one that disables it in some configurations.
+dmi_class uses kfree() as the .release function, but that now causes
+a warning with clang-16 as it violates control flow integrity (KCFI)
+rules:
 
-This should not have any effect but keep the Makefile more readable
-and the command line shorter.
+drivers/firmware/dmi-id.c:174:17: error: cast from 'void (*)(const void *)' to 'void (*)(struct device *)' converts to incompatible function type [-Werror,-Wcast-function-type-strict]
+  174 |         .dev_release = (void(*)(struct device *)) kfree,
 
+Add an explicit function to call kfree() instead.
+
+Fixes: 4f5c791a850e ("DMI-based module autoloading")
+Link: https://lore.kernel.org/lkml/20240213100238.456912-1-arnd@kernel.org/
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- scripts/Makefile.extrawarn | 16 ----------------
- 1 file changed, 16 deletions(-)
+I sent this before but got no comments for it
+---
+ drivers/firmware/dmi-id.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
-index c247552c192c..17b00d85f6aa 100644
---- a/scripts/Makefile.extrawarn
-+++ b/scripts/Makefile.extrawarn
-@@ -37,11 +37,6 @@ else
- KBUILD_CFLAGS += -Wno-main
- endif
+diff --git a/drivers/firmware/dmi-id.c b/drivers/firmware/dmi-id.c
+index 5f3a3e913d28..d19c78a78ae3 100644
+--- a/drivers/firmware/dmi-id.c
++++ b/drivers/firmware/dmi-id.c
+@@ -169,9 +169,14 @@ static int dmi_dev_uevent(const struct device *dev, struct kobj_uevent_env *env)
+ 	return 0;
+ }
  
--# These warnings generated too much noise in a regular build.
--# Use make W=1 to enable them (see scripts/Makefile.extrawarn)
--KBUILD_CFLAGS += $(call cc-disable-warning, unused-but-set-variable)
--KBUILD_CFLAGS += $(call cc-disable-warning, unused-const-variable)
--
- # These result in bogus false positives
- KBUILD_CFLAGS += $(call cc-disable-warning, dangling-pointer)
++static void dmi_dev_release(struct device *dev)
++{
++	kfree(dev);
++}
++
+ static struct class dmi_class = {
+ 	.name = "dmi",
+-	.dev_release = (void(*)(struct device *)) kfree,
++	.dev_release = dmi_dev_release,
+ 	.dev_uevent = dmi_dev_uevent,
+ };
  
-@@ -90,16 +85,8 @@ KBUILD_CFLAGS += -Wunused
- #
- ifneq ($(findstring 1, $(KBUILD_EXTRA_WARN)),)
- 
--KBUILD_CFLAGS += $(call cc-option, -Wrestrict)
- KBUILD_CFLAGS += -Wmissing-format-attribute
--KBUILD_CFLAGS += -Wold-style-definition
- KBUILD_CFLAGS += -Wmissing-include-dirs
--KBUILD_CFLAGS += $(call cc-option, -Wunused-but-set-variable)
--KBUILD_CFLAGS += $(call cc-option, -Wunused-const-variable)
--KBUILD_CFLAGS += $(call cc-option, -Wpacked-not-aligned)
--KBUILD_CFLAGS += $(call cc-option, -Wformat-overflow)
--KBUILD_CFLAGS += $(call cc-option, -Wformat-truncation)
--KBUILD_CFLAGS += $(call cc-option, -Wstringop-truncation)
- 
- KBUILD_CPPFLAGS += -Wundef
- KBUILD_CPPFLAGS += -DKBUILD_EXTRA_WARN1
-@@ -150,9 +137,6 @@ ifneq ($(findstring 2, $(KBUILD_EXTRA_WARN)),)
- KBUILD_CFLAGS += -Wdisabled-optimization
- KBUILD_CFLAGS += -Wshadow
- KBUILD_CFLAGS += $(call cc-option, -Wlogical-op)
--KBUILD_CFLAGS += -Wmissing-field-initializers
--KBUILD_CFLAGS += -Wtype-limits
--KBUILD_CFLAGS += $(call cc-option, -Wmaybe-uninitialized)
- KBUILD_CFLAGS += $(call cc-option, -Wunused-macros)
- 
- KBUILD_CPPFLAGS += -DKBUILD_EXTRA_WARN2
 -- 
 2.39.2
 
