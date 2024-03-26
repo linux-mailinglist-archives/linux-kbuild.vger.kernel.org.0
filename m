@@ -1,121 +1,167 @@
-Return-Path: <linux-kbuild+bounces-1317-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1318-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3D3D88A861
-	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Mar 2024 17:08:56 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1A7188C552
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Mar 2024 15:39:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8001334280A
-	for <lists+linux-kbuild@lfdr.de>; Mon, 25 Mar 2024 16:06:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9D7792E0CF1
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Mar 2024 14:39:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD7566EB7A;
-	Mon, 25 Mar 2024 13:50:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11AFE13C3E7;
+	Tue, 26 Mar 2024 14:39:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jScDh8yJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pjwfmNZ1"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1418D6F06F
-	for <linux-kbuild@vger.kernel.org>; Mon, 25 Mar 2024 13:50:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D49B613C3DB;
+	Tue, 26 Mar 2024 14:39:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711374615; cv=none; b=Dxv4CGQJgELjmTXLqB6GndD/aTDXNLdFqQvtWX4swhTnsMASTNCgKhluajL9FvV56bY72GiCDrB9PbJmKW1lorzOmHMxbJTM5DPpt0XbKzBxmjKKTz3t5ZevLbPSzYeiF5iyJyovhIu9DE0qCi60qirqsJVEUB1jr21N4EyOAV4=
+	t=1711463962; cv=none; b=QH5GfCddvh/CJdgv2HHYo2eZBVEmab21APzVSET279vBECmE7WKe6MQzk1yCcgq/kXTlMHFicqweB4zDxLq4eGuPmegNS9kqEnx5lzhvx2mSmDCNJETyxoRhR8XYnXugbK8GK0EBoczB/cElD3dpgT8Y1fsupTZ9vYuT2mRsHSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711374615; c=relaxed/simple;
-	bh=Q/O4TzucTAKDX/kg7bNrMLHybrgmo/JFI2rvZKGDjBc=;
+	s=arc-20240116; t=1711463962; c=relaxed/simple;
+	bh=694uUrQurged0DpiGcIKRXaR7f7IY1ihpJjxlFzcTmk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=emC5okKP7GgAR9rIgA7Kjd/BefRZNnYhR+e6ti6ZwEKBL9bcLPmTmUqHVqr3BpXo1Pj16svDaOw7Tq0su0yzbxGAdt1o0cesrzwQrpRjXB5r9M0bMVqOGtxa5IgENGZbfI9Gtyl7h86nkny0nx3TKL6P+gHdNM/6y0ICYhw4mJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jScDh8yJ; arc=none smtp.client-ip=209.85.219.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-dc23bf7e5aaso4265551276.0
-        for <linux-kbuild@vger.kernel.org>; Mon, 25 Mar 2024 06:50:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711374612; x=1711979412; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=xY4s7Y2TDs9zFkoIeirDMHTppdLgQXMLcHGPVUr4u2w=;
-        b=jScDh8yJSyXQXu1ywGwkBZCVALCAObT5jLVPpzSwKXYaAuWnlSzgub5700nFX8VmKn
-         9BAAF0MS7cdkfr8UjaUDQJrn56t3gbfTtqHMW5/jphkAv0aGkqz276n/JaTyPjPXYPqW
-         gNfpAD+HNcfvfk3ygNL6i/F0Yd/FFSQfGnyzb5BQCjijzDKDXigQ7WsNbHcI945iNSpD
-         c4H5u5xvI8svMEAxXGr2XN4hDQaaxUVVCkXvKHprOEldPRCmO6npNztMBZe6kDPZ5RjF
-         SVzZG8eDhw2Xu5/9Egi/BDtbieCivgDFs5Btr3YKPTVvoX7hfK6q0zMWH+nXmmyWm9CY
-         TEBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711374612; x=1711979412;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xY4s7Y2TDs9zFkoIeirDMHTppdLgQXMLcHGPVUr4u2w=;
-        b=fsWTnpYMagIWMimDxLfrR3J+znwpOSppK3dQ5bIq4WN+3qqhFQNpt503NrL0I92J4N
-         Rh23SR+mhnx/mWpiqbWFgSc2se+FelpjsnK2MyN7fdJUbm7b11m762w0YN9TD/j/Q8Uq
-         G68ZAb7XrsUjt7SNEWd5kF711nKLtQtNH1p3JCxeffFTZdpYrVbqvZ5c/GQ9jUvNyHBq
-         7Fj7UswLLjflYhwGX+Kq3/d+YUmsKZemd5msOLDnqn4g8NvY80PUFGuLFmDsM4ygAfC5
-         yMro1v+6tvxz6c/bwa608eUGHehjaNrNWm6iimLc1lpMGtfB6QbnyhgziT/WpLlS5XwA
-         SNRg==
-X-Forwarded-Encrypted: i=1; AJvYcCV9DTBqLt3FfrlFQkA4pO8SsINOaVu+mvz1efawSS5s5fPnhwyK1MPM2sD03GstOwcWgd+csBqhbx7C985JcOVMO6a6cr0StKRTACDB
-X-Gm-Message-State: AOJu0YxpHh/VhnHaD3rUlOeygk2wi/etdJKpqRzKIJ7ZMMtKQ+HZJC5f
-	UI5mJKE3oY3YkyWDza93Emw4nTVm+JVPG1P+4cjiEZy7UAdJoJQ5ADHVj3VjhHRjWSwFbeUlxik
-	KrmT1uw2BlJWHD6yMF+PRcAxhCdTpXIGXJk1ZcA==
-X-Google-Smtp-Source: AGHT+IHYjl0eFIojoJcLVm6Q3FikVODclbSrKrXlRZtK626pzzHApRK7eCpxDKYvNTGQRZ5CWm9dXvBcGq57I2cLYIQ=
-X-Received: by 2002:a5b:941:0:b0:dd0:76e:d630 with SMTP id x1-20020a5b0941000000b00dd0076ed630mr5054565ybq.53.1711374612032;
- Mon, 25 Mar 2024 06:50:12 -0700 (PDT)
+	 To:Cc:Content-Type; b=u9thdaV3hks+RekVD9pMZgNn6U5xUs/AQ/ig50vpXkn91BKYO6S1W13M0tPlQ9mijmfBPq7YpQjnuMBJ68L4LOxBSp6XLoYBYOvQJLFpDfqgCGVMtU9yu3be0HLdI8MniVSkUM24Sgj289Vi5XieSr9KX06f0NrHJUIN05ItZYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pjwfmNZ1; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D684C433F1;
+	Tue, 26 Mar 2024 14:39:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711463961;
+	bh=694uUrQurged0DpiGcIKRXaR7f7IY1ihpJjxlFzcTmk=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=pjwfmNZ1TweH9ISfP9b/Kmwt/5cyA42r1F1XKtie1SFE90bnSPsWUp9mgj5sz+wu5
+	 9oR4383cI/j5IDxSLXpccKFuY1VW5mv4ekQIvXjMjaTRN6sUadwz5tnOFnUEoQ7Q90
+	 SFFn0WTcQyUJ7PvU+q85kgC3ZL1jYp1f+QAl0CyaPZvhQbSNn2oPG0EwowtfaPih8s
+	 FQMoex/0eXJdAaHxVcC+ygzwkQq9/URLvpyrRhbSj/CFbpcsp56k8G2EtuY457hP9z
+	 i61md7kqXW1ZV7XJWmNRXkW8r71RDsG10R43ip/GT55jceOu/yLNSFwMxutiP9+i3z
+	 fu3as+SmNMIAA==
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2d6c8d741e8so48994441fa.3;
+        Tue, 26 Mar 2024 07:39:21 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXeT0BG2NVCKm0VqavueHPCRlBYAoNoSjbLFsnkwzvAXRp1JusySytZ5ji6EGPgVDfLw8pJHHfx32hzw0i/vgzUjewsH38KDVwXztWlK4r4dugo0cCsk2uAPXfFDq3xAW6QpU7zHYDFEuXRcEUeqCu2SOXqTXmhQ1yuRWVgBHyQ9KQs/3d7PcHTmONuwBs8u5ySW+xGzN86y3xA6enIl3ma
+X-Gm-Message-State: AOJu0YxfjLQgy9PWFYjKfJP/9f5DarWrGtMq2iruwop4aOjWVLKT4bEW
+	4PZ9EBp2Q9CpVatBYsnAUukmzFL35eNeY7MlYWxk9iP4Zsf1GJMHaUrGlH8//R6wxxB8CpMaWMG
+	KyLFoZ2k3PvO6gZCjWETJ+yBZSQs=
+X-Google-Smtp-Source: AGHT+IHRLtVwQBliK06CNyOkOnUVQC6pejo7AnQDeCYkZeCtaGd/3ULk5T8a2lopDISmhpKZBiypht1J7vGrFSjSdRI=
+X-Received: by 2002:a2e:989a:0:b0:2d2:3fac:5fc7 with SMTP id
+ b26-20020a2e989a000000b002d23fac5fc7mr5651686ljj.45.1711463960202; Tue, 26
+ Mar 2024 07:39:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240323-fd-xml-shipped-v4-0-cca5e8457b9e@linaro.org>
- <20240323-fd-xml-shipped-v4-10-cca5e8457b9e@linaro.org> <20240324102936.6eojmk3k2qabtasq@hu-akhilpo-hyd.qualcomm.com>
- <CAA8EJppO8zMq5R7hBPG04Zsr9c3-Z9mqpnJQ88Dbjv3uYDbrUQ@mail.gmail.com> <20240325133252.o6taik5ezrsqtl7g@hu-akhilpo-hyd.qualcomm.com>
-In-Reply-To: <20240325133252.o6taik5ezrsqtl7g@hu-akhilpo-hyd.qualcomm.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 25 Mar 2024 15:50:00 +0200
-Message-ID: <CAA8EJppK6o0gsashG8yCLrOLbSVFDbHYEgzqBgP5ts65uTWgfw@mail.gmail.com>
-Subject: Re: [PATCH v4 10/16] drm/msm: generate headers on the fly
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Rob Clark <robdclark@gmail.com>, 
-	Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
-	Marijn Suijten <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, linux-kbuild@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	freedreno@lists.freedesktop.org
+References: <20240314042659.232142-1-sjg@chromium.org> <20240314042659.232142-3-sjg@chromium.org>
+In-Reply-To: <20240314042659.232142-3-sjg@chromium.org>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Tue, 26 Mar 2024 23:38:44 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASWKyTXuPwj0_xaD=8_WfbXhejCe_Z+2Os2MD+mU_D5Fg@mail.gmail.com>
+Message-ID: <CAK7LNASWKyTXuPwj0_xaD=8_WfbXhejCe_Z+2Os2MD+mU_D5Fg@mail.gmail.com>
+Subject: Re: [PATCH v11 2/2] arm64: boot: Support Flat Image Tree
+To: Simon Glass <sjg@chromium.org>
+Cc: linux-arm-kernel@lists.infradead.org, 
+	Ahmad Fatoum <a.fatoum@pengutronix.de>, Nicolas Schier <nicolas@fjasle.eu>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>, Will Deacon <will@kernel.org>, 
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, workflows@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 25 Mar 2024 at 15:33, Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
+On Thu, Mar 14, 2024 at 1:28=E2=80=AFPM Simon Glass <sjg@chromium.org> wrot=
+e:
 >
-> On Sun, Mar 24, 2024 at 12:57:43PM +0200, Dmitry Baryshkov wrote:
-> > On Sun, 24 Mar 2024 at 12:30, Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
-> > >
-> > > On Sat, Mar 23, 2024 at 12:57:02AM +0200, Dmitry Baryshkov wrote:
-> > > > Generate DRM/MSM headers on the fly during kernel build. This removes a
-> > > > need to push register changes to Mesa with the following manual
-> > > > synchronization step. Existing headers will be removed in the following
-> > > > commits (split away to ease reviews).
-> > >
-> > > Is this approach common in upstream kernel? Isn't it a bit awkward from
-> > > legal perspective to rely on a source file outside of kernel during
-> > > compilation?
-> >
-> > As long as the source file for that file is available. For examples of
-> > non-trivial generated files see
-> > arch/arm64/include/generated/sysreg-defs.h and
-> > arch/arm64/include/generated/cpucap-defs.h
+> Add a script which produces a Flat Image Tree (FIT), a single file
+> containing the built kernel and associated devicetree files.
+> Compression defaults to gzip which gives a good balance of size and
+> performance.
 >
-> I see that the xml files import a GPL compatible license, so I guess
-> those are fine. The gen_header.py script doesn't include any license.
-> Shouldn't it have one?
+> The files compress from about 86MB to 24MB using this approach.
+>
+> The FIT can be used by bootloaders which support it, such as U-Boot
+> and Linuxboot. It permits automatic selection of the correct
+> devicetree, matching the compatible string of the running board with
+> the closest compatible string in the FIT. There is no need for
+> filenames or other workarounds.
+>
+> Add a 'make image.fit' build target for arm64, as well.
+>
+> The FIT can be examined using 'dumpimage -l'.
+>
+> This uses the 'dtbs-list' file but processes only .dtb files, ignoring
+> the overlay .dtbo files.
+>
+> This features requires pylibfdt (use 'pip install libfdt'). It also
+> requires compression utilities for the algorithm being used. Supported
+> compression options are the same as the Image.xxx files. Use
+> FIT_COMPRESSION to select an algorithm other than gzip.
+>
+> While FIT supports a ramdisk / initrd, no attempt is made to support
+> this here, since it must be built separately from the Linux build.
+>
+> Signed-off-by: Simon Glass <sjg@chromium.org>
+> ---
+>
+> Changes in v11:
+> - Use dtbslist file in image.fit rule
+> - Update cmd_fit rule as per Masahiro
+> - Don't mention ignoring files without a .dtb prefix
+> - Use argparse fromfile_prefix_chars feature
+> - Add a -v option and use it for output (with make V=3D1)
+> - rename srcdir to dtbs
+> - Use -o for the output file instead of -f
+>
 
-True. Rob, could you please add copyright / licence header to the gen_header.py?
 
 
 
--- 
-With best wishes
-Dmitry
+> --- a/scripts/Makefile.lib
+> +++ b/scripts/Makefile.lib
+> @@ -504,6 +504,21 @@ quiet_cmd_uimage =3D UIMAGE  $@
+>                         -a $(UIMAGE_LOADADDR) -e $(UIMAGE_ENTRYADDR) \
+>                         -n '$(UIMAGE_NAME)' -d $< $@
+>
+> +# Flat Image Tree (FIT)
+> +# This allows for packaging of a kernel and all devicetrees files, using
+> +# compression.
+> +# ----------------------------------------------------------------------=
+-----
+> +
+> +MAKE_FIT :=3D $(srctree)/scripts/make_fit.py
+> +
+> +# Use this to override the compression algorithm
+> +FIT_COMPRESSION ?=3D gzip
+> +
+> +quiet_cmd_fit =3D FIT     $@
+> +      cmd_fit =3D $(MAKE_FIT) -o $@ --arch $(UIMAGE_ARCH) --os linux \
+> +               --name '$(UIMAGE_NAME)' $(if $(V),-v) \
+> +               --compress $(FIT_COMPRESSION) -k $< @$(word 2,$^)
+> +
+
+
+
+
+A nit in your new code.
+
+
+$(if $(V),-v) does not work for KBUILD_VERBOSE env variable.
+
+
+It should be
+
+    $(if $(findstring 1,$(KBUILD_VERBOSE)),-v)
+
+
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
