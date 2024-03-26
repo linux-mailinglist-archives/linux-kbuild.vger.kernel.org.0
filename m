@@ -1,406 +1,236 @@
-Return-Path: <linux-kbuild+bounces-1335-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1336-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC22988C879
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Mar 2024 17:04:49 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDE7488C8C5
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Mar 2024 17:15:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 82CA5305A9A
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Mar 2024 16:04:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 93E952E7F9A
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Mar 2024 16:15:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B8FF13C8FD;
-	Tue, 26 Mar 2024 16:04:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AFBC13C918;
+	Tue, 26 Mar 2024 16:15:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="zm34060w"
+	dkim=pass (2048-bit key) header.d=imgtec.com header.i=@imgtec.com header.b="CV/DjaFX";
+	dkim=pass (1024-bit key) header.d=IMGTecCRM.onmicrosoft.com header.i=@IMGTecCRM.onmicrosoft.com header.b="fh0ZekrO"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2099.outbound.protection.outlook.com [40.107.95.99])
+Received: from mx08-00376f01.pphosted.com (mx08-00376f01.pphosted.com [91.207.212.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEFE713C8E1;
-	Tue, 26 Mar 2024 16:04:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.95.99
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62DC5FC0E
+	for <linux-kbuild@vger.kernel.org>; Tue, 26 Mar 2024 16:14:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=91.207.212.86
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711469087; cv=fail; b=WMWrjr6s5ZlwUYghQXj81QOTNdReuJ6i7jE902gRD4OhZG1GFFPIOdwyI20WtO952JIpm3KzSb0WpNzg3Lh1UAQy4wHLYmVyYkeaUJ06rlK4/b7ZHl6DAF/RdKpONsXvX57YWMHVgZ2RGMUKcJEjq08OFORU8kDljFkEzLUpXxY=
+	t=1711469700; cv=fail; b=NuG5ETAq/MoJvpDZsqbi6DPh2q8L/j24025UpZhrIgUheNo07uhPZ5J2RPGklHAXzI2M+67GqXldYcsw3Ybkp+04drf6Zdf98GWu3aBD08YtRqD3fMpJtzMNpefLCc0i2mA3O+Uqr0hkcwtD2q+xh/7NaOwP8NULy8mQskFZ1iE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711469087; c=relaxed/simple;
-	bh=m4xrObFSpIGMN9UCZ2ccksvCvzd/ux34TYfmf5oTCVs=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=YH1/wgBeHYbG4lXsiXojF79G6IBu3k5ULv7t7utClY8eSwAWdkqCUizucGqi0+mQb+yb8cDXg8LwEb1Nuly2LafV+T8UdmFLB4k3bkDux+FNJgobro3VLmN48rkrdp1iGd8KLy0PY35m3Tq048uUCnnsddfYYjjHnJ5dPA6Ghxk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=zm34060w; arc=fail smtp.client-ip=40.107.95.99
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	s=arc-20240116; t=1711469700; c=relaxed/simple;
+	bh=gr3Gd+ei0MyTg0u+0jZzpsS4sQYxm3VF62vZKnCLV5E=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=mFnrZmz50EN756rHXtH/170Txn2H1nlbe/Gh5dam0Uor2JiciO4wQCS/rxq4rbMN5kf5pUtLB6TAGrZdBlkWW9Yjybfu6zkQEvm8Pr6zCQvkGt9iR1KK1ZCtTO58t9vpqmdZRMrtHmZROW0oHv9HMOD4SWTjoZDZ4B2VCPWwZJU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=imgtec.com; spf=pass smtp.mailfrom=imgtec.com; dkim=pass (2048-bit key) header.d=imgtec.com header.i=@imgtec.com header.b=CV/DjaFX; dkim=pass (1024-bit key) header.d=IMGTecCRM.onmicrosoft.com header.i=@IMGTecCRM.onmicrosoft.com header.b=fh0ZekrO; arc=fail smtp.client-ip=91.207.212.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=imgtec.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=imgtec.com
+Received: from pps.filterd (m0168888.ppops.net [127.0.0.1])
+	by mx08-00376f01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 42QEnoPl014850;
+	Tue, 26 Mar 2024 16:13:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=
+	from:to:cc:subject:date:message-id:references:in-reply-to
+	:content-type:mime-version; s=dk201812; bh=gr3Gd+ei0MyTg0u+0jZzp
+	sS4sQYxm3VF62vZKnCLV5E=; b=CV/DjaFXGa6h1IVbpgixMP4RcPot+quawi/ew
+	XmxYAfRa1SNr89UHnmXiG85TR0+EswKnrzZShqPYsg/8p1qLnW7ZHt0mlZhdzFFB
+	BwMFoFethsC3OZpQSyxx1/j5LMGux3gNTw9JesQ29gBvyy+9/hbydE+DL0stt4HG
+	fHLn3mNt6SSTyTeraZ5Gkf83E8HaDTnRbqE+e1yzZMnfWuvmfmUDWIgGeUeCc8B4
+	ltP6O7gJj5SEbdaIjO42xiUcx2FPjWuxsJkF8FeZcY9DIwcVUy4LVDVfLfFSlA1J
+	cNlSeuMp7mTVXVaJrv2HbpGUkwfQQ3HEJkJz0JO2HVbX5H+zg==
+Received: from hhmail04.hh.imgtec.org ([217.156.249.195])
+	by mx08-00376f01.pphosted.com (PPS) with ESMTPS id 3x2gj3vhad-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 26 Mar 2024 16:13:47 +0000 (GMT)
+Received: from HHMAIL05.hh.imgtec.org (10.100.10.120) by
+ HHMAIL04.hh.imgtec.org (10.100.10.119) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 26 Mar 2024 16:13:46 +0000
+Received: from CWXP265CU007.outbound.protection.outlook.com (40.93.68.3) by
+ email.imgtec.com (10.100.10.121) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35 via Frontend
+ Transport; Tue, 26 Mar 2024 16:13:46 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=B9OyNG3mczypzDLfsnvqJVBKj/xCqLqvS5i/QSaMECGP2S22AZzpRzQLXhSoWpCJwy95r2O1IXCA92uTShqxRqHkcrSLUIgM71MAXdAqHd7hbKscKSazGNFYDisoxCIzxo47HKoklrJy3HVq4vPs35JpO/uUU8ZONOWviJ/Zy6dOqIbkBzxXYNxWlLlXZVMC6dIO7DmKyuHsV7K+M31pCPL1m0SQZjXIyyqwrJxeDHRrL24p78R2pUv1S2tYFckykUEVJPkuxka3UEfGxl4/Jb5fPWcKYVV8HwwEpOrkScFd66Zkx5acmDbxWOMXv4zvQVULMigGE4B98dmcJJQLwg==
+ b=bSQ2v3W3m5cUwPDrGLCJ7SAkX+ZMVF/JuxJE4G6cmHwXHL2rL5z767YDrjSpXP2LwKAaOkNTMLV2ZULownJpFmRg+4GYd7edEyzdh+KzMm587RTvBSAZ7dta9LRiBw4DC4zGbNltiLSKmYGGrk5krK4ptosBDBIaqe7Gx4sYeCf1sW5c282v+ufPENTR6m8dIXmHYCGgWHZqwAQOXVfPVktTIi8I7giQHdcIjP3fiCyZpp8my3HZLwNvd7uu9bsp+7sm2LAFLsPFlxq7eqVPFDkOoYegP7JHkIgBW1jev8Daoist4S/0O4K7+Rvq37U7jzqfsK8G7YfeYYx0FihZrA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NlM2WUgQ8IFzMds0j4DUEUxfyOFk4QfhQ3N2ivwaNhg=;
- b=JkkluEtib836Md3LGzPbAUmFs0YJTmVly7X/szagI/6rM3o7RP+2wL6PeW9OtspDdROM+RLMnYrxZHAiepNhsLw86uzYDw9/PDa8Q+r8/ZT6iJ5WjO/ANpNmJL61lbaNCpoAmVUGwIL0PIH+Sn8wUe/2ZEwojju+xlfT3D1E39UXRTBzEzu4toeYdv0m16Ak91O0VvQEBKddKevLF//MZSFy3iFKjZNlJIh13Vn5qF8r20EVeK823glHo7sylYSFegjS5nBn8tyTXffMOsw8Hlj90gmLDJdrYGSnG7Qywy6mHVodKPKPK+8iREEi6/fKYSGusY7ZutF0H365duluxA==
+ bh=gr3Gd+ei0MyTg0u+0jZzpsS4sQYxm3VF62vZKnCLV5E=;
+ b=aOzTpkieXBy44zoJgC68k3ptIMJILe8fiD8TftIwaZZxCERe1zvLgIUY5u2Uc3xWKr2OMqUZ3Ck7o4bVI8YndAUu2E9t5fZwhbQ6nCGM2Ssz56Pb9Lg/iPxOWcS3/1jbcOvUJfXF89vyyIhKdtivaVcCfiuJJ/KnupRF/w5TcO1ImNw1WwisIcwpxYT4iwyLvTOWmcwIPm57BMah9xtF1qCbDEyjIcqB+0qTsIFZXXaQxzxDRUxErsEyhVga3rNw3OdNmR1/jn3SsgJ+w4LwoMnrvyKROFrrmLAFDWJXNv6Dd9RvW/L27h+nLlZGanPK8ybUS6uJPeP+70xSVADCFA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ smtp.mailfrom=imgtec.com; dmarc=pass action=none header.from=imgtec.com;
+ dkim=pass header.d=imgtec.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=IMGTecCRM.onmicrosoft.com; s=selector2-IMGTecCRM-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NlM2WUgQ8IFzMds0j4DUEUxfyOFk4QfhQ3N2ivwaNhg=;
- b=zm34060wcM73RXDSxXp+vK7BIR693fcKUgWLWIl30iA2u52Hpe7LuP28xeLUGnGXKhWm5N3PKOjErhSgT2/wMt0xEkzIaRqpzsSObqV0gre4mY47/qgUShesWcXKSnTMvPuzxwBV5PAZhrJMDJ0cCA65OEV3hDC/oIxSn4n50Ws=
-Received: from SN7PR12MB6839.namprd12.prod.outlook.com (2603:10b6:806:265::21)
- by MW4PR12MB6731.namprd12.prod.outlook.com (2603:10b6:303:1eb::11) with
+ bh=gr3Gd+ei0MyTg0u+0jZzpsS4sQYxm3VF62vZKnCLV5E=;
+ b=fh0ZekrO4e6kdPUrKSkQH00+WwcuTqT56+NzDNovwW/ou7LiGwNitbWNEMNqoOpMcr+EYSvD2/981fREjpPj8FtH8zo75EgyTCWaSMowQuU/kMCMKoygr2f47g6Nxmnvq3Sn28VEWaKtTjDHoTy/OivMO4lMupWy909oK5fHw10=
+Received: from LO0P265MB3404.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:16c::5)
+ by CWLP265MB2658.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:a8::10) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.32; Tue, 26 Mar
- 2024 16:04:41 +0000
-Received: from SN7PR12MB6839.namprd12.prod.outlook.com
- ([fe80::a084:ca6e:2c6c:1664]) by SN7PR12MB6839.namprd12.prod.outlook.com
- ([fe80::a084:ca6e:2c6c:1664%5]) with mapi id 15.20.7409.028; Tue, 26 Mar 2024
- 16:04:41 +0000
-Message-ID: <8a3ae5bf-4cb7-4201-8388-48135114886f@amd.com>
-Date: Tue, 26 Mar 2024 12:04:36 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/12] kbuild: make -Woverride-init warnings more
- consistent
-To: Arnd Bergmann <arnd@kernel.org>, linux-kbuild@vger.kernel.org,
- Masahiro Yamada <masahiroy@kernel.org>,
- Harry Wentland <harry.wentland@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>, Oded Gabbay
- <ogabbay@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Andrew Jeffery <andrew@codeconstruct.com.au>,
- Linus Walleij <linus.walleij@linaro.org>, Joel Stanley <joel@jms.id.au>,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
- Andrew Morton <akpm@linux-foundation.org>,
- Nathan Chancellor <nathan@kernel.org>
-Cc: Nicolas Schier <nicolas@fjasle.eu>, Arnd Bergmann <arnd@arndb.de>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev,
- amd-gfx@lists.freedesktop.org
-References: <20240326144741.3094687-1-arnd@kernel.org>
- <20240326144741.3094687-2-arnd@kernel.org>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.33; Tue, 26 Mar
+ 2024 16:13:45 +0000
+Received: from LO0P265MB3404.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::92e:bc74:c95e:719b]) by LO0P265MB3404.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::92e:bc74:c95e:719b%4]) with mapi id 15.20.7409.031; Tue, 26 Mar 2024
+ 16:13:45 +0000
+From: Matt Coster <Matt.Coster@imgtec.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+CC: Karolis Mituzas <Karolis.Mituzas@imgtec.com>,
+        Nathan Chancellor
+	<nathan@kernel.org>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Paul Walmsley
+	<paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou
+	<aou@eecs.berkeley.edu>, Carlos de Paula <me@carlosedp.com>,
+        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>
+Subject: Re: [PATCH] scripts/package: buildtar: Output as vmlinuz for riscv
+Thread-Topic: [PATCH] scripts/package: buildtar: Output as vmlinuz for riscv
+Thread-Index: AQHae4ckMsPcRLd2wk2AKuUd+eKAXbFKMRMAgAAJBAA=
+Date: Tue, 26 Mar 2024 16:13:45 +0000
+Message-ID: <286a8f76-f670-4458-bae9-f2d383629058@imgtec.com>
+References: <4edd1c5e-aacb-4513-97ae-e6b2130476fc@imgtec.com>
+ <CAK7LNASeOf2ythmXoFS7-fdE40R1BX=JT=v4SmHxq61Hww1Vqw@mail.gmail.com>
+In-Reply-To: <CAK7LNASeOf2ythmXoFS7-fdE40R1BX=JT=v4SmHxq61Hww1Vqw@mail.gmail.com>
+Accept-Language: en-GB, en-US
 Content-Language: en-US
-From: Hamza Mahfooz <hamza.mahfooz@amd.com>
-In-Reply-To: <20240326144741.3094687-2-arnd@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YT4PR01CA0221.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:eb::12) To SN7PR12MB6839.namprd12.prod.outlook.com
- (2603:10b6:806:265::21)
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: LO0P265MB3404:EE_|CWLP265MB2658:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: IKJ1vI6oE3o85TS/EcKj63CfqsBifUofIoZbeZYKohHttz9y3pmAN/j9RfH4nJx8+7HMrnQooewEMf5PeW7dgLmCF+p55E/VAwRXaxNuXgOAq9qarGsLo0n0J4W0Vzfl62tbtiGpMAqjNzvO5CEVyCxD1GtVLhMCYmN8nQ0fW/zqEX9ikk1SCCB5hfVL699Q/h17cKwR9KLM8hRsEsWEogVWt2lw4iIn3rlm4nvjdxPr/vm7XxviuNMOT5/xOHXp/ZPRTDXVY8EtTQAwzESZ03d+hwS6xa/pjpxA2WEw/wY1LLnOb5Do5KtNYW+FrPyGBhjGwTsh/nUkp5rXSGTxfsAFpl9YfxBmaRr8bahVeQaod43EWRromQ/Lqxe9dRAuMpgiqhDAXz2tEj95rBPPp5y1qK2A36Nm1IzQnL7N/79Ml+QlwAswuhd4R9sw+O4A+CfjADy7/Z+0vBFYRMvdjIZ8aKtpRUmAghsb/+NVlM66lTLZ02kFmTdpQJWfjpQk3OYQ/Yv8QAnAun1blqsuLYp+VGU6rCQ3fM5J4mM6O5cWQhKEO0xCba/HZKlns6cM7Z+VYCcOPz+Ed+6jWkfv0qMJG8pIUFVvGaMQfkKDlSuLiqifvNL/DwUdNqDWZru2nb+QsRt1t0G/KkpgZCtWC6w1LyoZvLa+5urBoVFLfjg=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LO0P265MB3404.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(376005)(366007);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?SDRqUTUwcThHdFZ2ek90TDdYbm5CVU5pejcvSDJxZjU4RGMyUlNZRTVEZ25r?=
+ =?utf-8?B?ZnhYd0srVTA3cFd2cWRyTVBsSzJxVVlTTHlVZVJHdCtlRVp6Vlo4d1E0c3hH?=
+ =?utf-8?B?L1hXM0xTbnRvT2ZOS1kxcGU5RmNmcXZNelptaW9sMzZmMHZueTg1bWxJK3Fs?=
+ =?utf-8?B?YWd3NXhBT0RVaWhQRUlaR2gySmI1VlIwSTJKTnpMUWZGR1BUN1FDUDdOWndw?=
+ =?utf-8?B?dUFvTkZwUk4rUGdTQmd2ZnJMNTRmR0hGU2hoZEd2TWN3TDhYUXFQN1lXR0Jq?=
+ =?utf-8?B?clR2L1ZjeUVuVFlTVFp6c0dBNzZTbk1zOFhHeTFINlFWZHFSRDlGQjZ2MzBS?=
+ =?utf-8?B?YjFRSmh6K2M3ZFY1YU9mU1dQSGlEMVdKZUdGK2NCeHZVWWtBZXo1K0pqYmx1?=
+ =?utf-8?B?S0lKRm5IY0pteDVodENBRE1wOTBUbmtnRjJxOEZMWmtmeG9EaXIvOWxuc3FG?=
+ =?utf-8?B?ZjJWYkRqeUhISHQvL2VHYTI0NTlRbHd6dnFTNTNycGg2Uzh5UEtuUVFXZTlB?=
+ =?utf-8?B?UUhoUzcyaS83QXF3VlEzeUorYXlLT3lhalBzZ3ZJc0VNektZU1dNR3hGRHpp?=
+ =?utf-8?B?R2pUbkZWYkdrU1g1WkQ4ZHhzeElJN0Z3WERPWHpmd3RiVlYyQ1EyaTlqK0VQ?=
+ =?utf-8?B?K1FCZWRRUEFFS3NnWUZ2WTRWQURpMHdqRXpOQklPRWoyRmVYK0hLWWJuNHJk?=
+ =?utf-8?B?SEtUWVpVemdaMGNpMi9yN3F2Sm4ya0RYb2ltRzNSazZGdnF3Lys4QTJvcUEz?=
+ =?utf-8?B?Nm9tMVZvK2laUXQrc3o0cW14QzBkQ1NIL2pLNkJ3YkQrMy9lc0V6ZUxDQTZN?=
+ =?utf-8?B?NWplb3gzRzZkbDBmTXVZSFgzL1gvM1lrUGFuT2NlVkRza08zdStxemwzN3NI?=
+ =?utf-8?B?d01SNUd4ZUNDWHRiZFQzaExxQklSQk04VG94SVJPc2ZwbVcvUUIrNHVoTHBM?=
+ =?utf-8?B?UFY3TklNcDFpQ3dKYzh1V2NBOUFURzhuUVlnaVNGNjM4TVZJVG8xcWNEM01O?=
+ =?utf-8?B?TnZScytlVTB2cVV5Z2piYnBSMm91L2VJSDl0RVVYWklzSEdIeGhWZmhFMVlG?=
+ =?utf-8?B?azNSN2VKSGVzbmhHRnZJRC9jREhVM2ZaRTRYWDN1UmZXUHNiTHY4UXpGYUVm?=
+ =?utf-8?B?YTNYWWxNbWRtWE13bGZNcFE3cWZoSUg1R2p1bEJtYkhwVUlTQnkvcHRzQjRV?=
+ =?utf-8?B?R044d1BlVnlhbENjK2hScjNwb1p4Y3dSVi9KazBaY3htOUdsUU1LdDRLTmxN?=
+ =?utf-8?B?NEdNT3hOZVZUU3VmcENhSFhKb0hSb0RHNktwd2JjQlJGNzZmRjNSaGM4SnJs?=
+ =?utf-8?B?cS91dmN2ZUVJVm5YY0FVM2RuMUZSbmtlSW5KOFpFOTk3emFzcFBvVlhKL0N3?=
+ =?utf-8?B?YWN0K09mRkh2d0xML2sxc21sVmhmaTBtOTlEcmFlMnIwVjhjMTU4TkNrV1Fs?=
+ =?utf-8?B?MS9QRWRrSURtS1ZDVkl3Qm5WREo4ZDF5ODV4azZiSDVBK0FDeWVjS1VCcm8x?=
+ =?utf-8?B?Vno5N2c0cFVSVmlmVTBWZGpVa1JpeldkcVBRVnpGWXJNeHdRNExudzBLNklx?=
+ =?utf-8?B?dVp2RkZXNzVUMGVEdmlWL0RWTzlaZzE0OXpwV0J1NmkwWTNJUmptUXZNbWU2?=
+ =?utf-8?B?dTN0eWpRdlIvdUxOQzBiYnlPT1YvTXY3aGZXMWN3alZFb2xqVEJXVm41TkpZ?=
+ =?utf-8?B?Y1FWYW41MmVOWnhBdks0aVlyblhxSTlaUkRlSjlHYWdTUVJOb29BeW5jNVdp?=
+ =?utf-8?B?eW5jNHF6M1NGRFJ5anR5L3pGUEp5SUxoWFlSNkx4YlJxREl2aFRBdTdRT2R1?=
+ =?utf-8?B?R01wYW9ZdExidVNUNjVrK1NSVzJXM1YxR0J0SVJ0S1k3VFRzcHFDTVBTTFlr?=
+ =?utf-8?B?eW9aMEkzTjg2TGNKQUM0TUttRzNUdVpTSmxWb1Mvd3RWcGM4ZmVxdzF2OWpE?=
+ =?utf-8?B?a0puOGYyWVlLU0VyeUU1WnU1K3Z3UnI0czd6QmoxWHdETVVKc1FJcHZRZEZN?=
+ =?utf-8?B?eDdYZ3BsWUdSZ1NhSHBtVGJobXltMW1SYWhhM1F1NHlMSW1Wck5vQkZFdXhz?=
+ =?utf-8?B?S012L1I1NUhsVXV2Y0gyRE9lZ3NiTG1BbGNXUjZ4V1R2Z0xqRTd1RlhrYTNF?=
+ =?utf-8?B?MFYyVFQ5a0JPSEdIVVZ2MlVkSmdPb2RyK3N2UksrNUFKMTJXTUZ0WmlTSWhv?=
+ =?utf-8?B?SEE9PQ==?=
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------CEU8ImhIHdcp4FjUfWG07EhG"
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR12MB6839:EE_|MW4PR12MB6731:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	ZiNBN5hJyUgycB4OxG0mqDUATb9BgPuJqQhzAIx5V5qo9BYpnxj1pSEj1P5+mJByVyUeg/S+VESqV6fWVcgypXcY+SvGN2iQC4Fj9M7u6FhRcoQveGpmK5i7AviPm3ZydK3JkF59XZzwU0xRqr9vVM4Y7gSZFDcggwoRGbEGVucCfkYz4vtEOVn7BgfQ4fxQTCuTEEnpk5bXkBNNGTILIVBChu6a24oC9wozsJHkxzCq5XEucvZVn8ha/4kPCxbJ7qRyRigEgzXPHEuk+Rr2KSagl4hgFEmbDEp92i5bMSnOTPml/yvM1behHLzuCGvq89Hjh2zxAVmFLjxEYgd2sp5BXFLLoNIfLRxVAOauuGkJbaHjvSvGlUTGkujxDP0ft7O/CRHxsCVHOy1T++ZKJCg6xm+PNEOtTZrSAW0NApb/7Oi2jrQDvw17MENRX8ihRVvb5ZvECAc5g8xTGBafXfaewKCtVi5S9N0koq6FtL135a/r5zNLmqgHP+vawAEqqJ2fb41Rihja4vrS8/uv+l66dKttHdlJ9uizRv/1IGKTz0oDQAWRiykYOWK6RlzYDFr5bQR7aPt3P3V5nCpGGijJvCzaimzufOcH6DPsqJiOAa5zsgp+ldUxmqnjwk3ESTkm4oCPO6jGMMuV3SyNJNwd0UObt9cgdRqhDgXg7agETrExhgxyrHxeM68kWndrxKdaU95TFVDeBdRj9i9NVw==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR12MB6839.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(7416005)(376005)(366007)(921011);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?eUhnclNDTHRsREdkWi8xcEg4SWRKaTVudUNKNmRhSStpNWNycjVLaFVDaVdO?=
- =?utf-8?B?azkxSDdrQ2I0L1FhYVl0dWQ5R21HUFJpMzExc2pRR0RZVUJWMVBMMFZFZzc5?=
- =?utf-8?B?NEdKeCtNYWE2Mi9pcmNtYnRBMys1b0lnNWd0WmdxcEIzQXEwY0V4QlM3dkVS?=
- =?utf-8?B?TmFybzNSVnludFpQRzhZTmxTai9EMVpUSDdqT0d2MjBWZmpOM0p0c3h1dkM2?=
- =?utf-8?B?OVZYdmQzMHRTek5tWVYvTiswNHdkTkpWd0pMMjVadkZRb2RINzBlWkZiQ2M0?=
- =?utf-8?B?NDFuWHNVRTEvNXpWbmdzMlRDZlNvVEd5cWRZWjRaOE1UWjduSW9FMlpzZHd4?=
- =?utf-8?B?OVFxZXl2b2Y5U0w5cHNPVWdpVW5FUVpMR0toa2p1dTFWMGE3UCtadWhqSTgy?=
- =?utf-8?B?YllXNkYwYUVTMXZqZ0x5TVlRektpUktSR1JqN0tiM3pZQkpMRjZHaWxTdXJN?=
- =?utf-8?B?bUkrMnh4ZXZ1dEpKeUFOQXRtc0ROVHlWRWoyK05rSUFqNDlIbVBjY1FKKy9w?=
- =?utf-8?B?MWhabFArM3pSQktnOHZDOVEvamp0T3Q1YjlPV3I4MkF0YmVUeE5vM2h1L3lY?=
- =?utf-8?B?aUxSbnJRbXdROUhLRWlEVlBWMUFYcFJoelpNQllKeXVUdGxXY0NHd1JWVzl2?=
- =?utf-8?B?cFRaTkM4RjR0WXU0TEdxM3hlaThRWkhJeTE2VVdHa3BTckZWTTU2OEE0RlB6?=
- =?utf-8?B?Qk5pYUxZZXdnRWZGc1Nod2NwaWhERXVrVnp3MWorVUdPU1paR0JlaFNGNlJl?=
- =?utf-8?B?Nzc0TEVxUFhYQ3daWEVkcXNjQ1VDZnJkRVBVWXVxNXYxVnp2bWNqU3FWWjVt?=
- =?utf-8?B?elc0ckVLMStJRkhiZWt1N2RBM2dBcFBiUUFCSS9JNzVpY0R2d1pUeTJZM1JM?=
- =?utf-8?B?aHFhbDFCU0ZQZUFsVXc1dThqSjJTY3pNZHlvcnltRWtJQmtYM01IWnA2eTNU?=
- =?utf-8?B?Z1ZSRDQ0dXF3a3lDL0NyeHRzMTdWUVhRMU5hbFFFdmlORHlZMFZRdlMvN0Jy?=
- =?utf-8?B?a3hJOTBoa29wak5Fb3dBK0NLZ0hYUWJXV0VIdUdGN3ZLZkNISS8vYnUwVXdS?=
- =?utf-8?B?Wlg0R0hTaTkyeHBtZnZuWEp4WHZIK1JBcGJIM1BmU3Y0TmdESU9aeVExOXlU?=
- =?utf-8?B?Y3VrK2JOWDFIa3hUOWY5LzFKUmFDcEpFTnlxdDNUWEJNS2dramx2U1ZwNmsx?=
- =?utf-8?B?K2VGaXJDd2NGMkRBZjFRKzZpcmZuRmQ1ZWNGU1lCSm1yVE54VS9Jekp2MU5u?=
- =?utf-8?B?QVc1NnRGV3h3dzRGRi9GR2dZV0xncWFBMUxyaElPMXdLbFp3amZ2SXNIZklR?=
- =?utf-8?B?dTluKzZDc1pOVWQ4ZkUxVzRjOW9oRFV0MEZBZlpES0ptcmc2STgzRExjMDRK?=
- =?utf-8?B?M09Id3l6c3R4d1dBUE1KV0xITVJkVmRPeEVCUlp6S2lxTlZaRmRFYk81M0c4?=
- =?utf-8?B?Q2I0UEdpV1p1elpmK0pvSG8wNVVlOENIZkZXb0crblJPUEtKdGlzZFE3V1JN?=
- =?utf-8?B?WW5qalhlVG5OZkhUYjdGNmlHbm1hZndzQWN0OThFb1N5YlVGNlVzNTN2dGI2?=
- =?utf-8?B?djZVZmcvZHVvdkNmWlhKUHorMHdVWXNxU1NNaXE1dW1KS0ozNFdTdXdPcktI?=
- =?utf-8?B?cURNTFhjNDlxTUt5Z3Y3OStQVEM3V0h1RE5vZ1FEalVMQk9lNGZBT1hveG5F?=
- =?utf-8?B?S1BtUVFLYkMrN0lyOHZQN2FiUThaT1BmTzBBc1ArZVh2ZndpSytoN1RxNk9X?=
- =?utf-8?B?ZDFXS1JCM3RHWW5zYW1GYVN2SG82b0NFa1pYaWlyRkNPYzFIS2xRN3MwOVN2?=
- =?utf-8?B?MVVSZHhCTit4d0IzNnVjWXJPYnRlVWh2NlRXbmt1bEVXaEk3V0RRRlFFald1?=
- =?utf-8?B?S0N4SzczaTY4bWZGRTBZQjV2ZHE0MWN4MW9idFMrUm5TK2J6L0h4SlpzWWc2?=
- =?utf-8?B?RFgyWUhtS095M1RlRjhnQ2R3UmhOSmxlOUphZkIrM1BNTmhRRkNtTDFYSVdE?=
- =?utf-8?B?M0hidWdJSUdJb1dNelJtdHdsZjc1a2x3bG1GLy9ibUEreWdUSWVEWjUzZkdR?=
- =?utf-8?B?N2Q2amovS1B2UEd4UmpmV2FES3BnM0xjeUpNWEhCVFViZG45RmJVMThsNnVM?=
- =?utf-8?Q?8SppTiIEuV/wcSan6tv/AmWfZ?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7f48f3e3-df5b-45d1-5c09-08dc4dae7201
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB6839.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2024 16:04:41.3766
+X-MS-Exchange-CrossTenant-AuthSource: LO0P265MB3404.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 698a2cc2-e267-4639-11a9-08dc4dafb631
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Mar 2024 16:13:45.0646
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yxnnEy6oLSaV8XiMI0gtm5DUIpMi5cJ1BQ7DcB6eVowhFRSB5vgd2f6qWJ3sqzqaPPyOie9BBULWNBd3hw6/XA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6731
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0d5fd8bb-e8c2-4e0a-8dd5-2c264f7140fe
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: pfmBbdsF9OaZLOfF2KOLb9E/t2fIicEtVFcdVMBmVUuU5hRCHHKe1XgdR+zYbilFIVvgRq9qjKFmn6Mj/peR6Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB2658
+X-OriginatorOrg: imgtec.com
+X-EXCLAIMER-MD-CONFIG: 15a78312-3e47-46eb-9010-2e54d84a9631
+X-Proofpoint-GUID: gPdo1RVGTEJw6DgmQ6JIIZe-18XIqc2U
+X-Proofpoint-ORIG-GUID: gPdo1RVGTEJw6DgmQ6JIIZe-18XIqc2U
 
-Cc: amd-gfx@lists.freedesktop.org
+--------------CEU8ImhIHdcp4FjUfWG07EhG
+Content-Type: multipart/mixed; boundary="------------JYTNXau0II6QTF70qbZMr0q0";
+ protected-headers="v1"
+From: Matt Coster <matt.coster@imgtec.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Karolis Mituzas <Karolis.Mituzas@imgtec.com>,
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Carlos de Paula <me@carlosedp.com>, linux-kbuild@vger.kernel.org,
+ linux-riscv@lists.infradead.org
+Message-ID: <286a8f76-f670-4458-bae9-f2d383629058@imgtec.com>
+Subject: Re: [PATCH] scripts/package: buildtar: Output as vmlinuz for riscv
+References: <4edd1c5e-aacb-4513-97ae-e6b2130476fc@imgtec.com>
+ <CAK7LNASeOf2ythmXoFS7-fdE40R1BX=JT=v4SmHxq61Hww1Vqw@mail.gmail.com>
+In-Reply-To: <CAK7LNASeOf2ythmXoFS7-fdE40R1BX=JT=v4SmHxq61Hww1Vqw@mail.gmail.com>
 
-On 3/26/24 10:47, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> The -Woverride-init warn about code that may be intentional or not,
-> but the inintentional ones tend to be real bugs, so there is a bit of
-> disagreement on whether this warning option should be enabled by default
-> and we have multiple settings in scripts/Makefile.extrawarn as well as
-> individual subsystems.
-> 
-> Older versions of clang only supported -Wno-initializer-overrides with
-> the same meaning as gcc's -Woverride-init, though all supported versions
-> now work with both. Because of this difference, an earlier cleanup of
-> mine accidentally turned the clang warning off for W=1 builds and only
-> left it on for W=2, while it's still enabled for gcc with W=1.
-> 
-> There is also one driver that only turns the warning off for newer
-> versions of gcc but not other compilers, and some but not all the
-> Makefiles still use a cc-disable-warning conditional that is no
-> longer needed with supported compilers here.
-> 
-> Address all of the above by removing the special cases for clang
-> and always turning the warning off unconditionally where it got
-> in the way, using the syntax that is supported by both compilers.
-> 
-> Fixes: 2cd3271b7a31 ("kbuild: avoid duplicate warning options")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+--------------JYTNXau0II6QTF70qbZMr0q0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Acked-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+On 26/03/2024 15:41, Masahiro Yamada wrote:
+> On Thu, Mar 21, 2024 at 8:59=E2=80=AFPM Matt Coster <Matt.Coster@imgtec=
+=2Ecom> wrote:
+>>
+>> From: Karolis Mituzas <karolis.mituzas@imgtec.com>
+>>
+>> This matches the behavior for arm64 [1] and prevents clobbering of
+>> vmlinux-${KERNELRELEASE}.
+>=20
+> What problem are you trying to solve?
+>=20
+> Why is clobbering vmlinux-${KERNELRELEASE} a problem?
+>=20
 
-For the amdgpu changes.
+This patch makes riscv tar*-pkg builds consistent with other
+architectures. Clobbering vmlinux-${KERNELRELEASE} means there's no ELF
+binary produced by tar*-pkg builds; sometimes you just need an ELF
+binary, e.g. to run faddr2line.
 
-> ---
->   drivers/gpu/drm/amd/display/dc/dce110/Makefile |  2 +-
->   drivers/gpu/drm/amd/display/dc/dce112/Makefile |  2 +-
->   drivers/gpu/drm/amd/display/dc/dce120/Makefile |  2 +-
->   drivers/gpu/drm/amd/display/dc/dce60/Makefile  |  2 +-
->   drivers/gpu/drm/amd/display/dc/dce80/Makefile  |  2 +-
->   drivers/gpu/drm/i915/Makefile                  |  6 +++---
->   drivers/gpu/drm/xe/Makefile                    |  4 ++--
->   drivers/net/ethernet/renesas/sh_eth.c          |  2 +-
->   drivers/pinctrl/aspeed/Makefile                |  2 +-
->   fs/proc/Makefile                               |  2 +-
->   kernel/bpf/Makefile                            |  2 +-
->   mm/Makefile                                    |  3 +--
->   scripts/Makefile.extrawarn                     | 10 +++-------
->   13 files changed, 18 insertions(+), 23 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/dc/dce110/Makefile b/drivers/gpu/drm/amd/display/dc/dce110/Makefile
-> index f0777d61c2cb..c307f040e48f 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dce110/Makefile
-> +++ b/drivers/gpu/drm/amd/display/dc/dce110/Makefile
-> @@ -23,7 +23,7 @@
->   # Makefile for the 'controller' sub-component of DAL.
->   # It provides the control and status of HW CRTC block.
->   
-> -CFLAGS_$(AMDDALPATH)/dc/dce110/dce110_resource.o = $(call cc-disable-warning, override-init)
-> +CFLAGS_$(AMDDALPATH)/dc/dce110/dce110_resource.o = -Wno-override-init
->   
->   DCE110 = dce110_timing_generator.o \
->   dce110_compressor.o dce110_opp_regamma_v.o \
-> diff --git a/drivers/gpu/drm/amd/display/dc/dce112/Makefile b/drivers/gpu/drm/amd/display/dc/dce112/Makefile
-> index 7e92effec894..683866797709 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dce112/Makefile
-> +++ b/drivers/gpu/drm/amd/display/dc/dce112/Makefile
-> @@ -23,7 +23,7 @@
->   # Makefile for the 'controller' sub-component of DAL.
->   # It provides the control and status of HW CRTC block.
->   
-> -CFLAGS_$(AMDDALPATH)/dc/dce112/dce112_resource.o = $(call cc-disable-warning, override-init)
-> +CFLAGS_$(AMDDALPATH)/dc/dce112/dce112_resource.o = -Wno-override-init
->   
->   DCE112 = dce112_compressor.o
->   
-> diff --git a/drivers/gpu/drm/amd/display/dc/dce120/Makefile b/drivers/gpu/drm/amd/display/dc/dce120/Makefile
-> index 1e3ef68a452a..8f508e662748 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dce120/Makefile
-> +++ b/drivers/gpu/drm/amd/display/dc/dce120/Makefile
-> @@ -24,7 +24,7 @@
->   # It provides the control and status of HW CRTC block.
->   
->   
-> -CFLAGS_$(AMDDALPATH)/dc/dce120/dce120_resource.o = $(call cc-disable-warning, override-init)
-> +CFLAGS_$(AMDDALPATH)/dc/dce120/dce120_resource.o = -Wno-override-init
->   
->   DCE120 = dce120_timing_generator.o
->   
-> diff --git a/drivers/gpu/drm/amd/display/dc/dce60/Makefile b/drivers/gpu/drm/amd/display/dc/dce60/Makefile
-> index fee331accc0e..eede83ad91fa 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dce60/Makefile
-> +++ b/drivers/gpu/drm/amd/display/dc/dce60/Makefile
-> @@ -23,7 +23,7 @@
->   # Makefile for the 'controller' sub-component of DAL.
->   # It provides the control and status of HW CRTC block.
->   
-> -CFLAGS_$(AMDDALPATH)/dc/dce60/dce60_resource.o = $(call cc-disable-warning, override-init)
-> +CFLAGS_$(AMDDALPATH)/dc/dce60/dce60_resource.o = -Wno-override-init
->   
->   DCE60 = dce60_timing_generator.o dce60_hw_sequencer.o \
->   	dce60_resource.o
-> diff --git a/drivers/gpu/drm/amd/display/dc/dce80/Makefile b/drivers/gpu/drm/amd/display/dc/dce80/Makefile
-> index 7eefffbdc925..fba189d26652 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dce80/Makefile
-> +++ b/drivers/gpu/drm/amd/display/dc/dce80/Makefile
-> @@ -23,7 +23,7 @@
->   # Makefile for the 'controller' sub-component of DAL.
->   # It provides the control and status of HW CRTC block.
->   
-> -CFLAGS_$(AMDDALPATH)/dc/dce80/dce80_resource.o = $(call cc-disable-warning, override-init)
-> +CFLAGS_$(AMDDALPATH)/dc/dce80/dce80_resource.o = -Wno-override-init
->   
->   DCE80 = dce80_timing_generator.o
->   
-> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-> index 3ef6ed41e62b..4c2f85632391 100644
-> --- a/drivers/gpu/drm/i915/Makefile
-> +++ b/drivers/gpu/drm/i915/Makefile
-> @@ -33,9 +33,9 @@ endif
->   subdir-ccflags-$(CONFIG_DRM_I915_WERROR) += -Werror
->   
->   # Fine grained warnings disable
-> -CFLAGS_i915_pci.o = $(call cc-disable-warning, override-init)
-> -CFLAGS_display/intel_display_device.o = $(call cc-disable-warning, override-init)
-> -CFLAGS_display/intel_fbdev.o = $(call cc-disable-warning, override-init)
-> +CFLAGS_i915_pci.o = -Wno-override-init
-> +CFLAGS_display/intel_display_device.o = -Wno-override-init
-> +CFLAGS_display/intel_fbdev.o = -Wno-override-init
->   
->   # Support compiling the display code separately for both i915 and xe
->   # drivers. Define I915 when building i915.
-> diff --git a/drivers/gpu/drm/xe/Makefile b/drivers/gpu/drm/xe/Makefile
-> index 5a428ca00f10..c29a850859ad 100644
-> --- a/drivers/gpu/drm/xe/Makefile
-> +++ b/drivers/gpu/drm/xe/Makefile
-> @@ -172,8 +172,8 @@ subdir-ccflags-$(CONFIG_DRM_XE_DISPLAY) += \
->   	-Ddrm_i915_gem_object=xe_bo \
->   	-Ddrm_i915_private=xe_device
->   
-> -CFLAGS_i915-display/intel_fbdev.o = $(call cc-disable-warning, override-init)
-> -CFLAGS_i915-display/intel_display_device.o = $(call cc-disable-warning, override-init)
-> +CFLAGS_i915-display/intel_fbdev.o = -Wno-override-init
-> +CFLAGS_i915-display/intel_display_device.o = -Wno-override-init
->   
->   # Rule to build SOC code shared with i915
->   $(obj)/i915-soc/%.o: $(srctree)/drivers/gpu/drm/i915/soc/%.c FORCE
-> diff --git a/drivers/net/ethernet/renesas/sh_eth.c b/drivers/net/ethernet/renesas/sh_eth.c
-> index 475e1e8c1d35..0786eb0da391 100644
-> --- a/drivers/net/ethernet/renesas/sh_eth.c
-> +++ b/drivers/net/ethernet/renesas/sh_eth.c
-> @@ -50,7 +50,7 @@
->    * the macros available to do this only define GCC 8.
->    */
->   __diag_push();
-> -__diag_ignore(GCC, 8, "-Woverride-init",
-> +__diag_ignore_all("-Woverride-init",
->   	      "logic to initialize all and then override some is OK");
->   static const u16 sh_eth_offset_gigabit[SH_ETH_MAX_REGISTER_OFFSET] = {
->   	SH_ETH_OFFSET_DEFAULTS,
-> diff --git a/drivers/pinctrl/aspeed/Makefile b/drivers/pinctrl/aspeed/Makefile
-> index 489ea1778353..db2a7600ae2b 100644
-> --- a/drivers/pinctrl/aspeed/Makefile
-> +++ b/drivers/pinctrl/aspeed/Makefile
-> @@ -1,7 +1,7 @@
->   # SPDX-License-Identifier: GPL-2.0-only
->   # Aspeed pinctrl support
->   
-> -ccflags-y += $(call cc-option,-Woverride-init)
-> +ccflags-y += -Woverride-init
->   obj-$(CONFIG_PINCTRL_ASPEED)	+= pinctrl-aspeed.o pinmux-aspeed.o
->   obj-$(CONFIG_PINCTRL_ASPEED_G4)	+= pinctrl-aspeed-g4.o
->   obj-$(CONFIG_PINCTRL_ASPEED_G5)	+= pinctrl-aspeed-g5.o
-> diff --git a/fs/proc/Makefile b/fs/proc/Makefile
-> index bd08616ed8ba..7b4db9c56e6a 100644
-> --- a/fs/proc/Makefile
-> +++ b/fs/proc/Makefile
-> @@ -5,7 +5,7 @@
->   
->   obj-y   += proc.o
->   
-> -CFLAGS_task_mmu.o	+= $(call cc-option,-Wno-override-init,)
-> +CFLAGS_task_mmu.o	+= -Wno-override-init
->   proc-y			:= nommu.o task_nommu.o
->   proc-$(CONFIG_MMU)	:= task_mmu.o
->   
-> diff --git a/kernel/bpf/Makefile b/kernel/bpf/Makefile
-> index 368c5d86b5b7..e497011261b8 100644
-> --- a/kernel/bpf/Makefile
-> +++ b/kernel/bpf/Makefile
-> @@ -4,7 +4,7 @@ ifneq ($(CONFIG_BPF_JIT_ALWAYS_ON),y)
->   # ___bpf_prog_run() needs GCSE disabled on x86; see 3193c0836f203 for details
->   cflags-nogcse-$(CONFIG_X86)$(CONFIG_CC_IS_GCC) := -fno-gcse
->   endif
-> -CFLAGS_core.o += $(call cc-disable-warning, override-init) $(cflags-nogcse-yy)
-> +CFLAGS_core.o += -Wno-override-init $(cflags-nogcse-yy)
->   
->   obj-$(CONFIG_BPF_SYSCALL) += syscall.o verifier.o inode.o helpers.o tnum.o log.o token.o
->   obj-$(CONFIG_BPF_SYSCALL) += bpf_iter.o map_iter.o task_iter.o prog_iter.o link_iter.o
-> diff --git a/mm/Makefile b/mm/Makefile
-> index e4b5b75aaec9..4abb40b911ec 100644
-> --- a/mm/Makefile
-> +++ b/mm/Makefile
-> @@ -29,8 +29,7 @@ KCOV_INSTRUMENT_mmzone.o := n
->   KCOV_INSTRUMENT_vmstat.o := n
->   KCOV_INSTRUMENT_failslab.o := n
->   
-> -CFLAGS_init-mm.o += $(call cc-disable-warning, override-init)
-> -CFLAGS_init-mm.o += $(call cc-disable-warning, initializer-overrides)
-> +CFLAGS_init-mm.o += -Wno-override-init
->   
->   mmu-y			:= nommu.o
->   mmu-$(CONFIG_MMU)	:= highmem.o memory.o mincore.o \
-> diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
-> index 3ce5d503a6da..c5af566e911a 100644
-> --- a/scripts/Makefile.extrawarn
-> +++ b/scripts/Makefile.extrawarn
-> @@ -114,6 +114,8 @@ KBUILD_CFLAGS += $(call cc-disable-warning, format-overflow)
->   KBUILD_CFLAGS += $(call cc-disable-warning, format-truncation)
->   KBUILD_CFLAGS += $(call cc-disable-warning, stringop-truncation)
->   
-> +KBUILD_CFLAGS += -Wno-override-init # alias for -Wno-initializer-overrides in clang
-> +
->   ifdef CONFIG_CC_IS_CLANG
->   # Clang before clang-16 would warn on default argument promotions.
->   ifneq ($(call clang-min-version, 160000),y)
-> @@ -151,10 +153,6 @@ KBUILD_CFLAGS += -Wtype-limits
->   KBUILD_CFLAGS += $(call cc-option, -Wmaybe-uninitialized)
->   KBUILD_CFLAGS += $(call cc-option, -Wunused-macros)
->   
-> -ifdef CONFIG_CC_IS_CLANG
-> -KBUILD_CFLAGS += -Winitializer-overrides
-> -endif
-> -
->   KBUILD_CPPFLAGS += -DKBUILD_EXTRA_WARN2
->   
->   else
-> @@ -164,9 +162,7 @@ KBUILD_CFLAGS += -Wno-missing-field-initializers
->   KBUILD_CFLAGS += -Wno-type-limits
->   KBUILD_CFLAGS += -Wno-shift-negative-value
->   
-> -ifdef CONFIG_CC_IS_CLANG
-> -KBUILD_CFLAGS += -Wno-initializer-overrides
-> -else
-> +ifdef CONFIG_CC_IS_GCC
->   KBUILD_CFLAGS += -Wno-maybe-uninitialized
->   endif
->   
--- 
-Hamza
+Cheers,
+Matt
 
+--------------JYTNXau0II6QTF70qbZMr0q0--
+
+--------------CEU8ImhIHdcp4FjUfWG07EhG
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wnsEABYIACMWIQS4qDmoJvwmKhjY+nN5vBnz2d5qsAUCZgL0OAUDAAAAAAAKCRB5vBnz2d5qsDtm
+AP94kvA4vni+Eai4EY9+7XmZaDKp/ZZGHv7aFyoctV0qMQEAjYKsIJW41snS0+5WLWcJagRfFPuf
+//zgAaH5linBVA4=
+=/A5r
+-----END PGP SIGNATURE-----
+
+--------------CEU8ImhIHdcp4FjUfWG07EhG--
 
