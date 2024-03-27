@@ -1,88 +1,87 @@
-Return-Path: <linux-kbuild+bounces-1362-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1363-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9EB488D80D
-	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Mar 2024 08:54:45 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D569788D854
+	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Mar 2024 09:02:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 788BF1F2A906
-	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Mar 2024 07:54:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 01CC81C2664C
+	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Mar 2024 08:02:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40B9538FA1;
-	Wed, 27 Mar 2024 07:50:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED83717BAF;
+	Wed, 27 Mar 2024 08:01:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mBdwjkqw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DTkkdulN"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE5A82E651;
-	Wed, 27 Mar 2024 07:50:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 970262D043
+	for <linux-kbuild@vger.kernel.org>; Wed, 27 Mar 2024 08:01:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711525819; cv=none; b=fb7DIMoEfXcy8viV0fgq66QCFvxrq6+3AWcCynza4hqULrPrVdy5bJQU1OB3TKcoLHXKt/8bQgUUiXHEgrbTeXp842qjtP0+4QcYE2uMhwAmPKc7PTcUWzuwbXHKsrKddukXKOKk1WDKgp0Wc+miQsRyQDcIUoyGG6him+fI2Wc=
+	t=1711526480; cv=none; b=pWRczZkRDyQPJf7vmcIOAe724cb0sP7BIP5rESAqqFTFIHxSjd/KwPlpIS6KMxZKhoM1v2WOr0tfwOYQI7Vl4sFkXAUofHWyS6CH15E/MWmw+7XQLIw9cnQ+yPLZr3xt3PafFltOzSR1c8OUAbItsl5WUdGJisrzw57C47XY2YA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711525819; c=relaxed/simple;
-	bh=+I0dUNOdZGkwtBeC0T1EU1TrsDrWBxEiMA9XkoJPZrg=;
+	s=arc-20240116; t=1711526480; c=relaxed/simple;
+	bh=GucQb4cLBgLnk1QG1F+L4Qynfl5w2SWCeBiPx1JgM5s=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=A6Ghz/AYm4Zg5LvKYaDlxauccQlV19cW/f1PCDce9tXxt88rgc5sAFIpg2e5/RSWORcPVHXXNBklREqVuthV4OeUus1AXjCGFDFL44UYwglYys9FL1Maae666IZ+uYqC+hH6G5Z55Jj5kjYHPyLQ/tnKIk3rOU9+tjd+ogmA6ts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mBdwjkqw; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+	 MIME-Version:Content-Type; b=tYCl8gahSODvsNYvJp0tWeIzjNL54nRyKLxcgBxEgpA/+y3iN/xpADbEgl47PQQJ878a2YDfiVYm0SdBSzz5MfBMWWxltID3KBXUZ5PlPgMJowe442rwqxQO0pTkAbT6UfUf3I8sbWwvDWeLWVgjJIWyhui6J2K0vwA8Hs4nlks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DTkkdulN; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711525817; x=1743061817;
+  t=1711526478; x=1743062478;
   h=from:to:cc:subject:in-reply-to:references:date:
    message-id:mime-version;
-  bh=+I0dUNOdZGkwtBeC0T1EU1TrsDrWBxEiMA9XkoJPZrg=;
-  b=mBdwjkqwAsAxs3oi7apG/3ZtBkcnGikAWzoehoPZOkbTYpetrxHWvsfX
-   +eph1azzxHrFfNAOe6p3LmfchINcPPToWi/uSzbVnwVpruMnB9sCEFaLe
-   6Vtjlt2UVeYpyuHgis9/Bamdy7vhl6jo6xfrokuGIgi5DF76sHeH3ViIA
-   0CyFfaC5yKldgVT8vTWq1tQLAx7V1Zzt5Qh37mN1+jSMm7ppYAORBtgoZ
-   CvpJr8zEtA9Lw8dPHV/iPBMlmZCOWcE7GDpphatxEOVFPHAUqnLxZNonI
-   wQEAoOq8KpfgzUnoQhZbRHqTqka+psUEpRumluka9xe1SnEhxqH4FODgt
-   Q==;
-X-CSE-ConnectionGUID: MsyQbz5AQHy8y68fVaLnuQ==
-X-CSE-MsgGUID: hocw4mZkQ2y001r8rNwlqA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="6467190"
+  bh=GucQb4cLBgLnk1QG1F+L4Qynfl5w2SWCeBiPx1JgM5s=;
+  b=DTkkdulNFE5JiG0YAMUcip5B97QefqGDAdOsWt61V9xtPasHY7kFsj8y
+   dOY+kBPKbZG6ZTXtNT3HWcHs67rJ0srvIIZAIVsk+dyyf6MGmhfniESav
+   TZJAoDGxgIfxlTsgcFHiqoqw/S2S01OmQH5UjzclQlm3mInkGb54h0m+j
+   1/wbfAu2EWFiyNVQglLE9NSdpj9MC0WgQSBMWjoQxi4M0QK8/F4Oe+bLD
+   bbCm3gPpuiozsYES5oZ3+yV4BOlJxPIPUl46CjZtE3ZQX40c8hwIqHwuA
+   I3P90G8FI/JBFctniQuxH0xAQtwOJ77CP9HMQN3rnZvGdDEYpXjxzLo9N
+   g==;
+X-CSE-ConnectionGUID: 9b973weuTcqPGm4VVLMpBg==
+X-CSE-MsgGUID: YlLrarTST9e3TK9SOsQokw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="6725542"
 X-IronPort-AV: E=Sophos;i="6.07,158,1708416000"; 
-   d="scan'208";a="6467190"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2024 00:50:16 -0700
+   d="scan'208";a="6725542"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2024 00:59:13 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,158,1708416000"; 
-   d="scan'208";a="16277502"
+   d="scan'208";a="16863269"
 Received: from mmazilu-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.56.43])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2024 00:50:08 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Arnd Bergmann <arnd@arndb.de>, Arnd Bergmann <arnd@kernel.org>,
- linux-kbuild@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>,
- Harry Wentland <harry.wentland@amd.com>, Alex Deucher
- <alexander.deucher@amd.com>, Christian =?utf-8?Q?K=C3=B6nig?=
- <christian.koenig@amd.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>, Oded Gabbay
- <ogabbay@kernel.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Andrew Jeffery
- <andrew@codeconstruct.com.au>, Linus Walleij <linus.walleij@linaro.org>,
- Joel Stanley <joel@jms.id.au>, Alexei Starovoitov <ast@kernel.org>, Daniel
- Borkmann <daniel@iogearbox.net>, Andrew Morton
- <akpm@linux-foundation.org>, Nathan Chancellor <nathan@kernel.org>
-Cc: Nicolas Schier <nicolas@fjasle.eu>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Netdev <netdev@vger.kernel.org>,
- linux-mm@kvack.org, llvm@lists.linux.dev
-Subject: Re: [PATCH 01/12] kbuild: make -Woverride-init warnings more
- consistent
-In-Reply-To: <cb853762-06d4-401c-a1c8-07a0c031b499@app.fastmail.com>
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2024 00:59:05 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Maxime Ripard <mripard@kernel.org>, Nathan Chancellor <nathan@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, David Airlie <airlied@gmail.com>, Daniel
+ Vetter <daniel@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Alex Deucher <alexander.deucher@amd.com>, Christian
+ =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>, "Pan, Xinhui"
+ <Xinhui.Pan@amd.com>,
+ Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>, Danilo
+ Krummrich <dakr@redhat.com>, Rob Clark <robdclark@gmail.com>, Abhinav
+ Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, Hamza Mahfooz <hamza.mahfooz@amd.com>,
+ Javier Martinez Canillas <javierm@redhat.com>, Sui Jingfeng
+ <sui.jingfeng@linux.dev>, linux-kbuild@vger.kernel.org,
+ llvm@lists.linux.dev
+Subject: Re: [RESEND v3 2/2] drm: Add CONFIG_DRM_WERROR
+In-Reply-To: <20240327-cherubic-steel-tiger-e1c36a@houat>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240326144741.3094687-1-arnd@kernel.org>
- <20240326144741.3094687-2-arnd@kernel.org> <87jzlohhbc.fsf@intel.com>
- <cb853762-06d4-401c-a1c8-07a0c031b499@app.fastmail.com>
-Date: Wed, 27 Mar 2024 09:50:05 +0200
-Message-ID: <87edbwglle.fsf@intel.com>
+References: <cover.1709629403.git.jani.nikula@intel.com>
+ <afe5ed943414f7ec3044c1547503b9941686a867.1709629403.git.jani.nikula@intel.com>
+ <20240326225650.GA2784736@dev-arch.thelio-3990X>
+ <20240327-cherubic-steel-tiger-e1c36a@houat>
+Date: Wed, 27 Mar 2024 09:59:01 +0200
+Message-ID: <87a5mkgl6i.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -91,148 +90,85 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-On Tue, 26 Mar 2024, "Arnd Bergmann" <arnd@arndb.de> wrote:
-> On Tue, Mar 26, 2024, at 21:24, Jani Nikula wrote:
->> On Tue, 26 Mar 2024, Arnd Bergmann <arnd@kernel.org> wrote:
->>> From: Arnd Bergmann <arnd@arndb.de>
->>> index 475e1e8c1d35..0786eb0da391 100644
->>> --- a/drivers/net/ethernet/renesas/sh_eth.c
->>> +++ b/drivers/net/ethernet/renesas/sh_eth.c
->>> @@ -50,7 +50,7 @@
->>>   * the macros available to do this only define GCC 8.
->>>   */
->>>  __diag_push();
->>> -__diag_ignore(GCC, 8, "-Woverride-init",
->>> +__diag_ignore_all("-Woverride-init",
->>>  	      "logic to initialize all and then override some is OK");
->>
->> This is nice because it's more localized than the per-file
->> disable. However, we tried to do this in i915, but this doesn't work for
->> GCC versions < 8, and some defconfigs enabling -Werror forced us to
->> revert. See commit 290d16104575 ("Revert "drm/i915: use localized
->> __diag_ignore_all() instead of per file"").
+On Wed, 27 Mar 2024, Maxime Ripard <mripard@kernel.org> wrote:
+> Hi,
 >
-> It works now.
+> On Tue, Mar 26, 2024 at 03:56:50PM -0700, Nathan Chancellor wrote:
+>> On Tue, Mar 05, 2024 at 11:07:36AM +0200, Jani Nikula wrote:
+>> > Add kconfig to enable -Werror subsystem wide. This is useful for
+>> > development and CI to keep the subsystem warning free, while avoiding
+>> > issues outside of the subsystem that kernel wide CONFIG_WERROR=y might
+>> > hit.
+>> > 
+>> > v2: Don't depend on COMPILE_TEST
+>> > 
+>> > Reviewed-by: Hamza Mahfooz <hamza.mahfooz@amd.com> # v1
+>> > Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+>> > ---
+>> >  drivers/gpu/drm/Kconfig  | 13 +++++++++++++
+>> >  drivers/gpu/drm/Makefile |  3 +++
+>> >  2 files changed, 16 insertions(+)
+>> > 
+>> > diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+>> > index 6e853acf15da..c08e18108c2a 100644
+>> > --- a/drivers/gpu/drm/Kconfig
+>> > +++ b/drivers/gpu/drm/Kconfig
+>> > @@ -416,3 +416,16 @@ config DRM_LIB_RANDOM
+>> >  config DRM_PRIVACY_SCREEN
+>> >  	bool
+>> >  	default n
+>> > +
+>> > +config DRM_WERROR
+>> > +	bool "Compile the drm subsystem with warnings as errors"
+>> > +	depends on EXPERT
+>> > +	default n
+>> > +	help
+>> > +	  A kernel build should not cause any compiler warnings, and this
+>> > +	  enables the '-Werror' flag to enforce that rule in the drm subsystem.
+>> > +
+>> > +	  The drm subsystem enables more warnings than the kernel default, so
+>> > +	  this config option is disabled by default.
+>> > +
+>> > +	  If in doubt, say N.
+>> 
+>> While I understand the desire for an easy switch that maintainers and
+>> developers can use to ensure that their changes are warning free for the
+>> drm subsystem specifically, I think subsystem specific configuration
+>> options like this are actively detrimental to developers and continuous
+>> integration systems that build test the entire kernel. For example, we
+>> turned off CONFIG_WERROR for our Hexagon builds because of warnings that
+>> appear with -Wextra that are legitimate but require treewide changes to
+>> resolve in a manner sufficient for Linus:
+>> 
+>> https://github.com/ClangBuiltLinux/linux/issues/1285
+>> https://lore.kernel.org/all/CAHk-=wg80je=K7madF4e7WrRNp37e3qh6y10Svhdc7O8SZ_-8g@mail.gmail.com/
+>> https://lore.kernel.org/all/20230522105049.1467313-1-schnelle@linux.ibm.com/
+>> 
+>> But now, due to CONFIG_DRM_WERROR getting enabled by all{mod,yes}config
+>> and -Wextra being unconditionally enabled for DRM, those warnings hard
+>> break the build despite CONFIG_WERROR=n...
 >
-> The original __diag_ignore_all() only did it for gcc-8 and above
-> because that was initially needed to suppress warnings that
-> got added in that version, but this was always a mistake.
->
-> 689b097a06ba ("compiler-gcc: Suppress -Wmissing-prototypes
-> warning for all supported GCC") made it work correctly.
+> Would making DRM_WERROR depends on WERROR address your concerns?
 
-Oh, nice! Then I think we'd like to go back to __diag_ignore_all() in
-i915 and xe.
+But then what would be the point of having DRM_WERROR at all? For me the
+point is, "werror in drm, ignore the rest, they're someone else's
+problem".
 
-The diff is below. I'm fine with you squashing it to your patch, or if
-you want me to turn it into a proper patch for you to pick up in your
-series, that's fine too. Just let me know.
+An alternative would be to "depends on !COMPILE_TEST" that we have in
+i915, but then some folks want to have COMPILE_TEST in drm, because some
+drivers are otherwise hard for people to build.
+
+Nathan, we do want to fix any issues switfly. Are you hitting specific
+build problems?
+
 
 BR,
 Jani.
 
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
 
-diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-index 3ef6ed41e62b..87d6ba8d2341 100644
---- a/drivers/gpu/drm/i915/Makefile
-+++ b/drivers/gpu/drm/i915/Makefile
-@@ -32,11 +32,6 @@ endif
- # Enable -Werror in CI and development
- subdir-ccflags-$(CONFIG_DRM_I915_WERROR) += -Werror
- 
--# Fine grained warnings disable
--CFLAGS_i915_pci.o = $(call cc-disable-warning, override-init)
--CFLAGS_display/intel_display_device.o = $(call cc-disable-warning, override-init)
--CFLAGS_display/intel_fbdev.o = $(call cc-disable-warning, override-init)
--
- # Support compiling the display code separately for both i915 and xe
- # drivers. Define I915 when building i915.
- subdir-ccflags-y += -DI915
-diff --git a/drivers/gpu/drm/i915/display/intel_display_device.c b/drivers/gpu/drm/i915/display/intel_display_device.c
-index c02d79b50006..b8903bd0e82a 100644
---- a/drivers/gpu/drm/i915/display/intel_display_device.c
-+++ b/drivers/gpu/drm/i915/display/intel_display_device.c
-@@ -17,6 +17,9 @@
- #include "intel_display_reg_defs.h"
- #include "intel_fbc.h"
- 
-+__diag_push();
-+__diag_ignore_all("-Woverride-init", "Allow field initialization overrides for display info");
-+
- static const struct intel_display_device_info no_display = {};
- 
- #define PIPE_A_OFFSET		0x70000
-@@ -768,6 +771,8 @@ static const struct intel_display_device_info xe2_lpd_display = {
- 		BIT(INTEL_FBC_C) | BIT(INTEL_FBC_D),
- };
- 
-+__diag_pop();
-+
- /*
-  * Separate detection for no display cases to keep the display id array simple.
-  *
-diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.c b/drivers/gpu/drm/i915/display/intel_fbdev.c
-index 99894a855ef0..43855c6c3509 100644
---- a/drivers/gpu/drm/i915/display/intel_fbdev.c
-+++ b/drivers/gpu/drm/i915/display/intel_fbdev.c
-@@ -135,6 +135,9 @@ static int intel_fbdev_mmap(struct fb_info *info, struct vm_area_struct *vma)
- 	return i915_gem_fb_mmap(obj, vma);
- }
- 
-+__diag_push();
-+__diag_ignore_all("-Woverride-init", "Allow field initialization overrides for fb ops");
-+
- static const struct fb_ops intelfb_ops = {
- 	.owner = THIS_MODULE,
- 	__FB_DEFAULT_DEFERRED_OPS_RDWR(intel_fbdev),
-@@ -146,6 +149,8 @@ static const struct fb_ops intelfb_ops = {
- 	.fb_mmap = intel_fbdev_mmap,
- };
- 
-+__diag_pop();
-+
- static int intelfb_create(struct drm_fb_helper *helper,
- 			  struct drm_fb_helper_surface_size *sizes)
- {
-diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
-index 1e69783ae4fd..405ca17a990b 100644
---- a/drivers/gpu/drm/i915/i915_pci.c
-+++ b/drivers/gpu/drm/i915/i915_pci.c
-@@ -38,6 +38,9 @@
- #include "i915_reg.h"
- #include "intel_pci_config.h"
- 
-+__diag_push();
-+__diag_ignore_all("-Woverride-init", "Allow field initialization overrides for device info");
-+
- #define PLATFORM(x) .platform = (x)
- #define GEN(x) \
- 	.__runtime.graphics.ip.ver = (x), \
-@@ -785,6 +788,8 @@ static const struct intel_device_info mtl_info = {
- 
- #undef PLATFORM
- 
-+__diag_pop();
-+
- /*
-  * Make sure any device matches here are from most specific to most
-  * general.  For example, since the Quanta match is based on the subsystem
-diff --git a/drivers/gpu/drm/xe/Makefile b/drivers/gpu/drm/xe/Makefile
-index 3c3e67885559..2f58faf0a79a 100644
---- a/drivers/gpu/drm/xe/Makefile
-+++ b/drivers/gpu/drm/xe/Makefile
-@@ -172,9 +172,6 @@ subdir-ccflags-$(CONFIG_DRM_XE_DISPLAY) += \
- 	-Ddrm_i915_gem_object=xe_bo \
- 	-Ddrm_i915_private=xe_device
- 
--CFLAGS_i915-display/intel_fbdev.o = $(call cc-disable-warning, override-init)
--CFLAGS_i915-display/intel_display_device.o = $(call cc-disable-warning, override-init)
--
- # Rule to build SOC code shared with i915
- $(obj)/i915-soc/%.o: $(srctree)/drivers/gpu/drm/i915/soc/%.c FORCE
- 	$(call cmd,force_checksrc)
+>
+> Maxime
 
 -- 
 Jani Nikula, Intel
