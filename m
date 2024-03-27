@@ -1,85 +1,117 @@
-Return-Path: <linux-kbuild+bounces-1358-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1359-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CC6188D377
-	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Mar 2024 01:47:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70AC588D3C8
+	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Mar 2024 02:36:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4BC2E1F374CA
-	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Mar 2024 00:47:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 27F6D1F30CF0
+	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Mar 2024 01:36:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEBAD63D0;
-	Wed, 27 Mar 2024 00:47:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A5091B7E9;
+	Wed, 27 Mar 2024 01:36:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UezsQDLg"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PNzvh2g5"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61BB0F4FB;
-	Wed, 27 Mar 2024 00:47:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A43020323;
+	Wed, 27 Mar 2024 01:36:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711500436; cv=none; b=KZrMYUuRTTOGVHvltL6k9USnDR2VF6bsvtlddvVpTOwuZa3qzVwgG07wV/s+U8QDgqrC8Ms/ZkmBEuO1sotpYmRu7aLa/qLY0m9jcwikM+INqT33eL2gziymfy4J6xp/A5RRzE9dFOpUbXZ30uM76hrQ8MZgf8gFXE+OI5URSyU=
+	t=1711503392; cv=none; b=C5cp8VO+fCLXMGqkheHTBDWX84BXjOhvdVQW8cTp1G0colh40QMKzxpiHczBf6TUIr+8l2rYYdlEaUMwKNbMMRCQW/7LaqG89jYha2zo470aAi39bdETAhuiRA3PTVV+lpnzAPHLK6LowmmK55rY2wHiXLusRevWZK2h5IhMzww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711500436; c=relaxed/simple;
-	bh=2q5crH4HwBtEVMAdw9c1ugeNy2Oyqk30hp+EirVO3q0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hkWMNTzbZfTgA/IEK/JK4+B3v+mSz4F4UIfx8jWMKdsdXRYM468WolThpJmZcjldQiYiJ6V404RZu7IVIxEvecn6uZ5hlm61RPXIxMnleGnLxuMfGp/TnnNoplqsZH1bymKTDlsOWOugTIC/5Ldq1Xneczg6q9NQGyW050/URjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UezsQDLg; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7EB0C433C7;
-	Wed, 27 Mar 2024 00:47:14 +0000 (UTC)
+	s=arc-20240116; t=1711503392; c=relaxed/simple;
+	bh=G5CnkT5QVDuAxX6bjBrkXtiKlaXMp79BcaVPmAi2WQQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=n8lDb4FaxxX6AsL7dn89nKOJgWZM678nFfsL0aNdEC7gnvJISZadcVq4RQbyU9VPmlUOrCTYK0QR84p1oTAPEYKQ5sCy2gABEAUyh+wrwLZMf/pmPtNespn3e3y/Pm6kJ3EcctGq/x/HMR0S1vZXqxDxw3dacvB4qe6doRIdnnI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PNzvh2g5; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 289CAC433C7;
+	Wed, 27 Mar 2024 01:36:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711500435;
-	bh=2q5crH4HwBtEVMAdw9c1ugeNy2Oyqk30hp+EirVO3q0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=UezsQDLgF9nL66A4jsvBTDD2EOr0eqDdVGhmNGprFvTwmA1eJHgPOWS9WJ7ECimcd
-	 RDE0aan9K8Zg8d9M25lbWh96ZCpZ7y0mP+R19goxTSdH2JUd8JcPPdRW83X8rI6QM8
-	 MJUThd//pIxYMao207aSg2QzHNfqWYJLPbB+dCwBN2EVPijRRPNUhHocfcqdZVwTSk
-	 P3meIA4B8q4n+12qJIk0cKVZsdNFWx3sQ+EkouWPRC+ZdDc/jHiwushF/bhTIdgyqo
-	 iwYU8SW6CRg3wKHM6DqpqtfSkZUOfF7qjVM0qmdXWxlmO2PGuFkWXuQEEE+muZ3xGT
-	 sSHlZk7LNCyaw==
-Date: Tue, 26 Mar 2024 17:47:13 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: llvm@lists.linux.dev, Arnd Bergmann <arnd@arndb.de>, Dmitry Torokhov
- <dmitry.torokhov@gmail.com>, Claudiu Manoil <claudiu.manoil@nxp.com>,
- Vladimir Oltean <vladimir.oltean@nxp.com>, Saeed Mahameed
- <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Ariel Elior
- <aelior@marvell.com>, Manish Chopra <manishc@marvell.com>, Hans de Goede
- <hdegoede@redhat.com>, Ilpo =?UTF-8?B?SsOkcnZpbmVu?=
- <ilpo.jarvinen@linux.intel.com>, Maximilian Luz <luzmaximilian@gmail.com>,
- Hannes Reinecke <hare@kernel.org>, "Martin K. Petersen"
- <martin.petersen@oracle.com>, Helge Deller <deller@gmx.de>, Masahiro Yamada
- <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas
- Schier <nicolas@fjasle.eu>, Johannes Berg <johannes@sipsolutions.net>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Nick
- Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>,
- Justin Stitt <justinstitt@google.com>, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
- linux-rdma@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kbuild@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, alsa-devel@alsa-project.org,
- linux-sound@vger.kernel.org
-Subject: Re: [PATCH 0/9] enabled -Wformat-truncation for clang
-Message-ID: <20240326174713.49f3a9ce@kernel.org>
-In-Reply-To: <20240326223825.4084412-1-arnd@kernel.org>
-References: <20240326223825.4084412-1-arnd@kernel.org>
+	s=k20201202; t=1711503391;
+	bh=G5CnkT5QVDuAxX6bjBrkXtiKlaXMp79BcaVPmAi2WQQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=PNzvh2g5NC3x8OmCPQmNFGAXaVUpQVkEa8BeyO11NScvIdjLTpTGry+Ww3O/SeT7/
+	 5Ym80jU058K3n7+BoSOm0FCC7j3dtwpF63ff0X4xsojFcVNPa82YpDLNFlXOvEAOTX
+	 zpSZLIIyFpGkLleRylvT1mc6AnXj/UmG1b6OiyT2Mz9ACnlAhSwCLUY1aVNuhfbUQp
+	 3t4TgXcgTsdi8AuGf3p+mXGJ3ryHRd/qdIMUrCJDX7bqg40OsYLuQCADxmCVP/Qo3l
+	 Uqpc/E26crc48fh4sequ3zRbAZIqvVAcuG8zc9CWwN5kpAsQG3lkYniq9KHHsPTYEl
+	 b/1AUvahum7lg==
+Message-ID: <d7fd5998-8813-4f29-a8d2-b82adbdec11c@kernel.org>
+Date: Wed, 27 Mar 2024 10:36:28 +0900
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 10/12] sata: sx4: fix pdc20621_get_from_dimm() on 64-bit
+To: Arnd Bergmann <arnd@kernel.org>, linux-kbuild@vger.kernel.org,
+ Masahiro Yamada <masahiroy@kernel.org>, Niklas Cassel <cassel@kernel.org>
+Cc: Nicolas Schier <nicolas@fjasle.eu>, Nathan Chancellor
+ <nathan@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ John Garry <john.g.garry@oracle.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240326144741.3094687-1-arnd@kernel.org>
+ <20240326145348.3318887-1-arnd@kernel.org>
+Content-Language: en-US
+From: Damien Le Moal <dlemoal@kernel.org>
+Organization: Western Digital Research
+In-Reply-To: <20240326145348.3318887-1-arnd@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Tue, 26 Mar 2024 23:37:59 +0100 Arnd Bergmann wrote:
-> I hope that the patches can get picked up by platform maintainers
-> directly, so the final patch can go in later on.
+On 3/26/24 23:53, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> gcc warns about a memcpy() with overlapping pointers because of an
+> incorrect size calculation:
+> 
+> In file included from include/linux/string.h:369,
+>                  from drivers/ata/sata_sx4.c:66:
+> In function 'memcpy_fromio',
+>     inlined from 'pdc20621_get_from_dimm.constprop' at drivers/ata/sata_sx4.c:962:2:
+> include/linux/fortify-string.h:97:33: error: '__builtin_memcpy' accessing 4294934464 bytes at offsets 0 and [16, 16400] overlaps 6442385281 bytes at offset -2147450817 [-Werror=restrict]
+>    97 | #define __underlying_memcpy     __builtin_memcpy
+>       |                                 ^
+> include/linux/fortify-string.h:620:9: note: in expansion of macro '__underlying_memcpy'
+>   620 |         __underlying_##op(p, q, __fortify_size);                        \
+>       |         ^~~~~~~~~~~~~
+> include/linux/fortify-string.h:665:26: note: in expansion of macro '__fortify_memcpy_chk'
+>   665 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+>       |                          ^~~~~~~~~~~~~~~~~~~~
+> include/asm-generic/io.h:1184:9: note: in expansion of macro 'memcpy'
+>  1184 |         memcpy(buffer, __io_virt(addr), size);
+>       |         ^~~~~~
+> 
+> The problem here is the overflow of an unsigned 32-bit number to a
+> negative that gets converted into a signed 'long', keeping a large
+> positive number.
+> 
+> Replace the complex calculation with a more readable min() variant
+> that avoids the warning.
+> 
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
 
-platform == subsystem? :)
+That is old :)
+
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+
+Looks good to me. I can take the patch through libata tree, unless you prefer
+taking the whole series ?
+
+In case it is the latter:
+
+Acked-by: Damien Le Moal <dlemoal@kernel.org>
+
+-- 
+Damien Le Moal
+Western Digital Research
+
 
