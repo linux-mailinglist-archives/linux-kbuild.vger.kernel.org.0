@@ -1,81 +1,80 @@
-Return-Path: <linux-kbuild+bounces-1367-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1366-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C4CE88E7D3
-	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Mar 2024 16:05:50 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B956288E7D2
+	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Mar 2024 16:05:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2EF5D1F34D4E
-	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Mar 2024 15:05:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DCC0F1C27A58
+	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Mar 2024 15:05:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE7BD147C9D;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78F80147C92;
 	Wed, 27 Mar 2024 14:26:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="AoQElbFM"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="VwnaqOt8"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A7801411FB
-	for <linux-kbuild@vger.kernel.org>; Wed, 27 Mar 2024 14:26:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7371F147C85
+	for <linux-kbuild@vger.kernel.org>; Wed, 27 Mar 2024 14:26:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711549568; cv=none; b=Es28CHsmwTjh3lwsSptCqil+JqGlPeCGoGaFhtl25FDr1qU+XzYtPYsWSBZrjH8oSeEPT3Z+GnA7zaYvkxcEdm5eprX270eIkBznzLHhKWJxlIwPNGPRY3ARlySljLpSl90x2+nkS4kkjIbJJiu98csj2SqZU2ktoEIkaGdvO0s=
+	t=1711549568; cv=none; b=fUcQAXeQFktiiEiEbLPABC84Kp1PQYFoSWHsFHsfjX/b1EXbA+kAvycWO82GylpaoOE/NVTSQQYkrQtcl5JYbcl5ss71pOFE/fPqQ+iddmIf8vpi6FMGM2mYg9/1klr2Phy2zWzDaqdad25uZK4d6YJmn55osYzpBsMHssjTdc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1711549568; c=relaxed/simple;
-	bh=I3ynC9G4wSUtbW2+yKCxFYAbSboPR0fI+YZpXfjxNxI=;
+	bh=F584rvY9Ael/CReGADwrBnGTlfcFElRXi+daopA8MFI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MAUDVNKk1HSrctjaYQhgDNa5MkKf2dinnJZKZ06a+Hh7cRos89T3HdLFWdo4wY4SL+w4N8iPP+n4DedYMASYNeqMBONfTE+/pKn8ZTe01/Q8RsrzlFuAjcdxdwfxyzLXf3u50ssh6TkT+SX6z+k58UpPfLdOP+aJRVT/XZzZu3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=AoQElbFM; arc=none smtp.client-ip=209.85.128.53
+	 MIME-Version; b=g2diPJdtnyWTtgbDZYpcWM/ukbNROdnfSb4lpex+euPDz455r1xxTwVJ457TTgrzOYSnzfkA7qUQL5ConoEl//goSUaYa3iZNJIK98koGoxvjDjm2Ypk9K+UrJ0TfNLPMzD9/JLK/q27ec/Su3YFXcfxJ1NVWs9dWVLtXTXkk+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=VwnaqOt8; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4149532da36so3987805e9.0
-        for <linux-kbuild@vger.kernel.org>; Wed, 27 Mar 2024 07:26:05 -0700 (PDT)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-414974c6887so1675065e9.1
+        for <linux-kbuild@vger.kernel.org>; Wed, 27 Mar 2024 07:26:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1711549564; x=1712154364; darn=vger.kernel.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1711549565; x=1712154365; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/jYhOZIN90mWP+0u0VcoqC5jXTTn/s6/ShobANYpGqc=;
-        b=AoQElbFMvEzrVCfMc31w5Dd2f1Zjkls0R5NNo92cuVpH50JS3n8sA0Oob/lmUXesgy
-         4BQOQGjVPw2UKbV+5ziTJ2gMJhF5+zWWR8zQfh4LFGDHwVsnU5JaY6TBLuBQtkIcCMOJ
-         3LZG42EwgWN+xC7ASH1tRIlp5XyL+mhihcb7Nl6piltQp2iWE20RPvcm2OiK5C0Seh1E
-         42UmAmzFFF9LMrwjqI0SRZUm6SW56NRXSyALDs5LeYuGbFyZ3coVfVDVLI8NIAHplhZU
-         eRRHQlDuF9ZeOUrDJP5u5nMVZ2Qa1FI3AcHdYtH4rPS/3+C61vu9sTaH4HwRGzHzhGOo
-         YVDQ==
+        bh=73OCrYqPUt68WHM39Ot0cX5xtXg6EOrolRVcpBahWYE=;
+        b=VwnaqOt8CHodoxAn5Z3v6SHUw0B1e0qaXh4xRhu2dWCFD+Xh/hzwZmLUooIEQbAEA7
+         QevdUtR8Chag0mLr5spQWgt50hbvSSAVixg9WuG62RB8T42fb8i3cJabyzE+k5Zj3QH6
+         eXCMgXJvl+e+izffjHNLyVj0hAA4YVsZAVtHR/7TGGCmmn/usBEw6Bg5H5m66WqkTCpI
+         lvbq7CYUbqIRtXRdFMsJlh34pG6kDUmVlr3Dr9McaZnPRHGEDt2izWYSLrqubU0e6x9T
+         M3/wEL2Og8eru9QtZdPLqKpBMtqpyFdJipbEjGWH9o1WXOLRWLhPFhg8KwnazkT4P0LO
+         ZCGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711549564; x=1712154364;
+        d=1e100.net; s=20230601; t=1711549565; x=1712154365;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/jYhOZIN90mWP+0u0VcoqC5jXTTn/s6/ShobANYpGqc=;
-        b=USaHGokN4HfuGKpO/iSbrhfIG9H7h9RODhXZp3duNoWFF5zeESt7TirEt2LMWBfO4g
-         RFjbFc9VhL6AXtrQNPYOHGNL3c5UM1teQo07sqCVjsgPJu/p8udRsp3Ycu/XsylC+QdH
-         Bvb8SiQFBQexvOVFXjPTPzLSwZsxd22YAun4MGhYKNwj7b0FIqzRBFQsZwcgTtxeUEqY
-         VHbm/0dW87C+81bA3e68UMNq2q7amxNwaTEFE4tdu4i0ISvC4EfVKkZtSsXDayA54a2W
-         tq8EkfO1cLW5R6Tp3gVst11QL8cDnytctIfiBzDsigAnOD+Q+yFYi4HC0bshqZWgdLzN
-         VlPA==
-X-Forwarded-Encrypted: i=1; AJvYcCXnWxc2MoxW764t+SVpa1E52NQ17cdIP3PzAsvBvh630Oii9ziaaabCWKLBceKiYGvvI2EJM9rFVdBOD79SimSvW37PbTiS0FsEhMx/
-X-Gm-Message-State: AOJu0YwOa/WmtiuWG4W6umkhiEN0AyyrFhOTCOZytrKxvQ/In9lZU2dB
-	MBfs+P+x5bRgaHS7vf6sv12nb1gUg3O/4GvRxAbtZEJdiQLifJ+XOLCsdGgfCX3ojPF7YC2E2Y9
-	OhSQ=
-X-Google-Smtp-Source: AGHT+IGKmsgW3uTuoJsLFlaDQnJ1ODxpQrVscRAYhYdp2vGdtlnf0B9vShzwxNatiLi84KKh1B5zAg==
-X-Received: by 2002:a05:600c:3507:b0:413:f296:980e with SMTP id h7-20020a05600c350700b00413f296980emr114286wmq.31.1711549563494;
-        Wed, 27 Mar 2024 07:26:03 -0700 (PDT)
+        bh=73OCrYqPUt68WHM39Ot0cX5xtXg6EOrolRVcpBahWYE=;
+        b=mmJeBMheD4AV7udmhzyDkaPoDJrQ4WcTylcrRnNyBXAgG3rfXDIO1VxDvV45oW5WIL
+         EBf1mHO8eAxfvufL6FjKfKvq6eiKI5nBcrpbV7ovVCxBZ24Mu4wZ3jHh0atpmaUaEh7l
+         GxUY718i/JDPDnxfY5ULcoQ6WMk7MbNWDBYXzHR4zWW6nynm3rG0aq4uEXPvia+jQdl7
+         f4PEP/CQO3Daaiip9Idhm2rVzlC8aopGgUPM9bd9MjCp/laIwoQxj1J6e9bGmcDVm6uF
+         h4S6xrPeZUQkckOmY1NtLlgxGNDUfiMOTciBNmsuJApbWrYgexvGO3C/TJgdWvi1Ive0
+         gzhg==
+X-Forwarded-Encrypted: i=1; AJvYcCVh1xCkXUhdizIyKBO1cdTzP3HWPNkJdpr1rIymbl7y3S1VgvM6Lum/tsWyA7L0zvAQ7v73oOd18BL2nNfB0nRYox6Ef+m9BTenqg3x
+X-Gm-Message-State: AOJu0YzLv12aYwq7IawZen/CBinQeLY0YFy2ij4gbaw1E4G3hOIHcsk0
+	WllztAhTR4GqoZmXZKI758gwp7/23e9qL00I0f3fO0tCI/ZFZp9Hu6zDymFEl3Y=
+X-Google-Smtp-Source: AGHT+IFikmKCrEwbGhQWaJgcSA86RpedL07E6S4CyB+EWdx+XRR9TNGvX7Sb7pDA6ciMSYIHD8Nm5A==
+X-Received: by 2002:a05:600c:4f44:b0:414:902c:f8ba with SMTP id m4-20020a05600c4f4400b00414902cf8bamr159238wmq.1.1711549564473;
+        Wed, 27 Mar 2024 07:26:04 -0700 (PDT)
 Received: from blmsp.fritz.box ([2001:4091:a246:821e:6f3b:6b50:4762:8343])
-        by smtp.gmail.com with ESMTPSA id m28-20020a05600c3b1c00b00414688af147sm2300840wms.20.2024.03.27.07.26.02
+        by smtp.gmail.com with ESMTPSA id m28-20020a05600c3b1c00b00414688af147sm2300840wms.20.2024.03.27.07.26.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Mar 2024 07:26:03 -0700 (PDT)
+        Wed, 27 Mar 2024 07:26:04 -0700 (PDT)
 From: Markus Schneider-Pargmann <msp@baylibre.com>
 To: Masahiro Yamada <masahiroy@kernel.org>,
 	Markus Schneider-Pargmann <msp@baylibre.com>
 Cc: linux-kernel@vger.kernel.org,
 	linux-kbuild@vger.kernel.org
-Subject: [RFC 1/2] kconfig: Add helpallconfig
-Date: Wed, 27 Mar 2024 15:25:43 +0100
-Message-ID: <20240327142544.1728286-2-msp@baylibre.com>
+Subject: [RFC 2/2] scripts: Add fzfconfig helper script
+Date: Wed, 27 Mar 2024 15:25:44 +0100
+Message-ID: <20240327142544.1728286-3-msp@baylibre.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240327142544.1728286-1-msp@baylibre.com>
 References: <20240327142544.1728286-1-msp@baylibre.com>
@@ -87,112 +86,157 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-To support a possible fzf driven kconfig script, all config symbols need
-to be printed. As helpnewconfig already provides a very similar list,
-this patch extends that functionality to print all config symbols with a
-new command called helpallconfig.
+Add a script to present all config options in fzf. This allows to fuzzy
+search in all config options and their help texts. It also displays the
+configuration state in the list. A preview window shows the actual
+Kconfig snippet for the config option.
+
+Using 'Enter' in the displayed list will open 'make menuconfig' and
+automatically execute a search for the selected symbol. After that the
+user can use the menuconfig to change the option or do other things.
+After exiting menuconfig the fzf list is refreshed and you can continue
+navigating the list from the point where you entered menuconfig.
 
 Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
 ---
- scripts/kconfig/Makefile |  4 +++-
- scripts/kconfig/conf.c   | 17 +++++++++++++----
- 2 files changed, 16 insertions(+), 5 deletions(-)
+ scripts/fzfconfig        | 112 +++++++++++++++++++++++++++++++++++++++
+ scripts/kconfig/Makefile |   4 ++
+ 2 files changed, 116 insertions(+)
+ create mode 100755 scripts/fzfconfig
 
+diff --git a/scripts/fzfconfig b/scripts/fzfconfig
+new file mode 100755
+index 000000000000..48f9590c1031
+--- /dev/null
++++ b/scripts/fzfconfig
+@@ -0,0 +1,112 @@
++#!/usr/bin/env bash
++# SPDX-License-Identifier: GPL-2.0
++#
++# Author: Markus Schneider-Pargmann <msp@baylibre.com>
++#
++# List all config options inside of fzf and offer an easy option to jump to the
++# option in menuconfig
++
++config_script="scripts/config --file $KCONFIG_CONFIG"
++
++history_file="$HOME/.cache/kconfig_fzf.hist"
++
++kconfig_fzf_clenup_on_exit() {
++  rm -f "$menucfgpipe"
++}
++
++kconfig_fzf_oneline_config_items() {
++  make helpallconfig | \
++    grep -vE '^(Type  :|  Depends on:|  Visible if:|Selects:|Selected by|CONFIG_)' | \
++    sed 's/^  Prompt: \(.*\)$/1111111111\11111111111/g' | \
++    tr '\n' ' ' | \
++    sed 's/----- -----/\n/g' | \
++    sed 's/\(^ *\|-----\)//g' | \
++    sed 's/  */ /g' | \
++    sed 's/^\(.*\)1111111111\(.*\)1111111111\(.*\)/\t\2:\1\3/g' | \
++    sed 's/^\([^\t].*\)$/\t:\1/g' | \
++    sed 's/^\(.*\)Symbol: \([^ ]*\) \[\([^]]\{1,40\}\)[^]]*\].*Defined at \([^:]*\):\([0-9]*\) .*$/\4:\5\t:\2\3:\1/g' | \
++    grep -E '^.*:[0-9]*	:.*=.*:'
++}
++
++kconfig_fzf_make_menuconfig() {
++  menucfgpipe="$(mktemp --dry-run)"
++  trap kconfig_fzf_clenup_on_exit EXIT
++  mkfifo "$menucfgpipe"
++
++  make menuconfig < "$menucfgpipe" &
++  menuconfigpid=$!
++
++  echo "/^${1}\$" > "$menucfgpipe"
++
++  cat > "$menucfgpipe" < /dev/stdin &
++  redirectpid=$!
++
++  wait $menuconfigpid
++  kill $redirectpid
++}
++
++kconfig_fzf_get_catcmd() {
++  for cmd in bat batcat
++  do
++    if which $cmd > /dev/null
++    then
++      echo $cmd \
++        --paging=never \
++        --force-colorization \
++        --highlight-line {2}
++      return
++    fi
++  done
++  echo 'echo -e "+----------\n| "File: {1}:{2}"\n+----------"; cat --number'
++  exit 0
++}
++
++kconfig_fzf_command() {
++  menuconfig_action="execute(bash -c \"source $0;"' kconfig_fzf_make_menuconfig \$(echo {3} | cut -d '=' -f 1)")'
++  reload_action="reload(bash -c 'source $0; kconfig_fzf_oneline_config_items')"
++  catcmd="$(kconfig_fzf_get_catcmd)"
++
++  kconfig_fzf_oneline_config_items | column --table --separator '	' | \
++    env SHELL=/bin/bash \
++    fzf \
++      --history="$history_file" \
++      --tiebreak=begin \
++      --delimiter=: \
++      --nth=.. \
++      --with-nth=3,4 \
++      --preview "$catcmd"' \
++        "${srctree:-.}/"{1}' \
++      --preview-window 'right,90,+{2}-5,~3' \
++      --bind "ctrl-r:${reload_action}" \
++      --bind "ctrl-g:execute(echo \"'{}'\"; read)" \
++      --bind "enter:${menuconfig_action}+${reload_action}" \
++      --header 'enter: Open in menuconfig, ctrl-r: Reload, esc: Exit'
++    if [ "$?" -eq 130 ]
++    then
++      return 0
++    fi
++    return "$ret"
++}
++
++if [ "$#" -gt "0" ]
++then
++  echo "USAGE: $0"
++  echo ""
++  echo "Show all kconfig symbols in fzf and open selected item on enter in make menuconfig."
++  echo ""
++  echo "You can fuzzy search in these data fields: <KCONFIG_FILE>:<LINENO>:<CONFIG_SYMBOL>=<VALUE>:<PROMPT>:<HELP>."
++  echo "Not all fields are visible but the search is still done."
++  echo "A preview of the Kconfig file is shown on the right side."
++  echo ""
++  echo "Key bindings:"
++  echo "  Enter : Open symbol in make menuconfig"
++  echo "  CTRL-r: Reload config symbols"
++  echo "  Escape: Exit"
++  exit 0
++fi
++
++(return 0 2>/dev/null) && kconfig_fzf_sourced=1
++if [ "$kconfig_fzf_sourced" != "1" ]
++then
++  kconfig_fzf_command
++fi
 diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
-index ea1bf3b3dbde..87df82c03afb 100644
+index 87df82c03afb..1f47b9ae9786 100644
 --- a/scripts/kconfig/Makefile
 +++ b/scripts/kconfig/Makefile
-@@ -77,7 +77,8 @@ localyesconfig localmodconfig: $(obj)/conf
- #  deprecated for external use
- simple-targets := oldconfig allnoconfig allyesconfig allmodconfig \
- 	alldefconfig randconfig listnewconfig olddefconfig syncconfig \
--	helpnewconfig yes2modconfig mod2yesconfig mod2noconfig
-+	helpallconfig helpnewconfig yes2modconfig mod2yesconfig \
-+	mod2noconfig
+@@ -124,6 +124,10 @@ testconfig: $(obj)/conf
+ 	$(if $(findstring 1,$(KBUILD_VERBOSE)),--capture=no)
+ clean-files += tests/.cache
  
- PHONY += $(simple-targets)
- 
-@@ -147,6 +148,7 @@ help:
- 	@echo  '  mod2yesconfig	  - Change answers from mod to yes if possible'
- 	@echo  '  mod2noconfig	  - Change answers from mod to no if possible'
- 	@echo  '  listnewconfig   - List new options'
-+	@echo  '  helpallconfig   - List all options and help text'
- 	@echo  '  helpnewconfig   - List new options and help text'
- 	@echo  '  olddefconfig	  - Same as oldconfig but sets new symbols to their'
- 	@echo  '                    default value without prompting'
-diff --git a/scripts/kconfig/conf.c b/scripts/kconfig/conf.c
-index b5730061872b..3abc5f6b3a27 100644
---- a/scripts/kconfig/conf.c
-+++ b/scripts/kconfig/conf.c
-@@ -32,6 +32,7 @@ enum input_mode {
- 	defconfig,
- 	savedefconfig,
- 	listnewconfig,
-+	helpallconfig,
- 	helpnewconfig,
- 	olddefconfig,
- 	yes2modconfig,
-@@ -633,13 +634,14 @@ static void check_conf(struct menu *menu)
- 	struct symbol *sym;
- 	struct menu *child;
- 
--	if (!menu_is_visible(menu))
-+	if (input_mode != helpallconfig && !menu_is_visible(menu))
- 		return;
- 
- 	sym = menu->sym;
--	if (sym && !sym_has_value(sym) &&
--	    (sym_is_changeable(sym) ||
--	     (sym_is_choice(sym) && sym_get_tristate_value(sym) == yes))) {
-+	if (input_mode == helpallconfig ||
-+	    (sym && !sym_has_value(sym) &&
-+	     (sym_is_changeable(sym) ||
-+	      (sym_is_choice(sym) && sym_get_tristate_value(sym) == yes)))) {
- 
- 		switch (input_mode) {
- 		case listnewconfig:
-@@ -647,6 +649,7 @@ static void check_conf(struct menu *menu)
- 				print_symbol_for_listconfig(sym);
- 			break;
- 		case helpnewconfig:
-+		case helpallconfig:
- 			printf("-----\n");
- 			print_help(menu);
- 			printf("-----\n");
-@@ -678,6 +681,7 @@ static const struct option long_opts[] = {
- 	{"alldefconfig",  no_argument,       &input_mode_opt, alldefconfig},
- 	{"randconfig",    no_argument,       &input_mode_opt, randconfig},
- 	{"listnewconfig", no_argument,       &input_mode_opt, listnewconfig},
-+	{"helpallconfig", no_argument,       &input_mode_opt, helpallconfig},
- 	{"helpnewconfig", no_argument,       &input_mode_opt, helpnewconfig},
- 	{"olddefconfig",  no_argument,       &input_mode_opt, olddefconfig},
- 	{"yes2modconfig", no_argument,       &input_mode_opt, yes2modconfig},
-@@ -696,6 +700,7 @@ static void conf_usage(const char *progname)
- 	printf("\n");
- 	printf("Mode options:\n");
- 	printf("  --listnewconfig         List new options\n");
-+	printf("  --helpallconfig         List all options and help text\n");
- 	printf("  --helpnewconfig         List new options and help text\n");
- 	printf("  --oldaskconfig          Start a new configuration using a line-oriented program\n");
- 	printf("  --oldconfig             Update a configuration using a provided .config as base\n");
-@@ -783,6 +788,7 @@ int main(int ac, char **av)
- 	case oldaskconfig:
- 	case oldconfig:
- 	case listnewconfig:
-+	case helpallconfig:
- 	case helpnewconfig:
- 	case olddefconfig:
- 	case yes2modconfig:
-@@ -888,6 +894,9 @@ int main(int ac, char **av)
- 			check_conf(&rootmenu);
- 		} while (conf_cnt);
- 		break;
-+	case helpallconfig:
-+		check_conf(&rootmenu);
-+		break;
- 	case olddefconfig:
- 	default:
- 		break;
++PHONY += fzfconfig
++fzfconfig:
++	$(srctree)/scripts/fzfconfig
++
+ # Help text used by make help
+ help:
+ 	@echo  'Configuration targets:'
 -- 
 2.43.0
 
