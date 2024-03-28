@@ -1,48 +1,43 @@
-Return-Path: <linux-kbuild+bounces-1374-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1375-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 069B288F370
-	for <lists+linux-kbuild@lfdr.de>; Thu, 28 Mar 2024 01:14:55 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D561488F7B0
+	for <lists+linux-kbuild@lfdr.de>; Thu, 28 Mar 2024 07:09:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B001D1F2B8DC
-	for <lists+linux-kbuild@lfdr.de>; Thu, 28 Mar 2024 00:14:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 130D51C231C5
+	for <lists+linux-kbuild@lfdr.de>; Thu, 28 Mar 2024 06:09:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D890EBB;
-	Thu, 28 Mar 2024 00:14:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cLqueXr2"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B20F4E1A0;
+	Thu, 28 Mar 2024 06:09:13 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx3.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2CFB193;
-	Thu, 28 Mar 2024 00:14:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 988F914277;
+	Thu, 28 Mar 2024 06:09:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.14.17.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711584890; cv=none; b=ZMNmRpfwZfpQckhrCZMy+Cl7gvHdkPbE16XXOJHpFqXn+6OF4W9lJiybb+X/MF3RlTMMpc/bzxxUx6aVr1HWSR3qu3a0xu9eQEycx7Rk8NcTKBbR+bpq8j5BHW+0FXz6bEcVifoErceXLShmWzCUhPKNJ6Ar7UzD8EjM7bNxxoI=
+	t=1711606153; cv=none; b=MzcJ6xNAW5euH8D/NvF2Ko7AovWxttfnyoaA2HGRN75VgTz1ZXKIXf0UQ7xclJx03QrwzvDZSS/kzc/wqz/OUSIG7/5xvHowWR46wDKIETJN6jPkhK57c6mkIEP5glE29sAHsbErVx0kAgqg8AlMMJJ2anReW3TgViLMtYu7750=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711584890; c=relaxed/simple;
-	bh=U3whqh+h92djJE+ccHeIUYy3OdXDp6502ZbzZd20Pn8=;
+	s=arc-20240116; t=1711606153; c=relaxed/simple;
+	bh=+i2F6DW2GNLwpToQNQFxJtu2jz3a80e3NjyzRWX721w=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bw7fmsXPgawrsEE36WAKW2k4oF/5sYh0Dy5FrspgQNjMvPOxPpExQ4JplS5Ux1DGu58r9wjXBZ4QH8YH6Kvsd957WJ6N6ncsWQshheQa6fqTujhDpdgNyijVy6G4Qq9I74lh9V9BnZ3Ymmi/VBdnsWhFqmzVaS14Dw/kVraxEbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cLqueXr2; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5326C433C7;
-	Thu, 28 Mar 2024 00:14:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711584889;
-	bh=U3whqh+h92djJE+ccHeIUYy3OdXDp6502ZbzZd20Pn8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=cLqueXr25I4JUW7585rVHtP94MotWv+ODQVGmFJiXRwpTgKY1XWSavwUXk839LPtx
-	 /PaUrpm97GfJ6+UG/OMZfHNaAyz8KtAWdGKENsGEnZf+2PHElGhyVg3a4UItsZutIi
-	 eRwkX7zWil/wNa2tfMfBGHxRXZKgJArgMrITAjWTvNMRDYh/i/ZdnKkhxKgi8NTZtP
-	 A/4jPBhgn/uXPaK8qoJ3cQGEhXiKZJq8sXH9sXNmfL6fMMrxAh70yjntnFPPGoTEVX
-	 OGT+Gkqz16Y2c5ExeyGzFhiLe6mLnYURo+l/RJF3Fu95FCUKY7tbkhOwgiVAV+YaNH
-	 ltdmt2IY6e5gQ==
-Message-ID: <5c4f29c7-2f43-4615-bb1d-081e62688707@kernel.org>
-Date: Thu, 28 Mar 2024 09:14:46 +0900
+	 In-Reply-To:Content-Type; b=RkD2pOWw+FtD8pV5ZG3v0UE1kHxLR+etJd2wxMwV1oow0RO+95nhpsWpj7ITGAk2Sqtfq1v255e1u0eXqaa4/mKkNvQH/lkr2KgdwnxcAv7D8AK6h3H3X/NvwUIHUcc7XHMSf7eT8YyV+Yo2gDQZmyCNRitnnm5WhSsO2lM5/jk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de; spf=pass smtp.mailfrom=molgen.mpg.de; arc=none smtp.client-ip=141.14.17.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=molgen.mpg.de
+Received: from [192.168.0.2] (ip5f5af3ec.dynamic.kabel-deutschland.de [95.90.243.236])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: pmenzel)
+	by mx.molgen.mpg.de (Postfix) with ESMTPSA id 39D4961E5FE3D;
+	Thu, 28 Mar 2024 07:07:37 +0100 (CET)
+Message-ID: <a3dc1d15-a606-442c-a530-4da0abf1662d@molgen.mpg.de>
+Date: Thu, 28 Mar 2024 07:07:34 +0100
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -50,51 +45,43 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 10/12] sata: sx4: fix pdc20621_get_from_dimm() on 64-bit
-To: Arnd Bergmann <arnd@arndb.de>, Arnd Bergmann <arnd@kernel.org>,
- linux-kbuild@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>,
- Niklas Cassel <cassel@kernel.org>
-Cc: Nicolas Schier <nicolas@fjasle.eu>, Nathan Chancellor
- <nathan@kernel.org>, John Garry <john.g.garry@oracle.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240326144741.3094687-1-arnd@kernel.org>
- <20240326145348.3318887-1-arnd@kernel.org>
- <d7fd5998-8813-4f29-a8d2-b82adbdec11c@kernel.org>
- <019b81ac-6ecb-44f4-b878-7a6f734010e7@app.fastmail.com>
+Subject: Re: [PATCH] kbuild: Disable KCSAN for autogenerated *.mod.c
+ intermediaries
+To: Borislav Petkov <bp@alien8.de>, Masahiro Yamada <masahiroy@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
+ linux-kbuild@vger.kernel.org
+Cc: Marco Elver <elver@google.com>, Nikolay Borisov <nik.borisov@suse.com>,
+ Josh Poimboeuf <jpoimboe@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ LKML <linux-kernel@vger.kernel.org>, kasan-dev@googlegroups.com,
+ David Kaplan <David.Kaplan@amd.com>
+References: <0851a207-7143-417e-be31-8bf2b3afb57d@molgen.mpg.de>
+ <47e032a0-c9a0-4639-867b-cb3d67076eaf@suse.com>
+ <20240326155247.GJZgLvT_AZi3XPPpBM@fat_crate.local>
+ <80582244-8c1c-4eb4-8881-db68a1428817@suse.com>
+ <20240326191211.GKZgMeC21uxi7H16o_@fat_crate.local>
+ <CANpmjNOcKzEvLHoGGeL-boWDHJobwfwyVxUqMq2kWeka3N4tXA@mail.gmail.com>
+ <20240326202548.GLZgMvTGpPfQcs2cQ_@fat_crate.local>
 Content-Language: en-US
-From: Damien Le Moal <dlemoal@kernel.org>
-Organization: Western Digital Research
-In-Reply-To: <019b81ac-6ecb-44f4-b878-7a6f734010e7@app.fastmail.com>
-Content-Type: text/plain; charset=UTF-8
+From: Paul Menzel <pmenzel@molgen.mpg.de>
+In-Reply-To: <20240326202548.GLZgMvTGpPfQcs2cQ_@fat_crate.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 3/28/24 05:21, Arnd Bergmann wrote:
-> On Wed, Mar 27, 2024, at 02:36, Damien Le Moal wrote:
->> On 3/26/24 23:53, Arnd Bergmann wrote:
->>
->>> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
->>
->> Looks good to me. I can take the patch through libata tree, unless you prefer
->> taking the whole series ?
-> 
-> Please merge it through your tree.
+Dear Borislav,
 
-Applied to for-6.9-fixes with a fixed up patch title prefix ("ata: sata_sx4:
-..."). Thanks !
 
-> 
->> In case it is the latter:
->>
->> Acked-by: Damien Le Moal <dlemoal@kernel.org>
->>
-> 
-> Thanks,
-> 
->     Arnd
+Thank you and the others very much for coming up with a patch so quickly.
 
--- 
-Damien Le Moal
-Western Digital Research
+Tested-by: Paul Menzel <pmenzel@molgen.mpg.de> # Dell XPS 13 
+9360/0596KF, BIOS 2.21.0 06/02/2022
 
+
+Kind regards,
+
+Paul
+
+
+PS: Without your patch, I also so it one in QEMU q35, but not consistently.
 
