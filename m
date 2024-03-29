@@ -1,158 +1,107 @@
-Return-Path: <linux-kbuild+bounces-1396-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1397-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F583892348
-	for <lists+linux-kbuild@lfdr.de>; Fri, 29 Mar 2024 19:24:40 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69BB3892444
+	for <lists+linux-kbuild@lfdr.de>; Fri, 29 Mar 2024 20:30:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 565EE282222
-	for <lists+linux-kbuild@lfdr.de>; Fri, 29 Mar 2024 18:24:39 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EE855B23BE7
+	for <lists+linux-kbuild@lfdr.de>; Fri, 29 Mar 2024 19:30:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFF6D137900;
-	Fri, 29 Mar 2024 18:24:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4629139566;
+	Fri, 29 Mar 2024 19:30:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aJxG6mya"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IVV3npmS"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DD3E1DA4C;
-	Fri, 29 Mar 2024 18:24:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66C0B1EEE4;
+	Fri, 29 Mar 2024 19:30:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711736674; cv=none; b=FHwXcSIoqOWT/jA4+3M7W0prkk273mJI1XOBicapBRVBdzE2kAiWoB16hGgMzWlaxJwNUjRsvr9Qr/RLtzjzyxbT6nvo3UwmzpI/whB0fxInjjfja3ajxb+MuhBU2diTyfaCu5WL/hDNL2ft6I5L0EUT6srxxL9MVKVmyF+59/k=
+	t=1711740633; cv=none; b=Y3AO3jOXTEgQYgdkbMV5ewrZXrVKIo6X4CYShjKv6NdKcjbw3VUuXTgX6iKbaKNUnVKVChX5FkkEdkpv3iXyTc2gQOx0ld+O0FfG7VjD1gKw/ao3DGZC7AyK12+hK3ag1Y2SAycLRM/tO1/Ih8FrgIdrAOgSzW7O5mNPsiyhcTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711736674; c=relaxed/simple;
-	bh=Vuh15MQ64+WP/qmGDOm7OXDGS1/VqD57AMvXjy6gqFk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SWboHDYutd8rU2Dk/NdvC4Oif0gCxrTMLdEz+xaT3iNooZOxEYPzngwirSC+dru6ECsOWQjodmLg8jmjKDbrDyO4s9JdUQIgQef17LMQ1nF+ajk/no5RTeIa/91I3xQpKid5imxWddA18pDC4DsKFdOflSrySNCxXWV/1VsKjSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aJxG6mya; arc=none smtp.client-ip=209.85.215.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-5cf2d73a183so2283780a12.1;
-        Fri, 29 Mar 2024 11:24:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711736670; x=1712341470; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BTcT6FpmZPDdNNZs+4hv9a25uOfPmQTokoJd2Ybvc8w=;
-        b=aJxG6myatJabBXke68OBs551dl8SxYWJABiCN8VqpNGapPd9TKtDIobWzcf7NCxi9W
-         aZAKmnlbaXlQ4iaJLJrTpD/RGrzGYti6a4y5mMoJAbbkQXuSQG0q/LaRuXJRU1afJRsG
-         30ZgDmguBIXHp/ELpNTIJrZN2m51G6nrdsTM+nQjuCUrfByH3gnxUPb4ZB0MfbjoSSLT
-         +nKxmgyBrs2jJyL2XmD1LSigKVdDKicgdDJlgc0ey2Ip6a/hHvOsl33ZpTPfKJqfUQws
-         cMVouFv0Ae2qII5W/9giPPx0MYDmXCsazSMVFbMjKcrfeXLbNlnI4sJsZ5SGCQ/amehk
-         EZWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711736670; x=1712341470;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BTcT6FpmZPDdNNZs+4hv9a25uOfPmQTokoJd2Ybvc8w=;
-        b=dip9HWllPg0kK4FYxwJPZeVdS/6vBkxb75H4qsKSvrh2B0knUVJsxSR1T6G20lKQnH
-         FyLqi5LW1QcVaImH0ESBrJ3QrQV+hfP0H32bslBX2L+IIEl6cd8DfEcKf9wzR7dML/cI
-         KdMUexiaKczwb+UbjPUZYBh+jRUWmTgja1s+/stieMUS11uGqO3v2/6ygyfPgGRFRn8k
-         WRPq8I/sFaeYt4BRYaDnqv3FavCX4bSR5X+I9hrHgRbBhz9WT1oGKHvWq5/hfskq+422
-         U7QI8uyZvJsn8Vm1iGVwzCTx071fo4JOwZ21CjQUlx4UhUK/BgaGKNXtmMCcTy4aFF0P
-         Pp0A==
-X-Forwarded-Encrypted: i=1; AJvYcCV8Vg1/ZeLEsqdvnLtf6zbWdRk6C35Zq9lykG6KvQvcUhAVDwXyY48+S2GdLRHxbsyreUGUZhpLfybKiETFA0Ll4YkVjv+y0yEvJMbmul0U/RJbwMN9FsFVVyZi/dIVSXGiCTOZHJx6M7eUcjiYSrLoPrGFq0IBU4BOkETrvg==
-X-Gm-Message-State: AOJu0YwDDAJV2i3tqgL27p5B3OUeA3Q+usdmgp6SgVYZaykYJe24Augb
-	Ck3tlTE1cXx8Zo3vrzOMtPIDv02u2hwbIvdTuBkqj9925Y4Q2qCvQ8pUgM2wqSS+wCZvbXqMklY
-	a3dxRG36pWzqobJipEXbU8fZBsCs=
-X-Google-Smtp-Source: AGHT+IFsDflBbt8eyH8AA5Ww8LHUaL9BgK2B3vWkAUWBTMPDlWZRocD2cQm01IS8ipOY7tuShkuhGvMJvLn3CtHeZF0=
-X-Received: by 2002:a17:90a:b78b:b0:29f:76d4:306a with SMTP id
- m11-20020a17090ab78b00b0029f76d4306amr3867934pjr.24.1711736670529; Fri, 29
- Mar 2024 11:24:30 -0700 (PDT)
+	s=arc-20240116; t=1711740633; c=relaxed/simple;
+	bh=kASKGM3dFtExpzEE03kTs35TIgPe+csliIufLHzIK04=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=UqowPDwocud2Wj+bZuOSSys0qv9GjoET7RZzSWGxGa3G6E/OBej94f4wXaAe8vZCZsubIQhZhS6gBt4K1VKYAff947m6odSezcJPV4n1DrxVukivW4s5hRZyS0HxXvAB5WBwYM8kjXxqlhP2jF38ZpDyzoX86MS8xRz258oc/PA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IVV3npmS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 293A4C43390;
+	Fri, 29 Mar 2024 19:30:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711740633;
+	bh=kASKGM3dFtExpzEE03kTs35TIgPe+csliIufLHzIK04=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=IVV3npmSePL8advnxP77niTJn9r5VWn3Rp+dlR8NGJ9lX2oLIqkoGV+xDPWNxKxDQ
+	 Vy1L2g8YCGgRSXrLc/sQkv/2M4J9jxdAA8SAbhGR8ajFTlmfsqHLf0fvOTAPm2dcKv
+	 R1fVsKFXQ0PjDCVdjZFjTagXNRerIfdbo2okMOvrjklmOXE9qqZC9SCAN3EPi44fip
+	 ZCq07ahttvJ9JoOo07ITMoNBIgDCC6Y+Xv77EcLFfSARbiSqQFxIHg2hw6SwpkmRbP
+	 ts7yiXSanAtz/RnbfgXbCMeoFa7uggmPCtKepIwsnK9u0syfJQLIrvmxPSuoFye3BV
+	 B+EvADBhn/jTg==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 0FC90D2D0EE;
+	Fri, 29 Mar 2024 19:30:33 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240329093356.276289-5-ardb+git@google.com> <20240329093356.276289-8-ardb+git@google.com>
-In-Reply-To: <20240329093356.276289-8-ardb+git@google.com>
-From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Date: Fri, 29 Mar 2024 11:24:18 -0700
-Message-ID: <CAEf4BzYyTjb9MKAD8nP52+9Nx=eNyWxAwfWDBEO881+YuH_XTQ@mail.gmail.com>
-Subject: Re: [PATCH 3/3] btf: Avoid weak external references
-To: Ard Biesheuvel <ardb+git@google.com>
-Cc: linux-kernel@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Martin KaFai Lau <martin.lau@linux.dev>, linux-arch@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, bpf@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 0/9] enabled -Wformat-truncation for clang
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <171174063305.18563.745216419087873927.git-patchwork-notify@kernel.org>
+Date: Fri, 29 Mar 2024 19:30:33 +0000
+References: <20240326223825.4084412-1-arnd@kernel.org>
+In-Reply-To: <20240326223825.4084412-1-arnd@kernel.org>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: llvm@lists.linux.dev, arnd@arndb.de, dmitry.torokhov@gmail.com,
+ claudiu.manoil@nxp.com, vladimir.oltean@nxp.com, kuba@kernel.org,
+ saeedm@nvidia.com, leon@kernel.org, aelior@marvell.com, manishc@marvell.com,
+ hdegoede@redhat.com, ilpo.jarvinen@linux.intel.com, luzmaximilian@gmail.com,
+ hare@kernel.org, martin.petersen@oracle.com, deller@gmx.de,
+ masahiroy@kernel.org, nathan@kernel.org, nicolas@fjasle.eu,
+ johannes@sipsolutions.net, perex@perex.cz, tiwai@suse.com,
+ ndesaulniers@google.com, morbo@google.com, justinstitt@google.com,
+ linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
+ platform-driver-x86@vger.kernel.org, linux-scsi@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kbuild@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
 
-On Fri, Mar 29, 2024 at 2:35=E2=80=AFAM Ard Biesheuvel <ardb+git@google.com=
-> wrote:
->
-> From: Ard Biesheuvel <ardb@kernel.org>
->
-> If the BTF code is enabled in the build configuration, the start/stop
-> BTF markers are guaranteed to exist in the final link but not during the
-> first linker pass.
->
-> Avoid GOT based relocations to these markers in the final executable by
-> providing preliminary definitions that will be used by the first linker
-> pass, and superseded by the actual definitions in the subsequent ones.
->
-> Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
-> ---
->  include/asm-generic/vmlinux.lds.h | 2 ++
->  kernel/bpf/btf.c                  | 4 ++--
->  2 files changed, 4 insertions(+), 2 deletions(-)
->
-> diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmli=
-nux.lds.h
-> index e8449be62058..141bddb511ee 100644
-> --- a/include/asm-generic/vmlinux.lds.h
-> +++ b/include/asm-generic/vmlinux.lds.h
-> @@ -456,6 +456,8 @@
->   * independent code.
->   */
->  #define PRELIMINARY_SYMBOL_DEFINITIONS                                 \
-> +       PROVIDE(__start_BTF =3D .);                                      =
- \
-> +       PROVIDE(__stop_BTF =3D .);                                       =
- \
+Hello:
 
-should this be guarded by CONFIG_DEBUG_INFO_BTF condition?
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
->         PROVIDE(kallsyms_addresses =3D .);                               =
- \
->         PROVIDE(kallsyms_offsets =3D .);                                 =
- \
->         PROVIDE(kallsyms_names =3D .);                                   =
- \
-> diff --git a/kernel/bpf/btf.c b/kernel/bpf/btf.c
-> index 90c4a32d89ff..46a56bf067a8 100644
-> --- a/kernel/bpf/btf.c
-> +++ b/kernel/bpf/btf.c
-> @@ -5642,8 +5642,8 @@ static struct btf *btf_parse(const union bpf_attr *=
-attr, bpfptr_t uattr, u32 uat
->         return ERR_PTR(err);
->  }
->
-> -extern char __weak __start_BTF[];
-> -extern char __weak __stop_BTF[];
-> +extern char __start_BTF[];
-> +extern char __stop_BTF[];
+On Tue, 26 Mar 2024 23:37:59 +0100 you wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> With randconfig build testing, I found only eight files that produce
+> warnings with clang when -Wformat-truncation is enabled. This means
+> we can just turn it on by default rather than only enabling it for
+> "make W=1".
+> 
+> [...]
 
-kernel/bpf/sysfs_btf.c also defines __weak externs for these symbols,
-you probably need to adjust that as well?
+Here is the summary with links:
+  - [2/9] enetc: avoid truncating error message
+    https://git.kernel.org/netdev/net-next/c/9046d581ed58
+  - [3/9] qed: avoid truncating work queue length
+    https://git.kernel.org/netdev/net-next/c/954fd908f177
+  - [4/9] mlx5: avoid truncating error message
+    https://git.kernel.org/netdev/net-next/c/b324a960354b
 
-Other than that looks good to me:
-
-Acked-by: Andrii Nakryiko <andrii@kernel.org>
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
->  extern struct btf *btf_vmlinux;
->
->  #define BPF_MAP_TYPE(_id, _ops)
-> --
-> 2.44.0.478.gd926399ef9-goog
->
->
 
