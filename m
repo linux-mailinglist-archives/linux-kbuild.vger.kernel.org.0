@@ -1,108 +1,109 @@
-Return-Path: <linux-kbuild+bounces-1399-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1400-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6B8E892489
-	for <lists+linux-kbuild@lfdr.de>; Fri, 29 Mar 2024 20:50:04 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18BAA8924BB
+	for <lists+linux-kbuild@lfdr.de>; Fri, 29 Mar 2024 21:00:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A21B5282FA2
-	for <lists+linux-kbuild@lfdr.de>; Fri, 29 Mar 2024 19:50:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A99571F21C3E
+	for <lists+linux-kbuild@lfdr.de>; Fri, 29 Mar 2024 20:00:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 269D513BADD;
-	Fri, 29 Mar 2024 19:49:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66AEE13B2B4;
+	Fri, 29 Mar 2024 20:00:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EqD6DUbT"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ibdChtO/"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A19EF13B79B;
-	Fri, 29 Mar 2024 19:49:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1920A131E59;
+	Fri, 29 Mar 2024 20:00:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711741755; cv=none; b=kMU8ITrzK4MP24eBHCTITbFqTysO9Cw8XF4JJF7wIfNF6YWacSM/1cSY4P9bDbs8ygfeMDN9ARkTxaUTGJgTMmjEQvgUthby1apWy3juf7sl6V/H0StOoxUJiGYlHyVU/n2GJ2padnsoLv5o5gMYIuftpb3iYowUbJEmt1GBIek=
+	t=1711742437; cv=none; b=U+/SbMjZXFFV5DmCRmBAAN7gMYg3DReVOIIFVGEM1/cPwThxnzy9A03wNDMZOl2vR/DoXWfFAdUBgB23VhlT62a39SDnxtql4Y26Z8m+28xFqzSUgkFDLruM3/R0yMGgzHhPoE2hvwd96fiOjGyCXt+1v9kNkndBXOn8oEd2nZ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711741755; c=relaxed/simple;
-	bh=sJ+UaoCLh7AzLciVOQ3NMwemWc0ufeeQ/hmoF9nh+m8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gA3V0B6YRS1+DwDSBef8YbIS7a8n2k/Y/vmPidkDz/ChepphggY5mPK8vQ13EkzyXKqa6V15h3IMYay/pL5tjEdDgRO6X5fy+QYvg9iPgbtKngMyipGyM6isq2MGprsHMirZIVHZ3ef/Rctxq6XvjHFDUg1GlIwHgHr42B6GmTk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EqD6DUbT; arc=none smtp.client-ip=209.85.216.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-29f69710cbbso1587763a91.1;
-        Fri, 29 Mar 2024 12:49:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711741753; x=1712346553; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sJ+UaoCLh7AzLciVOQ3NMwemWc0ufeeQ/hmoF9nh+m8=;
-        b=EqD6DUbTtry/xdO1OjL6c1VJOwQnyMnoy8kJDEwqaougn7wdtvm775I61Lh4Ue1ScQ
-         rfoJRE/H6tV4rK0wLQy0Dbh8+F+Iky9RCOCGLr8HMhpTAcweB2Oogr7P8UJlJrnzv+Lb
-         APTDMxzvV0d7IsKUo/ekE7kMAqV/HESn7GfTm0jm9ogSvx+4kc/CIHLHA9lK2Wo8KGSY
-         e6r6BEWD2he6G2vOeyxqxPjZ43OZZTZdbIYTxnAQsSJd7Y/Soe6gz7GorfKv59pZo6Zj
-         8kdk04wrP2hRATmaPBHQBPG/6IBTLVQwYl2Yk7o87jIXGPfmzA5pNESHTA0a8IxfeySb
-         p8CA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711741753; x=1712346553;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sJ+UaoCLh7AzLciVOQ3NMwemWc0ufeeQ/hmoF9nh+m8=;
-        b=ihFnJCD/chgoXCbJ/yYtg2Ecc03vmX3TcwL5xHGaYR5nMKjftFW4EgeatZKGLcWIrz
-         fy99RhnYstbpKsnN3UxghBDo1KVmlzGZTTPNTm1blagy24IiL4bmFW81zxptkWPWuLDq
-         Mtlic6qQcxfnYMLKe4/UBasQ5F0GUtqe35JSwDVIPorI1zZqJtiHsFmkGc//xdQlX7VA
-         LDuNhiFIj17pJSDO/2VTxOz77Gwal76gsmo+oa6kOWgc5ma/b7jEf/BBrceQ52MdwGiI
-         Rba6YTJMlor0UoQeCWG6uhREqm7KPZMYYh4Kv7puoZGBLlEJpEyzCp8Dns1r+7CH+he9
-         UVgg==
-X-Forwarded-Encrypted: i=1; AJvYcCUWoeF2rDh0x+8VcqvM66ZGK3on+TZ67Bvhi73r2+Bd8pXn+CEh8FPouRcZnn66cOz607q5//XM04IXIHWVEtBry+/1Ipg23j/EsPerae7hvk3iZwQtW/fOz+gth2kHapDsFqgD1dfiKHp8bNARY1NR3duowgEgyRSnQeEe5xlJ2MXdbECEl1+0ZRA=
-X-Gm-Message-State: AOJu0YwU3mBnbMDJWHNMgCmSCIySGLNnJ/5SlsO7WS0kRNLyTyQvhjBF
-	iY3aHNmh4ndsR+3dw71Le19tyc2jZBMUw6CGyD7J6WJ+l1ehJcOe+XVu4TDRxIGs5mN/biNWxDy
-	h2Ha3XT3bRxUlff1Bng2K8fdDcps=
-X-Google-Smtp-Source: AGHT+IHOS/4TcCdBp8AgH2utv2wzrfe7U/6wBTLC8E1hnxWIey6SVgZ3g1TxwoMe1ZNo2sz/IHrk/09TAhBFWFojriE=
-X-Received: by 2002:a17:90a:c391:b0:29d:fb99:7dcc with SMTP id
- h17-20020a17090ac39100b0029dfb997dccmr8838505pjt.18.1711741753063; Fri, 29
- Mar 2024 12:49:13 -0700 (PDT)
+	s=arc-20240116; t=1711742437; c=relaxed/simple;
+	bh=O10HO98LXxHRjwwegetD1LC2QarBz8wOkuidkGTxkic=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=PnBmFAmNiNutZAk0OAiRfOfj4Z2HD6NoW97nrh2+lO5n6JMkXzTn3Ihn7SnnGPbDb9SMGZsG4adEqxuLnV30VfuxMDc4fgkYIMiyQCOsPWJT8o7iIwlxXVMZY4IqORrEwr2MotYud95+XXa7IkqNz6Nheiojtzqm8ru8lXqtTjg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ibdChtO/; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 88958C43399;
+	Fri, 29 Mar 2024 20:00:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711742436;
+	bh=O10HO98LXxHRjwwegetD1LC2QarBz8wOkuidkGTxkic=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=ibdChtO/bXootBctSxklNeA7bYCBts1UgwUFhft4x2sjMGXGiyQ6xGf96V2e0eOA1
+	 ODq9Ia/6579epCaP4lnUDfDLkut5fsOWeaFbJF7me6TstZSBLf3BMrkYDf55Adi731
+	 zHrMkkINKMdPiMUb6gLSoTWBG++DiMupsV5KEmKMPytdOQEZ4kBSph0dMZLkdeLFkK
+	 EbluA1me7aURKnJpRkImBfuddbCDZ41vUC7YUj2cCjTbvsHIIgprJTvRvr6boPp1Ff
+	 UJoxCMbUZIsBcLic6mF8suqylfUb00h7TTGot8oyp8sxfTR9PMGMw0bRiDFpkQ8O6Y
+	 waG7vYyhosOoA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 7B142D84BAF;
+	Fri, 29 Mar 2024 20:00:36 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240217002622.57322-1-ojeda@kernel.org>
-In-Reply-To: <20240217002622.57322-1-ojeda@kernel.org>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Fri, 29 Mar 2024 20:48:39 +0100
-Message-ID: <CANiq72nD4dLDRN09YC+TeFKsjF8Kmh9UyP6Za4g6RRLixjN+Kg@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: rust: use `-Zdebuginfo-compression`
-To: Miguel Ojeda <ojeda@kernel.org>
-Cc: Wedson Almeida Filho <wedsonaf@gmail.com>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
-	Alice Ryhl <aliceryhl@google.com>, Masahiro Yamada <masahiroy@kernel.org>, 
-	linux-kbuild@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, patches@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 0/9] address remaining
+ -Wtautological-constant-out-of-range-compare
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <171174243650.4906.1760676317968487901.git-patchwork-notify@kernel.org>
+Date: Fri, 29 Mar 2024 20:00:36 +0000
+References: <20240328143051.1069575-1-arnd@kernel.org>
+In-Reply-To: <20240328143051.1069575-1-arnd@kernel.org>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: linux-kernel@vger.kernel.org, arnd@arndb.de, idryomov@gmail.com,
+ dongsheng.yang@easystack.cn, axboe@kernel.dk, jgg@ziepe.ca, leon@kernel.org,
+ agk@redhat.com, snitzer@kernel.org, mpatocka@redhat.com,
+ dm-devel@lists.linux.dev, saeedm@nvidia.com, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, xiubli@redhat.com,
+ jlayton@kernel.org, konishi.ryusuke@gmail.com, dvyukov@google.com,
+ andreyknvl@gmail.com, dsahern@kernel.org, masahiroy@kernel.org,
+ nathan@kernel.org, nicolas@fjasle.eu, ndesaulniers@google.com,
+ morbo@google.com, justinstitt@google.com, keescook@chromium.org,
+ gustavoars@kernel.org, tariqt@nvidia.com, ceph-devel@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
+ netdev@vger.kernel.org, linux-nilfs@vger.kernel.org,
+ kasan-dev@googlegroups.com, linux-kbuild@vger.kernel.org,
+ llvm@lists.linux.dev
 
-On Sat, Feb 17, 2024 at 1:26=E2=80=AFAM Miguel Ojeda <ojeda@kernel.org> wro=
-te:
->
-> Rust 1.74.0 introduced (unstable) support for the
-> `-Zdebuginfo-compression` flag, thus use it.
->
-> Link: https://github.com/rust-lang/rust/issues/120953
-> Link: https://github.com/rust-lang/rust/pull/115358
-> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+Hello:
 
-[ Added note about zstd support in Rust-provided binaries. ]
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-Applied to `rust-next` -- please feel free to still send reviews or
-tested-bys for this one!
+On Thu, 28 Mar 2024 15:30:38 +0100 you wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> The warning option was introduced a few years ago but left disabled
+> by default. All of the actual bugs that this has found have been
+> fixed in the meantime, and this series should address the remaining
+> false-positives, as tested on arm/arm64/x86 randconfigs as well as
+> allmodconfig builds for all architectures supported by clang.
+> 
+> [...]
 
-Cheers,
-Miguel
+Here is the summary with links:
+  - [2/9] libceph: avoid clang out-of-range warning
+    (no matching commit)
+  - [5/9] ipv4: tcp_output: avoid warning about NET_ADD_STATS
+    (no matching commit)
+  - [8/9] mlx5: stop warning for 64KB pages
+    https://git.kernel.org/netdev/net-next/c/a5535e533694
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
 
