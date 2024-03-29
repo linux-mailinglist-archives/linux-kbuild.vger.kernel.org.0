@@ -1,107 +1,106 @@
-Return-Path: <linux-kbuild+bounces-1397-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1398-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69BB3892444
-	for <lists+linux-kbuild@lfdr.de>; Fri, 29 Mar 2024 20:30:43 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD2B889247C
+	for <lists+linux-kbuild@lfdr.de>; Fri, 29 Mar 2024 20:49:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EE855B23BE7
-	for <lists+linux-kbuild@lfdr.de>; Fri, 29 Mar 2024 19:30:40 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 32A6BB22098
+	for <lists+linux-kbuild@lfdr.de>; Fri, 29 Mar 2024 19:49:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4629139566;
-	Fri, 29 Mar 2024 19:30:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6399213A244;
+	Fri, 29 Mar 2024 19:49:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IVV3npmS"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KJG2iTV+"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66C0B1EEE4;
-	Fri, 29 Mar 2024 19:30:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F245E139CFF;
+	Fri, 29 Mar 2024 19:49:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711740633; cv=none; b=Y3AO3jOXTEgQYgdkbMV5ewrZXrVKIo6X4CYShjKv6NdKcjbw3VUuXTgX6iKbaKNUnVKVChX5FkkEdkpv3iXyTc2gQOx0ld+O0FfG7VjD1gKw/ao3DGZC7AyK12+hK3ag1Y2SAycLRM/tO1/Ih8FrgIdrAOgSzW7O5mNPsiyhcTQ=
+	t=1711741746; cv=none; b=AQWhmFEFSceKYikUKcFiZuxjyxpG5lag41PD/N+kWR1giVTntAupPbGIou1C1J7tolZ9/ElUshmBwWs6ypXCrpJD+A6rAsyCKDtrliv76z/o1tejlHPmuuiqiCcYq0nws5JivCeBxuSPG3GzMnrB1aPII02sKxAd7kSuc1EzZqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711740633; c=relaxed/simple;
-	bh=kASKGM3dFtExpzEE03kTs35TIgPe+csliIufLHzIK04=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=UqowPDwocud2Wj+bZuOSSys0qv9GjoET7RZzSWGxGa3G6E/OBej94f4wXaAe8vZCZsubIQhZhS6gBt4K1VKYAff947m6odSezcJPV4n1DrxVukivW4s5hRZyS0HxXvAB5WBwYM8kjXxqlhP2jF38ZpDyzoX86MS8xRz258oc/PA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IVV3npmS; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 293A4C43390;
-	Fri, 29 Mar 2024 19:30:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711740633;
-	bh=kASKGM3dFtExpzEE03kTs35TIgPe+csliIufLHzIK04=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=IVV3npmSePL8advnxP77niTJn9r5VWn3Rp+dlR8NGJ9lX2oLIqkoGV+xDPWNxKxDQ
-	 Vy1L2g8YCGgRSXrLc/sQkv/2M4J9jxdAA8SAbhGR8ajFTlmfsqHLf0fvOTAPm2dcKv
-	 R1fVsKFXQ0PjDCVdjZFjTagXNRerIfdbo2okMOvrjklmOXE9qqZC9SCAN3EPi44fip
-	 ZCq07ahttvJ9JoOo07ITMoNBIgDCC6Y+Xv77EcLFfSARbiSqQFxIHg2hw6SwpkmRbP
-	 ts7yiXSanAtz/RnbfgXbCMeoFa7uggmPCtKepIwsnK9u0syfJQLIrvmxPSuoFye3BV
-	 B+EvADBhn/jTg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 0FC90D2D0EE;
-	Fri, 29 Mar 2024 19:30:33 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1711741746; c=relaxed/simple;
+	bh=W3HYFvglRKdilk96vaAk5kw+aBWJdgn/FMqCTcLa4R8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AM6DnlWYweWxt9kYSq3ekQ3XD3SxCJdst9I48DIFr93AWuThHSjswoPodUO9e5fBe6+3IUT19ZCuTdCNbP2m6lpH6Cdykeo434XoDgePAyQANI8l4Y9AJcJqM6IHnVX6LWY/pM/nQltd2kUpY6L7cRP9SByAaLV7F8g48ua3OnE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KJG2iTV+; arc=none smtp.client-ip=209.85.215.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-5c6bd3100fcso1529232a12.3;
+        Fri, 29 Mar 2024 12:49:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711741744; x=1712346544; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=W3HYFvglRKdilk96vaAk5kw+aBWJdgn/FMqCTcLa4R8=;
+        b=KJG2iTV+wJKLFtRUw5JcF/nOgHJRm98Z30itaXpKgacvvYghp4a4o40SoPfxcQQfuT
+         5yKtP6VtzB+15qaWmP8rXLkMoJbL8MhNAbKLJWTRJD2Hxmr4jhj/MB7w/8oyo4qkCuYG
+         lR0Rt6smvX61y1QwY56YwXMg2uSPZeRhamF83pX4mlikxhkaVf23XJOf1v0StqQlIQO8
+         aJxnwrmSzUgbh1ILPxUfKuc8HU/1vLvTd0k2+YaHFxFl9QZo0sE/g0iytU7697ev7c5q
+         iCfHjaHMuo77ReSULOB4cY7lHNbi+ZRHofSjSFx/swsygMERvOuAvcJr+Eq/DgeD7w8c
+         IUIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711741744; x=1712346544;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=W3HYFvglRKdilk96vaAk5kw+aBWJdgn/FMqCTcLa4R8=;
+        b=S5zvSXnDXmWDHRjHBhgY4SxLxrl5x63HyzRo0Tm7smzqGbAfoO7xLqaLAmhkQuATcF
+         iGO7GOkYzY/AIIpNBAKz8rW6fVhgNUT6eiT0HjsjpTxi3ovWdJuxLwSVkj4cshRIWZeO
+         KWsuNZYUIwC8JnyeaJKzEQZM97VeAZI9T1PNaxIeRCbVl8Xy3JcpUFoM2QiLv6T+YrWx
+         LEsM7M+0ab7o89C5fkE9ieGLVwQftncNqx7LR2ka25RduUIHbYUuqKPeE9UNd9gjkzGj
+         4BtVzCKenmoPqgk9ZMLxgY8kRxEVWnFg8y2hV/P/RZKRKt0oB4oAKvwdVrHV22yZQKEM
+         I+jw==
+X-Forwarded-Encrypted: i=1; AJvYcCX6UfonKDhIkCws/xFoFTbeMMWlH6fcTzfWVjtbEumJq0bjeIAIkUuByBVF7GrgANyuVcdZQmyr5yViRhafOVra2MeBcvHBaCAqCrueYEMnFww2kpIQwMeijR98Yy/lW4DIKUMDZQRICUZeqwL7XxrwWfoZHqcumRhcLJ3OpQq/P/b8lKb+8q8zYhQ=
+X-Gm-Message-State: AOJu0YxleNkqCz7cWUngbQV4V7NtpmAo+wL6CsDXR3sqP+6adJveCBP8
+	bQhdRiXrKzjyGGka+RdOChO7YTMqkvzc00zscJVl2OHJW6Mvb9cbX3aww6npx+yS/K87WNa+Dpr
+	PZ8f/cXNxh4DIbBhbOKEvG1lRZuo=
+X-Google-Smtp-Source: AGHT+IGEy6+3uxyFBSJbr3Fn4p72c4+8xBi7LoZEISiKilxJyP7xbAbgAPG4swR5ei++MiSvRWyZIl812IgvpWiaf6I=
+X-Received: by 2002:a17:90a:3ee6:b0:2a0:3a16:7489 with SMTP id
+ k93-20020a17090a3ee600b002a03a167489mr2889022pjc.44.1711741744273; Fri, 29
+ Mar 2024 12:49:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH 0/9] enabled -Wformat-truncation for clang
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <171174063305.18563.745216419087873927.git-patchwork-notify@kernel.org>
-Date: Fri, 29 Mar 2024 19:30:33 +0000
-References: <20240326223825.4084412-1-arnd@kernel.org>
-In-Reply-To: <20240326223825.4084412-1-arnd@kernel.org>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: llvm@lists.linux.dev, arnd@arndb.de, dmitry.torokhov@gmail.com,
- claudiu.manoil@nxp.com, vladimir.oltean@nxp.com, kuba@kernel.org,
- saeedm@nvidia.com, leon@kernel.org, aelior@marvell.com, manishc@marvell.com,
- hdegoede@redhat.com, ilpo.jarvinen@linux.intel.com, luzmaximilian@gmail.com,
- hare@kernel.org, martin.petersen@oracle.com, deller@gmx.de,
- masahiroy@kernel.org, nathan@kernel.org, nicolas@fjasle.eu,
- johannes@sipsolutions.net, perex@perex.cz, tiwai@suse.com,
- ndesaulniers@google.com, morbo@google.com, justinstitt@google.com,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
- platform-driver-x86@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kbuild@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
+References: <20240217002602.57270-1-ojeda@kernel.org>
+In-Reply-To: <20240217002602.57270-1-ojeda@kernel.org>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Fri, 29 Mar 2024 20:48:30 +0100
+Message-ID: <CANiq72kuaEtsf2i=wE3H9sEzDAa9864DXQN7nJuO3nPs8fFSJg@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: rust: use `-Zdwarf-version` to support DWARFv5
+To: Miguel Ojeda <ojeda@kernel.org>
+Cc: Wedson Almeida Filho <wedsonaf@gmail.com>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
+	Alice Ryhl <aliceryhl@google.com>, Masahiro Yamada <masahiroy@kernel.org>, 
+	linux-kbuild@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, patches@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello:
+On Sat, Feb 17, 2024 at 1:26=E2=80=AFAM Miguel Ojeda <ojeda@kernel.org> wro=
+te:
+>
+> Rust 1.64.0 introduced (unstable) support for the `-Zdwarf-version`
+> flag, which allows to select DWARFv5, thus use it.
+>
+> Link: https://github.com/rust-lang/rust/issues/103057
+> Link: https://github.com/rust-lang/rust/pull/98350
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 
-This series was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+Applied to `rust-next` -- please feel free to still send reviews or
+tested-bys for this one!
 
-On Tue, 26 Mar 2024 23:37:59 +0100 you wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> With randconfig build testing, I found only eight files that produce
-> warnings with clang when -Wformat-truncation is enabled. This means
-> we can just turn it on by default rather than only enabling it for
-> "make W=1".
-> 
-> [...]
-
-Here is the summary with links:
-  - [2/9] enetc: avoid truncating error message
-    https://git.kernel.org/netdev/net-next/c/9046d581ed58
-  - [3/9] qed: avoid truncating work queue length
-    https://git.kernel.org/netdev/net-next/c/954fd908f177
-  - [4/9] mlx5: avoid truncating error message
-    https://git.kernel.org/netdev/net-next/c/b324a960354b
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Cheers,
+Miguel
 
