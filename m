@@ -1,224 +1,244 @@
-Return-Path: <linux-kbuild+bounces-1408-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1409-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 558B3892BCE
-	for <lists+linux-kbuild@lfdr.de>; Sat, 30 Mar 2024 16:20:34 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3947892DA4
+	for <lists+linux-kbuild@lfdr.de>; Sat, 30 Mar 2024 23:33:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0FF8C283B04
-	for <lists+linux-kbuild@lfdr.de>; Sat, 30 Mar 2024 15:20:33 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 117B7B21678
+	for <lists+linux-kbuild@lfdr.de>; Sat, 30 Mar 2024 22:33:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DF4F381C9;
-	Sat, 30 Mar 2024 15:20:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E0A722092;
+	Sat, 30 Mar 2024 22:33:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OntbtAkJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bxcemWO2"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5709DEBB;
-	Sat, 30 Mar 2024 15:20:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF50C28F8;
+	Sat, 30 Mar 2024 22:33:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711812030; cv=none; b=i7/J4wglv1y7fiC8rf7Q5FmalV7MaoozLMGOA1zuh4Y9pXArSUmNoUbeK4fK2I77YC8PLRBge99yQNt8VxRzESEUxMyhf7v26NdZmJmv7sdXpXzCi3w8SkFTycI0xMntFxftdVLD2s3Ib7bZhAmTyRIxuDUcuYjZD3jwJ6+dK3k=
+	t=1711837989; cv=none; b=WSn1iK9Ec9mmuxtAYMjNuo01o9xo3uU9jSGU2dzwaCB4OP3A7ZklY+Si9jkGS8mryS17qGqmz6fVSGJay5Ajvs8xZK3/bKWJduQ7TSYo3X1m/kHZI+Tti2GKNOcbA3Xz9Rh1lUGJbFc1xKW684fSgWUeP2XTiOcSfXR/0pHgSyU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711812030; c=relaxed/simple;
-	bh=ZDhfm018vFSDBueWA5CDz9WphpZ9cc6YhQfGOzOtKsc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ubsPki+IOFW0QuJ89vr69afVUjlFSLMFtcJNZk8gH0Qn6FmX8x64PKmMMDK3qpHUaiyukq78/fwVvfBM2WlPbdlLFOmRqcD8+9nfnAhsWZ+Q6twGwXk1v3n9BBNo8HPMWE9SnG+I87hO1P6amMn+/RuFBVj1g/ETKIobZl/KEiA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OntbtAkJ; arc=none smtp.client-ip=209.85.208.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2d6a1ad08b8so27825871fa.1;
-        Sat, 30 Mar 2024 08:20:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711812026; x=1712416826; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=TkI73TeGKWiCOeoizdJ5ne1BtmQ7mP66j97GuGKs6xU=;
-        b=OntbtAkJf5HA6zlRpo2NPS9h9MCd7jpqrdnvrFOJdEzVt8/EjVEpIz8mClWwpMRKMC
-         GdPdoRDE9R7jbn6ajuzu6ZnGcBybqSJgEvtjnAAj2Aygf+nCFgC/3aRi8rMTooZuqnTX
-         1A/hxKGAvQ7jvl14xiYNsZT9bGzHjKsIUBUi+NtUSfPH2lk9I1mcxMOM/4/ZcKfAVU+U
-         iE8ic1PUbP/LhR6AV5g/pAZNxQ1R8Yy4Wwov9KBThhhLb6DEEncv6knKHyAufoGGIisM
-         9KoQE5rj7OULlu9/p3gL7YrXT7LX2lLBNXk1cGQH3dqqmp2bLrcNBjTnnnQNmb/jyORq
-         U/lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711812026; x=1712416826;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TkI73TeGKWiCOeoizdJ5ne1BtmQ7mP66j97GuGKs6xU=;
-        b=YxYOoc24LdYaXSwQDbxlVnwrDXxCxvTk2NfsN07Wh+BN9Ng10TBe74aMYaM0q/otjZ
-         99A6mqUjuUzj6z5NvY4Ti8KHQbEdvSAmstiCBrxOAJtRDjXbX4rE8Znh1PrizvhRplCj
-         eBqBuNHj16r/mhXkivj620uGW2herDs0itFJcOfkUY1PoMeXxh6vpPm0+UYXCHAoRIZ5
-         twWqzXqhkclGYC6kEnlEAO3hde7ltSawoBMlGkZ+JW4SeUC4pSOrbzQYx4uO0UQyMebS
-         qf6qd5FTMrWNh63Hab2jNW5q5rCoBl3cBY/X7U11hahBZBP50IMtN22IAKEPDIndayLz
-         x6Uw==
-X-Forwarded-Encrypted: i=1; AJvYcCXk8U4hzgxLE9aU/6ySrvfFN9x7ypMqNJLV553z6LNYDc+QxlQICuuGyH3FABdgCW+SxKE+mw6cQ/0fhxgZPvof1/bGwbU/Up3IfPle
-X-Gm-Message-State: AOJu0Yzh0/w0ThLSQi/daACvttu4LG/g3ULGq1P89WiI5FwP/Nh/0VoE
-	xXEsnlPGNaSifBlcGQ1N2JEhjr0rpeoOEnE29PCtzLY3uayxO0rV
-X-Google-Smtp-Source: AGHT+IEe3ngo3E5WRUbfz7Pyww4/Y1Pd9MCNaQ9smTiCu2RaQ2jSLxde2Y20V+Xx0O1NHcV8LtkIRg==
-X-Received: by 2002:a05:651c:4d2:b0:2d6:aff5:1e65 with SMTP id e18-20020a05651c04d200b002d6aff51e65mr4613284lji.16.1711812025981;
-        Sat, 30 Mar 2024 08:20:25 -0700 (PDT)
-Received: from gentoo.. (213-65-159-17-no600.tbcn.telia.com. [213.65.159.17])
-        by smtp.gmail.com with ESMTPSA id h7-20020a0564020e0700b00568e3d3337bsm3290714edh.18.2024.03.30.08.20.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 Mar 2024 08:20:25 -0700 (PDT)
-From: Isak Ellmer <isak01@gmail.com>
-To: masahiroy@kernel.org
-Cc: linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Isak Ellmer <isak01@gmail.com>
-Subject: [PATCH] kconfig: Fix typo HEIGTH to HEIGHT
-Date: Sat, 30 Mar 2024 16:19:45 +0100
-Message-ID: <20240330151945.95875-1-isak01@gmail.com>
-X-Mailer: git-send-email 2.43.2
+	s=arc-20240116; t=1711837989; c=relaxed/simple;
+	bh=wWXFZPTscxJeW0asxEFwp355Ey119yMRyA/FK3awRE4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=T9BOU8/JE6UcLwLWYfzIP7Zig9kJRZ6/pTtECcIB/h+IG/9qyLa0bx4mCa70gqzJ9/0cJFLqfoX3YzlsunJpiuDBAFAXbcj5Fm9kmi2RvrVymjrOXaTjGJEnjrYw5onqTazuqQd6x1WKn+rZEUfohMU/2O4vWH/J2//yeuQoH4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bxcemWO2; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68744C43390;
+	Sat, 30 Mar 2024 22:33:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711837988;
+	bh=wWXFZPTscxJeW0asxEFwp355Ey119yMRyA/FK3awRE4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=bxcemWO2n3VWmOhq4TGNRhMfRNuq41/0lfGpbqmaTpM/ocC1vfviUnTDXFYtKA6hS
+	 Vcy/sfQW52fl1zl8d20Dy1cWFq1pAjgAeQjLZz7n7FyCvsFFwbUimR+f3L/5ryss0D
+	 kkm54xN3lOOY7/KbwnBOKGmZqvvTEMljed/uQ34gkGS22HY5788r7P/XfWni9LhUvR
+	 GXDbH57uZY7GFsDanOWQPknELZsrC0vY4UVJbb5ejJxj7krOBYFaleL4jDNXd/LvCW
+	 eBGrSUSnwfPa2voRZmgGpOkikjyUXONhfy8ZQ6t3DRhftOq7+hOr4Ex5dEWZxJsGZ/
+	 yrwR9PLxhiU1Q==
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-515ac73c516so3177173e87.0;
+        Sat, 30 Mar 2024 15:33:08 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXCCERucJ1U44sXj5ev0CbhRNGY3JN3EhDMYNzumMFq+sUSPksYr/N7GaJKASFSr/ml/AJe+QZt4C6pmp1CFpyxs01neVoaUbM8BvhmnhqHvjCm3q120wdoni/WeXntXmLbXVu4uO16l84H
+X-Gm-Message-State: AOJu0Yz4dLh5r6ZaS3VJ+2SdMolbKc2lwRIJT7jvWuW22ecM28/G8K+9
+	WWMZnhXmUN8Tmul6MgWzsTC7d9kBaZi1RFoP43cgwgGAXHso6drDoCm9QRWlmiMLWsxI05XF9dz
+	bYE1mYBG0dHMkt+iMZ4thMTqd6es=
+X-Google-Smtp-Source: AGHT+IHj19ICIjtMy7Y2otussg3H9JmfkUaaU3jvErU/ys+kmGiEc3/E577ugk5n0aETDNOz4Bw6JzL57ksbFjeN0ms=
+X-Received: by 2002:ac2:5a4b:0:b0:513:d234:e8c1 with SMTP id
+ r11-20020ac25a4b000000b00513d234e8c1mr2020997lfn.28.1711837987085; Sat, 30
+ Mar 2024 15:33:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <0851a207-7143-417e-be31-8bf2b3afb57d@molgen.mpg.de>
+ <47e032a0-c9a0-4639-867b-cb3d67076eaf@suse.com> <20240326155247.GJZgLvT_AZi3XPPpBM@fat_crate.local>
+ <80582244-8c1c-4eb4-8881-db68a1428817@suse.com> <20240326191211.GKZgMeC21uxi7H16o_@fat_crate.local>
+ <CANpmjNOcKzEvLHoGGeL-boWDHJobwfwyVxUqMq2kWeka3N4tXA@mail.gmail.com> <20240326202548.GLZgMvTGpPfQcs2cQ_@fat_crate.local>
+In-Reply-To: <20240326202548.GLZgMvTGpPfQcs2cQ_@fat_crate.local>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Sun, 31 Mar 2024 07:32:30 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASkpxRQHn2HqRbc01CCFK=U0DV607Bbr9QA9xDYhjcwyA@mail.gmail.com>
+Message-ID: <CAK7LNASkpxRQHn2HqRbc01CCFK=U0DV607Bbr9QA9xDYhjcwyA@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: Disable KCSAN for autogenerated *.mod.c intermediaries
+To: Borislav Petkov <bp@alien8.de>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
+	Marco Elver <elver@google.com>, Nikolay Borisov <nik.borisov@suse.com>, 
+	Josh Poimboeuf <jpoimboe@kernel.org>, Paul Menzel <pmenzel@molgen.mpg.de>, 
+	Thomas Gleixner <tglx@linutronix.de>, Peter Zijlstra <peterz@infradead.org>, 
+	Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	LKML <linux-kernel@vger.kernel.org>, kasan-dev@googlegroups.com, 
+	David Kaplan <David.Kaplan@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Fixed a typo in some variables where height was misspelled as heigth.
+On Wed, Mar 27, 2024 at 5:26=E2=80=AFAM Borislav Petkov <bp@alien8.de> wrot=
+e:
+>
+> On Tue, Mar 26, 2024 at 08:33:31PM +0100, Marco Elver wrote:
+> > I think just removing instrumentation from the mod.c files is very reas=
+onable.
+>
+> Thanks!
+>
+> @Masahiro: pls send this to Linus now as the commit which adds the
+> warning is in 6.9 so we should make sure we release it with all issues
+> fixed.
+>
+> Thx.
+>
+> ---
+> From: "Borislav Petkov (AMD)" <bp@alien8.de>
+> Date: Tue, 26 Mar 2024 21:11:01 +0100
+>
+> When KCSAN and CONSTRUCTORS are enabled, one can trigger the
+>
+>   "Unpatched return thunk in use. This should not happen!"
+>
+> catch-all warning.
+>
+> Usually, when objtool runs on the .o objects, it does generate a section
+> .return_sites which contains all offsets in the objects to the return
+> thunks of the functions present there. Those return thunks then get
+> patched at runtime by the alternatives.
+>
+> KCSAN and CONSTRUCTORS add this to the the object file's .text.startup
+> section:
+>
+>   -------------------
+>   Disassembly of section .text.startup:
+>
+>   ...
+>
+>   0000000000000010 <_sub_I_00099_0>:
+>     10:   f3 0f 1e fa             endbr64
+>     14:   e8 00 00 00 00          call   19 <_sub_I_00099_0+0x9>
+>                           15: R_X86_64_PLT32      __tsan_init-0x4
+>     19:   e9 00 00 00 00          jmp    1e <__UNIQUE_ID___addressable_cr=
+yptd_alloc_aead349+0x6>
+>                           1a: R_X86_64_PLT32      __x86_return_thunk-0x4
+>   -------------------
+>
+> which, if it is built as a module goes through the intermediary stage of
+> creating a <module>.mod.c file which, when translated, receives a second
+> constructor:
+>
+>   -------------------
+>   Disassembly of section .text.startup:
+>
+>   0000000000000010 <_sub_I_00099_0>:
+>     10:   f3 0f 1e fa             endbr64
+>     14:   e8 00 00 00 00          call   19 <_sub_I_00099_0+0x9>
+>                           15: R_X86_64_PLT32      __tsan_init-0x4
+>     19:   e9 00 00 00 00          jmp    1e <_sub_I_00099_0+0xe>
+>                           1a: R_X86_64_PLT32      __x86_return_thunk-0x4
+>
+>   ...
+>
+>   0000000000000030 <_sub_I_00099_0>:
+>     30:   f3 0f 1e fa             endbr64
+>     34:   e8 00 00 00 00          call   39 <_sub_I_00099_0+0x9>
+>                           35: R_X86_64_PLT32      __tsan_init-0x4
+>     39:   e9 00 00 00 00          jmp    3e <__ksymtab_cryptd_alloc_ahash=
++0x2>
+>                           3a: R_X86_64_PLT32      __x86_return_thunk-0x4
+>   -------------------
+>
+> in the .ko file.
+>
+> Objtool has run already so that second constructor's return thunk cannot
+> be added to the .return_sites section and thus the return thunk remains
+> unpatched and the warning rightfully fires.
+>
+> Drop KCSAN flags from the mod.c generation stage as those constructors
+> do not contain data races one would be interested about.
+>
+> Debugged together with David Kaplan <David.Kaplan@amd.com> and Nikolay
+> Borisov <nik.borisov@suse.com>.
+>
+> Reported-by: Paul Menzel <pmenzel@molgen.mpg.de>
+> Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
+> Link: https://lore.kernel.org/r/0851a207-7143-417e-be31-8bf2b3afb57d@molg=
+en.mpg.de
+> ---
+>  scripts/Makefile.modfinal | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
+> index 8568d256d6fb..79fcf2731686 100644
+> --- a/scripts/Makefile.modfinal
+> +++ b/scripts/Makefile.modfinal
+> @@ -23,7 +23,7 @@ modname =3D $(notdir $(@:.mod.o=3D))
+>  part-of-module =3D y
+>
+>  quiet_cmd_cc_o_c =3D CC [M]  $@
+> -      cmd_cc_o_c =3D $(CC) $(filter-out $(CC_FLAGS_CFI) $(CFLAGS_GCOV), =
+$(c_flags)) -c -o $@ $<
+> +      cmd_cc_o_c =3D $(CC) $(filter-out $(CC_FLAGS_CFI) $(CFLAGS_GCOV) $=
+(CFLAGS_KCSAN), $(c_flags)) -c -o $@ $<
+>
+>  %.mod.o: %.mod.c FORCE
+>         $(call if_changed_dep,cc_o_c)
+> --
+> 2.43.0
+>
+>
+>
+> --
+> Regards/Gruss,
+>     Boris.
+>
+> https://people.kernel.org/tglx/notes-about-netiquette
 
-Signed-off-by: Isak Ellmer <isak01@gmail.com>
----
- scripts/kconfig/lxdialog/checklist.c |  2 +-
- scripts/kconfig/lxdialog/dialog.h    | 12 ++++++------
- scripts/kconfig/lxdialog/inputbox.c  |  2 +-
- scripts/kconfig/lxdialog/menubox.c   |  2 +-
- scripts/kconfig/lxdialog/textbox.c   |  2 +-
- scripts/kconfig/lxdialog/util.c      |  2 +-
- scripts/kconfig/lxdialog/yesno.c     |  2 +-
- scripts/kconfig/mconf.c              |  4 ++--
- 8 files changed, 14 insertions(+), 14 deletions(-)
 
-diff --git a/scripts/kconfig/lxdialog/checklist.c b/scripts/kconfig/lxdialog/checklist.c
-index 31d0a89fbeb7..75493302fb85 100644
---- a/scripts/kconfig/lxdialog/checklist.c
-+++ b/scripts/kconfig/lxdialog/checklist.c
-@@ -119,7 +119,7 @@ int dialog_checklist(const char *title, const char *prompt, int height,
- 	}
- 
- do_resize:
--	if (getmaxy(stdscr) < (height + CHECKLIST_HEIGTH_MIN))
-+	if (getmaxy(stdscr) < (height + CHECKLIST_HEIGHT_MIN))
- 		return -ERRDISPLAYTOOSMALL;
- 	if (getmaxx(stdscr) < (width + CHECKLIST_WIDTH_MIN))
- 		return -ERRDISPLAYTOOSMALL;
-diff --git a/scripts/kconfig/lxdialog/dialog.h b/scripts/kconfig/lxdialog/dialog.h
-index 2d15ba893fbf..f6c2ebe6d1f9 100644
---- a/scripts/kconfig/lxdialog/dialog.h
-+++ b/scripts/kconfig/lxdialog/dialog.h
-@@ -162,17 +162,17 @@ int on_key_esc(WINDOW *win);
- int on_key_resize(void);
- 
- /* minimum (re)size values */
--#define CHECKLIST_HEIGTH_MIN 6	/* For dialog_checklist() */
-+#define CHECKLIST_HEIGHT_MIN 6	/* For dialog_checklist() */
- #define CHECKLIST_WIDTH_MIN 6
--#define INPUTBOX_HEIGTH_MIN 2	/* For dialog_inputbox() */
-+#define INPUTBOX_HEIGHT_MIN 2	/* For dialog_inputbox() */
- #define INPUTBOX_WIDTH_MIN 2
--#define MENUBOX_HEIGTH_MIN 15	/* For dialog_menu() */
-+#define MENUBOX_HEIGHT_MIN 15	/* For dialog_menu() */
- #define MENUBOX_WIDTH_MIN 65
--#define TEXTBOX_HEIGTH_MIN 8	/* For dialog_textbox() */
-+#define TEXTBOX_HEIGHT_MIN 8	/* For dialog_textbox() */
- #define TEXTBOX_WIDTH_MIN 8
--#define YESNO_HEIGTH_MIN 4	/* For dialog_yesno() */
-+#define YESNO_HEIGHT_MIN 4	/* For dialog_yesno() */
- #define YESNO_WIDTH_MIN 4
--#define WINDOW_HEIGTH_MIN 19	/* For init_dialog() */
-+#define WINDOW_HEIGHT_MIN 19	/* For init_dialog() */
- #define WINDOW_WIDTH_MIN 80
- 
- int init_dialog(const char *backtitle);
-diff --git a/scripts/kconfig/lxdialog/inputbox.c b/scripts/kconfig/lxdialog/inputbox.c
-index 1dcfb288ee63..3c6e24b20f5b 100644
---- a/scripts/kconfig/lxdialog/inputbox.c
-+++ b/scripts/kconfig/lxdialog/inputbox.c
-@@ -43,7 +43,7 @@ int dialog_inputbox(const char *title, const char *prompt, int height, int width
- 		strcpy(instr, init);
- 
- do_resize:
--	if (getmaxy(stdscr) <= (height - INPUTBOX_HEIGTH_MIN))
-+	if (getmaxy(stdscr) <= (height - INPUTBOX_HEIGHT_MIN))
- 		return -ERRDISPLAYTOOSMALL;
- 	if (getmaxx(stdscr) <= (width - INPUTBOX_WIDTH_MIN))
- 		return -ERRDISPLAYTOOSMALL;
-diff --git a/scripts/kconfig/lxdialog/menubox.c b/scripts/kconfig/lxdialog/menubox.c
-index 0e333284e947..6e6244df0c56 100644
---- a/scripts/kconfig/lxdialog/menubox.c
-+++ b/scripts/kconfig/lxdialog/menubox.c
-@@ -172,7 +172,7 @@ int dialog_menu(const char *title, const char *prompt,
- do_resize:
- 	height = getmaxy(stdscr);
- 	width = getmaxx(stdscr);
--	if (height < MENUBOX_HEIGTH_MIN || width < MENUBOX_WIDTH_MIN)
-+	if (height < MENUBOX_HEIGHT_MIN || width < MENUBOX_WIDTH_MIN)
- 		return -ERRDISPLAYTOOSMALL;
- 
- 	height -= 4;
-diff --git a/scripts/kconfig/lxdialog/textbox.c b/scripts/kconfig/lxdialog/textbox.c
-index 058ed0e5bbd5..0abaf635978f 100644
---- a/scripts/kconfig/lxdialog/textbox.c
-+++ b/scripts/kconfig/lxdialog/textbox.c
-@@ -175,7 +175,7 @@ int dialog_textbox(const char *title, const char *tbuf, int initial_height,
- 
- do_resize:
- 	getmaxyx(stdscr, height, width);
--	if (height < TEXTBOX_HEIGTH_MIN || width < TEXTBOX_WIDTH_MIN)
-+	if (height < TEXTBOX_HEIGHT_MIN || width < TEXTBOX_WIDTH_MIN)
- 		return -ERRDISPLAYTOOSMALL;
- 	if (initial_height != 0)
- 		height = initial_height;
-diff --git a/scripts/kconfig/lxdialog/util.c b/scripts/kconfig/lxdialog/util.c
-index 3fb7508b68a2..f18e2a89f613 100644
---- a/scripts/kconfig/lxdialog/util.c
-+++ b/scripts/kconfig/lxdialog/util.c
-@@ -291,7 +291,7 @@ int init_dialog(const char *backtitle)
- 	getyx(stdscr, saved_y, saved_x);
- 
- 	getmaxyx(stdscr, height, width);
--	if (height < WINDOW_HEIGTH_MIN || width < WINDOW_WIDTH_MIN) {
-+	if (height < WINDOW_HEIGHT_MIN || width < WINDOW_WIDTH_MIN) {
- 		endwin();
- 		return -ERRDISPLAYTOOSMALL;
- 	}
-diff --git a/scripts/kconfig/lxdialog/yesno.c b/scripts/kconfig/lxdialog/yesno.c
-index bcaac9b7bab2..b57d25e1549f 100644
---- a/scripts/kconfig/lxdialog/yesno.c
-+++ b/scripts/kconfig/lxdialog/yesno.c
-@@ -32,7 +32,7 @@ int dialog_yesno(const char *title, const char *prompt, int height, int width)
- 	WINDOW *dialog;
- 
- do_resize:
--	if (getmaxy(stdscr) < (height + YESNO_HEIGTH_MIN))
-+	if (getmaxy(stdscr) < (height + YESNO_HEIGHT_MIN))
- 		return -ERRDISPLAYTOOSMALL;
- 	if (getmaxx(stdscr) < (width + YESNO_WIDTH_MIN))
- 		return -ERRDISPLAYTOOSMALL;
-diff --git a/scripts/kconfig/mconf.c b/scripts/kconfig/mconf.c
-index f4bb391d50cf..c0969097447d 100644
---- a/scripts/kconfig/mconf.c
-+++ b/scripts/kconfig/mconf.c
-@@ -659,9 +659,9 @@ static void conf_choice(struct menu *menu)
- 		dialog_clear();
- 		res = dialog_checklist(prompt ? prompt : "Main Menu",
- 					radiolist_instructions,
--					MENUBOX_HEIGTH_MIN,
-+					MENUBOX_HEIGHT_MIN,
- 					MENUBOX_WIDTH_MIN,
--					CHECKLIST_HEIGTH_MIN);
-+					CHECKLIST_HEIGHT_MIN);
- 		selected = item_activate_selected();
- 		switch (res) {
- 		case 0:
--- 
-2.43.2
 
+I applied.
+
+I fixed the typo "the the" and replaced Link: with Closes:
+to address the following checkpatch warnings:
+
+
+
+
+
+WARNING: Possible repeated word: 'the'
+#18:
+KCSAN and CONSTRUCTORS add this to the the object file's .text.startup
+
+
+
+WARNING: Reported-by: should be immediately followed by Closes: with a
+URL to the report
+#70:
+Reported-by: Paul Menzel <pmenzel@molgen.mpg.de>
+Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
+
+
+
+
+
+
+Instead of filter-out, you could add
+KCSAN_SANITIZE :=3D n
+to scripts/Makefile.modfinal because
+it is the reason why KCSAN_SANITIZE exists.
+
+But, that is not a big deal.
+GCOV flag is also filtered away instead of
+GCOV_PROFILE :=3D n
+
+
+I will probably use a different approach later.
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
