@@ -1,129 +1,165 @@
-Return-Path: <linux-kbuild+bounces-1414-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1415-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25386892E4F
-	for <lists+linux-kbuild@lfdr.de>; Sun, 31 Mar 2024 04:34:11 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92527893192
+	for <lists+linux-kbuild@lfdr.de>; Sun, 31 Mar 2024 14:23:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 507852821B6
-	for <lists+linux-kbuild@lfdr.de>; Sun, 31 Mar 2024 02:34:09 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0D990B21488
+	for <lists+linux-kbuild@lfdr.de>; Sun, 31 Mar 2024 12:23:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 691C2387;
-	Sun, 31 Mar 2024 02:34:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3EC4575813;
+	Sun, 31 Mar 2024 12:23:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PZ9D70uV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IqAqjMTL"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FA3D184E;
-	Sun, 31 Mar 2024 02:34:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15D6F2869A;
+	Sun, 31 Mar 2024 12:23:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711852445; cv=none; b=Pj9ztFoeNFC8W8Bmk7O2Z5NF1FqYCQSQXvXHwYXp92impW8yqIqXKztodGBRpXQU5wfGBPjF30T0jKjGp+dRMIVrE9+rHt+E/sK11cG0ccYiCxhujgs6p0ewfBT+tyH81Ba1BpjFwcgtUyVZk4Fx9c+IJDc8Pbb3UqAFDp4kjvQ=
+	t=1711887807; cv=none; b=Zkpzo4V1GUnNv8b9o0u2ggVf3dzEaoIMSfq1AEebavMrjgkO1trKBTgpaqrnqJtjvVPLiAHmBfjLwwJNGksAxAnOccDxx5xUNN72LtEAxVmaq2Ogvts1LEwRcb9iZ/HwMSETc+vrEnG1VTCiPfXvu3zV3J1o0pNERDaXMURz+gQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711852445; c=relaxed/simple;
-	bh=+9xtEveTESmqEmgqfqi/AHy+l/CY7o7HoCu99ORDDcA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PCxe4cBbfRJV3gpTvYKFbbR/6Oo8CmYNpvDoIAdyEoT+Fst6iaUXtghvq3ijq3w1+V6jl8iuUhxs26iFUlXrzTxzkigqaTs5dnoEnR/bLxwsiIwpFFcP1wwql0Rd0L+n+/bc3NcLBp7LSIEUyTq3KbDcKWe4NXrWGbBy3k5Tsu0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PZ9D70uV; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A71FCC433B2;
-	Sun, 31 Mar 2024 02:34:04 +0000 (UTC)
+	s=arc-20240116; t=1711887807; c=relaxed/simple;
+	bh=cBpurtTfu/q2YxV2xdWusFpGseTHI9CmDjpyi/TnKeI=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=WGSVha73Immk0c34Pkd2Z/S32qjldtwiqMOduE/vDAy+LOagASOnbFUkcf/Klf1D5Ip6LkCWR3Fs0nOzo9Y7wECvO3HlCEPk2nj2e1Dp1JE3BXvTbBHp+4Aa7ExLQMfuE/2TnszkqX/9kNHUc1CMC4l+/jkcxo97b9s/JJUGJLw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IqAqjMTL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F504C433F1;
+	Sun, 31 Mar 2024 12:23:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711852444;
-	bh=+9xtEveTESmqEmgqfqi/AHy+l/CY7o7HoCu99ORDDcA=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=PZ9D70uVOm8Q1eV7TepfO1FkN+1k1kWNkT6Ku6f/2s6iTAOV7tZxn2zhkvPsVyaFX
-	 RPw7j/3dyOXbWPTqh7GDBBmESHoa0/CSjp3BgTh7gbx5KJ1tdiDym07g+AY4FzPgQS
-	 DKX7tgoR9K9mHdV/+tGZPsttPaEAScJJhqA81HNprVN9Fu9EJ0XTEzkGTvbaVJb6Hx
-	 Qzks5PLB5vorWVg53klblNq3phtjvnvFZqLRpBY/lb0TuCBuxS4GgeeCTYGb+VI6ok
-	 zfc1qtwfOHsXCTucSL4Xb61hPPubFgtHkxN2eCV1J182QybCpwgfTt0/4sSb25g/FL
-	 PUk6ZaAAFbN5g==
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-513d23be0b6so3396180e87.0;
-        Sat, 30 Mar 2024 19:34:04 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVDkGXqULJb0iTE30zok3Z/DcAitzYB9HUyf5pQ/qSbH7TnoDghRS696d3Z3Bc7u3vJtKOCIyp0hkqFnVKFWXLHRnz0A8czvwM7M2KtNDkdHOpr2c074bO9nltfNZLNpXSwZIksKCLZNGtZiA0bHX646SeY+kLLS+WUzjnVm4MKEuoM
-X-Gm-Message-State: AOJu0YzWfQ4zDI0K2CTviHTVM/YUaXaFBBv4MmJVL07IxX6zt/sEhULv
-	8wYbpd4A6ohvhE1X1s1afNGS2g9DPx2m3V/0v8z3Oa7dpCwciQaRAnkxDrAd98WqSrH+OiQMNXB
-	qPMEzBdnsGuo/e1Si+icML8zVNFY=
-X-Google-Smtp-Source: AGHT+IGpEQPL0v7g3+p+5E8g7HGnWQKzlMop6CryhqCRVmhK61t313PDdp5vf1ukKDWFXpyLX2tmge1Ix/vKXAwQ4u4=
-X-Received: by 2002:a2e:9914:0:b0:2d4:6aba:f1a9 with SMTP id
- v20-20020a2e9914000000b002d46abaf1a9mr4254960lji.40.1711852443253; Sat, 30
- Mar 2024 19:34:03 -0700 (PDT)
+	s=k20201202; t=1711887806;
+	bh=cBpurtTfu/q2YxV2xdWusFpGseTHI9CmDjpyi/TnKeI=;
+	h=From:Date:Subject:To:Cc:From;
+	b=IqAqjMTLWeTBSdsVP7j7n8F1I7gP+9MaqmqCHAP4bqDF3lCN65xtjPSDOD04YKQVC
+	 7vpNQAZ5G1KRwp4+OBsspIGAzEw03iUxXXx5udWE1UXSIP9hqxH4t9C2ZuE4Lfz75o
+	 2wmzzvSRMuQC1Mdk5UHoBPdjsTcheXLhBUwrAoqk9NHHWxWHr/E7bCThItBeY2GV8h
+	 5LJbLhApjIMi6P181SJhkCc5Q+CU0baChT8edGZ/UCWwMncjAJtlhOlhJui+Q/bdoz
+	 /vWeHC/0oXPezh7QcFli8xUaw/SXzXTiB5zklSrx8HCq43S7YjZK3xO6lYrwmVOG5G
+	 6LP7PEqfjaJAA==
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2d109e82bd0so40884401fa.3;
+        Sun, 31 Mar 2024 05:23:26 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXEDAcgec6bxzZq/eJ7yvgrOQKrbCJ7TrsHLKsJzIUplN+cEqxqrSaTfhLKgyJq4GySbyWqcLqsrsM1YvsdCQ7h5SpawKllr6IqDzUd
+X-Gm-Message-State: AOJu0YwJt11b1fa82Cw2ccfy70C1Wouiw8+M5BaWy9bnXSGK179Xnuio
+	naxMNJ3o67il+60OMRRQWiuUyD9Fv4BUF+WhF726+ACzTqMSAvDukKGZ0eo8jI7jbEUollzOZzp
+	HOdk3SfFMsJIO/7reVQFK2ozEDog=
+X-Google-Smtp-Source: AGHT+IF8Ze4qhZyBxcRz48XVGb7Amedka95o7kNYTDTgH5afS9C+Xv+IIoAinSUGMunsT2V/3OUYi/OmhvROOXoQOa8=
+X-Received: by 2002:a05:651c:1044:b0:2d4:6532:f449 with SMTP id
+ x4-20020a05651c104400b002d46532f449mr5077654ljm.20.1711887805218; Sun, 31 Mar
+ 2024 05:23:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240326144741.3094687-1-arnd@kernel.org> <20240326144741.3094687-2-arnd@kernel.org>
- <87jzlohhbc.fsf@intel.com> <cb853762-06d4-401c-a1c8-07a0c031b499@app.fastmail.com>
- <87edbwglle.fsf@intel.com> <07c604d1-6304-4ff8-844b-03c3d5c727ad@app.fastmail.com>
-In-Reply-To: <07c604d1-6304-4ff8-844b-03c3d5c727ad@app.fastmail.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sun, 31 Mar 2024 11:33:27 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARmABUDDTFtp_HCqKid7=8011wk0HMgHYGHWOLunhpxXA@mail.gmail.com>
-Message-ID: <CAK7LNARmABUDDTFtp_HCqKid7=8011wk0HMgHYGHWOLunhpxXA@mail.gmail.com>
-Subject: Re: [PATCH 01/12] kbuild: make -Woverride-init warnings more consistent
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, Arnd Bergmann <arnd@kernel.org>, 
-	linux-kbuild@vger.kernel.org, Harry Wentland <harry.wentland@amd.com>, 
-	Alex Deucher <alexander.deucher@amd.com>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Lucas De Marchi <lucas.demarchi@intel.com>, Oded Gabbay <ogabbay@kernel.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Andrew Jeffery <andrew@codeconstruct.com.au>, Linus Walleij <linus.walleij@linaro.org>, 
-	Joel Stanley <joel@jms.id.au>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, Netdev <netdev@vger.kernel.org>, linux-mm@kvack.org, 
-	llvm@lists.linux.dev
+Date: Sun, 31 Mar 2024 21:22:49 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATTLAtXYZEfmQg8dLsu3A0e5songZrEayo3ateQ6dTmJw@mail.gmail.com>
+Message-ID: <CAK7LNATTLAtXYZEfmQg8dLsu3A0e5songZrEayo3ateQ6dTmJw@mail.gmail.com>
+Subject: [GIT PULL] Kbuild fixes for v6.9-rc2
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 27, 2024 at 6:23=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> wrote=
-:
->
-> On Wed, Mar 27, 2024, at 08:50, Jani Nikula wrote:
-> > On Tue, 26 Mar 2024, "Arnd Bergmann" <arnd@arndb.de> wrote:
-> >> On Tue, Mar 26, 2024, at 21:24, Jani Nikula wrote:
-> >>> On Tue, 26 Mar 2024, Arnd Bergmann <arnd@kernel.org> wrote:
-> >>
-> >> It works now.
-> >>
-> >> The original __diag_ignore_all() only did it for gcc-8 and above
-> >> because that was initially needed to suppress warnings that
-> >> got added in that version, but this was always a mistake.
-> >>
-> >> 689b097a06ba ("compiler-gcc: Suppress -Wmissing-prototypes
-> >> warning for all supported GCC") made it work correctly.
-> >
-> > Oh, nice! Then I think we'd like to go back to __diag_ignore_all() in
-> > i915 and xe.
-> >
-> > The diff is below. I'm fine with you squashing it to your patch, or if
-> > you want me to turn it into a proper patch for you to pick up in your
-> > series, that's fine too. Just let me know.
->
-> I think I'd prefer to keep my patch simpler for the moment and
-> get that merged through the kbuild tree, it already touches
-> too many places at once.
->
-> It may be better for me to just drop the drivers/gpu/ part of
-> my patch so you can just just take your patch through the
-> drm tree. I actually have a similar patch for the amdgpu driver
-> that I can send if you like this option better.
->
->     Arnd
->
+Hello Linus,
 
 
-
-Applied to linux-kbuild/fixes.
+Please pull Kbuild fixes for v6.9-rc2.
 Thanks.
 
---=20
+
+
+
+The following changes since commit 4cece764965020c22cff7665b18a012006359095:
+
+  Linux 6.9-rc1 (2024-03-24 14:10:05 -0700)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+tags/kbuild-fixes-v6.9
+
+for you to fetch changes up to 89e5462bb5aee1e634a3d5bd41125809a929a486:
+
+  kconfig: Fix typo HEIGTH to HEIGHT (2024-03-31 21:09:50 +0900)
+
+----------------------------------------------------------------
+Kbuild fixes for v6.9
+
+ - Deduplicate Kconfig entries for CONFIG_CXL_PMU
+
+ - Fix unselectable choice entry in MIPS Kconfig, and forbid this
+   structure
+
+ - Remove unused include/asm-generic/export.h
+
+ - Fix a NULL pointer dereference bug in modpost
+
+ - Enable -Woverride-init warning consistently with W=1
+
+ - Drop KCSAN flags from *.mod.c files
+
+----------------------------------------------------------------
+Arnd Bergmann (1):
+      kbuild: make -Woverride-init warnings more consistent
+
+Borislav Petkov (AMD) (1):
+      kbuild: Disable KCSAN for autogenerated *.mod.c intermediaries
+
+Isak Ellmer (1):
+      kconfig: Fix typo HEIGTH to HEIGHT
+
+Masahiro Yamada (5):
+      cxl: remove CONFIG_CXL_PMU entry in drivers/cxl/Kconfig
+      MIPS: move unselectable FIT_IMAGE_FDT_EPM5 out of the "System type" choice
+      kconfig: do not reparent the menu inside a choice block
+      export.h: remove include/asm-generic/export.h
+      modpost: do not make find_tosym() return NULL
+
+Nathan Chancellor (1):
+      Documentation/llvm: Note s390 LLVM=1 support with LLVM 18.1.0 and newer
+
+ Documentation/kbuild/llvm.rst                  |  2 +-
+ arch/mips/Kconfig                              | 18 +++++++++---------
+ drivers/cxl/Kconfig                            | 13 -------------
+ drivers/gpu/drm/amd/display/dc/dce110/Makefile |  2 +-
+ drivers/gpu/drm/amd/display/dc/dce112/Makefile |  2 +-
+ drivers/gpu/drm/amd/display/dc/dce120/Makefile |  2 +-
+ drivers/gpu/drm/amd/display/dc/dce60/Makefile  |  2 +-
+ drivers/gpu/drm/amd/display/dc/dce80/Makefile  |  2 +-
+ drivers/gpu/drm/i915/Makefile                  |  6 +++---
+ drivers/gpu/drm/xe/Makefile                    |  4 ++--
+ drivers/net/ethernet/renesas/sh_eth.c          |  2 +-
+ drivers/pinctrl/aspeed/Makefile                |  2 +-
+ fs/proc/Makefile                               |  2 +-
+ include/asm-generic/export.h                   | 11 -----------
+ kernel/bpf/Makefile                            |  2 +-
+ mm/Makefile                                    |  3 +--
+ scripts/Makefile.extrawarn                     | 10 +++-------
+ scripts/Makefile.modfinal                      |  2 +-
+ scripts/kconfig/conf.c                         |  5 -----
+ scripts/kconfig/lkc.h                          |  2 +-
+ scripts/kconfig/lxdialog/checklist.c           |  2 +-
+ scripts/kconfig/lxdialog/dialog.h              | 12 ++++++------
+ scripts/kconfig/lxdialog/inputbox.c            |  2 +-
+ scripts/kconfig/lxdialog/menubox.c             |  2 +-
+ scripts/kconfig/lxdialog/textbox.c             |  2 +-
+ scripts/kconfig/lxdialog/util.c                |  2 +-
+ scripts/kconfig/lxdialog/yesno.c               |  2 +-
+ scripts/kconfig/mconf.c                        |  4 ++--
+ scripts/kconfig/menu.c                         | 22 ++++++++++++++++------
+ scripts/kconfig/parser.y                       |  2 +-
+ scripts/mod/modpost.c                          |  7 +++++--
+ 31 files changed, 66 insertions(+), 87 deletions(-)
+ delete mode 100644 include/asm-generic/export.h
+
+
+-- 
 Best Regards
 Masahiro Yamada
 
