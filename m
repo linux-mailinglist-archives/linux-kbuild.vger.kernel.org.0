@@ -1,155 +1,127 @@
-Return-Path: <linux-kbuild+bounces-1413-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1414-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D3AA892E10
-	for <lists+linux-kbuild@lfdr.de>; Sun, 31 Mar 2024 00:11:03 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25386892E4F
+	for <lists+linux-kbuild@lfdr.de>; Sun, 31 Mar 2024 04:34:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 402841F21AA5
-	for <lists+linux-kbuild@lfdr.de>; Sat, 30 Mar 2024 23:11:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 507852821B6
+	for <lists+linux-kbuild@lfdr.de>; Sun, 31 Mar 2024 02:34:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 544481C0DE0;
-	Sat, 30 Mar 2024 23:11:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 691C2387;
+	Sun, 31 Mar 2024 02:34:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rQhmRZUf"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PZ9D70uV"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 306D51DFF7
-	for <linux-kbuild@vger.kernel.org>; Sat, 30 Mar 2024 23:10:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FA3D184E;
+	Sun, 31 Mar 2024 02:34:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711840260; cv=none; b=cFiASYpwGIJvFpr9xeX4mPL8LYbCFjx8yhIOwf5PA+ouUv4KTB5ryoe4nQEjEEvMcYgRNpy8Sz1P/SlpzTUOsSSWkJFJxOjBZBv3JGZIpbP7ZHku11LfhnbGJfBnKdbDBZeXhASNmPDCYQewpHR6HwEXV5QUUBmevPCxaJF3tjE=
+	t=1711852445; cv=none; b=Pj9ztFoeNFC8W8Bmk7O2Z5NF1FqYCQSQXvXHwYXp92impW8yqIqXKztodGBRpXQU5wfGBPjF30T0jKjGp+dRMIVrE9+rHt+E/sK11cG0ccYiCxhujgs6p0ewfBT+tyH81Ba1BpjFwcgtUyVZk4Fx9c+IJDc8Pbb3UqAFDp4kjvQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711840260; c=relaxed/simple;
-	bh=YioU1uNCC4Wi5AJtg0BOQcJrR3vb3C8agPRiPVOuYOc=;
+	s=arc-20240116; t=1711852445; c=relaxed/simple;
+	bh=+9xtEveTESmqEmgqfqi/AHy+l/CY7o7HoCu99ORDDcA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Go9/rH9IwWW3jPKicRoI2laZD5cv/0Kihn92VMxQWg3dP7wQGIoxylrX2o7yWVdFy5c9kqAYmjy3yqjtO4lRJU8kAWVXMUdnTMwLL46y268sNsOE2kL+fDQ3EyNq9lNmMIU3nxjza8GzgizuGBg/YFuJN3A9i3sqw8qm/VU24r8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rQhmRZUf; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8013C43394
-	for <linux-kbuild@vger.kernel.org>; Sat, 30 Mar 2024 23:10:58 +0000 (UTC)
+	 To:Cc:Content-Type; b=PCxe4cBbfRJV3gpTvYKFbbR/6Oo8CmYNpvDoIAdyEoT+Fst6iaUXtghvq3ijq3w1+V6jl8iuUhxs26iFUlXrzTxzkigqaTs5dnoEnR/bLxwsiIwpFFcP1wwql0Rd0L+n+/bc3NcLBp7LSIEUyTq3KbDcKWe4NXrWGbBy3k5Tsu0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PZ9D70uV; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A71FCC433B2;
+	Sun, 31 Mar 2024 02:34:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711840259;
-	bh=YioU1uNCC4Wi5AJtg0BOQcJrR3vb3C8agPRiPVOuYOc=;
+	s=k20201202; t=1711852444;
+	bh=+9xtEveTESmqEmgqfqi/AHy+l/CY7o7HoCu99ORDDcA=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=rQhmRZUf9vBGKAIkx3pHHatns0/nyzfW+hYRwX2w09/XgHevp2cfgfvnCpRUwYn/A
-	 hNrRvmMO3Fm9nuSXEfgltD3u5XyhNz0suNnKDIxVv7TxHiYTgajGgy9t54TRzRGbRF
-	 OoLlJLwTKxMNbihzgv5eKTCSkX6yd3ZzLLrPcrp9C7RRGAaFiRnvIwhKUZEcXvPR5R
-	 Bz7Wz1lWcXOSGExeMDoBXbWO3drDsvJZJt9AWySLWzBoJxRUKy49PW/o1xOHUir/mo
-	 dr03fgmkVREHOrlqScjPEMVAVQhZ14b1//8tlqrTc7vPNYY5Rt0y/rTVr/SEQlCFow
-	 3ZFZFPOArn6eA==
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2d715638540so23710401fa.3
-        for <linux-kbuild@vger.kernel.org>; Sat, 30 Mar 2024 16:10:58 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWJUYtA0GO2QIozAuIe6Qz6x26zjUNEdiXnKM7bvGqfEkkNSS3pL0aDjNhbZqqc5e/iTs2BeR5t5mVY9fKveVwjw9oTUvDO3RtRcvM2
-X-Gm-Message-State: AOJu0YwMPHTVr+6R+f7tLCtJtp0S+9Z2uhFBp9QIpaRrybCx4OQvIdnd
-	IQ2PkhKqkmRUkgqdPdvNQIbvzfwrewr/hqCm7ZCk/H5CD7QV5svELyFe88kWmwcRSFdb5ZDCEwd
-	EpkRGLjaZf21heSXEB8ID8QKHZBs=
-X-Google-Smtp-Source: AGHT+IGobxx3qZcJl50WFhCOimy+I83nz8Qs/W5LDvAPqapqrxW0Mq44/cJ0g5039QB/UyiLihWbYMTqz8Fp1wfps+Q=
-X-Received: by 2002:a2e:a7c8:0:b0:2d4:77c0:d61c with SMTP id
- x8-20020a2ea7c8000000b002d477c0d61cmr3790786ljp.35.1711840257437; Sat, 30 Mar
- 2024 16:10:57 -0700 (PDT)
+	b=PZ9D70uVOm8Q1eV7TepfO1FkN+1k1kWNkT6Ku6f/2s6iTAOV7tZxn2zhkvPsVyaFX
+	 RPw7j/3dyOXbWPTqh7GDBBmESHoa0/CSjp3BgTh7gbx5KJ1tdiDym07g+AY4FzPgQS
+	 DKX7tgoR9K9mHdV/+tGZPsttPaEAScJJhqA81HNprVN9Fu9EJ0XTEzkGTvbaVJb6Hx
+	 Qzks5PLB5vorWVg53klblNq3phtjvnvFZqLRpBY/lb0TuCBuxS4GgeeCTYGb+VI6ok
+	 zfc1qtwfOHsXCTucSL4Xb61hPPubFgtHkxN2eCV1J182QybCpwgfTt0/4sSb25g/FL
+	 PUk6ZaAAFbN5g==
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-513d23be0b6so3396180e87.0;
+        Sat, 30 Mar 2024 19:34:04 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVDkGXqULJb0iTE30zok3Z/DcAitzYB9HUyf5pQ/qSbH7TnoDghRS696d3Z3Bc7u3vJtKOCIyp0hkqFnVKFWXLHRnz0A8czvwM7M2KtNDkdHOpr2c074bO9nltfNZLNpXSwZIksKCLZNGtZiA0bHX646SeY+kLLS+WUzjnVm4MKEuoM
+X-Gm-Message-State: AOJu0YzWfQ4zDI0K2CTviHTVM/YUaXaFBBv4MmJVL07IxX6zt/sEhULv
+	8wYbpd4A6ohvhE1X1s1afNGS2g9DPx2m3V/0v8z3Oa7dpCwciQaRAnkxDrAd98WqSrH+OiQMNXB
+	qPMEzBdnsGuo/e1Si+icML8zVNFY=
+X-Google-Smtp-Source: AGHT+IGpEQPL0v7g3+p+5E8g7HGnWQKzlMop6CryhqCRVmhK61t313PDdp5vf1ukKDWFXpyLX2tmge1Ix/vKXAwQ4u4=
+X-Received: by 2002:a2e:9914:0:b0:2d4:6aba:f1a9 with SMTP id
+ v20-20020a2e9914000000b002d46abaf1a9mr4254960lji.40.1711852443253; Sat, 30
+ Mar 2024 19:34:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <ZfodWv+E6Ekqr7fl@goliath> <CAK7LNATUFzG9jTfFB831vZr7t-8w6UWfX85Jn2tEvypkmhcs4A@mail.gmail.com>
- <ZgRL/GHwgV16+yTb@goliath>
-In-Reply-To: <ZgRL/GHwgV16+yTb@goliath>
+References: <20240326144741.3094687-1-arnd@kernel.org> <20240326144741.3094687-2-arnd@kernel.org>
+ <87jzlohhbc.fsf@intel.com> <cb853762-06d4-401c-a1c8-07a0c031b499@app.fastmail.com>
+ <87edbwglle.fsf@intel.com> <07c604d1-6304-4ff8-844b-03c3d5c727ad@app.fastmail.com>
+In-Reply-To: <07c604d1-6304-4ff8-844b-03c3d5c727ad@app.fastmail.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sun, 31 Mar 2024 08:10:21 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARLYR2roSSwz+3bQnyXaLyR5EEms97jwcZrFfzn6NFtdw@mail.gmail.com>
-Message-ID: <CAK7LNARLYR2roSSwz+3bQnyXaLyR5EEms97jwcZrFfzn6NFtdw@mail.gmail.com>
-Subject: Re: M= modules build w/ objects in different directory
-To: "Daniel Walker (danielwa)" <danielwa@cisco.com>
-Cc: Jing Leng <jleng@ambarella.com>, 
-	"Valerii Chernous -X (vchernou - GLOBALLOGIC INC at Cisco)" <vchernou@cisco.com>, 
-	"xe-linux-external(mailer list)" <xe-linux-external@cisco.com>, 
-	"linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>
+Date: Sun, 31 Mar 2024 11:33:27 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARmABUDDTFtp_HCqKid7=8011wk0HMgHYGHWOLunhpxXA@mail.gmail.com>
+Message-ID: <CAK7LNARmABUDDTFtp_HCqKid7=8011wk0HMgHYGHWOLunhpxXA@mail.gmail.com>
+Subject: Re: [PATCH 01/12] kbuild: make -Woverride-init warnings more consistent
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, Arnd Bergmann <arnd@kernel.org>, 
+	linux-kbuild@vger.kernel.org, Harry Wentland <harry.wentland@amd.com>, 
+	Alex Deucher <alexander.deucher@amd.com>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Lucas De Marchi <lucas.demarchi@intel.com>, Oded Gabbay <ogabbay@kernel.org>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Andrew Jeffery <andrew@codeconstruct.com.au>, Linus Walleij <linus.walleij@linaro.org>, 
+	Joel Stanley <joel@jms.id.au>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, Netdev <netdev@vger.kernel.org>, linux-mm@kvack.org, 
+	llvm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 28, 2024 at 1:41=E2=80=AFAM Daniel Walker (danielwa)
-<danielwa@cisco.com> wrote:
+On Wed, Mar 27, 2024 at 6:23=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> wrote=
+:
 >
-> On Thu, Mar 21, 2024 at 12:01:23AM +0900, Masahiro Yamada wrote:
-> > On Wed, Mar 20, 2024 at 8:20=E2=80=AFAM Daniel Walker (danielwa)
-> > <danielwa@cisco.com> wrote:
-> > >
-> > >
-> > > Masahiro,
-> > >
-> > > I found this commit,
-> > >
-> > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/co=
-mmit/?id=3D23a0cb8e3225122496bfa79172005c587c2d64bf
-> > >
-> > > It had this note,
-> > >
-> > > [masahiro: I do not think "M=3D$(OUT_DIR) src=3D$(PWD)" is the offici=
-al way,
-> > > but this patch is a nice clean up anyway.]
-> > >
-> > > Is there an official way or recommended way to build objects in a dir=
-ectory
-> > > outside the external modules source directory and outside the origina=
-l kernel
-> > > source directory ?
-> > >
-> > > Daniel
+> On Wed, Mar 27, 2024, at 08:50, Jani Nikula wrote:
+> > On Tue, 26 Mar 2024, "Arnd Bergmann" <arnd@arndb.de> wrote:
+> >> On Tue, Mar 26, 2024, at 21:24, Jani Nikula wrote:
+> >>> On Tue, 26 Mar 2024, Arnd Bergmann <arnd@kernel.org> wrote:
+> >>
+> >> It works now.
+> >>
+> >> The original __diag_ignore_all() only did it for gcc-8 and above
+> >> because that was initially needed to suppress warnings that
+> >> got added in that version, but this was always a mistake.
+> >>
+> >> 689b097a06ba ("compiler-gcc: Suppress -Wmissing-prototypes
+> >> warning for all supported GCC") made it work correctly.
 > >
+> > Oh, nice! Then I think we'd like to go back to __diag_ignore_all() in
+> > i915 and xe.
 > >
-> > There is no official way.
-> > One known tip is to use a relative path for M=3D.
-> >
-> > For example, the relative path from your kernel source
-> > to your external module directory is  ../path/to/module
-> >
-> >  $ make O=3Dpath/to/output  M=3D../path/to/module
-> >
-> >
-> > The module objects will be output into
-> > path/to/output/../path/to/module/.
+> > The diff is below. I'm fine with you squashing it to your patch, or if
+> > you want me to turn it into a proper patch for you to pick up in your
+> > series, that's fine too. Just let me know.
 >
-> It seems that this does place objects into the output directory, but ther=
-e is an
-> issue where the build system expects include files to exist inside the ou=
-tput
-> directory as well. For example if the modules includes linux/module.h thi=
-s file
-> exists and is found, but module.h also includes asm/rwonce.h which is not=
- found.
-> I think it's located in include/asm-generic/rwonce.h . I think these asm =
-location
-> are linked or added as special -I additions during the build but using O=
-=3D
-> results in these asm directories not appearing to exist correctly.
+> I think I'd prefer to keep my patch simpler for the moment and
+> get that merged through the kbuild tree, it already touches
+> too many places at once.
 >
-> Daniel
-
-
-To use this workaround, you need to build the kernel
-with O=3D first.
-
-asm/rwonce.h is a generated header, and exists in
-the output directory specified with O=3D.
-
-
-
-  # configure and build the kernel
-  $ make O=3Dpath/to/output defconfig
-  $ make O=3Dpath/to/output
-
-  # build the module
-  $ make O=3Dpath/to/output  M=3D../path/to/module
+> It may be better for me to just drop the drivers/gpu/ part of
+> my patch so you can just just take your patch through the
+> drm tree. I actually have a similar patch for the amdgpu driver
+> that I can send if you like this option better.
+>
+>     Arnd
+>
 
 
 
-
+Applied to linux-kbuild/fixes.
+Thanks.
 
 --=20
 Best Regards
