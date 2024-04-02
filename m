@@ -1,102 +1,187 @@
-Return-Path: <linux-kbuild+bounces-1446-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1447-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DED06894F36
-	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Apr 2024 11:55:52 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58BC8895841
+	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Apr 2024 17:31:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9A11A28212E
-	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Apr 2024 09:55:51 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B9342B26154
+	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Apr 2024 15:31:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43E1158AB0;
-	Tue,  2 Apr 2024 09:55:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0488113174B;
+	Tue,  2 Apr 2024 15:31:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="KsvBWpxz"
+	dkim=pass (1024-bit key) header.d=cisco.com header.i=@cisco.com header.b="j2lpEUgL"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from alln-iport-1.cisco.com (alln-iport-1.cisco.com [173.37.142.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA04E5914B
-	for <linux-kbuild@vger.kernel.org>; Tue,  2 Apr 2024 09:55:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F23ED13118A;
+	Tue,  2 Apr 2024 15:31:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.37.142.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712051747; cv=none; b=r3c/lYQaD5fqIse3uuFUiCazcZS8TQLynylFb4e4FoYaSk1KHdFUgkmVWyostYzegDqaC5wDOfmrRv71aJ2BjQXHR+FVh16EEF2T6uyE+obLQxfOgXdyOtFj7jrgt78mAOL5Vm5QWHB1MnmGFDorYU8CZfoOUDYObfZDQhgxVgk=
+	t=1712071900; cv=none; b=q1m103HGB5Y6cB9eCXj33OJv2Ae2L/tvTXXO5OblTpRVOE8TEsVkQtLYAl4kDyUNN0cXj9c3r2Rk710Fl0sh52XatpZt+Yj3ogpBorctoAlhj9Ac1G/tEWoig5eVxURcemgK1LN+BH6qDro9RCd+inMij1NyCgIAjmLwdCu4ZIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712051747; c=relaxed/simple;
-	bh=a+YljDVrbcAwyR/tcUOKBAwbhaSbQeo8lJMXH+opy20=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=I+0EcCJDeMzjjQGOryQsEcXWKLZKXuxzesHfahkBoxnRypzBBznDZPQMQi63qxE2ukZjXfB/5fZWVMXVcu2fvT+CuLOAnTP6ibq7wu3DlVhF5pyt8Bh6gyJcB8+GGs08iPv72zH0TY9dr0Q084uPzkjk8MbP5myHgBmQSWE76KQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=KsvBWpxz; arc=none smtp.client-ip=209.85.217.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-4765cffb446so1510222137.0
-        for <linux-kbuild@vger.kernel.org>; Tue, 02 Apr 2024 02:55:45 -0700 (PDT)
+	s=arc-20240116; t=1712071900; c=relaxed/simple;
+	bh=e69MTcmMVQRlw2pSk4NeN0iFCrZxVM43Fm6IIEyLoZA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=W5W4bpK2diCPT/C7M39fkoA0fvwRKvEj2ApZZYjlUNZXJC6+Gi3yjNNKdCh7rtVTekJ2KGX/3aGnrbZcX82+7PdiB63Wy2B7boqihIbCBiEFaILIhqAmXm5SfFnKj7d+DjctYmAWbuyUARzqaQqpQVPXLIyP2HyBOrgjGy/tOWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cisco.com; spf=pass smtp.mailfrom=cisco.com; dkim=pass (1024-bit key) header.d=cisco.com header.i=@cisco.com header.b=j2lpEUgL; arc=none smtp.client-ip=173.37.142.88
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cisco.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cisco.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1712051744; x=1712656544; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=a+YljDVrbcAwyR/tcUOKBAwbhaSbQeo8lJMXH+opy20=;
-        b=KsvBWpxzvxZIGoUiZxoyoVLoBnnOQr5jJFGAmVj6Bcex884PDy5mjSF17mTEouKYav
-         YL8DKHYIb1th5ZQ15mYwGhM0GdCx1U8+dc8SjF5ao7dkQUfmENfVzzEkPSdMpSTS1RVS
-         yhHVhvePqYceW4HzwvFWhAFk2tJUbyr/wDLgJQuzTrrz5kicjj/bl/icy4SxmOsPN+Un
-         /J+JdCRrjw1HeEGRKtjjiAMfgYQ79JVj53+/GkX6Aonx54orFhtm3Z/z7icotcunvbnH
-         vpg8IY1kSrXtrC+ecIrcYqXkXOcgDuX27ppYT07j0VSq5vnRvCv4oYodj1EkK+r/fIsn
-         sEbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712051744; x=1712656544;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=a+YljDVrbcAwyR/tcUOKBAwbhaSbQeo8lJMXH+opy20=;
-        b=KHK8sg6BPBKIF28boDd9QWQll2uF3yiRXh7cEEFo1ac/CfiLuoUWMALYXPkhr+hqur
-         e1L+X0jdLq4oX5uNT5GcL9Xqm07/S1Jhyae7F1fnHJ07yT1BSfy92SAuxFFgozccGGAD
-         N7UzbBAdJTQpzKf2K0oDbCXtfhBG14N6YrLotvYZGwAjvwSE6whvAB8C26FGmF31LekG
-         U+pFBagNHzGZBs9kjVLQRnbl8QjMDBB67yrxhfqLx7CF+9Kg8N56M9zKDoXQtfEcXbeA
-         SrobQeQv5HV/RSFABq4O/d+jBQrgmmmLxLez/zkI6lvXbeKIEtpRi1SnZGVOf5nP2e3L
-         H3dQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX8f6tGWNNOM8UIsGxF7e16oalKkdnjl82oYMzpqHE39kS/VmOl19KZNKdbmQpsbOTbLrY/Z629aIKVK3S50vSs/EzkLvMQp6+iyWDb
-X-Gm-Message-State: AOJu0YwkoHxLG2GRLnfLMQ4uQzeiFboWqh/HTatOL6/A6JTm5JC2dv6L
-	eLUmaViZuxiFtH+bzAGAUu/FiAy9pJVHxukW1SezOZch0yQm6IWo+DMBq2rWn6y8q+YJ1eMMviJ
-	xi8JU1kYumOgnOSxyMh34piWAHy0U3D3x6vpf
-X-Google-Smtp-Source: AGHT+IGv3VAH51GyjjtjsnXbb/DrFswdNA8szNO89cktWs1ewiqSuc3VC/AWKEjqHLDt3jRpmLOWygntlWniMVRckAo=
-X-Received: by 2002:a05:6102:378:b0:475:fe59:f33 with SMTP id
- f24-20020a056102037800b00475fe590f33mr6501047vsa.29.1712051744314; Tue, 02
- Apr 2024 02:55:44 -0700 (PDT)
+  d=cisco.com; i=@cisco.com; l=2610; q=dns/txt; s=iport;
+  t=1712071899; x=1713281499;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=+6buokSRXxD5AHfqji+FJX+U612BchLgn5C5OOcHDp8=;
+  b=j2lpEUgLMF5U8UNjEAUELiasRz4r2QjOFg2yeNsxuJNMdxCxBDRU32AA
+   vCLgwn+oj4cEnunlNABIqAfPgqz4uHLxuC01+qI4sc9v7NaDmAydZ3iR9
+   eLkwF/RvYQvyFwwul/582wo/fLz2Fme8bHbTNs3csebiyW732s89CGdon
+   s=;
+X-CSE-ConnectionGUID: puciDyntTuO4io/BVrtvHQ==
+X-CSE-MsgGUID: 6/xQRmZbR+er6QTgIsyl1A==
+X-IPAS-Result: =?us-ascii?q?A0AwAQCYIwxmmIUNJK1aHgEBCxIMggQLgzVWQUiWPItzk?=
+ =?us-ascii?q?heBJQNWDwEBAQ8xEwQBAYUGiAgCJjQJDgECBAEBAQEDAgMBAQEBAQEBAQYBA?=
+ =?us-ascii?q?QUBAQECAQcFFAEBAQEBAQEBHhkFDhAnhW0Nhlw2AUaBPQESgwABgl8CAa8Wg?=
+ =?us-ascii?q?iyBAbMygWoYgTCMe4VhJxuBSUSCUI0zBIISgzeOW4RaiDaFO0qBJAOBBWsbE?=
+ =?us-ascii?q?B43ERATDQMIbh0CMToDBQMEMgoSDAsfBRJCA0AGSAsDAhoFAwMEgSwFCxoCE?=
+ =?us-ascii?q?CwmAwMSSQIQFAM4AwMGAwoxLk9BDFADZB8ZGAk8DwwaAhsUDSQjAiw+AwkKE?=
+ =?us-ascii?q?AIWAx0UBDARCQsmAyoGNgISDAYGBlwgFgkEIwMIBANQAyBwEQMEGgQLB3aDP?=
+ =?us-ascii?q?QQTRAMQgTIGihSDFQIFIymBd4ESGIMOToFWLQMJAwcFSUADCxgNSBEsNQYOG?=
+ =?us-ascii?q?wYiH28HpH0Bgm4BPT4UgSZKCIEqkkuSAYEynzeEHYwMlR0aM4VbpFQBmGIgp?=
+ =?us-ascii?q?ACEY4FkOoFbTSMVgyIJSRkPjjmDA50CIzU7AgcLAQEDCYpoAQE?=
+IronPort-Data: A9a23:m5HBra8aLg0w8bsVOYOJDrUDXn6TJUtcMsCJ2f8bNWPcYEJGY0x3n
+ 2ROD2GCM/ePN2Pxf9txO97i905T7ZPUy9NrSAFq+H9EQiMRo6IpJzg2wmQcns+2BpeeJK6yx
+ 5xGMrEsFOhtEzmE4E/ra+C9xZVF/fngbqLmD+LZMTxGSwZhSSMw4TpugOdRbrRA2bBVOCvT/
+ 4utyyHjEAX9gWIsbjpOs/jrRC5H5ZwehhtJ5jTSWtgT1LPuvyF9JI4SI6i3M0z5TuF8dgJtb
+ 7+epF0R1jqxEyYFUrtJoJ6iGqE5auK60Ty1t5Zjc/PKbi6uCcAF+v1T2PI0MS+7gtgS9jx74
+ I0lWZeYEW/FMkBQ8QgQe0EwLs1wAUFJ0KfaKnmToMqP81DhL3rrhN9QFl0oHbRNr46bAUkWn
+ RAZADkJahbGjOWszffiE69nh98oK4/gO4Z3VnNIlG6CS614B8mYBfyRvre03x9o7ixKNejVZ
+ 8cDbz1yRB/BeBZIfFwQDfrSmc/y2imhKGQB9wL9SawfvS/D9TZ04rLXc9fPJOW2SuROj0LBj
+ zeTl4j+KkpHbIPEk2XtHmiXruvOmz7rHYEfDru18tZ0j1CJgG8eEhsbUR28u/bRokq/Xc9Pb
+ k8e5ysqoYAs+0GxCNrwRRu1pDiDpBF0c9xRGOo+4RqlxKjd+AKUQGUZJhZHYcAmvckeRjEw0
+ FKN2dTzClRHtbSOQHKc7LCFhTC/Iy4YKSkFfyBscOcey9DnpId2hRXVQ5M6Sei+j8b+Hnf7x
+ DXiQDUCa6s7ldMA1omq+0z7nhXwp5+OZDAv+hv3Zzfwhu9mX7KNa4ut4FndyP9PKoeFU1WM1
+ ETofeDAtYji6rnTzkSwrPUxIV2/2xqS3NThbbNHFp0l8XGm/GSuONkJpjp/P0xudM0DfFcFg
+ XM/WysPuve/31PzMcebhr5d7exxlsAM8vy+CZjpgiJmOMQZSeN+1HgGibSs927silMwtqo0J
+ I2Wd82hZV5DVv09lGfoHLlEjOZ3rszb+Y81bc2rp/hA+efPDEN5tZ9VWLdzRrlgs/Pa+lm9H
+ yh3bpTSkn2zr9ESkgGMrNZMdgpVRZTKLZv3sMdQPvWSORZrHXppCvnah9scl39NwcxoehPz1
+ ijlACdwkQOn7VWecFniQi44MtvHA80gxU/XyARxZz5ELVB5P9b2hEreHrNqFYQaGBtLlqcuE
+ qVeIpzZXpyiiF3volwgUHU0l6Q6HDzDuO5EF3HNjOQXF3K4ezH0xw==
+IronPort-HdrOrdr: A9a23:YNyNIa4SsDzk1dGpMAPXwMfXdLJyesId70hD6qm+c3Bom6uj5q
+ KTdZsguyMc5Ax6ZJhCo6HiBED/exLhHPdOiOF7AV7IZmbbUQWTQb2KxLGSpgEIYxefygaYvp
+ 0QFJSXz7bLfDxHsfo=
+X-Talos-CUID: =?us-ascii?q?9a23=3AEJzxFWh/v0hpVKjmWoBNZEK3YzJuamDWzVvBJVO?=
+ =?us-ascii?q?EFEE1SbrSY2GK5L1Eqp87?=
+X-Talos-MUID: 9a23:QhcDEQkU6wznDguJOyzndno8c9dR2aGcAnpOnI9YgvWLFDdhP2602WE=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.07,175,1708387200"; 
+   d="scan'208";a="248631178"
+Received: from alln-core-11.cisco.com ([173.36.13.133])
+  by alln-iport-1.cisco.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2024 15:30:30 +0000
+Received: from sjc-ads-1541.cisco.com (sjc-ads-1541.cisco.com [171.70.59.233])
+	by alln-core-11.cisco.com (8.15.2/8.15.2) with ESMTP id 432FUTlY029489;
+	Tue, 2 Apr 2024 15:30:29 GMT
+From: Valerii Chernous <vchernou@cisco.com>
+To: Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nicolas Schier <nicolas@fjasle.eu>
+Cc: xe-linux-external@cisco.com, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] Add MO(mod objs) variable to process ext modules with subdirs
+Date: Tue,  2 Apr 2024 08:30:27 -0700
+Message-Id: <20240402153028.1378868-1-vchernou@cisco.com>
+X-Mailer: git-send-email 2.35.6
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240217002602.57270-1-ojeda@kernel.org>
-In-Reply-To: <20240217002602.57270-1-ojeda@kernel.org>
-From: Alice Ryhl <aliceryhl@google.com>
-Date: Tue, 2 Apr 2024 11:55:33 +0200
-Message-ID: <CAH5fLggb8jr2yaQwcQFmrP935_h+SRPT=xH+tRQe7dngiLB2fA@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: rust: use `-Zdwarf-version` to support DWARFv5
-To: Miguel Ojeda <ojeda@kernel.org>
-Cc: Wedson Almeida Filho <wedsonaf@gmail.com>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
-	Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	patches@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-Outbound-SMTP-Client: 171.70.59.233, sjc-ads-1541.cisco.com
+X-Outbound-Node: alln-core-11.cisco.com
 
-On Sat, Feb 17, 2024 at 1:26=E2=80=AFAM Miguel Ojeda <ojeda@kernel.org> wro=
-te:
->
-> Rust 1.64.0 introduced (unstable) support for the `-Zdwarf-version`
-> flag, which allows to select DWARFv5, thus use it.
->
-> Link: https://github.com/rust-lang/rust/issues/103057
-> Link: https://github.com/rust-lang/rust/pull/98350
-> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+The change allow to build external modules with nested makefiles.
+With current unofficial way(using "src" variable) it is posible to build
+external(out of tree) kernel module with separating source and build
+artifacts dirs but with nested makefiles it doesn't work properly.
+Build system trap to recursion inside makefiles, articafts output dir
+path grow with each iteration until exceed max path len and build failed
+Providing "MO" variable and using "override" directive with declaring
+"src" variable solve the problem
+Usage example:
+make -C KERNEL_SOURCE_TREE MO=BUILD_OUT_DIR M=EXT_MOD_SRC_DIR modules
 
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+Cc: xe-linux-external@cisco.com
+Cc: Valerii Chernous <vchernou@cisco.com>
+Signed-off-by: Valerii Chernous <vchernou@cisco.com>
+---
+ Makefile               | 17 +++++++++++++++++
+ scripts/Makefile.build |  7 +++++++
+ 2 files changed, 24 insertions(+)
+
+diff --git a/Makefile b/Makefile
+index 4bef6323c47d..5858708d357c 100644
+--- a/Makefile
++++ b/Makefile
+@@ -142,6 +142,7 @@ ifeq ("$(origin M)", "command line")
+   KBUILD_EXTMOD := $(M)
+ endif
+ 
++define kbuild_extmod_check_TEMPLATE
+ $(if $(word 2, $(KBUILD_EXTMOD)), \
+ 	$(error building multiple external modules is not supported))
+ 
+@@ -152,9 +153,25 @@ $(foreach x, % :, $(if $(findstring $x, $(KBUILD_EXTMOD)), \
+ ifneq ($(filter %/, $(KBUILD_EXTMOD)),)
+ KBUILD_EXTMOD := $(shell dirname $(KBUILD_EXTMOD).)
+ endif
++endef
++$(eval $(call kbuild_extmod_check_TEMPLATE))
+ 
+ export KBUILD_EXTMOD
+ 
++# Use make M=src_dir MO=ko_dir or set the environment variables:
++# KBUILD_EXTMOD_SRC, KBUILD_EXTMOD to specify separate directories of
++# external module sources and build artifacts.
++ifeq ("$(origin MO)", "command line")
++ifeq (KBUILD_EXTMOD,)
++	$(error Ext module objects without module sources is not supported))
++endif
++KBUILD_EXTMOD_SRC := $(KBUILD_EXTMOD)
++KBUILD_EXTMOD := $(MO)
++$(eval $(call kbuild_extmod_check_TEMPLATE))
++endif
++
++export KBUILD_EXTMOD_SRC
++
+ # backward compatibility
+ KBUILD_EXTRA_WARN ?= $(KBUILD_ENABLE_EXTRA_GCC_CHECKS)
+ 
+diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+index baf86c0880b6..a293950e2e07 100644
+--- a/scripts/Makefile.build
++++ b/scripts/Makefile.build
+@@ -3,7 +3,14 @@
+ # Building
+ # ==========================================================================
+ 
++ifeq ($(KBUILD_EXTMOD_SRC),)
+ src := $(obj)
++else ifeq ($(KBUILD_EXTMOD),$(obj))
++override src := $(KBUILD_EXTMOD_SRC)
++else
++src_subdir := $(patsubst $(KBUILD_EXTMOD)/%,%,$(obj))
++override src := $(KBUILD_EXTMOD_SRC)/$(src_subdir)
++endif
+ 
+ PHONY := $(obj)/
+ $(obj)/:
+-- 
+2.35.6
+
 
