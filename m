@@ -1,187 +1,231 @@
-Return-Path: <linux-kbuild+bounces-1447-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1448-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58BC8895841
-	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Apr 2024 17:31:50 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38CF389591D
+	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Apr 2024 18:01:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B9342B26154
-	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Apr 2024 15:31:47 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5A3D21C239C1
+	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Apr 2024 16:01:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0488113174B;
-	Tue,  2 Apr 2024 15:31:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F5CF133406;
+	Tue,  2 Apr 2024 15:59:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cisco.com header.i=@cisco.com header.b="j2lpEUgL"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FxER6vrc"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from alln-iport-1.cisco.com (alln-iport-1.cisco.com [173.37.142.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F23ED13118A;
-	Tue,  2 Apr 2024 15:31:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=173.37.142.88
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E9A413340D;
+	Tue,  2 Apr 2024 15:59:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712071900; cv=none; b=q1m103HGB5Y6cB9eCXj33OJv2Ae2L/tvTXXO5OblTpRVOE8TEsVkQtLYAl4kDyUNN0cXj9c3r2Rk710Fl0sh52XatpZt+Yj3ogpBorctoAlhj9Ac1G/tEWoig5eVxURcemgK1LN+BH6qDro9RCd+inMij1NyCgIAjmLwdCu4ZIQ=
+	t=1712073594; cv=none; b=HyNOJl0QOA8FlkajhUxpUT6fMGznjvYC0+VSDHMVsx3fujRG2pEv1W7EzesiSd4uAErQ1TLIqrJ/ASdPhPV85u+PWJlu9uRZZ5TZ4AGHXtmRF+oyU1ooHeC3dtA9z7PuZ/Z11W+H5VU3vxmFV9GsVTcie/gYdqtKeeOY0uPDNUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712071900; c=relaxed/simple;
-	bh=e69MTcmMVQRlw2pSk4NeN0iFCrZxVM43Fm6IIEyLoZA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=W5W4bpK2diCPT/C7M39fkoA0fvwRKvEj2ApZZYjlUNZXJC6+Gi3yjNNKdCh7rtVTekJ2KGX/3aGnrbZcX82+7PdiB63Wy2B7boqihIbCBiEFaILIhqAmXm5SfFnKj7d+DjctYmAWbuyUARzqaQqpQVPXLIyP2HyBOrgjGy/tOWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cisco.com; spf=pass smtp.mailfrom=cisco.com; dkim=pass (1024-bit key) header.d=cisco.com header.i=@cisco.com header.b=j2lpEUgL; arc=none smtp.client-ip=173.37.142.88
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cisco.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cisco.com
+	s=arc-20240116; t=1712073594; c=relaxed/simple;
+	bh=9h0ja0fzbpqt/scnHosHOcw3nHfUNNwfNkOqdpgC51o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ifI9Ftsn1bk+VSBa/yrXfOPHQqXMvg8M5SYA1bTEhX4qMrmIIE+Q8nJbD2HXpCdarFjb665C9g0I8uA43gtc3ydywh8lAQHNkiKUbYUzH2SHquVN3MNLlp7hvXr8zlgKGvZMDr/KT76TJFkELJ1u4noyujHXSPyl4mnB2BJI2kA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FxER6vrc; arc=none smtp.client-ip=209.85.222.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-78bc322a55cso302354985a.1;
+        Tue, 02 Apr 2024 08:59:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=2610; q=dns/txt; s=iport;
-  t=1712071899; x=1713281499;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=+6buokSRXxD5AHfqji+FJX+U612BchLgn5C5OOcHDp8=;
-  b=j2lpEUgLMF5U8UNjEAUELiasRz4r2QjOFg2yeNsxuJNMdxCxBDRU32AA
-   vCLgwn+oj4cEnunlNABIqAfPgqz4uHLxuC01+qI4sc9v7NaDmAydZ3iR9
-   eLkwF/RvYQvyFwwul/582wo/fLz2Fme8bHbTNs3csebiyW732s89CGdon
-   s=;
-X-CSE-ConnectionGUID: puciDyntTuO4io/BVrtvHQ==
-X-CSE-MsgGUID: 6/xQRmZbR+er6QTgIsyl1A==
-X-IPAS-Result: =?us-ascii?q?A0AwAQCYIwxmmIUNJK1aHgEBCxIMggQLgzVWQUiWPItzk?=
- =?us-ascii?q?heBJQNWDwEBAQ8xEwQBAYUGiAgCJjQJDgECBAEBAQEDAgMBAQEBAQEBAQYBA?=
- =?us-ascii?q?QUBAQECAQcFFAEBAQEBAQEBHhkFDhAnhW0Nhlw2AUaBPQESgwABgl8CAa8Wg?=
- =?us-ascii?q?iyBAbMygWoYgTCMe4VhJxuBSUSCUI0zBIISgzeOW4RaiDaFO0qBJAOBBWsbE?=
- =?us-ascii?q?B43ERATDQMIbh0CMToDBQMEMgoSDAsfBRJCA0AGSAsDAhoFAwMEgSwFCxoCE?=
- =?us-ascii?q?CwmAwMSSQIQFAM4AwMGAwoxLk9BDFADZB8ZGAk8DwwaAhsUDSQjAiw+AwkKE?=
- =?us-ascii?q?AIWAx0UBDARCQsmAyoGNgISDAYGBlwgFgkEIwMIBANQAyBwEQMEGgQLB3aDP?=
- =?us-ascii?q?QQTRAMQgTIGihSDFQIFIymBd4ESGIMOToFWLQMJAwcFSUADCxgNSBEsNQYOG?=
- =?us-ascii?q?wYiH28HpH0Bgm4BPT4UgSZKCIEqkkuSAYEynzeEHYwMlR0aM4VbpFQBmGIgp?=
- =?us-ascii?q?ACEY4FkOoFbTSMVgyIJSRkPjjmDA50CIzU7AgcLAQEDCYpoAQE?=
-IronPort-Data: A9a23:m5HBra8aLg0w8bsVOYOJDrUDXn6TJUtcMsCJ2f8bNWPcYEJGY0x3n
- 2ROD2GCM/ePN2Pxf9txO97i905T7ZPUy9NrSAFq+H9EQiMRo6IpJzg2wmQcns+2BpeeJK6yx
- 5xGMrEsFOhtEzmE4E/ra+C9xZVF/fngbqLmD+LZMTxGSwZhSSMw4TpugOdRbrRA2bBVOCvT/
- 4utyyHjEAX9gWIsbjpOs/jrRC5H5ZwehhtJ5jTSWtgT1LPuvyF9JI4SI6i3M0z5TuF8dgJtb
- 7+epF0R1jqxEyYFUrtJoJ6iGqE5auK60Ty1t5Zjc/PKbi6uCcAF+v1T2PI0MS+7gtgS9jx74
- I0lWZeYEW/FMkBQ8QgQe0EwLs1wAUFJ0KfaKnmToMqP81DhL3rrhN9QFl0oHbRNr46bAUkWn
- RAZADkJahbGjOWszffiE69nh98oK4/gO4Z3VnNIlG6CS614B8mYBfyRvre03x9o7ixKNejVZ
- 8cDbz1yRB/BeBZIfFwQDfrSmc/y2imhKGQB9wL9SawfvS/D9TZ04rLXc9fPJOW2SuROj0LBj
- zeTl4j+KkpHbIPEk2XtHmiXruvOmz7rHYEfDru18tZ0j1CJgG8eEhsbUR28u/bRokq/Xc9Pb
- k8e5ysqoYAs+0GxCNrwRRu1pDiDpBF0c9xRGOo+4RqlxKjd+AKUQGUZJhZHYcAmvckeRjEw0
- FKN2dTzClRHtbSOQHKc7LCFhTC/Iy4YKSkFfyBscOcey9DnpId2hRXVQ5M6Sei+j8b+Hnf7x
- DXiQDUCa6s7ldMA1omq+0z7nhXwp5+OZDAv+hv3Zzfwhu9mX7KNa4ut4FndyP9PKoeFU1WM1
- ETofeDAtYji6rnTzkSwrPUxIV2/2xqS3NThbbNHFp0l8XGm/GSuONkJpjp/P0xudM0DfFcFg
- XM/WysPuve/31PzMcebhr5d7exxlsAM8vy+CZjpgiJmOMQZSeN+1HgGibSs927silMwtqo0J
- I2Wd82hZV5DVv09lGfoHLlEjOZ3rszb+Y81bc2rp/hA+efPDEN5tZ9VWLdzRrlgs/Pa+lm9H
- yh3bpTSkn2zr9ESkgGMrNZMdgpVRZTKLZv3sMdQPvWSORZrHXppCvnah9scl39NwcxoehPz1
- ijlACdwkQOn7VWecFniQi44MtvHA80gxU/XyARxZz5ELVB5P9b2hEreHrNqFYQaGBtLlqcuE
- qVeIpzZXpyiiF3volwgUHU0l6Q6HDzDuO5EF3HNjOQXF3K4ezH0xw==
-IronPort-HdrOrdr: A9a23:YNyNIa4SsDzk1dGpMAPXwMfXdLJyesId70hD6qm+c3Bom6uj5q
- KTdZsguyMc5Ax6ZJhCo6HiBED/exLhHPdOiOF7AV7IZmbbUQWTQb2KxLGSpgEIYxefygaYvp
- 0QFJSXz7bLfDxHsfo=
-X-Talos-CUID: =?us-ascii?q?9a23=3AEJzxFWh/v0hpVKjmWoBNZEK3YzJuamDWzVvBJVO?=
- =?us-ascii?q?EFEE1SbrSY2GK5L1Eqp87?=
-X-Talos-MUID: 9a23:QhcDEQkU6wznDguJOyzndno8c9dR2aGcAnpOnI9YgvWLFDdhP2602WE=
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.07,175,1708387200"; 
-   d="scan'208";a="248631178"
-Received: from alln-core-11.cisco.com ([173.36.13.133])
-  by alln-iport-1.cisco.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2024 15:30:30 +0000
-Received: from sjc-ads-1541.cisco.com (sjc-ads-1541.cisco.com [171.70.59.233])
-	by alln-core-11.cisco.com (8.15.2/8.15.2) with ESMTP id 432FUTlY029489;
-	Tue, 2 Apr 2024 15:30:29 GMT
-From: Valerii Chernous <vchernou@cisco.com>
-To: Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nicolas Schier <nicolas@fjasle.eu>
-Cc: xe-linux-external@cisco.com, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] Add MO(mod objs) variable to process ext modules with subdirs
-Date: Tue,  2 Apr 2024 08:30:27 -0700
-Message-Id: <20240402153028.1378868-1-vchernou@cisco.com>
-X-Mailer: git-send-email 2.35.6
+        d=gmail.com; s=20230601; t=1712073591; x=1712678391; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1iMupQUHAsYvjV/fM+O/DYp3vUVspONAX/mj9N6Emok=;
+        b=FxER6vrcSosT4dpSVmtIpBQ0Vj0IJd2F9Mjr7aqn/jnTBB2Y0VIohq1FM/D23wI3rk
+         z2507T3nJj34Grm9bkYzzLmls4jcCk04JmUy6+264uMJaX9Uu7t3zsnDmPEES0hvNjcg
+         yMsUH9S76ld9gHBLlea6UIHZkIF72Yyx+CRBxnamiM50Zp/34n26sLa5dTM0F7u8FICy
+         5WAeKvBGA8rmrbRuu7yivsH3XQSxlGQbT6dKrvGZsR+PV2Pkwwg92Q0kfo7O4aHkccmE
+         nj8xRIVoNP+5xt1slxdk4ipGNsmhGZfOqvl7kSY2OsET7gmdXCe7SPPBmhzD1qvZsNYB
+         F3og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712073591; x=1712678391;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1iMupQUHAsYvjV/fM+O/DYp3vUVspONAX/mj9N6Emok=;
+        b=wYuCMYxye0DjO2LueGGUpCJn6uF6dQczD1agiLoLuH/weeDVlqerJ1haDnLG9ee+T2
+         uOXLfP9wMsfWmzLQlI6Pka5/6yXVnk8UxOHjhia7pW1wo5fE7QHCCuAFqeQxlLf9C6kP
+         yEZIRSxNZpQs1O3ZGEyIhqqkw2xgH9qQhBbCbVxKDNqo4QjPTD1BVQvKetXzrj7QNsQk
+         zEqFj6K800FAw8Oc4P7xvrAtB9Qwz3rAtjc7AGAGI57S2bNq5gX8C5oCsrrasi75RqZL
+         6O/ggorszJUbrNLAEL2ghBWg9vK/vk2VMpH/iQ8pj3hJAcor/Zc2PSzu6ahn+ShxKwxt
+         lE6w==
+X-Forwarded-Encrypted: i=1; AJvYcCUZsPgOsCvMqunWWNlWp+sPLhl3KyFWK102Cmpf5IBE+Y0vyPxzd2rapDWdd3sDGOCwozxsut8TtzNmeN0nfN9QOAoPpNAs14bcP0HL
+X-Gm-Message-State: AOJu0YwJUdWYHeu8NRKI3HZhnNpWz+fcTRlOISf7SVpq6YwDKHXAvz06
+	ZuQ9PJ12SZLobtEDC0wr4rbDrMOKcoXJS8lh/bm3QNAOm5ergoVORQThzKp2IQQ+5yNPT6IZk0N
+	/8vJz2vMnXcqAJvibFUij5K7Kwy9Stsbq+b0=
+X-Google-Smtp-Source: AGHT+IGPHg/9HglXdc6tls4Z75LO/pZfrCaLGGUa/G+QAANEau2vAKO2EPIan4VWLJmB8BdAd9NwinEhaMetg3yDkwg=
+X-Received: by 2002:a0c:ecd0:0:b0:699:245c:bcc8 with SMTP id
+ o16-20020a0cecd0000000b00699245cbcc8mr202370qvq.19.1712073590911; Tue, 02 Apr
+ 2024 08:59:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-Outbound-SMTP-Client: 171.70.59.233, sjc-ads-1541.cisco.com
-X-Outbound-Node: alln-core-11.cisco.com
+References: <20231226135243.1393780-1-masahiroy@kernel.org> <20231226135243.1393780-6-masahiroy@kernel.org>
+In-Reply-To: <20231226135243.1393780-6-masahiroy@kernel.org>
+From: Robert Nelson <robertcnelson@gmail.com>
+Date: Tue, 2 Apr 2024 10:59:24 -0500
+Message-ID: <CAOCHtYiCcxssYNvPwq5RoSv30+hkWOJD4=uRaGQmatOdJR9n0A@mail.gmail.com>
+Subject: Re: [PATCH 6/6] kbuild: deb-pkg: use more debhelper commands in builddeb
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, Ben Hutchings <ben@decadent.org.uk>, 
+	Nicolas Schier <n.schier@avm.de>, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Nicolas Schier <nicolas@fjasle.eu>, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The change allow to build external modules with nested makefiles.
-With current unofficial way(using "src" variable) it is posible to build
-external(out of tree) kernel module with separating source and build
-artifacts dirs but with nested makefiles it doesn't work properly.
-Build system trap to recursion inside makefiles, articafts output dir
-path grow with each iteration until exceed max path len and build failed
-Providing "MO" variable and using "override" directive with declaring
-"src" variable solve the problem
-Usage example:
-make -C KERNEL_SOURCE_TREE MO=BUILD_OUT_DIR M=EXT_MOD_SRC_DIR modules
+On Tue, Dec 26, 2023 at 7:54=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
+rg> wrote:
+>
+> Commit 36862e14e316 ("kbuild: deb-pkg: use dh_listpackages to know
+> enabled packages") started to require the debhelper tool suite.
+>
+> Use more dh_* commands in create_package():
+>
+>  - dh_installdocs to install copyright
+>  - dh_installchangelogs to install changelog
+>  - dh_compress to compress changelog
+>  - dh_fixperms to replace the raw chmod command
+>  - dh_gencontrol to replace the raw dpkg-gencontrol command
+>  - dh_md5sums to record the md5sum of included files
+>  - dh_builddeb to replace the raw dpkg-deb command
+>
+> Set DEB_RULES_REQUIRES_ROOT to 'no' in case debian/rules is executed
+> directly.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> Reviewed-by: Nicolas Schier <n.schier@avm.de>
+> ---
+>
+>  scripts/package/builddeb     | 23 ++++++++---------------
+>  scripts/package/debian/rules |  2 ++
+>  scripts/package/mkdebian     |  2 +-
+>  3 files changed, 11 insertions(+), 16 deletions(-)
+>
+> diff --git a/scripts/package/builddeb b/scripts/package/builddeb
+> index 2eb4910f0ef3..436d55a83ab0 100755
+> --- a/scripts/package/builddeb
+> +++ b/scripts/package/builddeb
+> @@ -26,23 +26,16 @@ if_enabled_echo() {
+>
+>  create_package() {
+>         local pname=3D"$1" pdir=3D"$2"
+> -       local dpkg_deb_opts
+>
+> -       mkdir -m 755 -p "$pdir/DEBIAN"
+> -       mkdir -p "$pdir/usr/share/doc/$pname"
+> -       cp debian/copyright "$pdir/usr/share/doc/$pname/"
+> -       cp debian/changelog "$pdir/usr/share/doc/$pname/changelog.Debian"
+> -       gzip -n -9 "$pdir/usr/share/doc/$pname/changelog.Debian"
+> -       sh -c "cd '$pdir'; find . -type f ! -path './DEBIAN/*' -printf '%=
+P\0' \
+> -               | xargs -r0 md5sum > DEBIAN/md5sums"
+> +       export DH_OPTIONS=3D"-p${pname} -P${pdir}"
+>
+> -       # a+rX in case we are in a restrictive umask environment like 007=
+7
+> -       # ug-s in case we build in a setuid/setgid directory
+> -       chmod -R go-w,a+rX,ug-s "$pdir"
+> -
+> -       # Create the package
+> -       dpkg-gencontrol -p$pname -P"$pdir"
+> -       dpkg-deb --root-owner-group ${KDEB_COMPRESS:+-Z$KDEB_COMPRESS} --=
+build "$pdir" ..
+> +       dh_installdocs
+> +       dh_installchangelogs
+> +       dh_compress
+> +       dh_fixperms
+> +       dh_gencontrol
+> +       dh_md5sums
+> +       dh_builddeb -- ${KDEB_COMPRESS:+-Z$KDEB_COMPRESS}
+>  }
+>
+>  install_linux_image () {
+> diff --git a/scripts/package/debian/rules b/scripts/package/debian/rules
+> index 36d51f60f98d..1f56938ea5d4 100755
+> --- a/scripts/package/debian/rules
+> +++ b/scripts/package/debian/rules
+> @@ -1,6 +1,8 @@
+>  #!/usr/bin/make -f
+>  # SPDX-License-Identifier: GPL-2.0-only
+>
+> +export DEB_RULES_REQUIRES_ROOT :=3D no
+> +
+>  include debian/rules.vars
+>
+>  ifneq (,$(filter-out parallel=3D1,$(filter parallel=3D%,$(DEB_BUILD_OPTI=
+ONS))))
+> diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
+> index 93a24712b9a1..070149c985fe 100755
+> --- a/scripts/package/mkdebian
+> +++ b/scripts/package/mkdebian
+> @@ -193,7 +193,7 @@ Section: kernel
+>  Priority: optional
+>  Maintainer: $maintainer
+>  Rules-Requires-Root: no
+> -Build-Depends: debhelper
+> +Build-Depends: debhelper-compat (=3D 12)
 
-Cc: xe-linux-external@cisco.com
-Cc: Valerii Chernous <vchernou@cisco.com>
-Signed-off-by: Valerii Chernous <vchernou@cisco.com>
----
- Makefile               | 17 +++++++++++++++++
- scripts/Makefile.build |  7 +++++++
- 2 files changed, 24 insertions(+)
+make ARCH=3Darm  CROSS_COMPILE=3D  bindeb-pkg
 
-diff --git a/Makefile b/Makefile
-index 4bef6323c47d..5858708d357c 100644
---- a/Makefile
-+++ b/Makefile
-@@ -142,6 +142,7 @@ ifeq ("$(origin M)", "command line")
-   KBUILD_EXTMOD := $(M)
- endif
- 
-+define kbuild_extmod_check_TEMPLATE
- $(if $(word 2, $(KBUILD_EXTMOD)), \
- 	$(error building multiple external modules is not supported))
- 
-@@ -152,9 +153,25 @@ $(foreach x, % :, $(if $(findstring $x, $(KBUILD_EXTMOD)), \
- ifneq ($(filter %/, $(KBUILD_EXTMOD)),)
- KBUILD_EXTMOD := $(shell dirname $(KBUILD_EXTMOD).)
- endif
-+endef
-+$(eval $(call kbuild_extmod_check_TEMPLATE))
- 
- export KBUILD_EXTMOD
- 
-+# Use make M=src_dir MO=ko_dir or set the environment variables:
-+# KBUILD_EXTMOD_SRC, KBUILD_EXTMOD to specify separate directories of
-+# external module sources and build artifacts.
-+ifeq ("$(origin MO)", "command line")
-+ifeq (KBUILD_EXTMOD,)
-+	$(error Ext module objects without module sources is not supported))
-+endif
-+KBUILD_EXTMOD_SRC := $(KBUILD_EXTMOD)
-+KBUILD_EXTMOD := $(MO)
-+$(eval $(call kbuild_extmod_check_TEMPLATE))
-+endif
-+
-+export KBUILD_EXTMOD_SRC
-+
- # backward compatibility
- KBUILD_EXTRA_WARN ?= $(KBUILD_ENABLE_EXTRA_GCC_CHECKS)
- 
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index baf86c0880b6..a293950e2e07 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -3,7 +3,14 @@
- # Building
- # ==========================================================================
- 
-+ifeq ($(KBUILD_EXTMOD_SRC),)
- src := $(obj)
-+else ifeq ($(KBUILD_EXTMOD),$(obj))
-+override src := $(KBUILD_EXTMOD_SRC)
-+else
-+src_subdir := $(patsubst $(KBUILD_EXTMOD)/%,%,$(obj))
-+override src := $(KBUILD_EXTMOD_SRC)/$(src_subdir)
-+endif
- 
- PHONY := $(obj)/
- $(obj)/:
--- 
-2.35.6
+I'm seeing a fun issue with Ubuntu 24.04 (Noble)... 13.14.1ubuntu5:
+https://launchpad.net/ubuntu/+source/debhelper
 
+dpkg-buildpackage --build=3Dbinary --no-pre-clean --unsigned-changes
+-R'make -f debian/rules' -j1 -a$(cat debian/arch)
+dpkg-buildpackage: info: source package linux-upstream
+dpkg-buildpackage: info: source version 1noble
+dpkg-buildpackage: info: source distribution noble
+dpkg-buildpackage: info: source changed by rcn-ee <robertcnelson@gmail.com>
+ dpkg-source --before-build .
+dpkg-buildpackage: info: host architecture armhf
+dpkg-checkbuilddeps: error: Unmet build dependencies: debhelper-compat (=3D=
+ 12)
+dpkg-buildpackage: warning: build dependencies/conflicts unsatisfied; abort=
+ing
+dpkg-buildpackage: warning: (Use -d flag to override.)
+
+Where as Debian (testing) Trixie and Sid: 13.15.3
+https://packages.debian.org/source/trixie/debhelper
+
+dpkg-buildpackage --build=3Dbinary --no-pre-clean --unsigned-changes
+-R'make -f debian/rules' -j1 -a$(cat debian/arch)
+dpkg-buildpackage: info: source package linux-upstream
+dpkg-buildpackage: info: source version 1trixie
+dpkg-buildpackage: info: source distribution trixie
+dpkg-buildpackage: info: source changed by rcn-ee <robertcnelson@gmail.com>
+ dpkg-source --before-build .
+dpkg-buildpackage: info: host architecture armhf
+ make -f debian/rules binary
+
+dpkg-buildpackage --build=3Dbinary --no-pre-clean --unsigned-changes
+-R'make -f debian/rules' -j1 -a$(cat debian/arch)
+dpkg-buildpackage: info: source package linux-upstream
+dpkg-buildpackage: info: source version 1sid
+dpkg-buildpackage: info: source distribution trixie
+dpkg-buildpackage: info: source changed by rcn-ee <robertcnelson@gmail.com>
+ dpkg-source --before-build .
+dpkg-buildpackage: info: host architecture armhf
+ make -f debian/rules binary
+
+
+Not really sure why Noble is failing, but wonder if, would fix it..
+Build-Depends: debhelper-compat (>=3D 12)
+
+Regards,
+
+--=20
+Robert Nelson
+https://rcn-ee.com/
 
