@@ -1,106 +1,147 @@
-Return-Path: <linux-kbuild+bounces-1450-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1451-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D87AE89624F
-	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Apr 2024 04:10:18 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CDCB8963E2
+	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Apr 2024 07:15:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5F6ABB22F60
-	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Apr 2024 02:10:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 95DA81F24371
+	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Apr 2024 05:15:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37A63168DA;
-	Wed,  3 Apr 2024 02:10:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29FDC45BE8;
+	Wed,  3 Apr 2024 05:15:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="IwenuWbj"
+	dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b="ePzR1yDU"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA70A168A8;
-	Wed,  3 Apr 2024 02:10:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB99A6AD7;
+	Wed,  3 Apr 2024 05:15:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712110211; cv=none; b=l1LIINcwNP8bJePwwiBCloe+yaZU4NT66fhPX4426i5/lTLfEX5jYIp7mk5utynWibySCVWhFS610BIW+/VPHCpva+h7EFD5GDshD4woCaY2Ddoc73vdL5xI/2HlwukYPuv+yx/fUh+vIiFppPcU5/D67g8nWBVAIwYQtNK4uTM=
+	t=1712121312; cv=none; b=hfDBEOukDXBohIoVJE02iMdjUQZIZSmcgNfKC9jS4zUOq59rb/0JMmrEuxvcmu4JiQGJKl3BPIwsR9JySwT760YGl61JGd+l70n8y7RD7XNFI+fOQzSttGvsIMqtdvGRpplWMYpKM5xEocTXYWeoGJ3FYbz3z1s0HeQQCsX3Meg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712110211; c=relaxed/simple;
-	bh=zeKYRYohlTStC7Tkr+cr5vBo/cYYssPjfX2YsNmGqco=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=P2y2BerH6VwbfdzRfcLvUQIpyEr7AAg1irzqRVc/2CR275Csb4sMo07zg5TGQjNTDgUW8xxspKsmbMIR5TbTg+FoWFTi5rnb06SoCONd8z2qYtnSdaxi/NxRA/7h4DjyApfWzkwOD5l8duY3Gn9SsNMMmwgYY4cWvtwe8BKtlxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=IwenuWbj; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=e9SSw5eWjtK7BQOqCZkczD3EG3WrEvANQjFrXS/TIIA=; b=IwenuWbjyX9y5yVq4O0ZlNg1fU
-	XEZnPilzGPfDZkfXI59ii49I5QEpx3RwKL8VstaNNWQzwRfyGHaLzIyh06WjuEAh3L8evSi7oC6oE
-	Y5Sc/6j5ceWyisvNZCYLkx5fU5pUTNwdMnhPh5yJHEHYKx867MXrxGRcoX1bY7MxeFokbFwGYQhW0
-	DRpre5Vwlm+e8MXYPtmjtR+nnek97OPsMgOUIXJ03JB35rbQG1f+Bbt3db86Tfhu6cxEXD8ntK/9p
-	WbKRBj+tdObhPQDNHzCiLMaxmKpkJ1Lyp1iKmBju3r2Dk5XMAMQYuXSiQJosDyeWf3qSQFFF9iG2Z
-	z0WWk4Ug==;
-Received: from [50.53.2.121] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rrq4l-0000000DcIO-1RT5;
-	Wed, 03 Apr 2024 02:10:07 +0000
-Message-ID: <b102d460-adbe-4396-ac1b-ad2f2244061c@infradead.org>
-Date: Tue, 2 Apr 2024 19:10:05 -0700
+	s=arc-20240116; t=1712121312; c=relaxed/simple;
+	bh=JKf1Lfs7ylEsEEOL0uKm/nUWXlj1T7i7XJwXyVCXK9s=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=VpHzET+c91W3TbBsh3m5P87Ef2oLHIiVFYQKLDI62syIztB1A+vtc1SZwjRnLAuFkFamvaYQ0zowalGOrkyLljlUmHvhAIy2uhH1JKLyTLBYI5JXffoDZOvgk+BE1Bjo8nsqW88VUFh7TewQxzxbyLRJHRW9sJMNdsh8SEs7tO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au; spf=pass smtp.mailfrom=ellerman.id.au; dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b=ePzR1yDU; arc=none smtp.client-ip=150.107.74.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ellerman.id.au
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
+	s=201909; t=1712121305;
+	bh=5J/vLQrpGhgqQsZ80PIigutoMIakBJ7aJJ3MmitBdiI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=ePzR1yDUO9Ongm+ac85mPhRRna7nfIhqLmj6fcYtsfm/+VsT2swGklamXED769K86
+	 +O2uDG2SxnIrqf1h3rKHWnvKUeGaljSokCgXKVkSE2sRjr5pDFQnYuri0p2Nr5NANy
+	 KHQdBzAVt+06DJ5eCBlUMps59rQQIiGKnixdoUelOTpLyE0DaSnpC1tYMsta+zbqpF
+	 f+ZPITtVqkgllb04gGzxYatpkuyG0At88rpzIhcFPR2XYLp2vu188YGM2ZI9vT6hCC
+	 WH+jNN8xeMetg9wYgTknycTmi/+w6/KwqvIXQwIYERRlFdwZjr2+vFm3pq1RV7O964
+	 ymrcVWrFO11rg==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.ozlabs.org (Postfix) with ESMTPSA id 4V8Xxg6QZqz4wcg;
+	Wed,  3 Apr 2024 16:15:03 +1100 (AEDT)
+From: Michael Ellerman <mpe@ellerman.id.au>
+To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, Greg
+ Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, Dawei Li
+ <set_pte_at@outlook.com>, Damien Le Moal
+ <damien.lemoal@opensource.wdc.com>, Jakub Kicinski <kuba@kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>
+Cc: Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy
+ <christophe.leroy@csgroup.eu>, "Aneesh Kumar K.V"
+ <aneesh.kumar@kernel.org>, "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
+ linux-kbuild@vger.kernel.org, linux-serial@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, kernel@pengutronix.de
+Subject: Re: [PATCH] serial: pmac_zilog: Drop usage of platform_driver_probe()
+In-Reply-To: <5ea3174616abc9fa256f115b4fb175d289ac1754.1711748999.git.u.kleine-koenig@pengutronix.de>
+References: <2e3783106bf6bd9a7bdeb12b706378fb16316471.1711748999.git.u.kleine-koenig@pengutronix.de>
+ <5ea3174616abc9fa256f115b4fb175d289ac1754.1711748999.git.u.kleine-koenig@pengutronix.de>
+Date: Wed, 03 Apr 2024 16:15:01 +1100
+Message-ID: <877chf81t6.fsf@mail.lhotse>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Add MO(mod objs) variable to process ext modules with
- subdirs
-To: Valerii Chernous <vchernou@cisco.com>,
- Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor
- <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>
-Cc: xe-linux-external@cisco.com, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240402153028.1378868-1-vchernou@cisco.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240402153028.1378868-1-vchernou@cisco.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
-
-On 4/2/24 8:30 AM, Valerii Chernous wrote:
-> The change allow to build external modules with nested makefiles.
-> With current unofficial way(using "src" variable) it is posible to build
-
-                                                          possible
-
-> external(out of tree) kernel module with separating source and build
-> artifacts dirs but with nested makefiles it doesn't work properly.
-> Build system trap to recursion inside makefiles, articafts output dir
-
-                                                   artifacts
-
-> path grow with each iteration until exceed max path len and build failed
-> Providing "MO" variable and using "override" directive with declaring
-> "src" variable solve the problem
-> Usage example:
-> make -C KERNEL_SOURCE_TREE MO=BUILD_OUT_DIR M=EXT_MOD_SRC_DIR modules
-> 
-> Cc: xe-linux-external@cisco.com
-> Cc: Valerii Chernous <vchernou@cisco.com>
-> Signed-off-by: Valerii Chernous <vchernou@cisco.com>
+Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de> writes:
+> There are considerations to drop platform_driver_probe() as a concept
+> that isn't relevant any more today. It comes with an added complexity
+> that makes many users hold it wrong. (E.g. this driver should have
+> marked the driver struct with __refdata to prevent the below mentioned
+> false positive section mismatch warning.)
+>
+> This fixes a W=3D1 build warning:
+>
+> 	WARNING: modpost: drivers/tty/serial/pmac_zilog: section mismatch in ref=
+erence: pmz_driver+0x8 (section: .data) -> pmz_detach (section: .exit.text)
+>
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
 > ---
->  Makefile               | 17 +++++++++++++++++
->  scripts/Makefile.build |  7 +++++++
->  2 files changed, 24 insertions(+)
-> 
+>  drivers/tty/serial/pmac_zilog.c | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
 
-If this code is going to be merged, there should also be a Documentation
-update to Documentation/kbuild/{kbuild.rst,modules.rst}.
+I gave it a quick spin in qemu, no issues.
 
-Thanks.
--- 
-#Randy
+Tested-by: Michael Ellerman <mpe@ellerman.id.au>
+
+cheers
+
+> diff --git a/drivers/tty/serial/pmac_zilog.c b/drivers/tty/serial/pmac_zi=
+log.c
+> index 05d97e89511e..e44621218248 100644
+> --- a/drivers/tty/serial/pmac_zilog.c
+> +++ b/drivers/tty/serial/pmac_zilog.c
+> @@ -1695,7 +1695,7 @@ static void pmz_dispose_port(struct uart_pmac_port =
+*uap)
+>  	memset(uap, 0, sizeof(struct uart_pmac_port));
+>  }
+>=20=20
+> -static int __init pmz_attach(struct platform_device *pdev)
+> +static int pmz_attach(struct platform_device *pdev)
+>  {
+>  	struct uart_pmac_port *uap;
+>  	int i;
+> @@ -1714,7 +1714,7 @@ static int __init pmz_attach(struct platform_device=
+ *pdev)
+>  	return uart_add_one_port(&pmz_uart_reg, &uap->port);
+>  }
+>=20=20
+> -static void __exit pmz_detach(struct platform_device *pdev)
+> +static void pmz_detach(struct platform_device *pdev)
+>  {
+>  	struct uart_pmac_port *uap =3D platform_get_drvdata(pdev);
+>=20=20
+> @@ -1789,7 +1789,8 @@ static struct macio_driver pmz_driver =3D {
+>  #else
+>=20=20
+>  static struct platform_driver pmz_driver =3D {
+> -	.remove_new	=3D __exit_p(pmz_detach),
+> +	.probe		=3D pmz_attach,
+> +	.remove_new	=3D pmz_detach,
+>  	.driver		=3D {
+>  		.name		=3D "scc",
+>  	},
+> @@ -1837,7 +1838,7 @@ static int __init init_pmz(void)
+>  #ifdef CONFIG_PPC_PMAC
+>  	return macio_register_driver(&pmz_driver);
+>  #else
+> -	return platform_driver_probe(&pmz_driver, pmz_attach);
+> +	return platform_driver_register(&pmz_driver);
+>  #endif
+>  }
+>=20=20
+> base-commit: a6bd6c9333397f5a0e2667d4d82fef8c970108f2
+> --=20
+> 2.43.0
 
