@@ -1,135 +1,230 @@
-Return-Path: <linux-kbuild+bounces-1455-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1456-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60947896A79
-	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Apr 2024 11:26:51 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C76E896F68
+	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Apr 2024 14:53:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9217F1C24D6C
-	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Apr 2024 09:26:50 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BCD76B29D49
+	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Apr 2024 12:53:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C425130AF2;
-	Wed,  3 Apr 2024 09:26:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C459146D4B;
+	Wed,  3 Apr 2024 12:51:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="PtJtB1dm";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="EsRWW1ju"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IKSsvjLp"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from fout7-smtp.messagingengine.com (fout7-smtp.messagingengine.com [103.168.172.150])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57C56130A64;
-	Wed,  3 Apr 2024 09:26:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 208371419BA;
+	Wed,  3 Apr 2024 12:51:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712136406; cv=none; b=KUNX7nSUnnbVZm4zyMOGlBcmglF3q1jFLmZHxFATgsmRpphR8DXywdGnpGrAEl1JEYjavDNDliUTJ8xtyqKu74WD9kLkTdjCgFtiVG9v9dpNQQE1NOEINE42n+aqVwRAUGUzS+ri5zLb2Uuo/McpyXQZcYOrtTAtN+nlumhKoNQ=
+	t=1712148672; cv=none; b=VUGTJbZ6SLNi8h7Bz14sKR/EsDyysWItPx4ZtqSs2n28Ef07x7CJUY3iHy3/3gSpPdSxoqoyeg2+LNcUo/XCWeVW8taral8k34g/NRQKDy2aZ824F2RrDL9u8VtHOESxPn5Yq8+eFmQPZwcXmK0Gk+SwJ8r7AGQ4vSLMBvsIsBg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712136406; c=relaxed/simple;
-	bh=OnzHOLxE9cGGrMoPCNcuh88lhK2VsicsUp4hhGm9Yqc=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=pytury1kQSEZGFUnfblcnFp8z5QnNkLoyPSGe30lFMvBeanpSxG66+t2cVFo7Sqz8sfjK6gclb2fEtwcXRcNjzeqPQnpnXI1mDp4BMa5vCz5PpwSbB1x2JFy6lwKwnkL2wYqfHrvEP8JqAzzzoSyKZbyoTHmwAZoMBdYeKeFNUQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=PtJtB1dm; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=EsRWW1ju; arc=none smtp.client-ip=103.168.172.150
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailfout.nyi.internal (Postfix) with ESMTP id 5E00213800E0;
-	Wed,  3 Apr 2024 05:26:44 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Wed, 03 Apr 2024 05:26:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1712136404; x=1712222804; bh=lrKIW/ayI9
-	01WrmRB98tv8lHGvgkZ0yaZoAqI6em5QI=; b=PtJtB1dmh2NwvDakpz3s2u1BTe
-	wEL4Rqofvcqp33jqvbs9k+P9b/6uRUYZ57euE97PEh03im9DzrKriPFe0MtUITM3
-	zBXgbFsBTGCw7e9ObkxNHzJhfSSKa0oFmpDlJtJFtJRomiF6gPNv+rWCoZU7ipYr
-	U42JvORDCIO4EBxN730+Tg/ig14C3OMf9ZUlM8TGhtjS7GbWrVmrzK0sCN2KwJ7v
-	r7dXNkAC0SdQ30h1Xw1pcisPsO5SLURFqGwccHNBcTEBx4EBdADQpCequf2kQwcQ
-	Btjr+No/gl62oEWGY5J0+Djr9QBfQGEZwRVw7Y36BvOMeKucV/FY5z9Ub/NA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1712136404; x=1712222804; bh=lrKIW/ayI901WrmRB98tv8lHGvgk
-	Z0yaZoAqI6em5QI=; b=EsRWW1jugPG0g6BJeoM5LQhyD17/rZAbOXYCM+JE+OR6
-	rUTavQ7atBJxTjD0Wnn4fokzC8q+PdzyRegfKsJgIDCBUvrLo9oKAx5Nb5L3ATEO
-	fiKP8Wy4y9/csYHvXDmoVJEY+Jc6L6UOnV/zifRO7ExeI3IEkjE15sfW5WIScVm4
-	nWAWGsMRmTxnASFWEaz3C0cuQItyf/RGGcCLu0Yv4qkIe/ul98U9KXFbRT57B4cQ
-	shV8oRGvC5EnL4I8PQVoAhsTiFi1kZBZb1YZbFqGZobSEUTisHWbeStxnlpvBUdd
-	IwzGjEi52qr6EYZYVyusiK3EOauyLhobOO7NE6x51A==
-X-ME-Sender: <xms:0yANZuQVd-JkGAyCv7guqQBg1yyNUwQaFkIfz3fWF03G0a2__SEAGQ>
-    <xme:0yANZjxGhZgE_vwfKYDLZaL8QxM1KVTmiIIlTVG01fvF8RtHOEsBwaZcp8ChOaymL
-    -i1LHe9i1TOVbdquik>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudefgedgudeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepvefhffeltdegheeffffhtdegvdehjedtgfekueevgfduffettedtkeekueef
-    hedunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
-    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:0yANZr0niWy4gj-Wx93-ROH-wuDnV_CRDn_4Z_eUY-bW2AukOokmNQ>
-    <xmx:0yANZqAlOT2DNj-hZfjWQ5wNHFIozvSVOURlbdCGYU5PxqEduap5kQ>
-    <xmx:0yANZniJ5hQrlsEkvDp_-yB_7DusVcCrTGkJ4zT1wknVkJCEKCWbAA>
-    <xmx:0yANZmr0MFFAxFeeXM0WIMFHS3kF0wqQ8JaeVcujvPK8WN_FZyW0yA>
-    <xmx:1CANZnjX_AlxD928gaGSjDWOF47l4JU_4Bn3U0fSIiHOxubCObY8Cssp>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 193E5B6008F; Wed,  3 Apr 2024 05:26:43 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-333-gbfea15422e-fm-20240327.001-gbfea1542
+	s=arc-20240116; t=1712148672; c=relaxed/simple;
+	bh=zwy5/UeNKw0rdFTNUIENurIiqNiqQ2OzHWaKd+hx69E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nCiEOOoSVq06tOmvJQibRuYZv+0GOgQhX2d/F8ktP57j1LvOC2dudHA8xH4n8I2LPnQF1rJiTFFpCE5kQWLxyY6FOe1PDARjrLAP3f0VbNc8FBpELmLg+FwC4uUKATUWzmhw2WmKPeeMfatzTc6IKNlxr8YP4QoTTzH/EuQms1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IKSsvjLp; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-416262d747dso717435e9.0;
+        Wed, 03 Apr 2024 05:51:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1712148669; x=1712753469; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=29BgQt41fxpDRMixAlECbaCmewv1mm5rdtRovSAulMA=;
+        b=IKSsvjLp0pJJD2zzd42kk8JKagUJBhyhBAbjFRxMcnVC69OY+OmP3vSc+uBBbzoKwo
+         qyjcDHAEPDimmutVqfD2UK8TPYcdUSLswOHb6t7OuvpMdTAEhSkvBtv+Vyc0VRzEXg77
+         xRyY63/Jaubow1Fko4loce8URvZgTriZHa3LILOSwAOUuZ22rH863YQcL1tgGlI0iLQE
+         8dcOwyalOwzZBS6P3DyPgamV/ouMX93NZfcoZBePxuVnmYBOn31xyfT1x9gxE2BHoGjY
+         gX/SVQ51YDIIgd3TGiFmKfo8Cf5I7fw1Bh8qbRH5EdkNcWH1cU+cTRr2A5wbFIfuzXeE
+         8LuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712148669; x=1712753469;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=29BgQt41fxpDRMixAlECbaCmewv1mm5rdtRovSAulMA=;
+        b=ANO5y9mj4fTiF+3he8HNrJEYRh3AYs+oSBNQUrsd/pMFxU/rSrFGR1ZYoUW5kWEPOb
+         d42xhxAONMH3lioFvlQxcdiV8aieRUeFSqFqG0PRo1CGoqKQT6V6D2V6Ryw0SDnmy12L
+         jKS0Le/4z6lreRN1zYLiRdw6qNdgOMeIggo8ntTqIuqj6CkHTyGR8L387CnyUyAbtvP1
+         cYNsvAIgGUaEN85IyXr+3bd2dMQd/9JpE8ZuC7K20Vnoc+0FAPbj06HbpSVOS1pkKWGk
+         BKf17qz8p0f+zhg7i+6x7o0y1X+ffPwImN9rJHfVMViEsaENlwGL0W/IJG0ZKVESLivc
+         iJpA==
+X-Forwarded-Encrypted: i=1; AJvYcCVeBqG7IYbGwrNarsNgrJEs/lDNRU/C9LTqpwlVfuQyI1Emk9/+7f201Ke2jBa/Xs47Gr6pAl9e8tBM2u81hRxJ/KmFBflU3blif0a+SmmNIQCanbp3LFKUXTYj185lhXnSxI3JI9GSg2eLd8gvTgB2L91R2cwif/KZ7TP6YWWya3Shjg==
+X-Gm-Message-State: AOJu0YxI5yfO2XiPv3Mb5x7XPgYG7BGQr9rQP6vz5zZBgLax60jYYhXm
+	OpMMXCSd4s/DJkUXIhK510vEH1TEjpn/J+YXMSnF1MlV/Ukki9cr
+X-Google-Smtp-Source: AGHT+IGiMxFFkzEMKwErZDGMsEh8QQujgECEb7hAYrnmXSB8PanQ6hfDeg6f6lJ/1vv3KfoIi9fU0w==
+X-Received: by 2002:a05:600c:5710:b0:414:9103:e38c with SMTP id jv16-20020a05600c571000b004149103e38cmr10494666wmb.22.1712148669149;
+        Wed, 03 Apr 2024 05:51:09 -0700 (PDT)
+Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
+        by smtp.gmail.com with ESMTPSA id dj11-20020a0560000b0b00b003437799a373sm3724238wrb.83.2024.04.03.05.51.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 03 Apr 2024 05:51:08 -0700 (PDT)
+Message-ID: <0c95aa84-63e6-41be-8c70-3a6dadefd682@gmail.com>
+Date: Wed, 3 Apr 2024 14:51:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <b66e2d49-37db-4262-91c0-dfd76c12ca24@app.fastmail.com>
-In-Reply-To: <Zg0fJPx_LTXAWT_I@smile.fi.intel.com>
-References: <20240403080702.3509288-1-arnd@kernel.org>
- <20240403080702.3509288-35-arnd@kernel.org>
- <Zg0fJPx_LTXAWT_I@smile.fi.intel.com>
-Date: Wed, 03 Apr 2024 11:26:22 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Andy Shevchenko" <andriy.shevchenko@intel.com>,
- "Arnd Bergmann" <arnd@kernel.org>
-Cc: linux-kernel@vger.kernel.org, "Masahiro Yamada" <masahiroy@kernel.org>,
- "Nathan Chancellor" <nathan@kernel.org>,
- "Nicolas Schier" <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH 34/34] kbuild: always enable -Wunused-const-variable
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 00/15] Unified cross-architecture kernel-mode FPU API
+To: Samuel Holland <samuel.holland@sifive.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ linux-arm-kernel@lists.infradead.org, x86@kernel.org
+Cc: linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+ Christoph Hellwig <hch@lst.de>, loongarch@lists.linux.dev,
+ amd-gfx@lists.freedesktop.org, Borislav Petkov <bp@alien8.de>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Huacai Chen <chenhuacai@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Masahiro Yamada <masahiroy@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
+ Russell King <linux@armlinux.org.uk>, Thomas Gleixner <tglx@linutronix.de>,
+ Will Deacon <will@kernel.org>, linux-doc@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, "Wentland, Harry" <Harry.Wentland@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
+References: <20240329072441.591471-1-samuel.holland@sifive.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <20240329072441.591471-1-samuel.holland@sifive.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, Apr 3, 2024, at 11:19, Andy Shevchenko wrote:
-> On Wed, Apr 03, 2024 at 10:06:52AM +0200, Arnd Bergmann wrote:
->> From: Arnd Bergmann <arnd@arndb.de>
->> 
->> The last such warnings are fixed now, so the option can be enabled by default.
->
->> @@ -96,7 +96,6 @@ else
->>  # Some diagnostics enabled by default are noisy.
->>  # Suppress them by using -Wno... except for W=1.
->>  KBUILD_CFLAGS += $(call cc-disable-warning, unused-but-set-variable)
->> -KBUILD_CFLAGS += $(call cc-disable-warning, unused-const-variable)
->>  KBUILD_CFLAGS += $(call cc-disable-warning, packed-not-aligned)
->>  KBUILD_CFLAGS += $(call cc-disable-warning, format-overflow)
->
-> What about line #43 in this file?
->
-> Citing 40-43 below:
->
-> # These warnings generated too much noise in a regular build.
-> # Use make W=1 to enable them (see scripts/Makefile.extrawarn)
-> KBUILD_CFLAGS += $(call cc-disable-warning, unused-but-set-variable)
-> KBUILD_CFLAGS += $(call cc-disable-warning, unused-const-variable)
+I only skimmed over the platform patches and spend only a few minutes on 
+the amdgpu stuff.
 
-I sent a patch to simplify this earlier, the -Wunused-const-variable
-series is based on that, but I kept it separate since I think the
-33 patches will take a couple of revisions while the first series
-should make it into v6.10:
+ From what I've seen this series seems to make perfect sense to me, I 
+just can't fully judge everything.
 
-https://lore.kernel.org/lkml/20240326145140.3257163-3-arnd@kernel.org/
+So feel free to add Acked-by: Christian König <christian.koenig@amd.com> 
+but I strongly suggest that Harry and Rodrigo take a look as well.
 
-      Arnd
+Regards,
+Christian.
+
+Am 29.03.24 um 08:18 schrieb Samuel Holland:
+> This series unifies the kernel-mode FPU API across several architectures
+> by wrapping the existing functions (where needed) in consistently-named
+> functions placed in a consistent header location, with mostly the same
+> semantics: they can be called from preemptible or non-preemptible task
+> context, and are not assumed to be reentrant. Architectures are also
+> expected to provide CFLAGS adjustments for compiling FPU-dependent code.
+> For the moment, SIMD/vector units are out of scope for this common API.
+>
+> This allows us to remove the ifdeffery and duplicated Makefile logic at
+> each FPU user. It then implements the common API on RISC-V, and converts
+> a couple of users to the new API: the AMDGPU DRM driver, and the FPU
+> self test.
+>
+> The underlying goal of this series is to allow using newer AMD GPUs
+> (e.g. Navi) on RISC-V boards such as SiFive's HiFive Unmatched. Those
+> GPUs need CONFIG_DRM_AMD_DC_FP to initialize, which requires kernel-mode
+> FPU support.
+>
+> Previous versions:
+> v3: https://lore.kernel.org/linux-kernel/20240327200157.1097089-1-samuel.holland@sifive.com/
+> v2: https://lore.kernel.org/linux-kernel/20231228014220.3562640-1-samuel.holland@sifive.com/
+> v1: https://lore.kernel.org/linux-kernel/20231208055501.2916202-1-samuel.holland@sifive.com/
+> v0: https://lore.kernel.org/linux-kernel/20231122030621.3759313-1-samuel.holland@sifive.com/
+>
+> Changes in v4:
+>   - Add missed CFLAGS changes for recov_neon_inner.c
+>     (fixes arm build failures)
+>   - Fix x86 include guard issue (fixes x86 build failures)
+>
+> Changes in v3:
+>   - Rebase on v6.9-rc1
+>   - Limit riscv ARCH_HAS_KERNEL_FPU_SUPPORT to 64BIT
+>
+> Changes in v2:
+>   - Add documentation explaining the built-time and runtime APIs
+>   - Add a linux/fpu.h header for generic isolation enforcement
+>   - Remove file name from header comment
+>   - Clean up arch/arm64/lib/Makefile, like for arch/arm
+>   - Remove RISC-V architecture-specific preprocessor check
+>   - Split altivec removal to a separate patch
+>   - Use linux/fpu.h instead of asm/fpu.h in consumers
+>   - Declare test_fpu() in a header
+>
+> Michael Ellerman (1):
+>    drm/amd/display: Only use hard-float, not altivec on powerpc
+>
+> Samuel Holland (14):
+>    arch: Add ARCH_HAS_KERNEL_FPU_SUPPORT
+>    ARM: Implement ARCH_HAS_KERNEL_FPU_SUPPORT
+>    ARM: crypto: Use CC_FLAGS_FPU for NEON CFLAGS
+>    arm64: Implement ARCH_HAS_KERNEL_FPU_SUPPORT
+>    arm64: crypto: Use CC_FLAGS_FPU for NEON CFLAGS
+>    lib/raid6: Use CC_FLAGS_FPU for NEON CFLAGS
+>    LoongArch: Implement ARCH_HAS_KERNEL_FPU_SUPPORT
+>    powerpc: Implement ARCH_HAS_KERNEL_FPU_SUPPORT
+>    x86/fpu: Fix asm/fpu/types.h include guard
+>    x86: Implement ARCH_HAS_KERNEL_FPU_SUPPORT
+>    riscv: Add support for kernel-mode FPU
+>    drm/amd/display: Use ARCH_HAS_KERNEL_FPU_SUPPORT
+>    selftests/fpu: Move FP code to a separate translation unit
+>    selftests/fpu: Allow building on other architectures
+>
+>   Documentation/core-api/floating-point.rst     | 78 +++++++++++++++++++
+>   Documentation/core-api/index.rst              |  1 +
+>   Makefile                                      |  5 ++
+>   arch/Kconfig                                  |  6 ++
+>   arch/arm/Kconfig                              |  1 +
+>   arch/arm/Makefile                             |  7 ++
+>   arch/arm/include/asm/fpu.h                    | 15 ++++
+>   arch/arm/lib/Makefile                         |  3 +-
+>   arch/arm64/Kconfig                            |  1 +
+>   arch/arm64/Makefile                           |  9 ++-
+>   arch/arm64/include/asm/fpu.h                  | 15 ++++
+>   arch/arm64/lib/Makefile                       |  6 +-
+>   arch/loongarch/Kconfig                        |  1 +
+>   arch/loongarch/Makefile                       |  5 +-
+>   arch/loongarch/include/asm/fpu.h              |  1 +
+>   arch/powerpc/Kconfig                          |  1 +
+>   arch/powerpc/Makefile                         |  5 +-
+>   arch/powerpc/include/asm/fpu.h                | 28 +++++++
+>   arch/riscv/Kconfig                            |  1 +
+>   arch/riscv/Makefile                           |  3 +
+>   arch/riscv/include/asm/fpu.h                  | 16 ++++
+>   arch/riscv/kernel/Makefile                    |  1 +
+>   arch/riscv/kernel/kernel_mode_fpu.c           | 28 +++++++
+>   arch/x86/Kconfig                              |  1 +
+>   arch/x86/Makefile                             | 20 +++++
+>   arch/x86/include/asm/fpu.h                    | 13 ++++
+>   arch/x86/include/asm/fpu/types.h              |  6 +-
+>   drivers/gpu/drm/amd/display/Kconfig           |  2 +-
+>   .../gpu/drm/amd/display/amdgpu_dm/dc_fpu.c    | 35 +--------
+>   drivers/gpu/drm/amd/display/dc/dml/Makefile   | 36 +--------
+>   drivers/gpu/drm/amd/display/dc/dml2/Makefile  | 36 +--------
+>   include/linux/fpu.h                           | 12 +++
+>   lib/Kconfig.debug                             |  2 +-
+>   lib/Makefile                                  | 26 +------
+>   lib/raid6/Makefile                            | 33 +++-----
+>   lib/test_fpu.h                                |  8 ++
+>   lib/{test_fpu.c => test_fpu_glue.c}           | 37 ++-------
+>   lib/test_fpu_impl.c                           | 37 +++++++++
+>   38 files changed, 348 insertions(+), 193 deletions(-)
+>   create mode 100644 Documentation/core-api/floating-point.rst
+>   create mode 100644 arch/arm/include/asm/fpu.h
+>   create mode 100644 arch/arm64/include/asm/fpu.h
+>   create mode 100644 arch/powerpc/include/asm/fpu.h
+>   create mode 100644 arch/riscv/include/asm/fpu.h
+>   create mode 100644 arch/riscv/kernel/kernel_mode_fpu.c
+>   create mode 100644 arch/x86/include/asm/fpu.h
+>   create mode 100644 include/linux/fpu.h
+>   create mode 100644 lib/test_fpu.h
+>   rename lib/{test_fpu.c => test_fpu_glue.c} (71%)
+>   create mode 100644 lib/test_fpu_impl.c
+>
+
 
