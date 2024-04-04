@@ -1,121 +1,141 @@
-Return-Path: <linux-kbuild+bounces-1459-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1460-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D66D898192
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Apr 2024 08:40:56 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D171898997
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Apr 2024 16:10:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E7DB3B223DD
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Apr 2024 06:40:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E78421F2C7EB
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Apr 2024 14:10:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C11BD2C870;
-	Thu,  4 Apr 2024 06:40:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2A26128812;
+	Thu,  4 Apr 2024 14:08:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ekENsFYa"
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="TTi7DkXO";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="uuYYX8pM"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from wfhigh1-smtp.messagingengine.com (wfhigh1-smtp.messagingengine.com [64.147.123.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6CB62574F
-	for <linux-kbuild@vger.kernel.org>; Thu,  4 Apr 2024 06:40:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4FE01292DD;
+	Thu,  4 Apr 2024 14:08:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712212850; cv=none; b=PCvoQ2X4EAaUUsmvMGI5hHgmVptpEdhJf+YYQOv8DjB2VzsaQsNw9c+ZRwW0rqw6Jf1eprHv8tx74tmsuVWZHBOrfACfu+/D41XbEcIsuEty2B6gDP0zmAswUv26CKv5f5fjrSCCA/8cidbVPIvcudjMBph7gODcQqL3sZFLmWU=
+	t=1712239702; cv=none; b=tRVGypsq1blzvtFD/VTxLixEdwWe8awBZXqktMtn2VovsH8SrMFTIyLeEI8CWhZzDssOrNItMTiJtmTCPrdP4Ewl/vxm0WEnCeyv5OPY/8YUSImUnNX+aOH+kYzaPXPWTrosQYYNTfWvfBlPP/BZgPbArMt8t9DDvOLgB3zCKcg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712212850; c=relaxed/simple;
-	bh=gmXCHfuVK28dXGiJqtNn1m5z5c76NG9chT9qaM0dj08=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IHY8+eEgyw4rMbl2t5y65D1Y2DfTvO66dX/dLNT3sgZ88SBeQ0hE3jf0IsB6wTla+ofwljhuX2kGXfzGDC7xLD8Ys1hvvIM5DvTjIU/oz6yfFzkO8sGnDeSyspkzpklrWABck1Tfak2a2rsINj3h+0cFSNK/dR88UjoZubO0Uws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ekENsFYa; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1712212847;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=dbacsQIxKvMn+2xANmrsBxOQChGVTv7MjeHKfWsj0Ik=;
-	b=ekENsFYa9LeHV279f/P1dACg61tBbSureNPPc1zS2i0Qj79LksLh6Ih8Fj7pLNeUEjMjia
-	XenTgr2yYmlmkvBZXB+8XaR7m+o2zx/siDUDh8wQ4mCEpJFoLVFE/v/888J2QgCA+mNNlp
-	RRKq6e0t7OYO9NwoL0BnTRwgq5Smr6A=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-137-YjNQWv0KMHq0Ims4Gf57jg-1; Thu,
- 04 Apr 2024 02:40:44 -0400
-X-MC-Unique: YjNQWv0KMHq0Ims4Gf57jg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 240E23C02745;
-	Thu,  4 Apr 2024 06:40:44 +0000 (UTC)
-Received: from kaapi.redhat.com (unknown [10.74.17.202])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 786E417B3A;
-	Thu,  4 Apr 2024 06:40:42 +0000 (UTC)
-From: Prasad Pandit <ppandit@redhat.com>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org,
-	Prasad Pandit <pjp@fedoraproject.org>
-Subject: [PATCH] kconfig: add config and source entry details
-Date: Thu,  4 Apr 2024 12:10:37 +0530
-Message-ID: <20240404064037.3440433-1-ppandit@redhat.com>
+	s=arc-20240116; t=1712239702; c=relaxed/simple;
+	bh=1bjFWCvwY4ohIIq4OBpqdx2ADu0JX5LSALPQRIoYYZE=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=e1CwX+PaSLB9cl3U5iOrV9CNTaeV2D3/5CuaUN/xKCLWtdrVIqiNdRj/vSzkkFAywsqjc1HLgzlWLvWlNclX2kn6oRV90spgyZBMETDsmaGSoS306JY7iKRJiKwler0lxsxQUy0l+kchYgWAmAbpViYwlCYZoUvlsYSTDelNoRE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=TTi7DkXO; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=uuYYX8pM; arc=none smtp.client-ip=64.147.123.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailfhigh.west.internal (Postfix) with ESMTP id ACB071800184;
+	Thu,  4 Apr 2024 10:08:17 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Thu, 04 Apr 2024 10:08:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm1; t=1712239697; x=1712326097; bh=N+EYyvLWA/
+	1764pidiha23yH25rL43NPhdGDRm3VFBo=; b=TTi7DkXO2JErQaJb0mScNFsUOv
+	Ss+oTwRiua3x1I+5B5mvMdi9nPtasukJWugr5CpHyYRxnOIvvKK121hd7Ck9H+SL
+	stQo5kyzsyTe+0idyL0ID/nrKDicBBPRail/37wobyKp41hO7LWjcsBlPTJ8wSxg
+	CgCRm3xTmEIjDmz7T7IZE7uO35smMcdGc8xc/Op2WSaWnZ6l2gSghydvEUIIyfEH
+	bltcRCGN3V2ubt/6BddGSZAfcIDA1+o3TyyRpbYB7KS1YDIXn4KTuA937rzuswLT
+	F4Wf04nmzuORreEv5hnxvDQ+3rCwvhyQ+trCk6m8vcTcq9KHfcFvDe6Zv5fw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1712239697; x=1712326097; bh=N+EYyvLWA/1764pidiha23yH25rL
+	43NPhdGDRm3VFBo=; b=uuYYX8pMYU0SWFnQWsweQ28E0GRlxxYRT0voaidY4sqB
+	tqKLxhUoUvPoNh93u26rJTm5ZSFIVOKnZ3WevqhyE22onSEuGfQDLHa1t3A+4zdj
+	q4UT+LoQt8P4VVQhShqxkSNwfUO730DUBkTXQuxIrvPRoIOZBi+5iUD0jXsUhmr+
+	heJe81RODGAkiiejUEL4AANUlmqoCjF66QvVZH1PyotncNx9g0gwmMeN5u2Nf5QG
+	A6LzW3j0gnVkgXV/vObxTrJoBQuied3ViBJvD1aSWb8wJCEdEBIN5FV3RkgOI8px
+	Ne83yEPpk20VTa4sbkpLUViY01PP8Qd8Nyo6fb75IQ==
+X-ME-Sender: <xms:ULQOZpweIHBp5RM3Zs1jKtESHSb13qwmOhq6k53Xlr8WAefjyVRb8A>
+    <xme:ULQOZpRM82Cn1UJCo1aQN1H2jqBjG_LBdOXtwbwpE5w-wB07ZrF0LKtF-I3QyFqm7
+    auYsJIaHp8zcvfbxDo>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudefkedgjeefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
+    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+    hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:ULQOZjXrNMawndcDSle5TXDxDz9-DnCfBIG8lMFt0Q78PYegzMwMow>
+    <xmx:ULQOZrgvmf_yree2eWcVvAynlZCxTGuL5dvMohqcL6TSMv66XdRdHw>
+    <xmx:ULQOZrBl_D5JIAzIEnwl6xkNXTmg96VsA5JrBdhChLvtV43-AEwMdA>
+    <xmx:ULQOZkII-nOeFzbgnGiSNJ1NROTu5OrlI0hsr-LQzCwzNzJhDApRzw>
+    <xmx:UbQOZv4J3vWbq1plchMjr03X3AXp52mode6qC1AoUBQ-KR-_C5DuifsW>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 13AC2B6008D; Thu,  4 Apr 2024 10:08:16 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-333-gbfea15422e-fm-20240327.001-gbfea1542
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.5
+Message-Id: <63909b0a-7d76-418d-a54c-1061bd3b6e11@app.fastmail.com>
+In-Reply-To: <20240329134917.579c3557@endymion.delvare>
+References: <20240326144741.3094687-1-arnd@kernel.org>
+ <20240326145140.3257163-4-arnd@kernel.org>
+ <20240329134917.579c3557@endymion.delvare>
+Date: Thu, 04 Apr 2024 16:07:55 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Jean Delvare" <jdelvare@suse.de>, "Arnd Bergmann" <arnd@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, "Masahiro Yamada" <masahiroy@kernel.org>,
+ "Nathan Chancellor" <nathan@kernel.org>,
+ "Greg Kroah-Hartman" <gregkh@suse.de>, "Nicolas Schier" <nicolas@fjasle.eu>,
+ "Nick Desaulniers" <ndesaulniers@google.com>,
+ "Bill Wendling" <morbo@google.com>, "Justin Stitt" <justinstitt@google.com>,
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH 05/12] firmware: dmi-id: add a release callback function
+Content-Type: text/plain
 
-From: Prasad Pandit <pjp@fedoraproject.org>
+On Fri, Mar 29, 2024, at 13:49, Jean Delvare wrote:
+> On Tue, 26 Mar 2024 15:51:30 +0100, Arnd Bergmann wrote:
+>> From: Arnd Bergmann <arnd@arndb.de>
+>> 
+>> dmi_class uses kfree() as the .release function, but that now causes
+>> a warning with clang-16 as it violates control flow integrity (KCFI)
+>> rules:
+>> 
+>> drivers/firmware/dmi-id.c:174:17: error: cast from 'void (*)(const void *)' to 'void (*)(struct device *)' converts to incompatible function type [-Werror,-Wcast-function-type-strict]
+>>   174 |         .dev_release = (void(*)(struct device *)) kfree,
+>> 
+>> Add an explicit function to call kfree() instead.
+>> 
+>> Fixes: 4f5c791a850e ("DMI-based module autoloading")
+>
+> Not sure if this fixes tag is really warranted. As I understand it,
+> your change only removes a warning but there was no actual bug, right?
 
-Add details to the 'config' and 'source' entry description.
-It'd come handy during path reviews for Kconfig source files.
+As Nathan already commented, it's a real bug. I also add 'Fixes'
+tags for false-positives just to document what introduced a
+warning. The Fixes tag doesn't automatically mean something gets
+backported, though the stable maintainers often end up backporting
+warning fixes as well, and it helps identify which kernels
+need it.
 
-Signed-off-by: Prasad Pandit <pjp@fedoraproject.org>
----
- Documentation/kbuild/kconfig-language.rst | 18 +++++++++++++-----
- 1 file changed, 13 insertions(+), 5 deletions(-)
+> Looks good to me, thanks for doing that.
+>
+> Signed-off-by: Jean Delvare <jdelvare@suse.de>
+>
+> Will you get this upstream, or do you expect me to take it in my
+> dmi/for-next branch?
 
-diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
-index 0135905c0aa3..0783850d5a00 100644
---- a/Documentation/kbuild/kconfig-language.rst
-+++ b/Documentation/kbuild/kconfig-language.rst
-@@ -39,11 +39,14 @@ them. A single configuration option is defined like this::
- 	  kernel.  ...
- 
- Every line starts with a key word and can be followed by multiple
--arguments.  "config" starts a new config entry. The following lines
--define attributes for this config option. Attributes can be the type of
--the config option, input prompt, dependencies, help text and default
--values. A config option can be defined multiple times with the same
--name, but every definition can have only a single input prompt and the
-+arguments.  "config" starts a new config entry. The following lines,
-+indented by a leading tab (\t) character, define attributes for this
-+config option. Attributes can be the type of the config option,
-+input prompt, dependencies, default values and help text. Help text
-+is further indented by two more spaces.
-+
-+A config option can be defined multiple times with the same name,
-+but every definition can have only a single input prompt and the
- type must not conflict.
- 
- Menu attributes
-@@ -451,6 +454,11 @@ source::
- 	"source" <prompt>
- 
- This reads the specified configuration file. This file is always parsed.
-+The specified file path is from the top source directory ($SRCTREE).
-+It allows one to source a file from any subdirectory under the source
-+tree. Such path is always unique under the source directory.
-+A configuration file must terminate with a new line (\n) character
-+at the end.
- 
- mainmenu::
- 
--- 
-2.44.0
+It would help me if you can apply it to your tree directly.
 
+     Arnd
 
