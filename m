@@ -1,109 +1,121 @@
-Return-Path: <linux-kbuild+bounces-1458-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1459-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 375178976BA
-	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Apr 2024 19:32:10 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D66D898192
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Apr 2024 08:40:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E05531F2EB2C
-	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Apr 2024 17:32:09 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E7DB3B223DD
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Apr 2024 06:40:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E54DD15E5DC;
-	Wed,  3 Apr 2024 17:18:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C11BD2C870;
+	Thu,  4 Apr 2024 06:40:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VHpks6eK"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ekENsFYa"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8A8315E5D0;
-	Wed,  3 Apr 2024 17:18:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6CB62574F
+	for <linux-kbuild@vger.kernel.org>; Thu,  4 Apr 2024 06:40:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712164725; cv=none; b=ZaNx43+V1AO5pQ7Ggajx7lEPdHD3fMeeR6yYBr24CQSVTJz2wPsbJQkGQaLNfal/fVXwTiU/iZl14Caefb2fDIptGTFTMjvNIzwyGRooszub31qlMn0ZmvLg7dL6JgjPnUtyQRlreVAuQV/RcsKzzIyZwG+Oqu2WbS5JWi2zp1E=
+	t=1712212850; cv=none; b=PCvoQ2X4EAaUUsmvMGI5hHgmVptpEdhJf+YYQOv8DjB2VzsaQsNw9c+ZRwW0rqw6Jf1eprHv8tx74tmsuVWZHBOrfACfu+/D41XbEcIsuEty2B6gDP0zmAswUv26CKv5f5fjrSCCA/8cidbVPIvcudjMBph7gODcQqL3sZFLmWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712164725; c=relaxed/simple;
-	bh=ozj931v2CdUQnm+THPCb6wv5Qp89NCuTy+u1LNA37Rs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=H01gLA5Rbpy/qI/BRuZPD92NaMxf1fW3xi3l2EpUzMqcjRF98D7mvGmTVbmuHF0+iiv7zexRlxLhWqpM7zF78RyYrK79uQCeEMuuvH/fJKW5qS/PI0bK0icsOXrDT9Fm4nt04otgZsUzb860dyg3vS0LU0dpTspwuzu5/rFgoeE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VHpks6eK; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8EBEC433F1;
-	Wed,  3 Apr 2024 17:18:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712164725;
-	bh=ozj931v2CdUQnm+THPCb6wv5Qp89NCuTy+u1LNA37Rs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=VHpks6eKsQ4abP45EzRRrlXJcfxvU9rjLdhIAVpbgsAncm3sqc03umfv4+PX3/iTO
-	 iCZg4UbDu+0eecE6YNxtX+K1hMNbujS3dCRjpzt4BD2Th14AIZ2LGfXEl1NiEyOAE8
-	 a818ZEwF5YpMn3VRuGgNvu3wBtQ99m6puiw9rYlWE3lraxYSlvlx3E8vSuFf9Cutpb
-	 YruktMuIqEdcPtkQq7haI9H3YXOGQDSRoZk5lu1DbXLP2gGM3PI05QDAl/OKN1oRyZ
-	 TSjAl4ypeKbD35z7eP8UQjbWOVwYnBxwDfnxubAy+1n1jR+NCWUYzlZVv+0FiqO4L9
-	 YfTSOAhunhNCg==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Max Kellermann <max.kellermann@ionos.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 16/20] modpost: fix null pointer dereference
-Date: Wed,  3 Apr 2024 13:17:57 -0400
-Message-ID: <20240403171815.342668-16-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240403171815.342668-1-sashal@kernel.org>
-References: <20240403171815.342668-1-sashal@kernel.org>
+	s=arc-20240116; t=1712212850; c=relaxed/simple;
+	bh=gmXCHfuVK28dXGiJqtNn1m5z5c76NG9chT9qaM0dj08=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IHY8+eEgyw4rMbl2t5y65D1Y2DfTvO66dX/dLNT3sgZ88SBeQ0hE3jf0IsB6wTla+ofwljhuX2kGXfzGDC7xLD8Ys1hvvIM5DvTjIU/oz6yfFzkO8sGnDeSyspkzpklrWABck1Tfak2a2rsINj3h+0cFSNK/dR88UjoZubO0Uws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ekENsFYa; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1712212847;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=dbacsQIxKvMn+2xANmrsBxOQChGVTv7MjeHKfWsj0Ik=;
+	b=ekENsFYa9LeHV279f/P1dACg61tBbSureNPPc1zS2i0Qj79LksLh6Ih8Fj7pLNeUEjMjia
+	XenTgr2yYmlmkvBZXB+8XaR7m+o2zx/siDUDh8wQ4mCEpJFoLVFE/v/888J2QgCA+mNNlp
+	RRKq6e0t7OYO9NwoL0BnTRwgq5Smr6A=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-137-YjNQWv0KMHq0Ims4Gf57jg-1; Thu,
+ 04 Apr 2024 02:40:44 -0400
+X-MC-Unique: YjNQWv0KMHq0Ims4Gf57jg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 240E23C02745;
+	Thu,  4 Apr 2024 06:40:44 +0000 (UTC)
+Received: from kaapi.redhat.com (unknown [10.74.17.202])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 786E417B3A;
+	Thu,  4 Apr 2024 06:40:42 +0000 (UTC)
+From: Prasad Pandit <ppandit@redhat.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org,
+	Prasad Pandit <pjp@fedoraproject.org>
+Subject: [PATCH] kconfig: add config and source entry details
+Date: Thu,  4 Apr 2024 12:10:37 +0530
+Message-ID: <20240404064037.3440433-1-ppandit@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.24
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.5
 
-From: Max Kellermann <max.kellermann@ionos.com>
+From: Prasad Pandit <pjp@fedoraproject.org>
 
-[ Upstream commit 23dfd914d2bfc4c9938b0084dffd7105de231d98 ]
+Add details to the 'config' and 'source' entry description.
+It'd come handy during path reviews for Kconfig source files.
 
-If the find_fromsym() call fails and returns NULL, the warn() call
-will dereference this NULL pointer and cause the program to crash.
-
-This happened when I tried to build with "test_user_copy" module.
-With this fix, it prints lots of warnings like this:
-
- WARNING: modpost: lib/test_user_copy: section mismatch in reference: (unknown)+0x4 (section: .text.fixup) -> (unknown) (section: .init.text)
-
-masahiroy@kernel.org:
- The issue is reproduced with ARCH=arm allnoconfig + CONFIG_MODULES=y +
- CONFIG_RUNTIME_TESTING_MENU=y + CONFIG_TEST_USER_COPY=m
-
-Signed-off-by: Max Kellermann <max.kellermann@ionos.com>
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Prasad Pandit <pjp@fedoraproject.org>
 ---
- scripts/mod/modpost.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ Documentation/kbuild/kconfig-language.rst | 18 +++++++++++++-----
+ 1 file changed, 13 insertions(+), 5 deletions(-)
 
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index 5191fdbd3fa23..076f3c9e43fa5 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -1153,7 +1153,9 @@ static void default_mismatch_handler(const char *modname, struct elf_info *elf,
- 	sec_mismatch_count++;
+diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
+index 0135905c0aa3..0783850d5a00 100644
+--- a/Documentation/kbuild/kconfig-language.rst
++++ b/Documentation/kbuild/kconfig-language.rst
+@@ -39,11 +39,14 @@ them. A single configuration option is defined like this::
+ 	  kernel.  ...
  
- 	warn("%s: section mismatch in reference: %s+0x%x (section: %s) -> %s (section: %s)\n",
--	     modname, fromsym, (unsigned int)(faddr - from->st_value), fromsec, tosym, tosec);
-+	     modname, fromsym,
-+	     (unsigned int)(faddr - (from ? from->st_value : 0)),
-+	     fromsec, tosym, tosec);
+ Every line starts with a key word and can be followed by multiple
+-arguments.  "config" starts a new config entry. The following lines
+-define attributes for this config option. Attributes can be the type of
+-the config option, input prompt, dependencies, help text and default
+-values. A config option can be defined multiple times with the same
+-name, but every definition can have only a single input prompt and the
++arguments.  "config" starts a new config entry. The following lines,
++indented by a leading tab (\t) character, define attributes for this
++config option. Attributes can be the type of the config option,
++input prompt, dependencies, default values and help text. Help text
++is further indented by two more spaces.
++
++A config option can be defined multiple times with the same name,
++but every definition can have only a single input prompt and the
+ type must not conflict.
  
- 	if (mismatch->mismatch == EXTABLE_TO_NON_TEXT) {
- 		if (match(tosec, mismatch->bad_tosec))
+ Menu attributes
+@@ -451,6 +454,11 @@ source::
+ 	"source" <prompt>
+ 
+ This reads the specified configuration file. This file is always parsed.
++The specified file path is from the top source directory ($SRCTREE).
++It allows one to source a file from any subdirectory under the source
++tree. Such path is always unique under the source directory.
++A configuration file must terminate with a new line (\n) character
++at the end.
+ 
+ mainmenu::
+ 
 -- 
-2.43.0
+2.44.0
 
 
