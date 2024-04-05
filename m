@@ -1,50 +1,50 @@
-Return-Path: <linux-kbuild+bounces-1471-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1472-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98B9F89A772
-	for <lists+linux-kbuild@lfdr.de>; Sat,  6 Apr 2024 00:56:29 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 161C089A776
+	for <lists+linux-kbuild@lfdr.de>; Sat,  6 Apr 2024 00:56:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5367E287071
-	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Apr 2024 22:56:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 47A381C21BCB
+	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Apr 2024 22:56:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFE673714C;
-	Fri,  5 Apr 2024 22:56:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0708438390;
+	Fri,  5 Apr 2024 22:56:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pivt5Oed"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rPBzD9Gl"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4E5036B0D;
-	Fri,  5 Apr 2024 22:56:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEAC7381C4;
+	Fri,  5 Apr 2024 22:56:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712357775; cv=none; b=Ygj5t0sRfOCYzR4llez/h6G91MCJ4un7Skm+xFiJcjpOqsF8c6w0ZPSEuDizQEW4eUhkPODEZHjeKsGpDvi0eBCVXIpezGk0fAZYtfszOf+to129k3kVV3J8+Ui/xbiC40UO36vu203XGtd/cfNTSbym9b3g/3xKStI3iejlW9E=
+	t=1712357777; cv=none; b=hZX4ODp71yRcIjj2ZcT15Oj6d/ShqFiNu/4xDP4BLremMZ+CkS8KLfq0Uay7lnGE5nDcgy60FpwQXEOdTyh0C1t47hzbqFwRw+ocGzlJLiiHiDuWvde5KJni9t7RymTTj+1k8v6K3db9JBYYTk9QqQJ2ab+lKpfCZwjt6lIOGbM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712357775; c=relaxed/simple;
-	bh=trQSVrFFgKc03l1meR9oLABQJfqpYjIaW5IZInGv0VM=;
+	s=arc-20240116; t=1712357777; c=relaxed/simple;
+	bh=NDgit/zD/XsJmhpf2nWroZgulljOwKs7JeTqVXmjuok=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=e6+Zva7SHKF257Db0XcW/8VCt5n46jRNa9TVSl3p4Wi/oI6fuyRQ251DsbmEJzsOdAfN+bZ+26STRXSsZ1hHRbyga/6aeR6xVA6aI9GRYTDTQAwvEDHm7zPszjgRzXKjABeAAImNCZWNiAS1PYwTQaruRW8Elc9rRY1OTCptyiY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pivt5Oed; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07E45C433F1;
-	Fri,  5 Apr 2024 22:56:14 +0000 (UTC)
+	 In-Reply-To:To:Cc; b=McSXFBKCrQ/yuB7z4S2r6jxsOq1MKFVl7l5Wsyjq0VvNEJb6fahhV9rSzqWWBwhZroSJdaBfKpwulRXnaRR4l/QoggEox/ocpHqfmZwIHru1UpSwXHirxI33SNorAbsRm3bkUmKphvCXAjJbSSpwoUcYHgSsxfG/lR+z5a8aWWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rPBzD9Gl; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57BC3C433F1;
+	Fri,  5 Apr 2024 22:56:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712357775;
-	bh=trQSVrFFgKc03l1meR9oLABQJfqpYjIaW5IZInGv0VM=;
+	s=k20201202; t=1712357777;
+	bh=NDgit/zD/XsJmhpf2nWroZgulljOwKs7JeTqVXmjuok=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=pivt5OedSqMRqVjSZpIirmPDDtFPCnCFH10QiedEnAvTIn1lSHhUiyVj8/BVdX0RH
-	 XwCvHuQd4APIX0xhMJfU8JOnb8PVTIrnQHexfCYze5CEZMNgSvC6mQuEhqj6ddZXAX
-	 GHEej1z3n2Xyg3ZAaSCRQ2bw6e12a+WDb9nPhHexSVxTt9ajfR/ffWxicw1aOFQVnY
-	 yzLZ8mnDzzPB+GWL6Gvm53o4sYrDQeVd9TQwuW3MHEV9vDuO2CvYVL6v8ZMjqd3yd0
-	 +ywcqwkjVe7ScodOBhAILiT6sgt8FS4cgD2CmADG+n9xPHdOXE4qAJK6XzRRO1Hnjt
-	 NR6DNcXXjbzPA==
+	b=rPBzD9GlHEBvrwRwAJDdNaqgQ2+KSdSNETW0L4RPTvH7EbhEd9IA1U5Ak6jd3E/K6
+	 Q9ezCJBaJCnmlf3jV8KI1+VJMJ0Q9JNmh8YjJg4Iugnb/0okphaXPUDiYEP1bf6UI3
+	 LHy1bTEypUi2g2KDbdWQlTgTEw5mLO7v4gVwojyIxUlrILm5zrCGlPxrCdCzopmSfr
+	 watGoex8RFE+EQeNmSksg0RE9+FB1i+1ptTG6MhO16hTF5OD6y0r2lE4a9IXzh3frw
+	 A7kMq81ON5nFWQW53bU4aeJaKers89SlCO3O4o5BvapMFP499qRWb2Y4dQpD8CUH8O
+	 3eboWiuj59shw==
 From: Rob Herring <robh@kernel.org>
-Date: Fri, 05 Apr 2024 17:56:01 -0500
-Subject: [PATCH v2 1/3] dt-bindings: kbuild: Simplify examples target
- patsubst
+Date: Fri, 05 Apr 2024 17:56:02 -0500
+Subject: [PATCH v2 2/3] dt-bindings: kbuild: Split targets out to separate
+ rules
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -53,7 +53,7 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240405-dt-kbuild-rework-v2-1-3a035caee357@kernel.org>
+Message-Id: <20240405-dt-kbuild-rework-v2-2-3a035caee357@kernel.org>
 References: <20240405-dt-kbuild-rework-v2-0-3a035caee357@kernel.org>
 In-Reply-To: <20240405-dt-kbuild-rework-v2-0-3a035caee357@kernel.org>
 To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
@@ -64,44 +64,79 @@ Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
 X-Mailer: b4 0.13-dev
 
-Instead of stripping off the $(srctree) multiple times do it once up
-front, but keep the src/obj path as it is going to be needed in
-subsequent commit.
+Masahiro pointed out the use of if_changed_rule is incorrect and command
+line changes are not correctly accounted for.
 
-Rename the variable to CHK_DT_EXAMPLES to better reflect what it
-contains.
+To fix this, split up the DT binding validation target,
+dt_binding_check, into multiple rules for each step: yamllint, schema
+validtion with meta-schema, and building the processed schema.
 
+One change in behavior is the yamllint or schema validation will be
+re-run again when there are warnings present.
+
+Reported-by: Masahiro Yamada <masahiroy@kernel.org>
+Link: https://lore.kernel.org/all/20220817152027.16928-1-masahiroy@kernel.org/
 Signed-off-by: Rob Herring <robh@kernel.org>
 ---
-v2: New patch
+v2:
+ - Separated rework of build rules to fix if_changed_rule usage from
+   addition of top-level build rules.
 ---
- Documentation/devicetree/bindings/Makefile | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ Documentation/devicetree/bindings/Makefile | 25 ++++++++++++++-----------
+ 1 file changed, 14 insertions(+), 11 deletions(-)
 
 diff --git a/Documentation/devicetree/bindings/Makefile b/Documentation/devicetree/bindings/Makefile
-index 5e08e3a6a97b..95f1436ebcd0 100644
+index 95f1436ebcd0..3779405269ab 100644
 --- a/Documentation/devicetree/bindings/Makefile
 +++ b/Documentation/devicetree/bindings/Makefile
-@@ -32,7 +32,7 @@ find_cmd = $(find_all_cmd) | \
- 		sed 's|^$(srctree)/||' | \
- 		grep -F -e "$(subst :," -e ",$(DT_SCHEMA_FILES))" | \
- 		sed 's|^|$(srctree)/|'
--CHK_DT_DOCS := $(shell $(find_cmd))
-+CHK_DT_EXAMPLES := $(patsubst $(srctree)/%.yaml,%.example.dtb, $(shell $(find_cmd)))
- 
+@@ -37,11 +37,13 @@ CHK_DT_EXAMPLES := $(patsubst $(srctree)/%.yaml,%.example.dtb, $(shell $(find_cm
  quiet_cmd_yamllint = LINT    $(src)
        cmd_yamllint = ($(find_cmd) | \
-@@ -68,8 +68,8 @@ $(obj)/processed-schema.json: $(DT_DOCS) $(src)/.yamllint check_dtschema_version
- 	$(call if_changed_rule,chkdt)
+                      xargs -n200 -P$$(nproc) \
+-		     $(DT_SCHEMA_LINT) -f parsable -c $(srctree)/$(src)/.yamllint >&2) || true
++		     $(DT_SCHEMA_LINT) -f parsable -c $(srctree)/$(src)/.yamllint >&2) \
++		     && touch $@ || true
+ 
+-quiet_cmd_chk_bindings = CHKDT   $@
++quiet_cmd_chk_bindings = CHKDT   $(src)
+       cmd_chk_bindings = ($(find_cmd) | \
+-                         xargs -n200 -P$$(nproc) $(DT_DOC_CHECKER) -u $(srctree)/$(src)) || true
++			  xargs -n200 -P$$(nproc) $(DT_DOC_CHECKER) -u $(srctree)/$(src)) \
++			  && touch $@ || true
+ 
+ quiet_cmd_mk_schema = SCHEMA  $@
+       cmd_mk_schema = f=$$(mktemp) ; \
+@@ -49,12 +51,6 @@ quiet_cmd_mk_schema = SCHEMA  $@
+                       $(DT_MK_SCHEMA) -j $(DT_MK_SCHEMA_FLAGS) @$$f > $@ ; \
+ 		      rm -f $$f
+ 
+-define rule_chkdt
+-	$(if $(DT_SCHEMA_LINT),$(call cmd,yamllint),)
+-	$(call cmd,chk_bindings)
+-	$(call cmd,mk_schema)
+-endef
+-
+ DT_DOCS = $(patsubst $(srctree)/%,%,$(shell $(find_all_cmd)))
+ 
+ override DTC_FLAGS := \
+@@ -64,8 +60,15 @@ override DTC_FLAGS := \
+ 	-Wno-unique_unit_address \
+ 	-Wunique_unit_address_if_enabled
+ 
+-$(obj)/processed-schema.json: $(DT_DOCS) $(src)/.yamllint check_dtschema_version FORCE
+-	$(call if_changed_rule,chkdt)
++$(obj)/processed-schema.json: $(DT_DOCS) check_dtschema_version FORCE
++	$(call if_changed,mk_schema)
++
++always-$(CHECK_DT_BINDING) += .dt-binding.checked .yamllint.checked
++$(obj)/.yamllint.checked: $(DT_DOCS) $(src)/.yamllint FORCE
++	$(if $(DT_SCHEMA_LINT),$(call if_changed,yamllint),)
++
++$(obj)/.dt-binding.checked: $(DT_DOCS) FORCE
++	$(call if_changed,chk_bindings)
  
  always-y += processed-schema.json
--always-$(CHECK_DT_BINDING) += $(patsubst $(srctree)/$(src)/%.yaml,%.example.dts, $(CHK_DT_DOCS))
--always-$(CHECK_DT_BINDING) += $(patsubst $(srctree)/$(src)/%.yaml,%.example.dtb, $(CHK_DT_DOCS))
-+always-$(CHECK_DT_BINDING) += $(patsubst $(obj)/%,%, $(CHK_DT_EXAMPLES))
-+always-$(CHECK_DT_BINDING) += $(patsubst $(obj)/%.dtb,%.dts, $(CHK_DT_EXAMPLES))
- 
- # Hack: avoid 'Argument list too long' error for 'make clean'. Remove most of
- # build artifacts here before they are processed by scripts/Makefile.clean
+ always-$(CHECK_DT_BINDING) += $(patsubst $(obj)/%,%, $(CHK_DT_EXAMPLES))
 
 -- 
 2.43.0
