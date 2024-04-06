@@ -1,198 +1,140 @@
-Return-Path: <linux-kbuild+bounces-1473-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1474-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF7F089A779
-	for <lists+linux-kbuild@lfdr.de>; Sat,  6 Apr 2024 00:56:58 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B16D489A908
+	for <lists+linux-kbuild@lfdr.de>; Sat,  6 Apr 2024 07:20:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 455831F21D39
-	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Apr 2024 22:56:58 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DD72F1C21013
+	for <lists+linux-kbuild@lfdr.de>; Sat,  6 Apr 2024 05:20:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 601F43D0C5;
-	Fri,  5 Apr 2024 22:56:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5738520DF7;
+	Sat,  6 Apr 2024 05:20:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jhCesNHg"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HYazYNyp"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33F223F8D4;
-	Fri,  5 Apr 2024 22:56:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94EB218E02;
+	Sat,  6 Apr 2024 05:20:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712357780; cv=none; b=VyqyKiovrvTvfBUattYCDa74p0nFempIfp8LXG4bEMXjGfa44vr6BVq11udy7C34yrqqafC+Z4kQH6Mzexn19Lv5a3oCYqbH6NgD6yggIJF2rfDI96VC4BPEFAF2kG/sxUl+ob8XZxrpWWIWvYtKrvNQ4dwrGWERXcT8THg3Hck=
+	t=1712380829; cv=none; b=YzbEaLpkY1uVjsGwaQO1u+GcmshnUnFAxY+GcJB8z7/W6G5GIZGCcfBcDEjXLvGBv0crdz8VkQIxs2kmrhvOykKr6zmbeQjKDQT+1V+GgFc8+UV9n4BO280BecUa/nF1cCe8vrCw/5HIHacvrFdeEATQ6v+RiMCvinEcdNzAKq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712357780; c=relaxed/simple;
-	bh=AO5Kpd/Nydfgj35Of2FHSq+t2Vc9UkcYjNb1Rv1uAJU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=iMcthdO6zKhwdXOc/QafmQju7EV0Vrnq4FL3kcExcV3GUInry3FigQ2rRFtZnCccI6DVvrQOzBOXd3cVkhjYuMsfYi7nTby4eMGY2hLB8c3FatY/tMzWtVaBP3WMHFEsKTxuJP+T3/iZiujPdgCiFMtmJK5ywuYRgYw8Laylg20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jhCesNHg; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FC6CC43394;
-	Fri,  5 Apr 2024 22:56:19 +0000 (UTC)
+	s=arc-20240116; t=1712380829; c=relaxed/simple;
+	bh=TBj/hcnPrvS19ZOluMZ12evt8AeDaDrUTBeM5kaTuKY=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=CZ8xfNFOwOwbOw+X7MQ2mypw2+89BHGbOVaiv57GMPQkzoP+kTI3Of0iGuMzFOUzREJ/5HG1uwWjOnb/738qFydKIOLZPWRcq+fRpVC2c83ScQZah+i6XKs06F3D3U/JknTPeBdxqgBUOHgAXMUknabfbbQJoG8FBKB5p8UrXSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HYazYNyp; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 3C5A9C433C7;
+	Sat,  6 Apr 2024 05:20:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712357779;
-	bh=AO5Kpd/Nydfgj35Of2FHSq+t2Vc9UkcYjNb1Rv1uAJU=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=jhCesNHgJsGQy/dJ+jMTvQxpMAlN7OgTaHzunQ8wqR+ZK1K0QOohd2H+VYYa2GJXJ
-	 VoO8mEj6/LAQxky2LY39loFOlGyqMgUgjy0ku0Ra3JqIbLqsdzuchkfDK1vm3nfJt+
-	 gF+ncWODUv/WmY7G63bW0WhCs7seeraBk51OcDoNZiXuflI/Kr01Kz7iGlvJisijxU
-	 ZTIjRN6PfQBKU4mkVqU1BJnOciHkf372J0/YxkjTG58vMrbdF5M3eomG9/0oxjg3MV
-	 vpPLotdW3RgC4/nKE0t9UA9P0oGMwG9v8KqKLSul6cYDfI8wtH5vbbj0eGmpigoqEz
-	 cbR2Q3O98NeFw==
-From: Rob Herring <robh@kernel.org>
-Date: Fri, 05 Apr 2024 17:56:03 -0500
-Subject: [PATCH v2 3/3] dt-bindings: kbuild: Add separate target/dependency
- for processed-schema.json
+	s=k20201202; t=1712380828;
+	bh=TBj/hcnPrvS19ZOluMZ12evt8AeDaDrUTBeM5kaTuKY=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=HYazYNypOS+iPe/PmwIZVgrP0OAjOmuWcCZaXmQBd5/DF3DU2Cm7HK1KTLKVM8W2j
+	 EfdrhznuDsHvbEh7NeV1r2EDMVkxTqo+hmKt5MdFIcqj68UTB4u7gvHG6geAe3ArfV
+	 cYxb7yc2nqhO3pPj8ToTFIgL78NntzPlzi3tNk1u8F7N5z7SqSGJ1Z/QhHbUaQaR1j
+	 GTv/7bDPNNXqFXoXNMGCl3bjIAtmML/lX++bgYkRjXumLNf6dEzpQPrpxdPeyVgSKh
+	 czfxRuHIWxcuBJ6wGSXEzVfHmRCYmRJdToESEDFulu3u4HF5IZUSSU3tkxxLhyQRAI
+	 TbkNIwkM8MMRA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 19C9BD84BAC;
+	Sat,  6 Apr 2024 05:20:28 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240405-dt-kbuild-rework-v2-3-3a035caee357@kernel.org>
-References: <20240405-dt-kbuild-rework-v2-0-3a035caee357@kernel.org>
-In-Reply-To: <20240405-dt-kbuild-rework-v2-0-3a035caee357@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Marijn Suijten <marijn.suijten@somainline.org>, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
-X-Mailer: b4 0.13-dev
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 00/34] address all -Wunused-const warnings
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <171238082809.31617.17365732495689756509.git-patchwork-notify@kernel.org>
+Date: Sat, 06 Apr 2024 05:20:28 +0000
+References: <20240403080702.3509288-1-arnd@kernel.org>
+In-Reply-To: <20240403080702.3509288-1-arnd@kernel.org>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: linux-kernel@vger.kernel.org, arnd@arndb.de, mpe@ellerman.id.au,
+ christophe.leroy@csgroup.eu, dlemoal@kernel.org, jikos@kernel.org,
+ gregkh@linuxfoundation.org, minyard@acm.org, peterhuewe@gmx.de,
+ jarkko@kernel.org, kristo@kernel.org, sboyd@kernel.org, abbotti@mev.co.uk,
+ hsweeten@visionengravers.com, srinivas.pandruvada@linux.intel.com,
+ lenb@kernel.org, rafael@kernel.org, john.allen@amd.com,
+ herbert@gondor.apana.org.au, vkoul@kernel.org, ardb@kernel.org,
+ andersson@kernel.org, mdf@kernel.org, liviu.dudau@arm.com,
+ benjamin.tissoires@redhat.com, andi.shyti@kernel.org,
+ michael.hennerich@analog.com, peda@axentia.se, lars@metafoo.de,
+ jic23@kernel.org, dmitry.torokhov@gmail.com, markuss.broks@gmail.com,
+ alexandre.torgue@foss.st.com, lee@kernel.org, kuba@kernel.org,
+ Shyam-sundar.S-k@amd.com, iyappan@os.amperecomputing.com,
+ yisen.zhuang@huawei.com, stf_xl@wp.pl, kvalo@kernel.org, sre@kernel.org,
+ tony@atomide.com, broonie@kernel.org, alexandre.belloni@bootlin.com,
+ chenxiang66@hisilicon.com, martin.petersen@oracle.com,
+ neil.armstrong@linaro.org, heiko@sntech.de, krzysztof.kozlowski@linaro.org,
+ hvaibhav.linux@gmail.com, elder@kernel.org, jirislaby@kernel.org,
+ ychuang3@nuvoton.com, deller@gmx.de, hch@lst.de, robin.murphy@arm.com,
+ rostedt@goodmis.org, mhiramat@kernel.org, akpm@linux-foundation.org,
+ keescook@chromium.org, trond.myklebust@hammerspace.com, anna@kernel.org,
+ masahiroy@kernel.org, nathan@kernel.org, tiwai@suse.com,
+ linuxppc-dev@lists.ozlabs.org, linux-ide@vger.kernel.org,
+ openipmi-developer@lists.sourceforge.net, linux-integrity@vger.kernel.org,
+ linux-omap@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-crypto@vger.kernel.org,
+ dmaengine@vger.kernel.org, linux-efi@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-fpga@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+ linux-i2c@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, netdev@vger.kernel.org,
+ linux-leds@vger.kernel.org, linux-wireless@vger.kernel.org,
+ linux-rtc@vger.kernel.org, linux-scsi@vger.kernel.org,
+ linux-spi@vger.kernel.org, linux-amlogic@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
+ greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+ linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, iommu@lists.linux.dev,
+ linux-trace-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+ linux-hardening@vger.kernel.org, linux-nfs@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, alsa-devel@alsa-project.org,
+ linux-sound@vger.kernel.org
 
-Running dtbs_check and dt_compatible_check targets really only depend
-on processed-schema.json, but the dependency is 'dt_binding_check'. That
-was sort worked around with the CHECK_DT_BINDING variable in order to
-skip some of the work that 'dt_binding_check' does. It still runs the
-full checks of the schemas which is not necessary and adds 10s of
-seconds to the build time. That's significant when checking only a few
-DTBs and with recent changes that have improved the validation time by
-6-7x.
+Hello:
 
-Add a new target, dt_binding_schema, which just builds
-processed-schema.json and can be used as the dependency for other
-targets. The scripts_dtc dependency isn't needed either as the examples
-aren't built for it.
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-Signed-off-by: Rob Herring <robh@kernel.org>
----
-v2:
- - Just split out building processed-schema.json and drop running
-yamllint, schema validation, or checking examples separately.
- - Fix multiple targets in parallel build. (Thanks Masahiro!)
----
- Documentation/devicetree/bindings/Makefile |  9 ++++++---
- Makefile                                   | 24 ++++++++++++------------
- scripts/Makefile.lib                       |  2 +-
- 3 files changed, 19 insertions(+), 16 deletions(-)
+On Wed,  3 Apr 2024 10:06:18 +0200 you wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> Compilers traditionally warn for unused 'static' variables, but not
+> if they are constant. The reason here is a custom for C++ programmers
+> to define named constants as 'static const' variables in header files
+> instead of using macros or enums.
+> 
+> [...]
 
-diff --git a/Documentation/devicetree/bindings/Makefile b/Documentation/devicetree/bindings/Makefile
-index 3779405269ab..8cdda477987f 100644
---- a/Documentation/devicetree/bindings/Makefile
-+++ b/Documentation/devicetree/bindings/Makefile
-@@ -63,7 +63,7 @@ override DTC_FLAGS := \
- $(obj)/processed-schema.json: $(DT_DOCS) check_dtschema_version FORCE
- 	$(call if_changed,mk_schema)
- 
--always-$(CHECK_DT_BINDING) += .dt-binding.checked .yamllint.checked
-+targets += .dt-binding.checked .yamllint.checked
- $(obj)/.yamllint.checked: $(DT_DOCS) $(src)/.yamllint FORCE
- 	$(if $(DT_SCHEMA_LINT),$(call if_changed,yamllint),)
- 
-@@ -71,8 +71,8 @@ $(obj)/.dt-binding.checked: $(DT_DOCS) FORCE
- 	$(call if_changed,chk_bindings)
- 
- always-y += processed-schema.json
--always-$(CHECK_DT_BINDING) += $(patsubst $(obj)/%,%, $(CHK_DT_EXAMPLES))
--always-$(CHECK_DT_BINDING) += $(patsubst $(obj)/%.dtb,%.dts, $(CHK_DT_EXAMPLES))
-+targets += $(patsubst $(obj)/%,%, $(CHK_DT_EXAMPLES))
-+targets += $(patsubst $(obj)/%.dtb,%.dts, $(CHK_DT_EXAMPLES))
- 
- # Hack: avoid 'Argument list too long' error for 'make clean'. Remove most of
- # build artifacts here before they are processed by scripts/Makefile.clean
-@@ -81,3 +81,6 @@ clean-files = $(shell find $(obj) \( -name '*.example.dts' -o \
- 
- dt_compatible_check: $(obj)/processed-schema.json
- 	$(Q)$(srctree)/scripts/dtc/dt-extract-compatibles $(srctree) | xargs dt-check-compatible -v -s $<
-+
-+PHONY += dt_binding_check
-+dt_binding_check: $(obj)/.dt-binding.checked $(obj)/.yamllint.checked $(CHK_DT_EXAMPLES)
-diff --git a/Makefile b/Makefile
-index 763b6792d3d5..1356e48caa2b 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1398,12 +1398,12 @@ dtbs: dtbs_prepare
- # dtbs_install depend on it as dtbs_install may run as root.
- dtbs_prepare: include/config/kernel.release scripts_dtc
- 
--ifneq ($(filter dtbs_check, $(MAKECMDGOALS)),)
-+ifneq ($(filter dt_binding_check dtbs_check, $(MAKECMDGOALS)),)
- export CHECK_DTBS=y
- endif
- 
- ifneq ($(CHECK_DTBS),)
--dtbs_prepare: dt_binding_check
-+dtbs_prepare: dt_binding_schemas
- endif
- 
- dtbs_check: dtbs
-@@ -1421,16 +1421,15 @@ PHONY += scripts_dtc
- scripts_dtc: scripts_basic
- 	$(Q)$(MAKE) $(build)=scripts/dtc
- 
--ifneq ($(filter dt_binding_check, $(MAKECMDGOALS)),)
--export CHECK_DT_BINDING=y
--endif
-+PHONY += dt_binding_check dt_binding_schemas
-+dt_binding_check: dt_binding_schemas scripts_dtc
-+	$(Q)$(MAKE) $(build)=Documentation/devicetree/bindings $@
- 
--PHONY += dt_binding_check
--dt_binding_check: scripts_dtc
-+dt_binding_schemas:
- 	$(Q)$(MAKE) $(build)=Documentation/devicetree/bindings
- 
- PHONY += dt_compatible_check
--dt_compatible_check: dt_binding_check
-+dt_compatible_check: dt_binding_schemas
- 	$(Q)$(MAKE) $(build)=Documentation/devicetree/bindings $@
- 
- # ---------------------------------------------------------------------------
-@@ -1626,10 +1625,11 @@ help:
- 	@echo  ''
- 	@$(if $(dtstree), \
- 		echo 'Devicetree:'; \
--		echo '* dtbs             - Build device tree blobs for enabled boards'; \
--		echo '  dtbs_install     - Install dtbs to $(INSTALL_DTBS_PATH)'; \
--		echo '  dt_binding_check - Validate device tree binding documents'; \
--		echo '  dtbs_check       - Validate device tree source files';\
-+		echo '* dtbs               - Build device tree blobs for enabled boards'; \
-+		echo '  dtbs_install       - Install dtbs to $(INSTALL_DTBS_PATH)'; \
-+		echo '  dt_binding_check   - Validate device tree binding documents and examples'; \
-+		echo '  dt_binding_schema  - Build processed device tree binding schemas'; \
-+		echo '  dtbs_check         - Validate device tree source files';\
- 		echo '')
- 
- 	@echo 'Userspace tools targets:'
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index 3179747cbd2c..d1d51e38b55d 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -410,7 +410,7 @@ $(multi-dtb-y): FORCE
- 	$(call if_changed,fdtoverlay)
- $(call multi_depend, $(multi-dtb-y), .dtb, -dtbs)
- 
--ifneq ($(CHECK_DTBS)$(CHECK_DT_BINDING),)
-+ifneq ($(CHECK_DTBS),)
- DT_CHECKER ?= dt-validate
- DT_CHECKER_FLAGS ?= $(if $(DT_SCHEMA_FILES),-l $(DT_SCHEMA_FILES),-m)
- DT_BINDING_DIR := Documentation/devicetree/bindings
+Here is the summary with links:
+  - [05/34] 3c515: remove unused 'mtu' variable
+    https://git.kernel.org/netdev/net-next/c/17b35355c2c6
+  - [19/34] sunrpc: suppress warnings for unused procfs functions
+    (no matching commit)
+  - [26/34] isdn: kcapi: don't build unused procfs code
+    https://git.kernel.org/netdev/net-next/c/91188544af06
+  - [28/34] net: xgbe: remove extraneous #ifdef checks
+    https://git.kernel.org/netdev/net-next/c/0ef416e045ad
+  - [33/34] drivers: remove incorrect of_match_ptr/ACPI_PTR annotations
+    (no matching commit)
 
+You are awesome, thank you!
 -- 
-2.43.0
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
 
