@@ -1,126 +1,115 @@
-Return-Path: <linux-kbuild+bounces-1475-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1476-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E6FF89AF3A
-	for <lists+linux-kbuild@lfdr.de>; Sun,  7 Apr 2024 09:29:56 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2AD089B084
+	for <lists+linux-kbuild@lfdr.de>; Sun,  7 Apr 2024 12:59:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AC2071F23DFC
-	for <lists+linux-kbuild@lfdr.de>; Sun,  7 Apr 2024 07:29:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E49601C21329
+	for <lists+linux-kbuild@lfdr.de>; Sun,  7 Apr 2024 10:59:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A918328F7;
-	Sun,  7 Apr 2024 07:29:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC465199BC;
+	Sun,  7 Apr 2024 10:59:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cEAx/fDx"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aKsbdN24"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC624125B2
-	for <linux-kbuild@vger.kernel.org>; Sun,  7 Apr 2024 07:29:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEB5417577;
+	Sun,  7 Apr 2024 10:59:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712474984; cv=none; b=qmAfLbhAwr6rvDNs7uHAJzK7rzx0YaIgo+0mQNLjD2U1o0U5nhBDfMRSrucHFxVkZhULUnfYpb7c458CccH0FOLrLSktdYP66tfr9W5zuMjHI/yFPBLTqhXpqWmQtLjmQz1CH2RMak2TyvLaGHPCMat/ugc71ikz/jAMDkxwHoE=
+	t=1712487570; cv=none; b=DD0DyDYqHiRJ6/VlPcBpq7PuXlM3H/euXbXNyGJhNTPMmowJHWiqE7EINAJMZFnL2WOcZ7EIrNJyo1kNCFIy++ygf7LhqcU9m/Q48ZDFen0ktOTVAbXb9a/oVpXtJKH1X42hZfZ1dfkHvA0bBKFZ5C/Qf7SsU3ZfVM6i7VmKdvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712474984; c=relaxed/simple;
-	bh=c4gx5gcQ+/KZ11SSWnacKCMVPfuYBoPwmmjD279Nb7U=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Cj1ksJPRMHuE8cET+mS5z0FIL4turK5xMIEyMEaI4VGE/56V6Cf+stuhMJ7BM+X4qauIXqmu9yHSRX8BNytCGQiIOFnQZ8UmTivnSh0X2eoE20K+m2on1y6pH/p54pDgFa98nnku149Q7fzRxeLfG9J/X3Z3sRDm0sxUQBDNOv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cEAx/fDx; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1712474981;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=X27ygB47YVHTECz49cgF8BF51X7CZq1qToYAliyB6IM=;
-	b=cEAx/fDxAI/72Y0xWef886g8N5QiY/l5PL/ejejy4eKByez0QHsk2WUCYAdNRO5BsP4bXF
-	bJY4d0DCY2H/28r4QfF+XbQOT89Nb+BswTrl+BqyEDj2YJhCbXH5c0mclptUASMTXt6i7t
-	gqAteGUeozp7vd0kFwW7t+C7ZGzbce8=
-Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
- by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-126-hzviGMaoNSC3G6qqNt4ajA-1; Sun,
- 07 Apr 2024 03:29:40 -0400
-X-MC-Unique: hzviGMaoNSC3G6qqNt4ajA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B3C9C1C060FC;
-	Sun,  7 Apr 2024 07:29:39 +0000 (UTC)
-Received: from kaapi.redhat.com (unknown [10.74.16.61])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 39F4210E4F;
-	Sun,  7 Apr 2024 07:29:37 +0000 (UTC)
-From: Prasad Pandit <ppandit@redhat.com>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org,
-	Prasad Pandit <pjp@fedoraproject.org>
-Subject: [PATCH v1] kconfig: add config and source entry details
-Date: Sun,  7 Apr 2024 12:59:33 +0530
-Message-ID: <20240407072933.3562124-1-ppandit@redhat.com>
+	s=arc-20240116; t=1712487570; c=relaxed/simple;
+	bh=mUqwJvMwwddQUj3/Op3ujtR7UUXWdIvM3MJCfhjD1tE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SAcJiX7olEMOPzxxpEFt0EV6hL2HM+0Y42DkejoImb0cLrgv+pq/qcMHyQrGZ3i5v/kzaifmS7uywerMwhab6/flYfaRfs+HotyAX/zx0Ow2PWxTM1rwNdAPVHQCTVCGmJtg467+XwthZLMCc1ioSrJuiHaRKjY8PgxwE3Q5EOA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aKsbdN24; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C51AC433F1;
+	Sun,  7 Apr 2024 10:59:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712487570;
+	bh=mUqwJvMwwddQUj3/Op3ujtR7UUXWdIvM3MJCfhjD1tE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=aKsbdN24NetxsdAUdftzcQGHZxeRaoDejGMt7iJYzfdfSBOJW/NvlcrebKEceshmz
+	 htEB+uslSRnpbNWvN//HFjN7AyG4NbtQtgUAR5rGmXSiXGHC89STlACMQQW9BdBTjD
+	 eoyvlkR5FmpwUVF9dq5Fpwb1hs5dyfbyTo23+RlF6+2FlAGyb3E8RJHhDej8EsucF9
+	 0VF1f2+fYuh0/tAk3+VtocRAVvG9cTdeLa4yWGdbY71DpEi1w9TVTQoXUo6SI9EYJk
+	 22nqltABbRh5r4k1uQhqU4yQ+RhKOK88AVgssP7i3/OHJ3UyTfyOw4Xrx/qE5Bwz9d
+	 FHvtFiZ+vpQhw==
+Date: Sun, 7 Apr 2024 11:59:25 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Rob Herring <robh@kernel.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH v2 3/3] dt-bindings: kbuild: Add separate
+ target/dependency for processed-schema.json
+Message-ID: <20240407-other-widow-399ec7ca8c8f@spud>
+References: <20240405-dt-kbuild-rework-v2-0-3a035caee357@kernel.org>
+ <20240405-dt-kbuild-rework-v2-3-3a035caee357@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.5
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="LrPBrqQ2Jt21+wkW"
+Content-Disposition: inline
+In-Reply-To: <20240405-dt-kbuild-rework-v2-3-3a035caee357@kernel.org>
 
-From: Prasad Pandit <pjp@fedoraproject.org>
 
-Add details to the 'config' and 'source' entry description,
-to make it unambiguous. It'd come handy as reference for
-Kconfig language or patch reviews for Kconfig source files.
+--LrPBrqQ2Jt21+wkW
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Prasad Pandit <pjp@fedoraproject.org>
----
- Documentation/kbuild/kconfig-language.rst | 18 +++++++++++++-----
- 1 file changed, 13 insertions(+), 5 deletions(-)
+On Fri, Apr 05, 2024 at 05:56:03PM -0500, Rob Herring wrote:
+> Running dtbs_check and dt_compatible_check targets really only depend
+> on processed-schema.json, but the dependency is 'dt_binding_check'. That
+> was sort worked around with the CHECK_DT_BINDING variable in order to
+> skip some of the work that 'dt_binding_check' does. It still runs the
+> full checks of the schemas which is not necessary and adds 10s of
+> seconds to the build time. That's significant when checking only a few
+> DTBs and with recent changes that have improved the validation time by
+> 6-7x.
+>=20
+> Add a new target, dt_binding_schema, which just builds
+> processed-schema.json and can be used as the dependency for other
+> targets. The scripts_dtc dependency isn't needed either as the examples
+> aren't built for it.
+>=20
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-v1:
- - Fix typo path -> patch
- - https://lore.kernel.org/linux-kbuild/20240404064037.3440433-1-ppandit@redhat.com/T/#u
+Yoo, that's pretty nice. 20 seconds cut off my dtbs_check build time on
+riscv with this change :) As you point out, when you're not checking all
+that many it is pretty significant - 48 seconds before and 28 seconds now
+Tested-by: Conor Dooley <conor.dooley@microchip.com>
 
-diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
-index 0135905c0aa3..0783850d5a00 100644
---- a/Documentation/kbuild/kconfig-language.rst
-+++ b/Documentation/kbuild/kconfig-language.rst
-@@ -39,11 +39,14 @@ them. A single configuration option is defined like this::
- 	  kernel.  ...
- 
- Every line starts with a key word and can be followed by multiple
--arguments.  "config" starts a new config entry. The following lines
--define attributes for this config option. Attributes can be the type of
--the config option, input prompt, dependencies, help text and default
--values. A config option can be defined multiple times with the same
--name, but every definition can have only a single input prompt and the
-+arguments.  "config" starts a new config entry. The following lines,
-+indented by a leading tab (\t) character, define attributes for this
-+config option. Attributes can be the type of the config option,
-+input prompt, dependencies, default values and help text. Help text
-+is further indented by two more spaces.
-+
-+A config option can be defined multiple times with the same name,
-+but every definition can have only a single input prompt and the
- type must not conflict.
- 
- Menu attributes
-@@ -451,6 +454,11 @@ source::
- 	"source" <prompt>
- 
- This reads the specified configuration file. This file is always parsed.
-+The specified file path is from the top source directory ($SRCTREE).
-+It allows one to source a file from any subdirectory under the source
-+tree. Such path is always unique under the source directory.
-+A configuration file must terminate with a new line (\n) character
-+at the end.
- 
- mainmenu::
- 
--- 
-2.44.0
+Thanks,
+Conor.
 
+--LrPBrqQ2Jt21+wkW
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZhJ8jQAKCRB4tDGHoIJi
+0jngAP9fiiu62rotgAy0KbbE5nvYcdXtnLZ30d8vRNvq0TJFegEAlR0OmWLZUSHx
+bsiXSS4PqQRiXrr6DDj0IaPJS2n/qw4=
+=p86i
+-----END PGP SIGNATURE-----
+
+--LrPBrqQ2Jt21+wkW--
 
