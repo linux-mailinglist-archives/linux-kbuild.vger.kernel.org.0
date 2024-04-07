@@ -1,46 +1,46 @@
-Return-Path: <linux-kbuild+bounces-1479-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1480-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BCC089B1E0
-	for <lists+linux-kbuild@lfdr.de>; Sun,  7 Apr 2024 15:34:07 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3919289B1FF
+	for <lists+linux-kbuild@lfdr.de>; Sun,  7 Apr 2024 15:36:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EA09F28119D
-	for <lists+linux-kbuild@lfdr.de>; Sun,  7 Apr 2024 13:34:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5E5F51C20EA8
+	for <lists+linux-kbuild@lfdr.de>; Sun,  7 Apr 2024 13:36:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47C6B130493;
-	Sun,  7 Apr 2024 13:13:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 913E41350F8;
+	Sun,  7 Apr 2024 13:13:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D4+ckiN1"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Aqe9npec"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C113130A4C;
-	Sun,  7 Apr 2024 13:13:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68E221350DA;
+	Sun,  7 Apr 2024 13:13:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712495619; cv=none; b=UUiXkTrYODJLrxXNCdNDkCXY61KAbNXjwtO7cymBkThp4tJehDEchHmy7v+kpMDxKnh30QoM/BGZ+RrK+Fpv1fELtT0qbiePWdlnXb+97IpkPM2EY6FJlpjtU3GzUDjYxj5UagtiNewKOxbJP4l3frmXCTH8WtFfHej8beiAIvM=
+	t=1712495637; cv=none; b=l/9u1JXuk7u1tVpwSb9bHgs6VJxbWQj/o8v+i3gYuV0X8CN8rP7mCA+XkyBFYVNwxgqAf89zGk1mdx61BJ9cXGOr3hDbsUM6od7+jwl1imcTUkKl+RsTKPHKW/hm6lqHVUpCpDdONd87CqJzQhPp4f7ux3d49kTxnTPp4Zu1xns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712495619; c=relaxed/simple;
-	bh=pWY5KBPRHC/DMNF2eOT2XhEVxqzLGgWzS978Y/5K94k=;
+	s=arc-20240116; t=1712495637; c=relaxed/simple;
+	bh=M55eIr8YY923zpvoeCETl20KqAT1p4JYqMDrkBauwig=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HNLEtfPxt5JDbVUHityE6VdroFsVtauwLhMwiJ7+QGT9K7Pjg5vXybKPu4sLEdXUoHD1GIx7pd8n1kM6Zb++kHNi90DeWAtmuy0JeOSxNRg+wvtegYLgWpklEdrfuY1Ee7bdF6iuS8E9KNk0xByPh79lvQNKzJH/Cl/+3Iq/4uQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D4+ckiN1; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96B2FC433B1;
-	Sun,  7 Apr 2024 13:13:37 +0000 (UTC)
+	 MIME-Version; b=kgW1RtDUlpN9xDO9NNO2E6M0B9tPeJFuXEW1Hhfce7Au1KE8MkYLaz9Dy0QrUaehI1az4Lkk8KY0dHLPuK0N3hgocbXnV1jGt8a4ztYqrNdJt3O98f1wXiWwqjtLqxHtsizfX6zDk+Njbzu5SRb4tG+S1GGQR0AtnXpcb8tlhC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Aqe9npec; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D8F3C43394;
+	Sun,  7 Apr 2024 13:13:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712495618;
-	bh=pWY5KBPRHC/DMNF2eOT2XhEVxqzLGgWzS978Y/5K94k=;
+	s=k20201202; t=1712495637;
+	bh=M55eIr8YY923zpvoeCETl20KqAT1p4JYqMDrkBauwig=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=D4+ckiN1N/bfTEC8vwDBFD7Ep+viWetfGdarXXdgoIOAOR1bodpSl7ZzC1/6V5z8b
-	 F0YARMp2bIfRDGWmXwUxvg40Zl64Fmn5vhUATn/QYULm4BhAF6ypmbxkMPjluiAPQt
-	 n5hkFMjMUim6H6Ila6N8aMz7/edYShrBiTiLt05O2HdLtMMWRfIMjw3mST4ZABWSkE
-	 eilFIAbRjWJx/vdv6+4k1yIy4Vs5yfzf7WVUHDD23bObCalY/tUdbpUIuEeNa5StHX
-	 uJWInX7jTJmxLF1OqoLrCbrUWIaVnv0FQwx2CAU1Bz6f/uhjyFDqh9xqd3LvmjvP7P
-	 yek+NHh+sTZ/w==
+	b=Aqe9npec8482V1ADit1uyAs5zyQJoEXQMAb9kGEAOHxccklfIK9/XuxBvGw1YQJ67
+	 8nzMHzEbsQjLWN2TCCNLe/7qPiNLqPX1KXmhO9NYvZbPnFZ4eKPcx5ykbmQXM8Vsg3
+	 IDqurLUYZt1UCm9WuNJFUz++xvsVwHTNX1z1LXDBrYsoUOnwJ8in4/XOZZdWQFLWR1
+	 IrPBIpFR7Hv6ZjZ1kUghTWspQAprKPwM3jNcXggZYEhI/EPXoCRpxMQ53HxVRZK2jm
+	 DPNxbjxceoSLIZjL2GcjJzULYly7K1IL3YlKhjTbND9DIKXhsx+oJaMPumEQgGZtUs
+	 IAFTB71crXtFQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -51,12 +51,12 @@ Cc: "Borislav Petkov (AMD)" <bp@alien8.de>,
 	Masahiro Yamada <masahiroy@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 13/13] kbuild: Disable KCSAN for autogenerated *.mod.c intermediaries
-Date: Sun,  7 Apr 2024 09:13:12 -0400
-Message-ID: <20240407131316.1052393-13-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 10/10] kbuild: Disable KCSAN for autogenerated *.mod.c intermediaries
+Date: Sun,  7 Apr 2024 09:13:40 -0400
+Message-ID: <20240407131341.1052960-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240407131316.1052393-1-sashal@kernel.org>
-References: <20240407131316.1052393-1-sashal@kernel.org>
+In-Reply-To: <20240407131341.1052960-1-sashal@kernel.org>
+References: <20240407131341.1052960-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -65,7 +65,7 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.84
+X-stable-base: Linux 5.15.153
 Content-Transfer-Encoding: 8bit
 
 From: "Borislav Petkov (AMD)" <bp@alien8.de>
@@ -148,7 +148,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
-index 3af5e5807983a..650d59388336f 100644
+index 47f047458264f..dce4cf55a4b68 100644
 --- a/scripts/Makefile.modfinal
 +++ b/scripts/Makefile.modfinal
 @@ -23,7 +23,7 @@ modname = $(notdir $(@:.mod.o=))
