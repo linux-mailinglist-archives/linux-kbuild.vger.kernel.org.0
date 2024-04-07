@@ -1,115 +1,166 @@
-Return-Path: <linux-kbuild+bounces-1476-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1477-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2AD089B084
-	for <lists+linux-kbuild@lfdr.de>; Sun,  7 Apr 2024 12:59:34 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6806B89B173
+	for <lists+linux-kbuild@lfdr.de>; Sun,  7 Apr 2024 15:23:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E49601C21329
-	for <lists+linux-kbuild@lfdr.de>; Sun,  7 Apr 2024 10:59:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1B632284A49
+	for <lists+linux-kbuild@lfdr.de>; Sun,  7 Apr 2024 13:23:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC465199BC;
-	Sun,  7 Apr 2024 10:59:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3371D768F0;
+	Sun,  7 Apr 2024 13:12:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aKsbdN24"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NTXiaR6A"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEB5417577;
-	Sun,  7 Apr 2024 10:59:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07DB73B78B;
+	Sun,  7 Apr 2024 13:12:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712487570; cv=none; b=DD0DyDYqHiRJ6/VlPcBpq7PuXlM3H/euXbXNyGJhNTPMmowJHWiqE7EINAJMZFnL2WOcZ7EIrNJyo1kNCFIy++ygf7LhqcU9m/Q48ZDFen0ktOTVAbXb9a/oVpXtJKH1X42hZfZ1dfkHvA0bBKFZ5C/Qf7SsU3ZfVM6i7VmKdvw=
+	t=1712495540; cv=none; b=aCZKH5azsg+Q3O9buKtDEI/H0kUdRlDqbQisrACwAkLIkRSlqpeGWMC1RSHc7wqOCsJNwa3MldJLW73QBd9sje+ayDSXsCNtrBtptiNUrPZ7+ZdGyCkk5yNzkEpwgV19vNh+4MCguTNtYT/KmWXl4RG30bKZQu3h2zvEpt/FUTs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712487570; c=relaxed/simple;
-	bh=mUqwJvMwwddQUj3/Op3ujtR7UUXWdIvM3MJCfhjD1tE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SAcJiX7olEMOPzxxpEFt0EV6hL2HM+0Y42DkejoImb0cLrgv+pq/qcMHyQrGZ3i5v/kzaifmS7uywerMwhab6/flYfaRfs+HotyAX/zx0Ow2PWxTM1rwNdAPVHQCTVCGmJtg467+XwthZLMCc1ioSrJuiHaRKjY8PgxwE3Q5EOA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aKsbdN24; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C51AC433F1;
-	Sun,  7 Apr 2024 10:59:27 +0000 (UTC)
+	s=arc-20240116; t=1712495540; c=relaxed/simple;
+	bh=TKrbT9tNh+Cth6uiEmEbqcwA8ZiYM6BdFCvsDAr1m6s=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=smpsgr7i+EzCxc36zXj7xKo4FTJZtS2LGDmKBAq/aOfALDJ4e1/kOmoXnNbIi2VFXMVpQVHNJB/iLcKx9/BQX1thPfKFA9V7Cmu3HRw2w9Sgxj/p2T6U+8QTNuRoeaaFoGgtxCDcjnO6ee78b4BCjcG6+N8uvEe15U2Bti+zWCU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NTXiaR6A; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC692C433F1;
+	Sun,  7 Apr 2024 13:12:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712487570;
-	bh=mUqwJvMwwddQUj3/Op3ujtR7UUXWdIvM3MJCfhjD1tE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aKsbdN24NetxsdAUdftzcQGHZxeRaoDejGMt7iJYzfdfSBOJW/NvlcrebKEceshmz
-	 htEB+uslSRnpbNWvN//HFjN7AyG4NbtQtgUAR5rGmXSiXGHC89STlACMQQW9BdBTjD
-	 eoyvlkR5FmpwUVF9dq5Fpwb1hs5dyfbyTo23+RlF6+2FlAGyb3E8RJHhDej8EsucF9
-	 0VF1f2+fYuh0/tAk3+VtocRAVvG9cTdeLa4yWGdbY71DpEi1w9TVTQoXUo6SI9EYJk
-	 22nqltABbRh5r4k1uQhqU4yQ+RhKOK88AVgssP7i3/OHJ3UyTfyOw4Xrx/qE5Bwz9d
-	 FHvtFiZ+vpQhw==
-Date: Sun, 7 Apr 2024 11:59:25 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Rob Herring <robh@kernel.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+	s=k20201202; t=1712495539;
+	bh=TKrbT9tNh+Cth6uiEmEbqcwA8ZiYM6BdFCvsDAr1m6s=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=NTXiaR6Adn+cCuXJNCuY1dw28VqIloMT5ahNIrttRAwneYrvkslzesTLerwJPXK8f
+	 eHCxGbtymRiRa+o+YhLJmaoiSPR3TY9ur3QrQOtMBxifra3lq5QjAmmek8z6ahOF2y
+	 aASpaX5YpDn1Tb2oMqq/APA663KK+VhXh15peNHhUHkj0mUc6I1sovM5B6Nt4faNYc
+	 pYkdHgtNHz5oTlumsRWUMdwTOsObUUCY1+WfrTLmxJ9SaDFexoJZ+0rgnQ+X/zjz+Q
+	 HuaLQSSFeET4qmN4x1s/ElOtOMGIhCqTHxAhAgkX1r3XhE7tAjWQXPs8MzlqxhjbVc
+	 rHt1KQ7h6eIfw==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: "Borislav Petkov (AMD)" <bp@alien8.de>,
+	Paul Menzel <pmenzel@molgen.mpg.de>,
+	Nikolay Borisov <nik.borisov@suse.com>,
+	Marco Elver <elver@google.com>,
 	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Sasha Levin <sashal@kernel.org>,
 	linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] dt-bindings: kbuild: Add separate
- target/dependency for processed-schema.json
-Message-ID: <20240407-other-widow-399ec7ca8c8f@spud>
-References: <20240405-dt-kbuild-rework-v2-0-3a035caee357@kernel.org>
- <20240405-dt-kbuild-rework-v2-3-3a035caee357@kernel.org>
+Subject: [PATCH AUTOSEL 6.8 25/25] kbuild: Disable KCSAN for autogenerated *.mod.c intermediaries
+Date: Sun,  7 Apr 2024 09:11:13 -0400
+Message-ID: <20240407131130.1050321-25-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240407131130.1050321-1-sashal@kernel.org>
+References: <20240407131130.1050321-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="LrPBrqQ2Jt21+wkW"
-Content-Disposition: inline
-In-Reply-To: <20240405-dt-kbuild-rework-v2-3-3a035caee357@kernel.org>
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.8.4
+Content-Transfer-Encoding: 8bit
 
+From: "Borislav Petkov (AMD)" <bp@alien8.de>
 
---LrPBrqQ2Jt21+wkW
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+[ Upstream commit 54babdc0343fff2f32dfaafaaa9e42c4db278204 ]
 
-On Fri, Apr 05, 2024 at 05:56:03PM -0500, Rob Herring wrote:
-> Running dtbs_check and dt_compatible_check targets really only depend
-> on processed-schema.json, but the dependency is 'dt_binding_check'. That
-> was sort worked around with the CHECK_DT_BINDING variable in order to
-> skip some of the work that 'dt_binding_check' does. It still runs the
-> full checks of the schemas which is not necessary and adds 10s of
-> seconds to the build time. That's significant when checking only a few
-> DTBs and with recent changes that have improved the validation time by
-> 6-7x.
->=20
-> Add a new target, dt_binding_schema, which just builds
-> processed-schema.json and can be used as the dependency for other
-> targets. The scripts_dtc dependency isn't needed either as the examples
-> aren't built for it.
->=20
-> Signed-off-by: Rob Herring <robh@kernel.org>
+When KCSAN and CONSTRUCTORS are enabled, one can trigger the
 
-Yoo, that's pretty nice. 20 seconds cut off my dtbs_check build time on
-riscv with this change :) As you point out, when you're not checking all
-that many it is pretty significant - 48 seconds before and 28 seconds now
-Tested-by: Conor Dooley <conor.dooley@microchip.com>
+  "Unpatched return thunk in use. This should not happen!"
 
-Thanks,
-Conor.
+catch-all warning.
 
---LrPBrqQ2Jt21+wkW
-Content-Type: application/pgp-signature; name="signature.asc"
+Usually, when objtool runs on the .o objects, it does generate a section
+.return_sites which contains all offsets in the objects to the return
+thunks of the functions present there. Those return thunks then get
+patched at runtime by the alternatives.
 
------BEGIN PGP SIGNATURE-----
+KCSAN and CONSTRUCTORS add this to the object file's .text.startup
+section:
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZhJ8jQAKCRB4tDGHoIJi
-0jngAP9fiiu62rotgAy0KbbE5nvYcdXtnLZ30d8vRNvq0TJFegEAlR0OmWLZUSHx
-bsiXSS4PqQRiXrr6DDj0IaPJS2n/qw4=
-=p86i
------END PGP SIGNATURE-----
+  -------------------
+  Disassembly of section .text.startup:
 
---LrPBrqQ2Jt21+wkW--
+  ...
+
+  0000000000000010 <_sub_I_00099_0>:
+    10:   f3 0f 1e fa             endbr64
+    14:   e8 00 00 00 00          call   19 <_sub_I_00099_0+0x9>
+                          15: R_X86_64_PLT32      __tsan_init-0x4
+    19:   e9 00 00 00 00          jmp    1e <__UNIQUE_ID___addressable_cryptd_alloc_aead349+0x6>
+                          1a: R_X86_64_PLT32      __x86_return_thunk-0x4
+  -------------------
+
+which, if it is built as a module goes through the intermediary stage of
+creating a <module>.mod.c file which, when translated, receives a second
+constructor:
+
+  -------------------
+  Disassembly of section .text.startup:
+
+  0000000000000010 <_sub_I_00099_0>:
+    10:   f3 0f 1e fa             endbr64
+    14:   e8 00 00 00 00          call   19 <_sub_I_00099_0+0x9>
+                          15: R_X86_64_PLT32      __tsan_init-0x4
+    19:   e9 00 00 00 00          jmp    1e <_sub_I_00099_0+0xe>
+                          1a: R_X86_64_PLT32      __x86_return_thunk-0x4
+
+  ...
+
+  0000000000000030 <_sub_I_00099_0>:
+    30:   f3 0f 1e fa             endbr64
+    34:   e8 00 00 00 00          call   39 <_sub_I_00099_0+0x9>
+                          35: R_X86_64_PLT32      __tsan_init-0x4
+    39:   e9 00 00 00 00          jmp    3e <__ksymtab_cryptd_alloc_ahash+0x2>
+                          3a: R_X86_64_PLT32      __x86_return_thunk-0x4
+  -------------------
+
+in the .ko file.
+
+Objtool has run already so that second constructor's return thunk cannot
+be added to the .return_sites section and thus the return thunk remains
+unpatched and the warning rightfully fires.
+
+Drop KCSAN flags from the mod.c generation stage as those constructors
+do not contain data races one would be interested about.
+
+Debugged together with David Kaplan <David.Kaplan@amd.com> and Nikolay
+Borisov <nik.borisov@suse.com>.
+
+Reported-by: Paul Menzel <pmenzel@molgen.mpg.de>
+Closes: https://lore.kernel.org/r/0851a207-7143-417e-be31-8bf2b3afb57d@molgen.mpg.de
+Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
+Tested-by: Paul Menzel <pmenzel@molgen.mpg.de> # Dell XPS 13
+Reviewed-by: Nikolay Borisov <nik.borisov@suse.com>
+Reviewed-by: Marco Elver <elver@google.com>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ scripts/Makefile.modfinal | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
+index 8568d256d6fbf..79fcf27316864 100644
+--- a/scripts/Makefile.modfinal
++++ b/scripts/Makefile.modfinal
+@@ -23,7 +23,7 @@ modname = $(notdir $(@:.mod.o=))
+ part-of-module = y
+ 
+ quiet_cmd_cc_o_c = CC [M]  $@
+-      cmd_cc_o_c = $(CC) $(filter-out $(CC_FLAGS_CFI) $(CFLAGS_GCOV), $(c_flags)) -c -o $@ $<
++      cmd_cc_o_c = $(CC) $(filter-out $(CC_FLAGS_CFI) $(CFLAGS_GCOV) $(CFLAGS_KCSAN), $(c_flags)) -c -o $@ $<
+ 
+ %.mod.o: %.mod.c FORCE
+ 	$(call if_changed_dep,cc_o_c)
+-- 
+2.43.0
+
 
