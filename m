@@ -1,166 +1,145 @@
-Return-Path: <linux-kbuild+bounces-1480-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1481-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3919289B1FF
-	for <lists+linux-kbuild@lfdr.de>; Sun,  7 Apr 2024 15:36:54 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E73A189B833
+	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Apr 2024 09:18:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5E5F51C20EA8
-	for <lists+linux-kbuild@lfdr.de>; Sun,  7 Apr 2024 13:36:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 22B551C2042F
+	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Apr 2024 07:18:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 913E41350F8;
-	Sun,  7 Apr 2024 13:13:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 602E0224D1;
+	Mon,  8 Apr 2024 07:18:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Aqe9npec"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UgLeGJ76"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68E221350DA;
-	Sun,  7 Apr 2024 13:13:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36B701BC39;
+	Mon,  8 Apr 2024 07:18:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712495637; cv=none; b=l/9u1JXuk7u1tVpwSb9bHgs6VJxbWQj/o8v+i3gYuV0X8CN8rP7mCA+XkyBFYVNwxgqAf89zGk1mdx61BJ9cXGOr3hDbsUM6od7+jwl1imcTUkKl+RsTKPHKW/hm6lqHVUpCpDdONd87CqJzQhPp4f7ux3d49kTxnTPp4Zu1xns=
+	t=1712560684; cv=none; b=iPAvMEsJsHKG5LhvYBSdp/gh6MJsiYholl3dnb9T7NM4QMPoHwEzhJAyJlDtv3Alt9vXBK4yb790lK3gCxJOCpxaBr5bE9mmcBNs67iHgKB2p0d6T8QTS6f8sKiZfl4bC+iBHF2+cJCybCNAkct5rB+WXLmpUopIoutOfBrHK3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712495637; c=relaxed/simple;
-	bh=M55eIr8YY923zpvoeCETl20KqAT1p4JYqMDrkBauwig=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kgW1RtDUlpN9xDO9NNO2E6M0B9tPeJFuXEW1Hhfce7Au1KE8MkYLaz9Dy0QrUaehI1az4Lkk8KY0dHLPuK0N3hgocbXnV1jGt8a4ztYqrNdJt3O98f1wXiWwqjtLqxHtsizfX6zDk+Njbzu5SRb4tG+S1GGQR0AtnXpcb8tlhC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Aqe9npec; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D8F3C43394;
-	Sun,  7 Apr 2024 13:13:56 +0000 (UTC)
+	s=arc-20240116; t=1712560684; c=relaxed/simple;
+	bh=PeBPt4G9W0LmsRTARU9M+5NwqUbIJJWVt9mpkDc2sWg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=QfrHXKIXgylZNnK2db6uppuBtrvn/mv0gxjgpqRP+eog1B8Lh6gsxuCce3fR+bM0GvES5AWrap9i9WUQtfnqjn0728NrXfaiTQX53eH+qwsZULVppONjtSJGEcbbstuLNUnXHw7QHZU+UYIHCSDIzQEnCP5feAYPP9oZNXo4NdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UgLeGJ76; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04AD8C433F1;
+	Mon,  8 Apr 2024 07:18:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712495637;
-	bh=M55eIr8YY923zpvoeCETl20KqAT1p4JYqMDrkBauwig=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Aqe9npec8482V1ADit1uyAs5zyQJoEXQMAb9kGEAOHxccklfIK9/XuxBvGw1YQJ67
-	 8nzMHzEbsQjLWN2TCCNLe/7qPiNLqPX1KXmhO9NYvZbPnFZ4eKPcx5ykbmQXM8Vsg3
-	 IDqurLUYZt1UCm9WuNJFUz++xvsVwHTNX1z1LXDBrYsoUOnwJ8in4/XOZZdWQFLWR1
-	 IrPBIpFR7Hv6ZjZ1kUghTWspQAprKPwM3jNcXggZYEhI/EPXoCRpxMQ53HxVRZK2jm
-	 DPNxbjxceoSLIZjL2GcjJzULYly7K1IL3YlKhjTbND9DIKXhsx+oJaMPumEQgGZtUs
-	 IAFTB71crXtFQ==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: "Borislav Petkov (AMD)" <bp@alien8.de>,
-	Paul Menzel <pmenzel@molgen.mpg.de>,
-	Nikolay Borisov <nik.borisov@suse.com>,
-	Marco Elver <elver@google.com>,
+	s=k20201202; t=1712560683;
+	bh=PeBPt4G9W0LmsRTARU9M+5NwqUbIJJWVt9mpkDc2sWg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=UgLeGJ76YP3rd6UiwswfVWrpKIHDyxNPQic39I/Spme7VRat0g+2xW/AiXlz6FdDf
+	 lsemZ3tLEXS0hqvpZoCQK0ZJlVjO+s9MbC8H0AQDn+UmraV7OexV1Yoflm49jOfAts
+	 cXdwrtgzDqihIwGO/Pt0id5EpsODa1ksBFoyDsABRARPsqapRINpGZ/DxxkrfTk2O0
+	 3glL661XlJ+nQojgSMLcerJjV4kcDqmf3DHIvdiV7U3OWnCXp1mP46HkDEJWDEPEk+
+	 Dp0aTe163K3z3TBa4ZKc01uLQAAyYeSXJstdcI7Hr+ViKyhGSbX9IVLnTnDuQJWmsv
+	 k87l5ACeSDbug==
+From: Arnd Bergmann <arnd@kernel.org>
+To: linux-kbuild@vger.kernel.org
+Cc: Arnd Bergmann <arnd@arndb.de>,
 	Masahiro Yamada <masahiroy@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 10/10] kbuild: Disable KCSAN for autogenerated *.mod.c intermediaries
-Date: Sun,  7 Apr 2024 09:13:40 -0400
-Message-ID: <20240407131341.1052960-10-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240407131341.1052960-1-sashal@kernel.org>
-References: <20240407131341.1052960-1-sashal@kernel.org>
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Tony Finch <dot@dotat.at>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] [v2] scripts/unifdef: avoid constexpr keyword
+Date: Mon,  8 Apr 2024 09:17:52 +0200
+Message-Id: <20240408071758.2526806-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.15.153
 Content-Transfer-Encoding: 8bit
 
-From: "Borislav Petkov (AMD)" <bp@alien8.de>
+From: Arnd Bergmann <arnd@arndb.de>
 
-[ Upstream commit 54babdc0343fff2f32dfaafaaa9e42c4db278204 ]
+Starting with c23, 'constexpr' is a keyword in C like in C++ and cannot
+be used as an identifier:
 
-When KCSAN and CONSTRUCTORS are enabled, one can trigger the
+scripts/unifdef.c:206:25: error: 'constexpr' can only be used in variable declarations
+  206 | static bool             constexpr;              /* constant #if expression */
+      |                         ^
+scripts/unifdef.c:880:13: error: expected identifier or '('
+  880 |                 constexpr = false;
+      |                           ^
 
-  "Unpatched return thunk in use. This should not happen!"
+Rename this instance to allow changing to C23 at some point in the future.
 
-catch-all warning.
-
-Usually, when objtool runs on the .o objects, it does generate a section
-.return_sites which contains all offsets in the objects to the return
-thunks of the functions present there. Those return thunks then get
-patched at runtime by the alternatives.
-
-KCSAN and CONSTRUCTORS add this to the object file's .text.startup
-section:
-
-  -------------------
-  Disassembly of section .text.startup:
-
-  ...
-
-  0000000000000010 <_sub_I_00099_0>:
-    10:   f3 0f 1e fa             endbr64
-    14:   e8 00 00 00 00          call   19 <_sub_I_00099_0+0x9>
-                          15: R_X86_64_PLT32      __tsan_init-0x4
-    19:   e9 00 00 00 00          jmp    1e <__UNIQUE_ID___addressable_cryptd_alloc_aead349+0x6>
-                          1a: R_X86_64_PLT32      __x86_return_thunk-0x4
-  -------------------
-
-which, if it is built as a module goes through the intermediary stage of
-creating a <module>.mod.c file which, when translated, receives a second
-constructor:
-
-  -------------------
-  Disassembly of section .text.startup:
-
-  0000000000000010 <_sub_I_00099_0>:
-    10:   f3 0f 1e fa             endbr64
-    14:   e8 00 00 00 00          call   19 <_sub_I_00099_0+0x9>
-                          15: R_X86_64_PLT32      __tsan_init-0x4
-    19:   e9 00 00 00 00          jmp    1e <_sub_I_00099_0+0xe>
-                          1a: R_X86_64_PLT32      __x86_return_thunk-0x4
-
-  ...
-
-  0000000000000030 <_sub_I_00099_0>:
-    30:   f3 0f 1e fa             endbr64
-    34:   e8 00 00 00 00          call   39 <_sub_I_00099_0+0x9>
-                          35: R_X86_64_PLT32      __tsan_init-0x4
-    39:   e9 00 00 00 00          jmp    3e <__ksymtab_cryptd_alloc_ahash+0x2>
-                          3a: R_X86_64_PLT32      __x86_return_thunk-0x4
-  -------------------
-
-in the .ko file.
-
-Objtool has run already so that second constructor's return thunk cannot
-be added to the .return_sites section and thus the return thunk remains
-unpatched and the warning rightfully fires.
-
-Drop KCSAN flags from the mod.c generation stage as those constructors
-do not contain data races one would be interested about.
-
-Debugged together with David Kaplan <David.Kaplan@amd.com> and Nikolay
-Borisov <nik.borisov@suse.com>.
-
-Reported-by: Paul Menzel <pmenzel@molgen.mpg.de>
-Closes: https://lore.kernel.org/r/0851a207-7143-417e-be31-8bf2b3afb57d@molgen.mpg.de
-Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
-Tested-by: Paul Menzel <pmenzel@molgen.mpg.de> # Dell XPS 13
-Reviewed-by: Nikolay Borisov <nik.borisov@suse.com>
-Reviewed-by: Marco Elver <elver@google.com>
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>
+Cc: Nicolas Schier <nicolas@fjasle.eu>
+Cc: linux-kbuild@vger.kernel.org
+Reviewed-By: Tony Finch <dot@dotat.at>
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- scripts/Makefile.modfinal | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ v2: include fixup from Tony
+---
+ scripts/unifdef.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
-index 47f047458264f..dce4cf55a4b68 100644
---- a/scripts/Makefile.modfinal
-+++ b/scripts/Makefile.modfinal
-@@ -23,7 +23,7 @@ modname = $(notdir $(@:.mod.o=))
- part-of-module = y
+diff --git a/scripts/unifdef.c b/scripts/unifdef.c
+index db00e3e30a59..ff15efd6e7d7 100644
+--- a/scripts/unifdef.c
++++ b/scripts/unifdef.c
+@@ -203,7 +203,7 @@ static int              depth;			/* current #if nesting */
+ static int              delcount;		/* count of deleted lines */
+ static unsigned         blankcount;		/* count of blank lines */
+ static unsigned         blankmax;		/* maximum recent blankcount */
+-static bool             constexpr;		/* constant #if expression */
++static bool             constexpression;	/* constant #if expression */
+ static bool             zerosyms = true;	/* to format symdepth output */
+ static bool             firstsym;		/* ditto */
  
- quiet_cmd_cc_o_c = CC [M]  $@
--      cmd_cc_o_c = $(CC) $(filter-out $(CC_FLAGS_CFI) $(CFLAGS_GCOV), $(c_flags)) -c -o $@ $<
-+      cmd_cc_o_c = $(CC) $(filter-out $(CC_FLAGS_CFI) $(CFLAGS_GCOV) $(CFLAGS_KCSAN), $(c_flags)) -c -o $@ $<
+@@ -819,7 +819,7 @@ static const struct ops {
+ /*
+  * Function for evaluating the innermost parts of expressions,
+  * viz. !expr (expr) number defined(symbol) symbol
+- * We reset the constexpr flag in the last two cases.
++ * We reset the constexpression flag in the last two cases.
+  */
+ static Linetype
+ eval_unary(const struct ops *ops, int *valp, const char **cpp)
+@@ -877,7 +877,7 @@ eval_unary(const struct ops *ops, int *valp, const char **cpp)
+ 		cp = skipcomment(cp);
+ 		if (defparen && *cp++ != ')')
+ 			return (LT_ERROR);
+-		constexpr = false;
++		constexpression = false;
+ 	} else if (!endsym(*cp)) {
+ 		debug("eval%d symbol", ops - eval_ops);
+ 		sym = findsym(cp);
+@@ -895,7 +895,7 @@ eval_unary(const struct ops *ops, int *valp, const char **cpp)
+ 			lt = *valp ? LT_TRUE : LT_FALSE;
+ 			cp = skipargs(cp);
+ 		}
+-		constexpr = false;
++		constexpression = false;
+ 	} else {
+ 		debug("eval%d bad expr", ops - eval_ops);
+ 		return (LT_ERROR);
+@@ -955,10 +955,10 @@ ifeval(const char **cpp)
+ 	int val = 0;
  
- %.mod.o: %.mod.c FORCE
- 	$(call if_changed_dep,cc_o_c)
+ 	debug("eval %s", *cpp);
+-	constexpr = killconsts ? false : true;
++	constexpression = killconsts ? false : true;
+ 	ret = eval_table(eval_ops, &val, cpp);
+ 	debug("eval = %d", val);
+-	return (constexpr ? LT_IF : ret == LT_ERROR ? LT_IF : ret);
++	return (constexpression ? LT_IF : ret == LT_ERROR ? LT_IF : ret);
+ }
+ 
+ /*
 -- 
-2.43.0
+2.39.2
 
 
