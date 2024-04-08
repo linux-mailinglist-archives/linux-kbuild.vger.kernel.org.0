@@ -1,145 +1,167 @@
-Return-Path: <linux-kbuild+bounces-1481-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1482-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E73A189B833
-	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Apr 2024 09:18:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B72E589B994
+	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Apr 2024 10:00:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 22B551C2042F
-	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Apr 2024 07:18:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DAAE91C21183
+	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Apr 2024 08:00:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 602E0224D1;
-	Mon,  8 Apr 2024 07:18:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D15B28DBF;
+	Mon,  8 Apr 2024 07:59:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UgLeGJ76"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EXHENISy";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5NG6esFs";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EXHENISy";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5NG6esFs"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36B701BC39;
-	Mon,  8 Apr 2024 07:18:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 983CF3BB55;
+	Mon,  8 Apr 2024 07:59:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712560684; cv=none; b=iPAvMEsJsHKG5LhvYBSdp/gh6MJsiYholl3dnb9T7NM4QMPoHwEzhJAyJlDtv3Alt9vXBK4yb790lK3gCxJOCpxaBr5bE9mmcBNs67iHgKB2p0d6T8QTS6f8sKiZfl4bC+iBHF2+cJCybCNAkct5rB+WXLmpUopIoutOfBrHK3A=
+	t=1712563198; cv=none; b=f2bMzZsmdJhnNLPRBqvSFK67/tv13e2v1QkAEkVd7WWJewbqS7cNy08bWmqEJX3bME07JVO7EPxAETmzCdWuBkDayspD2GclJJsfpWHRVD/ATuOp7Y4doWNDuEjHbyCzFqcCFo7q79egzVd7JKyx75BrDx4wtdC7wEuAug+iHyE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712560684; c=relaxed/simple;
-	bh=PeBPt4G9W0LmsRTARU9M+5NwqUbIJJWVt9mpkDc2sWg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=QfrHXKIXgylZNnK2db6uppuBtrvn/mv0gxjgpqRP+eog1B8Lh6gsxuCce3fR+bM0GvES5AWrap9i9WUQtfnqjn0728NrXfaiTQX53eH+qwsZULVppONjtSJGEcbbstuLNUnXHw7QHZU+UYIHCSDIzQEnCP5feAYPP9oZNXo4NdA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UgLeGJ76; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04AD8C433F1;
-	Mon,  8 Apr 2024 07:18:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712560683;
-	bh=PeBPt4G9W0LmsRTARU9M+5NwqUbIJJWVt9mpkDc2sWg=;
-	h=From:To:Cc:Subject:Date:From;
-	b=UgLeGJ76YP3rd6UiwswfVWrpKIHDyxNPQic39I/Spme7VRat0g+2xW/AiXlz6FdDf
-	 lsemZ3tLEXS0hqvpZoCQK0ZJlVjO+s9MbC8H0AQDn+UmraV7OexV1Yoflm49jOfAts
-	 cXdwrtgzDqihIwGO/Pt0id5EpsODa1ksBFoyDsABRARPsqapRINpGZ/DxxkrfTk2O0
-	 3glL661XlJ+nQojgSMLcerJjV4kcDqmf3DHIvdiV7U3OWnCXp1mP46HkDEJWDEPEk+
-	 Dp0aTe163K3z3TBa4ZKc01uLQAAyYeSXJstdcI7Hr+ViKyhGSbX9IVLnTnDuQJWmsv
-	 k87l5ACeSDbug==
-From: Arnd Bergmann <arnd@kernel.org>
-To: linux-kbuild@vger.kernel.org
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Tony Finch <dot@dotat.at>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] [v2] scripts/unifdef: avoid constexpr keyword
-Date: Mon,  8 Apr 2024 09:17:52 +0200
-Message-Id: <20240408071758.2526806-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.2
+	s=arc-20240116; t=1712563198; c=relaxed/simple;
+	bh=i9GmgAXRUBO3xKQwlP/KAP2zpPAiSC47cX5gf5BqJfg=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XdkPEWb/Buuy017lyg90keqK5zvmAM3WYYs1TA0cp9++HiVDhiYMNYXfriy2x05kFMH6HIk0dJeNZO5QSXgwcu3EB6jzJn7EHS7caDV31MLkfAigm2cIRVdWZPn1070EhR9K9pxS8aKuoY5RRGdzetEkCaLkbVB+BhSFhswUlBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EXHENISy; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5NG6esFs; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EXHENISy; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5NG6esFs; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id BA46D22157;
+	Mon,  8 Apr 2024 07:59:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1712563193; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UeMiwe/89XLtlU9A7wTUtu+OV5lp0v9WZ0aprkeXVh8=;
+	b=EXHENISyHk0j7TJEZacEu01aHSPwcJd3jqtyt9OVBA8LUkMMraeOemEjRMfbR1SGdLzphX
+	EGYGGwyZUZz+DqZCPZVqDiZufrwGnlS6cRr/DoW6s2QBj6kVVPUXkvZv1Dy2lgz3FNI6Ih
+	uqWVCJmSD5BwvOoJZhmKzfHFolcjvo4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1712563193;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UeMiwe/89XLtlU9A7wTUtu+OV5lp0v9WZ0aprkeXVh8=;
+	b=5NG6esFs0xZT2IRnNAMtIKcI4HbY8Bou2EWslwPlsGvKBT4fAw4zrPS8jUSex3KlOEqjB2
+	7f8dq5mT4uAVF+DQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=EXHENISy;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=5NG6esFs
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1712563193; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UeMiwe/89XLtlU9A7wTUtu+OV5lp0v9WZ0aprkeXVh8=;
+	b=EXHENISyHk0j7TJEZacEu01aHSPwcJd3jqtyt9OVBA8LUkMMraeOemEjRMfbR1SGdLzphX
+	EGYGGwyZUZz+DqZCPZVqDiZufrwGnlS6cRr/DoW6s2QBj6kVVPUXkvZv1Dy2lgz3FNI6Ih
+	uqWVCJmSD5BwvOoJZhmKzfHFolcjvo4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1712563193;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UeMiwe/89XLtlU9A7wTUtu+OV5lp0v9WZ0aprkeXVh8=;
+	b=5NG6esFs0xZT2IRnNAMtIKcI4HbY8Bou2EWslwPlsGvKBT4fAw4zrPS8jUSex3KlOEqjB2
+	7f8dq5mT4uAVF+DQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 22A4E137D4;
+	Mon,  8 Apr 2024 07:59:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id fcxmAfijE2ZNXwAAD6G6ig
+	(envelope-from <jdelvare@suse.de>); Mon, 08 Apr 2024 07:59:52 +0000
+Date: Mon, 8 Apr 2024 09:59:43 +0200
+From: Jean Delvare <jdelvare@suse.de>
+To: "Arnd Bergmann" <arnd@arndb.de>
+Cc: "Arnd Bergmann" <arnd@kernel.org>, linux-kbuild@vger.kernel.org,
+ "Masahiro Yamada" <masahiroy@kernel.org>, "Nathan Chancellor"
+ <nathan@kernel.org>, "Greg Kroah-Hartman" <gregkh@suse.de>, "Nicolas
+ Schier" <nicolas@fjasle.eu>, "Nick Desaulniers" <ndesaulniers@google.com>,
+ "Bill Wendling" <morbo@google.com>, "Justin Stitt"
+ <justinstitt@google.com>, linux-kernel@vger.kernel.org,
+ llvm@lists.linux.dev
+Subject: Re: [PATCH 05/12] firmware: dmi-id: add a release callback function
+Message-ID: <20240408095943.48e6c0cc@endymion.delvare>
+In-Reply-To: <63909b0a-7d76-418d-a54c-1061bd3b6e11@app.fastmail.com>
+References: <20240326144741.3094687-1-arnd@kernel.org>
+	<20240326145140.3257163-4-arnd@kernel.org>
+	<20240329134917.579c3557@endymion.delvare>
+	<63909b0a-7d76-418d-a54c-1061bd3b6e11@app.fastmail.com>
+Organization: SUSE Linux
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-suse-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.60 / 50.00];
+	BAYES_HAM(-2.09)[95.57%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: BA46D22157
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Score: -3.60
 
-From: Arnd Bergmann <arnd@arndb.de>
+Hi Arnd,
 
-Starting with c23, 'constexpr' is a keyword in C like in C++ and cannot
-be used as an identifier:
+On Thu, 04 Apr 2024 16:07:55 +0200, Arnd Bergmann wrote:
+> On Fri, Mar 29, 2024, at 13:49, Jean Delvare wrote:
+> > Will you get this upstream, or do you expect me to take it in my
+> > dmi/for-next branch?  
+> 
+> It would help me if you can apply it to your tree directly.
 
-scripts/unifdef.c:206:25: error: 'constexpr' can only be used in variable declarations
-  206 | static bool             constexpr;              /* constant #if expression */
-      |                         ^
-scripts/unifdef.c:880:13: error: expected identifier or '('
-  880 |                 constexpr = false;
-      |                           ^
+OK, it's in my dmi-for-next branch now:
 
-Rename this instance to allow changing to C23 at some point in the future.
+https://git.kernel.org/pub/scm/linux/kernel/git/jdelvare/staging.git/log/?h=dmi-for-next
 
-Cc: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>
-Cc: Nicolas Schier <nicolas@fjasle.eu>
-Cc: linux-kbuild@vger.kernel.org
-Reviewed-By: Tony Finch <dot@dotat.at>
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- v2: include fixup from Tony
----
- scripts/unifdef.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/scripts/unifdef.c b/scripts/unifdef.c
-index db00e3e30a59..ff15efd6e7d7 100644
---- a/scripts/unifdef.c
-+++ b/scripts/unifdef.c
-@@ -203,7 +203,7 @@ static int              depth;			/* current #if nesting */
- static int              delcount;		/* count of deleted lines */
- static unsigned         blankcount;		/* count of blank lines */
- static unsigned         blankmax;		/* maximum recent blankcount */
--static bool             constexpr;		/* constant #if expression */
-+static bool             constexpression;	/* constant #if expression */
- static bool             zerosyms = true;	/* to format symdepth output */
- static bool             firstsym;		/* ditto */
- 
-@@ -819,7 +819,7 @@ static const struct ops {
- /*
-  * Function for evaluating the innermost parts of expressions,
-  * viz. !expr (expr) number defined(symbol) symbol
-- * We reset the constexpr flag in the last two cases.
-+ * We reset the constexpression flag in the last two cases.
-  */
- static Linetype
- eval_unary(const struct ops *ops, int *valp, const char **cpp)
-@@ -877,7 +877,7 @@ eval_unary(const struct ops *ops, int *valp, const char **cpp)
- 		cp = skipcomment(cp);
- 		if (defparen && *cp++ != ')')
- 			return (LT_ERROR);
--		constexpr = false;
-+		constexpression = false;
- 	} else if (!endsym(*cp)) {
- 		debug("eval%d symbol", ops - eval_ops);
- 		sym = findsym(cp);
-@@ -895,7 +895,7 @@ eval_unary(const struct ops *ops, int *valp, const char **cpp)
- 			lt = *valp ? LT_TRUE : LT_FALSE;
- 			cp = skipargs(cp);
- 		}
--		constexpr = false;
-+		constexpression = false;
- 	} else {
- 		debug("eval%d bad expr", ops - eval_ops);
- 		return (LT_ERROR);
-@@ -955,10 +955,10 @@ ifeval(const char **cpp)
- 	int val = 0;
- 
- 	debug("eval %s", *cpp);
--	constexpr = killconsts ? false : true;
-+	constexpression = killconsts ? false : true;
- 	ret = eval_table(eval_ops, &val, cpp);
- 	debug("eval = %d", val);
--	return (constexpr ? LT_IF : ret == LT_ERROR ? LT_IF : ret);
-+	return (constexpression ? LT_IF : ret == LT_ERROR ? LT_IF : ret);
- }
- 
- /*
+Thanks,
 -- 
-2.39.2
-
+Jean Delvare
+SUSE L3 Support
 
