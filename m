@@ -1,137 +1,205 @@
-Return-Path: <linux-kbuild+bounces-1499-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1501-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C880689DE20
-	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Apr 2024 17:11:27 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DAA2B89DEF3
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Apr 2024 17:26:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7E4A11F2B7DE
-	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Apr 2024 15:11:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 06A5C1C20B89
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Apr 2024 15:26:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2770133980;
-	Tue,  9 Apr 2024 15:05:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fCn2zHwP"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3A4912D1E7;
+	Tue,  9 Apr 2024 15:24:39 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EADB131E3C;
-	Tue,  9 Apr 2024 15:05:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 264FF12FF93;
+	Tue,  9 Apr 2024 15:24:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712675128; cv=none; b=E+5Z0oF7LDb5rnd6FRQ6Fa/NdB/6RPfPiKGvuj398IMcizrSWDAf+6MdO6y5h5fOS/lGf1rs/ZPZdafc0KcczOkP+J1uWN076xmuccB6oIvSy6qEWIvs0bADf+BffreY2M3OPkwztH6wg06ceOaa3KRV0zy0y5SVAuNAE9XES+g=
+	t=1712676279; cv=none; b=WJpBMfFKb+Zvm0Lx6liFmiXCi2LDAFXA+OlzYiDNXiJTVLRuWSVM6otyRoPO/oVdAK4Zrm8/Ldro4M+I/aLMkjQa5x2l6JRo/bVdvoSq7zGnim+TJItDo7tmUV3pTcTda6W4/nuoSiQ9GEQZFbB7UPeMhQigHqafvz2fL4VKJTA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712675128; c=relaxed/simple;
-	bh=mJt7v6CLSOYzx1gtAyi5VoQyh9G4Ztq0Q2FlAeZxZmo=;
+	s=arc-20240116; t=1712676279; c=relaxed/simple;
+	bh=85Dtdhs4cI7wMp4CVhZJsWIixGlTrtyaSva9NaNU/i4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=e1aqm2m+l4Gkkh2D2ipZD/X4Jfdl/+VZEj9G80D11DeK4yuzNGIrpVtkiWF09QWSgLCOEYb2eExLYQFXXfs6BMufTK72TaO3o8FhtGdeX6GtJ2gP2sZH1bdbu0kOC3qWAGohvbTkvBFG1RKSuozlS+rKuYJvO/BPk18QYaKoaQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fCn2zHwP; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D441C43394;
-	Tue,  9 Apr 2024 15:05:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712675128;
-	bh=mJt7v6CLSOYzx1gtAyi5VoQyh9G4Ztq0Q2FlAeZxZmo=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=fCn2zHwPhopHz3aJMqQuvT0XcsT7uQACdH7RpIfWCKsUDLkk3gf5FGDw4zWpYrgvD
-	 uHsoSSt5qLptwNNbfqus0tnv+lz8+j1GLA7xNJuWdgoxedmWIxOy1qpgIkLedk9xDZ
-	 Tk/2gjwceeSc1HSDRiACiU5Lt1elWa15BD6BnZoSUoi2ONmiPBp5pZJ4PFLwkkq164
-	 yQAbCmUhBIsj30JKInNCV4w8feoC9IBwwj2hTtDSdwUhcdDk808VmE/4jVrvoWs8eH
-	 2mdyLkcgR2mZGl6rkNdcwmbWQYw5RmNuI3DaQ9sgQ+yZZNlJVIt3ARO7x5S0Mba2We
-	 Bx23czV4vYapQ==
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-22ec8db3803so401636fac.1;
-        Tue, 09 Apr 2024 08:05:28 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCV1ZpLlplzyjSp+xywErsTXtkV+AFugDo9gIIux1ycBbSUIjzE3xViy7vCqYCjcreUuhgkXrog87BDsc7Yo0TtOfiKeV1iKm8X0hVJg/NiV6Lq2bvqtz2+l07rS18EfVl2cMmQjokreUAxXEr28sehtG+V4wb+MlOSp/TFENIYxDVyjoAemHNj5twUWhrNdDmdllpklEqFtzJnRKLQ/cFY47+qbc8eXY1Iv
-X-Gm-Message-State: AOJu0YxrwQXJcPZA9b4blDwM01TCYyX+6S7pznTfEdQ9VBFDQU7+qe7U
-	ew8hrKnpC98nOiJb9vYwchZMbANWwJhLD4tboQ79vwkrGMZCyw49grLn0IdKM4nbIen6xJPJDO8
-	q3jPzUFH+pMZ9PPDCdPDOSY+pVho=
-X-Google-Smtp-Source: AGHT+IGDUO0rZ4GKVyVieaHSmKzYKqNHjEuMKn4kB8H+BP9iyv6DlSuHKVlwMC/rIyJebF0i0bhH71zkmEuwl5+N0cA=
-X-Received: by 2002:a05:6870:f727:b0:222:81cc:ac9c with SMTP id
- ej39-20020a056870f72700b0022281ccac9cmr12216666oab.5.1712675127270; Tue, 09
- Apr 2024 08:05:27 -0700 (PDT)
+	 To:Cc:Content-Type; b=A1DRd2z8ogO/dipE6dGm4sxOZv8MVHxF6Q2TsgKge/iagCXGNZ952+pkZ4vCXaWr9T2uTLCjkkWzX4m59RPBCJn5xG8DvIyNNttZFw74rJGmoWHv3KSw7kg3ojZ+c5feE/JVwWc3SdWzRs6oawGVwrsYi5v+R85VCHt8lqgEsjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-615019cd427so49122097b3.3;
+        Tue, 09 Apr 2024 08:24:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712676276; x=1713281076;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lu5hD9VvS+qp+vhw7UeQVESAr0EzPRLUzVlLL7V9CRE=;
+        b=vF5ySepFHb/RzAmOoTMn/+cuolBejnJuuf3JQk5ITQOaCkhguDfY0SliaDQkmVW0WA
+         edEVF9BNhKfklfckElbxMoAOUMf0OqT63va6l8RqdbHwAOGZ2OSrGSAPL1+jJP7+Gk3l
+         z60gKRxKIV30klC+I5Pp0HeKAqi2+9ItEvoAzzardD/9RW3WJDGnMhH9R8Y9k386UEGb
+         NMaJ8aH9/+SSOG38QM1EQp7/f5oXYiquYs9FaHWkKf+ETtcgK7TO/rwIjT2o/Svtb7Cp
+         vEYUxu/qkJTmhcPkLaiH6+JRSdMgK8ZZ8/BkhOxNL8jghfTi5gWLeUaX0PteEWH/BjA0
+         Pwyg==
+X-Forwarded-Encrypted: i=1; AJvYcCVtrR+VDEycDG0UsGRrruzKZAP7I/A0zg7gjlPwBqO0hqEa9E/Zm6R2E5ZpxHrjPmJ4E6C95bGP0LHku8Jb8AhQ/AfZSCT+RhKbdHDRFC6XJrLiX2sS3psZhveJB4gGBdQV1atphqMLE2Ct3jU3+NQ=
+X-Gm-Message-State: AOJu0YyUZPnvXWtpxBn/HbfJpNEPYmJuzPBJT2uJSY4/pCVxAK5tfCIU
+	3Bg9URjZHGJ4ht1jr1SM5rRd0cEPFKCvRIgxLrjgh4PTCbiL4pRFtVP+JAo9sLo=
+X-Google-Smtp-Source: AGHT+IG1cnrLl7tfsBBOIdsLlFA6/UdLeOLXuSll683s/hJa/CT5uqV2+sJU1/zA62dnxg6yc1hRsQ==
+X-Received: by 2002:a0d:df82:0:b0:614:42c2:278d with SMTP id i124-20020a0ddf82000000b0061442c2278dmr20175ywe.0.1712676275174;
+        Tue, 09 Apr 2024 08:24:35 -0700 (PDT)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com. [209.85.219.180])
+        by smtp.gmail.com with ESMTPSA id ho3-20020a05690c630300b0060a07fdf93bsm2208208ywb.134.2024.04.09.08.24.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 09 Apr 2024 08:24:34 -0700 (PDT)
+Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-dcc80d6004bso5803357276.0;
+        Tue, 09 Apr 2024 08:24:34 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCW5KIXEl24dup6xUcnLf8LDIIfKGOxTFpttmBvRLfvdfrk6EkPZWzoBYakBSTpJNgZo7Btl93Z5ESE0viF8SL17C/FKbUEgBya3Vj/+Eg3PTsmkMoskimk1zZBTeOmGpXcXJqWzErECD+O/9/S0AGo=
+X-Received: by 2002:a25:b10a:0:b0:dcc:f3fe:19c with SMTP id
+ g10-20020a25b10a000000b00dccf3fe019cmr53487ybj.59.1712676273820; Tue, 09 Apr
+ 2024 08:24:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240409140059.3806717-1-arnd@kernel.org> <20240409140059.3806717-3-arnd@kernel.org>
-In-Reply-To: <20240409140059.3806717-3-arnd@kernel.org>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Tue, 9 Apr 2024 17:05:15 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0h7XEV__S4pvQJt54Ab832z6PZFTNTRspfLF507MNo9Og@mail.gmail.com>
-Message-ID: <CAJZ5v0h7XEV__S4pvQJt54Ab832z6PZFTNTRspfLF507MNo9Og@mail.gmail.com>
-Subject: Re: [PATCH 2/5] [v2] acpi: disable -Wstringop-truncation
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, 
-	Richard Russon <ldm@flatcap.org>, Jens Axboe <axboe@kernel.dk>, Robert Moore <robert.moore@intel.com>, 
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>, Len Brown <lenb@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Lin Ming <ming.m.lin@intel.com>, 
-	Alexey Starikovskiy <astarikovskiy@suse.de>, linux-ntfs-dev@lists.sourceforge.net, 
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-acpi@vger.kernel.org, acpica-devel@lists.linux.dev, 
-	linux-trace-kernel@vger.kernel.org
+References: <20240327-kms-kconfig-helpers-v3-0-eafee11b84b3@kernel.org>
+ <a816fea-9974-d17f-bed6-69728e223@linux-m68k.org> <87sezu97id.fsf@intel.com>
+ <CAMuHMdVMhXFm-kZ50Un1ZFmEcjJ7SnpyEyw65-wucBGpVRUFww@mail.gmail.com> <87edbe94ck.fsf@intel.com>
+In-Reply-To: <87edbe94ck.fsf@intel.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 9 Apr 2024 17:24:21 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUYqEpKTxHgkdm5B-Q9nM4PyzNDxmqDW=GHG7adcp83+Q@mail.gmail.com>
+Message-ID: <CAMuHMdUYqEpKTxHgkdm5B-Q9nM4PyzNDxmqDW=GHG7adcp83+Q@mail.gmail.com>
+Subject: Re: [PATCH v3 00/13] drm/display: Convert helpers Kconfig symbols to
+ depends on
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org, 
+	Lucas De Marchi <lucas.demarchi@intel.com>, kernel test robot <lkp@intel.com>, 
+	linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kbuild <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 9, 2024 at 4:01=E2=80=AFPM Arnd Bergmann <arnd@kernel.org> wrot=
-e:
->
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> gcc -Wstringop-truncation warns about copying a string that results in a
-> missing nul termination:
->
-> drivers/acpi/acpica/tbfind.c: In function 'acpi_tb_find_table':
-> drivers/acpi/acpica/tbfind.c:60:9: error: 'strncpy' specified bound 6 equ=
-als destination size [-Werror=3Dstringop-truncation]
->    60 |         strncpy(header.oem_id, oem_id, ACPI_OEM_ID_SIZE);
->       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> drivers/acpi/acpica/tbfind.c:61:9: error: 'strncpy' specified bound 8 equ=
-als destination size [-Werror=3Dstringop-truncation]
->    61 |         strncpy(header.oem_table_id, oem_table_id, ACPI_OEM_TABLE=
-_ID_SIZE);
->       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~
->
-> The code works as intended, and the warning could be addressed by using
-> a memcpy(), but turning the warning off for this file works equally well
-> and may be easir to merge.
+Hi Jani,
 
-"easier" (fixed up).
+On Tue, Apr 9, 2024 at 1:13=E2=80=AFPM Jani Nikula <jani.nikula@linux.intel=
+.com> wrote:
+> On Tue, 09 Apr 2024, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > On Tue, Apr 9, 2024 at 12:04=E2=80=AFPM Jani Nikula <jani.nikula@linux.=
+intel.com> wrote:
+> >> On Tue, 09 Apr 2024, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> >> > The user should not need to know which helpers are needed for the dr=
+iver
+> >> > he is interested in.  When a symbol selects another symbol, it shoul=
+d
+> >> > just make sure the dependencies of the target symbol are met.
+> >>
+> >> It's really not "just make sure". This leads to perpetual illegal
+> >> configurations, and duct tape fixes. Select should not be used for
+> >> visible symbols or symbols with dependencies [1].
+> >
+> > In other words: none of these helpers should be visible...
+>
+> ...and should have no dependencies? :p
 
-Tricky that, but OK.let's get the warning off the table.
+Unless they do have dependencies.
 
-Applied as 6.10 material, thanks!
+> >> What we'd need for usability is not more abuse of select, but rather 1=
+)
+> >> warnings for selecting symbols with dependencies, and 2) a way to enab=
+le
+> >
+> > Kconfig already warns if dependencies of selected symbols are not met.
+>
+> But it does lead to cases where a builtin tries to use a symbol from a
+> module, failing at link time, not config time. Then I regularly see
+> patches trying to fix this with IS_REACHABLE(), making it a silent
+> runtime failure instead, when it should've been a config issue.
 
-> Fixes: 47c08729bf1c ("ACPICA: Fix for LoadTable operator, input strings")
-> Link: https://lore.kernel.org/lkml/CAJZ5v0hoUfv54KW7y4223Mn9E7D4xvR7whRFN=
-LTBqCZMUxT50Q@mail.gmail.com/#t
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  drivers/acpi/acpica/Makefile | 1 +
->  1 file changed, 1 insertion(+)
+If a symbol for a builtin selects a symbol for a module, the latter
+becomes builtin, too, so that does not cause such issues?
+You can get such issues when a boolean symbol depends on a tristate
+symbol...
+
+> >> a kconfig option with all its dependencies, recursively. This is what =
+we
+> >> lack.
+> >
+> > You cannot force-enable all dependencies of the target symbol, as some
+> > of these dependencies may be impossible to meet on the system you are
+> > configuring a kernel for.
 >
-> diff --git a/drivers/acpi/acpica/Makefile b/drivers/acpi/acpica/Makefile
-> index 30f3fc13c29d..8d18af396de9 100644
-> --- a/drivers/acpi/acpica/Makefile
-> +++ b/drivers/acpi/acpica/Makefile
-> @@ -5,6 +5,7 @@
+> Surely kconfig should be able to figure out if they're possible or not.
 >
->  ccflags-y                      :=3D -D_LINUX -DBUILDING_ACPICA
->  ccflags-$(CONFIG_ACPI_DEBUG)   +=3D -DACPI_DEBUG_OUTPUT
-> +CFLAGS_tbfind.o                +=3D $(call cc-disable-warning, stringop-=
-truncation)
+> > The current proper way is to add these dependencies to the source
+> > symbol, which is what we have been doing everywhere else.  Another
+> > solution may be to teach Kconfig to ignore any symbols that select a
+> > symbol with unmet dependencies.
 >
->  # use acpi.o to put all files here into acpi.o modparam namespace
->  obj-y  +=3D acpi.o
-> --
-> 2.39.2
+> ...
 >
->
+> It seems like your main argument in favour of using select is that it's
+> more convenient for people who configure the kernel. Because the user
+> should be able to just enable a driver, and that would select everything
+> that's needed. But where do we draw the line? Then what qualifies for
+> "depends on"?
+
+Hard (platform and subsystem) dependencies.
+
+> Look at config DRM_I915 and where select abuse has lead us. Like, why
+> don't we just select DRM, PCI and X86 as well instead of depend. :p
+
+X86 and PCI are hard platform dependencies.
+DRM is a subsystem dependency.
+
+> A lot of things we have to select because it appears to generally be the
+> case that if some places select and some places depends on a symbol,
+> it'll lead to circular dependencies.
+
+True.  So all library code (incl. helpers) should be selected, and
+not be used as a dependency.
+The user shouldn't be aware that the driver uses library code (or not).
+
+> Sure there may be a usability issue with using depends on. But the
+> proper fix isn't hacking in kconfig files, it's to fix the usability in
+> kconfig the tool UI. But nobody steps up, because at least I find the
+> kconfig source to be inpenetrable. I've tried many times, and given up.
+
+As long as Kconfig does not handle dependencies of selected symbols
+automatically, adding explicit dependencies to the origin symbols is
+the only workable solution.
+
+> I mean, if you want to enable a driver D, it could, at a minimum, show
+> you a tree of (possibly alternative) things you also need to enable. But
+
+And this series is actually making that harder, by turning all these
+selects of helpers into dependencies...
+
+> if the dependencies aren't there, you won't even see the config for
+> D. That's not something that should be "fixed" by abusing select in
+> kconfig files.
+
+I consider not seeing symbols when a hard dependency is not met as
+a good thing.  If everything was visible all the time, you would
+have a very hard (well, harder than the current already-hard ;-)
+time configuring your kernel.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
