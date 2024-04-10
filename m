@@ -1,179 +1,189 @@
-Return-Path: <linux-kbuild+bounces-1516-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1517-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CE898A014C
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Apr 2024 22:27:36 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 309798A0162
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Apr 2024 22:42:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 137EC283A4B
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Apr 2024 20:27:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 26A161C239EE
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Apr 2024 20:42:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40CFF181BA1;
-	Wed, 10 Apr 2024 20:27:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF999180A70;
+	Wed, 10 Apr 2024 20:41:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="DDjbQLEg"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="rWg74x87"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B456A180A91;
-	Wed, 10 Apr 2024 20:27:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE0996110
+	for <linux-kbuild@vger.kernel.org>; Wed, 10 Apr 2024 20:41:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712780851; cv=none; b=P4Banwtl2lCokN/pH+6r1FCm/1FvE0FU9Qmdx9sXXlLj5TQHPRsTWt/1ANfQw/zrqMmoMfv4sV/LsXQxPURdbQ+HN9fd78FEogED5tWx12OWDxpF+U9ve7V8drHxXBHNFKgZiysKjqrKS0TSbLyPIykUPQ2dsnE/jsPGLMOA1WQ=
+	t=1712781719; cv=none; b=ctWp1twASMuqffmFtYCv/5GZliPp2GkTtXmMHIsOW/7btyX3stje4GfM9dV/x4c46Ci7j0RFbn38uxMiqXHg05Siy7Y0sHXAK/MI+rTBMS7FYcJAdkTQKlCCI1fM8cwZgCE5ZpHUqJTeSWhlNU36Y/D5GyfU6EGZH0ggQB61h84=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712780851; c=relaxed/simple;
-	bh=9FoUnS5tczFu+PikCs3FEUU/fs4Rkn6T57lcmOfvpuw=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S61ABEfpi97KHJNr2RLDP/GFys1UZz7CCl96Ozj+f43V9pE4Az29YIcio/aG+4q+X6GvxvQBpNeZOvheaACf8yMN0Plf+KjI4lLGXzt/d0J4+3wAJPNDUjGL+56Mj+JOA/wqjBgruAx7AEmJg9GtZzlRhz2gg1ttyN1Dac6nv2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=DDjbQLEg; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 43AJI7c4001592;
-	Wed, 10 Apr 2024 20:27:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=qcppdkim1; bh=MYGbdKmqy9kU+KD/l6EOX
-	wmQ8zOY9jafyhTdeJYnpJQ=; b=DDjbQLEgZ0ewsnCdDOmt3RbibceKHLjMJTK5p
-	i+MsyZMhphnKrGoqwACgCMNLgu2T0eZ9fxQv92qqD3/0gsMlyGZECXPmlpvsmgWj
-	owG3ZlzOO9B76SyMMTRSzBne+OcmiOWyT5sAx4sJS3Srb4ny+f9UL5vVWufJ+1S0
-	il3ZgWbwGXbRmZRsCmqL2R7D8W4HgF/OvWg0+NLA/mbDMMFEPY4pDv8nXXQbHkZW
-	R/jI8Lkd8I+1ZcDO3wQu91CcQjuY0GcVIr7VXGBnqSlCwtnVQncZSaHR+WDaNvKX
-	xV3i6MgKwmx4RkiIksS8cjWMMlhKgj1/B6H9RBwqwo5ihpxww==
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xdskjj53h-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 10 Apr 2024 20:27:18 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43AKRH5r012568
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 10 Apr 2024 20:27:17 GMT
-Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
- nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.4; Wed, 10 Apr 2024 13:27:17 -0700
-Date: Wed, 10 Apr 2024 13:27:16 -0700
-From: Elliot Berman <quic_eberman@quicinc.com>
-To: Yifan Hong <elsk@google.com>
-CC: Luis Chamberlain <mcgrof@kernel.org>,
-        Masahiro Yamada
-	<masahiroy@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nicolas Schier
-	<nicolas@fjasle.eu>, <linux-modules@vger.kernel.org>,
-        <linux-kbuild@vger.kernel.org>,
-        Matthias =?utf-8?Q?M=C3=A4nnich?=
-	<maennich@google.com>,
-        Ulises Mendez Martinez <umendez@google.com>
-Subject: Re: [PATCH v2] module: allow UNUSED_KSYMS_WHITELIST to be relative
- against objtree.
-Message-ID: <20240410130555876-0700.eberman@hu-eberman-lv.qualcomm.com>
-References: <20240410193734.29788-1-elsk@google.com>
- <20240410194802.62036-1-elsk@google.com>
+	s=arc-20240116; t=1712781719; c=relaxed/simple;
+	bh=mA+1YZDk7o4LXe7913qMSDJznlRZf18m0cbqQcdMsOU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uMAnhDNtYbZBTUOuOjWbfnG1EaFcO8RC/HXKIuoplFboId/aKF/9w7lNYFIuP4RMr6wU8U1XqLvYfgYOVzPICY0K16KS/oSvSEpOCikXI5y+o7Oa38oa2TmERCWHMGjtsALLDWSJbZwy93u164L6in02xqzcYKvHjSbIFkAb0TA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=rWg74x87; arc=none smtp.client-ip=209.85.208.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-56fe56d4d9cso1043a12.1
+        for <linux-kbuild@vger.kernel.org>; Wed, 10 Apr 2024 13:41:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1712781716; x=1713386516; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hjNzRAkY+xtVPRtYKCJI3YbnjJ087W/HtXkIZGO+drI=;
+        b=rWg74x87phRZsoeGZohgEsx9EGAXtLeoDHUAClEuki9BfKF5h4S3cxKYrABZGunOrI
+         MgYmp0BaRLDWYpkEZ7jI+yGap41SzX6IhdSWakg6KkV9ltuzOkXmPRg/WLhUTQcPFluS
+         jvsAegcya+lc0qBU9p+clfblhkGjISzHUTjHtGRWz2uJThm7JbUiG8oWsDNdJhogkqOD
+         ayLOAxXxIkE0Hhsj6ALzvOMNdWAfFO6Firh8smYH4fKY0etnVpqFwskvjMQv78Gwg9E7
+         Skf59kd5HSPbo+icuZzdinburIZjlSMatcn7lngiOmoYW1gGHHSX6CUOBB/o6j/yrrwR
+         yVmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712781716; x=1713386516;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hjNzRAkY+xtVPRtYKCJI3YbnjJ087W/HtXkIZGO+drI=;
+        b=gXx36ycXDi2jMn27k4JbCoWzMtPZL29W7489gn0W+fnYhkWkdrghG2QCKdTBBwK2Th
+         kHy3qWJmtNAuG5ImFSZT4iu7qwEuLGcGd+PIi0JolsBc870woA31ieqHHtos2Lp71hDx
+         c+Lbk7ABvcKD6vXc8xZe+NbcTTaApWz2yvkg51UMwJYxskTIFD5cciOUmzjYiGxP7O78
+         GboqN0LprDMZH2s+4nWzoRfW6VINEYvpji8a1bdhJWssPUR/onCGn5pTM7zrsuw9+mZ7
+         D8VEz7YvlU5jpHQuOkD/kypeS18kuF+I28OXj0mTaxDfdLZJ7Vl7aH+67mzvrzeZ85hJ
+         T43g==
+X-Forwarded-Encrypted: i=1; AJvYcCViGYoJfC3965bhW6gTpqWxfRnI4uSt9tAZpbCpb19Egx+1czvOSf4asIaaPJ/eN/d+Fq1MwBYKVYVuoy4tBJvu0qb2WeLxkBDw10Wj
+X-Gm-Message-State: AOJu0Yy7y/q3Ec8mxQpNui2Hk+tbtP16wHM/wZVjcsGLRSUxhpoyA3z4
+	qfHQB/4OtIcm9ehostvflx8++QWoT7BkCktVb8OlQD+fILtYtw1rAZQu2mm2anN10An8HQmlqWC
+	uGQP5X+vKvc/pEIvxJHGG+yrukBI8maYb9STg
+X-Google-Smtp-Source: AGHT+IE7WmzrqZ8zsKdwZe4MAPtHGQ9WqSs8JP4hxZydGaCOqbO291AiBOqPa10M+70g7D0jKdqyx2cMjVn7m9WzC9k=
+X-Received: by 2002:aa7:c6c6:0:b0:56f:e261:2c03 with SMTP id
+ b6-20020aa7c6c6000000b0056fe2612c03mr32511eds.2.1712781715947; Wed, 10 Apr
+ 2024 13:41:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20240410194802.62036-1-elsk@google.com>
-X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: pwzNlrQ5LT3mRg2znbLFNy7syPtMpEjn
-X-Proofpoint-ORIG-GUID: pwzNlrQ5LT3mRg2znbLFNy7syPtMpEjn
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-10_05,2024-04-09_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 spamscore=0
- clxscore=1011 adultscore=0 priorityscore=1501 lowpriorityscore=0
- mlxscore=0 phishscore=0 impostorscore=0 bulkscore=0 malwarescore=0
- mlxlogscore=847 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2404010003 definitions=main-2404100149
+References: <20240410193734.29788-1-elsk@google.com> <20240410194802.62036-1-elsk@google.com>
+ <20240410130555876-0700.eberman@hu-eberman-lv.qualcomm.com>
+In-Reply-To: <20240410130555876-0700.eberman@hu-eberman-lv.qualcomm.com>
+From: Yifan Hong <elsk@google.com>
+Date: Wed, 10 Apr 2024 13:41:18 -0700
+Message-ID: <CAABy=s3nSZcmt0OD+fK0iDXbo85MeYdhxKwNReF54O+ZSQvQ5A@mail.gmail.com>
+Subject: Re: [PATCH v2] module: allow UNUSED_KSYMS_WHITELIST to be relative
+ against objtree.
+To: Elliot Berman <quic_eberman@quicinc.com>
+Cc: Luis Chamberlain <mcgrof@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-modules@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, =?UTF-8?Q?Matthias_M=C3=A4nnich?= <maennich@google.com>, 
+	Ulises Mendez Martinez <umendez@google.com>, kernel-team@android.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Apr 10, 2024 at 07:48:02PM +0000, Yifan Hong wrote:
-> If UNUSED_KSYMS_WHITELIST is a file generated
-> before Kbuild runs, and the source tree is in
-> a read-only filesystem, the developer must put
-> the file somewhere and specify an absolute
-> path to UNUSED_KSYMS_WHITELIST. This worked,
-> but if IKCONFIG=y, an absolute path is embedded
-> into .config and eventually into vmlinux, causing
-> the build to be less reproducible when building
-> on a different machine.
-> 
-> This patch makes the handling of
-> UNUSED_KSYMS_WHITELIST to be similar to
-> MODULE_SIG_KEY.
-> 
-> First, check if UNUSED_KSYMS_WHITELIST is an
-> absolute path, just as before this patch. If so,
-> use the path as is.
-> 
-> If it is a relative path, use wildcard to check
-> the existence of the file below objtree first.
-> If it does not exist, fall back to the original
-> behavior of adding $(srctree)/ before the value.
-> 
-> After this patch, the developer can put the generated
-> file in objtree, then use a relative path against
-> objtree in .config, eradicating any absolute paths
-> that may be evaluated differently on different machines.
-> 
-> Signed-off-by: Yifan Hong <elsk@google.com>
+On Wed, Apr 10, 2024 at 1:27=E2=80=AFPM Elliot Berman <quic_eberman@quicinc=
+.com> wrote:
+>
+> On Wed, Apr 10, 2024 at 07:48:02PM +0000, Yifan Hong wrote:
+> > If UNUSED_KSYMS_WHITELIST is a file generated
+> > before Kbuild runs, and the source tree is in
+> > a read-only filesystem, the developer must put
+> > the file somewhere and specify an absolute
+> > path to UNUSED_KSYMS_WHITELIST. This worked,
+> > but if IKCONFIG=3Dy, an absolute path is embedded
+> > into .config and eventually into vmlinux, causing
+> > the build to be less reproducible when building
+> > on a different machine.
+> >
+> > This patch makes the handling of
+> > UNUSED_KSYMS_WHITELIST to be similar to
+> > MODULE_SIG_KEY.
+> >
+> > First, check if UNUSED_KSYMS_WHITELIST is an
+> > absolute path, just as before this patch. If so,
+> > use the path as is.
+> >
+> > If it is a relative path, use wildcard to check
+> > the existence of the file below objtree first.
+> > If it does not exist, fall back to the original
+> > behavior of adding $(srctree)/ before the value.
+> >
+> > After this patch, the developer can put the generated
+> > file in objtree, then use a relative path against
+> > objtree in .config, eradicating any absolute paths
+> > that may be evaluated differently on different machines.
+> >
+> > Signed-off-by: Yifan Hong <elsk@google.com>
+>
+> I wonder if we should have a macro to do it so we can have a common
+> macro for the other time this is done for sig-key in
+> scripts/Makefile.modinst?
+>
+> maybe-srctree =3D $(if $(wildcard $1),,$(srctree)/)$1
+>
+> I'd let Masahiro/others decide if it's worth it. Otherwise,
+>
+> Reviewed-by: Elliot Berman <quic_eberman@quicinc.com>
 
-I wonder if we should have a macro to do it so we can have a common
-macro for the other time this is done for sig-key in
-scripts/Makefile.modinst?
+Thanks for your review!
 
-maybe-srctree = $(if $(wildcard $1),,$(srctree)/)$1
+Also maybe relevant: I notice that SYSTEM_TRUSTED_KEYS is
+yet another path in .config, but it is used as-is in
+certs/Makefile, without adding the $(srctree) prefix. If we had this
+macro, I think it should be applied to all of
+UNUSED_KSYMS_WHITELIST, MODULE_SIG_KEY,
+SYSTEM_TRUSTED_KEYS, and potentially other paths.
 
-I'd let Masahiro/others decide if it's worth it. Otherwise,
+But these configs are beyond my knowledge and beyond the scope
+of this patch, so I decide not to touch them at this moment.
 
-Reviewed-by: Elliot Berman <quic_eberman@quicinc.com>
-
-> ---
-> V1 -> V2: properly handle absolute paths by treating
->   them as-is.
-> 
->  kernel/module/Kconfig    | 2 +-
->  scripts/Makefile.modpost | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/kernel/module/Kconfig b/kernel/module/Kconfig
-> index f3e0329337f6..cb8377a18927 100644
-> --- a/kernel/module/Kconfig
-> +++ b/kernel/module/Kconfig
-> @@ -392,7 +392,7 @@ config UNUSED_KSYMS_WHITELIST
->  	  exported at all times, even in absence of in-tree users. The value to
->  	  set here is the path to a text file containing the list of symbols,
->  	  one per line. The path can be absolute, or relative to the kernel
-> -	  source tree.
-> +	  source or obj tree.
->  
->  config MODULES_TREE_LOOKUP
->  	def_bool y
-> diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
-> index 739402f45509..36952638bbc6 100644
-> --- a/scripts/Makefile.modpost
-> +++ b/scripts/Makefile.modpost
-> @@ -94,7 +94,7 @@ targets += .vmlinux.objs
->  
->  ifdef CONFIG_TRIM_UNUSED_KSYMS
->  ksym-wl := $(CONFIG_UNUSED_KSYMS_WHITELIST)
-> -ksym-wl := $(if $(filter-out /%, $(ksym-wl)),$(srctree)/)$(ksym-wl)
-> +ksym-wl := $(if $(filter-out /%, $(ksym-wl)),$(if $(wildcard $(ksym-wl)),,$(srctree)/))$(ksym-wl)
->  modpost-args += -t $(addprefix -u , $(ksym-wl))
->  modpost-deps += $(ksym-wl)
->  endif
-> -- 
-> 2.44.0.478.gd926399ef9-goog
-> 
-> 
+>
+> > ---
+> > V1 -> V2: properly handle absolute paths by treating
+> >   them as-is.
+> >
+> >  kernel/module/Kconfig    | 2 +-
+> >  scripts/Makefile.modpost | 2 +-
+> >  2 files changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/kernel/module/Kconfig b/kernel/module/Kconfig
+> > index f3e0329337f6..cb8377a18927 100644
+> > --- a/kernel/module/Kconfig
+> > +++ b/kernel/module/Kconfig
+> > @@ -392,7 +392,7 @@ config UNUSED_KSYMS_WHITELIST
+> >         exported at all times, even in absence of in-tree users. The va=
+lue to
+> >         set here is the path to a text file containing the list of symb=
+ols,
+> >         one per line. The path can be absolute, or relative to the kern=
+el
+> > -       source tree.
+> > +       source or obj tree.
+> >
+> >  config MODULES_TREE_LOOKUP
+> >       def_bool y
+> > diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
+> > index 739402f45509..36952638bbc6 100644
+> > --- a/scripts/Makefile.modpost
+> > +++ b/scripts/Makefile.modpost
+> > @@ -94,7 +94,7 @@ targets +=3D .vmlinux.objs
+> >
+> >  ifdef CONFIG_TRIM_UNUSED_KSYMS
+> >  ksym-wl :=3D $(CONFIG_UNUSED_KSYMS_WHITELIST)
+> > -ksym-wl :=3D $(if $(filter-out /%, $(ksym-wl)),$(srctree)/)$(ksym-wl)
+> > +ksym-wl :=3D $(if $(filter-out /%, $(ksym-wl)),$(if $(wildcard $(ksym-=
+wl)),,$(srctree)/))$(ksym-wl)
+> >  modpost-args +=3D -t $(addprefix -u , $(ksym-wl))
+> >  modpost-deps +=3D $(ksym-wl)
+> >  endif
+> > --
+> > 2.44.0.478.gd926399ef9-goog
+> >
+> >
 
