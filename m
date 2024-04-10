@@ -1,136 +1,219 @@
-Return-Path: <linux-kbuild+bounces-1507-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1508-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E995F89ECFD
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Apr 2024 10:02:52 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78D5389ED71
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Apr 2024 10:22:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9F06D281D25
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Apr 2024 08:02:51 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AD009B2284D
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Apr 2024 08:22:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62DBF13D602;
-	Wed, 10 Apr 2024 08:02:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2760813D533;
+	Wed, 10 Apr 2024 08:22:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VjdrlWMc"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C136613D505;
-	Wed, 10 Apr 2024 08:02:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E701D13D523;
+	Wed, 10 Apr 2024 08:21:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712736157; cv=none; b=nj/+XoOjnt/sStNX6gfPlRLy8FTwBCskCz30eSIsVqUodK36V209VjYYOJi5V2aZ6Zj9dQtWPi+X3Ja6/aJDWJWci3Id2lZkkUrr0XpNx1CbblCfphl+dhgBfkzTZ3lfCQOr3hTTA9hf372bgjVMkEX/rizVMYq3g1EvhPUutvY=
+	t=1712737321; cv=none; b=Ym/ax79eJKlIMttu2jccZWD18FkjfanqO2mZg3VQbtnUEAAnU84dltc1niO1D0BwsTwxJMLs2nPqWba6RLGjbnhpJwO+V3qLyZXsu6guWCUc4ibZ0Xm1WEnlnr29r72XblzMM5RNsxdVHrzQJYZp20M9tFzhwte2smbWNNx5tnk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712736157; c=relaxed/simple;
-	bh=KElYbch9PwjyMMyu6DqQ19Q1q06S1GdiKB4kYIvJsOA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=bBAtC04DaDVwHEUOOiFSRuslrl4QmXJkNwIxlynnpCJTLQoVrWUVTlO89Clpnhd/aF12w6oTjHuxnvrJymhY+Q8tm+0OxOvE8XUv/x2Dczi3ELoLd/y8qIsK+MyeonrFwSjZ3eR5Bs0oaVVpccWwZSXhKQxXPM80iFWgxUzQYEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EDFDC43390;
-	Wed, 10 Apr 2024 08:02:36 +0000 (UTC)
-Received: by mercury (Postfix, from userid 1000)
-	id 324081063262; Wed, 10 Apr 2024 10:02:32 +0200 (CEST)
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Michael Ellerman <mpe@ellerman.id.au>, 
- Christophe Leroy <christophe.leroy@csgroup.eu>, 
- Damien Le Moal <dlemoal@kernel.org>, Jiri Kosina <jikos@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Corey Minyard <minyard@acm.org>, Peter Huewe <peterhuewe@gmx.de>, 
- Jarkko Sakkinen <jarkko@kernel.org>, Tero Kristo <kristo@kernel.org>, 
- Stephen Boyd <sboyd@kernel.org>, Ian Abbott <abbotti@mev.co.uk>, 
- H Hartley Sweeten <hsweeten@visionengravers.com>, 
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, 
- Len Brown <lenb@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
- John Allen <john.allen@amd.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
- Vinod Koul <vkoul@kernel.org>, Ard Biesheuvel <ardb@kernel.org>, 
- Bjorn Andersson <andersson@kernel.org>, Moritz Fischer <mdf@kernel.org>, 
- Liviu Dudau <liviu.dudau@arm.com>, 
- Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
- Andi Shyti <andi.shyti@kernel.org>, 
- Michael Hennerich <michael.hennerich@analog.com>, 
- Peter Rosin <peda@axentia.se>, Lars-Peter Clausen <lars@metafoo.de>, 
- Jonathan Cameron <jic23@kernel.org>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Markuss Broks <markuss.broks@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, Lee Jones <lee@kernel.org>, 
- Jakub Kicinski <kuba@kernel.org>, 
- Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, 
- Iyappan Subramanian <iyappan@os.amperecomputing.com>, 
- Yisen Zhuang <yisen.zhuang@huawei.com>, Stanislaw Gruszka <stf_xl@wp.pl>, 
- Kalle Valo <kvalo@kernel.org>, Sebastian Reichel <sre@kernel.org>, 
- Tony Lindgren <tony@atomide.com>, Mark Brown <broonie@kernel.org>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Xiang Chen <chenxiang66@hisilicon.com>, 
- "Martin K. Petersen" <martin.petersen@oracle.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Heiko Stuebner <heiko@sntech.de>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
- Vaibhav Hiremath <hvaibhav.linux@gmail.com>, Alex Elder <elder@kernel.org>, 
- Jiri Slaby <jirislaby@kernel.org>, Jacky Huang <ychuang3@nuvoton.com>, 
- Helge Deller <deller@gmx.de>, Christoph Hellwig <hch@lst.de>, 
- Robin Murphy <robin.murphy@arm.com>, Steven Rostedt <rostedt@goodmis.org>, 
- Masami Hiramatsu <mhiramat@kernel.org>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- Kees Cook <keescook@chromium.org>, 
- Trond Myklebust <trond.myklebust@hammerspace.com>, 
- Anna Schumaker <anna@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
- Nathan Chancellor <nathan@kernel.org>, Takashi Iwai <tiwai@suse.com>, 
- linuxppc-dev@lists.ozlabs.org, linux-ide@vger.kernel.org, 
- openipmi-developer@lists.sourceforge.net, linux-integrity@vger.kernel.org, 
- linux-omap@vger.kernel.org, linux-clk@vger.kernel.org, 
- linux-pm@vger.kernel.org, linux-crypto@vger.kernel.org, 
- dmaengine@vger.kernel.org, linux-efi@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, linux-fpga@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org, 
- linux-i2c@vger.kernel.org, linux-iio@vger.kernel.org, 
- linux-stm32@st-md-mailman.stormreply.com, 
- linux-arm-kernel@lists.infradead.org, netdev@vger.kernel.org, 
- linux-leds@vger.kernel.org, linux-wireless@vger.kernel.org, 
- linux-rtc@vger.kernel.org, linux-scsi@vger.kernel.org, 
- linux-spi@vger.kernel.org, linux-amlogic@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
- greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, 
- linux-serial@vger.kernel.org, linux-usb@vger.kernel.org, 
- linux-fbdev@vger.kernel.org, iommu@lists.linux.dev, 
- linux-trace-kernel@vger.kernel.org, kasan-dev@googlegroups.com, 
- linux-hardening@vger.kernel.org, linux-nfs@vger.kernel.org, 
- linux-kbuild@vger.kernel.org, alsa-devel@alsa-project.org, 
- linux-sound@vger.kernel.org
-In-Reply-To: <20240403080702.3509288-1-arnd@kernel.org>
-References: <20240403080702.3509288-1-arnd@kernel.org>
-Subject: Re: (subset) [PATCH 00/34] address all -Wunused-const warnings
-Message-Id: <171273615213.1094883.18382201508159771859.b4-ty@collabora.com>
-Date: Wed, 10 Apr 2024 10:02:32 +0200
+	s=arc-20240116; t=1712737321; c=relaxed/simple;
+	bh=T43KbF42fm8HsFmTxbZXO8nSYWOOBrDknmli7i2PLa4=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bK2zguNYq5YKbGAOi8oQ26ogHKG3WdO7jSTf2oN+08xeVYLoGKWEcV9OVt0zodSnBiZRk7QSVeTrfmJbhV0lS4+2psj/z/fhLp9HvrdH6mUq+fkkjigSRXQj0oa9W9k6pbdQ0e3HxDuLwtdHUsl4eMmXe3X+niCf3H+iLbbnr3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VjdrlWMc; arc=none smtp.client-ip=209.85.167.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-516d0162fa1so7732942e87.3;
+        Wed, 10 Apr 2024 01:21:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1712737316; x=1713342116; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=t9ncL6J099zDWm1volQeziNRO3e5GzIYLXP1BKZCft0=;
+        b=VjdrlWMcx2GmYhnOOC+t3fS5F4C0Q285sAAHxu0+9Gt8aruZzjouKTJ9D1gKP+v2GP
+         GhE+CBLfc7ssoXR7LHdHi7Zv91uIZ4U5FSdosQM6FAysyKeDs3jtPsgUAfiyDGYfzjWx
+         yBzH21rFkqjZVbgfXRSkqog6LLoxDAM8807C5OyCnfoqbEKzMJDiWJoCPqPOYH9I2KA5
+         Sd03jO7SkVrSpjMG7M7djzW0g2ssf2QWWJSOaFd+Gzk28MlCFJJVB23WhTbl1hXfA0uX
+         kQUDrB0RQhqLXSOS4pNdY/tJ4hjBfv1JxPCx7mS5LX3+KRSYaVhP5MgBqXpyFHFpcNH9
+         zKRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712737316; x=1713342116;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=t9ncL6J099zDWm1volQeziNRO3e5GzIYLXP1BKZCft0=;
+        b=IG4cviILRNiJ+AwZHfKp6+U8X5XZ8hLzx44W7wkJUevUfjesTmkDiOZJgtJqcs55e2
+         nKlcv6yJl3cPifUJOxMtNDz8Ohdua2JRlyY/iuyh1+4mHMdZ+muMdXkhKH02HaPZxS8o
+         ngY++N911YguqlU+Mf1he+F8hsyOHK4vXiTj2aaDXzBXTVNTqTq/jL1kykGLBaj1XUp8
+         LB5q1ttvaradkMXOOT/FwZCZjnONpGACvYCqs88sCr6i1voJDAmoHZOjsaucHVSjyDy+
+         ebPEKP9e2fc7TbcOZ2a0AWxhWH3GjDRnS/2kIptRjpEmWOqqZVl0kISbbMD/mU7cXwOg
+         2IuQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWB/NiqwZ6RfjHdbYu/3VhKerCgo/M/31QyIFvfKbhf8AcciKx0YrftwtztBy6wKk3YSEsUna0mwErufeM/HS+OJXfiJaDvoBMvv1M34PCWm/wCJsGXGw24EiA+AayCrXF9jSn89HkVGBGdKECUks6qRGXpFt+tsnx15vfYlA==
+X-Gm-Message-State: AOJu0YwS76Ist9Cc8UHr7dgBQMz6yc5PomHZICLOheOz6qOw93HEzDbs
+	/47CzLGEcfKc23syjuDpwdHCEs+xRb2rO/pHPfH2K5mCJMIiXzd2
+X-Google-Smtp-Source: AGHT+IH/iUhygMfoz7qE+pEGl264dmAwnbM0yE56uCPtfUVV0GoU8JOg2uu3MTmCQbspBueLcpmk4Q==
+X-Received: by 2002:a19:8c0c:0:b0:517:5ee6:4f5b with SMTP id o12-20020a198c0c000000b005175ee64f5bmr1477566lfd.43.1712737315665;
+        Wed, 10 Apr 2024 01:21:55 -0700 (PDT)
+Received: from krava ([2a02:168:f656:0:bbb9:17bc:93d7:223])
+        by smtp.gmail.com with ESMTPSA id y14-20020a5d4ace000000b00341dbb4a3a7sm13306716wrs.86.2024.04.10.01.21.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Apr 2024 01:21:55 -0700 (PDT)
+From: Jiri Olsa <olsajiri@gmail.com>
+X-Google-Original-From: Jiri Olsa <jolsa@kernel.org>
+Date: Wed, 10 Apr 2024 10:21:53 +0200
+To: Ard Biesheuvel <ardb+git@google.com>
+Cc: linux-kernel@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Martin KaFai Lau <martin.lau@linux.dev>, linux-arch@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, bpf@vger.kernel.org,
+	Andrii Nakryiko <andrii@kernel.org>
+Subject: Re: [PATCH v2 3/3] btf: Avoid weak external references
+Message-ID: <ZhZMITbXAR63hkoD@krava>
+References: <20240409150132.4097042-5-ardb+git@google.com>
+ <20240409150132.4097042-8-ardb+git@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240409150132.4097042-8-ardb+git@google.com>
 
-
-On Wed, 03 Apr 2024 10:06:18 +0200, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
+On Tue, Apr 09, 2024 at 05:01:36PM +0200, Ard Biesheuvel wrote:
+> From: Ard Biesheuvel <ardb@kernel.org>
 > 
-> Compilers traditionally warn for unused 'static' variables, but not
-> if they are constant. The reason here is a custom for C++ programmers
-> to define named constants as 'static const' variables in header files
-> instead of using macros or enums.
+> If the BTF code is enabled in the build configuration, the start/stop
+> BTF markers are guaranteed to exist in the final link but not during the
+> first linker pass.
 > 
-> [...]
+> Avoid GOT based relocations to these markers in the final executable by
+> providing preliminary definitions that will be used by the first linker
+> pass, and superseded by the actual definitions in the subsequent ones.
+> 
+> Make the preliminary definitions dependent on CONFIG_DEBUG_INFO_BTF so
+> that inadvertent references to this section will trigger a link failure
+> if they occur in code that does not honour CONFIG_DEBUG_INFO_BTF.
+> 
+> Note that Clang will notice that taking the address of__start_BTF cannot
+> yield NULL any longer, so testing for that condition is no longer
+> needed.
+> 
+> Acked-by: Andrii Nakryiko <andrii@kernel.org>
+> Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
+> ---
+>  include/asm-generic/vmlinux.lds.h | 9 +++++++++
+>  kernel/bpf/btf.c                  | 4 ++--
+>  kernel/bpf/sysfs_btf.c            | 6 +++---
+>  3 files changed, 14 insertions(+), 5 deletions(-)
+> 
+> diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
+> index e8449be62058..4cb3d88449e5 100644
+> --- a/include/asm-generic/vmlinux.lds.h
+> +++ b/include/asm-generic/vmlinux.lds.h
+> @@ -456,6 +456,7 @@
+>   * independent code.
+>   */
+>  #define PRELIMINARY_SYMBOL_DEFINITIONS					\
+> +	PRELIMINARY_BTF_DEFINITIONS					\
+>  	PROVIDE(kallsyms_addresses = .);				\
+>  	PROVIDE(kallsyms_offsets = .);					\
+>  	PROVIDE(kallsyms_names = .);					\
+> @@ -466,6 +467,14 @@
+>  	PROVIDE(kallsyms_markers = .);					\
+>  	PROVIDE(kallsyms_seqs_of_names = .);
+>  
+> +#ifdef CONFIG_DEBUG_INFO_BTF
+> +#define PRELIMINARY_BTF_DEFINITIONS					\
+> +	PROVIDE(__start_BTF = .);					\
+> +	PROVIDE(__stop_BTF = .);
+> +#else
+> +#define PRELIMINARY_BTF_DEFINITIONS
+> +#endif
 
-Applied, thanks!
+hi,
+I'm getting following compilation fail when CONFIG_DEBUG_INFO_BTF is disabled
 
-[09/34] power: rt9455: hide unused rt9455_boost_voltage_values
-        commit: 452d8950db3e839aba1bb13bc5378f4bac11fa04
+	[jolsa@krava linux-qemu]$ make 
+	  CALL    scripts/checksyscalls.sh
+	  DESCEND objtool
+	  INSTALL libsubcmd_headers
+	  UPD     include/generated/utsversion.h
+	  CC      init/version-timestamp.o
+	  LD      .tmp_vmlinux.kallsyms1
+	ld: kernel/bpf/btf.o: in function `btf_parse_vmlinux':
+	/home/jolsa/kernel/linux-qemu/kernel/bpf/btf.c:5988: undefined reference to `__start_BTF'
+	ld: /home/jolsa/kernel/linux-qemu/kernel/bpf/btf.c:5989: undefined reference to `__stop_BTF'
+	ld: /home/jolsa/kernel/linux-qemu/kernel/bpf/btf.c:5989: undefined reference to `__start_BTF'
+	make[2]: *** [scripts/Makefile.vmlinux:37: vmlinux] Error 1
+	make[1]: *** [/home/jolsa/kernel/linux-qemu/Makefile:1160: vmlinux] Error 2
+	make: *** [Makefile:240: __sub-make] Error 2
 
-Best regards,
--- 
-Sebastian Reichel <sebastian.reichel@collabora.com>
+maybe the assumption was that kernel/bpf/btf.o is compiled only
+for CONFIG_DEBUG_INFO_BTF, but it's actually:
 
+  obj-$(CONFIG_BPF_SYSCALL) += btf.o memalloc.o
+
+I guess we just need !CONFIG_DEBUG_INFO_BTF version of btf_parse_vmlinux
+function
+
+jirka
+
+> +
+>  /*
+>   * Read only Data
+>   */
+> diff --git a/kernel/bpf/btf.c b/kernel/bpf/btf.c
+> index 90c4a32d89ff..46a56bf067a8 100644
+> --- a/kernel/bpf/btf.c
+> +++ b/kernel/bpf/btf.c
+> @@ -5642,8 +5642,8 @@ static struct btf *btf_parse(const union bpf_attr *attr, bpfptr_t uattr, u32 uat
+>  	return ERR_PTR(err);
+>  }
+>  
+> -extern char __weak __start_BTF[];
+> -extern char __weak __stop_BTF[];
+> +extern char __start_BTF[];
+> +extern char __stop_BTF[];
+>  extern struct btf *btf_vmlinux;
+>  
+>  #define BPF_MAP_TYPE(_id, _ops)
+> diff --git a/kernel/bpf/sysfs_btf.c b/kernel/bpf/sysfs_btf.c
+> index ef6911aee3bb..fedb54c94cdb 100644
+> --- a/kernel/bpf/sysfs_btf.c
+> +++ b/kernel/bpf/sysfs_btf.c
+> @@ -9,8 +9,8 @@
+>  #include <linux/sysfs.h>
+>  
+>  /* See scripts/link-vmlinux.sh, gen_btf() func for details */
+> -extern char __weak __start_BTF[];
+> -extern char __weak __stop_BTF[];
+> +extern char __start_BTF[];
+> +extern char __stop_BTF[];
+>  
+>  static ssize_t
+>  btf_vmlinux_read(struct file *file, struct kobject *kobj,
+> @@ -32,7 +32,7 @@ static int __init btf_vmlinux_init(void)
+>  {
+>  	bin_attr_btf_vmlinux.size = __stop_BTF - __start_BTF;
+>  
+> -	if (!__start_BTF || bin_attr_btf_vmlinux.size == 0)
+> +	if (bin_attr_btf_vmlinux.size == 0)
+>  		return 0;
+>  
+>  	btf_kobj = kobject_create_and_add("btf", kernel_kobj);
+> -- 
+> 2.44.0.478.gd926399ef9-goog
+> 
+> 
 
