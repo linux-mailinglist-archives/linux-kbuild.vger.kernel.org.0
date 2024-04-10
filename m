@@ -1,50 +1,89 @@
-Return-Path: <linux-kbuild+bounces-1511-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1512-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 408D389F98D
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Apr 2024 16:11:36 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BD2A89FBA4
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Apr 2024 17:32:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7E1D72853C6
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Apr 2024 14:11:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8F56B1C23334
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Apr 2024 15:32:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8EF31607B9;
-	Wed, 10 Apr 2024 14:10:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89A8216EBED;
+	Wed, 10 Apr 2024 15:32:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NRiK+DwV"
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="srz27ijB";
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="srz27ijB"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBC091607AF;
-	Wed, 10 Apr 2024 14:10:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F92516E871;
+	Wed, 10 Apr 2024 15:32:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712758229; cv=none; b=mfkTnZTIqZBZXc/lFq4NDMrMItzBqZ/jUZlqZ/HJpPY8OBH+G91lYCarZkMIs7D4J2KxoN2dnBcbUUBS6sqpFlo+7BFoww4LOECeXTtRtXNZFeCWey4/ptAU89v8vMmt2x9H4uPsemyjpRDrkD/9KMejCp689QqK0gPvU/t4AhA=
+	t=1712763149; cv=none; b=fs+D1gBvHpqSXlrLgGYyC4iijrxBqzvl3/n0xo8aLMsNIMKLTb2X1YBQYWTcRTzndlsq2GO9w3PrjTfGBNX6EdXFNqgzmhbnz/6FiZC8p1hp5PUTtusUhGsNrxd0oNo2wf3LtLKiM5+QZ55gdfLgJGPjhUUIWKy+I3PrijPHN4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712758229; c=relaxed/simple;
-	bh=eD02rCIxp2Gn2KKb+4Vh9Qm0xtxbnnnXHsw4g744NdE=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=USbuIGAT1Kn1F7YzNuzeEZFjQ2MUV+PlasiPpcQ5AjD6sJ9QC4Zots5/I7liymE9JsZ6UN5gzJ4ZXyVHiciD870JwBTfxO4gke4f+P7hirtVq4nE9olUGn4dkwnR3a+Ihy3M4U43v7MkUkqi4vTYtC7AUYY5cb+BnRE4xdCecJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NRiK+DwV; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 634B6C43390;
-	Wed, 10 Apr 2024 14:10:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712758229;
-	bh=eD02rCIxp2Gn2KKb+4Vh9Qm0xtxbnnnXHsw4g744NdE=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=NRiK+DwV1z0am3phlRQoAFhCw5HhWVbiWsidi3BkPso0RvZBvLnX0Z/TkURuS4Ha9
-	 slcneo2VT2MuwT72bDEqUKcGtl1A+CDCoM3mOOKKwi24fs9Epfh1M+HDI+Yl2fpOiz
-	 cRVIJR8Dp7qIdH/eDgUgf11qUzPa2DlattHTimB6butNK0JkTM1EuSWfOaA78BaNPz
-	 RRvVQrCm3xSFt1/mtCOsfMEN8PzflM3N//hkbfNyYfbPGD0ElcpTMFSrWLTTMVkIbB
-	 Kn+Dlt/8aywnuSU4k1q7iFjOAANHFMH1D4EzRG8nRYj5ey4hnHryoT2xbvfpJWY0gd
-	 eF9yPlvFhTeoA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 55A6DCF21C6;
-	Wed, 10 Apr 2024 14:10:29 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1712763149; c=relaxed/simple;
+	bh=B0nAhchM37YZ2xM/SSFrLXk96D+WGDIbRzquDnO1f2M=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=EfUOpnqRhK4hd8GZIM7E/jESsqSHQfS6GoaGPMpKJsOMu/ZPZObsgCtmOUoryH+hle91CAeAYl8R+chl6KkiW3ZKSkis+3tCTYqwcaMFsY6pvB7FwAxgZpY5zkxCqjkmMJP1APUO/CoGGb1eHYtdrgWtPOcE3eJ1dFnAMBP+4SY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=srz27ijB; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=srz27ijB; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 1FCB85D062;
+	Wed, 10 Apr 2024 15:32:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1712763145; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1OPC8ZgLiEqBr/w4gD9mybwHjbz8PCFyyQkn0bnLdg0=;
+	b=srz27ijBb1CaOxMILf0y0BODVBSj6vzbTDLHNv20pFvSo/lwXczWQnkgRDUo7H8Oe3MNuB
+	FNy1t8gf21EM3mV/x+hIv3spGsySh56XqbcCboC0KFCRuJJ6/KfReGp9j531CoQu9s25rw
+	hxpbvUnOLXADLFMETxPHeHt76gPjgp4=
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.com header.s=susede1 header.b=srz27ijB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1712763145; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1OPC8ZgLiEqBr/w4gD9mybwHjbz8PCFyyQkn0bnLdg0=;
+	b=srz27ijBb1CaOxMILf0y0BODVBSj6vzbTDLHNv20pFvSo/lwXczWQnkgRDUo7H8Oe3MNuB
+	FNy1t8gf21EM3mV/x+hIv3spGsySh56XqbcCboC0KFCRuJJ6/KfReGp9j531CoQu9s25rw
+	hxpbvUnOLXADLFMETxPHeHt76gPjgp4=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3C4A413691;
+	Wed, 10 Apr 2024 15:32:23 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id l2WqNQexFmZTNAAAD6G6ig
+	(envelope-from <mpdesouza@suse.com>); Wed, 10 Apr 2024 15:32:23 +0000
+From: Marcos Paulo de Souza <mpdesouza@suse.com>
+To: Lukas Hruska <lhruska@suse.cz>
+Cc: Petr Mladek <pmladek@suse.com>,
+	Miroslav Benes <mbenes@suse.cz>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Joe Lawrence <joe.lawrence@redhat.com>,
+	live-patching@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	Marcos Paulo de Souza <mpdesouza@suse.com>
+Subject: Re: [PATCH v1 0/5] livepatch: klp-convert tool - Minimal version
+Date: Wed, 10 Apr 2024 12:32:18 -0300
+Message-ID: <20240410153220.15927-1-mpdesouza@suse.com>
+X-Mailer: git-send-email 2.44.0
+In-Reply-To: <20231106162513.17556-1-lhruska@suse.cz>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -52,42 +91,132 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] export.h: remove include/asm-generic/export.h
-From: patchwork-bot+linux-riscv@kernel.org
-Message-Id: 
- <171275822934.12683.6255352556602510987.git-patchwork-notify@kernel.org>
-Date: Wed, 10 Apr 2024 14:10:29 +0000
-References: <20240323090615.1244904-1-masahiroy@kernel.org>
-In-Reply-To: <20240323090615.1244904-1-masahiroy@kernel.org>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-riscv@lists.infradead.org, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, aou@eecs.berkeley.edu, arnd@arndb.de,
- palmer@dabbelt.com, paul.walmsley@sifive.com, linux-arch@vger.kernel.org
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Level: *****
+X-Spamd-Result: default: False [5.39 / 50.00];
+	BAYES_SPAM(5.10)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	BAD_REP_POLICIES(0.10)[];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:dkim,suse.cz:email];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	R_DKIM_ALLOW(0.00)[suse.com:s=susede1];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	DKIM_TRACE(0.00)[suse.com:+]
+X-Spam-Score: 5.39
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 1FCB85D062
+X-Spamd-Bar: +++++
 
-Hello:
+On Mon,  6 Nov 2023 17:25:08 +0100 Lukas Hruska <lhruska@suse.cz> wrote:
 
-This patch was applied to riscv/linux.git (for-next)
-by Palmer Dabbelt <palmer@rivosinc.com>:
-
-On Sat, 23 Mar 2024 18:06:15 +0900 you wrote:
-> Commit 3a6dd5f614a1 ("riscv: remove unneeded #include
-> <asm-generic/export.h>") removed the last use of
-> include/asm-generic/export.h.
+> Summary
+> -------
 > 
-> This deprecated header can go away.
+> This is a significantly simplified version of the original klp-convert tool.
+> The klp-convert code has never got a proper review and also clean ups 
+> were not easy. The last version was v7, see 
+> https://lore.kernel.org/r/20230306140824.3858543-1-joe.lawrence@redhat.com
 > 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> The main change is that the tool does not longer search for the 
+> symbols which would need the livepatch specific relocation entry.
+> Also klp.symbols file is not longer needed.
 > 
+> Instead, the needed information is appended to the symbol declaration
+> via a new macro KLP_RELOC_SYMBOL(). It creates symbol with all needed
+> metadata. For example:
+> 
+>   extern char *saved_command_line \
+>                  KLP_RELOC_SYMBOL(vmlinux, vmlinux, saved_command_line, 0); 
+> 
+> would create symbol
+> 
+> $>readelf -r -W <compiled livepatch module>:
+> Relocation section '.rela.text' at offset 0x32e60 contains 10 entries:
+>     Offset             Info             Type               Symbol's Value  Symbol's Name + Addend
 > [...]
+> 0000000000000068  0000003c00000002 R_X86_64_PC32          0000000000000000 .klp.sym.rela.vmlinux.vmlinux.saved_command_line,0 - 4 
+> [...]
+> 
+> 
+> The simplified klp-convert tool just transforms symbols
+> created by KLP_RELOC_SYMBOL() to object specific rela sections
+> and rela entries which would later be proceed when the livepatch
+> or the livepatched object is loaded.
+> 
+> For example, klp-convert would replace the above symbols with:
+> 
+> $> readelf -r -W <livepatch_module_proceed_by_klp_convert>
+> Relocation section '.klp.rela.vmlinux.text' at offset 0x5cb60 contains 1 entry:
+>     Offset             Info             Type               Symbol's Value  Symbol's Name + Addend
+> 0000000000000068  0000003c00000002 R_X86_64_PC32          0000000000000000 .klp.sym.vmlinux.saved_command_line,0 - 4 
+> 
+> 
+> Note that similar macro was needed also in the original version
+> to handle more symbols of the same name (sympos).
+> 
+> Given the above, add klp-convert tool; integrate klp-convert tool into
+> kbuild; add data-structure and macros to enable users to annotate
+> livepatch source code; make modpost stage compatible with livepatches;
+> update livepatch-sample and update documentation.
+> 
+> 
+> Testing
+> -------
+> 
+> The patchset selftests build and execute on x86_64, s390x, and ppc64le
+> for both default config (with added livepatch dependencies) and a larger
+> SLE-15-ish config.
+> 
+> 
+> Summary of changes in this minimal version
+> ------------------------
+> 
+> - rebase for v6.5
+> - cleaned-up SoB chains (suggested by pmladek)
+> - klp-convert: remove the symbol map auto-resolving solution
+> - klp-convert: add macro for flagging variables inside a LP src to be resolved by this tool
+> - klp-convert: code simplification
 
-Here is the summary with links:
-  - export.h: remove include/asm-generic/export.h
-    https://git.kernel.org/riscv/c/36d37f11f555
+Do we have anything that blocks klp-convert-mini to be merged, or something that
+needs to be fixed?
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Thanks,
+  Marcos
 
-
+> 
+> Previous versions
+> -----------------
+> 
+> RFC:
+>   https://lore.kernel.org/lkml/cover.1477578530.git.jpoimboe@redhat.com/
+> v2:
+>   https://lore.kernel.org/lkml/f52d29f7-7d1b-ad3d-050b-a9fa8878faf2@redhat.com/
+> v3:
+>   https://lore.kernel.org/lkml/20190410155058.9437-1-joe.lawrence@redhat.com/
+> v4:
+>   https://lore.kernel.org/lkml/20190509143859.9050-1-joe.lawrence@redhat.com/
+> v5:
+>   (not posted)
+>   https://github.com/joe-lawrence/klp-convert-tree/tree/klp-convert-v5-devel
+> v6:
+>   https://lore.kernel.org/live-patching/20220216163940.228309-1-joe.lawrence@redhat.com/
+> v7:
+>   https://lore.kernel.org/all/20230306140824.3858543-1-joe.lawrence@redhat.com/
 
