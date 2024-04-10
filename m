@@ -1,71 +1,71 @@
-Return-Path: <linux-kbuild+bounces-1518-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1519-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FE108A01A7
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Apr 2024 23:05:08 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E1478A01BF
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Apr 2024 23:10:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 51D821C23475
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Apr 2024 21:05:07 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 95883B25419
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Apr 2024 21:10:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D630C181D1B;
-	Wed, 10 Apr 2024 21:05:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BC771836F2;
+	Wed, 10 Apr 2024 21:10:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ClXzkN3C"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WNqDt/ie"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-io1-f44.google.com (mail-io1-f44.google.com [209.85.166.44])
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 247BC181CEA
-	for <linux-kbuild@vger.kernel.org>; Wed, 10 Apr 2024 21:05:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 752D91836CB
+	for <linux-kbuild@vger.kernel.org>; Wed, 10 Apr 2024 21:10:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712783103; cv=none; b=dT7Wkushdf0SYrwfgcPwMqw6VBJCnRLAgzCPKL4CReeLEjkEcCd6gap4bH4ClgRWjd3JM4Hp+LbOXwqG+VXt2GoBkts4tW8CCwY3D1dyQ0BoAh40xy+ZqLr0VZTVoLa4uD7MZcl2po7+YatC2YVodhdY2XuAA/nT80kAXkkr4B4=
+	t=1712783408; cv=none; b=XDeIl0xBw1nQzygVs97IB6ZxLOJofyySS4326cPZaMa5S9UdQmnB0Ynb1i4iZztHfkZx8TL+R2IZmfYzc2iErhZ5kbI6FQ/iGIkZGXnYknSuIFGEGBsGo5gKp+KAEYLExRq4B03DH31SKu8cCtDaZnKKKXtFviUrpfTHF+mw8wg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712783103; c=relaxed/simple;
-	bh=Epm6y+/+ewLDaCEGj8jeg26lhCahwkzccVZSayI3ovA=;
+	s=arc-20240116; t=1712783408; c=relaxed/simple;
+	bh=bFyrIcuDs7nmErevy2zekDsqStQqLe+bXtd72c5CLDU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ML2HroQOszXO+jvDasYjqaT+QXFcMTN/gy7JXp46sEZTmped0ZI5CZjoGTaqnW6m1ec9ldIgEr26zTgyTjGYRmlqwLQQ4b/jdRgFWtrx7WxjXjrdXGz66i4QtOZYPb7/nOaUN+/SmyxUnXvf3WEFKou/hnjUsPdpbqLeB4JeAV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ClXzkN3C; arc=none smtp.client-ip=209.85.166.44
+	 Content-Type:Content-Disposition:In-Reply-To; b=pBZoCHx9MaPuVa16jXYOc3d09oZdmL6ks0vUAYlD+UOZIoekWmA41CAUqT5Nrc8sbPb3SKaK+rjexS/Y0INJz4vKLXz9ooJBA+vMyV6K68wMb4qu22D686LXRy/DOPqRMx2T2NixI7kyrrQiIy0Mhtm3Rvk3YK39KSLMJs5GHb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WNqDt/ie; arc=none smtp.client-ip=209.85.210.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-io1-f44.google.com with SMTP id ca18e2360f4ac-7d0262036afso286219539f.3
-        for <linux-kbuild@vger.kernel.org>; Wed, 10 Apr 2024 14:05:01 -0700 (PDT)
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-6ecff9df447so5990143b3a.1
+        for <linux-kbuild@vger.kernel.org>; Wed, 10 Apr 2024 14:10:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1712783101; x=1713387901; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1712783406; x=1713388206; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=5qCz8E3Di/VZoyQ+H4jHMjBhox36aDiBbL8BntpRuyE=;
-        b=ClXzkN3CyH68JwPDsy0+DSvqvlUeBgFiCVyW1luq/5p8gW4pbxN9TmiPIleb007RrW
-         c51Itp4a6oVurrYQbySFE8PUDgdA3HTgVHUE23lxd64PF2PG44SVPBr+DFkSyvodr+dC
-         mMtT3m8HXzjSWIetg3oGSrcK89oJTT8/Q6Sg+vAJCGwiV4cXLfePzMB1gNRlhBSo8Jbx
-         FgZwFhZnFAbJKB6wS430FcNYM9Kuzt3gyYyAwUipV6V1rP243axEQr/cLxuGXGkO+x1j
-         wEW2Almj7UUlcV2jLtyXtKTLv46i2fJqHLwBoVMTD5OeiWLWJcdNI0cPqJzzomD/19MN
-         86JQ==
+        bh=Bv/V2BDcZ6BXQvfxxNM1w/X7hHGQqyp9bJFqKpeVUk0=;
+        b=WNqDt/ieiDDCpUgP6O6kSxj5PVgwLbF1THE0dpO5cAhGSYnAcLyFM2h2ZYM73cjp0m
+         sW3KlsnS0pwbtBZhVVv73zk25Y0cma1sfOSxSDXZjW8xp6gh7uWH5Rxow3wQRZ9dbNJB
+         Fy8vnzyzSN7dwz3UMG4hcZ58Xd3P38YsKWKC1A7f18tnPQWS2WZqmzT56wN06oAvqma9
+         cTzcZwExSvVWPPlfX3xOIffdLSDk2ARnk0fJh0vpd2W5nfwp+JZ1QQXiNvKmqMyBS/+P
+         GiYzSObqpgC9DuLrrjKCk99Ryh62B9+9aXtkm9cFQHqIAt3AlvBVzT4S12QiE4IRp5aA
+         SFJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712783101; x=1713387901;
+        d=1e100.net; s=20230601; t=1712783406; x=1713388206;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5qCz8E3Di/VZoyQ+H4jHMjBhox36aDiBbL8BntpRuyE=;
-        b=SDN0K8Z8PVUebLgXLql3zcGLXBDcICTG5Tdt9GPB7l7RTheci3YDeXe69xwFiKFTab
-         WfZ+6yRgARt9w5bkbq1w/8kHv/0paIaP0aDU5e0NPpAA7e1mSYuEZfQfTNp8ClixVvN/
-         96wbXzMUT0mqDMKH+7lBdrQ0PqS5ec32PFWh0KQKTNVd/6XHKbZ96U+A4l34ZL1dEdex
-         d6Xd7f6Q6xm6/G5GJFPGV7cK0Mjj38mj1R7XPHvqiMDoMdA6+c2XUE+2R+p1q7EWZFUJ
-         boyPNUe5RpK9Beh/sqjo+8YF1c5sTnatE6Qvsu01Ig3HTFWh6/n5EdDRYS1F6Y2SZQ47
-         LTAQ==
-X-Gm-Message-State: AOJu0YwHLjFosgF/PMWowmx3v37d1hAsjdd4ZIiDDKsNJDRmweP8C6P7
-	K/HgqaVlrk2mtx46Xhwzp2V7EJoyCuXN5uGlUHbFUlBI1btkDGsXK1AuTOEd0A==
-X-Google-Smtp-Source: AGHT+IHN3/xecRCfid5g0bOH7LkZ8yJnDUd9LCUKGxMaS0A+hxkDrR8tOjgJoTgIYqX095KCqX+cBg==
-X-Received: by 2002:a05:6602:4981:b0:7d0:c9c7:f52f with SMTP id eg1-20020a056602498100b007d0c9c7f52fmr5030577iob.6.1712783099842;
-        Wed, 10 Apr 2024 14:04:59 -0700 (PDT)
+        bh=Bv/V2BDcZ6BXQvfxxNM1w/X7hHGQqyp9bJFqKpeVUk0=;
+        b=mOmLrr9dSuGwKSntzNuDRBapLljmAnrlhCNPkZlaBCjCXLFLaxuRP5DeqmpfSPFoPZ
+         HiPPxF1ldxeCj+Eo7qjbEFglgOy3GSbYMzNj6P5C61+duw4XZfJ+jLcQrI5x2dZSfAIV
+         2dVgnTfQN0kEw0OPZomHx8yzc5Qa70tz1Sn9HS7fIHHb2FnGPdyDlWGYXNBh8c6htOCW
+         djWphwjoG11ELwG2td8lTmWr9zxVGhWr1kYl7M79OOVLAW6JYPh/ngLQuTrm1xnzWk6m
+         R3khlKfQhokBTfS5/erV363bu3TQQzMMhLpCg3HwRmsG/VUZeJ4BB2iBUxFH7+2OQSTe
+         I+yA==
+X-Gm-Message-State: AOJu0Yx9mAOaFVHW4Mhgz2ckDtzz6kQqGs/GYRNYzsEhTj7zezFOvZeB
+	vyJP1pcG3Ym4rZQaZ29LfHs1BCyd4X73zUUyMWECQY8IUGT/sT/5JFZiDg5z8Q==
+X-Google-Smtp-Source: AGHT+IFcUUpsX3kBlOD2hO0EgX46DmOztzcA2srIGWOFuvp0m6/PaSUmCl09aWhXL/OfU4fhOLSkSg==
+X-Received: by 2002:a05:6a00:3d42:b0:6ed:21bc:ed8c with SMTP id lp2-20020a056a003d4200b006ed21bced8cmr4678360pfb.18.1712783405518;
+        Wed, 10 Apr 2024 14:10:05 -0700 (PDT)
 Received: from google.com (30.64.135.34.bc.googleusercontent.com. [34.135.64.30])
-        by smtp.gmail.com with ESMTPSA id n5-20020a05663831c500b0047be760081asm4119002jav.154.2024.04.10.14.04.58
+        by smtp.gmail.com with ESMTPSA id w22-20020a634756000000b005dc4da2121fsm10368167pgk.6.2024.04.10.14.10.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Apr 2024 14:04:59 -0700 (PDT)
-Date: Wed, 10 Apr 2024 21:04:54 +0000
+        Wed, 10 Apr 2024 14:10:04 -0700 (PDT)
+Date: Wed, 10 Apr 2024 21:10:01 +0000
 From: Justin Stitt <justinstitt@google.com>
 To: Arnd Bergmann <arnd@kernel.org>
 Cc: linux-kbuild@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, 
@@ -78,10 +78,10 @@ Cc: linux-kbuild@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
 	Lin Ming <ming.m.lin@intel.com>, Alexey Starikovskiy <astarikovskiy@suse.de>, 
 	linux-ntfs-dev@lists.sourceforge.net, linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	linux-acpi@vger.kernel.org, acpica-devel@lists.linux.dev, linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/5] [v2] test_hexdump: avoid string truncation warning
-Message-ID: <fg6iv2dqwladc4d6tqzgg26mcyxz7c5bfn7gscic63c2qmhrz5@zvfm2btcf4fp>
+Subject: Re: [PATCH 2/5] [v2] acpi: disable -Wstringop-truncation
+Message-ID: <b5ijucc7vbamdivt5o36zqleunihy6j62u3ecg6p4jgqmajao6@xatdncyyp6jv>
 References: <20240409140059.3806717-1-arnd@kernel.org>
- <20240409140059.3806717-2-arnd@kernel.org>
+ <20240409140059.3806717-3-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -90,53 +90,62 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240409140059.3806717-2-arnd@kernel.org>
+In-Reply-To: <20240409140059.3806717-3-arnd@kernel.org>
 
-On Tue, Apr 09, 2024 at 04:00:54PM +0200, Arnd Bergmann wrote:
+Hi,
+
+On Tue, Apr 09, 2024 at 04:00:55PM +0200, Arnd Bergmann wrote:
 > From: Arnd Bergmann <arnd@arndb.de>
 > 
-> gcc can warn when a string is too long to fit into the strncpy()
-> destination buffer, as it is here depending on the function
-> arguments:
+> gcc -Wstringop-truncation warns about copying a string that results in a
+> missing nul termination:
 > 
->     inlined from 'test_hexdump_prepare_test.constprop' at /home/arnd/arm-soc/lib/test_hexdump.c:116:3:
-> include/linux/fortify-string.h:108:33: error: '__builtin_strncpy' output truncated copying between 0 and 32 bytes from a string of length 32 [-Werror=stringop-truncation]
->   108 | #define __underlying_strncpy    __builtin_strncpy
->       |                                 ^
-> include/linux/fortify-string.h:187:16: note: in expansion of macro '__underlying_strncpy'
->   187 |         return __underlying_strncpy(p, q, size);
->       |                ^~~~~~~~~~~~~~~~~~~~
+> drivers/acpi/acpica/tbfind.c: In function 'acpi_tb_find_table':
+> drivers/acpi/acpica/tbfind.c:60:9: error: 'strncpy' specified bound 6 equals destination size [-Werror=stringop-truncation]
+>    60 |         strncpy(header.oem_id, oem_id, ACPI_OEM_ID_SIZE);
+>       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> drivers/acpi/acpica/tbfind.c:61:9: error: 'strncpy' specified bound 8 equals destination size [-Werror=stringop-truncation]
+>    61 |         strncpy(header.oem_table_id, oem_table_id, ACPI_OEM_TABLE_ID_SIZE);
+>       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 > 
-> The intention here is to copy exactly 'l' bytes without any padding or
-> NUL-termination, so the most logical change is to use memcpy(), just as
-> a previous change adapted the other output from strncpy() to memcpy().
+> The code works as intended, and the warning could be addressed by using
+> a memcpy(), but turning the warning off for this file works equally well
+> and may be easir to merge.
+
+Dang, I would've really liked to see these strncpy()'s dealt with [1]!
+
+The warning is there because that specific usage of strncpy is plain
+wrong. strncpy() is a string api and this usage looks like it has
+arguments and results not resembling C-strings.
+
+Not sure if turning off correct warnings is the right call.
+
+Link: https://github.com/KSPP/linux/issues/90 [1]
+
 > 
-> Cc: Justin Stitt <justinstitt@google.com>
+> Fixes: 47c08729bf1c ("ACPICA: Fix for LoadTable operator, input strings")
+> Link: https://lore.kernel.org/lkml/CAJZ5v0hoUfv54KW7y4223Mn9E7D4xvR7whRFNLTBqCZMUxT50Q@mail.gmail.com/#t
 > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-
-This looks better than the previous strscpy() usage.
-
-Acked-by: Justin Stitt <justinstitt@google.com>
-
 > ---
-> ---
->  lib/test_hexdump.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/acpi/acpica/Makefile | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/lib/test_hexdump.c b/lib/test_hexdump.c
-> index b916801f23a8..fe2682bb21e6 100644
-> --- a/lib/test_hexdump.c
-> +++ b/lib/test_hexdump.c
-> @@ -113,7 +113,7 @@ static void __init test_hexdump_prepare_test(size_t len, int rowsize,
->  			*p++ = ' ';
->  		} while (p < test + rs * 2 + rs / gs + 1);
+> diff --git a/drivers/acpi/acpica/Makefile b/drivers/acpi/acpica/Makefile
+> index 30f3fc13c29d..8d18af396de9 100644
+> --- a/drivers/acpi/acpica/Makefile
+> +++ b/drivers/acpi/acpica/Makefile
+> @@ -5,6 +5,7 @@
 >  
-> -		strncpy(p, data_a, l);
-> +		memcpy(p, data_a, l);
->  		p += l;
->  	}
+>  ccflags-y			:= -D_LINUX -DBUILDING_ACPICA
+>  ccflags-$(CONFIG_ACPI_DEBUG)	+= -DACPI_DEBUG_OUTPUT
+> +CFLAGS_tbfind.o 		+= $(call cc-disable-warning, stringop-truncation)
 >  
+>  # use acpi.o to put all files here into acpi.o modparam namespace
+>  obj-y	+= acpi.o
 > -- 
 > 2.39.2
 > 
+
+Thanks
+Justin
 
