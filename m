@@ -1,148 +1,145 @@
-Return-Path: <linux-kbuild+bounces-1513-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1514-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCBFF89FDB4
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Apr 2024 19:05:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 016E68A00BA
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Apr 2024 21:37:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5D30A1F21908
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Apr 2024 17:05:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8FAB31F21410
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Apr 2024 19:37:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04A8717BB11;
-	Wed, 10 Apr 2024 17:04:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 904A8181326;
+	Wed, 10 Apr 2024 19:37:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IL23dQAu"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GyHMW5Bi"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f202.google.com (mail-pg1-f202.google.com [209.85.215.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDFCE17B4F5;
-	Wed, 10 Apr 2024 17:04:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C27418131B
+	for <linux-kbuild@vger.kernel.org>; Wed, 10 Apr 2024 19:37:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712768693; cv=none; b=deJ0L8F2+uxhRHGsHeNnV0L6SQk2zeujsCuvrDe/sHLfaVptMh+DDH9v3aGUTvDI4/t5KD8BoFOF4pfIoKXcT4I7xaOwvtKAel6ibWX+hR06ihShqkpADKln3hYC4OmLvAEkGk7eh6acVLOGuXkjcsEHBzqSqSL67wyd7xgaMOM=
+	t=1712777859; cv=none; b=uCTtUXaZtCYG5B6reHuOu2S5Ua+5PNeuczmWkxR5aIVtziNPSOAFPdhE/ITFKXfgDiosn49tEwKT3bv+rsiMFOucgZP14qK5iunUe9PW5PLYXndX8CnLNtydpCsojHl/1aW2RBBsQJQKL7LoAuZnFcDPbtJ7OMFlQSf76WBdShg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712768693; c=relaxed/simple;
-	bh=lGUayZ0NERip+JtN2fxcFADYK4Fi8n9sC6/iV/waWTA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nY47TYPETcHdmjfgrE0X0zXfftsdpAbX4J6oUUv/J992LDvVnh6S6NI6a+0kPk6vYXn7EpC/IHLnX6m7502WSYANq787XJDtgvIvkQaC98h316ImAF9bGUvJbHgmdNFxEKA2FUblVDoMNTEkyGKQQzAiqMQM1LGbEp1K991cXEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IL23dQAu; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED1EFC433F1;
-	Wed, 10 Apr 2024 17:04:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712768693;
-	bh=lGUayZ0NERip+JtN2fxcFADYK4Fi8n9sC6/iV/waWTA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IL23dQAuS21Z7Jri7a6tuqD9tixV+AyBTokcwo1EI/YAsR4S6ofOcLw7pBWUV6TRk
-	 XcoCJapTePCjvMsMxK8dY7Q0uHUz+ZXL9nZgBZ2D7DURT+9UG8ZKJ4fcRM8QzdN69W
-	 LtPrDLJ3HsC6Ej3jSQdp5hZHWPKD7NQII//DoX5Atb/RveQobO+xP9VbiBF9SmjZ26
-	 sCnqHBUNHvfcAPi091DcmS/Y3RloyUM9DtRU/qDmNn9T7PYIJyOb2sk+seRlRRhFJE
-	 8IoK+5TVhq45Xq8t6JK7e+FZggEzv/pRbLL8SleuxRtwSFDfdPi4PkUDMl1pPIMGrp
-	 DjOMpj3/J95EA==
-Date: Wed, 10 Apr 2024 10:04:50 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Calvin Owens <calvin@wbinvd.org>
-Cc: linux-kernel@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH] kbuild: buildtar: Add arm support
-Message-ID: <20240410170450.GA1828262@dev-arch.thelio-3990X>
-References: <e7c14a0d329e28bdcda21376b54a43c85a4aaf3f.1712682861.git.calvin@wbinvd.org>
+	s=arc-20240116; t=1712777859; c=relaxed/simple;
+	bh=xMMO6aZGP77Uw6u5kdTHAsT7oR9jSNRKOlwYEa4tcRc=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=u0kv3neKAa/uRs57WQ76xhmx3CPsfE+MZdaFTsLiEGOno7cQQz8u+nZ3k1livKXKCWjvI2r41oG5e+pVY0EOH4zPYKuX9GavG4/Kv/RTmdx/5oRZwfPkE7SNgGuUn+0zsICaWs3DimVSgaJzKa9farezUrgoWsKpZyrhR0jsMac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--elsk.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=GyHMW5Bi; arc=none smtp.client-ip=209.85.215.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--elsk.bounces.google.com
+Received: by mail-pg1-f202.google.com with SMTP id 41be03b00d2f7-5ce67a3f275so4792431a12.0
+        for <linux-kbuild@vger.kernel.org>; Wed, 10 Apr 2024 12:37:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1712777857; x=1713382657; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=qSs1Be4CKwQ+2h3+x6EEWxYTHxK+KNPpEJBGnih4gRI=;
+        b=GyHMW5BinR+Ej5hduBzL0IXUeEUPRNp7yos7sRwWLG6ZK5W0ajY9QmfdOuW98NU0lM
+         OI49FmYAIUipG1GiWwruz0ZpwJAofyD7LankDh1FWs/G70cWpOiAuAqk4HDNPp/fz6/r
+         qbqcQgABl5xZPAlV1ChHCaTOjW5jiBb2ZgN1GOs5kYzEZ/RbzOHR3Z0F84VU9/wmchdV
+         UCccwTH7v2gvEPYVrSTESNK81HbbVgvOYD/k69aXYzdXJQg3XFY5Pv1zyNTBU760yqIv
+         7VZ83YINc7yPc5Yx39xvkgiQltWPYotjjn9Top2BpxcZw9dysl2aYenPdZPg2qhrTGZN
+         iKcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712777857; x=1713382657;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qSs1Be4CKwQ+2h3+x6EEWxYTHxK+KNPpEJBGnih4gRI=;
+        b=VZXkbioE5eUTYaLkU5/zb2mKaDs5Lcv5OON0ZYMe2NjJ1xB0bPCvxlMira3ghFzvFm
+         vr6kpwJ0KRc0Z8/tcCs1+LvCIGfN/N2AVHaMYsHn15Ys+FWCVZKVFO3gx7Z5noYzX588
+         lj4m20KqTfXA5Rgpy6aXBskH5z5ohskb1LNFVuvijZAg7Zc899tRYjO98QFU8TfGZxRX
+         F82fsbIUk8NTD8dZ3CSpJiEtmuhOY4kBE7cf5ne5g9qXFkiLJbuZri9z4FI7Vbp6e9O0
+         +BHqLmGkaVUNVSnpurQ/zFKuNw9olWN0Palb2ScaL89JPrSFdhad/wtfsTwoeJ7mF0D5
+         nEIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUOoSA7uq/1ZCtVw5jzwjHQAE8Zb4H9eA/GUbJx44pFi0VzRGRxLzqDXh+2QeMW0jmVUFZpnq2/jbEO0f8Zo35hGI4i0SpHJXo1QNNK
+X-Gm-Message-State: AOJu0YwN4YjKQUNC8iWrn2Pq3z6M3h4JtSNOHCZUPAOImwX7ukYjWnKt
+	vTbX14/xthU5m+WNc+kSzL4c7Fl5qfNgk1PElwivDB+2yClgAbmkH5zYVK+L7PU/i8i3iw==
+X-Google-Smtp-Source: AGHT+IFT4CiD98c9VgqhVLXEOO44vZm368oiIi09Y7mZNWlFLMmcvrNVGJhZKWERo+1wqRzpn1au1WCO
+X-Received: from elsk.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:dbd])
+ (user=elsk job=sendgmr) by 2002:a63:df06:0:b0:5dc:8970:45a3 with SMTP id
+ u6-20020a63df06000000b005dc897045a3mr15675pgg.0.1712777857235; Wed, 10 Apr
+ 2024 12:37:37 -0700 (PDT)
+Date: Wed, 10 Apr 2024 19:37:34 +0000
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e7c14a0d329e28bdcda21376b54a43c85a4aaf3f.1712682861.git.calvin@wbinvd.org>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.44.0.478.gd926399ef9-goog
+Message-ID: <20240410193734.29788-1-elsk@google.com>
+Subject: [PATCH] module: allow UNUSED_KSYMS_WHITELIST to be relative against objtree.
+From: Yifan Hong <elsk@google.com>
+To: Luis Chamberlain <mcgrof@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>
+Cc: linux-modules@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	"=?UTF-8?q?Matthias=20M=C3=A4nnich?=" <maennich@google.com>, Ulises Mendez Martinez <umendez@google.com>, Yifan Hong <elsk@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Calvin,
+If UNUSED_KSYMS_WHITELIST is a file generated
+before Kbuild runs, and the source tree is in
+a read-only filesystem, the developer must put
+the file somewhere and specify an absolute
+path to UNUSED_KSYMS_WHITELIST. This worked,
+but if IKCONFIG=y, an absolute path is embedded
+into .config and eventually into vmlinux, causing
+the build to be less reproducible when building
+on a different machine.
 
-Thanks for the patch!
+This patch makes the handling of
+UNUSED_KSYMS_WHITELIST to be similar to
+MODULE_SIG_KEY.
 
-On Tue, Apr 09, 2024 at 10:17:07AM -0700, Calvin Owens wrote:
-> Make 'make tar-pkg' and friends work on 32-bit arm.
-> 
-> Signed-off-by: Calvin Owens <calvin@wbinvd.org>
+First, check if UNUSED_KSYMS_WHITELIST is an
+absolute path, just as before this patch. If so,
+use the path as is.
 
-Technically speaking, buildtar works for 32-bit ARM right now (I use it
-almost daily), this is just explicitly adding it to the supported list
-to avoid the warning and putting zImage at vmlinuz-${KERNELRELEASE}
-instead of vmlinux-kbuild-${KERNELRELEASE}, right?
+If it is a relative path, use wildcard to check
+the existence of the file below objtree first.
+If it does not exist, fall back to the original
+behavior of adding $(srctree)/ before the value.
 
-That said, looks mostly fine to me, one comment below.
+After this patch, the developer can put the generated
+file in objtree, then use a relative path against
+objtree in .config, eradicating any absolute paths
+that may be evaluated differently on different machines.
 
-Before:
+Signed-off-by: Yifan Hong <elsk@google.com>
+---
+ kernel/module/Kconfig    | 2 +-
+ scripts/Makefile.modpost | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-  './System.map' -> 'tar-install/boot/System.map-6.9.0-rc3-00023-g2c71fdf02a95'
-  '.config' -> 'tar-install/boot/config-6.9.0-rc3-00023-g2c71fdf02a95'
-  './vmlinux' -> 'tar-install/boot/vmlinux-6.9.0-rc3-00023-g2c71fdf02a95'
-  'arch/arm/boot/zImage' -> 'tar-install/boot/vmlinux-kbuild-6.9.0-rc3-00023-g2c71fdf02a95'
+diff --git a/kernel/module/Kconfig b/kernel/module/Kconfig
+index f3e0329337f6..cb8377a18927 100644
+--- a/kernel/module/Kconfig
++++ b/kernel/module/Kconfig
+@@ -392,7 +392,7 @@ config UNUSED_KSYMS_WHITELIST
+ 	  exported at all times, even in absence of in-tree users. The value to
+ 	  set here is the path to a text file containing the list of symbols,
+ 	  one per line. The path can be absolute, or relative to the kernel
+-	  source tree.
++	  source or obj tree.
+ 
+ config MODULES_TREE_LOOKUP
+ 	def_bool y
+diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
+index 739402f45509..efdf0cf39cf1 100644
+--- a/scripts/Makefile.modpost
++++ b/scripts/Makefile.modpost
+@@ -94,7 +94,7 @@ targets += .vmlinux.objs
+ 
+ ifdef CONFIG_TRIM_UNUSED_KSYMS
+ ksym-wl := $(CONFIG_UNUSED_KSYMS_WHITELIST)
+-ksym-wl := $(if $(filter-out /%, $(ksym-wl)),$(srctree)/)$(ksym-wl)
++ksym-wl := $(if $(wildcard $(ksym-wl)),,$(srctree)/)$(ksym-wl)
+ modpost-args += -t $(addprefix -u , $(ksym-wl))
+ modpost-deps += $(ksym-wl)
+ endif
+-- 
+2.44.0.478.gd926399ef9-goog
 
-  ** ** **  WARNING  ** ** **
-
-  Your architecture did not define any architecture-dependent files
-  to be placed into the tarball. Please add those to scripts/package/buildtar ...
-
-After:
-
-  './System.map' -> 'tar-install/boot/System.map-6.9.0-rc3-00023-g2c71fdf02a95-dirty'
-  '.config' -> 'tar-install/boot/config-6.9.0-rc3-00023-g2c71fdf02a95-dirty'
-  './vmlinux' -> 'tar-install/boot/vmlinux-6.9.0-rc3-00023-g2c71fdf02a95-dirty'
-  './arch/arm/boot/zImage' -> 'tar-install/boot/vmlinuz-6.9.0-rc3-00023-g2c71fdf02a95-dirty'
-
-and the location of zImage is the only thing that changes as expected.
-
-> ---
->  scripts/package/buildtar | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/scripts/package/buildtar b/scripts/package/buildtar
-> index 72c91a1b832f..0939f9eabbf2 100755
-> --- a/scripts/package/buildtar
-> +++ b/scripts/package/buildtar
-> @@ -101,6 +101,9 @@ case "${ARCH}" in
->  			fi
->  		done
->  		;;
-> +	arm)
-> +		[ -f "${objtree}/arch/arm/boot/zImage" ] && cp -v -- "${objtree}/arch/arm/boot/zImage" "${tmpdir}/boot/vmlinuz-${KERNELRELEASE}"
-
-While it probably does not matter too much, it would be more proper to
-make this
-
-  [ -f "${KBUILD_IMAGE}" ] && cp -v -- "${KBUILD_IMAGE}" "${tmpdir}/boot/vmlinuz-${KERNELRELEASE}"
-
-as the current line does not work with CONFIG_XIP_KERNEL=y, since zImage
-does not exist (KBUILD_IMAGE is arch/arm/boot/xipImage with this
-configuration)
-
-  $ ls arch/arm/boot
-  compressed  dts  xipImage
-
-resulting in buildtar failing because
-
-  [ -f "${objtree}/arch/arm/boot/zImage" ]
-
-fails and is the last statement that runs in the script (and the tar
-package is not really complete in this configuration anyways).
-
-Prior to this change, the correct image would get placed into the
-tarball.
-
-  'arch/arm/boot/xipImage' -> 'tar-install/boot/vmlinux-kbuild-6.9.0-rc3-00023-g2c71fdf02a95'
-
-> +		;;
->  	*)
->  		[ -f "${KBUILD_IMAGE}" ] && cp -v -- "${KBUILD_IMAGE}" "${tmpdir}/boot/vmlinux-kbuild-${KERNELRELEASE}"
->  		echo "" >&2
-> -- 
-> 2.39.2
-> 
-
-Cheers,
-Nathan
 
