@@ -1,178 +1,156 @@
-Return-Path: <linux-kbuild+bounces-1523-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1524-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 568C18A0425
-	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Apr 2024 01:41:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74AD68A072C
+	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Apr 2024 06:35:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A2A41B22AB7
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Apr 2024 23:41:45 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D2BC3B25890
+	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Apr 2024 04:35:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A884C3EA83;
-	Wed, 10 Apr 2024 23:41:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 229AF2A1C9;
+	Thu, 11 Apr 2024 04:35:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b36XwsNV"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aK3RmiAQ"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D31E2E40E;
-	Wed, 10 Apr 2024 23:41:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B6765CBD;
+	Thu, 11 Apr 2024 04:35:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712792501; cv=none; b=n0/oWu//gJZ5xZPJ9eX7AG9SUQXbb2Ro3emq9KYs27HX9Gm5aXZerYD7kNQApRPR1RHviQycNewAMy5S/KEURc7kFBZWj71MsOEzo2SdrN6TdnnBkfh4b2qQ+fjVM0jKs5oQRGpdSpETw1aHDIQYQb9ZudWMFUXCNDOw0KwO2Zw=
+	t=1712810106; cv=none; b=Qav3Ilea6up1g/Zu9puUBt89LJfABp33RVICrxhC9oy3uRl88EV2CXOanGY/9DKbP8xLWuuSdXfZYP8trdr1JV3Remx9kF/wHBew40/VuclwFw922DNTve18lvYscuEk7DikeeowOqm/CKHsgFQ69uGfuJXXCCpapBIILIJjFAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712792501; c=relaxed/simple;
-	bh=95cPUOZrv+Txpgf24vZ+Y7Z2qLuYyNsbkJU8CxFoBHs=;
+	s=arc-20240116; t=1712810106; c=relaxed/simple;
+	bh=bEijAUZrp7BndJRqhsj8GrSSnt+k5XwByNdvDerSO5s=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=n0v7S9tJgjFF/IbOZob6JeNYggNrbBOVWvjf10b5hJQjyLkPofBuLtECRPy+nX4vbjXUkA0HuePkkYhx/sTqEMN6Ftl+cFy/H6uohypcYuJ2WGQNwWX7T+xq8k9vSQ6itMbSaVXdeKbzZn9dSuhqciwcCrtZJyckNCXTxI0LRiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b36XwsNV; arc=none smtp.client-ip=209.85.215.179
+	 To:Cc:Content-Type; b=rUCGzruRQEi99JWhXm1SxNk94c6dMEdyMWvRl/McR48zRt2QPfHLLVHqUmON1rYfBeQgfekBc2QuPyR0q2Dg2iafWmkmtdvPPTpYRbc6zK5zpuvILMyTVqF4OmRBCS8IuVdc/KTzmsglUF3yO8sY2UH99cwyhsaEiwbUoIk+8Yg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aK3RmiAQ; arc=none smtp.client-ip=209.85.216.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-517ab9a4a13so5828413a12.1;
-        Wed, 10 Apr 2024 16:41:39 -0700 (PDT)
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2a2d0ca3c92so348918a91.0;
+        Wed, 10 Apr 2024 21:35:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712792499; x=1713397299; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1712810104; x=1713414904; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=CRij2JUKN+gXhnLbCfIi1jjMHZE4c+tbfwdebfMxESI=;
-        b=b36XwsNVaJ+bnI0mS33rJzRUvInuSE6qVS6InWUlYWxRYSBpf9UkncudkTbJqhu2EM
-         F6Ub4fPzwhaIZIK1mB6ZxSPPlExtlE26Aoxfu+dxm31vYM+q2O/89ZkbMwsMqgcbrh9B
-         mAUwLQY27j4YjZSNQ8l8hfo538Q3lzI+cgc2l7xk7+WkBU95bO0ENQXr+7FgBTlZ29+3
-         TjLWacYDSxrkSmNY72YT9iiFSYehnbgO3bdZSwKoxyxf1IlOh8q7l0q8KIJ4AxMBmBOZ
-         G0EpCzW6d7vfVQLW9PbKLMuhemPdaH5YYQkU9tmCujS43/lfMn/FIOx8zaZI+qi01rzj
-         cEJA==
+        bh=sEmjn6/1Suv/E32wfG8TchU/rYu06TIMqB3RylipRlQ=;
+        b=aK3RmiAQ+xeZ8LlT7Geku4tNG8b2QqMzk4/wZj3cgH4dQPKd6CkBuiiolZZtZ1cp+O
+         V4sWXawg3olMYFMHwZXYbYua5tTXQ11+hX12i3eoDlauLV2tAPN1AySn0emc4GegMws2
+         bVKoJr+OPijiKMbZX+yyMguBmwZNpxgDqMZqBk0JgsWdRNGLV7aJUujuflnb4tvARfLI
+         CcNzcQuogxU6uqorsiIx7WMvcypObx/0katTUEY/UKHIgh0f9tWFPqD2uJPqRw9bKP01
+         ArFRxNZzpxgVo5wvjfTewPoQxCr3qft2H7sKkzMq+4ZyrfPTZP6tBkdM/2AGJ8BpCZKd
+         mhUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712792499; x=1713397299;
+        d=1e100.net; s=20230601; t=1712810104; x=1713414904;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=CRij2JUKN+gXhnLbCfIi1jjMHZE4c+tbfwdebfMxESI=;
-        b=N1WDDquqQblbWmfYFHiaHK3Yx5csul3iVskJUjYgoLDoutGHTXtXwr3OKm84i5Ef4f
-         QWDIcOyIMDUVpOPgxJSArUIoUD9vdzuY6+Kh/TKLSwjPI6nGHcSYiE2vooF3uzWDZG55
-         qPV5KSr6a5pWNDrB4DucKUdsUoUl68UEPUUEGBw4OM1FYX2FykxSqeomfPVy00lIvV5S
-         318g0m9J/XpmF7hhpacrKgPDpMlpadrTk2zkB2IH96QppRhfsePSgD69EJoSpUpCE3QI
-         xHQ81XAa0jfz+DuvNORNTzBzUieWhwo/KpBZFwqTUdNiz4/SkoIS4RongR9Fh4F1AoiJ
-         INtw==
-X-Forwarded-Encrypted: i=1; AJvYcCVFu2DGh3PngRWwJ51OqTgJp2Pa2efPauIYAwOrKA0O5DDvOJIuQLKZNBkXkpbYLIFdrEyuTOgp7K4+7Q5o2IQKTWGvvTLyAs3CzFiAF8cyGxp7ckz9kEm17Wig8akSMP3dbzGKUC1LsKLV
-X-Gm-Message-State: AOJu0Yw4dG8p7Wqsi3zdfVaSDya4hUvMJhUHM8CzAupKcnJT53i7PNfQ
-	THfIpYMbwJcMmqh7KRIAsxLJTwImzBX4RCk8ZZlVVPDxxJvqdUvV+1GgxWEyYJwmyAsDmYfoL2z
-	hoOQqvrUN7zLiJKJB4Twm46SKpnw=
-X-Google-Smtp-Source: AGHT+IG36nkf0prGXlL9LwnBR5WCY/llcinzeEbi1COlc7nR2R7dJsXwAwOwy17E7g8JGa7+9MKMZ7VQ/n5W8XGksmQ=
-X-Received: by 2002:a17:90a:d254:b0:2a2:3252:cb83 with SMTP id
- o20-20020a17090ad25400b002a23252cb83mr4123737pjw.38.1712792499294; Wed, 10
- Apr 2024 16:41:39 -0700 (PDT)
+        bh=sEmjn6/1Suv/E32wfG8TchU/rYu06TIMqB3RylipRlQ=;
+        b=ugGYL24fVvTtqfyBESQLMqRKVq1+KooaFtosAgCf4CVxKR3rgTFeHhM99NZp97vh9z
+         4rE1nzdtkdqL0zG0Uv0c1nlhPFDnlLs7EFKhNWduu3u2BwoVKX8cJlHhOcmHnlPTtfI8
+         /9s+dT90bH+seLP424cJ6alxSKw18dS5UA8E9ozt5nnA8LQ/ZnJQDo3DVUubl8rKOTZD
+         ZfzgEIVKD+HAtEXTpFHsfLRjwqu91ARy8yeOBrFdLYraAOTi0o+oVJYHoPvOCy5p5xOF
+         +5oTl306i6oMQTEeNAI1gnNmmVCkxjOgw7utCt38F7zQaz7XcNc/bWWVzeTPVwOFjkdD
+         hLow==
+X-Forwarded-Encrypted: i=1; AJvYcCWO/rRyc37d3orFJB0MNBsyLS37fBVKYT8hh+BJYhxUsZFEin9LgeLomHfMabAlet2NNZedMpRAl2o4z19mdWUyMLKzRpqmfhNeMaMl2F12PkQvXXyFyS6YD6jQq8pohceO7WWXCr/QTfJg
+X-Gm-Message-State: AOJu0Yw0WYsM10n8LKkWprMc9B4b9ogzvydNNLCZvLKOT+ZzzAnABNsb
+	lGQ46WwMs4xMMF4Ht+p5dC2R/k2mrvrm32O/4tWWVkws94iIO+HZD7a7r3q7sRg5tyCMGufvEl+
+	vt4b1lmRDaWlLPn2Vy6dJNbAyBEY=
+X-Google-Smtp-Source: AGHT+IEjfkEIZVs55t1O1ovHEUqxfV3BR2fTc+DWjL4WhuAN5vFS92bmPWxom9Us4kImDaM/q2Nn9Txz0Uz82jDc7m4=
+X-Received: by 2002:a17:90a:d507:b0:2a2:c40a:1a5 with SMTP id
+ t7-20020a17090ad50700b002a2c40a01a5mr2181018pju.12.1712810103695; Wed, 10 Apr
+ 2024 21:35:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240411-as-instr-opt-wrussq-v1-1-99b1a1a99f93@gmail.com>
-In-Reply-To: <20240411-as-instr-opt-wrussq-v1-1-99b1a1a99f93@gmail.com>
+References: <20240411-as-instr-opt-wrussq-v1-1-99b1a1a99f93@gmail.com> <CAJwJo6aBbw96uo_eiDuKP5nX4EsoSYkEmaKjdMY01_Pc2z-1DA@mail.gmail.com>
+In-Reply-To: <CAJwJo6aBbw96uo_eiDuKP5nX4EsoSYkEmaKjdMY01_Pc2z-1DA@mail.gmail.com>
 From: Dmitry Safonov <0x7f454c46@gmail.com>
-Date: Thu, 11 Apr 2024 00:41:27 +0100
-Message-ID: <CAJwJo6aBbw96uo_eiDuKP5nX4EsoSYkEmaKjdMY01_Pc2z-1DA@mail.gmail.com>
+Date: Thu, 11 Apr 2024 05:34:52 +0100
+Message-ID: <CAJwJo6bw9Fo0qVC7EpAQFMXR34-vkq+A-2woE2k-=MpwOnqD7w@mail.gmail.com>
 Subject: Re: [PATCH] kbuild/x86: Use $(KBUILD_AFLAGS) in Kbuild's version of $(as-instr)
-To: 0x7f454c46@gmail.com
+To: Masahiro Yamada <masahiroy@kernel.org>
 Cc: Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
-	Ingo Molnar <mingo@redhat.com>, "H. Peter Anvin" <hpa@zytor.com>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Thomas Gleixner <tglx@linutronix.de>, x86@kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org
+	Ingo Molnar <mingo@redhat.com>, "H. Peter Anvin" <hpa@zytor.com>, Thomas Gleixner <tglx@linutronix.de>, x86@kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	Dmitry Safonov <0x7f454c46@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Please, ignore this version.
+On Thu, 11 Apr 2024 at 00:41, Dmitry Safonov <0x7f454c46@gmail.com> wrote:
+>
+> Please, ignore this version.
+>
+> the previous one was to add a helper function and that seemed to work,
+> but on rework to actually use KBUILD_AFLAGS instead of adding a new
+> function I certainly haven't tested it enough.
+> Going to prepare version 2, sorry for the noise.
 
-the previous one was to add a helper function and that seemed to work,
-but on rework to actually use KBUILD_AFLAGS instead of adding a new
-function I certainly haven't tested it enough.
-Going to prepare version 2, sorry for the noise.
+Yeah, in the end I debugged why it doesn't work, for the same machine
+as in the patch message:
+$ grep KBUILD_AFLAGS include/config/auto.conf.cmd
+ifneq "$(KBUILD_AFLAGS)" "-D__ASSEMBLY__ -fno-PIE -m64 "
 
-On Thu, 11 Apr 2024 at 00:24, Dmitry Safonov via B4 Relay
-<devnull+0x7f454c46.gmail.com@kernel.org> wrote:
->
-> From: Dmitry Safonov <0x7f454c46@gmail.com>
->
-> At Arista some products use compatible 32-bit userspace running on x86.
-> As a part of disto build for ia32 it also compiles the 64-bit kernel.
-> While the toolchain for the kernel build is yet the same, with 64-bit gcc:
-> > / @Bru-na-Boinne% file /usr/bin/gcc-11
-> > /usr/bin/gcc-11: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=6571ad50d8f12eece053f1bac7a95a2c767f32c9, for GNU/Linux 3.2.0, stripped
->
-> It seems that gcc is being smart and detects that it's running in
-> a 32-bit container (personality flag? 32-bit mmap base? something else
-> inherited post-exec?  haven't yet figured it out) and by default tries
-> to build 32-bit binaries.
->
-> That results in a failing toolchain check:
-> > / @Bru-na-Boinne% printf "%b\n" "wrussq %rax, (%rbx)" | /usr/bin/gcc-11 -Wa,--fatal-warnings -c -x assembler-with-cpp -o /dev/null -
-> > <stdin>: Assembler messages:
-> > <stdin>:1: Error: `wrussq' is only supported in 64-bit mode
->
-> Which passes when -m64 is directly specify for the build check:
-> > / @Bru-na-Boinne% printf "%b\n" "wrussq %rax, (%rbx)" | /usr/bin/gcc-11 -m64 -Wa,--fatal-warnings -c -x assembler-with-cpp -o /dev/null -
-> > / @Bru-na-Boinne% echo $?
-> > 0
->
-> As a result, kbuild produces different value for CONFIG_AS_WRUSS
-> for native 64-bit containers and ia32 containers with 64-bit gcc,
-> which produces different kernels with enabled/disabled
-> CONFIG_X86_USER_SHADOW_STACK.
->
-> arch/x86/Makefile already properly defines KBUILD_AFLAGS += -m64,
-> which is luckly already available at the point of toolchain check
-> in arch/x86/Kconfig.assembler
->
-> By hacking around Kbuild variable the following way:
-> > --- a/scripts/Kconfig.include
-> > +++ b/scripts/Kconfig.include
-> > @@ -13,7 +13,8 @@ left_paren  := (
-> >
-> >  # $(if-success,<command>,<then>,<else>)
-> >  # Return <then> if <command> exits with 0, <else> otherwise.
-> > -if-success = $(shell,{ $(1); } >/dev/null 2>&1 && echo "$(2)" || echo "$(3)")
-> > +if-success = $(shell,echo '$(1)' 1>&2;{ $(1); } >/dev/null 2>&1 && echo "$(2)" || echo "$(3)")
->
-> I got the following output for the toolchain check, before:
-> > linux @Bru-na-Boinne% make ARCH=x86_64 oldconfig V=1 2>&1 | grep wrus
-> > printf "%b\n" "wrussq %rax,(%rbx)" | gcc  -c -x assembler-with-cpp -o /dev/null -
->
-> and after:
-> > linux @Bru-na-Boinne% make ARCH=x86_64 oldconfig V=1 2>&1 | grep wrus
-> > printf "%b\n" "wrussq %rax,(%rbx)" | gcc -D__ASSEMBLY__ -fno-PIE -m64 -c -x assembler-with-cpp -o /dev/null -
->
-> Which seems appropriate to me.
-> This also reflects the existing definition in scripts/Makefile.compiler
-> for $(as-instr) that already has $(KBUILD_AFLAGS).
->
-> Signed-off-by: Dmitry Safonov <0x7f454c46@gmail.com>
-> ---
->  scripts/Kconfig.include | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/scripts/Kconfig.include b/scripts/Kconfig.include
-> index 3ee8ecfb8c04..d8574c1faf2d 100644
-> --- a/scripts/Kconfig.include
-> +++ b/scripts/Kconfig.include
-> @@ -33,7 +33,7 @@ ld-option = $(success,$(LD) -v $(1))
->
->  # $(as-instr,<instr>)
->  # Return y if the assembler supports <instr>, n otherwise
-> -as-instr = $(success,printf "%b\n" "$(1)" | $(CC) $(CLANG_FLAGS) -Wa$(comma)--fatal-warnings -c -x assembler-with-cpp -o /dev/null -)
-> +as-instr = $(success,printf "%b\n" "$(1)" | $(CC) $(CLANG_FLAGS) $(KBUILD_AFLAGS) -Wa$(comma)--fatal-warnings -c -x assembler-with-cpp -o /dev/null -)
->
->  # check if $(CC) and $(LD) exist
->  $(error-if,$(failure,command -v $(CC)),C compiler '$(CC)' not found)
->
-> ---
-> base-commit: 2c71fdf02a95b3dd425b42f28fd47fb2b1d22702
-> change-id: 20240410-as-instr-opt-wrussq-48ec37e36204
->
-> Best regards,
-> --
-> Dmitry Safonov <0x7f454c46@gmail.com>
+Notice the trailing space? That's the thing that doesn't match with
+the $(KBUILD_AFLAGS) in top-level Makefile.
+
+Adding some more debug:
+
+> --- a/scripts/kconfig/Makefile
+> +++ b/scripts/kconfig/Makefile
+> @@ -80,8 +80,10 @@ simple-targets := oldconfig allnoconfig allyesconfig allmodconfig \
+>         helpnewconfig yes2modconfig mod2yesconfig mod2noconfig
 >
 >
+>  PHONY += $(simple-targets)
+> +$(info KBUILD_AFLAGS is "$(KBUILD_AFLAGS)")
+>
+>  $(simple-targets): $(obj)/conf
+> +       $(info KBUILD_AFLAGS for $@ "$(KBUILD_AFLAGS)")
+>         $(Q)$< $(silent) --$@ $(Kconfig)
+>
+>  PHONY += savedefconfig defconfig
+> --- a/scripts/kconfig/preprocess.c
+> +++ b/scripts/kconfig/preprocess.c
+> @@ -79,6 +79,8 @@ static char *env_expand(const char *name)
+>         if (!value)
+>                 return NULL;
+>
+> +       fprintf(stderr, "\tvariable '%s' = '%s'\n", name, value);
+> +
+>         /*
+>          * We need to remember all referenced environment variables.
+>          * They will be written out to include/config/auto.conf.cmd
+
+Results in
+>          variable 'KBUILD_AFLAGS' = '-D__ASSEMBLY__ -fno-PIE -m64 '
+(with the trailing space),
+> KBUILD_AFLAGS is "-D__ASSEMBLY__ -fno-PIE -m64"
+> KBUILD_AFLAGS for syncconfig "-D__ASSEMBLY__ -fno-PIE -m64 "
+
+Ok, so the variable is actually being updated by a common rule in
+> scripts/Makefile.lib:KBUILD_AFLAGS += $(subdir-asflags-y)
+
+Which adds a trailing space to $(KBUILD_AFLAGS) and as a result breaks
+the comparison in include/config/auto.conf.cmd
+
+So, I see 3 options for the patch in the thread:
+1. Simple and ugly: add ifneq to scripts/Makefile.lib and update
+KBUILD_AFLAGS only if $(subdir-asflags-y) is not empty.
+2. Maybe a better one: remove trailing (and potentially leading, and
+duplicate) spaces for expanded variables in
+scripts/kconfig/preprocess.c
+3. If the issue in the patch description is not worth it: I could just
+work that around in the build system.
+
+Please, advise what's your opinion/views.
+
+Thanks,
+             Dmitry
 
