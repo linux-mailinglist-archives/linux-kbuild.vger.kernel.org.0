@@ -1,234 +1,163 @@
-Return-Path: <linux-kbuild+bounces-1545-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1546-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E91BA8A4157
-	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Apr 2024 10:49:04 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2074F8A446E
+	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Apr 2024 19:42:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9AC70281D49
-	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Apr 2024 08:49:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 50C101C210A2
+	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Apr 2024 17:42:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75B4020DE8;
-	Sun, 14 Apr 2024 08:49:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 167C313540A;
+	Sun, 14 Apr 2024 17:42:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IILAy9SM"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Oh9g1Xmr"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F2A8442F;
-	Sun, 14 Apr 2024 08:49:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1CA629B0;
+	Sun, 14 Apr 2024 17:42:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713084542; cv=none; b=KUvX6vxfbzhq7SlwikmQvC3ybr3aZbG7OxOHwjye/kqk/P56i9UTA482R9orGyTbHPI2bJ2MFRSEdOLKoWnfr9CFN1pZYoBrpnVl1z+eU3YmY7dyUNKtPpXvgZpPgKSDNBvblf5Whve6ZZ/81XtMNJjwSGiHFT5DXy0hUJwdHNQ=
+	t=1713116525; cv=none; b=klugOpb4Hrtt6Bus1sdbOTIMNGd7bCx4hoElmc4FuH/zuMvb9QvMWQe15DU1mk+/+kTlxPtEJUrdPFVZ7QAfODpnqusg/04wdP/dCNr93CpqTXQUfy4/brThHh0F09fC/NzhD7C0VworznYU4qCm4DhQRyi8GFW9YOwmOPXhVPs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713084542; c=relaxed/simple;
-	bh=WA4Z5y4LzUg1wHvgxOr562MTNIGpCk9DcL/aFmv8r7s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ISiWUbzG5jAdyt3FC2Q9Tl1Zi+R4f/qKJuk3YQ2VqudVtuGtDcU8p5ttqIHQErBd5GiwxStV30qIKowrazfowxrNHewf9ThGMGvIDU+WsjAEJwDeHvQQ1K9sORrF70T1fatEB5+KAcBLjZwATOxzcn1jPhGQVtdjcGkGWgPIuas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IILAy9SM; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC7ABC4AF08;
-	Sun, 14 Apr 2024 08:49:01 +0000 (UTC)
+	s=arc-20240116; t=1713116525; c=relaxed/simple;
+	bh=8FW+xrlIJHw4Gazro4tzpsbrzXitmG/UKSl2dusUcnM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=sEBzzyP0eCnbKTzsphkAT5khKZD6B41nJj50Kc/iM9Qp9Ez1yUl+PNOERq3FHZpPL2m7rLQ+lTPArjlmm6u5Hb7X9xh8KQ3nUN6am+14Ex2lulk+vnfIxStqEumYSRET2b+Xp6psV5yssbdN7/t6WNFt5Rv56NpsiFwvEquWahE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Oh9g1Xmr; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 790A9C072AA;
+	Sun, 14 Apr 2024 17:42:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713084541;
-	bh=WA4Z5y4LzUg1wHvgxOr562MTNIGpCk9DcL/aFmv8r7s=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=IILAy9SMbVFryjOp1yaDSBTcXqEp6F1G6uFaPUq/p2iNPnpUgweQkot9YK5ckFodO
-	 +54tZEVIKpkB6iZ2VeceNGfv0+nuV82qYYNoVT3/53Ceqd0lOk+vSIYU5Zrjmk4tyz
-	 L4q/2lBG93rXYXI5yra3YIGh0e3IX64h1f6e0MRE7EazTxN1p/HJeLFVro/5XzSf1/
-	 1LBqcmd3F4cz9cG2pd6OOw+Pc1tXlTc0Txr2nfDzrmvX5JLgK9IZa4hpEcPPrNb3O8
-	 0naa/IgMDgqCVXwcW4P+r+q4B5MSnPFt1yXgIwO5CWMKlZdf7QrjEvXXJpHZnd4CV/
-	 W4V6wn1fl+nLw==
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2d47a92cfefso27037331fa.1;
-        Sun, 14 Apr 2024 01:49:01 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWps8bp8nJ8vbAx91HG0LDlYGoCEKgByj8zgMzwB5WY0BvZ9UTagUWCmVmhB2eOdDnDiZP1uAwnjigFAcGpTzf+Gq0FcqnWxqtFTV9HyKFCVofFpPRfY+mD7xSLbwQtzrSBhjhlriWa2ecOeYAi78DYxZgmAnmzE3ylq6hsph1jz0mhbIem
-X-Gm-Message-State: AOJu0YwOFdam0GAGQJmyVP+y3tC7TNEb0eKS5GGwWe99JjP4v0tajPIi
-	4MUw2FIo7kySh75v7Jpb9du78gPOrFW34Opj20y87MFLNYtQZLR+L0j+n+40GlpbxwETGkKGT+V
-	SnTHlK/FS/XZmKQcIIkWYhbP3XlU=
-X-Google-Smtp-Source: AGHT+IEgpOQI7bc9N8P85ZOSzlsU+QPBBv57blvXTmes/zs5XTE8cam7YyEYUKDCrpT4dy9CWt5ks9lNisbeKp32K7o=
-X-Received: by 2002:a2e:8012:0:b0:2d8:d23a:f440 with SMTP id
- j18-20020a2e8012000000b002d8d23af440mr3946646ljg.6.1713084540184; Sun, 14 Apr
- 2024 01:49:00 -0700 (PDT)
+	s=k20201202; t=1713116524;
+	bh=8FW+xrlIJHw4Gazro4tzpsbrzXitmG/UKSl2dusUcnM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Oh9g1Xmr9/brFwe2Ey7SwaFfQuyI5pFhHnx/glRDIYnuDpG2reshHENaWrJz4cp8+
+	 TsaJKekv74BEUxPDHmJ2ri9w8SQZKokuMvxf2y6/nXKdRm93OtMpKDju2OCMOpFMfh
+	 r1uGBAxKjP7feV9SoN4drqmxD0uEVuJqg1E0NYXmyixyYTRC0f1qnwUgpB7niqL9Ub
+	 jfo+PPQ+rLx/3Km4F8Xdv81gZtjKOZ21vseUoL5MvlDW6f492i9mn5dzyK6wH1rMQm
+	 rewJvPGN/xeGOrVKdWescBSbci4Ubns8Teabo2T3QvnpPKrEJg+KxDLVJ0375ogV0P
+	 QKFGmz95c3ywA==
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: linux-kbuild@vger.kernel.org
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org
+Subject: [PATCH] kbuild: buildtar: add comments about inconsistent package generation
+Date: Mon, 15 Apr 2024 02:41:39 +0900
+Message-Id: <20240414174139.3001175-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240405165610.1537698-1-vchernou@cisco.com> <ZhfLrGrED-ls6i5V@buildd.core.avm.de>
- <ZhgdjpE+yl3IYSzl@goliath> <Zhg5L2xO_lT4lLwp@fjasle.eu> <DS0PR11MB77652A4C98FCB671F5E5F3EEDE042@DS0PR11MB7765.namprd11.prod.outlook.com>
-In-Reply-To: <DS0PR11MB77652A4C98FCB671F5E5F3EEDE042@DS0PR11MB7765.namprd11.prod.outlook.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sun, 14 Apr 2024 17:48:23 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASYjbMdq=R5hpgrGH3LFMhNKaEK4BEQOe3XoHDMrEaaDQ@mail.gmail.com>
-Message-ID: <CAK7LNASYjbMdq=R5hpgrGH3LFMhNKaEK4BEQOe3XoHDMrEaaDQ@mail.gmail.com>
-Subject: Re: [PATCH v3] Add MO(mod objs) variable to process ext modules with subdirs
-To: "Valerii Chernous -X (vchernou - GLOBALLOGIC INC at Cisco)" <vchernou@cisco.com>
-Cc: Nicolas Schier <nicolas@fjasle.eu>, "Daniel Walker (danielwa)" <danielwa@cisco.com>, 
-	Nicolas Schier <n.schier@avm.de>, Nathan Chancellor <nathan@kernel.org>, 
-	"xe-linux-external(mailer list)" <xe-linux-external@cisco.com>, Jonathan Corbet <corbet@lwn.net>, 
-	"linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-The workaround described in the commit message
-(overwrite 'src') is different from what I know.
+scripts/package/buildtar checks some kernel packages, and copies the
+first image found. This may potentially produce an inconsistent (and
+possibly wrong) package.
 
+For instance, the for-loop for arm64 checks Image.{bz2,gz,lz4,lzma,lzo},
+and vmlinuz.efi, then copies the first image found, which might be a
+stale image.
 
-As I explained to Daniel before, the point is,
-O= refers to the kernel output directory, and
-M= specifies a relative path to your downstream
-module directory.
+When CONFIG_EFI_ZBOOT is enabled in the pristine source tree,
+'make ARCH=arm64 tar-pkg' will build and copy vmlinuz.efi. This is the
+expected behavior.
 
+If you build the kernel with CONFIG_EFI_ZBOOT, Image.gz will be created,
+which will remain in the build directory unless you clean it. Even if
+CONFIG_EFI_ZBOOT is turned on later, 'make ARCH=arm64 tar-pkg' will copy
+stale Image.gz instead of the latest vmlinuz.efi, as Image.gz takes
+precedence over vmlinuz.efi.
 
-Say, you have a linux source tree and external modules
-under ~/my-project-src/, and you want to output all
-build artifacts under ~/my-build-dir/.
+In summary, the code "[ -f ... ] && cp" does not consistently produce
+the desired outcome.
 
+The other package scripts are deterministic; scripts/package/mkdebian,
+for example, chooses a copied kernel image based on CONFIG options.
 
-my-project-src
-|-- linux
-\-- my-modules
+I removed [ -f ... ] checks from x86, alpha, parisc, and the default
+because they have a single kernel image to copy. If it is missing, it
+should be an error.
 
+I did not modify the code for mips, arm64, riscv. Instead, I left some
+comments. Eventually, someone may fix the code, or at the very least,
+it may discourage the copy-pasting of incorrect code.
 
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
+ scripts/package/buildtar | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
 
-masahiro@zoe:~/my-project-src/my-modules$ tree
-.
-|-- Kbuild
-|-- dir1
-|   |-- Kbuild
-|   |-- bar.c
-|   `-- dir2
-|       |-- Kbuild
-|       `-- baz.c
-`-- foo.c
+diff --git a/scripts/package/buildtar b/scripts/package/buildtar
+index 72c91a1b832f..ed8d9b496305 100755
+--- a/scripts/package/buildtar
++++ b/scripts/package/buildtar
+@@ -53,18 +53,24 @@ cp -v -- "${objtree}/vmlinux" "${tmpdir}/boot/vmlinux-${KERNELRELEASE}"
+ #
+ # Install arch-specific kernel image(s)
+ #
++# Note:
++#   mips, arm64, and riscv copy the first image found. This may not produce
++#   the desired outcome because it may pick up a stale file remaining in the
++#   build tree.
++#
+ case "${ARCH}" in
+ 	x86|i386|x86_64)
+-		[ -f "${objtree}/arch/x86/boot/bzImage" ] && cp -v -- "${objtree}/arch/x86/boot/bzImage" "${tmpdir}/boot/vmlinuz-${KERNELRELEASE}"
++		cp -v -- "${objtree}/arch/x86/boot/bzImage" "${tmpdir}/boot/vmlinuz-${KERNELRELEASE}"
+ 		;;
+ 	alpha)
+-		[ -f "${objtree}/arch/alpha/boot/vmlinux.gz" ] && cp -v -- "${objtree}/arch/alpha/boot/vmlinux.gz" "${tmpdir}/boot/vmlinuz-${KERNELRELEASE}"
++		cp -v -- "${objtree}/arch/alpha/boot/vmlinux.gz" "${tmpdir}/boot/vmlinuz-${KERNELRELEASE}"
+ 		;;
+ 	parisc*)
+-		[ -f "${KBUILD_IMAGE}" ] && cp -v -- "${KBUILD_IMAGE}" "${tmpdir}/boot/vmlinux-${KERNELRELEASE}"
++		cp -v -- "${KBUILD_IMAGE}" "${tmpdir}/boot/vmlinux-${KERNELRELEASE}"
+ 		[ -f "${objtree}/lifimage" ] && cp -v -- "${objtree}/lifimage" "${tmpdir}/boot/lifimage-${KERNELRELEASE}"
+ 		;;
+ 	mips)
++		# Please note the following code may copy a stale file.
+ 		if [ -f "${objtree}/arch/mips/boot/compressed/vmlinux.bin" ]; then
+ 			cp -v -- "${objtree}/arch/mips/boot/compressed/vmlinux.bin" "${tmpdir}/boot/vmlinuz-${KERNELRELEASE}"
+ 		elif [ -f "${objtree}/arch/mips/boot/compressed/vmlinux.ecoff" ]; then
+@@ -86,6 +92,7 @@ case "${ARCH}" in
+ 		fi
+ 		;;
+ 	arm64)
++		# Please note the following code may copy a stale file.
+ 		for i in Image.bz2 Image.gz Image.lz4 Image.lzma Image.lzo vmlinuz.efi ; do
+ 			if [ -f "${objtree}/arch/arm64/boot/${i}" ] ; then
+ 				cp -v -- "${objtree}/arch/arm64/boot/${i}" "${tmpdir}/boot/vmlinuz-${KERNELRELEASE}"
+@@ -94,6 +101,7 @@ case "${ARCH}" in
+ 		done
+ 		;;
+ 	riscv)
++		# Please note the following code may copy a stale file.
+ 		for i in Image.bz2 Image.gz Image; do
+ 			if [ -f "${objtree}/arch/riscv/boot/${i}" ] ; then
+ 				cp -v -- "${objtree}/arch/riscv/boot/${i}" "${tmpdir}/boot/vmlinux-${KERNELRELEASE}"
+@@ -102,7 +110,7 @@ case "${ARCH}" in
+ 		done
+ 		;;
+ 	*)
+-		[ -f "${KBUILD_IMAGE}" ] && cp -v -- "${KBUILD_IMAGE}" "${tmpdir}/boot/vmlinux-kbuild-${KERNELRELEASE}"
++		cp -v -- "${KBUILD_IMAGE}" "${tmpdir}/boot/vmlinux-kbuild-${KERNELRELEASE}"
+ 		echo "" >&2
+ 		echo '** ** **  WARNING  ** ** **' >&2
+ 		echo "" >&2
+-- 
+2.40.1
 
-3 directories, 6 files
-
-
-masahiro@zoe:~/my-project-src/my-modules$ cat Kbuild
-obj-m += foo.o
-obj-m += dir1/
-
-masahiro@zoe:~/my-project-src/my-modules$ cat dir1/Kbuild
-obj-m += bar.o
-obj-m += dir2/
-
-masahiro@zoe:~/my-project-src/my-modules$ cat dir1/dir2/Kbuild
-obj-m += baz.o
-
-
-
-First, build the kernel and external modules
-in separate output directories.
-
-masahiro@zoe:~/my-project-src/linux$ make O=~/my-build-dir/linux defconfig all
-[ snip ]
-
-
-masahiro@zoe:~/my-project-src/linux$ make O=~/my-build-dir/linux M=../my-modules
-make[1]: Entering directory '/home/masahiro/my-build-dir/linux'
-  CC [M]  ../my-modules/dir1/dir2/baz.o
-  CC [M]  ../my-modules/dir1/bar.o
-  CC [M]  ../my-modules/foo.o
-  MODPOST ../my-modules/Module.symvers
-  CC [M]  ../my-modules/foo.mod.o
-  LD [M]  ../my-modules/foo.ko
-  CC [M]  ../my-modules/dir1/bar.mod.o
-  LD [M]  ../my-modules/dir1/bar.ko
-  CC [M]  ../my-modules/dir1/dir2/baz.mod.o
-  LD [M]  ../my-modules/dir1/dir2/baz.ko
-make[1]: Leaving directory '/home/masahiro/my-build-dir/linux'
-
-
-masahiro@zoe:~/my-build-dir/my-modules$ tree
-.
-|-- Module.symvers
-|-- dir1
-|   |-- bar.ko
-|   |-- bar.mod
-|   |-- bar.mod.c
-|   |-- bar.mod.o
-|   |-- bar.o
-|   |-- dir2
-|   |   |-- baz.ko
-|   |   |-- baz.mod
-|   |   |-- baz.mod.c
-|   |   |-- baz.mod.o
-|   |   |-- baz.o
-|   |   `-- modules.order
-|   `-- modules.order
-|-- foo.ko
-|-- foo.mod
-|-- foo.mod.c
-|-- foo.mod.o
-|-- foo.o
-`-- modules.order
-
-3 directories, 19 files
-
-
-I saw this before somewhere.
-I believe it is a well-known workaround
-that works with recursion.
-
-
-
-
-
-
-This patch submission is not helpful.
-
-
-Kbuild does not support the external module builds
-in a separate output directory.
-Most people know this limitation for a long time.
-You are not the first person to discover it.
-
-
-Second, anybody can write a patch like yours
-in several minutes.
-
-
-There already exists a similar (but more correct) patch:
-
-  https://lore.kernel.org/linux-kbuild/e58cba84c90c40108ac678500f33655e@xiaomi.com/
-
-
-That one works more correctly than yours, because modpost
-works with no error, and 'make clean' works too.
-
-
-I am not suggesting to fix scripts/{Makefile.modpost,Makefile.clean}.
-
-
-If such a patch had been acceptable,
-it would have been accepted many years before.
-
-
-Things are, the decision is postponed until
-we are confident about a solution.
-I must avoid a situation where a bad solution
-is upstreamed as official.
-That is worse than nothing.
-
-And, I am pretty sure that your patch is not
-the right solution.
-
-
-
-
-
-
-
-
---
-Best Regards
-
-
-Masahiro Yamada
 
