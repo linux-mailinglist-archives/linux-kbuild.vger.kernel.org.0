@@ -1,176 +1,234 @@
-Return-Path: <linux-kbuild+bounces-1544-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1545-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C0828A3E88
-	for <lists+linux-kbuild@lfdr.de>; Sat, 13 Apr 2024 22:39:17 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E91BA8A4157
+	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Apr 2024 10:49:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8BC31B213DB
-	for <lists+linux-kbuild@lfdr.de>; Sat, 13 Apr 2024 20:39:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9AC70281D49
+	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Apr 2024 08:49:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2682E4206E;
-	Sat, 13 Apr 2024 20:39:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75B4020DE8;
+	Sun, 14 Apr 2024 08:49:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lI+AREYZ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Mt/UF+94";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lI+AREYZ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Mt/UF+94"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IILAy9SM"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 910221CABA;
-	Sat, 13 Apr 2024 20:39:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F2A8442F;
+	Sun, 14 Apr 2024 08:49:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713040751; cv=none; b=E4jxwAhbYy416SQiSFnoi2qKFHKNdT3koQpmzmftWcfdBAly/QzKF6lnHZKn9iieWKEVm4CFEr34mQlMZHCpR1hyi2DHGAjtsloA4Xwp5JAvQhkJyxieqwmCtXxSW5QFIt++vFht9Wcu08LPPcGkWl74yJZ0KYCSqXEXY9iBrf4=
+	t=1713084542; cv=none; b=KUvX6vxfbzhq7SlwikmQvC3ybr3aZbG7OxOHwjye/kqk/P56i9UTA482R9orGyTbHPI2bJ2MFRSEdOLKoWnfr9CFN1pZYoBrpnVl1z+eU3YmY7dyUNKtPpXvgZpPgKSDNBvblf5Whve6ZZ/81XtMNJjwSGiHFT5DXy0hUJwdHNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713040751; c=relaxed/simple;
-	bh=K7TkiYMgUYlPmXv8ilMJAp1j+yeVcR9ZeHT9tFmsuSY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qJUlZ85vPHyrsHZWGkwy6mEwv4bJhVACqroFDmTdEYHl3po1w7aWyO3ZjdmDGZjIooxv1m50nFEZZJybJ+8l1CLXFmKLVfsQlDKptVmYBRAtD1xdcZW4yc+iIkRcTNicDkUDNWnz4lUB1Leg9n0jrtXec7d/SLOqLA0azmknwl0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=lI+AREYZ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Mt/UF+94; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=lI+AREYZ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Mt/UF+94; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 41E0034120;
-	Sat, 13 Apr 2024 20:39:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1713040742; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=I+Z/h/6l/30nYC5Gp5Ck6rYrSVsMIV8/9sXq2H2vdqQ=;
-	b=lI+AREYZXVLvMMXrvyGx2fgXl0PddZLuF3gzkL3I+XtEVxSzAgPzKGd7mY1/KLsAU/RIo9
-	9C5OI+vbCZ3NrM0PQ63IpgGbm63vgqPkCuILo491Gp/ZzUZHMY9C7HJADozRWEfXacYT+H
-	70RXioFjIWZZ+T+JXUHX9EO9iWkQTgs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1713040742;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=I+Z/h/6l/30nYC5Gp5Ck6rYrSVsMIV8/9sXq2H2vdqQ=;
-	b=Mt/UF+94SRxRZH5u3huivNtUQNKIzOb/GtKdogmCQuipQR1OS1ccioe6OXEUR9bA6h/JEP
-	EttGif6DQIy2qvCg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1713040742; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=I+Z/h/6l/30nYC5Gp5Ck6rYrSVsMIV8/9sXq2H2vdqQ=;
-	b=lI+AREYZXVLvMMXrvyGx2fgXl0PddZLuF3gzkL3I+XtEVxSzAgPzKGd7mY1/KLsAU/RIo9
-	9C5OI+vbCZ3NrM0PQ63IpgGbm63vgqPkCuILo491Gp/ZzUZHMY9C7HJADozRWEfXacYT+H
-	70RXioFjIWZZ+T+JXUHX9EO9iWkQTgs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1713040742;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=I+Z/h/6l/30nYC5Gp5Ck6rYrSVsMIV8/9sXq2H2vdqQ=;
-	b=Mt/UF+94SRxRZH5u3huivNtUQNKIzOb/GtKdogmCQuipQR1OS1ccioe6OXEUR9bA6h/JEP
-	EttGif6DQIy2qvCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 641FA138A7;
-	Sat, 13 Apr 2024 20:39:00 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id e3NPEWTtGmZ7KgAAD6G6ig
-	(envelope-from <jdelvare@suse.de>); Sat, 13 Apr 2024 20:39:00 +0000
-Date: Sat, 13 Apr 2024 22:38:57 +0200
-From: Jean Delvare <jdelvare@suse.de>
-To: "Arnd Bergmann" <arnd@arndb.de>, "Stephen Rothwell"
- <sfr@canb.auug.org.au>
-Cc: "Arnd Bergmann" <arnd@kernel.org>, linux-kbuild@vger.kernel.org,
- "Masahiro Yamada" <masahiroy@kernel.org>, "Nathan Chancellor"
- <nathan@kernel.org>, "Greg Kroah-Hartman" <gregkh@suse.de>, "Nicolas
- Schier" <nicolas@fjasle.eu>, "Nick Desaulniers" <ndesaulniers@google.com>,
- "Bill Wendling" <morbo@google.com>, "Justin Stitt"
- <justinstitt@google.com>, linux-kernel@vger.kernel.org,
- llvm@lists.linux.dev, "Andrew Morton" <akpm@linux-foundation.org>
-Subject: Re: [PATCH 05/12] firmware: dmi-id: add a release callback function
-Message-ID: <20240413223857.7c01985f@endymion.delvare>
-In-Reply-To: <28ba40ea-7f48-41b0-ae57-99a870e68fb8@app.fastmail.com>
-References: <20240326144741.3094687-1-arnd@kernel.org>
-	<20240326145140.3257163-4-arnd@kernel.org>
-	<20240329134917.579c3557@endymion.delvare>
-	<63909b0a-7d76-418d-a54c-1061bd3b6e11@app.fastmail.com>
-	<20240408095943.48e6c0cc@endymion.delvare>
-	<28ba40ea-7f48-41b0-ae57-99a870e68fb8@app.fastmail.com>
-Organization: SUSE Linux
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-suse-linux-gnu)
+	s=arc-20240116; t=1713084542; c=relaxed/simple;
+	bh=WA4Z5y4LzUg1wHvgxOr562MTNIGpCk9DcL/aFmv8r7s=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ISiWUbzG5jAdyt3FC2Q9Tl1Zi+R4f/qKJuk3YQ2VqudVtuGtDcU8p5ttqIHQErBd5GiwxStV30qIKowrazfowxrNHewf9ThGMGvIDU+WsjAEJwDeHvQQ1K9sORrF70T1fatEB5+KAcBLjZwATOxzcn1jPhGQVtdjcGkGWgPIuas=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IILAy9SM; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC7ABC4AF08;
+	Sun, 14 Apr 2024 08:49:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713084541;
+	bh=WA4Z5y4LzUg1wHvgxOr562MTNIGpCk9DcL/aFmv8r7s=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=IILAy9SMbVFryjOp1yaDSBTcXqEp6F1G6uFaPUq/p2iNPnpUgweQkot9YK5ckFodO
+	 +54tZEVIKpkB6iZ2VeceNGfv0+nuV82qYYNoVT3/53Ceqd0lOk+vSIYU5Zrjmk4tyz
+	 L4q/2lBG93rXYXI5yra3YIGh0e3IX64h1f6e0MRE7EazTxN1p/HJeLFVro/5XzSf1/
+	 1LBqcmd3F4cz9cG2pd6OOw+Pc1tXlTc0Txr2nfDzrmvX5JLgK9IZa4hpEcPPrNb3O8
+	 0naa/IgMDgqCVXwcW4P+r+q4B5MSnPFt1yXgIwO5CWMKlZdf7QrjEvXXJpHZnd4CV/
+	 W4V6wn1fl+nLw==
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2d47a92cfefso27037331fa.1;
+        Sun, 14 Apr 2024 01:49:01 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWps8bp8nJ8vbAx91HG0LDlYGoCEKgByj8zgMzwB5WY0BvZ9UTagUWCmVmhB2eOdDnDiZP1uAwnjigFAcGpTzf+Gq0FcqnWxqtFTV9HyKFCVofFpPRfY+mD7xSLbwQtzrSBhjhlriWa2ecOeYAi78DYxZgmAnmzE3ylq6hsph1jz0mhbIem
+X-Gm-Message-State: AOJu0YwOFdam0GAGQJmyVP+y3tC7TNEb0eKS5GGwWe99JjP4v0tajPIi
+	4MUw2FIo7kySh75v7Jpb9du78gPOrFW34Opj20y87MFLNYtQZLR+L0j+n+40GlpbxwETGkKGT+V
+	SnTHlK/FS/XZmKQcIIkWYhbP3XlU=
+X-Google-Smtp-Source: AGHT+IEgpOQI7bc9N8P85ZOSzlsU+QPBBv57blvXTmes/zs5XTE8cam7YyEYUKDCrpT4dy9CWt5ks9lNisbeKp32K7o=
+X-Received: by 2002:a2e:8012:0:b0:2d8:d23a:f440 with SMTP id
+ j18-20020a2e8012000000b002d8d23af440mr3946646ljg.6.1713084540184; Sun, 14 Apr
+ 2024 01:49:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Flag: NO
-X-Spam-Score: -4.30
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	HAS_ORG_HEADER(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+References: <20240405165610.1537698-1-vchernou@cisco.com> <ZhfLrGrED-ls6i5V@buildd.core.avm.de>
+ <ZhgdjpE+yl3IYSzl@goliath> <Zhg5L2xO_lT4lLwp@fjasle.eu> <DS0PR11MB77652A4C98FCB671F5E5F3EEDE042@DS0PR11MB7765.namprd11.prod.outlook.com>
+In-Reply-To: <DS0PR11MB77652A4C98FCB671F5E5F3EEDE042@DS0PR11MB7765.namprd11.prod.outlook.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Sun, 14 Apr 2024 17:48:23 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASYjbMdq=R5hpgrGH3LFMhNKaEK4BEQOe3XoHDMrEaaDQ@mail.gmail.com>
+Message-ID: <CAK7LNASYjbMdq=R5hpgrGH3LFMhNKaEK4BEQOe3XoHDMrEaaDQ@mail.gmail.com>
+Subject: Re: [PATCH v3] Add MO(mod objs) variable to process ext modules with subdirs
+To: "Valerii Chernous -X (vchernou - GLOBALLOGIC INC at Cisco)" <vchernou@cisco.com>
+Cc: Nicolas Schier <nicolas@fjasle.eu>, "Daniel Walker (danielwa)" <danielwa@cisco.com>, 
+	Nicolas Schier <n.schier@avm.de>, Nathan Chancellor <nathan@kernel.org>, 
+	"xe-linux-external(mailer list)" <xe-linux-external@cisco.com>, Jonathan Corbet <corbet@lwn.net>, 
+	"linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 12 Apr 2024 11:42:03 +0200, Arnd Bergmann wrote:
-> On Mon, Apr 8, 2024, at 09:59, Jean Delvare wrote:
-> > On Thu, 04 Apr 2024 16:07:55 +0200, Arnd Bergmann wrote:  
-> >> On Fri, Mar 29, 2024, at 13:49, Jean Delvare wrote:  
-> >> > Will you get this upstream, or do you expect me to take it in my
-> >> > dmi/for-next branch?    
-> >> 
-> >> It would help me if you can apply it to your tree directly.  
-> >
-> > OK, it's in my dmi-for-next branch now:
-> >
-> > https://git.kernel.org/pub/scm/linux/kernel/git/jdelvare/staging.git/log/?h=dmi-for-next  
-> 
-> I see it's in your tree, but I don't see your tree in linux-next.
->
-> As all the other fixes from my series got merged, I would like to
-> merge the patches that turn the warnings on, but that still
-> causes a build-time regression.
-> 
-> Is there a reason for the dmi-next tree not being part of
-> linux-next, or should we ask Stephen (added to Cc) to add it?
+The workaround described in the commit message
+(overwrite 'src') is different from what I know.
 
-Hmm, Stephen cleaned up the list of trees he pulls from 2 months ago.
-Back then, I objected that I may use my tree again in the future, and I
-thought he had added it back to the list, but maybe I misunderstood.
 
-Stephen, can you check if you still pull from tree above, and if not,
-add it back to the list? Thanks in advance.
+As I explained to Daniel before, the point is,
+O= refers to the kernel output directory, and
+M= specifies a relative path to your downstream
+module directory.
 
--- 
-Jean Delvare
-SUSE L3 Support
+
+Say, you have a linux source tree and external modules
+under ~/my-project-src/, and you want to output all
+build artifacts under ~/my-build-dir/.
+
+
+my-project-src
+|-- linux
+\-- my-modules
+
+
+
+
+masahiro@zoe:~/my-project-src/my-modules$ tree
+.
+|-- Kbuild
+|-- dir1
+|   |-- Kbuild
+|   |-- bar.c
+|   `-- dir2
+|       |-- Kbuild
+|       `-- baz.c
+`-- foo.c
+
+3 directories, 6 files
+
+
+masahiro@zoe:~/my-project-src/my-modules$ cat Kbuild
+obj-m += foo.o
+obj-m += dir1/
+
+masahiro@zoe:~/my-project-src/my-modules$ cat dir1/Kbuild
+obj-m += bar.o
+obj-m += dir2/
+
+masahiro@zoe:~/my-project-src/my-modules$ cat dir1/dir2/Kbuild
+obj-m += baz.o
+
+
+
+First, build the kernel and external modules
+in separate output directories.
+
+masahiro@zoe:~/my-project-src/linux$ make O=~/my-build-dir/linux defconfig all
+[ snip ]
+
+
+masahiro@zoe:~/my-project-src/linux$ make O=~/my-build-dir/linux M=../my-modules
+make[1]: Entering directory '/home/masahiro/my-build-dir/linux'
+  CC [M]  ../my-modules/dir1/dir2/baz.o
+  CC [M]  ../my-modules/dir1/bar.o
+  CC [M]  ../my-modules/foo.o
+  MODPOST ../my-modules/Module.symvers
+  CC [M]  ../my-modules/foo.mod.o
+  LD [M]  ../my-modules/foo.ko
+  CC [M]  ../my-modules/dir1/bar.mod.o
+  LD [M]  ../my-modules/dir1/bar.ko
+  CC [M]  ../my-modules/dir1/dir2/baz.mod.o
+  LD [M]  ../my-modules/dir1/dir2/baz.ko
+make[1]: Leaving directory '/home/masahiro/my-build-dir/linux'
+
+
+masahiro@zoe:~/my-build-dir/my-modules$ tree
+.
+|-- Module.symvers
+|-- dir1
+|   |-- bar.ko
+|   |-- bar.mod
+|   |-- bar.mod.c
+|   |-- bar.mod.o
+|   |-- bar.o
+|   |-- dir2
+|   |   |-- baz.ko
+|   |   |-- baz.mod
+|   |   |-- baz.mod.c
+|   |   |-- baz.mod.o
+|   |   |-- baz.o
+|   |   `-- modules.order
+|   `-- modules.order
+|-- foo.ko
+|-- foo.mod
+|-- foo.mod.c
+|-- foo.mod.o
+|-- foo.o
+`-- modules.order
+
+3 directories, 19 files
+
+
+I saw this before somewhere.
+I believe it is a well-known workaround
+that works with recursion.
+
+
+
+
+
+
+This patch submission is not helpful.
+
+
+Kbuild does not support the external module builds
+in a separate output directory.
+Most people know this limitation for a long time.
+You are not the first person to discover it.
+
+
+Second, anybody can write a patch like yours
+in several minutes.
+
+
+There already exists a similar (but more correct) patch:
+
+  https://lore.kernel.org/linux-kbuild/e58cba84c90c40108ac678500f33655e@xiaomi.com/
+
+
+That one works more correctly than yours, because modpost
+works with no error, and 'make clean' works too.
+
+
+I am not suggesting to fix scripts/{Makefile.modpost,Makefile.clean}.
+
+
+If such a patch had been acceptable,
+it would have been accepted many years before.
+
+
+Things are, the decision is postponed until
+we are confident about a solution.
+I must avoid a situation where a bad solution
+is upstreamed as official.
+That is worse than nothing.
+
+And, I am pretty sure that your patch is not
+the right solution.
+
+
+
+
+
+
+
+
+--
+Best Regards
+
+
+Masahiro Yamada
 
