@@ -1,163 +1,120 @@
-Return-Path: <linux-kbuild+bounces-1546-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1547-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2074F8A446E
-	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Apr 2024 19:42:09 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4B748A45F2
+	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Apr 2024 00:26:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 50C101C210A2
-	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Apr 2024 17:42:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5D6F31F2121B
+	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Apr 2024 22:26:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 167C313540A;
-	Sun, 14 Apr 2024 17:42:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 499B8137750;
+	Sun, 14 Apr 2024 22:26:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Oh9g1Xmr"
+	dkim=pass (2048-bit key) header.d=rothwell.id.au header.i=@rothwell.id.au header.b="WY6eyNg6"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.rothwell.id.au (gimli.rothwell.id.au [103.230.158.156])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1CA629B0;
-	Sun, 14 Apr 2024 17:42:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE296136E21;
+	Sun, 14 Apr 2024 22:26:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.230.158.156
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713116525; cv=none; b=klugOpb4Hrtt6Bus1sdbOTIMNGd7bCx4hoElmc4FuH/zuMvb9QvMWQe15DU1mk+/+kTlxPtEJUrdPFVZ7QAfODpnqusg/04wdP/dCNr93CpqTXQUfy4/brThHh0F09fC/NzhD7C0VworznYU4qCm4DhQRyi8GFW9YOwmOPXhVPs=
+	t=1713133588; cv=none; b=ZjP1jOZ1RRmNwl+yoiLT+IUXqzddB42uCnUUtEJ3i/TTrbkBahZ54BA9VPSq2XrMSIfZzGL7ebNDBM5HAnDoJLtmYDDl+dTcEYgJqUJBHxePrdmpspKEIP1vntnibSVRNWxsbG2X8WreDLctPYCPtjYmfminQLSJwI3XZwcs3So=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713116525; c=relaxed/simple;
-	bh=8FW+xrlIJHw4Gazro4tzpsbrzXitmG/UKSl2dusUcnM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=sEBzzyP0eCnbKTzsphkAT5khKZD6B41nJj50Kc/iM9Qp9Ez1yUl+PNOERq3FHZpPL2m7rLQ+lTPArjlmm6u5Hb7X9xh8KQ3nUN6am+14Ex2lulk+vnfIxStqEumYSRET2b+Xp6psV5yssbdN7/t6WNFt5Rv56NpsiFwvEquWahE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Oh9g1Xmr; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 790A9C072AA;
-	Sun, 14 Apr 2024 17:42:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713116524;
-	bh=8FW+xrlIJHw4Gazro4tzpsbrzXitmG/UKSl2dusUcnM=;
-	h=From:To:Cc:Subject:Date:From;
-	b=Oh9g1Xmr9/brFwe2Ey7SwaFfQuyI5pFhHnx/glRDIYnuDpG2reshHENaWrJz4cp8+
-	 TsaJKekv74BEUxPDHmJ2ri9w8SQZKokuMvxf2y6/nXKdRm93OtMpKDju2OCMOpFMfh
-	 r1uGBAxKjP7feV9SoN4drqmxD0uEVuJqg1E0NYXmyixyYTRC0f1qnwUgpB7niqL9Ub
-	 jfo+PPQ+rLx/3Km4F8Xdv81gZtjKOZ21vseUoL5MvlDW6f492i9mn5dzyK6wH1rMQm
-	 rewJvPGN/xeGOrVKdWescBSbci4Ubns8Teabo2T3QvnpPKrEJg+KxDLVJ0375ogV0P
-	 QKFGmz95c3ywA==
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: linux-kbuild@vger.kernel.org
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Subject: [PATCH] kbuild: buildtar: add comments about inconsistent package generation
-Date: Mon, 15 Apr 2024 02:41:39 +0900
-Message-Id: <20240414174139.3001175-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.40.1
+	s=arc-20240116; t=1713133588; c=relaxed/simple;
+	bh=+ghWU8oi0+edXCpEfVT/DjC4E+tVj0hs8sTKXvlPtf0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=if4NwcQ1t5OIUypiTwwtBOOxeFPvNuF2DSK2DspMgNHtPy+ngKvbuDsvG6M6DbQdAvmlll8V8iDJcBUWcUuJBxQciBWVGrT8GxXJXhrV6ecY+Nrfzws/9L3MMcKps6bZt4c8L0EI/gXg2dUz1F+27ssHjJn3Ie0pxHqmteJbQUw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rothwell.id.au; spf=pass smtp.mailfrom=rothwell.id.au; dkim=pass (2048-bit key) header.d=rothwell.id.au header.i=@rothwell.id.au header.b=WY6eyNg6; arc=none smtp.client-ip=103.230.158.156
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rothwell.id.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rothwell.id.au
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rothwell.id.au;
+	s=201702; t=1713133115;
+	bh=Zex7vZfysAqqFpHFj6AZeIO2KXBBGaa1ARC2QHSXc74=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=WY6eyNg6TN9czkOHxS+N5riRPXMqHUyhdFEwHOTONBBolw2rgaQfyeM8lbxX+anxx
+	 0/DOtaDgWNjHMrF3xLwFUZljv46CEOsOyU8qjCCjYu770DvRSerOJKRJ7PP+UifM3G
+	 Aq2kVJuSUz3oP1qp8kC2WNxuWZYCDmW6b6Ca5EQ2m9h2MqpZkReEmYCwEjzoZuWes1
+	 unjtT5l4BwPVvYg0k97WywfN2uPYcTRrOHBWif1WMPB8xAZqk9AaXVPle0Xy5hycBV
+	 Co6rn7ySrWmXySGJQ+6olpn5rFHOkfGiFbNtHUCAF6wHwgqKRmY4G+JpcoqZAuBoU5
+	 74jny6yFeHH2Q==
+Received: from authenticated.rothwell.id.au (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.rothwell.id.au (Postfix) with ESMTPSA id 4VHl7X3MpBz8R;
+	Mon, 15 Apr 2024 08:18:32 +1000 (AEST)
+Date: Mon, 15 Apr 2024 08:18:30 +1000
+From: Stephen Rothwell <sfr@rothwell.id.au>
+To: Jean Delvare <jdelvare@suse.de>
+Cc: "Arnd Bergmann" <arnd@arndb.de>, "Stephen Rothwell"
+ <sfr@canb.auug.org.au>, "Arnd Bergmann" <arnd@kernel.org>,
+ linux-kbuild@vger.kernel.org, "Masahiro Yamada" <masahiroy@kernel.org>,
+ "Nathan Chancellor" <nathan@kernel.org>, "Greg Kroah-Hartman"
+ <gregkh@suse.de>, "Nicolas Schier" <nicolas@fjasle.eu>, "Nick Desaulniers"
+ <ndesaulniers@google.com>, "Bill Wendling" <morbo@google.com>, "Justin
+ Stitt" <justinstitt@google.com>, linux-kernel@vger.kernel.org,
+ llvm@lists.linux.dev, "Andrew Morton" <akpm@linux-foundation.org>
+Subject: Re: [PATCH 05/12] firmware: dmi-id: add a release callback function
+Message-ID: <20240415081830.3057ade1@oak>
+In-Reply-To: <20240413223857.7c01985f@endymion.delvare>
+References: <20240326144741.3094687-1-arnd@kernel.org>
+	<20240326145140.3257163-4-arnd@kernel.org>
+	<20240329134917.579c3557@endymion.delvare>
+	<63909b0a-7d76-418d-a54c-1061bd3b6e11@app.fastmail.com>
+	<20240408095943.48e6c0cc@endymion.delvare>
+	<28ba40ea-7f48-41b0-ae57-99a870e68fb8@app.fastmail.com>
+	<20240413223857.7c01985f@endymion.delvare>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="Sig_/J+j9Uv/rB+H8SWjIizFhSRA";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
-scripts/package/buildtar checks some kernel packages, and copies the
-first image found. This may potentially produce an inconsistent (and
-possibly wrong) package.
+--Sig_/J+j9Uv/rB+H8SWjIizFhSRA
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-For instance, the for-loop for arm64 checks Image.{bz2,gz,lz4,lzma,lzo},
-and vmlinuz.efi, then copies the first image found, which might be a
-stale image.
+Hi Jean,
 
-When CONFIG_EFI_ZBOOT is enabled in the pristine source tree,
-'make ARCH=arm64 tar-pkg' will build and copy vmlinuz.efi. This is the
-expected behavior.
+On Sat, 13 Apr 2024 22:38:57 +0200 Jean Delvare <jdelvare@suse.de> wrote:
+>
+> Hmm, Stephen cleaned up the list of trees he pulls from 2 months ago.
+> Back then, I objected that I may use my tree again in the future, and I
+> thought he had added it back to the list, but maybe I misunderstood.
+>=20
+> Stephen, can you check if you still pull from tree above, and if not,
+> add it back to the list? Thanks in advance.
 
-If you build the kernel with CONFIG_EFI_ZBOOT, Image.gz will be created,
-which will remain in the build directory unless you clean it. Even if
-CONFIG_EFI_ZBOOT is turned on later, 'make ARCH=arm64 tar-pkg' will copy
-stale Image.gz instead of the latest vmlinuz.efi, as Image.gz takes
-precedence over vmlinuz.efi.
+I also misunderstood your position at the time.  I have now restored
+the dmi tree to linux-next.
 
-In summary, the code "[ -f ... ] && cp" does not consistently produce
-the desired outcome.
+--=20
+Cheers,
+Stephen Rothwell
 
-The other package scripts are deterministic; scripts/package/mkdebian,
-for example, chooses a copied kernel image based on CONFIG options.
+--Sig_/J+j9Uv/rB+H8SWjIizFhSRA
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-I removed [ -f ... ] checks from x86, alpha, parisc, and the default
-because they have a single kernel image to copy. If it is missing, it
-should be an error.
+-----BEGIN PGP SIGNATURE-----
 
-I did not modify the code for mips, arm64, riscv. Instead, I left some
-comments. Eventually, someone may fix the code, or at the very least,
-it may discourage the copy-pasting of incorrect code.
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmYcVjYACgkQAVBC80lX
+0GwWmQf+I+OtIbKE6pkPfebdfoH3KcsgRiBBVTIRuH7K668elAfMvPCxYnXK/YSM
+8lhrLeBvH/ZEpcfwrSVun4uTUoouGlLYbq9MP7DTWsgCIVdrJZ0H5koh8pT47C6G
+wybvmUvhXidlIiwV4DI14iSfMGcA9dddrBre4aE65NbUN3llGFtf6apMT/zvmE1W
+yV3sHVGTIPtX5EQ5BC49rkDeBiTAiAbZ/4OL42OZh8xNAmjkcuIWwRnUzSYSxtK7
+SKq0Jm39tK0cBNTlHt0dRTtLtRKIcmptJ1KYNTPvaGfTtPOUzK9nipmMc1EKd6oj
+59qM6ec+wLRn/7hwgPB2AuH3zuHP2Q==
+=ffFN
+-----END PGP SIGNATURE-----
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
- scripts/package/buildtar | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
-
-diff --git a/scripts/package/buildtar b/scripts/package/buildtar
-index 72c91a1b832f..ed8d9b496305 100755
---- a/scripts/package/buildtar
-+++ b/scripts/package/buildtar
-@@ -53,18 +53,24 @@ cp -v -- "${objtree}/vmlinux" "${tmpdir}/boot/vmlinux-${KERNELRELEASE}"
- #
- # Install arch-specific kernel image(s)
- #
-+# Note:
-+#   mips, arm64, and riscv copy the first image found. This may not produce
-+#   the desired outcome because it may pick up a stale file remaining in the
-+#   build tree.
-+#
- case "${ARCH}" in
- 	x86|i386|x86_64)
--		[ -f "${objtree}/arch/x86/boot/bzImage" ] && cp -v -- "${objtree}/arch/x86/boot/bzImage" "${tmpdir}/boot/vmlinuz-${KERNELRELEASE}"
-+		cp -v -- "${objtree}/arch/x86/boot/bzImage" "${tmpdir}/boot/vmlinuz-${KERNELRELEASE}"
- 		;;
- 	alpha)
--		[ -f "${objtree}/arch/alpha/boot/vmlinux.gz" ] && cp -v -- "${objtree}/arch/alpha/boot/vmlinux.gz" "${tmpdir}/boot/vmlinuz-${KERNELRELEASE}"
-+		cp -v -- "${objtree}/arch/alpha/boot/vmlinux.gz" "${tmpdir}/boot/vmlinuz-${KERNELRELEASE}"
- 		;;
- 	parisc*)
--		[ -f "${KBUILD_IMAGE}" ] && cp -v -- "${KBUILD_IMAGE}" "${tmpdir}/boot/vmlinux-${KERNELRELEASE}"
-+		cp -v -- "${KBUILD_IMAGE}" "${tmpdir}/boot/vmlinux-${KERNELRELEASE}"
- 		[ -f "${objtree}/lifimage" ] && cp -v -- "${objtree}/lifimage" "${tmpdir}/boot/lifimage-${KERNELRELEASE}"
- 		;;
- 	mips)
-+		# Please note the following code may copy a stale file.
- 		if [ -f "${objtree}/arch/mips/boot/compressed/vmlinux.bin" ]; then
- 			cp -v -- "${objtree}/arch/mips/boot/compressed/vmlinux.bin" "${tmpdir}/boot/vmlinuz-${KERNELRELEASE}"
- 		elif [ -f "${objtree}/arch/mips/boot/compressed/vmlinux.ecoff" ]; then
-@@ -86,6 +92,7 @@ case "${ARCH}" in
- 		fi
- 		;;
- 	arm64)
-+		# Please note the following code may copy a stale file.
- 		for i in Image.bz2 Image.gz Image.lz4 Image.lzma Image.lzo vmlinuz.efi ; do
- 			if [ -f "${objtree}/arch/arm64/boot/${i}" ] ; then
- 				cp -v -- "${objtree}/arch/arm64/boot/${i}" "${tmpdir}/boot/vmlinuz-${KERNELRELEASE}"
-@@ -94,6 +101,7 @@ case "${ARCH}" in
- 		done
- 		;;
- 	riscv)
-+		# Please note the following code may copy a stale file.
- 		for i in Image.bz2 Image.gz Image; do
- 			if [ -f "${objtree}/arch/riscv/boot/${i}" ] ; then
- 				cp -v -- "${objtree}/arch/riscv/boot/${i}" "${tmpdir}/boot/vmlinux-${KERNELRELEASE}"
-@@ -102,7 +110,7 @@ case "${ARCH}" in
- 		done
- 		;;
- 	*)
--		[ -f "${KBUILD_IMAGE}" ] && cp -v -- "${KBUILD_IMAGE}" "${tmpdir}/boot/vmlinux-kbuild-${KERNELRELEASE}"
-+		cp -v -- "${KBUILD_IMAGE}" "${tmpdir}/boot/vmlinux-kbuild-${KERNELRELEASE}"
- 		echo "" >&2
- 		echo '** ** **  WARNING  ** ** **' >&2
- 		echo "" >&2
--- 
-2.40.1
-
+--Sig_/J+j9Uv/rB+H8SWjIizFhSRA--
 
