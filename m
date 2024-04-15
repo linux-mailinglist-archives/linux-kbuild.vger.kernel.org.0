@@ -1,170 +1,114 @@
-Return-Path: <linux-kbuild+bounces-1579-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1580-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B1F68A579A
-	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Apr 2024 18:21:34 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 122158A5848
+	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Apr 2024 18:55:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 97843B2317B
-	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Apr 2024 16:21:31 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4487FB21203
+	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Apr 2024 16:55:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7DA282890;
-	Mon, 15 Apr 2024 16:20:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0549E8248C;
+	Mon, 15 Apr 2024 16:55:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="olNOjuVN"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lB9Kcq9O"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
+Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 364BF8249F
-	for <linux-kbuild@vger.kernel.org>; Mon, 15 Apr 2024 16:20:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9774060EF9;
+	Mon, 15 Apr 2024 16:55:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713198057; cv=none; b=MvtszqQAsOlUEJh6rcwm/bugX14mLViTMMIQyPDv5d4IcUxtN10m0rQI9pHaDpfj47x1AYo/Nuw/0zpFKwtqarDNLIUqb89AT7EyHA1nUWT0XoV+UU55WLu5lk8eRbFxMugV6tRYEeXhxD0UtDzFI2MgyvPqjtwUAX2f9H7vTJA=
+	t=1713200124; cv=none; b=PnB/NPXH6MYOrOZIHPA8yk2kssFUeyozf3oTNrVcm2+03qpExJsxK3GevEUIqkXnekqtUonyvYDpg99cJ82J5Suq30SpIgheIj4aA2VJiScMCYM6uD6oi6MYF5X6apNE1K4UnIscd0xK0EMticI1+ldd7wtVZuzaUXJn6jNp3Fc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713198057; c=relaxed/simple;
-	bh=GbAxPIv/vbclXmPWPZ8Tu9s+wJ2dryRysJiHKFw6Xpw=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=Q+/lFbX2qJK+wor/7QY5ajoVbxIhDfEGvgr5FCKOZMPiB6nOj8ls/ORhNhf+K+xnLTuXIV+86Ot7whvuqQka3ep3cxPBr1JOU+7vAD2foMUKGVSNmVYDshwP3K4YpRHGqWBR674YWTHRe5hDTR45cR6R4WT8TSq4mAfWfAFn90o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--ardb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=olNOjuVN; arc=none smtp.client-ip=209.85.219.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--ardb.bounces.google.com
-Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-dcc58cddb50so5471153276.0
-        for <linux-kbuild@vger.kernel.org>; Mon, 15 Apr 2024 09:20:56 -0700 (PDT)
+	s=arc-20240116; t=1713200124; c=relaxed/simple;
+	bh=be7oRZUQ/S2JdRwQpojUowfgGOLGjxhk1XnzAepAj+Y=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=WKL+2zwgeDz3VdqpBqtOXoQKFp/f8rWpKqAD5imKA53CIrRGnPegWLbV33R5BKbzaamKOzbSSjScckpldYBcmmh5mejw+UGJ7Zl+Ww5kWV5A+oy9vi7FztTCCpT7ZEgfbGKqrc/29r17ZkBaZR4hMMk6rtcy2u9QLEqaUyYkKWM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lB9Kcq9O; arc=none smtp.client-ip=209.85.160.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-2343ae31a9bso1267307fac.1;
+        Mon, 15 Apr 2024 09:55:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1713198055; x=1713802855; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WHqqRenBwHH3dYNpNtPvujl3JPCakWggIzfiR8Bh9XQ=;
-        b=olNOjuVNcxnUhXkcnnpsE/1bvkr4YCU73TVdBmvsBCde33BwBW5oLO/oQjGbGT4MVU
-         iy0+0pmV7z2AzNN0iJtqrYRY26rIwKSKgg3WX735Q3RCQPIel7LLoXL2NTAm84QJdS/4
-         s/a8b1Ntmoc/s+fpF7CXx8p4IPxxiiVmjzxWRflAAnJ10AIHz1rs8lwNlwDjdqrqDPGb
-         qQk4JhqYAvnrZedkPyAed66gG/oFnrC5mLWKIDF0xare5irK/VjCPSN7RJIE60S4ot78
-         l7dLM1L1SB6G4XKVfiF62m++pm4IfRb5Yb7Y9uDj5teNNcaPyyzm/0m1aVUDzhf8uW+t
-         WTxA==
+        d=gmail.com; s=20230601; t=1713200122; x=1713804922; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=UdGYstXTWazjEUKLUsBnEYFaautc2holTmAavrds7D8=;
+        b=lB9Kcq9OMwPiA4li0uAv0r9aU9AgM8ma/n/XRoEODbLkCpwgw6ar5kxcoHj2Co3zXS
+         CbeTuOgw7vDh97HlMm7+eshaIoJyV8IOw3quOd+aOCQSJ6QlC9HdenDaqc5WzbCcLRvK
+         VYEN3r89M+4AjawNxjVvQIx8SnX2ZIPINc2YdYnXbB+hiPN0ZvYbd+PRf8+7yzOim2rU
+         xcmlQ8U8vCtcXp5RQOiDmoaMlp3Yj6YK1mwUirgtJKwLeUpepf3dYWZ2agKguZELaEDp
+         Xc64JYk6bGICtBYLTLg5x6gdL1qxQk5gpYfc2durs4cZGzVGVTXAF+FFU5uMBQPedbJQ
+         FsVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713198055; x=1713802855;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WHqqRenBwHH3dYNpNtPvujl3JPCakWggIzfiR8Bh9XQ=;
-        b=E5CKEg+zWLY+FLmRhugX76ejzYL79JJgZ+Y8pqZv+kUCl7IRDBkCT3xxUFt/XWIIjS
-         LgPS5pTdGDzblwkwUcqWof2wk1EGVTELf81tqO9BTTXuDCItgHQJznUKbHX8R4bKC29t
-         w6G3L5UlDRcQ+iQiSksjug7L8SLsSRZ0axPrO5nFMwqv87l3ACBIi+47z/2MG/yAbLvB
-         EbFlQyAqC/FOCMOGAZkw+CPrtBVcULjI199lT1HN/us+WtGM2Mdw3kXh31AKekW1e25y
-         KzZkjwjbX6Fuw7KljwpKs6SBMah5fOdDYGJG9v89KQefAI8Q+63T1fFFzuLpm13qj8kf
-         uTdw==
-X-Forwarded-Encrypted: i=1; AJvYcCVvLHZHUorwGNFcWFQ1Wndst7R5GSL7XSzl4JEIHu7iwgOYsSixno6mUXDn+YrbaN/t2L9susqxCHUdzaZAW5xk7VWCuzcKUzZvA513
-X-Gm-Message-State: AOJu0Ywnw44tvPZoBkNmUZYKs1Nyq/0KYEaqVnLgCm7isMu0eUgMrGDc
-	QiujNO2Qn4UbkU8wD2gkXltVk0m7OBZhkwK6JFMX1413jValCmqN3/F9X8JTD2jPc+A/ug==
-X-Google-Smtp-Source: AGHT+IHNIhta4/6qEKdeuxUljM7MuC6zhk7FC1Wn5VGF0YXerg2GpmyYatVfwOIpnK57xSofd22De4no
-X-Received: from palermo.c.googlers.com ([fda3:e722:ac3:cc00:28:9cb1:c0a8:118a])
- (user=ardb job=sendgmr) by 2002:a05:6902:150d:b0:dc6:cafd:dce5 with SMTP id
- q13-20020a056902150d00b00dc6cafddce5mr3570371ybu.12.1713198055314; Mon, 15
- Apr 2024 09:20:55 -0700 (PDT)
-Date: Mon, 15 Apr 2024 18:20:45 +0200
-In-Reply-To: <20240415162041.2491523-5-ardb+git@google.com>
+        d=1e100.net; s=20230601; t=1713200122; x=1713804922;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=UdGYstXTWazjEUKLUsBnEYFaautc2holTmAavrds7D8=;
+        b=L7cFO80vzXlLLNTXJsep8bnyPKeG5WluXIHcu85YOwH93M1iijviqCyUMdicCiTsEs
+         Kqww9smQZPad3fTaVV/nUqaksWtEeYs2rMWPPSWdlRJWx/4oVLmApJpr09Stc/V5jrAd
+         v5DsWHnzSyctw4NNGXdaf5eiNPIiFLrLTZucyS2xITuSzzK4nnr/r2yOv8ymWEyJkTAb
+         U80dOQOwmC5Cxrc7cbv8qLHJUnJRDKpLBEqrEOLBOkltCdbpjB8WRjUsufVX8zz/Spwf
+         Wjoaf1jk9y01hBqwTsjCXAQlSEylNwfY0yGR2JYEXKuQ2ShqAqkOmzXXduOci9vntPjj
+         f8TA==
+X-Forwarded-Encrypted: i=1; AJvYcCXRkjH8Ytt+chxV618Grk24VYC40OneJzS1hc4Jdj7iJVSf1XkMMqKslJ2PINYH55lUNzTWua9lvjpzjueI0xTqDKe2Sl1GYbvymyp8JxpedUo2TD5sKw/drjBXpoGDSL/4Wtb7ziVnvP8Z
+X-Gm-Message-State: AOJu0YyFGBBQcBRRLzSjW2+UzmQ37TZNL3NUtRPMH3WPTsK+p21CB9UK
+	767OPjbAM1wqeZEXHcHuxVmEBB0qTDnDO4X4X0sTzvjIR8/hk3XcOAHbiL1cpwbLQKQjtLGpzDL
+	67Miephj9ELI9JSi3QQo+zFI6mzg=
+X-Google-Smtp-Source: AGHT+IGjX7KYAV9eE37M28bewt12iuGzeq8YwJK8fQBwnQEX1Wettngrgbu04fOvzpTUF3ZgrV3yW8ss3XJMUbm/Y0o=
+X-Received: by 2002:a05:6870:b619:b0:22b:a8f3:36b7 with SMTP id
+ cm25-20020a056870b61900b0022ba8f336b7mr12841925oab.55.1713200122720; Mon, 15
+ Apr 2024 09:55:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20240415162041.2491523-5-ardb+git@google.com>
-X-Developer-Key: i=ardb@kernel.org; a=openpgp; fpr=F43D03328115A198C90016883D200E9CA6329909
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2668; i=ardb@kernel.org;
- h=from:subject; bh=r5HeLLaiZQAh9QWD51AJtOhyniRpUOwKFejoofTylQw=;
- b=owGbwMvMwCFmkMcZplerG8N4Wi2JIU02+M7jo28Fo36cTxHbcXHZE5f2CWJ3C1mm+lxU4Ww4e
- rA53Ni2o5SFQYyDQVZMkUVg9t93O09PlKp1niULM4eVCWQIAxenAExEJZzhr8CHbGvGxUIxhboC
- bnceXbJce7Hx7oOShfraG7sD76299I2RoaeEq++zoZeohsI2xcNPzws8dNRcm/ZAlknm1+JvGV3 ejAA=
-X-Mailer: git-send-email 2.44.0.683.g7961c838ac-goog
-Message-ID: <20240415162041.2491523-8-ardb+git@google.com>
-Subject: [PATCH v4 3/3] btf: Avoid weak external references
-From: Ard Biesheuvel <ardb+git@google.com>
-To: linux-kernel@vger.kernel.org
-Cc: Ard Biesheuvel <ardb@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Martin KaFai Lau <martin.lau@linux.dev>, linux-arch@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, bpf@vger.kernel.org, 
-	Andrii Nakryiko <andrii@kernel.org>, Jiri Olsa <olsajiri@gmail.com>, Jiri Olsa <jolsa@kernel.org>
+MIME-Version: 1.0
+From: Gatlin Newhouse <gatlin.newhouse@gmail.com>
+Date: Mon, 15 Apr 2024 09:55:11 -0700
+Message-ID: <CAN1+aZxiJVdMUd8q5w+Xo9EmHc9hhFzRyzEmgJ7eb5eNi+PD=g@mail.gmail.com>
+Subject: Re: [PATCH 3/6] [v3] kbuild: turn on -Wrestrict by default
+To: arnd@kernel.org
+Cc: akpm@linux-foundation.org, arnd@arndb.de, 
+	Kees Cook <keescook@chromium.org>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, masahiroy@kernel.org, 
+	Nathan Chancellor <nathan@kernel.org>, nicolas@fjasle.eu
 Content-Type: text/plain; charset="UTF-8"
 
-From: Ard Biesheuvel <ardb@kernel.org>
+> All known -Wrestrict warnings are addressed now, so don't disable the warning
+> any more.
 
-If the BTF code is enabled in the build configuration, the start/stop
-BTF markers are guaranteed to exist. Only when CONFIG_DEBUG_INFO_BTF=n,
-the references in btf_parse_vmlinux() will remain unsatisfied, relying
-on the weak linkage of the external references to avoid breaking the
-build.
+I've done some testing of a similar patch with gcc versions 8 to 13 and clang
+versions 12 to 15 for x86_64 allmodconfig builds and found no issues building.
 
-Avoid GOT based relocations to these markers in the final executable by
-dropping the weak attribute and instead, make btf_parse_vmlinux() return
-ERR_PTR(-ENOENT) directly if CONFIG_DEBUG_INFO_BTF is not enabled to
-begin with.  The compiler will drop any subsequent references to
-__start_BTF and __stop_BTF in that case, allowing the link to succeed.
+Tested-by: Gatlin Newhouse <gatlin.newhouse@gmail.com>
 
-Note that Clang will notice that taking the address of __start_BTF can
-no longer yield NULL, so testing for that condition becomes unnecessary.
+>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  scripts/Makefile.extrawarn | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
+> index 8b3f5b62b837..95466a04d51b 100644
+> --- a/scripts/Makefile.extrawarn
+> +++ b/scripts/Makefile.extrawarn
+> @@ -98,7 +98,6 @@ else
+>  # Suppress them by using -Wno... except for W=1.
+>  KBUILD_CFLAGS += $(call cc-disable-warning, unused-but-set-variable)
+>  KBUILD_CFLAGS += $(call cc-disable-warning, unused-const-variable)
+> -KBUILD_CFLAGS += $(call cc-disable-warning, restrict)
+>  KBUILD_CFLAGS += $(call cc-disable-warning, packed-not-aligned)
+>  KBUILD_CFLAGS += $(call cc-disable-warning, format-overflow)
+>  KBUILD_CFLAGS += $(call cc-disable-warning, format-truncation)
+> --
+> 2.39.2
+>
 
-Acked-by: Andrii Nakryiko <andrii@kernel.org>
-Acked-by: Arnd Bergmann <arnd@arndb.de>
-Acked-by: Jiri Olsa <jolsa@kernel.org>
-Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
----
- kernel/bpf/btf.c       | 7 +++++--
- kernel/bpf/sysfs_btf.c | 6 +++---
- 2 files changed, 8 insertions(+), 5 deletions(-)
-
-diff --git a/kernel/bpf/btf.c b/kernel/bpf/btf.c
-index 90c4a32d89ff..6d46cee47ae3 100644
---- a/kernel/bpf/btf.c
-+++ b/kernel/bpf/btf.c
-@@ -5642,8 +5642,8 @@ static struct btf *btf_parse(const union bpf_attr *attr, bpfptr_t uattr, u32 uat
- 	return ERR_PTR(err);
- }
- 
--extern char __weak __start_BTF[];
--extern char __weak __stop_BTF[];
-+extern char __start_BTF[];
-+extern char __stop_BTF[];
- extern struct btf *btf_vmlinux;
- 
- #define BPF_MAP_TYPE(_id, _ops)
-@@ -5971,6 +5971,9 @@ struct btf *btf_parse_vmlinux(void)
- 	struct btf *btf = NULL;
- 	int err;
- 
-+	if (!IS_ENABLED(CONFIG_DEBUG_INFO_BTF))
-+		return ERR_PTR(-ENOENT);
-+
- 	env = kzalloc(sizeof(*env), GFP_KERNEL | __GFP_NOWARN);
- 	if (!env)
- 		return ERR_PTR(-ENOMEM);
-diff --git a/kernel/bpf/sysfs_btf.c b/kernel/bpf/sysfs_btf.c
-index ef6911aee3bb..fedb54c94cdb 100644
---- a/kernel/bpf/sysfs_btf.c
-+++ b/kernel/bpf/sysfs_btf.c
-@@ -9,8 +9,8 @@
- #include <linux/sysfs.h>
- 
- /* See scripts/link-vmlinux.sh, gen_btf() func for details */
--extern char __weak __start_BTF[];
--extern char __weak __stop_BTF[];
-+extern char __start_BTF[];
-+extern char __stop_BTF[];
- 
- static ssize_t
- btf_vmlinux_read(struct file *file, struct kobject *kobj,
-@@ -32,7 +32,7 @@ static int __init btf_vmlinux_init(void)
- {
- 	bin_attr_btf_vmlinux.size = __stop_BTF - __start_BTF;
- 
--	if (!__start_BTF || bin_attr_btf_vmlinux.size == 0)
-+	if (bin_attr_btf_vmlinux.size == 0)
- 		return 0;
- 
- 	btf_kobj = kobject_create_and_add("btf", kernel_kobj);
--- 
-2.44.0.683.g7961c838ac-goog
-
+--
+Gatlin Newhouse
 
