@@ -1,215 +1,110 @@
-Return-Path: <linux-kbuild+bounces-1582-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1583-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51AFC8A60AA
-	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Apr 2024 04:08:32 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id F043A8A646F
+	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Apr 2024 09:00:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AF2B21C20C6F
-	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Apr 2024 02:08:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A2288281720
+	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Apr 2024 07:00:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A006BA42;
-	Tue, 16 Apr 2024 02:08:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03AA76DD1D;
+	Tue, 16 Apr 2024 07:00:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ox0pdq59"
+	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="uOpnqDlw"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sonic307-20.consmr.mail.sg3.yahoo.com (sonic307-20.consmr.mail.sg3.yahoo.com [106.10.241.37])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2A8A8F5A;
-	Tue, 16 Apr 2024 02:08:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A8576DCE8
+	for <linux-kbuild@vger.kernel.org>; Tue, 16 Apr 2024 07:00:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=106.10.241.37
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713233306; cv=none; b=qRPszWGZc2NzdUomLtBpgC7V5uzBPW5sEs4Btk9mBd1y1NI3zn7ilnzfJoWA2WGuY6wYhDm9OcNdTndVksNZ4jzYK8BtO3R3ItrAdog3l501O37X5KiZalEHrtYO2K+v784hkbkr4oflcfcsz+OgHujErztGi0U7KDxnqPlNjqg=
+	t=1713250855; cv=none; b=YL/vHjgr+IBOOsEm+a9YzH36zayxXDPfVi7bcli5JphDCzToUy0nGsvJjPK98MlK+qr7T7AmiBjXVHMCUspPjYvN6xTtdF2bBCRpbLlyxY0/33xbd+z/3ge+5o4471In1aybyli8MjyhD4xlD7STdApvwj7gGFF7QaervSp3Noo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713233306; c=relaxed/simple;
-	bh=VhAfUesBXIj5iQJjWVdk62eijlIt6xnT4JPcmMlBOCg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eWhXwpxhiUpUbvac2AC7zGa7je0tLARyUrREMVDAyQPGvj4uLlGnnmqmRqS3Y5gO2N0DtsjCrfOJALxrF0b8BveDdnF5kS2rTPfue+6sQUKSH6F4XpzDt7GkjoKzFmBDwdOARewQPxD8nSyoSXm2VfFG8mhqO8lnLmaGuzPjFhM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ox0pdq59; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E5ACC4AF08;
-	Tue, 16 Apr 2024 02:08:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713233306;
-	bh=VhAfUesBXIj5iQJjWVdk62eijlIt6xnT4JPcmMlBOCg=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Ox0pdq591S2K5TAaKiWyCXXIFihPzLZvfqLORNG2uZZHOYzxjQWBl3hMwQr0YdEZ0
-	 xUhcaGrKSJ75ODL2KKBR1kjjmE3WaoMrj7xhV07QpqJ7gbo+cQTPSr+rOQKQV9q4WC
-	 p9gaJK/aIBU55qGUDGXvFn6CHTH43sNQT5Vf5T6Lu/egzWTJE2BeWqM3SzlZe8pLVu
-	 uRKkoowOqxpSo9PLAIA5SR5gdAyYAB35i3qZ7jXZJhTKFjWO9nTtOGZ9uD3nDPk1u2
-	 r/1nL8cwpjwAoT0/QhvQaQ9Zzm7aGIv3nMgAR4nQgmYvnnU6BPAXyWLdaEY19byUYA
-	 ARxmKPBOPg9Ww==
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2da63269e75so21475311fa.1;
-        Mon, 15 Apr 2024 19:08:26 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVgfNDolAhFodh7BJE9GImn9dl5NzQuOkZYQyj8VoPNCa0kfy/x/VQ//0T83hyQZwj7iw6NxFClUm7IvOoU9QECS/xahAK+rhT/68x3
-X-Gm-Message-State: AOJu0YwsMZxxCLOepcgkvcznVbycGezXy1Ven5IVv4iORsd3eoppkl9l
-	wlp0dIK98GwlPT3JtecxnHxxhXr7M6jmtvJSHCeHP8QgATFAwvKHIacZO4uymOuZCFcTVT7xUtp
-	/2gNw4WvcDKDrlLvUdlAgiGD86FI=
-X-Google-Smtp-Source: AGHT+IEZzcEKCAwWWXXGi4mPBa5xOKOPXU4ktX69gk3Gxxt7LGojYmlRbPFqE8Ukhi/e3snCae5UAHyrWBfHIgQ9OO4=
-X-Received: by 2002:a2e:8758:0:b0:2d8:3bef:129 with SMTP id
- q24-20020a2e8758000000b002d83bef0129mr8357927ljj.10.1713233304895; Mon, 15
- Apr 2024 19:08:24 -0700 (PDT)
+	s=arc-20240116; t=1713250855; c=relaxed/simple;
+	bh=SCRcdjo5uSjh38rIVERk3UkFvROpCipIGv2XE9YNABk=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=gXyLWlvC13I0OFBKTxji+A810000zeXnPL13pmYoYhQdooJ8A15kFE0pL0/gCvuO7bj/1b1nFx5I5sm5W/OG3agdMg1HP1wJqhStvkpdtvDOC5UiR7S0As8yBPy71DSzggnsqJSktJe1oewlvWZCbapDVBpuaVTy97UT6u0JbP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=fedoraproject.org; spf=fail smtp.mailfrom=fedoraproject.org; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=uOpnqDlw; arc=none smtp.client-ip=106.10.241.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=fedoraproject.org
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=fedoraproject.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1713250846; bh=SCRcdjo5uSjh38rIVERk3UkFvROpCipIGv2XE9YNABk=; h=Date:From:Reply-To:To:Cc:In-Reply-To:References:Subject:From:Subject:Reply-To; b=uOpnqDlwmijgC084CcgMHgCBiZW8K1TOEyN7V9f8Pp+GFcw2cnHwi8z3IKmuKPBw0KBCgjJqnv1w4L1I7EER3Pb7EvULbobWLLTCKO+3ST+jeJilzCSP09LJo7JWOwF4RImyE/146VL0WdnKYm+TUrRRIlT8BKxXRSHttcBD/Gg5WN4igroxT6YIVornMPjok0ZYS8o8CoRZJ+Wp5Qgckd+uuGd5aPNGOlYsZcjuBQTJIttrfNIOBch5xem9bGK4kXXeU1fzMTr4piOxrlk85LX0H1hhEElgjmnX+qK1JwNPw6s4plLs+6jXN6a+DAb8b3mUUyiBZuMQo/2jBLUwmA==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1713250846; bh=v5VniQ+wqPt2ntYW+GxLKZkmJlK5Lnl5kqY26kVvipD=; h=X-Sonic-MF:Date:From:To:Subject:From:Subject; b=fFi5cB9UEpDxL1w3FVBfsyEMSzlIOj1flTCZckqFrrXhR2DoDzN3UNOdQuN/G/i5QjP+qzZPHYg6OeUM+ej8yvF2lRoLCPugDdII2R/nU3abUE2Rgc3RssBeJ3nchFB3jKQYfIdYCWhdyoTe1eyhqGrswyYn0U+/F9WAl32ie5KelmKjQmfd94y2H+soUba8/vJJ9kgitz2TVcimckmpzqw5wprvuP+IekRbO9R+X7I+58rndhJekelvzR295tS06vHUyk1cqk5JVeff/beWBYZ4/8WMrONn82zDpI36L+1rXGkMpftkPQI808e9LsRjBzYLo2iw5/BrICvHVHKqfA==
+X-YMail-OSG: fhR9c.oVM1nFCUGDmMnRTiH0zIQk8h9yc_4Gg0PT0cZthRDDq6Da1tz1VDABsV8
+ SJPfSTQTNP0x40mH1JZ4Tw_tgb4VSHStja0QfUJ_hAu3OuFxws8Ja4F.NJtA8mi22PQFx9PHwALg
+ r3ewephBGDrGQAnAtU9CbaZUXX9j6DnJy_eSnRmotX8HQOEt89.SLw7sAQYB2PUVO_URdX9gjQTh
+ rRy09jxn45op8dyzUNBuJQWHfNkT2mRzfIutZtAsJH1qTWwvhsm_7liDbNbPHqeKS2nWFEADz2cN
+ OEN0ED3_gX1LWswG10eWSohN2M8hDjSmPVAcsME25ZF2xlDEUCq4Ks.qlOIg33.OTfw5d7r882TF
+ emQlgw9NtnzEQRr7Cp7zSB2boqaZN75Et1xiHpwOLJ9jTYVF4468NC47T9HEzYCjnaN8eDbwiRe_
+ l8QdVyTD2ngUVWQyUa84XREXg17TetwpCkXgBt6IozFlhr9RooAHbMNDZ4oHocVRdSsrbhL4k2o1
+ 6iUUsD3kANdea2mPtsfog6W07BslqjgMFATFSkEl3PKSTu4RPgQRuRKX4Vee00aFFugsyHkPmJXl
+ tSwN5CCr.XLF8SL139RGzA8_nt6W8RRgFn9p1RIo36dq2TP8XC7uYFtvn4n2XyCek2PEzmqgjOcu
+ o0UBtW_XhPeMKfpX9w7lyDGU3qUbwGMrY0g7tVij737FitO1GR18Om0xkQ5tUT4OY6SWIH5NnHX3
+ 0p7dATGdM0kK0syTKj001ukZ2YA.NgfUZhedUoTULgpvxOuxDcCMHhYKjqgmS3wHt91jIKDsuWzG
+ ta7r1kWjyRNOxuCSOLkkI7YIoWRBYxbFeqWaOEfapIBzNi1JbUY3XGhQDSLkw2B4SKLBLClieEJy
+ 8S6xUWBshjHzZWPgXJbbvJbomz9zSX6F7UdecvqipVYUo5V.XEvKLdIS0i.qAbJ8vFj973uuG2eG
+ 69r59toLLy5l.d3pPEGmhk52OYHsQRPD9Brq2do1A3DVwyg2KXermQNTm4mkD3cm0r_Zp2ySBxP0
+ MYa.N90DCIaWKzGTENo7nIxWr3d.b0jmPp5T617UPGQCEzNf9fwtjBmVGNfpKwCwrawAT6_0UUkt
+ MX0HiznBSXFO9BLA9Or1sRHzoOtSKblNMrgvVVVsXYPCMql_8NsGflpJ_HhJviza0JHWplIl9mM5
+ BnScJ4IDA7Luh0kUZajECykeUUaZgnMuC8O.eIxmbVV8DPIY1p0MP7ekPwNoscc3chC0zLKLUbEk
+ tTP5kRfvJCSN9lzIEe6ojsKkLxErvfcpsSJdQCEvf0E1aoN1ptlLHIPXH1dZDWtJjEpmW_cAb1CG
+ ZwwQiwh9hL7T7M5RivUMnl4hlZuxlz7NXFIBt54S_q3T0e1e5GTy7YXra77WuWt5uMjiuB656ag.
+ sttWxpbFQ6W8tlXflrb0Ac5FDDXgF8w4erBNAAyLMlal20igYcPf3UJhXxRjQlY5HH4ha6k5xd.c
+ RByv4SECNrcAMUTgMIdnQ8DjdRdxXSCb8Ek4dGzDOlKcZiSUA17ChdSjEWzA9GEAvFV6rtdGfUem
+ tRLt1AvKnmb3QfGuhasS7qslVh.tvQMQhD3.WzaWpYgErIOpSHHPPCYq37wFZDxlYAhX6aGc9212
+ gg_y_MqJ1r0BeJ9fCzi3KAM0RZiD3cAAwBQqU9yUaKdndGMEEVBLaBAF.FIGH4tPRKcMoLlXdcRx
+ xPGt_eYe66tc7A1m4UcB9R6n9cB_2_ATKS7WOsFXL.0Fu4yMGhu0wBvc7iwJpx0.QxSoudH6eCHL
+ ks1c0t2tFQ1xYvCrYZ_63UWDCk6R3LsEHLVhtTpumAWTqF5nLcs9wd_LCnb6MVa6KBTgcyOwBIfx
+ qzu9MCMuNB2seqbIiq7w.pbgaSnON.OavHYqGrCB6UlX6tsfjiiS7HjcttSVjmpbColkC8PNta2D
+ trSxhnuO.IYcVGtYx9BCnJ2aQwAsY4Ki7.hYuoovjzKRWiCgcfSgznHeWfByyRCkoGoqJoIyT6Zy
+ 7S6vESWpx0q_DZGjus0oM.UKXNJ9pFLo6K71Jvm4QRZyso7WYVGKw.mNA1ceqeIwpJ4cU5._470V
+ faCmwsn3t7587a_Q6sH1PauMepHbtqVcrvAYN9edXWw93XHeh8T8favi7j_v2wfmySgmAl8o2kim
+ QpqhozrOms8n6hvPW_WJqc0PsZeHXkykNzGBHJKFB8piM0dECJavK3MJhUYMHYhDOjDt3bUQZNqN
+ C6KiAPJZhe8tDRODgnfpih.gjrL.4WTePXtNv4p16I.p31.cJo1ygnHOOa2gcAIy4l2YLIzf3XRQ
+ X_5Fi3mwxDs3Yx4FXC2i48Lk-
+X-Sonic-MF: <pjp@fedoraproject.org>
+X-Sonic-ID: ec54d4b9-5223-477c-bd01-d1550e1c37b9
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic307.consmr.mail.sg3.yahoo.com with HTTP; Tue, 16 Apr 2024 07:00:46 +0000
+Date: Tue, 16 Apr 2024 06:50:27 +0000 (UTC)
+From: Prasad Pandit <pjp@fedoraproject.org>
+Reply-To: Prasad Pandit <pj.pandit@yahoo.in>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>
+Message-ID: <1227781620.5938729.1713250227417@mail.yahoo.com>
+In-Reply-To: <20240407072933.3562124-1-ppandit@redhat.com>
+References: <20240407072933.3562124-1-ppandit@redhat.com>
+Subject: Re: [PATCH v1] kconfig: add config and source entry details
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240414174139.3001175-1-masahiroy@kernel.org>
-In-Reply-To: <20240414174139.3001175-1-masahiroy@kernel.org>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 16 Apr 2024 11:07:48 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATqLwewFaMNEy6yDguv5mNoGZJus9p4kbyMOGV9T+yopQ@mail.gmail.com>
-Message-ID: <CAK7LNATqLwewFaMNEy6yDguv5mNoGZJus9p4kbyMOGV9T+yopQ@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: buildtar: add comments about inconsistent package generation
-To: linux-kbuild@vger.kernel.org
-Cc: Albert Ou <aou@eecs.berkeley.edu>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, linux-kernel@vger.kernel.org, 
-	linux-riscv@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-Mailer: WebService/1.1.22205 YMailNorrin
 
-On Mon, Apr 15, 2024 at 2:42=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
+>On Sunday, 7 April, 2024 at 12:59:48 pm IST, Prasad Pandit wrote:=C2=A0
+>From: Prasad Pandit <pjp@fedoraproject.org>
 >
-> scripts/package/buildtar checks some kernel packages, and copies the
-> first image found. This may potentially produce an inconsistent (and
-> possibly wrong) package.
+>Add details to the 'config' and 'source' entry description,
+>to make it unambiguous. It'd come handy as reference for
+>Kconfig language or patch reviews for Kconfig source files.
 >
-> For instance, the for-loop for arm64 checks Image.{bz2,gz,lz4,lzma,lzo},
-> and vmlinuz.efi, then copies the first image found, which might be a
-> stale image.
->
-> When CONFIG_EFI_ZBOOT is enabled in the pristine source tree,
-> 'make ARCH=3Darm64 tar-pkg' will build and copy vmlinuz.efi. This is the
-> expected behavior.
->
-> If you build the kernel with CONFIG_EFI_ZBOOT, Image.gz will be created,
-
-
-The correct sentence is
-
-If you build the kernel with CONFIG_EFI_ZBOOT disabled, ...
-
-
-
-
-
-
-
-> which will remain in the build directory unless you clean it. Even if
-> CONFIG_EFI_ZBOOT is turned on later, 'make ARCH=3Darm64 tar-pkg' will cop=
-y
-> stale Image.gz instead of the latest vmlinuz.efi, as Image.gz takes
-> precedence over vmlinuz.efi.
->
-> In summary, the code "[ -f ... ] && cp" does not consistently produce
-> the desired outcome.
->
-> The other package scripts are deterministic; scripts/package/mkdebian,
-> for example, chooses a copied kernel image based on CONFIG options.
->
-> I removed [ -f ... ] checks from x86, alpha, parisc, and the default
-> because they have a single kernel image to copy. If it is missing, it
-> should be an error.
->
-> I did not modify the code for mips, arm64, riscv. Instead, I left some
-> comments. Eventually, someone may fix the code, or at the very least,
-> it may discourage the copy-pasting of incorrect code.
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
->
->  scripts/package/buildtar | 16 ++++++++++++----
->  1 file changed, 12 insertions(+), 4 deletions(-)
->
-> diff --git a/scripts/package/buildtar b/scripts/package/buildtar
-> index 72c91a1b832f..ed8d9b496305 100755
-> --- a/scripts/package/buildtar
-> +++ b/scripts/package/buildtar
-> @@ -53,18 +53,24 @@ cp -v -- "${objtree}/vmlinux" "${tmpdir}/boot/vmlinux=
--${KERNELRELEASE}"
->  #
->  # Install arch-specific kernel image(s)
->  #
-> +# Note:
-> +#   mips, arm64, and riscv copy the first image found. This may not prod=
-uce
-> +#   the desired outcome because it may pick up a stale file remaining in=
- the
-> +#   build tree.
-> +#
->  case "${ARCH}" in
->         x86|i386|x86_64)
-> -               [ -f "${objtree}/arch/x86/boot/bzImage" ] && cp -v -- "${=
-objtree}/arch/x86/boot/bzImage" "${tmpdir}/boot/vmlinuz-${KERNELRELEASE}"
-> +               cp -v -- "${objtree}/arch/x86/boot/bzImage" "${tmpdir}/bo=
-ot/vmlinuz-${KERNELRELEASE}"
->                 ;;
->         alpha)
-> -               [ -f "${objtree}/arch/alpha/boot/vmlinux.gz" ] && cp -v -=
-- "${objtree}/arch/alpha/boot/vmlinux.gz" "${tmpdir}/boot/vmlinuz-${KERNELR=
-ELEASE}"
-> +               cp -v -- "${objtree}/arch/alpha/boot/vmlinux.gz" "${tmpdi=
-r}/boot/vmlinuz-${KERNELRELEASE}"
->                 ;;
->         parisc*)
-> -               [ -f "${KBUILD_IMAGE}" ] && cp -v -- "${KBUILD_IMAGE}" "$=
-{tmpdir}/boot/vmlinux-${KERNELRELEASE}"
-> +               cp -v -- "${KBUILD_IMAGE}" "${tmpdir}/boot/vmlinux-${KERN=
-ELRELEASE}"
->                 [ -f "${objtree}/lifimage" ] && cp -v -- "${objtree}/lifi=
-mage" "${tmpdir}/boot/lifimage-${KERNELRELEASE}"
->                 ;;
->         mips)
-> +               # Please note the following code may copy a stale file.
->                 if [ -f "${objtree}/arch/mips/boot/compressed/vmlinux.bin=
-" ]; then
->                         cp -v -- "${objtree}/arch/mips/boot/compressed/vm=
-linux.bin" "${tmpdir}/boot/vmlinuz-${KERNELRELEASE}"
->                 elif [ -f "${objtree}/arch/mips/boot/compressed/vmlinux.e=
-coff" ]; then
-> @@ -86,6 +92,7 @@ case "${ARCH}" in
->                 fi
->                 ;;
->         arm64)
-> +               # Please note the following code may copy a stale file.
->                 for i in Image.bz2 Image.gz Image.lz4 Image.lzma Image.lz=
-o vmlinuz.efi ; do
->                         if [ -f "${objtree}/arch/arm64/boot/${i}" ] ; the=
-n
->                                 cp -v -- "${objtree}/arch/arm64/boot/${i}=
-" "${tmpdir}/boot/vmlinuz-${KERNELRELEASE}"
-> @@ -94,6 +101,7 @@ case "${ARCH}" in
->                 done
->                 ;;
->         riscv)
-> +               # Please note the following code may copy a stale file.
->                 for i in Image.bz2 Image.gz Image; do
->                         if [ -f "${objtree}/arch/riscv/boot/${i}" ] ; the=
-n
->                                 cp -v -- "${objtree}/arch/riscv/boot/${i}=
-" "${tmpdir}/boot/vmlinux-${KERNELRELEASE}"
-> @@ -102,7 +110,7 @@ case "${ARCH}" in
->                 done
->                 ;;
->         *)
-> -               [ -f "${KBUILD_IMAGE}" ] && cp -v -- "${KBUILD_IMAGE}" "$=
-{tmpdir}/boot/vmlinux-kbuild-${KERNELRELEASE}"
-> +               cp -v -- "${KBUILD_IMAGE}" "${tmpdir}/boot/vmlinux-kbuild=
--${KERNELRELEASE}"
->                 echo "" >&2
->                 echo '** ** **  WARNING  ** ** **' >&2
->                 echo "" >&2
-> --
-> 2.40.1
+>Signed-off-by: Prasad Pandit <pjp@fedoraproject.org>
+>---
+>Documentation/kbuild/kconfig-language.rst | 18 +++++++++++++-----
+>1 file changed, 13 insertions(+), 5 deletions(-)
 >
 
+->=C2=A0https://lore.kernel.org/linux-kbuild/20240407072933.3562124-1-ppand=
+it@redhat.com/T/#u
 
---
-Best Regards
-Masahiro Yamada
+
+Ping...!(just checking)
+---
+=C2=A0 - Prasad
 
