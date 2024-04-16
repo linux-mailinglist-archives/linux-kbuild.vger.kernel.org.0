@@ -1,101 +1,114 @@
-Return-Path: <linux-kbuild+bounces-1591-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1592-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C2568A6E98
-	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Apr 2024 16:40:31 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 022FB8A7819
+	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Apr 2024 00:49:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B5ABB1F2125C
-	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Apr 2024 14:40:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B0FCF28169E
+	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Apr 2024 22:49:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F88812DDBF;
-	Tue, 16 Apr 2024 14:40:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E886B13A89B;
+	Tue, 16 Apr 2024 22:46:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mizTO6zH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ldtuQV0L"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F12612C7E1;
-	Tue, 16 Apr 2024 14:40:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50ED113A88F;
+	Tue, 16 Apr 2024 22:46:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713278428; cv=none; b=q/r0lJWPa2sZmojctEvePQrfxcSxuPeFCdYw/iWYLPhVwraNwRGyqwq+pKihp7EgvbNYRy14R06U/lGyMcHaxZilXJW9emypkRn2B6sKjozFR4i1fQVGo+ck1qx4mKNv1W7b6oDwAkbBozUkPsp+ke4d3sYIDBEt0zFCACwyEAU=
+	t=1713307576; cv=none; b=mlrgFLwme1hfnENbzUyFnaPe3s1jzQH6gD/Pmw2uZ/TvhSGIG9VVgiRM5x0+3h5jNG93VBiEUq8DlRshSLu89t7dQUpx3v6kLF3ItriBQInjk9R5qz+NgYkAsRwhZAy+sfhRV00+r3CT4G36tNnyttSHMIB2s98kOGFgSM1i4+o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713278428; c=relaxed/simple;
-	bh=ulix9quus3PlYbJVuwvHVIOelWLtNPYkNwdfm+1e6eg=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=H09SLdq6RSSqykwvwcshy8PwtKqXqOIMtwKjG/SErt95JFl+l5093fCiGBvQUVW16gSStqKnjpVHTSZ4PR6aM2iyke6sePVZBUQf4WbIRXUNZQvwvbztltV8+FJVNPY5rs8nrTGfEUzqn0o49jhbWnGZA6rGHkB0ZuvVhHfwBY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mizTO6zH; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7DEEEC2BD10;
-	Tue, 16 Apr 2024 14:40:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713278427;
-	bh=ulix9quus3PlYbJVuwvHVIOelWLtNPYkNwdfm+1e6eg=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=mizTO6zHQsmhhoJXPvj7Bd6z6SPnKSeEeEX1PNLVcS2zL7EWaQJl9v1W/RV70RYXL
-	 rQHmcie6fJHXC1AaGvx3pZ2GthYw8agK9VgZoj43fXbvDnxG9CLrb7nyvmdLKCnkkV
-	 IJCkust3+LFhAwgsXg1SkA0zbGV1lt54TCAGUUu6L6OZZGHBi1UYfvPQfiQ2v/yrfF
-	 /MGgpvv7ahlKkdGp4IfXxAQw2Gg/AEjXrD1wN9NqkjOPlxi6r+xp0+oj1z71jwCjgq
-	 GT6fhUwqUzzb3h3saCJAAUs55eNYm/ndolg2LdBOiel95QXFmDG2jy9IUCEPx1bKf6
-	 eoS8J4Zh0arBg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 67E56D4F15E;
-	Tue, 16 Apr 2024 14:40:27 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1713307576; c=relaxed/simple;
+	bh=llxZo58VP9At2K8lhG3Bchvf9TeT0/Wc3kqodjf0g5U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VxgApvzHieGpXtYlcC9BUJLnZk+wA7/g7ra3Pfqc6erznDK5yDA8JN5cJ4fj3rJfB5n2/fldHlKne0vq7OOOWk9d53715Tq85hU1TzXp7Iq4uaQ/En+u4eZMggamUb5ptytaVX14n5CMdlAWxkmA0wVIsegmo85txI1fyEXlax8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ldtuQV0L; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713307575; x=1744843575;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=llxZo58VP9At2K8lhG3Bchvf9TeT0/Wc3kqodjf0g5U=;
+  b=ldtuQV0LGbagicObrNxGJReppzd2E04ODtx6XWK8GULxHFNJHU7eR7O7
+   S0KBKJpvVq3ypMzF6IInKlPyVELWK1CUAk7cwjzaes7ZHzqbEpTYH4OAZ
+   vtfyGSoo4xPjwT25zXtvFuIFo55PQD/KWMvYNPsQuf8MYvEPNfHExDbQ0
+   9BCaH8xhnR3RQkjR82kLTipqVpbCFSTxpY1z8HSkvNwHJXbe4jSACKbyI
+   vUabdjorata/GtINvVWjxPB0wDr/84C9otork/O7etYqdG55h0iyVaChN
+   1YGeFFHwIBHJJtSmDLo2QjzZR2bfiG3YbR2n7ueSogUrGpE1VLOjwVjjf
+   Q==;
+X-CSE-ConnectionGUID: cXNZCiyXTD+e3KA4U3XlGw==
+X-CSE-MsgGUID: ufHSL9WeQjezHbV0yb772w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="8641070"
+X-IronPort-AV: E=Sophos;i="6.07,207,1708416000"; 
+   d="scan'208";a="8641070"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 15:46:14 -0700
+X-CSE-ConnectionGUID: IwhoHhQ0SmaPL59GKQy8TQ==
+X-CSE-MsgGUID: CI93jiQiTi2bbLD+EoKvsw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,207,1708416000"; 
+   d="scan'208";a="22480291"
+Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
+  by fmviesa009.fm.intel.com with ESMTP; 16 Apr 2024 15:46:13 -0700
+Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rwrZ5-0005o0-0K;
+	Tue, 16 Apr 2024 22:46:11 +0000
+Date: Wed, 17 Apr 2024 06:45:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: Re: [PATCH 4/4] kbuild: use $(src) instead of $(srctree)/$(src) for
+ source directory
+Message-ID: <202404170634.BlqTaYA0-lkp@intel.com>
+References: <20240416121838.95427-5-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v4 0/3] kbuild: Avoid weak external linkage where possible
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <171327842741.29461.3030265084386428643.git-patchwork-notify@kernel.org>
-Date: Tue, 16 Apr 2024 14:40:27 +0000
-References: <20240415162041.2491523-5-ardb+git@google.com>
-In-Reply-To: <20240415162041.2491523-5-ardb+git@google.com>
-To: Ard Biesheuvel <ardb+git@google.com>
-Cc: linux-kernel@vger.kernel.org, ardb@kernel.org, masahiroy@kernel.org,
- arnd@arndb.de, martin.lau@linux.dev, linux-arch@vger.kernel.org,
- linux-kbuild@vger.kernel.org, bpf@vger.kernel.org, andrii@kernel.org,
- olsajiri@gmail.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240416121838.95427-5-masahiroy@kernel.org>
 
-Hello:
+Hi Masahiro,
 
-This series was applied to bpf/bpf-next.git (master)
-by Daniel Borkmann <daniel@iogearbox.net>:
+kernel test robot noticed the following build warnings:
 
-On Mon, 15 Apr 2024 18:20:42 +0200 you wrote:
-> From: Ard Biesheuvel <ardb@kernel.org>
-> 
-> Weak external linkage is intended for cases where a symbol reference
-> can remain unsatisfied in the final link. Taking the address of such a
-> symbol should yield NULL if the reference was not satisfied.
-> 
-> Given that ordinary RIP or PC relative references cannot produce NULL,
-> some kind of indirection is always needed in such cases, and in position
-> independent code, this results in a GOT entry. In ordinary code, it is
-> arch specific but amounts to the same thing.
-> 
-> [...]
+[auto build test WARNING on masahiroy-kbuild/for-next]
+[cannot apply to masahiroy-kbuild/fixes wireless-next/main wireless/main linus/master v6.9-rc4 next-20240416]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Here is the summary with links:
-  - [v4,1/3] kallsyms: Avoid weak references for kallsyms symbols
-    (no matching commit)
-  - [v4,2/3] vmlinux: Avoid weak reference to notes section
-    (no matching commit)
-  - [v4,3/3] btf: Avoid weak external references
-    https://git.kernel.org/bpf/bpf-next/c/fc5eb4a84e4c
+url:    https://github.com/intel-lab-lkp/linux/commits/Masahiro-Yamada/arch-use-obj-instead-of-src-for-preprocessed-linker-scripts/20240416-202308
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git for-next
+patch link:    https://lore.kernel.org/r/20240416121838.95427-5-masahiroy%40kernel.org
+patch subject: [PATCH 4/4] kbuild: use $(src) instead of $(srctree)/$(src) for source directory
+config: openrisc-defconfig (https://download.01.org/0day-ci/archive/20240417/202404170634.BlqTaYA0-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240417/202404170634.BlqTaYA0-lkp@intel.com/reproduce)
 
-You are awesome, thank you!
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404170634.BlqTaYA0-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> cc1: warning: -I: No such file or directory [-Wmissing-include-dirs]
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
