@@ -1,182 +1,178 @@
-Return-Path: <linux-kbuild+bounces-1585-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1586-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08F968A6A4E
-	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Apr 2024 14:09:04 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 365748A6AB4
+	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Apr 2024 14:20:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9D69D1F218C1
-	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Apr 2024 12:09:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 67C111C20F4F
+	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Apr 2024 12:20:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D4C912A166;
-	Tue, 16 Apr 2024 12:08:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C81B12BF35;
+	Tue, 16 Apr 2024 12:19:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JiqY2Qgk"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WvNIsDA0"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62C3B8664A;
-	Tue, 16 Apr 2024 12:08:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E90D912BF32;
+	Tue, 16 Apr 2024 12:19:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713269338; cv=none; b=XcmIbU6K+gggNZZp1SG7m2tSSztcLEyZoknDacfF+lxEE2uQ4y1YUVsvmUQoe8mjJoyZ4kwTBDZVwsGJzN0NxTY6vOcvIS1hudA5cBE5aXasPXidj5O8LBUYm+Z3rdXqg2PGrAa1+l+G/9S6E4YZTd1ZDA+Mkk96029+2NxWRfE=
+	t=1713269957; cv=none; b=r8skHBKDjMCS9aQe9EvBzo877RLtxvYTSHxJnRWnMylm/JbO2x8ICCOYIOuBhREcbPfs0tpe2iIg8PefErW6+nXfbcJO8XwUFaK9F6Mt3mabdqIlTgOhM5XKuaqR0KNmfkoeVjo/0dppPwGBnd8QFtwk4U8IpkBQBVd9shtOtOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713269338; c=relaxed/simple;
-	bh=DQUVUBmWOEYMRx80TTv3GDn8+m96ebnHtitk5QfgZ9c=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=miewY8IlG0m50VAkB26mOIBUga5pUDPkDbS3RPc7zCHnAuZoZHUO/aS6OpGy0UqlveoDYOvHPr989PuByoEeKTOLx46Ck4lPTOwA1LocZrw2z6xcloMsgJSTOYCfbiGN+NozhTFearA+02oaO99blqu2JjegQDT6nh1TpjGaIFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JiqY2Qgk; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0779EC32783;
-	Tue, 16 Apr 2024 12:08:57 +0000 (UTC)
+	s=arc-20240116; t=1713269957; c=relaxed/simple;
+	bh=nqsVC29cav+O44VG4QeWXSJch8muwTP+2TH5V6jNPlU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=AhLE/9AjwenIaH6cblZ3d8MHYNq+HHlrI0v/4qc5EYtOqlUuD6B6+85Ptsl98+UWO2cZv4cm4ygF7cT8bN0UVAAymBenvxHKn/0nYVk6VvhTJJZAAxV5AEHeiwkZHtEd2JoGEVX9kaCS2jzc2bckbkc/KYQhBjFS6QWCgmbN/GI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WvNIsDA0; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8906EC113CE;
+	Tue, 16 Apr 2024 12:19:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713269338;
-	bh=DQUVUBmWOEYMRx80TTv3GDn8+m96ebnHtitk5QfgZ9c=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=JiqY2QgkrMrXDRbJsUeKiCh7Ev/3BRywKZ6QyxborsGmGhGczjEVrGQD0eCqRuH1n
-	 zdNRKrX/bV45HtqEcMHqeuubPcuFBcXklLKymLdjqkKwcjCVDyrRkE2XR9cU7GC0AU
-	 9nEs48kSaZ0Q4LDo7CsyCDrTxCQwoiGHhBO3/H/OaIT77jg9PRN5xQzmYuuqovb0/C
-	 lI0Dy6s70ZVMtZuwlvsaWv1KCX/mvkdsWX+NLl+VBvLgFMytJnxTs30IuW4s/JCRb7
-	 Y2QzGx1nTPW1Po5fhxJnVcy1lqeK4Y7US+f+mwsSM/ytZR/iScqy8BBXVcbfr4RtyP
-	 1FHnHv39md+3A==
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2d6ff0422a2so53395931fa.2;
-        Tue, 16 Apr 2024 05:08:56 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUyi8LyG3RDqIm7clh9DmpvLAM8tAeoe+B8gA8cu8jiJLBAKbIaKmUuQdMEUCVPI5jW/LQ2ZW3zLhGAMP/s3jAohme1expXg3bnt/YX
-X-Gm-Message-State: AOJu0Ywj9YlekvpR5F/CVZMorf3RBf8fnOqkLw/MG7a2NEb63O+WS4N8
-	+m3MrNKtVOFRByiEAjFAh5tDHTnsy65yZEzvA+DNkQsGzrB00HuTRjG9GBlF83QabzVS92FVd3g
-	LDSHQiJOqGhvfKPMvjwJvP74E1Ow=
-X-Google-Smtp-Source: AGHT+IECgrzVB1Oesmtr0uOyzJGEA1d3yyMP9Je5d5+wXjHwa4RyVl3/Ri8WjRool3QdctkZUBGL5Y8UgsKW+YiLZck=
-X-Received: by 2002:a2e:a696:0:b0:2d8:c151:80ec with SMTP id
- q22-20020a2ea696000000b002d8c15180ecmr6687994lje.52.1713269335719; Tue, 16
- Apr 2024 05:08:55 -0700 (PDT)
+	s=k20201202; t=1713269956;
+	bh=nqsVC29cav+O44VG4QeWXSJch8muwTP+2TH5V6jNPlU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=WvNIsDA0QjdVK5Ias3Y3b5vSJ9oTsHd+zV28wuBPeHdw1OKiuFYVMwpKB2ThC42Ti
+	 k+/5AKZOlosbK9AGcjhrKL+JNY7by8U3VM15gTS6AM35bIWZ2md/jgU010U/D9dezx
+	 eRsEUIuTxC0r4PcQvwNc+XsTgfxBgA3fI40PxL0wBwtg0vPNgaNq9CBT9BxTJSx2Jm
+	 0soXEF65tpM+dYrlcQOjnsJpokPEUer3zXNEAB7pL2L7sE+R3QzIOdIfn684koXcpy
+	 n1egPyuO/qLzEI3MsQeV4L5QKhBM/BxDY2gJ3MAg/+a7L0gTnnJW9zS5oYer195ldR
+	 AfKXMsaxa6GQA==
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH 0/4] kbuild: replace $(srctree)/$(src) with $(src) in Makefiles
+Date: Tue, 16 Apr 2024 21:18:34 +0900
+Message-Id: <20240416121838.95427-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240408071758.2526806-1-arnd@kernel.org>
-In-Reply-To: <20240408071758.2526806-1-arnd@kernel.org>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 16 Apr 2024 21:08:19 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARRYJzOVP8eDhLHoqrcm165ztc4cwazu+tquqSzeGGUkg@mail.gmail.com>
-Message-ID: <CAK7LNARRYJzOVP8eDhLHoqrcm165ztc4cwazu+tquqSzeGGUkg@mail.gmail.com>
-Subject: Re: [PATCH] [v2] scripts/unifdef: avoid constexpr keyword
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Tony Finch <dot@dotat.at>, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Apr 8, 2024 at 4:18=E2=80=AFPM Arnd Bergmann <arnd@kernel.org> wrot=
-e:
->
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> Starting with c23, 'constexpr' is a keyword in C like in C++ and cannot
-> be used as an identifier:
->
-> scripts/unifdef.c:206:25: error: 'constexpr' can only be used in variable=
- declarations
->   206 | static bool             constexpr;              /* constant #if e=
-xpression */
->       |                         ^
-> scripts/unifdef.c:880:13: error: expected identifier or '('
->   880 |                 constexpr =3D false;
->       |                           ^
->
-> Rename this instance to allow changing to C23 at some point in the future=
-.
->
-> Cc: Masahiro Yamada <masahiroy@kernel.org>
-> Cc: Nathan Chancellor <nathan@kernel.org>
-> Cc: Nicolas Schier <nicolas@fjasle.eu>
-> Cc: linux-kbuild@vger.kernel.org
-> Reviewed-By: Tony Finch <dot@dotat.at>
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  v2: include fixup from Tony
+This makes upstream/downstream Makefiles look consistent.
 
 
-Applied to linux-kbuild. Thanks.
+Masahiro Yamada (4):
+  arch: use $(obj)/ instead of $(src)/ for preprocessed linker scripts
+  Makefile: remove some unnecessary header include paths
+  kbuild: use $(obj)/ instead of $(src)/ for pattern rules for %.[cS]
+  kbuild: use $(src) instead of $(srctree)/$(src) for source directory
 
+ Documentation/Makefile                        |  8 ++++----
+ Documentation/devicetree/bindings/Makefile    | 10 +++++-----
+ Documentation/kbuild/makefiles.rst            | 12 +++++------
+ Makefile                                      |  7 +++++++
+ arch/arc/boot/dts/Makefile                    |  3 +--
+ arch/arm/Kbuild                               |  2 +-
+ arch/arm/boot/Makefile                        |  3 +--
+ arch/arm/mach-s3c/Makefile                    |  2 +-
+ arch/arm/plat-orion/Makefile                  |  2 +-
+ arch/arm/tools/Makefile                       |  2 +-
+ arch/arm64/kernel/vdso/Makefile               |  2 +-
+ arch/arm64/kernel/vdso32/Makefile             |  2 +-
+ arch/arm64/kvm/Makefile                       |  4 ++--
+ arch/arm64/kvm/hyp/Makefile                   |  2 +-
+ arch/csky/boot/dts/Makefile                   |  4 +---
+ arch/csky/kernel/vdso/Makefile                |  4 ++--
+ arch/loongarch/kvm/Makefile                   |  2 --
+ arch/loongarch/vdso/Makefile                  |  2 +-
+ arch/mips/kernel/syscalls/Makefile            |  2 +-
+ arch/mips/vdso/Makefile                       |  4 ++--
+ arch/nios2/boot/dts/Makefile                  |  3 +--
+ arch/parisc/kernel/vdso32/Makefile            |  4 ++--
+ arch/parisc/kernel/vdso64/Makefile            |  4 ++--
+ arch/powerpc/boot/Makefile                    |  6 +++---
+ arch/powerpc/boot/dts/Makefile                |  3 +--
+ arch/powerpc/boot/dts/fsl/Makefile            |  3 +--
+ arch/powerpc/kernel/vdso/Makefile             |  8 ++++----
+ arch/riscv/kernel/compat_vdso/Makefile        |  2 +-
+ arch/riscv/kernel/vdso/Makefile               |  2 +-
+ arch/riscv/kvm/Makefile                       |  2 +-
+ arch/s390/kernel/syscalls/Makefile            |  4 ++--
+ arch/s390/kernel/vdso32/Makefile              |  4 ++--
+ arch/s390/kernel/vdso64/Makefile              |  4 ++--
+ arch/sh/kernel/vsyscall/Makefile              |  4 ++--
+ arch/sparc/vdso/Makefile                      |  2 +-
+ arch/um/kernel/Makefile                       |  2 +-
+ arch/x86/boot/Makefile                        |  2 +-
+ arch/x86/entry/vdso/Makefile                  |  2 +-
+ arch/x86/kernel/Makefile                      |  2 +-
+ arch/x86/kernel/cpu/Makefile                  |  2 +-
+ arch/x86/mm/Makefile                          |  2 +-
+ arch/x86/um/vdso/Makefile                     |  2 +-
+ arch/xtensa/boot/dts/Makefile                 |  3 +--
+ certs/Makefile                                |  4 ++--
+ drivers/Makefile                              |  5 -----
+ drivers/crypto/intel/qat/qat_420xx/Makefile   |  2 +-
+ drivers/crypto/intel/qat/qat_4xxx/Makefile    |  2 +-
+ drivers/crypto/intel/qat/qat_c3xxx/Makefile   |  2 +-
+ drivers/crypto/intel/qat/qat_c3xxxvf/Makefile |  2 +-
+ drivers/crypto/intel/qat/qat_c62x/Makefile    |  2 +-
+ drivers/crypto/intel/qat/qat_c62xvf/Makefile  |  2 +-
+ .../crypto/intel/qat/qat_dh895xcc/Makefile    |  2 +-
+ .../crypto/intel/qat/qat_dh895xccvf/Makefile  |  2 +-
+ drivers/gpu/drm/amd/amdgpu/Makefile           |  2 +-
+ drivers/gpu/drm/arm/display/komeda/Makefile   |  4 ++--
+ drivers/gpu/drm/i915/Makefile                 |  4 ++--
+ drivers/gpu/drm/imagination/Makefile          |  2 --
+ drivers/gpu/drm/msm/Makefile                  |  8 ++++----
+ drivers/gpu/drm/nouveau/Kbuild                | 10 ++++------
+ drivers/gpu/drm/xe/Makefile                   | 10 +++++-----
+ drivers/hid/amd-sfh-hid/Makefile              |  2 +-
+ drivers/hid/intel-ish-hid/Makefile            |  2 +-
+ drivers/md/dm-vdo/Makefile                    |  2 +-
+ .../net/ethernet/aquantia/atlantic/Makefile   |  2 --
+ drivers/net/ethernet/chelsio/libcxgb/Makefile |  2 +-
+ drivers/net/ethernet/fungible/funeth/Makefile |  2 +-
+ drivers/net/ethernet/hisilicon/hns3/Makefile  |  2 +-
+ .../broadcom/brcm80211/brcmfmac/Makefile      |  4 ++--
+ .../broadcom/brcm80211/brcmfmac/bca/Makefile  |  6 +++---
+ .../broadcom/brcm80211/brcmfmac/cyw/Makefile  |  6 +++---
+ .../broadcom/brcm80211/brcmfmac/wcc/Makefile  |  6 +++---
+ .../broadcom/brcm80211/brcmsmac/Makefile      |  6 +++---
+ .../broadcom/brcm80211/brcmutil/Makefile      |  2 +-
+ .../net/wireless/intel/iwlwifi/dvm/Makefile   |  2 +-
+ .../net/wireless/intel/iwlwifi/mei/Makefile   |  2 +-
+ .../net/wireless/intel/iwlwifi/mvm/Makefile   |  2 +-
+ .../net/wireless/intel/iwlwifi/tests/Makefile |  2 +-
+ .../wireless/realtek/rtl818x/rtl8180/Makefile |  2 +-
+ .../wireless/realtek/rtl818x/rtl8187/Makefile |  2 +-
+ drivers/scsi/aic7xxx/Makefile                 | 12 +++++------
+ drivers/staging/rtl8723bs/Makefile            |  2 +-
+ fs/iomap/Makefile                             |  2 +-
+ fs/unicode/Makefile                           | 14 ++++++-------
+ fs/xfs/Makefile                               |  4 ++--
+ init/Makefile                                 |  2 +-
+ lib/Makefile                                  |  6 +++---
+ lib/raid6/Makefile                            |  2 +-
+ net/wireless/Makefile                         |  2 +-
+ rust/Makefile                                 |  6 +++---
+ samples/bpf/Makefile                          |  2 +-
+ samples/hid/Makefile                          |  2 +-
+ scripts/Kbuild.include                        |  3 +--
+ scripts/Makefile.asm-generic                  |  6 +++---
+ scripts/Makefile.build                        | 20 +++++++++----------
+ scripts/Makefile.clean                        |  2 +-
+ scripts/Makefile.host                         |  4 ++--
+ scripts/Makefile.lib                          | 10 +++++-----
+ scripts/Makefile.modpost                      |  2 +-
+ scripts/dtc/Makefile                          |  6 +++---
+ scripts/gdb/linux/Makefile                    |  2 +-
+ scripts/genksyms/Makefile                     |  4 ++--
+ scripts/kconfig/Makefile                      |  8 ++++----
+ security/tomoyo/Makefile                      |  2 +-
+ usr/Makefile                                  |  2 +-
+ usr/include/Makefile                          |  2 +-
+ 105 files changed, 193 insertions(+), 208 deletions(-)
 
-> ---
->  scripts/unifdef.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
->
-> diff --git a/scripts/unifdef.c b/scripts/unifdef.c
-> index db00e3e30a59..ff15efd6e7d7 100644
-> --- a/scripts/unifdef.c
-> +++ b/scripts/unifdef.c
-> @@ -203,7 +203,7 @@ static int              depth;                      /=
-* current #if nesting */
->  static int              delcount;              /* count of deleted lines=
- */
->  static unsigned         blankcount;            /* count of blank lines *=
-/
->  static unsigned         blankmax;              /* maximum recent blankco=
-unt */
-> -static bool             constexpr;             /* constant #if expressio=
-n */
-> +static bool             constexpression;       /* constant #if expressio=
-n */
->  static bool             zerosyms =3D true;       /* to format symdepth o=
-utput */
->  static bool             firstsym;              /* ditto */
->
-> @@ -819,7 +819,7 @@ static const struct ops {
->  /*
->   * Function for evaluating the innermost parts of expressions,
->   * viz. !expr (expr) number defined(symbol) symbol
-> - * We reset the constexpr flag in the last two cases.
-> + * We reset the constexpression flag in the last two cases.
->   */
->  static Linetype
->  eval_unary(const struct ops *ops, int *valp, const char **cpp)
-> @@ -877,7 +877,7 @@ eval_unary(const struct ops *ops, int *valp, const ch=
-ar **cpp)
->                 cp =3D skipcomment(cp);
->                 if (defparen && *cp++ !=3D ')')
->                         return (LT_ERROR);
-> -               constexpr =3D false;
-> +               constexpression =3D false;
->         } else if (!endsym(*cp)) {
->                 debug("eval%d symbol", ops - eval_ops);
->                 sym =3D findsym(cp);
-> @@ -895,7 +895,7 @@ eval_unary(const struct ops *ops, int *valp, const ch=
-ar **cpp)
->                         lt =3D *valp ? LT_TRUE : LT_FALSE;
->                         cp =3D skipargs(cp);
->                 }
-> -               constexpr =3D false;
-> +               constexpression =3D false;
->         } else {
->                 debug("eval%d bad expr", ops - eval_ops);
->                 return (LT_ERROR);
-> @@ -955,10 +955,10 @@ ifeval(const char **cpp)
->         int val =3D 0;
->
->         debug("eval %s", *cpp);
-> -       constexpr =3D killconsts ? false : true;
-> +       constexpression =3D killconsts ? false : true;
->         ret =3D eval_table(eval_ops, &val, cpp);
->         debug("eval =3D %d", val);
-> -       return (constexpr ? LT_IF : ret =3D=3D LT_ERROR ? LT_IF : ret);
-> +       return (constexpression ? LT_IF : ret =3D=3D LT_ERROR ? LT_IF : r=
-et);
->  }
->
->  /*
-> --
-> 2.39.2
->
+-- 
+2.40.1
 
-
---=20
-Best Regards
-Masahiro Yamada
 
