@@ -1,133 +1,136 @@
-Return-Path: <linux-kbuild+bounces-1601-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1602-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D3E38A8814
-	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Apr 2024 17:51:06 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65F868A8C87
+	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Apr 2024 22:03:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5A2C0283B5A
-	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Apr 2024 15:51:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1B0891F22A89
+	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Apr 2024 20:03:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DDE8140E29;
-	Wed, 17 Apr 2024 15:51:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B588A39855;
+	Wed, 17 Apr 2024 20:01:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=thefossguy.com header.i=@thefossguy.com header.b="nJKB3cou"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b="HC2IFy++"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
+Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1534140389
-	for <linux-kbuild@vger.kernel.org>; Wed, 17 Apr 2024 15:51:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FA7B482DB;
+	Wed, 17 Apr 2024 20:01:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.63.252.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713369063; cv=none; b=KaTNXnb+HRrbI/OlEMXL/VJqQLiCFQRchbb/hUEj+aEBUBTbf6PaAG+GiyxWHSM6+6y3Yth5WuTRWbDJw1ZyyG0B6SZaiWwT6KN9xYqmF1xm1+I1njfV2TD6vdDDv1OfyAHtyQvYCly0eUneJr0VEKSADxv+lpx9CwsO6vfXVjY=
+	t=1713384101; cv=none; b=A71a+G25qf7g+DVR3kiTXF32LXSqgkXgRQxRbzcwjl+xkNc0sL1XnmXHUiqi+VTXCF5FMiDQd3YbUbIHGvQpbmCw0irABMU/cpAUpF3M+CS3jg6vS57yyVmfuoAo4eJ6G/FJ0oHJ7zGxOYpXF+sD0eikjtpsW12j14DXBzJBiPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713369063; c=relaxed/simple;
-	bh=YZ5Gs3pzsVzPDpAF1AnquPFQT7Ct1ghx1+IUqjmdrd4=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YK3s261YQV4Xl3TzFI5LAdLmc1oRa51TdzmVguEaMQf7W+nUoI2Wk6yJhRBsodMNaJ8tvQiDBU2fPa8EmGQzjQp/YyzHjCVaV0aYjwQVJPLkVWi/OUX3DdSPMCDGf82jOmGBLfJNoKwQHgF5IAydjsfq8bAmH/ns8rLISYcNNZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thefossguy.com; spf=pass smtp.mailfrom=thefossguy.com; dkim=pass (2048-bit key) header.d=thefossguy.com header.i=@thefossguy.com header.b=nJKB3cou; arc=none smtp.client-ip=185.70.43.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thefossguy.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thefossguy.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=thefossguy.com;
-	s=protonmail; t=1713369058; x=1713628258;
-	bh=VltivUnSF1pk0rrI01zyKAzdOLdzHQZtBZUPlUrlMC8=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=nJKB3couVqyZYLuDJ0XbnLjytnjiiPOXEcM3BPZShqvYD+ECO3WuJ6SwAjrMrQfxE
-	 ct3S8Nmn2xdnqqmE54JErduc0UbSBjxzyVK2iOJbkXTYYPY66w7N0fOlv9tEAym6Jf
-	 GHXo4hYcBWuL/5iKK+oX8hZqXIprYV92K60Fb/rOIGUn35f2OkcijJ/Ee9tAejzrB1
-	 u2I5eXPO1WnGM08VQkS6d2u3FYGGw6XWRLt0cUPTMm/Zdh21RnBEpObb1oHtb2QgwP
-	 haqwYvcUiVBuxtlaHmebs/TsoYd10utLkv4eO7z//nf2zjXTFEa6qwgmILo2EWEo3M
-	 lEYoFM/0cRddA==
-Date: Wed, 17 Apr 2024 15:50:50 +0000
-To: Nathan Chancellor <nathan@kernel.org>
-From: Pratham Patel <prathampatel@thefossguy.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Jonathan Corbet <corbet@lwn.net>, linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, thefirst1322@gmail.com
-Subject: Re: [PATCH 0/2] Enable building of the devel RPM package from Kbuild
-Message-ID: <D0MIMX0DRNKG.21N7VHAE5MWNX@thefossguy.com>
-In-Reply-To: <20240417154750.GB1517581@dev-arch.thelio-3990X>
-References: <20240417043654.60662-1-prathampatel@thefossguy.com> <20240417144859.GA1471879@dev-arch.thelio-3990X> <D0MHQUIYGONC.3LTT2WN2885D7@thefossguy.com> <20240417154750.GB1517581@dev-arch.thelio-3990X>
-Feedback-ID: 104309535:user:proton
+	s=arc-20240116; t=1713384101; c=relaxed/simple;
+	bh=C7UOGz4cfMuUlgzQCx0ka8A1vycTIcJZk/BYF5U5pwA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LOasRSqXIJ0ZjfRwVHdrVsbO1XFqUCGpUoHBUFKPr+geCozGfR1RRskfexbOKYJ3awEFz0dccCDu4HXeHoOzug7Bw/601c17TW7oA6y2ucaPoUFhHiGAuo0+sIpTRhMJPeBHfiHfVYFEe4UBe0Q5nGNDyMfmZDg3TvWwh1YQyIw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu; spf=pass smtp.mailfrom=fjasle.eu; dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b=HC2IFy++; arc=none smtp.client-ip=194.63.252.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fjasle.eu
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=fjasle.eu;
+	s=ds202307; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=C7UOGz4cfMuUlgzQCx0ka8A1vycTIcJZk/BYF5U5pwA=; b=HC2IFy++2Z/KFfCvOBBSgz0+YU
+	Qh6O1lghVKnLxii3U72e6jpyeMAPzt1C4cih21Ms9FAz+oAZrzva931eMyUdIifIe48V5UhCczHGi
+	LDNuDcOOk5DvF9Doj7KCkE3gGcreOYjuS2xoUo4hVLh1Csy4PxvS2fCJJSZ05SLFdlVac331ZLVH8
+	EvQejIVV5iNYw6SVppD9wz/vtMerqeIJFbDZR6X9TZUP/N0Pec6v8E1ykfPk+W/dakPk+h7h6Jm0n
+	d5M6+/7/dVthAWw6eS0EvfXAw/kOR8XOZvK3k3Np2F2PHyKNStU1kvBmpBkFzWmsYkGtfL6s/sfBE
+	KDch3bAQ==;
+Received: from [2001:9e8:9e8:6e01:6f0:21ff:fe91:394] (port=58278 helo=bergen.fjasle.eu)
+	by smtp.domeneshop.no with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <nicolas@fjasle.eu>)
+	id 1rxB5o-001R6W-V3;
+	Wed, 17 Apr 2024 21:37:17 +0200
+Date: Wed, 17 Apr 2024 21:37:08 +0200
+From: Nicolas Schier <nicolas@fjasle.eu>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, Albert Ou <aou@eecs.berkeley.edu>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH] kbuild: buildtar: add comments about inconsistent
+ package generation
+Message-ID: <ZiAk5Ikh-UFZ2554@bergen.fjasle.eu>
+References: <20240414174139.3001175-1-masahiroy@kernel.org>
+ <CAK7LNATqLwewFaMNEy6yDguv5mNoGZJus9p4kbyMOGV9T+yopQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="9IC+ahEzzWfG8TN+"
+Content-Disposition: inline
+In-Reply-To: <CAK7LNATqLwewFaMNEy6yDguv5mNoGZJus9p4kbyMOGV9T+yopQ@mail.gmail.com>
+X-Operating-System: Debian GNU/Linux trixie/sid
+Jabber-ID: nicolas@jabber.no
+
+
+--9IC+ahEzzWfG8TN+
 Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed Apr 17, 2024 at 9:17 PM IST, Nathan Chancellor wrote:
-> On Wed, Apr 17, 2024 at 03:08:57PM +0000, Pratham Patel wrote:
-> > On Wed Apr 17, 2024 at 8:18 PM IST, Nathan Chancellor wrote:
-> > > On Wed, Apr 17, 2024 at 04:37:32AM +0000, Pratham Patel wrote:
-> > > > This addresses a minor nit where I want a `-devel` RPM package to b=
-e
-> > > > built when I build a binary RPM package with either `binrpm-pkg`
-> > > > or `rpm-pkg` target(s).
-> > > >
-> > > > Pratham Patel (2):
-> > > >   kbuild: allow toggling the `with_devel` RPM macro
-> > > >   docs: kbuild: document KBUILD_RPM_WITH_DEVEL
-> > > >
-> > > >  Documentation/kbuild/kbuild.rst | 6 ++++++
-> > > >  scripts/Makefile.package        | 5 ++++-
-> > > >  2 files changed, 10 insertions(+), 1 deletion(-)
-> > > >
-> > > > --
-> > > > 2.42.0
-> > > >
-> > >
-> > > Hmmm, when I execute
-> > >
-> > >   $ make -skj"$(nproc)" ARCH=3Dx86_64 O=3Dbuild mrproper defconfig bi=
-nrpm-pkg
-> > >
-> > > I end up with
-> > >
-> > >   $ ls -1 build/rpmbuild/RPMS/x86_64
-> > >   kernel-6.9.0_rc4_00031_g96fca68c4fbf-1.x86_64.rpm
-> > >   kernel-devel-6.9.0_rc4_00031_g96fca68c4fbf-1.x86_64.rpm
-> > >   kernel-headers-6.9.0_rc4_00031_g96fca68c4fbf-1.x86_64.rpm
-> > >
-> > > so it seems like this is already happening?
-> > >
-> > > Cheers,
-> > > Nathan
+On Tue 16 Apr 2024 11:07:48 GMT, Masahiro Yamada wrote:
+> On Mon, Apr 15, 2024 at 2:42=E2=80=AFAM Masahiro Yamada=20
+> <masahiroy@kernel.org> wrote:
 > >
-> > Ah sorry, that was a typo. I meant to say the following:
-> > "This addresses a minor nit where I **don't** want a `-devel` RPM
-> > package to be built when I build a binary RPM package with either
-> > `binrpm-pkg` or `rpm-pkg` target(s)."
+> > scripts/package/buildtar checks some kernel packages, and copies the
+> > first image found. This may potentially produce an inconsistent (and
+> > possibly wrong) package.
 > >
-> > That is because on ARM systems where I just need to quickly test the
-> > upstream defconfig, I don't really need the `-devel` package.
+> > For instance, the for-loop for arm64 checks Image.{bz2,gz,lz4,lzma,lzo},
+> > and vmlinuz.efi, then copies the first image found, which might be a
+> > stale image.
 > >
-> > Also, I see that in a hurry, I did the opposite of what I wanted in the
-> > patches. This went unnoticed since I had KBUILD_RPM_WITH_DEVEL=3D0 for =
-me
-> > during testing. Sorry about that!
+> > When CONFIG_EFI_ZBOOT is enabled in the pristine source tree,
+> > 'make ARCH=3Darm64 tar-pkg' will build and copy vmlinuz.efi. This is the
+> > expected behavior.
 > >
-> > I'll send a v2 fixing this stupid mistake.
->
-> Ah, understood! I am not sure you actually need a v2 though because I
-> think you can already accomplish what you are looking for by adding
->
->   RPMOPTS=3D'--without devel'
->
-> to your make command, at least that works for me. Commit 2a291fc315b6
-> ("kbuild: rpm-pkg: introduce %{with_devel} switch to select devel
-> package") introduced this.
->
-> Cheers,
-> Nathan
+> > If you build the kernel with CONFIG_EFI_ZBOOT, Image.gz will be created,
+>=20
+>=20
+> The correct sentence is
+>=20
+> If you build the kernel with CONFIG_EFI_ZBOOT disabled, ...
 
-Oh, didn't know that, thank you. :)
+Thanks, I appreciate the detailed descriptions and comments.=20
 
- -- Pratham Patel
+Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
 
+Kind regards,
+Nicolas
+
+
+--9IC+ahEzzWfG8TN+
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmYgJN4ACgkQB1IKcBYm
+Emm0+Q/5AaKrBHVyleIlKiQPc4+aVIWSJxINp1Rz8+XO54115MSL2/9lnUvVKzO9
+/cDZfsC/lFwPRtICfXww9fqPgNWKeDpKRlIKH/KcfUpS8igt5gFSx+PbOO8lfKib
+67FFL/WTN3reNzMt/aRTWIoSmtz8euPWFBV2534sHwtigniZGULmfwCzAMgFIMZe
+glW8iGGOddQCo4veXdLLiOspuEis1NAeNLD0ziAcREud4LF7z3XBOfMRzng7vQwk
+RavQoqTJWCdVo3ROuCYkeS+T56RyzibuVZB2CNhCLZ9pjfgr2ghf7hgE3grGfakv
+BnPsrKaY5HDjOKgee1kR3CNSFZF0/7hgaOkqGzLjndwEWcxcKYhXVxrs3gpIkojX
+2uvEJ5o23chY3odVNNKGJ+sM0MbuRHN50ewj9rZY0zFFpEnEyXMW63/GbV0zyH13
+QWjwG0taC2ur6q7CqVIFUGszTlhfoEBw6i0dBhL1URvzkvpBHezOzMWQPpU8zMgd
+nKp5V1EhvYUNcFSumykYwaFUZfW37WQrQoAV4YDmXiEOBZSDrWftnOHFzZ1nPUbB
+Jf7QfvTFX/Y06w+nk7JMK/3zPZ4W0Hema5YzJI31rwAnDZ3tsoPLN8DdrT782QwM
+UVwML0pd5QAuHCcj8Y/98nHKWxMxS8b2dLR8gZmi7Cn3bI3Jkrs=
+=bEWj
+-----END PGP SIGNATURE-----
+
+--9IC+ahEzzWfG8TN+--
 
