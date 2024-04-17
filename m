@@ -1,127 +1,133 @@
-Return-Path: <linux-kbuild+bounces-1600-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1601-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F65B8A8804
-	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Apr 2024 17:47:57 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D3E38A8814
+	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Apr 2024 17:51:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 907961C21E7E
-	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Apr 2024 15:47:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5A2C0283B5A
+	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Apr 2024 15:51:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05FF2140E29;
-	Wed, 17 Apr 2024 15:47:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DDE8140E29;
+	Wed, 17 Apr 2024 15:51:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lFI2MDes"
+	dkim=pass (2048-bit key) header.d=thefossguy.com header.i=@thefossguy.com header.b="nJKB3cou"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D19B638DEC;
-	Wed, 17 Apr 2024 15:47:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1534140389
+	for <linux-kbuild@vger.kernel.org>; Wed, 17 Apr 2024 15:51:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713368872; cv=none; b=RR+RhJmXGUwTYijXAEadTl+EI7Hx2y90QCJRwCiB/fxb5uZXK0vr2z3h+BuCBktazbJBP5m4v68cgsYxDG2L8sXGSVWn+HmnADcWNUP2LOmf1Xl3AXU5cf/ajsGCkrc/T562L9QaxaXtNJA5Wef+JV4tvMVOmMsrXt5fn897t+Y=
+	t=1713369063; cv=none; b=KaTNXnb+HRrbI/OlEMXL/VJqQLiCFQRchbb/hUEj+aEBUBTbf6PaAG+GiyxWHSM6+6y3Yth5WuTRWbDJw1ZyyG0B6SZaiWwT6KN9xYqmF1xm1+I1njfV2TD6vdDDv1OfyAHtyQvYCly0eUneJr0VEKSADxv+lpx9CwsO6vfXVjY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713368872; c=relaxed/simple;
-	bh=FFjMD9+pcN8PYr5aH7gGFyqpqptpUJTYM456sav4gMk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UEjnIGNybNTwhKTfgVg9Q4hBEMEaUk0SD1yxaRerNBblYoRSJ44Qoh5BMHGYK25mvXRrjKUmGG9Xju+yEmlwbFQr5gveL+IveHpHZnK3332S13XVkRxBqtC/hQn5mY5oaxXmZTFlYG8TQrxAbP4POXMrXugx07qUGpqkMkXXxic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lFI2MDes; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA775C072AA;
-	Wed, 17 Apr 2024 15:47:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713368872;
-	bh=FFjMD9+pcN8PYr5aH7gGFyqpqptpUJTYM456sav4gMk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lFI2MDes4UBkWZ7gviQgMUhbAnm64WOAyM5s4J5MUZAxSheF3mqJL30K5rDbfauXz
-	 0ZU1kE24ZfDHOGqYgAk3FPJD7WWfrCtXlCqzxj5eDI1GVVdOye6offg/65oPuprmxK
-	 bqbPmilgxZ/4HqPOWS9GoIwpKC4nmlS3GX258kK/u593/KqQ2JHCm9JM977WjBd/Tk
-	 YJSXBD9eZHRjaqFxy8Sr5Hjk87OET8cwDfRWn9w7qyaVymyJmdTvCS5b3S3sle11Q4
-	 M4f0p19kV0yYiwWjoWhpu3qqeZ4GpKw0hSfBWRcH0u7PPxBx69FASuoCIDyPII2tpU
-	 Jh30T5y0lfUIw==
-Date: Wed, 17 Apr 2024 08:47:50 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Pratham Patel <prathampatel@thefossguy.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Jonathan Corbet <corbet@lwn.net>, linux-kbuild@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	thefirst1322@gmail.com
+	s=arc-20240116; t=1713369063; c=relaxed/simple;
+	bh=YZ5Gs3pzsVzPDpAF1AnquPFQT7Ct1ghx1+IUqjmdrd4=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=YK3s261YQV4Xl3TzFI5LAdLmc1oRa51TdzmVguEaMQf7W+nUoI2Wk6yJhRBsodMNaJ8tvQiDBU2fPa8EmGQzjQp/YyzHjCVaV0aYjwQVJPLkVWi/OUX3DdSPMCDGf82jOmGBLfJNoKwQHgF5IAydjsfq8bAmH/ns8rLISYcNNZw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thefossguy.com; spf=pass smtp.mailfrom=thefossguy.com; dkim=pass (2048-bit key) header.d=thefossguy.com header.i=@thefossguy.com header.b=nJKB3cou; arc=none smtp.client-ip=185.70.43.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thefossguy.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thefossguy.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=thefossguy.com;
+	s=protonmail; t=1713369058; x=1713628258;
+	bh=VltivUnSF1pk0rrI01zyKAzdOLdzHQZtBZUPlUrlMC8=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=nJKB3couVqyZYLuDJ0XbnLjytnjiiPOXEcM3BPZShqvYD+ECO3WuJ6SwAjrMrQfxE
+	 ct3S8Nmn2xdnqqmE54JErduc0UbSBjxzyVK2iOJbkXTYYPY66w7N0fOlv9tEAym6Jf
+	 GHXo4hYcBWuL/5iKK+oX8hZqXIprYV92K60Fb/rOIGUn35f2OkcijJ/Ee9tAejzrB1
+	 u2I5eXPO1WnGM08VQkS6d2u3FYGGw6XWRLt0cUPTMm/Zdh21RnBEpObb1oHtb2QgwP
+	 haqwYvcUiVBuxtlaHmebs/TsoYd10utLkv4eO7z//nf2zjXTFEa6qwgmILo2EWEo3M
+	 lEYoFM/0cRddA==
+Date: Wed, 17 Apr 2024 15:50:50 +0000
+To: Nathan Chancellor <nathan@kernel.org>
+From: Pratham Patel <prathampatel@thefossguy.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Jonathan Corbet <corbet@lwn.net>, linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, thefirst1322@gmail.com
 Subject: Re: [PATCH 0/2] Enable building of the devel RPM package from Kbuild
-Message-ID: <20240417154750.GB1517581@dev-arch.thelio-3990X>
-References: <20240417043654.60662-1-prathampatel@thefossguy.com>
- <20240417144859.GA1471879@dev-arch.thelio-3990X>
- <D0MHQUIYGONC.3LTT2WN2885D7@thefossguy.com>
+Message-ID: <D0MIMX0DRNKG.21N7VHAE5MWNX@thefossguy.com>
+In-Reply-To: <20240417154750.GB1517581@dev-arch.thelio-3990X>
+References: <20240417043654.60662-1-prathampatel@thefossguy.com> <20240417144859.GA1471879@dev-arch.thelio-3990X> <D0MHQUIYGONC.3LTT2WN2885D7@thefossguy.com> <20240417154750.GB1517581@dev-arch.thelio-3990X>
+Feedback-ID: 104309535:user:proton
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <D0MHQUIYGONC.3LTT2WN2885D7@thefossguy.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Apr 17, 2024 at 03:08:57PM +0000, Pratham Patel wrote:
-> On Wed Apr 17, 2024 at 8:18 PM IST, Nathan Chancellor wrote:
-> > On Wed, Apr 17, 2024 at 04:37:32AM +0000, Pratham Patel wrote:
-> > > This addresses a minor nit where I want a `-devel` RPM package to be
-> > > built when I build a binary RPM package with either `binrpm-pkg`
-> > > or `rpm-pkg` target(s).
+On Wed Apr 17, 2024 at 9:17 PM IST, Nathan Chancellor wrote:
+> On Wed, Apr 17, 2024 at 03:08:57PM +0000, Pratham Patel wrote:
+> > On Wed Apr 17, 2024 at 8:18 PM IST, Nathan Chancellor wrote:
+> > > On Wed, Apr 17, 2024 at 04:37:32AM +0000, Pratham Patel wrote:
+> > > > This addresses a minor nit where I want a `-devel` RPM package to b=
+e
+> > > > built when I build a binary RPM package with either `binrpm-pkg`
+> > > > or `rpm-pkg` target(s).
+> > > >
+> > > > Pratham Patel (2):
+> > > >   kbuild: allow toggling the `with_devel` RPM macro
+> > > >   docs: kbuild: document KBUILD_RPM_WITH_DEVEL
+> > > >
+> > > >  Documentation/kbuild/kbuild.rst | 6 ++++++
+> > > >  scripts/Makefile.package        | 5 ++++-
+> > > >  2 files changed, 10 insertions(+), 1 deletion(-)
+> > > >
+> > > > --
+> > > > 2.42.0
+> > > >
 > > >
-> > > Pratham Patel (2):
-> > >   kbuild: allow toggling the `with_devel` RPM macro
-> > >   docs: kbuild: document KBUILD_RPM_WITH_DEVEL
+> > > Hmmm, when I execute
 > > >
-> > >  Documentation/kbuild/kbuild.rst | 6 ++++++
-> > >  scripts/Makefile.package        | 5 ++++-
-> > >  2 files changed, 10 insertions(+), 1 deletion(-)
+> > >   $ make -skj"$(nproc)" ARCH=3Dx86_64 O=3Dbuild mrproper defconfig bi=
+nrpm-pkg
 > > >
-> > > --
-> > > 2.42.0
+> > > I end up with
 > > >
+> > >   $ ls -1 build/rpmbuild/RPMS/x86_64
+> > >   kernel-6.9.0_rc4_00031_g96fca68c4fbf-1.x86_64.rpm
+> > >   kernel-devel-6.9.0_rc4_00031_g96fca68c4fbf-1.x86_64.rpm
+> > >   kernel-headers-6.9.0_rc4_00031_g96fca68c4fbf-1.x86_64.rpm
+> > >
+> > > so it seems like this is already happening?
+> > >
+> > > Cheers,
+> > > Nathan
 > >
-> > Hmmm, when I execute
+> > Ah sorry, that was a typo. I meant to say the following:
+> > "This addresses a minor nit where I **don't** want a `-devel` RPM
+> > package to be built when I build a binary RPM package with either
+> > `binrpm-pkg` or `rpm-pkg` target(s)."
 > >
-> >   $ make -skj"$(nproc)" ARCH=x86_64 O=build mrproper defconfig binrpm-pkg
+> > That is because on ARM systems where I just need to quickly test the
+> > upstream defconfig, I don't really need the `-devel` package.
 > >
-> > I end up with
+> > Also, I see that in a hurry, I did the opposite of what I wanted in the
+> > patches. This went unnoticed since I had KBUILD_RPM_WITH_DEVEL=3D0 for =
+me
+> > during testing. Sorry about that!
 > >
-> >   $ ls -1 build/rpmbuild/RPMS/x86_64
-> >   kernel-6.9.0_rc4_00031_g96fca68c4fbf-1.x86_64.rpm
-> >   kernel-devel-6.9.0_rc4_00031_g96fca68c4fbf-1.x86_64.rpm
-> >   kernel-headers-6.9.0_rc4_00031_g96fca68c4fbf-1.x86_64.rpm
-> >
-> > so it seems like this is already happening?
-> >
-> > Cheers,
-> > Nathan
-> 
-> Ah sorry, that was a typo. I meant to say the following:
-> "This addresses a minor nit where I **don't** want a `-devel` RPM
-> package to be built when I build a binary RPM package with either
-> `binrpm-pkg` or `rpm-pkg` target(s)."
-> 
-> That is because on ARM systems where I just need to quickly test the
-> upstream defconfig, I don't really need the `-devel` package.
-> 
-> Also, I see that in a hurry, I did the opposite of what I wanted in the
-> patches. This went unnoticed since I had KBUILD_RPM_WITH_DEVEL=0 for me
-> during testing. Sorry about that!
-> 
-> I'll send a v2 fixing this stupid mistake.
+> > I'll send a v2 fixing this stupid mistake.
+>
+> Ah, understood! I am not sure you actually need a v2 though because I
+> think you can already accomplish what you are looking for by adding
+>
+>   RPMOPTS=3D'--without devel'
+>
+> to your make command, at least that works for me. Commit 2a291fc315b6
+> ("kbuild: rpm-pkg: introduce %{with_devel} switch to select devel
+> package") introduced this.
+>
+> Cheers,
+> Nathan
 
-Ah, understood! I am not sure you actually need a v2 though because I
-think you can already accomplish what you are looking for by adding
+Oh, didn't know that, thank you. :)
 
-  RPMOPTS='--without devel'
+ -- Pratham Patel
 
-to your make command, at least that works for me. Commit 2a291fc315b6
-("kbuild: rpm-pkg: introduce %{with_devel} switch to select devel
-package") introduced this.
-
-Cheers,
-Nathan
 
