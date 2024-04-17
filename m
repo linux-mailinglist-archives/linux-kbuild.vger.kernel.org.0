@@ -1,75 +1,76 @@
-Return-Path: <linux-kbuild+bounces-1592-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1593-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 022FB8A7819
-	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Apr 2024 00:49:54 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA9228A7B53
+	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Apr 2024 06:20:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B0FCF28169E
-	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Apr 2024 22:49:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6AD0D1F2126B
+	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Apr 2024 04:20:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E886B13A89B;
-	Tue, 16 Apr 2024 22:46:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2681641C85;
+	Wed, 17 Apr 2024 04:20:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ldtuQV0L"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mTewmbo5"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50ED113A88F;
-	Tue, 16 Apr 2024 22:46:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B89A41C73;
+	Wed, 17 Apr 2024 04:20:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713307576; cv=none; b=mlrgFLwme1hfnENbzUyFnaPe3s1jzQH6gD/Pmw2uZ/TvhSGIG9VVgiRM5x0+3h5jNG93VBiEUq8DlRshSLu89t7dQUpx3v6kLF3ItriBQInjk9R5qz+NgYkAsRwhZAy+sfhRV00+r3CT4G36tNnyttSHMIB2s98kOGFgSM1i4+o=
+	t=1713327626; cv=none; b=VDyTLeWIKS0JfdluJ+SQdhW9cd1GgPtUSQx7Yp2pkYGAQRfn38fvkICwN5rTQUfa3Q7qWa/JmrrwnHWeQXUYSEw1skO2r++Cx5Tpdq9gCjc3ly9umKTV7yb777VaL6KQhd4UpQlGHpXKYFQhzRXAQi8HFcXRaaPJ7+wEfAEXMa8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713307576; c=relaxed/simple;
-	bh=llxZo58VP9At2K8lhG3Bchvf9TeT0/Wc3kqodjf0g5U=;
+	s=arc-20240116; t=1713327626; c=relaxed/simple;
+	bh=eP9CiB0rVmK0Jtt5Y4CBVHAELD9KxtAHPblOt+Tr8S8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VxgApvzHieGpXtYlcC9BUJLnZk+wA7/g7ra3Pfqc6erznDK5yDA8JN5cJ4fj3rJfB5n2/fldHlKne0vq7OOOWk9d53715Tq85hU1TzXp7Iq4uaQ/En+u4eZMggamUb5ptytaVX14n5CMdlAWxkmA0wVIsegmo85txI1fyEXlax8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ldtuQV0L; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=GIuAp4+8kn9B0XoKrqNx/4aXQmGsU06GUhBRS6fwmB9XA2GHLxTJrqFLV1qWHdrayXIZI08OaV81+GKVj4a4Lsjv9GBdZNhcDf7Uv8jERSMSOgHkTTRpmo3QnQsATqfaEm6Ewhzd00pr/w4YCORdNVbCgK4sQxah++RWzHFqrU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mTewmbo5; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713307575; x=1744843575;
+  t=1713327624; x=1744863624;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=llxZo58VP9At2K8lhG3Bchvf9TeT0/Wc3kqodjf0g5U=;
-  b=ldtuQV0LGbagicObrNxGJReppzd2E04ODtx6XWK8GULxHFNJHU7eR7O7
-   S0KBKJpvVq3ypMzF6IInKlPyVELWK1CUAk7cwjzaes7ZHzqbEpTYH4OAZ
-   vtfyGSoo4xPjwT25zXtvFuIFo55PQD/KWMvYNPsQuf8MYvEPNfHExDbQ0
-   9BCaH8xhnR3RQkjR82kLTipqVpbCFSTxpY1z8HSkvNwHJXbe4jSACKbyI
-   vUabdjorata/GtINvVWjxPB0wDr/84C9otork/O7etYqdG55h0iyVaChN
-   1YGeFFHwIBHJJtSmDLo2QjzZR2bfiG3YbR2n7ueSogUrGpE1VLOjwVjjf
-   Q==;
-X-CSE-ConnectionGUID: cXNZCiyXTD+e3KA4U3XlGw==
-X-CSE-MsgGUID: ufHSL9WeQjezHbV0yb772w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="8641070"
-X-IronPort-AV: E=Sophos;i="6.07,207,1708416000"; 
-   d="scan'208";a="8641070"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 15:46:14 -0700
-X-CSE-ConnectionGUID: IwhoHhQ0SmaPL59GKQy8TQ==
-X-CSE-MsgGUID: CI93jiQiTi2bbLD+EoKvsw==
+  bh=eP9CiB0rVmK0Jtt5Y4CBVHAELD9KxtAHPblOt+Tr8S8=;
+  b=mTewmbo5NDOpeHNoiUs4fp7LaXMuZPDrUzPHBirY5ukmE/GvAJUb6TKn
+   wNIa1shrZE0Nnq1u3GBNqtZYlvekc6dq8cyzUm1C1fnYrLVA+t1OgvyDC
+   yJFGDWZ/vUiBHG8Dwx2SICboupJpL7THGl7hSL4abTlLhYV3dIRQ8X/zI
+   d1RHMQmaD+gvmJcqYVikttkLj/0zvfVuol770rqrmIy95Byk8GKNllddR
+   xnwlPCTFA693VeFzMSqG4OqS8Q117XlGszGHuM/42XhWlJAfuu3WfE6VR
+   RbYMkFRyo4H/OfYk/gYwddaESndhdzd+fNXwoiFXCIbzKvPL5yoOfgl2H
+   g==;
+X-CSE-ConnectionGUID: MpWjvdvTS3uaqwxKWSv8Vg==
+X-CSE-MsgGUID: Sm9icaV5R2mPpoBUUGjHSA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="8727250"
+X-IronPort-AV: E=Sophos;i="6.07,208,1708416000"; 
+   d="scan'208";a="8727250"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2024 21:20:24 -0700
+X-CSE-ConnectionGUID: yy0uzlT5T06h2v68mKmbig==
+X-CSE-MsgGUID: 76kdptNeS0ilm+ZYkDwsFQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,207,1708416000"; 
-   d="scan'208";a="22480291"
+X-IronPort-AV: E=Sophos;i="6.07,208,1708416000"; 
+   d="scan'208";a="59912377"
 Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 16 Apr 2024 15:46:13 -0700
+  by orviesa001.jf.intel.com with ESMTP; 16 Apr 2024 21:20:22 -0700
 Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rwrZ5-0005o0-0K;
-	Tue, 16 Apr 2024 22:46:11 +0000
-Date: Wed, 17 Apr 2024 06:45:55 +0800
+	id 1rwwmS-00067e-0O;
+	Wed, 17 Apr 2024 04:20:20 +0000
+Date: Wed, 17 Apr 2024 12:19:32 +0800
 From: kernel test robot <lkp@intel.com>
 To: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
 	Masahiro Yamada <masahiroy@kernel.org>
 Subject: Re: [PATCH 4/4] kbuild: use $(src) instead of $(srctree)/$(src) for
  source directory
-Message-ID: <202404170634.BlqTaYA0-lkp@intel.com>
+Message-ID: <202404171200.q4osYsl7-lkp@intel.com>
 References: <20240416121838.95427-5-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
@@ -83,9 +84,9 @@ In-Reply-To: <20240416121838.95427-5-masahiroy@kernel.org>
 
 Hi Masahiro,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on masahiroy-kbuild/for-next]
+[auto build test ERROR on masahiroy-kbuild/for-next]
 [cannot apply to masahiroy-kbuild/fixes wireless-next/main wireless/main linus/master v6.9-rc4 next-20240416]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
@@ -95,18 +96,18 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Masahiro-Yamada/arch-use-
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git for-next
 patch link:    https://lore.kernel.org/r/20240416121838.95427-5-masahiroy%40kernel.org
 patch subject: [PATCH 4/4] kbuild: use $(src) instead of $(srctree)/$(src) for source directory
-config: openrisc-defconfig (https://download.01.org/0day-ci/archive/20240417/202404170634.BlqTaYA0-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240417/202404170634.BlqTaYA0-lkp@intel.com/reproduce)
+config: arm64-randconfig-004-20240417 (https://download.01.org/0day-ci/archive/20240417/202404171200.q4osYsl7-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7089c359a3845323f6f30c44a47dd901f2edfe63)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240417/202404171200.q4osYsl7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404170634.BlqTaYA0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404171200.q4osYsl7-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> cc1: warning: -I: No such file or directory [-Wmissing-include-dirs]
+>> error: couldn't read rust/doctests_kernel_generated.rs: No such file or directory (os error 2)
 
 -- 
 0-DAY CI Kernel Test Service
