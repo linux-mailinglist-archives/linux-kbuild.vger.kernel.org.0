@@ -1,186 +1,111 @@
-Return-Path: <linux-kbuild+bounces-1603-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1604-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BC208A9722
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Apr 2024 12:19:38 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C044A8A9B80
+	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Apr 2024 15:43:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 47D43284DCE
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Apr 2024 10:19:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7D671282B8C
+	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Apr 2024 13:43:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C21DE15B56C;
-	Thu, 18 Apr 2024 10:19:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D72115FD16;
+	Thu, 18 Apr 2024 13:43:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FAMMwApP"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1E9D15B57F;
-	Thu, 18 Apr 2024 10:19:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 722BA15FD0D;
+	Thu, 18 Apr 2024 13:43:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713435576; cv=none; b=gr0HchD6ElpaIkVJcuSJr6Bubzj3gL+CJZWzD80cVuEf9CFrBrODJBaJNxDm88jAXcwfDWJ4LqKpJ+aacmpxmBFU830w81QYCWDYEcLgLE+w6soQ2QebfF0qgULPqtnT2dSTXjmh5EsN/VgUp8Mx2/+LWLTlHr0QVsF9miGfgpo=
+	t=1713447820; cv=none; b=osYolH8Y79zZhM5Md18KpUwsOfYoShC0Xw57tbi7Ut0dI0oxz1VHs4LB7iuA1SDnOhVZxMdLF8XhfoB+Rr9JomNjgUm+5H7E5Uz3Hldsbd8Iukk0IQGl/Ypix/6I26ZdcsySbSNDHIDrJao90Fv7MG6nyHdTQVSAxh8PfoTUNKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713435576; c=relaxed/simple;
-	bh=qbNvLZrXQEQZBcnSGokYUXRmXqLv6nHf87dpUDuMzpg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ALimlr9buR08x/EksvCPnEO/PfM8hD1LYUa3PrK814liSQCUZqsOr2CPz9fMyDcOPsqgOBgumsU/032/dNUApk578OrSpEgluRzXPfqTEy97Eo5nJ7yIYczrEiHJF7AJGAoVOjN10lxfeH54/tPwUvqUJDtQAruzkiWhUAGTU5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=isrc.iscas.ac.cn; spf=none smtp.mailfrom=isrc.iscas.ac.cn; arc=none smtp.client-ip=159.226.251.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=isrc.iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=isrc.iscas.ac.cn
-Received: from localhost.localdomain (unknown [124.16.141.245])
-	by APP-05 (Coremail) with SMTP id zQCowAAntRKo8yBmUeZgBA--.29090S2;
-	Thu, 18 Apr 2024 18:19:20 +0800 (CST)
-From: sunying@isrc.iscas.ac.cn
-To: masahiroy@kernel.org
-Cc: linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	pengpeng@iscas.ac.cn,
-	zy21df106@buaa.edu.cn,
-	Ying Sun <sunying@isrc.iscas.ac.cn>
-Subject: [PATCHv4 next] kconfig: add dependency warning print about invalid values while KBUILD_EXTRA_WARN=c
-Date: Thu, 18 Apr 2024 18:19:03 +0800
-Message-ID: <20240418101903.11314-1-sunying@isrc.iscas.ac.cn>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1713447820; c=relaxed/simple;
+	bh=QDNb5ClnywQly+K1RFM4EfM2oAMTBQMt3LKpDKIflW0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fBGYd4gr9kN50LHUajqyYZroexTDYxabu3JC97pxfBPvImR/Y0aO9B+7NWRCbwYrwXdxauUSvqDtWTpfchD7Al2+Oz8QKmFRmnU0vowjehLdwhZp9t6E5V+eUF5OWc6riQ1NpqTSYuG+l18IPb6+IkLCJFtRqmcSiCZ7nN8/MXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FAMMwApP; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E06F6C113CC;
+	Thu, 18 Apr 2024 13:43:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713447820;
+	bh=QDNb5ClnywQly+K1RFM4EfM2oAMTBQMt3LKpDKIflW0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FAMMwApPNUzbwsqK6TgvCLdC58a8ukIeCu9cVFLZYP450Bt2YDgLOz0r4n8i5SwW2
+	 sMTaRE26R/F49MSG3j8sb4VQ7awXQ6kussQ4y2fpE+gmDelAGpqwLeJ7vbrzoDbSDe
+	 u11vr0z11ZqXFsLn3Wsh7L8cKHWDIVdblkIFVFyHOpNej8h07xz7IZKf/b8fN2O8PD
+	 qXuW/YrggmMqmc8xWL5AAIRjonC5Fab+2sNBpIuiQzUrrtDyJPxI1owSva9SbQtX1v
+	 gBscqDmn9JDFk9v3wlJY4Yqwg8eaI6sWeD5osHqLEBr5zM9w+epQnSopwkUjTOOFzJ
+	 IUj575s4ua/7Q==
+Date: Thu, 18 Apr 2024 08:43:37 -0500
+From: Rob Herring <robh@kernel.org>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/4] kbuild: use $(src) instead of $(srctree)/$(src) for
+ source directory
+Message-ID: <20240418134337.GA1174228-robh@kernel.org>
+References: <20240416121838.95427-1-masahiroy@kernel.org>
+ <20240416121838.95427-5-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowAAntRKo8yBmUeZgBA--.29090S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxuFy8Kr48JFWrGw4fZrWkZwb_yoW5tr1fp3
-	WrXay3Cr4DAF1fta9xtFy8Ga15tFWvyr17trsxuw17AFy5CFWIgrsrGw1agrWDGrW3A3yr
-	CFyFgFWYkF4DKaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUv214x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j
-	6r4UM28EF7xvwVC2z280aVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8JV
-	W8Jr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-	2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
-	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lw4CEc2x0rVAKj4xx
-	MxkIecxEwVAFwVW8twCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s
-	026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_
-	JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20x
-	vEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE
-	14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa
-	7VUbvzutUUUUU==
-X-CM-SenderInfo: 5vxq5x1qj6x21ufox2xfdvhtffof0/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240416121838.95427-5-masahiroy@kernel.org>
 
-From: Ying Sun <sunying@isrc.iscas.ac.cn>
+On Tue, Apr 16, 2024 at 09:18:38PM +0900, Masahiro Yamada wrote:
+> Kbuild conventionally uses $(obj)/ for generated files, and $(src)/ for
+> checked-in source files. It is merely a convention without any functional
+> difference. In fact, $(obj) and $(src) are exactly the same, as defined
+> in scripts/Makefile.build:
+> 
+>     src := $(obj)
+> 
+> When the kernel is built in a separate output directory, $(src) does
+> not match the directory in the source tree. It still works because the
+> top Makefile sets VPATH to $(srctree). However, VPATH does not cover
+> all cases. There are many places where the exact path to the source
+> directory is needed. For example, when adding a header search path for
+> local headers, it is typical to pass -I$(srctree)/$(src) to the compiler.
+> 
+> However, it introduces inconsistency between upstream Makefiles and
+> downstream Makefiles; when the source directory path is needed,
+> $(srctree)/$(src) is used in the upstream kernel, while $(src) is used
+> in external modules.
+> 
+> To resolve the distortion, this commit changes the semantics of $(src)
+> so that it always points to the directory in the source tree.
+> 
+> Going forward, the variables used in Makefiles will work as follows:
+> 
+>   $(obj)     - directory in the object tree
+>   $(src)     - directory in the source tree  (changed by this commit!)
+>   $(objtree) - the top of the kernel object tree
+>   $(srctree) - the top of the kernel source tree
+> 
+> This is a tweewide Makefile conversion for replacing $(srctree)/$(src)
+> with $(src).
+> 
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+> 
+>  Documentation/Makefile                             |  8 ++++----
+>  Documentation/devicetree/bindings/Makefile         | 10 +++++-----
 
-The patch enhances kernel error messages, fixes problems with
- the previous version of v3, and has been thoroughly tested.
- We believe it will improve the clarity and usefulness
- of kconfig error messages, which will help developers better diagnose and
- resolve configuration issues.
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
------ v3 -> v4:
-1. Fixed the dependency logic print error, distinguishing
- between unsatisfied dependencies and forced enable
- errors (related to the select keyword).
-2. Add export KCONFIG_WARN_CHANGED_INPUT=1 to scripts/kconfig/Makefile,
- which can be enabled by setting KBUILD_EXTRA_WARN to -c.
+However, this is going to conflict with my series here[1]. Can you pick 
+it up?
 
-Signed-off-by: Siyuan Guo <zy21df106@buaa.edu.cn>
-Signed-off-by: Ying Sun <sunying@isrc.iscas.ac.cn>
----
- scripts/kconfig/Makefile   |  1 +
- scripts/kconfig/confdata.c | 60 ++++++++++++++++++++++++++++++++++++++
- 2 files changed, 61 insertions(+)
+Rob
 
-diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
-index ea1bf3b3dbde..b755246fe057 100644
---- a/scripts/kconfig/Makefile
-+++ b/scripts/kconfig/Makefile
-@@ -29,6 +29,7 @@ KCONFIG_DEFCONFIG_LIST += arch/$(SRCARCH)/configs/$(KBUILD_DEFCONFIG)
- 
- ifneq ($(findstring c, $(KBUILD_EXTRA_WARN)),)
- export KCONFIG_WARN_UNKNOWN_SYMBOLS=1
-+export KCONFIG_WARN_CHANGED_INPUT=1
- endif
- 
- ifneq ($(findstring e, $(KBUILD_EXTRA_WARN)),)
-diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
-index 0e35c4819cf1..91c63bd1cedd 100644
---- a/scripts/kconfig/confdata.c
-+++ b/scripts/kconfig/confdata.c
-@@ -176,6 +176,41 @@ static void conf_warning(const char *fmt, ...)
- 	conf_warnings++;
- }
- 
-+static void conf_warn_unmet_rev(struct symbol *sym)
-+{
-+	struct gstr gs = str_new();
-+
-+	str_printf(&gs,
-+		"WARNING: unmet reverse dependencies detected for %s\n",
-+		sym->name);
-+
-+	expr_gstr_print_revdep(sym->rev_dep.expr, &gs, yes,
-+				" Selected by [y]:\n");
-+	expr_gstr_print_revdep(sym->rev_dep.expr, &gs, mod,
-+				" Selected by [m]:\n");
-+
-+	fputs(str_get(&gs), stderr);
-+	str_free(&gs);
-+}
-+
-+static void conf_warn_dep_error(struct symbol *sym)
-+{
-+	struct gstr gs = str_new();
-+
-+	str_printf(&gs,
-+		"WARNING: unmet direct dependencies detected for %s\n",
-+		sym->name);
-+
-+	str_printf(&gs,
-+		" Depends on [%c]: ",
-+		sym->dir_dep.tri == mod ? 'm' : 'n');
-+	expr_gstr_print(sym->dir_dep.expr, &gs);
-+
-+	str_printf(&gs, "\n");
-+	fputs(str_get(&gs), stderr);
-+	str_free(&gs);
-+}
-+
- static void conf_default_message_callback(const char *s)
- {
- 	printf("#\n# ");
-@@ -522,6 +557,31 @@ int conf_read(const char *name)
- 			continue;
- 		conf_unsaved++;
- 		/* maybe print value in verbose mode... */
-+		if (getenv("KCONFIG_WARN_CHANGED_INPUT")) {
-+			if (sym->prop) {
-+				switch (sym->type) {
-+				case S_BOOLEAN:
-+				case S_TRISTATE:
-+					if (sym->def[S_DEF_USER].tri != sym_get_tristate_value(sym)) {
-+						if (sym->rev_dep.tri < sym->def[S_DEF_USER].tri &&
-+							sym->dir_dep.tri < sym->def[S_DEF_USER].tri)
-+								conf_warn_dep_error(sym);
-+						if (sym->rev_dep.tri > sym->def[S_DEF_USER].tri &&
-+							sym->dir_dep.tri >= sym->def[S_DEF_USER].tri)
-+								conf_warn_unmet_rev(sym);
-+					}
-+					break;
-+				case S_INT:
-+				case S_HEX:
-+				case S_STRING:
-+					if (sym->dir_dep.tri == no && sym_has_value(sym))
-+						conf_warn_dep_error(sym);
-+					break;
-+				default:
-+					break;
-+				}
-+			}
-+		}
- 	}
- 
- 	for_all_symbols(sym) {
--- 
-2.43.0
+[1] https://lore.kernel.org/all/20240405-dt-kbuild-rework-v2-0-3a035caee357@kernel.org/
 
 
