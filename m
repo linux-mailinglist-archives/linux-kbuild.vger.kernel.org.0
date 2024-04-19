@@ -1,108 +1,111 @@
-Return-Path: <linux-kbuild+bounces-1605-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1606-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AF108AA994
-	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Apr 2024 09:57:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D9358AB12C
+	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Apr 2024 16:59:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4356B1C217C6
-	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Apr 2024 07:57:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7F65C1C20FF7
+	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Apr 2024 14:59:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0AE2F482C7;
-	Fri, 19 Apr 2024 07:57:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20BDE12F385;
+	Fri, 19 Apr 2024 14:59:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FcCA9M5S"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b="pgyACKPu"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C807EC15D;
-	Fri, 19 Apr 2024 07:57:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 653FF7E11E;
+	Fri, 19 Apr 2024 14:59:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.63.252.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713513438; cv=none; b=SmCbPNh5BGCQ2gXTJLg8iYRSVdwhNw03POfDoAzeBk9dbIDpmOUUCDy8u9NMSzT+SSMgjEADIer47lnZNkTuU78Jj/BCl5ypFE23Xd4hoOqC94HvtiFgfyBqdGp1neMFC8cm+ncF8zzjLklXG7qFhsky2RMyfnxJ3BeTvzTi1v4=
+	t=1713538770; cv=none; b=qF2KL1PRl6Z3HieZSWsbXV93ZVpWaxwLMFmjdjpkIvrYG999VK7TYC0FyawsIqG2W2jt5oKgzoLamkZr5oDYjOj9DGVedK0aziPI6Ow518MtM1OefZv8dINwBDJWs3iEMigxTUa7QYHPmMwIu8R67KBh7OiU0jW7UZ5WuL457HI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713513438; c=relaxed/simple;
-	bh=1TZ8nYeFpnXiIoNsNPAlgLqamNWJVrnDVh0XwyAvwzo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=V/pz1j1VUNCBq84dDLsFtatzHqLkbZskiU/vSvf/Nal9LihCNv3C/cRLv4zMPVeXchT/6pUm59qWVJg2+Bt52qaZdcpx8UEvF94eQp5K4Al8LgOHVtoeRzjfsB/13aWJavr2fSDXqUZeDsD2WEI8C2IaxWmUgrttNKwO4bkv60k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FcCA9M5S; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 593BAC2BD10;
-	Fri, 19 Apr 2024 07:57:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713513438;
-	bh=1TZ8nYeFpnXiIoNsNPAlgLqamNWJVrnDVh0XwyAvwzo=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=FcCA9M5SXyan3VbSbTysHYhgiqWpiiiiUIbLTKQOchML+tqiy0o0TOXQAdauqzJZj
-	 QDHfDECqC8teTsw8Z2lkigcSQoIVLSQKkA+4jpjfnkJrrsbeBLm48RRwsVSqhz59ie
-	 I9wtwjnZmJJh3CiR0Qp+zWdd/snZid+y8bqTDibsMiRuNSS5gP6ZdExGrKhAhGgo1O
-	 2svJfDkem5U0s7ICLV4ZWb+M6JIYxnrBwkUtEOt/I2QOmDgQgItHswrjylGZPRQK9J
-	 0h6c2dKJVNwG5+pu+zjyYRb3D/Y0ZrK1LSMmt2T8gXQ91Q0mwIf73uOgpYd6/HfZ4Z
-	 i0sSrulhJg63A==
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2dcc8d10d39so5607681fa.3;
-        Fri, 19 Apr 2024 00:57:18 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU/ZIu+GsHBvgKmaS5LlVWRTOzUg4+v9OtZ28izWuq9otIC+BDydoyXjXVEkLIIrNcUOfM6/8bQV2E/1zBlxEmdcsUgChB3lwgrvRx3o1T2GoWT8G0icVPLRBZyYkOTx0VGAisfY1OB4+0gUhS06KWktPgTwVeMC6j3nuDOsSDp82apNpzm4KGRhyNY01pM/C6p4Cbq3GNzPYWSBA==
-X-Gm-Message-State: AOJu0YytF6LxqyglF3zuWRhE+B9V88ZqMDZhC9evtymWIS6dIY5m7i/f
-	YhjBaVDhOQcCX7Noqt7XNV29/32fW3q3lS7ppON65HpqwZsxfm+YDa5ndZC4G/le81gMW6k7yVQ
-	lviTeGL2NftBFA2r39dzmicXBYLs=
-X-Google-Smtp-Source: AGHT+IGe0BXzWMTZhMt+wFll+Z29hCabZkKHmFp7RLlW1/LlIWEz4pzHm0vIJmiGDimQtO6B9WSAzRlWCg30klKUvqI=
-X-Received: by 2002:a05:651c:4d4:b0:2d8:34ad:7f4e with SMTP id
- e20-20020a05651c04d400b002d834ad7f4emr930276lji.4.1713513436740; Fri, 19 Apr
- 2024 00:57:16 -0700 (PDT)
+	s=arc-20240116; t=1713538770; c=relaxed/simple;
+	bh=xLGjrkO2SUO1JRzITsRXgRMWDPb6x/5WT0uqbMPvzZE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cLsUdFZlAm279Ot/yB4wUYCyhJrHPUFc/1LlGoCsAjOjiM2g3TVvedEZRJCqP0imFuzyTi1fQZj2ypUk/CVJHdbP33++Y+0NJqYRmYXcPah8acNRjfzLNfMLcUsTNZW52++H2I45K2QoQggQfosHnYyhytbwV2JFsx2MPGB43vM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu; spf=pass smtp.mailfrom=fjasle.eu; dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b=pgyACKPu; arc=none smtp.client-ip=194.63.252.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fjasle.eu
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=fjasle.eu;
+	s=ds202307; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=xLGjrkO2SUO1JRzITsRXgRMWDPb6x/5WT0uqbMPvzZE=; b=pgyACKPu/RWlwCbCYmOLHGKkpN
+	qXc3g/C9YHNV18TxlsMgR0ws3yFawJIJRnme7vht+hsmLY3EvUlHglgfHka7H7LcF9/9UBKAls18o
+	JZwphik575UyT+NMYXTBIeT29twgZ2T5yr8ukRZTVdFt/X5tLWN2K8sL1YqYbjdbx0EZYLnk5NYvC
+	+6jM9LFZUmkc3DlMKNXgy9f2JaSfIsEnCeKZ3HnJQI++w3gAfl74GkMtSw+alc8EjA9+HyPS2OQ3Y
+	taidi6a9gyVurzxINRyyl12H7+6wO+/d84lYa58wXVdA7RVSkUTt0MJxi6urqLzTiaCH3YuyOI+fw
+	Kl24Hk7g==;
+Received: from [2001:9e8:9f5:cc01:6f0:21ff:fe91:394] (port=41248 helo=bergen.fjasle.eu)
+	by smtp.domeneshop.no with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <nicolas@fjasle.eu>)
+	id 1rxphv-0047Wi-RX;
+	Fri, 19 Apr 2024 16:59:19 +0200
+Date: Fri, 19 Apr 2024 16:59:16 +0200
+From: Nicolas Schier <nicolas@fjasle.eu>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Helge Deller <deller@gmx.de>
+Subject: Re: [PATCH 1/4] arch: use $(obj)/ instead of $(src)/ for
+ preprocessed linker scripts
+Message-ID: <ZiKGxKlG6zTrDgkv@bergen.fjasle.eu>
+References: <20240416121838.95427-1-masahiroy@kernel.org>
+ <20240416121838.95427-2-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240415162041.2491523-5-ardb+git@google.com> <171327842741.29461.3030265084386428643.git-patchwork-notify@kernel.org>
-In-Reply-To: <171327842741.29461.3030265084386428643.git-patchwork-notify@kernel.org>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Fri, 19 Apr 2024 09:57:05 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXGVRGcJGS1xuqHPeJfM797RB2UiJQfSHK+oj1JQG4YECg@mail.gmail.com>
-Message-ID: <CAMj1kXGVRGcJGS1xuqHPeJfM797RB2UiJQfSHK+oj1JQG4YECg@mail.gmail.com>
-Subject: Re: [PATCH v4 0/3] kbuild: Avoid weak external linkage where possible
-To: patchwork-bot+netdevbpf@kernel.org
-Cc: Ard Biesheuvel <ardb+git@google.com>, linux-kernel@vger.kernel.org, masahiroy@kernel.org, 
-	arnd@arndb.de, martin.lau@linux.dev, linux-arch@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, bpf@vger.kernel.org, andrii@kernel.org, 
-	olsajiri@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-
-On Tue, 16 Apr 2024 at 16:40, <patchwork-bot+netdevbpf@kernel.org> wrote:
->
-> Hello:
->
-> This series was applied to bpf/bpf-next.git (master)
-> by Daniel Borkmann <daniel@iogearbox.net>:
->
-> On Mon, 15 Apr 2024 18:20:42 +0200 you wrote:
-> > From: Ard Biesheuvel <ardb@kernel.org>
-> >
-> > Weak external linkage is intended for cases where a symbol reference
-> > can remain unsatisfied in the final link. Taking the address of such a
-> > symbol should yield NULL if the reference was not satisfied.
-> >
-> > Given that ordinary RIP or PC relative references cannot produce NULL,
-> > some kind of indirection is always needed in such cases, and in position
-> > independent code, this results in a GOT entry. In ordinary code, it is
-> > arch specific but amounts to the same thing.
-> >
-> > [...]
->
-> Here is the summary with links:
->   - [v4,1/3] kallsyms: Avoid weak references for kallsyms symbols
->     (no matching commit)
->   - [v4,2/3] vmlinux: Avoid weak reference to notes section
->     (no matching commit)
->   - [v4,3/3] btf: Avoid weak external references
->     https://git.kernel.org/bpf/bpf-next/c/fc5eb4a84e4c
->
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="pNeCiBriP5NkfKjj"
+Content-Disposition: inline
+In-Reply-To: <20240416121838.95427-2-masahiroy@kernel.org>
+X-Operating-System: Debian GNU/Linux trixie/sid
+Jabber-ID: nicolas@jabber.no
 
 
-Thanks.
+--pNeCiBriP5NkfKjj
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Masahiro, could you pick up patches #1 and #2 please?
+On Tue 16 Apr 2024 21:18:35 GMT, Masahiro Yamada wrote:
+> These are generated files. Prefix them with $(obj)/ instead of $(src)/.
+>=20
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> Acked-by: Helge Deller <deller@gmx.de>
+> ---
+
+Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
+
+--pNeCiBriP5NkfKjj
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmYihr0ACgkQB1IKcBYm
+EmntWBAA6krPg9ICWmLwKtUUBF+2KhBJnuyRxv+8Tg9S/rWm9Z4iKd2rXiVZPQHE
+DxASgFwIiwRhF/C7uspK2v8ujd8oJ5053wjEvQSzlCGXDXac0/9cFayB9HJT6gg4
+E9Kbj3DwTmTHOXr2U54OUtiMYTq8c/AS0cDdgpu032MlrUQLTa/efuT27YpQY/da
+Nl8Wd279/jAHaHGZWqkIUca98i0aN+BwFrnF0w5/p3sDfZyPrQOhKiCVr+zlDxs6
+i63XmQloX/X5O8vpbnHr9YfViKs/SBZScKUvlfExkHgmFDdpqNDtZw8IerwjOD0T
+RD/44KfHUKeCOSBMI7IAmkFUxStx8fQRTRKQX8pixWCvXgRpj47XTVA0sl02VYk3
+A3mz6CXoEAz0eJrG2ud3pBIjDsyISH54o6I1O0uZhmSBuh4tIA9CsknnwVcEHV/A
+rcp3FsyKkErfo4e8jP2g9XsfVwBncT1uzt5IULOZ8DDyK2TXyFggT4veEUsl1zeq
+gvvNPuYb01TCY5JVKFFsICe1nhIYsNAyTG5XVfqMxyRH/XOZ9IVrp0/VAXw9uZ1e
+NvzAU8zsQjVXbNU+62to7D6OPvbz9HmUGEFP4IoWRUdOcQmsI6Y3CkSI1JFu4MxJ
+1TYCBszGHDirOzJgddQACqyeva4+4+UPiXQxkqtqceKbGTwVuo0=
+=HbVg
+-----END PGP SIGNATURE-----
+
+--pNeCiBriP5NkfKjj--
 
