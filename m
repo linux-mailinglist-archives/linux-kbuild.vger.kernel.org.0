@@ -1,111 +1,108 @@
-Return-Path: <linux-kbuild+bounces-1604-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1605-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C044A8A9B80
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Apr 2024 15:43:54 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AF108AA994
+	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Apr 2024 09:57:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7D671282B8C
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Apr 2024 13:43:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4356B1C217C6
+	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Apr 2024 07:57:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D72115FD16;
-	Thu, 18 Apr 2024 13:43:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0AE2F482C7;
+	Fri, 19 Apr 2024 07:57:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FAMMwApP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FcCA9M5S"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 722BA15FD0D;
-	Thu, 18 Apr 2024 13:43:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C807EC15D;
+	Fri, 19 Apr 2024 07:57:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713447820; cv=none; b=osYolH8Y79zZhM5Md18KpUwsOfYoShC0Xw57tbi7Ut0dI0oxz1VHs4LB7iuA1SDnOhVZxMdLF8XhfoB+Rr9JomNjgUm+5H7E5Uz3Hldsbd8Iukk0IQGl/Ypix/6I26ZdcsySbSNDHIDrJao90Fv7MG6nyHdTQVSAxh8PfoTUNKg=
+	t=1713513438; cv=none; b=SmCbPNh5BGCQ2gXTJLg8iYRSVdwhNw03POfDoAzeBk9dbIDpmOUUCDy8u9NMSzT+SSMgjEADIer47lnZNkTuU78Jj/BCl5ypFE23Xd4hoOqC94HvtiFgfyBqdGp1neMFC8cm+ncF8zzjLklXG7qFhsky2RMyfnxJ3BeTvzTi1v4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713447820; c=relaxed/simple;
-	bh=QDNb5ClnywQly+K1RFM4EfM2oAMTBQMt3LKpDKIflW0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fBGYd4gr9kN50LHUajqyYZroexTDYxabu3JC97pxfBPvImR/Y0aO9B+7NWRCbwYrwXdxauUSvqDtWTpfchD7Al2+Oz8QKmFRmnU0vowjehLdwhZp9t6E5V+eUF5OWc6riQ1NpqTSYuG+l18IPb6+IkLCJFtRqmcSiCZ7nN8/MXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FAMMwApP; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E06F6C113CC;
-	Thu, 18 Apr 2024 13:43:39 +0000 (UTC)
+	s=arc-20240116; t=1713513438; c=relaxed/simple;
+	bh=1TZ8nYeFpnXiIoNsNPAlgLqamNWJVrnDVh0XwyAvwzo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=V/pz1j1VUNCBq84dDLsFtatzHqLkbZskiU/vSvf/Nal9LihCNv3C/cRLv4zMPVeXchT/6pUm59qWVJg2+Bt52qaZdcpx8UEvF94eQp5K4Al8LgOHVtoeRzjfsB/13aWJavr2fSDXqUZeDsD2WEI8C2IaxWmUgrttNKwO4bkv60k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FcCA9M5S; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 593BAC2BD10;
+	Fri, 19 Apr 2024 07:57:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713447820;
-	bh=QDNb5ClnywQly+K1RFM4EfM2oAMTBQMt3LKpDKIflW0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FAMMwApPNUzbwsqK6TgvCLdC58a8ukIeCu9cVFLZYP450Bt2YDgLOz0r4n8i5SwW2
-	 sMTaRE26R/F49MSG3j8sb4VQ7awXQ6kussQ4y2fpE+gmDelAGpqwLeJ7vbrzoDbSDe
-	 u11vr0z11ZqXFsLn3Wsh7L8cKHWDIVdblkIFVFyHOpNej8h07xz7IZKf/b8fN2O8PD
-	 qXuW/YrggmMqmc8xWL5AAIRjonC5Fab+2sNBpIuiQzUrrtDyJPxI1owSva9SbQtX1v
-	 gBscqDmn9JDFk9v3wlJY4Yqwg8eaI6sWeD5osHqLEBr5zM9w+epQnSopwkUjTOOFzJ
-	 IUj575s4ua/7Q==
-Date: Thu, 18 Apr 2024 08:43:37 -0500
-From: Rob Herring <robh@kernel.org>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/4] kbuild: use $(src) instead of $(srctree)/$(src) for
- source directory
-Message-ID: <20240418134337.GA1174228-robh@kernel.org>
-References: <20240416121838.95427-1-masahiroy@kernel.org>
- <20240416121838.95427-5-masahiroy@kernel.org>
+	s=k20201202; t=1713513438;
+	bh=1TZ8nYeFpnXiIoNsNPAlgLqamNWJVrnDVh0XwyAvwzo=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=FcCA9M5SXyan3VbSbTysHYhgiqWpiiiiUIbLTKQOchML+tqiy0o0TOXQAdauqzJZj
+	 QDHfDECqC8teTsw8Z2lkigcSQoIVLSQKkA+4jpjfnkJrrsbeBLm48RRwsVSqhz59ie
+	 I9wtwjnZmJJh3CiR0Qp+zWdd/snZid+y8bqTDibsMiRuNSS5gP6ZdExGrKhAhGgo1O
+	 2svJfDkem5U0s7ICLV4ZWb+M6JIYxnrBwkUtEOt/I2QOmDgQgItHswrjylGZPRQK9J
+	 0h6c2dKJVNwG5+pu+zjyYRb3D/Y0ZrK1LSMmt2T8gXQ91Q0mwIf73uOgpYd6/HfZ4Z
+	 i0sSrulhJg63A==
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2dcc8d10d39so5607681fa.3;
+        Fri, 19 Apr 2024 00:57:18 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU/ZIu+GsHBvgKmaS5LlVWRTOzUg4+v9OtZ28izWuq9otIC+BDydoyXjXVEkLIIrNcUOfM6/8bQV2E/1zBlxEmdcsUgChB3lwgrvRx3o1T2GoWT8G0icVPLRBZyYkOTx0VGAisfY1OB4+0gUhS06KWktPgTwVeMC6j3nuDOsSDp82apNpzm4KGRhyNY01pM/C6p4Cbq3GNzPYWSBA==
+X-Gm-Message-State: AOJu0YytF6LxqyglF3zuWRhE+B9V88ZqMDZhC9evtymWIS6dIY5m7i/f
+	YhjBaVDhOQcCX7Noqt7XNV29/32fW3q3lS7ppON65HpqwZsxfm+YDa5ndZC4G/le81gMW6k7yVQ
+	lviTeGL2NftBFA2r39dzmicXBYLs=
+X-Google-Smtp-Source: AGHT+IGe0BXzWMTZhMt+wFll+Z29hCabZkKHmFp7RLlW1/LlIWEz4pzHm0vIJmiGDimQtO6B9WSAzRlWCg30klKUvqI=
+X-Received: by 2002:a05:651c:4d4:b0:2d8:34ad:7f4e with SMTP id
+ e20-20020a05651c04d400b002d834ad7f4emr930276lji.4.1713513436740; Fri, 19 Apr
+ 2024 00:57:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240416121838.95427-5-masahiroy@kernel.org>
+References: <20240415162041.2491523-5-ardb+git@google.com> <171327842741.29461.3030265084386428643.git-patchwork-notify@kernel.org>
+In-Reply-To: <171327842741.29461.3030265084386428643.git-patchwork-notify@kernel.org>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Fri, 19 Apr 2024 09:57:05 +0200
+X-Gmail-Original-Message-ID: <CAMj1kXGVRGcJGS1xuqHPeJfM797RB2UiJQfSHK+oj1JQG4YECg@mail.gmail.com>
+Message-ID: <CAMj1kXGVRGcJGS1xuqHPeJfM797RB2UiJQfSHK+oj1JQG4YECg@mail.gmail.com>
+Subject: Re: [PATCH v4 0/3] kbuild: Avoid weak external linkage where possible
+To: patchwork-bot+netdevbpf@kernel.org
+Cc: Ard Biesheuvel <ardb+git@google.com>, linux-kernel@vger.kernel.org, masahiroy@kernel.org, 
+	arnd@arndb.de, martin.lau@linux.dev, linux-arch@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, bpf@vger.kernel.org, andrii@kernel.org, 
+	olsajiri@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Apr 16, 2024 at 09:18:38PM +0900, Masahiro Yamada wrote:
-> Kbuild conventionally uses $(obj)/ for generated files, and $(src)/ for
-> checked-in source files. It is merely a convention without any functional
-> difference. In fact, $(obj) and $(src) are exactly the same, as defined
-> in scripts/Makefile.build:
-> 
->     src := $(obj)
-> 
-> When the kernel is built in a separate output directory, $(src) does
-> not match the directory in the source tree. It still works because the
-> top Makefile sets VPATH to $(srctree). However, VPATH does not cover
-> all cases. There are many places where the exact path to the source
-> directory is needed. For example, when adding a header search path for
-> local headers, it is typical to pass -I$(srctree)/$(src) to the compiler.
-> 
-> However, it introduces inconsistency between upstream Makefiles and
-> downstream Makefiles; when the source directory path is needed,
-> $(srctree)/$(src) is used in the upstream kernel, while $(src) is used
-> in external modules.
-> 
-> To resolve the distortion, this commit changes the semantics of $(src)
-> so that it always points to the directory in the source tree.
-> 
-> Going forward, the variables used in Makefiles will work as follows:
-> 
->   $(obj)     - directory in the object tree
->   $(src)     - directory in the source tree  (changed by this commit!)
->   $(objtree) - the top of the kernel object tree
->   $(srctree) - the top of the kernel source tree
-> 
-> This is a tweewide Makefile conversion for replacing $(srctree)/$(src)
-> with $(src).
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
-> 
->  Documentation/Makefile                             |  8 ++++----
->  Documentation/devicetree/bindings/Makefile         | 10 +++++-----
+On Tue, 16 Apr 2024 at 16:40, <patchwork-bot+netdevbpf@kernel.org> wrote:
+>
+> Hello:
+>
+> This series was applied to bpf/bpf-next.git (master)
+> by Daniel Borkmann <daniel@iogearbox.net>:
+>
+> On Mon, 15 Apr 2024 18:20:42 +0200 you wrote:
+> > From: Ard Biesheuvel <ardb@kernel.org>
+> >
+> > Weak external linkage is intended for cases where a symbol reference
+> > can remain unsatisfied in the final link. Taking the address of such a
+> > symbol should yield NULL if the reference was not satisfied.
+> >
+> > Given that ordinary RIP or PC relative references cannot produce NULL,
+> > some kind of indirection is always needed in such cases, and in position
+> > independent code, this results in a GOT entry. In ordinary code, it is
+> > arch specific but amounts to the same thing.
+> >
+> > [...]
+>
+> Here is the summary with links:
+>   - [v4,1/3] kallsyms: Avoid weak references for kallsyms symbols
+>     (no matching commit)
+>   - [v4,2/3] vmlinux: Avoid weak reference to notes section
+>     (no matching commit)
+>   - [v4,3/3] btf: Avoid weak external references
+>     https://git.kernel.org/bpf/bpf-next/c/fc5eb4a84e4c
+>
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
-However, this is going to conflict with my series here[1]. Can you pick 
-it up?
+Thanks.
 
-Rob
-
-[1] https://lore.kernel.org/all/20240405-dt-kbuild-rework-v2-0-3a035caee357@kernel.org/
-
+Masahiro, could you pick up patches #1 and #2 please?
 
