@@ -1,34 +1,34 @@
-Return-Path: <linux-kbuild+bounces-1607-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1608-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D38D28AB14B
-	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Apr 2024 17:07:33 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5701C8AB15F
+	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Apr 2024 17:10:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8A0F01F23E68
-	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Apr 2024 15:07:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0C34C285B80
+	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Apr 2024 15:10:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C8F512F386;
-	Fri, 19 Apr 2024 15:07:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD7441304AF;
+	Fri, 19 Apr 2024 15:09:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b="ZI8Yy/4I"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b="Yb0iQ9uT"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB0627E11E;
-	Fri, 19 Apr 2024 15:07:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE8837E11E;
+	Fri, 19 Apr 2024 15:09:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.63.252.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713539249; cv=none; b=AAAcK1fwb1RjGXUZ/1th2zhMrw+m5fG3R4P6d9MGXApjO0gFi0HGgY39aR+mbLl0EvS6yTPSYns0ewuY4sf75wXGxQTdH3JysdJOuQaunkB132pBr9BVLvPh14OO5B64NzMZf4DAA990VDZtM1dpbLmSsD+dJi9+AcxGv8mt5Ds=
+	t=1713539386; cv=none; b=T5VXk18x46cxEfnDyvar0ZyXZ0yP5gvfwunP23OOLzWXhHbk9Wpbtv6h3t1grfzdjB6FxOYOWI5jisBWL77V91kGOzPRBFPbfsjvYQ9F36s2JkV8zNjDKS8Iz3/mcbTnSDLAAa/9165j30To8fZ+dzugIhZfVnNJuHz4Bqb2RbA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713539249; c=relaxed/simple;
-	bh=Aeux13K27xxEOJgQucGQNnXKrqTxFRbQpmqHcMsSW/Q=;
+	s=arc-20240116; t=1713539386; c=relaxed/simple;
+	bh=GkmOldRrmFVHxIp770IbU5zteXyXCmHeafYSEoFWihw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t2REPy8wqsUf3dKTDH3NNbB8l3Ibfw1Hd7HzIqZ6HKNEGo9YKovSz8IGx2fpTqBtjMUpo5LdzacJA6C2Ai3pn1srVyGK4dFRfPzMKJjZNbQPZxa0AKYuwSLH/ovWBBSqAX8gX9nQM+zPLGsomE+BSJ9QrKsPJuhwWhxQu97Bzxk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu; spf=pass smtp.mailfrom=fjasle.eu; dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b=ZI8Yy/4I; arc=none smtp.client-ip=194.63.252.55
+	 Content-Type:Content-Disposition:In-Reply-To; b=bOzwY8qwyYnY92oQZwC/AyqX/KAp/Hv7M3+a2i5A4es9Z4blwzipA4vnwat3LKMwHb2hhiANUXB4zzJxQktv5QE4+w37eW50s04YESxX6w/Nv0/GbzuusDFQKCZC64Ila7queQnAZeSzEnZLVqHcdkRtU/P9JmjZO3JHXEGVPZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu; spf=pass smtp.mailfrom=fjasle.eu; dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b=Yb0iQ9uT; arc=none smtp.client-ip=194.63.252.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fjasle.eu
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=fjasle.eu;
@@ -37,27 +37,27 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=fjasle.eu;
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
 	List-Post:List-Owner:List-Archive;
-	bh=DOzN/8e8CTCRv8H3ZSByCxFzdeJC78AmKTVTZIe4QMo=; b=ZI8Yy/4ITJSE4+NRK16R6JIBeM
-	VEbIGV2qv8ZXDoj2z63BwsZgNtml4Zfm1+JyNW4CBeiLY588RMVao3hEACRxbZ02FGwgIsn/v14x0
-	cgfxMfa0Pk+91KsxtZzaIRmv+rLsmX7YX/ywNhXZwXa/R+eBQUHmOJii5SYbbreEXRSSr52rjqGDt
-	LCJDlL+egfocQK9ExxkCAKh4vCEwrpHNgqiHKhBjheiYcTeh4Dglyaqhl2WOIl8DIk6dtfuWKo99c
-	7EJDu33pgnI1EULZ1X7yA2ThT8AfPcqNv/T3dNUJXpP6cauEP/VSrRJ4Pv5OT6PMN3ZlWWoozg3C4
-	gT13SUSg==;
-Received: from [2001:9e8:9f5:cc01:6f0:21ff:fe91:394] (port=47534 helo=bergen.fjasle.eu)
+	bh=ZnmSAWWYJEOgk0x27XufixVUQkAvIneONThu0c2jpJs=; b=Yb0iQ9uTHXIc8LY8Nf5v/laeV6
+	LyuUmZhC6EZRJ9tHNPfdP8Bi+YXy8BpvCmiq4Rr48/QEio29nf5ohBiRQUE7cj/OYP8KVdDHFex8a
+	owULukRTJW5fUgObp/KiB1m27RR5JX4WZHWtVDPTno/RYX8jbX6Q3teDKLHAF4gVTLXCPYX/G7erI
+	QKp7eQopshHfVISsEKhRAhTwXuqoBvaD3v+1fbnalUe8fP/18ehigcGr5HzEupLcyHxTF720e+CgH
+	HlWEtt/VYty4wUMtOBxV5Zw1UFdMAOg4xxtfZOq+Yr/sJBXrczCCzud5wODNtH8NqiYjUgb7Q73uH
+	X9iVkdjQ==;
+Received: from [2001:9e8:9f5:cc01:6f0:21ff:fe91:394] (port=35496 helo=bergen.fjasle.eu)
 	by smtp.domeneshop.no with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.95)
 	(envelope-from <nicolas@fjasle.eu>)
-	id 1rxppa-0049vQ-Uh;
-	Fri, 19 Apr 2024 17:07:15 +0200
-Date: Fri, 19 Apr 2024 17:07:12 +0200
+	id 1rxprn-004Ad7-PX;
+	Fri, 19 Apr 2024 17:09:31 +0200
+Date: Fri, 19 Apr 2024 17:09:28 +0200
 From: Nicolas Schier <nicolas@fjasle.eu>
 To: Masahiro Yamada <masahiroy@kernel.org>
 Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/4] Makefile: remove some unnecessary header include
- paths
-Message-ID: <ZiKIoLKtG0suO-8i@bergen.fjasle.eu>
+Subject: Re: [PATCH 3/4] kbuild: use $(obj)/ instead of $(src)/ for pattern
+ rules for %.[cS]
+Message-ID: <ZiKJKFiJ1rtJyHjM@bergen.fjasle.eu>
 References: <20240416121838.95427-1-masahiroy@kernel.org>
- <20240416121838.95427-3-masahiroy@kernel.org>
+ <20240416121838.95427-4-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -65,119 +65,66 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="fwy6oIwWUjQAVF0b"
+	protocol="application/pgp-signature"; boundary="Y9/E1gHvgvc4kx9j"
 Content-Disposition: inline
-In-Reply-To: <20240416121838.95427-3-masahiroy@kernel.org>
+In-Reply-To: <20240416121838.95427-4-masahiroy@kernel.org>
 X-Operating-System: Debian GNU/Linux trixie/sid
 Jabber-ID: nicolas@jabber.no
 
 
---fwy6oIwWUjQAVF0b
+--Y9/E1gHvgvc4kx9j
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue 16 Apr 2024 21:18:36 GMT, Masahiro Yamada wrote:
-> The include directive with the double-quote form, #include "...",
-> first searches for the specified header in the directory containing
-> the source file.
+On Tue 16 Apr 2024 21:18:37 GMT, Masahiro Yamada wrote:
+> Kbuild conventionally uses $(obj)/ for generated files, and $(src)/ for
+> checked-in source files. It is merely a convention without any functional
+> difference. In fact, $(obj) and $(src) are exactly the same, as defined
+> in scripts/Makefile.build:
 >=20
-> If all local headers are included using the double-quote form instead
-> of the angle bracket form, there is no need to add the local directory
-> to the header search path.
+>   src :=3D $(obj)
 >=20
-> drivers/gpu/drm/imagination and drivers/net/ethernet/aquantia/atlantic
-> use only the double-quote form for including the local headers, and
-> there are no generated sources or headers in their directories. Hence,
-> the local header search path is unneeded.
+> Before changing the semantics of $(src) in the next commit, this commit
+> replaces $(obj)/ with $(src)/ in pattern rules where the prerequisite
+> might be a generated file.
+
+thanks.  That's a good idea to split both steps.
+
+> C and assembly files are sometimes generated by tools, so they could
+> be either generated files or real sources. The $(obj)/ prefix works
+> for both cases with the help of VPATH.
 >=20
-> The same applies to arch/loongarch/kvm/ because TRACE_INCLUDE_PATH is
-> relative to include/trace/.
+> As mentioned above, $(obj) and $(src) are the same at this point, hence
+> this commit has no functional change.
 >=20
-> I guess there exist more Makefiles with unnecessary header inclusion
-> paths (and more cases where it is possible to delete the header search
-> path by replacing #include <...> with #include "..."), but I do not have
-> an easy way to detect it.
->=20
-> These are unneeded inclusion paths that I happened to find.
+> I did not modify scripts/Makefile.userprogs because there is no use
+> case where userspace C files are generated.
 >=20
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > ---
->=20
->  arch/loongarch/kvm/Makefile                     | 2 --
->  drivers/gpu/drm/imagination/Makefile            | 2 --
->  drivers/net/ethernet/aquantia/atlantic/Makefile | 2 --
->  3 files changed, 6 deletions(-)
->=20
-> diff --git a/arch/loongarch/kvm/Makefile b/arch/loongarch/kvm/Makefile
-> index 244467d7792a..7a0108a721c1 100644
-> --- a/arch/loongarch/kvm/Makefile
-> +++ b/arch/loongarch/kvm/Makefile
-> @@ -3,8 +3,6 @@
->  # Makefile for LoongArch KVM support
->  #
-> =20
-> -ccflags-y +=3D -I $(srctree)/$(src)
-> -
->  include $(srctree)/virt/kvm/Makefile.kvm
-> =20
->  obj-$(CONFIG_KVM) +=3D kvm.o
-> diff --git a/drivers/gpu/drm/imagination/Makefile b/drivers/gpu/drm/imagi=
-nation/Makefile
-> index ec6db8e9b403..3d9d4d40fb80 100644
-> --- a/drivers/gpu/drm/imagination/Makefile
-> +++ b/drivers/gpu/drm/imagination/Makefile
-> @@ -1,8 +1,6 @@
->  # SPDX-License-Identifier: GPL-2.0-only OR MIT
->  # Copyright (c) 2023 Imagination Technologies Ltd.
-> =20
-> -subdir-ccflags-y :=3D -I$(srctree)/$(src)
-> -
->  powervr-y :=3D \
->  	pvr_ccb.o \
->  	pvr_cccb.o \
-> diff --git a/drivers/net/ethernet/aquantia/atlantic/Makefile b/drivers/ne=
-t/ethernet/aquantia/atlantic/Makefile
-> index 8ebcc68e807f..268a055086c4 100644
-> --- a/drivers/net/ethernet/aquantia/atlantic/Makefile
-> +++ b/drivers/net/ethernet/aquantia/atlantic/Makefile
-> @@ -8,8 +8,6 @@
-> =20
->  obj-$(CONFIG_AQTION) +=3D atlantic.o
-> =20
-> -ccflags-y +=3D -I$(srctree)/$(src)
-> -
->  atlantic-objs :=3D aq_main.o \
->  	aq_nic.o \
->  	aq_pci_func.o \
 
-I'm afraid drivers/net/ethernet/aquantia/atlantic/macsec/macsec_api.c,=20
-=2E../hw_atl2/hw_atl2.c and .../hw_atl2/hw_atl2_utills{,_fw}.[ch] need to=
-=20
-be adjusted first.
-
-Except for the atlantic related patch diff:
 Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
 
---fwy6oIwWUjQAVF0b
+--Y9/E1gHvgvc4kx9j
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmYiiKAACgkQB1IKcBYm
-EmnrQxAAunFD7ET2ixOJ1mZIQH/XqFzErlSihK9sOkn8LU1PLS4NPTNQbyytman0
-I1pomoValbUTr01blxH4l6HH6sg61xj2vVnRCJxU44LU88tr4z5d0O37LO0oQpen
-MM1HUyUxNz7UyrRa+9YMl4lp7YvbSVbAVVIpli48vlfkQ3Zjhrt0mlgv5JxwIhim
-UyoaOIS7iLswsjNhqMicDr5NWg8k7WvRPsHHEaOXfu4rXLc1mNDNxorrK80mDMeb
-YtrJ+a9B9cY5Gr48NCvjfcRh/w0DqBBi2WiRe97pcD5VY7qIAWhMQlRktFaf6pHC
-4Gz9Q8pwVUsCk1dnGfqqBnei+8MZzrCmJ3bJSgcADPVUJ6HCNPfFK28swdy3idfP
-yBd2y7BO32DrGQ9RJJ1A59LlyejjYSOONWLEDKdsnHQJYSpzK9czQ5Bxqb839fMI
-YCAdZRcbyWt0OEHvcv5R4CeopdZdQ4uCRO8SsA/RiqAlCUkInxF3tRV6spPDbheF
-7cO8Ubh7yc3fxLL+3tuVqDr9/rQeJuwUc4816riiWKqVivseJTXtpcDw+eatM+Pb
-L5yZtxYyjHWtpaYI5dXTjiPu20pLZxxIbiox+0SvXYz2ctMr85/VqBGLzFsKHC36
-bgUeI5o7nYCkU5fvKueBnrcK4pJ5lwcAdl8MOmImszrDkWOnbq0=
-=Ct27
+iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmYiiScACgkQB1IKcBYm
+EmlXpg//YUp1X17oIcSK4w0lHCy6zwMhBi/wizM1BFDARed1bhLj2beqVnEstfN+
+VgFCPujQYP7hxyQ5UuRXMr3ddxdUPk4nGva7+oUWO4AGfosA08QvD8BwJMlwzoH7
+8tEB7WVEeQM1romvXV9mQgceL4I69mmPmO830zAaETXsy+Lqvq/GUTQm8h07lGIZ
+NTYyhk0KXWFtmJ+MVDzMnGxe3GJ8mcTUIcZbu/MPJsaf3jbrDp1QHmF7kdae7APP
+BTYwheqUMnO+yNxm5iEOJ6ykh/gXPhQp974mgOF4LhQMFUik55g1CO9T1WYwYybG
+H5d05QCbdsxprMSiZu5fxGpO84WEwjCFbYIBGvN1P/NaUTe97YAz9paJc/eUnR4p
+On4ixHn0LwH2vuN9mf0jadcLO6drBXnOD7UZOTVmdrkHSeIPgYQpdhkvKGEtvTac
+JmdBer1+2VLnXONiTK85Q49F9DpQ1y9vk8dioYbKQ2eu0RJZU8XKWX3mccxNLhb8
+Bc3ei3nkqY/adWea9DDjNFy9CrwppDNUUQVsp9B8eSwnDwUMhBx9qvuginSv3juz
+PDIQK65OpZZS1Ux3vN0p30n8rNJ0AtFE7tmDs4fXZPD/SgpJCc+YmTwqVn16rZ+V
+dCTs2a7rmtGTXJfVMdPjAozUP5dL08XjSxAnNPu/ZP5AmrjCXDo=
+=fQnb
 -----END PGP SIGNATURE-----
 
---fwy6oIwWUjQAVF0b--
+--Y9/E1gHvgvc4kx9j--
 
