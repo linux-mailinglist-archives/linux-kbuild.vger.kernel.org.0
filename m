@@ -1,168 +1,180 @@
-Return-Path: <linux-kbuild+bounces-1613-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1614-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97D068ABA28
-	for <lists+linux-kbuild@lfdr.de>; Sat, 20 Apr 2024 09:47:34 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC0988ABA66
+	for <lists+linux-kbuild@lfdr.de>; Sat, 20 Apr 2024 10:57:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 00FA5B20E70
-	for <lists+linux-kbuild@lfdr.de>; Sat, 20 Apr 2024 07:47:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8BE041F21286
+	for <lists+linux-kbuild@lfdr.de>; Sat, 20 Apr 2024 08:57:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD880F9DF;
-	Sat, 20 Apr 2024 07:47:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FA4B14A8D;
+	Sat, 20 Apr 2024 08:57:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TWeyGbB3"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MLM5Y60e"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B349C7F;
-	Sat, 20 Apr 2024 07:47:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64896F9DF;
+	Sat, 20 Apr 2024 08:57:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713599247; cv=none; b=oIKMOUoL71xf/JLl51SKXK++uUUBMRtZLqebbbTuzbS9BsLkCT1lft3DH1pxsY5e//a31GvSKBDySUf0LEeblfDpgYNuxUIdE1iRhu5kwlyUp+2fSRlZG4tHLMu1YzWhEj+m/2TF2mYnIm0AXZ0PChf8EsH2rB2/PQPhCrkosSI=
+	t=1713603445; cv=none; b=LXZrqg1kZUqbFW596QDy1hv7Zvjsxvo0u+M9Z9dyVloCFhyGezDQ9LiSEdSOFoOGBJGbvFO6DHwBN7H1irWyDcHiTsUIz3KbaFdqxngi7Tph7y5ncIXzaeH9WdqwhHBr4Ivz/aXWan9rHaLc6VWLcU0RLgiY1gCXHWdKZVekJJA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713599247; c=relaxed/simple;
-	bh=T0osy19LzLNs6ouQOw8Zlh37fnhwMKJFVvxRQL+nhtg=;
+	s=arc-20240116; t=1713603445; c=relaxed/simple;
+	bh=d2Y+idK3Ze2qLNSSS7zzqAxEmlRt9o56eI03/DQs9YU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hNpNbWndG+svfcv4NVf/ojguoquD3RiQadOJ/OkBMTh/RurZSPTV9aRq77HTMnbtOhMIAodhQgXdBOgEND6hwN44SXCwXAOQ5Hz6fvanCoJbWPPXY3V3D6EGRLrUuiIcgPq7Y/uvsR6qKg/PPsOFdaTLBNirJK0GmGPkSDiceAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TWeyGbB3; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 339DDC072AA;
-	Sat, 20 Apr 2024 07:47:27 +0000 (UTC)
+	 To:Cc:Content-Type; b=t1Xkk1IkhIx4BQzYnoicblEg4HJN+MTDsOcm+LCVpDcRHTncSVFj8F9Y+/Ef0Z0cKPM8uNgy4vnlcNAs55MDhFXDrGoipuE0ls/8IPjP/1e3Ojd/Ys+Bsahzwrjgvb2zyNAXkwbnFFGxX83tEhA/ePZv+NdypjvdNVd9aprGv/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MLM5Y60e; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5708C3277B;
+	Sat, 20 Apr 2024 08:57:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713599247;
-	bh=T0osy19LzLNs6ouQOw8Zlh37fnhwMKJFVvxRQL+nhtg=;
+	s=k20201202; t=1713603444;
+	bh=d2Y+idK3Ze2qLNSSS7zzqAxEmlRt9o56eI03/DQs9YU=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=TWeyGbB30pV/Qmy2/ofLvx6TXo/QqgSQ2ZyfK/qsBWrBeKYqgCQ2U7o/uxMkihZ56
-	 iuFW+1b0qwtWnIf+WCBJJJr3yzYSzMyAeWR5ilo064CknscEq2sGYcrS1HBT8m42kY
-	 1MWZlRtgFlrilfnHDzKEJS5PmYuynW8kmR6kWnM7j5YBqhS5nUO407pTJDqX5QKKBp
-	 2qExqRKAuP/Ufr85iQDZ4aWZOq9wk5ePd7DJwl4jl7T/gxPwwEV1wR/qMfCTjZXGfs
-	 eCRAlnjVWOn8y4lb8yEC4cccCb7GVIaprhFUqVeIia12rUqpWFd1bTsKrokxZ9aESb
-	 0nVBw5e0wERyA==
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2d895138d0eso22334101fa.1;
-        Sat, 20 Apr 2024 00:47:27 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVshMnaiQPrZUwunrfjtoOb09cShVcg6ns2GRKXBOtYFAoBCev+uVhUdbErthwQiX9W0VvQyPqmG3NYJrsHuC+rM1tQXDjdkgXTYXB+
-X-Gm-Message-State: AOJu0YwENKLdZaRXD3pWwSj8bibrFxIPAo9KhyJ4fKzdY2QhnjLoWA7F
-	guVKMhrTCeVC5QhZnY5i2XEm8OI8cg14g64z9+jvDKygx0UsF7ZKjbYJvtQGv0h8KyodXPNv1Z2
-	C6ghuHNgEQf+n6gEpE8D1ge/3wJw=
-X-Google-Smtp-Source: AGHT+IGPCKaRhYjHdGjuHllPeOvL5maeL8w6y1AWQZunWXnoCSUTwiEjtTKyWgmWGQvfDyXx87V3gnhw2JE1YhqYnNU=
-X-Received: by 2002:a2e:7d04:0:b0:2da:49cc:ef39 with SMTP id
- y4-20020a2e7d04000000b002da49ccef39mr2487104ljc.0.1713599245862; Sat, 20 Apr
- 2024 00:47:25 -0700 (PDT)
+	b=MLM5Y60eHDyutEenfWi+nAlLlul1vs9La6sIQBOX19D2C3Zev891B9UqgwDrFnZeJ
+	 U3jUJle7qUr4cFuway59hMUoPtnULEcIIO4miZcoLQmXyC7h0yVt6xTuQKrHRITLQA
+	 SHhEU8/lmGOdl2UZhRLosH94uD5CMIMN+FJYWoxcf78UwSHqIHq8rt7daJnJlkHvp+
+	 8RuU7YgjCqC5MYTomb0P/e5du0wAce1CHAaxj+tx0EIEaZwHI+Q6+lEZOgan6if0cB
+	 cUYUvZ/rf6ARkatjn06Rb9MA1GhyYEwRM0hP4wSSeNcEdqeXa7dMVYj1NuAk175zzu
+	 VvxTMvKLzpRGA==
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5171a529224so3472201e87.0;
+        Sat, 20 Apr 2024 01:57:24 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCV9qKjVmk3lSjVOF4dq6deaHpUhWZ0M05ldRhB6wq13JrIRVB1F25kcPqdr9PSmyIsOjFuxKc4as4m1sxeBezJ6zLmbXH5uEULam94G
+X-Gm-Message-State: AOJu0YyFpEzlK8rtLhaV2glGWQiG+JtcQPRtvtxo2X9mWPIGNvyHnYb4
+	3BHJ7Fk14XMhG9OukynDy8U7Kpg807KSRcX7UubbqumAEa3VBOGhpEv463cFG4ATNiSiWxIC/hu
+	y4J+msmVp+G0GsfAOhFkoHyKWm8I=
+X-Google-Smtp-Source: AGHT+IG7RpB8rXBg11bASz5e74pbzwb4JhWSwB6jtemH9s9rN8KKlboDqB17LhSPkHs8WSROhE2vmvFN3PzE0/1pJqc=
+X-Received: by 2002:a19:5f12:0:b0:519:b963:6591 with SMTP id
+ t18-20020a195f12000000b00519b9636591mr2472663lfb.23.1713603443578; Sat, 20
+ Apr 2024 01:57:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240416121838.95427-1-masahiroy@kernel.org> <20240416121838.95427-3-masahiroy@kernel.org>
- <ZiKIoLKtG0suO-8i@bergen.fjasle.eu>
-In-Reply-To: <ZiKIoLKtG0suO-8i@bergen.fjasle.eu>
+References: <20240416121838.95427-1-masahiroy@kernel.org> <20240416121838.95427-5-masahiroy@kernel.org>
+ <ZiKJNrei7zUVaLkb@bergen.fjasle.eu>
+In-Reply-To: <ZiKJNrei7zUVaLkb@bergen.fjasle.eu>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sat, 20 Apr 2024 16:46:49 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASHW9Kh+sitS-si8kh2q_XD=1YOPREinY2QStZq=4bd1Q@mail.gmail.com>
-Message-ID: <CAK7LNASHW9Kh+sitS-si8kh2q_XD=1YOPREinY2QStZq=4bd1Q@mail.gmail.com>
-Subject: Re: [PATCH 2/4] Makefile: remove some unnecessary header include paths
+Date: Sat, 20 Apr 2024 17:56:47 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATQBZyKArGAO9GyjiN26cUgjmxaczStxsJG-Q0b7RW+Yg@mail.gmail.com>
+Message-ID: <CAK7LNATQBZyKArGAO9GyjiN26cUgjmxaczStxsJG-Q0b7RW+Yg@mail.gmail.com>
+Subject: Re: [PATCH 4/4] kbuild: use $(src) instead of $(srctree)/$(src) for
+ source directory
 To: Nicolas Schier <nicolas@fjasle.eu>
 Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Apr 20, 2024 at 12:07=E2=80=AFAM Nicolas Schier <nicolas@fjasle.eu>=
+On Sat, Apr 20, 2024 at 12:09=E2=80=AFAM Nicolas Schier <nicolas@fjasle.eu>=
  wrote:
 >
-> On Tue 16 Apr 2024 21:18:36 GMT, Masahiro Yamada wrote:
-> > The include directive with the double-quote form, #include "...",
-> > first searches for the specified header in the directory containing
-> > the source file.
+> On Tue 16 Apr 2024 21:18:38 GMT, Masahiro Yamada wrote:
+> > Kbuild conventionally uses $(obj)/ for generated files, and $(src)/ for
+> > checked-in source files. It is merely a convention without any function=
+al
+> > difference. In fact, $(obj) and $(src) are exactly the same, as defined
+> > in scripts/Makefile.build:
 > >
-> > If all local headers are included using the double-quote form instead
-> > of the angle bracket form, there is no need to add the local directory
-> > to the header search path.
+> >     src :=3D $(obj)
 > >
-> > drivers/gpu/drm/imagination and drivers/net/ethernet/aquantia/atlantic
-> > use only the double-quote form for including the local headers, and
-> > there are no generated sources or headers in their directories. Hence,
-> > the local header search path is unneeded.
+> > When the kernel is built in a separate output directory, $(src) does
+> > not match the directory in the source tree. It still works because the
+> > top Makefile sets VPATH to $(srctree). However, VPATH does not cover
+> > all cases. There are many places where the exact path to the source
+> > directory is needed. For example, when adding a header search path for
+> > local headers, it is typical to pass -I$(srctree)/$(src) to the compile=
+r.
 > >
-> > The same applies to arch/loongarch/kvm/ because TRACE_INCLUDE_PATH is
-> > relative to include/trace/.
+> > However, it introduces inconsistency between upstream Makefiles and
+> > downstream Makefiles; when the source directory path is needed,
+> > $(srctree)/$(src) is used in the upstream kernel, while $(src) is used
+> > in external modules.
 > >
-> > I guess there exist more Makefiles with unnecessary header inclusion
-> > paths (and more cases where it is possible to delete the header search
-> > path by replacing #include <...> with #include "..."), but I do not hav=
-e
-> > an easy way to detect it.
+> > To resolve the distortion, this commit changes the semantics of $(src)
+> > so that it always points to the directory in the source tree.
 > >
-> > These are unneeded inclusion paths that I happened to find.
+> > Going forward, the variables used in Makefiles will work as follows:
 > >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > ---
+> >   $(obj)     - directory in the object tree
+> >   $(src)     - directory in the source tree  (changed by this commit!)
+> >   $(objtree) - the top of the kernel object tree
+> >   $(srctree) - the top of the kernel source tree
 > >
-> >  arch/loongarch/kvm/Makefile                     | 2 --
-> >  drivers/gpu/drm/imagination/Makefile            | 2 --
-> >  drivers/net/ethernet/aquantia/atlantic/Makefile | 2 --
-> >  3 files changed, 6 deletions(-)
-> >
-> > diff --git a/arch/loongarch/kvm/Makefile b/arch/loongarch/kvm/Makefile
-> > index 244467d7792a..7a0108a721c1 100644
-> > --- a/arch/loongarch/kvm/Makefile
-> > +++ b/arch/loongarch/kvm/Makefile
-> > @@ -3,8 +3,6 @@
-> >  # Makefile for LoongArch KVM support
+> > This is a tweewide Makefile conversion for replacing $(srctree)/$(src)
+> > with $(src).
+>
+> tweewide -> treewide
+>
+> [...]
+> > diff --git a/drivers/Makefile b/drivers/Makefile
+> > index 3bf5cab4b451..fe9ceb0d2288 100644
+> > --- a/drivers/Makefile
+> > +++ b/drivers/Makefile
+> > @@ -6,11 +6,6 @@
+> >  # Rewritten to use lists instead of if-statements.
 > >  #
 > >
-> > -ccflags-y +=3D -I $(srctree)/$(src)
+> > -# Some driver Makefiles miss $(srctree)/ for include directive.
+> > -ifdef building_out_of_srctree
+> > -MAKEFLAGS +=3D --include-dir=3D$(srctree)
+> > -endif
 > > -
-> >  include $(srctree)/virt/kvm/Makefile.kvm
-> >
-> >  obj-$(CONFIG_KVM) +=3D kvm.o
-> > diff --git a/drivers/gpu/drm/imagination/Makefile b/drivers/gpu/drm/ima=
-gination/Makefile
-> > index ec6db8e9b403..3d9d4d40fb80 100644
-> > --- a/drivers/gpu/drm/imagination/Makefile
-> > +++ b/drivers/gpu/drm/imagination/Makefile
-> > @@ -1,8 +1,6 @@
-> >  # SPDX-License-Identifier: GPL-2.0-only OR MIT
-> >  # Copyright (c) 2023 Imagination Technologies Ltd.
-> >
-> > -subdir-ccflags-y :=3D -I$(srctree)/$(src)
-> > -
-> >  powervr-y :=3D \
-> >       pvr_ccb.o \
-> >       pvr_cccb.o \
-> > diff --git a/drivers/net/ethernet/aquantia/atlantic/Makefile b/drivers/=
-net/ethernet/aquantia/atlantic/Makefile
-> > index 8ebcc68e807f..268a055086c4 100644
-> > --- a/drivers/net/ethernet/aquantia/atlantic/Makefile
-> > +++ b/drivers/net/ethernet/aquantia/atlantic/Makefile
-> > @@ -8,8 +8,6 @@
-> >
-> >  obj-$(CONFIG_AQTION) +=3D atlantic.o
-> >
-> > -ccflags-y +=3D -I$(srctree)/$(src)
-> > -
-> >  atlantic-objs :=3D aq_main.o \
-> >       aq_nic.o \
-> >       aq_pci_func.o \
 >
-> I'm afraid drivers/net/ethernet/aquantia/atlantic/macsec/macsec_api.c,
-> .../hw_atl2/hw_atl2.c and .../hw_atl2/hw_atl2_utills{,_fw}.[ch] need to
-> be adjusted first.
+> Ah, it's nice to get rid of this.
 >
-> Except for the atlantic related patch diff:
+> >  obj-y                                +=3D cache/
+> >  obj-y                                +=3D irqchip/
+> >  obj-y                                +=3D bus/
+> [...]
+> > diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> > index 3179747cbd2c..c53d2f168801 100644
+> > --- a/scripts/Makefile.lib
+> > +++ b/scripts/Makefile.lib
+> > @@ -209,13 +209,13 @@ _c_flags +=3D $(if $(patsubst n%,, \
+> >       -D__KCSAN_INSTRUMENT_BARRIERS__)
+> >  endif
+> >
+> > -# $(srctree)/$(src) for including checkin headers from generated sourc=
+e files
+> > -# $(objtree)/$(obj) for including generated headers from checkin sourc=
+e files
+> > +# $(src) for including checkin headers from generated source files
+> > +# $(obj) for including generated headers from checkin source files
+>
+> this is a funny criss-cross of words; but might the following be more
+> accurate?
+>
+> # $(src) for including headers from checked-in source files
+> # $(obj) for including generated headers
+
+
+
+These are added only when building_out_of_srctree is defined.
+
+When the kernel is built in-tree,
+the include directive with the double-quote form
+should work without the header inclusion path.
+
+
+
+Anyway, this does not seem to be a good idea.
+I want to get rid of these entirely.
+
+
+
+
+>
+>
+>
+> Anyway, thanks for the patch.  I think it is quite a good way forward!
+>
 > Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
-
-
-
-Right. I got build errors for atlantic.
-
-I will drop this because it may cause regressions.
-
-
-
 
 
 
