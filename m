@@ -1,191 +1,220 @@
-Return-Path: <linux-kbuild+bounces-1621-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1622-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E0298ABBEE
-	for <lists+linux-kbuild@lfdr.de>; Sat, 20 Apr 2024 16:05:59 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43EF68ABC12
+	for <lists+linux-kbuild@lfdr.de>; Sat, 20 Apr 2024 16:53:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BC07FB20E79
-	for <lists+linux-kbuild@lfdr.de>; Sat, 20 Apr 2024 14:05:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ED639281535
+	for <lists+linux-kbuild@lfdr.de>; Sat, 20 Apr 2024 14:53:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F7D320DC5;
-	Sat, 20 Apr 2024 14:05:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D0B11E4B2;
+	Sat, 20 Apr 2024 14:53:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="klwwiv2I"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="36y2mTXg"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f74.google.com (mail-wr1-f74.google.com [209.85.221.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFB8AB669;
-	Sat, 20 Apr 2024 14:05:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C32FFB669
+	for <linux-kbuild@vger.kernel.org>; Sat, 20 Apr 2024 14:53:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713621951; cv=none; b=LYAwKVC69Y3kxFsrD4VC+mRkoFgyhitmO2tim+U884SAeTyxVJR1CT6BI8/9jqXCQ1tby/+rLTvbcy4/cGZbsct6qXhZg3r2RMtkKKz4sopfGhmj0KPt5rhlkHtvA72lPmA816uNriIh203LlXxFPII/mpfDixOROAaYLdMiYWc=
+	t=1713624797; cv=none; b=PwRo6hbkLUgpMosr+itW9ofQzwy/PFUkH1Wqw89PYiKsmezbUvb3fCX/agmLnwJe+c6+srqhgajCSn6kr408OL8k6y8D587osKkBsL3drKHKRTbblVoPJOgcNkq6OqlRQRpUhCTySMXsZPbvRVqArGFCpGiDPGPkPPa00rC0/f0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713621951; c=relaxed/simple;
-	bh=cqnb9OJE3P1VZzS2ArQ+qXik84KwiE/PGpx9+DVa4f8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BvZjlodAMqknlQd2E0IGTJlr++7sNWA9jyNQx8TrULmCtKPuvUJPmr5GgNNeF9Jr3uHAUAkKBZ5atP3GvejKQJp5QDp9PRtCXdEXYSfXBxHPZDtTofkOToEmyLm4n0t2ByefGc//BfcdvY6KKFDxiQjOceJ3cyvHVHMoyQhgewc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=klwwiv2I; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5131BC072AA;
-	Sat, 20 Apr 2024 14:05:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713621950;
-	bh=cqnb9OJE3P1VZzS2ArQ+qXik84KwiE/PGpx9+DVa4f8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=klwwiv2IN3Bw2Zhip0k3i9mu8/tRn0Io6OkXzF4aR34U+3F6WlVAmoo1pPAFdHmz5
-	 OXYv2DP1r6lBPcG70Exz/lfDYDIdN0m+iL6HRB5hiVRqL7dQgX6WjgKGsMX1nKAiTn
-	 4I6Dt3Tt7ENhCWla7PTfE7k+lgam8etzK8xoB9P892TlgisT6c5KbaSscKHkq9k0mV
-	 FtCWBClXS0tVqGBjjfJX6ih8hEJg27Dvn3xGzKD1s4Kqfc/NW96Ov5LnwNwVqiQcPt
-	 Ht4hTephValjoYGwROjtCEPGzSSsakhVRWz/nOMjrAnvXGCivKBI36N0OFVg7dUD9d
-	 /M1oFVP8EwnLg==
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-51967f75729so3474555e87.0;
-        Sat, 20 Apr 2024 07:05:50 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCX/Wyfc/V0PSW1n52DjSFYCzLwlhCnxDhY06y9F7cZf4Zb10R0gSORpgkATqPzKBVkfR7H2F34lkYamxn4PGy+TrqDnchSg06TkRDSWB2O+lQxVHI2zFTM1BtilymGXo51lpfByafxw3zJ0ScX6uCU7Bt0PHnLoCqhupNQXCvlO1W3yX7y5MFJF4TLNW+GLP3DIW1OU0BItPVwKrA==
-X-Gm-Message-State: AOJu0YxEKTXaP95ySK1kz214nqkBYIfxxSSqmeRI+NKwTmvtqiyuavH1
-	F1pY76Q2VF63CqVVlnGmP5wsxWiFzlXOSbvi58LZ6TITW6DmwqAgXhoHUqrLs90KwizdNSCLLm1
-	tq2fw29syY7VK4PcxS18VnK738jQ=
-X-Google-Smtp-Source: AGHT+IG0Ocg1AZoSs3v/LzffVF+IuMaiqTRS4giDtD5s/bJ/AESAhWEBu9R1lIxKpWn5wp61vOAlPJk5ja4Sgp0X0wY=
-X-Received: by 2002:a05:6512:3488:b0:51a:d2ea:97c3 with SMTP id
- v8-20020a056512348800b0051ad2ea97c3mr1965074lfr.69.1713621949038; Sat, 20 Apr
- 2024 07:05:49 -0700 (PDT)
+	s=arc-20240116; t=1713624797; c=relaxed/simple;
+	bh=L2pAJDIgd09N9dPeAJlChvryG82fGM15z0HZ+noCtdE=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=M5hZeUtqdjWrpQwib5SW0mdyTNXzUY0PPMu8mJD7hXsy77zqAoNILMpdedRZCgTsAjXK1Son86mucf0DzgaDAiKGNhlKoS1GR8tpP0kOnAw7fAx5/SlqBRvb2Exor0Fd11TfwVqAkHX1LjHZW94Ehspic0WOYAew5x9vaNukR64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--ardb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=36y2mTXg; arc=none smtp.client-ip=209.85.221.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--ardb.bounces.google.com
+Received: by mail-wr1-f74.google.com with SMTP id ffacd0b85a97d-343f08542f8so2015621f8f.0
+        for <linux-kbuild@vger.kernel.org>; Sat, 20 Apr 2024 07:53:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1713624794; x=1714229594; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=WKQ+BVS60yeZluvBwBFdf26Wahd7Nx6DRPBmcI5HHBs=;
+        b=36y2mTXgfXi5aRRo1C5ZUlCoDwdWF8+p+rP2OtweYIJ8nscHwGnlJpmouVCVpRkfIZ
+         DihndyXd7B3UYt/vKNK6lpdW/lliTfHopMeBupDq0t9wwyEtW+QJ+wvUO4i29upo85Nw
+         EH1bd+hDyKYwjsND53OnOzMWkjdkq2M3woGGbN6+ZkDK97krB21iwuVZk8+rQzp9meHZ
+         60BtZoL7bYtUGlnV23sGQBJrcjlPeVDmlsfkINXLXS4UD4CHcYmi4etZjQggabnHk6Xn
+         WD0j64f9pQJLPKhm9SuYtjWWMGN/9HUf4l0zNZi2cwxgp/m2UQr08CHDlXuWP589pn4p
+         ukTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713624794; x=1714229594;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=WKQ+BVS60yeZluvBwBFdf26Wahd7Nx6DRPBmcI5HHBs=;
+        b=n4YC2O8VwMIbN9vJoGYzVBl9ewH3HZqvFqg8gJhjhWx5kKy6Bkdp7ub3cy3UWVW5yA
+         ffonC55yo5sZh1vu9KzORzQ9Uo6lwLQSLTPkyfrjaNNxT6/628i/0omvR50wrKERE5qB
+         f/rvEfuW+Yqql5OJyWOmyisbuw16lHYq+CaD7CC/ODiwASJqv2wtNpsDAWkTijXa0QSa
+         Mt4fdnROHKBGgsv6Dnakv/8pfa29uBW3qF7e6kvPa3Rr/9axzbQ9Kq2ql+ppUR7zVznc
+         Dp5XZVeJBQv0xXY2KR2aLMSIT7LNlJv5eJSCHpqDhb15gcS4/JHM+dvyLOL603j0pr1t
+         kQ/w==
+X-Forwarded-Encrypted: i=1; AJvYcCXK5z3O639kj1Od8LhAqCIr7npXEneCFBEhB8gZ/ihAPa/+P1doDF4eb3JQpjaQ7aRM2FXiENlUR57C7P/oqtzrrth3hqBV6ClXO/E1
+X-Gm-Message-State: AOJu0Ywsc+LfTNbjYwubtLMXltbKzppPKg1STXz1aojGEHAz1R5e0hAH
+	ISI2rtBVmWjvUTGkK7v8RucdV2bVl+PfjMWqS5+KkC/XqnAdPn5AnEBBLEn8z+Z/m2lu6Q==
+X-Google-Smtp-Source: AGHT+IFESR6rh3Rt6iU3NFcfXf3QYRALOCJbIwQqEu4aWr9NbToafOPj9bPwIIzNjk/5XGbyV8Sb0YfD
+X-Received: from palermo.c.googlers.com ([fda3:e722:ac3:cc00:28:9cb1:c0a8:118a])
+ (user=ardb job=sendgmr) by 2002:adf:f051:0:b0:34a:5683:ce68 with SMTP id
+ t17-20020adff051000000b0034a5683ce68mr9885wro.9.1713624794183; Sat, 20 Apr
+ 2024 07:53:14 -0700 (PDT)
+Date: Sat, 20 Apr 2024 16:53:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20240415162041.2491523-5-ardb+git@google.com> <171327842741.29461.3030265084386428643.git-patchwork-notify@kernel.org>
- <CAMj1kXGVRGcJGS1xuqHPeJfM797RB2UiJQfSHK+oj1JQG4YECg@mail.gmail.com>
- <CAK7LNAQ8fhKUwK_m8uGfvBUBrAdXdMYM3_AA5zo2cQzhW3jE1A@mail.gmail.com>
- <CAMj1kXGYdjQz5n0uuiLHu8uc-YNE8eqUQWtGjg5pANo+0speQA@mail.gmail.com>
- <CAK7LNAT9Y5C+Shr1Pq=xrL2tcBK6rpBn05iovdZ2=kMHW5UCkw@mail.gmail.com>
- <CAMj1kXEbXfsNarFMbDC-Dzk6H9X9C4Ax2pWPSZhmt93mV4_Q2w@mail.gmail.com> <CAMj1kXFt5kbZ8yFgO-jU5ZP3-WZi5ZZJKKTCpEYRdUYFRj9CYQ@mail.gmail.com>
-In-Reply-To: <CAMj1kXFt5kbZ8yFgO-jU5ZP3-WZi5ZZJKKTCpEYRdUYFRj9CYQ@mail.gmail.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sat, 20 Apr 2024 23:05:12 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARxd4KK7Yj0ah+tFrwWrnr9P=HqXwYQE86q9v8pxmCQNw@mail.gmail.com>
-Message-ID: <CAK7LNARxd4KK7Yj0ah+tFrwWrnr9P=HqXwYQE86q9v8pxmCQNw@mail.gmail.com>
-Subject: Re: [PATCH v4 0/3] kbuild: Avoid weak external linkage where possible
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: patchwork-bot+netdevbpf@kernel.org, Ard Biesheuvel <ardb+git@google.com>, 
-	linux-kernel@vger.kernel.org, arnd@arndb.de, martin.lau@linux.dev, 
-	linux-arch@vger.kernel.org, linux-kbuild@vger.kernel.org, bpf@vger.kernel.org, 
-	andrii@kernel.org, olsajiri@gmail.com
+Mime-Version: 1.0
+X-Developer-Key: i=ardb@kernel.org; a=openpgp; fpr=F43D03328115A198C90016883D200E9CA6329909
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5043; i=ardb@kernel.org;
+ h=from:subject; bh=kaOxBt3VsuilePPxOqc4JRvXBj5H43zTLJ3gqsXHoSs=;
+ b=owGbwMvMwCFmkMcZplerG8N4Wi2JIU352vkPU0/eiFnef0TofXqSp6s3w+F7E1qq5t58d3TLP
+ gmdfPedHaUsDGIcDLJiiiwCs/++23l6olSt8yxZmDmsTCBDGLg4BWAi838w/A+9lb7N8jLbm2r1
+ Rwtdzx76vOty1tU/ZuY9++x3iDC6ro1n+MkopdEjZy4Udu3ixIjfl9Y47/KTMlS4nT3h+yU9owS LRkYA
+X-Mailer: git-send-email 2.44.0.769.g3c40516874-goog
+Message-ID: <20240420145303.238068-2-ardb+git@google.com>
+Subject: [PATCH v5] kallsyms: Avoid weak references for kallsyms symbols
+From: Ard Biesheuvel <ardb+git@google.com>
+To: linux-kernel@vger.kernel.org
+Cc: Ard Biesheuvel <ardb@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org, 
+	Nick Desaulniers <ndesaulniers@google.com>, Kees Cook <keescook@chromium.org>, 
+	Arnd Bergmann <arnd@arndb.de>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Sat, Apr 20, 2024 at 11:00=E2=80=AFPM Ard Biesheuvel <ardb@kernel.org> w=
-rote:
->
-> On Sat, 20 Apr 2024 at 15:56, Ard Biesheuvel <ardb@kernel.org> wrote:
-> >
-> > On Sat, 20 Apr 2024 at 15:42, Masahiro Yamada <masahiroy@kernel.org> wr=
-ote:
-> > >
-> > > On Sat, Apr 20, 2024 at 9:35=E2=80=AFPM Ard Biesheuvel <ardb@kernel.o=
-rg> wrote:
-> > > >
-> > > > On Sat, 20 Apr 2024 at 14:32, Masahiro Yamada <masahiroy@kernel.org=
-> wrote:
-> > > > >
-> > > > > On Fri, Apr 19, 2024 at 4:57=E2=80=AFPM Ard Biesheuvel <ardb@kern=
-el.org> wrote:
-> > > > > >
-> > > > > > On Tue, 16 Apr 2024 at 16:40, <patchwork-bot+netdevbpf@kernel.o=
-rg> wrote:
-> > > > > > >
-> > > > > > > Hello:
-> > > > > > >
-> > > > > > > This series was applied to bpf/bpf-next.git (master)
-> > > > > > > by Daniel Borkmann <daniel@iogearbox.net>:
-> > > > > > >
-> > > > > > > On Mon, 15 Apr 2024 18:20:42 +0200 you wrote:
-> > > > > > > > From: Ard Biesheuvel <ardb@kernel.org>
-> > > > > > > >
-> > > > > > > > Weak external linkage is intended for cases where a symbol =
-reference
-> > > > > > > > can remain unsatisfied in the final link. Taking the addres=
-s of such a
-> > > > > > > > symbol should yield NULL if the reference was not satisfied=
-.
-> > > > > > > >
-> > > > > > > > Given that ordinary RIP or PC relative references cannot pr=
-oduce NULL,
-> > > > > > > > some kind of indirection is always needed in such cases, an=
-d in position
-> > > > > > > > independent code, this results in a GOT entry. In ordinary =
-code, it is
-> > > > > > > > arch specific but amounts to the same thing.
-> > > > > > > >
-> > > > > > > > [...]
-> > > > > > >
-> > > > > > > Here is the summary with links:
-> > > > > > >   - [v4,1/3] kallsyms: Avoid weak references for kallsyms sym=
-bols
-> > > > > > >     (no matching commit)
-> > > > > > >   - [v4,2/3] vmlinux: Avoid weak reference to notes section
-> > > > > > >     (no matching commit)
-> > > > > > >   - [v4,3/3] btf: Avoid weak external references
-> > > > > > >     https://git.kernel.org/bpf/bpf-next/c/fc5eb4a84e4c
-> > > > > > >
-> > > > > >
-> > > > > >
-> > > > > > Thanks.
-> > > > > >
-> > > > > > Masahiro, could you pick up patches #1 and #2 please?
-> > > > > >
-> > > > >
-> > > > >
-> > > > > I do not like PROVIDE() because it potentially shifts
-> > > > > a build error (i.e. link error) into
-> > > > > a run-time error, which is usually more difficult to debug
-> > > > > than build error.
-> > > > >
-> > > > > If someone references the kallsyms_* symbols
-> > > > > when CONFIG_KALLSYMS=3Dn, it is likely a mistake.
-> > > > > In general, it should be reported as a link error.
-> > > > >
-> > > >
-> > > > OK, so the PROVIDE() should be conditional on CONFIG_KALLSYM=3Dy. I=
- can fix that.
-> > >
-> > >
-> > > You may need to take care of the dependency
-> > > between CONFIG_KALLSYMS and CONFIG_VMCORE_INFO
-> > > because kernel/vmcore_info.c has references
-> > > to the kallsyms_* symbols.
-> > >
-> > > (I am still not a big fan of PROVIDE() though)
-> > >
-> >
-> >
-> > OK, how about we use weak definitions (as opposed to weak references)
-> > in kernel/kallsyms.c, which will get superseded by the actual ones in
-> > the second linker pass.
-> >
-> > The only difference is that we will use some space in the binary for
-> > the weak definitions that are never used in the final build.
+From: Ard Biesheuvel <ardb@kernel.org>
 
+kallsyms is a directory of all the symbols in the vmlinux binary, and so
+creating it poses somewhat of a chicken-and-egg problem, as its non-zero
+size affects the layout of the binary, and therefore the values of the
+symbols.
 
-I am fine if that fixes the issue.
+For this reason, the kernel is linked more than once, and the first pass
+does not include any kallsyms data at all. For the linker to accept
+this, the symbol declarations describing the kallsyms metadata are
+emitted as having weak linkage, so they can remain unsatisfied. During
+the subsequent passes, the weak references are satisfied by the kallsyms
+metadata that was constructed based on information gathered from the
+preceding passes.
 
+Weak references lead to somewhat worse codegen, because taking their
+address may need to produce NULL (if the reference was unsatisfied), and
+this is not usually supported by RIP or PC relative symbol references.
 
-"git grep __weak" shows a bunch of weak definitions.
+Given that these references are ultimately always satisfied in the final
+link, let's drop the weak annotation on the declarations, and instead,
+provide fallback definitions with weak linkage. This informs the
+compiler that ultimately, the reference will always be satisfied.
 
+While at it, drop the FRV specific annotation that these symbols reside
+in .rodata - FRV is long gone.
 
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org
+Acked-by: Nick Desaulniers <ndesaulniers@google.com>
+Acked-by: Kees Cook <keescook@chromium.org>
+Acked-by: Arnd Bergmann <arnd@arndb.de>
+Link: https://lore.kernel.org/all/20240415075837.2349766-5-ardb+git@google.com
+Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
+---
+v5: - avoid PROVIDE() in the linker script, use weak definitions instead
+    - drop tested-by, replace reviewed-by with acked-by
 
+ kernel/kallsyms.c          | 31 ++++++++++++++++----
+ kernel/kallsyms_internal.h | 25 ++++++----------
+ 2 files changed, 34 insertions(+), 22 deletions(-)
 
-> Btw those references in kernel/vmcore_info.c are guarded by #ifdef
-> CONFIG_KALLSYMS=3Dy too.
+diff --git a/kernel/kallsyms.c b/kernel/kallsyms.c
+index 18edd57b5fe8..fada7fbb24cf 100644
+--- a/kernel/kallsyms.c
++++ b/kernel/kallsyms.c
+@@ -34,6 +34,31 @@
+ 
+ #include "kallsyms_internal.h"
+ 
++/*
++ * The real definitions of the symbols below will not exist yet during the
++ * first pass of the link, but are guaranteed to exist in the final link.
++ * Provide preliminary weak definitions that will be superseded in the final
++ * link, to avoid having to rely on weak references, which require a GOT when
++ * used in position independent code.
++ */
++
++#ifndef CONFIG_KALLSYMS_BASE_RELATIVE
++const unsigned long __weak kallsyms_addresses[1];
++#else
++const int __weak kallsyms_offsets[1];
++const unsigned long __weak kallsyms_relative_base;
++#endif
++
++const u8 __weak kallsyms_names[1];
++
++const unsigned int __weak kallsyms_num_syms;
++
++const char __weak kallsyms_token_table[1];
++const u16 __weak kallsyms_token_index[1];
++
++const unsigned int __weak kallsyms_markers[1];
++const u8 __weak kallsyms_seqs_of_names[3];
++
+ /*
+  * Expand a compressed symbol data into the resulting uncompressed string,
+  * if uncompressed string is too long (>= maxlen), it will be truncated,
+@@ -325,12 +350,6 @@ static unsigned long get_symbol_pos(unsigned long addr,
+ 	unsigned long symbol_start = 0, symbol_end = 0;
+ 	unsigned long i, low, high, mid;
+ 
+-	/* This kernel should never had been booted. */
+-	if (!IS_ENABLED(CONFIG_KALLSYMS_BASE_RELATIVE))
+-		BUG_ON(!kallsyms_addresses);
+-	else
+-		BUG_ON(!kallsyms_offsets);
+-
+ 	/* Do a binary search on the sorted kallsyms_addresses array. */
+ 	low = 0;
+ 	high = kallsyms_num_syms;
+diff --git a/kernel/kallsyms_internal.h b/kernel/kallsyms_internal.h
+index 27fabdcc40f5..cf4124dbcc5b 100644
+--- a/kernel/kallsyms_internal.h
++++ b/kernel/kallsyms_internal.h
+@@ -8,24 +8,17 @@
+  * These will be re-linked against their real values
+  * during the second link stage.
+  */
+-extern const unsigned long kallsyms_addresses[] __weak;
+-extern const int kallsyms_offsets[] __weak;
+-extern const u8 kallsyms_names[] __weak;
++extern const unsigned long kallsyms_addresses[];
++extern const int kallsyms_offsets[];
++extern const u8 kallsyms_names[];
+ 
+-/*
+- * Tell the compiler that the count isn't in the small data section if the arch
+- * has one (eg: FRV).
+- */
+-extern const unsigned int kallsyms_num_syms
+-__section(".rodata") __attribute__((weak));
+-
+-extern const unsigned long kallsyms_relative_base
+-__section(".rodata") __attribute__((weak));
++extern const unsigned int kallsyms_num_syms;
++extern const unsigned long kallsyms_relative_base;
+ 
+-extern const char kallsyms_token_table[] __weak;
+-extern const u16 kallsyms_token_index[] __weak;
++extern const char kallsyms_token_table[];
++extern const u16 kallsyms_token_index[];
+ 
+-extern const unsigned int kallsyms_markers[] __weak;
+-extern const u8 kallsyms_seqs_of_names[] __weak;
++extern const unsigned int kallsyms_markers[];
++extern const u8 kallsyms_seqs_of_names[];
+ 
+ #endif // LINUX_KALLSYMS_INTERNAL_H_
+-- 
+2.44.0.769.g3c40516874-goog
 
-Ah, OK.
-Then, this is not an issue.
-
-
---=20
-Best Regards
-Masahiro Yamada
 
