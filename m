@@ -1,155 +1,157 @@
-Return-Path: <linux-kbuild+bounces-1611-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1612-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CDBC8ABA13
-	for <lists+linux-kbuild@lfdr.de>; Sat, 20 Apr 2024 09:25:00 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20BA38ABA17
+	for <lists+linux-kbuild@lfdr.de>; Sat, 20 Apr 2024 09:30:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EF5B42814CA
-	for <lists+linux-kbuild@lfdr.de>; Sat, 20 Apr 2024 07:24:58 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 97CF3B20E39
+	for <lists+linux-kbuild@lfdr.de>; Sat, 20 Apr 2024 07:30:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7835AF9DE;
-	Sat, 20 Apr 2024 07:24:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B68312E7F;
+	Sat, 20 Apr 2024 07:29:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jJRQZcuI"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XpOeeV7x"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 546A2946F
-	for <linux-kbuild@vger.kernel.org>; Sat, 20 Apr 2024 07:24:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35B7710799;
+	Sat, 20 Apr 2024 07:29:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713597895; cv=none; b=Xwgy3CtYzJD3hZv7X0qJKVV/s/7WshDXFgX0MWaq3qv1PzVGtOmpI9bQ4gapPj85Ykk6rWdLwvfjFwjtv/G0E8b5GlmJ5+7SL32HTvP1v69iE+HZbs+4q7Ycx0z7iGMN6DGFr/F1fe2l0GWP3ui7U77Brh4bV86qJHyNM/kj0ak=
+	t=1713598195; cv=none; b=k0bK5UYpMtkCcwfAqgTgq+0JNnKDZ8rxWOQVw+ro7X7aoNgiINCWCZpQG48/tJKLBYoXjOfBBq4BWAzu/8AXN2m1N9TkZeZrlyshBmQgNtyZX3heZuZcTrWjIelwwqMGu8p82aev5ske2JwacRRvnCim3yIZm0Fc2vYXjyjOJB8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713597895; c=relaxed/simple;
-	bh=2qGRMMb0BQ91X7IRN+E/o5jOeaNxPzmct4GBQO4mVgE=;
+	s=arc-20240116; t=1713598195; c=relaxed/simple;
+	bh=xboYmwFAY9oYvkuW7reH8ca2FGx3OQYvrAakw41o+I0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=C/oZ2JwysjuVDGUe3tsr5QqrXkj1acU//M4vmzIOje3xxXQVmgO0wwv+mxcGGbMoM0cav4qpU2au/72Mi3NGjkYc2KDhTnflcxfqK0O1BBU1QTxFTenqnqdMRQl1TO/NT3Sq2nn2fKQXqBvsXhOoXsKMTo3S7NlTDr5obyPc4Hw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jJRQZcuI; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C753EC113CE
-	for <linux-kbuild@vger.kernel.org>; Sat, 20 Apr 2024 07:24:54 +0000 (UTC)
+	 To:Cc:Content-Type; b=BeKjgDpAW1UCUNRl2ma8t2lkhNvOooWQ2/yn115TrYhBf0pWAOidMSBlrFckZl59IcTRZadDZUPDwqpDUqQfQchzWvSVeh3iPCIOwcgF4U3BlV3izKC36pWvn9dkHo1a+H7JbfwWCzuQ0ehOvC1fhdJ+1yFbtXcOWh4Akx+qTck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XpOeeV7x; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B935EC072AA;
+	Sat, 20 Apr 2024 07:29:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713597894;
-	bh=2qGRMMb0BQ91X7IRN+E/o5jOeaNxPzmct4GBQO4mVgE=;
+	s=k20201202; t=1713598194;
+	bh=xboYmwFAY9oYvkuW7reH8ca2FGx3OQYvrAakw41o+I0=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=jJRQZcuIbMrMitgA6KsSGe8uDLgT+780RbI68/JkGbecc2IgPQ+2YGXHe5rFibP4g
-	 55w01fWwKH44YXt8vDvAhuNm5/vrDxyrnwWiQYcQm/kzRjHz8hyt7FavSCV+UDZg6q
-	 CrgzrUbA3LBGn7wAvO4q2YnC6GKR5bxgQIOlF4qWjh5gtx6B38ULy0LBrTy0meIlqh
-	 /RIQIZnlGNdSq6AV2OCvX7fgIqLw4EroAeLWXXDSL9hSWRtFzjupXekkjefqIH+tDa
-	 HUCZrIttLEfqXQ6T3tXX992xi7Lm5iu8wwOmVsLrkuzYsNx2k36UKgcJ06aR6keS7U
-	 OSZeY/IcECuKA==
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-51ae2e37a87so456773e87.2
-        for <linux-kbuild@vger.kernel.org>; Sat, 20 Apr 2024 00:24:54 -0700 (PDT)
-X-Gm-Message-State: AOJu0YyTZqoFQv0nhqngZ3R3rSLx2SQeja3K/n0JOLyrUBMvSml8jvRQ
-	//83rFvRNjtApAfPALeICyua6Zux0toJ7aaVEYXmEhgxdGW9E/IOj3nifBkxJEonSib4Qp87P75
-	0aScK4HPp7uK9elUWtdSG7Cyjim4=
-X-Google-Smtp-Source: AGHT+IGAZtkPEBgJurc+7fB96LZa8zxV82zkz7ceVZ5ccm1tV6Aj1SnrwYSUezXz+0si2aWZqKy49EpJu7HzSRPJPBY=
-X-Received: by 2002:a05:6512:2203:b0:519:5e81:276d with SMTP id
- h3-20020a056512220300b005195e81276dmr3324600lfu.31.1713597893504; Sat, 20 Apr
- 2024 00:24:53 -0700 (PDT)
+	b=XpOeeV7xdBMOKCGPP7msCiC/F1BCtbAR8WNizkFmiyzExN0V49nAY9+r1ZC9N7nNW
+	 o9uMTbWE4bNbOM1wU8OfWyR0vT0S16wb2+VIOvQRfiwcGnK3gkLst2O3utJfU2suZv
+	 i+/HFYwHK1DF5scwvp/GzGB6qq7FnLD81SSKZaJ02wFSqI9CGcG5scBojjVkQdO1/K
+	 GCQWcYm4KMq5nIwTEm1e+Y0wn1T32aXo5VqoFH8exChN4LvmeII0xJUxRmsd+bw1Np
+	 6w31koO5vPbGGFv4zQKD92GwN69lvuVr4LejeTe2kBRaKjjXHZhtTxYe2AlzVpMFQX
+	 hadiMKBe+qx8g==
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5176f217b7bso4651203e87.0;
+        Sat, 20 Apr 2024 00:29:54 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUmO/wVEwZovGiWVkMaGOYhTtY4TprbAybrjCwuPQzcSRzdpSC65nQ6iHKntc3QrTsBtHsDJxOj8K9xCaYvsnK1SanlCOMvyHZNWGTkgeFcHBx+G0yZ+1JN+iVxC6XE/5x3KL3GpCsB2RXlkrHAObhzw5LSHWYs3IRfDin6QiijMZxREOpl
+X-Gm-Message-State: AOJu0YySQ88IDODuat8awixNP1lvzbzM+gpE66qmv1UayehqXf0EF0cw
+	uf+zWsoLRwrXkDHHgZ7Mn5YbqA4w5myeulObtyY5twiF/wiC2O18YX3mEf7IR2HflLGLkG8muJu
+	xJElJRBgLLKkKFUXPoRc9QIkFy+g=
+X-Google-Smtp-Source: AGHT+IF0Ojfu+/qfawWbrxQ/4x/qrMMM9Bg7P5wu1/XAmxXUdVvWrZIK6YIN9nOEFz0UCjQ6C+orZj9b8gni7o3Bckk=
+X-Received: by 2002:ac2:5188:0:b0:516:d09b:cbe4 with SMTP id
+ u8-20020ac25188000000b00516d09bcbe4mr3647779lfi.53.1713598193465; Sat, 20 Apr
+ 2024 00:29:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240407072933.3562124-1-ppandit@redhat.com> <CAK7LNASZR=n+T=9Lo-5=Nw9WTwY9ywdTNvAUdt8xDXxsnNu3Tg@mail.gmail.com>
- <668901914.114470.1713335369416@mail.yahoo.com>
-In-Reply-To: <668901914.114470.1713335369416@mail.yahoo.com>
+References: <20240417043654.60662-1-prathampatel@thefossguy.com>
+ <20240417144859.GA1471879@dev-arch.thelio-3990X> <D0MHQUIYGONC.3LTT2WN2885D7@thefossguy.com>
+ <20240417154750.GB1517581@dev-arch.thelio-3990X> <D0MIMX0DRNKG.21N7VHAE5MWNX@thefossguy.com>
+In-Reply-To: <D0MIMX0DRNKG.21N7VHAE5MWNX@thefossguy.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sat, 20 Apr 2024 16:24:17 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAReoYHT0-SUzFT11y=pN6GTLSgu0+7Su+2Tthkz5VFymw@mail.gmail.com>
-Message-ID: <CAK7LNAReoYHT0-SUzFT11y=pN6GTLSgu0+7Su+2Tthkz5VFymw@mail.gmail.com>
-Subject: Re: [PATCH v1] kconfig: add config and source entry details
-To: Prasad Pandit <pj.pandit@yahoo.in>
-Cc: "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>
+Date: Sat, 20 Apr 2024 16:29:17 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASgtAvOfgnkq-6CJWP_8Ut195t6Z7sqRe1FHbTxtLKfkg@mail.gmail.com>
+Message-ID: <CAK7LNASgtAvOfgnkq-6CJWP_8Ut195t6Z7sqRe1FHbTxtLKfkg@mail.gmail.com>
+Subject: Re: [PATCH 0/2] Enable building of the devel RPM package from Kbuild
+To: Pratham Patel <prathampatel@thefossguy.com>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, thefirst1322@gmail.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Apr 17, 2024 at 3:30=E2=80=AFPM Prasad Pandit <pjp@fedoraproject.or=
-g> wrote:
+On Thu, Apr 18, 2024 at 12:51=E2=80=AFAM Pratham Patel
+<prathampatel@thefossguy.com> wrote:
 >
-> Hello Masahiro,
->
-> On Tuesday, 16 April, 2024 at 05:19:40 pm IST, Masahiro Yamada <masahiroy=
-@kernel.org> wrote:>
-> >You added
+> On Wed Apr 17, 2024 at 9:17 PM IST, Nathan Chancellor wrote:
+> > On Wed, Apr 17, 2024 at 03:08:57PM +0000, Pratham Patel wrote:
+> > > On Wed Apr 17, 2024 at 8:18 PM IST, Nathan Chancellor wrote:
+> > > > On Wed, Apr 17, 2024 at 04:37:32AM +0000, Pratham Patel wrote:
+> > > > > This addresses a minor nit where I want a `-devel` RPM package to=
+ be
+> > > > > built when I build a binary RPM package with either `binrpm-pkg`
+> > > > > or `rpm-pkg` target(s).
+> > > > >
+> > > > > Pratham Patel (2):
+> > > > >   kbuild: allow toggling the `with_devel` RPM macro
+> > > > >   docs: kbuild: document KBUILD_RPM_WITH_DEVEL
+> > > > >
+> > > > >  Documentation/kbuild/kbuild.rst | 6 ++++++
+> > > > >  scripts/Makefile.package        | 5 ++++-
+> > > > >  2 files changed, 10 insertions(+), 1 deletion(-)
+> > > > >
+> > > > > --
+> > > > > 2.42.0
+> > > > >
+> > > >
+> > > > Hmmm, when I execute
+> > > >
+> > > >   $ make -skj"$(nproc)" ARCH=3Dx86_64 O=3Dbuild mrproper defconfig =
+binrpm-pkg
+> > > >
+> > > > I end up with
+> > > >
+> > > >   $ ls -1 build/rpmbuild/RPMS/x86_64
+> > > >   kernel-6.9.0_rc4_00031_g96fca68c4fbf-1.x86_64.rpm
+> > > >   kernel-devel-6.9.0_rc4_00031_g96fca68c4fbf-1.x86_64.rpm
+> > > >   kernel-headers-6.9.0_rc4_00031_g96fca68c4fbf-1.x86_64.rpm
+> > > >
+> > > > so it seems like this is already happening?
+> > > >
+> > > > Cheers,
+> > > > Nathan
+> > >
+> > > Ah sorry, that was a typo. I meant to say the following:
+> > > "This addresses a minor nit where I **don't** want a `-devel` RPM
+> > > package to be built when I build a binary RPM package with either
+> > > `binrpm-pkg` or `rpm-pkg` target(s)."
+> > >
+> > > That is because on ARM systems where I just need to quickly test the
+> > > upstream defconfig, I don't really need the `-devel` package.
+> > >
+> > > Also, I see that in a hurry, I did the opposite of what I wanted in t=
+he
+> > > patches. This went unnoticed since I had KBUILD_RPM_WITH_DEVEL=3D0 fo=
+r me
+> > > during testing. Sorry about that!
+> > >
+> > > I'll send a v2 fixing this stupid mistake.
 > >
-> >- indented by a leading tab (\t) character,
-> >- Help text is further indented by two more spaces.
+> > Ah, understood! I am not sure you actually need a v2 though because I
+> > think you can already accomplish what you are looking for by adding
 > >
-> >These are recommended coding styles for readability,
-> >not grammatical requirements.
->
->   -> https://www.kernel.org/doc/html/latest/kbuild/kconfig-language.html
->
-> * I see, thank you for the clarification. Reading this language reference=
- and seeing the config entries consistently using indentation in Kconfig fi=
-les, I mistook it as language syntax.
->
-> * Maybe it'll help to explicitly specify that indentation is not the Kcon=
-fig language syntax.
->
->
-> >You can write Kconfig code without indentation,
-> >without blank lines in-between.
+> >   RPMOPTS=3D'--without devel'
 > >
+> > to your make command, at least that works for me. Commit 2a291fc315b6
+> > ("kbuild: rpm-pkg: introduce %{with_devel} switch to select devel
+> > package") introduced this.
 > >
-> >config FOO
-> >bool "foo"
-> >depends on BAR
-> >config BAR
-> >bool "bar"
-> >config BAZ
-> >bool "baz"
-> >
-> >
-> >It is unreadable, but it works fine.
-> >
-> >
-> >Only the place where the indentation plays an act
-> >is the end of help. It is already documented.
-> >
-> >  The end of the help text is determined by
-> >  the indentation level, this means it ends at the first line which has
-> >  a smaller indentation than the first line of the help text.
-> >
+> > Cheers,
+> > Nathan
 >
-> * Got it. In that case, to confirm: are there any input cases which are e=
-rroneous according to the Kconfig language syntax? Because even config entr=
-ies ending with an 'EOF' are not flagged as an error.
-
-
-Why should it be flagged as an error?
-
-
-Kconfig does not require a new line at the end of file.
-Same for other languages such as C, Python, etc.
-
-
-
+> Oh, didn't know that, thank you. :)
 >
-> * Last to confirm: is 'kconfig-language.html' reference for the Kconfig l=
-angauge as implemented in kernel OR it is the general language reference th=
-at applies to all Kconfig files across all projects? Because non-kernel pro=
-jects also seem to use Kconfig files.
-
-
-I hoped this file explained Kconfig language as a standalone project.
-
-Apparently, it contains a kernel-specific description.
-(e.g. "Compile-testing")
-
-
-
+>  -- Pratham Patel
 >
->
-> Thank you.
-> ---
->   - Prasad
+
+
+As explained in the commit description of
+a55d4aee76ca72e198a657cb471d2a3b37983072
+
+
 
 
 
