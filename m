@@ -1,52 +1,60 @@
-Return-Path: <linux-kbuild+bounces-1625-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1626-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FBFB8ABF0C
-	for <lists+linux-kbuild@lfdr.de>; Sun, 21 Apr 2024 13:13:15 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6499B8ABF20
+	for <lists+linux-kbuild@lfdr.de>; Sun, 21 Apr 2024 14:08:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0B29B280FE0
-	for <lists+linux-kbuild@lfdr.de>; Sun, 21 Apr 2024 11:13:14 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 92461B20AF7
+	for <lists+linux-kbuild@lfdr.de>; Sun, 21 Apr 2024 12:08:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 264AED53B;
-	Sun, 21 Apr 2024 11:13:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCA7A625;
+	Sun, 21 Apr 2024 12:08:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hZjfMy0G"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UqSUuQpK"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFDD86AD7;
-	Sun, 21 Apr 2024 11:13:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95EA610A0C;
+	Sun, 21 Apr 2024 12:08:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713697990; cv=none; b=MoGzItVwvzBumnT9iG5pRGq+sNd3jnSdfj7rMThqWucA5VMMEhLhfGK7ge9E3hkc2AIC/tXmDR/MghunUP7IsdaA96M2IW3nIiXstUi6ZeqLr9BmI6oPNxHjklb/+MwG9rh+yL7dUFhsiRnGQ9lSqKJyD9bH6w6KdSNSVQBDlYU=
+	t=1713701311; cv=none; b=Fwa1uFb1AYHWA/x7aoa52+h609zQqVQPRLl6Ro9lQkeGFhWty66VONCgzuixraeuYxfo1mFiEna6Q70dJBR98iebyBzkDVwuefWuJC9BxY505waN9ihCxHM3mJIbKCrEJLwIXEBb1FdqAHgo5OA7o37nHwRIoWttn2/x5uMGUPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713697990; c=relaxed/simple;
-	bh=T8R3zSpNO6LtvSfdpaSEY3m6wVK/7bVFcSFRC8miPRY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=VbFS//gIywGBGHAxoaupaZdv/uSaC6VvKr/GcIBu9dkk0W7yShkhoDlVO5G/bussvsC1Lm06ez1sqg6ScAM/GytkAMCcSThmGBR1Wu3C4Ymp+V4dg37SSWOnlQJItWh5PgDSr09/fy06Chq9Cv/zaFipYGHjJ0ME/jBBj+WWRlQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hZjfMy0G; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73E8AC113CE;
-	Sun, 21 Apr 2024 11:13:08 +0000 (UTC)
+	s=arc-20240116; t=1713701311; c=relaxed/simple;
+	bh=nsnyM7iDeXKSHIowtiCZl5ToaOYTW3mkGiIfj5zbErE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=A3ylPY4SqjlIEXZBnUkiIOVSCEeHet8aYpPUtURPe5qJzodjPhBh7QXzxfgMj7zyTLWeOhyjUcsBxxOZ2tfybMMG1Lr17SXsPUQShxbOgVYfhoD45fNgMP4dv54nQMRdGxR7eXzoxKzR9vcg9E9bVqp68yrdgTcD6VtXN04VqVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UqSUuQpK; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1C72C113CE;
+	Sun, 21 Apr 2024 12:08:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713697989;
-	bh=T8R3zSpNO6LtvSfdpaSEY3m6wVK/7bVFcSFRC8miPRY=;
+	s=k20201202; t=1713701310;
+	bh=nsnyM7iDeXKSHIowtiCZl5ToaOYTW3mkGiIfj5zbErE=;
 	h=From:To:Cc:Subject:Date:From;
-	b=hZjfMy0GSSO+b6ajLntEc9d0sWwU3mLGx+AUaQtrbs4Pon83+0//CAxHGvsHmSL8c
-	 XMxo/9nA0w0niBUHtxt7VYKG9P9Yt8EsGdtV4zIOxo1am0evJVVJKH+ka6LUd/nSmN
-	 Rvi4rGcfz8yMqsXsAJbZeVvv4dZyUZIJDmLIBZAWlrwBOEn266Ak5z5vz/stBIkQ6p
-	 5i2NCtTn1ro0vfFKnVaZ7fTRP6RJKl9T2cDqi6fZ3DTUcrYfyOzifGgS0M/uHbI0Op
-	 2yWAw2T+WpA4lqH9J+KbcZ12JEkEHe4Lc9My6ZU837gVnSMprR/cZ4Ja0rw2blkSvu
-	 e58gwU6SDCrDA==
+	b=UqSUuQpKfeiDZSLfCpS/tEZcpoS5vngSA1EdPIuAIVT++I3jWUa5EyRwpqmNrXvsV
+	 4HTgiPxl5Q53qod098itWjb9YCnN8pM/N4EMb7Si1RqMrp34AUm3n7CgZsuN3UvOFj
+	 OlSkJRyb13O7KBOTSA3TdyCSivjFlmuXqq7Nx+luEVP7QAl5Ze86acZjHKCIsVJbNx
+	 +A4BvHaDqOSe+80OJosM7Phr1WlacgtbvCdMlySEHMIG9xQPRVWsHlFMZsM7gMKqOC
+	 QyAe4mfH14g+Iw9qqM7IyzY/IiYXVR+rgLoF+Fb/cN8qKDEM+4qlRFAJ2xBSBJ0jeZ
+	 HsJwI7B1nJPUw==
 From: Masahiro Yamada <masahiroy@kernel.org>
 To: linux-kbuild@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH] kconfig: remove unneeded if-conditional in conf_choice()
-Date: Sun, 21 Apr 2024 20:13:02 +0900
-Message-Id: <20240421111302.2712135-1-masahiroy@kernel.org>
+	Yoshinori Sato <ysato@users.sourceforge.jp>,
+	Rich Felker <dalias@libc.org>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	linux-sh@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	linux-doc@vger.kernel.org
+Subject: [PATCH 0/2] kconfig: remove unneeded 'optional' property support
+Date: Sun, 21 Apr 2024 21:08:22 +0900
+Message-Id: <20240421120824.2713923-1-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
@@ -56,32 +64,58 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-All symbols except choices have a name.
 
-child->sym->name never becomes NULL inside choice blocks.
+Kconfig support 'optional' for choice blocks, but it is unneeded.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+Currently, it is only used in arch/sh/Kconfig.
 
- scripts/kconfig/conf.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+Covert it (add a place-holder option, CONFIG_CMDLINE_NO_MODIFY) and
+clean up the Kconfig code.
 
-diff --git a/scripts/kconfig/conf.c b/scripts/kconfig/conf.c
-index 965bb40c50e5..0156ca13f949 100644
---- a/scripts/kconfig/conf.c
-+++ b/scripts/kconfig/conf.c
-@@ -497,9 +497,8 @@ static int conf_choice(struct menu *menu)
- 				printf("%*c", indent, '>');
- 			} else
- 				printf("%*c", indent, ' ');
--			printf(" %d. %s", cnt, menu_get_prompt(child));
--			if (child->sym->name)
--				printf(" (%s)", child->sym->name);
-+			printf(" %d. %s (%s)", cnt, menu_get_prompt(child),
-+			       child->sym->name);
- 			if (!sym_has_value(child->sym))
- 				printf(" (NEW)");
- 			printf("\n");
+(Ack from the sh maintainer is appreciated)
+
+
+
+Masahiro Yamada (2):
+  sh: convert the last use of 'optional' property in Kconfig
+  kconfig: remove 'optional' property support
+
+ Documentation/kbuild/kconfig-language.rst     |  3 ---
+ arch/sh/Kconfig                               |  6 ++++-
+ arch/sh/configs/apsh4a3a_defconfig            |  1 +
+ arch/sh/configs/apsh4ad0a_defconfig           |  1 +
+ arch/sh/configs/edosk7705_defconfig           |  1 +
+ arch/sh/configs/hp6xx_defconfig               |  1 +
+ arch/sh/configs/landisk_defconfig             |  1 +
+ arch/sh/configs/magicpanelr2_defconfig        |  1 +
+ arch/sh/configs/rsk7264_defconfig             |  1 +
+ arch/sh/configs/rsk7269_defconfig             |  1 +
+ arch/sh/configs/se7619_defconfig              |  1 +
+ arch/sh/configs/se7705_defconfig              |  1 +
+ arch/sh/configs/se7722_defconfig              |  1 +
+ arch/sh/configs/se7750_defconfig              |  1 +
+ arch/sh/configs/secureedge5410_defconfig      |  1 +
+ arch/sh/configs/sh7710voipgw_defconfig        |  1 +
+ arch/sh/configs/sh7724_generic_defconfig      |  1 +
+ arch/sh/configs/sh7770_generic_defconfig      |  1 +
+ arch/sh/configs/sh7785lcr_32bit_defconfig     |  1 +
+ arch/sh/configs/sh7785lcr_defconfig           |  1 +
+ arch/sh/configs/urquell_defconfig             |  1 +
+ scripts/kconfig/confdata.c                    |  5 +---
+ scripts/kconfig/expr.h                        |  1 -
+ scripts/kconfig/gconf.c                       |  2 --
+ scripts/kconfig/lexer.l                       |  1 -
+ scripts/kconfig/lkc.h                         |  5 ----
+ scripts/kconfig/menu.c                        | 12 +++------
+ scripts/kconfig/parser.y                      |  9 -------
+ scripts/kconfig/tests/choice/Kconfig          | 26 -------------------
+ .../tests/choice/allmod_expected_config       |  4 ---
+ .../tests/choice/allyes_expected_config       |  4 ---
+ .../tests/choice/oldask0_expected_stdout      |  2 --
+ scripts/kconfig/tests/choice/oldask1_config   |  1 -
+ .../tests/choice/oldask1_expected_stdout      |  6 -----
+ 34 files changed, 29 insertions(+), 77 deletions(-)
+
 -- 
 2.40.1
 
