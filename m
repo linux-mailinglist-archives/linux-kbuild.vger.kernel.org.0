@@ -1,144 +1,120 @@
-Return-Path: <linux-kbuild+bounces-1641-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1642-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C53F28AD16D
-	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Apr 2024 18:02:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 220C08AD179
+	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Apr 2024 18:03:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E24301C20F54
-	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Apr 2024 16:02:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4E6FE1C22911
+	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Apr 2024 16:03:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D8A815356C;
-	Mon, 22 Apr 2024 16:02:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61A22153822;
+	Mon, 22 Apr 2024 16:03:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o3OP/BYs"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s1uHVpyU"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 657591534E2;
-	Mon, 22 Apr 2024 16:02:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3858515381E;
+	Mon, 22 Apr 2024 16:03:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713801754; cv=none; b=d23KIbqXBf/ZAnRsjBJI1iWiEnGESHKeArLuhwCFVlHUgdxxiSGfq7Yd46TcQNUIAqH0jq8bdCED2d453ZR1vYo2l5lZpRjWjZWRLfEQNcxwL00eMuR/mX7sDO4aE+lVm8sJgdO6cHGm4Loc0sYoOMWAtEZiw7CXxWghf/vrXyI=
+	t=1713801800; cv=none; b=XRjhw6EkRqwbaVeJjjM+Bj68lkCStzWd60HW3jSekUe6bizg6/Ivves2xMdKZIKybCCkdzwknb2Ns1kKG6bNow3TZQCOJo6EP1ApVBuA4FRt+RkroA/izWxbSztFAt2igwHWWvUODiM5ZMdN0xFYuq4uuDhkndiV0eTNlgcZfOo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713801754; c=relaxed/simple;
-	bh=kKEgwTQB6MqW0mu0bWbxcpzTqMyAS35I7Efi1ILhfsI=;
+	s=arc-20240116; t=1713801800; c=relaxed/simple;
+	bh=ZJWwic3XrHjXmdZ+9q8lK0cufHqWrJSthx0d2ZJpeAk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qkfVODL7vnbhEB/i+6PBZJ7tydq16Y/FgIFkBf1A9lgJp8eYBpuB3BZuYnozuwNgomBEai+IPrIKlnnpj3/BDMZEW/olmtJ34o7/PpgBL/Vh84KzQ+SbOnTdwd8pkb7MbD1qeXhB2wStV1qbxd0mhMn+eS9y/3YFNbzVa6V7IC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o3OP/BYs; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02D32C113CC;
-	Mon, 22 Apr 2024 16:02:33 +0000 (UTC)
+	 To:Cc:Content-Type; b=jatRIeg3fmrgZd8joRM6r02ws/dyw4EHBp/fiJBhCICEa2+gUwIar9CAOyxZqqYuY5VK6luLGvp42iCnty0Y8mE/9MkLcIWg1xGo2bdR654k/B5fHc+8snJlXn7g39TH5qMzY1269hpjoC0j/uVUCRsTYlRohczjqQNGiuBG840=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s1uHVpyU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5E94C113CC;
+	Mon, 22 Apr 2024 16:03:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713801754;
-	bh=kKEgwTQB6MqW0mu0bWbxcpzTqMyAS35I7Efi1ILhfsI=;
+	s=k20201202; t=1713801799;
+	bh=ZJWwic3XrHjXmdZ+9q8lK0cufHqWrJSthx0d2ZJpeAk=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=o3OP/BYsZRigokLjxaTOJ6S0laERho7w/857iL496omGhqU82zk9SZuT5ZMRM5OeA
-	 V+m5/F51fkyDmH45SYrbvx11IaXxS2bDdmA9iMORBpXmM+sbGS7XmuPMrmCxNlbXHu
-	 Si64KIfdIDBaWnBkeR2nzvz2kPvsBQQGniTjC8G58db+JHxTUl7XGVK6dnemXvEpzK
-	 At5ZiZzvXEM6aoRp3tMgvQIQwbZnvn4RlKMFPOypi8IAlyvTOwRlmQ3rM2ZJ0/eRcT
-	 +1kbEm+ar/mqD1R6/Kyr1GENUUG8svwWE6oI3GJ+6xJca1bT8L+qaYfs7Kz6Tw4dI1
-	 qmh6qjePhMfRQ==
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2ddc2ea2091so7882461fa.1;
-        Mon, 22 Apr 2024 09:02:32 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVmRucXeB5AYvGbF7ffcC5OM+1MRVLVwhZaAWJZq4noEAu0MB3itif/ZGnc+EO5kXCB4o3mu8fgYS+qyvSHbyD3Yp7wCnXiaerV50BY
-X-Gm-Message-State: AOJu0YzKgEr+s3uPj24bOkd800okdOsZrZYRueOMKnEjRu6IStWST3si
-	tNdTlgX0FJYGlf2tflGhCSvs8NReOTYUMDVx5mgDMuCKuXXfh9RL+uhp5Emx/RLv4BT/pbFbZek
-	cBKJa1bRawkcyyU+SDA/f297Wxo4=
-X-Google-Smtp-Source: AGHT+IHDq9Z81k6Aj8+jp9AQz65iOG39NbBSMlAfx5XqULn0UDopCkcP9FoMzvYkmZnGFTnFstV6f4q1IPSQ/81hk5U=
-X-Received: by 2002:a2e:b8d0:0:b0:2dc:de74:dfd6 with SMTP id
- s16-20020a2eb8d0000000b002dcde74dfd6mr7640386ljp.10.1713801751709; Mon, 22
- Apr 2024 09:02:31 -0700 (PDT)
+	b=s1uHVpyUQ2UwRxxd4ouLYYS8iTrt/8TV/kbRBKV61DhfrujuIfQqKadyAR9b9Eb0M
+	 N1rtVCmbgxLz74Gj1CzWT4ORqHSQwG1flMS7gUcBI4LBSwDHIqY75h0Bta4X+pDd4K
+	 Qd228EawHoxi1fRhbbvmQc79kt0V82bF35yYqZS1yaZ/rgKZL6rUUVKvE9IBAY2yDd
+	 0T97hMk+JDc1iWsBzKoxbpGWwY5reqf4uUbr5ByWD0pFVJ+47zbH2TCg7o8OdL5Zet
+	 X1TXMRdJXlV0NYbk1pd5O+FMNpjUC853SUhiWPQH6SAi0/tPPFOVE3eZQAsI9D0yJ/
+	 ofhO82gU+aHNA==
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2d858501412so62238571fa.0;
+        Mon, 22 Apr 2024 09:03:19 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCW5hiY1LoaeqqobN/TRiXt0yRIxnS9IKD9qINaRbCLbzjQ3RWYfP93snb/ZLqae0SGl80eeclSH+iQN/MWa0ESXM5hz6eLyPETRmJQ3
+X-Gm-Message-State: AOJu0Yxi/OsXCt7folQmcKojaRvG6lAT+J9cl+cJ9vvKsPmVaXF41aNR
+	MT30tSZ5cLdIEsWO3jyaeXOuoneGvNSVwthDGiuYeDS3V+zxxhRSqv0V3G5pE6tmLVvGK89xfAS
+	Ofw9Z5UvFdn+JviJCMeLpdZCWPjs=
+X-Google-Smtp-Source: AGHT+IFYPFwFkEPK1hqPWAvBdJKd48QuYBDy2gt+u28P4MseNLfYPM/F9hPx5+hGKgWpSo3q5S7Rmu28D+5rXK5mKwQ=
+X-Received: by 2002:a2e:960d:0:b0:2d3:2ecf:c26a with SMTP id
+ v13-20020a2e960d000000b002d32ecfc26amr6581548ljh.13.1713801798518; Mon, 22
+ Apr 2024 09:03:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240422060556.1226848-1-liuyuntao12@huawei.com>
-In-Reply-To: <20240422060556.1226848-1-liuyuntao12@huawei.com>
+References: <20240420145303.238068-2-ardb+git@google.com>
+In-Reply-To: <20240420145303.238068-2-ardb+git@google.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 23 Apr 2024 01:01:55 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQgkt6t6UEB+_q15KJb2STVL6oqUo3mFM8EzumFH+-mYw@mail.gmail.com>
-Message-ID: <CAK7LNAQgkt6t6UEB+_q15KJb2STVL6oqUo3mFM8EzumFH+-mYw@mail.gmail.com>
-Subject: Re: [PATCH] x86: enable HAVE_LD_DEAD_CODE_DATA_ELIMINATION
-To: Yuntao Liu <liuyuntao12@huawei.com>
-Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
-	dave.hansen@linux.intel.com, hpa@zytor.com, nathan@kernel.org, 
-	nicolas@fjasle.eu, peterz@infradead.org, jpoimboe@kernel.org, 
-	leitao@debian.org, petr.pavlu@suse.com, richard.weiyang@gmail.com, 
-	ruanjinjie@huawei.com, ndesaulniers@google.com, jgross@suse.com
+Date: Tue, 23 Apr 2024 01:02:42 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARGZZC=5Pcy8qBpp1E94hRHHHdUu7KxVudH1iT-yugs=g@mail.gmail.com>
+Message-ID: <CAK7LNARGZZC=5Pcy8qBpp1E94hRHHHdUu7KxVudH1iT-yugs=g@mail.gmail.com>
+Subject: Re: [PATCH v5] kallsyms: Avoid weak references for kallsyms symbols
+To: Ard Biesheuvel <ardb+git@google.com>
+Cc: linux-kernel@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>, 
+	linux-kbuild@vger.kernel.org, Nick Desaulniers <ndesaulniers@google.com>, 
+	Kees Cook <keescook@chromium.org>, Arnd Bergmann <arnd@arndb.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 22, 2024 at 3:41=E2=80=AFPM Yuntao Liu <liuyuntao12@huawei.com>=
- wrote:
+On Sat, Apr 20, 2024 at 11:53=E2=80=AFPM Ard Biesheuvel <ardb+git@google.co=
+m> wrote:
 >
-> The current x86 architecture does not yet support the
-> HAVE_LD_DEAD_CODE_DATA_ELIMINATION feature. x86 is widely used in
-> embedded scenarios, and enabling this feature would be beneficial for
-> reducing the size of the kernel image.
+> From: Ard Biesheuvel <ardb@kernel.org>
 >
-> In order to make this work, we keep the necessary tables by annotating
-> them with KEEP, also it requires further changes to linker script to KEEP
-> some tables and wildcard compiler generated sections into the right place=
-.
+> kallsyms is a directory of all the symbols in the vmlinux binary, and so
+> creating it poses somewhat of a chicken-and-egg problem, as its non-zero
+> size affects the layout of the binary, and therefore the values of the
+> symbols.
 >
-> Enabling CONFIG_UNWINDER_ORC or CONFIG_MITIGATION_RETPOLINE will enable
-> the objtool's --orc and --retpoline parameters, which will alter the
-> layout of the binary file, thereby preventing gc-sections from functionin=
-g
-> properly. Therefore, HAVE_LD_DEAD_CODE_DATA_ELIMINATION should only be
-> selected when they are not enabled.
+> For this reason, the kernel is linked more than once, and the first pass
+> does not include any kallsyms data at all. For the linker to accept
+> this, the symbol declarations describing the kallsyms metadata are
+> emitted as having weak linkage, so they can remain unsatisfied. During
+> the subsequent passes, the weak references are satisfied by the kallsyms
+> metadata that was constructed based on information gathered from the
+> preceding passes.
 >
-> Enabling CONFIG_LTO_CLANG or CONFIG_X86_KERNEL_IBT will use vmlinux.o
-> instead of performing the slow LTO link again. This can also prevent
-> gc-sections from functioning properly. Therefore, using this optimization
-> when CONFIG_LD_DEAD_CODE_DATA_ELIMINATION is not enabled.
+> Weak references lead to somewhat worse codegen, because taking their
+> address may need to produce NULL (if the reference was unsatisfied), and
+> this is not usually supported by RIP or PC relative symbol references.
 >
-> The size comparison of zImage is as follows:
-> x86_def_defconfig  i386_defconfig    tinyconfig
-> 10892288           10826240          607232          no dce
-> 10748928           10719744          529408          dce
-> 1.3%               0.98%             12.8%           shrink
+> Given that these references are ultimately always satisfied in the final
+> link, let's drop the weak annotation on the declarations, and instead,
+> provide fallback definitions with weak linkage. This informs the
+> compiler that ultimately, the reference will always be satisfied.
 >
-> When using smaller config file, there is a significant reduction in the
-> size of the zImage.
+> While at it, drop the FRV specific annotation that these symbols reside
+> in .rodata - FRV is long gone.
+>
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: linux-kbuild@vger.kernel.org
+> Acked-by: Nick Desaulniers <ndesaulniers@google.com>
+> Acked-by: Kees Cook <keescook@chromium.org>
+> Acked-by: Arnd Bergmann <arnd@arndb.de>
+> Link: https://lore.kernel.org/all/20240415075837.2349766-5-ardb+git@googl=
+e.com
+> Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
 > ---
-
-> diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-> index 7862a8101747..7287b5a9f17d 100755
-> --- a/scripts/link-vmlinux.sh
-> +++ b/scripts/link-vmlinux.sh
-> @@ -60,7 +60,7 @@ vmlinux_link()
->         # skip output file argument
->         shift
+> v5: - avoid PROVIDE() in the linker script, use weak definitions instead
+>     - drop tested-by, replace reviewed-by with acked-by
 >
-> -       if is_enabled CONFIG_LTO_CLANG || is_enabled CONFIG_X86_KERNEL_IB=
-T; then
-> +       if [ is_enabled CONFIG_LTO_CLANG || is_enabled CONFIG_X86_KERNEL_=
-IBT ] && [ ! is_enabled CONFIG_LD_DEAD_CODE_DATA_ELIMINATION ]; then
->                 # Use vmlinux.o instead of performing the slow LTO link a=
-gain.
->                 objs=3Dvmlinux.o
->                 libs=3D
-> --
 
-
-This is wrong.
-You should not put is_enabled inside [ ... ]
-
-(is_enabled CONFIG_LTO_CLANG || is_enabled CONFIG_X86_KERNEL_IBT) && !
-is_enabled CONFIG_LD_DEAD_CODE_DATA_ELIMINATION
-
-is still weird.
-
-
-When CONFIG_LTO_CLANG=3Dy and CONFIG_LD_DEAD_CODE_DATA_ELIMINATION=3Dy,
-the result of LTO will be discarded.
+Applied to linux-kbuild. Thanks.
 
 
 --=20
