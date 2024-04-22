@@ -1,200 +1,157 @@
-Return-Path: <linux-kbuild+bounces-1649-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1650-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EA868AD373
-	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Apr 2024 19:46:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 362D88AD3A3
+	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Apr 2024 20:02:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4BEA41C21027
-	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Apr 2024 17:46:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 635551C20B72
+	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Apr 2024 18:02:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46512153BE5;
-	Mon, 22 Apr 2024 17:46:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y2rbDkUw"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50405154422;
+	Mon, 22 Apr 2024 18:02:32 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17313146A6A;
-	Mon, 22 Apr 2024 17:46:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46BFB1509AB;
+	Mon, 22 Apr 2024 18:02:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713808009; cv=none; b=GrDzO1UghCdBe4Ok5kl321lBcmV1sriy2zaQKAm7tGdZ0eJ3OJaID1KbIhv5qkPoi+TGCilICpb2cdwGxXAwLhbQIkUN0vDwc6dOzxOFmMUqWYAcwYCJLpUOtAwMSvEqFfR2ygkVfTGsMEPz+dFKK0I8Z+EDtYqpOwR1w7eL1PY=
+	t=1713808952; cv=none; b=ZGy6YPcQHzm5ivrhHYTrW9q2v6Hkz1sV5r8EIP0pghnDMUDCIdfNiIip2WWLf7AIclJsbGCAkspnnZlln2MwU2Q5FYc7dbkU31k0+guSzL66dKYXTyXelaUZuG9HHIjPpG0qwmcVCN80xQZ6+ikTqUMj5k0hChbFZgWbNs/PdIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713808009; c=relaxed/simple;
-	bh=Z5JTz+fbhCcx7OUMHGHjanLIhMk+ui+KvE83U6SylYg=;
+	s=arc-20240116; t=1713808952; c=relaxed/simple;
+	bh=2+RQ652HU2UwexwX83Sky53pkNtRZSpJtK+AlPVwoBI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NiiyBRE0INQCXWky709EeDTURutF//brdIl1EJaYb/4Wj5fMJlXD/aoBGxChCdkZiiuk0UVFJ1UmlwgAdaCZnck/pZGoG0YKfimxhF16e6COdmV8QRoE9OQDG2lsDocOL9XpdUn52yeN5MlgJprWUDDtigtVDqjnAcdC7vR4Qh0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y2rbDkUw; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87098C32786;
-	Mon, 22 Apr 2024 17:46:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713808008;
-	bh=Z5JTz+fbhCcx7OUMHGHjanLIhMk+ui+KvE83U6SylYg=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Y2rbDkUwT5Uy0Vly0qsPuD0Y7C4dW/EOWAaZf0wsSoGioDA1AH517zg6YZKohESMm
-	 ms8jHBFf0akuGut3SDBNG2lPHgh67LJnM8IuC/M0dE8r4Qro7Cw9uo9jjizB5PoLND
-	 +qqrq/Df7gKeEGP9v861SnrwdWVNtxQY/CS8pyWGh/B4eC8Xs0lQ1wMW2YTmEC28Rg
-	 +Kk0u9BGVb+uRTjU1C0pTBA2WJCPH86/kOZOH3aC4Zpu472mlCKnPtdeq51tKha3Nm
-	 iH//fFLztvvCWQe2yJBEPncxQ53cBoT0JRZpPUhtTgl1eKtam7AUy6CosPskEVYMVb
-	 SUf74bAADGn7g==
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-51aa6a8e49aso4912503e87.3;
-        Mon, 22 Apr 2024 10:46:48 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWpvm1+RXGvMOlfmLx5Eqx2xx0lE1mB6e8z/jd+KHM/9NzT90paoa68PK5b0eLLspnJ5ZV7cy+cc5SecRYKUgXKAG5Peunyyv0p0OZzdur69T5vLWe153q0K/fkmuHEI/tFIs0a+9L7AHPdBttA/KVuXcMSk5iiVShXTTiDfenOMXJ3h8vPew==
-X-Gm-Message-State: AOJu0YxumDXoViJI76xDcaoCM2H069BQI+SvepPWCwzIOpUXPRrhsgYf
-	wN1iNIw7w/O8xzmEqCWRMeW3k4VpAFkkdTtlhKGQb7H/c2bCVHqwS9EFdNee4O6I8ubKBtimX1t
-	j8Z2V0wv4GIAgXEeGyChwxXs14g==
-X-Google-Smtp-Source: AGHT+IH7EU29aZh1XfJa0wz1Q0FAXzkmy9VWXpwo1yYmeym435WIqBvUj1fQ4VUd9C/0GGJbZ2DQbro8bkS4o2YI2JQ=
-X-Received: by 2002:ac2:5dc5:0:b0:516:7739:354c with SMTP id
- x5-20020ac25dc5000000b005167739354cmr6190001lfq.58.1713808006822; Mon, 22 Apr
- 2024 10:46:46 -0700 (PDT)
+	 To:Cc:Content-Type; b=A8klteKy3J7YFm96j4e28PWgphx38Aozrlo5Uq9xG1ikDTBbiHKhVfSkGACkeyEeuG8s2cNfISHslRKrvVPc9F707sPUZBPu2eki7lSmTD639vLZKMrR/kujwr2EY2HH8D6PUE1DTj6NXZLhu0+Sk0x/uek1xlBAEoUlq0ae3SY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.161.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-5ad2a15374eso1715435eaf.3;
+        Mon, 22 Apr 2024 11:02:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713808947; x=1714413747;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MIzcre4L/EBUlEtvCuRrxfW3XnVYCAdmaiVZhZRHwg0=;
+        b=fKADZKW2kLnvYQbgM85uJEaragZ4NbSM4qV3TNkO41nKYcdTwXSvpGzsiJHGfpMB/x
+         fOGZwQ00QXcNKfrxXxYrWgmywxS/kfKad0Mow1z5h7xGoYL5E8ReRGrHLzn62Hl/rCdq
+         lcPytCgVKxlE/wmWQyKC/QCKj1My1fVx4HUsilgdDkDiZZGoCvGEkAJUGqm1E9pPe46x
+         BrLQ08IIBsalgn5LJKpXnpOWdNcl6maFyqytSz4OP8vMhrfFym5vzkjASn3Gtxo8r4JK
+         GxFm2Q8iDQjPK3977AYld1MdaBRLXJCY+LXg65oDSuv/LnG3vgtUewmJZEGQjbcm6lxQ
+         9mDQ==
+X-Forwarded-Encrypted: i=1; AJvYcCURMNUc5f/A6UdpEBjYdHKLTYbR72iq26lV8/f4BuxiV9K3aX/9a2hhK2KIhRa8jl9+gmoSZuraJ4A0C8RVYFQNgXXaiRRVsl3I0y8kjP9coBTPg41PR1Skv+xUDXRyP6E7XmEljC/4u6Q7/6k4wBe0/c0Miz8JKhbZHdoQrYkdxggWmJ/l5G5N0u+vhpU=
+X-Gm-Message-State: AOJu0YxgG9bcyS5ePMpluLAfGneX2WoML68CuO0yeWP+Ig/TNOjK3g5b
+	5aYKo4YZHz49psI3KmGzv7TDuurUqczSq5EIPYYDw9ambv+eaqlN0btZjK7P
+X-Google-Smtp-Source: AGHT+IEh1Dlo4g8PiTAuWzYEPyzhmuf6UUUQKXr9MHlggzV1Tifiexe1oRXfjTldlok3TU9YqNM1Jg==
+X-Received: by 2002:a05:6358:5d8b:b0:186:b6ac:8ce2 with SMTP id s11-20020a0563585d8b00b00186b6ac8ce2mr16129317rwm.6.1713808947263;
+        Mon, 22 Apr 2024 11:02:27 -0700 (PDT)
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com. [209.85.219.182])
+        by smtp.gmail.com with ESMTPSA id z13-20020a81d40d000000b0061b0c844dd9sm2044949ywi.5.2024.04.22.11.02.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 22 Apr 2024 11:02:26 -0700 (PDT)
+Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-dc742543119so4662652276.0;
+        Mon, 22 Apr 2024 11:02:26 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXW3itUIMAPruC23ltckGm0sHbQsn9pIIVQsFs8YZIVJP+crPONdveqXWkLEmNUvhcwzi0vwg246gCijEwufC6nBlYzaxlt6KLMZhgmmuJNKWaI3qK7r4e//Qv011z46xmKsHg+p+kjb9RUhChKD6Z32Nr5nvN4x6iB79SXgTLOngWqXP7Jmb8GU2sv4lU=
+X-Received: by 2002:a25:fc08:0:b0:de4:6efa:debd with SMTP id
+ v8-20020a25fc08000000b00de46efadebdmr9818662ybd.29.1713808946217; Mon, 22 Apr
+ 2024 11:02:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240405-dt-kbuild-rework-v2-0-3a035caee357@kernel.org>
- <20240405-dt-kbuild-rework-v2-2-3a035caee357@kernel.org> <CAK7LNATENrTeCt4bE+bXzq1-caMguiT+U0G5YyT09T032gNtWQ@mail.gmail.com>
-In-Reply-To: <CAK7LNATENrTeCt4bE+bXzq1-caMguiT+U0G5YyT09T032gNtWQ@mail.gmail.com>
-From: Rob Herring <robh@kernel.org>
-Date: Mon, 22 Apr 2024 12:46:33 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqKiwtVwD6snXqyEuHTx7CB2aZcLGxo7xVL9pVD0qC+8qA@mail.gmail.com>
-Message-ID: <CAL_JsqKiwtVwD6snXqyEuHTx7CB2aZcLGxo7xVL9pVD0qC+8qA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] dt-bindings: kbuild: Split targets out to separate rules
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
-	Marijn Suijten <marijn.suijten@somainline.org>, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
+References: <cover.1713780345.git.geert+renesas@glider.be> <87il09ty4u.fsf@intel.com>
+ <ff4f9e8f-0825-4421-adf9-e3914b108da7@app.fastmail.com> <875xw9ttl6.fsf@intel.com>
+ <af6e26d1-1402-4ed2-a650-b58eae77273e@app.fastmail.com> <CAMuHMdXCL-gbKr6mUBPWONtRjz=X0vZQgiS=02WXXSFf67yBww@mail.gmail.com>
+ <87ttjts4j6.fsf@intel.com>
+In-Reply-To: <87ttjts4j6.fsf@intel.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 22 Apr 2024 20:02:16 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWb5sqhk1m4kD_72k0OzB5MTEFcP+QHFo+4rs8j8WEzPQ@mail.gmail.com>
+Message-ID: <CAMuHMdWb5sqhk1m4kD_72k0OzB5MTEFcP+QHFo+4rs8j8WEzPQ@mail.gmail.com>
+Subject: Re: [PATCH 00/11] drm: Restore helper usability
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, 
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
+	linux-kbuild <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Apr 20, 2024 at 1:50=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
->
-> On Sat, Apr 6, 2024 at 7:56=E2=80=AFAM Rob Herring <robh@kernel.org> wrot=
-e:
+Hi Jani,
+
+On Mon, Apr 22, 2024 at 7:15=E2=80=AFPM Jani Nikula <jani.nikula@linux.inte=
+l.com> wrote:
+> On Mon, 22 Apr 2024, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > On Mon, Apr 22, 2024 at 3:55=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> w=
+rote:
+> >> I'm not sure where this misunderstanding comes from, as you
+> >> seem to be repeating the same incorrect assumption about
+> >> how select works that Maxime wrote in his changelog. To clarify,
+> >> this works exactly as one would expect:
+> >>
+> >> config HELPER_A
+> >>        tristate
+> >>
+> >> config HELPER_B
+> >>        tristate
+> >>        select HELPER_A
+> >>
+> >> config DRIVER
+> >>        tristate "Turn on the driver and the helpers it uses"
+> >>        select HELPER_B # this recursively selects HELPER_A
+> >>
+> >> Whereas this one is broken:
+> >>
+> >> config FEATURE_A
+> >>        tristate "user visible if I2C is enabled"
+> >>        depends on I2C
+> >>
+> >> config HELPER_B
+> >>        tristate # hidden
+> >>        select FEATURE_A
+> >>
+> >> config DRIVER
+> >>        tristate "This driver is broken if I2C is disabled"
+> >>        select HELPER_B
 > >
-> > Masahiro pointed out the use of if_changed_rule is incorrect and comman=
-d
-> > line changes are not correctly accounted for.
+> > So the DRIVER section should gain a "depends on I2C" statement.
+>
+> Why should DRIVER have to care that HELPER_B needs either FEATURE_A or
+> I2C? It should only have to care about HELPER_B. And if the dependencies
+> of FEATURE_A or HELPER_B later change, that's their business, not
+> DRIVER's.
+
+That's correct. But currently the dependency on I2C is not handled
+automatically.
+
+> > Yamada-san: would it be difficult to modify Kconfig to ignore symbols
+> > like DRIVER that select other symbols with unmet dependencies?
+> > Currently it already warns about that.
 > >
-> > To fix this, split up the DT binding validation target,
-> > dt_binding_check, into multiple rules for each step: yamllint, schema
-> > validtion with meta-schema, and building the processed schema.
-> >
-> > One change in behavior is the yamllint or schema validation will be
-> > re-run again when there are warnings present.
->
->
-> Is this intentional?
+> > Handling this implicitly (instead of the current explict "depends
+> > on") would have the disadvantage though: a user who is not aware of
+> > the implicit dependency may wonder why DRIVER is invisible in his
+> > config interface.
 
-Yes.
+Gr{oetje,eeting}s,
 
-> I think it is annoying to re-run the same check
-> when none of the schemas is updated.
+                        Geert
 
-But the *only* reason to run dt_binding_check is to check the
-bindings. When a schema is updated and we re-run the checks, *all* the
-schemas are checked so you will get unrelated warnings as well. That's
-because doing validation a file at a time is too slow. We could fix
-that if there was a way to pass only the out of date dependencies, but
-I didn't see a way to do that with make.
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-> 'make dt_binding_check' is already warning-free.
-
-Right, so normally it won't re-run. If a developer introduces
-warnings, then they are the only ones annoyed by this behavior and
-that's what we want.
-
-> So, I think it is OK to make it fail if any warning occurs.
-
-Well, it has certainly gotten a lot better and we don't seem to end up
-with last minute things breaking rc1, but I'm not sure I want to go
-back to that yet. We started not erroring out because in the past I've
-gotten broken schemas with the submitter saying they couldn't run the
-checks because of errors. I must be in the minority that runs make
-with --keep-going...
-
-It is also not warning free sometimes with new versions of dtschema. I
-usually fix those in parallel, but if anyone runs newer dtschema on
-older kernels that doesn't help.
-
-I suppose it would be better to keep the current behavior in this
-series and make any changes on erroring out or re-running with
-warnings a separate change.
-
-> Besides, yamllint exists with 0 even if it finds a format error.
-> Hence  "|| true" is not sensible.
-
-yamllint has errors and warnings. errors exit with non-zero. There is
-an option for warnings to return error too. Since we currently don't
-distinguish, I'm not sure if our config is exactly the mix we'd want
-to error out or not. I'll have to look and see before we change that.
-
->
-> I like this code:
->
-> cmd_yamllint =3D $(find_cmd) | \
->         xargs -n200 -P$$(nproc) \
->         $(DT_SCHEMA_LINT) -f parsable -c $(srctree)/$(src)/.yamllint >&2;=
- \
->          touch $@
->
->
-> Same for  cmd_chk_bindings.
->
->
->
->
->
-> >
-> > Reported-by: Masahiro Yamada <masahiroy@kernel.org>
-> > Link: https://lore.kernel.org/all/20220817152027.16928-1-masahiroy@kern=
-el.org/
-> > Signed-off-by: Rob Herring <robh@kernel.org>
-> > ---
-> > v2:
-> >  - Separated rework of build rules to fix if_changed_rule usage from
-> >    addition of top-level build rules.
-> > ---
-> >  Documentation/devicetree/bindings/Makefile | 25 ++++++++++++++--------=
----
-> >  1 file changed, 14 insertions(+), 11 deletions(-)
-> >
-> > diff --git a/Documentation/devicetree/bindings/Makefile b/Documentation=
-/devicetree/bindings/Makefile
-> > index 95f1436ebcd0..3779405269ab 100644
-> > --- a/Documentation/devicetree/bindings/Makefile
-> > +++ b/Documentation/devicetree/bindings/Makefile
-> > @@ -37,11 +37,13 @@ CHK_DT_EXAMPLES :=3D $(patsubst $(srctree)/%.yaml,%=
-.example.dtb, $(shell $(find_cm
-> >  quiet_cmd_yamllint =3D LINT    $(src)
-> >        cmd_yamllint =3D ($(find_cmd) | \
-> >                       xargs -n200 -P$$(nproc) \
-> > -                    $(DT_SCHEMA_LINT) -f parsable -c $(srctree)/$(src)=
-/.yamllint >&2) || true
-> > +                    $(DT_SCHEMA_LINT) -f parsable -c $(srctree)/$(src)=
-/.yamllint >&2) \
-> > +                    && touch $@ || true
-> >
-> > -quiet_cmd_chk_bindings =3D CHKDT   $@
-> > +quiet_cmd_chk_bindings =3D CHKDT   $(src)
->
->
-> Nit.
->
-> If you want to avoid the long absolute path
-> when O=3D is given, you can do
-> "CHKDT   $(obj)" instead.
-
-I suppose that is only after your series on srctree/src because I
-don't see that. But I will change it.
-
-Rob
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
