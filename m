@@ -1,148 +1,191 @@
-Return-Path: <linux-kbuild+bounces-1653-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1654-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 068658AD4CD
-	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Apr 2024 21:24:56 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 583C48AD4FF
+	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Apr 2024 21:42:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2A36F1C213E3
-	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Apr 2024 19:24:55 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 86476B21679
+	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Apr 2024 19:42:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9CA8155321;
-	Mon, 22 Apr 2024 19:24:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52F7F155346;
+	Mon, 22 Apr 2024 19:42:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DyKSgTwJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HFO2Ppps"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A01D3154432;
-	Mon, 22 Apr 2024 19:24:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24C2F15533B;
+	Mon, 22 Apr 2024 19:42:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713813891; cv=none; b=lTNao8VBA70z3zsUKsRzAk2qEAw/KQWmFkxh8tb8n30u2HtPlTs8lZBKW96aZhpTy6gRQMcU774zCeCr5jsS0JrGBcrc+sLPomCBJ+mVYh0fJcnqpla2IXHASdsHEwFzLwVh2qWNJcwO2/jB/cIzptQoqQSvOCJmehu2tUCbV8M=
+	t=1713814971; cv=none; b=uOGXwXNV8WjZZePLzD4I+XcLUTyxbsEkCIxZP8WdC9OXT0fMNDQZFNUY21tBM1eMiSKM/uUCDjATiKxJNs1g/6Brc6uTovKNoYVZPR3cbNM1RR4eNGg7LE1fEPIOtwt7ttgjdswsyg7EUP6ijvx8oY/W60+GXF+eHC8a/ZoLmEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713813891; c=relaxed/simple;
-	bh=zIUa5SvVminmx3eVAGvIUp8fg8imeSayLppin82OLoc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BXusOuUd9extEM9CCJfirewxZHtw8DmYFhr4JAmAev6XLYWsT6josACQDP1Wb4s4oiCkev8WdjY1rtFm2y2JW6wmIhzzmDiQIRdRCc9FaxUYoKuur7IQwRArJuzKkyMBitRuDsWmlT6+NkkIAX+qLsbpTYPQm8DM3CIk/YJM57Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DyKSgTwJ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23105C113CC;
-	Mon, 22 Apr 2024 19:24:50 +0000 (UTC)
+	s=arc-20240116; t=1713814971; c=relaxed/simple;
+	bh=X5NGLyhlmkWiEztUhkG/dYmbEnrBjLWsUuPd6etmt3g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GZNIAt+Ac1KKYdL+MD7QBCBsmejJc9ZcBpu0JuAE5jIf+1BpC61zcsmmQYjlFOndY7XIN7Ww0SFHxmgMvYt5Wsvk9UgS7Rv9uHWfrrdzmwnDaegcWxmaMXJ6J87UtP0Yc/3Ujn2LOAyGfwWRtXrpzbjN7+bnB0NEDlz/aQD8Gi0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HFO2Ppps; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A770AC113CC;
+	Mon, 22 Apr 2024 19:42:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713813891;
-	bh=zIUa5SvVminmx3eVAGvIUp8fg8imeSayLppin82OLoc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DyKSgTwJVuRMqlOfroY7bQ7kbyfCs3d1lnVI+shiARXgEbrmHarmmpIKT8JTV+/D8
-	 Hvnwwq3k5U70K/N2/9+IDipgCMdrIIqmKPEIdpW/VWgsOzzBIpV6OfwAJq/KE8Eunh
-	 Na6NTdEdPX/QghJlkaQURvgR8FT/PV3VpWencSCRVsw3iVyGkm9AJotMLZ7mTD7UQd
-	 JsKg77+vJvDmc1umNF+FC5eIm/BEzzdM1oGVWXz4UCvmeIsE44d/IhsYyZtlh30CNF
-	 mu6C/Gt0EDCyGMD2a3sPRalS6EIdrHiRxyOiGhSeZVouXxqGBZTlRVi8ii4yAaULwg
-	 NYHMYP47Uz6DQ==
-Date: Mon, 22 Apr 2024 12:24:48 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Yuntao Liu <liuyuntao12@huawei.com>
-Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com, hpa@zytor.com, masahiroy@kernel.org,
-	nicolas@fjasle.eu, peterz@infradead.org, jpoimboe@kernel.org,
-	leitao@debian.org, petr.pavlu@suse.com, richard.weiyang@gmail.com,
-	ruanjinjie@huawei.com, ndesaulniers@google.com, jgross@suse.com
-Subject: Re: [PATCH] x86: enable HAVE_LD_DEAD_CODE_DATA_ELIMINATION
-Message-ID: <20240422192448.GA19445@dev-arch.thelio-3990X>
-References: <20240422060556.1226848-1-liuyuntao12@huawei.com>
+	s=k20201202; t=1713814970;
+	bh=X5NGLyhlmkWiEztUhkG/dYmbEnrBjLWsUuPd6etmt3g=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=HFO2Ppps/oZr9UBPkLMNSFWLF8JT0mQUjb6KEmKTavUYAzUBfRay7wviM9/lYJ1ox
+	 VGD9BugBnxpekoWlFpo267NnDA//Jp5Q03vIdUlgWRdD5s8i+dVQ9wvKVAa/kA+Lf7
+	 rcg23e19F5+xrsUNWPs6AGzRt2dud8+yPRn9eWr+QBAVHGly6fogMw1Dyv/kknlIiX
+	 p9k2P5UGa39I2lZ1fXX16QOFEj+llvJVWZp/i64mCSjL875AMlg1avpPvOhxsKBeCj
+	 8wfk/8dB14dU5dPWZ/HfY//p4xmc1x/tuJsCKA8Vq8GFKQwH/ROYrfcbP1V7YQH6F9
+	 UWocTlyMx3Vfg==
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-518a3e0d2ecso7204500e87.3;
+        Mon, 22 Apr 2024 12:42:50 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWAQNQ7y5T3lz9L/YRm5AWQoC5SfuYnyLnC+bff5XFGwuxLyX5EW4413M7bbYFrSdPlH/8hYbb9722d95gxQ++IMw6rQtmqbijH2dWHi/vu0Rh3buyDfBwrWWlwEiq703BTeQRofDBQX+Hlyx33oGT7Qp2TH27bdIGGPbRtQySvj3hvHkMm27PnKclprWI=
+X-Gm-Message-State: AOJu0YzON+bKAQ8zAl58vXnkOXWcncY0UiKhbx6H7K6dmZXYmgMSYRji
+	hjossPd6MQdju+mCOORn70SE25f7R0bVdUUr9jdSVmpLUkgS/wWXGGVR3If1vOmDRBf9Ajir5Yz
+	sfjVEVoeOIiaoY2X+HJRWmEXCZi0=
+X-Google-Smtp-Source: AGHT+IFUc94RfCXq+iQAJz7qjewz+jSCFsONec3F2z9I3xwsiexX4d/Q6fXVP4Y2744DYOS3241u2oWO23s5CFrO6bQ=
+X-Received: by 2002:ac2:46f6:0:b0:513:d5ec:afb with SMTP id
+ q22-20020ac246f6000000b00513d5ec0afbmr8808090lfo.40.1713814969390; Mon, 22
+ Apr 2024 12:42:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240422060556.1226848-1-liuyuntao12@huawei.com>
+References: <cover.1713780345.git.geert+renesas@glider.be> <87il09ty4u.fsf@intel.com>
+ <ff4f9e8f-0825-4421-adf9-e3914b108da7@app.fastmail.com> <875xw9ttl6.fsf@intel.com>
+ <af6e26d1-1402-4ed2-a650-b58eae77273e@app.fastmail.com> <CAMuHMdXCL-gbKr6mUBPWONtRjz=X0vZQgiS=02WXXSFf67yBww@mail.gmail.com>
+ <d3f406ed-1b93-4fcf-850a-743d27f20dc2@app.fastmail.com>
+In-Reply-To: <d3f406ed-1b93-4fcf-850a-743d27f20dc2@app.fastmail.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Tue, 23 Apr 2024 04:42:12 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARNb0kB=cytOmJn+K59vQ8ekESqY-=1SFDOQox-B3GJrQ@mail.gmail.com>
+Message-ID: <CAK7LNARNb0kB=cytOmJn+K59vQ8ekESqY-=1SFDOQox-B3GJrQ@mail.gmail.com>
+Subject: Re: [PATCH 00/11] drm: Restore helper usability
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>, Jani Nikula <jani.nikula@linux.intel.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>, 
+	linux-kbuild <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Yuntao,
+On Tue, Apr 23, 2024 at 3:24=E2=80=AFAM Arnd Bergmann <arnd@arndb.de> wrote=
+:
+>
+> On Mon, Apr 22, 2024, at 18:58, Geert Uytterhoeven wrote:
+> > On Mon, Apr 22, 2024 at 3:55=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> w=
+rote:
+> >> On Mon, Apr 22, 2024, at 15:28, Jani Nikula wrote:
+> >> Whereas this one is broken:
+> >>
+> >> config FEATURE_A
+> >>        tristate "user visible if I2C is enabled"
+> >>        depends on I2C
+> >>
+> >> config HELPER_B
+> >>        tristate # hidden
+> >>        select FEATURE_A
+> >>
+> >> config DRIVER
+> >>        tristate "This driver is broken if I2C is disabled"
+> >>        select HELPER_B
+> >
+> > So the DRIVER section should gain a "depends on I2C" statement.
+>
+> That is of course the common workaround, but my point was
+> that nothing should ever 'select I2C' or any of the other
+> subsystems that are user visible.
+>
+> > Yamada-san: would it be difficult to modify Kconfig to ignore symbols
+> > like DRIVER that select other symbols with unmet dependencies?
+> > Currently it already warns about that.
+> >
+> > Handling this implicitly (instead of the current explict "depends
+> > on") would have the disadvantage though: a user who is not aware of
+> > the implicit dependency may wonder why DRIVER is invisible in his
+> > config interface.
+>
+> I think hiding this would make it much harder to get anything
+> right. The symbols in question are almost all ones that should
+> be enabled in normal configs, and the 'make menuconfig' help
+> doesn't make it too hard to figure things out normally, we just
+> have to find a way to avoid regressions when converting things
+> to 'depends on' that used an incorrect 'select'.
+>
+>      Arnd
 
-Just a drive by review since I saw this patch via another CC in my
-inbox, I would wait for x86 maintainer thoughts before sending a v2.
 
-On Mon, Apr 22, 2024 at 06:05:56AM +0000, Yuntao Liu wrote:
-> The current x86 architecture does not yet support the
-> HAVE_LD_DEAD_CODE_DATA_ELIMINATION feature. x86 is widely used in
-> embedded scenarios, and enabling this feature would be beneficial for
-> reducing the size of the kernel image.
-> 
-> In order to make this work, we keep the necessary tables by annotating
-> them with KEEP, also it requires further changes to linker script to KEEP
-> some tables and wildcard compiler generated sections into the right place.
-> 
-> Enabling CONFIG_UNWINDER_ORC or CONFIG_MITIGATION_RETPOLINE will enable
-> the objtool's --orc and --retpoline parameters, which will alter the
-> layout of the binary file, thereby preventing gc-sections from functioning
-> properly. Therefore, HAVE_LD_DEAD_CODE_DATA_ELIMINATION should only be
-> selected when they are not enabled.
-> 
-> Enabling CONFIG_LTO_CLANG or CONFIG_X86_KERNEL_IBT will use vmlinux.o
-> instead of performing the slow LTO link again. This can also prevent
-> gc-sections from functioning properly. Therefore, using this optimization
-> when CONFIG_LD_DEAD_CODE_DATA_ELIMINATION is not enabled.
 
-These two paragraphs indicate to me that this feature will be
-unselectable the vast majority of x86 configurations, why should the
-upstream kernel support it in that case?
+I am confused because you repeatedly discussed
+the missing I2C dependency.
 
-> The size comparison of zImage is as follows:
 
-                         ^ bzImage?
+Are you talking about DRM drivers,
+or is it just "an example" in general?
 
-> x86_def_defconfig  i386_defconfig    tinyconfig
-> 10892288           10826240          607232          no dce
-> 10748928           10719744          529408          dce
-> 1.3%               0.98%             12.8%           shrink
-> 
-> When using smaller config file, there is a significant reduction in the
-> size of the zImage.
 
-Same here.
 
-What toolchain was this tested with? There have been behavior
-differences between the GNU and LLVM toolchains that have shown up when
-dead code elimination is enabled, such as with 32-bit ARM [1] and RISC-V
-[2]. While I am not saying there are any problems here, it would be good
-to qualify how well this has been tested and perhaps do some testing
-with other toolchains and versions, especially since you are touching
-areas guarded by CONFIG_LTO_CLANG. Does the resulting kernel boot and
-run properly?
+DRM selects I2C.
 
-[1]: https://lore.kernel.org/30b01c65-12f2-4ee0-81d5-c7a2da2c36b4@app.fastmail.com/
-[2]: https://lore.kernel.org/20230622215327.GA1135447@dev-arch.thelio-3990X/
+https://github.com/torvalds/linux/blob/v6.9-rc4/drivers/gpu/drm/Kconfig#L16
 
-> ---
->  arch/x86/Kconfig              |  1 +
->  arch/x86/kernel/vmlinux.lds.S | 24 ++++++++++++------------
->  scripts/link-vmlinux.sh       |  2 +-
->  3 files changed, 14 insertions(+), 13 deletions(-)
-> 
-> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-> index a902680b6537..92dfbc8ee4e7 100644
-> --- a/arch/x86/Kconfig
-> +++ b/arch/x86/Kconfig
-> @@ -247,6 +247,7 @@ config X86
->  	select HAVE_FUNCTION_ERROR_INJECTION
->  	select HAVE_KRETPROBES
->  	select HAVE_RETHOOK
-> +	select HAVE_LD_DEAD_CODE_DATA_ELIMINATION if !CONFIG_UNWINDER_ORC && !CONFIG_MITIGATION_RETPOLINE
 
-This is incorrect, it should be
 
-    select HAVE_LD_DEAD_CODE_DATA_ELIMINATION if !UNWINDER_ORC && !MITIGATION_RETPOLINE
+If you make sure individual DRM drivers depend on DRM,
+none of them can be enabled without I2C.
 
->  	select HAVE_LIVEPATCH			if X86_64
->  	select HAVE_MIXED_BREAKPOINTS_REGS
->  	select HAVE_MOD_ARCH_SPECIFIC
 
-Cheers,
-Nathan
+
+Currently, this is not guaranteed just because
+DRM folks do not know how to use the "menuconfig" syntax.
+
+
+
+The "menuconfig" makes sense only when it is
+followed by "if".
+
+
+
+
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index 5a0c476361c3..6984b3fea271 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -29,6 +29,8 @@ menuconfig DRM
+          details.  You should also select and configure AGP
+          (/dev/agpgart) support if it is available for your platform.
+
++if DRM
++
+ config DRM_MIPI_DBI
+        tristate
+        depends on DRM
+@@ -414,3 +416,5 @@ config DRM_LIB_RANDOM
+ config DRM_PRIVACY_SCREEN
+        bool
+        default n
++
++endif
+
+
+
+
+
+
+
+
+
+
+--
+Best Regards
+Masahiro Yamada
 
