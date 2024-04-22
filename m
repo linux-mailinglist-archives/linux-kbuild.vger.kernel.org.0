@@ -1,151 +1,234 @@
-Return-Path: <linux-kbuild+bounces-1630-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1631-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A97628AC2C6
-	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Apr 2024 04:28:18 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98AB38AC46C
+	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Apr 2024 08:41:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 33EA71F21401
-	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Apr 2024 02:28:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4EDB2282E49
+	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Apr 2024 06:41:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2410846BA;
-	Mon, 22 Apr 2024 02:28:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SoQgb5Xu"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDEF8481AB;
+	Mon, 22 Apr 2024 06:41:50 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E38A62CA8;
-	Mon, 22 Apr 2024 02:28:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C79B11802B;
+	Mon, 22 Apr 2024 06:41:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713752893; cv=none; b=utC0wr5sMu1kROyaTOrraqPggfnx4ZeE5BCc/2I2z1hz6ZGfBHaY1ZESWA9StEFuxLhZaw2+EJ2kBUTJjx6zcam93jqKWJ02HWSXfUkzqt49b4kBcyLlA36dR3d2l6CHz+bkXfR3OfM0FfpalWBoPGz5V1eVOBekgk6SMCqE+wA=
+	t=1713768110; cv=none; b=tdM/0hJjHZjHLP+U8cTRofd9R2luzEGF7biMwcyXt5H91mp/e4v4K1DkNEgJ7PFyCGMTUjjQRwkbQTWvfWlMK6M7GEc1d29L64tcLdN4Ygf+YnTptUcDWfbOmT7MNXIrlgLTmoGM8xodP4FtX5QKrtsnBSD2ZfHnEA81rO9AzcU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713752893; c=relaxed/simple;
-	bh=V3J+dZjlVRVuGxpt2BvlNuZeDPKEzUoaUQImwYXDqb8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gOq2fKelyqsUR2881BsCfMpikDQNHnGgn01Kn/1qJvRP7RgKEQ+sMhKFlc7mN9cSlhwe7q8m6WkVdUwbF+cVT0RAkgIMyYZlE+tQ0PDyBoJn4DwHJNqhDxpStj3+nM4ahD94ayJOryOpXYuiDy1CkD9etkE8A8Wq04i2ltwhQSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SoQgb5Xu; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C568C2BD10;
-	Mon, 22 Apr 2024 02:28:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713752892;
-	bh=V3J+dZjlVRVuGxpt2BvlNuZeDPKEzUoaUQImwYXDqb8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=SoQgb5Xu/qAftX+fnAmiPRfxmFjkyjj1xmYMTH+XKeq95hWU9Ylan/z4THnbpM7pR
-	 BprPPWafl18P8xQBF9xfsD500AkDkVqdu+nI8bFp4L243Xf5Sp5fH7JWLFiByqCDWg
-	 tlR/Es5nOni6kVI+4SwtzNZY/A8esPO8iAT7gAgU5OAf/xzc694gNYWiDQ1XoAkKF9
-	 WDA7zyvkgI4Paqu4gE6Ba+XMNv3sRXH9INkbTk970sXkUaJ3j7/jb5NpU8fXx+NLcw
-	 P8PGAFzUL8FsefnkZlNnTTEsW14dVpNo90TxCKX3UsKwLO2Ag8nOV8+VOk8oDHaswn
-	 Q53qrmf3KHWMA==
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2db101c11feso24300221fa.0;
-        Sun, 21 Apr 2024 19:28:12 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWXxohJ6ZAx2K4tnead/dvx9nTdXoHvdAGIpFc4W5BaNn0y3A+56tWgTEZ0WlecBrAppUZ/5Z/JaFjEI/Yw+d6iFWFmPV8wmR1cwguO0C2GsM2IkJgupkNJXXAU9iCRpJ4GHEXh2Jk=
-X-Gm-Message-State: AOJu0YxsLtRpUrWCHmpwvYGXhtKzrmkwA19fr2C2hay26k90lZAIP64D
-	WY/vxIsjLShJBboT+yZ06wqXo6Ykz1sZqwYs9scKz9/ccQq7MxGf09Ow2G0dnGrWcnotqkCrwuN
-	w6kd/SvhikY4A/qTg7b4nSjHGIUk=
-X-Google-Smtp-Source: AGHT+IFrV9OmRbRKvaOhpQhnQ7DlGsG8CgkAy1ZsedVEVvDGIv820SOXLEXBhWXMrKJNg1NMjYlLu7xEdI7V8C/X7s8=
-X-Received: by 2002:a2e:9cd7:0:b0:2d8:79d6:454d with SMTP id
- g23-20020a2e9cd7000000b002d879d6454dmr2853128ljj.23.1713752891086; Sun, 21
- Apr 2024 19:28:11 -0700 (PDT)
+	s=arc-20240116; t=1713768110; c=relaxed/simple;
+	bh=TPhYuiSP/OJP9QjGkWctk7DF63PrcaSrVMus/ROLepY=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=QMyLL8iH5tYG/Bp42757sFq1KdyRPYkBK8qWixDLgsK0QcRezzStEyJLuIXe3pxeVqVy2yu3l8Rs97ytyiMLV2zBm4iBTSZQGV37LrdZw46tmOPMIuEJIpzkTmRUnszXjA7K1nuUAnjFUmluGfQ4t81O/3mL+LvGSGy03hgTvw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.163.174])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4VNFvV0WXVztXZp;
+	Mon, 22 Apr 2024 14:38:46 +0800 (CST)
+Received: from dggpemd100004.china.huawei.com (unknown [7.185.36.20])
+	by mail.maildlp.com (Postfix) with ESMTPS id E77A914035F;
+	Mon, 22 Apr 2024 14:41:44 +0800 (CST)
+Received: from huawei.com (10.67.174.76) by dggpemd100004.china.huawei.com
+ (7.185.36.20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.28; Mon, 22 Apr
+ 2024 14:41:44 +0800
+From: Yuntao Liu <liuyuntao12@huawei.com>
+To: <linux-kernel@vger.kernel.org>, <linux-kbuild@vger.kernel.org>
+CC: <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
+	<dave.hansen@linux.intel.com>, <hpa@zytor.com>, <masahiroy@kernel.org>,
+	<nathan@kernel.org>, <nicolas@fjasle.eu>, <peterz@infradead.org>,
+	<jpoimboe@kernel.org>, <leitao@debian.org>, <petr.pavlu@suse.com>,
+	<richard.weiyang@gmail.com>, <ruanjinjie@huawei.com>,
+	<ndesaulniers@google.com>, <jgross@suse.com>, <liuyuntao12@huawei.com>
+Subject: [PATCH] x86: enable HAVE_LD_DEAD_CODE_DATA_ELIMINATION
+Date: Mon, 22 Apr 2024 06:05:56 +0000
+Message-ID: <20240422060556.1226848-1-liuyuntao12@huawei.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240421120824.2713923-1-masahiroy@kernel.org>
- <20240421120824.2713923-2-masahiroy@kernel.org> <80d969b70038f5c0de6f2d912cb1f6b395eea94a.camel@physik.fu-berlin.de>
-In-Reply-To: <80d969b70038f5c0de6f2d912cb1f6b395eea94a.camel@physik.fu-berlin.de>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Mon, 22 Apr 2024 11:27:34 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASyu9=7MQ0zd8doGEENN7GHxupg+fkpK3FCktyjVwLfjw@mail.gmail.com>
-Message-ID: <CAK7LNASyu9=7MQ0zd8doGEENN7GHxupg+fkpK3FCktyjVwLfjw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] sh: convert the last use of 'optional' property in Kconfig
-To: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>, linux-sh@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpemd100004.china.huawei.com (7.185.36.20)
 
-On Mon, Apr 22, 2024 at 2:51=E2=80=AFAM John Paul Adrian Glaubitz
-<glaubitz@physik.fu-berlin.de> wrote:
->
-> Hi Masahiro,
->
-> On Sun, 2024-04-21 at 21:08 +0900, Masahiro Yamada wrote:
-> > The 'choice' statement is primarily used to exclusively select one
-> > option, but the 'optional' property allows all entries to be disabled.
-> >
-> > This feature is only used in arch/sh/Kconfig because the equivalent
-> > outcome can be achieved by inserting one more entry as a place-holder.
-> > This approach is commonly used, for example, LTO_NONE, DEBUG_INFO_NONE,
-> > INITRAMFS_COMPRESSION_NONE, etc.
-> >
-> > The 'optional' property support will be removed from Kconfig.
-> >
-> > This commit converts the last user.
-> >
-> > Note:
-> >  The 'default CMDLINE_OVERWRITE' statement does not work as intended
-> >  in combination with 'optional'. If neither CONFIG_CMDLINE_OVERWRITE
-> >  nor CONFIG_CMD_EXTEND is specified in a defconfig file, both of them
-> >  are disabled. This is a bug. To maintain the current behavior, I
-> >  added CONFIG_CMD_NO_MODIFY=3Dy to those defconfig files.
->          ^^^^^^^^^^^^^^^^^^^^^^
->      This would be CMDLINE_NO_MODIFY as used in the actual Kconfig files.
->
-> I am fine with the change per se, but could you rename CMDLINE_NO_MODIFY =
-to
-> CMDLINE_FROM_BOOTLOADER as it's used on the other architectures such as a=
-rm
-> and powerpc, preferably using the same help text.
+The current x86 architecture does not yet support the
+HAVE_LD_DEAD_CODE_DATA_ELIMINATION feature. x86 is widely used in
+embedded scenarios, and enabling this feature would be beneficial for
+reducing the size of the kernel image.
 
+In order to make this work, we keep the necessary tables by annotating
+them with KEEP, also it requires further changes to linker script to KEEP
+some tables and wildcard compiler generated sections into the right place.
 
+Enabling CONFIG_UNWINDER_ORC or CONFIG_MITIGATION_RETPOLINE will enable
+the objtool's --orc and --retpoline parameters, which will alter the
+layout of the binary file, thereby preventing gc-sections from functioning
+properly. Therefore, HAVE_LD_DEAD_CODE_DATA_ELIMINATION should only be
+selected when they are not enabled.
 
-OK, but the sh behavior is different from
-early_init_dt_scan_chosen().
+Enabling CONFIG_LTO_CLANG or CONFIG_X86_KERNEL_IBT will use vmlinux.o
+instead of performing the slow LTO link again. This can also prevent
+gc-sections from functioning properly. Therefore, using this optimization
+when CONFIG_LD_DEAD_CODE_DATA_ELIMINATION is not enabled.
 
+The size comparison of zImage is as follows:
+x86_def_defconfig  i386_defconfig    tinyconfig
+10892288           10826240          607232          no dce
+10748928           10719744          529408          dce
+1.3%               0.98%             12.8%           shrink
 
-I will drop this part:
-"If the boot loader doesn't provide any, the default
-kernel command string provided in CMDLINE will be used."
+When using smaller config file, there is a significant reduction in the
+size of the zImage.
+---
+ arch/x86/Kconfig              |  1 +
+ arch/x86/kernel/vmlinux.lds.S | 24 ++++++++++++------------
+ scripts/link-vmlinux.sh       |  2 +-
+ 3 files changed, 14 insertions(+), 13 deletions(-)
 
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index a902680b6537..92dfbc8ee4e7 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -247,6 +247,7 @@ config X86
+ 	select HAVE_FUNCTION_ERROR_INJECTION
+ 	select HAVE_KRETPROBES
+ 	select HAVE_RETHOOK
++	select HAVE_LD_DEAD_CODE_DATA_ELIMINATION if !CONFIG_UNWINDER_ORC && !CONFIG_MITIGATION_RETPOLINE
+ 	select HAVE_LIVEPATCH			if X86_64
+ 	select HAVE_MIXED_BREAKPOINTS_REGS
+ 	select HAVE_MOD_ARCH_SPECIFIC
+diff --git a/arch/x86/kernel/vmlinux.lds.S b/arch/x86/kernel/vmlinux.lds.S
+index 3509afc6a672..aeee2b9b6a6a 100644
+--- a/arch/x86/kernel/vmlinux.lds.S
++++ b/arch/x86/kernel/vmlinux.lds.S
+@@ -253,7 +253,7 @@ SECTIONS
+ 
+ 	.x86_cpu_dev.init : AT(ADDR(.x86_cpu_dev.init) - LOAD_OFFSET) {
+ 		__x86_cpu_dev_start = .;
+-		*(.x86_cpu_dev.init)
++		KEEP(*(.x86_cpu_dev.init))
+ 		__x86_cpu_dev_end = .;
+ 	}
+ 
+@@ -261,7 +261,7 @@ SECTIONS
+ 	.x86_intel_mid_dev.init : AT(ADDR(.x86_intel_mid_dev.init) - \
+ 								LOAD_OFFSET) {
+ 		__x86_intel_mid_dev_start = .;
+-		*(.x86_intel_mid_dev.init)
++		KEEP(*(.x86_intel_mid_dev.init))
+ 		__x86_intel_mid_dev_end = .;
+ 	}
+ #endif
+@@ -275,21 +275,21 @@ SECTIONS
+ 	. = ALIGN(8);
+ 	.retpoline_sites : AT(ADDR(.retpoline_sites) - LOAD_OFFSET) {
+ 		__retpoline_sites = .;
+-		*(.retpoline_sites)
++		KEEP(*(.retpoline_sites))
+ 		__retpoline_sites_end = .;
+ 	}
+ 
+ 	. = ALIGN(8);
+ 	.return_sites : AT(ADDR(.return_sites) - LOAD_OFFSET) {
+ 		__return_sites = .;
+-		*(.return_sites)
++		KEEP(*(.return_sites))
+ 		__return_sites_end = .;
+ 	}
+ 
+ 	. = ALIGN(8);
+ 	.call_sites : AT(ADDR(.call_sites) - LOAD_OFFSET) {
+ 		__call_sites = .;
+-		*(.call_sites)
++		KEEP(*(.call_sites))
+ 		__call_sites_end = .;
+ 	}
+ #endif
+@@ -298,7 +298,7 @@ SECTIONS
+ 	. = ALIGN(8);
+ 	.ibt_endbr_seal : AT(ADDR(.ibt_endbr_seal) - LOAD_OFFSET) {
+ 		__ibt_endbr_seal = .;
+-		*(.ibt_endbr_seal)
++		KEEP(*(.ibt_endbr_seal))
+ 		__ibt_endbr_seal_end = .;
+ 	}
+ #endif
+@@ -307,7 +307,7 @@ SECTIONS
+ 	. = ALIGN(8);
+ 	.cfi_sites : AT(ADDR(.cfi_sites) - LOAD_OFFSET) {
+ 		__cfi_sites = .;
+-		*(.cfi_sites)
++		KEEP(*(.cfi_sites))
+ 		__cfi_sites_end = .;
+ 	}
+ #endif
+@@ -320,7 +320,7 @@ SECTIONS
+ 	. = ALIGN(8);
+ 	.altinstructions : AT(ADDR(.altinstructions) - LOAD_OFFSET) {
+ 		__alt_instructions = .;
+-		*(.altinstructions)
++		KEEP(*(.altinstructions))
+ 		__alt_instructions_end = .;
+ 	}
+ 
+@@ -330,13 +330,13 @@ SECTIONS
+ 	 * get the address and the length of them to patch the kernel safely.
+ 	 */
+ 	.altinstr_replacement : AT(ADDR(.altinstr_replacement) - LOAD_OFFSET) {
+-		*(.altinstr_replacement)
++		KEEP(*(.altinstr_replacement))
+ 	}
+ 
+ 	. = ALIGN(8);
+ 	.apicdrivers : AT(ADDR(.apicdrivers) - LOAD_OFFSET) {
+ 		__apicdrivers = .;
+-		*(.apicdrivers);
++		KEEP(*(.apicdrivers));
+ 		__apicdrivers_end = .;
+ 	}
+ 
+@@ -406,7 +406,7 @@ SECTIONS
+ 	.brk : AT(ADDR(.brk) - LOAD_OFFSET) {
+ 		__brk_base = .;
+ 		. += 64 * 1024;		/* 64k alignment slop space */
+-		*(.bss..brk)		/* areas brk users have reserved */
++		KEEP(*(.bss..brk))	/* areas brk users have reserved */
+ 		__brk_limit = .;
+ 	}
+ 
+@@ -432,7 +432,7 @@ SECTIONS
+ 	. = ALIGN(HPAGE_SIZE);
+ 	.init.scratch : AT(ADDR(.init.scratch) - LOAD_OFFSET) {
+ 		__init_scratch_begin = .;
+-		*(.init.scratch)
++		KEEP(*(.init.scratch))
+ 		. = ALIGN(HPAGE_SIZE);
+ 		__init_scratch_end = .;
+ 	}
+diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
+index 7862a8101747..7287b5a9f17d 100755
+--- a/scripts/link-vmlinux.sh
++++ b/scripts/link-vmlinux.sh
+@@ -60,7 +60,7 @@ vmlinux_link()
+ 	# skip output file argument
+ 	shift
+ 
+-	if is_enabled CONFIG_LTO_CLANG || is_enabled CONFIG_X86_KERNEL_IBT; then
++	if [ is_enabled CONFIG_LTO_CLANG || is_enabled CONFIG_X86_KERNEL_IBT ] && [ ! is_enabled CONFIG_LD_DEAD_CODE_DATA_ELIMINATION ]; then
+ 		# Use vmlinux.o instead of performing the slow LTO link again.
+ 		objs=vmlinux.o
+ 		libs=
+-- 
+2.34.1
 
-
-
-config CMDLINE_FROM_BOOTLOADER
-       bool "Use bootloader kernel arguments"
-       help
-         Uses the command-line options passed by the boot loader.
-
-
-
-
-
-
-
->
-> Also, I usually prefer the first word in the subject to be capitalized, i=
-.e..
->
->         sh: Convert the last use of 'optional' property in Kconfig
->
-> Thanks,
-> Adrian
->
-> --
->  .''`.  John Paul Adrian Glaubitz
-> : :' :  Debian Developer
-> `. `'   Physicist
->   `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
->
-
-
---=20
-Best Regards
-Masahiro Yamada
 
