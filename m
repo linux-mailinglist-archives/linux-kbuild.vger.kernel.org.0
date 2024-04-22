@@ -1,194 +1,158 @@
-Return-Path: <linux-kbuild+bounces-1651-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1652-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id A37098AD3AD
-	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Apr 2024 20:11:40 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 259418AD3D9
+	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Apr 2024 20:24:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0EAA9B22377
-	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Apr 2024 18:11:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 494751C20EDA
+	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Apr 2024 18:24:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D28D154427;
-	Mon, 22 Apr 2024 18:11:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FA3F15444F;
+	Mon, 22 Apr 2024 18:24:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="IioDOQLK";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Nt9T+mKn"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wfout7-smtp.messagingengine.com (wfout7-smtp.messagingengine.com [64.147.123.150])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E294153BC6;
-	Mon, 22 Apr 2024 18:11:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EFDE154440;
+	Mon, 22 Apr 2024 18:24:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713809493; cv=none; b=mhOgnqdRKz1+B+l9tGRigCFbkwZwmBwRlm77mvWHnf2P3idsk+p2Ot3PZliU16+mDvOogToBQcE2o+9xkPNjONahTAXIOUJkSYLq+bZtBfVRkvh6vO28PwNLMWUADMCdljsI+SAr3FbYo4/wbLbqPRJhiBes6Igi0oNIqPeGGXU=
+	t=1713810253; cv=none; b=SLOaAkqFaqufXcXcQL/pgFzU0mwEFvYKx8eZh0bslYwD8du8RWh2mpLyaayUcpL/xT3nZmNsAYbjPPmJTst3pTt2PFom6eYQfpQyrgVnYzRnBK+gJVFSlTidcgGrcv8z7W3Ue60HxKrv6vDyyDLoWdq5adk02CeiCYfMBUYx3Ag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713809493; c=relaxed/simple;
-	bh=RXQBNIZD8UE4HL2t+pBxUCcQnfwkILmQO4gohG+Wb/M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uJbbZpvRJsTUlnlwsoro7ye3PlvEuvptaDSc6tGrvFjJa41vdQT7kyaVyhfEm0EDe3Z4EzYkgV3BKoaoiJHz+KOOiMEpeqF/6xFYWQV3jpPHi16fovQNbvh/RJ9Q77FgYi2pFeQ669w4NHjHZpRMaWHytiCSjhGWpJ/KuepRoS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-61b2218ab6fso32590607b3.1;
-        Mon, 22 Apr 2024 11:11:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713809489; x=1714414289;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BIYJICZAHp3tuVglFyrlAugeozSb8a+qq+gPa6pnnj4=;
-        b=QtQMDDHandWJM1GtyfaZCmEollQ+H0A4dhT/vpLqttGUu1N+v50yBd7tOPTA5Rk7Rb
-         LZMcaRk7m+FbkwrbyFS3i7eiKAMiwTAd+krsrTmNerwIaL9Ja+ZAVZiowKflw5wwChr9
-         LgeuMox5tuQlmo7zsgEkGMrBD0GHDx5C8F1xb5ysneHF7pZwTPpRAl/Z64AD+W4voTTk
-         zc372Zo6kU1HZbPrjMHcVJBveC/3Ez/THeDJeaH/taeO/wmJmgstSYzlUT4p71H9S7Px
-         k9YpqLk1GzjLi30aHPB2XfYSW2Rr6cAPCGvwFQpelGUamnFvkCrz39+0dU1DhmawnIFA
-         /yBw==
-X-Forwarded-Encrypted: i=1; AJvYcCWjDr2IXbY4FJXCzxHRH8D/0W4B4GHdmyWKP8PNsUa0pu5D52jly60vcc5Se95yDTaVXyKNzPdAil5wxGkCgwnr6KxcTIuMYRv+kR/4RNbrNk4sbMZQ8KH1iD7hnhYmJjPfEz4zNexyWB+tF5143NOYWMo97kBzJMHgs08JCzbMHsyfKarVc2bEW6biDT8=
-X-Gm-Message-State: AOJu0Yy+GkdwQTeyXyfyA+PWSnoFmp5SUCZKWMRXlTWJylBRdUCBAzPf
-	K1I/3pM+vfVTt3c3rGnYOtafyIbcuyKP5yOmGuFhe270A5JIaagOMorf5sQb
-X-Google-Smtp-Source: AGHT+IH0OXsyCvpf/sQVdi00yQB229Paq5Wr22BDwJDutgiTXY9/fi5D/dAIBkcVivaGzef2qK+MUg==
-X-Received: by 2002:a05:690c:6787:b0:61a:d454:fb3b with SMTP id ib7-20020a05690c678700b0061ad454fb3bmr10912027ywb.6.1713809489446;
-        Mon, 22 Apr 2024 11:11:29 -0700 (PDT)
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
-        by smtp.gmail.com with ESMTPSA id t21-20020a0dea15000000b0061abc6baadfsm2095913ywe.14.2024.04.22.11.11.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Apr 2024 11:11:29 -0700 (PDT)
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-dbed0710c74so4178973276.1;
-        Mon, 22 Apr 2024 11:11:29 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUdu9YyeJDuwYGWOqfWRYerpbDDwIymCs3Sgn80DiR0R/1NYgCvq0fLq0yvJgCPeuKcm+hz8hHwlWGohueBUYAl2yLpH90T8JLfg8lc3I6cNM4ppEVu5B1ubd9MeRmGfPET0mBjJAsM5Y79YqQwwMabQ4n1TQK0Ot9T4kYT7sqfPjRV9gPorzq9ZYdyd5A=
-X-Received: by 2002:a25:d655:0:b0:dcc:58ed:6ecc with SMTP id
- n82-20020a25d655000000b00dcc58ed6eccmr10979493ybg.41.1713809488807; Mon, 22
- Apr 2024 11:11:28 -0700 (PDT)
+	s=arc-20240116; t=1713810253; c=relaxed/simple;
+	bh=AJWsQs0WIutfkiraqmBrcIERbnp+KFBgyvXOHw6/ZGw=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=TxRJxFXtKDbQN+UVtCInzRXBl5BGp+9DyWhBDu7kFHyQNOPv3KY2UM7vKMO31xp0uw4p16IREH11LHYMo2TuO3yjqJxpkP9995aR7maBN6Q9N9/y/9b9+UR1aWa1UVWPfW8pXybrz/ugeFz1/7vlAamUq/7llttEwd/349ALHBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=IioDOQLK; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Nt9T+mKn; arc=none smtp.client-ip=64.147.123.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailfout.west.internal (Postfix) with ESMTP id 3CC091C00124;
+	Mon, 22 Apr 2024 14:24:09 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Mon, 22 Apr 2024 14:24:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1713810248;
+	 x=1713896648; bh=4tISaTjKm7Keny+zSA/5yJF7vEg/YCHm8XeIP3SBn8Q=; b=
+	IioDOQLKUlfXtmHQgZWRGTP20woHG+m0RuSsHmypLIgi0wu2qGwYXrKfClD7dD+G
+	MyRfnW6awXbuF2kd5QEHka5zK2iTeYmq/YNk9IrOUe+lwRwUAqsTDVMhZOoj1qi0
+	8vBH17xHZug/Qyg6xKoy1t+tIiyOijdsUFIyk3wG/gPnp7KV1+8ul3oN8Xaiwha+
+	GADkVyLMV7q0cSlE94l1nT1+SotvDiPWq/xA8Zey5JUL4ZuMA4I7c14S+DfIG7f6
+	f8WSO+LPIXU4yok5R5NVO2XpcDGHtOAKkUHwe93Xq4X62MpMNWHticDasluhGzd4
+	srSuIQKaxkAWn3w49X66Dw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1713810248; x=
+	1713896648; bh=4tISaTjKm7Keny+zSA/5yJF7vEg/YCHm8XeIP3SBn8Q=; b=N
+	t9T+mKnsgBURMXg+OWFQJTJmdcY0Qocet1v+0rphAG6YV/di6D9rVirWDYvk8sWm
+	bSfrNu+4a/0lHPHJ/y21xo4I+LFBST97FFEHJwBEkWUWMVSG2H5rOgtuRbrTXJtL
+	6AVA66B+FAdd0zs3SNs+4uCxs7QDnwpkfyLKIolOwuCXEzvXQQ1BfgSD8JiC6isv
+	Vtjb81vqCPrXgwQzAeT+ujZ+O9B60x+yTHM8isBvnZ+5gEd0n6YzRt6/swHgUy+n
+	qh8EBuNSStkPA1enrxeTDCz9PieKKUNtQVcxA9IGjs95rC8sdhfHKh5MYNcq7Krn
+	WyeaZmVzBNcfNhBlj2UFQ==
+X-ME-Sender: <xms:R6smZrTxU7woavcUjP4z6wapKWPXc8dPlgFoAZtdZwetVi3uZ0kyOg>
+    <xme:R6smZsy9y8w3xvrhXR8HSDDPEUzNR3z0Mm3KBApIqyoBznUugeaKaVqyPttyO6DA4
+    rWeIEntw8WOEnd0R4c>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudekledguddvhecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefofgggkfgjfhffhffvvefutgfgsehtqhertderreejnecuhfhrohhmpedf
+    tehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrf
+    grthhtvghrnhepgeefjeehvdelvdffieejieejiedvvdfhleeivdelveehjeelteegudek
+    tdfgjeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    eprghrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:R6smZg1wtRbHYMelWVpTbUAvwMzDjKBG901AwkExDomwAUz8zX2yCA>
+    <xmx:R6smZrDPy4QA0ruj09hSOn7d3kplIjX52OTpTRuOP9ZYBALw6ilbsw>
+    <xmx:R6smZkhS4_l9Qzy41YOMCsZkHpmqtB9381ghYNbfZzNNe3Z9oOhsAw>
+    <xmx:R6smZvpU_WypBYLJGMocq9XBOjWeFyydTL_6gYIHxG0jE4G-Z8E8OQ>
+    <xmx:SKsmZlZK5lOFTFB_neSxwAvXStKO7uOEWTJbUrlsmmWQe4pB5VLUK62e>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 8187FB6008D; Mon, 22 Apr 2024 14:24:07 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-386-g4cb8e397f9-fm-20240415.001-g4cb8e397
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1713780345.git.geert+renesas@glider.be> <87il09ty4u.fsf@intel.com>
- <ff4f9e8f-0825-4421-adf9-e3914b108da7@app.fastmail.com> <875xw9ttl6.fsf@intel.com>
- <af6e26d1-1402-4ed2-a650-b58eae77273e@app.fastmail.com> <87wmops57s.fsf@intel.com>
-In-Reply-To: <87wmops57s.fsf@intel.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 22 Apr 2024 20:11:19 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWU5R-C-sKs1GsF9Jt9giRD_moUs=1jvXastBwhWRYMJg@mail.gmail.com>
-Message-ID: <CAMuHMdWU5R-C-sKs1GsF9Jt9giRD_moUs=1jvXastBwhWRYMJg@mail.gmail.com>
+Message-Id: <d3f406ed-1b93-4fcf-850a-743d27f20dc2@app.fastmail.com>
+In-Reply-To: 
+ <CAMuHMdXCL-gbKr6mUBPWONtRjz=X0vZQgiS=02WXXSFf67yBww@mail.gmail.com>
+References: <cover.1713780345.git.geert+renesas@glider.be>
+ <87il09ty4u.fsf@intel.com>
+ <ff4f9e8f-0825-4421-adf9-e3914b108da7@app.fastmail.com>
+ <875xw9ttl6.fsf@intel.com>
+ <af6e26d1-1402-4ed2-a650-b58eae77273e@app.fastmail.com>
+ <CAMuHMdXCL-gbKr6mUBPWONtRjz=X0vZQgiS=02WXXSFf67yBww@mail.gmail.com>
+Date: Mon, 22 Apr 2024 20:23:36 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Geert Uytterhoeven" <geert@linux-m68k.org>
+Cc: "Jani Nikula" <jani.nikula@linux.intel.com>,
+ "Geert Uytterhoeven" <geert+renesas@glider.be>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "Dave Airlie" <airlied@gmail.com>,
+ "Daniel Vetter" <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ "Masahiro Yamada" <masahiroy@kernel.org>,
+ linux-kbuild <linux-kbuild@vger.kernel.org>
 Subject: Re: [PATCH 00/11] drm: Restore helper usability
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, 
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
-	linux-kbuild <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-Hi Jani,
-
-CC kbuild
-
-On Mon, Apr 22, 2024 at 7:00=E2=80=AFPM Jani Nikula <jani.nikula@linux.inte=
-l.com> wrote:
-> On Mon, 22 Apr 2024, "Arnd Bergmann" <arnd@arndb.de> wrote:
-> > I'm not sure where this misunderstanding comes from, as you
-> > seem to be repeating the same incorrect assumption about
-> > how select works that Maxime wrote in his changelog. To clarify,
-> > this works exactly as one would expect:
-> >
-> > config HELPER_A
-> >        tristate
-> >
-> > config HELPER_B
-> >        tristate
-> >        select HELPER_A
-> >
-> > config DRIVER
-> >        tristate "Turn on the driver and the helpers it uses"
-> >        select HELPER_B # this recursively selects HELPER_A
-> >
-> > Whereas this one is broken:
-> >
-> > config FEATURE_A
-> >        tristate "user visible if I2C is enabled"
-> >        depends on I2C
-> >
-> > config HELPER_B
-> >        tristate # hidden
-> >        select FEATURE_A
-> >
-> > config DRIVER
-> >        tristate "This driver is broken if I2C is disabled"
-> >        select HELPER_B
+On Mon, Apr 22, 2024, at 18:58, Geert Uytterhoeven wrote:
+> On Mon, Apr 22, 2024 at 3:55=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> =
+wrote:
+>> On Mon, Apr 22, 2024, at 15:28, Jani Nikula wrote:
+>> Whereas this one is broken:
+>>
+>> config FEATURE_A
+>>        tristate "user visible if I2C is enabled"
+>>        depends on I2C
+>>
+>> config HELPER_B
+>>        tristate # hidden
+>>        select FEATURE_A
+>>
+>> config DRIVER
+>>        tristate "This driver is broken if I2C is disabled"
+>>        select HELPER_B
 >
-> This case is really what I was referring to, although I was sloppy with
-> words there. I understand that select does work recursively for selects.
+> So the DRIVER section should gain a "depends on I2C" statement.
+
+That is of course the common workaround, but my point was
+that nothing should ever 'select I2C' or any of the other
+subsystems that are user visible.
+
+> Yamada-san: would it be difficult to modify Kconfig to ignore symbols
+> like DRIVER that select other symbols with unmet dependencies?
+> Currently it already warns about that.
 >
-> >>   There is no end to this, it just goes on and on, as the
-> >>   dependencies of the selected symbols change over time. Often the
-> >>   selects require unintuitive if patterns that are about the
-> >>   implementation details of the symbol being selected.
-> >
-> > Agreed, that is the problem I frequently face with drivers/gpu/drm,
-> > and most of the time it can only be solved by rewriting the whole
-> > system to not select user-visible symbol at all.
-> >
-> > Using 'depends on' by itself is unfortunately not enough to
-> > avoid /all/ the problems. See e.g. today's failure
-> >
-> > config DRM_DISPLAY_HELPER
-> >        tristate "DRM Display Helpers"
-> >        default y
-> >
-> > config DRM_DISPLAY_DP_HELPER
-> >        bool "DRM DisplayPort Helpers"
-> >        depends on DRM_DISPLAY_HELPER
-> >
-> > config DRM_PANEL_LG_SW43408
-> >        tristate "LG SW43408 panel"
-> >        depends on DRM_DISPLAY_DP_HELPER
-> >
-> > This version is still broken for DRM_DISPLAY_HELPER=3Dm,
-> > DRM_DISPLAY_DP_HELPER=3Dm, DRM_PANEL_LG_SW43408=3Dy because
-> > the dependency on the bool symbol is not enough to
-> > ensure that DRM_DISPLAY_HELPER is also built-in, so you
-> > still need explicit dependencies on both
-> > DRM_DISPLAY_HELPER and DRM_DISPLAY_DP_HELPER in the users.
-> >
-> > This can be solved by making DRM_DISPLAY_DP_HELPER a
-> > tristate symbol and adjusting the #ifdef checks and
-> > Makefile logic accordingly, which is exactly what you'd
-> > need to do to make it work with 'select' as well.
->
-> So bool is kind of problematic for depends on and select even when it's
-> not really used for describing builtin vs. no, but rather yes vs. no?
+> Handling this implicitly (instead of the current explict "depends
+> on") would have the disadvantage though: a user who is not aware of
+> the implicit dependency may wonder why DRIVER is invisible in his
+> config interface.
 
-Yes, the underlying issue is that bool is used for two different things:
-  A. To enable a driver module that can be only built-in,
-  B. To enable an option or feature of a driver or subsystem.
+I think hiding this would make it much harder to get anything
+right. The symbols in question are almost all ones that should
+be enabled in normal configs, and the 'make menuconfig' help
+doesn't make it too hard to figure things out normally, we just
+have to find a way to avoid regressions when converting things
+to 'depends on' that used an incorrect 'select'.
 
-Without this distinction, dependencies cannot be auto-propagated 100%
-correctly.  Fixing that would require introducing a third type (and possibl=
-y
-renaming the existing ones to end up with 3 good names).
-
-Actually two types could work:
-  1. driver,
-  2. option,
-as case A is just a driver that can only be built-in (i.e. "depends on y",
-which is similar to the behavior with CONFIG_MODULES=3Dn).
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+     Arnd
 
