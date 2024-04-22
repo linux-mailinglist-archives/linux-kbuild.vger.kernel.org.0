@@ -1,45 +1,45 @@
-Return-Path: <linux-kbuild+bounces-1633-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1635-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB6F08AC879
-	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Apr 2024 11:09:19 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89DDD8AC8A0
+	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Apr 2024 11:13:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DCFF61C20AF9
-	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Apr 2024 09:09:18 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1A1F8B232D5
+	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Apr 2024 09:13:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07F1A58AB4;
-	Mon, 22 Apr 2024 09:08:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48FAC7F49F;
+	Mon, 22 Apr 2024 09:13:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f/vWRz1/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hfkMItuY"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C353F56B62;
-	Mon, 22 Apr 2024 09:08:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B0F26A357;
+	Mon, 22 Apr 2024 09:13:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713776893; cv=none; b=St8aI6tvmqBgmHKq66hFH2PzL7QPjFHDxWsiV6WrGjdV+U6PjJlrZmnqvs9Ht8gkHn0zKL0ya7dHKJ4wTkmQ5b9eprnN0ZyWEzJJ3uI9aR4ta7V8gC4lFtGRHg+4Yod61RQbZ7zsfazlMaXiEKUf3rbbNNOwyVsGCUbNBIdLYJE=
+	t=1713777199; cv=none; b=Y01sCbZ2dkCWLuKleejDo3IbE4ENMsM1fj6+JLOVyX0gyNnWeluyjI7L5Wzg5CRDPuphWWEI7xrDUXaED2W1oHUHLHYohfpNKjLpw4HVw6Kxk6D5J75nR3mUAhsxlLuJpvOPK9p6Wp3V10aRyjgYPLui9YWbVKs5YEFeJ6TVxAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713776893; c=relaxed/simple;
-	bh=nLmuYu0vjDSSPfnTZYanrd2ZE6KNz5H4Gy9hK4smJew=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tX9PzLz9UubyHdIL3m8/yrYpOve8eb3Y7yKq1AvPw1hvygq2wup7zZDdxPOelyTlp37D/31mWXvT3ueMnliB0zXJxEHDGbrx9dJLIKorkJkYzhhNPKPgvpUdJqVdcRZabMKKU8iudP1YfunDWaB/8phYpTXCiBkcjdQD/m/Zgyc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f/vWRz1/; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E509CC2BD11;
-	Mon, 22 Apr 2024 09:08:08 +0000 (UTC)
+	s=arc-20240116; t=1713777199; c=relaxed/simple;
+	bh=h+0TdiOoBIhL8Yk6uDMcMRBFY0m2Momhy8WVqNP3frk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eP5k9eb6R735UYu4eulnIgYg+XknniG/zdALyegtGyC2shrrLxOHpBCrTHoo4CMO36g+IH286xpt2CP3jk0YX4p8H1Pwvd/EE0E1EKYeZUCXSyO+Fm83xNpfr+wLhM2H/mjcgaxmF9FJYaqYJitj8LrrV2Kb8TF5aWW68k2LcXs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hfkMItuY; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA8EBC2BD11;
+	Mon, 22 Apr 2024 09:13:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713776893;
-	bh=nLmuYu0vjDSSPfnTZYanrd2ZE6KNz5H4Gy9hK4smJew=;
+	s=k20201202; t=1713777198;
+	bh=h+0TdiOoBIhL8Yk6uDMcMRBFY0m2Momhy8WVqNP3frk=;
 	h=From:To:Cc:Subject:Date:From;
-	b=f/vWRz1/H6RXhOhaIZGUNLX/n8qb9XAR7xOna0+LcmYCPgZjinz83E8Vtio5GaKhn
-	 Nm4hZTOi24CKzp40peY24bICe/TcrJ111eJwPohJXcliwcsp69ocFNwcQMxNk53OKK
-	 0bnVjrf9NpyB9yTm1yoyfKdPy5r8a40uYvCBnYenIzWd7WQnJNVSn77wguPWgsG98C
-	 zJPz9ZeRAcnrwVkE9obdd4a/RixaIcBNmx/zOcnPNlu8jAcCPc7nkKwbq4VhrUJcyU
-	 84/7GOh0UOtsYz+4ASehvMM2Jat4Ac5CD1HC6kNCvo+2er+8ZbKkDR/ahRTzRc2yWz
-	 jMHQAxvBZlZpQ==
+	b=hfkMItuYFVqGqwq4VadYltIuthdj7v5gWhLUfhDXfGVa/HIMXN9razQLhYRbiThlz
+	 7ACC5+FyRTVUt7mEhQ3mVeyWpofHQur7EbbNgat5FwOBNntjn620iowPglbRAhWhJR
+	 NqBox5hVrh9KfjdZvhojrGa7w6W4TQ0AnELUVi2ehvzL0dz0yXWd58iI6sF+hHOOGQ
+	 W5BXOc4ZCqgf85QpKwQO+7nhWBWs81RiCkVRWtfs+Cb0wLqnLfiE2qZgUkc3EvcrI1
+	 81jfC/t3PLZlf2lYWwAl0Z7twglj4Wr/TVo5INKhcyQnZvkyTPMOPbAw0FBb9xViFl
+	 6ODxp68gvQ8gg==
 From: Miguel Ojeda <ojeda@kernel.org>
 To: Masahiro Yamada <masahiroy@kernel.org>,
 	Miguel Ojeda <ojeda@kernel.org>,
@@ -54,16 +54,18 @@ Cc: Nathan Chancellor <nathan@kernel.org>,
 	Benno Lossin <benno.lossin@proton.me>,
 	Andreas Hindborg <a.hindborg@samsung.com>,
 	Alice Ryhl <aliceryhl@google.com>,
+	David Gow <davidgow@google.com>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
 	linux-kbuild@vger.kernel.org,
 	rust-for-linux@vger.kernel.org,
+	kunit-dev@googlegroups.com,
+	linux-kselftest@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	patches@lists.linux.dev,
-	stable@vger.kernel.org,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Julian Stecklina <julian.stecklina@cyberus-technology.de>
-Subject: [PATCH] kbuild: rust: force `alloc` extern to allow "empty" Rust files
-Date: Mon, 22 Apr 2024 11:06:44 +0200
-Message-ID: <20240422090644.525520-1-ojeda@kernel.org>
+	stable@vger.kernel.org
+Subject: [PATCH] kbuild: rust: remove unneeded `@rustc_cfg` to avoid ICE
+Date: Mon, 22 Apr 2024 11:12:15 +0200
+Message-ID: <20240422091215.526688-1-ojeda@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -72,62 +74,42 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-If one attempts to build an essentially empty file somewhere in the
-kernel tree, it leads to a build error because the compiler does not
-recognize the `new_uninit` unstable feature:
+When KUnit tests are enabled, under very big kernel configurations
+(e.g. `allyesconfig`), we can trigger a `rustdoc` ICE [1]:
 
-    error[E0635]: unknown feature `new_uninit`
-     --> <crate attribute>:1:9
-      |
-    1 | feature(new_uninit)
-      |         ^^^^^^^^^^
+      RUSTDOC TK rust/kernel/lib.rs
+    error: the compiler unexpectedly panicked. this is a bug.
 
-The reason is that we pass `-Zcrate-attr='feature(new_uninit)'` (together
-with `-Zallow-features=new_uninit`) to let non-`rust/` code use that
-unstable feature.
+The reason is that this build step has a duplicated `@rustc_cfg` argument,
+which contains the kernel configuration, and thus a lot of arguments. The
+factor 2 happens to be enough to reach the ICE.
 
-However, the compiler only recognizes the feature if the `alloc` crate
-is resolved (the feature is an `alloc` one). `--extern alloc`, which we
-pass, is not enough to resolve the crate.
+Thus remove the unneeded `@rustc_cfg`. By doing so, we clean up the
+command and workaround the ICE.
 
-Introducing a reference like `use alloc;` or `extern crate alloc;`
-solves the issue, thus this is not seen in normal files. For instance,
-`use`ing the `kernel` prelude introduces such a reference, since `alloc`
-is used inside.
+The ICE has been fixed in the upcoming Rust 1.79 [2].
 
-While normal use of the build system is not impacted by this, it can still
-be fairly confusing for kernel developers [1], thus use the unstable
-`force` option of `--extern` [2] (added in Rust 1.71 [3]) to force the
-compiler to resolve `alloc`.
-
-This new unstable feature is only needed meanwhile we use the other
-unstable feature, since then we will not need `-Zcrate-attr`.
-
-Cc: stable@vger.kernel.org # v6.6+
-Reported-by: Daniel Almeida <daniel.almeida@collabora.com>
-Reported-by: Julian Stecklina <julian.stecklina@cyberus-technology.de>
-Closes: https://rust-for-linux.zulipchat.com/#narrow/stream/288089-General/topic/x/near/424096982 [1]
-Fixes: 2f7ab1267dc9 ("Kbuild: add Rust support")
-Link: https://github.com/rust-lang/rust/issues/111302 [2]
-Link: https://github.com/rust-lang/rust/pull/109421 [3]
+Cc: stable@vger.kernel.org
+Fixes: a66d733da801 ("rust: support running Rust documentation tests as KUnit ones")
+Link: https://github.com/rust-lang/rust/issues/122722 [1]
+Link: https://github.com/rust-lang/rust/pull/122840 [2]
 Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 ---
- scripts/Makefile.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ rust/Makefile | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index baf86c0880b6..533a7799fdfe 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -273,7 +273,7 @@ rust_common_cmd = \
- 	-Zallow-features=$(rust_allowed_features) \
- 	-Zcrate-attr=no_std \
- 	-Zcrate-attr='feature($(rust_allowed_features))' \
--	--extern alloc --extern kernel \
-+	-Zunstable-options --extern force:alloc --extern kernel \
- 	--crate-type rlib -L $(objtree)/rust/ \
- 	--crate-name $(basename $(notdir $@)) \
- 	--sysroot=/dev/null \
+diff --git a/rust/Makefile b/rust/Makefile
+index 846e6ab9d5a9..86a125c4243c 100644
+--- a/rust/Makefile
++++ b/rust/Makefile
+@@ -175,7 +175,6 @@ quiet_cmd_rustdoc_test_kernel = RUSTDOC TK $<
+ 	mkdir -p $(objtree)/$(obj)/test/doctests/kernel; \
+ 	OBJTREE=$(abspath $(objtree)) \
+ 	$(RUSTDOC) --test $(rust_flags) \
+-		@$(objtree)/include/generated/rustc_cfg \
+ 		-L$(objtree)/$(obj) --extern alloc --extern kernel \
+ 		--extern build_error --extern macros \
+ 		--extern bindings --extern uapi \
 
 base-commit: 4cece764965020c22cff7665b18a012006359095
 -- 
