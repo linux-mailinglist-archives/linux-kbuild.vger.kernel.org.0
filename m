@@ -1,234 +1,145 @@
-Return-Path: <linux-kbuild+bounces-1631-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1632-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98AB38AC46C
-	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Apr 2024 08:41:54 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 076CE8AC6AA
+	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Apr 2024 10:19:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4EDB2282E49
-	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Apr 2024 06:41:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 296921C2186B
+	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Apr 2024 08:19:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDEF8481AB;
-	Mon, 22 Apr 2024 06:41:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54EF95103D;
+	Mon, 22 Apr 2024 08:18:50 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C79B11802B;
-	Mon, 22 Apr 2024 06:41:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D7E8502B6;
+	Mon, 22 Apr 2024 08:18:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713768110; cv=none; b=tdM/0hJjHZjHLP+U8cTRofd9R2luzEGF7biMwcyXt5H91mp/e4v4K1DkNEgJ7PFyCGMTUjjQRwkbQTWvfWlMK6M7GEc1d29L64tcLdN4Ygf+YnTptUcDWfbOmT7MNXIrlgLTmoGM8xodP4FtX5QKrtsnBSD2ZfHnEA81rO9AzcU=
+	t=1713773930; cv=none; b=KTm7pF/s+L1x4s93exkltT3gtWTwvsrb5ODXQhDqV1rnnAEQ3cC/R1o07e8mV5kWKUt9/m0P52Y/SpCWQmj49+zfMhBkfvGYS8rXuoFDEqNLwia2T6OS19rsiHEZugkH98ZHKaimpuWC36p45qdtEJ9VWGvZGdRVj/5IXH1HAes=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713768110; c=relaxed/simple;
-	bh=TPhYuiSP/OJP9QjGkWctk7DF63PrcaSrVMus/ROLepY=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=QMyLL8iH5tYG/Bp42757sFq1KdyRPYkBK8qWixDLgsK0QcRezzStEyJLuIXe3pxeVqVy2yu3l8Rs97ytyiMLV2zBm4iBTSZQGV37LrdZw46tmOPMIuEJIpzkTmRUnszXjA7K1nuUAnjFUmluGfQ4t81O/3mL+LvGSGy03hgTvw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.174])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4VNFvV0WXVztXZp;
-	Mon, 22 Apr 2024 14:38:46 +0800 (CST)
-Received: from dggpemd100004.china.huawei.com (unknown [7.185.36.20])
-	by mail.maildlp.com (Postfix) with ESMTPS id E77A914035F;
-	Mon, 22 Apr 2024 14:41:44 +0800 (CST)
-Received: from huawei.com (10.67.174.76) by dggpemd100004.china.huawei.com
- (7.185.36.20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.28; Mon, 22 Apr
- 2024 14:41:44 +0800
-From: Yuntao Liu <liuyuntao12@huawei.com>
-To: <linux-kernel@vger.kernel.org>, <linux-kbuild@vger.kernel.org>
-CC: <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
-	<dave.hansen@linux.intel.com>, <hpa@zytor.com>, <masahiroy@kernel.org>,
-	<nathan@kernel.org>, <nicolas@fjasle.eu>, <peterz@infradead.org>,
-	<jpoimboe@kernel.org>, <leitao@debian.org>, <petr.pavlu@suse.com>,
-	<richard.weiyang@gmail.com>, <ruanjinjie@huawei.com>,
-	<ndesaulniers@google.com>, <jgross@suse.com>, <liuyuntao12@huawei.com>
-Subject: [PATCH] x86: enable HAVE_LD_DEAD_CODE_DATA_ELIMINATION
-Date: Mon, 22 Apr 2024 06:05:56 +0000
-Message-ID: <20240422060556.1226848-1-liuyuntao12@huawei.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1713773930; c=relaxed/simple;
+	bh=1R0QdiqBkh2lDI1KZWlD4yhHxXvFKtuxtuwBOw/ITOE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=a+EoWro1vSYv/ZNn5sKp0LrXGEJL9PtjzaARAm/t9y97X+8es7AW8AXSONV2Xlw2Idw0f5RRs3eFRU0usNcj/3jgG7LtGO7qZ0wpNGQ6XH/onCZ8zFLmgWDArikSSFqCwco1GtxsJ9hEpRRlWDQsvNe7S4QvMQlAie6SNuX1T30=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au; spf=pass smtp.mailfrom=ellerman.id.au; arc=none smtp.client-ip=150.107.74.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ellerman.id.au
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.ozlabs.org (Postfix) with ESMTPSA id 4VNJ6g0Nzdz4x1R;
+	Mon, 22 Apr 2024 18:18:35 +1000 (AEST)
+From: Michael Ellerman <patch-notifications@ellerman.id.au>
+To: linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Damien Le Moal <dlemoal@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Corey Minyard <minyard@acm.org>, Peter Huewe <peterhuewe@gmx.de>,
+	Jarkko Sakkinen <jarkko@kernel.org>, Tero Kristo <kristo@kernel.org>,
+	Stephen Boyd <sboyd@kernel.org>, Ian Abbott <abbotti@mev.co.uk>,
+	H Hartley Sweeten <hsweeten@visionengravers.com>,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+	Len Brown <lenb@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+	John Allen <john.allen@amd.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Vinod Koul <vkoul@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Moritz Fischer <mdf@kernel.org>, Liviu Dudau <liviu.dudau@arm.com>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Michael Hennerich <michael.hennerich@analog.com>,
+	Peter Rosin <peda@axentia.se>, Lars-Peter Clausen <lars@metafoo.de>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Markuss Broks <markuss.broks@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Lee Jones <lee@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+	Iyappan Subramanian <iyappan@os.amperecomputing.com>,
+	Yisen Zhuang <yisen.zhuang@huawei.com>,
+	Stanislaw Gruszka <stf_xl@wp.pl>, Kalle Valo <kvalo@kernel.org>,
+	Sebastian Reichel <sre@kernel.org>, Tony Lindgren <tony@atomide.com>,
+	Mark Brown <broonie@kernel.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Xiang Chen <chenxiang66@hisilicon.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Vaibhav Hiremath <hvaibhav.linux@gmail.com>,
+	Alex Elder <elder@kernel.org>, Jiri Slaby <jirislaby@kernel.org>,
+	Jacky Huang <ychuang3@nuvoton.com>, Helge Deller <deller@gmx.de>,
+	Christoph Hellwig <hch@lst.de>, Robin Murphy <robin.murphy@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Kees Cook <keescook@chromium.org>,
+	Trond Myklebust <trond.myklebust@hammerspace.com>,
+	Anna Schumaker <anna@kernel.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>, Takashi Iwai <tiwai@suse.com>,
+	linuxppc-dev@lists.ozlabs.org, linux-ide@vger.kernel.org,
+	openipmi-developer@lists.sourceforge.net,
+	linux-integrity@vger.kernel.org, linux-omap@vger.kernel.org,
+	linux-clk@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-crypto@vger.kernel.org, dmaengine@vger.kernel.org,
+	linux-efi@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-fpga@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-input@vger.kernel.org, linux-i2c@vger.kernel.org,
+	linux-iio@vger.kernel.org, linux-stm32@st-md-mailman.stormr,
+	eply.com@web.codeaurora.org, linux-arm-kernel@lists.infradead.org,
+	netdev@vger.kernel.org, linux-leds@vger.kernel.org,
+	linux-wireless@vger.kernel.org, linux-rtc@vger.kernel.org,
+	linux-scsi@vger.kernel.org, linux-spi@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev, linux-serial@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org,
+	iommu@lists.linux.dev, linux-trace-kernel@vger.kernel.org,
+	kasan-dev@googlegroups.com, linux-hardening@vger.kernel.org,
+	linux-nfs@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
+In-Reply-To: <20240403080702.3509288-1-arnd@kernel.org>
+References: <20240403080702.3509288-1-arnd@kernel.org>
+Subject: Re: (subset) [PATCH 00/34] address all -Wunused-const warnings
+Message-Id: <171377378377.1025456.1313405994816400451.b4-ty@ellerman.id.au>
+Date: Mon, 22 Apr 2024 18:16:23 +1000
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpemd100004.china.huawei.com (7.185.36.20)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-The current x86 architecture does not yet support the
-HAVE_LD_DEAD_CODE_DATA_ELIMINATION feature. x86 is widely used in
-embedded scenarios, and enabling this feature would be beneficial for
-reducing the size of the kernel image.
+On Wed, 03 Apr 2024 10:06:18 +0200, Arnd Bergmann wrote:
+> Compilers traditionally warn for unused 'static' variables, but not
+> if they are constant. The reason here is a custom for C++ programmers
+> to define named constants as 'static const' variables in header files
+> instead of using macros or enums.
+> 
+> In W=1 builds, we get warnings only static const variables in C
+> files, but not in headers, which is a good compromise, but this still
+> produces warning output in at least 30 files. These warnings are
+> almost all harmless, but also trivial to fix, and there is no
+> good reason to warn only about the non-const variables being unused.
+> 
+> [...]
 
-In order to make this work, we keep the necessary tables by annotating
-them with KEEP, also it requires further changes to linker script to KEEP
-some tables and wildcard compiler generated sections into the right place.
+Applied to powerpc/next.
 
-Enabling CONFIG_UNWINDER_ORC or CONFIG_MITIGATION_RETPOLINE will enable
-the objtool's --orc and --retpoline parameters, which will alter the
-layout of the binary file, thereby preventing gc-sections from functioning
-properly. Therefore, HAVE_LD_DEAD_CODE_DATA_ELIMINATION should only be
-selected when they are not enabled.
+[01/34] powerpc/fsl-soc: hide unused const variable
+        https://git.kernel.org/powerpc/c/01acaf3aa75e1641442cc23d8fe0a7bb4226efb1
 
-Enabling CONFIG_LTO_CLANG or CONFIG_X86_KERNEL_IBT will use vmlinux.o
-instead of performing the slow LTO link again. This can also prevent
-gc-sections from functioning properly. Therefore, using this optimization
-when CONFIG_LD_DEAD_CODE_DATA_ELIMINATION is not enabled.
-
-The size comparison of zImage is as follows:
-x86_def_defconfig  i386_defconfig    tinyconfig
-10892288           10826240          607232          no dce
-10748928           10719744          529408          dce
-1.3%               0.98%             12.8%           shrink
-
-When using smaller config file, there is a significant reduction in the
-size of the zImage.
----
- arch/x86/Kconfig              |  1 +
- arch/x86/kernel/vmlinux.lds.S | 24 ++++++++++++------------
- scripts/link-vmlinux.sh       |  2 +-
- 3 files changed, 14 insertions(+), 13 deletions(-)
-
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index a902680b6537..92dfbc8ee4e7 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -247,6 +247,7 @@ config X86
- 	select HAVE_FUNCTION_ERROR_INJECTION
- 	select HAVE_KRETPROBES
- 	select HAVE_RETHOOK
-+	select HAVE_LD_DEAD_CODE_DATA_ELIMINATION if !CONFIG_UNWINDER_ORC && !CONFIG_MITIGATION_RETPOLINE
- 	select HAVE_LIVEPATCH			if X86_64
- 	select HAVE_MIXED_BREAKPOINTS_REGS
- 	select HAVE_MOD_ARCH_SPECIFIC
-diff --git a/arch/x86/kernel/vmlinux.lds.S b/arch/x86/kernel/vmlinux.lds.S
-index 3509afc6a672..aeee2b9b6a6a 100644
---- a/arch/x86/kernel/vmlinux.lds.S
-+++ b/arch/x86/kernel/vmlinux.lds.S
-@@ -253,7 +253,7 @@ SECTIONS
- 
- 	.x86_cpu_dev.init : AT(ADDR(.x86_cpu_dev.init) - LOAD_OFFSET) {
- 		__x86_cpu_dev_start = .;
--		*(.x86_cpu_dev.init)
-+		KEEP(*(.x86_cpu_dev.init))
- 		__x86_cpu_dev_end = .;
- 	}
- 
-@@ -261,7 +261,7 @@ SECTIONS
- 	.x86_intel_mid_dev.init : AT(ADDR(.x86_intel_mid_dev.init) - \
- 								LOAD_OFFSET) {
- 		__x86_intel_mid_dev_start = .;
--		*(.x86_intel_mid_dev.init)
-+		KEEP(*(.x86_intel_mid_dev.init))
- 		__x86_intel_mid_dev_end = .;
- 	}
- #endif
-@@ -275,21 +275,21 @@ SECTIONS
- 	. = ALIGN(8);
- 	.retpoline_sites : AT(ADDR(.retpoline_sites) - LOAD_OFFSET) {
- 		__retpoline_sites = .;
--		*(.retpoline_sites)
-+		KEEP(*(.retpoline_sites))
- 		__retpoline_sites_end = .;
- 	}
- 
- 	. = ALIGN(8);
- 	.return_sites : AT(ADDR(.return_sites) - LOAD_OFFSET) {
- 		__return_sites = .;
--		*(.return_sites)
-+		KEEP(*(.return_sites))
- 		__return_sites_end = .;
- 	}
- 
- 	. = ALIGN(8);
- 	.call_sites : AT(ADDR(.call_sites) - LOAD_OFFSET) {
- 		__call_sites = .;
--		*(.call_sites)
-+		KEEP(*(.call_sites))
- 		__call_sites_end = .;
- 	}
- #endif
-@@ -298,7 +298,7 @@ SECTIONS
- 	. = ALIGN(8);
- 	.ibt_endbr_seal : AT(ADDR(.ibt_endbr_seal) - LOAD_OFFSET) {
- 		__ibt_endbr_seal = .;
--		*(.ibt_endbr_seal)
-+		KEEP(*(.ibt_endbr_seal))
- 		__ibt_endbr_seal_end = .;
- 	}
- #endif
-@@ -307,7 +307,7 @@ SECTIONS
- 	. = ALIGN(8);
- 	.cfi_sites : AT(ADDR(.cfi_sites) - LOAD_OFFSET) {
- 		__cfi_sites = .;
--		*(.cfi_sites)
-+		KEEP(*(.cfi_sites))
- 		__cfi_sites_end = .;
- 	}
- #endif
-@@ -320,7 +320,7 @@ SECTIONS
- 	. = ALIGN(8);
- 	.altinstructions : AT(ADDR(.altinstructions) - LOAD_OFFSET) {
- 		__alt_instructions = .;
--		*(.altinstructions)
-+		KEEP(*(.altinstructions))
- 		__alt_instructions_end = .;
- 	}
- 
-@@ -330,13 +330,13 @@ SECTIONS
- 	 * get the address and the length of them to patch the kernel safely.
- 	 */
- 	.altinstr_replacement : AT(ADDR(.altinstr_replacement) - LOAD_OFFSET) {
--		*(.altinstr_replacement)
-+		KEEP(*(.altinstr_replacement))
- 	}
- 
- 	. = ALIGN(8);
- 	.apicdrivers : AT(ADDR(.apicdrivers) - LOAD_OFFSET) {
- 		__apicdrivers = .;
--		*(.apicdrivers);
-+		KEEP(*(.apicdrivers));
- 		__apicdrivers_end = .;
- 	}
- 
-@@ -406,7 +406,7 @@ SECTIONS
- 	.brk : AT(ADDR(.brk) - LOAD_OFFSET) {
- 		__brk_base = .;
- 		. += 64 * 1024;		/* 64k alignment slop space */
--		*(.bss..brk)		/* areas brk users have reserved */
-+		KEEP(*(.bss..brk))	/* areas brk users have reserved */
- 		__brk_limit = .;
- 	}
- 
-@@ -432,7 +432,7 @@ SECTIONS
- 	. = ALIGN(HPAGE_SIZE);
- 	.init.scratch : AT(ADDR(.init.scratch) - LOAD_OFFSET) {
- 		__init_scratch_begin = .;
--		*(.init.scratch)
-+		KEEP(*(.init.scratch))
- 		. = ALIGN(HPAGE_SIZE);
- 		__init_scratch_end = .;
- 	}
-diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-index 7862a8101747..7287b5a9f17d 100755
---- a/scripts/link-vmlinux.sh
-+++ b/scripts/link-vmlinux.sh
-@@ -60,7 +60,7 @@ vmlinux_link()
- 	# skip output file argument
- 	shift
- 
--	if is_enabled CONFIG_LTO_CLANG || is_enabled CONFIG_X86_KERNEL_IBT; then
-+	if [ is_enabled CONFIG_LTO_CLANG || is_enabled CONFIG_X86_KERNEL_IBT ] && [ ! is_enabled CONFIG_LD_DEAD_CODE_DATA_ELIMINATION ]; then
- 		# Use vmlinux.o instead of performing the slow LTO link again.
- 		objs=vmlinux.o
- 		libs=
--- 
-2.34.1
-
+cheers
 
