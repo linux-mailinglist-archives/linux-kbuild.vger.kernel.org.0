@@ -1,46 +1,46 @@
-Return-Path: <linux-kbuild+bounces-1670-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1671-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 017FE8AE543
-	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Apr 2024 14:01:58 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33D608AE587
+	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Apr 2024 14:08:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 25C371C21F7A
-	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Apr 2024 12:01:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 64C571C22CB1
+	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Apr 2024 12:08:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C33085950;
-	Tue, 23 Apr 2024 11:48:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DB0680600;
+	Tue, 23 Apr 2024 12:02:59 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 895F9482D7;
-	Tue, 23 Apr 2024 11:48:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5C5784D03;
+	Tue, 23 Apr 2024 12:02:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713872910; cv=none; b=X+CC0YO+QVoD2r3TQABFNGZmUX0SQsyISp/CWmTxE2NEN3eU3cuVhNXQ7cIVadZztJ4iWbKjgcqg8PEi/U5+U2E7g6gHxLfgSQFPs8nl9uIm/5mJnJvtwb5b97+UOvCoqimImPJ5nOo/GJgMHEegenMhI8Eb5n7PQ5o9etZF1EA=
+	t=1713873779; cv=none; b=EPdvRrU+ULOSSA+YCZVW9YkLUDccZCDEf2Vq9CtiYiWJdlOvS/Z1TDDJyNRVXckzHGnp/6BhJkNGXTpipVLuM5hubLRWdWlfpQv6RhUGJ1QHsglPk3lBiIeQhiPx4x2zjFJRii6XxE/SoRED2zzDl1R2Z9Ry5aHPiKzyPUfQYuw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713872910; c=relaxed/simple;
-	bh=s1VrbkB1mFREuzasvo0D9mWuRluO73r6qFb8n2kFnVI=;
+	s=arc-20240116; t=1713873779; c=relaxed/simple;
+	bh=1ItToBvcyt1iWmaL689oE/hXmhEYnsUVoAMXlT6YVLo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=OJ4rwwja3Kv4jl8684CQ/JTRbKs8ONtQY31KsbZ69lldpzEwzU2aug7j6amPD8ZVwYXpU+Wwn2yZ7Z1K/5mhnFS6OlRbMcIpJNC4HOu7gxznhfJXhA4DqO8jiWJMCKf8nKUBz1tw2r0jMk1aW11FFZNTwYPsDdSaJCpDGKImuHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.189
+	 In-Reply-To:Content-Type; b=JXIg1G9bVGsZ4BVOC0IrdzVYwX7wbwB5t2ffCcLsQI2gb4B8IWcHGuUv0Xtlktmg4c877UEaF4gJK5aRLhi0Vh4DA+kcKiKrvvevZH3i/jgmcb7rOHwWgsC8lQ3lpVlQaejatl+3pTmDYtE5o8C9b9WyQi8zg9X6Ix1gDtVgQ7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.187
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.48])
-	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4VP0gN6t5czNt7j;
-	Tue, 23 Apr 2024 19:45:52 +0800 (CST)
+Received: from mail.maildlp.com (unknown [172.19.163.252])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4VP0zW0PtMzvPs3;
+	Tue, 23 Apr 2024 19:59:51 +0800 (CST)
 Received: from dggpemd100004.china.huawei.com (unknown [7.185.36.20])
-	by mail.maildlp.com (Postfix) with ESMTPS id 530DA18007A;
-	Tue, 23 Apr 2024 19:48:23 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id 7B8A318006B;
+	Tue, 23 Apr 2024 20:02:51 +0800 (CST)
 Received: from [10.67.109.211] (10.67.109.211) by
  dggpemd100004.china.huawei.com (7.185.36.20) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.28; Tue, 23 Apr 2024 19:48:23 +0800
-Message-ID: <0ead5774-92ca-4a84-82e3-ec5c198794e5@huawei.com>
-Date: Tue, 23 Apr 2024 19:48:22 +0800
+ 15.2.1258.28; Tue, 23 Apr 2024 20:02:51 +0800
+Message-ID: <e68acf91-f9bb-4468-bf37-dc295c717577@huawei.com>
+Date: Tue, 23 Apr 2024 20:02:50 +0800
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -50,27 +50,31 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] x86: enable HAVE_LD_DEAD_CODE_DATA_ELIMINATION
 Content-Language: en-US
-To: Masahiro Yamada <masahiroy@kernel.org>
+To: Nathan Chancellor <nathan@kernel.org>
 CC: <linux-kernel@vger.kernel.org>, <linux-kbuild@vger.kernel.org>,
 	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
-	<dave.hansen@linux.intel.com>, <hpa@zytor.com>, <nathan@kernel.org>,
+	<dave.hansen@linux.intel.com>, <hpa@zytor.com>, <masahiroy@kernel.org>,
 	<nicolas@fjasle.eu>, <peterz@infradead.org>, <jpoimboe@kernel.org>,
 	<leitao@debian.org>, <petr.pavlu@suse.com>, <richard.weiyang@gmail.com>,
 	<ruanjinjie@huawei.com>, <ndesaulniers@google.com>, <jgross@suse.com>
 References: <20240422060556.1226848-1-liuyuntao12@huawei.com>
- <CAK7LNAQgkt6t6UEB+_q15KJb2STVL6oqUo3mFM8EzumFH+-mYw@mail.gmail.com>
+ <20240422192448.GA19445@dev-arch.thelio-3990X>
 From: "liuyuntao (F)" <liuyuntao12@huawei.com>
-In-Reply-To: <CAK7LNAQgkt6t6UEB+_q15KJb2STVL6oqUo3mFM8EzumFH+-mYw@mail.gmail.com>
+In-Reply-To: <20240422192448.GA19445@dev-arch.thelio-3990X>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
  dggpemd100004.china.huawei.com (7.185.36.20)
 
 
 
-On 2024/4/23 0:01, Masahiro Yamada wrote:
-> On Mon, Apr 22, 2024 at 3:41 PM Yuntao Liu <liuyuntao12@huawei.com> wrote:
->>
+On 2024/4/23 3:24, Nathan Chancellor wrote:
+> Hi Yuntao,
+> 
+> Just a drive by review since I saw this patch via another CC in my
+> inbox, I would wait for x86 maintainer thoughts before sending a v2.
+> 
+> On Mon, Apr 22, 2024 at 06:05:56AM +0000, Yuntao Liu wrote:
 >> The current x86 architecture does not yet support the
 >> HAVE_LD_DEAD_CODE_DATA_ELIMINATION feature. x86 is widely used in
 >> embedded scenarios, and enabling this feature would be beneficial for
@@ -90,8 +94,22 @@ On 2024/4/23 0:01, Masahiro Yamada wrote:
 >> instead of performing the slow LTO link again. This can also prevent
 >> gc-sections from functioning properly. Therefore, using this optimization
 >> when CONFIG_LD_DEAD_CODE_DATA_ELIMINATION is not enabled.
->>
+> 
+> These two paragraphs indicate to me that this feature will be
+> unselectable the vast majority of x86 configurations, why should the
+> upstream kernel support it in that case?
+> 
+
+Just to refine the DEAD_CODE_DATA_ELIMINATION this feature, it might 
+also offer users an extra choice in certain situations.
+
 >> The size comparison of zImage is as follows:
+> 
+>                           ^ bzImage?
+> 
+
+Yes, it should be bzImage.
+
 >> x86_def_defconfig  i386_defconfig    tinyconfig
 >> 10892288           10826240          607232          no dce
 >> 10748928           10719744          529408          dce
@@ -99,40 +117,57 @@ On 2024/4/23 0:01, Masahiro Yamada wrote:
 >>
 >> When using smaller config file, there is a significant reduction in the
 >> size of the zImage.
+> 
+> Same here.
+> 
+> What toolchain was this tested with? There have been behavior
+> differences between the GNU and LLVM toolchains that have shown up when
+> dead code elimination is enabled, such as with 32-bit ARM [1] and RISC-V
+> [2]. While I am not saying there are any problems here, it would be good
+> to qualify how well this has been tested and perhaps do some testing
+> with other toolchains and versions, especially since you are touching
+> areas guarded by CONFIG_LTO_CLANG. Does the resulting kernel boot and
+> run properly?
+> 
+> [1]: https://lore.kernel.org/30b01c65-12f2-4ee0-81d5-c7a2da2c36b4@app.fastmail.com/
+> [2]: https://lore.kernel.org/20230622215327.GA1135447@dev-arch.thelio-3990X/
+> 
+
+I use GNU toolchains, and the kernel boots well with x86_64_defconfig in 
+qemu.
+Using LLVM toolchains, I came acrossa link failure:
+> ld.lld: error: undefined hidden symbol: __alt_reloc_selftest               
+> referenced by alternative.c                                            
+>                .thinlto-cache/llvmcache-6140C39409062E0AC950603FE9B6042154C497B6:(.altinstr_replacement+0x30)
+I am still struggling with it.
+
 >> ---
-> 
->> diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
->> index 7862a8101747..7287b5a9f17d 100755
->> --- a/scripts/link-vmlinux.sh
->> +++ b/scripts/link-vmlinux.sh
->> @@ -60,7 +60,7 @@ vmlinux_link()
->>          # skip output file argument
->>          shift
+>>   arch/x86/Kconfig              |  1 +
+>>   arch/x86/kernel/vmlinux.lds.S | 24 ++++++++++++------------
+>>   scripts/link-vmlinux.sh       |  2 +-
+>>   3 files changed, 14 insertions(+), 13 deletions(-)
 >>
->> -       if is_enabled CONFIG_LTO_CLANG || is_enabled CONFIG_X86_KERNEL_IBT; then
->> +       if [ is_enabled CONFIG_LTO_CLANG || is_enabled CONFIG_X86_KERNEL_IBT ] && [ ! is_enabled CONFIG_LD_DEAD_CODE_DATA_ELIMINATION ]; then
->>                  # Use vmlinux.o instead of performing the slow LTO link again.
->>                  objs=vmlinux.o
->>                  libs=
->> --
+>> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+>> index a902680b6537..92dfbc8ee4e7 100644
+>> --- a/arch/x86/Kconfig
+>> +++ b/arch/x86/Kconfig
+>> @@ -247,6 +247,7 @@ config X86
+>>   	select HAVE_FUNCTION_ERROR_INJECTION
+>>   	select HAVE_KRETPROBES
+>>   	select HAVE_RETHOOK
+>> +	select HAVE_LD_DEAD_CODE_DATA_ELIMINATION if !CONFIG_UNWINDER_ORC && !CONFIG_MITIGATION_RETPOLINE
 > 
+> This is incorrect, it should be
 > 
-> This is wrong.
-> You should not put is_enabled inside [ ... ]
+>      select HAVE_LD_DEAD_CODE_DATA_ELIMINATION if !UNWINDER_ORC && !MITIGATION_RETPOLINE
 > 
 
-My mistake.
+It is my mistake.
 
-> (is_enabled CONFIG_LTO_CLANG || is_enabled CONFIG_X86_KERNEL_IBT) && !
-> is_enabled CONFIG_LD_DEAD_CODE_DATA_ELIMINATION
+>>   	select HAVE_LIVEPATCH			if X86_64
+>>   	select HAVE_MIXED_BREAKPOINTS_REGS
+>>   	select HAVE_MOD_ARCH_SPECIFIC
 > 
-> is still weird.
-> 
-> 
-> When CONFIG_LTO_CLANG=y and CONFIG_LD_DEAD_CODE_DATA_ELIMINATION=y,
-> the result of LTO will be discarded.
->
-
-On arm and risc-v, these two configs can both be enabled without any 
-issues, i think, it should be the same for x86 as well.
+> Cheers,
+> Nathan
 
