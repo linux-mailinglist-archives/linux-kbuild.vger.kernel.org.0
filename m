@@ -1,130 +1,154 @@
-Return-Path: <linux-kbuild+bounces-1667-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1668-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15CD68AE1E0
-	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Apr 2024 12:14:44 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C6D08AE218
+	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Apr 2024 12:26:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C51DF281502
-	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Apr 2024 10:14:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5E58C1C21899
+	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Apr 2024 10:26:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CE515FDB5;
-	Tue, 23 Apr 2024 10:14:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8598605CE;
+	Tue, 23 Apr 2024 10:25:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h1dmxcZ4"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mHCxxhVA"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECEEC54BF7
-	for <linux-kbuild@vger.kernel.org>; Tue, 23 Apr 2024 10:14:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D8226BB47;
+	Tue, 23 Apr 2024 10:25:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713867280; cv=none; b=HGVvkwMjH2TKagGUxFp+sU4Xd/cfdCzOSnSIJ0w+Wog6now49eS4tUroz08LLAa9D3gxVFS99jig21zbO23Z7A3JiX2y2vcpczoUYGlTOcpaONLp1oJuE0A0BFPhAixphwGTIvM5MMvziQ9s67PYLlFHk87C3PU0CI94ZOuIodA=
+	t=1713867945; cv=none; b=Jppb95j/LuzVtthuaTMgs1P4QX+e/hl/49Wad6m34gtHKrNPTUf7GXbURA2OCK33Q5oL7E8M/YG93vSejkUPJnaWXx+ItCUQmoRXfVKuBtzO2j8Sz1mMQtr5fa2c27iIlpzvA+yIytf6BEEL1e4J/ywFzGR/dnwaifbvovGRZsU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713867280; c=relaxed/simple;
-	bh=9oTkPIZwjck344oiw7dBa4T4RJ56uPJf+FXMs7GpLhI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ikdyALyLRsTXjU6iBvW6vN3Iqaa4O9g6zioLBXBdY2ZKsUJSOQRVOR8kHme4+AmOxHzd6UQBXJG9aW6Nt1ae+GqG7WAjf2PZ+xh3SszgdcHNTTEqqtlyInJzUWeIQDTCuVWk+tf2jC5mUCYR1b9GIwF3OXGnd6246dahmCvDNtQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h1dmxcZ4; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 747FDC116B1
-	for <linux-kbuild@vger.kernel.org>; Tue, 23 Apr 2024 10:14:39 +0000 (UTC)
+	s=arc-20240116; t=1713867945; c=relaxed/simple;
+	bh=n09yJzubRKA9cSYp8TkeTpJhWQ1QQIIQzpKSNmbwu1k=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=XTqVTjuPDrczANnns6GL1XH5Mn885s/UmBGfXQmXX/ldlGC6QUYy+s5wErzYDsyRGWGo8orT45TARIuGiHh5EGhUE+r/ryztRdOqEWwCJaWpyPceuAkZFJ9WEnN1H7J9kptJTOLkPs+YpHEbK81G3YrzORq55ROi34c09GMpuM0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mHCxxhVA; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F57BC3277B;
+	Tue, 23 Apr 2024 10:25:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713867279;
-	bh=9oTkPIZwjck344oiw7dBa4T4RJ56uPJf+FXMs7GpLhI=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=h1dmxcZ4LR9r3IBJDLOMr/t6MSqQ/jWSx8ahpj+30geXejLAkAMILNXwfh8WYanPb
-	 z6uKRmoDH81NyLXyMcmVgTjrWux6VcBKLkjr/PNpn8yO3c0qoazsKe4GbioIBvGekT
-	 6yozye/E96+wXTkn+oVHzWL8y0PzzcNPEBzb1n+frq38dfXuUl7ttQCwLUKYr0NfaM
-	 OBYebCuruSlg8tqMvd5OfyQCpxLFxVT7a6wU2b+Zlj/NtrGaPnCzK9oWTbmbaAOff8
-	 Z6tdHuVqKmrBKqt/h0sKIMnN9k6/pxyPJPVQpeG8i0U2pQjlnBOzu6cNIDVhDaZyFT
-	 QPHFnoOux684w==
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-516d264d0e4so5774736e87.0
-        for <linux-kbuild@vger.kernel.org>; Tue, 23 Apr 2024 03:14:39 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXqfbBn1Mmy82hY1h//8trX8CNKKb/bj2C8cGsatj0R9hR6iXjjeqB3/IoI8L73ZpZW3b9BZ6aVHqq+ZuYORmaAHTF2UWpuSAkGvOBZ
-X-Gm-Message-State: AOJu0YyBcd2wdcC04JKbeLnsNvu75BGLHtvjwDeo1NlOPa+DstI51w2p
-	aUTFX3yT0wRDmF8zVX93iKtql5foLjzlA1Gg8f7D8F65jFlb2tYqsEZhfxOXLIBcTh++ubqMo/x
-	5SBQNam7ACkcqIHNxU/fQ257TdN4=
-X-Google-Smtp-Source: AGHT+IEd8pym937CDzlNwPyYFBoJqK4ujznW0X9lDe5ok98eTWFzKs5fomV3x+0Y6lFvYO//jH12TGozLn2nyBhT/yw=
-X-Received: by 2002:a19:6908:0:b0:513:ec32:aa88 with SMTP id
- e8-20020a196908000000b00513ec32aa88mr733961lfc.8.1713867278192; Tue, 23 Apr
- 2024 03:14:38 -0700 (PDT)
+	s=k20201202; t=1713867945;
+	bh=n09yJzubRKA9cSYp8TkeTpJhWQ1QQIIQzpKSNmbwu1k=;
+	h=From:To:Cc:Subject:Date:From;
+	b=mHCxxhVA6cyU/PoiepmDlSLS+H7E3lXEVZZ7SkQkbRwU8wsJn7yq/gsrdZ/KQ8EWQ
+	 qTdpyo+2/eOC0aeBtVgoHDfCIzopETuwzyuMteiQN0gOmyQFRX7HK+D8L6Qhs1nSf6
+	 QSW5QnB3PyHGaVi8/l72o8F+us2LH4bpe0oFOeOkxpMCBJBY9IfpsuMMMLnryGz3cD
+	 xE/GSa9LVnBLrOWUt19DDw6R4yEA4xjbFxKiOupkHRJaRa4+MRQgeR4IoqQPpzY+Y2
+	 /eI7tzFD1uKkwRbUpC0GOeZz2y8yY+HaAhUWdjcPSqVCGFWqu84OB0sN7tXOLyUw0i
+	 tbJVwJjELHQGQ==
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: dri-devel@lists.freedesktop.org
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH] drm: move DRM-related CONFIG options into DRM submenu
+Date: Tue, 23 Apr 2024 19:24:43 +0900
+Message-Id: <20240423102443.453261-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <202404231102.r0G0StUJ-lkp@intel.com> <CAMj1kXH+i1mEFsgZnXokbJ5srDbZY50QGGJcf7yr0w2BowJB8g@mail.gmail.com>
-In-Reply-To: <CAMj1kXH+i1mEFsgZnXokbJ5srDbZY50QGGJcf7yr0w2BowJB8g@mail.gmail.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 23 Apr 2024 19:14:01 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAT03evAPYQ0yuWLv+ne4_d6XvhOesFUMA+S_5SLH0hdUg@mail.gmail.com>
-Message-ID: <CAK7LNAT03evAPYQ0yuWLv+ne4_d6XvhOesFUMA+S_5SLH0hdUg@mail.gmail.com>
-Subject: Re: [masahiroy-kbuild:kbuild 5/7] kernel/kallsyms.c:181:56: warning:
- array subscript is outside array bounds
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
-	linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Apr 23, 2024 at 3:57=E2=80=AFPM Ard Biesheuvel <ardb@kernel.org> wr=
-ote:
->
-> On Tue, 23 Apr 2024 at 05:50, kernel test robot <lkp@intel.com> wrote:
-> >
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux=
--kbuild.git kbuild
-> > head:   8246a1e9b922c0e797ec28d8a602de1384ff8140
-> > commit: 0bdad28369fc5e93de39b5046228ed78e982fc71 [5/7] kallsyms: Avoid =
-weak references for kallsyms symbols
-> > config: i386-randconfig-001-20240423 (https://download.01.org/0day-ci/a=
-rchive/20240423/202404231102.r0G0StUJ-lkp@intel.com/config)
-> > compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
-hive/20240423/202404231102.r0G0StUJ-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202404231102.r0G0StUJ-l=
-kp@intel.com/
-> >
-> > Note: it may well be a FALSE warning. FWIW you are at least aware of it=
- now.
-> >
-> > All warnings (new ones prefixed by >>):
-> >
-> >    kernel/kallsyms.c: In function 'get_symbol_pos':
-> > >> kernel/kallsyms.c:181:56: warning: array subscript is outside array =
-bounds [-Warray-bounds]
-> >       return kallsyms_relative_base + (u32)kallsyms_offsets[idx];
-> >
->
-> OK, so weak definitions result in compiler warnings. I don't know
-> whether C requires weak definitions of array types are always the same
-> size.
->
-> We could work around this by
-> a) emitting the weak definitions into a separate object file, although
-> this may still violate C, and does not hide the issue from LTO
-> b) go back to using PROVIDE() in the linker scripts
->
-> @Masahiro: any preference?
+When you create a submenu using the 'menu' syntax, there is no
+ambiguity about the end of the submenu because the code between
+'menu' and 'endmenu' becomes the submenu.
 
+In contrast, 'menuconfig' does not have the corresponding end marker.
+Instead, it infers the end of submenu from symbol dependency.
 
-Then, I am fine with b (i.e. v4) for now.
+This is described in Documentation/kbuild/kconfig-language.rst,
+starting line 348. It demonstrates two ways to place the code under
+the submenu:
 
-Maybe, I may want to kill PROVIDE() when I have time.
+ (1) open an if-block right after the 'menuconfig', placing the submenu
+     content inside the if-block
 
+ (2) give 'depends on' to every symbol that should go into the submenu
 
+Many subsystems adopt (1) because it is the only reliable way to
+maintain the submenu structure. It ensures the code enclosed within the
+if-block is placed under the submenu.
 
+The DRM subsystem adopts (2). The submenu ends when the sequence of
+'depends on' breaks. DRM_DEBUG_MODESET_LOCK is the first option that
+does not depend on DRM. So, DRM_DEBUG_MODESET_LOCK and subsequent
+options reside outside the DRM submenu.
 
---=20
-Best Regards
-Masahiro Yamada
+You can confirm it by running a GUI frontend such as 'make menuconfig'
+and visiting the DRM menu:
+
+    < > Direct Rendering Manager (XFree86 4.1.0 and higher DRI support)  ----
+
+If you toggle '< >', you will notice most of the DRM-related options
+appear below it, not in the submenu.
+
+I highly recommend the approach (1). Obviously, (2) is not a reliable
+way because the submenu breaks whenever someone forgets to add
+'depends on DRM'.
+
+This commit surrounds the entire DRM configuration with 'if DRM' and
+'endif', except DRM_PANEL_ORIENTATION_QUIRKS.
+
+Note:
+ Now, 'depends on DRM' properties inside 'if DRM' ... 'endif' are
+ all redundant. I leave it as follow-up cleanups.
+
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+ drivers/gpu/drm/Kconfig | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index 5a0c476361c3..11f952d540aa 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -29,6 +29,8 @@ menuconfig DRM
+ 	  details.  You should also select and configure AGP
+ 	  (/dev/agpgart) support if it is available for your platform.
+ 
++if DRM
++
+ config DRM_MIPI_DBI
+ 	tristate
+ 	depends on DRM
+@@ -403,10 +405,6 @@ config DRM_HYPERV
+ config DRM_EXPORT_FOR_TESTS
+ 	bool
+ 
+-# Separate option because drm_panel_orientation_quirks.c is shared with fbdev
+-config DRM_PANEL_ORIENTATION_QUIRKS
+-	tristate
+-
+ config DRM_LIB_RANDOM
+ 	bool
+ 	default n
+@@ -414,3 +412,9 @@ config DRM_LIB_RANDOM
+ config DRM_PRIVACY_SCREEN
+ 	bool
+ 	default n
++
++endif
++
++# Separate option because drm_panel_orientation_quirks.c is shared with fbdev
++config DRM_PANEL_ORIENTATION_QUIRKS
++	tristate
+-- 
+2.40.1
+
 
