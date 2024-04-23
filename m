@@ -1,153 +1,116 @@
-Return-Path: <linux-kbuild+bounces-1673-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1674-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59A9C8AE5E6
-	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Apr 2024 14:22:40 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 078338AE73C
+	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Apr 2024 15:01:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 03CD52818FE
-	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Apr 2024 12:22:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 28D351C231BD
+	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Apr 2024 13:01:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F02984A54;
-	Tue, 23 Apr 2024 12:22:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0151B12C813;
+	Tue, 23 Apr 2024 13:00:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="jkwfW46h";
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="phFlzY3v"
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="fqFCyc1o";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="kJV4mjJA"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+Received: from fout2-smtp.messagingengine.com (fout2-smtp.messagingengine.com [103.168.172.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD572E576
-	for <linux-kbuild@vger.kernel.org>; Tue, 23 Apr 2024 12:22:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3852B12C814;
+	Tue, 23 Apr 2024 13:00:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713874956; cv=none; b=hn1mehOZApmRECQYBNbwoVKc6oIt5THyNrOEgcW4U4xRNxQnE4GBGuUi3M1uOQAvCt2WdYMsU9Miwd/T0tZoqdl9ejPoRxgSZNs2anuUKi1vQdWywK/3KEHSqPtYmHF/FP7WSx9H/gszV7+Z72bMt8Lv9vGP+ff6aj/K4WBH6Ck=
+	t=1713877208; cv=none; b=mQf4zgd9O3XIIuRQphK/mi7AqTxkaWQ91A7+/tLJ5e3B9KEZT7IVVTzkxmigH3E1pQ3nzn3kzvk1wtUMNiLTlZz6Tq2jYFGzba9K/0OkBD3YYgjAFoSXksBAVy0U5JSuT0cas7A1j4+lEdVaTbSB1S/1zTtnOcxPpLuWoheebhs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713874956; c=relaxed/simple;
-	bh=D4AqC6DJTjx1Mrko30IB8c2166W8GKAXdoU6m7KLIzg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Fcis+MRXcm+ADyDYVjkKDs2gLFRQ1z+dWvWKWsY4fWdJzxAXL/xZVmdFJih7h6CcUR195z7fMc9mQzpidtbnhbWNp25IBp4Jyc6D3b7JcBoJeCieL69MORC7bnNwHYb2QAF8rXNgD849nRbR8r6gGURkclnvwQS2RNr2ZghVpfk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=jkwfW46h; dkim=fail (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=phFlzY3v reason="key not found in DNS"; arc=none smtp.client-ip=93.104.207.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1713874952; x=1745410952;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=E9wZqJ6y59Nv34P4nAdrZa4qU8KTIkboonxhlEkLlm4=;
-  b=jkwfW46hXynd+m468Dt5GRupNVMaEat/ohTFeCY7lc97HzmNa5Tswg3l
-   23OYX7nogk6g+MDSONA5/6N6267g8szR1xkue/xVlJekkf16FDk5B7Akl
-   J8lzLS+ow9W9z0to3iikkPYuZOBlDaJl/2Hw8WAeNGNw/jfQasXFSCY5D
-   dwxOeFdAojFkh7TRX/nLZk0RhwN5C/HR8WOoBdF5bp5b+rKIVz9cLogIZ
-   s/GloV6VbWqP/7ns/NmZpHY3YTEZ7mHL0WmZT+ztoXWlyXj0GnrS0iAXs
-   1w+Gxtf/NwEpbQos8C8fYqDpY6YXugO3LpGGaIt435zi9vfEr2Q9RNL1D
-   A==;
-X-IronPort-AV: E=Sophos;i="6.07,222,1708383600"; 
-   d="scan'208";a="36566806"
-Received: from vmailcow01.tq-net.de ([10.150.86.48])
-  by mx1.tq-group.com with ESMTP; 23 Apr 2024 14:22:30 +0200
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id DF7DC161401;
-	Tue, 23 Apr 2024 14:22:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
-	s=dkim; t=1713874946;
-	h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=E9wZqJ6y59Nv34P4nAdrZa4qU8KTIkboonxhlEkLlm4=;
-	b=phFlzY3vX0KxxBzY1YCwzf1781fBpiOo7/nO59thPz5hSw7TjG48gdi0bfVEr8OsYWdcEy
-	qyOMHbssLW04suAHEhuI56UV+2lpjH1sruFLm31ZkBp4DFN7eTJ9dUBsHS60ja9ar8/6Oo
-	3yIhJwWLBF06XMa/Sd21JLjzYfWVISG8xbmZGpNY+utA9z6u63zK4EgV2Dj26W6jt2KMOd
-	gSt/w97Z6ibQqYRKz9rUsDToWIhK5AHRtYilzXroHTzQfFxZsxxq9sHeMliXxwlzhaX1wa
-	aw3WvAldXqJDOT/dQIVAlplCcRtbd2B0jtZycn2uog7lfal8R/czQyRfO3IF8w==
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: kernel test robot <lkp@intel.com>, Masahiro Yamada <masahiroy@kernel.org>, Ard Biesheuvel <ardb@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kbuild@vger.kernel.org
-Subject: Re: [masahiroy-kbuild:kbuild 5/7] kernel/kallsyms.c:181:56: warning: array subscript is outside array bounds
-Date: Tue, 23 Apr 2024 14:22:26 +0200
-Message-ID: <1887856.tdWV9SEqCh@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <CAMj1kXH+i1mEFsgZnXokbJ5srDbZY50QGGJcf7yr0w2BowJB8g@mail.gmail.com>
-References: <202404231102.r0G0StUJ-lkp@intel.com> <CAMj1kXH+i1mEFsgZnXokbJ5srDbZY50QGGJcf7yr0w2BowJB8g@mail.gmail.com>
+	s=arc-20240116; t=1713877208; c=relaxed/simple;
+	bh=96sOkJm4NWVH3kIPbR6s+LMnNin0blBdVvU3NTD2Rm0=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=jyzLg3GkRx6SbORUF9WgXkfUROnWy8TdXquQ/yxf4pSN3b0Z6g3msd34m1JQ4oy1/k144TSuPfsRSx5GEZW3iXDCQ8uUyAlcuhsBBaZ2AYU4gHgQJlX5vvwvEyFhz7jxacfGTSkd0xWdnz3aXFhKFDfCrrhPagLTykDGhRns16c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=fqFCyc1o; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=kJV4mjJA; arc=none smtp.client-ip=103.168.172.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailfout.nyi.internal (Postfix) with ESMTP id 53AD913817CB;
+	Tue, 23 Apr 2024 09:00:06 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Tue, 23 Apr 2024 09:00:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1713877206; x=1713963606; bh=96sOkJm4NW
+	VH3kIPbR6s+LMnNin0blBdVvU3NTD2Rm0=; b=fqFCyc1oHE+6auJzo+hRbFwgM/
+	oyV3kHrwOocGO6GwDHU83ixOOgB3AR3h8OGjiD1OOcN2Of/UGiHwcxWDGg7Q2kO9
+	hZ8Yv593YADSLWfBqFhrQrRbctx+eFJefPAmpoGMFM1NH0aSQs1ukdmTqY3Q72Ao
+	hij5dqno2g5LmhNHsTSo8/+Z/m57iCVwiK8b6pj6B/51ShQF4D8UCOJuexiE1h4Y
+	cjtRI2eE7n6CpRdKAFUvLC7cZdEhViDW70miNgwJkjWU52UUYaK6+OjnMMcWkEEf
+	G+nKBtedkghyG0Gjn0/agxzUfPOctWDzxLambqF/Eq10l0DJ/wGPA+M06vRA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1713877206; x=1713963606; bh=96sOkJm4NWVH3kIPbR6s+LMnNin0
+	blBdVvU3NTD2Rm0=; b=kJV4mjJA11QzkGuGatb62twjQKbnAAgYOuFW/mX8ZDEY
+	h56eNptRCeQ7jkB9yJYgr4EvvJYuaJeYzfkRi6U91T2g4coTl78qeu4Ah4CBYxXX
+	j+npQgWGnF168Y6Oyr6Qdrg/jv+ygqwj81Q+YHvwO2ikX9WkHo/eAnFFofBp3frf
+	SWyLLPc+svrQl22xkjGqWmuJVsG9BRpDs4HOi1cPLImKWfvNgDrRCdVZK8zt208G
+	vYn+kQRK/vuMH+eXuOQvIwdwc0ciXnsD5CAT4VljJANLVwNxTxyOuRggssvFACQY
+	PT2uwkybeRVDRADdP8n3rdbJGrQ0+KTT44cjeVKEsw==
+X-ME-Sender: <xms:1bAnZtnJ7by_3iVQOR4Bs_c8Igo2pPXcRMPL3Mf3A25lQwCD39H2tQ>
+    <xme:1bAnZo0Dmp5o603hjNlYPYYDSFM-_LLeUbGVEfmg_D_rbqv_EMPDlCwjGfc0zLbEa
+    Y4gYhrbwECNuaMi5RA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudeluddgheelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
+    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+    hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:1bAnZjqJIGoZJGYvmN2m1Y0wmjgnhvfmGtckwD3x2SWNQ43vOWSsCA>
+    <xmx:1bAnZtn1f320OiptasVGe0HQkFGo57T_qDEFVtiX4ao6u9xTN5EDPA>
+    <xmx:1bAnZr1nrHRdqdTmtECoDnyXRaTdaBLMnTmSLt4S17qHVW2g_RJuaw>
+    <xmx:1bAnZsuVvpv_MnlXM3DuGQlhvZURwmrtFpTmLsUbi9D2JKalpYlUaQ>
+    <xmx:1rAnZtw-0sAb1sVjZXoQHf1StgQsEcl4I9ifaYfCnbO6Fmk6G3n7nY5k>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id CF625B6008F; Tue, 23 Apr 2024 09:00:05 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-386-g4cb8e397f9-fm-20240415.001-g4cb8e397
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-X-Last-TLS-Session-Version: TLSv1.3
+Message-Id: <081ae10b-0a64-48fc-9be9-540e67900527@app.fastmail.com>
+In-Reply-To: <20240423102443.453261-1-masahiroy@kernel.org>
+References: <20240423102443.453261-1-masahiroy@kernel.org>
+Date: Tue, 23 Apr 2024 14:57:43 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Masahiro Yamada" <masahiroy@kernel.org>, dri-devel@lists.freedesktop.org
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "Dave Airlie" <airlied@gmail.com>,
+ "Daniel Vetter" <daniel@ffwll.ch>,
+ "Geert Uytterhoeven" <geert+renesas@glider.be>
+Subject: Re: [PATCH] drm: move DRM-related CONFIG options into DRM submenu
+Content-Type: text/plain
 
-Hi,
+On Tue, Apr 23, 2024, at 12:24, Masahiro Yamada wrote:
+> When you create a submenu using the 'menu' syntax, there is no
+> ambiguity about the end of the submenu because the code between
+> 'menu' and 'endmenu' becomes the submenu.
+>
+...
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-Am Dienstag, 23. April 2024, 08:57:16 CEST schrieb Ard Biesheuvel:
-> On Tue, 23 Apr 2024 at 05:50, kernel test robot <lkp@intel.com> wrote:
-> >
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux=
-=2Dkbuild.git kbuild
-> > head:   8246a1e9b922c0e797ec28d8a602de1384ff8140
-> > commit: 0bdad28369fc5e93de39b5046228ed78e982fc71 [5/7] kallsyms: Avoid =
-weak references for kallsyms symbols
-> > config: i386-randconfig-001-20240423 (https://download.01.org/0day-ci/a=
-rchive/20240423/202404231102.r0G0StUJ-lkp@intel.com/config)
-> > compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
-hive/20240423/202404231102.r0G0StUJ-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202404231102.r0G0StUJ-l=
-kp@intel.com/
-> >
-> > Note: it may well be a FALSE warning. FWIW you are at least aware of it=
- now.
-> >
-> > All warnings (new ones prefixed by >>):
-> >
-> >    kernel/kallsyms.c: In function 'get_symbol_pos':
-> > >> kernel/kallsyms.c:181:56: warning: array subscript is outside array =
-bounds [-Warray-bounds]
-> >       return kallsyms_relative_base + (u32)kallsyms_offsets[idx];
-> >
->=20
-> OK, so weak definitions result in compiler warnings. I don't know
-> whether C requires weak definitions of array types are always the same
-> size.
+I think this is a useful cleanup.
 
-It's not just compiler warnings. UBSAN is also triggered by this commit.
-
-> UBSAN: array-index-out-of-bounds in ../kernel/kallsyms.c:181:56
-> index 64143 is out of range for type 'int [1]'
-> CPU: 0 PID: 0 Comm: swapper/0 Not tainted 6.9.0-rc5-next-20240423+ #2422 =
-cee92685fac34b7fb981de78571f7250231badab
-
-[1] might also be affected by this as CONFIG_UBSAN_BOUNDS=3Dy is set.
-
-Best regards,
-Alexander
-
-[1] https://lore.kernel.org/linux-kbuild/691143b5-4636-4911-9c93-437b95f461=
-57@amd.com/T/#m3e5e9112bac8a56b8a7dfa6a19cbc03dcb43a480
-
-> We could work around this by
-> a) emitting the weak definitions into a separate object file, although
-> this may still violate C, and does not hide the issue from LTO
-> b) go back to using PROVIDE() in the linker scripts
->=20
-> @Masahiro: any preference?
->=20
->=20
-
-
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
-
-
+Acked-by: Arnd Bergmann <arnd@arndb.de>
 
