@@ -1,116 +1,252 @@
-Return-Path: <linux-kbuild+bounces-1674-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1675-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 078338AE73C
-	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Apr 2024 15:01:03 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7D548AE86C
+	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Apr 2024 15:45:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 28D351C231BD
-	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Apr 2024 13:01:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7202B284D70
+	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Apr 2024 13:45:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0151B12C813;
-	Tue, 23 Apr 2024 13:00:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7C97136655;
+	Tue, 23 Apr 2024 13:45:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="fqFCyc1o";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="kJV4mjJA"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V4kl05cm"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from fout2-smtp.messagingengine.com (fout2-smtp.messagingengine.com [103.168.172.145])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3852B12C814;
-	Tue, 23 Apr 2024 13:00:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.145
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A55C6290F;
+	Tue, 23 Apr 2024 13:45:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713877208; cv=none; b=mQf4zgd9O3XIIuRQphK/mi7AqTxkaWQ91A7+/tLJ5e3B9KEZT7IVVTzkxmigH3E1pQ3nzn3kzvk1wtUMNiLTlZz6Tq2jYFGzba9K/0OkBD3YYgjAFoSXksBAVy0U5JSuT0cas7A1j4+lEdVaTbSB1S/1zTtnOcxPpLuWoheebhs=
+	t=1713879904; cv=none; b=NcAKCQF9l10dQnqP7Cmv2gK4c9QeE4yDHyhGsJpphwkczjtAkYrfCZvCZWQlOCN8NK2gZHV9q/fzTWfr71MxzTCc8vRhlUh94CJIuTVn0IhCiEe6dA75/MaTAh6RTOmgmc3fZLIDnS/Ddx2C0l/WHlxnizOzFYHnFd/Q7y6K1qg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713877208; c=relaxed/simple;
-	bh=96sOkJm4NWVH3kIPbR6s+LMnNin0blBdVvU3NTD2Rm0=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=jyzLg3GkRx6SbORUF9WgXkfUROnWy8TdXquQ/yxf4pSN3b0Z6g3msd34m1JQ4oy1/k144TSuPfsRSx5GEZW3iXDCQ8uUyAlcuhsBBaZ2AYU4gHgQJlX5vvwvEyFhz7jxacfGTSkd0xWdnz3aXFhKFDfCrrhPagLTykDGhRns16c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=fqFCyc1o; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=kJV4mjJA; arc=none smtp.client-ip=103.168.172.145
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailfout.nyi.internal (Postfix) with ESMTP id 53AD913817CB;
-	Tue, 23 Apr 2024 09:00:06 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Tue, 23 Apr 2024 09:00:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1713877206; x=1713963606; bh=96sOkJm4NW
-	VH3kIPbR6s+LMnNin0blBdVvU3NTD2Rm0=; b=fqFCyc1oHE+6auJzo+hRbFwgM/
-	oyV3kHrwOocGO6GwDHU83ixOOgB3AR3h8OGjiD1OOcN2Of/UGiHwcxWDGg7Q2kO9
-	hZ8Yv593YADSLWfBqFhrQrRbctx+eFJefPAmpoGMFM1NH0aSQs1ukdmTqY3Q72Ao
-	hij5dqno2g5LmhNHsTSo8/+Z/m57iCVwiK8b6pj6B/51ShQF4D8UCOJuexiE1h4Y
-	cjtRI2eE7n6CpRdKAFUvLC7cZdEhViDW70miNgwJkjWU52UUYaK6+OjnMMcWkEEf
-	G+nKBtedkghyG0Gjn0/agxzUfPOctWDzxLambqF/Eq10l0DJ/wGPA+M06vRA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1713877206; x=1713963606; bh=96sOkJm4NWVH3kIPbR6s+LMnNin0
-	blBdVvU3NTD2Rm0=; b=kJV4mjJA11QzkGuGatb62twjQKbnAAgYOuFW/mX8ZDEY
-	h56eNptRCeQ7jkB9yJYgr4EvvJYuaJeYzfkRi6U91T2g4coTl78qeu4Ah4CBYxXX
-	j+npQgWGnF168Y6Oyr6Qdrg/jv+ygqwj81Q+YHvwO2ikX9WkHo/eAnFFofBp3frf
-	SWyLLPc+svrQl22xkjGqWmuJVsG9BRpDs4HOi1cPLImKWfvNgDrRCdVZK8zt208G
-	vYn+kQRK/vuMH+eXuOQvIwdwc0ciXnsD5CAT4VljJANLVwNxTxyOuRggssvFACQY
-	PT2uwkybeRVDRADdP8n3rdbJGrQ0+KTT44cjeVKEsw==
-X-ME-Sender: <xms:1bAnZtnJ7by_3iVQOR4Bs_c8Igo2pPXcRMPL3Mf3A25lQwCD39H2tQ>
-    <xme:1bAnZo0Dmp5o603hjNlYPYYDSFM-_LLeUbGVEfmg_D_rbqv_EMPDlCwjGfc0zLbEa
-    Y4gYhrbwECNuaMi5RA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudeluddgheelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
-    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:1bAnZjqJIGoZJGYvmN2m1Y0wmjgnhvfmGtckwD3x2SWNQ43vOWSsCA>
-    <xmx:1bAnZtn1f320OiptasVGe0HQkFGo57T_qDEFVtiX4ao6u9xTN5EDPA>
-    <xmx:1bAnZr1nrHRdqdTmtECoDnyXRaTdaBLMnTmSLt4S17qHVW2g_RJuaw>
-    <xmx:1bAnZsuVvpv_MnlXM3DuGQlhvZURwmrtFpTmLsUbi9D2JKalpYlUaQ>
-    <xmx:1rAnZtw-0sAb1sVjZXoQHf1StgQsEcl4I9ifaYfCnbO6Fmk6G3n7nY5k>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id CF625B6008F; Tue, 23 Apr 2024 09:00:05 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-386-g4cb8e397f9-fm-20240415.001-g4cb8e397
+	s=arc-20240116; t=1713879904; c=relaxed/simple;
+	bh=zWK2ReDFbkliJtaNVR7CmsOANV76XcgqSo5F0cqc4rs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=oo8Zx2cPxXFrEyXYud75gY5vA7hJPZ/wiGcPTJfvCkFZcc6t4DlEK0LkR2HyOCy9WeB+iUfl4JLbgQOA2sylE2wbu4sVEZm3aWF6w46PR2a4OpUnzdWDmMMkFJ0gnZor9am3tuMfqUrAU5cPB5dCTQBtthEC3EwOhqdLwgbx2PY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V4kl05cm; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 220ECC32783;
+	Tue, 23 Apr 2024 13:45:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713879904;
+	bh=zWK2ReDFbkliJtaNVR7CmsOANV76XcgqSo5F0cqc4rs=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=V4kl05cml6OpRcGFHeQw9n3dATJ/Ob+Tc/PDPgR76CXhiaG8ll72J+9JZ8il2UPUP
+	 y7QgwvZQOVjw2Bnm+UYZ4XJY6XvauiC83A7eYqWphs9M25ZTugbLtEO8o7sful4gWg
+	 fx82dtiy/pGO2gfDRbRF+aJAsmB3NtBxqTskQzoXcxCuNgoKMdTxYtIHy9vfkBn5iQ
+	 GxZe066I4Nk+/k5ZKq4tnY2pKhoEcJCmcLpH/bN8tSBxWyYTjr62NtRHkuEo5w/zyt
+	 Nqa3/GOhS8cKz2xj3fcy6FDdOlHsWfWiZ+i/a3J1ASsbKTsSOQ+7MXY+ukV5tpfHaA
+	 EMQC3bu6GPNVw==
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-516d2600569so7150292e87.0;
+        Tue, 23 Apr 2024 06:45:04 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWb0kuXropkWuunCugs5zOPoe7oQ/cwZ/QVFju6sSepS4uAFn1N9ArHVP9B/PHy2HM69cXbcMtphi/TnSgsubfRXh4p7DJhbk+V8AhIPY370NGaBtin4UeyE2GxW92EXr1a0RYJRsUrSbuXuYvxjF0HwHDmlOnEvleb90+LKQ==
+X-Gm-Message-State: AOJu0YzVDO/Ssv1exOOz4quoR6Fpo6kZlxU0cyIya8O4M3on76BEZJ74
+	MytUh8wGuBhetvKQ93y/k2CQ+XtOuM0MkdfHvRfma65/hvkir4wvjPL5k5NwfY1dpcBbJqcV7If
+	rqT7AqGmSMxQSF0DW13Z2gYDnim8=
+X-Google-Smtp-Source: AGHT+IGYNwxeuuPgiHKtxd4oJygpTKk9VWJFI3uQjC7JbCruESydOS1HJ9g7YXGPSpKzTcYy2uUHXvX/yneINltO5BE=
+X-Received: by 2002:a2e:9a95:0:b0:2da:9f24:44a8 with SMTP id
+ p21-20020a2e9a95000000b002da9f2444a8mr9158584lji.11.1713879902758; Tue, 23
+ Apr 2024 06:45:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <081ae10b-0a64-48fc-9be9-540e67900527@app.fastmail.com>
-In-Reply-To: <20240423102443.453261-1-masahiroy@kernel.org>
-References: <20240423102443.453261-1-masahiroy@kernel.org>
-Date: Tue, 23 Apr 2024 14:57:43 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Masahiro Yamada" <masahiroy@kernel.org>, dri-devel@lists.freedesktop.org
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "Dave Airlie" <airlied@gmail.com>,
- "Daniel Vetter" <daniel@ffwll.ch>,
- "Geert Uytterhoeven" <geert+renesas@glider.be>
-Subject: Re: [PATCH] drm: move DRM-related CONFIG options into DRM submenu
-Content-Type: text/plain
+References: <20240415162041.2491523-5-ardb+git@google.com> <20240415162041.2491523-6-ardb+git@google.com>
+In-Reply-To: <20240415162041.2491523-6-ardb+git@google.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Tue, 23 Apr 2024 22:44:26 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQi33YR35QZi3gX8Gfe-J3mfuEB5GWjmfT7W07mjmgKYw@mail.gmail.com>
+Message-ID: <CAK7LNAQi33YR35QZi3gX8Gfe-J3mfuEB5GWjmfT7W07mjmgKYw@mail.gmail.com>
+Subject: Re: [PATCH v4 1/3] kallsyms: Avoid weak references for kallsyms symbols
+To: Ard Biesheuvel <ardb+git@google.com>
+Cc: linux-kernel@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Martin KaFai Lau <martin.lau@linux.dev>, linux-arch@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, bpf@vger.kernel.org, 
+	Andrii Nakryiko <andrii@kernel.org>, Jiri Olsa <olsajiri@gmail.com>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Kees Cook <keescook@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 23, 2024, at 12:24, Masahiro Yamada wrote:
-> When you create a submenu using the 'menu' syntax, there is no
-> ambiguity about the end of the submenu because the code between
-> 'menu' and 'endmenu' becomes the submenu.
+On Tue, Apr 16, 2024 at 1:20=E2=80=AFAM Ard Biesheuvel <ardb+git@google.com=
+> wrote:
 >
-...
+> From: Ard Biesheuvel <ardb@kernel.org>
 >
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> kallsyms is a directory of all the symbols in the vmlinux binary, and so
+> creating it is somewhat of a chicken-and-egg problem, as its non-zero
+> size affects the layout of the binary, and therefore the values of the
+> symbols.
+>
+> For this reason, the kernel is linked more than once, and the first pass
+> does not include any kallsyms data at all. For the linker to accept
+> this, the symbol declarations describing the kallsyms metadata are
+> emitted as having weak linkage, so they can remain unsatisfied. During
+> the subsequent passes, the weak references are satisfied by the kallsyms
+> metadata that was constructed based on information gathered from the
+> preceding passes.
+>
+> Weak references lead to somewhat worse codegen, because taking their
+> address may need to produce NULL (if the reference was unsatisfied), and
+> this is not usually supported by RIP or PC relative symbol references.
+>
+> Given that these references are ultimately always satisfied in the final
+> link, let's drop the weak annotation, and instead, provide fallback
+> definitions in the linker script that are only emitted if an unsatisfied
+> reference exists.
+>
+> While at it, drop the FRV specific annotation that these symbols reside
+> in .rodata - FRV is long gone.
+>
+> Tested-by: Nick Desaulniers <ndesaulniers@google.com> # Boot
+> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+> Acked-by: Arnd Bergmann <arnd@arndb.de>
+> Link: https://lkml.kernel.org/r/20230504174320.3930345-1-ardb%40kernel.or=
+g
+> Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
+> ---
 
-I think this is a useful cleanup.
 
-Acked-by: Arnd Bergmann <arnd@arndb.de>
+I dropped v5, and picked up this one.
+
+Thanks.
+
+
+
+>  include/asm-generic/vmlinux.lds.h | 19 +++++++++++++
+>  kernel/kallsyms.c                 |  6 ----
+>  kernel/kallsyms_internal.h        | 30 ++++++++------------
+>  3 files changed, 31 insertions(+), 24 deletions(-)
+>
+> diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmli=
+nux.lds.h
+> index f7749d0f2562..e8449be62058 100644
+> --- a/include/asm-generic/vmlinux.lds.h
+> +++ b/include/asm-generic/vmlinux.lds.h
+> @@ -448,11 +448,30 @@
+>  #endif
+>  #endif
+>
+> +/*
+> + * Some symbol definitions will not exist yet during the first pass of t=
+he
+> + * link, but are guaranteed to exist in the final link. Provide prelimin=
+ary
+> + * definitions that will be superseded in the final link to avoid having=
+ to
+> + * rely on weak external linkage, which requires a GOT when used in posi=
+tion
+> + * independent code.
+> + */
+> +#define PRELIMINARY_SYMBOL_DEFINITIONS                                 \
+> +       PROVIDE(kallsyms_addresses =3D .);                               =
+ \
+> +       PROVIDE(kallsyms_offsets =3D .);                                 =
+ \
+> +       PROVIDE(kallsyms_names =3D .);                                   =
+ \
+> +       PROVIDE(kallsyms_num_syms =3D .);                                =
+ \
+> +       PROVIDE(kallsyms_relative_base =3D .);                           =
+ \
+> +       PROVIDE(kallsyms_token_table =3D .);                             =
+ \
+> +       PROVIDE(kallsyms_token_index =3D .);                             =
+ \
+> +       PROVIDE(kallsyms_markers =3D .);                                 =
+ \
+> +       PROVIDE(kallsyms_seqs_of_names =3D .);
+> +
+>  /*
+>   * Read only Data
+>   */
+>  #define RO_DATA(align)                                                 \
+>         . =3D ALIGN((align));                                            =
+ \
+> +       PRELIMINARY_SYMBOL_DEFINITIONS                                  \
+>         .rodata           : AT(ADDR(.rodata) - LOAD_OFFSET) {           \
+>                 __start_rodata =3D .;                                    =
+ \
+>                 *(.rodata) *(.rodata.*)                                 \
+> diff --git a/kernel/kallsyms.c b/kernel/kallsyms.c
+> index 18edd57b5fe8..22ea19a36e6e 100644
+> --- a/kernel/kallsyms.c
+> +++ b/kernel/kallsyms.c
+> @@ -325,12 +325,6 @@ static unsigned long get_symbol_pos(unsigned long ad=
+dr,
+>         unsigned long symbol_start =3D 0, symbol_end =3D 0;
+>         unsigned long i, low, high, mid;
+>
+> -       /* This kernel should never had been booted. */
+> -       if (!IS_ENABLED(CONFIG_KALLSYMS_BASE_RELATIVE))
+> -               BUG_ON(!kallsyms_addresses);
+> -       else
+> -               BUG_ON(!kallsyms_offsets);
+> -
+>         /* Do a binary search on the sorted kallsyms_addresses array. */
+>         low =3D 0;
+>         high =3D kallsyms_num_syms;
+> diff --git a/kernel/kallsyms_internal.h b/kernel/kallsyms_internal.h
+> index 27fabdcc40f5..85480274fc8f 100644
+> --- a/kernel/kallsyms_internal.h
+> +++ b/kernel/kallsyms_internal.h
+> @@ -5,27 +5,21 @@
+>  #include <linux/types.h>
+>
+>  /*
+> - * These will be re-linked against their real values
+> - * during the second link stage.
+> + * These will be re-linked against their real values during the second l=
+ink
+> + * stage. Preliminary values must be provided in the linker script using=
+ the
+> + * PROVIDE() directive so that the first link stage can complete success=
+fully.
+>   */
+> -extern const unsigned long kallsyms_addresses[] __weak;
+> -extern const int kallsyms_offsets[] __weak;
+> -extern const u8 kallsyms_names[] __weak;
+> +extern const unsigned long kallsyms_addresses[];
+> +extern const int kallsyms_offsets[];
+> +extern const u8 kallsyms_names[];
+>
+> -/*
+> - * Tell the compiler that the count isn't in the small data section if t=
+he arch
+> - * has one (eg: FRV).
+> - */
+> -extern const unsigned int kallsyms_num_syms
+> -__section(".rodata") __attribute__((weak));
+> -
+> -extern const unsigned long kallsyms_relative_base
+> -__section(".rodata") __attribute__((weak));
+> +extern const unsigned int kallsyms_num_syms;
+> +extern const unsigned long kallsyms_relative_base;
+>
+> -extern const char kallsyms_token_table[] __weak;
+> -extern const u16 kallsyms_token_index[] __weak;
+> +extern const char kallsyms_token_table[];
+> +extern const u16 kallsyms_token_index[];
+>
+> -extern const unsigned int kallsyms_markers[] __weak;
+> -extern const u8 kallsyms_seqs_of_names[] __weak;
+> +extern const unsigned int kallsyms_markers[];
+> +extern const u8 kallsyms_seqs_of_names[];
+>
+>  #endif // LINUX_KALLSYMS_INTERNAL_H_
+> --
+> 2.44.0.683.g7961c838ac-goog
+>
+>
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
