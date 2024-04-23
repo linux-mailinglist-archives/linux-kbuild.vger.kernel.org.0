@@ -1,86 +1,74 @@
-Return-Path: <linux-kbuild+bounces-1660-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1661-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1345D8ADB58
-	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Apr 2024 03:00:05 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FEA28ADC0E
+	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Apr 2024 04:54:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 920061F2231B
-	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Apr 2024 01:00:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BE38A284AE8
+	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Apr 2024 02:54:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2859CD26A;
-	Tue, 23 Apr 2024 01:00:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF6693FF4;
+	Tue, 23 Apr 2024 02:53:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G9c6SyQV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kT9qrc0a"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CB802C9D;
-	Tue, 23 Apr 2024 00:59:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94F8C1AAD3
+	for <linux-kbuild@vger.kernel.org>; Tue, 23 Apr 2024 02:53:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713834001; cv=none; b=DUVkp4BKu/z2LBXKHzuF2dR/SwMpQKi048fE9lClZ92Wao0MMz7hqJyLd9xlFsm1Qlwx7VGXxf9w11gDmZpyl4MRbSWDgtWD4c2E7AA2zP6Xt3A6Ezsa0rDPbC2OG26deZcP3v5ca8/0rEqkXX6o46pyFn2KMNZXNmqAjJlUPH8=
+	t=1713840837; cv=none; b=S+4ZuPZfk6V4ZOHefA0NfIRuzuLAHdY+A09BCSIPxJVhoBTZACbJqnT9LZg8aWlbKuw2THtoEiiXR15pupmTMfG9N0prRUzpTl/+vntKYCnbrLsndDVxYvy+sKxfrjkoMN+4PEIqidFYx8LfDGG8B84l4JfuyhBIM1kMib8u2fg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713834001; c=relaxed/simple;
-	bh=AYvl5/tKfehzEvfn1QvhwiBj1YykPAdSg/NNSJeVgdM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KrksmAV1spl5IwMjTnlrxvXwygk4ahVABvIM5oiwiACXQLaHjiy36Y2bst82BZorKmGflviFJnZJ9h03Xy7ujGmzLLgydD5SKIv8ergxOXIKbqGVLoK/1RxjV5IIYTMHbP+hdyYv3FQlnXCrXWA7cm2enHAWhRJFfkBHUI7CnrY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G9c6SyQV; arc=none smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a587831809eso36225066b.1;
-        Mon, 22 Apr 2024 17:59:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713833997; x=1714438797; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=D1S1kfWumcZcjZToCT/1OGHc7wgMisGaT5sJOxcAyC8=;
-        b=G9c6SyQV4XS0YdV361BXLBpxQnZt5KcEDy4xMxmGfJzR6KbCJUWU1a2hl2Utp3weyD
-         dRYGMmKn0uDLgZsms3TK0W7W50WK+R35Hv4jd5dOUqSrRnlr/8G8TYwE2e7goh7qKwl1
-         T7cFxZgaSzrRcAxiY7bYSwXmqxIchDAKbW/TF/x7sgSAn8eimt2hGcxV8BiqH/LZZ4Za
-         SROIk3Har3VWrgUE0v04hEQT+T6EkS/Zb4TC/bBw8R7Q4rPn+kivv/9WjoRfYsQ7w65p
-         i++2f9mihojKQRf1PSUw6KK8ftth/K6bsIwv48xNUVlkmGULSmODFsPc0LvIk+3O2ULr
-         UKCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713833997; x=1714438797;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=D1S1kfWumcZcjZToCT/1OGHc7wgMisGaT5sJOxcAyC8=;
-        b=dhBDzSTZNMjB3W9tLXCUzKIG7/G6psf/GseQ5JPByyRZ4jgQ2wl8WAkmTkulrUFuhB
-         Gb/ICfNFmEgSG3HOkzRSYVRc/8pteiBc96LfbvYuDPDbQzb5c7PmhBN/545xxZNOLV9M
-         HZNQugI2UzGTopBu4tC4grZeftDpLWdQv0lSOcO3lB8bPHbrx9JqGM4BO+icF/jA4erc
-         5hvc5MDNFma9W4+3uyjRg41AI3rBVmXhgJsbMhYbL312hGlEkiXj8Gpxi83ExTFxGaUv
-         4i8wf22k8coIroBCiRkXJm58c5J3vxdAqpBODzLfyevtYJV0bI77wttJMQB8lsI5OPbQ
-         xhXA==
-X-Forwarded-Encrypted: i=1; AJvYcCW8F0XfZnoRsVGMMIm895t4PQDInMnIF+2V31iR+ajFGBv0H0ssws9xXBcE9JVVwO2BaBaO+Ssyg71V+HcAmbsd86jJaDfQK+YJq/md
-X-Gm-Message-State: AOJu0YzwzgTPvCmQzDccLJ99GqxLEH+Ray4TbxP3nm7c1umvWXez9fSg
-	9WTnNa6nPINvYR+z4sYPkh0xfnk3naRBgVZfqsqynbUUQkJ8K8LV
-X-Google-Smtp-Source: AGHT+IFzpLw9nEva6OJ5kCoyLjNHFqQVWWtqBTvd+80O9kCRfoEUCH4vTUADnt3MW7IcHM/erUEZqw==
-X-Received: by 2002:a17:907:6d27:b0:a58:7f5f:7ba with SMTP id sa39-20020a1709076d2700b00a587f5f07bamr54991ejc.52.1713833997367;
-        Mon, 22 Apr 2024 17:59:57 -0700 (PDT)
-Received: from localhost ([185.92.221.13])
-        by smtp.gmail.com with ESMTPSA id t21-20020a17090616d500b00a51a5c8ea6fsm6378272ejd.193.2024.04.22.17.59.56
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 22 Apr 2024 17:59:56 -0700 (PDT)
-Date: Tue, 23 Apr 2024 00:59:56 +0000
-From: Wei Yang <richard.weiyang@gmail.com>
-To: Yuntao Liu <liuyuntao12@huawei.com>
-Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com, hpa@zytor.com, masahiroy@kernel.org,
-	nathan@kernel.org, nicolas@fjasle.eu, peterz@infradead.org,
-	jpoimboe@kernel.org, leitao@debian.org, petr.pavlu@suse.com,
-	richard.weiyang@gmail.com, ruanjinjie@huawei.com,
-	ndesaulniers@google.com, jgross@suse.com
-Subject: Re: [PATCH] x86: enable HAVE_LD_DEAD_CODE_DATA_ELIMINATION
-Message-ID: <20240423005956.rxxq6zezbmw4ylkc@master>
-Reply-To: Wei Yang <richard.weiyang@gmail.com>
-References: <20240422060556.1226848-1-liuyuntao12@huawei.com>
+	s=arc-20240116; t=1713840837; c=relaxed/simple;
+	bh=mq+A6Yb8sVplRvxuERQ/KltlHUkttb3OfeiFlmJGv7A=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Mbz9UCapjcKoszk4F2WPoHE881HbqDMRlZGJjrtstConcWtdEc7TAjjQ+2Mlp6w3alvn16k1E30eJ4rdZz60pDnaIkh1q1iYlTGbjrAVL9mr5g8oYncLD6lTNzQm7MzgcM9/w1oznnU5lHcHNxl0tFcWquZZsXrLuCnA/lHh/x0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kT9qrc0a; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713840835; x=1745376835;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=mq+A6Yb8sVplRvxuERQ/KltlHUkttb3OfeiFlmJGv7A=;
+  b=kT9qrc0as7jw2xMgl8ociQ4iJT9WCPIaHYap2mOGATlN/CjTAJPGqX9A
+   B22dNXHj+anffPrALPltsugbyePuAobUEPhDfVcUgqQStC60v4LkHVoid
+   l4JDOp+deycsPKoCKjQ8HOh1VpRLcg7JD5Tr6zpuWCXCAcrPR5qPZqR7g
+   8ZEpFKV2JnF0iLwyYZ7QtQwsxE/pY80MtFIMKaQ+a3C5mi3/LqBMT6dI6
+   nHjU3i0N397DcjL0CoNUAMd6cNL5GS6p6gef6TX2jCx+CY9TniDGDA+sl
+   BdeFDfMaDlM8j5JfvODCDmKEakV8+nm6Ey0SaQXNLAVPGzI1HicmQjdTc
+   A==;
+X-CSE-ConnectionGUID: mU3yCEiHQF+xvSTex1B5jg==
+X-CSE-MsgGUID: PMO1UwdJTIKR1vjwVOxUgA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11052"; a="13240961"
+X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
+   d="scan'208";a="13240961"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2024 19:53:55 -0700
+X-CSE-ConnectionGUID: b9j/fc8pRfCyHFq1Iz+bsw==
+X-CSE-MsgGUID: dysfd3nnRG+6EJyymRAdSA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
+   d="scan'208";a="61669787"
+Received: from lkp-server01.sh.intel.com (HELO 01437695816f) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 22 Apr 2024 19:53:53 -0700
+Received: from kbuild by 01437695816f with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rz6I2-0000QW-0m;
+	Tue, 23 Apr 2024 02:53:50 +0000
+Date: Tue, 23 Apr 2024 10:53:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kbuild@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: [masahiroy-kbuild:kbuild 5/7] kernel/kallsyms.c:181:56: warning:
+ array subscript [0, 0] is outside array bounds of 'const int[1]'
+Message-ID: <202404231047.eZ27wCnE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -89,194 +77,58 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240422060556.1226848-1-liuyuntao12@huawei.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
 
-Hi, Yuntao
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git kbuild
+head:   8246a1e9b922c0e797ec28d8a602de1384ff8140
+commit: 0bdad28369fc5e93de39b5046228ed78e982fc71 [5/7] kallsyms: Avoid weak references for kallsyms symbols
+config: i386-buildonly-randconfig-003-20240423 (https://download.01.org/0day-ci/archive/20240423/202404231047.eZ27wCnE-lkp@intel.com/config)
+compiler: gcc-9 (Ubuntu 9.5.0-4ubuntu2) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240423/202404231047.eZ27wCnE-lkp@intel.com/reproduce)
 
-I am not that familiar with this, so got some questions below.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404231047.eZ27wCnE-lkp@intel.com/
 
-On Mon, Apr 22, 2024 at 06:05:56AM +0000, Yuntao Liu wrote:
->The current x86 architecture does not yet support the
->HAVE_LD_DEAD_CODE_DATA_ELIMINATION feature. x86 is widely used in
->embedded scenarios, and enabling this feature would be beneficial for
->reducing the size of the kernel image.
->
->In order to make this work, we keep the necessary tables by annotating
->them with KEEP, also it requires further changes to linker script to KEEP
->some tables and wildcard compiler generated sections into the right place.
->
->Enabling CONFIG_UNWINDER_ORC or CONFIG_MITIGATION_RETPOLINE will enable
->the objtool's --orc and --retpoline parameters, which will alter the
->layout of the binary file, thereby preventing gc-sections from functioning
->properly. Therefore, HAVE_LD_DEAD_CODE_DATA_ELIMINATION should only be
->selected when they are not enabled.
->
->Enabling CONFIG_LTO_CLANG or CONFIG_X86_KERNEL_IBT will use vmlinux.o
->instead of performing the slow LTO link again. This can also prevent
->gc-sections from functioning properly. Therefore, using this optimization
->when CONFIG_LD_DEAD_CODE_DATA_ELIMINATION is not enabled.
->
->The size comparison of zImage is as follows:
->x86_def_defconfig  i386_defconfig    tinyconfig
->10892288           10826240          607232          no dce
->10748928           10719744          529408          dce
->1.3%               0.98%             12.8%           shrink
->
->When using smaller config file, there is a significant reduction in the
->size of the zImage.
->---
-> arch/x86/Kconfig              |  1 +
-> arch/x86/kernel/vmlinux.lds.S | 24 ++++++++++++------------
-> scripts/link-vmlinux.sh       |  2 +-
-> 3 files changed, 14 insertions(+), 13 deletions(-)
->
->diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
->index a902680b6537..92dfbc8ee4e7 100644
->--- a/arch/x86/Kconfig
->+++ b/arch/x86/Kconfig
->@@ -247,6 +247,7 @@ config X86
-> 	select HAVE_FUNCTION_ERROR_INJECTION
-> 	select HAVE_KRETPROBES
-> 	select HAVE_RETHOOK
->+	select HAVE_LD_DEAD_CODE_DATA_ELIMINATION if !CONFIG_UNWINDER_ORC && !CONFIG_MITIGATION_RETPOLINE
+All warnings (new ones prefixed by >>):
 
-How to make sure only these two config affect the function?
+   kernel/kallsyms.c: In function 'get_symbol_pos':
+>> kernel/kallsyms.c:181:56: warning: array subscript [0, 0] is outside array bounds of 'const int[1]' [-Warray-bounds]
+     181 |   return kallsyms_relative_base + (u32)kallsyms_offsets[idx];
+         |                                        ~~~~~~~~~~~~~~~~^~~~~
+   kernel/kallsyms.c:48:18: note: while referencing 'kallsyms_offsets'
+      48 | const int __weak kallsyms_offsets[1];
+         |                  ^~~~~~~~~~~~~~~~
 
-> 	select HAVE_LIVEPATCH			if X86_64
-> 	select HAVE_MIXED_BREAKPOINTS_REGS
-> 	select HAVE_MOD_ARCH_SPECIFIC
->diff --git a/arch/x86/kernel/vmlinux.lds.S b/arch/x86/kernel/vmlinux.lds.S
->index 3509afc6a672..aeee2b9b6a6a 100644
->--- a/arch/x86/kernel/vmlinux.lds.S
->+++ b/arch/x86/kernel/vmlinux.lds.S
->@@ -253,7 +253,7 @@ SECTIONS
-> 
-> 	.x86_cpu_dev.init : AT(ADDR(.x86_cpu_dev.init) - LOAD_OFFSET) {
-> 		__x86_cpu_dev_start = .;
->-		*(.x86_cpu_dev.init)
->+		KEEP(*(.x86_cpu_dev.init))
 
-How you choose the sections to keep?
+vim +181 kernel/kallsyms.c
 
-If my understanding is correct, keep the sections is for gc-section. Sounds we
-need to keep all possible section, otherwise it would mis-behave?
+^1da177e4c3f415 Linus Torvalds 2005-04-16  173  
+30f3bb09778de64 Zhen Lei       2022-11-15  174  unsigned long kallsyms_sym_address(int idx)
+2213e9a66bb87d8 Ard Biesheuvel 2016-03-15  175  {
+2213e9a66bb87d8 Ard Biesheuvel 2016-03-15  176  	if (!IS_ENABLED(CONFIG_KALLSYMS_BASE_RELATIVE))
+2213e9a66bb87d8 Ard Biesheuvel 2016-03-15  177  		return kallsyms_addresses[idx];
+2213e9a66bb87d8 Ard Biesheuvel 2016-03-15  178  
+2213e9a66bb87d8 Ard Biesheuvel 2016-03-15  179  	/* values are unsigned offsets if --absolute-percpu is not in effect */
+2213e9a66bb87d8 Ard Biesheuvel 2016-03-15  180  	if (!IS_ENABLED(CONFIG_KALLSYMS_ABSOLUTE_PERCPU))
+2213e9a66bb87d8 Ard Biesheuvel 2016-03-15 @181  		return kallsyms_relative_base + (u32)kallsyms_offsets[idx];
+2213e9a66bb87d8 Ard Biesheuvel 2016-03-15  182  
+2213e9a66bb87d8 Ard Biesheuvel 2016-03-15  183  	/* ...otherwise, positive offsets are absolute values */
+2213e9a66bb87d8 Ard Biesheuvel 2016-03-15  184  	if (kallsyms_offsets[idx] >= 0)
+2213e9a66bb87d8 Ard Biesheuvel 2016-03-15  185  		return kallsyms_offsets[idx];
+2213e9a66bb87d8 Ard Biesheuvel 2016-03-15  186  
+2213e9a66bb87d8 Ard Biesheuvel 2016-03-15  187  	/* ...and negative offsets are relative to kallsyms_relative_base - 1 */
+2213e9a66bb87d8 Ard Biesheuvel 2016-03-15  188  	return kallsyms_relative_base - 1 - kallsyms_offsets[idx];
+2213e9a66bb87d8 Ard Biesheuvel 2016-03-15  189  }
+2213e9a66bb87d8 Ard Biesheuvel 2016-03-15  190  
 
-> 		__x86_cpu_dev_end = .;
-> 	}
-> 
->@@ -261,7 +261,7 @@ SECTIONS
-> 	.x86_intel_mid_dev.init : AT(ADDR(.x86_intel_mid_dev.init) - \
-> 								LOAD_OFFSET) {
-> 		__x86_intel_mid_dev_start = .;
->-		*(.x86_intel_mid_dev.init)
->+		KEEP(*(.x86_intel_mid_dev.init))
-> 		__x86_intel_mid_dev_end = .;
-> 	}
-> #endif
->@@ -275,21 +275,21 @@ SECTIONS
-> 	. = ALIGN(8);
-> 	.retpoline_sites : AT(ADDR(.retpoline_sites) - LOAD_OFFSET) {
-> 		__retpoline_sites = .;
->-		*(.retpoline_sites)
->+		KEEP(*(.retpoline_sites))
-> 		__retpoline_sites_end = .;
-> 	}
-> 
-> 	. = ALIGN(8);
-> 	.return_sites : AT(ADDR(.return_sites) - LOAD_OFFSET) {
-> 		__return_sites = .;
->-		*(.return_sites)
->+		KEEP(*(.return_sites))
-> 		__return_sites_end = .;
-> 	}
-> 
-> 	. = ALIGN(8);
-> 	.call_sites : AT(ADDR(.call_sites) - LOAD_OFFSET) {
-> 		__call_sites = .;
->-		*(.call_sites)
->+		KEEP(*(.call_sites))
-> 		__call_sites_end = .;
-> 	}
-> #endif
->@@ -298,7 +298,7 @@ SECTIONS
-> 	. = ALIGN(8);
-> 	.ibt_endbr_seal : AT(ADDR(.ibt_endbr_seal) - LOAD_OFFSET) {
-> 		__ibt_endbr_seal = .;
->-		*(.ibt_endbr_seal)
->+		KEEP(*(.ibt_endbr_seal))
-> 		__ibt_endbr_seal_end = .;
-> 	}
-> #endif
->@@ -307,7 +307,7 @@ SECTIONS
-> 	. = ALIGN(8);
-> 	.cfi_sites : AT(ADDR(.cfi_sites) - LOAD_OFFSET) {
-> 		__cfi_sites = .;
->-		*(.cfi_sites)
->+		KEEP(*(.cfi_sites))
-> 		__cfi_sites_end = .;
-> 	}
-> #endif
->@@ -320,7 +320,7 @@ SECTIONS
-> 	. = ALIGN(8);
-> 	.altinstructions : AT(ADDR(.altinstructions) - LOAD_OFFSET) {
-> 		__alt_instructions = .;
->-		*(.altinstructions)
->+		KEEP(*(.altinstructions))
-> 		__alt_instructions_end = .;
-> 	}
-> 
->@@ -330,13 +330,13 @@ SECTIONS
-> 	 * get the address and the length of them to patch the kernel safely.
-> 	 */
-> 	.altinstr_replacement : AT(ADDR(.altinstr_replacement) - LOAD_OFFSET) {
->-		*(.altinstr_replacement)
->+		KEEP(*(.altinstr_replacement))
-> 	}
-> 
-> 	. = ALIGN(8);
-> 	.apicdrivers : AT(ADDR(.apicdrivers) - LOAD_OFFSET) {
-> 		__apicdrivers = .;
->-		*(.apicdrivers);
->+		KEEP(*(.apicdrivers));
-> 		__apicdrivers_end = .;
-> 	}
-> 
->@@ -406,7 +406,7 @@ SECTIONS
-> 	.brk : AT(ADDR(.brk) - LOAD_OFFSET) {
-> 		__brk_base = .;
-> 		. += 64 * 1024;		/* 64k alignment slop space */
->-		*(.bss..brk)		/* areas brk users have reserved */
->+		KEEP(*(.bss..brk))	/* areas brk users have reserved */
-> 		__brk_limit = .;
-> 	}
-> 
->@@ -432,7 +432,7 @@ SECTIONS
-> 	. = ALIGN(HPAGE_SIZE);
-> 	.init.scratch : AT(ADDR(.init.scratch) - LOAD_OFFSET) {
-> 		__init_scratch_begin = .;
->-		*(.init.scratch)
->+		KEEP(*(.init.scratch))
-> 		. = ALIGN(HPAGE_SIZE);
-> 		__init_scratch_end = .;
-> 	}
->diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
->index 7862a8101747..7287b5a9f17d 100755
->--- a/scripts/link-vmlinux.sh
->+++ b/scripts/link-vmlinux.sh
->@@ -60,7 +60,7 @@ vmlinux_link()
-> 	# skip output file argument
-> 	shift
-> 
->-	if is_enabled CONFIG_LTO_CLANG || is_enabled CONFIG_X86_KERNEL_IBT; then
->+	if [ is_enabled CONFIG_LTO_CLANG || is_enabled CONFIG_X86_KERNEL_IBT ] && [ ! is_enabled CONFIG_LD_DEAD_CODE_DATA_ELIMINATION ]; then
-> 		# Use vmlinux.o instead of performing the slow LTO link again.
-> 		objs=vmlinux.o
-> 		libs=
->-- 
->2.34.1
+:::::: The code at line 181 was first introduced by commit
+:::::: 2213e9a66bb87d8344a1256b4ef568220d9587fb kallsyms: add support for relative offsets in kallsyms address table
+
+:::::: TO: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
-Wei Yang
-Help you, Help me
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
