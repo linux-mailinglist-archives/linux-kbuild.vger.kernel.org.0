@@ -1,46 +1,46 @@
-Return-Path: <linux-kbuild+bounces-1671-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1672-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33D608AE587
-	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Apr 2024 14:08:02 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C6298AE5A7
+	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Apr 2024 14:10:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 64C571C22CB1
-	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Apr 2024 12:08:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7753A1C22D28
+	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Apr 2024 12:10:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DB0680600;
-	Tue, 23 Apr 2024 12:02:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECA6B7E58E;
+	Tue, 23 Apr 2024 12:10:38 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5C5784D03;
-	Tue, 23 Apr 2024 12:02:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BA207E573;
+	Tue, 23 Apr 2024 12:10:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713873779; cv=none; b=EPdvRrU+ULOSSA+YCZVW9YkLUDccZCDEf2Vq9CtiYiWJdlOvS/Z1TDDJyNRVXckzHGnp/6BhJkNGXTpipVLuM5hubLRWdWlfpQv6RhUGJ1QHsglPk3lBiIeQhiPx4x2zjFJRii6XxE/SoRED2zzDl1R2Z9Ry5aHPiKzyPUfQYuw=
+	t=1713874238; cv=none; b=XV/QSwaIfLw/BtsOgiR5waWPSXH9+Yy0k6p/kPay0SG9+JemQGtwCH0PkjzVkW4SP6D0e0o94ownEcdvdjd4ipRpydsiwx82q2tha8rssSqWYKsTVeJi+trT2iT5I37ulKCKvo4u8DJedl3kcLhDyozgi6g3kWILagvOCHzx3M4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713873779; c=relaxed/simple;
-	bh=1ItToBvcyt1iWmaL689oE/hXmhEYnsUVoAMXlT6YVLo=;
+	s=arc-20240116; t=1713874238; c=relaxed/simple;
+	bh=/39bQhKJIr5pQuBxZw8k1+ITgAhk8hyYhoCVey1WnUg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=JXIg1G9bVGsZ4BVOC0IrdzVYwX7wbwB5t2ffCcLsQI2gb4B8IWcHGuUv0Xtlktmg4c877UEaF4gJK5aRLhi0Vh4DA+kcKiKrvvevZH3i/jgmcb7rOHwWgsC8lQ3lpVlQaejatl+3pTmDYtE5o8C9b9WyQi8zg9X6Ix1gDtVgQ7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.187
+	 In-Reply-To:Content-Type; b=UByrMwlFAP0DfHY1/s/o/gs25iFgrdlBKRl9PK2D7A2quUE9DXLOhX8uN1uh5lSB7vR37zkahieQddnPig3MPnc3TiDrVKK0iJomCo5O+yd2/kic9sU3v8SgK9UVwwMv9PEarAwBcXX92EraHH0EtD5q/Z/Hhr+OaYfbG4bD06Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.188
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Received: from mail.maildlp.com (unknown [172.19.163.252])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4VP0zW0PtMzvPs3;
-	Tue, 23 Apr 2024 19:59:51 +0800 (CST)
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4VP1Bd6MZMzShjQ;
+	Tue, 23 Apr 2024 20:09:29 +0800 (CST)
 Received: from dggpemd100004.china.huawei.com (unknown [7.185.36.20])
-	by mail.maildlp.com (Postfix) with ESMTPS id 7B8A318006B;
-	Tue, 23 Apr 2024 20:02:51 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id 0ECE618007D;
+	Tue, 23 Apr 2024 20:10:34 +0800 (CST)
 Received: from [10.67.109.211] (10.67.109.211) by
  dggpemd100004.china.huawei.com (7.185.36.20) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.28; Tue, 23 Apr 2024 20:02:51 +0800
-Message-ID: <e68acf91-f9bb-4468-bf37-dc295c717577@huawei.com>
-Date: Tue, 23 Apr 2024 20:02:50 +0800
+ 15.2.1258.28; Tue, 23 Apr 2024 20:10:33 +0800
+Message-ID: <845c7729-a967-48b3-b93b-8b0d14007bc3@huawei.com>
+Date: Tue, 23 Apr 2024 20:10:33 +0800
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -50,29 +50,28 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] x86: enable HAVE_LD_DEAD_CODE_DATA_ELIMINATION
 Content-Language: en-US
-To: Nathan Chancellor <nathan@kernel.org>
+To: Wei Yang <richard.weiyang@gmail.com>
 CC: <linux-kernel@vger.kernel.org>, <linux-kbuild@vger.kernel.org>,
 	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
 	<dave.hansen@linux.intel.com>, <hpa@zytor.com>, <masahiroy@kernel.org>,
-	<nicolas@fjasle.eu>, <peterz@infradead.org>, <jpoimboe@kernel.org>,
-	<leitao@debian.org>, <petr.pavlu@suse.com>, <richard.weiyang@gmail.com>,
+	<nathan@kernel.org>, <nicolas@fjasle.eu>, <peterz@infradead.org>,
+	<jpoimboe@kernel.org>, <leitao@debian.org>, <petr.pavlu@suse.com>,
 	<ruanjinjie@huawei.com>, <ndesaulniers@google.com>, <jgross@suse.com>
 References: <20240422060556.1226848-1-liuyuntao12@huawei.com>
- <20240422192448.GA19445@dev-arch.thelio-3990X>
+ <20240423005956.rxxq6zezbmw4ylkc@master>
 From: "liuyuntao (F)" <liuyuntao12@huawei.com>
-In-Reply-To: <20240422192448.GA19445@dev-arch.thelio-3990X>
+In-Reply-To: <20240423005956.rxxq6zezbmw4ylkc@master>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
  dggpemd100004.china.huawei.com (7.185.36.20)
 
 
 
-On 2024/4/23 3:24, Nathan Chancellor wrote:
-> Hi Yuntao,
+On 2024/4/23 8:59, Wei Yang wrote:
+> Hi, Yuntao
 > 
-> Just a drive by review since I saw this patch via another CC in my
-> inbox, I would wait for x86 maintainer thoughts before sending a v2.
+> I am not that familiar with this, so got some questions below.
 > 
 > On Mon, Apr 22, 2024 at 06:05:56AM +0000, Yuntao Liu wrote:
 >> The current x86 architecture does not yet support the
@@ -94,22 +93,8 @@ On 2024/4/23 3:24, Nathan Chancellor wrote:
 >> instead of performing the slow LTO link again. This can also prevent
 >> gc-sections from functioning properly. Therefore, using this optimization
 >> when CONFIG_LD_DEAD_CODE_DATA_ELIMINATION is not enabled.
-> 
-> These two paragraphs indicate to me that this feature will be
-> unselectable the vast majority of x86 configurations, why should the
-> upstream kernel support it in that case?
-> 
-
-Just to refine the DEAD_CODE_DATA_ELIMINATION this feature, it might 
-also offer users an extra choice in certain situations.
-
+>>
 >> The size comparison of zImage is as follows:
-> 
->                           ^ bzImage?
-> 
-
-Yes, it should be bzImage.
-
 >> x86_def_defconfig  i386_defconfig    tinyconfig
 >> 10892288           10826240          607232          no dce
 >> 10748928           10719744          529408          dce
@@ -117,57 +102,169 @@ Yes, it should be bzImage.
 >>
 >> When using smaller config file, there is a significant reduction in the
 >> size of the zImage.
-> 
-> Same here.
-> 
-> What toolchain was this tested with? There have been behavior
-> differences between the GNU and LLVM toolchains that have shown up when
-> dead code elimination is enabled, such as with 32-bit ARM [1] and RISC-V
-> [2]. While I am not saying there are any problems here, it would be good
-> to qualify how well this has been tested and perhaps do some testing
-> with other toolchains and versions, especially since you are touching
-> areas guarded by CONFIG_LTO_CLANG. Does the resulting kernel boot and
-> run properly?
-> 
-> [1]: https://lore.kernel.org/30b01c65-12f2-4ee0-81d5-c7a2da2c36b4@app.fastmail.com/
-> [2]: https://lore.kernel.org/20230622215327.GA1135447@dev-arch.thelio-3990X/
-> 
-
-I use GNU toolchains, and the kernel boots well with x86_64_defconfig in 
-qemu.
-Using LLVM toolchains, I came acrossa link failure:
-> ld.lld: error: undefined hidden symbol: __alt_reloc_selftest               
-> referenced by alternative.c                                            
->                .thinlto-cache/llvmcache-6140C39409062E0AC950603FE9B6042154C497B6:(.altinstr_replacement+0x30)
-I am still struggling with it.
-
 >> ---
->>   arch/x86/Kconfig              |  1 +
->>   arch/x86/kernel/vmlinux.lds.S | 24 ++++++++++++------------
->>   scripts/link-vmlinux.sh       |  2 +-
->>   3 files changed, 14 insertions(+), 13 deletions(-)
+>> arch/x86/Kconfig              |  1 +
+>> arch/x86/kernel/vmlinux.lds.S | 24 ++++++++++++------------
+>> scripts/link-vmlinux.sh       |  2 +-
+>> 3 files changed, 14 insertions(+), 13 deletions(-)
 >>
 >> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
 >> index a902680b6537..92dfbc8ee4e7 100644
 >> --- a/arch/x86/Kconfig
 >> +++ b/arch/x86/Kconfig
 >> @@ -247,6 +247,7 @@ config X86
->>   	select HAVE_FUNCTION_ERROR_INJECTION
->>   	select HAVE_KRETPROBES
->>   	select HAVE_RETHOOK
+>> 	select HAVE_FUNCTION_ERROR_INJECTION
+>> 	select HAVE_KRETPROBES
+>> 	select HAVE_RETHOOK
 >> +	select HAVE_LD_DEAD_CODE_DATA_ELIMINATION if !CONFIG_UNWINDER_ORC && !CONFIG_MITIGATION_RETPOLINE
 > 
-> This is incorrect, it should be
-> 
->      select HAVE_LD_DEAD_CODE_DATA_ELIMINATION if !UNWINDER_ORC && !MITIGATION_RETPOLINE
+> How to make sure only these two config affect the function?
 > 
 
-It is my mistake.
+I have tested all the parameters of objtool, and only when these two 
+config are removed can gc-sections take effect.
 
->>   	select HAVE_LIVEPATCH			if X86_64
->>   	select HAVE_MIXED_BREAKPOINTS_REGS
->>   	select HAVE_MOD_ARCH_SPECIFIC
+>> 	select HAVE_LIVEPATCH			if X86_64
+>> 	select HAVE_MIXED_BREAKPOINTS_REGS
+>> 	select HAVE_MOD_ARCH_SPECIFIC
+>> diff --git a/arch/x86/kernel/vmlinux.lds.S b/arch/x86/kernel/vmlinux.lds.S
+>> index 3509afc6a672..aeee2b9b6a6a 100644
+>> --- a/arch/x86/kernel/vmlinux.lds.S
+>> +++ b/arch/x86/kernel/vmlinux.lds.S
+>> @@ -253,7 +253,7 @@ SECTIONS
+>>
+>> 	.x86_cpu_dev.init : AT(ADDR(.x86_cpu_dev.init) - LOAD_OFFSET) {
+>> 		__x86_cpu_dev_start = .;
+>> -		*(.x86_cpu_dev.init)
+>> +		KEEP(*(.x86_cpu_dev.init))
 > 
-> Cheers,
-> Nathan
+> How you choose the sections to keep?
+> 
+> If my understanding is correct, keep the sections is for gc-section. Sounds we
+> need to keep all possible section, otherwise it would mis-behave?
+> 
+
+Nicholas Piggin has mentioned it before.
+
+> FYI, easiest way to check if you forgot to KEEP a linker table is
+> to look at `readelf -S vmlinux` differences, and to see what is
+> being trimmed, look at nm differences or use --print-gc-sections
+> LD option to see what symbols you're trimming. Linker tables,
+> boot entry, and exception entry tends to require anchoring.
+https://lore.kernel.org/all/20170709031333.29443-1-npiggin@gmail.com/
+
+>> 		__x86_cpu_dev_end = .;
+>> 	}
+>>
+>> @@ -261,7 +261,7 @@ SECTIONS
+>> 	.x86_intel_mid_dev.init : AT(ADDR(.x86_intel_mid_dev.init) - \
+>> 								LOAD_OFFSET) {
+>> 		__x86_intel_mid_dev_start = .;
+>> -		*(.x86_intel_mid_dev.init)
+>> +		KEEP(*(.x86_intel_mid_dev.init))
+>> 		__x86_intel_mid_dev_end = .;
+>> 	}
+>> #endif
+>> @@ -275,21 +275,21 @@ SECTIONS
+>> 	. = ALIGN(8);
+>> 	.retpoline_sites : AT(ADDR(.retpoline_sites) - LOAD_OFFSET) {
+>> 		__retpoline_sites = .;
+>> -		*(.retpoline_sites)
+>> +		KEEP(*(.retpoline_sites))
+>> 		__retpoline_sites_end = .;
+>> 	}
+>>
+>> 	. = ALIGN(8);
+>> 	.return_sites : AT(ADDR(.return_sites) - LOAD_OFFSET) {
+>> 		__return_sites = .;
+>> -		*(.return_sites)
+>> +		KEEP(*(.return_sites))
+>> 		__return_sites_end = .;
+>> 	}
+>>
+>> 	. = ALIGN(8);
+>> 	.call_sites : AT(ADDR(.call_sites) - LOAD_OFFSET) {
+>> 		__call_sites = .;
+>> -		*(.call_sites)
+>> +		KEEP(*(.call_sites))
+>> 		__call_sites_end = .;
+>> 	}
+>> #endif
+>> @@ -298,7 +298,7 @@ SECTIONS
+>> 	. = ALIGN(8);
+>> 	.ibt_endbr_seal : AT(ADDR(.ibt_endbr_seal) - LOAD_OFFSET) {
+>> 		__ibt_endbr_seal = .;
+>> -		*(.ibt_endbr_seal)
+>> +		KEEP(*(.ibt_endbr_seal))
+>> 		__ibt_endbr_seal_end = .;
+>> 	}
+>> #endif
+>> @@ -307,7 +307,7 @@ SECTIONS
+>> 	. = ALIGN(8);
+>> 	.cfi_sites : AT(ADDR(.cfi_sites) - LOAD_OFFSET) {
+>> 		__cfi_sites = .;
+>> -		*(.cfi_sites)
+>> +		KEEP(*(.cfi_sites))
+>> 		__cfi_sites_end = .;
+>> 	}
+>> #endif
+>> @@ -320,7 +320,7 @@ SECTIONS
+>> 	. = ALIGN(8);
+>> 	.altinstructions : AT(ADDR(.altinstructions) - LOAD_OFFSET) {
+>> 		__alt_instructions = .;
+>> -		*(.altinstructions)
+>> +		KEEP(*(.altinstructions))
+>> 		__alt_instructions_end = .;
+>> 	}
+>>
+>> @@ -330,13 +330,13 @@ SECTIONS
+>> 	 * get the address and the length of them to patch the kernel safely.
+>> 	 */
+>> 	.altinstr_replacement : AT(ADDR(.altinstr_replacement) - LOAD_OFFSET) {
+>> -		*(.altinstr_replacement)
+>> +		KEEP(*(.altinstr_replacement))
+>> 	}
+>>
+>> 	. = ALIGN(8);
+>> 	.apicdrivers : AT(ADDR(.apicdrivers) - LOAD_OFFSET) {
+>> 		__apicdrivers = .;
+>> -		*(.apicdrivers);
+>> +		KEEP(*(.apicdrivers));
+>> 		__apicdrivers_end = .;
+>> 	}
+>>
+>> @@ -406,7 +406,7 @@ SECTIONS
+>> 	.brk : AT(ADDR(.brk) - LOAD_OFFSET) {
+>> 		__brk_base = .;
+>> 		. += 64 * 1024;		/* 64k alignment slop space */
+>> -		*(.bss..brk)		/* areas brk users have reserved */
+>> +		KEEP(*(.bss..brk))	/* areas brk users have reserved */
+>> 		__brk_limit = .;
+>> 	}
+>>
+>> @@ -432,7 +432,7 @@ SECTIONS
+>> 	. = ALIGN(HPAGE_SIZE);
+>> 	.init.scratch : AT(ADDR(.init.scratch) - LOAD_OFFSET) {
+>> 		__init_scratch_begin = .;
+>> -		*(.init.scratch)
+>> +		KEEP(*(.init.scratch))
+>> 		. = ALIGN(HPAGE_SIZE);
+>> 		__init_scratch_end = .;
+>> 	}
+>> diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
+>> index 7862a8101747..7287b5a9f17d 100755
+>> --- a/scripts/link-vmlinux.sh
+>> +++ b/scripts/link-vmlinux.sh
+>> @@ -60,7 +60,7 @@ vmlinux_link()
+>> 	# skip output file argument
+>> 	shift
+>>
+>> -	if is_enabled CONFIG_LTO_CLANG || is_enabled CONFIG_X86_KERNEL_IBT; then
+>> +	if [ is_enabled CONFIG_LTO_CLANG || is_enabled CONFIG_X86_KERNEL_IBT ] && [ ! is_enabled CONFIG_LD_DEAD_CODE_DATA_ELIMINATION ]; then
+>> 		# Use vmlinux.o instead of performing the slow LTO link again.
+>> 		objs=vmlinux.o
+>> 		libs=
+>> -- 
+>> 2.34.1
+> 
 
