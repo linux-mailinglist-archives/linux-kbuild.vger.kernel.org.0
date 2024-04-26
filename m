@@ -1,112 +1,150 @@
-Return-Path: <linux-kbuild+bounces-1692-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1693-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id E09E48B367D
-	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Apr 2024 13:26:30 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49BD58B393A
+	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Apr 2024 15:58:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7683FB2187C
-	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Apr 2024 11:26:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 04011284E23
+	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Apr 2024 13:58:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78821144D3E;
-	Fri, 26 Apr 2024 11:26:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D6C514C597;
+	Fri, 26 Apr 2024 13:56:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l8rA2F0k"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FXZy47Tm"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31165144D3C;
-	Fri, 26 Apr 2024 11:26:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34DC21487E7;
+	Fri, 26 Apr 2024 13:56:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714130783; cv=none; b=fiE8x9od7E5DEJ3qjTBn5zU4hvvJwGzt4LGwtGJLzgxLZyyT82fV4esJiCg2I+MmTqZ87DqSTQoCJL+wlaLAy1QB2psZjr6Ve7Yx8lofCndduwvh/g/nHk/dAI91TMEEhYVmyjTyC+u7fuVEbC6Nm7aiyXn0gmyJFnDOnh5jdvg=
+	t=1714139770; cv=none; b=DIhzYEOrMQ+J243hGkmZa+GzfDhHRveTTgj19F/RnSgI9qCu946mNMG3vKfgWAUMGG1gTJNWhADEi+AsSEssTLTdXlLb+UuVLS7b9GgIpwpsDoytX6mRtzsmFmlUUGVhiEaQPAwOHDJf5CD70jnLjuJlBcdfEg/OhCiQPci2+h8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714130783; c=relaxed/simple;
-	bh=eAvAWrFgtQ2mFDBBY05se0TP4T0wymaT6lQRQYtN9iM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=O44Sx6ec6cSiAQdwvHl32BnJoA2kLM05k8zY6AaxDz+Bpb3UuRyrGy7vxCN2UmMpa4QWPPcoz8IhQfQdHKbMeV5VObxKGp3MSb/idEyRgRPK3GEzY33L0fLl6NGTZEsq8OVqVWyJ2oPGTWn5ptGkELJUfyhsiVytyOpyqRF70fY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l8rA2F0k; arc=none smtp.client-ip=209.85.215.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-5d3907ff128so1603270a12.3;
-        Fri, 26 Apr 2024 04:26:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714130781; x=1714735581; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eAvAWrFgtQ2mFDBBY05se0TP4T0wymaT6lQRQYtN9iM=;
-        b=l8rA2F0kR+kwnZUhSmt1eDypphiOcFPTFo3LNGUWF/rFM3DRN2zeB1FSMHaagbXTu0
-         jxRM6GbNleQZAc/L9a51V6YBGt2fn2G2LkF/ADVU61qLFWxggmytXUo+M198YfDWYdUe
-         t/M5cmdnWDnzjXBK8pGLCpPbgiA08GH4e2GsmGftcXC7gnVeam6rUCDGo9KZaTqW7tnr
-         z9XpN4t41GOSPgS4GTlvEaVB/BU9/IahowEdPT6oj6YAGd2KeOfi4e0IePN1eoHqA7Rk
-         u82PV85WXtGu32zQ7n3c2OHeJ1f8pen7sz8v6RO4QzFK/H6OmhL5lBftsdfqprDyjz7X
-         1ziQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714130781; x=1714735581;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=eAvAWrFgtQ2mFDBBY05se0TP4T0wymaT6lQRQYtN9iM=;
-        b=rnFvW47Nw7heDE1PmPhn0yh1wg0a8Gwmbh5qHefWcxma9w8rUCIxO9ty7G260s3SCJ
-         TinBWF/7kHzshNP+ExDcfHv4CPtCS5DDeIQB+fcgN+NkAZ0ojOGgui/PmRJ3gAeFClw3
-         AIaQRDxzfLgiIuxbYr1bEhRa7T2cUnpgt0EGYTIURxUOYqj39OQFTKIyI6nJTuwNfDyg
-         QqgktDYAAooadjDbuVQOesrM279eH1bdGEuPhKPpsIBQ2gDXQq55enLEpXaRKKSQeQiB
-         DYULSbt6SGo1fxNiZkYArMTEyMXdDnfV86rFxfo4sXzCCj4ZENZbKKSEWD39KepP0Nhh
-         h/ow==
-X-Forwarded-Encrypted: i=1; AJvYcCUwYHIq8Elytf2bbL8FBm/KS5Fvv8Z9OWTTqHlMtfsI97r3fMvINjWhdSW4C+p1GAVIoDPMml8tIhb2jNaqei3en1Rf3EEg1vY4CuN43CI=
-X-Gm-Message-State: AOJu0YzcAT1vpfDuLq1FpqmxxSwJnLxn1o2rd7GxuU6TiBDeptiQFvuL
-	j1bWZbjzPcjJTLoL0JF7Q6ywP/dAFl+VX9BFK67fmzqVy/eyER08R+4hF14YfXOp6qf/LNdo0PD
-	d8PqDikuMlvvycOjWpiFaijuXaWXsr4Z00R4=
-X-Google-Smtp-Source: AGHT+IF1aD14GTOBzmDDv5Agsa8peRMfGaM/ZoBYA3pFgL0Y85zBnwguHZYg7B6kmxdTNIcaxeUCJvgWc9lFyJEHm7s=
-X-Received: by 2002:a17:90a:7895:b0:2ad:a5d2:8e2d with SMTP id
- x21-20020a17090a789500b002ada5d28e2dmr2757829pjk.14.1714130781430; Fri, 26
- Apr 2024 04:26:21 -0700 (PDT)
+	s=arc-20240116; t=1714139770; c=relaxed/simple;
+	bh=0+zg+HziepsJXdpuYfXEg99K1gcbh+aTdTuGOHhJCk8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=l0Yuu3o/mPLBn3woccMZLy7UW4UOQlCMrMaCmkwms6VT7BZItO3PN1gELtcITGck3DAVok4TY+YmtBE2kIYhk4f0wF8LjwLfzOT3csdw/5JBhmn2f+hQXTSUrmJTOonxBLlZ8OaljHvqnHEo8nb3OEc1aYJouxanFJXu1WWkkWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FXZy47Tm; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A74FC2BD10;
+	Fri, 26 Apr 2024 13:56:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714139769;
+	bh=0+zg+HziepsJXdpuYfXEg99K1gcbh+aTdTuGOHhJCk8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=FXZy47TmOUSg3WqWMcMut1Z7zIiZ4tmxrMRafdj5yH1iWAAh+yHzXlHbaNlxGA5Ot
+	 CV1+3AWLq9oEj0+MZ7uk/d+XiQu63zslESmwEqQQX9z6z0W+R1wuNRxIP5T9PM2c04
+	 jfx9fVrA+LYvBpDU0VnsR0E+lIOIAY2091nAM2v+fX30k0457MkPQ9idi8rce6dtT6
+	 AAyOfHXcG2It/3dta/8aCg923akzlajAkTsmmr6Juu0iRFGp2wry9p+icBkfFRDYg7
+	 3L1heWYtSAESsX+VLYZC+GmrUGY2MfMugWazphB0375F0QSv4ZJVzqzrd5+L9906bz
+	 c1IgnoFFGR6wQ==
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: dri-devel@lists.freedesktop.org
+Cc: linux-kbuild@vger.kernel.org,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] drm: move DRM-related CONFIG options into DRM submenu
+Date: Fri, 26 Apr 2024 22:56:02 +0900
+Message-Id: <20240426135602.2500125-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CANcniXsneeNs+Hfr9PScU2aYPyvn6re=5T0Cu5dgAa4N_b7m4A@mail.gmail.com>
-In-Reply-To: <CANcniXsneeNs+Hfr9PScU2aYPyvn6re=5T0Cu5dgAa4N_b7m4A@mail.gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Fri, 26 Apr 2024 13:25:15 +0200
-Message-ID: <CANiq72mzHj+4pB4F5FbuyKVP7o751LxHosNeEu4UhHyWqwOmdg@mail.gmail.com>
-Subject: Re: Problem with rust module
-To: qwer trump <vivazsj@gmail.com>
-Cc: linux-kbuild@vger.kernel.org, 
-	rust-for-linux <rust-for-linux@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Apr 26, 2024 at 11:46=E2=80=AFAM qwer trump <vivazsj@gmail.com> wro=
-te:
->
-> ERROR: modpost: too long symbol
-> "_RNvNtNtCschHAZg3Q02y_6kernel5print14format_strings4INFO"
-> [/linux-rust/samples/rust/rust_minimal.ko]
->
-> But I see there are many long symbols in Module.symvers. So I guess there=
-'s
-> something wrong with modpost.
+When you create a submenu using the 'menu' syntax, there is no
+ambiguity about its end because the code between 'menu' and 'endmenu'
+becomes the submenu.
 
-This shows up with `CONFIG_MODVERSIONS=3Dy`, but you should not be able
-to enable the Rust support if you have that enabled (until it gets
-resolved, see [1][2]).
+In contrast, 'menuconfig' does not have the corresponding end marker.
+Instead, the end of the submenu is inferred from symbol dependencies.
 
-Do you have `CONFIG_MODVERSIONS` enabled?
+This is detailed in Documentation/kbuild/kconfig-language.rst, starting
+line 348. It outlines two methods to place the code under the submenu:
 
-Thanks!
+ (1) Open an if-block immediately after 'menuconfig', enclosing the
+     submenu content within it
 
-Cheers,
-Miguel
+ (2) Add 'depends on' to every symbol intended for the submenu
 
-[1] https://lore.kernel.org/rust-for-linux/20230111161155.1349375-1-gary@ga=
-ryguo.net/
-[2] https://lore.kernel.org/rust-for-linux/20231115185858.2110875-1-mmaurer=
-@google.com/
+Many subsystems opt for (1) because it reliably maintains the submenu
+structure.
+
+The DRM subsystem adopts (2). The submenu ends when the sequence of
+'depends on DRM' breaks. It can be confirmed by running a GUI frontend
+such as 'make menuconfig' and visiting the DRM menu:
+
+    < > Direct Rendering Manager (XFree86 4.1.0 and higher DRI support)  ----
+
+If you toggle this, you will notice most of the DRM-related options
+appear below it, not in the submenu.
+
+I highly recommend the approach (1). Obviously, (2) is not reliable,
+as the submenu breaks whenever someone forgets to add 'depends on DRM'.
+
+This commit encloses the entire DRM configuration with 'if DRM' and
+'endif', except for DRM_PANEL_ORIENTATION_QUIRKS.
+
+Note:
+ Now, 'depends on DRM' properties inside the if-block are all redundant.
+ I leave it as follow-up cleanups.
+
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Acked-by: Arnd Bergmann <arnd@arndb.de>
+---
+
+Changes in v2:
+  - Rebased onto next-20240426
+
+ drivers/gpu/drm/Kconfig | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index 959b19a04101..7df15543a70a 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -29,6 +29,8 @@ menuconfig DRM
+ 	  details.  You should also select and configure AGP
+ 	  (/dev/agpgart) support if it is available for your platform.
+ 
++if DRM
++
+ config DRM_MIPI_DBI
+ 	tristate
+ 	depends on DRM
+@@ -439,10 +441,6 @@ config DRM_HYPERV
+ config DRM_EXPORT_FOR_TESTS
+ 	bool
+ 
+-# Separate option because drm_panel_orientation_quirks.c is shared with fbdev
+-config DRM_PANEL_ORIENTATION_QUIRKS
+-	tristate
+-
+ config DRM_LIB_RANDOM
+ 	bool
+ 	default n
+@@ -463,3 +461,9 @@ config DRM_WERROR
+ 	  this config option is disabled by default.
+ 
+ 	  If in doubt, say N.
++
++endif
++
++# Separate option because drm_panel_orientation_quirks.c is shared with fbdev
++config DRM_PANEL_ORIENTATION_QUIRKS
++	tristate
+-- 
+2.40.1
+
 
