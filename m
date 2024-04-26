@@ -1,301 +1,256 @@
-Return-Path: <linux-kbuild+bounces-1695-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1696-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63D468B3F9D
-	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Apr 2024 20:50:13 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BDCE8B4016
+	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Apr 2024 21:21:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 84B66B21D12
-	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Apr 2024 18:50:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 429B82873CB
+	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Apr 2024 19:21:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C74336FB9;
-	Fri, 26 Apr 2024 18:50:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61061111A8;
+	Fri, 26 Apr 2024 19:21:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aFeQZ0Mz"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BJeJsnkL"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A06566FA8;
-	Fri, 26 Apr 2024 18:50:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C18B3FD4
+	for <linux-kbuild@vger.kernel.org>; Fri, 26 Apr 2024 19:21:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714157406; cv=none; b=fpSwZ8pMQPPw7sHuM4/X5URTKlCw66WjO9MZQsfwyJ6muHCdCQTnocVTRA9gK59cKmQ25ACWNu5BDC3sn8iUt8AtAG+LBbrP0l/CB0Aq7c1Nw2kj9xpfJoPLDcGt3ZGrNiTUk2Zm8BjGbjA5Qh7RFy0HRp/+P6uvjasYjamtBR8=
+	t=1714159304; cv=none; b=fn5bov1/VwfMcgrXEDu9pzZhc3uQt8IEkHa/O3XQ9vbYIkjircuB1AdoDcqhxEvEGtxwWM1JX4y1o9XeuKyABcfWTJDz0XCtdeggaVsLulhq5iyFooB+W2FM74HTNiN3FQU+9sBR5G2jUN16nKl3TVutttwyj8OYNih2qXZY0pI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714157406; c=relaxed/simple;
-	bh=WBxXctJ/CCUk/yx/HFQvVJU9n3QU9xoVPU+TXKN90Lk=;
+	s=arc-20240116; t=1714159304; c=relaxed/simple;
+	bh=AifMpHzd5hCq3rEYuGjutUJm8xluooWKuYVgKjwUk/4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Z4iWd5jPRhdzAHl1VXOHWn+pLqfsXoVPlox5fFeIEBA+u+xUJ2PfuIc3IyXvxL4ZegkRHCD4d1sw/7IEC/xOjeqmjceOv9EmortGDJpgaugHNj3PE/sCXdENVeIVcdmoDrzRG9xjbL4Lbdfv6BpiNDwmM702Dm1KNcwWeDWHEfk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aFeQZ0Mz; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F50DC113CD;
-	Fri, 26 Apr 2024 18:50:06 +0000 (UTC)
+	 To:Cc:Content-Type; b=KsGe96GXmhLhO2JYFVadEwKn97PSq4EtJevD0+q/6hpzxgqBQsXhs2jJumbNZzIXV1M09+efJ3ZsjTC8DHoRo1z53xM5FJz/luOMH4ynQbQO9kSPrGTZTsRqwGvXeR3V8bdPNmXfkDoRoK5eCUaCi8b6uojnBF32G3UU54wgBTA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BJeJsnkL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C51FFC2BD11
+	for <linux-kbuild@vger.kernel.org>; Fri, 26 Apr 2024 19:21:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714157406;
-	bh=WBxXctJ/CCUk/yx/HFQvVJU9n3QU9xoVPU+TXKN90Lk=;
+	s=k20201202; t=1714159303;
+	bh=AifMpHzd5hCq3rEYuGjutUJm8xluooWKuYVgKjwUk/4=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=aFeQZ0MzcXfKPLf9cQ+mSo+FVEZ9pu+zMImGs0HZO+ZhjOdydOgca0fbahdbbzW9w
-	 oYQgsrYTBP2vyz9wfENyZJEMtwQByFWNDPnDTgdqPLc/EJ09O/TqMKYfE4AzBCmPam
-	 p5dNRD+oQvdHzGrf7OMgNmB4vsWtTiF25Vs7w4NRsBONBt9wpR1OuyAt2LX3o1kn/1
-	 KEQ5YkslfZ9ghotpYLxb8dSink5WyPDcdcNgK6I/7jFaiw1DEDEHrfRO1C3CUrCXAc
-	 qcMK55/QGqFWdGMxWWtCNqR6g/Z8MQ6LgdqxVnzjqSjLs1aHHzJVZibgBAf5jOy4pP
-	 8fQyeEnbzK/+w==
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2def8e5ae60so24491011fa.2;
-        Fri, 26 Apr 2024 11:50:06 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXO/BXqIcw1iF9EL5kLQ0b1lDMaiw1+59WrnRm3wqJjAuwj89rMS3kt9N46/us26dkdMJDcR6nPXBovHvsDnyyZbGzHIFAe2wgcp62r
-X-Gm-Message-State: AOJu0YxX7aR9lCr2JymzCk0Rc1P1oVugPAPsZ5AdXGQh1Lvw6TDox+PX
-	RlhemHZxiaxpwby8HLFRSZOq1NgoQ1+RGLA/R/glmkkCoSoYQ01b0zk/5+PzwJfvqmQBt3XcADQ
-	DXwXW563KtpIMVfWUV+TKoVt1XkY=
-X-Google-Smtp-Source: AGHT+IEfCqgVFjBqbPwI4bRDLMfJCnJd2Sl6BBOm0pcT8+r0ETmHn/IUimtNLO/IXUsnA6tjCxLS8d4g6s/CXbHmXWA=
-X-Received: by 2002:a05:6512:20ca:b0:51b:455a:d649 with SMTP id
- u10-20020a05651220ca00b0051b455ad649mr1832117lfr.38.1714157404788; Fri, 26
- Apr 2024 11:50:04 -0700 (PDT)
+	b=BJeJsnkLIfaVRxyPesJPvB/webggsHS6LbqkzeLr1K9J5i1/HsdIKKTkI77+g94xV
+	 Bg8QGn3eDBGbcEuS9a/EuytlQ0HozBaE7E8BfaRc2n3wrtd0pzwBt0xPFsIW7SitbL
+	 WPbelH/oKM5SXIxucoBd2TnU5cmH+gtRROZb9u2S17OftXZ2lSCB3NcyW/Y1j+Azzd
+	 znZkUDPxd0rGpYmnDZS01kh1tkT46EgGxlU0Hh1xab3O0K1T+UC/84UxQG9QgWpJNk
+	 VeB6Aolbb49dNvRCy0englDRK2N7baU5JSKSBk+PcMBje5VFlsbY9F8VW+unVTRuXL
+	 fEAoYYMIJQnfw==
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-51ca95db667so1506467e87.0
+        for <linux-kbuild@vger.kernel.org>; Fri, 26 Apr 2024 12:21:42 -0700 (PDT)
+X-Gm-Message-State: AOJu0YyNRgTt/t9Vm2fSuR2sJFNqe/quQ6N/WrwhBSYwx3hoPZ5EO8TV
+	7Cc16T83cdx8O4xSIu58o99A7ZWQ2ORUTNwsNNXeeN31hS+ZIMEEgw52nJ6Vg0rhyPbvvx2AfIz
+	Nbunh4rUn3jfEl+qUd8eVTaqEui8=
+X-Google-Smtp-Source: AGHT+IGRyLdcMdDI0QYRqTQWVHCjC0zz8lM2ynkj9pvK0uKvvEtRArk+q5nRA8aoAe8/1G5ShdsGDdkHajJ5L5FmVQk=
+X-Received: by 2002:a05:6512:ac1:b0:51c:cc1b:a8f6 with SMTP id
+ n1-20020a0565120ac100b0051ccc1ba8f6mr2169237lfu.20.1714159301453; Fri, 26 Apr
+ 2024 12:21:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240418101903.11314-1-sunying@isrc.iscas.ac.cn>
-In-Reply-To: <20240418101903.11314-1-sunying@isrc.iscas.ac.cn>
+References: <20240407072933.3562124-1-ppandit@redhat.com> <CAK7LNASZR=n+T=9Lo-5=Nw9WTwY9ywdTNvAUdt8xDXxsnNu3Tg@mail.gmail.com>
+ <668901914.114470.1713335369416@mail.yahoo.com> <CAK7LNAReoYHT0-SUzFT11y=pN6GTLSgu0+7Su+2Tthkz5VFymw@mail.gmail.com>
+ <1927988181.1604457.1713852967808@mail.yahoo.com> <CAK7LNAShU0GS4e=wRupgwUDHhxMR5SVmkWn4mTZMU6r+Vng0Xg@mail.gmail.com>
+ <978513013.1900588.1713936355848@mail.yahoo.com>
+In-Reply-To: <978513013.1900588.1713936355848@mail.yahoo.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sat, 27 Apr 2024 03:49:28 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATvhUOV-kzVLkT=S=CLBJT8wbirkD1v9C7J=Gg4EBecUQ@mail.gmail.com>
-Message-ID: <CAK7LNATvhUOV-kzVLkT=S=CLBJT8wbirkD1v9C7J=Gg4EBecUQ@mail.gmail.com>
-Subject: Re: [PATCHv4 next] kconfig: add dependency warning print about
- invalid values while KBUILD_EXTRA_WARN=c
-To: sunying@isrc.iscas.ac.cn
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	pengpeng@iscas.ac.cn, zy21df106@buaa.edu.cn
+Date: Sat, 27 Apr 2024 04:21:04 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARB1WuL=yduv+XjkjCCagrgWQUaKEVk82wn0+QRgoNVTA@mail.gmail.com>
+Message-ID: <CAK7LNARB1WuL=yduv+XjkjCCagrgWQUaKEVk82wn0+QRgoNVTA@mail.gmail.com>
+Subject: Re: [PATCH v1] kconfig: add config and source entry details
+To: Prasad Pandit <pj.pandit@yahoo.in>
+Cc: "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>
+Content-Type: multipart/mixed; boundary="000000000000409ce6061704d0a0"
+
+--000000000000409ce6061704d0a0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 18, 2024 at 7:19=E2=80=AFPM <sunying@isrc.iscas.ac.cn> wrote:
+On Wed, Apr 24, 2024 at 2:27=E2=80=AFPM Prasad Pandit <pjp@fedoraproject.or=
+g> wrote:
 >
-> From: Ying Sun <sunying@isrc.iscas.ac.cn>
+> Hi,
 >
-> The patch enhances kernel error messages, fixes problems with
->  the previous version of v3,
-
-
-Unneeded information.
-You do not need to advertise your previous wrong patch.
-
-The patch submission history should be
-described below the '---' marker.
-
-
-
-> and has been thoroughly tested.
-
-Unneeded.
-It is quite normal for a patch submitter
-to test their patch before submission.
-
-
-
-
->  We believe it will improve the clarity and usefulness
->  of kconfig error messages, which will help developers better diagnose an=
-d
->  resolve configuration issues.
-
-
-
-"We believe" is unneeded.
-
-
-
-
-
-
-
-
+> On Tuesday, 23 April, 2024 at 03:41:35 pm IST, Masahiro Yamada <masahiroy=
+@kernel.org> wrote:
+> >EOL is a statement separator.
 >
-> ----- v3 -> v4:
-> 1. Fixed the dependency logic print error, distinguishing
->  between unsatisfied dependencies and forced enable
->  errors (related to the select keyword).
-> 2. Add export KCONFIG_WARN_CHANGED_INPUT=3D1 to scripts/kconfig/Makefile,
->  which can be enabled by setting KBUILD_EXTRA_WARN to -c.
+> * Right. So are semi-colon (;), braces (}{) and colon (:) in case of C an=
+d Python.
 >
-> Signed-off-by: Siyuan Guo <zy21df106@buaa.edu.cn>
-> Signed-off-by: Ying Sun <sunying@isrc.iscas.ac.cn>
+> =3D=3D=3D
+> $ cat t.c
+>
+> #include <stdio.h>
+>
+> int main (void)
+> { printf("Hello, world!\n");$
+> $
+> $ cc -xc -o t t.c
+> t.c: In function =E2=80=98main=E2=80=99:
+> t.c:6:1: error: expected declaration or statement at end of input
+>     6 | { printf("Hello, world!\n");
+>       | ^
+
+
+
+It is because the missing closing brace
+is a grammatical error.
+
+
+
 > ---
->  scripts/kconfig/Makefile   |  1 +
->  scripts/kconfig/confdata.c | 60 ++++++++++++++++++++++++++++++++++++++
->  2 files changed, 61 insertions(+)
 >
-> diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
-> index ea1bf3b3dbde..b755246fe057 100644
-> --- a/scripts/kconfig/Makefile
-> +++ b/scripts/kconfig/Makefile
-> @@ -29,6 +29,7 @@ KCONFIG_DEFCONFIG_LIST +=3D arch/$(SRCARCH)/configs/$(K=
-BUILD_DEFCONFIG)
+> $ cat t.py
+> #!/usr/bin/python
 >
->  ifneq ($(findstring c, $(KBUILD_EXTRA_WARN)),)
->  export KCONFIG_WARN_UNKNOWN_SYMBOLS=3D1
-> +export KCONFIG_WARN_CHANGED_INPUT=3D1
->  endif
+> if (x =3D=3D 10)$
+> $
+> $ python t.py
+>   File "/tmp/im/t.py", line 3
+>     if (x =3D=3D 10)
+>                 ^
+> SyntaxError: expected ':'
+> =3D=3D=3D
 >
->  ifneq ($(findstring e, $(KBUILD_EXTRA_WARN)),)
-> diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
-> index 0e35c4819cf1..91c63bd1cedd 100644
-> --- a/scripts/kconfig/confdata.c
-> +++ b/scripts/kconfig/confdata.c
-> @@ -176,6 +176,41 @@ static void conf_warning(const char *fmt, ...)
->         conf_warnings++;
->  }
->
-> +static void conf_warn_unmet_rev(struct symbol *sym)
-> +{
-> +       struct gstr gs =3D str_new();
-> +
-> +       str_printf(&gs,
-> +               "WARNING: unmet reverse dependencies detected for %s\n",
-> +               sym->name);
-
-
-This message is wrong.
-
-Kconfig changed the value so it meets the reverse dependency.
-
-It should warn that the value has been changed.
+> * In above examples, files terminate without completing the statement and=
+/or function definition (missing closing brace '}'), which is being treated=
+ as an error.
 
 
 
-> +
-> +       expr_gstr_print_revdep(sym->rev_dep.expr, &gs, yes,
-> +                               " Selected by [y]:\n");
-> +       expr_gstr_print_revdep(sym->rev_dep.expr, &gs, mod,
-> +                               " Selected by [m]:\n");
-> +
-> +       fputs(str_get(&gs), stderr);
-> +       str_free(&gs);
-> +}
-> +
-> +static void conf_warn_dep_error(struct symbol *sym)
-> +{
-> +       struct gstr gs =3D str_new();
-> +
-> +       str_printf(&gs,
-> +               "WARNING: unmet direct dependencies detected for %s\n",
-> +               sym->name);
-
-
-
-Same here.
-
-Kconfig changed the value so it meets the direct dependency.
+Again, this is wrong Python code. That's why.
 
 
 
 
 
-
-> +
-> +       str_printf(&gs,
-> +               " Depends on [%c]: ",
-> +               sym->dir_dep.tri =3D=3D mod ? 'm' : 'n');
-> +       expr_gstr_print(sym->dir_dep.expr, &gs);
-> +
-> +       str_printf(&gs, "\n");
-> +       fputs(str_get(&gs), stderr);
-> +       str_free(&gs);
-> +}
-> +
->  static void conf_default_message_callback(const char *s)
->  {
->         printf("#\n# ");
-> @@ -522,6 +557,31 @@ int conf_read(const char *name)
->                         continue;
->                 conf_unsaved++;
->                 /* maybe print value in verbose mode... */
-> +               if (getenv("KCONFIG_WARN_CHANGED_INPUT")) {
-> +                       if (sym->prop) {
-
-
-
-Why did you check sym->prop here?
-
-
-
-
-
-> +                               switch (sym->type) {
-> +                               case S_BOOLEAN:
-> +                               case S_TRISTATE:
-> +                                       if (sym->def[S_DEF_USER].tri !=3D=
- sym_get_tristate_value(sym)) {
-> +                                               if (sym->rev_dep.tri < sy=
-m->def[S_DEF_USER].tri &&
-> +                                                       sym->dir_dep.tri =
-< sym->def[S_DEF_USER].tri)
-> +                                                               conf_warn=
-_dep_error(sym);
-> +                                               if (sym->rev_dep.tri > sy=
-m->def[S_DEF_USER].tri &&
-> +                                                       sym->dir_dep.tri =
->=3D sym->def[S_DEF_USER].tri)
-> +                                                               conf_warn=
-_unmet_rev(sym);
-
-
-This is clumsy.
-
-conf_warn_dep_error() and conf_warn_unmet_rev()
-do not happen at the same time.
-
-
-if (sym->def[S_DEF_USER].tri !=3D sym_get_tristate_value(sym)) {
-        if (sym->rev_dep.tri > sym->def[S_DEF_USER].tri)
-                conf_warn_unmet_rev(sym);
-        else if (sym->dir_dep.tri < sym->def[S_DEF_USER].tri)
-                conf_warn_dep_error(sym);
-}
-
-
-is much simpler.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-> +                                       }
-> +                                       break;
-> +                               case S_INT:
-> +                               case S_HEX:
-> +                               case S_STRING:
-> +                                       if (sym->dir_dep.tri =3D=3D no &&=
- sym_has_value(sym))
-> +                                               conf_warn_dep_error(sym);
-> +                                       break;
-> +                               default:
-> +                                       break;
-> +                               }
-> +                       }
-> +               }
->         }
->
->         for_all_symbols(sym) {
-> --
-> 2.43.0
 >
 >
+> >Could you give me an example programming language
+> >that errors out when \n is missing at the end of the
+> >source file?
+>
+> * It is not about '\n' at the end of file, but '\n' at the end of the Kco=
+nfig statement/record. Because Kconfig language uses EOL as a separator.
+>
+>
+> > I do not think requiring EOL at the end of file would help simplify the=
+ lexer/parser.
+>
+> * It does, because on the parser side you don't have to define rule(s) wi=
+th EOF to parse statements.
+
+
+Do you see any grammar that treats T_EOF in
+scripts/kconfig/parser.y ?
+It only handles T_EOL.
+
+The parser is already simplified.
+
+
+
+>
+> >When the lexer is encountered with EOF, it must
+> >tell the parser to finish the current statement
+> >and go back to the previous source file.
+> >So, EOF implies the end of the statement anyway.
+>
+> * No, EOF does not imply end of a statement. The errors reported by gcc(1=
+) and Python above clearly confirm that EOF is not end of statement.
+
+
+
+In Python, a newline (and also a semicolon)
+separates two statements, but it does not mean
+it is required at the end of file.
+
+
+If EOF is encountered, the statement ends.
+
+
+
+
+I attached two Python scripts for you.
+
+test.py and test2.py are almost the same.
+
+Only the difference is that
+test2.py lacks a new line at the end of file.
+
+
+
+masahiro@zoe:/tmp$ cat test.py
+#!/usr/bin/python
+print("A")
+print("B")
+masahiro@zoe:/tmp$ cat test2.py
+#!/usr/bin/python
+print("A")
+print("B")masahiro@zoe:/tmp$
+
+
+
+masahiro@zoe:/tmp$ ./test.py
+A
+B
+masahiro@zoe:/tmp$ chmod +x test2.py
+masahiro@zoe:/tmp$ ./test2.py
+A
+B
+
+
+
+As I said, it is a linter's job (e.g. pylint)
+to check the missing newline at the end.
+
+
+
+
+>
+> * In their case colon(':') or brace ('}') are the required terminators, w=
+hereas in Kconfig's case EOL ('\n') is the required terminator.
+>
+> * Because Kconfig language uses EOL ('\n') as statement separator/termina=
+tor, IMHO it should display an error when that condition is not met, becaus=
+e such statement remains incomplete.
+>
+>
+> Thank you.
+
+
+
+
+
 
 
 --=20
 Best Regards
 Masahiro Yamada
+
+--000000000000409ce6061704d0a0
+Content-Type: text/x-python; charset="US-ASCII"; name="test.py"
+Content-Disposition: attachment; filename="test.py"
+Content-Transfer-Encoding: base64
+Content-ID: <f_lvh234ga0>
+X-Attachment-Id: f_lvh234ga0
+
+IyEvdXNyL2Jpbi9weXRob24KcHJpbnQoIkEiKQpwcmludCgiQiIpCg==
+--000000000000409ce6061704d0a0
+Content-Type: text/x-python; charset="US-ASCII"; name="test2.py"
+Content-Disposition: attachment; filename="test2.py"
+Content-Transfer-Encoding: base64
+Content-ID: <f_lvh234gf1>
+X-Attachment-Id: f_lvh234gf1
+
+IyEvdXNyL2Jpbi9weXRob24KcHJpbnQoIkEiKQpwcmludCgiQiIp
+--000000000000409ce6061704d0a0--
 
