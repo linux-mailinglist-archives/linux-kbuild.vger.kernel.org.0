@@ -1,150 +1,195 @@
-Return-Path: <linux-kbuild+bounces-1693-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1694-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49BD58B393A
-	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Apr 2024 15:58:16 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B5F48B3A87
+	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Apr 2024 17:05:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 04011284E23
-	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Apr 2024 13:58:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C82AF1C21627
+	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Apr 2024 15:05:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D6C514C597;
-	Fri, 26 Apr 2024 13:56:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4569D1E869;
+	Fri, 26 Apr 2024 15:05:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FXZy47Tm"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kVmBP/U9"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34DC21487E7;
-	Fri, 26 Apr 2024 13:56:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11EDA1E504;
+	Fri, 26 Apr 2024 15:05:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714139770; cv=none; b=DIhzYEOrMQ+J243hGkmZa+GzfDhHRveTTgj19F/RnSgI9qCu946mNMG3vKfgWAUMGG1gTJNWhADEi+AsSEssTLTdXlLb+UuVLS7b9GgIpwpsDoytX6mRtzsmFmlUUGVhiEaQPAwOHDJf5CD70jnLjuJlBcdfEg/OhCiQPci2+h8=
+	t=1714143923; cv=none; b=rqyYjqk1nJ7A/dsSxseSs74OhwsNTNySKJmb5/e5MyO21RbY2Mh19whaqhaZq9VTkydmnlHu4WtKgTdBWm+R/gcFaBxVefOKr5+XPf6NnCv2b6+hY8O0meoyh0poW2fJXY9CGHVrVoQudnyBS8Fel6aI92x3tb2VDlDtn7t423s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714139770; c=relaxed/simple;
-	bh=0+zg+HziepsJXdpuYfXEg99K1gcbh+aTdTuGOHhJCk8=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=l0Yuu3o/mPLBn3woccMZLy7UW4UOQlCMrMaCmkwms6VT7BZItO3PN1gELtcITGck3DAVok4TY+YmtBE2kIYhk4f0wF8LjwLfzOT3csdw/5JBhmn2f+hQXTSUrmJTOonxBLlZ8OaljHvqnHEo8nb3OEc1aYJouxanFJXu1WWkkWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FXZy47Tm; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A74FC2BD10;
-	Fri, 26 Apr 2024 13:56:06 +0000 (UTC)
+	s=arc-20240116; t=1714143923; c=relaxed/simple;
+	bh=VejedOxxTo7QSOwkYVcTq4fFLRSVBP4jvU07o8BqGVo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hkRRpYCuNKxtW0jPPoImLwOLIxu3pMuWWnB6jW/6Vej/mmtmO2GW3eTaU8uRjKDKN32x0aEXXn3OKKvfuWu9mnKv6Q/+bvHnWkYIJQlHNLfN862eM658viXUFz4ZwikP0gqR5TA6VQB/kQvSjH4jiea6WtcSu45/gspivjfDqU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kVmBP/U9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0255C116B1;
+	Fri, 26 Apr 2024 15:05:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714139769;
-	bh=0+zg+HziepsJXdpuYfXEg99K1gcbh+aTdTuGOHhJCk8=;
-	h=From:To:Cc:Subject:Date:From;
-	b=FXZy47TmOUSg3WqWMcMut1Z7zIiZ4tmxrMRafdj5yH1iWAAh+yHzXlHbaNlxGA5Ot
-	 CV1+3AWLq9oEj0+MZ7uk/d+XiQu63zslESmwEqQQX9z6z0W+R1wuNRxIP5T9PM2c04
-	 jfx9fVrA+LYvBpDU0VnsR0E+lIOIAY2091nAM2v+fX30k0457MkPQ9idi8rce6dtT6
-	 AAyOfHXcG2It/3dta/8aCg923akzlajAkTsmmr6Juu0iRFGp2wry9p+icBkfFRDYg7
-	 3L1heWYtSAESsX+VLYZC+GmrUGY2MfMugWazphB0375F0QSv4ZJVzqzrd5+L9906bz
-	 c1IgnoFFGR6wQ==
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: dri-devel@lists.freedesktop.org
-Cc: linux-kbuild@vger.kernel.org,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] drm: move DRM-related CONFIG options into DRM submenu
-Date: Fri, 26 Apr 2024 22:56:02 +0900
-Message-Id: <20240426135602.2500125-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.40.1
+	s=k20201202; t=1714143922;
+	bh=VejedOxxTo7QSOwkYVcTq4fFLRSVBP4jvU07o8BqGVo=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=kVmBP/U9zTjk7ZGAWwchly/CbJLojEbhBmLwnVS5su6PkDG7P3c8fgPg6x/GV7wve
+	 U1+ezjbNthqGm1NRtnXKcZ5V3Xpz1HYmF9lSqa1a201TI2HD3WUaKy4hE0bL6vB7lD
+	 1lJsYgyrlzV0Cq3g0USYrFpEa2aHdnIGroZ9t+MGok2Xf0P9J1O1wYONnsCT7NVY53
+	 SBHb6zsc2WgojN+6OCDrbjPJsS4EvWEDUJ4eODu/doitvnUW822tpaQxAf8wRx8Uec
+	 UhfqZkzggFwAZhFOI7laTnu3FjK5JlUmIPfIRZfE2A8NC9BuVNUfyozqoi8MMNL/nb
+	 SRfhYTrb1q33w==
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5171a529224so2774958e87.0;
+        Fri, 26 Apr 2024 08:05:22 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVpe4YsK5hOzpF6AU1Pu2PGkSjHwtUzXVBPlopDsxOPrzCZHi8Bt5sOhf1K2lgPaX5RJKM7ulppWzrVXvt+gnHUUxvskzWy0jRfDwH7fibr3gNR3UIP9fNvdURMvhrnKEROEeJ39pgesZGHPIeW6QyRkDZK7dnW1FTFbyqNmWwfBRE=
+X-Gm-Message-State: AOJu0Ywi/Xs+A2xnRDdpOISY7RQAW/O4SjK3G+v/HaVpDAm5TVBPumBt
+	jVIh62IoGaWvwdT26b/tfPh38OPj+zPUHGnPg/brGXIpTZ0bgCcBkvHpt/BGVoLNWIPYlj0CPEY
+	6LSYvrT9zasNEEvAed/A3H2qtg8c=
+X-Google-Smtp-Source: AGHT+IFT2RH/u9ez1/6bCXS94e7Xb58D933UfyUU+LEAgMi5lH3GmSTetYaWtcovYQ/W/SS8GABunIDa0MW05zxFrus=
+X-Received: by 2002:ac2:5f07:0:b0:51a:9f4b:1fd7 with SMTP id
+ 7-20020ac25f07000000b0051a9f4b1fd7mr1746848lfq.58.1714143921496; Fri, 26 Apr
+ 2024 08:05:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240422164104.2869507-1-masahiroy@kernel.org>
+ <20240422164104.2869507-3-masahiroy@kernel.org> <Zij545f6JVmmbcoj@buildd.core.avm.de>
+In-Reply-To: <Zij545f6JVmmbcoj@buildd.core.avm.de>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Sat, 27 Apr 2024 00:04:44 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQJi8UsWfURN0=T2-Uj8kha+-SQWiWBZRhB23dr9havSg@mail.gmail.com>
+Message-ID: <CAK7LNAQJi8UsWfURN0=T2-Uj8kha+-SQWiWBZRhB23dr9havSg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] kconfig: remove 'optional' property support
+To: Nicolas Schier <n.schier@avm.de>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>, 
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, linux-sh@vger.kernel.org, 
+	Jonathan Corbet <corbet@lwn.net>, Nathan Chancellor <nathan@kernel.org>, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-When you create a submenu using the 'menu' syntax, there is no
-ambiguity about its end because the code between 'menu' and 'endmenu'
-becomes the submenu.
+On Wed, Apr 24, 2024 at 9:24=E2=80=AFPM Nicolas Schier <n.schier@avm.de> wr=
+ote:
+>
+> On Tue, Apr 23, 2024 at 01:41:04AM +0900, Masahiro Yamada wrote:
+> > The 'choice' statement is primarily used to exclusively select one
+> > option, but the 'optional' property allows all entries to be disabled.
+> >
+> > In the following example, both A and B can be disabled simultaneously:
+> >
+> >     choice
+> >             prompt "choose A, B, or nothing"
+> >             optional
+> >
+> >     config A
+> >             bool "A"
+> >
+> >     config B
+> >             bool "B"
+> >
+> >     endchoice
+> >
+> > You can achieve the equivalent outcome by other means.
+> >
+> > A common solution is to add another option to guard the choice block.
+> > In the following example, you can set ENABLE_A_B_CHOICE=3Dn to disable
+> > the entire choice block:
+> >
+> >     choice
+> >             prompt "choose A or B"
+> >             depends on ENABLE_A_B_CHOICE
+> >
+> >     config A
+> >             bool "A"
+> >
+> >     config B
+> >             bool "B"
+> >
+> >     endchoice
+> >
+> > Another approach is to insert one more entry as a place-holder:
+> >
+> >     choice
+> >             prompt "choose A, B, or disable both"
+> >
+> >     config A
+> >             bool "A"
+> >
+> >     config B
+> >             bool "B"
+> >
+> >     config DISABLE_A_AND_B
+> >             bool "choose this to disable both A and B"
+> >
+> >     endchoice
+> >
+> > Some real examples are DEBUG_INFO_NONE, INITRAMFS_COMPRESSION_NONE,
+> > LTO_NONE, etc.
+> >
+> > The 'optional' property is even more unnecessary for a tristate choice.
+> >
+> > Without the 'optional' property, you can disable A and B; you can set
+> > 'm' in the choice prompt, and disable A and B individually:
+> >
+> >     choice
+> >             prompt "choose one built-in or make them modular"
+> >
+> >     config A
+> >             tristate "A"
+> >
+> >     config B
+> >             tristate "B"
+> >
+> >     endchoice
+> >
+> > In conclusion, the 'optional' property was unneeded.
+> >
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > ---
+> >
+> > (no changes since v1)
+>
+> thanks for the patch!
+>
+> I found just one small remnant that probably should be removed as well:
+>
+> diff --git a/scripts/kconfig/tests/choice/__init__.py b/scripts/kconfig/t=
+ests/choice/__init__.py
+> index 4318fce05912f..05e162220085c 100644
+> --- a/scripts/kconfig/tests/choice/__init__.py
+> +++ b/scripts/kconfig/tests/choice/__init__.py
+> @@ -8,4 +8,2 @@ The behavior of 'y' choice is intuitive.  If choice value=
+s are tristate,
+>  the choice can be 'm' where each value can be enabled independently.
+> -Also, if a choice is marked as 'optional', the whole choice can be
+> -invisible.
+>  """
 
-In contrast, 'menuconfig' does not have the corresponding end marker.
-Instead, the end of the submenu is inferred from symbol dependencies.
 
-This is detailed in Documentation/kbuild/kconfig-language.rst, starting
-line 348. It outlines two methods to place the code under the submenu:
+Thanks. I will fold this.
 
- (1) Open an if-block immediately after 'menuconfig', enclosing the
-     submenu content within it
 
- (2) Add 'depends on' to every symbol intended for the submenu
 
-Many subsystems opt for (1) because it reliably maintains the submenu
-structure.
 
-The DRM subsystem adopts (2). The submenu ends when the sequence of
-'depends on DRM' breaks. It can be confirmed by running a GUI frontend
-such as 'make menuconfig' and visiting the DRM menu:
+>
+> Reviewed-by: Nicolas Schier <n.schier@avm.de>
+>
+> Kind regards,
+> Nicolas
+>
+>
+> PS: For other reviewers, this patch (set) depends on
+> https://lore.kernel.org/linux-kbuild/20240422161054.2867285-1-masahiroy@k=
+ernel.org/
 
-    < > Direct Rendering Manager (XFree86 4.1.0 and higher DRI support)  ----
 
-If you toggle this, you will notice most of the DRM-related options
-appear below it, not in the submenu.
 
-I highly recommend the approach (1). Obviously, (2) is not reliable,
-as the submenu breaks whenever someone forgets to add 'depends on DRM'.
-
-This commit encloses the entire DRM configuration with 'if DRM' and
-'endif', except for DRM_PANEL_ORIENTATION_QUIRKS.
-
-Note:
- Now, 'depends on DRM' properties inside the if-block are all redundant.
- I leave it as follow-up cleanups.
-
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-Acked-by: Arnd Bergmann <arnd@arndb.de>
----
-
-Changes in v2:
-  - Rebased onto next-20240426
-
- drivers/gpu/drm/Kconfig | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 959b19a04101..7df15543a70a 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -29,6 +29,8 @@ menuconfig DRM
- 	  details.  You should also select and configure AGP
- 	  (/dev/agpgart) support if it is available for your platform.
- 
-+if DRM
-+
- config DRM_MIPI_DBI
- 	tristate
- 	depends on DRM
-@@ -439,10 +441,6 @@ config DRM_HYPERV
- config DRM_EXPORT_FOR_TESTS
- 	bool
- 
--# Separate option because drm_panel_orientation_quirks.c is shared with fbdev
--config DRM_PANEL_ORIENTATION_QUIRKS
--	tristate
--
- config DRM_LIB_RANDOM
- 	bool
- 	default n
-@@ -463,3 +461,9 @@ config DRM_WERROR
- 	  this config option is disabled by default.
- 
- 	  If in doubt, say N.
-+
-+endif
-+
-+# Separate option because drm_panel_orientation_quirks.c is shared with fbdev
-+config DRM_PANEL_ORIENTATION_QUIRKS
-+	tristate
--- 
-2.40.1
-
+--=20
+Best Regards
+Masahiro Yamada
 
