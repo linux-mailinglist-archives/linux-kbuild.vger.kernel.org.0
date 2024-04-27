@@ -1,62 +1,53 @@
-Return-Path: <linux-kbuild+bounces-1701-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1702-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A5DC8B4598
-	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Apr 2024 12:43:42 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1DCF8B46AC
+	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Apr 2024 16:55:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2261C282A2C
-	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Apr 2024 10:43:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C24DA1C20FCF
+	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Apr 2024 14:55:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF7594C62E;
-	Sat, 27 Apr 2024 10:43:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A6367EC;
+	Sat, 27 Apr 2024 14:55:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RjxSAXVp"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dj83KUhO"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A24474C619;
-	Sat, 27 Apr 2024 10:43:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F3F61366;
+	Sat, 27 Apr 2024 14:55:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714214593; cv=none; b=V51de9v3AzoYxKk5WBpURHQuR5vF5DvWWxRQLmjhTxtpwmUb7JS14Xdhj7e8pPJQvck86b9hyPw85qdo5YQmm3W+IXmzzZ3XLnuvfLJF/cHo8emeNYWOw5+dvZT3Ron2sdr3DZGkBk3z5joMZIr6/ajCMWVU+6pRSdgzHrxFjL4=
+	t=1714229708; cv=none; b=sPM1TtT9tMiYLq8WhtfC8PNG7SKafN5irUkEMu9Ar7Fq+cKy3rL0ue1bPlEQXUriuBh4lAkrSI4tMom3UR8vkFEpQLXLmzZPUoLqErgZjg2X8f3c74cDm4oze075aHgTwmuicWX8SUp8LbNx+G/CK4lUdf6ymMFGCucynp+juHs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714214593; c=relaxed/simple;
-	bh=OYJqdjW3rXoj3fRazQzcMwYfheGMCtZdq6OYTVY06Y0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=L3hzr9TVUgiD1Ml7tlEk8oaua9mNtX83zAN5DWPyh0bUpDnX5FkVFz5wdhi0R6YpNeC1vnr+Q53UojktKRFUS1mo/rAafaI53mqrClfKz6eb9Xy3iOb/zZjdxEpe8rv9rWTnQ+QfEt0k/45FHrYOCugN1FPJGqaNBhH4aOgBp6g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RjxSAXVp; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3726CC113CE;
-	Sat, 27 Apr 2024 10:43:11 +0000 (UTC)
+	s=arc-20240116; t=1714229708; c=relaxed/simple;
+	bh=crcqESX/653Pg3zlDPRgRvb7OyyPp302KtgbEzu+PdA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=W+YvONNbQg4TeuqQDolttj1PCv9RFCEBmYM+YrDn8G9HOIbE0+xfl6ovLTK6KWuKWOqAVHI6EVhsWQi1RGXoQAZs/ryz32BzIJDDkZmXYKyeGFKsyPUBjwu75AA+hmWd/OdIrQwoneim2EbgMLLrTXjOtR60AMHFFfqbUZ6X8qs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dj83KUhO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 166A6C113CE;
+	Sat, 27 Apr 2024 14:55:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714214593;
-	bh=OYJqdjW3rXoj3fRazQzcMwYfheGMCtZdq6OYTVY06Y0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=RjxSAXVpXQ9JQKFzA8rOsQDV9GWCfacFItigw4e87nQqeK/rMyQcpp7exULz2ud5l
-	 YNedVGRnZBzcVUUHjzfchy0Zr/2xefWpQ/3Hf1i7L9lqrYX7sqWuqWhhDFFhysZX4d
-	 t8qooOW5RxbcnXagWW+LLCqb43Otv82MkgpVaJz0CAB4lAIy8dwV5UJr7eG5zKHZTe
-	 /KD6wRtTvhqbzeu7f2Ta5E75ORA5Qv30I9/UGhWGciaCgwkPJv1fbC8g++7p5KDUIc
-	 Zp/dHgDryJI9NxwxM5vIFlZJrr/djcXds51EGfr7uc8//ElVp5GlCyfExbOhIjaX0r
-	 3QfyWkbwQCqgA==
+	s=k20201202; t=1714229708;
+	bh=crcqESX/653Pg3zlDPRgRvb7OyyPp302KtgbEzu+PdA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=dj83KUhOYjnUOLfrMq3Pr+znV1JSNNWKQp9QoTQBvxCQzi3vAPrMj60yP2m+04Bmz
+	 nw+XTMicHg4uzq86ZCaeP1UmtS4A00uScrN+kko87L+PVX9dKJLccRdOjIm+Qs8mlk
+	 TScDVnQdUKL9qqHJYzHFvzf+QY6g/Tix1CFskV4f3BlBt8OMJJebQVMh4gcufeIqNY
+	 yNpmG+u8T5VcMWhYky5CqBYO5qB9dEmbupIDDGX+clRriM4lIzMGVnF6rwEKtSddd7
+	 pHi6aeUcGr52f4ob/4r/Rpd+W+ng4kJr3D0Pr+cNia5VF4PGTiihwvGkaY/qYN83Mj
+	 yawXPZ2S4eN/Q==
 From: Masahiro Yamada <masahiroy@kernel.org>
 To: linux-kbuild@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
-	Matt Porter <mporter@kernel.crashing.org>,
-	Alexandre Bounine <alex.bou9@gmail.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH 2/2] kconfig: do not imply the type of choice from the first entry
-Date: Sat, 27 Apr 2024 19:42:31 +0900
-Message-Id: <20240427104231.2728905-3-masahiroy@kernel.org>
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH v2 0/4] kbuild: replace $(srctree)/$(src) with $(src) in Makefiles
+Date: Sat, 27 Apr 2024 23:54:58 +0900
+Message-Id: <20240427145502.2804311-1-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20240427104231.2728905-1-masahiroy@kernel.org>
-References: <20240427104231.2728905-1-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -65,176 +56,123 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The followng two test cases are very similar, but the latter does not
-work.
 
-[test case 1]
+This makes upstream/downstream Makefiles look consistent.
 
-    choice
-            prompt "choose"
 
-    config A
-            bool "A"
+Masahiro Yamada (4):
+  arch: use $(obj)/ instead of $(src)/ for preprocessed linker scripts
+  kbuild: do not add $(srctree) or $(objtree) to header search paths
+  kbuild: use $(obj)/ instead of $(src)/ for common pattern rules
+  kbuild: use $(src) instead of $(srctree)/$(src) for source directory
 
-    if y
-    config B
-            bool "B"
-    endif
+ Documentation/Makefile                        |  8 +++---
+ Documentation/devicetree/bindings/Makefile    |  6 ++--
+ Documentation/kbuild/makefiles.rst            | 12 ++++----
+ Makefile                                      |  7 +++++
+ arch/arc/boot/dts/Makefile                    |  3 +-
+ arch/arm/Kbuild                               |  2 +-
+ arch/arm/boot/Makefile                        |  3 +-
+ arch/arm/mach-s3c/Makefile                    |  2 +-
+ arch/arm/plat-orion/Makefile                  |  2 +-
+ arch/arm/tools/Makefile                       |  2 +-
+ arch/arm64/kernel/vdso/Makefile               |  2 +-
+ arch/arm64/kernel/vdso32/Makefile             |  2 +-
+ arch/arm64/kvm/Makefile                       |  4 +--
+ arch/arm64/kvm/hyp/Makefile                   |  2 +-
+ arch/csky/boot/dts/Makefile                   |  4 +--
+ arch/csky/kernel/vdso/Makefile                |  4 +--
+ arch/loongarch/kvm/Makefile                   |  2 +-
+ arch/loongarch/vdso/Makefile                  |  2 +-
+ arch/mips/kernel/syscalls/Makefile            |  2 +-
+ arch/mips/vdso/Makefile                       |  4 +--
+ arch/nios2/boot/dts/Makefile                  |  3 +-
+ arch/parisc/kernel/vdso32/Makefile            |  4 +--
+ arch/parisc/kernel/vdso64/Makefile            |  4 +--
+ arch/powerpc/boot/Makefile                    |  6 ++--
+ arch/powerpc/boot/dts/Makefile                |  3 +-
+ arch/powerpc/boot/dts/fsl/Makefile            |  3 +-
+ arch/powerpc/kernel/vdso/Makefile             |  8 +++---
+ arch/riscv/kernel/compat_vdso/Makefile        |  2 +-
+ arch/riscv/kernel/vdso/Makefile               |  2 +-
+ arch/riscv/kvm/Makefile                       |  2 +-
+ arch/s390/kernel/syscalls/Makefile            |  4 +--
+ arch/s390/kernel/vdso32/Makefile              |  4 +--
+ arch/s390/kernel/vdso64/Makefile              |  4 +--
+ arch/sh/kernel/vsyscall/Makefile              |  4 +--
+ arch/sparc/vdso/Makefile                      |  2 +-
+ arch/um/kernel/Makefile                       |  2 +-
+ arch/x86/boot/Makefile                        |  2 +-
+ arch/x86/entry/vdso/Makefile                  |  2 +-
+ arch/x86/kernel/Makefile                      |  2 +-
+ arch/x86/kernel/cpu/Makefile                  |  2 +-
+ arch/x86/mm/Makefile                          |  2 +-
+ arch/x86/um/vdso/Makefile                     |  2 +-
+ arch/xtensa/boot/dts/Makefile                 |  3 +-
+ certs/Makefile                                |  4 +--
+ drivers/Makefile                              |  5 ----
+ drivers/crypto/intel/qat/qat_420xx/Makefile   |  2 +-
+ drivers/crypto/intel/qat/qat_4xxx/Makefile    |  2 +-
+ drivers/crypto/intel/qat/qat_c3xxx/Makefile   |  2 +-
+ drivers/crypto/intel/qat/qat_c3xxxvf/Makefile |  2 +-
+ drivers/crypto/intel/qat/qat_c62x/Makefile    |  2 +-
+ drivers/crypto/intel/qat/qat_c62xvf/Makefile  |  2 +-
+ .../crypto/intel/qat/qat_dh895xcc/Makefile    |  2 +-
+ .../crypto/intel/qat/qat_dh895xccvf/Makefile  |  2 +-
+ drivers/gpu/drm/amd/amdgpu/Makefile           |  2 +-
+ drivers/gpu/drm/arm/display/komeda/Makefile   |  4 +--
+ drivers/gpu/drm/i915/Makefile                 |  4 +--
+ drivers/gpu/drm/imagination/Makefile          |  2 +-
+ drivers/gpu/drm/msm/Makefile                  |  8 +++---
+ drivers/gpu/drm/nouveau/Kbuild                | 10 +++----
+ drivers/gpu/drm/xe/Makefile                   | 10 +++----
+ drivers/hid/amd-sfh-hid/Makefile              |  2 +-
+ drivers/hid/intel-ish-hid/Makefile            |  2 +-
+ drivers/md/dm-vdo/Makefile                    |  2 +-
+ .../net/ethernet/aquantia/atlantic/Makefile   |  2 +-
+ drivers/net/ethernet/chelsio/libcxgb/Makefile |  2 +-
+ drivers/net/ethernet/fungible/funeth/Makefile |  2 +-
+ drivers/net/ethernet/hisilicon/hns3/Makefile  |  2 +-
+ .../broadcom/brcm80211/brcmfmac/Makefile      |  4 +--
+ .../broadcom/brcm80211/brcmfmac/bca/Makefile  |  6 ++--
+ .../broadcom/brcm80211/brcmfmac/cyw/Makefile  |  6 ++--
+ .../broadcom/brcm80211/brcmfmac/wcc/Makefile  |  6 ++--
+ .../broadcom/brcm80211/brcmsmac/Makefile      |  6 ++--
+ .../broadcom/brcm80211/brcmutil/Makefile      |  2 +-
+ .../net/wireless/intel/iwlwifi/dvm/Makefile   |  2 +-
+ .../net/wireless/intel/iwlwifi/mei/Makefile   |  2 +-
+ .../net/wireless/intel/iwlwifi/mvm/Makefile   |  2 +-
+ .../net/wireless/intel/iwlwifi/tests/Makefile |  2 +-
+ .../wireless/realtek/rtl818x/rtl8180/Makefile |  2 +-
+ .../wireless/realtek/rtl818x/rtl8187/Makefile |  2 +-
+ drivers/scsi/aic7xxx/Makefile                 | 12 ++++----
+ drivers/staging/rtl8723bs/Makefile            |  2 +-
+ fs/iomap/Makefile                             |  2 +-
+ fs/unicode/Makefile                           | 14 +++++-----
+ fs/xfs/Makefile                               |  4 +--
+ init/Makefile                                 |  2 +-
+ lib/Makefile                                  |  6 ++--
+ lib/raid6/Makefile                            |  2 +-
+ net/wireless/Makefile                         |  2 +-
+ rust/Makefile                                 |  6 ++--
+ samples/bpf/Makefile                          |  2 +-
+ samples/hid/Makefile                          |  2 +-
+ scripts/Kbuild.include                        |  3 +-
+ scripts/Makefile.asm-generic                  |  6 ++--
+ scripts/Makefile.build                        | 28 +++++++++----------
+ scripts/Makefile.clean                        |  2 +-
+ scripts/Makefile.host                         |  4 +--
+ scripts/Makefile.lib                          | 10 +++----
+ scripts/Makefile.modpost                      |  2 +-
+ scripts/dtc/Makefile                          |  6 ++--
+ scripts/gdb/linux/Makefile                    |  2 +-
+ scripts/genksyms/Makefile                     |  4 +--
+ scripts/kconfig/Makefile                      |  8 +++---
+ security/tomoyo/Makefile                      |  2 +-
+ usr/Makefile                                  |  2 +-
+ usr/include/Makefile                          |  2 +-
+ 105 files changed, 198 insertions(+), 207 deletions(-)
 
-    endchoice
-
-[test case 2]
-
-    choice
-            prompt "choose"
-
-    if y
-    config A
-            bool "A"
-
-    config B
-            bool "B"
-    endif
-
-    endchoice
-
-Since 'if y' is always true, both of them should be equivalent to:
-
-    choice
-            prompt "choose"
-
-    config A
-            bool "A"
-
-    config B
-            bool "B"
-
-    endchoice
-
-However, the test case 2 warns:
-  Kconfig:1:warning: config symbol defined without type
-
-If the type of choice is not specified, it is implied from the first
-entry within the choice block.
-
-When inferring the choice type, menu_finalize() checks only direct
-children of the choice. At this point, the menu entries still exist
-under the 'if' entry:
-
-  choice
-  \-- if y
-      |-- A
-      \-- B
-
-Later, menu_finalize() re-parents the menu, so A and B will be lifted up
-right under the choice:
-
-  choice
-  |-- if y
-  |-- A
-  \-- B
-
-This is complex because menu_finalize() sets attributes, restructures
-the menu tree, and checks the sanity at the same time, leading to some
-bugs.
-
-It would be possible to resolve it by setting the choice type after
-re-parenting, but the current mechanism looks questionable to me.
-
-Let's default all choices to 'bool' unless the type is specified.
-This change makes sense because 99% of choice use cases are bool.
-
-There exists only one 'tristate' choice in drivers/rapidio/Kconfig.
-Another (much cleaner) approach would be to remove the tristate choice
-support entirely, but I have not yet made up my mind.
-
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
- Documentation/kbuild/kconfig-language.rst             |  4 +---
- scripts/kconfig/menu.c                                | 11 -----------
- scripts/kconfig/parser.y                              |  3 +++
- scripts/kconfig/tests/choice/Kconfig                  |  2 +-
- scripts/kconfig/tests/choice_value_with_m_dep/Kconfig |  2 +-
- 5 files changed, 6 insertions(+), 16 deletions(-)
-
-diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
-index 555c2f839969..42b975b8e0cf 100644
---- a/Documentation/kbuild/kconfig-language.rst
-+++ b/Documentation/kbuild/kconfig-language.rst
-@@ -400,9 +400,7 @@ choices::
- 
- This defines a choice group and accepts any of the above attributes as
- options. A choice can only be of type bool or tristate.  If no type is
--specified for a choice, its type will be determined by the type of
--the first choice element in the group or remain unknown if none of the
--choice elements have a type specified, as well.
-+specified for a choice, its type will be the default 'bool'.
- 
- While a boolean choice only allows a single config entry to be
- selected, a tristate choice also allows any number of config entries
-diff --git a/scripts/kconfig/menu.c b/scripts/kconfig/menu.c
-index e01b9ee87c05..134ef120ad08 100644
---- a/scripts/kconfig/menu.c
-+++ b/scripts/kconfig/menu.c
-@@ -323,17 +323,6 @@ static void _menu_finalize(struct menu *parent, bool inside_choice)
- 			is_choice = true;
- 
- 		if (is_choice) {
--			if (sym->type == S_UNKNOWN) {
--				/* find the first choice value to find out choice type */
--				current_entry = parent;
--				for (menu = parent->list; menu; menu = menu->next) {
--					if (menu->sym && menu->sym->type != S_UNKNOWN) {
--						menu_set_type(menu->sym->type);
--						break;
--					}
--				}
--			}
--
- 			/*
- 			 * Use the choice itself as the parent dependency of
- 			 * the contained items. This turns the mode of the
-diff --git a/scripts/kconfig/parser.y b/scripts/kconfig/parser.y
-index 613fa8c9c2d0..70ea3152d9b8 100644
---- a/scripts/kconfig/parser.y
-+++ b/scripts/kconfig/parser.y
-@@ -230,6 +230,9 @@ choice: T_CHOICE T_EOL
- 
- choice_entry: choice choice_option_list
- {
-+	if (current_entry->sym->type == S_UNKNOWN)
-+		menu_set_type(S_BOOLEAN);
-+
- 	if (!current_entry->prompt) {
- 		fprintf(stderr, "%s:%d: error: choice must have a prompt\n",
- 			current_entry->filename, current_entry->lineno);
-diff --git a/scripts/kconfig/tests/choice/Kconfig b/scripts/kconfig/tests/choice/Kconfig
-index 8cdda40868a1..4dc0d3a1e089 100644
---- a/scripts/kconfig/tests/choice/Kconfig
-+++ b/scripts/kconfig/tests/choice/Kconfig
-@@ -18,7 +18,7 @@ config BOOL_CHOICE1
- endchoice
- 
- choice
--	prompt "tristate choice"
-+	tristate "tristate choice"
- 	default TRI_CHOICE1
- 
- config TRI_CHOICE0
-diff --git a/scripts/kconfig/tests/choice_value_with_m_dep/Kconfig b/scripts/kconfig/tests/choice_value_with_m_dep/Kconfig
-index bd970cec07d6..3e600c83279a 100644
---- a/scripts/kconfig/tests/choice_value_with_m_dep/Kconfig
-+++ b/scripts/kconfig/tests/choice_value_with_m_dep/Kconfig
-@@ -9,7 +9,7 @@ config DEP
- 	default m
- 
- choice
--	prompt "Tristate Choice"
-+	tristate "Tristate Choice"
- 
- config CHOICE0
- 	tristate "Choice 0"
 -- 
 2.40.1
 
