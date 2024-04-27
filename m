@@ -1,256 +1,157 @@
-Return-Path: <linux-kbuild+bounces-1696-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1697-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BDCE8B4016
-	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Apr 2024 21:21:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B829B8B454D
+	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Apr 2024 11:16:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 429B82873CB
-	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Apr 2024 19:21:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 46EE6281EB2
+	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Apr 2024 09:16:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61061111A8;
-	Fri, 26 Apr 2024 19:21:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01FB141C84;
+	Sat, 27 Apr 2024 09:16:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BJeJsnkL"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HUMNDpku"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C18B3FD4
-	for <linux-kbuild@vger.kernel.org>; Fri, 26 Apr 2024 19:21:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD7E440BED;
+	Sat, 27 Apr 2024 09:16:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714159304; cv=none; b=fn5bov1/VwfMcgrXEDu9pzZhc3uQt8IEkHa/O3XQ9vbYIkjircuB1AdoDcqhxEvEGtxwWM1JX4y1o9XeuKyABcfWTJDz0XCtdeggaVsLulhq5iyFooB+W2FM74HTNiN3FQU+9sBR5G2jUN16nKl3TVutttwyj8OYNih2qXZY0pI=
+	t=1714209403; cv=none; b=uA4djM135fkbv7jeosBAHbdJDGX4mh2kZ3i6nh/aucsaCiLM3kQYfLD0tKIFwf0lbzoqB3iwr3MNLnPJVbAC0ixteog382NK3s+EqIZcTJIZbcGVVjopF82ENQTu0yW+bwPwTfWOAeWfFiuJKyvvemuUVE4xeSu573QRDgeSuoY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714159304; c=relaxed/simple;
-	bh=AifMpHzd5hCq3rEYuGjutUJm8xluooWKuYVgKjwUk/4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KsGe96GXmhLhO2JYFVadEwKn97PSq4EtJevD0+q/6hpzxgqBQsXhs2jJumbNZzIXV1M09+efJ3ZsjTC8DHoRo1z53xM5FJz/luOMH4ynQbQO9kSPrGTZTsRqwGvXeR3V8bdPNmXfkDoRoK5eCUaCi8b6uojnBF32G3UU54wgBTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BJeJsnkL; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C51FFC2BD11
-	for <linux-kbuild@vger.kernel.org>; Fri, 26 Apr 2024 19:21:42 +0000 (UTC)
+	s=arc-20240116; t=1714209403; c=relaxed/simple;
+	bh=spjxZtU2X9VEEO69NhaiUz7HWIUhY1zMZiiojKMLKJk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=fZmhLI2sywKMlWdv7GJrOoyXu8sReCkVpih/HSXBdyY5Ycvoh2awU6DWRg+PBQ807To+lAJapSsRJCwsbgHYqSAV8nWRssU6GZ5CiKhNUeEtWKKXAXXXJHt58GliVGAYA8dd04wX5Wo9PvcdcheZ5tBXCsbyV53h4hNW/A4uw2g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HUMNDpku; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88A3AC113CE;
+	Sat, 27 Apr 2024 09:16:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714159303;
-	bh=AifMpHzd5hCq3rEYuGjutUJm8xluooWKuYVgKjwUk/4=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=BJeJsnkLIfaVRxyPesJPvB/webggsHS6LbqkzeLr1K9J5i1/HsdIKKTkI77+g94xV
-	 Bg8QGn3eDBGbcEuS9a/EuytlQ0HozBaE7E8BfaRc2n3wrtd0pzwBt0xPFsIW7SitbL
-	 WPbelH/oKM5SXIxucoBd2TnU5cmH+gtRROZb9u2S17OftXZ2lSCB3NcyW/Y1j+Azzd
-	 znZkUDPxd0rGpYmnDZS01kh1tkT46EgGxlU0Hh1xab3O0K1T+UC/84UxQG9QgWpJNk
-	 VeB6Aolbb49dNvRCy0englDRK2N7baU5JSKSBk+PcMBje5VFlsbY9F8VW+unVTRuXL
-	 fEAoYYMIJQnfw==
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-51ca95db667so1506467e87.0
-        for <linux-kbuild@vger.kernel.org>; Fri, 26 Apr 2024 12:21:42 -0700 (PDT)
-X-Gm-Message-State: AOJu0YyNRgTt/t9Vm2fSuR2sJFNqe/quQ6N/WrwhBSYwx3hoPZ5EO8TV
-	7Cc16T83cdx8O4xSIu58o99A7ZWQ2ORUTNwsNNXeeN31hS+ZIMEEgw52nJ6Vg0rhyPbvvx2AfIz
-	Nbunh4rUn3jfEl+qUd8eVTaqEui8=
-X-Google-Smtp-Source: AGHT+IGRyLdcMdDI0QYRqTQWVHCjC0zz8lM2ynkj9pvK0uKvvEtRArk+q5nRA8aoAe8/1G5ShdsGDdkHajJ5L5FmVQk=
-X-Received: by 2002:a05:6512:ac1:b0:51c:cc1b:a8f6 with SMTP id
- n1-20020a0565120ac100b0051ccc1ba8f6mr2169237lfu.20.1714159301453; Fri, 26 Apr
- 2024 12:21:41 -0700 (PDT)
+	s=k20201202; t=1714209403;
+	bh=spjxZtU2X9VEEO69NhaiUz7HWIUhY1zMZiiojKMLKJk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=HUMNDpkuyco7soSPC4Rzf8bKLrCZyn5K6pqb9WdOqdW0PPmw7NluRvmgW2gQ2WNhN
+	 U/l4gJb5hQDVl6DohxW8+u3AGY5WfYVIg/DLDHX7GGfkPOOHbn4UU/XuQBnKyWOvQe
+	 fvFErRstI92CYRG+IEF79gf/RqfNV7fovuG4VRRoPUDqYRUoxPmo42vjyveOTTYKRI
+	 9wYRnwcdTxNNrSFnu/ks7n4pq2NsR2fSl4777y0u294Lb63u8bHuiEFTmlMEnkPtFM
+	 bb5VTrTznU2lK7laxdO4JrFm7k6NcIqIXMJNd5C3NIsEsZndzSiEkkY9WhKE3M2hrF
+	 lvv8QElSuWbDA==
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH] kconfig: remove SYMBOL_NO_WRITE flag
+Date: Sat, 27 Apr 2024 18:16:38 +0900
+Message-Id: <20240427091638.2722050-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240407072933.3562124-1-ppandit@redhat.com> <CAK7LNASZR=n+T=9Lo-5=Nw9WTwY9ywdTNvAUdt8xDXxsnNu3Tg@mail.gmail.com>
- <668901914.114470.1713335369416@mail.yahoo.com> <CAK7LNAReoYHT0-SUzFT11y=pN6GTLSgu0+7Su+2Tthkz5VFymw@mail.gmail.com>
- <1927988181.1604457.1713852967808@mail.yahoo.com> <CAK7LNAShU0GS4e=wRupgwUDHhxMR5SVmkWn4mTZMU6r+Vng0Xg@mail.gmail.com>
- <978513013.1900588.1713936355848@mail.yahoo.com>
-In-Reply-To: <978513013.1900588.1713936355848@mail.yahoo.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sat, 27 Apr 2024 04:21:04 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARB1WuL=yduv+XjkjCCagrgWQUaKEVk82wn0+QRgoNVTA@mail.gmail.com>
-Message-ID: <CAK7LNARB1WuL=yduv+XjkjCCagrgWQUaKEVk82wn0+QRgoNVTA@mail.gmail.com>
-Subject: Re: [PATCH v1] kconfig: add config and source entry details
-To: Prasad Pandit <pj.pandit@yahoo.in>
-Cc: "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>
-Content-Type: multipart/mixed; boundary="000000000000409ce6061704d0a0"
+Content-Transfer-Encoding: 8bit
 
---000000000000409ce6061704d0a0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+This flag is set to symbols that are not intended to be written
+to the .config file.
 
-On Wed, Apr 24, 2024 at 2:27=E2=80=AFPM Prasad Pandit <pjp@fedoraproject.or=
-g> wrote:
->
-> Hi,
->
-> On Tuesday, 23 April, 2024 at 03:41:35 pm IST, Masahiro Yamada <masahiroy=
-@kernel.org> wrote:
-> >EOL is a statement separator.
->
-> * Right. So are semi-colon (;), braces (}{) and colon (:) in case of C an=
-d Python.
->
-> =3D=3D=3D
-> $ cat t.c
->
-> #include <stdio.h>
->
-> int main (void)
-> { printf("Hello, world!\n");$
-> $
-> $ cc -xc -o t t.c
-> t.c: In function =E2=80=98main=E2=80=99:
-> t.c:6:1: error: expected declaration or statement at end of input
->     6 | { printf("Hello, world!\n");
->       | ^
+Since commit b75b0a819af9 ("kconfig: change defconfig_list option to
+environment variable"), SYMBOL_NO_WRITE is only set to choices.
 
+Therefore, (sym->flags & SYMBOL_NO_WRITE) is equivalent to
+sym_is_choice(sym). This flags is no longer necessary.
 
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-It is because the missing closing brace
-is a grammatical error.
+ scripts/kconfig/confdata.c | 4 ++--
+ scripts/kconfig/expr.h     | 1 -
+ scripts/kconfig/gconf.c    | 2 --
+ scripts/kconfig/parser.y   | 2 +-
+ scripts/kconfig/symbol.c   | 3 +--
+ 5 files changed, 4 insertions(+), 8 deletions(-)
 
+diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
+index bcce87658998..5caec434e6f4 100644
+--- a/scripts/kconfig/confdata.c
++++ b/scripts/kconfig/confdata.c
+@@ -502,7 +502,7 @@ int conf_read(const char *name)
+ 
+ 	for_all_symbols(sym) {
+ 		sym_calc_value(sym);
+-		if (sym_is_choice(sym) || (sym->flags & SYMBOL_NO_WRITE))
++		if (sym_is_choice(sym))
+ 			continue;
+ 		if (sym_has_value(sym) && (sym->flags & SYMBOL_WRITE)) {
+ 			/* check that calculated value agrees with saved value */
+@@ -1007,7 +1007,7 @@ static int conf_touch_deps(void)
+ 
+ 	for_all_symbols(sym) {
+ 		sym_calc_value(sym);
+-		if ((sym->flags & SYMBOL_NO_WRITE) || !sym->name)
++		if (sym_is_choice(sym))
+ 			continue;
+ 		if (sym->flags & SYMBOL_WRITE) {
+ 			if (sym->flags & SYMBOL_DEF_AUTO) {
+diff --git a/scripts/kconfig/expr.h b/scripts/kconfig/expr.h
+index f646a98de006..d965e427753e 100644
+--- a/scripts/kconfig/expr.h
++++ b/scripts/kconfig/expr.h
+@@ -135,7 +135,6 @@ struct symbol {
+ #define SYMBOL_WRITE      0x0200  /* write symbol to file (KCONFIG_CONFIG) */
+ #define SYMBOL_CHANGED    0x0400  /* ? */
+ #define SYMBOL_WRITTEN    0x0800  /* track info to avoid double-write to .config */
+-#define SYMBOL_NO_WRITE   0x1000  /* Symbol for internal use only; it will not be written */
+ #define SYMBOL_CHECKED    0x2000  /* used during dependency checking */
+ #define SYMBOL_WARNED     0x8000  /* warning has been issued */
+ 
+diff --git a/scripts/kconfig/gconf.c b/scripts/kconfig/gconf.c
+index 13e2449ac83f..67a27c497c40 100644
+--- a/scripts/kconfig/gconf.c
++++ b/scripts/kconfig/gconf.c
+@@ -91,8 +91,6 @@ static const char *dbg_sym_flags(int val)
+ 		strcat(buf, "write/");
+ 	if (val & SYMBOL_CHANGED)
+ 		strcat(buf, "changed/");
+-	if (val & SYMBOL_NO_WRITE)
+-		strcat(buf, "no_write/");
+ 
+ 	buf[strlen(buf) - 1] = '\0';
+ 
+diff --git a/scripts/kconfig/parser.y b/scripts/kconfig/parser.y
+index 69dc0c098acb..613fa8c9c2d0 100644
+--- a/scripts/kconfig/parser.y
++++ b/scripts/kconfig/parser.y
+@@ -222,7 +222,7 @@ config_option: T_MODULES T_EOL
+ choice: T_CHOICE T_EOL
+ {
+ 	struct symbol *sym = sym_lookup(NULL, 0);
+-	sym->flags |= SYMBOL_NO_WRITE;
++
+ 	menu_add_entry(sym);
+ 	menu_add_expr(P_CHOICE, NULL, NULL);
+ 	printd(DEBUG_PARSE, "%s:%d:choice\n", cur_filename, cur_lineno);
+diff --git a/scripts/kconfig/symbol.c b/scripts/kconfig/symbol.c
+index 8b34992ba5ed..b909c64f3bac 100644
+--- a/scripts/kconfig/symbol.c
++++ b/scripts/kconfig/symbol.c
+@@ -466,10 +466,9 @@ void sym_calc_value(struct symbol *sym)
+ 			if (sym->flags & SYMBOL_CHANGED)
+ 				sym_set_changed(choice_sym);
+ 		}
+-	}
+ 
+-	if (sym->flags & SYMBOL_NO_WRITE)
+ 		sym->flags &= ~SYMBOL_WRITE;
++	}
+ 
+ 	if (sym->flags & SYMBOL_NEED_SET_CHOICE_VALUES)
+ 		set_all_choice_values(sym);
+-- 
+2.40.1
 
-
-> ---
->
-> $ cat t.py
-> #!/usr/bin/python
->
-> if (x =3D=3D 10)$
-> $
-> $ python t.py
->   File "/tmp/im/t.py", line 3
->     if (x =3D=3D 10)
->                 ^
-> SyntaxError: expected ':'
-> =3D=3D=3D
->
-> * In above examples, files terminate without completing the statement and=
-/or function definition (missing closing brace '}'), which is being treated=
- as an error.
-
-
-
-Again, this is wrong Python code. That's why.
-
-
-
-
-
->
->
-> >Could you give me an example programming language
-> >that errors out when \n is missing at the end of the
-> >source file?
->
-> * It is not about '\n' at the end of file, but '\n' at the end of the Kco=
-nfig statement/record. Because Kconfig language uses EOL as a separator.
->
->
-> > I do not think requiring EOL at the end of file would help simplify the=
- lexer/parser.
->
-> * It does, because on the parser side you don't have to define rule(s) wi=
-th EOF to parse statements.
-
-
-Do you see any grammar that treats T_EOF in
-scripts/kconfig/parser.y ?
-It only handles T_EOL.
-
-The parser is already simplified.
-
-
-
->
-> >When the lexer is encountered with EOF, it must
-> >tell the parser to finish the current statement
-> >and go back to the previous source file.
-> >So, EOF implies the end of the statement anyway.
->
-> * No, EOF does not imply end of a statement. The errors reported by gcc(1=
-) and Python above clearly confirm that EOF is not end of statement.
-
-
-
-In Python, a newline (and also a semicolon)
-separates two statements, but it does not mean
-it is required at the end of file.
-
-
-If EOF is encountered, the statement ends.
-
-
-
-
-I attached two Python scripts for you.
-
-test.py and test2.py are almost the same.
-
-Only the difference is that
-test2.py lacks a new line at the end of file.
-
-
-
-masahiro@zoe:/tmp$ cat test.py
-#!/usr/bin/python
-print("A")
-print("B")
-masahiro@zoe:/tmp$ cat test2.py
-#!/usr/bin/python
-print("A")
-print("B")masahiro@zoe:/tmp$
-
-
-
-masahiro@zoe:/tmp$ ./test.py
-A
-B
-masahiro@zoe:/tmp$ chmod +x test2.py
-masahiro@zoe:/tmp$ ./test2.py
-A
-B
-
-
-
-As I said, it is a linter's job (e.g. pylint)
-to check the missing newline at the end.
-
-
-
-
->
-> * In their case colon(':') or brace ('}') are the required terminators, w=
-hereas in Kconfig's case EOL ('\n') is the required terminator.
->
-> * Because Kconfig language uses EOL ('\n') as statement separator/termina=
-tor, IMHO it should display an error when that condition is not met, becaus=
-e such statement remains incomplete.
->
->
-> Thank you.
-
-
-
-
-
-
-
---=20
-Best Regards
-Masahiro Yamada
-
---000000000000409ce6061704d0a0
-Content-Type: text/x-python; charset="US-ASCII"; name="test.py"
-Content-Disposition: attachment; filename="test.py"
-Content-Transfer-Encoding: base64
-Content-ID: <f_lvh234ga0>
-X-Attachment-Id: f_lvh234ga0
-
-IyEvdXNyL2Jpbi9weXRob24KcHJpbnQoIkEiKQpwcmludCgiQiIpCg==
---000000000000409ce6061704d0a0
-Content-Type: text/x-python; charset="US-ASCII"; name="test2.py"
-Content-Disposition: attachment; filename="test2.py"
-Content-Transfer-Encoding: base64
-Content-ID: <f_lvh234gf1>
-X-Attachment-Id: f_lvh234gf1
-
-IyEvdXNyL2Jpbi9weXRob24KcHJpbnQoIkEiKQpwcmludCgiQiIp
---000000000000409ce6061704d0a0--
 
