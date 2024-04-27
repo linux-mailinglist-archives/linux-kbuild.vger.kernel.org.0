@@ -1,186 +1,159 @@
-Return-Path: <linux-kbuild+bounces-1698-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1699-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81CEF8B4575
-	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Apr 2024 12:06:39 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id F410A8B4593
+	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Apr 2024 12:43:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 633E21C211AC
-	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Apr 2024 10:06:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A91C51F21C14
+	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Apr 2024 10:43:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EA6F47F5B;
-	Sat, 27 Apr 2024 10:06:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5E094316B;
+	Sat, 27 Apr 2024 10:43:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PtJisH5h"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BsnFewS0"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46FC743AA2;
-	Sat, 27 Apr 2024 10:06:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E33C383B2;
+	Sat, 27 Apr 2024 10:43:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714212394; cv=none; b=pWpUMxHgDRxCErWyDMLAkY0SvDxxqBRT3iXUr2vF9Ve2QbRgYXRj14iRgqJ6Z7G+KQjn/qmMSz0wYy0leXmeMGPWtT+np8ploX7V2R3SuEJWVMoS24C26bTRBbZOEvgrxpKOr5lnIRTnKJjlyS8N7q3Wq64oXJ4XHQUNiCn3L24=
+	t=1714214589; cv=none; b=TrNJoiHK1TCd6gFMzPCJu34ydoopCAtViH0DidJ/xtijVXiHTsTbZ468LE4AC15fKn6Ki/GufbkqatqLrUe+tOwdTxh2ORfCmC5ecnP/sGaCKiSgT0b1ztb66ol4y1/gJW2xeEhLqD5lhb+iCwZ7Mlc69yzpPBN6EkPMa/UG8zo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714212394; c=relaxed/simple;
-	bh=kzKzmjQSLyELOaHx8ENTHOHGtQTuBunSZrFLuoJyHnk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=X5zO2Qd6y+HtNv0zNGQsfVzOoXJ8cDXBJdzZmCwwkvV8XWhT7gCF/NmBaTnCcGJH2pvYejKJ01IKOhKav2Bn8EOKv+ffOcH8Q/0Yq7dAeo2GF86VcJ+rGqxKNeBhzpjFwf2bB5bH2HcnR0rIoY0lpTqJJonk+iFfTd42Usgec5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PtJisH5h; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE4E0C113CE;
-	Sat, 27 Apr 2024 10:06:33 +0000 (UTC)
+	s=arc-20240116; t=1714214589; c=relaxed/simple;
+	bh=yXENlZl/r+zrHsbm7JYiplM9HzFo663usaZ7tCpedTQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=YfAdWmndWAKKqYNyYOQP8kX5p/RrJ/TmvizHlvHeZUSeWvf+zVoKpOErcUH5HONk6pQ7++yFSZqNd+QjXaw5peL8YacbybdoHo/IENp7lpb7fgmnvN0FIq2rS1G/KJ8RZyTekb+eKhkZkwnREqfn4PBbrC5AJcVzcc6wGEGYETg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BsnFewS0; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16541C113CE;
+	Sat, 27 Apr 2024 10:43:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714212393;
-	bh=kzKzmjQSLyELOaHx8ENTHOHGtQTuBunSZrFLuoJyHnk=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=PtJisH5hVT8OixjBLoL3Gj2RTySvlPbE+VhgeSp8BMrqVG9Z9WbLLW/UczmYXn/eE
-	 ZUxxa70OH/APzPbWTcuKAcJuLc3+8d/075bDbLp+CiFhCWPcHN6/zJvU1O9R/zTPUg
-	 dZnbkATSm51eG0YoNjQE5L+k6OIkKTSDbJBkv/nz1zXpCnrKvVOlmQ3yPRtBSrvzXi
-	 FSLmmyWvbRxBWaDwlvpB+FMZePoDcE4IcXDgA6ufefukkgau66P/7pfDFkH4/2vWMZ
-	 FuJxt88NDnUCIrhmCd+La/Fcdggix0jPdEdlVUgvfU3tgdafrPyXcnshlJwwa/76d9
-	 49Yw/L+sxs2MQ==
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5196c755e82so3598105e87.0;
-        Sat, 27 Apr 2024 03:06:33 -0700 (PDT)
-X-Gm-Message-State: AOJu0Yx453+NsF9OwL6GBGZxcxyr0YkS20QEfm9MeCZsZg5vI9sV4se7
-	cHszCJoW20egU77qQK4VqBIwgBxGaYPW5Y/Jr5dEshMzHIZ9V6ganHFjylvhoK0DAuvm+jpsU5S
-	pAzlwuFp5T0rbFgw66z14DcARJKs=
-X-Google-Smtp-Source: AGHT+IFdQ28uQbTB6Mc/kxguimi9mBy216cOyH+bAt0M6kVKM0KywH9Z71+q4/py0eGtqPwufppjCr3lVkKW/HuRb0w=
-X-Received: by 2002:a19:2d09:0:b0:513:1a9c:ae77 with SMTP id
- k9-20020a192d09000000b005131a9cae77mr2922235lfj.52.1714212392447; Sat, 27 Apr
- 2024 03:06:32 -0700 (PDT)
+	s=k20201202; t=1714214589;
+	bh=yXENlZl/r+zrHsbm7JYiplM9HzFo663usaZ7tCpedTQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=BsnFewS02DuNgUww69Y9ZuSeu1vk2yOL/Da4Wm63rWglc8X8AMGT3t7iPxLFhAUG4
+	 wumsrDz6RJAwZ6MBHaR3U2jEe72YQCYDsaNgaty6YlXWLlpM1p9PQ4vW6dk6URmfrc
+	 l79K1EeFHIEAXbBvlndW5Zon55Tc46204ZGucIeUEg8zYudIMcys2K7+3yTc0Pv/vj
+	 F+T1JumyQ/uRCp5bvltzmD8kZR9up0829haS6a06/NJWUylAvneNB6CdJ2+L6A85Jv
+	 sOVYU8axQmZhp2JnxazoFoTi9AMMnz6APSrDr270KEBq6WLP4nnBcH6MWlnqHtOkPY
+	 YM758Ph5B2dlQ==
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Matt Porter <mporter@kernel.crashing.org>,
+	Alexandre Bounine <alex.bou9@gmail.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	linux-doc@vger.kernel.org
+Subject: [PATCH 0/2] kconfig: stop implification of choice type
+Date: Sat, 27 Apr 2024 19:42:29 +0900
+Message-Id: <20240427104231.2728905-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240427091638.2722050-1-masahiroy@kernel.org>
-In-Reply-To: <20240427091638.2722050-1-masahiroy@kernel.org>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sat, 27 Apr 2024 19:05:56 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAR+PaeaNvWsMWe9BgJdr1-J5kiUJE21U+wfUTnQFaW46g@mail.gmail.com>
-Message-ID: <CAK7LNAR+PaeaNvWsMWe9BgJdr1-J5kiUJE21U+wfUTnQFaW46g@mail.gmail.com>
-Subject: Re: [PATCH] kconfig: remove SYMBOL_NO_WRITE flag
-To: linux-kbuild@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Sat, Apr 27, 2024 at 6:16=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
->
-> This flag is set to symbols that are not intended to be written
-> to the .config file.
->
-> Since commit b75b0a819af9 ("kconfig: change defconfig_list option to
-> environment variable"), SYMBOL_NO_WRITE is only set to choices.
->
-> Therefore, (sym->flags & SYMBOL_NO_WRITE) is equivalent to
-> sym_is_choice(sym). This flags is no longer necessary.
+Content-Transfer-Encoding: 8bit
 
 
-"This flags" -> "This flag"
+There are two types supported for the choice statement,
+"bool" and "tristate".
+
+There is no ambiguity if you explicitly specifiy the type of the
+choice.
+
+For example
+
+    choice
+            bool "choose"
+
+       ...
+
+    endchoice
+
+Or,
+
+    choice
+            tristate "choose"
+
+       ...
+
+    endchoice
+
+Those are valid code, and clear about the behavior.
+
+However, if you see the reality in the kernel code, most of people
+omit the type definition.
+
+Usually, the choice is written like this:
+
+    choice
+            prompt "choose"
+
+       ...
+
+    endchoice
+
+The "prompt" does not specify the type at all.
+
+You may wonder how Kconfig knows the choice type then.
+
+When the choice type is not specified, Kconfig infers it from the first
+entry within the choice block.
+
+In the following, the choice type is bool because the first entry,
+CONFIG_A, is bool.
+
+    choice
+            prompt "choose"
+
+    config A
+            bool "A"
+
+    config B
+            bool "B"
+
+    endchoice
+
+As described in 2/2, this has a bug when "if" ... "endif" exists
+within a "choice" ... "endchoice".
+
+Of course, I can fix this bug, but the value of this feature is
+questionable.
+
+This patch set stop the type implification. Instead, make the
+default type of the choice "bool".
+
+This is reasonable because 99% of choice blocks are bool.
+
+The only user of tristate choice is drivers/rapidio/Kconfig.
+(although that choice is unneeded because it cotains a single
+entry, RAPIDIO_ENUM_BASIC)
+
+It changed it to specify "tristate" explicitly.
 
 
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
->
->  scripts/kconfig/confdata.c | 4 ++--
->  scripts/kconfig/expr.h     | 1 -
->  scripts/kconfig/gconf.c    | 2 --
->  scripts/kconfig/parser.y   | 2 +-
->  scripts/kconfig/symbol.c   | 3 +--
->  5 files changed, 4 insertions(+), 8 deletions(-)
->
-> diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
-> index bcce87658998..5caec434e6f4 100644
-> --- a/scripts/kconfig/confdata.c
-> +++ b/scripts/kconfig/confdata.c
-> @@ -502,7 +502,7 @@ int conf_read(const char *name)
->
->         for_all_symbols(sym) {
->                 sym_calc_value(sym);
-> -               if (sym_is_choice(sym) || (sym->flags & SYMBOL_NO_WRITE))
-> +               if (sym_is_choice(sym))
->                         continue;
->                 if (sym_has_value(sym) && (sym->flags & SYMBOL_WRITE)) {
->                         /* check that calculated value agrees with saved =
-value */
-> @@ -1007,7 +1007,7 @@ static int conf_touch_deps(void)
->
->         for_all_symbols(sym) {
->                 sym_calc_value(sym);
-> -               if ((sym->flags & SYMBOL_NO_WRITE) || !sym->name)
-> +               if (sym_is_choice(sym))
->                         continue;
->                 if (sym->flags & SYMBOL_WRITE) {
->                         if (sym->flags & SYMBOL_DEF_AUTO) {
-> diff --git a/scripts/kconfig/expr.h b/scripts/kconfig/expr.h
-> index f646a98de006..d965e427753e 100644
-> --- a/scripts/kconfig/expr.h
-> +++ b/scripts/kconfig/expr.h
-> @@ -135,7 +135,6 @@ struct symbol {
->  #define SYMBOL_WRITE      0x0200  /* write symbol to file (KCONFIG_CONFI=
-G) */
->  #define SYMBOL_CHANGED    0x0400  /* ? */
->  #define SYMBOL_WRITTEN    0x0800  /* track info to avoid double-write to=
- .config */
-> -#define SYMBOL_NO_WRITE   0x1000  /* Symbol for internal use only; it wi=
-ll not be written */
->  #define SYMBOL_CHECKED    0x2000  /* used during dependency checking */
->  #define SYMBOL_WARNED     0x8000  /* warning has been issued */
->
-> diff --git a/scripts/kconfig/gconf.c b/scripts/kconfig/gconf.c
-> index 13e2449ac83f..67a27c497c40 100644
-> --- a/scripts/kconfig/gconf.c
-> +++ b/scripts/kconfig/gconf.c
-> @@ -91,8 +91,6 @@ static const char *dbg_sym_flags(int val)
->                 strcat(buf, "write/");
->         if (val & SYMBOL_CHANGED)
->                 strcat(buf, "changed/");
-> -       if (val & SYMBOL_NO_WRITE)
-> -               strcat(buf, "no_write/");
->
->         buf[strlen(buf) - 1] =3D '\0';
->
-> diff --git a/scripts/kconfig/parser.y b/scripts/kconfig/parser.y
-> index 69dc0c098acb..613fa8c9c2d0 100644
-> --- a/scripts/kconfig/parser.y
-> +++ b/scripts/kconfig/parser.y
-> @@ -222,7 +222,7 @@ config_option: T_MODULES T_EOL
->  choice: T_CHOICE T_EOL
->  {
->         struct symbol *sym =3D sym_lookup(NULL, 0);
-> -       sym->flags |=3D SYMBOL_NO_WRITE;
-> +
->         menu_add_entry(sym);
->         menu_add_expr(P_CHOICE, NULL, NULL);
->         printd(DEBUG_PARSE, "%s:%d:choice\n", cur_filename, cur_lineno);
-> diff --git a/scripts/kconfig/symbol.c b/scripts/kconfig/symbol.c
-> index 8b34992ba5ed..b909c64f3bac 100644
-> --- a/scripts/kconfig/symbol.c
-> +++ b/scripts/kconfig/symbol.c
-> @@ -466,10 +466,9 @@ void sym_calc_value(struct symbol *sym)
->                         if (sym->flags & SYMBOL_CHANGED)
->                                 sym_set_changed(choice_sym);
->                 }
-> -       }
->
-> -       if (sym->flags & SYMBOL_NO_WRITE)
->                 sym->flags &=3D ~SYMBOL_WRITE;
-> +       }
->
->         if (sym->flags & SYMBOL_NEED_SET_CHOICE_VALUES)
->                 set_all_choice_values(sym);
-> --
-> 2.40.1
->
 
+Masahiro Yamada (2):
+  rapidio: specify the type for tristate choice explicitly
+  kconfig: do not imply the type of choice from the first entry
 
---=20
-Best Regards
-Masahiro Yamada
+ Documentation/kbuild/kconfig-language.rst             |  4 +---
+ drivers/rapidio/Kconfig                               |  2 +-
+ scripts/kconfig/menu.c                                | 11 -----------
+ scripts/kconfig/parser.y                              |  3 +++
+ scripts/kconfig/tests/choice/Kconfig                  |  2 +-
+ scripts/kconfig/tests/choice_value_with_m_dep/Kconfig |  2 +-
+ 6 files changed, 7 insertions(+), 17 deletions(-)
+
+-- 
+2.40.1
+
 
