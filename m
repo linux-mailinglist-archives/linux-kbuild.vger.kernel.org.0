@@ -1,193 +1,121 @@
-Return-Path: <linux-kbuild+bounces-1708-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1709-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 719ED8B46DB
-	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Apr 2024 17:33:43 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E31F8B48FD
+	for <lists+linux-kbuild@lfdr.de>; Sun, 28 Apr 2024 03:01:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 125531F21B80
-	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Apr 2024 15:33:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D1069282936
+	for <lists+linux-kbuild@lfdr.de>; Sun, 28 Apr 2024 01:01:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB05310A0E;
-	Sat, 27 Apr 2024 15:33:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FD3E7E2;
+	Sun, 28 Apr 2024 01:01:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nZFFE+RZ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eSdcbDAY"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82D40BA5E;
-	Sat, 27 Apr 2024 15:33:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B1BA64A;
+	Sun, 28 Apr 2024 01:00:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714232014; cv=none; b=Wqh4asrG7iBpdlRVVdb2hC25+Cvex5qRRqreflPll1q3R/fIUmcpA+QP2xrvJY3UD//aAQvN09NhWlhP7wK8QBIaUlZoU3Hpi5MO6IuKrkEJ01/oQa5m7tm80IRx4Bl4QH7B2DRp8SXPStNSLNk+mM0o8toattcAnZhRs3qcZ2I=
+	t=1714266061; cv=none; b=frpHQUI1Od4HwUycQ2hP/IBDbuPnHbRmvWvZB2r9sJRd8xz9L8Pe0LeG/kSq4cgUHO3M3vTkg1jpvl/egaBGkuIupBN6t9wf+nk2lpJTw0PZTSIh9YfrCh3n90O18IB7mgjFFlJh7cxNTsL4SA/OMZvf/JIfPhz7lNO9zD4igYQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714232014; c=relaxed/simple;
-	bh=y/X5XzE38pKMNGYqF0kWZp87CwlmRX4eyAcALVQZaU8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=mM7gp6ONptKf0oVNuqNOe2daPkKBPPyHWXlV9TmaUnKgQ0wqPPzpDN6GmQma0fZJrUWDm9mOFyWExgDEYQgHKfSq7YlZBQZDR0D7/Ahsc2zGgQ3maHNAzfR16Xy6FYqsis+aEdELkJVpv/ajF49Ofm4SnTEUi6Ef4nCG7MiCyEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nZFFE+RZ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E532EC2BD10;
-	Sat, 27 Apr 2024 15:33:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714232014;
-	bh=y/X5XzE38pKMNGYqF0kWZp87CwlmRX4eyAcALVQZaU8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=nZFFE+RZYRkrTy+tY+nQHSdBURQJRvR2Ma5uXYg3kg38XYKrOwRPM6jZJOtdW8vws
-	 N9dYBhtbLqf24pOjH/LiJGadHErf2idqLdUIgJwBI1IN9KfqIlaaJLNZrCgVxfGpmT
-	 RMApeChLxmZTYjfHbySVUCTjO1NumcCK/Ahzm7f1Uxo0oP0w9riOCzejc7o8bcWGK6
-	 PswSnyGhiZlQ9hBz1Hl6/cU4nhfpEIFr4QZwXmtb0u7ih4fwfQr/TbeYF9ykKjjFAN
-	 hgLb/FuufS7g+I0EvasrYc2P2zyYZnHj/H8sVPqLucA0pMUn76QMef5yLl08j25aU0
-	 xGbgCUjup0orQ==
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: linux-kbuild@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>
-Subject: [PATCH 2/2] kbuild: add 'private' to target-specific variables
-Date: Sun, 28 Apr 2024 00:32:53 +0900
-Message-Id: <20240427153253.2809911-2-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20240427153253.2809911-1-masahiroy@kernel.org>
-References: <20240427153253.2809911-1-masahiroy@kernel.org>
+	s=arc-20240116; t=1714266061; c=relaxed/simple;
+	bh=CQPq4P7Mc2rn5q+BxrpMTetHqp2L2IxLk48gCda0ihs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AEWAf9QqAAF+VcTjP/OIj+XZEWHO4zoQXjduYGR1bFpF+OjlnUXx9djpOFf0pK/WYZJqq2SZkzifvbyjcvXsNXzf7nZ0Z9iLAGTM0eVagX0+5d/CfR7ojtL4idy2u7BQ6cbXldlsJRM/2jzTBAlpPM7t9MK3qwi2hS0/fjQ2V+c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eSdcbDAY; arc=none smtp.client-ip=209.85.221.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-4dac3cbc8fdso985784e0c.0;
+        Sat, 27 Apr 2024 18:00:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714266059; x=1714870859; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CQPq4P7Mc2rn5q+BxrpMTetHqp2L2IxLk48gCda0ihs=;
+        b=eSdcbDAYiyL1ZzEQwAgcPuJI9iObp7T7yz4H3XuebUPAMwdHar0PECpDLaNxiX+zwW
+         GRputQKMIv3an/wj4NWWOrvu5kM1RMSeZueV96gobcGbRf1DTOLtP1RT33cyAsb3SPpo
+         o74BV/u4LhTZxkn3VHzOAzY8qc1ulSW6B4W7nz+Pu7ExjkOIZHX5RiwLlwUJckZ6B0Zk
+         G2jpDYJMXEPUCxRqE9DALsEzvMlpH3VbORIx637c8k9hUvluudEjuXVaNuhWBU0eTVVw
+         fJnhRoT+yL3hX3X+IVlkziM8M11qKiwyUJWPxysKLe0N/c8D6IagZ476Gc3G4T/GdZ09
+         wjgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714266059; x=1714870859;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CQPq4P7Mc2rn5q+BxrpMTetHqp2L2IxLk48gCda0ihs=;
+        b=IvuCQnviPbjp3Erb9JTAUJkP0nTBhatjJx+PoqXcADtuQrZCU+PlsYAMemHRDFhpOr
+         v7JNcgqpdAdmUD/8ppiYaQVPAymV8l5BX7gPZ7XQG5bHRVthzaNjKY217YVTGoz+3SLi
+         WP5tVl/uLAN9rTWdopd/gvGxwTMvSYW98WwLEib3xsI+DxGjQjX9nl2Q8sOQGUoF8fO8
+         WM4ko/UGh7YlNBf5w5mXBdOtLLfI6V/Gdy6LO27NUWeU/8OepeGVp36hhWoHxEct1gRI
+         shqkmTGoQF4nkCai0nii5fzuHrkyID9EhSJl8F72kn8ZMRgOesgac/ybvvtsrbjwv2jZ
+         pRTw==
+X-Forwarded-Encrypted: i=1; AJvYcCVQK94x7oEcHyxgcA8a669vEzrzW3GRflMYWb18YPumAPeh3mtVuTIsBlNOKKyI3ReBNn20xOkhiQ/OpdAtFlSnrlPSi0xlnBZkImI7FrQ=
+X-Gm-Message-State: AOJu0YxDqRtLb/m1IYXVR9tIqi9EWxQOjgxVjSqfYwL3pkCGdvtcKwvb
+	9a4cvsuQXWssggMVDgXh6xwvEfrbM2qL9XYP9lU8OS2Cx9xJL8uPu7ndDD8e1EGjZj5jCGrqUHu
+	2QY3jeimtCnEEe7LbUYPoW3stbTE=
+X-Google-Smtp-Source: AGHT+IFY48aMbbZY9HMorCJuLm/mwNLuIm3ybUEhG4NpAhRibAQeWTEsdhKs74InLXZdraTp0py/AQdQxiF6MOacQVw=
+X-Received: by 2002:a05:6122:c8d:b0:4c0:1bb6:322 with SMTP id
+ ba13-20020a0561220c8d00b004c01bb60322mr7003998vkb.15.1714266058164; Sat, 27
+ Apr 2024 18:00:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CANcniXsneeNs+Hfr9PScU2aYPyvn6re=5T0Cu5dgAa4N_b7m4A@mail.gmail.com>
+ <CANiq72mzHj+4pB4F5FbuyKVP7o751LxHosNeEu4UhHyWqwOmdg@mail.gmail.com>
+In-Reply-To: <CANiq72mzHj+4pB4F5FbuyKVP7o751LxHosNeEu4UhHyWqwOmdg@mail.gmail.com>
+From: qwer trump <vivazsj@gmail.com>
+Date: Sun, 28 Apr 2024 09:00:47 +0800
+Message-ID: <CANcniXtiRnNjcFCwfJpUrnnheep1ZC8yPuCsC6WJSWHgtHQa+w@mail.gmail.com>
+Subject: Re: Problem with rust module
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: linux-kbuild@vger.kernel.org, 
+	rust-for-linux <rust-for-linux@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Currently, Kbuild produces inconsistent results in some cases.
+Hi=EF=BC=8CMiguel
+Thanks for your reply. I really have this config enabled.
 
-You can do an interesting experiment using the --shuffle option, which
-is supported by GNU Make 4.4 or later.
+Best Regards
 
-Set CONFIG_KVM_INTEL=y and CONFIG_KVM_AMD=m (or vice versa), and repeat
-incremental builds w/wo --shuffle=reverse.
-
-  $ make
-    [ snip ]
-    CC      arch/x86/kvm/kvm-asm-offsets.s
-
-  $ make --shuffle=reverse
-    [ snip ]
-    CC [M]  arch/x86/kvm/kvm-asm-offsets.s
-
-  $ make
-    [ snip ]
-    CC      arch/x86/kvm/kvm-asm-offsets.s
-
-arch/x86/kvm/kvm-asm-offsets.s is rebuilt every time w/wo the [M] marker.
-
-arch/x86/kvm/kvm-asm-offsets.s is built as built-in when it is built as
-a prerequisite of arch/x86/kvm/kvm-intel.o, which is built-in.
-
-arch/x86/kvm/kvm-asm-offsets.s is built as modular when it is built as
-a prerequisite of arch/x86/kvm/kvm-amd.o, which is a module.
-
-Another odd example is single target builds.
-
-When CONFIG_LKDTM=m, drivers/misc/lkdtm/rodata.o can be built as
-built-in or modular, depending on how it is built.
-
-  $ make drivers/misc/lkdtm/lkdtm.o
-    [ snip ]
-    CC [M]  drivers/misc/lkdtm/rodata.o
-
-  $ make drivers/misc/lkdtm/rodata.o
-    [ snip ]
-    CC      drivers/misc/lkdtm/rodata.o
-
-drivers/misc/lkdtm/rodata.o is built as modular when it is built as a
-prerequisite of another, but built as built-in when it is a final
-target.
-
-The same thing happens to drivers/memory/emif-asm-offsets.s when
-CONFIG_TI_EMIF_SRAM=m.
-
-  $ make drivers/memory/ti-emif-sram.o
-    [ snip ]
-    CC [M]  drivers/memory/emif-asm-offsets.s
-
-  $ make drivers/memory/emif-asm-offsets.s
-    [ snip ]
-    CC      drivers/memory/emif-asm-offsets.s
-
-This is because the part-of-module=y flag defined for the modules is
-inherited by its prerequisites.
-
-Target-specific variables are likely intended only for local use.
-This commit adds 'private' to them.
-
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
- Makefile               | 8 ++++----
- scripts/Makefile.build | 6 +++---
- 2 files changed, 7 insertions(+), 7 deletions(-)
-
-diff --git a/Makefile b/Makefile
-index 62557fabfee5..25dcc7ead330 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1255,8 +1255,8 @@ define filechk_version.h
- 	echo \#define LINUX_VERSION_SUBLEVEL $(SUBLEVEL)
- endef
- 
--$(version_h): PATCHLEVEL := $(or $(PATCHLEVEL), 0)
--$(version_h): SUBLEVEL := $(or $(SUBLEVEL), 0)
-+$(version_h): private PATCHLEVEL := $(or $(PATCHLEVEL), 0)
-+$(version_h): private SUBLEVEL := $(or $(SUBLEVEL), 0)
- $(version_h): FORCE
- 	$(call filechk,version.h)
- 
-@@ -1500,7 +1500,7 @@ MRPROPER_FILES += include/config include/generated          \
- 
- # clean - Delete most, but leave enough to build external modules
- #
--clean: rm-files := $(CLEAN_FILES)
-+clean: private rm-files := $(CLEAN_FILES)
- 
- PHONY += archclean vmlinuxclean
- 
-@@ -1512,7 +1512,7 @@ clean: archclean vmlinuxclean resolve_btfids_clean
- 
- # mrproper - Delete all generated files, including .config
- #
--mrproper: rm-files := $(MRPROPER_FILES)
-+mrproper: private rm-files := $(MRPROPER_FILES)
- mrproper-dirs      := $(addprefix _mrproper_,scripts)
- 
- PHONY += $(mrproper-dirs) mrproper
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index 43b71c3d0ff6..c9c07a6144eb 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -216,7 +216,7 @@ endif # CONFIG_FTRACE_MCOUNT_USE_RECORDMCOUNT
- 
- is-standard-object = $(if $(filter-out y%, $(OBJECT_FILES_NON_STANDARD_$(target-stem).o)$(OBJECT_FILES_NON_STANDARD)n),y)
- 
--$(obj)/%.o: objtool-enabled = $(if $(is-standard-object),$(if $(delay-objtool),$(is-single-obj-m),y))
-+$(obj)/%.o: private objtool-enabled = $(if $(is-standard-object),$(if $(delay-objtool),$(is-single-obj-m),y))
- 
- ifneq ($(findstring 1, $(KBUILD_EXTRA_WARN)),)
- cmd_warn_shared_object = $(if $(word 2, $(modname-multi)),$(warning $(kbuild-file): $*.o is added to multiple modules: $(modname-multi)))
-@@ -437,8 +437,8 @@ define rule_ld_multi_m
- 	$(call cmd,gen_objtooldep)
- endef
- 
--$(multi-obj-m): objtool-enabled := $(delay-objtool)
--$(multi-obj-m): part-of-module := y
-+$(multi-obj-m): private objtool-enabled := $(delay-objtool)
-+$(multi-obj-m): private part-of-module := y
- $(multi-obj-m): %.o: %.mod FORCE
- 	$(call if_changed_rule,ld_multi_m)
- $(call multi_depend, $(multi-obj-m), .o, -objs -y -m)
--- 
-2.40.1
-
+Miguel Ojeda <miguel.ojeda.sandonis@gmail.com> =E4=BA=8E2024=E5=B9=B44=E6=
+=9C=8826=E6=97=A5=E5=91=A8=E4=BA=94 19:26=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On Fri, Apr 26, 2024 at 11:46=E2=80=AFAM qwer trump <vivazsj@gmail.com> w=
+rote:
+> >
+> > ERROR: modpost: too long symbol
+> > "_RNvNtNtCschHAZg3Q02y_6kernel5print14format_strings4INFO"
+> > [/linux-rust/samples/rust/rust_minimal.ko]
+> >
+> > But I see there are many long symbols in Module.symvers. So I guess the=
+re's
+> > something wrong with modpost.
+>
+> This shows up with `CONFIG_MODVERSIONS=3Dy`, but you should not be able
+> to enable the Rust support if you have that enabled (until it gets
+> resolved, see [1][2]).
+>
+> Do you have `CONFIG_MODVERSIONS` enabled?
+>
+> Thanks!
+>
+> Cheers,
+> Miguel
+>
+> [1] https://lore.kernel.org/rust-for-linux/20230111161155.1349375-1-gary@=
+garyguo.net/
+> [2] https://lore.kernel.org/rust-for-linux/20231115185858.2110875-1-mmaur=
+er@google.com/
 
