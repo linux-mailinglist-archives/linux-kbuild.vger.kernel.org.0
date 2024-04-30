@@ -1,109 +1,124 @@
-Return-Path: <linux-kbuild+bounces-1717-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1718-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39C318B6BF9
-	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Apr 2024 09:37:41 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51BD08B728D
+	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Apr 2024 13:09:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C6BA31F22077
-	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Apr 2024 07:37:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 836CD1C224A5
+	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Apr 2024 11:09:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE05A22067;
-	Tue, 30 Apr 2024 07:37:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C237C12D1E8;
+	Tue, 30 Apr 2024 11:09:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="sqOX/qDn"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Fp3WFAYI"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from sonic313-21.consmr.mail.sg3.yahoo.com (sonic313-21.consmr.mail.sg3.yahoo.com [106.10.240.80])
+Received: from mail-lf1-f73.google.com (mail-lf1-f73.google.com [209.85.167.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E03F3211C
-	for <linux-kbuild@vger.kernel.org>; Tue, 30 Apr 2024 07:37:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=106.10.240.80
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 224301E50A
+	for <linux-kbuild@vger.kernel.org>; Tue, 30 Apr 2024 11:09:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714462656; cv=none; b=RK5lGexrcLAeRE/gBNxADlwbPctarOQJsTYbKk1fud4jhmLrG2EHimLjUS0U5zpFbXJDroK/9+e8M+7kOgVe293eY7PH/IsZVYs0uAqKHZJjERq27HZyXRrXZT8v6d42Y3qO6LX5kV0M84GB8NYf/RbJcvYxVWnmks6qFwgwW78=
+	t=1714475371; cv=none; b=fOFDHH7WzhxYXJMXGaEW7yrT4VGOLJx6xs3Gq2L0OsnbRZh7itg4N8ar6vQWkxdF9kTg2ES0ZGQGN078Sn4jHhWZeabqJQe66wD1jmtsP4u1nirkb4dMEqX3uxfxJoidXvvkhuNagPdCBUyF30Fp2VuzPscW/r9RNBDYmZ20Xoo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714462656; c=relaxed/simple;
-	bh=vVyAcqQh3zb+Rf7gcfcv1QhSgsh5nwdLMwg/Cv6SIkw=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=pdzo00Rb/zMejYETOezfemj+M+h06+10VUk5FbgnZVxlyWX0VZ2Kpk14mNZCH6YVuXhHZdskNilGFWDBaRSWTLiVtRehg+rPAg/H4ia6MQASJ+TTphehcKqfMnLZooUyprNGiZuqzxKFA07aajNGjFALm2wepJ1xizvGbL1Wc00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=fedoraproject.org; spf=fail smtp.mailfrom=fedoraproject.org; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=sqOX/qDn; arc=none smtp.client-ip=106.10.240.80
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=fedoraproject.org
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=fedoraproject.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1714462645; bh=vVyAcqQh3zb+Rf7gcfcv1QhSgsh5nwdLMwg/Cv6SIkw=; h=Date:From:Reply-To:To:Cc:In-Reply-To:References:Subject:From:Subject:Reply-To; b=sqOX/qDn2lBiCmQii5hFwhVWAK6zUV+wCLyDG4uRqmRMgedQmiMr57DdweM5/faCEKu50knGMPZTt2CcewgY+zuwXmxRlm6cML2DHQZ/QC+VOLWU45ihP/+VaITtiqPOHa7LV0WTvLsKifDwBvOq8FQ7+cjx2aETMbThs0YI5UjvqEHKL7CEwgxEzaQ7gGhrTZQKSD/Nk2hQNzPbA0665AJmTthk0RlYgKYj05DOv8an8aGDQ0kqh401dTZQfSOpNGV+a70T186Ypmdi1qlWydPV+uAm83XxH3nO5oTAI4Qdi/TH+qA8F8H39sP9AOL4AoSP9ETbVcY5sYUE7Ajy8w==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1714462645; bh=KmZji0lm2XKjUwR5x69B9VmjXKMPiBYVC7gvebbiNj6=; h=X-Sonic-MF:Date:From:To:Subject:From:Subject; b=GY9flkuefhd34bDCqM/s9Ez57nuP/Fgg3OmDv0cRi9XT9S1rt648gPrcV3hMInWPxYziSi0wHjokjlOVcvVu5aCQpQEY5dmbRBkrBwI/RicN4Yp0rLip7o1BtRMAcFXOWX5r/JBE9/q+ofIjVgNAcCqmxbrpF3ujU+VWgxUmsDvz3GtPHeKBhT9jm7kIROmbfEhm+TdF+DBcN/mgbk6UYnaGWtwKW6ptjz55NoWzglgGDgEcDfzwMV0iz1etZJTNihUUM1FpQ6FN5QokFZjTvv7ejHvdJSYvJWBd/bypWRw9rJ94rTy1gdqszo9sw353Tb4aAxfd1aloRM242FPwPg==
-X-YMail-OSG: zA1jL_0VM1mSZfyWTDlE0OPc70CwGfLlANOdzTmZxJt2PncesLAOeSCeRoWBAzq
- uqY0KICQIXmh9gcDFniBjy6K_6BJV_Imrz7JXVZzfa237R6oaLBvHBOnbg4iBEv.S3o3TbTw.1df
- moWhBRlJ5i5ajbQmvCurjosfPwQHyHCdzWSEdL9qGFtJ9bwYdZUeTvKGSgZSfxFtQUywM9nklXMd
- S2M5_MiEUnldbrmRhMT34yr3okRA_EYceRpKVQwKqXIVsTaN5_kyRSeDKv7m10D4OcBeli7O8.hT
- GXjN0GWFi2E.LVAgPtO4i3DGPSFETnqotmeLQesBoSbZfZmlio0bymSUMsioksSBiBhAx5_kXQ3p
- HexYkmbEw4OmmvCSyBg70en1AUv9ioeqQ1k5CmzVuhK_bmDl8hIrToi37kRjxg3YfG7pWQc3FxAN
- SZNiTRFYafBDTQliE3SmAWgA.lH7DWhUsI7mGH0r3yZ7t7lm7DGGPUdIZgx0wZMjmiKk9yJ5Czpp
- r83VbVW36RMc3kmI48A0OQc7GvRH6GpCD1u22hl_8kf8BXmdv1kgXPeCxZPV8G0Mdo5kCotenGP9
- E.qEKKcXUEj_RxU.2JCciZn8S0P7kGhM7lWmdKa_wyqoCiLeYBg8kR_2FY6k1UzYZ.DHBN3Moe_r
- _SNUd7EDeCgafc8W_sES2VzX0etJGOLFueOc6eGh1HbYk3KSoPOJtmzb9tCGVtGu0Xld8vzsNe8k
- bhYD8nJf8KzwZs5rkwXIkBW_j66KmK2zPSgdmMev1y.dZ8TC8Waz9E7hJuKFuAHbXaEgwrijgF2k
- CaCpX3tgEE06jqL0vNZ3DsmWlIGHLQDahBZXarxHEvHes0fwIZsvy.FAPMcFT3c5l.TszlcHj6j8
- vSkeUK5ZaCLfssJhDPoKJ2ZL9txoyEu.RzjjTOpEwosTPrrttPiIg2ypbrZfCNqiBuqiFDWJqgm2
- KmCdXzeMYpYNZC8EOrLvMn_gZTxEhFgoNCFqWCEzmalmye6WFz_52wEr18IQT7WMSmDMRwZiTDb6
- J3Pm8GjAEt2BpowpVz8eLCDK4AWFgDcNjdcp.uk4XUVYkcOuBCbXXWjBP_1jp8hf2DSlBbvAVMis
- m4cNr4m7Wm3XXA5V3QtAB2mvff2CEV03nSqCdtJSby4ND5mMq8LyhzrraGHpljONRlIwQoJqVG6y
- uo9L4IHnoI5ovc0FfrwfWkBHgX6YwXUosGARr71WrlPPfNxkFypWe5Sb0okQJ0khmVPANKBCYWYc
- .kCM2jH3iWVBVal3GSaH_M6KjaLdb5EbsFZmYDl_zRf16cozYGoHkYBmDEz6pbTu8i3or5qHM8hL
- vcsCWVenRTMWrZFE7NojjfKCfgaDk.cbYh4LoikqxVuFSPcE01xq6RHs7Ujm8zTnz4pAsh0DQh1V
- 3AVJb3_5rSmZM4j8cIoTsp_F64rLRh4.LcpVD0o5xJ_lWv6aVsBM6EZh93FYvuoXmiinpv.e7LJr
- PYBUBvaoEGmzec3cKI7oEsmqk8ueIOmOuW2NfjtGL39kKSOlKZBhF75g6YvkRZ1mNIlJemDRVaml
- .5uAWO4TBKStBEp5Wrz.h3poPglTxAHSjnbLV4Q5f_rIOvYgIpaNpUq5KFXKpUvZKFgCC0Ov2c.x
- ItF4KtopTtQ3VNYiZoMS_5XjMZgbEhWYwiip5zU0bmHCuj_52VDeHOgwyhaqE_50SPjzcr8Yn5zJ
- X0hx8hvLx_SYDJHgkuAIk7PZenn7GKp0EfW4LD6nXa9Y3ck2mnFkf2b_LHPeV3yk2QEI7tXduJT_
- a0rmB.WhpnABsnLMpb0MUayX08ECO7_V3Uj_w4q.GgDXHKNzEGhIrOl82hwsWmaX3XELSBd_s_UB
- NsxNnr3QMo0c4OEErQxGQoKamdCXEFkTPEuLFJL.SrPHiB8QVGHWDxB65u_TUpevR7LwELrGas6U
- uWmVNC.ycD4Q06aK3l_MRBpYVj6kcwOwjlsUXMJ2cZZueklhYjwRkwKgb6MxNgtQB7hlsCEGNgQp
- 2eQEsMItIxQ4w0SdjUquNbpFNaqy5wi1WuaNL1Tz8MD3OQ9dXEYbfs74Y2G3AJ820cBP1mlCNaEG
- RS21o7qq.poj8vYzYIlhlOoRBmW4Rve.5MVXdvQzYbuaZBcT_wAgf.w7N.0taD_6_EzfVaeuYNmf
- _bibsfsob5HCZAaroDKO3nD.ZbC80E93vjjwSkH2qVjUApjvcP5XqnxH9VG39f7R2EqYVugs6AOq
- ESFZjSfbC5yD1ln7BMHzP.M5t2momNOsUzafFxnOTXyruBWcnSi5CbJoQ65aJHLPMwBL93QzPFd_
- y1qlHKUSJxKoakrvExJR2A9x6QNDs64FaNg--
-X-Sonic-MF: <pjp@fedoraproject.org>
-X-Sonic-ID: d0f5b2db-6c62-4061-9c0a-46a0991c323a
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic313.consmr.mail.sg3.yahoo.com with HTTP; Tue, 30 Apr 2024 07:37:25 +0000
-Date: Tue, 30 Apr 2024 07:36:03 +0000 (UTC)
-From: Prasad Pandit <pjp@fedoraproject.org>
-Reply-To: Prasad Pandit <pj.pandit@yahoo.in>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>
-Message-ID: <1597607635.3365742.1714462563217@mail.yahoo.com>
-In-Reply-To: <CAK7LNARB1WuL=yduv+XjkjCCagrgWQUaKEVk82wn0+QRgoNVTA@mail.gmail.com>
-References: <20240407072933.3562124-1-ppandit@redhat.com> <CAK7LNASZR=n+T=9Lo-5=Nw9WTwY9ywdTNvAUdt8xDXxsnNu3Tg@mail.gmail.com> <668901914.114470.1713335369416@mail.yahoo.com> <CAK7LNAReoYHT0-SUzFT11y=pN6GTLSgu0+7Su+2Tthkz5VFymw@mail.gmail.com> <1927988181.1604457.1713852967808@mail.yahoo.com> <CAK7LNAShU0GS4e=wRupgwUDHhxMR5SVmkWn4mTZMU6r+Vng0Xg@mail.gmail.com> <978513013.1900588.1713936355848@mail.yahoo.com> <CAK7LNARB1WuL=yduv+XjkjCCagrgWQUaKEVk82wn0+QRgoNVTA@mail.gmail.com>
-Subject: Re: [PATCH v1] kconfig: add config and source entry details
+	s=arc-20240116; t=1714475371; c=relaxed/simple;
+	bh=5C7WFXUnU2/7IaH9YHWdCtnfecFw80VZvXKGqyYQia0=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=g2UD+h32E0KjmSiJl7enDbKzQ7lHs0n4z9yvyTwCBH03n5vzBVG3YZM0Muqljy+qoTPo9nQWRldIX5h4ktwuTLo7WlYhthEga61RziMH5odWC/mNSGKwwvCjYg+U0kCPyYE+9VsImGa1OpQH6D34OSoMgW3wp5bpIo2W5p/96vc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Fp3WFAYI; arc=none smtp.client-ip=209.85.167.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+Received: by mail-lf1-f73.google.com with SMTP id 2adb3069b0e04-516d46e1bafso2683893e87.2
+        for <linux-kbuild@vger.kernel.org>; Tue, 30 Apr 2024 04:09:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1714475368; x=1715080168; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=iEYB9mDUejJc4/pGtI2YjsxtjTa/nIHaNe2DmniH/60=;
+        b=Fp3WFAYIOM7uomyVeTcfyYCe5Aj1/fVo8gCQz1Rj1wXCnxmriJ4S05tM5289RndpCv
+         ZQbtVtu5yEPqsp7UhoTqqRBZvOrY0nuPrmR0poqPCNvGJDkedueamyNir5Ow60C8p7WT
+         IjWHJLzC3POA/eebzI7Jn/7SEI3l1XKU/IO+nhWTYBHHlzcfXpBdk7RQwTpRTh1J2Njk
+         3k6o5Eq8QwTE54fahn5VOq/CYKuEfDIBSrjWa2SSwVdfQap66gtCbzvWdcIGl498Kw6p
+         6MI1y12VmlMGVOX7y7ZqjrhoqzSsgRAFkQYyLv6BYLzVYWDo4Dw8frulIDtPmYjb3RPA
+         9MDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714475368; x=1715080168;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=iEYB9mDUejJc4/pGtI2YjsxtjTa/nIHaNe2DmniH/60=;
+        b=OywIY2BvR0Y5TGqLMVuFMA7ImJXY7mae2Q3Ywb7WhAbg7OLCteFyNnHYpFUHfOra72
+         zrW/2YDDzXxygeN/BpKQYHBTPvKodxEik5/08BLBEsxlu087bhUIv2R9UvWgiNCc4DUZ
+         4UfsXy/Bvysi+2bb3Q2lKqr4v2UZkB6VyHNjSIY/1DMOY67kOJSSgTa+eHK/V4bnBlVj
+         1IGJzILQ8SHSf0xPtUvsTIh3AYpiArk40jH1d1M95VgutYJ6kl9kf12z/f8dn1dFGGNo
+         +p+OdGv76MgX7bG0D9IDFxyG3lJe2L1WEbEpSlbx/bReU/88/wAV/Hi9Qn7Gzvezgii3
+         yzKA==
+X-Forwarded-Encrypted: i=1; AJvYcCW57XANlNMfiIVx/VGeb6RlF66yyqelB1a1hzmcHPo52s0ZsEP73akd6EJ7ZZSuervlNvYFqiyAuGIl6z3bW0RYecNurLu+hJnQFmDh
+X-Gm-Message-State: AOJu0YwIdM9lAb+LkJKugvzNrhbeh1m5LzqBT44YIDHlKEWv3ZsXwd/+
+	wEBg43RXAWysUoUfXKw1esgkANrDXa/P1msqruhX3ZlSjFLnN6lg05gfe9lPaw4s/SKYF/PLytM
+	LO1LgJ6WKM0lQUw==
+X-Google-Smtp-Source: AGHT+IEwO9Q5sZ30zpSvkC99WHH3eLdnH6j0MxCIGWpnoajIsyuoEBhv50j1r9BA61IMy/c54vMsTNsgaQ6JEU8=
+X-Received: from aliceryhl2.c.googlers.com ([fda3:e722:ac3:cc00:68:949d:c0a8:572])
+ (user=aliceryhl job=sendgmr) by 2002:a05:6512:33c1:b0:51c:fb60:5e18 with SMTP
+ id d1-20020a05651233c100b0051cfb605e18mr10061lfg.4.1714475367865; Tue, 30 Apr
+ 2024 04:09:27 -0700 (PDT)
+Date: Tue, 30 Apr 2024 11:09:25 +0000
+In-Reply-To: <20240409103120.GA22557@willie-the-truck>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: WebService/1.1.22256 YMailNorrin
+Mime-Version: 1.0
+References: <20240409103120.GA22557@willie-the-truck>
+X-Mailer: git-send-email 2.45.0.rc0.197.gbae5840b3b-goog
+Message-ID: <20240430110925.1064685-1-aliceryhl@google.com>
+Subject: Re: [PATCH v2] rust: add flags for shadow call stack sanitizer
+From: Alice Ryhl <aliceryhl@google.com>
+To: will@kernel.org
+Cc: Jamie.Cunliffe@arm.com, a.hindborg@samsung.com, alex.gaynor@gmail.com, 
+	aliceryhl@google.com, ardb@kernel.org, benno.lossin@proton.me, 
+	bjorn3_gh@protonmail.com, boqun.feng@gmail.com, broonie@kernel.org, 
+	catalin.marinas@arm.com, gary@garyguo.net, keescook@chromium.org, 
+	kernel@valentinobst.de, linux-arm-kernel@lists.infradead.org, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	mark.rutland@arm.com, masahiroy@kernel.org, maz@kernel.org, 
+	miguel.ojeda.sandonis@gmail.com, nathan@kernel.org, ndesaulniers@google.com, 
+	nicolas@fjasle.eu, ojeda@kernel.org, rust-for-linux@vger.kernel.org, 
+	samitolvanen@google.com, wedsonaf@gmail.com
+Content-Type: text/plain; charset="utf-8"
 
-Hi,
+Will Deacon <will@kernel.org> wrote:
+> On Tue, Mar 05, 2024 at 01:14:19PM +0100, Miguel Ojeda wrote:
+>> Otherwise partially reverting to the `target.json` approach sounds good too.
+>> 
+>> I added the `-Zuse-sync-unwind=n` to the list at
+>> https://github.com/Rust-for-Linux/linux/issues/2. Given the default is
+>> what we want, I have put it in the "Good to have" section.
+> 
+> I think we have time to do this properly, like we did for the clang
+> enablement a few years ago. In hindsight, avoiding hacks for the early
+> toolchains back then was a really good idea because it meant we could
+> rely on a solid baseline set of compiler features from the start.
+> 
+> So, please can we fix this in rustc and just have SCS dependent on that?
 
+Hi Will,
 
-On Saturday, 27 April, 2024 at 12:51:45 am IST, Masahiro Yamada wrote:
->Do you see any grammar that treats T_EOF in
->scripts/kconfig/parser.y ? It only handles T_EOL.
->
+Just to keep you in the loop, I've posted a PR to make rustc recognize
+the reserve-x18 target feature, so that the -Ctarget-feature=+reserve-x18
+flag stops emitting a warning.
 
-* Right. If the parser rule is expecting EOL, but still works when there's =
-no EOL, that seems like a discrepancy.
+This should be sufficient for adding support for CONFIG_DYNAMIC_SCS.
 
-* If you think that's okay, then that's fine. It'll help if the implementat=
-ion is documented as is in the Kconfig language page ('kconfig-language.htm=
-l').
+You can find it here:
+https://github.com/rust-lang/rust/pull/124323
 
+As for non-dynamic SCS, I plan to tackle that after the PR is merged.
+See the "Future possibilities" section in the linked PR for more info on
+that.
 
-Thank you.
----
-=C2=A0 -Prasad
+Alice
 
