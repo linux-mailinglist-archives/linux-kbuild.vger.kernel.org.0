@@ -1,208 +1,137 @@
-Return-Path: <linux-kbuild+bounces-1722-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1723-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CA9C8B91C3
-	for <lists+linux-kbuild@lfdr.de>; Thu,  2 May 2024 00:55:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51AC38B99B8
+	for <lists+linux-kbuild@lfdr.de>; Thu,  2 May 2024 13:07:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0B63B1C20EF7
-	for <lists+linux-kbuild@lfdr.de>; Wed,  1 May 2024 22:55:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 826CC1C21D60
+	for <lists+linux-kbuild@lfdr.de>; Thu,  2 May 2024 11:07:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4562150286;
-	Wed,  1 May 2024 22:55:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4841E5FBB7;
+	Thu,  2 May 2024 11:07:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OByP5kph"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="auWjptQk"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FC934F897;
-	Wed,  1 May 2024 22:55:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B35742044;
+	Thu,  2 May 2024 11:07:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714604134; cv=none; b=LJv8vaErXVwB7s3g0zFyX7ny7gqs1QHuImoMm5yB0UrtyiDcboHDk5fFB9a0QO/UGNH/9wgN+IZO8Jj7Q+qbsf0NvYMAv/blxgahFR1GDRKMHpuPrAFFM7BzmzEfkEuttmyFYia+SK/bDGhcGrptVvKY4Gv4Hkef6OoybuPAdUc=
+	t=1714648031; cv=none; b=Xb3f6Rs3kye2RbWoUbJQzAZXMs6DhAUWDPVq67tfjmArQ7b75oa/05iG+R0QEBMScjen+1UaK61lBaIs1LRbX7jktXCM0cDMkJlSFUPuBVZsgDKytokK/7Pn3xywIuui3vhs7Hpug0wU7naZEZSKDjWL9P7IGVSDDTB2Dk5b35E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714604134; c=relaxed/simple;
-	bh=jj5Po6i6bhNWS4WRCJD7MS6k4QGArNUryRqACxKTrq4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=MwKvrpTfjQpASDDfTUcP9spcloIJEvx0r9HQrlzivMfeAIFHWDo0XeNNuBcL+yoh6I7AW/F77vAWB8Hg7YFI7zpFGoBLYdXfoSMG6oyK0XgIEJz/6eTeeu+7LfX2UH2uHYK7s1UDPprKZ4Z1mJO8syj2H0cEpMxsummR95qxt34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OByP5kph; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D163BC072AA;
-	Wed,  1 May 2024 22:55:32 +0000 (UTC)
+	s=arc-20240116; t=1714648031; c=relaxed/simple;
+	bh=Np9pvEsoFitSg29emT+0EpuitAMJ3ccV39LNm511Gss=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=c5s+3dO45EibZjGj1Bg2D7Bi/jRhzuQTetTgDkdRxQQX/y+fO/GUyH21Lfk8etJaIwEgM8jF0DdbEkyqGfRzTZnlrQ8mwMXuUJfFm+KCexNOj13J9yyn+ZrwpPaIvrr4gqtoyZkqKY+Lujh/3hQypMHLeDv9pL+WMkKV+pCYGy4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=auWjptQk; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A37EBC32789;
+	Thu,  2 May 2024 11:07:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714604133;
-	bh=jj5Po6i6bhNWS4WRCJD7MS6k4QGArNUryRqACxKTrq4=;
-	h=From:Date:Subject:To:Cc:From;
-	b=OByP5kph77hHZK59VyfQjQvcru7O5KiqstijuGhg6FQIC71EB9PD1vyHeNDvWYRci
-	 WhYHxL8qgo22t9T4vNN9AL71Tj8I4OkhF1kNwjP3qtoqhIdEAolevhw3nOEcXOgttB
-	 Xa+2GzILKMXSqlVRbbXuUcYXcVhPSp/uH7F6PTQohzzmmRb8Bw9L5gdyND+YxppiiZ
-	 XZ6CqlntxQjXDao7EaWVkOr8PfFHlHcgOfanDBuk56ycAf+lzzK2OS44uCAhWzfc+Z
-	 CKrzG/fYUWMQG9VWphAVXSINXc4czpnz3XVbyNrDHVy0Mq8un/LgYFHHmF1L4Ede64
-	 pIqXc0NgiJVtw==
-From: Nathan Chancellor <nathan@kernel.org>
-Date: Wed, 01 May 2024 15:55:25 -0700
-Subject: [PATCH] kbuild: Remove support for Clang's ThinLTO caching
+	s=k20201202; t=1714648030;
+	bh=Np9pvEsoFitSg29emT+0EpuitAMJ3ccV39LNm511Gss=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=auWjptQk37oycIWeIeE8HIS7LneZ9hi+9rxCJxNCYFpAHBbrNrzj90nnVf1vEiC6y
+	 OEQ0kNQgRuJTFU7jId3hs6SkqfldgszVbZPzRSAmILDPH0VC7/KPzlWJbsYFhiYY8X
+	 MnxtD4oTbpxogAM2L50UA0QjTgcCfi5/kYTOFZ7nwAkPAifhVISLmhRvK8w03tcLuw
+	 zAG2caimyP9PiAWR/6lykRzZnhqIbVVl2rAeKnMk5DzARmxzLCl5c9VLJaxqsvbpuu
+	 RVh6S0G6exJk4I1VHMxZtjd7nYutrfarNuajJUAOdTVCnOOu4n73lwTMqU0wCEOVTN
+	 4z7Omhl2iAZUg==
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-518931f8d23so7827618e87.3;
+        Thu, 02 May 2024 04:07:10 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXt7tl3vu9hUD00ZF+Mg9/oUFkMUWQyQiYk/h6RRDbYdOhvgjHVLOKT0p2w8n0ik2TuIz5CRJLBRfM7o/gPxoAEPJULlF/ss8F6L6S24PmGjzokkQNQdZhLD+m4kU/1uJye4S5VzupmZs3EizPFdRbhtdcVp0zfq43Csg2ObNm2pthX0anTBw==
+X-Gm-Message-State: AOJu0YzGH4e8Dh0MnoWFmjzxBKIoV1+aVie37o1aevamGXEA+LeFk6HB
+	oZ8otE1ms03bC2KzcXRMSPkwspCjLJQHLC1UG0aVrZXgyH6Db1dOp97Bg3koSI0ZQYysHfBxsSz
+	VMBSRRZZ95ip55K1dt6oxezICNLs=
+X-Google-Smtp-Source: AGHT+IGglbNUcmY0tPy/2FfcGCZjTbOKNm3qt2fGG0t4e4fvLjpNRktw1NMsov0qlKycBZDrNlJq8PKuHtWWp4wr4O0=
+X-Received: by 2002:a05:6512:1042:b0:51e:e846:2b6f with SMTP id
+ c2-20020a056512104200b0051ee8462b6fmr2210297lfb.51.1714648029315; Thu, 02 May
+ 2024 04:07:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20240501-kbuild-llvm-drop-thinlto-cache-v1-1-c117cc50a24b@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAFzIMmYC/x3NQQ6DIBBA0auYWTsJEivqVYwLC4NMRDBgTRPj3
- Uu6fJv/b8iUmDKM1Q2JLs4cQ0FTV6DdElZCNsUghWzFSzS4vT/sDXp/7WhSPPB0HPwZUS/aEdp
- 2UEqJbpC2hxI5Eln+/gfT/Dw/yr0i4XAAAAA=
-To: masahiroy@kernel.org, morbo@google.com, justinstitt@google.com
-Cc: nicolas@fjasle.eu, keescook@chromium.org, samitolvanen@google.com, 
- linux-kbuild@vger.kernel.org, llvm@lists.linux.dev, patches@lists.linux.dev, 
- stable@vger.kernel.org, Yifan Hong <elsk@google.com>, 
- Masami Hiramatsu <mhiramat@kernel.org>, 
- Nathan Chancellor <nathan@kernel.org>
-X-Mailer: b4 0.14-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5033; i=nathan@kernel.org;
- h=from:subject:message-id; bh=jj5Po6i6bhNWS4WRCJD7MS6k4QGArNUryRqACxKTrq4=;
- b=owGbwMvMwCUmm602sfCA1DTG02pJDGlGJ1IeBmpE54rbSgTM4Fshcjh3cc5jnWSjjwufKwV8O
- +NS/Mylo5SFQYyLQVZMkaX6sepxQ8M5ZxlvnJoEM4eVCWQIAxenAEzk2gNGhm8ZAacSNwux9C3p
- rjWKPB9ZpdiUskzDed3G6yXff7NMncfIsGOroo07H4tWQ/u6BzNOy74pqj9VGn3lROmaazN9Wx3
- leAE=
-X-Developer-Key: i=nathan@kernel.org; a=openpgp;
- fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
+References: <20240430202928.1143802-3-robh@kernel.org>
+In-Reply-To: <20240430202928.1143802-3-robh@kernel.org>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Thu, 2 May 2024 20:06:32 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATnr-L0Xwi2xCy1hcuPV=H=11+1bR=D0ji21exhprXRXg@mail.gmail.com>
+Message-ID: <CAK7LNATnr-L0Xwi2xCy1hcuPV=H=11+1bR=D0ji21exhprXRXg@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: kbuild: Fix dt_binding_check for arch
+ without dts directory
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-There is an issue in clang's ThinLTO caching (enabled for the kernel via
-'--thinlto-cache-dir') with .incbin, which the kernel occasionally uses
-to include data within the kernel, such as the .config file for
-/proc/config.gz. For example, when changing the .config and rebuilding
-vmlinux, the copy of .config in vmlinux does not match the copy of
-.config in the build folder:
+On Wed, May 1, 2024 at 5:30=E2=80=AFAM Rob Herring (Arm) <robh@kernel.org> =
+wrote:
+>
+> Commit 1d06c77d93da ("dt-bindings: kbuild: Add separate
+> target/dependency for processed-schema.json") placed setting CHECK_DTBS
+> for 'dt_binding_check' target within the section that depends on having
+> arch/$ARCH/boot/dts/ which x86 doesn't have for example. That results in
+> the schema checks not running for the examples. Move setting it back out
+> of the conditional section as it was (CHECK_DT_BINDING is still
+> replaced).
+>
+> Fixes: 1d06c77d93da ("dt-bindings: kbuild: Add separate target/dependency=
+ for processed-schema.json")
+> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+> ---
+> Cc: devicetree@vger.kernel.org
+>
+> Masahiro, Please take this as the above commit is in your tree.
 
-  $ echo 'CONFIG_LTO_NONE=n
-  CONFIG_LTO_CLANG_THIN=y
-  CONFIG_IKCONFIG=y
-  CONFIG_HEADERS_INSTALL=y' >kernel/configs/repro.config
 
-  $ make -skj"$(nproc)" ARCH=x86_64 LLVM=1 clean defconfig repro.config vmlinux
-  ...
+I squashed this to the original commit.
 
-  $ grep CONFIG_HEADERS_INSTALL .config
-  CONFIG_HEADERS_INSTALL=y
+Thanks.
 
-  $ scripts/extract-ikconfig vmlinux | grep CONFIG_HEADERS_INSTALL
-  CONFIG_HEADERS_INSTALL=y
 
-  $ scripts/config -d HEADERS_INSTALL
 
-  $ make -kj"$(nproc)" ARCH=x86_64 LLVM=1 vmlinux
-  ...
-    UPD     kernel/config_data
-    GZIP    kernel/config_data.gz
-    CC      kernel/configs.o
-  ...
-    LD      vmlinux
-  ...
 
-  $ grep CONFIG_HEADERS_INSTALL .config
-  # CONFIG_HEADERS_INSTALL is not set
+>
+>  Makefile | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/Makefile b/Makefile
+> index f4fe5b0ea931..43a2a630436a 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -1403,7 +1403,7 @@ dtbs: dtbs_prepare
+>  # dtbs_install depend on it as dtbs_install may run as root.
+>  dtbs_prepare: include/config/kernel.release scripts_dtc
+>
+> -ifneq ($(filter dt_binding_check dtbs_check, $(MAKECMDGOALS)),)
+> +ifneq ($(filter dtbs_check, $(MAKECMDGOALS)),)
+>  export CHECK_DTBS=3Dy
+>  endif
+>
+> @@ -1422,6 +1422,10 @@ endif
+>
+>  endif
+>
+> +ifneq ($(filter dt_binding_check, $(MAKECMDGOALS)),)
+> +export CHECK_DTBS=3Dy
+> +endif
+> +
+>  PHONY +=3D scripts_dtc
+>  scripts_dtc: scripts_basic
+>         $(Q)$(MAKE) $(build)=3Dscripts/dtc
+> --
+> 2.43.0
+>
 
-  $ scripts/extract-ikconfig vmlinux | grep CONFIG_HEADERS_INSTALL
-  CONFIG_HEADERS_INSTALL=y
 
-Without '--thinlto-cache-dir' or when using full LTO, this issue does
-not occur.
-
-Benchmarking incremental builds on a few different machines with and
-without the cache shows a 20% increase in incremental build time without
-the cache when measured by touching init/main.c and running 'make all'.
-
-ARCH=arm64 defconfig + CONFIG_LTO_CLANG_THIN=y on an arm64 host:
-
-  Benchmark 1: With ThinLTO cache
-    Time (mean ± σ):     56.347 s ±  0.163 s    [User: 83.768 s, System: 24.661 s]
-    Range (min … max):   56.109 s … 56.594 s    10 runs
-
-  Benchmark 2: Without ThinLTO cache
-    Time (mean ± σ):     67.740 s ±  0.479 s    [User: 718.458 s, System: 31.797 s]
-    Range (min … max):   67.059 s … 68.556 s    10 runs
-
-  Summary
-    With ThinLTO cache ran
-      1.20 ± 0.01 times faster than Without ThinLTO cache
-
-ARCH=x86_64 defconfig + CONFIG_LTO_CLANG_THIN=y on an x86_64 host:
-
-  Benchmark 1: With ThinLTO cache
-    Time (mean ± σ):     85.772 s ±  0.252 s    [User: 91.505 s, System: 8.408 s]
-    Range (min … max):   85.447 s … 86.244 s    10 runs
-
-  Benchmark 2: Without ThinLTO cache
-    Time (mean ± σ):     103.833 s ±  0.288 s    [User: 232.058 s, System: 8.569 s]
-    Range (min … max):   103.286 s … 104.124 s    10 runs
-
-  Summary
-    With ThinLTO cache ran
-      1.21 ± 0.00 times faster than Without ThinLTO cache
-
-While it is unfortunate to take this performance improvement off the
-table, correctness is more important. If/when this is fixed in LLVM, it
-can potentially be brought back in a conditional manner. Alternatively,
-a developer can just disable LTO if doing incremental compiles quickly
-is important, as a full compile cycle can still take over a minute even
-with the cache and it is unlikely that LTO will result in functional
-differences for a kernel change.
-
-Cc: stable@vger.kernel.org
-Fixes: dc5723b02e52 ("kbuild: add support for Clang LTO")
-Reported-by: Yifan Hong <elsk@google.com>
-Closes: https://github.com/ClangBuiltLinux/linux/issues/2021
-Reported-by: Masami Hiramatsu <mhiramat@kernel.org>
-Closes: https://lore.kernel.org/r/20220327115526.cc4b0ff55fc53c97683c3e4d@kernel.org/
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
----
-This is an alternative (and arguably more robust) fix to Yifan's patch
-at https://lore.kernel.org/20240429220756.979347-2-elsk@google.com/.
----
- Makefile | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
-
-diff --git a/Makefile b/Makefile
-index 40fb2ca6fe4c..6b6a4a757062 100644
---- a/Makefile
-+++ b/Makefile
-@@ -942,7 +942,6 @@ endif
- ifdef CONFIG_LTO_CLANG
- ifdef CONFIG_LTO_CLANG_THIN
- CC_FLAGS_LTO	:= -flto=thin -fsplit-lto-unit
--KBUILD_LDFLAGS	+= --thinlto-cache-dir=$(extmod_prefix).thinlto-cache
- else
- CC_FLAGS_LTO	:= -flto
- endif
-@@ -1477,7 +1476,7 @@ endif # CONFIG_MODULES
- # Directories & files removed with 'make clean'
- CLEAN_FILES += vmlinux.symvers modules-only.symvers \
- 	       modules.builtin modules.builtin.modinfo modules.nsdeps \
--	       compile_commands.json .thinlto-cache rust/test \
-+	       compile_commands.json rust/test \
- 	       rust-project.json .vmlinux.objs .vmlinux.export.c
- 
- # Directories & files removed with 'make mrproper'
-@@ -1783,7 +1782,7 @@ PHONY += compile_commands.json
- 
- clean-dirs := $(KBUILD_EXTMOD)
- clean: rm-files := $(KBUILD_EXTMOD)/Module.symvers $(KBUILD_EXTMOD)/modules.nsdeps \
--	$(KBUILD_EXTMOD)/compile_commands.json $(KBUILD_EXTMOD)/.thinlto-cache
-+	$(KBUILD_EXTMOD)/compile_commands.json
- 
- PHONY += prepare
- # now expand this into a simple variable to reduce the cost of shell evaluations
-
----
-base-commit: e67572cd2204894179d89bd7b984072f19313b03
-change-id: 20240501-kbuild-llvm-drop-thinlto-cache-f497770692f8
-
-Best regards,
--- 
-Nathan Chancellor <nathan@kernel.org>
-
+--=20
+Best Regards
+Masahiro Yamada
 
