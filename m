@@ -1,75 +1,72 @@
-Return-Path: <linux-kbuild+bounces-1734-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1732-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A2A68BA345
-	for <lists+linux-kbuild@lfdr.de>; Fri,  3 May 2024 00:34:13 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BB2B8BA334
+	for <lists+linux-kbuild@lfdr.de>; Fri,  3 May 2024 00:33:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E7F511F21604
-	for <lists+linux-kbuild@lfdr.de>; Thu,  2 May 2024 22:34:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9EF731C209F2
+	for <lists+linux-kbuild@lfdr.de>; Thu,  2 May 2024 22:33:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D8E91CF9B;
-	Thu,  2 May 2024 22:33:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9BF51B947;
+	Thu,  2 May 2024 22:33:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="h0EfiOOh"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="fRoX6Vrz"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B495F57C9B
-	for <linux-kbuild@vger.kernel.org>; Thu,  2 May 2024 22:33:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7203418EB0
+	for <linux-kbuild@vger.kernel.org>; Thu,  2 May 2024 22:33:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714689228; cv=none; b=WuONLEcWSXPkF5NjB5jyp/AXvOh/8hCx0RG+M6YWxaG/Gr3GncLQ1+bZWAK9V8/ilkXcqnq9CUr2dEGFXV/H56V8dJBAIQPqJ6YpJoJjqZffosJKLjHUEBMPIGzgu7u8qoYdVEZWlIZVsbQ+fUldtJSrw8Mevp7WB2hYs4i6XuU=
+	t=1714689225; cv=none; b=cTHWhzFuQreirKznPWRp3fZ4zgpnIO72NGXmzUZidgTE19CQPIIEffNzIyhHQ1LIZyOYUHavC8+JS6l5dRPrlcFHVqlvDJEtdgtyMRsnXJtLIJCzucrEU1alHI8SdZSUSyxq/eF1oPyrHIqzdQxJx/wmxtHS0cXd/jvbCf1CDTE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714689228; c=relaxed/simple;
-	bh=WtgCtyIMNT2LXHS8P/KpT13C94RxNhKJ7RovKI+clEE=;
+	s=arc-20240116; t=1714689225; c=relaxed/simple;
+	bh=OUKzE9BVu8bWw6VjJLw4TE6pDmrAN0hiIKHseOy5gQI=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=i5YBgSHt5Xio4qroCEy/XHktvsO3AFXBwiT6e8A9gbwh02LHnsw1f33vMPkgLjA7Hic36sdoe3mTJzpu2fLnDZ1dIzmQ4S4e46uTtI/pzNU3+SKE3wP1SnXWfa0c6KTnSSbcbJ4mmAEIo7CiPuiMQoq36VmzO3N5Hu/gATYb6lk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=h0EfiOOh; arc=none smtp.client-ip=209.85.215.169
+	 MIME-Version; b=Bp85mUyZzbYlHdEPYSJizXc68zuSjSP/TVhu29tXsudnaY8UsJ6gjr+BmVb34aEwQua0SkshsBIUfu1/0sG+y5Rgo88VTJriAaOYlKV7cWkAnWvtgCkyuwsXHE13raa1Ybl9c2QeeUVVXlw1h26KyGDioJ7AjMHCJPKQ54PGF8I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=fRoX6Vrz; arc=none smtp.client-ip=209.85.210.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-5c6bd3100fcso5797015a12.3
-        for <linux-kbuild@vger.kernel.org>; Thu, 02 May 2024 15:33:46 -0700 (PDT)
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-6f44b5e7f07so97193b3a.2
+        for <linux-kbuild@vger.kernel.org>; Thu, 02 May 2024 15:33:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1714689226; x=1715294026; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1714689224; x=1715294024; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FS85aS0uSYWPmkJmR+HxkNl8OY9pDJKR/ix6jc3gM1o=;
-        b=h0EfiOOhmq8PjQZgn8+PA/uRz1CCoSzsd5+0RMCsycrlsl8RuGIlxlQ675/ukdYLNr
-         kueqkcinV0iWaagkejkVrPFgPDVgq0BKWAb5/YmMJUbWPES5NS2MftK8kywHq+VdNSq1
-         EGz0UoCxdBCbt4etTLesRg3eAKRXxfKLgSoAM=
+        bh=1A06K+cPndg/pyM0u+MnZKl+yBNNRhhQ81oQHFD2WfU=;
+        b=fRoX6VrzxbPEaTpA/kP/AKhczr/5dmU/r3DUPek5TaOo4BZmeOkDEpoBawV+8fjjTf
+         DcyRjCUDTs2Fr87wKT/FiHhxXIagUWChy0sRJXl8Q6LFB4ltBOsB/+dQdtxl9xnyHUbQ
+         WG4qpZyVh1tLZDqDD2T7q0eLX4AEhuVVY575k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714689226; x=1715294026;
+        d=1e100.net; s=20230601; t=1714689224; x=1715294024;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FS85aS0uSYWPmkJmR+HxkNl8OY9pDJKR/ix6jc3gM1o=;
-        b=eExwK8UFYtVGvP4AvQo0YXUgaGrM0bum0Og2ryYjpELndhWFMryTc4sdAtQ38ZWWd1
-         KZgFWbNrnQ97uS4JY7uaAejIwr0DBZtwF/vc2EZsPYi8uIldEMefHXbxg/8RKqFK91cW
-         gmlyumnY9Uubsv+eQUPzl1u9vgAyIM3Q/6NsTJc6NfF/4CENDiH7JOfOtKoSm9xOYwqM
-         Q8SEiQCiivCCgSbR51RLMi2wbfwJ8JnmoLqLGTzDIarRlXf29WZYg6fTFb+g1uBurBA3
-         IVfVjR0IWrbu5L/ARGMCdSDSqNoapRdDhQ2HK2I181c2FxJb0s9mhIHvbtW2gA5L5Og+
-         yf0w==
-X-Forwarded-Encrypted: i=1; AJvYcCUij5VpQigg7JHkX4GjpplGopZjpcOABxgkLetYVfXKU++Vj8YAy6EtlL7I2kNSrcWOz8E3GyK5h2Wpz/GWODyTr1TL2hh+W1ddYUHA
-X-Gm-Message-State: AOJu0YxfxIjj84w38kIk2m2apGJgH9JfmCmO5I3dNzfhbuEPpvUjeQQu
-	8nX7hwKyrI5Ly8Srw/r9m4iLqwMPo96mrKVbyL20+epZSbQ/bqaCuvqdY6ddjw==
-X-Google-Smtp-Source: AGHT+IHPqWSEIWAkmTHA3m+ip5N1siYc+jc02yV1sSYNCUk2VbsJlQut2h0V+Wbt+chL+SgMhgBGWw==
-X-Received: by 2002:a05:6a21:1f27:b0:1ac:6762:e62e with SMTP id ry39-20020a056a211f2700b001ac6762e62emr1201922pzb.30.1714689225930;
-        Thu, 02 May 2024 15:33:45 -0700 (PDT)
+        bh=1A06K+cPndg/pyM0u+MnZKl+yBNNRhhQ81oQHFD2WfU=;
+        b=fmXUsMN0DhJ0PdXSZu4tLGZt6KI2Gjvy/b48drljg3s1xivyej+koJk0Xn2+RCW04W
+         jM+uhdpNy1N3nE3uaC1FyEcVqrYm9dQOzEUTKj267yo/cXx65EYBE7xFiIp1rEioGs5Y
+         1YJ7uPjpuPA87FN7r5VYnsfYA9cCZDA5kd8BznIYFOex48hgqzEfomA83Cn1v5wBw6o4
+         sepWcYt+qZ/mGP88np6+CbNrtlimlba52Q7sHYNlQj9JeQaV4o6/4dXV+a5BTa8Djd2p
+         c6B91/bdQSH8Yi02CQ9jZ3s+R4WZpmVHVB6f2cWRguoXaYJr0ust5qBTsST5/zhQKSEv
+         tWfw==
+X-Forwarded-Encrypted: i=1; AJvYcCUNgut9Th03cSHPW1Sk8omIWH+yuSIEu4T2JeXyp17GjVleozDOWiRvhPxuyyqMlr1pEiE9FfpcEWYF5rZNTvM1V0qp3pvs4Bj+ux5e
+X-Gm-Message-State: AOJu0Yzi+6rDcbbLsDRGbqm3YIQeSHkWgWOVyE87QnbiItU4MdbvT7rT
+	qSiiDlM6aiJjxEurstmNYYh5F7NFaXu49gASVk0IBRlG4/CPI90xeyBh5o3msA==
+X-Google-Smtp-Source: AGHT+IG2YWa+9vY4h3Nt4PaRaRqLrTI7aivCYrlbdPDKTXJ4+9jbccE7kk1f6L0pdlB3sdtwRrv0Kg==
+X-Received: by 2002:a05:6a20:2ea1:b0:1a7:64dd:ebe8 with SMTP id bj33-20020a056a202ea100b001a764ddebe8mr1102791pzb.49.1714689223844;
+        Thu, 02 May 2024 15:33:43 -0700 (PDT)
 Received: from www.outflux.net ([198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id eu6-20020a17090af94600b002b3631c9270sm2784217pjb.25.2024.05.02.15.33.41
+        by smtp.gmail.com with ESMTPSA id c12-20020a631c4c000000b005c6617b52e6sm1794043pgm.5.2024.05.02.15.33.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Thu, 02 May 2024 15:33:42 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: Christian Brauner <brauner@kernel.org>
 Cc: Kees Cook <keescook@chromium.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
 	Zack Rusin <zack.rusin@broadcom.com>,
 	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
 	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -77,6 +74,9 @@ Cc: Kees Cook <keescook@chromium.org>,
 	Thomas Zimmermann <tzimmermann@suse.de>,
 	David Airlie <airlied@gmail.com>,
 	Daniel Vetter <daniel@ffwll.ch>,
+	dri-devel@lists.freedesktop.org,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>,
 	Jani Nikula <jani.nikula@linux.intel.com>,
 	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
 	Rodrigo Vivi <rodrigo.vivi@intel.com>,
@@ -97,13 +97,13 @@ Cc: Kees Cook <keescook@chromium.org>,
 	Nicolas Schier <nicolas@fjasle.eu>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
+	linux-fsdevel@vger.kernel.org,
 	intel-gfx@lists.freedesktop.org,
 	linux-kbuild@vger.kernel.org,
 	linux-hardening@vger.kernel.org
-Subject: [PATCH 1/5] fs: Do not allow get_file() to resurrect 0 f_count
-Date: Thu,  2 May 2024 15:33:36 -0700
-Message-Id: <20240502223341.1835070-1-keescook@chromium.org>
+Subject: [PATCH 2/5] drm/vmwgfx: Do not directly manipulate file->f_count
+Date: Thu,  2 May 2024 15:33:37 -0700
+Message-Id: <20240502223341.1835070-2-keescook@chromium.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240502222252.work.690-kees@kernel.org>
 References: <20240502222252.work.690-kees@kernel.org>
@@ -113,39 +113,52 @@ List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=923; i=keescook@chromium.org; h=from:subject; bh=WtgCtyIMNT2LXHS8P/KpT13C94RxNhKJ7RovKI+clEE=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBmNBTDS8z47/RFROL1IOhhstMS1R8chpsln1UTA /ua0FxEWaCJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZjQUwwAKCRCJcvTf3G3A JmiTD/9h3vxAjfd+x38LUO8iBg0XaVYG0fE+uUAgPtl4+tThkzIHVPwRZvUaAttpv0rxblAgfyt blgim7dvZLmsZwvtY+fG0B7Ex0KmlH4jF9o/0oOrFCCJcHFKogjX9q8vOq7nXb0AutdLQxXbALT Gi07OKXY6BfixXgXojnjmDsDX37JKM+9aMT/Js5FWDOhIaFSpn/b4bEgh4VvE5aUCW2AMcqbZUa 5fIMXU+GdA6q1EHkPu/V/oANVb9vi6kkL3MQRMd2Q6yY/QjA5EVHCA2u8w+Wu2DgUCffgY3zli5 QvqPOdlTd2unyBGzT+05ygn2f+4E7JW9FczuGQ9wfArVgUiCUZ5OrOhU7YpgHTgtmZhuA/XKvrb 2uemrbNiU2fmNpil1TqgxnryEz0MfaYDb8BjLOmchF87oBK0wKbVOHNJjVVSoKmqPh3qEk1jC2s uHic4zSh8WIZc/ycwpUNqcghKK0fL0v0apyhBiLHa7PYDDRWE89n4xXFDk8p3es23xa8pvtFZ3p xrXlj4DW1sDT08plpkk0UXHYq6K8qAaSw1Ts1IwjwkVHo95wmegwPwc3/U1ZfqsuTr9BG7ugDI5 LiSdxoiZF/Q9dl04c99LliAAzAHYWqj9BQJwJkkOe2KTTQ5L/Hi4L4GT4RdcdaHuJAF0JTaTtR2 hEa2Zvq5tUpbQpQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1187; i=keescook@chromium.org;
+ h=from:subject; bh=OUKzE9BVu8bWw6VjJLw4TE6pDmrAN0hiIKHseOy5gQI=;
+ b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBmNBTDv/zsdqEX/aWrvJELPzlHroMCjXF3QLhey
+ S4S5ggvUL6JAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZjQUwwAKCRCJcvTf3G3A
+ JkpxD/oDlial29qMNd66BSgea9O5UW/Aq3fbPMw4W3EMgMW8bVd/2Cha0TLF9V6wPXJVpP9GICw
+ eySmpxWOHWSZcjcLDQcl3iM4a9UgU5v0D/1sXfoWYpKb8RVGeGLgKP3alVDBkkX0vAShE079Rgv
+ AaOYBsxL4AWKH0J2mPuUNW1OfLBaqETFXnLQBSaj2UyS3/WXTVW1GHxm9VvBJGhFVxuE+wCb6J2
+ xOaHDjJd0EfmnXYWA5G0fszOm/QZch9KwaaSnl4bvV6ennST4HrFfxcb3aoODK7M6tHEtze1gql
+ 3NOu5+wUDcxv68MozmrUGEAXWOvGgTGZ5kugToTTsHflWiG23cemytSMo203nmTfyKc8/u3S0AO
+ fT0/foBY7k3RMwGcqYBnsdh1/Jq5xVXpDYVLyMgNRsgW1NXdWmM1cA+dosWN6PMw6lRAue96s9c
+ i3rmc1I8FSgzzkU6CVzCHA2OvjWHWnAtCxDZFGoTWPNSt68KMgYxy+w7dhirZS3oY8UA8NByD4z
+ iU0Wr8PshZ6X/yOrMNAqrLv/YHZHlXt9M1fl5FRs35Y9Cfj6SaJjRhsWINHqY7XmL7DbZgLHnfT
+ 2sm2WcxYxdug3OFoyke5UhhyXwLjB1tcBLaU3maUuNFLkfVGdBWJy1b3jBcj9FeFF/FmdXedjLE f5Rb9fzOhMoS+kQ==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
-If f_count reaches 0, calling get_file() should be a failure. Adjust to
-use atomic_long_inc_not_zero() and return NULL on failure. In the future
-get_file() can be annotated with __must_check, though that is not
-currently possible.
+The correct helper for taking an f_count reference is get_file().
+Now that it checks for 0 counts, use it and check results.
 
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
-Cc: Christian Brauner <brauner@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>
-Cc: Jan Kara <jack@suse.cz>
-Cc: linux-fsdevel@vger.kernel.org
+Cc: Zack Rusin <zack.rusin@broadcom.com>
+Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
 ---
- include/linux/fs.h | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/vmwgfx/ttm_object.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index 00fc429b0af0..210bbbfe9b83 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -1038,7 +1038,8 @@ struct file_handle {
- 
- static inline struct file *get_file(struct file *f)
+diff --git a/drivers/gpu/drm/vmwgfx/ttm_object.c b/drivers/gpu/drm/vmwgfx/ttm_object.c
+index 6806c05e57f6..68d8ee3020b1 100644
+--- a/drivers/gpu/drm/vmwgfx/ttm_object.c
++++ b/drivers/gpu/drm/vmwgfx/ttm_object.c
+@@ -475,7 +475,7 @@ void ttm_object_device_release(struct ttm_object_device **p_tdev)
+  */
+ static bool __must_check get_dma_buf_unless_doomed(struct dma_buf *dmabuf)
  {
--	atomic_long_inc(&f->f_count);
-+	if (unlikely(!atomic_long_inc_not_zero(&f->f_count)))
-+		return NULL;
- 	return f;
+-	return atomic_long_inc_not_zero(&dmabuf->file->f_count) != 0L;
++	return get_file(dmabuf->file) != NULL;
  }
  
+ /**
 -- 
 2.34.1
 
