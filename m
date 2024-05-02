@@ -1,137 +1,128 @@
-Return-Path: <linux-kbuild+bounces-1723-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1725-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51AC38B99B8
-	for <lists+linux-kbuild@lfdr.de>; Thu,  2 May 2024 13:07:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43AA48B99DF
+	for <lists+linux-kbuild@lfdr.de>; Thu,  2 May 2024 13:16:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 826CC1C21D60
-	for <lists+linux-kbuild@lfdr.de>; Thu,  2 May 2024 11:07:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 762FC1C22A9A
+	for <lists+linux-kbuild@lfdr.de>; Thu,  2 May 2024 11:16:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4841E5FBB7;
-	Thu,  2 May 2024 11:07:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DD025F874;
+	Thu,  2 May 2024 11:16:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="auWjptQk"
+	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="eJYsVg4B"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B35742044;
-	Thu,  2 May 2024 11:07:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A62B363099
+	for <linux-kbuild@vger.kernel.org>; Thu,  2 May 2024 11:16:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714648031; cv=none; b=Xb3f6Rs3kye2RbWoUbJQzAZXMs6DhAUWDPVq67tfjmArQ7b75oa/05iG+R0QEBMScjen+1UaK61lBaIs1LRbX7jktXCM0cDMkJlSFUPuBVZsgDKytokK/7Pn3xywIuui3vhs7Hpug0wU7naZEZSKDjWL9P7IGVSDDTB2Dk5b35E=
+	t=1714648587; cv=none; b=AeOxj15NVkiHsTAdxsYkpXYES3V3tVeGya+vICHyPzjtWTMSXWYFBFe60s3RPUjUvtIbX+TT+8rvvTy4r33755NiPLrdvMzruwfX1VUTLXbYUUH38+RO47ym6Dh0FzNaTj+YQ5Nb+ijTaxxiS/0dBLaHJSKZhYdZiR169cmkQAQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714648031; c=relaxed/simple;
-	bh=Np9pvEsoFitSg29emT+0EpuitAMJ3ccV39LNm511Gss=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=c5s+3dO45EibZjGj1Bg2D7Bi/jRhzuQTetTgDkdRxQQX/y+fO/GUyH21Lfk8etJaIwEgM8jF0DdbEkyqGfRzTZnlrQ8mwMXuUJfFm+KCexNOj13J9yyn+ZrwpPaIvrr4gqtoyZkqKY+Lujh/3hQypMHLeDv9pL+WMkKV+pCYGy4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=auWjptQk; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A37EBC32789;
-	Thu,  2 May 2024 11:07:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714648030;
-	bh=Np9pvEsoFitSg29emT+0EpuitAMJ3ccV39LNm511Gss=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=auWjptQk37oycIWeIeE8HIS7LneZ9hi+9rxCJxNCYFpAHBbrNrzj90nnVf1vEiC6y
-	 OEQ0kNQgRuJTFU7jId3hs6SkqfldgszVbZPzRSAmILDPH0VC7/KPzlWJbsYFhiYY8X
-	 MnxtD4oTbpxogAM2L50UA0QjTgcCfi5/kYTOFZ7nwAkPAifhVISLmhRvK8w03tcLuw
-	 zAG2caimyP9PiAWR/6lykRzZnhqIbVVl2rAeKnMk5DzARmxzLCl5c9VLJaxqsvbpuu
-	 RVh6S0G6exJk4I1VHMxZtjd7nYutrfarNuajJUAOdTVCnOOu4n73lwTMqU0wCEOVTN
-	 4z7Omhl2iAZUg==
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-518931f8d23so7827618e87.3;
-        Thu, 02 May 2024 04:07:10 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXt7tl3vu9hUD00ZF+Mg9/oUFkMUWQyQiYk/h6RRDbYdOhvgjHVLOKT0p2w8n0ik2TuIz5CRJLBRfM7o/gPxoAEPJULlF/ss8F6L6S24PmGjzokkQNQdZhLD+m4kU/1uJye4S5VzupmZs3EizPFdRbhtdcVp0zfq43Csg2ObNm2pthX0anTBw==
-X-Gm-Message-State: AOJu0YzGH4e8Dh0MnoWFmjzxBKIoV1+aVie37o1aevamGXEA+LeFk6HB
-	oZ8otE1ms03bC2KzcXRMSPkwspCjLJQHLC1UG0aVrZXgyH6Db1dOp97Bg3koSI0ZQYysHfBxsSz
-	VMBSRRZZ95ip55K1dt6oxezICNLs=
-X-Google-Smtp-Source: AGHT+IGglbNUcmY0tPy/2FfcGCZjTbOKNm3qt2fGG0t4e4fvLjpNRktw1NMsov0qlKycBZDrNlJq8PKuHtWWp4wr4O0=
-X-Received: by 2002:a05:6512:1042:b0:51e:e846:2b6f with SMTP id
- c2-20020a056512104200b0051ee8462b6fmr2210297lfb.51.1714648029315; Thu, 02 May
- 2024 04:07:09 -0700 (PDT)
+	s=arc-20240116; t=1714648587; c=relaxed/simple;
+	bh=Uopnuae4XTj+lMXhKoWJrhT/gsv0jkB2SUJrolbIB3s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sUzmyigAsC7VCFmmyDYrxyWED5arPfGnL2u4RdpkbaHA1yHPMns34lfmPShGOFQe9tkZUnYfHYoesmRy2GtdaQzfVg+jc7eptTfwCCrhFdQLCjEY/Egu4XeHGRPe7rx/XMT/niQWVMI6drkkLk8WDUc/ptuwWI+zQEWDzM8tS5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=eJYsVg4B; arc=none smtp.client-ip=185.125.188.123
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
+Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com [209.85.167.70])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 5C51E3FE5B
+	for <linux-kbuild@vger.kernel.org>; Thu,  2 May 2024 11:16:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20210705; t=1714648576;
+	bh=or9J1KNamr3SyadMwGskzlQdXHkztewT20MwCVZSRlo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version;
+	b=eJYsVg4BpPQre/K7gIhvu0BPzQjKjz5GUf6KCmcMDm3Z/CT8tY8KBEa9Jkpj+YLEL
+	 3BcX2a0OykN+uhPX9LqeaCaWre6HeyoRMiPr3WUyTTTkVyU+4g2EaEBqeMUtXfyZZF
+	 TXnvr7a28RC4Hh57zqkV5SiO4hQ2MMzzFoOAQnUmyYUwRxz34eK9OjvDvcIIWjYxG8
+	 nbuSBGVdCQypcjPPm5Iq1+7hkXBHkeu5SCrpJ16t3oAwuxghEkH3Euh+OpD6q/1f1d
+	 jdHxiQPEk6uVQNA1cowBBnS8zUimnS/4tfXWR+yg2enFmjBC2oRA4Fe/7l8CEH06V0
+	 izVRHIZj1Ih3Q==
+Received: by mail-lf1-f70.google.com with SMTP id 2adb3069b0e04-51f0d924685so660285e87.0
+        for <linux-kbuild@vger.kernel.org>; Thu, 02 May 2024 04:16:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714648575; x=1715253375;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=or9J1KNamr3SyadMwGskzlQdXHkztewT20MwCVZSRlo=;
+        b=YCC247D78TvYc3+U53ES7cjRz6BYjM0RdCCyjQRrU3uD6ovUmcSpPLEpjWdhCjP7qq
+         Vu7bSib6T6jI0km9V0xEzLoYRRAeDdusYS1aWd9FZPFVaVCF+cJjYYesqgTBkN7Kmhtv
+         Lck6PLCL61GighEQTGdboTfYXFolwXzPu8A6UYGTu48OQkrhEGRqhcgRl3pxyVE/zrh0
+         0s5V/Q75pEYj72UsvVTAH/p0zbv6UYu97QlrvdkSp1FD/YbiAoBN77UJCi4RJFcalYLX
+         LHR8TaxZykVaEPvUPg8KnbUACVuluDWISiY3LBK1ubm9xMassVlAaLU4gahfsx7Z0o26
+         sC9g==
+X-Forwarded-Encrypted: i=1; AJvYcCVGog087/U0IPdGDvpZzBrN4sNMcgZ2jpfv31wvvPBPe0QdkhI39GAhvBikr2yXn6c2zAYYw0ESNoYJvjg3Q5iC879bysK4FpNfRn2L
+X-Gm-Message-State: AOJu0YymK5wr7VaCf2Kux+MZW4Mtu7/WgVc6lDlglIBb7l7GXohS/zKP
+	/HfTdlKS9YYThfK5OhSNuiY5V4CvZetIIJlq7m3TxLDbu8nTCtvzkTHWpK6DW45nWUnB3gAxyet
+	lisXSvHe87ZAr40fnNU4gbNw5jAskkYapy0Jr68UmviMzRIng8Mf/4z+3m98bLqj4ggyjffuYFm
+	h+B1KzqZ21qA==
+X-Received: by 2002:a19:6450:0:b0:51b:bb22:f21 with SMTP id b16-20020a196450000000b0051bbb220f21mr4131194lfj.38.1714648575611;
+        Thu, 02 May 2024 04:16:15 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGbuAj3aP4RY2E8LiKmkKVQKaw+wSBaSVpfSeA/6/airVEvEgvLgc91RZ0Nt20kQ1CC2w5sWw==
+X-Received: by 2002:a19:6450:0:b0:51b:bb22:f21 with SMTP id b16-20020a196450000000b0051bbb220f21mr4131176lfj.38.1714648575240;
+        Thu, 02 May 2024 04:16:15 -0700 (PDT)
+Received: from stitch.. ([80.71.142.166])
+        by smtp.gmail.com with ESMTPSA id gs23-20020a170906f19700b00a4739efd7cesm437278ejb.60.2024.05.02.04.16.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 May 2024 04:16:14 -0700 (PDT)
+From: Emil Renner Berthing <emil.renner.berthing@canonical.com>
+To: linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org
+Cc: Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Nick Terrell <terrelln@fb.com>
+Subject: [PATCH v1 0/3] riscv: make image compression configurable
+Date: Thu,  2 May 2024 13:16:05 +0200
+Message-ID: <20240502111613.1380453-1-emil.renner.berthing@canonical.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240430202928.1143802-3-robh@kernel.org>
-In-Reply-To: <20240430202928.1143802-3-robh@kernel.org>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Thu, 2 May 2024 20:06:32 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATnr-L0Xwi2xCy1hcuPV=H=11+1bR=D0ji21exhprXRXg@mail.gmail.com>
-Message-ID: <CAK7LNATnr-L0Xwi2xCy1hcuPV=H=11+1bR=D0ji21exhprXRXg@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: kbuild: Fix dt_binding_check for arch
- without dts directory
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, May 1, 2024 at 5:30=E2=80=AFAM Rob Herring (Arm) <robh@kernel.org> =
-wrote:
->
-> Commit 1d06c77d93da ("dt-bindings: kbuild: Add separate
-> target/dependency for processed-schema.json") placed setting CHECK_DTBS
-> for 'dt_binding_check' target within the section that depends on having
-> arch/$ARCH/boot/dts/ which x86 doesn't have for example. That results in
-> the schema checks not running for the examples. Move setting it back out
-> of the conditional section as it was (CHECK_DT_BINDING is still
-> replaced).
->
-> Fixes: 1d06c77d93da ("dt-bindings: kbuild: Add separate target/dependency=
- for processed-schema.json")
-> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
-> ---
-> Cc: devicetree@vger.kernel.org
->
-> Masahiro, Please take this as the above commit is in your tree.
+Masahiro's patch[1] made me wonder why we're not just using KBUILD_IMAGE
+to determine which (possibly compressed) kernel image to use in 'make
+tar-pkg' like other architectures do. It turns out we're always setting
+KBUILD_IMAGE to the uncompressed Image file and then compressing it into
+the Image.gz file afterwards.
 
+This series fixes that so the compression method is configurable and
+KBUILD_IMAGE is set to the chosen (possibly uncompressed) kernel image
+which is then used by targets like 'make install' and 'make bindeb-pkg' and
+'make tar-pkg'.
 
-I squashed this to the original commit.
+Patch 3/3 depends on the previously mentioned patch below.
 
-Thanks.
+[1]: https://lore.kernel.org/r/20240414174139.3001175-1-masahiroy@kernel.org
 
+Emil Renner Berthing (3):
+  riscv: make image compression configurable
+  riscv: show help string for riscv-specific targets
+  kbuild: buildtar: install riscv compressed images as vmlinuz
 
+ arch/riscv/Kconfig         |  7 +++++
+ arch/riscv/Makefile        | 60 +++++++++++++++++++++++++-------------
+ arch/riscv/boot/install.sh |  9 ++++--
+ scripts/package/buildtar   | 18 +++++-------
+ 4 files changed, 61 insertions(+), 33 deletions(-)
 
+-- 
+2.43.0
 
->
->  Makefile | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
->
-> diff --git a/Makefile b/Makefile
-> index f4fe5b0ea931..43a2a630436a 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1403,7 +1403,7 @@ dtbs: dtbs_prepare
->  # dtbs_install depend on it as dtbs_install may run as root.
->  dtbs_prepare: include/config/kernel.release scripts_dtc
->
-> -ifneq ($(filter dt_binding_check dtbs_check, $(MAKECMDGOALS)),)
-> +ifneq ($(filter dtbs_check, $(MAKECMDGOALS)),)
->  export CHECK_DTBS=3Dy
->  endif
->
-> @@ -1422,6 +1422,10 @@ endif
->
->  endif
->
-> +ifneq ($(filter dt_binding_check, $(MAKECMDGOALS)),)
-> +export CHECK_DTBS=3Dy
-> +endif
-> +
->  PHONY +=3D scripts_dtc
->  scripts_dtc: scripts_basic
->         $(Q)$(MAKE) $(build)=3Dscripts/dtc
-> --
-> 2.43.0
->
-
-
---=20
-Best Regards
-Masahiro Yamada
 
