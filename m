@@ -1,53 +1,53 @@
-Return-Path: <linux-kbuild+bounces-1762-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1763-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id B94FC8BBDB1
-	for <lists+linux-kbuild@lfdr.de>; Sat,  4 May 2024 20:34:57 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 173208BBDB3
+	for <lists+linux-kbuild@lfdr.de>; Sat,  4 May 2024 20:35:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0DB95B214D4
-	for <lists+linux-kbuild@lfdr.de>; Sat,  4 May 2024 18:34:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 487C51C20ED1
+	for <lists+linux-kbuild@lfdr.de>; Sat,  4 May 2024 18:35:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C09D84E1D;
-	Sat,  4 May 2024 18:34:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCDE384FC9;
+	Sat,  4 May 2024 18:34:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WQrd8ykV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qFv7KZVg"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75C8884E17;
-	Sat,  4 May 2024 18:34:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B75DD84FBE;
+	Sat,  4 May 2024 18:34:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714847654; cv=none; b=Lb78mDLYCPZJeetk5l5CG99oAyhhbo2BDsyojhF8yvwiBL6yHXgdXIDjkf8uThDyS2YDW+YEDasOCOHc9N442gx2wqlLhygN3Fc3mDlURG2xLuigeUonwJ5oClWkRpfKD8P4ntdmdx4kh0351cu0TTjYHPKbUphU7Dmdmt0mRaw=
+	t=1714847655; cv=none; b=E4E48fPxYc9w5FNhWfzCZ+DPwy8IM5pSSF2TlA5pWSk769TvJoTLSMajn677B83tYl2iQ3HllTY2vcnv0y7gWGUTSA64NeRWhLPfsakZbeoYzH15l8X9hJNrU7R5i+FEkr2JdfVle58u9CPiWXC7NeizDdxbwTmsJUQ39iRVLPk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714847654; c=relaxed/simple;
-	bh=tnu4Sm6RDAbK7lE25RylH7+gcqO8XLwyS5Zea6M1TcA=;
+	s=arc-20240116; t=1714847655; c=relaxed/simple;
+	bh=1loWNNMJbgdISYcGMWi4T/QUodY2ppau9yw5McZ9ioc=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=OPVN6ThonOjDELQF5FYPtdcUL0QWUfa4RS7rdlm0eV1MyVjSgf2IBDd/N/7IwG3jmd2Z1x0OYdenMwhLYJRK+RoYLnEfJqQDctEBcDWD0namMdqBUPMVPA3IJe4M2Ubnl6sKTEXcz5tPTFNcnEtitio78biPIcrx0xymRtb6n9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WQrd8ykV; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 299BAC4AF14;
-	Sat,  4 May 2024 18:34:12 +0000 (UTC)
+	 MIME-Version; b=oE6YBPfI8r8pfO2cRfgUqq+jyPG3fTI36l3+L/jiu5hf7rJAaJ5ptBPXaScgTNCdQul1JPNS7CNj9mqKXszKbDG8lDduek91WDHYTnof90D0+rgUiBOfwFp6JdIAkjLPX/WfWd6JwfUnryRNYJWmPDf0ttk+/4A+x+F3RrEst98=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qFv7KZVg; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B078C4AF66;
+	Sat,  4 May 2024 18:34:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714847654;
-	bh=tnu4Sm6RDAbK7lE25RylH7+gcqO8XLwyS5Zea6M1TcA=;
+	s=k20201202; t=1714847655;
+	bh=1loWNNMJbgdISYcGMWi4T/QUodY2ppau9yw5McZ9ioc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=WQrd8ykVwxeFW6cGp7B8J2wdYRh0inOEzKZJr5cbRX1v1KQtlDvKw8oHunV220vMY
-	 KhO0tVI6fcFceW9jWSE0r20m4SbpSG+0VIW/8RsOwa98qhs43N17zqD1UuOhv8i0kN
-	 v9D21R9IU1aza0C0pIB/DZ574om1MmdaNKcqaDueIovFEU7G5f9EgT7aX0GfbDU8c2
-	 g3ixjoNm28ikAaIoxryv41T8YiqdhItbqy5p0gaEqNzKlcviX2RjHm1Z/2ksu4QCCT
-	 6SfWzLrtu5Fo6t7l+XxnzbVUYcz68s/unYTVARk6Ra7O8hyJH0vOdBka2ktYRVjqPq
-	 DqYXl6GwUrRXQ==
+	b=qFv7KZVgWm34At1/vHc5cyybcWeTpVpjPVlUrbaQ1w98TMdfSK1ZVIA6kgvq5w5Lc
+	 69oiKciVnkyr5dyQwS97WwzY8Th/adKPCRkFOauvSiVvRw1Ex+Adq5LSxPxmll0/UI
+	 Y/KqSKAmKQc5W3H5WjFKuPYOYoW/4zaZB1EWD4ugm8krXDKLWm3bo7WDSQOS6ckl+K
+	 ePPK3qly2RqJ6qCUpsL63kqQtO5CIVp548HHWfshp7fJPKPhNvLhyPN/xpmjQhEdf3
+	 ITz15Ja7lQC6zuDkn5mUB/y7b76cygF4jbC+9VbQ7M4frHc87u6oWssO8wjtOEwOYL
+	 83Rgcsi3v3MzA==
 From: Masahiro Yamada <masahiroy@kernel.org>
 To: linux-kbuild@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
 	Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH 05/10] kconfig: add sym_get_choice_menu() helper
-Date: Sun,  5 May 2024 03:33:28 +0900
-Message-Id: <20240504183333.2031860-5-masahiroy@kernel.org>
+Subject: [PATCH 06/10] kconfig: use sym_get_choice_menu() in conf_write_defconfig()
+Date: Sun,  5 May 2024 03:33:29 +0900
+Message-Id: <20240504183333.2031860-6-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20240504183333.2031860-1-masahiroy@kernel.org>
 References: <20240504183333.2031860-1-masahiroy@kernel.org>
@@ -61,83 +61,47 @@ Content-Transfer-Encoding: 8bit
 
 Choices and their members are associated via the P_CHOICE property.
 
-Currently, prop_get_symbol(sym_get_choice_prop(sym)) is used to obtain
+Currently, prop_get_symbol(sym_get_choice_prop()) is used to obtain
 the choice of the given choice member.
 
-We can do this without relying on P_CHOICE by checking the parent in
-the menu structure.
-
-Introduce a new helper to retrieve the choice if the given symbol is a
-choice member.
-
-This is intended to replace prop_get_symbol(sym_get_choice_prop(sym))
-and deprecate P_CHOICE eventually.
+Replace it with sym_get_choice_menu(), which retrieves the choice
+without relying on P_CHOICE.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/kconfig/lkc_proto.h |  1 +
- scripts/kconfig/symbol.c    | 35 +++++++++++++++++++++++++++++++++++
- 2 files changed, 36 insertions(+)
+ scripts/kconfig/confdata.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/scripts/kconfig/lkc_proto.h b/scripts/kconfig/lkc_proto.h
-index 2807fa584c2b..d76aaf4ea117 100644
---- a/scripts/kconfig/lkc_proto.h
-+++ b/scripts/kconfig/lkc_proto.h
-@@ -34,6 +34,7 @@ bool sym_string_within_range(struct symbol *sym, const char *str);
- bool sym_set_string_value(struct symbol *sym, const char *newval);
- bool sym_is_changeable(struct symbol *sym);
- struct property * sym_get_choice_prop(struct symbol *sym);
-+struct menu *sym_get_choice_menu(struct symbol *sym);
- const char * sym_get_string_value(struct symbol *sym);
+diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
+index 5caec434e6f4..e68890bbc035 100644
+--- a/scripts/kconfig/confdata.c
++++ b/scripts/kconfig/confdata.c
+@@ -794,6 +794,8 @@ int conf_write_defconfig(const char *filename)
+ 	sym_clear_all_valid();
  
- const char * prop_get_type_name(enum prop_type type);
-diff --git a/scripts/kconfig/symbol.c b/scripts/kconfig/symbol.c
-index 8512c29c84bb..23829f44b8f8 100644
---- a/scripts/kconfig/symbol.c
-+++ b/scripts/kconfig/symbol.c
-@@ -78,6 +78,41 @@ struct property *sym_get_choice_prop(struct symbol *sym)
- 	return NULL;
- }
+ 	menu_for_each_entry(menu) {
++		struct menu *choice_menu;
++
+ 		sym = menu->sym;
+ 		if (sym && !sym_is_choice(sym)) {
+ 			sym_calc_value(sym);
+@@ -811,12 +813,11 @@ int conf_write_defconfig(const char *filename)
+ 			 * If symbol is a choice value and equals to the
+ 			 * default for a choice - skip.
+ 			 */
+-			if (sym_is_choice_value(sym)) {
+-				struct symbol *cs;
++			choice_menu = sym_get_choice_menu(sym);
++			if (choice_menu) {
+ 				struct symbol *ds;
  
-+/**
-+ * sym_get_choice_menu - get the parent choice menu if present
-+ *
-+ * @sym: a symbol pointer
-+ *
-+ * Return: a choice menu if this function is called against a choice member.
-+ */
-+struct menu *sym_get_choice_menu(struct symbol *sym)
-+{
-+	struct menu *menu = NULL;
-+	struct menu *m;
-+
-+	/*
-+	 * Choice members must have a prompt. Find a menu entry with a prompt,
-+	 * and assume it resides inside a choice block.
-+	 */
-+	list_for_each_entry(m, &sym->menus, link)
-+		if (m->prompt) {
-+			menu = m;
-+			break;
-+		}
-+
-+	if (!menu)
-+		return NULL;
-+
-+	do {
-+		menu = menu->parent;
-+	} while (menu && !menu->sym);
-+
-+	if (menu && menu->sym && sym_is_choice(menu->sym))
-+		return menu;
-+
-+	return NULL;
-+}
-+
- static struct property *sym_get_default_prop(struct symbol *sym)
- {
- 	struct property *prop;
+-				cs = prop_get_symbol(sym_get_choice_prop(sym));
+-				ds = sym_choice_default(cs);
++				ds = sym_choice_default(choice_menu->sym);
+ 				if (sym == ds) {
+ 					if ((sym->type == S_BOOLEAN) &&
+ 					    sym_get_tristate_value(sym) == yes)
 -- 
 2.40.1
 
