@@ -1,53 +1,53 @@
-Return-Path: <linux-kbuild+bounces-1764-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1765-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83C128BBDB5
-	for <lists+linux-kbuild@lfdr.de>; Sat,  4 May 2024 20:35:22 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82EC48BBDB7
+	for <lists+linux-kbuild@lfdr.de>; Sat,  4 May 2024 20:35:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7D3A9B2130B
-	for <lists+linux-kbuild@lfdr.de>; Sat,  4 May 2024 18:35:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3E9E2281F6C
+	for <lists+linux-kbuild@lfdr.de>; Sat,  4 May 2024 18:35:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7135585287;
-	Sat,  4 May 2024 18:34:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC16685926;
+	Sat,  4 May 2024 18:34:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U845aXRS"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YB7W4a/r"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A98985274;
-	Sat,  4 May 2024 18:34:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5EF685650;
+	Sat,  4 May 2024 18:34:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714847657; cv=none; b=hsBK5vZCE9G8z24RmV+VLk1fc9gPiLoEyihox+kA3ulC5EkWkMqI4Q74RCUpA4Ft34wUpjiom0eiWdLkLERdgte4a8Nic271tcefpoUocutrmPpd3VydK6kBI0O0lokzAT6A8vKCUXi18LxEWsN2kyq37c3deNK/lWjMkm0rgfw=
+	t=1714847658; cv=none; b=lG9jaByQ92ofqpwckgEmmptPhT5RuBHHN9O+Jvj0MLSH2zu1I9DgozJmgvmX8pPeYXPBTihf3U2PGUrx6A6/rCa4HmEUXKmP0UNw5MLuPGRuam7+cEQWvM6UQGIsRn8DJLcfzcqkkcwNnwMQiXguzzV9AF5EWK8I9uRYd/GDQWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714847657; c=relaxed/simple;
-	bh=eo6+W6TnHuiRwkZe3ODc0AWjobnC6OZhSBkg+ENoBXg=;
+	s=arc-20240116; t=1714847658; c=relaxed/simple;
+	bh=n3kfPRVCQ5t0c9SyMZT7tSS34HDAWc2ENT6kh3eZwfY=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=pdaOFpAPCOvHFy+zr5uIIc2fdsjE9XnJ5v2BjLgsm/Ip+nS6PS/Yuu2wapJkqtOiz3Gz6vn2OD9uHNDVpG8mj2NEOCPvK8ZFQbX2m30QvDxpxBtPTyEJJwTFK1/8CvXM+Y3GOg7L2YmkgeIls/ZpOJN3dGHhEBc5MEhm8dm5idA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U845aXRS; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9623C4AF4D;
-	Sat,  4 May 2024 18:34:15 +0000 (UTC)
+	 MIME-Version; b=Rp9fBdp/PYZnj7mdFjOMjHGWPvk5jc/dWbVe9psYxfWLyyYArvnBvHERsD4DdqbpAMW+oaDn2f97JBvXr7iygj7MiuiZ2Tp/OkiYOm6TUOyTFnUDAUEcARrKH+Lo6C4hzTUqg+PplMkIzujI+LRHrYeZkmMEFvqi9dFzBM0Pj4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YB7W4a/r; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58C21C4AF19;
+	Sat,  4 May 2024 18:34:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714847656;
-	bh=eo6+W6TnHuiRwkZe3ODc0AWjobnC6OZhSBkg+ENoBXg=;
+	s=k20201202; t=1714847658;
+	bh=n3kfPRVCQ5t0c9SyMZT7tSS34HDAWc2ENT6kh3eZwfY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=U845aXRS+VZXmdPDmoV+oKrIcCqc0nwa1AOyC/4xFx74PI6wQy5Bed9XZ+js/M9T4
-	 xdcE4PFLJioiOSnnCdV8Yg2ylVOY71d2NwjYsIJCBDc/aIXoGFIjsNPdbVKpeDGYtf
-	 Sf5wuXfoOn8n8C0SZBEP6moovDuet03fvbEdpYhMr44tRURPICnSYjCapMI/XV27KT
-	 OE7jIC1eHbt2+CQvvO617+wZvMR2oTnmGtzsGJD0Mh771ihuqmAqrF7A/ESdtpS6zs
-	 k5Fc5BSKRapdoun8EgWVnIQWRMWL4jrf+2fhaJjGAxaCBX8ktG4bKXO/Hgw7vu33sX
-	 O1v/4VmzcWUpw==
+	b=YB7W4a/r94YbuqIOmnzBSU2yP7Q4ojM/kpmfCjsl0HLqlgB++Q10eefoGmjqnm0fa
+	 kVt67HRAQz3OoCGB+3i0QfKFtlXc+LQSAMaYOaZIKrSsaHT/rEAabBm1VcKFccCahW
+	 tBEM4Kf3+EoDM67LGHF16Vfwn/SiJYBhBh4c2wwapkyxFWJoQj8V+UUx1cG9T1H7Uq
+	 szJzjQf6/yPJzdXE146n/3PYjassqfrx6f4xIKT8W7+6yrpFccNeKC/Pbgk04tm+9R
+	 +3zaWheqKamBeSjqzjv2PgaXoSKy+DUIWsS+0jtPzXEFA3LP29wfKQoqm6BCt42jU7
+	 Y7PA4vd3mTc3g==
 From: Masahiro Yamada <masahiroy@kernel.org>
 To: linux-kbuild@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
 	Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH 07/10] kconfig: use menu_list_for_each_sym() in sym_check_choice_deps()
-Date: Sun,  5 May 2024 03:33:30 +0900
-Message-Id: <20240504183333.2031860-7-masahiroy@kernel.org>
+Subject: [PATCH 08/10] kconfig: turn conf_choice() into void function
+Date: Sun,  5 May 2024 03:33:31 +0900
+Message-Id: <20240504183333.2031860-8-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20240504183333.2031860-1-masahiroy@kernel.org>
 References: <20240504183333.2031860-1-masahiroy@kernel.org>
@@ -59,71 +59,59 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Choices and their members are associated via the P_CHOICE property.
-
-Currently, sym_get_choice_prop() and expr_list_for_each_sym() are
-used to iterate on choice members.
-
-Replace them with menu_for_each_sub_entry(), which achieves the same
-without relying on P_CHOICE.
+The return value of conf_choice() is not used.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/kconfig/symbol.c | 25 +++++++++++++++----------
- 1 file changed, 15 insertions(+), 10 deletions(-)
+ scripts/kconfig/conf.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/scripts/kconfig/symbol.c b/scripts/kconfig/symbol.c
-index 23829f44b8f8..75e7506fcb5c 100644
---- a/scripts/kconfig/symbol.c
-+++ b/scripts/kconfig/symbol.c
-@@ -1204,16 +1204,18 @@ static struct symbol *sym_check_sym_deps(struct symbol *sym)
- 
- static struct symbol *sym_check_choice_deps(struct symbol *choice)
- {
--	struct symbol *sym, *sym2;
--	struct property *prop;
--	struct expr *e;
-+	struct menu *menu, *child;
-+	struct symbol *sym2;
- 	struct dep_stack stack;
- 
- 	dep_stack_insert(&stack, choice);
- 
--	prop = sym_get_choice_prop(choice);
--	expr_list_for_each_sym(prop->expr, e, sym)
--		sym->flags |= (SYMBOL_CHECK | SYMBOL_CHECKED);
-+	menu = list_first_entry(&choice->menus, struct menu, link);
-+
-+	menu_for_each_sub_entry(child, menu) {
-+		if (child->sym)
-+			child->sym->flags |= SYMBOL_CHECK | SYMBOL_CHECKED;
-+	}
- 
- 	choice->flags |= (SYMBOL_CHECK | SYMBOL_CHECKED);
- 	sym2 = sym_check_sym_deps(choice);
-@@ -1221,14 +1223,17 @@ static struct symbol *sym_check_choice_deps(struct symbol *choice)
- 	if (sym2)
- 		goto out;
- 
--	expr_list_for_each_sym(prop->expr, e, sym) {
--		sym2 = sym_check_sym_deps(sym);
-+	menu_for_each_sub_entry(child, menu) {
-+		if (!child->sym)
-+			continue;
-+		sym2 = sym_check_sym_deps(child->sym);
- 		if (sym2)
- 			break;
+diff --git a/scripts/kconfig/conf.c b/scripts/kconfig/conf.c
+index 0156ca13f949..8ad2c52d9b1f 100644
+--- a/scripts/kconfig/conf.c
++++ b/scripts/kconfig/conf.c
+@@ -446,7 +446,7 @@ static int conf_sym(struct menu *menu)
  	}
- out:
--	expr_list_for_each_sym(prop->expr, e, sym)
--		sym->flags &= ~SYMBOL_CHECK;
-+	menu_for_each_sub_entry(child, menu)
-+		if (child->sym)
-+			child->sym->flags &= ~SYMBOL_CHECK;
+ }
  
- 	if (sym2 && sym_is_choice_value(sym2) &&
- 	    prop_get_symbol(sym_get_choice_prop(sym2)) == choice)
+-static int conf_choice(struct menu *menu)
++static void conf_choice(struct menu *menu)
+ {
+ 	struct symbol *sym, *def_sym;
+ 	struct menu *child;
+@@ -459,19 +459,18 @@ static int conf_choice(struct menu *menu)
+ 		sym_calc_value(sym);
+ 		switch (sym_get_tristate_value(sym)) {
+ 		case no:
+-			return 1;
+ 		case mod:
+-			return 0;
++			return;
+ 		case yes:
+ 			break;
+ 		}
+ 	} else {
+ 		switch (sym_get_tristate_value(sym)) {
+ 		case no:
+-			return 1;
++			return;
+ 		case mod:
+ 			printf("%*s%s\n", indent - 1, "", menu_get_prompt(menu));
+-			return 0;
++			return;
+ 		case yes:
+ 			break;
+ 		}
+@@ -551,7 +550,7 @@ static int conf_choice(struct menu *menu)
+ 			continue;
+ 		}
+ 		sym_set_tristate_value(child->sym, yes);
+-		return 1;
++		return;
+ 	}
+ }
+ 
 -- 
 2.40.1
 
