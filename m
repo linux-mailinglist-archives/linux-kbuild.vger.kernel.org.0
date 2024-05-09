@@ -1,142 +1,190 @@
-Return-Path: <linux-kbuild+bounces-1815-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1816-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E79CF8C1585
-	for <lists+linux-kbuild@lfdr.de>; Thu,  9 May 2024 21:37:17 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D562C8C191A
+	for <lists+linux-kbuild@lfdr.de>; Fri, 10 May 2024 00:01:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8600F1F22D62
-	for <lists+linux-kbuild@lfdr.de>; Thu,  9 May 2024 19:37:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8A0D0282A53
+	for <lists+linux-kbuild@lfdr.de>; Thu,  9 May 2024 22:01:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 562807F7FC;
-	Thu,  9 May 2024 19:37:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 660911292DC;
+	Thu,  9 May 2024 22:01:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R5cGNiTm"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iXEUPeIH"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2086FEED5;
-	Thu,  9 May 2024 19:37:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3A058564E;
+	Thu,  9 May 2024 22:01:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715283431; cv=none; b=paSs+GkOim4S2p8p0oL4eGnvgf/gwTMbpoC5/nAhCeX/JH2j7hYR9PXzIP+p8fmuPEYkeV3tZwOS/FTKxtRpHXxWC7XYXcHkhiJ6R/CWSxKu/cCEpul95zEIsTOhBbY40zV+XnDkk+teNbDBKx3Mvh1z7dWeR3b/RGXFf/s2SQk=
+	t=1715292081; cv=none; b=ABevcFfWUc8//5SIP1di120ja+JhiKpindRDjlt+ArgNggRvlX0yB3jrmisbhxpP9kscAVZhyTGwVb+glt4ly/A8Cjt2miTeWM3RNTJUAraGtxb72IkHLXea9NSV7F1wMPzZjtOhhzYBEEyDLYc0xLWISN40kMTawHqa+XdZ8LU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715283431; c=relaxed/simple;
-	bh=kFJJ2GCFHMrGsA2nEYZ+N28F2+0s0EpfhS927die1f4=;
+	s=arc-20240116; t=1715292081; c=relaxed/simple;
+	bh=2/w28/GNQZgDAzE1NWP3JOTHqnw1GXCJ9V87Zugb8kg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=g+Rk/iHFVvpDvq7xY5wGMSwSELdYZlrhyXdSbOMEkN+mB9BD8/oK2YJTlSF3dfCANr4YiJMI0I/RmlU/l+uk1RTcuf4wyPKjFLNdhys/wAH+L7tQhOatoQvYxNO8IM8MNENWHFkiayi80vBUa6iXUuECVijDVZxobHSMEWGYmag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R5cGNiTm; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A951DC3277B;
-	Thu,  9 May 2024 19:37:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715283430;
-	bh=kFJJ2GCFHMrGsA2nEYZ+N28F2+0s0EpfhS927die1f4=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=R5cGNiTmAUmmNUAhU3bTVFM8iZdVnTjqtPcPSUUY0nPckjA0KtRcUiOMxuyom2/GR
-	 NprYgE5Bk72Y8mEwkbO2jWUJ6ezPZFbrmE3TwSCkP80/LS0VHUSFyiXmrzjufBhtqF
-	 aS38pyzMXLUAGIsKZKDN68UCQ9rncjbclgBoXXMOG2spS/RWE+Zj23hfOTzYsYCk1l
-	 BOSVPnaPPSmGhRCmGEKSogd6tRODmAsTWfun2eK11K3amJidv1ASMWWbU9f4x4LXwb
-	 PXyHmGMl/ARLCmWaHesNIMtJvfjCisDj++t3PH6rrUdYXRcgvD2bb6iL0f4bJVmLZx
-	 yBB5SRZoX0afw==
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-52192578b95so1398076e87.2;
-        Thu, 09 May 2024 12:37:10 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXqkV/5V7tEC2xd+3XVOSIuKCvt2rXqEDvmgbAXpMYJOJNjSg0jIIq2Da/TmprMBWvbaBD1DkJtGqRJqCfDT2sQnzYfilMv2B53iBpEZBMfiL5XwtZzoAkqes0lnps44Ea3/+G1HkYwTQ==
-X-Gm-Message-State: AOJu0YzaIKSAz7JV6ShH4pLKxioGkID2TyqzqKTPr6TO7OSNrka1kQvA
-	PSqauTFFkKiPXWe4mxGMz7wsO74SkQ56c5Yq6a6u5hJDENp3VhicpdKcd4AHsp49Z8uNVjepzcE
-	JaeySG0ZpxIJocYdWqgE65BmKSr0=
-X-Google-Smtp-Source: AGHT+IHZ6jdC7Nk3Jbul3s2k1wm2lm15bWNNhMuO1aDdAAMZ6KBL8zfm/tYtkWfobT48KAF1zrc9FWI8ue1zJd2ZMdI=
-X-Received: by 2002:ac2:41d3:0:b0:51c:fd0a:7e34 with SMTP id
- 2adb3069b0e04-5220fb72d61mr303609e87.22.1715283429282; Thu, 09 May 2024
- 12:37:09 -0700 (PDT)
+	 To:Cc:Content-Type; b=bdRXtPa3FqJUKdWz7STIXTeMcA4HY3WNeWC1qMvqxYL9nMKgaTpZ5D5AVGdgLoWlln8NHXkPfJsTM8Hc8MYkTP+bOZtT7t5Br+ml9Ozc6K0EEZbe7ba7XsrD5tr+VnmGaZjebcfLdfS5FwyZpx9UaJXBJlB8czIMx+iVSBsUEM4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iXEUPeIH; arc=none smtp.client-ip=209.85.215.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-5f80aa2d4a3so1207228a12.0;
+        Thu, 09 May 2024 15:01:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1715292079; x=1715896879; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=i3CeutlPgLy3qquLRxmV7HOgQfxGU3KIQ2sZr9gsx/s=;
+        b=iXEUPeIHiPHyp8CyZOSuOSczxtQMXcKnjU3Q83FmT5ziyV1z5paDn5xY0pbbdjd52s
+         1of8qgADMfs07I20QjtD2xfMcj20L4KMtLePixbyV2HxmFi3TPBOA63MNYc0mI2aR8z4
+         I1xCloQUC50J//aT20dZLkdzW7LKg+gHjhEgquDtGRDrGlKMDXDDf21Se4qtxEaT4v8j
+         1SPdKOIIQhDVYZuLyaHkI/W9LdR2eC9Ar/D6bnNlt5+y5ac04MTMcLSDJB+YxVJPueku
+         UgxVi1meKR7WFIPLpgLSik4mqFP8x9mK1ipFCaollnz4Igc2U03CBcGYjZ8hf8i4Rmmf
+         AOiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715292079; x=1715896879;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=i3CeutlPgLy3qquLRxmV7HOgQfxGU3KIQ2sZr9gsx/s=;
+        b=YTasHznpZXKI+KX/T5oejK2jc/6hpl7ug/kAzxgmmrmiK6j69HQBjJ5TAon18vmODf
+         qdVGeGyqhVxQY8KnnipRfSxSmdsdbUJuwofzbywP7bEsab7GMG/N9VHHCmWG4mmcUOGj
+         U9iiVZAA0gsvwC0lSUgKB7wxHFEW6CPHVj0H8lcCbMS2YqM+5pmyXE/Bqp4UMn4rWKYA
+         zjMycLueIwVD1MwRNy1t4afaBzgvfo3tnLNEbeg0WgvZwMAhLuwA+RmOrU1FVRViyWHu
+         T+X69wT4JaWbmxuc3nIONKO3U0eeQzfZirR8YJuh/45WUjmhYhIe1AUwvFyWIuA0X3Wn
+         ISVw==
+X-Forwarded-Encrypted: i=1; AJvYcCUnxg4m+OqfDh+UmWSdjzbvHGecgd/5Jov0o7dAB83A4Dl7xlpJeVOO3OOpqKKFGZz6rBsvk+8le1DglS7qimWmiXLjHyuA2X+hZkmO3yUVsHvmrTSfnj8MbSCvkZEys3ky
+X-Gm-Message-State: AOJu0Yz1+cwcnitEqli3HJZirtQgTPndqHOoF2ACITqaVn/9cho7JvLU
+	e3cpcSMwvFVqiss9JJhPDGHvNgFrUUT7OpnKNR1OgeoLb1I7Du20b8K1/wBHSUZGnmRl0lL2y2A
+	m3M5dB60/mTUfMIzdiCLvLKH+vy4=
+X-Google-Smtp-Source: AGHT+IGKSu9vVYwrf0fzTBtVLprWq6WXsag4cURO+SJyBpOnCGjO4A6e6lPI9tLqmN8X+tnQ2LrE95mAz28J18rP2h0=
+X-Received: by 2002:a17:90a:d345:b0:2b3:c011:d28c with SMTP id
+ 98e67ed59e1d1-2b6cd1ef673mr683485a91.48.1715292079051; Thu, 09 May 2024
+ 15:01:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240427145502.2804311-1-masahiroy@kernel.org>
- <20240427145502.2804311-5-masahiroy@kernel.org> <ea24aa9b-291d-47bc-98cf-5893926ff8da@kernel.org>
-In-Reply-To: <ea24aa9b-291d-47bc-98cf-5893926ff8da@kernel.org>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Fri, 10 May 2024 04:36:32 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAT5_pDn1ZOfm8TzubH-s2HR4DQu9eEx0RgdJ3s4Cmxqow@mail.gmail.com>
-Message-ID: <CAK7LNAT5_pDn1ZOfm8TzubH-s2HR4DQu9eEx0RgdJ3s4Cmxqow@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] kbuild: use $(src) instead of $(srctree)/$(src)
- for source directory
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Nicolas Schier <nicolas@fjasle.eu>, Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+References: <20240507135514.490467-1-alan.maguire@oracle.com>
+ <CAEf4BzbWANm+Bf63hcFAB3Tn51tOeBLhyabV3NNz8tjaMnThjg@mail.gmail.com> <339b9430-145f-402a-a93c-8440797c98a4@oracle.com>
+In-Reply-To: <339b9430-145f-402a-a93c-8440797c98a4@oracle.com>
+From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Date: Thu, 9 May 2024 15:01:07 -0700
+Message-ID: <CAEf4BzY_xwD+7b31VtS4SPh-p+ES4BUDV2um+QGcdD878Onn=Q@mail.gmail.com>
+Subject: Re: [PATCH v2 bpf-next] kbuild,bpf: switch to using --btf_features
+ for pahole v1.26 and later
+To: Alan Maguire <alan.maguire@oracle.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, andrii@kernel.org, jolsa@kernel.org, 
+	acme@redhat.com, eddyz87@gmail.com, ast@kernel.org, daniel@iogearbox.net, 
+	martin.lau@linux.dev, song@kernel.org, yonghong.song@linux.dev, 
+	john.fastabend@gmail.com, kpsingh@kernel.org, sdf@google.com, 
+	haoluo@google.com, bpf@vger.kernel.org, linux-kbuild@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 9, 2024 at 5:59=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.org=
-> wrote:
+On Thu, May 9, 2024 at 1:20=E2=80=AFAM Alan Maguire <alan.maguire@oracle.co=
+m> wrote:
 >
-> On 27/04/2024 16:55, Masahiro Yamada wrote:
-> > Kbuild conventionally uses $(obj)/ for generated files, and $(src)/ for
-> > checked-in source files. It is merely a convention without any function=
-al
-> > difference. In fact, $(obj) and $(src) are exactly the same, as defined
-> > in scripts/Makefile.build:
+> On 07/05/2024 17:48, Andrii Nakryiko wrote:
+> > On Tue, May 7, 2024 at 6:55=E2=80=AFAM Alan Maguire <alan.maguire@oracl=
+e.com> wrote:
+> >>
+> >> The btf_features list can be used for pahole v1.26 and later -
+> >> it is useful because if a feature is not yet implemented it will
+> >> not exit with a failure message.  This will allow us to add feature
+> >> requests to the pahole options without having to check pahole versions
+> >> in future; if the version of pahole supports the feature it will be
+> >> added.
+> >>
+> >> Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
+> >> Tested-by: Eduard Zingerman <eddyz87@gmail.com>
+> >> ---
+> >>  scripts/Makefile.btf | 15 +++++++++++++--
+> >>  1 file changed, 13 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/scripts/Makefile.btf b/scripts/Makefile.btf
+> >> index 82377e470aed..2d6e5ed9081e 100644
+> >> --- a/scripts/Makefile.btf
+> >> +++ b/scripts/Makefile.btf
+> >> @@ -3,6 +3,8 @@
+> >>  pahole-ver :=3D $(CONFIG_PAHOLE_VERSION)
+> >>  pahole-flags-y :=3D
+> >>
+> >> +ifeq ($(call test-le, $(pahole-ver), 125),y)
+> >> +
+> >>  # pahole 1.18 through 1.21 can't handle zero-sized per-CPU vars
+> >>  ifeq ($(call test-le, $(pahole-ver), 121),y)
+> >>  pahole-flags-$(call test-ge, $(pahole-ver), 118)       +=3D --skip_en=
+coding_btf_vars
+> >> @@ -12,8 +14,17 @@ pahole-flags-$(call test-ge, $(pahole-ver), 121)   =
+  +=3D --btf_gen_floats
+> >>
+> >>  pahole-flags-$(call test-ge, $(pahole-ver), 122)       +=3D -j
+> >>
+> >> -pahole-flags-$(CONFIG_PAHOLE_HAS_LANG_EXCLUDE)         +=3D --lang_ex=
+clude=3Drust
+> >> +ifeq ($(pahole-ver), 125)
 > >
-> >     src :=3D $(obj)
-> >
-> > When the kernel is built in a separate output directory, $(src) does
-> > not accurately reflect the source directory location. While Kbuild
-> > resolves this discrepancy by specifying VPATH=3D$(srctree) to search fo=
-r
-> > source files, it does not cover all cases. For example, when adding a
-> > header search path for local headers, -I$(srctree)/$(src) is typically
-> > passed to the compiler.
-> >
-> > This introduces inconsistency between upstream and downstream Makefiles
-> > because $(src) is used instead of $(srctree)/$(src) for the latter.
-> >
-> > To address this inconsistency, this commit changes the semantics of
-> > $(src) so that it always points to the directory in the source tree.
-> >
-> > Going forward, the variables used in Makefiles will have the following
-> > meanings:
-> >
-> >   $(obj)     - directory in the object tree
-> >   $(src)     - directory in the source tree  (changed by this commit)
-> >   $(objtree) - the top of the kernel object tree
-> >   $(srctree) - the top of the kernel source tree
-> >
-> > Consequently, $(srctree)/$(src) in upstream Makefiles need to be replac=
-ed
-> > with $(src).
+> > it's a bit of a scope creep, but isn't it strange that we don't have
+> > test-eq and have to work-around that with more verbose constructs?
+>
+> Looking at the history, I _think_ the concern that motivated the numeric
+> comparison constructs was the shell process fork required for numeric
+> comparisons. In the equality case, ifeq would work for both strings and
+> numeric values. Adding a test-eq (in a similar form to test-ge) would
+> require a fallback to shell expansion for older Make without intcmp, and
+> that would be slower than using ifeq, if less verbose.
+>
+> > Let's do a good service to the community and add test-eq (and maybe
+> > test-ne while at it, don't know, up to Masahiro)?
 > >
 >
-> This patch, since yesterday's next, causes build issues with my
-> (completely) standard and typical workflow:
+> Sure, I'm happy to do this if kbuild folks agree. I've cc'ed them; I
+> neglected to do this in the original patch, apologies about that.
 >
-> alias crosc64=3D'CROSS_COMPILE=3D"ccache aarch64-linux-gnu-" ARCH=3Darm64=
- KBUILD_OUTPUT=3Dout/'
-> crosc64 make defconfig
-> crosc64 make dt_binding_check
+
+Ok, let's see if Masahiro would like this improvement or not. For now
+this patch gets us into a nicer place where there are legacy parts and
+a better --btf_features setup completely separate, so I applied the
+patch as is to bpf-next. If we decide to do test-eq, we can improve
+this further separately. Thanks!
+
+
+> Thanks!
 >
-> Errors:
+> Alan
 >
-> No rule to make target 'Documentation/devicetree/bindings/i3c/snps,dw-i3c=
--master.example.dtb', needed by 'dt_binding_check'. Stop.
->
-> Please revert/drop from next.
-
-
-Or, fix the code.
-
-
-Now fixed. Thanks for the report.
-
-
-
-
---=20
-Best Regards
-Masahiro Yamada
+> > Overall the change looks OK to me, so if people are opposed to adding
+> > test-eq, I'm fine with it as well:
+> >
+> > Acked-by: Andrii Nakryiko <andrii@kernel.org>
+> >
+> >> +pahole-flags-y +=3D --skip_encoding_btf_inconsistent_proto --btf_gen_=
+optimized
+> >> +endif
+> >> +
+> >> +else
+> >>
+> >> -pahole-flags-$(call test-ge, $(pahole-ver), 125)       +=3D --skip_en=
+coding_btf_inconsistent_proto --btf_gen_optimized
+> >> +# Switch to using --btf_features for v1.26 and later.
+> >> +pahole-flags-$(call test-ge, $(pahole-ver), 126)  =3D -j --btf_featur=
+es=3Dencode_force,var,float,enum64,decl_tag,type_tag,optimized_func,consist=
+ent_func
+> >> +
+> >> +endif
+> >> +
+> >> +pahole-flags-$(CONFIG_PAHOLE_HAS_LANG_EXCLUDE)         +=3D --lang_ex=
+clude=3Drust
+> >>
+> >>  export PAHOLE_FLAGS :=3D $(pahole-flags-y)
+> >> --
+> >> 2.39.3
+> >>
 
