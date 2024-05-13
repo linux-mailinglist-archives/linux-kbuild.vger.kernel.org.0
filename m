@@ -1,170 +1,138 @@
-Return-Path: <linux-kbuild+bounces-1845-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1847-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BCB18C49C1
-	for <lists+linux-kbuild@lfdr.de>; Tue, 14 May 2024 00:51:43 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A4A18C4A09
+	for <lists+linux-kbuild@lfdr.de>; Tue, 14 May 2024 01:28:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 453E41C21707
-	for <lists+linux-kbuild@lfdr.de>; Mon, 13 May 2024 22:51:42 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C4A93B22E31
+	for <lists+linux-kbuild@lfdr.de>; Mon, 13 May 2024 23:28:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FC9584DE3;
-	Mon, 13 May 2024 22:51:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D0E485923;
+	Mon, 13 May 2024 23:28:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ccm7AzJr"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VvIyA/X9"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C93953E30;
-	Mon, 13 May 2024 22:51:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33C558563F;
+	Mon, 13 May 2024 23:28:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715640697; cv=none; b=ANePrJdYDYIywGVa38ayOgAa5QiPy8ppxUIxqfonuP06FhcP0AMp+2IA7it4UqUnP0IvRbVgiTT6D+LGSBL9mX6DuAOBjrjzAte0LLHhVtCPtrLyv22Xr3vNxtih+Etev8pq4cdVzbRIShdYA7fv5/ca9VpzErolvV1w6MOrf/4=
+	t=1715642909; cv=none; b=fFL/6gHA3EWv03PZFHb9EHM7LT1A/ACtzzforCtiaRjBc+yLky7CncmLaUC0pKzSUOcv+9HV1nO0bqarYhCqOnN0fDRZbCBNnvdwoEEB2skUAzqM56eU+gMBUO2VNlIef/f+8esMSNve/MfWR61Q0buL7YQfp0kkbAUcfnCir7c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715640697; c=relaxed/simple;
-	bh=BAFv8AC6amhIecrF8hdOUU0Utzaza1MY/IfWMVB1EGQ=;
+	s=arc-20240116; t=1715642909; c=relaxed/simple;
+	bh=8Gh1hcIWN4rcXBwDSbtnP1I9GK4gJY14SknicU3V5gA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=o1fBtGAY6/Xx+iaAXXvWMWlxc1bU6JODZ+yfXjnvaxHlqind7CxU4b2vWfgm6E2KLAQqkHuzW7xVpsDUZzoBN9U9A+NUbkD2wQSZD0WRuWrEXc7MuX6nAMsCxF1L3GtpDsPUl4sme4cUlaJKXA3lDxlnJ/WmVDWvfJQevutZ+oc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ccm7AzJr; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AF35C32786;
-	Mon, 13 May 2024 22:51:37 +0000 (UTC)
+	 To:Cc:Content-Type; b=WdqQzNASyDxFJcZLA6HZ8WWWHiFkejbHevct64WYN2Tr7a1CBuFIQzBSU+Ae/imw2Gubq/4dnLph52Kwni/UAnWIAVKJfgT1jH97kk0+KpeBzHw/cqHJQucZh98DuiNWuZ5e1mYpbm4M9l7j6HMNb0IseDpA9VQg2QskiaWP01g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VvIyA/X9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1F9DC32786;
+	Mon, 13 May 2024 23:28:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715640697;
-	bh=BAFv8AC6amhIecrF8hdOUU0Utzaza1MY/IfWMVB1EGQ=;
+	s=k20201202; t=1715642908;
+	bh=8Gh1hcIWN4rcXBwDSbtnP1I9GK4gJY14SknicU3V5gA=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Ccm7AzJrOHl7szBXHj3OwKtrRjQqNKrjrzH4zVjbroaCP9Wh0TEqGu1v4AhtK7e2o
-	 5SNH/T+4EhdVCPluQoFIiz4l/5ikh8YR3K/al02r8b/iGop4aUq25HpEnEHnfFg7Ad
-	 tk5uPTyArgz8ECCgAWD6pwqbBcxQjCILqSn5oPZ6vUcG5b0rmK6mKn4YOjj+TSYiBP
-	 qaBdf8wVGkqZl+GxCb9eIvNoBAFYqomrUa7eaAZCYWvxx+XsdNmLhEXk0GdcMVW6Rd
-	 HC0/gbYdTrU60PaczUt2RQpVVOCHxHrlpsj0aOc+QiKk3zEmEEDdJ4x9Uh0xtKl+Jm
-	 nPC+/T/jYqTuA==
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2dcc8d10d39so58124351fa.3;
-        Mon, 13 May 2024 15:51:37 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCV/AULmrIMPx9cnrO9JWrX/iwx5HMS3xGMAKwr6QKoioT0aGZ3044oxNbdDtOYcO5q7yNS3667xzy4ejKDyOJGW4Q66CZysYsC0GivTm9BZ+Tvaf8y/SzxJpw5z9TEQi5ABLWCEy/q75eJWclq50otqxFiO2d7qhDe0vWcxXIKOyz9nCfgoD+Ic+abgMZwCFXHWsBrvr6FPYZhJSZnx21+tvot3G1KyDw==
-X-Gm-Message-State: AOJu0YyZaor58hUNgxx3M+m4lYeXmdVJSZ2n0Dumu4GPyf7qk8e0cOsH
-	RWJLUkTQlspSC7XTzBJ5yr+5HSattIFISFWfjMpvMZDcC8LQEvL2NzXMb1eb9MqA9C20NV+2Ut3
-	qjd5+5lYOK1jfc24hLFRMGO4VkRY=
-X-Google-Smtp-Source: AGHT+IGBf6cwawpdt+KryFCPwJPDXhW8OKKaHz9OjzKHBBjNlCagzhZ3gwQgkLxLGNRBD6K1oMfwAG+gx60UX9WpIgI=
-X-Received: by 2002:a05:6512:3151:b0:513:1a9c:ae77 with SMTP id
- 2adb3069b0e04-5220fe799c9mr5293673e87.52.1715640695978; Mon, 13 May 2024
- 15:51:35 -0700 (PDT)
+	b=VvIyA/X9utfx2ueiwihtps00cAc/lwD7Bzt8kFx9+7zrMD+48lrfqYPOGqkIJzCAr
+	 oMdqRX+QzXfdIjt4adW/+Az0p7i89T6OCR904Y1JLcZRaj3uXA7ovuhJLrCRPmEVe8
+	 jGUjCazkGFl4siUqhFTIasgY7O+jsxbpME5mNM7r2ezPiigfZ7C4R2yI53fI0lBXUD
+	 cFweqZPHdYnCh3EvnYGQJj3OcpRZY/AMog0Bq7Ex5b7q3gQpXpVK0kJYZxhn+1PNnp
+	 2DljDtcfVrkOF/WmmU5KcTr/AoNeO3I4IFUcxd78OBeDfzlBT9QnAOkuJ90g2N7JvK
+	 qglQhyEP8i2Pg==
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2e3e18c240fso54544811fa.0;
+        Mon, 13 May 2024 16:28:28 -0700 (PDT)
+X-Gm-Message-State: AOJu0YxBHBz7m9jeCIDOu/4Ua7wQa/2Y6ulHq529ltZKtSfgQb0+pYF3
+	v5V1QYP6Au+UUG1adadaFKye3FaH9RVbSfyUMLy6EDHGZPhBt5ebw3baPALWVUzKquAjcWzgSj7
+	bHf8gPqW6mh4fXtYFd/LkHxAWjzw=
+X-Google-Smtp-Source: AGHT+IF9j8e043DkOiSrOVWoiLzHywRaJqPk8A8PajaIWmL3pmtY7IbuS8+0heTiyQSFt+7KF4lC2hFhRKR/f8Ugois=
+X-Received: by 2002:a2e:9bcd:0:b0:2e3:9350:a7ca with SMTP id
+ 38308e7fff4ca-2e51fd3fdaemr109449691fa.6.1715642907412; Mon, 13 May 2024
+ 16:28:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240506133544.2861555-1-masahiroy@kernel.org>
- <202405131136.73E766AA8@keescook> <CANpmjNO=v=CV2Z_PGFu6ChfALiWJo3CJBDnWqUdqobO5X_62cA@mail.gmail.com>
-In-Reply-To: <CANpmjNO=v=CV2Z_PGFu6ChfALiWJo3CJBDnWqUdqobO5X_62cA@mail.gmail.com>
+References: <20240511000953.11181-1-masahiroy@kernel.org>
+In-Reply-To: <20240511000953.11181-1-masahiroy@kernel.org>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 14 May 2024 07:50:59 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATvr9-K2Hwv=Qx9stSTyFTC8Bc7EAHemVnCSo-geZUL+A@mail.gmail.com>
-Message-ID: <CAK7LNATvr9-K2Hwv=Qx9stSTyFTC8Bc7EAHemVnCSo-geZUL+A@mail.gmail.com>
-Subject: Re: [PATCH 0/3] kbuild: remove many tool coverage variables
-To: Marco Elver <elver@google.com>
-Cc: Kees Cook <keescook@chromium.org>, linux-kbuild@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, 
-	Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Vincenzo Frascino <vincenzo.frascino@arm.com>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Peter Oberparleiter <oberpar@linux.ibm.com>, 
-	Roberto Sassu <roberto.sassu@huaweicloud.com>, Johannes Berg <johannes@sipsolutions.net>, 
-	kasan-dev@googlegroups.com, linux-hardening@vger.kernel.org
+Date: Tue, 14 May 2024 08:27:50 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASKANEH6mCvz-5uUcne_x5+M8bWwOyy7fw6SEY7Oz6bww@mail.gmail.com>
+Message-ID: <CAK7LNASKANEH6mCvz-5uUcne_x5+M8bWwOyy7fw6SEY7Oz6bww@mail.gmail.com>
+Subject: Re: [PATCH] rapidio: remove choice for enumeration
+To: linux-kbuild@vger.kernel.org, Matt Porter <mporter@kernel.crashing.org>, 
+	Alexandre Bounine <alex.bou9@gmail.com>
+Cc: linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 14, 2024 at 4:55=E2=80=AFAM Marco Elver <elver@google.com> wrot=
-e:
+To: Rapidio maintainers
+
+
+I applied this to linux-kbuild.
+If this change is not OK, please let me know.
+
+
+
+On Sat, May 11, 2024 at 9:10=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
+rg> wrote:
 >
-> On Mon, 13 May 2024 at 20:48, Kees Cook <keescook@chromium.org> wrote:
-> >
-> > In the future can you CC the various maintainers of the affected
-> > tooling? :)
-> >
-> > On Mon, May 06, 2024 at 10:35:41PM +0900, Masahiro Yamada wrote:
-> > >
-> > > This patch set removes many instances of the following variables:
-> > >
-> > >   - OBJECT_FILES_NON_STANDARD
-> > >   - KASAN_SANITIZE
-> > >   - UBSAN_SANITIZE
-> > >   - KCSAN_SANITIZE
-> > >   - KMSAN_SANITIZE
-> > >   - GCOV_PROFILE
-> > >   - KCOV_INSTRUMENT
-> > >
-> > > Such tools are intended only for kernel space objects, most of which
-> > > are listed in obj-y, lib-y, or obj-m.
+> This is the last use of the tristate choice.
 >
-> I welcome the simplification, but see below.
+> This choice was introduced a decade ago by commit a11650e11093
+> ("rapidio: make enumeration/discovery configurable"). Since then,
+> RAPIDIO_ENUM_BASIC has always been the sole member.
 >
-> > This is a reasonable assertion, and the changes really simplify things
-> > now and into the future. Thanks for finding such a clean solution! I
-> > note that it also immediately fixes the issue noticed and fixed here:
-> > https://lore.kernel.org/all/20240513122754.1282833-1-roberto.sassu@huaw=
-eicloud.com/
-> >
-> > > The best guess is, objects in $(obj-y), $(lib-y), $(obj-m) can opt in
-> > > such tools. Otherwise, not.
-> > >
-> > > This works in most places.
-> >
-> > I am worried about the use of "guess" and "most", though. :) Before, we
-> > had some clear opt-out situations, and now it's more of a side-effect. =
-I
-> > think this is okay, but I'd really like to know more about your testing=
-.
-> >
-> > It seems like you did build testing comparing build flags, since you
-> > call out some of the explicit changes in patch 2, quoting:
-> >
-> > >  - include arch/mips/vdso/vdso-image.o into UBSAN, GCOV, KCOV
-> > >  - include arch/sparc/vdso/vdso-image-*.o into UBSAN
-> > >  - include arch/sparc/vdso/vma.o into UBSAN
-> > >  - include arch/x86/entry/vdso/extable.o into KASAN, KCSAN, UBSAN, GC=
-OV, KCOV
-> > >  - include arch/x86/entry/vdso/vdso-image-*.o into KASAN, KCSAN, UBSA=
-N, GCOV, KCOV
-> > >  - include arch/x86/entry/vdso/vdso32-setup.o into KASAN, KCSAN, UBSA=
-N, GCOV, KCOV
-> > >  - include arch/x86/entry/vdso/vma.o into GCOV, KCOV
-> > >  - include arch/x86/um/vdso/vma.o into KASAN, GCOV, KCOV
-> >
-> > I would agree that these cases are all likely desirable.
-> >
-> > Did you find any cases where you found that instrumentation was _remove=
-d_
-> > where not expected?
+> There was no need to have this choice block.
 >
-> In addition, did you boot test these kernels?
-
-
-No. I didn't.
-
-
-
-
-> While I currently don't
-> recall if the vdso code caused us problems (besides the linking
-> problem for non-kernel objects), anything that is opted out from
-> instrumentation in arch/ code needs to be carefully tested if it
-> should be opted back into instrumentation. We had many fun hours
-> debugging boot hangs or other recursion issues due to instrumented
-> arch code.
-
-
-As I replied to Kees, I checked the diff of .*.cmd files.
-
-I believe checking the compiler flags for every object
-is comprehensive testing.
-
-If the same set of compiler flags is passed,
-the same build artifact is generated.
-
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+>
+>  drivers/rapidio/Kconfig | 17 ++---------------
+>  1 file changed, 2 insertions(+), 15 deletions(-)
+>
+> diff --git a/drivers/rapidio/Kconfig b/drivers/rapidio/Kconfig
+> index b9f8514909bf..f1d742ac8f7c 100644
+> --- a/drivers/rapidio/Kconfig
+> +++ b/drivers/rapidio/Kconfig
+> @@ -59,26 +59,13 @@ config RAPIDIO_DEBUG
+>
+>           If you are unsure about this, say N here.
+>
+> -choice
+> -       prompt "Enumeration method"
+> -       depends on RAPIDIO
+> -       default RAPIDIO_ENUM_BASIC
+> -       help
+> -         There are different enumeration and discovery mechanisms offere=
+d
+> -         for RapidIO subsystem. You may select single built-in method or
+> -         or any number of methods to be built as modules.
+> -         Selecting a built-in method disables use of loadable methods.
+> -
+> -         If unsure, select Basic built-in.
+> -
+>  config RAPIDIO_ENUM_BASIC
+> -       tristate "Basic"
+> +       tristate "Basic Enumeration method"
+> +       depends on RAPIDIO
+>         help
+>           This option includes basic RapidIO fabric enumeration and disco=
+very
+>           mechanism similar to one described in RapidIO specification Ann=
+ex 1.
+>
+> -endchoice
+> -
+>  config RAPIDIO_CHMAN
+>         tristate "RapidIO Channelized Messaging driver"
+>         depends on RAPIDIO
+> --
+> 2.40.1
+>
 
 
 --=20
