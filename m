@@ -1,153 +1,148 @@
-Return-Path: <linux-kbuild+bounces-1841-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1842-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 440D18C4701
-	for <lists+linux-kbuild@lfdr.de>; Mon, 13 May 2024 20:39:33 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EB2B8C4725
+	for <lists+linux-kbuild@lfdr.de>; Mon, 13 May 2024 20:48:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 724761C226AA
-	for <lists+linux-kbuild@lfdr.de>; Mon, 13 May 2024 18:39:32 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B7CA5B215BE
+	for <lists+linux-kbuild@lfdr.de>; Mon, 13 May 2024 18:48:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E89F3D0D1;
-	Mon, 13 May 2024 18:39:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46B9D3BBC9;
+	Mon, 13 May 2024 18:48:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dxuuu.xyz header.i=@dxuuu.xyz header.b="dwiVjUOi";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="RZD3jzFe"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="kQv2VY3r"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from wflow7-smtp.messagingengine.com (wflow7-smtp.messagingengine.com [64.147.123.142])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B24373C099;
-	Mon, 13 May 2024 18:39:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.142
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E495C2E631
+	for <linux-kbuild@vger.kernel.org>; Mon, 13 May 2024 18:48:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715625558; cv=none; b=EB4qCFESl7HMAYgQaNMn1qTQ6IL5bPAzlPoZrNGPWXavwY9H0XDIbePlNuiBpl5cpvK87Xp/bw8OPpM7w/GEldV1TEknyoe1TsB4/EMKHHwgj9mNgAduRpfySrkn4pCIDrd8LcbfkGxl7IKYLYVE0QSs2KLrDyziUhWsyvERa08=
+	t=1715626098; cv=none; b=WK57Ha46/fL6f0K/5XsEjEBVbiDLoW8tOtakbkBs0RlwAPJ5Xcxpld6q9Ev2IOz0hut0zDJdscQHbNGs/034EEZNpdNONB8pYA9lTNwlki9YvHV3FCiGmfaXB8kczblz0GFVsxGrnt1/dUDYE2KYUyQqOa3UVvEcp15Az8uXZCU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715625558; c=relaxed/simple;
-	bh=jPKiXJOmnQNOWhBvYnpso6oXP7ZkLGQqjW8y3RqzOPA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FcdGvWIv/6SVu6dbQMxQ9+ndTCj+YPyPcuCM44XvVJvQv9cl5ojJgZjEPnrcLiZJiXXR9VAu7d4c9Q8oXkanv6p1mlkrSfvm9OoZXiG6PlTaszrR1AdosqhOC0GWjpwsnVuOZVxwvW4ACaQBUJ634JBILyzAiIwa5It29PaWkq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dxuuu.xyz; spf=pass smtp.mailfrom=dxuuu.xyz; dkim=pass (2048-bit key) header.d=dxuuu.xyz header.i=@dxuuu.xyz header.b=dwiVjUOi; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=RZD3jzFe; arc=none smtp.client-ip=64.147.123.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dxuuu.xyz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dxuuu.xyz
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailflow.west.internal (Postfix) with ESMTP id 1B58B2CC0328;
-	Mon, 13 May 2024 14:39:14 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Mon, 13 May 2024 14:39:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dxuuu.xyz; h=cc
-	:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm2; t=1715625553; x=
-	1715632753; bh=E8COH8IZC+TlbAgPPssdPSgDjYfCZqEAwY2cntHhuEA=; b=d
-	wiVjUOi/+ghg09jSj01shwt8krvgo55aQzaPUc9fh32xOVtqZB6SzaJ7jwLxrnn6
-	npU1RKvin/DnzpPXGrCVlsBCs+9aEnZ2LbnXeO7HboavfvdhYs63pteHquTIrEUG
-	ups9zVYK4NrGp9K88HYWkPS6AWHpxK4NSTqw3mqdk+c4GeoYg8fp7MyhY1ntvT6M
-	LS2X0MmRBhbWYsepQ8GHJPrSdoZdxIHiEdh1S5y9NzvMml9uRXUtzMOQUM4Z/moD
-	XSPpbsPFidykiZk78dpgOUo0JO3hNfyIwZo9AY3ifY4Z8UaDWMtTOSdUhfOE7fWO
-	OIQiavgRmqCVsBBb6PlCQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1715625553; x=
-	1715632753; bh=E8COH8IZC+TlbAgPPssdPSgDjYfCZqEAwY2cntHhuEA=; b=R
-	ZD3jzFeAjyI+thEnFw5uAI9Wk6Pq3nyO+ELKhud7H7uc3ce11BWVqrh0GkdVBr+B
-	OON0Rsdo7NkZFwLedE7YZhKCo9PUi74N2WTK6ffNz7UiObuFVPstJxZOAigayl/a
-	XuJtrd2oQeloLnpQlJHJVS+exRN2MIsEC54/Dab22Z3lhUF/+9eebyqUfHgkvhfq
-	uF5qRqH7EA1QGavmMs8yLpDwP0oxmt/me7kAHgiPK1NyUU/JFDpI0IQtO0gwkwJA
-	XfIuEFa08vc3zowevAQ+pENtKgPIl9DIhmhPpvDGxt2HhOKhN39rWyULs9UvDBvZ
-	KnZ/ut/7Gpnva+mgj3NhQ==
-X-ME-Sender: <xms:UF5CZjaEE2kFNAk_CLFk9Xs_3JwyyESqoXicyv2cgzKPgildK_WQrg>
-    <xme:UF5CZibr1UM36S5cRjrl_n2Trkmo8xzwFKgPMZPg-XlSx0b1B6WD2-A6yAGoMuHwS
-    faa5MVLvPi3dqUExA>
-X-ME-Received: <xmr:UF5CZl-bwcWyT92_QkV5Rgo091Hoe_AOZb2T6WifJtyWUDkpGa7sf6CPtcj4-svZ4pxYuDDLF-XjLN55cxVqsclnbAXO4RRegpbpJ1Fy3yemNQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdeggedguddvjecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecufghrlhcuvffnffculdefhedmnecujfgurhephf
-    fvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepffgrnhhivghlucgiuhcu
-    oegugihusegugihuuhhurdighiiiqeenucggtffrrghtthgvrhhnpeelieduhefhteffie
-    dutdejgfdutdekudelueelveekjeeitdefueeutdelhedvfeenucffohhmrghinhepkhgv
-    rhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
-    hfrhhomhepugiguhesugiguhhuuhdrgiihii
-X-ME-Proxy: <xmx:UF5CZprtfQdtd130oEEo-OzWMMqNmyULMSEmWMzshTCsiuMoVarYuw>
-    <xmx:UF5CZupKUiZjobVlYSIkxJm2Xe7TrA6-evvb_hrY1wEe5T7s0I9heA>
-    <xmx:UF5CZvS99ry05k7w305Ln38HU2f0tXLWDLhvR7_pAkINHdfN_MNc2w>
-    <xmx:UF5CZmqqRUtZpMZAADdAYbCeyngd00GifPjt7b0luSpXT38If7T6lg>
-    <xmx:UV5CZiqNMEyB9PEOTDlIxxn0fMD1R8DvLEVAUdYRNetnbcutp46By9AF>
-Feedback-ID: i6a694271:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 13 May 2024 14:39:11 -0400 (EDT)
-From: Daniel Xu <dxu@dxuuu.xyz>
-To: ast@kernel.org,
-	daniel@iogearbox.net,
-	masahiroy@kernel.org,
-	andrii@kernel.org,
-	olsajiri@gmail.com,
-	quentin@isovalent.com,
-	alan.maguire@oracle.com,
-	acme@kernel.org,
-	eddyz87@gmail.com
-Cc: nathan@kernel.org,
-	nicolas@fjasle.eu,
-	martin.lau@linux.dev,
-	song@kernel.org,
-	yonghong.song@linux.dev,
-	john.fastabend@gmail.com,
-	kpsingh@kernel.org,
-	sdf@google.com,
-	haoluo@google.com,
-	jolsa@kernel.org,
-	linux-kbuild@vger.kernel.org,
-	bpf@vger.kernel.org,
+	s=arc-20240116; t=1715626098; c=relaxed/simple;
+	bh=6YuPwQ/qKNz8HYBBy+q1ODXRn/TuSyAWfvhMnueWmI0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=B/9ja/u1d2FXtwe/wbjv1jz4dntZls/WU4fUYGCX2TsQAe25rThKxAaUL5U9xDTwBHhdsMapZsfp+uH1xGsrl/yhYidsRBMnBhV9Ah/UzH7H0pby+YpOmdChfEE1emP5Nct+ACQsWpIxvR15BxwUrzdMafMNKSdk5sSQtfyp+fY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=kQv2VY3r; arc=none smtp.client-ip=209.85.210.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-6f453d2c5a1so3835154b3a.2
+        for <linux-kbuild@vger.kernel.org>; Mon, 13 May 2024 11:48:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1715626096; x=1716230896; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=YMCvolyyAMKqM2SEdNiyJ59O3X5pzLBrCG8ngReTAYg=;
+        b=kQv2VY3rQSya4uXDs+ROzi24zH2iLgT/DDvwH/Ce3mPbBzuN22DIV9mdtqws4mVnkF
+         P5sC+oDe+Ml5DxmUH4o3P8IJZgV/rJ+eG96FU7wXhtSXiDahLE59Dp8yFDbNyUmQd8y+
+         xxDUqgkheyCv22+fYmBxae2dszVx7POHu11TI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715626096; x=1716230896;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YMCvolyyAMKqM2SEdNiyJ59O3X5pzLBrCG8ngReTAYg=;
+        b=KMc2FuDKjGPWeaFr4nlNBzYSU3wTEwNEPe6zun2Q/i7hbHenZPzEY/0190IhiTuvUm
+         PudFqQTiREZ/hs+Cx7Gp+rosR4oYac1ilsfDOdAW4Nt7LYhWfkSAmrJgMbe66GY31Sqw
+         5SQOZCuRacYPf38zsmlkCnMztXyOVTKSZAXZU+41DScYJnYq57fTaYKDRNBxe1JQHhsw
+         tvn3IzQBAH4Mx+x5Ikl2rsdgfGdq+LRGBnYASffOyRstRIL6WFDbC2urc1OcKmaAPw/4
+         wu+plsW6xKhhdASVedg0sjsXwn7yN0onjx9SG54DOQA+kIzTMiMeUY8hVUJta3t9wtI5
+         TQKg==
+X-Gm-Message-State: AOJu0Yx73DTbhzSmomPqdhW/sfbmz6LgSh5Sp6YAKxK5iJen93jLXuqg
+	pRjSEmGpLFa9vcFZNlPM0jNnnWnkQof9yEkIKr0Or/7vEfnRcEsxO6GFPwYF3A==
+X-Google-Smtp-Source: AGHT+IHQwdGR35u5IXK+H3e3GlXqBLLrEy3u5cdZwt6vW+ynInQiPgDptXNWJrBmTpcuZ0bqtBY4aw==
+X-Received: by 2002:a05:6a21:983:b0:1a7:a6f3:1827 with SMTP id adf61e73a8af0-1afde1b719fmr11220335637.46.1715626096189;
+        Mon, 13 May 2024 11:48:16 -0700 (PDT)
+Received: from www.outflux.net ([198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4d2a87bb1sm7697326b3a.87.2024.05.13.11.48.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 May 2024 11:48:15 -0700 (PDT)
+Date: Mon, 13 May 2024 11:48:14 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-arch@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	kernel-team@meta.com
-Subject: [PATCH bpf-next v3 1/2] kbuild: bpf: Tell pahole to DECL_TAG kfuncs
-Date: Mon, 13 May 2024 12:38:58 -0600
-Message-ID: <09085a7207265b153d0c81eee30906009c66cb82.1715625447.git.dxu@dxuuu.xyz>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <cover.1715625447.git.dxu@dxuuu.xyz>
-References: <cover.1715625447.git.dxu@dxuuu.xyz>
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Marco Elver <elver@google.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Peter Oberparleiter <oberpar@linux.ibm.com>,
+	Roberto Sassu <roberto.sassu@huaweicloud.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	kasan-dev@googlegroups.com, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH 0/3] kbuild: remove many tool coverage variables
+Message-ID: <202405131136.73E766AA8@keescook>
+References: <20240506133544.2861555-1-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240506133544.2861555-1-masahiroy@kernel.org>
 
-With [0], pahole can now discover kfuncs and inject DECL_TAG
-into BTF. With this commit, we will start shipping said DECL_TAGs
-to downstream consumers if pahole supports it.
+In the future can you CC the various maintainers of the affected
+tooling? :)
 
-This is useful for feature probing kfuncs as well as generating
-compilable prototypes. This is particularly important as kfuncs
-do not have stable ABI.
+On Mon, May 06, 2024 at 10:35:41PM +0900, Masahiro Yamada wrote:
+> 
+> This patch set removes many instances of the following variables:
+> 
+>   - OBJECT_FILES_NON_STANDARD
+>   - KASAN_SANITIZE
+>   - UBSAN_SANITIZE
+>   - KCSAN_SANITIZE
+>   - KMSAN_SANITIZE
+>   - GCOV_PROFILE
+>   - KCOV_INSTRUMENT
+> 
+> Such tools are intended only for kernel space objects, most of which
+> are listed in obj-y, lib-y, or obj-m.
 
-[0]: https://git.kernel.org/pub/scm/devel/pahole/pahole.git/commit/?h=next&id=72e88f29c6f7e14201756e65bd66157427a61aaf
+This is a reasonable assertion, and the changes really simplify things
+now and into the future. Thanks for finding such a clean solution! I
+note that it also immediately fixes the issue noticed and fixed here:
+https://lore.kernel.org/all/20240513122754.1282833-1-roberto.sassu@huaweicloud.com/
 
-Signed-off-by: Daniel Xu <dxu@dxuuu.xyz>
----
- scripts/Makefile.btf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> The best guess is, objects in $(obj-y), $(lib-y), $(obj-m) can opt in
+> such tools. Otherwise, not.
+> 
+> This works in most places.
 
-diff --git a/scripts/Makefile.btf b/scripts/Makefile.btf
-index 2d6e5ed9081e..d9ec6c85ffa7 100644
---- a/scripts/Makefile.btf
-+++ b/scripts/Makefile.btf
-@@ -21,7 +21,7 @@ endif
- else
- 
- # Switch to using --btf_features for v1.26 and later.
--pahole-flags-$(call test-ge, $(pahole-ver), 126)  = -j --btf_features=encode_force,var,float,enum64,decl_tag,type_tag,optimized_func,consistent_func
-+pahole-flags-$(call test-ge, $(pahole-ver), 126)  = -j --btf_features=encode_force,var,float,enum64,decl_tag,type_tag,optimized_func,consistent_func,decl_tag_kfuncs
- 
- endif
- 
+I am worried about the use of "guess" and "most", though. :) Before, we
+had some clear opt-out situations, and now it's more of a side-effect. I
+think this is okay, but I'd really like to know more about your testing.
+
+It seems like you did build testing comparing build flags, since you
+call out some of the explicit changes in patch 2, quoting:
+
+>  - include arch/mips/vdso/vdso-image.o into UBSAN, GCOV, KCOV
+>  - include arch/sparc/vdso/vdso-image-*.o into UBSAN
+>  - include arch/sparc/vdso/vma.o into UBSAN
+>  - include arch/x86/entry/vdso/extable.o into KASAN, KCSAN, UBSAN, GCOV, KCOV
+>  - include arch/x86/entry/vdso/vdso-image-*.o into KASAN, KCSAN, UBSAN, GCOV, KCOV
+>  - include arch/x86/entry/vdso/vdso32-setup.o into KASAN, KCSAN, UBSAN, GCOV, KCOV
+>  - include arch/x86/entry/vdso/vma.o into GCOV, KCOV
+>  - include arch/x86/um/vdso/vma.o into KASAN, GCOV, KCOV
+
+I would agree that these cases are all likely desirable.
+
+Did you find any cases where you found that instrumentation was _removed_
+where not expected?
+
+-Kees
+
 -- 
-2.44.0
-
+Kees Cook
 
