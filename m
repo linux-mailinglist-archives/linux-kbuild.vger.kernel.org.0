@@ -1,162 +1,145 @@
-Return-Path: <linux-kbuild+bounces-1849-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1850-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id F27068C4D10
-	for <lists+linux-kbuild@lfdr.de>; Tue, 14 May 2024 09:32:24 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9676A8C582F
+	for <lists+linux-kbuild@lfdr.de>; Tue, 14 May 2024 16:43:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AE927280FDD
-	for <lists+linux-kbuild@lfdr.de>; Tue, 14 May 2024 07:32:23 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 34DFCB22B8A
+	for <lists+linux-kbuild@lfdr.de>; Tue, 14 May 2024 14:43:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CF47125A9;
-	Tue, 14 May 2024 07:32:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5573A17BB2F;
+	Tue, 14 May 2024 14:43:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Cqv5U9MX"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from frasgout12.his.huawei.com (frasgout12.his.huawei.com [14.137.139.154])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E6C0101E2;
-	Tue, 14 May 2024 07:32:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC2D2158213;
+	Tue, 14 May 2024 14:43:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715671939; cv=none; b=RGxIwEt/gd7Wt71XEWpQ1tiOcOcLi29Jwgm9opDzn2/Ev6aT7yhDg0kduPtuNgpea38V5x4SU+PkUjrnO/eSGyhKif6Na1MMnAp7Qx7dGh+lmStmLw7NCkxjmPvhgW773hDh0NVtBYpe5GT9OB4y7FeVvO1P84y3fVmQCxxzd2E=
+	t=1715697817; cv=none; b=ayAf2V6Ih7wk42e/gwH8uPBuwmZ8N3fIlYA7fZFGGs3et2GySm5siHLRANR12T4TLZ8N/YXIpi52czui7NBj5OIzkbuLlPTewjRk6UTMEg8l4jq1gHFKJGMxW8er5Hh8ozhr/yW9cpS3aNqApOMMaktgHXd/qP1M4Px3NIQiLcI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715671939; c=relaxed/simple;
-	bh=FPn+wnAGRWQktpQrV94x0y/Pcc2VTrrAFwhpsP2KZFA=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=pOdxjoOM5CIGrfUgJSFFU5FxCCjI2/DO2mdEQPt+WIoLcnjLCHwj6qO7ehLAIDiu9XVal0OogTp1scp8zOwmiSJhl1T4p/zDOAJ8ZzbdSnc4YYKsXszZ0qX5GOZP3oPYxivn+leTGgzbG58rlczjWr489iqoD9U999EK1Wu9EVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.18.186.29])
-	by frasgout12.his.huawei.com (SkyGuard) with ESMTP id 4VdnYw6gCSz9v7JW;
-	Tue, 14 May 2024 15:10:28 +0800 (CST)
-Received: from mail02.huawei.com (unknown [7.182.16.27])
-	by mail.maildlp.com (Postfix) with ESMTP id AF418140419;
-	Tue, 14 May 2024 15:32:06 +0800 (CST)
-Received: from [127.0.0.1] (unknown [10.204.63.22])
-	by APP2 (Coremail) with SMTP id GxC2BwAXUCRnE0NmIbQfCA--.1339S2;
-	Tue, 14 May 2024 08:32:05 +0100 (CET)
-Message-ID: <0fbd907e411a10386bdef679864dd3d84f0fa3ad.camel@huaweicloud.com>
-Subject: Re: [PATCH 0/3] kbuild: remove many tool coverage variables
-From: Roberto Sassu <roberto.sassu@huaweicloud.com>
-To: Kees Cook <keescook@chromium.org>, Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, linux-arch@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
- Alexander Potapenko <glider@google.com>, Andrey Konovalov
- <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, Vincenzo
- Frascino <vincenzo.frascino@arm.com>, Marco Elver <elver@google.com>, Josh
- Poimboeuf <jpoimboe@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
- Peter Oberparleiter <oberpar@linux.ibm.com>,  Johannes Berg
- <johannes@sipsolutions.net>, kasan-dev@googlegroups.com,
- linux-hardening@vger.kernel.org
-Date: Tue, 14 May 2024 09:31:47 +0200
-In-Reply-To: <202405131136.73E766AA8@keescook>
-References: <20240506133544.2861555-1-masahiroy@kernel.org>
-	 <202405131136.73E766AA8@keescook>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4-0ubuntu2 
+	s=arc-20240116; t=1715697817; c=relaxed/simple;
+	bh=yjz8BI8fWaQQVWoDkSf+/J9WJUV/N1nI3QgP6yJ6s4g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=Z0/QTc+F8yX9HZiK3M3JhGvsjdOLsIU/Y0vmGAm4i6McUu7IIqqbjRtwRrmmOhCCkTMGmMDdjbFN2sMA8QTP8sIkwiICSqylnACzEGp+QRj4LxnLgcppe2N1CCH1nBN3TxEXRc/1fMWTwpfBDbkCzmCBhw7WIAbAVwtaZSwGmXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Cqv5U9MX; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44EA3WtS004117;
+	Tue, 14 May 2024 14:43:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=aAjjICOleHXNnITLx80ygde13/wbWjLWPL4FqboldaM=; b=Cq
+	v5U9MXDpZxIXRfktQIkC5+6NX5gBJZEWYaN5HlzMFm8Go3vSkUpQiI8IAkJ1xJ0o
+	RJtXDawnU03/u3fu8NbndpnELudbmBcbiezI09M4Bt23J4aWjFzHwnxgg2lE2kBc
+	dhuClwcWbi9iy1lvM7lSmMtxfxZzA+s8a5l3Mu1f8hEyZTl5ZzVE8RiPHZjnMijk
+	70/51pM6Mug9mPSHMDpfFLcHXj/J8BVAi1Fqt6h7/ZF8alRZhY541G5P7qOmLvpZ
+	qTfsKp9WXfko6YvfFs9Kxmt+jifhFeAivhxYr2Unbl1orl8Y4vSDEaVp3wXzgvAV
+	mJhWSTgs0E4zWHMtqpFw==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3y45vb8n82-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 14 May 2024 14:43:28 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 44EEhRtK019301
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 14 May 2024 14:43:27 GMT
+Received: from [10.110.0.4] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 14 May
+ 2024 07:43:26 -0700
+Message-ID: <12a208d7-f36b-4953-abff-323a15452b3c@quicinc.com>
+Date: Tue, 14 May 2024 07:43:25 -0700
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-CM-TRANSID:GxC2BwAXUCRnE0NmIbQfCA--.1339S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxCw18Kw1fCF15ur4UGw45ZFb_yoW5GFWfpr
-	WrJ3WqkFWY9r10yF9Ikw1IqF1Sk397uF1Ygr909rW5AF1j9r1vvrs5trs8Z34DCws2y3W0
-	yrW7XFZavr4jvaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUkjb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWUJVW8JwA2z4x0Y4vEx4A2jsIEc7CjxV
-	AFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
-	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
-	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l42xK82IYc2Ij
-	64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
-	8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE
-	2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42
-	xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIE
-	c7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07UZ18PUUUUU=
-X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAQADBF1jj51HGAAAs1
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] wifi: ath10k: fix QCOM_RPROC_COMMON dependency
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Kalle Valo
+	<kvalo@kernel.org>, Jeff Johnson <jjohnson@kernel.org>,
+        Stephen Boyd
+	<swboyd@chromium.org>,
+        Rakesh Pillai <quic_pillair@quicinc.com>
+CC: <linux-wireless@vger.kernel.org>, <ath10k@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>,
+        <linux-kbuild@vger.kernel.org>
+References: <20240511-ath10k-snoc-dep-v1-1-9666e3af5c27@linaro.org>
+From: Jeff Johnson <quic_jjohnson@quicinc.com>
+In-Reply-To: <20240511-ath10k-snoc-dep-v1-1-9666e3af5c27@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 4OmYH8MLtWgkn02V-bn8b6U1_Y2cZtnJ
+X-Proofpoint-ORIG-GUID: 4OmYH8MLtWgkn02V-bn8b6U1_Y2cZtnJ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-05-14_08,2024-05-14_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ clxscore=1011 mlxscore=0 suspectscore=0 spamscore=0 malwarescore=0
+ adultscore=0 mlxlogscore=911 phishscore=0 priorityscore=1501 bulkscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405010000 definitions=main-2405140104
 
-On Mon, 2024-05-13 at 11:48 -0700, Kees Cook wrote:
-> In the future can you CC the various maintainers of the affected
-> tooling? :)
->=20
-> On Mon, May 06, 2024 at 10:35:41PM +0900, Masahiro Yamada wrote:
-> >=20
-> > This patch set removes many instances of the following variables:
-> >=20
-> >   - OBJECT_FILES_NON_STANDARD
-> >   - KASAN_SANITIZE
-> >   - UBSAN_SANITIZE
-> >   - KCSAN_SANITIZE
-> >   - KMSAN_SANITIZE
-> >   - GCOV_PROFILE
-> >   - KCOV_INSTRUMENT
-> >=20
-> > Such tools are intended only for kernel space objects, most of which
-> > are listed in obj-y, lib-y, or obj-m.
->=20
-> This is a reasonable assertion, and the changes really simplify things
-> now and into the future. Thanks for finding such a clean solution! I
-> note that it also immediately fixes the issue noticed and fixed here:
-> https://lore.kernel.org/all/20240513122754.1282833-1-roberto.sassu@huawei=
-cloud.com/
+On 5/11/2024 3:49 AM, Dmitry Baryshkov wrote:
+> If ath10k_snoc is built-in, while Qualcomm remoteprocs are built as
+> modules, compilation fails with:
+> 
+> /usr/bin/aarch64-linux-gnu-ld: drivers/net/wireless/ath/ath10k/snoc.o: in function `ath10k_modem_init':
+> drivers/net/wireless/ath/ath10k/snoc.c:1534: undefined reference to `qcom_register_ssr_notifier'
+> /usr/bin/aarch64-linux-gnu-ld: drivers/net/wireless/ath/ath10k/snoc.o: in function `ath10k_modem_deinit':
+> drivers/net/wireless/ath/ath10k/snoc.c:1551: undefined reference to `qcom_unregister_ssr_notifier'
+> 
+> Add corresponding dependency to ATH10K_SNOC Kconfig entry so that it's
+> built as module if QCOM_RPROC_COMMON is built as module too.
+> 
+> Fixes: 747ff7d3d742 ("ath10k: Don't always treat modem stop events as crashes")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  drivers/net/wireless/ath/ath10k/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/net/wireless/ath/ath10k/Kconfig b/drivers/net/wireless/ath/ath10k/Kconfig
+> index e6ea884cafc1..4f385f4a8cef 100644
+> --- a/drivers/net/wireless/ath/ath10k/Kconfig
+> +++ b/drivers/net/wireless/ath/ath10k/Kconfig
+> @@ -45,6 +45,7 @@ config ATH10K_SNOC
+>  	depends on ATH10K
+>  	depends on ARCH_QCOM || COMPILE_TEST
+>  	depends on QCOM_SMEM
+> +	depends on QCOM_RPROC_COMMON || QCOM_RPROC_COMMON=n
+>  	select QCOM_SCM
+>  	select QCOM_QMI_HELPERS
+>  	help
+> 
+> ---
+> base-commit: 75fa778d74b786a1608d55d655d42b480a6fa8bd
+> change-id: 20240511-ath10k-snoc-dep-862a9da2e6bb
 
-Yes, this patch set fixes the issue too.
+I see how this fixes the problem, but this doesn't seem like an ideal
+solution. The fact that the *_ssr_notifier() functions are correctly protected
+by conditional compilation ideally should mean that clients don't need to call
+call out this as a dependency. Otherwise, it would mean we'd need to do this
+for all feature flags.
 
-Tested-by: Roberto Sassu <roberto.sassu@huawei.com>
++linux-kbuild just to make sure there isn't a better approach.
 
-Now UBSAN complains about misaligned address, such as:
-
-[    0.150000][    T1] UBSAN: misaligned-access in kernel/workqueue.c:5514:=
-3
-[    0.150000][    T1] member access within misaligned address 0000000064c3=
-6f78 for type 'struct pool_workqueue'
-[    0.150000][    T1] which requires 512 byte alignment
-[    0.150000][    T1] CPU: 0 PID: 1 Comm: swapper Not tainted 6.9.0-dont-u=
-se-00003-g3b621c71dc5e #2244
-
-But I guess this is for a separate thread.
-
-Thanks
-
-Roberto
-
-> > The best guess is, objects in $(obj-y), $(lib-y), $(obj-m) can opt in
-> > such tools. Otherwise, not.
-> >=20
-> > This works in most places.
->=20
-> I am worried about the use of "guess" and "most", though. :) Before, we
-> had some clear opt-out situations, and now it's more of a side-effect. I
-> think this is okay, but I'd really like to know more about your testing.
->=20
-> It seems like you did build testing comparing build flags, since you
-> call out some of the explicit changes in patch 2, quoting:
->=20
-> >  - include arch/mips/vdso/vdso-image.o into UBSAN, GCOV, KCOV
-> >  - include arch/sparc/vdso/vdso-image-*.o into UBSAN
-> >  - include arch/sparc/vdso/vma.o into UBSAN
-> >  - include arch/x86/entry/vdso/extable.o into KASAN, KCSAN, UBSAN, GCOV=
-, KCOV
-> >  - include arch/x86/entry/vdso/vdso-image-*.o into KASAN, KCSAN, UBSAN,=
- GCOV, KCOV
-> >  - include arch/x86/entry/vdso/vdso32-setup.o into KASAN, KCSAN, UBSAN,=
- GCOV, KCOV
-> >  - include arch/x86/entry/vdso/vma.o into GCOV, KCOV
-> >  - include arch/x86/um/vdso/vma.o into KASAN, GCOV, KCOV
->=20
-> I would agree that these cases are all likely desirable.
->=20
-> Did you find any cases where you found that instrumentation was _removed_
-> where not expected?
->=20
-> -Kees
->=20
+/jeff
 
 
