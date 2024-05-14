@@ -1,202 +1,123 @@
-Return-Path: <linux-kbuild+bounces-1856-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1857-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F1BE8C5B58
-	for <lists+linux-kbuild@lfdr.de>; Tue, 14 May 2024 20:50:21 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1219A8C5E14
+	for <lists+linux-kbuild@lfdr.de>; Wed, 15 May 2024 01:21:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 477621C20A86
-	for <lists+linux-kbuild@lfdr.de>; Tue, 14 May 2024 18:50:20 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 28E571C20C26
+	for <lists+linux-kbuild@lfdr.de>; Tue, 14 May 2024 23:21:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1C8251C45;
-	Tue, 14 May 2024 18:50:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3C42182C91;
+	Tue, 14 May 2024 23:21:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bvdQyjGr"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from domac.alu.hr (domac.alu.hr [161.53.235.3])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ABEE18AEA;
-	Tue, 14 May 2024 18:50:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=161.53.235.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2748A17F387;
+	Tue, 14 May 2024 23:21:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715712617; cv=none; b=TYW2kfSVUyxzBVkVX55ZYo00bq4SxKjB+H6fbUjK4Two5nR4E3Ua+Al+CqrQGxyIvGpS4gVHIwELrG8gCDNkjUsN4BerHTL/lme47Ntvi5X+2CT2uSFwlQflMlZ4Auan6Bs44g7C9Sibzhg/wM7eMmAR5qrS7vs3/WHAwxI0P9w=
+	t=1715728872; cv=none; b=eHkNXekmYnk7H29g26S6pbNJq5++8aAiTK66iaEe4d4fTDsEYuDkudMmkwBC/xgl80rNjE4k1e/Q2D3t6MEbI/Yw9elJkKyAXd2RfysPGVhvY5J6ksX5BtHvVZNj4LgP3AQ01tCNw7uUD/m7QG2zjYdQ66DmEWjpl1jTlxZwMTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715712617; c=relaxed/simple;
-	bh=hzBxnqhD5HTem+7UibDma0pD0CCxEuMCvVESuHswiZc=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=Rg+yHNN2Q8BViqyufnNP4M7p5w/+r1V7kBRWkAVF1IK1nvxdG/RhKX/8uWqKL1OfAbRbW9GuzCIY3qOuh3xTdIVsKu6LcMuRwrYEtc0DQ+XoIhkgClbIZdH27k38igbgAzqe2t41p3v67cE47P8nZZMpR8NhsJRFyEhp55u/Mz4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=fail smtp.mailfrom=gmail.com; arc=none smtp.client-ip=161.53.235.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=gmail.com
-Received: from localhost (localhost [127.0.0.1])
-	by domac.alu.hr (Postfix) with ESMTP id E699D601CD;
-	Tue, 14 May 2024 20:45:00 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at domac.alu.hr
-Received: from domac.alu.hr ([127.0.0.1])
-	by localhost (domac.alu.hr [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id EV8DmCB-b6ym; Tue, 14 May 2024 20:44:58 +0200 (CEST)
-Received: from [192.168.178.20] (dh207-43-52.xnet.hr [88.207.43.52])
-	by domac.alu.hr (Postfix) with ESMTPSA id EF45D6018D;
-	Tue, 14 May 2024 20:44:57 +0200 (CEST)
-Message-ID: <466ee9f8-c87e-40c0-bafc-77e6c630a56a@gmail.com>
-Date: Tue, 14 May 2024 20:44:52 +0200
+	s=arc-20240116; t=1715728872; c=relaxed/simple;
+	bh=7ihOx+On7qsF0uZkTX25uGxvJYCn3RsNXw8vIycZavc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=p43EX39B1qrwtDwKICcLvKrVrQGwdc4Evw2TAP2isbY78OQ01iwmfkUVR+3MrbcUtsTUbxXQObB2rPk7RGdXhDRBTih8n/weSlTtbfrSADR5oaNXvG2N0UjJhzWP2xHEeRVCZ15ZMDlYl+CId1PlLbQip5+GLSbidKO2RHksuKQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bvdQyjGr; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1715728869; x=1747264869;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=7ihOx+On7qsF0uZkTX25uGxvJYCn3RsNXw8vIycZavc=;
+  b=bvdQyjGryFum0sxEGc1ifL3thtW0cNMSDb23qArgZEgzDPmt4EZiIfVO
+   nkBfbZMyNypiU7dtIzwEd8qOubCJEwwFqr/QEWh4j6O0qFjsm/sUihcM0
+   NAPSfFB1aVd9Q+z+ZDudjOBeUrto97bs+6dx+zdzuSAa3RK0J/7wuDsfS
+   AUBY3M3M3yLYLJXlHiJCjU8MnX/ARpgT89dHJBYQUt0Y5NjhmnjdKMElM
+   ONXQ8mTWvrF8vK7GqL6IyfWXT3JsjBlh33zP/V+ZbKB0Yiz1fBwmBNay5
+   jJRKre9+yPq48mn5+8wBY3/NdCu4oZrgU9mPbPNbguQ/3JbRn/GjXdufw
+   w==;
+X-CSE-ConnectionGUID: y485MLvmR8maDZuZ1PCBkQ==
+X-CSE-MsgGUID: tU5zb4iWThq8PBgZq0Bt7w==
+X-IronPort-AV: E=McAfee;i="6600,9927,11073"; a="11526376"
+X-IronPort-AV: E=Sophos;i="6.08,160,1712646000"; 
+   d="scan'208";a="11526376"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2024 16:21:08 -0700
+X-CSE-ConnectionGUID: KhLRM4W4TCOb1kIPWv0D5A==
+X-CSE-MsgGUID: HBAD6ENmTqa8dAv9OWk/qQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,160,1712646000"; 
+   d="scan'208";a="68305472"
+Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 14 May 2024 16:21:04 -0700
+Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s71SA-000C6H-1N;
+	Tue, 14 May 2024 23:21:02 +0000
+Date: Wed, 15 May 2024 07:20:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kris Van Hees <kris.van.hees@oracle.com>, linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-modules@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev,
+	Kris Van Hees <kris.van.hees@oracle.com>,
+	Nick Alcock <nick.alcock@oracle.com>,
+	Alan Maguire <alan.maguire@oracle.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Jiri Olsa <olsajiri@gmail.com>,
+	Elena Zannoni <elena.zannoni@oracle.com>
+Subject: Re: [PATCH v2 2/6] trace: add CONFIG_BUILTIN_MODULE_RANGES option
+Message-ID: <202405150623.lmS5sVhM-lkp@intel.com>
+References: <20240511224035.27775-3-kris.van.hees@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PROBLEM linux-next] Error in "make olddefconfig" and "make
- menuconfig"
-From: Mirsad Todorovac <mtodorovac69@gmail.com>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Kernel Build System <linux-kbuild@vger.kernel.org>
-References: <b948b14b-1543-4314-9e9e-58a54cf2b734@gmail.com>
-Content-Language: en-US
-In-Reply-To: <b948b14b-1543-4314-9e9e-58a54cf2b734@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240511224035.27775-3-kris.van.hees@oracle.com>
 
-On 5/14/24 20:37, Mirsad Todorovac wrote:
-> Hi, Mr. Bagas,
-> 
-> While bisecting a problem in linux-next tree, I came across the problem:
-> 
-> marvin@defiant:~/linux/kernel/linux-next$ git describe
-> v6.7-rc5-2761-gefc11f34e25f
-> marvin@defiant:~/linux/kernel/linux-next$ make olddefconfig
-> make[2]: *** No targets.  Stop.
-> make[1]: *** [/home/marvin/linux/kernel/linux-next/Makefile:621: scripts_basic] Error 2
-> make: *** [Makefile:234: __sub-make] Error 2
-> marvin@defiant:~/linux/kernel/linux-next$ make menuconfig
-> make[2]: *** No targets.  Stop.
-> make[1]: *** [/home/marvin/linux/kernel/linux-next/Makefile:621: scripts_basic] Error 2
-> make: *** [Makefile:234: __sub-make] Error 2
-> marvin@defiant:~/linux/kernel/linux-next$ 
-> 
-> Now, this occurred for the first time, and I don't know how to bail out.
-> 
-> I recall in past couple of years you have some insightful advice.
-> 
-> Thank you very much.
+Hi Kris,
 
-P.S.
+kernel test robot noticed the following build warnings:
 
-If this can help, I thought that the debug info the Makefile might be useful, but I am
-unable to see what goes wrong ...
+[auto build test WARNING on dd5a440a31fae6e459c0d6271dddd62825505361]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Kris-Van-Hees/kbuild-add-modules-builtin-objs/20240512-065954
+base:   dd5a440a31fae6e459c0d6271dddd62825505361
+patch link:    https://lore.kernel.org/r/20240511224035.27775-3-kris.van.hees%40oracle.com
+patch subject: [PATCH v2 2/6] trace: add CONFIG_BUILTIN_MODULE_RANGES option
+config: arc-kismet-CONFIG_VMLINUX_MAP-CONFIG_BUILTIN_MODULE_RANGES-0-0 (https://download.01.org/0day-ci/archive/20240515/202405150623.lmS5sVhM-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20240515/202405150623.lmS5sVhM-lkp@intel.com/reproduce)
 
-marvin@defiant:~/linux/kernel/linux-next$ make -d olddefconfig
-GNU Make 4.3
-Built for x86_64-pc-linux-gnu
-Copyright (C) 1988-2020 Free Software Foundation, Inc.
-License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
-This is free software: you are free to change and redistribute it.
-There is NO WARRANTY, to the extent permitted by law.
-Reading makefiles...
-Reading makefile 'Makefile'...
-Updating makefiles....
- Considering target file 'Makefile'.
-  Looking for an implicit rule for 'Makefile'.
-  No implicit rule found for 'Makefile'.
-  Finished prerequisites of target file 'Makefile'.
- No need to remake target 'Makefile'.
-Updating goal targets....
-Considering target file 'olddefconfig'.
- File 'olddefconfig' does not exist.
-  Considering target file '__sub-make'.
-   File '__sub-make' does not exist.
-   Finished prerequisites of target file '__sub-make'.
-  Must remake target '__sub-make'.
-Putting child 0x56da685e5ea0 (__sub-make) PID 12141 on the chain.
-Live child 0x56da685e5ea0 (__sub-make) PID 12141 
-GNU Make 4.3
-Built for x86_64-pc-linux-gnu
-Copyright (C) 1988-2020 Free Software Foundation, Inc.
-License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
-This is free software: you are free to change and redistribute it.
-There is NO WARRANTY, to the extent permitted by law.
-Reading makefiles...
-Reading makefile '/home/marvin/linux/kernel/linux-next/Makefile'...
-Reading makefile 'scripts/Kbuild.include' (search path) (no ~ expansion)...
-Reading makefile 'scripts/subarch.include' (search path) (no ~ expansion)...
-Reading makefile 'scripts/Makefile.compiler' (search path) (no ~ expansion)...
-Reading makefile 'arch/x86/Makefile' (search path) (no ~ expansion)...
-Updating makefiles....
- Considering target file 'arch/x86/Makefile'.
-  Looking for an implicit rule for 'arch/x86/Makefile'.
-  No implicit rule found for 'arch/x86/Makefile'.
-  Finished prerequisites of target file 'arch/x86/Makefile'.
- No need to remake target 'arch/x86/Makefile'.
- Considering target file 'scripts/Makefile.compiler'.
-  Looking for an implicit rule for 'scripts/Makefile.compiler'.
-  No implicit rule found for 'scripts/Makefile.compiler'.
-  Finished prerequisites of target file 'scripts/Makefile.compiler'.
- No need to remake target 'scripts/Makefile.compiler'.
- Considering target file 'scripts/subarch.include'.
-  Looking for an implicit rule for 'scripts/subarch.include'.
-  No implicit rule found for 'scripts/subarch.include'.
-  Finished prerequisites of target file 'scripts/subarch.include'.
- No need to remake target 'scripts/subarch.include'.
- Considering target file 'scripts/Kbuild.include'.
-  Looking for an implicit rule for 'scripts/Kbuild.include'.
-  No implicit rule found for 'scripts/Kbuild.include'.
-  Finished prerequisites of target file 'scripts/Kbuild.include'.
- No need to remake target 'scripts/Kbuild.include'.
- Considering target file '/home/marvin/linux/kernel/linux-next/Makefile'.
-  Looking for an implicit rule for '/home/marvin/linux/kernel/linux-next/Makefile'.
-  No implicit rule found for '/home/marvin/linux/kernel/linux-next/Makefile'.
-  Finished prerequisites of target file '/home/marvin/linux/kernel/linux-next/Makefile'.
- No need to remake target '/home/marvin/linux/kernel/linux-next/Makefile'.
-Updating goal targets....
-Considering target file 'olddefconfig'.
- File 'olddefconfig' does not exist.
- Looking for an implicit rule for 'olddefconfig'.
- Trying pattern rule with stem 'olddef'.
- Trying rule prerequisite 'outputmakefile'.
- Trying rule prerequisite 'scripts_basic'.
- Trying rule prerequisite 'FORCE'.
- Found an implicit rule for 'olddefconfig'.
-  Considering target file 'outputmakefile'.
-   File 'outputmakefile' does not exist.
-   Finished prerequisites of target file 'outputmakefile'.
-  Must remake target 'outputmakefile'.
-  Successfully remade target file 'outputmakefile'.
-  Considering target file 'scripts_basic'.
-   File 'scripts_basic' does not exist.
-   Finished prerequisites of target file 'scripts_basic'.
-  Must remake target 'scripts_basic'.
-Putting child 0x5f53318546e0 (scripts_basic) PID 12208 on the chain.
-Live child 0x5f53318546e0 (scripts_basic) PID 12208 
-GNU Make 4.3
-Built for x86_64-pc-linux-gnu
-Copyright (C) 1988-2020 Free Software Foundation, Inc.
-License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
-This is free software: you are free to change and redistribute it.
-There is NO WARRANTY, to the extent permitted by law.
-Reading makefiles...
-Reading makefile 'scripts/Makefile.build'...
-Updating makefiles....
- Considering target file 'scripts/Makefile.build'.
-  Looking for an implicit rule for 'scripts/Makefile.build'.
-  No implicit rule found for 'scripts/Makefile.build'.
-  Finished prerequisites of target file 'scripts/Makefile.build'.
- No need to remake target 'scripts/Makefile.build'.
-make[2]: *** No targets.  Stop.
-Reaping losing child 0x5f53318546e0 PID 12208 
-make[1]: *** [/home/marvin/linux/kernel/linux-next/Makefile:621: scripts_basic] Error 2
-Removing child 0x5f53318546e0 PID 12208 from chain.
-Reaping losing child 0x56da685e5ea0 PID 12141 
-make: *** [Makefile:234: __sub-make] Error 2
-Removing child 0x56da685e5ea0 PID 12141 from chain.
-marvin@defiant:~/linux/kernel/linux-next$ 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405150623.lmS5sVhM-lkp@intel.com/
 
-Hope this helps.
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for VMLINUX_MAP when selected by BUILTIN_MODULE_RANGES
+   WARNING: unmet direct dependencies detected for VMLINUX_MAP
+     Depends on [n]: EXPERT [=n]
+     Selected by [y]:
+     - BUILTIN_MODULE_RANGES [=y] && FTRACE [=y]
 
-Best regards,
-Mirsad Todorovac
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
