@@ -1,159 +1,132 @@
-Return-Path: <linux-kbuild+bounces-1858-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1859-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 557588C5FA4
-	for <lists+linux-kbuild@lfdr.de>; Wed, 15 May 2024 06:11:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41C128C5FAA
+	for <lists+linux-kbuild@lfdr.de>; Wed, 15 May 2024 06:17:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EAF50B20F7F
-	for <lists+linux-kbuild@lfdr.de>; Wed, 15 May 2024 04:11:37 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CDC22B21C53
+	for <lists+linux-kbuild@lfdr.de>; Wed, 15 May 2024 04:17:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C986738398;
-	Wed, 15 May 2024 04:11:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47AA73839D;
+	Wed, 15 May 2024 04:17:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c6nOp28h"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FCpVdjcC"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9874F381B9;
-	Wed, 15 May 2024 04:11:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D8A138398;
+	Wed, 15 May 2024 04:17:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715746292; cv=none; b=JUsWZpf8sRCU07S6Zu9fIjboqfGDXsL/vkf4ZdKnuM4dPm4xk128lSbk8LDP7OX2sm0L4f52IF9oGKnpvLdv+507CAYUb5tDh1xNpSiJ9ktR4nCppXsHILpYYwZwHKjlnkdPcogv31tuh9ZHzo5ahQ/wARqjECWVwFGksaB0ugY=
+	t=1715746662; cv=none; b=TbcUGYRZ75282c3B9O3l9FNmqnLc8hMRJQfOjElQU0piewmWekP2TCCJ6GV1SIq0uSpHVsokQYZTwJNz/fz/nm0x6z16VcxSoVqB/q6KRuR5DuW95qYlOmTsAV9QB2RW3w7HojHSi07lvi22G+tjlThJDMoL5YVnaPofAM0IkLc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715746292; c=relaxed/simple;
-	bh=DGpteUQnXnqvaSKjiFXXMNv3ukrcO+rgBe/rtRI4AB4=;
+	s=arc-20240116; t=1715746662; c=relaxed/simple;
+	bh=o8xlyoTwasKN6ToM9uc7PDvEdUddA5cXnljoZKZ9vpM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rGrgfeZ2PNp9fEd67CnaK8EZZXh9eOvU4CMxqgUDhRU5ZHmHxxlbJJ62wBLzGHnc/YFMEsnwB/PogW25PwLpDd6b0IF7iJDF7M+yXJToKgQ4SwDZxBWIczZFqSXzG6OwNUDi5XO6yp1Q+3EfMSFojRigqeFM0RXe5QqiQcZBKdg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c6nOp28h; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13FB0C4AF08;
-	Wed, 15 May 2024 04:11:32 +0000 (UTC)
+	 To:Cc:Content-Type; b=c/rjX8ArwRV0m6TE2mnB27BTS22cD8YtxesYDST6MqW3R1ARPy9lUfGLIUsyuKKifi+9EQiyQYgWbMt5q/s7QbtsTRF99fpwj2fAIUQvkEr3YmVaLk3/ojkVKHoqQcWA/rbh6awI069e0A4IsWiPa8nnaqZ9mjECEw5aXuLldHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FCpVdjcC; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC093C116B1;
+	Wed, 15 May 2024 04:17:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715746292;
-	bh=DGpteUQnXnqvaSKjiFXXMNv3ukrcO+rgBe/rtRI4AB4=;
+	s=k20201202; t=1715746660;
+	bh=o8xlyoTwasKN6ToM9uc7PDvEdUddA5cXnljoZKZ9vpM=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=c6nOp28h9UgCQ/9V/gB8GZ8CcNsIglcFQOG8kkRMYXqyKEIb63q1EY+hCULiwhNAm
-	 3pr8Vpxmwod7wKy74JwGyBc0T8RzAXaChIYleyrjRNtxUAUuX/DLrjeI0rEhizMm3n
-	 K9SP7SbX1+9ZEDq428fypjpG5ewFFjHgv96G8zBIxj9GyVygBdITs/kwqLO528jrJD
-	 PLPW3CcjvQhZxlPKAMJrHSXo2mpDheT7frOp+1EHBQQIyY2RCfVl4R88P1uewxBdl8
-	 7Qt2FDobkvpW4A53Ql7nc4rHYmSAWBfTQ/LjQYDPrIgc4XhH26xp8vGzeNHCvRHcnE
-	 CTy7b7WNYM1MA==
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-51fc01b6fe7so6922146e87.0;
-        Tue, 14 May 2024 21:11:31 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWjLX5vtLTH0T61tComS9t/KJbSwzx+o8StWX+gx9cjoKa7CxBJblej8mVfQ4GpfHTZdU+Yrh07LQOhHvaM6+5O3P1i6xazHvEB5O3kcAcASDqGy+GbLOpRjnwRDTKniTv2kpefWdPxS1PfZ6Ezurw0+1WUSbGvLZyUBluC6Uq6/awxhuUvxdNzKZmuE/e63eVo5lsVBG9mzbilgdGPvSrZQYA=
-X-Gm-Message-State: AOJu0YxMlnMpBvcdxKupkXWcegaj2WtGELFrPJQhNwmPo0o789liBarP
-	6rjLsSL4XKzjXuAhSz/jLfdPG2gaSlm42/my3gAvBXHzEceeBa8oAK1gqlAfRd/CQTRnm2x1BH8
-	+OnTvaD3SJjicSz+a3+fiyfuB32g=
-X-Google-Smtp-Source: AGHT+IGf9KkaZ1XrLk3QFuoMxHqz0TLUmdPdwogXPls6TDspk0lP3qpJ++Cgv3dhmSh/1dfrghgI7eC7j7ZRMW6xKWM=
-X-Received: by 2002:a05:6512:1304:b0:51c:5171:bbed with SMTP id
- 2adb3069b0e04-5221006e625mr12124467e87.15.1715746290716; Tue, 14 May 2024
- 21:11:30 -0700 (PDT)
+	b=FCpVdjcCp0OtgEk1rkJFNu/BgQyghY0NhS0lKg4hirLKKqFoppfPfx8mkb5r2n06C
+	 fP3Phd9ctUKlhW7YQyFh6/KA63uqji35E+B+JECEgXti88NP9mXhS1ceXPmt+njJyh
+	 DkBrKoixQLQq8FdYnuzKK6bbIBeBkGif2Cum31MYqNja2DwHsgL+WYtvyKjqqyVQtB
+	 1+e1wbzIwZYpVu/7WM+WynHJSTqXhIEeXQpliLa78wc0VWMx+f0rFLnr7sxemncTt6
+	 r808xMb7vty05r/JWDea0BMkzvnIlZJ+4iGZJwFi9EZKhDvEAJRwVd+ybjP55Bj+ka
+	 Cs/GS/FS1g5PQ==
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5238b7d0494so718852e87.3;
+        Tue, 14 May 2024 21:17:40 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUqev3i7jAEwGl+n9pLwotFvKWd+Ta9BAfXg4rfDDQl8B5MbHzkucrbFzW1QXGVsghQkztwITKH0hZbJhvpVSdwLSv3ri/2x+PnK8I4t/D2TfXC8FBqH6XkzAGXWoC+7BGJzqYJ+i4x9WLE
+X-Gm-Message-State: AOJu0YxxNnhiZAHoVRNXmAPKu56sNHoJUoG/cZVrkm/y6ppYsBW1EZYd
+	7vTq7Z1/U9gdRuflBntdTIPaJlQOkQZb2dRk5HixSHlRQVOhNKjWUDHM49QUzXbS9OGHMfUlwGY
+	VXv/I9UynSa0NpbOFLauGFHhySvA=
+X-Google-Smtp-Source: AGHT+IESSLsGjW88xIqliogNGDxgxvKWhuWkxYP31Rdm3gmKprqZhOCCqwQtAdIyH4BUsw/KkwPyyrxbqlAYjIgGGM8=
+X-Received: by 2002:a05:6512:3d1a:b0:51e:f0e8:d70d with SMTP id
+ 2adb3069b0e04-5220fc7d1camr19011140e87.21.1715746659584; Tue, 14 May 2024
+ 21:17:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240511-ath10k-snoc-dep-v1-1-9666e3af5c27@linaro.org>
- <12a208d7-f36b-4953-abff-323a15452b3c@quicinc.com> <CAK7LNASyBNbxm-e+iZ=7pOJg-a-Zm84O6RNcqiUjZQH7f9r3Lw@mail.gmail.com>
- <e5edd92e-ab47-4a55-9276-5a7d160fd399@quicinc.com>
-In-Reply-To: <e5edd92e-ab47-4a55-9276-5a7d160fd399@quicinc.com>
+References: <b948b14b-1543-4314-9e9e-58a54cf2b734@gmail.com>
+In-Reply-To: <b948b14b-1543-4314-9e9e-58a54cf2b734@gmail.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Wed, 15 May 2024 13:10:54 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQ11Pt85_T9kvYYbqfnjMSH_Yjwvz52E+Tcmw8jS-wvDw@mail.gmail.com>
-Message-ID: <CAK7LNAQ11Pt85_T9kvYYbqfnjMSH_Yjwvz52E+Tcmw8jS-wvDw@mail.gmail.com>
-Subject: Re: [PATCH] wifi: ath10k: fix QCOM_RPROC_COMMON dependency
-To: Jeff Johnson <quic_jjohnson@quicinc.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Kalle Valo <kvalo@kernel.org>, 
-	Jeff Johnson <jjohnson@kernel.org>, Stephen Boyd <swboyd@chromium.org>, 
-	Rakesh Pillai <quic_pillair@quicinc.com>, linux-wireless@vger.kernel.org, 
-	ath10k@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org, linux-kbuild@vger.kernel.org
+Date: Wed, 15 May 2024 13:17:03 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASTaxPDH4_wozMc9G6NE+HwFXgLiUAM5Ki9mc-Gwf4vmA@mail.gmail.com>
+Message-ID: <CAK7LNASTaxPDH4_wozMc9G6NE+HwFXgLiUAM5Ki9mc-Gwf4vmA@mail.gmail.com>
+Subject: Re: [PROBLEM linux-next] Error in "make olddefconfig" and "make menuconfig"
+To: Mirsad Todorovac <mtodorovac69@gmail.com>
+Cc: Bagas Sanjaya <bagasdotme@gmail.com>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	Linux Kernel Build System <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 15, 2024 at 3:14=E2=80=AFAM Jeff Johnson <quic_jjohnson@quicinc=
-.com> wrote:
+On Wed, May 15, 2024 at 3:37=E2=80=AFAM Mirsad Todorovac <mtodorovac69@gmai=
+l.com> wrote:
 >
-> On 5/14/2024 10:45 AM, Masahiro Yamada wrote:
-> > On Tue, May 14, 2024 at 11:43=E2=80=AFPM Jeff Johnson <quic_jjohnson@qu=
-icinc.com> wrote:
-> >>
-> >> On 5/11/2024 3:49 AM, Dmitry Baryshkov wrote:
-> >>> If ath10k_snoc is built-in, while Qualcomm remoteprocs are built as
-> >>> modules, compilation fails with:
-> >>>
-> >>> /usr/bin/aarch64-linux-gnu-ld: drivers/net/wireless/ath/ath10k/snoc.o=
-: in function `ath10k_modem_init':
-> >>> drivers/net/wireless/ath/ath10k/snoc.c:1534: undefined reference to `=
-qcom_register_ssr_notifier'
-> >>> /usr/bin/aarch64-linux-gnu-ld: drivers/net/wireless/ath/ath10k/snoc.o=
-: in function `ath10k_modem_deinit':
-> >>> drivers/net/wireless/ath/ath10k/snoc.c:1551: undefined reference to `=
-qcom_unregister_ssr_notifier'
-> >>>
-> >>> Add corresponding dependency to ATH10K_SNOC Kconfig entry so that it'=
-s
-> >>> built as module if QCOM_RPROC_COMMON is built as module too.
-> >>>
-> >>> Fixes: 747ff7d3d742 ("ath10k: Don't always treat modem stop events as=
- crashes")
-> >>> Cc: stable@vger.kernel.org
-> >>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> >>> ---
-> >>>  drivers/net/wireless/ath/ath10k/Kconfig | 1 +
-> >>>  1 file changed, 1 insertion(+)
-> >>>
-> >>> diff --git a/drivers/net/wireless/ath/ath10k/Kconfig b/drivers/net/wi=
-reless/ath/ath10k/Kconfig
-> >>> index e6ea884cafc1..4f385f4a8cef 100644
-> >>> --- a/drivers/net/wireless/ath/ath10k/Kconfig
-> >>> +++ b/drivers/net/wireless/ath/ath10k/Kconfig
-> >>> @@ -45,6 +45,7 @@ config ATH10K_SNOC
-> >>>       depends on ATH10K
-> >>>       depends on ARCH_QCOM || COMPILE_TEST
-> >>>       depends on QCOM_SMEM
-> >>> +     depends on QCOM_RPROC_COMMON || QCOM_RPROC_COMMON=3Dn
-> >>>       select QCOM_SCM
-> >>>       select QCOM_QMI_HELPERS
-> >>>       help
-> >>>
-> >>> ---
-> >>> base-commit: 75fa778d74b786a1608d55d655d42b480a6fa8bd
-> >>> change-id: 20240511-ath10k-snoc-dep-862a9da2e6bb
-> >>
-> >> I see how this fixes the problem, but this doesn't seem like an ideal
-> >> solution. The fact that the *_ssr_notifier() functions are correctly p=
-rotected
-> >> by conditional compilation ideally should mean that clients don't need=
- to call
-> >> call out this as a dependency. Otherwise, it would mean we'd need to d=
-o this
-> >> for all feature flags.
-> >
-> >
-> > It depends on if qcom_common.c is optional for ath10k_snoc.
-> >
-> > If it is optional, this patch is correct.
+> Hi, Mr. Bagas,
 >
-> At least from a build perspective it is optional
+> While bisecting a problem in linux-next tree, I came across the problem:
+
+
+I checked out v6.7-rc5-2761-gefc11f34e25f
+but 'make olddefconfig' worked fine with me.
+
+
+If this issue occurs only during 'git bisect',
+I need full steps to reproduce it because I do not
+know what you did before v6.7-rc5-2761-gefc11f34e25f.
+
+
+  $ git checkout <some commit>
+  $ [ do something ]
+  $ git v6.7-rc5-2761-gefc11f34e25f
+  $ make olddefconfig
+
+
+If I am able to reproduce the issue that way,
+maybe I can have more insight.
 
 
 
-You need to make a decision from a run-time perspective
-(that is, whether you are fine with having
-ar_snoc->notifier =3D=3D NULL)
 
 
-If you are able to build the kernel successfully
-but you get a run-time error (e.g. NULL pointer dereference),
-it is even worse because run-time debugging is generally more
-difficult than compile-time debugging.
 
 
+>
+> marvin@defiant:~/linux/kernel/linux-next$ git describe
+> v6.7-rc5-2761-gefc11f34e25f
+> marvin@defiant:~/linux/kernel/linux-next$ make olddefconfig
+> make[2]: *** No targets.  Stop.
+> make[1]: *** [/home/marvin/linux/kernel/linux-next/Makefile:621: scripts_=
+basic] Error 2
+> make: *** [Makefile:234: __sub-make] Error 2
+> marvin@defiant:~/linux/kernel/linux-next$ make menuconfig
+> make[2]: *** No targets.  Stop.
+> make[1]: *** [/home/marvin/linux/kernel/linux-next/Makefile:621: scripts_=
+basic] Error 2
+> make: *** [Makefile:234: __sub-make] Error 2
+> marvin@defiant:~/linux/kernel/linux-next$
+>
+> Now, this occurred for the first time, and I don't know how to bail out.
+>
+> I recall in past couple of years you have some insightful advice.
+>
+> Thank you very much.
+>
+> Best regards,
+> Mirsad Todorovac
+>
 
 
 --=20
