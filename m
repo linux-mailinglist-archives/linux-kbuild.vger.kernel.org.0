@@ -1,210 +1,216 @@
-Return-Path: <linux-kbuild+bounces-1867-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1868-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACBA58C71AD
-	for <lists+linux-kbuild@lfdr.de>; Thu, 16 May 2024 08:39:50 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE9FE8C779C
+	for <lists+linux-kbuild@lfdr.de>; Thu, 16 May 2024 15:30:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0E559B21792
-	for <lists+linux-kbuild@lfdr.de>; Thu, 16 May 2024 06:39:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 385F71F22BA7
+	for <lists+linux-kbuild@lfdr.de>; Thu, 16 May 2024 13:30:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D9EE171AF;
-	Thu, 16 May 2024 06:39:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34D6D147C60;
+	Thu, 16 May 2024 13:30:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NY4Vu6KN"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ekOk+g49";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="jKSPxtxQ";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="vj+lMX7G";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="trPUhBgs"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 133D72E636;
-	Thu, 16 May 2024 06:39:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B34C1482E0;
+	Thu, 16 May 2024 13:30:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715841583; cv=none; b=MvDKZ46ffBJsKAq/jpnjzeFXwyOCT4YDQqF7WKiAGFuvnenvbA1++3ST4A0jdq6E4wNNBzSlqyBRcmBaBdv0x8LaDWLjCKEm5Bh7yTj9RhF3saYp2N/5m0P+7IhU2jjt+S/K8negRWBPIRzuv3CyMPT6MrevgPQZMS2W86Uks+k=
+	t=1715866226; cv=none; b=FNOmWxY5jkm2jJYOVw9+/0npISDzS+YQPpXZSFQnMxbO++AEXCfDRTRftN719CsU1gBDTpIFMR113lrMxCn4AAAoA9Uas477D7XjW7Lt/LngaRK+I5Ip9nqb+TFMB6yW/OVDlQLyAKXG8Hzea6UnBgc3p864vw+BpAyRg0df6Kc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715841583; c=relaxed/simple;
-	bh=fe30kxws1ZQSDjHwrtE3WIv5KN1f7GF2umfF2EynWW8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=thsmqrbJBOOwJsNpCVXPpBj/ux2o6G6lvNxDwpFn6tnjubFsZSFJoCCl3NlmDOZGubfsLGB6VQacPhi2Zhj5w9Ud/twY2ap7U+JkjR42mLuv5O6FQssLM7gEqGIXG2A/+SUW1NpTjv77yb0Z8EVkLYP4t8sldHaUrIgmizNntlA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NY4Vu6KN; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CA57C113CC;
-	Thu, 16 May 2024 06:39:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715841582;
-	bh=fe30kxws1ZQSDjHwrtE3WIv5KN1f7GF2umfF2EynWW8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=NY4Vu6KNFlg0zcQRIFL2l9ZAxL/DHXAmyaglyGTmHbKnQhpow7JCkLjc4kIXg44Tn
-	 IU0uNK1VSpFd+6MQBtN06rOBAZHPQJegdnw0/NqmgyEIfuYnNhFMwoQ9lYsSqDDaJw
-	 2xnikyG6IKox/Owq6aHZgUYBPRY+hVrBEaRt+uDdr4RrEivyRntr3whOGdk8dVkaIn
-	 rkSoRkF+fCUcu0hfBZwncogxLQrXTX+/e9xxycPGZsTLve6BiXZZZcdQ4Lv1NxQKXx
-	 mVwe3J5p5X9ctiwyWP2vSAXASvANW8QzovH8CakRVEBKEPeNQRxJ9d5pf9tjjAOZjB
-	 uE8bTQPkNkWcQ==
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-52327368e59so413804e87.1;
-        Wed, 15 May 2024 23:39:42 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWHb9PZGgrjCkKLhL3+zCJaM27KiM9fRYryURFwAzQ4nDlb5ePIZOPrR8kn7YAZ0TzdxehqlAdjqic73KuNIZnDbjh9F44Bvh1E1mGREpXq9Bth5r47/v2C2cDOIGgcKNeaumYcEN+U0ecD
-X-Gm-Message-State: AOJu0YwSim0Q0ODECkqG/od0L4KQGMX1VFCXLhCnkwE0Xc5JcGIS+63c
-	Bs1SE8Esi1adgL9bAVClLtnk8/l9nPOXG64TDyh42MSXpK58UJWsLrpVgrgZky0vxCcRTz8WKJk
-	5rHQKF0BtlUapGLMjMzYVj9LotBA=
-X-Google-Smtp-Source: AGHT+IGZE0fdvk0d7QmweFxfEh/SAnCnlITpVeebRE3eICucY6lna1HBSVpPPJeYKeROIPM8JKpUqtfHytaKU5LCdqU=
-X-Received: by 2002:a05:6512:388f:b0:51d:5f0b:816f with SMTP id
- 2adb3069b0e04-5220fc7950dmr10317494e87.15.1715841581173; Wed, 15 May 2024
- 23:39:41 -0700 (PDT)
+	s=arc-20240116; t=1715866226; c=relaxed/simple;
+	bh=wEVpxd09aFmKjuI3dDVx5l3bQ3x5w1RA7fwb1G1AxV0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=M9gaQpYYnXV2XNR/dbIPQaE/HaTxyDG8nhS0Bp/2ZRs3IvvJzvLQVvMRA79B3DKPP5TgBVq9DwQSHOVET4SJkaCfU5mfHGZdZ/NafoQe8f05Ppwyg+gAmBQxcaQUWBXUUco/KAw/vvB+KdxsnEBjqcVQ4lsI+tleRBW+85UbL/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=ekOk+g49; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=jKSPxtxQ; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=vj+lMX7G; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=trPUhBgs; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id EA572349E4;
+	Thu, 16 May 2024 13:30:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1715866222; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=SD52y9nA0QzKEwzGE40KRitU2ogD463y5a2LcORhPUs=;
+	b=ekOk+g49WJPFNTSCALqGDtxSk2CyQ4srVYffYDje8s4tKMxshQuX1UT6jvoaZHG/8udiHc
+	yKyX/+vZwuFz40kDIiLe9SB8eeU7QeU8umI6lW6KS/QwY969kxE1HWc95beefrL//XNgGN
+	rjF5ysHmzpEHfm2jkeX9t6YOM0DO8uM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1715866222;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=SD52y9nA0QzKEwzGE40KRitU2ogD463y5a2LcORhPUs=;
+	b=jKSPxtxQVl5rsM+JXK26yFu9X1ENAnw3qe0GObgdE7fJ/R4djfoj02RDLlYlMRxZmnW7JO
+	KS08BpHbcbV1pgDQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1715866221; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=SD52y9nA0QzKEwzGE40KRitU2ogD463y5a2LcORhPUs=;
+	b=vj+lMX7G64of6AI4QH8a+jQeamRmYP1JTG95rKmghac2JrXrVEtYKsL1/m8MB4ES67hoaY
+	UFHjPB85Xwn27i+a6+M/ifu78V9qeyi1fNC6/YE4Ah9NTYc8UcgtjkOB0ihjILyeWESk6S
+	htE4GiAATiVZIk6KjctuHph8gw4csGo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1715866221;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=SD52y9nA0QzKEwzGE40KRitU2ogD463y5a2LcORhPUs=;
+	b=trPUhBgsPqp5oFDPiAtcM3WWtrjfFGfcGLPWh91mpIW2h/IePYZQPm6fQMPXdO7r7PO7/s
+	wht8ePydcZMyeCCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D828313A69;
+	Thu, 16 May 2024 13:30:21 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id lyvDM20KRmY+BwAAD6G6ig
+	(envelope-from <lhruska@suse.cz>); Thu, 16 May 2024 13:30:21 +0000
+From: Lukas Hruska <lhruska@suse.cz>
+To: pmladek@suse.com,
+	mbenes@suse.cz,
+	jpoimboe@kernel.org
+Cc: joe.lawrence@redhat.com,
+	live-patching@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	mpdesouza@suse.com,
+	lhruska@suse.cz
+Subject: [PATCH v2 0/5] livepatch: klp-convert tool - Minimal version
+Date: Thu, 16 May 2024 15:30:03 +0200
+Message-ID: <20240516133009.20224-1-lhruska@suse.cz>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <212a9464-d52b-4730-95b9-5a0aebd38c91@gmail.com>
- <CAHx5RXCWW5M-eW5v65bAkQWZemsU2NTvDv3jA9_XKz=+YP56Qg@mail.gmail.com>
- <688e54ec-3b29-4e3b-a2c3-f2c83b9c97b7@lunn.ch> <CAHx5RXBFdzsgKXR94gdZd2b=uz8PJDg4OjLPJxKtsdhcjJq3Qw@mail.gmail.com>
- <e307a237-68e3-40c9-be31-4fe3d560ada2@lunn.ch> <CAHx5RXCF0=Soz_k88RGvJFGrajaxn=mVnqpb99GAQ=b7XOcWiw@mail.gmail.com>
- <732d8bb2-1d4f-4958-b130-0bd15a407271@gmail.com> <CAHx5RXDaweFTF_Qt0GdBH4nBeMqwL4VVto7xzHBvFgFL5n=Ebg@mail.gmail.com>
- <c8c01e53-0a45-4319-88ff-bfb0caba150c@lunn.ch> <CAHx5RXDzN93WaYFe2bk6m2TmMC+A9vsmhodRFmZi17cFY5CrWQ@mail.gmail.com>
- <949fcbea-23dc-44c1-9146-c358b15b9253@lunn.ch> <b7d6fdcb-4b01-4bc1-8e4b-3cf4ccb951e3@gmail.com>
- <19db38dd-b265-45d3-af1c-85d4cb8d075a@gmail.com> <CAK7LNAS9dpp9aW-ESpJq8qaAffrQgUSnAFVVupPcnD3SP8eWZA@mail.gmail.com>
- <8a699761-de25-409d-9d8a-aa0c1ac4c605@gmail.com>
-In-Reply-To: <8a699761-de25-409d-9d8a-aa0c1ac4c605@gmail.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Thu, 16 May 2024 15:39:04 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQMjrsu1GNRUe6guhucjbEndXzZPX=e_n+Y_Q9oxG8tpw@mail.gmail.com>
-Message-ID: <CAK7LNAQMjrsu1GNRUe6guhucjbEndXzZPX=e_n+Y_Q9oxG8tpw@mail.gmail.com>
-Subject: Re: drivers/net/dsa/dsa_loop_bdinfo.c build problems
-To: Florian Fainelli <f.fainelli@gmail.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, Stephen Langstaff <stephenlangstaff1@gmail.com>, 
-	Alexander Lobakin <aleksander.lobakin@intel.com>, 
-	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, linux-kernel@vger.kernel.org, 
-	OlteanV@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_TLS_ALL(0.00)[]
+X-Spam-Score: -2.80
+X-Spam-Flag: NO
 
-On Thu, May 16, 2024 at 12:35=E2=80=AFPM Florian Fainelli <f.fainelli@gmail=
-.com> wrote:
->
->
->
-> On 5/15/2024 7:17 PM, Masahiro Yamada wrote:
-> > On Thu, May 16, 2024 at 4:21=E2=80=AFAM Florian Fainelli <f.fainelli@gm=
-ail.com> wrote:
-> >>
-> >> Adding Olek and Masahiro,
-> >>
-> >> On 5/14/24 21:05, Florian Fainelli wrote:
-> >>>
-> >>>
-> >>> On 5/14/2024 9:17 AM, Andrew Lunn wrote:
-> >>>> On Tue, May 14, 2024 at 05:08:24PM +0100, Stephen Langstaff wrote:
-> >>>>> On Tue, May 14, 2024 at 1:32=E2=80=AFPM Andrew Lunn <andrew@lunn.ch=
-> wrote:
-> >>>>>
-> >>>>>> So try to making FIXED_PHY =3D m, and load it after dsa_loop_bdinf=
-o.ko.
-> >>>>>
-> >>>>> In my configuration FIXED_PHY is selected by several other modules:
-> >>>>>     =E2=94=82 Selected by [y]:
-> >>>>>     =E2=94=82   - FSL_DPAA_ETH [=3Dy] && NETDEVICES [=3Dy] && ETHER=
-NET [=3Dy] &&
-> >>>>> NET_VENDOR_FREESCALE [=3Dy] && FSL_DPAA [=3Dy] && FSL_FMAN [=3Dy]
-> >>>>>     =E2=94=82   - FWNODE_MDIO [=3Dy] && NETDEVICES [=3Dy] && MDIO_D=
-EVICE [=3Dy] &&
-> >>>>> (ACPI [=3Dy] || OF [=3Dy] || COMPILE_TEST [=3Dn])
-> >>>>>     =E2=94=82   - OF_MDIO [=3Dy] && NETDEVICES [=3Dy] && MDIO_DEVIC=
-E [=3Dy] && OF [=3Dy]
-> >>>>> && PHYLIB [=3Dy]
-> >>>>>
-> >>>>> ...so it looks pretty tied up with the MDIO support which I guess I
-> >>>>> will need for the real PHY!
-> >>>>>
-> >>>>> If I sorted out building the dsa_loop_bdinfo.c code as a built-in d=
-o
-> >>>>> you think that would solve the ordering issue?
-> >>>
-> >>> I have re-created the issue with CONFIG_FIXED_PHY=3Dy and for a reaso=
-n I
-> >>> do not yet understand the following rule:
-> >>>
-> >>> obj-$(CONFIG_FIXED_PHY)                +=3D dsa_loop_bdinfo.o
-> >>>
-> >>> does not result in the kernel image containing the dsa_loop_bdinfo.o
-> >>> object symbols. I am fairly sure this worked when this was submitted
-> >>> back then, so give me a day or two to figure out why. AFAICT the make
-> >>> rule is simply not executed.
-> >>
-> >> Bisection landed on 227d72063fccb2d19b30fb4197fba478514f7d83 ("dsa:
-> >> simplify Kconfig symbols and dependencies") which appeared in v5.13 an=
-d
-> >> specifically this hunk being reverted back to how it was before gets u=
-s
-> >> the build results we want:
-> >>
-> >> diff --git a/drivers/net/Makefile b/drivers/net/Makefile
-> >> index 7ffd2d03efaf..5da6424bc6f8 100644
-> >> --- a/drivers/net/Makefile
-> >> +++ b/drivers/net/Makefile
-> >> @@ -45,7 +45,7 @@ obj-$(CONFIG_ARCNET) +=3D arcnet/
-> >>    obj-$(CONFIG_DEV_APPLETALK) +=3D appletalk/
-> >>    obj-$(CONFIG_CAIF) +=3D caif/
-> >>    obj-$(CONFIG_CAN) +=3D can/
-> >> -obj-$(CONFIG_NET_DSA) +=3D dsa/
-> >> +obj-y +=3D dsa/
-> >>    obj-$(CONFIG_ETHERNET) +=3D ethernet/
-> >>    obj-$(CONFIG_FDDI) +=3D fddi/
-> >>    obj-$(CONFIG_HIPPI) +=3D hippi/
-> >>
-> >> Masahiro, for context in drivers/net/dsa/Makefile we have this bit:
-> >>
-> >> obj-$(CONFIG_NET_DSA_LOOP)      +=3D dsa_loop.o
-> >> ifdef CONFIG_NET_DSA_LOOP
-> >> obj-$(CONFIG_FIXED_PHY)         +=3D dsa_loop_bdinfo.o
-> >> endif
-> >>
-> >> whereby we want dsa_loop.o to follow the value of CONFIG_NET_DSA_LOOP,
-> >> and we want dsa_loop_bdinfo.o to be either built as a module or built
-> >> into the kernel and we want to follow the value of CONFIG_FIXED_PHY
-> >> because there is a functional dependency between the two objects.
-> >>
-> >> Prior to Olek's change this would work just fine because we would alwa=
-ys
-> >> descend into drivers/net/dsa/ but after his change, and assuming that
-> >> CONFIG_NET_DSA=3Dm which is the case, then we no longer get
-> >> dsa_loop_bdinfo.o to be built at all when CONFIG_FIXED_PHY=3Dy.
-> >> Essentially only obj-m rules are being processed, obj-y rules are not.
-> >>
-> >> That does not really seem intuitive to me as to why any suggestions on
-> >> how to fix that, short of unconditionally descending into the tree lik=
-e
-> >> we used to?
-> >
-> >
-> >
-> > "obj-m +=3D dsa/" means everything under dsa/ must be modular.
-> >
-> >
-> >
-> > If there is a built-in object under dsa/ with CONFIG_NET_DSA=3Dm,
-> > you cannot do  "obj-$(CONFIG_NET_DSA) +=3D dsa/".
-> >
-> >
-> > You need to change it back to "obj-y +=3D dsa/".
->
-> Thanks, posted a patch doing that! Is there anyway that Kbuild could be
-> warning about such a situation?
+Summary
+-------
+
+This is a significantly simplified version of the original klp-convert tool.
+The klp-convert code has never got a proper review and also clean ups
+were not easy. The last version was v7, see
+https://lore.kernel.org/r/20230306140824.3858543-1-joe.lawrence@redhat.com
+
+The main change is that the tool does not longer search for the
+symbols which would need the livepatch specific relocation entry.
+Also klp.symbols file is not longer needed.
+
+Instead, the needed information is appended to the symbol declaration
+via a new macro KLP_RELOC_SYMBOL(). It creates symbol with all needed
+metadata. For example:
+
+  extern char *saved_command_line \
+                 KLP_RELOC_SYMBOL(vmlinux, vmlinux, saved_command_line, 0);
+
+would create symbol
+
+$>readelf -r -W <compiled livepatch module>:
+Relocation section '.rela.text' at offset 0x32e60 contains 10 entries:
+    Offset             Info             Type               Symbol's Value  Symbol's Name + Addend
+[...]
+0000000000000068  0000003c00000002 R_X86_64_PC32          0000000000000000 .klp.sym.rela.vmlinux.vmlinux.saved_command_line,0 - 4
+[...]
 
 
-I posted such a patch a few years ago.
+The simplified klp-convert tool just transforms symbols
+created by KLP_RELOC_SYMBOL() to object specific rela sections
+and rela entries which would later be proceed when the livepatch
+or the livepatched object is loaded.
 
-https://lore.kernel.org/lkml/20190912162254.9603-2-yamada.masahiro@socionex=
-t.com/#t
+For example, klp-convert would replace the above symbols with:
 
-but I noticed some corner cases where false alarms are reported.
+$> readelf -r -W <livepatch_module_proceed_by_klp_convert>
+Relocation section '.klp.rela.vmlinux.text' at offset 0x5cb60 contains 1 entry:
+    Offset             Info             Type               Symbol's Value  Symbol's Name + Addend
+0000000000000068  0000003c00000002 R_X86_64_PC32          0000000000000000 .klp.sym.vmlinux.saved_command_line,0 - 4
 
-I can revisit it when I have spare time.
+
+Note that similar macro was needed also in the original version
+to handle more symbols of the same name (sympos).
+
+Given the above, add klp-convert tool; integrate klp-convert tool into
+kbuild; add data-structure and macros to enable users to annotate
+livepatch source code; make modpost stage compatible with livepatches;
+update livepatch-sample and update documentation.
 
 
+Testing
+-------
 
---=20
-Best Regards
-Masahiro Yamada
+The patchset selftests build and execute on x86_64, s390x, and ppc64le
+for both default config (with added livepatch dependencies) and a larger
+SLE-15-ish config.
+
+
+Summary of changes in this minimal version v2
+------------------------
+
+- rebase for v6.9
+- cleaned-up SoB chains (suggested by pmladek)
+- klp-convert: remove the symbol map auto-resolving solution
+- klp-convert: add macro for flagging variables inside a LP src to be resolved by this tool
+- klp-convert: code simplification
+- selftests: add selftest livepatching function using an external symbol
+
+Previous versions
+-----------------
+
+RFC:
+  https://lore.kernel.org/r/cover.1477578530.git.jpoimboe@redhat.com/
+v2:
+  https://lore.kernel.org/r/f52d29f7-7d1b-ad3d-050b-a9fa8878faf2@redhat.com/
+v3:
+  https://lore.kernel.org/r/20190410155058.9437-1-joe.lawrence@redhat.com/
+v4:
+  https://lore.kernel.org/r/20190509143859.9050-1-joe.lawrence@redhat.com/
+v5:
+  (not posted)
+  https://github.com/joe-lawrence/klp-convert-tree/tree/klp-convert-v5-devel
+v6:
+  https://lore.kernel.org/r/20220216163940.228309-1-joe.lawrence@redhat.com/
+v7:
+  https://lore.kernel.org/r/20230306140824.3858543-1-joe.lawrence@redhat.com/
+v1 minimal:
+  https://lore.kernel.org/r/20231106162513.17556-1-lhruska@suse.cz/
 
