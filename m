@@ -1,199 +1,219 @@
-Return-Path: <linux-kbuild+bounces-1864-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1865-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1AFA8C7034
-	for <lists+linux-kbuild@lfdr.de>; Thu, 16 May 2024 04:17:58 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D12958C7080
+	for <lists+linux-kbuild@lfdr.de>; Thu, 16 May 2024 04:58:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 039BE1C2152B
-	for <lists+linux-kbuild@lfdr.de>; Thu, 16 May 2024 02:17:58 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DC296B22AFB
+	for <lists+linux-kbuild@lfdr.de>; Thu, 16 May 2024 02:58:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A244138C;
-	Thu, 16 May 2024 02:17:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFC1B29CE5;
+	Thu, 16 May 2024 02:57:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ddKc7nli"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ubbK04He"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1EE21366;
-	Thu, 16 May 2024 02:17:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84E24249F7;
+	Thu, 16 May 2024 02:57:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715825873; cv=none; b=LBY2YfYqgPLCp7FBd7mPhi73waNapCtFvD24qQgof43WeAwaSZSR/Nzh2IdEgcs1SEl4qOvEJMGx1th0lLZ9GRMG/Xd6QFhLytEyublOhXqi/Fn3x+bfbavJzhZ4CyT8+8JnflD7gLxUiZMJgs6MR6ogoSTeUbo3GMl16vOe/Eo=
+	t=1715828237; cv=none; b=l/pqNEF8nstFkrGTAqVhA5f+jDeakgqEwC7x4Ia3bcJrNhIbcLngJxItXMWHLq3TYqNSJaE2TOY/ufSKNbAzwEerr1Ms3VgSGkM0AMbMRrcMaaWBGRXTxgo/ifyobYsEC23oQrymeRzeXihg6/O12MjVULMXGlW5wl8MEr0r8AM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715825873; c=relaxed/simple;
-	bh=QDKrZ+eoc7syQo7mjbFONIZPwtCS41Fpew869d9ulNo=;
+	s=arc-20240116; t=1715828237; c=relaxed/simple;
+	bh=rvzB2c+5K+tSKQUQdjVcVTg7NDEPAimqY/VI6X6o7wI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tl5i6aSPeuam2oNhKoSqQnA3kl/29Dl5GICh1CphQJ1rysrcjpDHtsf98+TDGFSrrmVL8dML/BtPXaV9DqA0FqtfOORsrkEGivZh+A8s5TCvGVlZHn6fPbGUEEQ/H3LvdQb2bcSamdCWAgJyVR4PJ60bBa1lNCHPFipLhnweBHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ddKc7nli; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D953C4AF07;
-	Thu, 16 May 2024 02:17:53 +0000 (UTC)
+	 To:Cc:Content-Type; b=TXQbB1+klBKUhLOcoeKJnxhB7mdDA0Aba3UtbERZBZioaQBKWsdQHHFfg+2oJfZTF//wrwbF8wifsTiqyxTTV2yyzbKqbQxVRNW1W3+0ktqhKJPwtvLGvBQX1qv94Kp4fWfSz8CWCWmYGy/prz2wgdegTtHTKQJ2Ix+9kD45SyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ubbK04He; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AEB5C32786;
+	Thu, 16 May 2024 02:57:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715825873;
-	bh=QDKrZ+eoc7syQo7mjbFONIZPwtCS41Fpew869d9ulNo=;
+	s=k20201202; t=1715828237;
+	bh=rvzB2c+5K+tSKQUQdjVcVTg7NDEPAimqY/VI6X6o7wI=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=ddKc7nlipscYnm+PMFC0DNsB3I73Xq1lLCRXd9ijw2MleCq55k/4F6SMcwNG253Y1
-	 qyR2MnPhkPAI74YwnO9QjSMVwjrq5+0J7U7XXIebW/EvmfDGErsDHx6AzIQs8n4n2q
-	 WEl9IqpQJkMVn3WI7I6lsD1WqwGGFrPqSwCBN3vKgb4CnnmSVmWyp8ez1s54TxuSuf
-	 amrM0BJh++S2p7+lKcKyOFIMWLW9UEXldUsu6u9QpQWaN/ehfr211FosPsPQA6t0YS
-	 x+s8wb43mfCME2m+Rxy9dTP5bz54I/4KKN/TM/lV7eZ3shbkBNAUwDIuRpLAE1niEj
-	 tBQI5Yj64p6dw==
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-51f71e4970bso261777e87.2;
-        Wed, 15 May 2024 19:17:53 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVMOmqCpWsrMEamSFhYM1+rj4exny/zV7yAWZ3H1h4wwNgbw8/v6+l5pITXCcfE0+MXkYqla/5n/QxnsDbVBKHZR90aflJmpKkr5kUUzQfOz97LsHoU/gjct4r7e3BAuaH1NZ81bNwDEB5g
-X-Gm-Message-State: AOJu0YzIpTuHI+a8LMR4/zaXHLOUTJCnwmjQegCPawfr81gg9mu1e+42
-	c/rlI3333e8m6YVgCEgqQGsXTlHCG5o2iqKO+d74VtgDYqB09Pqsx1PV56vRHpuXt+EV74cUK6g
-	rOOPvfUXmKkz5ufJtq6EPSSed49Q=
-X-Google-Smtp-Source: AGHT+IH8pgR6wSD7iR30CYm4REYN+pY2+GnITsIcp+IsuTX3s23rze7v1IfJBQQ3FMWDfT/jq5pQtPnbjQzdXznjd4c=
-X-Received: by 2002:ac2:518d:0:b0:51c:d8f6:4e6f with SMTP id
- 2adb3069b0e04-5220fd7bd61mr14260360e87.40.1715825871987; Wed, 15 May 2024
- 19:17:51 -0700 (PDT)
+	b=ubbK04HeSCwv4J84OA4MPWiyDbMwPAG7k0z6zkWZiE76A5iLSmCTol/3jdRKTxGru
+	 tuKsQliLwtv1mZ4NcqwKAVv6KibZh9/MWvGcYTR1JreU8DbbyvMhdjoLPRMFQ9nJjn
+	 erimRl+KpWBzV/XOlKx3q2OJyQFOiap/kT/rnjddQZzeuYWOsOmFJfwVPe/FyaQOuC
+	 rmoobgb/ItmE1ovF/SEriJtenuObGn3ndt6FfelrfbV3Fl+6nXWet3r0JixQZqiEAQ
+	 jBRMqLDuvX4+6BlL2X9PNxvNpsmjBr80MSDgJWSfi7q5tD1aVQVCC/0eZ3CYrsWyWl
+	 PNj4d43qlD6qA==
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2df83058d48so2867851fa.1;
+        Wed, 15 May 2024 19:57:16 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVB6GClIdbwZ3/HeemccXuYWTH4/bYCKO/9gZZ3g1gRuxYD9SskDyLb7+cTM/dah7mYj47FnKQFWSKt0Z4k4oVO9qV4xOPHXKsWo+kuh8RQg7ZeuHg82BRKdONj+1EzaqZvPQeXagek7xV4gpdz9iDwF8IqftETC9Pdg+b7Z1v9GTJiog2/U4LnYYmNaQE07A==
+X-Gm-Message-State: AOJu0YxXldtJo2shN8IiXxGRaeuF1z/ijQH1e+AOqPCe1rDl3HVY627E
+	YU5aY9xOqC+5ipePA7fEsk0Rjq81PT4UN+FkhczVXgpZy5at+HIiGUsi5Tuw8PhkIRNlQ46J66P
+	6lCMRHd9VCWHNImrCBLvovp3Q6j8=
+X-Google-Smtp-Source: AGHT+IE7fy4YTIxImy+5LghYG+uGawZq4fEPT5h9Z75JqfrIPrMR8odl8dcIbIniOFnkPtUIdCP7vSUcSMa7WVqEHVY=
+X-Received: by 2002:a2e:9ed9:0:b0:2e5:2eaf:b0a4 with SMTP id
+ 38308e7fff4ca-2e52eafb1e4mr102648091fa.41.1715828235704; Wed, 15 May 2024
+ 19:57:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <212a9464-d52b-4730-95b9-5a0aebd38c91@gmail.com>
- <CAHx5RXCWW5M-eW5v65bAkQWZemsU2NTvDv3jA9_XKz=+YP56Qg@mail.gmail.com>
- <688e54ec-3b29-4e3b-a2c3-f2c83b9c97b7@lunn.ch> <CAHx5RXBFdzsgKXR94gdZd2b=uz8PJDg4OjLPJxKtsdhcjJq3Qw@mail.gmail.com>
- <e307a237-68e3-40c9-be31-4fe3d560ada2@lunn.ch> <CAHx5RXCF0=Soz_k88RGvJFGrajaxn=mVnqpb99GAQ=b7XOcWiw@mail.gmail.com>
- <732d8bb2-1d4f-4958-b130-0bd15a407271@gmail.com> <CAHx5RXDaweFTF_Qt0GdBH4nBeMqwL4VVto7xzHBvFgFL5n=Ebg@mail.gmail.com>
- <c8c01e53-0a45-4319-88ff-bfb0caba150c@lunn.ch> <CAHx5RXDzN93WaYFe2bk6m2TmMC+A9vsmhodRFmZi17cFY5CrWQ@mail.gmail.com>
- <949fcbea-23dc-44c1-9146-c358b15b9253@lunn.ch> <b7d6fdcb-4b01-4bc1-8e4b-3cf4ccb951e3@gmail.com>
- <19db38dd-b265-45d3-af1c-85d4cb8d075a@gmail.com>
-In-Reply-To: <19db38dd-b265-45d3-af1c-85d4cb8d075a@gmail.com>
+References: <20240511224035.27775-1-kris.van.hees@oracle.com>
+ <CAK7LNATwSDyAWR2FqccF5RFLpw5CYFyndR0N814nC7G7EaL2Tw@mail.gmail.com> <ZkTnwwyTF0WSMmqI@oracle.com>
+In-Reply-To: <ZkTnwwyTF0WSMmqI@oracle.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Thu, 16 May 2024 11:17:15 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS9dpp9aW-ESpJq8qaAffrQgUSnAFVVupPcnD3SP8eWZA@mail.gmail.com>
-Message-ID: <CAK7LNAS9dpp9aW-ESpJq8qaAffrQgUSnAFVVupPcnD3SP8eWZA@mail.gmail.com>
-Subject: Re: drivers/net/dsa/dsa_loop_bdinfo.c build problems
-To: Florian Fainelli <f.fainelli@gmail.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, Stephen Langstaff <stephenlangstaff1@gmail.com>, 
-	Alexander Lobakin <aleksander.lobakin@intel.com>, 
-	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, linux-kernel@vger.kernel.org, 
-	OlteanV@gmail.com
+Date: Thu, 16 May 2024 11:56:39 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARRzGt8EWhRcXnj=2G7E1KOq4E-PGUX53wBoCXAsmSr_g@mail.gmail.com>
+Message-ID: <CAK7LNARRzGt8EWhRcXnj=2G7E1KOq4E-PGUX53wBoCXAsmSr_g@mail.gmail.com>
+Subject: Re: [PATCH v2 0/6] Generate address range data for built-in modules
+To: Kris Van Hees <kris.van.hees@oracle.com>
+Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-modules@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	Steven Rostedt <rostedt@goodmis.org>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Jiri Olsa <olsajiri@gmail.com>, Elena Zannoni <elena.zannoni@oracle.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 16, 2024 at 4:21=E2=80=AFAM Florian Fainelli <f.fainelli@gmail.=
-com> wrote:
+On Thu, May 16, 2024 at 1:50=E2=80=AFAM Kris Van Hees <kris.van.hees@oracle=
+.com> wrote:
 >
-> Adding Olek and Masahiro,
->
-> On 5/14/24 21:05, Florian Fainelli wrote:
+> On Mon, May 13, 2024 at 01:43:15PM +0900, Masahiro Yamada wrote:
+> > On Sun, May 12, 2024 at 7:42???AM Kris Van Hees <kris.van.hees@oracle.c=
+om> wrote:
+> > >
+> > > Especially for tracing applications, it is convenient to be able to
+> > > refer to a symbol using a <module name, symbol name> pair and to be a=
+ble
+> > > to translate an address into a <nodule mname, symbol name> pair.  But
+> > > that does not work if the module is built into the kernel because the
+> > > object files that comprise the built-in module implementation are sim=
+ply
+> > > linked into the kernel image along with all other kernel object files=
+.
+> > >
+> > > This is especially visible when providing tracing scripts for support
+> > > purposes, where the developer of the script targets a particular kern=
+el
+> > > version, but does not have control over whether the target system has
+> > > a particular module as loadable module or built-in module.  When trac=
+ing
+> > > symbols within a module, referring them by <module name, symbol name>
+> > > pairs is both convenient and aids symbol lookup.  But that naming wil=
+l
+> > > not work if the module name information is lost if the module is buil=
+t
+> > > into the kernel on the target system.
+> > >
+> > > Earlier work addressing this loss of information for built-in modules
+> > > involved adding module name information to the kallsyms data, but tha=
+t
+> > > required more invasive code in the kernel proper.  This work never di=
+d
+> > > get merged into the kernel tree.
+> > >
+> > > All that is really needed is knowing whether a given address belongs =
+to
+> > > a particular module (or multiple modules if they share an object file=
+).
+> > > Or in other words, whether that address falls within an address range
+> > > that is associated with one or more modules.
+> > >
+> > > This patch series is baaed on Luis Chamberlain's patch to generate
+> > > modules.builtin.objs, associating built-in modules with their object
+> > > files.  Using this data, vmlinux.o.map and vmlinux.map can be parsed =
+in
+> > > a single pass to generate a modules.buitin.ranges file with offset ra=
+nge
+> > > information (relative to the base address of the associated section) =
+for
+> > > built-in modules.  The file gets installed along with the other
+> > > modules.builtin.* files.
 > >
 > >
-> > On 5/14/2024 9:17 AM, Andrew Lunn wrote:
-> >> On Tue, May 14, 2024 at 05:08:24PM +0100, Stephen Langstaff wrote:
-> >>> On Tue, May 14, 2024 at 1:32=E2=80=AFPM Andrew Lunn <andrew@lunn.ch> =
-wrote:
-> >>>
-> >>>> So try to making FIXED_PHY =3D m, and load it after dsa_loop_bdinfo.=
-ko.
-> >>>
-> >>> In my configuration FIXED_PHY is selected by several other modules:
-> >>>    =E2=94=82 Selected by [y]:
-> >>>    =E2=94=82   - FSL_DPAA_ETH [=3Dy] && NETDEVICES [=3Dy] && ETHERNET=
- [=3Dy] &&
-> >>> NET_VENDOR_FREESCALE [=3Dy] && FSL_DPAA [=3Dy] && FSL_FMAN [=3Dy]
-> >>>    =E2=94=82   - FWNODE_MDIO [=3Dy] && NETDEVICES [=3Dy] && MDIO_DEVI=
-CE [=3Dy] &&
-> >>> (ACPI [=3Dy] || OF [=3Dy] || COMPILE_TEST [=3Dn])
-> >>>    =E2=94=82   - OF_MDIO [=3Dy] && NETDEVICES [=3Dy] && MDIO_DEVICE [=
-=3Dy] && OF [=3Dy]
-> >>> && PHYLIB [=3Dy]
-> >>>
-> >>> ...so it looks pretty tied up with the MDIO support which I guess I
-> >>> will need for the real PHY!
-> >>>
-> >>> If I sorted out building the dsa_loop_bdinfo.c code as a built-in do
-> >>> you think that would solve the ordering issue?
 > >
-> > I have re-created the issue with CONFIG_FIXED_PHY=3Dy and for a reason =
-I
-> > do not yet understand the following rule:
+> > I still do not want to see modules.builtin.objs.
 > >
-> > obj-$(CONFIG_FIXED_PHY)                +=3D dsa_loop_bdinfo.o
 > >
-> > does not result in the kernel image containing the dsa_loop_bdinfo.o
-> > object symbols. I am fairly sure this worked when this was submitted
-> > back then, so give me a day or two to figure out why. AFAICT the make
-> > rule is simply not executed.
+> > During the vmlinux.o.map parse, every time an object path
+> > is encountered, you can open the corresponding .cmd file.
+> >
+> >
+> >
+> > Let's say, you have the following in vmlinux.o.map:
+> >
+> > .text          0x00000000007d4fe0     0x46c8 drivers/i2c/i2c-core-base.=
+o
+> >
+> >
+> >
+> > You can check drivers/i2c/.i2c-core-base.o.cmd
+> >
+> >
+> > $ cat drivers/i2c/.i2c-core-base.o.cmd | tr ' ' '\n' | grep KBUILD_MODF=
+ILE
+> > -DKBUILD_MODFILE=3D'"drivers/i2c/i2c-core"'
+> >
+> >
+> > Now you know this object is part of drivers/i2c/i2c-core
+> > (that is, its modname is "i2c-core")
+> >
+> >
+> >
+> >
+> > Next, you will get the following:
+> >
+> >  .text          0x00000000007dc550     0x13c4 drivers/i2c/i2c-core-acpi=
+.o
+> >
+> >
+> > $ cat drivers/i2c/.i2c-core-acpi.o.cmd | tr ' ' '\n' | grep KBUILD_MODF=
+ILE
+> > -DKBUILD_MODFILE=3D'"drivers/i2c/i2c-core"'
+> >
+> >
+> > This one is also a part of drivers/i2c/i2c-core
+> >
+> >
+> > You will get the address range of "i2c-core" without changing Makefiles=
+.
 >
-> Bisection landed on 227d72063fccb2d19b30fb4197fba478514f7d83 ("dsa:
-> simplify Kconfig symbols and dependencies") which appeared in v5.13 and
-> specifically this hunk being reverted back to how it was before gets us
-> the build results we want:
+> Thank you for this suggestion.  I have this approach now implemented, mak=
+ing
+> use of both KBUILD_MODFILE and KBUILD_MODNAME (both are needed to conclus=
+ively
+> determine that an object belongs to a module).
 >
-> diff --git a/drivers/net/Makefile b/drivers/net/Makefile
-> index 7ffd2d03efaf..5da6424bc6f8 100644
-> --- a/drivers/net/Makefile
-> +++ b/drivers/net/Makefile
-> @@ -45,7 +45,7 @@ obj-$(CONFIG_ARCNET) +=3D arcnet/
->   obj-$(CONFIG_DEV_APPLETALK) +=3D appletalk/
->   obj-$(CONFIG_CAIF) +=3D caif/
->   obj-$(CONFIG_CAN) +=3D can/
-> -obj-$(CONFIG_NET_DSA) +=3D dsa/
-> +obj-y +=3D dsa/
->   obj-$(CONFIG_ETHERNET) +=3D ethernet/
->   obj-$(CONFIG_FDDI) +=3D fddi/
->   obj-$(CONFIG_HIPPI) +=3D hippi/
+> However, this is not catching objects that are compiled from assembler so=
+urce,
+> because modfile_flags and modname_flags are not added to the assembler fl=
+ags,
+> and thus KBUILD_MODFILE and KBUILD_MODNAME are not present in the .cmd fi=
+le
+> for those objects.
 >
-> Masahiro, for context in drivers/net/dsa/Makefile we have this bit:
+> It would seem that it is harmless to add those flags to assembler flags, =
+so
+> would that be an acceptable solution?  It definitely would provide consis=
+tency
+> with non-asm objects.  And we already pass modfile and modname flags to t=
+he
+> non-asm builds for objects that most certainly do not belong in modules a=
+mnyway,
+> e.g.
 >
-> obj-$(CONFIG_NET_DSA_LOOP)      +=3D dsa_loop.o
-> ifdef CONFIG_NET_DSA_LOOP
-> obj-$(CONFIG_FIXED_PHY)         +=3D dsa_loop_bdinfo.o
-> endif
->
-> whereby we want dsa_loop.o to follow the value of CONFIG_NET_DSA_LOOP,
-> and we want dsa_loop_bdinfo.o to be either built as a module or built
-> into the kernel and we want to follow the value of CONFIG_FIXED_PHY
-> because there is a functional dependency between the two objects.
->
-> Prior to Olek's change this would work just fine because we would always
-> descend into drivers/net/dsa/ but after his change, and assuming that
-> CONFIG_NET_DSA=3Dm which is the case, then we no longer get
-> dsa_loop_bdinfo.o to be built at all when CONFIG_FIXED_PHY=3Dy.
-> Essentially only obj-m rules are being processed, obj-y rules are not.
->
-> That does not really seem intuitive to me as to why any suggestions on
-> how to fix that, short of unconditionally descending into the tree like
-> we used to?
+> $ cat arch/x86/boot/.cmdline.o.cmd| tr ' ' '\n' | grep -- -DKBUILD_MOD
+> -DKBUILD_MODFILE=3D'"arch/x86/boot/cmdline"'
+> -DKBUILD_MODNAME=3D'"cmdline"'
 
 
 
-"obj-m +=3D dsa/" means everything under dsa/ must be modular.
+I am fine with passing these to *.S files,
+as the -D is a preprocessor option.
 
 
 
-If there is a built-in object under dsa/ with CONFIG_NET_DSA=3Dm,
-you cannot do  "obj-$(CONFIG_NET_DSA) +=3D dsa/".
 
-
-You need to change it back to "obj-y +=3D dsa/".
-
-
->
-> Reproducer configuration available here:
->
-> https://gist.github.com/ffainelli/2650a832803b502b94b2d247209f61b1
->
-> rm drivers/net/dsa/*.o
-> ARCH=3Dx86 make drivers/net/dsa/
-> ls drivers/net/dsa/dsa_loop_bdinfo.o
->
-> Thanks!
-> --
-> Florian
->
-
-
---=20
+--
 Best Regards
 Masahiro Yamada
 
