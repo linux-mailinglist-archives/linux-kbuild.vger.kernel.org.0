@@ -1,56 +1,56 @@
-Return-Path: <linux-kbuild+bounces-1893-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1894-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46AB78C9A58
-	for <lists+linux-kbuild@lfdr.de>; Mon, 20 May 2024 11:29:53 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B13A8C9A7C
+	for <lists+linux-kbuild@lfdr.de>; Mon, 20 May 2024 11:38:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 022C72820CD
-	for <lists+linux-kbuild@lfdr.de>; Mon, 20 May 2024 09:29:52 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C1639B218C1
+	for <lists+linux-kbuild@lfdr.de>; Mon, 20 May 2024 09:38:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07B6F20B04;
-	Mon, 20 May 2024 09:29:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0193D1CD37;
+	Mon, 20 May 2024 09:38:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RqulF4ol"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LAGIgH48"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4F70200A0;
-	Mon, 20 May 2024 09:29:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C268417C67;
+	Mon, 20 May 2024 09:38:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716197382; cv=none; b=oNwKvLqBavjU96KxldNy3FjpB1ovTrW3RxTfmfq293tp9cwOiKPjQBrDsW1pQctve8Z7G8dPUKPuCDpTxOGCik0jybew0b0tDmps6rdkHfGevMSP7EelEEF94qNktp4SrvViVRYJqq9ZTqDYXivcHdk0a6lJprN0mhTdS1s6JFU=
+	t=1716197931; cv=none; b=iop5wq8NX4WBcPJQMzCGJvyY3PmsVA/tl6v1cTzOS0jz3Cz6ETa1JSwutiHiKRtEaDRk/AMjOtGR+GRNbtzTSj00UWHOYRmmAdFp9lmRKTODsIIHQZwNsFiJYfqbYyOtnqmmEBm+S2kTs6Pj+63OrCo/EPNtoqODpPrbQbd2M18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716197382; c=relaxed/simple;
-	bh=wkIQ0EfC9ZXbexE0omEhycHvMS8UHOTjdewsZ1jd6F0=;
+	s=arc-20240116; t=1716197931; c=relaxed/simple;
+	bh=f2ltlTJfrPXs5K86QOoQ6YuDR8HIGkk3pJMklKg3P6s=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=C3TcnVYnLt2OF76xIoNhuaWXpNj7Bdu0cHD/Z3IeHgPtqnBAeIGU4XkQaz4zFNqWnMFmHui1F9oBnz45cjer9doRtnJnGpcv9/6rgDufy2QriQoMR9o8zHEQvSZ59tnGmykXLJZ+hj1aZrT7Qn2R0FIaV/LAZuNCdF7odAUzIvE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RqulF4ol; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55D2CC4AF07;
-	Mon, 20 May 2024 09:29:42 +0000 (UTC)
+	 To:Cc:Content-Type; b=nZItjFs54f32rjSMRXa/7w/G6CnJzd3QxMuCO+uh1T5NuaML5GshdDF3EfXm4UmwmuFFOGbWHF0gUYRvzjpukoLyxzLWg1XNrx9J8AiA13srHsELExJYcUZt0L2QuUCGul4qRUpHdWBgtiDMqCRqjoKpacYWAhb7JTOVgCWdCIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LAGIgH48; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B15FC4AF08;
+	Mon, 20 May 2024 09:38:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716197382;
-	bh=wkIQ0EfC9ZXbexE0omEhycHvMS8UHOTjdewsZ1jd6F0=;
+	s=k20201202; t=1716197931;
+	bh=f2ltlTJfrPXs5K86QOoQ6YuDR8HIGkk3pJMklKg3P6s=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=RqulF4olbfNpIrNEey48enGnwQj2usi66rGuzVHEz/MOxkw4AxlmVsSOJGnd3WwgR
-	 e/CFtA50rbSsEbAIHxKIn8Su9IIoym6FAPESoYyxNwbDQJaSCCWIGNY2adTR1lgdMi
-	 y8BrMSB9CpzQNnrDF/+EC69TZg28xL156UYxOKiAZbFr0YqwPXzZ6WQUOAy/vrnJx/
-	 cXvdePAetd8/PZ8wmBRT/S3PAy+Np5w/hYHZeDku4ZncQsmHfnDCe0Fr6ZEPl2kbdm
-	 TCIo0DNjzLhvB/0tWhv394WzXKMHZO51Hht38tUNkqD5gv6bNQiXdNF0lDJr8W2s8T
-	 8AdDgU+NUC/jA==
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-52327368e59so4560741e87.1;
-        Mon, 20 May 2024 02:29:42 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXfTW5RFSW3Ye7ozusRSCfd6/oLHwHq3VTAdRUDBVXNVgZ1hrYyQDm4Ge+xDa6kUTmxNUXt2y4+kPDAFvgS2nex3n5ONXl1Y44N5WsNHkLKXMNt9oGJ4w08qbcYRO96OUWhiYi1h/4c5Myfa+VjbtikU5FPuVMcET3xokrfRA0l/Ayz2D5HNBEIrQfbfx8Z0w==
-X-Gm-Message-State: AOJu0Yy2V0ZbE3jqb7uTXR15iOVk73GRrXXwBkkrE/VcyNsGbgYgJEKN
-	OMrRJcUQ9YBg7RIV+J5CT3fdhlWvDBlwdJ6QIc/cRvnARu76skStCBz/p1vaqRpWDOdJBdIfaoY
-	fUZD0jT4J0coshEv0D94aqcg0jQs=
-X-Google-Smtp-Source: AGHT+IG54mJDXF0fFaV3TW54jIR7MyX+7xAvdaOhqvKFhOkcSnI8a2h5otSCeeeNqIiWsDxiscl5AffELnPKBQ8FWAM=
-X-Received: by 2002:a05:6512:290:b0:522:32c0:bb6e with SMTP id
- 2adb3069b0e04-52232c0bbf6mr16059976e87.23.1716197380961; Mon, 20 May 2024
- 02:29:40 -0700 (PDT)
+	b=LAGIgH48/HWLi4pMVeP+Y54RqB4nRlmrFadY+SSIZN1ms2/Z+Xq9ylVZZ6rabqH2H
+	 b8tqnMQtyZtQ2fh6A9Cpu6nfFBllRAFRUAgyHD1+DG7T3wS7/1/QaWau3k+6SMF1EI
+	 QN1PkIF/jln3DDg0aLxM/hrUAQGF9xIM5HPhX4PA8oC63RMuFWBnkSHxIcZ+VUGCxO
+	 fNdZyVKvb9SenaZSgiPncY6esb6ifpn9m9JoDhirxrJf/ByK8R7grQE/zHis4gAWhP
+	 EqEjr6bR3S4vQAjWLJQ7TX+QMxb0GpeXYtVTqXFgHBUG1SGKXrrUbSObjpC28Kvdvh
+	 QoK9rL9fNOz8A==
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-51f99f9e0faso4685543e87.2;
+        Mon, 20 May 2024 02:38:51 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCX/9vaFE6NOAsa94TAYSgboLg0Tz/XHCdx0IDlBUgyVbHGWGHqvKwz0D/jlvKT1K57UTX0CvVus+IwiKIqke2SnA2zccFEKLFYhzsTOAPW5sTP99HkWJr5G1tcZGppC2xsxb2e1USdMBqjot3gmfBqpEETM0hCnSnNJIqwA9gEvFH7wDebwRIeZSwatnqLZMA==
+X-Gm-Message-State: AOJu0Yx7FjM0Re0Wv3ANXDqSS+2G2BK47bBKh3NDdWPiRtidAV7ZVuv+
+	Gi0hXsCselPuUxBlEg3eck1o/725X6r2pd2Xl1PMlw6gOWB1H+jTb8SwUed9yfmxqLYJy6nd+tH
+	Wfs+4cAAFoiCcW882hMhegAs1VrI=
+X-Google-Smtp-Source: AGHT+IHJ50N0b6yVjcPEnuluIR3E+9C3M5NQS8+OA8xjBOBrvD4f0Q/6GXm3dzXglHKaJPbJ3/n8p7uD8nPWdAXamx8=
+X-Received: by 2002:a05:6512:3448:b0:520:76d0:b054 with SMTP id
+ 2adb3069b0e04-524590e5807mr610226e87.57.1716197930086; Mon, 20 May 2024
+ 02:38:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -60,9 +60,9 @@ MIME-Version: 1.0
 References: <20240517042839.544650-1-kris.van.hees@oracle.com> <20240517042839.544650-3-kris.van.hees@oracle.com>
 In-Reply-To: <20240517042839.544650-3-kris.van.hees@oracle.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Mon, 20 May 2024 18:29:04 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS6r4RUhm46g2Oop=VFPX08ibtadhiceH32Uo0CU4JL7A@mail.gmail.com>
-Message-ID: <CAK7LNAS6r4RUhm46g2Oop=VFPX08ibtadhiceH32Uo0CU4JL7A@mail.gmail.com>
+Date: Mon, 20 May 2024 18:38:13 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAST_SbaN9WQRM_k0xE1MUReJvn9AMSg4A1-9b9xotf67w@mail.gmail.com>
+Message-ID: <CAK7LNAST_SbaN9WQRM_k0xE1MUReJvn9AMSg4A1-9b9xotf67w@mail.gmail.com>
 Subject: Re: [PATCH v3 2/6] trace: add CONFIG_BUILTIN_MODULE_RANGES option
 To: Kris Van Hees <kris.van.hees@oracle.com>
 Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
@@ -102,47 +102,32 @@ a
 > +config BUILTIN_MODULE_RANGES
 > +       bool "Generate address range information for builtin modules"
 > +       depends on FTRACE
-
-
-This 'depends on' is redundant because this config is
-already located between 'if FTRACE' and 'endif'.
-
-
-
-I believe 2/6 thru 5/6 should be squashed into one commit.
-Adding only the config option does not make much sense.
-
-
-
-
 > +       select VMLINUX_MAP
-> +       help
-> +         When modules are built into the kernel, there will be no module=
- name
-> +         associated with its symbols in /proc/kallsyms.  Tracers may wan=
-t to
-> +         identify symbols by module name and symbol name regardless of w=
-hether
-> +         the module is configured as loadable or not.
-> +
-> +         This option generates modules.builtin.ranges in the build tree =
-with
-> +         offset ranges (per ELF section) for the module(s) they belong t=
-o.
-> +         It also records an anchor symbol to determine the load address =
-of the
-> +         section.
-> +
-> +         It is fully compatible with CONFIG_RANDOMIZE_BASE and similar l=
-ate-
-> +         address-modification options.
-> +
->  config BOOTTIME_TRACING
->         bool "Boot-time Tracing support"
->         depends on TRACING
-> --
-> 2.43.0
->
+
+
+
+I still got this warning.
+
+
+WARNING: unmet direct dependencies detected for VMLINUX_MAP
+  Depends on [n]: EXPERT [=3Dn]
+  Selected by [y]:
+  - BUILTIN_MODULE_RANGES [=3Dy] && FTRACE [=3Dy]
+
+
+
+
+
+I recommend changing 'select VMLINUX_MAP'
+to 'depends on VMLINUX_MAP'.
+
+
+
+BTW, do you need to put this inside 'if FTRACE'?
+
+FTRACE is not required to generate the ranges file.
+
+
 
 
 --=20
