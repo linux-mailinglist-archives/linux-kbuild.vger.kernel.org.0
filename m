@@ -1,113 +1,132 @@
-Return-Path: <linux-kbuild+bounces-1921-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1923-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB0EA8CC0BB
-	for <lists+linux-kbuild@lfdr.de>; Wed, 22 May 2024 13:59:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBE368CC1D0
+	for <lists+linux-kbuild@lfdr.de>; Wed, 22 May 2024 15:09:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D3F301C2137A
-	for <lists+linux-kbuild@lfdr.de>; Wed, 22 May 2024 11:59:47 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 09BBD1C22FD1
+	for <lists+linux-kbuild@lfdr.de>; Wed, 22 May 2024 13:09:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E68E97E101;
-	Wed, 22 May 2024 11:59:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 473C213D62E;
+	Wed, 22 May 2024 13:09:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hcnbO8mX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="poDW0loZ"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B488C757FD;
-	Wed, 22 May 2024 11:59:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F21913D61B;
+	Wed, 22 May 2024 13:09:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716379184; cv=none; b=f/52TquhnAuNeFI9XGI9/PRih+qtoiPcjikzmwK0Ry5vsfDMCYsCMbxshQ0E/X1v9s+Agzi8uZCP7MwwyTcri+TVPfxfm7NUSNOGXM0Ye0pS0uKyeZsK/ZHJXporLMIUgYZPIgX1+GBnt1AXXb5HPAjPfMQ5N9ejvbAA421azEo=
+	t=1716383366; cv=none; b=VXD5MJTJpe62DVvJvjr7XmtBbOmvnIjONpzv7jLK4xLHN+YoTMhvmz2Hc9qmrjNnMlhHpE2lmYXz5esNy42yM2vkIk+vIpul7S/P/MMHJd0bMDgmZHkumFPKjefkCPzD7aGyigJgEKlOAT3Pc2ycvWnLmzQ4t66qbuV6wTIRVpk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716379184; c=relaxed/simple;
-	bh=cuGc8Pu9YBooy2bz94a0RDTpxwgjGmzp7A3RCV71uBY=;
+	s=arc-20240116; t=1716383366; c=relaxed/simple;
+	bh=Kv5+WnTaVJBD6IREHmnDXA3uTTWYRvbi1jR7Z1Q9Brk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=l8WiGbyaSQBixlFRWV/WMnWU/81VurSjDfzE40kSygx/S0OfSUD9jI0B9iPcO5oHpdFszktQKZM1WIuzWZ+n1lC8506D0gfXXF7TLmyw5l7SqHxRoZGeYW16ZVuvgcCW8vRJzDy1BgaNI8FOKd6zSycQNIa5aF8JwQPxzoq6sUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hcnbO8mX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B298C4AF0E;
-	Wed, 22 May 2024 11:59:44 +0000 (UTC)
+	 To:Cc:Content-Type; b=DxiZ3FP0AKf1xPge+S81qGK0v+97jIiFo1twa25FdMgnzPVdl2Uaw2uga68AJgjrJ0Z4J/DAJ/mDggxCbxNg6/MF+ACmNWNZnVYtQX3datJHKp51cRhN6117qptmUSZNww24iszWOeAfURyrdCrHxpaoySedc7ZE66gjYohiPeg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=poDW0loZ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C42B5C4AF07;
+	Wed, 22 May 2024 13:09:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716379184;
-	bh=cuGc8Pu9YBooy2bz94a0RDTpxwgjGmzp7A3RCV71uBY=;
+	s=k20201202; t=1716383365;
+	bh=Kv5+WnTaVJBD6IREHmnDXA3uTTWYRvbi1jR7Z1Q9Brk=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=hcnbO8mXFpIc91wErXvGslZ3sgAyS68n+Y5nJuYxtxXdpA92NNES6C4Rd2jaQr4Ye
-	 XerDk0Wk7MSFONF2RF7Pq/6qN5F4Gk6qI72QMSHhTOOiqyLurtWb6KtAEQpCo5FvW3
-	 SQmEGrFlAHZ5ZvVCrjv8l2LEssQWura3MVi+J2W/yc60fhDk12N4LC/M6MSmx73uyl
-	 XXbX1O6HEZ32+bBS+kL2DewIh+hJdSORh5Yw2DdMYi3wBu44suBRmMLpU5oxWH63Qx
-	 RRC9WChlu4vOeiYIjRAfssZC1fzcVO7Xfn3fXNdnlXpBnS4O8pNuDo0rzLz+/40/oW
-	 mn3THbRU1bZ+Q==
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2e3b1b6e9d1so75567341fa.2;
-        Wed, 22 May 2024 04:59:44 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVeqQQFtj9EcIDpg2KdDFI5/5JA/Fz9dGZIFsBwNymOHLHhElZju/3GiUodwLj5etdumDr/+kZ3EG8u/DwJNVlCAQg+a0ULOcwnJ38Q5ARoeKtlWX2D7TGAFp6dGGaWNR9SdPTptxXTz//VRQ17UL/bopV9AroMDgHTAnJ7A1xa2yRVzBp/9S7JAbc=
-X-Gm-Message-State: AOJu0YxJsLh7f6T5NiwU+/rEFKYQTsvfNs5sQdAZRfb3PYJFL2vsOJEO
-	9ZVhZOIE0u5zuPhe6lodrPNS9Jk8Jzpd4biPqyRrYN3ryKiG9Pewd1TuKsXLHmKe6dsgC6RxYMe
-	qGdzX6dwMC0szPA28obafC7syQKU=
-X-Google-Smtp-Source: AGHT+IFPDTl0Xas48io8ucKnx9sinCtylTniInZ1t2wKyn685dcWLc2Vn6GNhQryETbGWnVDTr0biA4YngfFKpJz2nY=
-X-Received: by 2002:a2e:8904:0:b0:2e7:1bb6:2e8b with SMTP id
- 38308e7fff4ca-2e949540f5dmr11986731fa.35.1716379182789; Wed, 22 May 2024
- 04:59:42 -0700 (PDT)
+	b=poDW0loZeq0Y6t5QLZ1PjgH9v3JwxiaY5ZpielpyoNngiIjx2V7Mb1ZLrb4Q6N3x2
+	 RxDQ/Yj6+f9l2d+ot+xWjxUoLN7GO8RwGgrNP5X+84bXAjkUJNov4T6vSCXAk5H0GW
+	 PxkNmN3MNXCITPpR5gj5ayEHAbpxqDh3fSVJaQjVYZsVWblRQmsJJfOWbUWXu9FIwA
+	 mj/2mLrIRWNfP6kjBbks8BrcA5m5E4og1houhBgmXpmxULsOpEK+Ha+DQR63L29G1D
+	 UrCT+XqF3JdDI894eij7Xy3iXhJLFIHju5Q2pxDEAzxG70PX+pgHlU/JqVO6GPfqhR
+	 rU7ktbZ2X40IQ==
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-52232d0e5ceso6660311e87.0;
+        Wed, 22 May 2024 06:09:25 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVGXnr38RzBmhsdzV1ddoj9PFRezx67GJh8uichxyj+qTyyI/nLeQFNWW05XdtPA9jixQ7+8rEkfTAlDW9n2F3k62/RulSnVEzI3FFlR77gxllD4NQTFENzriJhCR81rD2Xv3eCJ4rExJ4D
+X-Gm-Message-State: AOJu0YwTNbO4wZCGKlWNGQKbDJjpF/yx7Q+w87PjgRhna0Xl+lqhXAvC
+	JxZkUb0GRd5MyMpY5rg1l+LHKH9xl2auWyGXQnY2BvuzU65N/B834q+ZLDBuSzYX5KPOGfr5l6d
+	OG57tNUQlQznIXojnPREbxXqGnno=
+X-Google-Smtp-Source: AGHT+IE3gAzviqWfLTIVrWjs4enKNakVPe+ZmsqABvayKtzYr4xyoqHbcSrBzRRggpKDNlQ0n2ng/B38UW675N5JqFQ=
+X-Received: by 2002:ac2:5e85:0:b0:51f:d72:cd2d with SMTP id
+ 2adb3069b0e04-526bf35cb2amr1185340e87.22.1716383364324; Wed, 22 May 2024
+ 06:09:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240519211235.589325-1-ojeda@kernel.org> <20240519211235.589325-2-ojeda@kernel.org>
- <CAK7LNATPx2wTEM=KDmGtcH8vVTB4suOhh-CUQKP54F8wtPWDiw@mail.gmail.com>
- <CANiq72mcdtNie=t=HHhZnjQa7gQiDZin+TYP_7Rgi4kL83H2BA@mail.gmail.com>
- <CAK7LNASYYYsiZUaA1StD9kWO0WBC0PBPtfY7u32g94WtOPFZgw@mail.gmail.com> <CANiq72mzTaKYJqNcv1qT3nXEbh_t7CwaAqxCuYNcx9eHOZf7wQ@mail.gmail.com>
-In-Reply-To: <CANiq72mzTaKYJqNcv1qT3nXEbh_t7CwaAqxCuYNcx9eHOZf7wQ@mail.gmail.com>
+References: <20240521065107.30371-1-wenst@chromium.org>
+In-Reply-To: <20240521065107.30371-1-wenst@chromium.org>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Wed, 22 May 2024 20:58:46 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQkUik_VW7j-d56Pr4NnExxDnjMfWSwtxvijH4q4Onctg@mail.gmail.com>
-Message-ID: <CAK7LNAQkUik_VW7j-d56Pr4NnExxDnjMfWSwtxvijH4q4Onctg@mail.gmail.com>
-Subject: Re: [PATCH 2/3] kbuild: rust: apply `CONFIG_WERROR` to all Rust targets
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Wedson Almeida Filho <wedsonaf@gmail.com>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
-	Alice Ryhl <aliceryhl@google.com>, linux-kbuild@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	patches@lists.linux.dev
+Date: Wed, 22 May 2024 22:08:47 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQC+z51RcaDKqFWs7AmFJvwvpZJ2NO2eKTbPbP-BGuAkw@mail.gmail.com>
+Message-ID: <CAK7LNAQC+z51RcaDKqFWs7AmFJvwvpZJ2NO2eKTbPbP-BGuAkw@mail.gmail.com>
+Subject: Re: [PATCH 0/2] scripts/make_fit fix and disabled compression for DTBs
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Simon Glass <sjg@chromium.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 22, 2024 at 7:52=E2=80=AFPM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
+On Tue, May 21, 2024 at 3:51=E2=80=AFPM Chen-Yu Tsai <wenst@chromium.org> w=
+rote:
 >
-> On Wed, May 22, 2024 at 12:14=E2=80=AFPM Masahiro Yamada <masahiroy@kerne=
-l.org> wrote:
-> >
-> > What does "everything else" mean exactly?
+> Hi folks,
 >
-> Everything but the host programs. Or as many targets as possible, if
-> you think there are other cases that we should avoid.
-
-
-You can do this if rebuilding makes sense
-when any CONFIG option is changed.
-
-
-
-> > Why is the .config required for generating documentation?
+> Here are a couple changes for the FIT image packing script. While
+> unreleated, they are sent together because the change context overlaps.
 >
-> `rustdoc` sees the code in a similar way as the compiler (it uses
-> parts of the compiler); in particular, it processes conditional
-> compilation like the compiler. So we need a given configuration to
-> generate it.
+> The first patch drops the compatible string property from the fdt image
+> nodes. According to the FIT image spec, the compatible string in the
+> (fdt/kernel) image node is used to specify special loading mechanisms,
+> and is _not_ for identifying the DTB.
 
-Surprising.
+This makes sense.
 
-It potentially generates different documentations
-depending on the .config file.
 
+> The second patch adds an option that disables compression for _just_ the
+> included DTBs. This is needed for RK3399 and MT8173 based Chromebooks,
+> whose firmware does not support decompressing DTBs, but does need kernel
+> image compression to fit the image within their relatively small image
+> size of 32 MiB.
+
+
+Any platform that wants to use scripts/make_fit.py
+must implement decompression of DTBs.
+(or does not compress anything)
+
+Otherwise, RK3399 and MT8173 cannot use this script.
+
+I will not add any weird knob to it.
+
+
+
+
+
+
+>
+> Please take a look.
+>
+>
+> Thanks
+> ChenYu
+>
+>
+> Chen-Yu Tsai (2):
+>   scripts/make_fit: Drop fdt image entry compatible string
+>   scripts/make_fit: Add option to disable compression for DTBs
+>
+>  scripts/Makefile.lib |  1 +
+>  scripts/make_fit.py  | 14 +++++++++++---
+>  2 files changed, 12 insertions(+), 3 deletions(-)
+>
+> --
+> 2.45.0.215.g3402c0e53f-goog
+>
+>
 
 
 --=20
