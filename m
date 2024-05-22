@@ -1,240 +1,116 @@
-Return-Path: <linux-kbuild+bounces-1920-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1922-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FC5B8CC097
-	for <lists+linux-kbuild@lfdr.de>; Wed, 22 May 2024 13:48:50 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C667F8CC0BE
+	for <lists+linux-kbuild@lfdr.de>; Wed, 22 May 2024 14:00:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B9913284441
-	for <lists+linux-kbuild@lfdr.de>; Wed, 22 May 2024 11:48:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F219F1C2178F
+	for <lists+linux-kbuild@lfdr.de>; Wed, 22 May 2024 12:00:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3657D13DB99;
-	Wed, 22 May 2024 11:48:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 551D513D61B;
+	Wed, 22 May 2024 11:59:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mfl0hj3R"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RHwfFnIt"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CC3413D527;
-	Wed, 22 May 2024 11:48:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29A0F757FD;
+	Wed, 22 May 2024 11:59:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716378491; cv=none; b=D9MoFM5P2xfmdbT26RKXh9066TJhzqRgz5mfd4XmKEbGgp0lIKn0/CA4ZonW4ihTsOpjChUouihuQrSxvEo6eN5Vq1qFTiVfPRylxQfxL81sK7WuqmrRxWHsBExM6EbnTY3BZn+TwsUT7/SvFcAZhvC09woxeQR5J0vnlD3ZMkE=
+	t=1716379189; cv=none; b=o5qt9NCl51Zk4UrvN6dQxA3U5e3GjlE6mSho8YpDmhCOPJICa5pNyvr2GEBBjVDOGeMMyZ1BDo7HgJO9t+2hXkXymq6vsp1IueBHq2nM4INUDSrvrQdMxm35trbJmdkkO2kFs4A2j9DL6nKL9KEf1d2Gz4E6rtkBrk7k6pQ0BcM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716378491; c=relaxed/simple;
-	bh=JhSsoxg2OnXowswdGxhNRnAS5xMCOcv54bgZanDVXKg=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=hDpdxpaXFWDYzLZdIUdBuA6EDz7PkgJfngK3MgSOSSTBleko6jFvb5dPMadNVkxJrwal+GTH8z66yG18pwhhNR0Udv6+XCPWJ905kZcVohRatRqFJU2MpJ286ln1AhnCn5rGE22i2/46piz4i5nIgC03kUawM9wcrkexWg9rSYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mfl0hj3R; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A91FC4AF08;
-	Wed, 22 May 2024 11:48:09 +0000 (UTC)
+	s=arc-20240116; t=1716379189; c=relaxed/simple;
+	bh=cuGc8Pu9YBooy2bz94a0RDTpxwgjGmzp7A3RCV71uBY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=urRu4HFSjjiGFy+qSpPouxgCSPI2C4S7p79Z3zK4+ttRJzF8m0lA9v2Drw/8yl09W1dM5jtXMU+PynyQZTjSswfeSqpqNkcH8Z+ESVZLems4a0JYc5LM+uMhOdf+YzL1QX26QYjwzwRr/HonjZfotkDDGLoDL5Fh1Uz+x9p+2K0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RHwfFnIt; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF304C4AF0C;
+	Wed, 22 May 2024 11:59:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716378490;
-	bh=JhSsoxg2OnXowswdGxhNRnAS5xMCOcv54bgZanDVXKg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=mfl0hj3RfpjA19v73hu4iaH4EPTujvIlYiKndOFyuITde7PyQPwgKpf6zg8rW7OEN
-	 yQAUd3VKViNe+uJf6OeFbl3WmlTlHA20l6SRgJ31xBtlGTjxy6mAI11Wy/lvLzBv/w
-	 Jdx3AoudUEG/on82ClJ40FlncF2yrCJ5s4E4eruTJkZoWtWvQG66F8xoRwD0wO1xLe
-	 tTM5LVvaD/ED45o4El8HUVh7GTz4M1kdTJtAG6AP7FOrQHBYxln3ZkYRcYkdAj3b/h
-	 17S/R0SwLZlv7rRFdwYOugmCafCHNzdY1eEyuCdQ8f8Luj5uOEKKknSvKMONhyOr6y
-	 sid1rZLz8oHTw==
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: linux-kbuild@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	bpf@vger.kernel.org,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>
-Subject: [PATCH 3/3] kbuild: merge temp vmlinux for CONFIG_DEBUG_INFO_BTF and CONFIG_KALLSYMS
-Date: Wed, 22 May 2024 20:47:55 +0900
-Message-Id: <20240522114755.318238-4-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20240522114755.318238-1-masahiroy@kernel.org>
-References: <20240522114755.318238-1-masahiroy@kernel.org>
+	s=k20201202; t=1716379188;
+	bh=cuGc8Pu9YBooy2bz94a0RDTpxwgjGmzp7A3RCV71uBY=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=RHwfFnItv8LD2taa6jaAHrvWT+XxrJHlQkuHnzdBaZEWjmpHvJ7bsc48naAGRt75Z
+	 H6T46K610TUzNEtMko04OEKPCrT5OJgSFokQqAzbx0RvDZjMGGmpPglKwHDJOyYsuz
+	 5jJF93jH4oR0Z7eolRY+r0QNejd54D18pG06NILDfFyYY58DEX2dpDL0BDwVdwTMei
+	 Po1rPAPfhhfd9/tPn4i9dn0d7kLtIdBypuxlEzJqvPG8dmQ9dbWnbOySsAjNB711VC
+	 h2ZrAJ+B0vY2GqK2Za9tUd/FSwV4lopxx0kXM6Uv81DDG9kcOCCTyxOcIzx+mB540R
+	 c4Kbhshiz7TAQ==
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-572e48f91e9so11183232a12.0;
+        Wed, 22 May 2024 04:59:48 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWlnMrn7obYEDIcDBR/NQa62ReR+e679myHHJQAICzoQUbHeJTuUX3CbBVcYOWWub6rdMSQYxBxCKbdXbagp7ADruS9FCc8CPEem0IWh2VifXKKCY7fWte+MZVBfipbGl5RhvAiZRsfojac3vBkAPTAzDVxvsqkHxUWTfo2FDoKeqjzgOE8yqFYshs=
+X-Gm-Message-State: AOJu0Ywfd5Hdmz6PvQmeRBk9qYg3waznPoGaVDB4z6YESQkVPcF5qf6w
+	nvFxK0jiNZNJ8QGPPCT0o0OM6BLrdA+wJt48OP+FlhxymSM/YooTNtzdJUY88Zy8+hYyaGGNiU/
+	D/HbdUuZZHHx1vviGPqCxJcx83zI=
+X-Google-Smtp-Source: AGHT+IHk+CMXXdznhyC6NiX8Q4L+PrjPhLJ1J+2v+YFGNPc4PubPHIgL3xICBwAhXA6j3E+g1zBDCYvwUlS7NAzH8MA=
+X-Received: by 2002:a50:a6de:0:b0:575:899:d6a0 with SMTP id
+ 4fb4d7f45d1cf-57832abb39dmr1207229a12.23.1716379187716; Wed, 22 May 2024
+ 04:59:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240519211235.589325-1-ojeda@kernel.org> <20240519211235.589325-2-ojeda@kernel.org>
+ <CAK7LNATPx2wTEM=KDmGtcH8vVTB4suOhh-CUQKP54F8wtPWDiw@mail.gmail.com>
+ <CANiq72mcdtNie=t=HHhZnjQa7gQiDZin+TYP_7Rgi4kL83H2BA@mail.gmail.com>
+ <CAK7LNASYYYsiZUaA1StD9kWO0WBC0PBPtfY7u32g94WtOPFZgw@mail.gmail.com> <CANiq72mzTaKYJqNcv1qT3nXEbh_t7CwaAqxCuYNcx9eHOZf7wQ@mail.gmail.com>
+In-Reply-To: <CANiq72mzTaKYJqNcv1qT3nXEbh_t7CwaAqxCuYNcx9eHOZf7wQ@mail.gmail.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Wed, 22 May 2024 20:58:46 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQkUik_VW7j-d56Pr4NnExxDnjMfWSwtxvijH4q4Onctg@mail.gmail.com>
+Message-ID: <CAK7LNAQkUik_VW7j-d56Pr4NnExxDnjMfWSwtxvijH4q4Onctg@mail.gmail.com>
+Subject: Re: [PATCH 2/3] kbuild: rust: apply `CONFIG_WERROR` to all Rust targets
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Wedson Almeida Filho <wedsonaf@gmail.com>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
+	Alice Ryhl <aliceryhl@google.com>, linux-kbuild@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	patches@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-CONFIG_DEBUG_INFO_BTF=y requires one additional link step.
-(.tmp_vmlinux.btf)
+On Wed, May 22, 2024 at 7:52=E2=80=AFPM Miguel Ojeda
+<miguel.ojeda.sandonis@gmail.com> wrote:
+>
+> On Wed, May 22, 2024 at 12:14=E2=80=AFPM Masahiro Yamada <masahiroy@kerne=
+l.org> wrote:
+> >
+> > What does "everything else" mean exactly?
+>
+> Everything but the host programs. Or as many targets as possible, if
+> you think there are other cases that we should avoid.
 
-CONFIG_KALLSYMS=y requires two additional link steps.
-(.tmp_vmlinux.kallsyms1 and .tmp_vmlinux.kallsyms2)
 
-Enabling both requires three additional link steps.
+You can do this if rebuilding makes sense
+when any CONFIG option is changed.
 
-When CONFIG_DEBUG_INFO_BTF=y and CONFIG_KALLSYMS=y, the build step looks
-as follows:
 
-    KSYMS   .tmp_vmlinux.kallsyms0.S
-    AS      .tmp_vmlinux.kallsyms0.o
-    LD      .tmp_vmlinux.btf             # temp vmlinux for BTF
-    BTF     .btf.vmlinux.bin.o
-    LD      .tmp_vmlinux.kallsyms1       # temp vmlinux for kallsyms step 1
-    NM      .tmp_vmlinux.kallsyms1.syms
-    KSYMS   .tmp_vmlinux.kallsyms1.S
-    AS      .tmp_vmlinux.kallsyms1.o
-    LD      .tmp_vmlinux.kallsyms2       # temp vmlinux for kallsyms step 2
-    NM      .tmp_vmlinux.kallsyms2.syms
-    KSYMS   .tmp_vmlinux.kallsyms2.S
-    AS      .tmp_vmlinux.kallsyms2.o
-    LD      vmlinux                      # final vmlinux
 
-This is redundant because the BTF generation and the kallsyms step 1 can
-be performed against the same temporary vmlinux.
+> > Why is the .config required for generating documentation?
+>
+> `rustdoc` sees the code in a similar way as the compiler (it uses
+> parts of the compiler); in particular, it processes conditional
+> compilation like the compiler. So we need a given configuration to
+> generate it.
 
-When both CONFIG_DEBUG_INFO_BTF and CONFIG_KALLSYMS are enabled, we can
-reduce the number of link steps.
+Surprising.
 
-The build step will look as follows:
+It potentially generates different documentations
+depending on the .config file.
 
-    KSYMS   .tmp_vmlinux0.kallsyms.S
-    AS      .tmp_vmlinux0.kallsyms.o
-    LD      .tmp_vmlinux1                # temp vmlinux for BTF and kallsyms step 1
-    BTF     .tmp_vmlinux1.btf.o
-    NM      .tmp_vmlinux1.syms
-    KSYMS   .tmp_vmlinux1.kallsyms.S
-    AS      .tmp_vmlinux1.kallsyms.o
-    LD      .tmp_vmlinux2                # temp vmlinux for kallsyms step 2
-    NM      .tmp_vmlinux2.syms
-    KSYMS   .tmp_vmlinux2.kallsyms.S
-    AS      .tmp_vmlinux2.kallsyms.o
-    LD      vmlinux                      # final link
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
 
- scripts/link-vmlinux.sh | 45 +++++++++++++++++++++--------------------
- 1 file changed, 23 insertions(+), 22 deletions(-)
-
-diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-index fe7db9a265ca..ea004aae6ce5 100755
---- a/scripts/link-vmlinux.sh
-+++ b/scripts/link-vmlinux.sh
-@@ -105,10 +105,10 @@ vmlinux_link()
- 
- # generate .BTF typeinfo from DWARF debuginfo
- # ${1} - vmlinux image
--# ${2} - file to dump raw BTF data into
- gen_btf()
- {
- 	local pahole_ver
-+	local btf_data=${1}.btf.o
- 
- 	if ! [ -x "$(command -v ${PAHOLE})" ]; then
- 		echo >&2 "BTF: ${1}: pahole (${PAHOLE}) is not available"
-@@ -121,18 +121,16 @@ gen_btf()
- 		return 1
- 	fi
- 
--	vmlinux_link ${1}
--
--	info "BTF" ${2}
-+	info BTF "${btf_data}"
- 	LLVM_OBJCOPY="${OBJCOPY}" ${PAHOLE} -J ${PAHOLE_FLAGS} ${1}
- 
--	# Create ${2} which contains just .BTF section but no symbols. Add
-+	# Create ${btf_data} which contains just .BTF section but no symbols. Add
- 	# SHF_ALLOC because .BTF will be part of the vmlinux image. --strip-all
- 	# deletes all symbols including __start_BTF and __stop_BTF, which will
- 	# be redefined in the linker script. Add 2>/dev/null to suppress GNU
- 	# objcopy warnings: "empty loadable segment detected at ..."
- 	${OBJCOPY} --only-section=.BTF --set-section-flags .BTF=alloc,readonly \
--		--strip-all ${1} ${2} 2>/dev/null
-+		--strip-all ${1} "${btf_data}" 2>/dev/null
- 	# Change e_type to ET_REL so that it can be used to link final vmlinux.
- 	# GNU ld 2.35+ and lld do not allow an ET_EXEC input.
- 	if is_enabled CONFIG_CPU_BIG_ENDIAN; then
-@@ -140,9 +138,9 @@ gen_btf()
- 	else
- 		et_rel='\1\0'
- 	fi
--	printf "${et_rel}" | dd of=${2} conv=notrunc bs=1 seek=16 status=none
-+	printf "${et_rel}" | dd of="${btf_data}" conv=notrunc bs=1 seek=16 status=none
- 
--	btf_vmlinux_bin_o=${2}
-+	btf_vmlinux_bin_o=${btf_data}
- }
- 
- # Create ${2}.o file with all symbols from the ${1} object file
-@@ -176,15 +174,13 @@ kallsyms()
- 	kallsymso=${2}.o
- }
- 
--# Perform one step in kallsyms generation, including temporary linking of
--# vmlinux.
--kallsyms_step()
-+# Perform kallsyms for the given temporary vmlinux.
-+sysmap_and_kallsyms()
- {
--	kallsyms_vmlinux=.tmp_vmlinux.kallsyms${1}
-+	mksysmap "${1}" "${1}.syms"
-+	kallsyms "${1}.syms" "${1}.kallsyms"
- 
--	vmlinux_link "${kallsyms_vmlinux}"
--	mksysmap "${kallsyms_vmlinux}" "${kallsyms_vmlinux}.syms"
--	kallsyms "${kallsyms_vmlinux}.syms" "${kallsyms_vmlinux}"
-+	kallsyms_sysmap=${1}.syms
- }
- 
- # Create map file with all symbols from ${1}
-@@ -226,12 +222,15 @@ kallsymso=
- btf_vmlinux_bin_o=
- 
- if is_enabled CONFIG_KALLSYMS; then
--	# kallsyms step 0
--	kallsyms /dev/null .tmp_vmlinux.kallsyms0
-+	kallsyms /dev/null .tmp_vmlinux0.kallsyms
-+fi
-+
-+if is_enabled CONFIG_KALLSYMS || is_enabled CONFIG_DEBUG_INFO_BTF; then
-+	vmlinux_link .tmp_vmlinux1
- fi
- 
- if is_enabled CONFIG_DEBUG_INFO_BTF; then
--	if ! gen_btf .tmp_vmlinux.btf .btf.vmlinux.bin.o ; then
-+	if ! gen_btf .tmp_vmlinux1; then
- 		echo >&2 "Failed to generate BTF for vmlinux"
- 		echo >&2 "Try to disable CONFIG_DEBUG_INFO_BTF"
- 		exit 1
-@@ -264,14 +263,16 @@ if is_enabled CONFIG_KALLSYMS; then
- 	# a)  Verify that the System.map from vmlinux matches the map from
- 	#     ${kallsymso}.
- 
--	kallsyms_step 1
-+	sysmap_and_kallsyms .tmp_vmlinux1
- 	size1=$(${CONFIG_SHELL} "${srctree}/scripts/file-size.sh" ${kallsymso})
- 
--	kallsyms_step 2
-+	vmlinux_link .tmp_vmlinux2
-+	sysmap_and_kallsyms .tmp_vmlinux2
- 	size2=$(${CONFIG_SHELL} "${srctree}/scripts/file-size.sh" ${kallsymso})
- 
- 	if [ $size1 -ne $size2 ] || [ -n "${KALLSYMS_EXTRA_PASS}" ]; then
--		kallsyms_step 3
-+		vmlinux_link .tmp_vmlinux3
-+		sysmap_and_kallsyms .tmp_vmlinux3
- 	fi
- fi
- 
-@@ -295,7 +296,7 @@ fi
- 
- # step a (see comment above)
- if is_enabled CONFIG_KALLSYMS; then
--	if ! cmp -s System.map ${kallsyms_vmlinux}.syms; then
-+	if ! cmp -s System.map ${kallsyms_sysmap}; then
- 		echo >&2 Inconsistent kallsyms data
- 		echo >&2 'Try "make KALLSYMS_EXTRA_PASS=1" as a workaround'
- 		exit 1
--- 
-2.40.1
-
+--=20
+Best Regards
+Masahiro Yamada
 
