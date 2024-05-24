@@ -1,218 +1,199 @@
-Return-Path: <linux-kbuild+bounces-1930-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1931-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE2968CD986
-	for <lists+linux-kbuild@lfdr.de>; Thu, 23 May 2024 19:54:52 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63FBD8CE101
+	for <lists+linux-kbuild@lfdr.de>; Fri, 24 May 2024 08:30:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C73A71C2112F
-	for <lists+linux-kbuild@lfdr.de>; Thu, 23 May 2024 17:54:51 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C3398B21395
+	for <lists+linux-kbuild@lfdr.de>; Fri, 24 May 2024 06:30:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E3EC7D086;
-	Thu, 23 May 2024 17:54:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E25F782D94;
+	Fri, 24 May 2024 06:30:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ba0uMqih"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="EMaqoDX1"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B09F02628D
-	for <linux-kbuild@vger.kernel.org>; Thu, 23 May 2024 17:54:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1349C381DF
+	for <linux-kbuild@vger.kernel.org>; Fri, 24 May 2024 06:30:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716486888; cv=none; b=FtWg500+61iTe52ZFa0Zv7CDLEP0/Eu1EebwUoxzhXOnf71t7C3YJYDrusphKSHyPdWzu94cthll+55Y0OlQ58ALEDyCfammspmDLCNMedaOzgqZWO3YWCohNVP9nLCybRXnoK7MvQRrn1lCHQR/mhHOj/wLwuzPXC546Mi9lHo=
+	t=1716532207; cv=none; b=U7Q1KVY8GK124NQLfgCpV8TKkYLA9gV0mKaY8QFFxoVEy97/bxiGVdJnh2ePjkNwtI2po04XlnejYDlknGsisUvf0srsVxdife4YOfMELTG8b5ujjrWtNn64AhbZRgGK2Tbi4Eirx1RzipKqrrSvfJOYnUGuu9fy8MssRibivcE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716486888; c=relaxed/simple;
-	bh=c67DBU0JOOdQ31c7v15ZkH1hGs/C0NgonECxREvfppY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZcdT/b/YXeF3WkbGGbleAZKxbdGPo/pOBqXr0EnuYGHUWrp4Lki7/f3vvMNodED+Au/UdUf8JqD5ecs7HCBWvqB/4+Bzp80rVlio5S1trTG2ENAW0dXmXQ6rQI3BCtxYkbXckJPSaUDAHJESV/MnOPPOiLIquw/qJyjvQ3vt1mQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ba0uMqih; arc=none smtp.client-ip=209.85.210.179
+	s=arc-20240116; t=1716532207; c=relaxed/simple;
+	bh=adRMVZFOo8n4Lp8qXFwp7T0+eBAt1CyOUUEMa8+WtOc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mcpLv0zmghRl58ozrdhN4/Dj56uziB9wvd5pdRG3ZgfpvmE6P/6JVzSiKCHiG8gaU2MHU2wRtNw4mLjNgtdRXM6Nt1DJ5nMs9rOG9R+PeIR92pfIfxnjkrh3Wojep82uwip6Lu/NBTGUpqFJCOO9enHQFEInRAsSc24LYnrTq2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=EMaqoDX1; arc=none smtp.client-ip=209.85.208.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-6f8ec7e054dso26037b3a.2
-        for <linux-kbuild@vger.kernel.org>; Thu, 23 May 2024 10:54:46 -0700 (PDT)
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2e95a1d5ee2so8455941fa.0
+        for <linux-kbuild@vger.kernel.org>; Thu, 23 May 2024 23:30:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1716486886; x=1717091686; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=47lC7ijtn547x0R0hPQ82p/mqVSFuj8kT3KqISy3d6U=;
-        b=ba0uMqihAQ38cDyfJ91mYfo9e2jH24DEKbNe30DTBT0Z2UpolsXYkRGE9/OckaYuG4
-         G77lyRF8EjQmcTOmu6IG5CXjTB8xgGm3+tfDbmZ8bUtt4acK9sd9/b7+bCpJG1khJc4Y
-         +M3iR0PXQKBjJgTdU6D7RTMo539HoVsjz2S+g=
+        d=chromium.org; s=google; t=1716532204; x=1717137004; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JjZCA4a/oaOIu2JpjOcwxpVrFRIIv9mWByhFL++utuc=;
+        b=EMaqoDX11p4cKH4gCU3Z749DdDiG9Rtmm8wNCpjak/AXaNb2RmlA8W0NacxF1Hnksb
+         SEs7uzvxjjZwaMLmEnACFTe6/wOtfvo+zZrAWgiw8y1XCM+cXpy+D2/QXLqwpWn/IYZA
+         0JK2fsHGF+6/NuL/cMAQ2RnOMJxNiYpOuPbl4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716486886; x=1717091686;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=47lC7ijtn547x0R0hPQ82p/mqVSFuj8kT3KqISy3d6U=;
-        b=hFReY8Ak2frAfcdJpWim65eTV9h8SOKn/afu9cCONrqh0TKNJwZ1iW9ahdjeizByAx
-         QoOz5o8pnBiXVfLfUYvDtCeQ6okwQWKID5j3RXQaeSRWZI7baaiIx1FbAf7P4aiBWKlH
-         9cyX9i0CkwHpi32ARHoDL+k4z7zZIbccE137y1Ci4SpJq2SURtrG+/iWB5Z3rxOWMuWN
-         cCkR/A0FUqF7xBE2FaTS8Ex2lObdARM90DF+EC3zQx1qz22HvQqdWivzrUFydpGRJlOK
-         N17X4qGTkCBxoXsg+QUWPaPVq9yX5KIh0sGhDOtuosOJm7P1YTrtnTp+1V42Y7els5s7
-         E1Nw==
-X-Forwarded-Encrypted: i=1; AJvYcCXwpkkFeXB05Gr/t1AERheTW7F09j+3z6ZKkiJPg/msQFgRr0CEVpaMI7rFzpYx7r/zWuWzc2tfhx9v7mdta0X+LrNKAyQCROsZWdZe
-X-Gm-Message-State: AOJu0Yz8KVNw9M78LycDT1JyaeA686XRzhE0V7bfE2wWetzCEQskFV1R
-	OUNTFLPSr4TESygYlCPPfhHumpD/JPmusa1ErpJlItxhZQB8NRsaLGz6yG0CMQ==
-X-Google-Smtp-Source: AGHT+IG7Xl8MphHhX52hRJgi/F884JNQH7Otm0rVjbjgufYm1NmBktuLBdUx8CSOA0ZQpCDizRyNsA==
-X-Received: by 2002:a05:6a20:5526:b0:1b1:c745:ea2c with SMTP id adf61e73a8af0-1b212e32cb1mr182602637.56.1716486885802;
-        Thu, 23 May 2024 10:54:45 -0700 (PDT)
-Received: from localhost ([2620:15c:9d:2:63d1:d6fd:f357:4e52])
-        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-6f4d2ae0f62sm24335843b3a.103.2024.05.23.10.54.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 May 2024 10:54:45 -0700 (PDT)
-Date: Thu, 23 May 2024 10:54:44 -0700
-From: Brian Norris <briannorris@chromium.org>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Bjorn Helgaas <helgaas@kernel.org>, linux-kbuild@vger.kernel.org,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>
-Subject: Re: possible dependency error?
-Message-ID: <Zk-C5Eg84yt6_nml@google.com>
-References: <ZGVi9HbI43R5trN8@bhelgaas>
- <CAK7LNAQPXapu3Ydh9XaB2ggGqgfYX5mo0pHPNHDcnm=w3ubYag@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1716532204; x=1717137004;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JjZCA4a/oaOIu2JpjOcwxpVrFRIIv9mWByhFL++utuc=;
+        b=GAY68canF2PTFW4TFdVIoiTpjWsHbVr0TY6fzSiNvBoooPaWtvjLwa5NDKkvFl93Ct
+         mIX5So+kVKYEEce+RKmkf73NoAhD0Q5AQSmDuo8ZxYMd5XHBxqoCR0vV+ztPZs1Cm2YV
+         XRHn8kGeiphmbkj2H85rSV/c19f5ZUG0SNNzslbASIQBY33/laXm4PqcMQBSuHWQ/XN6
+         xKXTAZtQg+CNsluRM3oxSD83yWHR7oyGD51zBG9ty34ZQ34DcEdFBdoATJbcsbGl1ZVJ
+         l8doMrki7gYozD9BEDqZzzk2/j5gCka4QDRtQ+Z4Q4TYLU+euiIwFTy5e/OxEoIqEjCr
+         6c7Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXhgkqKpm5xyJsahU7SsEewerHXbTPMXhzGVv0HN07CNl+hflwzXAfGMVZ11BhvQmjL2g3lyZuWPhhm3baNFVjkNuVxwjaYjgAhP+Fy
+X-Gm-Message-State: AOJu0YwnpnMCFLuz/fWrZ8CYo0wP0QKf+M2kk8cS6KbIoi8553OXz+Wk
+	tsu2fXh9MV7ZrkVTdnjYsqcONJPNjrqKTXlNe2G8RXrNlGJzaiKklqdHdDdnR8NuwdRnqYWPi7F
+	RpseCeVhWxOwGWJp0kdNdNeFfCP06Cknh9I/U
+X-Google-Smtp-Source: AGHT+IF+6rmRYb97rGwJVuORX2APcqE3qIg4kXcmn4i7nMa9W7TFzVGEVxmlOgqVBWdEE/x+JQH6TsGv+PuCNf5WDcc=
+X-Received: by 2002:ac2:5a09:0:b0:51d:9f10:71b7 with SMTP id
+ 2adb3069b0e04-52965c2f877mr816173e87.28.1716532204095; Thu, 23 May 2024
+ 23:30:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK7LNAQPXapu3Ydh9XaB2ggGqgfYX5mo0pHPNHDcnm=w3ubYag@mail.gmail.com>
+References: <20240521065107.30371-1-wenst@chromium.org> <20240521065107.30371-2-wenst@chromium.org>
+ <CAFLszTgJpaWzJneZ-uReEGrE85MgGYOjJKxOL7jGCYMuVMPKUg@mail.gmail.com>
+ <CAGb2v67MQDep8gfPWgeQoew8URAZyPw6ocGEMxMnwzYYRa0PYg@mail.gmail.com> <CAFLszTh5M+4Vp8oR3t-=6vsROgVJa0NU4egfJu2QuugjAfbrsw@mail.gmail.com>
+In-Reply-To: <CAFLszTh5M+4Vp8oR3t-=6vsROgVJa0NU4egfJu2QuugjAfbrsw@mail.gmail.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Fri, 24 May 2024 14:29:53 +0800
+Message-ID: <CAGXv+5Eajy55kAcNzyZtsp9MJhD7EnNONW-JYsoadctaTjnxgA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] scripts/make_fit: Drop fdt image entry compatible string
+To: Simon Glass <sjg@chromium.org>
+Cc: wens@kernel.org, Masahiro Yamada <masahiroy@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Necromancing an old thread, since it identifies the same problem I've
-been poking at recently:
+Hi Simon,
 
-On Thu, May 18, 2023 at 05:26:28PM +0900, Masahiro Yamada wrote:
-> (+CC: Josh Poimboeuf,Peter Zijlstra, objtool maintainer)
-> 
-> On Thu, May 18, 2023 at 8:27 AM Bjorn Helgaas <helgaas@kernel.org> wrote:
+On Fri, May 24, 2024 at 1:38=E2=80=AFAM Simon Glass <sjg@chromium.org> wrot=
+e:
+>
+> Hi ChenYu,
+>
+> On Thu, 23 May 2024 at 11:30, Chen-Yu Tsai <wens@kernel.org> wrote:
 > >
-> > This is on v6.4-rc1.  I fat-fingered the make target (I intended
-> > "pciehp.o", not "pciehp.c"), then interrupted the build when I noticed
-> > my mistake:
+> > On Fri, May 24, 2024 at 1:19=E2=80=AFAM Simon Glass <sjg@chromium.org> =
+wrote:
+> > >
+> > > Hi Chen-Yu,
+> > >
+> > > On Tue, 21 May 2024 at 00:51, Chen-Yu Tsai <wenst@chromium.org> wrote=
+:
+> > > >
+> > > > According to the FIT image spec, the compatible string in the fdt i=
+mage
+> > >
+> > > Can you please add a link to where it says this in the spec? I cannot
+> > > find it after a short search.
 > >
-> >   06:04:15 ~/linux (hotplug)$ make drivers/pci/hotplug/pciehp.c
-> >     SYNC    include/config/auto.conf.cmd
-> >   ^Cmake: *** [include/config/auto.conf.cmd] Deleting file 'include/generated/rustc_cfg'
-> >   make: *** [include/config/auto.conf.cmd] Deleting file 'include/generated/autoconf.h'
-> >   make[2]: *** [scripts/kconfig/Makefile:77: syncconfig] Interrupt
-> >   make[1]: *** [Makefile:692: syncconfig] Interrupt
-> >   make: *** [Makefile:793: include/config/auto.conf.cmd] Interrupt
+> > (Quick reply from my other email before I forget.)
 > >
-> > Subsequent builds now fail ("pciehp.o" is *also* an incorrect target,
-> > but doesn't seem related to the error):
+> > From the FIT source file format document, found in U-boot source
+> > "doc/usage/fit/source_file_format.rst", or on the website:
+> > https://docs.u-boot.org/en/latest/usage/fit/source_file_format.html
 > >
-> >   06:04:22 ~/linux (hotplug)$ make drivers/pci/hotplug/pciehp.o
-> >     SYNC    include/config/auto.conf.cmd
-> >     UPD     include/config/kernel.release
-> >     UPD     include/generated/utsrelease.h
-> >     UPD     include/generated/compile.h
-> >     CC      scripts/mod/empty.o
-> >     MKELF   scripts/mod/elfconfig.h
-> >     HOSTCC  scripts/mod/modpost.o
-> >     CC      scripts/mod/devicetable-offsets.s
-> >     HOSTCC  scripts/mod/file2alias.o
-> >     HOSTCC  scripts/mod/sumversion.o
-> >     HOSTLD  scripts/mod/modpost
-> >     CC      kernel/bounds.s
-> >     CC      arch/x86/kernel/asm-offsets.s
-> >     CALL    scripts/checksyscalls.sh
-> >     DESCEND objtool
-> >     HOSTCC  /home/bjorn/linux/tools/objtool/fixdep.o
-> >     HOSTLD  /home/bjorn/linux/tools/objtool/fixdep-in.o
-> >     LINK    /home/bjorn/linux/tools/objtool/fixdep
-> >   make[4]: *** No rule to make target '/usr/include/x86_64-linux-gnu/bits/sys_errlist.h', needed by '/home/bjorn/linux/tools/objtool/libsubcmd/exec-cmd.o'.  Stop.
-> >   make[3]: *** [Makefile:80: /home/bjorn/linux/tools/objtool/libsubcmd/libsubcmd-in.o] Error 2
-> >   make[2]: *** [Makefile:78: /home/bjorn/linux/tools/objtool/libsubcmd/libsubcmd.a] Error 2
-> >   make[1]: *** [Makefile:73: objtool] Error 2
-> >   make: *** [Makefile:1440: tools/objtool] Error 2
+> > Under "'/images' node" -> "Conditionally mandatory property", the
+> > "compatible" property is described as "compatible method for loading im=
+age."
 > >
-> > I finally got the right target, but the build still fails:
+> > I'll add the reference in the next version.
+>
+> OK thank you.
+>
+> There is also a spec version at [1] - it might be worth adding mention
+> of this explicitly for the fdt nodes.
+
+It seems that this is already mentioned?
+
+See https://github.com/open-source-firmware/flat-image-tree/blob/main/sourc=
+e/chapter2-source-file-format.rst?plain=3D1#L343
+
+It looks like it was copied from U-boot directly.
+
+
+Regards,
+ChenYu
+
+> Regards,
+> Simon
+>
+> [1] https://github.com/open-source-firmware/flat-image-tree/
+>
 > >
-> >   06:04:39 ~/linux (hotplug)$ make drivers/pci/hotplug/
-> >     CALL    scripts/checksyscalls.sh
-> >     DESCEND objtool
-> >   make[4]: *** No rule to make target '/usr/include/x86_64-linux-gnu/bits/sys_errlist.h', needed by '/home/bjorn/linux/tools/objtool/libsubcmd/exec-cmd.o'.  Stop.
-> >   make[3]: *** [Makefile:80: /home/bjorn/linux/tools/objtool/libsubcmd/libsubcmd-in.o] Error 2
-> >   make[2]: *** [Makefile:78: /home/bjorn/linux/tools/objtool/libsubcmd/libsubcmd.a] Error 2
-> >   make[1]: *** [Makefile:73: objtool] Error 2
-> >   make: *** [Makefile:1440: tools/objtool] Error 2
 > >
-> > After "make distclean", everything works as expected, so maybe this is
-> > just the expected behavior after my initial user error?  I dunno; it
-> > seemed surprising.  Just FYI.
-
-I believe we've been hitting a similar issue at $JOB, which looks like
-the following (this is on a 5.15-ish kernel, but AFAICT everything is
-still relevant):
-
-make[5]: *** No rule to make target '[...]/tools/include/linux/compiler.h', needed by '[...]/tools/bpf/resolve_btfids/libsubcmd/exec-cmd.o'.  Stop.
-make[4]: *** [Makefile:59: [...]/tools/bpf/resolve_btfids/libsubcmd/libsubcmd-in.o] Error 2
-make[3]: *** [Makefile:45: [...]/tools/bpf/resolve_btfids//libsubcmd/libsubcmd.a] Error 2
-make[2]: *** [Makefile:72: bpf/resolve_btfids] Error 2
-make[1]: *** [[...]/Makefile:1401: tools/bpf/resolve_btfids] Error 2
-
-This particular case happens for us when the source tree is moving, but
-we're sharing an O= cache. This may or may not be a good idea, but
-AFAICT there still is a real bug underneath, which I explore below.
-
-> I do not know what is happening on your build machine,
-> but judging from the error log, something went wrong
-> while building objtool.
-> 
-> objtool Makefile is not a part of Kbuild.
-> The maintainers of objtool may have some insight.
-
-I'm no maintainer, but I found that the .exec-cmd.o.cmd dep file is
-generated incorrectly due to improper fixdep dependencies:
-
-$ head -2 [...]/tools/bpf/resolve_btfids/libsubcmd/.exec-cmd.o.cmd
-# cannot find fixdep ([...]/tools/bpf/resolve_btfids/libsubcmd//fixdep)
-# using basic dep data
-
-Now, this soft error is normally OK, as long as you don't have any
-missing or moved headers. But if these moved around, then normally the
-fixdep'd dependencies would help rebuild (and regenerate .cmd files with
-new paths) silently.
-
-The bad .cmd file is reliably reproduced by:
-
-# for an easier-to-build target that also builds libsubcmd:
-cd tools/objtool
-# for maximum cleanliness:
-git clean -xfd ..
-make
-head -2 libsubcmd/.exec-cmd.o.cmd
-
-(NB: if you look hard enough, you'll notice that we have a similar
-"cannot find fixdep" error for tools/.../.fixdep.o.cmd too. I have some
-analysis at https://issuetracker.google.com/313508829#comment32 --
-this one is publicly accessible -- but its solution would be more
-complex. I may raise a separate thread.)
-
-The following patch fixes libsubcmd stuff for me. I can resubmit in a
-proper patch form if desired, or feel free to scrape it as-is.
-
-Signed-off-by: Brian Norris <briannorris@chromium.org>
----
-
-diff --git a/tools/lib/subcmd/Makefile b/tools/lib/subcmd/Makefile
-index b87213263a5e..59b09f280e49 100644
---- a/tools/lib/subcmd/Makefile
-+++ b/tools/lib/subcmd/Makefile
-@@ -76,7 +76,7 @@ include $(srctree)/tools/build/Makefile.include
- 
- all: fixdep $(LIBFILE)
- 
--$(SUBCMD_IN): FORCE
-+$(SUBCMD_IN): fixdep FORCE
- 	@$(MAKE) $(build)=libsubcmd
- 
- $(LIBFILE): $(SUBCMD_IN)
+> > ChenYu
+> >
+> > > I believe this patch is correct. Since the information is in the
+> > > configuration node it does not need to be in the FDT.
+> > >
+> > > > node or any image node specifies the method to load the image, not =
+the
+> > > > compatible string embedded in the FDT or used for matching.
+> > > >
+> > > > Drop the compatible string from the fdt image entry node.
+> > > >
+> > > > While at it also fix up a typo in the document section of output_dt=
+b.
+> > > >
+> > > > Fixes: 7a23b027ec17 ("arm64: boot: Support Flat Image Tree")
+> > > > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> > > > ---
+> > > >  scripts/make_fit.py | 3 +--
+> > > >  1 file changed, 1 insertion(+), 2 deletions(-)
+> > > >
+> > > > diff --git a/scripts/make_fit.py b/scripts/make_fit.py
+> > > > index 3de90c5a094b..263147df80a4 100755
+> > > > --- a/scripts/make_fit.py
+> > > > +++ b/scripts/make_fit.py
+> > > > @@ -190,7 +190,7 @@ def output_dtb(fsw, seq, fname, arch, compress)=
+:
+> > > >      Args:
+> > > >          fsw (libfdt.FdtSw): Object to use for writing
+> > > >          seq (int): Sequence number (1 for first)
+> > > > -        fmame (str): Filename containing the DTB
+> > > > +        fname (str): Filename containing the DTB
+> > > >          arch: FIT architecture, e.g. 'arm64'
+> > > >          compress (str): Compressed algorithm, e.g. 'gzip'
+> > > >
+> > > > @@ -211,7 +211,6 @@ def output_dtb(fsw, seq, fname, arch, compress)=
+:
+> > > >          fsw.property_string('type', 'flat_dt')
+> > > >          fsw.property_string('arch', arch)
+> > > >          fsw.property_string('compression', compress)
+> > > > -        fsw.property('compatible', bytes(compat))
+> > > >
+> > > >          with open(fname, 'rb') as inf:
+> > > >              compressed =3D compress_data(inf, compress)
+> > > > --
+> > > > 2.45.0.215.g3402c0e53f-goog
+> > > >
+> > >
+> > > Regards,
+> > > Simon
+> > >
+> > > _______________________________________________
+> > > linux-arm-kernel mailing list
+> > > linux-arm-kernel@lists.infradead.org
+> > > http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
 
