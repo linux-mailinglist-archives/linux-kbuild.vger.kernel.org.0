@@ -1,270 +1,154 @@
-Return-Path: <linux-kbuild+bounces-1933-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1934-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 705CF8CF020
-	for <lists+linux-kbuild@lfdr.de>; Sat, 25 May 2024 18:36:29 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D0E48CF028
+	for <lists+linux-kbuild@lfdr.de>; Sat, 25 May 2024 18:43:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9E8CAB20DE5
-	for <lists+linux-kbuild@lfdr.de>; Sat, 25 May 2024 16:36:26 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7A74E1F215F4
+	for <lists+linux-kbuild@lfdr.de>; Sat, 25 May 2024 16:43:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFA9084FB0;
-	Sat, 25 May 2024 16:36:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC51F8593B;
+	Sat, 25 May 2024 16:43:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CXKevis5"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VQqtpjF9"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ABEA9473
-	for <linux-kbuild@vger.kernel.org>; Sat, 25 May 2024 16:36:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8F37487A5;
+	Sat, 25 May 2024 16:43:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716654981; cv=none; b=nPMoQMAnv4vxm+9BVqadF4A+sckkYO3d9qXSsmk0UIt/fxypf00QIG7VrJvbnpWUusO3CCcVTVeXPR4+1aFZLbWPFaFy4Wgb2OIdEZkFmYls2ZlmYRgPMG6FW7fhpCNdX6f+GWYFCguMu+dRsFDsuUUjgyo1cfEIeJ2ZUvFRB9Q=
+	t=1716655423; cv=none; b=c118QrdgyCSlZZlJnLdBDX7fiRLEquiUEm0LeVsb8LrSHs4GYduz2hgHKsSFbn2RQ4ohtnB2VllrxL/9y1F07Pde3aF0Y5DaH7wifqneblD195a6jm4UKibZFKhWeyD1P7yry5/quMm7dDtNj7RQprj5k4m4cX/TQR3153UuuxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716654981; c=relaxed/simple;
-	bh=5wnGE6GExmVoGgpNAGZ+MstfvsJXCgdwdodoS9dKjw0=;
+	s=arc-20240116; t=1716655423; c=relaxed/simple;
+	bh=BYvRVlfnOcEYCohSU9+i09Mb94lZWB25nxoPHqEd0Lo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ngSLvoyu1Xyf6XRACvqoHuJLmz5BYfB45PGf/BfQjcmQNRLmurPbm6W+RxZDKEYrueI+bIfWRFUGMx71E6lBTUaH1v50ReJjBNN/XTT0nR6KOPCM30TO72AD5qKt+QjHvEA1M/MKxIxBjnP5uIBeB8FftPho8NGoX4HbyfQGktY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CXKevis5; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67C25C32781
-	for <linux-kbuild@vger.kernel.org>; Sat, 25 May 2024 16:36:21 +0000 (UTC)
+	 To:Cc:Content-Type; b=I2O1ILAelfdsVYL3Js5DIXexgzRzDwGE/mpoWZVOb7KBJTFoHPn317XKWDT96ho7mNz8auqD2zAsMi764+sOcc+jGSumgxTpMrtJhp00EQrgQbuQ2xWguyHLakIHqPOT2zBgs/LpVZA0a81vlDU9ULp8hkScxGSueihonK8XmmQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VQqtpjF9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48C50C32782;
+	Sat, 25 May 2024 16:43:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716654981;
-	bh=5wnGE6GExmVoGgpNAGZ+MstfvsJXCgdwdodoS9dKjw0=;
+	s=k20201202; t=1716655423;
+	bh=BYvRVlfnOcEYCohSU9+i09Mb94lZWB25nxoPHqEd0Lo=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=CXKevis5oZesYhBS1baQJHT4rMqWcMALeeK/gF3CxRTVHuHFyLBZvITWHTGTLPEJO
-	 /kfzaPGLWaxs6dBkcUzdanSJLIEe0iOxuduK8NW2SDAzBAV3E0x7RK/HimZaoYHhOr
-	 k52PBdVLHQ53pfRdiXIYvI18DrVoNZFL9dw/77IKrMzRUs7xtKx8LtHpFr+in4dr6U
-	 aJ1VWkPss2ffIWgolt4HXO31QULXkCvnIhb5+xA2LGPd+lIfj7+3QlJA3A+uq18fxk
-	 nDOTGtVr5sQODs5hlaziFXaLdh3rB/oGqB/8gsz/zqlNdxpQ8G1U0KHZa2GO/553o7
-	 3ZECLmUPBUCbQ==
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2e73359b900so65385821fa.2
-        for <linux-kbuild@vger.kernel.org>; Sat, 25 May 2024 09:36:21 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWRGI401CkZvELGl3FojJArP3Sg3Oxx3I9QM8XfZV/sVOfH1XzBrakID5AUBe3o7CXzjEB8rAij1U8T/JAtCn1NMtxqcIfkCqdN+OBq
-X-Gm-Message-State: AOJu0YxhYWDKBYfE0a2hbW7J2m42wQwWR7LkIfC5+OA2/R6j3CjnbLoU
-	sP7Aq1WoCrKyGG3IGQvfLcz144fT2+IC79vK+SuEwE1r+Tci1aKJTFRL/4zWSb3nzJPnOzXLEFf
-	hIm1SpXjd5un/nWeNNuV3Roann1o=
-X-Google-Smtp-Source: AGHT+IHRJmQpGZmHXBbhNInYESh9PiiXCzfxE8PrZhAdH7yyhD6CpWRzfHrpzlR4+RLzxvaQP/9Br3k62sX7NGn7HWs=
-X-Received: by 2002:a19:4352:0:b0:51f:4a03:a053 with SMTP id
- 2adb3069b0e04-529645e22e0mr2920223e87.4.1716654980057; Sat, 25 May 2024
- 09:36:20 -0700 (PDT)
+	b=VQqtpjF9ci4TPs43sML4DRO6vWzmik2gcCGgE+GkYfnYvRG/M+vOkmXt+6stMhwLt
+	 VTNDWHqvhai/cNU8SVheBNeFZLQZQKKQ6eUsnjdXbGEnDgOqpCxX27+SmipVMXryKz
+	 EH7epCNj8esHUS2vIuo94Dz7LJrk8QKQ5SKjer8RnLDZzbQPxbP7ex0PSCGLVvtXLp
+	 oLK7Lj3G0rPSrcBo1UWKqNTSX8DDrMliwuD7cPivwdenX4u8vQQ2M0jHZgho9/3DQS
+	 HuoTNoL4W941MxLn9HjS8SlINoIOsulBKr3rF7DqEGHAbIYzKIWUtkEN/zV78liRi4
+	 pDb65u3yAlOdw==
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2e6f2534e41so85398291fa.0;
+        Sat, 25 May 2024 09:43:43 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVb4q7tbW0A0+UPZEO/cPjyY0sk69EgM1tDnUrOFDe1J/Mcb9txjLX31CD6Vk8W+eWjfSDIq9LpXk343dFQxonpQgcKbG4N25Koz6YhyuDBGb9VoQTVziunPn/W9rkF5IRAHirDAJriWV/uF+FfaFO0nWzUGl8OnwUSHcFnhg==
+X-Gm-Message-State: AOJu0YwvLOm7idn3Ql73J0Wx2yNwn77pj/o3D72YlT/IldUD4H2avBBN
+	x1D0f5WJrqCvXMreW6VfUYHX4dWvSBCpR00EzzxVgDjQzF+PTIQpT3QiUuF0v8etm0G9uhe7+ye
+	QP6n1jpQhErmYwU4nH0Jo31F8wsA=
+X-Google-Smtp-Source: AGHT+IGho3f8KKeAWOOGieu1BeXrWfXkamAMqAEvp1bl5gSAUC88VYD3wLf3Li0DW8C4rCu3GIr+nmE3+gU7YXcmSu0=
+X-Received: by 2002:ac2:4e10:0:b0:51b:e0f0:e4f8 with SMTP id
+ 2adb3069b0e04-52964bb0ea4mr4203773e87.31.1716655422028; Sat, 25 May 2024
+ 09:43:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <ZGVi9HbI43R5trN8@bhelgaas> <CAK7LNAQPXapu3Ydh9XaB2ggGqgfYX5mo0pHPNHDcnm=w3ubYag@mail.gmail.com>
- <Zk-C5Eg84yt6_nml@google.com>
-In-Reply-To: <Zk-C5Eg84yt6_nml@google.com>
+References: <20240522114755.318238-1-masahiroy@kernel.org> <20240522114755.318238-3-masahiroy@kernel.org>
+ <CAMj1kXHwEMxAhj=zCBRCAxE8MXhzT95CTtAin+fPQr3DSJ46fA@mail.gmail.com>
+In-Reply-To: <CAMj1kXHwEMxAhj=zCBRCAxE8MXhzT95CTtAin+fPQr3DSJ46fA@mail.gmail.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sun, 26 May 2024 01:35:43 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASrR2W-obUurSWaKLnQ+CB1o9iuoaM-hbHnv-zoazMzmQ@mail.gmail.com>
-Message-ID: <CAK7LNASrR2W-obUurSWaKLnQ+CB1o9iuoaM-hbHnv-zoazMzmQ@mail.gmail.com>
-Subject: Re: possible dependency error?
-To: Brian Norris <briannorris@chromium.org>
-Cc: Bjorn Helgaas <helgaas@kernel.org>, linux-kbuild@vger.kernel.org, 
-	Josh Poimboeuf <jpoimboe@kernel.org>, Peter Zijlstra <peterz@infradead.org>
+Date: Sun, 26 May 2024 01:43:05 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQCq+hGm2CJz149fiCs5sOAZ15HmeYbmWK0h70KF5sFxw@mail.gmail.com>
+Message-ID: <CAK7LNAQCq+hGm2CJz149fiCs5sOAZ15HmeYbmWK0h70KF5sFxw@mail.gmail.com>
+Subject: Re: [PATCH 2/3] kbuild: remove PROVIDE() for kallsyms symbols
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	bpf@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, linux-arch@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 24, 2024 at 2:54=E2=80=AFAM Brian Norris <briannorris@chromium.=
-org> wrote:
+On Thu, May 23, 2024 at 6:32=E2=80=AFPM Ard Biesheuvel <ardb@kernel.org> wr=
+ote:
 >
-> Necromancing an old thread, since it identifies the same problem I've
-> been poking at recently:
->
-> On Thu, May 18, 2023 at 05:26:28PM +0900, Masahiro Yamada wrote:
-> > (+CC: Josh Poimboeuf,Peter Zijlstra, objtool maintainer)
+> On Wed, 22 May 2024 at 13:48, Masahiro Yamada <masahiroy@kernel.org> wrot=
+e:
 > >
-> > On Thu, May 18, 2023 at 8:27=E2=80=AFAM Bjorn Helgaas <helgaas@kernel.o=
-rg> wrote:
-> > >
-> > > This is on v6.4-rc1.  I fat-fingered the make target (I intended
-> > > "pciehp.o", not "pciehp.c"), then interrupted the build when I notice=
-d
-> > > my mistake:
-> > >
-> > >   06:04:15 ~/linux (hotplug)$ make drivers/pci/hotplug/pciehp.c
-> > >     SYNC    include/config/auto.conf.cmd
-> > >   ^Cmake: *** [include/config/auto.conf.cmd] Deleting file 'include/g=
-enerated/rustc_cfg'
-> > >   make: *** [include/config/auto.conf.cmd] Deleting file 'include/gen=
-erated/autoconf.h'
-> > >   make[2]: *** [scripts/kconfig/Makefile:77: syncconfig] Interrupt
-> > >   make[1]: *** [Makefile:692: syncconfig] Interrupt
-> > >   make: *** [Makefile:793: include/config/auto.conf.cmd] Interrupt
-> > >
-> > > Subsequent builds now fail ("pciehp.o" is *also* an incorrect target,
-> > > but doesn't seem related to the error):
-> > >
-> > >   06:04:22 ~/linux (hotplug)$ make drivers/pci/hotplug/pciehp.o
-> > >     SYNC    include/config/auto.conf.cmd
-> > >     UPD     include/config/kernel.release
-> > >     UPD     include/generated/utsrelease.h
-> > >     UPD     include/generated/compile.h
-> > >     CC      scripts/mod/empty.o
-> > >     MKELF   scripts/mod/elfconfig.h
-> > >     HOSTCC  scripts/mod/modpost.o
-> > >     CC      scripts/mod/devicetable-offsets.s
-> > >     HOSTCC  scripts/mod/file2alias.o
-> > >     HOSTCC  scripts/mod/sumversion.o
-> > >     HOSTLD  scripts/mod/modpost
-> > >     CC      kernel/bounds.s
-> > >     CC      arch/x86/kernel/asm-offsets.s
-> > >     CALL    scripts/checksyscalls.sh
-> > >     DESCEND objtool
-> > >     HOSTCC  /home/bjorn/linux/tools/objtool/fixdep.o
-> > >     HOSTLD  /home/bjorn/linux/tools/objtool/fixdep-in.o
-> > >     LINK    /home/bjorn/linux/tools/objtool/fixdep
-> > >   make[4]: *** No rule to make target '/usr/include/x86_64-linux-gnu/=
-bits/sys_errlist.h', needed by '/home/bjorn/linux/tools/objtool/libsubcmd/e=
-xec-cmd.o'.  Stop.
-> > >   make[3]: *** [Makefile:80: /home/bjorn/linux/tools/objtool/libsubcm=
-d/libsubcmd-in.o] Error 2
-> > >   make[2]: *** [Makefile:78: /home/bjorn/linux/tools/objtool/libsubcm=
-d/libsubcmd.a] Error 2
-> > >   make[1]: *** [Makefile:73: objtool] Error 2
-> > >   make: *** [Makefile:1440: tools/objtool] Error 2
-> > >
-> > > I finally got the right target, but the build still fails:
-> > >
-> > >   06:04:39 ~/linux (hotplug)$ make drivers/pci/hotplug/
-> > >     CALL    scripts/checksyscalls.sh
-> > >     DESCEND objtool
-> > >   make[4]: *** No rule to make target '/usr/include/x86_64-linux-gnu/=
-bits/sys_errlist.h', needed by '/home/bjorn/linux/tools/objtool/libsubcmd/e=
-xec-cmd.o'.  Stop.
-> > >   make[3]: *** [Makefile:80: /home/bjorn/linux/tools/objtool/libsubcm=
-d/libsubcmd-in.o] Error 2
-> > >   make[2]: *** [Makefile:78: /home/bjorn/linux/tools/objtool/libsubcm=
-d/libsubcmd.a] Error 2
-> > >   make[1]: *** [Makefile:73: objtool] Error 2
-> > >   make: *** [Makefile:1440: tools/objtool] Error 2
-> > >
-> > > After "make distclean", everything works as expected, so maybe this i=
-s
-> > > just the expected behavior after my initial user error?  I dunno; it
-> > > seemed surprising.  Just FYI.
->
-> I believe we've been hitting a similar issue at $JOB, which looks like
-> the following (this is on a 5.15-ish kernel, but AFAICT everything is
-> still relevant):
->
-> make[5]: *** No rule to make target '[...]/tools/include/linux/compiler.h=
-', needed by '[...]/tools/bpf/resolve_btfids/libsubcmd/exec-cmd.o'.  Stop.
-> make[4]: *** [Makefile:59: [...]/tools/bpf/resolve_btfids/libsubcmd/libsu=
-bcmd-in.o] Error 2
-> make[3]: *** [Makefile:45: [...]/tools/bpf/resolve_btfids//libsubcmd/libs=
-ubcmd.a] Error 2
-> make[2]: *** [Makefile:72: bpf/resolve_btfids] Error 2
-> make[1]: *** [[...]/Makefile:1401: tools/bpf/resolve_btfids] Error 2
->
-> This particular case happens for us when the source tree is moving, but
-> we're sharing an O=3D cache. This may or may not be a good idea, but
-> AFAICT there still is a real bug underneath, which I explore below.
->
-> > I do not know what is happening on your build machine,
-> > but judging from the error log, something went wrong
-> > while building objtool.
+> > This reimplements commit 951bcae6c5a0 ("kallsyms: Avoid weak references
+> > for kallsyms symbols").
 > >
-> > objtool Makefile is not a part of Kbuild.
-> > The maintainers of objtool may have some insight.
+> > I am not a big fan of PROVIDE() because it always satisfies the linker
+> > even in situations that should result in a link error. In other words,
+> > it can potentially shift a compile-time error into a run-time error.
+> >
 >
-> I'm no maintainer, but I found that the .exec-cmd.o.cmd dep file is
-> generated incorrectly due to improper fixdep dependencies:
+> I don't disagree. However, I did realize that, in this particular
+> case, we could at least make the preliminary symbol definitions
+> conditional on CONFIG_KALLSYMS rather than always providing them.
+
+
+Fair enough. I am fine with dropping this statement.
+
+
+
+
 >
-> $ head -2 [...]/tools/bpf/resolve_btfids/libsubcmd/.exec-cmd.o.cmd
-> # cannot find fixdep ([...]/tools/bpf/resolve_btfids/libsubcmd//fixdep)
-> # using basic dep data
+> This approach is also fine with me, though.
 >
-> Now, this soft error is normally OK, as long as you don't have any
-> missing or moved headers. But if these moved around, then normally the
-> fixdep'd dependencies would help rebuild (and regenerate .cmd files with
-> new paths) silently.
 >
-> The bad .cmd file is reliably reproduced by:
+> > Duplicating kallsyms_* in vmlinux.lds.h also reduces maintainability.
+> >
+> > As an alternative solution, this commit prepends one more kallsyms step=
+.
+> >
+> >     KSYMS   .tmp_vmlinux.kallsyms0.S          # added
+> >     AS      .tmp_vmlinux.kallsyms0.o          # added
+> >     LD      .tmp_vmlinux.btf
+> >     BTF     .btf.vmlinux.bin.o
+> >     LD      .tmp_vmlinux.kallsyms1
+> >     NM      .tmp_vmlinux.kallsyms1.syms
+> >     KSYMS   .tmp_vmlinux.kallsyms1.S
+> >     AS      .tmp_vmlinux.kallsyms1.o
+> >     LD      .tmp_vmlinux.kallsyms2
+> >     NM      .tmp_vmlinux.kallsyms2.syms
+> >     KSYMS   .tmp_vmlinux.kallsyms2.S
+> >     AS      .tmp_vmlinux.kallsyms2.o
+> >     LD      vmlinux
+> >
+> > Step 0 takes /dev/null as input, and generates .tmp_vmlinux.kallsyms0.o=
+,
+> > which has a valid kallsyms format with the empty symbol list, and can b=
+e
+> > linked to vmlinux. Since it is really small, the added compile-time cos=
+t
+> > is negligible.
+> >
 >
-> # for an easier-to-build target that also builds libsubcmd:
-> cd tools/objtool
-> # for maximum cleanliness:
-> git clean -xfd ..
-> make
-> head -2 libsubcmd/.exec-cmd.o.cmd
+> OK, so the number of linker invocations is the same, right? The
+> difference is that the kallsyms symbol references are satisfied by a
+> dummy object?
+
+
+Correct.
+
+In 3/3, I even reduce the number of link steps
+when both CONFIG_DEBUG_INFO_BTF and CONFIG_KALLSYMS are enabled.
+
+
+
+
+
 >
-> (NB: if you look hard enough, you'll notice that we have a similar
-> "cannot find fixdep" error for tools/.../.fixdep.o.cmd too. I have some
-> analysis at https://issuetracker.google.com/313508829#comment32 --
-> this one is publicly accessible -- but its solution would be more
-> complex. I may raise a separate thread.)
+> That seems reasonable to me.
 >
-> The following patch fixes libsubcmd stuff for me. I can resubmit in a
-> proper patch form if desired, or feel free to scrape it as-is.
+> For the series,
 >
-> Signed-off-by: Brian Norris <briannorris@chromium.org>
-> ---
+> Acked-by: Ard Biesheuvel <ardb@kernel.org>
 >
-> diff --git a/tools/lib/subcmd/Makefile b/tools/lib/subcmd/Makefile
-> index b87213263a5e..59b09f280e49 100644
-> --- a/tools/lib/subcmd/Makefile
-> +++ b/tools/lib/subcmd/Makefile
-> @@ -76,7 +76,7 @@ include $(srctree)/tools/build/Makefile.include
->
->  all: fixdep $(LIBFILE)
->
-> -$(SUBCMD_IN): FORCE
-> +$(SUBCMD_IN): fixdep FORCE
->         @$(MAKE) $(build)=3Dlibsubcmd
->
->  $(LIBFILE): $(SUBCMD_IN)
-
-
-
-I may not fully understand the design policy of the tools/ build system,
-but this fix is presumably correct because the 'fixdep' binary
-is needed in each sub-directory for it to work correctly.
-
-tools/bpf/resolve_btfids/libsubcmd/.exec-cmd.o.cmd must
-be generated by tools/bpf/resolve_btfids/libsubcmd/fixdep
-instead of by tools/bpf/resolve_btfids/fixdep.
-
-But, fixing tools/lib/subcmd/Makefile is not enough.
-
-*.cmd files under tools/bpf/resolve_btfids/libbpf/staticobjs/
-are broken for the same reason.
-So, this is fundamentally broken in many places.
-
-And, as you noted, there is no easy way to fix .fixdep.o.cmd
-
-
-Your description in
-https://issuetracker.google.com/issues/313508829#comment32
-is all correct.
-
-
-"can we just use Kbuild?" is a good question.
-I do not understand why they use fragile build systems,
-where obviously they cannot do it correctly.
-
-
-In fact, I submitted a patch to migrate objtool to Kbuild
-because that fixes all the issues cleanly.
-
-The objtool maintainers rejected it.
-https://lore.kernel.org/linux-kbuild/1551764896-8453-3-git-send-email-yamad=
-a.masahiro@socionext.com/
-
-
-Not only the build system.
-He also refused to participate in the standard Documentation
-directory.
-tools/objtool/Documentation/objtool.txt still resides in its own directory.
-
-
-
 
 
 --=20
