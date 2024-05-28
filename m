@@ -1,119 +1,175 @@
-Return-Path: <linux-kbuild+bounces-1939-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1940-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA0368D198D
-	for <lists+linux-kbuild@lfdr.de>; Tue, 28 May 2024 13:33:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFD208D19B5
+	for <lists+linux-kbuild@lfdr.de>; Tue, 28 May 2024 13:36:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A46C22887E0
-	for <lists+linux-kbuild@lfdr.de>; Tue, 28 May 2024 11:33:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 807732844F2
+	for <lists+linux-kbuild@lfdr.de>; Tue, 28 May 2024 11:36:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CA5D16ABC1;
-	Tue, 28 May 2024 11:33:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72B7D16C856;
+	Tue, 28 May 2024 11:36:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ErXr+ajk"
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="hZ78wS4o";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="LKdIValk"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wfout4-smtp.messagingengine.com (wfout4-smtp.messagingengine.com [64.147.123.147])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE13C13AA3E
-	for <linux-kbuild@vger.kernel.org>; Tue, 28 May 2024 11:33:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE21016C840;
+	Tue, 28 May 2024 11:35:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716896016; cv=none; b=AFhnhfSFeAM8In1XxAu/8JHsFpRlederPca9hg6X/+SKdrvd7UeIcdOT09tKWaUG4dJKQ5/j8f99vRvO2L3PeBIzJqA6295kIq+tDBy7gCOWY6VBpqK6DChCW9UN1DnfO+HQfkVrUdAqpndc8O9wtOHLrQ6kF9ETkouMR4HMZ8k=
+	t=1716896161; cv=none; b=sBV+DNm89c5CsMu/UZBvOk9kwbueFO3HRm7rV817xu0BkNzCnCBBVu55btY1Rgq9cati+9Ooq3gPkkNxAt0Z3vRYOiKPWZFeqFIb1DGy2QSdN/LpcvlmvBe7JZiYiCHNnReF9s7ksdW1nWpAs9tPDWxsTuX+slO0kMtQytvJuaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716896016; c=relaxed/simple;
-	bh=pVkfCfXwvpGITqeArgg8XorBGEqsQIg7EkQ5urfJgbQ=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=cfa/3Z4PbVLTg3nKDeBVR6N10bM26Vh57kXn7KxXhx526joRqqShtpYPa7f3CuueXeuOE5o1A2zEWdUurYauhCw9zyFv+GL7lLlff8BHGsjndwQh13jhUBCTRk50SJ7BjObdqaGKrk0sSdM4DsZJEGLpZAJwtCLYMbVb++6jCjI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--maennich.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ErXr+ajk; arc=none smtp.client-ip=209.85.128.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--maennich.bounces.google.com
-Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-41fda32e6c0so3871285e9.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 28 May 2024 04:33:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1716896013; x=1717500813; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=pTOxhoHq0Nkxf/74IFjzbYdMxemeJfpZA9XvBTvTfc4=;
-        b=ErXr+ajkwW8QC39Mej+rxdrFeYUwVnx/x0bXfsBYisomxuLsZpmRb8iBz6j+fd1Wzp
-         omwdzrak9vItrH6+cW+YktjF0vAmUUmG1XS1XR25aLRpYq/hHFCnUoy7At3g5EVgZp5Y
-         8zSj0Uz40Ztpbv0TaV7ljrJ8WgqXb3HnRhUWoVYesIvoQsUGC0DYkaGb563A+vXYyIIW
-         y8ej/2RESLsXc1B6bz2EPbldrQJeJ4Y9UYZt0e3loev6KU/jvHBfmkU78qmlMVF4wWc4
-         Md030pqFfjorYLkp2UFfkCx1Wsv+gsdOoib+EOCpfUgoUduH3Dt3mGUn7Ns/q9zYguCr
-         mizQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716896013; x=1717500813;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=pTOxhoHq0Nkxf/74IFjzbYdMxemeJfpZA9XvBTvTfc4=;
-        b=frYg2WDE/UcnJfs2cT2p5TPWJLtcQY2KYXgJWICEc3qBrgfXHnFOVUmf/7cloiMrsf
-         f1SM8o6q6VjrGlXz5IUUbK1TVMHc9CRfVTC6C2t+X2taXvF6PmG3X9+YHxMyZr3PkpNw
-         DHTU8bZV5l3hyqVMFi0YSjWVNfhcXk19CCUugqrgaPn+bxzEdG9G6g9NEzAWvOzffzc/
-         EayHfFGZRRrsbntVmyTENWVZ/xk2M6OtR6hA3Buuso3HCXIei1lKsvbtNUIipnErempJ
-         NVoiC3N87s8+VKD2tjYZxQKt0heHVLTxzt+0vQ50/yEis02K0rZy6qg7OKSPKkuBhh5b
-         J9Mg==
-X-Forwarded-Encrypted: i=1; AJvYcCVTDA/doipaaixHtzjMl2eZ01niLCMuJKWMkIHMZwyHkcQxOJqRW/QBzN3Z0oyc9ze/UtJo+K1Kwmuc0alRTG+pbIzLK94kvPVVVvd3
-X-Gm-Message-State: AOJu0YzkAn2Q3VsU9NUAoVqWacFOzSj1gcWd7qmE8hieAYwUDY/lN8Qc
-	ljUdt6gYNbiZIgUoURADRdZDyULSMpc9kkGPeYRv/ydO9bxfog5ME9CGwC+v5NLYuAPeiiusQxG
-	lwc0cDQ27/g==
-X-Google-Smtp-Source: AGHT+IEZuPpg1yO7fn0IEIKwi0X1YijuMLbkk9FqYxMx51RJlFRj8VX6O6wgo1ofZTORDUJHHcMrL76AmO0uAA==
-X-Received: from licht.c.googlers.com ([fda3:e722:ac3:cc00:28:9cb1:c0a8:f9c])
- (user=maennich job=sendgmr) by 2002:a05:600c:4704:b0:41f:41fc:318b with SMTP
- id 5b1f17b1804b1-42108205095mr2453645e9.4.1716896013057; Tue, 28 May 2024
- 04:33:33 -0700 (PDT)
-Date: Tue, 28 May 2024 11:32:43 +0000
+	s=arc-20240116; t=1716896161; c=relaxed/simple;
+	bh=jFZXicEE6r2ZgbR45j79punfT8HXTNnMc7smmAivjRA=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=T96+OB4h9FrfN4m67zFff3hCiqI9+aI2eruBtOGAXnl4330WtAMfUamubHsvfLesI1e2iaBW0wOqwn5UZHzGjUFKBnRTFUouuyWPhPQGj6lIT7cNZWawLTOxbo/QO1zyBt5B5pEPjknjid9ugDxIB4rb82c3oWYzD9huxYdvPtA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=hZ78wS4o; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=LKdIValk; arc=none smtp.client-ip=64.147.123.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailfout.west.internal (Postfix) with ESMTP id B54BD1C00179;
+	Tue, 28 May 2024 07:35:57 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Tue, 28 May 2024 07:35:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1716896157; x=1716982557; bh=Ol7jO+/V1Y
+	fPpFVSV5jUah0yPkjfrGrX9WAAgHtbTLo=; b=hZ78wS4owIYvRnqNcJ9zGfh2iV
+	29FeERqf3tpc8bFg+119EFqupV4BcHaAixDPQ47HIBf8Va8r8u53824y7iiTbej1
+	MQ3Ke5XbklsNLFtST6f7l9RTYPqbHEMJDAnZMzX+kGBk2MB4d0k1z23r2WDbgVrg
+	UBwkOCAHYD6SFAULTM/yWP6U78j89HNt7iI/+Y7q2Ql1c161o27u5Yxhmp2v7ARr
+	sDFdO+96dQ225yu/Ii5e1lTtKoyOYwfIHiI0XWKmHqgqj+YGIYByqaYCNfpJ93lc
+	6ArP5tRztJw096mbCSMpnzOeYGRcjCLM7nqvtXrhnSd9twjdWIjJsh2HIgPg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1716896157; x=1716982557; bh=Ol7jO+/V1YfPpFVSV5jUah0yPkjf
+	rGrX9WAAgHtbTLo=; b=LKdIValkUX29uWFgX5KgpSQVm0yXzqOkReHvvYMzUm+9
+	ExhSup/6OzeBkUR5DXy+puro6xhfaLxUZNx5kvtYDBYfZpzZohrP2PCuNxR4ajSj
+	Yn8uN3xZrTiaHZTTbtcarB8EATSdnFlQDCsoDm9F4Q6C+GmHBQBddku2wu+j9mMz
+	80l4SOr4R47zcy1jIrfdPP5IZ0Nv7r+gELqY+vT8cpZr9xUny9sw+a4Kw2Lna5hZ
+	0u2zN6Hi/VqUTAC2yQ/YYLXNxm4kwQfPFOjMAtvV27r6StED/Snt/kUe/ZjuK49B
+	B6DnjNG/4ycIwMX+mgoY6uhuCE+OaoncVm8mviv19w==
+X-ME-Sender: <xms:ncFVZusps8MWQSH-dHY1h1l4dzkxCQLLuGf_MNovm0bEnohNg2dIew>
+    <xme:ncFVZjcXjAHp9BIQ7PIuZNTVMSHLHXqyTmQFaQ13zDAW4-2Xw4yw0zoKX84WoEr6p
+    YfNFIG9wDZPl0dlRwI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdejkedgudehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
+    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+    hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:ncFVZpyklZXOsQhzaV6ANYCsXeccqVs3Qr8cqaVu5DBISxWaL73cTg>
+    <xmx:ncFVZpOqTm-o2yGPweFMDRnQKihWkkr1yN13tbT-4E629rk7U107-g>
+    <xmx:ncFVZu92hgdGZ9Sd9pAnhRvscY6gMI_tRQAJXJpzKTU8NEIxHi0cYA>
+    <xmx:ncFVZhX6VWqtl6iOxPyjzhjQtS9-6ohJJZC8wITAuShIC0Pfs6PZow>
+    <xmx:ncFVZiaxhTGGmMouGpEhLsmQCUxA_yjYOeP91tCDt2Dcj3G1zmLeKALI>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 116C4B6008D; Tue, 28 May 2024 07:35:56 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-491-g033e30d24-fm-20240520.001-g033e30d2
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.45.1.288.g0e0cd299f1-goog
-Message-ID: <20240528113243.827490-2-maennich@google.com>
-Subject: [PATCH] kheaders: explicitly define file modes for archived headers
-From: "=?UTF-8?q?Matthias=20M=C3=A4nnich?=" <maennich@google.com>
-To: linux-kernel@vger.kernel.org
-Cc: kernel-team@android.com, maennich@google.com, gprocida@google.com, 
-	stable@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	Masahiro Yamada <masahiroy@kernel.org>, Joel Fernandes <joel@joelfernandes.org>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Message-Id: <0e8dee26-41cc-41ae-9493-10cd1a8e3268@app.fastmail.com>
+In-Reply-To: <20240506133544.2861555-2-masahiroy@kernel.org>
+References: <20240506133544.2861555-1-masahiroy@kernel.org>
+ <20240506133544.2861555-2-masahiroy@kernel.org>
+Date: Tue, 28 May 2024 13:35:10 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Masahiro Yamada" <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
+Cc: Linux-Arch <linux-arch@vger.kernel.org>, linux-kernel@vger.kernel.org,
+ "Kees Cook" <keescook@chromium.org>
+Subject: Re: [PATCH 1/3] kbuild: provide reasonable defaults for tool coverage
+Content-Type: text/plain
 
-From: Matthias Maennich <maennich@google.com>
+On Mon, May 6, 2024, at 15:35, Masahiro Yamada wrote:
+> The objtool, sanitizers (KASAN, UBSAN, etc.), and profilers (GCOV, etc.)
+> are intended for kernel space objects. To exclude objects from their
+> coverage, you need to set variables such as OBJECT_FILES_NON_STNDARD=y,
+> KASAN_SANITIZE=n, etc.
+>
+> For instance, the following are not kernel objects, and therefore should
+> opt out of coverage:
+>
+>   - vDSO
+>   - purgatory
+>   - bootloader (arch/*/boot/)
+>
+> Kbuild can detect these cases without relying on such variables because
+> objects not directly linked to vmlinux or modules are considered
+> "non-standard objects".
+>
+> Detecting objects linked to vmlinux or modules is straightforward:
+>
+>   - objects added to obj-y are linked to vmlinux
+>   - objects added to lib-y are linked to vmlinux
+>   - objects added to obj-m are linked to modules
+>
 
-Build environments might be running with different umask settings
-resulting in indeterministic file modes for the files contained in
-kheaders.tar.xz. The file itself is served with 444, i.e. world
-readable. Archive the files explicitly with 744,a+X to improve
-reproducibility across build environments.
+I noticed new randconfig build warnings and bisected them
+down to this patch:
 
---mode=0444 is not suitable as directories need to be executable. Also,
-444 makes it hard to delete all the readonly files after extraction.
+warning: unsafe memchr_inv() usage lacked '__read_overflow' symbol in lib/test_fortify/read_overflow-memchr_inv.c
+warning: unsafe memchr() usage lacked '__read_overflow' warning in lib/test_fortify/read_overflow-memchr.c
+warning: unsafe memscan() usage lacked '__read_overflow' symbol in lib/test_fortify/read_overflow-memscan.c
+warning: unsafe memcmp() usage lacked '__read_overflow' warning in lib/test_fortify/read_overflow-memcmp.c
+warning: unsafe memcpy() usage lacked '__read_overflow2' symbol in lib/test_fortify/read_overflow2-memcpy.c
+warning: unsafe memcmp() usage lacked '__read_overflow2' warning in lib/test_fortify/read_overflow2-memcmp.c
+warning: unsafe memmove() usage lacked '__read_overflow2' symbol in lib/test_fortify/read_overflow2-memmove.c
+warning: unsafe memcpy() usage lacked '__read_overflow2_field' symbol in lib/test_fortify/read_overflow2_field-memcpy.c
+warning: unsafe memmove() usage lacked '__read_overflow2_field' symbol in lib/test_fortify/read_overflow2_field-memmove.c
+warning: unsafe memcpy() usage lacked '__write_overflow' symbol in lib/test_fortify/write_overflow-memcpy.c
+warning: unsafe memmove() usage lacked '__write_overflow' symbol in lib/test_fortify/write_overflow-memmove.c
+warning: unsafe memset() usage lacked '__write_overflow' symbol in lib/test_fortify/write_overflow-memset.c
+warning: unsafe strcpy() usage lacked '__write_overflow' symbol in lib/test_fortify/write_overflow-strcpy-lit.c
+warning: unsafe strcpy() usage lacked '__write_overflow' symbol in lib/test_fortify/write_overflow-strcpy.c
+warning: unsafe strncpy() usage lacked '__write_overflow' symbol in lib/test_fortify/write_overflow-strncpy-src.c
+warning: unsafe strncpy() usage lacked '__write_overflow' symbol in lib/test_fortify/write_overflow-strncpy.c
+warning: unsafe strscpy() usage lacked '__write_overflow' symbol in lib/test_fortify/write_overflow-strscpy.c
+warning: unsafe memcpy() usage lacked '__write_overflow_field' symbol in lib/test_fortify/write_overflow_field-memcpy.c
+warning: unsafe memmove() usage lacked '__write_overflow_field' symbol in lib/test_fortify/write_overflow_field-memmove.c
+warning: unsafe memset() usage lacked '__write_overflow_field' symbol in lib/test_fortify/write_overflow_field-memset.c
 
-Cc: stable@vger.kernel.org
-Cc: linux-kbuild@vger.kernel.org
-Cc: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Joel Fernandes <joel@joelfernandes.org>
-Signed-off-by: Matthias Maennich <maennich@google.com>
----
- kernel/gen_kheaders.sh | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I don't understand the nature of this warning, but I see
+that your patch ended up dropping -fsanitize=kernel-address
+from the compiler flags because the lib/test_fortify/*.c files
+don't match the $(is-kernel-object) rule. Adding back
+-fsanitize=kernel-address shuts up these warnings.
 
-diff --git a/kernel/gen_kheaders.sh b/kernel/gen_kheaders.sh
-index 6d443ea22bb7..8b6e0c2bc0df 100755
---- a/kernel/gen_kheaders.sh
-+++ b/kernel/gen_kheaders.sh
-@@ -84,7 +84,7 @@ find $cpio_dir -type f -print0 |
+I've applied a local workaround in my randconfig tree
+
+diff --git a/lib/Makefile b/lib/Makefile
+index ddcb76b294b5..d7b8fab64068 100644
+--- a/lib/Makefile
++++ b/lib/Makefile
+@@ -425,5 +425,7 @@ $(obj)/$(TEST_FORTIFY_LOG): $(addprefix $(obj)/, $(TEST_FORTIFY_LOGS)) FORCE
  
- # Create archive and try to normalize metadata for reproducibility.
- tar "${KBUILD_BUILD_TIMESTAMP:+--mtime=$KBUILD_BUILD_TIMESTAMP}" \
--    --owner=0 --group=0 --sort=name --numeric-owner \
-+    --owner=0 --group=0 --sort=name --numeric-owner --mode=u=rw,go=r,a+X \
-     -I $XZ -cf $tarfile -C $cpio_dir/ . > /dev/null
- 
- echo $headers_md5 > kernel/kheaders.md5
--- 
-2.45.1.288.g0e0cd299f1-goog
+ # Fake dependency to trigger the fortify tests.
+ ifeq ($(CONFIG_FORTIFY_SOURCE),y)
++ifndef CONFIG_KASAN
+ $(obj)/string.o: $(obj)/$(TEST_FORTIFY_LOG)
++endif
+ endif
 
+
+which I don't think we want upstream. Can you and Kees come
+up with a proper fix instead?
+
+     Arnd
 
