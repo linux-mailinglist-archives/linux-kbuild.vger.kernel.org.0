@@ -1,105 +1,129 @@
-Return-Path: <linux-kbuild+bounces-1948-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1949-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92B168D3343
-	for <lists+linux-kbuild@lfdr.de>; Wed, 29 May 2024 11:41:22 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E54C88D337B
+	for <lists+linux-kbuild@lfdr.de>; Wed, 29 May 2024 11:46:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 305981F25E01
-	for <lists+linux-kbuild@lfdr.de>; Wed, 29 May 2024 09:41:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 211931C21E39
+	for <lists+linux-kbuild@lfdr.de>; Wed, 29 May 2024 09:46:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9263616A368;
-	Wed, 29 May 2024 09:41:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F72E16EC08;
+	Wed, 29 May 2024 09:42:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SYXxracD"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YRG18PHs"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 686F143AA0;
-	Wed, 29 May 2024 09:41:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBC3B16EBF5;
+	Wed, 29 May 2024 09:42:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716975677; cv=none; b=l/2Qqfsg6ZqjB9ctFlGjYkIWaRxoYpdaJxD4TiVPt/mu55IIvueKdJX9aS3ysLDXncO3mjOqeAssI6PNPoiquzkqldVzQKu80BDRX8HhD+oitbxHzetZDQ/m/zAs/TKTzUIrXGAbnk1GzMeJnj2rzHDV65WuWxCSu87HtlfqypY=
+	t=1716975761; cv=none; b=PG9ia/8iSBWSmGJamR8cXtKgFD/1ghjonq700jH7kw4fEu8UpFqRF9O3tbdRrw89c7ffvGg8k4PL4N2CmFBEnfu5UEx4f1SZHIP33GAq+obcKXLM0ZjBcEuaM4Kax1QoPAaUYfgi3E6Jt08xIdApb1WuLp0blJL+V5JRjRiLtFs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716975677; c=relaxed/simple;
-	bh=i9hu7Hv1eiqS5bROpHlphFtj2gxQ51GFXxiEA/KHrYc=;
+	s=arc-20240116; t=1716975761; c=relaxed/simple;
+	bh=Vy70+CTL7OOqjzsr317++Apk/PTfDzXzYE7uDGK3xB8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tFRK6uf8U2ecNBUZAhr7GlqIr6ysL5QZCMAuXJ/ygaK/uzCmWHdIYPp4DtLm9QGLgUGmC+9u7RMD4oJwtgqH/otN8KKxXlZoNzMC+YggRI7U//Tj0p4PBO5eW4Z+zDSSmTAYN3nmlFoyrK7X6DhSGQdyybSkzBMZvRxtTQB4wsI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SYXxracD; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA7E1C4AF08;
-	Wed, 29 May 2024 09:41:16 +0000 (UTC)
+	 To:Cc:Content-Type; b=neRzEV2fj/bOho+i0i52vWXVdRyoGs7yAjfXn9Jgg9pzdp6kY8i92FomtNIw3HlThNfxrpUJ0u3wfK4PBsFnPJYIg+mYmQUttbH2PjcdxHCuPavSRHrwNPfjl7nZYwssFFRPyXNL5IcVv4CSQVT9lf9CNHy5jacNWmFsvpdXNWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YRG18PHs; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 969C6C32789;
+	Wed, 29 May 2024 09:42:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716975677;
-	bh=i9hu7Hv1eiqS5bROpHlphFtj2gxQ51GFXxiEA/KHrYc=;
+	s=k20201202; t=1716975760;
+	bh=Vy70+CTL7OOqjzsr317++Apk/PTfDzXzYE7uDGK3xB8=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=SYXxracDVUDcyOtr5O8gufjVG3F06rNcztATkfkm713qsYaPcVc9xOrQzuTB+2bJf
-	 qPOlYJaulDjNxSN/pm/p71KygY9qU2YzL+ZO2CaXM5sgA1RCVO3JrzbI6N2oiUATT9
-	 n6Wmn1cwkhvQhzKadajoSX4qbRYV97gFegjySkZbSNZvZRTuCmnAVRmIjpho+FLFy9
-	 YKF2S8iATpnrgaC8h/EJ2w0ZFPShjQlHaiCUlqLykjYr6e07E1l/FONL0yu1J36vHF
-	 ph5VHNjYakigLqL8ApudUNsunX89JyGnlG29NfVcNspznqy+G058d3JfIavKDTBt4X
-	 jTfbWtM+K/w9A==
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2e968e77515so22666051fa.0;
-        Wed, 29 May 2024 02:41:16 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCV5CMvLwuqXiFJqx3MJfY+TrYiWA/y5aXVf7pvqSCvFPRa+ky/H3X9gtFBk/pd1b6ofKawDxnNciICRIPg3kfIPZYTUb/e2zkAg3KdMcty/OT/fX8d5tm8emy6nwD5B3+S4aYt/fPiETWLx
-X-Gm-Message-State: AOJu0Yz3m1JqXBvc+IrkMqBEWPLixPSpaHpObigsknISW7rCWICzGQrg
-	MTX24HKs/9tkdTrtlJVq4D1VNNNSxdTez/wHnIpxjJTWCfBXVWskoknYmOEwSVTBAINvQ9Kfym0
-	16sV0pbE0WTE1uwfiFqBvNQS11Lg=
-X-Google-Smtp-Source: AGHT+IFjU7Ggfjm7KDn9oFJHZN0cfR6CEPeugupJZ6TFLzITgGJzMldlWNONRgPQPLK6ib7G5KOac72kZtBV/ym0J+Y=
-X-Received: by 2002:a2e:9a90:0:b0:2e1:d94a:773f with SMTP id
- 38308e7fff4ca-2e95b096d84mr93484931fa.11.1716975675602; Wed, 29 May 2024
- 02:41:15 -0700 (PDT)
+	b=YRG18PHsZ9KMS7WtWGU1+QUYmL5eLEWKSnlK7rtKl81e9sMaDGWWfVZSKshNKrCAl
+	 yJtrFsqZ9LD9mHkxg5T9XbR8Gg3+BmQtoGOpZHCgRRgkOfQhrM47BLYqBy19DozhG1
+	 wjjJ1VA7TjrPVOQb30aMUb19DqSwPxE4HBMfwN7SBB7xdnB8//NNor3ybpeKH6DGP3
+	 7IPweRpWPswxx2YCAZWTv0gVM+wrkgtae152VVEKY4CbVkWZfmYGcV3AcNOcuWivfn
+	 GLzcmRBY/6lh0Pmpu+fRcRy/qHsN3Oh5cHn39HCbM9xbUaQyho8NOnShyQYRrdzBRv
+	 0WDSCqq5YBXhg==
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2e96f298fbdso18030841fa.1;
+        Wed, 29 May 2024 02:42:40 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWBs0fykij7tTQhnso6juhrRrvCucjKk4Jkr/+Fl4xQ5uW7QQ670vOvvEZH+4YYefAPpkfQcwRjn0um9Y2XRBTl9AAgiVYqvoWPWBkbgtWAFgt71iTcoDZXYWvyXUkC7bVEjP3jH3coBwMg
+X-Gm-Message-State: AOJu0YwMRwL3MyvFGaz8xnxsItkBmFv9pjWFsSj/D+lipQD9XtJLhYM5
+	ovPnx400UzAjhxUjwnrvvji4inmK8dWM3ZQxpx9mqS6v2FwCr8LcvMIG4GwDroFvMJi6dyvs5nH
+	RaaM1vP8hGtaaYJyLMHRFmUVxYzk=
+X-Google-Smtp-Source: AGHT+IGN/KsYOrGLvG0TdO3KxfZ4/EPftpLwrew3QpQ5vfb+ZPGBjlABdo7mq0eRqdvZm1M14CekhNeMOKaMAyFe8TQ=
+X-Received: by 2002:a05:651c:1986:b0:2df:d071:76ed with SMTP id
+ 38308e7fff4ca-2e95b0959a5mr116201551fa.10.1716975759303; Wed, 29 May 2024
+ 02:42:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240528085221.2989315-1-wenst@chromium.org>
-In-Reply-To: <20240528085221.2989315-1-wenst@chromium.org>
+References: <20240528163150.410706-1-ojeda@kernel.org>
+In-Reply-To: <20240528163150.410706-1-ojeda@kernel.org>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Wed, 29 May 2024 18:40:38 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASPJH_eMg8_Pck9WyMJnPZPrtRa+Bg5sfj8U4RxhMP26A@mail.gmail.com>
-Message-ID: <CAK7LNASPJH_eMg8_Pck9WyMJnPZPrtRa+Bg5sfj8U4RxhMP26A@mail.gmail.com>
-Subject: Re: [PATCH v2] scripts/make_fit: Drop fdt image entry compatible string
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Simon Glass <sjg@chromium.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
+Date: Wed, 29 May 2024 18:42:03 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASZ=_QEqUQDdnGvksjvxJMwYF0L8MdoGjHqMD4-iLQZJA@mail.gmail.com>
+Message-ID: <CAK7LNASZ=_QEqUQDdnGvksjvxJMwYF0L8MdoGjHqMD4-iLQZJA@mail.gmail.com>
+Subject: Re: [PATCH] kheaders: use `command -v` to test for existence of `cpio`
+To: Miguel Ojeda <ojeda@kernel.org>
+Cc: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	patches@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 28, 2024 at 5:52=E2=80=AFPM Chen-Yu Tsai <wenst@chromium.org> w=
-rote:
->
-> According to the FIT image source file format document found in U-boot [1=
-]
-> and the split-out FIT image specification [2], under "'/images' node" ->
-> "Conditionally mandatory property", the "compatible" property is describe=
-d
-> as "compatible method for loading image", i.e., not the compatible string
-> embedded in the FDT or used for matching.
->
-> Drop the compatible string from the fdt image entry node.
->
-> While at it also fix up a typo in the document section of output_dtb.
->
-> [1] U-boot source "doc/usage/fit/source_file_format.rst", or on the websi=
+On Wed, May 29, 2024 at 1:32=E2=80=AFAM Miguel Ojeda <ojeda@kernel.org> wro=
 te:
->     https://docs.u-boot.org/en/latest/usage/fit/source_file_format.html
-> [2] https://github.com/open-source-firmware/flat-image-tree/blob/main/sou=
-rce/chapter2-source-file-format.rst
 >
-> Fixes: 7a23b027ec17 ("arm64: boot: Support Flat Image Tree")
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> Commit 13e1df09284d ("kheaders: explicitly validate existence of cpio
+> command") added an explicit check for `cpio` using `type`.
+>
+> However, `type` in `dash` (which is used in some popular distributions
+> and base images as the shell script runner) prints the missing message
+> to standard output, and thus no error is printed:
+>
+>     $ bash -c 'type missing >/dev/null'
+>     bash: line 1: type: missing: not found
+>     $ dash -c 'type missing >/dev/null'
+>     $
+>
+> For instance, this issue may be seen by loongarch builders, given its
+> defconfig enables CONFIG_IKHEADERS since commit 9cc1df421f00 ("LoongArch:
+> Update Loongson-3 default config file").
+>
+> Therefore, use `command -v` instead to have consistent behavior, and
+> take the chance to provide a more explicit error.
+>
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 > ---
-> Changes since v1:
-> - Add clear reference to U-boot docs along with excerpt
-> - Send separately from "disable compression for DTBs" patch
+>  kernel/gen_kheaders.sh | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+>
+> diff --git a/kernel/gen_kheaders.sh b/kernel/gen_kheaders.sh
+> index 6d443ea22bb7..4ba5fd3d73ae 100755
+> --- a/kernel/gen_kheaders.sh
+> +++ b/kernel/gen_kheaders.sh
+> @@ -14,7 +14,12 @@ include/
+>  arch/$SRCARCH/include/
+>  "
+>
+> -type cpio > /dev/null
+> +if ! command -v cpio >/dev/null; then
+> +       echo >&2 "***"
+> +       echo >&2 "*** 'cpio' could not be found."
+> +       echo >&2 "***"
+> +       exit 1
+> +fi
+>
+>  # Support incremental builds by skipping archive generation
+>  # if timestamps of files being archived are not changed.
+>
+> base-commit: 1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0
+> --
+> 2.45.1
 >
 
+Ah, right.
+'command -v' is more portable.
 
 Applied to linux-kbuild.
 Thanks!
@@ -107,7 +131,7 @@ Thanks!
 
 
 
---
+--=20
 Best Regards
 Masahiro Yamada
 
