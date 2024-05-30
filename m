@@ -1,103 +1,295 @@
-Return-Path: <linux-kbuild+bounces-1956-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1957-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 184BB8D4DFB
-	for <lists+linux-kbuild@lfdr.de>; Thu, 30 May 2024 16:30:52 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC3598D52D7
+	for <lists+linux-kbuild@lfdr.de>; Thu, 30 May 2024 22:07:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B57471F2431E
-	for <lists+linux-kbuild@lfdr.de>; Thu, 30 May 2024 14:30:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 081061C2456B
+	for <lists+linux-kbuild@lfdr.de>; Thu, 30 May 2024 20:07:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6AC3176231;
-	Thu, 30 May 2024 14:30:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33E144D8DD;
+	Thu, 30 May 2024 20:07:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VTHA7zTK"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XjoEN4sk"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB34F1865C;
-	Thu, 30 May 2024 14:30:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BC1B55885
+	for <linux-kbuild@vger.kernel.org>; Thu, 30 May 2024 20:07:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717079446; cv=none; b=ioFqkpcCNrphXAyKDqbcJU2XL/FqQoZxdOAYJlTU0M+cxCQZ6JLieRNaHgXdhXlmCgmDrqutL1P71O2qDRuwzN6Ef4WMANAco3qiDz4+YAkNz43XMB/c1PzWgfqqeaLZwDB9Wzhms28Stl4N2J/tzyQJwDwVyK/FYEzzlWHq2KY=
+	t=1717099650; cv=none; b=C8R+Dk0TU3vLqWBz+0Eos0zctKcoaqyoSOPXfQOSydO7IoBwydnJqUav3Q16llwJmAdyiA20i+T+5RpsSi6L8ExWg1FCdRF9/kLkAmNHE/2fKgGM54z77EOQZhFaIiIXRzAri5K9VQfejoIHGmAHUENY97MB0SvHtyK+A7zPgaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717079446; c=relaxed/simple;
-	bh=nlTzN1tiBIJlOFBCsVeFUoLFdlHQE7Fcao9Gp+nkCmw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=m9liXm86TwAYb3Tbr1kKxhePfYCSzh3srQH26FuJRXSUOaGITCaw4J5L6jPdOfZcwTTTGesR/8MS5XWD8NnwRdsLeTsr9yFrTrhACzW87I/GbSkhwZtyTgNX86R3uSivGD2jUWcFPEriBTQvV65zdV3hyLwmRdPdYFIDs3QGk9U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VTHA7zTK; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B99FC32789;
-	Thu, 30 May 2024 14:30:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717079446;
-	bh=nlTzN1tiBIJlOFBCsVeFUoLFdlHQE7Fcao9Gp+nkCmw=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=VTHA7zTKVN68bEXgmIsAJhwKfC8ys4e8eUcZVHx21wSXUoVvevH85nZp924bXGAs9
-	 Tp7BAesP3yVMnaZeZdPmjc5LOIQ186aPRN4eo5+C/B2WLVZCGueFcByvtVe/tFwhre
-	 qFECkQi/JUsxBYtaRgY2N3UWpqvw181TEolkPuW5xzA8Tt8ToGgNlGwVJ18KoGgqCq
-	 rc6lWoq3W2CgjLO1s9jru8n26SFNA20NYmgfJJgtQKoL0Tz2gDtWc/d8VRc5CDcVcG
-	 HChuAvDKnXEOo/Ti8XrFXfGEVtr6DWAmhLRojFG1BTRtwOaU65m+SlWFIVQsVgFM8D
-	 /yq1jJ51IMldw==
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2e3efa18e6aso8165631fa.0;
-        Thu, 30 May 2024 07:30:46 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCX7uMM66G+rY/Ee6t9GBydEdtbTAT9dux1omt5gmIDEa9+iETbl81UzxztVN/lnEUWa/Gs+00O9qsFMgrSlFHqKV6NryaLzSVLFbeWEp+/iIM2Ahu6Ah1GIUS/L2euTCp8OlBbz
-X-Gm-Message-State: AOJu0Yxk5yg6XCoZ26LuP56DyvHILTS0A+STiL7XUpNYQOt4SxO12+8M
-	jmi9QcAYwlN7xPtx+vTj9byd7uWYMjm2IyBFUO2TF0PB5cTLFOieaR+NdwuqhSDFUvFAJAlb96y
-	vHG7j9J1unn8EMgunZ+KtU2xuJa8=
-X-Google-Smtp-Source: AGHT+IE3BY/0eADZ4sxaHelrIE27Nau5aVVM2SSVHa/wUuA3Ak+SLLHCytmmNO8hfDW35ntq0ntMVqup0kboHx5DnH0=
-X-Received: by 2002:a2e:9b59:0:b0:2e9:65b3:49f2 with SMTP id
- 38308e7fff4ca-2ea84c31c69mr5373901fa.8.1717079445293; Thu, 30 May 2024
- 07:30:45 -0700 (PDT)
+	s=arc-20240116; t=1717099650; c=relaxed/simple;
+	bh=j0mupzJ7SJA/gB5AC1ETZ8aVBo376zWYvLF4BFA3yWY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DoNOWr/xT4PMk4VHKSLGhleh30JfMOBYLRh2YmZCX3M20VfojDf+MCdQm/auFavlAICT1PTTAhaBjGAQTm5MCm6ngi5RXbRrAJC0vAmqJ2FpXU+dEE8KzDZBuhb6rU//ywckJgWnRqdHP7rr2FBcUjc+f0omOVQjOoIa/WaupY0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XjoEN4sk; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1717099646;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TdFoCn2lWRpn3xKkWMph23Gop2pS2Oc37cOeGoVqsmM=;
+	b=XjoEN4skBrwAbekUWMv89SQMcRb9yFqLq7/8lh1mSX4fP+NflFj+1QSEDjwjB4J/csS41U
+	FpqvGcVlL+qI50g6rYtG8i71mO6ryvrk0VJZFsQ9W4pec7ZKa8XzfumYeb5PY8H1tm3XO7
+	KjWKTrVgM2rM81HwUGvar+xqMQzL51g=
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-568-zXVFLNxTMXKcvxbo3i23dw-1; Thu,
+ 30 May 2024 16:07:23 -0400
+X-MC-Unique: zXVFLNxTMXKcvxbo3i23dw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 988491C05122;
+	Thu, 30 May 2024 20:07:22 +0000 (UTC)
+Received: from redhat.com (unknown [10.22.18.140])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 194BF40004D;
+	Thu, 30 May 2024 20:07:22 +0000 (UTC)
+Date: Thu, 30 May 2024 16:07:20 -0400
+From: Joe Lawrence <joe.lawrence@redhat.com>
+To: Lukas Hruska <lhruska@suse.cz>
+Cc: pmladek@suse.com, mbenes@suse.cz, jpoimboe@kernel.org,
+	live-patching@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, mpdesouza@suse.com,
+	Josh Poimboeuf <jpoimboe@redhat.com>
+Subject: Re: [PATCH v2 2/6] livepatch: Add klp-convert tool
+Message-ID: <ZljceDZ7eqEJtYhQ@redhat.com>
+References: <20240516133009.20224-1-lhruska@suse.cz>
+ <20240516133009.20224-3-lhruska@suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240528113243.827490-2-maennich@google.com>
-In-Reply-To: <20240528113243.827490-2-maennich@google.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Thu, 30 May 2024 23:30:09 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS-sCFCh6Hyrj4qra6b-Bx4HjQLt_FfJb=FB2xUWE_YiA@mail.gmail.com>
-Message-ID: <CAK7LNAS-sCFCh6Hyrj4qra6b-Bx4HjQLt_FfJb=FB2xUWE_YiA@mail.gmail.com>
-Subject: Re: [PATCH] kheaders: explicitly define file modes for archived headers
-To: =?UTF-8?Q?Matthias_M=C3=A4nnich?= <maennich@google.com>
-Cc: linux-kernel@vger.kernel.org, kernel-team@android.com, gprocida@google.com, 
-	stable@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	Joel Fernandes <joel@joelfernandes.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240516133009.20224-3-lhruska@suse.cz>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.10
 
-On Tue, May 28, 2024 at 8:33=E2=80=AFPM Matthias M=C3=A4nnich <maennich@goo=
-gle.com> wrote:
->
-> From: Matthias Maennich <maennich@google.com>
->
-> Build environments might be running with different umask settings
-> resulting in indeterministic file modes for the files contained in
-> kheaders.tar.xz. The file itself is served with 444, i.e. world
-> readable. Archive the files explicitly with 744,a+X to improve
-> reproducibility across build environments.
->
-> --mode=3D0444 is not suitable as directories need to be executable. Also,
-> 444 makes it hard to delete all the readonly files after extraction.
->
-> Cc: stable@vger.kernel.org
-> Cc: linux-kbuild@vger.kernel.org
-> Cc: Masahiro Yamada <masahiroy@kernel.org>
-> Cc: Joel Fernandes <joel@joelfernandes.org>
-> Signed-off-by: Matthias Maennich <maennich@google.com>
+On Thu, May 16, 2024 at 03:30:05PM +0200, Lukas Hruska wrote:
+> Livepatches need to access external symbols which can't be handled
+> by the normal relocation mechanism. It is needed for two types
+> of symbols:
+> 
+>   + Symbols which can be local for the original livepatched function.
+>     The alternative implementation in the livepatch sees them
+>     as external symbols.
+> 
+>   + Symbols in modules which are exported via EXPORT_SYMBOL*(). They
+>     must be handled special way otherwise the livepatch module would
+>     depend on the livepatched one. Loading such livepatch would cause
+>     loading the other module as well.
+> 
+> The address of these symbols can be found via kallsyms. Or they can
+> be relocated using livepatch specific relocation sections as specified
+> in Documentation/livepatch/module-elf-format.txt.
+> 
+> Currently, there is no trivial way to embed the required information as
+> requested in the final livepatch elf object. klp-convert solves this
+> problem by using annotations in the elf object to convert the relocation
+> accordingly to the specification, enabling it to be handled by the
+> livepatch loader.
+> 
+> Given the above, create scripts/livepatch to hold tools developed for
+> livepatches and add source files for klp-convert there.
+> 
+> Allow to annotate such external symbols in the livepatch by a macro
+> KLP_RELOC_SYMBOL(). It will create symbol with all needed
+> metadata. For example:
+> 
+>   extern char *saved_command_line \
+>                  KLP_RELOC_SYMBOL(vmlinux, vmlinux, saved_command_line, 0);
+> 
+> would create symbol
+> 
+> $>readelf -r -W <compiled livepatch module>:
+> Relocation section '.rela.text' at offset 0x32e60 contains 10 entries:
+>     Offset             Info             Type               Symbol's Value  Symbol's Name + Addend
+> [...]
+> 0000000000000068  0000003c00000002 R_X86_64_PC32          0000000000000000 .klp.sym.rela.vmlinux.vmlinux.saved_command_line,0 - 4
+> [...]
+> 
+> Also add scripts/livepatch/klp-convert. The tool transforms symbols
+> created by KLP_RELOC_SYMBOL() to object specific rela sections
+> and rela entries which would later be proceed when the livepatch
+> or the livepatched object is loaded.
+> 
+> For example, klp-convert would replace the above symbol with:
+> 
+> $> readelf -r -W <livepatch_module_proceed_by_klp_convert>
+> Relocation section '.klp.rela.vmlinux.text' at offset 0x5cb60 contains 1 entry:
+>     Offset             Info             Type               Symbol's Value  Symbol's Name + Addend
+> 0000000000000068  0000003c00000002 R_X86_64_PC32          0000000000000000 .klp.sym.vmlinux.saved_command_line,0 - 4
+> 
+> klp-convert relies on libelf and on a list implementation. Add files
+> scripts/livepatch/elf.c and scripts/livepatch/elf.h, which are a libelf
+> interfacing layer and scripts/livepatch/list.h, which is a list
+> implementation.
+> 
+> Update Makefiles to correctly support the compilation of the new tool,
+> update MAINTAINERS file and add a .gitignore file.
+> 
+> [jpoimboe@redhat.com: initial version]
+> Signed-off-by: Josh Poimboeuf <jpoimboe@redhat.com>
+> [joe.lawrence@redhat.com: clean-up and fixes]
+> Signed-off-by: Joe Lawrence <joe.lawrence@redhat.com>
+> [lhruska@suse.cz: klp-convert code, minimal approach]
+> Signed-off-by: Lukas Hruska <lhruska@suse.cz>
+> Reviewed-by: Marcos Paulo de Souza <mpdesouza@suse.com>
 > ---
+>  MAINTAINERS                     |   1 +
+>  include/linux/livepatch.h       |  19 +
+>  scripts/Makefile                |   1 +
+>  scripts/livepatch/.gitignore    |   1 +
+>  scripts/livepatch/Makefile      |   5 +
+>  scripts/livepatch/elf.c         | 817 ++++++++++++++++++++++++++++++++
+>  scripts/livepatch/elf.h         |  73 +++
+>  scripts/livepatch/klp-convert.c | 284 +++++++++++
+>  scripts/livepatch/klp-convert.h |  23 +
+>  scripts/livepatch/list.h        | 391 +++++++++++++++
+>  10 files changed, 1615 insertions(+)
+>  create mode 100644 scripts/livepatch/.gitignore
+>  create mode 100644 scripts/livepatch/Makefile
+>  create mode 100644 scripts/livepatch/elf.c
+>  create mode 100644 scripts/livepatch/elf.h
+>  create mode 100644 scripts/livepatch/klp-convert.c
+>  create mode 100644 scripts/livepatch/klp-convert.h
+>  create mode 100644 scripts/livepatch/list.h
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 130b8b0bd4f7..d2facc1f4e15 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -12618,6 +12618,7 @@ F:	include/uapi/linux/livepatch.h
+>  F:	kernel/livepatch/
+>  F:	kernel/module/livepatch.c
+>  F:	samples/livepatch/
+> +F:	scripts/livepatch/
+>  F:	tools/testing/selftests/livepatch/
+>  
+>  LLC (802.2)
+> diff --git a/include/linux/livepatch.h b/include/linux/livepatch.h
+> index 9b9b38e89563..83bbcd1c43fd 100644
+> --- a/include/linux/livepatch.h
+> +++ b/include/linux/livepatch.h
+> @@ -235,6 +235,25 @@ int klp_apply_section_relocs(struct module *pmod, Elf_Shdr *sechdrs,
+>  			     unsigned int symindex, unsigned int secindex,
+>  			     const char *objname);
+>  
+> +/**
+> + * KLP_RELOC_SYMBOL_POS - define relocation for external symbols
+> + *
+> + * @LP_OBJ_NAME: name of the livepatched object where the symbol is needed
+> + * @SYM_OBJ_NAME: name of the object where the symbol exists
+> + * @SYM_NAME: symbol name
+> + * @SYM_POS: position of the symbol in SYM_OBJ when there are more
+> + *       symbols of the same name.
+> + *
+> + * Use for annotating external symbols used in livepatches which are
+> + * not exported in vmlinux or are in livepatched modules, see
+> + * Documentation/livepatch/module-elf-format.rst
+> + */
+> +#define KLP_RELOC_SYMBOL_POS(LP_OBJ_NAME, SYM_OBJ_NAME, SYM_NAME, SYM_POS)	\
+> +	asm("\".klp.sym.rela." #LP_OBJ_NAME "." #SYM_OBJ_NAME "." #SYM_NAME "," #SYM_POS "\"")
+                                                                            ^^^
+I think I found a potential bug, or at least compatiblity problem with
+including a comma "," character in this symbol format and older versions
+of the GNU assembler.  The good news is that other delimiter characters
+like "." or "#" seem to work out fine.
 
-Applied to linux-kbuild.
-Thanks!
+If you want to reproduce, you'll need a version of `as` like binutils
+2.36.1 and try building the samples/livepatch/livepatch-extern-symbol.ko
+and you should get an error like:
+
+  Assembler messages:
+  Warning: missing closing '"'
+  Warning: missing closing '"'
+  Error: too many memory references for `movq'
 
 
+If you want to retrace my adventure, here are my steps:
 
---=20
-Best Regards
-Masahiro Yamada
+  1) Clone klp-convert-tree repo branch containing this patchset +
+  Petr's review comments + a few helpful things for klp-convert
+  development:
+  
+    $ git clone \
+        --single-branch --branch=klp-convert-minimal-v1-review --depth=9 \
+        https://github.com/joe-lawrence/klp-convert-tree.git
+    [ ... snip ... ]
+    $ cd klp-convert-tree
+  
+  2) Override .cross-dev defaults:
+  
+    $ export BUILD_ARCHES=x86_64
+    $ export COMPILER=gcc-11.1.0
+    $ export URL=https://cdn.kernel.org/pub/tools/crosstool/files/bin/x86_64/
+    $ export OUTDIR_PREFIX=$(pwd)/build
+    $ export COMPILER_INSTALL_PATH=$(pwd)/cross-compiler
+  
+  3) Setup x86_64 default .config (this will download and install the
+  gcc-11.1.0 compiler from cdn.kernel.org):
+  
+    $ ./cross-dev make defconfig
+    
+    x86_64 : make defconfig ...
+    Compiler will be installed in /root/klp-convert-tree/cross-compiler
+    [ ... snip ... ]
+  
+  4) Add kernel livepatching configuration options:
+  
+    $ ./cross-dev klp-config
+    
+    Configuring x86_64 ...
+    [ ... snip ... ]
+    
+    $ grep LIVEPATCH "$OUTDIR_PREFIX"-x86_64/.config
+    CONFIG_HAVE_LIVEPATCH=y
+    CONFIG_LIVEPATCH=y
+    CONFIG_SAMPLE_LIVEPATCH=m
+  
+  5) Run the cross-compiler build until it hits a build error on
+  livepatch-extern-symbol.ko:
+  
+    $ ./cross-dev make -j$(nproc)
+    [ ... snip ... ]
+    make: Target '__all' not remade because of errors.
+    [ x86_64 : make -j48 = FAIL ]
+  
+  6) With pre-requisites already built, retry the external symbol sample
+  and add -save-temps to the KCFLAGS to keep the generated assembly file:
+  
+    $ KCFLAGS="-save-temps=obj" ./cross-dev make samples/livepatch/livepatch-extern-symbol.ko
+    [ ... snip ... ]
+    samples/livepatch/livepatch-extern-symbol.s: Assembler messages:
+    samples/livepatch/livepatch-extern-symbol.s:103: Warning: missing closing '"'
+    samples/livepatch/livepatch-extern-symbol.s:103: Warning: missing closing '"'
+    samples/livepatch/livepatch-extern-symbol.s:103: Error: too many memory references for `movq'
+    [ ... snip ... ]
+  
+  7) Which line is that?
+  
+    $ awk 'NR==103' "$OUTDIR_PREFIX"-x86_64/samples/livepatch/livepatch-extern-symbol.s
+            movq    ".klp.sym.rela.vmlinux.vmlinux.saved_command_line,0"(%rip), %rdx
+
+
+You could alternatively poke at it through the compiler explorer service
+and toggle the source and binutils versions:
+
+  (error)   binutils 2.36.1 : https://godbolt.org/z/cGGs6rfWe
+  (success) binutils 2.38   : https://godbolt.org/z/ffzza3vYd
+
+--
+Joe
+
 
