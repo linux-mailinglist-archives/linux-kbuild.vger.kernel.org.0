@@ -1,155 +1,197 @@
-Return-Path: <linux-kbuild+bounces-1959-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1960-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C1328D548F
-	for <lists+linux-kbuild@lfdr.de>; Thu, 30 May 2024 23:18:05 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC6958D5D2A
+	for <lists+linux-kbuild@lfdr.de>; Fri, 31 May 2024 10:52:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A7DAFB25B3D
-	for <lists+linux-kbuild@lfdr.de>; Thu, 30 May 2024 21:18:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D02311C21FE1
+	for <lists+linux-kbuild@lfdr.de>; Fri, 31 May 2024 08:52:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A46218399C;
-	Thu, 30 May 2024 21:17:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A87DA15572F;
+	Fri, 31 May 2024 08:52:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="byba5nJY"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pmz11taJ"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7DF1181CE6;
-	Thu, 30 May 2024 21:17:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A1B84E1C8;
+	Fri, 31 May 2024 08:52:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717103856; cv=none; b=LyY/qQqzPyoq83hLxBPYP8488KiGKvPOpDForyb+f82LILUG+z0FrafRmgWNSCsptlX1GBUJPUJL7/sXut4Jc5F+E6ykm2q4HYF9jO6/yQErjK6E/f6/eFOCi29DDiMZYeNsH3g0yOg5cU0WXB6N5AcwiGFo2aF6w3ykoUoT5tU=
+	t=1717145565; cv=none; b=FBLgO1PZv50j2hznltCU4ktFX9U/eLDcb8ET61Qz8ORPFd7y0OrdCY7c8ecF6N9BCwmT5ySIcyz85msvMAfVHolPmP0UN7bNd09MT1GiGTA7AXplAuJPcVvfze8CTK4XB0YhUfKENZz1ODrCWV/dvarmP60+z6pLq3lEayTGgHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717103856; c=relaxed/simple;
-	bh=O3liIuepGCFohB2HpmNX8cU+n1Cpbr4RlTKC6GbZOHU=;
+	s=arc-20240116; t=1717145565; c=relaxed/simple;
+	bh=8rhSEmWMci+lrN0K4ohr4Uw7Q3j2uy4yq8C2n//ukdI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DILPlaKhhUxOHveJ8g2jsc+iD96CErVZT/4Jw0ehI+sr5SOtJRvPCpz/a6KdAnV2SEc8LS0/YRY1qrH0NFqbEePbOiFo5doI76bLXao5xks/JTT2kjNKkNjrQ7AkzVziMMimot7gIusbcVMp8hnJYXA3dh+5WUUE4Mc+ShfPYoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=byba5nJY; arc=none smtp.client-ip=209.85.215.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-6818e31e5baso1077420a12.1;
-        Thu, 30 May 2024 14:17:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717103854; x=1717708654; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fwQcnSpwYFxUIF/Q60kDgJFYctgBO16yPjwLDCfAzBg=;
-        b=byba5nJYJygiYKJ/HRfkFgoMopqmpHfNeSNie3+A9/LmuzyzghU8/h3OYy9tF9QEjG
-         KTrf2Kt0UhJ0A/W861tdiXBrDXS3Ll5w74s1h0cmCAkr7FslEcVke3jarD1u/wwQBQvf
-         358hmZqYjYonOyvJ2R3q+rAhFvbXmmKjpP1E8XnEjqN5KjcKZLDBI20D4db6Q8HKeYJ3
-         KDSZ8LjEYd3fdNMmGgUwQu83isjFcxxZp2z4C2pyNBxBLJkG6VtPgJ5kIBjs4R3DWxps
-         KoI0daPSltGYcCAEhhPR/LeOLNwixTK5gxGk1dDfG4T+ot/QALvlQbMCP7gemgcxpuQZ
-         Ektw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717103854; x=1717708654;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fwQcnSpwYFxUIF/Q60kDgJFYctgBO16yPjwLDCfAzBg=;
-        b=XdYnE3tYaZ+0Obc6gGm1JShLhqSv+1m4MjXHgNJKrnCvTsabynxs7mLHFl/Z+DFo56
-         RIBqOyWv9o08yOwY3NejjimKbIKcH8Bdxo4L0ZX6vu8w6v6sKr8b6fzB+AB0Du3WM32j
-         hdbfz7pQpkuCXe2QcJuU9esSWEXXivb6++lx+ws0d5A8ljv45mRi6Jy4QUJbKYVT7i8O
-         K+gsCWIXcziKaLYZYvBoWVr79LLo/9qm29cOA2SDxXmfh3GmRBHswP8eUntdl2UsfSdh
-         9Qaiy/NUSwpYvVLJoZY5CBKB3FF8BH9p+iZHlDYgCthKuPpHaGji3mNQCFheqISWReNF
-         WDew==
-X-Forwarded-Encrypted: i=1; AJvYcCUGsUSOzFN6hVKpI52GljHKO5iwpfTFJ5EoK5OZ9rYEQwre2QRMOMKkPXrp3SEE27ct54TAt2ixh8kpUH/0zKI1ySXYbVDg+HCPr0djgxeEyu34kKS7Ax5RVYcanh1rddko
-X-Gm-Message-State: AOJu0YxoFV71GxRwS6aO6cftWadP3DTnfbkRVI6QK2bGpTjo8+maeOQx
-	yc6RXwYPbXE5F9/WwrdTqsxpG+jpY6s/2gxYPPTS3aAWGH02IjvC5pWcMKNcL9TwdmYBhVyuOU8
-	o9N5RzeBfV2n78dWn2U6bJoniUaM=
-X-Google-Smtp-Source: AGHT+IHl8wkfVKgwLInhye/evtiMGniqi/43wcg8sILOeYzYZH2vA0iqQwN2OKj5p3Ya+XOlcON1CYKb23jyweMS32E=
-X-Received: by 2002:a17:90b:1e0f:b0:2bf:ebf5:c9d4 with SMTP id
- 98e67ed59e1d1-2c1abc46ae3mr3489777a91.42.1717103854098; Thu, 30 May 2024
- 14:17:34 -0700 (PDT)
+	 To:Cc:Content-Type; b=TLD6Zp7zjlTN9agR4yvEU5Oz7FuwRSB8bwV7q8SGIWApGb6a+6/qYYg2kRVrQrPWnVpJ/GMl9IDEGnWU8WFS27Dyioy2h3L1N4eVjqIicGiOzOmGQ8k9qSDh2ptV8JIoWr18aRTtyEgL3z62Tw2yNaTNX30gwWGZN9DrHxxPtgo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pmz11taJ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F157DC116B1;
+	Fri, 31 May 2024 08:52:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717145565;
+	bh=8rhSEmWMci+lrN0K4ohr4Uw7Q3j2uy4yq8C2n//ukdI=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Pmz11taJfxdx0uFXHcqai3LXX017MUS0ITOE8we/yXXTihr+nNY/s9SmdAG9DCF8R
+	 9UXsU0q/a0LNT/bujh4SBzG5Ptrp0QIfL4AhLexIRU9722Akam1TmsXCI/rFkpczzo
+	 wlL7DIasx1IGkZybukcLbxMj3pvte+coAcwgvzNRAm9qQg1A6MzohNhicE2CgQxkdG
+	 Hbuy8k2J+akmFLrz9o+H8BLhuqpYhnb6psipZ9rkeAmG4T38qWY7UIZJ98klg4j6fn
+	 OtjVrd687odMlc5GGjHjm3yhQ9gBeTeY1rGkujZcI4JGjK5hdV6jYED/zus+SQgSBt
+	 pWvmfg7A0eXWQ==
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-52b0d25b54eso2603642e87.3;
+        Fri, 31 May 2024 01:52:44 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCV+pR8Gu5PCArc2nY8Z+ebJLUc4ZDLWaYTbFP8GcGfUdB89tBUARKlIS/v8EYwJtmhQYNBiFa4e+sbZLN3smmoHHZb7Dgfvv7NlRYnumUOnsTxubanqIIOwkqk9EkN60tn1yWPuHzwx+A==
+X-Gm-Message-State: AOJu0Yys5sBoloDyY+1SXuKZ5xaPbchwP9sWNvtetD6XclDoDQvXtmCR
+	gwaDRZbix89dihGfP3bhRh8dp292Ms17xBTCgxy4XRiIGty7GR/hn7jUO29xTvQW/tFwqLFKEIa
+	mZNqHkADMg8f0xn/CRMtbqgaGTK4=
+X-Google-Smtp-Source: AGHT+IEvq57ZRxJcJOYZh6B++SqfSCGoCYQjo4N74EP+P9s0e3YyIW1uOYLA8KgPxsYGEhB8v0aMT1OnsRas65UHGD4=
+X-Received: by 2002:a19:a40a:0:b0:51d:9f10:71b7 with SMTP id
+ 2adb3069b0e04-52b8955ac59mr1052287e87.28.1717145563673; Fri, 31 May 2024
+ 01:52:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240522114755.318238-1-masahiroy@kernel.org> <20240522114755.318238-4-masahiroy@kernel.org>
-In-Reply-To: <20240522114755.318238-4-masahiroy@kernel.org>
-From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Date: Thu, 30 May 2024 14:17:22 -0700
-Message-ID: <CAEf4BzZ4JvrnXYdE7YP06b574b5QKiU-asy_jtnP=JGH-5uR3g@mail.gmail.com>
-Subject: Re: [PATCH 3/3] kbuild: merge temp vmlinux for CONFIG_DEBUG_INFO_BTF
- and CONFIG_KALLSYMS
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	bpf@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>
+References: <20240506133544.2861555-1-masahiroy@kernel.org>
+ <20240506133544.2861555-2-masahiroy@kernel.org> <0e8dee26-41cc-41ae-9493-10cd1a8e3268@app.fastmail.com>
+In-Reply-To: <0e8dee26-41cc-41ae-9493-10cd1a8e3268@app.fastmail.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Fri, 31 May 2024 17:52:07 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQOdQMi-4ODy69urh7mcfoGrwKt17LBDQLTujxWrj3xjw@mail.gmail.com>
+Message-ID: <CAK7LNAQOdQMi-4ODy69urh7mcfoGrwKt17LBDQLTujxWrj3xjw@mail.gmail.com>
+Subject: Re: [PATCH 1/3] kbuild: provide reasonable defaults for tool coverage
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: linux-kbuild@vger.kernel.org, Linux-Arch <linux-arch@vger.kernel.org>, 
+	linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 22, 2024 at 4:48=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
+On Tue, May 28, 2024 at 8:36=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> wrote=
+:
 >
-> CONFIG_DEBUG_INFO_BTF=3Dy requires one additional link step.
-> (.tmp_vmlinux.btf)
+> On Mon, May 6, 2024, at 15:35, Masahiro Yamada wrote:
+> > The objtool, sanitizers (KASAN, UBSAN, etc.), and profilers (GCOV, etc.=
+)
+> > are intended for kernel space objects. To exclude objects from their
+> > coverage, you need to set variables such as OBJECT_FILES_NON_STNDARD=3D=
+y,
+> > KASAN_SANITIZE=3Dn, etc.
+> >
+> > For instance, the following are not kernel objects, and therefore shoul=
+d
+> > opt out of coverage:
+> >
+> >   - vDSO
+> >   - purgatory
+> >   - bootloader (arch/*/boot/)
+> >
+> > Kbuild can detect these cases without relying on such variables because
+> > objects not directly linked to vmlinux or modules are considered
+> > "non-standard objects".
+> >
+> > Detecting objects linked to vmlinux or modules is straightforward:
+> >
+> >   - objects added to obj-y are linked to vmlinux
+> >   - objects added to lib-y are linked to vmlinux
+> >   - objects added to obj-m are linked to modules
+> >
 >
-> CONFIG_KALLSYMS=3Dy requires two additional link steps.
-> (.tmp_vmlinux.kallsyms1 and .tmp_vmlinux.kallsyms2)
+> I noticed new randconfig build warnings and bisected them
+> down to this patch:
 >
-> Enabling both requires three additional link steps.
+> warning: unsafe memchr_inv() usage lacked '__read_overflow' symbol in lib=
+/test_fortify/read_overflow-memchr_inv.c
+> warning: unsafe memchr() usage lacked '__read_overflow' warning in lib/te=
+st_fortify/read_overflow-memchr.c
+> warning: unsafe memscan() usage lacked '__read_overflow' symbol in lib/te=
+st_fortify/read_overflow-memscan.c
+> warning: unsafe memcmp() usage lacked '__read_overflow' warning in lib/te=
+st_fortify/read_overflow-memcmp.c
+> warning: unsafe memcpy() usage lacked '__read_overflow2' symbol in lib/te=
+st_fortify/read_overflow2-memcpy.c
+> warning: unsafe memcmp() usage lacked '__read_overflow2' warning in lib/t=
+est_fortify/read_overflow2-memcmp.c
+> warning: unsafe memmove() usage lacked '__read_overflow2' symbol in lib/t=
+est_fortify/read_overflow2-memmove.c
+> warning: unsafe memcpy() usage lacked '__read_overflow2_field' symbol in =
+lib/test_fortify/read_overflow2_field-memcpy.c
+> warning: unsafe memmove() usage lacked '__read_overflow2_field' symbol in=
+ lib/test_fortify/read_overflow2_field-memmove.c
+> warning: unsafe memcpy() usage lacked '__write_overflow' symbol in lib/te=
+st_fortify/write_overflow-memcpy.c
+> warning: unsafe memmove() usage lacked '__write_overflow' symbol in lib/t=
+est_fortify/write_overflow-memmove.c
+> warning: unsafe memset() usage lacked '__write_overflow' symbol in lib/te=
+st_fortify/write_overflow-memset.c
+> warning: unsafe strcpy() usage lacked '__write_overflow' symbol in lib/te=
+st_fortify/write_overflow-strcpy-lit.c
+> warning: unsafe strcpy() usage lacked '__write_overflow' symbol in lib/te=
+st_fortify/write_overflow-strcpy.c
+> warning: unsafe strncpy() usage lacked '__write_overflow' symbol in lib/t=
+est_fortify/write_overflow-strncpy-src.c
+> warning: unsafe strncpy() usage lacked '__write_overflow' symbol in lib/t=
+est_fortify/write_overflow-strncpy.c
+> warning: unsafe strscpy() usage lacked '__write_overflow' symbol in lib/t=
+est_fortify/write_overflow-strscpy.c
+> warning: unsafe memcpy() usage lacked '__write_overflow_field' symbol in =
+lib/test_fortify/write_overflow_field-memcpy.c
+> warning: unsafe memmove() usage lacked '__write_overflow_field' symbol in=
+ lib/test_fortify/write_overflow_field-memmove.c
+> warning: unsafe memset() usage lacked '__write_overflow_field' symbol in =
+lib/test_fortify/write_overflow_field-memset.c
 >
-> When CONFIG_DEBUG_INFO_BTF=3Dy and CONFIG_KALLSYMS=3Dy, the build step lo=
-oks
-> as follows:
+> I don't understand the nature of this warning, but I see
+> that your patch ended up dropping -fsanitize=3Dkernel-address
+> from the compiler flags because the lib/test_fortify/*.c files
+> don't match the $(is-kernel-object) rule. Adding back
+> -fsanitize=3Dkernel-address shuts up these warnings.
+
+
+In my understanding, fortify-string is independent of KASAN.
+
+I do not understand why -fsanitize=3Dkernel-address matters.
+
+
+
+> I've applied a local workaround in my randconfig tree
 >
->     KSYMS   .tmp_vmlinux.kallsyms0.S
->     AS      .tmp_vmlinux.kallsyms0.o
->     LD      .tmp_vmlinux.btf             # temp vmlinux for BTF
->     BTF     .btf.vmlinux.bin.o
->     LD      .tmp_vmlinux.kallsyms1       # temp vmlinux for kallsyms step=
- 1
->     NM      .tmp_vmlinux.kallsyms1.syms
->     KSYMS   .tmp_vmlinux.kallsyms1.S
->     AS      .tmp_vmlinux.kallsyms1.o
->     LD      .tmp_vmlinux.kallsyms2       # temp vmlinux for kallsyms step=
- 2
->     NM      .tmp_vmlinux.kallsyms2.syms
->     KSYMS   .tmp_vmlinux.kallsyms2.S
->     AS      .tmp_vmlinux.kallsyms2.o
->     LD      vmlinux                      # final vmlinux
+> diff --git a/lib/Makefile b/lib/Makefile
+> index ddcb76b294b5..d7b8fab64068 100644
+> --- a/lib/Makefile
+> +++ b/lib/Makefile
+> @@ -425,5 +425,7 @@ $(obj)/$(TEST_FORTIFY_LOG): $(addprefix $(obj)/, $(TE=
+ST_FORTIFY_LOGS)) FORCE
 >
-> This is redundant because the BTF generation and the kallsyms step 1 can
-> be performed against the same temporary vmlinux.
+>  # Fake dependency to trigger the fortify tests.
+>  ifeq ($(CONFIG_FORTIFY_SOURCE),y)
+> +ifndef CONFIG_KASAN
+>  $(obj)/string.o: $(obj)/$(TEST_FORTIFY_LOG)
+> +endif
+>  endif
 >
-> When both CONFIG_DEBUG_INFO_BTF and CONFIG_KALLSYMS are enabled, we can
-> reduce the number of link steps.
 >
-> The build step will look as follows:
->
->     KSYMS   .tmp_vmlinux0.kallsyms.S
->     AS      .tmp_vmlinux0.kallsyms.o
->     LD      .tmp_vmlinux1                # temp vmlinux for BTF and kalls=
-yms step 1
->     BTF     .tmp_vmlinux1.btf.o
->     NM      .tmp_vmlinux1.syms
->     KSYMS   .tmp_vmlinux1.kallsyms.S
->     AS      .tmp_vmlinux1.kallsyms.o
->     LD      .tmp_vmlinux2                # temp vmlinux for kallsyms step=
- 2
->     NM      .tmp_vmlinux2.syms
->     KSYMS   .tmp_vmlinux2.kallsyms.S
->     AS      .tmp_vmlinux2.kallsyms.o
->     LD      vmlinux                      # final link
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
+> which I don't think we want upstream. Can you and Kees come
+> up with a proper fix instead?
 >
 
-LGTM, thanks!
 
-Acked-by: Andrii Nakryiko <andrii@kernel.org>
+I set CONFIG_FORTIFY_SOURCE=3Dy and CONFIG_KASAN=3Dy,
+but I did not observe such warnings.
+Is this arch or compiler-specific?
 
->  scripts/link-vmlinux.sh | 45 +++++++++++++++++++++--------------------
->  1 file changed, 23 insertions(+), 22 deletions(-)
->
 
-[...]
+Could you provide me with the steps to reproduce it?
+
+
+
+
+
+--
+Best Regards
+Masahiro Yamada
 
