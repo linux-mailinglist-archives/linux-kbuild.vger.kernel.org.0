@@ -1,176 +1,147 @@
-Return-Path: <linux-kbuild+bounces-1973-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1974-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73E1E8D7182
-	for <lists+linux-kbuild@lfdr.de>; Sat,  1 Jun 2024 20:21:39 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 038568D751F
+	for <lists+linux-kbuild@lfdr.de>; Sun,  2 Jun 2024 13:48:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A52A71C20D01
-	for <lists+linux-kbuild@lfdr.de>; Sat,  1 Jun 2024 18:21:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 973981F21546
+	for <lists+linux-kbuild@lfdr.de>; Sun,  2 Jun 2024 11:48:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 224A815534C;
-	Sat,  1 Jun 2024 18:20:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9356336B17;
+	Sun,  2 Jun 2024 11:48:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vg67uHb3"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OfzTJbq2"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF8D0155348;
-	Sat,  1 Jun 2024 18:20:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECBFB134A8;
+	Sun,  2 Jun 2024 11:48:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717266056; cv=none; b=JkQI2ePfECe27eo4d4GJrNIQiXPHJ6FDPEoUa4g5w/edZbjaO/XZV0IOLN56R/0Lc7NIEezYT3ZaR/aEAac28mDPWXaDO0Sf4z145mB+9YnKtb9OLN7cqx/zzpm07Qb6jZxziVjFw4O/B+/5wNVCuiZ1V3sFgVZYSg8G7pCoAkY=
+	t=1717328896; cv=none; b=tJLbAhiISJRbH9VMnvdwwxHSv0jw0aOQ++DYegfmQ0V9Sy6ATAmuQ/n+wAKLvOcL24amyuUlOEKDgW4cve51ScAhhi2zyKa6+sj6q52wI3FEMQag9VnhscsMl6Zat3o7Ak6PjpHwqGErqYJW65MmyZ2EVVUPNXmrcRHdqvlNq70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717266056; c=relaxed/simple;
-	bh=kC1jc3prKdtA/LgosSTF/JuJoDdO9UUh+Y3Hw0pC3Mo=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=GXvcJKSrkkTSK8VdmsjplhE2MtHTD8/XAFP5hBVRYnhpk6f9PdV5KmGQhzLCEXh3V/UFXcyFO9+PjHtDJohWP+APzAv5Ey8aMAJMULz28ebMLs3Xfna8WHgFYL/EQvkW6acJJ2+st1X4Ooun5zqIAiuMaxuVbfjjiuvqXz9hHeU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vg67uHb3; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C15CCC4AF08;
-	Sat,  1 Jun 2024 18:20:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717266055;
-	bh=kC1jc3prKdtA/LgosSTF/JuJoDdO9UUh+Y3Hw0pC3Mo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Vg67uHb3e6ApuZockC+sUyc0WOdFnzWF6d78gAUgF/OOw41DV5Eyp6u+D3TBz5D1b
-	 mbgRd8u5HBT5Zue98gtwIxiRXKBNfOqc7Pn3Yz5KDRd16DnHszHRBGaB2atOAqm17W
-	 InU/3k5RvsYQ+8zCjpQ8Oo+AUmCKmF7H48eIpVzfNxuq31AB6wxLPok1eSnl+FpvWe
-	 3uHsDfAtME7WqmqEBaw5paw+JJhpO7lMsyZpCzGY5d6gNycoRFFGzYeNv+BuWOVYhm
-	 RayQCs0a3ro20wlofLJI4+bbYhXY5qvuDh0dOC1WE1ZOarpfWWnUTLKdLxTJ1RJdmU
-	 spT/rZ/46KKUw==
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: linux-kbuild@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH 6/6] kconfig: pass new the conf_changed value to the callback
-Date: Sun,  2 Jun 2024 03:20:43 +0900
-Message-Id: <20240601182043.876249-6-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20240601182043.876249-1-masahiroy@kernel.org>
-References: <20240601182043.876249-1-masahiroy@kernel.org>
+	s=arc-20240116; t=1717328896; c=relaxed/simple;
+	bh=+hNV2W0JijwpQjXKflQT777I6zGWMuYrdUwsg7UjIxU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ibg4aK7VmgC5JUJm0KuCguuw8tLOSluRVNgGa8ZNp1QWe1tteMF+6/MkQtdfofdBFcec8ZROCL41u1Ni9n8KlamjkS4MgA+haAz85D4ypQ7gAxXKA8fg9/d7ZPEOMjrIBJSz9HtGMd/i3xjGjU9IlUit/+NsT6c6fZLibNk7t8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OfzTJbq2; arc=none smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a6265d48ec3so361661666b.0;
+        Sun, 02 Jun 2024 04:48:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1717328893; x=1717933693; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8Oajb/kRUzc1WUZBn+VXOrie8WQ1s/4lpFkPQ6Q8aco=;
+        b=OfzTJbq2vUVjGCMb5zJSqWngoaBim/Scc5vcQqVcaRimOU11mz7VFnQ8lWPc00S7Qr
+         zhWHzUU2Rdhc1MXZ5Hpzi1BpdRZnERh/ZWqz6c426ryiY8tcq3BFE3KkUkaVe7cKIVAU
+         FW9b+FhztzUmRchX4z9JtI7lqNSa1dx8kbHv1HXt95ZDF8u5jjcg7Kd7LyiWad3Lk+k+
+         LVcjeWltEZpwqUqUW0rkIo1Dt0GVcauJTFb5fz8+5brdQZzXBTeM6ylj1SnIUZgiPthi
+         vpjAAv0ixs35XCWpLEfY0by9BK9LtVDbend4A0jytWMGEfu3G4iCF39Bbx8Jw+WS1uYL
+         wJ+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717328893; x=1717933693;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8Oajb/kRUzc1WUZBn+VXOrie8WQ1s/4lpFkPQ6Q8aco=;
+        b=bRsAgx/ioxHpvN9HPQfh+halLPN3rrGzWzPB8zelJLrNIBrugcYjJktvCBFMhNWCZe
+         SovQYtpWZQw+tTynBcI42Tc21yAKPopZpKjeWEnVBn/piPb9JNN41xZ8zvYC+Uu3+tD3
+         nb307gA4Bd6H//XA7QU+CRmPd8feJR8jmh7CJRQ3mF7B65k/qohzNERznjsWciNAxVuf
+         oCGKzwGrDw01QomGkeT0OpocFf849e+86koNncatXHAW1274h3g+JnjDHNSAyal/xNu7
+         8JnexQONj74vLdmcTA4S0WP6pGTnU5Ii0hrRPSR4ofQYrNqwIIyOvrkoVOagehkpbduf
+         9SqA==
+X-Forwarded-Encrypted: i=1; AJvYcCUgY29najmOvBzmACsoobCB0vrW/G52I3jQhWlCU20ZVTXvfFjAfUU4sAnNEI7JYfcbe+MT1E6Np25K/b4RweYYnuavEWsdXeI2oazY7aGlyI7/T+HSsVFBwFflupD16JM7rX4N6MQXgJUe
+X-Gm-Message-State: AOJu0YyJeo8kZtHE16MLI4iiFZAsgr7Y23bWcFQ5KvQI88mNhMpIMsMW
+	wT5PNCofYy4ZfYg3Lj0F/CfGfRbAGzf2eUCBXBW63apoXHGHU8iALfOve2t3
+X-Google-Smtp-Source: AGHT+IFvCtW+5CE30JLBkgRh/P611LTQD3C/kr+7FZcNtFCa1ZUcuSx9CNE+l1IcZBA7WdfadpNefQ==
+X-Received: by 2002:a17:906:a410:b0:a68:8950:9510 with SMTP id a640c23a62f3a-a68895099f7mr386775766b.25.1717328892984;
+        Sun, 02 Jun 2024 04:48:12 -0700 (PDT)
+Received: from [192.168.178.20] (dh207-41-151.xnet.hr. [88.207.41.151])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a68ccf77cd3sm143124166b.13.2024.06.02.04.48.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 02 Jun 2024 04:48:12 -0700 (PDT)
+Message-ID: <47e101e6-fbd2-4373-854a-db9431bf0d74@gmail.com>
+Date: Sun, 2 Jun 2024 13:48:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PROBLEM linux-next] Error in "make olddefconfig" and "make
+ menuconfig"
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Bagas Sanjaya <bagasdotme@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Kernel Build System <linux-kbuild@vger.kernel.org>
+References: <b948b14b-1543-4314-9e9e-58a54cf2b734@gmail.com>
+ <CAK7LNASTaxPDH4_wozMc9G6NE+HwFXgLiUAM5Ki9mc-Gwf4vmA@mail.gmail.com>
+Content-Language: en-US
+From: Mirsad Todorovac <mtodorovac69@gmail.com>
+In-Reply-To: <CAK7LNASTaxPDH4_wozMc9G6NE+HwFXgLiUAM5Ki9mc-Gwf4vmA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Commit ee06a3ef7e3c ("kconfig: Update config changed flag before calling
-callback") pointed out that conf_updated flag must be updated before
-calling the callback because it needs to know the new value.
+On 5/15/24 06:17, Masahiro Yamada wrote:
+> On Wed, May 15, 2024 at 3:37 AM Mirsad Todorovac <mtodorovac69@gmail.com> wrote:
+>>
+>> Hi, Mr. Bagas,
+>>
+>> While bisecting a problem in linux-next tree, I came across the problem:
+> 
+> 
+> I checked out v6.7-rc5-2761-gefc11f34e25f
+> but 'make olddefconfig' worked fine with me.
+> 
+> 
+> If this issue occurs only during 'git bisect',
+> I need full steps to reproduce it because I do not
+> know what you did before v6.7-rc5-2761-gefc11f34e25f.
+> 
+> 
+>   $ git checkout <some commit>
+>   $ [ do something ]
+>   $ git v6.7-rc5-2761-gefc11f34e25f
+>   $ make olddefconfig
+> 
+> 
+> If I am able to reproduce the issue that way,
+> maybe I can have more insight.
 
-If so, it makes sense to pass the new value to the callback.
+Just to report that fresh cloning eliminated the error.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+Best regards,
+Mirsad Todorovac
 
- scripts/kconfig/confdata.c  | 10 ++++------
- scripts/kconfig/gconf.c     |  7 +++----
- scripts/kconfig/lkc_proto.h |  2 +-
- scripts/kconfig/qconf.cc    |  4 ++--
- scripts/kconfig/qconf.h     |  2 +-
- 5 files changed, 11 insertions(+), 14 deletions(-)
-
-diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
-index 85b53069ba7a..946185506380 100644
---- a/scripts/kconfig/confdata.c
-+++ b/scripts/kconfig/confdata.c
-@@ -1141,16 +1141,14 @@ int conf_write_autoconf(int overwrite)
- }
- 
- static bool conf_changed;
--static void (*conf_changed_callback)(void);
-+static void (*conf_changed_callback)(bool);
- 
- void conf_set_changed(bool val)
- {
--	bool changed = conf_changed != val;
-+	if (conf_changed_callback && conf_changed != val)
-+		conf_changed_callback(val);
- 
- 	conf_changed = val;
--
--	if (conf_changed_callback && changed)
--		conf_changed_callback();
- }
- 
- bool conf_get_changed(void)
-@@ -1158,7 +1156,7 @@ bool conf_get_changed(void)
- 	return conf_changed;
- }
- 
--void conf_set_changed_callback(void (*fn)(void))
-+void conf_set_changed_callback(void (*fn)(bool))
- {
- 	conf_changed_callback = fn;
- }
-diff --git a/scripts/kconfig/gconf.c b/scripts/kconfig/gconf.c
-index 2bf74aee5eff..baa1c512de3c 100644
---- a/scripts/kconfig/gconf.c
-+++ b/scripts/kconfig/gconf.c
-@@ -84,11 +84,10 @@ static void replace_button_icon(GladeXML *xml, GdkDrawable *window,
- 	gtk_tool_button_set_icon_widget(button, image);
- }
- 
--static void conf_changed(void)
-+static void conf_changed(bool dirty)
- {
--	bool changed = conf_get_changed();
--	gtk_widget_set_sensitive(save_btn, changed);
--	gtk_widget_set_sensitive(save_menu_item, changed);
-+	gtk_widget_set_sensitive(save_btn, dirty);
-+	gtk_widget_set_sensitive(save_menu_item, dirty);
- }
- 
- /* Main Window Initialization */
-diff --git a/scripts/kconfig/lkc_proto.h b/scripts/kconfig/lkc_proto.h
-index d76aaf4ea117..c663fd8b35d2 100644
---- a/scripts/kconfig/lkc_proto.h
-+++ b/scripts/kconfig/lkc_proto.h
-@@ -13,7 +13,7 @@ int conf_write(const char *name);
- int conf_write_autoconf(int overwrite);
- void conf_set_changed(bool val);
- bool conf_get_changed(void);
--void conf_set_changed_callback(void (*fn)(void));
-+void conf_set_changed_callback(void (*fn)(bool));
- void conf_set_message_callback(void (*fn)(const char *s));
- bool conf_errors(void);
- 
-diff --git a/scripts/kconfig/qconf.cc b/scripts/kconfig/qconf.cc
-index e62e862ea283..03fa096074b4 100644
---- a/scripts/kconfig/qconf.cc
-+++ b/scripts/kconfig/qconf.cc
-@@ -1849,10 +1849,10 @@ void ConfigMainWindow::saveSettings(void)
- 	configSettings->writeSizes("/split2", split2->sizes());
- }
- 
--void ConfigMainWindow::conf_changed(void)
-+void ConfigMainWindow::conf_changed(bool dirty)
- {
- 	if (saveAction)
--		saveAction->setEnabled(conf_get_changed());
-+		saveAction->setEnabled(dirty);
- }
- 
- void fixup_rootmenu(struct menu *menu)
-diff --git a/scripts/kconfig/qconf.h b/scripts/kconfig/qconf.h
-index 78b0a1dfcd53..53373064d90a 100644
---- a/scripts/kconfig/qconf.h
-+++ b/scripts/kconfig/qconf.h
-@@ -239,7 +239,7 @@ class ConfigMainWindow : public QMainWindow {
- 
- 	char *configname;
- 	static QAction *saveAction;
--	static void conf_changed(void);
-+	static void conf_changed(bool);
- public:
- 	ConfigMainWindow(void);
- public slots:
--- 
-2.40.1
-
+>> marvin@defiant:~/linux/kernel/linux-next$ git describe
+>> v6.7-rc5-2761-gefc11f34e25f
+>> marvin@defiant:~/linux/kernel/linux-next$ make olddefconfig
+>> make[2]: *** No targets.  Stop.
+>> make[1]: *** [/home/marvin/linux/kernel/linux-next/Makefile:621: scripts_basic] Error 2
+>> make: *** [Makefile:234: __sub-make] Error 2
+>> marvin@defiant:~/linux/kernel/linux-next$ make menuconfig
+>> make[2]: *** No targets.  Stop.
+>> make[1]: *** [/home/marvin/linux/kernel/linux-next/Makefile:621: scripts_basic] Error 2
+>> make: *** [Makefile:234: __sub-make] Error 2
+>> marvin@defiant:~/linux/kernel/linux-next$
+>>
+>> Now, this occurred for the first time, and I don't know how to bail out.
+>>
+>> I recall in past couple of years you have some insightful advice.
+>>
+>> Thank you very much.
+>>
+>> Best regards,
+>> Mirsad Todorovac
+>>
+> 
+> 
 
