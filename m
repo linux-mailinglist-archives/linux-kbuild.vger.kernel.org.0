@@ -1,200 +1,102 @@
-Return-Path: <linux-kbuild+bounces-1981-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1982-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 890868D8705
-	for <lists+linux-kbuild@lfdr.de>; Mon,  3 Jun 2024 18:19:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3D0B8DDC9E
+	for <lists+linux-kbuild@lfdr.de>; Mon,  3 Jun 2024 23:28:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4439A2836EE
-	for <lists+linux-kbuild@lfdr.de>; Mon,  3 Jun 2024 16:19:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B80D9284F32
+	for <lists+linux-kbuild@lfdr.de>; Mon,  3 Jun 2024 21:28:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 382A1136987;
-	Mon,  3 Jun 2024 16:19:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBE6C13BAE5;
+	Mon,  3 Jun 2024 21:27:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pQxmAnTA"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="eilW4qOd"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10451136678;
-	Mon,  3 Jun 2024 16:19:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC381364A1;
+	Mon,  3 Jun 2024 21:27:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717431551; cv=none; b=beUNQp49hzRA0cuR21XDijtA5gockW2yJZWckL5QW+qMMLxPuQALhOtOTheovWOw2hWaucf8b8veP+Y8jWiGb82cRseQCvCmc65k8ax4vmydoD2dfSEyqsqxGi/1BH372ubzxQLFS36KTVW2ozFTmnZMFDLqrLBFzjlxcORv7WI=
+	t=1717450078; cv=none; b=JISL+FyfcrC6r7nhl8fhDUIDalo+QLQu5/Jlx+K+93eKc9xCgBuIbsPK2GY0kP8P6uW3ERXPXUaFSQY+vCuYWI51en6CvMUmmVsfme9ARAq1DhfAj7P/7cQ9OaMcyUafZrwgsPhayGroO5tV3R6bqXxyi9XcEHXh01OGHDVomJs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717431551; c=relaxed/simple;
-	bh=sDykRe91pnVD0aexHRUrL+T0DqPd40abH1ku26aKwb4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=NYrySQ9mGECDq4qt65ljTKAPFGv3G8nyaR7Aj4Uzx/eNm6UdOrZWiVc691H88kNwCQS+mA31cqCScTkJvpnlzpA6n1foUaGFSqjwuJgcVcQKdI5bjZdMDx+hw05xh9/94jAmsl2cob6yp1/SzaHlR8VWZA00xq33nIEsPZ//H4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pQxmAnTA; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0B9DC4AF0B;
-	Mon,  3 Jun 2024 16:19:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717431550;
-	bh=sDykRe91pnVD0aexHRUrL+T0DqPd40abH1ku26aKwb4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=pQxmAnTAqzNIBBqxRpYsPrOV0V4qbolxwqi2y3tMK6SJVzoO00FKwjrWKNxfp9BEA
-	 1NU8/Ct9DGzSkPRBhMmmc4RFhnadeAJZZjYfhqFcVThGoXd/Q4Q9oPo9rK/ToItTfC
-	 6HrDPXcvBsHq2EcoliLlO83u1Q5wGUf4WM2Y12YeCPKcG3FagmH0PCPDoS/vXIYJl2
-	 mp/2Q27IQQGqSP0vNZkQpFtfDJCwOAOFPvAwz4tc0UyrcSZVQeMNQ/Kk++Xriwf0j7
-	 GPhcUY5vYmO0xBygt9hB2oBY3t5qV3/OEkhLfliXjztd3VocGNcURc227CUIarixJB
-	 7SUqPhu37bnKQ==
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: linux-kbuild@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH 3/3] kconfig: remove wrong expr_trans_bool()
-Date: Tue,  4 Jun 2024 01:19:04 +0900
-Message-Id: <20240603161904.1663388-3-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20240603161904.1663388-1-masahiroy@kernel.org>
-References: <20240603161904.1663388-1-masahiroy@kernel.org>
+	s=arc-20240116; t=1717450078; c=relaxed/simple;
+	bh=FUsL5X9V17Z2s69+YcjAFrRVbWIgcA3bDRVc1rw94bQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=q+nz3bms7yhAOK8CbcsZqs7w14cxJTtMiMaVX3uTEitJG6Z01pJSQUV6DpnE+8Si570zIF38xOXtIHe1HQkwbCwnBC21qCrijYwb2Lci58na655HrFP3HDDZYYUoSdreFIkYUhkECKltkvqx+MZ8P64YkFTsgg1uizHeP+9Wjso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=eilW4qOd; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=LSDGQzdToprClbFM9VSOn3HPVixsGLyQ+MmVlrKB1kI=; b=eilW4qOdRA4jyzIj6Y6OsGnHEt
+	NIDjNj/p6WTMv/ZSSIcFk8ZtQpW5ISSG3hSJigB6rnKNwyRjBJeFmHVgR8eLlmEGj+Dd+N+kRncqR
+	8nIZDIZTF+zbAdNd/ISt1/DA9+wD3N22k1RW0gT01piTnjVgNx+cCJU8UCOFe60vUhkHCJOtB4B0y
+	Xb5VUHtePrZqICDNJ6phu6zY6L7nWzN7RmmwZbuHca85pbg38VsxLZCPElpCCc+Lxbyuzt36zxIUe
+	6FbEXRHrKytYVdI5M58dmVP92hEix1OV+Knj0dZceHVp3OKvMK+28Y8jgefFuzexuGIgDKuq3HmPy
+	3CS+CMsA==;
+Received: from [50.53.4.147] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sEFDg-00000000Ob9-0r2e;
+	Mon, 03 Jun 2024 21:27:56 +0000
+Message-ID: <ec2e447e-ca96-49fc-b41b-ee3c48f6a914@infradead.org>
+Date: Mon, 3 Jun 2024 14:27:53 -0700
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] kconfig: doc: fix a typo in the note about 'imply'
+To: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+References: <20240603161904.1663388-1-masahiroy@kernel.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20240603161904.1663388-1-masahiroy@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-expr_trans_bool() performs an incorrect transformation.
 
-[Test Code]
 
-    config MODULES
-            def_bool y
-            modules
+On 6/3/24 9:19 AM, Masahiro Yamada wrote:
+> This sentence does not make sense due to a typo. Fix it.
+> 
+> Fixes: def2fbffe62c ("kconfig: allow symbols implied by y to become m")
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-    config A
-            def_bool y
-            select C if B != n
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
 
-    config B
-            def_tristate m
+Thanks.
 
-    config C
-            tristate
+> ---
+> 
+>  Documentation/kbuild/kconfig-language.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
+> index 555c2f839969..86be5b857cc4 100644
+> --- a/Documentation/kbuild/kconfig-language.rst
+> +++ b/Documentation/kbuild/kconfig-language.rst
+> @@ -184,7 +184,7 @@ applicable everywhere (see syntax).
+>    ability to hook into a secondary subsystem while allowing the user to
+>    configure that subsystem out without also having to unset these drivers.
+>  
+> -  Note: If the combination of FOO=y and BAR=m causes a link error,
+> +  Note: If the combination of FOO=y and BAZ=m causes a link error,
+>    you can guard the function call with IS_REACHABLE()::
+>  
+>  	foo_init()
 
-[Result]
-
-    CONFIG_MODULES=y
-    CONFIG_A=y
-    CONFIG_B=m
-    CONFIG_C=m
-
-This result is incorrect because CONFIG_C=y is expected.
-
-Documentation/kbuild/kconfig-language.rst clearly explains the function
-of the '!=' operator:
-
-  (3) If the values of both symbols are equal, it returns 'n',
-      otherwise 'y'.
-
-Therefore, the statement:
-
-    select C if A != n
-
-should be equivalent to:
-
-    select C if y
-
-Hence, the symbol C should be selected by 'y' instead of 'm'.
-
-The comment block of expr_trans_bool() correctly explains its intention:
-
-  * bool FOO!=n => FOO
-    ^^^^
-
-If FOO is bool, FOO!=n can be simplified into FOO. This is correct.
-
-However, the actual code performs this transformation when FOO is
-tristate.
-
-    if (e->left.sym->type == S_TRISTATE) {
-                             ^^^^^^^^^^
-
-While, it can be fixed to S_BOOLEAN, there is no point in doing so
-because expr_tranform() already transforms FOO!=n to FOO when FOO is
-bool. (see the "case E_UNEQUAL" part)
-
-expr_trans_bool() is wrong and unnecessary.
-
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
- scripts/kconfig/expr.c | 29 -----------------------------
- scripts/kconfig/expr.h |  1 -
- scripts/kconfig/menu.c |  2 --
- 3 files changed, 32 deletions(-)
-
-diff --git a/scripts/kconfig/expr.c b/scripts/kconfig/expr.c
-index 4d95fce5f9a7..fcc190b67b6f 100644
---- a/scripts/kconfig/expr.c
-+++ b/scripts/kconfig/expr.c
-@@ -396,35 +396,6 @@ static struct expr *expr_eliminate_yn(struct expr *e)
- 	return e;
- }
- 
--/*
-- * bool FOO!=n => FOO
-- */
--struct expr *expr_trans_bool(struct expr *e)
--{
--	if (!e)
--		return NULL;
--	switch (e->type) {
--	case E_AND:
--	case E_OR:
--	case E_NOT:
--		e->left.expr = expr_trans_bool(e->left.expr);
--		e->right.expr = expr_trans_bool(e->right.expr);
--		break;
--	case E_UNEQUAL:
--		// FOO!=n -> FOO
--		if (e->left.sym->type == S_TRISTATE) {
--			if (e->right.sym == &symbol_no) {
--				e->type = E_SYMBOL;
--				e->right.sym = NULL;
--			}
--		}
--		break;
--	default:
--		;
--	}
--	return e;
--}
--
- /*
-  * e1 || e2 -> ?
-  */
-diff --git a/scripts/kconfig/expr.h b/scripts/kconfig/expr.h
-index fa50fc45622e..7c0c242318bc 100644
---- a/scripts/kconfig/expr.h
-+++ b/scripts/kconfig/expr.h
-@@ -284,7 +284,6 @@ void expr_free(struct expr *e);
- void expr_eliminate_eq(struct expr **ep1, struct expr **ep2);
- int expr_eq(struct expr *e1, struct expr *e2);
- tristate expr_calc_value(struct expr *e);
--struct expr *expr_trans_bool(struct expr *e);
- struct expr *expr_eliminate_dups(struct expr *e);
- struct expr *expr_transform(struct expr *e);
- int expr_contains_symbol(struct expr *dep, struct symbol *sym);
-diff --git a/scripts/kconfig/menu.c b/scripts/kconfig/menu.c
-index 53151c5a6028..eef9b63cdf11 100644
---- a/scripts/kconfig/menu.c
-+++ b/scripts/kconfig/menu.c
-@@ -398,8 +398,6 @@ static void _menu_finalize(struct menu *parent, bool inside_choice)
- 				dep = expr_transform(dep);
- 				dep = expr_alloc_and(expr_copy(basedep), dep);
- 				dep = expr_eliminate_dups(dep);
--				if (menu->sym && menu->sym->type != S_TRISTATE)
--					dep = expr_trans_bool(dep);
- 				prop->visible.expr = dep;
- 
- 				/*
 -- 
-2.40.1
-
+#Randy
+https://people.kernel.org/tglx/notes-about-netiquette
+https://subspace.kernel.org/etiquette.html
 
