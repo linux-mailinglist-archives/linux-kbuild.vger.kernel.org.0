@@ -1,53 +1,53 @@
-Return-Path: <linux-kbuild+bounces-1980-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1981-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3B958D8704
-	for <lists+linux-kbuild@lfdr.de>; Mon,  3 Jun 2024 18:19:23 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 890868D8705
+	for <lists+linux-kbuild@lfdr.de>; Mon,  3 Jun 2024 18:19:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D4DC81C217D2
-	for <lists+linux-kbuild@lfdr.de>; Mon,  3 Jun 2024 16:19:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4439A2836EE
+	for <lists+linux-kbuild@lfdr.de>; Mon,  3 Jun 2024 16:19:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 106BA13667E;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 382A1136987;
 	Mon,  3 Jun 2024 16:19:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B1TzhTBF"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pQxmAnTA"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE04F13666E;
-	Mon,  3 Jun 2024 16:19:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10451136678;
+	Mon,  3 Jun 2024 16:19:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717431551; cv=none; b=H5BSY1otwJ/WrvUpS3TnX0G0d6jjD1FmqBFQkdyBnhIBScefVgTzBEYDBCSh+1MIX6+/lZFrsgGcA4I8XUTMH+b4ipW2UJZVyDD3H+pie1gVaQonMu1o3ucSl4wH4zqg0or4Px5i+hdXnVJGzHKHUxqEBeZ9IuXZFETeCVXc91E=
+	t=1717431551; cv=none; b=beUNQp49hzRA0cuR21XDijtA5gockW2yJZWckL5QW+qMMLxPuQALhOtOTheovWOw2hWaucf8b8veP+Y8jWiGb82cRseQCvCmc65k8ax4vmydoD2dfSEyqsqxGi/1BH372ubzxQLFS36KTVW2ozFTmnZMFDLqrLBFzjlxcORv7WI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1717431551; c=relaxed/simple;
-	bh=0bw9I6ni7Nse9gvjkZM4wnIf7S4Gr9HtUnYYALwSU9k=;
+	bh=sDykRe91pnVD0aexHRUrL+T0DqPd40abH1ku26aKwb4=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=G8LcSFE4PemgA1LmJazDsQUd6eM4DHRL3TNB4aeknFYBSwOMQsUupl+Jm34rHh5iR5A7K+hOHs4SNiwJDfttsYT3tpbtxUo19BHpdlm/BMCk2XuSmVSDvorSB3fswOpHsKkk8nhGBVO9yPGckQCRiwSZpuuxsVPB8doyn1+ZgkI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B1TzhTBF; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81A70C4AF07;
-	Mon,  3 Jun 2024 16:19:08 +0000 (UTC)
+	 MIME-Version; b=NYrySQ9mGECDq4qt65ljTKAPFGv3G8nyaR7Aj4Uzx/eNm6UdOrZWiVc691H88kNwCQS+mA31cqCScTkJvpnlzpA6n1foUaGFSqjwuJgcVcQKdI5bjZdMDx+hw05xh9/94jAmsl2cob6yp1/SzaHlR8VWZA00xq33nIEsPZ//H4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pQxmAnTA; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0B9DC4AF0B;
+	Mon,  3 Jun 2024 16:19:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717431549;
-	bh=0bw9I6ni7Nse9gvjkZM4wnIf7S4Gr9HtUnYYALwSU9k=;
+	s=k20201202; t=1717431550;
+	bh=sDykRe91pnVD0aexHRUrL+T0DqPd40abH1ku26aKwb4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=B1TzhTBF64viQqPXi128HEVvAo0+Vm+xMXkfnMxdV01EB/SAjdVNQoHxlW1IwNgPU
-	 rrX+8QfXODepI1oSZbwr58Gnc52YsVCeHu9b1tkmntAQLtyGuh/YWa2Bw8mTlZvZ9N
-	 0UzohFxNMvM2by1W+wcVrdPHP6JuzrEGAFvbjuPrOE9fmb79KgOYXALaurOFAcfe0I
-	 fqdNJs795Bw2gpkS6jzXpGJBRZcykYN4KF9Wfwe5vSWmTBRRu0uKwZf6hBTn6dAG/n
-	 jxMfwcpQPZLx00Hlgzd69iH4hEnPBv68VRFXECHZOhemwEzkTrqPy/mhE5PRl9ARf1
-	 qYecH3q6cFL1Q==
+	b=pQxmAnTAqzNIBBqxRpYsPrOV0V4qbolxwqi2y3tMK6SJVzoO00FKwjrWKNxfp9BEA
+	 1NU8/Ct9DGzSkPRBhMmmc4RFhnadeAJZZjYfhqFcVThGoXd/Q4Q9oPo9rK/ToItTfC
+	 6HrDPXcvBsHq2EcoliLlO83u1Q5wGUf4WM2Y12YeCPKcG3FagmH0PCPDoS/vXIYJl2
+	 mp/2Q27IQQGqSP0vNZkQpFtfDJCwOAOFPvAwz4tc0UyrcSZVQeMNQ/Kk++Xriwf0j7
+	 GPhcUY5vYmO0xBygt9hB2oBY3t5qV3/OEkhLfliXjztd3VocGNcURc227CUIarixJB
+	 7SUqPhu37bnKQ==
 From: Masahiro Yamada <masahiroy@kernel.org>
 To: linux-kbuild@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
 	Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH 2/3] kconfig: doc: document behavior of 'select' and 'imply' followed by 'if'
-Date: Tue,  4 Jun 2024 01:19:03 +0900
-Message-Id: <20240603161904.1663388-2-masahiroy@kernel.org>
+Subject: [PATCH 3/3] kconfig: remove wrong expr_trans_bool()
+Date: Tue,  4 Jun 2024 01:19:04 +0900
+Message-Id: <20240603161904.1663388-3-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20240603161904.1663388-1-masahiroy@kernel.org>
 References: <20240603161904.1663388-1-masahiroy@kernel.org>
@@ -59,14 +59,7 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Documentation/kbuild/kconfig-language.rst explains the behavior of
-'select' as follows:
-
-  reverse dependencies can be used to force a lower limit of
-  another symbol. The value of the current menu symbol is used as the
-  minimal value <symbol> can be set to.
-
-This is not true when the 'select' property is followed by 'if'.
+expr_trans_bool() performs an incorrect transformation.
 
 [Test Code]
 
@@ -75,8 +68,8 @@ This is not true when the 'select' property is followed by 'if'.
             modules
 
     config A
-            def_tristate y
-            select C if B
+            def_bool y
+            select C if B != n
 
     config B
             def_tristate m
@@ -91,55 +84,116 @@ This is not true when the 'select' property is followed by 'if'.
     CONFIG_B=m
     CONFIG_C=m
 
-If "the value of A is used as the minimal value C can be set to",
-C must be 'y'.
+This result is incorrect because CONFIG_C=y is expected.
 
-The actual behavior is "C is selected by (A && B)". The lower limit of
-C is downgraded due to B being 'm'.
+Documentation/kbuild/kconfig-language.rst clearly explains the function
+of the '!=' operator:
 
-I have always thought this behavior was odd, and this ha arisen several
-times in the mailing list.
+  (3) If the values of both symbols are equal, it returns 'n',
+      otherwise 'y'.
 
-I do not know whether it is a bug or intended behavior. Anyway, it is
-not feasible to change it now because many Kconfig files rely on this
-behavior. The same applies to 'imply'.
+Therefore, the statement:
 
-Document this (but reserve the possibility for a future change).
+    select C if A != n
+
+should be equivalent to:
+
+    select C if y
+
+Hence, the symbol C should be selected by 'y' instead of 'm'.
+
+The comment block of expr_trans_bool() correctly explains its intention:
+
+  * bool FOO!=n => FOO
+    ^^^^
+
+If FOO is bool, FOO!=n can be simplified into FOO. This is correct.
+
+However, the actual code performs this transformation when FOO is
+tristate.
+
+    if (e->left.sym->type == S_TRISTATE) {
+                             ^^^^^^^^^^
+
+While, it can be fixed to S_BOOLEAN, there is no point in doing so
+because expr_tranform() already transforms FOO!=n to FOO when FOO is
+bool. (see the "case E_UNEQUAL" part)
+
+expr_trans_bool() is wrong and unnecessary.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- Documentation/kbuild/kconfig-language.rst | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ scripts/kconfig/expr.c | 29 -----------------------------
+ scripts/kconfig/expr.h |  1 -
+ scripts/kconfig/menu.c |  2 --
+ 3 files changed, 32 deletions(-)
 
-diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
-index 86be5b857cc4..1fb3f5e6193c 100644
---- a/Documentation/kbuild/kconfig-language.rst
-+++ b/Documentation/kbuild/kconfig-language.rst
-@@ -150,6 +150,12 @@ applicable everywhere (see syntax).
- 	That will limit the usefulness but on the other hand avoid
- 	the illegal configurations all over.
+diff --git a/scripts/kconfig/expr.c b/scripts/kconfig/expr.c
+index 4d95fce5f9a7..fcc190b67b6f 100644
+--- a/scripts/kconfig/expr.c
++++ b/scripts/kconfig/expr.c
+@@ -396,35 +396,6 @@ static struct expr *expr_eliminate_yn(struct expr *e)
+ 	return e;
+ }
  
-+	If "select" <symbol> is followed by "if" <expr>, <symbol> will be
-+	selected by the logical AND of the value of the current menu symbol
-+	and <expr>. This means, the lower limit can be downgraded due to the
-+	presence of "if" <expr>. This behavior may seem weird, but we rely on
-+	it. (The future of this behavior is undecided.)
-+
- - weak reverse dependencies: "imply" <symbol> ["if" <expr>]
+-/*
+- * bool FOO!=n => FOO
+- */
+-struct expr *expr_trans_bool(struct expr *e)
+-{
+-	if (!e)
+-		return NULL;
+-	switch (e->type) {
+-	case E_AND:
+-	case E_OR:
+-	case E_NOT:
+-		e->left.expr = expr_trans_bool(e->left.expr);
+-		e->right.expr = expr_trans_bool(e->right.expr);
+-		break;
+-	case E_UNEQUAL:
+-		// FOO!=n -> FOO
+-		if (e->left.sym->type == S_TRISTATE) {
+-			if (e->right.sym == &symbol_no) {
+-				e->type = E_SYMBOL;
+-				e->right.sym = NULL;
+-			}
+-		}
+-		break;
+-	default:
+-		;
+-	}
+-	return e;
+-}
+-
+ /*
+  * e1 || e2 -> ?
+  */
+diff --git a/scripts/kconfig/expr.h b/scripts/kconfig/expr.h
+index fa50fc45622e..7c0c242318bc 100644
+--- a/scripts/kconfig/expr.h
++++ b/scripts/kconfig/expr.h
+@@ -284,7 +284,6 @@ void expr_free(struct expr *e);
+ void expr_eliminate_eq(struct expr **ep1, struct expr **ep2);
+ int expr_eq(struct expr *e1, struct expr *e2);
+ tristate expr_calc_value(struct expr *e);
+-struct expr *expr_trans_bool(struct expr *e);
+ struct expr *expr_eliminate_dups(struct expr *e);
+ struct expr *expr_transform(struct expr *e);
+ int expr_contains_symbol(struct expr *dep, struct symbol *sym);
+diff --git a/scripts/kconfig/menu.c b/scripts/kconfig/menu.c
+index 53151c5a6028..eef9b63cdf11 100644
+--- a/scripts/kconfig/menu.c
++++ b/scripts/kconfig/menu.c
+@@ -398,8 +398,6 @@ static void _menu_finalize(struct menu *parent, bool inside_choice)
+ 				dep = expr_transform(dep);
+ 				dep = expr_alloc_and(expr_copy(basedep), dep);
+ 				dep = expr_eliminate_dups(dep);
+-				if (menu->sym && menu->sym->type != S_TRISTATE)
+-					dep = expr_trans_bool(dep);
+ 				prop->visible.expr = dep;
  
-   This is similar to "select" as it enforces a lower limit on another
-@@ -202,6 +208,10 @@ applicable everywhere (see syntax).
- 	imply BAR
- 	imply BAZ
- 
-+  Note: If "imply" <symbol> is followed by "if" <expr>, the default of <symbol>
-+  will be the logical AND of the value of the current menu symbol and <expr>.
-+  (The future of this behavior is undecided.)
-+
- - limiting menu display: "visible if" <expr>
- 
-   This attribute is only applicable to menu blocks, if the condition is
+ 				/*
 -- 
 2.40.1
 
