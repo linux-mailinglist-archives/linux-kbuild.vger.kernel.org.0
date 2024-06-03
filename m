@@ -1,379 +1,84 @@
-Return-Path: <linux-kbuild+bounces-1978-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1979-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4AD58D7D5C
-	for <lists+linux-kbuild@lfdr.de>; Mon,  3 Jun 2024 10:30:15 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E06388D8702
+	for <lists+linux-kbuild@lfdr.de>; Mon,  3 Jun 2024 18:19:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 50E491F228D0
-	for <lists+linux-kbuild@lfdr.de>; Mon,  3 Jun 2024 08:30:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 05EE31C216B8
+	for <lists+linux-kbuild@lfdr.de>; Mon,  3 Jun 2024 16:19:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B245433AF;
-	Mon,  3 Jun 2024 08:30:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66AD312E1DE;
+	Mon,  3 Jun 2024 16:19:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="ixGWhgcF"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bk6Nxb3i"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC1AF3F9D2
-	for <linux-kbuild@vger.kernel.org>; Mon,  3 Jun 2024 08:30:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BD35107A8;
+	Mon,  3 Jun 2024 16:19:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717403411; cv=none; b=QJ1Q50iCLqeje0Ai4rh2djG91vRXSEY3seZ1dUkNePfM8dn7w89QaFxBhjJ1OrHSPISl11ELpD2smLEGnGOiqo2dnsF5zTn2w3rQb4WXiz0udV+jxSQ8SIg5gZctqvgUZIvJ1JnX/aVR08HhZo/56OSXuLupPZN74KGIeGPZQzs=
+	t=1717431548; cv=none; b=lCiBYpRS2hsIBnSNI/HazBgenvI8qhqmwtXXEE+d5RTFW2A21rTIbU7qRxegiBVm0MCJ/rWQ3w36BWyiywPO/2ULDOihEaYYFP4J9CgLz7IU7fK/03TyGWu98IEkHVYpQMhqF3A1Ogb7+PcjyT+stAIXTYrl2+lpJOW/IObdcOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717403411; c=relaxed/simple;
-	bh=OBTUW0UyvXdvi1E4J+7bbzfenhVKjyeD/FOkkuh0ws0=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=RjsWtCgffDhrf2Yf8+/qwbwtOIAOSt9Nn1oj6IsnySmb9xKlVgM+Ns6lKFyCB1wnMAg/aJZ0I1eILv35OfV9PyBibjH90wQqvV+RucBPqDzL9vpriWDZm/911MjWtf5dIM+8/YTyZCu+QDUfmDxAOu+SyZ2T8CtdrN1YsRkpcgs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.vnet.ibm.com; spf=none smtp.mailfrom=linux.vnet.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=ixGWhgcF; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.vnet.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.vnet.ibm.com
-Received: from pps.filterd (m0353726.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 4538MBB8026092;
-	Mon, 3 Jun 2024 08:29:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc :
- content-transfer-encoding : content-type : date : from : in-reply-to :
- message-id : mime-version : references : subject : to; s=pp1;
- bh=eWH5bLGCUpIUBw3aYsfuetIptN2dR03ub3UD4L5dxgk=;
- b=ixGWhgcF4vrEJd1WYVo153O4c89aLev/RVgZHfAdaeBP4rkbMXlt7oABgG0FhbupaVwd
- 2OQgZG2IunqEKzXvenzMOFiECdC7GW0IgIBOPNFwO01ooU+y8s1lzEiuh6tmwg+ztIO0
- W+DLzeygGADWM7sdsOh3V30r3i4rFr3hhL8yVQ5YEJofq6TQaCaYtiZiL14iBAm6TyNy
- GQrWSxv8/FdqMHEL9zvq+wDkKCLBAsjv3Ke9q/UsMgYs+uYMU7b0wcKau1/DVcMy/Hxj
- RhxpnCfKyVv/2lmdIXmI/dTezljlF7N4E/jX6tb7+Xr1xrzDG23MLLRaFe6YLuWXGefX kQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3yha8r80mw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 03 Jun 2024 08:29:40 +0000
-Received: from m0353726.ppops.net (m0353726.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 4538SjeJ006962;
-	Mon, 3 Jun 2024 08:29:39 GMT
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3yha8r80mu-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 03 Jun 2024 08:29:39 +0000
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 4537mKP7026513;
-	Mon, 3 Jun 2024 08:29:38 GMT
-Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 3yggp2p9x1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 03 Jun 2024 08:29:38 +0000
-Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
-	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4538TWFN52953448
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 3 Jun 2024 08:29:34 GMT
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id CACDA2004E;
-	Mon,  3 Jun 2024 08:29:32 +0000 (GMT)
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7CF7920040;
-	Mon,  3 Jun 2024 08:29:29 +0000 (GMT)
-Received: from [9.199.155.138] (unknown [9.199.155.138])
-	by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Mon,  3 Jun 2024 08:29:29 +0000 (GMT)
-Message-ID: <9393df04-403d-4530-8f13-c8a5c6d302d2@linux.vnet.ibm.com>
-Date: Mon, 3 Jun 2024 13:59:28 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 2/2] objtool/powerpc: Enhance objtool to fixup
- alternate feature relative addresses
-To: Nathan Chancellor <nathan@kernel.org>,
-        Sathvika Vasireddy <sv@linux.ibm.com>
-Cc: linux-kbuild@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        mpe@ellerman.id.au, npiggin@gmail.com, christophe.leroy@csgroup.eu,
-        peterz@infradead.org, naveen.n.rao@linux.ibm.com, jpoimboe@kernel.org,
-        nicolas@fjasle.eu, masahiroy@kernel.org, mahesh@linux.ibm.com,
-        mingo@kernel.org
-References: <20240422092206.147078-1-sv@linux.ibm.com>
- <20240422092206.147078-2-sv@linux.ibm.com>
- <20240423002833.GA1436185@dev-arch.thelio-3990X>
-Content-Language: en-US
-From: Sathvika Vasireddy <sv@linux.vnet.ibm.com>
-In-Reply-To: <20240423002833.GA1436185@dev-arch.thelio-3990X>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: HKTp6dWdjXnm9fJx9q3JmAmORBUNFqq8
-X-Proofpoint-ORIG-GUID: F9Hmk5DWuY7udzyUJCT_319cKzwzStQ0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+	s=arc-20240116; t=1717431548; c=relaxed/simple;
+	bh=rCDgZFugmfdl8JpNwxw2V086UDNUHBiB/yyVx8v0kvM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ovXvTLLsWegW2j3c/Sk+ARmguf7GWpTAwnoKqsZLROJ+kTdnchTcVeMRZNEjl8wRmBPep//WvPBy3rdkj3wiPEtMQldcBEoT8Thp0vVeaO/+xzyrAmEw8K5FTF8dSyHpmAHMFX4q5st1MBDzGsPoNq1pl1yJ7Nmn3pRNZZOqubY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bk6Nxb3i; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F7EAC2BD10;
+	Mon,  3 Jun 2024 16:19:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717431548;
+	bh=rCDgZFugmfdl8JpNwxw2V086UDNUHBiB/yyVx8v0kvM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=bk6Nxb3i2C9bdiVrE92F5KbHsit6E7cAKg86Za7FsoWM4kQ+eITjnwqud7dMv88cv
+	 00yelPuW47PuGbdFxNwU69SabjZGHOWIytOg/yVFu0QFb1FV9C/6785WmrmWAUwK2Y
+	 yFY+pri7KibdUt7Tf/QCooW4eSq3K+EfVpEJH3Pdx4R5VdTVOZLW0quA6egt4hChF2
+	 S2BztdXc9aRgIEZtJ4Z01s03hYxk3rH9OwSYZOxibvPXZITLiUFE/kes7lyLTo57AC
+	 P53GNTPNzDQJ8QvisSvt78klU3dzqcq1MQFFsmENBjl/E1G3vGc3F8Bl0Uwri1tI5f
+	 K6FR7qOtryVXQ==
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH 1/3] kconfig: doc: fix a typo in the note about 'imply'
+Date: Tue,  4 Jun 2024 01:19:02 +0900
+Message-Id: <20240603161904.1663388-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
- definitions=2024-06-03_04,2024-05-30_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 spamscore=0
- adultscore=0 mlxscore=0 phishscore=0 mlxlogscore=999 suspectscore=0
- impostorscore=0 clxscore=1011 lowpriorityscore=0 priorityscore=1501
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2405010000 definitions=main-2406030070
+Content-Transfer-Encoding: 8bit
 
-Hi Nathan,
+This sentence does not make sense due to a typo. Fix it.
 
-On 4/23/24 5:58 AM, Nathan Chancellor wrote:
-> Hi Sathvika,
->
-> On Mon, Apr 22, 2024 at 02:52:06PM +0530, Sathvika Vasireddy wrote:
->> Implement build-time fixup of alternate feature relative addresses for
->> the out-of-line (else) patch code. Initial posting to achieve the same
->> using another tool can be found at [1]. Idea is to implement this using
->> objtool instead of introducing another tool since it already has elf
->> parsing and processing covered.
->>
->> Introduce --ftr-fixup as an option to objtool to do feature fixup at
->> build-time.
->>
->> Couple of issues and warnings encountered while implementing feature
->> fixup using objtool are as follows:
->>
->> 1. libelf is creating corrupted vmlinux file after writing necessary
->> changes to the file. Due to this, kexec is not able to load new
->> kernel.
->>
->> It gives the following error:
->>          ELF Note corrupted !
->>          Cannot determine the file type of vmlinux
->>
->> To fix this issue, after opening vmlinux file, make a call to
->> elf_flagelf (e, ELF_C_SET, ELF_F_LAYOUT). This instructs libelf not
->> to touch the segment and section layout. It informs the library
->> that the application will take responsibility for the layout of the
->> file and that the library should not insert any padding between
->> sections.
->>
->> 2. Fix can't find starting instruction warnings when run on vmlinux
->>
->> Objtool throws a lot of can't find starting instruction warnings
->> when run on vmlinux with --ftr-fixup option.
->>
->> These warnings are seen because find_insn() function looks for
->> instructions at offsets that are relative to the start of the section.
->> In case of individual object files (.o), there are no can't find
->> starting instruction warnings seen because the actual offset
->> associated with an instruction is itself a relative offset since the
->> sections start at offset 0x0.
->>
->> However, in case of vmlinux, find_insn() function fails to find
->> instructions at the actual offset associated with an instruction
->> since the sections in vmlinux do not start at offset 0x0. Due to
->> this, find_insn() will look for absolute offset and not the relative
->> offset. This is resulting in a lot of can't find starting instruction
->> warnings when objtool is run on vmlinux.
->>
->> To fix this, pass offset that is relative to the start of the section
->> to find_insn().
->>
->> find_insn() is also looking for symbols of size 0. But, objtool does
->> not store empty STT_NOTYPE symbols in the rbtree. Due to this,
->> for empty symbols, objtool is throwing can't find starting
->> instruction warnings. Fix this by ignoring symbols that are of
->> size 0 since objtool does not add them to the rbtree.
->>
->> 3. Objtool is throwing unannotated intra-function call warnings
->> when run on vmlinux with --ftr-fixup option.
->>
->> One such example:
->>
->> vmlinux: warning: objtool: .text+0x3d94:
->>                          unannotated intra-function call
->>
->> .text + 0x3d94 = c000000000008000 + 3d94 = c0000000000081d4
->>
->> c0000000000081d4: 45 24 02 48  bl c00000000002a618
->> <system_reset_exception+0x8>
->>
->> c00000000002a610 <system_reset_exception>:
->> c00000000002a610:       0e 01 4c 3c     addis   r2,r12,270
->>                          c00000000002a610: R_PPC64_REL16_HA    .TOC.
->> c00000000002a614:       f0 6c 42 38     addi    r2,r2,27888
->>                          c00000000002a614: R_PPC64_REL16_LO    .TOC.+0x4
->> c00000000002a618:       a6 02 08 7c     mflr    r0
->>
->> This is happening because we should be looking for destination
->> symbols that are at absolute offsets instead of relative offsets.
->> After fixing dest_off to point to absolute offset, there are still
->> a lot of these warnings shown.
->>
->> In the above example, objtool is computing the destination
->> offset to be c00000000002a618, which points to a completely
->> different instruction. find_call_destination() is looking for this
->> offset and failing. Instead, we should be looking for destination
->> offset c00000000002a610 which points to system_reset_exception
->> function.
->>
->> Even after fixing the way destination offset is computed, and
->> after looking for dest_off - 0x8 in cases where the original offset
->> is not found, there are still a lot of unannotated intra-function
->> call warnings generated. This is due to symbols that are not
->> properly annotated.
->>
->> So, for now, as a hack to curb these warnings, do not emit
->> unannotated intra-function call warnings when objtool is run
->> with --ftr-fixup option.
->>
->> TODO:
->> This patch enables build time feature fixup only for powerpc little
->> endian configs. There are boot failures with big endian configs.
->> Posting this as an initial RFC to get some review comments while I work
->> on big endian issues.
->>
->> [1]
->> https://lore.kernel.org/linuxppc-dev/20170521010130.13552-1-npiggin@gmail.com/
->>
->> Co-developed-by: Nicholas Piggin <npiggin@gmail.com>
->> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
->> Signed-off-by: Sathvika Vasireddy <sv@linux.ibm.com>
-> When I build this series with LLVM 14 [1] (due to an issue I report
-> below), I am getting a crash when CONFIG_FTR_FIXUP_SELFTEST is disabled.
->
-> diff --git a/arch/powerpc/configs/ppc64_defconfig b/arch/powerpc/configs/ppc64_defconfig
-> index 544a65fda77b..95d2906ec814 100644
-> --- a/arch/powerpc/configs/ppc64_defconfig
-> +++ b/arch/powerpc/configs/ppc64_defconfig
-> @@ -427,7 +427,6 @@ CONFIG_BLK_DEV_IO_TRACE=y
->   CONFIG_IO_STRICT_DEVMEM=y
->   CONFIG_PPC_EMULATED_STATS=y
->   CONFIG_CODE_PATCHING_SELFTEST=y
-> -CONFIG_FTR_FIXUP_SELFTEST=y
->   CONFIG_MSI_BITMAP_SELFTEST=y
->   CONFIG_XMON=y
->   CONFIG_BOOTX_TEXT=y
->
->    $ make -kj"$(nproc)" ARCH=powerpc LLVM=$PWD/llvm-14.0.6-x86_64/bin/ ppc64le_defconfig vmlinux
->    ...
->      LD      vmlinux
->      NM      System.map
->      SORTTAB vmlinux
->      CHKHEAD vmlinux
->      CHKREL  vmlinux
->    make[4]: *** [scripts/Makefile.vmlinux:38: vmlinux] Error 139
->    make[4]: *** Deleting file 'vmlinux
->    ...
->
-> I do not see the objtool command in V=1 output but I do see the end of
-> scripts/link-vmlinux.sh, so it does seem like it is crashing in objtool.
->
-> [1]: from https://mirrors.edge.kernel.org/pub/tools/llvm/
+Fixes: def2fbffe62c ("kconfig: allow symbols implied by y to become m")
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-Thanks for reporting this, and apologies for the delay in response.
+ Documentation/kbuild/kconfig-language.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This issue is happening while processing __fw_ftr_fixup section, which 
-has no data and dereferencing this null pointer is causing segmentation 
-fault. I was able to recreate the issue, and the below diff fixes it for me.
+diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
+index 555c2f839969..86be5b857cc4 100644
+--- a/Documentation/kbuild/kconfig-language.rst
++++ b/Documentation/kbuild/kconfig-language.rst
+@@ -184,7 +184,7 @@ applicable everywhere (see syntax).
+   ability to hook into a secondary subsystem while allowing the user to
+   configure that subsystem out without also having to unset these drivers.
+ 
+-  Note: If the combination of FOO=y and BAR=m causes a link error,
++  Note: If the combination of FOO=y and BAZ=m causes a link error,
+   you can guard the function call with IS_REACHABLE()::
+ 
+ 	foo_init()
+-- 
+2.40.1
 
-diff --git a/tools/objtool/arch/powerpc/special.c 
-b/tools/objtool/arch/powerpc/special.c
-index 5ec3eed34eb0..67329d44db24 100644
---- a/tools/objtool/arch/powerpc/special.c
-+++ b/tools/objtool/arch/powerpc/special.c
-@@ -53,38 +53,39 @@ int process_fixup_entries(struct objtool_file *file)
-                 if (strstr(sec->name, "_ftr_fixup") != NULL) {
-                         Elf_Data *data = sec->data;
-
--                       if (data && data->d_size > 0)
-+                       if (data && data->d_size > 0) {
-                                 nr = data->d_size / sizeof(struct 
-fixup_entry);
-
--                       for (i = 0; i < nr; i++) {
--                               struct fixup_entry *dst;
--                               unsigned long idx;
--                               unsigned long long off;
--                               struct fixup_entry *src;
-+                               for (i = 0; i < nr; i++) {
-+                                       struct fixup_entry *dst;
-+                                       unsigned long idx;
-+                                       unsigned long long off;
-+                                       struct fixup_entry *src;
-
--                               idx = i * sizeof(struct fixup_entry);
--                               off = sec->sh.sh_addr + data->d_off + idx;
--                               src = data->d_buf + idx;
-+                                       idx = i * sizeof(struct 
-fixup_entry);
-+                                       off = sec->sh.sh_addr + 
-data->d_off + idx;
-+                                       src = data->d_buf + idx;
-
--                               if (src->alt_start_off == src->alt_end_off)
--                                       continue;
-+                                       if (src->alt_start_off == 
-src->alt_end_off)
-+                                               continue;
-
--                               fes = realloc(fes, (nr_fes + 1) * 
-sizeof(struct fixup_entry));
--                               dst = &fes[nr_fes];
--                               nr_fes++;
-+                                       fes = realloc(fes, (nr_fes + 1) 
-* sizeof(struct fixup_entry));
-+                                       dst = &fes[nr_fes];
-+                                       nr_fes++;
-
--                               dst->mask = __le64_to_cpu(src->mask);
--                               dst->value = __le64_to_cpu(src->value);
--                               dst->start_off = 
-__le64_to_cpu(src->start_off) + off;
--                               dst->end_off = 
-__le64_to_cpu(src->end_off) + off;
--                               dst->alt_start_off = 
-__le64_to_cpu(src->alt_start_off) + off;
--                               dst->alt_end_off = 
-__le64_to_cpu(src->alt_end_off) + off;
-+                                       dst->mask = 
-__le64_to_cpu(src->mask);
-+                                       dst->value = 
-__le64_to_cpu(src->value);
-+                                       dst->start_off = 
-__le64_to_cpu(src->start_off) + off;
-+                                       dst->end_off = 
-__le64_to_cpu(src->end_off) + off;
-+                                       dst->alt_start_off = 
-__le64_to_cpu(src->alt_start_off) + off;
-+                                       dst->alt_end_off = 
-__le64_to_cpu(src->alt_end_off) + off;
-
--                               if (dst->alt_start_off < fe_alt_start)
--                                       fe_alt_start = dst->alt_start_off;
-+                                       if (dst->alt_start_off < 
-fe_alt_start)
-+                                               fe_alt_start = 
-dst->alt_start_off;
-
--                               if (dst->alt_end_off > fe_alt_end)
--                                       fe_alt_end = dst->alt_end_off;
-+                                       if (dst->alt_end_off > fe_alt_end)
-+                                               fe_alt_end = 
-dst->alt_end_off;
-+                               }
-                         }
-                 }
-         }
-@@ -246,7 +247,6 @@ static struct symbol *find_symbol_at_address(struct 
-objtool_file *file,
-  int process_alt_relocations(struct objtool_file *file)
-  {
-         struct section *section;
--       size_t n = 0;
-         uint32_t insn;
-         uint32_t *i;
-         unsigned int opcode;
-@@ -276,8 +276,6 @@ int process_alt_relocations(struct objtool_file *file)
-                                 target = target + 0x8;
-                 }
-
--               n++;
--
-                 fe = find_fe_altaddr(addr);
-                 if (fe) {
-
-I'll include these changes in the next version.
-
-Thanks,
-Sathvika
 
