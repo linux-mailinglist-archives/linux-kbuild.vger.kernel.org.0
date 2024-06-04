@@ -1,96 +1,126 @@
-Return-Path: <linux-kbuild+bounces-1985-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-1986-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A66738FA580
-	for <lists+linux-kbuild@lfdr.de>; Tue,  4 Jun 2024 00:25:02 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD12E8FA831
+	for <lists+linux-kbuild@lfdr.de>; Tue,  4 Jun 2024 04:09:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D6A4E1C23A3D
-	for <lists+linux-kbuild@lfdr.de>; Mon,  3 Jun 2024 22:25:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 85A0928E4D9
+	for <lists+linux-kbuild@lfdr.de>; Tue,  4 Jun 2024 02:09:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF7C713C805;
-	Mon,  3 Jun 2024 22:24:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2A1B12FB0B;
+	Tue,  4 Jun 2024 02:09:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bLUN3IOT"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P0s6wGdH"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7638522E;
-	Mon,  3 Jun 2024 22:24:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA71A1E485;
+	Tue,  4 Jun 2024 02:09:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717453498; cv=none; b=crSgZjTNMpsKd1BUKUZtQDelQ2yhQtwfwJUlTsI7if/rsc/vgyp4pH3hDUzHhU+iZXgJPmb/daYIXTXh6SGVf+T3Io284nRypZfKw0Nt+pVYBezXuIZRqSV0IG8NWkSgqIbEaMLGZthEe1opbQRDO3GlQX2ibpiqLVsLyFk53q4=
+	t=1717466955; cv=none; b=DXhiCs3tyQiiifTHqRt3sZG6Zgsmb5hCoH4i5AF8OfdfT8jRjKUcFycdBIs951oAIeBfoLVkaVMOnN1OEoS1w8QtBqxGkBv3/MtH1Q1LB1Teh+QxYgZEj1Jx7w1rF/D+HU5h9lQPtSVew0NvbhNNAsGX+XxPmAkpXQSL9LbDYy0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717453498; c=relaxed/simple;
-	bh=VUzLKH/jLd+2yyr8nQdfcdBS1mhd68VfVk1ylPUG3WY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LERdSQ/Wq2ItF8VaBU+FFxEOUEz9snfAFQs1llYa9cp7O4oYlI5gwCmKa53URRJAG9SWgT2cdrZ1i3X273QqQ3UbUULMd16txApUS3rclIE1+A8v1y7691Rx8oOOAK+wGUCw/wocKNgruFTPuV7d8gH90ClDZ3znu/XJDUlYb1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bLUN3IOT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02515C2BD10;
-	Mon,  3 Jun 2024 22:24:57 +0000 (UTC)
+	s=arc-20240116; t=1717466955; c=relaxed/simple;
+	bh=l4iBGvNBf69vv5P6FLxJp6TeJ+5tm1BdEhdf14FB064=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=IeUcf8CVtLcSVzGGMkVd+Eg51JKnnyPQe3QE8aRoqd0yB1OQlhrcTPtq6gV9LuBcP02D3csNyh5UBM3xtwDfMVm3H/soS47yljTjpu1VWQ+ji+TvacKB8ojf7VUhAiYz553AYDNxpMXdn7OsDMJe3fyFGzHpWUuoW57LXB1X458=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P0s6wGdH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E08FC2BD10;
+	Tue,  4 Jun 2024 02:09:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717453498;
-	bh=VUzLKH/jLd+2yyr8nQdfcdBS1mhd68VfVk1ylPUG3WY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bLUN3IOT5S6CGY6XpDOCocLLCLDgiskYA1XNACHrZSwjdKY4MmQua7CJ6t1phSbsZ
-	 aa2DvSKbiNTc6J5wwIDPX/RP9IidpzfcWVu9LOJTi8l5Q/NWLZoTw8qbR9H0RSPqPw
-	 QSUXwdFTTFpECxJdJm41eGPc38DnKS0FiF/ooGW71faeR8Wxo+rPp2iC6/wqVVmBBM
-	 TMddDYUmf3IqrnCfHFR4tNtWlV+Kp1v//tqdqguapEbJe1D/v6bZLAupzt4wi/GFKi
-	 oHbyurzqdlaD7OYY2GwDCgEcOSBWOliXEnT91i90LtYGJANPh708Efh4iqImYDY9WQ
-	 k8JBJ9URfEXZQ==
-Date: Mon, 3 Jun 2024 15:24:56 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Nicolas Schier <nicolas@fjasle.eu>
-Subject: Re: [PATCH] usr: shorten cmd_initfs in Makefile
-Message-ID: <20240603222456.GA1802995@thelio-3990X>
-References: <20240531122825.699771-1-masahiroy@kernel.org>
+	s=k20201202; t=1717466955;
+	bh=l4iBGvNBf69vv5P6FLxJp6TeJ+5tm1BdEhdf14FB064=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=P0s6wGdHYmN8oqLJjh/LcmpZmQ7m7woCatCZXi9ojb3EBBOmtnGIlSpS27rkzedrO
+	 scdICB03NhQ9fYMUREgkhZXmQhv73GZiTRTQn+dHx6q73AALidbm97izx1otPm2B5i
+	 ln4M3KWgSM3VrvYQ5Xjh8NJbCdJ8YUxes1kEP6lKDVF2KBy0JKz6XDUwnpPncQ6tiA
+	 wYh/6dEh3j51Mr/IiSHYR09gyvjOwgMTm92NAY3Y19/BsKnQRzt+xUuA0H3UWeJM2h
+	 wk1WuPZ6IzeO6kSTNUXxOQxDHw7SZyFk35kE9L9V/g/CuJSuQaieLPA6Xue0iRq94e
+	 rWxKXepkTXB5g==
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2eaa89464a3so22938881fa.3;
+        Mon, 03 Jun 2024 19:09:15 -0700 (PDT)
+X-Gm-Message-State: AOJu0YzOBChCC/x2M1uFQwJZXB7ANBgHSO4+yChTDofoKiVcgFxMVehU
+	SkYS2BmGUvX2LUSaxVFz1uJbjlWsm+C0RaQF5hBO4KdPDIcKtkSUX3XeoMW4292xYhhyIfm9wDF
+	xct7OsfKYO31o5j4Lm5ODJI5OSoA=
+X-Google-Smtp-Source: AGHT+IHSKYy0d5Zn6MAm/KGMJybmrNW8ut9VWH+ZNpE7TILVgiDDZhFrzV/afImkfNTgt38DdQ+FVTH56snR+YJ6nEI=
+X-Received: by 2002:a2e:9dd9:0:b0:2e3:4f79:4d26 with SMTP id
+ 38308e7fff4ca-2ea950af008mr70492251fa.11.1717466953879; Mon, 03 Jun 2024
+ 19:09:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240531122825.699771-1-masahiroy@kernel.org>
+References: <20240603161904.1663388-1-masahiroy@kernel.org> <20240603161904.1663388-3-masahiroy@kernel.org>
+In-Reply-To: <20240603161904.1663388-3-masahiroy@kernel.org>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Tue, 4 Jun 2024 11:08:37 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATNMcUR9j+tLRynJH5tFPcET0kzDeRuSBhC7uoTbEB_wQ@mail.gmail.com>
+Message-ID: <CAK7LNATNMcUR9j+tLRynJH5tFPcET0kzDeRuSBhC7uoTbEB_wQ@mail.gmail.com>
+Subject: Re: [PATCH 3/3] kconfig: remove wrong expr_trans_bool()
+To: linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 31, 2024 at 09:28:25PM +0900, Masahiro Yamada wrote:
-> Avoid repetition of long variables.
-> 
-> No functional change intended.
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+On Tue, Jun 4, 2024 at 1:19=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.or=
+g> wrote:
+>
+> expr_trans_bool() performs an incorrect transformation.
+>
+> [Test Code]
+>
+>     config MODULES
+>             def_bool y
+>             modules
+>
+>     config A
+>             def_bool y
+>             select C if B !=3D n
+>
+>     config B
+>             def_tristate m
+>
+>     config C
+>             tristate
+>
+> [Result]
+>
+>     CONFIG_MODULES=3Dy
+>     CONFIG_A=3Dy
+>     CONFIG_B=3Dm
+>     CONFIG_C=3Dm
+>
+> This result is incorrect because CONFIG_C=3Dy is expected.
+>
+> Documentation/kbuild/kconfig-language.rst clearly explains the function
+> of the '!=3D' operator:
+>
+>   (3) If the values of both symbols are equal, it returns 'n',
+>       otherwise 'y'.
+>
+> Therefore, the statement:
+>
+>     select C if A !=3D n
 
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+This is wrong.
 
-> ---
-> 
->  usr/Makefile | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/usr/Makefile b/usr/Makefile
-> index 132ef7e96e6d..75224d927025 100644
-> --- a/usr/Makefile
-> +++ b/usr/Makefile
-> @@ -62,9 +62,9 @@ $(deps_initramfs): ;
->  quiet_cmd_initfs = GEN     $@
->        cmd_initfs = \
->  	$(CONFIG_SHELL) $< -o $@ -l $(obj)/.initramfs_data.cpio.d \
-> -	$(if $(CONFIG_INITRAMFS_ROOT_UID), -u $(CONFIG_INITRAMFS_ROOT_UID)) \
-> -	$(if $(CONFIG_INITRAMFS_ROOT_GID), -g $(CONFIG_INITRAMFS_ROOT_GID)) \
-> -	$(if $(KBUILD_BUILD_TIMESTAMP), -d "$(KBUILD_BUILD_TIMESTAMP)") \
-> +	$(addprefix -u , $(CONFIG_INITRAMFS_ROOT_UID)) \
-> +	$(addprefix -g , $(CONFIG_INITRAMFS_ROOT_GID)) \
-> +	$(patsubst %,-d "%", $(KBUILD_BUILD_TIMESTAMP)) \
->  	$(ramfs-input)
->  
->  # We rebuild initramfs_data.cpio if:
-> -- 
-> 2.40.1
-> 
+I meant this:
+
+
+      select C if B !=3D n
+
+
+
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
