@@ -1,121 +1,135 @@
-Return-Path: <linux-kbuild+bounces-2002-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2003-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB7C68FD05E
-	for <lists+linux-kbuild@lfdr.de>; Wed,  5 Jun 2024 16:04:04 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9EEC8FCF5A
+	for <lists+linux-kbuild@lfdr.de>; Wed,  5 Jun 2024 15:33:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DE32EB315D5
-	for <lists+linux-kbuild@lfdr.de>; Wed,  5 Jun 2024 13:32:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C839B1C21C25
+	for <lists+linux-kbuild@lfdr.de>; Wed,  5 Jun 2024 13:33:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3947D196D90;
-	Wed,  5 Jun 2024 13:03:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE902194082;
+	Wed,  5 Jun 2024 13:06:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Trv5KrF0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iSJpc1dv"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06959196D8E;
-	Wed,  5 Jun 2024 13:03:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A97FE192B83
+	for <linux-kbuild@vger.kernel.org>; Wed,  5 Jun 2024 13:06:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717592585; cv=none; b=E7+ZUp+B0227lOwYzE8DwizQns8s6ItNl2h5NkrkBnJNF7Qq984PNEDFzFnivxbShu4/xd9QvLOVc1cqDYlGxiyKjeuL3GLlTLrOSfy5hUdD1g1J8/XobwY3f6FRCu73kmK2PX1O9+U4/PnDzZZxbEmDwt4CSLVOVU1ULyoEuRI=
+	t=1717592760; cv=none; b=nN4Mwi674DpyhVKGsx8t181iXhRmTt8Roi2zF7nrZqKNFTSo5vzubnipnN+x3/VWa289vl+l63uTP3ck1iZ44QrIKnOYShSq9f3ri6JL/BnKIFDeDy2zT31JlOymyPGFb2l55MGuRRCyc4xqJJbptVoDZyV7k1HOHnzhj1+5BbM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717592585; c=relaxed/simple;
-	bh=pIUH1SYvl+n4ux5la4H2jH7ufg2H8fTYXd0fOPLDrwM=;
+	s=arc-20240116; t=1717592760; c=relaxed/simple;
+	bh=+RugKghC5ikdg6L5c8XRNvD7x+Jy5Cco+gyiKo0mQxU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=R/Vss9IGi884OpTNjaj6hIOAOxz3hdoXs6FsQlyqrrsKdtLLoADZsv1kN6+OxtX/KX9GuqHfCdfN/3LGV8AFfm3H2SdwNbdjS90RjP80VkLuFv1ipuglLmn7LsBX/hrDwAwbtQkjXXtVgkzXRWwV6taePLKa2LBwJAgvvgTUhmM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Trv5KrF0; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DC39C3277B;
-	Wed,  5 Jun 2024 13:03:04 +0000 (UTC)
+	 To:Cc:Content-Type; b=E3gmunW4nCbeyHFdI6BcTB4bIXz28NU58cHnE1BJm0J+t3R8DD+JfuwT2rOjSEMmZp8dPyGSDgE4TTMV9HzUM//8sRWwUZ5CaERi3ZoDbd2nSqcRkFa98L6rcMF1P7QD4ei7f0pCnoHSJXxGo7y6LbaqDhAwgx8bn3Ov8i3XuIw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iSJpc1dv; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DC63C32782
+	for <linux-kbuild@vger.kernel.org>; Wed,  5 Jun 2024 13:06:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717592584;
-	bh=pIUH1SYvl+n4ux5la4H2jH7ufg2H8fTYXd0fOPLDrwM=;
+	s=k20201202; t=1717592760;
+	bh=+RugKghC5ikdg6L5c8XRNvD7x+Jy5Cco+gyiKo0mQxU=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Trv5KrF0HSWm4vFjCYIfnKXseYSgsO2MzXGCQY6/UvDZWuH9+V2XeludFFsjXZ4sz
-	 6DolXtJ6tJeshWdopwX3sM80s1d02Jhcv4HAHFVxJaqALsQqNa/dqYZJ2T3HFmHAk9
-	 n92nxvZ5v27J0WfxQvdiAjzjPC3OAoPZZsDQBTgdy5SAr6SiFME0vxlE8tB8cDAKC9
-	 r12NCEvRNvgY4pbXWArY8etKUF8V7OMYVG91FuMgH1/a3B/Q5zgxehgyCellvZTF+A
-	 Xx47uXpKQdaVYmVZ/TQtSBaoUr+4fkUrijCbB80m7Lkx1nwCZK03mVkYFoSpUjUoLa
-	 6Ve9Na9iNoXVA==
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2eabd22d404so23738441fa.2;
-        Wed, 05 Jun 2024 06:03:04 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWK1cXI9XFeSmenA/uXYTqS5sy2weGro8nuBgqngIu3YGx2Vu2XIUTE+iCjJHmzGVbNz9rcI/cktSTcz9LemDaBjdtoXltBXO841b+eXm+An3nifHBiGgXqBp2uv/Kk+SMtnHepAwkENwnlQwabcRypTYz8eOtBtgkjd9EP3pZ+hy3Xt24avH8=
-X-Gm-Message-State: AOJu0YyMGb7kVbVwuaL6edl0vN/94w4Fs9a1nzzOE6U0cwxlmWmR2/UK
-	iqo73tAthyPGpxZnRakoB8JU6XRBWIJq36pBX1J/LBGyrQgYTh5wL8LHROs2So7VgmzC/xDmrtA
-	SPFNrQe+vHrCvaucoiIsSgmKpWLE=
-X-Google-Smtp-Source: AGHT+IGwVpOkLFoOkP5TWr3HYPGM/66qLz3qCtA6eyNoWR3THWuiWL+/KltVE6krHcyFH65a/ekDvjBJJ1fzlnrqR0E=
-X-Received: by 2002:a2e:804b:0:b0:2e5:685a:cd24 with SMTP id
- 38308e7fff4ca-2eac798a96dmr14243171fa.6.1717592583355; Wed, 05 Jun 2024
- 06:03:03 -0700 (PDT)
+	b=iSJpc1dvb29UsIEqOV7mkthKSEJsrNA2sA5Qjt7CgEQXfr9BAWWcfx/WgG35uIk+G
+	 E0hYCUICrVys01aNwgW7GOCjhGbj9SdNMfv+kmhirDdySi4GU3lCTS61bGLNg7YHkm
+	 KNUB6eTvpdQBeFyJOcD5DtXoSvGi4tIFtfXHp0v3QO9I09IY5BhG61PYHvJ0PN0XmF
+	 TUHhhZM/qE/AZNSr+TaeavQYKTXLYmfN5xXCE9Z+SVwiRSQp8QA/kTFuR8EwuGA6Xf
+	 cG6GFEGoa5S7K1bpmVYSfWKbxRdQWKj8bbQN4HQb88uWaQ7PmaZQ+oStZu61cIPl+J
+	 XOSNYS8SsUInw==
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2eabd22d441so29929471fa.2
+        for <linux-kbuild@vger.kernel.org>; Wed, 05 Jun 2024 06:06:00 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXaO69zggfHw/2/xvVKgGE9t4hvJwfrLoTgUZrT4wMgU4SlrdV0D5ThuK145mGTHvz2KHyE+zHliAwCI0dYESIxu2eG5KbXrfCopT5J
+X-Gm-Message-State: AOJu0Yzv+d6IeSLJjKIAMsmYJpCQuH7+TMObFKEO+F4nYCS5P+jfKWl7
+	GplXPy4r8KUcaB5pFbmUz3eumSQYH2TK7tLghUwkWkv7TaV9rvaXWdegpsFkx2Xv2GSP8Y997G5
+	XGFT0rbQjjyegoVX9GHHS4RyMUzk=
+X-Google-Smtp-Source: AGHT+IEMUYO/z2Hn1qi0ETqZ4kLv4dpw9ZzmZsFOhKpdLXIPPNBAQm1Clrju28Ai7h4D652KLKQAYCGVxhPHuIBMQyM=
+X-Received: by 2002:a05:651c:1069:b0:2e5:4c78:1227 with SMTP id
+ 38308e7fff4ca-2eac79ed811mr16806971fa.31.1717592758839; Wed, 05 Jun 2024
+ 06:05:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <21cdf8ef-e2fe-4247-9390-4b3d975f80a3@nvidia.com> <2b6llsqhqvsc3qrtsqlv2b6353kvuldwrp3xs5v6jistuskzeh@hnlhxbzpvwzh>
-In-Reply-To: <2b6llsqhqvsc3qrtsqlv2b6353kvuldwrp3xs5v6jistuskzeh@hnlhxbzpvwzh>
+References: <20240605034903.373617-2-mailingradian@gmail.com>
+In-Reply-To: <20240605034903.373617-2-mailingradian@gmail.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Wed, 5 Jun 2024 22:02:26 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAR5fYTzJLtRDSob2TuL0Lt0bxCayY8sx0_1+UEuu1Hz9A@mail.gmail.com>
-Message-ID: <CAK7LNAR5fYTzJLtRDSob2TuL0Lt0bxCayY8sx0_1+UEuu1Hz9A@mail.gmail.com>
-Subject: Re: kbuild: mksysmap: Build regression for next-20240604
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: Jon Hunter <jonathanh@nvidia.com>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>, linux-kbuild@vger.kernel.org
+Date: Wed, 5 Jun 2024 22:05:22 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASjUesga5pwtaV9aRd_MG7infjistFTsSWbvMpytggaEg@mail.gmail.com>
+Message-ID: <CAK7LNASjUesga5pwtaV9aRd_MG7infjistFTsSWbvMpytggaEg@mail.gmail.com>
+Subject: Re: [PATCH -next] kbuild: explicitly run mksysmap as sed script from link-vmlinux.sh
+To: Richard Acayan <mailingradian@gmail.com>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+	Kent Overstreet <kent.overstreet@linux.dev>, linux-kbuild@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jun 5, 2024 at 9:56=E2=80=AFPM Kent Overstreet
-<kent.overstreet@linux.dev> wrote:
+On Wed, Jun 5, 2024 at 12:49=E2=80=AFPM Richard Acayan <mailingradian@gmail=
+.com> wrote:
 >
-> On Wed, Jun 05, 2024 at 09:14:23AM +0100, Jon Hunter wrote:
-> > Hi Kent,
-> >
-> > Since next-20240604 I noticed a build regression in our farm builders
-> > and I am seeing the following error ...
-> >
-> > /usr/bin/env: invalid option -- 'S'
-> > Try '/usr/bin/env --help' for more information.
-> >
-> > These builders have an older version of 'env' that do not support the
-> > '-S' argument and so your change [0] is breaking the for these
-> > machines. I did not see your patch on any list and found it on your
-> > bcachefs tree [1]. So not clear if this has been reviewed and if this
-> > is trying to fix some related to Masahiro change [2]?
-> >
-> > It is also not clear what the minimum version of 'env' is supported
-> > for building the linux kernel, but these builders have been building
-> > the kernel fine for years.
-> >
-> > Thanks
-> > Jon
-> >
-> > [0] https://evilpiepirate.org/git/bcachefs.git/commit/?h=3Dfor-next&id=
-=3D973eca8db5570dd0c3f2b3190867138cc446eb3b
-> > [1] https://evilpiepirate.org/git/bcachefs.git/log/?h=3Dfor-next
-> > [2] https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbu=
-ild.git/commit/?h=3Dkbuild&id=3Db18b047002b7d3b19d9fb905c1bd2a214016c153
+> In commit b18b047002b7 ("kbuild: change scripts/mksysmap into sed
+> script"), the mksysmap script was transformed into a sed script,
+> made directly executable with "#!/bin/sed -f". Apparently, the path to
+> sed is different on NixOS, fixed by using the env command.
 >
-> I'll drop it, but we need a real fix then, my CI builders are broken
-> without it...
+> To accommodate the number of arguments above the normal maximum for
+> hashbangs, the -S flag of env was used (as in
+> "#!/usr/bin/env -S sed -f"). However, env -S is a GNU extension.
+> Explicitly use sed instead of relying on the executable shebang to keep
+> compatibility with build environments using Busybox.
+
+
+I am fine with the code.
+
+Kent will drop his local commit, so please reword the commit description
+without 973eca8db557 in mind.
+
+
+
+> Fixes: 973eca8db557 ("kbuild: mksysmap now works on nixos")
+
+
+Please replace this tag with:
+
+Fixes: b18b047002b7 ("kbuild: change scripts/mksysmap into sed script")
+
+
+
+Thanks.
 
 
 
 
-I will apply Richard's patch instead and send a pull request for -rc3.
-
-https://lore.kernel.org/linux-kbuild/CAK7LNASx_iSWZ14W5dpTOM87kB8A-Paq8fM_3=
-nKH5tdfJQ7+ZQ@mail.gmail.com/T/#mfa8b89c64a6a14a764338e9398d40be9bc48cdf1
 
 
 
-
+> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
+> ---
+>  scripts/link-vmlinux.sh | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
+> index 46ce5d04dbeb..518c70b8db50 100755
+> --- a/scripts/link-vmlinux.sh
+> +++ b/scripts/link-vmlinux.sh
+> @@ -193,7 +193,7 @@ kallsyms_step()
+>  mksysmap()
+>  {
+>         info NM ${2}
+> -       ${NM} -n "${1}" | "${srctree}/scripts/mksysmap" > "${2}"
+> +       ${NM} -n "${1}" | sed -f "${srctree}/scripts/mksysmap" > "${2}"
+>  }
+>
+>  sorttable()
+> --
+> 2.45.2
+>
 
 
 --=20
