@@ -1,221 +1,243 @@
-Return-Path: <linux-kbuild+bounces-2014-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2015-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8D1D8FDF38
-	for <lists+linux-kbuild@lfdr.de>; Thu,  6 Jun 2024 08:58:37 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C5418FE3C1
+	for <lists+linux-kbuild@lfdr.de>; Thu,  6 Jun 2024 12:06:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EE7FC1C21647
-	for <lists+linux-kbuild@lfdr.de>; Thu,  6 Jun 2024 06:58:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 98B8B287F19
+	for <lists+linux-kbuild@lfdr.de>; Thu,  6 Jun 2024 10:05:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D58513A3EC;
-	Thu,  6 Jun 2024 06:58:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF5DF188CAB;
+	Thu,  6 Jun 2024 10:05:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u+8HJfCW"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="JDFJEaf/";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="JPSAlUCF";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="cKj8Uffm";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="OMNdqHDd"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E231513A3E2;
-	Thu,  6 Jun 2024 06:58:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D068F18735A;
+	Thu,  6 Jun 2024 10:05:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717657112; cv=none; b=Wei/Bp+hpzUp+3eQf2twIzUngc/He3HtgWM3ozcPFZr6M+/rVWcXJBbOXApvZ5+wgUaT88njjK0Mbv7k4PmETShMtwa/F4KSeOF6D5WLp1aM7Mvy8IhBssZUdfYmSVeByUKX4+QRQ6OFkiypR2Yh6D3mIJa67JJRBjwZ2O66OFA=
+	t=1717668353; cv=none; b=iIRbwczd9XLHo94lpESsU/U2Y/D4+1mekAhdp2j7dSmcqUx/yNWYvOIlToP7VlMDTnt2yq3czbIBY5iVbiVpukr81Zj8FU8rhpb+mDXmaCJYHLMV/wsz9CV0UKaLN1OoqULmW7uQrAlZWwlIvBBBEbAttr7SiY5/Om5jcHfK8xw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717657112; c=relaxed/simple;
-	bh=SOJoCNmYjMp2sd9tajLrhObVAMG8hZ817lMHcW9drbA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XJnWAtpycxB4cYgZmf5vN1Bo7mG1fLWqyy8jb3RSNMCvKV8S1YgkdRndRp6UiQWBBxCDzHMXwUieVz8mCEuaCqQKigFK5sTrVUGfwXSCdh8M8nvLoS11Wk3X8yKDgbElsgeHqgJx2NN1zErE2dwtMNXWMSyeaOTN6BW6+mNLycQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u+8HJfCW; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78EB1C4AF09;
-	Thu,  6 Jun 2024 06:58:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717657111;
-	bh=SOJoCNmYjMp2sd9tajLrhObVAMG8hZ817lMHcW9drbA=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=u+8HJfCWnwpS9As1djoVl2cskbTf43cGyQ+FR3IhfNp9MNDL9jkZHM6HMxjBOWN6D
-	 gIOzmbxOGgOM6QSxN5l/lU6mqOTpJoCg2Lqq7jbZ8+iInMylxkdLLQLbFB7WGKOukY
-	 FO/O+5I2Wg+c2Kae+hQRJABhCIANdK2/x63xksVIdEqSi5Zy35oOxWPgYjUDLK8eQG
-	 O6U9RZRlIH27D80bpt2Js5tRrlK7kCR6IjwXesZJDRJc/1EJghRJQKogCIRRuSPhTU
-	 MbsHRGwbJGd9tIyUzI1Jlkfx47tQLxSWd0DMDec/Im2dcqXiZB4UD4BQMem/BiwB23
-	 2KFwB10Orm+iQ==
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2eabd22d404so6434621fa.2;
-        Wed, 05 Jun 2024 23:58:31 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCW3AYhEUs9AKzEAfNgABH9BLwU/WB8SPpMuQWC4CWSL2opcTuXKK3gMltdZRGywr7nnS9ugcVQHorsNzV+2J3M7Cw/GnDA83qGq
-X-Gm-Message-State: AOJu0YzsglZYrtqN29Sg3OZ6MMbim53c+svO/T4vLrlSEIjNt1gShi07
-	F4R71+o9baWvzs2R8LnnLyZ94oVoys6zaDQzeQFtAKiUmG/rLyrzv7dTnkCU9i3d4YLxkhl1BX/
-	6jfZ2/kZrJ5R4h+oKopWrW09kmHc=
-X-Google-Smtp-Source: AGHT+IEYXt9x3kSfaB0uu/PNNOteVOLW1PlTcOpuUwyIrOMOW8URNfAeXhZE6sBkO0+owhNd1vEjf4TdSvBaNCd4BZ0=
-X-Received: by 2002:a2e:804b:0:b0:2e5:685a:cd24 with SMTP id
- 38308e7fff4ca-2eac798a96dmr26289171fa.6.1717657110169; Wed, 05 Jun 2024
- 23:58:30 -0700 (PDT)
+	s=arc-20240116; t=1717668353; c=relaxed/simple;
+	bh=/UgyuGsmkOVdtTEni8V4ajsheyVGCdZB24IXLzeCFqE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JKphiqrfMXw7BFPshwK4ozu5zq/dcQeFATPz21JtMfZ/y1t77kja+MOAJTjeQlmoj6+Iym+SR+q/IXA1zxBCFesiHG5mXRjr+05zSuAugax6U+efZssfe3jdaNE51MHj5A9rpeE0CDsJnbQMfvYavXr7W8pBmDoKbA7FVG3e6Xs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=JDFJEaf/; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=JPSAlUCF; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=cKj8Uffm; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=OMNdqHDd; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 8CD751F8BA;
+	Thu,  6 Jun 2024 10:05:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1717668348; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=inxMAwVDRCNuT5jz/h0b34yd72JuHLcJVK3CGeKxP9Y=;
+	b=JDFJEaf/IszgxWpKHZ5D0mEAwWZRLHlMW2WjWiPHta4kiUzmPLx5H+/jUFuMgcq0DBjSYh
+	Pp6Haq5M5nbyiFkXJjHV4HVqPPiPLCTzbK7T94CZqI4pQ8JyVcqoPvqK+NfiUrt0Nq0P8E
+	E6/fqkGHgracjDkFgSLkLkAHwCZgRvo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1717668348;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=inxMAwVDRCNuT5jz/h0b34yd72JuHLcJVK3CGeKxP9Y=;
+	b=JPSAlUCFNXU8TLRUk1PGv32/bU+bD3Y8sPXJ7WSgTj/dk9yD0CKk1Q+YeyUZgjjcXGTrIh
+	6bLvopHlo+rJZOBg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=cKj8Uffm;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=OMNdqHDd
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1717668347; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=inxMAwVDRCNuT5jz/h0b34yd72JuHLcJVK3CGeKxP9Y=;
+	b=cKj8UffmM2xDfX/qJIyejoHY6MdF/ityNV6fb87gS1D5QoLJkrcoAaoBOmSQ7mmjQb3VrR
+	bVRJoPJU+AqU5VahZUUya7aQs/Ct+GMfKdb7jLTXI++xRz8a0JMG4gD6/o0nfzF9uwg3Ny
+	BzgIz1IgHqo0X61RKSqVP02sbhYZzuk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1717668347;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=inxMAwVDRCNuT5jz/h0b34yd72JuHLcJVK3CGeKxP9Y=;
+	b=OMNdqHDdbHQLxXhz+YFOe8Im3SvIRZPo2cHnjDNv97yCC0dEJK6KHukkYRRFjdm8dYBhmB
+	U29CSNy7UEDwHvDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7E2EF13A1E;
+	Thu,  6 Jun 2024 10:05:47 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id RG9AHvuJYWbZBQAAD6G6ig
+	(envelope-from <lhruska@suse.cz>); Thu, 06 Jun 2024 10:05:47 +0000
+Date: Thu, 6 Jun 2024 12:05:42 +0200
+From: Lukas Hruska <lhruska@suse.cz>
+To: Joe Lawrence <joe.lawrence@redhat.com>
+Cc: Lukas Hruska <lhruska@suse.cz>, pmladek@suse.com, mbenes@suse.cz,
+	jpoimboe@kernel.org, live-patching@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	mpdesouza@suse.com, Josh Poimboeuf <jpoimboe@redhat.com>
+Subject: Re: [PATCH v2 2/6] livepatch: Add klp-convert tool
+Message-ID: <ZmGJ6zMU-0OG29Uk@localhost.localdomain>
+References: <20240516133009.20224-1-lhruska@suse.cz>
+ <20240516133009.20224-3-lhruska@suse.cz>
+ <ZljceDZ7eqEJtYhQ@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240602125416.976336-1-masahiroy@kernel.org>
-In-Reply-To: <20240602125416.976336-1-masahiroy@kernel.org>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Thu, 6 Jun 2024 15:57:54 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAT_rH1ZcL2uhwRgVRLM58rvNMYuEMikdBr2ize-XLTHuw@mail.gmail.com>
-Message-ID: <CAK7LNAT_rH1ZcL2uhwRgVRLM58rvNMYuEMikdBr2ize-XLTHuw@mail.gmail.com>
-Subject: Re: [PATCH 1/3] kconfig: remove tristate choice support
-To: linux-kbuild@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZljceDZ7eqEJtYhQ@redhat.com>
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DWL_DNSWL_BLOCKED(0.00)[suse.cz:dkim];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,godbolt.org:url]
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 8CD751F8BA
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Score: -4.51
 
-On Sun, Jun 2, 2024 at 9:54=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.or=
-g> wrote:
->
-> I previously submitted a fix for a bug in the choice feature [1], where
-> I mentioned, "Another (much cleaner) approach would be to remove the
-> tristate choice support entirely".
->
-> There are more issues in the tristate choice feature. For example, you
-> can observe a couple of bugs in the following test code.
->
-> [Test Code]
->
->     config MODULES
->             def_bool y
->             modules
->
->     choice
->             prompt "tristate choice"
->             default A
->
->     config A
->             tristate "A"
->
->     config B
->             tristate "B"
->
->     endchoice
->
-> [Bug 1] the 'default' property is not correctly processed
->
-> 'make alldefconfig' produces:
->
->     CONFIG_MODULES=3Dy
->     # CONFIG_A is not set
->     # CONFIG_B is not set
->
-> However, the correct output should be:
->
->     CONFIG_MODULES=3Dy
->     CONFIG_A=3Dy
->     # CONFIG_B is not set
->
-> The unit test file, scripts/kconfig/tests/choice/alldef_expected_config,
-> is wrong as well.
->
-> [Bug 2] choice members never get 'y' with randconfig
->
-> For the test code above, the following combinations are possible:
->
->                A    B
->         (1)    y    n
->         (2)    n    y
->         (3)    m    m
->         (4)    m    n
->         (5)    n    m
->         (6)    n    n
->
-> 'make randconfig' never produces (1) or (2).
->
-> These bugs are fixable, but a more critical problem is the lack of a
-> sensible syntax to specify the default for the tristate choice.
-> The default for the choice must be one of the choice members, which
-> cannot specify any of the patterns (3) through (6) above.
->
-> In addition, I have never seen it being used in a useful way.
->
-> The following commits removed unnecessary use of tristate choices:
->
->  - df8df5e4bc37 ("usb: get rid of 'choice' for legacy gadget drivers")
->  - bfb57ef0544a ("rapidio: remove choice for enumeration")
->
-> This commit removes the tristate choice support entirely, which allows
-> me to delete a lot of code, making further refactoring easier.
->
-> This includes the revert of commit fa64e5f6a35e ("kconfig/symbol.c:
-> handle choice_values that depend on 'm' symbols"). It was suspicious
-> because it did not address the root cause but introduced inconsistency
-> in visibility between choice members and other symbols.
->
-> [1]: https://lore.kernel.org/linux-kbuild/20240427104231.2728905-1-masahi=
-roy@kernel.org/T/#m0a1bb6992581462ceca861b409bb33cb8fd7dbae
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
+Hello Joe,
+> > +#define KLP_RELOC_SYMBOL_POS(LP_OBJ_NAME, SYM_OBJ_NAME, SYM_NAME, SYM_POS)	\
+> > +	asm("\".klp.sym.rela." #LP_OBJ_NAME "." #SYM_OBJ_NAME "." #SYM_NAME "," #SYM_POS "\"")
+>                                                                             ^^^
+> I think I found a potential bug, or at least compatiblity problem with
+> including a comma "," character in this symbol format and older versions
+> of the GNU assembler.  The good news is that other delimiter characters
+> like "." or "#" seem to work out fine.
 
+Thank you for spotting this. I was using binutils 2.38, so I did not
+even notice this problem. Unfortunately, I was not able to make it work
+with "#" as a delimiter; only "." worked. Additionally, any type of
+parenthesis apparently has some special purpose even in labels, so they
+are also not an option.
 
-I will fix a couple of mistakes.
+> If you want to reproduce, you'll need a version of `as` like binutils
+> 2.36.1 and try building the samples/livepatch/livepatch-extern-symbol.ko
+> and you should get an error like:
+> 
+>   Assembler messages:
+>   Warning: missing closing '"'
+>   Warning: missing closing '"'
+>   Error: too many memory references for `movq'
+> 
+> 
+> If you want to retrace my adventure, here are my steps:
+> 
+>   1) Clone klp-convert-tree repo branch containing this patchset +
+>   Petr's review comments + a few helpful things for klp-convert
+>   development:
+>   
+>     $ git clone \
+>         --single-branch --branch=klp-convert-minimal-v1-review --depth=9 \
+>         https://github.com/joe-lawrence/klp-convert-tree.git
+>     [ ... snip ... ]
+>     $ cd klp-convert-tree
+>   
+>   2) Override .cross-dev defaults:
+>   
+>     $ export BUILD_ARCHES=x86_64
+>     $ export COMPILER=gcc-11.1.0
+>     $ export URL=https://cdn.kernel.org/pub/tools/crosstool/files/bin/x86_64/
+>     $ export OUTDIR_PREFIX=$(pwd)/build
+>     $ export COMPILER_INSTALL_PATH=$(pwd)/cross-compiler
+>   
+>   3) Setup x86_64 default .config (this will download and install the
+>   gcc-11.1.0 compiler from cdn.kernel.org):
+>   
+>     $ ./cross-dev make defconfig
+>     
+>     x86_64 : make defconfig ...
+>     Compiler will be installed in /root/klp-convert-tree/cross-compiler
+>     [ ... snip ... ]
+>   
+>   4) Add kernel livepatching configuration options:
+>   
+>     $ ./cross-dev klp-config
+>     
+>     Configuring x86_64 ...
+>     [ ... snip ... ]
+>     
+>     $ grep LIVEPATCH "$OUTDIR_PREFIX"-x86_64/.config
+>     CONFIG_HAVE_LIVEPATCH=y
+>     CONFIG_LIVEPATCH=y
+>     CONFIG_SAMPLE_LIVEPATCH=m
+>   
+>   5) Run the cross-compiler build until it hits a build error on
+>   livepatch-extern-symbol.ko:
+>   
+>     $ ./cross-dev make -j$(nproc)
+>     [ ... snip ... ]
+>     make: Target '__all' not remade because of errors.
+>     [ x86_64 : make -j48 = FAIL ]
+>   
+>   6) With pre-requisites already built, retry the external symbol sample
+>   and add -save-temps to the KCFLAGS to keep the generated assembly file:
+>   
+>     $ KCFLAGS="-save-temps=obj" ./cross-dev make samples/livepatch/livepatch-extern-symbol.ko
+>     [ ... snip ... ]
+>     samples/livepatch/livepatch-extern-symbol.s: Assembler messages:
+>     samples/livepatch/livepatch-extern-symbol.s:103: Warning: missing closing '"'
+>     samples/livepatch/livepatch-extern-symbol.s:103: Warning: missing closing '"'
+>     samples/livepatch/livepatch-extern-symbol.s:103: Error: too many memory references for `movq'
+>     [ ... snip ... ]
+>   
+>   7) Which line is that?
+>   
+>     $ awk 'NR==103' "$OUTDIR_PREFIX"-x86_64/samples/livepatch/livepatch-extern-symbol.s
+>             movq    ".klp.sym.rela.vmlinux.vmlinux.saved_command_line,0"(%rip), %rdx
+> 
+> 
+> You could alternatively poke at it through the compiler explorer service
+> and toggle the source and binutils versions:
+> 
+>   (error)   binutils 2.36.1 : https://godbolt.org/z/cGGs6rfWe
+>   (success) binutils 2.38   : https://godbolt.org/z/ffzza3vYd
 
+Thank you for those detailed step-by-step instruction to reproduce it!
+It helped me a lot to understand the problem.
 
-
-> diff --git a/scripts/kconfig/gconf.c b/scripts/kconfig/gconf.c
-> index baa1c512de3c..217f85ea0910 100644
-> --- a/scripts/kconfig/gconf.c
-> +++ b/scripts/kconfig/gconf.c
-> @@ -1067,10 +1067,7 @@ static gchar **fill_row(struct menu *menu)
->                         row[COL_VALUE] =3D
->                             g_strdup(menu_get_prompt(def_menu));
->
-> -               if (sym_get_type(sym) =3D=3D S_BOOLEAN) {
-> -                       row[COL_BTNVIS] =3D GINT_TO_POINTER(FALSE);
-> -                       return row;
-> -               }
-> +               return row;
-
-
-
-I accidentally dropped
-
-  row[COL_BTNVIS] =3D GINT_TO_POINTER(FALSE);
-
-
-I will restore it.
-
-The intention is to drop the if-condition that
-is always met.
-
-
-
-
-
-
-
-
-
-> @@ -479,7 +461,7 @@ void sym_calc_value(struct symbol *sym)
->         }
->
->         sym->curr =3D newval;
-> -       if (sym_is_choice(sym) && newval.tri =3D=3D yes)
-> +       if (sym_is_choice(sym))
->                 sym->curr.val =3D sym_calc_choice(sym);
->         sym_validate_range(sym);
->
-
-
-I will keep "&& newval.tri =3D=3D yes" here.
-
-
-When a choice block is hidden by 'depends on',
-there is no need to call sym_calc_choice().
-
-
-
-
-
---=20
-Best Regards
-Masahiro Yamada
+Lukas
 
