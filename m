@@ -1,126 +1,187 @@
-Return-Path: <linux-kbuild+bounces-2081-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2082-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8245904370
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Jun 2024 20:26:49 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C00990455E
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Jun 2024 21:56:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 61009B250A1
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Jun 2024 18:26:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1698A280982
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Jun 2024 19:56:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C99742746D;
-	Tue, 11 Jun 2024 18:25:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4C3B14F13D;
+	Tue, 11 Jun 2024 19:54:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g4UMuK0h"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="PnXcY8us"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1E25249E5;
-	Tue, 11 Jun 2024 18:25:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1803282490
+	for <linux-kbuild@vger.kernel.org>; Tue, 11 Jun 2024 19:54:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718130323; cv=none; b=fN+W8ROkfNSOVR+9mcONSfE8NrLi2kztVxet3qrMwEL+0sVnVaD1NLWStH756/KVd+bj3kGxVcEWXL8LLA+r3YC2kQVtoHAE6iI6KdXcY62FcgiqxEQbZEaBbcsxXvdGwu/arCSWEBOoHpcJ5/7lz3pzredRKolHPo8fdvgfu44=
+	t=1718135689; cv=none; b=IBYOfOQQq3jlehNm9W44BwMKOn1/cHSln5TxnIjiLiXzWYYvyrCugAdKr/tftWvFhnrZUpIUtrp1cvvyycbM++Mvm7YWGqndn2gsS9V7Uswiitc5Wln5U2Qe+M1w0y9zUzihtjEs4Ofv2/FR2Q6YhVexQtw279H7GkU3c2AvAbc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718130323; c=relaxed/simple;
-	bh=c9F2EtIWNuw1rAMYXXpe2/dzukpWKAKKc6UMnlXo1yA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OlZxeh92o8KIC90bbztK5uG+jvuyti+fKI/5wOOt6Fffxd0FXhER344TgY6DJ4g9EnKAzU8eE6XVCL54iK02ZLdnsc4mreYLM5UP7j3cU24u2/w6p6bjcnELFh0PKj5US7ZlLabSdmBQ/OF13PJKRR/BMxU3YCto6Y2VLZoKHoM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g4UMuK0h; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6217C2BD10;
-	Tue, 11 Jun 2024 18:25:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718130323;
-	bh=c9F2EtIWNuw1rAMYXXpe2/dzukpWKAKKc6UMnlXo1yA=;
-	h=From:To:Cc:Subject:Date:From;
-	b=g4UMuK0hjsun2CL+QsWHtAlbLYn68pS9p5E298UbQ0hxwRMwltMpULyidlPm7S67v
-	 bgmZ6Di90NiV/dX+GwWULk2+jMhU63czbp/xP+j8r4LwnHxsFXdZS+gtIn2rpELpS4
-	 koGdJXidu7G9MyFYO7uemzwX2L7UKLBBs5tnskM39C0QpxjLnnvlsEAqLx7NLqxzjy
-	 y4e7iGFjNSFgSufJk0SPatp6EjGeRr7zh9VBKA1BQLBK5WKWXo1fcCGuVR620nXMmq
-	 E2WlbUEMuwdlv3RIpziVa5PR1GVIOnorNTO1IWcyZFZiNgPUrudPNrnDIbqzpT8Wqu
-	 KWxIXqDn4KPkg==
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: linux-kbuild@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>
-Subject: [PATCH] kbuild: move init/build-version to scripts/
-Date: Wed, 12 Jun 2024 03:24:47 +0900
-Message-ID: <20240611182502.3600062-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1718135689; c=relaxed/simple;
+	bh=O3S4SqxKJuq65ixR6NFs+aq0BeZOfIVXLriWHF/QL8E=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iHTQ3TcNooBb8pU6+GC49Uc1DCtSOYMpp0MJVShL3y1pOZsZoh+efFb5ECn124ytTYrXdEYzmttrAz82gQwSkif6DWDzp98+ZHQ2L7QpbFYYSsDjMmK534cxNdNr/OvrYl4E2NRfPbDhYlmZJy2A/7meUDxLAXJ6zY/gRWhkZU0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=PnXcY8us; arc=none smtp.client-ip=209.85.219.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-6b065d12e81so8378146d6.0
+        for <linux-kbuild@vger.kernel.org>; Tue, 11 Jun 2024 12:54:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1718135687; x=1718740487; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RNrWLh5pDrgjmfiNgHyxdrCGyjR6btn9eS9/sI9Y3EA=;
+        b=PnXcY8us7rbvdHKo3AZYi20OjRrkhe/lIoXZpgCZCJcQ31DYXm30yT9sBbKpTB2glf
+         1m6sstLQ4HinncYkm9JZ+ZYSMKQqM8x+YvxLzeSuSmgoDTaa4Nhvu2zRFNdT84ELVa3N
+         rjDikk8NPGQi2GpL+Eodj9rtYTJuDA38fqk3k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718135687; x=1718740487;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RNrWLh5pDrgjmfiNgHyxdrCGyjR6btn9eS9/sI9Y3EA=;
+        b=EcJW+tw/hz2jg7kN1xdDkBtC7snFRRGphEK+VFTOKVFyriOcC6h8+u/kl10dndqOOv
+         ds4QFJ271iqtAft80v253cti7lEN8uJPvdzV7Omc3QFm/cWwC1J2rWXiz6QOFPBmWZbZ
+         oedx/W0OMQeqiwkha7amYQAF8qd6uvE1uoFHfOFhULcZaid201W6znH66vFw2Ybsqxfx
+         LpMdxLyNr8EiwKUToU2WDAG3pc1/bQeh1nTQmBOWR0RxyikdPO1OQ6YseG6M9KrVR6mU
+         WcM4b42uwt/En9hnqYN1IdgYE0bfHllAJwbgpakudJ0EpzGmKXgFUi3bP8S9qSIwEaz0
+         i7xg==
+X-Forwarded-Encrypted: i=1; AJvYcCW/JJ6EVngzApmaK52o0S9jZufypTxlwiw1NEXkEYTK88uDKZNCka2t6kGeuXl0p5YyMAxSeWPee2fESkFB5bjm45rQTD8dG++RsNwY
+X-Gm-Message-State: AOJu0YwSn8svIN7QzQ5C+5Ca/4WUPFtTAE2E/dMI9AEBfF8rDPBFIgKq
+	xVHlTM0G3V0gQUj8MeNK5U90c3bjT8Dh6h/YZBLRzs5BFgPLD76ajzPjJd+GprElMvtccgwIswq
+	QlZfl1m5uT2ulhTNL99Aabg5+Xkdje8HAVDKN
+X-Google-Smtp-Source: AGHT+IFvFFS+p0ENsd/HPIpBlUzp5GE7bmBWQg7D/rboticCoYDIMBRckbCHxZOMBSm/Vyk4tjoFWEurXjo+EuHWZBU=
+X-Received: by 2002:ad4:42cc:0:b0:6b0:8b48:f7e5 with SMTP id
+ 6a1803df08f44-6b08b48f99bmr33081746d6.3.1718135686798; Tue, 11 Jun 2024
+ 12:54:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240605094843.4141730-1-wenst@chromium.org> <CAFLszTjX=ixC3pRRGJeaP=ie_yc+KcCRyQ06MBFeSZnBepaXaw@mail.gmail.com>
+ <CAGXv+5EcEYGqXq2C1OCK4J4t1NusV7nWp16zb74P6_tCeLnSGw@mail.gmail.com>
+In-Reply-To: <CAGXv+5EcEYGqXq2C1OCK4J4t1NusV7nWp16zb74P6_tCeLnSGw@mail.gmail.com>
+From: Simon Glass <sjg@chromium.org>
+Date: Tue, 11 Jun 2024 13:54:35 -0600
+Message-ID: <CAFLszTgseCkdueMv=rCh6VaSD23K0dEm-oF9dVU3kQ7ZcEbnXw@mail.gmail.com>
+Subject: Re: [PATCH] scripts/make_fit: Support decomposing DTBs
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	Elliot Berman <quic_eberman@quicinc.com>, Devicetree List <devicetree@vger.kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-At first, I thought this script would be used only in init/Makefile.
+On Tue, 11 Jun 2024 at 02:52, Chen-Yu Tsai <wenst@chromium.org> wrote:
+>
+> On Mon, Jun 10, 2024 at 11:16=E2=80=AFPM Simon Glass <sjg@chromium.org> w=
+rote:
+> >
+> > Hi Chen-Yu,
+> >
+> > On Wed, 5 Jun 2024 at 03:48, Chen-Yu Tsai <wenst@chromium.org> wrote:
+> > >
+> > > The kernel tree builds some "composite" DTBs, where the final DTB is =
+the
+> > > result of applying one or more DTB overlays on top of a base DTB with
+> > > fdtoverlay.
+> > >
+> > > The FIT image specification already supports configurations having on=
+e
+> > > base DTB and overlays applied on top. It is then up to the bootloader=
+ to
+> > > apply said overlays and either use or pass on the final result. This
+> > > allows the FIT image builder to reuse the same FDT images for multipl=
+e
+> > > configurations, if such cases exist.
+> > >
+> > > The decomposition function depends on the kernel build system, readin=
+g
+> > > back the .cmd files for the to-be-packaged DTB files to check for the
+> > > fdtoverlay command being called. This will not work outside the kerne=
+l
+> > > tree. The function is off by default to keep compatibility with possi=
+ble
+> > > existing users.
+> > >
+> > > To facilitate the decomposition and keep the code clean, the model an=
+d
+> > > compatitble string extraction have been moved out of the output_dtb
+> > > function. The FDT image description is replaced with the base file na=
+me
+> > > of the included image.
+> > >
+> > > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> > > ---
+> > > This is a feature I alluded to in my replies to Simon's original
+> > > submission of the make_fit.py script [1].
+> > >
+> > > This is again made a runtime argument as not all firmware out there
+> > > that boot FIT images support applying overlays. Like my previous
+> > > submission for disabling compression for included FDT images, the
+> > > bootloader found in RK3399 and MT8173 Chromebooks do not support
+> > > applying overlays. Another case of this is U-boot shipped by developm=
+ent
+> > > board vendors in binary form (without upstream) in an image or in
+> > > SPI flash on the board that were built with OF_LIBFDT_OVERLAY=3Dn.
+> > > These would fail to boot FIT images with DT overlays. One such
+> > > example is my Hummingboard Pulse. In these cases the firmware is
+> > > either not upgradable or very hard to upgrade.
+> > >
+> > > I believe there is value in supporting these cases. A common script
+> > > shipped with the kernel source that can be shared by distros means
+> > > the distro people don't have to reimplement this in their downstream
+> > > repos or meta-packages. For ChromeOS this means reducing the amount
+> > > of package code we have in shell script.
+> > >
+> > > [1] https://lore.kernel.org/linux-kbuild/20231207142723.GA3187877@goo=
+gle.com/
+> > > [2]
+> > >
+> > >  scripts/Makefile.lib |  1 +
+> > >  scripts/make_fit.py  | 70 ++++++++++++++++++++++++++++++------------=
+--
+> > >  2 files changed, 49 insertions(+), 22 deletions(-)
+> >
+> > This is a clever way to discover the included files. Does it need to
+> > rely on the Linux build information, or could this information somehow
+> > be in the .dtb files? I had expected some sort of overlay scheme in
+>
+> (+CC DT folks and mailing list)
+>
+> I suppose we could make the `fdtoverlay` program embed this data during
+> the kernel build. That would keep the information together, while also
+> having one source of truth (the kernel Makefiles). Whether it belongs
+> in the DTB or not is a separate matter.
 
-However, commit 5db8face97f8 ("kbuild: Restore .version auto-increment
-behaviour for Debian packages") and commit 1789fc912541 ("kbuild:
-rpm-pkg: invoke the kernel build from rpmbuild for binrpm-pkg")
-revealed that it was actually needed for scripts/package/mk* as well.
+OK, well we can always look at that later.
 
-After all, scripts/ is a better place for it.
+>
+> > the source, but perhaps people have given up on that?
+>
+> I wouldn't say given up, since we haven't agreed on anything either.
+> Elliot had some concerns when I brought this up earlier [1] though.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+OK.
 
- init/Makefile                   | 2 +-
- {init => scripts}/build-version | 0
- scripts/package/mkdebian        | 2 +-
- scripts/package/mkspec          | 2 +-
- 4 files changed, 3 insertions(+), 3 deletions(-)
- rename {init => scripts}/build-version (100%)
+Regards,
+Simon
 
-diff --git a/init/Makefile b/init/Makefile
-index ab71cedc5fd6..10b652d33e87 100644
---- a/init/Makefile
-+++ b/init/Makefile
-@@ -52,7 +52,7 @@ CFLAGS_version.o := -include $(obj)/utsversion-tmp.h
- # Build version-timestamp.c with final UTS_VERSION
- #
- 
--include/generated/utsversion.h: build-version-auto = $(shell $(src)/build-version)
-+include/generated/utsversion.h: build-version-auto = $(shell $(srctree)/scripts/build-version)
- include/generated/utsversion.h: build-timestamp-auto = $(shell LC_ALL=C date)
- include/generated/utsversion.h: FORCE
- 	$(call filechk,uts_version)
-diff --git a/init/build-version b/scripts/build-version
-similarity index 100%
-rename from init/build-version
-rename to scripts/build-version
-diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
-index 070149c985fe..b9a5b789c655 100755
---- a/scripts/package/mkdebian
-+++ b/scripts/package/mkdebian
-@@ -150,7 +150,7 @@ version=$KERNELRELEASE
- if [ -n "$KDEB_PKGVERSION" ]; then
- 	packageversion=$KDEB_PKGVERSION
- else
--	packageversion=$(${srctree}/scripts/setlocalversion --no-local ${srctree})-$($srctree/init/build-version)
-+	packageversion=$(${srctree}/scripts/setlocalversion --no-local ${srctree})-$($srctree/scripts/build-version)
- fi
- sourcename=${KDEB_SOURCENAME:-linux-upstream}
- 
-diff --git a/scripts/package/mkspec b/scripts/package/mkspec
-index ce201bfa8377..cffc2567bef2 100755
---- a/scripts/package/mkspec
-+++ b/scripts/package/mkspec
-@@ -24,7 +24,7 @@ fi
- cat<<EOF
- %define ARCH ${ARCH}
- %define KERNELRELEASE ${KERNELRELEASE}
--%define pkg_release $("${srctree}/init/build-version")
-+%define pkg_release $("${srctree}/scripts/build-version")
- EOF
- 
- cat "${srctree}/scripts/package/kernel.spec"
--- 
-2.43.0
-
+>
+> ChenYu
+>
+> [1] https://lore.kernel.org/linux-mediatek/20240314113908471-0700.eberman=
+@hu-eberman-lv.qualcomm.com/
 
