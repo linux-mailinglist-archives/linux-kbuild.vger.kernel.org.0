@@ -1,53 +1,53 @@
-Return-Path: <linux-kbuild+bounces-2074-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2075-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E3E29042EC
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Jun 2024 19:58:14 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BF669042EE
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Jun 2024 19:58:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 15FAA1F238B3
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Jun 2024 17:58:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1A0E9288309
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Jun 2024 17:58:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93C84152189;
-	Tue, 11 Jun 2024 17:56:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 475DA152782;
+	Tue, 11 Jun 2024 17:56:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TFawKK/t"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O/tQ9cJD"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A25615216C;
-	Tue, 11 Jun 2024 17:56:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21228152517;
+	Tue, 11 Jun 2024 17:56:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718128573; cv=none; b=afo3YYCtGa8HB8NvA9L+yofZiBR/9Yw2V5iBSxP+JJ7hfGnaMmP4mPEQ0YIBmvPk4xMEa/XMRtuufgzqB9uJJ9xLT157Ke65BDf5P19HIyNGI/98sfrnr+pRJ/8QXqZsbek6MGvACDcuLF4c9b9DBUSdLn9O484kyOg9rzKKKzk=
+	t=1718128574; cv=none; b=HSzlhtOD34AU/OoAmiEK9x5qeMyIOL2ZUPiOvsIYkt0WAbGBt/iaBDW2x96w5fSacEiLaaPdKZSzpLQci1Z6S9xIkYRg/lCpkUGQyCXyVOugI52hoidbOMvmXEg4qBe20bdCuL/zJVtqSgKoF0kINInIReY/wETh9GFbyPlnpNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718128573; c=relaxed/simple;
-	bh=fw7gwYH6PjjTv166bTFSFEw2m1wKgdODwKV9veoJHuk=;
+	s=arc-20240116; t=1718128574; c=relaxed/simple;
+	bh=HzGlcc1zoUQ21+21S1BHbLI+WRTcdDdm+q0L5lx0MlA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rzcV5nl278qpy0ljIj0rP0ed6AU7Fr8uZkqk8TyeGDZZRiPuGYW6BHfcrl+2GhxH+zcx1/XYwT8mpzQU2fk9OilJCeMQBJ1RwyC2KQKpXb8vGSvM3iE2/CEmQ2HkUOCHqeK9VV+CZv5/eXe3HYEIG7oAXAQvWmKDz5KGn4HzqUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TFawKK/t; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24627C32786;
-	Tue, 11 Jun 2024 17:56:12 +0000 (UTC)
+	 MIME-Version; b=Ob2xj7DomKykm1WfrY9F2i2z9yFTQWOEz/ISAJAL+36hL8kvKrdyJ4A6AC8gHDlbnH6nOwDauClUDOMQ/tMvuJNFzp5IFcQGS1lXcZIH0cMGybtlqKsL0CcvSCnsMH4hLV6HDdaiyi9V7UtNIIGsxyr5Kg+lDoM16yuchXTDDPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O/tQ9cJD; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 499CCC4AF49;
+	Tue, 11 Jun 2024 17:56:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718128572;
-	bh=fw7gwYH6PjjTv166bTFSFEw2m1wKgdODwKV9veoJHuk=;
+	s=k20201202; t=1718128574;
+	bh=HzGlcc1zoUQ21+21S1BHbLI+WRTcdDdm+q0L5lx0MlA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=TFawKK/tCtZlu0C4bPbY7iDBoxQciVi6hp7bTnAYjgL6lrBmJ/XkMzPS/AlhSYFUW
-	 S6xEmuNZW7rXzIoy9YzcTfJpcDWb5Mq4VEyJlNCXUJt9gKeQsl8qaYbWwno09nE0Nh
-	 DEc/iElB4427ZxYBOG5N2w31lZFYJFE9ayo8HS7X68cZ1yM6LQXzH48OV91017VJd0
-	 oi9FQeDPpG+JB3A8cl2r/SXDXi22ite0K+Mf0qHAhS1ShCrIyPEE/LSx+yTKCpUyvz
-	 c3tW5Yji9opbCmTfMDn2XrGX0x1yZWoFj8t3opEqyKneM7+h+0GkzgoI9lpfKLo3GM
-	 hg2r8hG3QA0Lw==
+	b=O/tQ9cJDKSZqc4E2aV5nWA3bgw9YHueKFMLGq6Ric0W1mG5zDh7eIyKEU5+6p8Ek4
+	 4aINFnenyFzxx/IAnkEqCjk/ta8c57PnQMFbuYbGS6kW814nNIBCSV5VJwIOx/+4Y+
+	 lIrfH0RCcuThoHKqAatZmvAsRVAhqAP5hf68EvVGuQ3s+FuTOC2F8d9alIfZFMJFkc
+	 Hf7QXxDwxcqVHp/G74p+fsbYyaLBItLgbecIw/6v7Wez0498eCXhyVJK1HWosMfcQE
+	 qe//AR/0gEtgdvlZGQ8Uo6pzrOprzxWPt/Nms3UcfcN9PyTiVcvTJj3GVfFzE5NKYG
+	 kgdB8vYhWbpcA==
 From: Masahiro Yamada <masahiroy@kernel.org>
 To: linux-kbuild@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
 	Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH 10/16] kconfig: use menu_list_for_each_sym() in sym_choice_default()
-Date: Wed, 12 Jun 2024 02:55:19 +0900
-Message-ID: <20240611175536.3518179-11-masahiroy@kernel.org>
+Subject: [PATCH 11/16] kconfig: remove expr_list_for_each_sym() macro
+Date: Wed, 12 Jun 2024 02:55:20 +0900
+Message-ID: <20240611175536.3518179-12-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240611175536.3518179-1-masahiroy@kernel.org>
 References: <20240611175536.3518179-1-masahiroy@kernel.org>
@@ -59,49 +59,28 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Choices and their members are associated via the P_CHOICE property.
-
-Currently, sym_get_choice_prop() and expr_list_for_each_sym() are
-used to iterate on choice members.
-
-Replace them with menu_for_each_sub_entry(), which achieves the same
-without relying on P_CHOICE.
+All users of this macro have been converted. Remove it.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/kconfig/symbol.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ scripts/kconfig/expr.h | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/scripts/kconfig/symbol.c b/scripts/kconfig/symbol.c
-index 32c80a29dcd4..32b38724c960 100644
---- a/scripts/kconfig/symbol.c
-+++ b/scripts/kconfig/symbol.c
-@@ -257,9 +257,9 @@ static void sym_calc_visibility(struct symbol *sym)
-  */
- struct symbol *sym_choice_default(struct menu *choice)
- {
-+	struct menu *menu;
- 	struct symbol *def_sym;
- 	struct property *prop;
--	struct expr *e;
+diff --git a/scripts/kconfig/expr.h b/scripts/kconfig/expr.h
+index 7acf27a4f454..1d1c4442c941 100644
+--- a/scripts/kconfig/expr.h
++++ b/scripts/kconfig/expr.h
+@@ -43,9 +43,6 @@ struct expr {
+ #define EXPR_AND(dep1, dep2)	(((dep1)<(dep2))?(dep1):(dep2))
+ #define EXPR_NOT(dep)		(2-(dep))
  
- 	/* any of the defaults visible? */
- 	for_all_defaults(choice->sym, prop) {
-@@ -272,10 +272,9 @@ struct symbol *sym_choice_default(struct menu *choice)
- 	}
- 
- 	/* just get the first visible value */
--	prop = sym_get_choice_prop(choice->sym);
--	expr_list_for_each_sym(prop->expr, e, def_sym)
--		if (def_sym->visible != no)
--			return def_sym;
-+	menu_for_each_sub_entry(menu, choice)
-+		if (menu->sym && menu->sym->visible != no)
-+			return menu->sym;
- 
- 	/* failed to locate any defaults */
- 	return NULL;
+-#define expr_list_for_each_sym(l, e, s) \
+-	for (e = (l); e && (s = e->right.sym); e = e->left.expr)
+-
+ struct expr_value {
+ 	struct expr *expr;
+ 	tristate tri;
 -- 
 2.43.0
 
