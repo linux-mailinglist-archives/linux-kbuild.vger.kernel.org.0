@@ -1,53 +1,53 @@
-Return-Path: <linux-kbuild+bounces-2070-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2071-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 547699042E4
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Jun 2024 19:57:20 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F10F9042E5
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Jun 2024 19:57:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9B31FB2365C
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Jun 2024 17:57:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 301581C22C0F
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Jun 2024 17:57:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44A7F7E58D;
-	Tue, 11 Jun 2024 17:56:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5193280BEE;
+	Tue, 11 Jun 2024 17:56:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YFvRCEjc"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eyYKPjoX"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DB8B74079;
-	Tue, 11 Jun 2024 17:56:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AD2D80607;
+	Tue, 11 Jun 2024 17:56:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718128568; cv=none; b=fngyft65cVCnauaDcxH9RYDfs/G5JSA95jqjRGKThMYXXmKnUYSoBch99RX7hwJu9X8uaGibg8mwvvDczduGAkg4rYd/qjL0Vr3fz7EXx3PstHeRudnoUP1enMw/ynu1DLdoxKoAAU0wFtVV5AR/3hOm+Zu+UyoetDIX9hMb3So=
+	t=1718128569; cv=none; b=JiXf0Zhl49hvtBPTAnQZXFXTaEmldw/9+EjzJrMTSnwB7VU7La3d6iGaSuN8vhETc5EF0XrO6+wz6QuFa6qgD6k4z727hhIeCyNBmhL6NCl/rs1i0dEYPTNdwGkqpf9D+yPUOccGTmWST9oZCax7N+R+4hnqsZTr9n1ArR2UHOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718128568; c=relaxed/simple;
-	bh=zrTBUnF4HfSxUYrDoB9vKX6e+xSiccO/5kgVgT45GPo=;
+	s=arc-20240116; t=1718128569; c=relaxed/simple;
+	bh=SqoXWXIq3NVYSHdK3EzSYWYwGR6/kM2HqUcSteYpPys=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AJgHba2NQvZgl6i5MmmiBYSW/VfJicBCa2bkm8BFyQtJAa4l1nN8PPnjlhGpj9khYivocdBIEAT4W2Z4m6wWQoU1rawmeFmyXtx3hw3AR71hx1cwboLWmZP3ETJ1QclA8xiLahIJLqsAK9e2xexqhP9Az2JV+cby0n3SoaEGNII=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YFvRCEjc; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEBE3C4AF1C;
-	Tue, 11 Jun 2024 17:56:06 +0000 (UTC)
+	 MIME-Version; b=DWO0snW0s+IC4nc+pA3/dQaG3mUzN2ewdhou5ZX1JxjsZsPCfGz4U2jwdeL+0/xMNoqnbFFChnFBRohu3Q7jygjmO8dyShhvEodjIahmLrQobThofauq0w4EPrnwS2+kyita7NgLp4eAh1eNVD+l0OtxdH3lx33dgtdrXpLVCW4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eyYKPjoX; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BAA0C4AF48;
+	Tue, 11 Jun 2024 17:56:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718128567;
-	bh=zrTBUnF4HfSxUYrDoB9vKX6e+xSiccO/5kgVgT45GPo=;
+	s=k20201202; t=1718128568;
+	bh=SqoXWXIq3NVYSHdK3EzSYWYwGR6/kM2HqUcSteYpPys=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=YFvRCEjcmRvL0WbERtTBOMalKSNCNdZ2PWPg0KIWIO/0K+n7sXeXP7zFO35Y3TkpV
-	 ZFynYwVM8HGAlaZJj6RAKXFS2AiJv6rhAPxkS2LvKYp6kTYeIItCIFq+LSfOpqJ4wB
-	 R0JNry3YUg7wUHWXJUpalqbL3HEIQ1ST9/xXPfXEhhBsmxshb3IIP2SyEIaT9ZTOex
-	 2J65ZTxRNc0khQ0qlngF1fToCaBpwQvNJvn88u9nBfjK3bu9OyBKxgftEr5RugWuFb
-	 XyNdJh/giGk7Iuy2U7SEVm331GV4PuqIHtyBEBZ50SUbiXDEUCi4urLdN16f9Otb7v
-	 wmCN+rlz06T7Q==
+	b=eyYKPjoXfYapr6xq/o7PfPg3munTJZnbFpb+GW2jOZ1fOAd2hy3tOoGzwi8MMA2uL
+	 laf1lBT/PfE3We6bFTxZJPyE9TNJ4ShdWcSC5P0GLFmpt3CNv7adI3ycxXVjTJ4Ro7
+	 dFiZR317qGKol4fyg9kQSAoLU/bRIriUf37WATXXcD24JCtWGnmtWMRbORLp2hlqnX
+	 y8I5AJ2quKbYt8T0eKucrPIHv387Es4aoNlcCv3DyPdBZWjIRUOnrJ+iUUR4C9ZzvT
+	 culzoMLkm+CLadotH0KY2zFosBuk/y/IOXV8cjxbf1RXoj6Wjv7P8kCrvEVhT5kv+w
+	 eDiP1S5hnBx3g==
 From: Masahiro Yamada <masahiroy@kernel.org>
 To: linux-kbuild@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
 	Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH 06/16] kconfig: refactor choice value calculation
-Date: Wed, 12 Jun 2024 02:55:15 +0900
-Message-ID: <20240611175536.3518179-7-masahiroy@kernel.org>
+Subject: [PATCH 07/16] kconfig: remove sym_get_choice_value()
+Date: Wed, 12 Jun 2024 02:55:16 +0900
+Message-ID: <20240611175536.3518179-8-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240611175536.3518179-1-masahiroy@kernel.org>
 References: <20240611175536.3518179-1-masahiroy@kernel.org>
@@ -59,818 +59,168 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Handling choices has always been in a PITA in Kconfig.
+sym_get_choice_value(menu->sym) is equivalent to sym_calc_choice(menu).
 
-For example, fixes and reverts were repeated for randconfig with
-KCONFIG_ALLCONFIG:
-
- - 422c809f03f0 ("kconfig: fix randomising choice entries in presence of KCONFIG_ALLCONFIG")
- - 23a5dfdad22a ("Revert "kconfig: fix randomising choice entries in presence of KCONFIG_ALLCONFIG"")
- - 8357b48549e1 ("kconfig: fix randomising choice entries in presence of KCONFIG_ALLCONFIG")
- - 490f16171119 ("Revert "kconfig: fix randomising choice entries in presence of KCONFIG_ALLCONFIG"")
-
-As these commits pointed out, randconfig does not randomize choices when
-KCONFIG_ALLCONFIG is used. This issue still remains.
-
-[Test Case]
-
-    choice
-            prompt "choose"
-
-    config A
-            bool "A"
-
-    config B
-            bool "B"
-
-    endchoice
-
-    $ echo > all.config
-    $ make KCONFIG_ALLCONFIG=1 randconfig
-
-The output is always as follows:
-
-    CONFIG_A=y
-    # CONFIG_B is not set
-
-Not only randconfig, but other all*config variants are broken with
-KCONFIG_ALLCONFIG.
-
-With the same Kconfig,
-
-    $ echo '# CONFIG_A is not set' > all.config
-    $ make KCONFIG_ALLCONFIG=1 allyesconfig
-
-You will get this:
-
-    CONFIG_A=y
-    # CONFIG_B is not set
-
-This is incorrect because it does not respect all.config.
-
-The correct output should be:
-
-    # CONFIG_A is not set
-    CONFIG_B=y
-
-To handle user inputs more accurately, this commit refactors the code
-based on the following principles:
-
- - When a user value is given, Kconfig must set it immediately.
-   Do not defer it by setting SYMBOL_NEED_SET_CHOICE_VALUES.
-
- - The SYMBOL_DEF_USER flag must not be cleared, unless a new config
-   file is loaded. Kconfig must not forget user inputs.
-
-In addition, user values for choices must be managed with priority.
-If user inputs conflict within a choice block, the newest value wins.
-The values given by randconfig have lower priority than explicit user
-inputs.
-
-This commit implements it by using a linked list. Every time a choice
-block gets a new input, it is moved to the top of the list.
-
-Let me explain how it works.
-
-Let's say, we have a choice block that consists of three symbols:
-A, B, and C.
-
-Initially, the linked list looks like this:
-
-    A(=?) --> B(=?) --> C(=?)
-
-Say, '# CONFIG_B is not set' is specified by KCONFIG_ALLCONFIG.
-
-B is set to 'n', and moved to the top of the linked list:
-
-    B(=n) --> A(=?) --> C(=?)
-
-The randconfig shuffles the symbols without a user value.
-
-So, you will get:
-
-    B(=n) --> A(=y) --> C(=y)
-or
-    B(=n) --> C(=y) --> A(=y)
-
-When calculating the output, the linked list is traversed. The first
-visible symbol with =y is taken. You will get either CONFIG_A=y or
-CONFIG_C=y with equal probability.
-
-As another example, let's say the .config with the following content
-is loaded:
-
-    CONFIG_B=y
-    CONFIG_C=y
-
-The linked list will become:
-
-    C(=y) --> B(=y) --> A(=?)
-
-Please note the last one is prioritized when a decision conflicts in
-the same file. This is reasonable behavior because merge_config.sh
-appends config fragments to the existing .config file.
-
-So, the output will be CONFIG_C=y if C is visible, but otherwise
-CONFIG_B=y.
-
-This is different from the former implementation; previously, Kconfig
-forgot CONFIG_B=y when CONFIG_C=y appeared later in the same file.
-
-In the new implementation, Kconfig remembers both CONFIG_B=y and
-CONFIG_C=y, prioritizing the former. If C is hidden due to unmet
-dependency, CONFIG_B=y arises as the second best.
+Convert all call sites of sym_get_choice_value() and then remove it.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/kconfig/conf.c     | 131 +++++++++++++++-----------------
- scripts/kconfig/confdata.c |  54 +++-----------
- scripts/kconfig/expr.h     |  12 ++-
- scripts/kconfig/lkc.h      |   7 +-
- scripts/kconfig/menu.c     |  17 +----
- scripts/kconfig/parser.y   |   4 +
- scripts/kconfig/symbol.c   | 149 ++++++++++++++++++++++---------------
- 7 files changed, 177 insertions(+), 197 deletions(-)
+ scripts/kconfig/conf.c   | 6 ++----
+ scripts/kconfig/gconf.c  | 2 +-
+ scripts/kconfig/lkc.h    | 3 +--
+ scripts/kconfig/mconf.c  | 6 +++---
+ scripts/kconfig/nconf.c  | 6 +++---
+ scripts/kconfig/symbol.c | 9 +--------
+ 6 files changed, 11 insertions(+), 21 deletions(-)
 
 diff --git a/scripts/kconfig/conf.c b/scripts/kconfig/conf.c
-index 5dbdd9459f21..1c59998a62f7 100644
+index 1c59998a62f7..3d7d454c54da 100644
 --- a/scripts/kconfig/conf.c
 +++ b/scripts/kconfig/conf.c
-@@ -114,41 +114,54 @@ static void set_randconfig_seed(void)
- 	srand(seed);
- }
+@@ -422,17 +422,15 @@ static int conf_sym(struct menu *menu)
  
--static void randomize_choice_values(struct symbol *csym)
-+/**
-+ * randomize_choice_values - randomize choice block
-+ *
-+ * @choice: menu entry for the choice
-+ */
-+static void randomize_choice_values(struct menu *choice)
+ static void conf_choice(struct menu *menu)
  {
--	struct property *prop;
--	struct symbol *sym;
--	struct expr *e;
--	int cnt, def;
--
--	prop = sym_get_choice_prop(csym);
--
--	/* count entries in choice block */
--	cnt = 0;
--	expr_list_for_each_sym(prop->expr, e, sym)
--		cnt++;
-+	struct menu *menu;
-+	int x;
-+	int cnt = 0;
- 
- 	/*
--	 * find a random value and set it to yes,
--	 * set the rest to no so we have only one set
-+	 * First, count the number of symbols to randomize. If sym_has_value()
-+	 * is true, it was specified by KCONFIG_ALLCONFIG. It needs to be
-+	 * respected.
- 	 */
--	def = rand() % cnt;
-+	menu_for_each_sub_entry(menu, choice) {
-+		struct symbol *sym = menu->sym;
- 
--	cnt = 0;
--	expr_list_for_each_sym(prop->expr, e, sym) {
--		if (def == cnt++) {
--			sym->def[S_DEF_USER].tri = yes;
--			csym->def[S_DEF_USER].val = sym;
--		} else {
--			sym->def[S_DEF_USER].tri = no;
--		}
--		sym->flags |= SYMBOL_DEF_USER;
--		/* clear VALID to get value calculated */
--		sym->flags &= ~SYMBOL_VALID;
-+		if (sym && !sym_has_value(sym))
-+			cnt++;
-+	}
-+
-+	while (cnt > 0) {
-+		x = rand() % cnt;
-+
-+		menu_for_each_sub_entry(menu, choice) {
-+			struct symbol *sym = menu->sym;
-+
-+			if (sym && !sym_has_value(sym))
-+				x--;
-+
-+			if (x < 0) {
-+				sym->def[S_DEF_USER].tri = yes;
-+				sym->flags |= SYMBOL_DEF_USER;
-+				/*
-+				 * Move the selected item to the _tail_ because
-+				 * this needs to have a lower priority than the
-+				 * user input from KCONFIG_ALLCONFIG.
-+				 */
-+				list_move_tail(&sym->choice_link,
-+					       &choice->choice_members);
-+
-+				break;
-+			}
-+		}
-+		cnt--;
- 	}
--	csym->flags |= SYMBOL_DEF_USER;
--	/* clear VALID to get value calculated */
--	csym->flags &= ~SYMBOL_VALID;
- }
- 
- enum conf_def_mode {
-@@ -159,9 +172,9 @@ enum conf_def_mode {
- 	def_random
- };
- 
--static bool conf_set_all_new_symbols(enum conf_def_mode mode)
-+static void conf_set_all_new_symbols(enum conf_def_mode mode)
- {
--	struct symbol *sym, *csym;
-+	struct menu *menu;
- 	int cnt;
- 	/*
- 	 * can't go as the default in switch-case below, otherwise gcc whines
-@@ -170,7 +183,6 @@ static bool conf_set_all_new_symbols(enum conf_def_mode mode)
- 	int pby = 50; /* probability of bool     = y */
- 	int pty = 33; /* probability of tristate = y */
- 	int ptm = 33; /* probability of tristate = m */
--	bool has_changed = false;
- 
- 	if (mode == def_random) {
- 		int n, p[3];
-@@ -217,14 +229,21 @@ static bool conf_set_all_new_symbols(enum conf_def_mode mode)
- 		}
- 	}
- 
--	for_all_symbols(sym) {
-+	menu_for_each_entry(menu) {
-+		struct symbol *sym = menu->sym;
- 		tristate val;
- 
--		if (sym_has_value(sym) || sym->flags & SYMBOL_VALID ||
--		    (sym->type != S_BOOLEAN && sym->type != S_TRISTATE))
-+		if (!sym || !menu->prompt || sym_has_value(sym) ||
-+		    (sym->type != S_BOOLEAN && sym->type != S_TRISTATE) ||
-+		    sym_is_choice_value(sym))
- 			continue;
- 
--		has_changed = true;
-+		if (sym_is_choice(sym)) {
-+			if (mode == def_random)
-+				randomize_choice_values(menu);
-+			continue;
-+		}
-+
- 		switch (mode) {
- 		case def_yes:
- 			val = yes;
-@@ -251,34 +270,10 @@ static bool conf_set_all_new_symbols(enum conf_def_mode mode)
- 			continue;
- 		}
- 		sym->def[S_DEF_USER].tri = val;
--
--		if (!(sym_is_choice(sym) && mode == def_random))
--			sym->flags |= SYMBOL_DEF_USER;
-+		sym->flags |= SYMBOL_DEF_USER;
- 	}
- 
- 	sym_clear_all_valid();
--
--	if (mode != def_random) {
--		for_all_symbols(csym) {
--			if ((sym_is_choice(csym) && !sym_has_value(csym)) ||
--			    sym_is_choice_value(csym))
--				csym->flags |= SYMBOL_NEED_SET_CHOICE_VALUES;
--		}
--	}
--
--	for_all_symbols(csym) {
--		if (sym_has_value(csym) || !sym_is_choice(csym))
--			continue;
--
--		sym_calc_value(csym);
--		if (mode == def_random)
--			randomize_choice_values(csym);
--		else
--			set_all_choice_values(csym);
--		has_changed = true;
--	}
--
--	return has_changed;
- }
- 
- static void conf_rewrite_tristates(tristate old_val, tristate new_val)
-@@ -429,10 +424,9 @@ static void conf_choice(struct menu *menu)
- {
- 	struct symbol *sym, *def_sym;
+-	struct symbol *sym, *def_sym;
++	struct symbol *def_sym;
  	struct menu *child;
--	bool is_new;
-+	bool is_new = false;
+ 	bool is_new = false;
  
- 	sym = menu->sym;
--	is_new = !sym_has_value(sym);
- 
+-	sym = menu->sym;
+-
  	while (1) {
  		int cnt, def;
-@@ -456,8 +450,10 @@ static void conf_choice(struct menu *menu)
- 				printf("%*c", indent, ' ');
- 			printf(" %d. %s (%s)", cnt, menu_get_prompt(child),
- 			       child->sym->name);
--			if (!sym_has_value(child->sym))
-+			if (!sym_has_value(child->sym)) {
-+				is_new = true;
- 				printf(" (NEW)");
-+			}
- 			printf("\n");
- 		}
- 		printf("%*schoice", indent - 1, "");
-@@ -586,9 +582,7 @@ static void check_conf(struct menu *menu)
- 		return;
  
- 	sym = menu->sym;
--	if (sym && !sym_has_value(sym) &&
--	    (sym_is_changeable(sym) || sym_is_choice(sym))) {
--
-+	if (sym && !sym_has_value(sym) && sym_is_changeable(sym)) {
- 		switch (input_mode) {
- 		case listnewconfig:
- 			if (sym->name)
-@@ -804,8 +798,7 @@ int main(int ac, char **av)
- 		conf_set_all_new_symbols(def_default);
- 		break;
- 	case randconfig:
--		/* Really nothing to do in this loop */
--		while (conf_set_all_new_symbols(def_random)) ;
-+		conf_set_all_new_symbols(def_random);
- 		break;
- 	case defconfig:
- 		conf_set_all_new_symbols(def_default);
-diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
-index 1ac7fc9ad756..05823f85402a 100644
---- a/scripts/kconfig/confdata.c
-+++ b/scripts/kconfig/confdata.c
-@@ -382,10 +382,7 @@ int conf_read_simple(const char *name, int def)
+ 		printf("%*s%s\n", indent - 1, "", menu_get_prompt(menu));
+-		def_sym = sym_get_choice_value(sym);
++		def_sym = sym_calc_choice(menu);
+ 		cnt = def = 0;
+ 		line[0] = 0;
+ 		for (child = menu->list; child; child = child->next) {
+diff --git a/scripts/kconfig/gconf.c b/scripts/kconfig/gconf.c
+index 380421a5cfb2..6b50e25133e3 100644
+--- a/scripts/kconfig/gconf.c
++++ b/scripts/kconfig/gconf.c
+@@ -1054,7 +1054,7 @@ static gchar **fill_row(struct menu *menu)
  
- 	def_flags = SYMBOL_DEF << def;
- 	for_all_symbols(sym) {
--		sym->flags |= SYMBOL_CHANGED;
- 		sym->flags &= ~(def_flags|SYMBOL_VALID);
--		if (sym_is_choice(sym))
--			sym->flags |= def_flags;
- 		switch (sym->type) {
- 		case S_INT:
- 		case S_HEX:
-@@ -399,6 +396,8 @@ int conf_read_simple(const char *name, int def)
- 	}
+ 	if (sym_is_choice(sym)) {	// parse childs for getting final value
+ 		struct menu *child;
+-		struct symbol *def_sym = sym_get_choice_value(sym);
++		struct symbol *def_sym = sym_calc_choice(menu);
+ 		struct menu *def_menu = NULL;
  
- 	while (getline_stripped(&line, &line_asize, in) != -1) {
-+		struct menu *choice;
-+
- 		conf_lineno++;
- 
- 		if (!line[0]) /* blank line */
-@@ -460,15 +459,14 @@ int conf_read_simple(const char *name, int def)
- 		if (conf_set_sym_val(sym, def, def_flags, val))
- 			continue;
- 
--		if (sym && sym_is_choice_value(sym)) {
--			struct symbol *cs = prop_get_symbol(sym_get_choice_prop(sym));
--			if (sym->def[def].tri == yes) {
--				if (cs->def[def].tri != no)
--					conf_warning("override: %s changes choice state", sym->name);
--				cs->def[def].val = sym;
--				cs->def[def].tri = yes;
--			}
--		}
-+		/*
-+		 * If this is a choice member, give it the highest priority.
-+		 * If conflicting CONFIG options are given from an input file,
-+		 * the last one wins.
-+		 */
-+		choice = sym_get_choice_menu(sym);
-+		if (choice)
-+			list_move(&sym->choice_link, &choice->choice_members);
- 	}
- 	free(line);
- 	fclose(in);
-@@ -514,18 +512,6 @@ int conf_read(const char *name)
- 		/* maybe print value in verbose mode... */
- 	}
- 
--	for_all_symbols(sym) {
--		if (sym_has_value(sym) && !sym_is_choice_value(sym)) {
--			/* Reset values of generates values, so they'll appear
--			 * as new, if they should become visible, but that
--			 * doesn't quite work if the Kconfig and the saved
--			 * configuration disagree.
--			 */
--			if (sym->visible == no && !conf_unsaved)
--				sym->flags &= ~SYMBOL_DEF_USER;
--		}
--	}
--
- 	if (conf_warnings || conf_unsaved)
- 		conf_set_changed(true);
- 
-@@ -1146,23 +1132,3 @@ void conf_set_changed_callback(void (*fn)(bool))
- {
- 	conf_changed_callback = fn;
- }
--
--void set_all_choice_values(struct symbol *csym)
--{
--	struct property *prop;
--	struct symbol *sym;
--	struct expr *e;
--
--	prop = sym_get_choice_prop(csym);
--
--	/*
--	 * Set all non-assinged choice values to no
--	 */
--	expr_list_for_each_sym(prop->expr, e, sym) {
--		if (!sym_has_value(sym))
--			sym->def[S_DEF_USER].tri = no;
--	}
--	csym->flags |= SYMBOL_DEF_USER;
--	/* clear VALID to get value calculated */
--	csym->flags &= ~(SYMBOL_VALID | SYMBOL_NEED_SET_CHOICE_VALUES);
--}
-diff --git a/scripts/kconfig/expr.h b/scripts/kconfig/expr.h
-index 7c0c242318bc..7acf27a4f454 100644
---- a/scripts/kconfig/expr.h
-+++ b/scripts/kconfig/expr.h
-@@ -73,6 +73,8 @@ enum {
-  * Represents a configuration symbol.
-  *
-  * Choices are represented as a special kind of symbol with null name.
-+ *
-+ * @choice_link: linked to menu::choice_members
-  */
- struct symbol {
- 	/* link node for the hash table */
-@@ -110,6 +112,8 @@ struct symbol {
- 	/* config entries associated with this symbol */
- 	struct list_head menus;
- 
-+	struct list_head choice_link;
-+
- 	/* SYMBOL_* flags */
- 	int flags;
- 
-@@ -133,7 +137,6 @@ struct symbol {
- #define SYMBOL_CHOICEVAL  0x0020  /* used as a value in a choice block */
- #define SYMBOL_VALID      0x0080  /* set when symbol.curr is calculated */
- #define SYMBOL_WRITE      0x0200  /* write symbol to file (KCONFIG_CONFIG) */
--#define SYMBOL_CHANGED    0x0400  /* ? */
- #define SYMBOL_WRITTEN    0x0800  /* track info to avoid double-write to .config */
- #define SYMBOL_CHECKED    0x2000  /* used during dependency checking */
- #define SYMBOL_WARNED     0x8000  /* warning has been issued */
-@@ -145,9 +148,6 @@ struct symbol {
- #define SYMBOL_DEF3       0x40000  /* symbol.def[S_DEF_3] is valid */
- #define SYMBOL_DEF4       0x80000  /* symbol.def[S_DEF_4] is valid */
- 
--/* choice values need to be set before calculating this symbol value */
--#define SYMBOL_NEED_SET_CHOICE_VALUES  0x100000
--
- #define SYMBOL_MAXLENGTH	256
- 
- /* A property represent the config options that can be associated
-@@ -204,6 +204,8 @@ struct property {
-  * for all front ends). Each symbol, menu, etc. defined in the Kconfig files
-  * gets a node. A symbol defined in multiple locations gets one node at each
-  * location.
-+ *
-+ * @choice_members: list of choice members with priority.
-  */
- struct menu {
- 	/* The next menu node at the same level */
-@@ -223,6 +225,8 @@ struct menu {
- 
- 	struct list_head link;	/* link to symbol::menus */
- 
-+	struct list_head choice_members;
-+
- 	/*
- 	 * The prompt associated with the node. This holds the prompt for a
- 	 * symbol as well as the text for a menu or comment, along with the
+ 		for (child = menu->list; child; child = child->next) {
 diff --git a/scripts/kconfig/lkc.h b/scripts/kconfig/lkc.h
-index 64dfc354dd5c..bdd37a16b040 100644
+index bdd37a16b040..d820272a85fb 100644
 --- a/scripts/kconfig/lkc.h
 +++ b/scripts/kconfig/lkc.h
-@@ -40,7 +40,6 @@ void zconf_nextfile(const char *name);
- /* confdata.c */
- extern struct gstr autoconf_cmd;
- const char *conf_get_configname(void);
--void set_all_choice_values(struct symbol *csym);
- 
- /* confdata.c and expr.c */
- static inline void xfwrite(const void *str, size_t len, size_t count, FILE *out)
-@@ -121,11 +120,7 @@ static inline tristate sym_get_tristate_value(struct symbol *sym)
+@@ -110,6 +110,7 @@ void menu_get_ext_help(struct menu *menu, struct gstr *help);
+ /* symbol.c */
+ void sym_clear_all_valid(void);
+ struct symbol *sym_choice_default(struct symbol *sym);
++struct symbol *sym_calc_choice(struct menu *choice);
+ struct property *sym_get_range_prop(struct symbol *sym);
+ const char *sym_get_string_default(struct symbol *sym);
+ struct symbol *sym_check_deps(struct symbol *sym);
+@@ -120,8 +121,6 @@ static inline tristate sym_get_tristate_value(struct symbol *sym)
  	return sym->curr.tri;
  }
  
+-struct symbol *sym_get_choice_value(struct symbol *sym);
 -
--static inline struct symbol *sym_get_choice_value(struct symbol *sym)
--{
--	return (struct symbol *)sym->curr.val;
--}
-+struct symbol *sym_get_choice_value(struct symbol *sym);
- 
  static inline bool sym_is_choice(struct symbol *sym)
  {
-diff --git a/scripts/kconfig/menu.c b/scripts/kconfig/menu.c
-index bf5dcc05350b..170a269a8d7c 100644
---- a/scripts/kconfig/menu.c
-+++ b/scripts/kconfig/menu.c
-@@ -591,7 +591,6 @@ bool menu_is_empty(struct menu *menu)
+ 	/* A choice is a symbol with no name */
+diff --git a/scripts/kconfig/mconf.c b/scripts/kconfig/mconf.c
+index 03709eb734ae..4a0a97bb342f 100644
+--- a/scripts/kconfig/mconf.c
++++ b/scripts/kconfig/mconf.c
+@@ -514,7 +514,7 @@ static void build_conf(struct menu *menu)
  
- bool menu_is_visible(struct menu *menu)
- {
--	struct menu *child;
- 	struct symbol *sym;
- 	tristate visible;
+ 	type = sym_get_type(sym);
+ 	if (sym_is_choice(sym)) {
+-		struct symbol *def_sym = sym_get_choice_value(sym);
++		struct symbol *def_sym = sym_calc_choice(menu);
+ 		struct menu *def_menu = NULL;
  
-@@ -610,21 +609,7 @@ bool menu_is_visible(struct menu *menu)
- 	} else
- 		visible = menu->prompt->visible.tri = expr_calc_value(menu->prompt->visible.expr);
+ 		child_count++;
+@@ -600,7 +600,7 @@ static void conf_choice(struct menu *menu)
+ 	struct menu *child;
+ 	struct symbol *active;
  
--	if (visible != no)
--		return true;
--
--	if (!sym || sym_get_tristate_value(menu->sym) == no)
--		return false;
--
--	for (child = menu->list; child; child = child->next) {
--		if (menu_is_visible(child)) {
--			if (sym)
--				sym->flags |= SYMBOL_DEF_USER;
--			return true;
--		}
--	}
--
--	return false;
-+	return visible != no;
- }
- 
- const char *menu_get_prompt(struct menu *menu)
-diff --git a/scripts/kconfig/parser.y b/scripts/kconfig/parser.y
-index 20538e1d3788..9d58544b0255 100644
---- a/scripts/kconfig/parser.y
-+++ b/scripts/kconfig/parser.y
-@@ -157,6 +157,9 @@ config_stmt: config_entry_start config_option_list
- 				current_entry->filename, current_entry->lineno);
- 			yynerrs++;
+-	active = sym_get_choice_value(menu->sym);
++	active = sym_calc_choice(menu);
+ 	while (1) {
+ 		int res;
+ 		int selected;
+@@ -619,7 +619,7 @@ static void conf_choice(struct menu *menu)
+ 			item_set_data(child);
+ 			if (child->sym == active)
+ 				item_set_selected(1);
+-			if (child->sym == sym_get_choice_value(menu->sym))
++			if (child->sym == sym_calc_choice(menu))
+ 				item_set_tag('X');
  		}
-+
-+		list_add_tail(&current_entry->sym->choice_link,
-+			      &current_choice->choice_members);
- 	}
+ 		dialog_clear();
+diff --git a/scripts/kconfig/nconf.c b/scripts/kconfig/nconf.c
+index eb5fc3ccaf9d..1456e24969aa 100644
+--- a/scripts/kconfig/nconf.c
++++ b/scripts/kconfig/nconf.c
+@@ -815,7 +815,7 @@ static void build_conf(struct menu *menu)
  
- 	printd(DEBUG_PARSE, "%s:%d:endconfig\n", cur_filename, cur_lineno);
-@@ -240,6 +243,7 @@ choice: T_CHOICE T_EOL
- 	menu_add_entry(sym);
- 	menu_add_expr(P_CHOICE, NULL, NULL);
- 	menu_set_type(S_BOOLEAN);
-+	INIT_LIST_HEAD(&current_entry->choice_members);
+ 	type = sym_get_type(sym);
+ 	if (sym_is_choice(sym)) {
+-		struct symbol *def_sym = sym_get_choice_value(sym);
++		struct symbol *def_sym = sym_calc_choice(menu);
+ 		struct menu *def_menu = NULL;
  
- 	printd(DEBUG_PARSE, "%s:%d:choice\n", cur_filename, cur_lineno);
- };
+ 		child_count++;
+@@ -1239,7 +1239,7 @@ static void conf_choice(struct menu *menu)
+ 		.pattern = "",
+ 	};
+ 
+-	active = sym_get_choice_value(menu->sym);
++	active = sym_calc_choice(menu);
+ 	/* this is mostly duplicated from the conf() function. */
+ 	while (!global_exit) {
+ 		reset_menu();
+@@ -1248,7 +1248,7 @@ static void conf_choice(struct menu *menu)
+ 			if (!show_all_items && !menu_is_visible(child))
+ 				continue;
+ 
+-			if (child->sym == sym_get_choice_value(menu->sym))
++			if (child->sym == sym_calc_choice(menu))
+ 				item_make(child, ':', "<X> %s",
+ 						menu_get_prompt(child));
+ 			else if (child->sym)
 diff --git a/scripts/kconfig/symbol.c b/scripts/kconfig/symbol.c
-index 8df0a75f40b9..e59f2d2ce4e6 100644
+index e59f2d2ce4e6..b2fdae15f367 100644
 --- a/scripts/kconfig/symbol.c
 +++ b/scripts/kconfig/symbol.c
-@@ -188,7 +188,6 @@ static void sym_set_changed(struct symbol *sym)
+@@ -288,7 +288,7 @@ struct symbol *sym_choice_default(struct symbol *sym)
+  *
+  * Return: a chosen symbol
+  */
+-static struct symbol *sym_calc_choice(struct menu *choice)
++struct symbol *sym_calc_choice(struct menu *choice)
  {
- 	struct menu *menu;
- 
--	sym->flags |= SYMBOL_CHANGED;
- 	list_for_each_entry(menu, &sym->menus, link)
- 		menu->flags |= MENU_CHANGED;
- }
-@@ -282,36 +281,90 @@ struct symbol *sym_choice_default(struct symbol *sym)
- 	return NULL;
+ 	struct symbol *res = NULL;
+ 	struct symbol *sym;
+@@ -360,13 +360,6 @@ static struct symbol *sym_calc_choice(struct menu *choice)
+ 	return res;
  }
  
--static struct symbol *sym_calc_choice(struct symbol *sym)
-+/*
-+ * sym_calc_choice - calculate symbol values in a choice
-+ *
-+ * @choice: a menu of the choice
-+ *
-+ * Return: a chosen symbol
-+ */
-+static struct symbol *sym_calc_choice(struct menu *choice)
- {
--	struct symbol *def_sym;
--	struct property *prop;
--	struct expr *e;
--	int flags;
-+	struct symbol *res = NULL;
-+	struct symbol *sym;
-+	struct menu *menu;
- 
--	/* first calculate all choice values' visibilities */
--	flags = sym->flags;
--	prop = sym_get_choice_prop(sym);
--	expr_list_for_each_sym(prop->expr, e, def_sym) {
--		sym_calc_visibility(def_sym);
--		if (def_sym->visible != no)
--			flags &= def_sym->flags;
-+	/* Traverse the list of choice members in the priority order. */
-+	list_for_each_entry(sym, &choice->choice_members, choice_link) {
-+		sym_calc_visibility(sym);
-+		if (sym->visible == no)
-+			continue;
-+
-+		/* The first visible symble with the user value 'y'. */
-+		if (sym_has_value(sym) && sym->def[S_DEF_USER].tri == yes) {
-+			res = sym;
-+			break;
-+		}
- 	}
- 
--	sym->flags &= flags | ~SYMBOL_DEF_USER;
-+	/* If 'y' is not found in the user input, try the default */
-+	if (!res) {
-+		res = sym_choice_default(choice->sym);
-+		if (res && sym_has_value(res) && res->def[S_DEF_USER].tri == no)
-+			res = NULL;
-+	}
- 
--	/* is the user choice visible? */
--	def_sym = sym->def[S_DEF_USER].val;
--	if (def_sym && def_sym->visible != no)
--		return def_sym;
-+	/* Still not found. Pick up the first visible, user-unspecified symbol. */
-+	if (!res) {
-+		menu_for_each_sub_entry(menu, choice) {
-+			sym = menu->sym;
- 
--	def_sym = sym_choice_default(sym);
-+			if (!sym || sym->visible == no || sym_has_value(sym))
-+				continue;
- 
--	if (def_sym == NULL)
--		/* no choice? reset tristate value */
--		sym->curr.tri = no;
-+			res = sym;
-+			break;
-+		}
-+	}
- 
--	return def_sym;
-+	/* Still not found. Pick up the first visible symbol. */
-+	if (!res) {
-+		menu_for_each_sub_entry(menu, choice) {
-+			sym = menu->sym;
-+
-+			if (!sym || sym->visible == no)
-+				continue;
-+
-+			res = sym;
-+			break;
-+		}
-+	}
-+
-+	menu_for_each_sub_entry(menu, choice) {
-+		tristate val;
-+
-+		sym = menu->sym;
-+
-+		if (!sym || sym->visible == no)
-+			continue;
-+
-+		val = sym == res ? yes : no;
-+
-+		if (sym->curr.tri != val)
-+			sym_set_changed(sym);
-+
-+		sym->curr.tri = val;
-+		sym->flags |= SYMBOL_VALID | SYMBOL_WRITE;
-+	}
-+
-+	return res;
-+}
-+
-+struct symbol *sym_get_choice_value(struct symbol *sym)
-+{
-+	struct menu *menu = list_first_entry(&sym->menus, struct menu, link);
-+
-+	return sym_calc_choice(menu);
- }
- 
+-struct symbol *sym_get_choice_value(struct symbol *sym)
+-{
+-	struct menu *menu = list_first_entry(&sym->menus, struct menu, link);
+-
+-	return sym_calc_choice(menu);
+-}
+-
  static void sym_warn_unmet_dep(struct symbol *sym)
-@@ -347,7 +400,6 @@ void sym_calc_value(struct symbol *sym)
  {
- 	struct symbol_value newval, oldval;
- 	struct property *prop;
--	struct expr *e;
- 
- 	if (!sym)
- 		return;
-@@ -355,13 +407,6 @@ void sym_calc_value(struct symbol *sym)
- 	if (sym->flags & SYMBOL_VALID)
- 		return;
- 
--	if (sym_is_choice_value(sym) &&
--	    sym->flags & SYMBOL_NEED_SET_CHOICE_VALUES) {
--		sym->flags &= ~SYMBOL_NEED_SET_CHOICE_VALUES;
--		prop = sym_get_choice_prop(sym);
--		sym_calc_value(prop_get_symbol(prop));
--	}
--
- 	sym->flags |= SYMBOL_VALID;
- 
- 	oldval = sym->curr;
-@@ -400,9 +445,11 @@ void sym_calc_value(struct symbol *sym)
- 	switch (sym_get_type(sym)) {
- 	case S_BOOLEAN:
- 	case S_TRISTATE:
--		if (sym_is_choice_value(sym) && sym->visible == yes) {
--			prop = sym_get_choice_prop(sym);
--			newval.tri = (prop_get_symbol(prop)->curr.val == sym) ? yes : no;
-+		struct menu *choice_menu = sym_get_choice_menu(sym);
-+
-+		if (choice_menu) {
-+			sym_calc_choice(choice_menu);
-+			newval.tri = sym->curr.tri;
- 		} else {
- 			if (sym->visible != no) {
- 				/* if the symbol is visible use the user value
-@@ -461,8 +508,6 @@ void sym_calc_value(struct symbol *sym)
- 	}
- 
- 	sym->curr = newval;
--	if (sym_is_choice(sym) && newval.tri == yes)
--		sym->curr.val = sym_calc_choice(sym);
- 	sym_validate_range(sym);
- 
- 	if (memcmp(&oldval, &sym->curr, sizeof(oldval))) {
-@@ -473,23 +518,8 @@ void sym_calc_value(struct symbol *sym)
- 		}
- 	}
- 
--	if (sym_is_choice(sym)) {
--		struct symbol *choice_sym;
--
--		prop = sym_get_choice_prop(sym);
--		expr_list_for_each_sym(prop->expr, e, choice_sym) {
--			if ((sym->flags & SYMBOL_WRITE) &&
--			    choice_sym->visible != no)
--				choice_sym->flags |= SYMBOL_WRITE;
--			if (sym->flags & SYMBOL_CHANGED)
--				sym_set_changed(choice_sym);
--		}
--
-+	if (sym_is_choice(sym))
- 		sym->flags &= ~SYMBOL_WRITE;
--	}
--
--	if (sym->flags & SYMBOL_NEED_SET_CHOICE_VALUES)
--		set_all_choice_values(sym);
- }
- 
- void sym_clear_all_valid(void)
-@@ -523,15 +553,15 @@ bool sym_set_tristate_value(struct symbol *sym, tristate val)
- {
- 	tristate oldval = sym_get_tristate_value(sym);
- 
--	if (oldval != val && !sym_tristate_within_range(sym, val))
-+	if (!sym_tristate_within_range(sym, val))
- 		return false;
- 
--	if (!(sym->flags & SYMBOL_DEF_USER)) {
-+	if (!(sym->flags & SYMBOL_DEF_USER) || sym->def[S_DEF_USER].tri != val) {
-+		sym->def[S_DEF_USER].tri = val;
- 		sym->flags |= SYMBOL_DEF_USER;
- 		sym_set_changed(sym);
- 	}
- 
--	sym->def[S_DEF_USER].tri = val;
- 	if (oldval != val)
- 		sym_clear_all_valid();
- 
-@@ -565,10 +595,13 @@ void choice_set_value(struct menu *choice, struct symbol *sym)
- 
- 		menu->sym->def[S_DEF_USER].tri = val;
- 		menu->sym->flags |= SYMBOL_DEF_USER;
--	}
- 
--	choice->sym->def[S_DEF_USER].val = sym;
--	choice->sym->flags |= SYMBOL_DEF_USER;
-+		/*
-+		 * Now, the user has explicitly enabled or disabled this symbol,
-+		 * it should be given the highest priority
-+		 */
-+		list_move(&menu->sym->choice_link, &choice->choice_members);
-+	}
- 
- 	if (changed)
- 		sym_clear_all_valid();
+ 	struct gstr gs = str_new();
 -- 
 2.43.0
 
