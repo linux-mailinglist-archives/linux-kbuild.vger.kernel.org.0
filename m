@@ -1,306 +1,156 @@
-Return-Path: <linux-kbuild+bounces-2084-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2085-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1E52904571
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Jun 2024 22:01:27 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A226904605
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Jun 2024 22:59:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C6F981C23C9D
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Jun 2024 20:01:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BF510285972
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Jun 2024 20:59:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6AE347F49B;
-	Tue, 11 Jun 2024 20:01:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9172D1509A7;
+	Tue, 11 Jun 2024 20:59:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Tkf6+iDU"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="PTShDb9P"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B8E22628D
-	for <linux-kbuild@vger.kernel.org>; Tue, 11 Jun 2024 20:01:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FE3F12E61
+	for <linux-kbuild@vger.kernel.org>; Tue, 11 Jun 2024 20:59:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718136081; cv=none; b=XIS6uOPwMtdxM9/Lni2aoOi4TI5cxlKQMg26wsyrz6fZGRb2dE822prQNcdVMwIKwqlELeHIXtvcqyfH0H+mSgmiMSqem4IiA4FI+QTRcJd7G8SrDYC+rph/oj1Vro6pjoTwMGF5vx/qF4HPHdhZw8XFJa+965yLaMJJdpa7LQ8=
+	t=1718139573; cv=none; b=bBG4Czh/ACV8FVDMbaUJhtOCSAMY3tC7qBOqlU5ygltV4JqQf8OP4K3HvxQfCvczTie281absBT+cOwp5cYgbFBDfPNVGHO95KLagCBZP1/DF/kyrWhM8ifxWLjnn2QIX35cz7gIwIHFZwZBNGk9AQsLVwh143b7cE2XVzyoOhY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718136081; c=relaxed/simple;
-	bh=nj4txX9NOXHr1GSCcPh3azn4AKxGp53EaR108BbIBFo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NcbFahVcjWbAYIYn7syHyn+sAauIsvQICeb4TXY+Ahi2Wt0P4HpJviJQfc4GSGHMud8VnY0FmrYwX3N8jbIMOZd4+yv/2FZVfnUbbSApYAcSFZBRkIePXM8WSk3/lRYJVcmeuEq/AOgYdXGjt5uBF4KIHI+jVt0igkhbEqxJ2zI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Tkf6+iDU; arc=none smtp.client-ip=209.85.219.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-6b0745efaeeso14224346d6.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 11 Jun 2024 13:01:19 -0700 (PDT)
+	s=arc-20240116; t=1718139573; c=relaxed/simple;
+	bh=uPloNiuzxNq5YdU4bbihSB3VIjXRMwp5XwDqgZUS3LM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ZZtYLxWrkwqkkF/AWIEeIVHzHGSLXA4jUetWdtia4jxicyKN2+Wqqqh+JWo8k0v+ITrDPqo9+BnlYvRCGQe7bFVaIk1C8Mkjait6wdRYwK7UWhMPQAwHo8VE+0OCEbWRz40Ocb95LChxKMN0WIK2dgci4RRAejZXUsRLMx01lA8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=PTShDb9P; arc=none smtp.client-ip=209.85.208.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2ebeefb9a6eso15773611fa.1
+        for <linux-kbuild@vger.kernel.org>; Tue, 11 Jun 2024 13:59:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1718136078; x=1718740878; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ofRb2SrWSloDhDcm+em+RivA2vCOFT1sC1oLoIGdbIU=;
-        b=Tkf6+iDUJ46jL2ZixIp0tCBp2ryK9HAgEk0c0RBjAbTMqC2VeRuEP6ffgsRwNgHejE
-         DB7G/bPZFEhor0dx7xZwMXLhXesHfLzSTXlT/x34eHQxCaoFN4WjidNlnbkzqrRShK0D
-         o8xmH0KcYWpTcG22zf9tjxu2+IPpZba/4EL+A=
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1718139568; x=1718744368; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=axkxnr9QwmTcLxLgYqkLrzWvsCW3lX313RLwHm4iieE=;
+        b=PTShDb9PqQ61h1jBZAD9bwKpmAnmyOfzDYNHrPr4qmzAWvtPeRyHCJYYdNXCLSytHx
+         YWqdiudGg3AVOnQElV0uh6fV6iyBcrG4UtP0MawcYCbdjjvbX8ZAceci2u/FYCIVDL7q
+         VgQNWQGbWP/dvFeisEvRsovz5Zd+JsMixBQYeBJEm/6vEitlsWGHHk+u8yB9OKC3N2jn
+         jBtZ09uusYn78KixtQHFD34M0j+0xgClXv9/l/PbUn8e8nfabycXpPkxTJLo4XDLyHEo
+         KBdeD5OjnYcX8lF4VclkLqIYaM4Jdqen3AzEukrz2iDB8g6Dd7AKpCIEYJDlcehidV+Y
+         +AgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718136078; x=1718740878;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1718139568; x=1718744368;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ofRb2SrWSloDhDcm+em+RivA2vCOFT1sC1oLoIGdbIU=;
-        b=SI4VD8+aGxhts4XRpFljQXh6Jop2cIhPlFBwh7LHRQCguwL8Iol7cM/Uc2Uojnmfzw
-         diEJW4k+ZvoNRLUriKd8laltRKjyYpGobJ6ODajMQjYHMHL4J5puWUjLHpDCZWfpLcao
-         FQwbLOW3x4a3gBtlYvSG+ddGLgdBDgJQlEx5EMWySDawu9thtSy2YgVPiGHaQ3vpD6Iq
-         ophw8FAiz62LpcfIuYw3FI7DMZLFGzTW0qt/hXtxT2IXCrXpIiFV/Rp49j66kbXreg1y
-         mWt9B6xgJwojzss12OzV+cBWlnVwNsPfJhamAjsGygxM3bEsRcDlrGtibmBOraFXJ+TS
-         dHtQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXQgoGX8TObVhWzT0IUrZjX/BlD3pYHusQElCXeublk6ch/ZNfWTN6XVuZIAcAsPb+4EVV2iM5OVpDzyv/m3sAeFPRg+vh1qc9Vzuga
-X-Gm-Message-State: AOJu0YwCiyXNG1flcSJeGSMP/G4zgtWZICM4UO+ZbTCLPi3TcU38Y+xZ
-	VXCL4suddhjcno8921HR0tHZRiC1TY0uKnoSXvQybEc3pbdDRZBOjcqUNN2bW0XPEdNSPllRp41
-	Z0PfbPv2CMoXFhficqBbx1tbM+qCaARSLZWrz
-X-Google-Smtp-Source: AGHT+IGRUCqn3QJCs8/9hdjyKDSm0DH/nr44i9ZEurwfmAC2CHa4R2FqywjruzcI4fdTDvXZQEvAoAxzDbY/DUchLYo=
-X-Received: by 2002:a05:6214:4883:b0:6b0:65cd:c09f with SMTP id
- 6a1803df08f44-6b065cdc35dmr119734166d6.18.1718136078389; Tue, 11 Jun 2024
- 13:01:18 -0700 (PDT)
+        bh=axkxnr9QwmTcLxLgYqkLrzWvsCW3lX313RLwHm4iieE=;
+        b=DhIRCMGf3vivr4k4n/V0gwpOBEg0qUsq1fhdgNiXAwmIO3nezb6pyJJVeWKApWeCku
+         hU50lkbEPz7dal1qaKFpTijitauQrpwxSQZM6M19IZj7NgZlYBVo3eoPOZnGklR4fwgl
+         1GWTMpJ17YJhbx27TFqZ5TCFBepRH4bca9vaxxptLacR52l8HSm8WfIEZT6Jmbj+ZHCc
+         A3jOTs4PH0JkiO+KE/Ch9NcbWgjhltC0qtXCokHnlepGMmi8wyoeSZp9J05St0sEsajn
+         OB3D6uyjqEetqQTNTfAAOOo6sXyi2POb0lJ+Ze5kQeEgK0K3C0bw4YMfBChDH3pPfviX
+         T/7w==
+X-Forwarded-Encrypted: i=1; AJvYcCWVhejSP96LwNRfGjUDNkevXJndAtwgcWDiAJONV/XKxrJJp3hgqjq5biNo5FskvrHR5ZM/2EbLXv1Lq3n0l5kf36lcZSNC/hLriyh5
+X-Gm-Message-State: AOJu0Yw1q48bPG+OnL4wi5tpag497uiV1LFivmNeTMispwJKIYHu218Y
+	vn3FUvkJtWlbWOhWn6zZ3tyW+RUh0rZDTcumMAUCc65CTwP1ky8V0GqILMCv2Y8=
+X-Google-Smtp-Source: AGHT+IHXwlMipg5Zu4b5gbGo/Vp+PbC8BDeqNBBlaaCwUQT+jgYEQ/TSqDOHiMLb029imXgLMihuVA==
+X-Received: by 2002:a2e:b894:0:b0:2eb:eb7c:ec17 with SMTP id 38308e7fff4ca-2ebeb7cef92mr45433261fa.4.1718139568318;
+        Tue, 11 Jun 2024 13:59:28 -0700 (PDT)
+Received: from localhost ([2a02:8071:b783:6940:36f3:9aff:fec2:7e46])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57c6aa014c1sm6868604a12.41.2024.06.11.13.59.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Jun 2024 13:59:27 -0700 (PDT)
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Masahiro Yamada <masahiroy@kernel.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>
+Cc: Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>,
+	"Borislav Petkov (AMD)" <bp@alien8.de>
+Subject: [PATCH] modpost: Enable section warning from *driver to .exit.text
+Date: Tue, 11 Jun 2024 22:59:00 +0200
+Message-ID: <20240611205900.2145880-2-u.kleine-koenig@baylibre.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240605094843.4141730-1-wenst@chromium.org>
-In-Reply-To: <20240605094843.4141730-1-wenst@chromium.org>
-From: Simon Glass <sjg@chromium.org>
-Date: Tue, 11 Jun 2024 14:01:07 -0600
-Message-ID: <CAFLszTiZ8PUvxHx4kfLZf18RqSczRwxCmCxZ_y6J2rpu03pA=w@mail.gmail.com>
-Subject: Re: [PATCH] scripts/make_fit: Support decomposing DTBs
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2023; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=uPloNiuzxNq5YdU4bbihSB3VIjXRMwp5XwDqgZUS3LM=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBmaLqUjpGQVd1pbBw5rQONgHVu+IBd7NJY6rqZj ku+y/8TiO+JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZmi6lAAKCRCPgPtYfRL+ TpocCACZYUfugKVH+wz4b790vjb8CrTwyyGN5aBG1sIwU5rPn2b2Hh8ySISRD1cBkNg3cRlfH2c SZhYvPTN3oqgEWXP1KyUZ0f7s+AsWTpHMii/hU7E6BhccWDgjKlt3o67lw/nx19ql7qUbNMzSyF z3s1wcqGvwwwYk7MnSGL7v5nDj+Nd07V0NeDh+iMv4D9qrBhVP/V2ARPhPdX27AH63Pc6+UY+aK kubfgsNdf7LzwjsgdxgmxaM2kwkyqpxHNmeTWWrYNlHUYrZA0Yq2uWaUJPgV+x/5Hn+AYJj6z/B L1aAKQDU/bWULwU1fVfLwbXuLry/fOtbVBFEflVVl5AaNrkg
+X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
 
-Hi Chen-Yu,
+There used to be several offenders, but now that for all of them patches
+were sent and most of them were applied, enable the warning also for
+builds without W=1.
 
-On Wed, 5 Jun 2024 at 03:48, Chen-Yu Tsai <wenst@chromium.org> wrote:
->
-> The kernel tree builds some "composite" DTBs, where the final DTB is the
-> result of applying one or more DTB overlays on top of a base DTB with
-> fdtoverlay.
->
-> The FIT image specification already supports configurations having one
-> base DTB and overlays applied on top. It is then up to the bootloader to
-> apply said overlays and either use or pass on the final result. This
-> allows the FIT image builder to reuse the same FDT images for multiple
-> configurations, if such cases exist.
->
-> The decomposition function depends on the kernel build system, reading
-> back the .cmd files for the to-be-packaged DTB files to check for the
-> fdtoverlay command being called. This will not work outside the kernel
-> tree. The function is off by default to keep compatibility with possible
-> existing users.
->
-> To facilitate the decomposition and keep the code clean, the model and
-> compatitble string extraction have been moved out of the output_dtb
-> function. The FDT image description is replaced with the base file name
-> of the included image.
->
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> ---
-> This is a feature I alluded to in my replies to Simon's original
-> submission of the make_fit.py script [1].
->
-> This is again made a runtime argument as not all firmware out there
-> that boot FIT images support applying overlays. Like my previous
-> submission for disabling compression for included FDT images, the
-> bootloader found in RK3399 and MT8173 Chromebooks do not support
-> applying overlays. Another case of this is U-boot shipped by development
-> board vendors in binary form (without upstream) in an image or in
-> SPI flash on the board that were built with OF_LIBFDT_OVERLAY=n.
-> These would fail to boot FIT images with DT overlays. One such
-> example is my Hummingboard Pulse. In these cases the firmware is
-> either not upgradable or very hard to upgrade.
->
-> I believe there is value in supporting these cases. A common script
-> shipped with the kernel source that can be shared by distros means
-> the distro people don't have to reimplement this in their downstream
-> repos or meta-packages. For ChromeOS this means reducing the amount
-> of package code we have in shell script.
->
-> [1] https://lore.kernel.org/linux-kbuild/20231207142723.GA3187877@google.com/
-> [2]
->
->  scripts/Makefile.lib |  1 +
->  scripts/make_fit.py  | 70 ++++++++++++++++++++++++++++++--------------
->  2 files changed, 49 insertions(+), 22 deletions(-)
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
+---
+Hello,
 
-Reviewed-by: Simon Glass <sjg@chromium.org>
+as of v6.10-rc2 there are two known offenders:
 
-Some possible nits / changes below
+ - drivers/virt/coco/sev-guest/sev-guest.c
+   patch submitted in March, available at
+   https://lore.kernel.org/all/4a81b0e87728a58904283e2d1f18f73abc69c2a1.1711748999.git.u.kleine-koenig@pengutronix.de
 
->
-> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> index 9f06f6aaf7fc..d78b5d38beaa 100644
-> --- a/scripts/Makefile.lib
-> +++ b/scripts/Makefile.lib
-> @@ -522,6 +522,7 @@ quiet_cmd_fit = FIT     $@
->        cmd_fit = $(MAKE_FIT) -o $@ --arch $(UIMAGE_ARCH) --os linux \
->                 --name '$(UIMAGE_NAME)' \
->                 $(if $(findstring 1,$(KBUILD_VERBOSE)),-v) \
-> +               $(if $(FIT_DECOMPOSE_DTBS),--decompose-dtbs) \
->                 --compress $(FIT_COMPRESSION) -k $< @$(word 2,$^)
->
->  # XZ
-> diff --git a/scripts/make_fit.py b/scripts/make_fit.py
-> index 263147df80a4..120f13e1323c 100755
-> --- a/scripts/make_fit.py
-> +++ b/scripts/make_fit.py
-> @@ -22,6 +22,11 @@ the entire FIT.
->  Use -c to compress the data, using bzip2, gzip, lz4, lzma, lzo and
->  zstd algorithms.
->
-> +Use -d to decompose "composite" DTBs into their base components and
-> +deduplicate the resulting base DTBs and DTB overlays. This requires the
-> +DTBs to be sourced from the kernel build directory, as the implementation
-> +looks at the .cmd files produced by the kernel build.
-> +
->  The resulting FIT can be booted by bootloaders which support FIT, such
->  as U-Boot, Linuxboot, Tianocore, etc.
->
-> @@ -64,6 +69,8 @@ def parse_args():
->            help='Specifies the architecture')
->      parser.add_argument('-c', '--compress', type=str, default='none',
->            help='Specifies the compression')
-> +    parser.add_argument('-d', '--decompose-dtbs', action='store_true',
-> +          help='Decompose composite DTBs into base DTB and overlays')
+ - drivers/parport/parport_amiga.c
+   fixed in next (commit 73fedc31fed3 ("parport: amiga: Mark driver
+   struct with __refdata to prevent section mismatch"))
 
-I wonder if we should reserve -d for --debug? I don't have a strong
-opinion though.
+I tested this patch using allmodconfig builds for arm64, riscv, s390 and
+x86_64 which didn't expose further drivers with this problem.
 
->      parser.add_argument('-E', '--external', action='store_true',
->            help='Convert the FIT to use external data')
->      parser.add_argument('-n', '--name', type=str, required=True,
-> @@ -140,12 +147,12 @@ def finish_fit(fsw, entries):
->      fsw.end_node()
->      seq = 0
->      with fsw.add_node('configurations'):
-> -        for model, compat in entries:
-> +        for model, compat, files in entries:
->              seq += 1
->              with fsw.add_node(f'conf-{seq}'):
->                  fsw.property('compatible', bytes(compat))
->                  fsw.property_string('description', model)
-> -                fsw.property_string('fdt', f'fdt-{seq}')
-> +                fsw.property('fdt', b''.join([b'fdt-%d\x00' % x for x in files]))
+In my eyes this is good enough to enable the warning for all builds (and
+not only with W=1).
 
-This looks right to me. It would be nice to use an f string but I
-don't know how to do that with bytes.
+Best regards
+Uwe
 
-But do you need the inner [] ?
+ scripts/mod/modpost.c | 11 -----------
+ 1 file changed, 11 deletions(-)
 
->                  fsw.property_string('kernel', 'kernel')
->      fsw.end_node()
->
-> @@ -193,21 +200,9 @@ def output_dtb(fsw, seq, fname, arch, compress):
->          fname (str): Filename containing the DTB
->          arch: FIT architecture, e.g. 'arm64'
->          compress (str): Compressed algorithm, e.g. 'gzip'
-> -
-> -    Returns:
-> -        tuple:
-> -            str: Model name
-> -            bytes: Compatible stringlist
->      """
->      with fsw.add_node(f'fdt-{seq}'):
-> -        # Get the compatible / model information
-> -        with open(fname, 'rb') as inf:
-> -            data = inf.read()
-> -        fdt = libfdt.FdtRo(data)
-> -        model = fdt.getprop(0, 'model').as_str()
-> -        compat = fdt.getprop(0, 'compatible')
-> -
-> -        fsw.property_string('description', model)
-> +        fsw.property_string('description', os.path.basename(fname))
->          fsw.property_string('type', 'flat_dt')
->          fsw.property_string('arch', arch)
->          fsw.property_string('compression', compress)
-> @@ -215,7 +210,6 @@ def output_dtb(fsw, seq, fname, arch, compress):
->          with open(fname, 'rb') as inf:
->              compressed = compress_data(inf, compress)
->          fsw.property('data', compressed)
-> -    return model, compat
->
->
->  def build_fit(args):
-> @@ -235,6 +229,7 @@ def build_fit(args):
->      fsw = libfdt.FdtSw()
->      setup_fit(fsw, args.name)
->      entries = []
-> +    fdts = collections.OrderedDict()
->
->      # Handle the kernel
->      with open(args.kernel, 'rb') as inf:
-> @@ -243,12 +238,43 @@ def build_fit(args):
->      write_kernel(fsw, comp_data, args)
->
->      for fname in args.dtbs:
-> -        # Ignore overlay (.dtbo) files
-> -        if os.path.splitext(fname)[1] == '.dtb':
-> -            seq += 1
-> -            size += os.path.getsize(fname)
-> -            model, compat = output_dtb(fsw, seq, fname, args.arch, args.compress)
-> -            entries.append([model, compat])
-> +        # Ignore non-DTB (*.dtb) files
-> +        if os.path.splitext(fname)[1] != '.dtb':
-> +            continue
-> +
-> +        # Get the compatible / model information
-> +        with open(fname, 'rb') as inf:
-> +            data = inf.read()
-> +        fdt = libfdt.FdtRo(data)
-> +        model = fdt.getprop(0, 'model').as_str()
-> +        compat = fdt.getprop(0, 'compatible')
-> +
-> +        if args.decompose_dtbs:
-> +            # Check if the DTB needs to be decomposed
-> +            path, basename = os.path.split(fname)
-> +            cmd_fname = os.path.join(path, f'.{basename}.cmd')
-> +            with open(cmd_fname, 'r', encoding='ascii') as inf:
-> +                cmd = inf.read()
-> +
-> +            if 'scripts/dtc/fdtoverlay' in cmd:
-> +                # This depends on the structure of the composite DTB command
-> +                files = cmd.split()
-> +                files = files[files.index('-i')+1:]
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index 937294ff164f..30881d94f00e 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -965,17 +965,6 @@ static int secref_whitelist(const char *fromsec, const char *fromsym,
+ 	    match(fromsym, PATTERNS("*_ops", "*_probe", "*_console")))
+ 		return 0;
+ 
+-	/*
+-	 * symbols in data sections must not refer to .exit.*, but there are
+-	 * quite a few offenders, so hide these unless for W=1 builds until
+-	 * these are fixed.
+-	 */
+-	if (!extra_warn &&
+-	    match(fromsec, PATTERNS(DATA_SECTIONS)) &&
+-	    match(tosec, PATTERNS(ALL_EXIT_SECTIONS)) &&
+-	    match(fromsym, PATTERNS("*driver")))
+-		return 0;
+-
+ 	/* Check for pattern 3 */
+ 	if (strstarts(fromsec, ".head.text") &&
+ 	    match(tosec, PATTERNS(ALL_INIT_SECTIONS)))
 
-spaces around +
+base-commit: c3f38fa61af77b49866b006939479069cd451173
+prerequisite-patch-id: 7300dede00db637042647e12d558fe1dd57c20cc
+prerequisite-patch-id: 82cfe8597f709f05b9fbbd3e4eca8be35e077e2b
+-- 
+2.43.0
 
-> +            else:
-> +                files = [fname]
-> +        else:
-> +            files = [fname]
-
-I do wonder if the code from '# Get the compatible' to here would be
-better in a separate, documented function, to keep things easier to
-understand?
-
-> +
-> +        for fn in files:
-> +            if fn not in fdts:
-> +                seq += 1
-> +                size += os.path.getsize(fn)
-> +                output_dtb(fsw, seq, fn, args.arch, args.compress)
-> +                fdts[fn] = seq
-> +
-> +        files_seq = [fdts[fn] for fn in files]
-> +
-> +        entries.append([model, compat, files_seq])
->
->      finish_fit(fsw, entries)
->
-> --
-> 2.45.1.288.g0e0cd299f1-goog
->
-
-Regards,
-Simon
 
