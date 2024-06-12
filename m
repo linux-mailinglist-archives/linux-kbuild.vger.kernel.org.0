@@ -1,74 +1,74 @@
-Return-Path: <linux-kbuild+bounces-2089-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2090-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38DB8904630
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Jun 2024 23:19:17 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 486D8904950
+	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Jun 2024 05:07:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C4D9B2881C8
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Jun 2024 21:19:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5CFE41C22FF4
+	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Jun 2024 03:07:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BB2B152E17;
-	Tue, 11 Jun 2024 21:19:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6CC0168A8;
+	Wed, 12 Jun 2024 03:07:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OeIOsShS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OJKsTT14"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CA0D152780;
-	Tue, 11 Jun 2024 21:19:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 594773214;
+	Wed, 12 Jun 2024 03:07:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718140752; cv=none; b=b5yedKImMlB3PsqkHDLN8deu6c59c9/Fwz+y+OawNjWYZXmxrnwU/YTRkjBTBOIvegO18ue2+ryIfgAUwLWhv7aeHfZ2QogIuUhvFhM8CPR7jeUeGVMmxQqvg0YozrtLtAUwGXLHP1lFPRlg+ezx6AUoMM73YzWULSyEyV4uVhY=
+	t=1718161649; cv=none; b=V2gEXz7hnbyc9Y+rTqUufCu+uJoFOub8WBzvETOFrRynk+yk5jvEl74QTGpRxhc0ISK1lEuMbHqCb5vnFW+1/1Fa4ZeQhwQYdJXxTUBg3Cz5FGKbZXk88bXKKLVTHBx4AFdOxX1h7TFZPXFkFsxhl132tyqoGwB5LJJOMgowryg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718140752; c=relaxed/simple;
-	bh=0YwnHVeYnnYkqsFj5yR3rkt1qZKqz5UK80yyjBNKra4=;
+	s=arc-20240116; t=1718161649; c=relaxed/simple;
+	bh=Y/RcdanauC5gez0XfKh6zjRATRCUsTxbPQGvGoEz2Tg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kPk5nfcT6WnWaYkRrlj+YPezBBYerd8f65e1tBe3TbxbxMy+B/760Ylfo5uvUedOW0yumGeaxd4cM+Kq+UEuMhXqjE6KoH0LD732OBLGJnzfVV2POyOCWZqHxb09fmNiofYAtd82DIoB87A7LLU7vGub+Wbh1tU27ERDxZDByJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OeIOsShS; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=E6cV2umSpbKxj/709UtXOqaWGV2fFajTLS+sU9z5EL+iX+LMIcIgJ3aI2dMNrgcFVZZKIpT2/72j0hovutPrRp/dh44kMPtA9T2ajjtUMGtMLvDDlOwIqRUBz63k4MybQ4HJG9SgQ3B0z7RsAHyW2oe4eEpKFeQ+lbfLKxhvaMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OJKsTT14; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718140749; x=1749676749;
+  t=1718161646; x=1749697646;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=0YwnHVeYnnYkqsFj5yR3rkt1qZKqz5UK80yyjBNKra4=;
-  b=OeIOsShSj+OmhtvYIRCMmBhWq8pLH6YgqLcHptYNstuR1hp2dB+kqFFF
-   bxZbMzrvkE+VImNZQ74EiWWaLgeAdbU2+jTQSXUxqwOQT9o02lw4TxZuZ
-   lmrhNyoVgUwB8KB9NhzWJjATEL6xxEHnn5jQ00CIpRDFDnmtx3Jb84GkS
-   NoHQtpNp+JyiUGmu0miHrdyC+UxUex9OXtH8WMTkxnf8fFstLd0VUsA2b
-   8/7Oc/CgytTk8coP5hBW0IMG7MxcQy4BrXUAgnQOEqknM25zUOebbwS4E
-   BoT5mIpsF+4zMpB73KVzs6j7zqvhFGQLJVJAZjOi20bq1ekN5FXEXrM3T
-   g==;
-X-CSE-ConnectionGUID: EaKROKOgSXWvky4+cumGBA==
-X-CSE-MsgGUID: AHEUNgXvSpWH8O2BEzc94Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11100"; a="18712984"
-X-IronPort-AV: E=Sophos;i="6.08,231,1712646000"; 
-   d="scan'208";a="18712984"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2024 14:19:09 -0700
-X-CSE-ConnectionGUID: dV/LxXVrT/uRvw9vFAqaKA==
-X-CSE-MsgGUID: x64uxm5cS6KQn0xEwm3WFw==
+  bh=Y/RcdanauC5gez0XfKh6zjRATRCUsTxbPQGvGoEz2Tg=;
+  b=OJKsTT14kmDbabELm+PDkgRaKKQoCNq372AOL8I+GJPpUtfzdd/D4ESu
+   NASg7y+xqmUxdLHHXAIwsouBVT4hHFzZBLAVqx9krU3IwmOR9ZTOHmM/y
+   jMe01ySPfyLo3P/QUO80Z3W4Pgq8YXwceGQLg6SaNMeqstKHXwoY8xz1P
+   u3B9T98LlxnyGq5/e8dJd9CHc+fD3fhzcMSYMU0EsIAg9FtTjHvtw52jr
+   PVNk7Q4W4kY3LGNBbXdKrlfYkd9SojmciSrzF6e5kayKB5CqRDM/t8mxL
+   r0DURfWEm0hklRgNJ4NmCmsaJA650DRmTkCp2xKqeBOBCGzejPDaxCGQy
+   A==;
+X-CSE-ConnectionGUID: bjzUFIxLTz2CkrmxRq0x2A==
+X-CSE-MsgGUID: ZXl1n47WSv+UV6PfeA2l6Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11100"; a="15075939"
+X-IronPort-AV: E=Sophos;i="6.08,232,1712646000"; 
+   d="scan'208";a="15075939"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2024 20:07:25 -0700
+X-CSE-ConnectionGUID: OwfkTZhcT+++D0cHiOGXuQ==
+X-CSE-MsgGUID: 9sDus5UPRAmuVvkHWWbMVw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,231,1712646000"; 
-   d="scan'208";a="44517960"
+X-IronPort-AV: E=Sophos;i="6.08,232,1712646000"; 
+   d="scan'208";a="40344945"
 Received: from lkp-server01.sh.intel.com (HELO 628d7d8b9fc6) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 11 Jun 2024 14:19:08 -0700
+  by orviesa007.jf.intel.com with ESMTP; 11 Jun 2024 20:07:25 -0700
 Received: from kbuild by 628d7d8b9fc6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1sH8tV-0000uM-1h;
-	Tue, 11 Jun 2024 21:19:05 +0000
-Date: Wed, 12 Jun 2024 05:18:40 +0800
+	id 1sHEKY-00019W-0i;
+	Wed, 12 Jun 2024 03:07:22 +0000
+Date: Wed, 12 Jun 2024 11:06:32 +0800
 From: kernel test robot <lkp@intel.com>
 To: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
 	Masahiro Yamada <masahiroy@kernel.org>
 Subject: Re: [PATCH 06/16] kconfig: refactor choice value calculation
-Message-ID: <202406120445.P5QmPYgD-lkp@intel.com>
+Message-ID: <202406121008.8zFuX4VH-lkp@intel.com>
 References: <20240611175536.3518179-7-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
@@ -82,10 +82,10 @@ In-Reply-To: <20240611175536.3518179-7-masahiroy@kernel.org>
 
 Hi Masahiro,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on masahiroy-kbuild/kbuild]
-[also build test WARNING on masahiroy-kbuild/for-next next-20240611]
+[auto build test ERROR on masahiroy-kbuild/kbuild]
+[also build test ERROR on masahiroy-kbuild/for-next next-20240611]
 [cannot apply to masahiroy-kbuild/fixes linus/master v6.10-rc3]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
@@ -95,19 +95,40 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Masahiro-Yamada/kconfig-r
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git kbuild
 patch link:    https://lore.kernel.org/r/20240611175536.3518179-7-masahiroy%40kernel.org
 patch subject: [PATCH 06/16] kconfig: refactor choice value calculation
-reproduce: (https://download.01.org/0day-ci/archive/20240612/202406120445.P5QmPYgD-lkp@intel.com/reproduce)
+config: i386-buildonly-randconfig-002-20240612 (attached as .config)
+compiler: gcc-8 (Ubuntu 8.4.0-3ubuntu2) 8.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240612/202406121008.8zFuX4VH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406120445.P5QmPYgD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406121008.8zFuX4VH-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> scripts/kconfig/symbol.c:448:3: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
-     448 |                 struct menu *choice_menu = sym_get_choice_menu(sym);
-         |                 ^
-   1 warning generated.
+   scripts/kconfig/symbol.c: In function 'sym_calc_value':
+>> scripts/kconfig/symbol.c:448:3: error: a label can only be part of a statement and a declaration is not a statement
+      struct menu *choice_menu = sym_get_choice_menu(sym);
+      ^~~~~~
+   make[3]: *** [scripts/Makefile.host:133: scripts/kconfig/symbol.o] Error 1 shuffle=1413228972
+   make[3]: Target 'oldconfig' not remade because of errors.
+   make[2]: *** [Makefile:695: oldconfig] Error 2 shuffle=1413228972
+   make[1]: *** [Makefile:240: __sub-make] Error 2 shuffle=1413228972
+   make[1]: Target 'oldconfig' not remade because of errors.
+   make: *** [Makefile:240: __sub-make] Error 2 shuffle=1413228972
+   make: Target 'oldconfig' not remade because of errors.
+--
+   scripts/kconfig/symbol.c: In function 'sym_calc_value':
+>> scripts/kconfig/symbol.c:448:3: error: a label can only be part of a statement and a declaration is not a statement
+      struct menu *choice_menu = sym_get_choice_menu(sym);
+      ^~~~~~
+   make[3]: *** [scripts/Makefile.host:133: scripts/kconfig/symbol.o] Error 1 shuffle=1413228972
+   make[3]: Target 'olddefconfig' not remade because of errors.
+   make[2]: *** [Makefile:695: olddefconfig] Error 2 shuffle=1413228972
+   make[1]: *** [Makefile:240: __sub-make] Error 2 shuffle=1413228972
+   make[1]: Target 'olddefconfig' not remade because of errors.
+   make: *** [Makefile:240: __sub-make] Error 2 shuffle=1413228972
+   make: Target 'olddefconfig' not remade because of errors.
 
 
 vim +448 scripts/kconfig/symbol.c
