@@ -1,267 +1,226 @@
-Return-Path: <linux-kbuild+bounces-2090-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2091-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 486D8904950
-	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Jun 2024 05:07:33 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61A9E9049A6
+	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Jun 2024 05:29:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5CFE41C22FF4
-	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Jun 2024 03:07:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 554281C202CA
+	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Jun 2024 03:29:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6CC0168A8;
-	Wed, 12 Jun 2024 03:07:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75FA2179B7;
+	Wed, 12 Jun 2024 03:29:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OJKsTT14"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TfZ3uEfp"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 594773214;
-	Wed, 12 Jun 2024 03:07:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 498041DFF0;
+	Wed, 12 Jun 2024 03:29:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718161649; cv=none; b=V2gEXz7hnbyc9Y+rTqUufCu+uJoFOub8WBzvETOFrRynk+yk5jvEl74QTGpRxhc0ISK1lEuMbHqCb5vnFW+1/1Fa4ZeQhwQYdJXxTUBg3Cz5FGKbZXk88bXKKLVTHBx4AFdOxX1h7TFZPXFkFsxhl132tyqoGwB5LJJOMgowryg=
+	t=1718162942; cv=none; b=XvT/MI32Vsji8y/oNowHxltHzljyG5dvQh7ldnFRInlKw6QTPNLNFa+COsr9A/inlLjfYDqv6eByqwI3kzgs1JmXDrYgwmDtkipKYbDOgvsRB0bnihqqT00rvodgkeQF0i+l2OzwET2ACAx0DqsA5w7maemtb9nQHWmL/SHAois=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718161649; c=relaxed/simple;
-	bh=Y/RcdanauC5gez0XfKh6zjRATRCUsTxbPQGvGoEz2Tg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E6cV2umSpbKxj/709UtXOqaWGV2fFajTLS+sU9z5EL+iX+LMIcIgJ3aI2dMNrgcFVZZKIpT2/72j0hovutPrRp/dh44kMPtA9T2ajjtUMGtMLvDDlOwIqRUBz63k4MybQ4HJG9SgQ3B0z7RsAHyW2oe4eEpKFeQ+lbfLKxhvaMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OJKsTT14; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718161646; x=1749697646;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Y/RcdanauC5gez0XfKh6zjRATRCUsTxbPQGvGoEz2Tg=;
-  b=OJKsTT14kmDbabELm+PDkgRaKKQoCNq372AOL8I+GJPpUtfzdd/D4ESu
-   NASg7y+xqmUxdLHHXAIwsouBVT4hHFzZBLAVqx9krU3IwmOR9ZTOHmM/y
-   jMe01ySPfyLo3P/QUO80Z3W4Pgq8YXwceGQLg6SaNMeqstKHXwoY8xz1P
-   u3B9T98LlxnyGq5/e8dJd9CHc+fD3fhzcMSYMU0EsIAg9FtTjHvtw52jr
-   PVNk7Q4W4kY3LGNBbXdKrlfYkd9SojmciSrzF6e5kayKB5CqRDM/t8mxL
-   r0DURfWEm0hklRgNJ4NmCmsaJA650DRmTkCp2xKqeBOBCGzejPDaxCGQy
-   A==;
-X-CSE-ConnectionGUID: bjzUFIxLTz2CkrmxRq0x2A==
-X-CSE-MsgGUID: ZXl1n47WSv+UV6PfeA2l6Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11100"; a="15075939"
-X-IronPort-AV: E=Sophos;i="6.08,232,1712646000"; 
-   d="scan'208";a="15075939"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2024 20:07:25 -0700
-X-CSE-ConnectionGUID: OwfkTZhcT+++D0cHiOGXuQ==
-X-CSE-MsgGUID: 9sDus5UPRAmuVvkHWWbMVw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,232,1712646000"; 
-   d="scan'208";a="40344945"
-Received: from lkp-server01.sh.intel.com (HELO 628d7d8b9fc6) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 11 Jun 2024 20:07:25 -0700
-Received: from kbuild by 628d7d8b9fc6 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sHEKY-00019W-0i;
-	Wed, 12 Jun 2024 03:07:22 +0000
-Date: Wed, 12 Jun 2024 11:06:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>
-Subject: Re: [PATCH 06/16] kconfig: refactor choice value calculation
-Message-ID: <202406121008.8zFuX4VH-lkp@intel.com>
-References: <20240611175536.3518179-7-masahiroy@kernel.org>
+	s=arc-20240116; t=1718162942; c=relaxed/simple;
+	bh=dzytYAPA2vntPxLFoQACxn5mDGtGCdAdzSX3DYn4Sy0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=QPC8fTD6kj5Hz9We0N1huk7sWeuyNhc9DaAxLHeewxgXJNl8cP8FbqsmK4ofn8jIzUk3ODZIGKHDHIYIrY74cCn6L5OmZoQngX6xBqnWmhwqBCyfsH0v6cDn/FhAOa0llwoevCntiOjUFahv9GVWrqqWOgCLJ/NYITyfYmxRa88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TfZ3uEfp; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D1EEDC32786;
+	Wed, 12 Jun 2024 03:29:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718162941;
+	bh=dzytYAPA2vntPxLFoQACxn5mDGtGCdAdzSX3DYn4Sy0=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=TfZ3uEfp1sH8DRTaiFN3apxLEzXcEDhJjfHsGkQ5VlIoPBxuj6Ms+6iQZtJaPoY0s
+	 gQXyoPncqufuYUTX1IFiR2iQkpGIfre2JTpQL60NhLzwIiyFPLjMik0A9FcpIr7VFC
+	 18qIsLPh2I3TAPFZgcMt1IWHqEyhP54YvGsoks8zRvMYfIlRE4YzS/Ly7/W4i4FFXV
+	 6L6+VfT6odL7ELpbA5J4Je2/q0gjrvBSfa77grZyVdeiCgw1/gd8vFDhz3y7kgWH60
+	 lKLiYEddd8VfYyg10u9eZ7/uPGxQXT5MNWY6/6MYL1cwyy+Kpfbs3JncZBM9masQ5R
+	 atq8xh9UXLY7w==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C45E6C27C53;
+	Wed, 12 Jun 2024 03:29:01 +0000 (UTC)
+From: Dmitry Safonov via B4 Relay <devnull+0x7f454c46.gmail.com@kernel.org>
+Date: Wed, 12 Jun 2024 04:27:17 +0100
+Subject: [PATCH RFC v2] kbuild/x86: Use $(KBUILD_AFLAGS) in Kbuild's
+ version of $(as-instr)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240611175536.3518179-7-masahiroy@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240612-as-instr-opt-wrussq-v2-1-bd950f7eead7@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAJUVaWYC/22OzQrCMBCEX0X27EqTBjWeBMEH8Co9bOO2Ddgfs
+ 7Uqpe9uWjx6nGG+mRlBOHgWOKxGCDx48W0ThV6vwFXUlIz+FjXoRJvEqARJ0DfSB2y7Hl/hKfJ
+ As2eX7jjd6sRAJLvAhX8vrVe4nE+QRTMnYcwDNa6aC2uSnsOcrrz0bfgsFwa1ML819XdtUKjQ2
+ lyRImsLmx7Lmvx949oasmmavuAli9LUAAAA
+To: Borislav Petkov <bp@alien8.de>, 
+ Dave Hansen <dave.hansen@linux.intel.com>, Ingo Molnar <mingo@redhat.com>, 
+ "H. Peter Anvin" <hpa@zytor.com>, Masahiro Yamada <masahiroy@kernel.org>, 
+ Thomas Gleixner <tglx@linutronix.de>, x86@kernel.org
+Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+ Dmitry Safonov <0x7f454c46@gmail.com>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1718162850; l=6387;
+ i=0x7f454c46@gmail.com; s=20240410; h=from:subject:message-id;
+ bh=mE/MtJBn2tZ2pMC+jU16KAPPWHc/zIAQ99jOTODDD5E=;
+ b=+ml6hQMsHqv7+mqb7hjrBh5lDWB7+8/2dGtaJhoUzvYoMQcYXrueH858HPd3C/nuBRFU8VOueaEV
+ n5HA69KaAboO5X0CfNO40u34XTuavXrpBuLRgEQvfP5TjJX+IPce
+X-Developer-Key: i=0x7f454c46@gmail.com; a=ed25519;
+ pk=cFSWovqtkx0HrT5O9jFCEC/Cef4DY8a2FPeqP4THeZQ=
+X-Endpoint-Received: by B4 Relay for 0x7f454c46@gmail.com/20240410 with
+ auth_id=152
+X-Original-From: Dmitry Safonov <0x7f454c46@gmail.com>
+Reply-To: 0x7f454c46@gmail.com
 
-Hi Masahiro,
+From: Dmitry Safonov <0x7f454c46@gmail.com>
 
-kernel test robot noticed the following build errors:
+At Arista some products use compatible 32-bit userspace running on x86.
+As a part of disto build for ia32 it also compiles the 64-bit kernel.
+While the toolchain for the kernel build is yet the same, with 64-bit gcc:
+> / @Bru-na-Boinne% file /usr/bin/gcc-11
+> /usr/bin/gcc-11: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=6571ad50d8f12eece053f1bac7a95a2c767f32c9, for GNU/Linux 3.2.0, stripped
 
-[auto build test ERROR on masahiroy-kbuild/kbuild]
-[also build test ERROR on masahiroy-kbuild/for-next next-20240611]
-[cannot apply to masahiroy-kbuild/fixes linus/master v6.10-rc3]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+It seems that gcc is being smart and detects that it's running in
+a 32-bit container (personality flag? 32-bit mmap base? something else
+inherited post-exec?  haven't yet figured it out) and by default tries
+to build 32-bit binaries.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Masahiro-Yamada/kconfig-remove-unneeded-code-in-expr_compare_type/20240612-020202
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git kbuild
-patch link:    https://lore.kernel.org/r/20240611175536.3518179-7-masahiroy%40kernel.org
-patch subject: [PATCH 06/16] kconfig: refactor choice value calculation
-config: i386-buildonly-randconfig-002-20240612 (attached as .config)
-compiler: gcc-8 (Ubuntu 8.4.0-3ubuntu2) 8.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240612/202406121008.8zFuX4VH-lkp@intel.com/reproduce)
+That results in a failing toolchain check:
+> / @Bru-na-Boinne% printf "%b\n" "wrussq %rax, (%rbx)" | /usr/bin/gcc-11 -Wa,--fatal-warnings -c -x assembler-with-cpp -o /dev/null -
+> <stdin>: Assembler messages:
+> <stdin>:1: Error: `wrussq' is only supported in 64-bit mode
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406121008.8zFuX4VH-lkp@intel.com/
+Which passes when -m64 is directly specify for the build check:
+> / @Bru-na-Boinne% printf "%b\n" "wrussq %rax, (%rbx)" | /usr/bin/gcc-11 -m64 -Wa,--fatal-warnings -c -x assembler-with-cpp -o /dev/null -
+> / @Bru-na-Boinne% echo $?
+> 0
 
-All errors (new ones prefixed by >>):
+As a result, kbuild produces different value for CONFIG_AS_WRUSS
+for native 64-bit containers and ia32 containers with 64-bit gcc,
+which produces different kernels with enabled/disabled
+CONFIG_X86_USER_SHADOW_STACK.
 
-   scripts/kconfig/symbol.c: In function 'sym_calc_value':
->> scripts/kconfig/symbol.c:448:3: error: a label can only be part of a statement and a declaration is not a statement
-      struct menu *choice_menu = sym_get_choice_menu(sym);
-      ^~~~~~
-   make[3]: *** [scripts/Makefile.host:133: scripts/kconfig/symbol.o] Error 1 shuffle=1413228972
-   make[3]: Target 'oldconfig' not remade because of errors.
-   make[2]: *** [Makefile:695: oldconfig] Error 2 shuffle=1413228972
-   make[1]: *** [Makefile:240: __sub-make] Error 2 shuffle=1413228972
-   make[1]: Target 'oldconfig' not remade because of errors.
-   make: *** [Makefile:240: __sub-make] Error 2 shuffle=1413228972
-   make: Target 'oldconfig' not remade because of errors.
---
-   scripts/kconfig/symbol.c: In function 'sym_calc_value':
->> scripts/kconfig/symbol.c:448:3: error: a label can only be part of a statement and a declaration is not a statement
-      struct menu *choice_menu = sym_get_choice_menu(sym);
-      ^~~~~~
-   make[3]: *** [scripts/Makefile.host:133: scripts/kconfig/symbol.o] Error 1 shuffle=1413228972
-   make[3]: Target 'olddefconfig' not remade because of errors.
-   make[2]: *** [Makefile:695: olddefconfig] Error 2 shuffle=1413228972
-   make[1]: *** [Makefile:240: __sub-make] Error 2 shuffle=1413228972
-   make[1]: Target 'olddefconfig' not remade because of errors.
-   make: *** [Makefile:240: __sub-make] Error 2 shuffle=1413228972
-   make: Target 'olddefconfig' not remade because of errors.
+arch/x86/Makefile already properly defines KBUILD_AFLAGS += -m64,
+which is luckly already available at the point of toolchain check
+in arch/x86/Kconfig.assembler
 
+By hacking around Kbuild variable the following way:
+> --- a/scripts/Kconfig.include
+> +++ b/scripts/Kconfig.include
+> @@ -13,7 +13,8 @@ left_paren  := (
+>
+>  # $(if-success,<command>,<then>,<else>)
+>  # Return <then> if <command> exits with 0, <else> otherwise.
+> -if-success = $(shell,{ $(1); } >/dev/null 2>&1 && echo "$(2)" || echo "$(3)")
+> +if-success = $(shell,echo '$(1)' 1>&2;{ $(1); } >/dev/null 2>&1 && echo "$(2)" || echo "$(3)")
 
-vim +448 scripts/kconfig/symbol.c
+I got the following output for the toolchain check, before:
+> linux @Bru-na-Boinne% make ARCH=x86_64 oldconfig V=1 2>&1 | grep wrus
+> printf "%b\n" "wrussq %rax,(%rbx)" | gcc  -c -x assembler-with-cpp -o /dev/null -
 
-   398	
-   399	void sym_calc_value(struct symbol *sym)
-   400	{
-   401		struct symbol_value newval, oldval;
-   402		struct property *prop;
-   403	
-   404		if (!sym)
-   405			return;
-   406	
-   407		if (sym->flags & SYMBOL_VALID)
-   408			return;
-   409	
-   410		sym->flags |= SYMBOL_VALID;
-   411	
-   412		oldval = sym->curr;
-   413	
-   414		newval.tri = no;
-   415	
-   416		switch (sym->type) {
-   417		case S_INT:
-   418			newval.val = "0";
-   419			break;
-   420		case S_HEX:
-   421			newval.val = "0x0";
-   422			break;
-   423		case S_STRING:
-   424			newval.val = "";
-   425			break;
-   426		case S_BOOLEAN:
-   427		case S_TRISTATE:
-   428			newval.val = "n";
-   429			break;
-   430		default:
-   431			sym->curr.val = sym->name;
-   432			sym->curr.tri = no;
-   433			return;
-   434		}
-   435		sym->flags &= ~SYMBOL_WRITE;
-   436	
-   437		sym_calc_visibility(sym);
-   438	
-   439		if (sym->visible != no)
-   440			sym->flags |= SYMBOL_WRITE;
-   441	
-   442		/* set default if recursively called */
-   443		sym->curr = newval;
-   444	
-   445		switch (sym_get_type(sym)) {
-   446		case S_BOOLEAN:
-   447		case S_TRISTATE:
- > 448			struct menu *choice_menu = sym_get_choice_menu(sym);
-   449	
-   450			if (choice_menu) {
-   451				sym_calc_choice(choice_menu);
-   452				newval.tri = sym->curr.tri;
-   453			} else {
-   454				if (sym->visible != no) {
-   455					/* if the symbol is visible use the user value
-   456					 * if available, otherwise try the default value
-   457					 */
-   458					if (sym_has_value(sym)) {
-   459						newval.tri = EXPR_AND(sym->def[S_DEF_USER].tri,
-   460								      sym->visible);
-   461						goto calc_newval;
-   462					}
-   463				}
-   464				if (sym->rev_dep.tri != no)
-   465					sym->flags |= SYMBOL_WRITE;
-   466				if (!sym_is_choice(sym)) {
-   467					prop = sym_get_default_prop(sym);
-   468					if (prop) {
-   469						newval.tri = EXPR_AND(expr_calc_value(prop->expr),
-   470								      prop->visible.tri);
-   471						if (newval.tri != no)
-   472							sym->flags |= SYMBOL_WRITE;
-   473					}
-   474					if (sym->implied.tri != no) {
-   475						sym->flags |= SYMBOL_WRITE;
-   476						newval.tri = EXPR_OR(newval.tri, sym->implied.tri);
-   477						newval.tri = EXPR_AND(newval.tri,
-   478								      sym->dir_dep.tri);
-   479					}
-   480				}
-   481			calc_newval:
-   482				if (sym->dir_dep.tri < sym->rev_dep.tri)
-   483					sym_warn_unmet_dep(sym);
-   484				newval.tri = EXPR_OR(newval.tri, sym->rev_dep.tri);
-   485			}
-   486			if (newval.tri == mod && sym_get_type(sym) == S_BOOLEAN)
-   487				newval.tri = yes;
-   488			break;
-   489		case S_STRING:
-   490		case S_HEX:
-   491		case S_INT:
-   492			if (sym->visible != no && sym_has_value(sym)) {
-   493				newval.val = sym->def[S_DEF_USER].val;
-   494				break;
-   495			}
-   496			prop = sym_get_default_prop(sym);
-   497			if (prop) {
-   498				struct symbol *ds = prop_get_symbol(prop);
-   499				if (ds) {
-   500					sym->flags |= SYMBOL_WRITE;
-   501					sym_calc_value(ds);
-   502					newval.val = ds->curr.val;
-   503				}
-   504			}
-   505			break;
-   506		default:
-   507			;
-   508		}
-   509	
-   510		sym->curr = newval;
-   511		sym_validate_range(sym);
-   512	
-   513		if (memcmp(&oldval, &sym->curr, sizeof(oldval))) {
-   514			sym_set_changed(sym);
-   515			if (modules_sym == sym) {
-   516				sym_set_all_changed();
-   517				modules_val = modules_sym->curr.tri;
-   518			}
-   519		}
-   520	
-   521		if (sym_is_choice(sym))
-   522			sym->flags &= ~SYMBOL_WRITE;
-   523	}
-   524	
+and after:
+> linux @Bru-na-Boinne% make ARCH=x86_64 oldconfig V=1 2>&1 | grep wrus
+> printf "%b\n" "wrussq %rax,(%rbx)" | gcc -D__ASSEMBLY__ -fno-PIE -m64 -c -x assembler-with-cpp -o /dev/null -
 
+Which seems appropriate to me.
+This also reflects the existing definition in scripts/Makefile.compiler
+for $(as-instr) that already has $(KBUILD_AFLAGS).
+
+In order to eliminate a possible circular dependency of
+Kconfig => arch/.../Makefile => Kconfig => ...
+which exist i.e. in arm64/Makefile for KASAN_SHADOW_SCALE_SHIFT that
+depends on CONFIG_KASAH_SW_TAGS and CONFIG_KASAN_GENERIC kconfigs,
+ignore KBUILD_AFLAGS difference in auto.conf.cmd as it is expected that
+the variable will differ between fist and later Makefile passes.
+Use that in Kconfig toolchain checks.
+
+Signed-off-by: Dmitry Safonov <0x7f454c46@gmail.com>
+---
+Changes in v2:
+- I made a mistake in version 1 by not testing it on a clean tree.
+  Which passed on an existing "dirty" tree, but went into build
+  busy-loop over a fresh clean kernel tree. With a little debug,
+  I found out that the reason was subdir-asflags-y in scripts/.
+  They are "empty", but they update KBUILD_AFLAGS with an extra
+  trailing space. Ugh.
+  That resulted in include/config/auto.conf.cmd being unhappy and
+  triggering rebuild after rebuild.
+- Then I've added a patch to scripts/kconfig/preprocess.c that removes
+  any extra head or tail spaces from the environment variables.
+- That was a working patch set on x86_64, but that broke arm64 by
+  creating a circular dependency on KASAN_SHADOW_SCALE_SHIFT.
+- In the end, I decided to just ignore KBUILD_AFLAGS in auto.conf.cmd
+  for RFC v2. Probably, I could just add $(as-instr-config,...)
+  function to Kconfig that would take -m64 just for AS_WRUSS,
+  but that seems like fixing one specific place, rather than more
+  generic fix. Unsure, sending this as RFC, please advise/vote on
+  the best approach.
+- Link to v1: https://lore.kernel.org/r/20240411-as-instr-opt-wrussq-v1-1-99b1a1a99f93@gmail.com
+---
+ scripts/Kconfig.include      |  2 +-
+ scripts/kconfig/preprocess.c | 14 +++++++++++++-
+ 2 files changed, 14 insertions(+), 2 deletions(-)
+
+diff --git a/scripts/Kconfig.include b/scripts/Kconfig.include
+index 3ee8ecfb8c04..d8574c1faf2d 100644
+--- a/scripts/Kconfig.include
++++ b/scripts/Kconfig.include
+@@ -33,7 +33,7 @@ ld-option = $(success,$(LD) -v $(1))
+ 
+ # $(as-instr,<instr>)
+ # Return y if the assembler supports <instr>, n otherwise
+-as-instr = $(success,printf "%b\n" "$(1)" | $(CC) $(CLANG_FLAGS) -Wa$(comma)--fatal-warnings -c -x assembler-with-cpp -o /dev/null -)
++as-instr = $(success,printf "%b\n" "$(1)" | $(CC) $(CLANG_FLAGS) $(KBUILD_AFLAGS) -Wa$(comma)--fatal-warnings -c -x assembler-with-cpp -o /dev/null -)
+ 
+ # check if $(CC) and $(LD) exist
+ $(error-if,$(failure,command -v $(CC)),C compiler '$(CC)' not found)
+diff --git a/scripts/kconfig/preprocess.c b/scripts/kconfig/preprocess.c
+index f0a4a218c4a5..cf7389f13f00 100644
+--- a/scripts/kconfig/preprocess.c
++++ b/scripts/kconfig/preprocess.c
+@@ -61,6 +61,17 @@ static void env_del(struct env *e)
+ 	free(e);
+ }
+ 
++static bool env_ignore(const char *name)
++{
++	/*
++	 * Break the circular dependency Kconfig => arch/.../Makefile => Kconfig
++	 * On the first Makefile pass only AFLAGS that do not depend on
++	 * CONFIG_* set will be defined. Those are used by Kconfig for
++	 * toolchain checks.
++	 */
++	return !strcmp(name, "KBUILD_AFLAGS");
++}
++
+ /* The returned pointer must be freed when done */
+ static char *env_expand(const char *name)
+ {
+@@ -83,7 +94,8 @@ static char *env_expand(const char *name)
+ 	 * We need to remember all referenced environment variables.
+ 	 * They will be written out to include/config/auto.conf.cmd
+ 	 */
+-	env_add(name, value);
++	if (!env_ignore(name))
++		env_add(name, value);
+ 
+ 	return xstrdup(value);
+ }
+
+---
+base-commit: 83a7eefedc9b56fe7bfeff13b6c7356688ffa670
+change-id: 20240410-as-instr-opt-wrussq-48ec37e36204
+
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Dmitry Safonov <0x7f454c46@gmail.com>
+
+
 
