@@ -1,113 +1,179 @@
-Return-Path: <linux-kbuild+bounces-2092-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2093-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C38CD904A8B
-	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Jun 2024 07:03:11 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53631904AA1
+	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Jun 2024 07:07:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5C85E284937
-	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Jun 2024 05:03:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C98BE285703
+	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Jun 2024 05:07:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A958E2F50A;
-	Wed, 12 Jun 2024 05:03:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8DBFA364BA;
+	Wed, 12 Jun 2024 05:06:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vLfV0A3Z"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SNw/2eOe"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 822AF2D057;
-	Wed, 12 Jun 2024 05:03:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 623D331A83;
+	Wed, 12 Jun 2024 05:06:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718168584; cv=none; b=SkURDJkqOmWrquvaC3L401zM7vt4h+0UjEafbukGh+1BOdBA1OptCw4Np/+PCSqPgm17xn4iPnGm0CdcbFFoSkK0qlm+gXRcUZGNpFPvzpbCQGMJ3g9oWmj37B0KKrDAO427sI0CJ4+K3KlxeOgSAll5c1mAvuZkxmwUqOQEBT4=
+	t=1718168816; cv=none; b=gD7Vscj7bBiklGrxS+Z34TJoktiF7JBv5vYG85a3yI1uphLQbdfraHKG9VEmMTIuNG7hoAZpKIlz1U/M7l2407WQRLBlHyxnjstiwOn5bQl4XmnkTPnbJXzoBCsMJkck7doy5rIV3q9EevUmtwpElmQnSFH4pTui5HULjOdJYsw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718168584; c=relaxed/simple;
-	bh=Hdj1hfWIwNnT4QKFFbAGuif/SUHOpPIdfT5rD392TDo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Dlhxpjc3LDEH5BWC4Q54o0E3hRP1lwDtQzLCWvH0JXp5G5FTaYep+iRbZedBvg3OXIzmSynaDi5nl9tfHuvXdEGWHjehShAWMOt1cTkou4ZK7PZWndDfJFZ8eUnLja8n+OKjUToJ4QmzkfGPg6DM6pl2ywMRU873fE69+JP/oxU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vLfV0A3Z; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 703F4C32786;
-	Wed, 12 Jun 2024 05:03:01 +0000 (UTC)
+	s=arc-20240116; t=1718168816; c=relaxed/simple;
+	bh=cTRnCH0nwBTkCrdtg0XBxRgW7inGdX9jawKr9m856vE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Ll+gGYHsBapVhSwCsseguLjFcK+PUAS3/h5ouBGkShTKg/5RgdGaZBQEjdmMeS7YpJrQkJA7/5cLdpUEiKD2N6a9dp1J3FI07SYVVFM0BRTiFgwHAqMCyPrVdvzDwqHq1+Hor6Cv4gQ4QY7Hwhn0O84c4U0ZwiSVNWl9naDkFr8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SNw/2eOe; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9B04C4AF4D;
+	Wed, 12 Jun 2024 05:06:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718168584;
-	bh=Hdj1hfWIwNnT4QKFFbAGuif/SUHOpPIdfT5rD392TDo=;
-	h=From:To:Cc:Subject:Date:From;
-	b=vLfV0A3Zr0eO3WSn0K5XshaIpl7E/RxZN9sgOucOteWyLYJ7RkWwiJsHznJufS2bg
-	 U7PQd1z7cec74N0AmbxmvYY1ubQGZ4qGdUFzcUQrLJm73NuExeXZcecRMMOKeLEH/l
-	 hVXBNJgcryIQ/ZUQomeN08XMVMwsvkVVxRbqzEp3TgWRUyUsQzEmYm6bibZyr1w1K6
-	 PLLTbLTT+6bM7KJGpWcw2aMOE0Dg4WSutOWsi1ISUYbbMJ+G9nb9tS3G6bj2LUfX4y
-	 kF6ouVSS13azcymjOujfpsv3YMfxCO6m0Mq98NJau6R5d2xMrVenmC8a5+FU5/xJaD
-	 kk3Burl6eARaw==
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: linux-kbuild@vger.kernel.org,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Dmitry Safonov <0x7f454c46@gmail.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	"Mike Rapoport (IBM)" <rppt@kernel.org>,
-	Rick Edgecombe <rick.p.edgecombe@intel.com>,
-	Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [PATCH] x86/kconfig: add as-instr64 macro to properly evaluate AS_WRUSS
-Date: Wed, 12 Jun 2024 14:02:55 +0900
-Message-ID: <20240612050257.3670768-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.43.0
+	s=k20201202; t=1718168815;
+	bh=cTRnCH0nwBTkCrdtg0XBxRgW7inGdX9jawKr9m856vE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=SNw/2eOe1RXhRuZQyqkln1jwVD/P6RrLFm5AGi/Yg8PN4okQURPBR7ZolLdFaH+VI
+	 vN/YEZ+mvJNUsyYfl7wU3TsQkX8BoR3Qbx+v+oB5HEkfM8Ql7rO+jFUJHd0WjTGSwA
+	 OVrX6rN2cmS+51c1g1fEbWjuSWolSWmVjPvToKDpZmsxPOmPMSkLoyRD+2lw4POzC2
+	 X1enO3Pw2WrrKtzTG/NKUhc/1f3Mv83cHBVeeiRuA0LQqOyxtep2RodvLseIfEhJLd
+	 dCrl6B7PTHsA1uxOhpj9dtKQUfTOPElE5a7SF8vjadCK13bccYlzudwWM398js7eDY
+	 Sm8lMstedQHlQ==
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-52c8342af5eso3595215e87.3;
+        Tue, 11 Jun 2024 22:06:55 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXYtSWaTzgMQF3ult42BulMUfhcfKkHX2+oyGY+qhfSjK85hvTLFQGSGFD31PN1qhWT/bK6H9RbC/89nY1nsav6zZ9nL/aHBrgpi/eMyxXpHnS08isk8MGMZhizv+RmCIk7at4WveX53Iu/
+X-Gm-Message-State: AOJu0YwNvdoP4YWj6uZllfUDRHa2lG4qUZu/rPh6EyFkhwvc5RMmcTz0
+	qgsa9dyUt5YfEztOtUVox/GKy0UEY7pslchHYYbyhSxRlM1YqTSWVcvE5YFmt8BopovSeyMJnDx
+	MoQr5jzHu7ScEYRSGamQqEfOlzYI=
+X-Google-Smtp-Source: AGHT+IG1rqBUefuW4bvyoT0nqp6MWJxMUDzrG4vBTCX0zOVt8do+6olg8ya+XzPdB2v6MMpxjZrCs8UZsrGk+oYjdM0=
+X-Received: by 2002:a05:6512:210c:b0:52c:83cf:d8f9 with SMTP id
+ 2adb3069b0e04-52c9a3b7961mr270022e87.13.1718168814502; Tue, 11 Jun 2024
+ 22:06:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240612-as-instr-opt-wrussq-v2-1-bd950f7eead7@gmail.com>
+In-Reply-To: <20240612-as-instr-opt-wrussq-v2-1-bd950f7eead7@gmail.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Wed, 12 Jun 2024 14:06:18 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARe9ijaNT_FSfM2M5pJh-+89REmU1xZxXO-eM_nZnfkiA@mail.gmail.com>
+Message-ID: <CAK7LNARe9ijaNT_FSfM2M5pJh-+89REmU1xZxXO-eM_nZnfkiA@mail.gmail.com>
+Subject: Re: [PATCH RFC v2] kbuild/x86: Use $(KBUILD_AFLAGS) in Kbuild's
+ version of $(as-instr)
+To: 0x7f454c46@gmail.com
+Cc: Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	Ingo Molnar <mingo@redhat.com>, "H. Peter Anvin" <hpa@zytor.com>, Thomas Gleixner <tglx@linutronix.de>, x86@kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Some instructions are only available on the 64-bit architecture.
+On Wed, Jun 12, 2024 at 12:29=E2=80=AFPM Dmitry Safonov via B4 Relay
+<devnull+0x7f454c46.gmail.com@kernel.org> wrote:
+>
+> From: Dmitry Safonov <0x7f454c46@gmail.com>
+>
+> At Arista some products use compatible 32-bit userspace running on x86.
+> As a part of disto build for ia32 it also compiles the 64-bit kernel.
+> While the toolchain for the kernel build is yet the same, with 64-bit gcc=
+:
+> > / @Bru-na-Boinne% file /usr/bin/gcc-11
+> > /usr/bin/gcc-11: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV=
+), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha=
+1]=3D6571ad50d8f12eece053f1bac7a95a2c767f32c9, for GNU/Linux 3.2.0, strippe=
+d
+>
+> It seems that gcc is being smart and detects that it's running in
+> a 32-bit container (personality flag? 32-bit mmap base? something else
+> inherited post-exec?  haven't yet figured it out) and by default tries
+> to build 32-bit binaries.
+>
+> That results in a failing toolchain check:
+> > / @Bru-na-Boinne% printf "%b\n" "wrussq %rax, (%rbx)" | /usr/bin/gcc-11=
+ -Wa,--fatal-warnings -c -x assembler-with-cpp -o /dev/null -
+> > <stdin>: Assembler messages:
+> > <stdin>:1: Error: `wrussq' is only supported in 64-bit mode
+>
+> Which passes when -m64 is directly specify for the build check:
+> > / @Bru-na-Boinne% printf "%b\n" "wrussq %rax, (%rbx)" | /usr/bin/gcc-11=
+ -m64 -Wa,--fatal-warnings -c -x assembler-with-cpp -o /dev/null -
+> > / @Bru-na-Boinne% echo $?
+> > 0
+>
+> As a result, kbuild produces different value for CONFIG_AS_WRUSS
+> for native 64-bit containers and ia32 containers with 64-bit gcc,
+> which produces different kernels with enabled/disabled
+> CONFIG_X86_USER_SHADOW_STACK.
+>
+> arch/x86/Makefile already properly defines KBUILD_AFLAGS +=3D -m64,
+> which is luckly already available at the point of toolchain check
+> in arch/x86/Kconfig.assembler
+>
+> By hacking around Kbuild variable the following way:
+> > --- a/scripts/Kconfig.include
+> > +++ b/scripts/Kconfig.include
+> > @@ -13,7 +13,8 @@ left_paren  :=3D (
+> >
+> >  # $(if-success,<command>,<then>,<else>)
+> >  # Return <then> if <command> exits with 0, <else> otherwise.
+> > -if-success =3D $(shell,{ $(1); } >/dev/null 2>&1 && echo "$(2)" || ech=
+o "$(3)")
+> > +if-success =3D $(shell,echo '$(1)' 1>&2;{ $(1); } >/dev/null 2>&1 && e=
+cho "$(2)" || echo "$(3)")
+>
+> I got the following output for the toolchain check, before:
+> > linux @Bru-na-Boinne% make ARCH=3Dx86_64 oldconfig V=3D1 2>&1 | grep wr=
+us
+> > printf "%b\n" "wrussq %rax,(%rbx)" | gcc  -c -x assembler-with-cpp -o /=
+dev/null -
+>
+> and after:
+> > linux @Bru-na-Boinne% make ARCH=3Dx86_64 oldconfig V=3D1 2>&1 | grep wr=
+us
+> > printf "%b\n" "wrussq %rax,(%rbx)" | gcc -D__ASSEMBLY__ -fno-PIE -m64 -=
+c -x assembler-with-cpp -o /dev/null -
+>
+> Which seems appropriate to me.
+> This also reflects the existing definition in scripts/Makefile.compiler
+> for $(as-instr) that already has $(KBUILD_AFLAGS).
+>
+> In order to eliminate a possible circular dependency of
+> Kconfig =3D> arch/.../Makefile =3D> Kconfig =3D> ...
+> which exist i.e. in arm64/Makefile for KASAN_SHADOW_SCALE_SHIFT that
+> depends on CONFIG_KASAH_SW_TAGS and CONFIG_KASAN_GENERIC kconfigs,
+> ignore KBUILD_AFLAGS difference in auto.conf.cmd as it is expected that
+> the variable will differ between fist and later Makefile passes.
+> Use that in Kconfig toolchain checks.
+>
+> Signed-off-by: Dmitry Safonov <0x7f454c46@gmail.com>
 
-Bi-arch compilers that default to -m32 need the explicit -m64 option
-to evaluate them properly.
 
-Fixes: 18e66b695e78 ("x86/shstk: Add Kconfig option for shadow stack")
-Reported-by: Dmitry Safonov <0x7f454c46@gmail.com>
-Closes: https://lore.kernel.org/all/20240612-as-instr-opt-wrussq-v2-1-bd950f7eead7@gmail.com/
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
 
- arch/x86/Kconfig.assembler | 2 +-
- scripts/Kconfig.include    | 3 ++-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+Perhaps, you could pass CROSS_COMPILE=3Dx86_64-linux-gnu-
+when building the 64-bit kernel.
 
-diff --git a/arch/x86/Kconfig.assembler b/arch/x86/Kconfig.assembler
-index 59aedf32c4ea..6d20a6ce0507 100644
---- a/arch/x86/Kconfig.assembler
-+++ b/arch/x86/Kconfig.assembler
-@@ -36,6 +36,6 @@ config AS_VPCLMULQDQ
- 	  Supported by binutils >= 2.30 and LLVM integrated assembler
- 
- config AS_WRUSS
--	def_bool $(as-instr,wrussq %rax$(comma)(%rbx))
-+	def_bool $(as-instr64,wrussq %rax$(comma)(%rbx))
- 	help
- 	  Supported by binutils >= 2.31 and LLVM integrated assembler
-diff --git a/scripts/Kconfig.include b/scripts/Kconfig.include
-index 3ee8ecfb8c04..3500a3d62f0d 100644
---- a/scripts/Kconfig.include
-+++ b/scripts/Kconfig.include
-@@ -33,7 +33,8 @@ ld-option = $(success,$(LD) -v $(1))
- 
- # $(as-instr,<instr>)
- # Return y if the assembler supports <instr>, n otherwise
--as-instr = $(success,printf "%b\n" "$(1)" | $(CC) $(CLANG_FLAGS) -Wa$(comma)--fatal-warnings -c -x assembler-with-cpp -o /dev/null -)
-+as-instr = $(success,printf "%b\n" "$(1)" | $(CC) $(CLANG_FLAGS) $(2) -Wa$(comma)--fatal-warnings -c -x assembler-with-cpp -o /dev/null -)
-+as-instr64 = $(as-instr,$(1),$(m64-flag))
- 
- # check if $(CC) and $(LD) exist
- $(error-if,$(failure,command -v $(CC)),C compiler '$(CC)' not found)
--- 
-2.43.0
+x86_64-linux-gnu-gcc may understand 'wrussq %rax,(%rbx)'
+even if the default gcc does not.
 
+I am not sure if x86_64-linux-gnu-gcc is available
+on your build machine.
+
+
+Anyway, I think it should be possible to fix it with less hacky code.
+
+
+Please test this patch:
+https://lore.kernel.org/all/20240612050257.3670768-1-masahiroy@kernel.org/T=
+/#u
+
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
