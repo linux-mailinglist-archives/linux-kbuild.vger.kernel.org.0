@@ -1,222 +1,141 @@
-Return-Path: <linux-kbuild+bounces-2095-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2096-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0DD4904AF6
-	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Jun 2024 07:36:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABFA8904F02
+	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Jun 2024 11:19:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 02EED1C22F34
-	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Jun 2024 05:36:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C44EC1C21CE2
+	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Jun 2024 09:19:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0A71374CB;
-	Wed, 12 Jun 2024 05:35:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD5EB16DEA0;
+	Wed, 12 Jun 2024 09:19:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dWnrwXkE"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YhuAIrns"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BE9C286A8;
-	Wed, 12 Jun 2024 05:35:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AACF16D9B4;
+	Wed, 12 Jun 2024 09:19:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718170558; cv=none; b=FDZ2+uAOvhXFYymyhyp2NwIBTynppWEwZe9DuDh8ZpuJs0P70LLvcy5eClsGLPgyofJsLxmW0yR07cRyeMBTr9dMQ7lLroBFeZ5gYclq8CoDpPC7d2TSufW3lzsG0/ROeHY1a8a481Dtx31bBXTpl+USwIbQFyQVK/UbVm2FzNo=
+	t=1718183984; cv=none; b=iMWyeosn+8HJA0+Y691MUQZHhJ7ayi3+hYyChzGOR4srFxbCO7xVCFbCBSKjpa+ONGMi2NBQfgQcUiKqhMVYrC1dx0kzGQFrS3qe8dd4WWLCfQSrvAHzqNLG3YXcLB+x6wWIBgZDhcjiJB7BlYwmWAgU9UaYz5ELGD/oFrWJV6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718170558; c=relaxed/simple;
-	bh=7/kYWCF8jY7m1ZBPFDMBniSgK9LVHVKaxhjwzGyb8us=;
+	s=arc-20240116; t=1718183984; c=relaxed/simple;
+	bh=bmMkBybVdlRXuSL4XA9lo8lnC6svSFGItaKVuLcJkF0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lKcqVwwBr9qPtbdKNYhJg89NqiY9fRPNIe72bM1APwAcescRDsgq6OmH1NLVnKWkJpC3OIZj6rC30oG4QsTFNQEgITCc6M3/q2jxd8KvBL6QAch+dTfb7D0MxwSt3KNiKCsv0oWeNhgmYSiHOWCQo+nXaOy2nLRK2zLnCJmDuiY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dWnrwXkE; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27577C32786;
-	Wed, 12 Jun 2024 05:35:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718170558;
-	bh=7/kYWCF8jY7m1ZBPFDMBniSgK9LVHVKaxhjwzGyb8us=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=dWnrwXkEnKHjBLlRSbQZvgo5mi+6dMoEVTImNg7Nk0J7DWA5pUMsgJTMLl1gfMVYf
-	 9XZJgVX88hvwVwx84tFW27SNrm+eVJ7D725oLvDz8VyEDPxdeh++fndHtoP4MjJEIA
-	 rjnges9Tq4fM3qcFnacFps+ZmC2Hnh8o3IAGrbcWqQruXYh1zrsAQ3BbgjASL0dTIz
-	 JIGgJzz0huhpUaHohhyLhIcXbeUF7YUrdH8L0MCWII+kW1KJ1gqAOj6f/ELDX+aZFl
-	 OdDsJfHAJwXsKW8qMIaOWprlDQvmSDhN4xJPvnTCLo5ipJjRxmAME/lVfbm4crk9vc
-	 V76ipllYQe4HQ==
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2ebe3fb5d4dso4804731fa.0;
-        Tue, 11 Jun 2024 22:35:58 -0700 (PDT)
-X-Gm-Message-State: AOJu0Ywaro0O0GUN9rvWbAc2DBcHz5+s+vjFwVVrD/mVmW1Dod0OAnfC
-	RB8XkHwclZcbBxcrOuxm5EnjCfgTAGNin203YAIOJUK+rcJ87E26R64du4Yo8cl4S0ROYmhGvKH
-	Mi+/OEczgJav+yfwVEFwE49CIV0M=
-X-Google-Smtp-Source: AGHT+IEG2QnYvDxM3+qCzBzqjMIbe4/nF96oijHgNPZjcXlAGGyny1QXdyzIYF+epIQIm0Mqr3lqT71xJ7JTMk0rIIk=
-X-Received: by 2002:a05:651c:d5:b0:2ea:8895:ae8c with SMTP id
- 38308e7fff4ca-2ebfc135cc5mr2060731fa.24.1718170556765; Tue, 11 Jun 2024
- 22:35:56 -0700 (PDT)
+	 To:Cc:Content-Type; b=hWf+iIWa4hvSwIXqBY5CfZKCQLgE68s73XS2okLm21d/FC+fgV0BJT961rEq+2pXzmv9OBSEjfDKWPQPeKo3r45Hz3NhlUASFunprxeGZ7XUyhZuj9wxaJlDMcRKbyJAEilwonGXJDbltTnxPwOrIz2pHB2qq2krUwI11xyMJ7I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YhuAIrns; arc=none smtp.client-ip=209.85.216.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2c315b569c8so1834758a91.0;
+        Wed, 12 Jun 2024 02:19:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718183982; x=1718788782; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=EGUBPInBcqjkJDTSlAH7Iyv9YVrpwaUSLJ3S332pvLs=;
+        b=YhuAIrnsk7iMdOJ8AQYu/7YpVRgIDJJKEmdojVPcoj5H167/GGPyB8kQroi9iQ4ORM
+         Fd0+B+yBGRSJZXRj5r3hSIngAmWLLloK65Jl4meC3ZAaPb03vVMphnXc94eKh04HTASf
+         8WCSTr0J4LUhK7AAs6A3EgGMHsjpoZNW7kx1yHTVReQToz7LAIzSu6k9lJ9Zuj9fGzyl
+         +b03KrZTgglj260xl4pWUBC4Qr+uaPVmFQpuI2MXTQ8E/EiKANiq2by2drkFFjJEeZrj
+         VFLNl8InWZ4689qgz+eOuegWhRcp+EvRfS+5M/dMdA+aXh1B1WttE70I22cmLtAI0MRe
+         Kjsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718183982; x=1718788782;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EGUBPInBcqjkJDTSlAH7Iyv9YVrpwaUSLJ3S332pvLs=;
+        b=aPyQC49fBLcXYrAazAKvXBCsw+hW3PkDPb1rWe/fHhzUklALDfXcNMSSmX/DyNgAE1
+         iznMOpY2G9Zwjypnt4noo9/8Q7eypQ3bgD8t1oLvxcqZePPmZDxC5YKTlG3Sz+6IcxvS
+         S4kOBPx9pGnq5nQuwUtXHshR/0rCj2JHdWFr0qVxSEWxrDUpZg6N/SzNHuPqV3j/RJew
+         +n41jE7JUeMoIODrlbr7dMSAnhLoeDEqrc8l3srYaVga4U7KLE0Wk7C0bv3XPhH2PHBu
+         o7nzOhB7Ubsgc6dbYAoyx2BTQU7vZelvm+oAWHHOcB3YOpbw1Sjg6xALwEXMLAmX4mlV
+         DRNA==
+X-Forwarded-Encrypted: i=1; AJvYcCWGt4DCeH6bzuqiNCz82QsEuo1Mwh/Qvmne/PWvEJCAuYBzDly+nN+IcZNemEtdjpEsbsbyW+HsWZwDqV1b1iMW41HotqhWlY4DuCnj
+X-Gm-Message-State: AOJu0Yxc1vpUaUShbEB5Hmm36duB5e78Vrrgo+b8vRFOgL5mqZyd8TqB
+	xrG0bKs2NAfi2WH1y6pdbZRum3w6IAnNMfyKQgK4U5xb4WikYIhytmzVodkJajyZ4s6yh0U04pP
+	6c6R8OZPYNrCp9zqaWkIWXEfZ/Gc=
+X-Google-Smtp-Source: AGHT+IH1q0ktXxgThj72o0e7vp911jiO97cSgDTVrklASa+YOAu6YTcwrZ/pCIBoSOQauCdF7gt5YWbp7LU0ofqjrIo=
+X-Received: by 2002:a17:90b:2250:b0:2c4:b300:1b4c with SMTP id
+ 98e67ed59e1d1-2c4b3001d74mr279112a91.24.1718183982484; Wed, 12 Jun 2024
+ 02:19:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240611175536.3518179-1-masahiroy@kernel.org> <20240611175536.3518179-7-masahiroy@kernel.org>
-In-Reply-To: <20240611175536.3518179-7-masahiroy@kernel.org>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Wed, 12 Jun 2024 14:35:20 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQFZu=z1ZT=6OUT8uiDN8mZS1++xGCNKc98Hc299cYqrQ@mail.gmail.com>
-Message-ID: <CAK7LNAQFZu=z1ZT=6OUT8uiDN8mZS1++xGCNKc98Hc299cYqrQ@mail.gmail.com>
-Subject: Re: [PATCH 06/16] kconfig: refactor choice value calculation
-To: linux-kbuild@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
+References: <20240612050257.3670768-1-masahiroy@kernel.org>
+In-Reply-To: <20240612050257.3670768-1-masahiroy@kernel.org>
+From: Dmitry Safonov <0x7f454c46@gmail.com>
+Date: Wed, 12 Jun 2024 10:19:30 +0100
+Message-ID: <CAJwJo6YzYWiCcHCVstA5V9rtgJWYsGzb+97eGP0hF+FwfRAdiA@mail.gmail.com>
+Subject: Re: [PATCH] x86/kconfig: add as-instr64 macro to properly evaluate AS_WRUSS
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, linux-kernel@vger.kernel.org, 
+	"H . Peter Anvin" <hpa@zytor.com>, "Mike Rapoport (IBM)" <rppt@kernel.org>, 
+	Rick Edgecombe <rick.p.edgecombe@intel.com>, Yu-cheng Yu <yu-cheng.yu@intel.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jun 12, 2024 at 2:56=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
+On Wed, 12 Jun 2024 at 06:03, Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> Handling choices has always been in a PITA in Kconfig.
+> Some instructions are only available on the 64-bit architecture.
 >
-> For example, fixes and reverts were repeated for randconfig with
-> KCONFIG_ALLCONFIG:
+> Bi-arch compilers that default to -m32 need the explicit -m64 option
+> to evaluate them properly.
 >
->  - 422c809f03f0 ("kconfig: fix randomising choice entries in presence of =
-KCONFIG_ALLCONFIG")
->  - 23a5dfdad22a ("Revert "kconfig: fix randomising choice entries in pres=
-ence of KCONFIG_ALLCONFIG"")
->  - 8357b48549e1 ("kconfig: fix randomising choice entries in presence of =
-KCONFIG_ALLCONFIG")
->  - 490f16171119 ("Revert "kconfig: fix randomising choice entries in pres=
-ence of KCONFIG_ALLCONFIG"")
->
-> As these commits pointed out, randconfig does not randomize choices when
-> KCONFIG_ALLCONFIG is used. This issue still remains.
->
-> [Test Case]
->
->     choice
->             prompt "choose"
->
->     config A
->             bool "A"
->
->     config B
->             bool "B"
->
->     endchoice
->
->     $ echo > all.config
->     $ make KCONFIG_ALLCONFIG=3D1 randconfig
->
-> The output is always as follows:
->
->     CONFIG_A=3Dy
->     # CONFIG_B is not set
->
-> Not only randconfig, but other all*config variants are broken with
-> KCONFIG_ALLCONFIG.
->
-> With the same Kconfig,
->
->     $ echo '# CONFIG_A is not set' > all.config
->     $ make KCONFIG_ALLCONFIG=3D1 allyesconfig
->
-> You will get this:
->
->     CONFIG_A=3Dy
->     # CONFIG_B is not set
->
-> This is incorrect because it does not respect all.config.
->
-> The correct output should be:
->
->     # CONFIG_A is not set
->     CONFIG_B=3Dy
->
-> To handle user inputs more accurately, this commit refactors the code
-> based on the following principles:
->
->  - When a user value is given, Kconfig must set it immediately.
->    Do not defer it by setting SYMBOL_NEED_SET_CHOICE_VALUES.
->
->  - The SYMBOL_DEF_USER flag must not be cleared, unless a new config
->    file is loaded. Kconfig must not forget user inputs.
->
-> In addition, user values for choices must be managed with priority.
-> If user inputs conflict within a choice block, the newest value wins.
-> The values given by randconfig have lower priority than explicit user
-> inputs.
->
-> This commit implements it by using a linked list. Every time a choice
-> block gets a new input, it is moved to the top of the list.
->
-> Let me explain how it works.
->
-> Let's say, we have a choice block that consists of three symbols:
-> A, B, and C.
->
-> Initially, the linked list looks like this:
->
->     A(=3D?) --> B(=3D?) --> C(=3D?)
->
-> Say, '# CONFIG_B is not set' is specified by KCONFIG_ALLCONFIG.
->
-> B is set to 'n', and moved to the top of the linked list:
->
->     B(=3Dn) --> A(=3D?) --> C(=3D?)
->
-> The randconfig shuffles the symbols without a user value.
->
-> So, you will get:
->
->     B(=3Dn) --> A(=3Dy) --> C(=3Dy)
-> or
->     B(=3Dn) --> C(=3Dy) --> A(=3Dy)
->
-> When calculating the output, the linked list is traversed. The first
-> visible symbol with =3Dy is taken. You will get either CONFIG_A=3Dy or
-> CONFIG_C=3Dy with equal probability.
->
-> As another example, let's say the .config with the following content
-> is loaded:
->
->     CONFIG_B=3Dy
->     CONFIG_C=3Dy
->
-> The linked list will become:
->
->     C(=3Dy) --> B(=3Dy) --> A(=3D?)
->
-> Please note the last one is prioritized when a decision conflicts in
-> the same file. This is reasonable behavior because merge_config.sh
-> appends config fragments to the existing .config file.
->
-> So, the output will be CONFIG_C=3Dy if C is visible, but otherwise
-> CONFIG_B=3Dy.
->
-> This is different from the former implementation; previously, Kconfig
-> forgot CONFIG_B=3Dy when CONFIG_C=3Dy appeared later in the same file.
->
-> In the new implementation, Kconfig remembers both CONFIG_B=3Dy and
-> CONFIG_C=3Dy, prioritizing the former.
-
-
-
-prioritizing the latter.
-
-
-
-
-
-> If C is hidden due to unmet
-> dependency, CONFIG_B=3Dy arises as the second best.
->
+> Fixes: 18e66b695e78 ("x86/shstk: Add Kconfig option for shadow stack")
+> Reported-by: Dmitry Safonov <0x7f454c46@gmail.com>
+> Closes: https://lore.kernel.org/all/20240612-as-instr-opt-wrussq-v2-1-bd950f7eead7@gmail.com/
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+
+Thank you Masahiro, this works as well!
+I guess I went on too generic path without an actual requirement for that.
+
+Tested-by: Dmitry Safonov <0x7f454c46@gmail.com>
+
 > ---
-
-
-
-
-
-
-
---=20
-Best Regards
-Masahiro Yamada
+>
+>  arch/x86/Kconfig.assembler | 2 +-
+>  scripts/Kconfig.include    | 3 ++-
+>  2 files changed, 3 insertions(+), 2 deletions(-)
+>
+> diff --git a/arch/x86/Kconfig.assembler b/arch/x86/Kconfig.assembler
+> index 59aedf32c4ea..6d20a6ce0507 100644
+> --- a/arch/x86/Kconfig.assembler
+> +++ b/arch/x86/Kconfig.assembler
+> @@ -36,6 +36,6 @@ config AS_VPCLMULQDQ
+>           Supported by binutils >= 2.30 and LLVM integrated assembler
+>
+>  config AS_WRUSS
+> -       def_bool $(as-instr,wrussq %rax$(comma)(%rbx))
+> +       def_bool $(as-instr64,wrussq %rax$(comma)(%rbx))
+>         help
+>           Supported by binutils >= 2.31 and LLVM integrated assembler
+> diff --git a/scripts/Kconfig.include b/scripts/Kconfig.include
+> index 3ee8ecfb8c04..3500a3d62f0d 100644
+> --- a/scripts/Kconfig.include
+> +++ b/scripts/Kconfig.include
+> @@ -33,7 +33,8 @@ ld-option = $(success,$(LD) -v $(1))
+>
+>  # $(as-instr,<instr>)
+>  # Return y if the assembler supports <instr>, n otherwise
+> -as-instr = $(success,printf "%b\n" "$(1)" | $(CC) $(CLANG_FLAGS) -Wa$(comma)--fatal-warnings -c -x assembler-with-cpp -o /dev/null -)
+> +as-instr = $(success,printf "%b\n" "$(1)" | $(CC) $(CLANG_FLAGS) $(2) -Wa$(comma)--fatal-warnings -c -x assembler-with-cpp -o /dev/null -)
+> +as-instr64 = $(as-instr,$(1),$(m64-flag))
+>
+>  # check if $(CC) and $(LD) exist
+>  $(error-if,$(failure,command -v $(CC)),C compiler '$(CC)' not found)
+> --
+> 2.43.0
+>
+-- 
+             Dmitry
 
