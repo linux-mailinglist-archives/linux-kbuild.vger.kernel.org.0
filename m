@@ -1,91 +1,92 @@
-Return-Path: <linux-kbuild+bounces-2108-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2109-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E3A09063B9
-	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Jun 2024 08:06:47 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6F9A906580
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Jun 2024 09:45:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C81B61F21555
-	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Jun 2024 06:06:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5253A280FBA
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Jun 2024 07:45:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9694E135A4B;
-	Thu, 13 Jun 2024 06:06:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A593061674;
+	Thu, 13 Jun 2024 07:45:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="VZ77nGfI"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="aRGa2+TB"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99A5837C
-	for <linux-kbuild@vger.kernel.org>; Thu, 13 Jun 2024 06:06:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 987D712C53D
+	for <linux-kbuild@vger.kernel.org>; Thu, 13 Jun 2024 07:45:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718258801; cv=none; b=lQzOswwqDkqj8aV7Y6uizifMObbL/3t/ZGhz1OdeG3VboiAlHMNKe+ekU9PPxcIXjpb7os+UrwKWOxFbiSi3OF6MOeShid5O9ntsGqJ+EmgrqNAMsPGLqZX3C1b9n8je5r33af1nvq3SuduV7YxqwhYTAEUog2hVXuGAdv4UO28=
+	t=1718264744; cv=none; b=uQ6zcM/OdIrlHjL4gb7vXI6tm/YVbzJkBtU+oIlCFzJfkAqU7FEBMK6g3wVUMtD5g84fn7umHbyHUnjRoCzdUVROf0GcpYZ0yvhJCKuG19hArKjJfCl4Hvk2nTZC35DwyJ8weQOo/sPJPbPEK2GKvgNq6aYtrIoh0ucW1yYP0BA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718258801; c=relaxed/simple;
-	bh=4g07QZieUxmsDqIl1YNP1f5lYgtIe9M1543QyG+q1+w=;
+	s=arc-20240116; t=1718264744; c=relaxed/simple;
+	bh=zpSZlBDNL9kD22wlVaHzbNHGdJH3kmVNXx0DVn3Zo3Y=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JHPpxtSwwNZB6aoM39u+v4MvPNZtffWE2sEB+Oqz7nie7Z47v0iYNFNEd2fKeSO7cupMkkTfdCq0paQFwz1fKUazgXX+VvH4v9w7vsVbsLF+IQg+QGUsToQUw0YaRIPU5/fPVBrZpwLa2kRKOxvrO7R/ccXYeoAakrCqVohQ5ak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=VZ77nGfI; arc=none smtp.client-ip=209.85.167.41
+	 To:Cc:Content-Type; b=CRKDjl7+oFAAmCEf0RaZ3nmauFi+SQSK2R5RB2Sm3zF+ftuWCnYb4VuWiHDhJyTXNmmT36eaRTprsZN4DtGuV8Lg7atBAILw9nLHCn53/3ZI4BhNLcxdssDuEukqo+0V61hkAHEN3e6UZglp8Hy1fjuNaOihvq4haLJbCuRO9SA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=aRGa2+TB; arc=none smtp.client-ip=209.85.167.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-52bc1261f45so745975e87.0
-        for <linux-kbuild@vger.kernel.org>; Wed, 12 Jun 2024 23:06:39 -0700 (PDT)
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5295eb47b48so915565e87.1
+        for <linux-kbuild@vger.kernel.org>; Thu, 13 Jun 2024 00:45:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1718258798; x=1718863598; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1718264741; x=1718869541; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=fSH0DjDhwB3L1CLHpcobJ5fXoLIXqFfrAAYmwFu4jJo=;
-        b=VZ77nGfIuVS7KpqX9unH4WvpmouGmH15epoANpn3eSJBNR8Yk6CMSSlgKY8aHq72sT
-         65LG1HZE2e+/0SgUtmTG9mZOSbix2uNKh2qP8JeBulgd59lQowoY0/05Gj2E0l5NzFUc
-         iUIBoqP1y8mbfvFv+6wf1M8Bt55DBrSlQqf4c=
+        bh=DoUfCuEwCpKD3p7FxzACAXcXvlyOy49T5PY4S52/dYw=;
+        b=aRGa2+TBRGzI+whXmimQkuuMNYQr8dyJReIpnNWOBBv0gNAv+2fXbp1xxXQB8KDsoH
+         Ozi10JJ825H465GsTQBw3Lnnin/HjjI+hce+aag5+IvNoS6hTQ6Oa6EKpxBiKW24vp3Z
+         RFAe/boN0YYb+vzjz9zZjFWnDRI/dfpZkUklw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718258798; x=1718863598;
+        d=1e100.net; s=20230601; t=1718264741; x=1718869541;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=fSH0DjDhwB3L1CLHpcobJ5fXoLIXqFfrAAYmwFu4jJo=;
-        b=QhwEENdHpaCuVV0Xasemwu2U3oey7RiaPUIovBWW9ac2ackACVkODP0EiEjpXC5R7w
-         wEjeE2KXfEBO5/+62usR52fCDC7o57Y/o1xuoBUJE6tkAUkYhBsWigH2xRJyapgLKByI
-         xvTyz2LdAOa6gS/wIiVMFp+gCAmBX2soikIuJp2GEL4oVJ2/+bcIGpWxk36FxqGr1e0u
-         roIAQJPQKeeW7p7Nua2qnDZsBdLkft2OCo/ClqeKT+1en/e2NdYTJQXhxhSJFtjeRvNE
-         KoBHiWk6J/hWCi2xF06XfjFkg9rTfa3DbBj088tiForl0oEDLVKJcZQpfvaGeinNdqb1
-         f3DA==
-X-Forwarded-Encrypted: i=1; AJvYcCXdeoIM9+08K/bbV7WGksIpcd6y4Qvs2CE2zTW6jhN6pxF2CYK9tL3dqPsuxSzFBmA/BpJXNskbG2krc+GiCWi5+78gAXeGL+Y4BtEk
-X-Gm-Message-State: AOJu0YztGhS+hOYTWDXM0hpqE34/GeIToKny2Zccw2QOoG0KqBtyCXnm
-	rQm2JFJAmvXCaBfzKmcm0VtH6tAQNpRVGUcKHow7tleAZHXXpiWzGy9NAUNYoBN3NaZUf2nnx+X
-	uz9pcplufcV6K3UuCAA453RrX9FCE67ljA1Li
-X-Google-Smtp-Source: AGHT+IFzq9XuAIM2Q2ahpj3Sd3BXnntejul4oBikhxZEOqFO5hUX59O0xTtJhBGjgP/s2o6c8hCCxKlKJXnzarOUzM8=
-X-Received: by 2002:a05:6512:23a9:b0:52c:9e25:978d with SMTP id
- 2adb3069b0e04-52c9e259f8emr2257164e87.45.1718258797636; Wed, 12 Jun 2024
- 23:06:37 -0700 (PDT)
+        bh=DoUfCuEwCpKD3p7FxzACAXcXvlyOy49T5PY4S52/dYw=;
+        b=NCO85wmjrq27/n9HEFmehjPztm1zx3ykAY6ILyO+obV+PAJyi0kv6IB8H5tbxJHK14
+         qnFDCYLYUMWliqBkeS3OorOrPX8RSONOcZMqf0MCqizjF8DJVuA/PVJfqcF9kgf10ggk
+         th0rbRyPc1g/r3tU0oBcNi+wYHPQCoDk7vLutPGuAUtbXFav5uN6SmH2wkg6TG2efQRE
+         7ODhvTm5KfPaRXdA/FZYjSdRz0fKS6SatQuu6onBZ3Bdf8oHYMz4SU/O9TlhBoKMTOYo
+         60566EJT3TYrFpvHYI6Q1DstIAs5wVzDklEMhC+pnpkqCef5yet26RBGSiRXnD+sxBwi
+         BObw==
+X-Forwarded-Encrypted: i=1; AJvYcCUywYyawPU8oBe1v6okv8HPmGBhPbLPPJGHkPlK0jHczCxqhmXNkGEcwT/NEE04ZmM2A4rmIs0+DMkixmXA0qScqzRh6zI0aVa8Dr6K
+X-Gm-Message-State: AOJu0Ywdourlq8NDUpQZ4kjwuSflvgUtGwehyNU6mOQSmI2tyjy4Ghu3
+	VJouZ5tLLeI0vvfM6lC7A7BXeitYUxj2onxF5f1JFFL6CnDevOVB8qcuv/3WSs9n+DNWfLxGN7G
+	h7hWK4eZQ2g2xEML79lv0wCtZ9RIczvlcau2yKAQO8VtOa1Ltzw==
+X-Google-Smtp-Source: AGHT+IFohhnbj+ujWXuBp7B872HT1zslnjHk74kghMDGpyR2SNGGhCGzrpwImSaQn0vZ4TVmJ50FK8HjmRPKO23dV4c=
+X-Received: by 2002:a05:6512:3687:b0:52c:983f:8ad with SMTP id
+ 2adb3069b0e04-52c9a3fd4camr2542032e87.47.1718264740824; Thu, 13 Jun 2024
+ 00:45:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240605094843.4141730-1-wenst@chromium.org> <CAK7LNAQrPfpScYKKg_Mwoj2RyWe5_e_xn6YZRm+t_w2X4+3kYw@mail.gmail.com>
-In-Reply-To: <CAK7LNAQrPfpScYKKg_Mwoj2RyWe5_e_xn6YZRm+t_w2X4+3kYw@mail.gmail.com>
+References: <20240605094843.4141730-1-wenst@chromium.org> <CAFLszTiZ8PUvxHx4kfLZf18RqSczRwxCmCxZ_y6J2rpu03pA=w@mail.gmail.com>
+In-Reply-To: <CAFLszTiZ8PUvxHx4kfLZf18RqSczRwxCmCxZ_y6J2rpu03pA=w@mail.gmail.com>
 From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Thu, 13 Jun 2024 14:06:25 +0800
-Message-ID: <CAGXv+5E1UsHyxier94=ah0P_g5QfdwLgNzc915QjdtXQqTN8ow@mail.gmail.com>
+Date: Thu, 13 Jun 2024 15:45:29 +0800
+Message-ID: <CAGXv+5EWqzj3w=KaKBfviBXPms0baKx28S0n+bGZcLc3=fGK+g@mail.gmail.com>
 Subject: Re: [PATCH] scripts/make_fit: Support decomposing DTBs
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Simon Glass <sjg@chromium.org>, Nathan Chancellor <nathan@kernel.org>, 
+To: Simon Glass <sjg@chromium.org>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
 	Nicolas Schier <nicolas@fjasle.eu>, linux-arm-kernel@lists.infradead.org, 
 	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 11, 2024 at 10:33=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.=
-org> wrote:
+On Wed, Jun 12, 2024 at 4:01=E2=80=AFAM Simon Glass <sjg@chromium.org> wrot=
+e:
 >
-> On Wed, Jun 5, 2024 at 6:48=E2=80=AFPM Chen-Yu Tsai <wenst@chromium.org> =
-wrote:
+> Hi Chen-Yu,
+>
+> On Wed, 5 Jun 2024 at 03:48, Chen-Yu Tsai <wenst@chromium.org> wrote:
 > >
 > > The kernel tree builds some "composite" DTBs, where the final DTB is th=
 e
@@ -141,6 +142,11 @@ e.com/
 > >  scripts/Makefile.lib |  1 +
 > >  scripts/make_fit.py  | 70 ++++++++++++++++++++++++++++++--------------
 > >  2 files changed, 49 insertions(+), 22 deletions(-)
+>
+> Reviewed-by: Simon Glass <sjg@chromium.org>
+>
+> Some possible nits / changes below
+>
 > >
 > > diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
 > > index 9f06f6aaf7fc..d78b5d38beaa 100644
@@ -181,6 +187,12 @@ e',
 ',
 > > +          help=3D'Decompose composite DTBs into base DTB and overlays'=
 )
+>
+> I wonder if we should reserve -d for --debug? I don't have a strong
+> opinion though.
+
+Seems reasonable. I'll make it use the capital -D then.
+
 > >      parser.add_argument('-E', '--external', action=3D'store_true',
 > >            help=3D'Convert the FIT to use external data')
 > >      parser.add_argument('-n', '--name', type=3Dstr, required=3DTrue,
@@ -197,6 +209,31 @@ e',
 > > -                fsw.property_string('fdt', f'fdt-{seq}')
 > > +                fsw.property('fdt', b''.join([b'fdt-%d\x00' % x for x =
 in files]))
+>
+> This looks right to me. It would be nice to use an f string but I
+> don't know how to do that with bytes.
+
+Me neither. Switching the format to an f string doesn't work:
+
+  File "/ssd1/wenst/linux/src/scripts/make_fit.py", line 324, in <module>
+    sys.exit(run_make_fit())
+             ^^^^^^^^^^^^^^
+  File "/ssd1/wenst/linux/src/scripts/make_fit.py", line 298, in run_make_f=
+it
+    out_data, count, size =3D build_fit(args)
+                            ^^^^^^^^^^^^^^^
+  File "/ssd1/wenst/linux/src/scripts/make_fit.py", line 288, in build_fit
+    finish_fit(fsw, entries)
+  File "/ssd1/wenst/linux/src/scripts/make_fit.py", line 161, in finish_fit
+    fsw.property('fdt', b''.join([f'fdt-%d\x00' % x for x in files]))
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: sequence item 0: expected a bytes-like object, str found
+
+> But do you need the inner [] ?
+
+Nope. Will remove.
+
+>
 > >                  fsw.property_string('kernel', 'kernel')
 > >      fsw.end_node()
 > >
@@ -236,20 +273,81 @@ in files]))
 > >      setup_fit(fsw, args.name)
 > >      entries =3D []
 > > +    fdts =3D collections.OrderedDict()
+> >
+> >      # Handle the kernel
+> >      with open(args.kernel, 'rb') as inf:
+> > @@ -243,12 +238,43 @@ def build_fit(args):
+> >      write_kernel(fsw, comp_data, args)
+> >
+> >      for fname in args.dtbs:
+> > -        # Ignore overlay (.dtbo) files
+> > -        if os.path.splitext(fname)[1] =3D=3D '.dtb':
+> > -            seq +=3D 1
+> > -            size +=3D os.path.getsize(fname)
+> > -            model, compat =3D output_dtb(fsw, seq, fname, args.arch, a=
+rgs.compress)
+> > -            entries.append([model, compat])
+> > +        # Ignore non-DTB (*.dtb) files
+> > +        if os.path.splitext(fname)[1] !=3D '.dtb':
+> > +            continue
+> > +
+> > +        # Get the compatible / model information
+> > +        with open(fname, 'rb') as inf:
+> > +            data =3D inf.read()
+> > +        fdt =3D libfdt.FdtRo(data)
+> > +        model =3D fdt.getprop(0, 'model').as_str()
+> > +        compat =3D fdt.getprop(0, 'compatible')
+> > +
+> > +        if args.decompose_dtbs:
+> > +            # Check if the DTB needs to be decomposed
+> > +            path, basename =3D os.path.split(fname)
+> > +            cmd_fname =3D os.path.join(path, f'.{basename}.cmd')
+> > +            with open(cmd_fname, 'r', encoding=3D'ascii') as inf:
+> > +                cmd =3D inf.read()
+> > +
+> > +            if 'scripts/dtc/fdtoverlay' in cmd:
+> > +                # This depends on the structure of the composite DTB c=
+ommand
+> > +                files =3D cmd.split()
+> > +                files =3D files[files.index('-i')+1:]
 >
+> spaces around +
+
+Will fix.
+
+> > +            else:
+> > +                files =3D [fname]
+> > +        else:
+> > +            files =3D [fname]
 >
-> I am fine with this patch.
->
-> Just a nit.
->
-> Is there any reason why you used OrderedDict() instead of
-> the normal dictionary, "fdts =3D {}" ?
+> I do wonder if the code from '# Get the compatible' to here would be
+> better in a separate, documented function, to keep things easier to
+> understand?
 
-I had wanted to use it as the main list of entries; using OrderedDict()
-preserves the order that the DTBs were given. That didn't pan out.
-
-I'll replace it with the standard dictionary.
+I'll see what I can do. In that case I'll drop your Reviewed-by.
 
 
+Thanks
 ChenYu
+
+> > +
+> > +        for fn in files:
+> > +            if fn not in fdts:
+> > +                seq +=3D 1
+> > +                size +=3D os.path.getsize(fn)
+> > +                output_dtb(fsw, seq, fn, args.arch, args.compress)
+> > +                fdts[fn] =3D seq
+> > +
+> > +        files_seq =3D [fdts[fn] for fn in files]
+> > +
+> > +        entries.append([model, compat, files_seq])
+> >
+> >      finish_fit(fsw, entries)
+> >
+> > --
+> > 2.45.1.288.g0e0cd299f1-goog
+> >
+>
+> Regards,
+> Simon
 
