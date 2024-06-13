@@ -1,143 +1,97 @@
-Return-Path: <linux-kbuild+bounces-2120-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2121-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E93CE907675
-	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Jun 2024 17:22:45 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EFA6907BF0
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Jun 2024 21:02:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9EBC31F21F5F
-	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Jun 2024 15:22:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 04B17286210
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Jun 2024 19:02:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AB5C149C45;
-	Thu, 13 Jun 2024 15:22:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7A9414C5A9;
+	Thu, 13 Jun 2024 19:01:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="d5sbq6c+"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T6qLatly"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E721144312
-	for <linux-kbuild@vger.kernel.org>; Thu, 13 Jun 2024 15:22:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFBDC14C585;
+	Thu, 13 Jun 2024 19:01:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718292158; cv=none; b=LBZNc/j4kadpdSimuOPCXtlFTIOZ03xdOVctWvSbDMPOyEInHAwqNzhQ4FfpjP1Q4u6xaJx+X5Yyknb6el7HBrc2kxkvvwyDM0uhKN+6Z7DY1rKHixEBf+NKlYAdeYNOclkMSXzIsC5Uy5rDJCKwG5lzY/TtbY+lbLD018r5apQ=
+	t=1718305275; cv=none; b=TNoSj5r6xfVqE1G8EiH8JBZSIcOut4qCKl8rg8ST82WZ2uCy/CX1UvEOl4t1tmc11i7O6ReJ+b3qmk0AdX5PW3RfF69IPNRVSvqdhOp9AYhq4ltj3lzoLTryEeKiuazEtah6xbHDOvjADXd6RP4F4UQ4VTV14dg3MFuE//5d8KY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718292158; c=relaxed/simple;
-	bh=n4hXsXgUNly0dvZL2DEJYivRYjI1ORhlqA7s2/ruvis=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oZhFiB4iXE2q4HSKovMMYAc0hH8uIjwrClMJqcCrLmDq9UEb813J9Yg22HgMd9O/fvho/Oq9GxGkLCVK9eU6RoImzGPOEBiQA0mt18qiugSDC4DeApEoYgl0b6/MVT1wae3HhxUrhDlnFnevfcbwaAL9uOwS59sGDsxTRM5AqM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=d5sbq6c+; arc=none smtp.client-ip=209.85.219.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-6ad8243dba8so5629066d6.3
-        for <linux-kbuild@vger.kernel.org>; Thu, 13 Jun 2024 08:22:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1718292154; x=1718896954; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=c1FwXGbPrFXal5e1NPPyrNFtuM5Jb5Wk1WnrPz9CJ3g=;
-        b=d5sbq6c+Ln9ohEJetSbmbITgkXLfYXo3TH2XJiZv7uqd7Y48X+qrPgc5XVgeP4McGI
-         wOi+I40pbwUij3Dx3JCuIKXF9LeDVhh+Qm0UN3wDucL343aTN8JNdn+58n2HgSgDEEVL
-         d/hg1oppE/hIizHKJbA5+j8RBY+XHuhjF/gTc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718292154; x=1718896954;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=c1FwXGbPrFXal5e1NPPyrNFtuM5Jb5Wk1WnrPz9CJ3g=;
-        b=M3a6TDFIH4gsliiA8KH+VGejFvDYWIkh/h8v9piTbMTXQ7lbET99qxWQwYWUE26HUx
-         wpM8L0Hr9v7bBFcbrbe8yuVrar1FcaysOLMOvkHXMv8qBj4TQKhmWQCpGEwZVywQPO77
-         g7GUxEBCOSkyKWGOoSvjxccTfTWaVnhhS3B0EjXxibKXi+mYtJMtZ7v0HC/hEcBpTO7Z
-         Rq6Y69d91syuOOplahKggM1qsbcSklqukTqKn1E7iCJsTi/GG8XzpGdMHni25vh3+AwK
-         ZNBVW6XxQK7cpdJuiPRWa0gGx+bKxvVacOd0/DSKyMCtU5T8rZuzqXTS9J1NTKX3wUy/
-         GjaQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW0JDno+SRIfO9NIAKZS1powoUsodkXSfVauMNhF86SxoMBi51eCuANmvhHJif6cXFMXKF9jbUg1Z6p55EX6pX2lcXZBABfWEU4a+5a
-X-Gm-Message-State: AOJu0Yx6dBHqHvomyrTTIEDIm1C6cb0fZBtPL0iT08384/aPH6okw1VW
-	p7rz/4P/e14fT0wydvrGZTH8ZC5PTlgHtgMIkqPXUXKLUJo4ELwYrFdQ3ljF/crXPv3CqRjggaw
-	Zop5tGw579a8hbNKk/OED8wlm5WHeM7N2goWFR41XlYelpJ4=
-X-Google-Smtp-Source: AGHT+IEa7ob5SUFmAeY7t+jsiZ0g0b24xhK3WVy8G0Zs4wQMtVzABwezXEypz7uuOagcfWUSmCPfVFLB/TFN5YhaLvI=
-X-Received: by 2002:a05:6214:3a82:b0:6b0:74cf:676c with SMTP id
- 6a1803df08f44-6b1a77f12e4mr68951216d6.63.1718292154251; Thu, 13 Jun 2024
- 08:22:34 -0700 (PDT)
+	s=arc-20240116; t=1718305275; c=relaxed/simple;
+	bh=sghfIhT5oY+tPHqDu4LipzkIR2seQaIOymMpCrX+MtY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oKRQ8hjC7AnvrqvxdFgDfGvKNaPK049GzC7zhoJGeuRqsJ24XdbuA9sAqmK4GsHaZWf5SHcffLHbLe6X3B6zka/VXVG8AzrivlapH5wpzgpscrEKmS0/G2xbkM2ZdgQI6B6Q5zY0bJ2Yas6Krpa3SckzBtM+lBGYufHTMZdgfv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T6qLatly; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC0B1C2BBFC;
+	Thu, 13 Jun 2024 19:01:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718305275;
+	bh=sghfIhT5oY+tPHqDu4LipzkIR2seQaIOymMpCrX+MtY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=T6qLatly0beLEzMo5OPJgcvTGJUNYoGOFJH1U8kVSXaCz4sgsoSfZdT+QBqRMwKxp
+	 dqxQZ1PwKE/MFFQvbOd61M/67G+HAXhR99VB11JF9XtSSnsoojMJ6khtwgiO3Y/eAB
+	 0FsTe9JhfBodrhgcd2OUcXvc0SSoY32zZHXaSyhjh/Fd8fsJBP+A8deQUnEhOghTS7
+	 CYEFxjbEaKbyo5kWftBIB0oYxkmRIr0psQydtxwsZMZA5ZE9d+DY0NM7TWKgPxwF6F
+	 ndBqOnJCLtUQHLwfcH3RhP8VvM+kDCvtQIM/aTjsZ17dpxGNaa+ThWM2LTxaFkJDm0
+	 wyhhMxIeJa+GA==
+Date: Thu, 13 Jun 2024 12:01:13 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Rafael Aquini <aquini@redhat.com>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>
+Subject: Re: [PATCH 1/2] kbuild: rpm-pkg: make sure to have versioned
+ 'Obsoletes' for kernel.spec
+Message-ID: <20240613190113.GA1272931@thelio-3990X>
+References: <CAK7LNATxSePzOrHaQvS1MQo4mpAwdfwrDu3iuUsYZ+RL=LiirA@mail.gmail.com>
+ <20240611211123.959459-2-aquini@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240613093433.131699-1-wenst@chromium.org>
-In-Reply-To: <20240613093433.131699-1-wenst@chromium.org>
-From: Simon Glass <sjg@chromium.org>
-Date: Thu, 13 Jun 2024 09:22:23 -0600
-Message-ID: <CAFLszThZ0SKMVhK_DPxq7n+DavBbWLxit0P3R=o7HN7UcTrPvg@mail.gmail.com>
-Subject: Re: [PATCH v2] scripts/make_fit: Support decomposing DTBs
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240611211123.959459-2-aquini@redhat.com>
 
-On Thu, 13 Jun 2024 at 03:34, Chen-Yu Tsai <wenst@chromium.org> wrote:
->
-> The kernel tree builds some "composite" DTBs, where the final DTB is the
-> result of applying one or more DTB overlays on top of a base DTB with
-> fdtoverlay.
->
-> The FIT image specification already supports configurations having one
-> base DTB and overlays applied on top. It is then up to the bootloader to
-> apply said overlays and either use or pass on the final result. This
-> allows the FIT image builder to reuse the same FDT images for multiple
-> configurations, if such cases exist.
->
-> The decomposition function depends on the kernel build system, reading
-> back the .cmd files for the to-be-packaged DTB files to check for the
-> fdtoverlay command being called. This will not work outside the kernel
-> tree. The function is off by default to keep compatibility with possible
-> existing users.
->
-> To facilitate the decomposition and keep the code clean, the model and
-> compatitble string extraction have been moved out of the output_dtb
-> function. The FDT image description is replaced with the base file name
-> of the included image.
->
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+On Tue, Jun 11, 2024 at 05:11:21PM -0400, Rafael Aquini wrote:
+> Fix the following rpmbuild warning:
+> 
+>   $ make srcrpm-pkg
+>   ...
+>   RPM build warnings:
+>       line 34: It's not recommended to have unversioned Obsoletes: Obsoletes: kernel-headers
+> 
+> Signed-off-by: Rafael Aquini <aquini@redhat.com>
+
+Tested-by: Nathan Chancellor <nathan@kernel.org>
+
 > ---
-> Changes since v1:
-> - Replace OrderedDict with standard {} dict
-> - Change short form command line argument to -D
-> - Drop [] around "'fdt-{x}\x00' for x in files"
-> - Add spaces around '+' in slice argument
-> - Split out DTB parsing into separate function
->
-> Simon's reviewed-by was dropped.
->
-> This is a feature I alluded to in my replies to Simon's original
-> submission of the make_fit.py script [1].
->
-> This is again made a runtime argument as not all firmware out there
-> that boot FIT images support applying overlays. Like my previous
-> submission for disabling compression for included FDT images, the
-> bootloader found in RK3399 and MT8173 Chromebooks do not support
-> applying overlays. Another case of this is U-boot shipped by development
-> board vendors in binary form (without upstream) in an image or in
-> SPI flash on the board that were built with OF_LIBFDT_OVERLAY=n.
-> These would fail to boot FIT images with DT overlays. One such
-> example is my Hummingboard Pulse. In these cases the firmware is
-> either not upgradable or very hard to upgrade.
->
-> I believe there is value in supporting these cases. A common script
-> shipped with the kernel source that can be shared by distros means
-> the distro people don't have to reimplement this in their downstream
-> repos or meta-packages. For ChromeOS this means reducing the amount
-> of package code we have in shell script.
->
-> [1] https://lore.kernel.org/linux-kbuild/20231207142723.GA3187877@google.com/
->
->  scripts/Makefile.lib |  1 +
->  scripts/make_fit.py  | 86 ++++++++++++++++++++++++++++++++------------
->  2 files changed, 65 insertions(+), 22 deletions(-)
-
-Reviewed-by: Simon Glass <sjg@chromium.org>
+>  scripts/package/kernel.spec | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/scripts/package/kernel.spec b/scripts/package/kernel.spec
+> index e095eb1e290e..19e458341f45 100644
+> --- a/scripts/package/kernel.spec
+> +++ b/scripts/package/kernel.spec
+> @@ -27,7 +27,7 @@ The Linux Kernel, the operating system core itself
+>  %package headers
+>  Summary: Header files for the Linux kernel for use by glibc
+>  Group: Development/System
+> -Obsoletes: kernel-headers
+> +Obsoletes: kernel-headers < %{version}
+>  Provides: kernel-headers = %{version}
+>  %description headers
+>  Kernel-headers includes the C header files that specify the interface
+> -- 
+> 2.45.1
+> 
 
