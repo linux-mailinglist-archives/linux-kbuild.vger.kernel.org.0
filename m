@@ -1,130 +1,139 @@
-Return-Path: <linux-kbuild+bounces-2105-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2106-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 157E2905F7C
-	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Jun 2024 02:01:04 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73C0E905F80
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Jun 2024 02:03:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A175C285C6B
-	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Jun 2024 00:01:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E08072832BC
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Jun 2024 00:03:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86BBE2913;
-	Thu, 13 Jun 2024 00:00:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7EB3438F;
+	Thu, 13 Jun 2024 00:03:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BNW8Efq4"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G0r43pNO"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EFC5ECC;
-	Thu, 13 Jun 2024 00:00:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5186F384;
+	Thu, 13 Jun 2024 00:03:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718236859; cv=none; b=fL7UfNoUq2yqScvIARluB0ovMSE04JeMhr7Nn8/gvb9F2oL+U0rudiTGaaisai7FikoVvNkQo9x6T4yaKRDC22i9Jl1b7ZhXZN/NrXV8OuHhj4eaFKR8zgUW/0ZWkV1nVeZaeL/Wt5Vqzk5+35Ia1Q7zUMentMOrPYM/18ZuAeQ=
+	t=1718237010; cv=none; b=H/QN3dDgRF2OILy+7luAyDpxuigCFdUE36CKhiBKevDQp/fmwH+jgescmX1n1rInl/RM3vrgV6f0MY6OpslCVZ4cvfyy9citEaa5CnVHXY23JTVFZJH8tOxg85H/hKTAid0KtPLlBLksfptO3ZOKD5C4tFsmBch4lgys9EYhKUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718236859; c=relaxed/simple;
-	bh=THiXsAgeS1weLL4STfIx2Vj7agXhVKgVFw1koBWnVjk=;
+	s=arc-20240116; t=1718237010; c=relaxed/simple;
+	bh=HoGlSe0N5SWiepAaoNUfiwFL0UGEp7h7dXK2pz4uuM4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J9klczN8RvNNM0xZ4dWylCY1EE3Rij7o2bnJpMjitngUw6v9lyQbqK1hHgKLQ+4SyxPjNCHE2lGM7SJFbLQXTMfdYinv0SM+8571Zz/Xp0mAUnJn6lx28ir5wHLzXWeKvTfunVD7Z47M/vbeV+Y0SVS/hLQMhMTg5+wer4mDwVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BNW8Efq4; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FA79C116B1;
-	Thu, 13 Jun 2024 00:00:58 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=cuEzXHGKGURehq3+H8AIYbEJu4DRqTg96Eh4T+XMtx79Rq680uKc5L3/LzYrs6LpKmv78Gefw4wozxnFlQ++7X4U3MDDXftliJjJ09ygcQJrAOUpYpije0nEQqB015XCPZHRDxshbL3geQjLu+07JKZg/1XfGFvzxHRga0/7mq0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G0r43pNO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AB1AC116B1;
+	Thu, 13 Jun 2024 00:03:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718236858;
-	bh=THiXsAgeS1weLL4STfIx2Vj7agXhVKgVFw1koBWnVjk=;
+	s=k20201202; t=1718237009;
+	bh=HoGlSe0N5SWiepAaoNUfiwFL0UGEp7h7dXK2pz4uuM4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BNW8Efq4nsxJaxjYDV3HvRYCgJwocXmGNo2sreM/SkqXdyy9i1jDvt3QGHlTn20qn
-	 XrlCEPr910wfp1VzlcIRY7sdQfjQWqR1c+wluIOJcBoneac1Xo+2+UWjtWesYM+Hh5
-	 DduFz+Ey0owbGwevyqv+w7AzjXTrIGWZDKZNx7YuYLh5qAvN7y5PZZ2oTlRneQg5k7
-	 wsBpxDkLROBih7fTxTnhJzKYwf2Y+n73w3vpdHf5kTRjwF+RXK+mSjTz/rNj2IfimM
-	 gwjxcnGBxX9nzOOlqjnASLtzdwotHURDnat2sYnrewiK+0XKb8ZCj7bJnlqB2lc/Ym
-	 4O9Y/u1kzygBg==
-Date: Wed, 12 Jun 2024 17:00:56 -0700
+	b=G0r43pNO+/5I4sFv6eAE/XWds5XSaFKgPCcOlWFgPYaHsfHzcQbVZ5Ltlscd7/fZz
+	 4gDObGv9vVerQziiK+vB0Rr/fuDcJCdCDquIsJky7CJpNAmzBvCOkyzWjTGkW1EnJm
+	 ebEw5UvEKTaY31aMWzqiLUAaJA/e8Jd1FXXrmCUwlDjeymiCOoHJ0mXIEXMqDKPEet
+	 jt+ewaEunHdVmVsI88upFJGkKAs3Yp340SPpgBWaroXxE3GUDinYkXpcS6oygoKENN
+	 tU96lXTUyCeI/n3nbUMuymgfaoZDkNCR/1ZOsGu4OzJxODOI9hZdcbOSKMcSMoZosr
+	 CSN4DRWoillww==
+Date: Wed, 12 Jun 2024 17:03:27 -0700
 From: Nathan Chancellor <nathan@kernel.org>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Nicolas Schier <nicolas@fjasle.eu>
-Subject: Re: [PATCH] kbuild: move init/build-version to scripts/
-Message-ID: <20240613000056.GA1596562@thelio-3990X>
-References: <20240611182502.3600062-1-masahiroy@kernel.org>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>,
+	"Borislav Petkov (AMD)" <bp@alien8.de>
+Subject: Re: [PATCH] modpost: Enable section warning from *driver to
+ .exit.text
+Message-ID: <20240613000327.GB1596562@thelio-3990X>
+References: <20240611205900.2145880-2-u.kleine-koenig@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20240611182502.3600062-1-masahiroy@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240611205900.2145880-2-u.kleine-koenig@baylibre.com>
 
-On Wed, Jun 12, 2024 at 03:24:47AM +0900, Masahiro Yamada wrote:
-> At first, I thought this script would be used only in init/Makefile.
+On Tue, Jun 11, 2024 at 10:59:00PM +0200, Uwe Kleine-König wrote:
+> There used to be several offenders, but now that for all of them patches
+> were sent and most of them were applied, enable the warning also for
+> builds without W=1.
 > 
-> However, commit 5db8face97f8 ("kbuild: Restore .version auto-increment
-> behaviour for Debian packages") and commit 1789fc912541 ("kbuild:
-> rpm-pkg: invoke the kernel build from rpmbuild for binrpm-pkg")
-> revealed that it was actually needed for scripts/package/mk* as well.
-> 
-> After all, scripts/ is a better place for it.
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
+
+Seems reasonable to me, this is just a modpost warning, so it should not
+matter too much if there are a few instances lagging behind for a bit
+(but it would be good for that to get back on people's radar).
 
 Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
 > ---
+> Hello,
 > 
->  init/Makefile                   | 2 +-
->  {init => scripts}/build-version | 0
->  scripts/package/mkdebian        | 2 +-
->  scripts/package/mkspec          | 2 +-
->  4 files changed, 3 insertions(+), 3 deletions(-)
->  rename {init => scripts}/build-version (100%)
+> as of v6.10-rc2 there are two known offenders:
 > 
-> diff --git a/init/Makefile b/init/Makefile
-> index ab71cedc5fd6..10b652d33e87 100644
-> --- a/init/Makefile
-> +++ b/init/Makefile
-> @@ -52,7 +52,7 @@ CFLAGS_version.o := -include $(obj)/utsversion-tmp.h
->  # Build version-timestamp.c with final UTS_VERSION
->  #
+>  - drivers/virt/coco/sev-guest/sev-guest.c
+>    patch submitted in March, available at
+>    https://lore.kernel.org/all/4a81b0e87728a58904283e2d1f18f73abc69c2a1.1711748999.git.u.kleine-koenig@pengutronix.de
+> 
+>  - drivers/parport/parport_amiga.c
+>    fixed in next (commit 73fedc31fed3 ("parport: amiga: Mark driver
+>    struct with __refdata to prevent section mismatch"))
+> 
+> I tested this patch using allmodconfig builds for arm64, riscv, s390 and
+> x86_64 which didn't expose further drivers with this problem.
+> 
+> In my eyes this is good enough to enable the warning for all builds (and
+> not only with W=1).
+> 
+> Best regards
+> Uwe
+> 
+>  scripts/mod/modpost.c | 11 -----------
+>  1 file changed, 11 deletions(-)
+> 
+> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> index 937294ff164f..30881d94f00e 100644
+> --- a/scripts/mod/modpost.c
+> +++ b/scripts/mod/modpost.c
+> @@ -965,17 +965,6 @@ static int secref_whitelist(const char *fromsec, const char *fromsym,
+>  	    match(fromsym, PATTERNS("*_ops", "*_probe", "*_console")))
+>  		return 0;
 >  
-> -include/generated/utsversion.h: build-version-auto = $(shell $(src)/build-version)
-> +include/generated/utsversion.h: build-version-auto = $(shell $(srctree)/scripts/build-version)
->  include/generated/utsversion.h: build-timestamp-auto = $(shell LC_ALL=C date)
->  include/generated/utsversion.h: FORCE
->  	$(call filechk,uts_version)
-> diff --git a/init/build-version b/scripts/build-version
-> similarity index 100%
-> rename from init/build-version
-> rename to scripts/build-version
-> diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
-> index 070149c985fe..b9a5b789c655 100755
-> --- a/scripts/package/mkdebian
-> +++ b/scripts/package/mkdebian
-> @@ -150,7 +150,7 @@ version=$KERNELRELEASE
->  if [ -n "$KDEB_PKGVERSION" ]; then
->  	packageversion=$KDEB_PKGVERSION
->  else
-> -	packageversion=$(${srctree}/scripts/setlocalversion --no-local ${srctree})-$($srctree/init/build-version)
-> +	packageversion=$(${srctree}/scripts/setlocalversion --no-local ${srctree})-$($srctree/scripts/build-version)
->  fi
->  sourcename=${KDEB_SOURCENAME:-linux-upstream}
->  
-> diff --git a/scripts/package/mkspec b/scripts/package/mkspec
-> index ce201bfa8377..cffc2567bef2 100755
-> --- a/scripts/package/mkspec
-> +++ b/scripts/package/mkspec
-> @@ -24,7 +24,7 @@ fi
->  cat<<EOF
->  %define ARCH ${ARCH}
->  %define KERNELRELEASE ${KERNELRELEASE}
-> -%define pkg_release $("${srctree}/init/build-version")
-> +%define pkg_release $("${srctree}/scripts/build-version")
->  EOF
->  
->  cat "${srctree}/scripts/package/kernel.spec"
+> -	/*
+> -	 * symbols in data sections must not refer to .exit.*, but there are
+> -	 * quite a few offenders, so hide these unless for W=1 builds until
+> -	 * these are fixed.
+> -	 */
+> -	if (!extra_warn &&
+> -	    match(fromsec, PATTERNS(DATA_SECTIONS)) &&
+> -	    match(tosec, PATTERNS(ALL_EXIT_SECTIONS)) &&
+> -	    match(fromsym, PATTERNS("*driver")))
+> -		return 0;
+> -
+>  	/* Check for pattern 3 */
+>  	if (strstarts(fromsec, ".head.text") &&
+>  	    match(tosec, PATTERNS(ALL_INIT_SECTIONS)))
+> 
+> base-commit: c3f38fa61af77b49866b006939479069cd451173
+> prerequisite-patch-id: 7300dede00db637042647e12d558fe1dd57c20cc
+> prerequisite-patch-id: 82cfe8597f709f05b9fbbd3e4eca8be35e077e2b
 > -- 
 > 2.43.0
 > 
