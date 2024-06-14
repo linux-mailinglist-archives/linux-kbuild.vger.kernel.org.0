@@ -1,89 +1,91 @@
-Return-Path: <linux-kbuild+bounces-2126-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2127-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEB5D909137
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Jun 2024 19:17:56 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E1C3909159
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Jun 2024 19:21:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5AF842815FC
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Jun 2024 17:17:55 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C799DB294DE
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Jun 2024 17:18:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 158741A2FD2;
-	Fri, 14 Jun 2024 17:15:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA0CF19EEBD;
+	Fri, 14 Jun 2024 17:16:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="jqAFZUOy";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="v2QoLbq8"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="LRqACV3m";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="MKRXKoUV"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 553A217FADB;
-	Fri, 14 Jun 2024 17:15:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A26C0383;
+	Fri, 14 Jun 2024 17:16:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718385359; cv=fail; b=gAkN1AAqPOiun6n6SXsPDa9l1IzNaQPETkKj4AXO9b3cSC3wj2Za4ph1SALfMHt+ReyEMelpjQHqNE+dfD4s7RIvlFRh0dp7JBztEt67vhaeySQopohiH1ByXkVihO6rwhvhnjfHlRZXWJLp6RZJ6gTR//Ivc8C2z6RiaogelOU=
+	t=1718385402; cv=fail; b=M/3K6c87QLjeYhne6PRQDeL1FUzojZksI4lhzQtE5JuSyfz6yoTSLYTLsfScusqUtla0U9oVCS82VlExOW9QOy3xdioBazcfnsfwQC+B+EHTNsXwdwFQ3IKhX0yvGDgQornTlAOR1y3Sktv4KUtAG8HDb6XKP7ws2W1hRM95664=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718385359; c=relaxed/simple;
-	bh=WdU5V2L8uT4AR3B+A5cI5ajW/H+Qgp0BPRjuA6k8tQ0=;
+	s=arc-20240116; t=1718385402; c=relaxed/simple;
+	bh=Utgr38imGpwpT9ufQTMg6tfqVcyUskQiq9UbSAVLI48=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=JgruWvNw3EngCvDT96qiyCmVy0y/UUMk8LbRNjRQCcnszKB69gS3afX3EvOhJxs62l/oKyM7RTiyLQL726zwfZ6I3nptG78yAHzd5+uHWqQHoIRH3ApAYTuNuAtUtYOrbWBydEWMujwqVcs28mnSl23sWebKffJIqe/ELMxapEk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=jqAFZUOy; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=v2QoLbq8; arc=fail smtp.client-ip=205.220.177.32
+	 Content-Type:MIME-Version; b=JdfUWsip6sVlG44FpgKFtJ6lCMUKk46ZJtzjhVIe7BWxgF65clEW9VzPP0v/uShQBFpLrIu1HXgQSK7TWjsIProYxbrsWix1FSemWuTeUbxWaTcOWMn/Ej5Fydto8XVhUTSlgEt1ecOBIZzGDdD48eMH2UEDYiR32k/Pv+9+OvE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=LRqACV3m; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=MKRXKoUV; arc=fail smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45EDH0Kl028777;
-	Fri, 14 Jun 2024 17:15:51 GMT
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45EDH0k4026816;
+	Fri, 14 Jun 2024 17:16:30 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
 	from:to:cc:subject:date:message-id:in-reply-to:references
 	:content-transfer-encoding:content-type:mime-version; s=
-	corp-2023-11-20; bh=CTK5uummU8kivbhjOTVtyBG7+Z2HdxyHAAOMyo5Qb68=; b=
-	jqAFZUOybJzQVarXDDPJt0V0Vr11DuwSwX2H7rdlQCLPtA/M7bL/rvScpe+lGDt5
-	Grxuu+oCJ0ouj/mqAZB6ETObcrxNxyQaXdV6/L9a0//zutt5r04AE/fzwMnL7V+B
-	q09KYbgL0NT55eLl5yvhFWRaAhRTeC6IhnaG5o2v89/SSsb29cFRGvvLKKqC0PII
-	6b3/gAUhQvcsIg7Scr6SInHxmoBZsTF95bM1J68wxih737kjvnHCdyPmkVM+Vpsb
-	kMQ4DSdMLiHwapj6fK23c14D5NzV5zJ9J11PaxBHbQMQaGnvEUlCIWwZOK7o6wP2
-	/0bRXVpHqFYq+CGoB6iMwA==
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3ymh3pc2by-1
+	corp-2023-11-20; bh=vqOAfKb3q5jjYNFvje6um5TzGHxrkJM1lWMDV3Tiz/k=; b=
+	LRqACV3mqhhBBrlt9OOMippiWBGBhtNpJsrgK+VsPo/ahITs9oBaQ7HMdGS0njCD
+	diKNJyI1PTgEERmXMU/T/RbQGQ5sWCZsNZAN6VMdG60ttgaaszk/TsrksA8HZQgz
+	qFa2kxJl/BSojw+L10lHi9oYKIoFVsUPSDFroMGtSt2+Hv5wCdiufKdraP+q+IW2
+	UIB3I/O58tG2jdNiaOhVA5XAktY9WJO/KzacYeQ5y1jNMNVNq3DcMIYOXVOp86ny
+	mRMvv2f1fkqQiCx5VxId5d358xTGViKjoh+y/UvHEQJidTeoRqv4WmyBoXpxP3JP
+	TyGj+4kvZfCcep9tGGqIkw==
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3ymhajc6u5-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 14 Jun 2024 17:15:51 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 45EGd8sO036740;
-	Fri, 14 Jun 2024 17:15:50 GMT
-Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2174.outbound.protection.outlook.com [104.47.58.174])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3ynce1ync4-1
+	Fri, 14 Jun 2024 17:16:30 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 45EGarMr012576;
+	Fri, 14 Jun 2024 17:16:29 GMT
+Received: from nam02-dm3-obe.outbound.protection.outlook.com (mail-dm3nam02lp2041.outbound.protection.outlook.com [104.47.56.41])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3ynca2ssvw-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 14 Jun 2024 17:15:50 +0000
+	Fri, 14 Jun 2024 17:16:29 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ft19erXQrn5DLZ88v7owWjA0B1QGGqRbx3jKpu2RWDoGydStNGiG1l0TRv8mBmDh4Px2tSHqnm8UoOqcjVztczSicIoufYbXHPzKywGHuNwU6TaeUKqE7G33UyWopkSKBWPvs40n58/O0HdD0mS9IpFRlYeBJ7sFBDxLFUAF5zn8EcPl3gbmDHdd4q1CDUOmWb5XFStkDGmy0i8iiG8j2jb3XPlM84giQzrH35V/7TF7Yprt1wT9xh790ZARQNspFG0Va5rY05TNNayPYZ58QRd07R0hKu22TQmz6d7M59M27m0AFsnVF3vVb4l2SP+peeiI0I/SjM3Afy7HaVp16A==
+ b=LOma2PgWLUTxzHwy2gsorf4pv6wpoJwHu3zhWveqHx+qoSENg4x3PH90pbsIZJOL99pNhQPlxvxUy3wruKAnq0n2RQmwUkS2ukNO4vzXoOeRwFe4bA/PYLhCeOAqDQPJMvqUryGyWfAcMpK5lSgW9ZRWRfZ0T/ymuT2QwKyrtOF6dwmukO4myB4pK4SYoS+NBkvBpGKzpk9hWvW4s0oRxExtyjQmZuJfYFC/FCtS7VxZJCehBhi2ubHIqjBPNfpRipKB6SvlAFn9EWwI457DMZ+6H6HPYzx9QbfW0rh150CkwS+688y5wT1LHqgHSAutENU8anOV4hOXuEupasSJ6Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CTK5uummU8kivbhjOTVtyBG7+Z2HdxyHAAOMyo5Qb68=;
- b=G1ULGFOcsWrtHr1z3Z6BjdNHl4Z3hFmuJqXa9xqL8O070KiDg6FrZV4fC4rF/GqkdP5BxYwi8AbveP70H792hTMIxDb9t8o2lEOMV92NrwfMkn7Di2CgrHeSQpA5iGB7eMe9pz19W7sx7vClK19/jUelcHAmzhdEiOvenQeFTvUxYMD80HxbVOwfVB6ZkCzfrDPkjgH4sffcNWnBGAZE53V/mVN8he/tW3MfFB6HIoSiJVX5Nfv/UX9592cp+0yDORfqocVY/h61C+ahhRMrglr4hb2e5q04jsGKThYaNQJjvdwYuhzcBxnRMu/n/J9bWpMWbuXQyPsraqF4sQzEuA==
+ bh=vqOAfKb3q5jjYNFvje6um5TzGHxrkJM1lWMDV3Tiz/k=;
+ b=SpPl6uy/umpXljQvoq/uaS/3K82QOBAZt+hkd5vXkVtWvGDIn8wdzRheN0TFJGbCjrIn1/miFhkPNFt0tgiZckjviIv18QUXckvRLhUxfeM/Lz94kfSLc8jorYqucBX0qeI5oMLbka5M+cOycBtI4OKmWDwDqOpBn5gxhriH+Q1uKmd9eBgQRQPEgZDO9jkNvUgL4kOxOArZDuYnTwAVSwvH7BcMfpfSOlkpfBLT73n4+0cnNwjcgy2vRwSk+9+xjgT1TTipsLim7Wx98bGrwtBO1mkU5zN8Thb4w7rw3TUrLl2X1YlNU50/e6rcZ1DlqXBsFAy3Tecuu0sivzbDew==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CTK5uummU8kivbhjOTVtyBG7+Z2HdxyHAAOMyo5Qb68=;
- b=v2QoLbq8Wbt3IS73isGmJMLS4hGESiTYjoOmrhzbY2yAk8k7VxKuRaj1V72UTN8/kTDSVeKIM/d6K66lhwD/upMi39nD1DJS0CGRJjNLSUgtSzcmkrFL8yzawOpdrkFM3WDOf2hr0fJxsy5r3LVnf+/XManQiX+TNhogPpcHa4A=
+ bh=vqOAfKb3q5jjYNFvje6um5TzGHxrkJM1lWMDV3Tiz/k=;
+ b=MKRXKoUV9IA+bnZS2INKym1R0N10r/E+ymWQ2E+IOj64UeZ7xw7QISFe/uVIjm+51WjIKA3uKwJqUKtgSQm3h36LrW564QfH5QUIFVGhfdZX+EN0W4e3nC3+G3cWjEwD/MlB1/hrNnuwb9NjASXwDOFf5dPdYc/H4GPKL55mciQ=
 Received: from SN7PR10MB6287.namprd10.prod.outlook.com (2603:10b6:806:26d::14)
- by LV8PR10MB7847.namprd10.prod.outlook.com (2603:10b6:408:1ec::10) with
+ by DS0PR10MB8176.namprd10.prod.outlook.com (2603:10b6:8:201::6) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.24; Fri, 14 Jun
- 2024 17:15:48 +0000
+ 2024 17:16:27 +0000
 Received: from SN7PR10MB6287.namprd10.prod.outlook.com
  ([fe80::5a47:2d75:eef9:1d29]) by SN7PR10MB6287.namprd10.prod.outlook.com
  ([fe80::5a47:2d75:eef9:1d29%6]) with mapi id 15.20.7677.024; Fri, 14 Jun 2024
- 17:15:48 +0000
+ 17:16:27 +0000
 From: Kris Van Hees <kris.van.hees@oracle.com>
 To: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
         linux-modules@vger.kernel.org, linux-trace-kernel@vger.kernel.org
 Cc: Kris Van Hees <kris.van.hees@oracle.com>,
+        Nick Alcock <nick.alcock@oracle.com>,
+        Alan Maguire <alan.maguire@oracle.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Steven Rostedt <rostedt@goodmis.org>,
         Luis Chamberlain <mcgrof@kernel.org>,
@@ -91,16 +93,17 @@ Cc: Kris Van Hees <kris.van.hees@oracle.com>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Jiri Olsa <olsajiri@gmail.com>,
         Elena Zannoni <elena.zannoni@oracle.com>
-Subject: [PATCH v4 1/3] kbuild: add mod(name,file)_flags to assembler flags for module objects
-Date: Fri, 14 Jun 2024 13:14:26 -0400
-Message-ID: <20240614171428.968174-2-kris.van.hees@oracle.com>
+Subject: [PATCH v4 2/3] kbuild, kconfig: generate offset range data for builtin modules
+Date: Fri, 14 Jun 2024 13:14:27 -0400
+Message-ID: <20240614171428.968174-3-kris.van.hees@oracle.com>
 X-Mailer: git-send-email 2.45.1
 In-Reply-To: <20240614171428.968174-1-kris.van.hees@oracle.com>
 References: <20240614171428.968174-1-kris.van.hees@oracle.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: MN2PR01CA0012.prod.exchangelabs.com (2603:10b6:208:10c::25)
- To SN7PR10MB6287.namprd10.prod.outlook.com (2603:10b6:806:26d::14)
+X-ClientProxiedBy: LO6P265CA0009.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:339::14) To SN7PR10MB6287.namprd10.prod.outlook.com
+ (2603:10b6:806:26d::14)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -108,125 +111,511 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR10MB6287:EE_|LV8PR10MB7847:EE_
-X-MS-Office365-Filtering-Correlation-Id: fdd8017a-f7f8-428a-ff09-08dc8c95a246
+X-MS-TrafficTypeDiagnostic: SN7PR10MB6287:EE_|DS0PR10MB8176:EE_
+X-MS-Office365-Filtering-Correlation-Id: eecffa2a-91f3-43dc-2c02-08dc8c95b9a6
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230037|1800799021|366013|7416011|376011;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?iRsG2jmALG8HhKtVZYPtHyK9PucXblaT/UY9uMFw9h7EgybaqPKzhL7OhHga?=
- =?us-ascii?Q?xsbSnflPzPzD0flBqRYUFZzpScjUQk8ztnCAOQmL15pcTKdvNGFfc3YMqdLj?=
- =?us-ascii?Q?YF3Bqv/afFOk/nmeY/7ehDUUjEsD4QZsHVsIEItmnTNPqqAuPz0i0GE+bB/2?=
- =?us-ascii?Q?rHHXGImQ0tH05uyQAjRGFYKtuO3iDTYOPMOyYgqcN4ir7HYsuRMa2xzGtwYH?=
- =?us-ascii?Q?nDvdwb/Iz9dl6QLX3+v73laH6Jt8o4qAmq98KNfO9xdCzQ6EFWXRpp5BJMpn?=
- =?us-ascii?Q?b0FJ84pIpNaoJh73jwmNfO39UDIy7iuNl0c3+tgBpgbHRoiE2zSXBvyOGNsh?=
- =?us-ascii?Q?jz9LUjnZwyIQtyRL/x0siATxzIMpdXlgBF8KmsiueiJ1rBEdmHhrqwE64VXX?=
- =?us-ascii?Q?J91CBhSX6Ex03qZu4nxhzX1vmwGFDqhNeUixiisSeGaWkvBpoaxyaUHne04l?=
- =?us-ascii?Q?69mL4xR7ObXqnKdD3DxSUVB6Sn40ObYl8NjOCqJwIEAqjXv31eAcO+jRGujQ?=
- =?us-ascii?Q?DeeOKqrwU57NFG8rQDhFM2NSPtdhUmBupBCRdtnr27Y6Uke4Pd7ViHACIOnr?=
- =?us-ascii?Q?nFZ10iNtzo7dXsRby7WBR/KUMIUkCYB36Khr75qOzDVRRBIgB1cdkq3wDDBl?=
- =?us-ascii?Q?UkX8vaEkSjFEumsUasRVGULJqzPxF5flMed3LYY+F/O4fq1xk2zhchSdbyuv?=
- =?us-ascii?Q?yKw9bLsEnW7j2WMjyGhlaVvbdqQbsFBApXdUrWxE09MtdAywHW+oxPPVMiMI?=
- =?us-ascii?Q?a975gcyovh7vdJ+JGsH06XojYBDbiULr7m2k3p4HZSrRzSSiaK3PxZHKAIuq?=
- =?us-ascii?Q?hhsUo8nFzQTtzozenkRxhc0RpilUZnmTfIIPzEWlyFfAkvVtMrAJh0ytfFmO?=
- =?us-ascii?Q?1Wzk+qNPR7q008wD4Rj5Ll2FHlCFHryRx86iPAYyec1+rngLNSJ5iFZMZcAE?=
- =?us-ascii?Q?tNINpELPkkcgYGNJrPwoux8V3f7DvYjMDTl9zWeIY3TIuOkQCq/toBIXJYlp?=
- =?us-ascii?Q?eWG7hHe5QzVNXj0jgQi8ZHV5G5KO4pGye+EmUzNxXxLEPlKEPOv6oQFRwVFA?=
- =?us-ascii?Q?R0J0MKZpu4uoHqGILUhZMQravj8FAJHHYrVMA3ssCA/EcEdSPVIGbZJuCBGP?=
- =?us-ascii?Q?U7K1lPfbsSq8o1W5eAwic/2vh0q7d/n1JJyejwK3vigaicn5P3IHxZSZF0n/?=
- =?us-ascii?Q?6XnBRgRPoWTRlzXO7mXZPgUtr8fNLPdPGe+seLIrHzwjQJi+W+rEm5O1aomy?=
- =?us-ascii?Q?l4R4HFaG/u8xI4bm8tpKEeEkDHwOA3uH0CoTCdsR4dKhZ9yqLrLo0Ht3rzmE?=
- =?us-ascii?Q?hBxkUzwgts6k8rAg5+eEZZfE?=
+	=?us-ascii?Q?k1Ee1H1icE2N1Xcrqn+xrwv6wD5XNZi7U95iNlEiaEVgFpYfgwQFfC+HNkxd?=
+ =?us-ascii?Q?LlFOAil7Yu/HtCk5merAoeoF+/SCKlkCY0k/cjhLvfjJ9uuQcdgl7rYUmTNU?=
+ =?us-ascii?Q?zxnlSrarnQUut3IG+ClShYp0m6uMy7E20fmWeddjUW1LoPY66rzMWfCpmePA?=
+ =?us-ascii?Q?twN72/5127lOin2hIfP3eJb4bMqKsJV1VqNrGkWW2GpqrrhbGX4YlwwlI700?=
+ =?us-ascii?Q?1uwz6zt/Tz4JyAfGDKyMbbJVAQ/yzAmDVZeE0nifXst/oA+qj2aVJC5IWDpq?=
+ =?us-ascii?Q?i6StQpn/gWyQtqAot/jFJLFM+i607jxiH0LOEv9EETfy0SJxZkwwCUlrnroz?=
+ =?us-ascii?Q?fuVOs9JsDDAB4scdf9EXNuaORhsvF7pf52jBspvv27v+W4G9SIgYz8vKg2my?=
+ =?us-ascii?Q?xcROncJXJM4wRS7CquzAbbj4jnl9jKJOZuHlH2wHhSD7ZDY9jSQJS9BTHRyy?=
+ =?us-ascii?Q?IPyI6k03Ou41piqhlN5Xgb/FzQ0IKKs2KC08fbJx06I/PgWbgxhcwMFC2KeE?=
+ =?us-ascii?Q?xqB53mq4GvjZd3nwpb9YX1vVzpgrczm2qqsHIhoPlGhac3n4R4LZvVmFELSX?=
+ =?us-ascii?Q?DCJlsovZnV9iKPMgzIu3pIaj+xwDdemoDpDLdCUOAcxj/Cwkdxw/DTHclRyA?=
+ =?us-ascii?Q?loxjisP9To4tlcMbTYDqTwUbmlt6VIT9ZnaikgwCRypEEHRQXJS1hSBgETYO?=
+ =?us-ascii?Q?lS9efeliwamKW4nc7bLxhBxrEVE2MwxSMl4DNsIeBer7jEfF4UECYbIRC7py?=
+ =?us-ascii?Q?3XhU3FeSuJvUxXTzQz0rQqDGDEImO9HJXOXedzG9UT9vm1432jBRzbjcpfPp?=
+ =?us-ascii?Q?W4DFcDc1tWec7VGd/KjTygfX+E2A/QEV9R9FV2l+/wyCbOcShw8CWe+5XG1m?=
+ =?us-ascii?Q?+HF1xPhnt5W2jnSqfyUZNOV8jomuNQbG9QW2RB3NFT9r6SLqmCG6K+cEtzrh?=
+ =?us-ascii?Q?0buw7IKy6JLNX9xqsAvg29JbVfVCSo6B+gPLabqvXfRzLoq/4sl+86H0WCZ3?=
+ =?us-ascii?Q?Ye9JEwJJnbvZqwwz5lSR92r2d+5mSmGecYSZdx+MUNmbMxO7AZjxYAfQxPF4?=
+ =?us-ascii?Q?rb+2orMvxShHcjiUDWn+IfbNUloMC5WeZRlBFbsXLZI1R72RobjUO6vsWvd4?=
+ =?us-ascii?Q?22wbY+bomm1wn9zrmVJLa91oGYVt1lgx9VlXBPJzc91JZsD1ParXJ34Oep3R?=
+ =?us-ascii?Q?XPG3NPmGy4iZdRMvG6EXUm2beDNjsp15eBf8vS4sUH0hBTSnkzj8kQtaf4Te?=
+ =?us-ascii?Q?7XSllJj/8bYGbCocdNA7KNyt8OB4IyqGzIRN2Ty79Ax4V/A7+p/1cd6iIorC?=
+ =?us-ascii?Q?AmqphdHKmw7+7jbaq7MpXM4+?=
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR10MB6287.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230037)(1800799021)(366013)(7416011)(376011);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?Zk0x1s7kHtmwRHaiQypLGkGSqGDpIu//qr8Cqqhkgvd7DTPcv3UAmxZiKgRY?=
- =?us-ascii?Q?OpfrtQXLH0/i0cHVmdfnFJsCYtozWlqTPMu5ELgZ2VdrHMK+v/SviDsA/duY?=
- =?us-ascii?Q?DiehJKD3pbAraRYiYtVDTBmYxdAFTJ/JdSWxRl4BVMSx3N31nUyND1UzBIeu?=
- =?us-ascii?Q?QEGMtaAuZJmKZTKhEpsy44H/Y5MimdXWIhR8g3lKa7o4AMrqg5znDaVj/UZi?=
- =?us-ascii?Q?IFKZJlzprYi+mMcy9Fe0S/2goVVI/k11+TOkc9ccJ9xGLbqSABz+zji9G66W?=
- =?us-ascii?Q?4OPyy8iGBnkOZB/sNjtxDK/QuYqBLGchs6fJe7Nau/D2m9o21rL/tSOlu3Eq?=
- =?us-ascii?Q?gkUEFBx03setD9xJN1j0hMCrG78qHmgsdVqfAux5kBC4RXfV4QblJ3S89DX6?=
- =?us-ascii?Q?lIvjQXZ02ZQIN2T+eS8H6BmJm8zAP5eHks+1OPKT6pV0PJGq0hASo1Fj1HEF?=
- =?us-ascii?Q?7rvmCML1q1/RfmoU94bZ8eZoBcA+7dF1yvlGQKGPorFmYAZ3P1BQT1YHJGbJ?=
- =?us-ascii?Q?uMKVvpiPS/cRX94m2azqqjuUafbi+aDoMpR19698GVa2h1MJ7EaROmmjfvAS?=
- =?us-ascii?Q?QyrvtzdPXRmFMYmgVtAk/lCNv/eNIeSHGC8e82s3wZYHTuJzQRkI4enNitf3?=
- =?us-ascii?Q?Vp1mW6INYoPor7aXu5hGaP564Pcpnn/q5F1uNB+QFM5UeqUka2zdgw96Q6y6?=
- =?us-ascii?Q?U1FKD2B6rbOPukQEVoH12BWVLHoHulEZAWgDw7mZ8a0i/eZdHyrRKXB/vFK9?=
- =?us-ascii?Q?tq6IMtyFMglr5tbVzu6UxEwxHizjGovAnDbZMKscvNcXALW5C6uowEz6IQYG?=
- =?us-ascii?Q?3Js9U6CY7P+dRox3HTub5/bYPKEAMr9rG0NqaMO/eoJ2tezJ00cas6bSmM2u?=
- =?us-ascii?Q?mOYvPlbXD1BW0NBWQ6gd+g8aacb7pp2Bww+JToF83lFF8hpSDljRDis93YbY?=
- =?us-ascii?Q?t054ZpqDJ7nEb60zdaDXpMvs1Ccpuay250rLWMT13XHpSIdDpkdFQK6vassQ?=
- =?us-ascii?Q?crA847F870OHgKiWAMe5zpKHb1WG3YOdGtuWYh3Zt2wveqTLm4V9pX42Kq8P?=
- =?us-ascii?Q?MI3DxDTWwzTwOAGDWwc9QSHHfjEAI8dBnFch81HlEyNYq9MmEvJJe+FfSdIL?=
- =?us-ascii?Q?L0CBRFqzxZ/kQgQK4jN0V4op6w75Rc/Jmy4lkfpNpPhPXiaQ2YNT/3tN9QO/?=
- =?us-ascii?Q?0XHOa6N6Z3hnJxgyyjoXJ7i29hFBWQTkkMhYUOcs+EBOeMfyLKd/inaTzFyI?=
- =?us-ascii?Q?cy+1dVlnWHU75SSUnha0g5z3KoaV6ulnmkayUUKKQu8w0d3rM8tEl2S61eO8?=
- =?us-ascii?Q?3nhrTcy+RsJeCzJjkcyt2ycitGONiioVmsSdCX3aDM7KnE02u2qaphUmTdkb?=
- =?us-ascii?Q?zTs5njPyH460gBMkxIMiUABlD5Y3xvAziRi0wlqpquQOQdkOj3mw8zUS788r?=
- =?us-ascii?Q?XMK5O3FAzfz43M3gaRNt0lAUmpOoSHnFQOxNjgmlp35ak5IcqjfKbzpQDnUO?=
- =?us-ascii?Q?Q/f0QP5tMNMuHxEKDzlDCv5WP1/2fG95/yQ3EspfqjPmEFvEetqGBg/oJ2iG?=
- =?us-ascii?Q?V6YtygQX2nBt2U/tkhtvFXU9LN75/Hu6fY4mhWL6YnzRbwH1jqouI0+83oWm?=
- =?us-ascii?Q?kA=3D=3D?=
+	=?us-ascii?Q?vy4Mcr3Y/NtUa6b5sHv7cIKHo94TGOprkKbW3sCOcI0oB/36wAEIboX6jU1s?=
+ =?us-ascii?Q?L5dqmuQ5Jmc3sB7opph5hJts5E5NVOoG/C1LoA7bIY9TT7OlLrPouWtioPYi?=
+ =?us-ascii?Q?Qnem8EzGlONul5kr2LfSneYDDRIZMtzzDW8JHNDfIcLMg7S1TjggJXoSoKzA?=
+ =?us-ascii?Q?0mvbC7iF8/IqTSvx+H4tbN90zt8VUv4YXQSHTdBV+rhEqj/WGrMLWNNkVJ6m?=
+ =?us-ascii?Q?MMKnpzMmR0SPKzH7LYrrQCD6LSvxUnFikfUSykfcHejBV9dIMQRaUvGKMQJu?=
+ =?us-ascii?Q?0Dqysl+UIeI5keatBJ4MBaertL8FbPrkAYZGzJM5CSrcer92E9Tvs+tSeOSm?=
+ =?us-ascii?Q?RY3QEIhFpJCA9eiAVkL3xpyed1x3Mgphi6psnXwL/OO03mpXmINnbUzNe3MO?=
+ =?us-ascii?Q?OPIm+NALiW7D/wB3QQi/N0mCPS3AGVQIigoJ2IbYCBuhfB6dYbW+P3M4VuP5?=
+ =?us-ascii?Q?ydmWM0dEk1Ao5Sa+ZwPeny9PzPqmOYeEbQcQn838oTCbgnJl5bs4HjPe5iuY?=
+ =?us-ascii?Q?1X0voVHg4Kb2QI/exJ+K8et/KWLTwqQFuV0H/Zvl5dqaczjsbP+8y8443cfN?=
+ =?us-ascii?Q?ny09akktzAn7Q66wPkgHvwKSFOiGblb44fy8O0wKN4jTwIZ4irN29cUkTXhq?=
+ =?us-ascii?Q?ImhcTuuez1LCy5bgHZuO4lpOxTgThe+k4snRe64/cM10sBI4RbO9E+lsIXfD?=
+ =?us-ascii?Q?fbADhGXGHBFv6QX/hUl2s53Q1hoKm9Z1u4c8exG7CuvPkQTnqxKjgaixvHP2?=
+ =?us-ascii?Q?VshhRJaCDTkN959jC5TU9FnK4qS7jm0VPgIaZLxF5Cv4xC5PYpHmzdthFM1J?=
+ =?us-ascii?Q?0EqfIajpPajxtyZ4gpYXi1smKbkU7mF0ih+74HR2djqVo8Dc8eo39OXTRT2J?=
+ =?us-ascii?Q?9zIz76pJ/zZRwZwYRGPp56TTkaOfhwYY3GEqyUkWqRwlk2/7CxiRA0wp+P6L?=
+ =?us-ascii?Q?YefrXaCHWaN6F2DDyac75G8hwNlH2r6Bu/FijXiQY3OsCZw5yMYRldCPVoIq?=
+ =?us-ascii?Q?2peCcxO5wOqnxGSkctGrbRJsr/MYk6TXrvEOb6fV/b0yIw7kMijWzhXmoWwZ?=
+ =?us-ascii?Q?Y+oV21Bf8OBQ7a7ADt2KDSLRNztR6kQd+sAUkFS0u2+s25DGbajXQxgDe/5V?=
+ =?us-ascii?Q?Sg3DUEPz6dQtcEjKaiI/lwZG9ZDP3x9MuagXn7eKnLMvE9ZW9P1gxHebNljK?=
+ =?us-ascii?Q?Nq/w5EUBL/kWNte387G7FohCuepau58xKlCUtXwCSHZnf2kFtPDztc7LfIuV?=
+ =?us-ascii?Q?OHfUbcQeFGbSY5z+LkNu2GEtNcKJe0RrEqeNcaeIeGS15slGyNbfMvtp9g86?=
+ =?us-ascii?Q?x8OPfB9VQFpso+OWucxcm29uafhEh5XvhBvc5zaK9wy/WrrFlC+pGpdKpmnO?=
+ =?us-ascii?Q?0QoUBJkyGogzWMq/Y0NKTq4TfvzlZuv0QWmTbeoMdJH7QXUT7iLjEggfuxjE?=
+ =?us-ascii?Q?iv3agsaidqCR3Nl3LIH/D09s5brymgdos87e2ApNdTYBSLcY42eLlMzJSPBj?=
+ =?us-ascii?Q?Lr/VfnnaKxI8/qItf5Fs0vQkI4wcKNJfqsVzNZgYjhz7DL+7XjHk9fEAdD58?=
+ =?us-ascii?Q?MlKYmucaF+MEWA418OZZseOHDp5hYSc/Km+1fuZ8YtL6XDhMV14jBndF+cWq?=
+ =?us-ascii?Q?6g=3D=3D?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
-	1RaO8RsgnC187vrgFj9K2+m38nqwb5P/WP1gb/M28JMjpiLmfYn/eVY4eA30DpuaeQoinhlROoujtwQd+hqYcZlN9nlfQTP+/lXJBzUmF1FPwUXOh1mG8iDrM7VQD3Xxgu3JVQQLs252Fj87Qk42W274LicXo4ZQAkvq7LedrmEmDKKmVpfs07lWPaTsJh7/DtyCi44DraSRtYfCnRUugbVgJY15Zia+1OJHun6W6+QkScHfFm/Ou+yyqJl9r5vDTVP/I2Rz9egCcfJ57AUUKFl+piMu1OzeIHb9oGyiH483mcIuOEE5QM+QpsECpDwpokhGS/OMAZ6nunLsEPdjtEXlqq65yUQXdYNU2hP/FPJP2X+vCK6rB3RuMX3FsDfGpX8wB58Nw9m4p3TTJHQ/m4tTGS2N+UdzgA6u3O2stt9xG37tUzTpyBWOS0xsY56r/LeniGNB95ugrAROiAVMMmiZXTqLfqUJ80hhEbUjgKY19LUOHgmyJJW9/pAPSWL0O9p92+r/STKxKVK1UoIdf1VTmEZJK0J/gn6RWwg/sPy9Dz3VQOWzmlqdBQ8tnSfNewvofCsMj9FwxbcRZRnzZVW06zW8EFtoDVQ0ohV2eUk=
+	LEEHKomQNH6ssKvrMdfmKIKMsdXh30RrUqnAV3gsyNkF1vg+18BZ+6Q15py04F002/j9TJmvo7U27JZHWm4ctbTrlfiZIH3oaR4sQzeshVf/dnEaLqtS5RtKUVJSeVAPDkG2Lc5r6nP60aQV5bdUlOlQpinV6guMOJvDyoE5/Jo9Vc4TKsffM1e1S4onycA/JH9ybD7NjlS7N4LFBgUTDaJBpJ/OSHvqUUAqQHjhnDWI7QHseCc9GztK8HxbRaTdKXI4d4ADYvZ6wcwbNLV1HROVYba+iUzX9hKOK5vRp3Yy6aHKoG9Gs1cVjmkUNAwXLXuFRm+tDbduWhlGxnHI8BxUy2ilyFiHGMWj7C2mSdv8SdBYmVzJUdPrbK759DNexFwiEZ5mk8nHuBi+hufDxQqKBXzvVAeUZoyxwV1FvW8NHbDWqiawjXrym674treKkxzQdj/VBkyapc0eQl/SCrsKfERiHIxWN50Oo1Mr6uGHwAzgHsTuzb0A3/tT1QZY1zjKi6XZzRLwoVCwrYVYaDiOowfJsCx5X3hYqAZanS6MOE0NLUegB2KYf1psAulwNGRX/LUsMDxEt6XDxM1W7K9h8FEAmX3pz9cXug6CFxU=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fdd8017a-f7f8-428a-ff09-08dc8c95a246
+X-MS-Exchange-CrossTenant-Network-Message-Id: eecffa2a-91f3-43dc-2c02-08dc8c95b9a6
 X-MS-Exchange-CrossTenant-AuthSource: SN7PR10MB6287.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jun 2024 17:15:48.1172
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jun 2024 17:16:27.3254
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pfT/+l3mRre/FeoCiGFD0nvxpDW5XiLRsrxJGbaIlgq5jlqp3gVbVHLFmyxW0PE+yQ7CB9Z81h1LmtO8+HYSiu+N1CzgoNjOSyK/C4GTNGk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR10MB7847
+X-MS-Exchange-CrossTenant-UserPrincipalName: Wy4AmxVkmIaqfREsOkHzUunjbRfJh3iDBd0zvbXOQUVAgECZBQAEzJKMdnzKHlBd3GOBywRI+MJxgaekZCb7OGZPOv2EmzXetlWtaZxQHbI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR10MB8176
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
  definitions=2024-06-14_15,2024-06-14_03,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 phishscore=0 adultscore=0
- mlxscore=0 bulkscore=0 malwarescore=0 mlxlogscore=805 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2405010000
- definitions=main-2406140118
-X-Proofpoint-GUID: ztja67lz8PJYxdMRto5ozWDpnBDwy7D-
-X-Proofpoint-ORIG-GUID: ztja67lz8PJYxdMRto5ozWDpnBDwy7D-
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 adultscore=0
+ phishscore=0 suspectscore=0 malwarescore=0 mlxscore=0 spamscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2405010000 definitions=main-2406140118
+X-Proofpoint-GUID: iGAKSNPpeB2a5OeXJvAKCMLZ3bIQEaE7
+X-Proofpoint-ORIG-GUID: iGAKSNPpeB2a5OeXJvAKCMLZ3bIQEaE7
 
-Module objects compiled from C source can be identified by the presence
-of -DKBUILD_MODFILE and -DKBUILD_MODNAME on their compile command lines.
-However, module objects from assembler source do not have this defines.
+The offset range data for builtin modules is generated using:
+ - modules.builtin: associates object files with module names
+ - vmlinux.map: provides load order of sections and offset of first member
+    per section
+ - vmlinux.o.map: provides offset of object file content per section
+ - .*.cmd: build cmd file with KBUILD_MODFILE and KBUILD_MODNAME
 
-Add $(modfile_flags) to modkern_aflags (similar to modkern_cflahs), and
-add $(modname_flags) to a_flags (similar to c_flags).
+The generated data will look like:
+
+.text 00000000-00000000 = _text
+.text 0000baf0-0000cb10 amd_uncore
+.text 0009bd10-0009c8e0 iosf_mbi
+...
+.text 008e6660-008e9630 snd_soc_wcd_mbhc
+.text 008e9630-008ea610 snd_soc_wcd9335 snd_soc_wcd934x snd_soc_wcd938x
+.text 008ea610-008ea780 snd_soc_wcd9335
+...
+.data 00000000-00000000 = _sdata
+.data 0000f020-0000f680 amd_uncore
+
+For each ELF section, it lists the offset of the first symbol.  This can
+be used to determine the base address of the section at runtime.
+
+Next, it lists (in strict ascending order) offset ranges in that section
+that cover the symbols of one or more builtin modules.  Multiple ranges
+can apply to a single module, and ranges can be shared between modules.
+
+The CONFIG_BUILTIN_MODULE_RANGES option controls whether offset range data
+is generated for kernel modules that are built into the kernel image.
 
 Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
+Reviewed-by: Nick Alcock <nick.alcock@oracle.com>
+Reviewed-by: Alan Maguire <alan.maguire@oracle.com>
 ---
- scripts/Makefile.lib | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Changes since v3:
+ - Consolidated patches 2 through 5 into a single patch
+ - Move CONFIG_BUILTIN_MODULE_RANGES to Kconfig.debug
+ - Make CONFIG_BUILTIN_MODULE_RANGES select CONFIG_VMLINUX_MAP
+ - Disable CONFIG_BUILTIN_MODULE_RANGES if CONFIG_LTO_CLANG_(FULL|THIN)=y
+ - Support LLVM (lld) compiles in generate_builtin_ranges.awk
+ - Support CONFIG_LD_DEAD_CODE_DATA_ELIMINATION=y
 
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index 3179747cbd2c..a2524ffd046f 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -234,7 +234,7 @@ modkern_rustflags =                                              \
+Changes since v2:
+ - Add explicit dependency on FTRACE for CONFIG_BUILTIN_MODULE_RANGES
+ - 1st arg to generate_builtin_ranges.awk is now modules.builtin.modinfo
+ - Switched from using modules.builtin.objs to parsing .*.cmd files
+ - Parse data from .*.cmd in generate_builtin_ranges.awk
+ - Use $(real-prereqs) rather than $(filter-out ...)
+---
+ lib/Kconfig.debug                   |  19 ++
+ scripts/Makefile.vmlinux            |  16 ++
+ scripts/Makefile.vmlinux_o          |   3 +
+ scripts/generate_builtin_ranges.awk | 284 ++++++++++++++++++++++++++++
+ 4 files changed, 322 insertions(+)
+ create mode 100755 scripts/generate_builtin_ranges.awk
+
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index 291185f54ee4..03fddad67d59 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -571,6 +571,25 @@ config VMLINUX_MAP
+ 	  pieces of code get eliminated with
+ 	  CONFIG_LD_DEAD_CODE_DATA_ELIMINATION.
  
- modkern_aflags = $(if $(part-of-module),				\
- 			$(KBUILD_AFLAGS_MODULE) $(AFLAGS_MODULE),	\
--			$(KBUILD_AFLAGS_KERNEL) $(AFLAGS_KERNEL))
-+			$(KBUILD_AFLAGS_KERNEL) $(AFLAGS_KERNEL) $(modfile_flags))
++config BUILTIN_MODULE_RANGES
++	bool "Generate address range information for builtin modules"
++	depends on !LTO_CLANG_FULL
++	depends on !LTO_CLANG_THIN
++	select VMLINUX_MAP
++	help
++	 When modules are built into the kernel, there will be no module name
++	 associated with its symbols in /proc/kallsyms.  Tracers may want to
++	 identify symbols by module name and symbol name regardless of whether
++	 the module is configured as loadable or not.
++
++	 This option generates modules.builtin.ranges in the build tree with
++	 offset ranges (per ELF section) for the module(s) they belong to.
++	 It also records an anchor symbol to determine the load address of the
++	 section.
++
++	 It is fully compatible with CONFIG_RANDOMIZE_BASE and similar late-
++	 address-modification options.
++
+ config DEBUG_FORCE_WEAK_PER_CPU
+ 	bool "Force weak per-cpu definitions"
+ 	depends on DEBUG_KERNEL
+diff --git a/scripts/Makefile.vmlinux b/scripts/Makefile.vmlinux
+index c9f3e03124d7..5fd1f272ccde 100644
+--- a/scripts/Makefile.vmlinux
++++ b/scripts/Makefile.vmlinux
+@@ -36,6 +36,22 @@ targets += vmlinux
+ vmlinux: scripts/link-vmlinux.sh vmlinux.o $(KBUILD_LDS) FORCE
+ 	+$(call if_changed_dep,link_vmlinux)
  
- c_flags        = -Wp,-MMD,$(depfile) $(NOSTDINC_FLAGS) $(LINUXINCLUDE)     \
- 		 -include $(srctree)/include/linux/compiler_types.h       \
-@@ -244,7 +244,7 @@ c_flags        = -Wp,-MMD,$(depfile) $(NOSTDINC_FLAGS) $(LINUXINCLUDE)     \
- rust_flags     = $(_rust_flags) $(modkern_rustflags) @$(objtree)/include/generated/rustc_cfg
++# module.builtin.ranges
++# ---------------------------------------------------------------------------
++ifdef CONFIG_BUILTIN_MODULE_RANGES
++__default: modules.builtin.ranges
++
++quiet_cmd_modules_builtin_ranges = GEN     $@
++      cmd_modules_builtin_ranges = \
++	$(srctree)/scripts/generate_builtin_ranges.awk $(real-prereqs) > $@
++
++vmlinux.map: vmlinux
++
++targets += modules.builtin.ranges
++modules.builtin.ranges: modules.builtin vmlinux.map vmlinux.o.map FORCE
++	$(call if_changed,modules_builtin_ranges)
++endif
++
+ # Add FORCE to the prequisites of a target to force it to be always rebuilt.
+ # ---------------------------------------------------------------------------
  
- a_flags        = -Wp,-MMD,$(depfile) $(NOSTDINC_FLAGS) $(LINUXINCLUDE)     \
--		 $(_a_flags) $(modkern_aflags)
-+		 $(_a_flags) $(modkern_aflags) $(modname_flags)
+diff --git a/scripts/Makefile.vmlinux_o b/scripts/Makefile.vmlinux_o
+index 6de297916ce6..252505505e0e 100644
+--- a/scripts/Makefile.vmlinux_o
++++ b/scripts/Makefile.vmlinux_o
+@@ -45,9 +45,12 @@ objtool-args = $(vmlinux-objtool-args-y) --link
+ # Link of vmlinux.o used for section mismatch analysis
+ # ---------------------------------------------------------------------------
  
- cpp_flags      = -Wp,-MMD,$(depfile) $(NOSTDINC_FLAGS) $(LINUXINCLUDE)     \
- 		 $(_cpp_flags)
++vmlinux-o-ld-args-$(CONFIG_BUILTIN_MODULE_RANGES)	+= -Map=$@.map
++
+ quiet_cmd_ld_vmlinux.o = LD      $@
+       cmd_ld_vmlinux.o = \
+ 	$(LD) ${KBUILD_LDFLAGS} -r -o $@ \
++	$(vmlinux-o-ld-args-y) \
+ 	$(addprefix -T , $(initcalls-lds)) \
+ 	--whole-archive vmlinux.a --no-whole-archive \
+ 	--start-group $(KBUILD_VMLINUX_LIBS) --end-group \
+diff --git a/scripts/generate_builtin_ranges.awk b/scripts/generate_builtin_ranges.awk
+new file mode 100755
+index 000000000000..ba7a5dcef284
+--- /dev/null
++++ b/scripts/generate_builtin_ranges.awk
+@@ -0,0 +1,284 @@
++#!/usr/bin/gawk -f
++# SPDX-License-Identifier: GPL-2.0
++# generate_builtin_ranges.awk: Generate address range data for builtin modules
++# Written by Kris Van Hees <kris.van.hees@oracle.com>
++#
++# Usage: generate_builtin_ranges.awk modules.builtin vmlinux.map \
++#		vmlinux.o.map > modules.builtin.ranges
++#
++
++# Return the module name(s) (if any) associated with the given object.
++#
++# If we have seen this object before, return information from the cache.
++# Otherwise, retrieve it from the corresponding .cmd file.
++#
++function get_module_info(fn, mod, obj, mfn, s) {
++	if (fn in omod)
++		return omod[fn];
++
++	if (match(fn, /\/[^/]+$/) == 0)
++		return "";
++
++	obj = fn;
++	mod = "";
++	mfn = "";
++	fn = substr(fn, 1, RSTART) "." substr(fn, RSTART + 1) ".cmd";
++	if (getline s <fn == 1) {
++		if (match(s, /DKBUILD_MODFILE=['"]+[^'"]+/) > 0) {
++			mfn = substr(s, RSTART + 16, RLENGTH - 16);
++			gsub(/['"]/, "", mfn);
++
++			mod = mfn;
++			gsub(/([^/ ]*\/)+/, "", mod);
++			gsub(/-/, "_", mod);
++		}
++	}
++	close(fn);
++
++	# A single module (common case) also reflects objects that are not part
++	# of a module.  Some of those objects have names that are also a module
++	# name (e.g. core).  We check the associated module file name, and if
++	# they do not match, the object is not part of a module.
++	if (mod !~ / /) {
++		if (!(mod in mods))
++			return "";
++		if (mods[mod] != mfn)
++			return "";
++	}
++
++	# At this point, mod is a single (valid) module name, or a list of
++	# module names (that do not need validation).
++	omod[obj] = mod;
++	close(fn);
++
++	return mod;
++}
++
++FNR == 1 {
++	FC++;
++}
++
++# (1) Build a lookup map of built-in module names.
++#
++# The first file argument is used as input (modules.builtin).
++#
++# Lines will be like:
++#	kernel/crypto/lzo-rle.ko
++# and we derive the built-in module name from this as "lzo_rle" and associate
++# it with object name "crypto/lzo-rle".
++#
++FC == 1 {
++	sub(/kernel\//, "");			# strip off "kernel/" prefix
++	sub(/\.ko$/, "");			# strip off .ko suffix
++
++	mod = $1;
++	sub(/([^/]*\/)+/, "", mod);		# mod = basename($1)
++	gsub(/-/, "_", mod);			# Convert - to _
++
++	mods[mod] = $1;
++	next;
++}
++
++# (2) Determine the load address for each section.
++#
++# The second file argument is used as input (vmlinux.map).
++#
++# Since some AWK implementations cannot handle large integers, we strip of the
++# first 4 hex digits from the address.  This is safe because the kernel space
++# is not large enough for addresses to extend into those digits.
++#
++
++# First determine whether we are dealing with a GNU ld or LLVM lld linker map.
++#
++FC == 2 && FNR == 1 && NF == 7 && $1 == "VMA" && $7 == "Symbol" {
++	map_is_lld = 1;
++	next;
++}
++
++# (LLD) Convert a section record fronm lld format to ld format.
++#
++FC == 2 && map_is_lld && NF == 5 && /[0-9] \./ {
++	$0 = $5 " 0x"$1 " dummy";
++}
++
++# (LLD) Convert an anchor record from lld format to ld format.
++#
++FC == 2 && map_is_lld && !anchor && NF == 7 && raw_addr == "0x"$1 && $6 == "=" && $7 == "." {
++	$0 = "0x"$1 " " $5 " = " $7;
++}
++
++# (LLD) Convert an object record from lld format to ld format.
++#
++FC == 2 && map_is_lld && NF == 5 && $5 ~ /:\(\./ {
++	gsub(/\)/, "");
++	sub(/:\(/, " ");
++	sub(/ vmlinux\.a\(/, " ");
++	$0 = " "$6 " 0x"$1 " 0x"$3 " " $5;
++}
++
++FC == 2 && /^\./ && NF > 2 {
++	if (type)
++		delete sect_addend[type];
++
++	if ($1 ~ /\.percpu/)
++		next;
++
++	raw_addr = $2;
++	addr_prefix = "^" substr($2, 1, 6);
++	sub(addr_prefix, "0x", $2);
++	base = strtonum($2);
++	type = $1;
++	tpat = "^ \\"type"[\\. ]";
++	anchor = 0;
++	sect_base[type] = base;
++
++	next;
++}
++
++!type {
++	next;
++}
++
++# (3) We need to determine the base address of the section so that ranges can
++# be expressed based on offsets from the base address.  This accommodates the
++# kernel sections getting loaded at different addresses than what is recorded
++# in vmlinux.map.
++#
++# At runtime, we will need to determine the base address of each section we are
++# interested in.  We do that by recording the offset of the first symbol in the
++# section.  Once we know the address of this symbol in the running kernel, we
++# can calculate the base address of the section.
++#
++# If possible, we use an explicit anchor symbol (sym = .) listed at the base
++# address (offset 0).
++#
++# If there is no such symbol, we record the first symbol in the section along
++# with its offset.
++#
++# We also determine the offset of the first member in the section in case the
++# final linking inserts some content between the start of the section and the
++# first member.  I.e. in that case, vmlinux.map will list the first member at
++# a non-zero offset whereas vmlinux.o.map will list it at offset 0.  We record
++# the addend so we can apply it when processing vmlinux.o.map (next).
++#
++FC == 2 && !anchor && raw_addr == $1 && $3 == "=" && $4 == "." {
++	anchor = sprintf("%s %08x-%08x = %s", type, 0, 0, $2);
++	sect_anchor[type] = anchor;
++
++	next;
++}
++
++FC == 2 && !anchor && $1 ~ /^0x/ && $2 !~ /^0x/ && NF <= 4 {
++	sub(addr_prefix, "0x", $1);
++	addr = strtonum($1) - base;
++	anchor = sprintf("%s %08x-%08x = %s", type, addr, addr, $2);
++	sect_anchor[type] = anchor;
++
++	next;
++}
++
++FC == 2 && /^ \./ && NF == 1 {
++	# If the section name is long, the remainder of the entry is found on
++	# the next line.
++	s = $0;
++	getline;
++	$0 = s " " $0;
++}
++
++FC == 2 && base && $0 ~ tpat && NF == 4 {
++	# If the first object is vmlinux.o then we need vmlinux.o.map to get
++	# the offsets of the actual objects.  That is valid because in this
++	# case the vmlinux.o is linked into vmlinux verbatim (per section).
++	if ($4 == "vmlinux.o")
++		need_o_map = 1;
++
++	sub(addr_prefix, "0x", $2);
++	addr = strtonum($2);
++	sect_addend[type] = addr - base;
++
++	if (anchor)
++		base = 0;
++	if (need_o_map)
++		type = 0;
++
++	next;
++}
++
++FC == 2 && !need_o_map && $0 ~ tpat && NF == 4 {
++	if ($1 ~ /\.percpu/ || !(type in sect_addend))
++		next;
++
++	sub(addr_prefix, "0x", $2);
++	addr = strtonum($2) - sect_base[type];
++
++	mod = get_module_info($4);
++	if (mod == mod_name)
++		next;
++
++	if (mod_name) {
++		idx = mod_start + sect_base[type];
++		entries[idx] = sprintf("%s %08x-%08x %s", type, mod_start, addr, mod_name);
++		count[type]++;
++	}
++
++	mod_name = mod;
++	mod_start = addr;
++
++	next;
++}
++
++# If we do not need to parse the vmlinux.o.map file, we are done.
++FC == 3 && !need_o_map {
++	exit;
++}
++
++# (4) Collect offset ranges (relative to the section base address) for built-in
++# modules.
++#
++
++# (LLD) Convert an object record from lld format to ld format.
++#
++FC == 3 && map_is_lld && NF == 5 && $5 ~ /:\(\./ {
++	gsub(/\)/, "");
++	sub(/:\(/, " ");
++
++	type = $6;
++	if (!(type in sect_addend))
++		next;
++
++	sub(/ vmlinux\.a\(/, " ");
++	$0 = " "type " 0x"$1 " 0x"$3 " " $5;
++}
++
++FC == 3 && /^ \./ && NF == 4 && $3 != "0x0" {
++	type = $1;
++	if (!(type in sect_addend))
++		next;
++
++	sub(addr_prefix, "0x", $2);
++	addr = strtonum($2) + sect_addend[type];
++
++	mod = get_module_info($4);
++	if (mod == mod_name)
++		next;
++
++	if (mod_name) {
++		idx = mod_start + sect_base[type] + sect_addend[type];
++		entries[idx] = sprintf("%s %08x-%08x %s", type, mod_start, addr, mod_name);
++		count[type]++;
++	}
++
++	mod_name = mod;
++	mod_start = addr;
++}
++
++END {
++	for (type in count) {
++		if (type in sect_anchor)
++			entries[sect_base[type]] = sect_anchor[type];
++	}
++
++	n = asorti(entries, indices);
++	for (i = 1; i <= n; i++)
++		print entries[indices[i]];
++}
 -- 
 2.45.1
 
