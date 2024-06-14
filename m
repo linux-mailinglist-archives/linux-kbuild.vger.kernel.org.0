@@ -1,163 +1,132 @@
-Return-Path: <linux-kbuild+bounces-2122-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2123-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03563907FE1
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Jun 2024 01:47:02 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B4B190843B
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Jun 2024 09:15:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 298581C21507
-	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Jun 2024 23:47:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 145181F23741
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Jun 2024 07:15:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D425C14D281;
-	Thu, 13 Jun 2024 23:46:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91DC11474B5;
+	Fri, 14 Jun 2024 07:15:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hrV8AOyH"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="TQ8oKK6L"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5186412E1CA
-	for <linux-kbuild@vger.kernel.org>; Thu, 13 Jun 2024 23:46:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDAA820317;
+	Fri, 14 Jun 2024 07:15:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718322418; cv=none; b=sNDDVcvFRROur4L6TRbw73MhB8ELmjh/I7WtC187PKXdlj1xUdSYyXv0XlOHutxfTU54OKrNcIRylqgzB2j0ygQf5z3itMQKzWpH4Kz1QrpkeK2S8Hc7SRZOMSyxDGTEummUDOxIazIXGD0fiHSmXmuwWsFGMbpHbRmGxNXj83o=
+	t=1718349327; cv=none; b=Plbkv994v7vCqPUB0pvJejsNXWYgSm+JKEfsTatbkmMQvGe97kcWk8NWBbStM+BDJG0waku6c+LL1FJhmwb2yS7eClYjmlV/vAtOSYL+hqCsrXCh9Zop2drokitlUFK2VDjGHNDvVrM0Wp1aym2muzacYkBMMw9od3OAIMOVloY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718322418; c=relaxed/simple;
-	bh=wP/HLGKUMKt2CBNQYC7OtGWy1rIdw+mGfSWEcQsldfQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DHCvFJuqSuJrNcg7egDA0oaInL7ElZ/pkYaues8aC1s7Kvm2aucWGv8qwXTcWxebjAqupThmIOm0bX2YsH4jnkvDuK4I73fQ/S8iOL5RTF39Kdgl0SydQcAPrOSOiKFuRADh1nfyF/hqtSSgSF4nUJCckl4ypxEgK9ijcVCt56U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hrV8AOyH; arc=none smtp.client-ip=209.85.219.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-dfea5f628e9so1899352276.3
-        for <linux-kbuild@vger.kernel.org>; Thu, 13 Jun 2024 16:46:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1718322416; x=1718927216; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IEs/MJ91AXBCx+XV1sNfRd2WKurEXTx/CpAA2PzFqNM=;
-        b=hrV8AOyHdh++RZd/9WPz8DMuOZg7kYSGU51+kmSakyc7KmdzD40Xa5zkd8hdkDbcw8
-         CjpwtesLjVBCl6jpp3WMOcwlMFrpHeCxMu7r7K7tjOcLp43/sNE+oZ9kY4QCR4n9PzFY
-         I7gHK7m8Rhlz/GoeNXsWQTCahm42FdXRx0z7bm8GrDKMLITzQ+UkHRfLw8Lck3ZX3ajU
-         DPbNKh7IWinvlBurctFF3NNkb5e37QdiElm3qK+Dvf+Hn1Z4Y5dP8aPHPbp8Qec0Eb18
-         jJVNrUvJKvyM1eShLGaYBAVTzGRcmmBkd590SFih8zHbbFQC1Iqq1ip6lpNwL0Mgk10V
-         30Ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718322416; x=1718927216;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IEs/MJ91AXBCx+XV1sNfRd2WKurEXTx/CpAA2PzFqNM=;
-        b=FCXvPKO0xvgU0l1uMVUj+z9vZrl6R9439EZJyPhBP3NrxSM3tMfGW3I7oDUn/o5hRG
-         /mzjchO/W3f4aucJlmteWPKdmn8hAeW7IeO/2pIcQt6+xt24XEk4ZwXKV61je3MB5QUU
-         ur2Qbo7SISP0aBhuVeMSxeLz7+H5W/0RRfensw4e3EwSex8IGwiluiw+9DhLjmDeYfxb
-         1p7Vh+ZC1QxLPGF9UJeP6TKyGJgKqndY+HvmB49CTp1NaoM9VtaqH7mzcz21deMJY6yn
-         ohdN1iRJ/2yovzhUdlVmvbtT/z+4jZBoCG9xzSITxtW8ADakAItesoFKhrPlD9qSNC+0
-         L9Lg==
-X-Forwarded-Encrypted: i=1; AJvYcCXQ2b7f37UByohWfpdUPhiTtbQ13VJxt3zvmx9Cu8yzlUPiDC3vVLKYPzSXKfH85D3F7x9e5NpF82a3L9RluwU3dpuzADHLVxruYh5w
-X-Gm-Message-State: AOJu0YzAn7WjRkArJNvEw7e+hurYULRKlkI8fOVITA3ujt4zwo1lwbrY
-	56ahx8Gp9bfPs/B+fkbdGvfP9Jjz01PwyjCTKviteT9yfANaNONaenpy/eY6erqdSmapGeQHVaY
-	8TlLYRbccBzl2mYzilPB+DBLihmtdIWjWwYxTZw==
-X-Google-Smtp-Source: AGHT+IGiJhJpFryify+qxF19/kgtKnn7FCRMi3GgkxofxcO1FwYT0lIDH0lAFLgNph1HdwztGXlRBE4vuQOGf1kjVqA=
-X-Received: by 2002:a25:2fd7:0:b0:dfd:a575:f309 with SMTP id
- 3f1490d57ef6-dff15343238mr988582276.4.1718322416407; Thu, 13 Jun 2024
- 16:46:56 -0700 (PDT)
+	s=arc-20240116; t=1718349327; c=relaxed/simple;
+	bh=v5AMpN5DYyM3f+Xn84fM+3GMWQHLMCXOB6gjmmA7s24=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=rRMvmQkkYRAH3K2Y1lxsLWmlJHBA0AhdF4VRsMqM5oJm6soR3N6KvFhylmhqnrsSfzh7RRH+Krv1omGhStpJjNo7WG4dK9fcsgj8XVN5xXKR6YTqFnnUNUsPzvhaqHPAr4YlDwf0/0rL4iI+8N3+b/tjE5rpSpju1JP/NL8qgas=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=TQ8oKK6L; arc=none smtp.client-ip=60.244.123.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: dc4a37d22a1d11efa54bbfbb386b949c-20240614
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=Tfh75ueWVlJEBbGX4eUx02SwpuikQxjyrP+FXeiLmzA=;
+	b=TQ8oKK6LlxcocHVmcOEI/yQwV9APQgc+MtQeCBLazXYLzWRBgSSa3WVUT7rXvLF+8Ujs1LRPp/ncLtcwz9CuTzsiGWhnwaxfAsqTLADrzddOz3Lp+JKbi8Hq6lX4+hFVTRgJhlUnZtFvZhLWYuBsrPNZK33gkGe+EQBU/axwF5I=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.39,REQID:77a28801-640e-4f6c-b9d5-89c618b5d2d8,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:393d96e,CLOUDID:ed579244-4544-4d06-b2b2-d7e12813c598,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+	RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
+	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: dc4a37d22a1d11efa54bbfbb386b949c-20240614
+Received: from mtkmbs14n2.mediatek.inc [(172.21.101.76)] by mailgw01.mediatek.com
+	(envelope-from <mark-pk.tsai@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 587594635; Fri, 14 Jun 2024 15:15:21 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ MTKMBS09N2.mediatek.inc (172.21.101.94) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Fri, 14 Jun 2024 00:15:20 -0700
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Fri, 14 Jun 2024 15:15:20 +0800
+From: Mark-PK Tsai <mark-pk.tsai@mediatek.com>
+To: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor
+	<nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Jonathan Corbet
+	<corbet@lwn.net>, Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino
+ Del Regno <angelogioacchino.delregno@collabora.com>
+CC: <yj.chiang@mediatek.com>, <mark-pk.tsai@mediatek.com>,
+	<linux-kbuild@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-mediatek@lists.infradead.org>
+Subject: [PATCH] kbuild: doc: Update default INSTALL_MOD_DIR from extra to updates
+Date: Fri, 14 Jun 2024 15:15:02 +0800
+Message-ID: <20240614071507.11359-1-mark-pk.tsai@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240527-dtbo-check-schema-v1-1-ee1094f88f74@linaro.org> <CAL_Jsq+cmNmm4we6B6OdeS_Qty44FxKmtZHDjLBi9f=DaBw4GA@mail.gmail.com>
-In-Reply-To: <CAL_Jsq+cmNmm4we6B6OdeS_Qty44FxKmtZHDjLBi9f=DaBw4GA@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 14 Jun 2024 02:46:45 +0300
-Message-ID: <CAA8EJpqgjeLd138ABGBusvitCQcPee5x9LvyJDgsJNQyeD97qg@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: verify dtoverlay files against schema
-To: Rob Herring <robh@kernel.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-MTK: N
 
-On Tue, 28 May 2024 at 16:15, Rob Herring <robh@kernel.org> wrote:
->
-> On Mon, May 27, 2024 at 6:34=E2=80=AFAM Dmitry Baryshkov
-> <dmitry.baryshkov@linaro.org> wrote:
-> >
-> > Currently only the single part device trees are validated against DT
-> > schema. For the multipart schema files only the first file is validated=
-.
->
-> What do you mean by multipart schema files? Did you mean multipart DTs
-> (i.e. base plus overlays)?
->
-> Looks good otherwise and I can fix that up.
+The default INSTALL_MOD_DIR was changed from 'extra' to
+'updates' in commit b74d7bb7ca24 ("kbuild: Modify default
+INSTALL_MOD_DIR from extra to updates").
 
-This patch was sent two weeks ago. Is there anything on me with respect to =
-it?
+This commit updates the documentation to align with the
+latest kernel.
 
-> > Extend the fdtoverlay commands to validate the resulting DTB file
-> > against schema.
-> >
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > ---
-> >  scripts/Makefile.lib | 9 ++++++++-
-> >  1 file changed, 8 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> > index 9f06f6aaf7fc..29da0dc9776d 100644
-> > --- a/scripts/Makefile.lib
-> > +++ b/scripts/Makefile.lib
-> > @@ -407,8 +407,15 @@ cmd_dtc =3D $(HOSTCC) -E $(dtc_cpp_flags) -x assem=
-bler-with-cpp -o $(dtc-tmp) $< ;
-> >                 -d $(depfile).dtc.tmp $(dtc-tmp) ; \
-> >         cat $(depfile).pre.tmp $(depfile).dtc.tmp > $(depfile)
-> >
-> > +DT_CHECK_CMD =3D $(DT_CHECKER) $(DT_CHECKER_FLAGS) -u $(srctree)/$(DT_=
-BINDING_DIR) -p $(DT_TMP_SCHEMA)
-> > +
-> > +ifneq ($(CHECK_DTBS),)
-> > +quiet_cmd_fdtoverlay =3D DTOVLCH $@
-> > +      cmd_fdtoverlay =3D $(objtree)/scripts/dtc/fdtoverlay -o $@ -i $(=
-real-prereqs) ; $(DT_CHECK_CMD) $@ || true
-> > +else
-> >  quiet_cmd_fdtoverlay =3D DTOVL   $@
-> >        cmd_fdtoverlay =3D $(objtree)/scripts/dtc/fdtoverlay -o $@ -i $(=
-real-prereqs)
-> > +endif
-> >
-> >  $(multi-dtb-y): FORCE
-> >         $(call if_changed,fdtoverlay)
-> > @@ -421,7 +428,7 @@ DT_BINDING_DIR :=3D Documentation/devicetree/bindin=
-gs
-> >  DT_TMP_SCHEMA :=3D $(objtree)/$(DT_BINDING_DIR)/processed-schema.json
-> >
-> >  quiet_cmd_dtb =3D        DTC_CHK $@
-> > -      cmd_dtb =3D        $(cmd_dtc) ; $(DT_CHECKER) $(DT_CHECKER_FLAGS=
-) -u $(srctree)/$(DT_BINDING_DIR) -p $(DT_TMP_SCHEMA) $@ || true
-> > +      cmd_dtb =3D        $(cmd_dtc) ; $(DT_CHECK_CMD) $@ || true
-> >  else
-> >  quiet_cmd_dtb =3D $(quiet_cmd_dtc)
-> >        cmd_dtb =3D $(cmd_dtc)
-> >
-> > ---
-> > base-commit: 8314289a8d50a4e05d8ece1ae0445a3b57bb4d3b
-> > change-id: 20240527-dtbo-check-schema-4f695cb98de5
-> >
-> > Best regards,
-> > --
-> > Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> >
+Signed-off-by: Mark-PK Tsai <mark-pk.tsai@mediatek.com>
+---
+ Documentation/kbuild/modules.rst | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
+diff --git a/Documentation/kbuild/modules.rst b/Documentation/kbuild/modules.rst
+index a1f3eb7a43e2..131863142cbb 100644
+--- a/Documentation/kbuild/modules.rst
++++ b/Documentation/kbuild/modules.rst
+@@ -128,7 +128,7 @@ executed to make module versioning work.
+ 
+ 	modules_install
+ 		Install the external module(s). The default location is
+-		/lib/modules/<kernel_release>/extra/, but a prefix may
++		/lib/modules/<kernel_release>/updates/, but a prefix may
+ 		be added with INSTALL_MOD_PATH (discussed in section 5).
+ 
+ 	clean
+@@ -417,7 +417,7 @@ directory:
+ 
+ And external modules are installed in:
+ 
+-	/lib/modules/$(KERNELRELEASE)/extra/
++	/lib/modules/$(KERNELRELEASE)/updates/
+ 
+ 5.1 INSTALL_MOD_PATH
+ --------------------
+@@ -438,10 +438,10 @@ And external modules are installed in:
+ -------------------
+ 
+ 	External modules are by default installed to a directory under
+-	/lib/modules/$(KERNELRELEASE)/extra/, but you may wish to
++	/lib/modules/$(KERNELRELEASE)/updates/, but you may wish to
+ 	locate modules for a specific functionality in a separate
+ 	directory. For this purpose, use INSTALL_MOD_DIR to specify an
+-	alternative name to "extra."::
++	alternative name to "updates."::
+ 
+ 		$ make INSTALL_MOD_DIR=gandalf -C $KDIR \
+ 		       M=$PWD modules_install
+-- 
+2.18.0
 
-
---=20
-With best wishes
-Dmitry
 
