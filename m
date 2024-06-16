@@ -1,115 +1,173 @@
-Return-Path: <linux-kbuild+bounces-2139-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2140-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92EB7909E9A
-	for <lists+linux-kbuild@lfdr.de>; Sun, 16 Jun 2024 18:37:38 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F5EF909EA2
+	for <lists+linux-kbuild@lfdr.de>; Sun, 16 Jun 2024 18:53:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 14CCFB20DAB
-	for <lists+linux-kbuild@lfdr.de>; Sun, 16 Jun 2024 16:37:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AB96D1C20970
+	for <lists+linux-kbuild@lfdr.de>; Sun, 16 Jun 2024 16:53:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFBD71A270;
-	Sun, 16 Jun 2024 16:37:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F36761773A;
+	Sun, 16 Jun 2024 16:53:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b="TSXwG67Q"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ASneUhlo"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CAFE19BA6;
-	Sun, 16 Jun 2024 16:37:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.63.252.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA08B11CAB;
+	Sun, 16 Jun 2024 16:53:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718555849; cv=none; b=cGMBrnF7Wg5HTlxsU450O49yhbG/LhBB5+jAe2WhEqlqlG2UFFb9Okr6Oth6BSRZ1V3X7s4+xNtWne/BziMs4Xe6vJGTR8j0owq8B8BxodHJWfY3IwfSOStiJQCt2WGtVw+L1v+6/Pbvk+C/fUFS31wwP5ZW1FSqKlr0IvyHvsk=
+	t=1718556781; cv=none; b=ElM9Vt/eYrMyMUcefOzJH/CteeEWK6kzensW7UeCHn//M95zGZjUmzAxSLkikZAXnsJEU9axI7RI4HjK5G1qvO++XwkauilcdFVulBohBiiaHeqmBVDFi6WH/SSLAUwgb4DziNzxMrfobLMggJLruifm+ruAodEJVplnf7z0hnc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718555849; c=relaxed/simple;
-	bh=AwVkDuQzZRSjmlMS1BoWAGxIs06SAqkrKfj1uZ6bm2A=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=igIz1LA8B80douTgMjdLR7wZS6iIqcwssOW6QdJMFAIwn92zgXJojAi3b1yLuU4/6x6eW6VviVavRpNk/ccwNatF33recDhCcFquTyiR+W73l59xI1rE92gRXRw9xaOztq8TvIQiFnTdiLnKpGDTkkKKodUemJsH3rsV7Hzpjaw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu; spf=pass smtp.mailfrom=fjasle.eu; dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b=TSXwG67Q; arc=none smtp.client-ip=194.63.252.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fjasle.eu
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=fjasle.eu;
-	s=ds202307; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
-	Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:
-	MIME-Version:Content-Type:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=vMpGn0Tpn3IT+pFmW7abtHypd6xW4/5RdZSSzQaz50E=; b=TSXwG67Qn3MbHJBzV7CZto5XwZ
-	yRLKADRfOGBhxfoY48dWqt1yq6cJsoFZGV0Z4ZPiVp+/q5BPTdVdcmF6/Ormb2gqk8zQ8I/ZBJcRj
-	sa3e7U9YDehbu627TDQKNiyd6bIByzGJ0Zk/jz1q7x5AAJnrW59PesfWrpbxBaT7X/WxX6A53ObnX
-	5n7FtNS595TBWPB7vk/aLHEcnjIPdM+MInkfBLQucU98h+gWNym6o0xJ3BnZv1ARz6AaYOmyAq8gB
-	qkmDfT7PHcoJQkHq4CZvZbZAXMAGKYTENWPIYKUbnjm67S/rS9Wu4OlkzqzJ1IyJW46zdnsa118C5
-	n22+hrMg==;
-Received: from [2001:9e8:9e2:3f01:3235:adff:fed0:37e6] (port=40286 helo=lindesnes.fjasle.eu)
-	by smtp.domeneshop.no with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <nicolas@fjasle.eu>)
-	id 1sIssY-009A4w-Ob;
-	Sun, 16 Jun 2024 18:37:19 +0200
-Date: Sun, 16 Jun 2024 18:37:16 +0200
-From: Nicolas Schier <nicolas@fjasle.eu>
-To: Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] kbuild: deb-pkg: Explicitly define optional user-defined
- variables
-Message-ID: <20240616-sensible-celadon-hog-0b0dea@lindesnes>
+	s=arc-20240116; t=1718556781; c=relaxed/simple;
+	bh=TYIRnGgy2E4bvlh1tTiwU8FbCAdnoxYRiDIauA4okG8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Oh1w4BV84cx6udiINqg/LyLCOo7J5YEKKmdPQj/Cj/PdGG7RWBIdA2XVE4yZCsnhBbJE/1Cy8TtcnROIlzvEZm6ygPiFqor9eCNkvA6ewvmEv2n+uEpjsBREnMRlr+MagXDJjfpRR4dBz80MvGCrP2dafQARpRUIwA/0aBs8Osw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ASneUhlo; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F936C32786;
+	Sun, 16 Jun 2024 16:53:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718556781;
+	bh=TYIRnGgy2E4bvlh1tTiwU8FbCAdnoxYRiDIauA4okG8=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=ASneUhlolCpoLLFJsWeyOAFNxjSYuuHDoLl3fBXnsVvyoOZ5RugOHjwbWuPJ67kXX
+	 RCkYjXO9Pf3ojUo9rC+q+LItw3YyZc2Dbok5zPlYZ4Zbz1NIHISgM5kW+KF9E/GsJK
+	 K8RqQ2V/0yHfiZbaKnwvOCxg4P3hX21oHrtponfqkOcp24NCsbETHhSsNu4p6cIxDG
+	 Ksh0VVOGydZ2pfdURmaPBI4fuIBcTrzEWFC+R9YhCRonrzDwIebyTlMgjEHKVgzP+E
+	 NqYMZiz+q3pCv3wrgw3+6zYLlGOO5/i5s1+Jj1WlAtn4kY/gBSiLs/zd4LLSwMqVOY
+	 w5ZI/im6UU/3Q==
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-52c819f6146so5081971e87.1;
+        Sun, 16 Jun 2024 09:53:01 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXF/ogM+9FNKFQjhlEwXw8WvO+aI2Jj9VKazzuJ147DLRGOXj984ustuijNyHZZigP73H7Td1uugU+6+LAWb3YHxx2MM2fjI5uoDB6I
+X-Gm-Message-State: AOJu0YxBf688gRPsexr7FtXWyBE9H1hHSPDUbuEDmcf6hUjrRobATrVp
+	2YgwyfUvNJQmCLg3W10ohVxbO14qW8IxNQCzmy+7d2ZTvpmx2BDok9cUzqjoVT79OkCeXd56vvi
+	xZf62C4oeNmM5D4o9KelEBE0BDy8=
+X-Google-Smtp-Source: AGHT+IFmUm7AaYH99UZNL0CstSQF8PP/i7E9NjQO202kcCAVR/Hctps3V0pGrx4Nd3+61AhCrfOv1Y6du/6cWGFQ7gA=
+X-Received: by 2002:ac2:528c:0:b0:52c:836c:9ce8 with SMTP id
+ 2adb3069b0e04-52ca6e5506amr5343760e87.4.1718556779870; Sun, 16 Jun 2024
+ 09:52:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+References: <20240611160938.3511096-1-masahiroy@kernel.org>
+ <20240611160938.3511096-2-masahiroy@kernel.org> <CAK7LNAQyPRKes7=wNtYXre+nU=5-1oZ-g1uzbjFMFd2e10jFjA@mail.gmail.com>
+ <20240616-dandelion-lynx-of-philosophy-6be45f@lindesnes>
+In-Reply-To: <20240616-dandelion-lynx-of-philosophy-6be45f@lindesnes>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Mon, 17 Jun 2024 01:52:23 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARPP_OsaOhUHT+5-vi5XJ36hDs0bNsiM7pwuAmj4S+MNg@mail.gmail.com>
+Message-ID: <CAK7LNARPP_OsaOhUHT+5-vi5XJ36hDs0bNsiM7pwuAmj4S+MNg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] kbuild: package: add -e and -u options to shell scripts
+To: Nicolas Schier <nicolas@fjasle.eu>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Nathan Chancellor <nathan@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-mkdebian supports some optional environment variables for controlling
-the Debian package generation.  Declare those variables explicitly to
-allow enabling of 'set -u' (error on unset variables).
+On Mon, Jun 17, 2024 at 12:56=E2=80=AFAM Nicolas Schier <nicolas@fjasle.eu>=
+ wrote:
+>
+> On Mon, Jun 17, 2024 at 12:21:15AM +0900, Masahiro Yamada wrote:
+> > On Wed, Jun 12, 2024 at 1:09=E2=80=AFAM Masahiro Yamada <masahiroy@kern=
+el.org> wrote:
+> > >
+> > > Set -e to make these scripts fail on the first error.
+> > >
+> > > Set -u because these scripts are invoked by Makefile, and do not work
+> > > properly without necessary variables defined.
+> > >
+> > > Remove the explicit "test -n ..." from scripts/package/install-extmod=
+-build.
+> > >
+> > > Both options are described in POSIX. [1]
+> > >
+> > > [1]: https://pubs.opengroup.org/onlinepubs/009604499/utilities/set.ht=
+ml
+> > >
+> > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > > ---
+> >
+> >
+> >
+> > Setting -u needs more careful review and test.
+> >
+> >
+> > This patch will break 'make deb-pkg'.
+> >
+> >
+> > ./scripts/package/mkdebian: 150: KDEB_PKGVERSION: parameter not set
+> >
+> >
+> >
+> >
+> > To set -u, scripts/package/mkdebian needs code refactoring.
+> >
+> >
+> >
+> > I will keep scripts/package/mkdebian untouched.
+>
+> uh, I missed that during the review.  Do you want to refactor mkdebian
+> in large scale, or is an explicit fallback definition possibly
+> acceptable for you?
+>
+> diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
+> index ecfeb34b99aa..7e3878197041 100755
+> --- a/scripts/package/mkdebian
+> +++ b/scripts/package/mkdebian
+> @@ -7,5 +7,17 @@
+>  set -eu
+>
+> +# Optional user-specified environment variables
+> +
+> +# Set target Debian architecture (skip auto-detection)
+> +: "${KBUILD_DEBARCH:=3D}"
+> +
+> +# Set target Debian distribution (skipping auto-detection)
+> +: "${KDEB_CHANGELOG_DIST:=3D}"
+> +
+> +# Overwrite the automatically determined package version.
+> +: ${KDEB_PKGVERSION:=3D}
+> +
+> +
+>  is_enabled() {
+>         grep -q "^$1=3Dy" include/config/auto.conf
+>  }
+>
 
-Use of ': "${VAR:=}"' for variable assignment is POSIX compatible [1].
-
-[1]: https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#colon
-
-Signed-off-by: Nicolas Schier <nicolas@fjasle.eu>
----
- scripts/package/mkdebian | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
-
-diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
-index 070149c985fe..81e81906ad07 100755
---- a/scripts/package/mkdebian
-+++ b/scripts/package/mkdebian
-@@ -6,6 +6,18 @@
- 
- set -e
- 
-+# Optional user-specified environment variables
-+
-+# Set target Debian architecture (skip auto-detection)
-+: "${KBUILD_DEBARCH:=}"
-+
-+# Set target Debian distribution (skipping auto-detection)
-+: "${KDEB_CHANGELOG_DIST:=}"
-+
-+# Overwrite the automatically determined package version.
-+: "${KDEB_PKGVERSION:=}"
-+
-+
- is_enabled() {
- 	grep -q "^$1=y" include/config/auto.conf
- }
--- 
-2.39.2
 
 
--- 
-epost|xmpp: nicolas@fjasle.eu          irc://oftc.net/nsc
-↳ gpg: 18ed 52db e34f 860e e9fb  c82b 7d97 0932 55a0 ce7f
-     -- frykten for herren er opphav til kunnskap --
+
+It depends on the code.
+
+
+
+
+I would fix
+
+
+   if [ -n "$KDEB_PKGVERSION" ]; then
+
+
+to
+
+   if [ "${KDEB_PKGVERSION:+set}" =3D set ]; then
+
+or
+   if [ "${KDEB_PKGVERSION:+set}" ]; then
+
+
+
+
+
+--
+Best Regards
+Masahiro Yamada
 
