@@ -1,55 +1,56 @@
-Return-Path: <linux-kbuild+bounces-2154-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2155-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id B677890B416
-	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Jun 2024 17:24:13 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD8C790B16F
+	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Jun 2024 16:19:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 43C89B3CC0F
-	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Jun 2024 14:18:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7C9A7280EAB
+	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Jun 2024 14:19:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9D7C1B9ACD;
-	Mon, 17 Jun 2024 13:27:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A67DD1A03A4;
+	Mon, 17 Jun 2024 13:27:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NZ478Y5n"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Uc1FisT/"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE26619E7D1;
-	Mon, 17 Jun 2024 13:27:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78ECB1A039E;
+	Mon, 17 Jun 2024 13:27:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718630872; cv=none; b=Thzl6NFdz8tIOQgBDdCYU08T/jbiv4rnyNFGSpqqJgBlJuBr7006H5ie5T9Yl5CW3PNrj3drjFsCMJrVgM1QKe46iX/Di5f5MkoLvQ8xwoQlQ/u40Uee3XrEpLWla4ycPIlqCOtUakYK2YynDlp0flbZCQ0CZTrpz+g0Zijm3ac=
+	t=1718630874; cv=none; b=DgmWNPcwsnUnYu2a4gUkRYRXK/tk+j01nmJKDPX48mdRyuH5wISjLGFrugXf09RgzwE+3fz/tebJyrATTfFJrrUXjEHbx7MLNQcGgLaGOL9svFBSn8yLQb8SBTjldrFdohExR1MQbo0XjY86lef3RnjBJR3ZKv9zZSS2/MlvwBU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718630872; c=relaxed/simple;
-	bh=k4N2oZPvjdyGFcX8/AqR7IHO5QaMyWZIg+o9KaW6AIg=;
+	s=arc-20240116; t=1718630874; c=relaxed/simple;
+	bh=mtKmnpNKk/XW5quuPM8GLHMtcxZJX+6UlMAagjYekFQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=n2PDhNQpOt6Ijv5Qs1QN5nnPFo2HTJ3X2Rw10NnifBJxpWOnq/WmM5lH7wiyETKDz3pyKjySjXMBaBAzzyalek15T8PdgDtfD/TGjOL9ziIw1rS5oCqBGAbqnWBUnY8fV1xfTjXUYA4PJ+WMrxs1qPWkJA2Lk2Wr8PQ+6hqSyR4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NZ478Y5n; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07BEFC4AF1D;
-	Mon, 17 Jun 2024 13:27:51 +0000 (UTC)
+	 MIME-Version; b=SmaH1+KYLO9/ECOLCk0fX+p6/b1lRBBiLlV6TeseRKFKxYqQEBnBo6i3QXdCe/bzLllCC3xMGDd2SwSCw6F8FRv0lG4l4eNzf5M+b+frnRvSzx6yOrEKS9BfKB+x2nSVwgVlHZoqM6SoQKNUR/XcRVHuBAtTcOHV11505fD1Yrk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Uc1FisT/; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C575C2BD10;
+	Mon, 17 Jun 2024 13:27:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718630872;
-	bh=k4N2oZPvjdyGFcX8/AqR7IHO5QaMyWZIg+o9KaW6AIg=;
+	s=k20201202; t=1718630874;
+	bh=mtKmnpNKk/XW5quuPM8GLHMtcxZJX+6UlMAagjYekFQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=NZ478Y5nuOvwyX3AoW2rVUIebPM2SpWAB4hhXgGTRVC3+VYEdTbZ7ncgm9qnxTZ0U
-	 zZfAnBboxVeXoOxGFFYLLTa/s+rmHyewGnEFLZaUH5MKweF6A8ScaouS3WuHga00xW
-	 us+mA0Vs/ZgUVKtyXf7ELwC+jaNMWcarRO9eN4T4eevIwwgQvcH1tCjouHXLVzytUM
-	 WgbcGfGXt5WvAWBuIVjmu2eAhpBDbYe5OmCJR+s+uM9bpS3h2CMVyUSIPgUvKUJ3lI
-	 Alm9bDpam7IjnLG3uWrP5HZTDTvinKI6FtnzIGzWXh6kp4gA9GYvRmtHZW5GI1isnt
-	 wIxtLeXSI+vSw==
+	b=Uc1FisT/Poas73nqCHc7mBSW3XSTYfo50DUWraDb1BN0VLOgehXaOA2ge0PtWNcC1
+	 wV1bOjqZ4U3TTnjiPYPGfFNrrkTgU2zwZFpIY8SMaSRz2pD8mOrglF3cmgUnqOpCyS
+	 7iSiNrtXvYD11aYK7Dn26PugAOh2xIhBXh3FLzPxzZhJtY9BU7uM7PkHZ/RLPWOZU7
+	 JTbxH31D7y7ZWHlgmWgQUkvvrYTDkLjeC4OJZU9dW7Clyu0MzPa73ySn6ob3EZA+tL
+	 7hdwqae+qu1l/fE7+dkT8iL6bWEWREmfdPrDlM1sEujQrSmXRJRYMccvwySssEEymg
+	 1bLW3Im4kjdUw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
 Cc: Masahiro Yamada <masahiroy@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
 	Sasha Levin <sashal@kernel.org>,
 	linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 8/9] kconfig: gconf: give a proper initial state to the Save button
-Date: Mon, 17 Jun 2024 09:27:35 -0400
-Message-ID: <20240617132739.2590390-8-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 9/9] kconfig: remove wrong expr_trans_bool()
+Date: Mon, 17 Jun 2024 09:27:36 -0400
+Message-ID: <20240617132739.2590390-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240617132739.2590390-1-sashal@kernel.org>
 References: <20240617132739.2590390-1-sashal@kernel.org>
@@ -66,42 +67,154 @@ Content-Transfer-Encoding: 8bit
 
 From: Masahiro Yamada <masahiroy@kernel.org>
 
-[ Upstream commit 46edf4372e336ef3a61c3126e49518099d2e2e6d ]
+[ Upstream commit 77a92660d8fe8d29503fae768d9f5eb529c88b36 ]
 
-Currently, the initial state of the "Save" button is always active.
+expr_trans_bool() performs an incorrect transformation.
 
-If none of the CONFIG options are changed while loading the .config
-file, the "Save" button should be greyed out.
+[Test Code]
 
-This can be fixed by calling conf_read() after widget initialization.
+    config MODULES
+            def_bool y
+            modules
+
+    config A
+            def_bool y
+            select C if B != n
+
+    config B
+            def_tristate m
+
+    config C
+            tristate
+
+[Result]
+
+    CONFIG_MODULES=y
+    CONFIG_A=y
+    CONFIG_B=m
+    CONFIG_C=m
+
+This output is incorrect because CONFIG_C=y is expected.
+
+Documentation/kbuild/kconfig-language.rst clearly explains the function
+of the '!=' operator:
+
+    If the values of both symbols are equal, it returns 'n',
+    otherwise 'y'.
+
+Therefore, the statement:
+
+    select C if B != n
+
+should be equivalent to:
+
+    select C if y
+
+Or, more simply:
+
+    select C
+
+Hence, the symbol C should be selected by the value of A, which is 'y'.
+
+However, expr_trans_bool() wrongly transforms it to:
+
+    select C if B
+
+Therefore, the symbol C is selected by (A && B), which is 'm'.
+
+The comment block of expr_trans_bool() correctly explains its intention:
+
+  * bool FOO!=n => FOO
+    ^^^^
+
+If FOO is bool, FOO!=n can be simplified into FOO. This is correct.
+
+However, the actual code performs this transformation when FOO is
+tristate:
+
+    if (e->left.sym->type == S_TRISTATE) {
+                             ^^^^^^^^^^
+
+While it can be fixed to S_BOOLEAN, there is no point in doing so
+because expr_tranform() already transforms FOO!=n to FOO when FOO is
+bool. (see the "case E_UNEQUAL" part)
+
+expr_trans_bool() is wrong and unnecessary.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- scripts/kconfig/gconf.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ scripts/kconfig/expr.c | 29 -----------------------------
+ scripts/kconfig/expr.h |  1 -
+ scripts/kconfig/menu.c |  2 --
+ 3 files changed, 32 deletions(-)
 
-diff --git a/scripts/kconfig/gconf.c b/scripts/kconfig/gconf.c
-index e36b342f1065b..9b10f1248da11 100644
---- a/scripts/kconfig/gconf.c
-+++ b/scripts/kconfig/gconf.c
-@@ -1483,7 +1483,6 @@ int main(int ac, char *av[])
+diff --git a/scripts/kconfig/expr.c b/scripts/kconfig/expr.c
+index 9f1de58e9f0c9..9e409418534b8 100644
+--- a/scripts/kconfig/expr.c
++++ b/scripts/kconfig/expr.c
+@@ -397,35 +397,6 @@ static struct expr *expr_eliminate_yn(struct expr *e)
+ 	return e;
+ }
  
- 	conf_parse(name);
- 	fixup_rootmenu(&rootmenu);
--	conf_read(NULL);
+-/*
+- * bool FOO!=n => FOO
+- */
+-struct expr *expr_trans_bool(struct expr *e)
+-{
+-	if (!e)
+-		return NULL;
+-	switch (e->type) {
+-	case E_AND:
+-	case E_OR:
+-	case E_NOT:
+-		e->left.expr = expr_trans_bool(e->left.expr);
+-		e->right.expr = expr_trans_bool(e->right.expr);
+-		break;
+-	case E_UNEQUAL:
+-		// FOO!=n -> FOO
+-		if (e->left.sym->type == S_TRISTATE) {
+-			if (e->right.sym == &symbol_no) {
+-				e->type = E_SYMBOL;
+-				e->right.sym = NULL;
+-			}
+-		}
+-		break;
+-	default:
+-		;
+-	}
+-	return e;
+-}
+-
+ /*
+  * e1 || e2 -> ?
+  */
+diff --git a/scripts/kconfig/expr.h b/scripts/kconfig/expr.h
+index 017843c9a4f42..fbbd8ebe852a1 100644
+--- a/scripts/kconfig/expr.h
++++ b/scripts/kconfig/expr.h
+@@ -302,7 +302,6 @@ struct expr *expr_copy(const struct expr *org);
+ void expr_free(struct expr *e);
+ void expr_eliminate_eq(struct expr **ep1, struct expr **ep2);
+ tristate expr_calc_value(struct expr *e);
+-struct expr *expr_trans_bool(struct expr *e);
+ struct expr *expr_eliminate_dups(struct expr *e);
+ struct expr *expr_transform(struct expr *e);
+ int expr_contains_symbol(struct expr *dep, struct symbol *sym);
+diff --git a/scripts/kconfig/menu.c b/scripts/kconfig/menu.c
+index d9d16469859ab..2c95e8a7ef165 100644
+--- a/scripts/kconfig/menu.c
++++ b/scripts/kconfig/menu.c
+@@ -387,8 +387,6 @@ void menu_finalize(struct menu *parent)
+ 				dep = expr_transform(dep);
+ 				dep = expr_alloc_and(expr_copy(basedep), dep);
+ 				dep = expr_eliminate_dups(dep);
+-				if (menu->sym && menu->sym->type != S_TRISTATE)
+-					dep = expr_trans_bool(dep);
+ 				prop->visible.expr = dep;
  
- 	/* Load the interface and connect signals */
- 	init_main_window(glade_file);
-@@ -1491,6 +1490,8 @@ int main(int ac, char *av[])
- 	init_left_tree();
- 	init_right_tree();
- 
-+	conf_read(NULL);
-+
- 	switch (view_mode) {
- 	case SINGLE_VIEW:
- 		display_tree_part();
+ 				/*
 -- 
 2.43.0
 
