@@ -1,231 +1,121 @@
-Return-Path: <linux-kbuild+bounces-2216-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2217-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4342F90DFE2
-	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Jun 2024 01:30:00 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D467C90DFE3
+	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Jun 2024 01:32:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A399BB23401
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Jun 2024 23:29:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B3ABE1C230F6
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Jun 2024 23:32:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0415617E441;
-	Tue, 18 Jun 2024 23:29:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4F6C15EFAF;
+	Tue, 18 Jun 2024 23:32:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="RyBTIF4R"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="thbMP0qS"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61929185E70
-	for <linux-kbuild@vger.kernel.org>; Tue, 18 Jun 2024 23:29:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C75041C89;
+	Tue, 18 Jun 2024 23:32:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718753372; cv=none; b=JfSv+gVhI17kEGbyHL87FHaBbsO2XgJhrshSlUcB76y1j4UrP+Y7VKQ/EMdNb8xbfmRnyUxI4dRPc+BcGMqM8Nff9KupJ5c2DV8XSZHXu7deftpYX40LbgQcaboei6XCl7bmrWBGV4o4wwDQkio1gFy4nAkJvkmYpYaIKj9599M=
+	t=1718753562; cv=none; b=lcpjSCCPZYW8g686lpF2KQa1pZ0Z0RLKJ8qi+6qDA2b3K3IeoLFheDq7utB9NShS9Oq3siAXtP4ce8iRcozHfvCMeQiuIdhjGxsReA5aZXIQ9c/jqsjpy/VjMskFk6JeSiJUIraip93+LM4kAXMR56kpd7ij9R2/xHDbg5YEy0g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718753372; c=relaxed/simple;
-	bh=E8G5hSF3gH09gGqdS4/BcWtT8QGdjoxiNQQafX5Yu9o=;
+	s=arc-20240116; t=1718753562; c=relaxed/simple;
+	bh=walKVEKz+Zj22h1N8Hw8n9DlaB77GOsfhPdfZ0a8tuI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NNag65fBigzAFAZz+KEIczM9f3Qt6pZLoNLztimyBVkTYI8KxaJb3lTNx63vawJhzVsr4Gpxi049cBQUU7HOvYKTHMOhK/kT74eIcogKsJPXgoWSOuwe7ipyLmaGXZqLYm/zjHAo4LgPeI2y9p7GqB4Ij95bKA7E+N0jM4JHX9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=RyBTIF4R; arc=none smtp.client-ip=209.85.210.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-7062bf6d9a1so251666b3a.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 18 Jun 2024 16:29:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1718753371; x=1719358171; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=1DT+XnTSYGnEqSakA/6gITqfUCRWY8Bgwvg7vAB2GZs=;
-        b=RyBTIF4RmUTnr01INt2Ja9fqiGWchZok6C+88uFlZ77XTffL5zSlH6J0M6n8wF1LX0
-         tOwRy68LDSboMerf7gI5B7l33y5Xy3OR3feD4BbcZBvzqJa4M11uYVqQczWfEzHOoEKa
-         nAbBApjastLKIWvjHAW0LWVhtFI6fI6eSaCqw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718753371; x=1719358171;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1DT+XnTSYGnEqSakA/6gITqfUCRWY8Bgwvg7vAB2GZs=;
-        b=dVVa8eNEjyJ8K7ZyZrZoPv2LVXl3cayZlh1MZ/a1k6oWoX7YRwOEozJer1lo6Y1VZm
-         8D6DaPy3AEt3xPauqAO+4VUNXYawCDiqOAHhumC3lYxOo9GpZDczrzwkdlJCRmAbg6e9
-         QmZR28bWnF7AIOb8LYB8qe5+YisYgbTS2ACIRjhShrH7cn2IkOZUcqi31HWu6jyHrSMY
-         kLk/xsS8wxMVed5xIXR9ObhbODL6YE/uSVEBcCCFHagck4BFvk2zcm9lyKAEbzi6lvV5
-         PD9avigdA1i/5o2F9i4j/dTI7Ll2hOuQYce1ZGeNoanw6MTxJEuNhmSDZQ7Pom7A8PIH
-         px2w==
-X-Forwarded-Encrypted: i=1; AJvYcCUsWDORE513UqzYgrTQXDRv3gxDBoomeLYDgFbE8It0yxLqjq98fb8w0gu41hSGYA9dNM49uyiB8MsnY6OyzfC5YAverfORuhIsErfO
-X-Gm-Message-State: AOJu0Yx2fTz29x8/dOjiW9zq0g7UPpJmzpPcdWxlrlQ/sP/tQXg0B9Sv
-	k6MaBkxt1SseoL1zBx15ZU7MVdMSpq7xKeACbBXJeQWyCRFqutnwFbHKenmW1LQcmAnbRr12ZUw
-	=
-X-Google-Smtp-Source: AGHT+IHr6Or6cLZnh1EDBhWRCargHRQOQ35zCAilkZXGP2jgzr4IOTjQl1dYh4WhYEr0THgjHRDAaA==
-X-Received: by 2002:a05:6a21:339a:b0:1b8:5e44:ea3c with SMTP id adf61e73a8af0-1bcbb5f400emr1189067637.48.1718753370769;
-        Tue, 18 Jun 2024 16:29:30 -0700 (PDT)
-Received: from localhost ([2620:15c:9d:2:390a:84d:6195:637e])
-        by smtp.gmail.com with UTF8SMTPSA id 41be03b00d2f7-6fee3ba48c1sm8561344a12.81.2024.06.18.16.29.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Jun 2024 16:29:30 -0700 (PDT)
-Date: Tue, 18 Jun 2024 16:29:28 -0700
-From: Brian Norris <briannorris@chromium.org>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Bjorn Helgaas <helgaas@kernel.org>, linux-kbuild@vger.kernel.org,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>
-Subject: Re: possible dependency error?
-Message-ID: <ZnIYWBgrJ-IJtqK8@google.com>
-References: <ZGVi9HbI43R5trN8@bhelgaas>
- <CAK7LNAQPXapu3Ydh9XaB2ggGqgfYX5mo0pHPNHDcnm=w3ubYag@mail.gmail.com>
- <Zk-C5Eg84yt6_nml@google.com>
- <CAK7LNASrR2W-obUurSWaKLnQ+CB1o9iuoaM-hbHnv-zoazMzmQ@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=dnZ+IO5fOGIwpjkeCH2TWx0WYbzN1UEFJPXkxIqQ4yJmsDC0bfAvK9H1+H3hOpJnxQewmuo3EGVSDn2panJFjUIkD5UwWo5rStbie0TzyyZwaj8uvPTyb+3FafLvgUDvYkgzny5Zv/uF0AaKwMnE/iEjAOVv84cIcaCGWNhyYWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=thbMP0qS; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=9774CxJsQPgyITFMZ8T1g4uP39SEz0rWfqyfj/UUrAA=; b=thbMP0qSlfb+Kh385zZ3qeslyo
+	d5cUmhjaFUBGnKOX73bGywVz0n+OZFLOpT6jbN3dT8yf/ozhLDjIZEK5TPKVPR6MleDmjUcTqvN+f
+	LWqeDW3Rzart2Stark1d15Qz8ZVuWiRtAClfwWk7xVNy0hr1JJnrmdZv/SntKdSn1nDyPiMaI1xFc
+	ZIti85ahh9IxJ13xuRLZIYpPncxPsF3/NbDIYDq2TB+FuC2uSeTuJKQ4ArivSYnUkpwVFPnM837z5
+	q9+rvP7zO06wImJyxYXEvN+fZE370nWKtS/Ttl7EYK0EHGuYoCWIlptl69HLKjUaHRGDNnyGis+Sz
+	/bH6MX/w==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sJiJW-0000000GtaB-3On8;
+	Tue, 18 Jun 2024 23:32:34 +0000
+Date: Tue, 18 Jun 2024 16:32:34 -0700
+From: Luis Chamberlain <mcgrof@kernel.org>
+To: Sami Tolvanen <samitolvanen@google.com>
+Cc: Kris Van Hees <kris.van.hees@oracle.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Matthew Maurer <mmaurer@google.com>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Wedson Almeida Filho <wedsonaf@gmail.com>,
+	Gary Guo <gary@garyguo.net>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
+	rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH 00/15] Implement MODVERSIONS for Rust
+Message-ID: <ZnIZEtkkQWEIGf9n@bombadil.infradead.org>
+References: <20240617175818.58219-17-samitolvanen@google.com>
+ <ZnHjO7x9nszs9pUC@bombadil.infradead.org>
+ <20240618211947.GD1611012@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK7LNASrR2W-obUurSWaKLnQ+CB1o9iuoaM-hbHnv-zoazMzmQ@mail.gmail.com>
+In-Reply-To: <20240618211947.GD1611012@google.com>
+Sender: Luis Chamberlain <mcgrof@infradead.org>
 
-Hi Masahiro,
+On Tue, Jun 18, 2024 at 02:19:47PM -0700, Sami Tolvanen wrote:
+> Hi Luis,
+> 
+> On Tue, Jun 18, 2024 at 12:42:51PM -0700, Luis Chamberlain wrote:
+> > a) Ensure correctness for all users / tools, so that proper plumbing is
+> >    really done. By considering all symbols you increase your scope of
+> >    awareness of anything that could really break.
+> > 
+> > b) Remove the "Rust" nature about this
+> > 
+> > c) Rust modules just becomes a *user* of this approach
+> 
+> I believe the only Rust nature here is the last patch that enables
+> gendwarfksyms only for Rust. Otherwise, there shouldn't be anything
+> strictly Rust specific.
 
-Thanks for the reply. I've been away for a bit, but I've poked at a few
-more things now.
+Right now the check for length is generic, and assumes a hash may exist
+without considering that check is moot for non-rust modules. So the
+inverse is true, but doesn't provide a solution or proper architecture
+for it.
 
-On Sun, May 26, 2024 at 01:35:43AM +0900, Masahiro Yamada wrote:
-> On Fri, May 24, 2024 at 2:54 AM Brian Norris <briannorris@chromium.org> wrote:
-> > --- a/tools/lib/subcmd/Makefile
-> > +++ b/tools/lib/subcmd/Makefile
-> > @@ -76,7 +76,7 @@ include $(srctree)/tools/build/Makefile.include
-> >
-> >  all: fixdep $(LIBFILE)
-> >
-> > -$(SUBCMD_IN): FORCE
-> > +$(SUBCMD_IN): fixdep FORCE
-> >         @$(MAKE) $(build)=libsubcmd
-> >
-> >  $(LIBFILE): $(SUBCMD_IN)
+> > It gets me wondering, given Kris is also working on allowing traces to
+> > map symbols to module names, how does this fit into that world [0]?
 > 
-> 
-> 
-> I may not fully understand the design policy of the tools/ build system,
-> but this fix is presumably correct because the 'fixdep' binary
-> is needed in each sub-directory for it to work correctly.
-> 
-> tools/bpf/resolve_btfids/libsubcmd/.exec-cmd.o.cmd must
-> be generated by tools/bpf/resolve_btfids/libsubcmd/fixdep
-> instead of by tools/bpf/resolve_btfids/fixdep.
-> 
-> But, fixing tools/lib/subcmd/Makefile is not enough.
-> 
-> *.cmd files under tools/bpf/resolve_btfids/libbpf/staticobjs/
-> are broken for the same reason.
-> So, this is fundamentally broken in many places.
+> AFAIK long symbol names are only a problem for struct modversion_info,
+> which uses a relatively short name buffer, so I'm hoping other efforts
+> won't be affected.
 
-I think I hacked something that works there too. It gets a bit uglier,
-but not too bad IMO.
+We'll see!
 
-> And, as you noted, there is no easy way to fix .fixdep.o.cmd
+> > As for a) the reason I'm thinking about having the ability to test a
+> > full real kernel and moules with this is, without that, how are you sure
+> > you have the full scope of the changes needed?
+> 
+> Sure, I can look into hooking this up for the entire kernel and seeing
+> what breaks, in addition the issues Masahiro pointed out, of course.
 
-I haven't come up with a *great* solution, but I came up with something
-that works for the most part, by circumventing the normal Build /
-Makefile.build split. It's getting pretty ugly too though...
+:) should be fun!
 
-> Your description in
-> https://issuetracker.google.com/issues/313508829#comment32
-> is all correct.
-> 
-> 
-> "can we just use Kbuild?" is a good question.
-> I do not understand why they use fragile build systems,
-> where obviously they cannot do it correctly.
-> 
-> 
-> In fact, I submitted a patch to migrate objtool to Kbuild
-> because that fixes all the issues cleanly.
-> 
-> The objtool maintainers rejected it.
-> https://lore.kernel.org/linux-kbuild/1551764896-8453-3-git-send-email-yamada.masahiro@socionext.com/
-> 
-> 
-> Not only the build system.
-> He also refused to participate in the standard Documentation
-> directory.
-> tools/objtool/Documentation/objtool.txt still resides in its own directory.
+I think once its revised as a "generic" strategy and not a Rust one, the
+proper architecture will be considered. Right now, it just looks like a
+cheap band aid for Rust.
 
-While I don't love having to solve the same problems repeatedly (once in
-Kbuild; potentially-many in tools/), I'm also OK with trying to hack
-fixes into the current duplicate build system if it's not prohibitively
-complex to do so.
-
-Here's what I have for now -- I might submit some or all of this as a
-proper patchset if I can fix a few rough edges.
-
-diff --git a/tools/build/Makefile b/tools/build/Makefile
-index 17cdf01e29a0..fad93f64035d 100644
---- a/tools/build/Makefile
-+++ b/tools/build/Makefile
-@@ -43,11 +43,8 @@ ifneq ($(wildcard $(TMP_O)),)
- 	$(Q)$(MAKE) -C feature OUTPUT=$(TMP_O) clean >/dev/null
- endif
- 
--$(OUTPUT)fixdep-in.o: FORCE
--	$(Q)$(MAKE) $(build)=fixdep
--
--$(OUTPUT)fixdep: $(OUTPUT)fixdep-in.o
--	$(QUIET_LINK)$(HOSTCC) $(KBUILD_HOSTLDFLAGS) -o $@ $<
-+$(OUTPUT)fixdep: $(srctree)/tools/build/fixdep.c
-+	$(QUIET_CC)$(HOSTCC) $(KBUILD_HOSTLDFLAGS) -o $@ $<
- 
- FORCE:
- 
-diff --git a/tools/build/Makefile.include b/tools/build/Makefile.include
-index 8dadaa0fbb43..27b2090cb293 100644
---- a/tools/build/Makefile.include
-+++ b/tools/build/Makefile.include
-@@ -1,8 +1,16 @@
- # SPDX-License-Identifier: GPL-2.0-only
- build := -f $(srctree)/tools/build/Makefile.build dir=. obj
- 
-+# More than just $(Q), we sometimes want to suppress all command output from a
-+# recursive make -- even the 'up to date' printout.
-+ifeq ($(V),1)
-+  SILENT_MAKE = $(Q)$(MAKE)
-+else
-+  SILENT_MAKE = $(Q)$(MAKE) --silent
-+endif
-+
- fixdep:
--	$(Q)$(MAKE) -C $(srctree)/tools/build CFLAGS= LDFLAGS= $(OUTPUT)fixdep
-+	$(SILENT_MAKE) -C $(srctree)/tools/build CFLAGS= LDFLAGS= $(OUTPUT)fixdep
- 
- fixdep-clean:
- 	$(Q)$(MAKE) -C $(srctree)/tools/build clean
-diff --git a/tools/lib/bpf/Makefile b/tools/lib/bpf/Makefile
-index 2cf892774346..a8f34de1ca25 100644
---- a/tools/lib/bpf/Makefile
-+++ b/tools/lib/bpf/Makefile
-@@ -154,6 +154,8 @@ $(BPF_IN_SHARED): force $(BPF_GENERATED)
- 	$(Q)$(MAKE) $(build)=libbpf OUTPUT=$(SHARED_OBJDIR) CFLAGS="$(CFLAGS) $(SHLIB_FLAGS)"
- 
- $(BPF_IN_STATIC): force $(BPF_GENERATED)
-+	$(call rule_mkdir)
-+	$(SILENT_MAKE) -C $(srctree)/tools/build CFLAGS= LDFLAGS= OUTPUT=$(STATIC_OBJDIR) $(STATIC_OBJDIR)fixdep
- 	$(Q)$(MAKE) $(build)=libbpf OUTPUT=$(STATIC_OBJDIR)
- 
- $(BPF_HELPER_DEFS): $(srctree)/tools/include/uapi/linux/bpf.h
-diff --git a/tools/lib/subcmd/Makefile b/tools/lib/subcmd/Makefile
-index b87213263a5e..59b09f280e49 100644
---- a/tools/lib/subcmd/Makefile
-+++ b/tools/lib/subcmd/Makefile
-@@ -76,7 +76,7 @@ include $(srctree)/tools/build/Makefile.include
- 
- all: fixdep $(LIBFILE)
- 
--$(SUBCMD_IN): FORCE
-+$(SUBCMD_IN): fixdep FORCE
- 	@$(MAKE) $(build)=libsubcmd
- 
- $(LIBFILE): $(SUBCMD_IN)
+  Luis
 
