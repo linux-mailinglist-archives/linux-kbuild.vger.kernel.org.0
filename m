@@ -1,55 +1,75 @@
-Return-Path: <linux-kbuild+bounces-2211-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2212-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBE8B90DCAE
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Jun 2024 21:43:02 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 947D890DD01
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Jun 2024 22:05:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DB3591C22102
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Jun 2024 19:43:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 486D71F246F3
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Jun 2024 20:05:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0091916CD2F;
-	Tue, 18 Jun 2024 19:42:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C14116EB6D;
+	Tue, 18 Jun 2024 20:05:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="lpPDcgcP"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="zqkH3oIW"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C5471F608;
-	Tue, 18 Jun 2024 19:42:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 151AE16EB51
+	for <linux-kbuild@vger.kernel.org>; Tue, 18 Jun 2024 20:05:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718739776; cv=none; b=g0oB4/9aMD0XUPsLHfBR/PZyUn8h5B6H3iGEtDWV0BhCC+Jh8CV7RTjkCptO4M09qxP0Opv6ay/CkHpA5sv/yPf/Np/rdYtlqgAQJuStBYw8116Li1jpd+jXeN7UiTqNFpS0KM8bKJNrOFR9gMNkQMUlYuhDpD0ys96ITZTk0IY=
+	t=1718741110; cv=none; b=dUmi+Y8glgBG/qb7qlUm2L9VXBZFmGLOn7cGqjVFcQnoXiKCMd5SwA9tn11vus/p9E39XXHv2dNfJBa2aflsKFS6667m1IwXBcZq5eZwSYW9OBRNQzzpASgIwvTlH1444YDthMzF50av5TbZqHi1cwXxjAcp2wd0HT5JMfP/yoY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718739776; c=relaxed/simple;
-	bh=cTfVGcp5oisQ97iLHoXTO3FMqnUrhZ2g1ht3jkA4/sA=;
+	s=arc-20240116; t=1718741110; c=relaxed/simple;
+	bh=5Zo7VZ+Vhja+a/AGa+Enk6lkrohhqpDKU0SlFbgQMHg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Mf31MXqQO1Tmry3KmQxhT+T5RJk9JmbffpG6ZYt2k2Sr02xTgF/BFBu6haP0DhCULPxaWqGSQAiq0DM1RNkgGKHWjVz/mIsFEY6VbuG3xJerOGhKbG7hNi9JfR9G0sYAIKFKQ0OTv7vXmvgTDsuhc9Pug/lSQADzaPHWyPyh3ZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=lpPDcgcP; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=AOXxWam4jWv5TDUk7B5+QiryvHj1tMRqxDlfrq/BNdw=; b=lpPDcgcPCPO2S/dxWLpFAZieK0
-	L7nEWHs6MsAIG9K8vdtonV8wB0yJEYuOFGzkiFgZVa0MLL8qKFa0FAg4iWRIKv6NRm60VTuE2r6jH
-	K8m8M7ug0t6DZczKumYrmIG9u8TgrewlyJAdnwPc4alhIuiyNA49d08QwYQKxmhdrdKPh6U4eK+Wi
-	7o5IQAFvPEJ/6NcItkR+xZOZKIhAzaNGLPrp3sG5+IeAw7XOGJBR/LQC7NQmBXstu15MrJy6B0DjI
-	durGXn96jla8mV3hl5TZtQ/HzWHJBH4OIk8Q7xBbPYD5aUhZa6rbScQqp/jdk1GV39wgUgruXt5rn
-	QCYbd07w==;
-Received: from mcgrof by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sJejD-0000000GOA1-28Kh;
-	Tue, 18 Jun 2024 19:42:51 +0000
-Date: Tue, 18 Jun 2024 12:42:51 -0700
-From: Luis Chamberlain <mcgrof@kernel.org>
-To: Sami Tolvanen <samitolvanen@google.com>,
-	Kris Van Hees <kris.van.hees@oracle.com>,
-	Steven Rostedt <rostedt@goodmis.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=bPHrkuZCdwpWnB0r+vgYEIc71ZbF6UBhOgP2ofE7MykjhwKgwbw8BZMg2kab9eeMu41ynHKQsh2ltxadbnjXa1N+uquB5W9df6J6lLIyOWwz5SK1d12OfPkev36HjDuTiQ4x2ON7PQF8ODUhIkYfTPonwKFy22r+UJNrjPqch0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=zqkH3oIW; arc=none smtp.client-ip=209.85.216.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-2c7b167fa12so388634a91.1
+        for <linux-kbuild@vger.kernel.org>; Tue, 18 Jun 2024 13:05:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1718741108; x=1719345908; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=5Zo7VZ+Vhja+a/AGa+Enk6lkrohhqpDKU0SlFbgQMHg=;
+        b=zqkH3oIWyfM8FcjitObKXX1MQRRRNfc09yUBiVx/bXCwfUg0THLobsNAyjIyFgC9c2
+         oDXicFdZRgCyhk/LBIuk4e3SAnS52GvurI2I0uvpuZl8OoH+R7vcYx1gCiYTU1Aic19M
+         +1n6fsWM9ng+kdBvT3p7ceXGbOWMLSTvsx+RzORfCr+bEmFEwSd+n2vkgxrlEJ9I+Gk3
+         0N1cqe/J19HJHSzBRNnQkZdSQdXTu2/wc7zKvK3BAeBLJQmxk8ZYBHt2rf6gCK+gMqps
+         x6kc6KFG7TIVkzNjoLgjNSnyKLCp3EMvqOFCgEjIiRIOGNbEWaGVHkSk5VDPwgeMrSs5
+         WAjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718741108; x=1719345908;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5Zo7VZ+Vhja+a/AGa+Enk6lkrohhqpDKU0SlFbgQMHg=;
+        b=jRYfrdU8S89kC/jPW2J2PABJjyaUoS7zSHV7RAas2bMhuIa6JLcDR2lF9iKaydI1FS
+         lfkp3RtEXDg/p4jeRW8+u6R9nLE4+bnaKqy3DlBV4Yg3TK8g5comc14q6XAfGkZTvFy+
+         XcV9Hx4F1MRX6jtJnkPFB7lDV1JzmElbJ/GTItdDbDl4tDH7W0f39eCzqEv4Eh3ZR58s
+         FpcdZ6B8A5A5Yt46QjPzpWVdzGI7YK3/kP6mKAr50MwJmf/RKgSftvh3AWzg4AJJyTAh
+         wSNIYnWsJHUcjpibDbMDtUmewil4/U0WXBPNonavpgKfj3Z0TNJv7Q37p2VvLQIEuIM2
+         x54w==
+X-Forwarded-Encrypted: i=1; AJvYcCUvTU/WvH73CLNjmNKt+D1hLwTPaE56DaZ1yeiX01feCaJaqTu0IpECO3+V2tQl4QiX5zJJ3fK7aYCzN4HVtvt+gzN6HnGRLg8dUboX
+X-Gm-Message-State: AOJu0YxBG+nPRIxE5fw8O98giOx01jn0Uiad5UVZSHdaShy/dmD65t/R
+	+DUoKbePMRYBqW6K5MetzTGFYfC9xSWj6LP0m1KXZxzycbKYJlGY4jkJ8OpSwg==
+X-Google-Smtp-Source: AGHT+IEV1+xu9YayDaW7sIc6gmpTE1KmhTX/Cmmf3cOV3z28LY3VjNvYROtXWPblvCN6ThxeIA+brg==
+X-Received: by 2002:a17:90b:1203:b0:2c2:fad6:3fc with SMTP id 98e67ed59e1d1-2c7b5af31d8mr764813a91.11.1718741107983;
+        Tue, 18 Jun 2024 13:05:07 -0700 (PDT)
+Received: from google.com ([2620:0:1000:2510:5dfa:e7d1:8470:826c])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c4c466bfb3sm11255155a91.41.2024.06.18.13.05.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Jun 2024 13:05:07 -0700 (PDT)
+Date: Tue, 18 Jun 2024 13:05:01 -0700
+From: Sami Tolvanen <samitolvanen@google.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Matthew Maurer <mmaurer@google.com>,
 	Alex Gaynor <alex.gaynor@gmail.com>,
@@ -58,8 +78,9 @@ Cc: Masahiro Yamada <masahiroy@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
 	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
 	rust-for-linux@vger.kernel.org
 Subject: Re: [PATCH 00/15] Implement MODVERSIONS for Rust
-Message-ID: <ZnHjO7x9nszs9pUC@bombadil.infradead.org>
+Message-ID: <20240618200501.GA1611012@google.com>
 References: <20240617175818.58219-17-samitolvanen@google.com>
+ <CAK7LNARFScHniwRZj08j0ubzNwee2O1o6yEfhQsizG7RC3oaoQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -68,71 +89,27 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240617175818.58219-17-samitolvanen@google.com>
-Sender: Luis Chamberlain <mcgrof@infradead.org>
+In-Reply-To: <CAK7LNARFScHniwRZj08j0ubzNwee2O1o6yEfhQsizG7RC3oaoQ@mail.gmail.com>
 
-On Mon, Jun 17, 2024 at 05:58:19PM +0000, Sami Tolvanen wrote:
-> Hi folks,
-> 
-> This series implements CONFIG_MODVERSIONS for Rust, an important
-> feature for distributions like Android that want to ship Rust
-> kernel modules, and depend on modversions to help ensure module ABI
-> compatibility.
-> 
-> There have been earlier proposals [1][2] that would allow Rust
-> modules to coexist with modversions, but none that actually implement
-> symbol versioning. Unlike C, Rust source code doesn't have sufficient
-> information about the final ABI, as the compiler has considerable
-> freedom in adjusting structure layout for improved performance [3],
-> for example, which makes using a source code parser like genksyms
-> a non-starter. Based on Matt's suggestion and previous feedback
-> from maintainers, this series uses DWARF debugging information for
-> computing versions. DWARF is an established and relatively stable
-> format, which includes all the necessary ABI details, and adding a
-> CONFIG_DEBUG_INFO dependency for Rust symbol versioning seems like a
-> reasonable trade-off.
+Hi Masahiro,
 
-OK sure.
+On Wed, Jun 19, 2024 at 01:28:21AM +0900, Masahiro Yamada wrote:
+> I am surprised at someone who attempts to add another variant of genksyms.
 
-> The first 12 patches of this series add a small tool for computing
-> symbol versions from DWARF, called gendwarfksyms. When passed a list
-> of exported symbols, the tool generates an expanded type string
-> for each symbol, and computes symbol CRCs similarly to genksyms.
+The options are rather limited if we want Rust modules that are
+compatible with modversions. We either come up with a way to version
+Rust symbols or we bypass version checks for them, which is basically
+what Matt's earlier patch set did:
 
-So this is too word centric Rust, let's think about this generically.
-We still ahve a symbol limitation even in the C world then, and this
-solution can solve that problem also for other reasons for *whatever*
-reason we devise to-come-up-with-in-the-future for augmenting symbols.
-Today Rust, tomorrow, who knows.
+https://lore.kernel.org/rust-for-linux/20231118025748.2778044-1-mmaurer@google.com/
 
-> gendwarfksyms is written in C and uses libdw to process DWARF, mainly
-> because of the existing support for C host tools that use elfutils
-> (e.g., objtool).
+If there are better solutions, I would be happy to hear them.
 
-I agree with Masahiro, that testing this with vmlinux would be eye
-opening to what challenges we really have ahead. So, to help with this
-let's try to re-think about this  from another perspective.
+> I am also surprised at the tool being added under the tools/ directory.
 
-Yes, old userspace should not break, but you can add yet another option
-to let you opt-in to a new world order of how these crc are mapped to
-hashed repersentations of the symbols. This would allow us to:
+I picked this location because that's where objtool lives, and wasn't
+aware that this was frowned upon. I'm fine with moving the tool
+elsewhere too.
 
-a) Ensure correctness for all users / tools, so that proper plumbing is
-   really done. By considering all symbols you increase your scope of
-   awareness of anything that could really break.
-
-b) Remove the "Rust" nature about this
-
-c) Rust modules just becomes a *user* of this approach
-
-It gets me wondering, given Kris is also working on allowing traces to
-map symbols to module names, how does this fit into that world [0]?
-
-As for a) the reason I'm thinking about having the ability to test a
-full real kernel and moules with this is, without that, how are you sure
-you have the full scope of the changes needed?
-
-[0] https://lkml.kernel.org/r/20240614171428.968174-3-kris.van.hees@oracle.com
-
-  Luis
+Sami
 
