@@ -1,220 +1,91 @@
-Return-Path: <linux-kbuild+bounces-2208-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2209-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BC3C90DBFE
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Jun 2024 20:56:30 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61F6090DC0A
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Jun 2024 20:57:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F374F1F2373A
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Jun 2024 18:56:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 786341C231AB
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Jun 2024 18:57:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91F6F15ECED;
-	Tue, 18 Jun 2024 18:56:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E70F215ECE3;
+	Tue, 18 Jun 2024 18:57:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="sILDxUkM"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="XxliiDUX"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-yw1-f201.google.com (mail-yw1-f201.google.com [209.85.128.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E46B15ECD5
-	for <linux-kbuild@vger.kernel.org>; Tue, 18 Jun 2024 18:56:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F95646426;
+	Tue, 18 Jun 2024 18:57:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718736975; cv=none; b=LtsepCQQaevM/Y7+UZfLA1lliPYBdAOMsxGGpBYLrl1pX3mdO9gtcE/KnsOgD5ykJasxHNZ8p1kBfV8xwDqEajt0POB8mhNj82MdiNtO5F8+YcSDZZQP3OqlB0SwiM4m/fE/3BiwUC0/uyAZSh4ZNs+kN8nKJZqc4ghAEwuzYdo=
+	t=1718737060; cv=none; b=nXDCJRWHD5bZE8huEmZ2cuxdk5qcOwiUa01R0iLka4L6ndX0hGLvUcagHCiwGWjkpjERSJwsrjG1rNXybiqcmuB9VXjQARXLs83yB6+N8eTl/4gwDOq1YZPjCpCYxJEsqLKoiUqCEnfh1YiaWw8copFl2hfH9s7xIQpdX5oJJDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718736975; c=relaxed/simple;
-	bh=DifcGgZ4gqLiYudF45uENxryUqD1+XBdS+PO9ke3mRg=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=r70HNz42YOc7iSUJ4+jxRFVrnT4rk9ym5e5FsMbKryPgL4lElfR27O5DVeBfAAe8YkcVZM9A1k61C9Ek5IK+6UV9YiuYwBX4DTblZN7jSK9ipc0Fkz1LfCK87c8R4JSX35zsM19VN3kh5PJWNwEp5929qz+r5nvdft18tLCGe6E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--elsk.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=sILDxUkM; arc=none smtp.client-ip=209.85.128.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--elsk.bounces.google.com
-Received: by mail-yw1-f201.google.com with SMTP id 00721157ae682-6313189f622so112979917b3.2
-        for <linux-kbuild@vger.kernel.org>; Tue, 18 Jun 2024 11:56:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1718736972; x=1719341772; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=GTbgu4ja5vqrEkefct+zJFTUB3eF6qISm880FN6/VHA=;
-        b=sILDxUkMMh2kuT3VcMeyC3+0vy1KmZhVV77lTZjO4a5pLf/jAvsBl812ONUshKN1e/
-         OVu5O3N9HH1Hou8soKz6FPS9rQ8tu/pgn6vMWnLXwYlb71ZAKlCE6j8XcieIhj7WCTsw
-         sJ05OCj/WWK4AmlxXSW+712ed53dhO4M6CWT/XD8GoUzrD4kqqhEVNXeviuhwzfnoGxW
-         r30Fo/SkTNZYRr8SRclajL2Jp0BNsTMkInGIWMepqQJWIYkcTWKnWrPQnzeNJ6BFzf1i
-         qACBVZB7UCD+Ehrh4UZp2tNwnyshQpaLFPTttyNuf9qEHXMtDDY1jmyhU4XGUfLmeoGW
-         xcyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718736972; x=1719341772;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=GTbgu4ja5vqrEkefct+zJFTUB3eF6qISm880FN6/VHA=;
-        b=KxoQfS0XfVeKrA/ORKnyczr+mYROJamNI4d8KwhPXX+2vDY2GsCPKh3XUunfbc3RKi
-         OaCvKxcu/61RU7JOu6G9RgB5OQkc2y9ua+A8plUGp9p96zRqlaolq8WWCUcfT/hcwbig
-         ynOFoBjTda0A0Kvx90XBJ9/Wg9OMOF2ow2bdIa6ew3yrxCDlYe9E/AGDmtGbKq5n9s/W
-         i5S4ph9DDLt9yPDA5YgspjgmGQJ90ppfgQO9/e1Ct1jBPG46QGOABs/QhdXqmyr9PW6D
-         7xBd0mMfiZKky/8Oex5pC12ONPqHoSWdcI3Yy77qf3WyZsh1eyPyhYKYEvArkn5UyYb4
-         vmKw==
-X-Forwarded-Encrypted: i=1; AJvYcCVE9Og4OUpwhHNcOS3xE8yM3LNyBe3xqVOKGcvYIq1+cdCK9sNgYFO1Z0KOP6wUQO3zCFvzByZYi8t84NQEmthj1nwhKNLkW9+3BbdB
-X-Gm-Message-State: AOJu0YxzbZoEISU4o12Rmx4dYFXzVyUGr50plyRzdXtMNfRu1L7ixsf2
-	EphZLk+zXACcIDvgOvsSijw6qqxhQkYCvJ8huGVLdaa25qe7IkNVuKhP248KCPk7pJ9oag==
-X-Google-Smtp-Source: AGHT+IFZeEsxJqQbDjMsCd8Wkmied2xaJ0XNpiPIC05JKI7BgGaBpQVrxgjyuAWOdir7s1t/4HRURCmK
-X-Received: from elsk.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:dbd])
- (user=elsk job=sendgmr) by 2002:a05:690c:7091:b0:62c:f01d:3470 with SMTP id
- 00721157ae682-63a8fbea0d1mr1446157b3.6.1718736972216; Tue, 18 Jun 2024
- 11:56:12 -0700 (PDT)
-Date: Tue, 18 Jun 2024 18:56:09 +0000
+	s=arc-20240116; t=1718737060; c=relaxed/simple;
+	bh=V2M0mghClHrj2M1W92vMubTxRSy/b/LNfUMvZytS9g4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=J6o6xBINEnmCiDaaqBHSExzdH7iQe+1+Auv1be/eMz3pnTi3lTwX5FaNy+dA7JP9QnqfOta8sp/ft54s2q3r2l2oYKqjbalf0eA1qycarskO2DRyERUITPG0+7C0lj8nlRlhfWLVXYoNEJxXVNvjuqhtK7gYpKwbP1HTwnZGoJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=XxliiDUX; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=fP0p/3mvmbIRDHw9DLHTHRUnXrWqbRc3mEb0WsGLk6g=; b=XxliiDUXXk8a92ZH7bFiybmuTC
+	mlqS4R7gFzQlaxVDDwHUR5TvgfnJMNJP+MJ9dPfWvLya4h5dbhQqc5mZRN0Wie2xs4TVnQ+FvMORI
+	gNqPgYUpbV1pcs8K+PQaARgb2fteZTjIsj0K5swYr68rar5bhGQ467HztOvYlpwagfh/fBOCSAZGB
+	89DxiblHTn3Liix0bWKnBEIHWp4O9HA8GQcqQfXgwV10zdFltJrJsHlfRyKlCv1Em0G5TcctwcWSb
+	yhetDHTS0/I+dM2CNyvrYvN26lai3igslpFh7S0CbZZeCRfaYGYRz+qWS3w74RaGBxbB/9yn3szLc
+	flHzLEDA==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sJe1S-0000000GHaO-2ejC;
+	Tue, 18 Jun 2024 18:57:38 +0000
+Date: Tue, 18 Jun 2024 11:57:38 -0700
+From: Luis Chamberlain <mcgrof@kernel.org>
+To: Kris Van Hees <kris.van.hees@oracle.com>
+Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-modules@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	Nick Alcock <nick.alcock@oracle.com>,
+	Alan Maguire <alan.maguire@oracle.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Jiri Olsa <olsajiri@gmail.com>,
+	Elena Zannoni <elena.zannoni@oracle.com>
+Subject: Re: [PATCH v4 2/3] kbuild, kconfig: generate offset range data for
+ builtin modules
+Message-ID: <ZnHYooN7o2JEgsWA@bombadil.infradead.org>
+References: <20240614171428.968174-1-kris.van.hees@oracle.com>
+ <20240614171428.968174-3-kris.van.hees@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.45.2.627.g7a2c4fd464-goog
-Message-ID: <20240618185609.4096399-1-elsk@google.com>
-Subject: [PATCH] kconfig: Prevent segfault when getting filename
-From: Yifan Hong <elsk@google.com>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Yifan Hong <elsk@google.com>, kernel-team@android.com, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240614171428.968174-3-kris.van.hees@oracle.com>
+Sender: Luis Chamberlain <mcgrof@infradead.org>
 
-... and lineno in recursive checks.
+On Fri, Jun 14, 2024 at 01:14:27PM -0400, Kris Van Hees wrote:
+> The offset range data for builtin modules is generated using:
+>  - modules.builtin: associates object files with module names
+>  - vmlinux.map: provides load order of sections and offset of first member
+>     per section
+>  - vmlinux.o.map: provides offset of object file content per section
+>  - .*.cmd: build cmd file with KBUILD_MODFILE and KBUILD_MODNAME
 
-If the following snippet is found in Kconfig:
+What tests do we have to ensure this is working correctly and not
+spewing out lies? What proactive mechanisms do we have to verify the
+semantics won't change, or to warn at build time that this awk script
+will break upon new changes? Is this just best effort? Is that good
+enough? Why?
 
-config FOO
-        tristate
-        depends on BAR
-        select BAR
-        help
-          foo
-
-... without BAR defined; then if one runs
-`make tinyconfig`, there is a segfault.
-
-  Kconfig:34:error: recursive dependency detected!
-  Kconfig:34:	symbol FOO depends on BAR
-  make[4]: *** [scripts/kconfig/Makefile:85: allnoconfig] Segmentation fault
-
-This is because of the following. BAR is
-a fake entry created by sym_lookup() with prop
-being NULL. In the recursive check, there is a
-NULL check for prop to fall back to
-stack->sym->prop if stack->prop is NULL. However,
-in this case, stack->sym points to the fake BAR
-entry created by sym_lookup(), so prop is still
-NULL. prop was then referenced without additional
-NULL checks, causing segfault.
-
-Similarly, menu is also accessed without NULL
-checks. However, sym_lookup() creates entry
-that is not a choice, so technically it shouldn't
-fall into the state where menu is NULL for
-choices. But I mechnically apply the NULL check
-anyways for completeness.
-
-This mechnical patch avoids the segfault. The
-above snippet produces the following error with
-this patch:
-
-  Kconfig:34:error: recursive dependency detected!
-  Kconfig:34:	symbol FOO depends on BAR
-  ???:-1:	symbol BAR is selected by FOO
-
-That being said, I am not sure if it is the right
-fix conceptually and in functionality.
-
-Signed-off-by: Yifan Hong <elsk@google.com>
----
- scripts/kconfig/symbol.c | 29 +++++++++++++++++++++--------
- 1 file changed, 21 insertions(+), 8 deletions(-)
-
-diff --git a/scripts/kconfig/symbol.c b/scripts/kconfig/symbol.c
-index 8df0a75f40b9..72ab4f274289 100644
---- a/scripts/kconfig/symbol.c
-+++ b/scripts/kconfig/symbol.c
-@@ -1045,6 +1045,8 @@ static void sym_check_print_recursive(struct symbol *last_sym)
- 	struct menu *menu = NULL;
- 	struct property *prop;
- 	struct dep_stack cv_stack;
-+	const char *filename = NULL;
-+	int lineno = 0;
- 
- 	if (sym_is_choice_value(last_sym)) {
- 		dep_stack_insert(&cv_stack, last_sym);
-@@ -1060,6 +1062,10 @@ static void sym_check_print_recursive(struct symbol *last_sym)
- 	}
- 
- 	for (; stack; stack = stack->next) {
-+		filename = "???";
-+		lineno = 0;
-+		menu = NULL;
-+
- 		sym = stack->sym;
- 		next_sym = stack->next ? stack->next->sym : last_sym;
- 		prop = stack->prop;
-@@ -1073,45 +1079,52 @@ static void sym_check_print_recursive(struct symbol *last_sym)
- 				if (prop->menu)
- 					break;
- 			}
-+			if (menu) {
-+				filename = menu->filename;
-+				lineno = menu->lineno;
-+			}
-+		} else if (prop) {
-+			filename = prop->filename;
-+			lineno = prop->lineno;
- 		}
- 		if (stack->sym == last_sym)
- 			fprintf(stderr, "%s:%d:error: recursive dependency detected!\n",
--				prop->filename, prop->lineno);
-+				filename, lineno);
- 
- 		if (sym_is_choice(sym)) {
- 			fprintf(stderr, "%s:%d:\tchoice %s contains symbol %s\n",
--				menu->filename, menu->lineno,
-+				filename, lineno,
- 				sym->name ? sym->name : "<choice>",
- 				next_sym->name ? next_sym->name : "<choice>");
- 		} else if (sym_is_choice_value(sym)) {
- 			fprintf(stderr, "%s:%d:\tsymbol %s is part of choice %s\n",
--				menu->filename, menu->lineno,
-+				filename, lineno,
- 				sym->name ? sym->name : "<choice>",
- 				next_sym->name ? next_sym->name : "<choice>");
- 		} else if (stack->expr == &sym->dir_dep.expr) {
- 			fprintf(stderr, "%s:%d:\tsymbol %s depends on %s\n",
--				prop->filename, prop->lineno,
-+				filename, lineno,
- 				sym->name ? sym->name : "<choice>",
- 				next_sym->name ? next_sym->name : "<choice>");
- 		} else if (stack->expr == &sym->rev_dep.expr) {
- 			fprintf(stderr, "%s:%d:\tsymbol %s is selected by %s\n",
--				prop->filename, prop->lineno,
-+				filename, lineno,
- 				sym->name ? sym->name : "<choice>",
- 				next_sym->name ? next_sym->name : "<choice>");
- 		} else if (stack->expr == &sym->implied.expr) {
- 			fprintf(stderr, "%s:%d:\tsymbol %s is implied by %s\n",
--				prop->filename, prop->lineno,
-+				filename, lineno,
- 				sym->name ? sym->name : "<choice>",
- 				next_sym->name ? next_sym->name : "<choice>");
- 		} else if (stack->expr) {
- 			fprintf(stderr, "%s:%d:\tsymbol %s %s value contains %s\n",
--				prop->filename, prop->lineno,
-+				filename, lineno,
- 				sym->name ? sym->name : "<choice>",
- 				prop_get_type_name(prop->type),
- 				next_sym->name ? next_sym->name : "<choice>");
- 		} else {
- 			fprintf(stderr, "%s:%d:\tsymbol %s %s is visible depending on %s\n",
--				prop->filename, prop->lineno,
-+				filename, lineno,
- 				sym->name ? sym->name : "<choice>",
- 				prop_get_type_name(prop->type),
- 				next_sym->name ? next_sym->name : "<choice>");
--- 
-2.45.2.627.g7a2c4fd464-goog
-
+  Luis
 
