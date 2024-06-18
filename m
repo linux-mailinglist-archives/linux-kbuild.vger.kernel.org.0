@@ -1,115 +1,102 @@
-Return-Path: <linux-kbuild+bounces-2174-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2175-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09B9E90C7A2
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Jun 2024 12:49:38 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1926B90C985
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Jun 2024 13:31:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 709A9B25F71
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Jun 2024 10:49:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B7C8C286D4C
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Jun 2024 11:31:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 964091BD918;
-	Tue, 18 Jun 2024 09:08:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02C6314A63C;
+	Tue, 18 Jun 2024 10:35:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YqMsA44s"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1131615572F;
-	Tue, 18 Jun 2024 09:08:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD60213A257;
+	Tue, 18 Jun 2024 10:35:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718701699; cv=none; b=q11OwvEzhGi5zBnefUDSCtC5SP+76vTh2wM/zpVbFiI8+BPB/BOfTlaM0cnKaY5RZZcS9Ds9TbgCT5JzNkqrQjejopyODe1Y8JFQ+0MLoCMPY6oTdQFLN7vmieMoAW2D2tiM4nHK2OxzfgD0Ng3drLK2IEviW3OLs/iWER9qcp0=
+	t=1718706946; cv=none; b=DUzNEiWYXhPotHlfO1Kz76eRValnuNUWK7giVFe/1XU4iz0koPBbnmRnI33DDcDS+a8QAfQKLRCBRrmaSTUF1B2Dr+YO47/nd8uGf7VDQeCj61eTJRKID5AgKT4DmjY9+Q9SIpNE6QOBOV/OPeKgv5IIQnV1v1D6zn6JMeD0Sr0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718701699; c=relaxed/simple;
-	bh=DDDGLIPOP6EiTvFcaWmwtQeKDLHvT6mj4lEiqQkKzBs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H962ynBvN3yoBi/ZjPjj3uo0jCewZmdnKfwPJaZxZK7G+jUhugyxFJ0Gl5/OYSXtLBA9qJcxoMEkD+WhiRk1lgS2SC9p0BbNMKk0KCmytKR/WqRFRpUQ/EzDskjLRwfpDiWWvbUDLg7tQx31d5ZAI7kuWr2/1TRsIuwUx4ub4UY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=denx.de; spf=fail smtp.mailfrom=denx.de; arc=none smtp.client-ip=46.255.230.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=denx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=denx.de
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-	id 714621C00A4; Tue, 18 Jun 2024 11:08:15 +0200 (CEST)
-Date: Tue, 18 Jun 2024 11:08:14 +0200
-From: Pavel Machek <pavel@denx.de>
-To: Sasha Levin <sashal@kernel.org>
-Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH AUTOSEL 5.10 8/8] kbuild: fix short log for AS in
- link-vmlinux.sh
-Message-ID: <ZnFOfuILtsfDsr2A@duo.ucw.cz>
-References: <20240605120554.2968012-1-sashal@kernel.org>
- <20240605120554.2968012-8-sashal@kernel.org>
+	s=arc-20240116; t=1718706946; c=relaxed/simple;
+	bh=NKVPfkmNmxgzuheHKvWsyQsRCM22H6bOnVQ8r/1UlXo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BMQJD+HLqLYnY+RhKmGUHs82+pHmj4IjkRcBU/3EJCaDWMTIxAWKYmWbuNWNTltb7yleYWKfNSKwz0qWmPAfZQjvVh+DIW0BNFUzIfytF3nyiIYjrjclQ+hiHK80hqa4KniyZNcCZAky46H6rcACsfG0DbqYSH3hcEWkpIZF3eA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YqMsA44s; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7793C3277B;
+	Tue, 18 Jun 2024 10:35:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718706946;
+	bh=NKVPfkmNmxgzuheHKvWsyQsRCM22H6bOnVQ8r/1UlXo=;
+	h=From:To:Cc:Subject:Date:From;
+	b=YqMsA44sJKxra1vTt4SFBkkEF8kfpw+ffa/OrlYJhYdYhpd03GNpLSW03DG/0063T
+	 IG7N1ZI3U2Fv0mqplXHlKNiwgj/V1+ZtWcPzjJQWo8OPtS0o7fx+8NhdfKinQlyPu5
+	 bxIgb/ZbiVbBooSTndsx7tdxPObqpOBO1dvWgvj41mjW2OHVqQAwYpLtZIoRun1S+y
+	 VRWePr7Fkx15pBMfUvWo/aUfk+SNOcuT/wrprLcN0xGAWmtE0Y101CQQbS1m2VCcKc
+	 pawkBy2l5Z8KdMBE/yk2jFlABRw7qb18fppnvX8gaVVAO1iLCjI4cOKIcXIxkUUYCe
+	 Lw8hyHJsCvn3w==
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH v2 00/12] kconfig: fix choice value calculation with misc cleanups
+Date: Tue, 18 Jun 2024 19:35:19 +0900
+Message-ID: <20240618103541.3508486-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="wZjAlOeZ8nJzzmG8"
-Content-Disposition: inline
-In-Reply-To: <20240605120554.2968012-8-sashal@kernel.org>
+Content-Transfer-Encoding: 8bit
 
 
---wZjAlOeZ8nJzzmG8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The main patch for this series is:
+  "kconfig: refactor choice value calculation"
+This rewrites the handling of user values for choices.
 
-Hi1
+The others are misc cleanups.
 
-> From: Masahiro Yamada <masahiroy@kernel.org>
->=20
-> [ Upstream commit 3430f65d6130ccbc86f0ff45642eeb9e2032a600 ]
->=20
-> In convention, short logs print the output file, not the input file.
->=20
-> Let's change the suffix for 'AS' since it assembles *.S into *.o.
->=20
-> [Before]
->=20
->   LD      .tmp_vmlinux.kallsyms1
->   NM      .tmp_vmlinux.kallsyms1.syms
->   KSYMS   .tmp_vmlinux.kallsyms1.S
->   AS      .tmp_vmlinux.kallsyms1.S
->   LD      .tmp_vmlinux.kallsyms2
->   NM      .tmp_vmlinux.kallsyms2.syms
->   KSYMS   .tmp_vmlinux.kallsyms2.S
->   AS      .tmp_vmlinux.kallsyms2.S
->   LD      vmlinux
->=20
-> [After]
->=20
->   LD      .tmp_vmlinux.kallsyms1
->   NM      .tmp_vmlinux.kallsyms1.syms
->   KSYMS   .tmp_vmlinux.kallsyms1.S
->   AS      .tmp_vmlinux.kallsyms1.o
->   LD      .tmp_vmlinux.kallsyms2
->   NM      .tmp_vmlinux.kallsyms2.syms
->   KSYMS   .tmp_vmlinux.kallsyms2.S
->   AS      .tmp_vmlinux.kallsyms2.o
->   LD      vmlinux
 
-I don't believe this is "bad enough" bug for -stable.
 
-Best regards,
-								Pavel
---=20
-DENX Software Engineering GmbH,        Managing Director: Erika Unter
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+Masahiro Yamada (12):
+  kconfig: import list_move(_tail) and list_for_each_entry_reverse
+    macros
+  kconfig: refactor choice value calculation
+  kconfig: remove sym_get_choice_value()
+  kconfig: remove conf_unsaved in conf_read_simple()
+  kconfig: change sym_choice_default() to take the choice menu
+  kconfig: use menu_list_for_each_sym() in sym_choice_default()
+  kconfig: remove expr_list_for_each_sym() macro
+  kconfig: use sym_get_choice_menu() in sym_check_print_recursive()
+  kconfig: use sym_get_choice_menu() in sym_check_choice_deps()
+  kconfig: use sym_get_choice_menu() in sym_check_deps()
+  kconfig: remove P_CHOICE property
+  kconfig: remove E_LIST expression type
 
---wZjAlOeZ8nJzzmG8
-Content-Type: application/pgp-signature; name="signature.asc"
+ scripts/kconfig/conf.c      | 137 +++++++++++-------------
+ scripts/kconfig/confdata.c  |  61 +++--------
+ scripts/kconfig/expr.c      |  15 ---
+ scripts/kconfig/expr.h      |  21 ++--
+ scripts/kconfig/gconf.c     |   2 +-
+ scripts/kconfig/list.h      |  53 ++++++++++
+ scripts/kconfig/lkc.h       |  10 +-
+ scripts/kconfig/lkc_proto.h |   1 -
+ scripts/kconfig/mconf.c     |   6 +-
+ scripts/kconfig/menu.c      |  25 +----
+ scripts/kconfig/nconf.c     |   6 +-
+ scripts/kconfig/parser.y    |   8 +-
+ scripts/kconfig/qconf.cc    |   8 --
+ scripts/kconfig/symbol.c    | 206 ++++++++++++++++++++----------------
+ 14 files changed, 272 insertions(+), 287 deletions(-)
 
------BEGIN PGP SIGNATURE-----
+-- 
+2.43.0
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZnFOfgAKCRAw5/Bqldv6
-8j6YAJ9zoR0AG9jncaBX92zfkXPViArLIwCgrgaH0mZO3Du+J2sZO3lPWONVH2w=
-=aHaw
------END PGP SIGNATURE-----
-
---wZjAlOeZ8nJzzmG8--
 
