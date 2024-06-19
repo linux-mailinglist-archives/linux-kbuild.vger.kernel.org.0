@@ -1,191 +1,237 @@
-Return-Path: <linux-kbuild+bounces-2218-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2219-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0A5690E159
-	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Jun 2024 03:37:32 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B8D490E302
+	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Jun 2024 08:03:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 44F252842D9
-	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Jun 2024 01:37:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 188821C20BEC
+	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Jun 2024 06:03:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 058D863A9;
-	Wed, 19 Jun 2024 01:37:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7BE418028;
+	Wed, 19 Jun 2024 06:03:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JDCGVi9O"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aU0eoeLh"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF2FCCA40;
-	Wed, 19 Jun 2024 01:37:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83BDB4A1D
+	for <linux-kbuild@vger.kernel.org>; Wed, 19 Jun 2024 06:03:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718761047; cv=none; b=fr/+zLuEDqNHCufXlYVk4YUD06AiNBt8TvxAomRMNwC1zb+e4LEs38R/LV8ijijQ0lDQlvlEBmRBuNwhLg6A1f4pLVgQUfpqWtCCvSFXc1ZanhhCsw3koAfkh/uUr8Xe1kZlmMKofNTFYncVwsJEXQqJ6c6SWRd+LkTQvoIhLwU=
+	t=1718776994; cv=none; b=u+4DcRaZMRECijtyhdT2bLjcOsxX3SW8mLT8y0dYJX9k1M983oN3HJvmdQ+WWv5GUdCmuAzEKJzhqLZkc3AHFoNHwJSO1rqxxvB0cvBu9jEE260S54DTPy9FJ8KUzBzdsshwKNhb69FRzuwk0SXQBcVBc7AEujnbW9V5L1FD+D4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718761047; c=relaxed/simple;
-	bh=7KPk+eUpUpVkXhfAm4cYEHZmPxsTEAG5Bit5UYU3VHc=;
+	s=arc-20240116; t=1718776994; c=relaxed/simple;
+	bh=5hpz5uUYfOoq1EivL6iFSrUDuwZN4ebrRKdj9q0sVDI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UNDpI3AoB6qtFatobsMDqGFIjTVkZu/6BBDEk7yN1tW2y99pwqhlK8ULuQOcmh0dDQDY948ngj/UseL2l1fChZD59KF8VI4t+lnVc3puYQpjIsLbS1ExVtIF7SMmAfpeOw2VXSFHjLoJOqOs0MnW1gbVVGnWERscalcAMBvUtcU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JDCGVi9O; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 629E7C4AF1C;
-	Wed, 19 Jun 2024 01:37:27 +0000 (UTC)
+	 To:Cc:Content-Type; b=LPbWuX6sKft/tmSKrk4NbQVvaMAhc/kG87qBBEwzaMFRGo3K7mPdzzxizKTGC1GZNRvfS1+w8VgbPMuoVpwN93M4wokUC4anYUnltRLH6sfjptW/2zCOhJSKCjoZtuTK3hBV89qDIaNkQ95u7V7AEUtLUAgs6zbpBMetYUucK5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aU0eoeLh; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 170E4C4AF49
+	for <linux-kbuild@vger.kernel.org>; Wed, 19 Jun 2024 06:03:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718761047;
-	bh=7KPk+eUpUpVkXhfAm4cYEHZmPxsTEAG5Bit5UYU3VHc=;
+	s=k20201202; t=1718776994;
+	bh=5hpz5uUYfOoq1EivL6iFSrUDuwZN4ebrRKdj9q0sVDI=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=JDCGVi9O560pnYhznCNHxS7Ejy23bQCmeAa6F0lbqt8CI25Z/JZLp3+hXMZWW7rdg
-	 Fb1YOQX8pddpmSSe6rnt3CLQPBSFLn/pDjSh1TlghkSOQQrks23kHTelhWF4nl7ZQG
-	 TPeikpifkJVdpbb+GPzL0gNksthVgX1Mu5T8z34zfQi3VrqHHwM+4c8hTvhap/9ruR
-	 rOJeXMtXpynSullMduUi3AU4zn7s/rsmpzktzOAYeIGkyUgW5lXLGh+fgCDjvSiK/o
-	 rLYS7R4QcY170Bl6jYaTKAntDaw9JpyMQOqh3GfVFpQsh6/dhaFx4kogjEaypc9HqE
-	 DmhUNxC0XUpIg==
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-52c819f6146so8007851e87.1;
-        Tue, 18 Jun 2024 18:37:27 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUf+Dv+UzYXYkQWKMngyg/crjsAx89soJ6Ydyrbb5PRINsg8HIfmRjCwRGdZ+Ou5UG/kRp4qYmYy09MsqIpVULV77UcP6xUhwnFhwlOkfBbCPH9IqMIAjo0F8ZTkb34z9OTJsulrqfrWJhF
-X-Gm-Message-State: AOJu0YyJZLtLJtBc34oelozk7teiUlS4lR22rj7p0Ey4Qztj0dt3Yn+c
-	ZIcoC0r4IV+hQYnJd2/ZWAYSdFaaLMuwtpBD759oaWPM7dKTMFhf8FTcwsaE5dlA8VbGP1AFBeO
-	/jPvov2dYopDWJh+PcVV4UDgLH1E=
-X-Google-Smtp-Source: AGHT+IEK7oJtpoJScl8nb4APMXGgqAM5F71c5kuZrKvsrbng6BgrHAlh94+h8812eKok2YCS89SeZykcmYtIEYM6jFE=
-X-Received: by 2002:a19:6a12:0:b0:52c:8ea2:9a82 with SMTP id
- 2adb3069b0e04-52ccaa65765mr660342e87.35.1718761046016; Tue, 18 Jun 2024
- 18:37:26 -0700 (PDT)
+	b=aU0eoeLhcjmGxZjcG6oAeRN0AfVgX3OOISLyIBQCrjwgRHiw9gNjCio2fvQ9l8olH
+	 N0DfSzaoEBpd5zoIXh7Qh4iDizBNHOv+nDNZY61zHDXnul5ssgSzRPFumZ7U9QmDZC
+	 jmq+IaKZ5oyARq0gbFYb9ce9o8xIsxtd0/3IYosY3GBiHi9RuDqO/5PzZHZ2kkHNXn
+	 G6m4LMRo1V10rhtjGkFCkVlcgyxyaSHOYm0va6Fwh9dwNN9QN3csv0xW/1CAF7ewVA
+	 84oxEPFpo9gFhrCxuAWBbcLS2AX0suxOH3gV8L95PIacjhsYBHv4jkCYWuj2+cFyBY
+	 L0ChwpbJlR8tA==
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2ec1e5505abso4315741fa.1
+        for <linux-kbuild@vger.kernel.org>; Tue, 18 Jun 2024 23:03:14 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVOKhbyyBVZrr6f33seBmd443lS748sl+mTeJX71w9IBNhBY5UAjnKk3xg9cb/bo/888ITYDl0U6MPNQ+29F6AHyccCFUKJsdh9VV2+
+X-Gm-Message-State: AOJu0Yz8Ku/GflDFVnJB3pDjCfbyVghLIIGugxmj1N7HGlDMYohnTAMa
+	K9JYcXtaH/AJ51pY5kvfuJ3osi2wufeyH6s27r/iNnXYOHqwtauxFQISJ9Px4D9/ZaWK5f6/5rk
+	oUiEvaIDRcoHPHLeyJ2yCSWSKYD0=
+X-Google-Smtp-Source: AGHT+IFQRC4TQufyih74aIb/A8UVL0SAzA2QVkDSG7UkLT2L96wmABDXoIgcR8bO70JEad+7ICWJ6hh3UAKc+z2n1nc=
+X-Received: by 2002:ac2:59dd:0:b0:52c:8508:e851 with SMTP id
+ 2adb3069b0e04-52cc47d6018mr904446e87.14.1718776992698; Tue, 18 Jun 2024
+ 23:03:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240618185609.4096399-1-elsk@google.com>
-In-Reply-To: <20240618185609.4096399-1-elsk@google.com>
+References: <ZGVi9HbI43R5trN8@bhelgaas> <CAK7LNAQPXapu3Ydh9XaB2ggGqgfYX5mo0pHPNHDcnm=w3ubYag@mail.gmail.com>
+ <Zk-C5Eg84yt6_nml@google.com> <CAK7LNASrR2W-obUurSWaKLnQ+CB1o9iuoaM-hbHnv-zoazMzmQ@mail.gmail.com>
+ <ZnIYWBgrJ-IJtqK8@google.com>
+In-Reply-To: <ZnIYWBgrJ-IJtqK8@google.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Wed, 19 Jun 2024 10:36:49 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS2621mLaaUPSJqLPTCeowYSAXgoO9uKhF8uTeNK1jU8Q@mail.gmail.com>
-Message-ID: <CAK7LNAS2621mLaaUPSJqLPTCeowYSAXgoO9uKhF8uTeNK1jU8Q@mail.gmail.com>
-Subject: Re: [PATCH] kconfig: Prevent segfault when getting filename
-To: Yifan Hong <elsk@google.com>
-Cc: kernel-team@android.com, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+Date: Wed, 19 Jun 2024 15:02:35 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAT9n9cQ_5mZ6rE+VD-KwOQm_Rjq=Q-Cx7ib+bSqmbbubA@mail.gmail.com>
+Message-ID: <CAK7LNAT9n9cQ_5mZ6rE+VD-KwOQm_Rjq=Q-Cx7ib+bSqmbbubA@mail.gmail.com>
+Subject: Re: possible dependency error?
+To: Brian Norris <briannorris@chromium.org>
+Cc: Bjorn Helgaas <helgaas@kernel.org>, linux-kbuild@vger.kernel.org, 
+	Josh Poimboeuf <jpoimboe@kernel.org>, Peter Zijlstra <peterz@infradead.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jun 19, 2024 at 3:56=E2=80=AFAM Yifan Hong <elsk@google.com> wrote:
+On Wed, Jun 19, 2024 at 8:29=E2=80=AFAM Brian Norris <briannorris@chromium.=
+org> wrote:
 >
-> ... and lineno in recursive checks.
+> Hi Masahiro,
 >
-> If the following snippet is found in Kconfig:
+> Thanks for the reply. I've been away for a bit, but I've poked at a few
+> more things now.
 >
-> config FOO
->         tristate
->         depends on BAR
->         select BAR
->         help
->           foo
+> On Sun, May 26, 2024 at 01:35:43AM +0900, Masahiro Yamada wrote:
+> > On Fri, May 24, 2024 at 2:54=E2=80=AFAM Brian Norris <briannorris@chrom=
+ium.org> wrote:
+> > > --- a/tools/lib/subcmd/Makefile
+> > > +++ b/tools/lib/subcmd/Makefile
+> > > @@ -76,7 +76,7 @@ include $(srctree)/tools/build/Makefile.include
+> > >
+> > >  all: fixdep $(LIBFILE)
+> > >
+> > > -$(SUBCMD_IN): FORCE
+> > > +$(SUBCMD_IN): fixdep FORCE
+> > >         @$(MAKE) $(build)=3Dlibsubcmd
+> > >
+> > >  $(LIBFILE): $(SUBCMD_IN)
+> >
+> >
+> >
+> > I may not fully understand the design policy of the tools/ build system=
+,
+> > but this fix is presumably correct because the 'fixdep' binary
+> > is needed in each sub-directory for it to work correctly.
+> >
+> > tools/bpf/resolve_btfids/libsubcmd/.exec-cmd.o.cmd must
+> > be generated by tools/bpf/resolve_btfids/libsubcmd/fixdep
+> > instead of by tools/bpf/resolve_btfids/fixdep.
+> >
+> > But, fixing tools/lib/subcmd/Makefile is not enough.
+> >
+> > *.cmd files under tools/bpf/resolve_btfids/libbpf/staticobjs/
+> > are broken for the same reason.
+> > So, this is fundamentally broken in many places.
 >
-> ... without BAR defined; then if one runs
-> `make tinyconfig`, there is a segfault.
+> I think I hacked something that works there too. It gets a bit uglier,
+> but not too bad IMO.
 >
->   Kconfig:34:error: recursive dependency detected!
->   Kconfig:34:   symbol FOO depends on BAR
->   make[4]: *** [scripts/kconfig/Makefile:85: allnoconfig] Segmentation fa=
-ult
+> > And, as you noted, there is no easy way to fix .fixdep.o.cmd
 >
-> This is because of the following. BAR is
-> a fake entry created by sym_lookup() with prop
-> being NULL. In the recursive check, there is a
-> NULL check for prop to fall back to
-> stack->sym->prop if stack->prop is NULL. However,
-> in this case, stack->sym points to the fake BAR
-> entry created by sym_lookup(), so prop is still
-> NULL. prop was then referenced without additional
-> NULL checks, causing segfault.
+> I haven't come up with a *great* solution, but I came up with something
+> that works for the most part, by circumventing the normal Build /
+> Makefile.build split. It's getting pretty ugly too though...
 >
-> Similarly, menu is also accessed without NULL
-> checks. However, sym_lookup() creates entry
-> that is not a choice, so technically it shouldn't
-> fall into the state where menu is NULL for
-> choices. But I mechnically apply the NULL check
-> anyways for completeness.
+> > Your description in
+> > https://issuetracker.google.com/issues/313508829#comment32
+> > is all correct.
+> >
+> >
+> > "can we just use Kbuild?" is a good question.
+> > I do not understand why they use fragile build systems,
+> > where obviously they cannot do it correctly.
+> >
+> >
+> > In fact, I submitted a patch to migrate objtool to Kbuild
+> > because that fixes all the issues cleanly.
+> >
+> > The objtool maintainers rejected it.
+> > https://lore.kernel.org/linux-kbuild/1551764896-8453-3-git-send-email-y=
+amada.masahiro@socionext.com/
+> >
+> >
+> > Not only the build system.
+> > He also refused to participate in the standard Documentation
+> > directory.
+> > tools/objtool/Documentation/objtool.txt still resides in its own direct=
+ory.
 >
-> This mechnical patch avoids the segfault. The
-> above snippet produces the following error with
-> this patch:
+> While I don't love having to solve the same problems repeatedly (once in
+> Kbuild; potentially-many in tools/), I'm also OK with trying to hack
+> fixes into the current duplicate build system if it's not prohibitively
+> complex to do so.
 >
->   Kconfig:34:error: recursive dependency detected!
->   Kconfig:34:   symbol FOO depends on BAR
->   ???:-1:       symbol BAR is selected by FOO
+> Here's what I have for now -- I might submit some or all of this as a
+> proper patchset if I can fix a few rough edges.
+
+
+I do not see any maintainer for tools/build/, but at least
+you can find who is picking up the patches.
+
+
+masahiro@zoe:~/ref/linux(master)$ ./scripts/get_maintainer.pl -f tools/buil=
+d/
+Arnaldo Carvalho de Melo <acme@redhat.com>
+(commit_signer:7/10=3D70%,authored:1/10=3D10%)
+Namhyung Kim <namhyung@kernel.org> (commit_signer:5/10=3D50%,authored:2/10=
+=3D20%)
+Ian Rogers <irogers@google.com> (commit_signer:3/10=3D30%,authored:1/10=3D1=
+0%)
+Thomas Richter <tmricht@linux.ibm.com>
+(commit_signer:2/10=3D20%,authored:2/10=3D20%)
+Quentin Monnet <qmo@kernel.org> (commit_signer:2/10=3D20%)
+Jiri Olsa <jolsa@kernel.org> (authored:1/10=3D10%)
+linux-kernel@vger.kernel.org (open list)
+
+
+
+
+
+
+
+> diff --git a/tools/build/Makefile b/tools/build/Makefile
+> index 17cdf01e29a0..fad93f64035d 100644
+> --- a/tools/build/Makefile
+> +++ b/tools/build/Makefile
+> @@ -43,11 +43,8 @@ ifneq ($(wildcard $(TMP_O)),)
+>         $(Q)$(MAKE) -C feature OUTPUT=3D$(TMP_O) clean >/dev/null
+>  endif
 >
-> That being said, I am not sure if it is the right
-> fix conceptually and in functionality.
+> -$(OUTPUT)fixdep-in.o: FORCE
+> -       $(Q)$(MAKE) $(build)=3Dfixdep
+> -
+> -$(OUTPUT)fixdep: $(OUTPUT)fixdep-in.o
+> -       $(QUIET_LINK)$(HOSTCC) $(KBUILD_HOSTLDFLAGS) -o $@ $<
+> +$(OUTPUT)fixdep: $(srctree)/tools/build/fixdep.c
+> +       $(QUIET_CC)$(HOSTCC) $(KBUILD_HOSTLDFLAGS) -o $@ $<
 
 
 
-  "???:-1:       symbol BAR is selected by FOO"
+OK, you bypassed fixdep for fixdep itself.
 
-is weird, as there is no property
-like "selected by".
-
-It should print the file and lineno of
-"select BAR".
-
-
-
-
-
-The existing code is already wrong.
-
-In the past, I was thinking of fixing it to reference
-the relevant menu entry.
-
-
-Currently, it points to an unrelated location.
-
-
-
-[Test Code]
-
-
-config FOO
-       bool
-
-config BAR
-       bool
-
-config FOO
-       bool "FOO"
-       depends on BAR
-       select BAR
+fixdep will not be rebuilt when the command line changes,
+but it may not be a big deal.
+It is not working that way already.
 
 
 
 
-$ make defconfig
-*** Default configuration is based on 'x86_64_defconfig'
-Kconfig:1:error: recursive dependency detected!
-Kconfig:1: symbol FOO depends on BAR
-Kconfig:4: symbol BAR is selected by FOO
-For a resolution refer to Documentation/kbuild/kconfig-language.rst
-subsection "Kconfig recursive dependency limitations"
+BTW, did you have a chance to test your code
+with the -j<N> option?
+
+
+I quickly tested your change, and I observed new
+"jobserver unavailable" warnings.
+
+
+masahiro@zoe:~/ref/linux(master)$ make -j24
+mkdir -p /home/masahiro/ref/linux/tools/objtool && make
+O=3D/home/masahiro/ref/linux subdir=3Dtools/objtool --no-print-directory
+-C objtool
+make[4]: warning: jobserver unavailable: using -j1.  Add '+' to parent
+make rule.
+make[5]: warning: jobserver unavailable: using -j1.  Add '+' to parent
+make rule.
 
 
 
+The first line:
 
-"Kconfig:1: symbol FOO depends on BAR"
-points to the other unrelated definition
-because "depends on BAR" appears the second
-entry starting line 7.
+  mkdir -p /home/masahiro/ref/linux/tools/objtool && make
+O=3D/home/masahiro/ref/linux subdir=3Dtools/objtool --no-print-directory
+-C objtool
 
-
-
-
-So, I am not keen on applying another cheap fix
-to already-wrong code.
-
-If you want to fix it now, please remove all
-file/lineno logs from this function.
-
-Then, somebody may rewrite the code some day.
+is an existing noise regardless of your change.
+(I do not know if anybody cares about this either)
 
 
 
@@ -196,118 +242,61 @@ Then, somebody may rewrite the code some day.
 
 
 
+>  FORCE:
 >
-> Signed-off-by: Yifan Hong <elsk@google.com>
-> ---
->  scripts/kconfig/symbol.c | 29 +++++++++++++++++++++--------
->  1 file changed, 21 insertions(+), 8 deletions(-)
+> diff --git a/tools/build/Makefile.include b/tools/build/Makefile.include
+> index 8dadaa0fbb43..27b2090cb293 100644
+> --- a/tools/build/Makefile.include
+> +++ b/tools/build/Makefile.include
+> @@ -1,8 +1,16 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  build :=3D -f $(srctree)/tools/build/Makefile.build dir=3D. obj
 >
-> diff --git a/scripts/kconfig/symbol.c b/scripts/kconfig/symbol.c
-> index 8df0a75f40b9..72ab4f274289 100644
-> --- a/scripts/kconfig/symbol.c
-> +++ b/scripts/kconfig/symbol.c
-> @@ -1045,6 +1045,8 @@ static void sym_check_print_recursive(struct symbol=
- *last_sym)
->         struct menu *menu =3D NULL;
->         struct property *prop;
->         struct dep_stack cv_stack;
-> +       const char *filename =3D NULL;
-> +       int lineno =3D 0;
->
->         if (sym_is_choice_value(last_sym)) {
->                 dep_stack_insert(&cv_stack, last_sym);
-> @@ -1060,6 +1062,10 @@ static void sym_check_print_recursive(struct symbo=
-l *last_sym)
->         }
->
->         for (; stack; stack =3D stack->next) {
-> +               filename =3D "???";
-> +               lineno =3D 0;
-> +               menu =3D NULL;
+> +# More than just $(Q), we sometimes want to suppress all command output =
+from a
+> +# recursive make -- even the 'up to date' printout.
+> +ifeq ($(V),1)
+> +  SILENT_MAKE =3D $(Q)$(MAKE)
+> +else
+> +  SILENT_MAKE =3D $(Q)$(MAKE) --silent
+> +endif
 > +
->                 sym =3D stack->sym;
->                 next_sym =3D stack->next ? stack->next->sym : last_sym;
->                 prop =3D stack->prop;
-> @@ -1073,45 +1079,52 @@ static void sym_check_print_recursive(struct symb=
-ol *last_sym)
->                                 if (prop->menu)
->                                         break;
->                         }
-> +                       if (menu) {
-> +                               filename =3D menu->filename;
-> +                               lineno =3D menu->lineno;
-> +                       }
-> +               } else if (prop) {
-> +                       filename =3D prop->filename;
-> +                       lineno =3D prop->lineno;
->                 }
->                 if (stack->sym =3D=3D last_sym)
->                         fprintf(stderr, "%s:%d:error: recursive dependenc=
-y detected!\n",
-> -                               prop->filename, prop->lineno);
-> +                               filename, lineno);
+>  fixdep:
+> -       $(Q)$(MAKE) -C $(srctree)/tools/build CFLAGS=3D LDFLAGS=3D $(OUTP=
+UT)fixdep
+> +       $(SILENT_MAKE) -C $(srctree)/tools/build CFLAGS=3D LDFLAGS=3D $(O=
+UTPUT)fixdep
 >
->                 if (sym_is_choice(sym)) {
->                         fprintf(stderr, "%s:%d:\tchoice %s contains symbo=
-l %s\n",
-> -                               menu->filename, menu->lineno,
-> +                               filename, lineno,
->                                 sym->name ? sym->name : "<choice>",
->                                 next_sym->name ? next_sym->name : "<choic=
-e>");
->                 } else if (sym_is_choice_value(sym)) {
->                         fprintf(stderr, "%s:%d:\tsymbol %s is part of cho=
-ice %s\n",
-> -                               menu->filename, menu->lineno,
-> +                               filename, lineno,
->                                 sym->name ? sym->name : "<choice>",
->                                 next_sym->name ? next_sym->name : "<choic=
-e>");
->                 } else if (stack->expr =3D=3D &sym->dir_dep.expr) {
->                         fprintf(stderr, "%s:%d:\tsymbol %s depends on %s\=
-n",
-> -                               prop->filename, prop->lineno,
-> +                               filename, lineno,
->                                 sym->name ? sym->name : "<choice>",
->                                 next_sym->name ? next_sym->name : "<choic=
-e>");
->                 } else if (stack->expr =3D=3D &sym->rev_dep.expr) {
->                         fprintf(stderr, "%s:%d:\tsymbol %s is selected by=
- %s\n",
-> -                               prop->filename, prop->lineno,
-> +                               filename, lineno,
->                                 sym->name ? sym->name : "<choice>",
->                                 next_sym->name ? next_sym->name : "<choic=
-e>");
->                 } else if (stack->expr =3D=3D &sym->implied.expr) {
->                         fprintf(stderr, "%s:%d:\tsymbol %s is implied by =
-%s\n",
-> -                               prop->filename, prop->lineno,
-> +                               filename, lineno,
->                                 sym->name ? sym->name : "<choice>",
->                                 next_sym->name ? next_sym->name : "<choic=
-e>");
->                 } else if (stack->expr) {
->                         fprintf(stderr, "%s:%d:\tsymbol %s %s value conta=
-ins %s\n",
-> -                               prop->filename, prop->lineno,
-> +                               filename, lineno,
->                                 sym->name ? sym->name : "<choice>",
->                                 prop_get_type_name(prop->type),
->                                 next_sym->name ? next_sym->name : "<choic=
-e>");
->                 } else {
->                         fprintf(stderr, "%s:%d:\tsymbol %s %s is visible =
-depending on %s\n",
-> -                               prop->filename, prop->lineno,
-> +                               filename, lineno,
->                                 sym->name ? sym->name : "<choice>",
->                                 prop_get_type_name(prop->type),
->                                 next_sym->name ? next_sym->name : "<choic=
-e>");
-> --
-> 2.45.2.627.g7a2c4fd464-goog
+>  fixdep-clean:
+>         $(Q)$(MAKE) -C $(srctree)/tools/build clean
+> diff --git a/tools/lib/bpf/Makefile b/tools/lib/bpf/Makefile
+> index 2cf892774346..a8f34de1ca25 100644
+> --- a/tools/lib/bpf/Makefile
+> +++ b/tools/lib/bpf/Makefile
+> @@ -154,6 +154,8 @@ $(BPF_IN_SHARED): force $(BPF_GENERATED)
+>         $(Q)$(MAKE) $(build)=3Dlibbpf OUTPUT=3D$(SHARED_OBJDIR) CFLAGS=3D=
+"$(CFLAGS) $(SHLIB_FLAGS)"
 >
+>  $(BPF_IN_STATIC): force $(BPF_GENERATED)
+> +       $(call rule_mkdir)
+> +       $(SILENT_MAKE) -C $(srctree)/tools/build CFLAGS=3D LDFLAGS=3D OUT=
+PUT=3D$(STATIC_OBJDIR) $(STATIC_OBJDIR)fixdep
+>         $(Q)$(MAKE) $(build)=3Dlibbpf OUTPUT=3D$(STATIC_OBJDIR)
+>
+>  $(BPF_HELPER_DEFS): $(srctree)/tools/include/uapi/linux/bpf.h
+> diff --git a/tools/lib/subcmd/Makefile b/tools/lib/subcmd/Makefile
+> index b87213263a5e..59b09f280e49 100644
+> --- a/tools/lib/subcmd/Makefile
+> +++ b/tools/lib/subcmd/Makefile
+> @@ -76,7 +76,7 @@ include $(srctree)/tools/build/Makefile.include
+>
+>  all: fixdep $(LIBFILE)
+>
+> -$(SUBCMD_IN): FORCE
+> +$(SUBCMD_IN): fixdep FORCE
+>         @$(MAKE) $(build)=3Dlibsubcmd
+>
+>  $(LIBFILE): $(SUBCMD_IN)
 >
 
 
