@@ -1,243 +1,177 @@
-Return-Path: <linux-kbuild+bounces-2231-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2232-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C22E91141C
-	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Jun 2024 23:11:52 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC15491152C
+	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Jun 2024 23:52:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A40CA1C20D1C
-	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Jun 2024 21:11:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 81C5728213C
+	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Jun 2024 21:52:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6200B7581F;
-	Thu, 20 Jun 2024 21:11:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A77681723;
+	Thu, 20 Jun 2024 21:52:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZGr2uNtv"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="n2EaCf9V"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B96153A1CD
-	for <linux-kbuild@vger.kernel.org>; Thu, 20 Jun 2024 21:11:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76E6E757E3
+	for <linux-kbuild@vger.kernel.org>; Thu, 20 Jun 2024 21:52:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718917908; cv=none; b=cjd7woCp3XB7vr/QErdufXXubn+X8UXB0AchAHZ2JMbdjXPEoh1RefO59sKjfvQraf/6crZZz19OsIKtU2uGgU9OuLCfXl5bJOzzdYNQQTlMigGlCZazH4thFL6GqG4r2i5IaHSUqGTPe2r/0SshwBQfRmxfOeiL5du7GOegp2E=
+	t=1718920350; cv=none; b=W56IQbDsWV5e4Vj5PwSUDr6r5etYN5XxTBJXekFYAIMx1xqfXQ/D9uxNURDRlb8MwOWkEGf+/sK8FvO6PnGHZaZoIaF0z/qDJt9kVI7zIsgwYeqpObhW9IS/ucETNatTlOgiGykZIDadAO9x9OKj5ipWGkDDWr6eoBZ6hbMZQ3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718917908; c=relaxed/simple;
-	bh=GA91huQdLUbSlkWk8Tpei6PdXlKNw2ETyVPB0qR2BUU=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=ij7Gut3DNbwEoF3mQVhMg1SQaEKmDCqDI1dQaEqWtnIhmg4Bi7Y8yVMsJg541BL4Ql4oV0KjMtXFjZxu4XTlpffE73HPo4zcLKXpIweSuycX5k9bdaacMz1xJ5bQ9hixT1kD2UeHixQb+mt7XhvbwtassSkv19wNllu2haPOHzw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--elsk.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZGr2uNtv; arc=none smtp.client-ip=209.85.219.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--elsk.bounces.google.com
-Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-dfdfe3d9fc8so2247755276.3
-        for <linux-kbuild@vger.kernel.org>; Thu, 20 Jun 2024 14:11:46 -0700 (PDT)
+	s=arc-20240116; t=1718920350; c=relaxed/simple;
+	bh=2FOyLV4GHpaRKVhoA1ma37Hm1gVaMz3AaJAjd68LFVk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uzlElXsUB56VcD1JEp7oNMmnAM6oNag3NeMJEwYyZMqRRocdRTiuC/ZllR8BfBY0WQmVUNG7rpzNlM9EjUiBNcAD77286ToQgCGJQk8f7A7kbCNJxHqa/W864MiA7RzVGFGsFilWtHf0FrZCO5OofkFrKCprzS/Urj8S4djsnhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=n2EaCf9V; arc=none smtp.client-ip=209.85.215.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-713fa1ae9a7so939239a12.2
+        for <linux-kbuild@vger.kernel.org>; Thu, 20 Jun 2024 14:52:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1718917906; x=1719522706; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=IQuwu/NTPlbRKO6mQ54PUmCU1PjMj/T5kuRqII4usxg=;
-        b=ZGr2uNtvmYfe9AOJI84J1ia/Sh+kP6Hh6luEJWg+vBpmguPCvJL4kWDpRxBkocYcuP
-         lTlsRJCmusmePhyLpTv7LDdbhDw2p2m+mKQ++bLNXVXvm1kc4nBTqpB1K7w32AbnGucz
-         O5mFUj08IuBbakJVXYCN+abHDvqhiEbDlnt5qqec2RpAyc6oi+c/Sx9kXMfo0a9DUOkJ
-         XK/kj4W7GKNf0ijOaSsQ13zDfvUnGUREfWl+06RJSQXVxpRnrFnA/JJz1LNtKRDcI7ud
-         NhAgAhk3bYswooGR1XdSudvkY0Efr7kRMVj2veThg2NyQgU6cv6PXlZ1dupsB2vXNBVa
-         VmxQ==
+        d=chromium.org; s=google; t=1718920349; x=1719525149; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=lCL4DWciTGqSOmHD8n1CyNNo7VlBsdmCzTAXVKMjDJI=;
+        b=n2EaCf9V/XTiE+7PDfrAFgWaKIHgsu5fp0f9YMuOMYOL15+jLpiQ+LeauGEYCoL/zv
+         bXjN6iev56oCwlzPwsjMPmyouoNaRA0G+lEnsh+NT+ScSuYhTfeTZO/gByO+OTVEcpVN
+         dJI+XQLw36tMy4Aa+L3HS+/RSfgGE+xv3AIN8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718917906; x=1719522706;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=IQuwu/NTPlbRKO6mQ54PUmCU1PjMj/T5kuRqII4usxg=;
-        b=XiQYyLst5kCw3rXiivyNzmOKUsuhQ4zO58rY6InKkzphMIxgWoCZNZs621gwFwBiUr
-         cDY/jHMAYI4JVbR/1kpBXSRlQcwzDZ65khTqvYaaJNuJQ5cXSx81B5qV7HPpTv8GNzkX
-         SCzaiiYLFkepPpBrnVF2w+YmA5Spyw5lpWbHfSyGzh9K/f4UrXBCVxGv7+d7Pa1KoMqB
-         djjn+H90ehuHFB5yMJggUL9waeimntVHQa+I4gbgqN6MMV2uEdlGljVZWmHolExl4kxX
-         NfWO/mTrN/xhEH4xNMQCqZxjtt7XM4/UlBj146hLJwcm7a47bP+1ovNIkm28Qx6d62pP
-         TKGQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWlJ4BXr15rRGPMbx5Qrg1U32dB4ycKAQ1evHfOCsbj8wltSOdVYau1O7XkzTd0n909VTZu8rtRt1kO7a4zWEzizBomtyzTpRGgGhJc
-X-Gm-Message-State: AOJu0YwsmgKfCIEv7nJe1PfJuD+em3mrN0eJESLJ9GHbX4LrGf9bHCpu
-	R+e3mJvABNsJzxZ68z3+IPaqlga0NJOvzPRotZQ7hAj9gi+LfAJ67tJ2PED7V8iirfjVpQ==
-X-Google-Smtp-Source: AGHT+IHc/3f9XoezpLQgMIYpssJemzPAUQJu+86hEHhv1C0NFnpvXJwK87sdofroR3vo7JN/LbpZqICj
-X-Received: from elsk.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:dbd])
- (user=elsk job=sendgmr) by 2002:a05:6902:1006:b0:dfe:1633:89e9 with SMTP id
- 3f1490d57ef6-e02be16c56dmr1760259276.1.1718917905788; Thu, 20 Jun 2024
- 14:11:45 -0700 (PDT)
-Date: Thu, 20 Jun 2024 21:11:12 +0000
+        d=1e100.net; s=20230601; t=1718920349; x=1719525149;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lCL4DWciTGqSOmHD8n1CyNNo7VlBsdmCzTAXVKMjDJI=;
+        b=JctHg6LnsC2VRfxRNEsvli6w1LAXdY8MludsvEm8wdwODj6IDTyto2LTx+/VYWrPCJ
+         4fJk7apyCgleVsBSORgOl27VUwvmNo5ROqiu2C/GypOpZAvlemX9DawG6LaErpcW8O92
+         6YB/Yn0r35a/EUNdKhuMx2Y5XVMRj+ZaBMqZQhTU7B7pEoa5yeaDHA8ru9UuIeGtqMhv
+         CnFcyA+IeRHYmylKgW7lkJOv2PqrHIN4x0PVrpkOwpdY92Pg/ioi3hMNeJoKMhG5afkV
+         NraxNU1zwoxyAaTQPzMP1ZImWZyWBP03Jlrjf1t4rNbgj0jteBO9ToxpJcFORbs6liJ3
+         AIww==
+X-Gm-Message-State: AOJu0YyEUlmR6LQSSeleSd+dWDcZNDkDxE+x8qdWIwNjkU2OhMh03FX+
+	SFQ4u8AKx6vD8LMPaPrqHr64TmzAuLYEqUtPvTi3pBcTCtx6WwyQc6TrhJ2HVI8jQqnSX98tH6Y
+	=
+X-Google-Smtp-Source: AGHT+IHzj7E2DV9mWLZX2bC2IeG9DDRDVXzNRRvfAMdRITbMPcicfgr6+OovcGC2P61uVydjRIhiOw==
+X-Received: by 2002:a17:90a:db86:b0:2c7:7e23:63d8 with SMTP id 98e67ed59e1d1-2c7b5d905dfmr6708191a91.44.1718920348710;
+        Thu, 20 Jun 2024 14:52:28 -0700 (PDT)
+Received: from localhost ([2620:15c:9d:2:3c9c:a224:3ec6:17d2])
+        by smtp.gmail.com with UTF8SMTPSA id 98e67ed59e1d1-2c819a79ff4sm168294a91.17.2024.06.20.14.52.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Jun 2024 14:52:28 -0700 (PDT)
+Date: Thu, 20 Jun 2024 14:52:26 -0700
+From: Brian Norris <briannorris@chromium.org>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
+	Josh Poimboeuf <jpoimboe@redhat.com>, linux-kernel@vger.kernel.org,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>
+Subject: Re: [PATCH] Makefile: add comment to discourage tools/* addition for
+ kernel builds
+Message-ID: <ZnSkmmpCY2Aj5VpU@google.com>
+References: <20240619062145.3967720-1-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.45.2.741.gdbec12cfda-goog
-Message-ID: <20240620211112.500465-1-elsk@google.com>
-Subject: [PATCH v2] kconfig: recursive checks drop file/lineno
-From: HONG Yifan <elsk@google.com>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: HONG Yifan <elsk@google.com>, kernel-team@android.com, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240619062145.3967720-1-masahiroy@kernel.org>
 
-This prevents segfault when getting filename
-and lineno in recursive checks.
+On Wed, Jun 19, 2024 at 03:21:42PM +0900, Masahiro Yamada wrote:
+> Kbuild provides scripts/Makefile.host to build host programs used for
+> building the kernel. Unfortunately, there are two exceptions that opt
+> out of Kbuild. The build system under tools/ is a cheesy replica, and
+> is always a disaster. I was recently poked about a problem in the tools
+> build issue, which I do not maintain (and nobody maintains). [1]
 
-If the following snippet is found in Kconfig:
+(Side note: I hope I haven't placed undue burden on you; I understood
+you don't maintain tools/ and that it didn't use Kbuild. I only "poked"
+you because the original bug report I was replying to had you and
+linux-kbuild on CC already. And I appreciate your engagement, even if
+the bugs are due to intentional forking.)
 
-[Test code 1]
+But anyway, I agree that clearer documentation and recommendations could
+be helpful here. To that end, some dumb questions below, as I'm not sure
+if this fully serves its purpose as-is:
 
-config FOO
-       tristate
-       depends on BAR
-       select BAR
-       help
-         foo
+> Without a comment, somebody might believe this is the right location
+> because that is where objtool lives, even when a more robust Kbuild
+> syntax satisfies their needs. [2]
+> 
+> [1]: https://lore.kernel.org/linux-kbuild/ZnIYWBgrJ-IJtqK8@google.com/T/#m8ece130dd0e23c6f2395ed89070161948dee8457
+> [2]: https://lore.kernel.org/all/20240618200501.GA1611012@google.com/
+> 
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+> 
+>  Makefile | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/Makefile b/Makefile
+> index 471f2df86422..ba070596ad4e 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -1331,6 +1331,11 @@ prepare: tools/bpf/resolve_btfids
+>  endif
+>  endif
+>  
+> +# README
+> +# The tools build system is not a part of Kbuild. Before adding yet another
+> +# tools/* here, please consider if the standard "hostprogs" syntax satisfies
+> +# your needs.
+> +
 
-... without BAR defined; then if one runs
-`make tinyconfig`, there is a segfault.
+Some clarifying questions / statements-as-questions:
 
-  Kconfig:34:error: recursive dependency detected!
-  Kconfig:34:	symbol FOO depends on BAR
-  make[4]: *** [scripts/kconfig/Makefile:85: allnoconfig] Segmentation fault
+* nothing in tools/ uses Kbuild, right? (even stuff that uses KBUILD_*
+  names is just an imitative port, right?)
+* not everything in tools/ is actually promoted to a high-level target,
+  that affects this top-level Makefile. Are you only concerned about
+  stuff that pretends to be integrated in the top-level kernel Makefile?
+  (If not, then it seems like placing the README comments only in this
+  Makefile is a poor choice.)
+* is the "standard hostprogs" recommendation a general recommendation,
+  for all sorts of kept-in-the-kernel-tree host tools? Is the
+  recommendation to "use Kbuild" or to "avoid putting your tool in
+  tools/*"? Is it possible (recommended?) to plumb Kbuild stuff into
+  tools/, even if other parts won't migrate?
 
-This is because of the following. BAR is
-a fake entry created by sym_lookup() with prop
-being NULL. In the recursive check, there is a
-NULL check for prop to fall back to
-stack->sym->prop if stack->prop is NULL. However,
-in this case, stack->sym points to the fake BAR
-entry created by sym_lookup(), so prop is still
-NULL. prop was then referenced without additional
-NULL checks, causing segfault.
+As is, I can't tell if this is telling people to avoid adding new stuff
+to tools/ entirely, or just to only add to tools/ if you're able to
+remain completely isolated from the rest of the kernel build -- as soon
+as you want to play some part in the Kbuild-covered part of the tree,
+you need to use Kbuild.
 
-As the previous email thread suggests, the file
-and lineno for select is also wrong:
+If I'm inferring the right answers to the above, then maybe an improved
+wording could be something like:
 
-[Test code 2]
+"The tools build system is not a part of Kbuild and tends to introduce
+its own unique issues. If you need to integrate a new tool into Kbuild,
+please consider locating that tool outside the tools/ tree and using the
+standard Kbuild "hostprogs" syntax instead of adding a new tools/* entry
+here."
 
-config FOO
-       bool
+It's possible I'm playing mental acrobatics here in my reading too.
 
-config BAR
-       bool
+Either way, I think this is a good trajectory:
 
-config FOO
-       bool "FOO"
-       depends on BAR
-       select BAR
+Reviewed-by: Brian Norris <briannorris@chromium.org>
 
-$ make defconfig
-*** Default configuration is based on 'x86_64_defconfig'
-Kconfig:1:error: recursive dependency detected!
-Kconfig:1: symbol FOO depends on BAR
-Kconfig:4: symbol BAR is selected by FOO
-[...]
+Regards,
+Brian
 
-Kconfig:4 should be Kconfig:10.
-
-This patch deletes the wrong and segfault-prone
-filename/lineno inference completely. With this
-patch, Test code 1 yields:
-
-error: recursive dependency detected!
-	symbol FOO depends on BAR
-	symbol BAR is selected by FOO
-
-Link: https://lore.kernel.org/linux-kbuild/20240618185609.4096399-1-elsk@google.com/
-Signed-off-by: HONG Yifan <elsk@google.com>
-
---
-v2: Delete all filenames/lineno completely as
-suggested by masahiroy@kernel.org
----
- scripts/kconfig/symbol.c | 43 +++++++++++++++-------------------------
- 1 file changed, 16 insertions(+), 27 deletions(-)
-
-diff --git a/scripts/kconfig/symbol.c b/scripts/kconfig/symbol.c
-index 8df0a75f40b9..3974e46a8533 100644
---- a/scripts/kconfig/symbol.c
-+++ b/scripts/kconfig/symbol.c
-@@ -1042,9 +1042,9 @@ static void sym_check_print_recursive(struct symbol *last_sym)
- {
- 	struct dep_stack *stack;
- 	struct symbol *sym, *next_sym;
--	struct menu *menu = NULL;
- 	struct property *prop;
- 	struct dep_stack cv_stack;
-+	enum prop_type type;
- 
- 	if (sym_is_choice_value(last_sym)) {
- 		dep_stack_insert(&cv_stack, last_sym);
-@@ -1066,54 +1066,43 @@ static void sym_check_print_recursive(struct symbol *last_sym)
- 		if (prop == NULL)
- 			prop = stack->sym->prop;
- 
--		/* for choice values find the menu entry (used below) */
--		if (sym_is_choice(sym) || sym_is_choice_value(sym)) {
--			for (prop = sym->prop; prop; prop = prop->next) {
--				menu = prop->menu;
--				if (prop->menu)
--					break;
--			}
--		}
-+		if (prop == NULL)
-+			type = P_UNKNOWN;
-+		else
-+			type = prop->type;
-+
- 		if (stack->sym == last_sym)
--			fprintf(stderr, "%s:%d:error: recursive dependency detected!\n",
--				prop->filename, prop->lineno);
-+			fprintf(stderr, "error: recursive dependency detected!\n");
- 
- 		if (sym_is_choice(sym)) {
--			fprintf(stderr, "%s:%d:\tchoice %s contains symbol %s\n",
--				menu->filename, menu->lineno,
-+			fprintf(stderr, "\tchoice %s contains symbol %s\n",
- 				sym->name ? sym->name : "<choice>",
- 				next_sym->name ? next_sym->name : "<choice>");
- 		} else if (sym_is_choice_value(sym)) {
--			fprintf(stderr, "%s:%d:\tsymbol %s is part of choice %s\n",
--				menu->filename, menu->lineno,
-+			fprintf(stderr, "\tsymbol %s is part of choice %s\n",
- 				sym->name ? sym->name : "<choice>",
- 				next_sym->name ? next_sym->name : "<choice>");
- 		} else if (stack->expr == &sym->dir_dep.expr) {
--			fprintf(stderr, "%s:%d:\tsymbol %s depends on %s\n",
--				prop->filename, prop->lineno,
-+			fprintf(stderr, "\tsymbol %s depends on %s\n",
- 				sym->name ? sym->name : "<choice>",
- 				next_sym->name ? next_sym->name : "<choice>");
- 		} else if (stack->expr == &sym->rev_dep.expr) {
--			fprintf(stderr, "%s:%d:\tsymbol %s is selected by %s\n",
--				prop->filename, prop->lineno,
-+			fprintf(stderr, "\tsymbol %s is selected by %s\n",
- 				sym->name ? sym->name : "<choice>",
- 				next_sym->name ? next_sym->name : "<choice>");
- 		} else if (stack->expr == &sym->implied.expr) {
--			fprintf(stderr, "%s:%d:\tsymbol %s is implied by %s\n",
--				prop->filename, prop->lineno,
-+			fprintf(stderr, "\tsymbol %s is implied by %s\n",
- 				sym->name ? sym->name : "<choice>",
- 				next_sym->name ? next_sym->name : "<choice>");
- 		} else if (stack->expr) {
--			fprintf(stderr, "%s:%d:\tsymbol %s %s value contains %s\n",
--				prop->filename, prop->lineno,
-+			fprintf(stderr, "\tsymbol %s %s value contains %s\n",
- 				sym->name ? sym->name : "<choice>",
--				prop_get_type_name(prop->type),
-+				prop_get_type_name(type),
- 				next_sym->name ? next_sym->name : "<choice>");
- 		} else {
--			fprintf(stderr, "%s:%d:\tsymbol %s %s is visible depending on %s\n",
--				prop->filename, prop->lineno,
-+			fprintf(stderr, "\tsymbol %s %s is visible depending on %s\n",
- 				sym->name ? sym->name : "<choice>",
--				prop_get_type_name(prop->type),
-+				prop_get_type_name(type),
- 				next_sym->name ? next_sym->name : "<choice>");
- 		}
- 	}
--- 
-2.45.2.741.gdbec12cfda-goog
-
+>  PHONY += resolve_btfids_clean
+>  
+>  resolve_btfids_O = $(abspath $(objtree))/tools/bpf/resolve_btfids
+> -- 
+> 2.43.0
+> 
 
