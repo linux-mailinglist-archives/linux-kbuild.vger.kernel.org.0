@@ -1,156 +1,133 @@
-Return-Path: <linux-kbuild+bounces-2244-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2245-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11768914F64
-	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Jun 2024 15:59:35 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB0CF9157C0
+	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Jun 2024 22:18:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BC1181F210A5
-	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Jun 2024 13:59:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 82C37284D4A
+	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Jun 2024 20:18:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B458A142625;
-	Mon, 24 Jun 2024 13:59:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB6084642D;
+	Mon, 24 Jun 2024 20:18:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BONS/dmo"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="giHbMji3"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84B9B1422CC;
-	Mon, 24 Jun 2024 13:59:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 825291A0717;
+	Mon, 24 Jun 2024 20:18:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719237569; cv=none; b=WrRNIo1RokwBvTwlaAVAbEfY90RMvse05b2dnr4NQXI2mO5B9PYUWS7CzPIIjugYUZQyJAADGmoOsGLEDlYQ1Qn+mML/U3DthcXdvi0agHMeT7RsUJwlQO/VPRUTlv33QIdQqVHwAuTaJ3YrzjCTv4cFkzWPI0rLLi+Q5RIUV3c=
+	t=1719260301; cv=none; b=TazONW3pyxI8Hm24dkYvpg49dFf6ThjzaE0CtMD7t1HnuYVHl01YHEHxGBvRCgVU/e0vNqd5gX81m8AvW+x/UxxJ2srirDp6xUWzN5eGqjKUaXrAQ6bVY4u3O2feNN5dK6BBGRn6Y44/SPjRvAHlx5KIYbk6YQjvH/SfqRW5oFg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719237569; c=relaxed/simple;
-	bh=PHz9ID1AbaX4jCuzpUPTNRNnsrvk3q9VXc4Hy7Zq2wI=;
+	s=arc-20240116; t=1719260301; c=relaxed/simple;
+	bh=DO3F18f5SP8f/MW8gwjfbWiSJPAYVs+z8iZoxQFISiI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r2wQmn0OAl9+At8WC8rNTKRxIhUI0hsuBBcLnw34IdJyojod07GcYzMTaugEWGW7gHHdFymPqAPhTj1alZyi4pU7U3/oFDa8v6Mrfaf6qdojDoTGTYNJNm2BGZAlOFfweRt6pq8kfGeyoU7o638lK9h+ql7Gqgy0LRVlOSqJ4JM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BONS/dmo; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 987FAC2BBFC;
-	Mon, 24 Jun 2024 13:59:24 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=ptRyn/7301eDuGO/cwEqR5nkmDxLBYOrO5dCR4E9iY7Lyqe+RYGDhP/gcylnoeTieYE6WrF3BQer//WuML0+H/9m2F6ejH04BEUrtAFdxEi4X0KLHz9Cj73wGqjoewTzyPRO/RFqp4psAFZnMG0rmsfamx2mVqnBNpv38Vgf+Rw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=giHbMji3; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6997C2BBFC;
+	Mon, 24 Jun 2024 20:18:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719237569;
-	bh=PHz9ID1AbaX4jCuzpUPTNRNnsrvk3q9VXc4Hy7Zq2wI=;
+	s=k20201202; t=1719260301;
+	bh=DO3F18f5SP8f/MW8gwjfbWiSJPAYVs+z8iZoxQFISiI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BONS/dmo3sQIsRz+JgJu2D4HwU01CZjlWkts2blz3K7Dyv0vPd26HCtvgDz7t3YnF
-	 vmpf2jllVI8Gwj7wQ8zp+JnnMt1K2qXkuxHNXpfPgMZmTLWlK4wOrHF8jNM0csdY+S
-	 h00BJGGjeuQKXKS6wRiHzy4MRHO3hfAjx12drCQL4yfrgZDiDRN6jr9Pz5syCOXsQ9
-	 LJI8ky4fFLc1DkTUqqOYfMgechyYA5d6aoy+UnvtL5+AQYRKvF/4Xh4geDx8vPaCl3
-	 PTiuvc4/3nCLDwLLFREF66bHsHrypTmm12p1ZEfpqQm1ryOrPIAxwvAgrRdw7e33mD
-	 cVXqEhyw0rldQ==
-Date: Mon, 24 Jun 2024 14:59:21 +0100
-From: Will Deacon <will@kernel.org>
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: Jamie.Cunliffe@arm.com, a.hindborg@samsung.com, alex.gaynor@gmail.com,
-	ardb@kernel.org, benno.lossin@proton.me, bjorn3_gh@protonmail.com,
-	boqun.feng@gmail.com, broonie@kernel.org, catalin.marinas@arm.com,
-	gary@garyguo.net, keescook@chromium.org, kernel@valentinobst.de,
-	linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, mark.rutland@arm.com,
-	masahiroy@kernel.org, maz@kernel.org,
-	miguel.ojeda.sandonis@gmail.com, nathan@kernel.org,
-	ndesaulniers@google.com, nicolas@fjasle.eu, ojeda@kernel.org,
-	rust-for-linux@vger.kernel.org, samitolvanen@google.com,
-	wedsonaf@gmail.com
-Subject: Re: [PATCH v2] rust: add flags for shadow call stack sanitizer
-Message-ID: <20240624135921.GC8616@willie-the-truck>
-References: <20240409103120.GA22557@willie-the-truck>
- <20240430110925.1064685-1-aliceryhl@google.com>
- <20240604142941.GD20384@willie-the-truck>
- <CAH5fLgimyYmS33EPEQb6R5Lrmkzv+0GNRE7NQwhfEaJFqb4OYQ@mail.gmail.com>
+	b=giHbMji3CYwfeiqD8pY4mqugoWrrhHgw1f0I5G/R/+73iM4AbHSlk1xqzuYBgIxqU
+	 DDiTPV4F/GgmGykqWHjliMsgEoMhxKVrGp1wlEfpBcyUob91Fqm8WlRIh/hEqvVZf8
+	 uHMhux0uUfvAYo9lYpB3D+BZZ7K/1co85GPpwUREey7A7LgLO8MweyOZkzToBfkbsO
+	 OMyU8L8YQbK4z8LTYPQiMgq4DLyyWwiBS327C0G4eAESnjFxiTksHaqWQh5Kc8malm
+	 O//xzbkwjW0/OuqWNjA+TwTGHDrO4+Wk0s3ArKJVpprzyI0326JZ0LinY1LHO5Ro6+
+	 LiXA2mYAT0cFA==
+Date: Mon, 24 Jun 2024 13:18:19 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Nicolas Schier <nicolas@fjasle.eu>
+Subject: Re: [PATCH v2] kbuild: rpm-pkg: fix build error with CONFIG_MODULES=n
+Message-ID: <20240624201819.GA783641@thelio-3990X>
+References: <20240618110850.3510697-1-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAH5fLgimyYmS33EPEQb6R5Lrmkzv+0GNRE7NQwhfEaJFqb4OYQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20240618110850.3510697-1-masahiroy@kernel.org>
 
-Hi Alice,
-
-On Tue, Jun 04, 2024 at 04:53:16PM +0200, Alice Ryhl wrote:
-> On Tue, Jun 4, 2024 at 4:29 PM Will Deacon <will@kernel.org> wrote:
-> > On Tue, Apr 30, 2024 at 11:09:25AM +0000, Alice Ryhl wrote:
-> > > Will Deacon <will@kernel.org> wrote:
-> > > > On Tue, Mar 05, 2024 at 01:14:19PM +0100, Miguel Ojeda wrote:
-> > > >> Otherwise partially reverting to the `target.json` approach sounds good too.
-> > > >>
-> > > >> I added the `-Zuse-sync-unwind=n` to the list at
-> > > >> https://github.com/Rust-for-Linux/linux/issues/2. Given the default is
-> > > >> what we want, I have put it in the "Good to have" section.
-> > > >
-> > > > I think we have time to do this properly, like we did for the clang
-> > > > enablement a few years ago. In hindsight, avoiding hacks for the early
-> > > > toolchains back then was a really good idea because it meant we could
-> > > > rely on a solid baseline set of compiler features from the start.
-> > > >
-> > > > So, please can we fix this in rustc and just have SCS dependent on that?
-> > >
-> > > Just to keep you in the loop, I've posted a PR to make rustc recognize
-> > > the reserve-x18 target feature, so that the -Ctarget-feature=+reserve-x18
-> > > flag stops emitting a warning.
-> > >
-> > > This should be sufficient for adding support for CONFIG_DYNAMIC_SCS.
-> > >
-> > > You can find it here:
-> > > https://github.com/rust-lang/rust/pull/124323
-> > >
-> > > As for non-dynamic SCS, I plan to tackle that after the PR is merged.
-> > > See the "Future possibilities" section in the linked PR for more info on
-> > > that.
-> >
-> > Thanks for persevering with this, Alice. I read the pull request above,
-> > but it looks like you went with:
-> >
-> > https://github.com/rust-lang/rust/pull/124655
-> >
-> > instead, which was merged (hurrah!). Do we need anything else?
+On Tue, Jun 18, 2024 at 08:08:43PM +0900, Masahiro Yamada wrote:
+> When CONFIG_MODULES is disabled, 'make (bin)rpm-pkg' fails:
 > 
-> Yeah, it took a while, but I've managed to get a -Zfixed-x18 flag in.
-> It will be available starting with Rust 1.80, which will be released
-> on the 25th of July.
-
-Great, thank you!
-
-> A few things:
+>   $ make allnoconfig binrpm-pkg
+>     [ snip ]
+>   error: File not found: .../linux/rpmbuild/BUILDROOT/kernel-6.10.0_rc3-1.i386/lib/modules/6.10.0-rc3/kernel
+>   error: File not found: .../linux/rpmbuild/BUILDROOT/kernel-6.10.0_rc3-1.i386/lib/modules/6.10.0-rc3/modules.order
 > 
-> 1. The -Zsanitizer=shadow-call-stack flag still doesn't work because
-> the compiler thinks that the target doesn't support it. I'll fix this
-> eventually, but at least CONFIG_DYNAMIC_SCS works now.
+> Specify the directory path, /lib/modules/%{KERNELRELEASE}, instead of
+> individual files to make it work irrespective of CONFIG_MODULES.
 > 
-> 2. I haven't convinced the Rust maintainers that -Zfixed-x18 is the
-> way to go long term (flags starting with -Z are unstable and may
-> change). Some of the maintainers want to instead add a x18-available
-> target feature (that is, the inverse of the current reserve-x18 target
-> feature), that you can disable with -Ctarget-feature=-x18-available.
+> However, doing so would cause new warnings:
 > 
-> And a few questions for you:
+>   warning: File listed twice: /lib/modules/6.10.0-rc3-dirty/modules.alias
+>   warning: File listed twice: /lib/modules/6.10.0-rc3-dirty/modules.alias.bin
+>   warning: File listed twice: /lib/modules/6.10.0-rc3-dirty/modules.builtin.alias.bin
+>   warning: File listed twice: /lib/modules/6.10.0-rc3-dirty/modules.builtin.bin
+>   warning: File listed twice: /lib/modules/6.10.0-rc3-dirty/modules.dep
+>   warning: File listed twice: /lib/modules/6.10.0-rc3-dirty/modules.dep.bin
+>   warning: File listed twice: /lib/modules/6.10.0-rc3-dirty/modules.devname
+>   warning: File listed twice: /lib/modules/6.10.0-rc3-dirty/modules.softdep
+>   warning: File listed twice: /lib/modules/6.10.0-rc3-dirty/modules.symbols
+>   warning: File listed twice: /lib/modules/6.10.0-rc3-dirty/modules.symbols.bin
 > 
-> By the time support for 1.80 goes in, we are probably supporting more
-> than one Rust compiler. For pre-1.80 compilers, should we fall back to
-> -Ctarget-feature=+reserve-x18 (which emits a warning, but works), or
-> fail compilation?
+> These files exist in /lib/modules/%{KERNELRELEASE} and are also explicitly
+> marked as %ghost.
+> 
+> Suppress depmod because depmod-generated files are not packaged.
+> 
+> Fixes: 615b3a3d2d41 ("kbuild: rpm-pkg: do not include depmod-generated files")
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-I think we should just prevent the Kconfig option from being enabled if
-the toolchain doesn't give us what we need. So there's no need to fail
-compilation, but SCS =n. See how e.g. CONFIG_ARM64_BTI_KERNEL depends on
-CONFIG_CC_HAS_BRANCH_PROT_PAC_RET_BTI.
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
-> Similarly, we should probably submit a fix to the stable branches so
-> that SCS+Rust doesn't silently break in a hard-to-debug way. Do you
-> prefer a backport with -Ctarget-feature=+reserve-x18 or one that fails
-> compilation?
-
-As above, I think we should disable the feature in those cases.
-
-Make sense?
-
-Will
+> ---
+> 
+> Changes in v2:
+>   - Do not run depmod
+> 
+>  scripts/package/kernel.spec | 8 +++-----
+>  1 file changed, 3 insertions(+), 5 deletions(-)
+> 
+> diff --git a/scripts/package/kernel.spec b/scripts/package/kernel.spec
+> index e095eb1e290e..fffc8af8deb1 100644
+> --- a/scripts/package/kernel.spec
+> +++ b/scripts/package/kernel.spec
+> @@ -57,7 +57,8 @@ patch -p1 < %{SOURCE2}
+>  %install
+>  mkdir -p %{buildroot}/lib/modules/%{KERNELRELEASE}
+>  cp $(%{make} %{makeflags} -s image_name) %{buildroot}/lib/modules/%{KERNELRELEASE}/vmlinuz
+> -%{make} %{makeflags} INSTALL_MOD_PATH=%{buildroot} modules_install
+> +# DEPMOD=true makes depmod no-op. We do not package depmod-generated files.
+> +%{make} %{makeflags} INSTALL_MOD_PATH=%{buildroot} DEPMOD=true modules_install
+>  %{make} %{makeflags} INSTALL_HDR_PATH=%{buildroot}/usr headers_install
+>  cp System.map %{buildroot}/lib/modules/%{KERNELRELEASE}
+>  cp .config %{buildroot}/lib/modules/%{KERNELRELEASE}/config
+> @@ -70,10 +71,7 @@ ln -fns /usr/src/kernels/%{KERNELRELEASE} %{buildroot}/lib/modules/%{KERNELRELEA
+>  %endif
+>  
+>  {
+> -	for x in System.map config kernel modules.builtin \
+> -			modules.builtin.modinfo modules.order vmlinuz; do
+> -		echo "/lib/modules/%{KERNELRELEASE}/${x}"
+> -	done
+> +	echo "/lib/modules/%{KERNELRELEASE}"
+>  
+>  	for x in alias alias.bin builtin.alias.bin builtin.bin dep dep.bin \
+>  					devname softdep symbols symbols.bin; do
+> -- 
+> 2.43.0
+> 
 
