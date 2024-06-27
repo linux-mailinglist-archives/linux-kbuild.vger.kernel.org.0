@@ -1,283 +1,243 @@
-Return-Path: <linux-kbuild+bounces-2265-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2266-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A9F2919884
-	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Jun 2024 21:50:05 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE27B919D08
+	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Jun 2024 03:47:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8078F1F21D74
-	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Jun 2024 19:50:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5A90D1F240F0
+	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Jun 2024 01:47:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90C68191494;
-	Wed, 26 Jun 2024 19:49:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2D28211C;
+	Thu, 27 Jun 2024 01:47:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b="bbf0Qftf"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="W9Sv0tD+"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2074.outbound.protection.outlook.com [40.107.95.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3CC8BE6C;
-	Wed, 26 Jun 2024 19:49:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.63.252.55
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719431397; cv=none; b=VqhjZHnAZJ7b6Va8N51OQboMYw8aGVnzOfp244IfIwS4TKnRc/VDHJ9UIU9QT8QKMTekstEWi1zk6fV3Jn16zQ12xqsTmofjwbWbp/jl1XcVoiEAZlMzmDEXjwuIZ7BDbMKtQqVXWQ9Jsdqzuh6R5i8jYHU8RLw8jYuvhO0iu+U=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719431397; c=relaxed/simple;
-	bh=JAD5NpqAScyMw0Aq0kKYE1zsri013+0aGA4PPi+n6Lg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SeB/alXO2ds3tN5NJekCWa0cnjpRUNDoWaChpoPWzJZfg8Etjx8rxO+wD8MvQ2Z3ojFpiQsjuau9oxVHnb9lhU1sO1LWw+zp0Y94qf0tGz2RpStAuKHsCF+QwsAYkyoJ7bH7fxHimgWTE+ASEER1byhBNXsrM0ygbPMGX8ST93o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu; spf=pass smtp.mailfrom=fjasle.eu; dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b=bbf0Qftf; arc=none smtp.client-ip=194.63.252.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fjasle.eu
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=fjasle.eu;
-	s=ds202307; h=In-Reply-To:Content-Transfer-Encoding:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=ejH671jgIMLpW0hCTvm7LSeaZ0xSwEqIcM9JRDwujLI=; b=bbf0QftfQykx9mJOJHmUhZr+CF
-	ovEyqcOD7Fp0/MG/6TFV/uzxBeVPk4hFNIE1mleBbrmAkgf3aQFdt68wCLe3GLMqQ6wF/WmRy0rA6
-	Yr70j+CKbs10202cB5AjQqe3wCGeIgYwyvmyp+tabmm8bpsBDRZFDyTFA+ykajFHWnhRgUZRlEcBg
-	AoeBdwRmK/WKIrAYl7Ot8vBBli3JP0EbbFYeTcvK4CpaVit0XWa0YdZJQTeUwLIr68slK3nEsdPIu
-	fmEvBXE0Luqg56J9Xh3ORPEVVxmosKPbmlWY2nXCcbKe0eK7V4j3s8j6CuDYzwlPyTDZO9gkAlSB6
-	2RljYM0A==;
-Received: from [2001:9e8:9eb:ec01:3235:adff:fed0:37e6] (port=59144 helo=lindesnes.fjasle.eu)
-	by smtp.domeneshop.no with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <nicolas@fjasle.eu>)
-	id 1sMYeC-003IUV-As;
-	Wed, 26 Jun 2024 21:49:40 +0200
-Date: Wed, 26 Jun 2024 21:49:23 +0200
-From: Nicolas Schier <nicolas@fjasle.eu>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Brian Norris <briannorris@chromium.org>, linux-kbuild@vger.kernel.org,
-	Peter Zijlstra <peterz@infradead.org>,
-	Josh Poimboeuf <jpoimboe@redhat.com>, linux-kernel@vger.kernel.org,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Nathan Chancellor <nathan@kernel.org>
-Subject: Re: [PATCH] Makefile: add comment to discourage tools/* addition for
- kernel builds
-Message-ID: <20240626-tangible-steady-elephant-dbae4f@lindesnes>
-References: <20240619062145.3967720-1-masahiroy@kernel.org>
- <ZnSkmmpCY2Aj5VpU@google.com>
- <CAK7LNASZi3A_BzFACOvZhwByHaVon-Cd5H++uygsv4m_fhDOyQ@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98CFB6AB9;
+	Thu, 27 Jun 2024 01:47:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.95.74
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1719452832; cv=fail; b=IfuRIFvbTjoW5yb6F8TCgMqMCjk41g7ZexsLCnkLdWMJbeUbgqZZALfPgWsW98br7AP8dS35UtfXXAIssGjChTeYtjTzwVVnrG9BOmfByy+xkrBjywMuWhUWZOWmsKUIjT6eONkZU6pKfhLavFdu9Pj7EIapbsl2ZpKqloPKHSI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1719452832; c=relaxed/simple;
+	bh=92HY/ZY/8nIeuBfj65gYv91NVgbvHe2sWv9XVeFuHFQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=OzZ1Ef6p5CqAHQFC7BM6J8Cw3ZUU8pXVktMXpCN4NJugVUHpYZ116fZ8FZb272BFuCNcICxtHZ8/LS9XaN7THnJJ90vA/CqYMrsuUN+n5d1g1W1b1ajquNaF39KJ6zWLhzv29fLx3qdX6UV/pf3koVlwragsXVOFQesugX9WMhY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=W9Sv0tD+; arc=fail smtp.client-ip=40.107.95.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XPYrasSIqeeuo9Cw7tgSIlIBP2ptWHQt3SqbYcnO55EytPaay9jX0LSQJKHvxxsFWRhCZS6z4NoQ8BvD+I+3vK/z/C/6gzBz3DdYX2GxrjBOaJJT073QD11MuUqUnViHu98ziHrqdqIX8WAVXCuLI+mFL6e+/P27mT7eqb5zO8Z2cJmWWO2gi67I3MfSvBdvKBcKThAD/Z0AOOT6uoIVTODFG/+rZtw5Q6D9uwnV8Sld5fMalIotH3BsFy8/pNPPdtbKe71LBMGkuGwLn+FRFZ8IV3aTW2odCsHe9tzaOTBqZJlAqKxqdxMA/7FWDNnfuCoH5ldPIURwg6bfsiS0Xg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=D4andBKcsiIjy6wuL5sn+ph4WAO0ZLcPFz7ce5Ew/ZA=;
+ b=HkCQgVfdhnECQGxpCr2OgdK5wHGUjlwxABqOX/agytrWs/OZys2BOZ1M3Y5hA/Y8/yE6X1qPuDsdOwGoyeRh/QDBI5nlt28MgzmmIOYPxp/3XUGWLYGpqog0sPlDDpk+aiNiWyp2tKrMqd+ckUTwh1KStfRokK0sHMhl63rkRfZtjn9D9/GHYp2cC756+AX42hwEZU7yWDHmV8UHkjMrP1ht0+aSKrvfpDY8IHu1Nm3K0f0rKn4AsQiSV9d1FGMVPsAWxvXv0yT7uq802NWEJsZbrcgDHYSfzqXkfrCwuImK34PkV72YHomDolXgM6M6OMepDKf9HnVIjEgrVDWPeQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=gmail.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=D4andBKcsiIjy6wuL5sn+ph4WAO0ZLcPFz7ce5Ew/ZA=;
+ b=W9Sv0tD+NYDkpNFgw5oQgk5uaPIGzZbILNeV57jDqBzNGlLy2yEPcvXLxXvQfTHGKHiAMgXqN6YLESmd9CHaVunqqhZilhYktGsh3VAkkazCDVrWN5dxPqzfySN6sZLFAzTpqPmzz+P/qpT1yhNMLokQSe04Hn63sXTts5Wm4HooQemiutkY7ANQf0SinblQRTdZaDGEYPR8m1WJSswJu3pI/UwvksbBIbfrJhCzLmYgoV4ekUhoyafTo5LyHb219at2t6iRrH4JEg+vmOp2Xv2RDX+SiOnodZ7V0O4ewn5WuS3vLODhnuMupB1OTULQvSF2PCAf++u2veors22I/Q==
+Received: from PH8PR22CA0012.namprd22.prod.outlook.com (2603:10b6:510:2d1::8)
+ by SJ2PR12MB8925.namprd12.prod.outlook.com (2603:10b6:a03:542::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7698.32; Thu, 27 Jun
+ 2024 01:47:06 +0000
+Received: from CY4PEPF0000EDD2.namprd03.prod.outlook.com
+ (2603:10b6:510:2d1:cafe::e9) by PH8PR22CA0012.outlook.office365.com
+ (2603:10b6:510:2d1::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7719.25 via Frontend
+ Transport; Thu, 27 Jun 2024 01:47:05 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ CY4PEPF0000EDD2.mail.protection.outlook.com (10.167.241.198) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7677.15 via Frontend Transport; Thu, 27 Jun 2024 01:47:05 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 26 Jun
+ 2024 18:46:27 -0700
+Received: from [10.110.48.28] (10.126.231.35) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 26 Jun
+ 2024 18:46:26 -0700
+Message-ID: <b3913add-14bc-40a5-8e8a-e2f3ff461b48@nvidia.com>
+Date: Wed, 26 Jun 2024 18:46:25 -0700
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/2] Makefile: improve comment documentation for the
+ rust-analyzer target
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Alice Ryhl
+	<aliceryhl@google.com>
+CC: Miguel Ojeda <ojeda@kernel.org>, Greg KH <greg@kroah.com>, Masahiro Yamada
+	<masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier
+	<nicolas@fjasle.eu>, Alex Gaynor <alex.gaynor@gmail.com>, "Wedson Almeida
+ Filho" <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo
+	<gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
+	<bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>, "Andreas
+ Hindborg" <a.hindborg@samsung.com>, <linux-kbuild@vger.kernel.org>,
+	<rust-for-linux@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
+References: <20240620205453.81799-1-jhubbard@nvidia.com>
+ <20240620205453.81799-3-jhubbard@nvidia.com>
+ <CAH5fLgizj3RDCXMe0zJ4jjJrtui-R9x65NtHZh=r+vPQaPqN+A@mail.gmail.com>
+ <CANiq72n5b+64z4rVs9f+1miR8R0xnSJXLz4KKcKj+pxkOy_fVA@mail.gmail.com>
+Content-Language: en-US
+From: John Hubbard <jhubbard@nvidia.com>
+In-Reply-To: <CANiq72n5b+64z4rVs9f+1miR8R0xnSJXLz4KKcKj+pxkOy_fVA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK7LNASZi3A_BzFACOvZhwByHaVon-Cd5H++uygsv4m_fhDOyQ@mail.gmail.com>
+X-ClientProxiedBy: rnnvmail203.nvidia.com (10.129.68.9) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000EDD2:EE_|SJ2PR12MB8925:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6eed6b0a-ad8a-4420-6085-08dc964b0c9e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700013|376014|7416014|1800799024|82310400026;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?RCswM0pETEVjeDlJbmxOemNVaGhOVFl3MVFiWVBYeWdNK0tMd3NReE9OR0ti?=
+ =?utf-8?B?REFlU0xRWndLVHpEQS9uNFZKMVZRQzV6TkpaYUZROGFYQ3RhQ3BhQ1ZnVFRD?=
+ =?utf-8?B?OHdVWWc1aXI4QUlnZmFRZVdPZC8zVm9Ubm4zM2FWZU1wdkViSzJHUk5EdlFn?=
+ =?utf-8?B?T0ZBaXF1emlCVm9UUXBkVUdXTFp0MEJSaFZ2WmFYVUl3SFR6bk1yL3N0ck8v?=
+ =?utf-8?B?YU51eG1NdEZmb0JycVhDZGZpdHpTVFRWK25FN2R2MGZLQkcxSE8vOWhTTW5q?=
+ =?utf-8?B?OGdaTXNtcEhpcFF1RW01cVoySTdVOXBBUWJIb3JyZVZlWmtuVXJiQk1qTnEv?=
+ =?utf-8?B?cnphcmFSbVEwNTdxM1VRUGFNQW52ODYxTjUvQ3d3NnBHZkR3aG9EbUdvT0w4?=
+ =?utf-8?B?VVdLdkR1dUFvaERLRSttemRoTFB2T1Jha09JTnZudmJYWGRxT21TVU5LWVBW?=
+ =?utf-8?B?TXYzVWx5N2RwUXVZTTdNUHlHS0phTUYvRnZDazRZTEhsVUZOSC85aElrWGxw?=
+ =?utf-8?B?NC9ZL1FSb3lCQ05XTTRFWVBGKytLVmEwaHUyaFdHOFhQRVVDak44UHgxREpv?=
+ =?utf-8?B?a3RMTlFIMWovcEdZWE9aOW95OVpHbW5EU1JWRmFMajZaMWRiNExCcG5UM3M2?=
+ =?utf-8?B?cXpTdlhkNENjZFpLa3FLb0Y5TkpPUjRaVG15RlREZUZDb1VCUDhHL2gwR0tG?=
+ =?utf-8?B?cHRuZ2pzTG5iQm1pY2VrMUFwT240Qk5Zbk1zUUFkUDV4ckNvS1c5a0Z6aEZT?=
+ =?utf-8?B?ckRiMXBIajl5ZEdWT0Q2T016a214ZGZ0Kzc1dFNURFN0TDdHUS9DSng4OCtW?=
+ =?utf-8?B?VGYyWEZQTlpwNVRpZGppeUJkLzVNclJLVURGSjlLTDE4RS9ibzZKVVRKRjdp?=
+ =?utf-8?B?a3RUdFZxMjZQd1RxOWhEcHpxSm5DWHhxNkFodHNmOElsL0k1YzVmT2sxMS81?=
+ =?utf-8?B?dXk3Rm9hQmVZM2p2V0hlRGREcFcwR2YwVTUyak5RZ1NTTXVMa0diWjBhelVK?=
+ =?utf-8?B?SmFGWlNERlVxVzhpd0lIY3NlMlVqeE4rUlovUEtiQlZYU2FsNFZEK2hqTTJ3?=
+ =?utf-8?B?QkRybnN3TFE5M2pXMHRwa2o1TDIycnVjTEtEZzMvRU5qM3BBYzRoNCtodlhE?=
+ =?utf-8?B?MVBQT2VjVWNGRmRRNlhRU3ZFQTd3YWZSR0d6Z25sMWJmTVZrSkYxU0dhR25O?=
+ =?utf-8?B?c2ZNRW1xVGhROHdqSHNldHc3R0N5aGxCUEc4SkRoT1ZNMzJEUVVReWdWc2Jk?=
+ =?utf-8?B?TmJqRFl4eVhGRjBlNCtra2VWS056aDhVdUlhTVdWYndGd3hIclI2NkJxQ1JV?=
+ =?utf-8?B?WFZKUDRkRE4xNE0wMG5mU2ZyRTM5eTQxeFlUZ01leDIxVklsR3llNTBHR1B6?=
+ =?utf-8?B?TE5WS1R4a1Nma3U1RjdMRXBVdDFoV1NDWWFvZmVTQmcyNDkwUnRHSlFWWmwv?=
+ =?utf-8?B?TGEvLzNzQ3JoajdOVDVucVR1dlBoMHBJUG9odDVvY0tkMzdTaTdCdWE2V2Fv?=
+ =?utf-8?B?WjR5c05xNWUrZ0dHZTl0R3VXZlBRTW1SSzdmUFRNK3JqNEVWWHY5OEplWDc2?=
+ =?utf-8?B?aTVFSkIxK0FOVGJ1anA2dDJkK01QUDNVUGtCOThNM3cwTGpmTkxHUnljcEdw?=
+ =?utf-8?B?Z1VwSzI4dXBXMDhmZUJwVnF4d0kzbE4wV0t5U1BVdkYrSDlBVi90aHJYQ3Y3?=
+ =?utf-8?B?YWkvU2ZaSGNwbmY2WXk1VG5Bd01hYnlxeTE1djNSdHB5c1l2Y1RtaDJrbEJ3?=
+ =?utf-8?B?Y3hucGFhYTczb2dIMVlqK3pQSDBhYWp6bFZTU3FyTURqTjNhNUZ5WE93YUtK?=
+ =?utf-8?B?R3RPS3Z3S0N2VlA3T20yWGlHZE4wZTlnL1UxMVluUTVYajgzRFNDcjRrNXZ3?=
+ =?utf-8?B?dHRFd2FhbkpzR3gxbDF5TmlVT2RHUG16NVdKTCtpOURDQ3AyRUJWbUFYTGE3?=
+ =?utf-8?Q?Z4wrSyyytQrFSNNxC8Ll31kLIlOZ1gCv?=
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(36860700013)(376014)(7416014)(1800799024)(82310400026);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jun 2024 01:47:05.6312
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6eed6b0a-ad8a-4420-6085-08dc964b0c9e
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CY4PEPF0000EDD2.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8925
 
-On Thu, Jun 27, 2024 at 04:02:46AM +0900, Masahiro Yamada wrote:
-> On Fri, Jun 21, 2024 at 6:52 AM Brian Norris <briannorris@chromium.org> wrote:
-> >
-> > On Wed, Jun 19, 2024 at 03:21:42PM +0900, Masahiro Yamada wrote:
-> > > Kbuild provides scripts/Makefile.host to build host programs used for
-> > > building the kernel. Unfortunately, there are two exceptions that opt
-> > > out of Kbuild. The build system under tools/ is a cheesy replica, and
-> > > is always a disaster. I was recently poked about a problem in the tools
-> > > build issue, which I do not maintain (and nobody maintains). [1]
-> >
-> > (Side note: I hope I haven't placed undue burden on you; I understood
-> > you don't maintain tools/ and that it didn't use Kbuild. I only "poked"
-> > you because the original bug report I was replying to had you and
-> > linux-kbuild on CC already. And I appreciate your engagement, even if
-> > the bugs are due to intentional forking.)
+On 6/26/24 1:42 AM, Miguel Ojeda wrote:
+> On Wed, Jun 26, 2024 at 10:08 AM Alice Ryhl <aliceryhl@google.com> wrote:
+>>
+>> Is "symbol browsing database" the right word here? It's not actually a
+>> list of symbols, but instructions for how to compile the code.
 > 
+> Yeah, I think the sentence mixes a bit what the file is with what
+> (some of) the users of the file do with it.
 > 
-> I did not mean to express my complaint particularly with the previous thread.
+> What about something like (getting inspiration from the official documentation):
 > 
-> It is not the first time that the tools/ build issue arose.
+>      # Generate `rust-project.json` (a file that describes the
+> structure of non-Cargo Rust projects) for `rust-analyzer` (an
+> implementation of the Language Server Protocol).
 > 
+> I would avoid mentioning `compile_commands.json`, since they are
+> slightly different the Rust one does not really contain the compile
+> commands.
 > 
-> I will drop the references to the threads.
+> As for "IDE", I am happy either way (i.e. removing it or not). Another
+> alternative that may clarify by giving context could be "Editor / IDE"
+> (since one may use LSP with "simple editors" and not "full IDEs"
+> anyway).
 > 
-> 
-> 
-> > But anyway, I agree that clearer documentation and recommendations could
-> > be helpful here. To that end, some dumb questions below, as I'm not sure
-> > if this fully serves its purpose as-is:
-> >
-> > > Without a comment, somebody might believe this is the right location
-> > > because that is where objtool lives, even when a more robust Kbuild
-> > > syntax satisfies their needs. [2]
-> > >
-> > > [1]: https://lore.kernel.org/linux-kbuild/ZnIYWBgrJ-IJtqK8@google.com/T/#m8ece130dd0e23c6f2395ed89070161948dee8457
-> > > [2]: https://lore.kernel.org/all/20240618200501.GA1611012@google.com/
-> > >
-> > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > > ---
-> > >
-> > >  Makefile | 5 +++++
-> > >  1 file changed, 5 insertions(+)
-> > >
-> > > diff --git a/Makefile b/Makefile
-> > > index 471f2df86422..ba070596ad4e 100644
-> > > --- a/Makefile
-> > > +++ b/Makefile
-> > > @@ -1331,6 +1331,11 @@ prepare: tools/bpf/resolve_btfids
-> > >  endif
-> > >  endif
-> > >
-> > > +# README
-> > > +# The tools build system is not a part of Kbuild. Before adding yet another
-> > > +# tools/* here, please consider if the standard "hostprogs" syntax satisfies
-> > > +# your needs.
-> > > +
-> >
-> > Some clarifying questions / statements-as-questions:
-> >
-> > * nothing in tools/ uses Kbuild, right? (even stuff that uses KBUILD_*
-> >   names is just an imitative port, right?)
-> 
-> 
-> Correct.
-> 
-> You can build a tool from multiple directory locations.
-> 
-> For example, you can compile the 'perf' in multiple locations.
-> 
-> 
-> [1] From the top of the kernel tree
-> 
->    $ make tools/perf
-> 
-> 
-> [2] From the tools/ directory
-> 
->    $ cd tools
->    $ make perf
-> 
-> 
-> [3] From the tools/perf/ directory
-> 
->    $ cd tools/perf
->    $ make
-> 
-> 
-> 
-> When you do [2] or [3], the top-level Makefile is not parsed.
-> 
-> If necessary, the tools build system copies code from Kbuild.
-> 
-> 
-> 
-> 
-> > * not everything in tools/ is actually promoted to a high-level target,
-> >   that affects this top-level Makefile. Are you only concerned about
-> >   stuff that pretends to be integrated in the top-level kernel Makefile?
-> >   (If not, then it seems like placing the README comments only in this
-> >   Makefile is a poor choice.)
-> 
-> 
-> The tool build is integrated as a pattern rule in the top Makefile.
-> (tools/%)
-> 
-> 
-> So, you can build other tools from the top Makefile.
-> 
-> 
-> See commit ea01fa9f63aef, which did not get Ack from any Kbuild
-> maintainer, and caused subsequent troubles, and the benefit
-> of which I still do not understand.
-> 
-> 
-> Supporting "make tools/perf" in addition to "make -C tools perf"
-> only saved a few characters to type.
-> 
-> 
-> So, the problem remains, unless I revert ea01fa9f63aef.
-> 
-> I decided to not care about it too much, as long as
-> such tools are not used during the kernel build.
-> 
-> I am really worried about objtool and resolve_btfids,
-> as these two are used for building the kernel.
-> 
-> 
-> 
-> 
-> 
-> 
-> > * is the "standard hostprogs" recommendation a general recommendation,
-> >   for all sorts of kept-in-the-kernel-tree host tools? Is the
-> >   recommendation to "use Kbuild" or to "avoid putting your tool in
-> >   tools/*"? Is it possible (recommended?) to plumb Kbuild stuff into
-> >   tools/, even if other parts won't migrate?
-> 
-> 
-> I do not know.
-> 
-> They are different build systems with different designs.
-> 
-> Kbuild always works in the top of the output directory.
-> Kbuild changes the working directory at most once if O= is given,
-> but otherwise, it never changes the working directory during the build.
-> 
-> 
-> The tools/ build system changes the working directory every time
-> it invokes a new Make, and compiles the tool in its source directory.
-> 
-> 
-> I do not know if all tools want to Kbuild.
-> (the same applied to kselftest)
-> 
-> I think I can convert objtool and resolve_btfids to the Kbuild way.
-> 
-> 
-> >
-> > As is, I can't tell if this is telling people to avoid adding new stuff
-> > to tools/ entirely, or just to only add to tools/ if you're able to
-> > remain completely isolated from the rest of the kernel build -- as soon
-> > as you want to play some part in the Kbuild-covered part of the tree,
-> > you need to use Kbuild.
-> 
-> 
-> See the code in the top Makefile.
-> 
-> 'prepare' depends on tools/objtool and tools/bpf/resolve_btfids.
-> 
-> If other tools are not prerequisites of 'scripts',
-> Kbuild will not compile them.
-> 
-> 
-> 
-> 
-> >
-> > If I'm inferring the right answers to the above, then maybe an improved
-> > wording could be something like:
-> >
-> > "The tools build system is not a part of Kbuild and tends to introduce
-> > its own unique issues. If you need to integrate a new tool into Kbuild,
-> > please consider locating that tool outside the tools/ tree and using the
-> > standard Kbuild "hostprogs" syntax instead of adding a new tools/* entry
-> > here."
-> 
-> 
-> 
-> I am fine with this description.
-> 
-> 
-> Nicolas suggested a link to Documentation/kbuild/makefiles.rst
-> 
-> We can combine the two.
-> 
-> 
-> # The tools build system is not a part of Kbuild and tends to introduce
-> # its own unique issues. If you need to integrate a new tool into Kbuild,
-> # please consider locating that tool outside the tools/ tree and using the
-> # standard Kbuild "hostprogs" syntax instead of adding a new tools/* entry
-> # here. See Documentation/kbuild/makefiles.rst for details.
 
-yeah, thanks. Sounds good to me, too.
+OK, with those changes applied (minus the backticks, which don't want to
+be in this particular Makefile), we have:
 
-Kind regards,
-Nicolas
+Author: John Hubbard <jhubbard@nvidia.com>
+Date:   Thu Jun 20 13:54:53 2024 -0700
+
+     Makefile: improve comment documentation for the rust-analyzer target
+     
+     Replace the cryptic phrase ("IDE support targets") that initially
+     appears to be about how to support old hard drives, with a few sentences
+     that explain what "make rust-analyzer" provides.
+     
+     Cc: Alice Ryhl <aliceryhl@google.com>
+     Reviewed-by: Finn Behrens <me@kloenk.dev>
+     Acked-by: Miguel Ojeda <ojeda@kernel.org>
+     Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+
+diff --git a/Makefile b/Makefile
+index 204e9be0e010..7db597bdb09d 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1967,7 +1967,9 @@ quiet_cmd_tags = GEN     $@
+  tags TAGS cscope gtags: FORCE
+         $(call cmd,tags)
+  
+-# IDE support targets
++# Generate rust-project.json (a file that describes the structure of non-Cargo
++# Rust projects) for rust-analyzer (an implementation of the Language Server
++# Protocol).
+  PHONY += rust-analyzer
+  rust-analyzer:
+         $(Q)$(CONFIG_SHELL) $(srctree)/scripts/rust_is_available.sh
+
+
+> With that changed, if Masahiro wants to pick these two up:
+> 
+>      Acked-by: Miguel Ojeda <ojeda@kernel.org>
+> 
+> Otherwise I am happy to take them too.
+> 
+> Cheers,
+> Miguel
+
+I can send out a v3, I'll wait to see if there is any additional feedback
+first, though.
+
+
+thanks,
+-- 
+John Hubbard
+NVIDIA
+
 
