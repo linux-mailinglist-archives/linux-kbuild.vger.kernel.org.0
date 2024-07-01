@@ -1,46 +1,46 @@
-Return-Path: <linux-kbuild+bounces-2295-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2296-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 491BA91E7C0
-	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Jul 2024 20:37:55 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B69A391E7CC
+	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Jul 2024 20:39:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E6BA31F21B3B
-	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Jul 2024 18:37:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E900F1C2142E
+	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Jul 2024 18:39:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0598A16FF47;
-	Mon,  1 Jul 2024 18:37:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E2C916F8E9;
+	Mon,  1 Jul 2024 18:37:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GrZ6dsTs"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ev3LeNfS"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7D8116F273;
-	Mon,  1 Jul 2024 18:37:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F79E172762;
+	Mon,  1 Jul 2024 18:37:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719859028; cv=none; b=NUi+c8btXLbstDLfCcogp0kndONB6xqdwsoQUV2yrPgjaVPHtCu/5WIdH2REOQEIoPkE7qqZz2CHIxG1l+Qs8FzbBQM4Ea1wZ7EnZ/is8hiAJKM8gs9fXQVRpAsOr4aPwD9ljbtr4zxhqyhTajq1JuitYC4N/utmQeW1qMkgwPg=
+	t=1719859055; cv=none; b=XCop/B2Fbl7cr3CVsLyg0/pQ4vIAnqRw7aFrUM9M9JB8dPeTEu5wwXBz1Hh4+O2kBvRJ2O2h0ZgpuqYpRpNCCV1BWdiZpAhN5oohjuzv9Qzbck/2qv8i6iT9hzV68i+oKi7TN1mgAIePLOVTiZc+xZcaETBosEbM+msbVQsFSn4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719859028; c=relaxed/simple;
-	bh=OMurDCisKjAllrHkCPJ/1qS7Xxemz+3k0gh+ghbhMAA=;
+	s=arc-20240116; t=1719859055; c=relaxed/simple;
+	bh=i7Bpv+VkURk8Dn67Vw4shxE1NjlQlY/Yr/USg4ZFdIo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SN+SzqsiZIl1ZnjLHFNp3Kv8RPkgm23H/TZ91vglF9L3u23QEiR+MKpywOr2oen1fsdxjjpG+aL/wjVLDomh8IZvNWNqBUNs4vVd2u7lRxkeAXNQlEtywpUDIA5Yh7SXjss61HfDsbw3bEIFpar/MdJKj+OjgiaSIVadfedkQAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GrZ6dsTs; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 996A9C4AF0C;
-	Mon,  1 Jul 2024 18:37:04 +0000 (UTC)
+	 MIME-Version; b=EGC5VOcbszzPH4zC8Go33v2PHDirjHe2EojrwkWObHCwY7ltmV8/KO4J0CSLF4aExfA8DdLy56seqHUhrRaMwu9rA/ZwEK1/9g4TornaRQFG7+RtY0op/AmpHMGN5UghMdaUbW4atBAvt3CI8F/hdXl9sIwmF5i2eODZYuRd9G4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ev3LeNfS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADBD8C4AF0A;
+	Mon,  1 Jul 2024 18:37:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719859028;
-	bh=OMurDCisKjAllrHkCPJ/1qS7Xxemz+3k0gh+ghbhMAA=;
+	s=k20201202; t=1719859054;
+	bh=i7Bpv+VkURk8Dn67Vw4shxE1NjlQlY/Yr/USg4ZFdIo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=GrZ6dsTsVGz9WjzTPMaz73LfWAQDl6VlNpXXpqbAt9NmsT9eky7xzxvQWP5P7jHlm
-	 T4J8BP3oIALDO5pHzU7//fOJQvYjbN7YxrBqropcGfuHzSvu5ESroSHBW84miKkiss
-	 RmHon2B1YtjBZbPcJI3eckyX6irPYRuy7j0i61faR6Fk2vzuMpcWalSoC+p8P10RGL
-	 In1cHf7KvtbluHaFWDHRBce01gwPbaUOV6ApFjgeuumySuTbG0ZskKbkNKELnJw4qB
-	 tPQ1YNA/may9x2Mu7Fy8gCOR3WAE+U6BaoLjL+g0nqxqhvJUyYSwaMJxU98PvIgGqU
-	 d22kAB2UIN6FQ==
+	b=ev3LeNfSuNuWP66VnIObsN5piFJIp+D9E1BVdCRjKtmgAUSmWejmivQVa6syEA/6b
+	 4HdnTuQa9hVxh+jwAInPsBA/EH0jwdwRKYR/Yz2mQv5FD1n5TazevfxgGyky5dyIFz
+	 sw5MDEPXrHPjcKiuTV7F7C5bvFT53QdPRrlcZi7v3S+Cahv30HiSccvs2JQyrCysuw
+	 4/3kzN5l/sAhi87uEq9GX23J/86zIRgcnKQr9EkDY2ImtD6DIQfiy86+KnY0V8Lv8A
+	 Lwedkso4XTmSMhzNxXJQrVRve2+FtUH5y5NMIwEYcNFKE+8AuOYqqhKk9ykF3H+WUn
+	 CFnA6ZC+BFfsg==
 From: Miguel Ojeda <ojeda@kernel.org>
 To: Miguel Ojeda <ojeda@kernel.org>,
 	Wedson Almeida Filho <wedsonaf@gmail.com>,
@@ -58,9 +58,9 @@ Cc: Boqun Feng <boqun.feng@gmail.com>,
 	Nathan Chancellor <nathan@kernel.org>,
 	Nicolas Schier <nicolas@fjasle.eu>,
 	linux-kbuild@vger.kernel.org
-Subject: [PATCH 05/13] rust: simplify Clippy warning flags set
-Date: Mon,  1 Jul 2024 20:36:15 +0200
-Message-ID: <20240701183625.665574-6-ojeda@kernel.org>
+Subject: [PATCH 11/13] kbuild: rust: add `rustc-version` support
+Date: Mon,  1 Jul 2024 20:36:21 +0200
+Message-ID: <20240701183625.665574-12-ojeda@kernel.org>
 In-Reply-To: <20240701183625.665574-1-ojeda@kernel.org>
 References: <20240701183625.665574-1-ojeda@kernel.org>
 Precedence: bulk
@@ -71,40 +71,141 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-All Clippy lint groups that we enable, except `correctness`, have a
-default `warn` level, thus they may be removed now that we relaxed all
-lints to `warn`.
+Now that we are starting to support several Rust versions, introduce
+`rustc-version` support, mimicking the C side:
 
-Moreover, Clippy provides an `all` lint group that covers the groups
-we enable by default. Thus just use `all` instead -- the only change is
-that, if Clippy introduces a new lint group or splits an existing one,
-we will cover that one automatically.
+  - `scripts/rustc-version.sh`, that mimics the other version scripts
+     (with one more digit, e.g. Rust 1.79.0 is 107900).
 
-In addition, `let_unit_value` is in `style` since Rust 1.62.0, thus it
-does not need to be enabled manually.
+  - `rustc-{info,name,version}` Kbuild macros.
 
+  - `CONFIG_RUSTC_VERSION` Kconfig symbol that calls `rustc-version`.
+
+  - `rustc-min-version` Kbuild macro that uses `CONFIG_RUSTC_VERSION`.
+
+With these, we can easily support flags conditionally depending on
+`rustc`'s version -- a user comes in the next patch.
+
+Another user will be the `-Ctarget-feature=+reserve-x18`/`-Zfixed-x18`
+arm64 flags [1].
+
+Link: https://lore.kernel.org/rust-for-linux/20240305-shadow-call-stack-v2-1-c7b4a3f4d616@google.com/ [1]
 Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 ---
- Makefile | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ init/Kconfig              |  6 +++++
+ scripts/Kconfig.include   |  6 +++++
+ scripts/Makefile.compiler |  4 +++
+ scripts/rustc-version.sh  | 52 +++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 68 insertions(+)
+ create mode 100755 scripts/rustc-version.sh
 
-diff --git a/Makefile b/Makefile
-index 056176a55d63..3f43f03f855e 100644
---- a/Makefile
-+++ b/Makefile
-@@ -465,10 +465,8 @@ export rust_common_flags := --edition=2021 \
- 			    -Wunreachable_pub -Wnon_ascii_idents \
- 			    -Wmissing_docs \
- 			    -Wrustdoc::missing_crate_level_docs \
--			    -Wclippy::correctness -Wclippy::style \
--			    -Wclippy::suspicious -Wclippy::complexity \
--			    -Wclippy::perf \
--			    -Wclippy::let_unit_value -Wclippy::mut_mut \
-+			    -Wclippy::all \
-+			    -Wclippy::mut_mut \
- 			    -Wclippy::needless_bitwise_bool \
- 			    -Wclippy::needless_continue \
- 			    -Wclippy::no_mangle_with_rust_abi \
+diff --git a/init/Kconfig b/init/Kconfig
+index 94e20d3b99d4..7d344f248785 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -1920,6 +1920,12 @@ config RUST
+ 
+ 	  If unsure, say N.
+ 
++config RUSTC_VERSION
++	int
++	depends on RUST
++	default $(rustc-version)
++	default 0
++
+ config RUSTC_VERSION_TEXT
+ 	string
+ 	depends on RUST
+diff --git a/scripts/Kconfig.include b/scripts/Kconfig.include
+index 3ee8ecfb8c04..82ab889725db 100644
+--- a/scripts/Kconfig.include
++++ b/scripts/Kconfig.include
+@@ -45,6 +45,12 @@ $(error-if,$(success,test -z "$(cc-info)"),Sorry$(comma) this C compiler is not
+ cc-name := $(shell,set -- $(cc-info) && echo $1)
+ cc-version := $(shell,set -- $(cc-info) && echo $2)
+ 
++# Get the Rust compiler name, version, and error out if it is not supported.
++rustc-info := $(shell,$(srctree)/scripts/rustc-version.sh $(RUSTC))
++$(error-if,$(success,test -z "$(rustc-info)"),Sorry$(comma) this Rust compiler is not supported.)
++rustc-name := $(shell,set -- $(rustc-info) && echo $1)
++rustc-version := $(shell,set -- $(rustc-info) && echo $2)
++
+ # Get the assembler name, version, and error out if it is not supported.
+ as-info := $(shell,$(srctree)/scripts/as-version.sh $(CC) $(CLANG_FLAGS))
+ $(error-if,$(success,test -z "$(as-info)"),Sorry$(comma) this assembler is not supported.)
+diff --git a/scripts/Makefile.compiler b/scripts/Makefile.compiler
+index 92be0c9a13ee..17eaa085b59c 100644
+--- a/scripts/Makefile.compiler
++++ b/scripts/Makefile.compiler
+@@ -69,6 +69,10 @@ gcc-min-version = $(call test-ge, $(CONFIG_GCC_VERSION), $1)
+ # Usage: cflags-$(call clang-min-version, 110000) += -foo
+ clang-min-version = $(call test-ge, $(CONFIG_CLANG_VERSION), $1)
+ 
++# rustc-min-version
++# Usage: rustflags-$(call rustc-min-version, 107900) += -foo
++rustc-min-version = $(call test-ge, $(CONFIG_RUSTC_VERSION), $1)
++
+ # ld-option
+ # Usage: KBUILD_LDFLAGS += $(call ld-option, -X, -Y)
+ ld-option = $(call try-run, $(LD) $(KBUILD_LDFLAGS) $(1) -v,$(1),$(2),$(3))
+diff --git a/scripts/rustc-version.sh b/scripts/rustc-version.sh
+new file mode 100755
+index 000000000000..4e658fd55ae6
+--- /dev/null
++++ b/scripts/rustc-version.sh
+@@ -0,0 +1,52 @@
++#!/bin/sh
++# SPDX-License-Identifier: GPL-2.0
++#
++# Print the Rust compiler name and its version in a 5 or 6-digit form.
++# Also, perform the minimum version check.
++
++set -e
++
++# Convert the version string x.y.z to a canonical up-to-7-digits form.
++#
++# Note that this function uses one more digit (compared to other
++# instances in other version scripts) to give a bit more space to
++# `rustc` since it will reach 1.100.0 in late 2026.
++get_canonical_version()
++{
++	IFS=.
++	set -- $1
++	echo $((100000 * $1 + 100 * $2 + $3))
++}
++
++orig_args="$@"
++
++set -- $("$@" --version)
++
++name=$1
++
++min_tool_version=$(dirname $0)/min-tool-version.sh
++
++case "$name" in
++rustc)
++	version=$2
++	min_version=$($min_tool_version rustc)
++	;;
++*)
++	echo "$orig_args: unknown Rust compiler" >&2
++	exit 1
++	;;
++esac
++
++rustcversion=$(get_canonical_version $version)
++min_rustcversion=$(get_canonical_version $min_version)
++
++if [ "$rustcversion" -lt "$min_rustcversion" ]; then
++	echo >&2 "***"
++	echo >&2 "*** Rust compiler is too old."
++	echo >&2 "***   Your $name version:    $version"
++	echo >&2 "***   Minimum $name version: $min_version"
++	echo >&2 "***"
++	exit 1
++fi
++
++echo $name $rustcversion
 -- 
 2.45.2
 
