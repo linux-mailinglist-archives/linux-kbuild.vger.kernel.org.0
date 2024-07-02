@@ -1,156 +1,149 @@
-Return-Path: <linux-kbuild+bounces-2309-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2310-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF1E091F0A4
-	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Jul 2024 09:59:44 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF1B191F0E8
+	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Jul 2024 10:19:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0E0191C220EE
-	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Jul 2024 07:59:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8FE1F1F22D90
+	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Jul 2024 08:19:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E83E514C5BF;
-	Tue,  2 Jul 2024 07:59:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ABCA414E2CC;
+	Tue,  2 Jul 2024 08:19:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RaHUFIh4"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Dr+92Fuq"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C020C14BF97;
-	Tue,  2 Jul 2024 07:59:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81CA34CE09;
+	Tue,  2 Jul 2024 08:19:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719907169; cv=none; b=opSkfofaqyDGngL57/Zy88lFPeQ0fWIHGigyjUXFpCbf6eAyQwXUIgDIWj/e41KtFq6ywt2hnRq+OBls+61+uohBLH1GaZcSSNnHkVejKAIL2C0+lC05WTLGhcolAmWl1RDyNpVkcvA5tmUVxtrZ2T3xkzPBTnoJsf/zm7tO8l0=
+	t=1719908345; cv=none; b=F+BFhV9jYysM7bQPhfG4e0+LHk4y/yLkhtGzmdBr4fi+6NngV8N5UXy8W7S5xekrT//JuC1jvtobbG1rgD1gcrpEE2m/Dlu2R+wEmHvY2m00+pqIf1dalz6NDz5dKusn8hWaq9RPltjm/hbNmATkr4JzNjU0nOLQyjDX8KtFu2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719907169; c=relaxed/simple;
-	bh=mjQvlJBN8yHEWRFav3WW2ktt0+oeWVegxbEB9kZlxfE=;
+	s=arc-20240116; t=1719908345; c=relaxed/simple;
+	bh=RzpV9qaqwHuuRQM83MwVSglsal7/lXC+YUdHRHr7VCg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=G1N+yAc6m5c5SRaiGU4lIb3N9ett/RAxHAEbD7mmupe3HcrmkC+OdW/7TQyl+mNWeHmUuNw3aqjCWoWqCHZN8HG1SeGzqxy/qQA9Mn9bzteM+EgUHbjRNY2seZXJc9v0Ag4GBj/0ofwGdKjs347fLIxcLHpZPi8y02qS7HMoaBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RaHUFIh4; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1ECC5C4AF0A;
-	Tue,  2 Jul 2024 07:59:29 +0000 (UTC)
+	 To:Cc:Content-Type; b=t66Vxtd7PUawZ3NLgVO237CcHPVJhUm2HjZT+Lw0kfTA7Pd1fCpl3dtNkXpBG+C4Hf58uielh8bWxnUU7HMLwN5yvJhlQta9RmTtYdeUMFJm4ZG/Dr7vPK6Qrie4ijfWawBWX6wHjqIumd0vnjghx4OZPBufATIrn2PgI36JuO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Dr+92Fuq; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F36BDC116B1;
+	Tue,  2 Jul 2024 08:19:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719907169;
-	bh=mjQvlJBN8yHEWRFav3WW2ktt0+oeWVegxbEB9kZlxfE=;
+	s=k20201202; t=1719908345;
+	bh=RzpV9qaqwHuuRQM83MwVSglsal7/lXC+YUdHRHr7VCg=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=RaHUFIh40kEU5kXvqrC9MO8Uxp/JCLsUD+hw0jbBz8tqOaTUTJbCV/ivX8l/EfQf4
-	 fbWEul/z2gySvmr7bC9aAZqGcaEMdYwbYJ1zH/G/ZnkqMT8Dt3mPzlyVc8bvw+L1GL
-	 mokHRNqoejl3KwmRdub9wDnojFCME+pf2reWUQNrsRRQwurOuPDqI41t0LALzsv/zV
-	 qc1JkmhtGN1Qxi8sCxkPd4PKR2vOY6Hw9xoxRyrrh7yU/ZjTKIp8eg72GlTA5YMLcR
-	 nHieC5NlTtnLX72iWaOmdD1SDHkbX2jo3AGeI4nRz22H94HgxQQWEiXzyBfD64a/Uk
-	 e7QWvIsuOamZA==
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-52e829086f3so3749506e87.3;
-        Tue, 02 Jul 2024 00:59:29 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXe4nJ6wTKiB0KJdngoGTOumephFLWYtVUvMDREp690AXV4tjPUcSU0H1A6HOUH0OnlhAmZGTK0d9suwJUq7dmuqpHqZ3GYc8EL5A4OmKGQrN3JuXV5vf86nIpn79CIGvd3
-X-Gm-Message-State: AOJu0YwILQiNM8oxw1BzPFt29iGKM2KAn9VWbZL5llkbOr0rvconFEX3
-	5Qxpilau2NzhPYuTwNZosI6VQLSXFeERDz1nqyYjaOvMM4kyynbo7Cq0c2eO5GnxTyibmhMOZZJ
-	xeudI7xhHA5TFWs+JgKyuFozVM1U=
-X-Google-Smtp-Source: AGHT+IFQIO7P+0f/xwRO7CqbKfJQrjn6ZWG+0WnHt9AuSEIjhE2LvrTaCFizoo5fZkT0+Lv9dlaqLRx72RYTVpfsiFk=
-X-Received: by 2002:a05:6512:3190:b0:52c:8a39:83d7 with SMTP id
- 2adb3069b0e04-52e826fb0b7mr5727169e87.52.1719907167653; Tue, 02 Jul 2024
- 00:59:27 -0700 (PDT)
+	b=Dr+92FuqyBWgmLDCTMhNKDE4mVBP3sxUMgWdTHf5EAFHFEXg6h2fWzOPSiX7Av672
+	 oy4Ru7izPNmn0sf80fElznKEu8AANKnKqxUGCP3VRIUIbRGWqkVD8VKIp/lyqgrIU7
+	 inrjpcnRBk6lhXYYrWjl48evnPTT5eYV2hq6oKiorT5AN8x8aqV9ER/NLAsIG1gIR8
+	 IkFFtNdSs2/i2QS9dgY6QINBl7T5ERtga0VEUP8lExARHjC27lPfM1KWEr/Sl4Vev9
+	 GAA1f4YBAnpH1TKPYw/Mwnusmn+KOCKp9+H9dubH/cA5d2Ogd5t9AUjPEYtioZSona
+	 FgtjFNShd7hvQ==
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2ee4ab4076bso42314621fa.0;
+        Tue, 02 Jul 2024 01:19:04 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVYEf1mjHb7GAXb2CBzHxUcBmoDpuh62kpTWV2WyoYGFh2qbdcjSOpOVAdX5F3fQz79zPktEZ/k8COzNuMDAJ6gbQ+wl9lUHj91tmiO
+X-Gm-Message-State: AOJu0YxwJx6BYi5L6ptFmUhWfUbQIJ2pHLiGB5lPXnNnJNSTfJulJnYF
+	nrJ1D48rVOK+vltY7Xd4H6xxxxRAbFnS9nO3R/kuOina2huXwSDUTbBdu/qvbXZm0Nk6EcVAKEW
+	DreUoar4i/wb3mRuWy8zBfyGlI00=
+X-Google-Smtp-Source: AGHT+IGZCLZCDiHqujnjOIEhR/fmNiQYGVdcu639B4lScKs5vNFq96qBK+DiO/OkuH+QAaTO+BYj6d5ODyaB+Cf+PRI=
+X-Received: by 2002:a05:6512:3d0e:b0:52b:aae0:2d41 with SMTP id
+ 2adb3069b0e04-52e825d7156mr2718388e87.28.1719908343630; Tue, 02 Jul 2024
+ 01:19:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240701173133.3283312-1-alan.maguire@oracle.com>
-In-Reply-To: <20240701173133.3283312-1-alan.maguire@oracle.com>
+References: <2c8833e1-1995-4f49-804a-705ab9e702a5@gmail.com>
+In-Reply-To: <2c8833e1-1995-4f49-804a-705ab9e702a5@gmail.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 2 Jul 2024 16:58:50 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAStVrAx8LjDiYogRvS16-dZ+LrwcWq8gHnTbvKvR_JFFA@mail.gmail.com>
-Message-ID: <CAK7LNAStVrAx8LjDiYogRvS16-dZ+LrwcWq8gHnTbvKvR_JFFA@mail.gmail.com>
-Subject: Re: [PATCH bpf-next] kbuild, bpf: reproducible BTF from pahole when
- KBUILD_BUILD_TIMESTAMP set
-To: Alan Maguire <alan.maguire@oracle.com>
-Cc: ast@kernel.org, andrii@kernel.org, daniel@iogearbox.net, nathan@kernel.org, 
-	nicolas@fjasle.eu, martin.lau@linux.dev, eddyz87@gmail.com, song@kernel.org, 
-	yonghong.song@linux.dev, john.fastabend@gmail.com, kpsingh@kernel.org, 
-	sdf@google.com, haoluo@google.com, jolsa@kernel.org, bpf@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, asmadeus@codewreck.org
+Date: Tue, 2 Jul 2024 17:18:27 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASH6mS3X_YhkVV9z5ZVXdew_nGpJxaakaE1moZckETM7A@mail.gmail.com>
+Message-ID: <CAK7LNASH6mS3X_YhkVV9z5ZVXdew_nGpJxaakaE1moZckETM7A@mail.gmail.com>
+Subject: Re: [PROBLEM linux-next] Segfault while building headers with dpkg-deb
+To: Mirsad Todorovac <mtodorovac69@gmail.com>
+Cc: Linux Kernel Build System <linux-kbuild@vger.kernel.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 2, 2024 at 2:32=E2=80=AFAM Alan Maguire <alan.maguire@oracle.co=
-m> wrote:
+On Sat, Jun 29, 2024 at 3:59=E2=80=AFAM Mirsad Todorovac <mtodorovac69@gmai=
+l.com> wrote:
 >
-> Reproducible builds [1] require that the same source code with
-> the same set of tools can build identical objects each time,
-> but pahole in parallel mode was non-deterministic in
-> BTF generation prior to
+> Hi all,
 >
-> dba7b5e ("pahole: Encode BTF serially in a reproducible build")
+> On the vanilla linux-next tree, branch next-20240627, there happens to be=
+ a bug while building
+> with the randconfig seed KCONFIG_SEED=3D0x90E8E591:
 >
-> This was a problem since said BTF is baked into kernels and modules in
-> .BTF sections, so parallel pahole was causing non-reproducible binary
-> generation.  Now with the above commit we have support for parallel
-> reproducible BTF generation in pahole.
+>   .
+>   .
+>   .
+>   XZ      debian/linux-image-6.10.0-rc5-next-20240627-dirty/lib/modules/6=
+.10.0-rc5-next-20240627-dirty/kernel/samples/trace_events/trace-events-samp=
+le.ko.xz
+>   XZ      debian/linux-image-6.10.0-rc5-next-20240627-dirty/lib/modules/6=
+.10.0-rc5-next-20240627-dirty/kernel/samples/trace_events/trace_custom_sche=
+d.ko.xz
+>   XZ      debian/linux-image-6.10.0-rc5-next-20240627-dirty/lib/modules/6=
+.10.0-rc5-next-20240627-dirty/kernel/samples/ftrace/sample-trace-array.ko.x=
+z
+>   XZ      debian/linux-image-6.10.0-rc5-next-20240627-dirty/lib/modules/6=
+.10.0-rc5-next-20240627-dirty/kernel/samples/fprobe/fprobe_example.ko.xz
+> dpkg-deb: building package 'linux-libc-dev' in '../linux-libc-dev_6.10.0-=
+rc5-45_i386.deb'.
+>   DEPMOD  debian/linux-image-6.10.0-rc5-next-20240627-dirty/lib/modules/6=
+.10.0-rc5-next-20240627-dirty
+> dpkg-deb: building package 'linux-headers-6.10.0-rc5-next-20240627-dirty'=
+ in '../linux-headers-6.10.0-rc5-next-20240627-dirty_6.10.0-rc5-45_i386.deb=
+'.
+> Segmentation fault (core dumped)
+> make[6]: *** [scripts/Makefile.modinst:128: depmod] Error 139
+> make[5]: *** [Makefile:1842: modules_install] Error 2
+> make[4]: *** [Makefile:2058: run-command] Error 2
+> make[3]: *** [debian/rules:61: binary-image] Error 2
+> make[3]: *** Waiting for unfinished jobs....
+> dpkg-deb: building package 'linux-image-6.10.0-rc5-next-20240627-dirty-db=
+g' in '../linux-image-6.10.0-rc5-next-20240627-dirty-dbg_6.10.0-rc5-45_i386=
+.deb'.
+> dpkg-buildpackage: error: make -f debian/rules binary subprocess returned=
+ exit status 2
+> make[2]: *** [scripts/Makefile.package:121: bindeb-pkg] Error 2
+> make[1]: *** [/home/marvin/linux/kernel/linux-next/Makefile:1555: bindeb-=
+pkg] Error 2
+> make: *** [Makefile:240: __sub-make] Error 2
 >
-> KBUILD_BUILD_TIMESTAMP is set for reproducible builds, so if it
-> is set, add reproducible_build to --btf_features.
+> Build log and .config are attached at your convenience.
+
+
+
+
+
+If you used an old kmod version, this is a known issue.
+
+https://lore.kernel.org/linux-kbuild/E1rNVlL-000qDm-Pg@rmk-PC.armlinux.org.=
+uk/
+
+A quick solution is to upgrade your kmod version.
+
+
+
+
+
+
+
 >
-> [1] Documentation/kbuild/reproducible-builds.rst
+> Hope this helps.
 >
-> Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
+> Best regards,
+> Mirsad Todorovac
 
 
 
-
-Does not make sense.
-
-
-
-KBUILD_BUILD_TIMESTAMP is not a switch for
-"please enable the reproducible build".
-
-
-KBUILD_BUILD_TIMESTAMP requires the build code
-to use the given time in the output where timestamps are used.
-
-Your patch does not use the timestamp at all.
-
-
-If --btf_features=3Dreproducible_build has no downside,
-please add it whenever supported.
-
-
-
-
-
-
-
-> ---
->  scripts/Makefile.btf | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/scripts/Makefile.btf b/scripts/Makefile.btf
-> index b75f09f3f424..40bb72662967 100644
-> --- a/scripts/Makefile.btf
-> +++ b/scripts/Makefile.btf
-> @@ -21,6 +21,10 @@ else
->  # Switch to using --btf_features for v1.26 and later.
->  pahole-flags-$(call test-ge, $(pahole-ver), 126)  =3D -j --btf_features=
-=3Dencode_force,var,float,enum64,decl_tag,type_tag,optimized_func,consisten=
-t_func,decl_tag_kfuncs
->
-> +ifneq ($(KBUILD_BUILD_TIMESTAMP),)
-> +pahole-flags-$(call test-ge, $(pahole-ver), 126) +=3D --btf_features=3Dr=
-eproducible_build
-> +endif
-> +
->  ifneq ($(KBUILD_EXTMOD),)
->  module-pahole-flags-$(call test-ge, $(pahole-ver), 126) +=3D --btf_featu=
-res=3Ddistilled_base
->  endif
-> --
-> 2.31.1
->
-
-
---=20
+--
 Best Regards
 Masahiro Yamada
 
