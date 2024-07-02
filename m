@@ -1,55 +1,55 @@
-Return-Path: <linux-kbuild+bounces-2320-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2321-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 463669246EB
-	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Jul 2024 20:04:26 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1247E9246ED
+	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Jul 2024 20:04:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CCB82B2484E
-	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Jul 2024 18:04:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BC6C81F22DAB
+	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Jul 2024 18:04:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA79D1C9EC2;
-	Tue,  2 Jul 2024 18:03:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F31FB1CE089;
+	Tue,  2 Jul 2024 18:03:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Uclj5Mqv"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ADbFIJ2M"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E7101C9EA8;
-	Tue,  2 Jul 2024 18:03:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBDDF1C2308;
+	Tue,  2 Jul 2024 18:03:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719943419; cv=none; b=sIs6RPCEwiokD9mHp8xa0iTLznoxK7LeCqxMDXGafDQAL/JclVma8t2JWr3lulnHKRs/aGQ2tQkWgvxjsl7aawilSB7CI5JB+gs5zGn4R095QdYjZiYP1pG/FSDjgJ6ioVR2SKvqCSzI6qRaBwG0tH+z54IjH81zhwBNNI0vxwU=
+	t=1719943420; cv=none; b=Naa7ewa3T0g/NjhgAK3UfR7D/JfqtU2JZG/g9fe0c1FOtOAVSAIQ+jlNr4OJW/+ZKsyIVVV9s4nL8jQe2h8NVFN6oDD7Ir4BjMi/o0185yJT9EVNgBlzge6midCzqPbKOVVIHrX/Mn7WZDtD9JtkalrduPXa68jU+pTMIV7Igzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719943419; c=relaxed/simple;
-	bh=I6yGZ06EQ0HwMlVgzB8aX/mn7PxmDl5I3IEYPTsQ2ZA=;
+	s=arc-20240116; t=1719943420; c=relaxed/simple;
+	bh=zzOU2P/2RX733uvIXhmTJk0qMFVBXzpz0F9MYY9P1CM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FjH6fvx1K+FzqZyEZDUONlilPALQ4IV4w7QA8NAjy4/3xtjTUnlekXv4cY0cxOV2a2jNXQM4Zg0tkZyuizp28vbh9n4ZcTnJ3NHK8nHltO4oatsRNdmjL4YRoPhHMP/8phiCllBfNkYFdxP9kVXE0yNZ3mfr8ESA+FQoC43iIDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Uclj5Mqv; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEC0BC4AF0C;
-	Tue,  2 Jul 2024 18:03:37 +0000 (UTC)
+	 MIME-Version; b=c9v9rY8gIwRVBa59SlxurqRWfA377D3/C/DVvycC8x8RSuOi4k/xLHeZ1W1NGTPVMx8udhwOKimbmRtgINBBmM3oiwM6C1KtKZSK/6aaxQYbcI22W+UUu2AWD0t9sDa6blmUhTKK0v8Gx6ajjQQPgDnffj8nKIbo9kduQ7btM+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ADbFIJ2M; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A80A3C116B1;
+	Tue,  2 Jul 2024 18:03:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719943419;
-	bh=I6yGZ06EQ0HwMlVgzB8aX/mn7PxmDl5I3IEYPTsQ2ZA=;
+	s=k20201202; t=1719943420;
+	bh=zzOU2P/2RX733uvIXhmTJk0qMFVBXzpz0F9MYY9P1CM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Uclj5Mqvp98cAU/s/uZx3peqd7GSvcao28AYERKUBAwMFP1lauHsg4DENbWKXqic0
-	 thJgOM1RrkR0I9s/+alHUvty/f6hwE9IH43/1xjSvIJ6zMHORqGALigBvJVcHmGBSn
-	 b8m1rhovJvz62naxxFkvtP4nyWEBfpt243aq4zcgXkjshfZ4dnb6XXickTkRu01h/8
-	 Ac4Ehs6ODLVomYT3cJc2bUi+w0JFSBeErJPumVgHJYM72GQTyZ0SeyjcX91jBoU02l
-	 K1QWkJjfu3f00AI3cBl05A+ef79iJ+dzF82RAf09zdilVtr47QYUlfhks/UJa88qA3
-	 FTCPMfG64/I3A==
+	b=ADbFIJ2MkWPBlb9McLjo7MSiCu7ike6JJjdsCmooB4q45vqRUAs9xx3XIsP7Zxe+p
+	 14iKFcAkLm2rtTmDsxBJ5gIlad5ooTKr7DEbG72Jw7gdNiliIbqNM13maU6aRq9dWl
+	 xTWqMAlmgYvMyAGLYWDmMRtqb/Lf5tZ6bIH2kmUnEqTRqxNk2u1c+Y/hj5Gd+yXpkJ
+	 cptlyycnyi44LfnSeGWLNkforWSB24F1XVhwSfbWr4gFs/M/q+eusG2ANrhUSaHmOd
+	 j/mwa1qXVVtoD42vIwiG9lROM/nLWW4wsL3yhIE3n1aRq/g3BXOizuZaBpv/eeZ8P3
+	 vCDXI1vAEOQJA==
 From: Masahiro Yamada <masahiroy@kernel.org>
 To: linux-kbuild@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
 	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>
-Subject: [PATCH v2 2/3] kbuild: deb-pkg: remove support for "name <email>" form for DEBEMAIL
-Date: Wed,  3 Jul 2024 03:02:41 +0900
-Message-ID: <20240702180332.398978-2-masahiroy@kernel.org>
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Nathan Chancellor <nathan@kernel.org>
+Subject: [PATCH v2 3/3] kbuild: package: add -e and -u options to some shell scripts
+Date: Wed,  3 Jul 2024 03:02:42 +0900
+Message-ID: <20240702180332.398978-3-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240702180332.398978-1-masahiroy@kernel.org>
 References: <20240702180332.398978-1-masahiroy@kernel.org>
@@ -61,72 +61,145 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Commit d5940c60e057 ("kbuild: deb-pkg improve maintainer address
-generation") supported the "name <email>" form for DEBEMAIL, with
-behavior slightly different from devscripts.
+Set -e to make these scripts fail on the first error.
 
-In Kbuild, if DEBEMAIL has the form "name <email>", it will be used
-as-is for debian/changelog. DEBFULLNAME will be ignored.
+Set -u because these scripts are invoked by Makefile, and do not work
+properly without necessary variables defined.
 
-In contrast, debchange takes the name from DEBFULLNAME (or NAME) if set,
-as described in 'man debchange':
+I tweaked mkdebian to cope with optional environment variables.
 
-  If this variable has the form "name <email>", then the maintainer name
-  will also be taken from here if neither DEBFULLNAME nor NAME is set.
+Remove the explicit "test -n ..." from install-extmod-build.
 
-This commit removes support for the "name <email> form for DEBEMAIL,
-as the current behavior is already different from debchange, and the
-Debian manual suggests setting the email address and name separately in
-DEBEMAIL and DEBFULLNAME. [1]
+Both options are described in POSIX. [1]
 
-If there are any complaints about this removal, we can re-add it,
-with better alignment with the debchange implementation. [2]
-
-[1]: https://www.debian.org/doc/manuals/debmake-doc/ch03.en.html#email-setup
-[2]: https://salsa.debian.org/debian/devscripts/-/blob/v2.23.7/scripts/debchange.pl#L802
+[1]: https://pubs.opengroup.org/onlinepubs/009604499/utilities/set.html
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
 ---
 
 Changes in v2:
- - New patch
+ - Fix build errors from scripts/package/mkdebian
 
- scripts/package/mkdebian | 20 +++++++-------------
- 1 file changed, 7 insertions(+), 13 deletions(-)
+ scripts/package/builddeb             | 2 +-
+ scripts/package/buildtar             | 2 +-
+ scripts/package/gen-diff-patch       | 2 ++
+ scripts/package/install-extmod-build | 5 +----
+ scripts/package/mkdebian             | 8 ++++----
+ scripts/package/mkspec               | 2 ++
+ 6 files changed, 11 insertions(+), 10 deletions(-)
 
+diff --git a/scripts/package/builddeb b/scripts/package/builddeb
+index e797ad360f7a..c1757db6aa8a 100755
+--- a/scripts/package/builddeb
++++ b/scripts/package/builddeb
+@@ -10,7 +10,7 @@
+ # specified in KDEB_HOOKDIR) that will be called on package install and
+ # removal.
+ 
+-set -e
++set -eu
+ 
+ is_enabled() {
+ 	grep -q "^$1=y" include/config/auto.conf
+diff --git a/scripts/package/buildtar b/scripts/package/buildtar
+index eb67787f8673..cc87a473c01f 100755
+--- a/scripts/package/buildtar
++++ b/scripts/package/buildtar
+@@ -11,7 +11,7 @@
+ # Wichert Akkerman <wichert@wiggy.net>.
+ #
+ 
+-set -e
++set -eu
+ 
+ #
+ # Some variables and settings used throughout the script
+diff --git a/scripts/package/gen-diff-patch b/scripts/package/gen-diff-patch
+index 8a98b7bb78a0..f272f7770ea3 100755
+--- a/scripts/package/gen-diff-patch
++++ b/scripts/package/gen-diff-patch
+@@ -1,6 +1,8 @@
+ #!/bin/sh
+ # SPDX-License-Identifier: GPL-2.0-only
+ 
++set -eu
++
+ diff_patch=$1
+ 
+ mkdir -p "$(dirname "${diff_patch}")"
+diff --git a/scripts/package/install-extmod-build b/scripts/package/install-extmod-build
+index 76e0765dfcd6..8cc9e13403ae 100755
+--- a/scripts/package/install-extmod-build
++++ b/scripts/package/install-extmod-build
+@@ -1,13 +1,10 @@
+ #!/bin/sh
+ # SPDX-License-Identifier: GPL-2.0-only
+ 
+-set -e
++set -eu
+ 
+ destdir=${1}
+ 
+-test -n "${srctree}"
+-test -n "${SRCARCH}"
+-
+ is_enabled() {
+ 	grep -q "^$1=y" include/config/auto.conf
+ }
 diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
-index 589f92b88c42..83c6636fadb8 100755
+index 83c6636fadb8..0cc1913aad30 100755
 --- a/scripts/package/mkdebian
 +++ b/scripts/package/mkdebian
-@@ -125,21 +125,15 @@ gen_source ()
- rm -rf debian
- mkdir debian
+@@ -4,7 +4,7 @@
+ #
+ # Simple script to generate a debian/ directory for a Linux kernel.
  
--email=${DEBEMAIL}
--
--# use email string directly if it contains <email>
--if echo "${email}" | grep -q '<.*>'; then
--	maintainer=${email}
-+user=${KBUILD_BUILD_USER-$(id -nu)}
-+name=${DEBFULLNAME-${user}}
-+if [ "${DEBEMAIL:+set}" ]; then
-+	email=${DEBEMAIL}
+-set -e
++set -eu
+ 
+ is_enabled() {
+ 	grep -q "^$1=y" include/config/auto.conf
+@@ -19,7 +19,7 @@ if_enabled_echo() {
+ }
+ 
+ set_debarch() {
+-	if [ -n "$KBUILD_DEBARCH" ] ; then
++	if [ "${KBUILD_DEBARCH:+set}" ]; then
+ 		debarch="$KBUILD_DEBARCH"
+ 		return
+ 	fi
+@@ -141,7 +141,7 @@ fi
+ 
+ # Some variables and settings used throughout the script
+ version=$KERNELRELEASE
+-if [ -n "$KDEB_PKGVERSION" ]; then
++if [ "${KDEB_PKGVERSION:+set}" ]; then
+ 	packageversion=$KDEB_PKGVERSION
  else
--	# or construct the maintainer string
--	user=${KBUILD_BUILD_USER-$(id -nu)}
--	name=${DEBFULLNAME-${user}}
--	if [ -z "${email}" ]; then
--		buildhost=${KBUILD_BUILD_HOST-$(hostname -f 2>/dev/null || hostname)}
--		email="${user}@${buildhost}"
--	fi
--	maintainer="${name} <${email}>"
-+	buildhost=${KBUILD_BUILD_HOST-$(hostname -f 2>/dev/null || hostname)}
-+	email="${user}@${buildhost}"
- fi
-+maintainer="${name} <${email}>"
+ 	packageversion=$(${srctree}/scripts/setlocalversion --no-local ${srctree})-$($srctree/scripts/build-version)
+@@ -158,7 +158,7 @@ debarch=
+ set_debarch
  
- if [ "$1" = --need-source ]; then
- 	gen_source
+ # Try to determine distribution
+-if [ -n "$KDEB_CHANGELOG_DIST" ]; then
++if [ "${KDEB_CHANGELOG_DIST:+set}" ]; then
+         distribution=$KDEB_CHANGELOG_DIST
+ # In some cases lsb_release returns the codename as n/a, which breaks dpkg-parsechangelog
+ elif distribution=$(lsb_release -cs 2>/dev/null) && [ -n "$distribution" ] && [ "$distribution" != "n/a" ]; then
+diff --git a/scripts/package/mkspec b/scripts/package/mkspec
+index cffc2567bef2..77d25dda37e3 100755
+--- a/scripts/package/mkspec
++++ b/scripts/package/mkspec
+@@ -9,6 +9,8 @@
+ #	Patched for non-x86 by Opencon (L) 2002 <opencon@rio.skydome.net>
+ #
+ 
++set -eu
++
+ output=$1
+ 
+ mkdir -p "$(dirname "${output}")"
 -- 
 2.43.0
 
