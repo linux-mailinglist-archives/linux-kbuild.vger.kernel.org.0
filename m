@@ -1,58 +1,83 @@
-Return-Path: <linux-kbuild+bounces-2321-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2322-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1247E9246ED
-	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Jul 2024 20:04:34 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 504AD924B20
+	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Jul 2024 00:06:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BC6C81F22DAB
-	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Jul 2024 18:04:33 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5B336B252FC
+	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Jul 2024 22:06:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F31FB1CE089;
-	Tue,  2 Jul 2024 18:03:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F07E1B11F2;
+	Tue,  2 Jul 2024 21:59:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ADbFIJ2M"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="nQ5/FDKQ"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBDDF1C2308;
-	Tue,  2 Jul 2024 18:03:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 250401AEFDA
+	for <linux-kbuild@vger.kernel.org>; Tue,  2 Jul 2024 21:59:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719943420; cv=none; b=Naa7ewa3T0g/NjhgAK3UfR7D/JfqtU2JZG/g9fe0c1FOtOAVSAIQ+jlNr4OJW/+ZKsyIVVV9s4nL8jQe2h8NVFN6oDD7Ir4BjMi/o0185yJT9EVNgBlzge6midCzqPbKOVVIHrX/Mn7WZDtD9JtkalrduPXa68jU+pTMIV7Igzc=
+	t=1719957542; cv=none; b=WrMujB3utFVt6FbsZ81jRWRGxiy1Pl/VQw7EaDBOhRUEnrs6c7vHItJtgM6pWHlnqmqKc4tQIhzhSK6qoB424mf0ZxQ6OA69IRy0jXZRUU04L+OE4DKwYjF50FfGHfgwnTrpi9iKuCRhuJ/TImZkIClAGl+YQFwQTEX/4DY5ZMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719943420; c=relaxed/simple;
-	bh=zzOU2P/2RX733uvIXhmTJk0qMFVBXzpz0F9MYY9P1CM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=c9v9rY8gIwRVBa59SlxurqRWfA377D3/C/DVvycC8x8RSuOi4k/xLHeZ1W1NGTPVMx8udhwOKimbmRtgINBBmM3oiwM6C1KtKZSK/6aaxQYbcI22W+UUu2AWD0t9sDa6blmUhTKK0v8Gx6ajjQQPgDnffj8nKIbo9kduQ7btM+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ADbFIJ2M; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A80A3C116B1;
-	Tue,  2 Jul 2024 18:03:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719943420;
-	bh=zzOU2P/2RX733uvIXhmTJk0qMFVBXzpz0F9MYY9P1CM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ADbFIJ2MkWPBlb9McLjo7MSiCu7ike6JJjdsCmooB4q45vqRUAs9xx3XIsP7Zxe+p
-	 14iKFcAkLm2rtTmDsxBJ5gIlad5ooTKr7DEbG72Jw7gdNiliIbqNM13maU6aRq9dWl
-	 xTWqMAlmgYvMyAGLYWDmMRtqb/Lf5tZ6bIH2kmUnEqTRqxNk2u1c+Y/hj5Gd+yXpkJ
-	 cptlyycnyi44LfnSeGWLNkforWSB24F1XVhwSfbWr4gFs/M/q+eusG2ANrhUSaHmOd
-	 j/mwa1qXVVtoD42vIwiG9lROM/nLWW4wsL3yhIE3n1aRq/g3BXOizuZaBpv/eeZ8P3
-	 vCDXI1vAEOQJA==
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: linux-kbuild@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Nathan Chancellor <nathan@kernel.org>
-Subject: [PATCH v2 3/3] kbuild: package: add -e and -u options to some shell scripts
-Date: Wed,  3 Jul 2024 03:02:42 +0900
-Message-ID: <20240702180332.398978-3-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240702180332.398978-1-masahiroy@kernel.org>
-References: <20240702180332.398978-1-masahiroy@kernel.org>
+	s=arc-20240116; t=1719957542; c=relaxed/simple;
+	bh=M01YDRrouAlAzlCLyGiYQynak61DO+REujqSpJFVxvc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OfnezreWzXnW/sMcGaRt42lehKt7jkT96wy3ETUCnvt/tvwgevqmuQjUKlvDi1e622WuadZP4GDwtnox6h+rfbq+H+2y1DGVx4FdBzlfUE9rtRn5VysXMIIkgpsLS4keqgjULfqWH+MCrZtdW19AtX0zfFNRwZHCYuZcV9GOLGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=nQ5/FDKQ; arc=none smtp.client-ip=209.85.216.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-2c8e422c40cso2821725a91.2
+        for <linux-kbuild@vger.kernel.org>; Tue, 02 Jul 2024 14:59:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1719957540; x=1720562340; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FT7lewTlvqPcebAQ7sdKPrt4rD1V8IX/L9ApopkhaiM=;
+        b=nQ5/FDKQuDGFbq6YERjqmx1aCEazsTVlIGLTAQdSU91Lz1MtBNw0Mo2hwYFWH/7xHz
+         /YXLhTgI7uG88EpaDtc6KqoUjp0fRtnaNmlS5YMOFj70eV+xUjiO6aHHdPkZtfljT4VJ
+         gt+ylu+d9ehfwRHPlWmTaw/wtbvJaFrUDJBJs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1719957540; x=1720562340;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FT7lewTlvqPcebAQ7sdKPrt4rD1V8IX/L9ApopkhaiM=;
+        b=NIfRI1gi96OvdH4/NQES2nl710wW/nCiBYaSZZmMa9bYid/R89k4LJNvwMnojmnsou
+         KXGjAO5J/GQENVrmfp6cvmZp78IMgkwAHNfevOVG+Sx3mHBLVfJrKfuKFROzSik68Is1
+         8eMuzAtZP2nFNPdc4XKI7kXLx0i9TxoMDtX0OflqE8oqAZNQzb5AfUe1XDJDV8+Oc4Gw
+         gl23HP8JMDGCnOaaqNfbhY9ethCogzmAjJOQRhF1sFsQIXd9ZLZHONHkFB/aHQtpe3EH
+         H3NoId/vOvvvxXCvlyvUXCO9yQ5hdJZ9ibIZWSGY8M9++Ir2JL9T2YLlH48PUIEyt6XD
+         y68g==
+X-Forwarded-Encrypted: i=1; AJvYcCXfx5tWD9u0Y8OgFBc3LX7qqRCzYb9leYZHvtmn+VHnQTaW+fkx29hfpuFNg29QvsD8XTF/uH985ZZbQobX54eJziNKuIHTi0uripZv
+X-Gm-Message-State: AOJu0Yx4nepYBXju7gZ9OKWW/TRh0z/8jgmzMhmCsbImllPOoiMeORiK
+	C1oOd96eP+YegHE9DXfdFmVwJ6abx4DCErVEOL8P8xx+0oDZayU8wdQoWqbcyw==
+X-Google-Smtp-Source: AGHT+IGeWRRAgVyeKiau5CRBkZj201MTdIub9SKabxaU3j/E01KOBS3aEn2OeI76DdOYFGg5Zmz1pw==
+X-Received: by 2002:a05:6a20:7350:b0:1bd:207a:da31 with SMTP id adf61e73a8af0-1bef613f4b2mr10203315637.23.1719957540361;
+        Tue, 02 Jul 2024 14:59:00 -0700 (PDT)
+Received: from localhost ([2620:15c:9d:2:5fa9:4b10:46fe:4740])
+        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-7080246f656sm9018274b3a.65.2024.07.02.14.58.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 Jul 2024 14:58:59 -0700 (PDT)
+From: Brian Norris <briannorris@chromium.org>
+To: Arnaldo Carvalho de Melo <acme@redhat.com>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Ian Rogers <irogers@google.com>,
+	Thomas Richter <tmricht@linux.ibm.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+	bpf@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	Brian Norris <briannorris@chromium.org>
+Subject: [PATCH v2 0/3] tools build: Incorrect fixdep dependencies
+Date: Tue,  2 Jul 2024 14:58:36 -0700
+Message-ID: <20240702215854.408532-1-briannorris@chromium.org>
+X-Mailer: git-send-email 2.45.2.803.g4e1b14247a-goog
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -61,146 +86,59 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Set -e to make these scripts fail on the first error.
+Hi all,
 
-Set -u because these scripts are invoked by Makefile, and do not work
-properly without necessary variables defined.
+The following series consists of a few bugfixes on the topic of "misuse
+of fixdep in the tools/ build tree." There is no listed maintainer for
+tools/build, but there are for tools/bpf and tools/objtool, which are
+the main pieces that affect most users, because they're built as part of
+the main kernel build. I've addressed this series to a selection of
+those maintainers, and those that have previously applied build changes
+in tools/. I hope one of you can apply this series, pending favorable
+review. Or feel free to point me to a different set of maintainers.
 
-I tweaked mkdebian to cope with optional environment variables.
+This patch series came out of poking around some build errors seen by me
+and my coworkers, and I found that there were rather similar reports a
+while back here:
 
-Remove the explicit "test -n ..." from install-extmod-build.
+    Subject: possible dependency error?
+    https://lore.kernel.org/all/ZGVi9HbI43R5trN8@bhelgaas/
 
-Both options are described in POSIX. [1]
+I reported some findings to that thread; see also subsequent discussion:
 
-[1]: https://pubs.opengroup.org/onlinepubs/009604499/utilities/set.html
+    https://lore.kernel.org/all/Zk-C5Eg84yt6_nml@google.com/
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
----
+One element of that discussion: these problems are already solved
+consistently in Kbuild. tools/build purposely borrows some from Kbuild,
+but also purposely does not actually use Kbuild. While it'd make my life
+easier if tools/ would just adopt Kbuild (at least for the tools which
+are built during kernel builds), I've chosen a path that I hope will
+yield less resistance -- simply hacking up the existing tools/ build
+without major changes to its design.
+
+NB: I've also CC'd Kbuild folks, since Masahiro has already been so
+helpful here, but note that this is not really a "kbuild" patch series.
+
+Regards,
+Brian
 
 Changes in v2:
- - Fix build errors from scripts/package/mkdebian
+ - also fix libbpf shared library rules
+ - ensure OUTPUT is always set in lib/bpf, and always an absolute path
+ - add backup $(Q) definition in tools/build/Makefile.include
 
- scripts/package/builddeb             | 2 +-
- scripts/package/buildtar             | 2 +-
- scripts/package/gen-diff-patch       | 2 ++
- scripts/package/install-extmod-build | 5 +----
- scripts/package/mkdebian             | 8 ++++----
- scripts/package/mkspec               | 2 ++
- 6 files changed, 11 insertions(+), 10 deletions(-)
+Brian Norris (3):
+  tools build: Correct libsubcmd fixdep dependencies
+  tools build: Avoid circular .fixdep-in.o.cmd issues
+  tools build: Correct bpf fixdep dependencies
 
-diff --git a/scripts/package/builddeb b/scripts/package/builddeb
-index e797ad360f7a..c1757db6aa8a 100755
---- a/scripts/package/builddeb
-+++ b/scripts/package/builddeb
-@@ -10,7 +10,7 @@
- # specified in KDEB_HOOKDIR) that will be called on package install and
- # removal.
- 
--set -e
-+set -eu
- 
- is_enabled() {
- 	grep -q "^$1=y" include/config/auto.conf
-diff --git a/scripts/package/buildtar b/scripts/package/buildtar
-index eb67787f8673..cc87a473c01f 100755
---- a/scripts/package/buildtar
-+++ b/scripts/package/buildtar
-@@ -11,7 +11,7 @@
- # Wichert Akkerman <wichert@wiggy.net>.
- #
- 
--set -e
-+set -eu
- 
- #
- # Some variables and settings used throughout the script
-diff --git a/scripts/package/gen-diff-patch b/scripts/package/gen-diff-patch
-index 8a98b7bb78a0..f272f7770ea3 100755
---- a/scripts/package/gen-diff-patch
-+++ b/scripts/package/gen-diff-patch
-@@ -1,6 +1,8 @@
- #!/bin/sh
- # SPDX-License-Identifier: GPL-2.0-only
- 
-+set -eu
-+
- diff_patch=$1
- 
- mkdir -p "$(dirname "${diff_patch}")"
-diff --git a/scripts/package/install-extmod-build b/scripts/package/install-extmod-build
-index 76e0765dfcd6..8cc9e13403ae 100755
---- a/scripts/package/install-extmod-build
-+++ b/scripts/package/install-extmod-build
-@@ -1,13 +1,10 @@
- #!/bin/sh
- # SPDX-License-Identifier: GPL-2.0-only
- 
--set -e
-+set -eu
- 
- destdir=${1}
- 
--test -n "${srctree}"
--test -n "${SRCARCH}"
--
- is_enabled() {
- 	grep -q "^$1=y" include/config/auto.conf
- }
-diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
-index 83c6636fadb8..0cc1913aad30 100755
---- a/scripts/package/mkdebian
-+++ b/scripts/package/mkdebian
-@@ -4,7 +4,7 @@
- #
- # Simple script to generate a debian/ directory for a Linux kernel.
- 
--set -e
-+set -eu
- 
- is_enabled() {
- 	grep -q "^$1=y" include/config/auto.conf
-@@ -19,7 +19,7 @@ if_enabled_echo() {
- }
- 
- set_debarch() {
--	if [ -n "$KBUILD_DEBARCH" ] ; then
-+	if [ "${KBUILD_DEBARCH:+set}" ]; then
- 		debarch="$KBUILD_DEBARCH"
- 		return
- 	fi
-@@ -141,7 +141,7 @@ fi
- 
- # Some variables and settings used throughout the script
- version=$KERNELRELEASE
--if [ -n "$KDEB_PKGVERSION" ]; then
-+if [ "${KDEB_PKGVERSION:+set}" ]; then
- 	packageversion=$KDEB_PKGVERSION
- else
- 	packageversion=$(${srctree}/scripts/setlocalversion --no-local ${srctree})-$($srctree/scripts/build-version)
-@@ -158,7 +158,7 @@ debarch=
- set_debarch
- 
- # Try to determine distribution
--if [ -n "$KDEB_CHANGELOG_DIST" ]; then
-+if [ "${KDEB_CHANGELOG_DIST:+set}" ]; then
-         distribution=$KDEB_CHANGELOG_DIST
- # In some cases lsb_release returns the codename as n/a, which breaks dpkg-parsechangelog
- elif distribution=$(lsb_release -cs 2>/dev/null) && [ -n "$distribution" ] && [ "$distribution" != "n/a" ]; then
-diff --git a/scripts/package/mkspec b/scripts/package/mkspec
-index cffc2567bef2..77d25dda37e3 100755
---- a/scripts/package/mkspec
-+++ b/scripts/package/mkspec
-@@ -9,6 +9,8 @@
- #	Patched for non-x86 by Opencon (L) 2002 <opencon@rio.skydome.net>
- #
- 
-+set -eu
-+
- output=$1
- 
- mkdir -p "$(dirname "${output}")"
+ tools/build/Makefile         | 11 ++---------
+ tools/build/Makefile.include | 12 +++++++++++-
+ tools/lib/bpf/Makefile       | 14 ++++++++++++--
+ tools/lib/subcmd/Makefile    |  2 +-
+ 4 files changed, 26 insertions(+), 13 deletions(-)
+
 -- 
-2.43.0
+2.45.2.803.g4e1b14247a-goog
 
 
