@@ -1,125 +1,156 @@
-Return-Path: <linux-kbuild+bounces-2308-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2309-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5936E91EC5C
-	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Jul 2024 03:11:31 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF1E091F0A4
+	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Jul 2024 09:59:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8AA511C21341
-	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Jul 2024 01:11:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0E0191C220EE
+	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Jul 2024 07:59:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E1D22F46;
-	Tue,  2 Jul 2024 01:11:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E83E514C5BF;
+	Tue,  2 Jul 2024 07:59:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="EfH4ROsX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RaHUFIh4"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-il1-f176.google.com (mail-il1-f176.google.com [209.85.166.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8740A8BFA
-	for <linux-kbuild@vger.kernel.org>; Tue,  2 Jul 2024 01:11:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C020C14BF97;
+	Tue,  2 Jul 2024 07:59:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719882687; cv=none; b=FrDqSgE7Og0JI1oS+u899KQtpUz+7pIDp6u1JyI78f5pWyQAkRwdTvtJnrSSGHxeDl6FGR6REyc/cXIFfDirKTfOym8BKRR0VeEYouDzQmX3F/9wE88rDm6LtAVA4AIQgVCC8H0GwEYzOih7tOP8TptqpvcETd6qszxkc6Rv7Ec=
+	t=1719907169; cv=none; b=opSkfofaqyDGngL57/Zy88lFPeQ0fWIHGigyjUXFpCbf6eAyQwXUIgDIWj/e41KtFq6ywt2hnRq+OBls+61+uohBLH1GaZcSSNnHkVejKAIL2C0+lC05WTLGhcolAmWl1RDyNpVkcvA5tmUVxtrZ2T3xkzPBTnoJsf/zm7tO8l0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719882687; c=relaxed/simple;
-	bh=biT3U/JccAbT2ojx0tZxE5iP92A3N2y/C6UXL+enRrs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=imOErLCysDqrmpMknyZcqGbIwQGYCvZPbnVUTcucHr3lLiDzFByrJzHppNhMjzb8c3SvHkBfxxcbIbLggKRUNcuDhCd+QLn0Xo77Y7UxI77LGybiZKOAyQaLTZoaCRhsYqbaXbXKxUHUL81vL5Re55aCsYsQ9zsOdHkdVCp6aRI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=EfH4ROsX; arc=none smtp.client-ip=209.85.166.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-il1-f176.google.com with SMTP id e9e14a558f8ab-376208fbe7bso16347775ab.3
-        for <linux-kbuild@vger.kernel.org>; Mon, 01 Jul 2024 18:11:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1719882684; x=1720487484; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=uX6X6yvrHwqLhmQHKxP9UTvaXr+RRFTXVS2da0ydaXo=;
-        b=EfH4ROsXN6xs5exZDDyginzKlAnuc5tTQc6L6dNV6gUYfVSK2yg9uQE/ioZng5QScR
-         MPeHYLAqCm543JDTpPtLqa+DMM+Q/l/2BQdDNMd7C0Tz4a0WMl+09B62ORLg4XhPEGH4
-         FO9DJBN3rkySrW+7hsUAVVeSJt52apMan4WBg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719882684; x=1720487484;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uX6X6yvrHwqLhmQHKxP9UTvaXr+RRFTXVS2da0ydaXo=;
-        b=lcqwh4i5WF5EAfpx3iulyDn/hJAvHBYANMmMUHWLFPCk6QQ4KgHaMOXLZoxwizio77
-         24DnWKY5o346bdflXv1g51E1BTVg4JTY5oGOQ0MU6Xj0eRoeMbmxnnvEz27YaKiVwn3M
-         0haW6KNkBGPQ56JkG2R6wRemyyRBYoYlxg8dJHBAV3uVo7mPtd9VPadqcBaAyapN5EEY
-         ccuHqN/vhSJQGbVaBP6MhqV2kW8jhI7TA9zLDCIirWTVizxKu2gWuEy5kxZt76eeGb35
-         zkLcS4LTGhYdbVqmihViIvKw/0qqokQRmRDmV5uz6RIuH65KDNEgbplq60FOO1D/BC3r
-         hyJg==
-X-Forwarded-Encrypted: i=1; AJvYcCUBTQPjNDLoM6/c+oevYeYYd8niFo+VFASdGgS7cEitw/v1EPgsH2hVH5yf6//zqIDJ2pgYNNuSLAnRcq6VKyjz7BIqEP2smq5rGdph
-X-Gm-Message-State: AOJu0Yw3z7C5cyUpVCYX2LQwFg/E0PqZR8keJoeCCr/w7ufCULteZc+X
-	wSqtn9ewLQVb7nxu+vZLZeX4hEF4a2dTx9n0zt4TGWFkQjoDLESr+GnRt9zmtw==
-X-Google-Smtp-Source: AGHT+IHKvM67M6eFvhtx26GdTIevtvHk/JUwsJ5jHaRe/vO4GAOUaipYYggq2lOfLdjdexOoMh93bg==
-X-Received: by 2002:a05:6e02:1d1c:b0:375:dad7:a65e with SMTP id e9e14a558f8ab-37cd2bed7a1mr105954005ab.24.1719882684580;
-        Mon, 01 Jul 2024 18:11:24 -0700 (PDT)
-Received: from localhost ([2620:15c:9d:2:32ea:b45d:f22f:94c0])
-        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-708045a69a6sm7187177b3a.165.2024.07.01.18.11.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Jul 2024 18:11:24 -0700 (PDT)
-Date: Mon, 1 Jul 2024 18:11:22 -0700
-From: Brian Norris <briannorris@chromium.org>
-To: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Cc: Arnaldo Carvalho de Melo <acme@redhat.com>,
-	Namhyung Kim <namhyung@kernel.org>, Ian Rogers <irogers@google.com>,
-	Thomas Richter <tmricht@linux.ibm.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>, linux-kernel@vger.kernel.org,
-	bpf@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>
-Subject: Re: [PATCH 3/3] tools build: Correct bpf fixdep dependencies
-Message-ID: <ZoNTuvhq3tSNpXT4@google.com>
-References: <20240702003119.3641219-1-briannorris@chromium.org>
- <20240702003119.3641219-4-briannorris@chromium.org>
- <CAEf4Bzbxu_PJsDE_ex_FBi+SKnWZjVA8vA11vL2BxUhyBB6CAw@mail.gmail.com>
+	s=arc-20240116; t=1719907169; c=relaxed/simple;
+	bh=mjQvlJBN8yHEWRFav3WW2ktt0+oeWVegxbEB9kZlxfE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=G1N+yAc6m5c5SRaiGU4lIb3N9ett/RAxHAEbD7mmupe3HcrmkC+OdW/7TQyl+mNWeHmUuNw3aqjCWoWqCHZN8HG1SeGzqxy/qQA9Mn9bzteM+EgUHbjRNY2seZXJc9v0Ag4GBj/0ofwGdKjs347fLIxcLHpZPi8y02qS7HMoaBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RaHUFIh4; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1ECC5C4AF0A;
+	Tue,  2 Jul 2024 07:59:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719907169;
+	bh=mjQvlJBN8yHEWRFav3WW2ktt0+oeWVegxbEB9kZlxfE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=RaHUFIh40kEU5kXvqrC9MO8Uxp/JCLsUD+hw0jbBz8tqOaTUTJbCV/ivX8l/EfQf4
+	 fbWEul/z2gySvmr7bC9aAZqGcaEMdYwbYJ1zH/G/ZnkqMT8Dt3mPzlyVc8bvw+L1GL
+	 mokHRNqoejl3KwmRdub9wDnojFCME+pf2reWUQNrsRRQwurOuPDqI41t0LALzsv/zV
+	 qc1JkmhtGN1Qxi8sCxkPd4PKR2vOY6Hw9xoxRyrrh7yU/ZjTKIp8eg72GlTA5YMLcR
+	 nHieC5NlTtnLX72iWaOmdD1SDHkbX2jo3AGeI4nRz22H94HgxQQWEiXzyBfD64a/Uk
+	 e7QWvIsuOamZA==
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-52e829086f3so3749506e87.3;
+        Tue, 02 Jul 2024 00:59:29 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXe4nJ6wTKiB0KJdngoGTOumephFLWYtVUvMDREp690AXV4tjPUcSU0H1A6HOUH0OnlhAmZGTK0d9suwJUq7dmuqpHqZ3GYc8EL5A4OmKGQrN3JuXV5vf86nIpn79CIGvd3
+X-Gm-Message-State: AOJu0YwILQiNM8oxw1BzPFt29iGKM2KAn9VWbZL5llkbOr0rvconFEX3
+	5Qxpilau2NzhPYuTwNZosI6VQLSXFeERDz1nqyYjaOvMM4kyynbo7Cq0c2eO5GnxTyibmhMOZZJ
+	xeudI7xhHA5TFWs+JgKyuFozVM1U=
+X-Google-Smtp-Source: AGHT+IFQIO7P+0f/xwRO7CqbKfJQrjn6ZWG+0WnHt9AuSEIjhE2LvrTaCFizoo5fZkT0+Lv9dlaqLRx72RYTVpfsiFk=
+X-Received: by 2002:a05:6512:3190:b0:52c:8a39:83d7 with SMTP id
+ 2adb3069b0e04-52e826fb0b7mr5727169e87.52.1719907167653; Tue, 02 Jul 2024
+ 00:59:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAEf4Bzbxu_PJsDE_ex_FBi+SKnWZjVA8vA11vL2BxUhyBB6CAw@mail.gmail.com>
+References: <20240701173133.3283312-1-alan.maguire@oracle.com>
+In-Reply-To: <20240701173133.3283312-1-alan.maguire@oracle.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Tue, 2 Jul 2024 16:58:50 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAStVrAx8LjDiYogRvS16-dZ+LrwcWq8gHnTbvKvR_JFFA@mail.gmail.com>
+Message-ID: <CAK7LNAStVrAx8LjDiYogRvS16-dZ+LrwcWq8gHnTbvKvR_JFFA@mail.gmail.com>
+Subject: Re: [PATCH bpf-next] kbuild, bpf: reproducible BTF from pahole when
+ KBUILD_BUILD_TIMESTAMP set
+To: Alan Maguire <alan.maguire@oracle.com>
+Cc: ast@kernel.org, andrii@kernel.org, daniel@iogearbox.net, nathan@kernel.org, 
+	nicolas@fjasle.eu, martin.lau@linux.dev, eddyz87@gmail.com, song@kernel.org, 
+	yonghong.song@linux.dev, john.fastabend@gmail.com, kpsingh@kernel.org, 
+	sdf@google.com, haoluo@google.com, jolsa@kernel.org, bpf@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, asmadeus@codewreck.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 01, 2024 at 05:50:35PM -0700, Andrii Nakryiko wrote:
-> On Mon, Jul 1, 2024 at 5:32 PM Brian Norris <briannorris@chromium.org> wrote:
-> > --- a/tools/lib/bpf/Makefile
-> > +++ b/tools/lib/bpf/Makefile
-> > @@ -153,7 +153,11 @@ $(BPF_IN_SHARED): force $(BPF_GENERATED)
-> >         echo "Warning: Kernel ABI header at 'tools/include/uapi/linux/if_xdp.h' differs from latest version at 'include/uapi/linux/if_xdp.h'" >&2 )) || true
-> >         $(Q)$(MAKE) $(build)=libbpf OUTPUT=$(SHARED_OBJDIR) CFLAGS="$(CFLAGS) $(SHLIB_FLAGS)"
-> >
-> > -$(BPF_IN_STATIC): force $(BPF_GENERATED)
-> > +$(STATIC_OBJDIR):
-> > +       $(Q)mkdir -p $@
-> > +
-> > +$(BPF_IN_STATIC): force $(BPF_GENERATED) | $(STATIC_OBJDIR)
-> 
-> wouldn't $(BPF_IN_SHARED) target need a similar treatment?
+On Tue, Jul 2, 2024 at 2:32=E2=80=AFAM Alan Maguire <alan.maguire@oracle.co=
+m> wrote:
+>
+> Reproducible builds [1] require that the same source code with
+> the same set of tools can build identical objects each time,
+> but pahole in parallel mode was non-deterministic in
+> BTF generation prior to
+>
+> dba7b5e ("pahole: Encode BTF serially in a reproducible build")
+>
+> This was a problem since said BTF is baked into kernels and modules in
+> .BTF sections, so parallel pahole was causing non-reproducible binary
+> generation.  Now with the above commit we have support for parallel
+> reproducible BTF generation in pahole.
+>
+> KBUILD_BUILD_TIMESTAMP is set for reproducible builds, so if it
+> is set, add reproducible_build to --btf_features.
+>
+> [1] Documentation/kbuild/reproducible-builds.rst
+>
+> Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
 
-Hmm, probably. I'll admit, I only debugged errors that show up in the
-top-level kernel build. The only tools/bpf stuff tied to the top-level
-build is resolve_btfids, which uses the static library, not the shared.
 
-And now that I poke around at some other build targets, this highlights
-that my patch introduced some problems with the independent libbpf
-build. Particularly, $(OUTPUT) is a relative path in some cases, and
-that relative path gets interpreted differently in recursive make (when
-we change cwd). So please don't accept this patch as-is.
 
-Brian
 
-> > +       $(SILENT_MAKE) -C $(srctree)/tools/build CFLAGS= LDFLAGS= OUTPUT=$(STATIC_OBJDIR) $(STATIC_OBJDIR)fixdep
-> >         $(Q)$(MAKE) $(build)=libbpf OUTPUT=$(STATIC_OBJDIR)
-> >
-> >  $(BPF_HELPER_DEFS): $(srctree)/tools/include/uapi/linux/bpf.h
+Does not make sense.
+
+
+
+KBUILD_BUILD_TIMESTAMP is not a switch for
+"please enable the reproducible build".
+
+
+KBUILD_BUILD_TIMESTAMP requires the build code
+to use the given time in the output where timestamps are used.
+
+Your patch does not use the timestamp at all.
+
+
+If --btf_features=3Dreproducible_build has no downside,
+please add it whenever supported.
+
+
+
+
+
+
+
+> ---
+>  scripts/Makefile.btf | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/scripts/Makefile.btf b/scripts/Makefile.btf
+> index b75f09f3f424..40bb72662967 100644
+> --- a/scripts/Makefile.btf
+> +++ b/scripts/Makefile.btf
+> @@ -21,6 +21,10 @@ else
+>  # Switch to using --btf_features for v1.26 and later.
+>  pahole-flags-$(call test-ge, $(pahole-ver), 126)  =3D -j --btf_features=
+=3Dencode_force,var,float,enum64,decl_tag,type_tag,optimized_func,consisten=
+t_func,decl_tag_kfuncs
+>
+> +ifneq ($(KBUILD_BUILD_TIMESTAMP),)
+> +pahole-flags-$(call test-ge, $(pahole-ver), 126) +=3D --btf_features=3Dr=
+eproducible_build
+> +endif
+> +
+>  ifneq ($(KBUILD_EXTMOD),)
+>  module-pahole-flags-$(call test-ge, $(pahole-ver), 126) +=3D --btf_featu=
+res=3Ddistilled_base
+>  endif
+> --
+> 2.31.1
+>
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
