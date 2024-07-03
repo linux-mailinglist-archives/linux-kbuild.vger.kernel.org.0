@@ -1,114 +1,76 @@
-Return-Path: <linux-kbuild+bounces-2328-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2329-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B40A924C3A
-	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Jul 2024 01:41:35 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23F0A924D52
+	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Jul 2024 03:52:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8251B1F22FA4
-	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Jul 2024 23:41:34 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 975A5B21E90
+	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Jul 2024 01:52:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48A4D191F77;
-	Tue,  2 Jul 2024 23:40:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C959138E;
+	Wed,  3 Jul 2024 01:52:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Uv0GA63a"
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="bbGavs5z"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0CE617DA07;
-	Tue,  2 Jul 2024 23:40:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18F7F184E;
+	Wed,  3 Jul 2024 01:52:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719963652; cv=none; b=qMIxeecdSZjPF52tF7byHLL2wHHg01uVv664MLOvpyesSAXAcSk7vWnMLsLgMSmTtItBPkfeaZlC5tFrCyoYv1YGrjCiOl13LV6fLJrLXqAtiIHjYSKaYYWEyAYGZ++ClW5QWVnTpohCwC8oFV/aaOgjFB39ZCLw/GbNkOcAVkk=
+	t=1719971552; cv=none; b=WmM8Eek9yNdTe2nyPuOR0hJHVYkSecvxTM1/ek5JcR1hM9oqQubDhh16qO4CpuTypxHkCKlMdQHappcDsoKm+kMUf86YbZedNoNdCAxQysCtx7NIAF65PBV2l9+vZ8mAwPftJ2PCEoBLOEPHKDiLmqi5LaA11tDD7F0+Z//zMeo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719963652; c=relaxed/simple;
-	bh=7kZY2KUAG8fJVOu0GscVDQewTt7BAp7yeB7aJnElh24=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=Cn7ouLEpeO9/LeChf+ohjaMm7rsKjz/n9nAlp2kG2SNUvBWm7lkKJ+rZSQEA58PpHtLD/2vPaGGdu/6GO/PnTtps2g2X/uu3VxaAJa0wUzD5+lKQRsOPdkDQfe0JuOzRLLgq5AMySUEi/mX5YkWFeQxmLjWHfmPjp8PHz57C2mI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Uv0GA63a; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a7523f0870cso356540166b.3;
-        Tue, 02 Jul 2024 16:40:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719963649; x=1720568449; darn=vger.kernel.org;
-        h=references:in-reply-to:message-id:date:subject:cc:to:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=jHXFaDKKpM4wPj0SsPzoA5iT48dNhq95fIw694vj4eI=;
-        b=Uv0GA63a+x1VGdmhr7aESl4+qRUiHWtH+g/Z2d+DGFjvmWXJ5HUb68X4xLEbyNa5MI
-         ng/zEIaGQFZ3Cgx0ovDxm+s2CT0l32nQmYMM9WzTjSIeVJ51bmr1KghVqPa5ZPUO5KkN
-         kOFn7h1Ef3jTpwtELiOQ3H3UJRpZcan8cfEK9IiSCJGywf/Vs/UBD6+BK/O0bgHfCEs/
-         Fl7FNHeurfRTTWpfGAG3wzb9//yXredtKqwiFpxo9g3WX24EmjAXsDalLT7wn0wCXfoD
-         R7nNsUnEKZqswtmjN4w1EByFwjH/48dq2+uuchZm3guJYlOhI2ohdIwRfKto+B+s3bsM
-         039w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719963649; x=1720568449;
-        h=references:in-reply-to:message-id:date:subject:cc:to:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jHXFaDKKpM4wPj0SsPzoA5iT48dNhq95fIw694vj4eI=;
-        b=LLqfa6xv3RjejImwKlJ+mX8jssox4FyoinQtCIfVfah3hqUGjlKCfq2YA3/KaFY+T3
-         +ZxnkeM5n3/ktFVICP3N8L2gTXm+fDfX+OYrvQ8sNm5wns+bMaJpePSUManFB57dXbW3
-         6SZx7zuZWE+4PSmOp3Ztel0pt1p10pkx8Th+BFdiOintOzct08MBf39Jw632Qcyddjsl
-         Oz4QUxZmN4C0ht0XSsTg6czHnCqmCkaVU256O+XMHvOVT/mQ7f5QjHbdzGnNNzZw9aZh
-         cygXsfQMAd31+a0ZqPAia1WIi4qaN3vKmiK5Zb3BlOhAE5EotsibCVIVHrNSr7f8Oxfe
-         700w==
-X-Forwarded-Encrypted: i=1; AJvYcCUeVVp3vHUeO9yrncDMRAwO6f5viduE9NBOdV+DY6HZU65QVsoEA48YJaOQ6/tdwEPGLvKG74kQ4PRa6x13rJ3LKgz8Qiw9Q/b+jVBfxNsFK84ypvMF6DQDnww0iluDqWbVoca+fueqDyDX
-X-Gm-Message-State: AOJu0YxXr848qPxguBdajIdxcqptnJo9JzlkEvXU+U5JVIZTtBX3MKcQ
-	585bWhMAw1kuVwtP0iyUE33ev1lZ9BTy9sBrRKnuz9ZvG0e6fdRGyzV1TMXa
-X-Google-Smtp-Source: AGHT+IHRcFART3FMaK+lcYezZZDGikjxHPokwTlNpfHogv3kaOgAi/zLeAumptvDqvHEJD8cdJPrYQ==
-X-Received: by 2002:a17:906:a28e:b0:a6f:55e8:b361 with SMTP id a640c23a62f3a-a7514423236mr519869166b.41.1719963648601;
-        Tue, 02 Jul 2024 16:40:48 -0700 (PDT)
-Received: from localhost ([185.92.221.13])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a72ab08cfccsm459701666b.148.2024.07.02.16.40.46
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 02 Jul 2024 16:40:47 -0700 (PDT)
-From: Wei Yang <richard.weiyang@gmail.com>
-To: akpm@linux-foundation.org,
-	masahiroy@kernel.org,
-	nathan@kernel.org,
-	nicolas@fjasle.eu
-Cc: linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
-	Wei Yang <richard.weiyang@gmail.com>,
-	Mike Rapoport <rppt@kernel.org>
-Subject: [PATCH 3/3] mm/page_alloc: put __free_pages_core() in __meminit section
-Date: Tue,  2 Jul 2024 23:40:08 +0000
-Message-Id: <20240702234008.19101-3-richard.weiyang@gmail.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20240702234008.19101-1-richard.weiyang@gmail.com>
+	s=arc-20240116; t=1719971552; c=relaxed/simple;
+	bh=AZWnEmjzdfWx2rEuZ0R78NSu9kwChSrsvE3QFJGxMI8=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=WI2IcQWNrOLvmDX646ox8Mo68RZbi0Zl40/J9B0i195u35GP2mxJ8pBPiTN6iJlq0zNDenkxVMrTTbPYRyMQfhLkEkiYat0hdkH4JQCadmDXEye7x+CU9pwlCy6yYBMUT+n4EF8RQXZI8qfhmUsaDLgiJJSJQre1iMC+8WouhtQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=bbGavs5z; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45C22C116B1;
+	Wed,  3 Jul 2024 01:52:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1719971551;
+	bh=AZWnEmjzdfWx2rEuZ0R78NSu9kwChSrsvE3QFJGxMI8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=bbGavs5zhgvk1NpdDqPFgLRXysqzzXjwo0MP2nqM0/j17Oj0Tds1PmE2+dI72hLL5
+	 wRlzl7Kjj6hulYC6F8xO7cDuhzwo7xqEyrxRZ8b1ooGll23gCyvAEchR5+xHmY5gJ0
+	 26tWGWtqveKyi4RaZURe4w6nKVrua89Uvf78uueU=
+Date: Tue, 2 Jul 2024 18:52:30 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Wei Yang <richard.weiyang@gmail.com>
+Cc: masahiroy@kernel.org, nathan@kernel.org, nicolas@fjasle.eu,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, Mike Rapoport <rppt@kernel.org>
+Subject: Re: [PATCH 2/3] modpost: .meminit.* is not in init section when
+ CONFIG_MEMORY_HOTPLUG set
+Message-Id: <20240702185230.9ff500bf6a89db888207f8f1@linux-foundation.org>
+In-Reply-To: <20240702234008.19101-2-richard.weiyang@gmail.com>
 References: <20240702234008.19101-1-richard.weiyang@gmail.com>
+	<20240702234008.19101-2-richard.weiyang@gmail.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Function __free_pages_core() is only used in bootmem init and hot-add
-memory init path. Let's put it in __meminit section.
+On Tue,  2 Jul 2024 23:40:07 +0000 Wei Yang <richard.weiyang@gmail.com> wrote:
 
-Signed-off-by: Wei Yang <richard.weiyang@gmail.com>
-CC: Mike Rapoport (IBM) <rppt@kernel.org>
----
- mm/page_alloc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> .meminit.* is not put into init section when CONFIG_MEMORY_HOTPLUG is
+> set, since we define MEM_KEEP()/MEM_DISCARD() according to
+> CONFIG_MEMORY_HOTPLUG.
 
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index 480e4416131f..c46aedfc9a12 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -1219,7 +1219,7 @@ static void __free_pages_ok(struct page *page, unsigned int order,
- 	__count_vm_events(PGFREE, 1 << order);
- }
- 
--void __free_pages_core(struct page *page, unsigned int order,
-+void __meminit __free_pages_core(struct page *page, unsigned int order,
- 		enum meminit_context context)
- {
- 	unsigned int nr_pages = 1 << order;
--- 
-2.34.1
+Please describe how this changes modpost behaviour.
+
+Something like: "we're currently not checking for references into
+meminit and meminitdata when CONFIG_HOTPLUG=y, which may cause us to
+fail to notice incorrect references.".  But I don't think that's
+correct.  So what *is* wrong with the current code?
 
 
