@@ -1,150 +1,131 @@
-Return-Path: <linux-kbuild+bounces-2331-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2332-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34E139263B1
-	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Jul 2024 16:44:33 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8F1A9263B6
+	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Jul 2024 16:45:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E181B1F22C16
-	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Jul 2024 14:44:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 139801C20F45
+	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Jul 2024 14:45:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7873F17D892;
-	Wed,  3 Jul 2024 14:44:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 478D246B5;
+	Wed,  3 Jul 2024 14:45:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FLj8fLgq"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LvyumqQb"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC16A17C9E1;
-	Wed,  3 Jul 2024 14:44:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CD7B1DA32D;
+	Wed,  3 Jul 2024 14:45:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720017843; cv=none; b=Y1nufaRshes7fL9oA/N8xRp5M1QLV/tcTAODFXoa3ziiw30uqqnY4Lt3VaoDfTwYkNGoVc67gXvnQboFs+7ZX2rstLypHcax6kivKNEbyldJPtrDf7QFB58PHP7uauxDOyFW5kHM7Mg8J26rZl+FDaaGwXkRWlMkeJpd/EVbVgE=
+	t=1720017918; cv=none; b=omduEAGs0Ey2FfhjfWVCtwJDIAY0LaY6G7PP5Ukd/FMJ4yoQzuaemgqnwEEQ35y0UH2Q1IEyzuoIqzuRPB7v+NKjl7cUP408Cgcz+l84y6BnPmlLgBH+5mFT9N04n0blhZ/D5mUQfKo1QgZ95U1IjTUyV341hys9EbMCYazoS2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720017843; c=relaxed/simple;
-	bh=1G6frJaXsWocJBPh35Kgp8PEnF2epctKJ7kFJyEsgqE=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kk04Facj/Gm2OHwYFyyDgB4I8HNC8Fyryh+2bMq+/OiqUaFyhL+ySqVeMD/dmUXsgjLFm6+T5f6m2e+j/awXlTpz4XbZNf3lDSq3edbuYyU72sAtMbtMmegX9xkdHRTFZKALF+LXTCg4pHoKWw4DT9OlQvisN4z2sRNboIcTR5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FLj8fLgq; arc=none smtp.client-ip=209.85.208.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2ebed33cb65so61516401fa.2;
-        Wed, 03 Jul 2024 07:44:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720017840; x=1720622640; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=gu5inwLfdtzDm+TqJtShP6iW74PqsPzGsEBdQ3OlryU=;
-        b=FLj8fLgq5KI8LNdGu7LpA3UDgbThyCeayOpeRIPzmfvoqA1rNAnld8m9VX6We98557
-         aWI09YF/RJf6JviaifP+y1S6Jh4TJah0DNWxNs9AA2k8Jqt6pFxaB1DJlxGi2ywm4XvE
-         +GAhLkpyiMdJ6wb8kx14lr14nQ+Yr9OrtLHrzPARbNHB34Dj6zozgYHwb2m/udR+ZJ2O
-         GzaQp9SUOxJBUBxMkclxs/D9zYlVSRb2s7rmPS+f2fYU3TO3WJxgWsI6AwJI0MDDtU+A
-         s88CVOg2Fta/IQxITE4s6PGyoq8BQR6mUSE1YTMFwZA3vlaZ5XhAU6LtTm/i4aan2B7l
-         O8jg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720017840; x=1720622640;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gu5inwLfdtzDm+TqJtShP6iW74PqsPzGsEBdQ3OlryU=;
-        b=C7QeR514DaKDN7E3+bYV1cwBo+fxamRxuBeJ4er/tbJ77cG1KIBvcGKs+SaQ4svrew
-         hq8B3fIlEPtJjif80ajcj20SQYG1dpTrx7dUnGItVDYf2Bqjt84kViMcTxGJnz1OSgtz
-         XYBf5SJSKmwtwFDR64au2wkbvHgusYLIR5vJs/Bz08BZTf6HL2UwOaRbxTJtt0Biv8u5
-         a8ucK46eqjz+mEva6l0jMu+PxEWJBadkMqwTOaHKrp+Ct4+KrT+CKy3TTcZkIPYizzjd
-         fzLKbTH6utXgjhA6NrYu6tr1LYEb6WzhjSqLja/lEGwsIbHDjEjTpMqjwf95jsvJJ0+4
-         MSdg==
-X-Forwarded-Encrypted: i=1; AJvYcCVB2GqdXM2Vj67Q36OhYbMnrH4W5VWUn1wDjmZLfGpKnWV8x414QHH5alHQOuraKU4wZzVzWl8n/v0zyBdETyaQd3lFW5umuOeOA34LZ5itXFXse/3iqPNLOqlqrjA0gJZvTxse0b/sKkddudAuXHmhg5aN3XPN7R/GO8RSgRkS
-X-Gm-Message-State: AOJu0Yw9Q41r/zYBZjpO4xPnWpG/IC5bc6dzKVGGHE1UYX04pEyFD8wU
-	Ouu42AMq5j2LgBX67ATlG3ICJoHRmGqbftYlsS12yZFxTHULvRGN
-X-Google-Smtp-Source: AGHT+IHp/n8cTtXiPbhgFfEro1NtKAB/yrkI29MmfkcMOXbZnXVFZfB7kYsztJoYYTPNnThuyKQJqg==
-X-Received: by 2002:a05:651c:2c6:b0:2ec:543f:6013 with SMTP id 38308e7fff4ca-2ee5e3acd8dmr67702871fa.13.1720017839725;
-        Wed, 03 Jul 2024 07:43:59 -0700 (PDT)
-Received: from krava ([176.105.156.1])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4256b098b4dsm243609365e9.29.2024.07.03.07.43.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jul 2024 07:43:59 -0700 (PDT)
-From: Jiri Olsa <olsajiri@gmail.com>
-X-Google-Original-From: Jiri Olsa <jolsa@kernel.org>
-Date: Wed, 3 Jul 2024 16:43:56 +0200
-To: Brian Norris <briannorris@chromium.org>
-Cc: Arnaldo Carvalho de Melo <acme@redhat.com>,
-	Namhyung Kim <namhyung@kernel.org>, Ian Rogers <irogers@google.com>,
-	Thomas Richter <tmricht@linux.ibm.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Masahiro Yamada <masahiroy@kernel.org>, bpf@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] tools build: Correct libsubcmd fixdep dependencies
-Message-ID: <ZoVjrDMg1XM840tT@krava>
-References: <20240702215854.408532-1-briannorris@chromium.org>
- <20240702215854.408532-2-briannorris@chromium.org>
+	s=arc-20240116; t=1720017918; c=relaxed/simple;
+	bh=8MLZSPdKQEwtId+N1rboQzxPCHIumfHyHcWlOBEgzCo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=N0ZN8bIl9+RtOgrfAfFLWcOaRxSfiOzkM40SN7uMxu6C6afoPFDsFwbG/K0r/ocdR+aRdrcbBhe+laS4MyBy7QH/Ejhyh9vF7oQxlS+9a6tHfHE+hpmvBArjJIZ3jLqF2saj3R35O/5VXmz405ZdXDMSeW1tBa19tw29JIaLXL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LvyumqQb; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 925F0C2BD10;
+	Wed,  3 Jul 2024 14:45:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720017917;
+	bh=8MLZSPdKQEwtId+N1rboQzxPCHIumfHyHcWlOBEgzCo=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=LvyumqQbwIV9k7EByMcycTpXk3y7TBu/z8QYnr5GWBbSH3D8XKVL51kRwPgqhn+qk
+	 VfQxRHzUfB5VKegqUc2YAxLog5tPZHSb8t3ujgLjzPXfG92HLF5pXJEKL54wiGEs/H
+	 dTS/8X00+Qq4YfdbkDaGthiPkteghxts0BmL6rPmJNd3lZ6oqEumpXKv/qbcSrK92K
+	 pwQPbiUByO6ySwBLFhe0NmoQE3i/nRxsIDbfl1NmfkoxXMafGiP7NFmM++pFZ112Jh
+	 q7QdLyXFw3RbRZU4sVy3o/RQ9IMIVJmUSGvIz4/+XLKpM0vjUzFypwVN8QnY8NXlVe
+	 0lnSQu1AABgxQ==
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2ebe40673e8so67046421fa.3;
+        Wed, 03 Jul 2024 07:45:17 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUaz6RzqX15f8zw3k3/yyjf/H/K4cMvScUAOKsh0PRv6lAYI0cdXlkYTqNlMR3myF5jBgfihs5sui+JICv21u38NrC5FkcedbqoDXjOOjvMKnjTl/hx3pmcRwRD7QnuoFaazhojF9/NRdZT
+X-Gm-Message-State: AOJu0YyO74vScM4NtDpYoP4BkEc+ec7jETxxShY3uy1FhdIDaql+30DA
+	AYClwIvb3FX80RtsGioDWBhvNj19r3Qp+Fix31Pi2/iEN2g10L4rZ08+OLT48UYdo1rbiN720IU
+	pPinEpZGyl95J6OJkDgD+zL/qMrg=
+X-Google-Smtp-Source: AGHT+IG5Sd4bSXWYjGcKQ9KzumasGYwJzCiLLKVPtWZ2LPlWrEZuQpGY/ZV/RDCcxD81zIMMA77mCw772cPZ+k0DB8E=
+X-Received: by 2002:a2e:a813:0:b0:2ee:6b86:b0ab with SMTP id
+ 38308e7fff4ca-2ee6b86b2b9mr73206421fa.20.1720017916267; Wed, 03 Jul 2024
+ 07:45:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240702215854.408532-2-briannorris@chromium.org>
+References: <20240702234008.19101-1-richard.weiyang@gmail.com> <20240702234008.19101-2-richard.weiyang@gmail.com>
+In-Reply-To: <20240702234008.19101-2-richard.weiyang@gmail.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Wed, 3 Jul 2024 23:44:38 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAR08Nx3-8XYe4qmUegDFo2zLUvkVdA1t51g1Bamh5Tteg@mail.gmail.com>
+Message-ID: <CAK7LNAR08Nx3-8XYe4qmUegDFo2zLUvkVdA1t51g1Bamh5Tteg@mail.gmail.com>
+Subject: Re: [PATCH 2/3] modpost: .meminit.* is not in init section when
+ CONFIG_MEMORY_HOTPLUG set
+To: Wei Yang <richard.weiyang@gmail.com>
+Cc: akpm@linux-foundation.org, nathan@kernel.org, nicolas@fjasle.eu, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, Mike Rapoport <rppt@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 02, 2024 at 02:58:37PM -0700, Brian Norris wrote:
-> All built targets need fixdep to be built first, before handling object
-> dependencies [1]. We're missing one such dependency before the libsubcmd
-> target.
-> 
-> This resolves .cmd file generation issues such that the following
-> sequence produces many fewer results:
-> 
->   $ git clean -xfd tools/
->   $ make tools/objtool
->   $ grep "cannot find fixdep" $(find tools/objtool -name '*.cmd')
-> 
-> In particular, only a buggy tools/objtool/libsubcmd/.fixdep.o.cmd
-> remains, due to circular dependencies of fixdep on itself.
-> 
-> Such incomplete .cmd files don't usually cause a direct problem, since
-> they're designed to fail "open", but they can cause some subtle problems
-> that would otherwise be handled by proper fixdep'd dependency files.
-> 
-> [1] This problem is better described in commit abb26210a395 ("perf
-> tools: Force fixdep compilation at the start of the build"). I don't
-> apply its solution here, because additional recursive make can be a bit
-> of overkill.
-> 
-> Link: https://lore.kernel.org/all/ZGVi9HbI43R5trN8@bhelgaas/
-> Link: https://lore.kernel.org/all/Zk-C5Eg84yt6_nml@google.com/
-> Signed-off-by: Brian Norris <briannorris@chromium.org>
-
-Acked-by: Jiri Olsa <jolsa@kernel.org>
-
-jirka
-
+On Wed, Jul 3, 2024 at 8:40=E2=80=AFAM Wei Yang <richard.weiyang@gmail.com>=
+ wrote:
+>
+> .meminit.* is not put into init section when CONFIG_MEMORY_HOTPLUG is
+> set, since we define MEM_KEEP()/MEM_DISCARD() according to
+> CONFIG_MEMORY_HOTPLUG.
+>
+> Signed-off-by: Wei Yang <richard.weiyang@gmail.com>
+> CC: Mike Rapoport (IBM) <rppt@kernel.org>
 > ---
-> 
-> (no changes since v1)
-> 
->  tools/lib/subcmd/Makefile | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/tools/lib/subcmd/Makefile b/tools/lib/subcmd/Makefile
-> index b87213263a5e..59b09f280e49 100644
-> --- a/tools/lib/subcmd/Makefile
-> +++ b/tools/lib/subcmd/Makefile
-> @@ -76,7 +76,7 @@ include $(srctree)/tools/build/Makefile.include
->  
->  all: fixdep $(LIBFILE)
->  
-> -$(SUBCMD_IN): FORCE
-> +$(SUBCMD_IN): fixdep FORCE
->  	@$(MAKE) $(build)=libsubcmd
->  
->  $(LIBFILE): $(SUBCMD_IN)
-> -- 
-> 2.45.2.803.g4e1b14247a-goog
-> 
-> 
+>  scripts/mod/modpost.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+
+
+
+NACK.
+
+
+The section mismatch is performed _unconditionally_.
+
+
+
+In the old days, we did this depending on relevant CONFIG options.
+It was more than 15 years ago that we stopped doing that.
+
+
+See this:
+
+
+commit eb8f689046b857874e964463619f09df06d59fad
+Author: Sam Ravnborg <sam@ravnborg.org>
+Date:   Sun Jan 20 20:07:28 2008 +0100
+
+    Use separate sections for __dev/__cpu/__mem code/data
+
+
+
+
+So, if you wanted to check this only when CONFIG_MEMORY_HOTPLUG=3Dn,
+you would need to add #ifdef CONFIG_MEMORY_HOTPLUG to include/linux/init.h
+
+That is what we did in the Linux 2.6.* era, which had much worse
+section mismatch coverage.
+
+
+
+
+
+
+
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
