@@ -1,104 +1,116 @@
-Return-Path: <linux-kbuild+bounces-2345-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2346-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68989927772
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jul 2024 15:49:09 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCABB927793
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jul 2024 15:59:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EEB9CB22F7B
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jul 2024 13:49:06 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4AC62B22EA8
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jul 2024 13:59:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 093D21AEFEA;
-	Thu,  4 Jul 2024 13:48:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C15A1AED33;
+	Thu,  4 Jul 2024 13:59:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WCfMxJk/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nivqRoXF"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB3611AEFE6;
-	Thu,  4 Jul 2024 13:48:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 541F41AE852;
+	Thu,  4 Jul 2024 13:59:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720100922; cv=none; b=ecTf57M48LC9tIHK5tOZCg6S9mK9Pe5S0co6VQAGBdZ0DabpWmckZDN1w+VIj1LidmvTBSE/5FGFlVWy99VYnLlI21DStZFWcU8wO5XISWs8sPFqyE4S2gM2oWSStYNV26Tjd4V/ogNSBT4QzKpTDIi2GLph0jn/sOX5sqPAUb0=
+	t=1720101567; cv=none; b=r2FpXUAp+sV/W69jAlyQZEBU+FTDp1Ol+x7dvcgDacm5zFo23psjnaNauFKlBckYjwjEKOC9eskioiI0ZzKJzrkOUugFp98DHEiveMVn7z6LrpUyyj6k2iG/1jJl+u30v03Q+uVI/KLIxwEQYVWbnr95Ri+hD3hJbURPRJULX9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720100922; c=relaxed/simple;
-	bh=vZKpYpTh2JeJUK2HgtA2t0L6Ui24+o0AztKYIPhIvew=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sUGlykCvpl1+XSF+1eiB5csMFbdXF71u1KuBfIx6boYfFjlA5nWJR5RubhJNYKGtpPMyz1f7a3grd9t6R6YDcd9SLxs93VNc8hdtCiZ39d0s8q1qkzm+ern48p7vfXvEMbD3tjTwI8gJBQVRP13Ut0KoWfhNHjJ3UMKcWE1Sz8k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WCfMxJk/; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AECC4C3277B;
-	Thu,  4 Jul 2024 13:48:40 +0000 (UTC)
+	s=arc-20240116; t=1720101567; c=relaxed/simple;
+	bh=GiFNrRC5ZHb7Hxbh4vVwGtsfmzcjtWemmZgP3AnxegY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gS2eLVA8Rm2TeUsQZf0yUVuL3y71lZCE3muU6ncbm0Cdadwny5Em6B8xL4Qxj8Pvfa29jeAclMmQcToSYSgJSx+dTBXAqH8rnGV3LHF/fRjMZvIvuvqwnRZ/25AzoIXgUjeuDKc7quQ4akX2bG4g7wmay48Hl22RYHKqlOhSGEk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nivqRoXF; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D147DC3277B;
+	Thu,  4 Jul 2024 13:59:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720100922;
-	bh=vZKpYpTh2JeJUK2HgtA2t0L6Ui24+o0AztKYIPhIvew=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=WCfMxJk/sEb2DXwyz6hW0wloehiyjLbgYaOPYkRzX3dXNSrXxiUIjYbtMxXrUBTAG
-	 J5fT67v2ekEmsOcOe06K5YOaaN2oraC9hQdLrNi3Yp4hwJjgWBOAM+Wv5yLvqxVrza
-	 s6BIdJYP1bnNU11MPDzaWRjXaLqndhrMPECEJIu96gq3JPipv9g9uayCWGHynjmq/r
-	 fz078UO4Yiz1dYCg8OZ6T8d5GVfCAH6b5l4vg4OJi4x32f7hqesTdkAQ5Z/GICpmlc
-	 FaS7pwattr+BwOAhJnrYKn3NdTS9xRAlEyB7+sjFe3HqchAdtVhTZ1QeCAP0aYrQGC
-	 QlRlasIOu9E0Q==
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: linux-kbuild@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>
-Subject: [PATCH 3/3] modpost: rename R_ARM_THM_CALL to R_ARM_THM_PC22
-Date: Thu,  4 Jul 2024 22:47:57 +0900
-Message-ID: <20240704134812.1511315-3-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240704134812.1511315-1-masahiroy@kernel.org>
-References: <20240704134812.1511315-1-masahiroy@kernel.org>
+	s=k20201202; t=1720101566;
+	bh=GiFNrRC5ZHb7Hxbh4vVwGtsfmzcjtWemmZgP3AnxegY=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=nivqRoXFiy5R/h79TRhpMSLyeCBWRjHCX0d/Z4P9Gg/hB4yH64j/dLLwMjR/gVvON
+	 UXD5WxmmbLeQHYopqQuKJYkzUeqyBSy5feIxtI1S1/o5syfMsgHY4+N6oE9LU+jrlM
+	 rK0HINvg+4QMygsLQZGhirfIyq42t4xjq3++CFYS5LVh/8R7jbds+6EcM1Yyy0tOkK
+	 Q3j/xhPiZ37x2UDvMnhxF8wH69YGn9Q7ZBteUa66PXw5pB5CcovGhMqXJTZ5xtBqpP
+	 QkWOmH4zbalHvaRlsfohKUu2WPc/7sPquoKXSR1GuR6B8LPiA81vc5JoFw731zdvcf
+	 dSUit0cUM5usw==
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2ee794ec046so7193101fa.2;
+        Thu, 04 Jul 2024 06:59:26 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWjf1+HENO+5SVqWc6yaTaNOIaZ2BoS6QUsKZE0GduBoUNhUgsz8G8ZHJabs4+zMiGFcPqnFISqzV7J1TpPlv2AodsLLn7BR8QSAeYF
+X-Gm-Message-State: AOJu0Ywp63cEIkkRtwRQRr/oGHqDMq1Dzn7LHQiaXHXnKzV4scwj2sTd
+	mcX0YQ8p4HofZF2pdNA+pqbLADtOUohi/skv92xmvwcRNwpgyEgbNUW2xC+pMcUax7QpnLPnl/W
+	UG05NjKr+/knzMZxcP+DN1U1OpEo=
+X-Google-Smtp-Source: AGHT+IF+CHxSsSYPe+elMB6CRNK5thn1dazWoWQgYaGFhA+1aiJhuLN8GpIixNnM9hbQ+rlQWVkF3e5f4fSARKAoA0U=
+X-Received: by 2002:a2e:3c03:0:b0:2ee:4ccf:ca4f with SMTP id
+ 38308e7fff4ca-2ee8eda42e4mr11245841fa.31.1720101565403; Thu, 04 Jul 2024
+ 06:59:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAK7LNATxSePzOrHaQvS1MQo4mpAwdfwrDu3iuUsYZ+RL=LiirA@mail.gmail.com>
+ <20240611211123.959459-2-aquini@redhat.com>
+In-Reply-To: <20240611211123.959459-2-aquini@redhat.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Thu, 4 Jul 2024 22:58:48 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQviPKzppow8Vpjz_hOT0kidLihgjS5gBxTx82SOzj9PQ@mail.gmail.com>
+Message-ID: <CAK7LNAQviPKzppow8Vpjz_hOT0kidLihgjS5gBxTx82SOzj9PQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] kbuild: rpm-pkg: make sure to have versioned
+ 'Obsoletes' for kernel.spec
+To: Rafael Aquini <aquini@redhat.com>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-R_ARM_THM_CALL does not exist in /usr/include/elf.h, which originates
-from the Glibc project.
+On Wed, Jun 12, 2024 at 6:11=E2=80=AFAM Rafael Aquini <aquini@redhat.com> w=
+rote:
+>
+> Fix the following rpmbuild warning:
+>
+>   $ make srcrpm-pkg
+>   ...
+>   RPM build warnings:
+>       line 34: It's not recommended to have unversioned Obsoletes: Obsole=
+tes: kernel-headers
+>
+> Signed-off-by: Rafael Aquini <aquini@redhat.com>
+> ---
+>  scripts/package/kernel.spec | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/scripts/package/kernel.spec b/scripts/package/kernel.spec
+> index e095eb1e290e..19e458341f45 100644
+> --- a/scripts/package/kernel.spec
+> +++ b/scripts/package/kernel.spec
+> @@ -27,7 +27,7 @@ The Linux Kernel, the operating system core itself
+>  %package headers
+>  Summary: Header files for the Linux kernel for use by glibc
+>  Group: Development/System
+> -Obsoletes: kernel-headers
+> +Obsoletes: kernel-headers < %{version}
+>  Provides: kernel-headers =3D %{version}
+>  %description headers
+>  Kernel-headers includes the C header files that specify the interface
+> --
+> 2.45.1
+>
+>
 
-Instead, the following line exists:
+Applied to linux-kbuild.
+Thanks!
 
-  #define R_ARM_THM_PC22          10      /* PC relative 24 bit (Thumb32 BL).  */
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
- scripts/mod/modpost.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
-
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index e9aae1b7ff77..3e5313ed6065 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -1168,10 +1168,6 @@ static Elf_Addr addend_386_rel(uint32_t *location, unsigned int r_type)
- 	return (Elf_Addr)(-1);
- }
- 
--#ifndef	R_ARM_THM_CALL
--#define	R_ARM_THM_CALL		10
--#endif
--
- static int32_t sign_extend32(int32_t value, int index)
- {
- 	uint8_t shift = 31 - index;
-@@ -1232,7 +1228,7 @@ static Elf_Addr addend_arm_rel(void *loc, Elf_Sym *sym, unsigned int r_type)
- 				       ((lower & 0x07ff) << 1),
- 				       20);
- 		return offset + sym->st_value + 4;
--	case R_ARM_THM_CALL:
-+	case R_ARM_THM_PC22:
- 	case R_ARM_THM_JUMP24:
- 		/*
- 		 * Encoding T4:
--- 
-2.43.0
-
+--=20
+Best Regards
+Masahiro Yamada
 
