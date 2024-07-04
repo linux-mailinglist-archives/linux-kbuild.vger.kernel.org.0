@@ -1,111 +1,92 @@
-Return-Path: <linux-kbuild+bounces-2373-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2374-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D561927A02
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jul 2024 17:28:23 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD15E927A84
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jul 2024 17:53:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BE3421C2095D
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jul 2024 15:28:22 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 70EDFB20F2C
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jul 2024 15:53:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16FD11B010F;
-	Thu,  4 Jul 2024 15:28:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D840A1A2C1E;
+	Thu,  4 Jul 2024 15:53:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZoYo+zhs"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gdRimx31"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 880831AD9CB
-	for <linux-kbuild@vger.kernel.org>; Thu,  4 Jul 2024 15:28:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB02D1957E2;
+	Thu,  4 Jul 2024 15:53:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720106900; cv=none; b=Un3vzo/R9FEzyCQWOJ7//fy6xAFBevwk7swyKxmPS33UIzXDlwJUVJuJHKYsLgpOKvS8V/lrYyjog//EZI/+Ro+TRZWYw8gSZ6bJIVmYC6LlLW2MT5jlBuujGwGBWE2eHSIRo7DMoni9fLr4imvZcdu/ezauLSJQtHT5/666y70=
+	t=1720108399; cv=none; b=k/ZAIMCsiYTNu6hijXRTDUtDIIfMN5As1o/CqvLZjuoBNFPTTHZ+wJcd1QhLbAJVr2bcfx8lINEfHY4UaW0jER5eV73oiDcy6b7xLjYikxYsYE2L0NBXblilhgWAIGxDxMeZdOMNKUF1T/2591Lu34hsik7e0410rjAD0wgEo/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720106900; c=relaxed/simple;
-	bh=K+9khsHPrGl9+kaP0GvrXu0P9KWKNyzA+GM5yKpaUmw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iWJO7qASSnLp3PjoT6crS5RngK9r665Tr+ZDcG0s4VItbAp7IxM5rWR/OfN22VfntKWkcmVJyJcchGX1nuDoGwB7VMl765MaRme3CnUxy/M43TP/ibw0tI6iKb/WRhba5wjHerwXwHlC0ofAKnskCXA2S8xPmpRQfKNWOioJOAg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZoYo+zhs; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1720106897;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EHDQLEHUfgvmw0ktLAaUo/x5tRI2fcgOxkiiF8qk/9g=;
-	b=ZoYo+zhsBKsBvBVGPDNEVQOStsjr/kx/QJznV76fejpJ684AOMvMEgHzmHvdPuaHkUgt9s
-	sjAo2LukeSfjGpIW2jI2P22jNn7qbIhLAAd3qONd1ceMLJ7muKoTbUFaN/AOXErdapk8N8
-	WYrFRz/uZ0DGn/pAFrS66R2tTsmEtYo=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-649-fFb1-JyXP5aLjJuwV3dABA-1; Thu, 04 Jul 2024 11:28:16 -0400
-X-MC-Unique: fFb1-JyXP5aLjJuwV3dABA-1
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-79d5509f112so102442585a.3
-        for <linux-kbuild@vger.kernel.org>; Thu, 04 Jul 2024 08:28:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720106896; x=1720711696;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EHDQLEHUfgvmw0ktLAaUo/x5tRI2fcgOxkiiF8qk/9g=;
-        b=XmhnBbjA0zH2W2RQ9iub0OyVUZklbq3qWrKJVqtGrzuzKQqchULmv1g9GAJZ+kopDm
-         csuN0b/xOx5qeUh0wPLhjT7OXkNnErLCHEcxx6q9DLWbss2x0id++A5/3g9dUce++6Nq
-         Qjirrjrl7SirJKa6k+zr82fqKp4w4rJ6boBzFKMV3RTICv8RfALu3kpHOMZQ7aW8c31w
-         B2SIt6TjK85NjFfJ8pijQ940NXaZ2KD8JJEe9Pp4Q7XL9l3T81WP7FJQ2h/aX280724U
-         HKG4Mhx8/SleCOcaiqGQBv+Z6Ph700psKFoapV6K7CypqAjKVjJEeHc2R6zLyO+htpkV
-         53LQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXTjqXgUGt6MsXOTzAssZXFk0B0MHbrRlElVbDyekrAbl5bTRkRlf9egEnv0ty9XlNIB7PW047+4T42VJaifFm9nImdYHEgl1lnC4hu
-X-Gm-Message-State: AOJu0YzEv8ip1yA3JRNwJz+oSsNzmsiI9jsJvol2566sHoCO+zhHV/bp
-	lTFIxrQY66mV7CZXQ+NmmZE7jxLSas0qeOoZ8tSVoYe2XKwRKRbe8a+XtjI3TzgvsFK87f5IsYa
-	FkxRe8DuNMVJ/H85v6B2EmlJCbaYdxSYxz/bGHGKngz5Sq6wXDFhiOjyJDgGOrg==
-X-Received: by 2002:a05:620a:1a1a:b0:79c:2d:1f40 with SMTP id af79cd13be357-79eee1bf27dmr255649985a.26.1720106895748;
-        Thu, 04 Jul 2024 08:28:15 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHes96ObGy5APTGY18HYlFTXCHgVASL0xqXVWp48t1abDxvgyujx+r7kVow6rFIGUnPQZIjqg==
-X-Received: by 2002:a05:620a:1a1a:b0:79c:2d:1f40 with SMTP id af79cd13be357-79eee1bf27dmr255628085a.26.1720106891095;
-        Thu, 04 Jul 2024 08:28:11 -0700 (PDT)
-Received: from optiplex-fbsd (c-174-169-122-120.hsd1.nh.comcast.net. [174.169.122.120])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-79ef26f843dsm24794385a.136.2024.07.04.08.28.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jul 2024 08:28:10 -0700 (PDT)
-Date: Thu, 4 Jul 2024 11:28:08 -0400
-From: Rafael Aquini <aquini@redhat.com>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH 2/2] kbuild: rpm-pkg: introduce a simple changelog section
- for kernel.spec
-Message-ID: <Zoa_iCGGrMWvbJEb@optiplex-fbsd>
-References: <CAK7LNATxSePzOrHaQvS1MQo4mpAwdfwrDu3iuUsYZ+RL=LiirA@mail.gmail.com>
- <20240611211123.959459-3-aquini@redhat.com>
+	s=arc-20240116; t=1720108399; c=relaxed/simple;
+	bh=61l6teuJlEzZyOFcsWs+mbD0J9foS4nJQ+B9XDWMorQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=N5CoUrf12i8Vs4+0y8PiL2g1kMkhVNgMdpXbQUJiYTZOaRCj0obr2d5cqMG0IYsfg2iEJfMKSa+szZEZG7hBk86j/FB2MrQV8HNb5N0DI/ZwLisg0h2907DiNEwdvR5bon/MEPgfCnWubc6DYj8FUx59CUtyH3ffXew828KyUBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gdRimx31; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40970C4AF0B;
+	Thu,  4 Jul 2024 15:53:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720108399;
+	bh=61l6teuJlEzZyOFcsWs+mbD0J9foS4nJQ+B9XDWMorQ=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=gdRimx3175BZ3d+E62tb/17JlZd5eqDNABguLplJJ3VHOS3kNBmAQawRvOdAoSS6y
+	 x87YKgtermBnwASS3thCOuxZ+z0aDKPRoCrzUk5SKRVIO6CuWC4p1MNiziHQIMSFIV
+	 9LzwoWdXtSNHapeSGY0wGyzdFozm3zgHh0ZnDjxvvxqAjNnd5yKkl5urcXIxZZwdJF
+	 R5uIEZjsG7l3xBfl4nNOt5BzZUUNY3J5Soy6W7pyJEe600PF6PYFSebY2JnClUiSpS
+	 7ZczG86C0tNLqBlwJOmDFz44GS82g14JgGaoz/sAfna797FBxcPSTtuJ8QwWiSGtH6
+	 cucas6OwtTikA==
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2eabd22d3f4so8323961fa.1;
+        Thu, 04 Jul 2024 08:53:19 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWM9GfM1F8bpohN93aBdgkvIO75o4HVrIUNXsJD9+pLhHY+EhS+DnqQmVUq63i241WwueFrFM4TiJW+mb1ZOCWTS9Cs0T38PbdYfvoT
+X-Gm-Message-State: AOJu0YwPUnXgfpS/b7gcM0t1QGVV8HXZ7p+kUzhBFvaloehXxMjDuktk
+	RIk/ChVOsDmj/Af6qUX8stYNmZJi8i/VZbskLrwNlPAKBl7XdVTouX1VPGu0b+AWyPBr4LQscQZ
+	uqBChDy2WrpO5fUdGHg4JFR9FYFE=
+X-Google-Smtp-Source: AGHT+IF+Aw1bgS7PdZsgoo1/EVMcqZxz2NTYdi53SZKrEOA58gppKFHLxoNv+6Y0O5QXKPjZqZzNHnk9VyEFaDXFxEc=
+X-Received: by 2002:a2e:91d6:0:b0:2ec:529e:6522 with SMTP id
+ 38308e7fff4ca-2ee8ed62d25mr13737001fa.31.1720108397778; Thu, 04 Jul 2024
+ 08:53:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <CAK7LNATxSePzOrHaQvS1MQo4mpAwdfwrDu3iuUsYZ+RL=LiirA@mail.gmail.com>
+ <20240611211123.959459-3-aquini@redhat.com>
 In-Reply-To: <20240611211123.959459-3-aquini@redhat.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Fri, 5 Jul 2024 00:52:41 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQba5CDetpwevSoaOLJ21s1tO9ZHh=7gJpPCNK0AnHfJw@mail.gmail.com>
+Message-ID: <CAK7LNAQba5CDetpwevSoaOLJ21s1tO9ZHh=7gJpPCNK0AnHfJw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] kbuild: rpm-pkg: introduce a simple changelog section
+ for kernel.spec
+To: Rafael Aquini <aquini@redhat.com>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 11, 2024 at 05:11:22PM -0400, Rafael Aquini wrote:
+On Wed, Jun 12, 2024 at 6:11=E2=80=AFAM Rafael Aquini <aquini@redhat.com> w=
+rote:
+>
 > Fix the following rpmbuild warning:
-> 
+>
 >   $ make srcrpm-pkg
 >   ...
 >   RPM build warnings:
 >       source_date_epoch_from_changelog set but %changelog is missing
-> 
+>
 > Signed-off-by: Rafael Aquini <aquini@redhat.com>
 > ---
 >  scripts/package/kernel.spec | 5 +++++
 >  1 file changed, 5 insertions(+)
-> 
+>
 > diff --git a/scripts/package/kernel.spec b/scripts/package/kernel.spec
 > index 19e458341f45..126b23c1f6c2 100644
 > --- a/scripts/package/kernel.spec
@@ -116,15 +97,81 @@ On Tue, Jun 11, 2024 at 05:11:22PM -0400, Rafael Aquini wrote:
 >  %endif
 > +
 > +%changelog
-> +* %(echo "$(LC_ALL=C; date +'%a %b %d %Y') $(git config --get user.name) \
+> +* %(echo "$(LC_ALL=3DC; date +'%a %b %d %Y') $(git config --get user.nam=
+e) \
 > +<$(git config --get user.email)>") - %{version}-%{release}
 > +- Custom built Linux kernel.
-> -- 
+> --
 > 2.45.1
-> 
+>
 
-Please, don't forget this one.
 
-Thank you!
+This approach is wrong because %(...) is not expanded when generating
+the source package.
 
+
+Expand the generated SRPM to see what has happened.
+
+
+[vagrant@fedora39 ~]$ rpm2cpio
+kernel-6.10.0_rc3_00002_gdb908e378f93-6.src.rpm | cpio -idvm
+
+[vagrant@fedora39 ~]$ tail -n 4 kernel.spec
+%changelog
+* %(echo "$(LC_ALL=3DC; date +'%a %b %d %Y') $(git config --get user.name) =
+\
+<$(git config --get user.email)>") - %{version}-%{release}
+- Custom built Linux kern
+
+
+
+This %changelog section is meaningless, as it does not contain
+any useful information about the person who packaged it.
+
+
+
+Just like mkdebian, this log information must be generated
+when you create the package.
+
+
+Using 'git config' is OK, but git is optional for 'make binrpm-pkg'.
+
+So, you need to add fallback defaults in case git is not available.
+(this code is available in scripts/package/mkdebian)
+
+
+
+
+
+How about adding this to scripts/package/mkspec?
+
+
+if [ "$(command -v git)" ]; then
+        name=3D$(git config user.name) || true
+        email=3D$(git config user.email) || true
+fi
+
+if [ ! "${name:+set}" ]; then
+        name=3D${KBUILD_BUILD_USER:-$(id -nu)}
+fi
+
+if [ ! "${email:+set}" ]; then
+        email=3D"${KBUILD_BUILD_USER:-$(id
+-nu)}@${KBUILD_BUILD_HOST:-$(hostname -f 2>/dev/null || hostname)}"
+fi
+
+cat<<EOF
+
+%changelog
+* $(LC_ALL=3DC date +'%a %b %d %Y') ${name} <${email}>
+- Custom built Linux kernel.
+EOF
+
+
+
+
+--
+Best Regards
+
+Masahiro Yamada
 
