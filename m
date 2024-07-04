@@ -1,116 +1,178 @@
-Return-Path: <linux-kbuild+bounces-2346-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2347-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCABB927793
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jul 2024 15:59:33 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D928927883
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jul 2024 16:34:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4AC62B22EA8
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jul 2024 13:59:31 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8B5CEB24A64
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jul 2024 14:34:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C15A1AED33;
-	Thu,  4 Jul 2024 13:59:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D1731AEFEC;
+	Thu,  4 Jul 2024 14:34:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nivqRoXF"
+	dkim=pass (1024-bit key) header.d=kloenk.dev header.i=@kloenk.dev header.b="liZVLx5M"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from gimli.kloenk.de (gimli.kloenk.de [49.12.72.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 541F41AE852;
-	Thu,  4 Jul 2024 13:59:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51D011A070D;
+	Thu,  4 Jul 2024 14:34:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=49.12.72.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720101567; cv=none; b=r2FpXUAp+sV/W69jAlyQZEBU+FTDp1Ol+x7dvcgDacm5zFo23psjnaNauFKlBckYjwjEKOC9eskioiI0ZzKJzrkOUugFp98DHEiveMVn7z6LrpUyyj6k2iG/1jJl+u30v03Q+uVI/KLIxwEQYVWbnr95Ri+hD3hJbURPRJULX9M=
+	t=1720103686; cv=none; b=Zv7Rl1ae6zGLH+t9xBF3e0575U9YyHnY5U0Ais/uIW78lKJZZLZzo9MLvsGZgJUgPE9ndXBduZMBFLy0jhze38fY9X0yRIT7BCU68SuruqZG9E36LQ7WKj6mvQ3CNTDGQs4mGEdcE8qO4LgOebS5OkkbLAksPCuVThLy/5hN3T0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720101567; c=relaxed/simple;
-	bh=GiFNrRC5ZHb7Hxbh4vVwGtsfmzcjtWemmZgP3AnxegY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gS2eLVA8Rm2TeUsQZf0yUVuL3y71lZCE3muU6ncbm0Cdadwny5Em6B8xL4Qxj8Pvfa29jeAclMmQcToSYSgJSx+dTBXAqH8rnGV3LHF/fRjMZvIvuvqwnRZ/25AzoIXgUjeuDKc7quQ4akX2bG4g7wmay48Hl22RYHKqlOhSGEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nivqRoXF; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D147DC3277B;
-	Thu,  4 Jul 2024 13:59:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720101566;
-	bh=GiFNrRC5ZHb7Hxbh4vVwGtsfmzcjtWemmZgP3AnxegY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=nivqRoXFiy5R/h79TRhpMSLyeCBWRjHCX0d/Z4P9Gg/hB4yH64j/dLLwMjR/gVvON
-	 UXD5WxmmbLeQHYopqQuKJYkzUeqyBSy5feIxtI1S1/o5syfMsgHY4+N6oE9LU+jrlM
-	 rK0HINvg+4QMygsLQZGhirfIyq42t4xjq3++CFYS5LVh/8R7jbds+6EcM1Yyy0tOkK
-	 Q3j/xhPiZ37x2UDvMnhxF8wH69YGn9Q7ZBteUa66PXw5pB5CcovGhMqXJTZ5xtBqpP
-	 QkWOmH4zbalHvaRlsfohKUu2WPc/7sPquoKXSR1GuR6B8LPiA81vc5JoFw731zdvcf
-	 dSUit0cUM5usw==
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2ee794ec046so7193101fa.2;
-        Thu, 04 Jul 2024 06:59:26 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWjf1+HENO+5SVqWc6yaTaNOIaZ2BoS6QUsKZE0GduBoUNhUgsz8G8ZHJabs4+zMiGFcPqnFISqzV7J1TpPlv2AodsLLn7BR8QSAeYF
-X-Gm-Message-State: AOJu0Ywp63cEIkkRtwRQRr/oGHqDMq1Dzn7LHQiaXHXnKzV4scwj2sTd
-	mcX0YQ8p4HofZF2pdNA+pqbLADtOUohi/skv92xmvwcRNwpgyEgbNUW2xC+pMcUax7QpnLPnl/W
-	UG05NjKr+/knzMZxcP+DN1U1OpEo=
-X-Google-Smtp-Source: AGHT+IF+CHxSsSYPe+elMB6CRNK5thn1dazWoWQgYaGFhA+1aiJhuLN8GpIixNnM9hbQ+rlQWVkF3e5f4fSARKAoA0U=
-X-Received: by 2002:a2e:3c03:0:b0:2ee:4ccf:ca4f with SMTP id
- 38308e7fff4ca-2ee8eda42e4mr11245841fa.31.1720101565403; Thu, 04 Jul 2024
- 06:59:25 -0700 (PDT)
+	s=arc-20240116; t=1720103686; c=relaxed/simple;
+	bh=R0Q6zdlmxDR45Ivw4NB26oWMIWWUcsNPRZNtLqdZrSc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=kMB6tjugdVtkCf7aAQUBVCqxtosXfT1TAWJB7huWj1fflcKVHXh6P5S45aslrP3NwutpYZlxvblNgmVGerw5hNc29b95XQHXRqtzzmmQbYoD1Wm+6m29v55B+HkuRiWPWI0YZ4zL7ugeh40NuKlW31cQyKLYzWC9v1vVEpaDqyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kloenk.dev; spf=pass smtp.mailfrom=kloenk.dev; dkim=pass (1024-bit key) header.d=kloenk.dev header.i=@kloenk.dev header.b=liZVLx5M; arc=none smtp.client-ip=49.12.72.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kloenk.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kloenk.dev
+From: Finn Behrens <me@kloenk.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kloenk.dev; s=mail;
+	t=1720103681; bh=qthsm8N8HCDjpX99KA0BIXEcfX2ziMFLPNgaK3RprEs=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=liZVLx5MgjM6acXMyKBcN3RfD995PDZlnAxDfHwin+LOHIlWd6iiEkmqEv02ZgvEO
+	 wcO/zilJ4e2mxcmFCpsJ92d56FzBMwd/8Lw/Xd5/dMwdyqZ7O8axESJdMCTjFH9wgP
+	 chUYMT4aVZjmcq+5DE7kcRUd96gS+VuF/8FGL76Y=
+To: Miguel Ojeda <ojeda@kernel.org>
+Cc: Wedson Almeida Filho <wedsonaf@gmail.com>,
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@samsung.com>, Alice Ryhl <aliceryhl@google.com>,
+ rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+ patches@lists.linux.dev, Masahiro Yamada <masahiroy@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
+ linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH 04/13] rust: relax most deny-level lints to warnings
+Date: Thu, 04 Jul 2024 16:34:39 +0200
+Message-ID: <E76F0B90-F437-4425-9186-AEFFAC2A3304@kloenk.dev>
+In-Reply-To: <20240701183625.665574-5-ojeda@kernel.org>
+References: <20240701183625.665574-1-ojeda@kernel.org>
+ <20240701183625.665574-5-ojeda@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAK7LNATxSePzOrHaQvS1MQo4mpAwdfwrDu3iuUsYZ+RL=LiirA@mail.gmail.com>
- <20240611211123.959459-2-aquini@redhat.com>
-In-Reply-To: <20240611211123.959459-2-aquini@redhat.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Thu, 4 Jul 2024 22:58:48 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQviPKzppow8Vpjz_hOT0kidLihgjS5gBxTx82SOzj9PQ@mail.gmail.com>
-Message-ID: <CAK7LNAQviPKzppow8Vpjz_hOT0kidLihgjS5gBxTx82SOzj9PQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] kbuild: rpm-pkg: make sure to have versioned
- 'Obsoletes' for kernel.spec
-To: Rafael Aquini <aquini@redhat.com>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jun 12, 2024 at 6:11=E2=80=AFAM Rafael Aquini <aquini@redhat.com> w=
-rote:
+
+
+On 1 Jul 2024, at 20:36, Miguel Ojeda wrote:
+
+> Since we are starting to support several Rust toolchains, lints (includ=
+ing
+> Clippy ones) now may behave differently and lint groups may include
+> new lints.
 >
-> Fix the following rpmbuild warning:
+> Therefore, to maximize the chances a given version works, relax some
+> deny-level lints to warnings. It may also make our lives a bit easier
+> while developing new code or refactoring.
 >
->   $ make srcrpm-pkg
->   ...
->   RPM build warnings:
->       line 34: It's not recommended to have unversioned Obsoletes: Obsole=
-tes: kernel-headers
+> To be clear, the requirements for in-tree code are still the same, sinc=
+e
+> Rust code still needs to be warning-free (patches should be clean under=
+
+> `WERROR=3Dy`) and the set of lints is not changed.
 >
-> Signed-off-by: Rafael Aquini <aquini@redhat.com>
+> `unsafe_op_in_unsafe_fn` is left unmodified, i.e. as an error, since
+> 1) it is simple enough that it should not have false positives (unlike
+> e.g. `rust_2018_idioms`'s `explicit_outlives_requirements`) and 2) it i=
+s
+> becoming the default in the language (warn-by-default in Rust 2024 [1] =
+and
+> ideally an error later on) and thus it should also be very well tested.=
+
+>
+> Link: https://github.com/rust-lang/rust/pull/112038 [1]
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+
+Also in favour of disallowing non ASCII idents. Either way
+
+Reviewed-by: Finn Behrens <me@kloenk.dev>
+
 > ---
->  scripts/package/kernel.spec | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  Makefile      | 22 +++++++++++-----------
+>  rust/Makefile |  4 ++--
+>  2 files changed, 13 insertions(+), 13 deletions(-)
 >
-> diff --git a/scripts/package/kernel.spec b/scripts/package/kernel.spec
-> index e095eb1e290e..19e458341f45 100644
-> --- a/scripts/package/kernel.spec
-> +++ b/scripts/package/kernel.spec
-> @@ -27,7 +27,7 @@ The Linux Kernel, the operating system core itself
->  %package headers
->  Summary: Header files for the Linux kernel for use by glibc
->  Group: Development/System
-> -Obsoletes: kernel-headers
-> +Obsoletes: kernel-headers < %{version}
->  Provides: kernel-headers =3D %{version}
->  %description headers
->  Kernel-headers includes the C header files that specify the interface
-> --
-> 2.45.1
+> diff --git a/Makefile b/Makefile
+> index 4d36f943b3b1..056176a55d63 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -461,17 +461,17 @@ KBUILD_USERLDFLAGS :=3D $(USERLDFLAGS)
+>  # host programs.
+>  export rust_common_flags :=3D --edition=3D2021 \
+>  			    -Zbinary_dep_depinfo=3Dy \
+> -			    -Dunsafe_op_in_unsafe_fn -Drust_2018_idioms \
+> -			    -Dunreachable_pub -Dnon_ascii_idents \
+> +			    -Dunsafe_op_in_unsafe_fn -Wrust_2018_idioms \
+> +			    -Wunreachable_pub -Wnon_ascii_idents \
+>  			    -Wmissing_docs \
+> -			    -Drustdoc::missing_crate_level_docs \
+> -			    -Dclippy::correctness -Dclippy::style \
+> -			    -Dclippy::suspicious -Dclippy::complexity \
+> -			    -Dclippy::perf \
+> -			    -Dclippy::let_unit_value -Dclippy::mut_mut \
+> -			    -Dclippy::needless_bitwise_bool \
+> -			    -Dclippy::needless_continue \
+> -			    -Dclippy::no_mangle_with_rust_abi \
+> +			    -Wrustdoc::missing_crate_level_docs \
+> +			    -Wclippy::correctness -Wclippy::style \
+> +			    -Wclippy::suspicious -Wclippy::complexity \
+> +			    -Wclippy::perf \
+> +			    -Wclippy::let_unit_value -Wclippy::mut_mut \
+> +			    -Wclippy::needless_bitwise_bool \
+> +			    -Wclippy::needless_continue \
+> +			    -Wclippy::no_mangle_with_rust_abi \
+>  			    -Wclippy::dbg_macro
 >
+>  KBUILD_HOSTCFLAGS   :=3D $(KBUILD_USERHOSTCFLAGS) $(HOST_LFS_CFLAGS) $=
+(HOSTCFLAGS)
+> @@ -573,7 +573,7 @@ KBUILD_RUSTFLAGS :=3D $(rust_common_flags) \
+>  		    -Csymbol-mangling-version=3Dv0 \
+>  		    -Crelocation-model=3Dstatic \
+>  		    -Zfunction-sections=3Dn \
+> -		    -Dclippy::float_arithmetic
+> +		    -Wclippy::float_arithmetic
 >
+>  KBUILD_AFLAGS_KERNEL :=3D
+>  KBUILD_CFLAGS_KERNEL :=3D
+> diff --git a/rust/Makefile b/rust/Makefile
+> index f70d5e244fee..4c03e53d3084 100644
+> --- a/rust/Makefile
+> +++ b/rust/Makefile
+> @@ -421,7 +421,7 @@ ifneq ($(or $(CONFIG_ARM64),$(and $(CONFIG_RISCV),$=
+(CONFIG_64BIT))),)
+>  endif
+>
+>  $(obj)/core.o: private skip_clippy =3D 1
+> -$(obj)/core.o: private skip_flags =3D -Dunreachable_pub
+> +$(obj)/core.o: private skip_flags =3D -Wunreachable_pub
+>  $(obj)/core.o: private rustc_objcopy =3D $(foreach sym,$(redirect-intr=
+insics),--redefine-sym $(sym)=3D__rust$(sym))
+>  $(obj)/core.o: private rustc_target_flags =3D $(core-cfgs)
+>  $(obj)/core.o: $(RUST_LIB_SRC)/core/src/lib.rs FORCE
+> @@ -435,7 +435,7 @@ $(obj)/compiler_builtins.o: $(src)/compiler_builtin=
+s.rs $(obj)/core.o FORCE
+>  	+$(call if_changed_dep,rustc_library)
+>
+>  $(obj)/alloc.o: private skip_clippy =3D 1
+> -$(obj)/alloc.o: private skip_flags =3D -Dunreachable_pub
+> +$(obj)/alloc.o: private skip_flags =3D -Wunreachable_pub
+>  $(obj)/alloc.o: private rustc_target_flags =3D $(alloc-cfgs)
+>  $(obj)/alloc.o: $(RUST_LIB_SRC)/alloc/src/lib.rs $(obj)/compiler_built=
+ins.o FORCE
+>  	+$(call if_changed_dep,rustc_library)
+> -- =
 
-Applied to linux-kbuild.
-Thanks!
-
-
---=20
-Best Regards
-Masahiro Yamada
+> 2.45.2
 
