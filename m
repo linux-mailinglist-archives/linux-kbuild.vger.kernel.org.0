@@ -1,161 +1,153 @@
-Return-Path: <linux-kbuild+bounces-2340-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2341-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1E0F927301
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jul 2024 11:28:33 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E05692730F
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jul 2024 11:29:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0E7221C20CAD
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jul 2024 09:28:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0A166288A3C
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jul 2024 09:29:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A2331AAE38;
-	Thu,  4 Jul 2024 09:28:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27DE61ABC31;
+	Thu,  4 Jul 2024 09:29:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="SPd+JFMN"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b="kRjyWWuP"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFE5B1AAE28;
-	Thu,  4 Jul 2024 09:28:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1581B1AB503;
+	Thu,  4 Jul 2024 09:29:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.63.252.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720085309; cv=none; b=eCwCTvEcDaE7M62n7pcugPQUrEf9nxODnVjknxNovOdpEbQpGEBmUPAPsde5CdRVCzQ5KW/aE0T08ZrWgYRuuaNb92OiZLplIkCzLIDeZxm/yisc99xsVBjO5WBc7sA7PdZvGelubnZ+Lg4Lth8OOiMxh+bK2Zqi7IliLvUvsmY=
+	t=1720085348; cv=none; b=AeEQfkvqUarm8n5vNy0QYOhzSHJT//1UDPB295cfBfeRhVSuvaTa0g7jixmIfwUyDyl3pokBnrRKoPfMXWBJBjq0Hj8YBI+t8a65VUQy0Kzl+k9hiEpagjeF1ie2TTDjmT+ya/BmFHIFbIIazE5DGk5+5G5jekDz6vz4pAl6TPs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720085309; c=relaxed/simple;
-	bh=T4jnlrpIV58SpNbH5mz9u6995loFsuHb/TTu5lx6sL0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=FGE8RFeQhcQG/Lr3zOgr6rqu3zywQTejiUXXiaJEqTIpQkgx3+TQW//jtZpHSFu/CThek+YMfEZDOjJglVlfepqUjXSheAQ+7eLXPDRMSvPFzwAxWUTxtMB3uo7cFOvYIi4SBR9p1hlBnfSEfkGCFFwy+CSsDyawPhuvRiGbWaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=SPd+JFMN; arc=none smtp.client-ip=217.70.183.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id B79A120005;
-	Thu,  4 Jul 2024 09:28:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1720085305;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=u0eQaqOqLAV82tuglvRM0XITDFDwOeDBKAe10fRmhmQ=;
-	b=SPd+JFMNnQDuwJknADl3SfozK3SrjwhYjLXfw82f94s1qFYUahEM3Rkn6t/eIM+ShZm7qA
-	CrQ4wNL9WeDPNLtVzfkZZi95pu9keO28P8HAENx/NKSBESv4uLN9F0Km9aUxbpDYNUZJld
-	Wcc1IpoJOiZmTgqoPXnnY043IKaW1/vvIlEBD5KTSfq+yiQhGknFMjAwIXBgKYbuz2Vz9G
-	ZhT3QsYTvP6sZpP4iPgJjnKXvE8l1xIFtvhicjKwHqUEisV8qCvbJKXlOjuARlZnAunSbc
-	1yBBZ/ebqJKTrRrg9uvLZ7gRlF/cSbws4A/hIWQn6zI2h8OkibUUbMfD3TGdag==
-From: =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>
-Date: Thu, 04 Jul 2024 11:28:21 +0200
-Subject: [PATCH] scripts: run-clang-tools: add file filtering option
+	s=arc-20240116; t=1720085348; c=relaxed/simple;
+	bh=JDTNdtJ9EjeVWEDYTvfOUcNAXPH8Vd9Rhq0lQHPhMQ8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D33MZ8KbcjD3NkCpEzT923dphfoWAVajCvpgQMxwsRGnXv8no51t+1yYv7/xjHKO9RWMjWNqYhGL2WazDF7wNkZ6VhTiVEXqoZRsQNdeL3Q2gjU2z8h+WColSRddhqMnJ9FTfbJ2AQhG1Lk7WcUYcNgGM/tRK0rxvnjwcv7isWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu; spf=pass smtp.mailfrom=fjasle.eu; dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b=kRjyWWuP; arc=none smtp.client-ip=194.63.252.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fjasle.eu
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=fjasle.eu;
+	s=ds202307; h=In-Reply-To:Content-Transfer-Encoding:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=DyhZ1iiyVfmixs11acANLVksd56ZyeYAxvhyNmQKIEg=; b=kRjyWWuPokEiKl8Bvt6Fxjj9kc
+	d87O+HpRNTplQZpbC2VmmSEbFE3Z3+iFDm3CNz6SwebtLm7Iu6uiUSGc7L+X2C4i832aOnr330ZzH
+	bSb7VrVgxRN6uxhVhexKI2c5EqsJn+sH1RmRWueMOeEQcuekrRXVmTENvfcPL2up+1yi7Hr7UWPge
+	NjxE4U6/s0YFGDopxMEi83OF3y9vkxLrVfKb1QaxHLKORa8tJ+TmoQwQD67kAQhmPcjpB7WTOjQJP
+	CqD7ENgBuxJFxuxSJMb/BmDnND1rr2sCa6qNPOH8NKq08HHuoZdOKITDS7lTB3Rq3nR2pkDOb1b/Z
+	wCeI6D1A==;
+Received: from [2001:9e8:9da:801:3235:adff:fed0:37e6] (port=34396 helo=lindesnes.fjasle.eu)
+	by smtp.domeneshop.no with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <nicolas@fjasle.eu>)
+	id 1sPIlu-006gwG-Ae;
+	Thu, 04 Jul 2024 11:28:58 +0200
+Date: Thu, 4 Jul 2024 11:28:52 +0200
+From: Nicolas Schier <nicolas@fjasle.eu>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Nathan Chancellor <nathan@kernel.org>, riku.voipio@iki.fi,
+	Ben Hutchings <ben@decadent.org.uk>
+Subject: Re: [PATCH v2 2/3] kbuild: deb-pkg: remove support for "name
+ <email>" form for DEBEMAIL
+Message-ID: <20240704-defiant-gopher-from-mars-7c0ae8@lindesnes>
+References: <20240702180332.398978-1-masahiroy@kernel.org>
+ <20240702180332.398978-2-masahiroy@kernel.org>
+ <CAK7LNASQvNVq_hrbZo3SXoFvke3EENVC6tfxiN11dOk4O54C6w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Message-Id: <20240704-clang-tidy-filter-v1-1-8d4556a35b65@bootlin.com>
-X-B4-Tracking: v=1; b=H4sIADRrhmYC/x2MQQqAIBAAvyJ7bsFMEPpKdEhdayEsVKII/550n
- IGZFzIlpgyjeCHRxZmP2KDvBLhtiSsh+8agpNLSSI1ubxYL+wcD74USBm3kYIyzympo3Zko8P0
- /p7nWDzAvHFVjAAAA
-To: Masahiro Yamada <masahiroy@kernel.org>, 
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
- Nick Desaulniers <ndesaulniers@google.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>
-Cc: llvm@lists.linux.dev, linux-kbuild@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>
-X-Mailer: b4 0.14.0
-X-GND-Sasl: theo.lebrun@bootlin.com
+In-Reply-To: <CAK7LNASQvNVq_hrbZo3SXoFvke3EENVC6tfxiN11dOk4O54C6w@mail.gmail.com>
 
-Add file filtering feature. We take zero or more filters at the end as
-positional arguments. If none are given, the default behavior is kept
-and we run the tool on all files in the datastore. Else, files must
-match one or more filter to be analysed.
+On Thu, Jul 04, 2024 at 12:06:13AM +0900, Masahiro Yamada wrote:
+> +CC
+> 
+> 
+> 
+> On Wed, Jul 3, 2024 at 3:03 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> >
+> > Commit d5940c60e057 ("kbuild: deb-pkg improve maintainer address
+> > generation") supported the "name <email>" form for DEBEMAIL, with
+> > behavior slightly different from devscripts.
+> >
+> > In Kbuild, if DEBEMAIL has the form "name <email>", it will be used
+> > as-is for debian/changelog. DEBFULLNAME will be ignored.
+> >
+> > In contrast, debchange takes the name from DEBFULLNAME (or NAME) if set,
+> > as described in 'man debchange':
+> >
+> >   If this variable has the form "name <email>", then the maintainer name
+> >   will also be taken from here if neither DEBFULLNAME nor NAME is set.
+> >
+> > This commit removes support for the "name <email> form for DEBEMAIL,
+> > as the current behavior is already different from debchange, and the
+> > Debian manual suggests setting the email address and name separately in
+> > DEBEMAIL and DEBFULLNAME. [1]
+> >
+> > If there are any complaints about this removal, we can re-add it,
+> > with better alignment with the debchange implementation. [2]
+> >
+> > [1]: https://www.debian.org/doc/manuals/debmake-doc/ch03.en.html#email-setup
+> > [2]: https://salsa.debian.org/debian/devscripts/-/blob/v2.23.7/scripts/debchange.pl#L802
+> >
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > ---
+> >
+> > Changes in v2:
+> >  - New patch
+> >
+> >  scripts/package/mkdebian | 20 +++++++-------------
+> >  1 file changed, 7 insertions(+), 13 deletions(-)
+> >
+> > diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
+> > index 589f92b88c42..83c6636fadb8 100755
+> > --- a/scripts/package/mkdebian
+> > +++ b/scripts/package/mkdebian
+> > @@ -125,21 +125,15 @@ gen_source ()
+> >  rm -rf debian
+> >  mkdir debian
+> >
+> > -email=${DEBEMAIL}
+> > -
+> > -# use email string directly if it contains <email>
+> > -if echo "${email}" | grep -q '<.*>'; then
+> > -       maintainer=${email}
+> > +user=${KBUILD_BUILD_USER-$(id -nu)}
+> > +name=${DEBFULLNAME-${user}}
+> > +if [ "${DEBEMAIL:+set}" ]; then
+> > +       email=${DEBEMAIL}
+> >  else
+> > -       # or construct the maintainer string
+> > -       user=${KBUILD_BUILD_USER-$(id -nu)}
+> > -       name=${DEBFULLNAME-${user}}
+> > -       if [ -z "${email}" ]; then
+> > -               buildhost=${KBUILD_BUILD_HOST-$(hostname -f 2>/dev/null || hostname)}
+> > -               email="${user}@${buildhost}"
+> > -       fi
+> > -       maintainer="${name} <${email}>"
+> > +       buildhost=${KBUILD_BUILD_HOST-$(hostname -f 2>/dev/null || hostname)}
+> > +       email="${user}@${buildhost}"
+> >  fi
+> > +maintainer="${name} <${email}>"
+> >
+> >  if [ "$1" = --need-source ]; then
+> >         gen_source
+> > --
+> > 2.43.0
 
-The below command runs clang-tidy on drivers/clk/clk.c and all C files
-inside drivers/reset/.
-
-    ./scripts/clang-tools/run-clang-tools.py clang-tidy \
-        compile_commands.json \
-        'drivers/clk/clk.c' 'drivers/reset/*'
-
-The Python fnmatch builtin module is used. Matching is case-insensitive.
-See its documentation for allowed syntax:
-https://docs.python.org/3/library/fnmatch.html
-
-Signed-off-by: Théo Lebrun <theo.lebrun@bootlin.com>
----
-Currently, all files in the datastore are analysed. This is not
-practical for grabbing errors in a subsystem, or relative to a patch
-series. Add a file filtering feature with wildcard support.
-
-Have a nice day,
-Théo
----
- scripts/clang-tools/run-clang-tools.py | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
-
-diff --git a/scripts/clang-tools/run-clang-tools.py b/scripts/clang-tools/run-clang-tools.py
-index f31ffd09e1ea..b0b3a9c8cdec 100755
---- a/scripts/clang-tools/run-clang-tools.py
-+++ b/scripts/clang-tools/run-clang-tools.py
-@@ -10,6 +10,7 @@ compile_commands.json.
- """
- 
- import argparse
-+import fnmatch
- import json
- import multiprocessing
- import subprocess
-@@ -32,6 +33,8 @@ def parse_arguments():
-                         help=type_help)
-     path_help = "Path to the compilation database to parse"
-     parser.add_argument("path", type=str, help=path_help)
-+    file_filter_help = "Optional Unix shell-style wildcard file filters"
-+    parser.add_argument("file_filter", type=str, nargs="*", help=file_filter_help)
- 
-     checks_help = "Checks to pass to the analysis"
-     parser.add_argument("-checks", type=str, default=None, help=checks_help)
-@@ -48,6 +51,22 @@ def init(l, a):
-     args = a
- 
- 
-+def filter_entries(datastore, filters):
-+    for entry in datastore:
-+        if filters == []:
-+            yield entry
-+            continue
-+
-+        assert entry['file'].startswith(entry['directory'])
-+        # filepath is relative to the directory, to avoid matching on the absolute path
-+        filepath = entry['file'][len(entry['directory']):].lstrip('/')
-+
-+        for pattern in filters:
-+            if fnmatch.fnmatch(filepath, pattern):
-+                yield entry
-+                break
-+
-+
- def run_analysis(entry):
-     # Disable all checks, then re-enable the ones we want
-     global args
-@@ -87,6 +106,7 @@ def main():
-         # Read JSON data into the datastore variable
-         with open(args.path, "r") as f:
-             datastore = json.load(f)
-+            datastore = filter_entries(datastore, args.file_filter)
-             pool.map(run_analysis, datastore)
-     except BrokenPipeError:
-         # Python flushes standard streams on exit; redirect remaining output
-
----
-base-commit: 22a40d14b572deb80c0648557f4bd502d7e83826
-change-id: 20240704-clang-tidy-filter-f470377cb2b4
-
-Best regards,
--- 
-Théo Lebrun <theo.lebrun@bootlin.com>
-
+Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
 
