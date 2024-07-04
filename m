@@ -1,226 +1,206 @@
-Return-Path: <linux-kbuild+bounces-2377-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2378-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AD98927B36
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jul 2024 18:37:06 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58D8E927B45
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jul 2024 18:39:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 09C471F23469
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jul 2024 16:37:06 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1011C281CEB
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jul 2024 16:39:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D5B81B29C7;
-	Thu,  4 Jul 2024 16:37:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E586D1B375B;
+	Thu,  4 Jul 2024 16:39:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="SlECBilG"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WNI0T/Pf"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C8831B29C2;
-	Thu,  4 Jul 2024 16:36:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB6701B374F;
+	Thu,  4 Jul 2024 16:39:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720111021; cv=none; b=jNt9NpEAWjHIX9wMYQgTygsJKrIfDiEBsaeGDpG9cR2APmV1gCM4XogVaj05PycTSdIDF2udZLouJSaCyJujIsPypxZcmTh0bRJKvRaPP35DarY4vkvngyHeYetYRwm+ksQ6CxeU06XS1Sun8ELX3RdPnQuorl4i5gLuWaqV9vo=
+	t=1720111151; cv=none; b=q9O05syLJ/k1TsjwrBD73qZtFK4IB+yo9mipKtIn+qpk/OHpOSbH27k80/dPNNqM1/kYgi8I5fI6w/G46/AhFvOMWZQIIkgL5ndJeBW9M70NznWdLJrlEvDry5FWlT4haetaqlQLoPBAMEy3DfvFIRqs+r4OpFNxjn3rZeNpHZc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720111021; c=relaxed/simple;
-	bh=31GGUpmsfkVr21LcPtsZRWSs4jts+3kNoJ70mCIHSO0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=bMVGCvN83j4WHb5Ar19XjIBQfMlYgUCBGUt4sBlVDkqNVPEzG5qdHCVruhlGwKn6bZIC6aRr19nWAWgdW4Et/JHmEebbllwKPSUwcS9/NLMjEkb3rMsC9DRV9aGcZqSCcF5Y0UDTKlJVAOpULMTksbHbTwGRAA1f79xlFez2B6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=SlECBilG; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1720111007;
-	bh=31GGUpmsfkVr21LcPtsZRWSs4jts+3kNoJ70mCIHSO0=;
-	h=From:Date:Subject:To:Cc:From;
-	b=SlECBilGwuMqBt70Nv3y+4baymi5s5SL+g32TnUOWrPNxoRcTLYW/Wd1c0IQ9PLbT
-	 gvHt5HOEo7MmyRGQk13JWLIE0aQaN1NwO1As60ftNH6XMKIb1RdRTunWUhdMFEHc7L
-	 DD00TiVYRLz7P69UTvhUtUV3jXvJjch190DNg524=
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Thu, 04 Jul 2024 18:36:34 +0200
-Subject: [PATCH] kbuild: add script and target to generate pacman package
+	s=arc-20240116; t=1720111151; c=relaxed/simple;
+	bh=Bs5sRfDrSxaaIvkIerZLN3dXVAr5INLyWGwt4rreui8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lRNYDasCHLMPfXPWIaoo63LFTibSETVicLn3fBO6cWocuijEid75B+X7bm7KEU5TCVL5RltbYDW7dn10GmAcJBTHyp1EwOScmf46ZXing5jdLtVlcgKf8MOBt3B/TICFzttNZO7fZFlBTHUrA4KBX9n6rPGil5pS8pOm/7rsUXY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WNI0T/Pf; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEF8EC4AF0E;
+	Thu,  4 Jul 2024 16:39:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720111151;
+	bh=Bs5sRfDrSxaaIvkIerZLN3dXVAr5INLyWGwt4rreui8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WNI0T/Pffc6B3iSRMiZPlG8zDplMPuzvnoqo0GJ334XC5B2XgSX031T6dBiIB7fuv
+	 eCAhTZmTJvoPNopI0xgqtjIPCOBhvjQHSCjQkfpDk5ONQMxD2McfzTsFjK6BBS+COs
+	 opCHlYojwbsYmhXsaDZUrfnPC5xX1Y364/AYT7PvYCq6O3bBhsLdVBzNrGJENi+Wth
+	 K0jocA5kxTwj15uVdaZp7gJ8h408lZMfqOiLZlUuO3AYbL8u4P7J5CGouOdL+HDR8h
+	 WXpVmafGFur+LmEx6Z1Q/MvOHSDWJvJZ2l+xWLIo0CVFWvX7NRDxskKvr7/Zwykx3a
+	 Kd9asDK6i+/lA==
+Date: Thu, 4 Jul 2024 09:39:08 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Jamie Cunliffe <Jamie.Cunliffe@arm.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Ard Biesheuvel <ardb@kernel.org>, Marc Zyngier <maz@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Mark Brown <broonie@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Kees Cook <keescook@chromium.org>, Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Wedson Almeida Filho <wedsonaf@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <benno.lossin@proton.me>,
+	Andreas Hindborg <a.hindborg@samsung.com>,
+	Valentin Obst <kernel@valentinobst.de>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] rust: add flags for shadow call stack sanitizer
+Message-ID: <20240704163908.GA1394865@thelio-3990X>
+References: <20240704-shadow-call-stack-v3-0-d11c7a6ebe30@google.com>
+ <20240704-shadow-call-stack-v3-2-d11c7a6ebe30@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20240704-kbuild-pacman-pkg-v1-1-ac2f63f5fa7b@weissschuh.net>
-X-B4-Tracking: v=1; b=H4sIAJHPhmYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIxMDMyNT3eyk0sycFN2CxOTcxDzdgux03SSTNAvzVEPLFANjMyWgvoKi1LT
- MCrCZ0bG1tQCMimmUYwAAAA==
-To: Masahiro Yamada <masahiroy@kernel.org>, 
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>
-Cc: "Jan Alexander Steffens (heftig)" <heftig@archlinux.org>, 
- linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1720111006; l=5131;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=31GGUpmsfkVr21LcPtsZRWSs4jts+3kNoJ70mCIHSO0=;
- b=xDpRl3Q9UNV9jP51K5Zynufad+jJYYMhZgczlxr+C+AssCZoHmzAq0PQzaye7kmNrlB5VLSyJ
- hhUZAqZwtbnDfPQ97wY+LQGbdkxkC9fAO964XYEGMVepAPFlx61e5XZ
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240704-shadow-call-stack-v3-2-d11c7a6ebe30@google.com>
 
-pacman is the package manager used by Arch Linux and its derivates.
-Creating native packages from the kernel tree has multiple advantages:
+Hi Alice,
 
-* The package triggers the correct hooks for initramfs generation and
-  bootloader configuration
-* Uninstallation is complete and also invokes the relevant hooks
-* New UAPI headers can be installed without any manual bookkeeping
+On Thu, Jul 04, 2024 at 03:07:58PM +0000, Alice Ryhl wrote:
+> As of rustc 1.80.0, the Rust compiler supports the -Zfixed-x18 flag, so
+> we can now use Rust with the shadow call stack sanitizer.
+> 
+> On older versions of Rust, it is possible to use shadow call stack by
+> passing -Ctarget-feature=+reserve-x18 instead of -Zfixed-x18. However,
+> this flag emits a warning, so this patch does not add support for that.
+> 
+> Currently, the compiler thinks that the aarch64-unknown-none target
+> doesn't support -Zsanitizer=shadow-call-stack, so the build will fail if
+> you enable shadow call stack in non-dynamic mode. See [2] for the
 
-The PKGBUILD file is a simplified version of the one used for the
-downstream Arch Linux "linux" package.
-Extra steps that should not be necessary for a development kernel have
-been removed and an UAPI header package has been added.
+                                                        ^ this should be [1]?
 
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
----
- .gitignore               |  6 ++++
- scripts/Makefile.package | 15 ++++++++++
- scripts/package/PKGBUILD | 72 ++++++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 93 insertions(+)
+> feature request to add this. Kconfig is not configured to reject this
+> configuration because that leads to cyclic Kconfig rules.
 
-diff --git a/.gitignore b/.gitignore
-index c59dc60ba62e..7902adf4f7f1 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -92,6 +92,12 @@ modules.order
- #
- /tar-install/
+While it probably does not matter much given Rust for Linux is still "in
+the works", I think it would be good to avoid these build failures.
+Perhaps something like this could work (which basically just forces on
+UNWIND_PATCH_PAC_INTO_SCS when Rust is enabled).
+
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index 5d91259ee7b5..a9f08a2bd1c6 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -89,7 +89,7 @@ config ARM64
+ 	select ARCH_SUPPORTS_DEBUG_PAGEALLOC
+ 	select ARCH_SUPPORTS_HUGETLBFS
+ 	select ARCH_SUPPORTS_MEMORY_FAILURE
+-	select ARCH_SUPPORTS_SHADOW_CALL_STACK if CC_HAVE_SHADOW_CALL_STACK
++	select ARCH_SUPPORTS_SHADOW_CALL_STACK if CC_HAVE_SHADOW_CALL_STACK && (!RUST || CAN_UNWIND_PATCH_PAC_INTO_SCS)
+ 	select ARCH_SUPPORTS_LTO_CLANG if CPU_LITTLE_ENDIAN
+ 	select ARCH_SUPPORTS_LTO_CLANG_THIN
+ 	select ARCH_SUPPORTS_CFI_CLANG
+@@ -2262,12 +2262,16 @@ config STACKPROTECTOR_PER_TASK
+ 	def_bool y
+ 	depends on STACKPROTECTOR && CC_HAVE_STACKPROTECTOR_SYSREG
  
-+#
-+# pacman files (make pacman-pkg)
-+#
-+/PKGBUILD
-+/pacman/
+-config UNWIND_PATCH_PAC_INTO_SCS
+-	bool "Enable shadow call stack dynamically using code patching"
++config CAN_UNWIND_PATCH_PAC_INTO_SCS
++	def_bool y
+ 	# needs Clang with https://github.com/llvm/llvm-project/commit/de07cde67b5d205d58690be012106022aea6d2b3 incorporated
+ 	depends on CC_IS_CLANG && CLANG_VERSION >= 150000
+ 	depends on ARM64_PTR_AUTH_KERNEL && CC_HAS_BRANCH_PROT_PAC_RET
+-	depends on SHADOW_CALL_STACK
 +
- #
- # We don't want to ignore the following even if they are dot-files
- #
-diff --git a/scripts/Makefile.package b/scripts/Makefile.package
-index bf016af8bf8a..8c0c80f8bec0 100644
---- a/scripts/Makefile.package
-+++ b/scripts/Makefile.package
-@@ -141,6 +141,20 @@ snap-pkg:
- 	cd $(objtree)/snap && \
- 	snapcraft --target-arch=$(UTS_MACHINE)
++config UNWIND_PATCH_PAC_INTO_SCS
++	bool "Enable shadow call stack dynamically using code patching" if !RUST
++	depends on SHADOW_CALL_STACK && CAN_UNWIND_PATCH_PAC_INTO_SCS
++	default y if RUST
+ 	select UNWIND_TABLES
+ 	select DYNAMIC_SCS
  
-+# pacman-pkg
-+# ---------------------------------------------------------------------------
-+
-+PHONY += pacman-pkg
-+pacman-pkg:
-+	@ln -srf $(srctree)/scripts/package/PKGBUILD $(objtree)/PKGBUILD
-+	cd $(objtree) && \
-+		srctree="$(realpath $(srctree))" \
-+		objtree="$(realpath $(objtree))" \
-+		BUILDDIR="$(realpath $(objtree))/pacman" \
-+		KBUILD_MAKEFLAGS="$(MAKEFLAGS)" \
-+		KBUILD_REVISION="$(shell $(srctree)/init/build-version)" \
-+		makepkg
-+
- # dir-pkg tar*-pkg - tarball targets
- # ---------------------------------------------------------------------------
- 
-@@ -221,6 +235,7 @@ help:
- 	@echo '  bindeb-pkg          - Build only the binary kernel deb package'
- 	@echo '  snap-pkg            - Build only the binary kernel snap package'
- 	@echo '                        (will connect to external hosts)'
-+	@echo '  pacman-pkg          - Build only the binary kernel pacman package'
- 	@echo '  dir-pkg             - Build the kernel as a plain directory structure'
- 	@echo '  tar-pkg             - Build the kernel as an uncompressed tarball'
- 	@echo '  targz-pkg           - Build the kernel as a gzip compressed tarball'
-diff --git a/scripts/package/PKGBUILD b/scripts/package/PKGBUILD
-new file mode 100644
-index 000000000000..29daf357edc1
---- /dev/null
-+++ b/scripts/package/PKGBUILD
-@@ -0,0 +1,72 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+# Contributor: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
-+# Maintainer: Thomas Weißschuh <linux@weissschuh.net>
-+
-+pkgbase=linux-upstream
-+pkgname=("$pkgbase" "$pkgbase-headers" "$pkgbase-api-headers")
-+pkgver="${KERNELRELEASE//-/_}"
-+pkgrel="$KBUILD_REVISION"
-+pkgdesc='Linux'
-+url='https://www.kernel.org/'
-+arch=("$UTS_MACHINE")
-+options=(!strip)
-+license=(GPL-2.0-only)
-+
-+build() {
-+  export MAKEFLAGS="${KBUILD_MAKEFLAGS}"
-+  cd "$objtree"
-+
-+  ${MAKE} -f "${srctree}/Makefile"
-+
-+}
-+
-+package_linux-upstream() {
-+  pkgdesc="The $pkgdesc kernel and modules"
-+
-+  export MAKEFLAGS="${KBUILD_MAKEFLAGS}"
-+  cd "$objtree"
-+  local modulesdir="$pkgdir/usr/$MODLIB"
-+
-+  echo "Installing boot image..."
-+  # systemd expects to find the kernel here to allow hibernation
-+  # https://github.com/systemd/systemd/commit/edda44605f06a41fb86b7ab8128dcf99161d2344
-+  install -Dm644 "$(make -s image_name)" "$modulesdir/vmlinuz"
-+
-+  # Used by mkinitcpio to name the kernel
-+  echo "$pkgbase" | install -Dm644 /dev/stdin "$modulesdir/pkgbase"
-+
-+  echo "Installing modules..."
-+  ${MAKE} INSTALL_MOD_PATH="$pkgdir/usr" INSTALL_MOD_STRIP=1 \
-+    DEPMOD=/doesnt/exist modules_install  # Suppress depmod
-+
-+  # remove build link
-+  rm -f "$modulesdir/build"
-+}
-+
-+package_linux-upstream-headers() {
-+  pkgdesc="Headers and scripts for building modules for the $pkgdesc kernel"
-+
-+  export MAKEFLAGS="${KBUILD_MAKEFLAGS}"
-+  cd "$objtree"
-+  local builddir="$pkgdir/usr/$MODLIB/build"
-+
-+  echo "Installing build files..."
-+  "$srctree/scripts/package/install-extmod-build" "$builddir"
-+
-+  echo "Adding symlink..."
-+  mkdir -p "$pkgdir/usr/src"
-+  ln -sr "$builddir" "$pkgdir/usr/src/$pkgbase"
-+}
-+
-+package_linux-upstream-api-headers() {
-+  pkgdesc="Kernel headers sanitized for use in userspace"
-+  provides=(linux-api-headers)
-+  conflicts=(linux-api-headers)
-+
-+  export MAKEFLAGS="${KBUILD_MAKEFLAGS}"
-+  cd "$objtree"
-+
-+  ${MAKE} headers_install INSTALL_HDR_PATH="$pkgdir/usr"
-+}
-+
-+# vim:set ts=8 sts=2 sw=2 et:
 
----
-base-commit: 795c58e4c7fc6163d8fb9f2baa86cfe898fa4b19
-change-id: 20240625-kbuild-pacman-pkg-b4f87e19d036
+Otherwise, it might be good to wait to enable this until [1] is
+addressed, but I don't really feel that strongly about it.
 
-Best regards,
--- 
-Thomas Weißschuh <linux@weissschuh.net>
+From a Kconfig/Kbuild perspective, the rest of the patch seems fine.
 
+> Link: https://github.com/rust-lang/rust/issues/121972 [1]
+> Signed-off-by: Alice Ryhl <aliceryhl@google.com>
+> ---
+>  Makefile            | 1 +
+>  arch/Kconfig        | 2 +-
+>  arch/arm64/Makefile | 3 +++
+>  3 files changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Makefile b/Makefile
+> index c11a10c8e710..4ae741601a1c 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -945,6 +945,7 @@ ifdef CONFIG_SHADOW_CALL_STACK
+>  ifndef CONFIG_DYNAMIC_SCS
+>  CC_FLAGS_SCS	:= -fsanitize=shadow-call-stack
+>  KBUILD_CFLAGS	+= $(CC_FLAGS_SCS)
+> +KBUILD_RUSTFLAGS += -Zsanitizer=shadow-call-stack
+>  endif
+>  export CC_FLAGS_SCS
+>  endif
+> diff --git a/arch/Kconfig b/arch/Kconfig
+> index 238448a9cb71..5a6e296df5e6 100644
+> --- a/arch/Kconfig
+> +++ b/arch/Kconfig
+> @@ -690,7 +690,7 @@ config SHADOW_CALL_STACK
+>  	bool "Shadow Call Stack"
+>  	depends on ARCH_SUPPORTS_SHADOW_CALL_STACK
+>  	depends on DYNAMIC_FTRACE_WITH_ARGS || DYNAMIC_FTRACE_WITH_REGS || !FUNCTION_GRAPH_TRACER
+> -	depends on !RUST
+> +	depends on !RUST || RUSTC_VERSION >= 108000
+>  	depends on MMU
+>  	help
+>  	  This option enables the compiler's Shadow Call Stack, which
+> diff --git a/arch/arm64/Makefile b/arch/arm64/Makefile
+> index 3f0f35fd5bb7..bbf313ddd700 100644
+> --- a/arch/arm64/Makefile
+> +++ b/arch/arm64/Makefile
+> @@ -57,9 +57,11 @@ KBUILD_AFLAGS	+= $(call cc-option,-mabi=lp64)
+>  ifneq ($(CONFIG_UNWIND_TABLES),y)
+>  KBUILD_CFLAGS	+= -fno-asynchronous-unwind-tables -fno-unwind-tables
+>  KBUILD_AFLAGS	+= -fno-asynchronous-unwind-tables -fno-unwind-tables
+> +KBUILD_RUSTFLAGS += -Cforce-unwind-tables=n
+>  else
+>  KBUILD_CFLAGS	+= -fasynchronous-unwind-tables
+>  KBUILD_AFLAGS	+= -fasynchronous-unwind-tables
+> +KBUILD_RUSTFLAGS += -Cforce-unwind-tables=y -Zuse-sync-unwind=n
+>  endif
+>  
+>  ifeq ($(CONFIG_STACKPROTECTOR_PER_TASK),y)
+> @@ -114,6 +116,7 @@ endif
+>  
+>  ifeq ($(CONFIG_SHADOW_CALL_STACK), y)
+>  KBUILD_CFLAGS	+= -ffixed-x18
+> +KBUILD_RUSTFLAGS += -Zfixed-x18
+>  endif
+>  
+>  ifeq ($(CONFIG_CPU_BIG_ENDIAN), y)
+> 
+> -- 
+> 2.45.2.803.g4e1b14247a-goog
+> 
 
