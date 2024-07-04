@@ -1,192 +1,127 @@
-Return-Path: <linux-kbuild+bounces-2385-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2386-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FB5E927DDB
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jul 2024 21:33:36 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33080927DE4
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jul 2024 21:37:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3CBE01C2245D
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jul 2024 19:33:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DD93F284854
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jul 2024 19:37:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85D167344A;
-	Thu,  4 Jul 2024 19:33:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E341913DBBD;
+	Thu,  4 Jul 2024 19:36:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="pigS2z5e"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PzCb9dAk"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA94F131736;
-	Thu,  4 Jul 2024 19:33:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E86E613C905
+	for <linux-kbuild@vger.kernel.org>; Thu,  4 Jul 2024 19:36:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720121611; cv=none; b=MuPMheS3zpzWkU6R3pXmnW2MmkyeI1x/AmehAG3m7Boyug8XIyJMsuM3JA9Xnzyg6i7AXYHx8SVEo1ZAHVs7IjFiwodlJeMkF43I2n+BBweNB3Gc+zR7qNatbw1MfJffOUu/PPYvoQVNJ6BchZehSmXSTLrvRv+Ea1EFNMD6VmQ=
+	t=1720121818; cv=none; b=OY/iHedc+17vWpK8iY1RLPuTti02j4beLcnqNkk3M+/HU9ovOGMe86acwYyIIHsx0Am5zlEWJMaoG+6nGwqyj07s181jNkbT3y3+Q/mpSY/CnUk6sziPqK9M09oTUE4Yj4rhP5SrwmUVLU2rbYJu43RDlEuxEjrIR9NKjXWcggc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720121611; c=relaxed/simple;
-	bh=JUEzBsblFz0LTrgNHbshd4E+vAIOOPSbCwfybvfKwoU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y2CHtweGwzT9BHfcykZQs3cGum9uBHWcjOTmE5lDXzPK+bdmt7pWTDzdQQvORONOyj464I7nhd1qHa31bV5X9hJOg/0xRea4LhI71D7/aHh68st2hYjH4BNiXQS+7ZqNV29uWxyk9ejg5JgEy9I4pxY3+TiK9QspwLI3C/ybJ1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=pigS2z5e; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1720121606;
-	bh=JUEzBsblFz0LTrgNHbshd4E+vAIOOPSbCwfybvfKwoU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pigS2z5ezmgcE1AhiGiLJUZ7hPRIA5OPsGBouaMkxm4vz0vW0eWv434JKct0QrORm
-	 /5qDwxDevK0Ir3p/MkDZaA+qqU/vZC9xBIavUH0sKCbYl5K9LtGHpXwvX0nEge0j/i
-	 LcwJ6nEYKUCpKbnLgTdghMGSQEOZZ618fNWu8G6g=
-Date: Thu, 4 Jul 2024 21:33:25 +0200
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: "Jan Alexander Steffens (heftig)" <heftig@archlinux.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-kernel@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH] kbuild: add script and target to generate pacman package
-Message-ID: <c1aa960c-27de-41f9-bdb3-d5cad954047a@t-8ch.de>
-References: <20240704-kbuild-pacman-pkg-v1-1-ac2f63f5fa7b@weissschuh.net>
- <63c53ab962254e49d0eb3a67a067b48023d679b0.camel@archlinux.org>
+	s=arc-20240116; t=1720121818; c=relaxed/simple;
+	bh=t9ofOP0ze4UGyGJ8kmTyeN6SMDorzz2HRfkn0CJ0UCc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=cJok1NBU3tiJzKl5tmgBbDdJ3E7VjltG+XG8ylMIbShGdo5wCWy1+oArDi6SumlyPooUJozfxK4VhHn9k3xLPdGZV9wALMmwychpfUhiBrUdqRI9gPuGGyns8Y9bfMa0uqaGFexMp0slqkhJh0eiUFZJTlw0fxFUYt9aVgmm44M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PzCb9dAk; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1720121815;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=e2mM608hXRB0tkzS3eDg++O9P9yskvc9elF7/0eVFFw=;
+	b=PzCb9dAk5GljoiFr0uUZ+Vnt3C4SzOdEwmmIaYsiUaLkSCbnH8fmIg37MadmWAGefDZ+da
+	p3TNR6ffs2xRnE5hiwWzt3b0hncsf5TlfyWhLRNcguAZzErsoPk0JreYQ63LtAGauTcAUu
+	UJkp/tzZUyH+Z5NJ9t2iVXvyNpP2Znk=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-524-0t6-TQvWO66YqMRUsHwbWg-1; Thu,
+ 04 Jul 2024 15:36:52 -0400
+X-MC-Unique: 0t6-TQvWO66YqMRUsHwbWg-1
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 154F71955F3B;
+	Thu,  4 Jul 2024 19:36:51 +0000 (UTC)
+Received: from optiplex-lnx.redhat.com (unknown [10.22.9.99])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id C2F7B1956046;
+	Thu,  4 Jul 2024 19:36:48 +0000 (UTC)
+From: Rafael Aquini <aquini@redhat.com>
+To: linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	aquini@redhat.com
+Subject: [PATCH v2 2/2] kbuild: rpm-pkg: introduce a simple changelog section for kernel.spec
+Date: Thu,  4 Jul 2024 15:36:42 -0400
+Message-ID: <20240704193642.1929491-1-aquini@redhat.com>
+In-Reply-To: <CAK7LNAQba5CDetpwevSoaOLJ21s1tO9ZHh=7gJpPCNK0AnHfJw@mail.gmail.com>
+References: <CAK7LNAQba5CDetpwevSoaOLJ21s1tO9ZHh=7gJpPCNK0AnHfJw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <63c53ab962254e49d0eb3a67a067b48023d679b0.camel@archlinux.org>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-Hi,
+Fix the following rpmbuild warning:
 
-thanks for the review!
+  $ make srcrpm-pkg
+  ...
+  RPM build warnings:
+      source_date_epoch_from_changelog set but %changelog is missing
 
-On 2024-07-04 21:02:50+0000, Jan Alexander Steffens (heftig) wrote:
-> On Thu, 2024-07-04 at 18:36 +0200, Thomas Weißschuh wrote:
-> > diff --git a/scripts/package/PKGBUILD b/scripts/package/PKGBUILD
-> > new file mode 100644
-> > index 000000000000..29daf357edc1
-> > --- /dev/null
-> > +++ b/scripts/package/PKGBUILD
-> > @@ -0,0 +1,72 @@
-> > +# SPDX-License-Identifier: GPL-2.0-only
-> > +# Contributor: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
-> > +# Maintainer: Thomas Weißschuh <linux@weissschuh.net>
-> 
-> Nitpick: Normally these lines are sorted newest to oldest, with the
-> current maintainer(s) at the top.
+Signed-off-by: Rafael Aquini <aquini@redhat.com>
+---
+v2: move the changelog stub generator to mkspec (masahiroy)
 
-Ack.
+ scripts/package/mkspec | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-> > +
-> > +pkgbase=linux-upstream
-> > +pkgname=("$pkgbase" "$pkgbase-headers" "$pkgbase-api-headers")
-> > +pkgver="${KERNELRELEASE//-/_}"
-> > +pkgrel="$KBUILD_REVISION"
-> > +pkgdesc='Linux'
-> > +url='https://www.kernel.org/'
-> > +arch=("$UTS_MACHINE")
-> > +options=(!strip)
-> 
-> You should have !debug !strip here, otherwise makepkg can attempt (and
-> will fail) to gather source files, creating an empty
-> /usr/src/debug/$pkgbase.
+diff --git a/scripts/package/mkspec b/scripts/package/mkspec
+index ce201bfa8377..6abbfef700fd 100755
+--- a/scripts/package/mkspec
++++ b/scripts/package/mkspec
+@@ -28,3 +28,25 @@ cat<<EOF
+ EOF
+ 
+ cat "${srctree}/scripts/package/kernel.spec"
++
++# collect the user's name and email addr for the changelog entry
++if [ "$(command -v git)" ]; then
++	name=$(git config user.name) || true
++	email=$(git config user.email) || true
++fi
++
++if [ ! "${name:+set}" ]; then
++	name=${KBUILD_BUILD_USER:-$(id -nu)}
++fi
++
++if [ ! "${email:+set}" ]; then
++	buildhost=${KBUILD_BUILD_HOST:-$(hostname -f 2>/dev/null || hostname)}
++	email="${name}@${buildhost}"
++fi
++
++cat << EOF
++
++%changelog
++* $(LC_ALL=C; date +'%a %b %d %Y') ${name} <${email}> - ${KERNELRELEASE}
++- Custom built Linux kernel.
++EOF
+-- 
+2.45.1
 
-Ack.
-
-> Might also be worth considering !buildflags (to turn off injection of
-> CFLAGS etc) and !makeflags (to turn off injection of MAKEFLAGS).
-
-Ack.
-
-!makeflags doesn't really help because the MAKEFLAGS inherited from
-Kbuild are still overwritten, but with empty values.
-Which is why the KBUILD_MAKEFLAGS variable is used.
-
-But it's still better to have for safety.
-
-> 
-> > +license=(GPL-2.0-only)
-> > +
-> > +build() {
-> > +  export MAKEFLAGS="${KBUILD_MAKEFLAGS}"
-> 
-> I think you can have this export at the top level instead of in each
-> function.
-
-That doesn't seem to work, MAKEFLAGS seem to be set before the function
-is called.
-
-> 
-> > +  cd "$objtree"
-> > +
-> > +  ${MAKE} -f "${srctree}/Makefile"
-> > +
-> > +}
-> > +
-> > +package_linux-upstream() {
-> > +  pkgdesc="The $pkgdesc kernel and modules"
-> > +
-> > +  export MAKEFLAGS="${KBUILD_MAKEFLAGS}"
-> > +  cd "$objtree"
-> > +  local modulesdir="$pkgdir/usr/$MODLIB"
-> > +
-> > +  echo "Installing boot image..."
-> > +  # systemd expects to find the kernel here to allow hibernation
-> > +  # https://github.com/systemd/systemd/commit/edda44605f06a41fb86b7ab8128dcf99161d2344
-> > +  install -Dm644 "$(make -s image_name)" "$modulesdir/vmlinuz"
-> 
-> An invocation of make that could also use ${MAKE} for consistency.
-
-Ack, Nathan also proposed this.
-
-> > +
-> > +  # Used by mkinitcpio to name the kernel
-> > +  echo "$pkgbase" | install -Dm644 /dev/stdin "$modulesdir/pkgbase"
-> > +
-> > +  echo "Installing modules..."
-> > +  ${MAKE} INSTALL_MOD_PATH="$pkgdir/usr" INSTALL_MOD_STRIP=1 \
-> > +    DEPMOD=/doesnt/exist modules_install  # Suppress depmod
-> > +
-> > +  # remove build link
-> > +  rm -f "$modulesdir/build"
-> > +}
-> > +
-> > +package_linux-upstream-headers() {
-> > +  pkgdesc="Headers and scripts for building modules for the $pkgdesc kernel"
-> > +
-> > +  export MAKEFLAGS="${KBUILD_MAKEFLAGS}"
-> > +  cd "$objtree"
-> > +  local builddir="$pkgdir/usr/$MODLIB/build"
-> > +
-> > +  echo "Installing build files..."
-> > +  "$srctree/scripts/package/install-extmod-build" "$builddir"
-> 
-> Should we be using this script upstream as well instead of our
-> homegrown mess of install commands?
-
-Maybe. It is missing a few things like resolve_btfids.
-In the kernel repo if something is missing we can fix the script itself.
-Downstream would still require custom logic.
-
-> > +
-> > +  echo "Adding symlink..."
-> > +  mkdir -p "$pkgdir/usr/src"
-> > +  ln -sr "$builddir" "$pkgdir/usr/src/$pkgbase"
-> > +}
-> > +
-> > +package_linux-upstream-api-headers() {
-> > +  pkgdesc="Kernel headers sanitized for use in userspace"
-> > +  provides=(linux-api-headers)
-> > +  conflicts=(linux-api-headers)
-> > +
-> > +  export MAKEFLAGS="${KBUILD_MAKEFLAGS}"
-> > +  cd "$objtree"
-> > +
-> > +  ${MAKE} headers_install INSTALL_HDR_PATH="$pkgdir/usr"
-> > +}
-> > +
-> > +# vim:set ts=8 sts=2 sw=2 et:
 
