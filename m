@@ -1,122 +1,185 @@
-Return-Path: <linux-kbuild+bounces-2337-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2338-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2886C926635
-	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Jul 2024 18:34:22 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D516926D6A
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jul 2024 04:28:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D82AE2839FA
-	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Jul 2024 16:34:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2D53C1F22A03
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jul 2024 02:28:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08C88181CF8;
-	Wed,  3 Jul 2024 16:34:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE3359457;
+	Thu,  4 Jul 2024 02:28:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JZYqVMuf"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WmYhvsml"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5AC2178CE4;
-	Wed,  3 Jul 2024 16:34:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECB9D12B73;
+	Thu,  4 Jul 2024 02:27:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720024456; cv=none; b=ltLlZn7QvMPtrVhq5wdjzPOQe0mUEgL/P1ICnpiF+YXphS6NALEjuavSZL7dZerTnNcCe+sOnYfv6G3msxkCaVhDvG5w9o/uPbgjF2ZNkt6NqOf9CUZGsYDfWcO+mVhnuoErSsL7t8K1TL8cn39Tm5VvLTp9I7cc4L4VCefAMb0=
+	t=1720060081; cv=none; b=Oxm9O/HC6ttO0p6IOc2rfo/3xerdeTIwxkJ+mWr29EsK9VvZJIkI2yf6zLDZXsRmMpemzWtCVIZ2P09+DKO25JxP9S9c2dbSPOngJFuMJUVQjFUdN9+rnx9r3hzJhfMx4KA9HqQ/h/xbiS1Oq8Dw2tEionIVymhlpOkgZBC+oXA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720024456; c=relaxed/simple;
-	bh=UsH0uyFFJuWMRA8h4UVWxmUODotXvc/FJav4ihKlVOU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=StHC2vDAiJkoNufLYgcfMdgsVsG8HPikf1uFJoKKgVEXp0xs8UPZcJl4DDfTxWNLT753p/ySinnBbwy7gF5nBgT34x20/mlWprgDPIhL4HBSXSRONEjYZmmlchOA9JPkCdttJ8TEB3xts34ZQ+P+LGdwvwRJ1my35JDSDM1GoWg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JZYqVMuf; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5487CC4AF0C;
-	Wed,  3 Jul 2024 16:34:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720024456;
-	bh=UsH0uyFFJuWMRA8h4UVWxmUODotXvc/FJav4ihKlVOU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=JZYqVMufvh99j8ThjCupNDbAJORlRC3Q89+5Blws8LCNnJwJJ7cCUwnBAJt2Uwe1o
-	 IMMDQamSOCfBC7d8G+cJ+T02notAkIZv5DMQk6pDr4+9Gc9HwR3rBHWQ6fvWXQ8ajm
-	 Kq263ijCO6x/V2FqFQMOLZ3K3hRbfoG9HeeOUBUOXrJy2ndAVQrZvw3ECKrfZsDq7y
-	 P3S67QYRrg7GKcxDhRywNFOx4YFbNFe+qdJ7C/33vqefP1OISTgGU4+FWs3sT7FL+s
-	 1nXZ4Dxl8nqI0OydKEVkGZepXUEpZ/ItUjRjfP5+p9DSa7sajOqw8gSltIKg4XlS/o
-	 9vrFLaQOMrUkw==
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2ebe40673e8so68528391fa.3;
-        Wed, 03 Jul 2024 09:34:16 -0700 (PDT)
-X-Gm-Message-State: AOJu0YzKd36v5jpiDXyKz6IvkpGo0ufTQd6Xo4OWSv6axsQtuD11WRU2
-	i5R4QSOSouKMHV0J9h+n62kSj8MnlJmx8A2hAKBsiaz1HCefwsggIgDwNM+zjiWGm2XPBc0WhE2
-	5j88grAfAq4scdBnuDhJO4F9jck0=
-X-Google-Smtp-Source: AGHT+IE/s7Hv5eS6S99soa6W1JF08EOjFSL7T15BweSOghruoKv0ZG+qomq0Gfo5/efe3sTnf7lt1FcO9Nkb7u7rhuo=
-X-Received: by 2002:a2e:a989:0:b0:2ec:54ec:1741 with SMTP id
- 38308e7fff4ca-2ee5e36d166mr97983931fa.18.1720024454985; Wed, 03 Jul 2024
- 09:34:14 -0700 (PDT)
+	s=arc-20240116; t=1720060081; c=relaxed/simple;
+	bh=cEKlbe9Kz5kYWe995sknXJM0g2fKPsJxvFjal74J62k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ur+C5pa93MbfVNUg+STaGv1mixH8Nxf7K+kAXvrs8Eqob+dC6/cD/0cSIWZTjq5JtU+aHlP4ie4EfGOUvu0WvuqrFO3cblBRvCScCqMm+QXSMGSGinIyjdnFlucKnqsnOhMPLZTsCCISBTclc3EiYZBSxuWA/o7E+Fg7UBCJ7bA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WmYhvsml; arc=none smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-57cbc66a0a6so284934a12.1;
+        Wed, 03 Jul 2024 19:27:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1720060078; x=1720664878; darn=vger.kernel.org;
+        h=user-agent:in-reply-to:content-transfer-encoding
+         :content-disposition:mime-version:references:reply-to:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=1W34Z3nXW+MCwIvZyWJfAuvbVufFerSj2UpL022AfpA=;
+        b=WmYhvsmlf9a8+0KaU5pdNAFtnZ+sSx+VDhnZYF+JRt+dCcT8d/nXIBjhz/A1n3YqgG
+         5K5KQvAsbMhgaE2dM9pbe9EHfn/326zGpEzNMJfHVIYUk5kWed/ZSAkqfHQYSFcj7hSa
+         T5G3qjTo4VAgGJQ5+EZrbw8L4piN/M83xiRA6FaRbwvcWEFJiGpsjtsX+l8OY9vmXrcJ
+         HOR5MIWfNPzcr56pUZCS0QTbeJF+y/SNPMUK+0f79Fgry4SnWn/E1htEWY3GBDZMgnef
+         99KyvdAfDmSrbdhl3MEleV3HqnylO+LbwIy6kpBoL6vQ0mRttXZvuLDQdVGJFplblvgv
+         poyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720060078; x=1720664878;
+        h=user-agent:in-reply-to:content-transfer-encoding
+         :content-disposition:mime-version:references:reply-to:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1W34Z3nXW+MCwIvZyWJfAuvbVufFerSj2UpL022AfpA=;
+        b=Ii88no4/4CPBfSGx++0XMDwgqPB7ww7jKhpWR2ndVyx/uK5G3F2NPPEKBqxO5EAXgp
+         TLhlkmccCx1eYkf7p8HjSFZu1R20m7kSpw8bqlYqtALiFsoNlO0Sl5hY/+EfjSof/4kJ
+         40IhVS+yatlkMaNiqTtMC6M71LkoIiyJUfRG6yZK23y+EYBHrS1qYkatRaD0QyvR4bxI
+         o6cz3GQEOv2cIpzTrOuP3BJLG4Doy4P9NKFdmyosxg1Vo+5c2Huq7XglxIwrSpUDtTZB
+         Ia5qrMr8ZJTk2g3qX6DNjD1vrGVi/OMfDBTC/Ry0DDyqsb95ki1NInAKLolqD7yfoz+f
+         pNJQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXqkd7Zvcg5Jvx8GhNvqDgYjHzqsHHg6fkVMFkGdKEAaMfKH+EvcA50O9LoTVtFQ5WwURLAMO4HvxnCSaQW6uGaEqhFmZ1xrqGcP6wVaTZ1K4tAB6npM0mv+tc2/v6KZnfNmyR12+HODwVv
+X-Gm-Message-State: AOJu0Yx2d8neXItthJJp5S1NoywTYqBH+ZI7E9ZfH/Ql/r/JPp1RJ/HR
+	5bImKKZVEH93XVCIrDrb66nfaSu5u1cl9avPRaiyPGKQqYdo+dq1
+X-Google-Smtp-Source: AGHT+IFQ1rQlYRVYGWOQL+TFM7EZFIuOaPfvUlZLEvmmzwgy+tadg8ktg67t+dr9NGUlhEk4p291qw==
+X-Received: by 2002:a05:6402:3552:b0:584:21eb:7688 with SMTP id 4fb4d7f45d1cf-58e7c29bed8mr57018a12.14.1720060078029;
+        Wed, 03 Jul 2024 19:27:58 -0700 (PDT)
+Received: from localhost ([185.92.221.13])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5861324ec3dsm7986421a12.38.2024.07.03.19.27.57
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 03 Jul 2024 19:27:57 -0700 (PDT)
+Date: Thu, 4 Jul 2024 02:27:57 +0000
+From: Wei Yang <richard.weiyang@gmail.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Wei Yang <richard.weiyang@gmail.com>, akpm@linux-foundation.org,
+	nathan@kernel.org, nicolas@fjasle.eu, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	Mike Rapoport <rppt@kernel.org>
+Subject: Re: [PATCH 2/3] modpost: .meminit.* is not in init section when
+ CONFIG_MEMORY_HOTPLUG set
+Message-ID: <20240704022757.fq62i4nhb5eignvf@master>
+Reply-To: Wei Yang <richard.weiyang@gmail.com>
+References: <20240702234008.19101-1-richard.weiyang@gmail.com>
+ <20240702234008.19101-2-richard.weiyang@gmail.com>
+ <CAK7LNAR08Nx3-8XYe4qmUegDFo2zLUvkVdA1t51g1Bamh5Tteg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240702180332.398978-1-masahiroy@kernel.org>
-In-Reply-To: <20240702180332.398978-1-masahiroy@kernel.org>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Thu, 4 Jul 2024 01:33:38 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASw=_hbZ3LfyfRpdD=igBJxAm5kh1A8_Fv2XvNjGA9_6w@mail.gmail.com>
-Message-ID: <CAK7LNASw=_hbZ3LfyfRpdD=igBJxAm5kh1A8_Fv2XvNjGA9_6w@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] kbuild: deb-pkg: remove support for EMAIL
- environment variable
-To: Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc: linux-kernel@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, riku.voipio@iki.fi, Ben Hutchings <ben@decadent.org.uk>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK7LNAR08Nx3-8XYe4qmUegDFo2zLUvkVdA1t51g1Bamh5Tteg@mail.gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 
-+CC
-
-
-On Wed, Jul 3, 2024 at 3:03=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.or=
-g> wrote:
+On Wed, Jul 03, 2024 at 11:44:38PM +0900, Masahiro Yamada wrote:
+>On Wed, Jul 3, 2024 at 8:40 AM Wei Yang <richard.weiyang@gmail.com> wrote:
+>>
+>> .meminit.* is not put into init section when CONFIG_MEMORY_HOTPLUG is
+>> set, since we define MEM_KEEP()/MEM_DISCARD() according to
+>> CONFIG_MEMORY_HOTPLUG.
+>>
+>> Signed-off-by: Wei Yang <richard.weiyang@gmail.com>
+>> CC: Mike Rapoport (IBM) <rppt@kernel.org>
+>> ---
+>>  scripts/mod/modpost.c | 10 ++++++++++
+>>  1 file changed, 10 insertions(+)
 >
-> Commit edec611db047 ("kbuild, deb-pkg: improve maintainer
-> identification") added the EMAIL and NAME environment variables.
 >
-> Commit d5940c60e057 ("kbuild: deb-pkg improve maintainer address
-> generation") removed support for NAME, but kept support for EMAIL.
 >
-> The EMAIL and NAME environment variables are still supported by some
-> tools (see 'man debchange'), but not by all.
+>NACK.
 >
-> We should support both of them, or neither of them. We should not stop
-> halfway.
 >
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
+>The section mismatch is performed _unconditionally_.
 >
-> Changes in v2:
->  - New patch
 >
->  scripts/package/mkdebian | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
-> index b9a5b789c655..589f92b88c42 100755
-> --- a/scripts/package/mkdebian
-> +++ b/scripts/package/mkdebian
-> @@ -125,7 +125,7 @@ gen_source ()
->  rm -rf debian
->  mkdir debian
+>In the old days, we did this depending on relevant CONFIG options.
+>It was more than 15 years ago that we stopped doing that.
 >
-> -email=3D${DEBEMAIL-$EMAIL}
-> +email=3D${DEBEMAIL}
 >
->  # use email string directly if it contains <email>
->  if echo "${email}" | grep -q '<.*>'; then
-> --
-> 2.43.0
+>See this:
 >
+>
+>commit eb8f689046b857874e964463619f09df06d59fad
+>Author: Sam Ravnborg <sam@ravnborg.org>
+>Date:   Sun Jan 20 20:07:28 2008 +0100
+>
+>    Use separate sections for __dev/__cpu/__mem code/data
+>
+>
+>
+>
+>So, if you wanted to check this only when CONFIG_MEMORY_HOTPLUG=n,
+>you would need to add #ifdef CONFIG_MEMORY_HOTPLUG to include/linux/init.h
 >
 
+You mean something like this?
 
---=20
-Best Regards
-Masahiro Yamada
+diff --git a/include/linux/init.h b/include/linux/init.h
+index 58cef4c2e59a..388f0a4c34e9 100644
+--- a/include/linux/init.h
++++ b/include/linux/init.h
+@@ -85,10 +85,12 @@
+ #define __exit          __section(".exit.text") __exitused __cold notrace
+ 
+ /* Used for MEMORY_HOTPLUG */
++#ifndef CONFIG_MEMORY_HOTPLUG
+ #define __meminit        __section(".meminit.text") __cold notrace \
+ 						  __latent_entropy
+ #define __meminitdata    __section(".meminit.data")
+ #define __meminitconst   __section(".meminit.rodata")
++#endif
+ 
+ /* For assembly routines */
+ #define __HEAD		.section	".head.text","ax"
+
+>That is what we did in the Linux 2.6.* era, which had much worse
+>section mismatch coverage.
+>
+
+I guess you mean this is not a good practice.
+
+Then I am confused how we do the mismatch check unconditionally?
+
+After commit 
+
+commit eb8f689046b857874e964463619f09df06d59fad
+Author: Sam Ravnborg <sam@ravnborg.org>
+Date:   Sun Jan 20 20:07:28 2008 +0100
+
+    Use separate sections for __dev/__cpu/__mem code/data
+
+Sections .meminit.* will be put into INIT_SECTION conditionally, but we always
+do the mismatch check unconditionally. It will report mismatch when .meminit.*
+is not in INIT_SECTION. It looks not correct to me.
+
+Maybe I am not fully understand your message. Would you mind explaining more
+on what is the correct way to do?
+
+-- 
+Wei Yang
+Help you, Help me
 
