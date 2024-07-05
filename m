@@ -1,188 +1,136 @@
-Return-Path: <linux-kbuild+bounces-2388-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2389-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C4A3928259
-	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Jul 2024 08:55:05 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5326D928375
+	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Jul 2024 10:13:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 49A08283BC1
-	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Jul 2024 06:55:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F15721F22E5F
+	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Jul 2024 08:13:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18E6C1311A3;
-	Fri,  5 Jul 2024 06:55:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="avj8GDOc"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2F771448E3;
+	Fri,  5 Jul 2024 08:13:10 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CD7A482EF;
-	Fri,  5 Jul 2024 06:55:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B7A1143C64;
+	Fri,  5 Jul 2024 08:13:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720162502; cv=none; b=RWNQXyxaLNhv+6N2P4fibK5oqTt2ArBNoaqdTxjshDNULJ4/Sl/7xow5avlsKsbmlw4URQ0MvL0qzwXRwFIfwvkhzE9pEUo6/SNF0+rkISUF8J1biL2H8cOvvVhhjlVAWV5PmPOj26h2TqG6k7kNKWDgYRAHiESSHpo29raxzO8=
+	t=1720167190; cv=none; b=pU5gJaomtE37KY7x4YTOPNXCZXtClwmTHR6vm3Mg4euyc/5bqBP68X8bzUfQYY+djMiUhGMNiTf3vJSgtJX7FnoTdoJ52glGtN3+nL/Y/QOS8LwyMNWiLZ2Z482SCZR4KGT0gOyrPjyQ3CKwiEz8g8pXsHXiRv6shL38B5n4dUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720162502; c=relaxed/simple;
-	bh=+TF4/Nrsi1OprYomlmzLGA79NTXNcSNLCUhYkmi24qI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qfoI5xPXRZAj7OiKdyx3m0AtDblPt/WK39O8tSsDPHJ8wVm5Z6hPXFgH6sSnosTNwjlSC0oV9ghwCeITmCyNEmPg1SSgmhCA2tuQvOdRYOGaHR/XStcAPmFIzk4uakPpgzu42tfCLup2mbldn3YT6l0KTJO7op9uOlVSYJbP0Wg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=avj8GDOc; arc=none smtp.client-ip=209.85.218.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1720167190; c=relaxed/simple;
+	bh=r8RsOl90vUmFb3iH2mDrRyejM11RkeHxvGCGNnKIo5U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WXgBuO9bGtfSUONsGIiVqr7y5ENzUOgXIjr/kymPH3hsoFXs5HYqwA9b8TyyhJp4bDW5Oqe3nblPyuoYG9ie818nspc7G2cZlxIo9g56XMnZVlsL1s5rCiffXsMQMGzztfS/CCgy2oObEuMmkTG4LI808IlrXxNZB/aHzE3zhDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a7541fad560so146610466b.0;
-        Thu, 04 Jul 2024 23:55:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720162498; x=1720767298; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-transfer-encoding
-         :content-disposition:mime-version:references:reply-to:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=KtbWFhxeEymIWS8tWUCbo8i07LprGpYbyo4f1G00ZP0=;
-        b=avj8GDOcYFbmV18FiXlhhf6KqIzYlgR3/OPR0+A0Zm/MSxKcygOFXSRY9sULq5nLdE
-         LKY6Q33kzT4XPIIczuWYd1PGmtKxifzcTbNd9tuSL88sXjBVpNFQ+6jUfiFCwCvSVEvh
-         nvEi+5RahX2ftgYlqL+gDJTT2BH9VIpeqlqh4ifLKDAEm+YEihoamHeKMSS5JoshmfvG
-         bNYDV7dfF7OnKetk1ATku26K5ORuQ1CxEWrh6yu3V4L/pMFyp40pbzKXe8q4+nSg+KAZ
-         4lGnGDyIPENY6ypqYSgwjS0FypNVoOsoc8RhLrR41gLZ8yKYjU3QcZDploFeXpACxt1b
-         5QGA==
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-650866942aeso13016347b3.0;
+        Fri, 05 Jul 2024 01:13:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720162498; x=1720767298;
-        h=user-agent:in-reply-to:content-transfer-encoding
-         :content-disposition:mime-version:references:reply-to:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KtbWFhxeEymIWS8tWUCbo8i07LprGpYbyo4f1G00ZP0=;
-        b=aNIjP8oCY/hGy8vuYc5nMRGN/QkdhU8YzundI245DnQULBctyvhEgeJu7TdKHr+FOn
-         afY40ruKnM/wu5zvylconOkfa8mtAoWVtS4jLxcaqiDcUAkhnjzevPHpOb87YHS+iT7b
-         RP9zdRDLuyOfyToEWtNsOqwPLM1bHJhkBnNaK7ItYEvSeFvqV1u2KOlilgOraJLuxR0V
-         UrSirr+K37cGB7kwn1rggzJCWoMTh50X+7HXnUvWEUlTuC17YkbUf62dz03grYpTex0H
-         vMKiw/5kbSd6697lYu3auYKUkXfFUapU9XAzaR9Ob2D/I9duHWwDT+DOvYghwHIa3+8H
-         8+vA==
-X-Forwarded-Encrypted: i=1; AJvYcCXf1+cfT0llrNn3g7dGD9AWLsyqCwJK+BnykKPGxKAEQjghe1UvNabCBRBi420zAzGGhui3XcqmZvfaRoAeQ2nTOoI56E9YiniU5i39S+gjJT3TrPex0qvdmiWYvIHTMRSdALeodrfOV5Sk
-X-Gm-Message-State: AOJu0YxDwpfNX7lkTZ3HALtUWUXHAQ73DXffWOcmAesUjuMit+ZSKP/B
-	fbweKH4yX1/07/PIFIO0wMeKtRke4h8t3BbpltCpWED5446LWXHWFesqGsL7
-X-Google-Smtp-Source: AGHT+IGHx/Vjks1k64fIQj9z77lOxI2plruUsuqWWDgID6a1HNNAIahUxcjbzgjGloIRV61vxwGAGQ==
-X-Received: by 2002:a17:906:834c:b0:a6f:392d:51a9 with SMTP id a640c23a62f3a-a77ba6dc0ccmr260806866b.14.1720162498306;
-        Thu, 04 Jul 2024 23:54:58 -0700 (PDT)
-Received: from localhost ([185.92.221.13])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a77c3772ad5sm74840666b.173.2024.07.04.23.54.57
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 04 Jul 2024 23:54:57 -0700 (PDT)
-Date: Fri, 5 Jul 2024 06:54:56 +0000
-From: Wei Yang <richard.weiyang@gmail.com>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Wei Yang <richard.weiyang@gmail.com>, akpm@linux-foundation.org,
-	nathan@kernel.org, nicolas@fjasle.eu, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	Mike Rapoport <rppt@kernel.org>
-Subject: Re: [PATCH 2/3] modpost: .meminit.* is not in init section when
- CONFIG_MEMORY_HOTPLUG set
-Message-ID: <20240705065456.dogycpd37jun44p5@master>
-Reply-To: Wei Yang <richard.weiyang@gmail.com>
-References: <20240702234008.19101-1-richard.weiyang@gmail.com>
- <20240702234008.19101-2-richard.weiyang@gmail.com>
- <CAK7LNAR08Nx3-8XYe4qmUegDFo2zLUvkVdA1t51g1Bamh5Tteg@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1720167188; x=1720771988;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ipFWrtbP2pnadKQDEjq7tVSKBPDnD8noGTMoh58siUs=;
+        b=uVnfIwjbgmgIwz2TgLsoRKEP+mDpvBHI5l/DL1UhOvzAikOPkANoJrHMm9Sophe56a
+         pMuzJ+ksGJGSbG9EQctyoLUVEbiHDCXHpLuoXWnaZBTpmNFbxJzKdTIHwgi0bLInF4Cc
+         hEpyRAXNLbogMUooNqelYUl392dPHaaNba/A1Qw1K4qboic1yizCH6GMT0lVlMeaxbpN
+         ZC1Nk8c3o9MbmzbswwC448i/4l8dZM/1II7Xhwb4S+G73J/7JwjVXWP1Y8HoBSlHqIj+
+         RVwUXlJGurNSe/Ax3Z6MytTC0Lk7SxYli8zg5mpqVpoXRoHLdHDdfs4mtBlvipRVLFmE
+         WOZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWASXcyQo3Em++vhPerPFTkIn7Bs8mJX+0gQuLb/7m7DiP0hC3SRrQCD1hFgcrCFyK1jRbSNZoucz/8eTzOAPyTr9G8qHq1G29VJatifWnKnXnXlq+IAF39oqCbKFXy/3dcFAxkmnJWm3RB/Avq/Rq464SSfBWQWhHUTHbKHM3dein5HGjcJWhVNUL/06FanmJSK5OdEN9rYbU8+NAVnTZqI6dTGY/x8AY6SKlw0AGPerVvhTRZPiJd6HhPUZnyz7MAh2BUvQ==
+X-Gm-Message-State: AOJu0Yxv7C5EUWUBGyoEj0OlZMUOV38ZoLp6nLOMi1L7JlJmhewo6eOW
+	QwdAHEZ0Oi95r4efjckkReIpspvxzDvtu0oOWiQofXhRoBVkPGy9GNBa7GFz
+X-Google-Smtp-Source: AGHT+IE5w6dodX6tkNdpYo2JcOIQFCoBaWvJ3qj0W+78A8aPmU0fAixL3wQKsWOqabg+jcNHcrGYNg==
+X-Received: by 2002:a0d:ea0d:0:b0:61a:e4ef:51d with SMTP id 00721157ae682-652d61e9c9dmr39923847b3.9.1720167188342;
+        Fri, 05 Jul 2024 01:13:08 -0700 (PDT)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-64a9ba5a2e7sm27802817b3.80.2024.07.05.01.13.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 05 Jul 2024 01:13:08 -0700 (PDT)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-6504101cfd6so12313287b3.3;
+        Fri, 05 Jul 2024 01:13:08 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWEXA0Z7eKZyJwrR4v8wVZLcf0Cj9LlgAmdcgphSbZE+xmcYZSi9s2HFwI5UVUusKBaQtpv3xv5ItuVKPwoO026FIEkhZnaFRWtwrjzBAQ2RsigT2FexW4IjaRTOVN+kX5Cldv44AEtWPvBuo8G2lqBTpS5mGJEf9DTvQCZ4OFVGaKp07wZZZLc1IdcvBJWHfKTeRkF/Cs9ecWANVar8UGkiEPzKgZ07fXx/SvuZf8nvvs2eCyqLK9wvfYcS9tgMPgV7Vockg==
+X-Received: by 2002:a81:431f:0:b0:633:8b49:f97c with SMTP id
+ 00721157ae682-652d842fd27mr38728927b3.37.1720167188020; Fri, 05 Jul 2024
+ 01:13:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK7LNAR08Nx3-8XYe4qmUegDFo2zLUvkVdA1t51g1Bamh5Tteg@mail.gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+References: <20240704143611.2979589-1-arnd@kernel.org> <20240704143611.2979589-8-arnd@kernel.org>
+In-Reply-To: <20240704143611.2979589-8-arnd@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 5 Jul 2024 10:12:55 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdV-JtJWixt8J45rhZbpb7S90EDhp=x5iGGBhmUZyyQSnw@mail.gmail.com>
+Message-ID: <CAMuHMdV-JtJWixt8J45rhZbpb7S90EDhp=x5iGGBhmUZyyQSnw@mail.gmail.com>
+Subject: Re: [PATCH 07/17] clone3: drop __ARCH_WANT_SYS_CLONE3 macro
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: linux-arch@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Vineet Gupta <vgupta@kernel.org>, 
+	Russell King <linux@armlinux.org.uk>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>, Brian Cain <bcain@quicinc.com>, 
+	Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, 
+	Dinh Nguyen <dinguyen@kernel.org>, Jonas Bonn <jonas@southpole.se>, 
+	Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>, Stafford Horne <shorne@gmail.com>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Rich Felker <dalias@libc.org>, 
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, "David S. Miller" <davem@davemloft.net>, 
+	Andreas Larsson <andreas@gaisler.com>, Christian Brauner <brauner@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-snps-arc@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org, 
+	linux-hexagon@vger.kernel.org, loongarch@lists.linux.dev, 
+	linux-openrisc@vger.kernel.org, linux-riscv@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 03, 2024 at 11:44:38PM +0900, Masahiro Yamada wrote:
->On Wed, Jul 3, 2024 at 8:40 AM Wei Yang <richard.weiyang@gmail.com> wrote:
->>
->> .meminit.* is not put into init section when CONFIG_MEMORY_HOTPLUG is
->> set, since we define MEM_KEEP()/MEM_DISCARD() according to
->> CONFIG_MEMORY_HOTPLUG.
->>
->> Signed-off-by: Wei Yang <richard.weiyang@gmail.com>
->> CC: Mike Rapoport (IBM) <rppt@kernel.org>
->> ---
->>  scripts/mod/modpost.c | 10 ++++++++++
->>  1 file changed, 10 insertions(+)
+On Thu, Jul 4, 2024 at 4:38=E2=80=AFPM Arnd Bergmann <arnd@kernel.org> wrot=
+e:
+> From: Arnd Bergmann <arnd@arndb.de>
 >
+> When clone3() was introduced, it was not obvious how each architecture
+> deals with setting up the stack and keeping the register contents in
+> a fork()-like system call, so this was left for the architecture
+> maintainers to implement, with __ARCH_WANT_SYS_CLONE3 defined by those
+> that already implement it.
 >
+> Five years later, we still have a few architectures left that are missing
+> clone3(), and the macro keeps getting in the way as it's fundamentally
+> different from all the other __ARCH_WANT_SYS_* macros that are meant
+> to provide backwards-compatibility with applications using older
+> syscalls that are no longer provided by default.
 >
->NACK.
+> Address this by reversing the polarity of the macro, adding an
+> __ARCH_BROKEN_SYS_CLONE3 macro to all architectures that don't
+> already provide the syscall, and remove __ARCH_WANT_SYS_CLONE3
+> from all the other ones.
 >
->
->The section mismatch is performed _unconditionally_.
->
->
->
->In the old days, we did this depending on relevant CONFIG options.
->It was more than 15 years ago that we stopped doing that.
->
->
->See this:
->
->
->commit eb8f689046b857874e964463619f09df06d59fad
->Author: Sam Ravnborg <sam@ravnborg.org>
->Date:   Sun Jan 20 20:07:28 2008 +0100
->
->    Use separate sections for __dev/__cpu/__mem code/data
->
->
->
->
->So, if you wanted to check this only when CONFIG_MEMORY_HOTPLUG=n,
->you would need to add #ifdef CONFIG_MEMORY_HOTPLUG to include/linux/init.h
->
->That is what we did in the Linux 2.6.* era, which had much worse
->section mismatch coverage.
->
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-Masahiro 
+>  arch/m68k/include/asm/unistd.h                 | 1 -
 
-If you would give me some suggestions, I'd appreciate it a lot.
+Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
-The original thing I want to do is to put function __free_pages_core() in
-__meminit section, since this function is only used by __init functions and
-in memory_hotplug.c.  This means it is save to release it if
-CONFIG_MEMORY_HOTPLUG is set.
+Gr{oetje,eeting}s,
 
-Then I add __meminit to function __free_pages_core() and face the warning from
-modpost.
+                        Geert
 
-  WARNING: modpost: vmlinux: section mismatch in reference: generic_online_page+0xa (section: .text) -> __free_pages_core (section: .meminit.text)
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-A .text function calls init code is not proper. Then I add __meminit to
-generic_online_page too. Then I face this warning from modpost.
-
-  WARNING: modpost: vmlinux: generic_online_page: EXPORT_SYMBOL used for init symbol. Remove __init or EXPORT_SYMBOL.
-
-Function generic_online_page() is exported and be used in some modules. And is
-not allowed to use init tag.
-
-When looking into the code, this warning is printed by this code:
-
-   #define ALL_INIT_SECTIONS INIT_SECTIONS, ALL_XXXINIT_SECTIONS
-   
-   if (match(secname, PATTERNS(ALL_INIT_SECTIONS)))
-   	warn("%s: %s: EXPORT_SYMBOL used for init symbol. Remove __init or EXPORT_SYMBOL.\n",
-   	     mod->name, name);
-
-If my understanding is correct, the code means we can't use a function in init
-section, since the code will be released after bootup.
-
-But for this case, when CONFIG_MEMORY_HOTPLUG is set, the section .meminit.*
-is not put into the real init sections. So the functions are not released and
-could be used by modules. This behavior is introduced in commit
-eb8f689046b8(the one you mentioned above).
-
-So the check here is not proper to me. We should exclude .meminit.* from
-ALL_INIT_SECTIONS.
-
-Looking forward your suggestion and a proper way to handle this.
-
--- 
-Wei Yang
-Help you, Help me
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
