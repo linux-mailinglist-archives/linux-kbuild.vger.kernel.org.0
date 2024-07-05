@@ -1,142 +1,104 @@
-Return-Path: <linux-kbuild+bounces-2392-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2393-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C0829286CE
-	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Jul 2024 12:30:22 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0612B92886E
+	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Jul 2024 14:10:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0894E286644
-	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Jul 2024 10:30:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B5D8828580F
+	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Jul 2024 12:10:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DDD51482E1;
-	Fri,  5 Jul 2024 10:30:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="O/EHh3Ru";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="M/wNXcgt"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8D5714A0AA;
+	Fri,  5 Jul 2024 12:10:30 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from fhigh8-smtp.messagingengine.com (fhigh8-smtp.messagingengine.com [103.168.172.159])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E82D143C46;
-	Fri,  5 Jul 2024 10:30:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2DD51494C9;
+	Fri,  5 Jul 2024 12:10:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720175418; cv=none; b=g0662Wojv+jPQE9JcKMCxONUEZ4Ju5LYZ3Z4u5eqAZ7CGdfNsjiQECTT9LzvmBitjD2QnRtnvrWMMqBXwwaGtAWMeHoAB1TUg1vZ52he+piw4XvBfuP+0eplmS5b7w35FdyfAplVMbpeVLkToz/8p1hhZiMZwY6IRDbRTqbXwVY=
+	t=1720181430; cv=none; b=tb44f4EfJbr9fRe2QAhnRiWCssEjN+t7ChGsV0CfforaEs4QTaWcwtxoQUNnwX0pLNyBHctRsp3D+X9SVL4+rJSVDR7ua0kYwgO70Skd4Fw4BlsXX1cLxqJVzpf8hVWPKpPASupgxI4KtIAXZfADbq2vCMiDhq9pXydVwz19S0w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720175418; c=relaxed/simple;
-	bh=qaBZaG71HMTXmkH5lTODIl18rVFJYCWXRSxZMfOLWcg=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=VUP22YFdRWZeuLGNXjpQMZPnYpg5HCovFJAlexLt5gjSRHnKsH/lpJeMNsCgg7Anx9EqXBAAnFHIL1cnNnwU/r10d9XMWsaxV8j2SZeEPq49z9nMWBj237Utlu5kj4TZnc3H7AdYx4JPcR5bdxOxCmJL5mR7rupeEZ50UVCJhLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=O/EHh3Ru; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=M/wNXcgt; arc=none smtp.client-ip=103.168.172.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailfhigh.nyi.internal (Postfix) with ESMTP id 6004F1140275;
-	Fri,  5 Jul 2024 06:30:15 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Fri, 05 Jul 2024 06:30:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1720175415; x=1720261815; bh=0BgwcyYVzV
-	oWvDg1RD6E7vJTPHk03GlivOzQH40VODw=; b=O/EHh3RuZcTx3qDtbU4nyccmFZ
-	tTOdX037S98MZOEnDQsOPMGt6Lq3m4gsNjmdB7/2jiLzukoStDpKSI/tGMfvQ6xs
-	srVco6iMb3vIbvMqw5X77jtHys2nL/qhhD1PEz+Bg9AZaAroDDgtSyJ5PH1hGlos
-	nw3KAYGBHh4ZojJUtc/Psh7/xwrtvlWTfGho9SlZGJU7HZDJGMJEKgxu4kPXs1Tu
-	WHc7flZ2IjaE4iOlMzkcXDHJQJOZxsrjp3J+ZwizWcCMr3gA6z3oY6o2gfxaDCVT
-	d5t0PTQF3Q6mZAkCSbsfi81WESbnI0Q3XKU17iGzmfXt4DS3CtgQ71tyWgOQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1720175415; x=1720261815; bh=0BgwcyYVzVoWvDg1RD6E7vJTPHk0
-	3GlivOzQH40VODw=; b=M/wNXcgt6NFUUVIGStmiaQaluZawsrLN8ZvRLRCCZsfy
-	F0WxZ64Y7y7vLBgMatyOUKLjWUrND5d4ABIygpuq3n9hiOezrf2/tNIhs8tCECJL
-	9pbUV0rMReilzJUrwMkfhOAaLVbZleKL5n6jOXKXG5ydef7xgtjCifAjGqJts2kv
-	zNo73v+73HswXZ3YKgS1gpxzIjdt5vZGHP5NR03xlTyi24O4NYexmSsqCE4OlxsA
-	CSkrMANci32zquzD6pbxDF8xdWHYXR8wc1It7iq24stsFDS151RDT75gsUug6W4n
-	jjCoFYhcpQX3bs/+Arp2hrU2BhQFmbcT5JI4/s6nYA==
-X-ME-Sender: <xms:M8uHZtXxZgEnC7dJkuQgtJLMTie3hiSNQRQIK5-0RPPBBJbtH2jq1A>
-    <xme:M8uHZtlxbAReuvNXstJeBpLnlxuPxmANBwa0rPdSsMVYTm50x4nMPPEfCGJlSKgU6
-    J4rtIzoF_LRgxRZWzs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvddugddvlecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
-    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
-    gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
-    ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
-    hnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:M8uHZpbH4WkJ5osvgGk3AKjBODw6RhhpnJ7akc20RK4X0PT9b5X8JA>
-    <xmx:M8uHZgUrnkXBeGIxHueMC39J03oZWjGuuSxvedwWIp58BlMVsVqHAw>
-    <xmx:M8uHZnmT3vn8mmQa-ixoQCXFJoM7flSrSkhkz8fZBP8w4wUzJN7ZVw>
-    <xmx:M8uHZtcctr51KMWlegX-Kwb_Qi2ZbgcBOvkG2AFeT2ygegRNnu5oIQ>
-    <xmx:N8uHZo7APVUulbUymCX_R30UFUPRJltjifqXXpKVgmxgy-5ev2-2zdo_>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 7DCF9B6008D; Fri,  5 Jul 2024 06:30:11 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-566-g3812ddbbc-fm-20240627.001-g3812ddbb
+	s=arc-20240116; t=1720181430; c=relaxed/simple;
+	bh=swj0FZd/2MnH7/jWGtvEcuYjMWoU4dnzcswcpFkNC8w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tls2eNdLZVIEkYo+VKOrkIdXa2Iw/f0Wfxdrq8Z8yWkw7VsNX8fDIXqhSgVZVLvPJ55Yd68VQXM5GZ8IMNkaQAH0goN54kfJGVT2Dgziug/mYLU95lcRUO7gcq8B7h26+DETP9mX248IVabW7InOZSfX5mDZrNkLhjusw8PU1EM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84A48C116B1;
+	Fri,  5 Jul 2024 12:10:24 +0000 (UTC)
+Date: Fri, 5 Jul 2024 13:10:21 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: linux-arch@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Vineet Gupta <vgupta@kernel.org>,
+	Russell King <linux@armlinux.org.uk>, Will Deacon <will@kernel.org>,
+	Guo Ren <guoren@kernel.org>, Brian Cain <bcain@quicinc.com>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>, Dinh Nguyen <dinguyen@kernel.org>,
+	Jonas Bonn <jonas@southpole.se>,
+	Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+	Stafford Horne <shorne@gmail.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Rich Felker <dalias@libc.org>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	"David S. Miller" <davem@davemloft.net>,
+	Andreas Larsson <andreas@gaisler.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
+	linux-hexagon@vger.kernel.org, loongarch@lists.linux.dev,
+	linux-openrisc@vger.kernel.org, linux-riscv@lists.infradead.org
+Subject: Re: [PATCH 09/17] arm64: convert unistd_32.h to syscall.tbl format
+Message-ID: <ZofirWrl3nAuOQb_@arm.com>
+References: <20240704143611.2979589-1-arnd@kernel.org>
+ <20240704143611.2979589-10-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <3294e24c-565d-4688-ba6a-4bb98a2ef65f@app.fastmail.com>
-In-Reply-To: <alpine.DEB.2.21.2407050323400.38148@angie.orcam.me.uk>
-References: <20240704143611.2979589-1-arnd@kernel.org>
- <alpine.DEB.2.21.2407050323400.38148@angie.orcam.me.uk>
-Date: Fri, 05 Jul 2024 12:29:49 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Maciej W. Rozycki" <macro@orcam.me.uk>, "Arnd Bergmann" <arnd@kernel.org>
-Cc: Linux-Arch <linux-arch@vger.kernel.org>,
- "Masahiro Yamada" <masahiroy@kernel.org>,
- "Nathan Chancellor" <nathan@kernel.org>,
- "Nicolas Schier" <nicolas@fjasle.eu>, "Vineet Gupta" <vgupta@kernel.org>,
- "Russell King" <linux@armlinux.org.uk>,
- "Catalin Marinas" <catalin.marinas@arm.com>,
- "Will Deacon" <will@kernel.org>, guoren <guoren@kernel.org>,
- "Brian Cain" <bcain@quicinc.com>, "Huacai Chen" <chenhuacai@kernel.org>,
- "WANG Xuerui" <kernel@xen0n.name>, "Dinh Nguyen" <dinguyen@kernel.org>,
- "Jonas Bonn" <jonas@southpole.se>,
- "Stefan Kristiansson" <stefan.kristiansson@saunalahti.fi>,
- "Stafford Horne" <shorne@gmail.com>,
- "Paul Walmsley" <paul.walmsley@sifive.com>,
- "Palmer Dabbelt" <palmer@dabbelt.com>,
- "Albert Ou" <aou@eecs.berkeley.edu>, "Rich Felker" <dalias@libc.org>,
- "John Paul Adrian Glaubitz" <glaubitz@physik.fu-berlin.de>,
- "David S . Miller" <davem@davemloft.net>,
- "Andreas Larsson" <andreas@gaisler.com>,
- "Christian Brauner" <brauner@kernel.org>,
- "Mark Rutland" <mark.rutland@arm.com>, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-snps-arc@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org,
- "linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
- linux-hexagon@vger.kernel.org, loongarch@lists.linux.dev,
- "linux-openrisc@vger.kernel.org" <linux-openrisc@vger.kernel.org>,
- linux-riscv@lists.infradead.org
-Subject: Re: [PATCH 00/17] arch: convert everything to syscall.tbl
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240704143611.2979589-10-arnd@kernel.org>
 
-On Fri, Jul 5, 2024, at 12:18, Maciej W. Rozycki wrote:
-> On Thu, 4 Jul 2024, Arnd Bergmann wrote:
->
->>  arch/alpha/include/asm/unistd.h               |   1 +
->
->  This seems out of sync with the actual changes, any idea what happened 
-> here?
+On Thu, Jul 04, 2024 at 04:36:03PM +0200, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> This is a straight conversion from the old asm/unistd32.h into the
+> format used by 32-bit arm and most other architectures, calling scripts
+> to generate the asm/unistd32.h header and a new asm/syscalls32.h headers.
+> 
+> I used a semi-automated text replacement method to do the conversion,
+> and then used 'vimdiff' to synchronize the whitespace and the (unused)
+> names of the non-compat syscalls with the arm version.
+> 
+> There are two differences between the generated syscalls names and the
+> old version:
+> 
+>  - the old asm/unistd32.h contained only a __NR_sync_file_range2
+>    entry, while the arm32 version also defines
+>    __NR_arm_sync_file_range with the same number. I added this
+>    duplicate back in asm/unistd32.h.
+> 
+>  - __NR__sysctl was removed from the arm64 file a while ago, but
+>    all the tables still contain it. This should probably get removed
+>    everywhere but I added it here for consistency.
+> 
+> On top of that, the arm64 version does not contain any references to
+> the 32-bit OABI syscalls that are not supported by arm64. If we ever
+> want to share the file between arm32 and arm64, it would not be
+> hard to add support for both in one file.
+> 
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-Sorry about this, I was writing the series description while
-still doing some treewide tests that showed I had missed a
-change in a rebase. When I originally wrote the clone3
-patch, alpha was still missing clone3 support, so I added
-a line there to mark the syscall as broken. The current
-version is based on 6.10-rc, so clone3 actually works now
-and the patch I sent no longer needs to mark it as broken.
-
-     Arnd
+Acked-by: Catalin Marinas <catalin.marinas@arm.com>
 
