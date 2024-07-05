@@ -1,180 +1,188 @@
-Return-Path: <linux-kbuild+bounces-2387-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2388-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FC90927E7F
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jul 2024 23:24:06 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C4A3928259
+	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Jul 2024 08:55:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A1C571C21FEC
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jul 2024 21:24:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 49A08283BC1
+	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Jul 2024 06:55:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D4951428E0;
-	Thu,  4 Jul 2024 21:24:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18E6C1311A3;
+	Fri,  5 Jul 2024 06:55:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="uts4MYtj"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="avj8GDOc"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCEE844C9E
-	for <linux-kbuild@vger.kernel.org>; Thu,  4 Jul 2024 21:23:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CD7A482EF;
+	Fri,  5 Jul 2024 06:55:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720128241; cv=none; b=MqbEJQ9eV7yd549HMmWAlJG82RGt7oWEikjVoWQncRurYr/tHgbTHDq1mECA7EzJskxifywn+jMeYoDBUHVAA9vlw6X2G8sZgptsfDdZRDIKq8u9XSOH7DJDatFJx599AjVV6PXf19LKvjETHtoLRS4PXltUsrsKCuTDCsvP1EM=
+	t=1720162502; cv=none; b=RWNQXyxaLNhv+6N2P4fibK5oqTt2ArBNoaqdTxjshDNULJ4/Sl/7xow5avlsKsbmlw4URQ0MvL0qzwXRwFIfwvkhzE9pEUo6/SNF0+rkISUF8J1biL2H8cOvvVhhjlVAWV5PmPOj26h2TqG6k7kNKWDgYRAHiESSHpo29raxzO8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720128241; c=relaxed/simple;
-	bh=WkQita1UbMfMen1gzqw2QW7P3OKiOs39bLWHgZY5IA4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kN3R3HHwxqIH0tGux1L8aC8s+FeKyOgk0oHNPikNfi2ljrpWe8JlKxNjLGxXWIYKqvJlrMcQSCZRGrWpbR5Br3TYPWqKeFMsffeh5jDm3i5kTPa5lJ1LGTM8Vl+GYqG9pgTZUKSRm6BpRQdeX98HDrtnCZLMrJ7coQvcbwAAm1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=uts4MYtj; arc=none smtp.client-ip=209.85.208.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-57a16f4b8bfso15761a12.0
-        for <linux-kbuild@vger.kernel.org>; Thu, 04 Jul 2024 14:23:59 -0700 (PDT)
+	s=arc-20240116; t=1720162502; c=relaxed/simple;
+	bh=+TF4/Nrsi1OprYomlmzLGA79NTXNcSNLCUhYkmi24qI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qfoI5xPXRZAj7OiKdyx3m0AtDblPt/WK39O8tSsDPHJ8wVm5Z6hPXFgH6sSnosTNwjlSC0oV9ghwCeITmCyNEmPg1SSgmhCA2tuQvOdRYOGaHR/XStcAPmFIzk4uakPpgzu42tfCLup2mbldn3YT6l0KTJO7op9uOlVSYJbP0Wg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=avj8GDOc; arc=none smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a7541fad560so146610466b.0;
+        Thu, 04 Jul 2024 23:55:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1720128238; x=1720733038; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XZUXkSX9WN+AQbdLcHROy2ZT3v7SVR09OPnTWoMgUyo=;
-        b=uts4MYtjC7d5FzZMCxiqJi1ecwNjdUyo0Y1YCnDocw8p6frbpdgGxRHMDmy14TQX4c
-         xhKU/BySVrCj9ZsW+9LQ9XOplOVMqcLhZetj4m3gc5OtK14IwV8kvubXlqLucaqC3hvR
-         MGbWj4qG/pyKuz2/gYr5SgHYWSdYAR3c1mbFLSVN1lYR+qAtSdXADHRZ+WHD/Q3cpTSP
-         wdJE0Xng0z1couHV/Rb+PTG6VkvN1QHDTjOJ9IEDdAH+4dNGZl1tG8o8bC5oq+PWg1W8
-         VVQAAsdfY82Qu3qt8byKG+EerD2vagxlRnLkwW0rbGgqWrtcp+xZaBOVou4zARlykcDB
-         TCnQ==
+        d=gmail.com; s=20230601; t=1720162498; x=1720767298; darn=vger.kernel.org;
+        h=user-agent:in-reply-to:content-transfer-encoding
+         :content-disposition:mime-version:references:reply-to:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=KtbWFhxeEymIWS8tWUCbo8i07LprGpYbyo4f1G00ZP0=;
+        b=avj8GDOcYFbmV18FiXlhhf6KqIzYlgR3/OPR0+A0Zm/MSxKcygOFXSRY9sULq5nLdE
+         LKY6Q33kzT4XPIIczuWYd1PGmtKxifzcTbNd9tuSL88sXjBVpNFQ+6jUfiFCwCvSVEvh
+         nvEi+5RahX2ftgYlqL+gDJTT2BH9VIpeqlqh4ifLKDAEm+YEihoamHeKMSS5JoshmfvG
+         bNYDV7dfF7OnKetk1ATku26K5ORuQ1CxEWrh6yu3V4L/pMFyp40pbzKXe8q4+nSg+KAZ
+         4lGnGDyIPENY6ypqYSgwjS0FypNVoOsoc8RhLrR41gLZ8yKYjU3QcZDploFeXpACxt1b
+         5QGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720128238; x=1720733038;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XZUXkSX9WN+AQbdLcHROy2ZT3v7SVR09OPnTWoMgUyo=;
-        b=oOUidG8ORqKp/UHQDMREiXWwRwM2y82uRzYogJTxdrCdGoYWRn3lPcMQ8D3LXNB+aj
-         N2ORCB7kwkPX4INu8kWA2PiRP7ZTBmitdN46vAjZ8E2YBGlCPjYgm+h5Vd/tPbG25D3L
-         aMYZI3BFt029FdES4wZ002lZyf9e++Ls9c7M8snFH1svaIvsTbMwAseRQy13oIoom1qJ
-         Lloe1ZMML3kHI1yEdt11wNN4ai9/2P4ilzebk5eKFOqZr3TW+iLxZuzHF3hTTNcyhocV
-         vmolynWuft5lI0HufxuI/B+2a2jsTkJIDoQ9AgnH5xNcNcq3JVmTEFHJZHY5aE8UY/8a
-         DONQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW6imI6F7P66NfWUg6jRZGBhI+9C7GoudbaGbc+wI5gI0Ulr+uH0R0f3Y/8SOSskXKYoKsUmmQ3pn3Cs5XweS4dmBWbjTNxfsVW9yAB
-X-Gm-Message-State: AOJu0Yz0Au+5+0xUUDHKX7m5kvu8eqRrXuBwgRC7PaDj2CVfsND45ji5
-	FSDp2fap3ax31syWhDCXIUKurW3+sAm97u7uqgfY16HegPNT9/LkPUoLEjE5tqFfRQyqyhpoe7V
-	ozvvOZ/lFlIWLPriqnkHsrn1BV+U/AmuwE89s
-X-Google-Smtp-Source: AGHT+IFNiC12ACDfwoCP+FCXjiKRvFZtf6R72oNOV5+4tIR6dsRZUTSkQftvcnrUomvX2XqiYI70nEOpdD0FSz54nrc=
-X-Received: by 2002:a50:9fa1:0:b0:57c:b712:47b5 with SMTP id
- 4fb4d7f45d1cf-58e02735e86mr205813a12.4.1720128237990; Thu, 04 Jul 2024
- 14:23:57 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1720162498; x=1720767298;
+        h=user-agent:in-reply-to:content-transfer-encoding
+         :content-disposition:mime-version:references:reply-to:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KtbWFhxeEymIWS8tWUCbo8i07LprGpYbyo4f1G00ZP0=;
+        b=aNIjP8oCY/hGy8vuYc5nMRGN/QkdhU8YzundI245DnQULBctyvhEgeJu7TdKHr+FOn
+         afY40ruKnM/wu5zvylconOkfa8mtAoWVtS4jLxcaqiDcUAkhnjzevPHpOb87YHS+iT7b
+         RP9zdRDLuyOfyToEWtNsOqwPLM1bHJhkBnNaK7ItYEvSeFvqV1u2KOlilgOraJLuxR0V
+         UrSirr+K37cGB7kwn1rggzJCWoMTh50X+7HXnUvWEUlTuC17YkbUf62dz03grYpTex0H
+         vMKiw/5kbSd6697lYu3auYKUkXfFUapU9XAzaR9Ob2D/I9duHWwDT+DOvYghwHIa3+8H
+         8+vA==
+X-Forwarded-Encrypted: i=1; AJvYcCXf1+cfT0llrNn3g7dGD9AWLsyqCwJK+BnykKPGxKAEQjghe1UvNabCBRBi420zAzGGhui3XcqmZvfaRoAeQ2nTOoI56E9YiniU5i39S+gjJT3TrPex0qvdmiWYvIHTMRSdALeodrfOV5Sk
+X-Gm-Message-State: AOJu0YxDwpfNX7lkTZ3HALtUWUXHAQ73DXffWOcmAesUjuMit+ZSKP/B
+	fbweKH4yX1/07/PIFIO0wMeKtRke4h8t3BbpltCpWED5446LWXHWFesqGsL7
+X-Google-Smtp-Source: AGHT+IGHx/Vjks1k64fIQj9z77lOxI2plruUsuqWWDgID6a1HNNAIahUxcjbzgjGloIRV61vxwGAGQ==
+X-Received: by 2002:a17:906:834c:b0:a6f:392d:51a9 with SMTP id a640c23a62f3a-a77ba6dc0ccmr260806866b.14.1720162498306;
+        Thu, 04 Jul 2024 23:54:58 -0700 (PDT)
+Received: from localhost ([185.92.221.13])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a77c3772ad5sm74840666b.173.2024.07.04.23.54.57
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 04 Jul 2024 23:54:57 -0700 (PDT)
+Date: Fri, 5 Jul 2024 06:54:56 +0000
+From: Wei Yang <richard.weiyang@gmail.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Wei Yang <richard.weiyang@gmail.com>, akpm@linux-foundation.org,
+	nathan@kernel.org, nicolas@fjasle.eu, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	Mike Rapoport <rppt@kernel.org>
+Subject: Re: [PATCH 2/3] modpost: .meminit.* is not in init section when
+ CONFIG_MEMORY_HOTPLUG set
+Message-ID: <20240705065456.dogycpd37jun44p5@master>
+Reply-To: Wei Yang <richard.weiyang@gmail.com>
+References: <20240702234008.19101-1-richard.weiyang@gmail.com>
+ <20240702234008.19101-2-richard.weiyang@gmail.com>
+ <CAK7LNAR08Nx3-8XYe4qmUegDFo2zLUvkVdA1t51g1Bamh5Tteg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240704-update-ld-version-for-new-lld-ver-str-v1-1-91bccc020a93@kernel.org>
-In-Reply-To: <20240704-update-ld-version-for-new-lld-ver-str-v1-1-91bccc020a93@kernel.org>
-From: Fangrui Song <maskray@google.com>
-Date: Thu, 4 Jul 2024 14:23:46 -0700
-Message-ID: <CAFP8O3JUgH-tBJtqO-QS0HmO4mrFBE6Dz+tnrBcse=gw_Q_4vQ@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: Update ld-version.sh for change in LLD version output
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
-	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, linux-kbuild@vger.kernel.org, 
-	llvm@lists.linux.dev, patches@lists.linux.dev, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK7LNAR08Nx3-8XYe4qmUegDFo2zLUvkVdA1t51g1Bamh5Tteg@mail.gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 
-On Thu, Jul 4, 2024 at 9:19=E2=80=AFAM Nathan Chancellor <nathan@kernel.org=
-> wrote:
+On Wed, Jul 03, 2024 at 11:44:38PM +0900, Masahiro Yamada wrote:
+>On Wed, Jul 3, 2024 at 8:40 AM Wei Yang <richard.weiyang@gmail.com> wrote:
+>>
+>> .meminit.* is not put into init section when CONFIG_MEMORY_HOTPLUG is
+>> set, since we define MEM_KEEP()/MEM_DISCARD() according to
+>> CONFIG_MEMORY_HOTPLUG.
+>>
+>> Signed-off-by: Wei Yang <richard.weiyang@gmail.com>
+>> CC: Mike Rapoport (IBM) <rppt@kernel.org>
+>> ---
+>>  scripts/mod/modpost.c | 10 ++++++++++
+>>  1 file changed, 10 insertions(+)
 >
-> After [1] in upstream LLVM, ld.lld's version output is slightly
-> different when the cmake configuration option LLVM_APPEND_VC_REV is
-> disabled.
 >
-> Before:
 >
->   Debian LLD 19.0.0 (compatible with GNU linkers)
+>NACK.
 >
-> After:
 >
->   Debian LLD 19.0.0, compatible with GNU linkers
+>The section mismatch is performed _unconditionally_.
 >
-> This results in ld-version.sh failing with
 >
->   scripts/ld-version.sh: 19: arithmetic expression: expecting EOF: "10000=
- * 19 + 100 * 0 + 0,"
 >
-> because the trailing comma is included in the patch level part of the
-> expression. Remove the trailing comma when assigning the version
-> variable in the LLD block to resolve the error, resulting in the proper
-> output:
+>In the old days, we did this depending on relevant CONFIG options.
+>It was more than 15 years ago that we stopped doing that.
 >
->   LLD 190000
 >
-> With LLVM_APPEND_VC_REV enabled, there is no issue with the new output
-> because it is treated the same as the prior LLVM_APPEND_VC_REV=3DOFF
-> version string was.
+>See this:
 >
->   ClangBuiltLinux LLD 19.0.0 (https://github.com/llvm/llvm-project a3c5c8=
-3273358a85a4e02f5f76379b1a276e7714), compatible with GNU linkers
 >
-> Cc: stable@vger.kernel.org
-> Fixes: 02aff8592204 ("kbuild: check the minimum linker version in Kconfig=
-")
-> Link: https://github.com/llvm/llvm-project/commit/0f9fbbb63cfcd2069441aa2=
-ebef622c9716f8dbb [1]
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> ---
->  scripts/ld-version.sh | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>commit eb8f689046b857874e964463619f09df06d59fad
+>Author: Sam Ravnborg <sam@ravnborg.org>
+>Date:   Sun Jan 20 20:07:28 2008 +0100
 >
-> diff --git a/scripts/ld-version.sh b/scripts/ld-version.sh
-> index a78b804b680c..f2f425322524 100755
-> --- a/scripts/ld-version.sh
-> +++ b/scripts/ld-version.sh
-> @@ -47,7 +47,9 @@ else
->         done
+>    Use separate sections for __dev/__cpu/__mem code/data
 >
->         if [ "$1" =3D LLD ]; then
-> -               version=3D$2
-> +               # LLD after https://github.com/llvm/llvm-project/commit/0=
-f9fbbb63cfcd2069441aa2ebef622c9716f8dbb
-> +               # may have a trailing comma on the patch version with LLV=
-M_APPEND_VC_REV=3Doff.
-> +               version=3D${2%,}
->                 min_version=3D$($min_tool_version llvm)
->                 name=3DLLD
->                 disp_name=3DLLD
 >
-> ---
-> base-commit: 22a40d14b572deb80c0648557f4bd502d7e83826
-> change-id: 20240704-update-ld-version-for-new-lld-ver-str-b7a4afbbd5f1
 >
-> Best regards,
-> --
-> Nathan Chancellor <nathan@kernel.org>
+>
+>So, if you wanted to check this only when CONFIG_MEMORY_HOTPLUG=n,
+>you would need to add #ifdef CONFIG_MEMORY_HOTPLUG to include/linux/init.h
+>
+>That is what we did in the Linux 2.6.* era, which had much worse
+>section mismatch coverage.
 >
 
-Thanks for catching the issue.
-If we want to minimize the number of special cases, perhaps we can
-adjust `version=3D${version%-*}` below to
+Masahiro 
 
-version=3D${version%%[^0-9.]*}
+If you would give me some suggestions, I'd appreciate it a lot.
 
-(POSIX shell doc:
-https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#:=
-~:text=3DRemove%20Largest)
+The original thing I want to do is to put function __free_pages_core() in
+__meminit section, since this function is only used by __init functions and
+in memory_hotplug.c.  This means it is save to release it if
+CONFIG_MEMORY_HOTPLUG is set.
 
-${version%%[^0-9.]*} is a simpler form than what glibc uses:
+Then I add __meminit to function __free_pages_core() and face the warning from
+modpost.
 
-  "LLD"*)
-  # Accept LLD 13.0.0 or higher
-    AC_CHECK_PROG_VER(LD, $LD, --version,
-                    [LLD.* \([0-9][0-9]*\.[0-9.]*\)],
-                    [1[3-9].*|[2-9][0-9].*],
+  WARNING: modpost: vmlinux: section mismatch in reference: generic_online_page+0xa (section: .text) -> __free_pages_core (section: .meminit.text)
 
+A .text function calls init code is not proper. Then I add __meminit to
+generic_online_page too. Then I face this warning from modpost.
 
+  WARNING: modpost: vmlinux: generic_online_page: EXPORT_SYMBOL used for init symbol. Remove __init or EXPORT_SYMBOL.
 
---=20
-=E5=AE=8B=E6=96=B9=E7=9D=BF
+Function generic_online_page() is exported and be used in some modules. And is
+not allowed to use init tag.
+
+When looking into the code, this warning is printed by this code:
+
+   #define ALL_INIT_SECTIONS INIT_SECTIONS, ALL_XXXINIT_SECTIONS
+   
+   if (match(secname, PATTERNS(ALL_INIT_SECTIONS)))
+   	warn("%s: %s: EXPORT_SYMBOL used for init symbol. Remove __init or EXPORT_SYMBOL.\n",
+   	     mod->name, name);
+
+If my understanding is correct, the code means we can't use a function in init
+section, since the code will be released after bootup.
+
+But for this case, when CONFIG_MEMORY_HOTPLUG is set, the section .meminit.*
+is not put into the real init sections. So the functions are not released and
+could be used by modules. This behavior is introduced in commit
+eb8f689046b8(the one you mentioned above).
+
+So the check here is not proper to me. We should exclude .meminit.* from
+ALL_INIT_SECTIONS.
+
+Looking forward your suggestion and a proper way to handle this.
+
+-- 
+Wei Yang
+Help you, Help me
 
