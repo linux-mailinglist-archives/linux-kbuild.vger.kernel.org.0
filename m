@@ -1,162 +1,175 @@
-Return-Path: <linux-kbuild+bounces-2396-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2397-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A1BB9288A8
-	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Jul 2024 14:26:45 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB95E928C07
+	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Jul 2024 18:00:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F1769B20D0E
-	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Jul 2024 12:26:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9DF1D283775
+	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Jul 2024 16:00:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EED2D146019;
-	Fri,  5 Jul 2024 12:26:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDDCE14F102;
+	Fri,  5 Jul 2024 16:00:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="MbNH/85Z"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PR1CYE+0"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A47C13D243;
-	Fri,  5 Jul 2024 12:26:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B709216B399;
+	Fri,  5 Jul 2024 16:00:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720182396; cv=none; b=BfZlvJIXYy0nDuySYl7cEKyoDeOFyW/1ox2Xg+d5JoximEHHwBrp2rqLD32J8UytnDBZqatIfu5n/q3UdYxJhyK/Ak4eadJiTcP5Vmhqoc3qFxfwBCPFmvHXcawRVXvZSzvl2oEAJ9gumPLO34ypuBzXKcK4HdFRvBzT1igkpOw=
+	t=1720195209; cv=none; b=BYyA1uQ0rh9PmOcJz1mpL/1MXhgcsHMb9/kGZM7wrEjnznJ5B1lOBCZ5i9xizdA+29gTIHKjDc0FsCbdJB1JmRz9LJ+nWuUOH9HtI/yyqi0/oc+/j23H7ySM3iqIigHgEAdbRuWnuY0JdN38lPgqBrZ2tszBrPISx7b3FHoGIbY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720182396; c=relaxed/simple;
-	bh=4cGnOhuIoomBwrD24hVQFlP9MtQb5SmqGxpFHWYkwpo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=F3A0UsSUijnUXfsbgotUcjLdLSzsg8awn6HvdOKSpXXe/yO6GTdqcT3jsfhTOnqyI7WcZlBxVDBm6UpsNmA/XEqaOV7faxEKKJfVNKBWe03QM04yiY9Bd6LdtGlwUfwLUurzUMFiLTE7GGG/ptj7EYOK4eb9+rm8v5Qof3Jvnqo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canb.auug.org.au; spf=pass smtp.mailfrom=canb.auug.org.au; dkim=pass (2048-bit key) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b=MbNH/85Z; arc=none smtp.client-ip=150.107.74.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canb.auug.org.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canb.auug.org.au
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
-	s=201702; t=1720182391;
-	bh=aZeNuP2pelRkI3CSCXzaDUpVS59Y3c8MYTsNt4sB4jk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=MbNH/85ZZAmLzPqUmW/KoPjNcWSQUJa5m1sHj4DwaD/Ggp9suzqFFsesZCl9i0j5X
-	 JVbctaMNgLWgMP/bGFHZqDnj1IIW7hvpR/uRbno/OxJjv1QanWSpH6FOaOZijgz61I
-	 Zol9kCM1ZW6mji0n8O+R1b+o7ClH1Hw814x1Io/hCwfnpz69tRzqI7rZiXaVALAkYH
-	 T3sq1bsZYZYctf/nMILRfaHpInxI0sVxnTAUiuwQNJmPn/d69H+rS8STQtquhj6Rls
-	 OlFggb8LXFVlFRXHsXFhyjRXI1cYJKQCr2Kg8lNrw5PZ+p+UV/XRyjr/zyRRxJicY0
-	 Im6zX8yemoKDQ==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4WFt6K6cs3z4wbh;
-	Fri,  5 Jul 2024 22:26:17 +1000 (AEST)
-Date: Fri, 5 Jul 2024 22:26:16 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: linux-arch@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, Masahiro
- Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nicolas@fjasle.eu>, Vineet Gupta <vgupta@kernel.org>,
- Russell King <linux@armlinux.org.uk>, Catalin Marinas
- <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Guo Ren
- <guoren@kernel.org>, Brian Cain <bcain@quicinc.com>, Huacai Chen
- <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, Dinh Nguyen
- <dinguyen@kernel.org>, Jonas Bonn <jonas@southpole.se>, Stefan Kristiansson
- <stefan.kristiansson@saunalahti.fi>, Stafford Horne <shorne@gmail.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Rich Felker
- <dalias@libc.org>, John Paul Adrian Glaubitz
- <glaubitz@physik.fu-berlin.de>, "David S. Miller" <davem@davemloft.net>,
- Andreas Larsson <andreas@gaisler.com>, Christian Brauner
- <brauner@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
- loongarch@lists.linux.dev, linux-openrisc@vger.kernel.org,
- linux-riscv@lists.infradead.org
-Subject: Re: [PATCH 03/17] um: don't generate asm/bpf_perf_event.h
-Message-ID: <20240705222616.017b1593@canb.auug.org.au>
-In-Reply-To: <20240704143611.2979589-4-arnd@kernel.org>
-References: <20240704143611.2979589-1-arnd@kernel.org>
-	<20240704143611.2979589-4-arnd@kernel.org>
+	s=arc-20240116; t=1720195209; c=relaxed/simple;
+	bh=zRMFc06JqnsUH0rvj+tjrAcuUW7C/dq82RLtokdkPDM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IVOKlBaIZhJPOlbP1WN6krs4GmoIM0gyBVkSwW0H3xSzj9WwXxNmFHHHYl6oayJm8+sZCY8k0KlGxYNbEU2IblIt2/DqYtlv2SwVDULkHlvThe4ny70Nff1ykG2mEibulSMyow8dUm8M9X4GddWvccsvYZNgIiVPi+R2mcSR2Dw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PR1CYE+0; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0E11C116B1;
+	Fri,  5 Jul 2024 16:00:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720195209;
+	bh=zRMFc06JqnsUH0rvj+tjrAcuUW7C/dq82RLtokdkPDM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PR1CYE+0lZ15urLcwQA28waF/LqIMt0+hCQzMIEyOquNtjepLIFpJQw04EsVTUTgY
+	 iRXBdUpQFAjW0qL93a8csADQ/QVzo6Yau//24oUU3dRI6wQtkg1L+Zsuy9bb3gLPv7
+	 xQYNCpZXQ1lkqrEOAMm1zAalKn13RQXtEbQtz7SA+dt5n2noEgewPvMt9qrWAYJOv9
+	 pNDZWo/g35FQ1bFPdgRDy0rQ0KD1O6ppny600BznXsb56/VCZDaL4UY3wv1ikP3T/s
+	 hEviXZ7gAeRCWQbJFwziVTlreOrNCb9MTePC3FFHMP9qiXHQx4jrvCVKCFpblDzuSD
+	 Zkwh/m1ZI4Jvw==
+Date: Fri, 5 Jul 2024 09:00:07 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Fangrui Song <maskray@google.com>,
+	Masahiro Yamada <masahiroy@kernel.org>
+Cc: Nicolas Schier <nicolas@fjasle.eu>, Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, linux-kbuild@vger.kernel.org,
+	llvm@lists.linux.dev, patches@lists.linux.dev,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] kbuild: Update ld-version.sh for change in LLD version
+ output
+Message-ID: <20240705160007.GA875035@thelio-3990X>
+References: <20240704-update-ld-version-for-new-lld-ver-str-v1-1-91bccc020a93@kernel.org>
+ <CAFP8O3JUgH-tBJtqO-QS0HmO4mrFBE6Dz+tnrBcse=gw_Q_4vQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/IAaJheb.p6.1G=gRNPNGj_e";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFP8O3JUgH-tBJtqO-QS0HmO4mrFBE6Dz+tnrBcse=gw_Q_4vQ@mail.gmail.com>
 
---Sig_/IAaJheb.p6.1G=gRNPNGj_e
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Thu, Jul 04, 2024 at 02:23:46PM -0700, Fangrui Song wrote:
+> On Thu, Jul 4, 2024 at 9:19 AM Nathan Chancellor <nathan@kernel.org> wrote:
+> >
+> > After [1] in upstream LLVM, ld.lld's version output is slightly
+> > different when the cmake configuration option LLVM_APPEND_VC_REV is
+> > disabled.
+> >
+> > Before:
+> >
+> >   Debian LLD 19.0.0 (compatible with GNU linkers)
+> >
+> > After:
+> >
+> >   Debian LLD 19.0.0, compatible with GNU linkers
+> >
+> > This results in ld-version.sh failing with
+> >
+> >   scripts/ld-version.sh: 19: arithmetic expression: expecting EOF: "10000 * 19 + 100 * 0 + 0,"
+> >
+> > because the trailing comma is included in the patch level part of the
+> > expression. Remove the trailing comma when assigning the version
+> > variable in the LLD block to resolve the error, resulting in the proper
+> > output:
+> >
+> >   LLD 190000
+> >
+> > With LLVM_APPEND_VC_REV enabled, there is no issue with the new output
+> > because it is treated the same as the prior LLVM_APPEND_VC_REV=OFF
+> > version string was.
+> >
+> >   ClangBuiltLinux LLD 19.0.0 (https://github.com/llvm/llvm-project a3c5c83273358a85a4e02f5f76379b1a276e7714), compatible with GNU linkers
+> >
+> > Cc: stable@vger.kernel.org
+> > Fixes: 02aff8592204 ("kbuild: check the minimum linker version in Kconfig")
+> > Link: https://github.com/llvm/llvm-project/commit/0f9fbbb63cfcd2069441aa2ebef622c9716f8dbb [1]
+> > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> > ---
+> >  scripts/ld-version.sh | 4 +++-
+> >  1 file changed, 3 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/scripts/ld-version.sh b/scripts/ld-version.sh
+> > index a78b804b680c..f2f425322524 100755
+> > --- a/scripts/ld-version.sh
+> > +++ b/scripts/ld-version.sh
+> > @@ -47,7 +47,9 @@ else
+> >         done
+> >
+> >         if [ "$1" = LLD ]; then
+> > -               version=$2
+> > +               # LLD after https://github.com/llvm/llvm-project/commit/0f9fbbb63cfcd2069441aa2ebef622c9716f8dbb
+> > +               # may have a trailing comma on the patch version with LLVM_APPEND_VC_REV=off.
+> > +               version=${2%,}
+> >                 min_version=$($min_tool_version llvm)
+> >                 name=LLD
+> >                 disp_name=LLD
+> >
+> > ---
+> > base-commit: 22a40d14b572deb80c0648557f4bd502d7e83826
+> > change-id: 20240704-update-ld-version-for-new-lld-ver-str-b7a4afbbd5f1
+> >
+> > Best regards,
+> > --
+> > Nathan Chancellor <nathan@kernel.org>
+> >
+> 
+> Thanks for catching the issue.
+> If we want to minimize the number of special cases, perhaps we can
+> adjust `version=${version%-*}` below to
+> 
+> version=${version%%[^0-9.]*}
 
-Hi Arnd,
+Thanks for the suggestion! I think this wants to be
 
-On Thu,  4 Jul 2024 16:35:57 +0200 Arnd Bergmann <arnd@kernel.org> wrote:
->
-> From: Arnd Bergmann <arnd@arndb.de>
->=20
-> If we start validating the existence of the asm-generic side of
-> generated headers, this one causes a warning:
->=20
-> make[3]: *** No rule to make target 'arch/um/include/generated/asm/bpf_pe=
-rf_event.h', needed by 'all'.  Stop.
->=20
-> The problem is that the asm-generic header only exists for the uapi
-> variant, but arch/um has no uapi headers and instead uses the x86
-> userspace API.
->=20
-> Add a custom file with an explicit redirect to avoid this.
->=20
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  arch/um/include/asm/Kbuild           | 1 -
->  arch/um/include/asm/bpf_perf_event.h | 3 +++
->  2 files changed, 3 insertions(+), 1 deletion(-)
->  create mode 100644 arch/um/include/asm/bpf_perf_event.h
->=20
-> diff --git a/arch/um/include/asm/Kbuild b/arch/um/include/asm/Kbuild
-> index 6fe34779291a..6c583040537c 100644
-> --- a/arch/um/include/asm/Kbuild
-> +++ b/arch/um/include/asm/Kbuild
-> @@ -1,5 +1,4 @@
->  # SPDX-License-Identifier: GPL-2.0
-> -generic-y +=3D bpf_perf_event.h
->  generic-y +=3D bug.h
->  generic-y +=3D compat.h
->  generic-y +=3D current.h
-> diff --git a/arch/um/include/asm/bpf_perf_event.h b/arch/um/include/asm/b=
-pf_perf_event.h
-> new file mode 100644
-> index 000000000000..0a30420c83de
-> --- /dev/null
-> +++ b/arch/um/include/asm/bpf_perf_event.h
-> @@ -0,0 +1,3 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +
-> +#include <asm-generic/bpf_perf_event.h>
+  version=${version%%[!0-9.]*}
 
-Just wondering if that file should have some explanatory comment in it
-to prevent it being cleaned up in a few years ... or at least to
-explain why it causes the above error when removed.
+because of "If an open bracket introduces a bracket expression as in XBD
+RE Bracket Expression, except that the <exclamation-mark> character
+('!') shall replace the <circumflex> character ('^') in its role in a
+non-matching list in the regular expression notation, it shall introduce
+a pattern bracket expression." from the link that you have below.
 
---=20
+That does work for me with all the different linker versions that I can
+easily access (Arch, Debian, Fedora) along with my own self built
+toolchains, so it seems like it should be pretty robust.
+
+Masahiro, would you be okay with me sending a v2 with that change or do
+you foresee any issues where it would not be sufficient? I would
+probably change the comment to:
+
+  # There may be something after the version, such as a distribution's
+  # package release number (2.34-4.fc32) or a comma (like LLD adds
+  # before the "compatible with GNU linkers" string), so remove anything
+  # that is not a number or a period.
+
+> (POSIX shell doc:
+> https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#:~:text=Remove%20Largest)
+> 
+> ${version%%[^0-9.]*} is a simpler form than what glibc uses:
+> 
+>   "LLD"*)
+>   # Accept LLD 13.0.0 or higher
+>     AC_CHECK_PROG_VER(LD, $LD, --version,
+>                     [LLD.* \([0-9][0-9]*\.[0-9.]*\)],
+>                     [1[3-9].*|[2-9][0-9].*],
+
 Cheers,
-Stephen Rothwell
-
---Sig_/IAaJheb.p6.1G=gRNPNGj_e
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmaH5mgACgkQAVBC80lX
-0GxvyAgAnvriHKpdKWTfcYd3ec6OiQntfWfgTjPlWVORKO3a85cAPDy3acHNxKoW
-6Bfh4LWjBSmmqSTbP6rIFpInGlZedDil+cHdDALd7D/dBOCwUJkG1oB7aY7A1HkA
-hPQhv7pLSbZkhJ3M0TurrRsFbO9QR1RFnxIxPRPy4gEkjPGnLJ0H1gqh11s5irVU
-WGCviIF/qU3Xkj6DjtzAS1lY7y0BGec3kvR02WhKHvoh7SJrquU5M1i5qzLpuw82
-0xowL25d77AbRzea52VD6Sv2H614Q8hfDtDQB6rTGdz6Bo7Pu6F50S3NfYe0Uu5y
-zmTMyLek7tdd4FU+Gs4HcQFuJNsSeQ==
-=SXsw
------END PGP SIGNATURE-----
-
---Sig_/IAaJheb.p6.1G=gRNPNGj_e--
+Nathan
 
