@@ -1,133 +1,220 @@
-Return-Path: <linux-kbuild+bounces-2403-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2404-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31BFD928FD0
-	for <lists+linux-kbuild@lfdr.de>; Sat,  6 Jul 2024 02:51:41 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 465F692904E
+	for <lists+linux-kbuild@lfdr.de>; Sat,  6 Jul 2024 05:24:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E2B42284807
-	for <lists+linux-kbuild@lfdr.de>; Sat,  6 Jul 2024 00:51:39 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 44795B22388
+	for <lists+linux-kbuild@lfdr.de>; Sat,  6 Jul 2024 03:24:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01BBB3D68;
-	Sat,  6 Jul 2024 00:51:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DC5EEAD5;
+	Sat,  6 Jul 2024 03:24:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kQheob28"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BGaLa2cQ"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AACE79F3;
-	Sat,  6 Jul 2024 00:51:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99017DDA6
+	for <linux-kbuild@vger.kernel.org>; Sat,  6 Jul 2024 03:24:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720227095; cv=none; b=JFJJzMnE0qwmZKlG/LdsQjs5WsA4MeHkf45x2ZHGfuF4COo0Cq9/5aN9YG0y5zFs/OmoXJryCscOkR802WlyhtIJVw6Cf+7jqT9Gkx7Bp1b3crwgqQylIDlc0XiGqPMr8EE5AvlEmqRThSiOIefsPmALFipUUrJsc+tf73n+7mI=
+	t=1720236253; cv=none; b=Fqu+nWruIAmekWWMHY+A9al0pJmWMie0h6ijUnt/AINniMjzDACbHYQ5CS3zAPhIN8VmvRJe27fu+nsXQw0bp0M2b32pA/hXHwfSzVsaU3sgJMRvbkEEkeQJ9Y9Jlnf2FCGECJ9y5HiwlqDGU7SHFbjSRMBRkpN72P/vi1fryzQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720227095; c=relaxed/simple;
-	bh=hA4M+hIX7Udd46XmKv0jy7vYTI0wDzFUgfQIm0fu0ZM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UEZspxRGqmf3wvc8RNEh+zywjHiFKOXmzEtOlfQ4cVYAFYy7gcPSmu8WX3XKGrcJqbrGi0m0bIei7CRRHnyBT8LKAZ8Spr6PAi4HHqqWNmLMcJR5uFfx/Jj6Kvqb2btvhNZk8mAfZo33sKzhgjXSgOIynMszbS0HANloDeVgo+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kQheob28; arc=none smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-52e98087e32so2411038e87.2;
-        Fri, 05 Jul 2024 17:51:34 -0700 (PDT)
+	s=arc-20240116; t=1720236253; c=relaxed/simple;
+	bh=Zf7fegEOz88S+uefNQgGk7kN64iUyK0nqei1SbhANDY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Lic2oFRjqX4fUJvTmQAXDLIwCZwPuHcf/BDtWIro6kM3YuFqXDXJUFCFstskyz1XGwJrTDfu8/BPlTSYR/z2fFwMl5Nc4kmQmzUYXhOLMZ73SnqtWjormIgBE5MkJUkdJHkv6HAvietAf+nZkD2/JeqU743MBU45slNweEeJPHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=BGaLa2cQ; arc=none smtp.client-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-57a16f4b8bfso26780a12.0
+        for <linux-kbuild@vger.kernel.org>; Fri, 05 Jul 2024 20:24:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720227092; x=1720831892; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1720236250; x=1720841050; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=c7KFeV49gmhlyGls5y/8NCSbJCJFVQwXPZ0jtKuYPY8=;
-        b=kQheob28w2XdTnRUXLlyAuMkXW2KaJfLDOQjtrH/BwqTj08xH2mFwZU7Tnc3Axnwya
-         1yJ4KJW0snLpU9eyAe5eCuA6qqj2f8NeTPBwxU5wpMcxIlI2H1vtcofZJ/b4D+tnqcO0
-         g0BPSyZPWGcniab8jTCshiYAp7xsYdmf+8OkH2rNeIIYZoA6GjiHnX6XlQ8tasMP6xCr
-         34/wVr67DPTrdWHnB5Dqnp+JyyFyzWgAMAN3GJhfe/Vi8Dp+338mHaVk7ISurqyEIz67
-         I7OPt+u/yeonA+61TW6LGmrRz+abaAR0EMsFjQRFT9dJJtv2vIUc3cRDZWrCniHj9CWV
-         bgkA==
+        bh=EeOWn8Dcpi/0Zne7XKezGHMzmpPhwxsGnD8ugnUza50=;
+        b=BGaLa2cQQFmM0AaO8KvAhvMYAmEgh4weii2RHxAkxKZCO/nia1S1NXm2b6Y+YP0dqO
+         bNTwO8aOpWswJf4ZRWgNur5rUUKavfJizyHjQbbK6UBm7AVzlFmbKICyFyYgUP6Evlz2
+         EVebT93LKbIUvPPQe4cPekxcdFtRaECUNz/BL1NP6ESKCBn+dBC5cM/TTpprpVo+js9X
+         U0v6rHj1FOuWFkaPDhWOi4lM0ZF1IjvOIj9COqSsiuN8E5jOKGhZeags2/dnYtUGgf0W
+         rdNcBdLd43+PyA1LhGOkuOUT00Fkz4BTBluGWAVzY75vGzAaV5oBnpUiMoACtv6whMkZ
+         rdHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720227092; x=1720831892;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=c7KFeV49gmhlyGls5y/8NCSbJCJFVQwXPZ0jtKuYPY8=;
-        b=cPTnCkQPL5QEGwKgDfpMOrSRtAvTJN1U8Tk1/KA7geO3O7W46obr8UKLQSa5BWyL9F
-         D+vNljWr+kL7tp6ykzhp0zf/75mDt5QkCnosuPN7zu4bMGRXtTrTtmqVAS3oEVqqyj++
-         uXOiGxwktJMNUxwqoqzQ4KbIRGU2p/mtagMWr1t1e7YGIJbMmojPAbS6SN0uVmhCx/fY
-         S2hjxXRxF9woq2WLiBy4hp36nvVm0t2jTXQHkAJ/7PA1MdVvx2iCE4yteQ1+ULLDRb0W
-         dRm1GiG+42ZeElu8Uy+RGZ9eZQ9VcaMeufrOp0FoAzHpsbX+C34vA1smjVu9hRuimu0T
-         ahsA==
-X-Forwarded-Encrypted: i=1; AJvYcCUZgo1bHTSGH5vnPHcDk3t9zcjQncrHNXO1GdMtRzbTDApFxJRGnP5hJZtZ0MP2yLc29j/UETOtDMu+w0uKRYUHnTg7mdnVoq7XBk7c1O9/2Jx5VoBnbP0jOkgkmId9LnC4+NkS3XUJ6IZb
-X-Gm-Message-State: AOJu0YxiILJqVrDgGGUa2E2VcW1vv7TWJtsOvJhTTMaZ9DN6D1ZjQfRO
-	Ws3P3JNzxd7fKP0uGV01For/FAEAy55qREqFUuAs12ZK2WW1oAFp
-X-Google-Smtp-Source: AGHT+IFRGqvMJ701guC7GxeWtW133Kfp9+soZJ2E5pFnQJRh8x6ffl0U4YWIQ7uCNGz8QcE+i4Af3w==
-X-Received: by 2002:ac2:5eda:0:b0:52c:9e51:c3f with SMTP id 2adb3069b0e04-52ea06b85a9mr3857483e87.42.1720227091959;
-        Fri, 05 Jul 2024 17:51:31 -0700 (PDT)
-Received: from localhost ([185.92.221.13])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a77df94db65sm33206366b.140.2024.07.05.17.51.31
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 05 Jul 2024 17:51:31 -0700 (PDT)
-Date: Sat, 6 Jul 2024 00:51:30 +0000
-From: Wei Yang <richard.weiyang@gmail.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: Wei Yang <richard.weiyang@gmail.com>, akpm@linux-foundation.org,
-	masahiroy@kernel.org, nathan@kernel.org, nicolas@fjasle.eu,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, Mike Rapoport <rppt@kernel.org>
-Subject: Re: [PATCH 1/3] mm: use zonelist_zone() to get zone
-Message-ID: <20240706005130.fvxwrv7joshnkhej@master>
-Reply-To: Wei Yang <richard.weiyang@gmail.com>
-References: <20240702234008.19101-1-richard.weiyang@gmail.com>
- <30bc19a0-4cd3-420e-92a9-7b3c97d6ad2c@redhat.com>
+        d=1e100.net; s=20230601; t=1720236250; x=1720841050;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=EeOWn8Dcpi/0Zne7XKezGHMzmpPhwxsGnD8ugnUza50=;
+        b=AotBBCyUCTI4AQUoel7dDSBlS8YFnGItNFkX1pBnVJajIkFvfUK7frxhFEAAYNsd3e
+         88Em3sUyVKS/b5r8ookfJMPmPQgn8cM24S0NOHgOsNtn3l1hdyDtO6+LzPg+aRckp9Z1
+         UfqXT5Pw3r6Ch/9W1iGsCcEtxrz5Eu7pcl5Nhy5kAEEaFRhqSaeO+316azAHFWlZBC5i
+         pAF+jMdJ1I4Tq8ZQJlVjvOK8mWNu+V4iQ7pIaWEYbR+wAxM4zRZ+VdnrUBH+lQnsdH+z
+         X82I7ZvDO7cDUuXYykTRotB4gxHAE6x0Hl4HbreVOdaqKHB3LYxbl9VLOUcDq17vYh3e
+         +R7g==
+X-Forwarded-Encrypted: i=1; AJvYcCUOOuNyyKOPHxLU74pZmvljaU4QUGkCfy6R9OWpBGHbdzMu7YtUxvG9BGyFSdvATxCA5lzll1Tq5JIYtGHyd0eminxhqiqb2vBQs8h3
+X-Gm-Message-State: AOJu0YzD9b9HaGU+XQ3Jxy2WaSL7nO+BLHHOKy3fNt3cbuT6FH2jelMg
+	Uy7SHe90W+4LT3mDTj/os2gVI50E+6cAWHVaasbK859LvfXugsVjwuY+7vzo9LTjoK23GZh4yQm
+	feXXOc8xoFWkgvvX0xd6ZmRPIdGv8mXSXCuTOB5f8Km5P4YYapaNC
+X-Google-Smtp-Source: AGHT+IExJJ+2hSaxJtRHZGJ4Ox4OzW4oFndkiki9VhxYJFTQsxkQqN4Vpb3uXzUPWyQhWCVip8yKpWFGS+CMtG1GfTA=
+X-Received: by 2002:a50:8ad3:0:b0:57c:bb0d:5e48 with SMTP id
+ 4fb4d7f45d1cf-58e00933a13mr316161a12.2.1720236249500; Fri, 05 Jul 2024
+ 20:24:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <30bc19a0-4cd3-420e-92a9-7b3c97d6ad2c@redhat.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+References: <20240704-update-ld-version-for-new-lld-ver-str-v1-1-91bccc020a93@kernel.org>
+ <CAFP8O3JUgH-tBJtqO-QS0HmO4mrFBE6Dz+tnrBcse=gw_Q_4vQ@mail.gmail.com> <20240705160007.GA875035@thelio-3990X>
+In-Reply-To: <20240705160007.GA875035@thelio-3990X>
+From: Fangrui Song <maskray@google.com>
+Date: Fri, 5 Jul 2024 20:23:58 -0700
+Message-ID: <CAFP8O3+X4iT1OPoMdTTa_Y1WKjK4f6ownE0tBYZD_a-ngSNufg@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: Update ld-version.sh for change in LLD version output
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, linux-kbuild@vger.kernel.org, 
+	llvm@lists.linux.dev, patches@lists.linux.dev, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jul 05, 2024 at 11:03:03AM +0200, David Hildenbrand wrote:
->On 03.07.24 01:40, Wei Yang wrote:
->> Instead of accessing zoneref->zone directly, use zonelist_zone() like
->> other places for consistency.
->> 
->> No functional change.
->> 
->> Signed-off-by: Wei Yang <richard.weiyang@gmail.com>
->> CC: Mike Rapoport (IBM) <rppt@kernel.org>
->> ---
->>   include/linux/mmzone.h | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->> 
->> diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
->> index cb7f265c2b96..a34a74f5b113 100644
->> --- a/include/linux/mmzone.h
->> +++ b/include/linux/mmzone.h
->> @@ -1690,7 +1690,7 @@ static inline struct zoneref *first_zones_zonelist(struct zonelist *zonelist,
->>   			zone = zonelist_zone(z))
->>   #define for_next_zone_zonelist_nodemask(zone, z, highidx, nodemask) \
->> -	for (zone = z->zone;	\
->> +	for (zone = zonelist_zone(z);	\
->>   		zone;							\
->>   		z = next_zones_zonelist(++z, highidx, nodemask),	\
->>   			zone = zonelist_zone(z))
+On Fri, Jul 5, 2024 at 9:00=E2=80=AFAM Nathan Chancellor <nathan@kernel.org=
+> wrote:
 >
->Should we do the same in movable_only_nodes as well to be consistent in that
->file?
+> On Thu, Jul 04, 2024 at 02:23:46PM -0700, Fangrui Song wrote:
+> > On Thu, Jul 4, 2024 at 9:19=E2=80=AFAM Nathan Chancellor <nathan@kernel=
+.org> wrote:
+> > >
+> > > After [1] in upstream LLVM, ld.lld's version output is slightly
+> > > different when the cmake configuration option LLVM_APPEND_VC_REV is
+> > > disabled.
+> > >
+> > > Before:
+> > >
+> > >   Debian LLD 19.0.0 (compatible with GNU linkers)
+> > >
+> > > After:
+> > >
+> > >   Debian LLD 19.0.0, compatible with GNU linkers
+> > >
+> > > This results in ld-version.sh failing with
+> > >
+> > >   scripts/ld-version.sh: 19: arithmetic expression: expecting EOF: "1=
+0000 * 19 + 100 * 0 + 0,"
+> > >
+> > > because the trailing comma is included in the patch level part of the
+> > > expression. Remove the trailing comma when assigning the version
+> > > variable in the LLD block to resolve the error, resulting in the prop=
+er
+> > > output:
+> > >
+> > >   LLD 190000
+> > >
+> > > With LLVM_APPEND_VC_REV enabled, there is no issue with the new outpu=
+t
+> > > because it is treated the same as the prior LLVM_APPEND_VC_REV=3DOFF
+> > > version string was.
+> > >
+> > >   ClangBuiltLinux LLD 19.0.0 (https://github.com/llvm/llvm-project a3=
+c5c83273358a85a4e02f5f76379b1a276e7714), compatible with GNU linkers
+> > >
+> > > Cc: stable@vger.kernel.org
+> > > Fixes: 02aff8592204 ("kbuild: check the minimum linker version in Kco=
+nfig")
+> > > Link: https://github.com/llvm/llvm-project/commit/0f9fbbb63cfcd206944=
+1aa2ebef622c9716f8dbb [1]
+> > > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> > > ---
+> > >  scripts/ld-version.sh | 4 +++-
+> > >  1 file changed, 3 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/scripts/ld-version.sh b/scripts/ld-version.sh
+> > > index a78b804b680c..f2f425322524 100755
+> > > --- a/scripts/ld-version.sh
+> > > +++ b/scripts/ld-version.sh
+> > > @@ -47,7 +47,9 @@ else
+> > >         done
+> > >
+> > >         if [ "$1" =3D LLD ]; then
+> > > -               version=3D$2
+> > > +               # LLD after https://github.com/llvm/llvm-project/comm=
+it/0f9fbbb63cfcd2069441aa2ebef622c9716f8dbb
+> > > +               # may have a trailing comma on the patch version with=
+ LLVM_APPEND_VC_REV=3Doff.
+> > > +               version=3D${2%,}
+> > >                 min_version=3D$($min_tool_version llvm)
+> > >                 name=3DLLD
+> > >                 disp_name=3DLLD
+> > >
+> > > ---
+> > > base-commit: 22a40d14b572deb80c0648557f4bd502d7e83826
+> > > change-id: 20240704-update-ld-version-for-new-lld-ver-str-b7a4afbbd5f=
+1
+> > >
+> > > Best regards,
+> > > --
+> > > Nathan Chancellor <nathan@kernel.org>
+> > >
+> >
+> > Thanks for catching the issue.
+> > If we want to minimize the number of special cases, perhaps we can
+> > adjust `version=3D${version%-*}` below to
+> >
+> > version=3D${version%%[^0-9.]*}
+>
+> Thanks for the suggestion! I think this wants to be
+>
+>   version=3D${version%%[!0-9.]*}
+>
+> because of "If an open bracket introduces a bracket expression as in XBD
+> RE Bracket Expression, except that the <exclamation-mark> character
+> ('!') shall replace the <circumflex> character ('^') in its role in a
+> non-matching list in the regular expression notation, it shall introduce
+> a pattern bracket expression." from the link that you have below.
+
+Yes! ! should be used instead.
+
+> That does work for me with all the different linker versions that I can
+> easily access (Arch, Debian, Fedora) along with my own self built
+> toolchains, so it seems like it should be pretty robust.
+>
+> Masahiro, would you be okay with me sending a v2 with that change or do
+> you foresee any issues where it would not be sufficient? I would
+> probably change the comment to:
+>
+>   # There may be something after the version, such as a distribution's
+>   # package release number (2.34-4.fc32) or a comma (like LLD adds
+>   # before the "compatible with GNU linkers" string), so remove anything
+>   # that is not a number or a period.
+
+The v2 change LGTM :)
+
+Reviewed-by: Fangrui Song <maskray@google.com>
+
+> > (POSIX shell doc:
+> > https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.ht=
+ml#:~:text=3DRemove%20Largest)
+> >
+> > ${version%%[^0-9.]*} is a simpler form than what glibc uses:
+> >
+> >   "LLD"*)
+> >   # Accept LLD 13.0.0 or higher
+> >     AC_CHECK_PROG_VER(LD, $LD, --version,
+> >                     [LLD.* \([0-9][0-9]*\.[0-9.]*\)],
+> >                     [1[3-9].*|[2-9][0-9].*],
+>
+> Cheers,
+> Nathan
 >
 
-Agree, thanks
 
->-- 
->Cheers,
->
->David / dhildenb
-
--- 
-Wei Yang
-Help you, Help me
+--=20
+=E5=AE=8B=E6=96=B9=E7=9D=BF
 
