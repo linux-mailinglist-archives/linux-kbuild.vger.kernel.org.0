@@ -1,126 +1,272 @@
-Return-Path: <linux-kbuild+bounces-2413-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2414-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 722989294C7
-	for <lists+linux-kbuild@lfdr.de>; Sat,  6 Jul 2024 18:45:16 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED4919294F6
+	for <lists+linux-kbuild@lfdr.de>; Sat,  6 Jul 2024 20:08:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0C0A3B21896
-	for <lists+linux-kbuild@lfdr.de>; Sat,  6 Jul 2024 16:45:14 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 24972B216B2
+	for <lists+linux-kbuild@lfdr.de>; Sat,  6 Jul 2024 18:08:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B84CF13B2BC;
-	Sat,  6 Jul 2024 16:45:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01A9F13AD2B;
+	Sat,  6 Jul 2024 18:08:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UbzPWUaf"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UO5gXbrf"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18D4813B2A4
-	for <linux-kbuild@vger.kernel.org>; Sat,  6 Jul 2024 16:45:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFA6013A87E;
+	Sat,  6 Jul 2024 18:08:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720284303; cv=none; b=slevCwYoxEEGmmL6KMaRsBgaM3+pwJ/Dvtk43nbm0oVBWQgFEVd5Ss/uCsNDcGQISAKtuXxTFgJMhd8PK8/VIgp5+92vSFWwqtShOrbNmrz2Fw2T8jNK/HZXoOzcdFEiIB/+JRZYghMdApTtAlFN2LHnmSry6+ISqjvWjh03Cgo=
+	t=1720289296; cv=none; b=VAIqt+lk/l7csVnepNryysdfYbprxW1gq4IAjYxKQSvyrHDYLXB05W7AruHbWV+JuMnXenu6X+5ENQbl4SqU9DKtVRHZXUCDylai5EvpGslKgvA/2jzllsvo/Hr7acgR6yxpKvwKeM9lkjoxXKrTqae9qzSVwLeHJb0/yNXsgQI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720284303; c=relaxed/simple;
-	bh=fcVi+G5fk6qpDDel7JfVpI22vwpPhkswMhck0/nEnic=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CkBy47iAiMurTVNIfhq5lDXvNJ0Ns4PxhxXrAi/ZWvvO1zemA7Xn2SeCnHHa1lAW4z7SueLXR5ryWLwqzsjxtanNBLhNkfpXp7Rj/n9HimvUIRN8+mDhCD/sjiRvfaG5taHGSUfWEf/gAuSWwMVu+RsBF3oc9VF1/eVHpROOKsY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UbzPWUaf; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1720284301;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=w+OayAN4XtlzDkGXDkDGBj96tW5MpqvXd9LH9Y0s11U=;
-	b=UbzPWUafzTiQPx0y6nRxB270Ru1JMZ1rLkms3cmeDQeJrLzqOirFHYnKhMZd+AbNYYTQoM
-	cUfzUAt6HeKa50YNjEEi32GMrAKkOFqqpZB3IbvjaBEALoL+DHjWfGFPRQCV5nCqD7rY9U
-	dA0/ZDIVph3dtzSPeI/TaNWBPKpV0dM=
-Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-457-qRwndmYXNrWAn82VLeYBUg-1; Sat,
- 06 Jul 2024 12:44:52 -0400
-X-MC-Unique: qRwndmYXNrWAn82VLeYBUg-1
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8418219560B1;
-	Sat,  6 Jul 2024 16:44:50 +0000 (UTC)
-Received: from optiplex-lnx.redhat.com (unknown [10.22.9.99])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 5A1701955F40;
-	Sat,  6 Jul 2024 16:44:47 +0000 (UTC)
-From: Rafael Aquini <aquini@redhat.com>
-To: linux-kbuild@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	aquini@redhat.com
-Subject: [PATCH v3 2/2] kbuild: rpm-pkg: introduce a simple changelog section for kernel.spec
-Date: Sat,  6 Jul 2024 12:44:23 -0400
-Message-ID: <20240706164423.1934390-1-aquini@redhat.com>
-In-Reply-To: <CAK7LNASzX29R38ApwByCO3kpiY6-L5UqHnP1Vs2WRBQM8z+kQw@mail.gmail.com>
-References: <CAK7LNASzX29R38ApwByCO3kpiY6-L5UqHnP1Vs2WRBQM8z+kQw@mail.gmail.com>
+	s=arc-20240116; t=1720289296; c=relaxed/simple;
+	bh=uDlkl+sgIHM1QHirLoUu2V9j90VrrBXLSt/Bf+ihwrU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NI7W2FekSaaYHVbETBjguZ2QDc10wmr3I/P/tDD33MqH8lGlG37y44urodpTu370XtpBmrll9ewG+/G+LEAYY9j0vTmkPaNr0K8azN0nKO278IvJyncV1AEvwQ+hl0H0Hy/eSqP7c31Yb2FZRTtZ1vgZf5bWl8sL4hu9dWClbas=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UO5gXbrf; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 575B4C4AF0D;
+	Sat,  6 Jul 2024 18:08:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720289296;
+	bh=uDlkl+sgIHM1QHirLoUu2V9j90VrrBXLSt/Bf+ihwrU=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=UO5gXbrf7AH9sCVWD6lVDLh/Pe+OubB0hImuHwl5ehyPnNq6f01Qq4dvPk24QNd6L
+	 Iof9JHYXwDv3246nHJGjzCJ+XRxJtTNEkRjM+lzRrhV7TBfQfWEEahd8wg704uaTR0
+	 rqjWdKRDyVTrPkKfFl8yLGp71R9yH2bXkuel2zx+/EfFMiJaBy/FCh17liRWt7uuIj
+	 tQarwCrUCtZseeh3JN6wDhZC+8Jb/OVzuvRgQ6mwvUi/h8Kf3CoxxF3nCkR3P+WJju
+	 WHxJp/bn665xEWz2hY1BeliHsQ4C2HxXiXHX6kCvnj6UgVh8+aE3AaLCRrYKwbeVoK
+	 uPKaEbfJedXKw==
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-52ea8320d48so957026e87.1;
+        Sat, 06 Jul 2024 11:08:16 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU00w9gEg/V+btMYBvd57yYStNikeHfADb9bolP24nBqaiLPIqYLmnFw1EQOLW1ktcE8LZ1766k55lAPSpLqC0QTsUiPnajmrK61g==
+X-Gm-Message-State: AOJu0YxjvWkeh4tA37GGFiYct+/va73C7+SyioUrscqJnZAPzb6uxKkK
+	q2JUasE2WarP/6DXFJix2FoFOhMp6v+VmI1EZLhbg7Jyk+DulSD1GXQfidQ3fsPwGlY22S4+fBE
+	24WkRJaB/0k0U5ZInQXPLphIJL44=
+X-Google-Smtp-Source: AGHT+IFiLkmA6j4UqVx5NmU+ArqOPS8G32yVfl+L3r4yqEiQeMdZrxtGBHeqAKOSWgEe7Cj3gv2i14yc8Rs6PPW4kF8=
+X-Received: by 2002:ac2:5107:0:b0:52c:8b11:80cf with SMTP id
+ 2adb3069b0e04-52ea0de1675mr2121490e87.8.1720289294972; Sat, 06 Jul 2024
+ 11:08:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+References: <20240706160511.2331061-1-masahiroy@kernel.org> <20240706160511.2331061-2-masahiroy@kernel.org>
+In-Reply-To: <20240706160511.2331061-2-masahiroy@kernel.org>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Sun, 7 Jul 2024 03:07:38 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQBMJvJM9OjXP=QWZwRFpif8tg9AHTA4vu=7nO6D3ahYQ@mail.gmail.com>
+Message-ID: <CAK7LNAQBMJvJM9OjXP=QWZwRFpif8tg9AHTA4vu=7nO6D3ahYQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] init/modpost: conditionally check section mismatch to __meminit*
+To: linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, Wei Yang <richard.weiyang@gmail.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-arch@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Fix the following rpmbuild warning:
+On Sun, Jul 7, 2024 at 1:05=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.or=
+g> wrote:
+>
+> This reverts commit eb8f689046b8 ("Use separate sections for __dev/
+> _cpu/__mem code/data").
+>
+> Check section mismatch to __meminit* only when CONFIG_MEMORY_HOTPLUG=3Dy.
 
-  $ make srcrpm-pkg
-  ...
-  RPM build warnings:
-      source_date_epoch_from_changelog set but %changelog is missing
+This is the opposite. The correct statement is:
 
-Signed-off-by: Rafael Aquini <aquini@redhat.com>
----
- scripts/package/mkspec | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
 
-diff --git a/scripts/package/mkspec b/scripts/package/mkspec
-index ce201bfa8377..e45fdb12fbc7 100755
---- a/scripts/package/mkspec
-+++ b/scripts/package/mkspec
-@@ -28,3 +28,26 @@ cat<<EOF
- EOF
- 
- cat "${srctree}/scripts/package/kernel.spec"
-+
-+# collect the user's name and email address for the changelog entry
-+if [ "$(command -v git)" ]; then
-+	name=$(git config user.name) || true
-+	email=$(git config user.email) || true
-+fi
-+
-+if [ ! "${name:+set}" ]; then
-+	name=${KBUILD_BUILD_USER:-$(id -nu)}
-+fi
-+
-+if [ ! "${email:+set}" ]; then
-+	buildhost=${KBUILD_BUILD_HOST:-$(hostname -f 2>/dev/null || hostname)}
-+	builduser=${KBUILD_BUILD_USER:-$(id -nu)}
-+	email="${builduser}@${buildhost}"
-+fi
-+
-+cat << EOF
-+
-+%changelog
-+* $(LC_ALL=C; date +'%a %b %d %Y') ${name} <${email}> - ${KERNELRELEASE}
-+- Custom built Linux kernel.
-+EOF
--- 
-2.45.1
+    ... only when CONFIG_MEMORY_HOTPLUG=3Dn
 
+
+
+
+
+>
+> With this change, the linker script and modpost become simpler, and we
+> can get rid of the __ref annotations from the memory hotplug code.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+>
+>  include/asm-generic/vmlinux.lds.h | 18 ++----------------
+>  include/linux/init.h              | 14 +++++++++-----
+>  scripts/mod/modpost.c             | 19 ++++---------------
+>  3 files changed, 15 insertions(+), 36 deletions(-)
+>
+> diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmli=
+nux.lds.h
+> index 62b4cb0462e6..c23f7d0645ad 100644
+> --- a/include/asm-generic/vmlinux.lds.h
+> +++ b/include/asm-generic/vmlinux.lds.h
+> @@ -141,14 +141,6 @@
+>   * often happens at runtime)
+>   */
+>
+> -#if defined(CONFIG_MEMORY_HOTPLUG)
+> -#define MEM_KEEP(sec)    *(.mem##sec)
+> -#define MEM_DISCARD(sec)
+> -#else
+> -#define MEM_KEEP(sec)
+> -#define MEM_DISCARD(sec) *(.mem##sec)
+> -#endif
+> -
+>  #ifndef CONFIG_HAVE_DYNAMIC_FTRACE_NO_PATCHABLE
+>  #define KEEP_PATCHABLE         KEEP(*(__patchable_function_entries))
+>  #define PATCHABLE_DISCARDS
+> @@ -357,7 +349,6 @@
+>         *(.data..decrypted)                                             \
+>         *(.ref.data)                                                    \
+>         *(.data..shared_aligned) /* percpu related */                   \
+> -       MEM_KEEP(init.data*)                                            \
+>         *(.data.unlikely)                                               \
+>         __start_once =3D .;                                              =
+ \
+>         *(.data.once)                                                   \
+> @@ -523,7 +514,6 @@
+>         /* __*init sections */                                          \
+>         __init_rodata : AT(ADDR(__init_rodata) - LOAD_OFFSET) {         \
+>                 *(.ref.rodata)                                          \
+> -               MEM_KEEP(init.rodata)                                   \
+>         }                                                               \
+>                                                                         \
+>         /* Built-in module parameters. */                               \
+> @@ -574,8 +564,7 @@
+>                 *(.text.unknown .text.unknown.*)                        \
+>                 NOINSTR_TEXT                                            \
+>                 *(.ref.text)                                            \
+> -               *(.text.asan.* .text.tsan.*)                            \
+> -       MEM_KEEP(init.text*)                                            \
+> +               *(.text.asan.* .text.tsan.*)
+>
+>
+>  /* sched.text is aling to function alignment to secure we have same
+> @@ -682,7 +671,6 @@
+>  #define INIT_DATA                                                      \
+>         KEEP(*(SORT(___kentry+*)))                                      \
+>         *(.init.data .init.data.*)                                      \
+> -       MEM_DISCARD(init.data*)                                         \
+>         KERNEL_CTORS()                                                  \
+>         MCOUNT_REC()                                                    \
+>         *(.init.rodata .init.rodata.*)                                  \
+> @@ -690,7 +678,6 @@
+>         TRACE_SYSCALLS()                                                \
+>         KPROBE_BLACKLIST()                                              \
+>         ERROR_INJECT_WHITELIST()                                        \
+> -       MEM_DISCARD(init.rodata)                                        \
+>         CLK_OF_TABLES()                                                 \
+>         RESERVEDMEM_OF_TABLES()                                         \
+>         TIMER_OF_TABLES()                                               \
+> @@ -708,8 +695,7 @@
+>
+>  #define INIT_TEXT                                                      \
+>         *(.init.text .init.text.*)                                      \
+> -       *(.text.startup)                                                \
+> -       MEM_DISCARD(init.text*)
+> +       *(.text.startup)
+>
+>  #define EXIT_DATA                                                      \
+>         *(.exit.data .exit.data.*)                                      \
+> diff --git a/include/linux/init.h b/include/linux/init.h
+> index b2e9dfff8691..ee1309473bc6 100644
+> --- a/include/linux/init.h
+> +++ b/include/linux/init.h
+> @@ -84,11 +84,15 @@
+>
+>  #define __exit          __section(".exit.text") __exitused __cold notrac=
+e
+>
+> -/* Used for MEMORY_HOTPLUG */
+> -#define __meminit        __section(".meminit.text") __cold notrace \
+> -                                                 __latent_entropy
+> -#define __meminitdata    __section(".meminit.data")
+> -#define __meminitconst   __section(".meminit.rodata")
+> +#ifdef CONFIG_MEMORY_HOTPLUG
+> +#define __meminit
+> +#define __meminitdata
+> +#define __meminitconst
+> +#else
+> +#define __meminit      __init
+> +#define __meminitdata  __initdata
+> +#define __meminitconst __initconst
+> +#endif
+>
+>  /* For assembly routines */
+>  #define __HEAD         .section        ".head.text","ax"
+> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> index 3e5313ed6065..8c8ad7485f73 100644
+> --- a/scripts/mod/modpost.c
+> +++ b/scripts/mod/modpost.c
+> @@ -776,17 +776,14 @@ static void check_section(const char *modname, stru=
+ct elf_info *elf,
+>
+>
+>  #define ALL_INIT_DATA_SECTIONS \
+> -       ".init.setup", ".init.rodata", ".meminit.rodata", \
+> -       ".init.data", ".meminit.data"
+> +       ".init.setup", ".init.rodata", ".init.data"
+>
+>  #define ALL_PCI_INIT_SECTIONS  \
+>         ".pci_fixup_early", ".pci_fixup_header", ".pci_fixup_final", \
+>         ".pci_fixup_enable", ".pci_fixup_resume", \
+>         ".pci_fixup_resume_early", ".pci_fixup_suspend"
+>
+> -#define ALL_XXXINIT_SECTIONS ".meminit.*"
+> -
+> -#define ALL_INIT_SECTIONS INIT_SECTIONS, ALL_XXXINIT_SECTIONS
+> +#define ALL_INIT_SECTIONS ".init.*"
+>  #define ALL_EXIT_SECTIONS ".exit.*"
+>
+>  #define DATA_SECTIONS ".data", ".data.rel"
+> @@ -797,9 +794,7 @@ static void check_section(const char *modname, struct=
+ elf_info *elf,
+>                 ".fixup", ".entry.text", ".exception.text", \
+>                 ".coldtext", ".softirqentry.text"
+>
+> -#define INIT_SECTIONS      ".init.*"
+> -
+> -#define ALL_TEXT_SECTIONS  ".init.text", ".meminit.text", ".exit.text", =
+\
+> +#define ALL_TEXT_SECTIONS  ".init.text", ".exit.text", \
+>                 TEXT_SECTIONS, OTHER_TEXT_SECTIONS
+>
+>  enum mismatch {
+> @@ -839,12 +834,6 @@ static const struct sectioncheck sectioncheck[] =3D =
+{
+>         .bad_tosec =3D { ALL_INIT_SECTIONS, ALL_EXIT_SECTIONS, NULL },
+>         .mismatch =3D TEXTDATA_TO_ANY_INIT_EXIT,
+>  },
+> -/* Do not reference init code/data from meminit code/data */
+> -{
+> -       .fromsec =3D { ALL_XXXINIT_SECTIONS, NULL },
+> -       .bad_tosec =3D { INIT_SECTIONS, NULL },
+> -       .mismatch =3D XXXINIT_TO_SOME_INIT,
+> -},
+>  /* Do not use exit code/data from init code */
+>  {
+>         .fromsec =3D { ALL_INIT_SECTIONS, NULL },
+> @@ -859,7 +848,7 @@ static const struct sectioncheck sectioncheck[] =3D {
+>  },
+>  {
+>         .fromsec =3D { ALL_PCI_INIT_SECTIONS, NULL },
+> -       .bad_tosec =3D { INIT_SECTIONS, NULL },
+> +       .bad_tosec =3D { ALL_INIT_SECTIONS, NULL },
+>         .mismatch =3D ANY_INIT_TO_ANY_EXIT,
+>  },
+>  {
+> --
+> 2.43.0
+>
+>
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
