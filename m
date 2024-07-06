@@ -1,155 +1,133 @@
-Return-Path: <linux-kbuild+bounces-2402-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2403-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55E9E928E62
-	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Jul 2024 22:57:19 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31BFD928FD0
+	for <lists+linux-kbuild@lfdr.de>; Sat,  6 Jul 2024 02:51:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0DA13286BB7
-	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Jul 2024 20:57:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E2B42284807
+	for <lists+linux-kbuild@lfdr.de>; Sat,  6 Jul 2024 00:51:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3320F144D21;
-	Fri,  5 Jul 2024 20:57:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01BBB3D68;
+	Sat,  6 Jul 2024 00:51:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ker8BJTF"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kQheob28"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E621208A7;
-	Fri,  5 Jul 2024 20:57:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AACE79F3;
+	Sat,  6 Jul 2024 00:51:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720213037; cv=none; b=jX2ofLiPoGdGI5OccvqYJP/gptawzTfLyisW/8o6RnoSg5ocPHTPz48QJXplEa+RETTk5MtIa9xNBMepCkOKkcFeNWdnj+x0td+G1gPmQV0x38nUpcTR6b7qexkse/4OPRX6q8DT+IOYmUTYXqZgnCjd/OT8Uba/QdjjAyj96FE=
+	t=1720227095; cv=none; b=JFJJzMnE0qwmZKlG/LdsQjs5WsA4MeHkf45x2ZHGfuF4COo0Cq9/5aN9YG0y5zFs/OmoXJryCscOkR802WlyhtIJVw6Cf+7jqT9Gkx7Bp1b3crwgqQylIDlc0XiGqPMr8EE5AvlEmqRThSiOIefsPmALFipUUrJsc+tf73n+7mI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720213037; c=relaxed/simple;
-	bh=zfPl4JHpdt2rgtqNdErFVL4BX9c29lDaCnBMeoiVAQw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YrIpwlZT8hTf+pgVodvOCFRt+GgBAKwJelll35bLDlNL483CSix46E0Q/niYY9lOZ7TCVbWUeIbRLQCBWBeO5gzAWgC8ZXBgVtcxnCcacAMH7RMeQK1tD8grzDOkbJr72hbkzB63C77WBRRrf254oigdWcj5dhBvimM+NvOI8d8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ker8BJTF; arc=none smtp.client-ip=209.85.221.50
+	s=arc-20240116; t=1720227095; c=relaxed/simple;
+	bh=hA4M+hIX7Udd46XmKv0jy7vYTI0wDzFUgfQIm0fu0ZM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UEZspxRGqmf3wvc8RNEh+zywjHiFKOXmzEtOlfQ4cVYAFYy7gcPSmu8WX3XKGrcJqbrGi0m0bIei7CRRHnyBT8LKAZ8Spr6PAi4HHqqWNmLMcJR5uFfx/Jj6Kvqb2btvhNZk8mAfZo33sKzhgjXSgOIynMszbS0HANloDeVgo+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kQheob28; arc=none smtp.client-ip=209.85.167.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-36740e64749so1131775f8f.0;
-        Fri, 05 Jul 2024 13:57:15 -0700 (PDT)
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-52e98087e32so2411038e87.2;
+        Fri, 05 Jul 2024 17:51:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720213034; x=1720817834; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NBgL8A01VZphViZ2sBr2uNobrvDjjMctGWN3h70md50=;
-        b=ker8BJTF7Q/dsfwKXM5RUPx5bLOFRLRmIVocThLRP/AwGrNuggxigz6HWShSW70eET
-         z7eNZ7AHn+aqIiWGrMmW6gEUbrbUxoWDRPjH83I4nKo+oMeZDWazlejt1NAgA1JE1dKF
-         nxEtWU1Rp/wRlAEMib9LmXnJM7uuCKSHm2wfjMZd5ZXRdPWXDOG1bpOYypRApwwtjY/V
-         OGfDv+4cjDIoMpfEq4W/cva2YKKUH7CiBsCoIgO/xu4sHaaTdla1tqEYsRwZZR8MqTSH
-         hbS9mIh5X2rPAGeGp1Oqav9+s8S8tpkjy+GA7NvmyNPxM0fnKacHL1cGJFH/HNXdzX0f
-         t8rg==
+        d=gmail.com; s=20230601; t=1720227092; x=1720831892; darn=vger.kernel.org;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=c7KFeV49gmhlyGls5y/8NCSbJCJFVQwXPZ0jtKuYPY8=;
+        b=kQheob28w2XdTnRUXLlyAuMkXW2KaJfLDOQjtrH/BwqTj08xH2mFwZU7Tnc3Axnwya
+         1yJ4KJW0snLpU9eyAe5eCuA6qqj2f8NeTPBwxU5wpMcxIlI2H1vtcofZJ/b4D+tnqcO0
+         g0BPSyZPWGcniab8jTCshiYAp7xsYdmf+8OkH2rNeIIYZoA6GjiHnX6XlQ8tasMP6xCr
+         34/wVr67DPTrdWHnB5Dqnp+JyyFyzWgAMAN3GJhfe/Vi8Dp+338mHaVk7ISurqyEIz67
+         I7OPt+u/yeonA+61TW6LGmrRz+abaAR0EMsFjQRFT9dJJtv2vIUc3cRDZWrCniHj9CWV
+         bgkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720213034; x=1720817834;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NBgL8A01VZphViZ2sBr2uNobrvDjjMctGWN3h70md50=;
-        b=ZNaHocPFprdySZJ1mZWKq0Yi6CS/K5QrMhK1B3oeaPg0jNH4zbcI+BBI5/Ko/g/m7V
-         GXxhPmwjsd810/sL6Qu1SVeStzOZOmzJSg55YUyP5ur0y+RjvfoD6Dxhbp3L5bnOkxTW
-         6wjqTjLiedfZ+JLwqssmECW20orH0G9Y7tbvZwdFLKZsbN/OV9rNpkBrEu+Xppi9FU3C
-         34/UH00jR9Y6Fa+oYMr16c2d4/i6EDvbCQeRynSQ6Ij9pzcA5jceqc29KjuM9QphkPWM
-         wv7PV40wnbRpOtKpk9bKAiYn2vXMMaFiKk6jHfeRXURB5S6hKi73Xr8nCiSIFRyzPdJD
-         Z2sA==
-X-Forwarded-Encrypted: i=1; AJvYcCUyydannyGCfdfp3yWsRn//Id0wu4nCX2M1tFQCKq6c8EQJ0AWBadolQiFNSkqWeyeZJdKUiY7Vj/TEKNPtkGO4wwgCOb4aFcKk576D
-X-Gm-Message-State: AOJu0Yw+6RccI0yrJcc0RLyK05b5HSZlPOejwbneTNWDk8Czfd4G7h/f
-	xM8ATsvkY9z39tJDEocc3G+FKQ3TYiG5KWalASrV5BMEDkv5Fd4xMiDinQ==
-X-Google-Smtp-Source: AGHT+IEqX/EpuOEA0EK0wvho0kzeKYUxtBqEvGh7CQJzukXWIdI8Jnm0dD3EsMhDNAkw0QmSAMb3OQ==
-X-Received: by 2002:a5d:46c5:0:b0:367:973c:aa75 with SMTP id ffacd0b85a97d-3679dd35019mr3387793f8f.42.1720213033494;
-        Fri, 05 Jul 2024 13:57:13 -0700 (PDT)
-Received: from [192.168.178.20] (dh207-43-52.xnet.hr. [88.207.43.52])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3679efcffe0sm4608829f8f.97.2024.07.05.13.57.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Jul 2024 13:57:13 -0700 (PDT)
-Message-ID: <70b32083-34fb-42a5-b9bd-6f4fd21f70fd@gmail.com>
-Date: Fri, 5 Jul 2024 22:57:11 +0200
+        d=1e100.net; s=20230601; t=1720227092; x=1720831892;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :reply-to:message-id:subject:cc:to:from:date:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=c7KFeV49gmhlyGls5y/8NCSbJCJFVQwXPZ0jtKuYPY8=;
+        b=cPTnCkQPL5QEGwKgDfpMOrSRtAvTJN1U8Tk1/KA7geO3O7W46obr8UKLQSa5BWyL9F
+         D+vNljWr+kL7tp6ykzhp0zf/75mDt5QkCnosuPN7zu4bMGRXtTrTtmqVAS3oEVqqyj++
+         uXOiGxwktJMNUxwqoqzQ4KbIRGU2p/mtagMWr1t1e7YGIJbMmojPAbS6SN0uVmhCx/fY
+         S2hjxXRxF9woq2WLiBy4hp36nvVm0t2jTXQHkAJ/7PA1MdVvx2iCE4yteQ1+ULLDRb0W
+         dRm1GiG+42ZeElu8Uy+RGZ9eZQ9VcaMeufrOp0FoAzHpsbX+C34vA1smjVu9hRuimu0T
+         ahsA==
+X-Forwarded-Encrypted: i=1; AJvYcCUZgo1bHTSGH5vnPHcDk3t9zcjQncrHNXO1GdMtRzbTDApFxJRGnP5hJZtZ0MP2yLc29j/UETOtDMu+w0uKRYUHnTg7mdnVoq7XBk7c1O9/2Jx5VoBnbP0jOkgkmId9LnC4+NkS3XUJ6IZb
+X-Gm-Message-State: AOJu0YxiILJqVrDgGGUa2E2VcW1vv7TWJtsOvJhTTMaZ9DN6D1ZjQfRO
+	Ws3P3JNzxd7fKP0uGV01For/FAEAy55qREqFUuAs12ZK2WW1oAFp
+X-Google-Smtp-Source: AGHT+IFRGqvMJ701guC7GxeWtW133Kfp9+soZJ2E5pFnQJRh8x6ffl0U4YWIQ7uCNGz8QcE+i4Af3w==
+X-Received: by 2002:ac2:5eda:0:b0:52c:9e51:c3f with SMTP id 2adb3069b0e04-52ea06b85a9mr3857483e87.42.1720227091959;
+        Fri, 05 Jul 2024 17:51:31 -0700 (PDT)
+Received: from localhost ([185.92.221.13])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a77df94db65sm33206366b.140.2024.07.05.17.51.31
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 05 Jul 2024 17:51:31 -0700 (PDT)
+Date: Sat, 6 Jul 2024 00:51:30 +0000
+From: Wei Yang <richard.weiyang@gmail.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: Wei Yang <richard.weiyang@gmail.com>, akpm@linux-foundation.org,
+	masahiroy@kernel.org, nathan@kernel.org, nicolas@fjasle.eu,
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, Mike Rapoport <rppt@kernel.org>
+Subject: Re: [PATCH 1/3] mm: use zonelist_zone() to get zone
+Message-ID: <20240706005130.fvxwrv7joshnkhej@master>
+Reply-To: Wei Yang <richard.weiyang@gmail.com>
+References: <20240702234008.19101-1-richard.weiyang@gmail.com>
+ <30bc19a0-4cd3-420e-92a9-7b3c97d6ad2c@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PROBLEM linux-next] Segfault while building headers with
- dpkg-deb
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Linux Kernel Build System <linux-kbuild@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <2c8833e1-1995-4f49-804a-705ab9e702a5@gmail.com>
- <CAK7LNASH6mS3X_YhkVV9z5ZVXdew_nGpJxaakaE1moZckETM7A@mail.gmail.com>
-Content-Language: en-US
-From: Mirsad Todorovac <mtodorovac69@gmail.com>
-In-Reply-To: <CAK7LNASH6mS3X_YhkVV9z5ZVXdew_nGpJxaakaE1moZckETM7A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <30bc19a0-4cd3-420e-92a9-7b3c97d6ad2c@redhat.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 
-On 7/2/24 10:18, Masahiro Yamada wrote:
-> On Sat, Jun 29, 2024 at 3:59 AM Mirsad Todorovac <mtodorovac69@gmail.com> wrote:
->>
->> Hi all,
->>
->> On the vanilla linux-next tree, branch next-20240627, there happens to be a bug while building
->> with the randconfig seed KCONFIG_SEED=0x90E8E591:
->>
->>   .
->>   .
->>   .
->>   XZ      debian/linux-image-6.10.0-rc5-next-20240627-dirty/lib/modules/6.10.0-rc5-next-20240627-dirty/kernel/samples/trace_events/trace-events-sample.ko.xz
->>   XZ      debian/linux-image-6.10.0-rc5-next-20240627-dirty/lib/modules/6.10.0-rc5-next-20240627-dirty/kernel/samples/trace_events/trace_custom_sched.ko.xz
->>   XZ      debian/linux-image-6.10.0-rc5-next-20240627-dirty/lib/modules/6.10.0-rc5-next-20240627-dirty/kernel/samples/ftrace/sample-trace-array.ko.xz
->>   XZ      debian/linux-image-6.10.0-rc5-next-20240627-dirty/lib/modules/6.10.0-rc5-next-20240627-dirty/kernel/samples/fprobe/fprobe_example.ko.xz
->> dpkg-deb: building package 'linux-libc-dev' in '../linux-libc-dev_6.10.0-rc5-45_i386.deb'.
->>   DEPMOD  debian/linux-image-6.10.0-rc5-next-20240627-dirty/lib/modules/6.10.0-rc5-next-20240627-dirty
->> dpkg-deb: building package 'linux-headers-6.10.0-rc5-next-20240627-dirty' in '../linux-headers-6.10.0-rc5-next-20240627-dirty_6.10.0-rc5-45_i386.deb'.
->> Segmentation fault (core dumped)
->> make[6]: *** [scripts/Makefile.modinst:128: depmod] Error 139
->> make[5]: *** [Makefile:1842: modules_install] Error 2
->> make[4]: *** [Makefile:2058: run-command] Error 2
->> make[3]: *** [debian/rules:61: binary-image] Error 2
->> make[3]: *** Waiting for unfinished jobs....
->> dpkg-deb: building package 'linux-image-6.10.0-rc5-next-20240627-dirty-dbg' in '../linux-image-6.10.0-rc5-next-20240627-dirty-dbg_6.10.0-rc5-45_i386.deb'.
->> dpkg-buildpackage: error: make -f debian/rules binary subprocess returned exit status 2
->> make[2]: *** [scripts/Makefile.package:121: bindeb-pkg] Error 2
->> make[1]: *** [/home/marvin/linux/kernel/linux-next/Makefile:1555: bindeb-pkg] Error 2
->> make: *** [Makefile:240: __sub-make] Error 2
->>
->> Build log and .config are attached at your convenience.
-> 
-> 
-> 
-> 
-> 
-> If you used an old kmod version, this is a known issue.
-> 
-> https://lore.kernel.org/linux-kbuild/E1rNVlL-000qDm-Pg@rmk-PC.armlinux.org.uk/
-> 
-> A quick solution is to upgrade your kmod version.
+On Fri, Jul 05, 2024 at 11:03:03AM +0200, David Hildenbrand wrote:
+>On 03.07.24 01:40, Wei Yang wrote:
+>> Instead of accessing zoneref->zone directly, use zonelist_zone() like
+>> other places for consistency.
+>> 
+>> No functional change.
+>> 
+>> Signed-off-by: Wei Yang <richard.weiyang@gmail.com>
+>> CC: Mike Rapoport (IBM) <rppt@kernel.org>
+>> ---
+>>   include/linux/mmzone.h | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>> 
+>> diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
+>> index cb7f265c2b96..a34a74f5b113 100644
+>> --- a/include/linux/mmzone.h
+>> +++ b/include/linux/mmzone.h
+>> @@ -1690,7 +1690,7 @@ static inline struct zoneref *first_zones_zonelist(struct zonelist *zonelist,
+>>   			zone = zonelist_zone(z))
+>>   #define for_next_zone_zonelist_nodemask(zone, z, highidx, nodemask) \
+>> -	for (zone = z->zone;	\
+>> +	for (zone = zonelist_zone(z);	\
+>>   		zone;							\
+>>   		z = next_zones_zonelist(++z, highidx, nodemask),	\
+>>   			zone = zonelist_zone(z))
+>
+>Should we do the same in movable_only_nodes as well to be consistent in that
+>file?
+>
 
-I see. Sorry then for the noise and duplicated work.
+Agree, thanks
 
-It might be inevitable that I will do something dumb more often than not when testing
-randconfig errors from such a vast number of lines of code ... :-/
+>-- 
+>Cheers,
+>
+>David / dhildenb
 
-My kmod is as follows:
-
-ii  kmod           29-1ubuntu1  amd64        tools for managing Linux kernel modules
-
-I thought of upgrading to 24.04 LTS, but when upgrading kmod I've lost the capacity to boot
-the older kernels in bisect process?
-
-Probably, it would be for the best if I had several versions of Ubuntu in multiple boot
-options? However, I have not yet done that ...
-
-Best regards,
-Mirsad Todorovac
-
-> --
-> Best Regards
-> Masahiro Yamada
+-- 
+Wei Yang
+Help you, Help me
 
