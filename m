@@ -1,199 +1,252 @@
-Return-Path: <linux-kbuild+bounces-2408-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2409-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 724FF92913B
-	for <lists+linux-kbuild@lfdr.de>; Sat,  6 Jul 2024 08:12:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF155929186
+	for <lists+linux-kbuild@lfdr.de>; Sat,  6 Jul 2024 09:34:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E6B201F2192C
-	for <lists+linux-kbuild@lfdr.de>; Sat,  6 Jul 2024 06:12:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4270C1F21FC7
+	for <lists+linux-kbuild@lfdr.de>; Sat,  6 Jul 2024 07:34:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 024AB17C95;
-	Sat,  6 Jul 2024 06:12:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71C8E1CA96;
+	Sat,  6 Jul 2024 07:34:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TAriyQnG"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="o5Xs5d0j"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D729179BD;
-	Sat,  6 Jul 2024 06:12:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22A111B947;
+	Sat,  6 Jul 2024 07:34:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720246360; cv=none; b=hhxlRoWDRDF/w67e2eK3/+xiSqF7EAMbiRw7FZEL0s0WUV4ymnJI17MUbaDOCx+lbZxwrQVkgVMOwcDS2GcgWwgdrGra+2ALwVNid6lry5M+F5eCMO5L9bvQdfokytJO3GHnHp1YAU1N3J/x41V9ibw38wRxZalvbP/TVEVYT2c=
+	t=1720251257; cv=none; b=fdRogRpMZH99fsITZrFuOwljFeW0noxRTxmMQ7ciqCIs42s/2lWKlO2kcO0/ohRVRKQeeG+s86kdD42LswT3w1E+enJp+08iQP5x1w3kyemLZ8bhUSZCjkhIo0bE309WepNZmupBFlPbgVBeOFeeOzhitHV1sFG+oXy/cFl40zs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720246360; c=relaxed/simple;
-	bh=2Fks1yXJtlGGjIbK5eKtS5Vm+73eQlEo1L2qioOC/fY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oYTSrhiMCtN4RrlDlNpuehhL96ysc//NPMqcIoHfNDoKExPykQbtX4VBQK5X3feONnWiGvSsswNxtt3EesPrKYFklB/W4vi/c2o4wpeTC38M7XWO/nD0YtrFnF8dMSGhQPGOutqohMCmW8i+Oy2G/w3LAo3JG9HJ+sdgiuHhYTE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TAriyQnG; arc=none smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a77e392f59fso28626866b.1;
-        Fri, 05 Jul 2024 23:12:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720246357; x=1720851157; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-transfer-encoding
-         :content-disposition:mime-version:references:reply-to:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=FDbSGOTT29nUQuDrfA04vbxY/zhE1PwPtnbE9KH53Hw=;
-        b=TAriyQnGPzmsbdTlygUHRrLhe0UtDgnJrhChgxngpeltvhwPVp7umXWUTaKXyIowUt
-         r1HD//SPqBdjkbYAAp8JB/GLEv4KqKWOTcgouJ1B2F3i/8ly1TdyAabJwg0CXhc0a2hK
-         /jqH6HtT1CFB470HELQVa4tSwqDYjVyQIrXW+R2rclkilWaBlv4kNNvibYnSHgCn2qQk
-         JZRfrtA+ajKomkcm52BJ4xGqqB1+sl3JUOdd3uLWOd8GPmsNuymoSkJ5Eh6lw94vQ/ni
-         65y+dAj9X1isiqvEEifaCK2UcSQl89Fkuip7LxhXXxupTcn2KQ15pgmwwghR9LzIvJvJ
-         KkrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720246357; x=1720851157;
-        h=user-agent:in-reply-to:content-transfer-encoding
-         :content-disposition:mime-version:references:reply-to:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FDbSGOTT29nUQuDrfA04vbxY/zhE1PwPtnbE9KH53Hw=;
-        b=Y4RvmHw3z0M9GRe2BV+cHH7TmGJkh822umUTz6O+fb2RHcmO+jKJaLqAkIVMlQnUXw
-         yQbSdr+mrERYtICznLXf13q17x5HAXHyln6MC5ThBz02Yw0rbY4A3ftYBMNzhNy4f/2B
-         8/+G0pLWQMI5DYT7SSGwEyK21IXKEkTiM3CMKYurDOaG/oT8xMmluiVZpmX+mT+QszJ5
-         bJTMbRAUMHRIVR6I9VVr9a6NnGn4DaxGS7YcvOmSFs+kP/Xpn2UycSEIZo88wYWnIPJe
-         Fud04LpZvTMz2AbwwI3O9ZpQDZhn02y1bcGLskQHxYChLr1JVEFz68mK6Ya342UgZj5i
-         TE8g==
-X-Forwarded-Encrypted: i=1; AJvYcCUyoiHMbWcU0Z3+ht4TxXUN40H4I4nTyxMenRvCdcmRhCNn+e+UE1cuvBBjyU8fzaVvecFMsu4NzgZzmP3VkML1qPLJUfiNtuIQsRhZXjqhTDvGY0oQsoTIgZ4aWzgAX3q1hd75meXUu9Hn
-X-Gm-Message-State: AOJu0YzykQL1KoI5lbU3GsBVTsYIeQGc7jEi7iLtuDVDG25H0R3tb+qz
-	WOlx0Lt0GmZMynqzsOiu+A6FOCMZtfgxIR3qF4LZG+4NVnYddFZr
-X-Google-Smtp-Source: AGHT+IFQGo+Vs5pdkor1uOiOtgu7cQVjKdGdWWlD+aVNznwVI9BiGzRyrVGIoVnnnwlHjSZMnv1bOw==
-X-Received: by 2002:a17:907:7da0:b0:a77:cf9d:f496 with SMTP id a640c23a62f3a-a77cf9df66bmr257510066b.39.1720246357279;
-        Fri, 05 Jul 2024 23:12:37 -0700 (PDT)
-Received: from localhost ([185.92.221.13])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a77b6f7649bsm196884466b.193.2024.07.05.23.12.36
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 05 Jul 2024 23:12:36 -0700 (PDT)
-Date: Sat, 6 Jul 2024 06:12:36 +0000
-From: Wei Yang <richard.weiyang@gmail.com>
-To: Wei Yang <richard.weiyang@gmail.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, akpm@linux-foundation.org,
-	nathan@kernel.org, nicolas@fjasle.eu, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	Mike Rapoport <rppt@kernel.org>
-Subject: Re: [PATCH 2/3] modpost: .meminit.* is not in init section when
- CONFIG_MEMORY_HOTPLUG set
-Message-ID: <20240706061236.snp4r2tixx3h7hfe@master>
-Reply-To: Wei Yang <richard.weiyang@gmail.com>
-References: <20240702234008.19101-1-richard.weiyang@gmail.com>
- <20240702234008.19101-2-richard.weiyang@gmail.com>
- <CAK7LNAR08Nx3-8XYe4qmUegDFo2zLUvkVdA1t51g1Bamh5Tteg@mail.gmail.com>
- <20240705065456.dogycpd37jun44p5@master>
+	s=arc-20240116; t=1720251257; c=relaxed/simple;
+	bh=NNVk2TdwIOi/kS3Dftxh5l5p+ufzBa1s3e8HZlk63a4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=M9F5ljjRx7nU8V8zawd+kvWPF3KMSFO0/qXn6zIFMxfY8IF4Sru+Rleg95tct7Ue0TKPXCBIBC2cNnV2ydIBqYQl/XkePXT0pASUzkDf3whGRNG16kpTqihen0zht+rLqRfPtyCt2ZKSKWMelQ86V06bb/WvR3QqB1r64t54CLw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=o5Xs5d0j; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1720251243;
+	bh=NNVk2TdwIOi/kS3Dftxh5l5p+ufzBa1s3e8HZlk63a4=;
+	h=From:Date:Subject:To:Cc:From;
+	b=o5Xs5d0jcaKqJV+b570uy/hJ+Q72UlorU+FsSYZRpc+M8qTIyZr8tR5b14aYW4lO0
+	 tbRI6O910YZb5IPSDgKb8u2lm/STfMjtZgkOhAbh96238rERQ3BcIFC3dJ1nb18Gj5
+	 IQmUWBqfW//GYStlNOgwwoFKO6M5dn4sS+GW24zw=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Date: Sat, 06 Jul 2024 09:33:46 +0200
+Subject: [PATCH v2] kbuild: add script and target to generate pacman
+ package
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240705065456.dogycpd37jun44p5@master>
-User-Agent: NeoMutt/20170113 (1.7.2)
+Message-Id: <20240706-kbuild-pacman-pkg-v2-1-613422a03a7a@weissschuh.net>
+X-B4-Tracking: v=1; b=H4sIAFnziGYC/22Nyw6CMBBFf4V07Zi2vNSV/2FYlDKlE7Q0LaCG8
+ O9W3Lo8J7nnrixiIIzskq0s4EKRRpdAHjKmrXI9AnWJmeSy4JUsYWhnunfglX4oB37ooS3MqUZ
+ x7nhesbTzAQ299uatSWwpTmN47xeL+NpfrebFn9oiQIDS0lS5KY2q2+sTKcao7WyPDifWbNv2A
+ aDMbdm3AAAA
+To: Masahiro Yamada <masahiroy@kernel.org>, 
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>
+Cc: "Jan Alexander Steffens (heftig)" <heftig@archlinux.org>, 
+ linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.14.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1720251242; l=6155;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=NNVk2TdwIOi/kS3Dftxh5l5p+ufzBa1s3e8HZlk63a4=;
+ b=5gHAgfNrPMs3Xro6uA6kL5cdRsIGXWUGhLLrwq+opjGn9peTa8u4DUAY1IN00pFMugj4KCNhY
+ iEYBEcXVEorCAcAYZtN57vvomvYsYD3lCYbBMbW628e3r9hW6pn019P
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-On Fri, Jul 05, 2024 at 06:54:56AM +0000, Wei Yang wrote:
->On Wed, Jul 03, 2024 at 11:44:38PM +0900, Masahiro Yamada wrote:
->>On Wed, Jul 3, 2024 at 8:40 AM Wei Yang <richard.weiyang@gmail.com> wrote:
->>>
->>> .meminit.* is not put into init section when CONFIG_MEMORY_HOTPLUG is
->>> set, since we define MEM_KEEP()/MEM_DISCARD() according to
->>> CONFIG_MEMORY_HOTPLUG.
->>>
->>> Signed-off-by: Wei Yang <richard.weiyang@gmail.com>
->>> CC: Mike Rapoport (IBM) <rppt@kernel.org>
->>> ---
->>>  scripts/mod/modpost.c | 10 ++++++++++
->>>  1 file changed, 10 insertions(+)
->>
->>
->>
->>NACK.
->>
->>
->>The section mismatch is performed _unconditionally_.
->>
->>
->>
->>In the old days, we did this depending on relevant CONFIG options.
->>It was more than 15 years ago that we stopped doing that.
->>
->>
->>See this:
->>
->>
->>commit eb8f689046b857874e964463619f09df06d59fad
->>Author: Sam Ravnborg <sam@ravnborg.org>
->>Date:   Sun Jan 20 20:07:28 2008 +0100
->>
->>    Use separate sections for __dev/__cpu/__mem code/data
->>
->>
->>
->>
->>So, if you wanted to check this only when CONFIG_MEMORY_HOTPLUG=n,
->>you would need to add #ifdef CONFIG_MEMORY_HOTPLUG to include/linux/init.h
->>
->>That is what we did in the Linux 2.6.* era, which had much worse
->>section mismatch coverage.
->>
->
->Masahiro 
->
->If you would give me some suggestions, I'd appreciate it a lot.
->
->The original thing I want to do is to put function __free_pages_core() in
->__meminit section, since this function is only used by __init functions and
->in memory_hotplug.c.  This means it is save to release it if
->CONFIG_MEMORY_HOTPLUG is set.
->
->Then I add __meminit to function __free_pages_core() and face the warning from
->modpost.
->
->  WARNING: modpost: vmlinux: section mismatch in reference: generic_online_page+0xa (section: .text) -> __free_pages_core (section: .meminit.text)
->
->A .text function calls init code is not proper. Then I add __meminit to
->generic_online_page too. Then I face this warning from modpost.
->
->  WARNING: modpost: vmlinux: generic_online_page: EXPORT_SYMBOL used for init symbol. Remove __init or EXPORT_SYMBOL.
->
+pacman is the package manager used by Arch Linux and its derivates.
+Creating native packages from the kernel tree has multiple advantages:
 
-I guess I found the correct way.
+* The package triggers the correct hooks for initramfs generation and
+  bootloader configuration
+* Uninstallation is complete and also invokes the relevant hooks
+* New UAPI headers can be installed without any manual bookkeeping
 
-Add __ref to generic_online_page to not issue a warning.
+The PKGBUILD file is a simplified version of the one used for the
+downstream Arch Linux "linux" package.
+Extra steps that should not be necessary for a development kernel have
+been removed and an UAPI header package has been added.
 
->Function generic_online_page() is exported and be used in some modules. And is
->not allowed to use init tag.
->
->When looking into the code, this warning is printed by this code:
->
->   #define ALL_INIT_SECTIONS INIT_SECTIONS, ALL_XXXINIT_SECTIONS
->   
->   if (match(secname, PATTERNS(ALL_INIT_SECTIONS)))
->   	warn("%s: %s: EXPORT_SYMBOL used for init symbol. Remove __init or EXPORT_SYMBOL.\n",
->   	     mod->name, name);
->
->If my understanding is correct, the code means we can't use a function in init
->section, since the code will be released after bootup.
->
->But for this case, when CONFIG_MEMORY_HOTPLUG is set, the section .meminit.*
->is not put into the real init sections. So the functions are not released and
->could be used by modules. This behavior is introduced in commit
->eb8f689046b8(the one you mentioned above).
->
->So the check here is not proper to me. We should exclude .meminit.* from
->ALL_INIT_SECTIONS.
->
->Looking forward your suggestion and a proper way to handle this.
->
->-- 
->Wei Yang
->Help you, Help me
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+---
+Changes in v2:
+- Replace ${MAKE} with $MAKE for consistency with other variables
+- Use $MAKE for "-s image_name"
+- Avoid permission warnings from build directory
+- Clarify reason for /build symlink removal
+- Install System.map and config
+- Install dtbs where available
+- Allow cross-build through arch=any
+- Sort Contributor/Maintainer chronologically
+- Disable some unneeded makepkg options
+- Use DEPMOD=true for consistency with rpm-package
+- Link to v1: https://lore.kernel.org/r/20240704-kbuild-pacman-pkg-v1-1-ac2f63f5fa7b@weissschuh.net
+---
+ .gitignore               |  6 ++++
+ scripts/Makefile.package | 15 +++++++++
+ scripts/package/PKGBUILD | 83 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 104 insertions(+)
 
+diff --git a/.gitignore b/.gitignore
+index c59dc60ba62e..7902adf4f7f1 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -92,6 +92,12 @@ modules.order
+ #
+ /tar-install/
+ 
++#
++# pacman files (make pacman-pkg)
++#
++/PKGBUILD
++/pacman/
++
+ #
+ # We don't want to ignore the following even if they are dot-files
+ #
+diff --git a/scripts/Makefile.package b/scripts/Makefile.package
+index bf016af8bf8a..8c0c80f8bec0 100644
+--- a/scripts/Makefile.package
++++ b/scripts/Makefile.package
+@@ -141,6 +141,20 @@ snap-pkg:
+ 	cd $(objtree)/snap && \
+ 	snapcraft --target-arch=$(UTS_MACHINE)
+ 
++# pacman-pkg
++# ---------------------------------------------------------------------------
++
++PHONY += pacman-pkg
++pacman-pkg:
++	@ln -srf $(srctree)/scripts/package/PKGBUILD $(objtree)/PKGBUILD
++	cd $(objtree) && \
++		srctree="$(realpath $(srctree))" \
++		objtree="$(realpath $(objtree))" \
++		BUILDDIR="$(realpath $(objtree))/pacman" \
++		KBUILD_MAKEFLAGS="$(MAKEFLAGS)" \
++		KBUILD_REVISION="$(shell $(srctree)/init/build-version)" \
++		makepkg
++
+ # dir-pkg tar*-pkg - tarball targets
+ # ---------------------------------------------------------------------------
+ 
+@@ -221,6 +235,7 @@ help:
+ 	@echo '  bindeb-pkg          - Build only the binary kernel deb package'
+ 	@echo '  snap-pkg            - Build only the binary kernel snap package'
+ 	@echo '                        (will connect to external hosts)'
++	@echo '  pacman-pkg          - Build only the binary kernel pacman package'
+ 	@echo '  dir-pkg             - Build the kernel as a plain directory structure'
+ 	@echo '  tar-pkg             - Build the kernel as an uncompressed tarball'
+ 	@echo '  targz-pkg           - Build the kernel as a gzip compressed tarball'
+diff --git a/scripts/package/PKGBUILD b/scripts/package/PKGBUILD
+new file mode 100644
+index 000000000000..fe899c77a976
+--- /dev/null
++++ b/scripts/package/PKGBUILD
+@@ -0,0 +1,83 @@
++# SPDX-License-Identifier: GPL-2.0-only
++# Maintainer: Thomas Weißschuh <linux@weissschuh.net>
++# Contributor: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
++
++pkgbase=linux-upstream
++pkgname=("$pkgbase" "$pkgbase-headers" "$pkgbase-api-headers")
++pkgver="${KERNELRELEASE//-/_}"
++pkgrel="$KBUILD_REVISION"
++pkgdesc='Linux'
++url='https://www.kernel.org/'
++arch=(any)
++options=(!debug !strip !buildflags !makeflags)
++license=(GPL-2.0-only)
++
++build() {
++  export MAKEFLAGS="${KBUILD_MAKEFLAGS}"
++  cd "$objtree"
++
++  # makepkg does a "chmod a-srw", triggering warnings during kbuild
++  chmod 0755 "$pkgdirbase" || true
++
++  $MAKE -f "${srctree}/Makefile"
++}
++
++package_linux-upstream() {
++  pkgdesc="The $pkgdesc kernel and modules"
++
++  export MAKEFLAGS="${KBUILD_MAKEFLAGS}"
++  cd "$objtree"
++  local modulesdir="$pkgdir/usr/$MODLIB"
++
++  echo "Installing boot image..."
++  # systemd expects to find the kernel here to allow hibernation
++  # https://github.com/systemd/systemd/commit/edda44605f06a41fb86b7ab8128dcf99161d2344
++  install -Dm644 "$($MAKE -s image_name)" "$modulesdir/vmlinuz"
++
++  # Used by mkinitcpio to name the kernel
++  echo "$pkgbase" | install -Dm644 /dev/stdin "$modulesdir/pkgbase"
++
++  echo "Installing modules..."
++  $MAKE INSTALL_MOD_PATH="$pkgdir/usr" INSTALL_MOD_STRIP=1 \
++    DEPMOD=true modules_install
++
++  if $MAKE run-command KBUILD_RUN_COMMAND='test -d ${srctree}/arch/${SRCARCH}/boot/dts' 2>/dev/null; then
++    echo "Installing dtbs..."
++    $MAKE INSTALL_DTBS_PATH="$modulesdir/dtb" dtbs_install
++  fi
++
++  # remove build link, will be part of -headers package
++  rm -f "$modulesdir/build"
++}
++
++package_linux-upstream-headers() {
++  pkgdesc="Headers and scripts for building modules for the $pkgdesc kernel"
++
++  export MAKEFLAGS="${KBUILD_MAKEFLAGS}"
++  cd "$objtree"
++  local builddir="$pkgdir/usr/$MODLIB/build"
++
++  echo "Installing build files..."
++  "$srctree/scripts/package/install-extmod-build" "$builddir"
++
++  echo "Installing System.map and config..."
++  cp System.map "$builddir/System.map"
++  cp .config "$builddir/.config"
++
++  echo "Adding symlink..."
++  mkdir -p "$pkgdir/usr/src"
++  ln -sr "$builddir" "$pkgdir/usr/src/$pkgbase"
++}
++
++package_linux-upstream-api-headers() {
++  pkgdesc="Kernel headers sanitized for use in userspace"
++  provides=(linux-api-headers)
++  conflicts=(linux-api-headers)
++
++  export MAKEFLAGS="${KBUILD_MAKEFLAGS}"
++  cd "$objtree"
++
++  $MAKE headers_install INSTALL_HDR_PATH="$pkgdir/usr"
++}
++
++# vim:set ts=8 sts=2 sw=2 et:
+
+---
+base-commit: 1dd28064d4164a4dc9096fd1a7990d2de15f2bb6
+change-id: 20240625-kbuild-pacman-pkg-b4f87e19d036
+
+Best regards,
 -- 
-Wei Yang
-Help you, Help me
+Thomas Weißschuh <linux@weissschuh.net>
+
 
