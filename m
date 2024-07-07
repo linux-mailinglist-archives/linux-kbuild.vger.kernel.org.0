@@ -1,104 +1,150 @@
-Return-Path: <linux-kbuild+bounces-2418-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2419-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DD9D9296C4
-	for <lists+linux-kbuild@lfdr.de>; Sun,  7 Jul 2024 07:59:30 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 913939298AC
+	for <lists+linux-kbuild@lfdr.de>; Sun,  7 Jul 2024 17:39:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DFA3C1C20DBB
-	for <lists+linux-kbuild@lfdr.de>; Sun,  7 Jul 2024 05:59:28 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 58493B20ABF
+	for <lists+linux-kbuild@lfdr.de>; Sun,  7 Jul 2024 15:39:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CED07482;
-	Sun,  7 Jul 2024 05:59:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 576E126AC1;
+	Sun,  7 Jul 2024 15:39:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G+0bs7dI"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lxulsIlo"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1201DAD24;
-	Sun,  7 Jul 2024 05:59:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D26B1865B;
+	Sun,  7 Jul 2024 15:39:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720331964; cv=none; b=djZe57k9tb7gRYh9EpGM+/t3GjpwaQctmfDMXtZEcOtN2a5ELTeeK0nDNB+b6JIe+97+YRZFC6YYyUHUXTI1/eaN2NaYH0lA+T+p4ujscrUrTmhiYJ0f+RDPEHI3+F5P7tQYiaP0l2SSDkMvjjcFHx/0AbwSHH2U6msvPTv8u80=
+	t=1720366743; cv=none; b=ec3XewRUIk1Ncw9jCTD/poOLNfB2RteEML11YsupaS5TDElbc5v+s31e+m4BrmAhiXXbcofGEV22EsUI2bqjwJUc3UNmlZ/lc+rMbtNWaeU83XS10ZFRvQPdaX3VW0uBldjuKxkGhP5O/onlYnUN8XVdeXZsw6GghEsxCeJCIqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720331964; c=relaxed/simple;
-	bh=Souahe9tmKRZ29JP8McuBBsQCwArtB13MA5Me7subfg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gKrIqghcJyn2sH3l6Xn3/hPCTzNPh9hMbVn1ed0t/dZWK/0d+i/pgjTkn2KG6L46whFWfA4P2XwtPXeDmeRcDBEfurxN3Nrj7YefqR2Rg/ypdWx7cFvV/7vr0/g+MxsXBiTGbDebBBdP4KPxxEM2Jr2opElpSjpzpUkZ71G/RDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G+0bs7dI; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C8EEC4AF0C;
-	Sun,  7 Jul 2024 05:59:23 +0000 (UTC)
+	s=arc-20240116; t=1720366743; c=relaxed/simple;
+	bh=uWSCu9FKRpxsc31Anmfae7tDKV0+IKVLEdfz3P7wDSs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=h7FhAk6uPKZcZDse4DPlfoykNLyXQixUojVHsRfsR4TJwb2Zhuo5cyL3nALPoCqCXs6ZvKLDQRRNWVP/Njvzp8QNC9coKNpRdXnGp1iPcvL9m7RxzSHO+p5UgF+hOj2SDZsDBnjaus4HBb8MhSFo9RZdsO79xAtVmi18mx36CS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lxulsIlo; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBB20C4AF0B;
+	Sun,  7 Jul 2024 15:39:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720331963;
-	bh=Souahe9tmKRZ29JP8McuBBsQCwArtB13MA5Me7subfg=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=G+0bs7dIgTz04LpiO0Iqjg07/+8M+5nIGQcW2RTrA8bMg83F1P4ZnB9aTcjLOKGx9
-	 XIwZ7jV26YpsGgCfbz2hUFYzdgK+OQE2YzfYNlmeuTFTo0LmSJPlcYJaJai/dyUMPn
-	 VsQVHpwUpQYAZzyq8qBDDuSP3Haf79YerhIWc774oYA7hkMyfYMOKBQaECKB7QDfnp
-	 Wx39fp38IO9dcEcxKQ9uTeF+fqGZ6pIOZCvNNGJB/TUub86NOzvOUkzy+63TqsFFbA
-	 pDs3NzdfLiu7xSuzf2QVXqrQZ9oo4z6c4+xQQvgkwKWFP5CN6IQl8JBsWX7fvhT5Hk
-	 1e9VBJy/LBlXw==
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-52ea8320d48so1152910e87.1;
-        Sat, 06 Jul 2024 22:59:23 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXscOqZOwtlrKGONu6GHtgEeTV7uT0K7Ptck+iCwMxrU1TJ0HJgQKJ+xl5xkCDpnygkwxe3eInXRUWAbsUxGLMPD2mAkInT7823lqO9YrO7oA5B6E4w7Y/JH/JcA6Hnc1dybOuZ4YK5Zw==
-X-Gm-Message-State: AOJu0YxNRvXTeXCqPmjpFzuGwXQn+GmWTNKga3rqvm9qIkHvQQULdPP1
-	jkd0CGuVKP+hsCaOjENgxBT6Ky4//Bq/QxzHZY4EO3svacUit/JD3unGMfTJbg9lRVlwgDjW0MH
-	/CF3FHHDywxlS+TxfrkkPdAbi0+o=
-X-Google-Smtp-Source: AGHT+IGqKpmq9RauJawwf+Puf56sdjbnUc7rMNCyksTeVaTLeFNdmXhAg3tSMSXmfMoM/Y01GxKm59qa4tjr/PcgscA=
-X-Received: by 2002:ac2:599b:0:b0:52c:81ba:aeba with SMTP id
- 2adb3069b0e04-52ea0de4274mr2387155e87.14.1720331962185; Sat, 06 Jul 2024
- 22:59:22 -0700 (PDT)
+	s=k20201202; t=1720366742;
+	bh=uWSCu9FKRpxsc31Anmfae7tDKV0+IKVLEdfz3P7wDSs=;
+	h=From:To:Cc:Subject:Date:From;
+	b=lxulsIloRg2CeJk6OvWo43kBw/+RNw55JopxJWzamG/222fdI1IEgsYfv/sOdO2/i
+	 XMaZs2iPsqhheTW1sb5PNnYA6kbt7N4dk2HF5Bz03e6SoffnxXjqLANWJHE5iXNeWe
+	 mKj4EsFcCH9RwSc/okKYTSG088iHU2GxTLXvCVk+8wq8KABeDOqE+WIWQXYkrZ7sOF
+	 f83jQUKvJrPCQqkX8CfwlPxYEjNGg+mSYrCee5DxkkYYuRpaE4NeIqtksFRjv9HKHz
+	 WZN9quY0MGRJ7lpp8TNkXNBpuS3gPQZArA1oEizZiLX7Eyosj9CVarPNWMs6tbrx2P
+	 on5O1w4hnqD+Q==
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH 1/4] kconfig: call expr_eliminate_yn() at least once in expr_eliminate_dups()
+Date: Mon,  8 Jul 2024 00:38:04 +0900
+Message-ID: <20240707153856.2483047-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240706160511.2331061-1-masahiroy@kernel.org>
- <20240706160511.2331061-2-masahiroy@kernel.org> <20240707000117.kpotqs3xgfrtllzd@master>
-In-Reply-To: <20240707000117.kpotqs3xgfrtllzd@master>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sun, 7 Jul 2024 14:58:45 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQBvP8gawg5XFxA=mVRNMgTkYBnPtG+R4e6W6d7BHF3bw@mail.gmail.com>
-Message-ID: <CAK7LNAQBvP8gawg5XFxA=mVRNMgTkYBnPtG+R4e6W6d7BHF3bw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] init/modpost: conditionally check section mismatch to __meminit*
-To: Wei Yang <richard.weiyang@gmail.com>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Andrew Morton <akpm@linux-foundation.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-arch@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sun, Jul 7, 2024 at 9:01=E2=80=AFAM Wei Yang <richard.weiyang@gmail.com>=
- wrote:
->
-> On Sun, Jul 07, 2024 at 01:05:06AM +0900, Masahiro Yamada wrote:
-> >This reverts commit eb8f689046b8 ("Use separate sections for __dev/
-> >_cpu/__mem code/data").
-> >
-> >Check section mismatch to __meminit* only when CONFIG_MEMORY_HOTPLUG=3Dy=
-.
-> >
-> >With this change, the linker script and modpost become simpler, and we
-> >can get rid of the __ref annotations from the memory hotplug code.
-> >
->
-> Oh, totally get rid of .meminit.*. Looks nice.
-> Maybe we can plan a __ref cleanup after this on is merged?
+Kconfig simplifies expressions, but redundant '&&' and '||' operators
+involving constant symbols 'y' and 'n' are sometimes trimmed and
+sometimes not.
 
+[Test Code]
 
+    config DEP
+            def_bool y
 
-Yes. We can remove __ref.
+    config A
+            bool "A"
+            depends on DEP && y
 
+    config B
+            bool "B"
+            depends on DEP && y && y
 
-All __ref annotations in mm/memory_hotplug.c will become
-redundant.
+[Result]
 
+    $ make helpnewconfig
+      [ snip ]
+    -----
 
---=20
-Best Regards
-Masahiro Yamada
+    There is no help available for this option.
+    Symbol: A [=n]
+    Type  : bool
+    Defined at Kconfig:4
+      Prompt: A
+      Depends on: DEP [=y] && y [=y]
+      Location:
+        -> A (A [=n])
+
+    -----
+    -----
+
+    There is no help available for this option.
+    Symbol: B [=n]
+    Type  : bool
+    Defined at Kconfig:8
+      Prompt: B
+      Depends on: DEP [=y]
+      Location:
+        -> B (B [=n])
+
+    -----
+
+The dependency for A, 'DEP && y', remains as-is, while that for B,
+'DEP && y && y', has been reduced to 'DEP'.
+
+Currently, expr_eliminate_dups() calls expr_eliminate_yn() only when
+trans_count != 0, in other words, only when expr_eliminate_dups1() has
+trimmed at least one leaf. It fails to trim a single '&& y', etc.
+
+To fix this inconsistent behavior, expr_eliminate_yn() should be called
+at least once even if no leaf has been trimmed.
+
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+ scripts/kconfig/expr.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
+
+diff --git a/scripts/kconfig/expr.c b/scripts/kconfig/expr.c
+index 6d4b5a5a1e62..b2dfd3123a5d 100644
+--- a/scripts/kconfig/expr.c
++++ b/scripts/kconfig/expr.c
+@@ -637,7 +637,7 @@ struct expr *expr_eliminate_dups(struct expr *e)
+ 		return e;
+ 
+ 	oldcount = trans_count;
+-	while (1) {
++	do {
+ 		trans_count = 0;
+ 		switch (e->type) {
+ 		case E_OR: case E_AND:
+@@ -645,11 +645,8 @@ struct expr *expr_eliminate_dups(struct expr *e)
+ 		default:
+ 			;
+ 		}
+-		if (!trans_count)
+-			/* No simplifications done in this pass. We're done */
+-			break;
+ 		e = expr_eliminate_yn(e);
+-	}
++	} while (trans_count); /* repeat until we get no more simplifications */
+ 	trans_count = oldcount;
+ 	return e;
+ }
+-- 
+2.43.0
+
 
