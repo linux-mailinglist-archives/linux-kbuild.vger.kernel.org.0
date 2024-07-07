@@ -1,276 +1,209 @@
-Return-Path: <linux-kbuild+bounces-2416-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2417-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AD40929608
-	for <lists+linux-kbuild@lfdr.de>; Sun,  7 Jul 2024 02:01:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E95C92960B
+	for <lists+linux-kbuild@lfdr.de>; Sun,  7 Jul 2024 02:04:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A11E1281A81
-	for <lists+linux-kbuild@lfdr.de>; Sun,  7 Jul 2024 00:01:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C35E0281D6D
+	for <lists+linux-kbuild@lfdr.de>; Sun,  7 Jul 2024 00:04:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBD1A17F8;
-	Sun,  7 Jul 2024 00:01:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70467193;
+	Sun,  7 Jul 2024 00:04:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Kz8AsGmq"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FeWxLg96"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E97A17FF;
-	Sun,  7 Jul 2024 00:01:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D2B8181;
+	Sun,  7 Jul 2024 00:04:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720310481; cv=none; b=Jq/aQ9sasvAjcTWYXk6dlJ2XZfVl7e5+QGj9FHcvQyFJRnYl+nhksZBoq2RbL8o9ioPIrEXQJ2lMv3NkK2tPuAzbS6kxXp+gDMihBJQDtPakl+HdjFqwqFh7bFV+WKu/lVDsfhCh//zS0Q1u3IdcHgOOMIkqtFfI2fWsqTIYpW0=
+	t=1720310648; cv=none; b=FtLHOMF/SW2JaBg8GwTuWZqwW8PgMzFAXgcNiCf7QWh+uIkhVNTtGY+6SPVzyxdh0F94dv0kxO+lutavfn8thgfdw/iIxNmJ8miovXY0l7V0yUcUOQ6+4ISZ1W/b/vhkdRraBKvV+4DS3VUd59VJz2flZoNP4KnydlqeV4PIZO0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720310481; c=relaxed/simple;
-	bh=afTn7IR0Zw6dR3NsWMS6k7V8+w95BZZ/12iOIKEqAWk=;
+	s=arc-20240116; t=1720310648; c=relaxed/simple;
+	bh=EN8xWQ8I4hHzTIQl0ax0U9fbl8La86KwDFDt1yGQk84=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Cfux7dN92THBN62pVtSsSLTB4HQdZwOdJ96fAsMMAE02ONGZMgwRhtCUbgegjxitWpZePUMRpVKoT+uHSR+sdFsHlWruaQhv7VHqQjscBlMt/jP0CR9+H7Zkda9vL/cWBaUcdRjY2GaWPCUx8SrbXoxWL5vAWRgj3lV5wQqxCCo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Kz8AsGmq; arc=none smtp.client-ip=209.85.208.42
+	 Content-Type:Content-Disposition:In-Reply-To; b=tsB3tE7L8RfRyi6z3BQeJkbGhUukA0wW1nkZdfdwnbMZ3LfoSk91xb7kBZccwf/AqRv+oUZtK+TJzVa58R/CYJ17twWuzDaqSznLJKq0guEspoHvi7l+hUdB+IFKURL09iajdOP/KqGPGZg4tRmEKYI5JV3injjWlBT1fBN2fWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FeWxLg96; arc=none smtp.client-ip=209.85.218.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-58b447c5112so3044445a12.3;
-        Sat, 06 Jul 2024 17:01:19 -0700 (PDT)
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a77e5929033so68860466b.0;
+        Sat, 06 Jul 2024 17:04:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720310478; x=1720915278; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WMokTtKGEeYAS/9d6XHv/W22/lFFy1EwKEMR9en516U=;
-        b=Kz8AsGmqGfw1loXY9XrewuXwGCbuHtC1aB8R2cp0G3GKwKQSP4oSQWpx8l+wgBlTZQ
-         W2yIlhzDv5N46wRrMSTyZdKNFjL58Hb2IJRSOJgz2PMU9S7QhgqEVV8FL9V/G61Nibym
-         OhmY2n0AIfoYJFDwgzA3TjUP9AK/VpoGc3HlSih2rMPEipN9zl0tYytTow3dK8lIvu3j
-         mgwmV07Ca4TE3vpTyS2G+mGPjczwHvqwQi8HqLnKVO7D03d2caORr27WrCmmTiRx28zu
-         jlYmPrS3C8P38P9oc9ZDFyrhC1SBOi6aBnl2SaPogwqIZFLHK3ptIWel1+OwMLy316Ju
-         oxFw==
+        d=gmail.com; s=20230601; t=1720310645; x=1720915445; darn=vger.kernel.org;
+        h=user-agent:in-reply-to:content-transfer-encoding
+         :content-disposition:mime-version:references:reply-to:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=RWKqO2BWwvKMkfcddteTT/xU6+nFQEAn8H1kp+9IBak=;
+        b=FeWxLg96cSgCEYnsl4g2dvDS/KBg+g8CdxYPVluFBNdZL7Ck0Qf2ySQMTHcFzafJSH
+         PwqCCJ8zylzAAiXwns12G1naGeHu1cZ6L+3IJrHHP2Qb2spIFlWMc5Ygx9zH84EkjEmu
+         CZvCuBtVx3V9yI/c1e1izRGtm6yMnb+VXXmcHVzkn4gM54RCODodCwfkT2ErypR+klP9
+         ePNQ71WzozmLVDcKZYIh4ZjNICO5XXiaXgDg+eQs13x9orMqqeCXiaM/8jMp2WnduXeE
+         sTdPm7QniDIqQHxKJfcC2m2VcA1mCN2gpzZM5nV57mATXcgFyYdrfHCnLH9nl3WNip2M
+         2IOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720310478; x=1720915278;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=WMokTtKGEeYAS/9d6XHv/W22/lFFy1EwKEMR9en516U=;
-        b=F4IsqyxSzncoW3yi4AVIh4l8OFW3CtoTSZN/A6rC4KHO8pVBcpzVrDRL0ECer1RQCP
-         7csr1s7MQloxccQ8FJnNOWzvK3DGN/Iic6lCKecAJxRsDIwECr0PpGZ24QNWRT01aDAP
-         B4gj10WM6kSZ4oGBD01+cb+dedGC6L+KcpuC/M4TfqwMEFA3gtuI/c9wlc0Hg1n9eZon
-         nWxX2zrFt2Zmh7NtKMNuDHUrti9rK829G/L5v0eTLc7OzuoNZsd1EX5szLHi6gKScq+w
-         CPgGWKLJ0KHzZ9IwAGH7L0KZA+SzLUAevoB7tIIGhh7JOuD3jyRo/Q0rQIZghoEO4S97
-         2EKA==
-X-Forwarded-Encrypted: i=1; AJvYcCWNzwpaid4pG3nmPVvZHi8rU0UMa3nYKIiIn4Qbw8t22UsEbUkuagXsaBc1LJYTg+k1lIm5Jeh0T8kUmZuLmmHWBITkLcDei/9DJD9PckIZkMxD66C2vpKQqZg/byfOQp32Hrvs8GxUWQ==
-X-Gm-Message-State: AOJu0Yz5Ht3D3a7HHkIhUvCepEIA77wzZE428SO3vdGjJuSZ6tQTbzY3
-	4+VmY6BGeGIrd9NejJjISl5IEL+e2ksiaK/AMdOXeOzaER0C4T1ZVJAzo+NQsDY=
-X-Google-Smtp-Source: AGHT+IEiwiE87Y1j9LwDTZnHO/ZBG2J/lZglQrX560RXWDEfckKDbksmN13EqtGH5tNxBDcg+s64Tg==
-X-Received: by 2002:a05:6402:311c:b0:58c:adad:cbb with SMTP id 4fb4d7f45d1cf-58e5cc0b694mr4150004a12.38.1720310478110;
-        Sat, 06 Jul 2024 17:01:18 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1720310645; x=1720915445;
+        h=user-agent:in-reply-to:content-transfer-encoding
+         :content-disposition:mime-version:references:reply-to:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RWKqO2BWwvKMkfcddteTT/xU6+nFQEAn8H1kp+9IBak=;
+        b=qFGaf+eI5AHZkqzB9UIFeEIWc+NdGUEw+nDU6COVec3B1yyxFlTxeLYK/rLgECb+C+
+         isSm27O0JdilcSjKYLJGJhRKYAKzY7V3Zd7XyRKqq6fs1hIlCRbqzMc1oiOAUDiMCq3F
+         T1SGpgFXR4shLHFvY6mmAyIQm03HKarhXZ6yMP+SY0hMafAqOkqS+bb+jvwPS4YDM16w
+         WpvG9/waRMxULSZJ/xrbhq5V64PYrEMSdEI1jwZ/VibU2bliVihVnOHBNDjsTatmU5HD
+         P98Rt0wtjp1Vch35t7fDnLvRHzPhIzVgsXMG87cXGqMutHfa/5Nv/bA/mOU/+p98GLa/
+         kR+g==
+X-Forwarded-Encrypted: i=1; AJvYcCWnumEnPnpKcN3Gbtq+kwl4tPCypW/km5yGQumgK9LP89qJOOr3j47V0aORnFkCerHqJTAmjnOfB0dCZdxAE9abvUOEeQM4x0eKEAGvC5m3O4EUKfukJKzC9wS0eHMQ9O/kCCfaQIwYH65r
+X-Gm-Message-State: AOJu0Yz63x50jPiG9mdjxd4LESs6PPb9Sveh0RGBc8L7+BxG4oaO2LLK
+	kMUhEDY+TJBaCyDDe55OA69eMGMcigNb+tfxAbdc6Oea/piHmbPs
+X-Google-Smtp-Source: AGHT+IGCj+7/ZhKNfQy2zOxzUfK6ed8+jvH0WVkR8cR9x01L3VOWGrROanABN7ciMy44Y3929ceDNw==
+X-Received: by 2002:a17:906:a08:b0:a77:c525:5c64 with SMTP id a640c23a62f3a-a77c52571e8mr435239066b.39.1720310644866;
+        Sat, 06 Jul 2024 17:04:04 -0700 (PDT)
 Received: from localhost ([185.92.221.13])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-58c9061becfsm5325650a12.83.2024.07.06.17.01.17
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a77c127bc6asm232410866b.116.2024.07.06.17.04.04
         (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Sat, 06 Jul 2024 17:01:17 -0700 (PDT)
-Date: Sun, 7 Jul 2024 00:01:17 +0000
+        Sat, 06 Jul 2024 17:04:04 -0700 (PDT)
+Date: Sun, 7 Jul 2024 00:04:03 +0000
 From: Wei Yang <richard.weiyang@gmail.com>
 To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Wei Yang <richard.weiyang@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>, linux-arch@vger.kernel.org
-Subject: Re: [PATCH 2/2] init/modpost: conditionally check section mismatch
- to __meminit*
-Message-ID: <20240707000117.kpotqs3xgfrtllzd@master>
+Cc: Wei Yang <richard.weiyang@gmail.com>, akpm@linux-foundation.org,
+	nathan@kernel.org, nicolas@fjasle.eu, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	Mike Rapoport <rppt@kernel.org>
+Subject: Re: [PATCH 2/3] modpost: .meminit.* is not in init section when
+ CONFIG_MEMORY_HOTPLUG set
+Message-ID: <20240707000403.b4gtuqiwpx3rp766@master>
 Reply-To: Wei Yang <richard.weiyang@gmail.com>
-References: <20240706160511.2331061-1-masahiroy@kernel.org>
- <20240706160511.2331061-2-masahiroy@kernel.org>
+References: <20240702234008.19101-1-richard.weiyang@gmail.com>
+ <20240702234008.19101-2-richard.weiyang@gmail.com>
+ <CAK7LNAR08Nx3-8XYe4qmUegDFo2zLUvkVdA1t51g1Bamh5Tteg@mail.gmail.com>
+ <20240705065456.dogycpd37jun44p5@master>
+ <20240706061236.snp4r2tixx3h7hfe@master>
+ <CAK7LNARX+qxzD-6ip9Q64Bvju3ACQ0uFPThkLgRqvmem-LQ9uw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240706160511.2331061-2-masahiroy@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK7LNARX+qxzD-6ip9Q64Bvju3ACQ0uFPThkLgRqvmem-LQ9uw@mail.gmail.com>
 User-Agent: NeoMutt/20170113 (1.7.2)
 
-On Sun, Jul 07, 2024 at 01:05:06AM +0900, Masahiro Yamada wrote:
->This reverts commit eb8f689046b8 ("Use separate sections for __dev/
->_cpu/__mem code/data").
+On Sat, Jul 06, 2024 at 10:50:25PM +0900, Masahiro Yamada wrote:
+>On Sat, Jul 6, 2024 at 3:12 PM Wei Yang <richard.weiyang@gmail.com> wrote:
+>>
+>> On Fri, Jul 05, 2024 at 06:54:56AM +0000, Wei Yang wrote:
+>> >On Wed, Jul 03, 2024 at 11:44:38PM +0900, Masahiro Yamada wrote:
+>> >>On Wed, Jul 3, 2024 at 8:40 AM Wei Yang <richard.weiyang@gmail.com> wrote:
+>> >>>
+>> >>> .meminit.* is not put into init section when CONFIG_MEMORY_HOTPLUG is
+>> >>> set, since we define MEM_KEEP()/MEM_DISCARD() according to
+>> >>> CONFIG_MEMORY_HOTPLUG.
+>> >>>
+>> >>> Signed-off-by: Wei Yang <richard.weiyang@gmail.com>
+>> >>> CC: Mike Rapoport (IBM) <rppt@kernel.org>
+>> >>> ---
+>> >>>  scripts/mod/modpost.c | 10 ++++++++++
+>> >>>  1 file changed, 10 insertions(+)
+>> >>
+>> >>
+>> >>
+>> >>NACK.
+>> >>
+>> >>
+>> >>The section mismatch is performed _unconditionally_.
+>> >>
+>> >>
+>> >>
+>> >>In the old days, we did this depending on relevant CONFIG options.
+>> >>It was more than 15 years ago that we stopped doing that.
+>> >>
+>> >>
+>> >>See this:
+>> >>
+>> >>
+>> >>commit eb8f689046b857874e964463619f09df06d59fad
+>> >>Author: Sam Ravnborg <sam@ravnborg.org>
+>> >>Date:   Sun Jan 20 20:07:28 2008 +0100
+>> >>
+>> >>    Use separate sections for __dev/__cpu/__mem code/data
+>> >>
+>> >>
+>> >>
+>> >>
+>> >>So, if you wanted to check this only when CONFIG_MEMORY_HOTPLUG=n,
+>> >>you would need to add #ifdef CONFIG_MEMORY_HOTPLUG to include/linux/init.h
+>> >>
+>> >>That is what we did in the Linux 2.6.* era, which had much worse
+>> >>section mismatch coverage.
+>> >>
+>> >
+>> >Masahiro
+>> >
+>> >If you would give me some suggestions, I'd appreciate it a lot.
+>> >
+>> >The original thing I want to do is to put function __free_pages_core() in
+>> >__meminit section, since this function is only used by __init functions and
+>> >in memory_hotplug.c.  This means it is save to release it if
+>> >CONFIG_MEMORY_HOTPLUG is set.
+>> >
+>> >Then I add __meminit to function __free_pages_core() and face the warning from
+>> >modpost.
+>> >
+>> >  WARNING: modpost: vmlinux: section mismatch in reference: generic_online_page+0xa (section: .text) -> __free_pages_core (section: .meminit.text)
+>> >
+>> >A .text function calls init code is not proper. Then I add __meminit to
+>> >generic_online_page too. Then I face this warning from modpost.
+>> >
+>> >  WARNING: modpost: vmlinux: generic_online_page: EXPORT_SYMBOL used for init symbol. Remove __init or EXPORT_SYMBOL.
+>> >
+>>
+>> I guess I found the correct way.
+>>
+>> Add __ref to generic_online_page to not issue a warning.
 >
->Check section mismatch to __meminit* only when CONFIG_MEMORY_HOTPLUG=y.
 >
->With this change, the linker script and modpost become simpler, and we
->can get rid of the __ref annotations from the memory hotplug code.
+>
+>Yes, __ref is used to bypass the section mismatch check.
 >
 
-Oh, totally get rid of .meminit.*. Looks nice.
-Maybe we can plan a __ref cleanup after this on is merged?
+I am think whether __ref is providing a gate to escape the check of modpost?
 
-Reviewed-by: Wei Yang <richard.weiyang@gmail.com>
+>Some functions in mm/memory_hotplug.c are annotated as __ref
+>to reference __meminit functions.
+>
+>Adding __ref is the easy solution.
+>
+>
+>
+>Having said that, I started to think
+>eb8f689046b857874e964463619f09df06d59fad was the wrong decision.
+>I will revert it.
+>
 
->Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
->---
+Oh, I finally understand it... didn't think that was a wrong decision :-(
+
 >
-> include/asm-generic/vmlinux.lds.h | 18 ++----------------
-> include/linux/init.h              | 14 +++++++++-----
-> scripts/mod/modpost.c             | 19 ++++---------------
-> 3 files changed, 15 insertions(+), 36 deletions(-)
 >
->diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
->index 62b4cb0462e6..c23f7d0645ad 100644
->--- a/include/asm-generic/vmlinux.lds.h
->+++ b/include/asm-generic/vmlinux.lds.h
->@@ -141,14 +141,6 @@
->  * often happens at runtime)
->  */
-> 
->-#if defined(CONFIG_MEMORY_HOTPLUG)
->-#define MEM_KEEP(sec)    *(.mem##sec)
->-#define MEM_DISCARD(sec)
->-#else
->-#define MEM_KEEP(sec)
->-#define MEM_DISCARD(sec) *(.mem##sec)
->-#endif
->-
-> #ifndef CONFIG_HAVE_DYNAMIC_FTRACE_NO_PATCHABLE
-> #define KEEP_PATCHABLE		KEEP(*(__patchable_function_entries))
-> #define PATCHABLE_DISCARDS
->@@ -357,7 +349,6 @@
-> 	*(.data..decrypted)						\
-> 	*(.ref.data)							\
-> 	*(.data..shared_aligned) /* percpu related */			\
->-	MEM_KEEP(init.data*)						\
-> 	*(.data.unlikely)						\
-> 	__start_once = .;						\
-> 	*(.data.once)							\
->@@ -523,7 +514,6 @@
-> 	/* __*init sections */						\
-> 	__init_rodata : AT(ADDR(__init_rodata) - LOAD_OFFSET) {		\
-> 		*(.ref.rodata)						\
->-		MEM_KEEP(init.rodata)					\
-> 	}								\
-> 									\
-> 	/* Built-in module parameters. */				\
->@@ -574,8 +564,7 @@
-> 		*(.text.unknown .text.unknown.*)			\
-> 		NOINSTR_TEXT						\
-> 		*(.ref.text)						\
->-		*(.text.asan.* .text.tsan.*)				\
->-	MEM_KEEP(init.text*)						\
->+		*(.text.asan.* .text.tsan.*)
-> 
-> 
-> /* sched.text is aling to function alignment to secure we have same
->@@ -682,7 +671,6 @@
-> #define INIT_DATA							\
-> 	KEEP(*(SORT(___kentry+*)))					\
-> 	*(.init.data .init.data.*)					\
->-	MEM_DISCARD(init.data*)						\
-> 	KERNEL_CTORS()							\
-> 	MCOUNT_REC()							\
-> 	*(.init.rodata .init.rodata.*)					\
->@@ -690,7 +678,6 @@
-> 	TRACE_SYSCALLS()						\
-> 	KPROBE_BLACKLIST()						\
-> 	ERROR_INJECT_WHITELIST()					\
->-	MEM_DISCARD(init.rodata)					\
-> 	CLK_OF_TABLES()							\
-> 	RESERVEDMEM_OF_TABLES()						\
-> 	TIMER_OF_TABLES()						\
->@@ -708,8 +695,7 @@
-> 
-> #define INIT_TEXT							\
-> 	*(.init.text .init.text.*)					\
->-	*(.text.startup)						\
->-	MEM_DISCARD(init.text*)
->+	*(.text.startup)
-> 
-> #define EXIT_DATA							\
-> 	*(.exit.data .exit.data.*)					\
->diff --git a/include/linux/init.h b/include/linux/init.h
->index b2e9dfff8691..ee1309473bc6 100644
->--- a/include/linux/init.h
->+++ b/include/linux/init.h
->@@ -84,11 +84,15 @@
-> 
-> #define __exit          __section(".exit.text") __exitused __cold notrace
-> 
->-/* Used for MEMORY_HOTPLUG */
->-#define __meminit        __section(".meminit.text") __cold notrace \
->-						  __latent_entropy
->-#define __meminitdata    __section(".meminit.data")
->-#define __meminitconst   __section(".meminit.rodata")
->+#ifdef CONFIG_MEMORY_HOTPLUG
->+#define __meminit
->+#define __meminitdata
->+#define __meminitconst
->+#else
->+#define __meminit	__init
->+#define __meminitdata	__initdata
->+#define __meminitconst	__initconst
->+#endif
-> 
-> /* For assembly routines */
-> #define __HEAD		.section	".head.text","ax"
->diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
->index 3e5313ed6065..8c8ad7485f73 100644
->--- a/scripts/mod/modpost.c
->+++ b/scripts/mod/modpost.c
->@@ -776,17 +776,14 @@ static void check_section(const char *modname, struct elf_info *elf,
-> 
-> 
-> #define ALL_INIT_DATA_SECTIONS \
->-	".init.setup", ".init.rodata", ".meminit.rodata", \
->-	".init.data", ".meminit.data"
->+	".init.setup", ".init.rodata", ".init.data"
-> 
-> #define ALL_PCI_INIT_SECTIONS	\
-> 	".pci_fixup_early", ".pci_fixup_header", ".pci_fixup_final", \
-> 	".pci_fixup_enable", ".pci_fixup_resume", \
-> 	".pci_fixup_resume_early", ".pci_fixup_suspend"
-> 
->-#define ALL_XXXINIT_SECTIONS ".meminit.*"
->-
->-#define ALL_INIT_SECTIONS INIT_SECTIONS, ALL_XXXINIT_SECTIONS
->+#define ALL_INIT_SECTIONS ".init.*"
-> #define ALL_EXIT_SECTIONS ".exit.*"
-> 
-> #define DATA_SECTIONS ".data", ".data.rel"
->@@ -797,9 +794,7 @@ static void check_section(const char *modname, struct elf_info *elf,
-> 		".fixup", ".entry.text", ".exception.text", \
-> 		".coldtext", ".softirqentry.text"
-> 
->-#define INIT_SECTIONS      ".init.*"
->-
->-#define ALL_TEXT_SECTIONS  ".init.text", ".meminit.text", ".exit.text", \
->+#define ALL_TEXT_SECTIONS  ".init.text", ".exit.text", \
-> 		TEXT_SECTIONS, OTHER_TEXT_SECTIONS
-> 
-> enum mismatch {
->@@ -839,12 +834,6 @@ static const struct sectioncheck sectioncheck[] = {
-> 	.bad_tosec = { ALL_INIT_SECTIONS, ALL_EXIT_SECTIONS, NULL },
-> 	.mismatch = TEXTDATA_TO_ANY_INIT_EXIT,
-> },
->-/* Do not reference init code/data from meminit code/data */
->-{
->-	.fromsec = { ALL_XXXINIT_SECTIONS, NULL },
->-	.bad_tosec = { INIT_SECTIONS, NULL },
->-	.mismatch = XXXINIT_TO_SOME_INIT,
->-},
-> /* Do not use exit code/data from init code */
-> {
-> 	.fromsec = { ALL_INIT_SECTIONS, NULL },
->@@ -859,7 +848,7 @@ static const struct sectioncheck sectioncheck[] = {
-> },
-> {
-> 	.fromsec = { ALL_PCI_INIT_SECTIONS, NULL },
->-	.bad_tosec = { INIT_SECTIONS, NULL },
->+	.bad_tosec = { ALL_INIT_SECTIONS, NULL },
-> 	.mismatch = ANY_INIT_TO_ANY_EXIT,
-> },
-> {
+>
+>
+>
+>
+>
+>
+>
+>
 >-- 
->2.43.0
+>Best Regards
+>Masahiro Yamada
 
 -- 
 Wei Yang
