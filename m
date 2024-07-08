@@ -1,126 +1,260 @@
-Return-Path: <linux-kbuild+bounces-2429-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2430-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A82092AA3E
-	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Jul 2024 22:00:56 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BE4C92AA67
+	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Jul 2024 22:12:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 042F41F22E56
-	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Jul 2024 20:00:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BB43B281123
+	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Jul 2024 20:12:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A3C61CABA;
-	Mon,  8 Jul 2024 20:00:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1A16249E5;
+	Mon,  8 Jul 2024 20:11:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="TgsODtK7"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="d+tbEXqi"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1AAC7494;
-	Mon,  8 Jul 2024 20:00:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D6507494;
+	Mon,  8 Jul 2024 20:11:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720468850; cv=none; b=u0SMjW/E3vTvxG7d2bNd5uDD3Ba0mRRHr/y7Xq0yKnejLg8BwUlyeehf2ImrsJIbF+61WjTbZIhWT+I6Wha8GrtBbJZsaZ71uIQt78u+jylXUWZGVUrC/vmvWksUALZwUs6A0t1yb2MQ7XOUf/rKcGlGRuJJoFvH96z6ruqXgYM=
+	t=1720469519; cv=none; b=qbKVMHfvI53ibN72uz/JofygTns6kLDSrUuZT8Cv8YgY0sxVPHJ7kTdcMxXEpwAeYuyeSYVffaGqADKFO5eEPjxsZlaVGupAQq/0HwOnnepYYQG9cO02n86Hy2c3H2UCTAlIAxHkqUjLn00d98QMs43lLvew5DgXbsfy9jTZ7CQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720468850; c=relaxed/simple;
-	bh=DuceHzwjAxWY+4M0ma5lxpxvTWPvntTV8l4RN0/Kcek=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WcMFDsYfi8DgG4hz6S4nJW9T9fsrMnKF/YZ1255U6JQdN3jgQI29L9KwlAroBMYR2GluxcmYDy/UCxwCHB4qnhRwApY7RXNYtRrXkI9PaIvg38LJ5w6C9ULkFTcYjvdydSeZaa7CQUybUGqrZU65SHdwsjWRC6UXnSeMbLXRu4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=TgsODtK7; arc=none smtp.client-ip=159.69.126.157
+	s=arc-20240116; t=1720469519; c=relaxed/simple;
+	bh=2CUv/cGNnBSUEkcKCb8mypTk9ZQxN4M4bEMZxtWIT4U=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Rn7T1U6YjBWv++qPD6E9aNT2pcpV8Minq1lCkUz1EG0NVf2Vi0etP7H5Np+Y+Su38Dn+U5Mr1atKkzsaxosIbr6KkF4wyqH8Y6MSDq0bJWiEj2aQnFBL6EUpNJL/ZPQh5P92/Pt8cr1cKyN0MihEV+p7OPW3VZ9tSGamsx6yICg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=d+tbEXqi; arc=none smtp.client-ip=159.69.126.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1720468840;
-	bh=DuceHzwjAxWY+4M0ma5lxpxvTWPvntTV8l4RN0/Kcek=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TgsODtK7AQfwTMAzYmozq+DH13XZFmOW4jOxqdiaVgOJukWVypS3g1bsjfJzt2grZ
-	 ljl0Lu3hNw8Zse8/WbQwGJ3pT3QSKrPDBMzJ1AG+QAaX+kiqW/RV9pHyACAcTdIyh6
-	 mgbNa0g2AvsISf6W9WPlHf5ds0Lo5+p43QkpRlz0=
-Date: Mon, 8 Jul 2024 22:00:39 +0200
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, "Jan Alexander Steffens (heftig)" <heftig@archlinux.org>, 
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH v2] kbuild: add script and target to generate pacman
+	s=mail; t=1720469514;
+	bh=2CUv/cGNnBSUEkcKCb8mypTk9ZQxN4M4bEMZxtWIT4U=;
+	h=From:Date:Subject:To:Cc:From;
+	b=d+tbEXqiz/kXaMJdBfMr8Kvvvzh+S1y+vZgm8fypIuYFxbPGRJB/mYBPijsFj/oer
+	 RnlRGrP22tlVT2CjDLofS2T26ZO96tz5Z3tXOnh5VLrcuuNtgIkzLfc32lB31m37HW
+	 5doA9c9NDqDNwpSfETCBG5pnBSTNw1BkL8CALkaA=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Date: Mon, 08 Jul 2024 22:11:51 +0200
+Subject: [PATCH v3] kbuild: add script and target to generate pacman
  package
-Message-ID: <005e1bca-0061-452e-b8ce-0b8e99bda757@t-8ch.de>
-References: <20240706-kbuild-pacman-pkg-v2-1-613422a03a7a@weissschuh.net>
- <20240708055046.GB1968570@thelio-3990X>
- <9884e892-1d45-4854-971c-5963e4661a1b@t-8ch.de>
- <20240708165342.GA2417540@thelio-3990X>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240708165342.GA2417540@thelio-3990X>
+Message-Id: <20240708-kbuild-pacman-pkg-v3-1-885df3cbc740@weissschuh.net>
+X-B4-Tracking: v=1; b=H4sIAAZIjGYC/23NTQ6CMBCG4auYrq3pH0VdeQ/jopQpbdBCWqgaw
+ t0tuDGR5fsl88yEIgQHEZ13EwqQXHSdz8H3O6St8g1gV+dGjDBBJCtwW43uXuNe6YfyuG8bXAl
+ zLIGeasIlynd9AONeq3m95bYuDl14ry8SXdavVhKxoSWKKVaaGclNYVRZXZ7gYozajvbgYUALm
+ dgvI7cYlhlJuWBMEa5K9cfM8/wBngVO3/4AAAA=
+To: Masahiro Yamada <masahiroy@kernel.org>, 
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>
+Cc: "Jan Alexander Steffens (heftig)" <heftig@archlinux.org>, 
+ linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.14.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1720469513; l=6505;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=2CUv/cGNnBSUEkcKCb8mypTk9ZQxN4M4bEMZxtWIT4U=;
+ b=6equBJM20zMrA8Bea+G52PlnUqQLgzz6G+O8JKNCEMDrDH/cqsAZXgW7dHNBkmrWhY9vnDXRw
+ ltN5uHg9SIVAA83DDMMA4A8ssUzkFleFzmLc1Pxjv6/qHF6u573s+SR
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-On 2024-07-08 09:53:42+0000, Nathan Chancellor wrote:
-> On Mon, Jul 08, 2024 at 05:56:44PM +0200, Thomas Weißschuh wrote:
-> > On 2024-07-07 22:50:46+0000, Nathan Chancellor wrote:
-> > > On Sat, Jul 06, 2024 at 09:33:46AM +0200, Thomas Weißschuh wrote:
+pacman is the package manager used by Arch Linux and its derivates.
+Creating native packages from the kernel tree has multiple advantages:
 
-<snip>
+* The package triggers the correct hooks for initramfs generation and
+  bootloader configuration
+* Uninstallation is complete and also invokes the relevant hooks
+* New UAPI headers can be installed without any manual bookkeeping
 
-> > > > diff --git a/scripts/package/PKGBUILD b/scripts/package/PKGBUILD
-> > > > new file mode 100644
-> > > > index 000000000000..fe899c77a976
-> > > > --- /dev/null
-> > > > +++ b/scripts/package/PKGBUILD
-> > > > @@ -0,0 +1,83 @@
-> > > > +# SPDX-License-Identifier: GPL-2.0-only
-> > > > +# Maintainer: Thomas Weißschuh <linux@weissschuh.net>
-> > > > +# Contributor: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
-> > > > +
-> > > > +pkgbase=linux-upstream
-> > > > +pkgname=("$pkgbase" "$pkgbase-headers" "$pkgbase-api-headers")
-> > > > +pkgver="${KERNELRELEASE//-/_}"
-> > > > +pkgrel="$KBUILD_REVISION"
-> > > > +pkgdesc='Linux'
-> > > > +url='https://www.kernel.org/'
-> > > > +arch=(any)
-> > > 
-> > > I see why you went this way but this feels a little dangerous because
-> > > this means the package will be installable on architectures other than
-> > > the one that it is built for. I think a better solution for this problem
-> > > would be moving arch back to $UTS_MACHINE but setting CARCH to that same
-> > > value in scripts/Makefile.package above. This diff works for me,
-> > > allowing me to build an aarch64 package on x86_64:
-> > 
-> > This is what I used in v1 of the patch.
-> 
-> You had $UTS_MACHINE as arch but I don't see where CARCH was set for
-> makepkg? If you tried to cross compile with v1, there was an error
-> because the default CARCH value (the host) does not match the arch
-> value, but explicitly passing CARCH to makepkg with $UTS_MACHINE should
-> allow makepkg to build a package that is only installable on that
-> machine?
+The PKGBUILD file is a simplified version of the one used for the
+downstream Arch Linux "linux" package.
+Extra steps that should not be necessary for a development kernel have
+been removed and an UAPI header package has been added.
 
-Indeed.
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+Tested-by: Nathan Chancellor <nathan@kernel.org>
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+---
+Changes in v3:
+- Enforce matching architectures for installation
+- Add Reviewed-by and Tested-by from Nathan
+- Link to v2: https://lore.kernel.org/r/20240706-kbuild-pacman-pkg-v2-1-613422a03a7a@weissschuh.net
 
-> > But I felt that this only works by pure chance.
-> 
-> I don't think it is by pure chance, it should be entirely based off of the
-> builder's ARCH value, no? I might be misunderstanding something though.
+Changes in v2:
+- Replace ${MAKE} with $MAKE for consistency with other variables
+- Use $MAKE for "-s image_name"
+- Avoid permission warnings from build directory
+- Clarify reason for /build symlink removal
+- Install System.map and config
+- Install dtbs where available
+- Allow cross-build through arch=any
+- Sort Contributor/Maintainer chronologically
+- Disable some unneeded makepkg options
+- Use DEPMOD=true for consistency with rpm-package
+- Link to v1: https://lore.kernel.org/r/20240704-kbuild-pacman-pkg-v1-1-ac2f63f5fa7b@weissschuh.net
+---
+ .gitignore               |  6 ++++
+ scripts/Makefile.package | 16 ++++++++++
+ scripts/package/PKGBUILD | 83 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 105 insertions(+)
 
-"Chance" for the fact that UTS_MACHINE and Arch Linux CARCH are
-matching.
+diff --git a/.gitignore b/.gitignore
+index c59dc60ba62e..7902adf4f7f1 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -92,6 +92,12 @@ modules.order
+ #
+ /tar-install/
+ 
++#
++# pacman files (make pacman-pkg)
++#
++/PKGBUILD
++/pacman/
++
+ #
+ # We don't want to ignore the following even if they are dot-files
+ #
+diff --git a/scripts/Makefile.package b/scripts/Makefile.package
+index bf016af8bf8a..a5b5b899d90c 100644
+--- a/scripts/Makefile.package
++++ b/scripts/Makefile.package
+@@ -141,6 +141,21 @@ snap-pkg:
+ 	cd $(objtree)/snap && \
+ 	snapcraft --target-arch=$(UTS_MACHINE)
+ 
++# pacman-pkg
++# ---------------------------------------------------------------------------
++
++PHONY += pacman-pkg
++pacman-pkg:
++	@ln -srf $(srctree)/scripts/package/PKGBUILD $(objtree)/PKGBUILD
++	cd $(objtree) && \
++		srctree="$(realpath $(srctree))" \
++		objtree="$(realpath $(objtree))" \
++		BUILDDIR="$(realpath $(objtree))/pacman" \
++		CARCH="$(UTS_MACHINE)" \
++		KBUILD_MAKEFLAGS="$(MAKEFLAGS)" \
++		KBUILD_REVISION="$(shell $(srctree)/init/build-version)" \
++		makepkg
++
+ # dir-pkg tar*-pkg - tarball targets
+ # ---------------------------------------------------------------------------
+ 
+@@ -221,6 +236,7 @@ help:
+ 	@echo '  bindeb-pkg          - Build only the binary kernel deb package'
+ 	@echo '  snap-pkg            - Build only the binary kernel snap package'
+ 	@echo '                        (will connect to external hosts)'
++	@echo '  pacman-pkg          - Build only the binary kernel pacman package'
+ 	@echo '  dir-pkg             - Build the kernel as a plain directory structure'
+ 	@echo '  tar-pkg             - Build the kernel as an uncompressed tarball'
+ 	@echo '  targz-pkg           - Build the kernel as a gzip compressed tarball'
+diff --git a/scripts/package/PKGBUILD b/scripts/package/PKGBUILD
+new file mode 100644
+index 000000000000..ee4b77526b5f
+--- /dev/null
++++ b/scripts/package/PKGBUILD
+@@ -0,0 +1,83 @@
++# SPDX-License-Identifier: GPL-2.0-only
++# Maintainer: Thomas Weißschuh <linux@weissschuh.net>
++# Contributor: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
++
++pkgbase=linux-upstream
++pkgname=("$pkgbase" "$pkgbase-headers" "$pkgbase-api-headers")
++pkgver="${KERNELRELEASE//-/_}"
++pkgrel="$KBUILD_REVISION"
++pkgdesc='Linux'
++url='https://www.kernel.org/'
++arch=($CARCH)
++options=(!debug !strip !buildflags !makeflags)
++license=(GPL-2.0-only)
++
++build() {
++  export MAKEFLAGS="${KBUILD_MAKEFLAGS}"
++  cd "$objtree"
++
++  # makepkg does a "chmod a-srw", triggering warnings during kbuild
++  chmod 0755 "$pkgdirbase" || true
++
++  $MAKE -f "${srctree}/Makefile"
++}
++
++package_linux-upstream() {
++  pkgdesc="The $pkgdesc kernel and modules"
++
++  export MAKEFLAGS="${KBUILD_MAKEFLAGS}"
++  cd "$objtree"
++  local modulesdir="$pkgdir/usr/$MODLIB"
++
++  echo "Installing boot image..."
++  # systemd expects to find the kernel here to allow hibernation
++  # https://github.com/systemd/systemd/commit/edda44605f06a41fb86b7ab8128dcf99161d2344
++  install -Dm644 "$($MAKE -s image_name)" "$modulesdir/vmlinuz"
++
++  # Used by mkinitcpio to name the kernel
++  echo "$pkgbase" | install -Dm644 /dev/stdin "$modulesdir/pkgbase"
++
++  echo "Installing modules..."
++  $MAKE INSTALL_MOD_PATH="$pkgdir/usr" INSTALL_MOD_STRIP=1 \
++    DEPMOD=true modules_install
++
++  if $MAKE run-command KBUILD_RUN_COMMAND='test -d ${srctree}/arch/${SRCARCH}/boot/dts' 2>/dev/null; then
++    echo "Installing dtbs..."
++    $MAKE INSTALL_DTBS_PATH="$modulesdir/dtb" dtbs_install
++  fi
++
++  # remove build link, will be part of -headers package
++  rm -f "$modulesdir/build"
++}
++
++package_linux-upstream-headers() {
++  pkgdesc="Headers and scripts for building modules for the $pkgdesc kernel"
++
++  export MAKEFLAGS="${KBUILD_MAKEFLAGS}"
++  cd "$objtree"
++  local builddir="$pkgdir/usr/$MODLIB/build"
++
++  echo "Installing build files..."
++  "$srctree/scripts/package/install-extmod-build" "$builddir"
++
++  echo "Installing System.map and config..."
++  cp System.map "$builddir/System.map"
++  cp .config "$builddir/.config"
++
++  echo "Adding symlink..."
++  mkdir -p "$pkgdir/usr/src"
++  ln -sr "$builddir" "$pkgdir/usr/src/$pkgbase"
++}
++
++package_linux-upstream-api-headers() {
++  pkgdesc="Kernel headers sanitized for use in userspace"
++  provides=(linux-api-headers)
++  conflicts=(linux-api-headers)
++
++  export MAKEFLAGS="${KBUILD_MAKEFLAGS}"
++  cd "$objtree"
++
++  $MAKE headers_install INSTALL_HDR_PATH="$pkgdir/usr"
++}
++
++# vim:set ts=8 sts=2 sw=2 et:
 
-> > IMO users of this feature should know what they are doing.
-> > 
-> > That said, if anybody has strong opinions on this, I'll be happy to change it.
-> 
-> I don't feel strongly about it but I think this is different from pretty
-> much all of the other package builds, which only build a package that is
-> installable/usable on one archictecture, and the solution seems
-> simple/robust enough.
+---
+base-commit: 256abd8e550ce977b728be79a74e1729438b4948
+change-id: 20240625-kbuild-pacman-pkg-b4f87e19d036
 
-I'll pick up your proposal and will send v3 with it and your tags.
+Best regards,
+-- 
+Thomas Weißschuh <linux@weissschuh.net>
+
 
