@@ -1,153 +1,296 @@
-Return-Path: <linux-kbuild+bounces-2424-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2425-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B612929B6A
-	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Jul 2024 07:07:08 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F048929BCD
+	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Jul 2024 07:50:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 99A4FB20B06
-	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Jul 2024 05:07:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 38CD928135E
+	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Jul 2024 05:50:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BAE49445;
-	Mon,  8 Jul 2024 05:07:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C932566A;
+	Mon,  8 Jul 2024 05:50:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mfg95EPd"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hx1Yx036"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CD198F5A;
-	Mon,  8 Jul 2024 05:07:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3276A171A5;
+	Mon,  8 Jul 2024 05:50:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720415222; cv=none; b=dX4bZs46d2ZEDpS8UiY1Ms9lbyMYRyQrrI8358Cl69Y9HH6dVRIpvt3nP33jY7oqobgGV95XWjbphA+2HtpQNeVmkTpUfXNIEinYJLydKaZDuoyuiKMIGHHTAgwkhmb2KhL1Zg7BG8h3nsn66tOrbd0AhRaNB0aMXyKIfZpjbOc=
+	t=1720417849; cv=none; b=c39z1w1xeRbKUD/vdgrZB8dqNsfW8SOK9qbDXJd2tjdkyGD7e1Npp+WBxb7z/vYSgLjlslFcpMgS5pgHThXM41kU4y9ZIOijhHj/m9KqsyJ3wF0tBEkyUQP5pIslpTufuBFB7cYFwBaurSHjwNRtMAdrC7w7tOvlj+wsATALyqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720415222; c=relaxed/simple;
-	bh=28P5DxuZtpcNeH3XINse8v/z7lEZTB6poCC+rDFkGhc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=lZh8ymdsC3F7/lXTaQJrS6OZgDxQZCDPp0EyCHjZQl+xlGQIy6EAjOv83/b5CKenIyCSwQBYudT5ZkGnZmr+B1on7oTE1DuN/iPj6sZrCWbzWBHlWZpbyMwmwwzRddO4pAIOw8AvOYx68fJCmoSYLx62I0uQPDN7ietnwCqzGv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mfg95EPd; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17685C116B1;
-	Mon,  8 Jul 2024 05:07:01 +0000 (UTC)
+	s=arc-20240116; t=1720417849; c=relaxed/simple;
+	bh=u0wE8yIjYFYNSTj21s/9/1U/Z8OIEXthoLLDovwwkdQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=phrzIOA31ka2hJhI/KaW4bpSY8KsMF4lB8pf8gQwG5ZQcfbO4WGKAXT/iapdadQA8nxXVoAVXW7tUgZbKc1woaEUI/rpM8uKKF/oM2L8ZvgxSdYmzJLQTCGKwyzZJn3ktVlqdBmin6nZ1/cGpiMPhdD6WHXPUx4EYzBfrgG4WNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hx1Yx036; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CE2EC116B1;
+	Mon,  8 Jul 2024 05:50:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720415221;
-	bh=28P5DxuZtpcNeH3XINse8v/z7lEZTB6poCC+rDFkGhc=;
-	h=From:Date:Subject:To:Cc:From;
-	b=mfg95EPdmWmSWzRNDZbtUgQ9lHfE5G8Evj1XCNPLOC6QUJOkAHu+281M5wpeMnEnP
-	 rVSZG3IMWBOeRPmxSLnHC27Y15w/8pu4ZG0pUGD/D/EUGz6g8TzK6+lOVTIXvE1am3
-	 rO3wPkqw95XFDb1JBAsXGHCqhjAjDELSf7ew8rO/bV0i8v+aCTmcF4dBO7BKMoMtbv
-	 QLfyx2KhFijKPtdFCZb5UoCsgKNlADQDLI5QLYv4wjR0Uasc/HW1KVjTWnzIJTs8dh
-	 6aRwfJxU2Mo2LajMm1zq4mAX8wfNZ8mUxrdValka2H5PjFxY8EEO6vzV+d5o+7K5eV
-	 +3ll5nFxY0upQ==
+	s=k20201202; t=1720417848;
+	bh=u0wE8yIjYFYNSTj21s/9/1U/Z8OIEXthoLLDovwwkdQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hx1Yx0360396+5vlDWjOsXycXocERWaTzhaJkL9J+iAeZQPfYDbw2s+Xgd26Pi9sN
+	 GPwPm7jpv606P+ZF+jSlJ2g2SMZGxwHbc4Guoe5OpHLmtmKBhoevsW6IbJ2Dws1KkG
+	 hV8AayrtBlvaatrq1hh6WJSSpomHS/yOMieaVNgbC7JzLmv+uCuxZZqEJ3oCaEeW/d
+	 3ORx/nUlRAdljp7dDPW6YS8YlkZfjVf/v2LzpbODGl3obajeis74Cb/CGTfQltwwmk
+	 Ta1LtFHtg7s8HtdfSETB7SKzh3jl4D6knBk2iLWJpKqmRIXakVCItjFLQvzPrAEo1f
+	 ixseqzi0jQnBQ==
+Date: Sun, 7 Jul 2024 22:50:46 -0700
 From: Nathan Chancellor <nathan@kernel.org>
-Date: Sun, 07 Jul 2024 22:06:47 -0700
-Subject: [PATCH v2] kbuild: Make ld-version.sh more robust against version
- string changes
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	"Jan Alexander Steffens (heftig)" <heftig@archlinux.org>,
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH v2] kbuild: add script and target to generate pacman
+ package
+Message-ID: <20240708055046.GB1968570@thelio-3990X>
+References: <20240706-kbuild-pacman-pkg-v2-1-613422a03a7a@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240707-update-ld-version-for-new-lld-ver-str-v2-1-8f24421198c0@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAOZzi2YC/5WNSw6CMBRFt0I69pm2YgiO3Adh0M8rNJKWvGLVE
- PZuwRU4PCc396wsIXlM7FatjDD75GMoIE8VM6MKA4K3hZnksuYNr+E5W7UgTBYy0r4GFwkCvmD
- 6OUgLgW5UrZzW9uoEK18zofPvo9P1hUeflkifI5vFbv8tZAECWqGNMVxy1V7uD6SA0znSwPpt2
- 7523XIW2wAAAA==
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Nicolas Schier <nicolas@fjasle.eu>, Fangrui Song <maskray@google.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
- linux-kbuild@vger.kernel.org, llvm@lists.linux.dev, patches@lists.linux.dev, 
- Nathan Chancellor <nathan@kernel.org>
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3291; i=nathan@kernel.org;
- h=from:subject:message-id; bh=28P5DxuZtpcNeH3XINse8v/z7lEZTB6poCC+rDFkGhc=;
- b=owGbwMvMwCUmm602sfCA1DTG02pJDGndxV/kvlmIHLn2TOz1r+kBoXEfb+67lewWP32nHU+v3
- /8HGnwrO0pZGMS4GGTFFFmqH6seNzScc5bxxqlJMHNYmUCGMHBxCsBErJ8yMhy6/UH40t19dyd2
- 6Gv4aO83CX9uPlsyuYRBKlbi2WGD4k8M/6sXhCZpHfj0fNvaxFcH92XM1WvsYdjj9PBTM//tQj5
- ZIW4A
-X-Developer-Key: i=nathan@kernel.org; a=openpgp;
- fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240706-kbuild-pacman-pkg-v2-1-613422a03a7a@weissschuh.net>
 
-After [1] in upstream LLVM, ld.lld's version output became slightly
-different when the cmake configuration option LLVM_APPEND_VC_REV is
-disabled.
+Hi Thomas,
 
-Before:
+On Sat, Jul 06, 2024 at 09:33:46AM +0200, Thomas Weiﬂschuh wrote:
+> pacman is the package manager used by Arch Linux and its derivates.
+> Creating native packages from the kernel tree has multiple advantages:
+> 
+> * The package triggers the correct hooks for initramfs generation and
+>   bootloader configuration
+> * Uninstallation is complete and also invokes the relevant hooks
+> * New UAPI headers can be installed without any manual bookkeeping
+> 
+> The PKGBUILD file is a simplified version of the one used for the
+> downstream Arch Linux "linux" package.
+> Extra steps that should not be necessary for a development kernel have
+> been removed and an UAPI header package has been added.
+> 
+> Signed-off-by: Thomas Weiﬂschuh <linux@weissschuh.net>
 
-  Debian LLD 19.0.0 (compatible with GNU linkers)
+Thanks a lot for addressing my comments. From a PKGBUILD perspective,
+this looks good to me (I have a couple more comments below). I am not as
+familiar with the Kbuild packaging infrastructure, so Masahiro might
+have more comments on that, but it works for me in my basic testing so
+consider it:
 
-After:
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+Tested-by: Nathan Chancellor <nathan@kernel.org>
 
-  Debian LLD 19.0.0, compatible with GNU linkers
+> ---
+> Changes in v2:
+> - Replace ${MAKE} with $MAKE for consistency with other variables
+> - Use $MAKE for "-s image_name"
+> - Avoid permission warnings from build directory
+> - Clarify reason for /build symlink removal
+> - Install System.map and config
+> - Install dtbs where available
+> - Allow cross-build through arch=any
+> - Sort Contributor/Maintainer chronologically
+> - Disable some unneeded makepkg options
+> - Use DEPMOD=true for consistency with rpm-package
+> - Link to v1: https://lore.kernel.org/r/20240704-kbuild-pacman-pkg-v1-1-ac2f63f5fa7b@weissschuh.net
+> ---
+>  .gitignore               |  6 ++++
+>  scripts/Makefile.package | 15 +++++++++
+>  scripts/package/PKGBUILD | 83 ++++++++++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 104 insertions(+)
+> 
+> diff --git a/.gitignore b/.gitignore
+> index c59dc60ba62e..7902adf4f7f1 100644
+> --- a/.gitignore
+> +++ b/.gitignore
+> @@ -92,6 +92,12 @@ modules.order
+>  #
+>  /tar-install/
+>  
+> +#
+> +# pacman files (make pacman-pkg)
+> +#
+> +/PKGBUILD
+> +/pacman/
+> +
+>  #
+>  # We don't want to ignore the following even if they are dot-files
+>  #
+> diff --git a/scripts/Makefile.package b/scripts/Makefile.package
+> index bf016af8bf8a..8c0c80f8bec0 100644
+> --- a/scripts/Makefile.package
+> +++ b/scripts/Makefile.package
+> @@ -141,6 +141,20 @@ snap-pkg:
+>  	cd $(objtree)/snap && \
+>  	snapcraft --target-arch=$(UTS_MACHINE)
+>  
+> +# pacman-pkg
+> +# ---------------------------------------------------------------------------
+> +
+> +PHONY += pacman-pkg
+> +pacman-pkg:
+> +	@ln -srf $(srctree)/scripts/package/PKGBUILD $(objtree)/PKGBUILD
+> +	cd $(objtree) && \
+> +		srctree="$(realpath $(srctree))" \
+> +		objtree="$(realpath $(objtree))" \
+> +		BUILDDIR="$(realpath $(objtree))/pacman" \
+> +		KBUILD_MAKEFLAGS="$(MAKEFLAGS)" \
+> +		KBUILD_REVISION="$(shell $(srctree)/init/build-version)" \
+> +		makepkg
+> +
+>  # dir-pkg tar*-pkg - tarball targets
+>  # ---------------------------------------------------------------------------
+>  
+> @@ -221,6 +235,7 @@ help:
+>  	@echo '  bindeb-pkg          - Build only the binary kernel deb package'
+>  	@echo '  snap-pkg            - Build only the binary kernel snap package'
+>  	@echo '                        (will connect to external hosts)'
+> +	@echo '  pacman-pkg          - Build only the binary kernel pacman package'
+>  	@echo '  dir-pkg             - Build the kernel as a plain directory structure'
+>  	@echo '  tar-pkg             - Build the kernel as an uncompressed tarball'
+>  	@echo '  targz-pkg           - Build the kernel as a gzip compressed tarball'
+> diff --git a/scripts/package/PKGBUILD b/scripts/package/PKGBUILD
+> new file mode 100644
+> index 000000000000..fe899c77a976
+> --- /dev/null
+> +++ b/scripts/package/PKGBUILD
+> @@ -0,0 +1,83 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +# Maintainer: Thomas Weiﬂschuh <linux@weissschuh.net>
+> +# Contributor: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
+> +
+> +pkgbase=linux-upstream
+> +pkgname=("$pkgbase" "$pkgbase-headers" "$pkgbase-api-headers")
+> +pkgver="${KERNELRELEASE//-/_}"
+> +pkgrel="$KBUILD_REVISION"
+> +pkgdesc='Linux'
+> +url='https://www.kernel.org/'
+> +arch=(any)
 
-This results in ld-version.sh failing with
+I see why you went this way but this feels a little dangerous because
+this means the package will be installable on architectures other than
+the one that it is built for. I think a better solution for this problem
+would be moving arch back to $UTS_MACHINE but setting CARCH to that same
+value in scripts/Makefile.package above. This diff works for me,
+allowing me to build an aarch64 package on x86_64:
 
-  scripts/ld-version.sh: 18: arithmetic expression: expecting EOF: "10000 * 19 + 100 * 0 + 0,"
-
-because the trailing comma is included in the patch level part of the
-expression. While [1] has been partially reverted in [2] to avoid this
-breakage (as it impacts the configuration stage and it is present in all
-LTS branches), it would be good to make ld-version.sh more robust
-against such miniscule changes like this one.
-
-Use POSIX shell parameter expansion [3] to remove the largest suffix
-after just numbers and periods, replacing of the current removal of
-everything after a hyphen. ld-version.sh continues to work for a number
-of distributions (Arch Linux, Debian, and Fedora) and the kernel.org
-toolchains and no longer errors on a version of ld.lld with [1].
-
-Fixes: 02aff8592204 ("kbuild: check the minimum linker version in Kconfig")
-Link: https://github.com/llvm/llvm-project/commit/0f9fbbb63cfcd2069441aa2ebef622c9716f8dbb [1]
-Link: https://github.com/llvm/llvm-project/commit/649cdfc4b6781a350dfc87d9b2a4b5a4c3395909 [2]
-Link: https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html [3]
-Suggested-by: Fangrui Song <maskray@google.com>
-Reviewed-by: Fangrui Song <maskray@google.com>
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
----
-Changes in v2:
-- Move to a pattern matching notation with remove largest suffix to
-  remove everything after just numbers and periods.
-- The LLVM change that prompted this has been partially reverted to
-  avoid this problem, so reword commit message to reflect this is being
-  done defensively. As such, remove 'Cc: stable@vger.kernel.org'. If it
-  is needed there at some point, it can just be manually backported (or
-  it will just get AUTOSEL'd).
-- Add tags for Fangrui's suggestion and review on v1.
-- Link to v1: https://lore.kernel.org/r/20240704-update-ld-version-for-new-lld-ver-str-v1-1-91bccc020a93@kernel.org
----
- scripts/ld-version.sh | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
-
-diff --git a/scripts/ld-version.sh b/scripts/ld-version.sh
-index a78b804b680c..b9513d224476 100755
---- a/scripts/ld-version.sh
-+++ b/scripts/ld-version.sh
-@@ -57,9 +57,11 @@ else
- 	fi
- fi
+diff --git a/scripts/Makefile.package b/scripts/Makefile.package
+index 8c0c80f8bec0..a5b5b899d90c 100644
+--- a/scripts/Makefile.package
++++ b/scripts/Makefile.package
+@@ -151,6 +151,7 @@ pacman-pkg:
+ 		srctree="$(realpath $(srctree))" \
+ 		objtree="$(realpath $(objtree))" \
+ 		BUILDDIR="$(realpath $(objtree))/pacman" \
++		CARCH="$(UTS_MACHINE)" \
+ 		KBUILD_MAKEFLAGS="$(MAKEFLAGS)" \
+ 		KBUILD_REVISION="$(shell $(srctree)/init/build-version)" \
+ 		makepkg
+diff --git a/scripts/package/PKGBUILD b/scripts/package/PKGBUILD
+index fe899c77a976..7f1a4588c3d3 100644
+--- a/scripts/package/PKGBUILD
++++ b/scripts/package/PKGBUILD
+@@ -8,7 +8,7 @@ pkgver="${KERNELRELEASE//-/_}"
+ pkgrel="$KBUILD_REVISION"
+ pkgdesc='Linux'
+ url='https://www.kernel.org/'
+-arch=(any)
++arch=($UTS_MACHINE)
+ options=(!debug !strip !buildflags !makeflags)
+ license=(GPL-2.0-only)
  
--# Some distributions append a package release number, as in 2.34-4.fc32
--# Trim the hyphen and any characters that follow.
--version=${version%-*}
-+# There may be something after the version, such as a distribution's package
-+# release number (like Fedora's "2.34-4.fc32") or punctuation (like LLD briefly
-+# added before the "compatible with GNU linkers" string), so remove everything
-+# after just numbers and periods.
-+version=${version%%[!0-9.]*}
- 
- cversion=$(get_canonical_version $version)
- min_cversion=$(get_canonical_version $min_version)
 
----
-base-commit: 22a40d14b572deb80c0648557f4bd502d7e83826
-change-id: 20240704-update-ld-version-for-new-lld-ver-str-b7a4afbbd5f1
+> +options=(!debug !strip !buildflags !makeflags)
+> +license=(GPL-2.0-only)
+> +
+> +build() {
+> +  export MAKEFLAGS="${KBUILD_MAKEFLAGS}"
+> +  cd "$objtree"
+> +
+> +  # makepkg does a "chmod a-srw", triggering warnings during kbuild
+> +  chmod 0755 "$pkgdirbase" || true
+> +
+> +  $MAKE -f "${srctree}/Makefile"
+> +}
+> +
+> +package_linux-upstream() {
+> +  pkgdesc="The $pkgdesc kernel and modules"
+> +
+> +  export MAKEFLAGS="${KBUILD_MAKEFLAGS}"
+> +  cd "$objtree"
+> +  local modulesdir="$pkgdir/usr/$MODLIB"
+> +
+> +  echo "Installing boot image..."
+> +  # systemd expects to find the kernel here to allow hibernation
+> +  # https://github.com/systemd/systemd/commit/edda44605f06a41fb86b7ab8128dcf99161d2344
+> +  install -Dm644 "$($MAKE -s image_name)" "$modulesdir/vmlinuz"
+> +
+> +  # Used by mkinitcpio to name the kernel
+> +  echo "$pkgbase" | install -Dm644 /dev/stdin "$modulesdir/pkgbase"
+> +
+> +  echo "Installing modules..."
+> +  $MAKE INSTALL_MOD_PATH="$pkgdir/usr" INSTALL_MOD_STRIP=1 \
+> +    DEPMOD=true modules_install
+> +
+> +  if $MAKE run-command KBUILD_RUN_COMMAND='test -d ${srctree}/arch/${SRCARCH}/boot/dts' 2>/dev/null; then
+> +    echo "Installing dtbs..."
+> +    $MAKE INSTALL_DTBS_PATH="$modulesdir/dtb" dtbs_install
+> +  fi
+> +
+> +  # remove build link, will be part of -headers package
+> +  rm -f "$modulesdir/build"
+> +}
+> +
+> +package_linux-upstream-headers() {
+> +  pkgdesc="Headers and scripts for building modules for the $pkgdesc kernel"
+> +
+> +  export MAKEFLAGS="${KBUILD_MAKEFLAGS}"
+> +  cd "$objtree"
+> +  local builddir="$pkgdir/usr/$MODLIB/build"
+> +
+> +  echo "Installing build files..."
+> +  "$srctree/scripts/package/install-extmod-build" "$builddir"
+> +
+> +  echo "Installing System.map and config..."
+> +  cp System.map "$builddir/System.map"
+> +  cp .config "$builddir/.config"
 
-Best regards,
--- 
-Nathan Chancellor <nathan@kernel.org>
+Remove the dot on the installation location so that it is more visible.
 
+> +  echo "Adding symlink..."
+> +  mkdir -p "$pkgdir/usr/src"
+> +  ln -sr "$builddir" "$pkgdir/usr/src/$pkgbase"
+> +}
+> +
+> +package_linux-upstream-api-headers() {
+> +  pkgdesc="Kernel headers sanitized for use in userspace"
+> +  provides=(linux-api-headers)
+> +  conflicts=(linux-api-headers)
+> +
+> +  export MAKEFLAGS="${KBUILD_MAKEFLAGS}"
+> +  cd "$objtree"
+> +
+> +  $MAKE headers_install INSTALL_HDR_PATH="$pkgdir/usr"
+> +}
+> +
+> +# vim:set ts=8 sts=2 sw=2 et:
+> 
+> ---
+> base-commit: 1dd28064d4164a4dc9096fd1a7990d2de15f2bb6
+> change-id: 20240625-kbuild-pacman-pkg-b4f87e19d036
+> 
+> Best regards,
+> -- 
+> Thomas Weiﬂschuh <linux@weissschuh.net>
+> 
 
