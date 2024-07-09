@@ -1,111 +1,112 @@
-Return-Path: <linux-kbuild+bounces-2432-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2433-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6097A92B19A
-	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jul 2024 09:52:38 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D06AA92B1B0
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jul 2024 10:00:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8E4DD28158D
-	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jul 2024 07:52:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 85B7E1F22EB4
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jul 2024 08:00:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE6B314E2DF;
-	Tue,  9 Jul 2024 07:52:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B0B613C8EA;
+	Tue,  9 Jul 2024 08:00:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OTsCVGJj"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aeeDMRcg"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 676B814C582;
-	Tue,  9 Jul 2024 07:52:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B28C11D556;
+	Tue,  9 Jul 2024 08:00:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720511552; cv=none; b=GgQNBZH4raq1xCe4N8BWTvXL4BZhkckTbUOicgC557Lub6TRRIspk6v6KdrKKRgq1uNuHg0NqLCaJWVJ79p70p0MbeHtWeAtwhgSGN5mH7tQwROo7m+UHLtMzHAysHlh13GEaMaBXXBIQDT2hCPYrLa6XR0Pgv9zT3jg4T4+bTs=
+	t=1720512020; cv=none; b=ESxG4HIjnwe+PZ+gV5maoqFV52JQoo3kPgA5CJNtEYvBKNUsBOunVZJPKVsVc6iGoooCaNJoSt6MF6vFowvEos99RjiU7jdQiPkWz8nAbIclT1IXmrb9CKQShQwMCY59qRyhdO1TO0GDoAZDk+DSQ8e+ngwCMvbg89x962eEjMk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720511552; c=relaxed/simple;
-	bh=4huwY83Cip/KiWjo4Fuer9HzRe1argLs9dYsNwYiwCk=;
+	s=arc-20240116; t=1720512020; c=relaxed/simple;
+	bh=2Z9frzwd0NBvTHBORtTb5ApRHghWV79ysmsb1TaQVJc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SZ51QqCn7jtzKfcUTLgoDDmQtzM/sX+DtU751bd2GC4GBGvKLoeAbRMQO5EeStlO/HyJraj/FZrbyHWRZCxsrMjqcA88uAnVMT8OBF1EBTrLmsWrvVInHg2sKSZiZ+He1cyie2FoH738PhoWi+3bSDl1Ei/X1ylfJcdQyNMklHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OTsCVGJj; arc=none smtp.client-ip=209.85.214.182
+	 To:Cc:Content-Type; b=uJ6Yu7q2pH6Dwjd4lHV2+kVPr7bRihYiSl/cu/yU7RDoSmHAM6fBXPiWmWGZfmndDSWCQCyDO23qvzUnPCJwZP1z3UtKmWSfmxDU/EpjGElu5d2YZRuvbOu4dM1yzUksLTayviZfmPhYkaH4UOGJ+djO383fWrETVRgfz4LMs9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aeeDMRcg; arc=none smtp.client-ip=209.85.216.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1fb3cf78fa6so26694475ad.1;
-        Tue, 09 Jul 2024 00:52:31 -0700 (PDT)
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2c961b5f215so2763325a91.0;
+        Tue, 09 Jul 2024 01:00:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720511551; x=1721116351; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1720512019; x=1721116819; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=4huwY83Cip/KiWjo4Fuer9HzRe1argLs9dYsNwYiwCk=;
-        b=OTsCVGJj8R7nQBFuypASYjXya3L+KwpY1Z5LowwHXA4LyMgekLrudzZheYulEgkjg7
-         b6la9qU0W78xkZpSonEMTtdW3Lo/dWhATnSNs+jPDX/ewRNt7vBd7ivvBYRs6FZQyQUw
-         Cpxb+FxXPCB2MnZCYnzr+d4A9jip3N/GatSX/aZ/N1VoJ+kEYj20dusFLXZAwIV7iF/h
-         vh9H4snDNo27XeHbq8i0fClPAKpzLZ+Yfc/qtMdOxwfJNktM7XXbbUYYNydCjOSaogYc
-         zHhC81W3KAEGDp0tp/Te8ITsysL0pDoPUIZDpGnmY904k8RCUARMKg93ktWgnwhCXNsq
-         orlg==
+        bh=rHr6GCIr04Zg+ukzGcMwjVGN5QUCU4bpuoKoDkmBEnY=;
+        b=aeeDMRcgSCcvohZSbDN8q1opB8XKhTOTe20B5fTNBgTnrzS8h/2fCK1vK1WR+E0TL/
+         iBTR5dpe4pNE29x2zG2Clvhm2b+NWzHdAV19zVWoEhxIWX2l3j1QvtMA9qC0SGuOkSJ1
+         zq7h76q/sD9NKb0krx/pKNGLee0LdOqkQB3c5dZNHM2TKt6PFNaKYjm3CNwuOjC3da/X
+         DsDGqAhIZrP2J6KayjdRkEKMdWz0t7cq64WhuqIuNvm5OpP5eP9SCnU5TYyEvZu2dpvp
+         cBmPSmUeoYNXDn82heb4d6kDSPzabn3uMK9n2TQzyTxfp9IlXbt1fnFCv4wRGsVXff3d
+         fiFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720511551; x=1721116351;
+        d=1e100.net; s=20230601; t=1720512019; x=1721116819;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=4huwY83Cip/KiWjo4Fuer9HzRe1argLs9dYsNwYiwCk=;
-        b=wQ/NNlSl5+IVLSWCwPjpVyEnK900HFANe6Eu7VuV2vnvuuraFxSM2VQYjIQKgiIY7z
-         AeYpNNuWmMrYUWPB6sgb3l1uCDB7s74Acil+S1ovIP4O6ByN/rLsqEoHNpxRzu0f4HVg
-         Emz6bzX0r9gpzwiT+8Z9X5hUuhV/KKK3mmhPlKKlTm/UnyYLFjx6m5oRazWvzFpDJYhW
-         +SGjY5OFl98r1LjkOZRXSNB8m/2Z9aTarrp7qhbeJYOUl7i0FMwU+NS8oW8qQ2rTuVI5
-         Atmrdp4F2K/3FNEq7tbmsxKkSQWEGAq9dMlNtCJWoj5slmiUA9hB0XUjgGq3oWI6QNLe
-         3chQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXWFdw3w/uQI8B9If/fA3JILg1lwVP2r3tyHE8wfnrhCDRjTi2HcLug33QdONny03KdX5Dei7/j6wVIyPYGloEEcC9MJuEZaY3qUDn09dEBNPPsIUgyJtS8re9YheI55wC+gn49eAg7AS0Nen1+zyPxKGFBhpFeoCWOYxgs8VEqCZsx8JneYRIGzzo=
-X-Gm-Message-State: AOJu0YwN2zOJcRe6ZRdCwxSpsPcBUocxpPAl40pKoPSJYvu+fJB0gXpR
-	QE8U94FeR/4KMIuPc2fsaGPIA38p9QALOlnyIfFAiNixhkVvU7bjt+WWsUnTjUv/lBhrip9hYYo
-	qceN2oPBEhfhY+E9uzboiZdjWtNM=
-X-Google-Smtp-Source: AGHT+IEsiTEi2w47DuEz12pAyq/B0P5SMlLRpynlMjhW49xEuBs4PU0+67uU2G5y8PKx5VM+2zmkAZyJH+aqcKZ2NZA=
-X-Received: by 2002:a17:90b:5384:b0:2c9:6ccc:2fbb with SMTP id
- 98e67ed59e1d1-2ca35c6cad8mr1496604a91.24.1720511550658; Tue, 09 Jul 2024
- 00:52:30 -0700 (PDT)
+        bh=rHr6GCIr04Zg+ukzGcMwjVGN5QUCU4bpuoKoDkmBEnY=;
+        b=Z4FKZbrMVIj/kMpNEX4MIbSwIbhi6rZgkOwwNplel98uBIgNipOmvPycjroT/ChEUe
+         BNVU8gELeGIUf/ltnwHM0Gm0BfSPbPNaxXv0lhVyvlzmuyDt19YfFdbdnV5EjaFzYw6Q
+         VI8YJni2ZNO0j7E4Fpgm0VaQgEFGnsr72oYmneG01fOMHiZ8+bREN0tMQRfyxML4dV3l
+         RoY7WPMzMrXnr6BjUEK7Fm/k6qIttBfRQ1J81/jTLuGIm3xV/LPWG3vCO+oME3YUSdNx
+         JVbvinjBovAFiNW6BbSbm0lQwDKkplqGxYL2hJGeOCTmQ8C37dqKSw9Z7YDXROGCCdPc
+         4+PQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVcQe/+JWsw+IntosrnJ+Tj0IOJbDLuAG5giJ6JZxmhs9jAFbOSNEqT+HWNpjJFHVu+7xui3eqPQrfSvItws6yAryyAra1rbioFxmPYPpthBd1zq6tr2Zd3AlqpxkizvOr3sTvj/rmcLnDs+TFqXNRAYp6x3djopa//iUHEYUKBPYueldy0uvM5eJs=
+X-Gm-Message-State: AOJu0YzjwrRkIr27vqFbfM4/InYdy/gotj3b9VXk/dyVXfpEs/jOSY7y
+	q3KwjSq3H330eScBNEGeFiXcx0aDFYiMleebOftWdiHoSfcA6nMCbJlY2rpWaypiG4oxsSpIVFj
+	nykA+yjr9DeaZSUF4voWAWn8329k=
+X-Google-Smtp-Source: AGHT+IHPXDx5t+AzSiO3uMf1vO7103wf/cZhQX6ucziXqlj811yqZ+a9d4SMo+EC8Zj65vZ5J9pEAWuHXCw7V74ZRn0=
+X-Received: by 2002:a17:90a:c387:b0:2c9:784b:4a49 with SMTP id
+ 98e67ed59e1d1-2ca35d3db04mr1489354a91.38.1720512019034; Tue, 09 Jul 2024
+ 01:00:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240528163502.411600-1-ojeda@kernel.org>
-In-Reply-To: <20240528163502.411600-1-ojeda@kernel.org>
+References: <20240628004356.1384486-1-jhubbard@nvidia.com>
+In-Reply-To: <20240628004356.1384486-1-jhubbard@nvidia.com>
 From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Tue, 9 Jul 2024 09:52:18 +0200
-Message-ID: <CANiq72=FUyYgv0Ng__A4GYh=dxpDD7FF=Fr9_pdo_HRithuAFg@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: rust: remove now-unneeded `rusttest` custom
- sysroot handling
-To: Miguel Ojeda <ojeda@kernel.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Wedson Almeida Filho <wedsonaf@gmail.com>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+Date: Tue, 9 Jul 2024 10:00:06 +0200
+Message-ID: <CANiq72kEBCx=6Wab=0dSVkXeoYsR-=pYv7CA=8wJgVOxqwkiDQ@mail.gmail.com>
+Subject: Re: [PATCH v3 0/2] Makefile: rust-analyzer better error handling, documentation
+To: John Hubbard <jhubbard@nvidia.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Greg KH <greg@kroah.com>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
 	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
 	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
-	Alice Ryhl <aliceryhl@google.com>, linux-kbuild@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	patches@lists.linux.dev
+	Alice Ryhl <aliceryhl@google.com>, Finn Behrens <me@kloenk.dev>, linux-kbuild@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 28, 2024 at 6:35=E2=80=AFPM Miguel Ojeda <ojeda@kernel.org> wro=
-te:
+On Fri, Jun 28, 2024 at 2:44=E2=80=AFAM John Hubbard <jhubbard@nvidia.com> =
+wrote:
 >
-> Since we dropped our custom `alloc` in commit 9d0441bab775 ("rust: alloc:
-> remove our fork of the `alloc` crate"), there is no need anymore to keep
-> the custom sysroot hack.
+> Changes since v2:
 >
-> Thus delete it, which makes the target way simpler and faster too.
+> 1) Used wording suggested by Miguel Ojeda (thanks!) for the
+>    documentation patch.
 >
-> This also means we are not using Cargo for anything at the moment,
-> and that no download is required anymore, so update the main `Makefile`
-> and the documentation accordingly.
+> 2) Added review, testing, ack tags.
 >
-> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+> Finn Behrens, thanks for your reviews, and please note that out of an
+> excess of caution, I've only applied your reviewed-by tag to patch 2/2.
+> For patch 1/2, the wording changed a lot after you reviewed it, so I
+> couldn't quite convince myself that the review was still fair to claim.
 
-Applied to `rust-next`.
+Applied to `rust-next` -- thanks!
+
+[ Reworded title. - Miguel ]
 
 Cheers,
 Miguel
