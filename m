@@ -1,125 +1,103 @@
-Return-Path: <linux-kbuild+bounces-2471-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2472-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6382092EBF1
-	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Jul 2024 17:49:13 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D04F292ED0A
+	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Jul 2024 18:49:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 240172861C3
-	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Jul 2024 15:49:12 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 53B5AB20EC4
+	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Jul 2024 16:49:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E862516C687;
-	Thu, 11 Jul 2024 15:49:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DF1216D4DA;
+	Thu, 11 Jul 2024 16:49:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iEfV6QDW"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OLak3lki"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A607D8479;
-	Thu, 11 Jul 2024 15:49:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AFDA16D4DE
+	for <linux-kbuild@vger.kernel.org>; Thu, 11 Jul 2024 16:49:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720712950; cv=none; b=ZlI4yHbvWzgbp160x3mDsOFNKCQu8joQT/SpSpdWPkCwnzTbFyfH3CoPcZz+GEJcGPN07A+TachmMU0WKTlyZs6ysn7kJlP5XjboKABeg5xuN01DlpyWtJtYUu8dn5hYIxRlJTC9lcn4+ArxHJsHXq4Wed2vceVxzt5FEmenVkU=
+	t=1720716587; cv=none; b=Hxm4lPyKzi/f4k/2jN7/XukyjH1K5d/UEKPrhRzmoGw1ku+I98APFNsqqhGbdty5zcg8M1zM4NpNKJdHud/wCSarJa41OlO6mMjbcH4Av5PuPE3l1ZR64Efcq9M/BxOjbfasLaD/uOql/kBVEGktwuXlqhaKNue3WqiGwB0zW04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720712950; c=relaxed/simple;
-	bh=ZuSNhp04Wh6EW5lLCQ+g2TTMsPvkJdMs1uzOY5TVPg0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Sot1Csse3v4aV+0oq2rtEjZDn5vikZT+38xvpxEmVuqJcphfEqiQvMIhX6zxfBBN56FphWK/HTgTBIbCIjX4/4cyasomfesjnlnvx29Zm8C9czpdTiRkC+t3kN3PD3SzsudgcT3G43vjG/KXCcHgUurTVtxxlem8y2I5FWWVFFs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iEfV6QDW; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1555CC116B1;
-	Thu, 11 Jul 2024 15:49:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720712949;
-	bh=ZuSNhp04Wh6EW5lLCQ+g2TTMsPvkJdMs1uzOY5TVPg0=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=iEfV6QDWwbMnp9Ta0Jer7ufy7zKuRm0UWvkJW72QY10t6ps7bgp01pqrrI/nPJYK4
-	 aMRh9ZF/IE1zLE2CWaaFQqoH87euXHgcVDUCI8FRHQLRzl0Hn5cM5pGTcdcuB1ubWY
-	 7C0umyGH23O1dml7/cbWgv+m1S0Z5bC39W80eVrXz6QNggeVgiL7GVN5GGQXoSyNXO
-	 x9/a5jfhts/AMfl6Y1Ah/Pvl+GppiyWxzLsd7vdSq8U1uD/hk7ObzadMOrVkHQ6wWX
-	 mp+jdOGkXJyV7+IWDlVnAzxY48Ah5kvgicHHgUyI46+s+fRE2+Q7aNoVeQ82HxcNNS
-	 L2NSAQhoN06lw==
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2eecd2c6432so11605361fa.3;
-        Thu, 11 Jul 2024 08:49:08 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUW9zY4hS3Hy6ZeU7MOU82G0a8spyWi5/aC/0zLpGwnf5vRZVKbylW6XdREkqbiccwcq/UWcIGkPmJ/yHWmQNX9xFULm21MEZJHn0iB8dANj8LwT4cK0kjyZNiNgKLFjsd2QKYi16L32qabJV9wj9Gm9fzkFkNdSHiRfDS5fenQBz6wiDnihtCXEkhVkj72Stg1cU4E/Uz/+QgItjGPLvQUMxBH00QRzw2Wws/GQPFel2fKM1XaYTFGgm98lax1gPK2ng0RcA==
-X-Gm-Message-State: AOJu0YwSRB64OocGoCX4QpnlwOISrumaBTll7EA6guk3/CZt1EFo3ieX
-	KbK7aaB012u8ansLH4ahJZKtqofXQQ5Q8ngH0L6ofJ0V/NwLw54QcY8i4KAniByWV424Hwhu6+g
-	aNi7+pUQsBDHV2ZCJNv3STweS75c=
-X-Google-Smtp-Source: AGHT+IF7NQdXn1ehcZ9BG8DZDkjb0sOdI+MsrOYGuBrT+fO/aduK2xqVz6OBibzkuFUSmSL45H3g6KQ3ZY2sharGRnY=
-X-Received: by 2002:a2e:8ed3:0:b0:2ee:4d37:91df with SMTP id
- 38308e7fff4ca-2eeb30fef50mr68275581fa.27.1720712947779; Thu, 11 Jul 2024
- 08:49:07 -0700 (PDT)
+	s=arc-20240116; t=1720716587; c=relaxed/simple;
+	bh=NWmqohwIRZylHC7WbPfEjileGYkGE1Y+HwAj07nPRRs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=s+JYD43MVJCLt2Dw5WcFSQmYWMzLhhhj9DM8B258F2yuD0Z2FRdLN1gKmLQNiIqun8r7+oVMbIPiuRIGSXHgHftwdKRFI8XO2bhAuGsTOwcqMsCzADxKtGmXOqZG5jCu4nYF4/Bd35/MQby/KlfdUeyX4p+IY4TrsYAPj9BeAok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OLak3lki; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1720716583;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=yq+YuLYbn69og6JbDHnp1cGThbzz3E+7herJsur4YRc=;
+	b=OLak3lkihgvOnYDMja0i01Vd+t/OQAOPCvkJYtL6Kovssg96RqLq9cuc8VujjqLxGqPieg
+	jiVEuWSFd9c6TYyVndzm4Wfma6Co6DsoHfS/R0wuoibAvWEHO8p3nhRcD1rJQaXiqB7lOR
+	YrTSkSx4L+uKfW9m98uUfBdhfSVN2Yg=
+Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-192-VnloZP8iOHSDZP49RfrR7g-1; Thu,
+ 11 Jul 2024 12:49:42 -0400
+X-MC-Unique: VnloZP8iOHSDZP49RfrR7g-1
+Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 7EAD51935863;
+	Thu, 11 Jul 2024 16:49:40 +0000 (UTC)
+Received: from fedora.redhat.com (unknown [10.39.192.131])
+	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 6342219560AA;
+	Thu, 11 Jul 2024 16:49:37 +0000 (UTC)
+From: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
+To: masahiroy@kernel.org,
+	nathan@kernel.org,
+	nicolas@fjasle.eu,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
+Subject: [PATCH] kbuild: rpm-pkg: avoid the warnings with dtb's listed twice
+Date: Thu, 11 Jul 2024 18:49:19 +0200
+Message-ID: <20240711164935.1369686-1-jtornosm@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240704143611.2979589-1-arnd@kernel.org> <20240704143611.2979589-3-arnd@kernel.org>
-In-Reply-To: <20240704143611.2979589-3-arnd@kernel.org>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Fri, 12 Jul 2024 00:48:30 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATLVY1xtSMVMro-KMQVPgVHoiRKGX33ajCg8ZU0-EZS2w@mail.gmail.com>
-Message-ID: <CAK7LNATLVY1xtSMVMro-KMQVPgVHoiRKGX33ajCg8ZU0-EZS2w@mail.gmail.com>
-Subject: Re: [PATCH 02/17] csky: drop asm/gpio.h wrapper
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: linux-arch@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Vineet Gupta <vgupta@kernel.org>, 
-	Russell King <linux@armlinux.org.uk>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>, Brian Cain <bcain@quicinc.com>, 
-	Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, 
-	Dinh Nguyen <dinguyen@kernel.org>, Jonas Bonn <jonas@southpole.se>, 
-	Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>, Stafford Horne <shorne@gmail.com>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Rich Felker <dalias@libc.org>, 
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, "David S. Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Christian Brauner <brauner@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-snps-arc@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org, 
-	linux-hexagon@vger.kernel.org, loongarch@lists.linux.dev, 
-	linux-openrisc@vger.kernel.org, linux-riscv@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
 
-On Thu, Jul 4, 2024 at 11:36=E2=80=AFPM Arnd Bergmann <arnd@kernel.org> wro=
-te:
->
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> The asm/gpio.h header is gone now that all architectures just use
-> gpiolib, and so the redirect is no longer valid.
->
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
+After 8d1001f7bdd0 (kbuild: rpm-pkg: fix build error with CONFIG_MODULES=n),
+the following warning "warning: File listed twice: *.dtb" is appearing for
+every dtb file that is included.
+The reason is that the commented commit already adds the folder
+/lib/modules/%{KERNELRELEASE} in kernel.list file so the folder
+/lib/modules/%{KERNELRELEASE}/dtb is no longer necessary, just remove it.
 
+Signed-off-by: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
+---
+ scripts/package/kernel.spec | 1 -
+ 1 file changed, 1 deletion(-)
 
-Reviewed-by: Masahiro Yamada <masahiroy@kernel.org>
+diff --git a/scripts/package/kernel.spec b/scripts/package/kernel.spec
+index 4b7df76076c4..74355ff0e106 100644
+--- a/scripts/package/kernel.spec
++++ b/scripts/package/kernel.spec
+@@ -83,7 +83,6 @@ ln -fns /usr/src/kernels/%{KERNELRELEASE} %{buildroot}/lib/modules/%{KERNELRELEA
+ 	done
+ 
+ 	if [ -d "%{buildroot}/lib/modules/%{KERNELRELEASE}/dtb" ];then
+-		echo "/lib/modules/%{KERNELRELEASE}/dtb"
+ 		find "%{buildroot}/lib/modules/%{KERNELRELEASE}/dtb" -printf "%%%ghost /boot/dtb-%{KERNELRELEASE}/%%P\n"
+ 	fi
+ 
+-- 
+2.45.2
 
-
->  arch/csky/include/asm/Kbuild | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/arch/csky/include/asm/Kbuild b/arch/csky/include/asm/Kbuild
-> index 1117c28cb7e8..13ebc5e34360 100644
-> --- a/arch/csky/include/asm/Kbuild
-> +++ b/arch/csky/include/asm/Kbuild
-> @@ -1,7 +1,6 @@
->  # SPDX-License-Identifier: GPL-2.0
->  generic-y +=3D asm-offsets.h
->  generic-y +=3D extable.h
-> -generic-y +=3D gpio.h
->  generic-y +=3D kvm_para.h
->  generic-y +=3D mcs_spinlock.h
->  generic-y +=3D qrwlock.h
-> --
-> 2.39.2
->
-
-
---=20
-Best Regards
-Masahiro Yamada
 
