@@ -1,189 +1,145 @@
-Return-Path: <linux-kbuild+bounces-2478-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2479-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D6E29300FF
-	for <lists+linux-kbuild@lfdr.de>; Fri, 12 Jul 2024 21:38:47 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5937A930147
+	for <lists+linux-kbuild@lfdr.de>; Fri, 12 Jul 2024 22:24:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 08D441F229F1
-	for <lists+linux-kbuild@lfdr.de>; Fri, 12 Jul 2024 19:38:47 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8A73F1C226E4
+	for <lists+linux-kbuild@lfdr.de>; Fri, 12 Jul 2024 20:24:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF0DB29402;
-	Fri, 12 Jul 2024 19:38:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A87DD482E9;
+	Fri, 12 Jul 2024 20:24:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FMYT0Kxr"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="JIeZ24R1"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BE56BE65;
-	Fri, 12 Jul 2024 19:38:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3468F46525
+	for <linux-kbuild@vger.kernel.org>; Fri, 12 Jul 2024 20:24:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720813122; cv=none; b=INv27WakXI3zml9km7anERbRLzp9oe3h7edwMwVFmgL4xLlwOfMEIn/YxdYGB6FEUlPGjh3Eh+XbxaB+N2W0WyHjVAnL80pBww1Q4QQE+O3exDjGd+tle70y3b2oihIeUf/YMkXnT5vpCOYeY8Cc22M9MWd3uZt5jmDj30kN7Xc=
+	t=1720815841; cv=none; b=PgeiE3ty+/UhuymTVnn2ry19tjOi+0Mfde+h++5ATAHYu/9iNO79/xuPa88it6ykEBxqcz2e4J+7NIRijiSAB50CX778vUw+pMxLNGdwWZoeDymUuG5XIsIWfKIjDIuP8tD4Bf9wZfkj4+u/Jm6JtLgCs+LpEmvIJLFir4Rk6B0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720813122; c=relaxed/simple;
-	bh=eU80/SHzM9zfUD2s2UKYMH3sX2bKdh9zL0swUl003EQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=k/XQ1FcP++W8K9Fy7L0rokDpOExFeuTAjubb5xsQWYI4g4WYjIp4c+Th1Vqtk3VyHBBvt1fv7zlSDlFFMVW5w6FhMG3BsHN5lYrXgBoeTXqMSBhvzEnJF4TVrF0fU+Zl3smYAWScznFts93XTZiSh14YS/WaCFlTvTX9EPvCO/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FMYT0Kxr; arc=none smtp.client-ip=209.85.215.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-77d3f00778cso1776288a12.3;
-        Fri, 12 Jul 2024 12:38:41 -0700 (PDT)
+	s=arc-20240116; t=1720815841; c=relaxed/simple;
+	bh=UWpkjm+bNJpSBeffNgCexDtJjnqEBWkOkbBoIfzuPfU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=naAVnp4zyeYNVlE1+V9Tn5jAsQBnRcHDMdn5LeBBWcTMTvdl2uISJenIPRyOr5fTdjauY5wZfchR/NV278miqHkFzW1bnjNER8IdZbsAkyE+3qkGd8KCwy+MWcwguR4KYM02pEbZnpoysE6cZE1hf4le+9P9gZS/4cGxFH+8CEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=JIeZ24R1; arc=none smtp.client-ip=209.85.210.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-706a1711ee5so1956433b3a.0
+        for <linux-kbuild@vger.kernel.org>; Fri, 12 Jul 2024 13:24:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720813120; x=1721417920; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kmnmy4k0ZE5aqRykzl3xnNbgqOchAuqitUDaQSLA3rE=;
-        b=FMYT0KxrE3YqF7Yc17phStl7k3+0K4YihiLGPsC8sacRZHRwseLxFj+g8drLkFnAcb
-         lO9bfbfJCclJXX+xVLLDg8YttUg7C02nKAekCRgQ+9KLxLWfdW7ljk0Kcm8tvtCuMEFx
-         2MWr8j+Ud28BSn9T+IYYiwoBH4pRzFtwVjNPTJdY7mw8rO2FeMI/SvmRu2h89bsWGe+V
-         WNOWm9gVQGysn7gAUAyEVc+NERzWELFr8LLL4mCRJlRrPHbqamQT+Mww0rUIxqJqIkgh
-         sC1VnUP+WmNCWVyZlvIQJmLL+uTTSicSpE+vZxpcHc+V5Fj8oJ2bZH26VK4ARZwGpZ4i
-         cypA==
+        d=chromium.org; s=google; t=1720815839; x=1721420639; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Hf9lMH8FXC/GAp1YqBmmTVjDYJ9ZMKh92cvFp4a7iII=;
+        b=JIeZ24R196Y28caDGwTyWDp2ZDgxzWT71yAP3qvMiGrN16ZBK+Pq01JX4DEWmpgzCT
+         uIZxa8w97Tz/F8Q0Z8Gb2Y+/xp2plf8+Ax8vm1LH6Urkegz+Cey/QrUuwIQPwgY86e6T
+         t50gZJV2a18qoMv3IYrmoonOeQAqPIgBmIsVE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720813120; x=1721417920;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kmnmy4k0ZE5aqRykzl3xnNbgqOchAuqitUDaQSLA3rE=;
-        b=xLCFWjEBl24YW6QDZn+gH2KD7xihdK4ndeyuU1jFcz1fU6fuE6CK3D+8AiGun36Ghq
-         4c+i4hWysHdWU+/TrBXnMH2Hk1ynazjzbiceFcXRxYZPNDF5D7BtJThusASQp9I7eYuV
-         cH52iRgrh5UyudU+ekdf8/+DH8m/dw4fP4/d02wj3BwXEq9d5ntsjrKHvrhBZnk6i9Yp
-         X4WEQ9uJqrzCyKgvgBzVILRxb9KAAzizXIaDiaaNqKA/heaZA+shmh2YT4NFBiUSIYrn
-         L3WZBAAfKlZZuK/O+Byh8+dklkX4ZX2g1vp2OySOuyZanIBn7w2g9b0PDPn+ufsshYev
-         e1HA==
-X-Forwarded-Encrypted: i=1; AJvYcCWqzSXr1fZ5j+ovISdTNoLFVyYL+yjI6dJ+NWJhd4/Qzlzd6TKsAI6a9lREWEBgBSBEPuAAXY/VKL6Sg34kBWb4j6+IHxE/YnGnfwvfYjuXgU0FLoGmchANAtYYwruLsMDnD7A1pmU553cql1qeWmjG0KZdSAOiHZhAVHPzDBg0
-X-Gm-Message-State: AOJu0YxMuGtQVy/FyERl21l3Bc6otXB7NmMkwaSoSZ2jbHRyv4L7LOIg
-	zKq29saW7oJS+229hongnSekjyY9G4kJ3czYKzutacRXfyWtSCsj058e5GXvxAHgwNDGYD5jWa9
-	9avExL2bdX8Lh4/DrwM4TtK6mSrk=
-X-Google-Smtp-Source: AGHT+IEkYnIKZnwHEfRtBSBINEAoGjGPp7B+wrUPdkTTmh+byt4UPf2Fue9+13vnLFXEZOMLaAdMdmDHRfcvVg/F0yY=
-X-Received: by 2002:a17:90b:1e42:b0:2c8:6118:11a8 with SMTP id
- 98e67ed59e1d1-2ca35d90dc7mr9306588a91.49.1720813120419; Fri, 12 Jul 2024
- 12:38:40 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1720815839; x=1721420639;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Hf9lMH8FXC/GAp1YqBmmTVjDYJ9ZMKh92cvFp4a7iII=;
+        b=g51t0MfaSVElq+68fLNeEdh/1msGm4HoKoPsxYv79aeaQmV+vrOJRF5FyykmnDc1Zu
+         qQJf5aK8Qc5aJCTUPAcG9Gq7oDp2xN41CZR0BnHb2bpxmVBJHWs5cWRqaYez43mn9I2E
+         5O2p5zRjLInEFRNdShB0/oiqbxs5YiXY4o6NZp41TJcQJtsne65ITjuO8vFoWqMAGY8v
+         xJF056/m4WP6lwkBEtmqnwKS38qFGKNi3KXU0KA+/9uJGwwQCDbiiLYqDLLcG9gFD1cR
+         qtSvAjja4cxJ7nC1RcCwishRZ7bRtYW5d6xOpBSvJtb07kLG4qYstdoaRiXaZuN+dNs4
+         Soeg==
+X-Forwarded-Encrypted: i=1; AJvYcCWdlhhHWZXcgau5+mt3NelnodczsYwT8OeRMrnUWXdTUQBtqE6dUn6p6dHTdEiFRFhcgcaGjCQPZb5db1ozNm/0HPSmDndbQmCBf1VT
+X-Gm-Message-State: AOJu0Yy7kP10h4DtnJyThp3x3GJmG9ePL8DXBXynTqFdFNdWpJUq35fO
+	nz8q5k+ppdzvj6hP7DVJ2KJ8p5rOHdIeJa/xEg04GIkfT0z2WF3d/47b5POC+g==
+X-Google-Smtp-Source: AGHT+IG2GTXZu2uRjdFrTSv44X2Ka4Gg2maPyT6oX8YP7inykgDj54rRDX10nXgMIvG0pX0ZIkLKtA==
+X-Received: by 2002:a05:6a00:988:b0:704:31dd:a28a with SMTP id d2e1a72fcca58-70b435854damr15091453b3a.18.1720815839444;
+        Fri, 12 Jul 2024 13:23:59 -0700 (PDT)
+Received: from localhost ([2620:15c:9d:2:7546:30be:53d8:7f93])
+        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-70b438e538fsm7923889b3a.87.2024.07.12.13.23.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 12 Jul 2024 13:23:58 -0700 (PDT)
+Date: Fri, 12 Jul 2024 13:23:57 -0700
+From: Brian Norris <briannorris@chromium.org>
+To: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Cc: Arnaldo Carvalho de Melo <acme@redhat.com>,
+	Namhyung Kim <namhyung@kernel.org>, Ian Rogers <irogers@google.com>,
+	Thomas Richter <tmricht@linux.ibm.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Jiri Olsa <jolsa@kernel.org>
+Subject: Re: [PATCH v3 3/3] tools build: Correct bpf fixdep dependencies
+Message-ID: <ZpGQ3TShk-IGb4b1@google.com>
+References: <20240709204203.1481851-1-briannorris@chromium.org>
+ <20240709204203.1481851-4-briannorris@chromium.org>
+ <CAEf4Bzb6-DLL966XKyMhe+nmpvdqYVrzfmfkAiDdFHNyD0qGWw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240709204203.1481851-1-briannorris@chromium.org> <20240709204203.1481851-4-briannorris@chromium.org>
-In-Reply-To: <20240709204203.1481851-4-briannorris@chromium.org>
-From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Date: Fri, 12 Jul 2024 12:38:28 -0700
-Message-ID: <CAEf4Bzb6-DLL966XKyMhe+nmpvdqYVrzfmfkAiDdFHNyD0qGWw@mail.gmail.com>
-Subject: Re: [PATCH v3 3/3] tools build: Correct bpf fixdep dependencies
-To: Brian Norris <briannorris@chromium.org>
-Cc: Arnaldo Carvalho de Melo <acme@redhat.com>, Namhyung Kim <namhyung@kernel.org>, 
-	Ian Rogers <irogers@google.com>, Thomas Richter <tmricht@linux.ibm.com>, 
-	Josh Poimboeuf <jpoimboe@kernel.org>, Peter Zijlstra <peterz@infradead.org>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, bpf@vger.kernel.org, 
-	Masahiro Yamada <masahiroy@kernel.org>, Jiri Olsa <jolsa@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAEf4Bzb6-DLL966XKyMhe+nmpvdqYVrzfmfkAiDdFHNyD0qGWw@mail.gmail.com>
 
-On Tue, Jul 9, 2024 at 1:43=E2=80=AFPM Brian Norris <briannorris@chromium.o=
-rg> wrote:
->
-> The dependencies in tools/lib/bpf/Makefile are incorrect. Before we
-> recurse to build $(BPF_IN_STATIC), we need to build its 'fixdep'
-> executable.
->
-> I can't use the usual shortcut from Makefile.include:
->
->   <target>: <sources> fixdep
->
-> because its 'fixdep' target relies on $(OUTPUT), and $(OUTPUT) differs
-> in the parent 'make' versus the child 'make' -- so I imitate it via
-> open-coding.
->
-> I tweak a few $(MAKE) invocations while I'm at it, because
-> 1. I'm adding a new recursive make; and
-> 2. these recursive 'make's print spurious lines about files that are "up
->    to date" (which isn't normally a feature in Kbuild subtargets) or
->    "jobserver not available" (see [1])
->
-> I also need to tweak the assignment of the OUTPUT variable, so that
-> relative path builds work. For example, for 'make tools/lib/bpf', OUTPUT
-> is unset, and is usually treated as "cwd" -- but recursive make will
-> change cwd and so OUTPUT has a new meaning. For consistency, I ensure
-> OUTPUT is always an absolute path.
->
-> And $(Q) gets a backup definition in tools/build/Makefile.include,
-> because Makefile.include is sometimes included without
-> tools/build/Makefile, so the "quiet command" stuff doesn't actually work
-> consistently without it.
->
-> After this change, top-level builds result in an empty grep result from:
->
->   $ grep 'cannot find fixdep' $(find tools/ -name '*.cmd')
->
-> [1] https://www.gnu.org/software/make/manual/html_node/MAKE-Variable.html
-> If we're not using $(MAKE) directly, then we need to use more '+'.
->
-> Signed-off-by: Brian Norris <briannorris@chromium.org>
-> Acked-by: Jiri Olsa <jolsa@kernel.org>
-> ---
->
+Hi Andrii,
 
-I almost gave my acked-by and tested-by, but then I noticed that this
-leaves fixdep, staticobjs and sharedobjs directories as
-to-be-committed files. Please check, something is off with .gitignore
-or where those are put:
+On Fri, Jul 12, 2024 at 12:38:28PM -0700, Andrii Nakryiko wrote:
+> I almost gave my acked-by and tested-by, but then I noticed that this
+> leaves fixdep, staticobjs and sharedobjs directories as
+> to-be-committed files. Please check, something is off with .gitignore
+> or where those are put:
+> 
+> $ cd ~/linux/tools/lib/bpf
+> $ make -j90
+> $ git st
+> On branch master
+> Your branch is ahead of 'bpf-next/master' by 4 commits.
+>   (use "git push" to publish your local commits)
+> 
+> Untracked files:
+>   (use "git add <file>..." to include in what will be committed)
+>         fixdep
+>         sharedobjs/
+>         staticobjs/
+> 
+> nothing added to commit but untracked files present (use "git add" to track)
+> 
+> 
+> Other than that the changes look good, but we should be leaving
+> uncommitted (and unignored) files around.
 
-$ cd ~/linux/tools/lib/bpf
-$ make -j90
-$ git st
-On branch master
-Your branch is ahead of 'bpf-next/master' by 4 commits.
-  (use "git push" to publish your local commits)
+Thanks for looking and for the diligence. At first I thought I moved the
+dirs by accident, but that's not the case. The problem is that I'm now
+leaving a 'fixdep' artifact in these dirs (they already had a variety of
+*.o, etc., files, which were already ignored), so the containing dirs
+now show up in the untracked list. I've added a 'fixdep' .gitignore in
+my upcoming v4, as well as proper cleaning (fixdep-clean) for it too.
 
-Untracked files:
-  (use "git add <file>..." to include in what will be committed)
-        fixdep
-        sharedobjs/
-        staticobjs/
+> On Tue, Jul 9, 2024 at 1:43 PM Brian Norris <briannorris@chromium.org> wrote:
+> > -$(BPF_IN_SHARED): force $(BPF_GENERATED)
+> > +$(SHARED_OBJDIR):
+> > +       $(Q)mkdir -p $@
+> > +
+> > +$(STATIC_OBJDIR):
+> > +       $(Q)mkdir -p $@
+> 
+> I'd probably combine the above two rules into one, but it's minor
 
-nothing added to commit but untracked files present (use "git add" to track=
-)
+Ack. I forgot some Makefile-language details when writing this part.
+I'll update in v4.
 
+I'll probably send v4 next week.
 
-Other than that the changes look good, but we should be leaving
-uncommitted (and unignored) files around.
-
-
-Also (in it's less the question to the author, but rather all the
-maintainers involved), which kernel tree is this intended to go
-through, seems like it was marked as "Not Applicable" for bpf, so I'm
-wondering where is the proper destination?
-
-> Changes in v3:
->  - add Jiri's Acked-by
->
-> Changes in v2:
->  - also fix libbpf shared library rules
->  - ensure OUTPUT is always set, and always an absolute path
->  - add backup $(Q) definition in tools/build/Makefile.include
->
->  tools/build/Makefile.include | 12 +++++++++++-
->  tools/lib/bpf/Makefile       | 14 ++++++++++++--
->  2 files changed, 23 insertions(+), 3 deletions(-)
->
-
-[...]
-
-> -$(BPF_IN_SHARED): force $(BPF_GENERATED)
-> +$(SHARED_OBJDIR):
-> +       $(Q)mkdir -p $@
-> +
-> +$(STATIC_OBJDIR):
-> +       $(Q)mkdir -p $@
-
-I'd probably combine the above two rules into one, but it's minor
-
-[...]
+Thanks,
+Brian
 
