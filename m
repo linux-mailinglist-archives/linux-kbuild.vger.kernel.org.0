@@ -1,145 +1,98 @@
-Return-Path: <linux-kbuild+bounces-2509-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2510-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0F43930AF2
-	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Jul 2024 19:23:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BCE5930B26
+	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Jul 2024 20:05:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8A3F31F214B7
-	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Jul 2024 17:23:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7C31E1F211D9
+	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Jul 2024 18:04:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE35313B5B9;
-	Sun, 14 Jul 2024 17:22:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D58FC131736;
+	Sun, 14 Jul 2024 18:04:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Np/k4ysP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K+bjXC2W"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 677CFD27D;
-	Sun, 14 Jul 2024 17:22:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1F672E3E4;
+	Sun, 14 Jul 2024 18:04:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720977773; cv=none; b=CJRTSAc0lgVtgAyIuluVVKSkupvf1b5cgJ6XQ1yYpiZCDjMMLYuRh7ZlrJMljeLeoixBk9621gHzEMMxJ7+1tx3bg0TiAAjMHvZNAdBTbNTHGC0GncBxN2lMtBQ1jFdvEelG8QuG6UoJp149EFtYRiEVspeB4jAekO9a8t58fyE=
+	t=1720980287; cv=none; b=PllCHtKXm0kf/UFb/TZ1wQNMBsvvuPUL1hKSZNWevlMiFIIBBei9zozPQakJwDQmMShy1dFdJd+aXlN3PClwdNqM48wxforoKDpxinpIYiDn4QcVZIN989cYWEVl7vCL2jjgRDJntbGk9F4OgGMLUqnCABf1RweXXXjBMvBC/nU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720977773; c=relaxed/simple;
-	bh=7xLPqy1jM0O+0195mcRA60FHmWtnGBVHJTGgtTxpOjk=;
+	s=arc-20240116; t=1720980287; c=relaxed/simple;
+	bh=9RxT7dyfYpi2MD4Eb3n7xs8RFGVVX/IklHlE/8jn2qc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=otWPQfpNIY95H74qhw+3RyYJwopaVPqH/SaOk7t6rXyYB4FXiEP2RBrj4sm2hxkXw78rbPC206BwR0HFzL7DImpmURmeLCsULxDbi1OKtQYr9Ev8/O+ch57XAJDGuqHXLV8f+LcycJwkfFtPvg4j0IcWcI7k7jHmdk+do6Jzerg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Np/k4ysP; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13315C4AF52;
-	Sun, 14 Jul 2024 17:22:53 +0000 (UTC)
+	 To:Cc:Content-Type; b=gHO0YXrvXipcyH8ac1akUMpXGEZu0DQsp7p6fWxRPO2TcnuAWFGlQc8fbhb9UAGTGlFIIPi8ly48ZodBQJDjwLwO5PYO9OmBi4nuZ9/qLU806moGnQD9GcCUa72wBYbxRA+W6rzyO/svi4CrkZZwvpj1JqMBErbapNR1fzPUvZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K+bjXC2W; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36139C116B1;
+	Sun, 14 Jul 2024 18:04:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720977773;
-	bh=7xLPqy1jM0O+0195mcRA60FHmWtnGBVHJTGgtTxpOjk=;
+	s=k20201202; t=1720980287;
+	bh=9RxT7dyfYpi2MD4Eb3n7xs8RFGVVX/IklHlE/8jn2qc=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Np/k4ysPWfJGh/Vzr2yW3vI4rGlgUmizlgw7EEBEsv9eCLblCHD9MKYn7Y4lK5rKv
-	 CvEpeHnwTHXXi+Fuo0HFdnwjqbaGWT+aPPCN3EMoPB5sY87mXioJBhuOa72Mj/5kS/
-	 tiM1wNQtvLlGLpaAZHmQyE05p4mF6vz3hOrx1mR0+X6M+SiHXePabsj+YaMQ2aYy26
-	 tNwBiyfhN6NjEBsb8ztjJnSDc5vbaa5yvjL4OclQ9xhSb7ayDX8kR7C5k7ySCG1sew
-	 h9HqYsIPLZgLqxPeMPD6DKgywBsVGBMNy8zNezQcOfzlQY7Qxy3yi6Zz9I4ZGAHQW8
-	 i3WCd4ViIlVtQ==
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-58b447c519eso4683246a12.3;
-        Sun, 14 Jul 2024 10:22:53 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCW2dXsTFHoMn6RZLA6BTuJWg5MRNp4DotqAeCt8znc1YqhONxg+BQis8erVP8VsadEq49xbe894FTYi54a/rBuqJKOEOctEaJmAG5XRBl4uej1pNH9ZR0x8sD2NmkkoAoD1vWkdU5x7eDwSAqlcMSxNkM2jSju6WHia01iuJVFNzqG6iEFiDrOk4y+untSYLTAcRl8tY47ya2lwy0CXztU0hdjPQTQpEPpfWePjFfWrl4yVWFzcnUtJpNRwv3RCjCeuFkARPQhKQ+E1bIh5qYug7hR+FyNkx3uoreweZ99Maqs=
-X-Gm-Message-State: AOJu0Yxn+DBnKxg32HqnNwP3Ju9aNdKimWuw4dQEjAKiFtnyiMvgIkPA
-	AFGoq28Om/vngKUg4xCfIqFZwo5rXviPthhuLWTHTZUBvgbEQOEmPQpyltM5qcJ7tcigZqav+1V
-	NKRthHyE5oRFIHVxHiTjJxqRFqhM=
-X-Google-Smtp-Source: AGHT+IEqlf4co9CQdw2WGl/Xqoo4fkGgeyLA8K1xIwoAlG8h/Wd4OdPV3wQEkk7NltbZTH51erICKgVwW7rB3xSuihg=
-X-Received: by 2002:a17:906:39d6:b0:a72:9963:eb8e with SMTP id
- a640c23a62f3a-a780b6b307emr939527966b.28.1720977771290; Sun, 14 Jul 2024
- 10:22:51 -0700 (PDT)
+	b=K+bjXC2W8h9I0BHHT/jg23pzt0GgLkuXt7bxNa4IVzQ4WGUOqdlGdyYhaiwVcQBWy
+	 7epFXeSpKfcGqF1oOwFy6+gNGnyXg/1gjOsjbRt9WstykdNLG0hA1nQbChUF3Za+YN
+	 e0akTbxyYSwCu/183EzQpCBVxAcq26nFy2fUzhUD6Yx6EPhOvY4wYW7m1/+hIsjtZL
+	 /xd/stE12t4qLG2P61d4zQsXXYZ79WRFEHEVS9ye1arXFkHk/a/GIOxCTVDDE43x+1
+	 WEw4XSsaOQK3CliO9yD8MuRQ95D3dp03pdALqTZ3gqECPuQRqz3ZowTpx0HgJosKt4
+	 wKOZ6t2Aqf/SA==
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-52ea2ce7abaso6239497e87.0;
+        Sun, 14 Jul 2024 11:04:47 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUmuxj8jH0CCYTGkDhHOKloTUH74p1m2ETyKLrnRc6p91DR+Vdud00FM7jW7oFkHl4OvehUzVfepMZCCtyrW0bTzazkfEmR9L/IfDfDYHl9PKgDPLFE2QMKsfbAsJbA1gzVcrI2AMz+FjRU
+X-Gm-Message-State: AOJu0YynC9zEUZDyG7GOyjvgRKfOs4/Jxc1jEQypa+kxz+KPwaBXRL1W
+	BKHUcK9vEU/H4WuYUBh+kt5S8/gvG06XryubXN7EjRbrl+t2G3kMoyeU6OSD0Zk8sZovXRAH8xU
+	xWsHkft0kMuPsh5Q4iCdNYUT7srE=
+X-Google-Smtp-Source: AGHT+IHvTIEIq63jIFfaQjh4ZNeh8Ywh37Hyz0Jvf+baBC1/OhklzsOIP/x+7lTgd3q9QrwLEzJ2oHThDSMNYvj80PQ=
+X-Received: by 2002:a05:6512:3190:b0:52e:7542:f469 with SMTP id
+ 2adb3069b0e04-52eb9759439mr15190588e87.0.1720980285890; Sun, 14 Jul 2024
+ 11:04:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240704143611.2979589-1-arnd@kernel.org> <20240704143611.2979589-13-arnd@kernel.org>
- <9b269c2a-c6b5-4fa0-801b-e5e1c3ccb671@app.fastmail.com>
-In-Reply-To: <9b269c2a-c6b5-4fa0-801b-e5e1c3ccb671@app.fastmail.com>
-From: Guo Ren <guoren@kernel.org>
-Date: Mon, 15 Jul 2024 01:22:40 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTTDT=DyPs8NWe7gxvuNa0i_X9go2dgcBMGk9eqFdSwLTQ@mail.gmail.com>
-Message-ID: <CAJF2gTTDT=DyPs8NWe7gxvuNa0i_X9go2dgcBMGk9eqFdSwLTQ@mail.gmail.com>
-Subject: Re: [PATCH 12/17] csky: convert to generic syscall table
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Arnd Bergmann <arnd@kernel.org>, Linux-Arch <linux-arch@vger.kernel.org>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Vineet Gupta <vgupta@kernel.org>, 
-	Russell King <linux@armlinux.org.uk>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Brian Cain <bcain@quicinc.com>, Huacai Chen <chenhuacai@kernel.org>, 
-	WANG Xuerui <kernel@xen0n.name>, Dinh Nguyen <dinguyen@kernel.org>, Jonas Bonn <jonas@southpole.se>, 
-	Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>, Stafford Horne <shorne@gmail.com>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Rich Felker <dalias@libc.org>, 
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, "David S . Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Christian Brauner <brauner@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-snps-arc@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, 
-	"linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>, linux-hexagon@vger.kernel.org, 
-	loongarch@lists.linux.dev, 
-	"linux-openrisc@vger.kernel.org" <linux-openrisc@vger.kernel.org>, linux-riscv@lists.infradead.org
+References: <20240711164935.1369686-1-jtornosm@redhat.com>
+In-Reply-To: <20240711164935.1369686-1-jtornosm@redhat.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Mon, 15 Jul 2024 03:04:08 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ8WS80JmkF5_VhYoq-ENf0sSYx6upKvL4vTfM=u7tSbQ@mail.gmail.com>
+Message-ID: <CAK7LNAQ8WS80JmkF5_VhYoq-ENf0sSYx6upKvL4vTfM=u7tSbQ@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: rpm-pkg: avoid the warnings with dtb's listed twice
+To: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
+Cc: nathan@kernel.org, nicolas@fjasle.eu, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 10, 2024 at 6:27=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> wrote=
-:
+On Fri, Jul 12, 2024 at 1:49=E2=80=AFAM Jose Ignacio Tornos Martinez
+<jtornosm@redhat.com> wrote:
 >
-> On Thu, Jul 4, 2024, at 16:36, Arnd Bergmann wrote:
-> > -
-> > -#define __NR_set_thread_area (__NR_arch_specific_syscall + 0)
-> > -__SYSCALL(__NR_set_thread_area, sys_set_thread_area)
-> > -#define __NR_cacheflush              (__NR_arch_specific_syscall + 1)
-> > -__SYSCALL(__NR_cacheflush, sys_cacheflush)
-> > +#include <asm/unistd_32.h>
-> > +#define __NR_sync_file_range2 __NR_sync_file_range
+> After 8d1001f7bdd0 (kbuild: rpm-pkg: fix build error with CONFIG_MODULES=
+=3Dn),
+> the following warning "warning: File listed twice: *.dtb" is appearing fo=
+r
+> every dtb file that is included.
+> The reason is that the commented commit already adds the folder
+> /lib/modules/%{KERNELRELEASE} in kernel.list file so the folder
+> /lib/modules/%{KERNELRELEASE}/dtb is no longer necessary, just remove it.
 >
-> A small update: I have folded this fixup into this patch
-> and the hexagon one, to ensure we don't define both
-> __NR_sync_file_range2 and __NR_sync_file_range. I already
-> have patches to clean this up further to avoid both the
-> #undef and #define, but that is part of a larger rework
-> that is not ready before the merge window.
->
->      Arnd
->
-> diff --git a/arch/csky/include/uapi/asm/unistd.h b/arch/csky/include/uapi=
-/asm/unistd.h
-> index 794adbc04e48..44882179a6e1 100644
-> --- a/arch/csky/include/uapi/asm/unistd.h
-> +++ b/arch/csky/include/uapi/asm/unistd.h
-> @@ -1,4 +1,6 @@
->  /* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
->
->  #include <asm/unistd_32.h>
-> -#define __NR_sync_file_range2 __NR_sync_file_range
-> +
-> +#define __NR_sync_file_range2 84
-> +#undef __NR_sync_file_range
-For csky part:
+> Signed-off-by: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
+> ---
 
-Acked-by: Guo Ren <guoren@kernel.org>
 
-> diff --git a/arch/hexagon/include/uapi/asm/unistd.h b/arch/hexagon/includ=
-e/uapi/asm/unistd.h
-> index 6f670347dd61..a3b0cac25580 100644
-> --- a/arch/hexagon/include/uapi/asm/unistd.h
-> +++ b/arch/hexagon/include/uapi/asm/unistd.h
-> @@ -29,4 +29,5 @@
->
->  #include <asm/unistd_32.h>
->
-> -#define __NR_sync_file_range2 __NR_sync_file_range
-> +#define __NR_sync_file_range2 84
-> +#undef __NR_sync_file_range
+Applied to linux-kbuild.
+Thanks!
+
 
 
 
 --=20
 Best Regards
- Guo Ren
+Masahiro Yamada
 
