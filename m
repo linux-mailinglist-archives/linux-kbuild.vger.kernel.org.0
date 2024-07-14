@@ -1,104 +1,106 @@
-Return-Path: <linux-kbuild+bounces-2504-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2505-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF54F9309DF
-	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Jul 2024 14:14:04 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B99309309FE
+	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Jul 2024 14:58:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 37DD6B21074
-	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Jul 2024 12:14:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 59B9D1F215D3
+	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Jul 2024 12:58:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 685506E613;
-	Sun, 14 Jul 2024 12:13:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B588F745E2;
+	Sun, 14 Jul 2024 12:58:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=envs.net header.i=@envs.net header.b="YWKv6Mtr"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="plMF9s5I"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail.envs.net (mail.envs.net [5.199.136.28])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4911D8F5C;
-	Sun, 14 Jul 2024 12:13:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.199.136.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0406B3BB23;
+	Sun, 14 Jul 2024 12:58:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720959237; cv=none; b=hA8PwBKIT+GlrPXHDHHnYSeywunK/YJXKq+nY37oQm7XkPPcp9yCVg5vFhbY9XuO4Ecx1ZeeoH2/IEVq0SKi1zsCRit8TXDthqkMf0EbQvsvFC2pqyUWd0YugFH3s2hGnJchak3QHs13LaWZlsyMI8eHMnYdVnAqUd3JDRmf29Y=
+	t=1720961909; cv=none; b=gt1m6JyoRv4ktvRVTcYp/mSyUSGP4A6tc6jNSZjDY+T8n19FFjDrUeKYf+8ZXOBmqOjjoB9EC+lr8nJEnE9wmZMkb1YcAfYu33h/7SWrWJwZw+WUoQsbhdzUywYb5UC/jcyW2D8x1NWWLA9k8kI8TeOSuHRC63HTN5pubfekHeo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720959237; c=relaxed/simple;
-	bh=gAoILYv37xkB5P91uGQmdeyt0K2wQQvTn3nam4BAk54=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TZee5tnZVcGQBDu567kKrw8hPWUqWiRg9C0TC58BV6dY80hqkXMui1974bZMHhpTj+qdyy6wJ6xM/iv8D3uVnOJi/oqMK9ysmT5XXcrnxC+hwF4BC7aADkak2KIkgVeNtTZN51eIRYzMGuJqoUaJfQWKJEMkb4uiIBmXzgHIFLQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=envs.net; spf=pass smtp.mailfrom=envs.net; dkim=pass (4096-bit key) header.d=envs.net header.i=@envs.net header.b=YWKv6Mtr; arc=none smtp.client-ip=5.199.136.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=envs.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=envs.net
-Received: from localhost (mail.envs.net [127.0.0.1])
-	by mail.envs.net (Postfix) with ESMTP id 42C4038A399D;
-	Sun, 14 Jul 2024 12:13:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=envs.net; s=modoboa;
-	t=1720959232; bh=gAoILYv37xkB5P91uGQmdeyt0K2wQQvTn3nam4BAk54=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=YWKv6Mtr6HpRcKQbX922yleEE6km7IxjhqiYboH8P/kASFz1cXbjvIMTkQbazsWs1
-	 oPM54b8eTIzxvy5NDhiEk33O0ZMKR6KniSSb/knNc4EXongbqa93x1swoaRumYLzrr
-	 t6UUVjWqgkf+A1niskGt6Ms3Vt0ATuZzPM0EItDCttRPj9WGxrbWlpcs07XUBt49Zb
-	 pmze7bJfXINVZmUg56dJB3/bFxtCkp2BS+2hsIvy3T2afItMejuoxLrQ0JhCHahCpq
-	 FdxC/AivuJWLee+JlWphV3lVk0hIsjWtFSYennQtttJd1iUdvc9Mce/hGBf9OQAjTX
-	 xmjOYl6R3knzZeLiUln3zX262S/F2kwVfg4xt034dvoCxsy0F4w2NRMgTxDH1+XdyF
-	 izejiMc1lIxk67tFFsCWL0pe1vMmS2nLmsqFV+PScnCHHc9+ztVj7l4QZYhP60IHQS
-	 1yBHuO1rer+MbOAiaxVQlvvcfH3bpapCMoAJfiNjPBJwUb2WmHPZRkwPLqJJW0vY7a
-	 BS2clvoeza5tH7T8P2RpY4LwzNgWhut4/EhNkB+HD7jSNJvCuQwv/IFYjKDmUgTrG/
-	 LSotwgfKXXMZtTqXh/ygoTpS6lZEEmfLepet0VkHLd8Jtvx37yYfy8Qhb3mkaCFh1Q
-	 vQpBC9nvU7w4xCXZFGpbeuXc=
-X-Virus-Scanned: Debian amavisd-new at mail.envs.net
-Received: from mail.envs.net ([127.0.0.1])
-	by localhost (mail.envs.net [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id FBxerkmRPHKp; Sun, 14 Jul 2024 12:13:10 +0000 (UTC)
-Received: from xtex (unknown [120.230.214.120])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.envs.net (Postfix) with ESMTPSA;
-	Sun, 14 Jul 2024 12:13:10 +0000 (UTC)
-From: xtex <xtex@envs.net>
-To: Russell King <linux@armlinux.org.uk>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Dinh Nguyen <dinguyen@kernel.org>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>,
- Andreas Larsson <andreas@gaisler.com>, Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>,
- Masahiro Yamada <masahiroy@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>
-Cc: x86@kernel.org, linux-kbuild@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-m68k@lists.linux-m68k.org, linux-parisc@vger.kernel.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- sparclinux@vger.kernel.org
-Subject:
- Re: [PATCH 2/2] kbuild: Create INSTALL_PATH directory if it does not exist
-Date: Sun, 14 Jul 2024 20:12:58 +0800
-Message-ID: <2146419.9o76ZdvQCi@xtex>
-In-Reply-To: <20240714085751.176357-3-xtex@envs.net>
-References:
- <20240714085751.176357-1-xtex@envs.net>
- <20240714085751.176357-3-xtex@envs.net>
+	s=arc-20240116; t=1720961909; c=relaxed/simple;
+	bh=Ah56fshfOW+guMs7BQPsoc2doCK6l0nxKHQYGdJhLQs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HrCot4HGZlQ/rF8jO65+QyMDtB+QkKxxq3Ora+TwW9viiByeXSSMTKb/tCRt1B/YNXz+JZAYXBtAhbmQrCd1t+vvvvOtXOO2c6SYKG6NIs+DFYe4NHvSPtFxPhE4UhhyOCsV1okEIICP86nQzbzCKC9CZ50dKd1g+nMQUBoCx+U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=plMF9s5I; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=KLp5o2UecGEjtPu5Gg7n2OPTHRCP0urlfQJP5C8EPyg=; b=plMF9s5I328G7Pg8BUz8hubRj8
+	zApsImh/Bo+FDHGVkfP3wFCOAJUAe2Qm4viu7XVYH4g1xFB54ENvTSxTxGeb4ECQ0Xl6be49iymPE
+	pOXCsDzioXAd9xgx7dHBWRrWqsua2XmCfCfh7Ff5c/d/V+9d7ILvVXULwZNlyHbj/Nam3TVb/46bx
+	UbZjZKGYtw4qesV1U2mqr/dk/hnHRB3ItIfyY+CClAdt+PZZXc55/wFckisnor7Ya2Hs2q2nKJToQ
+	6KnOMloHfRZjmclbRGFOrof5VtSPH5SzsLdpXLVwjHSTlRIkgZGcTCX0q5RHnt4itLUtRIKB7Aj3n
+	gByQ52Vg==;
+Received: from [50.53.4.147] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sSyo5-00000004Slk-2q6b;
+	Sun, 14 Jul 2024 12:58:25 +0000
+Message-ID: <535254d9-f9fe-492d-a5ab-33da01106b0e@infradead.org>
+Date: Sun, 14 Jul 2024 05:58:22 -0700
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] arm64: remove redundant 'if HAVE_ARCH_KASAN' in Kconfig
+To: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ linux-arm-kernel@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org
+References: <20240714105848.1844400-1-masahiroy@kernel.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20240714105848.1844400-1-masahiroy@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Reviewed-by: Nicolas Schier <nicolas@jasle.eu>
-Link: https://lore.kernel.org/linux-riscv/Zcfp8fn7o74K08g0@fjasle.eu/
 
 
+On 7/14/24 3:58 AM, Masahiro Yamada wrote:
+> The condition 'select HAVE_ARCH_KASAN' is always true because
+> there is 'select HAVE_ARCH_KASAN' statement above.
+> 
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
+> ---
+> 
+>  arch/arm64/Kconfig | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+> index c87d16b12e9b..d37cbfc3031e 100644
+> --- a/arch/arm64/Kconfig
+> +++ b/arch/arm64/Kconfig
+> @@ -167,9 +167,9 @@ config ARM64
+>  	select HAVE_ARCH_JUMP_LABEL
+>  	select HAVE_ARCH_JUMP_LABEL_RELATIVE
+>  	select HAVE_ARCH_KASAN
+> -	select HAVE_ARCH_KASAN_VMALLOC if HAVE_ARCH_KASAN
+> -	select HAVE_ARCH_KASAN_SW_TAGS if HAVE_ARCH_KASAN
+> -	select HAVE_ARCH_KASAN_HW_TAGS if (HAVE_ARCH_KASAN && ARM64_MTE)
+> +	select HAVE_ARCH_KASAN_VMALLOC
+> +	select HAVE_ARCH_KASAN_SW_TAGS
+> +	select HAVE_ARCH_KASAN_HW_TAGS if ARM64_MTE
+>  	# Some instrumentation may be unsound, hence EXPERT
+>  	select HAVE_ARCH_KCSAN if EXPERT
+>  	select HAVE_ARCH_KFENCE
+
+-- 
+~Randy
 
