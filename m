@@ -1,63 +1,63 @@
-Return-Path: <linux-kbuild+bounces-2500-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2501-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9857930965
-	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Jul 2024 10:58:41 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65023930967
+	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Jul 2024 10:58:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E1CC7B212BF
-	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Jul 2024 08:58:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 212CF281E57
+	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Jul 2024 08:58:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C37D23B7A8;
-	Sun, 14 Jul 2024 08:58:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CE453D3B3;
+	Sun, 14 Jul 2024 08:58:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=envs.net header.i=@envs.net header.b="BX096ylv"
+	dkim=pass (4096-bit key) header.d=envs.net header.i=@envs.net header.b="Yxeb2wDg"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from mail.envs.net (mail.envs.net [5.199.136.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 801C249659;
-	Sun, 14 Jul 2024 08:58:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BA894D11B;
+	Sun, 14 Jul 2024 08:58:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.199.136.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720947511; cv=none; b=VOwLoUdMIzaSXUwR0DZq3+Ze4I0e3EMerV/4WoZouLJtFch017VLmZP6cb4rlqlQDXirlk3Ac5CbK5xjjVHktmPrWaSEAvOi1gGIDdcCtMYocDDiGn8Qcy0qjMKubjcCFOoYl2cu6odBCvp0zEs6bZ87aqDe7YZKS3t17BpbEos=
+	t=1720947523; cv=none; b=gO/9fGCsGcHsJrVETSROqjrHINe0hxuoXttom8dNEvVQ1Ho5uYiMPyWgjUyybL3DWorROMfyTfLd2zNb0I3FWON1ZOiWtav/QPRM0TQ8KWMip76Jco51akqOn74uaMTbp3TcWjzR/PdOfjXVr/xO3HRy8o87liMH/4VwZ4z1vOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720947511; c=relaxed/simple;
-	bh=ftAJHSxo5Rsx/0DaR5hsL6pNxlltkkDCUMwyIZ5u780=;
+	s=arc-20240116; t=1720947523; c=relaxed/simple;
+	bh=GZiZoI6e3JvsqnLrL5xGsh92gGaBzJaPJ2zt48adfWs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JUQfPW8LjByn1/NAgO72DDkYuwHvK98+FNVmjIBVlPHzv1hbxqm5xvqiK2i833xOHgGEVrtmu6eNS5FM6W4CUycLHWBpHxPMg4Fk4M80zR27DvsPsn5Uq3gMG1LnAYV2mv25PsLzCmatAzjc1SYvkQgKnUYkqMxugntLAXf2ezc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=envs.net; spf=pass smtp.mailfrom=envs.net; dkim=pass (4096-bit key) header.d=envs.net header.i=@envs.net header.b=BX096ylv; arc=none smtp.client-ip=5.199.136.28
+	 MIME-Version; b=C3EaWj4b2/pQsqymsV/BQ+tpDSBuAl2DXMua8pZZjR7TQtTyGgA1NXoCr1EJ7MYT6uU5anIJoW7uTTXShkaJAxxXpU25ld84zhY5aw45phVKJ9YeI7SlmKP5o6uGoVNEzAUbI8LykPt5yKwWVphwkwo2qiqCbW4yiHPnJlu4Gg4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=envs.net; spf=pass smtp.mailfrom=envs.net; dkim=pass (4096-bit key) header.d=envs.net header.i=@envs.net header.b=Yxeb2wDg; arc=none smtp.client-ip=5.199.136.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=envs.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=envs.net
 Received: from localhost (mail.envs.net [127.0.0.1])
-	by mail.envs.net (Postfix) with ESMTP id CEA8038A399F;
-	Sun, 14 Jul 2024 08:58:21 +0000 (UTC)
+	by mail.envs.net (Postfix) with ESMTP id 5A89638A39A0;
+	Sun, 14 Jul 2024 08:58:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=envs.net; s=modoboa;
-	t=1720947501; bh=yyUazkvkRh10ZbEGZX7/MXwA6mkniL0Aqt6WS89cGkk=;
+	t=1720947518; bh=3RXoGcCjW+CB+wVoqLryQrySRvbelditpYUk0T7yTSY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=BX096ylvPXeYrwWxZLty8ghuITn9TBNUlXRIqKxN+XshUOIFiMHVkGUd3M1TCwpdF
-	 cRrFXlBajCA2QRwXaxHfz/LsIQftwAqqONaCO5bNb7P/K2scRD8mdcQIq/NrYYXBe8
-	 FS19q6QjODirpRtBtetibQpu0xC59ex3C4KRg7b60GUyzRsYPpdB+6TzJSxesmUY84
-	 CoSH/YCUPea038A6D17yPZwULk86CHmRQ2w4TkUN+H8iST31M7BDpGEyuIs2MqVLpO
-	 d0yvtBxEIWMJ7mODw14gN6Qd6UvyYI+N1KLcUQ2ii4egWCHcB+9srYosrjMgrLiURC
-	 7lhJQnt+QrPQPwNKHChdHpvYzr5iN9eqXx33CdncsejIxnH/1LV3P6K1uZwKNfHjtY
-	 ClOnQlX5FsC6uq50sIJ8LnPf6e/haVGUp6Opr2IKu/vb6wNc4uDridsOAMHqND3GYu
-	 IMG6aA7Sk8PzP5T/ETm6CwNaAdJo4ClbtFZuN3BzvLkKNvwm61RYC/eCDyHnF8IJMF
-	 pojLYS9Pe16lhyqu56OWfjPld0TWD739HoGYkOv5XxSsYSjpqzdOyJ8miviKd2OmbR
-	 a48tzEXKLNrrk2ZJLwEt0aTLZKbjbVKef7eMJHN9gOf453lE5hSF5ZucKdPK0owt5f
-	 y+sUAWIiuuxzx990L62vMwAs=
+	b=Yxeb2wDgejzOcVVnBnS/+WSj4hVrhCdfZp86xCr1uxSFHj3oyiRHXJuQZsPOdeFf+
+	 QwsdEM4lYdILp7QQ7+gF4JHJFlZzIkglpVaa9Jth2npuU3GtpUq5C/O8U8PqAK52Xg
+	 oEzKqdmTsD800zMMcQBsuxIcOHgJK67FM9gXEzAQJM3jOBb6rY8BYA9g5+OkIxMGDX
+	 QIv6XcJ6tM0UIt4M1wsqBEgdDPznCePITV6kytVXayXeYGtCChVBzad0OUig9I2LN+
+	 jffwEGwCw61rhGknsDSD4FlbN/fOpM27CaiWF5r0f5GsFGjkDUp7biL9Y44N1fMPoy
+	 3XBEIBpoWSzO4s6XjJDn11MfzinWfrAohQ2m+mplZK0y+MCyeTdCkYUd2rjLn1Z68k
+	 fgp04oFcNAj5XTLrDXxzE222ziQx3tel+Eevr1b2LfjSqZjqzfCutqejV6iG7kQIdv
+	 691slFWz8P/RStIunv7yIp2HQOHn89RZubeDi/LphxRFvKTJvJ29yEcfSsgQKH6vsv
+	 GPgvcZeAE2MByB8W8r0VKw5DJrKcZjAHQoDBUKKd3JVZrW+vMjLB1+y349YKr3jSkt
+	 LdAX4sLLK++K613ZmI/6yp8P+fYm2mLrjNSiIrMcpCKUdQWGevpzh6Iuqpxe87iRws
+	 CP0WcrxYs1ADXePPmP/CoQt8=
 X-Virus-Scanned: Debian amavisd-new at mail.envs.net
 Received: from mail.envs.net ([127.0.0.1])
 	by localhost (mail.envs.net [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id GYBywokYmGiX; Sun, 14 Jul 2024 08:58:11 +0000 (UTC)
+	with ESMTP id xu_dqvWydv6f; Sun, 14 Jul 2024 08:58:28 +0000 (UTC)
 Received: from xtexx.eu.org (unknown [120.230.214.120])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
 	by mail.envs.net (Postfix) with ESMTPSA;
-	Sun, 14 Jul 2024 08:58:11 +0000 (UTC)
+	Sun, 14 Jul 2024 08:58:28 +0000 (UTC)
 From: Zhang Bingwu <xtex@envs.net>
 To: Russell King <linux@armlinux.org.uk>,
 	Catalin Marinas <catalin.marinas@arm.com>,
@@ -94,9 +94,9 @@ Cc: x86@kernel.org,
 	linux-riscv@lists.infradead.org,
 	linux-s390@vger.kernel.org,
 	sparclinux@vger.kernel.org
-Subject: [PATCH 1/2] kbuild: Abort make on install failures
-Date: Sun, 14 Jul 2024 16:57:50 +0800
-Message-ID: <20240714085751.176357-2-xtex@envs.net>
+Subject: [PATCH 2/2] kbuild: Create INSTALL_PATH directory if it does not exist
+Date: Sun, 14 Jul 2024 16:57:51 +0800
+Message-ID: <20240714085751.176357-3-xtex@envs.net>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240714085751.176357-1-xtex@envs.net>
 References: <20240714085751.176357-1-xtex@envs.net>
@@ -110,144 +110,29 @@ Content-Transfer-Encoding: 8bit
 
 From: Zhang Bingwu <xtexchooser@duck.com>
 
-Setting '-e' flag tells shells to exit with error exit code immediately
-after any of commands fails, and causes make(1) to regard recipes as
-failed.
-
-Before this, make will still continue to succeed even after the
-installation failed, for example, for insufficient permission or
-directory does not exist.
+If INSTALL_PATH is not a valid directory, create it, like what
+modules_install and dtbs_install will do in the same situation.
 
 Signed-off-by: Zhang Bingwu <xtexchooser@duck.com>
 ---
- arch/arm/boot/install.sh   | 2 ++
- arch/arm64/boot/install.sh | 2 ++
- arch/m68k/install.sh       | 2 ++
- arch/nios2/boot/install.sh | 2 ++
- arch/parisc/install.sh     | 2 ++
- arch/riscv/boot/install.sh | 2 ++
- arch/s390/boot/install.sh  | 2 ++
- arch/sparc/boot/install.sh | 2 ++
- arch/x86/boot/install.sh   | 2 ++
- 9 files changed, 18 insertions(+)
+ scripts/install.sh | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/arch/arm/boot/install.sh b/arch/arm/boot/install.sh
-index 9ec11fac7d8d..34e2c6e31fd1 100755
---- a/arch/arm/boot/install.sh
-+++ b/arch/arm/boot/install.sh
-@@ -17,6 +17,8 @@
- #   $3 - kernel map file
- #   $4 - default install path (blank if root directory)
+diff --git a/scripts/install.sh b/scripts/install.sh
+index 9bb0fb44f04a..02b845e7ab33 100755
+--- a/scripts/install.sh
++++ b/scripts/install.sh
+@@ -20,6 +20,10 @@ do
+ 	fi
+ done
  
-+set -e
++if [ "${INSTALL_PATH}" != "" ] && ! [ -e "${INSTALL_PATH}" ]; then
++	mkdir -p "${INSTALL_PATH}"
++fi
 +
- if [ "$(basename $2)" = "zImage" ]; then
- # Compressed install
-   echo "Installing compressed kernel"
-diff --git a/arch/arm64/boot/install.sh b/arch/arm64/boot/install.sh
-index 9b7a09808a3d..cc2f4ccca6c0 100755
---- a/arch/arm64/boot/install.sh
-+++ b/arch/arm64/boot/install.sh
-@@ -17,6 +17,8 @@
- #   $3 - kernel map file
- #   $4 - default install path (blank if root directory)
- 
-+set -e
-+
- if [ "$(basename $2)" = "Image.gz" ] || [ "$(basename $2)" = "vmlinuz.efi" ]
- then
- # Compressed install
-diff --git a/arch/m68k/install.sh b/arch/m68k/install.sh
-index af65e16e5147..b6829b3942b3 100755
---- a/arch/m68k/install.sh
-+++ b/arch/m68k/install.sh
-@@ -16,6 +16,8 @@
- #   $3 - kernel map file
- #   $4 - default install path (blank if root directory)
- 
-+set -e
-+
- if [ -f $4/vmlinuz ]; then
- 	mv $4/vmlinuz $4/vmlinuz.old
- fi
-diff --git a/arch/nios2/boot/install.sh b/arch/nios2/boot/install.sh
-index 34a2feec42c8..1161f2bf59ec 100755
---- a/arch/nios2/boot/install.sh
-+++ b/arch/nios2/boot/install.sh
-@@ -16,6 +16,8 @@
- #   $3 - kernel map file
- #   $4 - default install path (blank if root directory)
- 
-+set -e
-+
- if [ -f $4/vmlinuz ]; then
- 	mv $4/vmlinuz $4/vmlinuz.old
- fi
-diff --git a/arch/parisc/install.sh b/arch/parisc/install.sh
-index 933d031c249a..664c2d77f776 100755
---- a/arch/parisc/install.sh
-+++ b/arch/parisc/install.sh
-@@ -16,6 +16,8 @@
- #   $3 - kernel map file
- #   $4 - default install path (blank if root directory)
- 
-+set -e
-+
- if [ "$(basename $2)" = "vmlinuz" ]; then
- # Compressed install
-   echo "Installing compressed kernel"
-diff --git a/arch/riscv/boot/install.sh b/arch/riscv/boot/install.sh
-index 4c63f3f0643d..a59639dff64f 100755
---- a/arch/riscv/boot/install.sh
-+++ b/arch/riscv/boot/install.sh
-@@ -17,6 +17,8 @@
- #   $3 - kernel map file
- #   $4 - default install path (blank if root directory)
- 
-+set -e
-+
- if [ "$(basename $2)" = "Image.gz" ]; then
- # Compressed install
-   echo "Installing compressed kernel"
-diff --git a/arch/s390/boot/install.sh b/arch/s390/boot/install.sh
-index a13dd2f2aa1c..fa41486258ee 100755
---- a/arch/s390/boot/install.sh
-+++ b/arch/s390/boot/install.sh
-@@ -15,6 +15,8 @@
- #   $3 - kernel map file
- #   $4 - default install path (blank if root directory)
- 
-+set -e
-+
- echo "Warning: '${INSTALLKERNEL}' command not available - additional " \
-      "bootloader config required" >&2
- if [ -f "$4/vmlinuz-$1" ]; then mv -- "$4/vmlinuz-$1" "$4/vmlinuz-$1.old"; fi
-diff --git a/arch/sparc/boot/install.sh b/arch/sparc/boot/install.sh
-index 4f130f3f30d6..68de67c5621e 100755
---- a/arch/sparc/boot/install.sh
-+++ b/arch/sparc/boot/install.sh
-@@ -16,6 +16,8 @@
- #   $3 - kernel map file
- #   $4 - default install path (blank if root directory)
- 
-+set -e
-+
- if [ -f $4/vmlinuz ]; then
- 	mv $4/vmlinuz $4/vmlinuz.old
- fi
-diff --git a/arch/x86/boot/install.sh b/arch/x86/boot/install.sh
-index 0849f4b42745..93784abcd66d 100755
---- a/arch/x86/boot/install.sh
-+++ b/arch/x86/boot/install.sh
-@@ -16,6 +16,8 @@
- #   $3 - kernel map file
- #   $4 - default install path (blank if root directory)
- 
-+set -e
-+
- if [ -f $4/vmlinuz ]; then
- 	mv $4/vmlinuz $4/vmlinuz.old
- fi
+ # User/arch may have a custom install script
+ for file in "${HOME}/bin/${INSTALLKERNEL}"		\
+ 	    "/sbin/${INSTALLKERNEL}"			\
 -- 
 2.43.0
 
