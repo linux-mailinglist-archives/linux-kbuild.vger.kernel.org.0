@@ -1,125 +1,132 @@
-Return-Path: <linux-kbuild+bounces-2513-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2514-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C38A5930B53
-	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Jul 2024 21:25:39 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55470930B9C
+	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Jul 2024 22:29:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6F57C1F21286
-	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Jul 2024 19:25:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E43F51F22994
+	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Jul 2024 20:29:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A52713C3D3;
-	Sun, 14 Jul 2024 19:25:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FFEF13CFA8;
+	Sun, 14 Jul 2024 20:29:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eX6C3Wrs"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VSiDqXNe"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 117311FDD;
-	Sun, 14 Jul 2024 19:25:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CCE02572;
+	Sun, 14 Jul 2024 20:29:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720985136; cv=none; b=o0vxmXYOGttJYlDSIw/FQXp+CARhBWpV1qKxF4NHhFcNs+Q5m0cfpUctYHISkapp5eEH5oURVujcILUSAjut//S+E+rX/H/dyfuU2qfJ6MgZbDQrhSjMtD97M70mI4a6uNZFxwYkObJuYjboKMpwS31/KJ2IwwDxA7lXnGv19z4=
+	t=1720988987; cv=none; b=blUDQvcLq65Zzs+ccxAflV6bW34CXZY7Nk5gNvcz2FHTvOMQBp7EIt3wcUh18hUPHJj/El/k79kktooKAigOPd3r2fT9XXg8vJlAdq5EDvFq5cyYrrQtYkM6c7ZvxfVPn4vetQJuO8sqvuaKFwCGGL8TdTBaOokE7zsd7CU4AWo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720985136; c=relaxed/simple;
-	bh=pWElLRFvLTb94HVMKGtwP+k/lzQ0EhEm/hblzKYrhEg=;
+	s=arc-20240116; t=1720988987; c=relaxed/simple;
+	bh=5DVwmaldh9pZpfQf1ibzCyt8OiuavasfVrvgW9AuWuw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aLRpLQF+Cy6iBzho8NkkAR2QilgLMbK3NJcMMwG84F7GJfMEvkefYN6mTmaVlgT0bUo4CHkcvzJKmJSlP3vHzVBxKN7iKNzGSRCdIOvInRGSLg0tvvK4v4DuIMolSyMVUjOJEAc9AokfHvMyiGP2aZ786M6prSIjYA5+Yd7IHVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eX6C3Wrs; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B59DC4AF09;
-	Sun, 14 Jul 2024 19:25:35 +0000 (UTC)
+	 To:Cc:Content-Type; b=XbACkG7c0pPsp1qz6p9XVeft8Vrygo2geVg1cd9bNQWl/n97erURBDMBrGl3VnwoLrtPDZahhO1oy1W9aQpw+TVBkfQy51M1mSdz6vxJaW4A23geNu7eAMe9lN2gtMGcfHkgfTweqIT1u8H2WbQKMvPXcmetlytz5rUAIwNzJEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VSiDqXNe; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B079FC116B1;
+	Sun, 14 Jul 2024 20:29:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720985135;
-	bh=pWElLRFvLTb94HVMKGtwP+k/lzQ0EhEm/hblzKYrhEg=;
+	s=k20201202; t=1720988986;
+	bh=5DVwmaldh9pZpfQf1ibzCyt8OiuavasfVrvgW9AuWuw=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=eX6C3Wrsm9BCcg/uR+nBsC9Yi9uiQzgkg8uRD/Jxx6sYZ5wokC3asSl4RYiGCrCxb
-	 vGQWDmPOjWA+gvjDRT9l60XO86VesoxuhbYGiI5QU9t4vp8mBi98lbUDjsbJ5Ut/WC
-	 g92fQjnaqDgyk06toDZq7zfe+bACJyU6pBR8IFOYMwI6pJ7gbX5CCfAP8SKrifMMVP
-	 5TWxwi+PBHkfw1l6lnfoaQBMyyLcdEIZCS+ICceIENxg3b1TqSYWYqBg8yM1dbxUOs
-	 VzK1CY6n90CbPeKTPQm4bUx8TE4PKU+3fEIXAHq/o8xzTZ0qBlMFi4ToNO3ymxz52u
-	 2XLQz5drH1QjA==
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4279ca8af51so20242985e9.3;
-        Sun, 14 Jul 2024 12:25:35 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXsCMBsJanaKuclQrtUpsSnjXYZda4OVHpsVKmSCRPEjREJr2ZBq+Sfxadi2hBpF/CE4glOCUnY5gabxVxQSVxNy4CuTq5ZtOmoaV8J/IdcXLoaKe1XhACviPTKu2Yz6NGFcLgnNOG4Yc5bKO5PUMqiJ/ye8qlskimIymsgPdcPQ5MCV85vme/E0PlE5/m4txKS+6lgKbWmIAn0tCOIYUItpUjFr1AHyv65SFWtkDjqP60fC+uzB7P5oStrukVK8iM=
-X-Gm-Message-State: AOJu0YzqlRNOKVwrdDkWESGlKuClgNwe40dbTu/wxXzCF4HG8dDk0XiR
-	IpRBfQi2HPBo3GZMuB9E1+0dOO0kdDj0QB/xrEWrEQo6sOe0g8GPApo4WcrO8BFT8pOw3UD2/ZW
-	aBdvKrMKnZ1H8f9T3eKteWBXhTnI=
-X-Google-Smtp-Source: AGHT+IHNi+bkhtGO/tFdAGdozXKSzwunOc9SL8x+E8ESxsKl+svJChMzCUdwALSjb4LjW8Uu8yudrhwNRE6vlxT8+cQ=
-X-Received: by 2002:a05:6512:3985:b0:52c:cc46:d59 with SMTP id
- 2adb3069b0e04-52eb9999d90mr13194916e87.18.1720985113376; Sun, 14 Jul 2024
- 12:25:13 -0700 (PDT)
+	b=VSiDqXNecagrWkU2UYU9HajQJyOrX00qnJps0+mkSc2cZcICgBt9eIwB69ebqz5w3
+	 a7GEYJWtCBWoNir3NSUxG/pHQiu8wtj6/3CYmFZkRKup8G7M6LlzPTa/SaEBGef54D
+	 wAPfF+fy6MrlriZeJ4CEnVFtbdLpMfcurped+DBSOH2g09bWcyhWvv74l3b3tyNjoI
+	 jGvALOskz/iAUIXNv4s0byxMWpQTNKH9X/X2PI47xDlVn3UxcpD+dyUS0LQki1ofNR
+	 CLE/KGWPZKbAGhHZdnZQIEeKGGdq3K43v73sGWw7YuIZw1r6ZngTnse6BLgkGmPqgF
+	 NuLSvFagrVsdw==
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-52ea79e6979so4081628e87.2;
+        Sun, 14 Jul 2024 13:29:46 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU5b2rkFbYqpp+1DkqaooP3ynffoLpEVYQ/QvfRshbuI26VLKsLlfc6XH4fxMAPIJU21Z/gVTGp+c2R1zx3asGtlXAfC9UHsP0oWclGyOn0
+X-Gm-Message-State: AOJu0Yyvu56rThvYJ785QYlAm3gkPByYz4Q++Yb6mOWZ64K9IgAoBxc4
+	x4GmwDOOrgsfiKh2VCMkX9Bu71SEr5HAF1+aXin/jLorYnhkTQEn2u4OvcZxkLaclPbL4zHFYq+
+	FJ+xMHr9fOorfYgobOXbkJUS8dFQ=
+X-Google-Smtp-Source: AGHT+IF5y4JeSYqwgybmh/WOWO1ndQ9XLRi2c/vGw5BOoDRt+yZINKcqClyoXMDYVGtfpoJzvhCuPLqvGiUEnZFWxGE=
+X-Received: by 2002:ac2:518f:0:b0:52c:d9c6:68c8 with SMTP id
+ 2adb3069b0e04-52eb99da282mr9809181e87.65.1720988985400; Sun, 14 Jul 2024
+ 13:29:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240714085751.176357-1-xtex@envs.net> <20240714085751.176357-3-xtex@envs.net>
-In-Reply-To: <20240714085751.176357-3-xtex@envs.net>
+References: <20240714170847.2029108-1-masahiroy@kernel.org>
+In-Reply-To: <20240714170847.2029108-1-masahiroy@kernel.org>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Mon, 15 Jul 2024 04:24:37 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQfe7284DrJzo5MCy_vhd+JDytKYbzSbWvRJGiyMT462A@mail.gmail.com>
-Message-ID: <CAK7LNAQfe7284DrJzo5MCy_vhd+JDytKYbzSbWvRJGiyMT462A@mail.gmail.com>
-Subject: Re: [PATCH 2/2] kbuild: Create INSTALL_PATH directory if it does not exist
-To: Zhang Bingwu <xtex@envs.net>
-Cc: Russell King <linux@armlinux.org.uk>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	Dinh Nguyen <dinguyen@kernel.org>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>, 
-	"David S. Miller" <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, 
-	Zhang Bingwu <xtexchooser@duck.com>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, x86@kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-m68k@lists.linux-m68k.org, linux-parisc@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, 
-	sparclinux@vger.kernel.org
+Date: Mon, 15 Jul 2024 05:29:08 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQFuge+3T7uwNjgg8pnzVr=T0PaJ4LT10-zUdhZ5UZ-EA@mail.gmail.com>
+Message-ID: <CAK7LNAQFuge+3T7uwNjgg8pnzVr=T0PaJ4LT10-zUdhZ5UZ-EA@mail.gmail.com>
+Subject: Re: [PATCH] fortify: fix warnings in fortify tests with KASAN
+To: linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, 
+	Kees Cook <keescook@chromium.org>, Marco Elver <elver@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Kees Cook <kees@kernel.org>, 
+	linux-hardening@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Jul 14, 2024 at 5:58=E2=80=AFPM Zhang Bingwu <xtex@envs.net> wrote:
+On Mon, Jul 15, 2024 at 2:09=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
+rg> wrote:
 >
-> From: Zhang Bingwu <xtexchooser@duck.com>
+> When a software KASAN mode is enabled, the fortify tests emit warnings
+> on some architectures.
 >
-> If INSTALL_PATH is not a valid directory, create it, like what
-> modules_install and dtbs_install will do in the same situation.
+> For example, for ARCH=3Darm, the combination of CONFIG_FORTIFY_SOURCE=3Dy
+> and CONFIG_KASAN=3Dy produces the following warnings:
 >
-> Signed-off-by: Zhang Bingwu <xtexchooser@duck.com>
+>     TEST    lib/test_fortify/read_overflow-memchr.log
+>   warning: unsafe memchr() usage lacked '__read_overflow' warning in lib/=
+test_fortify/read_overflow-memchr.c
+>     TEST    lib/test_fortify/read_overflow-memchr_inv.log
+>   warning: unsafe memchr_inv() usage lacked '__read_overflow' symbol in l=
+ib/test_fortify/read_overflow-memchr_inv.c
+>     TEST    lib/test_fortify/read_overflow-memcmp.log
+>   warning: unsafe memcmp() usage lacked '__read_overflow' warning in lib/=
+test_fortify/read_overflow-memcmp.c
+>     TEST    lib/test_fortify/read_overflow-memscan.log
+>   warning: unsafe memscan() usage lacked '__read_overflow' symbol in lib/=
+test_fortify/read_overflow-memscan.c
+>     TEST    lib/test_fortify/read_overflow2-memcmp.log
+>   warning: unsafe memcmp() usage lacked '__read_overflow2' warning in lib=
+/test_fortify/read_overflow2-memcmp.c
+>      [ more and more similar warnings... ]
+>
+> Commit 9c2d1328f88a ("kbuild: provide reasonable defaults for tool
+> coverage") removed KASAN flags from non-kernel objects by default.
+> It was an intended behavior because lib/test_fortify/*.c are unit
+> tests that are not linked to the kernel.
+>
+> As it turns out, some architectures require -fsanitize=3Dkernel-(hw)addre=
+ss
+> to define __SANITIZE_ADDRESS__ for the fortify tests.
+>
+> Without __SANITIZE_ADDRESS__ defined, arch/arm/include/asm/string.h
+> defines __NO_FORTIFY, thus excluding <linux/fortify-string.h>.
+>
+> This issue does not occur on x86 thanks to commit 4ec4190be4cf
+> ("kasan, x86: don't rename memintrinsics in uninstrumented files"),
+> but there are still some architectures that define __NO_FORTIFY
+> in such a situation.
+>
+> Set KASAN_SANITIZE=3Dy explicitly to the fortify tests.
+>
+> Fixes: 9c2d1328f88a ("kbuild: provide reasonable defaults for tool covera=
+ge")
+> Reported-by: Arnd Bergmann <arnd@arndb.de>
+> Closes: https://lore.kernel.org/all/0e8dee26-41cc-41ae-9493-10cd1a8e3268@=
+app.fastmail.com/
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > ---
->  scripts/install.sh | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/scripts/install.sh b/scripts/install.sh
-> index 9bb0fb44f04a..02b845e7ab33 100755
-> --- a/scripts/install.sh
-> +++ b/scripts/install.sh
-> @@ -20,6 +20,10 @@ do
->         fi
->  done
->
-> +if [ "${INSTALL_PATH}" !=3D "" ] && ! [ -e "${INSTALL_PATH}" ]; then
 
-I changed the first check to [ -n "${INSTALL_PATH}" ]
-Applied to linux-kbuild. Thanks!
+Applied to linux-kbuild.
 
-
-> +       mkdir -p "${INSTALL_PATH}"
-> +fi
-> +
->  # User/arch may have a custom install script
->  for file in "${HOME}/bin/${INSTALLKERNEL}"             \
->             "/sbin/${INSTALLKERNEL}"                    \
-> --
-> 2.43.0
->
 
 
 --=20
