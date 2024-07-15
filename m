@@ -1,245 +1,187 @@
-Return-Path: <linux-kbuild+bounces-2542-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2543-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CCD3931C22
-	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Jul 2024 22:40:50 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14CEC931C80
+	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Jul 2024 23:21:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C06E91C21E04
-	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Jul 2024 20:40:49 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7E129B21A66
+	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Jul 2024 21:21:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA82813BAFA;
-	Mon, 15 Jul 2024 20:40:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E13513C827;
+	Mon, 15 Jul 2024 21:21:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="yPWPewEk"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hu127ear"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D565113B5B7
-	for <linux-kbuild@vger.kernel.org>; Mon, 15 Jul 2024 20:40:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2478373477
+	for <linux-kbuild@vger.kernel.org>; Mon, 15 Jul 2024 21:21:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721076039; cv=none; b=FfMsV2OdI5D/e8Myk4TJCEISLcwDjLSRchYkurxwejCnwKS/TA6r5zR35Nb0pw/CYbO11MJnN6wavjQQXyfDhxwsAgtziIeC0CWHxFfxISsJftB6fLpncbI0l/GjySD6NDvCNyFOuv99WBXkvGFRGPqzghf0pi2HocRWviEwnyE=
+	t=1721078479; cv=none; b=W6v2BgfjP1vZr0hdcRWoPOOlOvDbwk6HNxpS3vYqNdeDgJAyQr1mqE+wU6FW91Lg1oMgSMQa98FTRzO9BPIOHzJj5AeOqr1uRvbSJjFSMWsHUabs2KLWxmEgkYjUEfOCRD/uZQ1wty/0oEjWNPikfVs2X0khT0I4uWaLeUvYmYQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721076039; c=relaxed/simple;
-	bh=oSy7pWCF/gI0rY02+WvHWDsxr8vczHoYLSUS5+7+31E=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pH4laxktxmgBgJS7F4vDVWWSyq6QqrsfEWK8LmhOIC2yJjymYDZep2pItkbkp5e6qUP0gmBwqR+OvfLmS672lfMfwJns1/cF+6rFGFEkrxDbpVe3kQKeeGlzl//KsNZePrPDOG9wIOvOUZie07/jmUJiXjFcqWtFaLprAAxAloY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=yPWPewEk; arc=none smtp.client-ip=209.85.222.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-81177a1089fso1229705241.2
-        for <linux-kbuild@vger.kernel.org>; Mon, 15 Jul 2024 13:40:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1721076037; x=1721680837; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eS0BTNSokaMY/dxoDgKw9rrLuSVkHGouvH7zTfa5F8Y=;
-        b=yPWPewEk2HIlUxcXck4BYGsGLeEMtdjG/EihbfhLtN8JPK+hD0B68i4exYg49Aa26L
-         1vFb5XolTRkvGVoBmN8xNYfC1zKFGp5pRfL2vaZwIJ9aHFtFTn37cpL7vzcWIHwFyJdT
-         gh5832lBw1fToUNWEOnIplLZKHKxuSXv2VPGZLVBKtZssq8Vb45aJ6XpLtEeUNPH4CKW
-         GKiB2fp3baFbcoiukYQHFfWTXTGyTrTYBhLNXVbbm3Dw7MpAPpn6imESgM46TfhkSYCj
-         485aFPbNVDgkdHdCH1TZMRRJ7hzFWjv5GAF3vTmTILyxWrT9ReqTZIhzR+CWtqCs4CWL
-         8w2A==
+	s=arc-20240116; t=1721078479; c=relaxed/simple;
+	bh=QxuwEKVXjZsdKY26h4/v6WSO1T1t9ElACgPiaHmj6U4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n07ystnHEC2jw3CPY9vZ/evF2zdCffMWQzJXJ1nVMDsh/QAAEqE2Nx32aa+1Awf6NF13f9ttz5TqUrTEpluNxtmJBK9KLMA2nrhLFroU07cwOBXbrRDVPpEsQxovQBKD7eCx+J3yew5cPq3KJ8Bx4h7Z66zGwm33XCt1rgiPHs0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hu127ear; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1721078476;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+J+YcViW4+se6Ty9DnL7RRzeCKJXPa01mGVrkYn2rgI=;
+	b=hu127earyu1oyL6m2stDZndgDQfdCtOltBzHmuP6sbL+rJrftBvMfX487oVEjIRsKfpM3D
+	l4rrDfCjeWQNLZBVDVBBaTrzQyzz9/rE8l7vrE1RWXFkZhu222m1k3eAVLth5t6m3AExWr
+	JmzbPmKeYnhbdXuow9OU61ZgzcJDMs8=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-137-GnH9MESXMmuu7uyoiBqF_Q-1; Mon, 15 Jul 2024 17:21:14 -0400
+X-MC-Unique: GnH9MESXMmuu7uyoiBqF_Q-1
+Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-6b60b18e8efso83100146d6.1
+        for <linux-kbuild@vger.kernel.org>; Mon, 15 Jul 2024 14:21:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721076037; x=1721680837;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=eS0BTNSokaMY/dxoDgKw9rrLuSVkHGouvH7zTfa5F8Y=;
-        b=ehJrPVvsCszhBl1Ho/HJDDdE/D18A4MWzZKCKUqor8/Ol/+dCjT4F8RxOsmruAnsn0
-         qqvQwQk1yaAJC6rDQ7Cw5VCgSHGhP5bDrig5zuI6d5ZCGqR5+MNRPqRmx+oKgkyLHnZe
-         oNwxb2UR9WIUp4TwuMsQ9GejGJhqNEMWqjhr0JQopD4rgUhFBS6yMtB3XIehxFA+cxjQ
-         ly7DdZA4WEYZPGaAgUmGCzViRgojbZZ4Z7SkIF5BWmyKvmRk9m2dSNQZI7NhGnyJP79P
-         SRIM15+eVcRHQtbTKuZYlLB/+OTkfgCzBhYfQoBjIaqc3uYOAmhjeDV1Ekvj2E5quK4Y
-         TFBw==
-X-Forwarded-Encrypted: i=1; AJvYcCWObvMBaiq79kCZaKx5Cq5pMZ5mIm3rcYgojVmfv+SfLLmRLQojmODb0QDMg7ES9IRbrnYveVDyTTjpATW22o75PZQfNCLziahP8CnT
-X-Gm-Message-State: AOJu0YxR1eF7dK+BgbBuO/WEA3J6hdxU7W42N6v6yIWhxO+aBxjXT3DG
-	0x7YKNArptkj4yWu+pUwUh8RppDsAPvTYbMcmUXwVAAm7meZ13RPyuhJEjYVJCP9tBLMvGn3lzP
-	/QGL/SNQvDluOV86mT5JlgiC4fyIu5BFnG4oe
-X-Google-Smtp-Source: AGHT+IEielVS1o0SbsVVS78wRgd1TDMQT3A8qiYKcy98d6bE9prj7+6YJzc5lzzm8j0RfdvdKEkpi5wqVYxF4RpD0X4=
-X-Received: by 2002:a05:6102:3c88:b0:48f:e86c:5e1d with SMTP id
- ada2fe7eead31-4914c4defeemr201499137.9.1721076036510; Mon, 15 Jul 2024
- 13:40:36 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1721078474; x=1721683274;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+J+YcViW4+se6Ty9DnL7RRzeCKJXPa01mGVrkYn2rgI=;
+        b=f7dhVJ11ViOz6elLfBJDFrgBSG1AYPCma5DonDfkAshRqOXFVDM6SasE1dDEPt1hNl
+         B+uz4o+RDbgyphFmyWszg/4fnEFqCw0yxogetpEuwiDrCDCpSOqU0NrHly9KAQYy8Ez1
+         6Pf2GvlloQdETmKzrWixKK+OUUy/tpcsSxse09MvvfHt91Do+nFk6F2v/dF+flnJyeI0
+         aSp0cO5tA6ezCiED9TPPsp1TloTIpDQwpqE9e0PoDILtJg9YijFz6rZYPBN8K7IE1Rby
+         R9GzKvQ7Oo+xYPeuqmhms9+/hgXc8If1yNS8k4HWIRZXPjaqZx2qPn3+2ckBPJREKjD6
+         9H3Q==
+X-Gm-Message-State: AOJu0YxQe31R6xG6K/agO+nBQN1LyN0KMR/KkpVkyFYIL1TGBTpGnWrg
+	/GPROSSAgDxfM5pDQPIuJH1Up80cpPXANn/YWdaoPpBMh2QUMM8rsVazwIZAN4j7y+feFo745Oh
+	7WYOvKfV8pYQvwUOzAfhkg8QvYsYrIff2RvWddcLfghTCcy/lAxj1RlY7MkDzQewkmcocdA==
+X-Received: by 2002:a05:6214:f06:b0:6b5:43f2:d65e with SMTP id 6a1803df08f44-6b77f4cdd31mr5983756d6.32.1721078474055;
+        Mon, 15 Jul 2024 14:21:14 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGlTQEKr+KGZW3xPOo9edF/4XcyG2agkTD6yfvAkGGhD5YrTDFFw7ZUB2kYcR3YeWPnxYqqyA==
+X-Received: by 2002:a05:6214:f06:b0:6b5:43f2:d65e with SMTP id 6a1803df08f44-6b77f4cdd31mr5983476d6.32.1721078473640;
+        Mon, 15 Jul 2024 14:21:13 -0700 (PDT)
+Received: from optiplex-fbsd (c-174-169-122-120.hsd1.nh.comcast.net. [174.169.122.120])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6b76198591esm24796056d6.48.2024.07.15.14.21.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Jul 2024 14:21:13 -0700 (PDT)
+Date: Mon, 15 Jul 2024 17:21:10 -0400
+From: Rafael Aquini <aquini@redhat.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>
+Subject: Re: [PATCH v3 2/2] kbuild: rpm-pkg: introduce a simple changelog
+ section for kernel.spec
+Message-ID: <ZpWSxtUzBRkqB6CQ@optiplex-fbsd>
+References: <CAK7LNASzX29R38ApwByCO3kpiY6-L5UqHnP1Vs2WRBQM8z+kQw@mail.gmail.com>
+ <20240706164423.1934390-1-aquini@redhat.com>
+ <CAK7LNARATMy4hJ=Jp0fLd=JyD_SRC5ok8CFmLwHPv7kam4Eq1g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240617175818.58219-17-samitolvanen@google.com> <0b2697fd-7ab4-469f-83a6-ec9ebc701ba0@suse.com>
-In-Reply-To: <0b2697fd-7ab4-469f-83a6-ec9ebc701ba0@suse.com>
-From: Sami Tolvanen <samitolvanen@google.com>
-Date: Mon, 15 Jul 2024 20:39:59 +0000
-Message-ID: <CABCJKueGRBdFfGW-cvOvqxc-a85GpxtwPmLdE_1RiAkNLrEg+g@mail.gmail.com>
-Subject: Re: [PATCH 00/15] Implement MODVERSIONS for Rust
-To: Petr Pavlu <petr.pavlu@suse.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Miguel Ojeda <ojeda@kernel.org>, Matthew Maurer <mmaurer@google.com>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK7LNARATMy4hJ=Jp0fLd=JyD_SRC5ok8CFmLwHPv7kam4Eq1g@mail.gmail.com>
 
-Hi Petr,
-
-On Wed, Jul 10, 2024 at 7:30=E2=80=AFAM Petr Pavlu <petr.pavlu@suse.com> wr=
-ote:
->
-> On 6/17/24 19:58, Sami Tolvanen wrote:
-> > Hi folks,
+On Tue, Jul 16, 2024 at 01:32:56AM +0900, Masahiro Yamada wrote:
+> On Sun, Jul 7, 2024 at 1:45 AM Rafael Aquini <aquini@redhat.com> wrote:
 > >
-> > This series implements CONFIG_MODVERSIONS for Rust, an important
-> > feature for distributions like Android that want to ship Rust
-> > kernel modules, and depend on modversions to help ensure module ABI
-> > compatibility.
->
-> Thanks for working on this. Below is some feedback with my (open)SUSE
-> hat on, although it should be quite general.
-
-Great, thanks for taking a look!
-
-> > There have been earlier proposals [1][2] that would allow Rust
-> > modules to coexist with modversions, but none that actually implement
-> > symbol versioning. Unlike C, Rust source code doesn't have sufficient
-> > information about the final ABI, as the compiler has considerable
-> > freedom in adjusting structure layout for improved performance [3],
-> > for example, which makes using a source code parser like genksyms
-> > a non-starter. Based on Matt's suggestion and previous feedback
-> > from maintainers, this series uses DWARF debugging information for
-> > computing versions. DWARF is an established and relatively stable
-> > format, which includes all the necessary ABI details, and adding a
-> > CONFIG_DEBUG_INFO dependency for Rust symbol versioning seems like a
-> > reasonable trade-off.
->
-> Using the DWARF data makes sense to me. Distribution kernels are
-> normally built with debuginfo because one has to be able to debug them
-> later, unsurprisingly. Besides that, one now typically wants to use BPF
-> together with built-in BTF data (CONFIG_DEBUG_INFO_BTF), which also
-> requires building the kernel with debuginfo.
->
-> I would however keep in mind that producing all DWARF data has some
-> cost. From a quick test, an x86_64-defconfig build is ~30% slower for me
-> with CONFIG_DEBUG_INFO=3Dy. The current genksyms tool allows to have
-> debuginfo disabled when backporting some patches and consequently have
-> a quicker feedback whether modversions changed. This option would
-> disappear with gendwarfksyms but I think it is acceptable.
-
-Yes, this matches my benchmarks too. Presumably folks who care about
-build times and are not interested in debugging information or Rust
-support would prefer genksyms instead. I'm planning to turn this into
-a Kconfig choice in the next version.
-
-> > The first 12 patches of this series add a small tool for computing
-> > symbol versions from DWARF, called gendwarfksyms. When passed a list
-> > of exported symbols, the tool generates an expanded type string
-> > for each symbol, and computes symbol CRCs similarly to genksyms.
-> > gendwarfksyms is written in C and uses libdw to process DWARF, mainly
-> > because of the existing support for C host tools that use elfutils
-> > (e.g., objtool).
->
-> In addition to calculating CRCs of exported symbols, genksyms has other
-> features which I think are important.
->
-> Firstly, the genksyms tool has a human-readable storage format for input
-> data used in the calculation of symbol CRCs. Setting the make variable
-> KBUILD_SYMTYPES enables dumping this data and storing it in *.symtypes
-> files.
->
-> When a developer later modifies the kernel and wants to check if some
-> symbols have changed, they can take these files and feed them as
-> *.symref back to genksyms. This allows the tool to provide an actual
-> reason why some symbols have changed, instead of just printing that
-> their CRCs are different.
->
-> Is there any plan to add the same functionality to gendwarfksyms, or do
-> you envison that people will use libabigail, Symbol-Type Graph, or
-> another tool for making this type of comparison?
-
-gendwarfksyms also uses human-readable input for the CRC calculations,
-and it prints out the input strings with the --debug option. I plan to
-hook this up to KBUILD_SYMTYPES in v2. It should be convenient enough
-to simply compare the pretty-printed output with diff, so I'm not sure
-if a built-in comparison option is needed. Any other DWARF analysis
-tool can be used to spot the differences too, as you mentioned.
-
-> Secondly, when distributions want to maintain stable kABI, they need to
-> be able to deal with patch backports that add new members to structures.
-> One common approach is to have placeholders in important structures
-> which can be later replaced by the new members as needed. __GENKSYMS__
-> ifdefs are then used at the C source level to hide these kABI-compatible
-> changes from genksyms.
->
-> Gendwarfksyms works on the resulting binary and so using such ifdefs
-> wouldn't work. Instead, I suspect that what is required is a mechanism
-> to tell the tool that a given change is ok, probably by allowing to
-> specify some map from the original definition to the new one.
->
-> Is there a plan to implement something like this, or how could it be
-> addressed?
-
-That's a great question. Here's what Android uses currently to
-maintain a stable kABI, I assume you're doing something similar?
-
-https://android.googlesource.com/kernel/common/+/refs/heads/android15-6.6/i=
-nclude/linux/android_kabi.h
-
-If using unions here is acceptable to everyone, a simple solution
-would be to use a known name prefix for the reserved members and teach
-gendwarfksyms to only print out the original type for the replaced
-ones. For example:
-
-The initial placeholder:
-
-    u8 __kabi_reserved_1[8];
-
-After replacement:
-
-    union {
-            u64 new_member;
-            struct {
-                    u8 __kabi_reserved_1[8];
-            };
-    }
-
-Here gendwarfksyms would see the __kabi_reserved prefix and only use
-u8 [8] for the CRC calculation. Does this sound reasonable?
-
-Greg, I know you've been dealing with this for a long time, any thoughts?
-
-> > Another compatibility issue is fitting the extremely long mangled
-> > Rust symbol names into struct modversion_info, which can only hold
-> > 55-character names (on 64-bit systems). Previous proposals suggested
-> > changing the structure to support longer names, but the conclusion was
-> > that we cannot break userspace tools that parse the version table.
+> > Fix the following rpmbuild warning:
 > >
-> > The next two patches of the series implement support for hashed
-> > symbol names in struct modversion_info, where names longer than 55
-> > characters are hashed, and the hash is stored in the name field. To
-> > avoid breaking userspace tools, the binary hash is prefixed with a
-> > null-terminated string containing the name of the hash function. While
-> > userspace tools can later be updated to potentially produce more
-> > useful information about the long symbols, this allows them to
-> > continue working in the meantime.
+> >   $ make srcrpm-pkg
+> >   ...
+> >   RPM build warnings:
+> >       source_date_epoch_from_changelog set but %changelog is missing
+> >
+> > Signed-off-by: Rafael Aquini <aquini@redhat.com>
+> > ---
+> >  scripts/package/mkspec | 23 +++++++++++++++++++++++
+> >  1 file changed, 23 insertions(+)
+> >
+> > diff --git a/scripts/package/mkspec b/scripts/package/mkspec
+> > index ce201bfa8377..e45fdb12fbc7 100755
+> > --- a/scripts/package/mkspec
+> > +++ b/scripts/package/mkspec
+> > @@ -28,3 +28,26 @@ cat<<EOF
+> >  EOF
+> >
+> >  cat "${srctree}/scripts/package/kernel.spec"
+> > +
+> > +# collect the user's name and email address for the changelog entry
+> > +if [ "$(command -v git)" ]; then
+> > +       name=$(git config user.name) || true
+> > +       email=$(git config user.email) || true
+> > +fi
+> > +
+> > +if [ ! "${name:+set}" ]; then
+> > +       name=${KBUILD_BUILD_USER:-$(id -nu)}
+> > +fi
+> > +
+> > +if [ ! "${email:+set}" ]; then
+> > +       buildhost=${KBUILD_BUILD_HOST:-$(hostname -f 2>/dev/null || hostname)}
+> > +       builduser=${KBUILD_BUILD_USER:-$(id -nu)}
+> > +       email="${builduser}@${buildhost}"
+> > +fi
+> > +
+> > +cat << EOF
+> > +
+> > +%changelog
+> > +* $(LC_ALL=C; date +'%a %b %d %Y') ${name} <${email}> - ${KERNELRELEASE}
+> 
+> 
+> I am not sure whether the version is required or not.
+> 
+> In the following guide, not all entries have the version.
+> 
+>   https://jfearn.fedorapeople.org/en-US/RPM/4/html/RPM_Guide/ch09s06.html
 >
-> I think this approach with hashed names is quite complex. I'd personally
-> be also in favor of having a new section with variable-length strings to
-> store the names of imported symbols. As yet another alternative, it
-> should be also possible to refer directly into .symtab/.strtab to avoid
-> duplicating the names, but I suspect it would be non-trivial to
-> implement.
+> 
+> If you want to add the version, perhaps is it better to
+> follow the fedora convention?
+> 
+> 
+> The spec file of Fedora looks as follows.
+> The version is enclosed in the square brackets.
+> 
+> %changelog
+> * Wed Dec 13 2023 Augusto Caringi <acaringi@redhat.com> [6.6.7-0]
+> - Add rhbz#2253632 rhbz#2253633 to BugsFixed (Justin M. Forbes)
+> - Turn on DRM_ACCEL drivers for Fedora (Justin M. Forbes)
+> - Linux v6.6.7
+> 
+> 
+> 
+> 
+> Or, is this not important because there is no strict format?
 
-Thanks for the feedback. I think for the next version we'll look into
-reviving the relevant bits of Matt's previous patch series, which
-implemented a new section that supports variable-length names:
+Darn, I've been using the "- release" pattern for my RPMs for 
+quite a long time, as circa 2010 that was the suggestion. 
+I guess I just got used to it and never really noticed 
+the change along the way.
 
-https://lore.kernel.org/lkml/CAGSQo03R+HYcX2JJDSm7LA8V370s_3hrbTBc2s51Pp9nx=
-WTz5w@mail.gmail.com/
+There's not a strict format, though, and it's just nice 
+to have the version showing in there. 
+I have no strong feelings about the format we should be
+going to go with, so I'll leave it up to you. 
 
-Sami
+What is the format you'd prefer for the changelog entry? 
+Leave it as it is in this patch, or adopt the Fedora standard?
+
+I'll wait for your input before refreshing this patch (or not) 
+
+Cheers,
+-- Rafael
+
 
