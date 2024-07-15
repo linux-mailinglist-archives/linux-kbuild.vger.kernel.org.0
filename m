@@ -1,161 +1,112 @@
-Return-Path: <linux-kbuild+bounces-2535-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2536-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDBF7931880
-	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Jul 2024 18:33:39 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4299E931897
+	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Jul 2024 18:39:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0A6AD1C21706
-	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Jul 2024 16:33:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id ED60D1F2270D
+	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Jul 2024 16:39:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E48C1BC41;
-	Mon, 15 Jul 2024 16:33:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19A8A22626;
+	Mon, 15 Jul 2024 16:39:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eJi9qQNO"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hJotXoGt"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 139221799D;
-	Mon, 15 Jul 2024 16:33:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E46A4225DA;
+	Mon, 15 Jul 2024 16:39:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721061215; cv=none; b=bLQWH5qsdQgdwmje4428aqdgWEeOpyRDfeb2mfVs9q1ffctSQlSc5OMGaVIq8RKY0VpmLnREjzEBtxvzT+eVHaMYnf3Q4/mdf9KN+KkBRv2mBdmmF+pGdYy6DiwHjvG9DH+hQ21sfgFmTVYaufTce/ojC2OSjlninwB3/toqssQ=
+	t=1721061567; cv=none; b=m0Ny9lBclVGz933w9yQhOFaAjMz3/vBK7kpnCttID4FRmv7bJ1fIurE9W4lIDFiJJD7l8Tjh1Fk7SWCmP808B9zuKDalFi7B2LDR7QIxW1Wdy+OThwlsB0PCS9DejgXP2zzzxpTmWSHVVr++Cre6vqksDjwvB/55u6PmIQkFFZs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721061215; c=relaxed/simple;
-	bh=YsIOJcIzCtgQUy6fe55s8xuVMYV7qKmns+jvyZ6BX98=;
+	s=arc-20240116; t=1721061567; c=relaxed/simple;
+	bh=82LA9oTdWdNNOcKpEekI3O0AXuZjf8m09y5LDdFj5j4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LXrzfi5lV7AVDzvtnXtAfJwXvJrlAMXJNomsyCJLDNqj9FvNi9C3Whn2vSp+RyInDAvwhRvlUULjjK+8fLg66CuMi4vYjDfan0LJiieKDCQc4XZAn1i82JrNbpeSPV86Rkc5ZQmmBn6VRE+zQiAKVIXTWRFYngCRCbtwirrOLDw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eJi9qQNO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A45A3C32782;
-	Mon, 15 Jul 2024 16:33:34 +0000 (UTC)
+	 To:Cc:Content-Type; b=YKl54S50Z4ikENd7sIj2LYLpo1GIBQTxOmvQRNT6TxFXk2MJtLdbQcN5YiMGDDzaNabR4UkXPGtGwGs2CT93b1QrytOM5LxZ1UFSFtv8feMWNVfwZ6+ye3cvgRm2de1aLM13dZQAKATyQNixurrIjhkWZ47Ohm/MF8LH+kdxY9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hJotXoGt; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 658ACC4AF0D;
+	Mon, 15 Jul 2024 16:39:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721061214;
-	bh=YsIOJcIzCtgQUy6fe55s8xuVMYV7qKmns+jvyZ6BX98=;
+	s=k20201202; t=1721061566;
+	bh=82LA9oTdWdNNOcKpEekI3O0AXuZjf8m09y5LDdFj5j4=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=eJi9qQNOYkDbOnnDyFX3LlRWuUQr2Z9DtaHKPd+qfxqY5BKRTr9DSoQD8E5BwBjYW
-	 oYsX5GhHmeTPpctFgu9RCef+kycfZMySnfoTcOiUXTdegme/0cWjU4MQIfyAHNuefR
-	 QawZxNJfjiEZ1Azk2MxqtEuYeOzRIQH1+3L9vgrmU6H8EVUZiGLFX3PzUDAvPzlrCI
-	 b+yhS2KA/TVmnM1HXY6bSCrzQ7yGiZnSI5awLI9sYjXDptAfLBpp6Qit+t3zwsI0o1
-	 2hIySplPkKaZRYd1rhzwkExp+It9vE8H9wB1ycocBDPoXTi824UGGjY3vVNAHnLfda
-	 DWXqitPhX6uog==
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-52e97e5a84bso6307316e87.2;
-        Mon, 15 Jul 2024 09:33:34 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVzwTcpeww1DMCZa7WG7c/GcZhz0K7sAs7G6V9wI7CWSxwkE35eeYRyKnB8CSCZLzgxTPEkt9R961slOSneiX7yw976fjDtIFWD/g4i
-X-Gm-Message-State: AOJu0YziyX1t7JlJurUgGUyIMvagKEl/cpa7HpPBk4yGsV3HJlzEc65/
-	jswHXW5CPkpMqHuXVkuS3lqETU0iknYG70yYvtjSf4HT84mj5+ePCBEJXAvBL/s699Wc6Wb9zDK
-	6uqjTDbLL11UZpFmwpU8RaUaDlXE=
-X-Google-Smtp-Source: AGHT+IFFyBH1ytHJ6hQjzAIUeC/mABTAKPhjNDEzrbj9W7OXNTVhs7juvEl1JOmDtjaVH3rE9cK9osEdLrjN7lLc5lE=
-X-Received: by 2002:a05:6512:130a:b0:52e:932d:88ab with SMTP id
- 2adb3069b0e04-52ede1a5643mr49993e87.23.1721061213250; Mon, 15 Jul 2024
- 09:33:33 -0700 (PDT)
+	b=hJotXoGt9UNc4UbcRUmbcK2cbsbGlgWKk+FoXf/UXruGi0ZJVttVORnwk4pO06in2
+	 t7avHfhzet3DVEmXhvDMz94eDgqL4YT6HjxtO5a98rTpWbBc2PVrOuDFEIDIf6bl0H
+	 Q37WU8lXTMyjYl4XhWB9WW80tpv/cmuJhQYIlAgQehxUx9xRtSZ08FmRnjSoAHqnTP
+	 2R3UDqi368GZs+FY77rstf0/fD+OOvshLBTugWwXuh/m3vaazVXUk2XEFh9qq8xXqS
+	 55pSU6xTZDJdy4Z3HUI+oMyw0Q1MoQu920Y3trS3hFnROgh3qZdXBuQ9Aw1BA01g0Y
+	 nG8S/WaQFfD2w==
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-52ea79e689eso6381211e87.1;
+        Mon, 15 Jul 2024 09:39:26 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWo6qBVSRZETJoSSTHMNegasQKu4js5K/QGBRN1CrxFWYEe9KBrLcBYUIvnAWwsA/dwpwn0WpJc4qkT5yQChFd8yTuw4Q+qOGjHTESk1XER8kXV/1fW6N6QmOHYtCHV9sMNEeo0zdUU1xYk
+X-Gm-Message-State: AOJu0YxE8Yz35MaMx671qbiH12ff9LuHR4Q7CKyV3BMSAeZUkAB66DIm
+	VkwAKEJ07sK2vE26U9lDe1tdPcZIWLhHG88MATnbwCf2hotICD0Zk4MQ7XNbE/2dBiy2txVYll0
+	pwUQZmmtzgpS6/n88NoFbK2p2rEs=
+X-Google-Smtp-Source: AGHT+IGxPzXD3QSs/6Dv2oXoKA8CP5cnB7NfH523pRmTeHHXispFdRWPahC1XhxoiuH8fVM3p/RihNU3y2vnB3WrszY=
+X-Received: by 2002:a05:6512:4002:b0:52c:df83:a740 with SMTP id
+ 2adb3069b0e04-52ede1b2d94mr69300e87.30.1721061565037; Mon, 15 Jul 2024
+ 09:39:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAK7LNASzX29R38ApwByCO3kpiY6-L5UqHnP1Vs2WRBQM8z+kQw@mail.gmail.com>
- <20240706164423.1934390-1-aquini@redhat.com>
-In-Reply-To: <20240706164423.1934390-1-aquini@redhat.com>
+References: <20240715144529.101634-1-masahiroy@kernel.org> <202407150905.56BBE11@keescook>
+In-Reply-To: <202407150905.56BBE11@keescook>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 16 Jul 2024 01:32:56 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARATMy4hJ=Jp0fLd=JyD_SRC5ok8CFmLwHPv7kam4Eq1g@mail.gmail.com>
-Message-ID: <CAK7LNARATMy4hJ=Jp0fLd=JyD_SRC5ok8CFmLwHPv7kam4Eq1g@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] kbuild: rpm-pkg: introduce a simple changelog
- section for kernel.spec
-To: Rafael Aquini <aquini@redhat.com>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>
+Date: Tue, 16 Jul 2024 01:38:48 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATh-azmUyp_4uOAJ+e=0O25vvkb+yNrNJDU_5nZS3NqYA@mail.gmail.com>
+Message-ID: <CAK7LNATh-azmUyp_4uOAJ+e=0O25vvkb+yNrNJDU_5nZS3NqYA@mail.gmail.com>
+Subject: Re: [PATCH 0/3] fortify: fix various issues in test_fortify Makefile
+To: Kees Cook <kees@kernel.org>
+Cc: linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Jul 7, 2024 at 1:45=E2=80=AFAM Rafael Aquini <aquini@redhat.com> wr=
-ote:
+On Tue, Jul 16, 2024 at 1:07=E2=80=AFAM Kees Cook <kees@kernel.org> wrote:
 >
-> Fix the following rpmbuild warning:
+> On Mon, Jul 15, 2024 at 11:45:22PM +0900, Masahiro Yamada wrote:
+> > Applicable to v6.10 tag.
+> >
+> >
+> >
+> > Masahiro Yamada (3):
+> >   fortify: use if_changed_dep to record header dependency in *.cmd file=
+s
+> >   fortify: refactor test_fortify Makefile to fix some build problems
+> >   fortify: move test_fortify.sh to lib/test_fortify/
 >
->   $ make srcrpm-pkg
->   ...
->   RPM build warnings:
->       source_date_epoch_from_changelog set but %changelog is missing
+> Thanks for this improvement! I will take this into the hardening tree
+> after -rc2, unless you would prefer to send this during the merge window
+> based on your tree? (The fix you sent for the v6.10 release means my
+> trees based on -rc2 can't apply this series...)
+
+
+
+No problem.
+
+This patch set is not urgent.
+
+
+
+
 >
-> Signed-off-by: Rafael Aquini <aquini@redhat.com>
-> ---
->  scripts/package/mkspec | 23 +++++++++++++++++++++++
->  1 file changed, 23 insertions(+)
+> -Kees
+
 >
-> diff --git a/scripts/package/mkspec b/scripts/package/mkspec
-> index ce201bfa8377..e45fdb12fbc7 100755
-> --- a/scripts/package/mkspec
-> +++ b/scripts/package/mkspec
-> @@ -28,3 +28,26 @@ cat<<EOF
->  EOF
->
->  cat "${srctree}/scripts/package/kernel.spec"
-> +
-> +# collect the user's name and email address for the changelog entry
-> +if [ "$(command -v git)" ]; then
-> +       name=3D$(git config user.name) || true
-> +       email=3D$(git config user.email) || true
-> +fi
-> +
-> +if [ ! "${name:+set}" ]; then
-> +       name=3D${KBUILD_BUILD_USER:-$(id -nu)}
-> +fi
-> +
-> +if [ ! "${email:+set}" ]; then
-> +       buildhost=3D${KBUILD_BUILD_HOST:-$(hostname -f 2>/dev/null || hos=
-tname)}
-> +       builduser=3D${KBUILD_BUILD_USER:-$(id -nu)}
-> +       email=3D"${builduser}@${buildhost}"
-> +fi
-> +
-> +cat << EOF
-> +
-> +%changelog
-> +* $(LC_ALL=3DC; date +'%a %b %d %Y') ${name} <${email}> - ${KERNELRELEAS=
-E}
-
-
-I am not sure whether the version is required or not.
-
-In the following guide, not all entries have the version.
-
-  https://jfearn.fedorapeople.org/en-US/RPM/4/html/RPM_Guide/ch09s06.html
-
-
-If you want to add the version, perhaps is it better to
-follow the fedora convention?
-
-
-The spec file of Fedora looks as follows.
-The version is enclosed in the square brackets.
-
-%changelog
-* Wed Dec 13 2023 Augusto Caringi <acaringi@redhat.com> [6.6.7-0]
-- Add rhbz#2253632 rhbz#2253633 to BugsFixed (Justin M. Forbes)
-- Turn on DRM_ACCEL drivers for Fedora (Justin M. Forbes)
-- Linux v6.6.7
-
-
-
-
-Or, is this not important because there is no strict format?
-
-
-
-> +- Custom built Linux kernel.
-> +EOF
 > --
-> 2.45.1
->
->
+> Kees Cook
 
 
---=20
+
+--
 Best Regards
 Masahiro Yamada
 
