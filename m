@@ -1,79 +1,100 @@
-Return-Path: <linux-kbuild+bounces-2517-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2518-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DFC2930BF8
-	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Jul 2024 00:42:52 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1BBE930CCC
+	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Jul 2024 04:41:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BA9981C20BA8
-	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Jul 2024 22:42:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7044A1F211EA
+	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Jul 2024 02:41:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB83213AA45;
-	Sun, 14 Jul 2024 22:42:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QrjXpyXy"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 500E26FC2;
+	Mon, 15 Jul 2024 02:41:18 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAE744AEF6;
-	Sun, 14 Jul 2024 22:42:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C38F64A35;
+	Mon, 15 Jul 2024 02:41:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720996964; cv=none; b=PmCEfw9Vb5T2HPo4XP4P9uecZYGElH054Bws3V4N2VtrvwebGpFb1S5OGLSeEBCifj9Hhy12PodmPXUUVijsSptt3/ncSin42r/BBeI6cqkSsfrZzXiJQi/oSMciWPKVomxqIQrGZBR3pi80ihWlczph5XNzYLkLsn14Tbr9iKA=
+	t=1721011278; cv=none; b=TTBYWyVahOXbRm3VBYtWaeWpY2mGbBQp4OoHXXy9rrzWMwcFjnlacpI8sDbFzSyrKTFaeAwrv6wlTJR08+VCQVc5Bt3+Y45uyfklX/5WJWStHBGSxZY6R3Jp5YiT4vsH5ZeEnB0XQ585maURpmUiPjk7lRtREI1FLUxtF0fmPQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720996964; c=relaxed/simple;
-	bh=doH3fBuI3EolM6RmqV5/npNvdpMQ2zI62eu2B17EcwA=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=NYfoEjKFbPssttGWth5q7R2WpJrbJadt4zDmJxfBSRoxMa5ZLaYWiHyox1pMYYr+0ZfWzhn/laLmf/F8TnQy3WlFvzZABqPnVTCeGdV7LfSzyjaWwQMvCDvC/CMbFjODc8yHUN3UBwTv++WBNNyZW0+ws75rvc9/neRjlP87+fQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QrjXpyXy; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7ED0CC4AF0E;
-	Sun, 14 Jul 2024 22:42:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720996964;
-	bh=doH3fBuI3EolM6RmqV5/npNvdpMQ2zI62eu2B17EcwA=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=QrjXpyXygC0I/HCkZ3FbsnLjbx5y27fFywaHptoe5NsPZ4/5ax1gWQB7J4ED5386f
-	 7zNyxBX6ijvdwrtOSD/2TUnbeLIthAgm+4VBCVT/oU+WRHyAS2r8bNkT+06oCuu3zq
-	 yUUaqZXFuDDG/nz6i569x0GTAep0xTxxlFlzNsgrWL5mf65ZKOA+Hp2GMY43oz+h32
-	 SMn8TWtriLKIf8tbm8XfLGEHSVmrO7Zhevkdw04MvnRtzHkiosZxoEZviofJnQhD24
-	 lSYvlG8G++8MEZwIyLq5DcphM8nREbEl3A4N9FX36dINsyVmHAhv+A7JjcTdnKDGlQ
-	 t1vEeZlQTgm3w==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 728E7C43168;
-	Sun, 14 Jul 2024 22:42:44 +0000 (UTC)
-Subject: Re: [GIT PULL] Kbuild fixes for v6.10(-rc8)
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAK7LNARuKOCDqv-V_Y6moUmNVqBmApVJy6yZKosFOp8zW6Vt9w@mail.gmail.com>
-References: <CAK7LNARuKOCDqv-V_Y6moUmNVqBmApVJy6yZKosFOp8zW6Vt9w@mail.gmail.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAK7LNARuKOCDqv-V_Y6moUmNVqBmApVJy6yZKosFOp8zW6Vt9w@mail.gmail.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v6.10-4
-X-PR-Tracked-Commit-Id: 84679f04ceafd58d9b35f790203520b2930f1a03
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 882ddcd1bf63c2984221dfa8c435f8eeb3d9b6f7
-Message-Id: <172099696446.4566.15814645761775779608.pr-tracker-bot@kernel.org>
-Date: Sun, 14 Jul 2024 22:42:44 +0000
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+	s=arc-20240116; t=1721011278; c=relaxed/simple;
+	bh=CcuJ6zalw48fPT60jgM+/sKMTg6u/KrFTffpyNv1ZbM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=X1WWbIpoAhFqkbgEiA7Ad74qVZTXVqZ7HW7CJ3RIZO6FzGTKdVm2R0I5CLvVKxHLzRyy0Y3Pwvu1L3EYFK/Gx2HVnCiTUTCgxPsl9sPXUtmtc1BgS1vd1Mx4pdJRBQJESAhbtuSHipo0R5oTyIRbr2UTFmx1rY0N9xqu0tZReg0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 06D84FEC;
+	Sun, 14 Jul 2024 19:41:39 -0700 (PDT)
+Received: from [10.162.16.42] (unknown [10.162.16.42])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D30CF3F762;
+	Sun, 14 Jul 2024 19:41:11 -0700 (PDT)
+Message-ID: <87d70313-9c8c-4cdf-a040-7ea31804cad7@arm.com>
+Date: Mon, 15 Jul 2024 08:11:08 +0530
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] arm64: remove redundant 'if HAVE_ARCH_KASAN' in Kconfig
+To: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ linux-arm-kernel@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org
+References: <20240714105848.1844400-1-masahiroy@kernel.org>
+Content-Language: en-US
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+In-Reply-To: <20240714105848.1844400-1-masahiroy@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The pull request you sent on Mon, 15 Jul 2024 05:30:42 +0900:
+On 7/14/24 16:28, Masahiro Yamada wrote:
+> The condition 'select HAVE_ARCH_KASAN' is always true because
+> there is 'select HAVE_ARCH_KASAN' statement above.
+> 
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+> 
+>  arch/arm64/Kconfig | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+> index c87d16b12e9b..d37cbfc3031e 100644
+> --- a/arch/arm64/Kconfig
+> +++ b/arch/arm64/Kconfig
+> @@ -167,9 +167,9 @@ config ARM64
+>  	select HAVE_ARCH_JUMP_LABEL
+>  	select HAVE_ARCH_JUMP_LABEL_RELATIVE
+>  	select HAVE_ARCH_KASAN
+> -	select HAVE_ARCH_KASAN_VMALLOC if HAVE_ARCH_KASAN
+> -	select HAVE_ARCH_KASAN_SW_TAGS if HAVE_ARCH_KASAN
+> -	select HAVE_ARCH_KASAN_HW_TAGS if (HAVE_ARCH_KASAN && ARM64_MTE)
+> +	select HAVE_ARCH_KASAN_VMALLOC
+> +	select HAVE_ARCH_KASAN_SW_TAGS
+> +	select HAVE_ARCH_KASAN_HW_TAGS if ARM64_MTE
+>  	# Some instrumentation may be unsound, hence EXPERT
+>  	select HAVE_ARCH_KCSAN if EXPERT
+>  	select HAVE_ARCH_KFENCE
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v6.10-4
+There is another similar instance with HAVE_FUNCTION_GRAPH_TRACER as well.
+Just wondering if the following change should be folded in here ?
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/882ddcd1bf63c2984221dfa8c435f8eeb3d9b6f7
-
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -210,8 +210,8 @@ config ARM64
+        select HAVE_FTRACE_MCOUNT_RECORD
+        select HAVE_FUNCTION_TRACER
+        select HAVE_FUNCTION_ERROR_INJECTION
+-       select HAVE_FUNCTION_GRAPH_RETVAL if HAVE_FUNCTION_GRAPH_TRACER
+        select HAVE_FUNCTION_GRAPH_TRACER
++       select HAVE_FUNCTION_GRAPH_RETVAL
+        select HAVE_GCC_PLUGINS
+        select HAVE_HARDLOCKUP_DETECTOR_PERF if PERF_EVENTS && \
+                HW_PERF_EVENTS && HAVE_PERF_EVENTS_NMI
 
