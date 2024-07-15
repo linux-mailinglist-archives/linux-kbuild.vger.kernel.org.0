@@ -1,55 +1,58 @@
-Return-Path: <linux-kbuild+bounces-2530-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2531-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 855D2931717
-	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Jul 2024 16:45:43 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0DEC931719
+	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Jul 2024 16:45:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B68271C212AE
-	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Jul 2024 14:45:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 98F4A1F22037
+	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Jul 2024 14:45:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F55018E767;
-	Mon, 15 Jul 2024 14:45:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6086B18F2C1;
+	Mon, 15 Jul 2024 14:45:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rcKE3Egt"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YiGPMb2l"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D37A433FD;
-	Mon, 15 Jul 2024 14:45:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 339F218EFF4;
+	Mon, 15 Jul 2024 14:45:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721054738; cv=none; b=MKcH/Nybi/hFRJ87LuX4UoyCUCSCEQknQJ+Izo2Vw/Y/srr/7LvIXpxwsvLS41hGPMbEkRYcjOkL+c60iTbN59/lIiEQ2v3LbbfuD25Xe6ZncEID2Y9GjUAN6VwlgGDIhNDMmvOpdQLewDKZ60cnCzx7vRnKrkZAY4hXXyh9EMk=
+	t=1721054739; cv=none; b=YkGNPcDM5rWzTeli23+q1Derva6DwevmFBoDjhGpLOEPD4DQaxPtDWkwOBeuzA+e6SrMavOmfw2ycpTHUvT+PZVXQadVnAlMcojek+Elo67S9ywQBOfuUtarjmA2aIO01DhPFgcHMWZdiS80Iw+xXA+AN9l5gAUnDXepmgWg7u8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721054738; c=relaxed/simple;
-	bh=X04A38J1ASypU0/eMsW50ZZ5MX80zSI0G0Nm5VTCPv4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SrlcnwQMPtUBBiLJMaehYcaSRQLihpJtAbrQEKKO6W/6SFbisHQpxMAnfwJ6OA+/NKsrQJb23Rh58BfaIvWXtkbuF2Lpd/4uooHWPVsAVwMxGcb1tw+syik1Tz87+2TCQYPksa0qLFu0ahR7Te4F4p7+Y/qXg7DFsp++tim0vaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rcKE3Egt; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F7BCC32782;
-	Mon, 15 Jul 2024 14:45:35 +0000 (UTC)
+	s=arc-20240116; t=1721054739; c=relaxed/simple;
+	bh=uENVxCzbhu/T3G6xZkCmbtIfX6OdbYhATRVi52swhfw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=WUMkI2AzZZfd03Maeb+B89HXVEcQSJrYMa5gm9rSXX/GE7W9ydcw4R2B+wfZYKGQvHGBHBqShD/N8R+XqrC6CEiu+Lm67gSpLUywlf2PRYAEnhaw3N0Xp79fRWn7Ha/m9S0HeJaaCA0sfN9WLVkHwrWouPr3uD9QtO5kU4XLXhM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YiGPMb2l; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04CC9C4AF0E;
+	Mon, 15 Jul 2024 14:45:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721054737;
-	bh=X04A38J1ASypU0/eMsW50ZZ5MX80zSI0G0Nm5VTCPv4=;
-	h=From:To:Cc:Subject:Date:From;
-	b=rcKE3Egt2LL42KuB6UqPDrFsqy05/RHQVw8exp6XkvQThXgm3rJUaT5iu1gTbsVFU
-	 Nki9f+QoPCcXHVkSzKodJjPyvT5Mr0Fkpg6ErN8N5aAhD83SWxDDqqS8mXA/wxCZc2
-	 D+f/nNMANDd12G5pfrvqp3FK1FVIrKgJ7qvrCnmHQPTeBGeV1z2IdKo/OCROaRlYHp
-	 IwHfkbfqs9a+Z7Lz+cdYOJ8FcgQvQCc/vv4euwYziphikJtywPtLzWxz4PqnaJB41s
-	 fwHUu7zD75B02Q5WFa3wz+/abrCUHx+e/0IPe7SZH+fJkpIAI2sWGExorO1g8PaXnA
-	 +ia5u5kqLaVrg==
+	s=k20201202; t=1721054739;
+	bh=uENVxCzbhu/T3G6xZkCmbtIfX6OdbYhATRVi52swhfw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=YiGPMb2lk+ivb/0sq8TQnKJcEO3BqgZmuwYirEmG/HRziAZ8xIGRql9jt1yjdOw3V
+	 qG7ELJ7Ac4i0zAlCeFWf36wKBybvdXxETcvqemC7WEX7443M8s+UWQCvJJ9f9RI4lo
+	 cYNizWmWFZPed8AHylfVHZY+DtbZKkwJBcrutM7WqK0YFAdlPNN/UaQH3ZT9a+Z28x
+	 Z2WvliExKd9oBXNTRlu1X46z+eoKjrCEg71cjmyTIxJ3JdN4LpS8zUKbzKZiKraJlW
+	 uWFadBIgnrg1Y2Cpc+6Qezh914JX/jDyMiSZfccvnPmbFpt4WoOMbLxLJA+Ifakpwz
+	 p/DxyS5cMvS5A==
 From: Masahiro Yamada <masahiroy@kernel.org>
 To: Kees Cook <kees@kernel.org>,
 	linux-hardening@vger.kernel.org
 Cc: linux-kbuild@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH 0/3] fortify: fix various issues in test_fortify Makefile
-Date: Mon, 15 Jul 2024 23:45:22 +0900
-Message-ID: <20240715144529.101634-1-masahiroy@kernel.org>
+Subject: [PATCH 1/3] fortify: use if_changed_dep to record header dependency in *.cmd files
+Date: Mon, 15 Jul 2024 23:45:23 +0900
+Message-ID: <20240715144529.101634-2-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240715144529.101634-1-masahiroy@kernel.org>
+References: <20240715144529.101634-1-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -58,27 +61,39 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+After building with CONFIG_FORTIFY_SOURCE=y, many .*.d files are left
+in lib/test_fortify/ because the compiler outputs header dependencies
+into *.d without fixdep being invoked.
 
-Applicable to v6.10 tag.
+When compiling C files, if_changed_dep should be used so that the
+auto-generated header dependencies are recorded in .*.cmd files.
 
+Currently, if_changed is incorrectly used, and only two headers are
+hard-coded in lib/Makefile.
 
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-Masahiro Yamada (3):
-  fortify: use if_changed_dep to record header dependency in *.cmd files
-  fortify: refactor test_fortify Makefile to fix some build problems
-  fortify: move test_fortify.sh to lib/test_fortify/
+ lib/Makefile | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
- MAINTAINERS                                   |  1 -
- lib/.gitignore                                |  2 -
- lib/Makefile                                  | 38 +------------------
- lib/test_fortify/.gitignore                   |  2 +
- lib/test_fortify/Makefile                     | 25 ++++++++++++
- {scripts => lib/test_fortify}/test_fortify.sh |  0
- 6 files changed, 28 insertions(+), 40 deletions(-)
- create mode 100644 lib/test_fortify/.gitignore
- create mode 100644 lib/test_fortify/Makefile
- rename {scripts => lib/test_fortify}/test_fortify.sh (100%)
-
+diff --git a/lib/Makefile b/lib/Makefile
+index 30337431d10e..429b259b5b64 100644
+--- a/lib/Makefile
++++ b/lib/Makefile
+@@ -408,11 +408,9 @@ targets += $(TEST_FORTIFY_LOGS)
+ clean-files += $(TEST_FORTIFY_LOGS)
+ clean-files += $(addsuffix .o, $(TEST_FORTIFY_LOGS))
+ $(obj)/test_fortify/%.log: $(src)/test_fortify/%.c \
+-			   $(src)/test_fortify/test_fortify.h \
+-			   $(srctree)/include/linux/fortify-string.h \
+ 			   $(srctree)/scripts/test_fortify.sh \
+ 			   FORCE
+-	$(call if_changed,test_fortify)
++	$(call if_changed_dep,test_fortify)
+ 
+ quiet_cmd_gen_fortify_log = GEN     $@
+       cmd_gen_fortify_log = cat </dev/null $(filter-out FORCE,$^) 2>/dev/null > $@ || true
 -- 
 2.43.0
 
