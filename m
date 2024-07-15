@@ -1,167 +1,120 @@
-Return-Path: <linux-kbuild+bounces-2524-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2525-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E5559312F4
-	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Jul 2024 13:20:36 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A01B1931496
+	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Jul 2024 14:43:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DCFF0280CBF
-	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Jul 2024 11:20:34 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 07C4FB2321E
+	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Jul 2024 12:43:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08F18446DB;
-	Mon, 15 Jul 2024 11:20:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="paqvFbpk"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7E8818C330;
+	Mon, 15 Jul 2024 12:42:59 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D27B127442;
-	Mon, 15 Jul 2024 11:20:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC2E41891A4
+	for <linux-kbuild@vger.kernel.org>; Mon, 15 Jul 2024 12:42:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.58.85.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721042431; cv=none; b=CKWezncLGavY9SdRg+1TmIS3vDsHhQw0DEmogDdOCq5qssiyb4J3yxTB5BDkkWVZXRlp7PgkGHt07VJmPPaQINWVdnBj1A9I54voL5UZNNCLhYozjsnn5/HVOx+myHh6ziZi9YMvQzmYpxtp3hgGZ2fD85mEiQyIdstsP5/Wn3o=
+	t=1721047379; cv=none; b=lUXP1jHhNqukbc5osP2ZyABIKtEN1kzdfCn39Pzj+Z/V4FENkdKuQFsF55tYFJfSePC9mx27sDda7pMkziPaRNmS4z78skqIVMTumikKx0dg7qpgOyE6/bNe3VRw42Xjk1D67qoOt3BK+vl49h7VISoFv7mwneKSp62lQw68G3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721042431; c=relaxed/simple;
-	bh=7eguIQ2xoOUfecfsd01wQy5L42kJFfx1H9OSQO5PTTw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FBZffWvXoaOQsUCkaDzZEja5TZQJKgKm3cwG9lbeXJN1CXgslPdl/J0QNbbF+HXC3OJEC8M9YiOCnf/KU0NZtXknBeEBGSEZoEgHKYuBUyY4ZDlsAY5AFsnx/yeZWNEvRd+GtsmZYe/Hq2wvZ/mg6aS80i04fWTGQ8XqdvT9a3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=paqvFbpk; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 702EDC4AF12;
-	Mon, 15 Jul 2024 11:20:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721042431;
-	bh=7eguIQ2xoOUfecfsd01wQy5L42kJFfx1H9OSQO5PTTw=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=paqvFbpkVJS/6Qe+892Fe+C4Yrk9KWu3moT8dLFkE4nbgEEEeZVZYuaR8rI1ANHNO
-	 qpPF19g2A5Lys/0pE8cjnbOhGSyxA/h+uC4rvmeO9mAg7izlnxGTH9ZW4biFFSIGJw
-	 oEXqPUlDuW9gbilu7axZZDTztLxCJX4x/215Sy3wJDjhZT0wKdjp0Qx4pEbNc3L1ki
-	 9ggy6AkwP8BGvjwKggiEzFfkVEz0mKA+Z+jSnUK72gw9GUDh0UpqR95a4jBSLvIV4G
-	 NLMmYMB0/pPVKCbdTOffE/QvSP7PlZ929F3EMa5sms4YyYROpJaWLt/f20/XgnIjWu
-	 kFfNTVsWNV0FA==
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-52eafec1e84so5573204e87.0;
-        Mon, 15 Jul 2024 04:20:31 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUbv/NYkSSmoiv1AKbbkPZJ6wAe85f/Q6jePyOPmC7JIR7HQ9B9Wn7bPLI/QxGxsOnxVuvsoCKSXDKbTHRz9rrZWYpE7flDIhCazesRFFhRVX6+dHTCwNFprk4ArO43bkE/
-X-Gm-Message-State: AOJu0YxU5htbgpxODE0IiChXNKsbfiOdxVstc9e6NPGSpUxbDNs+tJBu
-	D95+rFF3ZbaIdBtYw/6cN2yY9DWxxgUT0sdqkFJLtSREWpb2Hzkfh5VcVfP9NF8ci/z3uknoKAT
-	/1gHOHizN3aqe1GxBAlONdZFuWHs=
-X-Google-Smtp-Source: AGHT+IGtsZdqFyTpa304+5S26IRWCs6lxAftK+siku8na9Pil2DzVNnMDzsXHp6bxoEiBiT1jtIPyS37t6LApMB3Pd8=
-X-Received: by 2002:a05:6512:3d01:b0:52b:88c3:b2bc with SMTP id
- 2adb3069b0e04-52eb99d151bmr14507713e87.48.1721042430066; Mon, 15 Jul 2024
- 04:20:30 -0700 (PDT)
+	s=arc-20240116; t=1721047379; c=relaxed/simple;
+	bh=aPxbU1CRqN/ObjOco6L+kuqqgrjuH5Lv+0eg1N876o4=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 MIME-Version:Content-Type; b=JnFMwAchJ1DGDvirkarQqxnpsyBm98y4eMlWwkBAgxYCL0r4EpIu1Ad1j+QfxJgMERzo4FSh6IWGA2Uj2KAashMUMfqV76rEd92JcZVjcaYKrQNdHor4H1WmrgjruLh/hYwEvWWIJluVwI1R1F5jbbmpD63VnmsTZNY0gAssmJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM; spf=pass smtp.mailfrom=aculab.com; arc=none smtp.client-ip=185.58.85.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ACULAB.COM
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aculab.com
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-4-SUXMSojjO4CMOodAlWhuTQ-1; Mon, 15 Jul 2024 13:42:55 +0100
+X-MC-Unique: SUXMSojjO4CMOodAlWhuTQ-1
+Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
+ (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Mon, 15 Jul
+ 2024 13:42:08 +0100
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.048; Mon, 15 Jul 2024 13:42:08 +0100
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Nicholas Piggin' <npiggin@gmail.com>, Naveen N Rao <naveen@kernel.org>,
+	"linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
+	"linux-trace-kernel@vger.kernel.org" <linux-trace-kernel@vger.kernel.org>,
+	"bpf@vger.kernel.org" <bpf@vger.kernel.org>, "linux-kbuild@vger.kernel.org"
+	<linux-kbuild@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+CC: Mark Rutland <mark.rutland@arm.com>, Daniel Borkmann
+	<daniel@iogearbox.net>, Masahiro Yamada <masahiroy@kernel.org>, "Alexei
+ Starovoitov" <ast@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, "Andrii
+ Nakryiko" <andrii@kernel.org>, Christophe Leroy
+	<christophe.leroy@csgroup.eu>, Vishal Chourasia <vishalc@linux.ibm.com>,
+	Mahesh Salgaonkar <mahesh@linux.ibm.com>, Hari Bathini
+	<hbathini@linux.ibm.com>, "Masami Hiramatsu" <mhiramat@kernel.org>
+Subject: RE: [RFC PATCH v4 12/17] powerpc64/ftrace: Move ftrace sequence out
+ of line
+Thread-Topic: [RFC PATCH v4 12/17] powerpc64/ftrace: Move ftrace sequence out
+ of line
+Thread-Index: AQHa1pCD4cP620l/NEOwGIoX3oyFIrH3uX7Q
+Date: Mon, 15 Jul 2024 12:42:08 +0000
+Message-ID: <e7e31eaa04234dddaac660a38adedee4@AcuMS.aculab.com>
+References: <cover.1720942106.git.naveen@kernel.org>
+ <9cf2cdddba74ec167ae1af5ec189bba8f704fb51.1720942106.git.naveen@kernel.org>
+ <D2PYW90LRVAY.3PCE9P3NE2NEB@gmail.com>
+In-Reply-To: <D2PYW90LRVAY.3PCE9P3NE2NEB@gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240701173133.3283312-1-alan.maguire@oracle.com>
- <CAK7LNAStVrAx8LjDiYogRvS16-dZ+LrwcWq8gHnTbvKvR_JFFA@mail.gmail.com> <21ec0d92-fb99-41b3-b1b9-3b8a4504271c@oracle.com>
-In-Reply-To: <21ec0d92-fb99-41b3-b1b9-3b8a4504271c@oracle.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Mon, 15 Jul 2024 20:19:53 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS-pOi5a5vm4y1vPXh7WH_qtPuvnen3hvp9LrAm4+Q2fg@mail.gmail.com>
-Message-ID: <CAK7LNAS-pOi5a5vm4y1vPXh7WH_qtPuvnen3hvp9LrAm4+Q2fg@mail.gmail.com>
-Subject: Re: [PATCH bpf-next] kbuild, bpf: reproducible BTF from pahole when
- KBUILD_BUILD_TIMESTAMP set
-To: Alan Maguire <alan.maguire@oracle.com>
-Cc: ast@kernel.org, andrii@kernel.org, daniel@iogearbox.net, nathan@kernel.org, 
-	nicolas@fjasle.eu, martin.lau@linux.dev, eddyz87@gmail.com, song@kernel.org, 
-	yonghong.song@linux.dev, john.fastabend@gmail.com, kpsingh@kernel.org, 
-	sdf@google.com, haoluo@google.com, jolsa@kernel.org, bpf@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, asmadeus@codewreck.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 
-On Tue, Jul 2, 2024 at 6:49=E2=80=AFPM Alan Maguire <alan.maguire@oracle.co=
-m> wrote:
->
-> On 02/07/2024 08:58, Masahiro Yamada wrote:
-> > On Tue, Jul 2, 2024 at 2:32=E2=80=AFAM Alan Maguire <alan.maguire@oracl=
-e.com> wrote:
-> >>
-> >> Reproducible builds [1] require that the same source code with
-> >> the same set of tools can build identical objects each time,
-> >> but pahole in parallel mode was non-deterministic in
-> >> BTF generation prior to
-> >>
-> >> dba7b5e ("pahole: Encode BTF serially in a reproducible build")
-> >>
-> >> This was a problem since said BTF is baked into kernels and modules in
-> >> .BTF sections, so parallel pahole was causing non-reproducible binary
-> >> generation.  Now with the above commit we have support for parallel
-> >> reproducible BTF generation in pahole.
-> >>
-> >> KBUILD_BUILD_TIMESTAMP is set for reproducible builds, so if it
-> >> is set, add reproducible_build to --btf_features.
-> >>
-> >> [1] Documentation/kbuild/reproducible-builds.rst
-> >>
-> >> Signed-off-by: Alan Maguire <alan.maguire@oracle.com>
-> >
-> >
-> >
-> >
-> > Does not make sense.
-> >
-> >
-> >
-> > KBUILD_BUILD_TIMESTAMP is not a switch for
-> > "please enable the reproducible build".
-> >
-> >
-> > KBUILD_BUILD_TIMESTAMP requires the build code
-> > to use the given time in the output where timestamps are used.
-> >
-> > Your patch does not use the timestamp at all.
-> >
->
-> No, and that's not the intention. It is used as a signal to pahole to
-> enable reproducibility in parallel build. There is a cost to this so
-> it's not advisable in all scenarios [1]. Is there a kbuild-approved way
-> to determine if reproducible builds are in operation?
->
-> Alan
->
-> [1]
-> https://lore.kernel.org/dwarves/20240412211604.789632-12-acme@kernel.org/
+RnJvbTogTmljaG9sYXMgUGlnZ2luDQo+IFNlbnQ6IDE1IEp1bHkgMjAyNCAwOToyNQ0KPiANCj4g
+T24gU3VuIEp1bCAxNCwgMjAyNCBhdCA2OjI3IFBNIEFFU1QsIE5hdmVlbiBOIFJhbyB3cm90ZToN
+Cj4gPiBGdW5jdGlvbiBwcm9maWxlIHNlcXVlbmNlIG9uIHBvd2VycGMgaW5jbHVkZXMgdHdvIGlu
+c3RydWN0aW9ucyBhdCB0aGUNCj4gPiBiZWdpbm5pbmcgb2YgZWFjaCBmdW5jdGlvbjoNCj4gPiAJ
+bWZscglyMA0KPiA+IAlibAlmdHJhY2VfY2FsbGVyDQo+ID4NCj4gPiBUaGUgY2FsbCB0byBmdHJh
+Y2VfY2FsbGVyKCkgZ2V0cyBub3AnZWQgb3V0IGR1cmluZyBrZXJuZWwgYm9vdCBhbmQgaXMNCj4g
+PiBwYXRjaGVkIGluIHdoZW4gZnRyYWNlIGlzIGVuYWJsZWQuDQo+ID4NCj4gPiBHaXZlbiB0aGUg
+c2VxdWVuY2UsIHdlIGNhbm5vdCByZXR1cm4gZnJvbSBmdHJhY2VfY2FsbGVyIHdpdGggJ2Jscicg
+YXMgd2UNCj4gPiBuZWVkIHRvIGtlZXAgTFIgYW5kIHIwIGludGFjdC4gVGhpcyByZXN1bHRzIGlu
+IGxpbmsgc3RhY2sgKHJldHVybg0KPiA+IGFkZHJlc3MgcHJlZGljdG9yKSBpbWJhbGFuY2Ugd2hl
+biBmdHJhY2UgaXMgZW5hYmxlZC4gVG8gYWRkcmVzcyB0aGF0LCB3ZQ0KPiA+IHdvdWxkIGxpa2Ug
+dG8gdXNlIGEgdGhyZWUgaW5zdHJ1Y3Rpb24gc2VxdWVuY2U6DQo+ID4gCW1mbHIJcjANCj4gPiAJ
+YmwJZnRyYWNlX2NhbGxlcg0KPiA+IAltdGxyCXIwDQo+ID4NCj4gPiBGdXJ0aGVyIG1vcmUsIHRv
+IHN1cHBvcnQgRFlOQU1JQ19GVFJBQ0VfV0lUSF9DQUxMX09QUywgd2UgbmVlZCB0bw0KPiA+IHJl
+c2VydmUgdHdvIGluc3RydWN0aW9uIHNsb3RzIGJlZm9yZSB0aGUgZnVuY3Rpb24uIFRoaXMgcmVz
+dWx0cyBpbiBhDQo+ID4gdG90YWwgb2YgZml2ZSBpbnN0cnVjdGlvbiBzbG90cyB0byBiZSByZXNl
+cnZlZCBmb3IgZnRyYWNlIHVzZSBvbiBlYWNoDQo+ID4gZnVuY3Rpb24gdGhhdCBpcyB0cmFjZWQu
+DQo+ID4NCj4gPiBNb3ZlIHRoZSBmdW5jdGlvbiBwcm9maWxlIHNlcXVlbmNlIG91dC1vZi1saW5l
+IHRvIG1pbmltaXplIGl0cyBpbXBhY3QuDQo+ID4gVG8gZG8gdGhpcywgd2UgcmVzZXJ2ZSBhIHNp
+bmdsZSBub3AgYXQgZnVuY3Rpb24gZW50cnkgdXNpbmcNCj4gPiAtZnBhdGNoYWJsZS1mdW5jdGlv
+bi1lbnRyeT0xIGFuZCBhZGQgYSBwYXNzIG9uIHZtbGludXgubyB0byBkZXRlcm1pbmUNCj4gPiB0
+aGUgdG90YWwgbnVtYmVyIG9mIGZ1bmN0aW9ucyB0aGF0IGNhbiBiZSB0cmFjZWQuIFRoaXMgaXMg
+dGhlbiB1c2VkIHRvDQo+ID4gZ2VuZXJhdGUgYSAuUyBmaWxlIHJlc2VydmluZyB0aGUgYXBwcm9w
+cmlhdGUgYW1vdW50IG9mIHNwYWNlIGZvciB1c2UgYXMNCj4gPiBmdHJhY2Ugc3R1YnMsIHdoaWNo
+IGlzIGJ1aWx0IGFuZCBsaW5rZWQgaW50byB2bWxpbnV4Lg0KPiANCj4gVGhlc2UgYXJlIGFsbCBn
+b2luZyBpbnRvIC50cmFtcC5mdHJhY2UudGV4dCBBRkFJS1M/IFNob3VsZCB0aGF0IGJlDQo+IG1v
+dmVkIGFmdGVyIHNvbWUgb2YgdGhlIG90aGVyIHRleHQgaW4gdGhlIGxpbmtlciBzY3JpcHQgdGhl
+biBpZiBpdA0KPiBjb3VsZCBnZXQgcXVpdGUgbGFyZ2U/IHNjaGVkIGFuZCBsb2NrIGFuZCBvdGhl
+ciB0aGluZ3Mgc2hvdWxkIGJlDQo+IGNsb3NlciB0byB0aGUgcmVzdCBvZiB0ZXh0IGFuZCBob3Qg
+Y29kZS4NCg0KQ2FuJ3QgeW91IGFsbG9jYXRlIHRoZSBzcGFjZSBmb3IgdGhlICdmdW5jdGlvbiBw
+cm9maWxlIHNlcXVlbmNlJw0KYXQgcnVuLXRpbWUgd2hlbiAoaWYpIGZ0cmFjZSBpcyBlbmFibGVk
+Pw0KV2hlbiBmdHJhY2UgZ2V0cyBkaXNhYmxlZCBpdCBpcyBsaWtlbHkgcG9zc2libGUgdG8gc2F2
+ZSB0aGUgdHJhbXBvbGluZQ0KbnVtYmVyIGluIHRoZSBub3AgLSBzbyB0aGUgc2FtZSBtZW1vcnkg
+Y2FuIGJlIHVzZWQgbmV4dCB0aW1lLg0KDQoJRGF2aWQNCg0KLQ0KUmVnaXN0ZXJlZCBBZGRyZXNz
+IExha2VzaWRlLCBCcmFtbGV5IFJvYWQsIE1vdW50IEZhcm0sIE1pbHRvbiBLZXluZXMsIE1LMSAx
+UFQsIFVLDQpSZWdpc3RyYXRpb24gTm86IDEzOTczODYgKFdhbGVzKQ0K
 
-
-
-
-Kbuild already provides a standard mechanism.
-
-
-
-
-
-config DEBUG_INFO_BTF_REPRODUCIBLE
-        bool "Generate reproducible BTF"
-        depends on DEBUG_INFO_BTF
-        depends on PAHOLE_VERSION >=3D 126
-
-
-
-pahole-flags-$(CONFIG_DEBUG_INFO_BTF_REPRODUCIBLE) =3D
---btf_features=3Dreproducible_build
-
-
-
-
-
-
-Presumably, it is better to add a new section
-in Documentation/kbuild/reproducible-builds.rst
-
-
-
-
-
-
-
---
-Best Regards
-Masahiro Yamada
 
