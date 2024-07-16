@@ -1,121 +1,126 @@
-Return-Path: <linux-kbuild+bounces-2555-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2556-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 858AF932241
-	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Jul 2024 10:53:18 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3871932672
+	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Jul 2024 14:25:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B6DDF1C21BC4
-	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Jul 2024 08:53:17 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 55C11B2285A
+	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Jul 2024 12:25:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 986D66F2F3;
-	Tue, 16 Jul 2024 08:53:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1CEB199221;
+	Tue, 16 Jul 2024 12:25:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uagCpzEK"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="govz/R5V"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EC0541A8E;
-	Tue, 16 Jul 2024 08:53:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69CA01E888
+	for <linux-kbuild@vger.kernel.org>; Tue, 16 Jul 2024 12:25:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721119993; cv=none; b=ZirQ0DFTCigiYyHm/kW/QDgXwE59bJygyeX2AvZMWC/849rWJ95AItTdthL+ihvAzja0TTaL8IppH9oZ+BCPkQqRaLxzc6on8klbO6Q1tVAxOUJ+QW34rvC3epOGgE62NuYfoOi1skdoEcMl6SCe2x6WzBOrkwBbR0mXTG9C7yY=
+	t=1721132723; cv=none; b=S88rxUoRjbheraNxh/E2UAVeJ9JpG8+I4z6zDMsN3diHmKlFjiOWuHU8CMf4tIGZls5AhHp+1YE4WckUUl6b+vStULHKydwfgxoyWrg+YbYpCT9ecRuMRCubwmyUfkLj0zsrtaVpaj+hTtiPpYmNfRFZvJeguaCJMl4Ui8apxac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721119993; c=relaxed/simple;
-	bh=Duwy6mw0bj8ufU3evyv9PTkwvW86HTH9c2zpDypTFqQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lPKxsOfGqh1JsMfwbVH5UA4BHw939yaHQ2NBbORDZ72/9geAthyYcdiWVnEcqVWcmQEAgfj1LsR1u0mkmGIKHW9eq3hUQWCJMcgFwjOdZ+099L7VhZjotB1Cj0dPYhBL06BhGYdXaiBLLT5nrIeEIaVPSdnaqe5Jmsbr9y50zaM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uagCpzEK; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E142EC4AF0C;
-	Tue, 16 Jul 2024 08:53:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721119992;
-	bh=Duwy6mw0bj8ufU3evyv9PTkwvW86HTH9c2zpDypTFqQ=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=uagCpzEKDCCpm9DIVWwkuEkFexjai3nw86k/Eejvvxe6+h+GCstP3KXQle+jb1OZo
-	 qzHkqdFXQFiEpTGmMxLKe3qqi24/KhVb4OuoEasnaz/IpZZPjDF/wXHwgAWtb+KZuB
-	 9PHRPcxYoTLkzJOw+K1WHY/tHeraxl1boiyoWKkN1SJiwF86677jSujw3s2YaKzhWU
-	 MrITVaDt7NeK0mzOXI+URMkDi1J5XjiI/iHl+PD5YNzOEPAYzJt4wHZPk7GDM4T5wZ
-	 rpZCytm88YJTJlk1V5YcJ6Z1xP6l8ci7il/MAfP3lusl3Z7/4rHCbN1KrNsiqWCy1M
-	 FBAUwOU6pTtHw==
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-52ea34ffcdaso5540411e87.1;
-        Tue, 16 Jul 2024 01:53:12 -0700 (PDT)
-X-Gm-Message-State: AOJu0YxNX6GRytg0Lp8xu43RIcF48CFgCDOgRMtr6CneacleQlbaAqge
-	0WWmSS6tot+Vfr8fROJjLv7XSXTSk3hatf7AdR+U+SimEHtI2/9hl844WmVHAGTnJNdHbDRUjDE
-	ZLgQZjCcZZgexHjMWa2WnR4i0oY0=
-X-Google-Smtp-Source: AGHT+IFj725Z/FEy6D+aiS/NVNWOXXBYzw5d9BJ2QS/maRfiQn0JBVu64f1W9vms7vot15OZax+1Th0mAPask/wJhek=
-X-Received: by 2002:a05:6512:1293:b0:52c:df9d:7cbe with SMTP id
- 2adb3069b0e04-52edf019616mr986801e87.39.1721119991533; Tue, 16 Jul 2024
- 01:53:11 -0700 (PDT)
+	s=arc-20240116; t=1721132723; c=relaxed/simple;
+	bh=7X3Q6kMoYSuYPGLywsgRzPkCAeCKJsWYSAYxiboZaRY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=GorB4LA1t6gQHQjtQwPw2u2rFGXpTRPXfQGL0FwIugg308vBAE4SZpNFOz+KWDx2JSOXKk8RU7wOCk7IR3BpjbB/cs7RNoYTH1Xb7jDt6R1HIHYCONmcHCJqbOHZe1aNASKHD3UxYv7+EkZIiYibfrei3hK+u3PGy2KNq/e2vLM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=govz/R5V; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1721132720;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZFxmbw/5xcAyYcqY0SR3EeYmuRBqmmdDCEJu101udw0=;
+	b=govz/R5V72dlKoI6y13243tf2eTMIklSz/ihrVH02hFzNAvIYPNgwqeNJ2KYzZk7KTW1Fi
+	Uguu6Mm5nsBdeGEzQoDsrPTRY75lyZOmVgqroUdGJFydLwoJzhHWw7F/VREgYRaNi7bsQj
+	MMiFLoo3JEhXup3bpNn5YEpt5s2FrNg=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-311-aHv61f0TPYOGBJoFINxRlg-1; Tue,
+ 16 Jul 2024 08:25:17 -0400
+X-MC-Unique: aHv61f0TPYOGBJoFINxRlg-1
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 844C81955D42;
+	Tue, 16 Jul 2024 12:25:15 +0000 (UTC)
+Received: from optiplex-lnx.redhat.com (unknown [10.22.32.250])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 0BC9C300018E;
+	Tue, 16 Jul 2024 12:25:12 +0000 (UTC)
+From: Rafael Aquini <aquini@redhat.com>
+To: linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	aquini@redhat.com
+Subject: [PATCH v4 2/2] kbuild: rpm-pkg: introduce a simple changelog section for kernel.spec
+Date: Tue, 16 Jul 2024 08:25:05 -0400
+Message-ID: <20240716122505.3425582-1-aquini@redhat.com>
+In-Reply-To: <CAK7LNAT_b6hmN4W94D_7o5XZAc7jYhBi5rp=GUE=y+_BHjccGQ@mail.gmail.com>
+References: <CAK7LNAT_b6hmN4W94D_7o5XZAc7jYhBi5rp=GUE=y+_BHjccGQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240531122825.699771-1-masahiroy@kernel.org>
-In-Reply-To: <20240531122825.699771-1-masahiroy@kernel.org>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 16 Jul 2024 17:52:35 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATnLX6xtZRZhNyRUPVSUXixAxTapCOjVvTrTO1gCZid5Q@mail.gmail.com>
-Message-ID: <CAK7LNATnLX6xtZRZhNyRUPVSUXixAxTapCOjVvTrTO1gCZid5Q@mail.gmail.com>
-Subject: Re: [PATCH] usr: shorten cmd_initfs in Makefile
-To: linux-kbuild@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-On Fri, May 31, 2024 at 9:28=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
->
-> Avoid repetition of long variables.
->
-> No functional change intended.
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
->
->  usr/Makefile | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/usr/Makefile b/usr/Makefile
-> index 132ef7e96e6d..75224d927025 100644
-> --- a/usr/Makefile
-> +++ b/usr/Makefile
-> @@ -62,9 +62,9 @@ $(deps_initramfs): ;
->  quiet_cmd_initfs =3D GEN     $@
->        cmd_initfs =3D \
->         $(CONFIG_SHELL) $< -o $@ -l $(obj)/.initramfs_data.cpio.d \
-> -       $(if $(CONFIG_INITRAMFS_ROOT_UID), -u $(CONFIG_INITRAMFS_ROOT_UID=
-)) \
-> -       $(if $(CONFIG_INITRAMFS_ROOT_GID), -g $(CONFIG_INITRAMFS_ROOT_GID=
-)) \
-> -       $(if $(KBUILD_BUILD_TIMESTAMP), -d "$(KBUILD_BUILD_TIMESTAMP)") \
-> +       $(addprefix -u , $(CONFIG_INITRAMFS_ROOT_UID)) \
-> +       $(addprefix -g , $(CONFIG_INITRAMFS_ROOT_GID)) \
-> +       $(patsubst %,-d "%", $(KBUILD_BUILD_TIMESTAMP)) \
+Fix the following rpmbuild warning:
 
+  $ make srcrpm-pkg
+  ...
+  RPM build warnings:
+      source_date_epoch_from_changelog set but %changelog is missing
 
-I dropped the last line because it will not work
-when $(KBUILD_BUILD_TIMESTAMP) contains a space.
+Signed-off-by: Rafael Aquini <aquini@redhat.com>
+---
+ scripts/package/mkspec | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
+diff --git a/scripts/package/mkspec b/scripts/package/mkspec
+index ce201bfa8377..e8e01330266b 100755
+--- a/scripts/package/mkspec
++++ b/scripts/package/mkspec
+@@ -28,3 +28,26 @@ cat<<EOF
+ EOF
+ 
+ cat "${srctree}/scripts/package/kernel.spec"
++
++# collect the user's name and email address for the changelog entry
++if [ "$(command -v git)" ]; then
++	name=$(git config user.name) || true
++	email=$(git config user.email) || true
++fi
++
++if [ ! "${name:+set}" ]; then
++	name=${KBUILD_BUILD_USER:-$(id -nu)}
++fi
++
++if [ ! "${email:+set}" ]; then
++	buildhost=${KBUILD_BUILD_HOST:-$(hostname -f 2>/dev/null || hostname)}
++	builduser=${KBUILD_BUILD_USER:-$(id -nu)}
++	email="${builduser}@${buildhost}"
++fi
++
++cat << EOF
++
++%changelog
++* $(LC_ALL=C; date +'%a %b %d %Y') ${name} <${email}>
++- Custom built Linux kernel.
++EOF
+-- 
+2.45.1
 
-
-
-
->         $(ramfs-input)
->
->  # We rebuild initramfs_data.cpio if:
-> --
-> 2.40.1
->
-
-
---=20
-Best Regards
-Masahiro Yamada
 
