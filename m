@@ -1,126 +1,138 @@
-Return-Path: <linux-kbuild+bounces-2556-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2557-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3871932672
-	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Jul 2024 14:25:32 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A25FC932F66
+	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Jul 2024 19:51:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 55C11B2285A
-	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Jul 2024 12:25:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5B35D282C5E
+	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Jul 2024 17:51:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1CEB199221;
-	Tue, 16 Jul 2024 12:25:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFDE11A00E6;
+	Tue, 16 Jul 2024 17:51:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="govz/R5V"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k2WiZAo5"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69CA01E888
-	for <linux-kbuild@vger.kernel.org>; Tue, 16 Jul 2024 12:25:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 230DA1A00E3;
+	Tue, 16 Jul 2024 17:51:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721132723; cv=none; b=S88rxUoRjbheraNxh/E2UAVeJ9JpG8+I4z6zDMsN3diHmKlFjiOWuHU8CMf4tIGZls5AhHp+1YE4WckUUl6b+vStULHKydwfgxoyWrg+YbYpCT9ecRuMRCubwmyUfkLj0zsrtaVpaj+hTtiPpYmNfRFZvJeguaCJMl4Ui8apxac=
+	t=1721152274; cv=none; b=FTixgBuTrIrYikFv6SBWOBPxL/Xql5gUYC8tgA86czVoCyr3ZnK4zfBbw/OEMWCtW2vJM93H7gA1O+TY9GC0/esl0fD4pA5DHROfTqqc861WZcl30utEwimsgiWkXFBuKoTL1LPtnR/yLfCiJ1nZ3pFxMWDa35qO5JKUmu+Ghgc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721132723; c=relaxed/simple;
-	bh=7X3Q6kMoYSuYPGLywsgRzPkCAeCKJsWYSAYxiboZaRY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GorB4LA1t6gQHQjtQwPw2u2rFGXpTRPXfQGL0FwIugg308vBAE4SZpNFOz+KWDx2JSOXKk8RU7wOCk7IR3BpjbB/cs7RNoYTH1Xb7jDt6R1HIHYCONmcHCJqbOHZe1aNASKHD3UxYv7+EkZIiYibfrei3hK+u3PGy2KNq/e2vLM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=govz/R5V; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1721132720;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZFxmbw/5xcAyYcqY0SR3EeYmuRBqmmdDCEJu101udw0=;
-	b=govz/R5V72dlKoI6y13243tf2eTMIklSz/ihrVH02hFzNAvIYPNgwqeNJ2KYzZk7KTW1Fi
-	Uguu6Mm5nsBdeGEzQoDsrPTRY75lyZOmVgqroUdGJFydLwoJzhHWw7F/VREgYRaNi7bsQj
-	MMiFLoo3JEhXup3bpNn5YEpt5s2FrNg=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-311-aHv61f0TPYOGBJoFINxRlg-1; Tue,
- 16 Jul 2024 08:25:17 -0400
-X-MC-Unique: aHv61f0TPYOGBJoFINxRlg-1
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 844C81955D42;
-	Tue, 16 Jul 2024 12:25:15 +0000 (UTC)
-Received: from optiplex-lnx.redhat.com (unknown [10.22.32.250])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 0BC9C300018E;
-	Tue, 16 Jul 2024 12:25:12 +0000 (UTC)
-From: Rafael Aquini <aquini@redhat.com>
-To: linux-kbuild@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	aquini@redhat.com
-Subject: [PATCH v4 2/2] kbuild: rpm-pkg: introduce a simple changelog section for kernel.spec
-Date: Tue, 16 Jul 2024 08:25:05 -0400
-Message-ID: <20240716122505.3425582-1-aquini@redhat.com>
-In-Reply-To: <CAK7LNAT_b6hmN4W94D_7o5XZAc7jYhBi5rp=GUE=y+_BHjccGQ@mail.gmail.com>
-References: <CAK7LNAT_b6hmN4W94D_7o5XZAc7jYhBi5rp=GUE=y+_BHjccGQ@mail.gmail.com>
+	s=arc-20240116; t=1721152274; c=relaxed/simple;
+	bh=vVztFECHj5A5lDM1edvCHwH4SGqeskbjWvte3GbWgm4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GYsOfR9lBfwZnDuvxeRi9iRhTdjEOjWV3ETEtUwnHXOG84H2trJNBQSdF3jXavY/A9N8i1dDejc1IcMze/U6sJAoNwyFn+LPjuOVJyfSEBnnfQGNBKJ0nCEaGUuLIX34izqKF0iQoQjtDNB4qYli9/32J15f1000IpHWU1pvpAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k2WiZAo5; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1721152273; x=1752688273;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vVztFECHj5A5lDM1edvCHwH4SGqeskbjWvte3GbWgm4=;
+  b=k2WiZAo5onKtWcS7rrs4IxYHYyjSRXb2S1QPBK5zkebr87Y20LX3Xowz
+   BJgzJmfclpDMIzAedrCXBetRtnD9J5aXghfCQkFDQ43ORkoAzM94KMYX7
+   9cYGogwx6ca1tWAbQa8AVDXY6G5PKT+tS7tpuldHUShCh5Jsuxh7Tje99
+   XExjOXztlU/gEJYXJutGn5cuHN6sHh2UH463IoGAxOtk2sqHIMAnyAlmU
+   +fyhAlc3ElVyjSd7cRjkZxOAwl+1L8x3YruE1LZGeTZE0kyhta6pBw8oh
+   y44lRdp4cVQj0hM2TU+qkPrGuZ9kuC8Af+14HrA4hXuCeZSjVrrU92cEB
+   Q==;
+X-CSE-ConnectionGUID: C/xMyRqgScmzLWO05DHDhg==
+X-CSE-MsgGUID: a5pu0/gPT3aoqWBLY82Ymw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11135"; a="22475938"
+X-IronPort-AV: E=Sophos;i="6.09,212,1716274800"; 
+   d="scan'208";a="22475938"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2024 10:51:12 -0700
+X-CSE-ConnectionGUID: TvOZy+QYTjKtTS+txJxKYw==
+X-CSE-MsgGUID: QnmizcwqSTa1q5PEJuOYfg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.09,212,1716274800"; 
+   d="scan'208";a="55250475"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 16 Jul 2024 10:51:11 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sTmKS-000fUy-20;
+	Tue, 16 Jul 2024 17:51:08 +0000
+Date: Wed, 17 Jul 2024 01:50:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: Masahiro Yamada <masahiroy@kernel.org>, Kees Cook <kees@kernel.org>,
+	linux-hardening@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: Re: [PATCH 1/3] fortify: use if_changed_dep to record header
+ dependency in *.cmd files
+Message-ID: <202407170104.dCe5MKsA-lkp@intel.com>
+References: <20240715144529.101634-2-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240715144529.101634-2-masahiroy@kernel.org>
 
-Fix the following rpmbuild warning:
+Hi Masahiro,
 
-  $ make srcrpm-pkg
-  ...
-  RPM build warnings:
-      source_date_epoch_from_changelog set but %changelog is missing
+kernel test robot noticed the following build errors:
 
-Signed-off-by: Rafael Aquini <aquini@redhat.com>
----
- scripts/package/mkspec | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.10 next-20240716]
+[cannot apply to akpm-mm/mm-nonmm-unstable kees/for-next/hardening kees/for-next/pstore kees/for-next/kspp]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/scripts/package/mkspec b/scripts/package/mkspec
-index ce201bfa8377..e8e01330266b 100755
---- a/scripts/package/mkspec
-+++ b/scripts/package/mkspec
-@@ -28,3 +28,26 @@ cat<<EOF
- EOF
- 
- cat "${srctree}/scripts/package/kernel.spec"
-+
-+# collect the user's name and email address for the changelog entry
-+if [ "$(command -v git)" ]; then
-+	name=$(git config user.name) || true
-+	email=$(git config user.email) || true
-+fi
-+
-+if [ ! "${name:+set}" ]; then
-+	name=${KBUILD_BUILD_USER:-$(id -nu)}
-+fi
-+
-+if [ ! "${email:+set}" ]; then
-+	buildhost=${KBUILD_BUILD_HOST:-$(hostname -f 2>/dev/null || hostname)}
-+	builduser=${KBUILD_BUILD_USER:-$(id -nu)}
-+	email="${builduser}@${buildhost}"
-+fi
-+
-+cat << EOF
-+
-+%changelog
-+* $(LC_ALL=C; date +'%a %b %d %Y') ${name} <${email}>
-+- Custom built Linux kernel.
-+EOF
+url:    https://github.com/intel-lab-lkp/linux/commits/Masahiro-Yamada/fortify-use-if_changed_dep-to-record-header-dependency-in-cmd-files/20240715-224820
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20240715144529.101634-2-masahiroy%40kernel.org
+patch subject: [PATCH 1/3] fortify: use if_changed_dep to record header dependency in *.cmd files
+config: i386-randconfig-004-20240716 (https://download.01.org/0day-ci/archive/20240717/202407170104.dCe5MKsA-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240717/202407170104.dCe5MKsA-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202407170104.dCe5MKsA-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> fixdep: error opening file: lib/test_fortify/.write_overflow-memcpy.log.d: No such file or directory
+--
+>> fixdep: error opening file: lib/test_fortify/.read_overflow2-memcmp.log.d: No such file or directory
+--
+>> fixdep: error opening file: lib/test_fortify/.read_overflow-memchr.log.d: No such file or directory
+--
+>> fixdep: error opening file: lib/test_fortify/.write_overflow-strcpy-lit.log.d: No such file or directory
+--
+>> fixdep: error opening file: lib/test_fortify/.read_overflow2-memmove.log.d: No such file or directory
+--
+>> fixdep: error opening file: lib/test_fortify/.write_overflow-strncpy-src.log.d: No such file or directory
+--
+>> fixdep: error opening file: lib/test_fortify/.read_overflow-memcmp.log.d: No such file or directory
+--
+>> fixdep: error opening file: lib/test_fortify/.read_overflow-memscan.log.d: No such file or directory
+--
+>> fixdep: error opening file: lib/test_fortify/.write_overflow-strcpy.log.d: No such file or directory
+--
+>> fixdep: error opening file: lib/test_fortify/.write_overflow-memmove.log.d: No such file or directory
+--
+>> fixdep: error opening file: lib/test_fortify/.write_overflow-memset.log.d: No such file or directory
+..
+
 -- 
-2.45.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
