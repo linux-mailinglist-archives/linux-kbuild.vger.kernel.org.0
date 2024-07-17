@@ -1,128 +1,95 @@
-Return-Path: <linux-kbuild+bounces-2576-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2577-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AA5E9340B3
-	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jul 2024 18:45:46 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A263A934131
+	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jul 2024 19:11:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B7B841F21502
-	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jul 2024 16:45:45 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 575501F22630
+	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jul 2024 17:11:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9EBE5FBBA;
-	Wed, 17 Jul 2024 16:45:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BD891822C6;
+	Wed, 17 Jul 2024 17:10:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y3KRXSCH"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XxcvCn22"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 903851DFCB;
-	Wed, 17 Jul 2024 16:45:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1248D17E914;
+	Wed, 17 Jul 2024 17:10:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721234740; cv=none; b=MV4VK3aERSsoCo3C0ickhu3F4jW6vsJr5pS9kgRBMuLx07VwRIE16z4EHUbOEiiPjFh9h/cao1aM9rR3cyFQ2sqnSx2BTdMvgNaKgEisIdmozUtaR6izo1iLDV/4bsMM6cvvGz6Lb2UNROcGcR9CbrHNteAsSd2FwbeX4ZuKirU=
+	t=1721236253; cv=none; b=txCjNDN5hu62QrqUIFNGSpkWhYtIePxDPBmi5iBiCct5rnhNqeTOah1SLLE81aLSfEOEvksrNcB5ntqu+97bkRTvrbBB1Nu4gxzKwvAlHiAe37AJmKOSbFBQGuqfFHnnYaALBR1QuxUJzs9YAStRM4q/oZNd6WONz09MyCdp2AE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721234740; c=relaxed/simple;
-	bh=bhRp452XF+62FP9+8Ion1lmKUmMZOZgPhTUthLkmdAI=;
+	s=arc-20240116; t=1721236253; c=relaxed/simple;
+	bh=rdwLVdAcuVzcNwPVby/FE3DqQTTKdp9BIHny1OdDSTQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BUyt1iTAfzb9KRysbnKuAq/pnZcB1PGT+Z9Uajm8aUuzl2OlhzDefHYLnKI4WV5yLRfmZXWAC8uzEoTSfY21soI1Awkgi7sugNTGVtzkD2eQr2zXTKnzFXSL0vPoCRx2a5ThLP0yLqgZLZV9Tewo27zraJRen+WqoCjbkhziFOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y3KRXSCH; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 670D5C2BD10;
-	Wed, 17 Jul 2024 16:45:40 +0000 (UTC)
+	 To:Cc:Content-Type; b=K4WH77GKILeGdVPvjBW/NFHUU9N23prLDbJ2yl8MI7mxwcESfMAhjzaCVk/ST/vVyF8Rd+a1/QnghqG64VR5Mw8TRD7c1A8sdrK/AhZVV3vCDQwPfzLAGVDRPN0TBEP464o7THq+jiyb2ZOpwRw/RQhcImd2gNvQAkXCRpmoi1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XxcvCn22; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D74A4C4AF0E;
+	Wed, 17 Jul 2024 17:10:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721234740;
-	bh=bhRp452XF+62FP9+8Ion1lmKUmMZOZgPhTUthLkmdAI=;
+	s=k20201202; t=1721236252;
+	bh=rdwLVdAcuVzcNwPVby/FE3DqQTTKdp9BIHny1OdDSTQ=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Y3KRXSCHQOI17Pmv1u96dbTAt1wBYbAL3Zrr68mEUfQuV4XeUyWG7TKiuFWoj/Zcc
-	 ScoQ4DIWNPyFtYcPgqFko60qApGOb6LQ6TCkq0p7Jfl2pBBXjs3Y0JfOf4PMqjTihF
-	 CS3Oe1YH01deDrPWHjkOYsGcMLL2hB0d/pd8PYQXyMposYFz9wK9C8ZvSv2ETimojm
-	 OsJNsQiroBuVioXQb1JjSVpr87OEAJa9gYvEC91fm8QvBlW9ImrLf5tTG9aeKAg6U2
-	 fSW/E5uW5zXzYmZ7GPsoLfSy69G4Oq9X3W3K27bQEAqrgXUxukkSrO3MztJLcNhInU
-	 FjtTtV+fwaYHg==
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2eea7e2b073so96877201fa.0;
-        Wed, 17 Jul 2024 09:45:40 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVZUrHBAaZ7YKGPjrv4dPAh66eI8YBQ1g2rNeCYn4OdI3XK3flSlYVf/VePYXYjgB/mFK+qWGtyxBeKgkz9r77ZXxAWS5FnvgXTm/PA0poc+Ej9xIxcHwGxM06wFIDUByZ6RGki3uyAPc5J
-X-Gm-Message-State: AOJu0YzUhXTpqkHoJte1a/ny7dImDRX7A8EO72jQwDX1VfPK1GO2AziI
-	1l7kQtZ1j73QbXprRHbajTHfIFykuC1pjM+r7eKkjynoEuT0q+g/A9bFihokAg9j+51jGBB6lcJ
-	enW422cXwXoZ6KLikKRh/l92i0gg=
-X-Google-Smtp-Source: AGHT+IEZt4rkIXcp0qEDCDL0ayp0N0/T33O/eoWRQs13u/51jr4xQBxQ0TX4Q4R5TNDu4JzB7UaQyc2IE0zyKFCzKss=
-X-Received: by 2002:a2e:9447:0:b0:2ee:8698:10ed with SMTP id
- 38308e7fff4ca-2eefd165e61mr14406591fa.49.1721234739065; Wed, 17 Jul 2024
- 09:45:39 -0700 (PDT)
+	b=XxcvCn22e1gnnvRM0Qcrl+FK7rpvFbzKhEbLFQBFNWJ2rYp5vcXevcOyJR8qHesVT
+	 9bC6zZzqCRlax+Be0xbOF1lPofyh5hQQHFXzU9+EgJ6mYrNPPs7o2d9ZDW5fO06TOk
+	 Wmedbwp2d8+YuUhhmlJyA0J0kMEfK8vrdyiyCMChIjPdkumu2bhmXKpouRHbSnVz34
+	 WxluqKALHK0QVpIHymS4DbO1fs7Jx3jq8BkNxz6wFDUaPdJgGNMgqzhwRFfTucZPoA
+	 qkiV3PMc+wj8urP9QAjGygzW0tTehasEqPJxmhwUIvkOhJpotb8p0wR9doZpCPTsmN
+	 NcsPl5WoJTYGw==
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2eeb1ba040aso133681fa.1;
+        Wed, 17 Jul 2024 10:10:52 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVFJLtyh/iGr+l+pO44t/JgZspxltSDRyvI0W9wr7QDrrl5WYCf88EP0VIeLaxv79GP+gvm8OyBplYSynsZdDQ1kImX4lLqsP8N5HX8
+X-Gm-Message-State: AOJu0Yz2mote4bugQuxQQNYFwYiHoVnViJ0Mya+8xN3u+xtrUJZrXIK1
+	eeekqcDDjAHBqo+LKKIWjWSupoq7ihS5fc+KjZ4XyB1JcAX67CRh22eJNkR9LnraX7ke45qtiE6
+	DyBVpnt5FX7Og+z8fLsBLnYiZfZE=
+X-Google-Smtp-Source: AGHT+IHVYU50P4CxFTJFTmIQlZWbO+YYYsiB7t+XrmYTvjBUl+U6tsMmYIplBhbkxY5hEkp7N1HV8XBxDEkZOT21gv0=
+X-Received: by 2002:a2e:3018:0:b0:2ec:140c:8985 with SMTP id
+ 38308e7fff4ca-2ef05d43972mr213241fa.36.1721236251500; Wed, 17 Jul 2024
+ 10:10:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240717124253.2275084-1-arnd@kernel.org> <CAK7LNASOtyqJMET7YuuFzTCkwg02p850PnqCC57-BZNJhyKT7Q@mail.gmail.com>
- <8333c062-a773-45d3-88d3-ba78e8abbd47@app.fastmail.com>
-In-Reply-To: <8333c062-a773-45d3-88d3-ba78e8abbd47@app.fastmail.com>
+References: <CAK7LNAT_b6hmN4W94D_7o5XZAc7jYhBi5rp=GUE=y+_BHjccGQ@mail.gmail.com>
+ <20240716122505.3425582-1-aquini@redhat.com>
+In-Reply-To: <20240716122505.3425582-1-aquini@redhat.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Thu, 18 Jul 2024 01:45:02 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASYnPNsJraL1qv+MFviTnPxjmc2Dmd7EcvJRCNLtHfZ6Q@mail.gmail.com>
-Message-ID: <CAK7LNASYnPNsJraL1qv+MFviTnPxjmc2Dmd7EcvJRCNLtHfZ6Q@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: mark "FORCE" target as secondary
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Arnd Bergmann <arnd@kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
-	linux-kbuild@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, linux-kernel@vger.kernel.org
+Date: Thu, 18 Jul 2024 02:10:13 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS9FfGmB9aPL0+b+dUUH0v0Gf7tho1tE293szEQ3x5u+A@mail.gmail.com>
+Message-ID: <CAK7LNAS9FfGmB9aPL0+b+dUUH0v0Gf7tho1tE293szEQ3x5u+A@mail.gmail.com>
+Subject: Re: [PATCH v4 2/2] kbuild: rpm-pkg: introduce a simple changelog
+ section for kernel.spec
+To: Rafael Aquini <aquini@redhat.com>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 18, 2024 at 1:25=E2=80=AFAM Arnd Bergmann <arnd@arndb.de> wrote=
-:
+On Tue, Jul 16, 2024 at 9:25=E2=80=AFPM Rafael Aquini <aquini@redhat.com> w=
+rote:
 >
-> On Wed, Jul 17, 2024, at 17:18, Masahiro Yamada wrote:
-> >
-> > Of course, NACK.
-> >
-> > Now I am surprised that this broken series was quickly merged
-> > into the mainline.
-> > I really dislike how you changed scripts/Makefile.asm-headers
-> >
-> >
-> > I will send a correct fix.
-> > Please do not break Kbuild even further.
+> Fix the following rpmbuild warning:
 >
-> Should we maybe revert ff96f5c6971c..3db80c999deb then
-> and find a better way to do it in 6.12?
+>   $ make srcrpm-pkg
+>   ...
+>   RPM build warnings:
+>       source_date_epoch_from_changelog set but %changelog is missing
 >
->       Arnd
->
->
+> Signed-off-by: Rafael Aquini <aquini@redhat.com>
+> ---
 
-I do not think so.
-
-I pretty much like 4fe53bf2ba0a45cd708dcd4c3e8e1950731b3d4d,
-and I believe generating all syscall headers from a table
-is the right thing to do.
-So, it must happen.
+Applied to linux-kbuild.
+Thanks!
 
 
-Currently, the new syscall-y syntax can be used only for
-architectures using the generic syscall table.
-I wonder what we should do for the other legacy architectures.
-
-Some years ago, I tried to unify 'archheaders' and 'asm-generic'
-into a more generic rule, but I did not find a nice solution,
-so I did not do anything. I need to find some way when I have time.
-
-
-
-
-For the rebuild problem, I think this should work:
-https://lore.kernel.org/all/20240717162421.1402773-1-masahiroy@kernel.org/T=
-/#u
-
-(I only compile-tested arch64 and riscv, but the other architectires
-should be the same pattern.)
-
-
-
---
+--=20
 Best Regards
 Masahiro Yamada
 
