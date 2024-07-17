@@ -1,108 +1,93 @@
-Return-Path: <linux-kbuild+bounces-2564-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2565-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1903F933D1C
-	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jul 2024 14:43:33 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7195F933DE6
+	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jul 2024 15:45:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 549B91C234DA
-	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jul 2024 12:43:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 27A8B1F21F69
+	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jul 2024 13:45:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BFD641C63;
-	Wed, 17 Jul 2024 12:43:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B70AF180A7D;
+	Wed, 17 Jul 2024 13:45:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uA1Yv5yo"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L0xrlqQu"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E482517E8E2;
-	Wed, 17 Jul 2024 12:43:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DEDB180A78;
+	Wed, 17 Jul 2024 13:45:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721220201; cv=none; b=G2acvMK3lJw6HCkvvtN/UDfN3sD2xoy6cpNxperTn4+12giUzAinaW/sO5K8B2Tme34j+pX0rr12M8wdVsWO/MClXHFHk9ioojSDimbu0NLe3EScrmYkbuiIX3AgjzwQq7UZ9qH3t1dB5cefY3L+ZFtrttVBX9rLGTYSEGCUEn4=
+	t=1721223901; cv=none; b=oeXVPireKGEmwNi4qo1Ldjjd9e/EBebndamcpKTnzuI4VWvfakRLzpesciLOpYjzfiZsrLmLmE5GzCvZFoKnFXN/TX5vyEiwjlj+iuJG9CDRnhwBG0A95Z9GJANkDfgsiOKV9o05htjrXWpytOr9izYhgMtbT+TlCs7CjdMLba8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721220201; c=relaxed/simple;
-	bh=n71oolAmKfoaIOxjKUMGa6aVrF6KI/Baq9WOrJi1kI4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=HZsmlBK+4NfnnbDCVKb5miwwUZbTuZxgFatK052x0xR4s3XfF5D4zuqg9QjDJKcZaV/9mq649TG+eHD6R3GRN4MwUC5vmEIU3YEfPFw2jCpQ2pVQOId0/HBmi6zBnnV6cQWqcKzUhUcfiZ8NWSKpINoHOUohEz2CRznKdwTZ+u8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uA1Yv5yo; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD64CC4AF0F;
-	Wed, 17 Jul 2024 12:43:18 +0000 (UTC)
+	s=arc-20240116; t=1721223901; c=relaxed/simple;
+	bh=G3or0BY9GOB0yls2o2pwZmSmTfxok8bCrn0zTIC4dmw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pEAXVV6mMJD1Rp5+vWSAJygS62UDbpxri10wMFJKWW5oZplubwTV69ZZ42HFD2/Zaf1hsCZyejNixSTpU8PpnrJ+lP/LiovPkYNitKlKAKHS+hcqgFL4AKNc5KPSzuGUgto6OwSqDMYn22USXs7FZlTCzCiNVwLJ7o1r/AJkfrU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L0xrlqQu; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7574C2BD10;
+	Wed, 17 Jul 2024 13:45:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721220200;
-	bh=n71oolAmKfoaIOxjKUMGa6aVrF6KI/Baq9WOrJi1kI4=;
-	h=From:To:Cc:Subject:Date:From;
-	b=uA1Yv5yo7GmVHBeKumdIuEVVeJOu14+qIuNHUNKmj/XEnXnWwLc/tIad0rBU3Zb9K
-	 iv9zrK4rASYkD2ZvS7/SaeHqfCq4hv8EBiNMexemeLUp1PS3Nb6IuwCwAwEbMfgoLg
-	 BI3Xilck0al+aqW1HLkq8D0p4IKV7TDDiA+JsBr5cf/UhkDyHQhYp8diXY53KBG0KD
-	 9tb5TnMlOc4VmmLUBfBnDVxoX8Sx2UZRUyMCINJ8vwqN+0RhCO7UKhBFwj6oZ96gHz
-	 sSGwJRSjTmQCr4Gb/6ZKVg0pG1tw4LnmjL////45XBciFX5SffkV9G0tnSfsfbpRBP
-	 F2C6dSkGEUOVQ==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>
-Cc: linux-kbuild@vger.kernel.org,
-	Nathan Chancellor <nathan@kernel.org>,
+	s=k20201202; t=1721223901;
+	bh=G3or0BY9GOB0yls2o2pwZmSmTfxok8bCrn0zTIC4dmw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=L0xrlqQuGwPH3AUlDMZJX45k3WTxSPe+8fPnnmnXJrH6iTCKbRmixrtOP/hFM4SEu
+	 w/sWdYaVSb+G+/D5Ye3P0B2FU1Ml9vsh8DQNyk6NVn1WxIy4p2miICOBsBKuJ8vMz0
+	 IN1k+mb/lHMslOJbj2rVSFq5X5/24obE7DmZNF1wkTh2db8Hg810wLaUrDeBCwKrsF
+	 8L+CQgeYWNkznXMDLggeDp9vheMX2K2gAO+OalashI+bIH37/fhmMh226Y0hiqfHbh
+	 ExaKAjocafzUMmnkQoA8SHt5C3gbyOI/q/tUdcdnPNeEFbMTWpDMn40aCv5W3IHOeF
+	 7qK6Vhel2KaSA==
+Date: Wed, 17 Jul 2024 06:44:59 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
 	Nicolas Schier <nicolas@fjasle.eu>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] kbuild: mark "FORCE" target as secondary
-Date: Wed, 17 Jul 2024 14:42:44 +0200
-Message-Id: <20240717124253.2275084-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.2
+	"Jan Alexander Steffens (heftig)" <heftig@archlinux.org>,
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH v6] kbuild: add script and target to generate pacman
+ package
+Message-ID: <20240717134459.GB24892@thelio-3990X>
+References: <20240716-kbuild-pacman-pkg-v6-1-d3a04e308013@weissschuh.net>
+ <20240717011515.GA1230090@thelio-3990X>
+ <CAK7LNARYNqjcMkdnaY2oAkxttFTtTEgJ9VuOZOn0i4AuXp-How@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK7LNARYNqjcMkdnaY2oAkxttFTtTEgJ9VuOZOn0i4AuXp-How@mail.gmail.com>
 
-From: Arnd Bergmann <arnd@arndb.de>
+On Wed, Jul 17, 2024 at 05:34:09PM +0900, Masahiro Yamada wrote:
+> On Wed, Jul 17, 2024 at 10:15 AM Nathan Chancellor <nathan@kernel.org> wrote:
+> > On Tue, Jul 16, 2024 at 07:52:14PM +0200, Thomas Weißschuh wrote:
+...
+> > > +     if [ -d "${srctree}/arch/${SRCARCH}/boot/dts" ]; then
+> >
+> > Does this reference to srctree...
+> 
+> 
+> 'srctree' is exported by the top Makefile.
 
-Starting with make-4.4.1, Kbuild uses the special .NOTINTERMEDIATE
-target to mark all targets as not intermediate, which slightly changes
-the behavior compared to older versions of make.
+Aha, I did not realize that srctree was exported, ignore me then :)
 
-This causes a build regression with my change to the system call table
-scripts now in scripts/Makefile.asm-headers, forcing a rebuild of the
-generated files with every make invocation and effectively breaking
-incremental builds.
+> This is based on the assumption that we always run
+> 'make pacman-pkg', and we never do 'makepkg' directly.
+> 
+> 
+> Do you mean PKGBUILD should be self-contained
+> so that 'makepkg' works from the command line?
 
-I have narrowed down the change in behavior to the way that the
-'FORCE' target is treated: If this is marked as not intermediate,
-the $(if_changed) macro always evaluates it as a missing prerequisite,
-but if it is marked as .SECONDARY, it works like before.
+No, just my misunderstanding. I think it is reasonable to tie the
+PKGBUILD to the kernel tree in this manner.
 
-Cc: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org
-Fixes: 875ef1a57f32 ("kbuild: use .NOTINTERMEDIATE for future GNU Make versions")
-Fixes: fbb5c0606fa4 ("kbuild: add syscall table generation to scripts/Makefile.asm-headers")
-Closes: https://lore.kernel.org/lkml/91b10591-1554-4860-8843-01c6cfd7de13@app.fastmail.com/T/#m4c979c42d0c086f616e41b4ca76f2873902b8a25
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-----
-I'm still a bit confused by the way this works in detail, hopefully
-Masahiro Yamada can either confirm that this is a correct fix or provide
-a better one.
----
- scripts/Kbuild.include | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
-index faf37bafa3f8..aa1ffaeb8fc0 100644
---- a/scripts/Kbuild.include
-+++ b/scripts/Kbuild.include
-@@ -267,6 +267,7 @@ endif
- # deleted files.
- ifneq ($(and $(filter notintermediate, $(.FEATURES)),$(filter-out 4.4,$(MAKE_VERSION))),)
- .NOTINTERMEDIATE:
-+.SECONDARY: FORCE
- else
- .SECONDARY:
- endif
--- 
-2.39.2
-
+Cheers,
+Nathan
 
