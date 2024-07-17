@@ -1,126 +1,128 @@
-Return-Path: <linux-kbuild+bounces-2575-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2576-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAB03934084
-	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jul 2024 18:33:41 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AA5E9340B3
+	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jul 2024 18:45:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 64B91B22197
-	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jul 2024 16:33:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B7B841F21502
+	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jul 2024 16:45:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C629A181B99;
-	Wed, 17 Jul 2024 16:33:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9EBE5FBBA;
+	Wed, 17 Jul 2024 16:45:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="PQGwxwrR"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y3KRXSCH"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 726E5224FA;
-	Wed, 17 Jul 2024 16:33:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 903851DFCB;
+	Wed, 17 Jul 2024 16:45:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721234014; cv=none; b=TfoXKOlc/e0V21bkWdfK+07BmkrB1m8qDu/mgqyLfIsCZNAJ9tQJFjoJTJ9G/2nvRTi/gVbYr7TKPg0LMm6L6md1i259HJLhN3kga/dhFYc4t1NBl8KU0KDb4eRLz67MTYnD6Fjj6wZN9jZThaObu/OFaC4VWVdDqpdRottk5DY=
+	t=1721234740; cv=none; b=MV4VK3aERSsoCo3C0ickhu3F4jW6vsJr5pS9kgRBMuLx07VwRIE16z4EHUbOEiiPjFh9h/cao1aM9rR3cyFQ2sqnSx2BTdMvgNaKgEisIdmozUtaR6izo1iLDV/4bsMM6cvvGz6Lb2UNROcGcR9CbrHNteAsSd2FwbeX4ZuKirU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721234014; c=relaxed/simple;
-	bh=UkC0sAZpE7/WRdVikjHbnqPQTCDC+XxSCjuX8q3pfp4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HRX/Tn3Vv/nk4GLEAjvh0lO7gq3VVpEDDYfZ+n8teVa4wB3ue22SnEKBsYtsMMoR13oAnKPnLjOPq3Vq2sAWs6XwyrwEOXRyAZEk4YfSvIcBitEWZAQoD0+BDRebATmZDWsc1sndr67aFaGlG0FQL7462LDMfXDYPBs7FhAc4jQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=PQGwxwrR; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1721234008;
-	bh=UkC0sAZpE7/WRdVikjHbnqPQTCDC+XxSCjuX8q3pfp4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PQGwxwrRVZyGcGPG8VdfyoeXjmAWRfFso6dpzGonGXqWZ/2nWrhSgLaBJopa/qzHX
-	 g3KMQMDA9gWTXx44KaHXtxXp0/KBUmieI+x6oEuL4PpaShvPVpp2jvf5sZdppfxMjM
-	 wQNhAhQuyjWfy5oMiaK1xYwXXI3sYPRbWlYp/V0Y=
-Date: Wed, 17 Jul 2024 18:33:27 +0200
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, "Jan Alexander Steffens (heftig)" <heftig@archlinux.org>, 
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH v6] kbuild: add script and target to generate pacman
- package
-Message-ID: <41cf1da7-ef13-4586-9e9a-f1f8f3b34d8e@t-8ch.de>
-References: <20240716-kbuild-pacman-pkg-v6-1-d3a04e308013@weissschuh.net>
- <20240717011515.GA1230090@thelio-3990X>
- <CAK7LNARYNqjcMkdnaY2oAkxttFTtTEgJ9VuOZOn0i4AuXp-How@mail.gmail.com>
- <CAK7LNARGWu8q5dAW5tYzfiSKKtZ9t8Dm9FzRoaoZhU4d-TWswQ@mail.gmail.com>
- <20240717135747.GC24892@thelio-3990X>
+	s=arc-20240116; t=1721234740; c=relaxed/simple;
+	bh=bhRp452XF+62FP9+8Ion1lmKUmMZOZgPhTUthLkmdAI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BUyt1iTAfzb9KRysbnKuAq/pnZcB1PGT+Z9Uajm8aUuzl2OlhzDefHYLnKI4WV5yLRfmZXWAC8uzEoTSfY21soI1Awkgi7sugNTGVtzkD2eQr2zXTKnzFXSL0vPoCRx2a5ThLP0yLqgZLZV9Tewo27zraJRen+WqoCjbkhziFOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y3KRXSCH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 670D5C2BD10;
+	Wed, 17 Jul 2024 16:45:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1721234740;
+	bh=bhRp452XF+62FP9+8Ion1lmKUmMZOZgPhTUthLkmdAI=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Y3KRXSCHQOI17Pmv1u96dbTAt1wBYbAL3Zrr68mEUfQuV4XeUyWG7TKiuFWoj/Zcc
+	 ScoQ4DIWNPyFtYcPgqFko60qApGOb6LQ6TCkq0p7Jfl2pBBXjs3Y0JfOf4PMqjTihF
+	 CS3Oe1YH01deDrPWHjkOYsGcMLL2hB0d/pd8PYQXyMposYFz9wK9C8ZvSv2ETimojm
+	 OsJNsQiroBuVioXQb1JjSVpr87OEAJa9gYvEC91fm8QvBlW9ImrLf5tTG9aeKAg6U2
+	 fSW/E5uW5zXzYmZ7GPsoLfSy69G4Oq9X3W3K27bQEAqrgXUxukkSrO3MztJLcNhInU
+	 FjtTtV+fwaYHg==
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2eea7e2b073so96877201fa.0;
+        Wed, 17 Jul 2024 09:45:40 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVZUrHBAaZ7YKGPjrv4dPAh66eI8YBQ1g2rNeCYn4OdI3XK3flSlYVf/VePYXYjgB/mFK+qWGtyxBeKgkz9r77ZXxAWS5FnvgXTm/PA0poc+Ej9xIxcHwGxM06wFIDUByZ6RGki3uyAPc5J
+X-Gm-Message-State: AOJu0YzUhXTpqkHoJte1a/ny7dImDRX7A8EO72jQwDX1VfPK1GO2AziI
+	1l7kQtZ1j73QbXprRHbajTHfIFykuC1pjM+r7eKkjynoEuT0q+g/A9bFihokAg9j+51jGBB6lcJ
+	enW422cXwXoZ6KLikKRh/l92i0gg=
+X-Google-Smtp-Source: AGHT+IEZt4rkIXcp0qEDCDL0ayp0N0/T33O/eoWRQs13u/51jr4xQBxQ0TX4Q4R5TNDu4JzB7UaQyc2IE0zyKFCzKss=
+X-Received: by 2002:a2e:9447:0:b0:2ee:8698:10ed with SMTP id
+ 38308e7fff4ca-2eefd165e61mr14406591fa.49.1721234739065; Wed, 17 Jul 2024
+ 09:45:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240717135747.GC24892@thelio-3990X>
+References: <20240717124253.2275084-1-arnd@kernel.org> <CAK7LNASOtyqJMET7YuuFzTCkwg02p850PnqCC57-BZNJhyKT7Q@mail.gmail.com>
+ <8333c062-a773-45d3-88d3-ba78e8abbd47@app.fastmail.com>
+In-Reply-To: <8333c062-a773-45d3-88d3-ba78e8abbd47@app.fastmail.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Thu, 18 Jul 2024 01:45:02 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASYnPNsJraL1qv+MFviTnPxjmc2Dmd7EcvJRCNLtHfZ6Q@mail.gmail.com>
+Message-ID: <CAK7LNASYnPNsJraL1qv+MFviTnPxjmc2Dmd7EcvJRCNLtHfZ6Q@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: mark "FORCE" target as secondary
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Arnd Bergmann <arnd@kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>, 
+	linux-kbuild@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2024-07-17 06:57:47+0000, Nathan Chancellor wrote:
-> On Wed, Jul 17, 2024 at 05:51:21PM +0900, Masahiro Yamada wrote:
-> ...
-> > > > > diff --git a/scripts/package/PKGBUILD b/scripts/package/PKGBUILD
-> > > > > new file mode 100644
-> > > > > index 000000000000..eb3957fad915
-> > > > > --- /dev/null
-> > > > > +++ b/scripts/package/PKGBUILD
-> > > > > @@ -0,0 +1,99 @@
-> > > > > +# SPDX-License-Identifier: GPL-2.0-only
-> > > > > +# Maintainer: Thomas Weißschuh <linux@weissschuh.net>
-> > > > > +# Contributor: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
-> > > > > +
-> > > > > +pkgbase=linux-upstream
-> ...
-> > Perhaps, this may make sense.
-> > 
-> > Currently,
-> > pkgname=("${pkgbase}" "${pkgbase}-headers" "${pkgbase}-api-headers")
-> > is hard-coded.
-> > 
-> > I do not think linux-upstream-headers make sense
-> > when CONFIG_MODULE is disabled.
-> > 
-> > scripts/package/mkspec turns off with_devel
-> > when CONFIG_MODULE is disabled.
+On Thu, Jul 18, 2024 at 1:25=E2=80=AFAM Arnd Bergmann <arnd@arndb.de> wrote=
+:
+>
+> On Wed, Jul 17, 2024, at 17:18, Masahiro Yamada wrote:
+> >
+> > Of course, NACK.
+> >
+> > Now I am surprised that this broken series was quickly merged
+> > into the mainline.
+> > I really dislike how you changed scripts/Makefile.asm-headers
+> >
+> >
+> > I will send a correct fix.
+> > Please do not break Kbuild even further.
+>
+> Should we maybe revert ff96f5c6971c..3db80c999deb then
+> and find a better way to do it in 6.12?
+>
+>       Arnd
+>
+>
 
-Ack.
+I do not think so.
 
-> Yes, I think that is a reasonable change to make. In the face of that
-> potential change, would it make sense to slightly adjust the
-> makedepends? pahole is only needed when CONFIG_DEBUG_INFO_BTF is enabled
-> but I guess no other package building infrastructure makes dependencies
-> conditional in that manner.
+I pretty much like 4fe53bf2ba0a45cd708dcd4c3e8e1950731b3d4d,
+and I believe generating all syscall headers from a table
+is the right thing to do.
+So, it must happen.
 
-The pahole dependency optimization seems like an overcomplication.
-Arch Linux in general is not hell-bent on minimizing dependencies,
-for example there are no dev-packages at all.
-Also if the kernel will require pahole in more cases it will create
-churn.
 
-> Another thing I wonder about would be allowing the user to customize the
-> value of pkgbase, like
-> 
->   pkgbase=${PACMAN_PKGBASE:-linux-upstream}
-> 
-> because unlike Debian and Fedora, multiple versions of the same kernel
-> package cannot be installed at once. If I wanted to build a package
-> against mainline and -next and install them side by side, I could only
-> do so if they are named differently. This would allow one to provide
-> PACMAN_PKGBASE=linux-mainline and PACMAN_PKGBASE=linux-next to
-> accomplish that. Might be a hyper specific use case though, so I am not
-> opposed to disregarding it.
+Currently, the new syscall-y syntax can be used only for
+architectures using the generic syscall table.
+I wonder what we should do for the other legacy architectures.
 
-Ack.
+Some years ago, I tried to unify 'archheaders' and 'asm-generic'
+into a more generic rule, but I did not find a nice solution,
+so I did not do anything. I need to find some way when I have time.
 
-FYI linux-upstream was picked to be consistent with pkg-debian and not
-to conflict with the existing linux-mainline package in AUR [0].
 
-[0] https://aur.archlinux.org/packages/linux-mainline
+
+
+For the rebuild problem, I think this should work:
+https://lore.kernel.org/all/20240717162421.1402773-1-masahiroy@kernel.org/T=
+/#u
+
+(I only compile-tested arch64 and riscv, but the other architectires
+should be the same pattern.)
+
+
+
+--
+Best Regards
+Masahiro Yamada
 
