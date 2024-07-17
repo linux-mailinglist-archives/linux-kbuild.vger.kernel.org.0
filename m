@@ -1,118 +1,84 @@
-Return-Path: <linux-kbuild+bounces-2587-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2588-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AF6F93435C
-	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jul 2024 22:49:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97EC69343AF
+	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jul 2024 23:14:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BBEAA283002
-	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jul 2024 20:49:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 511382841E1
+	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jul 2024 21:14:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AE6D18411B;
-	Wed, 17 Jul 2024 20:49:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5ECF1822D7;
+	Wed, 17 Jul 2024 21:13:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="N4d9T+cZ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LHvAfAxb"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50D0E33997
-	for <linux-kbuild@vger.kernel.org>; Wed, 17 Jul 2024 20:49:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD1523B784;
+	Wed, 17 Jul 2024 21:13:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721249370; cv=none; b=qKuyCJvaGUFjaQR3aXOn2vTmmbZCkBR1bPqEY/8Pud+sSu3/6/7pOTlGxZhuttQpfBWaC1hLdmpE8PW0Hh9oo76JzRoICq+nL8n5I9TpEoia5fPsqAim4VaMynDM9eboS1EYyyRxoxp6Hn5vBqTFZjUHqXwYv/sa8ftDddPg6nA=
+	t=1721250815; cv=none; b=McW7xAUa04KF0yiV2xYxymRm01zRM7PawxHgmZJr0Pr8/gkeIDdqIfE8diVgBEIn62d5Wmd65951N4a/EV6vbW1P4+m/3n+zzpVk27SAyXWLpLJ2+mReAilQeu+yCK3HjTQ6viyRMewFHTaVyD2vYSMhUBdu9U5MP0jZda8U1Y4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721249370; c=relaxed/simple;
-	bh=JDSn0grBwzh6kdZ/RuAvNWsRAenmUTQXGIPExKe6FHY=;
+	s=arc-20240116; t=1721250815; c=relaxed/simple;
+	bh=e/y3oPbg9Mw3iw15ThuGCqBzPrLKHMJP3QzdK6NS6s8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=md6xAUAqiu0bpAsQyeWCGNrxtuZ33osop1vYYjBBtnO3OJ499r0zd74I9Rkn4uKhEqCeKXENSmyPh9mM3dm5q92Zh3jjeEZoAlqFtQezR1QbOr/DEfan7/CMPevWFDnvGEShzmZX1A7Hrsg5542ZLEVLraZHPEyonXZtQ12al10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=N4d9T+cZ; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1721249367;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6yqyiCjDiuWKnAEK2Ubaa9MJxWCaEI2x5X587Eb8o3o=;
-	b=N4d9T+cZJVgDAhRuqiXXMKDbLuOKF/IZfoVCLmHp7mNq7VC7vBtYrByx4IdAgRiirmq6YX
-	YMKdMfF9x9SMXocOSHViYgE+lvRHYK3sQI2fP8bi/L7s3M/JGXtjVS3uiCqwh2gHBTYEQa
-	1scY4C+bT+5Kzekv9+IK9BF/FRHDDYk=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-29-HGo3wCnTPGyMuvhOc_LnSA-1; Wed, 17 Jul 2024 16:49:25 -0400
-X-MC-Unique: HGo3wCnTPGyMuvhOc_LnSA-1
-Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-6b5e69ac59fso1583486d6.1
-        for <linux-kbuild@vger.kernel.org>; Wed, 17 Jul 2024 13:49:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721249365; x=1721854165;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6yqyiCjDiuWKnAEK2Ubaa9MJxWCaEI2x5X587Eb8o3o=;
-        b=ZG3eGN9n/rPqztdG2EtOndqkzJ19YWhBqNEHeqNn8NbBslEgGP6qMUDoy9BkCoML6i
-         z6JBkcSblZwMmKTS0/r76E+yXVO2dTOA/U1OWwP1AgLCwlBHSmGTkMdo5OkKF4N74m15
-         o0bK3lhvTdDQjlgKGjqapiEAr69CO0Ur3LsnpqakhzYLD9CbyAbuSnyir8bNy+Mv+LjA
-         z4SJfBNw4PVhhhRUCNSlbclzEhH4NobunkB7dzSlsjtn0heCjwwjzJ2cDQwrUQc/30Ut
-         vSSFslZELFXgXIArQ23NquiXIAXruH0luYLzimN8IS36C6hkKrGxEC7h9vLtaB6IFrL8
-         2RZg==
-X-Gm-Message-State: AOJu0YyjmeJ77hdEncyWVRsIOFqARzG6JjtY/fJeF0zQ58t/kqSvRC7n
-	DWTm19+yYALVz/yXpvZcBxt/MJ03n970c7cEYkA7ls06Dd0PZ+CFvlgSvJ0BTVWdUuNxxmtfAor
-	Ll6905yoQ6gHHNdHSWFCT2v9AUFetBDg4yvkxEq3rNcN00erBdTtRGRqKtb+EfA==
-X-Received: by 2002:a05:6214:410b:b0:6b5:52da:46f2 with SMTP id 6a1803df08f44-6b78ca51491mr39583406d6.6.1721249365306;
-        Wed, 17 Jul 2024 13:49:25 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHrgnTXq3RE542WMQqUS6NsqxtYgjyO5aJFGtpdKnMMZJpgkLH9LrtqDYAPHBU104WjJ87ISg==
-X-Received: by 2002:a05:6214:410b:b0:6b5:52da:46f2 with SMTP id 6a1803df08f44-6b78ca51491mr39583286d6.6.1721249364980;
-        Wed, 17 Jul 2024 13:49:24 -0700 (PDT)
-Received: from optiplex-fbsd (c-174-169-122-120.hsd1.nh.comcast.net. [174.169.122.120])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6b79c60dd19sm2078766d6.78.2024.07.17.13.49.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jul 2024 13:49:24 -0700 (PDT)
-Date: Wed, 17 Jul 2024 16:49:21 -0400
-From: Rafael Aquini <aquini@redhat.com>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>
-Subject: Re: [PATCH v4 2/2] kbuild: rpm-pkg: introduce a simple changelog
- section for kernel.spec
-Message-ID: <ZpguUYXVno5OUVIJ@optiplex-fbsd>
-References: <CAK7LNAT_b6hmN4W94D_7o5XZAc7jYhBi5rp=GUE=y+_BHjccGQ@mail.gmail.com>
- <20240716122505.3425582-1-aquini@redhat.com>
- <CAK7LNAS9FfGmB9aPL0+b+dUUH0v0Gf7tho1tE293szEQ3x5u+A@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Hlm2TX3fzYwm//KNQMjvGg1Adq0XO8k6BXB/ibzDvyr3zV0QiHmulTFHtdNaRNlu2BZ2d8ye46SgBmJjFuoCVGLvPU5nCpFBM3g/i63V/YPt5l/w0R4kELltCWsHS3C2JeyElVY6ZGmcaxketa+rLaqF1AqumWcLQmEvC5I0n+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LHvAfAxb; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDF7CC2BD10;
+	Wed, 17 Jul 2024 21:13:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1721250815;
+	bh=e/y3oPbg9Mw3iw15ThuGCqBzPrLKHMJP3QzdK6NS6s8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LHvAfAxbWMqb8L0dXKZtAZRBkb15K2PGRo9AI2ICsVUCuhZ/taLR8iv8HHue8MZW7
+	 6B7ANNduuBboFvJiSH++X55gG7AJQ/9fNwRmzCYD9K0inO2qmoQd71Yx3ISu9D5CPA
+	 Lzz60JTMTNT+jx0h+07p7eN8540RH3PeZe/681kWKSNPSKgKTAyiRNDSHdN7BVhvAe
+	 1GIaxR/pybdyoAuJb4+ewlpDQ9Pv2vtrf0fhZnrTHi62hseWJKTeSwXXeCpWBVOnCE
+	 IyW1Wrg0dhez0/lIgfbaNYzArBG4PY49FKjdBJ/DKzH+jg2HtMc4NiHcWoXOurejAd
+	 EBBjESrq8P2eA==
+Date: Wed, 17 Jul 2024 14:13:33 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Cc: Christian Heusel <christian@heusel.eu>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	"Jan Alexander Steffens (heftig)" <heftig@archlinux.org>,
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH v6] kbuild: add script and target to generate pacman
+ package
+Message-ID: <20240717211333.GA901230@thelio-3990X>
+References: <20240716-kbuild-pacman-pkg-v6-1-d3a04e308013@weissschuh.net>
+ <e8786093-384a-4a7e-a536-3915cd4f933f@heusel.eu>
+ <c61c5996-592d-4669-a991-d9eb22cca88d@t-8ch.de>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK7LNAS9FfGmB9aPL0+b+dUUH0v0Gf7tho1tE293szEQ3x5u+A@mail.gmail.com>
+In-Reply-To: <c61c5996-592d-4669-a991-d9eb22cca88d@t-8ch.de>
 
-On Thu, Jul 18, 2024 at 02:10:13AM +0900, Masahiro Yamada wrote:
-> On Tue, Jul 16, 2024 at 9:25â€¯PM Rafael Aquini <aquini@redhat.com> wrote:
-> >
-> > Fix the following rpmbuild warning:
-> >
-> >   $ make srcrpm-pkg
-> >   ...
-> >   RPM build warnings:
-> >       source_date_epoch_from_changelog set but %changelog is missing
-> >
-> > Signed-off-by: Rafael Aquini <aquini@redhat.com>
-> > ---
+On Wed, Jul 17, 2024 at 06:26:29PM +0200, Thomas Weißschuh wrote:
+> On 2024-07-17 15:48:05+0000, Christian Heusel wrote:
+> > Also is there a canonical way to be notified whenever people report
+> > issues with this or there are patches to it? I'd love to help out if
+> > that is desirable from your side ..
 > 
-> Applied to linux-kbuild.
-> Thanks!
-> 
->
+> I've added you to my Cc list.
 
-Thank you.
+Another option would be adding scripts/package/PKGBUILD in a separate
+section of MAINTAINERS, so that Christian could be added as a reviewer.
+FWIW, I would also be interested in patches touching this (although I
+should get notified as is since I am a Kbuild reviewer but still).
 
+Cheers,
+Nathan
 
