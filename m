@@ -1,114 +1,114 @@
-Return-Path: <linux-kbuild+bounces-2571-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2572-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 948E6934030
-	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jul 2024 18:12:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEA2C934057
+	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jul 2024 18:24:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4FF91282EBD
-	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jul 2024 16:12:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8F647281799
+	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jul 2024 16:24:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 753091822D0;
-	Wed, 17 Jul 2024 16:12:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2786E5B05E;
+	Wed, 17 Jul 2024 16:24:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uPh7sqh7"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UVVs+kHT"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4265D1822CA;
-	Wed, 17 Jul 2024 16:12:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1C4B1D52B;
+	Wed, 17 Jul 2024 16:24:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721232731; cv=none; b=YeWjhLbjJzFSJuXSNFKKo94Hovw0WaagpZej0gLrLfwZfj3bcR2x3rpt6Hw4VdEPboU1zL2F4TkE68TdWHk9lWa2WnyilNB/OWnel2sJP/YlQNZ0XMESwzdvF1gAJOYXvQno2UAlUrqPARvyBoO+gYYi87vRpvqKzcg2/guTi70=
+	t=1721233468; cv=none; b=OoLoaVp7UnVUO2N12d9mJ4uC8Rhl2Dvoj9vvFUjojZcKLu+7956+Pc//ckpOiZ3dKcrYE1X/hMN52L199m5io6RKN55c/CDP7GkkQAlRuVpfYezDW65APP9MJS6N3LJOM4NaVgV5c2MkCazMk4jbruiaMN7i6O8C+7ZiyShINYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721232731; c=relaxed/simple;
-	bh=V0CKkAQdRN3WbHfKZmvbfid5D/WhcFJk+hpVN1F1yt0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=A62i9vbwzw5pmXapvQp9NeDDvtzkud4uub9mLJtTC35VU7ABda2aDlXPotIXkR5YR5WbUMxmxaCnKLebq4lUBVdAXi6qf6Tiw69VHfsHv81BAxzwebEixEh5xSuu2Xc8jzqzUzkiVGRg766brID6C5rHE1rHErrIWzNGeYXvplo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uPh7sqh7; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D6905C32782;
-	Wed, 17 Jul 2024 16:12:08 +0000 (UTC)
+	s=arc-20240116; t=1721233468; c=relaxed/simple;
+	bh=woNVf/hlC39jwmwhwTBiy3CLo4N2VBfdKPIGYty3XsQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fdlkKaPhKkE0/+35j0r4/iZTaz5vYHaFQKq2Xb3pR5CSTXtSRBp+Cqu+KcLx6nauIz3yhtLKzAqLBfj6fJQ8YoDzN4IE5xYgGXXOQh7RZD05reTynG6jW8dMhUl1/Di7i64T77FMRJULb3mDSuc32o6zSaTz8785XZyGYySZy5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UVVs+kHT; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1099AC2BD10;
+	Wed, 17 Jul 2024 16:24:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721232728;
-	bh=V0CKkAQdRN3WbHfKZmvbfid5D/WhcFJk+hpVN1F1yt0=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=uPh7sqh7SibxE8K1uzJj+ZdSz6qUady772KQwyQ3F5x9HU42HcwN/LvJqtsAmxvpn
-	 qx4wAQcO7HvEi8ojn8SUPFboEtK/+5TTIAVkt7CauGhddm4ScrYFbJ5m24iT+UQ6Ef
-	 K643+vZ1nNakOtofv5X+1S+7udl46K2PCsMEnekpBOd3PjBHHVuJuHHbMuDPLhIe/3
-	 nJKlbp1bUb0sONPUpij5jw/N52dHH50Fv+d2qUVU6Tw8mnSTYcd51kgjhT8ktXYLpf
-	 QvJG+RedhIucu9MFMCgYfyEO+A88eNRTeTlfRX9wEFZut/HGCIAYzLgKhFzPpdfXyx
-	 eKO6q0UF+q5CA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE748C3DA42;
-	Wed, 17 Jul 2024 16:12:08 +0000 (UTC)
-From: Koakuma via B4 Relay <devnull+koachan.protonmail.com@kernel.org>
-Date: Wed, 17 Jul 2024 23:10:16 +0700
-Subject: [PATCH v2 2/2] sparc/build: Add SPARC target flags for compiling
- with clang
+	s=k20201202; t=1721233467;
+	bh=woNVf/hlC39jwmwhwTBiy3CLo4N2VBfdKPIGYty3XsQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=UVVs+kHTFY+/Lu8hmpFCBpmVLhGcReywaAypNu1x+6cUB/mwSa0h3xF30/nl+chEW
+	 i6dzl9m3ekXi7nNdReByhOy/qho0x3s7JaMTDxAUiJFMw8yYT6kIYhd4IqNPZMEUu5
+	 OtnnM8jlsUhy7jyCMxl1lPQQo/9eKNh82qU7H9Xm4xdTZ/NuvmqoomQLjdq/QkjyXZ
+	 jz3lOAlDVsmanf3PrikyRB2RC9NDYD6WVB7nD7ZekmBEQzf9PDJN9Yw1rAAMNivHD9
+	 yO3hw3Gk64nJ4y7IesndTYHhkzXiduERCycyAkqoIcvU/alDruclpeQbXx9c6mL/RL
+	 INrToP7e4+Icg==
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	Arnd Bergmann <arnd@arndb.de>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>
+Subject: [PATCH] kbuild: fix rebuild of generic syscall headers
+Date: Thu, 18 Jul 2024 01:24:20 +0900
+Message-ID: <20240717162421.1402773-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240717-sparc-cflags-v2-2-259407e6eb5f@protonmail.com>
-References: <20240717-sparc-cflags-v2-0-259407e6eb5f@protonmail.com>
-In-Reply-To: <20240717-sparc-cflags-v2-0-259407e6eb5f@protonmail.com>
-To: "David S. Miller" <davem@davemloft.net>, 
- Andreas Larsson <andreas@gaisler.com>, 
- Nathan Chancellor <nathan@kernel.org>, 
- Nick Desaulniers <ndesaulniers@google.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
- glaubitz@physik.fu-berlin.de, Masahiro Yamada <masahiroy@kernel.org>, 
- Nicolas Schier <nicolas@fjasle.eu>
-Cc: sparclinux@vger.kernel.org, linux-kernel@vger.kernel.org, 
- llvm@lists.linux.dev, linux-kbuild@vger.kernel.org, 
- Koakuma <koachan@protonmail.com>
-X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1721232727; l=1022;
- i=koachan@protonmail.com; s=20240620; h=from:subject:message-id;
- bh=Sa5MwKGuBYGAJmb585d/SZ5+q8ysIBSVFXuit392tK0=;
- b=kc0NkRwgjz1/ds7jqN4e7rwUpz8AF62xmINjqcnMb3N+eAaVm2/tzRDrmnOX7R9bxEFmwd8U2
- hzvjHSf7w3NBj9gygcQtKkXfc5LHmQrJTNV53JIKetVnY9QYTXzIIj9
-X-Developer-Key: i=koachan@protonmail.com; a=ed25519;
- pk=UA59FS3yiAA1cnAAUZ1rehTmr6skh95PgkNRBLcoKCg=
-X-Endpoint-Received: by B4 Relay for koachan@protonmail.com/20240620 with
- auth_id=174
-X-Original-From: Koakuma <koachan@protonmail.com>
-Reply-To: koachan@protonmail.com
+Content-Transfer-Encoding: 8bit
 
-From: Koakuma <koachan@protonmail.com>
+Commit fbb5c0606fa4 ("kbuild: add syscall table generation to
+scripts/Makefile.asm-headers") started to generate syscall headers
+for architectures using generic syscalls.
 
-clang only supports building 64-bit kernel, so we use the
-sparc64-linux-gnu target.
+However, these headers are always rebuilt using GNU Make 4.4.1 or newer.
 
-See also: https://lore.kernel.org/lkml/e26PTXUXEz8OYXmaeKn4Mpuejr4IOlFfFwdB5vpsluXlYiqDdlyQTYcDtdAny_o4gO4SfPeQCCN2qpyT6e0nog5EaP3xk2SeUPTrF54p1gM=@protonmail.com/T/#m068e010dcf8b99d3510a90d7532bcdb70e2e2c6b
+When using GNU Make 4.4 or older, these headers are not rebuilt when the
+command to generate them is changed, despite the use of the if_changed
+macro.
 
-Signed-off-by: Koakuma <koachan@protonmail.com>
+scripts/Makefile.asm-headers now uses FORCE, but it is not marked as
+.PHONY. To handle the command line change correctly, .*.cmd files must
+be included.
+
+Fixes: fbb5c0606fa4 ("kbuild: add syscall table generation to scripts/Makefile.asm-headers")
+Reported-by: Linus Torvalds <torvalds@linux-foundation.org>
+Closes: https://lore.kernel.org/lkml/CAHk-=wibB7SvXnUftBgAt+4-3vEKRpvEgBeDEH=i=j2GvDitoA@mail.gmail.com/
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
- scripts/Makefile.clang | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/scripts/Makefile.clang b/scripts/Makefile.clang
-index 6c23c6af797f..2435efae67f5 100644
---- a/scripts/Makefile.clang
-+++ b/scripts/Makefile.clang
-@@ -10,6 +10,7 @@ CLANG_TARGET_FLAGS_mips		:= mipsel-linux-gnu
- CLANG_TARGET_FLAGS_powerpc	:= powerpc64le-linux-gnu
- CLANG_TARGET_FLAGS_riscv	:= riscv64-linux-gnu
- CLANG_TARGET_FLAGS_s390		:= s390x-linux-gnu
-+CLANG_TARGET_FLAGS_sparc	:= sparc64-linux-gnu
- CLANG_TARGET_FLAGS_x86		:= x86_64-linux-gnu
- CLANG_TARGET_FLAGS_um		:= $(CLANG_TARGET_FLAGS_$(SUBARCH))
- CLANG_TARGET_FLAGS		:= $(CLANG_TARGET_FLAGS_$(SRCARCH))
+ scripts/Makefile.asm-headers | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
+diff --git a/scripts/Makefile.asm-headers b/scripts/Makefile.asm-headers
+index 6b8e8318e810..8a4856e74180 100644
+--- a/scripts/Makefile.asm-headers
++++ b/scripts/Makefile.asm-headers
+@@ -87,12 +87,20 @@ $(obj)/unistd_compat_%.h: $(syscalltbl) $(syshdr) FORCE
+ $(obj)/syscall_table_%.h: $(syscalltbl) $(systbl) FORCE
+ 	$(call if_changed,systbl)
+ 
++targets := $(syscall-y)
++
+ # Create output directory. Skip it if at least one old header exists
+ # since we know the output directory already exists.
+ ifeq ($(old-headers),)
+ $(shell mkdir -p $(obj))
+ endif
+ 
++PHONY += FORCE
++
+ FORCE:
+ 
++existing-targets := $(wildcard $(sort $(targets)))
++
++-include $(foreach f,$(existing-targets),$(dir $(f)).$(notdir $(f)).cmd)
++
+ .PHONY: $(PHONY)
 -- 
-2.45.2
-
+2.43.0
 
 
