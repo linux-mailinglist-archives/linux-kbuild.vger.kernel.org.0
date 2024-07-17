@@ -1,337 +1,305 @@
-Return-Path: <linux-kbuild+bounces-2559-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2560-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CBB79334E8
-	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jul 2024 03:15:24 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A477B933531
+	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jul 2024 03:51:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E9A7BB20FB1
-	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jul 2024 01:15:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3BB711F23254
+	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jul 2024 01:51:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC230ED8;
-	Wed, 17 Jul 2024 01:15:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EE3B184F;
+	Wed, 17 Jul 2024 01:51:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mz5HdWVD"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="SdAwUwqg"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE96536D;
-	Wed, 17 Jul 2024 01:15:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95AD0EC5
+	for <linux-kbuild@vger.kernel.org>; Wed, 17 Jul 2024 01:51:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721178917; cv=none; b=aucqtW/6EPKoj9oMGIYq/9/1RZC/1L7nSLZCt8K3VQmb7KhpZnndE/lskrJapaKIUKm7VbFwUOQ0yZzulcDUps1c/PArv49s2UpIXT60QIF4vg7lYzJlqPQXHaRVSBrMCThTHZb4/kBbJVN0POIGkH7qCVS6MX9es4Cy3g9psT4=
+	t=1721181066; cv=none; b=ILbocA9Ln7DsIu9CRjflN6P3c491v9Ec7PEiO+A0tiNA23HEsYs9fKGr4oS3WXF8Ajb92uWCSqQepaOZtVCsT9UVxC2B0hmgTztx/NRhSXlFrzxslODby8Bhy0/rYk5TIjvLDqD94axxfyoyTUXzdN4D31HOGxOR+KID0ZeN25w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721178917; c=relaxed/simple;
-	bh=RtUSokA7N3oWuxrdHS5tXYcxzR1xyqfoolt71QB1qRA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tqbqhUnN6C7Izj20HywPPtEriBq614jJn05VdI6mboFtuW5TKuBGnhuTaZA6wLds1yDixDgpA5PpVNujuzzeeBTG8b5lBiomNdtBtbiIaDbQxBq79R1MYZIwd1LSL1npvzFSSjUPbzxXtM40FSrjkM/F8iqQ8ewsEBn5mz0sSco=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mz5HdWVD; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7E58C116B1;
-	Wed, 17 Jul 2024 01:15:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721178917;
-	bh=RtUSokA7N3oWuxrdHS5tXYcxzR1xyqfoolt71QB1qRA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Mz5HdWVDGFPC8pFcmPNvE2BurInkMuX2CwORChqm9eAqFcp6I0CuQBExIaJUHCiO9
-	 QrawG/vl0ZOmcuuXIhY9ij1X3i9J08MNovm22/ahF49l1Ci5eWalH9Tj2pxBeeg7uD
-	 YCpsQXQYtY52ZiTCdu7fGvF+gW/yAH22ctgwglTNyL7xV60DlXOMBflC8S9Z/w7xok
-	 G2fl7ocSXVScfItw8avzVUrLzpKyuh7yFGh1uRHVA8k3kFqSvCJZsr9KTWZGbG9X8d
-	 el/ZSkfAt5bKdQVnslyyEJRSrDwj9OEgRLvIC5IpBaoP4GWzcGznQdnCvjHsPUlBlU
-	 1jhlJxRclg4XQ==
-Date: Tue, 16 Jul 2024 18:15:15 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	"Jan Alexander Steffens (heftig)" <heftig@archlinux.org>,
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH v6] kbuild: add script and target to generate pacman
- package
-Message-ID: <20240717011515.GA1230090@thelio-3990X>
-References: <20240716-kbuild-pacman-pkg-v6-1-d3a04e308013@weissschuh.net>
+	s=arc-20240116; t=1721181066; c=relaxed/simple;
+	bh=eObwt/zi3Kr95XXc60X23X6dODaeDbiMIQnVNj03/Yg=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=ktKzBSU5alVZwste01HiIUweu+KgEtK0H6lPRyNByn+O/qRpSb5hnYbik3n1gcJuskB4QvhnBndycvPq40ysSdde3eewf8vppEXaC22e567rXGE9y62qyRB1U8+7SbxBG7ZcDJnT7nOziWh2cZ5mjtsu8mtzhBn2omUNJ+ygZZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--elsk.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=SdAwUwqg; arc=none smtp.client-ip=209.85.219.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--elsk.bounces.google.com
+Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-dfa7a8147c3so11687229276.3
+        for <linux-kbuild@vger.kernel.org>; Tue, 16 Jul 2024 18:51:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1721181063; x=1721785863; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=I3aCBBWFffWvGxNelxYi8javtM+9l3qfCXyadBBSBs4=;
+        b=SdAwUwqgyDPlE7QMkcIQKEYgC6Y6OeAE33tChgc2Iu5X5mSt5apYmQYYOoQjrghtNA
+         o0AI8XRrcTPSHCaE+l5zRYbUtMnRtjdVcmX8Ry39m8zBdaANQ95JgUJ5FuvJgLm94yUN
+         rWfjhsRkYnHZhqpXhIsvV0ZhO5WK5oHmBj67ainGO05D9Y9zwTFTOyu1TT4EH9IHXcKp
+         nG7FzylsZwfOlwGx8nPaaLSr1QkGu6T7VaJvnyPoJFNt7ZuJqo5WvI5JpLPYjG8kOq5U
+         YNjYeW+arKQhPRlKtE0Nka13DyY/tdXpBUwj9V4F+cy4dQckrtDSI1CmYlWJ51bgyZHL
+         Co5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721181063; x=1721785863;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=I3aCBBWFffWvGxNelxYi8javtM+9l3qfCXyadBBSBs4=;
+        b=qOMqPCiCNUaUQBu8FNDbljwjmFf+AydL03cGvl15p/PJMJdz0chsL+3xBBgiRDFkAu
+         b+OsoNkyRiYlnFGaRAACddCNQYnn087SS3laGwcez10e1wZsFNgaK2ZVlOOEUfZaBdRz
+         DRWIXNlovD3AwIClCkf8D8TTp3+DcyCRBC30EjTtgnXqLyhsHOWeiTla36cI9zSaJ023
+         Mm0EjqauRNmnqQyjsm0M1eFTnFCV1sjpZvkmsJPJ1rhnOFYW0fazxSA15tQifNwV6IP1
+         8OLtPssNngHg8w6Zi1gkvvOWnl+UcurF61oMzParMCsfttLgWJ6QIeuq9qXvqduu6W4i
+         jCrQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU2OPX91DSJnLKBZ0vdamvFy21qG/aeDfjirfWU92QiOqsuY7yIMLrh60eXEJ5mwCkBXv2RbI8t5WnBeJDVCpOqP/UL2OrLif2pjbsF
+X-Gm-Message-State: AOJu0Yyt/rCzbqkCn3eJKXG/MTk1lBQm1k4ke+mZ1elllSrfZu0CkYTD
+	26rvGEQ71Q1k5cNyscEO87OikLnCz9Ma24HuFZUStlLwSQfJXhSsbRl53TkF0KiKoPbL3Q==
+X-Google-Smtp-Source: AGHT+IGJ2ob/5Gax9awARwZ+djoFJgzGUxbI73foCKISaOUPZsRwo46wiPy3gnhiNooAz+efVWeKkdXS
+X-Received: from elsk.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:dbd])
+ (user=elsk job=sendgmr) by 2002:a05:6902:2503:b0:dfb:22ca:1efd with SMTP id
+ 3f1490d57ef6-e05ed77deddmr1030276.9.1721181063541; Tue, 16 Jul 2024 18:51:03
+ -0700 (PDT)
+Date: Wed, 17 Jul 2024 01:50:41 +0000
+In-Reply-To: <CAK7LNAR_=AWh1aE4iev1xtcfTAAHNOhwq3gF+h6DFzz9x39qPw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240716-kbuild-pacman-pkg-v6-1-d3a04e308013@weissschuh.net>
+Mime-Version: 1.0
+References: <CAK7LNAR_=AWh1aE4iev1xtcfTAAHNOhwq3gF+h6DFzz9x39qPw@mail.gmail.com>
+X-Mailer: git-send-email 2.45.2.993.g49e7a77208-goog
+Message-ID: <20240717015042.339931-1-elsk@google.com>
+Subject: [PATCH v4] kconfig: recursive checks drop file/lineno
+From: HONG Yifan <elsk@google.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: HONG Yifan <elsk@google.com>, kernel-team@android.com, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Thomas,
+This prevents segfault when getting filename and lineno in recursive
+checks.
 
-On Tue, Jul 16, 2024 at 07:52:14PM +0200, Thomas Weißschuh wrote:
-> pacman is the package manager used by Arch Linux and its derivates.
-> Creating native packages from the kernel tree has multiple advantages:
-> 
-> * The package triggers the correct hooks for initramfs generation and
->   bootloader configuration
-> * Uninstallation is complete and also invokes the relevant hooks
-> * New UAPI headers can be installed without any manual bookkeeping
-> 
-> The PKGBUILD file is a simplified version of the one used for the
-> downstream Arch Linux "linux" package.
-> Extra steps that should not be necessary for a development kernel have
-> been removed and an UAPI header package has been added.
-> 
-> Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
-> Reviewed-by: Nathan Chancellor <nathan@kernel.org>
-> Tested-by: Nathan Chancellor <nathan@kernel.org>
-> Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
-> ---
-> Changes in v6:
-> - Drop reference to srctree/Makefile
-> - Drop $(realpath $(srctree))
-> - Make use of the fact that $(objtree) is always "."
-> - Align coding style to kernel and drop vim config line
-> - Drop indirection through `$MAKE run-command`
-> - Unify shell variable syntax to "${var}"
-> - Add explanations to custom variables
-> - Add makedepends
-> - Link to v5: https://lore.kernel.org/r/20240714-kbuild-pacman-pkg-v5-1-0598460bc918@weissschuh.net
-> 
-> Changes in v5:
-> - Rebase onto kbuild/for-next
-> - Use new path to build-version script (from kbuild/for-next)
-> - Ensure submake jobserver delegation works
-> - Simplify $modulesdir/pkgbase file creation
-> - Add Reviewed-by from Nicolas
-> - Link to v4: https://lore.kernel.org/r/20240710-kbuild-pacman-pkg-v4-1-507bb5b79b2a@weissschuh.net
-> 
-> Changes in v4:
-> - Update MRPROPER_FILES
-> - Unify shell variable syntax
-> - Link to v3: https://lore.kernel.org/r/20240708-kbuild-pacman-pkg-v3-1-885df3cbc740@weissschuh.net
-> 
-> Changes in v3:
-> - Enforce matching architectures for installation
-> - Add Reviewed-by and Tested-by from Nathan
-> - Link to v2: https://lore.kernel.org/r/20240706-kbuild-pacman-pkg-v2-1-613422a03a7a@weissschuh.net
-> 
-> Changes in v2:
-> - Replace ${MAKE} with $MAKE for consistency with other variables
-> - Use $MAKE for "-s image_name"
-> - Avoid permission warnings from build directory
-> - Clarify reason for /build symlink removal
-> - Install System.map and config
-> - Install dtbs where available
-> - Allow cross-build through arch=any
-> - Sort Contributor/Maintainer chronologically
-> - Disable some unneeded makepkg options
-> - Use DEPMOD=true for consistency with rpm-package
-> - Link to v1: https://lore.kernel.org/r/20240704-kbuild-pacman-pkg-v1-1-ac2f63f5fa7b@weissschuh.net
-> ---
->  .gitignore               |  6 +++
->  Makefile                 |  2 +-
->  scripts/Makefile.package | 14 +++++++
->  scripts/package/PKGBUILD | 99 ++++++++++++++++++++++++++++++++++++++++++++++++
->  4 files changed, 120 insertions(+), 1 deletion(-)
-> 
-> diff --git a/.gitignore b/.gitignore
-> index c59dc60ba62e..7902adf4f7f1 100644
-> --- a/.gitignore
-> +++ b/.gitignore
-> @@ -92,6 +92,12 @@ modules.order
->  #
->  /tar-install/
->  
-> +#
-> +# pacman files (make pacman-pkg)
-> +#
-> +/PKGBUILD
-> +/pacman/
-> +
->  #
->  # We don't want to ignore the following even if they are dot-files
->  #
-> diff --git a/Makefile b/Makefile
-> index 7372ea45ed3f..768d3dc107f8 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1481,7 +1481,7 @@ CLEAN_FILES += vmlinux.symvers modules-only.symvers \
->  # Directories & files removed with 'make mrproper'
->  MRPROPER_FILES += include/config include/generated          \
->  		  arch/$(SRCARCH)/include/generated .objdiff \
-> -		  debian snap tar-install \
-> +		  debian snap tar-install PKGBUILD pacman \
->  		  .config .config.old .version \
->  		  Module.symvers \
->  		  certs/signing_key.pem \
-> diff --git a/scripts/Makefile.package b/scripts/Makefile.package
-> index bf016af8bf8a..0aaa0832279c 100644
-> --- a/scripts/Makefile.package
-> +++ b/scripts/Makefile.package
-> @@ -141,6 +141,19 @@ snap-pkg:
->  	cd $(objtree)/snap && \
->  	snapcraft --target-arch=$(UTS_MACHINE)
->  
-> +# pacman-pkg
-> +# ---------------------------------------------------------------------------
-> +
-> +PHONY += pacman-pkg
-> +pacman-pkg:
-> +	@ln -srf $(srctree)/scripts/package/PKGBUILD $(objtree)/PKGBUILD
-> +	+objtree="$(realpath $(objtree))" \
-> +		BUILDDIR=pacman \
-> +		CARCH="$(UTS_MACHINE)" \
-> +		KBUILD_MAKEFLAGS="$(MAKEFLAGS)" \
-> +		KBUILD_REVISION="$(shell $(srctree)/scripts/build-version)" \
-> +		makepkg
-> +
->  # dir-pkg tar*-pkg - tarball targets
->  # ---------------------------------------------------------------------------
->  
-> @@ -221,6 +234,7 @@ help:
->  	@echo '  bindeb-pkg          - Build only the binary kernel deb package'
->  	@echo '  snap-pkg            - Build only the binary kernel snap package'
->  	@echo '                        (will connect to external hosts)'
-> +	@echo '  pacman-pkg          - Build only the binary kernel pacman package'
->  	@echo '  dir-pkg             - Build the kernel as a plain directory structure'
->  	@echo '  tar-pkg             - Build the kernel as an uncompressed tarball'
->  	@echo '  targz-pkg           - Build the kernel as a gzip compressed tarball'
-> diff --git a/scripts/package/PKGBUILD b/scripts/package/PKGBUILD
-> new file mode 100644
-> index 000000000000..eb3957fad915
-> --- /dev/null
-> +++ b/scripts/package/PKGBUILD
-> @@ -0,0 +1,99 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +# Maintainer: Thomas Weißschuh <linux@weissschuh.net>
-> +# Contributor: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
-> +
-> +pkgbase=linux-upstream
-> +pkgname=("${pkgbase}" "${pkgbase}-headers" "${pkgbase}-api-headers")
-> +pkgver="${KERNELRELEASE//-/_}"
-> +# The PKGBUILD is evaluated multiple times.
-> +# Running scripts/build-version from here would introduce inconsistencies.
-> +pkgrel="${KBUILD_REVISION}"
-> +pkgdesc='Linux'
-> +url='https://www.kernel.org/'
-> +# Enable flexible cross-compilation
-> +arch=(${CARCH})
-> +license=(GPL-2.0-only)
-> +makedepends=(
-> +	base-devel
-> +	bc
-> +	cpio
-> +	gettext
-> +	libelf
-> +	openssl
-> +	pahole
-> +	perl
-> +	python
-> +	rsync
-> +	tar
-> +)
-> +options=(!debug !strip !buildflags !makeflags)
-> +
-> +build() {
-> +	# MAKEFLAGS from makepkg.conf override the ones inherited from kbuild.
-> +	# Bypass this override with a custom variable.
-> +	export MAKEFLAGS="${KBUILD_MAKEFLAGS}"
-> +	cd "${objtree}"
-> +
-> +	# makepkg does a "chmod a-srw", triggering warnings during kbuild
-> +	chmod 0755 "${pkgdirbase}" || true
-> +
-> +	${MAKE}
-> +}
-> +
-> +package_linux-upstream() {
-> +	pkgdesc="The ${pkgdesc} kernel and modules"
-> +
-> +	export MAKEFLAGS="${KBUILD_MAKEFLAGS}"
-> +	cd "${objtree}"
-> +	local modulesdir="${pkgdir}/usr/${MODLIB}"
-> +
-> +	echo "Installing boot image..."
-> +	# systemd expects to find the kernel here to allow hibernation
-> +	# https://github.com/systemd/systemd/commit/edda44605f06a41fb86b7ab8128dcf99161d2344
-> +	install -Dm644 "$(${MAKE} -s image_name)" "${modulesdir}/vmlinuz"
-> +
-> +	# Used by mkinitcpio to name the kernel
-> +	echo "${pkgbase}" > "${modulesdir}/pkgbase"
-> +
-> +	echo "Installing modules..."
-> +	${MAKE} INSTALL_MOD_PATH="${pkgdir}/usr" INSTALL_MOD_STRIP=1 \
-> +		DEPMOD=true modules_install
-> +
-> +	if [ -d "${srctree}/arch/${SRCARCH}/boot/dts" ]; then
+If the following snippet is found in Kconfig:
 
-Does this reference to srctree...
+[Test code 1]
 
-> +		echo "Installing dtbs..."
-> +		${MAKE} INSTALL_DTBS_PATH="${modulesdir}/dtb" dtbs_install
-> +	fi
-> +
-> +	# remove build link, will be part of -headers package
-> +	rm -f "${modulesdir}/build"
-> +}
-> +
-> +package_linux-upstream-headers() {
-> +	pkgdesc="Headers and scripts for building modules for the ${pkgdesc} kernel"
-> +
-> +	export MAKEFLAGS="${KBUILD_MAKEFLAGS}"
-> +	cd "${objtree}"
-> +	local builddir="${pkgdir}/usr/${MODLIB}/build"
-> +
-> +	echo "Installing build files..."
-> +	"${srctree}/scripts/package/install-extmod-build" "${builddir}"
+config FOO
+        bool
+        depends on BAR
+        select BAR
 
-and this one still work with srctree no longer being passed to makepkg?
+... without BAR defined; then there is a segfault.
 
-I tried myself but it looks like this version of the patch might be
-broken?
+  Kconfig:34:error: recursive dependency detected!
+  Kconfig:34:	symbol FOO depends on BAR
+  make[4]: *** [scripts/kconfig/Makefile:85: allnoconfig] Segmentation fault
 
-$ make -skj"$(nproc)" ARCH=x86_64 CROSS_COMPILE=x86_64-linux- O=/mnt/nvme/tmp/build/linux mrproper defconfig pacman-pkg
-find: ‘./pacman/linux-upstream/src/pacman/linux-upstream/pkg’: Permission denied
-==> Making package: linux-upstream 6.10.0_rc7_00051_g818e9c998b04_dirty-1 (Tue 16 Jul 2024 06:08:29 PM MST)
-==> Checking runtime dependencies...
-==> Checking buildtime dependencies...
-==> Retrieving sources...
-==> Extracting sources...
-==> Starting build()...
-chmod: cannot access 'pacman/linux-upstream/pkg': No such file or directory
-find: ‘./pacman/linux-upstream/src/pacman/linux-upstream/pkg’: Permission denied
-==> Entering fakeroot environment...
-chmod: cannot access '/mnt/nvme/tmp/build/linux/pacman/linux-upstream/pkg': No such file or directory
-/usr/bin/fakeroot: line 178: 2633185 User defined signal 1   FAKEROOTKEY=$FAKEROOTKEY LD_LIBRARY_PATH="$PATHS" LD_PRELOAD="$FAKEROOT_LIB" "$@"
-make[4]: *** [scripts/Makefile.package:150: pacman-pkg] Error 138
+This is because of the following. BAR is a fake entry created by
+sym_lookup() with prop being NULL. In the recursive check, there is a
+NULL check for prop to fall back to stack->sym->prop if stack->prop is
+NULL. However, in this case, stack->sym points to the fake BAR entry
+created by sym_lookup(), so prop is still NULL. prop was then referenced
+without additional NULL checks, causing segfault.
 
-Cheers,
-Nathan
+As the previous email thread suggests, the file and lineno for select is
+also wrong:
 
-> +	echo "Installing System.map and config..."
-> +	cp System.map "${builddir}/System.map"
-> +	cp .config "${builddir}/.config"
-> +
-> +	echo "Adding symlink..."
-> +	mkdir -p "${pkgdir}/usr/src"
-> +	ln -sr "${builddir}" "${pkgdir}/usr/src/${pkgbase}"
-> +}
-> +
-> +package_linux-upstream-api-headers() {
-> +	pkgdesc="Kernel headers sanitized for use in userspace"
-> +	provides=(linux-api-headers)
-> +	conflicts=(linux-api-headers)
-> +
-> +	export MAKEFLAGS="${KBUILD_MAKEFLAGS}"
-> +	cd "${objtree}"
-> +
-> +	${MAKE} headers_install INSTALL_HDR_PATH="${pkgdir}/usr"
-> +}
-> 
-> ---
-> base-commit: 818e9c998b04d6c69a510d5255a93d0e3b8d4993
-> change-id: 20240625-kbuild-pacman-pkg-b4f87e19d036
-> 
-> Best regards,
-> -- 
-> Thomas Weißschuh <linux@weissschuh.net>
-> 
+[Test code 2]
+
+config FOO
+       bool
+
+config BAR
+       bool
+
+config FOO
+       bool "FOO"
+       depends on BAR
+       select BAR
+
+  $ make defconfig
+  *** Default configuration is based on 'x86_64_defconfig'
+  Kconfig:1:error: recursive dependency detected!
+  Kconfig:1: symbol FOO depends on BAR
+  Kconfig:4: symbol BAR is selected by FOO
+  [...]
+
+Kconfig:4 should be Kconfig:10.
+
+This patch deletes the wrong and segfault-prone filename/lineno
+inference completely. With this patch, Test code 1 yields:
+
+error: recursive dependency detected!
+	symbol FOO depends on BAR
+	symbol BAR is selected by FOO
+
+Link: https://lore.kernel.org/linux-kbuild/20240627231919.2461945-1-elsk@google.com/T/
+Link: https://lore.kernel.org/linux-kbuild/20240620211112.500465-1-elsk@google.com/
+Link: https://lore.kernel.org/linux-kbuild/20240618185609.4096399-1-elsk@google.com/
+Signed-off-by: HONG Yifan <elsk@google.com>
+
+--
+v4: Rebased & addressed comments from masahiroy@kernel.org. Simplify
+    code by dropping `prop` variable.
+v3: Rebase on top of
+    https://lore.kernel.org/linux-kbuild/20240626182212.3758235-1-masahiroy@kernel.org/T/#t
+    & resolve merge conflicts. Fix
+    scripts/kconfig/tests/err_recursive_dep/expected_stderr
+v2: Delete all filenames/lineno completely as suggested by
+    masahiroy@kernel.org
+---
+ scripts/kconfig/symbol.c                      | 42 ++++++-------------
+ .../tests/err_recursive_dep/expected_stderr   | 36 ++++++++--------
+ 2 files changed, 30 insertions(+), 48 deletions(-)
+
+diff --git a/scripts/kconfig/symbol.c b/scripts/kconfig/symbol.c
+index 6c6f238c4f7b..71502abd3b12 100644
+--- a/scripts/kconfig/symbol.c
++++ b/scripts/kconfig/symbol.c
+@@ -1074,10 +1074,9 @@ static void sym_check_print_recursive(struct symbol *last_sym)
+ {
+ 	struct dep_stack *stack;
+ 	struct symbol *sym, *next_sym;
+-	struct menu *menu = NULL;
+ 	struct menu *choice;
+-	struct property *prop;
+ 	struct dep_stack cv_stack;
++	enum prop_type type;
+ 
+ 	choice = sym_get_choice_menu(last_sym);
+ 	if (choice) {
+@@ -1096,53 +1095,36 @@ static void sym_check_print_recursive(struct symbol *last_sym)
+ 	for (; stack; stack = stack->next) {
+ 		sym = stack->sym;
+ 		next_sym = stack->next ? stack->next->sym : last_sym;
+-		prop = stack->prop;
+-		if (prop == NULL)
+-			prop = stack->sym->prop;
+-
+-		/* for choice values find the menu entry (used below) */
+-		if (sym_is_choice(sym) || sym_is_choice_value(sym)) {
+-			for (prop = sym->prop; prop; prop = prop->next) {
+-				menu = prop->menu;
+-				if (prop->menu)
+-					break;
+-			}
+-		}
++		type = stack->prop ? stack->prop->type : P_UNKNOWN;
++
+ 		if (stack->sym == last_sym)
+-			fprintf(stderr, "%s:%d:error: recursive dependency detected!\n",
+-				prop->filename, prop->lineno);
++			fprintf(stderr, "error: recursive dependency detected!\n");
+ 
+ 		if (sym_is_choice(next_sym)) {
+ 			choice = list_first_entry(&next_sym->menus, struct menu, link);
+ 
+-			fprintf(stderr, "%s:%d:\tsymbol %s is part of choice block at %s:%d\n",
+-				menu->filename, menu->lineno,
++			fprintf(stderr, "\tsymbol %s is part of choice block at %s:%d\n",
+ 				sym->name ? sym->name : "<choice>",
+ 				choice->filename, choice->lineno);
+ 		} else if (stack->expr == &sym->dir_dep.expr) {
+-			fprintf(stderr, "%s:%d:\tsymbol %s depends on %s\n",
+-				prop->filename, prop->lineno,
++			fprintf(stderr, "\tsymbol %s depends on %s\n",
+ 				sym->name ? sym->name : "<choice>",
+ 				next_sym->name);
+ 		} else if (stack->expr == &sym->rev_dep.expr) {
+-			fprintf(stderr, "%s:%d:\tsymbol %s is selected by %s\n",
+-				prop->filename, prop->lineno,
++			fprintf(stderr, "\tsymbol %s is selected by %s\n",
+ 				sym->name, next_sym->name);
+ 		} else if (stack->expr == &sym->implied.expr) {
+-			fprintf(stderr, "%s:%d:\tsymbol %s is implied by %s\n",
+-				prop->filename, prop->lineno,
++			fprintf(stderr, "\tsymbol %s is implied by %s\n",
+ 				sym->name, next_sym->name);
+ 		} else if (stack->expr) {
+-			fprintf(stderr, "%s:%d:\tsymbol %s %s value contains %s\n",
+-				prop->filename, prop->lineno,
++			fprintf(stderr, "\tsymbol %s %s value contains %s\n",
+ 				sym->name ? sym->name : "<choice>",
+-				prop_get_type_name(prop->type),
++				prop_get_type_name(type),
+ 				next_sym->name);
+ 		} else {
+-			fprintf(stderr, "%s:%d:\tsymbol %s %s is visible depending on %s\n",
+-				prop->filename, prop->lineno,
++			fprintf(stderr, "\tsymbol %s %s is visible depending on %s\n",
+ 				sym->name ? sym->name : "<choice>",
+-				prop_get_type_name(prop->type),
++				prop_get_type_name(type),
+ 				next_sym->name);
+ 		}
+ 	}
+diff --git a/scripts/kconfig/tests/err_recursive_dep/expected_stderr b/scripts/kconfig/tests/err_recursive_dep/expected_stderr
+index 05d4ced70320..fc2e860af082 100644
+--- a/scripts/kconfig/tests/err_recursive_dep/expected_stderr
++++ b/scripts/kconfig/tests/err_recursive_dep/expected_stderr
+@@ -1,38 +1,38 @@
+-Kconfig:5:error: recursive dependency detected!
+-Kconfig:5:	symbol A depends on A
++error: recursive dependency detected!
++	symbol A depends on A
+ For a resolution refer to Documentation/kbuild/kconfig-language.rst
+ subsection "Kconfig recursive dependency limitations"
+ 
+-Kconfig:11:error: recursive dependency detected!
+-Kconfig:11:	symbol B is selected by B
++error: recursive dependency detected!
++	symbol B is selected by B
+ For a resolution refer to Documentation/kbuild/kconfig-language.rst
+ subsection "Kconfig recursive dependency limitations"
+ 
+-Kconfig:17:error: recursive dependency detected!
+-Kconfig:17:	symbol C1 depends on C2
+-Kconfig:21:	symbol C2 depends on C1
++error: recursive dependency detected!
++	symbol C1 depends on C2
++	symbol C2 depends on C1
+ For a resolution refer to Documentation/kbuild/kconfig-language.rst
+ subsection "Kconfig recursive dependency limitations"
+ 
+-Kconfig:27:error: recursive dependency detected!
+-Kconfig:27:	symbol D1 depends on D2
+-Kconfig:32:	symbol D2 is selected by D1
++error: recursive dependency detected!
++	symbol D1 depends on D2
++	symbol D2 is selected by D1
+ For a resolution refer to Documentation/kbuild/kconfig-language.rst
+ subsection "Kconfig recursive dependency limitations"
+ 
+-Kconfig:37:error: recursive dependency detected!
+-Kconfig:37:	symbol E1 depends on E2
+-Kconfig:42:	symbol E2 is implied by E1
++error: recursive dependency detected!
++	symbol E1 depends on E2
++	symbol E2 is implied by E1
+ For a resolution refer to Documentation/kbuild/kconfig-language.rst
+ subsection "Kconfig recursive dependency limitations"
+ 
+-Kconfig:49:error: recursive dependency detected!
+-Kconfig:49:	symbol F1 default value contains F2
+-Kconfig:51:	symbol F2 depends on F1
++error: recursive dependency detected!
++	symbol F1 default value contains F2
++	symbol F2 depends on F1
+ For a resolution refer to Documentation/kbuild/kconfig-language.rst
+ subsection "Kconfig recursive dependency limitations"
+ 
+-Kconfig:60:error: recursive dependency detected!
+-Kconfig:60:	symbol G depends on G
++error: recursive dependency detected!
++	symbol G depends on G
+ For a resolution refer to Documentation/kbuild/kconfig-language.rst
+ subsection "Kconfig recursive dependency limitations"
+-- 
+2.45.2.993.g49e7a77208-goog
+
 
