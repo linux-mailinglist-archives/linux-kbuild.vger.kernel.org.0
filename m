@@ -1,114 +1,121 @@
-Return-Path: <linux-kbuild+bounces-2572-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2573-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEA2C934057
-	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jul 2024 18:24:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 580AA934059
+	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jul 2024 18:25:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8F647281799
-	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jul 2024 16:24:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1435E282894
+	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jul 2024 16:25:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2786E5B05E;
-	Wed, 17 Jul 2024 16:24:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1286818003B;
+	Wed, 17 Jul 2024 16:25:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UVVs+kHT"
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="beTfElnY";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="TCQQ7fuG"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh5-smtp.messagingengine.com (fhigh5-smtp.messagingengine.com [103.168.172.156])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1C4B1D52B;
-	Wed, 17 Jul 2024 16:24:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CF5E1D52B;
+	Wed, 17 Jul 2024 16:24:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.156
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721233468; cv=none; b=OoLoaVp7UnVUO2N12d9mJ4uC8Rhl2Dvoj9vvFUjojZcKLu+7956+Pc//ckpOiZ3dKcrYE1X/hMN52L199m5io6RKN55c/CDP7GkkQAlRuVpfYezDW65APP9MJS6N3LJOM4NaVgV5c2MkCazMk4jbruiaMN7i6O8C+7ZiyShINYo=
+	t=1721233501; cv=none; b=W0nxUuvA+J/YYZFLPWHRXdqiPVouiNG7fdvwPrMMna1TJtAJXFjAA2CqEBFXSAsDZDE2eai0Q3AF8fJpCqeznK3ZRAGl/AICpNzy6ejBa7V7o9uLbf+pHWS3tkosKoiU1ddWY0Q28flvdlQWws5TyKOvMMamKIV1TJJ1CfHhwCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721233468; c=relaxed/simple;
-	bh=woNVf/hlC39jwmwhwTBiy3CLo4N2VBfdKPIGYty3XsQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fdlkKaPhKkE0/+35j0r4/iZTaz5vYHaFQKq2Xb3pR5CSTXtSRBp+Cqu+KcLx6nauIz3yhtLKzAqLBfj6fJQ8YoDzN4IE5xYgGXXOQh7RZD05reTynG6jW8dMhUl1/Di7i64T77FMRJULb3mDSuc32o6zSaTz8785XZyGYySZy5U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UVVs+kHT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1099AC2BD10;
-	Wed, 17 Jul 2024 16:24:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721233467;
-	bh=woNVf/hlC39jwmwhwTBiy3CLo4N2VBfdKPIGYty3XsQ=;
-	h=From:To:Cc:Subject:Date:From;
-	b=UVVs+kHTFY+/Lu8hmpFCBpmVLhGcReywaAypNu1x+6cUB/mwSa0h3xF30/nl+chEW
-	 i6dzl9m3ekXi7nNdReByhOy/qho0x3s7JaMTDxAUiJFMw8yYT6kIYhd4IqNPZMEUu5
-	 OtnnM8jlsUhy7jyCMxl1lPQQo/9eKNh82qU7H9Xm4xdTZ/NuvmqoomQLjdq/QkjyXZ
-	 jz3lOAlDVsmanf3PrikyRB2RC9NDYD6WVB7nD7ZekmBEQzf9PDJN9Yw1rAAMNivHD9
-	 yO3hw3Gk64nJ4y7IesndTYHhkzXiduERCycyAkqoIcvU/alDruclpeQbXx9c6mL/RL
-	 INrToP7e4+Icg==
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: linux-kernel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
-	Arnd Bergmann <arnd@arndb.de>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>
-Subject: [PATCH] kbuild: fix rebuild of generic syscall headers
-Date: Thu, 18 Jul 2024 01:24:20 +0900
-Message-ID: <20240717162421.1402773-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1721233501; c=relaxed/simple;
+	bh=F17R1ylOnAHC4H/n8d8kSyYk/8iTj1Gyafq/NG1afZw=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=lgnvfEFKXcgKrK0iT+cMIxTvLgA2b5yCfTj9mEi2lVJCwzwcwFQtAvc1Afm4C3irCPsVUXwajVtJsKsYz0YnP/eTTZOg7LOQsCNgV2poZJY1h/ELYRmHsBWlMHRB7hCUDku69Zo8LrBN0E67IUtTaSw1E6ajUq0TO9KpSghEgHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=beTfElnY; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=TCQQ7fuG; arc=none smtp.client-ip=103.168.172.156
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Received: from compute9.internal (compute9.nyi.internal [10.202.2.228])
+	by mailfhigh.nyi.internal (Postfix) with ESMTP id 8566D1140123;
+	Wed, 17 Jul 2024 12:24:57 -0400 (EDT)
+Received: from wimap26 ([10.202.2.86])
+  by compute9.internal (MEProxy); Wed, 17 Jul 2024 12:24:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1721233497; x=1721319897; bh=1W3K3SSfi2
+	iYaeyeomygFHiBI3aPjhu9ub0OyFFAtjg=; b=beTfElnYZrN7CEjAlJZ7NGKvby
+	TENCctlXZoWcKs440e4WBcdgdNhnumWfZQGutcmV4zu2Wva9zOGIM/AL+2l/SkCR
+	H+pOvSEe3NpUZUFzy02cY7QTtslDstB4bVthOcqefr1pYUd1NDGQI2emXkVoKJLs
+	1Yq7TeOnixkcKC3TKRUChwkUYvtZGKHSTjPNOp9f0jmcWMyWHPJWAc5XOL2VDowZ
+	7QZTsr/GOu6ay1knZrUMxWHhoIp7LNdI2nWjXe1o9VMAK0gEq6tV0Q6JzTvAU1UU
+	fdBtS5d7fVyAgJ/nKhZFiAURUx/VLdqtdsOpKbQKr+gVFXdCegTIAJGwxh6Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1721233497; x=1721319897; bh=1W3K3SSfi2iYaeyeomygFHiBI3aP
+	jhu9ub0OyFFAtjg=; b=TCQQ7fuGL+rFlxm+Sd+6z0Uw7KVyFvDNu8gZ0ouZBgS6
+	g4f15WlysNLgKGreIH4YsHrIzvOXKKBCFr6omYXmgj6tlTHWYvZV4mlhLtcUfvdJ
+	h73JX8lFmuhSn4gaE2gdQrRVR1+cKg/xo0oWDQYLys9CwBt7WjO6rk5vz+9mgCXa
+	Rasc2B40urtNQaHYCg70stcjMeGLUzQti5ujBdf7AGe63eZOPq0WjBhAFpOnGFno
+	xreaVlhbWFkjrXFvm11hDtICYO1yHr3OJ5BTytdCx5rzF4v6e1sHsdsEpnDL7dCL
+	ZnXvIFpo+9KS+9OEzal8zhn21KWVjsTb8Zsk5Risqw==
+X-ME-Sender: <xms:V_CXZhO8LNaIWm9OEYqjHzES-aJ1J6vb57vYjagWZNmehmTJkTU_qA>
+    <xme:V_CXZj9Cf4WlE0GpcDUpKjdiX-Gd6XvvyB-v4yVLqzUoj-8ge9IdK4yYsJgdTiyBt
+    SUx7aYR6z7Qao6XoWA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrgeejgddtlecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
+    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
+    gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
+    ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
+    hnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:V_CXZgQnKNiojAFNWu0q2_IDsvTp5o5sqCwyHGlVb6BppFO7-V_9oQ>
+    <xmx:V_CXZtugudBNAaKQJ9gbPyayyf2vKtHqabYQCifBDi3zb4f1CJrj-Q>
+    <xmx:V_CXZpcDthWcwI_QvDfBfm6leE1TtmuWYarYxyhx-D3UX4LFSigpBA>
+    <xmx:V_CXZp3N04dHHx_C3Cg_hKujFFEZIS5vxnG-wEqa0iSS_fFRhFjQFA>
+    <xmx:WfCXZhRM3b7PRAYC2jZei_gViimYexbCP2msoUXaLlbjp-RBB0Yw_cqy>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id B2FAC19C0062; Wed, 17 Jul 2024 12:24:55 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-568-g843fbadbe-fm-20240701.003-g843fbadb
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Message-Id: <8333c062-a773-45d3-88d3-ba78e8abbd47@app.fastmail.com>
+In-Reply-To: 
+ <CAK7LNASOtyqJMET7YuuFzTCkwg02p850PnqCC57-BZNJhyKT7Q@mail.gmail.com>
+References: <20240717124253.2275084-1-arnd@kernel.org>
+ <CAK7LNASOtyqJMET7YuuFzTCkwg02p850PnqCC57-BZNJhyKT7Q@mail.gmail.com>
+Date: Wed, 17 Jul 2024 18:24:35 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Masahiro Yamada" <masahiroy@kernel.org>,
+ "Arnd Bergmann" <arnd@kernel.org>
+Cc: "Linus Torvalds" <torvalds@linux-foundation.org>,
+ linux-kbuild@vger.kernel.org, "Nathan Chancellor" <nathan@kernel.org>,
+ "Nicolas Schier" <nicolas@fjasle.eu>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kbuild: mark "FORCE" target as secondary
+Content-Type: text/plain
 
-Commit fbb5c0606fa4 ("kbuild: add syscall table generation to
-scripts/Makefile.asm-headers") started to generate syscall headers
-for architectures using generic syscalls.
+On Wed, Jul 17, 2024, at 17:18, Masahiro Yamada wrote:
+>
+> Of course, NACK.
+>
+> Now I am surprised that this broken series was quickly merged
+> into the mainline.
+> I really dislike how you changed scripts/Makefile.asm-headers
+>
+>
+> I will send a correct fix.
+> Please do not break Kbuild even further.
 
-However, these headers are always rebuilt using GNU Make 4.4.1 or newer.
+Should we maybe revert ff96f5c6971c..3db80c999deb then
+and find a better way to do it in 6.12?
 
-When using GNU Make 4.4 or older, these headers are not rebuilt when the
-command to generate them is changed, despite the use of the if_changed
-macro.
-
-scripts/Makefile.asm-headers now uses FORCE, but it is not marked as
-.PHONY. To handle the command line change correctly, .*.cmd files must
-be included.
-
-Fixes: fbb5c0606fa4 ("kbuild: add syscall table generation to scripts/Makefile.asm-headers")
-Reported-by: Linus Torvalds <torvalds@linux-foundation.org>
-Closes: https://lore.kernel.org/lkml/CAHk-=wibB7SvXnUftBgAt+4-3vEKRpvEgBeDEH=i=j2GvDitoA@mail.gmail.com/
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
- scripts/Makefile.asm-headers | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/scripts/Makefile.asm-headers b/scripts/Makefile.asm-headers
-index 6b8e8318e810..8a4856e74180 100644
---- a/scripts/Makefile.asm-headers
-+++ b/scripts/Makefile.asm-headers
-@@ -87,12 +87,20 @@ $(obj)/unistd_compat_%.h: $(syscalltbl) $(syshdr) FORCE
- $(obj)/syscall_table_%.h: $(syscalltbl) $(systbl) FORCE
- 	$(call if_changed,systbl)
- 
-+targets := $(syscall-y)
-+
- # Create output directory. Skip it if at least one old header exists
- # since we know the output directory already exists.
- ifeq ($(old-headers),)
- $(shell mkdir -p $(obj))
- endif
- 
-+PHONY += FORCE
-+
- FORCE:
- 
-+existing-targets := $(wildcard $(sort $(targets)))
-+
-+-include $(foreach f,$(existing-targets),$(dir $(f)).$(notdir $(f)).cmd)
-+
- .PHONY: $(PHONY)
--- 
-2.43.0
+      Arnd
 
 
