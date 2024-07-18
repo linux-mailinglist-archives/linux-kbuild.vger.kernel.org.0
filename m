@@ -1,399 +1,202 @@
-Return-Path: <linux-kbuild+bounces-2590-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2591-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0DF79346D4
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Jul 2024 05:46:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66FD9934720
+	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Jul 2024 06:23:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0B515B221A6
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Jul 2024 03:45:59 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id ACB3CB214A4
+	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Jul 2024 04:23:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDD8E347A2;
-	Thu, 18 Jul 2024 03:45:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D15A3C6A6;
+	Thu, 18 Jul 2024 04:23:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SG4LYBXO"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D0DF186A;
-	Thu, 18 Jul 2024 03:45:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.191
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB9141E520;
+	Thu, 18 Jul 2024 04:23:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721274354; cv=none; b=Px4xlBQG4oM0cHHfzS1Du4YawGM184VbM6BB5VRGXsrbx6juSGY4m3CcDi/vZnDMjTfqZNmN3ggsqsO4P+9syH6dzDShUQySn0YEAMzYe6ZSWvIKGiCqv11CfGqg54l7PMoPBhTYwIWhdcGTOawXNRrU5r6WYNfmxJl6/suy1nE=
+	t=1721276618; cv=none; b=bwcH0spAXsdy9Grrzu2lwqVkmEwuXUzuSpI93Z7WgbrJJ/DPXskedbwKfFIO6OjBM8aZuHlAmIPHKOOUanG0e4tH499jlYDv9LimRPzLezPAIa2pjCEDBr5fKzpuyTq+aBRQQ2zgAhISeBBfdrreOi8HuvxxzA1VtGzU1EVLvZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721274354; c=relaxed/simple;
-	bh=FdYMGPT7Hy6Qh0gXu0Hw0d+l6KWD4TZFv+ZyTRrEsRA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Lvidxm0H25zr1RaV6ZpPjt7fiq+QoxDsMk/kwZFnHLWfZ7kPh4WPJlQZVWssgOeqbqNIn8eW3vkU+5C4lWmjSlbmAcJUU7d4kE+QozEZ9qeklKFy10k7FcJY73DAAOV5rAEAnSh8yNDKeJqswgfPadsK1mbsobzDz1rhrYw899c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.191
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.88.163])
-	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4WPdrh3Hnxz28fXb;
-	Thu, 18 Jul 2024 11:41:24 +0800 (CST)
-Received: from dggpeml500012.china.huawei.com (unknown [7.185.36.15])
-	by mail.maildlp.com (Postfix) with ESMTPS id 8691718001B;
-	Thu, 18 Jul 2024 11:45:43 +0800 (CST)
-Received: from [10.67.111.172] (10.67.111.172) by
- dggpeml500012.china.huawei.com (7.185.36.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Thu, 18 Jul 2024 11:45:43 +0800
-Message-ID: <c87eeb9c-5f54-480c-17c2-01339416b1b9@huawei.com>
-Date: Thu, 18 Jul 2024 11:45:42 +0800
+	s=arc-20240116; t=1721276618; c=relaxed/simple;
+	bh=BC1ly2XhabHaargWQzMhTuH7TYChEjz2PkjD7IEgYLU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GDgqS63bm0Dan26J7z4YDW2lykZU70PYhg2XIgEEnLjgtVTBlDzjzdy//wSK8GDc9B8TdZvhDgoE9yoD54jJotZOb1CruB+VoVc4gA1p+ZH6NLaqzmhmiDdRYhiagbdiAsWFe4mc8JWCkcF2xSaG4Y3ubTvcXSrj+I8vtYTviuM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SG4LYBXO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F486C4AF0B;
+	Thu, 18 Jul 2024 04:23:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1721276617;
+	bh=BC1ly2XhabHaargWQzMhTuH7TYChEjz2PkjD7IEgYLU=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=SG4LYBXOKiCD6ZNct82wKnaBIZ4gHkZVV653qh3I8tI2sO74ty6vY/4AGvV+4/bfb
+	 DNtFmkmlMmSB2M5nls/Uj3R2maIV/d2NF70mfGPuVwBT4Cj+RjxCDPYEYIBnCh4GbF
+	 spEHSOdivph9ZYs9H1bG3iulREJLRifGN3HDpvcjR1N75QpcTCwI0erwYSNZ/QI8TT
+	 O3l9UfSjo9a3L96J8laRr0Cwqz8zOVkTeni8pwn0Vw2QDclzUODt3PEEPFWLxsBlJA
+	 IXL6hifdHde9pbf9sfR9VnsYRtfWPDh59TFLcZVYln9n2ih2OsgcjnBeFPr5qJRzCw
+	 2kPWwOGzTFYQA==
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2eee083c044so4220471fa.3;
+        Wed, 17 Jul 2024 21:23:37 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUFLP2AejJC9K7VNaVuTO4IGVQH3JKqSVCfjLK9aw116Dy1k+jNk7iabAuI0/eHrQ7vjouDpZ1OF+a1GDAMJDoEHSHr+Ry6Trh0ax//x1RWPhBxR5a7KZxr5fI1Ud5iBlJXoDpQtfSO4rUops6hex9prSfwD6rLT6aJRALG9pC1LBMPqw6u4bMoAkqk
+X-Gm-Message-State: AOJu0YxfU13/fEWFcE5fykqnBR98/K78efle9+SBODelM6w7b8W9fP5S
+	/pKbkSu8jywUD/apHNkOWfzQTLOsyMLSLfruEQB3CGot48dhFRMAJWn2cysWjB18ydbnZerPV3B
+	Gecd0moIAOfBKyz7xe5x9+UPE024=
+X-Google-Smtp-Source: AGHT+IHVMC7ZBPrOh8Be2nCK/k5Smu8cjV1zA2tfZpClitYjhQaSXezCsrYpK5lpzYRa0zfrXfCt+CglMTNx90aiosU=
+X-Received: by 2002:a05:651c:b2b:b0:2eb:d924:43fb with SMTP id
+ 38308e7fff4ca-2ef05d4d2abmr9556511fa.41.1721276616278; Wed, 17 Jul 2024
+ 21:23:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH 2/6] kallsyms: Emit symbol at the holes in the text
-Content-Language: en-US
-To: Masahiro Yamada <masahiroy@kernel.org>
-CC: <rostedt@goodmis.org>, <mhiramat@kernel.org>, <mark.rutland@arm.com>,
-	<mpe@ellerman.id.au>, <npiggin@gmail.com>, <christophe.leroy@csgroup.eu>,
-	<naveen.n.rao@linux.ibm.com>, <tglx@linutronix.de>, <mingo@redhat.com>,
-	<bp@alien8.de>, <dave.hansen@linux.intel.com>, <x86@kernel.org>,
-	<hpa@zytor.com>, <mcgrof@kernel.org>, <mathieu.desnoyers@efficios.com>,
-	<nathan@kernel.org>, <nicolas@fjasle.eu>, <kees@kernel.org>,
-	<james.clark@arm.com>, <kent.overstreet@linux.dev>, <yhs@fb.com>,
-	<jpoimboe@kernel.org>, <peterz@infradead.org>,
-	<linux-kernel@vger.kernel.org>, <linux-trace-kernel@vger.kernel.org>,
-	<linuxppc-dev@lists.ozlabs.org>, <linux-modules@vger.kernel.org>,
-	<linux-kbuild@vger.kernel.org>, <bpf@vger.kernel.org>
-References: <20240613133711.2867745-1-zhengyejian1@huawei.com>
- <20240613133711.2867745-3-zhengyejian1@huawei.com>
- <CAK7LNAQaLc6aDK85qQtPHoCkQSGyL-TxXjpgJTfehe2Q1=jMSA@mail.gmail.com>
-From: Zheng Yejian <zhengyejian1@huawei.com>
-In-Reply-To: <CAK7LNAQaLc6aDK85qQtPHoCkQSGyL-TxXjpgJTfehe2Q1=jMSA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpeml500012.china.huawei.com (7.185.36.15)
+References: <20240715144529.101634-2-masahiroy@kernel.org> <202407170104.dCe5MKsA-lkp@intel.com>
+ <CAK7LNARmJcyyzL-jVJfBPi3W684LTDmuhMf1koF0TXoCpKTmcw@mail.gmail.com> <202407171517.EC9EE07@keescook>
+In-Reply-To: <202407171517.EC9EE07@keescook>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Thu, 18 Jul 2024 13:22:59 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQaXiYviTz=pYnnjsrfssw7P+o7eXTAuY_30cayRRv8KA@mail.gmail.com>
+Message-ID: <CAK7LNAQaXiYviTz=pYnnjsrfssw7P+o7eXTAuY_30cayRRv8KA@mail.gmail.com>
+Subject: Re: [PATCH 1/3] fortify: use if_changed_dep to record header
+ dependency in *.cmd files
+To: Kees Cook <kees@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, linux-hardening@vger.kernel.org, 
+	oe-kbuild-all@lists.linux.dev, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2024/7/16 16:33, Masahiro Yamada wrote:
-> On Thu, Jun 13, 2024 at 10:36 PM Zheng Yejian <zhengyejian1@huawei.com> wrote:
->>
->> When a weak type function is overridden, its symbol will be removed
->> from the symbol table, but its code will not be removed. Besides,
->> due to lacking of size for kallsyms, kernel compute function size by
->> substracting its symbol address from its next symbol address (see
->> kallsyms_lookup_size_offset()). These will cause that size of some
->> function is computed to be larger than it actually is, just because
->> symbol of its following weak function is removed.
->>
->> This issue also causes multiple __fentry__ locations to be counted in
->> the some function scope, and eventually causes ftrace_location() to find
->> wrong __fentry__ location. It was reported in
->> Link: https://lore.kernel.org/all/20240607115211.734845-1-zhengyejian1@huawei.com/
->>
->> Peter suggested to change scipts/kallsyms.c to emit readily
->> identifiable symbol names for all the weak junk, eg:
->>
->>    __weak_junk_NNNNN
->>
->> The name of this kind symbol needs some discussion, but it's temporarily
->> called "__hole_symbol_XXXXX" in this patch:
->> 1. Pass size info to scripts/kallsyms  (see mksysmap());
->> 2. Traverse sorted function symbols, if one function address plus its
->>     size less than next function address, it means there's a hole, then
->>     emit a symbol "__hole_symbol_XXXXX" there which type is 't'.
->>
->> After this patch, the effect is as follows:
->>
->>    $ cat /proc/kallsyms | grep -A 3 do_one_initcall
->>    ffffffff810021e0 T do_one_initcall
->>    ffffffff8100245e t __hole_symbol_XXXXX
->>    ffffffff810024a0 t __pfx_rootfs_init_fs_context
->>
->> Suggested-by: Peter Zijlstra <peterz@infradead.org>
->> Signed-off-by: Zheng Yejian <zhengyejian1@huawei.com>
-> 
-> 
-> 
-> With my quick test, "t__hole_symbol_XXXXX" was encoded
-> into the following 10-byte stream.
-> 
-> .byte 0x09, 0x94, 0xbf, 0x18, 0xf3, 0x3d, 0xce, 0xd1, 0xd1, 0x58
-> 
-> 
-> 
-> Now "t__hole_symbol_XXXXX" is the most common symbol name.
-> However, 10 byte is consumed for every instance of
-> "t__hole_symbol_XXXXX".
-> 
-> This is much less efficient thanI had expected,
-> although I did not analyze the logic of this inefficiency.
+On Thu, Jul 18, 2024 at 7:19=E2=80=AFAM Kees Cook <kees@kernel.org> wrote:
 >
-Hi, Masahiro!
+> On Wed, Jul 17, 2024 at 01:46:32PM +0900, Masahiro Yamada wrote:
+> > On Wed, Jul 17, 2024 at 2:51=E2=80=AFAM kernel test robot <lkp@intel.co=
+m> wrote:
+> > >
+> > > Hi Masahiro,
+> > >
+> > > kernel test robot noticed the following build errors:
+> > >
+> > > [auto build test ERROR on linus/master]
+> > > [also build test ERROR on v6.10 next-20240716]
+> > > [cannot apply to akpm-mm/mm-nonmm-unstable kees/for-next/hardening ke=
+es/for-next/pstore kees/for-next/kspp]
+> > > [If your patch is applied to the wrong git tree, kindly drop us a not=
+e.
+> > > And when submitting patch, we suggest to use '--base' as documented i=
+n
+> > > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > >
+> > > url:    https://github.com/intel-lab-lkp/linux/commits/Masahiro-Yamad=
+a/fortify-use-if_changed_dep-to-record-header-dependency-in-cmd-files/20240=
+715-224820
+> > > base:   linus/master
+> > > patch link:    https://lore.kernel.org/r/20240715144529.101634-2-masa=
+hiroy%40kernel.org
+> > > patch subject: [PATCH 1/3] fortify: use if_changed_dep to record head=
+er dependency in *.cmd files
+> > > config: i386-randconfig-004-20240716 (https://download.01.org/0day-ci=
+/archive/20240717/202407170104.dCe5MKsA-lkp@intel.com/config)
+> > > compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+> > > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/a=
+rchive/20240717/202407170104.dCe5MKsA-lkp@intel.com/reproduce)
+> > >
+> > > If you fix the issue in a separate patch/commit (i.e. not just a new =
+version of
+> > > the same patch/commit), kindly add following tags
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202407170104.dCe5MKsA=
+-lkp@intel.com/
+> > >
+> > > All errors (new ones prefixed by >>):
+> > >
+> > > >> fixdep: error opening file: lib/test_fortify/.write_overflow-memcp=
+y.log.d: No such file or directory
+> > > --
+> > > >> fixdep: error opening file: lib/test_fortify/.read_overflow2-memcm=
+p.log.d: No such file or directory
+> > > --
+> > > >> fixdep: error opening file: lib/test_fortify/.read_overflow-memchr=
+.log.d: No such file or directory
+> > > --
+> > > >> fixdep: error opening file: lib/test_fortify/.write_overflow-strcp=
+y-lit.log.d: No such file or directory
+> > > --
+> > > >> fixdep: error opening file: lib/test_fortify/.read_overflow2-memmo=
+ve.log.d: No such file or directory
+> > > --
+> > > >> fixdep: error opening file: lib/test_fortify/.write_overflow-strnc=
+py-src.log.d: No such file or directory
+> > > --
+> > > >> fixdep: error opening file: lib/test_fortify/.read_overflow-memcmp=
+.log.d: No such file or directory
+> > > --
+> > > >> fixdep: error opening file: lib/test_fortify/.read_overflow-memsca=
+n.log.d: No such file or directory
+> > > --
+> > > >> fixdep: error opening file: lib/test_fortify/.write_overflow-strcp=
+y.log.d: No such file or directory
+> > > --
+> > > >> fixdep: error opening file: lib/test_fortify/.write_overflow-memmo=
+ve.log.d: No such file or directory
+> > > --
+> > > >> fixdep: error opening file: lib/test_fortify/.write_overflow-memse=
+t.log.d: No such file or directory
+> > > ..
+> >
+> >
+> >
+> > This issue seems to occur with GCC <=3D7
+> >
+> >
+> > $ echo 'void b(void) __attribute__((__error__(""))); void a(void) {
+> > b(); }' | gcc -Wp,-MMD,test.d -c -o /dev/null -x c -
+> >
+> >
+> > did not create *.d with GCC <=3D 7.
+> >
+> > I do not see the issue with GCC >=3D 8 or Clang.
+>
+> Any idea why this happens here and not for other sources in the tree?
 
-In my local test, "t__hole_symbol_XXXXX" was finally encoded
-into just one byte. See "kallsyms_token_table" in the .tmp_vmlinux.kallsyms2.S:
 
-   kallsyms_token_table:
-         [...]
-         .asciz  "t__hole_symbol_XXXXX"
-         .asciz  "hole_symbol_XXXXX"
-         .asciz  "e_symbol_XXXXX"
-         .asciz  "XXXXX"
-         .asciz  "XXX"
-         .asciz  "e_symbol_"
-         .asciz  "ymbol_"
-         .asciz  "ymb"
-         .asciz  "hol"
-         .asciz  "ol_"
-         .asciz  "pfx"
-         .asciz  "pf"
-         .asciz  "e_s"
-         .asciz  "ym"
-         .asciz  "t__"
-         .asciz  "_s"
-         .asciz  "ol"
-         .asciz  "__"
-         .asciz  "XX"
+Because the logic is opposite.
 
-But it would still takes up several tokens due to substrings of
-"t__hole_symbol_XXXXX" would also become the most common ones.
-After this patch, the number of "t__hole_symbol_XXXXX" will be ~30% of the total.
 
-> 
-> 
-> 
-> 
-> 
-> 
->> ---
->>   scripts/kallsyms.c      | 101 +++++++++++++++++++++++++++++++++++++++-
->>   scripts/link-vmlinux.sh |   4 +-
->>   scripts/mksysmap        |   2 +-
->>   3 files changed, 102 insertions(+), 5 deletions(-)
->>
->> diff --git a/scripts/kallsyms.c b/scripts/kallsyms.c
->> index 6559a9802f6e..5c4cde864a04 100644
->> --- a/scripts/kallsyms.c
->> +++ b/scripts/kallsyms.c
->> @@ -35,6 +35,7 @@
->>   struct sym_entry {
->>          struct sym_entry *next;
->>          unsigned long long addr;
->> +       unsigned long long size;
->>          unsigned int len;
->>          unsigned int seq;
->>          unsigned int start_pos;
->> @@ -74,6 +75,7 @@ static int token_profit[0x10000];
->>   static unsigned char best_table[256][2];
->>   static unsigned char best_table_len[256];
->>
->> +static const char hole_symbol[] = "__hole_symbol_XXXXX";
->>
->>   static void usage(void)
->>   {
->> @@ -130,8 +132,16 @@ static struct sym_entry *read_symbol(FILE *in, char **buf, size_t *buf_len)
->>          size_t len;
->>          ssize_t readlen;
->>          struct sym_entry *sym;
->> +       unsigned long long size = 0;
->>
->>          errno = 0;
->> +       /*
->> +        * Example of expected symbol format:
->> +        * 1. symbol with size info:
->> +        *    ffffffff81000070 00000000000001d7 T __startup_64
->> +        * 2. symbol without size info:
->> +        *    0000000002a00000 A text_size
->> +        */
->>          readlen = getline(buf, buf_len, in);
->>          if (readlen < 0) {
->>                  if (errno) {
->> @@ -145,9 +155,24 @@ static struct sym_entry *read_symbol(FILE *in, char **buf, size_t *buf_len)
->>                  (*buf)[readlen - 1] = 0;
->>
->>          addr = strtoull(*buf, &p, 16);
->> +       if (*buf == p || *p++ != ' ') {
->> +               fprintf(stderr, "line format error: unable to parse address\n");
->> +               exit(EXIT_FAILURE);
->> +       }
->> +
->> +       if (*p == '0') {
->> +               char *str = p;
->>
->> -       if (*buf == p || *p++ != ' ' || !isascii((type = *p++)) || *p++ != ' ') {
->> -               fprintf(stderr, "line format error\n");
->> +               size = strtoull(str, &p, 16);
->> +               if (str == p || *p++ != ' ') {
->> +                       fprintf(stderr, "line format error: unable to parse size\n");
->> +                       exit(EXIT_FAILURE);
->> +               }
->> +       }
->> +
->> +       type = *p++;
->> +       if (!isascii(type) || *p++ != ' ') {
->> +               fprintf(stderr, "line format error: unable to parse type\n");
->>                  exit(EXIT_FAILURE);
->>          }
->>
->> @@ -182,6 +207,7 @@ static struct sym_entry *read_symbol(FILE *in, char **buf, size_t *buf_len)
->>                  exit(EXIT_FAILURE);
->>          }
->>          sym->addr = addr;
->> +       sym->size = size;
->>          sym->len = len;
->>          sym->sym[0] = type;
->>          strcpy(sym_name(sym), name);
->> @@ -795,6 +821,76 @@ static void sort_symbols(void)
->>          qsort(table, table_cnt, sizeof(table[0]), compare_symbols);
->>   }
->>
->> +static int may_exist_hole_after_symbol(const struct sym_entry *se)
-> 
-> 
-> The return type should be bool.
-> 
+For other locations, you need to write the correct code.
+When it is compiled successfully, *.d is generated as well.
 
-Yes!
 
-> 
-> 
->> +{
->> +       char type = se->sym[0];
->> +
->> +       /* Only check text symbol or weak symbol */
->> +       if (type != 't' && type != 'T' &&
->> +           type != 'w' && type != 'W')
->> +               return 0;
->> +       /* Symbol without size has no hole */
->> +       return se->size != 0;
->> +}
->> +
->> +static struct sym_entry *gen_hole_symbol(unsigned long long addr)
->> +{
->> +       struct sym_entry *sym;
->> +       static size_t len = sizeof(hole_symbol);
->> +
->> +       /* include type field */
->> +       sym = malloc(sizeof(*sym) + len + 1);
->> +       if (!sym) {
->> +               fprintf(stderr, "unable to allocate memory for hole symbol\n");
->> +               exit(EXIT_FAILURE);
->> +       }
->> +       sym->addr = addr;
->> +       sym->size = 0;
->> +       sym->len = len;
->> +       sym->sym[0] = 't';
->> +       strcpy(sym_name(sym), hole_symbol);
->> +       sym->percpu_absolute = 0;
->> +       return sym;
->> +}
->> +
->> +static void emit_hole_symbols(void)
->> +{
->> +       unsigned int i, pos, nr_emit;
->> +       struct sym_entry **new_table;
->> +       unsigned int new_cnt;
->> +
->> +       nr_emit = 0;
->> +       for (i = 0; i < table_cnt - 1; i++) {
->> +               if (may_exist_hole_after_symbol(table[i]) &&
->> +                   table[i]->addr + table[i]->size < table[i+1]->addr)
->> +                       nr_emit++;
->> +       }
->> +       if (!nr_emit)
->> +               return;
->> +
->> +       new_cnt = table_cnt + nr_emit;
->> +       new_table = malloc(sizeof(*new_table) * new_cnt);
-> 
-> 
-> Do you need to allocate another huge table?
-> 
-> You can use realloc() to append the room for nr_emit
-> if you iterate the table in the reverse order.
-> 
 
-Yes, it would be much better. If it turns out to be the
-"emit hole symbol" solution, I'll change it to that in the next version,
-actually, I forgot to mark this series as "RFC".
+Under lib/test_fortify/, you intentionally incorrect code.
+GCC emits a compile error, and test_fortify.sh checks
+the error message.
+I believe *.d should be still generated unless a pre-processor error occurs=
+.
 
-> 
-> 
-> 
-> 
-> 
-> 
->> +       if (!new_table) {
->> +               fprintf(stderr, "unable to allocate memory for new table\n");
->> +               exit(EXIT_FAILURE);
->> +       }
->> +
->> +       pos = 0;
->> +       for (i = 0; i < table_cnt; i++) {
->> +               unsigned long long addr;
->> +
->> +               new_table[pos++] = table[i];
->> +               if ((i == table_cnt - 1) || !may_exist_hole_after_symbol(table[i]))
->> +                       continue;
->> +               addr = table[i]->addr + table[i]->size;
->> +               if (addr < table[i+1]->addr)
->> +                       new_table[pos++] = gen_hole_symbol(addr);
->> +       }
->> +       free(table);
->> +       table = new_table;
->> +       table_cnt = new_cnt;
->> +}
->> +
->>   static void make_percpus_absolute(void)
->>   {
->>          unsigned int i;
->> @@ -854,6 +950,7 @@ int main(int argc, char **argv)
->>          if (absolute_percpu)
->>                  make_percpus_absolute();
->>          sort_symbols();
->> +       emit_hole_symbols();
->>          if (base_relative)
->>                  record_relative_base();
->>          optimize_token_table();
->> diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
->> index 518c70b8db50..8e1373902bfe 100755
->> --- a/scripts/link-vmlinux.sh
->> +++ b/scripts/link-vmlinux.sh
->> @@ -189,11 +189,11 @@ kallsyms_step()
->>   }
->>
->>   # Create map file with all symbols from ${1}
->> -# See mksymap for additional details
->> +# See mksysmap for additional details
->>   mksysmap()
->>   {
->>          info NM ${2}
->> -       ${NM} -n "${1}" | sed -f "${srctree}/scripts/mksysmap" > "${2}"
->> +       ${NM} -nS "${1}" | sed -f "${srctree}/scripts/mksysmap" > "${2}"
->>   }
->>
->>   sorttable()
->> diff --git a/scripts/mksysmap b/scripts/mksysmap
->> index c12723a04655..7a4415f21143 100755
->> --- a/scripts/mksysmap
->> +++ b/scripts/mksysmap
->> @@ -2,7 +2,7 @@
->>   # SPDX-License-Identifier: GPL-2.0-only
->>   #
->>   # sed script to filter out symbols that are not needed for System.map,
->> -# or not suitable for kallsyms. The input should be 'nm -n <file>'.
->> +# or not suitable for kallsyms. The input should be 'nm -nS <file>'.
->>   #
->>   # System.map is used by module-init tools and some debugging
->>   # tools to retrieve the actual addresses of symbols in the kernel.
->> --
->> 2.25.1
->>
->>
-> 
-> 
 
--- 
-Thanks,
-Zheng Yejian
 
+
+
+> > One quick solution is to skip the test for GCC <=3D 7.
+>
+> I'd be fine with that -- it is designed to catch regressions/misbehaviour=
+s
+> in newly release compilers so I don't mind dropping checks against older
+> versions.
+>
+> --
+> Kees Cook
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
