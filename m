@@ -1,202 +1,104 @@
-Return-Path: <linux-kbuild+bounces-2591-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2592-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66FD9934720
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Jul 2024 06:23:45 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0F13935109
+	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Jul 2024 19:04:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id ACB3CB214A4
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Jul 2024 04:23:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6A07E1F2146A
+	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Jul 2024 17:04:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D15A3C6A6;
-	Thu, 18 Jul 2024 04:23:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2624A143C46;
+	Thu, 18 Jul 2024 17:03:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SG4LYBXO"
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="OtcYOsD7"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB9141E520;
-	Thu, 18 Jul 2024 04:23:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6153C12FB13
+	for <linux-kbuild@vger.kernel.org>; Thu, 18 Jul 2024 17:03:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721276618; cv=none; b=bwcH0spAXsdy9Grrzu2lwqVkmEwuXUzuSpI93Z7WgbrJJ/DPXskedbwKfFIO6OjBM8aZuHlAmIPHKOOUanG0e4tH499jlYDv9LimRPzLezPAIa2pjCEDBr5fKzpuyTq+aBRQQ2zgAhISeBBfdrreOi8HuvxxzA1VtGzU1EVLvZg=
+	t=1721322238; cv=none; b=ML13rWHw5qgBCUoAaW5Rzd7eErcDIXFziPP4TTKjTcnkvPvqoDkSIM71cN2dao7jwT8/2PpgdIfK9uZh/aBH8iI33R2hty1l9dAKy74KijdMPCP89HPnI1SiyENeS4Xbl0nE5uA/4sJ+jTgbOhlMK2VZge4o4pCQWUcx397lCFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721276618; c=relaxed/simple;
-	bh=BC1ly2XhabHaargWQzMhTuH7TYChEjz2PkjD7IEgYLU=;
+	s=arc-20240116; t=1721322238; c=relaxed/simple;
+	bh=eMxvtXjmBofXpgHzdVBZoD12gU0IqrUEaQAh4h0MU28=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GDgqS63bm0Dan26J7z4YDW2lykZU70PYhg2XIgEEnLjgtVTBlDzjzdy//wSK8GDc9B8TdZvhDgoE9yoD54jJotZOb1CruB+VoVc4gA1p+ZH6NLaqzmhmiDdRYhiagbdiAsWFe4mc8JWCkcF2xSaG4Y3ubTvcXSrj+I8vtYTviuM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SG4LYBXO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F486C4AF0B;
-	Thu, 18 Jul 2024 04:23:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721276617;
-	bh=BC1ly2XhabHaargWQzMhTuH7TYChEjz2PkjD7IEgYLU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=SG4LYBXOKiCD6ZNct82wKnaBIZ4gHkZVV653qh3I8tI2sO74ty6vY/4AGvV+4/bfb
-	 DNtFmkmlMmSB2M5nls/Uj3R2maIV/d2NF70mfGPuVwBT4Cj+RjxCDPYEYIBnCh4GbF
-	 spEHSOdivph9ZYs9H1bG3iulREJLRifGN3HDpvcjR1N75QpcTCwI0erwYSNZ/QI8TT
-	 O3l9UfSjo9a3L96J8laRr0Cwqz8zOVkTeni8pwn0Vw2QDclzUODt3PEEPFWLxsBlJA
-	 IXL6hifdHde9pbf9sfR9VnsYRtfWPDh59TFLcZVYln9n2ih2OsgcjnBeFPr5qJRzCw
-	 2kPWwOGzTFYQA==
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2eee083c044so4220471fa.3;
-        Wed, 17 Jul 2024 21:23:37 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUFLP2AejJC9K7VNaVuTO4IGVQH3JKqSVCfjLK9aw116Dy1k+jNk7iabAuI0/eHrQ7vjouDpZ1OF+a1GDAMJDoEHSHr+Ry6Trh0ax//x1RWPhBxR5a7KZxr5fI1Ud5iBlJXoDpQtfSO4rUops6hex9prSfwD6rLT6aJRALG9pC1LBMPqw6u4bMoAkqk
-X-Gm-Message-State: AOJu0YxfU13/fEWFcE5fykqnBR98/K78efle9+SBODelM6w7b8W9fP5S
-	/pKbkSu8jywUD/apHNkOWfzQTLOsyMLSLfruEQB3CGot48dhFRMAJWn2cysWjB18ydbnZerPV3B
-	Gecd0moIAOfBKyz7xe5x9+UPE024=
-X-Google-Smtp-Source: AGHT+IHVMC7ZBPrOh8Be2nCK/k5Smu8cjV1zA2tfZpClitYjhQaSXezCsrYpK5lpzYRa0zfrXfCt+CglMTNx90aiosU=
-X-Received: by 2002:a05:651c:b2b:b0:2eb:d924:43fb with SMTP id
- 38308e7fff4ca-2ef05d4d2abmr9556511fa.41.1721276616278; Wed, 17 Jul 2024
- 21:23:36 -0700 (PDT)
+	 To:Cc:Content-Type; b=YlNlsjNhGBbAt/GTN3jeEkX8dfwwOlhM/e9FfUfEqVU89ioMDpp66riL20fn62pz/oMPzR7OZjrd22q1ajXn6NIEw7CrjdJM3+1h6wkIJwV2WUpwHYHxHmoXgDndgk+YZ6aKPpv/Bl6Ib7vVVeMuoAH5khfCFMjF+MF2YaR7rf4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=OtcYOsD7; arc=none smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a77ec5d3b0dso120502566b.0
+        for <linux-kbuild@vger.kernel.org>; Thu, 18 Jul 2024 10:03:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google; t=1721322234; x=1721927034; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=mSur0PwJ6RbW9RkHokWDBMKMWW1APUjGaX6bxJxcylw=;
+        b=OtcYOsD7YhRjsbmOxCPXznNTVfJeQ+lqoGS4KDMDYzyZG1nvRkvNJyP+K9m8KWqdWZ
+         UkbQhAFBqb3LLRzS815OM5yukhGs529hpB/UrvrV7c4FACK7yTRAef81XBHlQgai3/84
+         2quqLZtK0PekBQsd4QbLONMa+GlQj9K7AW1cA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721322234; x=1721927034;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mSur0PwJ6RbW9RkHokWDBMKMWW1APUjGaX6bxJxcylw=;
+        b=ZpoYQ1hXwzfuF0A4opkVLFL68cO8PRS644fN6Eg56GYPyhU8wtcnS2kn47PSy+6K2V
+         XO8AQIayFqT33WtCW7pCJnXWI+9qJsgSMpljNh/8bX3muCNWlsQinb20HEwQyeZjKGam
+         GnL2ly7+R68gouHAgKxT2cVY85CyXNhdysDmerT9mcBeNNYGyL1sSVIPHzQBterhHUBB
+         MVTx6TwpfG4FZemiIN6PjKFLWN4taymFNK30lDRyxYtxy4fuO9tix0PoqXAahgtxW1On
+         LNmClHQq0+ZGTEtfkE2ETJZinV900s28c9pQU1Z0PUxZ0zF2DPBqvwDz41IoZ0bjJurm
+         LTww==
+X-Forwarded-Encrypted: i=1; AJvYcCUzjNB28PvSSTPczi2fvt3E9UkzV7+N6MAym6FFy8r/Cl7XgS3r3U0EDbDftnKXUv+kD1bZhAKlgpfjE+IdARHjk35iFfyjKpJEEDqg
+X-Gm-Message-State: AOJu0YxO1Wr81PvvtLSQIBKL6uwCjWtYiqrrVpL91rf5b06jhfNSgz8v
+	Hz9GmbYYN8JUafXUamc+2TIqFhGM1dsCSukxkGCdcYo54YH6wnsRncW8WKfRJXrxFc8o8jx1DLn
+	YIE3LMQ==
+X-Google-Smtp-Source: AGHT+IGnSmR+tZ/9pIP1Mw2iGwfpvW39SuuEsRYEyKkHVoKIdRVkBj+i1CA9+dQdLMFrDhDTRFmwpA==
+X-Received: by 2002:a17:906:254e:b0:a75:2387:7801 with SMTP id a640c23a62f3a-a7a01341908mr357218366b.61.1721322234616;
+        Thu, 18 Jul 2024 10:03:54 -0700 (PDT)
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com. [209.85.208.51])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a79bc7ff707sm587656366b.146.2024.07.18.10.03.53
+        for <linux-kbuild@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 18 Jul 2024 10:03:53 -0700 (PDT)
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5a156556fb4so56151a12.3
+        for <linux-kbuild@vger.kernel.org>; Thu, 18 Jul 2024 10:03:53 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUpGSQrnwfKac2jJZ60sWYr7i/gBQRZf7akvnbDnX341sXg2k20EHK5syYFO7aFe9THmYCtRUHgXiThqJyC9Nh+wNbp9U/3wBAUtbVP
+X-Received: by 2002:a05:6402:35c8:b0:57d:2c9:6494 with SMTP id
+ 4fb4d7f45d1cf-5a05b9da300mr4830368a12.10.1721322233393; Thu, 18 Jul 2024
+ 10:03:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240715144529.101634-2-masahiroy@kernel.org> <202407170104.dCe5MKsA-lkp@intel.com>
- <CAK7LNARmJcyyzL-jVJfBPi3W684LTDmuhMf1koF0TXoCpKTmcw@mail.gmail.com> <202407171517.EC9EE07@keescook>
-In-Reply-To: <202407171517.EC9EE07@keescook>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Thu, 18 Jul 2024 13:22:59 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQaXiYviTz=pYnnjsrfssw7P+o7eXTAuY_30cayRRv8KA@mail.gmail.com>
-Message-ID: <CAK7LNAQaXiYviTz=pYnnjsrfssw7P+o7eXTAuY_30cayRRv8KA@mail.gmail.com>
-Subject: Re: [PATCH 1/3] fortify: use if_changed_dep to record header
- dependency in *.cmd files
-To: Kees Cook <kees@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, linux-hardening@vger.kernel.org, 
-	oe-kbuild-all@lists.linux.dev, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+References: <20240717162421.1402773-1-masahiroy@kernel.org>
+In-Reply-To: <20240717162421.1402773-1-masahiroy@kernel.org>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Thu, 18 Jul 2024 10:03:36 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wipzh7eC2uSiVgDK4_1Gz250S_TNwTyc-9B+UNi9z+rKg@mail.gmail.com>
+Message-ID: <CAHk-=wipzh7eC2uSiVgDK4_1Gz250S_TNwTyc-9B+UNi9z+rKg@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: fix rebuild of generic syscall headers
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	Arnd Bergmann <arnd@arndb.de>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 18, 2024 at 7:19=E2=80=AFAM Kees Cook <kees@kernel.org> wrote:
+On Wed, 17 Jul 2024 at 09:24, Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> On Wed, Jul 17, 2024 at 01:46:32PM +0900, Masahiro Yamada wrote:
-> > On Wed, Jul 17, 2024 at 2:51=E2=80=AFAM kernel test robot <lkp@intel.co=
-m> wrote:
-> > >
-> > > Hi Masahiro,
-> > >
-> > > kernel test robot noticed the following build errors:
-> > >
-> > > [auto build test ERROR on linus/master]
-> > > [also build test ERROR on v6.10 next-20240716]
-> > > [cannot apply to akpm-mm/mm-nonmm-unstable kees/for-next/hardening ke=
-es/for-next/pstore kees/for-next/kspp]
-> > > [If your patch is applied to the wrong git tree, kindly drop us a not=
-e.
-> > > And when submitting patch, we suggest to use '--base' as documented i=
-n
-> > > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> > >
-> > > url:    https://github.com/intel-lab-lkp/linux/commits/Masahiro-Yamad=
-a/fortify-use-if_changed_dep-to-record-header-dependency-in-cmd-files/20240=
-715-224820
-> > > base:   linus/master
-> > > patch link:    https://lore.kernel.org/r/20240715144529.101634-2-masa=
-hiroy%40kernel.org
-> > > patch subject: [PATCH 1/3] fortify: use if_changed_dep to record head=
-er dependency in *.cmd files
-> > > config: i386-randconfig-004-20240716 (https://download.01.org/0day-ci=
-/archive/20240717/202407170104.dCe5MKsA-lkp@intel.com/config)
-> > > compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-> > > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/a=
-rchive/20240717/202407170104.dCe5MKsA-lkp@intel.com/reproduce)
-> > >
-> > > If you fix the issue in a separate patch/commit (i.e. not just a new =
-version of
-> > > the same patch/commit), kindly add following tags
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202407170104.dCe5MKsA=
--lkp@intel.com/
-> > >
-> > > All errors (new ones prefixed by >>):
-> > >
-> > > >> fixdep: error opening file: lib/test_fortify/.write_overflow-memcp=
-y.log.d: No such file or directory
-> > > --
-> > > >> fixdep: error opening file: lib/test_fortify/.read_overflow2-memcm=
-p.log.d: No such file or directory
-> > > --
-> > > >> fixdep: error opening file: lib/test_fortify/.read_overflow-memchr=
-.log.d: No such file or directory
-> > > --
-> > > >> fixdep: error opening file: lib/test_fortify/.write_overflow-strcp=
-y-lit.log.d: No such file or directory
-> > > --
-> > > >> fixdep: error opening file: lib/test_fortify/.read_overflow2-memmo=
-ve.log.d: No such file or directory
-> > > --
-> > > >> fixdep: error opening file: lib/test_fortify/.write_overflow-strnc=
-py-src.log.d: No such file or directory
-> > > --
-> > > >> fixdep: error opening file: lib/test_fortify/.read_overflow-memcmp=
-.log.d: No such file or directory
-> > > --
-> > > >> fixdep: error opening file: lib/test_fortify/.read_overflow-memsca=
-n.log.d: No such file or directory
-> > > --
-> > > >> fixdep: error opening file: lib/test_fortify/.write_overflow-strcp=
-y.log.d: No such file or directory
-> > > --
-> > > >> fixdep: error opening file: lib/test_fortify/.write_overflow-memmo=
-ve.log.d: No such file or directory
-> > > --
-> > > >> fixdep: error opening file: lib/test_fortify/.write_overflow-memse=
-t.log.d: No such file or directory
-> > > ..
-> >
-> >
-> >
-> > This issue seems to occur with GCC <=3D7
-> >
-> >
-> > $ echo 'void b(void) __attribute__((__error__(""))); void a(void) {
-> > b(); }' | gcc -Wp,-MMD,test.d -c -o /dev/null -x c -
-> >
-> >
-> > did not create *.d with GCC <=3D 7.
-> >
-> > I do not see the issue with GCC >=3D 8 or Clang.
+> Commit fbb5c0606fa4 ("kbuild: add syscall table generation to
+> scripts/Makefile.asm-headers") started to generate syscall headers
+> for architectures using generic syscalls.
 >
-> Any idea why this happens here and not for other sources in the tree?
+> However, these headers are always rebuilt using GNU Make 4.4.1 or newer.
 
+Thanks, applied directly to make the rest of my merge window go more
+smoothly when doing my arm64 build testing,
 
-Because the logic is opposite.
-
-
-For other locations, you need to write the correct code.
-When it is compiled successfully, *.d is generated as well.
-
-
-
-Under lib/test_fortify/, you intentionally incorrect code.
-GCC emits a compile error, and test_fortify.sh checks
-the error message.
-I believe *.d should be still generated unless a pre-processor error occurs=
-.
-
-
-
-
-
-> > One quick solution is to skip the test for GCC <=3D 7.
->
-> I'd be fine with that -- it is designed to catch regressions/misbehaviour=
-s
-> in newly release compilers so I don't mind dropping checks against older
-> versions.
->
-> --
-> Kees Cook
-
-
-
---=20
-Best Regards
-Masahiro Yamada
+           Linus
 
