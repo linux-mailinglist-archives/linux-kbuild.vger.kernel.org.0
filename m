@@ -1,121 +1,105 @@
-Return-Path: <linux-kbuild+bounces-2603-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2604-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 169339380B8
-	for <lists+linux-kbuild@lfdr.de>; Sat, 20 Jul 2024 12:31:20 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71CED93813D
+	for <lists+linux-kbuild@lfdr.de>; Sat, 20 Jul 2024 14:13:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AFE491F21DD2
-	for <lists+linux-kbuild@lfdr.de>; Sat, 20 Jul 2024 10:31:19 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A41541C215AE
+	for <lists+linux-kbuild@lfdr.de>; Sat, 20 Jul 2024 12:13:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A04486645;
-	Sat, 20 Jul 2024 10:31:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7AB58003F;
+	Sat, 20 Jul 2024 12:13:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WCPrbLtb"
+	dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b="Eo/FgksV"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3257785923;
-	Sat, 20 Jul 2024 10:31:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from submarine.notk.org (62-210-214-84.rev.poneytelecom.eu [62.210.214.84])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A5FB12D758;
+	Sat, 20 Jul 2024 12:12:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.210.214.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721471462; cv=none; b=AND65rSg+Z8BLbukAhB6/LTu6sHj+CuLIRYb22qmOm3/6+1pfS0s37JlVfb/euBru91UNeYrAjMqR5qLeMPbC9mfaqePTBXmo5LtsiozGdMtEDyn4iqC2coj8+6vc/WeMldQd/myWHrdnUQ4sYg9xmbJhKs76k+cNaDxd67mLz0=
+	t=1721477582; cv=none; b=UDSF3xGf9f/t2v+x/PLDw3f0YJ1vDb8oqj3YJwq5TtK8mHkB1drS2PzjPE3RKh2WBii98GWsmmgN/uWEwDg95VwCk6GohheAN+jlcuBPuGif+S0cAzzPnZutw1ZflEo+FNaUFIhC+F8ovzH5e7rTQjWKBjm/voDExJfXAUMWdfA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721471462; c=relaxed/simple;
-	bh=CdM0mfeBZ7YQywmo6lZ+gVSYc4tCedR3ptcgXbsWHp8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hMtp9Xepj9Cw2v6cgR44Pv6+Ut+knP6UGrxm2ExtKh/QBL2pDgFDI2JxAMKU6YkzdO4Q5w2Cp+cpUBYfmWpoWrbiY7w2bwOkslWDlXbKrmEpYbDNayGB6tQ9elyA3w85ory0+ANJ220f6QiLeMaF7edGM7VjYEBfyw87l+5v5Ek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WCPrbLtb; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB6B7C4AF11;
-	Sat, 20 Jul 2024 10:31:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721471461;
-	bh=CdM0mfeBZ7YQywmo6lZ+gVSYc4tCedR3ptcgXbsWHp8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=WCPrbLtbL4Q6rPYB5/BEnaTJ1XydMHx2TN8Y6Pbn1NyPTV7EApvPrIozFwxVTugKa
-	 yOoyDgWJ0kgnO5xRmL/hfpxktXwAPU2CyOYHr74bujCWaYOEiqT3HXtzwYw0D7JbXg
-	 TpeY7D5XoD01tRZF0AaT4CTJ8o3MqlJhlM2lA4FxSWUMIFiVMFiF+sIRJbRTEv5Hx+
-	 gbawquz4aZ8qsRX+nqfIUaa59duCN/C7yXyQu5xdiFxfJIi4o5azVD3AwqX2uQnniQ
-	 PiM5HJCA8lL0C/5yZ0tXDHNb7/YtohwcJqrDeIYXRUVrAk0MHFjFoeFmzOcADpPTa0
-	 bKiQ41vTyD5sg==
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: linux-kbuild@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH 3/3] kallsyms: add more original symbol type/name in comment lines
-Date: Sat, 20 Jul 2024 19:30:14 +0900
-Message-ID: <20240720103053.2870014-3-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240720103053.2870014-1-masahiroy@kernel.org>
-References: <20240720103053.2870014-1-masahiroy@kernel.org>
+	s=arc-20240116; t=1721477582; c=relaxed/simple;
+	bh=Xi87ZsLBes8imKfr3/ypmOCcdmIQ//FnUI37ovOFKVI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hWGGFxZ8GZRk78vLT6MgtCbUNlg2LdHUqVlvS678+aFHJSr9aKY1tIBu3FXb7Xg6nYSZJ6XzkqB0gS+fCJBFNCVpP1m0+EUBV3eMjK2SdLWRcjQb13/QjwM2Juk0CddpuGHpIX1vYJkEaCqqkXGoJLD5fZEKbVnCqn7xyjc7d/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org; spf=pass smtp.mailfrom=codewreck.org; dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b=Eo/FgksV; arc=none smtp.client-ip=62.210.214.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codewreck.org
+Received: from gaia.codewreck.org (localhost [127.0.0.1])
+	by submarine.notk.org (Postfix) with ESMTPS id B7DCB14C2DD;
+	Sat, 20 Jul 2024 14:12:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org;
+	s=2; t=1721477570;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=inHqTJq2wE7kLgaUNqZKgnIPww4wEJomDyRlKC2R9h0=;
+	b=Eo/FgksVadRqUNUyUnB0X7qPcndBSiD4a9SYL7MxaZAdc+Y78g5FERPnKx8fx1eBEJQGbP
+	AU4SbE5W+hFZfU4XrXkALMPMvxur9R5dHs46K2Zztf6ZWu2JynuGDQMVTY0HjS0TntWiKN
+	/L60cnUgBIXYBV5g7DKn9/ZtYqrC3TETZ0G6oRuiwdPLtXunQAVefg/ipwTDQ+IfwGdTNg
+	PrD0AqxCtxdcgJ1O1zfXd5kh9fO9DfTlW6uk7P/qZuneY0oCLAOvy7YhNJ9KbOioc16Bcr
+	QDETIPsT/BIheyqLqNc49LIyBjdos6CPJ5EzkCFc4lA3vMjr5tTP9llZk2VRTw==
+Received: from gaia (localhost.lan [127.0.0.1])
+	by gaia.codewreck.org (OpenSMTPD) with ESMTP id 901a445a;
+	Sat, 20 Jul 2024 12:12:43 +0000 (UTC)
+Date: Sat, 20 Jul 2024 21:12:28 +0900
+From: asmadeus@codewreck.org
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Alan Maguire <alan.maguire@oracle.com>, ast@kernel.org,
+	andrii@kernel.org, daniel@iogearbox.net, nathan@kernel.org,
+	nicolas@fjasle.eu, martin.lau@linux.dev, eddyz87@gmail.com,
+	song@kernel.org, yonghong.song@linux.dev, john.fastabend@gmail.com,
+	kpsingh@kernel.org, sdf@google.com, haoluo@google.com,
+	jolsa@kernel.org, bpf@vger.kernel.org, linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH bpf-next] kbuild, bpf: reproducible BTF from pahole when
+ KBUILD_BUILD_TIMESTAMP set
+Message-ID: <ZpuprMxsR_TIh2gM@codewreck.org>
+References: <20240701173133.3283312-1-alan.maguire@oracle.com>
+ <CAK7LNAStVrAx8LjDiYogRvS16-dZ+LrwcWq8gHnTbvKvR_JFFA@mail.gmail.com>
+ <21ec0d92-fb99-41b3-b1b9-3b8a4504271c@oracle.com>
+ <CAK7LNAS-pOi5a5vm4y1vPXh7WH_qtPuvnen3hvp9LrAm4+Q2fg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAK7LNAS-pOi5a5vm4y1vPXh7WH_qtPuvnen3hvp9LrAm4+Q2fg@mail.gmail.com>
 
-Commit bea5b7450474 ("kallsyms: expand symbol name into comment for
-debugging") added the uncompressed type/name in the comment lines of
-kallsyms_offsets.
+Masahiro Yamada wrote on Mon, Jul 15, 2024 at 08:19:53PM +0900:
+> Kbuild already provides a standard mechanism.
+> 
+> 
+> 
+> 
+> 
+> config DEBUG_INFO_BTF_REPRODUCIBLE
 
-It would be useful to do the same for kallsyms_names and
-kallsyms_seqs_of_names.
+Ah, I thought this was already an existing option but it's a suggestion
+for a new one.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+With my distro hat I have to say I have no interest in chasing more
+reproducible knobs for the kernel -- the current trend in 99% of the
+projects is that just setting SOURCE_DATE_EPOCH "just works" and the
+every non-default option that is required is work for people to track,
+enable in various packaging frameworks, backport to old kernels, update
+if it ever changes...
 
- scripts/kallsyms.c | 19 +++++++++----------
- 1 file changed, 9 insertions(+), 10 deletions(-)
+I could understand a new option "toggle everything reproducible"
+that would select this, even if it doesn't do anything else right now
+(perhaps also complain if KBUILD_BUILD_TIMESTAMP isn't set?), but I
+can't say I'm thrilled about a new option pahole-specific that would
+have to be individually enabled.
 
-diff --git a/scripts/kallsyms.c b/scripts/kallsyms.c
-index 164c04d22061..e291e34a450b 100644
---- a/scripts/kallsyms.c
-+++ b/scripts/kallsyms.c
-@@ -456,18 +456,16 @@ static void write_src(void)
- 		}
- 		for (k = 0; k < table[i]->len; k++)
- 			printf(", 0x%02x", table[i]->sym[k]);
--		printf("\n");
--	}
--	printf("\n");
- 
--	/*
--	 * Now that we wrote out the compressed symbol names, restore the
--	 * original names, which are needed in some of the later steps.
--	 */
--	for (i = 0; i < table_cnt; i++) {
-+		/*
-+		 * Now that we wrote out the compressed symbol name, restore the
-+		 * original name and print it in the comment.
-+		 */
- 		expand_symbol(table[i]->sym, table[i]->len, buf);
- 		strcpy((char *)table[i]->sym, buf);
-+		printf("\t/* %s */\n", table[i]->sym);
- 	}
-+	printf("\n");
- 
- 	output_label("kallsyms_markers");
- 	for (i = 0; i < markers_cnt; i++)
-@@ -536,10 +534,11 @@ static void write_src(void)
- 	sort_symbols_by_name();
- 	output_label("kallsyms_seqs_of_names");
- 	for (i = 0; i < table_cnt; i++)
--		printf("\t.byte 0x%02x, 0x%02x, 0x%02x\n",
-+		printf("\t.byte 0x%02x, 0x%02x, 0x%02x\t/* %s */\n",
- 			(unsigned char)(table[i]->seq >> 16),
- 			(unsigned char)(table[i]->seq >> 8),
--			(unsigned char)(table[i]->seq >> 0));
-+			(unsigned char)(table[i]->seq >> 0),
-+		       table[i]->sym);
- 	printf("\n");
- }
- 
+(I guess that means I've just volunteered to add both... perhaps next
+year when I find time, for now the distro pahole patch toggling
+reproducible if SOURCE_DATE_EPOCH is set will do)
 -- 
-2.43.0
-
+Dominique Martinet | Asmadeus
 
