@@ -1,348 +1,200 @@
-Return-Path: <linux-kbuild+bounces-2625-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2626-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB5CD938D68
-	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Jul 2024 12:24:18 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD29D9399B9
+	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Jul 2024 08:32:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D50F2B2099D
-	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Jul 2024 10:24:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EF8551C21A6C
+	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Jul 2024 06:32:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 056CF34CDE;
-	Mon, 22 Jul 2024 10:24:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FVv6U1Iz"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 748F514A0AE;
+	Tue, 23 Jul 2024 06:32:09 +0000 (UTC)
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8F4023DE;
-	Mon, 22 Jul 2024 10:24:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F11C514A0A0;
+	Tue, 23 Jul 2024 06:32:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721643851; cv=none; b=rE3eHEkiqN2jCLBaH69otmuMqjjM0IbfhyvrAFkkDD9WW4Nwof3A5YISF+ZRNAZEG27mtS7yAV1qAN4zcUUO2eu31ZrbI2t/sHoKq4UfPmb7JCGM3MsJXPqEEmHyEAaa8t83iWjuk1JpYxcb+Drg4ofmeOnOkWRmzI5m/2VfwI0=
+	t=1721716329; cv=none; b=Dcm1vPt1N1BxSm98vFcMN3wBvFCUdOjOG7D5CYAbk2qyumsscQpJrypfcFYWTF9OqM9MdV1aZ1soqDxsKZyqHLCq2FrkunQ+HyorMlXtLTHscLTL5R6D6mFZhG7i/hNWaz48+GBu9QPq5wXzO8kKgcY1R0xqKWsRy6vxkKFXHyw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721643851; c=relaxed/simple;
-	bh=5VaYzgbt0J7GPtaG6rRV1Br4DXdI291awdYYd3jN9pY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HvsThG2V9tHya1C0hfKU5r3hAZk3vh71pbRgBNcCg9yaRtscCGSS5xrYi08uqghXce4rbLE2H+B9Hco9dPGiUyRLqvIEPMxp18DC8Trb+LFVVAunwNlEu7tJVxWzHnJeGQ/2DxGX1jR61MxH4nV4RwJKBzRPIHaCr1BvOHy46zE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FVv6U1Iz; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CA33C116B1;
-	Mon, 22 Jul 2024 10:24:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721643851;
-	bh=5VaYzgbt0J7GPtaG6rRV1Br4DXdI291awdYYd3jN9pY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=FVv6U1IzzroYWc7GcqZrDeF6KL7KWMV22lrAQCgFjtIvR5KPpaxvcNTC5JXOH2nEQ
-	 md1IqoeLr1HeuFoBp61k0ZQZenD0sHJgL8kihqcNm5JwhNp0s6MUY2VtG6b65VGZJr
-	 JqrCJRk0ulOB5nsXBCnqiAQTLFQbldADkQpO7xYRa1JpTSVTJHmAH03gafEo8pHuXR
-	 57ol9RJ69yDnVtBuhJYplttdCSPyOz7wHucR11XRlc8VfOUT9ZGz9GZWXrkiumTh5f
-	 yZhz6It3qnTd0YRy26HSQButI+1OoK0gkqajsyqsItmGpzj9Q9ZHgxmFBerzIBKJaL
-	 9rcewKbzYPdhw==
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-52f024f468bso1416746e87.1;
-        Mon, 22 Jul 2024 03:24:11 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUtV1GViAw3bCp5joCbRqtxMjH1umqUPv22p2TeWalIwWVpjMERBDsXaT+a/ZSQpz8jXYKxrpR96XsAUylJatS2c8/ztv9J+ldCmdE6KgXjvErrx0DoKCptKkiTCCnOLbJVqEb12lRH/skDdmqrBVvjsVHtNpOsJ00bHK4zlKJ6F1PiZWUTnXJZpg==
-X-Gm-Message-State: AOJu0Yzh5q28kDfG8VSdf7MsS8EI4hqwnxfrEeUMP4E6zITtCYf6rXiN
-	0qhwoP6sCago+SvO8GHst4ZeOznZBjmVR+XYOY0Xdtoz5kjox15DwRwRac1orNPFUojknZvw8In
-	PuKk9EjaT1sml5Rx5vNBDNPymdlI=
-X-Google-Smtp-Source: AGHT+IHCMwyOvhOVoYwO9D5qsJ5G1COWoX6qwnneUOepPJ2Uv1CE50rCiUP9dKQHtXLpsMUr3CPTtr5uKFzieKPBTss=
-X-Received: by 2002:a05:6512:2209:b0:52e:f2a6:8e1a with SMTP id
- 2adb3069b0e04-52efb7e8103mr4327063e87.29.1721643849719; Mon, 22 Jul 2024
- 03:24:09 -0700 (PDT)
+	s=arc-20240116; t=1721716329; c=relaxed/simple;
+	bh=zn8p2mp8QXQP5W9qSz5N2++LCfixPhpzw/topBgjCvw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=clqIY786lS5BmpimiLJVLm5A4iz8CQZkHFs/W9IJUkPG6HC20oA2JvkptjpJ60gNrB2pntcVRLQrp8csNJPx+1B07eG8KZMP+Oi+usLnEJQxpHg2bjVYACKbSbVlbIOKzU5LJU2YxOsazSZ3PvO6uJ7OAbtvtwjE7BSKpWvVWig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.216])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4WSnNz5nhQz4f3lCp;
+	Tue, 23 Jul 2024 14:31:47 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.75])
+	by mail.maildlp.com (Postfix) with ESMTP id 50B5E1A140D;
+	Tue, 23 Jul 2024 14:32:01 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.67.175.61])
+	by APP2 (Coremail) with SMTP id Syh0CgA34wpOTp9mjImuAw--.48686S2;
+	Tue, 23 Jul 2024 14:31:59 +0800 (CST)
+From: Zheng Yejian <zhengyejian@huaweicloud.com>
+To: masahiroy@kernel.org,
+	peterz@infradead.org,
+	rostedt@goodmis.org,
+	mhiramat@kernel.org,
+	mark.rutland@arm.com,
+	mpe@ellerman.id.au,
+	npiggin@gmail.com,
+	christophe.leroy@csgroup.eu,
+	naveen.n.rao@linux.ibm.com,
+	tglx@linutronix.de,
+	mingo@redhat.com,
+	bp@alien8.de,
+	dave.hansen@linux.intel.com,
+	hpa@zytor.com,
+	mcgrof@kernel.org,
+	mathieu.desnoyers@efficios.com,
+	nathan@kernel.org,
+	nicolas@fjasle.eu,
+	ojeda@kernel.org,
+	akpm@linux-foundation.org,
+	surenb@google.com,
+	pasha.tatashin@soleen.com,
+	kent.overstreet@linux.dev,
+	james.clark@arm.com,
+	jpoimboe@kernel.org
+Cc: x86@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-modules@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	bpf@vger.kernel.org,
+	zhengyejian@huaweicloud.com
+Subject: [PATCH v2 0/5] kallsyms: Emit symbol for holes in text and fix weak function issue
+Date: Tue, 23 Jul 2024 14:32:53 +0800
+Message-Id: <20240723063258.2240610-1-zhengyejian@huaweicloud.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240722090622.16524-1-petr.pavlu@suse.com> <20240722090622.16524-2-petr.pavlu@suse.com>
-In-Reply-To: <20240722090622.16524-2-petr.pavlu@suse.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Mon, 22 Jul 2024 19:23:33 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATG-kYuxGgzC7e-BbTPMnSH+MCAEVOXoQkdGYH9xLincA@mail.gmail.com>
-Message-ID: <CAK7LNATG-kYuxGgzC7e-BbTPMnSH+MCAEVOXoQkdGYH9xLincA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] module: Split modules_install compression and
- in-kernel decompression
-To: Petr Pavlu <petr.pavlu@suse.com>
-Cc: Luis Chamberlain <mcgrof@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, linux-modules@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:Syh0CgA34wpOTp9mjImuAw--.48686S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxWrW7ur4kXFWktryDur45KFg_yoWrZF1fpa
+	y3Xrs8Kr4DAa1qgFW2kr4Fyr1Yq3ykG3srKas5K3yfZr1q9r1UXws2yw1DZayDXrW5Cay3
+	trn7ZF4xKF1kA3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9F14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+	2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
+	Y2ka0xkIwI1lc7CjxVAaw2AFwI0_Wrv_ZF1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x
+	0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2
+	zVAF1VAY17CE14v26rWY6r4UJwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r
+	1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_
+	JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcS
+	sGvfC2KfnxnUUI43ZEXa7sREfHUDUUUUU==
+X-CM-SenderInfo: x2kh0w51hmxt3q6k3tpzhluzxrxghudrp/
 
-On Mon, Jul 22, 2024 at 6:07=E2=80=AFPM Petr Pavlu <petr.pavlu@suse.com> wr=
-ote:
->
-> The kernel configuration allows specifying a module compression mode. If
-> one is selected then each module gets compressed during
-> 'make modules_install' and additionally one can also enable support for
-> a respective direct in-kernel decompression support. This means that the
-> decompression support cannot be enabled without the automatic compression=
-.
->
-> Some distributions, such as the (open)SUSE family, use a signer service f=
-or
-> modules. A build runs on a worker machine but signing is done by a separa=
-te
-> locked-down server that is in possession of the signing key. The build
-> invokes 'make modules_install' to create a modules tree, collects
-> information about the modules, asks the signer service for their signatur=
-e,
-> appends each signature to the respective module and compresses all module=
-s.
->
-> When using this arrangment, the 'make modules_install' step produces
-> unsigned+uncompressed modules and the distribution's own build recipe tak=
-es
-> care of signing and compression later.
->
-> The signing support can be currently enabled without automatically signin=
-g
-> modules during 'make modules_install'. However, the in-kernel decompressi=
-on
-> support can be selected only after first enabling automatic compression
-> during this step.
->
-> To allow only enabling the in-kernel decompression support without the
-> automatic compression during 'make modules_install', separate the
-> compression options similarly to the signing options, as follows:
->
-> > Enable loadable module support
-> [*] Module compression
->       Module compression type (GZIP)  --->
-> [*]   Automatically compress all modules
-> [ ]   Support in-kernel module decompression
->
-> * "Module compression" (MODULE_COMPRESS) is a new main switch for the
->   compression/decompression support. It replaces MODULE_COMPRESS_NONE.
-> * "Module compression type" (MODULE_COMPRESS_<type>) chooses the
->   compression type, one of GZ, XZ, ZSTD.
-> * "Automatically compress all modules" (MODULE_COMPRESS_ALL) is a new
->   option to enable module compression during 'make modules_install'. It
->   defaults to Y.
-> * "Support in-kernel module decompression" (MODULE_DECOMPRESS) enables
->   in-kernel decompression.
->
-> Signed-off-by: Petr Pavlu <petr.pavlu@suse.com>
-> ---
+Background of this patch set can be found in v1:
+https://lore.kernel.org/all/20240613133711.2867745-1-zhengyejian1@huawei.com/
 
+Here add a reproduction to show the impact to livepatch:
+1. Add following hack to make livepatch-sample.ko do patch on do_one_initcall()
+   which has an overriden weak function behind in vmlinux, then print the
+   actually used __fentry__ location:
 
+  diff --git a/kernel/livepatch/patch.c b/kernel/livepatch/patch.c
+  index 90408500e5a3..20b75e7b1771 100644
+  --- a/kernel/livepatch/patch.c
+  +++ b/kernel/livepatch/patch.c
+  @@ -173,6 +173,8 @@ static int klp_patch_func(struct klp_func *func)
+                  unsigned long ftrace_loc;
 
-My preference is to add
- CONFIG_MODULE_DECOMPRESS_GZIP
- CONFIG_MODULE_DECOMPRESS_XZ
- CONFIG_MODULE_DECOMPRESS_ZSTD
-instead of
- CONFIG_MODULE_COMPRESS_ALL.
+                  ftrace_loc = ftrace_location((unsigned long)func->old_func);
+  +               pr_info("%s: old_func=%pS ftrace_loc=%pS (%lx)\n", __func__,
+  +                       func->old_func, (void *)ftrace_loc, ftrace_loc);
+                  if (!ftrace_loc) {
+                          pr_err("failed to find location for function '%s'\n",
+                                  func->old_name);
+  diff --git a/samples/livepatch/livepatch-sample.c b/samples/livepatch/livepatch-sample.c
+  index cd76d7ebe598..c6e8e78e23b8 100644
+  --- a/samples/livepatch/livepatch-sample.c
+  +++ b/samples/livepatch/livepatch-sample.c
+  @@ -38,7 +38,7 @@ static int livepatch_cmdline_proc_show(struct seq_file *m, void *v)
 
+   static struct klp_func funcs[] = {
+          {
+  -               .old_name = "cmdline_proc_show",
+  +               .old_name = "do_one_initcall",
+                  .new_func = livepatch_cmdline_proc_show,
+          }, { }
+   };
 
+2. We can see the size of do_one_initcall() is 0x27e:
+  $ nm -nS vmlinux | grep do_one_initcall
+  ffffffff810021e0 000000000000027e T do_one_initcall
 
+3. Insert the livepatch ko, the expected ftrace_loc is do_one_initcall+0x4/0x27e but
+   actually do_one_initcall+0x294/0x2c0 which is invalid, also its size is inaccurate.
+   Then this livepatch can not properly work!!!
 
-For example,
+  # insmod livepatch-sample.ko
+  [   17.942451] livepatch: klp_patch_func: old_func=do_one_initcall+0x0/0x2c0 ftrace_loc=do_one_initcall+0x294/0x2c0 (ffffffff81002474)
+  #
+  # cat /sys/kernel/tracing/available_filter_functions_addrs | grep ffffffff81002474
+  ffffffff81002474 __ftrace_invalid_address___660
 
+After this patch, this issue is gone:
 
-if MODULE_DECOMPRESS
+  # insmod livepatch-sample.ko
+  [   42.408632] livepatch: klp_patch_func: old_func=do_one_initcall+0x0/0x27e ftrace_loc=do_one_initcall+0x4/0x27e (ffffffff810021e4)
+  # cat /sys/kernel/tracing/available_filter_functions_addrs | grep ffffffff810021e4
+  ffffffff810021e4 do_one_initcall
+  # cat /sys/kernel/tracing/enabled_functions
+  do_one_initcall (1)   I     M   tramp: 0xffffffffa0020000 (klp_ftrace_handler+0x0/0x258)->klp_ftrace_handler+0x0/0x258
 
-config MODULE_DECOMPRESS_GZIP
-       bool "Support in-kernel GZIP decompression for module"
-       default MODULE_COMPRESS_GZIP
+Changes:
 
-config MODULE_DECOMPRESS_XZ
-       bool "Support in-kernel XZ decompression for module"
-       default MODULE_COMPRESS_XZ
+v1->v2:
+  - Drop patch which titled "kallsyms: Optimize multiple times of realloc() to one time of malloc()"
+    as suggested by Masahiro;
+    Link: https://lore.kernel.org/all/CAK7LNAQkSnZ1nVXiZH9kg52H-A_=urcsv-W7wGXvunMGhGX8Vw@mail.gmail.com/
+  - Changes in PATCH 1/5:
+    - Change may_exist_hole_after_symbol() to has_hole() and return bool type;
+    - User realloc instead of malloc another table in emit_hole_symbols();
+      Link: https://lore.kernel.org/all/CAK7LNAQaLc6aDK85qQtPHoCkQSGyL-TxXjpgJTfehe2Q1=jMSA@mail.gmail.com/
+    - Use empty symbol type/name as a special case to represent the hole instead of
+      using symbol "t__hole_symbol_XXXXX";
+      Link: https://lore.kernel.org/all/CAK7LNARiR5z9hPRG932T7YjRWqkX_qZ7WKmbxx7iTo2w5YJojQ@mail.gmail.com/
+  - Changes in PATCH 3/5:
+    - Now name of hole symbol is NULL, so if __fentry__ is located in a hole,
+      kallsyms_lookup() find an NULL name then will return 0, so drop the
+      needless kallsyms_is_hole_symbol().
 
-config MODULE_DECOMPRESS_ZSTD
-       bool "Support in-kernel ZSTD decompression for module"
-       default MODULE_COMPRESS_ZSTD
+Zheng Yejian (5):
+  kallsyms: Emit symbol at the holes in the text
+  module: kallsyms: Determine exact function size
+  ftrace: Skip invalid __fentry__ in ftrace_process_locs()
+  ftrace: Fix possible out-of-bound issue in ftrace_process_locs()
+  ftrace: Revert the FTRACE_MCOUNT_MAX_OFFSET workaround
 
-endif
+ arch/powerpc/include/asm/ftrace.h |   7 --
+ arch/x86/include/asm/ftrace.h     |   7 --
+ include/linux/module.h            |  14 +++
+ kernel/module/kallsyms.c          |  42 ++++++--
+ kernel/trace/ftrace.c             | 171 ++++++------------------------
+ scripts/kallsyms.c                |  95 ++++++++++++++++-
+ scripts/link-vmlinux.sh           |   4 +-
+ scripts/mksysmap                  |   2 +-
+ 8 files changed, 173 insertions(+), 169 deletions(-)
 
+-- 
+2.25.1
 
-
-
-
-OR, maybe
-
-
-
-config MODULE_DECOMPRESS_GZIP
-       bool "Support in-kernel GZIP decompression for module"
-       select MODULE_DECOMPRESS
-
-config MODULE_DECOMPRESS_XZ
-       bool "Support in-kernel XZ decompression for module"
-       select MODULE_DECOMPRESS
-
-config MODULE_DECOMPRESS_ZSTD
-       bool "Support in-kernel ZSTD decompression for module"
-       select MODULE_DECOMPRESS
-
-config MODULE_DECOMPRESS
-       bool
-
-
-
-
-You can toggle MODULE_COMPRESS_GZIP and
-MODULE_DECOMPRESS_GZIP independently
-
-
-Of course, the current kernel/module/decompress.c does not
-work when multiple (or zero) CONFIG_MODULE_DECOMPRESS_* is
-enabled. It needs a little modification.
-
-
-I will wait for Lius's comment.
-
-
-
-
-
-
-
->  kernel/module/Kconfig    | 61 ++++++++++++++++++++--------------------
->  scripts/Makefile.modinst |  2 ++
->  2 files changed, 33 insertions(+), 30 deletions(-)
->
-> diff --git a/kernel/module/Kconfig b/kernel/module/Kconfig
-> index 4047b6d48255..bb7f7930fef6 100644
-> --- a/kernel/module/Kconfig
-> +++ b/kernel/module/Kconfig
-> @@ -278,64 +278,65 @@ config MODULE_SIG_HASH
->         default "sha3-384" if MODULE_SIG_SHA3_384
->         default "sha3-512" if MODULE_SIG_SHA3_512
->
-> -choice
-> -       prompt "Module compression mode"
-> +config MODULE_COMPRESS
-> +       bool "Module compression"
->         help
-> -         This option allows you to choose the algorithm which will be us=
-ed to
-> -         compress modules when 'make modules_install' is run. (or, you c=
-an
-> -         choose to not compress modules at all.)
-> -
-> -         External modules will also be compressed in the same way during=
- the
-> -         installation.
-> -
-> -         For modules inside an initrd or initramfs, it's more efficient =
-to
-> -         compress the whole initrd or initramfs instead.
-> -
-> +         Enable module compression to reduce on-disk size of module bina=
-ries.
->           This is fully compatible with signed modules.
->
-> -         Please note that the tool used to load modules needs to support=
- the
-> -         corresponding algorithm. module-init-tools MAY support gzip, an=
-d kmod
-> -         MAY support gzip, xz and zstd.
-> +         The tool used to work with modules needs to support the selecte=
-d
-> +         compression type. kmod MAY support gzip, xz and zstd. Other too=
-ls
-> +         might have a limited selection of the supported types.
->
-> -         Your build system needs to provide the appropriate compression =
-tool
-> -         to compress the modules.
-> +         Note that for modules inside an initrd or initramfs, it's more
-> +         efficient to compress the whole ramdisk instead.
->
-> -         If in doubt, select 'None'.
-> +         If unsure, say N.
->
-> -config MODULE_COMPRESS_NONE
-> -       bool "None"
-> +choice
-> +       prompt "Module compression type"
-> +       depends on MODULE_COMPRESS
->         help
-> -         Do not compress modules. The installed modules are suffixed
-> -         with .ko.
-> +         Choose the supported algorithm for module compression.
->
->  config MODULE_COMPRESS_GZIP
->         bool "GZIP"
->         help
-> -         Compress modules with GZIP. The installed modules are suffixed
-> -         with .ko.gz.
-> +         Support modules compressed with GZIP. The installed modules are
-> +         suffixed with .ko.gz.
->
->  config MODULE_COMPRESS_XZ
->         bool "XZ"
->         help
-> -         Compress modules with XZ. The installed modules are suffixed
-> -         with .ko.xz.
-> +         Support modules compressed with XZ. The installed modules are
-> +         suffixed with .ko.xz.
->
->  config MODULE_COMPRESS_ZSTD
->         bool "ZSTD"
->         help
-> -         Compress modules with ZSTD. The installed modules are suffixed
-> -         with .ko.zst.
-> +         Support modules compressed with ZSTD. The installed modules are
-> +         suffixed with .ko.zst.
->
->  endchoice
->
-> +config MODULE_COMPRESS_ALL
-> +       bool "Automatically compress all modules"
-> +       default y
-> +       depends on MODULE_COMPRESS
-> +       help
-> +         Compress all modules during 'make modules_install'.
-> +
-> +         Your build system needs to provide the appropriate compression =
-tool
-> +         for the selected compression type. External modules will also b=
-e
-> +         compressed in the same way during the installation.
-> +
->  config MODULE_DECOMPRESS
->         bool "Support in-kernel module decompression"
-> -       depends on MODULE_COMPRESS_GZIP || MODULE_COMPRESS_XZ || MODULE_C=
-OMPRESS_ZSTD
-> +       depends on MODULE_COMPRESS
->         select ZLIB_INFLATE if MODULE_COMPRESS_GZIP
->         select XZ_DEC if MODULE_COMPRESS_XZ
->         select ZSTD_DECOMPRESS if MODULE_COMPRESS_ZSTD
->         help
-> -
->           Support for decompressing kernel modules by the kernel itself
->           instead of relying on userspace to perform this task. Useful wh=
-en
->           load pinning security policy is enabled.
-> diff --git a/scripts/Makefile.modinst b/scripts/Makefile.modinst
-> index 0afd75472679..bce4a9adb893 100644
-> --- a/scripts/Makefile.modinst
-> +++ b/scripts/Makefile.modinst
-> @@ -51,9 +51,11 @@ $(foreach x, % :, $(if $(findstring $x, $(dst)), \
->         $(error module installation path cannot contain '$x')))
->
->  suffix-y                               :=3D
-> +ifdef CONFIG_MODULE_COMPRESS_ALL
->  suffix-$(CONFIG_MODULE_COMPRESS_GZIP)  :=3D .gz
->  suffix-$(CONFIG_MODULE_COMPRESS_XZ)    :=3D .xz
->  suffix-$(CONFIG_MODULE_COMPRESS_ZSTD)  :=3D .zst
-> +endif
->
->  modules :=3D $(patsubst $(extmod_prefix)%.o, $(dst)/%.ko$(suffix-y), $(m=
-odules))
->  install-$(CONFIG_MODULES) +=3D $(modules)
-> --
-> 2.35.3
->
-
-
---=20
-Best Regards
-Masahiro Yamada
 
