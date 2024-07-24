@@ -1,163 +1,127 @@
-Return-Path: <linux-kbuild+bounces-2636-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2637-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5048393AE06
-	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Jul 2024 10:47:11 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id C89F793AE41
+	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Jul 2024 11:03:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id ED30D1F23EF1
-	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Jul 2024 08:47:10 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 22534B22C68
+	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Jul 2024 09:03:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 384A973471;
-	Wed, 24 Jul 2024 08:47:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11E9E13AD33;
+	Wed, 24 Jul 2024 09:03:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="0gzZXmFv";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="/s6Xlx2B";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="0gzZXmFv";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="/s6Xlx2B"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UMRHJkNx"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A5051C2AD
-	for <linux-kbuild@vger.kernel.org>; Wed, 24 Jul 2024 08:47:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E35F1C6B4;
+	Wed, 24 Jul 2024 09:03:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721810829; cv=none; b=FTfS9GA8XWfsKgV0buvrp01zvo54b1tH4NtC2LlGKHXzpkrTNnthJyA1XXW09jaSjmc742XHr3cx3RAmgSpiSsHIQm2lIbIpnTyDlPVlw+q6PMFDVGJYssmPKM2R55boOCZlRHM0d4iY8nGlrl2zOxBJiVfIMpMFdfLlwIw0DfQ=
+	t=1721811823; cv=none; b=h3qQd9w08KuYuM6davhSyueBBD1xWtMnJ/K3iIaJbQD2zULBDq04lWn7e+WKXyPH5Fh4G84fxs5tcH8E3J8JZmCfWQCAKjjbf/7SZsYicUyb8uabAR0xvAyJ3LpRu43aQZHuSwE28Dhns0a3o1Vw7xh2fuJ9ZBIv8n6cVo32CQA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721810829; c=relaxed/simple;
-	bh=KLWKsNRpbkd9ErqNttPQWHZbIolpFwOe9rA5uEbNTBM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=rp6usBrsGmpXuDfdQLZWc3Jytm3ltz5pm6QCd8I4oLFX6uwxZKfKm9NEMhd41GwpfLaj3olrHSH6bLA1UABgAW9zUZF1VHaILpflMIeH3L5Ydln7BeaGoeUKncjblZJy7idiFb0MQMdO1JkWQP2ZuE9A3FoYhqH26L2NycPRjMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=0gzZXmFv; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=/s6Xlx2B; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=0gzZXmFv; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=/s6Xlx2B; arc=none smtp.client-ip=195.135.223.131
+	s=arc-20240116; t=1721811823; c=relaxed/simple;
+	bh=CXO/oCJPXkmg5ipVzpiYFapSfyktKmNvea8mWTccJpQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XoUVqNQod4k2cANCgaoJzGyz8mlmpu17I/+1t23Mgk/0Z9xfTCyQVxS1BryFZA3uKtzcpqU/AOxo1LlCD18Rt1t/LnNV8l0jByq9uB7W8SuBA0kbsao3KrYDMC4KsaTj/7jC9obwfR0FlZLTXGSI6eifbgrC4eM4iRM95tTZMdg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=fail (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UMRHJkNx reason="signature verification failed"; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 4A9DA1F788;
-	Wed, 24 Jul 2024 08:47:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1721810825; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=SyEDGvf0mlFr/AfWtc1nmENVda4SMmlHet45VLaHkrM=;
-	b=0gzZXmFvlAVaJERBhxw6VJtthauTj2NhPpC0bTBdb+0H2WYdR8O9YjEP2AMEfesNVXbSv/
-	qTMEZw+zVGF1bEe6B8uLi170MTd0AfOwBOQiGPZ7TQ8lrExzDkU+Pg22NUvAOBXrPOwRi/
-	J0CrO2Dpqcsa7shj1xYO/Kg6z8WHuiM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1721810825;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=SyEDGvf0mlFr/AfWtc1nmENVda4SMmlHet45VLaHkrM=;
-	b=/s6Xlx2BRkw0KPlRyaYHBdUfG+Q9GVgxbY68FH7zNICNwVUGrh54Eq9ARe8KH+8qJTJSRX
-	n+g49uAdU98MYLAg==
+	by smtp-out2.suse.de (Postfix) with ESMTPS id A9FD61F796;
+	Wed, 24 Jul 2024 09:03:39 +0000 (UTC)
 Authentication-Results: smtp-out2.suse.de;
 	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1721810825; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=SyEDGvf0mlFr/AfWtc1nmENVda4SMmlHet45VLaHkrM=;
-	b=0gzZXmFvlAVaJERBhxw6VJtthauTj2NhPpC0bTBdb+0H2WYdR8O9YjEP2AMEfesNVXbSv/
-	qTMEZw+zVGF1bEe6B8uLi170MTd0AfOwBOQiGPZ7TQ8lrExzDkU+Pg22NUvAOBXrPOwRi/
-	J0CrO2Dpqcsa7shj1xYO/Kg6z8WHuiM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1721810825;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=SyEDGvf0mlFr/AfWtc1nmENVda4SMmlHet45VLaHkrM=;
-	b=/s6Xlx2BRkw0KPlRyaYHBdUfG+Q9GVgxbY68FH7zNICNwVUGrh54Eq9ARe8KH+8qJTJSRX
-	n+g49uAdU98MYLAg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 223B51324F;
-	Wed, 24 Jul 2024 08:47:05 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7683D1324F;
+	Wed, 24 Jul 2024 09:03:39 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ZtpyB4m/oGZATQAAD6G6ig
-	(envelope-from <pvorel@suse.cz>); Wed, 24 Jul 2024 08:47:05 +0000
+	id 73DjG2vDoGZPUQAAD6G6ig
+	(envelope-from <pvorel@suse.cz>); Wed, 24 Jul 2024 09:03:39 +0000
 From: Petr Vorel <pvorel@suse.cz>
-To: linux-kbuild@vger.kernel.org
-Cc: Petr Vorel <pvorel@suse.cz>,
-	Rafael Aquini <aquini@redhat.com>,
-	Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH] kbuild: rpm-pkg: Fix C locale setup
-Date: Wed, 24 Jul 2024 10:46:55 +0200
-Message-ID: <20240724084655.930706-1-pvorel@suse.cz>
+To: pvorel@suse.cz,
+	Linus Torvalds <torvalds@linux-foundation.org>
+Cc: aquini@redhat.com,
+	linux-kbuild@vger.kernel.org,
+	masahiroy@kernel.org,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: [GIT PULL] Kbuild updates for v6.11-rc1
+Date: Wed, 24 Jul 2024 11:03:27 +0200
+Message-ID: <CAK7LNATbZgv6JNzSXznOm47oNUXku430-taoK4iE1G0YcBy4Lw@mail.gmail.com>
 X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20240724084655.930706-1-pvorel@suse.cz>
+References: <20240724084655.930706-1-pvorel@suse.cz>
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201]) (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits)) (No client certificate requested) by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDDD513D628; Tue, 23 Jul 2024 19:44:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18353C4AF0A; Tue, 23 Jul 2024 19:44:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org; s=k20201202; t=1721763884; bh=NZPmwx9zHNHao+9I+jeqDdDmRqjZJBybf9j7OA7CvSM=; h=From:Date:Subject:To:Cc:From; b=UMRHJkNxQBBFJiGxxNfWBDsa6DlLZqlRw4QOrIrX3Ddq+rlTJOXKPMU1C5tqC33fD 6ZGcwPWlhLVKxBtVBJslUJKaeF3kVh4Lw5Qqs4px+TsAvpJdITiO+HPwLmVFBX5Ne2 QFI1wgJ0sP4JtZbbsEMSOCzpS62ZdN+MMCretwNDUS5DeWw+ARGuFFWXvYHTcPrcxa +0n8+IHfv1bjpJlgkuLfa1tqWm5UA8TFL+5cEvPloxD81ZUdIwxuCuZEIf83rR/S9t N1cvyzGYHZW5xpXvIlLMh9ar7AJTVUx4EpJLLsxdvilw9ApALzmFLgIgEDJzDV1H9O RqgL5NRk6dqjQ==
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2ef2c56da6cso28379731fa.1; Tue, 23 Jul 2024 12:44:44 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCW0QkgwKRHktkVv9CLrYQ1EcbRxDtwBYqdFLr2GViWcS1jzOAiZddwRLwwuxCfEjojUxgOvVcGYDfDDrKySE6j3bfCoxk2XjPUSPRnl
+X-Gm-Message-State: AOJu0YwCKhj+6QGjvELgD3J3OicPPeTJm9O4v1Pkb+V3kcuUSb5ShA0X 2Li2bUIPrQ/UV/tPE2ScL/HYPPdCUkMIBwq69l63OmdEswPHnriw5+Ydt8xS0YXFNH5mUxVCwMH 5ChiwQYo5CsDksJPDJl0jafHabms=
+X-Google-Smtp-Source: AGHT+IHsx8NQ92WXFtFm/EntXaO6XfThBXsCF/ZIbdZLOIBhnlnnKPPU+cBZbfYo1vP//NaL5Xi3Yya0upg3yrpTd4c=
+X-Received: by 2002:a2e:a41c:0:b0:2ee:494c:c3d3 with SMTP id 38308e7fff4ca-2ef16847a34mr81457881fa.43.1721763882725; Tue, 23 Jul 2024 12:44:42 -0700 (PDT)
+Precedence: bulk
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+X-Gmail-Original-Message-ID: <CAK7LNATbZgv6JNzSXznOm47oNUXku430-taoK4iE1G0YcBy4Lw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	REPLY(-4.00)[]
+X-Rspamd-Queue-Id: A9FD61F796
 X-Spam-Level: 
-X-Spamd-Result: default: False [-0.10 / 50.00];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCPT_COUNT_THREE(0.00)[4]
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Rspamd-Action: no action
 X-Spam-Flag: NO
-X-Spam-Score: -0.10
+X-Spam-Score: -4.00
 
-semicolon separation in LC_ALL is wrong. Either variable needs to be
-exported before as a separate commit or set as part of the commit in the
-beginning. Used second variant.
+From: Masahiro Yamada <masahiroy@kernel.org>
 
-This fixes broken build on user's locale setup which makes 'date' binary
-to produce invalid characters in rpm changelog (e.g. cs_CZ.UTF-8 'čec'):
+Hi Masahiro, Linus,
 
-$ make binrpm-pkg
-  GEN     rpmbuild/SPECS/kernel.spec
-rpmbuild -bb rpmbuild/SPECS/kernel.spec --define='_topdirlinux/rpmbuild' \
-    --target x86_64-linux --build-in-place --noprep --define='_smp_mflags \
-    %{nil}' $(rpm -q rpm >/dev/null 2>&1 || echo --nodeps)
-Building target platforms: x86_64-linux
-Building for target x86_64-linux
-error: bad date in %changelog: St čec 24 2024 user <user@somehost>
-make[2]: *** [scripts/Makefile.package:71: binrpm-pkg] Error 1
-make[1]: *** [linux/Makefile:1546: binrpm-pkg] Error 2
-make: *** [Makefile:224: __sub-make] Error 2
+> Hello Linus,
 
-Fixes: 301c10908e42 ("kbuild: rpm-pkg: introduce a simple changelog section for kernel.spec")
-Signed-off-by: Petr Vorel <pvorel@suse.cz>
----
- scripts/package/mkspec | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> Please pull Kbuild updates for v6.11-rc1
 
-diff --git a/scripts/package/mkspec b/scripts/package/mkspec
-index ead54d67a024..4dc1466dfc81 100755
---- a/scripts/package/mkspec
-+++ b/scripts/package/mkspec
-@@ -50,6 +50,6 @@ fi
- cat << EOF
- 
- %changelog
--* $(LC_ALL=C; date +'%a %b %d %Y') ${name} <${email}>
-+* $(LC_ALL=C date +'%a %b %d %Y') ${name} <${email}>
- - Custom built Linux kernel.
- EOF
--- 
-2.43.0
 
+
+
+> You will get a merge conflict in scripts/Makefile.lib
+
+> It is a conflict between the following two commits:
+>  49636c5680b977d8a39263c6c8db6061c427346e
+>  712aba5543b88996bc4682086471076fbf048927
+
+> The resolution exists in linux-next.
+
+It'd be nice to include also this tiny binrpm-pkg fix [1] for non-english
+locales (introduced by 301c10908e42 already merged).
+
+Kind regards,
+Petr
+
+[1] https://lore.kernel.org/linux-kbuild/20240724084655.930706-1-pvorel@suse.cz/
+
+> Thank you.
+...
 
