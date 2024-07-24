@@ -1,55 +1,55 @@
-Return-Path: <linux-kbuild+bounces-2639-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2640-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1860A93AF89
-	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Jul 2024 12:03:18 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id F384A93AFCD
+	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Jul 2024 12:25:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 43DDEB225AB
-	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Jul 2024 10:03:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9A3011F21FA0
+	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Jul 2024 10:25:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A52913B585;
-	Wed, 24 Jul 2024 10:03:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 316A4152180;
+	Wed, 24 Jul 2024 10:25:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e+KMK//V"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sq3G4ADd"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA4D41C2AD
-	for <linux-kbuild@vger.kernel.org>; Wed, 24 Jul 2024 10:03:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D3F414375C
+	for <linux-kbuild@vger.kernel.org>; Wed, 24 Jul 2024 10:25:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721815391; cv=none; b=TN5e9G4fpBJCefCq6DA5ntjgpApSpUUqPRk3MILrfodgQIKCFlYbHP253OflU1EVpOIWoPZPTJrKx8g4jdkmNsWvRnCrXRdbonIBBn/6ovRnynYts6Nn0H8D8Y/OYYZEhQViSM1h0aCWw9jGaztvLJJ+pBCVx8uyxJymlixbVVk=
+	t=1721816727; cv=none; b=e80dsLDwI43vwFWA+LvsZ+gvbFhwcAkt9OC/ry5KUurfCo4BnuOp3CreNELAaMwgAQCvm7rp6zGg4r74h9RbV3n5c+bNs++HyJIwoJ48ewpSQ3KcKEVvgjuzMRA5dwcY4IoA51+kU+DM1Fix9sOJB6ffeKnIJj6RS90JjCqdVvc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721815391; c=relaxed/simple;
-	bh=MW2fwyd6T9nPfM6aztitHVsvnzmz01HAMcnvoRK3eQE=;
+	s=arc-20240116; t=1721816727; c=relaxed/simple;
+	bh=h0z8tQUFEloicFvAFH5Bz7A279S4zKNTfSEyBkef5gQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dijpKHx789H/MApv72kPd1Vjx/GGzgF1eKmwRCBF0/dlSbYXTOXwXYCh71NCK8s8FTwIEfUuWNSi92md3EEpuD6r7rXKIepS+DCli2mEtdQOV5gR3z8WQPXkoR/817Nq7o9IPUBLep/ZEi2swkjZgrT84MJOLUr6jEj0DmW5gYk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e+KMK//V; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 618F4C32782
-	for <linux-kbuild@vger.kernel.org>; Wed, 24 Jul 2024 10:03:09 +0000 (UTC)
+	 To:Cc:Content-Type; b=tH5tnTWSFMRq4c1Eq0g2zdP/IzG3EAuoU65ynGS6H82vnRTyZiGAIutERaoxRFwzwxL1WLy1LuoW2IYP/blngrlBwQ9iJgn9SvkiNyrkpW22ajrteyU8WnTAAgUpbpl0LwCbEMeYNEF49yHZjQspqWkCou5I4bVy+cF0zi7e+7s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sq3G4ADd; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95294C32782
+	for <linux-kbuild@vger.kernel.org>; Wed, 24 Jul 2024 10:25:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721815389;
-	bh=MW2fwyd6T9nPfM6aztitHVsvnzmz01HAMcnvoRK3eQE=;
+	s=k20201202; t=1721816726;
+	bh=h0z8tQUFEloicFvAFH5Bz7A279S4zKNTfSEyBkef5gQ=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=e+KMK//VkinELujcFKLtc/PNaXtrF+3BLhxY/77elZXJ5WGrPym7rQTOtUXJp05I9
-	 4/FsB2tYXNCYugmS+B9vJlF7B6JdQbPjr5sjTmDC2Aiq5bIv0AED378uocEN1w4lPy
-	 lRnMSpnzscUaAK7+8fG3nACq+PsIJoLRbdP3ibu2njklNp5lzrUoN9sc78fTNmRe5V
-	 brnIF+N4Ap135tHOuNs83BPqHmcf15/k/3rtw8gvp2BGyjanrWaQ7An5KUPjFLrMrZ
-	 4aCedCCZJ4AMtniXXoY5FtMOAj755pNjuwwjo7M/aKGWvgjzwSSEb5NevrA1YTONyx
-	 uzk0JlQ4ek6xA==
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2f01e9f53e3so34233691fa.1
-        for <linux-kbuild@vger.kernel.org>; Wed, 24 Jul 2024 03:03:09 -0700 (PDT)
-X-Gm-Message-State: AOJu0Yw/r1oXsMrWTpZ25Bo3hIv+n1hD45iAXnXlmD9HBulHRZFcgvwD
-	65iFex7SAk3I1fez7x9PDuvII1+8laA2Hh7CNiWHvAlLRkYLJrXobbWOWhBGbTIAyTnb5LeAMaW
-	JVUBZXzWuRLXmtEbgGlxAnuai6/k=
-X-Google-Smtp-Source: AGHT+IFA7O43m+IbYGdr1QI2Qiey0xFnikZ5ugQqXg2/AX5DHTUULRqACEsjnmsiHo/XhnXD7RdP5bpFC29AaIqxwR4=
-X-Received: by 2002:a2e:bea1:0:b0:2ef:226e:e150 with SMTP id
- 38308e7fff4ca-2f02b98cc07mr25332461fa.32.1721815388003; Wed, 24 Jul 2024
- 03:03:08 -0700 (PDT)
+	b=sq3G4ADdYFRFWpaLHoWiCMpy2KigdeS7AAYoAWk4p2lF0+SdXGNQWtLzxeFklcc5o
+	 FL3OnBK/OqcQWxIN4kVw94G2GjvULiGwTYB+JqR83tikEfP1Pr69FAQzjGExBScBve
+	 iUProP1HlhkWqwXT9Ksx/5w4N2hGAizrr+ZmOk6ZpwyP68HffhXseyGLpVVQi/aYmH
+	 YfelFDnc92GaZdAS6rL4ufvsgTiJyERfIyY5E2ki/Bru2i3CzUX4EpIG/p/5Er1RFB
+	 iVbFddf7FvxF0LArhwNibSeLV+U7SGgWqrgzQQGymTZlP1slj30sv1C7JwWmVpdtrq
+	 p0GBkPHfuJACQ==
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2ef2c56da6cso34777431fa.1
+        for <linux-kbuild@vger.kernel.org>; Wed, 24 Jul 2024 03:25:26 -0700 (PDT)
+X-Gm-Message-State: AOJu0YwwUGD1wNetIwq7FSAjHd5lnJvSn9+Ehvho+dG13b4Jq5/mjkXs
+	hXXPdnirKKeoZxT9nqCdMPMDn6Dj0XFZpMWVfDSXzs6XZdu4b9CEb0olmALTbxHKrt0Wkw4BG4A
+	fstte16Qo8yLaGQ+ZlHSoUR7L7JY=
+X-Google-Smtp-Source: AGHT+IEgK75N/XpFsci4ol+JdihsvS4OcHWGwWs19KX67W09t9EPvvjcKk9F+lh5jzxlZg4bB7z/ez1vpPDVGSKkRFE=
+X-Received: by 2002:a2e:81d2:0:b0:2ef:26b4:298 with SMTP id
+ 38308e7fff4ca-2ef26b4030emr74939071fa.36.1721816725325; Wed, 24 Jul 2024
+ 03:25:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -59,9 +59,9 @@ MIME-Version: 1.0
 References: <20240724084655.930706-1-pvorel@suse.cz>
 In-Reply-To: <20240724084655.930706-1-pvorel@suse.cz>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Wed, 24 Jul 2024 19:02:31 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASwTmrtgROXW_CVWX2Bjb9q=uMu7TxYkBQ6MBBTuJ_PVw@mail.gmail.com>
-Message-ID: <CAK7LNASwTmrtgROXW_CVWX2Bjb9q=uMu7TxYkBQ6MBBTuJ_PVw@mail.gmail.com>
+Date: Wed, 24 Jul 2024 19:24:49 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASr8eKYvTwDwjwkaHzXwaGZ16WkXRPD+1_QsAVVmS8v6A@mail.gmail.com>
+Message-ID: <CAK7LNASr8eKYvTwDwjwkaHzXwaGZ16WkXRPD+1_QsAVVmS8v6A@mail.gmail.com>
 Subject: Re: [PATCH] kbuild: rpm-pkg: Fix C locale setup
 To: Petr Vorel <pvorel@suse.cz>
 Cc: linux-kbuild@vger.kernel.org, Rafael Aquini <aquini@redhat.com>
@@ -95,46 +95,10 @@ gs \
 > Fixes: 301c10908e42 ("kbuild: rpm-pkg: introduce a simple changelog secti=
 on for kernel.spec")
 > Signed-off-by: Petr Vorel <pvorel@suse.cz>
-> ---
->  scripts/package/mkspec | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/scripts/package/mkspec b/scripts/package/mkspec
-> index ead54d67a024..4dc1466dfc81 100755
-> --- a/scripts/package/mkspec
-> +++ b/scripts/package/mkspec
-> @@ -50,6 +50,6 @@ fi
->  cat << EOF
->
->  %changelog
-> -* $(LC_ALL=3DC; date +'%a %b %d %Y') ${name} <${email}>
-> +* $(LC_ALL=3DC date +'%a %b %d %Y') ${name} <${email}>
->  - Custom built Linux kernel.
->  EOF
-> --
-> 2.43.0
->
 
 
-
-Ah, right. Thanks.
-
-
-
-I also noticed this mistake in Rafaels' initial submission, then
-I suggested the correct code without the semicolon:
-
-https://lore.kernel.org/linux-kbuild/CAK7LNAQba5CDetpwevSoaOLJ21s1tO9ZHh=3D=
-7gJpPCNK0AnHfJw@mail.gmail.com/
-
-
-
-He tried to modify the code on his way over again,
-then I missed that he had restored the semicolon.
-I should have taken the code diff.
-:-(
-
-
+Applied to linux-kbuild/fixes.
+Thanks!
 
 
 
