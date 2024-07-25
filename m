@@ -1,115 +1,171 @@
-Return-Path: <linux-kbuild+bounces-2661-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2662-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5528093C89C
-	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Jul 2024 21:10:44 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD90C93C8A9
+	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Jul 2024 21:23:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C27FEB220F5
-	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Jul 2024 19:10:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 88982282D5C
+	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Jul 2024 19:23:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 555F436AFE;
-	Thu, 25 Jul 2024 19:10:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BF621C6BE;
+	Thu, 25 Jul 2024 19:23:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="JLu2BEAD"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aL3KYQYo"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-40131.protonmail.ch (mail-40131.protonmail.ch [185.70.40.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98F3B6FB8;
-	Thu, 25 Jul 2024 19:10:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.40.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EB8B55884
+	for <linux-kbuild@vger.kernel.org>; Thu, 25 Jul 2024 19:23:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721934637; cv=none; b=W3iJ9Ifby0hynsvi0HByxvlIfEoTvwpFJOPPNaaV9kOwUl1RrYlk41G8L4NUqkIbLAXbTPjkMP+nkJuia+80/k1AGvWDrTCrbTKOZpc4vUJVKQbekQMAm6KKQxxO/EEKGis4kkfBsPzqyXmdlwFnEznCW1x18lVO661N5WhIeb0=
+	t=1721935432; cv=none; b=NtlxriHiuj06NEw/ubqykDdvduyk0QS+Sle99AjzlSuwgqAZXjV7mErfNfRfz3o0EhAtq8ZAHRjFNrjfGN3PloryyUMjoYjqEIhJ6cO6cIO+M/P6R5lr9EMD5g/Ma1Wt3IwUbMJAfMkW5pJgcri7mGi/NQIyGI+zlmLxq+xWniE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721934637; c=relaxed/simple;
-	bh=0+K5df3pYW8anY0W7obHsaG3gVTkwY1s5smtjcmRj0M=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uWXWl+6ZPBiOCHz7CSBJpPpes9spwGjH4tXcPp6VDXG4Qmbe/JUvfkXc9bKVWDTk4infr8u+YVSy4oK2cH5RXVwV6h34DD+SYtBqkB4UhMyxAoWiHpcI1UikAmeh2ZjVc0609VRFNnXuZwHXCen8mSANV43hy/EA4dGPd2Sgueo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=JLu2BEAD; arc=none smtp.client-ip=185.70.40.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1721934633; x=1722193833;
-	bh=+CMCti/PRpVhFuv6i+zLd7yDwT8XVdBoNnx76B9/VLg=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=JLu2BEADeyUSCboFFSVtM3xxwMnYlT+4DktTQ1ofiuZjuuErGYwSRDGX5CEInEVIo
-	 CZOoZXi7DMkabYi7oaoUMSC9+cm2IF5tbcvERTaepA9a1XWVNBxx3Tc4APMWhEUlW0
-	 qQrN2S00FulHLiyAReddRzjh/s9eUn1rydoeGonzquLq8ze6mMMKkFATgfVJaaI13o
-	 NeU7QLbFCiKg9hE9n4EVg3T+SSd0FXFAjUEec9pgnyVmDkveejTR78/n6wKOeIxaKT
-	 OK9ohY9MeHyRyBi0QgZFG2xKE19xXt7H0UhlC5FG4pZwcd1Nm+hJ5niu5rnCfNF301
-	 FPginJIo6A4lg==
-Date: Thu, 25 Jul 2024 19:10:27 +0000
-To: Miguel Ojeda <ojeda@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, Masahiro Yamada <masahiroy@kernel.org>
-From: Benno Lossin <benno.lossin@proton.me>
-Cc: x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Wedson Almeida Filho <wedsonaf@gmail.com>, Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, Andreas Hindborg <a.hindborg@samsung.com>, Alice Ryhl <aliceryhl@google.com>, rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, patches@lists.linux.dev, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH v3 0/6] Rust: support `CPU_MITIGATIONS` and enable `objtool`
-Message-ID: <6d898710-6864-4a1b-81d3-49a7dd41c166@proton.me>
-In-Reply-To: <20240725183325.122827-1-ojeda@kernel.org>
-References: <20240725183325.122827-1-ojeda@kernel.org>
-Feedback-ID: 71780778:user:proton
-X-Pm-Message-ID: 2583f17197da26fae3dcd7c623aa827bcef29f06
+	s=arc-20240116; t=1721935432; c=relaxed/simple;
+	bh=5b3Y2wACdqHuVNlVtkmDMdcSLeZ4K915NLd9E6Wt9bk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GVxjreWCO/gECxBMzImk9AIN9JOLOuOOU+FnCY3tW9/UZH+UrDcgNxDWpIiRMRTDiVhbiWKKO5zoFy6W+MQPA8gNXefPtc7xz3Q70cPzzpPWHWOiGtViZuF5maMOHi5SwNIY09+35ut4P34fRCADdoV2mup2TttlW81aiLw3rVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aL3KYQYo; arc=none smtp.client-ip=209.85.167.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-52f00ad303aso824241e87.2
+        for <linux-kbuild@vger.kernel.org>; Thu, 25 Jul 2024 12:23:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1721935429; x=1722540229; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=CmLaMfv6A30ZgKL4O6laLUnqkMf5e4uGRIOlXP5gaVg=;
+        b=aL3KYQYohPJ/ayTrO09FaG/T0g4l+/0qN+/XBa9iTacfAl0ydlkbKrcIUUHdjyElGb
+         6g4+drZe+Jufw12SI0QhgRmVElcZ1uJcSu2irDCc5cpAHpmSuZLPhlQFn3/TASB0mQqM
+         dhm7DynfyWx1Xw+uaBEbU1DHy2g5Qd3CcN+a1xWpKFwrSGi10VOJ9SDr2TMtaCPryGg/
+         G/75SXnZfB+04j4X3ZKPixDBvY8+zTYimRexNVuhTut7alaCSvRS26bxu8hcx9lvcsYq
+         GG6P1C0evD5p2Wkv4E50lEOzXKHTKieFCW1yfn5uh7ncR7/QW6HfnY1FH/MDPr/uY4RR
+         wnFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1721935429; x=1722540229;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=CmLaMfv6A30ZgKL4O6laLUnqkMf5e4uGRIOlXP5gaVg=;
+        b=MP84+3J+ssod71d4JkwJFo8BUCajgzKpqSaAvU73zimeyWv+mINtmw13578FIyQBFM
+         ql3PKyk2I3RJe58l9batdul3khRI7TIYuJ/IaBvJcXFHLB8eaxzxllARj4hClV5/cMJh
+         3nNwooHF01+cUXT/+aTPwEtEICPmu8Pkt85lssd2+BH/Zm7FBFtbK3T/sq3bGeL3nGJP
+         a5MO04j/0UrbsfHF+D5RumkUI/c2injbouO4WOsE5s5Rh32GmiIRCADuVUVFSWayYoEd
+         UNWlenzzBPdqEX3VeZ6p+4u4KANCBpl+YyRMiFeDM7eeqMSLZ637KYu1lhOAp5+7khro
+         QyPQ==
+X-Gm-Message-State: AOJu0YwlI/JECfUoc8K7Sjv8A9hZF72CS48ek4v0wfDZSwiumyKOGghs
+	UBBrhhbVoAROnzTuDzE4xRg/v2Xh089bVuFpDcFbvCDwT1sHxFPbatKTizEThozKgQm4gCQw7Jg
+	Vy+hpDK2q6O5ElFdIfbKI3yrmYDjaqnVO++U=
+X-Google-Smtp-Source: AGHT+IGtMbUI4+lW+Wj/4nRClEEmTUIASxrvXS2U/AjObWKWQilQyq1CAI/U1yLLV7O6waGGheMRrshG/PlWDUQe+xk=
+X-Received: by 2002:ac2:4e08:0:b0:52e:9b92:4990 with SMTP id
+ 2adb3069b0e04-52fd3f1de1cmr2852465e87.32.1721935428513; Thu, 25 Jul 2024
+ 12:23:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <CA+icZUWUL956KOKGLG+h1VA9TTXaUc7MS12soUi62q2gj-+tqg@mail.gmail.com>
+In-Reply-To: <CA+icZUWUL956KOKGLG+h1VA9TTXaUc7MS12soUi62q2gj-+tqg@mail.gmail.com>
+Reply-To: sedat.dilek@gmail.com
+From: Sedat Dilek <sedat.dilek@gmail.com>
+Date: Thu, 25 Jul 2024 21:23:10 +0200
+Message-ID: <CA+icZUX-vannYgAHt3O00kwWXLX_cFpr6JJadX==bpZcUzh_7w@mail.gmail.com>
+Subject: Re: ZSTD compression-level when CONFIG_MODULE_COMPRESS_ZSTD=y
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On 25.07.24 20:33, Miguel Ojeda wrote:
+dileks@iniza:~/src/linux/git$ git grep zstd scripts/ | egrep '\-(19|22|T0)'
+scripts/Makefile.lib:      cmd_zstd =3D cat $(real-prereqs) | $(ZSTD) -19 >=
+ $@
+scripts/Makefile.lib:      cmd_zstd22 =3D cat $(real-prereqs) | $(ZSTD)
+-22 --ultra > $@
+scripts/Makefile.lib:      cmd_zstd22_with_size =3D { cat
+$(real-prereqs) | $(ZSTD) -22 --ultra; $(size_append); } > $@
+scripts/Makefile.modinst:      cmd_zstd =3D $(ZSTD) -T0 --rm -f -q $<
+
+-sed@-
+
+On Thu, Jul 25, 2024 at 9:09=E2=80=AFPM Sedat Dilek <sedat.dilek@gmail.com>=
+ wrote:
+>
 > Hi,
->=20
-> This is just v2 with the helper function suggested by Peter.
->=20
-> I dropped Benno's and Alice's Tested-bys from the modified patch, just
-> in case, but the logic should be equivalent.
-
-I re-ran my tests and the results are the same as with v1.
-
-Tested-by: Benno Lossin <benno.lossin@proton.me>
-
----
-Cheers,
-Benno
-
-> Cheers,
-> Miguel
->=20
-> v3:
->   - Added `is_rust_noreturn()` helper function (Peter).
->   - Reworded a couple bits.
->=20
-> v2: https://lore.kernel.org/rust-for-linux/20240724161501.1319115-1-ojeda=
-@kernel.org/
-> v1: https://lore.kernel.org/rust-for-linux/20231023174449.251550-1-ojeda@=
-kernel.org/
->=20
-> Miguel Ojeda (6):
->   rust: module: add static pointer to `{init,cleanup}_module()`
->   x86/rust: support MITIGATION_RETPOLINE
->   x86/rust: support MITIGATION_RETHUNK
->   x86/rust: support MITIGATION_SLS
->   objtool/rust: list `noreturn` Rust functions
->   objtool/kbuild/rust: enable objtool for Rust
->=20
->  arch/x86/Makefile               |  7 ++++-
->  rust/Makefile                   | 22 +++++++++------
->  rust/macros/module.rs           | 12 +++++++++
->  scripts/Makefile.build          |  9 +++++--
->  scripts/generate_rust_target.rs | 15 +++++++++++
->  tools/objtool/check.c           | 48 ++++++++++++++++++++++++++++++++-
->  tools/objtool/noreturns.h       |  2 ++
->  7 files changed, 103 insertions(+), 12 deletions(-)
->=20
->=20
-> base-commit: b1263411112305acf2af728728591465becb45b0
-> --
-> 2.45.2
-
+>
+> I am a big fan of ZSTD - here version 1.5.6 on Debian/unstable AMD64.
+>
+> When playing with CONFIG_MODULE_COMPRESS_ZSTD=3Dy I observed a 35MiB
+> greater linux-image Debian file.
+>
+> Debian: ~100MiB <--- CONFIG_MODULE_COMPRESS_XZ=3Dy
+> Selfmade: ~135MiB <--- CONFIG_MODULE_COMPRESS_ZSTD=3Dy
+>
+> So, I checked the used compression-level of ZSTD in the build-process:
+>
+> [ vmlinux.bin.zst ]
+> $ grep zstd build-log_6.10.1-1-amd64-clang18-kcfi.txt | grep vmlinux.bin.=
+zst
+>  { cat arch/x86/boot/compressed/vmlinux.bin
+> arch/x86/boot/compressed/vmlinux.relocs | zstd -22 --ultra; printf
+> \370\040\157\003; } > arch/x86/boot/compressed/vmlinux.
+> bin.zst
+>
+> [ amdgpu.ko.zst ]
+> $ grep zstd build-log_6.10.1-1-amd64-clang18-kcfi.txt | grep '\-T0' |
+> grep amdgpu
+>  zstd -T0 --rm -f -q
+> debian/linux-image-6.10.1-1-amd64-clang18-kcfi/lib/modules/6.10.1-1-amd64=
+-clang18-kcfi/kernel/drivers/gpu/drm/amd/amdgpu/amdgpu.ko
+>
+> Here some numbers:
+>
+> [ Values in KiB ]
+> $ du -k amdgpu.ko*
+> 29264   amdgpu.ko
+> 5672    amdgpu.ko.zst <--- XXX: -T0
+> 4264    amdgpu.ko.zst_T0-19 <--- XXX:  -T0 -19
+> 4260    amdgpu.ko.zst_T0-22
+> 4308    amdgpu.ko.zst_T0-22-ultra
+>
+> $ time zstd -T0 -v amdgpu.ko
+> *** Zstandard CLI (64-bit) v1.5.6, by Yann Collet ***
+> Note: 2 physical core(s) detected
+> zstd: amdgpu.ko.zst already exists; overwrite (y/n) ? y
+> amdgpu.ko            : 19.38%   (  28.6 MiB =3D>   5.54 MiB, amdgpu.ko.zs=
+t)
+>
+> real    0m2,496s
+> user    0m0,448s
+> sys     0m0,064s
+>
+> $ time zstd -T0 -19 -v amdgpu.ko
+> *** Zstandard CLI (64-bit) v1.5.6, by Yann Collet ***
+> Note: 2 physical core(s) detected
+> amdgpu.ko            : 14.56%   (  28.6 MiB =3D>   4.16 MiB, amdgpu.ko.zs=
+t)
+>
+> real    0m22,821s
+> user    0m22,759s
+> sys     0m0,080s
+>
+> My wish is to use the zstd-option "-T0" (see vmlinux.bin.zst) everywhere.
+>
+> For CONFIG_MODULE_COMPRESS_ZSTD=3Dy: Add compress-level =3D -19
+>
+> NOTE: -22 w/ or w/o ultra has no big effect here and increases even
+> more build-time.
+>
+> What do you think?
+>
+> Thanks.
+>
+> Best regards,
+> -Sedat-
 
