@@ -1,141 +1,137 @@
-Return-Path: <linux-kbuild+bounces-2655-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2656-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3E0E93BF66
-	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Jul 2024 11:54:35 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B2DB93C1C9
+	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Jul 2024 14:21:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 551551F22F26
-	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Jul 2024 09:54:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4C73D1C21ACC
+	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Jul 2024 12:21:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65DA1172BD8;
-	Thu, 25 Jul 2024 09:54:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75D8519AA76;
+	Thu, 25 Jul 2024 12:18:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HDietoas"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Zso9eOeQ"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0959198A19
-	for <linux-kbuild@vger.kernel.org>; Thu, 25 Jul 2024 09:54:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF973199E88
+	for <linux-kbuild@vger.kernel.org>; Thu, 25 Jul 2024 12:18:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721901244; cv=none; b=qFpfZQsld/xwcZA2bvuT9HW4WxxLjDXvuLQQQKMHNOt/QDQfGTbC3BTlPlGWQzm8MlCABbtewU01n4heiYGfE9eZ4ERCvOrWfK4f9eTPCL4rNPZUdNRbyqkGncXMVmQ0Lh4/GvYDiKo83iEnX+dtdmZmn2EZhMgTz0T+uulgnMM=
+	t=1721909921; cv=none; b=aFe67BVxynSL24jYF3f+ptE+/08cgImLFadHjreS/BH9i+/+/kL9iXpLFjLLIYjqnI7ZNl/XckRyWPVL102zqfC7bePMuw/cWkZl68cF1om2nOicbVx/NhuX38vA8c+NbN5nKevehG58uD/Sq5xX0n1gyhCOooElr2emRlvB7SM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721901244; c=relaxed/simple;
-	bh=TRogKpvrGbqxUvdw8euZYKuVBYuIo9/CTs0zy8grZV4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GLCFpBvDlrrwNXttbPUsqhlceL8G4AHYA3J03Veq/QegBiL4nFfnPiwwgfDNBq9XycQtCAHoOCdXu4KCX9FY85P81OAKgH1Jmgz8ykM7pMXaltXUxAKfGhWnMFIpBLUDFxaAxHJ284jgzzy050fZRVM3uCKZf3Vtm4nDqcJUd7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=HDietoas; arc=none smtp.client-ip=170.10.133.124
+	s=arc-20240116; t=1721909921; c=relaxed/simple;
+	bh=tRbR7A0baw5A4frKyUMq4Vn06QKkaz/crVbi5d+42+c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fTn9vkTcLFK61TJVWqxGHV/7SWPDwTFE4IL/OboF+8dridNF5ak0A3sGiLSoOWE566lEOnBpGaksaFUiiNplEGYQzZ++CKlTGnADjVVosMaw61xEkgTnMDh83EGFBxDFEf3CBi1ti7gtPaAdtXZFSw8iu22vNLpwxMvcfd8sqy0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Zso9eOeQ; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1721901241;
+	s=mimecast20190719; t=1721909919;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Azo1YWuyIM0irZB6B+BIwEhaWJ15+/vkqjauTRjqjt8=;
-	b=HDietoas/qOUT+bfBEpHnfwXNDsz7rqyJx+uNGvil09uWWg/BUQqadPt6ZH2BQO4P70hdp
-	XLA1RJTeHwGv6H3lcBbPoBv5LsZervlQGSQ3pysGCIgcBQt3HLOx2829jNpl5OKzEhoY/p
-	jy1qMjpGze5107zlvEoXygvo5tSyOZg=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=y3kWwEG67IR1rFGCSh/psqQO5lbbtnbmeSPEHdE9mjI=;
+	b=Zso9eOeQXbgBA4jaRMUlWh/RDf4splpFKjVeVDKZFzHRkw2Ouj7m0aQE3VsB1WxHxdKQeT
+	B6wkLzbFT9SE7zdoa64kSNdHFvmypI85K5cgnDC9OvAhgB7nr7dMeJc2ag1yPui0fcuqSa
+	g9TENMu9n8pO1RZ92QIYROCdOpE4b9s=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-308-8eHDV9jaMsuN-EVCti8Cgg-1; Thu, 25 Jul 2024 05:54:00 -0400
-X-MC-Unique: 8eHDV9jaMsuN-EVCti8Cgg-1
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-3687f5de494so112955f8f.2
-        for <linux-kbuild@vger.kernel.org>; Thu, 25 Jul 2024 02:54:00 -0700 (PDT)
+ us-mta-103-WeRVj3z8OgypgQuzcCV93g-1; Thu, 25 Jul 2024 08:18:37 -0400
+X-MC-Unique: WeRVj3z8OgypgQuzcCV93g-1
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-44fdc851663so10536151cf.1
+        for <linux-kbuild@vger.kernel.org>; Thu, 25 Jul 2024 05:18:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721901238; x=1722506038;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1721909917; x=1722514717;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Azo1YWuyIM0irZB6B+BIwEhaWJ15+/vkqjauTRjqjt8=;
-        b=O22BhqEaiuj7sDwSkWVj0Yc9YpWJ75SI+0XNNlez791q54uRG0F5v6kBUvhcvXB6x5
-         aaZqcX7JRHT9eb99ByIGr8e/a66blZB7YmiksGOyj6f0Zot2D/dB+dZmEmTDOm1Dc3pD
-         yhJ+8it/48yhKmuduuZCPCPR5pUFDu080FHF8wIUxZJU9xBrqBitN8/qeGLFKL8kdac0
-         8tStM3OATXVHMTpl3W45yn4CME6G96fmpBYzWxrO6KlDEs/bVLf6TaOJUay7m2kbbW+Z
-         7ne5Bf8xK1cGLE/pY0AJ9m/EWlmSqPl7oXjyS7Uv8DhDKwgDkV1qm9O49MLcOyKqj/fW
-         bFoA==
-X-Forwarded-Encrypted: i=1; AJvYcCW5dtL1lbYCXho3SfTtNch1AoCU2m+R/ced66CQfUgIG2Q/85r8MoKplPhsRpO/hNeMURMl+Fwn/gHsuUM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz/oKlMxVUdhy0tm+1dMbT2ZCmGhN9hYQIpmaLUDqvc7GNbfVqN
-	rhDtUbzHEnTjXt9c+pLpQGY+2UGomII8IxabATGjp2eIv01JTA/aJNfthmtXbR/D/Mu4t5BtFic
-	FFJ8RkTjKM7WmQfa35Yj2n12ywXzD3A6cqjac1s16zx21FJb8ACV3cZveO83RVo5oIgDj4A==
-X-Received: by 2002:a05:600c:3c89:b0:425:6dfa:c005 with SMTP id 5b1f17b1804b1-42805440493mr7672535e9.2.1721901237836;
-        Thu, 25 Jul 2024 02:53:57 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFI9xUvHg0R+EO/RKq9ufzKkJZaoU8wz7XHuGLoen5hz1S74CdRTqMxjnghTCleM8tL0hE06w==
-X-Received: by 2002:a05:600c:3c89:b0:425:6dfa:c005 with SMTP id 5b1f17b1804b1-42805440493mr7672425e9.2.1721901237386;
-        Thu, 25 Jul 2024 02:53:57 -0700 (PDT)
-Received: from ?IPV6:2a0d:3341:b231:be10::f71? ([2a0d:3341:b231:be10::f71])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-427f941352asm67749725e9.41.2024.07.25.02.53.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Jul 2024 02:53:56 -0700 (PDT)
-Message-ID: <d3d97260-f840-4ea8-b964-64e36448bf96@redhat.com>
-Date: Thu, 25 Jul 2024 11:53:54 +0200
+        bh=y3kWwEG67IR1rFGCSh/psqQO5lbbtnbmeSPEHdE9mjI=;
+        b=c399y0hiv4Faz3iLZJHSiAEVgNpd3gtyd7AiQ6bp3AlmOjofVWsebZg6uqBEVeQCB5
+         C6rXbGxHtKKEOwkzOAYWvuYShrBJ/RfSOSeRWezECSY3ibgaVvs6EB4b5UXw+Rqz+S0m
+         oh5qPxVSiX3llVIwVpUdNmKclqfzh5m+m2DuEPG9vdHMjrKL14uRvdfE+Wa4tcZPyUwx
+         haG9NPeTtCYHHFvJSoWZAoRdNZ9Nc39uhm5y37rsr2igeTxohR5qivHwwxinO600tnYY
+         EiASsDuMFdjY5GncjecWUP0GBaoBIvsPM8FtVNd4IJV4hEFJ8L1vHnNw7kf56DQdDV0r
+         zHFQ==
+X-Gm-Message-State: AOJu0Ywz9S5NqmvAUEOk8TQtCVhnSH+HCKexnpcIk4Wf93BllQB1IEH1
+	LbmgLWDtIB3H9h28nUjYHRejhowXMGBe5xYH/5WOLRiGPGGWqpuAg9fDEfHiePhQn2OocHwSO3m
+	eTYHthRZuSFS1E79abEkGrv25C1yb+PFKF4tJhY/uOCQ6Qiby//pCoHw9jRBKCGaqC43zjA==
+X-Received: by 2002:a05:622a:4ccf:b0:445:5726:1545 with SMTP id d75a77b69052e-44fe327d0b2mr32063451cf.11.1721909916619;
+        Thu, 25 Jul 2024 05:18:36 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEdhwb4qAbj3ma56ZuNKXro6rpAsgfTvuhPsaSZdonfS4Wzuiv/8ZUWxdGLse2oUYtvjiuahg==
+X-Received: by 2002:a05:622a:4ccf:b0:445:5726:1545 with SMTP id d75a77b69052e-44fe327d0b2mr32063211cf.11.1721909916142;
+        Thu, 25 Jul 2024 05:18:36 -0700 (PDT)
+Received: from optiplex-fbsd (c-174-169-122-120.hsd1.nh.comcast.net. [174.169.122.120])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-44fe82013cdsm5571781cf.72.2024.07.25.05.18.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Jul 2024 05:18:35 -0700 (PDT)
+Date: Thu, 25 Jul 2024 08:18:33 -0400
+From: Rafael Aquini <aquini@redhat.com>
+To: Petr Vorel <pvorel@suse.cz>
+Cc: linux-kbuild@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>
+Subject: Re: [PATCH] kbuild: rpm-pkg: Fix C locale setup
+Message-ID: <ZqJCmVOQDDCrJjio@optiplex-fbsd>
+References: <20240724084655.930706-1-pvorel@suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] net: usb: lan78xx: add weak dependency with micrel phy
- module
-To: Lucas De Marchi <lucas.demarchi@intel.com>,
- Florian Fainelli <f.fainelli@gmail.com>
-Cc: Andrew Lunn <andrew@lunn.ch>,
- Jose Ignacio Tornos Martinez <jtornosm@redhat.com>,
- UNGLinuxDriver@microchip.com, davem@davemloft.net, edumazet@google.com,
- gregkh@linuxfoundation.org, kuba@kernel.org, linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org, mcgrof@kernel.org, netdev@vger.kernel.org,
- woojung.huh@microchip.com, Masahiro Yamada <masahiroy@kernel.org>,
- linux-kbuild@vger.kernel.org
-References: <20240724145458.440023-1-jtornosm@redhat.com>
- <20240724161020.442958-1-jtornosm@redhat.com>
- <8a267e73-1acc-480f-a9b3-6c4517ba317a@lunn.ch>
- <v6uovbn7ld3vlym65twtcvximgudddgvvhsh6heicbprcs5ii3@nernzyc5vu3i>
- <32be761b-cebc-48e4-a36f-bbf90654df82@gmail.com>
- <ybluy4bqgow5qurzfame6kxx2sflsh5trmnlyaifrlurasid3e@73kpadpk5d3p>
-Content-Language: en-US
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <ybluy4bqgow5qurzfame6kxx2sflsh5trmnlyaifrlurasid3e@73kpadpk5d3p>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240724084655.930706-1-pvorel@suse.cz>
 
-On 7/25/24 08:50, Lucas De Marchi wrote:
-> if you are saying that the build system should automatically convert
-> this:
+On Wed, Jul 24, 2024 at 10:46:55AM +0200, Petr Vorel wrote:
+> semicolon separation in LC_ALL is wrong. Either variable needs to be
+> exported before as a separate commit or set as part of the commit in the
+> beginning. Used second variant.
 > 
-> 	config USB_LAN78XX
-> 		tristate "Microchip LAN78XX Based USB Ethernet Adapters"
-> 		select MII
-> 		select PHYLIB
-> 		select MICROCHIP_PHY
-> 		select FIXED_PHY
-> 		select CRC32
+> This fixes broken build on user's locale setup which makes 'date' binary
+> to produce invalid characters in rpm changelog (e.g. cs_CZ.UTF-8 'čec'):
 > 
-> into (for my config):
+> $ make binrpm-pkg
+>   GEN     rpmbuild/SPECS/kernel.spec
+> rpmbuild -bb rpmbuild/SPECS/kernel.spec --define='_topdirlinux/rpmbuild' \
+>     --target x86_64-linux --build-in-place --noprep --define='_smp_mflags \
+>     %{nil}' $(rpm -q rpm >/dev/null 2>&1 || echo --nodeps)
+> Building target platforms: x86_64-linux
+> Building for target x86_64-linux
+> error: bad date in %changelog: St čec 24 2024 user <user@somehost>
+> make[2]: *** [scripts/Makefile.package:71: binrpm-pkg] Error 1
+> make[1]: *** [linux/Makefile:1546: binrpm-pkg] Error 2
+> make: *** [Makefile:224: __sub-make] Error 2
 > 
-> 	MODULE_WEAKDEP("mii");
-> 	MODULE_WEAKDEP("microchip");
+> Fixes: 301c10908e42 ("kbuild: rpm-pkg: introduce a simple changelog section for kernel.spec")
+> Signed-off-by: Petr Vorel <pvorel@suse.cz>
+> ---
+>  scripts/package/mkspec | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> then humn... why is CONFIG_MICREL (being added in this patch) not there?
-> It seems even if we automatically derive that information it wouldn't
-> fix the problem Jose is trying to solve.
-
-I hoped that the 'weak dependency' towards mii and microchip could be 
-inferred greping for 'request_module()' in the relevant code, but 
-apparently it's not the case.
-
-The MODULE_WEAKDEP() construct usage makes sense to me, but this patch 
-will need at least for MODULE_WEAKDEP() to land into net-next, and to 
-grasp more consensus in the phy land.
-
-Cheers,
-
-Paolo
+> diff --git a/scripts/package/mkspec b/scripts/package/mkspec
+> index ead54d67a024..4dc1466dfc81 100755
+> --- a/scripts/package/mkspec
+> +++ b/scripts/package/mkspec
+> @@ -50,6 +50,6 @@ fi
+>  cat << EOF
+>  
+>  %changelog
+> -* $(LC_ALL=C; date +'%a %b %d %Y') ${name} <${email}>
+> +* $(LC_ALL=C date +'%a %b %d %Y') ${name} <${email}>
+>  - Custom built Linux kernel.
+>  EOF
+> -- 
+> 2.43.0
+>
+ 
+Acked-by: Rafael Aquini <aquini@redhat.com>
 
 
