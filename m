@@ -1,203 +1,110 @@
-Return-Path: <linux-kbuild+bounces-2648-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2649-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E588093BD82
-	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Jul 2024 09:59:43 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0527293BE10
+	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Jul 2024 10:38:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0C77CB21D4E
-	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Jul 2024 07:59:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8DF09284211
+	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Jul 2024 08:38:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8ECDD172799;
-	Thu, 25 Jul 2024 07:58:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11F2C17838C;
+	Thu, 25 Jul 2024 08:38:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AvFm88Fh"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="IvlXZcdI"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 179E7172796;
-	Thu, 25 Jul 2024 07:58:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24C0F17B4F0;
+	Thu, 25 Jul 2024 08:38:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721894319; cv=none; b=LW1LjBY2vh+Uo/oiz1cCAYvadIVXszCWs8VhdC/Ad/CR9Wo7F3dZ9U+btqPRDv7kGKdOdDe/ZCKqZZ31WryU1mjyQhsnwQla+s06V20fcers9uxYTVMg7h607HnBxS9Ipl/cjsC5l9b1dZee4h4C2Ypay4mNSEMfMDWODVaG1QQ=
+	t=1721896726; cv=none; b=aADri/fOOPZENqjR1Y5TUSUh9Dr4BSXr5MmxZQK3s/ou6gdu4iB8bTS9h9rn9j1XCTA4QHa5fxUiZlRe0rNzQWHtZPolEMO32dVoJOB0uC84U3JirlXPREKEYu3bDuGH8jzFNJ0ddzZdVA/3ATtd2/kyGjI9S8mFS+jNlo3oZOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721894319; c=relaxed/simple;
-	bh=Q8zxkt2xK/cM957zT5MhFTAW4qRe/Wss5isDY7EWDhg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ghwK9Pqszq2W/qO8pFxA8qtoj+RN3UlEPo1eHbBkbSn7xG4BuJ96Mrm477TSUduDrmKTL0PHzanCLV4G2Blw7QwZ/3LNsYgnNkNrSg6rrcFflQza2tnTghIfy/Bil5n6uu+ueVM6DQ000lkE50nk4Sy6ho2XHoum6lHR+0a40AU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AvFm88Fh; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-70d2ae44790so484957b3a.2;
-        Thu, 25 Jul 2024 00:58:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1721894316; x=1722499116; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=sTwMxNHq1BLBlwRxe0MIFu6JMR5H/T1gtINZWNBZrbI=;
-        b=AvFm88Fhb0QddwCxcxMxjIdTIQQhjT2Ul762r0VcolVqYoQ/HATlF2+MAqxbr9Vo5G
-         RDXVjmZ3A7ak3QGN8magF//spRfDN9wdNaX1gVoirjlzgZ/G8Xg545BO8UTcdWseCJ0W
-         CDo952p6nTrO7mdFW0JmdhHO6MO/R06mAn3KYGZdeEc8QGSwPNNGMGYU2v19uNpc1ru2
-         E1iTG3nzJEUGKzqcHL/xpp1Wm1Clq1BFo3WL3fNhQRlL56gBT0vKunsQL/avTt5yfK4h
-         WrcoezqTIN/zLlgOio3Rn3uG/AeECPitM5a1/3ZZeDXISVvX0kuBXKvxoFfxVYmoKhfk
-         5jdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721894316; x=1722499116;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sTwMxNHq1BLBlwRxe0MIFu6JMR5H/T1gtINZWNBZrbI=;
-        b=HIJf/boGiR7HheLiJWa9aN89DwO5TjaBW3myMeK7RytOc/LnDuZP5MAMZGyWF4dCPs
-         Vl7FDacdw1oHHCb1JoD2CZWyV2sH8UGbnwAIbamBdZ/fgI2n2g/VkH/uyDlxOivNbzlj
-         jbmqLNE9FTs9m+hl9WYgsQTK1sdyiyXzAh1AE/tPT4rxYk1S8heCcinH2D7Ky8oDLxOD
-         E6AQws3bhM3ZHltAS7TxHlDKEB4E8Xs260ufrfh7SmJ9YtrDoK24BZmA5DHhTrpcwhmd
-         +BT5aMKO14HawFnCExDJOjI5lMiezl9EGb039XIJYKCdxFo46pYBg0hH8pNlz27cI8R8
-         Ikiw==
-X-Forwarded-Encrypted: i=1; AJvYcCU4Re0pmsIKcUP+iBNc+Lc1Ti7PssBdzMtPe7yyx1JNFlpblGHO5869kgk7nXxS1vIwRqxlAIYOdqZl1qikULMMRxVLorYMJUP+l/P2JPUa/8nFAVNprQA+ZSNBcgYU14VCuz4GRNBpR+TFMiHiglVOd5qzXY/SkkCB4l43PBoNxBumvNsgSjyetA==
-X-Gm-Message-State: AOJu0YzVfi8pQq/5MVeYfngXcZKi2d2lJ+KX6f6xghUUYmfx66oxLvUb
-	/Qt7/bNa8AWGszWFzM2PnO6tnOPlJMA8ut11DXKdXg5oy/FEE1xqy7oMeKjK
-X-Google-Smtp-Source: AGHT+IG7NmN/XF+oH/8aI+ShSVuP5dqS6kIopTBQolUMjWB0IhVK3t6jYIF8rUrw98Mr8WCViL6m6g==
-X-Received: by 2002:a05:6a00:94a3:b0:70d:3354:a190 with SMTP id d2e1a72fcca58-70eae9a10fcmr1141182b3a.27.1721894316171;
-        Thu, 25 Jul 2024 00:58:36 -0700 (PDT)
-Received: from localhost ([114.242.33.243])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70ead8a2bf6sm640710b3a.197.2024.07.25.00.58.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Jul 2024 00:58:35 -0700 (PDT)
-From: Julian Sun <sunjunchao2870@gmail.com>
-To: linux-wireless@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
+	s=arc-20240116; t=1721896726; c=relaxed/simple;
+	bh=8Ql2WPYqGw2woru+l+DcqmpSpJJNcsxNbO3T5q147a0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=l45A+/JJ2cfh7/l+l4qhUZ+WKEC3OLrQpjGfTIhdgquXHfvc793rcbQp84UfsIBqxqTBZTMWHMILTtrVLVAmfglRGglO01pVvHJqO65Ov7LhRaut27rLLXVSkH3xkpsXJIqtcP2YbJNt8l40gGZmvTNu95lKGIek91+6Hi6HteE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=IvlXZcdI; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=fIEVY7vhZ9EuI1OjKEcT09yuWOGpEQU1LkOBZg6HYK4=; b=IvlXZcdIO1J4iXGRRQgHRrUvTs
+	fAAyKCgtyO6LQ8wnWL2N65BZWlL7MfsRvHMfea29YIcFvduK9sTR3ey3EWyySgFXOusECMXUfj63M
+	c/DNal9+37UveJt57m3wSSZ5M9wYlTULlfyh1KLeya/b+doupfxGQ/3+FHms4R/NpSiHWGryHs/fR
+	5TuyycUO3dL1V4YYU8xaNl3zR1IJWU8BRHKBEcz9l8PqRYtuhu2s6+o+C02Qec5ty4dSXj22Q94GU
+	1U+I0BV9NZXvhKiSoPuvnR7sB1PO2cWzTAAmLdX1WD0iPwhfbP7y+gtxJf4O4hfQl1EcJYZwckWt0
+	CICWLCvA==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sWtzg-00000003yJu-32zY;
+	Thu, 25 Jul 2024 08:38:37 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 544FC300310; Thu, 25 Jul 2024 10:38:36 +0200 (CEST)
+Date: Thu, 25 Jul 2024 10:38:36 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Miguel Ojeda <ojeda@kernel.org>
+Cc: Josh Poimboeuf <jpoimboe@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Masahiro Yamada <masahiroy@kernel.org>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Wedson Almeida Filho <wedsonaf@gmail.com>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <benno.lossin@proton.me>,
+	Andreas Hindborg <a.hindborg@samsung.com>,
+	Alice Ryhl <aliceryhl@google.com>, rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org, patches@lists.linux.dev,
 	linux-kbuild@vger.kernel.org
-Cc: jack@suse.cz,
-	brauner@kernel.org,
-	viro@zeniv.linux.org.uk,
-	masahiroy@kernel.org,
-	akpm@linux-foundation.org,
-	n.schier@avm.de,
-	ojeda@kernel.org,
-	djwong@kernel.org,
-	kvalo@kernel.org,
-	Julian Sun <sunjunchao2870@gmail.com>
-Subject: [PATCH] scripts: reduce false positives in the macro_checker script.
-Date: Thu, 25 Jul 2024 03:58:30 -0400
-Message-Id: <20240725075830.63585-1-sunjunchao2870@gmail.com>
-X-Mailer: git-send-email 2.39.2
+Subject: Re: [PATCH v2 0/6] Rust: support `CPU_MITIGATIONS` and enable
+ `objtool`
+Message-ID: <20240725083836.GE13387@noisy.programming.kicks-ass.net>
+References: <20240724161501.1319115-1-ojeda@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240724161501.1319115-1-ojeda@kernel.org>
 
-Reduce false positives in the macro_checker
-in the following scenarios:
-  1. Conditional compilation
-  2. Macro definitions with only a single character
-  3. Macro definitions as (0) and (1)
+On Wed, Jul 24, 2024 at 06:14:53PM +0200, Miguel Ojeda wrote:
+> Hi,
+> 
+> This is an updated series to the CPU mitigations support for Rust. It
+> also has the patch to enable `objtool`, so that we can start running it
+> for Rust.
+> 
+> It would be nice to get this applied soon, so that we start being
+> warning-free (since we already get warnings under IBT builds via
+> `vmlinux.o`). I am happy to take it through the Rust tree if the x86 and
+> objtool maintainers give an Acked-by, or through any of the other trees,
+> as you prefer. Otherwise, I think at this point we would need to make
+> Rust exclusive to the mitigations, which isn't great.
+> 
+> With this series, again, x86_64 is warning-free with `objtool` enabled. I
+> tested `-O2`/`-Os` and the Rust versions we support under `-O2` (mainly
+> for the `noreturn` patch, which uses heuristics), as well as IBT vs. no
+> IBT (i.e.  running on individual object files vs. in `vmlinux`). I also
+> did an arm64 build.
 
-Before this patch:
-	sjc@sjc:linux$ ./scripts/macro_checker.py  fs | wc -l
-	99
+W00t :-)
 
-After this patch:
-	sjc@sjc:linux$ ./scripts/macro_checker.py  fs | wc -l
-	11
+Aside from a small niggle about maybe doing a helper function for those
+Rust runtime things, I don't see anything objectionable here.
 
-Most of the current warnings are valid now.
-
-Signed-off-by: Julian Sun <sunjunchao2870@gmail.com>
----
- scripts/macro_checker.py | 37 ++++++++++++++++++++++++++++++++-----
- 1 file changed, 32 insertions(+), 5 deletions(-)
-
-diff --git a/scripts/macro_checker.py b/scripts/macro_checker.py
-index cd10c9c10d31..8195339ea5b5 100755
---- a/scripts/macro_checker.py
-+++ b/scripts/macro_checker.py
-@@ -9,9 +9,12 @@ import os
- import re
- 
- macro_pattern = r"#define\s+(\w+)\(([^)]*)\)"
--# below two vars were used to reduce false positives
--do_while0_pattern = r"\s*do\s*\{\s*\}\s*while\s*\(\s*0\s*\)"
-+# below vars were used to reduce false positives
-+fp_patterns = [r"\s*do\s*\{\s*\}\s*while\s*\(\s*0\s*\)",
-+               r"\(?0\)?", r"\(?1\)?"]
- correct_macros = []
-+cond_compile_mark = "#if"
-+cond_compile_end = "#endif"
- 
- def check_macro(macro_line, report):
-     match = re.match(macro_pattern, macro_line)
-@@ -21,15 +24,25 @@ def check_macro(macro_line, report):
-         content = match.group(2)
-         arguments = [item.strip() for item in content.split(',') if item.strip()]
- 
--        if (re.match(do_while0_pattern, macro_def)):
-+        macro_def = macro_def.strip()
-+        if not macro_def:
-             return
-+        # used to reduce false positives, like #define endfor_nexthops(rt) }
-+        if len(macro_def) == 1:
-+            return
-+
-+        for fp_pattern in fp_patterns:
-+            if (re.match(fp_pattern, macro_def)):
-+                return
- 
-         for arg in arguments:
-             # used to reduce false positives
-             if "..." in arg:
--                continue
-+                return
-+        for arg in arguments:
-             if not arg in macro_def and report == False:
-                 return
-+            # if there is a correct macro with the same name, do not report it.
-             if not arg in macro_def and identifier not in correct_macros:
-                 print(f"Argument {arg} is not used in function-line macro {identifier}")
-                 return
-@@ -49,6 +62,8 @@ def macro_strip(macro):
-     return macro
- 
- def file_check_macro(file_path, report):
-+    # number of conditional compiling
-+    cond_compile = 0
-     # only check .c and .h file
-     if not file_path.endswith(".c") and not file_path.endswith(".h"):
-         return
-@@ -57,7 +72,14 @@ def file_check_macro(file_path, report):
-         while True:
-             line = f.readline()
-             if not line:
--                return
-+                break
-+            line = line.strip()
-+            if line.startswith(cond_compile_mark):
-+                cond_compile += 1
-+                continue
-+            if line.startswith(cond_compile_end):
-+                cond_compile -= 1
-+                continue
- 
-             macro = re.match(macro_pattern, line)
-             if macro:
-@@ -67,6 +89,11 @@ def file_check_macro(file_path, report):
-                     macro = macro.strip()
-                     macro += f.readline()
-                     macro = macro_strip(macro)
-+                if file_path.endswith(".c")  and cond_compile != 0:
-+                    continue
-+                # 1 is for #ifdef xxx at the beginning of the header file
-+                if file_path.endswith(".h") and cond_compile != 1:
-+                    continue
-                 check_macro(macro, report)
- 
- def get_correct_macros(path):
--- 
-2.39.2
-
+Thanks!
 
