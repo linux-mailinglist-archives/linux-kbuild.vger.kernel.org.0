@@ -1,45 +1,46 @@
-Return-Path: <linux-kbuild+bounces-2658-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2659-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3687293C863
-	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Jul 2024 20:35:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1400193C86B
+	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Jul 2024 20:36:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6539E1C21484
-	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Jul 2024 18:35:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E0B361C2042B
+	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Jul 2024 18:36:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE5453D57E;
-	Thu, 25 Jul 2024 18:35:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6E5F3B79C;
+	Thu, 25 Jul 2024 18:35:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A/BhvdJq"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c3FKWyHs"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E11E3B79C;
-	Thu, 25 Jul 2024 18:35:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CA6A143738;
+	Thu, 25 Jul 2024 18:35:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721932502; cv=none; b=U0t8L/+r91kKEFidqmU70/YoFErKOuIW7crK5c1QJgpdzIXCFpt5DnJlIrv6OY5G2bTfBhvPp5etK8SxCLFkH6iTIhqVBO8lTRHbKlEueUwIEyWKJ1IbFqX5pRFDw19/jm2w+cBouhMlXrFgZGDuO69kYJ4jEcFUd0EzA0VHPOQ=
+	t=1721932538; cv=none; b=D4hzzRiZFX3uVf/OMPmZ2ZITOOfXBm5QeO0eaZUqxOpGu2lHKisCPtN5jAy9L4vaYqsDwFZxl9wQv1DiOFlZ1cq+AxOB6co4lHzlYGyVV+R0wh1Sv9ijDHcfb6YlSebHSFKeHoBXW3Anu1OcyBr0yLSZE9sw2BLaF/BvD7lfzzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721932502; c=relaxed/simple;
-	bh=26T2QjUffzc0MnZFn4Miu/SCpQ+ELbRTz6C+axsjgFE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZnNU7H7L2rbh1iqq/AeGf5jylhKtLxDVCrN4apc2xsWYwKYxbtMaXoQnQGy1f2uHa+mdvgncIS8woEe+ZcfQMhm1oAH0QKbBM9kyGGssn1sKkHBYj8Xx3hoOnbHcRwgNTl/j25Yh7l865vEPW8y2r785uaSaXnd2iWmOlFYqM/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A/BhvdJq; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C2BCC116B1;
-	Thu, 25 Jul 2024 18:34:56 +0000 (UTC)
+	s=arc-20240116; t=1721932538; c=relaxed/simple;
+	bh=1V2SGN37vLr5gMJa3dfaVAiysIrCfOIQXazWxhqrSKo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=YvFi87hbPDMEOFqDcEHxfWb41pV+lvkRqUeHyuf0D2wVpFRaV8UirCq/Dp4dTVaYZlE92DDyTmJrrxbza/Rrj0d6wHu5C4fSmrwi5YV+H75r0BlFqLePWH+rKwfCCxxWaaTWVjnMpWM9RysEa8R2wlmFQyqlyuBBY1n02ZpZl6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c3FKWyHs; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79326C4AF07;
+	Thu, 25 Jul 2024 18:35:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1721932502;
-	bh=26T2QjUffzc0MnZFn4Miu/SCpQ+ELbRTz6C+axsjgFE=;
-	h=From:To:Cc:Subject:Date:From;
-	b=A/BhvdJqEKf4EXKUaYF01vDx52mBO1ws2o10zdq9tKn7A9q4AlQeDGm2PjQzOt5O9
-	 mb1vOLlhfxEFxrmwgUk8jN5ZhPFFBCfnAsuDl7HsskA2QPrPAZVk9csdcJefd3pTdo
-	 QuTADG2PsjJXa7+uEPUpcESE/MVdznSLGJ2jQaYzUOHs0rOBOJXmPVaVHj8oV3DZC/
-	 x3KS6sTbSQIpAuMB3PEGmff7YvlQ1MDY/pbzFDuJ2hfROjIej2ZS2TgdKDERqUJdc7
-	 FyPKN+IKuoybKslhCc8AOzfQdTBjz8UKW0UtqmIkXtYHRlGGLvNuMJHUdzpukFbRvr
-	 9H0fLeMyavDsQ==
+	s=k20201202; t=1721932538;
+	bh=1V2SGN37vLr5gMJa3dfaVAiysIrCfOIQXazWxhqrSKo=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=c3FKWyHsUFq4kCnQcHIQRL3fr4kcSGZcPBLUo/30bZjjaUILROluTpAPhwbT63xYx
+	 20YGr8CxU1lINVPXt4CW7qY2M306rG8MypvJh+P8ZkpELdvWF2KUR6HFpvahPb4cVR
+	 B9GYnOLQxXNKQ1dzj+bG11/Pnmx7Ub5bsAOu5c0gOqoSEXv8uXpGrIlJ4HBxzjtMdQ
+	 bitljVnZyfkHk18OhjVQYIFpbnidrEtaRUbc7stuxbpYMKkaYL3fZM4aXZtqtS0ErZ
+	 rzwKAGy8kmrgroG12cmQyCfUQ/EwxB3nH0wJ9at7c0mFtc7eHA0wV3wojzs9MCo7Ri
+	 dm7QDWB55L+Yg==
 From: Miguel Ojeda <ojeda@kernel.org>
 To: Josh Poimboeuf <jpoimboe@kernel.org>,
 	Peter Zijlstra <peterz@infradead.org>,
@@ -65,9 +66,11 @@ Cc: x86@kernel.org,
 	linux-kernel@vger.kernel.org,
 	patches@lists.linux.dev,
 	linux-kbuild@vger.kernel.org
-Subject: [PATCH v3 0/6] Rust: support `CPU_MITIGATIONS` and enable `objtool`
-Date: Thu, 25 Jul 2024 20:33:17 +0200
-Message-ID: <20240725183325.122827-1-ojeda@kernel.org>
+Subject: [PATCH v3 6/6] objtool/kbuild/rust: enable objtool for Rust
+Date: Thu, 25 Jul 2024 20:33:23 +0200
+Message-ID: <20240725183325.122827-7-ojeda@kernel.org>
+In-Reply-To: <20240725183325.122827-1-ojeda@kernel.org>
+References: <20240725183325.122827-1-ojeda@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -76,42 +79,114 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi,
+Now that we should be `objtool`-warning free, enable `objtool` for
+Rust too.
 
-This is just v2 with the helper function suggested by Peter.
+Before this patch series, we were already getting warnings under e.g. IBT
+builds, since those would see Rust code via `vmlinux.o`.
 
-I dropped Benno's and Alice's Tested-bys from the modified patch, just
-in case, but the logic should be equivalent.
+Tested-by: Alice Ryhl <aliceryhl@google.com>
+Tested-by: Benno Lossin <benno.lossin@proton.me>
+Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+---
+ rust/Makefile          | 22 ++++++++++++++--------
+ scripts/Makefile.build |  9 +++++++--
+ 2 files changed, 21 insertions(+), 10 deletions(-)
 
-Cheers,
-Miguel
-
-v3:
-  - Added `is_rust_noreturn()` helper function (Peter).
-  - Reworded a couple bits.
-
-v2: https://lore.kernel.org/rust-for-linux/20240724161501.1319115-1-ojeda@kernel.org/
-v1: https://lore.kernel.org/rust-for-linux/20231023174449.251550-1-ojeda@kernel.org/
-
-Miguel Ojeda (6):
-  rust: module: add static pointer to `{init,cleanup}_module()`
-  x86/rust: support MITIGATION_RETPOLINE
-  x86/rust: support MITIGATION_RETHUNK
-  x86/rust: support MITIGATION_SLS
-  objtool/rust: list `noreturn` Rust functions
-  objtool/kbuild/rust: enable objtool for Rust
-
- arch/x86/Makefile               |  7 ++++-
- rust/Makefile                   | 22 +++++++++------
- rust/macros/module.rs           | 12 +++++++++
- scripts/Makefile.build          |  9 +++++--
- scripts/generate_rust_target.rs | 15 +++++++++++
- tools/objtool/check.c           | 48 ++++++++++++++++++++++++++++++++-
- tools/objtool/noreturns.h       |  2 ++
- 7 files changed, 103 insertions(+), 12 deletions(-)
-
-
-base-commit: b1263411112305acf2af728728591465becb45b0
---
+diff --git a/rust/Makefile b/rust/Makefile
+index bf05e65365da..1756238b641d 100644
+--- a/rust/Makefile
++++ b/rust/Makefile
+@@ -344,7 +344,8 @@ quiet_cmd_rustc_library = $(if $(skip_clippy),RUSTC,$(RUSTC_OR_CLIPPY_QUIET)) L
+ 		--crate-type rlib -L$(objtree)/$(obj) \
+ 		--crate-name $(patsubst %.o,%,$(notdir $@)) $< \
+ 		--sysroot=/dev/null \
+-	$(if $(rustc_objcopy),;$(OBJCOPY) $(rustc_objcopy) $@)
++	$(if $(rustc_objcopy),;$(OBJCOPY) $(rustc_objcopy) $@) \
++	$(cmd_objtool)
+ 
+ rust-analyzer:
+ 	$(Q)$(srctree)/scripts/generate_rust_analyzer.py \
+@@ -366,44 +367,49 @@ ifneq ($(or $(CONFIG_ARM64),$(and $(CONFIG_RISCV),$(CONFIG_64BIT))),)
+ 		__ashlti3 __lshrti3
+ endif
+ 
++define rule_rustc_library
++	$(call cmd_and_fixdep,rustc_library)
++	$(call cmd,gen_objtooldep)
++endef
++
+ $(obj)/core.o: private skip_clippy = 1
+ $(obj)/core.o: private skip_flags = -Wunreachable_pub
+ $(obj)/core.o: private rustc_objcopy = $(foreach sym,$(redirect-intrinsics),--redefine-sym $(sym)=__rust$(sym))
+ $(obj)/core.o: private rustc_target_flags = $(core-cfgs)
+ $(obj)/core.o: $(RUST_LIB_SRC)/core/src/lib.rs FORCE
+-	+$(call if_changed_dep,rustc_library)
++	+$(call if_changed_rule,rustc_library)
+ ifdef CONFIG_X86_64
+ $(obj)/core.o: scripts/target.json
+ endif
+ 
+ $(obj)/compiler_builtins.o: private rustc_objcopy = -w -W '__*'
+ $(obj)/compiler_builtins.o: $(src)/compiler_builtins.rs $(obj)/core.o FORCE
+-	+$(call if_changed_dep,rustc_library)
++	+$(call if_changed_rule,rustc_library)
+ 
+ $(obj)/alloc.o: private skip_clippy = 1
+ $(obj)/alloc.o: private skip_flags = -Wunreachable_pub
+ $(obj)/alloc.o: private rustc_target_flags = $(alloc-cfgs)
+ $(obj)/alloc.o: $(RUST_LIB_SRC)/alloc/src/lib.rs $(obj)/compiler_builtins.o FORCE
+-	+$(call if_changed_dep,rustc_library)
++	+$(call if_changed_rule,rustc_library)
+ 
+ $(obj)/build_error.o: $(src)/build_error.rs $(obj)/compiler_builtins.o FORCE
+-	+$(call if_changed_dep,rustc_library)
++	+$(call if_changed_rule,rustc_library)
+ 
+ $(obj)/bindings.o: $(src)/bindings/lib.rs \
+     $(obj)/compiler_builtins.o \
+     $(obj)/bindings/bindings_generated.rs \
+     $(obj)/bindings/bindings_helpers_generated.rs FORCE
+-	+$(call if_changed_dep,rustc_library)
++	+$(call if_changed_rule,rustc_library)
+ 
+ $(obj)/uapi.o: $(src)/uapi/lib.rs \
+     $(obj)/compiler_builtins.o \
+     $(obj)/uapi/uapi_generated.rs FORCE
+-	+$(call if_changed_dep,rustc_library)
++	+$(call if_changed_rule,rustc_library)
+ 
+ $(obj)/kernel.o: private rustc_target_flags = --extern alloc \
+     --extern build_error --extern macros --extern bindings --extern uapi
+ $(obj)/kernel.o: $(src)/kernel/lib.rs $(obj)/alloc.o $(obj)/build_error.o \
+     $(obj)/libmacros.so $(obj)/bindings.o $(obj)/uapi.o FORCE
+-	+$(call if_changed_dep,rustc_library)
++	+$(call if_changed_rule,rustc_library)
+ 
+ endif # CONFIG_RUST
+diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+index efacca63c897..72b1232b1f7d 100644
+--- a/scripts/Makefile.build
++++ b/scripts/Makefile.build
+@@ -288,10 +288,15 @@ rust_common_cmd = \
+ # would not match each other.
+ 
+ quiet_cmd_rustc_o_rs = $(RUSTC_OR_CLIPPY_QUIET) $(quiet_modtag) $@
+-      cmd_rustc_o_rs = $(rust_common_cmd) --emit=obj=$@ $<
++      cmd_rustc_o_rs = $(rust_common_cmd) --emit=obj=$@ $< $(cmd_objtool)
++
++define rule_rustc_o_rs
++	$(call cmd_and_fixdep,rustc_o_rs)
++	$(call cmd,gen_objtooldep)
++endef
+ 
+ $(obj)/%.o: $(obj)/%.rs FORCE
+-	+$(call if_changed_dep,rustc_o_rs)
++	+$(call if_changed_rule,rustc_o_rs)
+ 
+ quiet_cmd_rustc_rsi_rs = $(RUSTC_OR_CLIPPY_QUIET) $(quiet_modtag) $@
+       cmd_rustc_rsi_rs = \
+-- 
 2.45.2
+
 
