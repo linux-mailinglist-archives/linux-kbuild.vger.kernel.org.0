@@ -1,76 +1,104 @@
-Return-Path: <linux-kbuild+bounces-2649-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2650-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0527293BE10
-	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Jul 2024 10:38:48 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A79B93BE34
+	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Jul 2024 10:52:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8DF09284211
-	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Jul 2024 08:38:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 152C42837ED
+	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Jul 2024 08:52:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11F2C17838C;
-	Thu, 25 Jul 2024 08:38:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B19419644B;
+	Thu, 25 Jul 2024 08:52:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="IvlXZcdI"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="GfGZTkxN";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="BOSzqu0U";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="GfGZTkxN";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="BOSzqu0U"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24C0F17B4F0;
-	Thu, 25 Jul 2024 08:38:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A0E41741E1;
+	Thu, 25 Jul 2024 08:52:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721896726; cv=none; b=aADri/fOOPZENqjR1Y5TUSUh9Dr4BSXr5MmxZQK3s/ou6gdu4iB8bTS9h9rn9j1XCTA4QHa5fxUiZlRe0rNzQWHtZPolEMO32dVoJOB0uC84U3JirlXPREKEYu3bDuGH8jzFNJ0ddzZdVA/3ATtd2/kyGjI9S8mFS+jNlo3oZOI=
+	t=1721897536; cv=none; b=FBvKbzkEAAubBdGjzDLbUmXDgDkBZx+grQywF1wcZGPFTnnLt0UKyRCvpP5BAIXlH+i3FDJd67MRdF1MWx3fvQE2AhvQ2zuthFVdoD6uOAQEqKT8lLoP7WT2PdGG175v4FH6QWRl7yz+5S4+b1i1RC+w7DksCyJFNMeYtdExSG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721896726; c=relaxed/simple;
-	bh=8Ql2WPYqGw2woru+l+DcqmpSpJJNcsxNbO3T5q147a0=;
+	s=arc-20240116; t=1721897536; c=relaxed/simple;
+	bh=U5ZDTXxkRIk/3JvEIigcQBdT7eXHTE8XK4nJqoJsIaM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l45A+/JJ2cfh7/l+l4qhUZ+WKEC3OLrQpjGfTIhdgquXHfvc793rcbQp84UfsIBqxqTBZTMWHMILTtrVLVAmfglRGglO01pVvHJqO65Ov7LhRaut27rLLXVSkH3xkpsXJIqtcP2YbJNt8l40gGZmvTNu95lKGIek91+6Hi6HteE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=IvlXZcdI; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=fIEVY7vhZ9EuI1OjKEcT09yuWOGpEQU1LkOBZg6HYK4=; b=IvlXZcdIO1J4iXGRRQgHRrUvTs
-	fAAyKCgtyO6LQ8wnWL2N65BZWlL7MfsRvHMfea29YIcFvduK9sTR3ey3EWyySgFXOusECMXUfj63M
-	c/DNal9+37UveJt57m3wSSZ5M9wYlTULlfyh1KLeya/b+doupfxGQ/3+FHms4R/NpSiHWGryHs/fR
-	5TuyycUO3dL1V4YYU8xaNl3zR1IJWU8BRHKBEcz9l8PqRYtuhu2s6+o+C02Qec5ty4dSXj22Q94GU
-	1U+I0BV9NZXvhKiSoPuvnR7sB1PO2cWzTAAmLdX1WD0iPwhfbP7y+gtxJf4O4hfQl1EcJYZwckWt0
-	CICWLCvA==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sWtzg-00000003yJu-32zY;
-	Thu, 25 Jul 2024 08:38:37 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 544FC300310; Thu, 25 Jul 2024 10:38:36 +0200 (CEST)
-Date: Thu, 25 Jul 2024 10:38:36 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Miguel Ojeda <ojeda@kernel.org>
-Cc: Josh Poimboeuf <jpoimboe@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Masahiro Yamada <masahiroy@kernel.org>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Wedson Almeida Filho <wedsonaf@gmail.com>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@samsung.com>,
-	Alice Ryhl <aliceryhl@google.com>, rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org, patches@lists.linux.dev,
-	linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH v2 0/6] Rust: support `CPU_MITIGATIONS` and enable
- `objtool`
-Message-ID: <20240725083836.GE13387@noisy.programming.kicks-ass.net>
-References: <20240724161501.1319115-1-ojeda@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=ox3RdYu8M00ro6mw7qurIM2IBpRG448dmXs/q29Nhp88kooKmSmeEe7E7WUhAorfE5CDRAgTX5C9r4Jay/Rc3KqmzBxU7EWZn/w2kQl8Hiq0Qtk/tPa3Q3CdNECoeXCsltxJ4+1kH10EAM9eXnGmfsJalfcYWjrCEIGkFy1U4Zw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=GfGZTkxN; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=BOSzqu0U; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=GfGZTkxN; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=BOSzqu0U; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 370061F7F4;
+	Thu, 25 Jul 2024 08:52:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1721897532; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8SdDBGL0PW1vSYsbzX8BUuhklGP+FwaGFOQ2ZOZ0yRg=;
+	b=GfGZTkxNcBivGaF3zRgTUF7QcgcYTA83aYDuXbALtiLv7RW9xy0RE/voPkpON8cdd34BME
+	grcEZOTFCCCn2JPOMfgzVqeNzzwakOAtAvGxtiAUsk7g0udkMw+ADwtTTH/ZfPMgTPryD1
+	q529o/b911SaIl3D0SSP8Wn7fmRlBmI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1721897532;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8SdDBGL0PW1vSYsbzX8BUuhklGP+FwaGFOQ2ZOZ0yRg=;
+	b=BOSzqu0UvIOTSm1+eTUzlPRjUjFYTzyAqoWp6YhaEXaNz3FmcMMWfEMAaAln2GZTL52Quy
+	yEfbug76xpuQM+Dg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=GfGZTkxN;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=BOSzqu0U
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1721897532; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8SdDBGL0PW1vSYsbzX8BUuhklGP+FwaGFOQ2ZOZ0yRg=;
+	b=GfGZTkxNcBivGaF3zRgTUF7QcgcYTA83aYDuXbALtiLv7RW9xy0RE/voPkpON8cdd34BME
+	grcEZOTFCCCn2JPOMfgzVqeNzzwakOAtAvGxtiAUsk7g0udkMw+ADwtTTH/ZfPMgTPryD1
+	q529o/b911SaIl3D0SSP8Wn7fmRlBmI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1721897532;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8SdDBGL0PW1vSYsbzX8BUuhklGP+FwaGFOQ2ZOZ0yRg=;
+	b=BOSzqu0UvIOTSm1+eTUzlPRjUjFYTzyAqoWp6YhaEXaNz3FmcMMWfEMAaAln2GZTL52Quy
+	yEfbug76xpuQM+Dg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1C34513874;
+	Thu, 25 Jul 2024 08:52:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id je6YBjwSomZxLQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 25 Jul 2024 08:52:12 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id BAD3FA08F2; Thu, 25 Jul 2024 10:51:56 +0200 (CEST)
+Date: Thu, 25 Jul 2024 10:51:56 +0200
+From: Jan Kara <jack@suse.cz>
+To: Julian Sun <sunjunchao2870@gmail.com>
+Cc: linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	jack@suse.cz, brauner@kernel.org, viro@zeniv.linux.org.uk,
+	masahiroy@kernel.org, akpm@linux-foundation.org, n.schier@avm.de,
+	ojeda@kernel.org, djwong@kernel.org, kvalo@kernel.org
+Subject: Re: [PATCH] scripts: reduce false positives in the macro_checker
+ script.
+Message-ID: <20240725085156.dezpnf44cilt46su@quack3>
+References: <20240725075830.63585-1-sunjunchao2870@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -79,32 +107,103 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240724161501.1319115-1-ojeda@kernel.org>
+In-Reply-To: <20240725075830.63585-1-sunjunchao2870@gmail.com>
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 370061F7F4
+X-Spam-Score: -3.81
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.81 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_LAST(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DWL_DNSWL_BLOCKED(0.00)[suse.cz:dkim];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
 
-On Wed, Jul 24, 2024 at 06:14:53PM +0200, Miguel Ojeda wrote:
-> Hi,
+On Thu 25-07-24 03:58:30, Julian Sun wrote:
+> Reduce false positives in the macro_checker
+> in the following scenarios:
+>   1. Conditional compilation
+>   2. Macro definitions with only a single character
+>   3. Macro definitions as (0) and (1)
 > 
-> This is an updated series to the CPU mitigations support for Rust. It
-> also has the patch to enable `objtool`, so that we can start running it
-> for Rust.
+> Before this patch:
+> 	sjc@sjc:linux$ ./scripts/macro_checker.py  fs | wc -l
+> 	99
 > 
-> It would be nice to get this applied soon, so that we start being
-> warning-free (since we already get warnings under IBT builds via
-> `vmlinux.o`). I am happy to take it through the Rust tree if the x86 and
-> objtool maintainers give an Acked-by, or through any of the other trees,
-> as you prefer. Otherwise, I think at this point we would need to make
-> Rust exclusive to the mitigations, which isn't great.
+> After this patch:
+> 	sjc@sjc:linux$ ./scripts/macro_checker.py  fs | wc -l
+> 	11
 > 
-> With this series, again, x86_64 is warning-free with `objtool` enabled. I
-> tested `-O2`/`-Os` and the Rust versions we support under `-O2` (mainly
-> for the `noreturn` patch, which uses heuristics), as well as IBT vs. no
-> IBT (i.e.  running on individual object files vs. in `vmlinux`). I also
-> did an arm64 build.
+> Most of the current warnings are valid now.
+> 
+> Signed-off-by: Julian Sun <sunjunchao2870@gmail.com>
+...
+>  def file_check_macro(file_path, report):
+> +    # number of conditional compiling
+> +    cond_compile = 0
+>      # only check .c and .h file
+>      if not file_path.endswith(".c") and not file_path.endswith(".h"):
+>          return
+> @@ -57,7 +72,14 @@ def file_check_macro(file_path, report):
+>          while True:
+>              line = f.readline()
+>              if not line:
+> -                return
+> +                break
+> +            line = line.strip()
+> +            if line.startswith(cond_compile_mark):
+> +                cond_compile += 1
+> +                continue
+> +            if line.startswith(cond_compile_end):
+> +                cond_compile -= 1
+> +                continue
+>  
+>              macro = re.match(macro_pattern, line)
+>              if macro:
+> @@ -67,6 +89,11 @@ def file_check_macro(file_path, report):
+>                      macro = macro.strip()
+>                      macro += f.readline()
+>                      macro = macro_strip(macro)
+> +                if file_path.endswith(".c")  and cond_compile != 0:
+> +                    continue
+> +                # 1 is for #ifdef xxx at the beginning of the header file
+> +                if file_path.endswith(".h") and cond_compile != 1:
+> +                    continue
+>                  check_macro(macro, report)
+>  
+>  def get_correct_macros(path):
 
-W00t :-)
+So I don't think this is right. As far as I understand this skips any macros
+that are conditionally defined? Why? There is a lot of them and checking
+them is beneficial... The patterns you have added should be dealing with
+most of the conditional defines anyway.
 
-Aside from a small niggle about maybe doing a helper function for those
-Rust runtime things, I don't see anything objectionable here.
-
-Thanks!
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
 
