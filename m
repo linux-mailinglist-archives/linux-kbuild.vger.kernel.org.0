@@ -1,89 +1,69 @@
-Return-Path: <linux-kbuild+bounces-2670-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2671-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D6F593CCDF
-	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Jul 2024 05:13:24 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B27D393D006
+	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Jul 2024 11:01:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3C75B282598
-	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Jul 2024 03:13:23 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EEF84B20BE8
+	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Jul 2024 09:01:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3A332032D;
-	Fri, 26 Jul 2024 03:13:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B2A276048;
+	Fri, 26 Jul 2024 09:00:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SmL25kBq"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="K7UR0zr0"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FA8D22611;
-	Fri, 26 Jul 2024 03:13:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 521FA2582
+	for <linux-kbuild@vger.kernel.org>; Fri, 26 Jul 2024 09:00:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721963598; cv=none; b=YisuC+FJbZ404gTI/QasQR/4ahz9PMUNx1PyKiLdhvd6+69wlXhxGcx2mGiEkrCyjvMxcy1AX7OAwSUYUt2iN46hNF3o3DlxVNSnw1LCNb9d+k3Vyucz+tVIdVa3qngbE13h7pdxR9n1ARTVZjqjUbwrTEqdXZMoLLZ36AKWDIQ=
+	t=1721984447; cv=none; b=FgZQav0TKpVZJBRRps5UYoOPAvz1UqjSh05Q3nJ/1eXLqD+80VPY+mfoSwOLH5ETL9GUF/CA9sZzRNINaiq9CewpJGgV+xoxrMgStomp7uBdE7wOecJsrFwmrpxkrl4GorLa3UEOmWmLQHF3NcajsdOjYVr05WgKeoPYcYHfncU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721963598; c=relaxed/simple;
-	bh=Ay8xxu+taRpgSAApBS8YRZsW8nYWYCytrPALo5KpbuY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Ahg+Tk0O5hejaWWHPW0siQ02pM3tHDQVRQy5r7jhf7+j+/fg7Hakb5iDzNPxHEr5kFGv8cWeGBSAXf9uDGYwgWwUWu0C+kz3bYZkv2cvEuv7EirBN+XB7m9XyL/p5vtY2xl1ay2E7O2mwsVVVfJCsBeXtGQzdYSRj51+s/CbYe8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SmL25kBq; arc=none smtp.client-ip=209.85.160.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-260f863108fso426671fac.1;
-        Thu, 25 Jul 2024 20:13:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1721963596; x=1722568396; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ci2Gck85EvPCemYSkdaGllILSEgdeKb2oHQPF4Q/Le8=;
-        b=SmL25kBqx5KJvjikWHaPsnyNNSpD0//6g6BqwuYNmy8YficGP5Qd22BGWwEpuMwdjF
-         jx/cBzo9lMm6mJgXtKxAsGOybcRxRZFPtPu8eLrne44OkVJzALn+4JIKeXlN3CNAbVP2
-         VZwm2/TVLhPtnB8qV+6kjhWNlE9FoOE+QtqbAzL5eD0osfjJ6aO7702M9QqejDFlp1BV
-         mDlhykuvMl6He/MertmCwX06Nkwyk1jI9x5JvuR+9we3o3LKMK/wXrhCk4hXU8gKN1Zb
-         Sv/j7NoNn92DKPzF0h+8V+5+JUN0JezGyfN31B+fvIUOdo9wtU46BZZaVpv95RaZJq3I
-         ARQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721963596; x=1722568396;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ci2Gck85EvPCemYSkdaGllILSEgdeKb2oHQPF4Q/Le8=;
-        b=J5vRK1c1NQw1SGpQreLmYWOEu35nnVScf2wSoC3dkaI4p43VE0G6j00JVQcifLFtmF
-         /hnG5H77Izll2k9XGXONq2TBGwzAhvwqFFsc7ksisjUrsHGFWUVGxIt/XFCoaOHO9Fq4
-         DBu63KXkjRFekPJaRmXFEVqCwKCPgfb877MX/XyupYA2lXNUqFuhc8mbIozUzQvQLVHT
-         S19kcxmxJQr0eERxowV6+P9aQxAkQZZUu9BsfYQHIILhxmFhdrlS55/gUUjj9zE41nG1
-         ruCk0svVKtnd9siY/gmjuAM5ztbQ3xslv/b6uBacZztTSjV5hN8PRMRLjh6ovGLpGyBv
-         7kPA==
-X-Forwarded-Encrypted: i=1; AJvYcCW9MfyyhSG9g5oH/8aheKI5+6N+bNg8Zqqd+Kqr0HyXPrIrKT+RfN0/iMMmVUbHstBnjuJyVT1KJZ4jRIDgITaeR/mh9B2nYMQPwjJnwNNPtd1ZxMFx3ejvF6zsjSIkD1iaHg/phHRKMHMbtGE9vd0jYIr+FLpM7HuBGQCqxKwmvSaJ3JbDHKKz0w==
-X-Gm-Message-State: AOJu0YxlS/d9c1tOgjLAeY+fanqKvU8hS5oF+ucpelkZpCof0ZfJCKXi
-	ibSbgBDciTjfagR8jjVMxZ3d0VdwBYfAOCfg+RAnkzWWzU9el5EtGarE6oOH
-X-Google-Smtp-Source: AGHT+IHs0+z0rH8aFg/4yNzNXT6MvnCERGSAbtn6QHnH/2s3SBFq8Gi/yzYBmc0Sm4hD35LUr+J1tQ==
-X-Received: by 2002:a05:6870:828e:b0:254:a09c:6ddf with SMTP id 586e51a60fabf-264a0d34e62mr4816325fac.24.1721963595908;
-        Thu, 25 Jul 2024 20:13:15 -0700 (PDT)
-Received: from localhost ([114.242.33.243])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70ead6e18dfsm1852757b3a.11.2024.07.25.20.13.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Jul 2024 20:13:15 -0700 (PDT)
-From: Julian Sun <sunjunchao2870@gmail.com>
-To: linux-wireless@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org
-Cc: jack@suse.cz,
-	brauner@kernel.org,
-	viro@zeniv.linux.org.uk,
-	masahiroy@kernel.org,
-	akpm@linux-foundation.org,
-	n.schier@avm.de,
-	ojeda@kernel.org,
-	djwong@kernel.org,
-	kvalo@kernel.org,
-	Julian Sun <sunjunchao2870@gmail.com>
-Subject: [PATCH v2] scripts: reduce false positives in the macro_checker script.
-Date: Thu, 25 Jul 2024 23:13:10 -0400
-Message-Id: <20240726031310.254742-1-sunjunchao2870@gmail.com>
-X-Mailer: git-send-email 2.39.2
+	s=arc-20240116; t=1721984447; c=relaxed/simple;
+	bh=Q3ep/kqRKGVh6qNLDhbOIaY72ZPDO/vccwtW2nb/zNw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Xs1VF8L/xaJqHR1NmL58mq8az69qDZmvBNf7r6tNcRM7GTmV0sacQXl+NsDW2s1N+OFEKEGxopsbrIaP8vaXbltJdv8WGMiVD8WtTVw1sgjADZiRd4SEiMoX2CTZnx4VTigI87i02Y47mQnE2Sx3GD6N4YPWYuA7ttBeHvXJaJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=K7UR0zr0; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1721984444;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=xLN319cy2ybo/eIqJgIWzJakYdZYuxDFmsQ44YyLNJM=;
+	b=K7UR0zr0IqUn1gbFey5cc+bw+6V8RAY5GpA5HSKiEbEGZdiLsBD6N5IgjF8pigYCuHzevj
+	tSqEwi5u01k2pGACGm7d9wUZdARIFarJAp/5o1Ve8dU4iJRxChe4R8QZm8yZty5Pj5/t+M
+	gvAeN5Ydt6E9xytcHCyoO3htEFjy1bc=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-352-l2tfbY7qN6iEJIB6PJjxqw-1; Fri,
+ 26 Jul 2024 05:00:42 -0400
+X-MC-Unique: l2tfbY7qN6iEJIB6PJjxqw-1
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5C88D19560A2;
+	Fri, 26 Jul 2024 09:00:40 +0000 (UTC)
+Received: from fedora.redhat.com (unknown [10.39.192.105])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id CD3BF1955F6B;
+	Fri, 26 Jul 2024 09:00:36 +0000 (UTC)
+From: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
+To: masahiroy@kernel.org,
+	nathan@kernel.org,
+	nicolas@fjasle.eu,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
+Subject: [PATCH] kbuild: rpm-pkg: ghost modules.weakdep file
+Date: Fri, 26 Jul 2024 11:00:26 +0200
+Message-ID: <20240726090032.97793-1-jtornosm@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -91,139 +71,32 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-Reduce false positives in the macro_checker
-in the following scenarios:
-  1. Macro definitions with only a single character
-  2. Macro definitions as (0) and (1)
-  3. Macro definitions as empty
+In the same way as for other similar files, mark as ghost the new file
+generated by depmod for configured weak dependencies for modules,
+modules.weakdep, so that although it is not included in the package,
+claim the ownership on it.
 
-Also provide an option (-v) that alow users to control
-whether or not to check conditional macros. When -v is
-specified, conditional macros are checked; otherwise,
-thet are not.
-
-Before this patch:
-	sjc@sjc:linux$ ./scripts/macro_checker.py  fs | wc -l
-	99
-
-After this patch:
-	sjc@sjc:linux$ ./scripts/macro_checker.py  fs | wc -l
-	11
-	sjc@sjc:linux$ ./scripts/macro_checker.py  -v fs | wc -l
-	31
-
-Signed-off-by: Julian Sun <sunjunchao2870@gmail.com>
+Signed-off-by: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
 ---
- scripts/macro_checker.py | 50 ++++++++++++++++++++++++++++++++--------
- 1 file changed, 40 insertions(+), 10 deletions(-)
+ scripts/package/kernel.spec | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/macro_checker.py b/scripts/macro_checker.py
-index cd10c9c10d31..ba550982e98f 100755
---- a/scripts/macro_checker.py
-+++ b/scripts/macro_checker.py
-@@ -8,10 +8,20 @@ import argparse
- import os
- import re
+diff --git a/scripts/package/kernel.spec b/scripts/package/kernel.spec
+index 74355ff0e106..d558d39c01b6 100644
+--- a/scripts/package/kernel.spec
++++ b/scripts/package/kernel.spec
+@@ -74,7 +74,7 @@ ln -fns /usr/src/kernels/%{KERNELRELEASE} %{buildroot}/lib/modules/%{KERNELRELEA
+ 	echo "/lib/modules/%{KERNELRELEASE}"
  
-+parser = argparse.ArgumentParser()
-+
-+parser.add_argument("path", type=str, help="The file or dir path that needs check")
-+parser.add_argument("-v", "--verbose", action="store_true",
-+                    help="Check conditional macros, but may lead to more false positives")
-+args = parser.parse_args()
-+
- macro_pattern = r"#define\s+(\w+)\(([^)]*)\)"
--# below two vars were used to reduce false positives
--do_while0_pattern = r"\s*do\s*\{\s*\}\s*while\s*\(\s*0\s*\)"
-+# below vars were used to reduce false positives
-+fp_patterns = [r"\s*do\s*\{\s*\}\s*while\s*\(\s*0\s*\)",
-+               r"\(?0\)?", r"\(?1\)?"]
- correct_macros = []
-+cond_compile_mark = "#if"
-+cond_compile_end = "#endif"
+ 	for x in alias alias.bin builtin.alias.bin builtin.bin dep dep.bin \
+-					devname softdep symbols symbols.bin; do
++				devname softdep weakdep symbols symbols.bin; do
+ 		echo "%ghost /lib/modules/%{KERNELRELEASE}/modules.${x}"
+ 	done
  
- def check_macro(macro_line, report):
-     match = re.match(macro_pattern, macro_line)
-@@ -21,15 +31,25 @@ def check_macro(macro_line, report):
-         content = match.group(2)
-         arguments = [item.strip() for item in content.split(',') if item.strip()]
- 
--        if (re.match(do_while0_pattern, macro_def)):
-+        macro_def = macro_def.strip()
-+        if not macro_def:
-+            return
-+        # used to reduce false positives, like #define endfor_nexthops(rt) }
-+        if len(macro_def) == 1:
-             return
- 
-+        for fp_pattern in fp_patterns:
-+            if (re.match(fp_pattern, macro_def)):
-+                return
-+
-         for arg in arguments:
-             # used to reduce false positives
-             if "..." in arg:
--                continue
-+                return
-+        for arg in arguments:
-             if not arg in macro_def and report == False:
-                 return
-+            # if there is a correct macro with the same name, do not report it.
-             if not arg in macro_def and identifier not in correct_macros:
-                 print(f"Argument {arg} is not used in function-line macro {identifier}")
-                 return
-@@ -49,6 +69,8 @@ def macro_strip(macro):
-     return macro
- 
- def file_check_macro(file_path, report):
-+    # number of conditional compiling
-+    cond_compile = 0
-     # only check .c and .h file
-     if not file_path.endswith(".c") and not file_path.endswith(".h"):
-         return
-@@ -57,7 +79,14 @@ def file_check_macro(file_path, report):
-         while True:
-             line = f.readline()
-             if not line:
--                return
-+                break
-+            line = line.strip()
-+            if line.startswith(cond_compile_mark):
-+                cond_compile += 1
-+                continue
-+            if line.startswith(cond_compile_end):
-+                cond_compile -= 1
-+                continue
- 
-             macro = re.match(macro_pattern, line)
-             if macro:
-@@ -67,6 +96,12 @@ def file_check_macro(file_path, report):
-                     macro = macro.strip()
-                     macro += f.readline()
-                     macro = macro_strip(macro)
-+                if not args.verbose:
-+                    if file_path.endswith(".c")  and cond_compile != 0:
-+                        continue
-+                    # 1 is for #ifdef xxx at the beginning of the header file
-+                    if file_path.endswith(".h") and cond_compile != 1:
-+                        continue
-                 check_macro(macro, report)
- 
- def get_correct_macros(path):
-@@ -84,11 +119,6 @@ def dir_check_macro(dir_path):
- 
- 
- def main():
--    parser = argparse.ArgumentParser()
--
--    parser.add_argument("path", type=str, help="The file or dir path that needs check")
--    args = parser.parse_args()
--
-     if os.path.isfile(args.path):
-         get_correct_macros(args.path)
-         file_check_macro(args.path, True)
 -- 
-2.39.2
+2.45.2
 
 
