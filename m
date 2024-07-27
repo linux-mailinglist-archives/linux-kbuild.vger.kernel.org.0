@@ -1,114 +1,136 @@
-Return-Path: <linux-kbuild+bounces-2685-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2686-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 245D093E04F
-	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Jul 2024 19:15:42 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CCD593E0F9
+	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Jul 2024 22:43:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B905A1F21AD2
-	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Jul 2024 17:15:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B20E0281CD2
+	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Jul 2024 20:43:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65CF81822F8;
-	Sat, 27 Jul 2024 17:15:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D709C38396;
+	Sat, 27 Jul 2024 20:43:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="ygPgmHO6"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iCO/TTwr"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACF0B4A1B;
-	Sat, 27 Jul 2024 17:15:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.91.91
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D5E92D05D;
+	Sat, 27 Jul 2024 20:43:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722100535; cv=none; b=l7wrADCR2qmxmHbssIeDhLS48px1FqzwXt+FoXKyST+sJPohhSXwVBPZB/K/easfBf3MX8JTXufLN13xufeWGliezZTOLnk2Jz+I+HCb4ce1L0N2MQKiKtT/mxR1/3976aIJU0w0BZYButk2wjNsop/EdJgprP+CvnKgF2CEyws=
+	t=1722112995; cv=none; b=LP7Ukl/4Q9CuKNVCwmZLowd721sKNk+xnzD2UsDGYsIbrE6Bxb6/R68POl7B2SgvdmlteE3HiYJBcLcH9XwgI8T2tcnOLxBrevZvz8TskmK1H+slIz+dqVw/LQq+RcTDO/DKakfTjRk/z0Nr8V22Iwj/IcJxtxt6lxy06p9acV4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722100535; c=relaxed/simple;
-	bh=c0cp8+no8R2fxsi1kFc86ZhbYk7L7ozY44Bsr1zriRg=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=MmADCj4K0IuayGTFvJ87rLNBKPcGso8j0tQI/Ugqjh+paZnPtyxZitZCa6AB6daJOcJaXRo05wW2heBAVXDg/+MHTHdqePtdvccHrfQwcWPCzx7caaQWm6G1/WXRofEh/7d66IApujcJH5pggMxHm2KQzmjQyym/dTkhc+lk3a0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=ygPgmHO6; arc=none smtp.client-ip=116.203.91.91
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manjaro.org
+	s=arc-20240116; t=1722112995; c=relaxed/simple;
+	bh=pCLrAC0c7kI1WPvw+F3AOPdqNfHw/TdcPzhDI1T0wGU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=abDA6NZgDlYS9MxRQsi+biQw/t9ygowrXGW0Nkm1RH674U7gxUjLN14OgbSk/aHCrv3nNj2eVRDIONqXSiTj+m7mFQGhuiBgNd+ENEyw5r/ayhebeMTcHEIMU9+PNac/L6klxIuY6n1lxjAphcZmhr4BwgRcMqg0tgfwSsrCxk0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iCO/TTwr; arc=none smtp.client-ip=209.85.167.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-52f042c15e3so2092489e87.0;
+        Sat, 27 Jul 2024 13:43:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1722112992; x=1722717792; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bv4ok3GIewx2d9Yx1/BgjuhSzkHnMJiT1FqXF1qlCKw=;
+        b=iCO/TTwr4b00nlVrp/wYaJ2hQ1Y8KrnzJe0yZ7gwSMoufaDcpaE+13Mkbz3j4630sy
+         A/FNCmY883Fb+d1TMDE8he42/UffaFJuNiSRTwA3+4ZB88d2mIAOFX/rE2N6dA840jQA
+         xxMuYtO+tJI+xWZ9WuJ1naKZ4io9XOL14vFbjnYnXw3SxNWQV27HxnM4yOaAaHfYN2/Y
+         V2AE3cspGCCk3/avmLUZTQgJeeDv/+ya0HbdJO4vvmrALD4SBFk6UcBTUSC3O+EZAK4X
+         HV35x3nz462KB2hbg+3imLTMoJIz2jz9LRlKAKKQtjgGR8xRWSnUKhrU7IaCioBO1ADM
+         Fzqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722112992; x=1722717792;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=bv4ok3GIewx2d9Yx1/BgjuhSzkHnMJiT1FqXF1qlCKw=;
+        b=bcig4AP1fnBiPi076T49wPJz38e3/fSgqt6Kc/Jok3QCekp5KKW4Q1hPBY7CS8k8C2
+         nG0rlcOaRp+ZpCNtBEzOyghg6z8yj4UiMRhG0AZcEZf8XjprX88gFqNiYE2wmHZPCFhA
+         9UiDrjODxSoGIzgVjYr/KxP6hycO6+Nn1her7bLI5N3sbhzFf+ZtKwZN2XXK7wWUvyqv
+         mDSK13EACpq1qT3rGtEeYZN8fgePyE63B/uEdFiESkCLg3l8umHELySPeEL5fU02XROG
+         N7otUwP8UEy8U9QubXlhqzrBmDLRVGMIKopFOzXgETS2mBpWPkomRnpto4PjiFWSXCtk
+         x8JQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV7md3Rz7qZi/ivYmRuhruJYG7W+LUKLJHpY7maX95/BO0nrr2u1xDh/6EkEb47Yxpx5oLaFY8iyJmO+13I41G4OhvI360JAy5n4GL+412QjFOk3CRs2NGjxryZCSLvmuccXdkHjT5kAUKBw+o1J2lWjDmBNvC6YIx5uSPrB21nGAQP
+X-Gm-Message-State: AOJu0YyoskNO2bfEdT3YLpzqqTSiNh3FYWSrsFqY7QxwCs02Bg5rU4vp
+	5nta3KDd2yfwT3WX76+6aysHe5MOolYH/CnDvlboAfC6fRKNZ3WMxhetL7g+WlNod9njxvEAqgS
+	0qJGzXdOMX2a34ZSFtX1LxQhlUA==
+X-Google-Smtp-Source: AGHT+IGP71xKWMKOJHw+6eAC+0bfS2GCggw5OubOUU2ooeGmpjLgTwO9dToD28ptkFTPF8afYXAbZ5d0nh1LLHWoUjg=
+X-Received: by 2002:a05:6512:3ca9:b0:52e:8161:4ce6 with SMTP id
+ 2adb3069b0e04-5309b718bebmr1011788e87.25.1722112991729; Sat, 27 Jul 2024
+ 13:43:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
-	t=1722100528;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mDND/bi51l3wLBoIF5cG/+5oJdyBca1reUQ4UemnSYM=;
-	b=ygPgmHO6Vp4Rhom2yr0owx9+puRC1tx9Ccs/JtGGbs6e9U5IafwOqwuiwg4gB5PZrCSD+y
-	HhYEHHTszc65R/RMwfq7evBnOToJxFdiOVIw/ZlNtzCVH5MTQ3viNLDN4b4R8fNaOckUkM
-	FXl3jC5ehXmO20WPoZLyoNtX2jwz8F5k8A4gKc0xgrj5PbsTqUpW1IlcqpHsqi2JXs4g43
-	/9tn2cvDaAvbVJyQ4hzfkOIfLui7CA2j4C5Lqx+Sonj9RJbbKAIkkF1KKGLYBHgxfa89/T
-	1FnBMhzOxu3yFgZd9eQ84Zl3NGWeKbwbkl0lQPsiHdwmeftsNqgsgkO7BEHo+w==
-Date: Sat, 27 Jul 2024 19:15:26 +0200
-From: Dragan Simic <dsimic@manjaro.org>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>,
- UNGLinuxDriver@microchip.com, davem@davemloft.net, edumazet@google.com,
- f.fainelli@gmail.com, gregkh@linuxfoundation.org, kuba@kernel.org,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org, lucas.demarchi@intel.com, masahiroy@kernel.org,
- mcgrof@kernel.org, netdev@vger.kernel.org, pabeni@redhat.com,
- woojung.huh@microchip.com
-Subject: Re: [PATCH] net: usb: lan78xx: add weak dependency with micrel phy
- module
-In-Reply-To: <b96d9801-d370-4ddd-97fd-5eac2a2656f4@lunn.ch>
-References: <bcc81ea0-78e1-476e-928c-b873a064b479@lunn.ch>
- <20240726121530.193547-1-jtornosm@redhat.com>
- <b96d9801-d370-4ddd-97fd-5eac2a2656f4@lunn.ch>
-Message-ID: <931b582808f237aa3746c5b0a96b3665@manjaro.org>
-X-Sender: dsimic@manjaro.org
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Authentication-Results: ORIGINATING;
-	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
+References: <20240726-fix-x86-stack-protector-tests-v1-1-a30fe80e8925@kernel.org>
+In-Reply-To: <20240726-fix-x86-stack-protector-tests-v1-1-a30fe80e8925@kernel.org>
+From: Brian Gerst <brgerst@gmail.com>
+Date: Sat, 27 Jul 2024 16:43:00 -0400
+Message-ID: <CAMzpN2hRVzWOF5YDvE8pPKfogdcuou8REsY+uXzkdORnFn=buQ@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: Fix '-S -c' in x86 stack protector scripts
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: masahiroy@kernel.org, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
+	dave.hansen@linux.intel.com, x86@kernel.org, nicolas@fjasle.eu, 
+	maskray@google.com, morbo@google.com, justinstitt@google.com, kees@kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	llvm@lists.linux.dev, patches@lists.linux.dev, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
+On Fri, Jul 26, 2024 at 2:05=E2=80=AFPM Nathan Chancellor <nathan@kernel.or=
+g> wrote:
+>
+> After a recent change in clang to stop consuming all instances of '-S'
+> and '-c' [1], the stack protector scripts break due to the kernel's use
+> of -Werror=3Dunused-command-line-argument to catch cases where flags are
+> not being properly consumed by the compiler driver:
+>
+>   $ echo | clang -o - -x c - -S -c -Werror=3Dunused-command-line-argument
+>   clang: error: argument unused during compilation: '-c' [-Werror,-Wunuse=
+d-command-line-argument]
+>
+> This results in CONFIG_STACKPROTECTOR getting disabled because
+> CONFIG_CC_HAS_SANE_STACKPROTECTOR is no longer set.
+>
+> '-c' and '-S' both instruct the compiler to stop at different stages of
+> the pipeline ('-S' after compiling, '-c' after assembling), so having
+> them present together in the same command makes little sense. In this
+> case, the test wants to stop before assembling because it is looking at
+> the textual assembly output of the compiler for either '%fs' or '%gs',
+> so remove '-c' from the list of arguments to resolve the error.
+>
+> All versions of GCC continue to work after this change, along with
+> versions of clang that do or do not contain the change mentioned above.
+>
+> Cc: stable@vger.kernel.org
+> Fixes: 4f7fd4d7a791 ("[PATCH] Add the -fstack-protector option to the CFL=
+AGS")
+> Fixes: 60a5317ff0f4 ("x86: implement x86_32 stack protector")
+> Link: https://github.com/llvm/llvm-project/commit/6461e537815f7fa68cef068=
+42505353cf5600e9c [1]
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> ---
+> I think this could go via either -tip or Kbuild?
+>
+> Perhaps this is an issue in the clang commit mentioned in the message
+> above since it deviates from GCC (Fangrui is on CC here) but I think the
+> combination of these options is a little dubious to begin with, hence
+> this change.
 
-On 2024-07-26 22:59, Andrew Lunn wrote:
-> On Fri, Jul 26, 2024 at 02:15:26PM +0200, Jose Ignacio Tornos Martinez 
-> wrote:
->> Hello Andrew,
->> 
->> > What this does appear to do is differentiate between 'pre' which will
->> > load the kernel module before it is requested. Since there is no 'pre'
->> > for this, it seems pointless whacking this mole.
->> 
->> Precisely, we need to fix the lan78xx case with micrel phy (and other
->> possible phy modules) too, due to the commented issue generating 
->> initramfs
->> in order to include the phy module.
-> 
-> I still don't see how this solves any issues with generating the
-> initramfs.
-> 
-> There are more than 200 Ethernet drivers, and around 75 PHY
-> drivers. If this patch is merged, you have one MAC driver indicating
-> it needs one PHY driver. There is nothing much you can do with that
-> information. You need to wait until 99% of the MAC drivers indicate
-> which PHY drivers are needed. Then you can use this information leave
-> out any PHY which is not needed, and hope you only break a small
-> number of devices. But even if you wait 20 years i doubt you will get
-> 99% of the MAC drivers indicating what PHY drivers you need.  Because
-> nothing really uses this information today.
-> 
-> So as far as i see, this has nothing to do with building the
-> initramfs.
+As part of my stack protector cleanup series, I found that these
+scripts can simply be removed.  I can repost those patches as a
+standalone cleanup.
 
-Before going into explaining my viewpoint, could someone, please, 
-clarify
-which LAN78xx USB-to-Ethernet bridge does this apply to?  I already had
-a look at a few LAN78xx datasheets, and I'm not sure how the external 
-PHY
-becomes exposed over the USB interface, so it needs a driver.
+https://lore.kernel.org/lkml/20240322165233.71698-1-brgerst@gmail.com/
+
+Brian Gerst
 
