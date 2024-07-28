@@ -1,144 +1,117 @@
-Return-Path: <linux-kbuild+bounces-2693-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2694-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F7F593E3F3
-	for <lists+linux-kbuild@lfdr.de>; Sun, 28 Jul 2024 09:37:59 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1965193E404
+	for <lists+linux-kbuild@lfdr.de>; Sun, 28 Jul 2024 10:09:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BB2CE1C20FC9
-	for <lists+linux-kbuild@lfdr.de>; Sun, 28 Jul 2024 07:37:58 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id ABFFCB210D6
+	for <lists+linux-kbuild@lfdr.de>; Sun, 28 Jul 2024 08:09:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20458B676;
-	Sun, 28 Jul 2024 07:37:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66D92BA34;
+	Sun, 28 Jul 2024 08:09:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="de8BkjUQ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bCHLFSJG"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4A348BEE;
-	Sun, 28 Jul 2024 07:37:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3705A8C06;
+	Sun, 28 Jul 2024 08:09:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722152275; cv=none; b=Ot+cGDGJAjPsprzDOvMbjTJ8SbQhWI9j4MWqV3q4EqJBVgqi3sCLaKJszF3NR8etanGYT8wBMnAxzYHhkTUTzB9b8JnVeEIJyNTHKLWGQevk9Cg3nkqJOiLtECJq1dPOtyhCjZZqh5fP8UVFOQW/nNz6TeM27E+dkGNCu01xK8c=
+	t=1722154153; cv=none; b=QN3fOJnuLbXACMp6wqLgWUq/cJRO+CCWUILSRGn0Cn8aUDmcXVymM4HkKFm0D5eD3T1yBnfj9eQHpImqbQSk0eNMmS5b2BzIGYh159tJkImtiVeaIWPnWF0a3zFoCxtAW4hlW8QzQH32LXBCeDX2T8pxkE2XmAbl9SQE8HZvpwM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722152275; c=relaxed/simple;
-	bh=738Fy8rulOrZe/368/OUV72dszBRYib5pVFz8QyqEXc=;
+	s=arc-20240116; t=1722154153; c=relaxed/simple;
+	bh=zYFSu50tNWJmJXxbPF9QLKxGjeMpIFdx4DJFymBBsnk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PqhtA5Zp+pxLrmDiw43XPQo1KSiS3r5pI6wSPHAd0k8igw30LsbdFyyq58cg1HD3xcva6ExJ3E2n5wEVqkIpuxQljIglY6HkxyaNIoYFhRUPP3XB5ih6itjPD65L+hcoGRsIojLKxPqMm8QbRrBe4uCpUgbGLdppMR5Q2MAHMrk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=de8BkjUQ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78F7EC4AF09;
-	Sun, 28 Jul 2024 07:37:54 +0000 (UTC)
+	 To:Cc:Content-Type; b=WVslVL5L2CkJmb2fZi/kIt5kATeysfo2PlV3WJWRyB1W6ZqubREwzUWa9vtknkIvcHY25fy9QROn8AvEyrEQdziVcGVXIqVUr+DiMAJudZCw05o3ZNxjznDSsSo9l3wpTGfFSRe5MsXL7XmK9XV8z6v9Flx9HaYNABO0jIbGKyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bCHLFSJG; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2A16C116B1;
+	Sun, 28 Jul 2024 08:09:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722152274;
-	bh=738Fy8rulOrZe/368/OUV72dszBRYib5pVFz8QyqEXc=;
+	s=k20201202; t=1722154152;
+	bh=zYFSu50tNWJmJXxbPF9QLKxGjeMpIFdx4DJFymBBsnk=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=de8BkjUQZ4rwasBz0qICUiJYGb/E9tO8pB3eU2zSNIbiwrynkg4rQx6D575jbSQJc
-	 FvaNrpCvW4VWvbp/8YTE1l7L5YCB7gMpDAHllKETapARikxcRfkw1bBS487z68WSr+
-	 geQsMB9CkVw3I1ckDnmcPaimExXgap6j+AS1OJaCF5Iyngb6f4BHwSZE37xQ7FIhSV
-	 kLTczTXSH63JVZXOnHqmwAIIGhEebnTkwCCn7D3moaqt0krdOJFcHyWhv/4qPo6hmx
-	 8nEoOKBdkIVtXmXDS5MT7YO5YAhEdGi5pmIr2HqvJwvkOcKVLpXmDTmKUoSTak+96z
-	 oXakiqkxCc7bQ==
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2eeb1051360so25150461fa.0;
-        Sun, 28 Jul 2024 00:37:54 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU05RrUNbiC+4C0vVVTnLKja85oNsGcgAredFMgQWDymHk2dtHihK0jetkWCu24jQnLJdMz07AlM1Xpy3ydkxQotWLeyB5ZzAQ7+eOgAzxqo3lx/yKXi9b2ub7i2mLMrAShTTJsrJg/SyUt4ZmpH7IVev4QRVkWZ81A+T/HxxmejByUIEgqYttTDcgGPKaOSZLI7yYtxQnOwyKJaORA
-X-Gm-Message-State: AOJu0YyPLfWTjXwma90FJ9/yfm7xStYn9YpCaEcuJP4+PPKJNal7GZgJ
-	lQjOMPtSsPQX3kQuiaBrlXuKkm+HGPxRrG2xkFBZkPTq5PJ5pVy/vpRGFwY8jEWYroSs2dhZXsc
-	5moCIsuTtiJTEBptYCMNtF7xjtPc=
-X-Google-Smtp-Source: AGHT+IH8UbSBJkWjoGA9ro9kWmmQSy5IgjZHawnk8q5jtJpAbniHZd4Uqo6hKYhbUVl8ucODdr2mh3lNeZVyrfC90IA=
-X-Received: by 2002:a05:6512:2c08:b0:52f:cbce:b9b7 with SMTP id
- 2adb3069b0e04-5309b1d749emr2557381e87.0.1722152272923; Sun, 28 Jul 2024
- 00:37:52 -0700 (PDT)
+	b=bCHLFSJGhYa3ZUBQj4+TmbvsUnhp73+4TyE1hvuotO17BmGoFYU14TU/9fbBI9xgO
+	 rS+VPQ0uPaZGgH+yOKQ07CW3/TP4mzTxALXO52o6RNVfokW+cz2w+sgjDE0EZ1JeE9
+	 eUMbsyydXW+I9gHTzAhHnpBR4lfVtwr+fL8YJU+ybHI1rox7ob5htLzFZcff5rxoGb
+	 xzszMZwkBFI85PBVkdzGswDTEByfMkQCsecBWgoVbAZdF9Ygqmk5Nv06DKQwa+4Lg+
+	 O5Vukh8whcicooh76h3OKHtCpubs2cdquXgYtALCHEdt7RU3WsQkwB12ZM2nv/naOZ
+	 JB15ceC69qNpQ==
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-52f025ab3a7so3881321e87.2;
+        Sun, 28 Jul 2024 01:09:12 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUaWVvEyMGpubAecMYuPJ/g+dWa0QKm3MsCYZsVlGNU206ywr3K0G7WIIknCijlFcZ3Bxl9Zxu1jZCh3mvQtStC2scaapbXoQIhAajfnzYOiZ+hL0YZRC0NhJmg9f8vw1bqAV4OhLC3NYC2
+X-Gm-Message-State: AOJu0YxBGHVHTFV9JOuh7mPXZhe2udQ17EwXl9GKhfTmPWBYS4cBxcGI
+	W8Rq1TRMb4reuC/bwdczTDNFw5idVTrcRm0v+GysqT1FekhwLM8GG+D17oMVswOBK+WZeplPAhu
+	E/T+zhZuPhfofY12aLtByI1kHNn8=
+X-Google-Smtp-Source: AGHT+IH5IiUZdGIt+JHUbio4T40RslcfvmR70HAC7OiDkqyOFPnF6wjcT2vtzMAEarIRrsvqmAEIlQZh/YuKxAYVWPQ=
+X-Received: by 2002:a05:6512:5cd:b0:52f:c5c0:2879 with SMTP id
+ 2adb3069b0e04-5309b2d68c7mr2546934e87.41.1722154151412; Sun, 28 Jul 2024
+ 01:09:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <bcc81ea0-78e1-476e-928c-b873a064b479@lunn.ch> <20240726121530.193547-1-jtornosm@redhat.com>
-In-Reply-To: <20240726121530.193547-1-jtornosm@redhat.com>
+References: <20240726090032.97793-1-jtornosm@redhat.com>
+In-Reply-To: <20240726090032.97793-1-jtornosm@redhat.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sun, 28 Jul 2024 16:37:16 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARg-xxm3FecQ654OnxcMGtc8BjsXmZsymaNKnr_6sM=zw@mail.gmail.com>
-Message-ID: <CAK7LNARg-xxm3FecQ654OnxcMGtc8BjsXmZsymaNKnr_6sM=zw@mail.gmail.com>
-Subject: Re: [PATCH] net: usb: lan78xx: add weak dependency with micrel phy module
+Date: Sun, 28 Jul 2024 17:08:35 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATMauHO_vqr+3LKyLWw9AZ2Y=dxhbgaaVNjdz_qm5Xm=w@mail.gmail.com>
+Message-ID: <CAK7LNATMauHO_vqr+3LKyLWw9AZ2Y=dxhbgaaVNjdz_qm5Xm=w@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: rpm-pkg: ghost modules.weakdep file
 To: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
-Cc: andrew@lunn.ch, UNGLinuxDriver@microchip.com, davem@davemloft.net, 
-	edumazet@google.com, f.fainelli@gmail.com, gregkh@linuxfoundation.org, 
-	kuba@kernel.org, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, lucas.demarchi@intel.com, mcgrof@kernel.org, 
-	netdev@vger.kernel.org, pabeni@redhat.com, woojung.huh@microchip.com
+Cc: nathan@kernel.org, nicolas@fjasle.eu, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jul 26, 2024 at 9:15=E2=80=AFPM Jose Ignacio Tornos Martinez
+On Fri, Jul 26, 2024 at 6:00=E2=80=AFPM Jose Ignacio Tornos Martinez
 <jtornosm@redhat.com> wrote:
 >
-> Hello Andrew,
+> In the same way as for other similar files, mark as ghost the new file
+> generated by depmod for configured weak dependencies for modules,
+> modules.weakdep, so that although it is not included in the package,
+> claim the ownership on it.
 >
-> > What this does appear to do is differentiate between 'pre' which will
-> > load the kernel module before it is requested. Since there is no 'pre'
-> > for this, it seems pointless whacking this mole.
-> Precisely, we need to fix the lan78xx case with micrel phy (and other
-> possible phy modules) too, due to the commented issue generating initramf=
-s
-> in order to include the phy module.
+> Signed-off-by: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
+> ---
+
+
+The usage in another thread seems to be kind of controversial,
+but modules.weakdep already landed in kmod.
+So, I applied this to linux-kbuild/fixes.
+Thanks!
+
+
+>  scripts/package/kernel.spec | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> > What to me make more sense it to look at all the existing 'pre'
-> > drivers and determine if they can be converted to use this macro.
-> Of course, now that we have the possibility we can do this with other cas=
-es
-> that have been already detected (and fixed with a softdep pre) and others
-> still not detected (if anyone apart from lan78xx).
+> diff --git a/scripts/package/kernel.spec b/scripts/package/kernel.spec
+> index 74355ff0e106..d558d39c01b6 100644
+> --- a/scripts/package/kernel.spec
+> +++ b/scripts/package/kernel.spec
+> @@ -74,7 +74,7 @@ ln -fns /usr/src/kernels/%{KERNELRELEASE} %{buildroot}/=
+lib/modules/%{KERNELRELEA
+>         echo "/lib/modules/%{KERNELRELEASE}"
 >
-> Thanks
+>         for x in alias alias.bin builtin.alias.bin builtin.bin dep dep.bi=
+n \
+> -                                       devname softdep symbols symbols.b=
+in; do
+> +                               devname softdep weakdep symbols symbols.b=
+in; do
+>                 echo "%ghost /lib/modules/%{KERNELRELEASE}/modules.${x}"
+>         done
 >
-> Best regards
-> Jos=C3=A9 Ignacio
+> --
+> 2.45.2
 >
-
-
-
-I am not familiar with MAC/PHY interface, but perhaps the
-situation might be different on internal/external PHYs?
-
-I do not know if "micrel" is an internal or an external PHY, though.
-
-
-[1] internal PHY
-
-Commit e57cf3639c323eeed05d3725fd82f91b349adca8 moved the
-internal PHY code from drivers/net/usb/lan78xx.c
-to drivers/net/phy/microchip.c
-
-So, lan78xx.ko is likely to use microchip.ko
-
-Perhaps, is the following useful?
-
-  MODULE_WEAKDEP("microchip");    /* internal PHY */
-
-Or, is this the case for MODULE_SOFTDEP()?
-
-
-
-[2] external PHY
-
-When an external PHY device is connected, the MAC/PHY combination is
-pretty much board-specific. We may end up with
-a bunch of MODULE_WEAKDEP().
-
-
-
-
-
-The second question is, is it so important to enable network
-at the initramfs time? Personally, I am fine with having network
-drivers in the root file system.
-
-Is this useful when the root file system is nfs or something?
-
+>
 
 
 --=20
