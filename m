@@ -1,208 +1,147 @@
-Return-Path: <linux-kbuild+bounces-2692-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2693-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2774E93E3EB
-	for <lists+linux-kbuild@lfdr.de>; Sun, 28 Jul 2024 09:21:12 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F7F593E3F3
+	for <lists+linux-kbuild@lfdr.de>; Sun, 28 Jul 2024 09:37:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BDD2E281E16
-	for <lists+linux-kbuild@lfdr.de>; Sun, 28 Jul 2024 07:21:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BB2CE1C20FC9
+	for <lists+linux-kbuild@lfdr.de>; Sun, 28 Jul 2024 07:37:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 538B5AD5B;
-	Sun, 28 Jul 2024 07:21:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20458B676;
+	Sun, 28 Jul 2024 07:37:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J4GggznD"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="de8BkjUQ"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FAFB9475;
-	Sun, 28 Jul 2024 07:21:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4A348BEE;
+	Sun, 28 Jul 2024 07:37:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722151266; cv=none; b=d4n/RwznjG4CO8iw0iPm0epp6wM0usoFqC8/5G9X9eyE5AL5TY36eAVQAaI6lOZow1k/Kxf97M1/ckoRszDRjZouV/5lV4cFi3u7rlkZqlsS8IyeR4pfvO+YPnasoPf/9EAoBDTbbj5r6WoiXEqEqJ4moUgHTdTVYsvDM08U9EU=
+	t=1722152275; cv=none; b=Ot+cGDGJAjPsprzDOvMbjTJ8SbQhWI9j4MWqV3q4EqJBVgqi3sCLaKJszF3NR8etanGYT8wBMnAxzYHhkTUTzB9b8JnVeEIJyNTHKLWGQevk9Cg3nkqJOiLtECJq1dPOtyhCjZZqh5fP8UVFOQW/nNz6TeM27E+dkGNCu01xK8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722151266; c=relaxed/simple;
-	bh=GG5jFH9fLcS8G24YwDi2MBNErZaorWB+Mf6iZebzfCg=;
+	s=arc-20240116; t=1722152275; c=relaxed/simple;
+	bh=738Fy8rulOrZe/368/OUV72dszBRYib5pVFz8QyqEXc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UvP8XYlHOK0Q256ZUebn7Z616jtSsd9alWg02iR1wcHTftA+3UrbbQScOvB5dsF08WpNzV1azwMxigcutFwKjX5dj2WJYJjj5S2slq6xA2UR5UFVrTYCQWnWMWrLB88htZO2Ryu6EgdSQnwIy7gsw0GN8Y3VAaSZzK42dg0A+WY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J4GggznD; arc=none smtp.client-ip=209.85.167.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-52f04c1e58eso3174306e87.3;
-        Sun, 28 Jul 2024 00:21:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722151262; x=1722756062; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=p4zxJCQGItJM4cJnL8e4bqJxqyn3oTDAKU3y3PFgwvo=;
-        b=J4GggznDy8iNOP6zo3Lpq01SnLLei7K8zsujW9+ZEIqvaSGiDD7w/OAb1y9WN4vQLq
-         Y64Jq4ANgno27LW1qq95aPIqteZ7WA47jpGlW2K8myAOaSQGav2TzJR5JQuOv7gdwffr
-         OJ0aex7Re45j0fAKi2go8dMyK/1epcdcwvmbhJNYLmennPaeB5UBKF/ynkiwaAOYGtPS
-         XAcI8gQvRy4WjKS3MzNc8KInRlaI+FIyBUwRlqKaYo6eHcnJsCyFcKOrN059zfvyfiy1
-         VcALN7+NbsYeEE5WuBSFZIx5jEbJmdYdy03rByUjcjUuy0gZVb18IEUBnyaU10gXr2VT
-         z5yA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722151262; x=1722756062;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=p4zxJCQGItJM4cJnL8e4bqJxqyn3oTDAKU3y3PFgwvo=;
-        b=FI1DURkLV0AkFeTnqK2btX4mwiJv/5DNbYCefv/evXLAFAXC8WQqw0cVWqq/JNEojm
-         bBF7I/wBwUsyjtMukBzQKdNstwyWWsWgMg4S39QAI4QR4vGfgAxop92l6lizqCRPfzjU
-         vlFVh8tvZCL5nLza1lFTT2wHVmf0+LK6xDJqw3OIYdYa1snd7UhEpRinF7stBpXTBnyC
-         dyaNdQIIIs4Do7BttOWhH8KpJnaqAYmpXZTtDcDv+RIrRzY12mrQOzeONjEyDu8rN7SF
-         d4eDq8SWHjoKpqZb99DaOR9g+9TBixd1LSi4FOyMUnBCXvCdShyUhWVYXmN0FnyvDmI4
-         hZDg==
-X-Forwarded-Encrypted: i=1; AJvYcCUj2cOMS/s1LSpJ9ETTuINL25OQ+Wor0gi2+uDyi+DIQvufMCGabKMvW2XexINr+3XnFFfdl+nkSioPlS6P6Eo8kf0c1DQM5VNIu3T14WOKdZieEMfIA+T7MIcYuGcSsNWHliMOUu6Zw7d0U5a76fK63GAczxOCL76M0d2JXzHKltzJ
-X-Gm-Message-State: AOJu0YwuPlASSSTP/xVpary0bgBth73v+QIRlJKTbkPUCqQbZP/aguaN
-	Sc8MpXNjXLPe0VquRJPqHUVEwnyKyc25YMHtPrGPJ4NlLfjQfGjrI9DQ/nVCHf0ZsOE6RJCJgb4
-	BcGRRxDT8uPAO1t9n0cAHDZ//NTTn
-X-Google-Smtp-Source: AGHT+IE3KZlyMjLAe5MDRiJ4zEfUTV2a7YgnW8Wfv+fDZR89gbai9KqCjOPG0O2c7Dd4ZVvhaLaqM/KPOJ60tRdSeL8=
-X-Received: by 2002:a05:6512:2c0f:b0:52c:deea:57cb with SMTP id
- 2adb3069b0e04-5309b269215mr3547186e87.3.1722151262076; Sun, 28 Jul 2024
- 00:21:02 -0700 (PDT)
+	 To:Cc:Content-Type; b=PqhtA5Zp+pxLrmDiw43XPQo1KSiS3r5pI6wSPHAd0k8igw30LsbdFyyq58cg1HD3xcva6ExJ3E2n5wEVqkIpuxQljIglY6HkxyaNIoYFhRUPP3XB5ih6itjPD65L+hcoGRsIojLKxPqMm8QbRrBe4uCpUgbGLdppMR5Q2MAHMrk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=de8BkjUQ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78F7EC4AF09;
+	Sun, 28 Jul 2024 07:37:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1722152274;
+	bh=738Fy8rulOrZe/368/OUV72dszBRYib5pVFz8QyqEXc=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=de8BkjUQZ4rwasBz0qICUiJYGb/E9tO8pB3eU2zSNIbiwrynkg4rQx6D575jbSQJc
+	 FvaNrpCvW4VWvbp/8YTE1l7L5YCB7gMpDAHllKETapARikxcRfkw1bBS487z68WSr+
+	 geQsMB9CkVw3I1ckDnmcPaimExXgap6j+AS1OJaCF5Iyngb6f4BHwSZE37xQ7FIhSV
+	 kLTczTXSH63JVZXOnHqmwAIIGhEebnTkwCCn7D3moaqt0krdOJFcHyWhv/4qPo6hmx
+	 8nEoOKBdkIVtXmXDS5MT7YO5YAhEdGi5pmIr2HqvJwvkOcKVLpXmDTmKUoSTak+96z
+	 oXakiqkxCc7bQ==
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2eeb1051360so25150461fa.0;
+        Sun, 28 Jul 2024 00:37:54 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU05RrUNbiC+4C0vVVTnLKja85oNsGcgAredFMgQWDymHk2dtHihK0jetkWCu24jQnLJdMz07AlM1Xpy3ydkxQotWLeyB5ZzAQ7+eOgAzxqo3lx/yKXi9b2ub7i2mLMrAShTTJsrJg/SyUt4ZmpH7IVev4QRVkWZ81A+T/HxxmejByUIEgqYttTDcgGPKaOSZLI7yYtxQnOwyKJaORA
+X-Gm-Message-State: AOJu0YyPLfWTjXwma90FJ9/yfm7xStYn9YpCaEcuJP4+PPKJNal7GZgJ
+	lQjOMPtSsPQX3kQuiaBrlXuKkm+HGPxRrG2xkFBZkPTq5PJ5pVy/vpRGFwY8jEWYroSs2dhZXsc
+	5moCIsuTtiJTEBptYCMNtF7xjtPc=
+X-Google-Smtp-Source: AGHT+IH8UbSBJkWjoGA9ro9kWmmQSy5IgjZHawnk8q5jtJpAbniHZd4Uqo6hKYhbUVl8ucODdr2mh3lNeZVyrfC90IA=
+X-Received: by 2002:a05:6512:2c08:b0:52f:cbce:b9b7 with SMTP id
+ 2adb3069b0e04-5309b1d749emr2557381e87.0.1722152272923; Sun, 28 Jul 2024
+ 00:37:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240726-fix-x86-stack-protector-tests-v1-1-a30fe80e8925@kernel.org>
- <CAMzpN2hRVzWOF5YDvE8pPKfogdcuou8REsY+uXzkdORnFn=buQ@mail.gmail.com>
- <CAK7LNARjggcomzGMgHxuYE=Lm0_zsZS5dvjo3g4tjKJaM2oydg@mail.gmail.com>
- <CAMzpN2i6_-tiYKuXgq0ppowtfB8JipZvkMLmT8Mn02YE5shC5g@mail.gmail.com> <CAK7LNAQiL=swKikuquFW9BrTftxNGHkwhLZVqQq3oNTYByEDxA@mail.gmail.com>
-In-Reply-To: <CAK7LNAQiL=swKikuquFW9BrTftxNGHkwhLZVqQq3oNTYByEDxA@mail.gmail.com>
-From: Brian Gerst <brgerst@gmail.com>
-Date: Sun, 28 Jul 2024 03:20:50 -0400
-Message-ID: <CAMzpN2iXMtzvyvwjLHMDz2DR-Me8exU_DtQpfO3MJS5BzTnJfg@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: Fix '-S -c' in x86 stack protector scripts
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
-	dave.hansen@linux.intel.com, x86@kernel.org, nicolas@fjasle.eu, 
-	maskray@google.com, morbo@google.com, justinstitt@google.com, kees@kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	llvm@lists.linux.dev, patches@lists.linux.dev, stable@vger.kernel.org
+References: <bcc81ea0-78e1-476e-928c-b873a064b479@lunn.ch> <20240726121530.193547-1-jtornosm@redhat.com>
+In-Reply-To: <20240726121530.193547-1-jtornosm@redhat.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Sun, 28 Jul 2024 16:37:16 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARg-xxm3FecQ654OnxcMGtc8BjsXmZsymaNKnr_6sM=zw@mail.gmail.com>
+Message-ID: <CAK7LNARg-xxm3FecQ654OnxcMGtc8BjsXmZsymaNKnr_6sM=zw@mail.gmail.com>
+Subject: Re: [PATCH] net: usb: lan78xx: add weak dependency with micrel phy module
+To: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
+Cc: andrew@lunn.ch, UNGLinuxDriver@microchip.com, davem@davemloft.net, 
+	edumazet@google.com, f.fainelli@gmail.com, gregkh@linuxfoundation.org, 
+	kuba@kernel.org, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, lucas.demarchi@intel.com, mcgrof@kernel.org, 
+	netdev@vger.kernel.org, pabeni@redhat.com, woojung.huh@microchip.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Jul 28, 2024 at 2:24=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
+On Fri, Jul 26, 2024 at 9:15=E2=80=AFPM Jose Ignacio Tornos Martinez
+<jtornosm@redhat.com> wrote:
 >
-> On Sun, Jul 28, 2024 at 12:13=E2=80=AFPM Brian Gerst <brgerst@gmail.com> =
-wrote:
-> >
-> > On Sat, Jul 27, 2024 at 10:36=E2=80=AFPM Masahiro Yamada <masahiroy@ker=
-nel.org> wrote:
-> > >
-> > > On Sun, Jul 28, 2024 at 5:43=E2=80=AFAM Brian Gerst <brgerst@gmail.co=
-m> wrote:
-> > > >
-> > > > On Fri, Jul 26, 2024 at 2:05=E2=80=AFPM Nathan Chancellor <nathan@k=
-ernel.org> wrote:
-> > > > >
-> > > > > After a recent change in clang to stop consuming all instances of=
- '-S'
-> > > > > and '-c' [1], the stack protector scripts break due to the kernel=
-'s use
-> > > > > of -Werror=3Dunused-command-line-argument to catch cases where fl=
-ags are
-> > > > > not being properly consumed by the compiler driver:
-> > > > >
-> > > > >   $ echo | clang -o - -x c - -S -c -Werror=3Dunused-command-line-=
-argument
-> > > > >   clang: error: argument unused during compilation: '-c' [-Werror=
-,-Wunused-command-line-argument]
-> > > > >
-> > > > > This results in CONFIG_STACKPROTECTOR getting disabled because
-> > > > > CONFIG_CC_HAS_SANE_STACKPROTECTOR is no longer set.
-> > > > >
-> > > > > '-c' and '-S' both instruct the compiler to stop at different sta=
-ges of
-> > > > > the pipeline ('-S' after compiling, '-c' after assembling), so ha=
-ving
-> > > > > them present together in the same command makes little sense. In =
-this
-> > > > > case, the test wants to stop before assembling because it is look=
-ing at
-> > > > > the textual assembly output of the compiler for either '%fs' or '=
-%gs',
-> > > > > so remove '-c' from the list of arguments to resolve the error.
-> > > > >
-> > > > > All versions of GCC continue to work after this change, along wit=
-h
-> > > > > versions of clang that do or do not contain the change mentioned =
-above.
-> > > > >
-> > > > > Cc: stable@vger.kernel.org
-> > > > > Fixes: 4f7fd4d7a791 ("[PATCH] Add the -fstack-protector option to=
- the CFLAGS")
-> > > > > Fixes: 60a5317ff0f4 ("x86: implement x86_32 stack protector")
-> > > > > Link: https://github.com/llvm/llvm-project/commit/6461e537815f7fa=
-68cef06842505353cf5600e9c [1]
-> > > > > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> > > > > ---
-> > > > > I think this could go via either -tip or Kbuild?
-> > > > >
-> > > > > Perhaps this is an issue in the clang commit mentioned in the mes=
-sage
-> > > > > above since it deviates from GCC (Fangrui is on CC here) but I th=
-ink the
-> > > > > combination of these options is a little dubious to begin with, h=
-ence
-> > > > > this change.
-> > > >
-> > > > As part of my stack protector cleanup series, I found that these
-> > > > scripts can simply be removed.  I can repost those patches as a
-> > > > standalone cleanup.
-> > > >
-> > > > https://lore.kernel.org/lkml/20240322165233.71698-1-brgerst@gmail.c=
-om/
-> > > >
-> > > > Brian Gerst
-> > >
-> > > Judging from the Fixes tags, Nathan meant this patch is
-> > > a back-port candidate so that the latest LLVM can be used for stable =
-kernels.
-> > >
-> > > You are making big changes, and do you mean they can be back-ported?
-> >
-> > I was referring to just the first two patches of that series.  That
-> > said, it would be simpler to take Nathan's fix for backporting.
+> Hello Andrew,
 >
+> > What this does appear to do is differentiate between 'pre' which will
+> > load the kernel module before it is requested. Since there is no 'pre'
+> > for this, it seems pointless whacking this mole.
+> Precisely, we need to fix the lan78xx case with micrel phy (and other
+> possible phy modules) too, due to the commented issue generating initramf=
+s
+> in order to include the phy module.
 >
+> > What to me make more sense it to look at all the existing 'pre'
+> > drivers and determine if they can be converted to use this macro.
+> Of course, now that we have the possibility we can do this with other cas=
+es
+> that have been already detected (and fixed with a softdep pre) and others
+> still not detected (if anyone apart from lan78xx).
 >
-> Even the first two patches are not trivial.
+> Thanks
 >
-> The second patch 02/16:
-> https://lore.kernel.org/lkml/20240322165233.71698-3-brgerst@gmail.com/
+> Best regards
+> Jos=C3=A9 Ignacio
 >
-> is completely removing scripts/gcc-x86_64-has-stack-protector.sh,
->
->
-> In fact, I also noticed it was a workaround for old buggy compilers.
-> I attempted to do the equivalent clean up, then it was rejected.
-> https://lore.kernel.org/lkml/1541992013-18657-1-git-send-email-yamada.mas=
-ahiro@socionext.com/
->
-> It was 6 years ago, so the situation might have changed.
-> Good luck.
 
-It's a workaround for an old buggy compiler that isn't even supported
-by the kernel anymore.
 
-Brian Gerst
->
->
->
->
->
->
->
-> --
-> Best Regards
-> Masahiro Yamada
+
+I am not familiar with MAC/PHY interface, but perhaps the
+situation might be different on internal/external PHYs?
+
+I do not know if "micrel" is an internal or an external PHY, though.
+
+
+[1] internal PHY
+
+Commit e57cf3639c323eeed05d3725fd82f91b349adca8 moved the
+internal PHY code from drivers/net/usb/lan78xx.c
+to drivers/net/phy/microchip.c
+
+So, lan78xx.ko is likely to use microchip.ko
+
+Perhaps, is the following useful?
+
+  MODULE_WEAKDEP("microchip");    /* internal PHY */
+
+Or, is this the case for MODULE_SOFTDEP()?
+
+
+
+[2] external PHY
+
+When an external PHY device is connected, the MAC/PHY combination is
+pretty much board-specific. We may end up with
+a bunch of MODULE_WEAKDEP().
+
+
+
+
+
+The second question is, is it so important to enable network
+at the initramfs time? Personally, I am fine with having network
+drivers in the root file system.
+
+Is this useful when the root file system is nfs or something?
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
