@@ -1,119 +1,108 @@
-Return-Path: <linux-kbuild+bounces-2697-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2698-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 606E993E52C
-	for <lists+linux-kbuild@lfdr.de>; Sun, 28 Jul 2024 14:55:44 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8589293E598
+	for <lists+linux-kbuild@lfdr.de>; Sun, 28 Jul 2024 16:11:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id ED3021F21407
-	for <lists+linux-kbuild@lfdr.de>; Sun, 28 Jul 2024 12:55:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 357131F21303
+	for <lists+linux-kbuild@lfdr.de>; Sun, 28 Jul 2024 14:11:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 536823C6A6;
-	Sun, 28 Jul 2024 12:55:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F11641C72;
+	Sun, 28 Jul 2024 14:11:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KVH2NLpp"
+	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="PA5jSMxN"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19AB8208C4;
-	Sun, 28 Jul 2024 12:55:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F8C734545;
+	Sun, 28 Jul 2024 14:11:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.91.91
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722171339; cv=none; b=qCqc2NBCFsWiNuNriT4soph7VFM3yPRwKib1MVFSWXHzTApTZ9nhONYxH7wrAEfzqQCvGcky7/SM6oUffaOOdcPxPan7NSUo6HT2ysJXX81dj1KG0L3MDP3AN2ywLmXURwB0XeCP+VCYxDC4VlFPAc6gmK80w4IW4tDq0TmPMxA=
+	t=1722175863; cv=none; b=P5Nb2znSEX+OfS6GWe/AY9H3VxqDPjdWPYPqGGxIB/TgNa+qInH1nmtQcclstNxrFyPUp9IFIe0+7y2defbd/sNIaSsjBo+HkGgD6XQ6TIK+oP6d9MSoCKWtFzKwTpCFw4jshqp/bBb9Bdsaz1PAhjDW1ksYT0DVSkfZm5SwqN8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722171339; c=relaxed/simple;
-	bh=JioBmylOb34B+co4W08oDCq6CBN2Fyp2/xuM6TUCWbk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YpnGijyPPeRZOPwRc6YbI9wq9snjwvaNoX9yn+q1UozfLllEOHdBlnT+7vdbg1AdJ8X5/BLRbfz7qiO2ZzDoUfObIJT9WsDox+P8m/JiDuWZ+iwiR3EpVY9uEcRNTJTiyCT4ulkynQl833NRPjxNh8469cn5mpBNLcTnZxhWb0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KVH2NLpp; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3C82C116B1;
-	Sun, 28 Jul 2024 12:55:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722171338;
-	bh=JioBmylOb34B+co4W08oDCq6CBN2Fyp2/xuM6TUCWbk=;
-	h=From:To:Cc:Subject:Date:From;
-	b=KVH2NLpp4frRQVpGyUl3VIn5biWiIC0nriPNC32OGBJC/LJ8FuE2m0hjOXMUJdmCt
-	 r+XUD70N02RQ7fJ0SZFGIOw45TQCN0SCLJcfUjVvbdsDhuNLDnNf3yuQFLgAbcMdaE
-	 wcaCNIL2hh8S1GBOhQTLts3xuBhiQvCTqpomztLYR+UovQ0EwIM6FXsuQsiSlb5FR9
-	 1TgSprJ0iSmmD+LpN31I0t3FIlaJj/qwr94V9arEcfjX9raHbdo+emFRN/HFNcJUc6
-	 pwmlg4RJy58E5sDf+iTMRmv6pJi5VUOq1vuPNFyr22CkDGV4XBfwK/uc8vn0uBm8Lo
-	 f3gfuyeyn3iSw==
-From: Miguel Ojeda <ojeda@kernel.org>
-To: Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Masahiro Yamada <masahiroy@kernel.org>
-Cc: Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@kernel.org>,
-	Stanislav Fomichev <sdf@fomichev.me>,
-	Hao Luo <haoluo@google.com>,
-	Jiri Olsa <jolsa@kernel.org>,
-	bpf@vger.kernel.org,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	patches@lists.linux.dev,
-	Miguel Ojeda <ojeda@kernel.org>
-Subject: [PATCH] kbuild: pahole-version: avoid errors if executing fails
-Date: Sun, 28 Jul 2024 14:55:27 +0200
-Message-ID: <20240728125527.690726-1-ojeda@kernel.org>
+	s=arc-20240116; t=1722175863; c=relaxed/simple;
+	bh=DqcVSN0XsTJA0Oi0MNZ0teOOtzntOY8OrbnnB6o8vjY=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=rnS+eOhLLN23TthwhE7zL8J7MFc4iy+wNWt9oAZd3I17zR63GW/xV7NDQiNwH199GsdMb2kXxsZuGpkJ1yRBUU74tOdQj+mEpQ3n4hIcwNyVHT7jmT86JlUQsq8WEWsHlcEgy02vICbU3z/WED2nAQXfTJFSeG6ACUMPfDDmEZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=PA5jSMxN; arc=none smtp.client-ip=116.203.91.91
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manjaro.org
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
+	t=1722175858;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=No/YIbGtEUuTgLlMt3RFQBfM5H9ZzhC0++FkOyap0EU=;
+	b=PA5jSMxNXzlUDrvvooYdg3ajy2QWXNbiQtvs2kbu8TaOVaPOPCW5LrOdkUpJvTUfBkP9t1
+	62F9H1t8ClWX/UoPfJ/cozJPlg/zOREkOb01dLfQxL1oTUzZSm4VopwOw1ne2hhtwdu0Vw
+	jOeweUtx03M9PukL4T6FiXuqKcqhd7ZuExd1e0sOGBEm2uA8B9KSVeZEdk4h76zboHY7Sh
+	52+y17P6PfluZSB9eBM3CGpJ6od0d/CwMVXqjfpDEo5L0LZSKwdV+bhVudao3MWS5CKy1/
+	heNUb4eNW5yfb437rCAIFpl2u5MS6dkT8BiAy9RkyhP46+YnAhFEVomR1iK5uA==
+Date: Sun, 28 Jul 2024 16:10:57 +0200
+From: Dragan Simic <dsimic@manjaro.org>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>,
+ UNGLinuxDriver@microchip.com, davem@davemloft.net, edumazet@google.com,
+ f.fainelli@gmail.com, gregkh@linuxfoundation.org, kuba@kernel.org,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org, lucas.demarchi@intel.com, masahiroy@kernel.org,
+ mcgrof@kernel.org, netdev@vger.kernel.org, pabeni@redhat.com,
+ woojung.huh@microchip.com
+Subject: Re: [PATCH] net: usb: lan78xx: add weak dependency with micrel phy
+ module
+In-Reply-To: <3e895811-ad23-4687-b440-5375ad2af2ff@lunn.ch>
+References: <bcc81ea0-78e1-476e-928c-b873a064b479@lunn.ch>
+ <20240726121530.193547-1-jtornosm@redhat.com>
+ <b96d9801-d370-4ddd-97fd-5eac2a2656f4@lunn.ch>
+ <931b582808f237aa3746c5b0a96b3665@manjaro.org>
+ <3e895811-ad23-4687-b440-5375ad2af2ff@lunn.ch>
+Message-ID: <a520ee4da331c8edb99f2c14d22a3531@manjaro.org>
+X-Sender: dsimic@manjaro.org
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Authentication-Results: ORIGINATING;
+	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
 
-Like patch "rust: suppress error messages from
-CONFIG_{RUSTC,BINDGEN}_VERSION_TEXT" [1], do not assume the file existing
-and being executable implies executing it will succeed. Instead, bail
-out if executing it fails for any reason.
+Hello Andrew,
 
-For instance, `pahole` may be built for another architecture, may be a
-program we do not expect or may be completely broken:
+On 2024-07-28 01:29, Andrew Lunn wrote:
+>> Before going into explaining my viewpoint, could someone, please, 
+>> clarify
+>> which LAN78xx USB-to-Ethernet bridge does this apply to?  I already 
+>> had
+>> a look at a few LAN78xx datasheets, and I'm not sure how the external 
+>> PHY
+>> becomes exposed over the USB interface, so it needs a driver.
+> 
+> https://elixir.bootlin.com/linux/v6.10/source/drivers/net/usb/lan78xx.c#L2049
+> 
+> This is creating an MDIO bus device. The MDIO bus will be scanned and
+> PHYs on the bus found. There are then a few calls to phy_find_first()
+> which will get the PHY.
+> 
+> The code itself looks pretty broken, it is directly accessing PHY
+> registers, which a MAC driver should not do. That is a layering
+> violation.
 
-    $ echo 'bad' > bad-pahole
-    $ chmod u+x bad-pahole
-    $ make PAHOLE=./bad-pahole defconfig
-    ...
-    ./bad-pahole: 1: bad: not found
-    init/Kconfig:112: syntax error
-    init/Kconfig:112: invalid statement
+Thanks for the clarification.
 
-Link: https://lore.kernel.org/rust-for-linux/20240727140302.1806011-1-masahiroy@kernel.org/ [1]
-Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
----
- scripts/pahole-version.sh | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/scripts/pahole-version.sh b/scripts/pahole-version.sh
-index f8a32ab93ad1..a35b557f1901 100755
---- a/scripts/pahole-version.sh
-+++ b/scripts/pahole-version.sh
-@@ -5,9 +5,9 @@
- #
- # Prints pahole's version in a 3-digit form, such as 119 for v1.19.
- 
--if [ ! -x "$(command -v "$@")" ]; then
-+if output=$("$@" --version 2>/dev/null); then
-+	echo "$output" | sed -E 's/v([0-9]+)\.([0-9]+)/\1\2/'
-+else
- 	echo 0
- 	exit 1
- fi
--
--"$@" --version | sed -E 's/v([0-9]+)\.([0-9]+)/\1\2/'
-
-base-commit: 256abd8e550ce977b728be79a74e1729438b4948
--- 
-2.45.2
-
+Basically, the way I see it, weakdeps are the right solution for the
+problem at hand, i.e. for the generation of the initial ramdisk with
+all the possible PHY driver modules.  However, I don't think that some
+automagical generation of the associated MODULE_WEAKDEP() statements
+is the way to go.  Instead, all those statements should be added by
+hand to the lan78xx driver, making sure that each PHY is tested and
+validated beforehand.
 
