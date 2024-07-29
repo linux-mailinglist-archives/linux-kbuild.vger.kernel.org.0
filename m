@@ -1,145 +1,153 @@
-Return-Path: <linux-kbuild+bounces-2724-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2725-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1BD193F573
-	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Jul 2024 14:33:06 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6A4093F7E1
+	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Jul 2024 16:29:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4C3E61F224C0
-	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Jul 2024 12:33:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C03FC1C21209
+	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Jul 2024 14:29:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A634F146585;
-	Mon, 29 Jul 2024 12:33:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8DAEF156256;
+	Mon, 29 Jul 2024 14:22:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EYKlgrDD"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="cXNIqzwI"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D9C3144D10
-	for <linux-kbuild@vger.kernel.org>; Mon, 29 Jul 2024 12:32:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54686153838
+	for <linux-kbuild@vger.kernel.org>; Mon, 29 Jul 2024 14:22:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722256381; cv=none; b=b93wqF8+9ZsAsasSmRXLhp+gy70WKJTqaRX4+xUo4qJ3gXEDcbBEwcJHrvg8o+5ZQHxNJ8WJHWM2UmqpCDQdyrx+cP9Qki++LMoEa/sJtYRy6HA2jls87VCVBjJRI0p9a9ond976i5ehbtsJGHl2oUEVk0T/JDJI/dnIHEX2B0I=
+	t=1722262978; cv=none; b=pqkzO8onoWua6qUA3XwPqdf6MhTWJoYPAseoqbmoSfXFUL8fZ1vn4CGOiYAIKDL6RteBudKOLGSur0G3PetkFyPoIbB/hB8lN5rHNHGSBlginEN5A97yQAlZ9F8jVUTEYgUWAfl/Qm8nTpDwGWLaUg/2M4xrWI1ZRctxHmKFyNo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722256381; c=relaxed/simple;
-	bh=OZ5jXVlwnFT9jWJUdVRr5iRq5783wksRo2iASegfAXs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KOsZMAQBwTd8p65vs+/hrng+I3wwIs97/uAde7j4rR9Nue5ddg2cxOK/VEOUwabpRSorWT1d9rYXF5OP0z0Z5CaJ4w3nTqFTZFPW2Gep5p/31oDdEWghL3ZLPzvAA1umboR6p2L3clXr0Fs9CoVW+4dDgGFYbp+Jdts/0yhD9AQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=EYKlgrDD; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1722256379;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=w0xks81TdKZTJ22FJnbrdp5glJu0PgYtd3j9EKuYo38=;
-	b=EYKlgrDDCBXXU9SAqObC9jPSnhbfHcfKkYCYdTgu7WWv1UaeGjtOVtICI2HIB91quy9HdB
-	ZleG8h+bwvKdCkW6jB6AiTuWZT0cWLOuUdGCIosz2zaAowY4UjfUeOhWPn2yq2oX51UNLm
-	2IUa5yd42ECB3ik/h1ZV/qAylbiIYMk=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-49-86vu1Qi1ODmH9Ngj9XTfXw-1; Mon,
- 29 Jul 2024 08:32:56 -0400
-X-MC-Unique: 86vu1Qi1ODmH9Ngj9XTfXw-1
-Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8202919560AA;
-	Mon, 29 Jul 2024 12:32:53 +0000 (UTC)
-Received: from fedora.redhat.com (unknown [10.39.192.136])
-	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 45AAA1955D47;
-	Mon, 29 Jul 2024 12:32:46 +0000 (UTC)
-From: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
-To: dsimic@manjaro.org
-Cc: UNGLinuxDriver@microchip.com,
-	andrew@lunn.ch,
-	davem@davemloft.net,
-	edumazet@google.com,
-	f.fainelli@gmail.com,
-	gregkh@linuxfoundation.org,
-	jtornosm@redhat.com,
-	kuba@kernel.org,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	lucas.demarchi@intel.com,
-	masahiroy@kernel.org,
-	mcgrof@kernel.org,
-	netdev@vger.kernel.org,
-	pabeni@redhat.com,
-	woojung.huh@microchip.com
-Subject: Re: [PATCH] net: usb: lan78xx: add weak dependency with micrel phy module
-Date: Mon, 29 Jul 2024 14:32:43 +0200
-Message-ID: <20240729123244.18780-1-jtornosm@redhat.com>
-In-Reply-To: <4db38805936d28fe1578c525a18f7849@manjaro.org>
-References: <4db38805936d28fe1578c525a18f7849@manjaro.org>
+	s=arc-20240116; t=1722262978; c=relaxed/simple;
+	bh=2yHObFkJeb9NEav9vRlfQtesacysurvHNX3D+BY5baw=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=IvCf+Sj2aEPc15hTztFW8mgI5YLk4vVLGAYvq2XNfVB3q5fSq5YPnOYChQxMICgzD1NR4Nj8JLb/ukXZNn+KKrQYbnsP0/EWDooYsHSL/g9inbduoBi5PrfqFHiWwIy2TdArRIM3peBQggeInN5RL8jpXvtTmxskjam49pATWRQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=cXNIqzwI; arc=none smtp.client-ip=209.85.219.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-e0b28f23a28so4174226276.3
+        for <linux-kbuild@vger.kernel.org>; Mon, 29 Jul 2024 07:22:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1722262975; x=1722867775; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=9DpUuNFRf2+mlmUFGNhBkhPfCr6X6cUQBVac6+mnEhY=;
+        b=cXNIqzwIiwENKxHXS7CcAIwZp8Nm+rSA50HMYtg1GCSzx2YO/GkGWgXwcT69OFxUXF
+         4JT3aSXrOniV/puAyHAOsLXxA+QLP4d3TubUpGNbRrns2QoTOa/P5HmItJwOl9V9EpBc
+         U4/s8P79zZkf+rB4G5xFgN+j+XZjBmsQuqsrCDFijBqoKAp1Ih+gAd3rruQ08P26j0lH
+         nNAq1apOXKykUfwS3B2NajpJSQA6ttKtqGiaiKELhxTH9zVxCOYeFib2UBtzYdGMFuLY
+         RVCkOByACQ58dTMo9kngi3/RLu8j7Y3Tqu0FlZiFXZimPt/leDGk87WMFuugIUQ5PvZ7
+         e7DA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722262975; x=1722867775;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9DpUuNFRf2+mlmUFGNhBkhPfCr6X6cUQBVac6+mnEhY=;
+        b=fp6PLGxz2kU+64SSyKn6GFb1jiQzOFwtzxEVb6gUXbbsyidI1djeF4AI4Lcdx4Gyz2
+         5iKf+/nCJxZLHYd1FA11Eicc5Z5TXfPEzIQVuBRK6HLhZ4Z4LN0FY4p0vEFgrH1VBOIg
+         Tc5JIzlZw2ZKHpeH8aDDMvbpJefkHIejSx4cMVcLhAEiQjnPy6u/MlJLk3njPcw2lknj
+         EKwwkJvi5FqbDtDUX2emssT5gV3Rgz/TmGBlQMlKALZibn/Afoe1mnciYokO0N8gmxUH
+         bZpiuynOUgN6zibMboZsuZ4m2Ld48R3rTbuh4t0g1GW14L0tG0E7Wtj9uOmcGXskAshy
+         +ftA==
+X-Forwarded-Encrypted: i=1; AJvYcCWdnmy8Ygq9k4CsR1DZtInqNNUyQQYkuka4Xtym/ZCJMy8rtl+zzLoDpwCCvZifLAhradX2t+OGg3gG8Ajk2Aab2dEP+r6cFvI0Gq+Q
+X-Gm-Message-State: AOJu0YzIwyLvD05zVwwCDwanCxRfEvjT3kkFyO0KzEqXkADUYOUS8H92
+	QJnvL3u9Jqsw9riBTj1AS+aGhBfIrxSL9nLb9OqGQgATjaVMsUstS62Oi9W3O0NKD1GK63Hb6K/
+	fMEIaHgEy+dcu8Q==
+X-Google-Smtp-Source: AGHT+IHfm2z3cnxf5rBSU2H+Uri2dnZaiTSIEU2LtrOMYhl6ATkrl7+v9uMdvMFxQmpUJEdl57Dg5BT1CgybIUk=
+X-Received: from aliceryhl2.c.googlers.com ([fda3:e722:ac3:cc00:68:949d:c0a8:572])
+ (user=aliceryhl job=sendgmr) by 2002:a05:6902:c04:b0:e0b:6a6a:e82 with SMTP
+ id 3f1490d57ef6-e0b6a6a11c0mr10938276.2.1722262975188; Mon, 29 Jul 2024
+ 07:22:55 -0700 (PDT)
+Date: Mon, 29 Jul 2024 14:22:48 +0000
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIALilp2YC/33OzQ6CMAzA8VchO1uzLyB48j2Mh7IVWERmGEEN4
+ d0dXNRIPP6b9NdOLFDvKLBDMrGeRhec72LoXcJMg11N4GxsJrnUXHENoUHr72CwbSEMaC5QGFH
+ kqFUmbMHi3q2nyj1W83SO3bgw+P65nhjFMv2njQIEVDxNCSvNUZpj7X3d0t74K1u4UX4S6RYhI 2HyUqOqtM1E9kOoN5Fvf6GAgxXC5JhRSYp/EfM8vwB4HGVLOQEAAA==
+X-Developer-Key: i=aliceryhl@google.com; a=openpgp; fpr=49F6C1FAA74960F43A5B86A1EE7A392FDE96209F
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1592; i=aliceryhl@google.com;
+ h=from:subject:message-id; bh=2yHObFkJeb9NEav9vRlfQtesacysurvHNX3D+BY5baw=;
+ b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBmp6W6s4LF7RmNmh8S6tgM6zU7PrBFJ6NKJRNNB
+ raevcnq3BOJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCZqelugAKCRAEWL7uWMY5
+ RjNyEACHO3fz7GpCUYlcQp0AFizoXymbKkd/k8ZmfkQ9lYve29IWgplrTHgvWCO6fCSpdZrVqwp
+ Syiw68Lpk0GYHZj8ijTXdmuC74aKI5mi7dBu5IaKNBN6psmHOJZ3VQMyAng2W1bbEFPc7iWB6Lo
+ 1l7ZjqkyR9zCLRFMufytLMz1+7W5DF5bgpfAhvCa5q1SoKYwnlPFPulGOyazvriUkX5x6V833Pw
+ VHRRBvhhBv+5eCh88pjV7mJqr6DOgMrFNKOjPyQtVc7PytmICMg8vrCNfR+d+tjB11BAYMLNTn+
+ qdyCGg/I6AY8SdAcWKLN8xJ7euXxOWpVNKYsNoltAphFMIEAaSuk4Da2UziFzocsFif/ZeXeewo
+ vqTCNFtYgW+rTA1H+KN1DkdpdHE4J10fVEZAEfbjb2/SCpgJPHQJLvd8v+N+dSpLEVMwvuaovtg
+ wOqvu6ab9W/wESJpscxJ1GtwP92wPUmp3w8obGUFonivqTdu8vvrI+HN+7/0jtYpgb1RvTZ1faE
+ RSGq84BdUekyGVwbNVawI3mVA+gQxc9aevQ+Oy2bFs3StiR6HCAdSXbEmEk1c31oXKlxUNW5+RC
+ 3OW3JgXuFHzzwBfrZ4EuXtZ2hZ4QiQ1qZ/cw+nFwMQBOi0iYgM2xIZf30Wg4piY08GOYDyvh5Ku zIl6rzmu8xMs5rA==
+X-Mailer: b4 0.13-dev-26615
+Message-ID: <20240729-shadow-call-stack-v4-0-2a664b082ea4@google.com>
+Subject: [PATCH v4 0/2] Rust and the shadow call stack sanitizer
+From: Alice Ryhl <aliceryhl@google.com>
+To: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Jamie Cunliffe <Jamie.Cunliffe@arm.com>, Sami Tolvanen <samitolvanen@google.com>, 
+	Nathan Chancellor <nathan@kernel.org>, Conor Dooley <conor@kernel.org>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+	Ard Biesheuvel <ardb@kernel.org>, Marc Zyngier <maz@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Mark Brown <broonie@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	"=?utf-8?q?Bj=C3=B6rn_Roy_Baron?=" <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>, 
+	Andreas Hindborg <a.hindborg@samsung.com>, Valentin Obst <kernel@valentinobst.de>, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, rust-for-linux@vger.kernel.org, 
+	Alice Ryhl <aliceryhl@google.com>, Kees Cook <kees@kernel.org>, stable@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
 
-Hello Dragan and others,
+This patch series makes it possible to use Rust together with the shadow
+call stack sanitizer. The first patch is intended to be backported to
+ensure that people don't try to use SCS with Rust on older kernel
+versions. The second patch makes it possible to use Rust with the shadow
+call stack sanitizer.
 
-> I see and agree, but please note that other people highly disagree about
-> that being an issue at all.  Thus, I'd suggest that you provide a 
-> detailed
-> explanation of why and how that presents an issue that weakdeps solve.
-I think that the problem that I am trying to fix related to initramfs
-generation is understood. At least what I tried to explain at the beginning
-of this thread with my messages and the help of Lucas. But maybe you are  
-right, so let me provide a more specific explanation.
+The second patch in this series depends on the next version of [1],
+which Miguel will send soon.
 
-The only thing that I could repeat and/remark is that I am not modifying
-anything in the current kernel behavior, and specifically for this case 
-(lan78xx) with a network driver and related phy modules: I am just trying
-to add a flag (and nothing else) to complete the information of the
-necessary modules to be collected by the tools that build the initramfs.
+Link: https://lore.kernel.org/rust-for-linux/20240709160615.998336-12-ojeda@kernel.org/ [1]
+Signed-off-by: Alice Ryhl <aliceryhl@google.com>
+---
+Changes in v4:
+- Move `depends on` to CONFIG_RUST.
+- Rewrite commit messages to include more context.
+- Link to v3: https://lore.kernel.org/r/20240704-shadow-call-stack-v3-0-d11c7a6ebe30@google.com
 
-And if this information about the necessary modules is not correctly
-collected, the kernel is not going to work from initramfs, Especially if
-the network drivers are not working (because the phy module is not found),
-some initial and necessary resources could not be available before and
-after initramfs stage, because unless the network driver is unloaded and
-loaded again after initramfs stage (then the phy modules would be available
-from rootfs), it is going to be in the same situation, that is, not
-correctly initialized and not working.
+Changes in v3:
+- Use -Zfixed-x18.
+- Add logic to reject unsupported rustc versions.
+- Also include a fix to be backported.
+- Link to v2: https://lore.kernel.org/rust-for-linux/20240305-shadow-call-stack-v2-1-c7b4a3f4d616@google.com/
 
-Including in the initramfs all the phy modules is an option but I think it
-would be better to include only the necessary stuff (this is the default
-behavior for the tools that are used to build the initramfs). This is valid
-for embedded and not-embedded systems.
+Changes in v2:
+- Add -Cforce-unwind-tables flag.
+- Link to v1: https://lore.kernel.org/rust-for-linux/20240304-shadow-call-stack-v1-1-f055eaf40a2c@google.com/
 
-If this patch, to only add the related flag of the network driver to inform
-about the possible phy modules, is rejected because a more general solution
-is preferred, I would like to dig into it, at least to know if it is possible
-to do better.
-Maybe Andrew in other part of the thread, after the interesting comments
-from Jakub, can help and provide some new (for me) inputs.
+---
+Alice Ryhl (2):
+      rust: SHADOW_CALL_STACK is incompatible with Rust
+      rust: support for shadow call stack sanitizer
 
-> Regarding Lima and Panfrost, I agree that weakdeps are a better solution
-> than softdeps, but please see also harddeps. [1]  I'd appreciate if 
-> you'd provide your opinion about the proposed harddeps.
-> [1] 
-> https://lore.kernel.org/linux-modules/04e0676b0e77c5eb69df6972f41d77cdf061265a.1721906745.git.dsimic@manjaro.org/T/#u
-Ok, I will think more about it.
-After a quick first look I agree with Lucas, but let's go little by little
-(at least I don't have a lot of time before my holidays). 
+ Makefile            | 1 +
+ arch/arm64/Makefile | 3 +++
+ init/Kconfig        | 1 +
+ 3 files changed, 5 insertions(+)
+---
+base-commit: 9cde54ad2f7ac3cf84f65df605570c5a00afc82f
+change-id: 20240304-shadow-call-stack-9c197a4361d9
 
-Thanks
-
-Best regards
-José Ignacio
+Best regards,
+-- 
+Alice Ryhl <aliceryhl@google.com>
 
 
