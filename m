@@ -1,143 +1,127 @@
-Return-Path: <linux-kbuild+bounces-2717-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2718-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44BA993EE8D
-	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Jul 2024 09:36:58 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1908393EFF5
+	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Jul 2024 10:34:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E2C941F22536
-	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Jul 2024 07:36:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CC09C281215
+	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Jul 2024 08:34:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4408212D75C;
-	Mon, 29 Jul 2024 07:36:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48C155E091;
+	Mon, 29 Jul 2024 08:34:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fa6fveY5"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ivE5YY4+"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1133312D758;
-	Mon, 29 Jul 2024 07:36:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F1C713B299
+	for <linux-kbuild@vger.kernel.org>; Mon, 29 Jul 2024 08:34:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722238587; cv=none; b=PrnVCAh71yXWJBCzz558VYmmJLQpnnGRMutyBYqiGvNZn7i8idXuCow3OEs9Yicwmn7Z39+GXTz+bZP2aAphznWVIm5x/MVjN6EUs4EKElpqecJy6HL4FQ8GlrN/Wb0M5n709f7+Ml2MCAHVvXUnbMRU36M3Ul4R8D/tFZY9VQs=
+	t=1722242080; cv=none; b=jpv/0jmv54yF2DX0JKsVO69WVjkEFbQTW3xrVEXwbBNN8VwdUAPOTG6hw0/x9GlIEk530+QqoLIAwcSlNomHpsZyPwt7hd1gfe0SlxE0pcrS5JZKLZjokrL3QFabg7uEbVpE0/MaxdCi6i2Qmh8Dv+E86DyMs4YaQQM+RSRs17k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722238587; c=relaxed/simple;
-	bh=I7SM50EkhC2nL2ONJulc7JgZPylZSIxXMjC88jHd45E=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GmNaPuuT6l8QaQHBW4ixf+pNsAw08Z1mMGCYLr2A39SzdaEvxjlcGnt+Ulbz8JoKb2nGJw9P5fEJbKa13KPi1ejCJfFSzA5UqdOeQlXtUdulFidL4NSpsl3h9mxvG5SCF/swWYpGo0IufybH82eo8cAbcztfwaTbxa+9f0kd1VE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fa6fveY5; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D8ACC4AF1D;
-	Mon, 29 Jul 2024 07:36:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722238586;
-	bh=I7SM50EkhC2nL2ONJulc7JgZPylZSIxXMjC88jHd45E=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Fa6fveY5Ozp8Qi0n3/hPO5DEd1iGrETkxxvEaxa2i8VIOrt9BWpJ4/r9gOd+QIXwJ
-	 JO+HzPBJUvPG6z6MpyCp9NcOh+P4gPsC6BU7o+qv29WgvbVlXkZ3C29uHh6JHWex+K
-	 kIpnBY0Rpy9gQOZe3A243Hdm+DPesmd8KhhPrHyutUtjjlwMzctdHFD6/joCgVlJt7
-	 tNsLT8oUQDeu1l5kwcMRHTkqlfzD2/n20qDKMWxx+nQNyEnfb4F5izjYZv+PrGW8TA
-	 Q0iaUB92LfW7JeSUJV6MVDt+0aLs608/WwPxq41g341/jrptITnIkbkftwjWMTWYlN
-	 UzMrR5qb/yXRw==
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2ef2ed592f6so35690621fa.0;
-        Mon, 29 Jul 2024 00:36:26 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVNMwrdGTqu71H7eZwuZDSGQYmVS6gZIscH0Pf5YpkJNAs0zIH0mFHehzXR48cPRXI52Lr093reR2xgi0B743etvRkTkQ4fiKEZmEqvGuKtryjlnLqFnfa73BHi8tOu8j+9LJZmulW9Wl8b2JtUmSU8E/WYQUDsE1fwl3Qb6MmEObMyiJ/4dI3y5UgJckCT4Ae3SbT/92KEHeYPAmKC6kS8VkDW2l1CazUadh9GzXug+kWfOILb/lGy8DLcWQ==
-X-Gm-Message-State: AOJu0YxnM0UdeObyFPn7cwdBODzEkh7cNriOMCZrxsnWyt+CxotIvk0m
-	pWaLpdqREJ8Ff8DXT4MiC10bFDahI7HbkQ6uFRTJE+uHMN0KwA9GFn0VEJYpmG3hf6sbzeRSEoB
-	+VOHsm7MEP9Jgu8aggZwt+LyIkIk=
-X-Google-Smtp-Source: AGHT+IH5q1QJoJgi2M+CBahXKgkZVjCTvPJ0BnyNWvUsOEOWg5UXlc8Ue86En+VxK2Wx5SAGgAROLzJpHmdnKGVd0n4=
-X-Received: by 2002:a2e:b4ba:0:b0:2ef:2311:cc66 with SMTP id
- 38308e7fff4ca-2f12ee62913mr36565691fa.44.1722238584976; Mon, 29 Jul 2024
- 00:36:24 -0700 (PDT)
+	s=arc-20240116; t=1722242080; c=relaxed/simple;
+	bh=nuG/4vNf+Xo0PuptBC7376G+xBvvSdFJWnxk+gys6MQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fMRV99S5Zl9tRKcVrUSx8CYoqe6+YbCLRVyBXQ3+fPsCkZvKSmfB26RR+6iHYu1jsJEiexw23ho0jL0o3SXWs0vtR2ggSrIpdLPFWYGcxEoDyslekIFyGSZTCt4p8RYkhh7qyTW9UOCz3ixfTnl7eXnrLelUQ+VlyoX6c8WFVBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ivE5YY4+; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1722242076;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iQiICJ5lL4LLRuRe82xJT7UDszv9VsNI9xZ/zp+jqc8=;
+	b=ivE5YY4+CNrQool+I3sReEdWvNmnpbMoRyyAFtvAFCuXswqiv1DgkwCPSKW6y0r+kkvGcP
+	wi7UDk9OZdplk22lFB275/DfgK0n8CdVwh0Nm53yVVGaIl5Xc7tq39IIQXaQpGGw/dzYs7
+	/AJor8f/zDXas4S1UL2tJliGA8j/5JA=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-317-fp6fsfEAMraFMdT2FWJpgA-1; Mon,
+ 29 Jul 2024 04:34:33 -0400
+X-MC-Unique: fp6fsfEAMraFMdT2FWJpgA-1
+Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 46EC61955BED;
+	Mon, 29 Jul 2024 08:34:30 +0000 (UTC)
+Received: from fedora.redhat.com (unknown [10.39.192.136])
+	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 599B71955D48;
+	Mon, 29 Jul 2024 08:34:22 +0000 (UTC)
+From: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
+To: dsimic@manjaro.org
+Cc: UNGLinuxDriver@microchip.com,
+	andrew@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	f.fainelli@gmail.com,
+	gregkh@linuxfoundation.org,
+	jtornosm@redhat.com,
+	kuba@kernel.org,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	lucas.demarchi@intel.com,
+	masahiroy@kernel.org,
+	mcgrof@kernel.org,
+	netdev@vger.kernel.org,
+	pabeni@redhat.com,
+	woojung.huh@microchip.com
+Subject: Re: [PATCH] net: usb: lan78xx: add weak dependency with micrel phy module
+Date: Mon, 29 Jul 2024 10:34:19 +0200
+Message-ID: <20240729083421.11203-1-jtornosm@redhat.com>
+In-Reply-To: <b8a2831c4f2d49469d5af04c03bb1a5b@manjaro.org>
+References: <b8a2831c4f2d49469d5af04c03bb1a5b@manjaro.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240728203001.2551083-1-xur@google.com> <20240728203001.2551083-7-xur@google.com>
- <63eb1654-c614-4f6a-9bc5-8c8085eadf8c@app.fastmail.com>
-In-Reply-To: <63eb1654-c614-4f6a-9bc5-8c8085eadf8c@app.fastmail.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Mon, 29 Jul 2024 16:35:48 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAT9EU1ZAUh9SAEQ4Ar5LY-wUstaCjGLt7=Kr=uJMNfJvQ@mail.gmail.com>
-Message-ID: <CAK7LNAT9EU1ZAUh9SAEQ4Ar5LY-wUstaCjGLt7=Kr=uJMNfJvQ@mail.gmail.com>
-Subject: Re: [PATCH 6/6] Add Propeller configuration for kernel build.
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Rong Xu <xur@google.com>, Han Shen <shenhan@google.com>, 
-	Sriraman Tallam <tmsriram@google.com>, David Li <davidxl@google.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Ard Biesheuvel <ardb@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
-	Vegard Nossum <vegard.nossum@oracle.com>, John Moon <john@jmoon.dev>, 
-	Andrew Morton <akpm@linux-foundation.org>, Heiko Carstens <hca@linux.ibm.com>, 
-	Luis Chamberlain <mcgrof@kernel.org>, Samuel Holland <samuel.holland@sifive.com>, 
-	Mike Rapoport <rppt@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>, Rafael Aquini <aquini@redhat.com>, 
-	Petr Pavlu <petr.pavlu@suse.com>, Eric DeVolder <eric.devolder@oracle.com>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Randy Dunlap <rdunlap@infradead.org>, 
-	Benjamin Segall <bsegall@google.com>, Breno Leitao <leitao@debian.org>, 
-	Wei Yang <richard.weiyang@gmail.com>, Brian Gerst <brgerst@gmail.com>, 
-	Juergen Gross <jgross@suse.com>, Palmer Dabbelt <palmer@rivosinc.com>, 
-	Alexandre Ghiti <alexghiti@rivosinc.com>, Kees Cook <kees@kernel.org>, 
-	Sami Tolvanen <samitolvanen@google.com>, Xiao W Wang <xiao.w.wang@intel.com>, 
-	Jan Kiszka <jan.kiszka@siemens.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-efi@vger.kernel.org, Linux-Arch <linux-arch@vger.kernel.org>, 
-	llvm@lists.linux.dev, Krzysztof Pszeniczny <kpszeniczny@google.com>, 
-	Stephane Eranian <eranian@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
 
-On Mon, Jul 29, 2024 at 4:02=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> wrote=
-:
->
-> On Sun, Jul 28, 2024, at 22:29, Rong Xu wrote:
-> >  Documentation/dev-tools/index.rst     |   1 +
-> >  Documentation/dev-tools/propeller.rst | 188 ++++++++++++++++++++++++++
-> >  MAINTAINERS                           |   7 +
-> >  Makefile                              |   1 +
-> >  arch/Kconfig                          |  22 +++
-> >  arch/x86/Kconfig                      |   1 +
-> >  arch/x86/boot/compressed/Makefile     |   3 +
-> >  arch/x86/kernel/vmlinux.lds.S         |   4 +
-> >  arch/x86/platform/efi/Makefile        |   1 +
-> >  drivers/firmware/efi/libstub/Makefile |   2 +
-> >  include/asm-generic/vmlinux.lds.h     |   8 +-
-> >  scripts/Makefile.lib                  |  10 ++
-> >  scripts/Makefile.propeller            |  25 ++++
-> >  tools/objtool/check.c                 |   1 +
->
-> I have not looked in much detail, but I see that you need
-> a special case for arch/x86/boot/compressed and
-> drivers/firmware/efi, which makes it likely that you
-> need to also disable properller support for
-> arch/x86/purgatory/Makefile, which tends to have similar
-> requirements.
->
->      Arnd
+Hello Dragan,
 
+> Quite frankly, all this makes me wonder why weakdeps were merged into
+> the mainline kernel [1] with no real consumers?  Perhaps this is good
+> time for Jose and Luis to chime in.
+Well, I requested this commenting as an example the case of lan78xx and
+the possible phy modules,  becasue it is clearly failing when initramfs
+is generated due to the dynamic phy module loading process.
+In my opinion this example was enough good because I found it difficult get
+an automatic way to get this information in advance for all the cases and
+becasue I need to fix this initramfs issue.
 
+But with a first glance, I also found several examples (not phy related),
+in which it seems the suitable softdep was added to solve the initramfs
+missing module issue:
+80f4e62730a9 drm/panfrost: Mark simple_ondemand governor as softdep
+0c94f58cef31 drm/lima: Mark simple_ondemand governor as softdep
+2ebe16155dc8 scsi: ufs: core: Add soft dependency on governor_simpleondemand
+dfe085d8dcd0 crypto: xts - Add softdep on ecb
+...
 
+Therefore, I requested to provide this  kind of new dependency (weakdep)
+first in general, becasue I thought it could be useful for a lot of cases
+not only for the unkown (for initramfs) phy modules (i.e. lan78xx).
+That is, in spite of the initial usage has been rejected, I think it can
+still be considered by the other commented examples (or new ones).
+I would like to confirm some example(s) to have some usage, but this will
+need to be from September after my holidays.
 
-I applied the following commits:
+Thanks
 
- - 9c2d1328f88adb6cbfb218163623254b96f680d3
- - 7f7f6f7ad654b326897c9f54438a06f03454bd0d
+Best regards
+José Ignacio
 
-
-
-This might be another case to apply a similar approach
-instead of sprinkling PROPELLER__PROFILE=3Dn.
-
-
-
-
---=20
-Best Regards
-Masahiro Yamada
 
