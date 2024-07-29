@@ -1,130 +1,185 @@
-Return-Path: <linux-kbuild+bounces-2720-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2722-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D139E93F112
-	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Jul 2024 11:29:03 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5BA493F137
+	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Jul 2024 11:34:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 871491F22A98
-	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Jul 2024 09:29:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 675B41F21D22
+	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Jul 2024 09:34:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F0E8140378;
-	Mon, 29 Jul 2024 09:28:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7C6A13C814;
+	Mon, 29 Jul 2024 09:34:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="G4/koggL"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="vRnJ603h"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E65513E3F6;
-	Mon, 29 Jul 2024 09:28:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.91.91
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E879E770E1;
+	Mon, 29 Jul 2024 09:34:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722245333; cv=none; b=Ify9uXcmpt5wzLZPcUzloKT5Vcg0vL+yr6NwBIzZ8QMDpXrOt6ai7wNmpqh1ztdnkHM3Em6jcZU02+wC7y+NVj+GUz6dTxerOKjvxM18U5BzCPcRxFo3qdgnVQ0OEJ7kaEpsuDVHkjuf3K9KyGWRRcSEupy7y2NKhtryaIJQMoA=
+	t=1722245663; cv=none; b=mHJuU3BPchROOrWu+G1NAtXANO7E5YIYdjki8MEa6ctWZ9CZHD9b6Z1tP1b7xAlJrvEI9HdEN0NHdmovS6+2I8Dny+tu1aq/SzA+Xi57J2l/4wuNcke1Ki6398A5mge3uoXCW2I/I5wfN6UemcOV1cd1y9Jo7vAF7VUvBMztW+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722245333; c=relaxed/simple;
-	bh=bzHWl0dFMQRjC2s+J0lIeqP9IZPIqb+8YpOOF6CAJyw=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=kqGUAk/x3YYCEpLhTvp3mWI/Lnx9+f/mxfC+JGp8Rci+lUNxHvCf+cmvOtzU/rnR/V2hc+C8slf7yEAk+abWTcYGXppp3lhyytywml9lekYLjJJ0JYANSDF1/pCFkDGnchuvTMxc68MayH2tRac8jIjCkBJOv+E3FyqGI2jjIpg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=G4/koggL; arc=none smtp.client-ip=116.203.91.91
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manjaro.org
+	s=arc-20240116; t=1722245663; c=relaxed/simple;
+	bh=3jPwdF87VODfvLYMSLQ6a8U5V6bwkM9aoC2LVJskl4k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JEreezV5t9lnUxTuIBdJa3YFmVyFHMeZ+n7QNbh7ZIwpX6QeAt3bF8Mtnpx/g13V16i+NrbC+c1ZkeSVMLz9Gkv7Ns8w4ma5q0ROW6JV5kpIANkUoQsRpCphC4G/oRry1ZSxfKiW/GRlyVMvkXx7MlEH6iI/iwK/uwabXbv0in8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=vRnJ603h; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=8JC9Mk7PKGPRsFj1tUJdTnT65oycReDEnXbNeaPrch8=; b=vRnJ603hG2qrYgjH37cZsIaTty
+	kbnnWa7CjLIqvatukxS67LykRqrQgJkaCNBwfmtKqR4SlBruRVepVz5alu67HS0JQAWmWFRDO/N7A
+	od/rHvVXsl6oM7N955Rb5sa+a8xJ97rYORUGm4fgJ0xmlyJRcR61xnGllcfSu8IugcJKiLpqzkKKL
+	HNYmPh4hrfJvQaXquK4Ni9lzRMMLs3Q9e6TGSXZ66gAPNwb34qKpVNmOJaPXE5x4r/pDx9bKMuD0C
+	1mbVBy9VfyT+tWOqSqsD/HTRS0rn5NIr7IuXjdIvHSXxuBOWoKqZIdmq+4NYePiNAVqodzmMhz/UQ
+	9oYkfk/Q==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sYMla-0000000DQiR-1KUO;
+	Mon, 29 Jul 2024 09:34:06 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id EAFEC300439; Mon, 29 Jul 2024 11:34:05 +0200 (CEST)
+Date: Mon, 29 Jul 2024 11:34:05 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Rong Xu <xur@google.com>
+Cc: Han Shen <shenhan@google.com>, Sriraman Tallam <tmsriram@google.com>,
+	David Li <davidxl@google.com>, Jonathan Corbet <corbet@lwn.net>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H . Peter Anvin" <hpa@zytor.com>, Ard Biesheuvel <ardb@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>, Josh Poimboeuf <jpoimboe@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Vegard Nossum <vegard.nossum@oracle.com>,
+	John Moon <john@jmoon.dev>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	"Paul E . McKenney" <paulmck@kernel.org>,
+	Rafael Aquini <aquini@redhat.com>, Petr Pavlu <petr.pavlu@suse.com>,
+	Eric DeVolder <eric.devolder@oracle.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Benjamin Segall <bsegall@google.com>,
+	Breno Leitao <leitao@debian.org>,
+	Wei Yang <richard.weiyang@gmail.com>,
+	Brian Gerst <brgerst@gmail.com>, Juergen Gross <jgross@suse.com>,
+	Palmer Dabbelt <palmer@rivosinc.com>,
+	Alexandre Ghiti <alexghiti@rivosinc.com>,
+	Kees Cook <kees@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Xiao Wang <xiao.w.wang@intel.com>,
+	Jan Kiszka <jan.kiszka@siemens.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-efi@vger.kernel.org, linux-arch@vger.kernel.org,
+	llvm@lists.linux.dev, Krzysztof Pszeniczny <kpszeniczny@google.com>
+Subject: Re: [PATCH 3/6] Change the symbols order when --ffuntion-sections is
+ enabled
+Message-ID: <20240729093405.GC37996@noisy.programming.kicks-ass.net>
+References: <20240728203001.2551083-1-xur@google.com>
+ <20240728203001.2551083-4-xur@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
-	t=1722245329;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/pG2BKZE44Z2kXW9fB7jx3sBrZA1cIRr01G83L4BMw4=;
-	b=G4/koggLmvifN4FOnkrrpbV4w8G3jcE4RB/DvDX1C9nSIAY5oXca5M7hZ+Sc8hg3khqITZ
-	oA6XYAh0wUhDqUE/fwuJRdWuNPI6UonkAYniyN+Nd7669WROSvBCdIfzRPYU+PgHujuIKj
-	A0adPylklGN6EmTlRja0e8aAW2GefbETdddmpWnzBy9yZ84kEJjtYyy9u+wvSyVFC7qqjg
-	9QSdju2LYum3O0K4Lam1R6Ec/2JZfczFIp1fi6zqIDYSp/hCBzH1qoTnK/GLEBI683ucwh
-	FiKKSiffJOZ9YFK/cBXe55/0w4Moo1cp4oAlOlb6CxM6jOpQ62QcBd/tLRKsEw==
-Date: Mon, 29 Jul 2024 11:28:48 +0200
-From: Dragan Simic <dsimic@manjaro.org>
-To: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
-Cc: UNGLinuxDriver@microchip.com, andrew@lunn.ch, davem@davemloft.net,
- edumazet@google.com, f.fainelli@gmail.com, gregkh@linuxfoundation.org,
- kuba@kernel.org, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org, lucas.demarchi@intel.com, masahiroy@kernel.org,
- mcgrof@kernel.org, netdev@vger.kernel.org, pabeni@redhat.com,
- woojung.huh@microchip.com
-Subject: Re: [PATCH] net: usb: lan78xx: add weak dependency with micrel phy
- module
-In-Reply-To: <20240729083421.11203-1-jtornosm@redhat.com>
-References: <b8a2831c4f2d49469d5af04c03bb1a5b@manjaro.org>
- <20240729083421.11203-1-jtornosm@redhat.com>
-Message-ID: <4db38805936d28fe1578c525a18f7849@manjaro.org>
-X-Sender: dsimic@manjaro.org
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Authentication-Results: ORIGINATING;
-	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240728203001.2551083-4-xur@google.com>
 
-Hello Jose,
-
-On 2024-07-29 10:34, Jose Ignacio Tornos Martinez wrote:
->> Quite frankly, all this makes me wonder why weakdeps were merged into
->> the mainline kernel [1] with no real consumers?  Perhaps this is good
->> time for Jose and Luis to chime in.
+On Sun, Jul 28, 2024 at 01:29:56PM -0700, Rong Xu wrote:
+> When the -ffunction-sections compiler option is enabled, each function
+> is placed in a separate section named .text.function_name rather than
+> putting all functions in a single .text section.
 > 
-> Well, I requested this commenting as an example the case of lan78xx and
-> the possible phy modules,  becasue it is clearly failing when initramfs
-> is generated due to the dynamic phy module loading process.
-> In my opinion this example was enough good because I found it difficult 
-> get
-> an automatic way to get this information in advance for all the cases 
-> and
-> becasue I need to fix this initramfs issue.
+> However, using -function-sections can cause problems with the
+> linker script. The comments included in include/asm-generic/vmlinux.lds.h
+> note these issues.:
+>   “TEXT_MAIN here will match .text.fixup and .text.unlikely if dead
+>    code elimination is enabled, so these sections should be converted
+>    to use ".." first.”
+> 
+> It is unclear whether there is a straightforward method for converting
+> a suffix to "..". This patch modifies the order of subsections within the
+> text output section when the -ffunction-sections flag is enabled.
+> Specifically, it repositions sections with certain fixed patterns (for
+> example .text.unlikely) before TEXT_MAIN, ensuring that they are grouped
+> and matched together.
+> 
+> Note that the limitation arises because the linker script employs glob
+> patterns instead of regular expressions for string matching. While there
+> is a method to maintain the current order using complex patterns, this
+> significantly complicates the pattern and increases the likelihood of
+> errors.
+> 
+> Co-developed-by: Han Shen <shenhan@google.com>
+> Signed-off-by: Han Shen <shenhan@google.com>
+> Signed-off-by: Rong Xu <xur@google.com>
+> Suggested-by: Sriraman Tallam <tmsriram@google.com>
+> Suggested-by: Krzysztof Pszeniczny <kpszeniczny@google.com>
+> ---
+>  include/asm-generic/vmlinux.lds.h | 19 ++++++++++++++++---
+>  1 file changed, 16 insertions(+), 3 deletions(-)
+> 
+> diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
+> index 5703526d6ebf..f3de66bda293 100644
+> --- a/include/asm-generic/vmlinux.lds.h
+> +++ b/include/asm-generic/vmlinux.lds.h
+> @@ -582,9 +582,21 @@
+>   * during second ld run in second ld pass when generating System.map
+>   *
+>   * TEXT_MAIN here will match .text.fixup and .text.unlikely if dead
+> - * code elimination is enabled, so these sections should be converted
+> - * to use ".." first.
+> + * code elimination or function-section is enabled. Match these symbols
+> + * first when in these builds.
+>   */
+> +#if defined(CONFIG_LD_DEAD_CODE_DATA_ELIMINATION) || defined(CONFIG_LTO_CLANG)
+> +#define TEXT_TEXT							\
+> +		*(.text.asan.* .text.tsan.*)				\
+> +		*(.text.unknown .text.unknown.*)			\
+> +		*(.text.unlikely .text.unlikely.*)			\
+> +		ALIGN_FUNCTION();					\
 
-I see and agree, but please note that other people highly disagree about
-that being an issue at all.  Thus, I'd suggest that you provide a 
-detailed
-explanation of why and how that presents an issue that weakdeps solve.
+Why leave the above text sections unaligned?
 
-> But with a first glance, I also found several examples (not phy 
-> related),
-> in which it seems the suitable softdep was added to solve the initramfs
-> missing module issue:
-> 80f4e62730a9 drm/panfrost: Mark simple_ondemand governor as softdep
-> 0c94f58cef31 drm/lima: Mark simple_ondemand governor as softdep
-> 2ebe16155dc8 scsi: ufs: core: Add soft dependency on 
-> governor_simpleondemand
-> dfe085d8dcd0 crypto: xts - Add softdep on ecb
-
-Regarding Lima and Panfrost, I agree that weakdeps are a better solution
-than softdeps, but please see also harddeps. [1]  I'd appreciate if 
-you'd
-provide your opinion about the proposed harddeps.
-
-[1] 
-https://lore.kernel.org/linux-modules/04e0676b0e77c5eb69df6972f41d77cdf061265a.1721906745.git.dsimic@manjaro.org/T/#u
-
-> Therefore, I requested to provide this  kind of new dependency 
-> (weakdep)
-> first in general, becasue I thought it could be useful for a lot of 
-> cases
-> not only for the unkown (for initramfs) phy modules (i.e. lan78xx).
-> That is, in spite of the initial usage has been rejected, I think it 
-> can
-> still be considered by the other commented examples (or new ones).
-> I would like to confirm some example(s) to have some usage, but this 
-> will
-> need to be from September after my holidays.
-
-Maybe we can have Lima and Panfrost as the first consumers, but I'd 
-prefer
-to have them use harddeps, as "earmarks" for the future (please see the
-discussion linked above, and the two additional discussions linked from
-the patch description in that thread).
+> +		*(.text.hot .text.hot.*)				\
+> +		*(TEXT_MAIN .text.fixup)				\
+> +		NOINSTR_TEXT						\
+> +		*(.ref.text)						\
+> +	MEM_KEEP(init.text*)
+> +#else
+>  #define TEXT_TEXT							\
+>  		ALIGN_FUNCTION();					\
+>  		*(.text.hot .text.hot.*)				\
+> @@ -594,7 +606,8 @@
+>  		NOINSTR_TEXT						\
+>  		*(.ref.text)						\
+>  		*(.text.asan.* .text.tsan.*)				\
+> -	MEM_KEEP(init.text*)						\
+> +	MEM_KEEP(init.text*)
+> +#endif
+>  
+>  
+>  /* sched.text is aling to function alignment to secure we have same
+> -- 
+> 2.46.0.rc1.232.g9752f9e123-goog
+> 
 
