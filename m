@@ -1,157 +1,128 @@
-Return-Path: <linux-kbuild+bounces-2713-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2714-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03EAC93ED26
-	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Jul 2024 08:07:12 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E14AE93ED38
+	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Jul 2024 08:14:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9B3AD281FEB
-	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Jul 2024 06:07:10 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 739DBB2193C
+	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Jul 2024 06:14:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7ED4E82877;
-	Mon, 29 Jul 2024 06:07:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C725784A40;
+	Mon, 29 Jul 2024 06:13:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SLMqeTDB"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="hFFoWZfF"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55D1210E4;
-	Mon, 29 Jul 2024 06:07:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8934D7E1;
+	Mon, 29 Jul 2024 06:13:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722233227; cv=none; b=azt2TZ43NMm8Ml/QJjXWxGVt2/GVxfVZ49XuD2O2v9hsmLw9+aLfACm5tRHCDb/PU7utBqDtoTzSw74rmDvx9vYoMAbf2NQAvohgvukjI+jmMqeZLdJHNGf8nUNuf1P8iMSjXIh9dEBmgBm1wKEETX/6errjfd7GNdH2MqzPsBM=
+	t=1722233624; cv=none; b=rKU1Tnztu2JHIVzcfmJYyZfnPfScteRxtksTydKUgauVBRom+6StnWAVFSzwLjItyusJBQJNnuE1qax2f49ddUlp+4qIiphyFk878WtnRwnsXtM7o3qycmnKds13mFZiA2GaL+bsAXJaB+bCFdJdwWJjpb5DSeanfUoCxyQHG8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722233227; c=relaxed/simple;
-	bh=mdXaX/I7zsamo8g6v05bVQ+OjFV8uJNOfkizzRlWC1Y=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oU0TKALZhhUvxB0BmtyZWmsaEmvBBaS2TqTDf+sq1acaMn5hD0NIMT0nkfPFUcHTkpEF/PY+aH5LfWP9GkxJ4VVz78TyRGXXict70EUVkXGF4VdeAq2OET3nnIvoJLC2NpWzHLn112u0uWpN6XTnvGREqf7N4weVJlbKe5Maazk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SLMqeTDB; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F132FC32786;
-	Mon, 29 Jul 2024 06:07:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722233227;
-	bh=mdXaX/I7zsamo8g6v05bVQ+OjFV8uJNOfkizzRlWC1Y=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=SLMqeTDB5gxiMEF3SIwrn5MTMNE9118DvsK/knoKn8/KJLiKZfQWhS3tHBQ4+V5GZ
-	 7ZpxQN1jFQO7pVSZL+PRbY2peWX6HtONV93nZ7e8GD7hzqOoF3vrJpOfrPFDWG32hw
-	 ++jn24ZUClMw+xX/zWsKFXOz6OPEPux7OV1hkKMvKOtecezKwL+aquJ9YLIR/TXAIS
-	 xe7NMZ7bu/oDOg5gSUaTBLBi/g5uDrL7yQMj+Q1r3DHrx4Kp6du41UmSpE7pt7rfmf
-	 qkQkF/2MO+Nsqj8r3nm+wA8jDUO3AHTC1jl2+NWWL/nOFyzA9cbrKnuzc0sO+eme5V
-	 9AuZdawXbWGXA==
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-52f04b4abdcso4868803e87.2;
-        Sun, 28 Jul 2024 23:07:06 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWRJcm0qjiZntZFEzFLOzWi9QlnH5Y2oIELoaXDkqfeZIc98rm6Lew6rTcDsCnH//bGRplJA1O/O/RYCLs0ivTcptRNXspHq7dLxdpK
-X-Gm-Message-State: AOJu0YyTckDv8KBx/USyLZazkuaogvBnI2SE3/uPgor9ZowvTOcu+iYd
-	2cvRGaT1OlSfPkq2XD4MKOT2qGf/AGXhO4/Jvhgq1TmDDTFr+cGCUPKKCfMVX25kwFK88Q4Yplu
-	MYfFqAKgogoW29Fvp9ZgYSx6jbdQ=
-X-Google-Smtp-Source: AGHT+IEaUUPAFEIfx+aS3dP+tnOlmjGmVlPdnXmPHa0w+1pwDJCKqdX9Y4kC5wXE8VDyCJO8HgBfFV6GLpqTc8+y9+Y=
-X-Received: by 2002:a19:7404:0:b0:52c:d80e:55a5 with SMTP id
- 2adb3069b0e04-5309b2c3071mr3725189e87.41.1722233225661; Sun, 28 Jul 2024
- 23:07:05 -0700 (PDT)
+	s=arc-20240116; t=1722233624; c=relaxed/simple;
+	bh=N4vul3hw0zjZM/5Ktq+B0LXqvGDfrP0hLra/k+iE0j8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GcFShuAAmcwu2W8Ty+JzWBNTZ3Nmlr7EceqK5dqQaAQRO3Rpp8CEntp9PzXXApNDUL6gR+lfUkQpeIap6eGkVD61P7Q3yTsr6zj7ksSJKw4TTH62K7UNABdKISpG7px5SpFtKh20AtQWvBrGi8EGLPI0KZmYYWvFleSoqAGXYYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=hFFoWZfF; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83593C32786;
+	Mon, 29 Jul 2024 06:13:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1722233624;
+	bh=N4vul3hw0zjZM/5Ktq+B0LXqvGDfrP0hLra/k+iE0j8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hFFoWZfFc3LjTEQC3QdH1enwgYjR31isGvoBkKsyTlw5xDNBigAkmJIR0lMRuyJUU
+	 JmfXGeOgtwzCF5+4zJrKSuSiIxnXD/quxb1jzvEhYTmDuSPJL2b+mzWn0Cffa7Tync
+	 31pIfflPHr2qZyj0mVHOJATQKgNFtlq5arGz2bU4=
+Date: Mon, 29 Jul 2024 08:13:41 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Dragan Simic <dsimic@manjaro.org>
+Cc: Andrew Lunn <andrew@lunn.ch>,
+	Jose Ignacio Tornos Martinez <jtornosm@redhat.com>,
+	UNGLinuxDriver@microchip.com, davem@davemloft.net,
+	edumazet@google.com, f.fainelli@gmail.com, kuba@kernel.org,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org, lucas.demarchi@intel.com,
+	masahiroy@kernel.org, mcgrof@kernel.org, netdev@vger.kernel.org,
+	pabeni@redhat.com, woojung.huh@microchip.com
+Subject: Re: [PATCH] net: usb: lan78xx: add weak dependency with micrel phy
+ module
+Message-ID: <2024072923-galleria-gumdrop-5c56@gregkh>
+References: <bcc81ea0-78e1-476e-928c-b873a064b479@lunn.ch>
+ <20240726121530.193547-1-jtornosm@redhat.com>
+ <b96d9801-d370-4ddd-97fd-5eac2a2656f4@lunn.ch>
+ <931b582808f237aa3746c5b0a96b3665@manjaro.org>
+ <3e895811-ad23-4687-b440-5375ad2af2ff@lunn.ch>
+ <a520ee4da331c8edb99f2c14d22a3531@manjaro.org>
+ <3a3f49b5-45b2-4999-a364-60d035bbd11f@lunn.ch>
+ <98d200777d62dc9b447557b2758613e5@manjaro.org>
+ <3a6ef66a-e98f-44df-9fef-3b26bede4c07@lunn.ch>
+ <36bfb8da08b90fb14108e99853f49d0f@manjaro.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240606133615.986035-1-masahiroy@kernel.org>
-In-Reply-To: <20240606133615.986035-1-masahiroy@kernel.org>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Mon, 29 Jul 2024 15:06:29 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARnBDXm0fsVaeHdvst_XqH35K5+LeBdBAZa15brOKEyfw@mail.gmail.com>
-Message-ID: <CAK7LNARnBDXm0fsVaeHdvst_XqH35K5+LeBdBAZa15brOKEyfw@mail.gmail.com>
-Subject: Re: [PATCH] slimbus: generate MODULE_ALIAS() from MODULE_DEVICE_TABLE()
-To: alsa-devel@alsa-project.org, 
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Cc: linux-kernel@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <36bfb8da08b90fb14108e99853f49d0f@manjaro.org>
 
-Hi Srinivas,
+On Mon, Jul 29, 2024 at 06:43:40AM +0200, Dragan Simic wrote:
+> On 2024-07-28 22:57, Andrew Lunn wrote:
+> > > In other words, this patch doesn't subtract anything.  Instead, it
+> > > just
+> > > adds a weakdep link between the lan78xx and micrel modules, so the
+> > > kernel
+> > > itself can report that dependency, which may actually result in one
+> > > more
+> > > PHY driver added to a generated initial ramdisk.
+> > 
+> > So at the moment, does the initramfs contain all PHY modules? I guess
+> > it does, because you have no knowledge which are actually needed. And
+> > this does not help you in any way, as you said, it does not subtract
+> > anything.
+> 
+> Basically, an initial ramdisk shouldn't contain any PHY modules that
+> aren't automatically detected as needed on a particular system, for
+> which the initial ramdisk is built.  That's how selecting modules
+> while building the initial ramdisks works.  On the other hand, if it's
+> some initial ramdisk built by a Linux distribution and intended to
+> support multiple systems or boards, it may contain whatever the
+> distribution sees fit.
+> 
+> Having weakdeps defined actually does help here.  For example, a Linux
+> distribution mentioned above no longer needs to hand-craft the rules
+> for initial ramdisk generation for the PHY modules that should be put
+> into an initial ramdisk together with the lan78xx driver, if the Linux
+> distribution chooses to include the lax78xx driver.  Having weakdep(s)
+> defined makes the kernel do that instead.  Also, there's no point in
+> including every single PHY driver module, because not all of them are
+> needed for a particular selection of MAC drivers, which comes from the
+> intended purpose of the initial ramdisk built by a Linux distribution,
+> i.e. the target architecture, supported board category, etc.
+> 
+> Let's also keep in mind that including all PHY modules into an initial
+> ramdisk inevitably makes it larger, which often isn't an option for
+> resource-constrained embedded systems.
+> 
 
+resource-constrained embedded systems know their dependancies and their
+hardware configurations, so I don't see how the weak-deps help at all
+here.
 
-Any comments?
+You are arguing two different things it seems, neither of which this
+change helps out at all with, so I will provide a:
 
+  Nacked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
+here until it gets straightened out.
 
-On Thu, Jun 6, 2024 at 10:36=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
->
-> Commit 9e663f4811c6 ("slimbus: core: add support to uevent") added the
-> MODALIAS=3Dslim:* uevent variable, but modpost does not generate the
-> corresponding MODULE_ALIAS().
->
-> To support automatic module loading, slimbus drivers still need to
-> manually add MODULE_ALIAS("slim:<manf_id>:<prod_code>:*"), as seen in
-> sound/soc/codecs/wcd9335.c.
->
-> To automate this, make modpost generate the proper MODULE_ALIAS() from
-> MODULE_DEVICE_TABLE(slim, ).
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
->
->  scripts/mod/devicetable-offsets.c |  4 ++++
->  scripts/mod/file2alias.c          | 11 +++++++++++
->  2 files changed, 15 insertions(+)
->
-> diff --git a/scripts/mod/devicetable-offsets.c b/scripts/mod/devicetable-=
-offsets.c
-> index 518200813d4e..9c7b404defbd 100644
-> --- a/scripts/mod/devicetable-offsets.c
-> +++ b/scripts/mod/devicetable-offsets.c
-> @@ -153,6 +153,10 @@ int main(void)
->         DEVID_FIELD(i3c_device_id, part_id);
->         DEVID_FIELD(i3c_device_id, extra_info);
->
-> +       DEVID(slim_device_id);
-> +       DEVID_FIELD(slim_device_id, manf_id);
-> +       DEVID_FIELD(slim_device_id, prod_code);
-> +
->         DEVID(spi_device_id);
->         DEVID_FIELD(spi_device_id, name);
->
-> diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
-> index 5d1c61fa5a55..99dce93a4188 100644
-> --- a/scripts/mod/file2alias.c
-> +++ b/scripts/mod/file2alias.c
-> @@ -960,6 +960,16 @@ static int do_i3c_entry(const char *filename, void *=
-symval,
->         return 1;
->  }
->
-> +static int do_slim_entry(const char *filename, void *symval, char *alias=
-)
-> +{
-> +       DEF_FIELD(symval, slim_device_id, manf_id);
-> +       DEF_FIELD(symval, slim_device_id, prod_code);
-> +
-> +       sprintf(alias, "slim:%x:%x:*", manf_id, prod_code);
-> +
-> +       return 1;
-> +}
-> +
->  /* Looks like: spi:S */
->  static int do_spi_entry(const char *filename, void *symval,
->                         char *alias)
-> @@ -1555,6 +1565,7 @@ static const struct devtable devtable[] =3D {
->         {"rpmsg", SIZE_rpmsg_device_id, do_rpmsg_entry},
->         {"i2c", SIZE_i2c_device_id, do_i2c_entry},
->         {"i3c", SIZE_i3c_device_id, do_i3c_entry},
-> +       {"slim", SIZE_slim_device_id, do_slim_entry},
->         {"spi", SIZE_spi_device_id, do_spi_entry},
->         {"dmi", SIZE_dmi_system_id, do_dmi_entry},
->         {"platform", SIZE_platform_device_id, do_platform_entry},
-> --
-> 2.43.0
->
+thanks,
 
-
---=20
-Best Regards
-Masahiro Yamada
+greg k-h
 
