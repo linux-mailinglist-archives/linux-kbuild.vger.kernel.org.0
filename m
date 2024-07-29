@@ -1,181 +1,130 @@
-Return-Path: <linux-kbuild+bounces-2721-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2720-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E4BD93F118
-	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Jul 2024 11:29:26 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D139E93F112
+	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Jul 2024 11:29:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 584041C21BCF
-	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Jul 2024 09:29:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 871491F22A98
+	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Jul 2024 09:29:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 028E91422BC;
-	Mon, 29 Jul 2024 09:29:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F0E8140378;
+	Mon, 29 Jul 2024 09:28:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="gK9W/wTR"
+	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="G4/koggL"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4898E140369;
-	Mon, 29 Jul 2024 09:28:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E65513E3F6;
+	Mon, 29 Jul 2024 09:28:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.91.91
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722245340; cv=none; b=EdYV1q0/3prnbhHhivsy9+0LSRSfxRzKOdmg43WBRzlGVzo73TBHztMZRHk2V+Aqih/6pJm8adlYaO7N88nXXz8Gxe4IV1tHZmB048VxPo5PcL1ZXlZocu37yFUV3OekWeZSzeRRvVcBIaBHf3bMneqE/x4w8N8bT+hTCwt8wHo=
+	t=1722245333; cv=none; b=Ify9uXcmpt5wzLZPcUzloKT5Vcg0vL+yr6NwBIzZ8QMDpXrOt6ai7wNmpqh1ztdnkHM3Em6jcZU02+wC7y+NVj+GUz6dTxerOKjvxM18U5BzCPcRxFo3qdgnVQ0OEJ7kaEpsuDVHkjuf3K9KyGWRRcSEupy7y2NKhtryaIJQMoA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722245340; c=relaxed/simple;
-	bh=U5EVK+j7cGMFHeZTM7A6uc78H5Q+lVyBvC6iROso8Js=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DJKaA1e2bCnLQwJ2PVuKLxXJuj5Tgp0Ce/lh2ihVyVtRIRi0heJbROFRRLaPqYGzz/NsDKT7EbbhE1onvBEaX6aqxxCDNTeod9ifBcpvAfZEfizPtRPdUW6zHnzFVknh5YNciCphGv/Y3139cbdNPwRlBEMaB0zZ6SdY7M9DG0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=gK9W/wTR; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=y3UrHTOhOAWYJ8gu6wnB9kvfmZNeJ4TRjNEt1t3Ty48=; b=gK9W/wTRvBy88/533TCIr09Gjq
-	qupTuOqocF/ODia6MFGrjeUcKrKp8kUD3oL+TZYaUUxaGM3Kgo5BA2peB/But6TlDYCCkGFBTXV8C
-	whTzC/wdNZ4pVn9aP85OoKOk5i1dBCWL7OxWZ4yNCD7bd/yCVPxRmLZ//e8ms+P2fbHrvdZ+Lj5hZ
-	ppVV9ple4XoFZm7FrxX02ebYlJLgfSiL11cGg2jdJ3UFY4YGa/po15qHYi6owccO/cb8+s59Bhzkp
-	GZZs6x4X0YFBqMTfGRrSLl4yrkxdGF1vLUCemld35G/sNNsqIC5uJea0BxmXUMnfM5Fz/yJ0L43VS
-	8lQr3C0g==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sYMgL-0000000DQQH-04ve;
-	Mon, 29 Jul 2024 09:28:41 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 41D8B300439; Mon, 29 Jul 2024 11:28:40 +0200 (CEST)
-Date: Mon, 29 Jul 2024 11:28:40 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Rong Xu <xur@google.com>
-Cc: Han Shen <shenhan@google.com>, Sriraman Tallam <tmsriram@google.com>,
-	David Li <davidxl@google.com>, Jonathan Corbet <corbet@lwn.net>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H . Peter Anvin" <hpa@zytor.com>, Ard Biesheuvel <ardb@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>, Josh Poimboeuf <jpoimboe@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Vegard Nossum <vegard.nossum@oracle.com>,
-	John Moon <john@jmoon.dev>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Rafael Aquini <aquini@redhat.com>, Petr Pavlu <petr.pavlu@suse.com>,
-	Eric DeVolder <eric.devolder@oracle.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Benjamin Segall <bsegall@google.com>,
-	Breno Leitao <leitao@debian.org>,
-	Wei Yang <richard.weiyang@gmail.com>,
-	Brian Gerst <brgerst@gmail.com>, Juergen Gross <jgross@suse.com>,
-	Palmer Dabbelt <palmer@rivosinc.com>,
-	Alexandre Ghiti <alexghiti@rivosinc.com>,
-	Kees Cook <kees@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Xiao Wang <xiao.w.wang@intel.com>,
-	Jan Kiszka <jan.kiszka@siemens.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-efi@vger.kernel.org, linux-arch@vger.kernel.org,
-	llvm@lists.linux.dev, Krzysztof Pszeniczny <kpszeniczny@google.com>
-Subject: Re: [PATCH 2/6] objtool: Fix unreachable instruction warnings for
- weak funcitons
-Message-ID: <20240729092840.GB37996@noisy.programming.kicks-ass.net>
-References: <20240728203001.2551083-1-xur@google.com>
- <20240728203001.2551083-3-xur@google.com>
+	s=arc-20240116; t=1722245333; c=relaxed/simple;
+	bh=bzHWl0dFMQRjC2s+J0lIeqP9IZPIqb+8YpOOF6CAJyw=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=kqGUAk/x3YYCEpLhTvp3mWI/Lnx9+f/mxfC+JGp8Rci+lUNxHvCf+cmvOtzU/rnR/V2hc+C8slf7yEAk+abWTcYGXppp3lhyytywml9lekYLjJJ0JYANSDF1/pCFkDGnchuvTMxc68MayH2tRac8jIjCkBJOv+E3FyqGI2jjIpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=G4/koggL; arc=none smtp.client-ip=116.203.91.91
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manjaro.org
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240728203001.2551083-3-xur@google.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
+	t=1722245329;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/pG2BKZE44Z2kXW9fB7jx3sBrZA1cIRr01G83L4BMw4=;
+	b=G4/koggLmvifN4FOnkrrpbV4w8G3jcE4RB/DvDX1C9nSIAY5oXca5M7hZ+Sc8hg3khqITZ
+	oA6XYAh0wUhDqUE/fwuJRdWuNPI6UonkAYniyN+Nd7669WROSvBCdIfzRPYU+PgHujuIKj
+	A0adPylklGN6EmTlRja0e8aAW2GefbETdddmpWnzBy9yZ84kEJjtYyy9u+wvSyVFC7qqjg
+	9QSdju2LYum3O0K4Lam1R6Ec/2JZfczFIp1fi6zqIDYSp/hCBzH1qoTnK/GLEBI683ucwh
+	FiKKSiffJOZ9YFK/cBXe55/0w4Moo1cp4oAlOlb6CxM6jOpQ62QcBd/tLRKsEw==
+Date: Mon, 29 Jul 2024 11:28:48 +0200
+From: Dragan Simic <dsimic@manjaro.org>
+To: Jose Ignacio Tornos Martinez <jtornosm@redhat.com>
+Cc: UNGLinuxDriver@microchip.com, andrew@lunn.ch, davem@davemloft.net,
+ edumazet@google.com, f.fainelli@gmail.com, gregkh@linuxfoundation.org,
+ kuba@kernel.org, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org, lucas.demarchi@intel.com, masahiroy@kernel.org,
+ mcgrof@kernel.org, netdev@vger.kernel.org, pabeni@redhat.com,
+ woojung.huh@microchip.com
+Subject: Re: [PATCH] net: usb: lan78xx: add weak dependency with micrel phy
+ module
+In-Reply-To: <20240729083421.11203-1-jtornosm@redhat.com>
+References: <b8a2831c4f2d49469d5af04c03bb1a5b@manjaro.org>
+ <20240729083421.11203-1-jtornosm@redhat.com>
+Message-ID: <4db38805936d28fe1578c525a18f7849@manjaro.org>
+X-Sender: dsimic@manjaro.org
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Authentication-Results: ORIGINATING;
+	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
 
-On Sun, Jul 28, 2024 at 01:29:55PM -0700, Rong Xu wrote:
-> In the presence of both weak and strong function definitions, the
-> linker drops the weak symbol in favor of a strong symbol, but
-> leaves the code in place. Code in ignore_unreachable_insn() has
-> some heuristics to suppress the warning, but it does not work when
-> -ffunction-sections is enabled.
-> 
-> Suppose function foo has both strong and weak definitions.
-> Case 1: The strong definition has an annotated section name,
-> like .init.text. Only the weak definition will be placed into
-> .text.foo. But since the section has no symbols, there will be no
-> "hole" in the section.
-> 
-> Case 2: Both sections are without an annotated section name.
-> Both will be placed into .text.foo section, but there will be only one
-> symbol (the strong one). If the weak code is before the strong code,
-> there is no "hole" as it fails to find the right-most symbol before
-> the offset.
-> 
-> The fix is to use the first node to compute the hole if hole.sym
-> is empty. If there is no symbol in the section, the first node
-> will be NULL, in which case, -1 is returned to skip the whole
-> section.
-> 
-> Co-developed-by: Han Shen <shenhan@google.com>
-> Signed-off-by: Han Shen <shenhan@google.com>
-> Signed-off-by: Rong Xu <xur@google.com>
-> Suggested-by: Sriraman Tallam <tmsriram@google.com>
-> Suggested-by: Krzysztof Pszeniczny <kpszeniczny@google.com>
-> ---
->  tools/objtool/elf.c | 13 ++++++++-----
->  1 file changed, 8 insertions(+), 5 deletions(-)
-> 
-> diff --git a/tools/objtool/elf.c b/tools/objtool/elf.c
-> index 3d27983dc908..fa88bb254ccc 100644
-> --- a/tools/objtool/elf.c
-> +++ b/tools/objtool/elf.c
-> @@ -224,12 +224,15 @@ int find_symbol_hole_containing(const struct section *sec, unsigned long offset)
->  	if (n)
->  		return 0; /* not a hole */
->  
-> -	/* didn't find a symbol for which @offset is after it */
-> -	if (!hole.sym)
-> -		return 0; /* not a hole */
-> +	/*
-> +	 * @offset >= sym->offset + sym->len, find symbol after it.
-> +	 * Use the first node in rb_tree when hole.sym is NULL.
-> +	 */
+Hello Jose,
 
-	/*
-	 * If we are not right of any symbol, the next symbol must be
-	 * the first symbol. Either way, the next symbol -- if there is
-	 * one -- provides the rightmost boundary of the hole.
-	 */
-	if (!hole.sym)
-		n = rb_first_cached(&sec->symbol_tree);
-	else
-		n = rb_next(&hole.sym->node);
-
-
-That tells us more of why, rather than of what. Hmm?
-
-> +	if (hole.sym)
-> +		n = rb_next(&hole.sym->node);
-> +	else
-> +		n = rb_first_cached(&sec->symbol_tree);
->  
-> -	/* @offset >= sym->offset + sym->len, find symbol after it */
-> -	n = rb_next(&hole.sym->node);
->  	if (!n)
->  		return -1; /* until end of address space */
->  
-> -- 
-> 2.46.0.rc1.232.g9752f9e123-goog
+On 2024-07-29 10:34, Jose Ignacio Tornos Martinez wrote:
+>> Quite frankly, all this makes me wonder why weakdeps were merged into
+>> the mainline kernel [1] with no real consumers?  Perhaps this is good
+>> time for Jose and Luis to chime in.
 > 
+> Well, I requested this commenting as an example the case of lan78xx and
+> the possible phy modules,  becasue it is clearly failing when initramfs
+> is generated due to the dynamic phy module loading process.
+> In my opinion this example was enough good because I found it difficult 
+> get
+> an automatic way to get this information in advance for all the cases 
+> and
+> becasue I need to fix this initramfs issue.
+
+I see and agree, but please note that other people highly disagree about
+that being an issue at all.  Thus, I'd suggest that you provide a 
+detailed
+explanation of why and how that presents an issue that weakdeps solve.
+
+> But with a first glance, I also found several examples (not phy 
+> related),
+> in which it seems the suitable softdep was added to solve the initramfs
+> missing module issue:
+> 80f4e62730a9 drm/panfrost: Mark simple_ondemand governor as softdep
+> 0c94f58cef31 drm/lima: Mark simple_ondemand governor as softdep
+> 2ebe16155dc8 scsi: ufs: core: Add soft dependency on 
+> governor_simpleondemand
+> dfe085d8dcd0 crypto: xts - Add softdep on ecb
+
+Regarding Lima and Panfrost, I agree that weakdeps are a better solution
+than softdeps, but please see also harddeps. [1]  I'd appreciate if 
+you'd
+provide your opinion about the proposed harddeps.
+
+[1] 
+https://lore.kernel.org/linux-modules/04e0676b0e77c5eb69df6972f41d77cdf061265a.1721906745.git.dsimic@manjaro.org/T/#u
+
+> Therefore, I requested to provide this  kind of new dependency 
+> (weakdep)
+> first in general, becasue I thought it could be useful for a lot of 
+> cases
+> not only for the unkown (for initramfs) phy modules (i.e. lan78xx).
+> That is, in spite of the initial usage has been rejected, I think it 
+> can
+> still be considered by the other commented examples (or new ones).
+> I would like to confirm some example(s) to have some usage, but this 
+> will
+> need to be from September after my holidays.
+
+Maybe we can have Lima and Panfrost as the first consumers, but I'd 
+prefer
+to have them use harddeps, as "earmarks" for the future (please see the
+discussion linked above, and the two additional discussions linked from
+the patch description in that thread).
 
