@@ -1,139 +1,177 @@
-Return-Path: <linux-kbuild+bounces-2755-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2756-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A9659418F0
-	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jul 2024 18:27:04 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 337DB94194B
+	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jul 2024 18:31:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 552D3280FBE
-	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jul 2024 16:27:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 508761C23419
+	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jul 2024 16:31:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 085E91A616E;
-	Tue, 30 Jul 2024 16:27:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F149183CD5;
+	Tue, 30 Jul 2024 16:31:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="zF0k4au6"
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="fKW1XYqC"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 904211A6160
-	for <linux-kbuild@vger.kernel.org>; Tue, 30 Jul 2024 16:27:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABC0D8BE8;
+	Tue, 30 Jul 2024 16:31:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722356821; cv=none; b=IAZgZ9oePjwL1J7oCe3TAbd9379CahHKwSpL5nPY897+2f1hbn4NbE4C8OSxsY1XULJec7PJmTXmVuT7R2EPvLQhgeFGmzZLvsRZzHDwJ6cGIsVpFaxFWO4ZWpis8r1rEtM9RNGlohqPWNi0YpP7tTi1QIxao2FlCZARGczYhj4=
+	t=1722357063; cv=none; b=RxdqcX0+45izs/YMtvAfQbWfKPo1NqtywoDKYQ2o+S7oj+z7BISEGf4tq1cneTyqFe4i3qaOtJnmz2FU8B/nq4RB7HgF53040zfpyB1cz/W+CoMUIZHeqmDTc+4vmxFPRTPGql/70nPFz8os9CX9T+/ILAl6BwgsVakmCAXx4zM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722356821; c=relaxed/simple;
-	bh=kQNK+5LQKlx1ppqQPGwujEovNpGVoQIlPYkQzQaO+Kw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pnt6PvCoGZUzmmhI/C20tIadqE5QtH7borf92tC53TR66Ea2CO5eL4JT43t1dUnnQzJbQRFLz/vE+Pb1FAeRUVHzsF28eWZAVSoCpxooQ9h/vg2QjEicsDAY56A6cBmt7IxYNEPpVBsZOjFJ61q9Dh0Y1FODZ5Q3wyLDJIaSu+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=zF0k4au6; arc=none smtp.client-ip=209.85.216.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-2cd48ad7f0dso3663068a91.0
-        for <linux-kbuild@vger.kernel.org>; Tue, 30 Jul 2024 09:27:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1722356820; x=1722961620; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kQNK+5LQKlx1ppqQPGwujEovNpGVoQIlPYkQzQaO+Kw=;
-        b=zF0k4au6kLMTg4oAZefG0HNgbbRFzy6bY7c5TTCAJG2uxF+UEUx2Cis2x7EAbdKVA9
-         UhyD3t35hOcHd6wmNf9VNxhSdvM0YZ6kHvDDut3aEqEVGkq4Tx/ZJwWCM5Uk0B/xhCrj
-         tYGMAdDPMhxOE8P/kTjHaiOwX1VXp2JJhQ41Ih9qpcl+pWY+/9qOrUH6E5kM3ELJ5FiN
-         0J/1Q0EDXMzeaBxghfL9H57/8KELw1mvqUK6Qqlc6COlujrpFn2E/tggDA+S9lMTgTa8
-         zxZpz1pXe/Q7YRRldzXCUiWSsaPo5/5w7assOtYG+GJdSprzf64z6JVkKCsX3zN/YRX9
-         hjoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722356820; x=1722961620;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kQNK+5LQKlx1ppqQPGwujEovNpGVoQIlPYkQzQaO+Kw=;
-        b=EvIgZ034spHiPkYIOhO27SsaerHY3jhKUsDzIWUVmp5Tg6A3KS8LhpirOATbfYsW08
-         2i99VadaFzUlaHw5kegZ+cGgvXZeC3QK3RgmmOPEotIa9Qj+2iqefqREa7lRKzCmKtHI
-         CRNOtGKk6b/jNVbrA3Lr2YQV4wbhhgQ6ESOirW2ts8c+HGNTH9q10s5aWDPNtkLC3qWx
-         xmlxKJdGeCp+mMJFxGj3NeEFTCUcF7N/kIQi8yhvzFCQAuqnK3TAMI5luxjZDIGlWrUP
-         62NEu0bUag0XZ5HzPXFgS9Y1UYDZFmkuEswngsotGoK2F+bV/JrRoanDxhKfcEzfU5EB
-         YVzA==
-X-Forwarded-Encrypted: i=1; AJvYcCXJtROhfhvdw6daK27ynGYCBbrRJ15deFgZknvhCyr/Ehy1pa8kkCai/ColjUy/o8D7sXKw6iaLOIE0zOuKB3yEMS8hCVc+IDpguPUc
-X-Gm-Message-State: AOJu0YxXXTL7nkl1oXBd3kRdwIFXQQwxgQovX+XLXC00FVTJXMg7Jnz0
-	sOsV5AZp545rdOFgKpTjfNqNC30nxcROVHJTvXr0yxerVvwZSfE6WHmwXGQevvQ2aSVCKEk1sfe
-	n/24IuSPihr1qg0vY81ITU8enOZGgp8O69XtC
-X-Google-Smtp-Source: AGHT+IH2bhdE3J33J4DuPGXSsf9pf6XtvNOPsEFMcSI5oGjgQnyJup7odZDVU7oJdzlUXiuC4RRVxkbmC6UonWag5XE=
-X-Received: by 2002:a17:90a:ea11:b0:2c1:c648:1c50 with SMTP id
- 98e67ed59e1d1-2cf7e1cb3a3mr13024532a91.17.1722356819562; Tue, 30 Jul 2024
- 09:26:59 -0700 (PDT)
+	s=arc-20240116; t=1722357063; c=relaxed/simple;
+	bh=hpkTzTir1UIzqYFERoz4CAIIwheDvWkRwVQvt7qkb1A=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=Ps5RPSKHozrLTp+/hurdHrmNNICwnSkbaZ4G0e42Q5YpL4HfnOTRq6ssVW3O+KZobxTO8fzifBY592w2+/nZfa83uW63fsmT4lku6EB+H9Bm3806KEk6PxU9uWVko0QAyahdlbNriwFAcTToySab3ybidd+HsTJRITtFlwv++mw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=fKW1XYqC; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+Received: from [127.0.0.1] ([76.133.66.138])
+	(authenticated bits=0)
+	by mail.zytor.com (8.17.2/8.17.1) with ESMTPSA id 46UGSsN1081118
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Tue, 30 Jul 2024 09:28:54 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 46UGSsN1081118
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2024071601; t=1722356939;
+	bh=IJHV4yrazRxuG4T6Hs72qR3GJj/8mbbgDoSvSaEnppI=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=fKW1XYqC57svXidJXfs/wpveNEPwkGRexcR4eo4qo82LwpzlRuHGbCLXCJBFKpg0X
+	 /qidNA/gWwCnzrLRh7NWY1yWlrXBS0aHck0oteEOW8OGYN5Dxgzh+3GRWLUeDy0gtr
+	 CE7fBfOm5D9LRDKVwbTzZ11mMyD8rlZAsPDLat38Q52E8qx2eE0hZhQa/v56t1/2bD
+	 DVmQd7AzeJlew0vIMjb4hrwaNqLVc6TTfBd3f97MeQ9OWWfTniaVqoSWnJcBkUMEcs
+	 6N1h62SkEVmKh1cKwsHdQvEfdOYOah+6K1/XCxJkVza8AhrDcBkiNWiRgXgXFxUdLq
+	 +GOfXrd+zuD4A==
+Date: Tue, 30 Jul 2024 09:28:53 -0700
+From: "H. Peter Anvin" <hpa@zytor.com>
+To: Peter Zijlstra <peterz@infradead.org>, Rong Xu <xur@google.com>
+CC: Han Shen <shenhan@google.com>, Sriraman Tallam <tmsriram@google.com>,
+        David Li <davidxl@google.com>, Jonathan Corbet <corbet@lwn.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nicolas Schier <nicolas@fjasle.eu>,
+        Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Ard Biesheuvel <ardb@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Bill Wendling <morbo@google.com>,
+        Justin Stitt <justinstitt@google.com>,
+        Vegard Nossum <vegard.nossum@oracle.com>, John Moon <john@jmoon.dev>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Samuel Holland <samuel.holland@sifive.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Rafael Aquini <aquini@redhat.com>, Petr Pavlu <petr.pavlu@suse.com>,
+        Eric DeVolder <eric.devolder@oracle.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Benjamin Segall <bsegall@google.com>, Breno Leitao <leitao@debian.org>,
+        Wei Yang <richard.weiyang@gmail.com>, Brian Gerst <brgerst@gmail.com>,
+        Juergen Gross <jgross@suse.com>, Palmer Dabbelt <palmer@rivosinc.com>,
+        Alexandre Ghiti <alexghiti@rivosinc.com>, Kees Cook <kees@kernel.org>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Xiao Wang <xiao.w.wang@intel.com>, Jan Kiszka <jan.kiszka@siemens.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-arch@vger.kernel.org, llvm@lists.linux.dev,
+        Krzysztof Pszeniczny <kpszeniczny@google.com>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_3/6=5D_Change_the_symbols_ord?=
+ =?US-ASCII?Q?er_when_--ffuntion-sections_is_enabled?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <20240730084022.GH33588@noisy.programming.kicks-ass.net>
+References: <20240728203001.2551083-1-xur@google.com> <20240728203001.2551083-4-xur@google.com> <20240729093405.GC37996@noisy.programming.kicks-ass.net> <CAF1bQ=Ta9MyoLhUjMTx479UWbHGK-cskbTTe_OudqeZRqV6w0Q@mail.gmail.com> <20240730084022.GH33588@noisy.programming.kicks-ass.net>
+Message-ID: <AD6EAA8F-8B93-40BA-B624-1CBBAA93DE3C@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240730-kcfi-v1-0-bbb948752a30@google.com> <20240730-kcfi-v1-2-bbb948752a30@google.com>
- <20240730103236.GK33588@noisy.programming.kicks-ass.net> <CABCJKuf+=bxrZphtFZ+N_t2whCS0gx2GVHybTzcNmY6TX6c7cw@mail.gmail.com>
- <20240730160314.GP33588@noisy.programming.kicks-ass.net>
-In-Reply-To: <20240730160314.GP33588@noisy.programming.kicks-ass.net>
-From: Alice Ryhl <aliceryhl@google.com>
-Date: Tue, 30 Jul 2024 18:26:45 +0200
-Message-ID: <CAH5fLgjU87JsdwFv9umd0U3vLv=-UPiE6sf=F7B-RTujchcjYw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] rust: cfi: add support for CFI_CLANG with Rust
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Sami Tolvanen <samitolvanen@google.com>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
-	Kees Cook <kees@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
-	Matthew Maurer <mmaurer@google.com>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 30, 2024 at 6:03=E2=80=AFPM Peter Zijlstra <peterz@infradead.or=
-g> wrote:
+On July 30, 2024 1:40:22 AM PDT, Peter Zijlstra <peterz@infradead=2Eorg> wr=
+ote:
+>On Mon, Jul 29, 2024 at 11:48:54AM -0700, Rong Xu wrote:
 >
-> On Tue, Jul 30, 2024 at 08:24:15AM -0700, Sami Tolvanen wrote:
-> > On Tue, Jul 30, 2024 at 3:32=E2=80=AFAM Peter Zijlstra <peterz@infradea=
-d.org> wrote:
-> > >
-> > > On Tue, Jul 30, 2024 at 09:40:12AM +0000, Alice Ryhl wrote:
-> > > > From: Matthew Maurer <mmaurer@google.com>
-> > > >
-> > > > Make it possible to use the Control Flow Integrity (CFI) sanitizer =
-when
-> > > > Rust is enabled. Enabling CFI with Rust requires that CFI is config=
-ured
-> > > > to normalize integer types so that all integer types of the same si=
-ze
-> > > > and signedness are compatible under CFI.
-> > >
-> > > I am assuming -- because I have to, because you're not actually sayin=
-g
-> > > anyting -- that this is fully compatible with the C version and all t=
-he
-> > > fun and games we play with rewriting the function prologue for FineIB=
-T
-> > > and the like also work?
-> >
-> > Rust uses the same LLVM backend for the actual code generation, so it
-> > should be fully compatible.
+>> > defined(CONFIG_LTO_CLANG)
+>> > > +#define TEXT_TEXT                                                 =
+   \
+>> > > +             *(=2Etext=2Easan=2E* =2Etext=2Etsan=2E*)             =
+               \
+>> > > +             *(=2Etext=2Eunknown =2Etext=2Eunknown=2E*)           =
+             \
+>> > > +             *(=2Etext=2Eunlikely =2Etext=2Eunlikely=2E*)         =
+             \
+>> > > +             ALIGN_FUNCTION();                                    =
+   \
+>> >
+>> > Why leave the above text sections unaligned?
+>> >
+>>=20
+>> They are considered cold text=2E They are not aligned before the change=
+=2E But
+>> I have no objections to making it aligned=2E
 >
-> Yes, but we also combine that with -fpatchable-function-entry=3D for a
-> very specific effect, and I don't think I see the Rust thingy do that.
+>At least x86 has hard assumptions about function alignment always being
+>respected -- see the most horrible games we play with
+>CONFIG_CALL_THUNKS=2E
+>
+>Or is this only text parts and not actual functions in these sections?
+>In which case we can probably get away with not respecting the function
+>call alignment, although we should probably still respect the branch
+>alignment -- but I forgot if we made use of that :/
+>
+>
+>> >
+>> > > +             *(=2Etext=2Ehot =2Etext=2Ehot=2E*)                   =
+             \
+>> > > +             *(TEXT_MAIN =2Etext=2Efixup)                         =
+       \
+>> > > +             NOINSTR_TEXT                                         =
+   \
+>> > > +             *(=2Eref=2Etext)                                     =
+       \
+>> > > +     MEM_KEEP(init=2Etext*)
+>> > > +#else
+>> > >  #define TEXT_TEXT                                                 =
+   \
+>> > >               ALIGN_FUNCTION();                                    =
+   \
+>> > >               *(=2Etext=2Ehot =2Etext=2Ehot=2E*)                   =
+             \
+>> > > @@ -594,7 +606,8 @@
+>> > >               NOINSTR_TEXT                                         =
+   \
+>> > >               *(=2Eref=2Etext)                                     =
+       \
+>> > >               *(=2Etext=2Easan=2E* =2Etext=2Etsan=2E*)             =
+               \
+>> > > -     MEM_KEEP(init=2Etext*)                                       =
+     \
+>> > > +     MEM_KEEP(init=2Etext*)
+>> > > +#endif
+>> > >
+>> > >
+>> > >  /* sched=2Etext is aling to function alignment to secure we have s=
+ame
+>> > > --
+>> > > 2=2E46=2E0=2Erc1=2E232=2Eg9752f9e123-goog
+>> > >
+>> >
 
-Oh, you're right. I missed this because we're not using FineIBT, and
-when this patch was originally written we had not yet implemented a
-Rust equivalent to -fpatchable-function-entry=3D. However, that flag is
-now available as of rustc version 1.80.0, so it shouldn't be an issue.
-I'll fix this for v2 of this series.
-
-Thanks for catching this!
-
-As for whether it works other than that, I've been using this on my
-personal phone together with Rust Binder for several months, so it's
-well tested on arm64.
-
-Alice
+The linker should always enforce the alignment of any input section=2E If =
+we don't have proper alignment either the linker is broken or we don't have=
+ the correct =2Ebalign directives in the code =E2=80=93 which is the right =
+way to fix this=2E
 
