@@ -1,83 +1,83 @@
-Return-Path: <linux-kbuild+bounces-2759-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2760-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35DB5941E78
-	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jul 2024 19:29:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A17B2941F28
+	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jul 2024 20:02:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D2B521F25AF0
-	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jul 2024 17:29:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4B5831F2493F
+	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jul 2024 18:02:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A4FB1A76D3;
-	Tue, 30 Jul 2024 17:29:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65B2817D8BB;
+	Tue, 30 Jul 2024 18:02:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LFuI62Xo"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XeiZJ+8S"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADDA51A76BE;
-	Tue, 30 Jul 2024 17:29:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08D431A76C5;
+	Tue, 30 Jul 2024 18:02:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722360556; cv=none; b=nFfxL+0bYVgk6kBaAB3DHqHWTaycmW466ytP7pXOre8naS+ZzKrokom13GF3FnkaOhawtXZXtVXkSRjZgdwJVzphqdgp4RSxRSoe+MhriQxYpC1eqqgkCrmpHVsQ2DeISszVREFoK8USJimxpLE1IVoAMZpc4z1g6VwTOgNtej0=
+	t=1722362525; cv=none; b=QacLl/iW6MJ4DIMc+GkvVghjUENnmZQ+JBRN/lnH6rZ1jOLGigdZDLxgBZOr6f/0b4OyZFZiMGFwvmfv3R187K8/1GH53qVPDaMkDC1bVDhJbIAWUN5VWnLWx6CS/4gQhhDQ+pM9Jnh54nmBD/Qtg1EsuB7ahSM2yeDUpLwtOxo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722360556; c=relaxed/simple;
-	bh=GjlOMBAG3NQG0ljYfJguk2Akgzj/vQe/Tx1QnoDiCK0=;
+	s=arc-20240116; t=1722362525; c=relaxed/simple;
+	bh=ULp7y4GWoskop3RWki2ayWDlyJ5T6BTGYFMwxFFrnWQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uQLoz3d85CE5cSI3ztbnWP/VHJ4i2ORYF8oBoLkc9QiHTerURGSUaXXAO8Cw/aOQAkr2XK24jFkEC3X43W6eZLAXF/t5MO8MJi5M14rN+TYZX/FYz8vsB8+BM3o/LtPQUnMjxWtWj9nOS5Ue6brFmj/gL2YDrO79EOxAjMGHEGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LFuI62Xo; arc=none smtp.client-ip=209.85.215.179
+	 To:Cc:Content-Type; b=Dr+3/FMHY2912Zl1lC0JjTa2VbY2zaiR5POOODrMOdXlV3QP73D5Vswm6tg/8tzAwcnb+dLcFV4ULoA5dyTnz62dKqv9B4VPLFcZ26qKPf3piOEvC208lvDpAR66bStRun6hd/0P+LQL4iOxhHg5/9VRF7oGZ8FsIkTEUeIIKCc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XeiZJ+8S; arc=none smtp.client-ip=209.85.210.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-75a6c290528so3147045a12.1;
-        Tue, 30 Jul 2024 10:29:14 -0700 (PDT)
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-70d162eef54so3282832b3a.3;
+        Tue, 30 Jul 2024 11:02:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722360554; x=1722965354; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1722362523; x=1722967323; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=GjlOMBAG3NQG0ljYfJguk2Akgzj/vQe/Tx1QnoDiCK0=;
-        b=LFuI62Xok3zLmEYmoBahNgW3J0jIL0MfslM4hxMaIU8Ivkqg7CvSnpwLTmeUPypcL0
-         HmZ/ZaHsTDGlB+KgMkdGUez4WPfLeDVl31AmGP/BPJE/dZcN8D65qDMSxX4+Amlua2ZB
-         Lmr95pdla0Eyzp0LL/cZcjTX7GMq0SuJjVzOHRN4CrwrnM+g+YGSk5Pw4wSRM807F4VB
-         S6rkd06yi0+FWDzF2EvObEtmFIwfQNaKL8Wk1dRq0DHsAci7cUZLXQmtOUxBaUpXbAU/
-         7mooQGZ8+ebHjDf0dtPM5PSRMKj5fpEoGE4VtQZUr+oOA0Lo7RT9OHPGV5Dy0cfJKc8p
-         66vQ==
+        bh=ULp7y4GWoskop3RWki2ayWDlyJ5T6BTGYFMwxFFrnWQ=;
+        b=XeiZJ+8SlG1AG/Q5oStYMIfjwu1QJ2YVGJ8OckuvA2GfKBKuDXVPgtnHP/bAQvluRr
+         P5RYil/azMg06LGGVr2RfdLeklMD1wBWbRnnhakuOpwSN9c/xWOIuphHEO5IcDBjFTq8
+         NcAbGdfV1icWrSvussb38sEiafvJvqg/s2JithsjpAcZ3tYN4Rojqg4k/+a6uVoAu9la
+         tIZeWKmhALuveRB3V+WDC2YW4DaYmGNVm9qEbUqe/q7odq/tFC8x3Q8QSepgJZXAM7fj
+         RgN/0oc6vMYl9jhk7swgj4aH9gHTrfiNJODjYgYh//TlkMhIVj3iPpfPBjseBNp6gQ6G
+         2SRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722360554; x=1722965354;
+        d=1e100.net; s=20230601; t=1722362523; x=1722967323;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=GjlOMBAG3NQG0ljYfJguk2Akgzj/vQe/Tx1QnoDiCK0=;
-        b=mgPF8hypoDr9+gFN+ZAogCbWvHrnR5d4nC9gDzvpmm2f6ASeNSFRdKcekeXKfRaZqU
-         Jc+WPWj9B9SjQY1n2hb8B6OW+xzFEtQYuHvvA1tOzQzRQ6BOjrBA6oVAqg8+qgu+rejO
-         6MA46UfGnic4yTIe1hkPrgLIO6MIZAxqvvDG818Ab/zKWPxGDzFdOyGkd559pc9OMSkb
-         yCWEx2BuFvRHblSHSjkrVfu/AdeJphL7qn9v15gnEzpN6cqW0m6C66OIlVbsSYUHYLqw
-         u3JhtTc1R85NY6ITqmJbIoEhC92frUatkIJLyxdjh++sT20Jw8rV1zQRR7B/HNFot6Fd
-         P7kA==
-X-Forwarded-Encrypted: i=1; AJvYcCU8bBl5OPKbONJd89qnD0MJTcwzMjE3akppppV+EhkrKYsa+qfSswY1H5MDAG7JpKYpZ+JUqtgNxIBa3oOvNkqQinLqjctsKBWpmtB+kpRHmOe7vJ7rA29rwfY0vyBg7Rgs1WzbV6ICTLmdQw0RcSPm9KzSPGINCVyxjb1nnOJJ1gTEQv8P4X4/h08=
-X-Gm-Message-State: AOJu0YwGRqZHPyibJ7fgMKhOJWAChM6hKUcfC6dEpDlToVP7E6RI6tfH
-	WbKWSRhxsd4GjvBF60arWbasuIFbEW1XSUgZ89eMIzuHpWQgD91VyB42Nb0/vPyPspRid0SPpy1
-	vsrkIaCnGqxDB59QZK/Zfe/O0kBM=
-X-Google-Smtp-Source: AGHT+IFhRfa36mEODzNwgucOaonXWYtImLvUNBLghEHAYnCAws9ajlDQJTWh2FqXMOlQ7Yu+3ZvmM1kDokO4hRmoCnU=
-X-Received: by 2002:a17:90a:5601:b0:2c9:57a4:a8c4 with SMTP id
- 98e67ed59e1d1-2cf7e730999mr9716749a91.42.1722360553918; Tue, 30 Jul 2024
- 10:29:13 -0700 (PDT)
+        bh=ULp7y4GWoskop3RWki2ayWDlyJ5T6BTGYFMwxFFrnWQ=;
+        b=IOcHnbKL220/xQU0Iw0HLrre0HMk+ymk28vcd8Uludnlo25jYyEmkVKko81eZOhoFa
+         Asb2eOvlKGTc6ASObJj7SPbFb8t1uTfxX7C3h5Qa5sZQyhaYrCi2NusEjkm50dp6uchC
+         8HNQyyXozB0b6dRgxHwma9ldtp0QwvJOTzC4iy4J8IANCZeZwykdixF9e47g41yS4DWE
+         UsySOyis3AW5oC0N2xBr1J1t5uPrWStbLBZhQqrT6cL/DlWAdmir+h18pGq0mTDJ1ro5
+         6NPoe7Limaylwg6Re+y/5uiCbVdr+fyJ4TjN2xCs1i1gUABZahwYzF56TFMZuoxq0ohr
+         31fw==
+X-Forwarded-Encrypted: i=1; AJvYcCVG9SQdyp6VgTrlZEJZITGfnnl1y9UIa0hweyuYeXjHwtarS45fx6yRAs1JfnctEem/1VlLXo/qrm1x9HBtSrbLztWfwxDtj+6BSuFEXqSd0Td5mprvV/XDaemWWT99lgpafk+1Fwe4hNParRfiZzUnfXY+EjAxG+6jJgUJODlNUvjGBAnUdXjTtJ8=
+X-Gm-Message-State: AOJu0Ywk60wU4emS5Rnmzf0ZfdtO2BU6wOZa6AkxDSWI548rSlZS/FiM
+	sj9ynn/erPKbth+KBmAxgZdOfTz38xXwQae9/ZspBoAoEdXpxC/thVMqhSNH+MDwnKKvPi65/gE
+	3Zby+ulr8tu34ZURXsdGx1hI+E7s=
+X-Google-Smtp-Source: AGHT+IGDmVQt1Fus+cwmFaBdY9cpZKWwvwP87LzYj5bAA7EM66N/DKsi03ldCaXroC2ZDlnb13RI5XFd+X0BKqVdNv0=
+X-Received: by 2002:a05:6a20:734c:b0:1c4:a30a:c819 with SMTP id
+ adf61e73a8af0-1c4a30acbdbmr9477886637.21.1722362523262; Tue, 30 Jul 2024
+ 11:02:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240730-kcfi-v1-0-bbb948752a30@google.com> <20240730-kcfi-v1-2-bbb948752a30@google.com>
- <CANiq72mshrgXJLw+AZ+ovfhZXjYYfgQLdyYdW_v0FmdWdEjvbg@mail.gmail.com> <CAH5fLghu8Gy8copyBgcBknMN7GaikhYZb57M0Ye2_xANW6YzoQ@mail.gmail.com>
-In-Reply-To: <CAH5fLghu8Gy8copyBgcBknMN7GaikhYZb57M0Ye2_xANW6YzoQ@mail.gmail.com>
+References: <20240730-kcfi-v1-0-bbb948752a30@google.com> <20240730-kcfi-v1-1-bbb948752a30@google.com>
+ <CANiq72nxq0gnCXbQfFiZ4jErLptR8juyNzv1mKL_MEyWyDQdWA@mail.gmail.com> <CAH5fLgi6OPLGNztKeM7pD3v7_NG6SrPrhXi8H0tFn6Rx-eVgcw@mail.gmail.com>
+In-Reply-To: <CAH5fLgi6OPLGNztKeM7pD3v7_NG6SrPrhXi8H0tFn6Rx-eVgcw@mail.gmail.com>
 From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Tue, 30 Jul 2024 19:29:02 +0200
-Message-ID: <CANiq72m7dup--to6gxCfjhgY3hk1iV=UD8hqJfT5=kWkwo_MaA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] rust: cfi: add support for CFI_CLANG with Rust
+Date: Tue, 30 Jul 2024 20:01:51 +0200
+Message-ID: <CANiq72mJF5PYU-BCShpgH-jMVetJG2PjDypexPCKnqrxHToKJw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] cfi: add CONFIG_CFI_ICALL_NORMALIZE_INTEGERS
 To: Alice Ryhl <aliceryhl@google.com>
 Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
 	Nicolas Schier <nicolas@fjasle.eu>, Sami Tolvanen <samitolvanen@google.com>, 
@@ -91,15 +91,26 @@ Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 30, 2024 at 6:44=E2=80=AFPM Alice Ryhl <aliceryhl@google.com> w=
+On Tue, Jul 30, 2024 at 6:10=E2=80=AFPM Alice Ryhl <aliceryhl@google.com> w=
 rote:
 >
-> Hmm. It seems like the existing variables containing rustc flags just
-> use RUST not RUSTC in the name?
+> I'm adding this flag to make the bringup process for RUST easier.
+>
+> I'm working on enabling RUST in a new branch. We're eventually going
+> to have both RUST and CFI_ICALL_NORMALIZE_INTEGERS enabled in our
+> build, but the path to getting there is complex and we would like to
+> turn on CFI_ICALL_NORMALIZE_INTEGERS first, and then turn on RUST
+> later. Both options are non-trivial to turn on and I want to
+> disentangle them.
 
-If you mean things like RUSTFLAGS, it was because the C side uses
-CFLAGS, but for the equivalent of CC_FLAGS or CLANG_FLAGS, I would say
-it should be RUSTC_FLAGS.
+Would it be useful for other users/distros to do that two-stage
+approach as well?
+
+In other words, if the intended end state is that everybody should
+enable this if Rust is enabled, and nobody should enable it if they
+don't care about Rust, then we should add this only if you think
+others will also need to do this step by step. The option or commit
+message could ideally explain more about this need/use case.
 
 Cheers,
 Miguel
