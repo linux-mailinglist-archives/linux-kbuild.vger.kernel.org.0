@@ -1,70 +1,70 @@
-Return-Path: <linux-kbuild+bounces-2753-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2754-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73628941798
-	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jul 2024 18:13:33 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 813C09417A9
+	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jul 2024 18:14:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C522CB27384
-	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jul 2024 16:13:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2B7801F24567
+	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jul 2024 16:14:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9967189904;
-	Tue, 30 Jul 2024 16:10:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C669A18E04E;
+	Tue, 30 Jul 2024 16:11:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="IQmPjXI8"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dGRWXxim"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17F501898FB
-	for <linux-kbuild@vger.kernel.org>; Tue, 30 Jul 2024 16:10:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E41F18E036
+	for <linux-kbuild@vger.kernel.org>; Tue, 30 Jul 2024 16:10:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722355830; cv=none; b=uvkxOsJ9r0dn4HwHnbme4CQo41zNkVE0MUaQoQqdakAn3QJC3isWCkPsMuSrQYHFMwxTw4mq/JeKp3Bpqm/Uq32IVgkLx7eNk9blWZjHPH9DVi4Bb4+EuenH5bAh7lbuqk3/5a2nDUXuFK7nmZhRY1TxyvfulrkTvEYrD4nOpzg=
+	t=1722355861; cv=none; b=V5nf1FqLooYiv1FZkuf4MqBbb0vwUjyjyEDxeTfKeWWacQoxa3oGAIXIo514N0322i4V3Out2SS2EwBfUUFp4iFPRRk+ds+LsVcF4U4nKlCG1QPa/wbqrjMR3U6kwCr03Vxy3bSROcq5/0d0Gw3fgg4Pkbi3RVsRgYJTcYqiy/U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722355830; c=relaxed/simple;
-	bh=Ak8V5NETEJDFPLb2EfWWIzWIzxUZtpnw62h7OAmMKdw=;
+	s=arc-20240116; t=1722355861; c=relaxed/simple;
+	bh=N77xPJMWo4kvlJgzR3iBKZ9hbdNs75+A97/bfiZSefU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WuIvT7lyQsvfy6DtqzLNF7if+IsQ/wBhxRvm4B/Q0mA3C3KRB1Q/J6hfIrBYIo3g+b4U/wv3JfC3ptTMZPn+t9ACpXnBG2m+yFWDua91GwVpBvBhkD068pCOgSZ+WXK+SbNTj4ZjPni54pDIYRaRXw7OTyKAuRh6sxwnZYl31Uc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=IQmPjXI8; arc=none smtp.client-ip=209.85.221.47
+	 To:Cc:Content-Type; b=TRoqFijCoBefaA0TNQ2nx7k4HWllI/90mGJf78spAmMBXlR2cz9P7AIejBYbsFaKffHnFkpvtNiR2dSAlL9YoQ+qyYpM0/R61hVcenz5l8kPjD8h2mKYLzSwKq+y/yHQNI2bz5pZ+GITqGq233x4UERG9FbTXjJ4NHKml9D5Rbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dGRWXxim; arc=none smtp.client-ip=209.85.221.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-368584f9e36so2146805f8f.2
-        for <linux-kbuild@vger.kernel.org>; Tue, 30 Jul 2024 09:10:28 -0700 (PDT)
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-367ab76d5e1so1652356f8f.3
+        for <linux-kbuild@vger.kernel.org>; Tue, 30 Jul 2024 09:10:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1722355827; x=1722960627; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1722355858; x=1722960658; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Ak8V5NETEJDFPLb2EfWWIzWIzxUZtpnw62h7OAmMKdw=;
-        b=IQmPjXI8Hvgt0URBH8U9mKRzkUiKunOe3dU5Pi3WzLiiE419L/qKt37tdo1NteM8WY
-         i4bPJOJIISMXcYQjSGW9W17E8oCfx+p+6gHnNJPFfp0uv3qnKkMpIYpMIG0mtrkLJTtG
-         Rr//na04zduLeqlg0faK9QvXRiJiwl5Q7RVWfHUPDR7D/JZD3E1Eb8xGHM6R3KXtgCSt
-         aTBvpm5I6e/LF/Z3MZSsDmSEnNKcHU/EiIG79K1ZgFE0BqySELOgBj8G3vFJYFqv4wWu
-         qMZ/OrnBwFSLlHFkZoc5fwTXf6IOUg0LDuNUarppKBejg1Rd52IAHGKVtUw/1mcjmPmr
-         OIdQ==
+        bh=N77xPJMWo4kvlJgzR3iBKZ9hbdNs75+A97/bfiZSefU=;
+        b=dGRWXximrOtl9UJw9//C5rGcFOzoH7GhYNoOiEkbVwRkCN21rqqP/2PNkhsZs8u9oL
+         ClnpJwWo4znxOaLGwD40vbT4voSScDmb3Bz2NhOUDuuhLt2IcwJdUWJy3eeCEUUNb2pw
+         GHc2jN8MQEYJzsgljRVbzKpf0ybXe7BT0a2QnkRueZRwdCWLsw0VfNfdaeIvHMp4Q0Fl
+         wFlLd/PplSlRm6ILLe/CwYpXAGPPbC6o5V/VikpiTTteEOv0ZAZ7pv/W8B9cR2hfm5Ql
+         JYKBvWfktjo2gGUN8aNa478tkMtZgJTP/Hl3+Czuk7EGqQvhgckQZjKJFtJfvYhbn1cd
+         wcRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722355827; x=1722960627;
+        d=1e100.net; s=20230601; t=1722355858; x=1722960658;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Ak8V5NETEJDFPLb2EfWWIzWIzxUZtpnw62h7OAmMKdw=;
-        b=jnRUNpHO65LJiqj5CIX7LLyiKlcThBE87lPnAy24zh3qG6CmsalvI5ydgVYIew4PIT
-         8uPm+CUsyQ7TUdr4HjqaZ4rdBlYAZzP3o0r59baxponZ7CL3+0Dn37aknkKNQq4lKYVw
-         SrroRRs6nh8SDQZomyJa2ebseswQ196kwCmpq8sZ1OJ+29PUlPt92CWICRXS4NH2rI76
-         knIvfOSNn52tNVArgz6CILtjBRbj1frnWhWblXJ9ZjnN7iVj57AIq+pwJLXmIL2sLGk8
-         baYm/xi/CSVrKYubdxaFI/GLHOWzA26Aqu7MU4ZvoZ7fY6odkUPfp7Sp+QaXvTtyRXcA
-         ov3A==
-X-Forwarded-Encrypted: i=1; AJvYcCWLY6CnDzVn67imkpbXfujbzhDzY6pJRr9T/JKKoIg6IMOejhoV80VGZjpOdP2YIWirOnrNJdBRGlYwvn3c8PnPbyelM4k9pVyRW3WD
-X-Gm-Message-State: AOJu0YykGHaBKl+w9d7q5WRymYqkZNBWfOk2S1o5e6HDF0dT1K0ksR/N
-	13Cl1R2ijtHHgFTlIZYaNgqsBBQygCYlPpZEglR0v572g/1SwzHlYr3m20dTbARqctQ8A44WVsc
-	NTqIQbCyHUfzgnHF3M1KcVWIq2D3RdKh/11uF
-X-Google-Smtp-Source: AGHT+IFSuL65/+UIIzL/9A9MC7dctLdJc4qricmLEy97g+n9SSWPlsMSMD3F5xNd3ZzjGTkbH3lelgRESn6wtTGzr/g=
-X-Received: by 2002:a05:6000:a85:b0:360:7887:31ae with SMTP id
- ffacd0b85a97d-36b5d093771mr7324808f8f.54.1722355827214; Tue, 30 Jul 2024
- 09:10:27 -0700 (PDT)
+        bh=N77xPJMWo4kvlJgzR3iBKZ9hbdNs75+A97/bfiZSefU=;
+        b=PtzDY6pWcyxdSJZLeuPj4iOZA5pPUki/CPWDvzJ1X9N3XVMXHRbZpZCPDqqob8Urgi
+         +ZYL8i8HA41s2WvUaU4+NV4RCS6kO4Mf2HpSSOBbkVy2NEK/vvvPzN6BXoJJUbOL4Dri
+         Q6Nn2SxUQwWQ7shEM8p3oJp3NQx62AfjNbLwPGBoyQd38sdISImBjoCFhZvXetR21R0x
+         f2iW7KEugOe1XVWW67P9ZfJgWjfhMi8JGZk/G7ISKUuRcyrz+IZof7t0NzPYGu5F6MS6
+         xCmYUDfg16no3O3ji0v3uEjh/KpsL0sRYh7LhlxFJIXgcJ0EBmONI4jSp6hZyb2VXpXG
+         McMg==
+X-Forwarded-Encrypted: i=1; AJvYcCU3IPFoDM6K9RPZhQm/xxXXBO3o8XbKaZmh/uLg8lH3bART2BAPVTNVlLru9TJNZKUCrEuwJsd1Hu2a583XbEaMy3yVYNE5QrI/uaoy
+X-Gm-Message-State: AOJu0Yw57whJ/ZxPQwzxks18NCNqkqdwFSllDTgnSDtqp3iI93+ltDZ8
+	qjl1VB0IOBe2XE3T/vP/vtdH98SYKbfVNldOqlHrwBnt5tuLJ0WpxKuOpvGjjOVvIwd7dukdTaM
+	6CFsvBkkOxo7n+loEJ4A1y8wEnQ0rAkKaJ/dJ
+X-Google-Smtp-Source: AGHT+IGEXQ9k57Q6q6L8r4Dbm14onw56YDf9aw0oYCbfbedA5kbLa6rjhEKX71olZ9dxXMrp1GSu7GEb4x9u0KMSBQ4=
+X-Received: by 2002:adf:fc4c:0:b0:362:8ec2:53d6 with SMTP id
+ ffacd0b85a97d-36b5d0bf207mr7653551f8f.61.1722355858189; Tue, 30 Jul 2024
+ 09:10:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -72,17 +72,18 @@ List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20240730-kcfi-v1-0-bbb948752a30@google.com> <20240730-kcfi-v1-1-bbb948752a30@google.com>
- <20240730102856.GJ33588@noisy.programming.kicks-ass.net>
-In-Reply-To: <20240730102856.GJ33588@noisy.programming.kicks-ass.net>
+ <CANiq72nxq0gnCXbQfFiZ4jErLptR8juyNzv1mKL_MEyWyDQdWA@mail.gmail.com>
+In-Reply-To: <CANiq72nxq0gnCXbQfFiZ4jErLptR8juyNzv1mKL_MEyWyDQdWA@mail.gmail.com>
 From: Alice Ryhl <aliceryhl@google.com>
-Date: Tue, 30 Jul 2024 18:10:14 +0200
-Message-ID: <CAH5fLgi9W7F3+_hL+vcmKy6yxLo2U+GjrCjAFa7wN9p20NG+yg@mail.gmail.com>
+Date: Tue, 30 Jul 2024 18:10:45 +0200
+Message-ID: <CAH5fLgi6OPLGNztKeM7pD3v7_NG6SrPrhXi8H0tFn6Rx-eVgcw@mail.gmail.com>
 Subject: Re: [PATCH 1/2] cfi: add CONFIG_CFI_ICALL_NORMALIZE_INTEGERS
-To: Peter Zijlstra <peterz@infradead.org>
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
 Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
 	Nicolas Schier <nicolas@fjasle.eu>, Sami Tolvanen <samitolvanen@google.com>, 
-	Miguel Ojeda <ojeda@kernel.org>, Kees Cook <kees@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	Peter Zijlstra <peterz@infradead.org>, Miguel Ojeda <ojeda@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
 	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
 	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
 	Matthew Maurer <mmaurer@google.com>, linux-kbuild@vger.kernel.org, 
@@ -90,10 +91,12 @@ Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 30, 2024 at 12:29=E2=80=AFPM Peter Zijlstra <peterz@infradead.o=
-rg> wrote:
+On Tue, Jul 30, 2024 at 1:38=E2=80=AFPM Miguel Ojeda
+<miguel.ojeda.sandonis@gmail.com> wrote:
 >
-> On Tue, Jul 30, 2024 at 09:40:11AM +0000, Alice Ryhl wrote:
+> On Tue, Jul 30, 2024 at 11:40=E2=80=AFAM Alice Ryhl <aliceryhl@google.com=
+> wrote:
+> >
 > > Introduce a Kconfig option for enabling the experimental option to
 > > normalize integer types. This ensures that integer types of the same
 > > size and signedness are considered compatible by the Control Flow
@@ -109,24 +112,19 @@ rg> wrote:
 > > This patch introduces a dedicated option for this because it is
 > > undesirable to have CONFIG_RUST affect CC_FLAGS in this way.
 >
-> To be clear, any code compiled with this is incompatible with code
-> compiled without this, as the function signatures will differ, right?
+> Is there any case where we would want CFI_ICALL_NORMALIZE_INTEGERS
+> when Rust is not enabled, then? If not, is the idea here to make this
+> an explicit extra question in the config before enabling Rust? Or why
+> wouldn't it be done automatically?
 
-That's correct.
+I'm adding this flag to make the bringup process for RUST easier.
 
-> Specifically, it will map things like 'unsigned long long' and 'unsigned
-> long' -- which are both u64 on LP64 targets to the same 'type', right?
-
-That's correct.
-
-> I suppose it has been decided the security impact of this change is
-> minimal?
-
-Yeah, see Sami's response.
-
-> All in all, there is very little actual information provided here.
-
-I'll make sure to include this info in the commit message of v2.
+I'm working on enabling RUST in a new branch. We're eventually going
+to have both RUST and CFI_ICALL_NORMALIZE_INTEGERS enabled in our
+build, but the path to getting there is complex and we would like to
+turn on CFI_ICALL_NORMALIZE_INTEGERS first, and then turn on RUST
+later. Both options are non-trivial to turn on and I want to
+disentangle them.
 
 Alice
 
