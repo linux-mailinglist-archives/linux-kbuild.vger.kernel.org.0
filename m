@@ -1,83 +1,83 @@
-Return-Path: <linux-kbuild+bounces-2749-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2750-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1336594155E
-	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jul 2024 17:20:37 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2611D941567
+	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jul 2024 17:25:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 12F051C223A9
-	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jul 2024 15:20:36 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A255BB2542D
+	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jul 2024 15:24:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C46E91A38E5;
-	Tue, 30 Jul 2024 15:19:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 781D81A2C33;
+	Tue, 30 Jul 2024 15:24:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="KNr9Bg/9"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MNdZ2l+Q"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41])
+Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F4531A38C2
-	for <linux-kbuild@vger.kernel.org>; Tue, 30 Jul 2024 15:19:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00A4C1A2C24
+	for <linux-kbuild@vger.kernel.org>; Tue, 30 Jul 2024 15:24:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722352794; cv=none; b=P8F5uWGlN6gobke4nhVcZOn/uyg1rNhdLAAaOM1Qu09w+l+nePk3anN+u6jF22/5GnYXHUiDuXx2C6q7uyTKd2LPHT2T8zzkJQ+ZHgWJ2D6KdgKM2lsZgRoX5SHd1VA5hjo1pmeugJr0OiqC2ug0EGkwxQlK++iGczRiKCWGwww=
+	t=1722353094; cv=none; b=UIjHilAJoLtc+zRzvraqaptTBBci/TFBCNw+SXVWDSNjBp42pKyAZRnkCX5nNIqpMGOYCTnxtdjRaqwvH2O+BAm5QT87j8jRN2J6vLFS/dsLWUbJTdDlIif8wlTXBj8Jq1gzVddJZAA7R7FaMJveJOWgusYl3g4TR+KDfZ0/FVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722352794; c=relaxed/simple;
-	bh=2B8WwI7Cb180r9Sb7Hq5sHlqUuB8r+N3bxW/DWxf/vU=;
+	s=arc-20240116; t=1722353094; c=relaxed/simple;
+	bh=E8nY+pHNFj9D8pwHCFKbu/ijSROQst+YbZBSOdpMZyM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AOoXouEOsnEEz+JQsdODUSE0KmU+lkGZNVXH0b0ChIc0yffos7+VvS27z9sJwTdpYFWDu8CSd7aQAWenXzO6aEouZ1NRdU1WBaC954GlbEE6YPEDFb9UTWGhuncQJ779eRizXrLiQGpGpsDnbvZUzKTEK3kV2Vn1ocPKdJ/ZeFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=KNr9Bg/9; arc=none smtp.client-ip=209.85.222.41
+	 To:Cc:Content-Type; b=auughNQS+NIiD2zE6Bih8Ty6/M9Aie+fjKQRTBJV9OJwwrtj2/wbEkRxEFmLlq0k2qN7K2pUVz6GvMDWlMcmM7CCvsXrXF+8fUR4nEfqtPS16jEAXMytxd9UvhTZEB7Qhd9u4z0z5dEYVYW1oltbCEJnS4QttintXALMHocoli0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=MNdZ2l+Q; arc=none smtp.client-ip=209.85.217.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-825dc62725cso1470695241.3
-        for <linux-kbuild@vger.kernel.org>; Tue, 30 Jul 2024 08:19:52 -0700 (PDT)
+Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-49294bbd279so1121803137.0
+        for <linux-kbuild@vger.kernel.org>; Tue, 30 Jul 2024 08:24:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1722352792; x=1722957592; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1722353092; x=1722957892; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2B8WwI7Cb180r9Sb7Hq5sHlqUuB8r+N3bxW/DWxf/vU=;
-        b=KNr9Bg/9rl79pMS1k1B2JDeNc86fwCxIVYV5+xVYkTVsYmZzaha6SIFRmPeUYGxgyi
-         N6h7r5UAd7zW7JMG2oi9PH5xjGAjuvhAuk7VDB5IcvxriDzAPU/Vu/P/k5wdPnhX5o4f
-         E6lXshJm8xUslzpUVBr1ZIIjRNV9ysMyqW5uS5JfUtdhk6Qq226VIqnE5LBnE9Xs4CsY
-         lq+MGp0OW3L1xnqAlA0B273Y57RoRCT1ukyjFEk9KOaNU2AQCR1cx3Ma0sgoES/XCEb4
-         l5YRVd95KrIa2NvrqFXgqBBln1VIONnXAUssxkdHHGxN0y+rDWZf5OP+/s6/2wUSdn5l
-         KGGA==
+        bh=E8nY+pHNFj9D8pwHCFKbu/ijSROQst+YbZBSOdpMZyM=;
+        b=MNdZ2l+Q4AdUSxfF9OoIvo0ieqPRa/q4SrfZFQ17cwaEckVKWbeJZuEKUnGcyv9S22
+         qqXtf3llOHuNy26LoFFvEJVSaButALFs1LkyO636fGqVsAdLoTDpWaMwDdRXTnvGyzZj
+         VSd/GggKrtf6tZ1yFXe1JBHsmIPOBa2NLVXuIjSIz+OTvFwi9W0C1zjRoYywjNDx2dlr
+         dR6qCTyMH0v/Tycp6UFSEL5lePh2w0kDR8KUe3e+FHfu6l3/X7Sq2e8WeWDGD3CNgV4o
+         sCcmFq1IsGfPEccOUYsrhSFDppO6OUy869WS3Ckc8ogUmzckpvTGexW4F4A3sPnslfKv
+         deig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722352792; x=1722957592;
+        d=1e100.net; s=20230601; t=1722353092; x=1722957892;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=2B8WwI7Cb180r9Sb7Hq5sHlqUuB8r+N3bxW/DWxf/vU=;
-        b=ZBOwM0CqPqpDhEdMtmIbijMD8vV3F7b51fZNWF2QRbStvwEUGoPHtDUO+QBhfVJOZR
-         JmeCFZ0pKuhxacpZMVpo6LIGyY+iTip/WdRuXC4tloOW8sqMPMZxE8xzTE7aeuz2vQZ6
-         AH4XqfRjgGZaHSgFHfLZjEsA5hWT+HKdTZlc2huCgw5QJARyq7rtT0L0I6lhTWo/A91x
-         xHSiOuxqShGaW2ogV+4pLUV5PrKXqDGlyUexXj/+T5TNHWoH8IELNpPM+wjk7g1CL5YK
-         42lNrOBHTLT/pVsR3xyX4BJw7V/29iDGW+GcuzNycuGu+K41GrnO8bZ/cxi3Db6mQUdX
-         J9+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVZY1fOl2a/B3EdZsa8JC2ORCTxE18ELLjdbgRP49QViqLdF9IeRwQUu9dOyNxl9nB/B9np2UEelvQ+LaMC7h4vuoCE/0jKg0lIvl6b
-X-Gm-Message-State: AOJu0Yw43zfSN+/BZPjp5R6qxWUEy2nQZWjhu00CwTPeHepQq+VjnXio
-	+GQomUjDRxp/HJuqPwT0HWl9B/zLjNjicQlGUWlU6NiTrPh2syPHRZXINkdMXhL+oTQU60Tr0yp
-	lud1/EmUW8/dU2nyD3N4vIEl4sRKpsne6GJ2j
-X-Google-Smtp-Source: AGHT+IFYWl0B6ozqGp9/4MappOQC0WeCJttsu9HV93WtvH7H37A+U1SNe41tpi9Z7+Ch7vETcUsz4gucQAkyakUjzhY=
-X-Received: by 2002:a05:6122:1828:b0:4f5:27ac:ce6e with SMTP id
- 71dfb90a1353d-4f6e68ef18bmr12317085e0c.7.1722352791754; Tue, 30 Jul 2024
- 08:19:51 -0700 (PDT)
+        bh=E8nY+pHNFj9D8pwHCFKbu/ijSROQst+YbZBSOdpMZyM=;
+        b=JNN5fkZ8umEtQrxMUQNo+cHsYdfMtpZLlyCJ11qnV/9F1bKX6NzxXzt7g1w315gcU4
+         y2wAih5GimSG9vc7z1IrDMCQ97D52SbK5NtrOzE5wC1wsO3blJ+4OOJLdYQ8P7kBwiQW
+         fmbdv3bllFkf5vAUrYY2wvlkbyRlPEvLNs6XNj45NDMyyP6LAXR7hItvDuS7GS4GWBKc
+         YTqAlZM42por6k7ywfZyqOpj55hKwxq8SGIBRvtNeMpBs/5SpcSZmmL05kHCiwRH0MrI
+         vec7Hfmt/vDwYDLPmgx/hZVOo8PQHQgVf4Gy3NEF6UqYmd1Fl1R6bPeydnhycmdxTUM6
+         arjg==
+X-Forwarded-Encrypted: i=1; AJvYcCVr14rLDi5nIxScQ3n7Onf9CgxdH60+/vUoPnyqw8Itq5y9DLj0hdPW6oaUw8E45YsLy58I4b+G+8nxm0bv1S8aeYgnQ4xlb+L91brO
+X-Gm-Message-State: AOJu0YwSmxKDhMI2lnNi+pSU6svtc50RZ/o1Uh5+izkfgr2vngKv4wnB
+	nm7xSWZdWWmfUgbU9pR6iKOoyPATLP33ZMtPoGTjAI9NPqCnVPk7NRgUhg/LvpXyUJoQSrNsK3o
+	MsKtbXsTsgEz0jKf5ebI60kprvQCsIkMO84AM
+X-Google-Smtp-Source: AGHT+IGWZrBHsTNI4EkRkhI8Ci3ZbFoE87iB5xIfey9XkQ8XzTovCnYBXiW5sf7so5OIxkQsEATE0jbmLUe1vkF0BQc=
+X-Received: by 2002:a05:6102:c8c:b0:493:d3c6:a59c with SMTP id
+ ada2fe7eead31-493fa437516mr15063344137.23.1722353091682; Tue, 30 Jul 2024
+ 08:24:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240730-kcfi-v1-0-bbb948752a30@google.com> <20240730-kcfi-v1-1-bbb948752a30@google.com>
- <20240730102856.GJ33588@noisy.programming.kicks-ass.net>
-In-Reply-To: <20240730102856.GJ33588@noisy.programming.kicks-ass.net>
+References: <20240730-kcfi-v1-0-bbb948752a30@google.com> <20240730-kcfi-v1-2-bbb948752a30@google.com>
+ <20240730103236.GK33588@noisy.programming.kicks-ass.net>
+In-Reply-To: <20240730103236.GK33588@noisy.programming.kicks-ass.net>
 From: Sami Tolvanen <samitolvanen@google.com>
-Date: Tue, 30 Jul 2024 08:19:13 -0700
-Message-ID: <CABCJKuc8ue1y7WBPo3YRRoDeGUFpRon4at=Wa1rQjrXzOGpt9w@mail.gmail.com>
-Subject: Re: [PATCH 1/2] cfi: add CONFIG_CFI_ICALL_NORMALIZE_INTEGERS
+Date: Tue, 30 Jul 2024 08:24:15 -0700
+Message-ID: <CABCJKuf+=bxrZphtFZ+N_t2whCS0gx2GVHybTzcNmY6TX6c7cw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] rust: cfi: add support for CFI_CLANG with Rust
 To: Peter Zijlstra <peterz@infradead.org>
 Cc: Alice Ryhl <aliceryhl@google.com>, Masahiro Yamada <masahiroy@kernel.org>, 
 	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
@@ -90,37 +90,24 @@ Cc: Alice Ryhl <aliceryhl@google.com>, Masahiro Yamada <masahiroy@kernel.org>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 30, 2024 at 3:29=E2=80=AFAM Peter Zijlstra <peterz@infradead.or=
+On Tue, Jul 30, 2024 at 3:32=E2=80=AFAM Peter Zijlstra <peterz@infradead.or=
 g> wrote:
 >
-> On Tue, Jul 30, 2024 at 09:40:11AM +0000, Alice Ryhl wrote:
-> > Introduce a Kconfig option for enabling the experimental option to
-> > normalize integer types. This ensures that integer types of the same
-> > size and signedness are considered compatible by the Control Flow
-> > Integrity sanitizer.
+> On Tue, Jul 30, 2024 at 09:40:12AM +0000, Alice Ryhl wrote:
+> > From: Matthew Maurer <mmaurer@google.com>
 > >
-> > This option exists for compatibility with Rust, as C and Rust do not
-> > have the same set of integer types. There are cases where C has two
-> > different integer types of the same size and alignment, but Rust only
-> > has one integer type of that size and alignment. When Rust calls into
-> > C functions using such types in their signature, this results in CFI
-> > failures.
-> >
-> > This patch introduces a dedicated option for this because it is
-> > undesirable to have CONFIG_RUST affect CC_FLAGS in this way.
+> > Make it possible to use the Control Flow Integrity (CFI) sanitizer when
+> > Rust is enabled. Enabling CFI with Rust requires that CFI is configured
+> > to normalize integer types so that all integer types of the same size
+> > and signedness are compatible under CFI.
 >
-> To be clear, any code compiled with this is incompatible with code
-> compiled without this, as the function signatures will differ, right?
->
-> Specifically, it will map things like 'unsigned long long' and 'unsigned
-> long' -- which are both u64 on LP64 targets to the same 'type', right?
->
-> I suppose it has been decided the security impact of this change is
-> minimal?
+> I am assuming -- because I have to, because you're not actually saying
+> anyting -- that this is fully compatible with the C version and all the
+> fun and games we play with rewriting the function prologue for FineIBT
+> and the like also work?
 
-I looked into this last year, and integer normalization reduced the
-number of unique type hashes in the kernel by ~1%, which should be
-fine.
+Rust uses the same LLVM backend for the actual code generation, so it
+should be fully compatible.
 
 Sami
 
