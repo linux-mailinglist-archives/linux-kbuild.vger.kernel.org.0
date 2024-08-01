@@ -1,171 +1,173 @@
-Return-Path: <linux-kbuild+bounces-2779-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2780-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0C31945338
-	for <lists+linux-kbuild@lfdr.de>; Thu,  1 Aug 2024 21:20:15 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4486B94536C
+	for <lists+linux-kbuild@lfdr.de>; Thu,  1 Aug 2024 21:39:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ABB1628239C
-	for <lists+linux-kbuild@lfdr.de>; Thu,  1 Aug 2024 19:20:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 68A941C231D7
+	for <lists+linux-kbuild@lfdr.de>; Thu,  1 Aug 2024 19:39:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF2B11422D0;
-	Thu,  1 Aug 2024 19:20:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D895A148837;
+	Thu,  1 Aug 2024 19:39:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cHD9SGL5"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BG8ShvbD"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF88B1E4A6;
-	Thu,  1 Aug 2024 19:20:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A4EE143881
+	for <linux-kbuild@vger.kernel.org>; Thu,  1 Aug 2024 19:39:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722540010; cv=none; b=A6bc3fYlWcCvvLpY1tbAI8pHou/JIX90dBv7hhAM9KdYO5UO+3nK59c4pldV8v0K5e2OqzpaqpGbx43KbZ6gS8j0/AluEzwdd4BkHWl14pPJtqT7xGtQR2evh2PRbmmXNy3qYwZmGWv+n8xJLH+0jzWuOMrjCKKB2b7oV+UQoew=
+	t=1722541146; cv=none; b=l1Bq1Zve33fC8y0DV5hFIXCQn+MgAHyGQW9Zp6UtuEmefHTkyR0xsPJEVIj9Yqavt5jm1paVnYTygruYqnjw/VMyH7nLGAXAPzn6NZiqTfJNkuofo5KdWbKyaCb0m9JfbZiusDo5q+WVIgu9vU8OaQEdtDb4k2CDj2OAYWgXFzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722540010; c=relaxed/simple;
-	bh=fsTGNgIi475UBSTI/TvGiAWNgKFdGbRgzni70GZoeZU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Bg7uLca6bys88PazRdAiZivMo6M6LyC8QtpPieFDE1yMXfrUQs8esvHlMy/k49iINiFzxXQKuXVbsclJaYj8I/X9bb76INId2DyPMj4JjY2KFk9io61FwLUQAcTlclTFXBdQUwsWEKep2lBF+GZzIXG0/kWUNl/MH6Uu2uwTfsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cHD9SGL5; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DED39C32786;
-	Thu,  1 Aug 2024 19:20:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722540010;
-	bh=fsTGNgIi475UBSTI/TvGiAWNgKFdGbRgzni70GZoeZU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cHD9SGL5eM3znj99fa9tvbOncTHGc1WXGDW03nu1Zas2PqrpgKsjpvYCeI41TODu/
-	 RDbO9S5mYKjpWXIGrOMOsL/jbs6ySsQNJxCZ6g0GEm4KfCBVJXITVzMAFhaD9aUph9
-	 ykegKbGp0krF74E+DGHyPcLutE6MH/EDedbbgMK44biEoMuFNe8R9zble5hJRNfpCT
-	 0gKgGmK9XvQVO4EC4m3scCtNSTWgQI5PWDjXlitsMOFL3BYi8CYaGPuA+gdWroZvHZ
-	 3l71hlk7PJstn/HV/T68UCKhrSThLBB+nRfAs2G8WdEGuGQTBil+3QWlsi7hJF0+Zk
-	 6nxh2i1QDl1Vg==
-Date: Thu, 1 Aug 2024 12:20:08 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Cc: Jose Fernandez <jose.fernandez@linux.dev>,
-	Christian Heusel <christian@heusel.eu>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Peter Jung <ptr1337@cachyos.org>, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kbuild: add debug package to pacman PKGBUILD
-Message-ID: <20240801192008.GA3923315@thelio-3990X>
-References: <20240801132945.47963-1-jose.fernandez@linux.dev>
- <20240801183637.GB122261@thelio-3990X>
- <ab9f18b2-a27c-4ac8-bffa-390a8960387b@t-8ch.de>
+	s=arc-20240116; t=1722541146; c=relaxed/simple;
+	bh=594P5XzwskbETUT36Fts+eHHT1pKYXxLK7ITeT54cLY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=J6f8jSZ+6bRbCDK1LUalRI4K+RZjDFDIFROc/9fId7lv/xUrR4ZHovPkhtpMSQP/TcYbb3hOfsO/FHN5m4ZV97oNxSR9E3rcZ1Z/2pXfot6CxXuURc5rnNk14AuFrk5MqX41133k3nZ9JK6f5byurVacpaEhLMpzZSSfBcaNmZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=BG8ShvbD; arc=none smtp.client-ip=209.85.210.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-70943b07c2cso3903980a34.1
+        for <linux-kbuild@vger.kernel.org>; Thu, 01 Aug 2024 12:39:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1722541144; x=1723145944; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=594P5XzwskbETUT36Fts+eHHT1pKYXxLK7ITeT54cLY=;
+        b=BG8ShvbDl4zHA87oCytrBdg9fZ2uQlv77o5+kM8nTWoPfHBG/BzYfSum8olne2kLOT
+         Z5lVpdRXGb5kYlB7KQziTd/YTn4LvYV0PiGy6R85t+InK60FbWz4wZKt8WJSVFrA3rfY
+         44ug7kglZFZMTCmkI/Ltn3/PbBAS5p2rC2+PZ4UAyzaSbTOEI9LLU+srfafC8iUTDpix
+         k6o3MHDxyfY0muNwrayAfWW7Srr7WdgKkPmH9oOPRAZ7yQmcEg727gkUAEx2QVPRs+sh
+         0iJEFlt6orxTkSjD5IQbfMy1N06SohOmZZmYHKro/+2P8uZnCjv3HI0GvbL6Pi887ZqM
+         WYrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722541144; x=1723145944;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=594P5XzwskbETUT36Fts+eHHT1pKYXxLK7ITeT54cLY=;
+        b=IElz+uF/1Kuq/t4NB71bUcQH+DVY9+syntQME8c3VxpskmHPgtwZhgqdy3q/E/Zn8a
+         O5CO87gOwgW2Am/B8jq/DAFhYNk0ZhtwhHNpnlLK1GjqCOdUXB6HIxbTvx2A03Ou/6o0
+         6gjPoURThSIMmA6f+yS1DSa2ORbq4ttDhV/36mpnqgnK5eursihFNMXaCpIbFfMN+TKg
+         N7rDo9kRQfdR+nZ1SjIl0AOdYl0TV3iFan6bO2h4M78Q7UwTRDtsAkHs6Vds2y819mQf
+         jk0X7N2j5KSVEb1vYPEaQPNVT43VP/JX8MUNcRZ3fzZNw5eUROGnGCcZdiAxxC4ZBxpK
+         sqrA==
+X-Forwarded-Encrypted: i=1; AJvYcCU3WBLBS40HH1NCk6C3qrC7YJHkbO8H76W8rGrRJURvYoR0koHbGDJkcae0FY/5rcyJlmsnlMvxE1PtCsKWPw0WU7Pnl2x6KrNrRW4J
+X-Gm-Message-State: AOJu0YyDYnyU+mM8IrPznOTFHVX27GaY0YJHvrgRpUwROdQujgincI7U
+	HhNQOSxPKDK4FGBXx4PeXu4s68RrJKBD54svfYypJo7yi/ruaYLc2rW7AiW/+k0/iH6W1zO7BMx
+	UjB+4ICpKTyBTAIOrau01LSO8KQUvrD711YH8
+X-Google-Smtp-Source: AGHT+IFc3YHkqxrwEoxXwpgLm2CQXNdMsNg3Ac2IO/Rh0opRhVly3THqWe+FTE/9DxHlnE0bTmB/pcYqRJ3qaEuuNto=
+X-Received: by 2002:a05:6358:50c3:b0:1aa:b7fa:4f59 with SMTP id
+ e5c5f4694b2df-1af3bac330bmr106834155d.30.1722541144062; Thu, 01 Aug 2024
+ 12:39:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ab9f18b2-a27c-4ac8-bffa-390a8960387b@t-8ch.de>
+References: <20240617175818.58219-17-samitolvanen@google.com>
+ <0b2697fd-7ab4-469f-83a6-ec9ebc701ba0@suse.com> <CABCJKueGRBdFfGW-cvOvqxc-a85GpxtwPmLdE_1RiAkNLrEg+g@mail.gmail.com>
+ <00714a65-953f-4885-9229-1990543c4154@suse.com> <CABCJKucj7zjc4=EiFdSnzNDBvQmaWBBt_KJsTq1ybp=Vegp5eQ@mail.gmail.com>
+ <f08678b1-260f-4200-889b-a4ec016fc7e1@suse.com>
+In-Reply-To: <f08678b1-260f-4200-889b-a4ec016fc7e1@suse.com>
+From: Sami Tolvanen <samitolvanen@google.com>
+Date: Thu, 1 Aug 2024 19:38:27 +0000
+Message-ID: <CABCJKueScjymx3TR-DCVynfgSg93-17cKC0s0b3A5KpiFEOiEA@mail.gmail.com>
+Subject: Re: [PATCH 00/15] Implement MODVERSIONS for Rust
+To: Petr Pavlu <petr.pavlu@suse.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 01, 2024 at 08:53:54PM +0200, Thomas Weißschuh wrote:
-> On 2024-08-01 11:36:37+0000, Nathan Chancellor wrote:
-> > Hi Jose,
-> > 
-> > On Thu, Aug 01, 2024 at 07:29:40AM -0600, Jose Fernandez wrote:
-> > > Add a new -debug package to the pacman PKGBUILD that will contain the
-> > > vmlinux image for debugging purposes. This package depends on the
-> > > -headers package and will be installed in /usr/src/debug/${pkgbase}.
-> > > 
-> > > The vmlinux image is needed to debug core dumps with tools like crash.
-> > > 
-> > > Signed-off-by: Jose Fernandez <jose.fernandez@linux.dev>
-> > > Reviewed-by: Peter Jung <ptr1337@cachyos.org>
-> > 
-> > This appears to add a non-trivial amount of time to the build when benchmarking
-> > with Arch Linux's configuration (I measure 9% with hyperfine):
-> 
-> As nothing more is compiled, I guess this is just the additional
-> packaging.
-> 
-> > Benchmark 1: pacman-pkg @ 21b136cc63d2 ("minmax: fix up min3() and max3() too")
-> >   Time (mean ± σ):     579.541 s ±  0.585 s    [User: 22156.731 s, System: 3681.698 s]
-> >   Range (min … max):   578.894 s … 580.033 s    3 runs
-> > 
-> > Benchmark 2: pacman-pkg @ c5af4db0563b ("kbuild: add debug package to pacman PKGBUILD")
-> >   Time (mean ± σ):     633.419 s ±  0.972 s    [User: 22247.886 s, System: 3673.879 s]
-> >   Range (min … max):   632.302 s … 634.070 s    3 runs
-> > 
-> > Summary
-> >   pacman-pkg @ 21b136cc63d2 ("minmax: fix up min3() and max3() too") ran
-> >     1.09 ± 0.00 times faster than pacman-pkg @ c5af4db0563b ("kbuild: add debug package to pacman PKGBUILD")
-> > 
-> > It would be nice to add some option to avoid building this package for
-> > developers who may not want it (I know I personally would not want it
-> > with that penalty because I do a lot of bisects) or maybe adding a
-> > target to build this package with the rest like 'pacman-pkg-with-dbg' or
-> > something? Also, couldn't vmlinux be obtained from vmlinuz that already
-> > exists in the main package via scripts/extract-vmlinux?
-> 
-> Jose:
-> 
-> In the vanilla PKGBUILD vmlinux is part of the linux-headers package:
-> linux-headers /usr/lib/modules/6.10.2-arch1-1/build/vmlinux
-> 
-> Given that you already gate the new -debug package on CONFIG_MODULES,
-> why not add the file to that package?
-> 
-> Then we could still discuss if it makes sense to gate vmlinux on
-> CONFIG_MODULES or if -headers should be enabled unconditionally again.
+Hi Petr,
 
-I think having -headers be enabled/built by default is probably okay
-since a regular user/builder might have external modules that need to be
-rebuilt against the new kernel. However, I (and likely many other
-upstream developers, however many use Arch) never build external modules
-against my kernels, so it would be nice to have some way to opt out of
-this penalty. I suspect it is just compressing down such a massive
-vmlinux that causes this? I have not had access to a build log with my
-testing, so unsure.
+On Thu, Aug 1, 2024 at 4:22=E2=80=AFAM Petr Pavlu <petr.pavlu@suse.com> wro=
+te:
+>
+> STG is an interesting tool. I've played with it a bit last year. To be
+> frank, I was surprised to see a new tool being proposed by Google to
+> generate modversion CRCs from DWARF instead of potentially extending
+> your STG project for this purpose. I'm not sure if it is something that
+> you folks have considered and evaluated.
 
-> Or we wait for somebody to show up and ask for it.
+Yes. STG is fairly large and written in C++, so it didn't seem like a
+great candidate for inclusion in the kernel tree, and it's presumably
+not shipped by most distributions, so it's not really ideal as a
+dependency either.
 
-I won't insist though so if we want to wait for someone else, that's
-fine with me too.
+> Sure, it might be necessary to extend the symtypes format a bit, for
+> example, by allowing spaces in type names. What other problems do you
+> see?
+>
+> The example I showed preserves the DWARF tag names in type descriptions.
+> Cross-references and the target type names use the s# prefix as they
+> they need to be distinguished from other tokens.
 
-> > Cheers,
-> > Nathan
-> > 
-> > > ---
-> > >  scripts/package/PKGBUILD | 10 ++++++++++
-> > >  1 file changed, 10 insertions(+)
-> > > 
-> > > diff --git a/scripts/package/PKGBUILD b/scripts/package/PKGBUILD
-> > > index 663ce300dd06..beda3db21863 100644
-> > > --- a/scripts/package/PKGBUILD
-> > > +++ b/scripts/package/PKGBUILD
-> > > @@ -6,6 +6,7 @@ pkgbase=${PACMAN_PKGBASE:-linux-upstream}
-> > >  pkgname=("${pkgbase}" "${pkgbase}-api-headers")
-> > >  if grep -q CONFIG_MODULES=y include/config/auto.conf; then
-> > >  	pkgname+=("${pkgbase}-headers")
-> > > +	pkgname+=("${pkgbase}-debug")
-> > >  fi
-> > >  pkgver="${KERNELRELEASE//-/_}"
-> > >  # The PKGBUILD is evaluated multiple times.
-> > > @@ -89,6 +90,15 @@ _package-headers() {
-> > >  	ln -sr "${builddir}" "${pkgdir}/usr/src/${pkgbase}"
-> > >  }
-> > >  
-> > > +_package-debug(){
-> > > +    pkgdesc="Non-stripped vmlinux file for the ${pkgdesc} kernel"
-> > > +    depends=(${pkgbase}-headers)
-> > > +
-> > > +    cd "${objtree}"
-> > > +    mkdir -p "$pkgdir/usr/src/debug/${pkgbase}"
-> > > +    install -Dt "$pkgdir/usr/src/debug/${pkgbase}" -m644 vmlinux
-> > > +}
-> > > +
-> > >  _package-api-headers() {
-> > >  	pkgdesc="Kernel headers sanitized for use in userspace"
-> > >  	provides=(linux-api-headers)
-> > > -- 
-> > > 2.46.0
-> > > 
+What I meant is that genksyms output is basically preprocessed C with
+references scattered in, so if you want something that's fully
+backwards compatible, that might not be possible. However, if you're
+happy with just the same database structure and don't care about the
+exact type description format beyond that, that should be doable, but
+like you said, still requires extending the format to support more
+complex type names.
+
+> What I think is needed is the ability to compare an updated kernel with
+> some previous reference and have an output that clearly and accurately
+> shows why CRCs of some symbols changed. The previous reference should be
+> possible to store in Git together with the kernel source. It means it
+> should be ideally some text format and limited in size. This is what
+> distributions that care about stable kABI do in some form currently.
+>
+> This functionality would be needed if some distribution wants to
+> maintain stable Rust kABI (not sure if it is actually feasible), or if
+> the idea is for gendwarfksyms to be a general tool that could replace
+> genksyms. I assume for the sake of argument that this is the case.
+>
+> Gendwarfksyms could implement this functionality on its own, or as
+> discussed, I believe it could provide a symtypes-like dump and a second
+> tool could be used to work with this format and for comparing it.
+>
+> From my point of view, the current --debug format is not suitable for
+> this purpose because its expanded and unstructured form means it is
+> bloated and hard to compare with a previous reference.
+
+I do see your point, there's a ton of duplication in the --debug
+output as each symbol expands all the types it uses.
+
+> I'm also not quite yet sold on using separate DWARF tooling, such as
+> libabigail or STG, to actually understand why gendwarfksyms produced
+> a different CRC for some symbol. Using these tools makes sense in the
+> genksyms world, where genksyms operates on the source code level and
+> this additional tooling can only work on debug data.
+>
+> With gendwarfksyms working directly with DWARF data, it doesn't seem
+> appealing to me to first run gendwarfksyms to produce CRCs, compare them
+> with their reference, and if they are different, use a second tool to
+> process the same DWARF data again and with some luck hopefully get an
+> actual answer why the CRCs changed. I'm worried that users might
+> encounter inaccurate answers if the two tools interpret the input data
+> differently.
+
+I agree, there might be other DWARF changes that we don't care about,
+but that nevertheless make it harder to figure out what caused the
+actual CRC to change.
+
+My initial thought was that simply running a diff between the --debug
+output would be sufficient, as it would directly tell you what
+changed, but I didn't consider that the size of the output dump would
+be of concern as well. I'll look into adding a symtypes-style output
+format in the next version. Thanks again for the feedback!
+
+Sami
 
