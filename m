@@ -1,128 +1,213 @@
-Return-Path: <linux-kbuild+bounces-2781-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2782-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 412739453C2
-	for <lists+linux-kbuild@lfdr.de>; Thu,  1 Aug 2024 22:33:56 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1441B945710
+	for <lists+linux-kbuild@lfdr.de>; Fri,  2 Aug 2024 06:28:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C781AB23442
-	for <lists+linux-kbuild@lfdr.de>; Thu,  1 Aug 2024 20:33:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 37EDC1C23219
+	for <lists+linux-kbuild@lfdr.de>; Fri,  2 Aug 2024 04:28:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20AED14B06C;
-	Thu,  1 Aug 2024 20:33:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 446CC1C6B2;
+	Fri,  2 Aug 2024 04:27:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="1S64wZUr"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="OSfU5Tme"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com [95.215.58.183])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49370148FEB
-	for <linux-kbuild@vger.kernel.org>; Thu,  1 Aug 2024 20:33:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9D931C698
+	for <linux-kbuild@vger.kernel.org>; Fri,  2 Aug 2024 04:27:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722544423; cv=none; b=n08NSWJz+tiHuoNQXqOOphwSW0N3J3gp8gFq2/LoUJDFVLP/fit0B1miNfWptqCftNmu3wBbpWerbYH7mZPaoVJeQwkLFTw/J11D5/REePEzA2BCuGG8W19fsTrLA3W/KF5m+AzRh4cPa42NpH6dvCsDWPxgbln8Qr4HBEkJ9WE=
+	t=1722572877; cv=none; b=SNuLWMv8/PBJUzNuV3rP2xD1t1EwKiR1z5jTdA6V3DdDQNXQJGs3OVghKkr1Gkk7Q/xYXHgmU8pTGiI5acuOEkPGuTGwCcW9F+MVviAvbWsazUSeAiDHgt0lzyTbZz89vQmlHXvoIQcNHdbmi182sMAVSvEidoJkhZBC0u/E5G8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722544423; c=relaxed/simple;
-	bh=uj3FPwEIG0xfFR02AOfEaaHGXag/9QLqipufHIU4Zg0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kZfIpS+GF+vwzNe+V22bF5HDyA5LECmH7XW7iQ0tBBTzNj3eKXG336vKiukx1OBFaDDHZMn2XB+vKlTi4Aavs7NVPuH1I9HBirXCp8rA7rZPKWMuvUa5H3DLsxynCcwggM7/whadiz7CllEPY11fce/ea+iPxsxGEB5NJct86n8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=1S64wZUr; arc=none smtp.client-ip=209.85.219.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-6b7a3773a95so42015916d6.2
-        for <linux-kbuild@vger.kernel.org>; Thu, 01 Aug 2024 13:33:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1722544419; x=1723149219; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=a4LGUqfUQLcaI5k3gnfYaAsiGSEmX4XZthqSuVaynW0=;
-        b=1S64wZUrN9QvfqICVzOdMAgivDxNlDPBenaSiM70h6WY/ufwWA8Z04cnOQzQjBlNZz
-         TRhLZoskzQhmYoLIZmzJpiPnIzqij2A1FK/aJqJaBYopn2nZQkEV49OAsknzljZGLGvl
-         IWp1SkMBL4V1/QxDuyZhFtJnE7i6JiyIC8mWua2xFCp3Tht1N8WB8BZXU5BNm/h1rnD7
-         IA6r76Q1RY5X/FhpMZUdGLc+vrkOXnKTALE6vrIJWkFVzb5mkXbyt+YxO5RBAQ0QVoD3
-         wFFJi3u7Q24uPeEX4dQFT/bN6eu1flP0kHpVH6cIiPqW9eWPM6cxp2nXTaAodDtaLA5I
-         x+Aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722544419; x=1723149219;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=a4LGUqfUQLcaI5k3gnfYaAsiGSEmX4XZthqSuVaynW0=;
-        b=aPISPup+mEYtHMQMi44m/+76Ds7nUQlJWJ2i4zaxcFCX2Rp+Tv+y6x0kuy0eVIMAC1
-         VUaiu5nT42UhCljqLEXymAgiJdKeBt60Nx3QMPplld64OAf+KPIsbdgfSZl8scaFXc97
-         2DMPPZH7P4m4znF2QTdua3vW292Ms2cX6SmE/UeShmvlQVZJaZLvA5ilQ19IHiZwjPMJ
-         IBYJKfV9a9Eby70GS0m3Cy1ykyy93eTtjHh0zbh4fce3x7wSbCV+X0j05erMzTzgPrCO
-         wO9HghGVYJPVcpSKebah3Tu4RdRnHVnG4sWL1Tqta6OTeBKFpfbYPWgEEyP6OeHL1v7a
-         K6hQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUBO3f1BjXjdVNbSDlCC2PSCUIc9KKsUz0T4FstORs0KCyxR3QFGki3Cv95JLdasnRgdXuJGFETjdMNqhhwtVl2HoUhZ4IIyuV03dBr
-X-Gm-Message-State: AOJu0YwxtPCS/SRw4S+c08fgViGYPPDlJhHC1N+fuDBq+p8mGcC50AY0
-	Ar/7tdDrF4WmVxuaw79in5uaBsUR5vUmi2l6zPJdUFcKpul+OvXuPz/W8MfbsTdd6rhc/wYYZgt
-	xCHPjGrQsh3B8A59cgOuhuv5pzXUWyoU7IqVM
-X-Google-Smtp-Source: AGHT+IHRRf+iCcZWfIUk8eMRP01GYpsdBtZcRDR9lDO2O6lJi8LWaU5YtyCRFpNWDktDnSX3GuCXW/wCS7u9+pP4Sbo=
-X-Received: by 2002:a05:6214:3103:b0:6b7:b08e:e795 with SMTP id
- 6a1803df08f44-6bb9836b891mr13930256d6.25.1722544419100; Thu, 01 Aug 2024
- 13:33:39 -0700 (PDT)
+	s=arc-20240116; t=1722572877; c=relaxed/simple;
+	bh=segjT1OG7E5eb5HHo0lBbw0RZphPoLaVe94DJZS0J9g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iHD/B+KKIUZMPEV08MBLO6skTWv0qLX+PZmoBNfrLflUREd6fEIc4srhdxd32y9G5646/ycNFOU18yNpXByTKmyGaqCL/nWfwLxV64f+A6JtMDg0VfUAMs3IYV8BW+8FCjYRB09wQHIdAmO7r2gqFkZFvdTORflfyOEQFXwJk7I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=OSfU5Tme; arc=none smtp.client-ip=95.215.58.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Date: Thu, 1 Aug 2024 22:27:45 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1722572871;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ddgK842BSf2obsATdY84g5niktNqv3czZvKQJLs7va8=;
+	b=OSfU5Tme6J5m9yLp4gmreIoUlLmygZXsYUa8wjwC7ZiveR4LKQINZJqKG7neWSNoSyGdCZ
+	yG5rsB5C3+6olxsgV/QhR88de9eIijmxC3KJjwAg0kh7KQim98L69kfPScmu7SYNpUFj5F
+	o7C7Qy4rJTJVXVMruVRXTYXO/UZKK18=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Jose Fernandez <jose.fernandez@linux.dev>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+	Christian Heusel <christian@heusel.eu>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Peter Jung <ptr1337@cachyos.org>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kbuild: add debug package to pacman PKGBUILD
+Message-ID: <b3phqbeo6twxkoxxmx7yxpas5egjdqcfxvaabub5wvlal373q7@jt4rhvwdiqsn>
+References: <20240801132945.47963-1-jose.fernandez@linux.dev>
+ <20240801183637.GB122261@thelio-3990X>
+ <ab9f18b2-a27c-4ac8-bffa-390a8960387b@t-8ch.de>
+ <20240801192008.GA3923315@thelio-3990X>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240801-kcfi-v2-0-c93caed3d121@google.com>
-In-Reply-To: <20240801-kcfi-v2-0-c93caed3d121@google.com>
-From: Sami Tolvanen <samitolvanen@google.com>
-Date: Thu, 1 Aug 2024 20:33:02 +0000
-Message-ID: <CABCJKue_8S8jJ1b5RRHGjnqpq=u9KYf1SjPTyS0NCWS4TthUQw@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] Rust KCFI support
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Peter Zijlstra <peterz@infradead.org>, 
-	Miguel Ojeda <ojeda@kernel.org>, Kees Cook <kees@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
-	Matthew Maurer <mmaurer@google.com>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240801192008.GA3923315@thelio-3990X>
+X-Migadu-Flow: FLOW_OUT
 
-Hi Alice,
+On 24/08/01 12:20PM, Nathan Chancellor wrote:
+> On Thu, Aug 01, 2024 at 08:53:54PM +0200, Thomas Weißschuh wrote:
+> > On 2024-08-01 11:36:37+0000, Nathan Chancellor wrote:
+> > > Hi Jose,
+> > > 
+> > > On Thu, Aug 01, 2024 at 07:29:40AM -0600, Jose Fernandez wrote:
+> > > > Add a new -debug package to the pacman PKGBUILD that will contain the
+> > > > vmlinux image for debugging purposes. This package depends on the
+> > > > -headers package and will be installed in /usr/src/debug/${pkgbase}.
+> > > > 
+> > > > The vmlinux image is needed to debug core dumps with tools like crash.
+> > > > 
+> > > > Signed-off-by: Jose Fernandez <jose.fernandez@linux.dev>
+> > > > Reviewed-by: Peter Jung <ptr1337@cachyos.org>
+> > > 
+> > > This appears to add a non-trivial amount of time to the build when benchmarking
+> > > with Arch Linux's configuration (I measure 9% with hyperfine):
+> > 
+> > As nothing more is compiled, I guess this is just the additional
+> > packaging.
+> > 
+> > > Benchmark 1: pacman-pkg @ 21b136cc63d2 ("minmax: fix up min3() and max3() too")
+> > >   Time (mean ± σ):     579.541 s ±  0.585 s    [User: 22156.731 s, System: 3681.698 s]
+> > >   Range (min … max):   578.894 s … 580.033 s    3 runs
+> > > 
+> > > Benchmark 2: pacman-pkg @ c5af4db0563b ("kbuild: add debug package to pacman PKGBUILD")
+> > >   Time (mean ± σ):     633.419 s ±  0.972 s    [User: 22247.886 s, System: 3673.879 s]
+> > >   Range (min … max):   632.302 s … 634.070 s    3 runs
+> > > 
+> > > Summary
+> > >   pacman-pkg @ 21b136cc63d2 ("minmax: fix up min3() and max3() too") ran
+> > >     1.09 ± 0.00 times faster than pacman-pkg @ c5af4db0563b ("kbuild: add debug package to pacman PKGBUILD")
 
-On Thu, Aug 1, 2024 at 1:35=E2=80=AFPM Alice Ryhl <aliceryhl@google.com> wr=
-ote:
->
-> The control flow integrity (kCFI) sanitizer is an important sanitizer
-> that is often used in production. This patch series makes it possible to
-> use kCFI and Rust together.
->
-> The second patch in this series depends on the next version of [1],
-> which Miguel will send soon. It also depends on [2].
->
-> Link: https://lore.kernel.org/r/20240709160615.998336-12-ojeda@kernel.org=
- [1]
-> Link: https://lore.kernel.org/r/20240730-target-json-arrays-v1-1-2b376fd0=
-ecf4@google.com [2]
-> Signed-off-by: Alice Ryhl <aliceryhl@google.com>
-> ---
-> Changes in v2:
-> - Fix for FineIBT.
-> - Add more info to commit messages and config descrptions.
-> - Link to v1: https://lore.kernel.org/r/20240730-kcfi-v1-0-bbb948752a30@g=
-oogle.com
->
-> ---
-> Alice Ryhl (1):
->       cfi: add CONFIG_CFI_ICALL_NORMALIZE_INTEGERS
->
-> Matthew Maurer (1):
->       rust: cfi: add support for CFI_CLANG with Rust
 
-Thanks for sorting this out!
+Hi Nathan,
+Thanks for taking the time to benchmark the change. I did notice that the build 
+time for the -debug package felt a bit longer than I expected. I attributed it
+to having to package a large file.
 
-Reviewed-by: Sami Tolvanen <samitolvanen@google.com>
+> > > It would be nice to add some option to avoid building this package for
+> > > developers who may not want it (I know I personally would not want it
+> > > with that penalty because I do a lot of bisects) or maybe adding a
+> > > target to build this package with the rest like 'pacman-pkg-with-dbg' or
+> > > something? 
 
-Sami
+My original idea was to add a make config to enable the -debug package, ie:
+`make pacman-pkg DEBUG=1`. Your suggestion of a separate target is also a good
+idea. I don't have strong opinion on this, so I'm open to what you and Thomas
+prefer.
+
+> > > Also, couldn't vmlinux be obtained from vmlinuz that already
+> > > exists in the main package via scripts/extract-vmlinux?
+
+I didn't know you could do that. However, I suspect that more people will 
+encounter this issue and will want the vmlinux file available without knowing
+you can extract it from vmlinuz. I think it's better to have it available 
+explicitly in a package.
+
+> > 
+> > Jose:
+> > 
+> > In the vanilla PKGBUILD vmlinux is part of the linux-headers package:
+> > linux-headers /usr/lib/modules/6.10.2-arch1-1/build/vmlinux
+> > 
+> > Given that you already gate the new -debug package on CONFIG_MODULES,
+> > why not add the file to that package?
+
+Hi Thomas,
+My only concern with that approach is that it won't address Nathan's concern
+about increasing the build time. I think an opt-in -debug package is the best
+solution to address this.
+
+Additionally, Peter from CachyOS (cced) shared this merge request with me:
+https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/merge_requests/3
+
+It looks like the vanilla PKGBUILD will start including a debug package as well.
+I think it may be good to align with the pattern they will be using.
+
+> > 
+> > Then we could still discuss if it makes sense to gate vmlinux on
+> > CONFIG_MODULES or if -headers should be enabled unconditionally again.
+> 
+> I think having -headers be enabled/built by default is probably okay
+> since a regular user/builder might have external modules that need to be
+> rebuilt against the new kernel. However, I (and likely many other
+> upstream developers, however many use Arch) never build external modules
+> against my kernels, so it would be nice to have some way to opt out of
+> this penalty. I suspect it is just compressing down such a massive
+> vmlinux that causes this? I have not had access to a build log with my
+> testing, so unsure.
+> 
+> > Or we wait for somebody to show up and ask for it.
+> 
+> I won't insist though so if we want to wait for someone else, that's
+> fine with me too.
+
+I will lean on your preference for how to proceed with this. I'm happy to make
+the changes you think are best. To me, it appears that the next iteration to 
+satisfy everyone is to make the -debug package opt-in via a new make target or
+a make config option.
+
+Thanks,
+Jose
+
+> 
+> > > Cheers,
+> > > Nathan
+> > > 
+> > > > ---
+> > > >  scripts/package/PKGBUILD | 10 ++++++++++
+> > > >  1 file changed, 10 insertions(+)
+> > > > 
+> > > > diff --git a/scripts/package/PKGBUILD b/scripts/package/PKGBUILD
+> > > > index 663ce300dd06..beda3db21863 100644
+> > > > --- a/scripts/package/PKGBUILD
+> > > > +++ b/scripts/package/PKGBUILD
+> > > > @@ -6,6 +6,7 @@ pkgbase=${PACMAN_PKGBASE:-linux-upstream}
+> > > >  pkgname=("${pkgbase}" "${pkgbase}-api-headers")
+> > > >  if grep -q CONFIG_MODULES=y include/config/auto.conf; then
+> > > >  	pkgname+=("${pkgbase}-headers")
+> > > > +	pkgname+=("${pkgbase}-debug")
+> > > >  fi
+> > > >  pkgver="${KERNELRELEASE//-/_}"
+> > > >  # The PKGBUILD is evaluated multiple times.
+> > > > @@ -89,6 +90,15 @@ _package-headers() {
+> > > >  	ln -sr "${builddir}" "${pkgdir}/usr/src/${pkgbase}"
+> > > >  }
+> > > >  
+> > > > +_package-debug(){
+> > > > +    pkgdesc="Non-stripped vmlinux file for the ${pkgdesc} kernel"
+> > > > +    depends=(${pkgbase}-headers)
+> > > > +
+> > > > +    cd "${objtree}"
+> > > > +    mkdir -p "$pkgdir/usr/src/debug/${pkgbase}"
+> > > > +    install -Dt "$pkgdir/usr/src/debug/${pkgbase}" -m644 vmlinux
+> > > > +}
+> > > > +
+> > > >  _package-api-headers() {
+> > > >  	pkgdesc="Kernel headers sanitized for use in userspace"
+> > > >  	provides=(linux-api-headers)
+> > > > -- 
+> > > > 2.46.0
+> > > > 
 
