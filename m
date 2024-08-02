@@ -1,63 +1,74 @@
-Return-Path: <linux-kbuild+bounces-2788-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2789-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52CEC94660A
-	for <lists+linux-kbuild@lfdr.de>; Sat,  3 Aug 2024 01:04:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A2BF946630
+	for <lists+linux-kbuild@lfdr.de>; Sat,  3 Aug 2024 01:34:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 11D1E28341E
-	for <lists+linux-kbuild@lfdr.de>; Fri,  2 Aug 2024 23:04:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 12386281BA8
+	for <lists+linux-kbuild@lfdr.de>; Fri,  2 Aug 2024 23:34:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BC7D811E0;
-	Fri,  2 Aug 2024 23:04:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9B3813A24D;
+	Fri,  2 Aug 2024 23:34:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HzpylkbS"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b="mWWpur2v"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05DBD5258;
-	Fri,  2 Aug 2024 23:04:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77392B67E;
+	Fri,  2 Aug 2024 23:34:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.63.252.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722639860; cv=none; b=jkvajuFjEhl0Opet8z6ZlWYYD9osE8q8+TERyD4K6F2cWsFNa0j2HTBti0awI/pR8HUG8Ld/tQtItbVri/GEiylm7Tdg1xORcdHy6ykk4kmyRoNGFc8I9wmqp7yLQeTY1jpa0wvIhmrqYHtsNWa9KtfK9/VDoFg1njV+bQMYvFY=
+	t=1722641684; cv=none; b=OJ+XEbySUl8EABt0peWFEZtTVAQFGeA2TvOI45f9S8I9aZHFI3d2ZAiPONNsRk6JJBFJvphmT23P4pZYR3+rraBew5WbWEK8b6vMLSW1ljqukFOtQ9rSiToQnYJv8iulIQbJwOikWnffC7F/lsmoC/W1492ajSBXzoThknuScW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722639860; c=relaxed/simple;
-	bh=iIjDB6hSxLVkrCrMpfondG5ucRaBxFNaNNgaLKgyOM0=;
+	s=arc-20240116; t=1722641684; c=relaxed/simple;
+	bh=3Dt3rP3cBNyiNx8q6SWdzLDhWb+b6sCffZ8eBEtclM8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sEpJc4R9o0px7/r8f8QtV8Pxjhm3nObXRR+vXupLtCVmWch7U0+kXjW5maDBMVTg77rZP3SX4UiiD+w2XXcDdIQTThiK8J789Er0T98HcmouuQf17suTLj+pFc7M7ohk1+geXlRxUGMiczNueZvsccUCMwg0TFMBHID8IN1D2p4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HzpylkbS; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0346C32782;
-	Fri,  2 Aug 2024 23:04:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722639859;
-	bh=iIjDB6hSxLVkrCrMpfondG5ucRaBxFNaNNgaLKgyOM0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HzpylkbS7oULAgh4yHoGZQoiNmiZKtx2nSFhfY0Ie9FEggok+KMDcsf9CC1hEsNTG
-	 Cw03IqxXtDTI3+zeOgdifUhXO76bOLzK4I23UWYkKIyYFB/m6/eOZPaRxhVNNUZ60l
-	 EUZn+QJy1MWBRVZL7RJ+K5kJXTAFNOqVGkD6tOIDQtkSWf83W/z9x5d3G2ws+kBcte
-	 KJfwVFRV6cxDChzA0jau7Js8CcbC63y9NCLca0LylbJQIoNWxQvhCs2pgkyHiopPHG
-	 yA1cUasAv5Gy6VNjS/pIaBqgGeM3pBaT+tw4pi3vPmGDesRlhG3P5qStaT9uracpI1
-	 5FszcsmhOsVpA==
-Date: Fri, 2 Aug 2024 16:04:17 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Koakuma <koachan@protonmail.com>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Andreas Larsson <andreas@gaisler.com>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, glaubitz@physik.fu-berlin.de,
+	 Content-Type:Content-Disposition:In-Reply-To; b=T5b2YBNrG67Oizvdr+cSkjSkyUMMHWl7PMqK6zeoCaupZhKvJT4JdqpT/k1dcrA3WnvxIySA4be/E5XI5N5YO+gM3VnfNE+owKhDq7xxhHmRv2yEGdzhdq80vwEKT7Kr4sabds+ceB8I0J1Z2JIsMjERczkkIpKm8mdURJaRa0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu; spf=pass smtp.mailfrom=fjasle.eu; dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b=mWWpur2v; arc=none smtp.client-ip=194.63.252.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fjasle.eu
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=fjasle.eu;
+	s=ds202307; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:
+	MIME-Version:Content-Type:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=Asq92kUoORZTc3wQnPiSj6dveDoW9X+Fb+nu6DxMHzs=; b=mWWpur2vFEFFWGlnrjuEaPkCEC
+	Win1kuMgBdbpZ1+xYJGzL94BaAaG3sNBI9oYxyxvnXc+pL3dczvXq7z86yIOjywAoN1SfN3cZQm2S
+	oxEoDgG1Dk8IfttnRSGN40RSe/lmDXqe4Hzl41xOfAqAC/ONzaTrpGzD2GQZk5pfAlkDhQGGDu91T
+	O50MrUVVDMK6SeMzbFJpLnLp8Vbp5Zi24+pSsuX8V/YmyQfF8zIKbqfXkudTQeU/Xs/exxLsmmYAc
+	O5TunBRg1MyWyRMFqqmORqlqt7NVORq978w8/qI0BVdEMh+bXO/VHKcEVUlI3Jl52lcTCciSKIbM5
+	/l7bhgXA==;
+Received: from [2001:9e8:9c5:5401:3235:adff:fed0:37e6] (port=45440 helo=lindesnes.fjasle.eu)
+	by smtp.domeneshop.no with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <nicolas@fjasle.eu>)
+	id 1sa1my-002EZG-E9;
+	Sat, 03 Aug 2024 01:34:24 +0200
+Date: Sat, 3 Aug 2024 01:34:19 +0200
+From: Nicolas Schier <nicolas@fjasle.eu>
+To: Miguel Ojeda <ojeda@kernel.org>
+Cc: Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
 	Masahiro Yamada <masahiroy@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>, sparclinux@vger.kernel.org,
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
-	linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] sparc/build: Remove all usage of -fcall-used*
- flags
-Message-ID: <20240802230417.GB853635@thelio-3990X>
-References: <20240717-sparc-cflags-v2-0-259407e6eb5f@protonmail.com>
- <20240717-sparc-cflags-v2-1-259407e6eb5f@protonmail.com>
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	bpf@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	patches@lists.linux.dev
+Subject: Re: [PATCH] kbuild: pahole-version: avoid errors if executing fails
+Message-ID: <20240803-axiomatic-wallaby-of-courtesy-7d2ffa@lindesnes>
+References: <20240728125527.690726-1-ojeda@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -66,72 +77,55 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240717-sparc-cflags-v2-1-259407e6eb5f@protonmail.com>
+In-Reply-To: <20240728125527.690726-1-ojeda@kernel.org>
 
-On Wed, Jul 17, 2024 at 11:10:15PM +0700, Koakuma wrote:
-> Remove all usage of -fcall-used* flags so that all flags used are
-> portable between GCC and clang.
+On Sun, Jul 28, 2024 at 02:55:27PM +0200, Miguel Ojeda wrote:
+> Like patch "rust: suppress error messages from
+> CONFIG_{RUSTC,BINDGEN}_VERSION_TEXT" [1], do not assume the file existing
+> and being executable implies executing it will succeed. Instead, bail
+> out if executing it fails for any reason.
 > 
-> The reasoning is as follows:
+> For instance, `pahole` may be built for another architecture, may be a
+> program we do not expect or may be completely broken:
 > 
-> In the (normal) 32-bit ABI, %g5 and %g7 is normally reserved, and in
-> the 64-bit ABI, %g7 is the reserved one.
-> Linux turns them into volatile registers by the way of -fcall-used-*,
-> but on the other hand, omitting the flags shouldn't be harmful;
-> compilers will now simply refuse to touch them, and any assembly
-> code that happens to touch them would still work like usual (because
-> Linux' conventions already treats them as volatile anyway).
+>     $ echo 'bad' > bad-pahole
+>     $ chmod u+x bad-pahole
+>     $ make PAHOLE=./bad-pahole defconfig
+>     ...
+>     ./bad-pahole: 1: bad: not found
+>     init/Kconfig:112: syntax error
+>     init/Kconfig:112: invalid statement
 > 
-> Signed-off-by: Koakuma <koachan@protonmail.com>
-
-As before, I tested this series with the vDSO patch mentioned before and
-a version of LLVM that supports the -m{,no-}v8plus flags and I was able
-to successfully boot a kernel in QEMU :)
-
-Tested-by: Nathan Chancellor <nathan@kernel.org>
-
+> Link: https://lore.kernel.org/rust-for-linux/20240727140302.1806011-1-masahiroy@kernel.org/ [1]
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 > ---
->  arch/sparc/Makefile      | 4 ++--
->  arch/sparc/vdso/Makefile | 2 +-
->  2 files changed, 3 insertions(+), 3 deletions(-)
+>  scripts/pahole-version.sh | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> diff --git a/arch/sparc/Makefile b/arch/sparc/Makefile
-> index 757451c3ea1d..7318a8b452c3 100644
-> --- a/arch/sparc/Makefile
-> +++ b/arch/sparc/Makefile
-> @@ -29,7 +29,7 @@ UTS_MACHINE    := sparc
->  # versions of gcc.  Some gcc versions won't pass -Av8 to binutils when you
->  # give -mcpu=v8.  This silently worked with older bintutils versions but
->  # does not any more.
-> -KBUILD_CFLAGS  += -m32 -mcpu=v8 -pipe -mno-fpu -fcall-used-g5 -fcall-used-g7
-> +KBUILD_CFLAGS  += -m32 -mcpu=v8 -pipe -mno-fpu
->  KBUILD_CFLAGS  += -Wa,-Av8
+> diff --git a/scripts/pahole-version.sh b/scripts/pahole-version.sh
+> index f8a32ab93ad1..a35b557f1901 100755
+> --- a/scripts/pahole-version.sh
+> +++ b/scripts/pahole-version.sh
+> @@ -5,9 +5,9 @@
+>  #
+>  # Prints pahole's version in a 3-digit form, such as 119 for v1.19.
 >  
->  KBUILD_AFLAGS  += -m32 -Wa,-Av8
-> @@ -45,7 +45,7 @@ export BITS   := 64
->  UTS_MACHINE   := sparc64
->  
->  KBUILD_CFLAGS += -m64 -pipe -mno-fpu -mcpu=ultrasparc -mcmodel=medlow
-> -KBUILD_CFLAGS += -ffixed-g4 -ffixed-g5 -fcall-used-g7 -Wno-sign-compare
-> +KBUILD_CFLAGS += -ffixed-g4 -ffixed-g5 -Wno-sign-compare
->  KBUILD_CFLAGS += -Wa,--undeclared-regs
->  KBUILD_CFLAGS += $(call cc-option,-mtune=ultrasparc3)
->  KBUILD_AFLAGS += -m64 -mcpu=ultrasparc -Wa,--undeclared-regs
-> diff --git a/arch/sparc/vdso/Makefile b/arch/sparc/vdso/Makefile
-> index 243dbfc4609d..e009443145af 100644
-> --- a/arch/sparc/vdso/Makefile
-> +++ b/arch/sparc/vdso/Makefile
-> @@ -46,7 +46,7 @@ CFL := $(PROFILING) -mcmodel=medlow -fPIC -O2 -fasynchronous-unwind-tables -m64
->         -fno-omit-frame-pointer -foptimize-sibling-calls \
->         -DDISABLE_BRANCH_PROFILING -DBUILD_VDSO
->  
-> -SPARC_REG_CFLAGS = -ffixed-g4 -ffixed-g5 -fcall-used-g5 -fcall-used-g7
-> +SPARC_REG_CFLAGS = -ffixed-g4 -ffixed-g5
->  
->  $(vobjs): KBUILD_CFLAGS := $(filter-out $(RANDSTRUCT_CFLAGS) $(GCC_PLUGINS_CFLAGS) $(SPARC_REG_CFLAGS),$(KBUILD_CFLAGS)) $(CFL)
->  
+> -if [ ! -x "$(command -v "$@")" ]; then
+> +if output=$("$@" --version 2>/dev/null); then
+> +	echo "$output" | sed -E 's/v([0-9]+)\.([0-9]+)/\1\2/'
+> +else
+>  	echo 0
+>  	exit 1
+>  fi
+> -
+> -"$@" --version | sed -E 's/v([0-9]+)\.([0-9]+)/\1\2/'
 > 
+> base-commit: 256abd8e550ce977b728be79a74e1729438b4948
 > -- 
 > 2.45.2
 > 
+
+thanks, looks good to me.
+
+Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
 
