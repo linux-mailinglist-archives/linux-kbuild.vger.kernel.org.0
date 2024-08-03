@@ -1,167 +1,105 @@
-Return-Path: <linux-kbuild+bounces-2790-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2791-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6313946638
-	for <lists+linux-kbuild@lfdr.de>; Sat,  3 Aug 2024 01:42:05 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 290FE946794
+	for <lists+linux-kbuild@lfdr.de>; Sat,  3 Aug 2024 07:59:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0984B1C20CFA
-	for <lists+linux-kbuild@lfdr.de>; Fri,  2 Aug 2024 23:42:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BD4A4282552
+	for <lists+linux-kbuild@lfdr.de>; Sat,  3 Aug 2024 05:59:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EDC16CDBA;
-	Fri,  2 Aug 2024 23:42:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFDEE13DDB5;
+	Sat,  3 Aug 2024 05:59:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b="e6V0++1/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XCGLtZRM"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E4251ABEA4;
-	Fri,  2 Aug 2024 23:41:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.63.252.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96193136351;
+	Sat,  3 Aug 2024 05:59:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722642120; cv=none; b=q/ZrndnNJ6bJ2JsJ8cswA8sZrUq4eUU0QJEtr9FrdbTYKOpiitGYTCt0ii3yujDA3YD6a9RFyl072h80FPlYVsMrh7rtIZm9TBNkaFVWuinl5dbAvhbdnuHf7iEU0gZ5WGNTuDeO4U0XGwXIgn6nC89n2/VXdbfa36r6sbDklbM=
+	t=1722664758; cv=none; b=A3OWrxpwUDffuKPrQfQiuXGpv8K/5lSVqeD5ewZ/vyC0JYwH4R+Olcl/rq7tNlIQvOtfqFPPMDbCubWw8/FGBovr2qOUvRQ4fWpYaAIkNvQy19e/K+i1tSFQ1iY4VVw6kjdaIoWl8IRFMtm8JvabY56vO4FDaWVPlF+lt9tL87k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722642120; c=relaxed/simple;
-	bh=DHCunDeog0Za9ks5cIJvcWeyEcT/xkyRWMfGn6wuHEI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RsX4cdbBxmFRJJhgp26GytNEYVtaQP5CSd80v/l9FexcyMpjB6uHVTbsHH0Bm7ra6kdUKyjwdYePjJCsboqppU1Kc06RrdnRZyfEdseEiLfZa9bbzzyRsqtnhc4VdZfuAn3Zg+rzfrcrYWaTdtR/oXxRR8efBkl9KfY3a7/3yAU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu; spf=pass smtp.mailfrom=fjasle.eu; dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b=e6V0++1/; arc=none smtp.client-ip=194.63.252.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fjasle.eu
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=fjasle.eu;
-	s=ds202307; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:
-	MIME-Version:Content-Type:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=wNFhIznygtRVPXC8Af2d5TRRPA6ucixBU45ohUiuQ2o=; b=e6V0++1/C292sJZhWCfThTh2aX
-	56V8OmzYUAEmz5ddqfu89Pw6pZbl9/CoWtsGQ1DXFl6WhJkhaQXIwFOBAjGJCxFf0N9d1e6s2G02k
-	MscYXtS6H/JzgcEsc5iVwQGWKTmREJ9eYwdhgWDOo/myX/V+MlbL0mD1oP44cNP7Z5+AZ89AqjtcK
-	eTj/TBXOZooZujdWoXXkreN4WOgba+cdJfMP7OHOZOTz26UtoMUaXxHRYVGebcamB9cqMruIO1+9P
-	9wq32o+Dv7/JP46+rDmcgNO+OtpQMtL4ECEr6keSca3BjuKkdVjjTRLlz/3dFFKNCgbB/lVvi+xvI
-	tS1mqrNA==;
-Received: from [2001:9e8:9c5:5401:3235:adff:fed0:37e6] (port=53854 helo=lindesnes.fjasle.eu)
-	by smtp.domeneshop.no with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <nicolas@fjasle.eu>)
-	id 1sa1u3-002FTi-Rw;
-	Sat, 03 Aug 2024 01:41:44 +0200
-Date: Sat, 3 Aug 2024 01:41:40 +0200
-From: Nicolas Schier <nicolas@fjasle.eu>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	linux-kernel@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>
-Subject: Re: [PATCH] kbuild: clean up code duplication in cmd_fdtoverlay
-Message-ID: <20240803-cryptic-tan-emu-7c58ce@lindesnes>
-References: <20240725192317.258132-1-masahiroy@kernel.org>
+	s=arc-20240116; t=1722664758; c=relaxed/simple;
+	bh=CRTjdpok2ylJOBVRB5NG+v3YKMZN4sDLzRfETUx+ZQ8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PxVT+Yu+GwWhekPlqSVyzurnMqL7ZJwinyI1QjaNodnKyUQCoFEfHS2m785wIaFxFj7WUgeIUer44TA7Ha6CQL6YmYR/NvrDsUv5pZPSQpTDcMYLtsgAqJJ8ePUkAfWNA67rKdLNqBtm3LKpiL1X/B0oc6powaatAobVw6j+r+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XCGLtZRM; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CFC0C4AF0F;
+	Sat,  3 Aug 2024 05:59:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1722664758;
+	bh=CRTjdpok2ylJOBVRB5NG+v3YKMZN4sDLzRfETUx+ZQ8=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=XCGLtZRMUCMbu6BQGQk49WxH5ioOsEqgD/dlbMGahAWxu/FIHRvD4heSeli5ntERw
+	 wwuMI7EOh3r4LHLtUPIhwyeaouzexismarEux3mtMgNa5kzrvWM4E70ICdsPxnnWAS
+	 RndLH+2XsXWPFQzAoyiSgZSXPoKuIQ8WSjkKK6rkLquL9QWt6IlAbQEMTWqLNgPxts
+	 4O59B8dg76/sxj5C/Nmxo3jMpxDojqmR+lafqyLd/nDUm4bGNKtueWr+Np/7hMQcgg
+	 xUQSIFR+grHcWFMVE1J+kYiuhVw1Wbw4LDe1L/y9j252Cx4vgX+fbwosdk4kodFSUU
+	 53rKEz9rwt1LA==
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-530c2e5f4feso734196e87.0;
+        Fri, 02 Aug 2024 22:59:18 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVT2UDfpiYZNiLdlNHJXH/TsRdVQrmejJWJtKea3Y9PHJCjsXMhphySs7NN6FsXoQFbc0wc95aoi/n5kEYao82Xn4lszVMx2beETLXh5jBqqczvjumMDD3ixNxW9qyx+SfDW+lq8XRYLpgo3lRNvF5wIFTpghl6h48w7ca8J+XAjHOnZxIDhg==
+X-Gm-Message-State: AOJu0Yzou48IT2x5UlpGTN81mhDb4AH9/vc1KvOOfRsRpk/AvU9/C4DC
+	dRf6IdMwLpLURQ2whdeSsOZHbr7nBGNS4ptwUiDhf9HfqtEX4+8+juWR1pVBNl1q5nscEh+L/XX
+	gbtjqLzlA3XbqD/6tBar5nXVGdv0=
+X-Google-Smtp-Source: AGHT+IGH3RhSkPSqDeBQj38zD+0ibup0k8GYvLycZ0CcyN+aNPlxgoEpaXhYyETxTBdvMTXtFmvfO0h4X1uuLe82UVE=
+X-Received: by 2002:a05:6512:ba3:b0:52e:bdfc:1d09 with SMTP id
+ 2adb3069b0e04-530bb36f0b1mr3632046e87.18.1722664756789; Fri, 02 Aug 2024
+ 22:59:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240725192317.258132-1-masahiroy@kernel.org>
+References: <20240717-sparc-cflags-v2-0-259407e6eb5f@protonmail.com> <20240717-sparc-cflags-v2-2-259407e6eb5f@protonmail.com>
+In-Reply-To: <20240717-sparc-cflags-v2-2-259407e6eb5f@protonmail.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Sat, 3 Aug 2024 14:58:40 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQmrzNHbAHC91OSS3TXwex7W4bjsoKaYVBULx+-e6Omfw@mail.gmail.com>
+Message-ID: <CAK7LNAQmrzNHbAHC91OSS3TXwex7W4bjsoKaYVBULx+-e6Omfw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] sparc/build: Add SPARC target flags for compiling
+ with clang
+To: koachan@protonmail.com
+Cc: "David S. Miller" <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, glaubitz@physik.fu-berlin.de, 
+	Nicolas Schier <nicolas@fjasle.eu>, sparclinux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
+	linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jul 26, 2024 at 04:23:14AM +0900, Masahiro Yamada wrote:
-> When resolving a merge conflict, Linus noticed the fdtoverlay command
-> duplication introduced by commit 49636c5680b9 ("kbuild: verify dtoverlay
-> files against schema"). He suggested a clean-up.
-> 
-> I eliminated the duplication and refactored the code a little further.
-> 
-> No functional changes are intended, except for the short logs.
-> 
-> The log will look as follows:
-> 
->   $ make ARCH=arm64 defconfig dtbs_check
->       [ snip ]
->     DTC [C] arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxca.dtb
->     DTC [C] arch/arm64/boot/dts/freescale/imx93-tqma9352-mba93xxla.dtb
->     DTC [C] arch/arm64/boot/dts/freescale/imx93-var-som-symphony.dtb
->     DTC [C] arch/arm64/boot/dts/freescale/imx95-19x19-evk.dtb
->     DTC     arch/arm64/boot/dts/freescale/imx8mm-venice-gw72xx-0x-imx219.dtbo
->     OVL [C] arch/arm64/boot/dts/freescale/imx8mm-venice-gw72xx-0x-imx219.dtb
-> 
-> The tag [C] indicates that the schema check is executed.
-> 
-> Link: https://lore.kernel.org/lkml/CAHk-=wiF3yeWehcvqY-4X7WNb8n4yw_5t0H1CpEpKi7JMjaMfw@mail.gmail.com/#t
-> Requested-by: Linus Torvalds <torvalds@linux-foundation.org>
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
-> 
->  scripts/Makefile.lib | 28 ++++++++++------------------
->  1 file changed, 10 insertions(+), 18 deletions(-)
-> 
-> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> index fe3668dc4954..207325eaf1d1 100644
-> --- a/scripts/Makefile.lib
-> +++ b/scripts/Makefile.lib
-> @@ -400,26 +400,23 @@ $(obj)/%.dtb.S: $(obj)/%.dtb FORCE
->  $(obj)/%.dtbo.S: $(obj)/%.dtbo FORCE
->  	$(call if_changed,wrap_S_dtb)
->  
-> -quiet_cmd_dtc = DTC     $@
-> +quiet_dtb_check_tag = $(if $(dtb-check-enabled),[C],   )
-> +cmd_dtb_check = $(if $(dtb-check-enabled),; $(DT_CHECKER) $(DT_CHECKER_FLAGS) -u $(srctree)/$(DT_BINDING_DIR) -p $(DT_TMP_SCHEMA) $@ || true)
-> +
-> +quiet_cmd_dtc = DTC $(quiet_dtb_check_tag) $@
->  cmd_dtc = $(HOSTCC) -E $(dtc_cpp_flags) -x assembler-with-cpp -o $(dtc-tmp) $< ; \
->  	$(DTC) -o $@ -b 0 \
->  		$(addprefix -i,$(dir $<) $(DTC_INCLUDE)) $(DTC_FLAGS) \
->  		-d $(depfile).dtc.tmp $(dtc-tmp) ; \
-> -	cat $(depfile).pre.tmp $(depfile).dtc.tmp > $(depfile)
-> -
-> -DT_CHECK_CMD = $(DT_CHECKER) $(DT_CHECKER_FLAGS) -u $(srctree)/$(DT_BINDING_DIR) -p $(DT_TMP_SCHEMA)
-> +	cat $(depfile).pre.tmp $(depfile).dtc.tmp > $(depfile) \
-> +	$(cmd_dtb_check)
->  
->  # NOTE:
->  # Do not replace $(filter %.dtb %.dtbo, $^) with $(real-prereqs). When a single
->  # DTB is turned into a multi-blob DTB, $^ will contain header file dependencies
->  # recorded in the .*.cmd file.
-> -ifneq ($(CHECK_DTBS),)
-> -quiet_cmd_fdtoverlay = DTOVLCH $@
-> -      cmd_fdtoverlay = $(objtree)/scripts/dtc/fdtoverlay -o $@ -i $(filter %.dtb %.dtbo, $^) ; $(DT_CHECK_CMD) $@ || true
-> -else
-> -quiet_cmd_fdtoverlay = DTOVL   $@
-> -      cmd_fdtoverlay = $(objtree)/scripts/dtc/fdtoverlay -o $@ -i $(filter %.dtb %.dtbo, $^)
-> -endif
-> +quiet_cmd_fdtoverlay = OVL $(quiet_dtb_check_tag) $@
-> +      cmd_fdtoverlay = $(objtree)/scripts/dtc/fdtoverlay -o $@ -i $(filter %.dtb %.dtbo, $^) $(cmd_dtb_check)
->  
->  $(multi-dtb-y): FORCE
->  	$(call if_changed,fdtoverlay)
-> @@ -430,16 +427,11 @@ DT_CHECKER ?= dt-validate
->  DT_CHECKER_FLAGS ?= $(if $(DT_SCHEMA_FILES),-l $(DT_SCHEMA_FILES),-m)
->  DT_BINDING_DIR := Documentation/devicetree/bindings
->  DT_TMP_SCHEMA := $(objtree)/$(DT_BINDING_DIR)/processed-schema.json
-> -
-> -quiet_cmd_dtb =	DTC_CHK $@
-> -      cmd_dtb =	$(cmd_dtc) ; $(DT_CHECK_CMD) $@ || true
-> -else
-> -quiet_cmd_dtb = $(quiet_cmd_dtc)
-> -      cmd_dtb = $(cmd_dtc)
-> +dtb-check-enabled = $(if $(filter %.dtb, $@),y)
->  endif
->  
->  $(obj)/%.dtb: $(obj)/%.dts $(DTC) $(DT_TMP_SCHEMA) FORCE
-> -	$(call if_changed_dep,dtb)
-> +	$(call if_changed_dep,dtc)
->  
->  $(obj)/%.dtbo: $(src)/%.dtso $(DTC) FORCE
->  	$(call if_changed_dep,dtc)
-> -- 
-> 2.43.0
-> 
+On Thu, Jul 18, 2024 at 1:12=E2=80=AFAM Koakuma via B4 Relay
+<devnull+koachan.protonmail.com@kernel.org> wrote:
+>
+> From: Koakuma <koachan@protonmail.com>
+>
+> clang only supports building 64-bit kernel, so we use the
+> sparc64-linux-gnu target.
+>
+> See also: https://lore.kernel.org/lkml/e26PTXUXEz8OYXmaeKn4Mpuejr4IOlFfFw=
+dB5vpsluXlYiqDdlyQTYcDtdAny_o4gO4SfPeQCCN2qpyT6e0nog5EaP3xk2SeUPTrF54p1gM=
+=3D@protonmail.com/T/#m068e010dcf8b99d3510a90d7532bcdb70e2e2c6b
+>
+> Signed-off-by: Koakuma <koachan@protonmail.com>
 
-Looks good to me, thanks.
 
-Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
+
+Acked-by: Masahiro Yamada <masahiroy@kernel.org>
+
+
+(I assume this will go through the sparc subsystem)
+
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
