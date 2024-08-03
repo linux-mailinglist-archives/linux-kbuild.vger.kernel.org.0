@@ -1,102 +1,213 @@
-Return-Path: <linux-kbuild+bounces-2791-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2792-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 290FE946794
-	for <lists+linux-kbuild@lfdr.de>; Sat,  3 Aug 2024 07:59:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE0389468B7
+	for <lists+linux-kbuild@lfdr.de>; Sat,  3 Aug 2024 10:42:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BD4A4282552
-	for <lists+linux-kbuild@lfdr.de>; Sat,  3 Aug 2024 05:59:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 839D02824C5
+	for <lists+linux-kbuild@lfdr.de>; Sat,  3 Aug 2024 08:42:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFDEE13DDB5;
-	Sat,  3 Aug 2024 05:59:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 198ED14D290;
+	Sat,  3 Aug 2024 08:42:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XCGLtZRM"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WoLr681Q"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96193136351;
-	Sat,  3 Aug 2024 05:59:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E19992C6AF;
+	Sat,  3 Aug 2024 08:42:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722664758; cv=none; b=A3OWrxpwUDffuKPrQfQiuXGpv8K/5lSVqeD5ewZ/vyC0JYwH4R+Olcl/rq7tNlIQvOtfqFPPMDbCubWw8/FGBovr2qOUvRQ4fWpYaAIkNvQy19e/K+i1tSFQ1iY4VVw6kjdaIoWl8IRFMtm8JvabY56vO4FDaWVPlF+lt9tL87k=
+	t=1722674561; cv=none; b=mmEyHzLQ/QtmgmHxmrtq3nyUqtnr7XnWe0/G8KL3HAb5LabFCtnfQK+L+6XF2YU83b5Qsuis4bQvmAU6Q192rTy6aGe0JTm1dwmdD8vsgU/C1/UXbzUDDRU1VFRoROXHteleSQBATIqcJNXD6VYXeltnrU8DBKKE8SMzPKRKpZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722664758; c=relaxed/simple;
-	bh=CRTjdpok2ylJOBVRB5NG+v3YKMZN4sDLzRfETUx+ZQ8=;
+	s=arc-20240116; t=1722674561; c=relaxed/simple;
+	bh=rL9o66+yTo07C2NUCjmx8LrF2T1qkqT0BezdaAVBoNk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PxVT+Yu+GwWhekPlqSVyzurnMqL7ZJwinyI1QjaNodnKyUQCoFEfHS2m785wIaFxFj7WUgeIUer44TA7Ha6CQL6YmYR/NvrDsUv5pZPSQpTDcMYLtsgAqJJ8ePUkAfWNA67rKdLNqBtm3LKpiL1X/B0oc6powaatAobVw6j+r+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XCGLtZRM; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CFC0C4AF0F;
-	Sat,  3 Aug 2024 05:59:18 +0000 (UTC)
+	 To:Cc:Content-Type; b=aQhKEVK5hjN0l3i6ZBAg59NzAm5H1hHDxP4vlhFO59IW+FWgZ3OsEluM4ldSZRWDaSLna/KIpnpyPti9bgci+ZR64eSp2FgZQ+gVtNsRNnKQT3+4Yx1OfOZ4mAH2GaMS9nz9cbFwmjMibrQDZ248e1CIesqg41oI207J7G6rxGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WoLr681Q; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8ACCFC4AF0B;
+	Sat,  3 Aug 2024 08:42:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722664758;
-	bh=CRTjdpok2ylJOBVRB5NG+v3YKMZN4sDLzRfETUx+ZQ8=;
+	s=k20201202; t=1722674560;
+	bh=rL9o66+yTo07C2NUCjmx8LrF2T1qkqT0BezdaAVBoNk=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=XCGLtZRMUCMbu6BQGQk49WxH5ioOsEqgD/dlbMGahAWxu/FIHRvD4heSeli5ntERw
-	 wwuMI7EOh3r4LHLtUPIhwyeaouzexismarEux3mtMgNa5kzrvWM4E70ICdsPxnnWAS
-	 RndLH+2XsXWPFQzAoyiSgZSXPoKuIQ8WSjkKK6rkLquL9QWt6IlAbQEMTWqLNgPxts
-	 4O59B8dg76/sxj5C/Nmxo3jMpxDojqmR+lafqyLd/nDUm4bGNKtueWr+Np/7hMQcgg
-	 xUQSIFR+grHcWFMVE1J+kYiuhVw1Wbw4LDe1L/y9j252Cx4vgX+fbwosdk4kodFSUU
-	 53rKEz9rwt1LA==
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-530c2e5f4feso734196e87.0;
-        Fri, 02 Aug 2024 22:59:18 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVT2UDfpiYZNiLdlNHJXH/TsRdVQrmejJWJtKea3Y9PHJCjsXMhphySs7NN6FsXoQFbc0wc95aoi/n5kEYao82Xn4lszVMx2beETLXh5jBqqczvjumMDD3ixNxW9qyx+SfDW+lq8XRYLpgo3lRNvF5wIFTpghl6h48w7ca8J+XAjHOnZxIDhg==
-X-Gm-Message-State: AOJu0Yzou48IT2x5UlpGTN81mhDb4AH9/vc1KvOOfRsRpk/AvU9/C4DC
-	dRf6IdMwLpLURQ2whdeSsOZHbr7nBGNS4ptwUiDhf9HfqtEX4+8+juWR1pVBNl1q5nscEh+L/XX
-	gbtjqLzlA3XbqD/6tBar5nXVGdv0=
-X-Google-Smtp-Source: AGHT+IGH3RhSkPSqDeBQj38zD+0ibup0k8GYvLycZ0CcyN+aNPlxgoEpaXhYyETxTBdvMTXtFmvfO0h4X1uuLe82UVE=
-X-Received: by 2002:a05:6512:ba3:b0:52e:bdfc:1d09 with SMTP id
- 2adb3069b0e04-530bb36f0b1mr3632046e87.18.1722664756789; Fri, 02 Aug 2024
- 22:59:16 -0700 (PDT)
+	b=WoLr681Q+aSrgmjIyAzMHpsero14HAbh8Pe2NYfC1yHBoXTIrhK/zNp22Cst1K8uS
+	 qEjtaHDlEmJV05GVvHU4iJvMAG+SD6jgKE3CA3lK0Ek31tDIBvqXWYRSHMNIWKtScM
+	 C0b7RMpf37B8XH0Nd/ZRj05l+vUkqZHFhVAi5m0caoHtGmatB9pZOMMe5o/6LDhjE2
+	 /DYaQ/yoSPEu6GUS3zE4YzIqN8Ufh7mwwX9XwRUYTlpPjy4a/QXCO7rGZdcm23vP3p
+	 qerjEX9ZZxlc73rXJITXV7b9FekKnzH5RZglqPtg0s0Xu1pmlxDn4XqhcauHWVIMfm
+	 FgKtYXGJerggg==
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-52efe4c7c16so12990961e87.0;
+        Sat, 03 Aug 2024 01:42:40 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVF2VnvweAIkLv8taYA2CmySmtG27aTIHRI8+1trtLCA0d+kjLMOQohzcEeDhZDodnFw4gxcsflG/hzEC/VGWiW73xgcqESrdcui3ywpU2q1gKY69U8C5JtYMBRUrw4e0RhauDKsdPCyiMl
+X-Gm-Message-State: AOJu0YwB+uzqyDH60WL3FDFqsW0NuzUVrXLFqAESfSFeT+LKPpvJIXOZ
+	0tD1tvJhltSzd3RSYh4pW/QYuGZspzDTtdEavGKXYx4KcEZ44PNb8bXe4Fnrp6qs4NYmAxqtmd8
+	MvyQtacNbZYIaYbGWcPmkv/DFljs=
+X-Google-Smtp-Source: AGHT+IFF4S+80PSYnjQ7scAy9A6/Kk6hzji7GaVN17IZlXndYUp47aES2p2yhhGL0SpWFbevR9PkrNdcUGZQDwELF8Y=
+X-Received: by 2002:a05:6512:114f:b0:52b:c1cc:51f1 with SMTP id
+ 2adb3069b0e04-530bb396106mr4237148e87.23.1722674559200; Sat, 03 Aug 2024
+ 01:42:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240717-sparc-cflags-v2-0-259407e6eb5f@protonmail.com> <20240717-sparc-cflags-v2-2-259407e6eb5f@protonmail.com>
-In-Reply-To: <20240717-sparc-cflags-v2-2-259407e6eb5f@protonmail.com>
+References: <20240704-clang-tidy-filter-v1-1-8d4556a35b65@bootlin.com>
+In-Reply-To: <20240704-clang-tidy-filter-v1-1-8d4556a35b65@bootlin.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sat, 3 Aug 2024 14:58:40 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQmrzNHbAHC91OSS3TXwex7W4bjsoKaYVBULx+-e6Omfw@mail.gmail.com>
-Message-ID: <CAK7LNAQmrzNHbAHC91OSS3TXwex7W4bjsoKaYVBULx+-e6Omfw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] sparc/build: Add SPARC target flags for compiling
- with clang
-To: koachan@protonmail.com
-Cc: "David S. Miller" <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, glaubitz@physik.fu-berlin.de, 
-	Nicolas Schier <nicolas@fjasle.eu>, sparclinux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
-	linux-kbuild@vger.kernel.org
+Date: Sat, 3 Aug 2024 17:42:02 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARmV89PJV3sd93WwqLLQD0fg9mBOMetzECLriF8295zVA@mail.gmail.com>
+Message-ID: <CAK7LNARmV89PJV3sd93WwqLLQD0fg9mBOMetzECLriF8295zVA@mail.gmail.com>
+Subject: Re: [PATCH] scripts: run-clang-tools: add file filtering option
+To: =?UTF-8?B?VGjDqW8gTGVicnVu?= <theo.lebrun@bootlin.com>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, llvm@lists.linux.dev, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Thomas Petazzoni <thomas.petazzoni@bootlin.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 18, 2024 at 1:12=E2=80=AFAM Koakuma via B4 Relay
-<devnull+koachan.protonmail.com@kernel.org> wrote:
+On Thu, Jul 4, 2024 at 6:28=E2=80=AFPM Th=C3=A9o Lebrun <theo.lebrun@bootli=
+n.com> wrote:
 >
-> From: Koakuma <koachan@protonmail.com>
+> Add file filtering feature. We take zero or more filters at the end as
+> positional arguments. If none are given, the default behavior is kept
+> and we run the tool on all files in the datastore. Else, files must
+> match one or more filter to be analysed.
 >
-> clang only supports building 64-bit kernel, so we use the
-> sparc64-linux-gnu target.
+> The below command runs clang-tidy on drivers/clk/clk.c and all C files
+> inside drivers/reset/.
 >
-> See also: https://lore.kernel.org/lkml/e26PTXUXEz8OYXmaeKn4Mpuejr4IOlFfFw=
-dB5vpsluXlYiqDdlyQTYcDtdAny_o4gO4SfPeQCCN2qpyT6e0nog5EaP3xk2SeUPTrF54p1gM=
-=3D@protonmail.com/T/#m068e010dcf8b99d3510a90d7532bcdb70e2e2c6b
+>     ./scripts/clang-tools/run-clang-tools.py clang-tidy \
+>         compile_commands.json \
+>         'drivers/clk/clk.c' 'drivers/reset/*'
 >
-> Signed-off-by: Koakuma <koachan@protonmail.com>
+> The Python fnmatch builtin module is used. Matching is case-insensitive.
+> See its documentation for allowed syntax:
+> https://docs.python.org/3/library/fnmatch.html
+>
+> Signed-off-by: Th=C3=A9o Lebrun <theo.lebrun@bootlin.com>
+> ---
+> Currently, all files in the datastore are analysed. This is not
+> practical for grabbing errors in a subsystem, or relative to a patch
+> series. Add a file filtering feature with wildcard support.
+>
+> Have a nice day,
+> Th=C3=A9o
+> ---
+>  scripts/clang-tools/run-clang-tools.py | 20 ++++++++++++++++++++
+>  1 file changed, 20 insertions(+)
+>
+> diff --git a/scripts/clang-tools/run-clang-tools.py b/scripts/clang-tools=
+/run-clang-tools.py
+> index f31ffd09e1ea..b0b3a9c8cdec 100755
+> --- a/scripts/clang-tools/run-clang-tools.py
+> +++ b/scripts/clang-tools/run-clang-tools.py
+> @@ -10,6 +10,7 @@ compile_commands.json.
+>  """
+>
+>  import argparse
+> +import fnmatch
+>  import json
+>  import multiprocessing
+>  import subprocess
+> @@ -32,6 +33,8 @@ def parse_arguments():
+>                          help=3Dtype_help)
+>      path_help =3D "Path to the compilation database to parse"
+>      parser.add_argument("path", type=3Dstr, help=3Dpath_help)
+> +    file_filter_help =3D "Optional Unix shell-style wildcard file filter=
+s"
+> +    parser.add_argument("file_filter", type=3Dstr, nargs=3D"*", help=3Df=
+ile_filter_help)
+>
+>      checks_help =3D "Checks to pass to the analysis"
+>      parser.add_argument("-checks", type=3Dstr, default=3DNone, help=3Dch=
+ecks_help)
+> @@ -48,6 +51,22 @@ def init(l, a):
+>      args =3D a
+>
+>
+> +def filter_entries(datastore, filters):
+> +    for entry in datastore:
+> +        if filters =3D=3D []:
+> +            yield entry
+> +            continue
+
+
+Maybe, this can be checked on the caller side.
+(Note, I did not test this at all)
+
+
+if args.file_filter:
+        datastore =3D filter_entries(datastore, args.file_filter)
 
 
 
-Acked-by: Masahiro Yamada <masahiroy@kernel.org>
+
+> +
+> +        assert entry['file'].startswith(entry['directory'])
+> +        # filepath is relative to the directory, to avoid matching on th=
+e absolute path
 
 
-(I assume this will go through the sparc subsystem)
+
+Does this assertion work with the separate output directory
+(O=3D option)?
 
 
+Just try this command:
+
+ $ make LLVM=3D1 O=3D/tmp/foo clang-tidy
+
+Check the generated /tmp/foo/compile_commands.json
+
+
+The 'file' entry starts with your source directory.
+The 'directory' entry starts with the build directory, "/tmp/foo".
+
+
+
+
+
+
+
+
+
+> +        filepath =3D entry['file'][len(entry['directory']):].lstrip('/')
+> +
+> +        for pattern in filters:
+> +            if fnmatch.fnmatch(filepath, pattern):
+> +                yield entry
+> +                break
+> +
+> +
+>  def run_analysis(entry):
+>      # Disable all checks, then re-enable the ones we want
+>      global args
+> @@ -87,6 +106,7 @@ def main():
+>          # Read JSON data into the datastore variable
+>          with open(args.path, "r") as f:
+>              datastore =3D json.load(f)
+> +            datastore =3D filter_entries(datastore, args.file_filter)
+>              pool.map(run_analysis, datastore)
+>      except BrokenPipeError:
+>          # Python flushes standard streams on exit; redirect remaining ou=
+tput
+>
+> ---
+> base-commit: 22a40d14b572deb80c0648557f4bd502d7e83826
+> change-id: 20240704-clang-tidy-filter-f470377cb2b4
+>
+> Best regards,
+> --
+> Th=C3=A9o Lebrun <theo.lebrun@bootlin.com>
+>
+>
 
 
 --=20
