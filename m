@@ -1,133 +1,146 @@
-Return-Path: <linux-kbuild+bounces-2807-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2808-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4847946E4A
-	for <lists+linux-kbuild@lfdr.de>; Sun,  4 Aug 2024 12:23:05 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C25E946FFB
+	for <lists+linux-kbuild@lfdr.de>; Sun,  4 Aug 2024 19:12:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E23E5B21092
-	for <lists+linux-kbuild@lfdr.de>; Sun,  4 Aug 2024 10:23:02 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 36D98B20E0C
+	for <lists+linux-kbuild@lfdr.de>; Sun,  4 Aug 2024 17:12:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83DF328DC3;
-	Sun,  4 Aug 2024 10:22:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F3548174E;
+	Sun,  4 Aug 2024 17:12:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=smtpservice.net header.i=@smtpservice.net header.b="klhzuF4I";
-	dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b="YPKKePg6";
-	dkim=pass (1024-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b="NGXlv891"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dUpPzfsW"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from e3i64.smtp2go.com (e3i64.smtp2go.com [158.120.84.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE3032744C
-	for <linux-kbuild@vger.kernel.org>; Sun,  4 Aug 2024 10:22:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=158.120.84.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4756CA953;
+	Sun,  4 Aug 2024 17:12:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722766978; cv=none; b=BxgYyEhJs6NJo4R8LKwRLZHQxoSPj07Z/DDbdlW5BEmz89NFjmKl2t6aB6osJ15SyHE1aoqyookySf5KD2ZJmp2A/mj/VFwy6MEml0ZVRrKHMY3YQSdq2S89Iaet5SNmblaUmA5DrD7WvOKz9aUgaz0cfbKMG2x7z+r4Zry4LDc=
+	t=1722791563; cv=none; b=BH00cmD8m06Rcjo2d1bNQkLYEKy+R+bXB4tRew36EmZGZi6gabaCSb02PVwRrnguTX4ussMQMsLJA6L3svaq/3egY6HGaJ0KHKIm0kFVS1rp1sfSoPzmUjUvtUUDotnEUgYNMHTy+FI6SQnSxmMagbpN3qIDOcGI6GiQlzhDqmc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722766978; c=relaxed/simple;
-	bh=I4ZMgVyS+akm6yhVCpxTn44Y+e7bGGgw//sECJkNkWY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=vAvvb21oL77m/1EM6TJGgENrHuJc2JlVmR8Z4a0vEBj/MQIgZxE36rW43O5k/lYjw+8dwIXyAFD8qosd0tCEAgWMDustQAhSKSx5TGpKGvZ4A5+v1joLDZ6E/wszA+X7a3W1OCHRzWZ0N1sUhXWobTpGAQYLxbc2FByfF27uE3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu; spf=pass smtp.mailfrom=em1174286.fjasle.eu; dkim=pass (2048-bit key) header.d=smtpservice.net header.i=@smtpservice.net header.b=klhzuF4I; dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b=YPKKePg6; dkim=pass (1024-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b=NGXlv891; arc=none smtp.client-ip=158.120.84.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=em1174286.fjasle.eu
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=smtpservice.net;
- i=@smtpservice.net; q=dns/txt; s=a1-4; t=1722766966; h=feedback-id :
- x-smtpcorp-track : date : message-id : to : subject : from : reply-to
- : sender : list-unsubscribe : list-unsubscribe-post;
- bh=H9E9xdrhQvgFxQQ1EYCrjTDpzgHUuRaE4NZ8QiqjCqQ=;
- b=klhzuF4IvlqmvZDJNpIsedW8VGSVEQf9Smjkhtb0Ac+t7xMbB4Vn2gLq1Lf7h+chvfFLV
- BiSr5iJ01sRyOtWge/D/+pf6z4qRvbmqqSLOsR2rLTQpRuX9NzeUzwRXqZxHT31vSODDNZr
- IP4qsV8IgOig6XnxVcAgFpwr1JJOlaZjav1HzVLnHaGRuFwwHSVQKnc7HYbMCuhHyQMdiyc
- BH7RNbnNnln2qSQ6DaMpYdzxEjRDyF5XsUWAsjxVUAgQarMJRG3MNcWXrxqZT9Gh5mFxVD+
- Se2GMIRtNC9rjDchwsJ8B5O8wspWCMIpYTP6gLC74CimaJcId2XxfuwcydcA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fjasle.eu;
- i=@fjasle.eu; q=dns/txt; s=s1174286; t=1722766966; h=from : subject :
- to : message-id : date;
- bh=H9E9xdrhQvgFxQQ1EYCrjTDpzgHUuRaE4NZ8QiqjCqQ=;
- b=YPKKePg6yhzTtRLayaT7VPDziOu4SUUy925dNrQ0Pt6R1BuikK+TSLmEzM/WzxRa+cH1p
- coLyMfZQ0wEfGb5cqaLEn9qx8lEZ3uORQWoi0i92SAgGnbt2UqHFyOQv8b0vaKG/IgDwyuL
- 9z+PjkCODKD8BZVD6F9ZT3fyGPFB8jRJgC1iIGq0btv1xyi8G8mI3wvHSm47K99+hG1A09c
- osiCCaX5FLGJ6LMDct+A3i5fqMe8VvFI2QyxJB6wBxKQ8aFYMoQnOlCCarh23mEwQdNcGgw
- JDLEaxz6q/t4GfSI//5+rxpe1WhSM8Z6e2Q15bz7W3/3IgGmS66K/qvtYkOw==
-Received: from [10.85.249.164] (helo=leknes.fjasle.eu)
-	by smtpcorp.com with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.97.1-S2G)
-	(envelope-from <nicolas@fjasle.eu>)
-	id 1saYNu-4o5NDgrlRKg-mEQX;
-	Sun, 04 Aug 2024 10:22:42 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
-	t=1722766960; bh=I4ZMgVyS+akm6yhVCpxTn44Y+e7bGGgw//sECJkNkWY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NGXlv891jtmh1eXpm5Ir8/3KaCV7a58Im2F8WPY06XH5Tnp1ikOpLirvfTvDKHEzI
-	 1VO6M9OPNxGg6mkInMje/qVfxfPF1TdGDBAOYy3wB+tqOc4cEQZP8nqamb+hZipda/
-	 jXObS7v0PQyGWXPZWcRYyCWij9M5xpZ+lNF9dndE=
-Received: by leknes.fjasle.eu (Postfix, from userid 1000)
-	id C6A5342CE3; Sun,  4 Aug 2024 12:22:40 +0200 (CEST)
-Date: Sun, 4 Aug 2024 12:22:40 +0200
-From: Nicolas Schier <nicolas@fjasle.eu>
-To: Alexandre Courbot <gnurou@gmail.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] Makefile: add $(srctree) to dependency of
- compile_commands.json target
-Message-ID: <Zq9WcJnmGqjlIpIw@fjasle.eu>
-References: <20240804055057.262682-1-gnurou@gmail.com>
+	s=arc-20240116; t=1722791563; c=relaxed/simple;
+	bh=Uzrlv8zq+haa0MpkkWqTgdXs4kY12SIn3JXRFM1ld10=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rVw71GhPn+t7RJCdUpr6xX3LJB0ohVws1ySzQXIGWokNuTt6vZfP7vUdWmhU+lq+ZyjXcmxauEp7meqc/Uy/AofjR0+5/vaKtf2XLxQevgakI4wRoDqBw2UAkOXEEqn9U/1r8NYK4KZ1Hfefc4WoDeJMY0Vey0jlWOACOLs44kA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dUpPzfsW; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6B08C4AF11;
+	Sun,  4 Aug 2024 17:12:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1722791562;
+	bh=Uzrlv8zq+haa0MpkkWqTgdXs4kY12SIn3JXRFM1ld10=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=dUpPzfsWhT8fsb8oLq0XRCnQ9aDJo+o2zB2MjfEDlBI37PEeVJVwNKs+leOddil2X
+	 Nnj7v6PHZPgKQNMsFbO01tiSHAHIE9GCMS1I95Qh6p4jL9ivxj6IgJ/9xZgVauEdDl
+	 FTc4bOC+8dsO+nT+SJDxDuK1BLSWZXlkQQ2xFtsawqQf0H+jU229cQGhquhtOiicFu
+	 coXwvIh9KXMDPtWQm/rJ8EcNdWQcCWSWiN7GW3nPBZKXPflX1IlUpVN+8onHcDbH4G
+	 zpn+SuIptpALG34NZrtlTMkkdjfbh9xrCa17h25SvEQ12CM9xYBaA9BqNnf/FlVINI
+	 udKYHGOm3d6aw==
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-52f04150796so15149995e87.3;
+        Sun, 04 Aug 2024 10:12:42 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVa2Tnj9BfCdlcy8R4HIPhVbvTjqL4B8cN8VZe22auEJF5LbGDGnUZT5XA/id0SG3Tsq6s+3GTi/2CgBxLX2DWK9ZAr4GamTIi3DOaT
+X-Gm-Message-State: AOJu0YxwPP5hRTNiVRe4+3Qu0jFg2ScPyyaTRWz1bpqX+Ui87GeHV0LE
+	Po8jxm1dsb3JhH1Scj+eiKZ+aWdLhLceRT2Y2wmQ9ppe2Vmmh47fLyvAHsaLQFMscL/CDtXGfvy
+	fqINyf+9z37qt0XWbPjM9pTV9G5I=
+X-Google-Smtp-Source: AGHT+IHtLqMDvxlpCdfhrO2NDr0HowjhdrZySRvfDY+lz772AgdGW6K2/JoGJ2zau5UiRCsuIS3Px8IudFRmjJrUhz0=
+X-Received: by 2002:a05:6512:b1f:b0:52e:9d6c:4462 with SMTP id
+ 2adb3069b0e04-530bb3797d6mr6409197e87.23.1722791561425; Sun, 04 Aug 2024
+ 10:12:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240804055057.262682-1-gnurou@gmail.com>
-X-Report-Abuse: Please forward a copy of this message, including all headers, to <abuse-report@smtp2go.com>
-Feedback-ID: 1174286m:1174286a9YXZ7r:1174286skBCIxoOCi
-X-smtpcorp-track: kVd_HGZ_TJzM.c62A2hgFjH94.Lc5LlwoE0gn
+References: <20240804033309.890181-1-masahiroy@kernel.org> <CA+icZUWpeZF-PGQJLR1tt0u7sFVZ+MANX4hE-DUCEt=PhXGs3w@mail.gmail.com>
+In-Reply-To: <CA+icZUWpeZF-PGQJLR1tt0u7sFVZ+MANX4hE-DUCEt=PhXGs3w@mail.gmail.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Mon, 5 Aug 2024 02:12:05 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASB1qFv1GdxTHvLpcJu1NbWrze5VsfFRYbFMeiFv_JPhQ@mail.gmail.com>
+Message-ID: <CAK7LNASB1qFv1GdxTHvLpcJu1NbWrze5VsfFRYbFMeiFv_JPhQ@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: modinst: remove the multithread option from zstd compression
+To: sedat.dilek@gmail.com
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>, Nicolas Schier <nicolas@fjasle.eu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Aug 04, 2024 at 02:50:57PM +0900 Alexandre Courbot wrote:
-> When trying to build the compile_commands.json target from an external
-> module's directory, the following error is displayed:
-> 
-> 	make[1]: *** No rule to make target 'scripts/clang-tools/gen_compile_commands.py',
-> 	needed by 'compile_commands.json'. Stop.
-> 
-> This is because gen_compile_commands.py was previously looked up using a
-> relative path to $(srctree), but commit b1992c3772e6 ("kbuild: use
-> $(src) instead of $(srctree)/$(src) for source directory") stopped
-> defining VPATH for external module builds.
-> 
-> Prefixing gen_compile_commands.py with $(srctree) fixes the problem.
-> 
-> Fixes: b1992c3772e6 ("kbuild: use $(src) instead of $(srctree)/$(src) for source directory")
-> Signed-off-by: Alexandre Courbot <gnurou@gmail.com>
-> ---
->  Makefile | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Makefile b/Makefile
-> index 8ad55d6e7b60..52d7dfe4212a 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1980,7 +1980,7 @@ nsdeps: modules
->  quiet_cmd_gen_compile_commands = GEN     $@
->        cmd_gen_compile_commands = $(PYTHON3) $< -a $(AR) -o $@ $(filter-out $<, $(real-prereqs))
->  
-> -$(extmod_prefix)compile_commands.json: scripts/clang-tools/gen_compile_commands.py \
-> +$(extmod_prefix)compile_commands.json: $(srctree)/scripts/clang-tools/gen_compile_commands.py \
->  	$(if $(KBUILD_EXTMOD),, vmlinux.a $(KBUILD_VMLINUX_LIBS)) \
->  	$(if $(CONFIG_MODULES), $(MODORDER)) FORCE
->  	$(call if_changed,gen_compile_commands)
-> -- 
-> 2.46.0
-> 
+On Sun, Aug 4, 2024 at 3:36=E2=80=AFPM Sedat Dilek <sedat.dilek@gmail.com> =
+wrote:
+>
+> On Sun, Aug 4, 2024 at 5:33=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.=
+org> wrote:
+> >
+> > Parallel execution is supported by GNU Make:
+> >
+> >   $ make -j<N> modules_install
+> >
+> > It is questionable to enable multithreading within each zstd process
+> > by default.
+> >
+> > If you still want to do it, you can use the environment variable:
+> >
+> >   $ ZSTD_NBTHREADS=3D<N> make modules_install
+> >
+>
+> Hi Masahiro,
+>
+> I have some understanding problems.
+>
+> [ start-build.txt ]
+> dileks     24225   24217  0 17:55 tty2     00:00:00 /usr/bin/perf stat
+> make V=3D1 -k -j4 ARCH=3Dx86_64 LLVM=3D1 LLVM=3D/opt/llvm/bin/
+> PAHOLE=3D/opt/pahole/bin/pahole KBUILD_BUILD_HOST=3Diniza
+> KBUILD_BUILD_USER=3Dsedat.dilek@gmail.com
+> KBUILD_BUILD_TIMESTAMP=3D2024-08-03
+> KDEB_PKGVERSION=3D6.10.3-1~trixie+dileks1
+> LOCALVERSION=3D-1-amd64-clang18-kcfi olddefconfig bindeb-pkg
+>
+> ^^ How shall someone pass so that ... ZSTD_NBTHREADS=3D<N> make
+> modules_install ... is used?
 
-thanks, looks good to me.
 
-Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
+Option 1
 
+$ export ZSTD_NBTHREADS=3D<N>
+$ make V=3D1 -k  [snip] olddefconfig bindeb-pkg
+
+
+
+Option 2
+
+$ ZSTD_NBTHREADS=3D<N> make V=3D1 -k [snip] olddefconfig bindeb-pkg
+
+
+
+
+>
+> As far as I understood, each kernel-module file is taken - in the
+> Debian build-process - sequentially file for file - ZSTD compressed
+> and afterwards deleted.
+> Is there a benefit when 'make -j<N>' is used?
+
+
+
+zstd --rm -f -q foo.ko
+zstd --rm -f -q bar.ko
+zstd --rm -f -q baz.ko
+
+will run in parallel with Make's -j<N> option.
+
+
+
+
+
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
 
