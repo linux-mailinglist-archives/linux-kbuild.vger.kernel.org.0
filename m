@@ -1,154 +1,166 @@
-Return-Path: <linux-kbuild+bounces-2804-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2805-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8D6D946C8E
-	for <lists+linux-kbuild@lfdr.de>; Sun,  4 Aug 2024 07:51:32 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BFF7A946CC0
+	for <lists+linux-kbuild@lfdr.de>; Sun,  4 Aug 2024 08:36:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6CB5A1F21696
-	for <lists+linux-kbuild@lfdr.de>; Sun,  4 Aug 2024 05:51:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 47A992817C0
+	for <lists+linux-kbuild@lfdr.de>; Sun,  4 Aug 2024 06:36:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40A0C8BEF;
-	Sun,  4 Aug 2024 05:51:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7D9CB67E;
+	Sun,  4 Aug 2024 06:36:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GsOfyjm2"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lNJSDyxD"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 843D4320F;
-	Sun,  4 Aug 2024 05:51:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E29B0138C;
+	Sun,  4 Aug 2024 06:36:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722750688; cv=none; b=CBWvurGkUvRcdXv5Tj5WHfcMwF2nfX5JikfrCNcx1wllljqqN9LKDu4ithNGx5L9o2BfVwhqU+H2C3cb7+O8fpdDbi+kLh1WTlymvM1YCupBn4WsGgSVc/aJlEPN/t5MfX093+UtGV5ZQD8gqFHmwZQKGGaGFly769y97mkYwsE=
+	t=1722753387; cv=none; b=d3njg8DGEvWgUEPtEq84HoGle6fmSHmVvtZB+kwzbxws79pCA1XVUHOxMeU6ULESGVVaY/FkEMVBUsjlEtEv679P2+GOSw4A7VTpzjA7snLQku359abc4aBd5eSXkIs/CV1Txrxxp6OBtW0A8mERgCnb1eir4uyBw7EZkmYWW4w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722750688; c=relaxed/simple;
-	bh=HfnLNpR1k8KnURzU3mkSvZ416XU1B8CH83ZTf1ICXWw=;
+	s=arc-20240116; t=1722753387; c=relaxed/simple;
+	bh=89gmBydwfJuc7hr/nhlC9fJCSPqbNq8SfC+t53x0cIo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dXR7PrphR9MAhx0dz+bgUNKcAplc3JYHrrD90N4iFDisPceL3LT4nGLgiOUHk+JnWAoCRWRBmszQwia8SdHlUTzXrwHTP7bJM5cSNzou9oiRqX+q4ZWRb01Tor/N2gVzcHYLlcsNknXj8Kjd9Rea+RLZ2qMzXUFZYCEukqp7S0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GsOfyjm2; arc=none smtp.client-ip=209.85.208.176
+	 To:Cc:Content-Type; b=Pax+EWzgK1zfxEqcR+ER6DJ6ovu3u2FZ6kuDBCYZvRSM08aA2ohc6mx/Supa2y70ShSvF4lGdr0KoIvfOXmk4CgkrBth6fvG4XN6wsojtz14XK3Gnuwwzxom+vAraM4qCj7s+2LkeuvuCwY9tRhB54ya5ox8/IAnjYBvgAmvrcM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lNJSDyxD; arc=none smtp.client-ip=209.85.167.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2f035ae0fd1so107707721fa.2;
-        Sat, 03 Aug 2024 22:51:26 -0700 (PDT)
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-52f00ad303aso14170601e87.2;
+        Sat, 03 Aug 2024 23:36:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722750684; x=1723355484; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1722753384; x=1723358184; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UoAXWwOrkvYE6oiXTHRknxHyBes72DPfu56PS+LLAuE=;
-        b=GsOfyjm2/fel9BIYvJJsqcDEr1fBAUYTVZBWQlE26u+lSjkACt5fJAJzlFf2mldQWV
-         FUMdfdVc82thc+VB/nO4hhEM7n1/r5CMjjaEC+V1sUE1zKoHdw0ONX70s8+CPxZj7NkC
-         Y5VC/6jwBrybkK1lpdWi5yDjak9yMyEn6FrZFGXlV8+gX7aDlESlaLmecbtx5s+ijE+x
-         ujVA2pysrq5asSh4/69NSa8MOf+lef5HmgBbYM9R+g3Ltb6+ANlZY6zlDIWSvyn2oQPM
-         QnL1kUw20uwQKam1+vpD98VBu36k2hkqUHi3VvdJAqId9v//losXWOvA9aAsjylrHo8o
-         8bBg==
+         :reply-to:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=4QGBhAOwbEmRox4+DxjD2M9GpPO+58govDv5LsijUYM=;
+        b=lNJSDyxDilIUuODfzBBOnBDgY6OtY2TIrZeTue73UPPqiJ+eMVICeAXcpUP8vwO1u4
+         DVmpUrzknE5mcAgyeb8PkIOSS8m/PNJNRTQ0KGrBpm96y8QJtc9TulfDSHECCqk1Li5b
+         Qjfjpn6VjCcwcCjByc9lDb2MCbDAZFDEM3cClntyN94qng6yq9RS9oDCDhRFx6E+cBAU
+         FAEPimRk8xBGWFDOcNFTgTS+PWRvcDWJITAeZc8gEzuZns+fX93X973UjNehP7+yNc32
+         U3IKYWMmWNDMAwk0ZXlG0tNjTaukVoxdIAjKnvS4tYE/DSxF861QYhnoS9vA2Ajag4aR
+         gHFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722750684; x=1723355484;
+        d=1e100.net; s=20230601; t=1722753384; x=1723358184;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UoAXWwOrkvYE6oiXTHRknxHyBes72DPfu56PS+LLAuE=;
-        b=G6za2Cszobq/r8v2RZWwiVnPqwoX7oCOfPnHELkCkmHUAi8aeYWK38JxyqF2nU+5Rq
-         ahq7AYH3wwMkWccb7sesmACZeRt9KiXwR5sbl5dj/4U6VZLM3EvlUfHqBE8piligC59s
-         9hvd+lN2mWWnGRvqYkDWsRjm3hnd1kye9I5IAACE0Vkb4d7ybOaNnazIct8RqyJLiExh
-         6+Ds4jZM8ol0qtxRbDcC3kHaK2qLSeOGTvLWQXRjNsm+TNizz59QzUQ/FWruHMqgkiZP
-         gCTEsVWmBFr0YT+hyFeKic5zdEx9mM5WWlI9zxZdD53sfbT4owU0Bw2pC91bz33TLbDK
-         dLXw==
-X-Forwarded-Encrypted: i=1; AJvYcCVlFjVM1xDvTLmJxKP1xOv/L7J1MQv1OUN6KJgKpzLHY5BjjTN+hO+3NdBEKr0y92cCW3B0Mj4OuDnujVSHqOMlqh2/kzPMOFCazBQfggeIOr3cjjVmPmZtj158fyV4wpnOaZPCspXKyOm4
-X-Gm-Message-State: AOJu0YzcfpYwfTFBplFzEwLaNWwiBek/zvmGFIk8bP658/GFo0sFwmw+
-	slVGVJr5BjX1FYqxAtNyRaAnaShwH6LhBvDKgPLsWL927RqnOpgC+ewQ0f4XhyCuOP0fyiPM4+X
-	3GGL2RpdfUwSw/iDI44dxv10PHzSEpCMo
-X-Google-Smtp-Source: AGHT+IHcLa/Bxklh5raZZOLH8cZDh6ssUUNu5pai7GOwB3B//C/44K3G4Vlm/EJOHt8Gbh7eBChv6plsBEEtNRGVwFk=
-X-Received: by 2002:a2e:8718:0:b0:2ef:21e5:1f01 with SMTP id
- 38308e7fff4ca-2f15aa888ecmr57770141fa.20.1722750684195; Sat, 03 Aug 2024
- 22:51:24 -0700 (PDT)
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=4QGBhAOwbEmRox4+DxjD2M9GpPO+58govDv5LsijUYM=;
+        b=pxCAx1S1c5kl6tU7GalzRZj6dgbR0FeF8HHlawcBUldELlyUTD76xUQy79AGu/tidp
+         /Sfta248dvnmMtQzHxjRZQZYcm1BcwCT1cFhvpdypGi01IX+K3i9z3mTxu2FGMDSfkLT
+         97+GuKyD8mdPj+DOy/s22OCD9yGUyASecmylB3GenDwmvv17A5QIljFPsIMa0s9N2P3s
+         bF4yBgbIPRmcdY8KAXR4DavLrwZXtMteFPwu+GLm7xIHcM/hhP97Pd8Qyh1/ROcmLYun
+         pI9um7zU0GkbuQYoXgq1J3b22Z3iS0xGocWBjFYhbU1UtxvQQrjB4stYQOuuWqZQ17BD
+         Kuyw==
+X-Forwarded-Encrypted: i=1; AJvYcCV2vUkfbxc2bcjCZf8H7hGcmkKaeItWULc3YjsD5wPKJ5yk/Tn4nDNVM5JkkcPfYxLLuCoyFnPgMbFjwu6ukWOtwgDflOAl/+E/kKqa
+X-Gm-Message-State: AOJu0Yzd5TxZbm0ne6yLocZGNHzz96Xo/0Pb4/wckZllKP1FBhTXLCG0
+	DTwbq0BosAGHTBHmrRVuuEDZmurgbtnkXTXu6vksoxl7FStFaz96gj/H9MUc+crLZsiWAPOUnIk
+	kRtgNCuOoXPYtoSVpQKz4mPHCWcE=
+X-Google-Smtp-Source: AGHT+IEdfmuv2EkKcxh+7Lb40OP/oG3cP2VSdznWLo4k/BLx+i8b31l/jhv/Zy/qDEODlTKWeZpGsCPEP0qqDy4NbeY=
+X-Received: by 2002:a05:6512:138d:b0:52c:e054:4149 with SMTP id
+ 2adb3069b0e04-530bb397770mr5372629e87.15.1722753383693; Sat, 03 Aug 2024
+ 23:36:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240803125153.216030-1-gnurou@gmail.com> <CAK7LNAS83xr+MUMjQXj7LE1b1ZbRUOd4c+FYHUQv=y97O4Ymqg@mail.gmail.com>
-In-Reply-To: <CAK7LNAS83xr+MUMjQXj7LE1b1ZbRUOd4c+FYHUQv=y97O4Ymqg@mail.gmail.com>
-From: Alexandre Courbot <gnurou@gmail.com>
-Date: Sun, 4 Aug 2024 14:51:12 +0900
-Message-ID: <CAAVeFu+mH_PrUHm=i+iSr8Fz14C18D+4A9eq+FPSieLNsqa+PA@mail.gmail.com>
-Subject: Re: [PATCH] Makefile: add $(srctree) to dependency of
- compile_commands.json target
+References: <20240804033309.890181-1-masahiroy@kernel.org>
+In-Reply-To: <20240804033309.890181-1-masahiroy@kernel.org>
+Reply-To: sedat.dilek@gmail.com
+From: Sedat Dilek <sedat.dilek@gmail.com>
+Date: Sun, 4 Aug 2024 08:35:47 +0200
+Message-ID: <CA+icZUWpeZF-PGQJLR1tt0u7sFVZ+MANX4hE-DUCEt=PhXGs3w@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: modinst: remove the multithread option from zstd compression
 To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Terrell <terrelln@fb.com>, Nicolas Schier <nicolas@fjasle.eu>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Aug 3, 2024 at 10:47=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
+On Sun, Aug 4, 2024 at 5:33=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.or=
+g> wrote:
 >
-> On Sat, Aug 3, 2024 at 9:52=E2=80=AFPM Alexandre Courbot <gnurou@gmail.co=
-m> wrote:
-> >
-> > When trying to build the compile_commands.json target from an external
-> > module's directory, the following error is displayed:
-> >
-> >         make[1]: *** No rule to make target 'scripts/clang-tools/gen_co=
-mpile_commands.py',
-> >         needed by 'compile_commands.json'. Stop.
+> Parallel execution is supported by GNU Make:
 >
+>   $ make -j<N> modules_install
 >
-> Good catch.
+> It is questionable to enable multithreading within each zstd process
+> by default.
 >
-> But, to reproduce this, O=3D option is also needed, right?
+> If you still want to do it, you can use the environment variable:
 >
-> e.g.
+>   $ ZSTD_NBTHREADS=3D<N> make modules_install
 >
->   $ make O=3Dpath/to/build/dir M=3Dpath/to/external/module/dir
 
-I am building the module as follows:
+Hi Masahiro,
 
-$ make -C ../linux/build M=3D$PWD modules compile_commands.json
+I have some understanding problems.
 
-The kernel itself was built with O=3Dbuild though.
+[ start-build.txt ]
+dileks     24225   24217  0 17:55 tty2     00:00:00 /usr/bin/perf stat
+make V=3D1 -k -j4 ARCH=3Dx86_64 LLVM=3D1 LLVM=3D/opt/llvm/bin/
+PAHOLE=3D/opt/pahole/bin/pahole KBUILD_BUILD_HOST=3Diniza
+KBUILD_BUILD_USER=3Dsedat.dilek@gmail.com
+KBUILD_BUILD_TIMESTAMP=3D2024-08-03
+KDEB_PKGVERSION=3D6.10.3-1~trixie+dileks1
+LOCALVERSION=3D-1-amd64-clang18-kcfi olddefconfig bindeb-pkg
 
-> > This appears to be because gen_compile_commands.py is looked up using
-> > relative path, which doesn't exist from the module's source tree.
->
->
-> The phrase "appears to be ..." is somewhat modest.
->
->
-> You can reword this to pin-point the first bad commit.
->
->
-> For example:
->
-> gen_compile_commands.py was previously looked up using a relative path
-> to $(srctree), but commit b1992c3772e6 ("kbuild: use $(src) instead of
-> $(srctree)/$(src) for source directory") stopped defining VPATH for
-> external module builds.
+^^ How shall someone pass so that ... ZSTD_NBTHREADS=3D<N> make
+modules_install ... is used?
 
-Thanks, that's much better. I should indeed have bisected to find the
-source of the regression.
+As far as I understood, each kernel-module file is taken - in the
+Debian build-process - sequentially file for file - ZSTD compressed
+and afterwards deleted.
+Is there a benefit when 'make -j<N>' is used?
 
->
->
->
-> > Prefixing the dependency with $(srctree) fixes the problem.
->
->
->
-> This needs back-porting.
->
->
-> Please add this:
->
-> Fixes: b1992c3772e6 ("kbuild: use $(src) instead of $(srctree)/$(src)
-> for source directory")
+[ EXAMPLE - with my patch from [1] ]
+zstd -T0 -19 --rm -f -q
+debian/linux-image-6.10.3-1-amd64-clang18-kcfi/lib/modules/6.10.3-1-amd64-c=
+lang18-kcfi/kernel/drivers/gpu/drm/amd/amdgpu/amdgpu.ko
 
-Done, and sent v2 as well.
+^^ How should ZSTD_NBTHREADS=3D<N> replace 'zstd -T0'?
 
-Thank you!
-Alex.
+When I pass '-T0 -L19' to ZSTD two cores are used on my CPU and a
+better compress-level produces smaller kernel-module files.
+I would like to benefit from both.
+
+Thanks.
+
+Best regards,
+-Sedat-
+
+Link: https://lore.kernel.org/all/CA+icZUUQadYjAXiCNx7PmKDV20WctvnzkXC3R2F7=
+FM4Gzcm39Q@mail.gmail.com/
+[1]
+
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+>
+>  scripts/Makefile.modinst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/scripts/Makefile.modinst b/scripts/Makefile.modinst
+> index 0afd75472679..04f5229efa6b 100644
+> --- a/scripts/Makefile.modinst
+> +++ b/scripts/Makefile.modinst
+> @@ -146,7 +146,7 @@ quiet_cmd_gzip =3D GZIP    $@
+>  quiet_cmd_xz =3D XZ      $@
+>        cmd_xz =3D $(XZ) --check=3Dcrc32 --lzma2=3Ddict=3D1MiB -f $<
+>  quiet_cmd_zstd =3D ZSTD    $@
+> -      cmd_zstd =3D $(ZSTD) -T0 --rm -f -q $<
+> +      cmd_zstd =3D $(ZSTD) --rm -f -q $<
+>
+>  $(dst)/%.ko.gz: $(dst)/%.ko FORCE
+>         $(call cmd,gzip)
+> --
+> 2.43.0
+>
+>
 
