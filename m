@@ -1,162 +1,129 @@
-Return-Path: <linux-kbuild+bounces-2819-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2820-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00331947C63
-	for <lists+linux-kbuild@lfdr.de>; Mon,  5 Aug 2024 16:02:04 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id DBE5E947E1D
+	for <lists+linux-kbuild@lfdr.de>; Mon,  5 Aug 2024 17:31:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9E2FB1F234E1
-	for <lists+linux-kbuild@lfdr.de>; Mon,  5 Aug 2024 14:02:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 98BC92814D3
+	for <lists+linux-kbuild@lfdr.de>; Mon,  5 Aug 2024 15:31:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B35213A26F;
-	Mon,  5 Aug 2024 14:01:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0488613C690;
+	Mon,  5 Aug 2024 15:31:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="Xguii6Mv"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JZeyx1x9"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D33A2381D4;
-	Mon,  5 Aug 2024 14:01:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C512813B58C;
+	Mon,  5 Aug 2024 15:31:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722866509; cv=none; b=EeJBlfi2nXeAV3lcdIE3ApJKW8OOl1B2ONpG0EWHauXCwP8szNyjAXAf9w/5YeNfJihNmLNc9ry8fTo8/u7fkrYG5SkZ2eZeX0CP6eiD1FOUuMLacLApBkrOSewaVyIzvcAIQ9tNDTctvrEBdPm2aSFUQO38eAHiaO9XPasfJuI=
+	t=1722871870; cv=none; b=Zo0FisfJmFk35wHkaqbVYl02eGvBlSnXT6KvIVaU6424c3Yj+lwlAXxJorJEDmLqMWUiad6ojZ99y0y3QwXpC8LfK6Nubsy8Tltw7rd4hqUHfSLUiteN01s2lpymNByHcEHMlEKmoVSIvCZesb4mAW8Yh82vB5hkO7yorkUAcx0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722866509; c=relaxed/simple;
-	bh=aHSrvx4Jeri1JfHkmGjMJCo9xwx0M5IOtiHv+g09qLs=;
+	s=arc-20240116; t=1722871870; c=relaxed/simple;
+	bh=wsM2LI9j+y0n1z5oUc1yhAS68jTmOknVv5Tylu190i0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=phq4r281iJj58FKHx2dUsRzo3fE8jttJH8OSYVjGIa9pHilfDo62oSk5A7BZtjKgmKm33Vc2ZMpRGPFfqQFIRJ87cL4IAbAmTz9FYJimfEMcHmuQlL1EMMfa4V8hD6gF4qL7lExhUXIYnp+9Bnt5f9SHDFOe8gMDDH1ivWVYiqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=Xguii6Mv; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1722866504;
-	bh=aHSrvx4Jeri1JfHkmGjMJCo9xwx0M5IOtiHv+g09qLs=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=gARb5ggw5Ii9eXM6ZnyNtkFn09Cn2baRy8VC79MJyIoY8t/3LikiLvwf7IsL/pgboba3rMrPUqZga9il2Y6BEbOQncEwvGZG856UI33OxYUT/FKF8Nwm2WripZtGn7HuUYUZ9FoqcLJhH2+iAgD2LVK54nKwiUFaSNDa2jZnwAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JZeyx1x9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D895EC32782;
+	Mon,  5 Aug 2024 15:31:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1722871869;
+	bh=wsM2LI9j+y0n1z5oUc1yhAS68jTmOknVv5Tylu190i0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Xguii6Mvc9SQXgLoxWm1En8dVk50ouciwDzko4tG6KIBZPT3ddYn5lSdakkqE2g//
-	 49sIdAYQEw5U8sInZO4Ze3uCX2/uC75CBmVjXB+ycDesfR2U/UeHJe1yBapFuvFFiR
-	 gu3eqoq9E66zLMh80e+HGVLBa9bM7BeODSU3kmNc=
-Date: Mon, 5 Aug 2024 16:01:44 +0200
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Jose Fernandez <jose.fernandez@linux.dev>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
-	Christian Heusel <christian@heusel.eu>, Peter Jung <ptr1337@cachyos.org>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kbuild: control extra pacman packages with
- PACMAN_EXTRAPACKAGES
-Message-ID: <c41e3856-29f4-438f-a796-43aa957215d1@t-8ch.de>
-References: <20240804000130.841636-1-jose.fernandez@linux.dev>
+	b=JZeyx1x9yslIXx6h7837uFi0SvwySo8WD1XYht7TvZJNxDYec50bFG7gLhsaxmQ14
+	 /h98txonbvr9NNGXtauIEOZmxh5UTQKseK6pPCuM7o0kY8Qvr8peOaUn6++vWlgJd7
+	 GFHoKB6ADZawZBnghKAt41A4ueJMTDPABQjy7J4VVZXUTFHRYdF/9wnnJ6RNu083bo
+	 DMxmjMkjr2alq9RCJUV7nxE6elUD/9tk8+BzD90oY9QJ/tVxIYhlgcRA70TTP/Qh7D
+	 0GehdouIJkiCcDJdpB4gzri/BhddJEEnlrIJh/9XaSZctDlpAV8ZAXVXyLCLJj1spN
+	 zoyGp+YPNj4og==
+Date: Mon, 5 Aug 2024 12:31:06 -0300
+From: Arnaldo Carvalho de Melo <acme@kernel.org>
+To: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Cc: Jiri Olsa <olsajiri@gmail.com>, Brian Norris <briannorris@chromium.org>,
+	Arnaldo Carvalho de Melo <acme@redhat.com>,
+	Namhyung Kim <namhyung@kernel.org>, Ian Rogers <irogers@google.com>,
+	Thomas Richter <tmricht@linux.ibm.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>, linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>, bpf@vger.kernel.org,
+	linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH v4 2/3] tools build: Avoid circular .fixdep-in.o.cmd
+ issues
+Message-ID: <ZrDwOmWR97lNOlnH@x1>
+References: <20240715203325.3832977-1-briannorris@chromium.org>
+ <20240715203325.3832977-3-briannorris@chromium.org>
+ <ZpYngEl9XKumuow5@krava>
+ <CAEf4BzbR7vRgz-XQAOqNUe2-b=9v7JKt7hrV10DdNpsf9VGz1w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240804000130.841636-1-jose.fernandez@linux.dev>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAEf4BzbR7vRgz-XQAOqNUe2-b=9v7JKt7hrV10DdNpsf9VGz1w@mail.gmail.com>
 
-Hi Jose,
-
-On 2024-08-03 18:01:25+0000, Jose Fernandez wrote:
-> Introduce a new variable, PACMAN_EXTRAPACKAGES, in the Makefile.package
-> to control the creation of additional packages by the pacman-pkg target.
+On Fri, Jul 19, 2024 at 11:32:08AM -0700, Andrii Nakryiko wrote:
+> On Tue, Jul 16, 2024 at 12:55 AM Jiri Olsa <olsajiri@gmail.com> wrote:
+> >
+> > On Mon, Jul 15, 2024 at 01:32:43PM -0700, Brian Norris wrote:
+> > > The 'fixdep' tool is used to post-process dependency files for various
+> > > reasons, and it runs after every object file generation command. This
+> > > even includes 'fixdep' itself.
+> > >
+> > > In Kbuild, this isn't actually a problem, because it uses a single
+> > > command to generate fixdep (a compile-and-link command on fixdep.c), and
+> > > afterward runs the fixdep command on the accompanying .fixdep.cmd file.
+> > >
+> > > In tools/ builds (which notably is maintained separately from Kbuild),
+> > > fixdep is generated in several phases:
+> > >
+> > >  1. fixdep.c -> fixdep-in.o
+> > >  2. fixdep-in.o -> fixdep
+> > >
+> > > Thus, fixdep is not available in the post-processing for step 1, and
+> > > instead, we generate .cmd files that look like:
+> > >
+> > >   ## from tools/objtool/libsubcmd/.fixdep.o.cmd
+> > >   # cannot find fixdep (/path/to/linux/tools/objtool/libsubcmd//fixdep)
+> > >   [...]
+> > >
+> > > These invalid .cmd files are benign in some respects, but cause problems
+> > > in others (such as the linked reports).
+> > >
+> > > Because the tools/ build system is rather complicated in its own right
+> > > (and pointedly different than Kbuild), I choose to simply open-code the
+> > > rule for building fixdep, and avoid the recursive-make indirection that
+> > > produces the problem in the first place.
+> > >
+> > > Link: https://lore.kernel.org/all/Zk-C5Eg84yt6_nml@google.com/
+> > > Signed-off-by: Brian Norris <briannorris@chromium.org>
+> > > ---
+> > >
+> > > (no changes since v3)
+> > >
+> > > Changes in v3:
+> > >  - Drop unnecessary tools/build/Build
+> >
+> > Acked-by: Jiri Olsa <jolsa@kernel.org>
+> >
+> > so usually Arnaldo takes changes for tools/build, Arnaldo, could you please take a look?
+> > but still there'are the tools/lib/bpf bits..
 > 
-> This changes the behavior of the pacman-pkg target to only create the
-> main kernel package by default. The rest of the packages will be opt-in
-> going forward.
+> I think it should be fine for libbpf bits to go through Arnaldo's tree
+> and get back to bpf-next eventually. Unlikely that we'll have any
+> conflict in libbpf's Makefile specifically, we rarely change it.
 
-I had the impression that by default all extrapackages should be
-built. The variable can then be used by expert users where needed.
-Other Opinions?
+I got this series now in perf-tools-next,
 
-> In a previous patch, there was concern that adding a new debug package
-> would increase the package time. To address this concern and provide
-> more flexibility, this change has been added to allow users to decide
-> which extra packages to include before introducing an optional debug
-> package [1].
+Thanks,
 
-This paragraph seems like it shouldn't be part of the final commit.
-If you put it after a line with "---" it will be dropped from the
-commit, like so:
-
----
-
-In a previous patch, ...
-
-> 
-> [1] https://lore.kernel.org/lkml/20240801192008.GA3923315@thelio-3990X/T/
-> 
-> Signed-off-by: Jose Fernandez <jose.fernandez@linux.dev>
-> Reviewed-by: Peter Jung <ptr1337@cachyos.org>
-> ---
->  scripts/Makefile.package |  5 +++++
->  scripts/package/PKGBUILD | 11 ++++++++---
->  2 files changed, 13 insertions(+), 3 deletions(-)
-> 
-> diff --git a/scripts/Makefile.package b/scripts/Makefile.package
-> index 4a80584ec771..146e828cb4f1 100644
-> --- a/scripts/Makefile.package
-> +++ b/scripts/Makefile.package
-> @@ -144,6 +144,10 @@ snap-pkg:
->  # pacman-pkg
->  # ---------------------------------------------------------------------------
->  
-> +# Space-separated list of extra packages to build
-> +# The available extra packages are: headers api-headers
-> +PACMAN_EXTRAPACKAGES ?=
-
-The assignment doesn't do anything.
-Do we need the documentation if the default enables all subpackages?
-
-> +
->  PHONY += pacman-pkg
->  pacman-pkg:
->  	@ln -srf $(srctree)/scripts/package/PKGBUILD $(objtree)/PKGBUILD
-> @@ -152,6 +156,7 @@ pacman-pkg:
->  		CARCH="$(UTS_MACHINE)" \
->  		KBUILD_MAKEFLAGS="$(MAKEFLAGS)" \
->  		KBUILD_REVISION="$(shell $(srctree)/scripts/build-version)" \
-> +		PACMAN_EXTRAPACKAGES="$(PACMAN_EXTRAPACKAGES)" \
-
-This line is superfluous.
-
->  		makepkg $(MAKEPKGOPTS)
->  
->  # dir-pkg tar*-pkg - tarball targets
-> diff --git a/scripts/package/PKGBUILD b/scripts/package/PKGBUILD
-> index 663ce300dd06..41bd0d387f0a 100644
-> --- a/scripts/package/PKGBUILD
-> +++ b/scripts/package/PKGBUILD
-> @@ -3,10 +3,15 @@
->  # Contributor: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
->  
->  pkgbase=${PACMAN_PKGBASE:-linux-upstream}
-> -pkgname=("${pkgbase}" "${pkgbase}-api-headers")
-> -if grep -q CONFIG_MODULES=y include/config/auto.conf; then
-> -	pkgname+=("${pkgbase}-headers")
-> +pkgname=("${pkgbase}")
-> +
-> +_extrapackages=${PACMAN_EXTRAPACKAGES:-}
-> +if [ -n "$_extrapackages" ]; then
-
-No need for this check. The loop over an empty variable work fine.
-
-> +	for pkg in $_extrapackages; do
-> +		pkgname+=("${pkgbase}-$pkg")
-
-Use consistent variable references: "${pkgbase}-${pkg}"
-
-> +	done
->  fi
-> +
->  pkgver="${KERNELRELEASE//-/_}"
->  # The PKGBUILD is evaluated multiple times.
->  # Running scripts/build-version from here would introduce inconsistencies.
-> -- 
-> 2.46.0
-> 
+- Arnaldo
 
