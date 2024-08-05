@@ -1,129 +1,166 @@
-Return-Path: <linux-kbuild+bounces-2820-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2821-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBE5E947E1D
-	for <lists+linux-kbuild@lfdr.de>; Mon,  5 Aug 2024 17:31:16 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F5FC94801A
+	for <lists+linux-kbuild@lfdr.de>; Mon,  5 Aug 2024 19:14:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 98BC92814D3
-	for <lists+linux-kbuild@lfdr.de>; Mon,  5 Aug 2024 15:31:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5F4A01F21A90
+	for <lists+linux-kbuild@lfdr.de>; Mon,  5 Aug 2024 17:14:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0488613C690;
-	Mon,  5 Aug 2024 15:31:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFC6015EFA6;
+	Mon,  5 Aug 2024 17:13:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JZeyx1x9"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j9+YjFax"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C512813B58C;
-	Mon,  5 Aug 2024 15:31:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B20BC155351;
+	Mon,  5 Aug 2024 17:13:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722871870; cv=none; b=Zo0FisfJmFk35wHkaqbVYl02eGvBlSnXT6KvIVaU6424c3Yj+lwlAXxJorJEDmLqMWUiad6ojZ99y0y3QwXpC8LfK6Nubsy8Tltw7rd4hqUHfSLUiteN01s2lpymNByHcEHMlEKmoVSIvCZesb4mAW8Yh82vB5hkO7yorkUAcx0=
+	t=1722878028; cv=none; b=TdEki/RGWoSV0M6hZWn+ZGQvJH09f10mRRqUkvTMGdgN6em2IgYRSNPsur6DL1YAYK687fVYLwtYfxDYlNmuLPNKdwxqvJqiY9/tF2YOkn1ojEhBw0azYklQ+5HMiPaV/e6sL/N/yi/shShMeUAGrpBSEwuAE3cck+eniSSz79w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722871870; c=relaxed/simple;
-	bh=wsM2LI9j+y0n1z5oUc1yhAS68jTmOknVv5Tylu190i0=;
+	s=arc-20240116; t=1722878028; c=relaxed/simple;
+	bh=cbBt27hkdYHhswR7zddV7pmhvdwW7EAG8ILuZV1nH1w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gARb5ggw5Ii9eXM6ZnyNtkFn09Cn2baRy8VC79MJyIoY8t/3LikiLvwf7IsL/pgboba3rMrPUqZga9il2Y6BEbOQncEwvGZG856UI33OxYUT/FKF8Nwm2WripZtGn7HuUYUZ9FoqcLJhH2+iAgD2LVK54nKwiUFaSNDa2jZnwAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JZeyx1x9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D895EC32782;
-	Mon,  5 Aug 2024 15:31:08 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=BwmOunUi9Hw/yMFG6e+oMYHKlSWiiZa2WTUiY0mLZfrXaKPwjwLvp4f/LCZkYUNy3JoocQwk1GmoLyp7Y08ZpmzBL/c2zl070ReW4t3qReHe11rbVXNoTZ5+F4fgyYFlUaUdwmaU5z0tHfgmOr3QN0JM3bQ1FyOEICjW8zWRqOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j9+YjFax; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7BABC32782;
+	Mon,  5 Aug 2024 17:13:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722871869;
-	bh=wsM2LI9j+y0n1z5oUc1yhAS68jTmOknVv5Tylu190i0=;
+	s=k20201202; t=1722878028;
+	bh=cbBt27hkdYHhswR7zddV7pmhvdwW7EAG8ILuZV1nH1w=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JZeyx1x9yslIXx6h7837uFi0SvwySo8WD1XYht7TvZJNxDYec50bFG7gLhsaxmQ14
-	 /h98txonbvr9NNGXtauIEOZmxh5UTQKseK6pPCuM7o0kY8Qvr8peOaUn6++vWlgJd7
-	 GFHoKB6ADZawZBnghKAt41A4ueJMTDPABQjy7J4VVZXUTFHRYdF/9wnnJ6RNu083bo
-	 DMxmjMkjr2alq9RCJUV7nxE6elUD/9tk8+BzD90oY9QJ/tVxIYhlgcRA70TTP/Qh7D
-	 0GehdouIJkiCcDJdpB4gzri/BhddJEEnlrIJh/9XaSZctDlpAV8ZAXVXyLCLJj1spN
-	 zoyGp+YPNj4og==
-Date: Mon, 5 Aug 2024 12:31:06 -0300
-From: Arnaldo Carvalho de Melo <acme@kernel.org>
-To: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Cc: Jiri Olsa <olsajiri@gmail.com>, Brian Norris <briannorris@chromium.org>,
-	Arnaldo Carvalho de Melo <acme@redhat.com>,
-	Namhyung Kim <namhyung@kernel.org>, Ian Rogers <irogers@google.com>,
-	Thomas Richter <tmricht@linux.ibm.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>, linux-kernel@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>, bpf@vger.kernel.org,
-	linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH v4 2/3] tools build: Avoid circular .fixdep-in.o.cmd
- issues
-Message-ID: <ZrDwOmWR97lNOlnH@x1>
-References: <20240715203325.3832977-1-briannorris@chromium.org>
- <20240715203325.3832977-3-briannorris@chromium.org>
- <ZpYngEl9XKumuow5@krava>
- <CAEf4BzbR7vRgz-XQAOqNUe2-b=9v7JKt7hrV10DdNpsf9VGz1w@mail.gmail.com>
+	b=j9+YjFaxZSYW0ZixSlvUm/Ty/OMkCZIU9jpLjS3AJqB3q3k9IBl/Vn77b+5COySEc
+	 WsMh6JRodj08EwWvXcBxQS3R/dh6B6AaDG0MNl+UTqAK0baehklkdJtzUQS8ywnenk
+	 H2c67m5GCoD5F4q8VBcEZeqnD9D/2x3OYrjDNhDBlhYdcjeNp6fiCkGU9LbukqCx7e
+	 f2ziKSZuPb6Hbr5meHSPVWKFiUjSxRizg6k2z8nmhAxuX9Uwj8TdqAPwncHY1gKVcO
+	 jJXBMBy5bQ2LC/M8Zh4aq91FxSXKi8RsnGAt+jrEfbYYAKzGXqCww7OwQW3IGEwHLp
+	 LXUfO/iOmsNfQ==
+Date: Mon, 5 Aug 2024 18:13:40 +0100
+From: Will Deacon <will@kernel.org>
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Jamie Cunliffe <Jamie.Cunliffe@arm.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Conor Dooley <conor@kernel.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Ard Biesheuvel <ardb@kernel.org>, Marc Zyngier <maz@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Mark Brown <broonie@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Wedson Almeida Filho <wedsonaf@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <benno.lossin@proton.me>,
+	Andreas Hindborg <a.hindborg@samsung.com>,
+	Valentin Obst <kernel@valentinobst.de>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	rust-for-linux@vger.kernel.org, Kees Cook <kees@kernel.org>
+Subject: Re: [PATCH v4 2/2] rust: support for shadow call stack sanitizer
+Message-ID: <20240805171340.GC10196@willie-the-truck>
+References: <20240729-shadow-call-stack-v4-0-2a664b082ea4@google.com>
+ <20240729-shadow-call-stack-v4-2-2a664b082ea4@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAEf4BzbR7vRgz-XQAOqNUe2-b=9v7JKt7hrV10DdNpsf9VGz1w@mail.gmail.com>
+In-Reply-To: <20240729-shadow-call-stack-v4-2-2a664b082ea4@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Fri, Jul 19, 2024 at 11:32:08AM -0700, Andrii Nakryiko wrote:
-> On Tue, Jul 16, 2024 at 12:55 AM Jiri Olsa <olsajiri@gmail.com> wrote:
-> >
-> > On Mon, Jul 15, 2024 at 01:32:43PM -0700, Brian Norris wrote:
-> > > The 'fixdep' tool is used to post-process dependency files for various
-> > > reasons, and it runs after every object file generation command. This
-> > > even includes 'fixdep' itself.
-> > >
-> > > In Kbuild, this isn't actually a problem, because it uses a single
-> > > command to generate fixdep (a compile-and-link command on fixdep.c), and
-> > > afterward runs the fixdep command on the accompanying .fixdep.cmd file.
-> > >
-> > > In tools/ builds (which notably is maintained separately from Kbuild),
-> > > fixdep is generated in several phases:
-> > >
-> > >  1. fixdep.c -> fixdep-in.o
-> > >  2. fixdep-in.o -> fixdep
-> > >
-> > > Thus, fixdep is not available in the post-processing for step 1, and
-> > > instead, we generate .cmd files that look like:
-> > >
-> > >   ## from tools/objtool/libsubcmd/.fixdep.o.cmd
-> > >   # cannot find fixdep (/path/to/linux/tools/objtool/libsubcmd//fixdep)
-> > >   [...]
-> > >
-> > > These invalid .cmd files are benign in some respects, but cause problems
-> > > in others (such as the linked reports).
-> > >
-> > > Because the tools/ build system is rather complicated in its own right
-> > > (and pointedly different than Kbuild), I choose to simply open-code the
-> > > rule for building fixdep, and avoid the recursive-make indirection that
-> > > produces the problem in the first place.
-> > >
-> > > Link: https://lore.kernel.org/all/Zk-C5Eg84yt6_nml@google.com/
-> > > Signed-off-by: Brian Norris <briannorris@chromium.org>
-> > > ---
-> > >
-> > > (no changes since v3)
-> > >
-> > > Changes in v3:
-> > >  - Drop unnecessary tools/build/Build
-> >
-> > Acked-by: Jiri Olsa <jolsa@kernel.org>
-> >
-> > so usually Arnaldo takes changes for tools/build, Arnaldo, could you please take a look?
-> > but still there'are the tools/lib/bpf bits..
+Hi Alice,
+
+Just some minor comments on this:
+
+On Mon, Jul 29, 2024 at 02:22:50PM +0000, Alice Ryhl wrote:
+> To use the shadow call stack sanitizer, you must pass special flags:
 > 
-> I think it should be fine for libbpf bits to go through Arnaldo's tree
-> and get back to bpf-next eventually. Unlikely that we'll have any
-> conflict in libbpf's Makefile specifically, we rarely change it.
+> * On arm64, you must pass -ffixed-x18 to your compiler.
+> * On riscv, you must pass --no-relax-gp to your linker.
 
-I got this series now in perf-tools-next,
+Since this patch doesn't touch riscv, I think you can just talk about
+arm64 in the commit message.
 
-Thanks,
+> These requirements also apply to Rust code. When using Rust on arm64,
+> you must pass the -Zfixed-x18 flag to rustc, which has the same effect
+> as the -ffixed-x18 flag does for C code. The -Zfixed-x18 flag requires
+> rustc version 1.80.0 or greater.
+> 
+> There is no need to pass any flags to rustc on riscv as only the linker
+> requires additional flags on this platform.
+> 
+> On older versions of Rust, it is still possible to use shadow call stack
+> by passing -Ctarget-feature=+reserve-x18 instead of -Zfixed-x18.
+> However, this flag emits a warning during the build, so this patch does
+> not add support for using it.
+> 
+> Currently, the compiler thinks that the aarch64-unknown-none target
 
-- Arnaldo
+"Currently" will probably age badly -- can you talk about a compiler
+version instead (e.g. "prior to version nnn, the compiler thinks...").
+
+> doesn't support -Zsanitizer=shadow-call-stack, so the build will fail if
+> you enable shadow call stack in non-dynamic mode. See [1] for the
+> relevant feature request. To avoid this compilation failure, Kconfig is
+> set up to reject such configurations.
+> 
+> The `depends on` clause is placed on `config RUST` to avoid a situation
+> where enabling Rust silently turns off the sanitizer. Instead, turning
+> on the sanitizer results in Rust being disabled. We generally do not
+> want changes to CONFIG_RUST to result in any mitigations being changed
+> or turned off.
+> 
+> Link: https://github.com/rust-lang/rust/issues/121972 [1]
+> Signed-off-by: Alice Ryhl <aliceryhl@google.com>
+> ---
+>  Makefile            | 1 +
+>  arch/arm64/Makefile | 3 +++
+>  init/Kconfig        | 2 +-
+>  3 files changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Makefile b/Makefile
+> index 2b5f9f098b6f..66daca7a9b57 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -928,6 +928,7 @@ ifdef CONFIG_SHADOW_CALL_STACK
+>  ifndef CONFIG_DYNAMIC_SCS
+>  CC_FLAGS_SCS	:= -fsanitize=shadow-call-stack
+>  KBUILD_CFLAGS	+= $(CC_FLAGS_SCS)
+> +KBUILD_RUSTFLAGS += -Zsanitizer=shadow-call-stack
+>  endif
+>  export CC_FLAGS_SCS
+>  endif
+> diff --git a/arch/arm64/Makefile b/arch/arm64/Makefile
+> index f6bc3da1ef11..b058c4803efb 100644
+> --- a/arch/arm64/Makefile
+> +++ b/arch/arm64/Makefile
+> @@ -57,9 +57,11 @@ KBUILD_AFLAGS	+= $(call cc-option,-mabi=lp64)
+>  ifneq ($(CONFIG_UNWIND_TABLES),y)
+>  KBUILD_CFLAGS	+= -fno-asynchronous-unwind-tables -fno-unwind-tables
+>  KBUILD_AFLAGS	+= -fno-asynchronous-unwind-tables -fno-unwind-tables
+> +KBUILD_RUSTFLAGS += -Cforce-unwind-tables=n
+>  else
+>  KBUILD_CFLAGS	+= -fasynchronous-unwind-tables
+>  KBUILD_AFLAGS	+= -fasynchronous-unwind-tables
+> +KBUILD_RUSTFLAGS += -Cforce-unwind-tables=y -Zuse-sync-unwind=n
+
+These unwind entries aren't mentioned at all in the commit message.
+Please can you explain what you're doing here? I guess it's something to
+do with the PAC patching? Maybe this hunk would be better as a separate
+patch?
+
+Will
 
