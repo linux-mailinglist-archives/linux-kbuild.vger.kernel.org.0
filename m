@@ -1,52 +1,53 @@
-Return-Path: <linux-kbuild+bounces-2871-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2869-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1288949C18
-	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Aug 2024 01:11:50 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA784949C13
+	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Aug 2024 01:11:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 519CEB28CED
-	for <lists+linux-kbuild@lfdr.de>; Tue,  6 Aug 2024 23:11:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DC9A71C224D6
+	for <lists+linux-kbuild@lfdr.de>; Tue,  6 Aug 2024 23:11:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4F2617AE19;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 884C9175D33;
 	Tue,  6 Aug 2024 23:10:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d1tdHXXG"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bAwtcOMC"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55FC017A931;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28E3F17A593;
 	Tue,  6 Aug 2024 23:10:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722985804; cv=none; b=ugv9zDJsowP1m2EwOJRmeanz4y07XmUZ8NDvbh60HhnUPv7oUWfVTAD7bBQyFml1RKN7MlD5mkcN6jJqrzRmjpZJZwq+z+xAL+HDFENNhztlbyngw1SqqrGkqMwyTWWpOFQ2pADt+7ec/YAJaPyt6w96Xcntr4R35N/pTPMRT8Q=
+	t=1722985804; cv=none; b=HqYJABw/k0c4XMAYd+vmZeyiC2WwuKlUEIcBlDd0ZpJ8RSuPhrQdzNeNYTDIdP7rcAPXTYf4iZeHda4mMNtPJoWAl/5DRRlHd0ccofL/oKnjBP4sIEAFuxoA0dLmdbJ/pRj64+cvqVqoBxhUyinJAkwBAfGcNSKHwvawWXTJ/Dk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1722985804; c=relaxed/simple;
-	bh=JOwNCNr3/IEbe6BdNnnrPTwJINMvSZj5yZCINdET7DM=;
+	bh=F/61/VQXtzneQgOaAhBFTxqHT0QyvEg2fHmrDz3d6fc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=E2MXNK/YWdfyXIWsiU7bqfe7wakufUCkRrB/fxSZktD0H0LQ5+Fn6YEJHuuJ1wd3y1YZZ+QaB2AQ6hH4a96aeTHGS6XVXnvFKtla5b/m5THobPrz9cCOye8XHtAsptYjAtbW+Sxz53EjYgIO8/+Gq88YqnLXmqkXbGLbUNIboYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d1tdHXXG; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id BC8D9C4AF1C;
+	 In-Reply-To:To:Cc; b=qzickOp4fzs/fmTam76ax5BLR5FnUzOGVRVUCo7FHWWk210gTL5DUJtmgsqsJ+6pVIEBd6GQ+X0HFSqUELLcwN/9Qoh6jCAfu85UCcYzxqcIYspEUWbDDKEoakaTZEV1ab1aGqH2aT+W1ZzgJ62EygQPq85NHu4ho+OJRzvKIOo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bAwtcOMC; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id DB346C4AF16;
 	Tue,  6 Aug 2024 23:10:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722985803;
-	bh=JOwNCNr3/IEbe6BdNnnrPTwJINMvSZj5yZCINdET7DM=;
+	s=k20201202; t=1722985804;
+	bh=F/61/VQXtzneQgOaAhBFTxqHT0QyvEg2fHmrDz3d6fc=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=d1tdHXXGxre4WSP+5XHhbrZaAFl9Q1axTlOCxWPyt0PC+zHC5BPvvBMCXPxJ5VQPQ
-	 D/MKgQHR6vbSQV3xdkFAZ/FjkZFAGbq2Mhb5PonaeTYS7pTdpS3TKqZcqo+TzgG+Uw
-	 fpzPYYvGH8RF4B8nDZDoBPruy+MECvLKlGrh/gif7Kofoz15Xs5ofSpukwv4A6lgXC
-	 6b0fkVNKMKXF5pf05LOBnSUX58K9ml4QGZ+UQUC/UJzNI7jmYDK+UoOJgLqDwPCBrh
-	 +uomJrEsMpLCrEGtUP6Kk1JIJ65rwcpNSVxo+XEvqZ93peIKWNNwnPJdTWXcKGtneW
-	 aF6P7uexYQfhA==
+	b=bAwtcOMC8uO9tQnqyMg3XmA8qwx6z04MqrogLLb2sa0ckkM37lEQCb10pqiKe5Sh1
+	 fmisLW9J+woUaDJ1WuRkdMlf2ppQaPwmanZ1ABs7nrUmoeOywkpZbOvijM0iJgZSr+
+	 GRrc+9SDnopW0bT7lbT4XbO+bPLex8HyZUrSExZxqT2uc+CucKsSSiDYhc2dyTs/se
+	 q3HQRFQnsfAs13xFXF0v164/6XO2YrL130OLGwcMh3XlYX99l7xORXhsy54KZAf4qk
+	 ka5IeQgoPsUv1Pncs0bCSiRpdk+AYCOSJ61umxoJoNVYkY9UujpLl7drVDp3WCEszh
+	 zeN2ZldHpKbhQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF56DC49EA1;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CCECFC52D6F;
 	Tue,  6 Aug 2024 23:10:03 +0000 (UTC)
 From: Daniel Gomez via B4 Relay <devnull+da.gomez.samsung.com@kernel.org>
-Date: Wed, 07 Aug 2024 01:09:25 +0200
-Subject: [PATCH 11/12] tty/vt: conmakehash requires linux/limits.h
+Date: Wed, 07 Aug 2024 01:09:26 +0200
+Subject: [PATCH 12/12] scripts/kallsyms: add compatibility support for
+ macos
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -55,7 +56,7 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240807-macos-build-support-v1-11-4cd1ded85694@samsung.com>
+Message-Id: <20240807-macos-build-support-v1-12-4cd1ded85694@samsung.com>
 References: <20240807-macos-build-support-v1-0-4cd1ded85694@samsung.com>
 In-Reply-To: <20240807-macos-build-support-v1-0-4cd1ded85694@samsung.com>
 To: Masahiro Yamada <masahiroy@kernel.org>, 
@@ -90,11 +91,11 @@ Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
  "Daniel Gomez (Samsung)" <d+samsung@kruces.com>, gost.dev@samsung.com, 
  Daniel Gomez <da.gomez@samsung.com>
 X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1722985800; l=1705;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1722985800; l=1149;
  i=da.gomez@samsung.com; s=20240621; h=from:subject:message-id;
- bh=GlY+ZLQcYSKSN3SyY915ZDHwX28gVnVDJorFIIf1+Jo=;
- b=TXC+qEwbi6LwhRfspoNf9uCJM5mS5rpVYHpZ3bnRG1KFrfzm+UI/apLoI43ShxbZHbpUUEVBL
- CkbYZiLdsfUA4G8wSWyMc3cIK3tGKT6BD0jGlYhjBBXl1eg0MflhqKS
+ bh=m407j60dxP91/ofe/fC4k8KKLnSnwDft1+cuKD+Nr3Q=;
+ b=9wVc3kFNW+eWlInTH68OVYW9lOTG64z9J8uGc06BNi0UKGSdgCWwd1pkJsrDb88EilcZAB+Hc
+ BJiETDqZxOnA90nq/6n8hSEX1pXA+98beHklgtsWgzrpZRnNCLjTyIj
 X-Developer-Key: i=da.gomez@samsung.com; a=ed25519;
  pk=BqYk31UHkmv0WZShES6pIZcdmPPGay5LbzifAdZ2Ia4=
 X-Endpoint-Received: by B4 Relay for da.gomez@samsung.com/20240621 with
@@ -104,46 +105,39 @@ Reply-To: da.gomez@samsung.com
 
 From: Daniel Gomez <da.gomez@samsung.com>
 
-macOS hosts do not provide the linux/limits.h header required for
-conmakehash. To address this, ensure that usr/include is included in
-the conmakehash HOSTCFLAGS. This will provide the necessary header for
-successful compilation on macOS.
+Commit 67bf347ba924 ("kbuild: remove PROVIDE() for kallsyms symbols")
+introduces the use of scripts/kallsyms with /dev/null as input to
+generate the kernel symbols file. This results in getline() returning
+ENOTTY as the errno value on macOS hosts. To handle this different
+behavior, add a specific #ifdef condition for macOS.
 
-Fixes error:
-HOSTCC  drivers/tty/vt/conmakehash - due to target missing
-  clang -Wp,-MMD,drivers/tty/vt/.conmakehash.d -Wall
--Wmissing-prototypes -Wstrict-prototypes -O2 -fomit-frame-pointer
--std=gnu11   -I ./scripts/include     -o drivers/tty/vt/conmakehash
-drivers/tty/vt/conmakehash.c
-drivers/tty/vt/conmakehash.c:15:10: fatal error: 'linux/
-   limits.h' file not found 15 | #include <linux/limits.h>    |
-   ^~~~~~~~~~~~~~~~
-1 error generated.
-make[5]: *** [scripts/Makefile.host:116: drivers/tty/vt/conmakehash]
-Error 1
-make[4]: *** [scripts/Makefile.build:485: drivers/tty/vt] Error 2
-make[3]: *** [scripts/Makefile.build:485: drivers/tty] Error 2
-make[2]: *** [scripts/Makefile.build:485: drivers] Error 2
-make[1]: *** [/Volumes/src/kernel/linux-next/Makefile:1925: .] Error 2
-make: *** [Makefile:224: __sub-make] Error 2
+Fixes:
++ scripts/kallsyms --base-relative /dev/null
+read_symbol: Inappropriate ioctl for device
+make[1]: *** [scripts/Makefile.vmlinux:34: vmlinux] Error 1
+make: *** [Makefile:1172: vmlinux] Error 2
 
 Signed-off-by: Daniel Gomez <da.gomez@samsung.com>
 ---
- drivers/tty/vt/Makefile | 1 +
- 1 file changed, 1 insertion(+)
+ scripts/kallsyms.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/tty/vt/Makefile b/drivers/tty/vt/Makefile
-index 2c8ce8b592ed..d266895357e5 100644
---- a/drivers/tty/vt/Makefile
-+++ b/drivers/tty/vt/Makefile
-@@ -13,6 +13,7 @@ obj-$(CONFIG_CONSOLE_TRANSLATIONS)	+= consolemap.o consolemap_deftbl.o
- clean-files := consolemap_deftbl.c defkeymap.c
- 
- hostprogs += conmakehash
-+HOSTCFLAGS_conmakehash.o = -I$(srctree)/usr/include
- 
- quiet_cmd_conmk = CONMK   $@
-       cmd_conmk = $(obj)/conmakehash $< > $@
+diff --git a/scripts/kallsyms.c b/scripts/kallsyms.c
+index 0ed873491bf5..cb200120a072 100644
+--- a/scripts/kallsyms.c
++++ b/scripts/kallsyms.c
+@@ -130,7 +130,11 @@ static struct sym_entry *read_symbol(FILE *in, char **buf, size_t *buf_len)
+ 	errno = 0;
+ 	readlen = getline(buf, buf_len, in);
+ 	if (readlen < 0) {
++#ifndef __APPLE__
+ 		if (errno) {
++#else
++		if (errno && errno != ENOTTY) {
++#endif
+ 			perror("read_symbol");
+ 			exit(EXIT_FAILURE);
+ 		}
 
 -- 
 Git-146)
