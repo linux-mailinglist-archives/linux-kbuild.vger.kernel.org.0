@@ -1,137 +1,147 @@
-Return-Path: <linux-kbuild+bounces-2825-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2826-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7B519488E1
-	for <lists+linux-kbuild@lfdr.de>; Tue,  6 Aug 2024 07:21:55 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 243449488F1
+	for <lists+linux-kbuild@lfdr.de>; Tue,  6 Aug 2024 07:30:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 146D61C221CF
-	for <lists+linux-kbuild@lfdr.de>; Tue,  6 Aug 2024 05:21:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D3FBD28113C
+	for <lists+linux-kbuild@lfdr.de>; Tue,  6 Aug 2024 05:30:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C96B14901F;
-	Tue,  6 Aug 2024 05:21:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BF581BBBF5;
+	Tue,  6 Aug 2024 05:29:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YYoPdNvn"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qT8PnM7w"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8A281C32;
-	Tue,  6 Aug 2024 05:21:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07F551BBBF4
+	for <linux-kbuild@vger.kernel.org>; Tue,  6 Aug 2024 05:29:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722921709; cv=none; b=eU59g6WVzkNWLhX1PdVUi1VQRvKFYJZEhJqryit2DEwtlwK71hp12mA5tbxhvd6BwnpYopCcy5W9SKWItdgj1/1KVqrsq/sslu072Eu10ppsqaj5JjzwMX4XiobGmWm94eDdXCN734F2vFubmG9cqUYPuTZytKFiic/WjeZgwHY=
+	t=1722922196; cv=none; b=QrKchGlVGLW4aq2uDKsbSn8gF6vO7V9BrZhWRWa73kDqrPkiZHs6h5tRA3VsbntoSrN52zw9mkcfSjIln3QIYduX5+2Z/u9NsfusYjKDE+IlhCjv7jLLn928JF5R9f6BuesQkuu/AhiF2CfyGC4TQ9LFno6sw1J0RNvRiD9Yhco=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722921709; c=relaxed/simple;
-	bh=gdvgR0M7GuaF+jIyMakKqoNnx8xRdznY78SgP9B1AkE=;
+	s=arc-20240116; t=1722922196; c=relaxed/simple;
+	bh=5gMXoM3vHUEae3lm4AB9BPLUCErdoOZm+REVr/zxs+g=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=o5Ga5o7G9XJtjxyniLWZfwE0molnak7FNV8GsYWj3dTYI6/3zzNvo0VMzapKbUszb0cEtzqcBUZHdjS/3Pvp/WwR4Lk6t9QFOqUhnGEErJJVFO8HMgRiyhCHdbaVpHLLkkweJm4Kr3SYmG3iqaXtVLJjilZB+1ctwHSWLQSzQcE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YYoPdNvn; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C4C6C4AF0F;
-	Tue,  6 Aug 2024 05:21:49 +0000 (UTC)
+	 To:Cc:Content-Type; b=pVMFQVBw4lFNfAElKUcZXaQAPH/CXWJl/GR/e23FPID0ZZCT08IT8pwjdlRPy6tpHNmb2zTP1DCCO40LgcCyiIkDQHPcCxV6tu6jgDeB5vIukYd2s4B1PUYf5YZO4IUiRKZJw2WY0Cev/YnWKourtan0ju+PdRSwu+fOQsAkzGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qT8PnM7w; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80640C4AF10
+	for <linux-kbuild@vger.kernel.org>; Tue,  6 Aug 2024 05:29:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722921709;
-	bh=gdvgR0M7GuaF+jIyMakKqoNnx8xRdznY78SgP9B1AkE=;
+	s=k20201202; t=1722922195;
+	bh=5gMXoM3vHUEae3lm4AB9BPLUCErdoOZm+REVr/zxs+g=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=YYoPdNvn1go9D9PtBxs9z46ZdcVOdHXIEkZffbfRGaT8bKOTjG4pHTiXwUAmRfRTQ
-	 D/6DG107OpbbCqxWIa9r+5sE+xehvqEHkE+viQSlwqaNQYYAMQ6FOYn1RiIoLyL3b4
-	 8E5A1iqnaCwQ868Bm9pIeMbzPqO+poHuo69uS4j8e4UzyIynv5+GQwo9kfSS4WciAf
-	 DzWeKonQR/j5ecJ5Dxa/9NFN8fazu2BN0XXClLGd7GP6Q7/Q4CR9G2R6S1NLmerE1L
-	 82VP+XYO6TQYprSk9LNQdvdvZcny4wf4xbwp8AykadMmQLoIH1XNIqmiXFIhIxg0SK
-	 q8qVH6BZsX2+w==
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-52efdf02d13so322918e87.2;
-        Mon, 05 Aug 2024 22:21:49 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWbAr0sfJnX+RhHATzWIqDWVZ0E6nq30ptS6YMzzlrI1o7MHTauzoHTK3C4yPcuYhVU5IoBxN7jlQ02wX5nlTTmd5jdYiiok5m3Jvr0
-X-Gm-Message-State: AOJu0YwAwZQJwNz3daIJFFym6w3LNPYh6HJ9+7+ov5sr96UKhzu+YndU
-	qCTnO9McN5puJ116tjBARzPDw3QEGUMLCe4J2JN41C+mFQKNxXuCpoq8KdArUkoNWWvvzPXRtnB
-	2fgS/4iWbe+dBcCFjoCFrcuJ5I2U=
-X-Google-Smtp-Source: AGHT+IGlwTXR026+z3PL1PdmiGdQDWh/rndlCBXxaWjyHBZUnzdAxOGOBmn54jLSJYDrfFLarnpwjn4Hq7VCOaVfa0c=
-X-Received: by 2002:a05:6512:104b:b0:52e:932d:88ab with SMTP id
- 2adb3069b0e04-530bb38c968mr12151755e87.23.1722921708112; Mon, 05 Aug 2024
- 22:21:48 -0700 (PDT)
+	b=qT8PnM7w99j18RCSQAaGFHDErR3uK1E+0lRsX59+pfDigymIWX0wTigXM+tSh0ldY
+	 ZD8MwpqwUoLD0zc/cmuAJruy3gxOOwgTP9QykkzonCfzmxRUifhpMy7bFT7Yjeb4y3
+	 VmpPF2Iq077o05u5pbe+gne0M8AOT3H4OhjUa+7HOVZnLCnzEK6BOhVHocMHWjw/Af
+	 wGILFBd30WX8WQ84CZBRagIgjO+HcxGbmKcHtaU2dWkJwtr27pm3u40ulBOWO7F2Y5
+	 0WxDzjspTRJNumodqdFvvf7OqXIn3K+SDiC5L/qQJEUbUo72hj5PCAAxg41OMMNpr+
+	 Zi6fkR8OIxyrw==
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2ef2fbf1d14so60622281fa.1
+        for <linux-kbuild@vger.kernel.org>; Mon, 05 Aug 2024 22:29:55 -0700 (PDT)
+X-Gm-Message-State: AOJu0YyOxczLgegt4Xa7591rlKbRJR7jcr4Th1rgTQINnbIx3Cjdi9zQ
+	culAiwpaw8FtRNFCblyN/yUQJuUIc+kW4uyGbZlzdP7tyn3+QpYoX48eK1eTMA3nNkIBP4aH/9C
+	Z5E33C1LrDVYqZIMX2CPbtyLGu50=
+X-Google-Smtp-Source: AGHT+IEBQsHS9gA/jfo9zH4J/QTPaP5xKGLFsKpOHV0GI1otrauCHhywCI55HWd2iPOCVXWDThulCCsBmnAMhrjWOsQ=
+X-Received: by 2002:a05:6512:acb:b0:52b:bee8:e987 with SMTP id
+ 2adb3069b0e04-530bb2a228bmr3850472e87.3.1722922194168; Mon, 05 Aug 2024
+ 22:29:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240805090901.53986-1-gprocida@google.com> <CAGvU0Hnm5V1EpY+TfWqq5XHVJUSSxa=wHCZ+yVNb9+Ln=7mbkw@mail.gmail.com>
-In-Reply-To: <CAGvU0Hnm5V1EpY+TfWqq5XHVJUSSxa=wHCZ+yVNb9+Ln=7mbkw@mail.gmail.com>
+References: <20240530210342.1540045-1-maximilian@mbosch.me>
+In-Reply-To: <20240530210342.1540045-1-maximilian@mbosch.me>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 6 Aug 2024 14:21:11 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQ6PFm1rnir0jRAdxeGRe3Zu5U9_f9andqL7vHKcBenWw@mail.gmail.com>
-Message-ID: <CAK7LNAQ6PFm1rnir0jRAdxeGRe3Zu5U9_f9andqL7vHKcBenWw@mail.gmail.com>
-Subject: Re: [PATCH REPOST] lib/build_OID_registry: do not embed full $0
-To: Giuliano Procida <gprocida@google.com>
-Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	kernel-team@android.com, elsk@google.com
+Date: Tue, 6 Aug 2024 14:29:18 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASLi6s8AZ1R+Ab08zLBpfpN0qaFcR5ANCoXtx9NqQk8mQ@mail.gmail.com>
+Message-ID: <CAK7LNASLi6s8AZ1R+Ab08zLBpfpN0qaFcR5ANCoXtx9NqQk8mQ@mail.gmail.com>
+Subject: Re: [PATCH v2] kbuild: allow setting zstd compression level for modules
+To: Maximilian Bosch <maximilian@mbosch.me>
+Cc: linux-kbuild@vger.kernel.org, "torvic9@mailbox.org" <torvic9@mailbox.org>, 
+	Piotr Gorski <lucjan.lucjanov@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 5, 2024 at 6:13=E2=80=AFPM Giuliano Procida <gprocida@google.co=
-m> wrote:
+On Fri, May 31, 2024 at 6:13=E2=80=AFAM Maximilian Bosch <maximilian@mbosch=
+.me> wrote:
 >
-> Please ignore this. I see other people have already posted different
-> fixes achieving much the same goal.
+> From: "torvic9@mailbox.org" <torvic9@mailbox.org>
 >
-> Though my change was much simpler!
-
-
-True.
-
-There were suggestions to replace this with a fixed string:
-
-
-https://lore.kernel.org/linux-kbuild/CAK7LNASa-KedA_CTww6unckAGkJCQTctdbk0d=
--MUsN7wQpM=3DkQ@mail.gmail.com/
-https://lore.kernel.org/linux-kbuild/ZfP1xdcYlUawm3uV@bergen.fjasle.eu/
-
-
-
-A needlessly complex patch was applied, unfortunately.
-
-
-
-
-
-
-
-
-
-
+> Zstd offers a very fine-grained control of compression ratios.
+> Add a Kconfig option that allows setting the desired compression
+> level for module compression.
 >
-> On Mon, 5 Aug 2024 at 10:09, Giuliano Procida <gprocida@google.com> wrote=
-:
-> >
-> > Using $0 makes the output of this file sensitive to the Linux build
-> > directory path. This is problematic for reproducible builds as it can
-> > affect vmlinux's .debug_lines' section and vmlinux's build ID.
-> >
-> > Signed-off-by: Giuliano Procida <gprocida@google.com>
-> > ---
-> >  lib/build_OID_registry | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/lib/build_OID_registry b/lib/build_OID_registry
-> > index d7fc32ea8ac2..06f242202036 100755
-> > --- a/lib/build_OID_registry
-> > +++ b/lib/build_OID_registry
-> > @@ -35,7 +35,7 @@ close IN_FILE || die;
-> >  #
-> >  open C_FILE, ">$ARGV[1]" or die;
-> >  print C_FILE "/*\n";
-> > -print C_FILE " * Automatically generated by ", $0, ".  Do not edit\n";
-> > +print C_FILE " * Automatically generated by build_OID_registry.  Do no=
-t edit\n";
-> >  print C_FILE " */\n";
-> >
+> Signed-off-by: Tor Vic <torvic9@mailbox.org>
+> Tested-by: Piotr Gorski <lucjan.lucjanov@gmail.com>
+> Tested-by: Maximilian Bosch <maximilian@mbosch.me>
+
+
+
+Please use:
+
+$ ZSTD_CLEVEL=3DN  make modules_install
+
+
+I hope this is available widely enough.
+https://github.com/facebook/zstd/commit/6e9512a70cfe099ac6fdf4dda58b61c2e79=
+bbfd9
 
 
 
 
---
+> ---
+>  kernel/module/Kconfig    | 8 ++++++++
+>  scripts/Makefile.modinst | 2 +-
+>  2 files changed, 9 insertions(+), 1 deletion(-)
+>
+> diff --git a/kernel/module/Kconfig b/kernel/module/Kconfig
+> index 33a2e991f608..076b18dd3941 100644
+> --- a/kernel/module/Kconfig
+> +++ b/kernel/module/Kconfig
+> @@ -317,6 +317,14 @@ config MODULE_COMPRESS_ZSTD
+>
+>  endchoice
+>
+> +config MODULE_COMPRESS_ZSTD_LEVEL
+> +       int "Compression level (1-19)"
+> +       depends on MODULE_COMPRESS_ZSTD
+> +       range 1 19
+> +       default 3
+> +       help
+> +         Compression level used by zstd for compressing modules.
+> +
+>  config MODULE_DECOMPRESS
+>         bool "Support in-kernel module decompression"
+>         depends on MODULE_COMPRESS_GZIP || MODULE_COMPRESS_XZ || MODULE_C=
+OMPRESS_ZSTD
+> diff --git a/scripts/Makefile.modinst b/scripts/Makefile.modinst
+> index ab0c5bd1a60f..480d47eca36a 100644
+> --- a/scripts/Makefile.modinst
+> +++ b/scripts/Makefile.modinst
+> @@ -101,7 +101,7 @@ quiet_cmd_gzip =3D GZIP    $@
+>  quiet_cmd_xz =3D XZ      $@
+>        cmd_xz =3D $(XZ) --lzma2=3Ddict=3D2MiB -f $<
+>  quiet_cmd_zstd =3D ZSTD    $@
+> -      cmd_zstd =3D $(ZSTD) -T0 --rm -f -q $<
+> +      cmd_zstd =3D $(ZSTD) -$(CONFIG_MODULE_COMPRESS_ZSTD_LEVEL) -T0 --r=
+m -f -q $<
+>
+>  $(dst)/%.ko.gz: $(dst)/%.ko FORCE
+>         $(call cmd,gzip)
+> --
+> 2.42.0
+>
+>
+
+
+--=20
 Best Regards
 Masahiro Yamada
 
