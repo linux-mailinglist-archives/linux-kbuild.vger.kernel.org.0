@@ -1,276 +1,137 @@
-Return-Path: <linux-kbuild+bounces-2874-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2875-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id F322C949D7C
-	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Aug 2024 03:50:52 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79B2A949DC4
+	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Aug 2024 04:28:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AA166285480
-	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Aug 2024 01:50:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 390531F244B5
+	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Aug 2024 02:28:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BC8818FDBA;
-	Wed,  7 Aug 2024 01:50:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA00015D5C1;
+	Wed,  7 Aug 2024 02:28:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ME7j1qqY"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="LArhQhKR"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F378F18FC8C;
-	Wed,  7 Aug 2024 01:50:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.14
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722995443; cv=fail; b=Z++DvI/4WcSMhZhQhbqXPO9ncmEICF5L9a/XQ9NAQKCEqM8RoWJMpgioF41wJANt6vrT8R9VaqFm2b7mHX6XqoZwfGk2ViB98d//XHp/sLk6xhZfiqRlRrhRuAIqIO+IdSc2hL73CZrRpWpL58iedNgeq9VihGPl1ruMlnMf4EM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722995443; c=relaxed/simple;
-	bh=r2F+wNs2ZqdTcpQEIB3xDV/kNRnNuRkrIrSPba1TQH0=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=BwzaBLgxoShgwWrLKxkxc4RFANN4SmsFSY7b9h2t4NbGfCjbTGqm6qzjre07uumwoj5dCWUvNYA3gm+BNP6/NBkBcQgKCM6EXW55wUoaOahhcduFlcB9ndyo/12JvGWMm4GVNbKiguQgpLUkc6ghxIH509uuEHznIXj9ZzUQkWo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ME7j1qqY; arc=fail smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1722995441; x=1754531441;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=r2F+wNs2ZqdTcpQEIB3xDV/kNRnNuRkrIrSPba1TQH0=;
-  b=ME7j1qqY26mCUz/AFAXkAbypFQdryl3nwXQZjUSo8iiOHcmN24WHqPn8
-   3E7LiP/+X+/IS2Is7vQi6auE1uU9qA8h0+qbBd/l6m17hhTee8K+XXUWc
-   Pe6SkUT/eVy4MIMNtnn7vXevmXlWaaf1etCp6000w9YCW4Mic2x+Teu0w
-   3bX/HF6L0KFzxfTauaEgQJjP4r57q7lxFl5a6RvWEizNAgkEUj3hpjoHt
-   wtWjgD5eEDvNXTJshmdxLm5hCd83mD3C0M/i4ogDewCMWPdkgmsk8qVeY
-   dpXxYJqDXmExl6nwCTP60TLBrnRQPS7TRoVVBKBVL6ix2AVQW2FNLmMF2
-   A==;
-X-CSE-ConnectionGUID: sAy53IjDREWY8hyQAXNEow==
-X-CSE-MsgGUID: 21tWM0hwTR6vqQERBKWoEA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11156"; a="21217548"
-X-IronPort-AV: E=Sophos;i="6.09,268,1716274800"; 
-   d="scan'208";a="21217548"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2024 18:50:40 -0700
-X-CSE-ConnectionGUID: 2JBP9BZdS2+i1ylaVAglDw==
-X-CSE-MsgGUID: HV4KmzsaSzmGWkD7YtjU4A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,268,1716274800"; 
-   d="scan'208";a="60806003"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
-  by fmviesa003.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 06 Aug 2024 18:50:40 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Tue, 6 Aug 2024 18:50:39 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Tue, 6 Aug 2024 18:50:39 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.169)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Tue, 6 Aug 2024 18:50:39 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yC9DGRmFyucs/VoROK6PN961OSe+6dzy8ov8x9+8qzvPO0ODOgOZS9TqTVSsXF9ulo1ZQMdG6pcuLOlvtp3q4TkQ/T8j+LyOfZllh69OMTlLXRyz0zKPOgZCVYo4GRWlrw6zbFr4gQt4xAnQPXgFR+w6PUeQusjWqFih6Z3S/pYP6F4lnOznygD4/NSH+NPBTM2mdZDJcoSMK38IkSyOYGjEnXLigU4xZsG4dMV20JXGxQAImMPqRB19AWA8ww3VYTBpjWH7j23a/vrB+pVuN+oEPDufkeIGEH5WYjaCisxsJmD8uuTkQRnEiG6eV/Z/Jn5zV25zWnvfl0uQHdrJgQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QhVncpsGvFTh82oVXIBJVIQ1wtA/7uxwA00xIB0+AvM=;
- b=lXxp0meRYv+q5OitaE/ImaIN7cX3L6ZCQfPH+D6LtwW0Yv5BvgjpfXNnPLNQAgeMuePqGAdLJ0B/5TUieAtMmne4wO6RQTy7L/d/o1w9DnisI9ysc2uioM+IvwIeZJI7chkY9Bexk2Eu74TWk84SHbB6LGNrMZaoIiGiSvx+4ATUD66HhZ7MI1So1BgefyPmHUTQ/wf/jZIia7F5Oki1WDhJb96MMyCrOtf16NiuW6L+AdmDXDMFt+SZxQrBEYMkf7XBLHgnvRV3u7aABG0nDao6g2Qviot/YS5s1mRBBCNaCiwjlFMXkZgzLaWvJhf04CQEMQ87p06LuMXXA5fmWg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
- by SJ2PR11MB7425.namprd11.prod.outlook.com (2603:10b6:a03:4c0::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.22; Wed, 7 Aug
- 2024 01:50:36 +0000
-Received: from CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::7141:316f:77a0:9c44]) by CY5PR11MB6139.namprd11.prod.outlook.com
- ([fe80::7141:316f:77a0:9c44%7]) with mapi id 15.20.7828.023; Wed, 7 Aug 2024
- 01:50:35 +0000
-Date: Tue, 6 Aug 2024 20:50:09 -0500
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: <da.gomez@samsung.com>
-CC: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor
-	<nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Thomas
- =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi
-	<rodrigo.vivi@intel.com>, Maarten Lankhorst
-	<maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>, William Hubbs <w.d.hubbs@gmail.com>, "Chris
- Brannon" <chris@the-brannons.com>, Kirk Reiser <kirk@reisers.ca>, "Samuel
- Thibault" <samuel.thibault@ens-lyon.org>, Paul Moore <paul@paul-moore.com>,
-	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek
-	<omosnace@redhat.com>, Catalin Marinas <catalin.marinas@arm.com>, Will Deacon
-	<will@kernel.org>, Marc Zyngier <maz@kernel.org>, Oliver Upton
-	<oliver.upton@linux.dev>, James Morse <james.morse@arm.com>, Suzuki K Poulose
-	<suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>, "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>, Jiri Slaby
-	<jirislaby@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, "Bill
- Wendling" <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
-	<linux-kernel@vger.kernel.org>, <linux-kbuild@vger.kernel.org>,
-	<intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
-	<speakup@linux-speakup.org>, <selinux@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <kvmarm@lists.linux.dev>,
-	<linux-serial@vger.kernel.org>, <llvm@lists.linux.dev>, Finn Behrens
-	<me@kloenk.dev>, "Daniel Gomez (Samsung)" <d+samsung@kruces.com>,
-	<gost.dev@samsung.com>
-Subject: Re: [PATCH 04/12] drm/xe: xe_gen_wa_oob: fix
- program_invocation_short_name for macos
-Message-ID: <67ahzgfa63gs7ybbunthdiwodlaihzqerb5xmkrgfgrbmghjmw@d57hhuwaf53i>
-References: <20240807-macos-build-support-v1-0-4cd1ded85694@samsung.com>
- <20240807-macos-build-support-v1-4-4cd1ded85694@samsung.com>
-Content-Type: text/plain; charset="us-ascii"; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20240807-macos-build-support-v1-4-4cd1ded85694@samsung.com>
-X-ClientProxiedBy: SCZP215CA0010.LAMP215.PROD.OUTLOOK.COM
- (2603:10d6:300:50::18) To CY5PR11MB6139.namprd11.prod.outlook.com
- (2603:10b6:930:29::17)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B77B17AE17
+	for <linux-kbuild@vger.kernel.org>; Wed,  7 Aug 2024 02:28:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1722997720; cv=none; b=uzanqymIlutVaeqUVSBoGrEXhACfL6qF8ILCYAEDOy+HmZJPeJKf9P8ndReQoQ3eOQVMEvCHx7FYQx9HP/nIGFmFH4U1UXbouoUXArELtyBRZ1AOcdN8a14QfYi0Svk9PBt70Fp7zLO9eZ7mmAowToiWj7bjoNspXC3rrdwW+0Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1722997720; c=relaxed/simple;
+	bh=XYEizIxioPTaNK4XTRmxkn6Dt9oD7j4ACSvOAeNhy1Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dosBOV0yEvKVmRLkaovKEkv+UM5M7I5kxf/qESA+7mwSxo8hFz7LVJLQlinqcHFX3x/Es3SwO8abYL8FainYIL8pQnNtO1trP9sHNP4qx1wPLe2WiQVrqOqnkgx9a9Gw9GK7GU/ciOqOHUGhnz8ATrTD9xDxU9rqwqWLrEzSV0I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=LArhQhKR; arc=none smtp.client-ip=95.215.58.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1722997716;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=AHYXMHiHBActcUlgT7XphbKcLiDQZ8kITOmMf3n0jEs=;
+	b=LArhQhKR6C+bl30yJDPf6855wKjk7uWwjH8iasdSsST/fvDOsi6TTxoFeZzVkk0quCG1M2
+	XFdMaD2B6J7l1LMIz3a154wFI6/dLAWFGOyJiXNjSpAbCk41Hs3jEn7lYRYnqy6UF0bhJ2
+	XGwob46ZHrjLvkhyzYK2MvThStcFGoQ=
+From: Jose Fernandez <jose.fernandez@linux.dev>
+To: Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+	Christian Heusel <christian@heusel.eu>
+Cc: Jose Fernandez <jose.fernandez@linux.dev>,
+	Peter Jung <ptr1337@cachyos.org>,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] kbuild: control extra pacman packages with PACMAN_EXTRAPACKAGES
+Date: Tue,  6 Aug 2024 20:27:18 -0600
+Message-ID: <20240807022718.24838-2-jose.fernandez@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|SJ2PR11MB7425:EE_
-X-MS-Office365-Filtering-Correlation-Id: 82e887cd-f18c-4e82-eb78-08dcb683544c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|7416014|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?tBoj694IRsbZPlTg/P2vm4o5WoG7zUulPG99SNILzJlKEmscDlHTtUQIQg51?=
- =?us-ascii?Q?YVO0tZtVusj91IW/cbc1Cbnp24Kchv3QS20JROYxfzrwZNTylzbOWr1qMbbC?=
- =?us-ascii?Q?gQvqbA3X0an8dKSrsojut9/X3S8Kn6vvxUnXmqi0djApMhgA45qjp0IlZgZ0?=
- =?us-ascii?Q?5nLdwoknGvbapU6zR42Gng8VQWagEiUR9xrdF1U2VWFpOi+PDMEx7+1aVmKl?=
- =?us-ascii?Q?SZYAmZEZWkzKPKFE89iWXRgZMwluQ7WFnfp1nVCBpv4fJPvqiPl7OHDJb8Ok?=
- =?us-ascii?Q?FoBjdBZRfw8lEPkMtzuCKwhxS5GXpZiBs3IOPJDa8rDa1lRjnfJOupkk2ofm?=
- =?us-ascii?Q?5Qbw6WbdhJvx2wkoo9PP2JrQC3MlGQtwQQHsR4fK+wYD32dpQsviaSul2bdD?=
- =?us-ascii?Q?Id7fL6ZAKgXFhIAeltaeuRrYksChpJTUT02FeXrszvqqiULy65wAFS5nRX0E?=
- =?us-ascii?Q?0et1J4D90RhSEO8El0VLgDrftOpVlkSOcgjx3SPIJi2X0IPg+D7VgbciPGb5?=
- =?us-ascii?Q?IIBTUBxinQBx7ZKb/kunJE20s3ecn61Hdli+DCfdwvjLlldCgPq6UY2TE1/h?=
- =?us-ascii?Q?l1hSlilWpjqPzNvsoV2Y3Q8HlT35Kaqn4hlA3Ig9hPGO7jOgCknOHlPKB+Fh?=
- =?us-ascii?Q?BJSZqaNHw+ciAV6TcegbaAkuN0AuW0j7hkUORIMdi56ExJ7EOvRUA66Bvf+H?=
- =?us-ascii?Q?JVfZGRX1jdhFXXhC9+Vb5OMJQJtC4NrRQgEDsSGXfQrocrszKZF/rS3uAae0?=
- =?us-ascii?Q?KibYECaWGWo6Sds5vV+kpOvcbyrpHHNZln6Zk+0YwV0ER7BTVMr0G9VjBz9E?=
- =?us-ascii?Q?dh5NusE3lh8nY4Jj3eFj9zzl8lIxxiUsQJs9CY5yaOGfv/CsEm4DiOU9Eu4W?=
- =?us-ascii?Q?VEzxobaVC9K9zbMYNf0UZtaWPNx+pvaJMLDqKajvGnSyz/jb4BaJkkXqAnt5?=
- =?us-ascii?Q?QOT7OOtGma8R4czZSTCUszlYUKw0qtmLLDac7+Bb5CWfX6PM6mOl3GZko5h1?=
- =?us-ascii?Q?P5r3Vqa6Ys3fRa5OfbBkOmUVCDELBInp4HmhjR5U82lufl4VsGEHwVwgAgzz?=
- =?us-ascii?Q?rVdHTXCsjjpsSRu5ZVN6RU9N/tv3ktE7/a2qavx9oslVH9iRSqCdrddSnTaa?=
- =?us-ascii?Q?/rJF5VSFTHS2GdMqgJ31iPw8VVDxmNvaWbZGr89B1G11LLPyDxd7CmhdYNFw?=
- =?us-ascii?Q?+gEL94pNJGpOXJqNqizEuzoIstqu61tvYJLSbyg6jeUrLnKDuaIIYVKeAgsY?=
- =?us-ascii?Q?pfBzDfS6caPrEMugl57ddIZ0whXN4oAuzeWCiKUkxdlWZw6d5Wr9lOgco3yc?=
- =?us-ascii?Q?Tx/GnaP/QIE+up8ctKcYtOt4irpl4y6MulIBEwL22iqOvrrTHUvCLj06Vj+H?=
- =?us-ascii?Q?i6QCMYk=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6139.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(7416014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?55J7iHsC6y/5JavvJ9EECNnb9U5w0YGUN9xYOq2YC8V4UHuorMlayrHo4kQc?=
- =?us-ascii?Q?vyUJw1n2AmJuRP6aGVMw7AwNYUUDfXNIE41rAgp9RXEdHl8zqodWnFFclZwM?=
- =?us-ascii?Q?/a15QrSSwSE9oYpjlXE1Hb6/6V5ZMWiWIvZXJZ7bdRrthoGt/c3PcvPPkQ+e?=
- =?us-ascii?Q?4JWgS6Sdlz8AO67DaAh7Ajx4RaHfVtWytJT/CI+RIsk1bQQFrcG3H6hf5vtD?=
- =?us-ascii?Q?PtDIZoPhXEtLvnkH+LilS86LA6Qynq0R3/zwQhbcSamS+vNy3ADsxIT+ndFD?=
- =?us-ascii?Q?siNfxEdUYDrAazUpDg3WAk+YB7wPPdpWFJLLSV8Q07mboQWrf4uTw/S6ADpm?=
- =?us-ascii?Q?G411FQF8djBIuMHXhLxuaFr0Hg6SgcrqXzn+tVlEGtblL0731jvIqLL0r2Ae?=
- =?us-ascii?Q?Pg22QmhFwaWPUgsiH25e53oVtuDNL3ptin2boCNpRPhDSglEkv2o8lN8L7aV?=
- =?us-ascii?Q?RCl0+dhPTMCmIUSgIQvXrgfkUar0S5cgXFnGbZjm8n7FobnTBmvsHsrqR1jA?=
- =?us-ascii?Q?o5lctyCecbxz82mBiiDXFPNW2ItXtaG1wfTC7qw4F9mxGnmq+qS1eiPz/IY4?=
- =?us-ascii?Q?EvSDp8gcPLp3wkm7JkqyTKbPcaA2PFej+hGHUxir6SBZslhGfTILEt54ETVG?=
- =?us-ascii?Q?cTipe3gktSt1mgVMDxdIvgz99NEeWvi7UP332PYtF8b46Rdyuz7Xr79rlVTg?=
- =?us-ascii?Q?my5FhLEbr8YuZcVP1UqOQy9Pi/U3wuuMVQaK/BPq5xF54T32b9PPRgmrlzAG?=
- =?us-ascii?Q?Li6JnjcPIvxtumjVCma8QCaOTjhqv8DeU6W/BFCyQUjcM6ecv1SPhZkddU/6?=
- =?us-ascii?Q?FvJAEkuSWNH2UnJrU/e/Eok6ufhhVo5cuwHe2rE0xBpINXgQEOhNZn66QbL+?=
- =?us-ascii?Q?069COhqgvGsI9AtDatjv9GviGIX3o5XVSf+euBQzy+euHJPNj2MRV7RjOYei?=
- =?us-ascii?Q?ElPkGe4KaA+35Dbc/6BLw3ONiwyOzWPXdGlNIMgWEOUgYu8WaPo6cmX7911T?=
- =?us-ascii?Q?kxMwrt69/r/vtwUe41FQPI+fWWGnftEwvpcwnorMQOXxmx6wYg8T4DwKuaUy?=
- =?us-ascii?Q?+1X6MZd0pR90Zk/VR/AfYi24gIFDoRbpHybqqHjyInhDgxIZnUwsyVVh/Ue5?=
- =?us-ascii?Q?1DZIVhpCdNYsBZE1/tjpt8xIV/xyJHJqjTfDKRGM9yJS95Yv7LJeqtcl4BL+?=
- =?us-ascii?Q?SquUTW0I+b6pBOdMxcH29O/bOdKAte2+geuwulhDTuOgeOFbdEtukknnpFyZ?=
- =?us-ascii?Q?rI1fz+qgj/FIGALIxZWDgwIanFuoFCBuiBVcfZ63mFfcsbbQzWvvam3BMS3+?=
- =?us-ascii?Q?MUC4Yt9++b2Srtgp3CzYHqvir6vOsuJnOA9FDnXlYwSTpA1sPCsIsAZqG1xv?=
- =?us-ascii?Q?j0vNLGXv9cXKKGImGEhSude+IdhokCKNhHO/MR5L+zQyNqNxrJY48/SGRlHl?=
- =?us-ascii?Q?Ri8gvFAoBaWqqXfT3Oeu3mnQOZPL2GSYVfJ6dcZZX1REpFrg8N9rG1vXS/uh?=
- =?us-ascii?Q?oIgb7eIgWR8QjxW2o3b1Mvl+BHLFe+jJT6l5Ap/7qxTvhxjWvE7TTgZWBFIk?=
- =?us-ascii?Q?PFOVrRvQ8fLGHe+XJc60PIkailbG5zTrFJnQgV69vuireuE67RV7UCfe1t8m?=
- =?us-ascii?Q?oQ=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 82e887cd-f18c-4e82-eb78-08dcb683544c
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2024 01:50:35.4401
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uF5SP0fhCAZg3B9lXxHBu/nutI8DuiuUXp5SuCwlriwO7EjJ7yPJtEyuSUbLeMHNwZ/bRbhgu2c3JKvZj2im7IKJCXmBDlwLMmg1oXNjIrg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB7425
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Wed, Aug 07, 2024 at 01:09:18AM GMT, Daniel Gomez via B4 Relay wrote:
->From: Daniel Gomez <da.gomez@samsung.com>
->
->Use getprogname() [1] instead of program_invocation_short_name() [2]
->for macOS hosts.
->
->[1]:
->https://www.gnu.org/software/gnulib/manual/html_node/
->program_005finvocation_005fshort_005fname.html
->
->[2]:
->https://developer.apple.com/library/archive/documentation/System/
->Conceptual/ManPages_iPhoneOS/man3/getprogname.3.html
->
->Fixes build error for macOS hosts:
->
->drivers/gpu/drm/xe/xe_gen_wa_oob.c:34:3: error: use of
->undeclared identifier 'program_invocation_short_name'    34 |
->program_invocation_short_name);       |                 ^ 1 error
->generated.
->
->Signed-off-by: Daniel Gomez <da.gomez@samsung.com>
->---
-> drivers/gpu/drm/xe/xe_gen_wa_oob.c | 8 +++++++-
-> 1 file changed, 7 insertions(+), 1 deletion(-)
->
->diff --git a/drivers/gpu/drm/xe/xe_gen_wa_oob.c b/drivers/gpu/drm/xe/xe_gen_wa_oob.c
->index 904cf47925aa..079b8870c461 100644
->--- a/drivers/gpu/drm/xe/xe_gen_wa_oob.c
->+++ b/drivers/gpu/drm/xe/xe_gen_wa_oob.c
->@@ -9,6 +9,12 @@
-> #include <stdbool.h>
-> #include <stdio.h>
-> #include <string.h>
->+#define PROG_INV_NAME program_invocation_short_name
->+
->+#ifdef __APPLE__
->+#include <stdlib.h>
->+#define PROG_INV_NAME getprogname()
->+#endif
->
-> #define HEADER \
-> 	"// SPDX-License-Identifier: MIT\n" \
->@@ -31,7 +37,7 @@
-> static void print_usage(FILE *f)
-> {
-> 	fprintf(f, "usage: %s <input-rule-file> <generated-c-source-file> <generated-c-header-file>\n",
->-		program_invocation_short_name);
->+		PROG_INV_NAME);
+Introduce a new variable, PACMAN_EXTRAPACKAGES, in the Makefile.package
+to control the creation of additional packages by the pacman-pkg target.
 
-instead of doing that, can we a) include stdlib.h unconditionally and b)
-add here a
-`static const char *program_invocation_short_name = getprogname()` so we
-don't need to change the common case and just handle the "build on
-macos" as a compat layer?
+The headers and api-headers packages will be included by default if
+PACMAN_EXTRAPACKAGES is not set. This changes the previous behavior
+where api-headers was always included, and headers was conditionally
+included if CONFIG_MODULES=y. Now, this decision is delegated to the
+user.
 
-Lucas De Marchi
+To disable extra packages, set PACMAN_EXTRAPACKAGES to an empty value:
 
-> }
->
-> static void print_parse_error(const char *err_msg, const char *line,
->
->-- 
->Git-146)
->
->
+make pacman-pkg PACMAN_EXTRAPACKAGES=
+
+or
+
+make pacman-pkg PACMAN_EXTRAPACKAGES=""
+
+Signed-off-by: Jose Fernandez <jose.fernandez@linux.dev>
+Reviewed-by: Peter Jung <ptr1337@cachyos.org>
+---
+v1 -> v2: Build all extra packages by default. Remove unnecessary lines.
+
+In a previous patch, there was concern that adding a new debug package
+would increase the package time. To address this concern and provide
+more flexibility, this change has been added to allow users to decide
+which extra packages to include before introducing an optional debug
+package [1].
+
+[1] https://lore.kernel.org/lkml/20240801192008.GA3923315@thelio-3990X/T/
+
+ scripts/Makefile.package |  2 ++
+ scripts/package/PKGBUILD | 11 +++++++----
+ 2 files changed, 9 insertions(+), 4 deletions(-)
+
+diff --git a/scripts/Makefile.package b/scripts/Makefile.package
+index 4a80584ec771..ccdf8ba41f0b 100644
+--- a/scripts/Makefile.package
++++ b/scripts/Makefile.package
+@@ -144,6 +144,8 @@ snap-pkg:
+ # pacman-pkg
+ # ---------------------------------------------------------------------------
+ 
++PACMAN_EXTRAPACKAGES ?= headers api-headers
++
+ PHONY += pacman-pkg
+ pacman-pkg:
+ 	@ln -srf $(srctree)/scripts/package/PKGBUILD $(objtree)/PKGBUILD
+diff --git a/scripts/package/PKGBUILD b/scripts/package/PKGBUILD
+index 663ce300dd06..8de869f9b1d4 100644
+--- a/scripts/package/PKGBUILD
++++ b/scripts/package/PKGBUILD
+@@ -3,10 +3,13 @@
+ # Contributor: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
+ 
+ pkgbase=${PACMAN_PKGBASE:-linux-upstream}
+-pkgname=("${pkgbase}" "${pkgbase}-api-headers")
+-if grep -q CONFIG_MODULES=y include/config/auto.conf; then
+-	pkgname+=("${pkgbase}-headers")
+-fi
++pkgname=("${pkgbase}")
++
++_extrapackages=${PACMAN_EXTRAPACKAGES:-}
++for pkg in $_extrapackages; do
++	pkgname+=("${pkgbase}-${pkg}")
++done
++
+ pkgver="${KERNELRELEASE//-/_}"
+ # The PKGBUILD is evaluated multiple times.
+ # Running scripts/build-version from here would introduce inconsistencies.
+-- 
+2.46.0
+
 
