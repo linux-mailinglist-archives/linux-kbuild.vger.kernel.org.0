@@ -1,137 +1,289 @@
-Return-Path: <linux-kbuild+bounces-2875-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2876-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79B2A949DC4
-	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Aug 2024 04:28:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E5BF94A294
+	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Aug 2024 10:22:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 390531F244B5
-	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Aug 2024 02:28:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F25321F25EFF
+	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Aug 2024 08:22:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA00015D5C1;
-	Wed,  7 Aug 2024 02:28:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 409D91C5781;
+	Wed,  7 Aug 2024 08:22:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="LArhQhKR"
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="PJaOcnyV"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B77B17AE17
-	for <linux-kbuild@vger.kernel.org>; Wed,  7 Aug 2024 02:28:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C35A28F77;
+	Wed,  7 Aug 2024 08:22:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722997720; cv=none; b=uzanqymIlutVaeqUVSBoGrEXhACfL6qF8ILCYAEDOy+HmZJPeJKf9P8ndReQoQ3eOQVMEvCHx7FYQx9HP/nIGFmFH4U1UXbouoUXArELtyBRZ1AOcdN8a14QfYi0Svk9PBt70Fp7zLO9eZ7mmAowToiWj7bjoNspXC3rrdwW+0Y=
+	t=1723018924; cv=none; b=lpFeTueGKawLzo/hMosgcIfyHKI2QEvORG6NZ1f/elmJYrXzFB9qxDEWNRC7/GmjxFh9J9rrS6SuzzXoJ3Fm5VUYf4rQcXifB9uie6juZJHz59T3RerzeJdYUU8S3Vo/FPGPsjV3XQiP0jAc1OoWV72dmQaLWuRY88u6aj+eOI4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722997720; c=relaxed/simple;
-	bh=XYEizIxioPTaNK4XTRmxkn6Dt9oD7j4ACSvOAeNhy1Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dosBOV0yEvKVmRLkaovKEkv+UM5M7I5kxf/qESA+7mwSxo8hFz7LVJLQlinqcHFX3x/Es3SwO8abYL8FainYIL8pQnNtO1trP9sHNP4qx1wPLe2WiQVrqOqnkgx9a9Gw9GK7GU/ciOqOHUGhnz8ATrTD9xDxU9rqwqWLrEzSV0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=LArhQhKR; arc=none smtp.client-ip=95.215.58.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1722997716;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=AHYXMHiHBActcUlgT7XphbKcLiDQZ8kITOmMf3n0jEs=;
-	b=LArhQhKR6C+bl30yJDPf6855wKjk7uWwjH8iasdSsST/fvDOsi6TTxoFeZzVkk0quCG1M2
-	XFdMaD2B6J7l1LMIz3a154wFI6/dLAWFGOyJiXNjSpAbCk41Hs3jEn7lYRYnqy6UF0bhJ2
-	XGwob46ZHrjLvkhyzYK2MvThStcFGoQ=
-From: Jose Fernandez <jose.fernandez@linux.dev>
-To: Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
-	Christian Heusel <christian@heusel.eu>
-Cc: Jose Fernandez <jose.fernandez@linux.dev>,
-	Peter Jung <ptr1337@cachyos.org>,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] kbuild: control extra pacman packages with PACMAN_EXTRAPACKAGES
-Date: Tue,  6 Aug 2024 20:27:18 -0600
-Message-ID: <20240807022718.24838-2-jose.fernandez@linux.dev>
+	s=arc-20240116; t=1723018924; c=relaxed/simple;
+	bh=GyhHa6ad3n3aoeuBPXbI8Y2yKlsKfERayuRlts9uSUQ=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:Content-Type:
+	 MIME-Version:References; b=p9RuRcpr6lphYGMPxo7cHujhrfM93e7HHaLT1ckVafyOBBprHpj3yo7cBL2lpoauigM7muaek6m/1NQ1cc+MWgZ59L1ZQSuwzoWcLwqHF2yzp0IQ7OO+p4JXeg1rxQ+aUk8kITtUke7lKzvKhgjh5WdYtdXBzKvlMBjltQ1bzwg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=PJaOcnyV; arc=none smtp.client-ip=210.118.77.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20240807081355euoutp0246daebd629ca2d671dfec80d6afd0ebe~pZCNRNIiO2254122541euoutp02w;
+	Wed,  7 Aug 2024 08:13:55 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20240807081355euoutp0246daebd629ca2d671dfec80d6afd0ebe~pZCNRNIiO2254122541euoutp02w
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1723018435;
+	bh=n9u13BLc1/Av6vacu5XOn99roQyFwYtJJqhaCiMmdoc=;
+	h=From:To:CC:Subject:Date:In-Reply-To:References:From;
+	b=PJaOcnyV+4yJ/to0LVbznuSw5dhddOhL6L4/n6sSOf3fwG7DLXMyQqSauzTvgkp54
+	 K1V5wNK1VLrUXpm3o53az2ZBvWL6eu3lL/qM9ndeHs5lDjVYc0twciZa4Yf0TBj4uM
+	 Zsf1ivcXr+aFXkVJD5ENOO60XHi6YWhnwp+qs+6Q=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+	20240807081355eucas1p192b35d483bbc7c0f5fd8f98537b5d916~pZCNAwd7D2938229382eucas1p1q;
+	Wed,  7 Aug 2024 08:13:55 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+	eusmges3new.samsung.com (EUCPMTA) with SMTP id E2.24.09620.2CC23B66; Wed,  7
+	Aug 2024 09:13:54 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+	20240807081354eucas1p175713174856919970a701a2b8738b9c7~pZCMU_e8-2943329433eucas1p1e;
+	Wed,  7 Aug 2024 08:13:54 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+	eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20240807081354eusmtrp23393ddf9d4e20be6fcc4c78e46cb51ae~pZCMSOqwl0317503175eusmtrp2p;
+	Wed,  7 Aug 2024 08:13:54 +0000 (GMT)
+X-AuditID: cbfec7f5-d1bff70000002594-2b-66b32cc2be5f
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+	eusmgms1.samsung.com (EUCPMTA) with SMTP id DC.39.08810.1CC23B66; Wed,  7
+	Aug 2024 09:13:54 +0100 (BST)
+Received: from CAMSVWEXC01.scsc.local (unknown [106.1.227.71]) by
+	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20240807081353eusmtip154691cfcb25d38d126937c3750e07f54~pZCL9A4av2830328303eusmtip1U;
+	Wed,  7 Aug 2024 08:13:53 +0000 (GMT)
+Received: from CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348) by
+	CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) with Microsoft SMTP
+	Server (TLS) id 15.0.1497.2; Wed, 7 Aug 2024 09:13:52 +0100
+Received: from CAMSVWEXC02.scsc.local ([::1]) by CAMSVWEXC02.scsc.local
+	([fe80::3c08:6c51:fa0a:6384%13]) with mapi id 15.00.1497.012; Wed, 7 Aug
+	2024 09:13:52 +0100
+From: Daniel Gomez <da.gomez@samsung.com>
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+CC: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor
+	<nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
+	=?iso-8859-1?Q?Thomas_Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>, Maarten Lankhorst
+	<maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>, William Hubbs <w.d.hubbs@gmail.com>, "Chris
+ Brannon" <chris@the-brannons.com>, Kirk Reiser <kirk@reisers.ca>, "Samuel
+ Thibault" <samuel.thibault@ens-lyon.org>, Paul Moore <paul@paul-moore.com>,
+	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek
+	<omosnace@redhat.com>, Catalin Marinas <catalin.marinas@arm.com>, Will
+	Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, Oliver Upton
+	<oliver.upton@linux.dev>, James Morse <james.morse@arm.com>, Suzuki K
+	Poulose <suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>, "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>, Jiri Slaby
+	<jirislaby@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, "Bill
+ Wendling" <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+	"intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"speakup@linux-speakup.org" <speakup@linux-speakup.org>,
+	"selinux@vger.kernel.org" <selinux@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "kvmarm@lists.linux.dev"
+	<kvmarm@lists.linux.dev>, "linux-serial@vger.kernel.org"
+	<linux-serial@vger.kernel.org>, "llvm@lists.linux.dev"
+	<llvm@lists.linux.dev>, Finn Behrens <me@kloenk.dev>, "Daniel Gomez
+ (Samsung)" <d+samsung@kruces.com>, "gost.dev@samsung.com"
+	<gost.dev@samsung.com>
+Subject: Re: [PATCH 04/12] drm/xe: xe_gen_wa_oob: fix
+ program_invocation_short_name for macos
+Thread-Topic: [PATCH 04/12] drm/xe: xe_gen_wa_oob: fix
+	program_invocation_short_name for macos
+Thread-Index: AQHa6FXbw2zXqVW9ckie+aU8ZAXkwrIa9tWAgABrNIA=
+Date: Wed, 7 Aug 2024 08:13:51 +0000
+Message-ID: <mhrznemgfocotpgkyze7l73e6237wygja6lrvmodeka6ehbkgc@h6fzyrcsmci2>
+In-Reply-To: <67ahzgfa63gs7ybbunthdiwodlaihzqerb5xmkrgfgrbmghjmw@d57hhuwaf53i>
+Accept-Language: en-US, en-GB
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <6061A4101764934EA47CBCA8181EF747@scsc.local>
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+X-Brightmail-Tracker: H4sIAAAAAAAAA02TfUxTVxjGPff23lsQ3F0hcmAYYodzOuhwzu04jRhm4s0yNsxIHMwFO7h8
+	bFBICxNZokQYWBApCkMqMCjjGwMp0EH5ks9SPjQMKSgyC8LEohQCGiSOjlJc+O/35nnO87zv
+	H4eL89IpJ26YKJoVi4ThfNKao+p5dce9w6022GOgyR31jiowZCy5AlBPxSyOmkwTODKpMnB0
+	74WRRAlF1SRaqZ3F0KPWUgzN5zmj3yqLSJQ/pOUgQ10nBykf6wj0Wt2AoWF1LokGitIoNJ3Z
+	RqKZxyUkKlys56BJ/RiBGnO1BGqpHiaRcniJQEnSEgIll8+QaEFmwtA/Lb0Eynr1jETPZd0U
+	Gr+WzUFtch2FylayAbqr6aGQqmEQoCd3rwOUMz4O0FzDemjdswwCKZI+RYkPD6H7xTXU8f1M
+	VX4VYJp7Bkmm5WUBh1F31JJMo3yCYgqUMUxi13OCKWp+ijHKCinJ5EvzMcaUpieYLpOCYgrj
+	s3AmX3uKacurophHqRrMB/pbHw1iw8N+ZsUfHjtrHXqjUUVGGRxj1ww5nHiwZp8CrLiQ/hjm
+	ypKxFGDN5dFlAP75tIG0DMsALi6qN4clAEvnjfibJx163aZQCmB3UxpmFjZc+iSRRehfzzLK
+	qP+D9avDhNlF0vtgq1ZJmdmeFkB11+hGO07XvAUX2keBWbCjA2B/0QhpMZ2FtxRS3MKfwUrD
+	2IaHQ7vCxobU9SAu15b2hjOXD5jRiv4KXjJdNDsAvQtOla9uVOG0A3ww/TtmueBtqLjZvHnN
+	TrimniQt7AYHR6eBhT1gfXErx8K74eWe+6QlRwDHsjI3+TDMudGIW/gDWFI4t8G26/nanGmO
+	+SxIp9jAl73JhCXoBJy63bJZbAcNmjpKBtzkW/aTb+mQb+mQb+mQb+koAEQFcGBjJBEhrOSg
+	iD0nkAgjJDGiEEFgZIQSrP+Z/jXNiwZQZlgUdACMCzoA5OJ8e9uE08pgnm2Q8HwcK44MEMeE
+	s5IO8A6Xw3ew3RPkwvLoEGE0+xPLRrHiNyrGtXKKx+wU5JGB7vIRf7T35B+ykazevMrjzt+v
+	6FHcX++W3zScmtfEkts1d3a8f+GYlyzbD+0+YrNd7Oosb0/5ljf6d9c2L897cbcop2075247
+	f+ey4p+Q3jdu8rwYtHqm+AtV5LUl4RAYeu2cahN+9UKJLES2Y/mXc6HSWKeiuLT3PvKtOezT
+	y17N9PHomvYjJhXBKkF1y2hn4J7P+5y0dmk/1p9eMMIUR88zwL30k4C9fdUhet2v/qGHRhyv
+	RzXH42TG8vz5fSKdd6bgG5crT9IdHyaZLk0lSpUPond5l0xE+waC8R9mXRN4Xw/pgm18+9rV
+	EUav7i+DDkrCTvKP/tvs59LE7+RzJKHCA/txsUT4Hzj2n2iiBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Te1CUZRTGe7/bLjZMX4jyRjTVxthEtLLcfBcUHVP7sJSwBicZgk1WoIBl
+	dlmQnGoHxLg2gHJbEYEV4jaByyVArgstMoS0cRcQEDDkEqHExWHYdv1shv9+57zPc54578zh
+	4maZHEtuUGi4WBoqCuZRu4ju7c7xDzS2VRfssrNxdHeoAEPLRUkAaUvncHRHP44jfW0qjvr/
+	XaZQjKqCQhtVcxiaaP4ZQ3/fsEIZZSoK5eq6CDRf3U4g9fQgibYa6jDU15BDod9VyRw0c62F
+	QrPTRRTKX6kh0NTkMInqc7pI1FTRRyF131MSXYkvItGPJbMU+idFj6FHTXdJlL65SKGllN84
+	aDQtk0AtykEOKt7IBKi3U8tBtXU9AP3VexWg7NFRgBbqDEOrF1NJVHDlALo85oRGCis5R2yY
+	8txywDRqeyimaS2PYBo0VRRTrxznMHlqOXO5Y4lkVI2PMUZdGk8xufG5GKNPniSZDn0Bh8lX
+	pONMbpcn03KjnMNMJHZin8Jz/INSiTxc/FagRBZ+iOctQPZ8gRDx7R2FfIHDAR8XeyfefreD
+	/uLgoAixdL+bHz8wq76WCpt/7eL2fDahANvmCcCEC2lHqJkcpIxsRhcC2F71Ltu3grdXB0iW
+	d8OtwQSDZpdBswLgQnE7yRbdAG4VRnPYohjA1pw5zGih6Pdgc5eaY2Rzmg8bOoYwowinK1+B
+	bZox3Piwm/aF3aoBihX5weuKGYJlF1g2PwyMTNDWsL4u0TCIyzWlT8HZOAEbdhODG0+qMWPf
+	hD4No/U/GOWAfgM+LHn2PBenLeD9mZsYuwINbzX24izvgY+nt1+sZgt7hmYAy3awprCZYPlt
+	GKcdodg5fDicfu0FC2F2Vj3O8vuwKH/hOZvSr8Ku7BkiBVgpd0Qrd9iVO+zKHXblDnseIEuB
+	uVguCwkIkQn4MlGITB4awD8vCVEDw4XUajer6kDu/ApfAzAu0ADIxXnmpjFn1RfMTP1FUd+K
+	pRJfqTxYLNMAJ8PXpeKWe85LDCcWGu4rcLZzEjg6C+2chM4OPAtT97A4kRkdIAoXfyMWh4ml
+	//swromlAou795LWNi0pbu+A8pOVlKt/8KzjVWuHLfwrpta92idg4rGlE6AMj6xN+9xGqw4q
+	ifHYnI6N+uo6WTEamOVSxPjfCvduuyiJ+H6vU5JOcSx+zRTbOu2Q+LFOEn242cVV+YVrYY2X
+	25k3v7wUFWluWeMjVmzZ3LuELxwaf+J1fMtj1XnfUH+5Z9O5PnmCjfejpDIu/GzEY8kz7FQO
+	ZS1sTWiP904+4vPRTyd4JplH+7+LyOjHYqVEU9/J6NWpwQdSHal7MPrnYmxL6PqHsl+jUtZv
+	Ry133OG6O559+Po+9+m2jmc9TyeSo+xcvU7aHH0nMvN+q0o1NjB25uuXf/HTFY9XZoTU8AhZ
+	oEhgg0tlov8AOGy1gaoEAAA=
+X-CMS-MailID: 20240807081354eucas1p175713174856919970a701a2b8738b9c7
+X-Msg-Generator: CA
+X-RootMTR: 20240807015044eucas1p1998fac358d6afafce6c58478c2834d26
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20240807015044eucas1p1998fac358d6afafce6c58478c2834d26
+References: <20240807-macos-build-support-v1-0-4cd1ded85694@samsung.com>
+	<20240807-macos-build-support-v1-4-4cd1ded85694@samsung.com>
+	<CGME20240807015044eucas1p1998fac358d6afafce6c58478c2834d26@eucas1p1.samsung.com>
+	<67ahzgfa63gs7ybbunthdiwodlaihzqerb5xmkrgfgrbmghjmw@d57hhuwaf53i>
 
-Introduce a new variable, PACMAN_EXTRAPACKAGES, in the Makefile.package
-to control the creation of additional packages by the pacman-pkg target.
+On Tue, Aug 06, 2024 at 08:50:09PM GMT, Lucas De Marchi wrote:
+> On Wed, Aug 07, 2024 at 01:09:18AM GMT, Daniel Gomez via B4 Relay wrote:
+> > From: Daniel Gomez <da.gomez@samsung.com>
+> >=20
+> > Use getprogname() [1] instead of program_invocation_short_name() [2]
+> > for macOS hosts.
+> >=20
+> > [1]:
+> > https://www.gnu.org/software/gnulib/manual/html_node/
+> > program_005finvocation_005fshort_005fname.html
+> >=20
+> > [2]:
+> > https://developer.apple.com/library/archive/documentation/System/
+> > Conceptual/ManPages_iPhoneOS/man3/getprogname.3.html
+> >=20
+> > Fixes build error for macOS hosts:
+> >=20
+> > drivers/gpu/drm/xe/xe_gen_wa_oob.c:34:3: error: use of
+> > undeclared identifier 'program_invocation_short_name'    34 |
+> > program_invocation_short_name);       |                 ^ 1 error
+> > generated.
+> >=20
+> > Signed-off-by: Daniel Gomez <da.gomez@samsung.com>
+> > ---
+> > drivers/gpu/drm/xe/xe_gen_wa_oob.c | 8 +++++++-
+> > 1 file changed, 7 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/xe/xe_gen_wa_oob.c b/drivers/gpu/drm/xe/xe=
+_gen_wa_oob.c
+> > index 904cf47925aa..079b8870c461 100644
+> > --- a/drivers/gpu/drm/xe/xe_gen_wa_oob.c
+> > +++ b/drivers/gpu/drm/xe/xe_gen_wa_oob.c
+> > @@ -9,6 +9,12 @@
+> > #include <stdbool.h>
+> > #include <stdio.h>
+> > #include <string.h>
+> > +#define PROG_INV_NAME program_invocation_short_name
+> > +
+> > +#ifdef __APPLE__
+> > +#include <stdlib.h>
+> > +#define PROG_INV_NAME getprogname()
+> > +#endif
+> >=20
+> > #define HEADER \
+> > 	"// SPDX-License-Identifier: MIT\n" \
+> > @@ -31,7 +37,7 @@
+> > static void print_usage(FILE *f)
+> > {
+> > 	fprintf(f, "usage: %s <input-rule-file> <generated-c-source-file> <gen=
+erated-c-header-file>\n",
+> > -		program_invocation_short_name);
+> > +		PROG_INV_NAME);
+>=20
+> instead of doing that, can we a) include stdlib.h unconditionally and b)
+> add here a
+> `static const char *program_invocation_short_name =3D getprogname()` so w=
+e
+> don't need to change the common case and just handle the "build on
+> macos" as a compat layer?
 
-The headers and api-headers packages will be included by default if
-PACMAN_EXTRAPACKAGES is not set. This changes the previous behavior
-where api-headers was always included, and headers was conditionally
-included if CONFIG_MODULES=y. Now, this decision is delegated to the
-user.
+Does this align with your suggestion (v1 diff)?
 
-To disable extra packages, set PACMAN_EXTRAPACKAGES to an empty value:
+Note that static cannot be use here.
 
-make pacman-pkg PACMAN_EXTRAPACKAGES=
+diff --git a/drivers/gpu/drm/xe/xe_gen_wa_oob.c b/drivers/gpu/drm/xe/xe_gen=
+_wa_oob.c
+index 079b8870c461..b3add20ccb01 100644
+--- a/drivers/gpu/drm/xe/xe_gen_wa_oob.c
++++ b/drivers/gpu/drm/xe/xe_gen_wa_oob.c
+@@ -9,12 +9,7 @@
+ #include <stdbool.h>
+ #include <stdio.h>
+ #include <string.h>
+-#define PROG_INV_NAME program_invocation_short_name
+-
+-#ifdef __APPLE__
+ #include <stdlib.h>
+-#define PROG_INV_NAME getprogname()
+-#endif
 
-or
+ #define HEADER \
+        "// SPDX-License-Identifier: MIT\n" \
+@@ -36,8 +31,11 @@
 
-make pacman-pkg PACMAN_EXTRAPACKAGES=""
+ static void print_usage(FILE *f)
+ {
++#ifdef __APPLE__
++       const char *program_invocation_short_name =3D getprogname();
++#endif
+        fprintf(f, "usage: %s <input-rule-file> <generated-c-source-file> <=
+generated-c-header-file>\n",
+-               PROG_INV_NAME);
++               program_invocation_short_name);
+ }
 
-Signed-off-by: Jose Fernandez <jose.fernandez@linux.dev>
-Reviewed-by: Peter Jung <ptr1337@cachyos.org>
----
-v1 -> v2: Build all extra packages by default. Remove unnecessary lines.
+ static void print_parse_error(const char *err_msg, const char *line,
 
-In a previous patch, there was concern that adding a new debug package
-would increase the package time. To address this concern and provide
-more flexibility, this change has been added to allow users to decide
-which extra packages to include before introducing an optional debug
-package [1].
-
-[1] https://lore.kernel.org/lkml/20240801192008.GA3923315@thelio-3990X/T/
-
- scripts/Makefile.package |  2 ++
- scripts/package/PKGBUILD | 11 +++++++----
- 2 files changed, 9 insertions(+), 4 deletions(-)
-
-diff --git a/scripts/Makefile.package b/scripts/Makefile.package
-index 4a80584ec771..ccdf8ba41f0b 100644
---- a/scripts/Makefile.package
-+++ b/scripts/Makefile.package
-@@ -144,6 +144,8 @@ snap-pkg:
- # pacman-pkg
- # ---------------------------------------------------------------------------
- 
-+PACMAN_EXTRAPACKAGES ?= headers api-headers
-+
- PHONY += pacman-pkg
- pacman-pkg:
- 	@ln -srf $(srctree)/scripts/package/PKGBUILD $(objtree)/PKGBUILD
-diff --git a/scripts/package/PKGBUILD b/scripts/package/PKGBUILD
-index 663ce300dd06..8de869f9b1d4 100644
---- a/scripts/package/PKGBUILD
-+++ b/scripts/package/PKGBUILD
-@@ -3,10 +3,13 @@
- # Contributor: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
- 
- pkgbase=${PACMAN_PKGBASE:-linux-upstream}
--pkgname=("${pkgbase}" "${pkgbase}-api-headers")
--if grep -q CONFIG_MODULES=y include/config/auto.conf; then
--	pkgname+=("${pkgbase}-headers")
--fi
-+pkgname=("${pkgbase}")
-+
-+_extrapackages=${PACMAN_EXTRAPACKAGES:-}
-+for pkg in $_extrapackages; do
-+	pkgname+=("${pkgbase}-${pkg}")
-+done
-+
- pkgver="${KERNELRELEASE//-/_}"
- # The PKGBUILD is evaluated multiple times.
- # Running scripts/build-version from here would introduce inconsistencies.
--- 
-2.46.0
-
+>=20
+> Lucas De Marchi
+>=20
+> > }
+> >=20
+> > static void print_parse_error(const char *err_msg, const char *line,
+> >=20
+> > --=20
+> > Git-146)
+> >=20
+> > =
 
