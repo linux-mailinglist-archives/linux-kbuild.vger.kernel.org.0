@@ -1,34 +1,34 @@
-Return-Path: <linux-kbuild+bounces-2886-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2887-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF13D94AC8B
-	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Aug 2024 17:16:35 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E65294ACC9
+	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Aug 2024 17:24:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 75DDA1F21365
-	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Aug 2024 15:16:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3925F283A60
+	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Aug 2024 15:24:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 622AE7D3E4;
-	Wed,  7 Aug 2024 15:08:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3DD685270;
+	Wed,  7 Aug 2024 15:24:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b="VoD7yIAF"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b="Hgcni6Ox"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6365178281;
-	Wed,  7 Aug 2024 15:08:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2253B79949;
+	Wed,  7 Aug 2024 15:24:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.63.252.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723043294; cv=none; b=ZbmXKiksZPV+jeDAlcujbfIwTDiL4rPvJI+KVjmSabgwMRqxMd6O10BchBjibHlI/S1j8wXE3FK+kPSvnvWuohCvAYBkFEC2FEZ1fkNfF+oAa2uMEvrla9C5CytnwccBHqSv/YS7j5QrIlGYmLJZFiCE9HqjQbHwWLBDZOtfxkw=
+	t=1723044263; cv=none; b=kBbNTrHRChWZynoRtcG61s4PNpS2G8vV2QcbNw88XJlflMsX5CFZ+ArSOCz1a/hx+4faUoAFC2Fn+5qY6S5se9Mk8TBJKCleHfdUBVaRpnQdUcosDOL/0hYZIaPLij6JjTgol40zP7u1Qma8H80/pXd2K5Ts/3l//ZNRjpi7oBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723043294; c=relaxed/simple;
-	bh=eDjrxwc1jIzb3TzsD558aWRSwdwPydXq8SApdoF0DkQ=;
+	s=arc-20240116; t=1723044263; c=relaxed/simple;
+	bh=ymFPhwGI8e7n9dghkO5/gX8tfO8C7fo9qKHbVYc2iV0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J2KAzNkvF9WlBc4zOAgNvHJTEIYn4A6m1Wdm6EnJmw8kQnWuT28z4gV58/9VpDRo7ThcgoZSAmJoDW/g3C8fsVMd+eoam9O7yWwk7ktSxNNqAlGhkfvn6NnZ5yZzZNGqsfbRbLw2vNl0HYpRrkMfxSM8MkR/2KXB3/pDgglZoCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu; spf=pass smtp.mailfrom=fjasle.eu; dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b=VoD7yIAF; arc=none smtp.client-ip=194.63.252.55
+	 Content-Type:Content-Disposition:In-Reply-To; b=a39JZFSsLO7AY8o2Ckc3G668/2Hhf9lzy2OqDp94+ubYshDmJ+XY6jRkuiXYzucLLjlsdv9fMeX6AEw5QJaa5nPiDj3I5a1aaxPyvJz5WXOPCwJIaiXxfHgAsihxzJ0CzE4pm5EtGu6X3lcU4aTwgJ0wL43um56dajj3Ncvp0No=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu; spf=pass smtp.mailfrom=fjasle.eu; dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b=Hgcni6Ox; arc=none smtp.client-ip=194.63.252.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fjasle.eu
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=fjasle.eu;
@@ -38,19 +38,19 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=fjasle.eu;
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
 	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=gTBEyTDuyGP0OwM2Ld19qm72seDeAonZbOXn4FPGBmg=; b=VoD7yIAF6OddXxsFn+ETucVMrt
-	yoQoZo3iAK4Ih3BVYRNmEkN/d0yY1Yf+7yuBwFJh8sCS/byabUEpstH6LD4XxaJe6XRM+7Heizz27
-	BgrVIrYLfcsPVV58Lv9H/Zej2YP7ff6lP/MmM/VMOw1QfWJ0LUTxbXdb7m7a8gCzfU6rNuRV7rDrb
-	rqFoljkaPwUr8ZC9zHRYgHXTbfnld33EoA0p9Mehk9hbdRizvTYv7POkmihfqHUvni12N2Wr20yIm
-	bes95SD99UmlPITXumWSnNpCiiDx3MCTWqY9+EdJY5UFfG8smsRx82sZpwcdH8z51MGHUdd/MuMdj
-	c5ye7pYw==;
-Received: from [2001:9e8:9f8:5201:3235:adff:fed0:37e6] (port=35732 helo=lindesnes.fjasle.eu)
+	bh=8p+8xkYytY0kAtRIiarGiLqc+3CeFPeAk9BYp1+Be+o=; b=Hgcni6Ox2D8FDaPA4MfcZbKN6U
+	9lLSq3Q7GUU3+GllOyhCeZHbJA0tL14j23d4QDpMTl4w/aXYprIt1HdcW/FwqeS04X0pozycGo8im
+	ZG7XpFmgej1m1/Wx1k4TniZ4dzo4Zke7LDpuRIaTpB7yIjPjLjTnZHh5hvzoqvtxxNPxlV14qvR9h
+	6JOTX9FjdEiSNbs9g4oD/BRv04kpaHEALD2ttmeHLVEVftdyLZ6JtwnavADmeYTL2jzkNEuhkuB7A
+	aHsxYe0qWQ1MMw1F3+LCEHGCE8aeFHNlPAHElLODPwPnr9hrxMTSLQUbpM7aq1d8KhP01oubv1FeU
+	03Wqun1A==;
+Received: from [2001:9e8:9f8:5201:3235:adff:fed0:37e6] (port=36192 helo=lindesnes.fjasle.eu)
 	by smtp.domeneshop.no with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.95)
 	(envelope-from <nicolas@fjasle.eu>)
-	id 1sbiGJ-009XOB-UK;
-	Wed, 07 Aug 2024 17:07:40 +0200
-Date: Wed, 7 Aug 2024 17:07:16 +0200
+	id 1sbiW1-009bha-HL;
+	Wed, 07 Aug 2024 17:23:53 +0200
+Date: Wed, 7 Aug 2024 17:23:27 +0200
 From: Nicolas Schier <nicolas@fjasle.eu>
 To: da.gomez@samsung.com
 Cc: Masahiro Yamada <masahiroy@kernel.org>,
@@ -86,12 +86,11 @@ Cc: Masahiro Yamada <masahiroy@kernel.org>,
 	kvmarm@lists.linux.dev, linux-serial@vger.kernel.org,
 	llvm@lists.linux.dev, Finn Behrens <me@kloenk.dev>,
 	"Daniel Gomez (Samsung)" <d+samsung@kruces.com>,
-	gost.dev@samsung.com, Nick Desaulniers <nick.desaulniers@gmail.com>
-Subject: Re: [PATCH 01/12] scripts: subarch.include: fix SUBARCH on MacOS
- hosts
-Message-ID: <20240807-mighty-crazy-dove-3dc8a5@lindesnes>
+	gost.dev@samsung.com
+Subject: Re: [PATCH 02/12] kbuild: add header_install dependency to scripts
+Message-ID: <20240807-witty-warm-hummingbird-20c9a7@lindesnes>
 References: <20240807-macos-build-support-v1-0-4cd1ded85694@samsung.com>
- <20240807-macos-build-support-v1-1-4cd1ded85694@samsung.com>
+ <20240807-macos-build-support-v1-2-4cd1ded85694@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -100,49 +99,44 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240807-macos-build-support-v1-1-4cd1ded85694@samsung.com>
+In-Reply-To: <20240807-macos-build-support-v1-2-4cd1ded85694@samsung.com>
 
-On Wed, Aug 07, 2024 at 01:09:15AM +0200, Daniel Gomez via B4 Relay wrote:
-> From: Nick Desaulniers <nick.desaulniers@gmail.com>
+On Wed, Aug 07, 2024 at 01:09:16AM +0200, Daniel Gomez via B4 Relay wrote:
+> From: Daniel Gomez <da.gomez@samsung.com>
 > 
-> When building the Linux kernel on an aarch64 MacOS based host, if we don't
-> specify a value for ARCH when invoking make, we default to arm and thus
-> multi_v7_defconfig rather than the expected arm64 and arm64's defconfig.
+> Export kernel headers necessary for the tools located in scripts/. This
+> ensures kernel headers are generated before building scripts/selinux.
 > 
-> This is because subarch.include invokes `uname -m` which on MacOS hosts
-> evaluates to `arm64` but on Linux hosts evaluates to `aarch64`,
+> Kernel headers required for building are: asm/types.h, asm/bitsperlong.h
+> and asm/poix_types.h.
 > 
-> This allows us to build ARCH=arm64 natively on MacOS (as in ARCH need
-> not be specified on an aarch64-based system).
-> 
-> Utilize a negative lookahead regular expression to avoid matching arm64.
-> 
-> Add a separate expression to support for armv.* as per error reported by
-> Nicolas Schier [1].
-> 
-> [1] https://lore.kernel.org/all/Y3MRvtwdjIwMHvRo@bergen.fjasle.eu/#t
-> 
-> Signed-off-by: Nick Desaulniers <nick.desaulniers@gmail.com>
 > Signed-off-by: Daniel Gomez <da.gomez@samsung.com>
 > ---
->  scripts/subarch.include | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/scripts/subarch.include b/scripts/subarch.include
-> index 4bd327d0ae42..5d84ad8c0dee 100644
-> --- a/scripts/subarch.include
-> +++ b/scripts/subarch.include
-> @@ -6,7 +6,8 @@
->  
->  SUBARCH := $(shell uname -m | sed -e s/i.86/x86/ -e s/x86_64/x86/ \
->  				  -e s/sun4u/sparc64/ \
-> -				  -e s/arm.*/arm/ -e s/sa110/arm/ \
-> +				  -e s/armv.*/arm/ \
-> +				  -e s/arm\(?:\(?!64\).*\)/arm/ -e s/sa110/arm/ \
->  				  -e s/s390x/s390/ \
->  				  -e s/ppc.*/powerpc/ -e s/mips.*/mips/ \
->  				  -e s/sh[234].*/sh/ -e s/aarch64.*/arm64/ \
-> 
+> diff --git a/Makefile b/Makefile
+> index 44c02a6f60a1..7ac079955a94 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -1173,7 +1173,7 @@ include/config/kernel.release: FORCE
+>  # Carefully list dependencies so we do not try to build scripts twice
+>  # in parallel
+>  PHONY += scripts
+> -scripts: scripts_basic scripts_dtc
+> +scripts: headers_install scripts_basic scripts_dtc
+>  	$(Q)$(MAKE) $(build)=$(@)
 
-Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
+Since commit 59b2bd05f5f4 ("kbuild: add 'headers' target to build up
+uapi headers in usr/include", 2019-06-04), composing the user-space
+header tree is separated from the actual installation to
+$(INSTALL_HDR_PATH)/include.  Thus, you do not want to depend in
+'headers_install' but on 'headers' instead.
+
+Nevertheless, I am suspecting that this leads to trouble.  E.g.: if
+scripts/* include $(objtree)/usr/include/asm/*.h this will probably
+break cross-arch-building.
+
+Kind regards,
+Nicolas
 
