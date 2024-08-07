@@ -1,109 +1,134 @@
-Return-Path: <linux-kbuild+bounces-2897-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2898-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44F5394AEE9
-	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Aug 2024 19:31:40 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E82A294AF16
+	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Aug 2024 19:47:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B256E283068
-	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Aug 2024 17:31:38 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7721FB2550B
+	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Aug 2024 17:47:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21AD012C465;
-	Wed,  7 Aug 2024 17:31:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C1E613DBB3;
+	Wed,  7 Aug 2024 17:47:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="WZgWc2/t"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NMrKKNaC"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B978C7D3F5;
-	Wed,  7 Aug 2024 17:31:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BCE580BEC;
+	Wed,  7 Aug 2024 17:47:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723051896; cv=none; b=bZmUbdgcvOAcyu9EzEt6XNgbotMeh8qxeBiXtlTnJ3IsQT3LTiMaJRDV7Zb/exR12VDfIZ8fg2JSu0/Dets7TrivMH1EyeNxpOg7w/YgtIhhFvxsNErtmzpSJnFwu8Iv4aJRyKoEWLJzM9f+lWo2/bhrrQMQ44hB+tUarlEwRLU=
+	t=1723052857; cv=none; b=giRYJ1VCXow2KiBJd49DUHbePBxo30iKDU7AQfMACwLP5qHvHYfduLOvuUN/DmO/g39cEXCANAg0w44Ns1F/Zos18ZSnaT4mPy7DoxubtK0Rsq6zrYw3QMNl7TSy3EjM6ca803IvoAtNzuuaATQt+fnGjVZ9XLjzxR+YD34ZKrE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723051896; c=relaxed/simple;
-	bh=X5B2jUJXBjR1r8eby7VTQUB3d+SVvMRzoIBMrgb0aaE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DKZTpKtoabVcSZ/c/AFkvZzkqUU3xy4gY2+9ajSR++6JybcEFLqc7q3s2PhbeNiSH0oxu19MWpEtK0h6Chf2cPXS9A5zHQ0yxe0HuejqrZkwZ9gCLizsbNTeCNvTBLICHd8lx5jXzf6zeuuJ7VI6ZBipCsJmeeDaXtF8g2vy6kw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=WZgWc2/t; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1723051889;
-	bh=X5B2jUJXBjR1r8eby7VTQUB3d+SVvMRzoIBMrgb0aaE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WZgWc2/twgOFxWoDTtJAn5ivfZ4jD0uk3vKKpXh/zn4i/67ZLVvUIGifGxYY/3XA8
-	 I+RZt+D/eQtDbozYktjM2IHV9LEfzorcpdvFfiCbXUhNEQL+QNF6vlyvGi0QkzUD8g
-	 AcUfsVyoQonFkn8eeJkpQgR+XRC7iomP0i6/SJHU=
-Date: Wed, 7 Aug 2024 19:31:29 +0200
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Jose Fernandez <jose.fernandez@linux.dev>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
-	Christian Heusel <christian@heusel.eu>, Peter Jung <ptr1337@cachyos.org>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] kbuild: control extra pacman packages with
- PACMAN_EXTRAPACKAGES
-Message-ID: <66ef2ce9-5e7d-48fd-abeb-96e463d575ad@t-8ch.de>
-References: <20240807022718.24838-2-jose.fernandez@linux.dev>
- <CAK7LNAS4t_naRxdxFTaj9zrdf2Hjjoaq+cBO4Gx7=PhCJk9+4w@mail.gmail.com>
- <f65f1d49-8c6f-45e9-a4b2-30d4cfff10b1@t-8ch.de>
- <CAK7LNATuA4O3xVLcp5Lywr4njaUneKOJwPHZa11YQe63KXQpMA@mail.gmail.com>
+	s=arc-20240116; t=1723052857; c=relaxed/simple;
+	bh=I3dBEl7gZ6UF2jKD+4y9OTtPsx5fbU5DIZcAjt0Q+pQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=l/kGY7ouDfxvp/Fnx2t8l9mFJWsUoECShwf+XEG+/8AGPG6Lau8jkYdOOYODuPp9b2q8lfN4b6S6/KrmI1zAZBtiT2u+1wZRmwnGYrdKqixU4St60Sk3K02PBRrOjHkCmXYKsrJgHf8gAwLB/T544p2T56MJrP1dAcHNC+gqpbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NMrKKNaC; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3D31C32781;
+	Wed,  7 Aug 2024 17:47:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723052856;
+	bh=I3dBEl7gZ6UF2jKD+4y9OTtPsx5fbU5DIZcAjt0Q+pQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=NMrKKNaCEVK5Djs3ir/G5ibpZK0WbOdn1per0Oh5BOgUbbnYqKwVdmAAE5C+xVABt
+	 DyOrXtgIsofwNagQRXVGrohu6Jpd2rtx4iDeVaZKnK9V6Lu/K8uuZG/EXO4csgr2Zr
+	 1abhw+XabvcyInDzB9EiNdIc6O0ROkGf2sh2KhB2vwi/nI0qbIFaRPlybvtDjmLiTi
+	 E/2r/n0B/IIJO5nf7zwi1NfQ33MrS34xTWoZUIf7szCsONd8e9yE53a+aOYLZVsMMI
+	 0uIdQ6hfa+X5nJ1+DEr2/ZxM75HWeE8tXlwTMYulEmkzCg5Lzk8hPxOJhdeAU+oFZV
+	 StIzh/E0+m88w==
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH] treewide: remove unnecessary <linux/version.h> inclusion
+Date: Thu,  8 Aug 2024 02:47:28 +0900
+Message-ID: <20240807174730.658429-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK7LNATuA4O3xVLcp5Lywr4njaUneKOJwPHZa11YQe63KXQpMA@mail.gmail.com>
 
-On 2024-08-08 02:02:59+0000, Masahiro Yamada wrote:
-> On Thu, Aug 8, 2024 at 1:41 AM Thomas Weißschuh <linux@weissschuh.net> wrote:
-> > On 2024-08-07 22:37:47+0000, Masahiro Yamada wrote:
-> > > On Wed, Aug 7, 2024 at 11:28 AM Jose Fernandez <jose.fernandez@linux.dev> wrote:
+These files do not use any macros defined in <linux/version.h>.
 
-<snip>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-> > > Lastly, I will never accept new error messages
-> > > with CONFIG_MODULES=n.
-> >
-> > Could you elaborate?
-> > For me this works fine with CONFIG_MODULES=n.
-> > (After having fixed the above issues so all subpackages are built)
-> 
-> $ make  allnoconfig pacman-pkg
-> 
-> Check the linux-headers log closely.
+ drivers/accessibility/speakup/genmap.c                | 1 -
+ drivers/accessibility/speakup/makemapdata.c           | 1 -
+ drivers/staging/media/atomisp/include/linux/atomisp.h | 1 -
+ samples/trace_events/trace_custom_sched.c             | 1 -
+ sound/soc/codecs/cs42l42.c                            | 1 -
+ 5 files changed, 5 deletions(-)
+
+diff --git a/drivers/accessibility/speakup/genmap.c b/drivers/accessibility/speakup/genmap.c
+index 0125000e00d9..0882bab10fb8 100644
+--- a/drivers/accessibility/speakup/genmap.c
++++ b/drivers/accessibility/speakup/genmap.c
+@@ -10,7 +10,6 @@
+ #include <stdio.h>
+ #include <libgen.h>
+ #include <string.h>
+-#include <linux/version.h>
+ #include <ctype.h>
+ #include "utils.h"
  
-I see now, previously I was not on kbuild/for-next and had an old
-Module.symvers sitting around, hiding the issue.
+diff --git a/drivers/accessibility/speakup/makemapdata.c b/drivers/accessibility/speakup/makemapdata.c
+index d7d41bb9b05f..55e4ef8a93dc 100644
+--- a/drivers/accessibility/speakup/makemapdata.c
++++ b/drivers/accessibility/speakup/makemapdata.c
+@@ -10,7 +10,6 @@
+ #include <stdio.h>
+ #include <libgen.h>
+ #include <string.h>
+-#include <linux/version.h>
+ #include <ctype.h>
+ #include "utils.h"
+ 
+diff --git a/drivers/staging/media/atomisp/include/linux/atomisp.h b/drivers/staging/media/atomisp/include/linux/atomisp.h
+index 16c9da172c03..fefbe3cd08f3 100644
+--- a/drivers/staging/media/atomisp/include/linux/atomisp.h
++++ b/drivers/staging/media/atomisp/include/linux/atomisp.h
+@@ -20,7 +20,6 @@
+ #define _ATOM_ISP_H
+ 
+ #include <linux/types.h>
+-#include <linux/version.h>
+ 
+ /* struct media_device_info.hw_revision */
+ #define ATOMISP_HW_REVISION_MASK	0x0000ff00
+diff --git a/samples/trace_events/trace_custom_sched.c b/samples/trace_events/trace_custom_sched.c
+index b99d9ab7db85..dd409b704b35 100644
+--- a/samples/trace_events/trace_custom_sched.c
++++ b/samples/trace_events/trace_custom_sched.c
+@@ -8,7 +8,6 @@
+ #define pr_fmt(fmt) fmt
+ 
+ #include <linux/trace_events.h>
+-#include <linux/version.h>
+ #include <linux/module.h>
+ #include <linux/sched.h>
+ 
+diff --git a/sound/soc/codecs/cs42l42.c b/sound/soc/codecs/cs42l42.c
+index 60d366e53526..6400ac875e6f 100644
+--- a/sound/soc/codecs/cs42l42.c
++++ b/sound/soc/codecs/cs42l42.c
+@@ -11,7 +11,6 @@
+ 
+ #include <linux/module.h>
+ #include <linux/moduleparam.h>
+-#include <linux/version.h>
+ #include <linux/types.h>
+ #include <linux/init.h>
+ #include <linux/delay.h>
+-- 
+2.43.0
 
-==> Starting package_linux-upstream-headers()...
-Installing build files...
-tar: Module.symvers: Cannot stat: No such file or directory
-tar: Exiting with failure status due to previous errors
-Installing System.map and config...
-Adding symlink...
-==> Tidying install...
-
-(coming from scripts/package/install-extmod-build)
-
-linux-upstream-headers also contains .config and System.map which are
-useful without modules.
-So either we completely disable linux-upstream-headers or skip
-install-extmod-build when CONFIG_MODULES=n.
-And maybe move System.map and .config to some other package,
-which would then deviate from the original PKGBUILD.
-
-Neither option feels great, but it probably won't make a big difference.
-If you have a preference, let's go with that.
-
-
-Thomas
 
