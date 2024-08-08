@@ -1,342 +1,296 @@
-Return-Path: <linux-kbuild+bounces-2906-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2907-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98ADB94B900
-	for <lists+linux-kbuild@lfdr.de>; Thu,  8 Aug 2024 10:28:23 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4156694BC07
+	for <lists+linux-kbuild@lfdr.de>; Thu,  8 Aug 2024 13:13:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 25D131F25861
-	for <lists+linux-kbuild@lfdr.de>; Thu,  8 Aug 2024 08:28:23 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 88952B21407
+	for <lists+linux-kbuild@lfdr.de>; Thu,  8 Aug 2024 11:13:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B7D7189513;
-	Thu,  8 Aug 2024 08:28:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF65418B471;
+	Thu,  8 Aug 2024 11:13:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eUujgC6Q"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=smtpservice.net header.i=@smtpservice.net header.b="BNgkNsUh";
+	dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b="HqR7/wZP";
+	dkim=pass (1024-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b="BG0muSlj"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from e3i64.smtp2go.com (e3i64.smtp2go.com [158.120.84.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 214C5188CB7;
-	Thu,  8 Aug 2024 08:28:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2518C189F58
+	for <linux-kbuild@vger.kernel.org>; Thu,  8 Aug 2024 11:13:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=158.120.84.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723105700; cv=none; b=hzquvfguSg7jggT3GaUnvSMK09P9bFIIpf1edvcxzQKCa0RO/MMHBUVBiSx1HbdNLHWiy+pK+Dev6kNTXFx+oV33mS17gS/cfs4bt9SAWOyyRJtRFJ7t6YYSK1mgzK7H5jRUDybEkWsSsuwZ47tbYdoCLpuOvPr3ItTpc2YAIlE=
+	t=1723115619; cv=none; b=tzV0qiYiqE0C8/AVzUq/QsyleHW9y1cdX/o5UU+r8j5sXe9wjjxkQwdF339LoqkvsFbga5RhIva6gnULj0F639yiqBQe/NrAk3K3g0f+JKPW1JKpGbMOJC1Vf2ycgLACv5+motrL7PY4QSxZDicHyRK9p7tN1oFnBXlhx2zuDiQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723105700; c=relaxed/simple;
-	bh=RsjazUVd65ss4ljjNjf2jyWf8ra4rWMZAqCviNjzvgg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AtASvYwM8dyF/i1LSY3QvXQJZI/igkECbyesERVjy6t/lizB8U2lJZziym3raBiY2D0LC4pUlrnehRUUeOF8rL7Cfl1NPscHS1jsGdgCofz0T4P8MUNehmfLtO1SHOynp5HKWebZvpwV2v8z4D65fvl1cWYo/uLbQbfJ5Ce3KyY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eUujgC6Q; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82443C4AF09;
-	Thu,  8 Aug 2024 08:28:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723105698;
-	bh=RsjazUVd65ss4ljjNjf2jyWf8ra4rWMZAqCviNjzvgg=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=eUujgC6Q+00QV/UTNEtslxUIgfE6Wj3JhP5K7c3O7BLoU6r49mitVsUor5yX92r/r
-	 pPklzHYi4WyQbqt9BnwYDG4zBa0E5yYogbtUXdSEOUYVGiOCGMMYEe9BJ9uphm5Ap6
-	 tU/pacqugVMPthdT4fb4WwXaKnzMsOTNlVuehYbh6Lm8HT+RahxVV9DnQ+fOqYLCp+
-	 0HC8dfbycDFCEO6tS7imG3/otIkGKF+TWhJ3o+cimcfHDW1EQhvOFzg0/HUxtajuW6
-	 io3eiFuRH6Op5aEJ3UvaRyB9rTqqmZcu8Gfogzs49OQpclzL9eLd4qXwlBJgt/Gyw8
-	 IXHTTPUVVni0g==
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-52f025ab3a7so802616e87.2;
-        Thu, 08 Aug 2024 01:28:18 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVINzly/XfMbRUrKt4N812HJHJ0se79eUJeGQKuM9znHK6m2NXNv0LBiCSbyFgFUe2czRaH1gUTo97inLlGZ9ujScwx8zzA93y8QY4pfQfq6bVYGstLDjuc/UMetpLaKtwpsN68KirdY3mN
-X-Gm-Message-State: AOJu0Yx3HfNl3R0S10Wunl5O4BO83WtCc2L4mkzUTNcskHs3y71ggX0X
-	WIKmVMWuRIm2vN+Grs560WwogGT+vWGnHNx1SR1hWOuKiH5FlrERGNm9253l4UqfvU2tdNQGplw
-	Yd4PTa9R0owA3JHosPjeXXX4PBKE=
-X-Google-Smtp-Source: AGHT+IF7Ja1J+RUSfN8ktEXk1bVMLJvH5ThoRCviur13k8NxgkA+MCCKahJ2QumTkUT4YsQPTfK1nMN0K0UuhwQppM4=
-X-Received: by 2002:a05:6512:1095:b0:52b:c1cc:51f1 with SMTP id
- 2adb3069b0e04-530e5875b4cmr731057e87.23.1723105697172; Thu, 08 Aug 2024
- 01:28:17 -0700 (PDT)
+	s=arc-20240116; t=1723115619; c=relaxed/simple;
+	bh=o7bhdwNQ62EoS95sx84tEhwI9oeEmv+6fwfOAXB/f5s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GQTbYW6TJONicq1wgchz5Zx4kuiJRqibJ7M76C5Al5rTFZScrn27m+p2+tx7CpV8VeD4dFaBNH438dD8LQzcjKns7gWxUs+Pop83LDbAjBb9FyAo6etWO8s1i5tIk/JXYuWAi1GrIZqFftObtZVSERnuiSDCd2rKpUrVjW1VCaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu; spf=pass smtp.mailfrom=em1174286.fjasle.eu; dkim=pass (2048-bit key) header.d=smtpservice.net header.i=@smtpservice.net header.b=BNgkNsUh; dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b=HqR7/wZP; dkim=pass (1024-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b=BG0muSlj; arc=none smtp.client-ip=158.120.84.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=em1174286.fjasle.eu
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=smtpservice.net;
+ i=@smtpservice.net; q=dns/txt; s=a1-4; t=1723115607; h=feedback-id :
+ x-smtpcorp-track : date : message-id : to : subject : from : reply-to
+ : sender : list-unsubscribe : list-unsubscribe-post;
+ bh=DWvwT7MwWty/w8bZJf5PhzT0d4KUoUgQ/VKY8SN+v/4=;
+ b=BNgkNsUhuH3fKHzSQNF9g9X/8sz6PMj8a6knfnCLlZiuhIv7RojpTe4uZfCwL0ukFx1/k
+ u0uQb/j73ADS7bMoLPgi6UzdjI2Z0gGiSwt6/fSz0hEfohjz5lngkKhkv9zV9LATVApJKwy
+ WuwuJPubhI3WCXTxoZD25nR3QMBARyQ88TgZMnP15caa/0Gh4mOhA9r7x6cK6OSeZkU4XcK
+ XCyho20ZnQqu2x5NYBJJFgccn26JTq+5Q6AjyxGXrdtEbIhB5yylV1CCabXRQYmf4Tb7GFG
+ /61Lzi8JxECJZBaKlZP0sQL4m0zJb5HETpPJ5Arbd8e5r+iCoPNG+h5SjU4Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fjasle.eu;
+ i=@fjasle.eu; q=dns/txt; s=s1174286; t=1723115607; h=from : subject :
+ to : message-id : date;
+ bh=DWvwT7MwWty/w8bZJf5PhzT0d4KUoUgQ/VKY8SN+v/4=;
+ b=HqR7/wZPlfbhs7MYcrRREJ3P/BEBy3z8mOMqsDtHpd+NCL/2Q9VX7XEJS+pXHzpIXuYIN
+ JC3buPFIkH+E9DrMMKGkaWPJX/o89AqXvmykK+AAZmIcnrxFwTlLeMHuvd/U4G2Ip8TbeP6
+ z1bbdSPGyCJCKhVyQvHN8/NmG3if+/3u1dXLHCyqKuwX5G336IEMBWJPXKaJD8ltJ+KZh4L
+ w5oRrZQjRH9h9ZbsemWuQ5SyMDssrYaQfhm17XnbklYE/OFi5GYacH6QpPLZ0nZGqykLX1b
+ OGB6YoKR4bbBMiZ833XE6WuCS4ATsV+tOOu4Pchijth0D7bbYzdP+MefEscQ==
+Received: from [10.85.249.164] (helo=leknes.fjasle.eu)
+	by smtpcorp.com with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.97.1-S2G)
+	(envelope-from <nicolas@fjasle.eu>)
+	id 1sc14u-FnQW0hPl8lT-kBTA;
+	Thu, 08 Aug 2024 11:13:08 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
+	t=1723115576; bh=o7bhdwNQ62EoS95sx84tEhwI9oeEmv+6fwfOAXB/f5s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BG0muSlj6GOKpUkPtJ0qd52efWk+CoW4jZdWTKnne+jdIvvJKqC3ltvtnGmjhM6mI
+	 ntIjsexl1m6K1i0KpZ0pMoOd7MLa/iz7heBW4/RbRrqhv+BTvbijSHbfD0DPQ3Cb8B
+	 WgqVLiFWs+fL3QDohjEbAtCBnj/mEdqJorCqp/58=
+Received: by leknes.fjasle.eu (Postfix, from userid 1000)
+	id 82E5742DD9; Thu,  8 Aug 2024 13:12:56 +0200 (CEST)
+Date: Thu, 8 Aug 2024 13:12:56 +0200
+From: Nicolas Schier <nicolas@fjasle.eu>
+To: Daniel Gomez <da.gomez@samsung.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Lucas De Marchi <lucas.demarchi@intel.com>,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	William Hubbs <w.d.hubbs@gmail.com>,
+	Chris Brannon <chris@the-brannons.com>,
+	Kirk Reiser <kirk@reisers.ca>,
+	Samuel Thibault <samuel.thibault@ens-lyon.org>,
+	Paul Moore <paul@paul-moore.com>,
+	Stephen Smalley <stephen.smalley.work@gmail.com>,
+	Ondrej Mosnacek <omosnace@redhat.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	James Morse <james.morse@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+	"intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"speakup@linux-speakup.org" <speakup@linux-speakup.org>,
+	"selinux@vger.kernel.org" <selinux@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
+	"linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
+	"llvm@lists.linux.dev" <llvm@lists.linux.dev>,
+	Finn Behrens <me@kloenk.dev>,
+	"Daniel Gomez (Samsung)" <d+samsung@kruces.com>,
+	"gost.dev@samsung.com" <gost.dev@samsung.com>
+Subject: Re: [PATCH 06/12] selinux/genheaders: include bitsperlong and
+ posix_types headers
+Message-ID: <ZrSoOM9z4VnqhOf2@fjasle.eu>
+References: <20240807-macos-build-support-v1-0-4cd1ded85694@samsung.com>
+ <20240807-macos-build-support-v1-6-4cd1ded85694@samsung.com>
+ <CGME20240807153904eucas1p2264f7363ae2474c20c6dc1b84a232815@eucas1p2.samsung.com>
+ <20240807-outgoing-charcoal-collie-0ee37e@lindesnes>
+ <sbj3c3tlafewy2n4pylbnpb4gwylpnyxovdykfy3dhk2wqmpry@ekhhe3mgqnd6>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <202408061634.fe6be94-oliver.sang@intel.com> <CAK7LNARnytQTW5vE+u+ez1pHuSVS34cQ0+xK+MLyfLp05GjoaA@mail.gmail.com>
- <ZrR5c1p1fPffFeB2@xsang-OptiPlex-9020>
-In-Reply-To: <ZrR5c1p1fPffFeB2@xsang-OptiPlex-9020>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Thu, 8 Aug 2024 17:27:40 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARFuUHiEVDF3O-aFc+awXM5QdCUCUu5wqbTcZQgLLWsuA@mail.gmail.com>
-Message-ID: <CAK7LNARFuUHiEVDF3O-aFc+awXM5QdCUCUu5wqbTcZQgLLWsuA@mail.gmail.com>
-Subject: Re: [linus:master] [kconfig] f79dc03fe6: segfault_at_ip_sp_error
-To: Oliver Sang <oliver.sang@intel.com>
-Cc: oe-lkp@lists.linux.dev, lkp@intel.com, linux-kernel@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="VxNEXc5Vg6IlyTm+"
+Content-Disposition: inline
+In-Reply-To: <sbj3c3tlafewy2n4pylbnpb4gwylpnyxovdykfy3dhk2wqmpry@ekhhe3mgqnd6>
+X-Report-Abuse: Please forward a copy of this message, including all headers, to <abuse-report@smtp2go.com>
+Feedback-ID: 1174286m:1174286a9YXZ7r:1174286stAICZmwpS
+X-smtpcorp-track: KTKp8HqdLthx.ATU9ZuB4Dvcb.7sqdtQRrqac
+
+
+--VxNEXc5Vg6IlyTm+
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 8, 2024 at 4:53=E2=80=AFPM Oliver Sang <oliver.sang@intel.com> =
-wrote:
->
-> hi, Masahiro Yamada,
->
-> On Tue, Aug 06, 2024 at 05:57:47PM +0900, Masahiro Yamada wrote:
-> > On Tue, Aug 6, 2024 at 5:21=E2=80=AFPM kernel test robot <oliver.sang@i=
-ntel.com> wrote:
-> > >
-> > >
-> > > hi, Masahiro Yamada,
-> > >
-> > > the config for this test is a random config, by this commit, the conf=
-ig has
-> > > below diff with parent:
-> > >
-> > > --- /pkg/linux/i386-randconfig-r032-20230623/gcc-12/ee29e6204c32dce01=
-3ac6d1078d98dce5607ce86/.config    2024-08-05 12:56:30.744686432 +0800
-> > > +++ /pkg/linux/i386-randconfig-r032-20230623/gcc-12/f79dc03fe68c79d38=
-8908182e68d702f7f1786bc/.config    2024-08-05 12:56:37.620536644 +0800
-> > > @@ -770,14 +770,14 @@ CONFIG_MODULE_UNLOAD=3Dy
-> > >  CONFIG_MODULE_SIG=3Dy
-> > >  # CONFIG_MODULE_SIG_FORCE is not set
-> > >  CONFIG_MODULE_SIG_ALL=3Dy
-> > > -CONFIG_MODULE_SIG_SHA1=3Dy
-> > > +# CONFIG_MODULE_SIG_SHA1 is not set
-> > >  # CONFIG_MODULE_SIG_SHA256 is not set
-> > >  # CONFIG_MODULE_SIG_SHA384 is not set
-> > >  # CONFIG_MODULE_SIG_SHA512 is not set
-> > > -# CONFIG_MODULE_SIG_SHA3_256 is not set
-> > > +CONFIG_MODULE_SIG_SHA3_256=3Dy
-> > >  # CONFIG_MODULE_SIG_SHA3_384 is not set
-> > >  # CONFIG_MODULE_SIG_SHA3_512 is not set
-> > > -CONFIG_MODULE_SIG_HASH=3D"sha1"
-> > > +CONFIG_MODULE_SIG_HASH=3D"sha3-256"
-> > >  CONFIG_MODULE_COMPRESS_NONE=3Dy
-> > >  # CONFIG_MODULE_COMPRESS_GZIP is not set
-> > >  # CONFIG_MODULE_COMPRESS_XZ is not set
-> > > @@ -6201,7 +6201,6 @@ CONFIG_FIPS_SIGNATURE_SELFTEST_ECDSA=3Dy
-> > >  #
-> > >  CONFIG_MODULE_SIG_KEY=3D"certs/signing_key.pem"
-> > >  CONFIG_MODULE_SIG_KEY_TYPE_RSA=3Dy
-> > > -# CONFIG_MODULE_SIG_KEY_TYPE_ECDSA is not set
-> > >  CONFIG_SYSTEM_TRUSTED_KEYRING=3Dy
-> > >  CONFIG_SYSTEM_TRUSTED_KEYS=3D""
-> > >  CONFIG_SYSTEM_EXTRA_CERTIFICATE=3Dy
-> > >
-> > >
-> > > we are not sure if these are expected?
-> >
-> >
-> > This is expected.
-> >
-> > f79dc03fe68c79d388908182e68d702f7f1786bc changed the way how choice is
-> > calculated.
-> > So, the randconfig from the same seed can result in a different .config=
- file.
-> >
-> >
-> >
-> > > we are not sure either if the issue in below report is caused by this=
- config
-> > > diff. just report what we observed in our tests FYI.
-> >
-> >
-> > I believe it is a different issue.
-> >
-> > It is just a problem with the combination of depmod
-> > and CONFIG_MODULE_SIG_SHA3_256=3Dy, isn't it?
->
-> we are not sure. we just use randconfig to run rcutorture tests.
+Am Wed, Aug 07, 2024 at 09:41:00PM +0000 schrieb Daniel Gomez:
+> Date: Wed, 7 Aug 2024 21:41:00 +0000
+> From: Daniel Gomez <da.gomez@samsung.com>
+> To: Nicolas Schier <nicolas@fjasle.eu>
+> CC: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor
+>  <nathan@kernel.org>, Lucas De Marchi <lucas.demarchi@intel.com>, Thomas
+>  Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi
+>  <rodrigo.vivi@intel.com>, Maarten Lankhorst
+>  <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+>  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com=
+>,
+>  Daniel Vetter <daniel@ffwll.ch>, William Hubbs <w.d.hubbs@gmail.com>,
+>  Chris Brannon <chris@the-brannons.com>, Kirk Reiser <kirk@reisers.ca>,
+>  Samuel Thibault <samuel.thibault@ens-lyon.org>, Paul Moore
+>  <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>,
+>  Ondrej Mosnacek <omosnace@redhat.com>, Catalin Marinas
+>  <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Marc Zyngier
+>  <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, James Morse
+>  <james.morse@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui
+>  Yu <yuzenghui@huawei.com>, Greg Kroah-Hartman
+>  <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, Nick
+>  Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>,
+>  Justin Stitt <justinstitt@google.com>, "linux-kernel@vger.kernel.org"
+>  <linux-kernel@vger.kernel.org>, "linux-kbuild@vger.kernel.org"
+>  <linux-kbuild@vger.kernel.org>, "intel-xe@lists.freedesktop.org"
+>  <intel-xe@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
+>  <dri-devel@lists.freedesktop.org>, "speakup@linux-speakup.org"
+>  <speakup@linux-speakup.org>, "selinux@vger.kernel.org"
+>  <selinux@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
+>  <linux-arm-kernel@lists.infradead.org>, "kvmarm@lists.linux.dev"
+>  <kvmarm@lists.linux.dev>, "linux-serial@vger.kernel.org"
+>  <linux-serial@vger.kernel.org>, "llvm@lists.linux.dev"
+>  <llvm@lists.linux.dev>, Finn Behrens <me@kloenk.dev>, "Daniel Gomez
+>  (Samsung)" <d+samsung@kruces.com>, "gost.dev@samsung.com"
+>  <gost.dev@samsung.com>
+> Subject: Re: [PATCH 06/12] selinux/genheaders: include bitsperlong and
+>  posix_types headers
+> Message-ID: <sbj3c3tlafewy2n4pylbnpb4gwylpnyxovdykfy3dhk2wqmpry@ekhhe3mgq=
+nd6>
+>=20
+> On Wed, Aug 07, 2024 at 05:38:28PM GMT, Nicolas Schier wrote:
+> > On Wed, Aug 07, 2024 at 01:09:20AM +0200, Daniel Gomez via B4 Relay wro=
+te:
+> > > From: Daniel Gomez <da.gomez@samsung.com>
+> > >=20
+> > > The genheaders requires the bitsperlong.h and posix_types.h headers.
+> > > To ensure these headers are found during compilation on macOS hosts,
+> > > add usr/include to HOST_EXTRACFLAGS in the genheaders Makefile. This
+> > > adjustment allows the compiler to locate all necessary headers when t=
+hey
+> > > are not available by default on macOS.
+> > >=20
+> > > Signed-off-by: Daniel Gomez <da.gomez@samsung.com>
+> > > ---
+> > >  scripts/selinux/genheaders/Makefile | 3 ++-
+> > >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > >=20
+> > > diff --git a/scripts/selinux/genheaders/Makefile b/scripts/selinux/ge=
+nheaders/Makefile
+> > > index 1faf7f07e8db..017149c90f8e 100644
+> > > --- a/scripts/selinux/genheaders/Makefile
+> > > +++ b/scripts/selinux/genheaders/Makefile
+> > > @@ -2,4 +2,5 @@
+> > >  hostprogs-always-y +=3D genheaders
+> > >  HOST_EXTRACFLAGS +=3D \
+> > >  	-I$(srctree)/include/uapi -I$(srctree)/include \
+> > > -	-I$(srctree)/security/selinux/include
+> > > +	-I$(srctree)/security/selinux/include \
+> > > +	-I$(srctree)/usr/include
+> >=20
+> > 'make headers' composes the UAPI header tree in $(objtree)/usr/include.
+> > So, if you build out-of-source, -I$(srctree)/usr/include will not match.
+> > Just remove the '$(srctree)/' prefix as '$(objtree)/' is always '.'.
+>=20
+> The 'headers' target also deploys installs the headers in arch/$(SRCARCH)/
+> include/uapi, so I've updated selinux/genheaders/Makefile to the followin=
+g:
+>=20
+> diff --git a/scripts/selinux/genheaders/Makefile b/scripts/selinux/genhea=
+ders/Makefile
+> index 1faf7f07e8db..ae1f195b6f67 100644
+> --- a/scripts/selinux/genheaders/Makefile
+> +++ b/scripts/selinux/genheaders/Makefile
+> @@ -2,4 +2,6 @@
+>  hostprogs-always-y +=3D genheaders
+>  HOST_EXTRACFLAGS +=3D \
+>         -I$(srctree)/include/uapi -I$(srctree)/include \
+> -       -I$(srctree)/security/selinux/include
+> +       -I$(srctree)/security/selinux/include \
+> +       -I$(objtree)/arch/$(SRCARCH)/include/generated/uapi \
+> +       -I$(objtree)/arch/$(SRCARCH)/include/uapi
+
+SRCARCH is not derived from the host but from $(ARCH) (cp. top-level
+Makefile), thus you must not use arch/$(SRCARCH)/include/* for building
+host progs as this breaks cross-building (e.g. consider build Linux for
+32bit m68k on a arm64 host).
+
+>=20
+> The include path -I$(objtree)/arch/$(SRCARCH)/include/generated/uapi
+> enables locating the asm/types.h.
+>=20
+> The include path -I$(objtree)/arch/$(SRCARCH)/include/uapi enables
+> locating the asm/bitsperlong.h and asm/posix_types.h.
+>=20
+> >=20
+> > But I am suspecting that this break cross-building.
+>=20
+> I=E2=80=99ve tested this change on macOS with ARCH=3Darm64, as well as on=
+ Debian with
+> ARCH=3Darm64 and ARCH=3Dx86_64. Is it enough to just confirm that cross-b=
+uilding
+> still works after this change?
+
+No, it isn't.  asm/bitsperlong.h is probably similar (enough) for current
+64-bit systems, but 32-bit platforms will have different versions.
+Anyway, we must not use target arch/platform-specific header files for
+host progs.  If we do, it will break.
+
+You want to use arm64 specific header files for building your arm64 host
+progs, as MacOS does not provide these (thus, it's a missing build
+dependency).  As this is not common (yet), such a build hack should be limi=
+ted
+to MacOS/Darwin only to not accidentally break other platforms.  (Do you al=
+so
+have MacOS/amd64 in mind?)
+
+As written elsewhere, another approach could be to create and maintain a Li=
+nux
+kernel dev kit for MacOS, that delivers (fetches, downloads, generates) all
+missing header files.
+
+Kind regards,
+Nicolas
 
 
+--VxNEXc5Vg6IlyTm+
+Content-Type: application/pgp-signature; name="signature.asc"
 
-See this line in the error report:
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAma0qC4ACgkQB1IKcBYm
+EmlXFA//QK4VblCu85gKzeuSZduI65fyEghlP3E7HDD3wm89ScPK97QA6E3/18Eq
+KBbtW4cg56lb2YdCbv9kuIbh4xGhW9+w8lOMrTBK2CKHtVT83hO+Oyd2ZYN1F6W/
+9dBu+x09VAhWc01GPCM+1518klpvgEM9E6nmTh1xRSLaIjtlGPsiNXGaUcpMO4w2
+TEAs9SSczQa/vazzKdd71q3e2eTpLEYOuIi6+07Iny4nWjWFPwK60OxmeDfXe0un
+zZyapckz2FVMcAujnUVd8yxoaIrhlZ5K2e9GSk9BpH3LKpoTTqIhQUYFoI9Y7tHL
+RSZA5igzUTBAcSIIegyBGa5D2NzkfiNSI+MxN5hqRbZclmll5fEyvu0ej+ZJTmLC
+jDATEufQxckE3a1Q1qxxuoM3keRi7LUWPu/RZnU09BNIQFZGlOquPOmIGHyR6Vux
+wfCr4WHohktugmKMwhLf4g6nxrdOy5H4Rd3RskWyBz2xkYSFKnm2zoaJZCBq8D2/
+v/fWGHeswRzLjWqxbPsMdFfd8QuuaYYXf4wBrG9k02eAXH1Q+dOu/MZJ4Do4mCp+
+O/+FGuyln0lUjxwG80YQslhSRNjov6VlrHSXTGNHNhcUffJYXAcBABbSYg2+NCYW
+4AVxeP5dRxvjQYDCraWpTSnPOvQGnKo3Jy7++TppRl4ra4DxfC0=
+=UoyI
+-----END PGP SIGNATURE-----
 
-[   15.209351][  T483] depmod[483]: segfault at 0 ip b7abe4f6 sp
-bfb00aa4 error 4 in libc-2.31.so[8c4f6,b7a4b000+155000] likely on CPU
-0 (core 0, socket 0)
-
-
-
-
-
-
-
-> >
-> >
-> > What is your depmod (kmod) version?
->
-> our kmod version is 28
-
-
-See this again:
-
-https://lore.kernel.org/linux-kbuild/E1rNVlL-000qDm-Pg@rmk-PC.armlinux.org.=
-uk/
-
-
-It clearly explains when the issue happens:
-
- When using the SHA3 module signing options, kmod 28 segfaults during
- "make modules_install" on the build host.
-
-
-
-If you are using kmod 28, upgrading it will presumably fix the issue.
-
-
-
-
->
-> >
-> > The crash of kmod<=3D28 with CONFIG_MODULE_SIG_SHA3_384=3Dy is a known =
-issue:
-> >
-> > https://lore.kernel.org/linux-kbuild/E1rNVlL-000qDm-Pg@rmk-PC.armlinux.=
-org.uk/
-> >
-> >
-> >
-> > >
-> > >
-> > > Hello,
-> > >
-> > > kernel test robot noticed "segfault_at_ip_sp_error" on:
-> > >
-> > > commit: f79dc03fe68c79d388908182e68d702f7f1786bc ("kconfig: refactor =
-choice value calculation")
-> > > https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git maste=
-r
-> > >
-> > > [test failed on linus/master      de9c2c66ad8e787abec7c9d7eff4f8c3cdd=
-28aed]
-> > > [test failed on linux-next/master d6dbc9f56c3a70e915625b6f1887882c23d=
-c5c91]
-> > >
-> > > in testcase: rcutorture
-> > > version:
-> > > with following parameters:
-> > >
-> > >         runtime: 300s
-> > >         test: default
-> > >         torture_type: srcud
-> > >
-> > >
-> > >
-> > > compiler: gcc-12
-> > > test machine: qemu-system-i386 -enable-kvm -cpu SandyBridge -smp 2 -m=
- 4G
-> > >
-> > > (please refer to attached dmesg/kmsg for entire log/backtrace)
-> > >
-> > >
-> > > +-------------------------+------------+------------+
-> > > |                         | ee29e6204c | f79dc03fe6 |
-> > > +-------------------------+------------+------------+
-> > > | segfault_at_ip_sp_error | 0          | 30         |
-> > > +-------------------------+------------+------------+
-> > >
-> > >
-> > > If you fix the issue in a separate patch/commit (i.e. not just a new =
-version of
-> > > the same patch/commit), kindly add following tags
-> > > | Reported-by: kernel test robot <oliver.sang@intel.com>
-> > > | Closes: https://lore.kernel.org/oe-lkp/202408061634.fe6be94-oliver.=
-sang@intel.com
-> > >
-> > >
-> > > [  OK  ] Started OpenBSD Secure Shell server.
-> > > LKP: ttyS0: 263: Kernel tests: Boot OK!
-> > > LKP: ttyS0: 263: HOSTNAME vm-snb-i386, MAC 52:54:00:12:34:56, kernel =
-6.10.0-rc7-00022-gf79dc03fe68c 1
-> > > [   12.271477][   T23] input: ImExPS/2 Generic Explorer Mouse as /dev=
-ices/platform/i8042/serio1/input/input3
-> > > LKP: ttyS0: 263:  /lkp/lkp/src/bin/run-lkp /lkp/jobs/scheduled/vm-met=
-a-59/rcutorture-300s-default-srcud-debian-11.1-i386-20220923.cgz-i386-randc=
-onfig-r032-20230623-f79dc03fe68c-20240805-47158-x4nrel-3.yaml
-> > > [   15.209351][  T483] depmod[483]: segfault at 0 ip b7abe4f6 sp bfb0=
-0aa4 error 4 in libc-2.31.so[8c4f6,b7a4b000+155000] likely on CPU 0 (core 0=
-, socket 0)
-> > > [ 15.210249][ T483] Code: 5b 5e 29 f8 5f c3 66 90 66 90 66 90 66 90 6=
-6 90 66 90 66 90 56 57 8b 7c 24 0c 31 c0 89 f9 83 e1 3f 66 0f ef c0 83 f9 3=
-0 77 17 <f3> 0f 6f 0f 66 0f 74 c1 66 0f d7 d0 85 d2 75 73 89 f8 83 e0 f0 eb
-> > > All code
-> > > =3D=3D=3D=3D=3D=3D=3D=3D
-> > >    0:   5b                      pop    %rbx
-> > >    1:   5e                      pop    %rsi
-> > >    2:   29 f8                   sub    %edi,%eax
-> > >    4:   5f                      pop    %rdi
-> > >    5:   c3                      retq
-> > >    6:   66 90                   xchg   %ax,%ax
-> > >    8:   66 90                   xchg   %ax,%ax
-> > >    a:   66 90                   xchg   %ax,%ax
-> > >    c:   66 90                   xchg   %ax,%ax
-> > >    e:   66 90                   xchg   %ax,%ax
-> > >   10:   66 90                   xchg   %ax,%ax
-> > >   12:   66 90                   xchg   %ax,%ax
-> > >   14:   56                      push   %rsi
-> > >   15:   57                      push   %rdi
-> > >   16:   8b 7c 24 0c             mov    0xc(%rsp),%edi
-> > >   1a:   31 c0                   xor    %eax,%eax
-> > >   1c:   89 f9                   mov    %edi,%ecx
-> > >   1e:   83 e1 3f                and    $0x3f,%ecx
-> > >   21:   66 0f ef c0             pxor   %xmm0,%xmm0
-> > >   25:   83 f9 30                cmp    $0x30,%ecx
-> > >   28:   77 17                   ja     0x41
-> > >   2a:*  f3 0f 6f 0f             movdqu (%rdi),%xmm1             <-- t=
-rapping instruction
-> > >   2e:   66 0f 74 c1             pcmpeqb %xmm1,%xmm0
-> > >   32:   66 0f d7 d0             pmovmskb %xmm0,%edx
-> > >   36:   85 d2                   test   %edx,%edx
-> > >   38:   75 73                   jne    0xad
-> > >   3a:   89 f8                   mov    %edi,%eax
-> > >   3c:   83 e0 f0                and    $0xfffffff0,%eax
-> > >   3f:   eb                      .byte 0xeb
-> > >
-> > > Code starting with the faulting instruction
-> > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > >    0:   f3 0f 6f 0f             movdqu (%rdi),%xmm1
-> > >    4:   66 0f 74 c1             pcmpeqb %xmm1,%xmm0
-> > >    8:   66 0f d7 d0             pmovmskb %xmm0,%edx
-> > >    c:   85 d2                   test   %edx,%edx
-> > >    e:   75 73                   jne    0x83
-> > >   10:   89 f8                   mov    %edi,%eax
-> > >   12:   83 e0 f0                and    $0xfffffff0,%eax
-> > >   15:   eb                      .byte 0xeb
-> > > [   15.251290][  T487] torture module --- srcud:  disable_onoff_at_bo=
-ot=3D0 ftrace_dump_at_shutdown=3D0 verbose_sleep_frequency=3D0 verbose_slee=
-p_duration=3D1 random_shuffle=3D0
-> > > [   15.255881][  T487] srcud-torture:--- Start of test: nreaders=3D1 =
-nfakewriters=3D4 stat_interval=3D60 verbose=3D1 test_no_idle_hz=3D1 shuffle=
-_interval=3D3 stutter=3D5 irqreader=3D1 fqs_duration=3D0 fqs_holdoff=3D0 fq=
-s_stutter=3D3 test_boost=3D1/0 test_boost_interval=3D7 test_boost_duration=
-=3D4 shutdown_secs=3D0 stall_cpu=3D0 stall_cpu_holdoff=3D10 stall_cpu_irqso=
-ff=3D0 stall_cpu_block=3D0 n_barrier_cbs=3D0 onoff_interval=3D0 onoff_holdo=
-ff=3D0 read_exit_delay=3D13 read_exit_burst=3D16 nocbs_nthreads=3D0 nocbs_t=
-oggle=3D1000 test_nmis=3D0
-> > > [   15.258765][  T487] srcud:  Start-test grace-period state: g0 f0x0
-> > > [   15.259257][  T487] rcu_torture_write_types: Testing expedited GPs=
-.
-> > > [   15.259713][  T487] rcu_torture_write_types: Testing asynchronous =
-GPs.
-> > >
-> > >
-> > > The kernel config and materials to reproduce are available at:
-> > > https://download.01.org/0day-ci/archive/20240806/202408061634.fe6be94=
--oliver.sang@intel.com
-> > >
-> > >
-> > >
-> > > --
-> > > 0-DAY CI Kernel Test Service
-> > > https://github.com/intel/lkp-tests/wiki
-> > >
-> >
-> >
-> > --
-> > Best Regards
-> > Masahiro Yamada
-
-
-
---=20
-Best Regards
-Masahiro Yamada
+--VxNEXc5Vg6IlyTm+--
 
