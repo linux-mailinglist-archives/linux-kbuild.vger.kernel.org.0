@@ -1,131 +1,136 @@
-Return-Path: <linux-kbuild+bounces-2929-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2930-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F02994DB41
-	for <lists+linux-kbuild@lfdr.de>; Sat, 10 Aug 2024 09:55:02 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E4F694DC86
+	for <lists+linux-kbuild@lfdr.de>; Sat, 10 Aug 2024 13:36:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A8A911C2101A
-	for <lists+linux-kbuild@lfdr.de>; Sat, 10 Aug 2024 07:55:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CC5CD282961
+	for <lists+linux-kbuild@lfdr.de>; Sat, 10 Aug 2024 11:36:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2CC8D13D61B;
-	Sat, 10 Aug 2024 07:54:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23718157E9F;
+	Sat, 10 Aug 2024 11:36:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="hmtiIhQd"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RLEgwVnj"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D03E42F5E;
-	Sat, 10 Aug 2024 07:54:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B23A2157E91;
+	Sat, 10 Aug 2024 11:36:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723276498; cv=none; b=LzKZftKGvsx93bZ0he3CmHNhhAGl95V2NFNVgRj0HrkhgKh6DQPlENRuetWzwXTdA4NQd4IQrBeIW2P3YcTWbmW8jNdXwM2/uchz9hh9Hp7q77uKSBubZf3L93DPy5OVzLzXagISMy0X5ZJaCU7ILzGmFmpBt9wEhzCc6YRRjKY=
+	t=1723289777; cv=none; b=HYg1RxzxKBVPKow9qKqVwjsa2IdQYpzwWtCwFHNvsWJ0ehwStdup3fIEehVtZUHfMCK9NDxKo4Vea3uQR/xcSdsEP3AMp07xtaMzmQmrC4Nc43rCaMVSRB3jKR1TpQEOArQ1HBEQUvSEuIq0ubkzVuXNojC2v1BlkhYEhDMM9KE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723276498; c=relaxed/simple;
-	bh=Gj2/LU1fn1ts1+xFvoPFkT9HHYcdH9RWtfsun/iJSHg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UZOW56hU0Jy/Sr9pcIAysVA24pQ5e/Eny40TZi2RFIyyw3U/zpP6bfjLoLX6RmUnVYYoX0/buQaQB1SXDL0BFhqrUciRT4zMxBqFNS4kySuEO6qbh+3Ox4k+HjgbYV/FmBzMoqoB/xvum5T+H4zisKAz3OpyKZXM3dIDbN+Z3B8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=hmtiIhQd; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1723276487;
-	bh=Gj2/LU1fn1ts1+xFvoPFkT9HHYcdH9RWtfsun/iJSHg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hmtiIhQdkxLFZj/uSClqoPqAaFG/4Jm2DAeK+xfOW6sjBBAAIZ/Awl6HwRZozyhBH
-	 oscusCZ211sB8lUL5dTD2vBuF35diyUdb2j9aNrKDxYa4/hjH7W+Qoe3K88RgKIQxV
-	 C+6h91lwu9KBqAG8UA7vuJibxzCjCQwvc/DNI7Qs=
-Date: Sat, 10 Aug 2024 09:54:46 +0200
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Jose Fernandez <jose.fernandez@linux.dev>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
-	Christian Heusel <christian@heusel.eu>, Peter Jung <ptr1337@cachyos.org>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] kbuild: control extra pacman packages with
- PACMAN_EXTRAPACKAGES
-Message-ID: <7e3cd6a0-a493-40bc-af2d-23fd1d344b6c@t-8ch.de>
-References: <20240807022718.24838-2-jose.fernandez@linux.dev>
- <CAK7LNAS4t_naRxdxFTaj9zrdf2Hjjoaq+cBO4Gx7=PhCJk9+4w@mail.gmail.com>
- <f65f1d49-8c6f-45e9-a4b2-30d4cfff10b1@t-8ch.de>
- <CAK7LNATuA4O3xVLcp5Lywr4njaUneKOJwPHZa11YQe63KXQpMA@mail.gmail.com>
- <66ef2ce9-5e7d-48fd-abeb-96e463d575ad@t-8ch.de>
- <nbr7h4owyxfdyd4olis7ccrh3ljz6gco6qf7p7uzttw5ijsquj@ws7iqib576rm>
+	s=arc-20240116; t=1723289777; c=relaxed/simple;
+	bh=pRDv7ES/6srChhxqUba+UjeIOeYp7UdK0hH4IWFavG4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=T+5GB5gI3ALevC1QNO5Ls+yLrz74Ej+OoBgwD3Xih/RVAR4zXvrZZdUSzu4T/yCjNAo8fCueCJPNY0A7COgD8Xju6COUIGyLJMODnCCfNTr0DawWbCRVvLgEUxiRlbrH0PhYqvfkhWv/7XfluCP2KPvoS3O2q07lvGGg1CGFr9I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RLEgwVnj; arc=none smtp.client-ip=209.85.215.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-7bcf8077742so2102317a12.0;
+        Sat, 10 Aug 2024 04:36:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1723289775; x=1723894575; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pRDv7ES/6srChhxqUba+UjeIOeYp7UdK0hH4IWFavG4=;
+        b=RLEgwVnjEt3745iTP0ZeClyT4adSbYxNt1Cflaqh4ohHWuozTeK6K9q9jeYi2FLl0S
+         kKSBv2pPFx4oNjJJrlNHXDAOQS5Ew2EA6YfumbmnpWlkD85EZJwzNn+q47rqY08RSYky
+         5A/UEGjLFWKO+qacvjnj3apJJrwI9C6z3zhuXfoiREj0NPK5HPedujwM/gJIZek4uXe/
+         zgt7WYop3/btCkgCXv0Ljc7kNNTi4AqEdIOvGrfJ7PUUpnqcVwzIaCP566vyMdY0kQIf
+         hGWs2LBOR45spZBAm0UgVUJFRIk0Z6VSiDsDDE/rF35IFfq/RTgT1i9SLeOrWxNota0L
+         IeVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723289775; x=1723894575;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pRDv7ES/6srChhxqUba+UjeIOeYp7UdK0hH4IWFavG4=;
+        b=VdShSYGDNWat6tzp/XhRWI6Sjxg5sR5FOcNZ5AprxG6KhNqwHqXnSMsYjQxUiNY3tN
+         xsu2Qre4FpXgrCFjWgfKeQ2f9pPFphePXkcSrkaOp8pkE4F1Pv893pHdvxEnAumByws5
+         uiuRB0bZR5cVFZw090UIaBmF4PMo+MZxclGX8qgFGXSl90/ZwuW39F5TbiPfhczH1KaW
+         UAwl3v0J55AsMLkg14fCVfSP8ZZONk07N72LP8WOaj+2b35LjqKzFJXjxrd2nvFy+9YF
+         5Ycou/vHcE1f6jvHKfum5ga1OPHOD6bGkKoeLesufXw0A2ybMwlczbSzx9UVqMzHacoC
+         AFcQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWA40qrBS2CBhwhGPguTzu72CGD8xGEzV7VMFC+ie0JCytLv4/L22h6h65P9z5GaoIOMTmDe4yBaNUHM8WmYuuwcPU11xNeKF0nksm0IQ+oNz/D3z2L/ha/7IpKAyEJ+62EYKtmTjPw8PNVFYkfRru81dp5VFfw6MuYdZRL0SslG1XM1+y3nUkXsRk=
+X-Gm-Message-State: AOJu0YwdxvSVqT2HIUEYTMO2mlUuTGDyy8SiS1Mk0x+EkmUuJe/gHWqr
+	wh6Jn5k6S7o6DpmEJZKu+3KLsR3AIdXg3uKjdb8plGE83Pr/ITYMv6D7h+uhkFnoAnantXzJp+7
+	qHFnrvurWKtD7qAfp2hGFynZ5V+JDDsgDOIE=
+X-Google-Smtp-Source: AGHT+IFpnJ7gvKTJSB6GWIWnhoHi3O1Ctb9UwS4DLIOCEJdg3CUgwGq9dgvZ3o1M5AYwLlbS30DJQDd8snHf8qzoS1E=
+X-Received: by 2002:a17:90b:190a:b0:2c2:df58:bb8c with SMTP id
+ 98e67ed59e1d1-2d1e7fdb96amr5139875a91.18.1723289774767; Sat, 10 Aug 2024
+ 04:36:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <nbr7h4owyxfdyd4olis7ccrh3ljz6gco6qf7p7uzttw5ijsquj@ws7iqib576rm>
+References: <20240808221138.873750-1-ojeda@kernel.org> <20240808221138.873750-6-ojeda@kernel.org>
+ <CAK7LNAQBG0nDupXSgAAk-6nOqeqGVkr3H1RjYaqRJ1OxmLm6xA@mail.gmail.com>
+In-Reply-To: <CAK7LNAQBG0nDupXSgAAk-6nOqeqGVkr3H1RjYaqRJ1OxmLm6xA@mail.gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Sat, 10 Aug 2024 13:36:02 +0200
+Message-ID: <CANiq72knS9dGTh1uEQzYvmZuFz6fE8tNhZ8JEuyKFHYR=Kh8sQ@mail.gmail.com>
+Subject: Re: [PATCH 5/6] kbuild: rust: replace proc macros dependency on
+ `core.o` with the version text
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
+	Alice Ryhl <aliceryhl@google.com>, rust-for-linux@vger.kernel.org, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, patches@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2024-08-09 18:16:36+0000, Jose Fernandez wrote:
-> On 24/08/07 07:31PM, Thomas Weißschuh wrote:
-> > On 2024-08-08 02:02:59+0000, Masahiro Yamada wrote:
-> > > On Thu, Aug 8, 2024 at 1:41 AM Thomas Weißschuh <linux@weissschuh.net> wrote:
-> > > > On 2024-08-07 22:37:47+0000, Masahiro Yamada wrote:
-> > > > > On Wed, Aug 7, 2024 at 11:28 AM Jose Fernandez <jose.fernandez@linux.dev> wrote:
-> > 
-> > <snip>
-> > 
-> > > > > Lastly, I will never accept new error messages
-> > > > > with CONFIG_MODULES=n.
-> > > >
-> > > > Could you elaborate?
-> > > > For me this works fine with CONFIG_MODULES=n.
-> > > > (After having fixed the above issues so all subpackages are built)
-> > > 
-> > > $ make  allnoconfig pacman-pkg
-> > > 
-> > > Check the linux-headers log closely.
-> >  
-> > I see now, previously I was not on kbuild/for-next and had an old
-> > Module.symvers sitting around, hiding the issue.
-> > 
-> > ==> Starting package_linux-upstream-headers()...
-> > Installing build files...
-> > tar: Module.symvers: Cannot stat: No such file or directory
-> > tar: Exiting with failure status due to previous errors
-> > Installing System.map and config...
-> > Adding symlink...
-> > ==> Tidying install...
-> > 
-> > (coming from scripts/package/install-extmod-build)
-> > 
-> > linux-upstream-headers also contains .config and System.map which are
-> > useful without modules.
-> > So either we completely disable linux-upstream-headers or skip
-> > install-extmod-build when CONFIG_MODULES=n.
-> > And maybe move System.map and .config to some other package,
-> > which would then deviate from the original PKGBUILD.
-> > 
-> > Neither option feels great, but it probably won't make a big difference.
-> > If you have a preference, let's go with that.
-> 
-> Thomas, Masahiro,
-> Thanks for the feedback. It seems that System.map and .config are commonly
-> included in -header Arch packages. To avoid deviating too much and to address
-> the issue with install-extmod-build when CONFIG_MODULES=n, how about considering
-> something like this:
-> 
-> mkdir -p "${builddir}" # needed if install-extmod-build is not run
-> if grep -q CONFIG_MODULES=y include/config/auto.conf; then
-> 	echo "Installing build files..."
-> 	"${srctree}/scripts/package/install-extmod-build" "${builddir}"	
-> fi
-> 
-> echo "Installing System.map and config..."
-> cp System.map "${builddir}/System.map"
-> cp .config "${builddir}/.config"
+On Fri, Aug 9, 2024 at 7:31=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.or=
+g> wrote:
+>
+> The touched file, include/config/*, is an implementation detail
+> in Kconfig and fixdep.
+>
+> Rather, I'd like to put the string "CONFIG_RUST_VERSION_TEXT"
+> in the comment of the source file.
+>
+> This is the idea adopted in include/linux/compiler-version.h
 
-Sounds good to me.
++1, I did it this way to follow the same pattern to the previous patch
+on `core.o`, since that one needed another approach, but I am happy to
+change it.
 
+> I do not know how to do it for rust/core.o because there is no in-tree
+> source file.
+>
+> But, can we add rust/core.rs, from which
+> rustlib/src/rust/library/core/src/macros/mod.rs is imported?
 
-Thomas
+That is an interesting idea... :)
+
+Hmm... I think `core` is a bit too special for that, since we need
+attributes on the crate root and it is the one defining things like
+`include!`. Even if we generated the file on the fly to mimic the
+original, we would still need to handle the paths for each module or
+recreate a directory hierarchy or similar.
+
+We are also in talks with the Rust project to figure out building
+`core` in a stable way, so the details around it may change too, e.g.
+probably something like passing a flag like `-Cbuild-std=3Dcore`. They
+may also want to figure out the right input file path themselves, i.e.
+rather than having to provide one from our side.
+
+So I think a hack may not be worth it compared to depending on the
+implementation detail, and may be a bit brittle until we know the
+final details of that.
+
+Thanks!
+
+Cheers,
+Miguel
 
