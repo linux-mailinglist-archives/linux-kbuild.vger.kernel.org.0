@@ -1,181 +1,155 @@
-Return-Path: <linux-kbuild+bounces-2934-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2935-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0518694E147
-	for <lists+linux-kbuild@lfdr.de>; Sun, 11 Aug 2024 14:52:34 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B3F494E221
+	for <lists+linux-kbuild@lfdr.de>; Sun, 11 Aug 2024 18:01:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7E2C71F217A5
-	for <lists+linux-kbuild@lfdr.de>; Sun, 11 Aug 2024 12:52:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1D1DF1C20A21
+	for <lists+linux-kbuild@lfdr.de>; Sun, 11 Aug 2024 16:01:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B24647F64;
-	Sun, 11 Aug 2024 12:52:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A694A14B94E;
+	Sun, 11 Aug 2024 16:01:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eQynGlmc"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="rM6LnKiC"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71E6C441F;
-	Sun, 11 Aug 2024 12:52:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46C7E14B091
+	for <linux-kbuild@vger.kernel.org>; Sun, 11 Aug 2024 16:01:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723380749; cv=none; b=JiwlaEFypLmXoZRTCPtBB+hMuXxp3236MGmUkokMOwELlzoF86VAI5auBOimKpLpRtB+nqNfLMyqLANBHRmUMDQuAh8ab2W3NU00dAG2XT3LNyBNINQkIxIjqeINx0aJGtlhCtJ0pWWdnwdQ86bNsW9nldkclXSk3H98cxt5ajw=
+	t=1723392113; cv=none; b=NFfeARM3WVd8VWCOF6YTPPCG83GyJyskvzUQAvP+1pbV2j48w4bsL2m0XkEEXlwRNEQealfnzSL428VFlxonRN/PektFrVprJsN/rneXJLbuQ7UJoi3fQvUAvoNZsWmVdilxVP6Le/cw+ZvIhtu3j9eLbtl9/q1+undYg7cj/OU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723380749; c=relaxed/simple;
-	bh=WdElzGY7aR8mZowAM8w3IRVv2J4wkevPaljOjQZKnmk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=HbRL0S3vob0Bula/KmB4Byww8Co/Ac8+xB9Pl3biS95R1+8Wy+QFrAKh+rDisbjN5g3bQlZ+OxWzdnj6zexV0hcGNiPSHmjhjXPNghBbIPIzAYTaBubkaxfA6a0EX2ohtY0cUdwBW15Eh2lVAqmMXhYaCPAPuIeaoURkIviyMOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eQynGlmc; arc=none smtp.client-ip=209.85.210.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-7093ba310b0so1524471a34.2;
-        Sun, 11 Aug 2024 05:52:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723380746; x=1723985546; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cTfzU28ds2lhNVbW5LCx1QfX8jZBtBYy6jG1aASeDKs=;
-        b=eQynGlmcGX4AdsriClVSHMEl8SwOz/GcK7maliUNHcckldLbvzO78iYb04YIXcK+Sq
-         XqoRha2yw9H5L03yti/N9P/YkrJuDnA6IrBToM1csBHpDe+DWjzEkBWMsuFkT36zGKk7
-         +R7diFXJATNo9iFITX5Ie3YRwVT0yUQgyUiubLmeGz+XI/roFjlDOMVZWjQjRNaFU4sE
-         Axij+irf9s2kU205f9i6cb0xtnsO3i4sAaIpXgLgh62XqOUuzbrFmWzkQ+mDKhl7LM17
-         BB75/uyi52/ae0yN2Imqw/CU7gzU276yal2jNJLdymioj/Btcm1fQP/c4+r9x4mKvap0
-         AcnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723380746; x=1723985546;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cTfzU28ds2lhNVbW5LCx1QfX8jZBtBYy6jG1aASeDKs=;
-        b=Zv0OCCezPZ3aJEXgBoc542rzUqIs7etN5pLlkBMzAD6jKEvTYsZ1wwfNNoUjh8lGi2
-         zqNoL8DQKIvRQG/afVIZ31p384qJzNAY6pUtPggHK85G90pLLX07vpQvdAZci683m4mq
-         jWr0FO8ETLb5lnMRioIE+KYev2EDHRmIf8CXXx3hTQfkcWjhDzQn3TsQR48SGABtYc+Q
-         LopRfqwPkI4G3OaFTreIZqS4H/FEApMiOqQHIV+Cdtgjsq2AuoEgIS8xbJSm0Z8gKEy0
-         3EXo1uod59HrWlT4pi5t/DvTdtsk/5hT0yLQJlnqVJNRSeAkY1+lCG2rcTYxqcPUzLry
-         Gnfw==
-X-Forwarded-Encrypted: i=1; AJvYcCWDq3oSIWhWRLpNTQw3+nLR2au9qqcQdrVKdKfzLIOW87pNONUT8LjmO+YkD8fNdu5BSHA1Rw/CxnZF8xD2UYzimqWOOp49RXw13jg9My3qRsgRIh00GHLD6kcSjG2f9sP1YLx1XIYMEDJ/
-X-Gm-Message-State: AOJu0YxbBL4h4C/jo8BhXbM9F5MZLpGPxp+Ps7gUv/JJIl0U3S/pa9FE
-	qgRnvx4HSy7Ct5ngpOobU+3WobKcvg9HLxFoZbxUMbWKMH0f0uYOAP8xS2fp
-X-Google-Smtp-Source: AGHT+IHuaKVgZDTiOIXFNwyqCYMJa9aukyn1bY7sx8VIIMzAYBrrWz42nwWEjA3wYgs2tkEnrgvwyg==
-X-Received: by 2002:a05:6830:6285:b0:704:466b:15a2 with SMTP id 46e09a7af769-70b7483729dmr8755701a34.20.1723380746331;
-        Sun, 11 Aug 2024 05:52:26 -0700 (PDT)
-Received: from dev0.. ([49.43.168.43])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d1c9c64b14sm6413126a91.5.2024.08.11.05.52.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Aug 2024 05:52:26 -0700 (PDT)
-From: Abhinav Jain <jain.abhinav177@gmail.com>
-To: masahiroy@kernel.org,
-	nathan@kernel.org,
-	nicolas@fjasle.eu,
-	linux-kbuild@vger.kernel.org,
+	s=arc-20240116; t=1723392113; c=relaxed/simple;
+	bh=LMZlGgY3hCfRv6Hf7vl6N47j5E8JwuRohVIMMLtfh0A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bYQ2m/ZQvnd35DGbK2bwgQGdZSkHMkIOxvXDM6nG30p+CXUWTWCRkPhkzNjinQKKwbEg28Lhj+jELSfnpPvui8DT06PymjWYHzs4Du/nXqlElPAKkTCKHyH5ksM5hlO7xNiX9Kqw74WGLnRouWhKB/pbTWXnG1XDPnMEhcMkfBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=rM6LnKiC; arc=none smtp.client-ip=91.218.175.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Date: Sun, 11 Aug 2024 10:01:43 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1723392109;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4PuclfHAMl6TwUETpxgcTG2AmEoWfAy6tJOk/s/nCbE=;
+	b=rM6LnKiCBeGqMIgyimY1vlu0JKNHELYIfw5kM5/0GFQN+NhbdweuQl9CIDtuYNTos/XYGa
+	nSQgZBTgG8f6ki9hrL/jyRyO555XBXSLusuVik0FGQf246lH/7E1Uz0A1RyeNrfZ9FAc9E
+	zPmINjgjkxJuK/HVbo+k8aKT8Z70fZU=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Jose Fernandez <jose.fernandez@linux.dev>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+	Christian Heusel <christian@heusel.eu>, Peter Jung <ptr1337@cachyos.org>, linux-kbuild@vger.kernel.org, 
 	linux-kernel@vger.kernel.org
-Cc: skhan@linuxfoundation.org,
-	javier.carrasco.cruz@gmail.com,
-	Abhinav Jain <jain.abhinav177@gmail.com>
-Subject: [PATCH] scripts: Enhance vmlinux checks as per TODO
-Date: Sun, 11 Aug 2024 12:52:18 +0000
-Message-Id: <20240811125218.45759-1-jain.abhinav177@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Subject: Re: [PATCH v2] kbuild: control extra pacman packages with
+ PACMAN_EXTRAPACKAGES
+Message-ID: <c7ykw75stjqx7pagij4vvpbwxram6m3s5p65h7v4uf6eglshfq@5vur2t6dvmcf>
+References: <20240807022718.24838-2-jose.fernandez@linux.dev>
+ <CAK7LNAS4t_naRxdxFTaj9zrdf2Hjjoaq+cBO4Gx7=PhCJk9+4w@mail.gmail.com>
+ <f65f1d49-8c6f-45e9-a4b2-30d4cfff10b1@t-8ch.de>
+ <CAK7LNATuA4O3xVLcp5Lywr4njaUneKOJwPHZa11YQe63KXQpMA@mail.gmail.com>
+ <66ef2ce9-5e7d-48fd-abeb-96e463d575ad@t-8ch.de>
+ <nbr7h4owyxfdyd4olis7ccrh3ljz6gco6qf7p7uzttw5ijsquj@ws7iqib576rm>
+ <CAK7LNAQ0CDceJNAhD-RbE3Ph0Q+UOqk1=M6k3tEKb_5j9j2GNw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK7LNAQ0CDceJNAhD-RbE3Ph0Q+UOqk1=M6k3tEKb_5j9j2GNw@mail.gmail.com>
+X-Migadu-Flow: FLOW_OUT
 
-Add checks for ELF validity, critical sections, symbols and static
-linkage.
-Zero warnings/errors as per scripts/checkpatch.pl for this patch.
+On 24/08/10 04:41PM, Masahiro Yamada wrote:
+> On Sat, Aug 10, 2024 at 9:16 AM Jose Fernandez <jose.fernandez@linux.dev> wrote:
+> >
+> > On 24/08/07 07:31PM, Thomas Weißschuh wrote:
+> > > On 2024-08-08 02:02:59+0000, Masahiro Yamada wrote:
+> > > > On Thu, Aug 8, 2024 at 1:41 AM Thomas Weißschuh <linux@weissschuh.net> wrote:
+> > > > > On 2024-08-07 22:37:47+0000, Masahiro Yamada wrote:
+> > > > > > On Wed, Aug 7, 2024 at 11:28 AM Jose Fernandez <jose.fernandez@linux.dev> wrote:
+> > >
+> > > <snip>
+> > >
+> > > > > > Lastly, I will never accept new error messages
+> > > > > > with CONFIG_MODULES=n.
+> > > > >
+> > > > > Could you elaborate?
+> > > > > For me this works fine with CONFIG_MODULES=n.
+> > > > > (After having fixed the above issues so all subpackages are built)
+> > > >
+> > > > $ make  allnoconfig pacman-pkg
+> > > >
+> > > > Check the linux-headers log closely.
+> > >
+> > > I see now, previously I was not on kbuild/for-next and had an old
+> > > Module.symvers sitting around, hiding the issue.
+> > >
+> > > ==> Starting package_linux-upstream-headers()...
+> > > Installing build files...
+> > > tar: Module.symvers: Cannot stat: No such file or directory
+> > > tar: Exiting with failure status due to previous errors
+> > > Installing System.map and config...
+> > > Adding symlink...
+> > > ==> Tidying install...
+> > >
+> > > (coming from scripts/package/install-extmod-build)
+> > >
+> > > linux-upstream-headers also contains .config and System.map which are
+> > > useful without modules.
+> > > So either we completely disable linux-upstream-headers or skip
+> > > install-extmod-build when CONFIG_MODULES=n.
+> > > And maybe move System.map and .config to some other package,
+> > > which would then deviate from the original PKGBUILD.
+> > >
+> > > Neither option feels great, but it probably won't make a big difference.
+> > > If you have a preference, let's go with that.
+> >
+> > Thomas, Masahiro,
+> > Thanks for the feedback. It seems that System.map and .config are commonly
+> > included in -header Arch packages. To avoid deviating too much and to address
+> > the issue with install-extmod-build when CONFIG_MODULES=n, how about considering
+> > something like this:
+> 
+> 
+> I am fine.
+> 
+> 
+> >
+> > mkdir -p "${builddir}" # needed if install-extmod-build is not run
+> 
+> This comment might not be necessary if you move this code
+> right before copying System.map.
 
-Signed-off-by: Abhinav Jain <jain.abhinav177@gmail.com>
----
- scripts/extract-vmlinux | 68 ++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 63 insertions(+), 5 deletions(-)
+Ack. I will move the command to before copying System.map and drop the comment.
 
-diff --git a/scripts/extract-vmlinux b/scripts/extract-vmlinux
-index 8995cd304e6e..2c35dde8a8ce 100755
---- a/scripts/extract-vmlinux
-+++ b/scripts/extract-vmlinux
-@@ -12,12 +12,70 @@
- 
- check_vmlinux()
- {
--	# Use readelf to check if it's a valid ELF
--	# TODO: find a better to way to check that it's really vmlinux
--	#       and not just an elf
--	readelf -h $1 > /dev/null 2>&1 || return 1
-+	# Use readelf/nm to check if it's a valid ELF
-+	# Check for valid ELF, critical sections, symbols, static linking
- 
--	cat $1
-+	# Check if the file is a valid ELF file
-+	if ! readelf -h "$file" > /dev/null 2>&1; then
-+		echo "Error: File is not a valid ELF file."
-+		return 1
-+	fi
-+
-+	# Check the ELF type (should be ET_EXEC for executable)
-+	if ! readelf -h "$file" | grep -q "Type:\s*EXEC (Executable file)"; then
-+		echo "Error: ELF file is not an executable type."
-+		return 1
-+	fi
-+
-+	# Check for the presence of key kernel sections
-+	if ! readelf -S "$file" | grep -q '\.text'; then
-+		echo "Error: File does not contain a .text section, not a valid vmlinux file."
-+		return 1
-+	fi
-+
-+	if ! readelf -S "$file" | grep -q '\.data'; then
-+		echo "Error: File does not contain a .data section, not a valid vmlinux file."
-+		return 1
-+	fi
-+
-+	if ! readelf -S "$file" | grep -q '\.bss'; then
-+		echo "Error: File does not contain a .bss section, not a valid vmlinux file."
-+		return 1
-+	fi
-+
-+	if ! readelf -S "$file" | grep -q '\.rodata'; then
-+		echo "Error: File does not contain a .rodata section, not a valid vmlinux file."
-+		return 1
-+	fi
-+
-+	# Check for the presence of key kernel symbols
-+	if ! nm "$file" | grep -q ' T start_kernel'; then
-+		echo "Error: File does not contain the start_kernel symbol, not a valid vmlinux file."
-+		return 1
-+	fi
-+
-+	if ! nm "$file" | grep -q ' T _stext'; then
-+		echo "Error: File does not contain the _stext symbol, not a valid vmlinux file."
-+		return 1
-+	fi
-+
-+	if ! nm "$file" | grep -q ' D _sdata'; then
-+		echo "Error: File does not contain the _sdata symbol, not a valid vmlinux file."
-+		return 1
-+	fi
-+
-+	if ! nm "$file" | grep -q ' B __bss_start'; then
-+		echo "Error: File does not contain the __bss_start symbol, not a valid vmlinux file."
-+		return 1
-+	fi
-+
-+	# Check for the absence of dynamic linking sections
-+	if readelf -d "$file" 2>/dev/null | grep -q 'Shared library'; then
-+		echo "Error: File contains dynamic linking information, not a valid vmlinux file."
-+		return 1
-+	fi
-+
-+	echo "File is a valid vmlinux file."
- 	exit 0
- }
- 
--- 
-2.34.1
-
+> 
+> > if grep -q CONFIG_MODULES=y include/config/auto.conf; then
+> >         echo "Installing build files..."
+> >         "${srctree}/scripts/package/install-extmod-build" "${builddir}"
+> > fi
+> >
+> > echo "Installing System.map and config..."
+> > cp System.map "${builddir}/System.map"
+> > cp .config "${builddir}/.config"
+> >
+> > Thanks,
+> > Jose
+> 
+> 
+> 
+> -- 
+> Best Regards
+> Masahiro Yamada
 
