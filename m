@@ -1,115 +1,181 @@
-Return-Path: <linux-kbuild+bounces-2933-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2934-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13BB294DD50
-	for <lists+linux-kbuild@lfdr.de>; Sat, 10 Aug 2024 16:45:35 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0518694E147
+	for <lists+linux-kbuild@lfdr.de>; Sun, 11 Aug 2024 14:52:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 53674B2138D
-	for <lists+linux-kbuild@lfdr.de>; Sat, 10 Aug 2024 14:45:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7E2C71F217A5
+	for <lists+linux-kbuild@lfdr.de>; Sun, 11 Aug 2024 12:52:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D3EF15854D;
-	Sat, 10 Aug 2024 14:45:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B24647F64;
+	Sun, 11 Aug 2024 12:52:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SH6r/Qc2"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eQynGlmc"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFBA82F5E;
-	Sat, 10 Aug 2024 14:45:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71E6C441F;
+	Sun, 11 Aug 2024 12:52:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723301127; cv=none; b=cpLaxmgFvURZ5aSaZNWrFpsb+a0O07QwjpOh/FMlcom33nMlNbJ75Fto8FjA3535+CN4EYrAdHgvV+9AW5c/oYuYa0EhkrmkgeSaJr6e+lfCoMWZ8x+SDFE72kTxIr0RJF+XE0nGzWgxKw7BkDTrEqCQQ8Y/WsJnlms+Q8lDyNg=
+	t=1723380749; cv=none; b=JiwlaEFypLmXoZRTCPtBB+hMuXxp3236MGmUkokMOwELlzoF86VAI5auBOimKpLpRtB+nqNfLMyqLANBHRmUMDQuAh8ab2W3NU00dAG2XT3LNyBNINQkIxIjqeINx0aJGtlhCtJ0pWWdnwdQ86bNsW9nldkclXSk3H98cxt5ajw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723301127; c=relaxed/simple;
-	bh=9S4F9A6PaX/W1YdIFNWkFn30l1Nc6GZXCt3lt+ixrQg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Lotz1FcirqiPGOjO62OnC0TbUgcICIZxCVA+ZWCqgRZQBXdWmJIWjIMyFRrXmV/iiKPI4z70JB4t0to7xCdGe5Ll9RC+NV6mc/DpfAte3E/bzVtyfNjB2rjCoLAz/jy7DDJ125cu1HN64uIcld5XIZDomGzBxxU4SmMpGUQYuX0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SH6r/Qc2; arc=none smtp.client-ip=209.85.216.48
+	s=arc-20240116; t=1723380749; c=relaxed/simple;
+	bh=WdElzGY7aR8mZowAM8w3IRVv2J4wkevPaljOjQZKnmk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=HbRL0S3vob0Bula/KmB4Byww8Co/Ac8+xB9Pl3biS95R1+8Wy+QFrAKh+rDisbjN5g3bQlZ+OxWzdnj6zexV0hcGNiPSHmjhjXPNghBbIPIzAYTaBubkaxfA6a0EX2ohtY0cUdwBW15Eh2lVAqmMXhYaCPAPuIeaoURkIviyMOY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eQynGlmc; arc=none smtp.client-ip=209.85.210.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-2cb7cd6f5f2so2374544a91.2;
-        Sat, 10 Aug 2024 07:45:25 -0700 (PDT)
+Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-7093ba310b0so1524471a34.2;
+        Sun, 11 Aug 2024 05:52:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723301125; x=1723905925; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9S4F9A6PaX/W1YdIFNWkFn30l1Nc6GZXCt3lt+ixrQg=;
-        b=SH6r/Qc2ICsgr1XZjk8lKTUPW3wROz2xmKxrV6t+kImhopgSphIg6+z0HHerEXFnNK
-         ldEw1OiRaR2D6BUNC03fwtDK63Kz+wDhwHyxj5g0A5DWRhDLpdjfHgJjg8D1XMGO1vbS
-         N96GD29nZcREz/lnAcBaIqsEjKPpA3Vdnbx5ypYeIZfva3W6GAiNgy+Yb7i5IYdYBfq2
-         d/96OOPLF9QW4604JSowF1KH36ccs2OGMa/PZa7VHhLCN3QT6vK0uUvZmCKqC/tqKWC3
-         GP9HnC2Fdw9Ns8tltZVC8w2ibDPgPBoXK7m48OHLJIbSgycjF6UI1gaML0ZntrsyWBz+
-         m+hw==
+        d=gmail.com; s=20230601; t=1723380746; x=1723985546; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cTfzU28ds2lhNVbW5LCx1QfX8jZBtBYy6jG1aASeDKs=;
+        b=eQynGlmcGX4AdsriClVSHMEl8SwOz/GcK7maliUNHcckldLbvzO78iYb04YIXcK+Sq
+         XqoRha2yw9H5L03yti/N9P/YkrJuDnA6IrBToM1csBHpDe+DWjzEkBWMsuFkT36zGKk7
+         +R7diFXJATNo9iFITX5Ie3YRwVT0yUQgyUiubLmeGz+XI/roFjlDOMVZWjQjRNaFU4sE
+         Axij+irf9s2kU205f9i6cb0xtnsO3i4sAaIpXgLgh62XqOUuzbrFmWzkQ+mDKhl7LM17
+         BB75/uyi52/ae0yN2Imqw/CU7gzU276yal2jNJLdymioj/Btcm1fQP/c4+r9x4mKvap0
+         AcnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723301125; x=1723905925;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9S4F9A6PaX/W1YdIFNWkFn30l1Nc6GZXCt3lt+ixrQg=;
-        b=Z++K3pbvYlzBeljxIZ4ClZ2LXsIYzff+mbdf0Wc4p/BdHswsTH1LFBrXHeK16hFK5X
-         6l33B6bYG7TXsP8XqLzTZ02DqX2zf3HksVumzXUWTUnycFhsA5xBoGTuef1oZFJvWMDh
-         fWLTtrovEa5Ij3qheRescSFmMFPJN48wRuaacf1MmML6d6ERa8OL+QGSaFXbMdw8KlJs
-         rUtLhdEdyV7UhoOsjpUtuShQIQnAIuDDCwkLuBZvQAKrDcc3bb3IpP7uTC+2J3x8I7uc
-         loPOU60W7ak2qHKOiee4sfKN8dXLjylrXSDeKo4yQrF/xj9wqsg7CblBFkEh/FFF+0mZ
-         o19w==
-X-Forwarded-Encrypted: i=1; AJvYcCXo0nHlwjV2wl72SljqquQeGs7iG27NMk5/ESqKyTM5n4yuTNIlGsuTX0Zi8zdckWdJIxFDQ6kdosPExI2SC/pW72Rqf2jfbY230qCsJE+FH+R08wiDP/cFUBZa16tUDpY6vJ6nfH0gWn0LX1mhFR55ZXUgIrTiOfiTHtqwA0LbNuf7aTzqOBqBAA4=
-X-Gm-Message-State: AOJu0YwEJc0nsyzsYRsxRnguTcAfLYTtWwiovNX4utMxgZnW3GJHrnYR
-	jWKt99iLS4yZoL6tsNRT2oB1mSnSL+eN+BOtRWjDhHIpK42T9NYQVp4Ig1LjtV7zuv2ZknDxsZ+
-	ddI3hS84RR+3FCpzwfCyv29J1JVaWtRxm
-X-Google-Smtp-Source: AGHT+IGfAWSZ5LwbG80gDM0OaU5dKBmBaQzIewIaSEbnuIWbzBzupl1sGtdFp/rRW2syqJvIsKdkY1uR23zTPg1Hxbc=
-X-Received: by 2002:a17:90b:1b0d:b0:2d2:453:12cb with SMTP id
- 98e67ed59e1d1-2d204531848mr1563929a91.2.1723301124946; Sat, 10 Aug 2024
- 07:45:24 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1723380746; x=1723985546;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cTfzU28ds2lhNVbW5LCx1QfX8jZBtBYy6jG1aASeDKs=;
+        b=Zv0OCCezPZ3aJEXgBoc542rzUqIs7etN5pLlkBMzAD6jKEvTYsZ1wwfNNoUjh8lGi2
+         zqNoL8DQKIvRQG/afVIZ31p384qJzNAY6pUtPggHK85G90pLLX07vpQvdAZci683m4mq
+         jWr0FO8ETLb5lnMRioIE+KYev2EDHRmIf8CXXx3hTQfkcWjhDzQn3TsQR48SGABtYc+Q
+         LopRfqwPkI4G3OaFTreIZqS4H/FEApMiOqQHIV+Cdtgjsq2AuoEgIS8xbJSm0Z8gKEy0
+         3EXo1uod59HrWlT4pi5t/DvTdtsk/5hT0yLQJlnqVJNRSeAkY1+lCG2rcTYxqcPUzLry
+         Gnfw==
+X-Forwarded-Encrypted: i=1; AJvYcCWDq3oSIWhWRLpNTQw3+nLR2au9qqcQdrVKdKfzLIOW87pNONUT8LjmO+YkD8fNdu5BSHA1Rw/CxnZF8xD2UYzimqWOOp49RXw13jg9My3qRsgRIh00GHLD6kcSjG2f9sP1YLx1XIYMEDJ/
+X-Gm-Message-State: AOJu0YxbBL4h4C/jo8BhXbM9F5MZLpGPxp+Ps7gUv/JJIl0U3S/pa9FE
+	qgRnvx4HSy7Ct5ngpOobU+3WobKcvg9HLxFoZbxUMbWKMH0f0uYOAP8xS2fp
+X-Google-Smtp-Source: AGHT+IHuaKVgZDTiOIXFNwyqCYMJa9aukyn1bY7sx8VIIMzAYBrrWz42nwWEjA3wYgs2tkEnrgvwyg==
+X-Received: by 2002:a05:6830:6285:b0:704:466b:15a2 with SMTP id 46e09a7af769-70b7483729dmr8755701a34.20.1723380746331;
+        Sun, 11 Aug 2024 05:52:26 -0700 (PDT)
+Received: from dev0.. ([49.43.168.43])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d1c9c64b14sm6413126a91.5.2024.08.11.05.52.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 11 Aug 2024 05:52:26 -0700 (PDT)
+From: Abhinav Jain <jain.abhinav177@gmail.com>
+To: masahiroy@kernel.org,
+	nathan@kernel.org,
+	nicolas@fjasle.eu,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: skhan@linuxfoundation.org,
+	javier.carrasco.cruz@gmail.com,
+	Abhinav Jain <jain.abhinav177@gmail.com>
+Subject: [PATCH] scripts: Enhance vmlinux checks as per TODO
+Date: Sun, 11 Aug 2024 12:52:18 +0000
+Message-Id: <20240811125218.45759-1-jain.abhinav177@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240808221138.873750-1-ojeda@kernel.org> <20240808221138.873750-3-ojeda@kernel.org>
- <652ElsLaWV50vwbKOQc-kTFLeaf8wUGPKNhc8B8tS6EqgqzSj5k_tHgqCTUcxfSZkYvB1xC_N2pmNIA-oq2q9irSPp2XNaaiv67pZojm_9I=@protonmail.com>
-In-Reply-To: <652ElsLaWV50vwbKOQc-kTFLeaf8wUGPKNhc8B8tS6EqgqzSj5k_tHgqCTUcxfSZkYvB1xC_N2pmNIA-oq2q9irSPp2XNaaiv67pZojm_9I=@protonmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sat, 10 Aug 2024 16:45:11 +0200
-Message-ID: <CANiq72kXNCww6oHKNiPr-mGq3gQsH-kUbK-C9B_3bY-ozkiznA@mail.gmail.com>
-Subject: Re: [PATCH 2/6] kbuild: rust: make command for `RUSTC_VERSION_TEXT`
- closer to the `CC` one
-To: =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Wedson Almeida Filho <wedsonaf@gmail.com>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
-	Alice Ryhl <aliceryhl@google.com>, rust-for-linux@vger.kernel.org, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, patches@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sat, Aug 10, 2024 at 3:44=E2=80=AFPM Bj=C3=B6rn Roy Baron
-<bjorn3_gh@protonmail.com> wrote:
->
-> Cargo depends on the rustc version string not getting localized. Or to be=
- precise it depends on the version string being fixed for a given rustc ver=
-sion, which would not be the case if the value of LC_ALL could change the v=
-ersion string. If the version string changes, cargo will rebuild everything=
- from scratch. There is also not really anything to localize in the non-ver=
-bose version string. I guess setting LC_ALL doesn't hurt either though.
+Add checks for ELF validity, critical sections, symbols and static
+linkage.
+Zero warnings/errors as per scripts/checkpatch.pl for this patch.
 
-Thanks Bj=C3=B6rn -- yeah, I agree it works either way (also for `head` as
-Masahiro mentioned).
+Signed-off-by: Abhinav Jain <jain.abhinav177@gmail.com>
+---
+ scripts/extract-vmlinux | 68 ++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 63 insertions(+), 5 deletions(-)
 
-I made this commit to make it as close as possible to the C one, since
-in the next patch it gets moved to another place where both commands
-go together.
+diff --git a/scripts/extract-vmlinux b/scripts/extract-vmlinux
+index 8995cd304e6e..2c35dde8a8ce 100755
+--- a/scripts/extract-vmlinux
++++ b/scripts/extract-vmlinux
+@@ -12,12 +12,70 @@
+ 
+ check_vmlinux()
+ {
+-	# Use readelf to check if it's a valid ELF
+-	# TODO: find a better to way to check that it's really vmlinux
+-	#       and not just an elf
+-	readelf -h $1 > /dev/null 2>&1 || return 1
++	# Use readelf/nm to check if it's a valid ELF
++	# Check for valid ELF, critical sections, symbols, static linking
+ 
+-	cat $1
++	# Check if the file is a valid ELF file
++	if ! readelf -h "$file" > /dev/null 2>&1; then
++		echo "Error: File is not a valid ELF file."
++		return 1
++	fi
++
++	# Check the ELF type (should be ET_EXEC for executable)
++	if ! readelf -h "$file" | grep -q "Type:\s*EXEC (Executable file)"; then
++		echo "Error: ELF file is not an executable type."
++		return 1
++	fi
++
++	# Check for the presence of key kernel sections
++	if ! readelf -S "$file" | grep -q '\.text'; then
++		echo "Error: File does not contain a .text section, not a valid vmlinux file."
++		return 1
++	fi
++
++	if ! readelf -S "$file" | grep -q '\.data'; then
++		echo "Error: File does not contain a .data section, not a valid vmlinux file."
++		return 1
++	fi
++
++	if ! readelf -S "$file" | grep -q '\.bss'; then
++		echo "Error: File does not contain a .bss section, not a valid vmlinux file."
++		return 1
++	fi
++
++	if ! readelf -S "$file" | grep -q '\.rodata'; then
++		echo "Error: File does not contain a .rodata section, not a valid vmlinux file."
++		return 1
++	fi
++
++	# Check for the presence of key kernel symbols
++	if ! nm "$file" | grep -q ' T start_kernel'; then
++		echo "Error: File does not contain the start_kernel symbol, not a valid vmlinux file."
++		return 1
++	fi
++
++	if ! nm "$file" | grep -q ' T _stext'; then
++		echo "Error: File does not contain the _stext symbol, not a valid vmlinux file."
++		return 1
++	fi
++
++	if ! nm "$file" | grep -q ' D _sdata'; then
++		echo "Error: File does not contain the _sdata symbol, not a valid vmlinux file."
++		return 1
++	fi
++
++	if ! nm "$file" | grep -q ' B __bss_start'; then
++		echo "Error: File does not contain the __bss_start symbol, not a valid vmlinux file."
++		return 1
++	fi
++
++	# Check for the absence of dynamic linking sections
++	if readelf -d "$file" 2>/dev/null | grep -q 'Shared library'; then
++		echo "Error: File contains dynamic linking information, not a valid vmlinux file."
++		return 1
++	fi
++
++	echo "File is a valid vmlinux file."
+ 	exit 0
+ }
+ 
+-- 
+2.34.1
 
-It is reasonable to argue that it makes it more complex and slower, so
-I am happy dropping it.
-
-Cheers,
-Miguel
 
