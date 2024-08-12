@@ -1,131 +1,135 @@
-Return-Path: <linux-kbuild+bounces-2947-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2948-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB46A94EC1B
-	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Aug 2024 13:51:00 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2B6494ECAF
+	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Aug 2024 14:18:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 821371F226BB
-	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Aug 2024 11:51:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CE1B51C21B82
+	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Aug 2024 12:18:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8D7517A585;
-	Mon, 12 Aug 2024 11:50:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B128917A587;
+	Mon, 12 Aug 2024 12:17:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MzLml+b5"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="louG5wne"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80C1B17997D;
-	Mon, 12 Aug 2024 11:50:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F15A8176FBD;
+	Mon, 12 Aug 2024 12:17:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723463432; cv=none; b=U0pDEvJLmt0hbLcwqYofRLctMVkE5BLJVsT7XmjAZRoI9I671zsAkyvj9JDIGtT2qd4Z2MXlzpiljA/G+lij71rPTFvUI8Qu1pACQY2FES/EXIrywk3YErhu1KYOY4Z99N5jeVCLEjzEOr9ll8GSS52lbw8YQT3LrWFi8IKnBDI=
+	t=1723465056; cv=none; b=ZNqcfnmeCKffXNYpkIRG7dtGv/R3rIeYNICGjUs/7WqF8QLngOfKPIE2ZwfwPvLxpl1WTaTVSdffq/P1ycGVXOJotlPTt1E86HyE1Ds4dCxAJa/AR7pVwIzJsZN+CLuleajzAnGWyM00TV3EY1fcW27b131Wa7DIYiUbu6vCRjA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723463432; c=relaxed/simple;
-	bh=y4ibPbOlrqYtjnVi728m8zHasovW5Iqx52iFRyKrULk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=aT58IW5D/ECgCrXZ7B25+ivPY2WTN0xWKpWK0ULdHFmFlXJesTDLMuSZj7hzmWNr3N8d9MKfynP08o5Gt57RWvscPagfBeGY1iBSMjDqQ2QL2f/bBFegDkX3dYVnimV8VXUPGjQyx7eIQVj7n9G+6u3FbOFSgtR8td+PliVeq4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MzLml+b5; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DFCEC4AF15;
-	Mon, 12 Aug 2024 11:50:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723463431;
-	bh=y4ibPbOlrqYtjnVi728m8zHasovW5Iqx52iFRyKrULk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=MzLml+b5V9EqV6tYF43XPG6ZXHAiOvHJNcXyZqjwTBg2cAc5pygLlL682pmCbv7Iy
-	 b5itAE4cVTwEKlS6M6GQU1hREKTtxI2bHbwgmgWNW2o8IfHnTzWlpSkyXlJDq7zWfn
-	 XuY8LyDkdeaXwz+y3hLmP+acds5Yyr1gBEn9lgn7iF0Sn89MDSrjSg44ZFn3NjDdyK
-	 kL3+iHWlpyMPBtJMi4Hhow/vPKhHqH0obwMy0YqMjSIOejQFf0QPKalPQQ0XuR01uc
-	 +zbdlk3s9FBOLMxUhkyGskqz5NAhREdonsUg/PBMYDyuhEfIkIv+MWzDfkT/nD2h0e
-	 jidyV8kx2cg/A==
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: linux-kbuild@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH 3/3] kconfig: remove P_SYMBOL property
-Date: Mon, 12 Aug 2024 20:49:47 +0900
-Message-ID: <20240812115023.2101419-3-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240812115023.2101419-1-masahiroy@kernel.org>
-References: <20240812115023.2101419-1-masahiroy@kernel.org>
+	s=arc-20240116; t=1723465056; c=relaxed/simple;
+	bh=pTiLvX6dgRw/lbpMcbvul78nttHoBA2ug0btunkVO8c=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=a1OfEb2f+A2ZVDM4bsrvrrjzJ/QRpnq9rP5b8HLwRyHZfRowioEWfUWpYdoshGwx/G4tgYsMNzHbZDduuxVWpVrJwa1QbKv8NLR0h6kLJVg8Ehi/L0w1ot+fbmMzrsugKL/SzzcFCLpL9J+YpqWaseX859RwAkkiBN2/cin0KMY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=louG5wne; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a7a94aa5080so501935166b.3;
+        Mon, 12 Aug 2024 05:17:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1723465053; x=1724069853; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Q2MT7CpoVbgtNAFPvwIvM+rcDNcVzre2hq92xi/BU9g=;
+        b=louG5wneHQtxvjJQqPXm88+oEUJLKLVmwX92MvVFwbLk4hPEO22AV1oWTZvXzFwLrd
+         QH0iIcDEUtE9zXcv0oNfmlpR8SvLkVh1op7oNpstR0Ir5yOeUR6YdjVlS5E01Qktrj9q
+         5hGMGLyMmxO4Xm9Vwc4ly6tv0zGvB4fvVhswv8hcIu+TjVjbWyI6Aiv5jr3+2mbcU4+m
+         B1Iti3IG+y9lZhWHDs9/lmv8Alqd8tyjCgNBWED9thFg4lxDmnc+4IfV8wkxPGpSbmkK
+         mvd8If5a4Uca/yRcBKxrGv3zbiNPGN8n3sB0wjb0ULOrnW5xC9V8VURVatFAv3Mm/im4
+         h1FA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723465053; x=1724069853;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Q2MT7CpoVbgtNAFPvwIvM+rcDNcVzre2hq92xi/BU9g=;
+        b=mceC5opIVq6PCCOgwTDDAUvK2ZF8xDOf/aJlQRfa36lQRHJKvzy9kB9AQcZm9XzqXV
+         XGFwW6D75DR/V3khteQ5VDdqJChHpt1X99PExrfE+BcR42C1ZYH7K0LesJcehyZocp7t
+         y6vN138pn3zxTt8aK56EDhvz1eFEglT5cGs+yaW2hyTHrP6vFCLhaPE3QLfVRp5qKXI6
+         j7sCauFK+0JuUK7XCyVmmh6niY09+ZHNMv3ahnzLDcGJKoT12umAFiSNZe1BzjcsXg7n
+         WT4hZf+hd7UvHCEXKiRj8wVTtBpih4hyYBCNtK+6KHoe7GaK5lwSghmIwwFXoe9GAu4x
+         Si8g==
+X-Forwarded-Encrypted: i=1; AJvYcCWO7jLLqLQjsErAN7TDcWNMHM/sBQHpBAEhAdKCRyvePUlFRNbanTYeh6iQTTiihEcTYljBhDF3NlhAN97M@vger.kernel.org, AJvYcCWWjK5egA8TrlVgpHu4U6iAtMzA+MveUOCa69Jo0g6CsVb3/SZ79KTD4rL4EZ3CJ6pPlmmpgg7V7xc=@vger.kernel.org, AJvYcCX8BDFEMbH30zECifVIUjYhJpmQSeln6kHg2oEWORkTXGflIe2Wfb5txBq10SJtSpHkia3FnMrHc6ehr9tN@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx0gm3c4SRr8mabHDhhUTcDDugR6lwr/jlbD8cZpE9yV9knk7h+
+	/9dS7bSk8CdqYSLkGBsu+2wVkqBxXkpxPBYhilBUd0btAcBL6dY3
+X-Google-Smtp-Source: AGHT+IHuioC1eMHhDjPqzvdRQcGw1i3us/v/rw8S6D6YDwM5A3GZum2Wq897dettoU7QQJkhYpvLHQ==
+X-Received: by 2002:a17:907:6092:b0:a7a:c083:8571 with SMTP id a640c23a62f3a-a80ed2cfebbmr5491866b.52.1723465052896;
+        Mon, 12 Aug 2024 05:17:32 -0700 (PDT)
+Received: from [127.0.1.1] (91-118-163-37.static.upcbusiness.at. [91.118.163.37])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a80bb0e1981sm225737366b.72.2024.08.12.05.17.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Aug 2024 05:17:32 -0700 (PDT)
+From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Date: Mon, 12 Aug 2024 14:17:21 +0200
+Subject: [PATCH] Documentation/llvm: turn make command for ccache into code
+ block
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240812-ccache-literal-code-block-v1-1-4f09de978667@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAFD9uWYC/x3MQQqDMBBG4avIrB1IQpDoVaSLOP6tQ4MpiZSCe
+ HdDl9/ivZMqiqLS1J1U8NWqeW+wfUeyxf0F1rWZnHHeBOtYJMoGTnqgxMSSV/CSsrw5+MEN1mO
+ 0GKn1n4Kn/v7v+XFdN68FKyJrAAAA
+To: Nathan Chancellor <nathan@kernel.org>, 
+ Nick Desaulniers <ndesaulniers@google.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+ Masahiro Yamada <masahiroy@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: llvm@lists.linux.dev, linux-kbuild@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>
+X-Mailer: b4 0.14-dev
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1723465051; l=1223;
+ i=javier.carrasco.cruz@gmail.com; s=20240312; h=from:subject:message-id;
+ bh=pTiLvX6dgRw/lbpMcbvul78nttHoBA2ug0btunkVO8c=;
+ b=SDOJxpOKGH39hPR8hykQodZxeGYZ7NMFfdKU5mLg3BkVQmrFVkc43IOOtxTJqPHJhco8fE7iL
+ 8TIjOkDlvTCCJASXzC44OzeodS2DWLWJZlPEF1QRTm1Zg7BPa9waOfK
+X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
+ pk=lzSIvIzMz0JhJrzLXI0HAdPwsNPSSmEn6RbS+PTS9aQ=
 
-P_SYMBOL is a pseudo property that was previously used for data linking
-purposes.
+The command provided to use ccache with clang is not a literal code
+block. Once built, the documentation displays the '' symbols as a "
+character, which is wrong, and the command can not be applied as
+provided.
 
-It is no longer used except for debug prints. Remove it.
+Turn the command into a literal code block.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
 ---
+ Documentation/kbuild/llvm.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- scripts/kconfig/expr.h   | 1 -
- scripts/kconfig/parser.y | 4 ----
- scripts/kconfig/qconf.cc | 1 -
- scripts/kconfig/symbol.c | 2 --
- 4 files changed, 8 deletions(-)
-
-diff --git a/scripts/kconfig/expr.h b/scripts/kconfig/expr.h
-index 2bc96cd28253..c82d08bbd704 100644
---- a/scripts/kconfig/expr.h
-+++ b/scripts/kconfig/expr.h
-@@ -168,7 +168,6 @@ enum prop_type {
- 	P_SELECT,   /* select BAR */
- 	P_IMPLY,    /* imply BAR */
- 	P_RANGE,    /* range 7..100 (for a symbol) */
--	P_SYMBOL,   /* where a symbol is defined */
- };
+diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
+index bb5c44f8bd1c..6dc66b4f31a7 100644
+--- a/Documentation/kbuild/llvm.rst
++++ b/Documentation/kbuild/llvm.rst
+@@ -126,7 +126,7 @@ Ccache
  
- struct property {
-diff --git a/scripts/kconfig/parser.y b/scripts/kconfig/parser.y
-index e03731184840..2d5e5ed56aba 100644
---- a/scripts/kconfig/parser.y
-+++ b/scripts/kconfig/parser.y
-@@ -707,10 +707,6 @@ static void print_symbol(FILE *out, const struct menu *menu)
- 			print_quoted_string(out, prop->text);
- 			fputc('\n', out);
- 			break;
--		case P_SYMBOL:
--			fputs( "  symbol ", out);
--			fprintf(out, "%s\n", prop->menu->sym->name);
--			break;
- 		default:
- 			fprintf(out, "  unknown prop %d!\n", prop->type);
- 			break;
-diff --git a/scripts/kconfig/qconf.cc b/scripts/kconfig/qconf.cc
-index 7d239c032b3d..88797d174261 100644
---- a/scripts/kconfig/qconf.cc
-+++ b/scripts/kconfig/qconf.cc
-@@ -1094,7 +1094,6 @@ QString ConfigInfoView::debug_info(struct symbol *sym)
- 		case P_RANGE:
- 		case P_COMMENT:
- 		case P_IMPLY:
--		case P_SYMBOL:
- 			stream << prop_get_type_name(prop->type);
- 			stream << ": ";
- 			expr_print(prop->expr, expr_print_help,
-diff --git a/scripts/kconfig/symbol.c b/scripts/kconfig/symbol.c
-index 71502abd3b12..d75665f3dfa2 100644
---- a/scripts/kconfig/symbol.c
-+++ b/scripts/kconfig/symbol.c
-@@ -1321,8 +1321,6 @@ const char *prop_get_type_name(enum prop_type type)
- 		return "imply";
- 	case P_RANGE:
- 		return "range";
--	case P_SYMBOL:
--		return "symbol";
- 	case P_UNKNOWN:
- 		break;
- 	}
+ ``ccache`` can be used with ``clang`` to improve subsequent builds, (though
+ KBUILD_BUILD_TIMESTAMP_ should be set to a deterministic value between builds
+-in order to avoid 100% cache misses, see Reproducible_builds_ for more info):
++in order to avoid 100% cache misses, see Reproducible_builds_ for more info)::
+ 
+ 	KBUILD_BUILD_TIMESTAMP='' make LLVM=1 CC="ccache clang"
+ 
+
+---
+base-commit: 9e6869691724b12e1f43655eeedc35fade38120c
+change-id: 20240812-ccache-literal-code-block-8462614e91e9
+
+Best regards,
 -- 
-2.43.0
+Javier Carrasco <javier.carrasco.cruz@gmail.com>
 
 
