@@ -1,135 +1,358 @@
-Return-Path: <linux-kbuild+bounces-2948-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2949-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2B6494ECAF
-	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Aug 2024 14:18:23 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0CEA94ED54
+	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Aug 2024 14:49:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CE1B51C21B82
-	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Aug 2024 12:18:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7DFFE1F2339C
+	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Aug 2024 12:49:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B128917A587;
-	Mon, 12 Aug 2024 12:17:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4D1F17B505;
+	Mon, 12 Aug 2024 12:49:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="louG5wne"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ha1Ykl0Q"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F15A8176FBD;
-	Mon, 12 Aug 2024 12:17:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC1E717B4F6;
+	Mon, 12 Aug 2024 12:49:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723465056; cv=none; b=ZNqcfnmeCKffXNYpkIRG7dtGv/R3rIeYNICGjUs/7WqF8QLngOfKPIE2ZwfwPvLxpl1WTaTVSdffq/P1ycGVXOJotlPTt1E86HyE1Ds4dCxAJa/AR7pVwIzJsZN+CLuleajzAnGWyM00TV3EY1fcW27b131Wa7DIYiUbu6vCRjA=
+	t=1723466943; cv=none; b=dygEVxoarvQpp4UCVLkBXF5rgPbbCMjGLkoHs42qo4aQuhWatJERJqkXcvDEoCTpJedOGzZL2G5z8Vq2bIM6VI2P2vfs/Ano2MrRTkYjaIRcBMsrrFb3hotzlC8kFtCFr4gIN3GZ71mCUy2djL9LPcNmwMl73XzAqm7neK+U0OM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723465056; c=relaxed/simple;
-	bh=pTiLvX6dgRw/lbpMcbvul78nttHoBA2ug0btunkVO8c=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=a1OfEb2f+A2ZVDM4bsrvrrjzJ/QRpnq9rP5b8HLwRyHZfRowioEWfUWpYdoshGwx/G4tgYsMNzHbZDduuxVWpVrJwa1QbKv8NLR0h6kLJVg8Ehi/L0w1ot+fbmMzrsugKL/SzzcFCLpL9J+YpqWaseX859RwAkkiBN2/cin0KMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=louG5wne; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a7a94aa5080so501935166b.3;
-        Mon, 12 Aug 2024 05:17:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723465053; x=1724069853; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q2MT7CpoVbgtNAFPvwIvM+rcDNcVzre2hq92xi/BU9g=;
-        b=louG5wneHQtxvjJQqPXm88+oEUJLKLVmwX92MvVFwbLk4hPEO22AV1oWTZvXzFwLrd
-         QH0iIcDEUtE9zXcv0oNfmlpR8SvLkVh1op7oNpstR0Ir5yOeUR6YdjVlS5E01Qktrj9q
-         5hGMGLyMmxO4Xm9Vwc4ly6tv0zGvB4fvVhswv8hcIu+TjVjbWyI6Aiv5jr3+2mbcU4+m
-         B1Iti3IG+y9lZhWHDs9/lmv8Alqd8tyjCgNBWED9thFg4lxDmnc+4IfV8wkxPGpSbmkK
-         mvd8If5a4Uca/yRcBKxrGv3zbiNPGN8n3sB0wjb0ULOrnW5xC9V8VURVatFAv3Mm/im4
-         h1FA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723465053; x=1724069853;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Q2MT7CpoVbgtNAFPvwIvM+rcDNcVzre2hq92xi/BU9g=;
-        b=mceC5opIVq6PCCOgwTDDAUvK2ZF8xDOf/aJlQRfa36lQRHJKvzy9kB9AQcZm9XzqXV
-         XGFwW6D75DR/V3khteQ5VDdqJChHpt1X99PExrfE+BcR42C1ZYH7K0LesJcehyZocp7t
-         y6vN138pn3zxTt8aK56EDhvz1eFEglT5cGs+yaW2hyTHrP6vFCLhaPE3QLfVRp5qKXI6
-         j7sCauFK+0JuUK7XCyVmmh6niY09+ZHNMv3ahnzLDcGJKoT12umAFiSNZe1BzjcsXg7n
-         WT4hZf+hd7UvHCEXKiRj8wVTtBpih4hyYBCNtK+6KHoe7GaK5lwSghmIwwFXoe9GAu4x
-         Si8g==
-X-Forwarded-Encrypted: i=1; AJvYcCWO7jLLqLQjsErAN7TDcWNMHM/sBQHpBAEhAdKCRyvePUlFRNbanTYeh6iQTTiihEcTYljBhDF3NlhAN97M@vger.kernel.org, AJvYcCWWjK5egA8TrlVgpHu4U6iAtMzA+MveUOCa69Jo0g6CsVb3/SZ79KTD4rL4EZ3CJ6pPlmmpgg7V7xc=@vger.kernel.org, AJvYcCX8BDFEMbH30zECifVIUjYhJpmQSeln6kHg2oEWORkTXGflIe2Wfb5txBq10SJtSpHkia3FnMrHc6ehr9tN@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx0gm3c4SRr8mabHDhhUTcDDugR6lwr/jlbD8cZpE9yV9knk7h+
-	/9dS7bSk8CdqYSLkGBsu+2wVkqBxXkpxPBYhilBUd0btAcBL6dY3
-X-Google-Smtp-Source: AGHT+IHuioC1eMHhDjPqzvdRQcGw1i3us/v/rw8S6D6YDwM5A3GZum2Wq897dettoU7QQJkhYpvLHQ==
-X-Received: by 2002:a17:907:6092:b0:a7a:c083:8571 with SMTP id a640c23a62f3a-a80ed2cfebbmr5491866b.52.1723465052896;
-        Mon, 12 Aug 2024 05:17:32 -0700 (PDT)
-Received: from [127.0.1.1] (91-118-163-37.static.upcbusiness.at. [91.118.163.37])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a80bb0e1981sm225737366b.72.2024.08.12.05.17.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Aug 2024 05:17:32 -0700 (PDT)
-From: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Date: Mon, 12 Aug 2024 14:17:21 +0200
-Subject: [PATCH] Documentation/llvm: turn make command for ccache into code
- block
+	s=arc-20240116; t=1723466943; c=relaxed/simple;
+	bh=Ye4kmdG3MnrVhtoYZ45dT1ihmCJkAh8t9Hvkm/sofMg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tAxaWYlBrVLUjvuX6V07yNyRIkPWATNdXoexqkUcyqCrDtumLer/WJVSQfuEm6FbIliabE+Iat4rKgrGaY5kZTN3U3Brh8KYI8Xbz0sesWIa4E2vZZgdmzbfoH9BO1IqaCbKczmDr8V3IRb0S2gGRE0q3FR0UQ4doHgGcy1WfYQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ha1Ykl0Q; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E1EDC32782;
+	Mon, 12 Aug 2024 12:49:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723466943;
+	bh=Ye4kmdG3MnrVhtoYZ45dT1ihmCJkAh8t9Hvkm/sofMg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ha1Ykl0Q4b9T6NSxJnTl+rSYtuogmkW7D+tBb8db7inzMscEo6X22R0LeaoEZwBmx
+	 SsoW6OmTdoFIxwQiOWk1iIPNCeBiZo2uIQpNMPY48b78KG3uBU5XGnv2JkpI1eXvtk
+	 hUz7EV5tvdI4E5AdlogRXjL+RUgSTj/Y7VtBtnvm4N0OTBjWf7ZYb1As4zh9tMncMy
+	 fm+qdLa9pOtR1ovr+kd7KLP1pa4QkAX22dwxhicyqnKQ8xUj6uAmeRmXsNw9ZY2Vex
+	 ITDS9wHDkFuCAc/UDyG9OSRRV3yTzG/tJLXYLOUEJIurwP6QMDO5z6bGS1glthHqzg
+	 oUH2mRlm0oXwQ==
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>
+Subject: [PATCH 1/4] kbuild: split x*alloc() functions in kconfig to scripts/include/xalloc.h
+Date: Mon, 12 Aug 2024 21:48:50 +0900
+Message-ID: <20240812124858.2107328-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240812-ccache-literal-code-block-v1-1-4f09de978667@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAFD9uWYC/x3MQQqDMBBG4avIrB1IQpDoVaSLOP6tQ4MpiZSCe
- HdDl9/ivZMqiqLS1J1U8NWqeW+wfUeyxf0F1rWZnHHeBOtYJMoGTnqgxMSSV/CSsrw5+MEN1mO
- 0GKn1n4Kn/v7v+XFdN68FKyJrAAAA
-To: Nathan Chancellor <nathan@kernel.org>, 
- Nick Desaulniers <ndesaulniers@google.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
- Masahiro Yamada <masahiroy@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: llvm@lists.linux.dev, linux-kbuild@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Javier Carrasco <javier.carrasco.cruz@gmail.com>
-X-Mailer: b4 0.14-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1723465051; l=1223;
- i=javier.carrasco.cruz@gmail.com; s=20240312; h=from:subject:message-id;
- bh=pTiLvX6dgRw/lbpMcbvul78nttHoBA2ug0btunkVO8c=;
- b=SDOJxpOKGH39hPR8hykQodZxeGYZ7NMFfdKU5mLg3BkVQmrFVkc43IOOtxTJqPHJhco8fE7iL
- 8TIjOkDlvTCCJASXzC44OzeodS2DWLWJZlPEF1QRTm1Zg7BPa9waOfK
-X-Developer-Key: i=javier.carrasco.cruz@gmail.com; a=ed25519;
- pk=lzSIvIzMz0JhJrzLXI0HAdPwsNPSSmEn6RbS+PTS9aQ=
+Content-Transfer-Encoding: 8bit
 
-The command provided to use ccache with clang is not a literal code
-block. Once built, the documentation displays the '' symbols as a "
-character, which is wrong, and the command can not be applied as
-provided.
+These functions will be useful for other host programs.
 
-Turn the command into a literal code block.
-
-Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
- Documentation/kbuild/llvm.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-index bb5c44f8bd1c..6dc66b4f31a7 100644
---- a/Documentation/kbuild/llvm.rst
-+++ b/Documentation/kbuild/llvm.rst
-@@ -126,7 +126,7 @@ Ccache
- 
- ``ccache`` can be used with ``clang`` to improve subsequent builds, (though
- KBUILD_BUILD_TIMESTAMP_ should be set to a deterministic value between builds
--in order to avoid 100% cache misses, see Reproducible_builds_ for more info):
-+in order to avoid 100% cache misses, see Reproducible_builds_ for more info)::
- 
- 	KBUILD_BUILD_TIMESTAMP='' make LLVM=1 CC="ccache clang"
- 
+ scripts/include/xalloc.h     | 53 ++++++++++++++++++++++++++++++++++++
+ scripts/kconfig/confdata.c   |  1 +
+ scripts/kconfig/expr.c       |  1 +
+ scripts/kconfig/lexer.l      |  1 +
+ scripts/kconfig/lkc.h        |  5 ----
+ scripts/kconfig/mconf.c      |  1 +
+ scripts/kconfig/menu.c       |  1 +
+ scripts/kconfig/nconf.c      |  1 +
+ scripts/kconfig/nconf.gui.c  |  1 +
+ scripts/kconfig/parser.y     |  1 +
+ scripts/kconfig/preprocess.c |  1 +
+ scripts/kconfig/qconf.cc     |  1 +
+ scripts/kconfig/symbol.c     |  1 +
+ scripts/kconfig/util.c       | 50 +---------------------------------
+ 14 files changed, 65 insertions(+), 54 deletions(-)
+ create mode 100644 scripts/include/xalloc.h
 
----
-base-commit: 9e6869691724b12e1f43655eeedc35fade38120c
-change-id: 20240812-ccache-literal-code-block-8462614e91e9
-
-Best regards,
+diff --git a/scripts/include/xalloc.h b/scripts/include/xalloc.h
+new file mode 100644
+index 000000000000..cdadb07d0592
+--- /dev/null
++++ b/scripts/include/xalloc.h
+@@ -0,0 +1,53 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++
++#ifndef XALLOC_H
++#define XALLOC_H
++
++#include <stdlib.h>
++#include <string.h>
++
++static inline void *xmalloc(size_t size)
++{
++	void *p = malloc(size);
++
++	if (!p)
++		exit(1);
++	return p;
++}
++
++static inline void *xcalloc(size_t nmemb, size_t size)
++{
++	void *p = calloc(nmemb, size);
++
++	if (!p)
++		exit(1);
++	return p;
++}
++
++static inline void *xrealloc(void *p, size_t size)
++{
++	p = realloc(p, size);
++	if (!p)
++		exit(1);
++	return p;
++}
++
++static inline char *xstrdup(const char *s)
++{
++	char *p = strdup(s);
++
++	if (!p)
++		exit(1);
++	return p;
++}
++
++static inline char *xstrndup(const char *s, size_t n)
++{
++	char *p = strndup(s, n);
++
++	if (!p)
++		exit(1);
++	return p;
++}
++
++#endif /* XALLOC_H */
+diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
+index 76193ce5a792..d8849dfb06db 100644
+--- a/scripts/kconfig/confdata.c
++++ b/scripts/kconfig/confdata.c
+@@ -18,6 +18,7 @@
+ #include <time.h>
+ #include <unistd.h>
+ 
++#include <xalloc.h>
+ #include "internal.h"
+ #include "lkc.h"
+ 
+diff --git a/scripts/kconfig/expr.c b/scripts/kconfig/expr.c
+index c349da7fe3f8..a16451347f63 100644
+--- a/scripts/kconfig/expr.c
++++ b/scripts/kconfig/expr.c
+@@ -9,6 +9,7 @@
+ #include <stdlib.h>
+ #include <string.h>
+ 
++#include <xalloc.h>
+ #include "lkc.h"
+ 
+ #define DEBUG_EXPR	0
+diff --git a/scripts/kconfig/lexer.l b/scripts/kconfig/lexer.l
+index 8dd597c4710d..9c2cdfc33c6f 100644
+--- a/scripts/kconfig/lexer.l
++++ b/scripts/kconfig/lexer.l
+@@ -13,6 +13,7 @@
+ #include <stdlib.h>
+ #include <string.h>
+ 
++#include <xalloc.h>
+ #include "lkc.h"
+ #include "preprocess.h"
+ 
+diff --git a/scripts/kconfig/lkc.h b/scripts/kconfig/lkc.h
+index 401bdf36323a..ddfb2b1cb737 100644
+--- a/scripts/kconfig/lkc.h
++++ b/scripts/kconfig/lkc.h
+@@ -53,11 +53,6 @@ static inline void xfwrite(const void *str, size_t len, size_t count, FILE *out)
+ /* util.c */
+ unsigned int strhash(const char *s);
+ const char *file_lookup(const char *name);
+-void *xmalloc(size_t size);
+-void *xcalloc(size_t nmemb, size_t size);
+-void *xrealloc(void *p, size_t size);
+-char *xstrdup(const char *s);
+-char *xstrndup(const char *s, size_t n);
+ 
+ /* lexer.l */
+ int yylex(void);
+diff --git a/scripts/kconfig/mconf.c b/scripts/kconfig/mconf.c
+index 3887eac75289..84ea9215c0a7 100644
+--- a/scripts/kconfig/mconf.c
++++ b/scripts/kconfig/mconf.c
+@@ -20,6 +20,7 @@
+ #include <unistd.h>
+ 
+ #include <list.h>
++#include <xalloc.h>
+ #include "lkc.h"
+ #include "lxdialog/dialog.h"
+ #include "mnconf-common.h"
+diff --git a/scripts/kconfig/menu.c b/scripts/kconfig/menu.c
+index 323cc0b62be6..dbf3b49eb0fb 100644
+--- a/scripts/kconfig/menu.c
++++ b/scripts/kconfig/menu.c
+@@ -9,6 +9,7 @@
+ #include <string.h>
+ 
+ #include <list.h>
++#include <xalloc.h>
+ #include "lkc.h"
+ #include "internal.h"
+ 
+diff --git a/scripts/kconfig/nconf.c b/scripts/kconfig/nconf.c
+index b91ca47e9e9a..063b4f7ccbdb 100644
+--- a/scripts/kconfig/nconf.c
++++ b/scripts/kconfig/nconf.c
+@@ -12,6 +12,7 @@
+ #include <stdlib.h>
+ 
+ #include <list.h>
++#include <xalloc.h>
+ #include "lkc.h"
+ #include "mnconf-common.h"
+ #include "nconf.h"
+diff --git a/scripts/kconfig/nconf.gui.c b/scripts/kconfig/nconf.gui.c
+index 25a7263ef3c8..72b605efe549 100644
+--- a/scripts/kconfig/nconf.gui.c
++++ b/scripts/kconfig/nconf.gui.c
+@@ -4,6 +4,7 @@
+  *
+  * Derived from menuconfig.
+  */
++#include <xalloc.h>
+ #include "nconf.h"
+ #include "lkc.h"
+ 
+diff --git a/scripts/kconfig/parser.y b/scripts/kconfig/parser.y
+index 61900feb4254..212e496ce9e2 100644
+--- a/scripts/kconfig/parser.y
++++ b/scripts/kconfig/parser.y
+@@ -11,6 +11,7 @@
+ #include <string.h>
+ #include <stdbool.h>
+ 
++#include <xalloc.h>
+ #include "lkc.h"
+ #include "internal.h"
+ #include "preprocess.h"
+diff --git a/scripts/kconfig/preprocess.c b/scripts/kconfig/preprocess.c
+index 67d1fb95c491..783abcaa5cc5 100644
+--- a/scripts/kconfig/preprocess.c
++++ b/scripts/kconfig/preprocess.c
+@@ -11,6 +11,7 @@
+ 
+ #include <array_size.h>
+ #include <list.h>
++#include <xalloc.h>
+ #include "internal.h"
+ #include "lkc.h"
+ #include "preprocess.h"
+diff --git a/scripts/kconfig/qconf.cc b/scripts/kconfig/qconf.cc
+index 7d239c032b3d..379768699b57 100644
+--- a/scripts/kconfig/qconf.cc
++++ b/scripts/kconfig/qconf.cc
+@@ -22,6 +22,7 @@
+ 
+ #include <stdlib.h>
+ 
++#include <xalloc.h>
+ #include "lkc.h"
+ #include "qconf.h"
+ 
+diff --git a/scripts/kconfig/symbol.c b/scripts/kconfig/symbol.c
+index 71502abd3b12..55c9eb30c006 100644
+--- a/scripts/kconfig/symbol.c
++++ b/scripts/kconfig/symbol.c
+@@ -9,6 +9,7 @@
+ #include <string.h>
+ #include <regex.h>
+ 
++#include <xalloc.h>
+ #include "internal.h"
+ #include "lkc.h"
+ 
+diff --git a/scripts/kconfig/util.c b/scripts/kconfig/util.c
+index 696ff477671e..50698fff5b9d 100644
+--- a/scripts/kconfig/util.c
++++ b/scripts/kconfig/util.c
+@@ -9,6 +9,7 @@
+ #include <string.h>
+ 
+ #include <hashtable.h>
++#include <xalloc.h>
+ #include "lkc.h"
+ 
+ unsigned int strhash(const char *s)
+@@ -102,52 +103,3 @@ char *str_get(const struct gstr *gs)
+ {
+ 	return gs->s;
+ }
+-
+-void *xmalloc(size_t size)
+-{
+-	void *p = malloc(size);
+-	if (p)
+-		return p;
+-	fprintf(stderr, "Out of memory.\n");
+-	exit(1);
+-}
+-
+-void *xcalloc(size_t nmemb, size_t size)
+-{
+-	void *p = calloc(nmemb, size);
+-	if (p)
+-		return p;
+-	fprintf(stderr, "Out of memory.\n");
+-	exit(1);
+-}
+-
+-void *xrealloc(void *p, size_t size)
+-{
+-	p = realloc(p, size);
+-	if (p)
+-		return p;
+-	fprintf(stderr, "Out of memory.\n");
+-	exit(1);
+-}
+-
+-char *xstrdup(const char *s)
+-{
+-	char *p;
+-
+-	p = strdup(s);
+-	if (p)
+-		return p;
+-	fprintf(stderr, "Out of memory.\n");
+-	exit(1);
+-}
+-
+-char *xstrndup(const char *s, size_t n)
+-{
+-	char *p;
+-
+-	p = strndup(s, n);
+-	if (p)
+-		return p;
+-	fprintf(stderr, "Out of memory.\n");
+-	exit(1);
+-}
 -- 
-Javier Carrasco <javier.carrasco.cruz@gmail.com>
+2.43.0
 
 
