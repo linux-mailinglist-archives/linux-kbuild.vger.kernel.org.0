@@ -1,69 +1,69 @@
-Return-Path: <linux-kbuild+bounces-2941-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2942-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DDFD94E8DE
-	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Aug 2024 10:50:28 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C953094E9CE
+	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Aug 2024 11:29:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A51B01C216CC
-	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Aug 2024 08:50:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EE56B1C21714
+	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Aug 2024 09:29:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91D8C15572D;
-	Mon, 12 Aug 2024 08:50:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EBD016D9CB;
+	Mon, 12 Aug 2024 09:29:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IgIbf73B"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tmTaImnH"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5522115217F;
-	Mon, 12 Aug 2024 08:50:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0709B20323;
+	Mon, 12 Aug 2024 09:29:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723452618; cv=none; b=FPMSEvlSvfJTwhtRKAdawD1Sxm1Lqx8Kfo2+DVLFXHZ3cm/isJ/KOTEItbodqRcI4Z3gxpb26kDqUVtxLpZvcf81NJUR3RnV/RJj8JOjE5B+aeWuUiOtD05M0B//xSlKctfPmIGIDSc7d6S/oYVsaN7zw2PjeGvuRd75hD4t1wM=
+	t=1723454977; cv=none; b=ILUtl89rhs1JxTLf5c5Ihk5vDaEV7ovmSpW9/FwKKtLoLXagwpUWzqlMJb0tCE1WXdUjsGvuCyh0AOlvFoKpO4tbs7JI+4SKsueipel3atUjYaHGapmkjQ0X+7fwBi5VxNeFmfk5DuH3oCFcnyOKZ4flF48Br0Vnv098IYoL/tE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723452618; c=relaxed/simple;
-	bh=aNur46yGEecyaSry6T8eXLC0DK2BAJhQAJwweczARUo=;
+	s=arc-20240116; t=1723454977; c=relaxed/simple;
+	bh=qD4221qfEoT3Q7JJ0IbVncBx0D1cP9HcDrggWBn1twM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PNaen840oKMOWGAWUM3hht4DlZOMTqnP1mZ4AK0+4GZ494osySquqlF9mDePfHst9jAxMYEeqNKCVT4BJdp48JiIFWXusX0NT+yf9hO+smW4QapFM/Qemv2GiaPaKMOr63LjeKZGBm8dsxOCOk7Su6DAAL/yAsjesqX0oOWuv8E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IgIbf73B; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99743C4AF10;
-	Mon, 12 Aug 2024 08:50:17 +0000 (UTC)
+	 To:Cc:Content-Type; b=sROW5XS6MTdAbIYuiDVWWi7ATexO6LoUTpKEJ8ZJQ//Wp96SX2Xg3sWU+HUAqeG9ryLkM19Ojl+T4XrSkLgIZPpjPvDUfGQj1dpqg5vBJH152eJl+hZsT7GWSaCE/seBtkD738KgBcUA6upyODGva7me0xIu7+FQnm2Ixmw3KT4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tmTaImnH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4937DC32782;
+	Mon, 12 Aug 2024 09:29:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723452618;
-	bh=aNur46yGEecyaSry6T8eXLC0DK2BAJhQAJwweczARUo=;
+	s=k20201202; t=1723454976;
+	bh=qD4221qfEoT3Q7JJ0IbVncBx0D1cP9HcDrggWBn1twM=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=IgIbf73B7aEtviGXJZ7VuddlDrFY1INo8iklvQGNjhRKcrvGiwNyLk8/N+yWVOjuE
-	 I4N7MMbbHad/zaKNg6vpMFwvXJWGvG24Oj8BoIpI1DivecB66N6eq6cfYHKyU+CkWM
-	 Z4YY9PyjY6BRYoZLFtj/nSmroJcyYJsbwYCFT+9rJ18xM+OiisG1dS/MKW/65MXrcN
-	 vAl/hBqPP+81ijyPoOfEZ14B8199Eygy8DjpvpTMr6AGekqA3LfuFDCy44vHZG2Kiu
-	 S6ROUdJ4tjX5Vx9D3F0jjUTE86ppgysOlgVcFzLiSZsGtoioHeFjvKiPCC31DPUniJ
-	 c1mj+9/hCUL/A==
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-530e2235688so4415709e87.3;
-        Mon, 12 Aug 2024 01:50:17 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWPUVt+lD4cuM2DTXua0gDVhiobnguW/PXFp5c2JR+i2iOzs99qbk9xDHZEnoQZaY2AXAlG15FAEjCsdfcb+Evn1XVtnwEP5fAy5h5P
-X-Gm-Message-State: AOJu0Yz1QNR3U+1yAbwSBJGinTIkTNeoLBgOl1zvWArBOd8bWxVoCAMb
-	isn7Cd5NMxqeRUxs/YamjPqd/iW+azgpIStPezBheNR5MK13rUootATGTZn5zA0/A6pjpUY/Fvw
-	Fk/bm2m47ZwDo77Dx+i2H6HIFSjw=
-X-Google-Smtp-Source: AGHT+IEeP67c9k0bGj5DqyF3V0OVMtvbG0mcg5KxTZ5bfszPm6V/kFR8XE9BUaiqrcTf0LfwrMZlHEhBfVoy26EcAVQ=
-X-Received: by 2002:a05:6512:2346:b0:52e:767a:ada3 with SMTP id
- 2adb3069b0e04-530eea2eb56mr5267340e87.47.1723452615829; Mon, 12 Aug 2024
- 01:50:15 -0700 (PDT)
+	b=tmTaImnHZP/uhYwVv7o1PlhPBBP0LYFp8xDV0e0078ge05USUF5vv8lAdGGPjAkQs
+	 pFMOkmI8enma600YONoCgi95yCoMsWz+V2r5oRcAF09L0JggyTsHrX9ks5JgdnSehW
+	 IN3eYQbv1qR3KMeggvrVrcup9IEYLym39As675sWS2UfhxofTpkZefWqqBjLFN8UyF
+	 wyuh3/i0nCiQBujNRxyhwMTDOWPQSRraAfLsQ7xZR4oKqUhfNIByrAc4oJDLeY/5Ek
+	 guolY8DBpw3SikGO+NSE4Z6WeY2+atNAcWsIaGYVNb43/VNI8FxuDsK/Xg9d0D6twX
+	 jOBFKtzlHFFWw==
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2ef2cce8be8so44294311fa.1;
+        Mon, 12 Aug 2024 02:29:36 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUGCSDxK58Uy1km8CCLN8KLLa1J+CdLmZPTbrwSoPvrRZI5G0gZN6C7AVE1kDLHWv+wAD0MS3hCiVBZMHH8hDtzOd1iXLvmskinWuVp
+X-Gm-Message-State: AOJu0YwzYofyeotj/r35Ocm7FgzDwxUbGO+aZ5DHX5VZcr3drRC4UcJl
+	UC8CY8N8v7ERZuYFZRY4r6tPlXC/f0xSk5NTc236taNvT7wiuGySOiMyAcqlei3TNKOTZWj38pT
+	EL7XoI0iqJFIPIe57FNkL3/qI9eE=
+X-Google-Smtp-Source: AGHT+IFMJ8y6FgcwuK8TQjHYshUvSew/nebl4iXbnm2eS2fqMHTm5VPD9XnOVrDZQxQA8r0swrW9Mr274Dhc71/63jc=
+X-Received: by 2002:a2e:f01:0:b0:2ef:2b38:8796 with SMTP id
+ 38308e7fff4ca-2f1a6cdbedamr64108591fa.32.1723454974792; Mon, 12 Aug 2024
+ 02:29:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240710065255.10338-1-ole0811sch@gmail.com> <20240710065255.10338-7-ole0811sch@gmail.com>
-In-Reply-To: <20240710065255.10338-7-ole0811sch@gmail.com>
+References: <20240710065255.10338-1-ole0811sch@gmail.com> <20240710065255.10338-12-ole0811sch@gmail.com>
+In-Reply-To: <20240710065255.10338-12-ole0811sch@gmail.com>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Mon, 12 Aug 2024 17:49:39 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQYfRzH8xh5u18z6upb9kJCMpSONn_nCS-5far9jLXsbg@mail.gmail.com>
-Message-ID: <CAK7LNAQYfRzH8xh5u18z6upb9kJCMpSONn_nCS-5far9jLXsbg@mail.gmail.com>
-Subject: Re: [PATCH v4 06/12] kconfig: Add files for building constraints
+Date: Mon, 12 Aug 2024 18:28:57 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARZwyYWrxZXGtD7-Ujh9or8ECsXSA+ba+91Fymg8wUjBg@mail.gmail.com>
+Message-ID: <CAK7LNARZwyYWrxZXGtD7-Ujh9or8ECsXSA+ba+91Fymg8wUjBg@mail.gmail.com>
+Subject: Re: [PATCH v4 11/12] kconfig: Add xconfig-modifications
 To: Ole Schuerks <ole0811sch@gmail.com>
 Cc: linux-kbuild@vger.kernel.org, jude.gyimah@rub.de, thorsten.berger@rub.de, 
 	deltaone@debian.org, jan.sollmann@rub.de, mcgrof@kernel.org, 
@@ -74,9 +74,9 @@ Content-Transfer-Encoding: quoted-printable
 On Wed, Jul 10, 2024 at 3:54=E2=80=AFPM Ole Schuerks <ole0811sch@gmail.com>=
  wrote:
 >
-> These files translate the Kconfig-model into propositional logic and stor=
-e
-> the constraints for each symbol in the corresponding struct.
+> The tool can be called from any configurator. We chose to modify xconfig
+> for this purpose. These files contain the necessary modifications to
+> xconfig in order to resolve conflicts.
 >
 > Co-developed-by: Patrick Franz <deltaone@debian.org>
 > Signed-off-by: Patrick Franz <deltaone@debian.org>
@@ -89,1988 +89,949 @@ e
 > Signed-off-by: Thorsten Berger <thorsten.berger@rub.de>
 > Signed-off-by: Ole Schuerks <ole0811sch@gmail.com>
 > ---
->  scripts/kconfig/cf_constraints.c | 1720 ++++++++++++++++++++++++++++++
->  scripts/kconfig/cf_constraints.h |   26 +
->  2 files changed, 1746 insertions(+)
->  create mode 100644 scripts/kconfig/cf_constraints.c
->  create mode 100644 scripts/kconfig/cf_constraints.h
+>  scripts/kconfig/qconf.cc | 515 ++++++++++++++++++++++++++++++++++++++-
+>  scripts/kconfig/qconf.h  | 103 ++++++++
+>  2 files changed, 616 insertions(+), 2 deletions(-)
 >
-> diff --git a/scripts/kconfig/cf_constraints.c b/scripts/kconfig/cf_constr=
-aints.c
-> new file mode 100644
-> index 000000000000..1c02a4b47383
-> --- /dev/null
-> +++ b/scripts/kconfig/cf_constraints.c
-> @@ -0,0 +1,1720 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (C) 2023 Patrick Franz <deltaone@debian.org>
-> + */
+> diff --git a/scripts/kconfig/qconf.cc b/scripts/kconfig/qconf.cc
+> index 7d239c032b3d..20ca9936d592 100644
+> --- a/scripts/kconfig/qconf.cc
+> +++ b/scripts/kconfig/qconf.cc
+> @@ -3,7 +3,7 @@
+>   * Copyright (C) 2002 Roman Zippel <zippel@linux-m68k.org>
+>   * Copyright (C) 2015 Boris Barbulovski <bbarbulovski@gmail.com>
+>   */
+> -
+> +#include "qnamespace.h"
+>  #include <QAction>
+>  #include <QActionGroup>
+>  #include <QApplication>
+> @@ -19,14 +19,27 @@
+>  #include <QRegularExpression>
+>  #include <QScreen>
+>  #include <QToolBar>
+> +#include <QListWidget>
+> +#include <QComboBox>
+> +#include <QTableWidget>
+> +#include <QHBoxLayout>
+> +#include <QMovie>
+> +#include <QMessageBox>
+>
+>  #include <stdlib.h>
+> +#include <QAbstractItemView>
+> +#include <QMimeData>
+> +#include <QBrush>
+> +#include <QColor>
+>
+>  #include "lkc.h"
+>  #include "qconf.h"
+> +#include "configfix.h"
+>
+>  #include "images.h"
+>
+> +static QString tristate_value_to_string(tristate val);
+> +static tristate string_value_to_tristate(QString s);
+>
+>  static QApplication *configApp;
+>  static ConfigSettings *configSettings;
+> @@ -178,6 +191,7 @@ void ConfigItem::updateMenu(void)
+>                 prompt +=3D " (NEW)";
+>  set_prompt:
+>         setText(promptColIdx, prompt);
 > +
-> +#include "cf_defs.h"
-> +#include "expr.h"
-> +#define _GNU_SOURCE
-> +#include <assert.h>
-> +#include <locale.h>
-> +#include <stdarg.h>
-> +#include <stdbool.h>
-> +#include <stdio.h>
-> +#include <stdlib.h>
-> +#include <string.h>
-> +#include <time.h>
-> +#include <unistd.h>
+>  }
+
+
+
+Unrelated change.
+(Same in many places)
+
+
+
+
+
+
+>  void ConfigItem::testUpdateMenu(bool v)
+> @@ -225,6 +239,7 @@ void ConfigItem::init(void)
+>                 }
+>         }
+>         updateMenu();
 > +
-> +#include "cf_utils.h"
-> +#include "internal.h"
-> +#include "cf_expr.h"
-> +#include "cf_constraints.h"
+>  }
+>
+>  /*
+> @@ -405,7 +420,7 @@ void ConfigList::updateSelection(void)
+>         ConfigItem* item =3D (ConfigItem*)selectedItems().first();
+>         if (!item)
+>                 return;
+> -
+> +       emit selectionChanged(selectedItems());
+>         menu =3D item->menu;
+>         emit menuChanged(menu);
+>         if (!menu)
+> @@ -471,6 +486,7 @@ void ConfigList::updateListForAll()
+>
+>                 list->updateList();
+>         }
 > +
-> +#define KCR_CMP false
-> +#define NPC_OPTIMISATION true
-> +
-> +static void init_constraints(struct cfdata *data);
-> +static void get_constraints_bool(struct cfdata *data);
-> +static void get_constraints_select(struct cfdata *data);
-> +static void get_constraints_nonbool(struct cfdata *data);
-> +
-> +static void build_tristate_constraint_clause(struct symbol *sym,
-> +                                            struct cfdata *data);
-> +
-> +static void add_selects_kcr(struct symbol *sym, struct cfdata *data);
-> +static void add_selects(struct symbol *sym, struct cfdata *data);
-> +
-> +static void add_dependencies_bool(struct symbol *sym, struct cfdata *dat=
-a);
-> +static void add_dependencies_bool_kcr(struct symbol *sym, struct cfdata =
-*data);
-> +static void add_dependencies_nonbool(struct symbol *sym, struct cfdata *=
-data);
-> +
-> +static void add_choice_prompt_cond(struct symbol *sym, struct cfdata *da=
-ta);
-> +static void add_choice_dependencies(struct symbol *sym, struct cfdata *d=
-ata);
-> +static void add_choice_constraints(struct symbol *sym, struct cfdata *da=
-ta);
-> +static void add_invisible_constraints(struct symbol *sym, struct cfdata =
-*data);
-> +static void sym_nonbool_at_least_1(struct symbol *sym, struct cfdata *da=
-ta);
-> +static void sym_nonbool_at_most_1(struct symbol *sym, struct cfdata *dat=
-a);
-> +static void sym_add_nonbool_values_from_default_range(struct symbol *sym=
-,
-> +                                                     struct cfdata *data=
-);
-> +static void sym_add_range_constraints(struct symbol *sym, struct cfdata =
-*data);
-> +static void sym_add_nonbool_prompt_constraint(struct symbol *sym,
-> +                                             struct cfdata *data);
-> +
-> +static struct default_map *create_default_map_entry(struct fexpr *val,
-> +                                                   struct pexpr *e);
-> +static struct defm_list *get_defaults(struct symbol *sym, struct cfdata =
-*data);
-> +static struct pexpr *get_default_y(struct defm_list *list, struct cfdata=
- *data);
-> +static struct pexpr *get_default_m(struct defm_list *list, struct cfdata=
- *data);
-> +static struct pexpr *get_default_any(struct symbol *sym, struct cfdata *=
-data);
-> +static long sym_get_range_val(struct symbol *sym, int base);
-> +
-> +/* -------------------------------------- */
-> +
-> +/*
-> + * build the constraints for each symbol
-> + */
-> +void get_constraints(struct cfdata *data)
-> +{
-> +       printd("Building constraints...");
-> +
-> +       init_constraints(data);
-> +       get_constraints_bool(data);
-> +       get_constraints_select(data);
-> +       get_constraints_nonbool(data);
+>  }
+>
+>  void ConfigList::updateListAllForAll()
+> @@ -539,6 +555,7 @@ void ConfigList::changeValue(ConfigItem* item)
+>                 }
+>                 if (oldexpr !=3D newexpr)
+>                         ConfigList::updateListForAll();
+> +                       emit updateConflictsViewColorization();
+>                 break;
+>         default:
+>                 break;
+> @@ -898,6 +915,7 @@ void ConfigList::contextMenuEvent(QContextMenuEvent *=
+e)
+>                         action, &QAction::setChecked);
+>                 action->setChecked(showName);
+>                 headerPopup->addAction(action);
+> +               headerPopup->addAction(addSymbolFromContextMenu);
+>         }
+>
+>         headerPopup->exec(e->globalPos());
+> @@ -918,6 +936,7 @@ QList<ConfigList *> ConfigList::allLists;
+>  QAction *ConfigList::showNormalAction;
+>  QAction *ConfigList::showAllAction;
+>  QAction *ConfigList::showPromptAction;
+> +QAction *ConfigList::addSymbolFromContextMenu;
+>
+>  void ConfigList::setAllOpen(bool open)
+>  {
+> @@ -1249,7 +1268,10 @@ ConfigSearchWindow::ConfigSearchWindow(ConfigMainW=
+indow *parent)
+>                 info, &ConfigInfoView::setInfo);
+>         connect(list, &ConfigList::menuChanged,
+>                 parent, &ConfigMainWindow::setMenuLink);
+> +       connect(list, &ConfigList::menuChanged,
+> +               parent, &ConfigMainWindow::conflictSelected);
+>
+> +       connect(list,&ConfigList::updateConflictsViewColorization,this,&C=
+onfigSearchWindow::updateConflictsViewColorizationFowarder);
+>         layout1->addWidget(split);
+>
+>         QVariant x, y;
+> @@ -1272,6 +1294,10 @@ ConfigSearchWindow::ConfigSearchWindow(ConfigMainW=
+indow *parent)
+>                 this, &ConfigSearchWindow::saveSettings);
+>  }
+>
+> +void ConfigSearchWindow::updateConflictsViewColorizationFowarder(void){
+> +       emit updateConflictsViewColorization();
 > +}
 > +
-> +/*
-> + * need to go through the constraints once to find all "known values"
-> + * for the non-Boolean symbols (and add them to sym->nb_vals for the giv=
-en
-> + * symbols).
-> + * expr_calculate_pexpr_both and get_defaults have the side effect of cr=
-eating
-> + * known values.
-> + */
-> +static void init_constraints(struct cfdata *data)
+>  void ConfigSearchWindow::saveSettings(void)
+>  {
+>         if (!objectName().isEmpty()) {
+> @@ -1364,6 +1390,17 @@ ConfigMainWindow::ConfigMainWindow(void)
+>         split1->addWidget(configList);
+>         split1->addWidget(menuList);
+>         split2->addWidget(helpText);
+> +       split3 =3D new QSplitter(split2);
+> +       split3->setOrientation(Qt::Vertical);
+> +       conflictsView =3D new ConflictsView(split3, "help");
+> +       /* conflictsSelected signal in conflictsview triggers when a conf=
+lict is selected
+> +                in the view. this line connects that event to conflictse=
+lected event in mainwindow
+> +                which updates the selection to match (in the configlist)=
+ the symbol that was selected.
+> +       */
+> +       connect(conflictsView,SIGNAL(conflictSelected(struct menu *)),SLO=
+T(conflictSelected(struct menu *)));
+> +       connect(conflictsView,SIGNAL(refreshMenu()),SLOT(refreshMenu()));
+> +       connect(menuList,SIGNAL(updateConflictsViewColorization()),confli=
+ctsView,SLOT(updateConflictsViewColorization()));
+> +       connect(configList,SIGNAL(updateConflictsViewColorization()),conf=
+lictsView,SLOT(updateConflictsViewColorization()));
+>
+>         setTabOrder(configList, helpText);
+>         configList->setFocus();
+> @@ -1430,6 +1467,8 @@ ConfigMainWindow::ConfigMainWindow(void)
+>         ConfigList::showAllAction->setCheckable(true);
+>         ConfigList::showPromptAction =3D new QAction("Show Prompt Options=
+", optGroup);
+>         ConfigList::showPromptAction->setCheckable(true);
+> +       ConfigList::addSymbolFromContextMenu =3D new QAction("Add symbol =
+from context menu");
+> +       connect(ConfigList::addSymbolFromContextMenu, &QAction::triggered=
+, conflictsView, &ConflictsView::addSymbol);
+>
+>         QAction *showDebugAction =3D new QAction("Show Debug Info", this)=
+;
+>           showDebugAction->setCheckable(true);
+> @@ -1485,6 +1524,8 @@ ConfigMainWindow::ConfigMainWindow(void)
+>
+>         connect(configList, &ConfigList::menuChanged,
+>                 helpText, &ConfigInfoView::setInfo);
+> +       connect(configList, &ConfigList::menuChanged,
+> +               conflictsView, &ConflictsView::menuChanged);
+>         connect(configList, &ConfigList::menuSelected,
+>                 this, &ConfigMainWindow::changeMenu);
+>         connect(configList, &ConfigList::itemSelected,
+> @@ -1493,6 +1534,8 @@ ConfigMainWindow::ConfigMainWindow(void)
+>                 this, &ConfigMainWindow::goBack);
+>         connect(menuList, &ConfigList::menuChanged,
+>                 helpText, &ConfigInfoView::setInfo);
+> +       connect(menuList, &ConfigList::menuChanged,
+> +               conflictsView, &ConflictsView::menuChanged);
+>         connect(menuList, &ConfigList::menuSelected,
+>                 this, &ConfigMainWindow::changeMenu);
+>
+> @@ -1712,6 +1755,13 @@ void ConfigMainWindow::showSplitView(void)
+>         menuList->setFocus();
+>  }
+>
+> +void ConfigMainWindow::conflictSelected(struct menu * men)
 > +{
-> +       struct symbol *sym;
-> +       struct property *p;
-> +
-> +       for_all_symbols(sym) {
-> +               struct property *prompt;
-> +
-> +               if (sym->type =3D=3D S_UNKNOWN)
-> +                       continue;
-> +
-> +               if (sym_is_boolean(sym)) {
-> +                       for_all_properties(sym, p, P_SELECT)
-> +                               pexpr_put(expr_calculate_pexpr_both(p->vi=
-sible.expr,
-> +                                                         data));
-> +
-> +                       for_all_properties(sym, p, P_IMPLY)
-> +                               pexpr_put(expr_calculate_pexpr_both(p->vi=
-sible.expr,
-> +                                                         data));
-
-
-
-Does 'imply' give any constraint?
-
-
-
-
-
-
-
-
-> +               }
-> +
-> +               if (sym->dir_dep.expr)
-> +                       pexpr_put(expr_calculate_pexpr_both(sym->dir_dep.=
-expr, data));
-> +
-> +               prompt =3D sym_get_prompt(sym);
-> +               if (prompt !=3D NULL && prompt->visible.expr) {
-> +                       pexpr_put(expr_calculate_pexpr_both(prompt->visib=
-le.expr, data));
-> +                       defm_list_destruct(get_defaults(sym, data));
-> +               }
-> +
-> +               if (sym_is_nonboolean(sym)) {
-> +                       const char *curr;
-> +
-> +                       for_all_defaults(sym, p) {
-> +                               if (p =3D=3D NULL)
-> +                                       continue;
-> +
-> +                               sym_create_nonbool_fexpr(
-> +                                       sym, p->expr->left.sym->name, dat=
-a);
-> +                       }
-> +                       for_all_properties(sym, p, P_RANGE) {
-> +                               if (p =3D=3D NULL)
-> +                                       continue;
-> +
-> +                               sym_create_nonbool_fexpr(
-> +                                       sym, p->expr->left.sym->name, dat=
-a);
-> +                               sym_create_nonbool_fexpr(
-> +                                       sym, p->expr->right.sym->name, da=
-ta);
-> +                       }
-> +                       curr =3D sym_get_string_value(sym);
-> +                       if (strcmp(curr, "") !=3D 0)
-> +                               sym_create_nonbool_fexpr(sym, (char *)cur=
-r,
-> +                                                        data);
-> +               }
-> +
-> +               if (sym->type =3D=3D S_HEX || sym->type =3D=3D S_INT)
-> +                       sym_add_nonbool_values_from_default_range(sym, da=
-ta);
-> +       }
+> +       configList->clearSelection();
+> +       menuList->clearSelection();
+> +       emit(setMenuLink(men));
 > +}
 > +
-> +/*
-> + *  build constraints for boolean symbols
-> + */
-> +static void get_constraints_bool(struct cfdata *data)
+>  void ConfigMainWindow::showFullView(void)
+>  {
+>         singleViewAction->setEnabled(true);
+> @@ -1847,6 +1897,432 @@ void ConfigMainWindow::conf_changed(bool dirty)
+>                 saveAction->setEnabled(dirty);
+>  }
+>
+> +void ConfigMainWindow::refreshMenu(void)
 > +{
-> +       struct symbol *sym;
-> +
-> +       for_all_symbols(sym) {
-> +               if (!sym_is_boolean(sym))
-> +                       continue;
-> +
-> +               /* build tristate constraints */
-> +               if (sym->type =3D=3D S_TRISTATE)
-> +                       build_tristate_constraint_clause(sym, data);
-> +
-> +               /* build constraints for select statements
-> +                * need to treat choice symbols separately
-> +                */
-> +               if (!KCR_CMP) {
-> +                       add_selects(sym, data);
-> +               } else {
-> +                       if (sym->rev_dep.expr && !sym_is_choice(sym) &&
-> +                           !sym_is_choice_value(sym))
-> +                               add_selects_kcr(sym, data);
-> +               }
-> +
-> +               /* build constraints for dependencies for booleans */
-> +               if (sym->dir_dep.expr && !sym_is_choice(sym) &&
-> +                   !sym_is_choice_value(sym)) {
-> +                       if (!KCR_CMP)
-> +                               add_dependencies_bool(sym, data);
-> +                       else
-> +                               add_dependencies_bool_kcr(sym, data);
-> +               }
-> +
-> +               /* build constraints for choice prompts */
-> +               if (sym_is_choice(sym))
-> +                       add_choice_prompt_cond(sym, data);
-> +
-> +               /* build constraints for dependencies (choice symbols and=
- options) */
-> +               if (sym_is_choice(sym) || sym_is_choice_value(sym))
-> +                       add_choice_dependencies(sym, data);
-> +
-> +               /* build constraints for the choice groups */
-> +               if (sym_is_choice(sym))
-> +                       add_choice_constraints(sym, data);
-> +
-> +               /* build invisible constraints */
-> +               add_invisible_constraints(sym, data);
-> +       }
+> +       configList->updateListAll();
 > +}
 > +
-> +/*
-> + * build the constraints for select-variables
-> + * skip non-Booleans, choice symbols/options och symbols without rev_dir
-> + */
-> +static void get_constraints_select(struct cfdata *data)
+> +void QTableWidget::dropEvent(QDropEvent *event)
 > +{
-> +       struct symbol *sym;
-> +
-> +       for_all_symbols(sym) {
-> +               struct pexpr *sel_y, *sel_m;
-> +               struct pexpr *c1, *c2;
-> +
-> +               if (KCR_CMP)
-> +                       continue;
-> +
-> +               if (!sym_is_boolean(sym))
-> +                       continue;
-> +
-> +               if (sym_is_choice(sym) || sym_is_choice_value(sym))
-> +                       continue;
-> +
-> +               if (!sym->rev_dep.expr)
-> +                       continue;
-> +
-> +               if (sym->list_sel_y =3D=3D NULL)
-> +                       continue;
-> +
-> +               sel_y =3D pexpr_implies(pexf(sym->fexpr_sel_y),
-> +                                          pexf(sym->fexpr_y), data,
-> +                                          PEXPR_ARGX);
-> +               sym_add_constraint(sym, sel_y, data);
-> +
-> +               c1 =3D pexpr_implies(pexf(sym->fexpr_sel_y), sym->list_se=
-l_y,
-> +                                       data, PEXPR_ARG1);
-> +               sym_add_constraint(sym, c1, data);
-> +
-> +               /* only continue for tristates */
-> +               if (sym->type =3D=3D S_BOOLEAN)
-> +                       continue;
-> +
-> +               sel_m =3D pexpr_implies(pexf(sym->fexpr_sel_m),
-> +                                          sym_get_fexpr_both(sym, data),=
- data,
-> +                                          PEXPR_ARGX);
-> +               sym_add_constraint(sym, sel_m, data);
-> +
-> +               c2 =3D pexpr_implies(pexf(sym->fexpr_sel_m), sym->list_se=
-l_m,
-> +                                       data, PEXPR_ARG1);
-> +               sym_add_constraint(sym, c2, data);
-> +               PEXPR_PUT(sel_y, sel_m, c1, c2);
-> +       }
 > +}
 > +
-> +/*
-> + * build constraints for non-booleans
-> + */
-> +static void get_constraints_nonbool(struct cfdata *data)
+> +ConflictsView::ConflictsView(QWidget *parent, const char *name)
+> +       : Parent(parent)
 > +{
-> +       struct symbol *sym;
+> +       currentSelectedMenu =3D nullptr;
+> +       setObjectName(name);
+> +       QHBoxLayout *horizontalLayout =3D new QHBoxLayout(this);
+> +       QVBoxLayout *verticalLayout =3D new QVBoxLayout();
+> +       verticalLayout->setContentsMargins(0, 0, 0, 0);
+> +       conflictsToolBar =3D new QToolBar("ConflictTools", this);
+> +       // toolbar buttons [n] [m] [y] [calculate fixes] [remove]
+> +       QAction *addSymbol =3D new QAction("Add Symbol");
+> +       QAction *setConfigSymbolAsNo =3D new QAction("N");
+> +       QAction *setConfigSymbolAsModule =3D new QAction("M");
+> +       QAction *setConfigSymbolAsYes =3D new QAction("Y");
+> +       fixConflictsAction_ =3D new QAction("Calculate Fixes");
+> +       QAction *removeSymbol =3D new QAction("Remove Symbol");
+> +       QMovie *loadingGif =3D new QMovie("scripts/kconfig/loader.gif");
+> +       auto loadingLabel =3D new QLabel;
 > +
-> +       for_all_symbols(sym) {
-> +               if (!sym_is_nonboolean(sym))
-> +                       continue;
-> +
-> +               /* the symbol must have a value, if there is a prompt */
-> +               if (sym_has_prompt(sym))
-> +                       sym_add_nonbool_prompt_constraint(sym, data);
-> +
-> +               /* build the range constraints for int/hex */
-> +               if (sym->type =3D=3D S_HEX || sym->type =3D=3D S_INT)
-> +                       sym_add_range_constraints(sym, data);
-> +
-> +               /* build constraints for dependencies for non-booleans */
-> +               if (sym->dir_dep.expr)
-> +                       add_dependencies_nonbool(sym, data);
-> +
-> +               /* build invisible constraints */
-> +               add_invisible_constraints(sym, data);
-> +
-> +               /* exactly one of the symbols must be true */
-> +               sym_nonbool_at_least_1(sym, data);
-> +               sym_nonbool_at_most_1(sym, data);
-> +       }
-> +}
-> +
-> +/*
-> + * enforce tristate constraints
-> + */
-> +static void build_tristate_constraint_clause(struct symbol *sym,
-> +                                            struct cfdata *data)
-> +{
-> +       struct pexpr *X, *X_m, *modules, *c;
-> +
-> +       if (sym->type !=3D S_TRISTATE)
-> +               return;
-> +
-> +       X =3D pexf(sym->fexpr_y);
-> +       X_m =3D pexf(sym->fexpr_m);
-> +       modules =3D pexf(modules_sym->fexpr_y);
-> +
-> +       /* -X v -X_m */
-> +       c =3D pexpr_or(pexpr_not_share(X, data), pexpr_not_share(X_m, dat=
-a),
-> +                         data, PEXPR_ARGX);
-> +       sym_add_constraint(sym, c, data);
-> +
-> +       /* X_m -> MODULES */
-> +       if (modules_sym->fexpr_y !=3D NULL) {
-> +               struct pexpr *c2 =3D pexpr_implies_share(X_m, modules, da=
-ta);
-> +
-> +               sym_add_constraint(sym, c2, data);
-> +               PEXPR_PUT(c2);
-> +       }
-> +       PEXPR_PUT(X, X_m, modules, c);
-> +}
-> +
-> +/*
-> + * build the select constraints
-> + * - RDep(X) implies X
-> + */
-> +static void add_selects_kcr(struct symbol *sym, struct cfdata *data)
-> +{
-> +       struct pexpr *rdep_y =3D expr_calculate_pexpr_y(sym->rev_dep.expr=
-, data);
-> +       struct pexpr *c1 =3D pexpr_implies(rdep_y, pexf(sym->fexpr_y), da=
-ta,
-> +                                             PEXPR_ARG2);
-> +
-> +       struct pexpr *rdep_both =3D
-> +               expr_calculate_pexpr_both(sym->rev_dep.expr, data);
-> +       struct pexpr *c2 =3D pexpr_implies(
-> +               rdep_both, sym_get_fexpr_both(sym, data), data, PEXPR_ARG=
-2);
-> +
-> +       sym_add_constraint(sym, c1, data);
-> +       sym_add_constraint(sym, c2, data);
-> +       PEXPR_PUT(rdep_y, c1, rdep_both, c2);
-> +}
-> +
-> +/*
-> + * build the select constraints simplified
-> + * - RDep(X) implies X
-> + */
-> +static void add_selects(struct symbol *sym, struct cfdata *data)
-> +{
-> +       struct property *p;
-> +
-> +       if (!sym_is_boolean(sym))
-> +               return;
-> +
-> +       for_all_properties(sym, p, P_SELECT) {
-> +               struct symbol *selected =3D p->expr->left.sym;
-> +               struct pexpr *cond_y, *cond_both;
-> +
-> +               if (selected->type =3D=3D S_UNKNOWN)
-> +                       continue;
-> +
-> +               if (!selected->rev_dep.expr)
-> +                       continue;
-> +
-> +               if (p->visible.expr) {
-> +                       cond_y =3D expr_calculate_pexpr_y(p->visible.expr=
-, data);
-> +                       cond_both =3D expr_calculate_pexpr_both(p->visibl=
-e.expr,
-> +                                                             data);
-> +               } else {
-> +                       cond_y =3D pexf(data->constants->const_true);
-> +                       cond_both =3D pexf(data->constants->const_true);
-> +               }
-> +
-> +               if (selected->type =3D=3D S_BOOLEAN) {
-> +                       /* imply that symbol is selected to y */
-> +                       struct pexpr *e1 =3D pexpr_and(
-> +                               cond_both, sym_get_fexpr_both(sym, data),=
- data,
-> +                               PEXPR_ARG2);
-> +                       struct pexpr *c1 =3D pexpr_implies(
-> +                               e1, pexf(selected->fexpr_sel_y), data,
-> +                               PEXPR_ARG2);
-> +
-> +                       sym_add_constraint(selected, c1, data);
-> +
-> +                       if (selected->list_sel_y =3D=3D NULL)
-> +                               selected->list_sel_y =3D pexpr_get(e1);
-> +                       else
-> +                               selected->list_sel_y =3D
-> +                                       pexpr_or(selected->list_sel_y, e1=
-, data,
-> +                                                PEXPR_ARG1);
-> +                       PEXPR_PUT(e1, c1);
-> +               }
-> +
-> +               if (selected->type =3D=3D S_TRISTATE) {
-> +                       struct pexpr *e2, *e3, *c2, *c3;
-> +
-> +                       /* imply that symbol is selected to y */
-> +                       e2 =3D pexpr_and(cond_y, pexf(sym->fexpr_y), data=
-,
-> +                                           PEXPR_ARG2);
-> +                       c2 =3D pexpr_implies(e2, pexf(selected->fexpr_sel=
-_y),
-> +                                               data, PEXPR_ARG2);
-> +                       sym_add_constraint(selected, c2, data);
-> +
-> +                       if (selected->list_sel_y =3D=3D NULL)
-> +                               selected->list_sel_y =3D pexpr_get(e2);
-> +                       else
-> +                               selected->list_sel_y =3D
-> +                                       pexpr_or(selected->list_sel_y, e2=
-,
-> +                                                     data, PEXPR_ARG1);
-> +
-> +                       /* imply that symbol is selected to m */
-> +                       e3 =3D pexpr_and(cond_both,
-> +                                           sym_get_fexpr_both(sym, data)=
-, data,
-> +                                           PEXPR_ARG2);
-> +                       c3 =3D pexpr_implies(e3, pexf(selected->fexpr_sel=
-_m),
-> +                                               data, PEXPR_ARG2);
-> +                       sym_add_constraint(selected, c3, data);
-> +
-> +                       if (selected->list_sel_m =3D=3D NULL)
-> +                               selected->list_sel_m =3D pexpr_get(e3);
-> +                       else
-> +                               selected->list_sel_m =3D
-> +                                       pexpr_or(selected->list_sel_m, e3=
-,
-> +                                                     data, PEXPR_ARG1);
-> +                       PEXPR_PUT(e2, c2, e3, c3);
-> +               }
-> +               PEXPR_PUT(cond_y, cond_both);
-> +       }
-> +}
-> +
-> +/*
-> + * build the dependency constraints for booleans
-> + *  - X implies Dep(X) or RDep(X)
-> + */
-> +static void add_dependencies_bool(struct symbol *sym, struct cfdata *dat=
-a)
-> +{
-> +       struct pexpr *dep_both;
-> +       struct pexpr *visible_m;
-> +       struct pexpr *visible_y;
-> +       struct pexpr *visible_both;
-> +       struct property *prompt;
-> +       struct pexpr *has_prompt;
-> +       struct pexpr *sel_y;
-> +
-> +       if (!sym_is_boolean(sym) || !sym->dir_dep.expr)
-> +               return;
-> +
-> +       prompt =3D sym_get_prompt(sym);
-> +       if (!prompt) {
-> +               visible_m =3D pexf(data->constants->const_false);
-> +               visible_y =3D pexpr_get(visible_m);
-> +               visible_both =3D pexpr_get(visible_m);
-> +       } else if (prompt->expr =3D=3D NULL) {
-> +               visible_m =3D pexf(data->constants->const_true);
-> +               visible_y =3D pexpr_get(visible_m);
-> +               visible_both =3D pexpr_get(visible_m);
+> +       if (loadingGif->isValid()) {
+> +               loadingGif->setScaledSize(loadingGif->scaledSize().scaled=
+(
+> +                       20, 20, Qt::KeepAspectRatioByExpanding));
+> +               loadingGif->start();
+> +               loadingLabel->setMovie(loadingGif);
 > +       } else {
-> +               visible_m =3D expr_calculate_pexpr_m(prompt->expr, data);
-> +               visible_y =3D expr_calculate_pexpr_y(prompt->expr, data);
-> +               visible_both =3D pexpr_or_share(visible_y, visible_m, dat=
-a);
+> +               loadingLabel->setText("Calculating...");
 > +       }
 > +
-> +       dep_both =3D expr_calculate_pexpr_both(sym->dir_dep.expr, data);
+> +       //if you change the order of buttons here, change the code where
+> +       //module button was disabled if symbol is boolean, selecting modu=
+le button
+> +       //depends on a specific index in list of action
+> +       fixConflictsAction_->setCheckable(false);
+> +       conflictsToolBar->addAction(addSymbol);
+> +       conflictsToolBar->addAction(setConfigSymbolAsNo);
+> +       conflictsToolBar->addAction(setConfigSymbolAsModule);
+> +       conflictsToolBar->addAction(setConfigSymbolAsYes);
+> +       conflictsToolBar->addAction(fixConflictsAction_);
+> +       conflictsToolBar->addAction(removeSymbol);
+> +       // loadingLabel->setMargin(5);
+> +       loadingLabel->setContentsMargins(5, 5, 5, 5);
+> +       loadingAction =3D conflictsToolBar->addWidget(loadingLabel);
+> +       loadingAction->setVisible(false);
 > +
-> +       sel_y =3D sym->rev_dep.expr ? pexf(sym->fexpr_sel_y) :
-> +                                   pexf(data->constants->const_false);
-> +       has_prompt =3D pexpr_get(visible_both);
-> +       has_prompt =3D pexpr_and(
-> +                       has_prompt,
-> +                       pexpr_not(pexpr_and_share(sel_y, visible_m, data)=
-,
-> +                               data),
-> +                       data, PEXPR_ARGX);
 > +
-> +       if (sym->type =3D=3D S_TRISTATE) {
-> +               struct pexpr *c1;
-> +               struct pexpr *c2;
-> +               struct pexpr *dep_y =3D
-> +                       expr_calculate_pexpr_y(sym->dir_dep.expr, data);
-> +               struct pexpr *sel_both =3D sym_get_fexpr_sel_both(sym, da=
-ta);
-> +               struct pexpr *cond_y1;
-> +               struct pexpr *cond_y2;
-> +               struct pexpr *cond_y;
-> +               struct pexpr *cond_m1;
-> +               struct pexpr *cond_m2;
-> +               struct pexpr *cond_m;
+> +       verticalLayout->addWidget(conflictsToolBar);
 > +
-> +               cond_y1 =3D pexpr_implies(pexpr_not_share(has_prompt, dat=
-a),
-> +                                      pexpr_or_share(dep_y, sel_y, data)=
-, data,
-> +                                      PEXPR_ARGX);
-> +               cond_y2 =3D pexpr_implies_share(has_prompt, visible_y, da=
-ta);
-> +               cond_y =3D pexpr_and_share(cond_y1, cond_y2, data);
-> +               cond_m1 =3D
-> +                       pexpr_implies(pexpr_not_share(has_prompt, data),
-> +                                     pexpr_or_share(dep_both, sel_both, =
-data),
-> +                                     data, PEXPR_ARGX);
-> +               cond_m2 =3D pexpr_implies(has_prompt,
-> +                                       pexpr_not_share(sel_y, data), dat=
-a,
-> +                                       PEXPR_ARG2);
-> +               cond_m =3D pexpr_and_share(cond_m1, cond_m2, data);
-> +               c1 =3D pexpr_implies(pexf(sym->fexpr_y), cond_y, data,
-> +                                  PEXPR_ARG1);
-> +               c2 =3D pexpr_implies(pexf(sym->fexpr_m), cond_m, data,
-> +                                  PEXPR_ARG1);
+> +       connect(addSymbol, &QAction::triggered, this, &ConflictsView::add=
+Symbol);
+> +       connect(setConfigSymbolAsNo, &QAction::triggered,this, &Conflicts=
+View::changeToNo);
+> +       connect(setConfigSymbolAsModule, &QAction::triggered,this, &Confl=
+ictsView::changeToModule);
+> +       connect(setConfigSymbolAsYes, &QAction::triggered,this, &Conflict=
+sView::changeToYes);
+> +       connect(removeSymbol, &QAction::triggered,this, &ConflictsView::r=
+emoveSymbol);
+> +       connect(this, SIGNAL(resultsReady()), SLOT(updateResults()));
+> +       //connect clicking 'calculate fixes' to 'change all symbol values=
+ to fix all conflicts'
+> +       // no longer used anymore for now.
+> +       connect(fixConflictsAction_, &QAction::triggered,this, &Conflicts=
+View::calculateFixes);
 > +
-> +               sym_add_constraint(sym, c1, data);
-> +               sym_add_constraint(sym, c2, data);
-> +               PEXPR_PUT(c1, c2, dep_y, sel_both, cond_y1,
-> +                         cond_y2, cond_y, cond_m1, cond_m2, cond_m);
-> +       } else if (sym->type =3D=3D S_BOOLEAN) {
-> +               struct pexpr *cond1;
-> +               struct pexpr *cond2;
-> +               struct pexpr *c;
+> +       conflictsTable =3D (QTableWidget *) new dropAbleView(this);
+> +       conflictsTable->setRowCount(0);
+> +       conflictsTable->setColumnCount(3);
+> +       conflictsTable->setSelectionBehavior(QAbstractItemView::SelectRow=
+s);
 > +
-> +               cond1 =3D pexpr_implies(pexpr_not_share(has_prompt, data)=
-,
-> +                                     pexpr_or(dep_both, pexf(sym->fexpr_=
-m),
-> +                                              data, PEXPR_ARG2),
-> +                                     data, PEXPR_ARGX);
-> +               cond2 =3D pexpr_implies_share(has_prompt, visible_y, data=
-);
-> +               c =3D pexpr_implies(pexf(sym->fexpr_y),
-> +                                 pexpr_and_share(cond1, cond2, data), da=
-ta,
-> +                                 PEXPR_ARGX);
+> +       conflictsTable->setHorizontalHeaderLabels(QStringList()  << "Opti=
+on" << "Wanted value" << "Current value" );
+> +       verticalLayout->addWidget(conflictsTable);
 > +
-> +               sym_add_constraint(sym, c, data);
-> +               PEXPR_PUT(c, cond1, cond2);
-> +       }
-> +       PEXPR_PUT(dep_both, has_prompt, sel_y, visible_y, visible_m, visi=
-ble_both);
+> +       conflictsTable->setDragDropMode(QAbstractItemView::DropOnly);
+> +       setAcceptDrops(true);
+> +
+> +       connect(conflictsTable, SIGNAL(cellClicked(int, int)), SLOT(cellC=
+licked(int,int)));
+> +       horizontalLayout->addLayout(verticalLayout);
+> +
+> +       // populate the solution view on the right hand side:
+> +       QVBoxLayout *solutionLayout =3D new QVBoxLayout();
+> +       solutionLayout->setContentsMargins(0, 0, 0, 0);
+> +       solutionSelector =3D new QComboBox();
+> +       connect(solutionSelector, QOverload<int>::of(&QComboBox::currentI=
+ndexChanged),
+> +               [=3D](int index){ changeSolutionTable(index); });
+> +       solutionTable =3D new QTableWidget();
+> +       solutionTable->setRowCount(0);
+> +       solutionTable->setColumnCount(2);
+> +       solutionTable->setHorizontalHeaderLabels(QStringList()  << "Symbo=
+l" << "New Value" );
+> +
+> +       applyFixButton =3D new QPushButton("Apply Selected solution");
+> +       connect(applyFixButton, SIGNAL(clicked(bool)), SLOT(applyFixButto=
+nClick()));
+> +
+> +       numSolutionLabel =3D new QLabel("Solutions:");
+> +       solutionLayout->addWidget(numSolutionLabel);
+> +       solutionLayout->addWidget(solutionSelector);
+> +       solutionLayout->addWidget(solutionTable);
+> +       solutionLayout->addWidget(applyFixButton);
+> +
+> +       horizontalLayout->addLayout(solutionLayout);
 > +}
+
+
+
+The "Current value" does not reflect the current value.
+
+
+1.  "Add Symbol" button.
+2.  Edit the "Option" column
+
+  -> The "Current value" stay the same
+     (it shows the value of the previous symbol)
+
+
+
+The "Wanted value" should toggle when you click on the cell.
+
+See how the existing window works.
+The values should be "Y", "M", "N" instead of
+"YES", "MODULE", "NO", for consistency.
+
+
+
+
+
+
 > +
-> +/*
-> + * build the dependency constraints for booleans (KCR)
-> + *  - X implies Dep(X) or RDep(X)
-> + */
-> +static void add_dependencies_bool_kcr(struct symbol *sym, struct cfdata =
-*data)
-> +{
-> +       struct pexpr *dep_both, *sel_both;
-> +
-> +       if (!sym_is_boolean(sym) || !sym->dir_dep.expr)
-> +               return;
-> +
-> +       dep_both =3D expr_calculate_pexpr_both(sym->dir_dep.expr, data);
-> +
-> +       sel_both =3D sym->rev_dep.expr ?
-> +                          expr_calculate_pexpr_both(sym->rev_dep.expr, d=
-ata) :
-> +                          pexf(data->constants->const_false);
-> +
-> +       if (sym->type =3D=3D S_TRISTATE) {
-> +               struct pexpr *c1;
-> +               struct pexpr *c2;
+> +void ConflictsView::changeToNo(){
+> +       QItemSelectionModel *select =3D conflictsTable->selectionModel();
+> +       if (select->hasSelection()){
+> +               QModelIndexList rows =3D select->selectedRows();
+> +               for (int i =3D 0;i < rows.count(); i++)
 > +               {
-> +                       struct pexpr *dep_y =3D
-> +                               expr_calculate_pexpr_y(sym->dir_dep.expr,=
- data);
-> +                       struct pexpr *sel_y =3D
-> +                               sym->rev_dep.expr ?
-> +                                       expr_calculate_pexpr_y(
-> +                                               sym->rev_dep.expr, data) =
-:
-> +                                       pexf(data->constants->const_false=
-);
-> +                       c1 =3D pexpr_implies(pexf(sym->fexpr_y),
-> +                                               pexpr_or(dep_y, sel_y,
-> +                                                             data, PEXPR=
-_ARGX),
-> +                                               data, PEXPR_ARGX);
+> +                       conflictsTable->item(rows[i].row(),1)->setText("N=
+O");
 > +               }
-> +               c2 =3D pexpr_implies(pexf(sym->fexpr_m),
-> +                                       pexpr_or_share(dep_both, sel_both=
-,
-> +                                                      data),
-> +                                       data, PEXPR_ARGX);
-> +
-> +               sym_add_constraint(sym, c1, data);
-> +               sym_add_constraint(sym, c2, data);
-> +               PEXPR_PUT(c1, c2);
-> +       } else if (sym->type =3D=3D S_BOOLEAN) {
-> +               struct pexpr *c =3D pexpr_implies(
-> +                       pexf(sym->fexpr_y),
-> +                       pexpr_or_share(dep_both, sel_both, data), data,
-> +                       PEXPR_ARGX);
-> +
-> +               sym_add_constraint(sym, c, data);
-> +               PEXPR_PUT(c);
 > +       }
-> +
-> +       PEXPR_PUT(dep_both, sel_both);
 > +}
 > +
-> +/*
-> + * build the dependency constraints for non-booleans
-> + *
-> + * sym is not 'n' implies `sym->dir_dep`
-> + */
-> +static void add_dependencies_nonbool(struct symbol *sym, struct cfdata *=
-data)
-> +{
-> +       struct pexpr *dep_both;
-> +       struct pexpr *nb_vals; // "sym is set to some value" / "sym is no=
-t 'n'"
-> +       struct fexpr_node *node;
-> +       struct pexpr *c;
+> +void ConflictsView::applyFixButtonClick(){
+> +       signed int solution_number =3D solutionSelector->currentIndex();
 > +
-> +       if (!sym_is_nonboolean(sym) || !sym->dir_dep.expr || sym->rev_dep=
-.expr)
+> +       if (solution_number =3D=3D -1 || solution_output =3D=3D NULL) {
 > +               return;
+> +       }
 > +
-> +       dep_both =3D expr_calculate_pexpr_both(sym->dir_dep.expr, data);
+> +       struct sfix_list * selected_solution =3D select_solution(solution=
+_output, solution_number);
+> +       apply_fix(selected_solution);
 > +
-> +       nb_vals =3D pexf(data->constants->const_false);
-> +       /* can skip the first non-boolean value, since this is 'n' */
-> +       fexpr_list_for_each(node, sym->nb_vals) {
-> +               if (node->prev =3D=3D NULL)
+> +
+> +       ConfigList::updateListForAll();
+> +       for (int i =3D 0;i < conflictsTable->rowCount(); i++)
+> +       {
+> +               conflictsTable->item(i,2)->setText(conflictsTable->item(i=
+,1)->text());
+> +       }
+> +       updateConflictsViewColorization();
+> +       QMessageBox msgBox;
+> +       msgBox.setText("The solution has been applied.");
+> +       msgBox.exec();
+> +}
+> +
+> +void ConflictsView::changeToYes(){
+> +       QItemSelectionModel *select =3D conflictsTable->selectionModel();
+> +       if (select->hasSelection()){
+> +               QModelIndexList rows =3D select->selectedRows();
+> +               for (int i =3D 0;i < rows.count(); i++)
+> +               {
+> +                       conflictsTable->item(rows[i].row(),1)->setText("Y=
+ES");
+> +               }
+> +       }
+> +
+> +}
+> +
+> +void ConflictsView::changeToModule() {
+> +       QItemSelectionModel *select =3D conflictsTable->selectionModel();
+> +       if (select->hasSelection()){
+> +               QModelIndexList rows =3D select->selectedRows();
+> +               for (int i =3D 0;i < rows.count(); i++)
+> +               {
+> +                       conflictsTable->item(rows[i].row(),1)->setText("M=
+ODULE");
+> +               }
+> +       }
+> +
+> +}
+> +
+> +void ConflictsView::menuChanged(struct menu *m)
+> +{
+> +       currentSelectedMenu =3D m;
+> +}
+> +
+> +void ConflictsView::addSymbol()
+> +{
+> +       addSymbolFromMenu(currentSelectedMenu);
+> +}
+> +
+> +void ConflictsView::selectionChanged(QList<QTreeWidgetItem *> selection)
+> +{
+> +       currentSelection =3D selection;
+> +
+> +}
+> +
+> +void ConflictsView::addSymbolFromMenu(struct menu *m)
+> +{
+> +       // adds a symbol to the conflict resolver list
+> +       if (m !=3D nullptr){
+> +               if (m->sym !=3D nullptr){
+> +                       struct symbol *sym =3D m->sym;
+> +                       tristate currentval =3D sym_get_tristate_value(sy=
+m);
+> +                       //if symbol is not added yet:
+> +                       QAbstractItemModel *tableModel =3D conflictsTable=
+->model();
+> +                       QModelIndexList matches =3D tableModel->match(tab=
+leModel->index(0,0), Qt::DisplayRole, QString(sym->name));
+> +                       if (matches.isEmpty()){
+> +                               conflictsTable->insertRow(conflictsTable-=
+>rowCount());
+> +                               conflictsTable->setItem(conflictsTable->r=
+owCount()-1,0,new QTableWidgetItem(sym->name));
+> +                               conflictsTable->setItem(conflictsTable->r=
+owCount()-1,1,new QTableWidgetItem(tristate_value_to_string(currentval)));
+> +                               conflictsTable->setItem(conflictsTable->r=
+owCount()-1,2,new QTableWidgetItem(tristate_value_to_string(currentval)));
+> +                       }else{
+> +                               conflictsTable->item(matches[0].row(),2)-=
+>setText(tristate_value_to_string(currentval));
+> +                       }
+> +               }
+> +       }
+> +}
+> +
+> +void ConflictsView::addSymbolFromContextMenu() {
+> +       struct menu *menu;
+> +
+> +       if (currentSelection.count() < 0){
+> +               return;
+> +       }
+> +       for (auto el: currentSelection){
+> +               ConfigItem *item =3D (ConfigItem *)el;
+> +               if (!item)
+> +               {
 > +                       continue;
-> +
-> +               nb_vals =3D pexpr_or(nb_vals, pexf(node->elem), data,
-> +                                       PEXPR_ARGX);
+> +               }
+> +               menu =3D item->menu;
+> +               addSymbolFromMenu(menu);
 > +       }
 > +
-> +       c =3D pexpr_implies(nb_vals, dep_both, data, PEXPR_ARGX);
-> +       sym_add_constraint(sym, c, data);
-> +       pexpr_put(c);
 > +}
 > +
-> +/*
-> + * build the constraints for the choice prompt
-> + */
-> +static void add_choice_prompt_cond(struct symbol *sym, struct cfdata *da=
-ta)
+> +void ConflictsView::removeSymbol()
 > +{
-> +       struct property *prompt;
-> +       struct pexpr *promptCondition;
-> +       struct pexpr *fe_both;
-> +       struct pexpr *pr_cond;
-> +       struct pexpr *req_cond;
-> +
-> +       if (!sym_is_boolean(sym))
-> +               return;
-> +
-> +       prompt =3D sym_get_prompt(sym);
-> +       if (prompt =3D=3D NULL)
-> +               return;
-> +
-> +       promptCondition =3D
-> +               prompt->visible.expr ?
-> +                       expr_calculate_pexpr_both(prompt->visible.expr, d=
-ata) :
-> +                       pexf(data->constants->const_true);
-> +       fe_both =3D sym_get_fexpr_both(sym, data);
-> +       req_cond =3D pexpr_implies_share(promptCondition, fe_both, data);
-> +       sym_add_constraint(sym, req_cond, data);
-> +       pr_cond =3D pexpr_implies_share(fe_both, promptCondition, data);
-> +       sym_add_constraint(sym, pr_cond, data);
-> +       PEXPR_PUT(promptCondition, fe_both, req_cond, pr_cond);
+> +       QItemSelectionModel *select =3D conflictsTable->selectionModel();
+> +       QAbstractItemModel *itemModel =3D select->model();
+> +       if (select->hasSelection()){
+> +               QModelIndexList rows =3D select->selectedRows();
+> +               itemModel->removeRows(rows[0].row(),rows.size());
+> +       }
 > +}
 > +
-> +/*
-> + * build constraints for dependencies (choice symbols and options)
-> + */
-> +static void add_choice_dependencies(struct symbol *sym, struct cfdata *d=
-ata)
+> +void ConflictsView::cellClicked(int row, int column)
 > +{
-> +       struct property *prompt;
-> +       struct expr *to_parse;
-> +       struct pexpr *dep_both;
+> +       auto itemText =3D conflictsTable->item(row,0)->text().toUtf8().da=
+ta();
+> +       struct property *prop;
+> +       struct menu *men;
+> +       struct symbol *sym =3D sym_find(itemText);
 > +
-> +       if (!sym_is_choice(sym) || !sym_is_choice_value(sym))
+> +       if (sym =3D=3D NULL)
 > +               return;
-> +
-> +       prompt =3D sym_get_prompt(sym);
-> +       if (prompt =3D=3D NULL)
-> +               return;
-> +
-> +       if (sym_is_choice(sym)) {
-> +               if (!prompt->visible.expr)
-> +                       return;
-> +               to_parse =3D prompt->visible.expr;
+> +       prop =3D sym->prop;
+> +       men =3D prop->menu;
+> +       // uncommenting following like somehow disables click signal of '=
+apply selected solution'
+> +       if (sym->type =3D=3D symbol_type::S_BOOLEAN) {
+> +               //disable module button
+> +               conflictsToolBar->actions()[2]->setDisabled(true);
 > +       } else {
-> +               if (!sym->dir_dep.expr)
-> +                       return;
-> +               to_parse =3D sym->dir_dep.expr;
+> +               //enable module button
+> +               conflictsToolBar->actions()[2]->setDisabled(false);
 > +       }
-> +
-> +       dep_both =3D expr_calculate_pexpr_both(to_parse, data);
-> +
-> +       if (sym->type =3D=3D S_TRISTATE) {
-> +               struct pexpr *dep_y =3D expr_calculate_pexpr_y(to_parse, =
-data);
-> +               struct pexpr *c1 =3D pexpr_implies(pexf(sym->fexpr_y), de=
-p_y,
-> +                                                     data, PEXPR_ARG1);
-> +               struct pexpr *c2 =3D pexpr_implies(
-> +                       pexf(sym->fexpr_m), dep_both, data, PEXPR_ARG1);
-> +
-> +               sym_add_constraint_eq(sym, c1, data);
-> +               sym_add_constraint_eq(sym, c2, data);
-> +               PEXPR_PUT(dep_y, c1, c2);
-> +       } else if (sym->type =3D=3D S_BOOLEAN) {
-> +               struct pexpr *c =3D pexpr_implies(
-> +                       pexf(sym->fexpr_y), dep_both, data, PEXPR_ARG1);
-> +
-> +               sym_add_constraint_eq(sym, c, data);
-> +               pexpr_put(c);
-> +       }
-> +       pexpr_put(dep_both);
+> +       emit(conflictSelected(men));
 > +}
 > +
-> +/*
-> + * build constraints for the choice groups
-> + */
-> +static void add_choice_constraints(struct symbol *sym, struct cfdata *da=
-ta)
-> +{
-> +       struct property *prompt;
-> +       struct symbol *choice, *choice2;
-> +       struct sym_node *node, *node2;
-> +       struct sym_list *items, *promptItems;
-> +       struct pexpr *c1;
-> +       struct menu *menu_ptr, *choiceval_menu;
-> +
-> +       if (!sym_is_boolean(sym))
+> +void ConflictsView::changeSolutionTable(int solution_number){
+> +       if (solution_output =3D=3D nullptr || solution_number < 0){
 > +               return;
-> +
-> +       prompt =3D sym_get_prompt(sym);
-> +       if (prompt =3D=3D NULL)
-> +               return;
-> +
-> +       /* create list of all choice options */
-> +       items =3D sym_list_init();
-> +       /* create list of choice options with a prompt */
-> +       promptItems =3D sym_list_init();
-> +
-> +       for_all_choices(sym, choiceval_menu, menu_ptr) {
-> +               choice =3D choiceval_menu->sym;
-> +
-> +               sym_list_add(items, choice);
-> +               if (sym_get_prompt(choice) !=3D NULL)
-> +                       sym_list_add(promptItems, choice);
 > +       }
+> +       struct sfix_list *selected_solution =3D select_solution(solution_=
+output, solution_number);
+> +       current_solution_number =3D solution_number;
+> +       solutionTable->setRowCount(0);
+> +       for (unsigned int i =3D 0; i <selected_solution->size; i++)
+> +       {
+> +               solutionTable->insertRow(solutionTable->rowCount());
+> +               struct symbol_fix *cur_symbol =3D select_symbol(selected_=
+solution,i);
 > +
-> +       /* if the choice is set to yes, at least one child must be set to=
- yes */
-> +       c1 =3D NULL;
-> +       sym_list_for_each(node, promptItems) {
-> +               choice =3D node->elem;
-> +               c1 =3D node->prev =3D=3D NULL ?
-> +                            pexf(choice->fexpr_y) :
-> +                            pexpr_or(c1, pexf(choice->fexpr_y), data,
-> +                                          PEXPR_ARGX);
-> +       }
-> +       if (c1 !=3D NULL) {
-> +               struct pexpr *c2 =3D pexpr_implies(pexf(sym->fexpr_y), c1=
-,
-> +                                                     data, PEXPR_ARG1);
+> +               QTableWidgetItem *symbol_name =3D new QTableWidgetItem(cu=
+r_symbol->sym->name);
 > +
-> +               sym_add_constraint(sym, c2, data);
-> +               PEXPR_PUT(c1, c2);
-> +       }
+> +               solutionTable->setItem(solutionTable->rowCount()-1,0,symb=
+ol_name);
 > +
-> +       /* every choice option (even those without a prompt) implies the =
-choice */
-> +       sym_list_for_each(node, items) {
-> +               choice =3D node->elem;
-> +               c1 =3D pexpr_implies(sym_get_fexpr_both(choice, data),
-> +                                       sym_get_fexpr_both(sym, data), da=
-ta,
-> +                                       PEXPR_ARGX);
-> +               sym_add_constraint(sym, c1, data);
-> +               pexpr_put(c1);
-> +       }
-> +
-> +       /* choice options can only select mod, if the entire choice is mo=
-d */
-> +       if (sym->type =3D=3D S_TRISTATE) {
-> +               sym_list_for_each(node, items) {
-> +                       choice =3D node->elem;
-> +                       if (choice->type =3D=3D S_TRISTATE) {
-> +                               c1 =3D pexpr_implies(pexf(choice->fexpr_m=
-),
-> +                                                       pexf(sym->fexpr_m=
-),
-> +                                                       data, PEXPR_ARGX)=
-;
-> +                               sym_add_constraint(sym, c1, data);
-> +                               pexpr_put(c1);
-> +                       }
-> +               }
-> +       }
-> +
-> +       /* tristate options cannot be m, if the choice symbol is boolean =
-*/
-> +       if (sym->type =3D=3D S_BOOLEAN) {
-> +               sym_list_for_each(node, items) {
-> +                       choice =3D node->elem;
-> +                       if (choice->type =3D=3D S_TRISTATE) {
-> +                               struct pexpr *e =3D pexpr_not(pexf(choice=
-->fexpr_m),
-> +                                                      data);
-> +                               sym_add_constraint(sym, e, data);
-> +                               pexpr_put(e);
-> +                       }
-> +               }
-> +       }
-> +
-> +       /* all choice options are mutually exclusive for yes */
-> +       sym_list_for_each(node, promptItems) {
-> +               choice =3D node->elem;
-> +               for (struct sym_node *node2 =3D node->next; node2 !=3D NU=
-LL;
-> +                    node2 =3D node2->next) {
-> +                       choice2 =3D node2->elem;
-> +                       c1 =3D pexpr_or(
-> +                               pexpr_not(pexf(choice->fexpr_y), data),
-> +                               pexpr_not(pexf(choice2->fexpr_y), data),
-> +                               data, PEXPR_ARGX);
-> +                       sym_add_constraint(sym, c1, data);
-> +                       pexpr_put(c1);
-> +               }
-> +       }
-> +
-> +       /* if one choice option with a prompt is set to yes,
-> +        * then no other option may be set to mod
-> +        */
-> +       if (sym->type =3D=3D S_TRISTATE) {
-> +               sym_list_for_each(node, promptItems) {
-> +                       struct sym_list *tmp;
-> +
-> +                       choice =3D node->elem;
-> +
-> +                       tmp =3D sym_list_init();
-> +                       for (struct sym_node *node2 =3D node->next; node2=
- !=3D NULL;
-> +                            node2 =3D node2->next) {
-> +                               choice2 =3D node2->elem;
-> +                               if (choice2->type =3D=3D S_TRISTATE)
-> +                                       sym_list_add(tmp, choice2);
-> +                       }
-> +                       if (tmp->size =3D=3D 0)
-> +                               continue;
-> +
-> +                       sym_list_for_each(node2, tmp) {
-> +                               choice2 =3D node2->elem;
-> +                               if (node2->prev =3D=3D NULL)
-> +                                       c1 =3D pexpr_not(
-> +                                               pexf(choice2->fexpr_m), d=
-ata);
-> +                               else
-> +                                       c1 =3D pexpr_and(
-> +                                               c1,
-> +                                               pexpr_not(
-> +                                                       pexf(choice2->fex=
-pr_m),
-> +                                                       data),
-> +                                               data, PEXPR_ARGX);
-> +                       }
-> +                       c1 =3D pexpr_implies(pexf(choice->fexpr_y), c1, d=
-ata,
-> +                                               PEXPR_ARGX);
-> +                       sym_add_constraint(sym, c1, data);
-> +                       pexpr_put(c1);
-> +               }
-> +       }
-> +       sym_list_free(promptItems);
-> +       sym_list_free(items);
-> +}
-> +
-> +/*
-> + * build the constraints for invisible options such as defaults
-> + */
-> +static void add_invisible_constraints(struct symbol *sym, struct cfdata =
-*data)
-> +{
-> +       struct property *prompt =3D sym_get_prompt(sym);
-> +       struct pexpr *promptCondition_both, *promptCondition_yes, *noProm=
-ptCond;
-> +       struct pexpr *npc;
-> +       struct defm_list *defaults;
-> +       struct pexpr *default_y, *default_m, *default_both;
-> +
-> +       /* no constraints for the prompt, nothing to do here */
-> +       if (prompt !=3D NULL && !prompt->visible.expr)
-> +               return;
-> +
-> +       if (prompt =3D=3D NULL) {
-> +               promptCondition_both =3D pexf(data->constants->const_fals=
-e);
-> +               promptCondition_yes =3D pexf(data->constants->const_false=
-);
-> +               noPromptCond =3D pexf(data->constants->const_true);
-> +       } else {
-> +               struct property *p;
-> +
-> +               promptCondition_both =3D pexf(data->constants->const_fals=
-e);
-> +               promptCondition_yes =3D pexf(data->constants->const_false=
-);
-> +
-> +               /* some symbols have multiple prompts */
-> +               for_all_prompts(sym, p) {
-> +                       promptCondition_both =3D
-> +                               pexpr_or(promptCondition_both,
-> +                                             expr_calculate_pexpr_both(
-> +                                                     p->visible.expr, da=
-ta),
-> +                                             data, PEXPR_ARGX);
-> +                       promptCondition_yes =3D pexpr_or(
-> +                               promptCondition_yes,
-> +                               expr_calculate_pexpr_y(p->visible.expr, d=
-ata),
-> +                               data, PEXPR_ARGX);
-> +               }
-> +               noPromptCond =3D pexpr_not_share(promptCondition_both, da=
-ta);
-> +       }
-> +
-> +       if (NPC_OPTIMISATION) {
-> +               struct fexpr *npc_fe =3D
-> +                       fexpr_create(data->sat_variable_nr++, FE_NPC, "")=
-;
-> +
-> +               if (sym_is_choice(sym))
-> +                       str_append(&npc_fe->name, "Choice_");
-> +
-> +               str_append(&npc_fe->name, sym_get_name(sym));
-> +               str_append(&npc_fe->name, "_NPC");
-> +               sym->noPromptCond =3D npc_fe;
-> +               fexpr_add_to_satmap(npc_fe, data);
-> +
-> +               npc =3D pexf(npc_fe);
-> +
-> +               if (!sym_is_choice_value(sym) && !sym_is_choice(sym)) {
-> +                       struct pexpr *c =3D
-> +                               pexpr_implies_share(noPromptCond, npc, da=
-ta);
-> +                       sym_add_constraint(sym, c, data);
-> +                       pexpr_put(c);
-> +               }
-> +       } else {
-> +               npc =3D pexpr_get(noPromptCond);
-> +       }
-> +
-> +       defaults =3D get_defaults(sym, data);
-> +       default_y =3D get_default_y(defaults, data);
-> +       default_m =3D get_default_m(defaults, data);
-> +       default_both =3D pexpr_or_share(default_y, default_m, data);
-> +
-> +       /* tristate elements are only selectable as yes, if they are visi=
-ble as yes */
-> +       if (sym->type =3D=3D S_TRISTATE) {
-> +               struct pexpr *e1 =3D pexpr_implies(
-> +                       promptCondition_both,
-> +                       pexpr_implies(pexf(sym->fexpr_y),
-> +                                          promptCondition_yes, data,
-> +                                          PEXPR_ARG1),
-> +                       data, PEXPR_ARG2);
-> +
-> +               sym_add_constraint(sym, e1, data);
-> +               pexpr_put(e1);
-> +       }
-> +
-> +       /* if invisible and off by default, then a symbol can only be dea=
-ctivated by its reverse
-> +        * dependencies
-> +        */
-> +       if (sym->type =3D=3D S_TRISTATE) {
-> +               struct pexpr *sel_y, *sel_m, *sel_both;
-> +               struct pexpr *c1, *c2, *c3;
-> +               struct pexpr *d1, *d2, *d3;
-> +               struct pexpr *e1, *e2, *e3;
-> +
-> +               if (sym->fexpr_sel_y !=3D NULL) {
-> +                       sel_y =3D pexpr_implies(pexf(sym->fexpr_y),
-> +                                                  pexf(sym->fexpr_sel_y)=
-, data,
-> +                                                  PEXPR_ARGX);
-> +                       sel_m =3D pexpr_implies(pexf(sym->fexpr_m),
-> +                                                  pexf(sym->fexpr_sel_m)=
-, data,
-> +                                                  PEXPR_ARGX);
-> +                       sel_both =3D pexpr_implies(
-> +                               pexf(sym->fexpr_y),
-> +                               pexpr_or(pexf(sym->fexpr_sel_m),
-> +                                             pexf(sym->fexpr_sel_y), dat=
-a,
-> +                                             PEXPR_ARGX),
-> +                               data, PEXPR_ARGX);
+> +               if (cur_symbol->type =3D=3D symbolfix_type::SF_BOOLEAN){
+> +                       QTableWidgetItem *symbol_value =3D new QTableWidg=
+etItem(tristate_value_to_string(cur_symbol->tri));
+> +                       solutionTable->setItem(solutionTable->rowCount()-=
+1,1,symbol_value);
+> +               } else if(cur_symbol->type =3D=3D symbolfix_type::SF_NONB=
+OOLEAN){
+> +                       QTableWidgetItem *symbol_value =3D new QTableWidg=
+etItem(cur_symbol->nb_val.s);
+> +                       solutionTable->setItem(solutionTable->rowCount()-=
+1,1,symbol_value);
 > +               } else {
-> +                       sel_y =3D pexpr_not(pexf(sym->fexpr_y), data);
-> +                       sel_m =3D pexpr_not(pexf(sym->fexpr_m), data);
-> +                       sel_both =3D pexpr_get(sel_y);
-> +               }
-> +
-> +               c1 =3D pexpr_implies(pexpr_not_share(default_y, data), se=
-l_y,
-> +                                       data, PEXPR_ARG1);
-> +               c2 =3D pexpr_implies(pexf(modules_sym->fexpr_y), c1, data=
-,
-> +                                       PEXPR_ARG1);
-> +               c3 =3D pexpr_implies_share(npc, c2, data);
-> +               sym_add_constraint(sym, c3, data);
-> +
-> +               d1 =3D pexpr_implies(pexpr_not_share(default_m, data), se=
-l_m,
-> +                                       data, PEXPR_ARG1);
-> +               d2 =3D pexpr_implies(pexf(modules_sym->fexpr_y), d1, data=
-,
-> +                                       PEXPR_ARG1);
-> +               d3 =3D pexpr_implies_share(npc, d2, data);
-> +               sym_add_constraint(sym, d3, data);
-> +
-> +               e1 =3D pexpr_implies(pexpr_not_share(default_both, data),
-> +                                       sel_both, data, PEXPR_ARG1);
-> +               e2 =3D pexpr_implies(
-> +                       pexpr_not(pexf(modules_sym->fexpr_y), data), e1,
-> +                       data, PEXPR_ARG1);
-> +               e3 =3D pexpr_implies_share(npc, e2, data);
-> +               sym_add_constraint(sym, e3, data);
-> +               PEXPR_PUT(sel_y, sel_m, sel_both, c1, c2, c3, d1, d2, d3,=
- e1,
-> +                         e2, e3);
-> +       } else if (sym->type =3D=3D S_BOOLEAN) {
-> +               struct pexpr *sel_y;
-> +               struct pexpr *e1, *e2;
-> +
-> +               if (sym->fexpr_sel_y !=3D NULL)
-> +                       sel_y =3D pexpr_implies(pexf(sym->fexpr_y),
-> +                                                  pexf(sym->fexpr_sel_y)=
-, data,
-> +                                                  PEXPR_ARGX);
-> +               else
-> +                       sel_y =3D pexpr_not(pexf(sym->fexpr_y), data);
-> +
-> +               e1 =3D pexpr_implies(pexpr_not_share(default_both, data),
-> +                                       sel_y, data, PEXPR_ARG1);
-> +               e2 =3D pexpr_implies_share(npc, e1, data);
-> +
-> +               sym_add_constraint_eq(sym, e2, data);
-> +               PEXPR_PUT(sel_y, e1, e2);
-> +       } else {
-> +               /* if non-boolean is invisible and no default's condition=
- is
-> +                * fulfilled, then the symbol is not set
-> +                */
-> +               struct pexpr *default_any =3D get_default_any(sym, data);
-> +               struct pexpr *e1 =3D pexf(data->constants->const_true);
-> +               struct pexpr *e2, *e3;
-> +
-> +               /* e1 =3D "sym is not set" */
-> +               for (struct fexpr_node *node =3D sym->nb_vals->head->next=
-;
-> +                    node !=3D NULL; node =3D node->next)
-> +                       e1 =3D pexpr_and(
-> +                               e1, pexpr_not(pexf(node->elem), data),
-> +                               data, PEXPR_ARGX);
-> +
-> +               e2 =3D pexpr_implies(pexpr_not_share(default_any, data), =
-e1,
-> +                                       data, PEXPR_ARG1);
-> +               e3 =3D pexpr_implies_share(npc, e2, data);
-> +
-> +               sym_add_constraint(sym, e3, data);
-> +               PEXPR_PUT(default_any, e1, e2, e3);
-> +       }
-> +
-> +       /* if invisible and on by default, then a symbol can only be deac=
-tivated by its
-> +        * dependencies
-> +        */
-> +       if (defaults->size =3D=3D 0) {
-> +               // nothing to do
-> +       } else if (sym->type =3D=3D S_TRISTATE) {
-> +               struct pexpr *e1;
-> +               struct pexpr *e2;
-> +
-> +               e1 =3D pexpr_implies(npc,
-> +                                       pexpr_implies(default_y,
-> +                                                          pexf(sym->fexp=
-r_y),
-> +                                                          data, PEXPR_AR=
-G2),
-> +                                       data, PEXPR_ARG2);
-> +               sym_add_constraint(sym, e1, data);
-> +
-> +               e2 =3D pexpr_implies(
-> +                       npc,
-> +                       pexpr_implies(default_m,
-> +                                          sym_get_fexpr_both(sym, data),
-> +                                          data, PEXPR_ARG2),
-> +                       data, PEXPR_ARG2);
-> +               sym_add_constraint(sym, e2, data);
-> +               PEXPR_PUT(e1, e2);
-> +       } else if (sym->type =3D=3D S_BOOLEAN) {
-> +               struct pexpr *c;
-> +               struct pexpr *c2;
-> +
-> +               c =3D pexpr_implies(default_both, pexf(sym->fexpr_y), dat=
-a,
-> +                                      PEXPR_ARG2);
-> +
-> +               // TODO tristate choice hack
-> +
-> +               c2 =3D pexpr_implies_share(npc, c, data);
-> +               sym_add_constraint(sym, c2, data);
-> +               PEXPR_PUT(c, c2);
-> +       } else {
-> +               /* if non-boolean invisible, then it assumes the correct
-> +                * default (if any).
-> +                */
-> +               struct defm_node *node;
-> +               struct pexpr *cond, *c;
-> +               struct fexpr *f;
-> +
-> +               defm_list_for_each(node, defaults) {
-> +                       f =3D node->elem->val;
-> +                       cond =3D node->elem->e;
-> +                       c =3D pexpr_implies(npc,
-> +                                              pexpr_implies(cond, pexf(f=
-), data, PEXPR_ARG2),
-> +                                              data, PEXPR_ARG2);
-> +                       sym_add_constraint(sym, c, data);
-> +                       pexpr_put(c);
+> +                       QTableWidgetItem *symbol_value =3D new QTableWidg=
+etItem(cur_symbol->disallowed.s);
+> +                       solutionTable->setItem(solutionTable->rowCount()-=
+1,1,symbol_value);
 > +               }
 > +       }
-> +
-> +       PEXPR_PUT(promptCondition_yes, promptCondition_both, noPromptCond=
-, npc,
-> +                 default_y, default_m, default_both);
-> +       defm_list_destruct(defaults);
+> +       updateConflictsViewColorization();
 > +}
 > +
-> +/*
-> + * add the known values from the default and range properties
-> + */
-> +static void sym_add_nonbool_values_from_default_range(struct symbol *sym=
-,
-> +                                                     struct cfdata *data=
+> +void ConflictsView::updateConflictsViewColorization(void)
+> +{
+> +       auto green =3D QColor(0,170,0);
+> +       auto red =3D QColor(255,0,0);
+> +       auto grey =3D QColor(180,180,180);
+> +
+> +       if (solutionTable->rowCount() =3D=3D 0 || current_solution_number=
+ < 0)
+> +               return;
+> +
+> +       for (int i=3D0; i< solutionTable->rowCount(); i++) {
+> +               QTableWidgetItem *symbol =3D  solutionTable->item(i,0);
+> +               //symbol from solution list
+> +               struct sfix_list *selected_solution =3D select_solution(s=
+olution_output, current_solution_number);
+> +               struct symbol_fix *cur_symbol =3D select_symbol(selected_=
+solution,i);
+> +
+> +               // if symbol is editable but the value is not the target =
+value from solution we got, the color is red
+> +               // if symbol is editable but the value is the target valu=
+e from solution we got, the color is green
+> +               // if symbol is not editable , the value is not the targe=
+t value, the color is grey
+> +               // if symbol is not editable , the value is the target va=
+lue, the color is green
+> +               auto editable =3D sym_string_within_range(cur_symbol->sym=
+, tristate_value_to_string(cur_symbol->tri).toStdString().c_str());
+> +               auto _symbol =3D solutionTable->item(i,0)->text().toUtf8(=
+).data();
+> +               struct symbol *sym_ =3D sym_find(_symbol);
+> +
+> +               tristate current_value_of_symbol =3D sym_get_tristate_val=
+ue(sym_);
+> +               tristate target_value_of_symbol =3D string_value_to_trist=
+ate(solutionTable->item(i,1)->text());
+> +               bool symbol_value_same_as_target =3D current_value_of_sym=
+bol =3D=3D target_value_of_symbol;
+> +
+> +               if (editable && !symbol_value_same_as_target){
+> +                       symbol->setForeground(red);
+> +               } else if (editable && symbol_value_same_as_target){
+> +                       symbol->setForeground(green);
+> +               } else if (!editable && !symbol_value_same_as_target){
+> +                       symbol->setForeground(grey);
+> +               } else if (!editable && symbol_value_same_as_target){
+> +                       symbol->setForeground(green);
+> +               }
+> +    }
+> +
+> +}
+> +
+> +void ConflictsView::runSatConfAsync()
+> +{
+> +       //loop through the rows in conflicts table adding each row into t=
+he array:
+> +       struct symbol_dvalue *p =3D nullptr;
+> +       p =3D static_cast<struct symbol_dvalue *>(calloc(conflictsTable->=
+rowCount(),sizeof(struct symbol_dvalue)));
+> +       if (!p)
+> +       {
+> +               printf("memory allocation error\n");
+> +               return;
+> +       }
+> +
+> +       struct sdv_list *wanted_symbols =3D sdv_list_init();
+> +
+> +       for (int i =3D 0; i < conflictsTable->rowCount(); i++)
+> +       {
+> +
+> +               struct symbol_dvalue *tmp =3D (p+i);
+> +               auto _symbol =3D conflictsTable->item(i,0)->text().toUtf8=
+().data();
+> +               struct symbol *sym =3D sym_find(_symbol);
+> +
+> +               tmp->sym =3D sym;
+> +               tmp->type =3D static_cast<symboldv_type>(sym->type =3D=3D=
+ symbol_type::S_BOOLEAN?0:1);
+> +               tmp->tri =3D string_value_to_tristate(conflictsTable->ite=
+m(i,1)->text());
+> +               sdv_list_add(wanted_symbols,tmp);
+> +       }
+> +       fixConflictsAction_->setText("Cancel");
+> +       loadingAction->setVisible(true);
+> +
+> +       struct sfl_list *ret =3D run_satconf(wanted_symbols);
+> +       solution_output =3D ret;
+> +
+> +       free(p);
+> +       emit resultsReady();
+> +       {
+> +               std::lock_guard<std::mutex> lk{satconf_mutex};
+> +               satconf_cancelled =3D true;
+> +       }
+> +       satconf_cancellation_cv.notify_one();
+> +
+> +}
+> +
+> +void ConflictsView::updateResults(void)
+> +{
+> +       fixConflictsAction_->setText("Calculate Fixes");
+> +       loadingAction->setVisible(false);
+> +       if (!(solution_output =3D=3D nullptr || solution_output->size =3D=
+=3D 0))
+> +       {
+> +               solutionSelector->clear();
+> +               for (unsigned int i =3D 0; i < solution_output->size; i++=
 )
-> +{
-> +       struct property *p;
-> +
-> +       for_all_defaults(sym, p) {
-> +               if (p =3D=3D NULL)
-> +                       continue;
-> +
-> +               /* add the value to known values, if it doesn't exist yet=
- */
-> +               sym_create_nonbool_fexpr(sym, p->expr->left.sym->name, da=
-ta);
-> +       }
-> +
-> +       for_all_properties(sym, p, P_RANGE) {
-> +               if (p =3D=3D NULL)
-> +                       continue;
-> +
-> +               /* add the values to known values, if they don't exist ye=
-t */
-> +               sym_create_nonbool_fexpr(sym, p->expr->left.sym->name, da=
-ta);
-> +               sym_create_nonbool_fexpr(sym, p->expr->right.sym->name, d=
-ata);
-> +       }
-> +}
-> +
-> +/*
-> + * build the range constraints for int/hex:
-> + * For each range and each value in `sym->nb_vals` that's not in the ran=
-ge:
-> + *     If the range's condition is fulfilled, then sym can't have this v=
-alue.
-> + */
-> +static void sym_add_range_constraints(struct symbol *sym, struct cfdata =
-*data)
-> +{
-> +       struct property *prop;
-> +       struct pexpr *prevs;
-> +       struct pexpr *propCond;
-> +       struct pexpr_list *prevCond; // list of all conditions of the ran=
-ges
-> +               // from the previous iterations
-> +       prevCond =3D pexpr_list_init();
-> +
-> +       for_all_properties(sym, prop, P_RANGE) {
-> +               int base;
-> +               long long range_min, range_max, tmp;
-> +               struct fexpr_node *node;
-> +
-> +               if (prop =3D=3D NULL)
-> +                       continue;
-> +
-> +               prevs =3D pexf(data->constants->const_true);
-> +               propCond =3D prop_get_condition(prop, data);
-> +
-> +               // construct prevs as "none of the previous ranges' condi=
-tions
-> +               // were fulfilled but this range's condition is"
-> +               if (prevCond->size =3D=3D 0) {
-> +                       pexpr_put(prevs);
-> +                       prevs =3D pexpr_get(propCond);
-> +;
-> +               } else {
-> +                       struct pexpr_node *node;
-> +
-> +                       pexpr_list_for_each(node, prevCond)
-> +                               prevs =3D pexpr_and(pexpr_not_share(node-=
->elem,
-> +                                                                 data),
-> +                                                 prevs, data, PEXPR_ARGX=
-);
-> +
-> +                       prevs =3D pexpr_and(propCond, prevs, data,
-> +                                              PEXPR_ARG2);
+> +               {
+> +                       solutionSelector->addItem(QString::number(i+1));
 > +               }
-> +               pexpr_list_add(prevCond, pexpr_get(propCond));
-> +
-> +               switch (sym->type) {
-> +               case S_INT:
-> +                       base =3D 10;
-> +                       break;
-> +               case S_HEX:
-> +                       base =3D 16;
-> +                       break;
-> +               default:
-> +                       return;
-> +               }
-> +
-> +               range_min =3D sym_get_range_val(prop->expr->left.sym, bas=
-e);
-> +               range_max =3D sym_get_range_val(prop->expr->right.sym, ba=
-se);
-> +
-> +               /* can skip the first non-boolean value, since this is 'n=
-' */
-> +               fexpr_list_for_each(node, sym->nb_vals) {
-> +                       struct pexpr *not_nb_val;
-> +                       struct pexpr *c;
-> +
-> +                       if (node->prev =3D=3D NULL)
-> +                               continue;
-> +
-> +                       tmp =3D strtoll(str_get(&node->elem->nb_val), NUL=
-L, base);
-> +
-> +                       /* known value is in range, nothing to do here */
-> +                       if (tmp >=3D range_min && tmp <=3D range_max)
-> +                               continue;
-> +
-> +                       not_nb_val =3D pexpr_not(pexf(node->elem), data);
-> +                       c =3D pexpr_implies_share(prevs, not_nb_val, data=
-);
-> +                       sym_add_constraint(sym, c, data);
-> +                       PEXPR_PUT(not_nb_val, c);
-> +               }
-> +               PEXPR_PUT(prevs, propCond);
+> +               // populate the solution table from the first solution go=
+tten
+> +               numSolutionLabel->setText(QString("Solutions: (%1) found"=
+).arg(solution_output->size));
+> +               changeSolutionTable(0);
 > +       }
-> +
-> +       pexpr_list_free_put(prevCond);
+> +       else {
+> +               QMessageBox msgBox;
+> +               msgBox.setText("All symbols are already within range.");
+> +               msgBox.exec();
+> +       }
+> +       if (runSatConfAsyncThread->joinable()){
+> +               runSatConfAsyncThread->join();
+> +               delete runSatConfAsyncThread;
+> +               runSatConfAsyncThread  =3D nullptr;
+> +       }
 > +
 > +}
 > +
-> +/*
-> + * at least 1 of the known values for a non-boolean symbol must be true
-> + */
-> +static void sym_nonbool_at_least_1(struct symbol *sym, struct cfdata *da=
-ta)
+> +void ConflictsView::calculateFixes()
 > +{
-> +       struct pexpr *e =3D NULL;
-> +       struct fexpr_node *node;
-> +
-> +       if (!sym_is_nonboolean(sym))
+> +       if(conflictsTable->rowCount() =3D=3D 0)
+> +       {
+> +               printd("table is empty\n");
 > +               return;
-> +
-> +       fexpr_list_for_each(node, sym->nb_vals) {
-> +               if (node->prev =3D=3D NULL)
-> +                       e =3D pexf(node->elem);
-> +               else
-> +                       e =3D pexpr_or(e, pexf(node->elem), data, PEXPR_A=
-RGX);
-> +       }
-> +       sym_add_constraint(sym, e, data);
-> +       pexpr_put(e);
-> +}
-> +
-> +/*
-> + * at most 1 of the known values for a non-boolean symbol can be true
-> + */
-> +static void sym_nonbool_at_most_1(struct symbol *sym, struct cfdata *dat=
-a)
-> +{
-> +       struct fexpr_node *node1;
-> +
-> +       if (!sym_is_nonboolean(sym))
-> +               return;
-> +
-> +       /* iterate over all subsets of sym->nb_vals of size 2 */
-> +       fexpr_list_for_each(node1, sym->nb_vals) {
-> +               struct pexpr *e1 =3D pexf(node1->elem);
-> +
-> +               for (struct fexpr_node *node2 =3D node1->next; node2 !=3D=
- NULL;
-> +                    node2 =3D node2->next) {
-> +                       struct pexpr *e2 =3D pexf(node2->elem);
-> +                       struct pexpr *e =3D pexpr_or(pexpr_not_share(e1, =
-data),
-> +                                                  pexpr_not_share(e2, da=
-ta),
-> +                                                  data, PEXPR_ARGX);
-> +
-> +                       sym_add_constraint(sym, e, data);
-> +                       PEXPR_PUT(e, e2);
-> +               }
-> +               pexpr_put(e1);
-> +       }
-> +}
-> +
-> +/*
-> + * a visible prompt for a non-boolean implies a value for the symbol
-> + */
-> +static void sym_add_nonbool_prompt_constraint(struct symbol *sym,
-> +                                             struct cfdata *data)
-> +{
-> +       struct property *prompt;
-> +       struct pexpr *promptCondition;
-> +       struct pexpr *n;
-> +       struct pexpr *c =3D NULL;
-> +
-> +       prompt =3D sym_get_prompt(sym);
-> +       if (prompt =3D=3D NULL)
-> +               return;
-> +
-> +       promptCondition =3D prop_get_condition(prompt, data);
-> +       n =3D pexf(sym_get_nonbool_fexpr(sym, "n"));
-> +
-> +       if (n->type !=3D PE_SYMBOL || n->left.fexpr =3D=3D NULL)
-> +               goto cleanup;
-> +
-> +       c =3D pexpr_implies(promptCondition, pexpr_not_share(n, data), da=
-ta,
-> +                         PEXPR_ARG2);
-> +
-> +       sym_add_constraint(sym, c, data);
-> +
-> +cleanup:
-> +       PEXPR_PUT(n, promptCondition, c);
-> +}
-> +
-> +static struct default_map *create_default_map_entry(struct fexpr *val,
-> +                                                   struct pexpr *e)
-> +{
-> +       struct default_map *map =3D malloc(sizeof(struct default_map));
-> +
-> +       pexpr_get(e);
-> +       map->val =3D val;
-> +       map->e =3D e;
-> +
-> +       return map;
-> +}
-> +
-> +/**
-> + * findDefaultEntry()
-> + * @val: Value that the entry must have
-> + * @defaults: List of defaults to search in
-> + * @constants: To get ``constants->const_false`` from
-> + *
-> + * Finds an entry in @defaults whose &default_map.val attribute is the s=
-ame
-> + * pointer as the @val argument.
-> + *
-> + * Return: The condition &default_map.e of the found entry, or
-> + * ``pexf(constants->const_false)`` if none was found. To be pexpr_put()=
- by the
-> + * caller.
-> + */
-> +static struct pexpr *findDefaultEntry(struct fexpr *val,
-> +                                     struct defm_list *defaults,
-> +                                     struct constants *constants)
-> +{
-> +       struct defm_node *node;
-> +
-> +       defm_list_for_each(node, defaults) {
-> +               if (val =3D=3D node->elem->val) {
-> +                       pexpr_get(node->elem->e);
-> +                       return node->elem->e;
-> +               }
 > +       }
 > +
-> +       return pexf(constants->const_false);
-> +}
+> +       if (runSatConfAsyncThread =3D=3D nullptr)
+> +       {
+> +               // fire away asynchronous call
+> +               std::unique_lock<std::mutex> lk{satconf_mutex};
 > +
-> +/*
-> + * accumulated during execution of add_defaults(), a disjunction of the
-> + * conditions for all default props of a symbol
-> + */
-> +static struct pexpr *covered;
-> +
-> +static bool is_tri_as_num(struct symbol *sym)
-> +{
-> +       if (!sym->name)
-> +               return false;
-> +
-> +       return !strcmp(sym->name, "0")
-> +               || !strcmp(sym->name, "1")
-> +               || !strcmp(sym->name, "2");
-> +}
-> +
-> +/**
-> + * add_to_default_map() - Add to or update an entry in a default list
-> + * @entry: Will be consumed by this function, i.e. the caller should and=
- need
-> + * only access @entry via @defaults.
-> + */
-> +static void add_to_default_map(struct defm_list *defaults,
-> +                              struct default_map *entry, struct symbol *=
-sym)
-> +{
-> +       /* as this is a map, the entry must be replaced if it already exi=
-sts */
-> +       if (sym_is_boolean(sym)) {
-> +               struct default_map *map;
-> +               struct defm_node *node;
-> +
-> +               defm_list_for_each(node, defaults) {
-> +                       map =3D node->elem;
-> +                       if (map->val->sym =3D=3D entry->val->sym) {
-> +                               pexpr_put(map->e);
-> +                               map->e =3D entry->e;
-> +                               free(entry);
-> +                               return;
-> +                       }
-> +               }
-> +               defm_list_add(defaults, entry);
-> +       } else {
-> +               struct default_map *map;
-> +               struct defm_node *node;
-> +
-> +               defm_list_for_each(node, defaults) {
-> +                       map =3D node->elem;
-> +                       if (map->val->satval =3D=3D entry->val->satval) {
-> +                               pexpr_put(map->e);
-> +                               map->e =3D entry->e;
-> +                               free(entry);
-> +                               return;
-> +                       }
-> +               }
-> +               defm_list_add(defaults, entry);
-> +       }
-> +}
-> +
-> +/**
-> + * updateDefaultList() - Update a default list with a new value-conditio=
-n pair
-> + * @val: The value whose condition will be updated
-> + * @newCond: The condition of the default prop. Does not include the con=
-dition
-> + * that the earlier default's conditions are not fulfilled.
-> + * @result: the default list
-> + * @sym: the symbol that the defaults belong to
-> + *
-> + * Update the condition that @val will be used for @sym by considering t=
-he next
-> + * default property, whose condition is given by @newCond.
-> + */
-> +static void updateDefaultList(struct fexpr *val, struct pexpr *newCond,
-> +                             struct defm_list *result, struct symbol *sy=
-m,
-> +                             struct cfdata *data)
-> +{
-> +       // The current condition of @val deduced from the previous defaul=
-t props
-> +       struct pexpr *prevCond =3D findDefaultEntry(val, result, data->co=
-nstants);
-> +       // New combined condition for @val
-> +       struct pexpr *condUseVal =3D
-> +               pexpr_or(prevCond,
-> +                        pexpr_and(newCond, pexpr_not_share(covered, data=
-),
-> +                                  data, PEXPR_ARG2),
-> +                        data, PEXPR_ARG2);
-> +       add_to_default_map(result, create_default_map_entry(val, condUseV=
-al),
-> +                          sym);
-> +       covered =3D pexpr_or(covered, newCond, data, PEXPR_ARG1);
-> +       PEXPR_PUT(prevCond, condUseVal);
-> +}
-> +
-> +/**
-> + * add_defaults() - Generate list of default values and their conditions
-> + * @defaults: List of the default properties
-> + * @ctx: Additional condition that needs to be fulfilled for any default=
-. May be
-> + * NULL.
-> + * @result: List that will be filled
-> + * @sym: Symbol that the defaults belong to
-> + *
-> + * Creates a map from values that @sym can assume to the conditions unde=
-r which
-> + * they will be assumed. Without @ctx, this will only consider the condi=
-tions
-> + * directly associated with the defaults, e.g. sym->dir_dep would not be
-> + * considered.
-> + *
-> + * As a side effect, the &symbol->nb_vals of @sym will be added for
-> + * all default values (as well as the @symbol->nb_vals of other symbols =
-@sym has
-> + * as default (recursively)).
-> + */
-> +static void add_defaults(struct prop_list *defaults, struct expr *ctx,
-> +                        struct defm_list *result, struct symbol *sym,
-> +                        struct cfdata *data)
-> +{
-> +       struct prop_node *node;
-> +       struct property *p;
-> +       struct expr *expr;
-> +
-> +       prop_list_for_each(node, defaults) {
-> +               p =3D node->elem;
-> +               /* calculate expr as whether the default's condition (and=
- the
-> +                * one inherited from ctx) is fulfilled
-> +                */
-> +               if (p->visible.expr) {
-> +                       if (ctx =3D=3D NULL)
-> +                               expr =3D expr_copy(p->visible.expr);
-> +                       else
-> +                               expr =3D expr_alloc_and(
-> +                                       expr_copy(p->visible.expr),
-> +                                       expr_copy(ctx));
-> +               } else {
-> +                       if (ctx =3D=3D NULL)
-> +                               expr =3D expr_alloc_symbol(&symbol_yes);
-> +                       else
-> +                               expr =3D expr_alloc_and(
-> +                                       expr_alloc_symbol(&symbol_yes),
-> +                                       expr_copy(ctx));
-> +               }
-> +
-> +               /* if tristate and def.value =3D y */
-> +               if (p->expr->type =3D=3D E_SYMBOL && sym->type =3D=3D S_T=
-RISTATE &&
-> +                   p->expr->left.sym =3D=3D &symbol_yes) {
-> +                       struct pexpr *expr_y =3D
-> +                               expr_calculate_pexpr_y(expr, data);
-> +                       struct pexpr *expr_m =3D
-> +                               expr_calculate_pexpr_m(expr, data);
-> +
-> +                       updateDefaultList(data->constants->symbol_yes_fex=
-pr,
-> +                                         expr_y, result, sym, data);
-> +                       updateDefaultList(data->constants->symbol_mod_fex=
-pr,
-> +                                         expr_m, result, sym, data);
-> +                       PEXPR_PUT(expr_y, expr_m);
-> +               }
-> +               /* if def.value =3D n/m/y */
-> +               else if (p->expr->type =3D=3D E_SYMBOL &&
-> +                        sym_is_tristate_constant(p->expr->left.sym) &&
-> +                        sym_is_boolean(sym)) {
-> +                       struct fexpr *s;
-> +                       struct pexpr *expr_both =3D
-> +                               expr_calculate_pexpr_both(expr, data);
-> +
-> +                       if (p->expr->left.sym =3D=3D &symbol_yes)
-> +                               s =3D data->constants->symbol_yes_fexpr;
-> +                       else if (p->expr->left.sym =3D=3D &symbol_mod)
-> +                               s =3D data->constants->symbol_mod_fexpr;
-> +                       else
-> +                               s =3D data->constants->symbol_no_fexpr;
-> +
-> +                       updateDefaultList(s, expr_both, result, sym, data=
-);
-> +                       pexpr_put(expr_both);
-> +               }
-> +               /* if def.value =3D n/m/y, but written as 0/1/2 for a boo=
-lean */
-> +               else if (sym_is_boolean(sym) && p->expr->type =3D=3D E_SY=
-MBOL &&
-> +                        p->expr->left.sym->type =3D=3D S_UNKNOWN &&
-> +                        is_tri_as_num(p->expr->left.sym)) {
-> +                       struct fexpr *s;
-> +                       struct pexpr *expr_both =3D
-> +                               expr_calculate_pexpr_both(expr, data);
-> +
-> +                       if (!strcmp(p->expr->left.sym->name, "0"))
-> +                               s =3D data->constants->symbol_no_fexpr;
-> +                       else if (!strcmp(p->expr->left.sym->name, "1"))
-> +                               s =3D data->constants->symbol_mod_fexpr;
-> +                       else
-> +                               s =3D data->constants->symbol_yes_fexpr;
-> +
-> +                       updateDefaultList(s, expr_both, result, sym, data=
-);
-> +                       pexpr_put(expr_both);
-> +               }
-> +               /* if def.value =3D non-boolean constant */
-> +               else if (expr_is_nonbool_constant(p->expr)) {
-> +                       struct fexpr *s =3D sym_get_or_create_nonbool_fex=
-pr(
-> +                               sym, p->expr->left.sym->name, data);
-> +                       struct pexpr *expr_both =3D
-> +                               expr_calculate_pexpr_both(expr, data);
-> +
-> +                       updateDefaultList(s, expr_both, result, sym, data=
-);
-> +                       pexpr_put(expr_both);
-> +               }
-> +               /* any expression which evaluates to n/m/y for a tristate=
- */
-> +               else if (sym->type =3D=3D S_TRISTATE) {
-> +                       struct expr *e_tmp =3D expr_alloc_and(expr_copy(p=
-->expr),
-> +                                                           expr_copy(exp=
-r));
-> +                       struct pexpr *expr_y =3D
-> +                               expr_calculate_pexpr_y(e_tmp, data);
-> +                       struct pexpr *expr_m =3D
-> +                               expr_calculate_pexpr_m(e_tmp, data);
-> +
-> +                       updateDefaultList(data->constants->symbol_yes_fex=
-pr,
-> +                                         expr_y, result, sym, data);
-> +                       updateDefaultList(data->constants->symbol_mod_fex=
-pr,
-> +                                         expr_m, result, sym, data);
-> +                       PEXPR_PUT(expr_y, expr_m);
-> +                       expr_free(e_tmp);
-> +               }
-> +               /* if non-boolean && def.value =3D non-boolean symbol */
-> +               else if (p->expr->type =3D=3D E_SYMBOL && sym_is_nonboole=
-an(sym) &&
-> +                        sym_is_nonboolean(p->expr->left.sym)) {
-> +                       struct prop_list *nb_sym_defaults =3D prop_list_i=
-nit();
-> +                       struct property *p_tmp;
-> +
-> +                       /* Add defaults of other symbol as possible defau=
-lts for
-> +                        * this symbol
-> +                        */
-> +                       for_all_defaults(p->expr->left.sym, p_tmp)
-> +                               prop_list_add(nb_sym_defaults, p_tmp);
-> +
-> +                       add_defaults(nb_sym_defaults, expr, result, sym, =
-data);
-> +                       prop_list_free(nb_sym_defaults);
-> +               }
-> +               /* any expression which evaluates to n/m/y */
-> +               else {
-> +                       struct expr *e_tmp =3D expr_alloc_and(expr_copy(p=
-->expr),
-> +                                                           expr_copy(exp=
-r));
-> +                       struct pexpr *expr_both =3D
-> +                               expr_calculate_pexpr_both(e_tmp, data);
-> +
-> +                       updateDefaultList(data->constants->symbol_yes_fex=
-pr,
-> +                                         expr_both, result, sym, data);
-> +
-> +                       pexpr_put(expr_both);
-> +                       expr_free(e_tmp);
-> +               }
-> +               expr_free(expr);
-> +       }
-> +}
-> +
-> +/**
-> + * get_defaults() - Generate list of default values and their conditions
-> + * @sym: Symbol whose defaults we want to look at
-> + *
-> + * Creates a map from values that @sym can assume to the conditions unde=
-r which
-> + * they will be assumed. This will only consider the conditions
-> + * directly associated with the defaults, e.g. sym->dir_dep would not be
-> + * considered.
-> + *
-> + * As a side effect, the &symbol->nb_vals of @sym will be added for
-> + * all default values (as well as the @symbol->nb_vals of other symbols =
-@sym has
-> + * as default (recursively)).
-> + */
-> +static struct defm_list *get_defaults(struct symbol *sym, struct cfdata =
-*data)
-> +{
-> +       struct defm_list *result =3D defm_list_init();
-> +       struct prop_list *defaults; /* list of default props of sym */
-> +       struct property *p;
-> +
-> +       covered =3D pexf(data->constants->const_false);
-> +
-> +       defaults =3D prop_list_init();
-> +       for_all_defaults(sym, p)
-> +               prop_list_add(defaults, p);
-> +
-> +       add_defaults(defaults, NULL, result, sym, data);
-> +       prop_list_free(defaults);
-> +       pexpr_put(covered);
-> +
-> +       return result;
-> +}
-> +
-> +/*
-> + * return the condition for "y", False if it doesn't exist
-> + */
-> +static struct pexpr *get_default_y(struct defm_list *list, struct cfdata=
- *data)
-> +{
-> +       struct default_map *entry;
-> +       struct defm_node *node;
-> +
-> +       defm_list_for_each(node, list) {
-> +               entry =3D node->elem;
-> +               if (entry->val->type =3D=3D FE_SYMBOL &&
-> +                   entry->val->sym =3D=3D &symbol_yes) {
-> +                       pexpr_get(entry->e);
-> +                       return entry->e;
-> +               }
+> +               numSolutionLabel->setText(QString("Solutions: "));
+> +               solutionSelector->clear();
+> +               solutionTable->setRowCount(0);
+> +               satconf_cancelled =3D false;
+> +               runSatConfAsyncThread =3D new std::thread(&ConflictsView:=
+:runSatConfAsync,this);
+> +       }else{
+> +               printd("Interrupting rangefix\n");
+> +               interrupt_rangefix();
+> +               std::unique_lock<std::mutex> lk{satconf_mutex};
+> +               satconf_cancellation_cv.wait(lk,[this] {return satconf_ca=
+ncelled =3D=3D true;});
 > +       }
 > +
-> +       return pexf(data->constants->const_false);
 > +}
 > +
-> +/*
-> + * return the condition for "m", False if it doesn't exist
-> + */
-> +static struct pexpr *get_default_m(struct defm_list *list, struct cfdata=
- *data)
+> +void ConflictsView::changeAll(void)
 > +{
-> +       struct default_map *entry;
-> +       struct defm_node *node;
-> +
-> +       defm_list_for_each(node, list) {
-> +               entry =3D node->elem;
-> +               if (entry->val->type =3D=3D FE_SYMBOL &&
-> +                   entry->val->sym =3D=3D &symbol_mod) {
-> +                       pexpr_get(entry->e);
-> +                       return entry->e;
-> +               }
-> +       }
-> +
-> +       return pexf(data->constants->const_false);
+> +       // not implemented for now
+> +       return;
 > +}
 > +
-> +/*
-> + * return the constraint when _some_ default value will be applied
-> + */
-> +static struct pexpr *get_default_any(struct symbol *sym, struct cfdata *=
-data)
+> +ConflictsView::~ConflictsView(void)
 > +{
-> +       struct property *prop;
-> +       struct expr *e;
-> +       struct pexpr *p;
 > +
-> +       if (!sym_is_nonboolean(sym))
-> +               return NULL;
-> +
-> +       p =3D pexf(data->constants->const_false);
-> +       for_all_defaults(sym, prop) {
-> +               if (prop->visible.expr)
-> +                       e =3D expr_copy(prop->visible.expr);
-> +               else
-> +                       e =3D expr_alloc_symbol(&symbol_yes);
-> +
-> +               if (expr_can_evaluate_to_mod(e))
-> +                       p =3D pexpr_or(p, expr_calculate_pexpr_both(e, da=
-ta),
-> +                                    data, PEXPR_ARGX);
-> +
-> +               p =3D pexpr_or(p, expr_calculate_pexpr_y(e, data), data,
-> +                            PEXPR_ARGX);
-> +
-> +               expr_free(e);
-> +       }
-> +
-> +       return p;
 > +}
 > +
-> +/*
-> + * get the value for the range
-> + */
-> +static long sym_get_range_val(struct symbol *sym, int base)
+> +
+>  void fixup_rootmenu(struct menu *menu)
+>  {
+>         struct menu *child;
+> @@ -1918,3 +2394,38 @@ int main(int ac, char** av)
+>
+>         return 0;
+>  }
+> +
+> +dropAbleView::dropAbleView(QWidget *parent) :
+> +    QTableWidget(parent) {}
+> +
+> +dropAbleView::~dropAbleView() {}
+> +void dropAbleView::dropEvent(QDropEvent *event)
 > +{
-> +       sym_calc_value(sym);
-> +       switch (sym->type) {
-> +       case S_INT:
-> +               base =3D 10;
-> +               break;
-> +       case S_HEX:
-> +               base =3D 16;
-> +               break;
+> +   event->acceptProposedAction();
+> +}
+> +
+> +static QString tristate_value_to_string(tristate val)
+> +{
+> +       switch ( val ) {
+> +       case yes:
+> +               return QString::fromStdString("YES");
+> +       case mod:
+> +               return QString::fromStdString("MODULE");
+> +       case no:
+> +               return QString::fromStdString("NO");
 > +       default:
-> +               break;
-> +       }
-> +       return strtol(sym->curr.val, NULL, base);
-> +}
-> +
-> +/*
-> + * count the number of all constraints
-> + */
-> +unsigned int count_counstraints(void)
-> +{
-> +       unsigned int c =3D 0;
-> +       struct symbol *sym;
-> +
-> +       for_all_symbols(sym) {
-> +               if (sym->type =3D=3D S_UNKNOWN)
-> +                       continue;
-> +
-> +               c +=3D sym->constraints->size;
+> +               return QString::fromStdString("");
 > +       }
 > +
-> +       return c;
 > +}
 > +
-> +/*
-> + * add a constraint for a symbol
-> + */
-> +void sym_add_constraint(struct symbol *sym, struct pexpr *constraint,
-> +                       struct cfdata *data)
+> +static tristate string_value_to_tristate(QString s){
+> +       if (s =3D=3D "YES")
+> +               return tristate::yes;
+> +       else if (s =3D=3D "MODULE")
+> +               return tristate::mod;
+> +       else if (s =3D=3D "NO")
+> +               return tristate::no;
+> +       else
+> +               return tristate::no;
+> +}
+> diff --git a/scripts/kconfig/qconf.h b/scripts/kconfig/qconf.h
+> index 53373064d90a..1ace9f673fd0 100644
+> --- a/scripts/kconfig/qconf.h
+> +++ b/scripts/kconfig/qconf.h
+> @@ -14,9 +14,16 @@
+>  #include <QStyledItemDelegate>
+>  #include <QTextBrowser>
+>  #include <QTreeWidget>
+> +#include <QTableWidget>
+> +#include <QList>
+> +#include <QComboBox>
+> +#include <QLabel>
+> +#include <thread>
+> +#include <condition_variable>
+>
+>  #include "expr.h"
+>
+> +
+
+
+Unrelated change.
+(Do not add excessive brank line)
+
+
+
+
+
+>  class ConfigList;
+>  class ConfigItem;
+>  class ConfigMainWindow;
+> @@ -80,6 +87,8 @@ public slots:
+>         void parentSelected(void);
+>         void gotFocus(struct menu *);
+>         void showNameChanged(bool on);
+> +       void selectionChanged(QList<QTreeWidgetItem *> selection);
+> +       void updateConflictsViewColorization();
+>
+>  public:
+>         void updateListAll(void)
+> @@ -111,6 +120,82 @@ public slots:
+>         static void updateListAllForAll();
+>
+>         static QAction *showNormalAction, *showAllAction, *showPromptActi=
+on;
+> +       static QAction *addSymbolFromContextMenu;
+> +
+> +};
+> +
+> +class ConflictsView : public QWidget {
+> +       Q_OBJECT
+> +       typedef class QWidget Parent;
+> +private:
+> +       QAction *loadingAction;
+> +public:
+> +       ConflictsView(QWidget *parent, const char *name =3D 0);
+> +       ~ConflictsView(void);
+> +       void addSymbolFromMenu(struct menu *m);
+> +       int current_solution_number =3D -1;
+> +
+> +public slots:
+> +       void cellClicked(int, int);
+> +       void changeAll();
+> +       // triggered by Qactions on the tool bar that adds/remove symbol
+> +       void addSymbol();
+> +       // triggered from config list right click -> add symbols
+> +       void addSymbolFromContextMenu();
+> +       void removeSymbol();
+> +       void menuChanged(struct menu *);
+> +       void changeToNo();
+> +       void changeToYes();
+> +       void changeToModule();
+> +       void selectionChanged(QList<QTreeWidgetItem *> selection);
+> +
+> +
+> +       void applyFixButtonClick();
+> +       void updateConflictsViewColorization();
+> +       void updateResults();
+> +
+> +
+> +
+> +       // switches the solution table with selected solution index from =
+ solution_output
+> +       void changeSolutionTable(int solution_number);
+> +
+> +       // calls satconfig to solve to get wanted value to current value
+> +       void calculateFixes();
+> +signals:
+> +       void showNameChanged(bool);
+> +       void showRangeChanged(bool);
+> +       void showDataChanged(bool);
+> +       void conflictSelected(struct menu *);
+> +       void refreshMenu();
+> +       void resultsReady();
+> +public:
+> +       QTableWidget *conflictsTable;
+> +
+> +       // the comobox on the right hand side. used to select a solution =
+after
+> +       // getting solution from satconfig
+> +       QComboBox *solutionSelector{nullptr};
+> +
+> +       // the table which shows the selected solution showing variable =
+=3D New value changes
+> +       QTableWidget *solutionTable{nullptr};
+> +
+> +       // Apply fixes button on the solution view
+> +       QPushButton *applyFixButton{nullptr};
+> +
+> +       struct sfl_list *solution_output{nullptr};
+> +
+> +       QToolBar *conflictsToolBar;
+> +       struct menu *currentSelectedMenu;
+> +       QLabel *numSolutionLabel{nullptr};
+> +       // currently selected config items in configlist.
+> +       QList<QTreeWidgetItem *> currentSelection;
+> +       QAction *fixConflictsAction_{nullptr};
+> +       void runSatConfAsync();
+> +       std::thread *runSatConfAsyncThread{nullptr};
+> +
+> +       std::mutex satconf_mutex;
+> +       std::condition_variable satconf_cancellation_cv;
+> +       bool satconf_cancelled{false};
+> +
+>  };
+>
+>  class ConfigItem : public QTreeWidgetItem {
+> @@ -223,6 +308,9 @@ class ConfigSearchWindow : public QDialog {
+>  public slots:
+>         void saveSettings(void);
+>         void search(void);
+> +       void updateConflictsViewColorizationFowarder();
+> +signals:
+> +       void updateConflictsViewColorization();
+>
+>  protected:
+>         QLineEdit* editField;
+> @@ -258,6 +346,8 @@ public slots:
+>         void showIntro(void);
+>         void showAbout(void);
+>         void saveSettings(void);
+> +       void conflictSelected(struct menu *);
+> +       void refreshMenu();
+>
+>  protected:
+>         void closeEvent(QCloseEvent *e);
+> @@ -266,10 +356,23 @@ public slots:
+>         ConfigList *menuList;
+>         ConfigList *configList;
+>         ConfigInfoView *helpText;
+> +       ConflictsView *conflictsView;
+> +       QToolBar *conflictsToolBar;
+>         QAction *backAction;
+>         QAction *singleViewAction;
+>         QAction *splitViewAction;
+>         QAction *fullViewAction;
+>         QSplitter *split1;
+>         QSplitter *split2;
+> +       QSplitter *split3;
+> +};
+> +
+> +class dropAbleView : public QTableWidget
 > +{
-> +       if (!constraint)
-> +               return;
+> +public:
+> +       dropAbleView(QWidget *parent =3D nullptr);
+> +       ~dropAbleView();
 > +
-> +       /* no need to add that */
-> +       if (constraint->type =3D=3D PE_SYMBOL &&
-> +           constraint->left.fexpr =3D=3D data->constants->const_true)
-> +               return;
-> +
-> +       /* this should never happen */
-> +       if (constraint->type =3D=3D PE_SYMBOL &&
-> +           constraint->left.fexpr =3D=3D data->constants->const_false)
-> +               perror("Adding const_false.");
-> +
-> +       pexpr_list_add(sym->constraints, pexpr_get(constraint));
-> +
-> +       if (!pexpr_is_nnf(constraint))
-> +               pexpr_print("Not NNF:", constraint, -1);
-> +}
-> +
-> +/*
-> + * add a constraint for a symbol, but check for duplicate constraints
-> + */
-> +void sym_add_constraint_eq(struct symbol *sym, struct pexpr *constraint,
-> +                          struct cfdata *data)
-> +{
-> +       struct pexpr_node *node;
-> +
-> +       if (!constraint)
-> +               return;
-> +
-> +       /* no need to add that */
-> +       if (constraint->type =3D=3D PE_SYMBOL &&
-> +           constraint->left.fexpr =3D=3D data->constants->const_true)
-> +               return;
-> +
-> +       /* this should never happen */
-> +       if (constraint->type =3D=3D PE_SYMBOL &&
-> +           constraint->left.fexpr =3D=3D data->constants->const_false)
-> +               perror("Adding const_false.");
-> +
-> +       /* check the constraints for the same symbol */
-> +       pexpr_list_for_each(node, sym->constraints)
-> +               if (pexpr_eq(constraint, node->elem, data))
-> +                       return;
-> +
-> +       pexpr_list_add(sym->constraints, pexpr_get(constraint));
-> +
-> +       if (!pexpr_is_nnf(constraint))
-> +               pexpr_print("Not NNF:", constraint, -1);
-> +}
-> diff --git a/scripts/kconfig/cf_constraints.h b/scripts/kconfig/cf_constr=
-aints.h
-> new file mode 100644
-> index 000000000000..97a18eaf11ca
-> --- /dev/null
-> +++ b/scripts/kconfig/cf_constraints.h
-> @@ -0,0 +1,26 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright (C) 2023 Patrick Franz <deltaone@debian.org>
-> + */
-> +
-> +#ifndef CF_CONSTRAINTS_H
-> +#define CF_CONSTRAINTS_H
-> +
-> +#include "cf_defs.h"
-> +#include "expr.h"
-> +
-> +/* build the constraints for each symbol */
-> +void get_constraints(struct cfdata *data);
-> +
-> +/* count the number of all constraints */
-> +unsigned int count_counstraints(void);
-> +
-> +/* add a constraint for a symbol */
-> +void sym_add_constraint(struct symbol *sym, struct pexpr *constraint, st=
-ruct cfdata *data);
-> +
-> +void sym_add_constraint_fexpr(struct symbol *sym, struct fexpr *constrai=
-nt);
-> +
-> +/* add a constraint for a symbol, but check for duplicate constraints */
-> +void sym_add_constraint_eq(struct symbol *sym, struct pexpr *constraint,=
- struct cfdata *data);
-> +
-> +#endif
+> +protected:
+> +       void dropEvent(QDropEvent *event);
+>  };
 > --
 > 2.39.2
+>
 >
 
 
 --
 Best Regards
-
 Masahiro Yamada
 
