@@ -1,53 +1,55 @@
-Return-Path: <linux-kbuild+bounces-2951-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2952-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9004194ED58
-	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Aug 2024 14:49:23 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7659F94ED5A
+	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Aug 2024 14:49:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 309581F22803
-	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Aug 2024 12:49:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2BA891F21C16
+	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Aug 2024 12:49:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8FE117BB2A;
-	Mon, 12 Aug 2024 12:49:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 302AA17C225;
+	Mon, 12 Aug 2024 12:49:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qGRthPTS"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XlaRR4CH"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A243917BB21;
-	Mon, 12 Aug 2024 12:49:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0932717C21C;
+	Mon, 12 Aug 2024 12:49:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723466946; cv=none; b=JdR7UdRHiZbWDMKX9bAMJLQlpCJrx4dWfGBFN3PuOA5du+VheqETDsmUHSClcnYWca7GkNwDQVXZn/+PxZGslPvZmEaZFO0O19wOcKfpz4E/xLjF0k/2riIBTnQ6iKLL5loQATc1Nk8mzoKNawc9d39Fu7LGA4bXIJKZyS7etI0=
+	t=1723466948; cv=none; b=RnOir28t/gDukHRD034s7oz+H4uWrVVL/oie20QZV9zqCXIFf5oLZY9cUiy33pInpLTZA1ENQHCRNzcczkcHJvYE8AI8+ZFsOXtNn2eDGoLulGYc5yg3wY/n7tFrbBkquwtvEbifSiVzclG5ztN3R0owNZ2YtfTf9f2LlPtQghY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723466946; c=relaxed/simple;
-	bh=ztG2yE6SHjyu4DtnrnBDimJEjkWcjurLBkb9I9GPUzM=;
+	s=arc-20240116; t=1723466948; c=relaxed/simple;
+	bh=02Pj1beU0IRFdGsryWL1zfFXnXFEMSju0qFxRU+Flrw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TO0BJ/K5GLOoLycvJHmAj7v/XcUQ73h67S6pp/w8LVrlqb3jVczVCJgnGCZnrP6bH9LvWmrOo6eT0dsnPDSplnkAVDB2bI3XP0wONLoBZlIkdnPzXR2spMl/71AGSTH3Ckp01hoAPZfRFOz4zANpJ//Bz6AMtuq1kht/mD1+JC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qGRthPTS; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E30EC4AF0F;
-	Mon, 12 Aug 2024 12:49:05 +0000 (UTC)
+	 MIME-Version; b=D4xtjYcdIloMv8ZNOYsS9z+1KpYpYqykRM3gIwLHCs0j2bB/oIr9HIMsU6Rx5hplt5yTcYCikiWRGP4a+Cpp0RCjQMZfkQSwkJkuLqejP77xfIdyd022yIGu0U0YBrk5v5cFK/CUG9W0iEcbWfBlBdTwk9F8UZ2Q1Eh/P65Dl2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XlaRR4CH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D4B2C4AF15;
+	Mon, 12 Aug 2024 12:49:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723466946;
-	bh=ztG2yE6SHjyu4DtnrnBDimJEjkWcjurLBkb9I9GPUzM=;
+	s=k20201202; t=1723466947;
+	bh=02Pj1beU0IRFdGsryWL1zfFXnXFEMSju0qFxRU+Flrw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=qGRthPTSs20hAyr/G8jZooEdzh+DZX4WB5g6Z16LsxJrw0OMDFJcdLwEMlI5bOeJ3
-	 TdQMdL63+xfHoMnPAUz+6BTEIQetSRiDPVkKG1yd9Z5PHWtBfBU2B6AQvUWTFEBcUS
-	 zxHa+1NkND+ek3vQQyF6kMCPcdjzUumGghPWOUmdUfOBc/hbkm3jdatBXCH9XlXtt1
-	 EcaXvEO60c0F851D8wxzlImXq9uHP9OcHnkdEdHev8GZ/7KLpyWz7F/iGdBssNaZaQ
-	 YFkaSH4gxT8Um0j1/K+K2kWqvLNL74hq7sZR2VKJTx6cE6XrkoFO+OOJuQp/6nFbHw
-	 NJlulEP8p2j6g==
+	b=XlaRR4CH5Ja+d1IbbJLDT7/BxemcE3PCobmiu41D4g3Z6FlQvSphLjOvwOF2yrdSn
+	 9siTE0ItamINcjBiBs/nT2tAlj+WqK6PJNCSXrVWHJ8VZAteS9GqAifk3IqAnY2KrL
+	 qaiZZmPiDXcWVwe4h4M0jzy4jEKmKrM6BHk+zFeCzpdYh/zwD6MOg3g5+o2ZeBUTHg
+	 43yl5jcxCubonO6De19sYy/pKklw6UD364beHQfwgD3EPe79SHJuAlGg4U7ZMYF3AW
+	 PI9lC4gx7dBer4q6D7AqhVSUiwtQeZHcroBM7h4DUi6oYPVLO8XROmytLb9vKmQ26j
+	 /EvRPOgj7O6Uw==
 From: Masahiro Yamada <masahiroy@kernel.org>
 To: linux-kbuild@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH 3/4] kallsyms: use xmalloc() and xrealloc()
-Date: Mon, 12 Aug 2024 21:48:52 +0900
-Message-ID: <20240812124858.2107328-3-masahiroy@kernel.org>
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>
+Subject: [PATCH 4/4] fixdep: use xmalloc()
+Date: Mon, 12 Aug 2024 21:48:53 +0900
+Message-ID: <20240812124858.2107328-4-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240812124858.2107328-1-masahiroy@kernel.org>
 References: <20240812124858.2107328-1-masahiroy@kernel.org>
@@ -59,71 +61,56 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When malloc() or realloc() fails, there is not much userspace programs
-can do. xmalloc() and xrealloc() are useful to bail out on a memory
-allocation failure.
+When malloc() fails, there is not much userspace programs can do.
+xmalloc() is useful to bail out on a memory allocation failure.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/kallsyms.c | 23 +++++------------------
- 1 file changed, 5 insertions(+), 18 deletions(-)
+ scripts/basic/fixdep.c | 15 +++++----------
+ 1 file changed, 5 insertions(+), 10 deletions(-)
 
-diff --git a/scripts/kallsyms.c b/scripts/kallsyms.c
-index 0ed873491bf5..53c433b2e591 100644
---- a/scripts/kallsyms.c
-+++ b/scripts/kallsyms.c
-@@ -28,6 +28,8 @@
+diff --git a/scripts/basic/fixdep.c b/scripts/basic/fixdep.c
+index 84b6efa849f4..cdd5da7e009b 100644
+--- a/scripts/basic/fixdep.c
++++ b/scripts/basic/fixdep.c
+@@ -99,6 +99,8 @@
+ #include <stdio.h>
  #include <ctype.h>
- #include <limits.h>
  
 +#include <xalloc.h>
 +
- #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
+ static void usage(void)
+ {
+ 	fprintf(stderr, "Usage: fixdep <depfile> <target> <cmdline>\n");
+@@ -131,12 +133,9 @@ static unsigned int strhash(const char *str, unsigned int sz)
+ static void add_to_hashtable(const char *name, int len, unsigned int hash,
+ 			     struct item *hashtab[])
+ {
+-	struct item *aux = malloc(sizeof(*aux) + len);
++	struct item *aux;
  
- #define KSYM_NAME_LEN		512
-@@ -171,12 +173,7 @@ static struct sym_entry *read_symbol(FILE *in, char **buf, size_t *buf_len)
- 	 * compressed together */
- 	len++;
- 
--	sym = malloc(sizeof(*sym) + len + 1);
--	if (!sym) {
--		fprintf(stderr, "kallsyms failure: "
--			"unable to allocate required amount of memory\n");
--		exit(EXIT_FAILURE);
+-	if (!aux) {
+-		perror("fixdep:malloc");
+-		exit(1);
 -	}
-+	sym = xmalloc(sizeof(*sym) + len + 1);
- 	sym->addr = addr;
- 	sym->len = len;
- 	sym->sym[0] = type;
-@@ -281,12 +278,7 @@ static void read_map(const char *in)
- 
- 		if (table_cnt >= table_size) {
- 			table_size += 10000;
--			table = realloc(table, sizeof(*table) * table_size);
--			if (!table) {
--				fprintf(stderr, "out of memory\n");
--				fclose(fp);
--				exit (1);
--			}
-+			table = xrealloc(table, sizeof(*table) * table_size);
- 		}
- 
- 		table[table_cnt++] = sym;
-@@ -413,12 +405,7 @@ static void write_src(void)
- 	/* table of offset markers, that give the offset in the compressed stream
- 	 * every 256 symbols */
- 	markers_cnt = (table_cnt + 255) / 256;
--	markers = malloc(sizeof(*markers) * markers_cnt);
--	if (!markers) {
--		fprintf(stderr, "kallsyms failure: "
--			"unable to allocate required memory\n");
--		exit(EXIT_FAILURE);
++	aux = xmalloc(sizeof(*aux) + len);
+ 	memcpy(aux->name, name, len);
+ 	aux->len = len;
+ 	aux->hash = hash;
+@@ -228,11 +227,7 @@ static void *read_file(const char *filename)
+ 		perror(filename);
+ 		exit(2);
+ 	}
+-	buf = malloc(st.st_size + 1);
+-	if (!buf) {
+-		perror("fixdep: malloc");
+-		exit(2);
 -	}
-+	markers = xmalloc(sizeof(*markers) * markers_cnt);
- 
- 	output_label("kallsyms_names");
- 	off = 0;
++	buf = xmalloc(st.st_size + 1);
+ 	if (read(fd, buf, st.st_size) != st.st_size) {
+ 		perror("fixdep: read");
+ 		exit(2);
 -- 
 2.43.0
 
