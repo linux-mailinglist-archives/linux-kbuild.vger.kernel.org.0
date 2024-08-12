@@ -1,58 +1,55 @@
-Return-Path: <linux-kbuild+bounces-2952-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2953-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7659F94ED5A
-	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Aug 2024 14:49:36 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23D1894F01C
+	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Aug 2024 16:47:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2BA891F21C16
-	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Aug 2024 12:49:36 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A2A0FB24F25
+	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Aug 2024 14:47:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 302AA17C225;
-	Mon, 12 Aug 2024 12:49:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B15A94D8CB;
+	Mon, 12 Aug 2024 14:45:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XlaRR4CH"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uWZt5HpA"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0932717C21C;
-	Mon, 12 Aug 2024 12:49:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87FFD1E877;
+	Mon, 12 Aug 2024 14:45:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723466948; cv=none; b=RnOir28t/gDukHRD034s7oz+H4uWrVVL/oie20QZV9zqCXIFf5oLZY9cUiy33pInpLTZA1ENQHCRNzcczkcHJvYE8AI8+ZFsOXtNn2eDGoLulGYc5yg3wY/n7tFrbBkquwtvEbifSiVzclG5ztN3R0owNZ2YtfTf9f2LlPtQghY=
+	t=1723473947; cv=none; b=iYNJlVJJ95bQ1CxVffEabjcN4D32i+urG7mEZYOqVMDgiHy/JUJaAYET8q2pIZGwz5IvY6ItVgcUrpVAQzE3BRXe9OwFnjMMhL59PJ15AmBGdj+EDsa9acKimGZTSlc3ORTKqAYm5yuYKej+T3ZvBR6LzN6sF21ApsTMKchOFOo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723466948; c=relaxed/simple;
-	bh=02Pj1beU0IRFdGsryWL1zfFXnXFEMSju0qFxRU+Flrw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=D4xtjYcdIloMv8ZNOYsS9z+1KpYpYqykRM3gIwLHCs0j2bB/oIr9HIMsU6Rx5hplt5yTcYCikiWRGP4a+Cpp0RCjQMZfkQSwkJkuLqejP77xfIdyd022yIGu0U0YBrk5v5cFK/CUG9W0iEcbWfBlBdTwk9F8UZ2Q1Eh/P65Dl2A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XlaRR4CH; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D4B2C4AF15;
-	Mon, 12 Aug 2024 12:49:06 +0000 (UTC)
+	s=arc-20240116; t=1723473947; c=relaxed/simple;
+	bh=yPmf+a/ePUDb6SgtLI0vLj0iLKy/uXLIz5HlrA/9GMg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SJI4AjpaBh91Uzet9mWLSIYqQc2hLWJswmJkuUjzdoQBN568fAsOdLQrHUesHo/tAYwoX6KkoOAxtbFgHYMdmGNpsHEOK5Bo0p+QQQuVDQvGOrKEDpuNC2KyaDrv8S/gL997I9a4mXer0Tngv24aQ09tSJ+JvuIPYY0RPEnOK+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uWZt5HpA; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1885EC4AF0D;
+	Mon, 12 Aug 2024 14:45:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723466947;
-	bh=02Pj1beU0IRFdGsryWL1zfFXnXFEMSju0qFxRU+Flrw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=XlaRR4CH5Ja+d1IbbJLDT7/BxemcE3PCobmiu41D4g3Z6FlQvSphLjOvwOF2yrdSn
-	 9siTE0ItamINcjBiBs/nT2tAlj+WqK6PJNCSXrVWHJ8VZAteS9GqAifk3IqAnY2KrL
-	 qaiZZmPiDXcWVwe4h4M0jzy4jEKmKrM6BHk+zFeCzpdYh/zwD6MOg3g5+o2ZeBUTHg
-	 43yl5jcxCubonO6De19sYy/pKklw6UD364beHQfwgD3EPe79SHJuAlGg4U7ZMYF3AW
-	 PI9lC4gx7dBer4q6D7AqhVSUiwtQeZHcroBM7h4DUi6oYPVLO8XROmytLb9vKmQ26j
-	 /EvRPOgj7O6Uw==
+	s=k20201202; t=1723473947;
+	bh=yPmf+a/ePUDb6SgtLI0vLj0iLKy/uXLIz5HlrA/9GMg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=uWZt5HpAzDqVdquUGawxZMpmtgQ+pVXj87oAPOtRvxzkhZvTa6JDrfgn+YaiUwauk
+	 DnBoFkQ0vOe2Dk5V5/Sh1kmAUbOAp8++x3Ifp4vTi6SCNQK8BpjGJ5VvdBO75tZ22Q
+	 jnijIakeDdWpeMKTyrm7wHeCcttocxgmDfPqTjWzBEKzkhRCHuk4CFewnXXKntXtIF
+	 wFrpaATQoKW2XV5FL5zUX9h3JowfJVhAZjJt3ySvauQUs4ZRHJ7cxr3vnjdoGwkII0
+	 T9uce7PAC/+oBXEtLPu8Ar8/yKXwkBsT/fYixjdIMT1XFa6IaKwmizjwOMRY6yI9ls
+	 1X0J/T+eM0A1Q==
 From: Masahiro Yamada <masahiroy@kernel.org>
 To: linux-kbuild@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
 	Masahiro Yamada <masahiroy@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
 	Nicolas Schier <nicolas@fjasle.eu>
-Subject: [PATCH 4/4] fixdep: use xmalloc()
-Date: Mon, 12 Aug 2024 21:48:53 +0900
-Message-ID: <20240812124858.2107328-4-masahiroy@kernel.org>
+Subject: [PATCH] modpost: simplify modpost_log()
+Date: Mon, 12 Aug 2024 23:45:39 +0900
+Message-ID: <20240812144542.2121342-1-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240812124858.2107328-1-masahiroy@kernel.org>
-References: <20240812124858.2107328-1-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -61,56 +58,92 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When malloc() fails, there is not much userspace programs can do.
-xmalloc() is useful to bail out on a memory allocation failure.
+With commit cda5f94e88b4 ("modpost: avoid using the alias attribute"),
+only two log levels remain: LOG_WARN and LOG_ERROR. Simplify this by
+making it a boolean variable.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/basic/fixdep.c | 15 +++++----------
- 1 file changed, 5 insertions(+), 10 deletions(-)
+ scripts/mod/modpost.c | 17 ++++++-----------
+ scripts/mod/modpost.h | 11 +++--------
+ 2 files changed, 9 insertions(+), 19 deletions(-)
 
-diff --git a/scripts/basic/fixdep.c b/scripts/basic/fixdep.c
-index 84b6efa849f4..cdd5da7e009b 100644
---- a/scripts/basic/fixdep.c
-+++ b/scripts/basic/fixdep.c
-@@ -99,6 +99,8 @@
- #include <stdio.h>
- #include <ctype.h>
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index d0f138803207..c896872862dc 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -67,20 +67,15 @@ static unsigned int nr_unresolved;
  
-+#include <xalloc.h>
-+
- static void usage(void)
- {
- 	fprintf(stderr, "Usage: fixdep <depfile> <target> <cmdline>\n");
-@@ -131,12 +133,9 @@ static unsigned int strhash(const char *str, unsigned int sz)
- static void add_to_hashtable(const char *name, int len, unsigned int hash,
- 			     struct item *hashtab[])
- {
--	struct item *aux = malloc(sizeof(*aux) + len);
-+	struct item *aux;
+ #define MODULE_NAME_LEN (64 - sizeof(Elf_Addr))
  
--	if (!aux) {
--		perror("fixdep:malloc");
--		exit(1);
--	}
-+	aux = xmalloc(sizeof(*aux) + len);
- 	memcpy(aux->name, name, len);
- 	aux->len = len;
- 	aux->hash = hash;
-@@ -228,11 +227,7 @@ static void *read_file(const char *filename)
- 		perror(filename);
- 		exit(2);
+-void modpost_log(enum loglevel loglevel, const char *fmt, ...)
++void modpost_log(bool is_error, const char *fmt, ...)
+ {
+ 	va_list arglist;
+ 
+-	switch (loglevel) {
+-	case LOG_WARN:
+-		fprintf(stderr, "WARNING: ");
+-		break;
+-	case LOG_ERROR:
++	if (is_error) {
+ 		fprintf(stderr, "ERROR: ");
+ 		error_occurred = true;
+-		break;
+-	default: /* invalid loglevel, ignore */
+-		break;
++	} else {
++		fprintf(stderr, "WARNING: ");
  	}
--	buf = malloc(st.st_size + 1);
--	if (!buf) {
--		perror("fixdep: malloc");
--		exit(2);
--	}
-+	buf = xmalloc(st.st_size + 1);
- 	if (read(fd, buf, st.st_size) != st.st_size) {
- 		perror("fixdep: read");
- 		exit(2);
+ 
+ 	fprintf(stderr, "modpost: ");
+@@ -1692,7 +1687,7 @@ static void check_exports(struct module *mod)
+ 		exp = find_symbol(s->name);
+ 		if (!exp) {
+ 			if (!s->weak && nr_unresolved++ < MAX_UNRESOLVED_REPORTS)
+-				modpost_log(warn_unresolved ? LOG_WARN : LOG_ERROR,
++				modpost_log(warn_unresolved,
+ 					    "\"%s\" [%s.ko] undefined!\n",
+ 					    s->name, mod->name);
+ 			continue;
+@@ -1715,7 +1710,7 @@ static void check_exports(struct module *mod)
+ 			basename = mod->name;
+ 
+ 		if (!contains_namespace(&mod->imported_namespaces, exp->namespace)) {
+-			modpost_log(allow_missing_ns_imports ? LOG_WARN : LOG_ERROR,
++			modpost_log(allow_missing_ns_imports,
+ 				    "module %s uses symbol %s from namespace %s, but does not import it.\n",
+ 				    basename, exp->name, exp->namespace);
+ 			add_namespace(&mod->missing_namespaces, exp->namespace);
+diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
+index f756e6578b9e..6f418f0afd04 100644
+--- a/scripts/mod/modpost.h
++++ b/scripts/mod/modpost.h
+@@ -184,13 +184,8 @@ char *read_text_file(const char *filename);
+ char *get_line(char **stringp);
+ void *sym_get_data(const struct elf_info *info, const Elf_Sym *sym);
+ 
+-enum loglevel {
+-	LOG_WARN,
+-	LOG_ERROR,
+-};
+-
+ void __attribute__((format(printf, 2, 3)))
+-modpost_log(enum loglevel loglevel, const char *fmt, ...);
++modpost_log(bool is_error, const char *fmt, ...);
+ 
+ /*
+  * warn - show the given message, then let modpost continue running, still
+@@ -205,6 +200,6 @@ modpost_log(enum loglevel loglevel, const char *fmt, ...);
+  * fatal - show the given message, and bail out immediately. This should be
+  *         used when there is no point to continue running modpost.
+  */
+-#define warn(fmt, args...)	modpost_log(LOG_WARN, fmt, ##args)
+-#define error(fmt, args...)	modpost_log(LOG_ERROR, fmt, ##args)
++#define warn(fmt, args...)	modpost_log(false, fmt, ##args)
++#define error(fmt, args...)	modpost_log(true, fmt, ##args)
+ #define fatal(fmt, args...)	do { error(fmt, ##args); exit(1); } while (1)
 -- 
 2.43.0
 
