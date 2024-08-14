@@ -1,121 +1,144 @@
-Return-Path: <linux-kbuild+bounces-2980-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2981-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A6229520E8
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Aug 2024 19:17:41 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C6B895211D
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Aug 2024 19:30:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 02A56B20EB6
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Aug 2024 17:17:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 529871F24183
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Aug 2024 17:30:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B2871BBBE4;
-	Wed, 14 Aug 2024 17:17:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49FDB1B9B47;
+	Wed, 14 Aug 2024 17:30:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="Q4fzSCY/"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 675C11BBBCC;
-	Wed, 14 Aug 2024 17:17:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24DC51B3F32;
+	Wed, 14 Aug 2024 17:30:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723655854; cv=none; b=X3mBkKvbMnxLmE9a2lw9peCqVqjEvXuyYKVewF4SMCs0YYA8mdt2HSLSp/r7YFkBf9P++DJHgHMPGUo39+2kDPxUtIH0QQcZ1pOQaGlIXXOI1Rvfol7csSCTnYXK7gnepzoqtlEa+YOls/ixFHxepobhBkSmseMeBCQavKt9y6E=
+	t=1723656632; cv=none; b=Wy9mg5BoVRuFL/mEoGq90TmOKr/Qfp3EQy8kJGHa9IbiqTUiYXXxyUrBhR70nrbaP6qBxEJxTxYIl0h/acRilnaF07CnVj1QaDzdbLBLmkCTT386/W2L1gmhJmWhzlutVkSblegBvH8dyVTY/NXaatKLyPkhPA9QYY5PNZ/cV08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723655854; c=relaxed/simple;
-	bh=HMX2/eLoTDnU6yYOYrTCte8AzPyhAqThSNP5KPe/mAY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VBOTdoOEkrujYJvZetxLuCHrWYKqpWfcOJr1TW37cdqm2OrfInigU1ywIOI25PEay5iGsBMzLxcjVs7m1yyI/hGZLIi9H3x0GQm64pJ3ZAT93DOhv9x2KfeGyKAP6cuYfPOvv89nc2bRfnfurchqQBaNdYrUfih6i5ZE7xLmEDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADF0AC4AF0A;
-	Wed, 14 Aug 2024 17:17:32 +0000 (UTC)
-Date: Wed, 14 Aug 2024 13:17:46 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Kris Van Hees <kris.van.hees@oracle.com>
-Cc: linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
- linux-modules@vger.kernel.org, linux-trace-kernel@vger.kernel.org, Masahiro
- Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, Masami
- Hiramatsu <mhiramat@kernel.org>, Nick Desaulniers
- <ndesaulniers@google.com>, Jiri Olsa <olsajiri@gmail.com>, Elena Zannoni
- <elena.zannoni@oracle.com>
-Subject: Re: [PATCH v5 1/4] kbuild: add mod(name,file)_flags to assembler
- flags for module objects
-Message-ID: <20240814131746.0a226e34@gandalf.local.home>
-In-Reply-To: <20240716031045.1781332-2-kris.van.hees@oracle.com>
-References: <20240716031045.1781332-1-kris.van.hees@oracle.com>
-	<20240716031045.1781332-2-kris.van.hees@oracle.com>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1723656632; c=relaxed/simple;
+	bh=UQRi+Eq75+r0FEjzrp7XGdy6GZs8YcZYKPW5WDTPIP8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QqjMptGnZ4PxUOhg+0wH4K4RxrcUOclNi4ubG3XTXaEKwsgG/PkaVZr8EmrqRGvoGtJxduj1Kifx2mTmsPEGEfi8nKGemp0xa9ugIrTYYRQeGvtK5LRvEdpaSpL3MJ/0p3Vpy+S6cmaSluGyScFI8OOBJGHTE0TnqkbW5mmg+ic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=Q4fzSCY/; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47ECxSln024899;
+	Wed, 14 Aug 2024 17:30:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from
+	:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding; s=pp1; bh=BlFGy/2SCN8UWu7KmR8yFNPLtO
+	i3t6/dps1K+bIWWLE=; b=Q4fzSCY/qYnL5dcsL6zsqTXv/B2RZjMnrmqJraQHot
+	u30SMGAHlhgs3I6lYm5rrXGlszsrHJopLfjFG9rVVWtK/Q6M7plppPDL8CO5cNpy
+	gR6gwiO09ismXEhtO8TrWZPcPHebKzqYpEZp/ohFtF8JtazpxL82zDCojfh8vpSd
+	kaL9cE6xWW+GoVRjuRdpCBpepe/PMzOcHIxUF3wNvTUkUDUubuTofRnQJDVir3uG
+	IXu3t+6uEvCfJALk7ypJabv+RhwjzHNvn/lXdHcfLw8ziu/82pMe9zoRBhZEFnqa
+	HkzliOrwsYYQySGuQi9rkm7LZgNF/tcbwxKs5luNhgGA==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 410w2s17n9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 14 Aug 2024 17:30:27 +0000 (GMT)
+Received: from m0360072.ppops.net (m0360072.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 47EHPxqY015785;
+	Wed, 14 Aug 2024 17:30:26 GMT
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 410w2s17n5-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 14 Aug 2024 17:30:26 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 47EGeoew010102;
+	Wed, 14 Aug 2024 17:30:26 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 40xjx0tqey-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 14 Aug 2024 17:30:25 +0000
+Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
+	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 47EHULPB55181634
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 14 Aug 2024 17:30:24 GMT
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id D1A0A2004D;
+	Wed, 14 Aug 2024 17:30:21 +0000 (GMT)
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id C309F2004B;
+	Wed, 14 Aug 2024 17:30:21 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+	by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Wed, 14 Aug 2024 17:30:21 +0000 (GMT)
+Received: by tuxmaker.boeblingen.de.ibm.com (Postfix, from userid 55669)
+	id 9A32EE020C; Wed, 14 Aug 2024 19:30:21 +0200 (CEST)
+From: Alexander Gordeev <agordeev@linux.ibm.com>
+To: Brian Norris <briannorris@chromium.org>,
+        Arnaldo Carvalho de Melo <acme@redhat.com>
+Cc: linux-s390@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, bpf@vger.kernel.org
+Subject: [PATCH] tools build: Provide consistent build options for fixdep
+Date: Wed, 14 Aug 2024 19:30:21 +0200
+Message-ID: <20240814173021.3726785-1-agordeev@linux.ibm.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 61_HCH9tAI2i67dm6--2K0XAgniARvvQ
+X-Proofpoint-ORIG-GUID: e44MgMllBYv-EoZlIVWj-LWWbCf1uQZo
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-08-14_13,2024-08-13_02,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 malwarescore=0
+ lowpriorityscore=0 suspectscore=0 mlxlogscore=766 clxscore=1011
+ spamscore=0 adultscore=0 phishscore=0 impostorscore=0 priorityscore=1501
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2407110000 definitions=main-2408140117
 
-On Mon, 15 Jul 2024 23:10:42 -0400
-Kris Van Hees <kris.van.hees@oracle.com> wrote:
+The fixdep binary is being compiled and linked in one step since commit
+ea974028a049 ("tools build: Avoid circular .fixdep-in.o.cmd issues").
+While the host linker flags are passed to the compiler the host compiler
+flags are missed.
 
+That might lead to failures as result of the compiler vs linker flags
+inconsistency. For example, during RPM package build redhat-hardened-ld
+script is provided to gcc, while redhat-hardened-cc1 script is missed.
+That leads to an error on s390:
 
-As mentioned before, should start off with the goal.
+/usr/bin/ld: /tmp/ccUT8Rdm.o: `stderr@@GLIBC_2.2' non-PLT reloc for
+symbol defined in shared library and accessed from executable (rebuild
+file with -fPIC ?)
 
-  In order to create the file at build time, modules.builtin.ranges, that
-  contains the range of addresses for all built-in modules, there needs to
-  be a way to identify what code is compiled into modules.
+Provide both KBUILD_HOSTCFLAGS and KBUILD_HOSTLDFLAGS to avoid that.
 
-  To identify what code is compiled into modules during a kernel build, ...
+Signed-off-by: Alexander Gordeev <agordeev@linux.ibm.com>
+---
 
+This patch is against kernel-next next-20240814 tag
 
+---
+ tools/build/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> In order to be able to identify what code is compiled into modules (even
-> built-in modules) during a kernel build, one can look for the presence
-> of the -DKBUILD_MODFILE and -DKBUILD_MODNAME options in the compile
-> command lines.  A simple grep in .*.cmd files for those options is
-> sufficient for this.
-> 
-> Unfortunately, these options are only passed when compiling C source files.
-> Various modules also include objects built from assembler source, and these
-> options are not passed in that case.
-> 
-> Adding $(modfile_flags) to modkern_aflags (similar to modkern_cflahs), and
-> adding $(modname_flags) to a_flags (similar to c_flags) makes it possible
-> to identify which objects are compiled into modules for both C and
-> assembler soure files.
-
-The rest looks good.
-
-Reviewed-by: Steven Rostedt (Google) <rostedt@goodmis.org>
-
--- Steve
-
-> 
-> Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
-> ---
->  scripts/Makefile.lib | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> index 9f06f6aaf7fc..f4aec3553ff2 100644
-> --- a/scripts/Makefile.lib
-> +++ b/scripts/Makefile.lib
-> @@ -238,7 +238,7 @@ modkern_rustflags =                                              \
->  
->  modkern_aflags = $(if $(part-of-module),				\
->  			$(KBUILD_AFLAGS_MODULE) $(AFLAGS_MODULE),	\
-> -			$(KBUILD_AFLAGS_KERNEL) $(AFLAGS_KERNEL))
-> +			$(KBUILD_AFLAGS_KERNEL) $(AFLAGS_KERNEL) $(modfile_flags))
->  
->  c_flags        = -Wp,-MMD,$(depfile) $(NOSTDINC_FLAGS) $(LINUXINCLUDE)     \
->  		 -include $(srctree)/include/linux/compiler_types.h       \
-> @@ -248,7 +248,7 @@ c_flags        = -Wp,-MMD,$(depfile) $(NOSTDINC_FLAGS) $(LINUXINCLUDE)     \
->  rust_flags     = $(_rust_flags) $(modkern_rustflags) @$(objtree)/include/generated/rustc_cfg
->  
->  a_flags        = -Wp,-MMD,$(depfile) $(NOSTDINC_FLAGS) $(LINUXINCLUDE)     \
-> -		 $(_a_flags) $(modkern_aflags)
-> +		 $(_a_flags) $(modkern_aflags) $(modname_flags)
->  
->  cpp_flags      = -Wp,-MMD,$(depfile) $(NOSTDINC_FLAGS) $(LINUXINCLUDE)     \
->  		 $(_cpp_flags)
+diff --git a/tools/build/Makefile b/tools/build/Makefile
+index fea3cf647f5b..18ad131f6ea7 100644
+--- a/tools/build/Makefile
++++ b/tools/build/Makefile
+@@ -44,4 +44,4 @@ ifneq ($(wildcard $(TMP_O)),)
+ endif
+ 
+ $(OUTPUT)fixdep: $(srctree)/tools/build/fixdep.c
+-	$(QUIET_CC)$(HOSTCC) $(KBUILD_HOSTLDFLAGS) -o $@ $<
++	$(QUIET_CC)$(HOSTCC) $(KBUILD_HOSTCFLAGS) $(KBUILD_HOSTLDFLAGS) -o $@ $<
+-- 
+2.43.0
 
 
