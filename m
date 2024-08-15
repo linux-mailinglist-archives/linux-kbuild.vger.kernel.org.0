@@ -1,175 +1,139 @@
-Return-Path: <linux-kbuild+bounces-2996-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-2997-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B16A952D28
-	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Aug 2024 13:02:16 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2FBA952D42
+	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Aug 2024 13:12:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8D8A91C23ACE
-	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Aug 2024 11:02:15 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 65B7BB23C5D
+	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Aug 2024 11:07:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D23B91AC890;
-	Thu, 15 Aug 2024 11:02:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA4611AC8A3;
+	Thu, 15 Aug 2024 11:07:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="GPEsySqG"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q99CkcxJ"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BBCC1AC88E
-	for <linux-kbuild@vger.kernel.org>; Thu, 15 Aug 2024 11:02:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.3
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39E371AC88A;
+	Thu, 15 Aug 2024 11:06:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723719732; cv=none; b=Wb3kyyJvet7NC0mLapIuN4M5wy5FIlvDie433LCcJvKOPZfWoJvMfD4VRfuDXsmeLUySLKZLjB50r5UoUkJz43FSDnwucsIHPdGYwKFlkv1fKq0koXZZEytZDDMj8U94LehbWEM+ay9Iu07lGGbG3u7TLH111Yt8Cr282nUJCb4=
+	t=1723720021; cv=none; b=ihMiUm/owvEQlQpj1X8a99n//LBGmYIuO2CKgOIn2gxpxYhkRaAISItZsbS+y7eDa5wYjDSdTTPds0OyKAVhUC2mJCp+aXgccarsuVgYGBn8cgITHOllBXzyDWAZGO3W2bpkd+M2XTkkT9mR7kavlYECwrLEktdJh35cMOpMxRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723719732; c=relaxed/simple;
-	bh=hBzRs5/U6O6A+/he0HT9GCIp7fuNDTIsDLcMmPt/bzA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=N2vgcgdLJW+TKCVT3QCeBNFrDfCNE6JC76jycD+hKOuLFrcPV6NYXZywOBeG3gVHRObe77EFWhtxiJFIbBrcACy3PKjmCxZNAP3uBrcY7LSzKH6AWdSmvOKqujAMxkYeGmDNgdnyD1l92e5BmFuQxo4M2Qr9yArDzfTq5mwGEtk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=GPEsySqG; arc=none smtp.client-ip=220.197.31.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=6g4Ny
-	Alr8+jrsKI+f9O4ZQoT+BG6BS8UIVqXt7/cDio=; b=GPEsySqGuDV/tZePnTMTr
-	HtAGXwRFoVNqJYPbObBtdWhv9v+B1Qqo2XoR0IRl1d1NkxfHs7uaBm+j7K0zC8xY
-	poHeJVIiLirIK8DYEL+7GQkNTJOTCZmhDlc7ONmMgksMCWtW7LSZqw+eVJ/9Q6bT
-	Lb5T5psjE3KnyfuMHyuRdo=
-Received: from ubuntu.localdomain (unknown [223.102.86.225])
-	by gzga-smtp-mta-g2-5 (Coremail) with SMTP id _____wDXX0AM4L1mLZ95CA--.63293S2;
-	Thu, 15 Aug 2024 19:01:34 +0800 (CST)
-From: TIAN Yuanhao <tianyuanhao3@163.com>
-To: linux-kbuild@vger.kernel.org
-Cc: TIAN Yuanhao <tianyuanhao3@163.com>,
-	Chen-Yu Tsai <wenst@chromium.org>,
-	Rob Herring <robh@kernel.org>,
-	Simon Glass <sjg@chromium.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>
-Subject: [PATCH 1/1] kbuild: Only build dtc if needed
-Date: Thu, 15 Aug 2024 04:00:59 -0700
-Message-ID: <20240815110059.4912-1-tianyuanhao3@163.com>
-X-Mailer: git-send-email 2.44.1
+	s=arc-20240116; t=1723720021; c=relaxed/simple;
+	bh=r6PB6I38xeWW8hCOA19KppGramBrnQ3/g/0ihZ2cNbo=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gfP2SZyNT2NTCLIZ5ycQyrAwUG+Z/k9guDSRRVRlyF1PzVfwwR3a2LGcs7ZTv3BoBLV1CVGUARKuB02Oft+YLJSOyAqlOyRiMVBCv0o8v7ktSr5UAHzw5DXFoJzfg2s50mSk0GCbouNDVdfBjOTp2SUtcQg0Ez7Ptn2vCSLDPwo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q99CkcxJ; arc=none smtp.client-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a7aa212c1c9so106206266b.2;
+        Thu, 15 Aug 2024 04:06:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1723720018; x=1724324818; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HHlp/18Y3b/YapSL10tamc6Em3A7d2FKqPF4wvOXYOE=;
+        b=Q99CkcxJHUW6MdbjgSJMN6qtzkaHA670pGVBLWUPbjkmz1ifdu6Nzdrf+xh8bK11kM
+         Myb7BPv/4rPQEiq7A7ez29gPQKEVPbVRacSd1HxKfEj0+W+rmrznZOmANmxK6aw4/tyQ
+         HFN2gm0MD+L4fOyy9oQdVSLfcq3+tJUs2S1rvtMRdJrELC6jGaBS+RlVxIgdEr0M4/X+
+         QRUgBNkZOvqwOcO1qBmj4pU6m/QDR85QxZgy/YLwJPBD1ronV9UfcAZZNn+6VhDoeYti
+         6dceBSVH578cOBVrguUflycdk+hxcT07j5/LQ4cgHlp71YF8R5Mrg5raSBIu/8XSuHn0
+         4RLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723720018; x=1724324818;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HHlp/18Y3b/YapSL10tamc6Em3A7d2FKqPF4wvOXYOE=;
+        b=vwv4AyPSo/gy2aL+Nxlx2EcpKzl5Ka5mi4H+opXnZNjUDKyMZdyQFjFTM3Xy/K+kGp
+         EzQGecSpvH4fubkxa3Lb6NFcgs35GcdwJksJl4FhSagoX6pe6YAaNOQ54hCjxdfrgsH7
+         W+DJV9xH8S6zrYQw0elq/iXsLDDIrMSAPa0JIK/Ll9rBOV54A69A6YIaF959CFbeywgJ
+         aRtSaXGg8mYSZKGPI1GNzJbklQ9IL+Gqzy02s7oc4/IEk3GaibW3FXwb8ElscBr/q1Xl
+         wfggmjPb/MQ60egq9EoFBuzLp71HPMOxmW6i48Lqd6UZr00FwZI091uzJPjZmfkdM+Qq
+         VECA==
+X-Forwarded-Encrypted: i=1; AJvYcCV779gm7gc67d1i3Nv9dP2Vv1xFCgfm9cgY8jVCdmwqffamPHYwsD7MmHiORWXTEzV9leg=@vger.kernel.org, AJvYcCXNsvB/8qr3UZ3dNphCWT4DPIWoR/If6Nlyy44umUAHe9hk+oSyn+0lWJvixnJCNK3/gKxrFSEy5fyJBRXX@vger.kernel.org, AJvYcCXUgNRaJW0QAhS/PvZCJhNH/qbJocKRZED9A14vOIZJR/hfFCOx4/xRzPHwyp4anz4+z3XCDQjpeVRSbAeM@vger.kernel.org, AJvYcCXiw5WWG5Av+BvCK6aZzMO10DOy62WAvtU6O5HDQgsZxoZq0a9yscPbOrrGGt0ZbCXwmVIKX5oSi55VwQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwB6ZuR7CuSJUViDJ6JWiOALifcY9E0Ie7YsyMWpQMBxgBw2kzq
+	DswAZTdX0gwYjUT2GC8dgEBucOM7GuK5bnIoyeiHWV02pkS5vTm1
+X-Google-Smtp-Source: AGHT+IHOG0gNdStkLsQq+UBGK8V2OMDdI8MHvWloqQADjVOGn+qiAw5yzUkXqSEVhu3WG6sMKfD6iA==
+X-Received: by 2002:a17:907:3f0e:b0:a77:cdaa:88a7 with SMTP id a640c23a62f3a-a836705975bmr424955166b.48.1723720017977;
+        Thu, 15 Aug 2024 04:06:57 -0700 (PDT)
+Received: from krava (ip-94-113-247-30.net.vodafone.cz. [94.113.247.30])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a83838cfa18sm85334566b.73.2024.08.15.04.06.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Aug 2024 04:06:57 -0700 (PDT)
+From: Jiri Olsa <olsajiri@gmail.com>
+X-Google-Original-From: Jiri Olsa <jolsa@kernel.org>
+Date: Thu, 15 Aug 2024 13:06:55 +0200
+To: Alexander Gordeev <agordeev@linux.ibm.com>
+Cc: Brian Norris <briannorris@chromium.org>,
+	Arnaldo Carvalho de Melo <acme@redhat.com>,
+	linux-s390@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, bpf@vger.kernel.org
+Subject: Re: [PATCH v2] tools build: Provide consistent build options for
+ fixdep
+Message-ID: <Zr3hTzZqsISEqSeh@krava>
+References: <20240815072046.1002837-1-agordeev@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wDXX0AM4L1mLZ95CA--.63293S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxZrWftF4UGFWxXr4xGF4fuFg_yoWrGF1fpa
-	1Sk34Iv39xtrWxXa47CF18Xr15Ar4ktF1ruayUWr1kJFWkZr4S9FW2yr1fJry7JFy8Jr1r
-	KrWYva47Jrn8GaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0piFfOrUUUUU=
-X-CM-SenderInfo: xwld05xxdqxtjrt6il2tof0z/1tbiXBM8jWXAnR9SBgAAsN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240815072046.1002837-1-agordeev@linux.ibm.com>
 
-At present Linux always builds dtc if CONFIG_DTC is defined, even when
-DTC is provided. The built dtc is not actually used, so this is a waste
-of time.
+On Thu, Aug 15, 2024 at 09:20:46AM +0200, Alexander Gordeev wrote:
+> The fixdep binary is being compiled and linked in one step. While
+> the host linker flags are passed to the compiler the host compiler
+> flags are missed.
+> 
+> That leads to build errors at least on x86_64, arm64 and s390 as
+> result of the compiler vs linker flags inconsistency. For example,
+> during RPM package build redhat-hardened-ld script is provided to
+> gcc, while redhat-hardened-cc1 script is missed.
+> 
+> Provide both KBUILD_HOSTCFLAGS and KBUILD_HOSTLDFLAGS to avoid that.
+> 
+> Closes: https://lore.kernel.org/lkml/99ae0d34-ed76-4ca0-a9fd-c337da33c9f9@leemhuis.info/
+> Fixes: ea974028a049 ("tools build: Avoid circular .fixdep-in.o.cmd issues")
+> Tested-by: Thorsten Leemhuis <linux@leemhuis.info>
+> Reviewed-by: Brian Norris <briannorris@chromium.org>
+> Signed-off-by: Alexander Gordeev <agordeev@linux.ibm.com>
 
-Update the Makefile logic to build dtc and fdtoverlay only if DTC or
-FDTOVERLAY is not provided.
+Acked-by: Jiri Olsa <jolsa@kernel.org>
 
-Also, add an fdtoverlay wrapper to hide the actual path differences of
-fdtoverlay from the make_fit.py script.
+jirka
 
-Refs:
-  https://github.com/u-boot/u-boot/commit/93b196532254366f653b4d763f69e49ff193f06c
-  https://github.com/torvalds/linux/commit/6b22b3d1614af1a775f2ef006009f15077592c9c
-
-Signed-off-by: TIAN Yuanhao <tianyuanhao3@163.com>
-Cc: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Rob Herring (Arm) <robh@kernel.org>
-Cc: Simon Glass <sjg@chromium.org>
-Cc: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: linux-kbuild@vger.kernel.org
----
- Makefile              | 13 ++++++++++++-
- scripts/Makefile.lib  |  5 ++---
- scripts/fdtoverlay.sh |  7 +++++++
- scripts/make_fit.py   |  2 +-
- 4 files changed, 22 insertions(+), 5 deletions(-)
- create mode 100755 scripts/fdtoverlay.sh
-
-diff --git a/Makefile b/Makefile
-index 0a364e34f50b..6e56696e85a1 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1419,9 +1419,20 @@ endif
- 
- endif
- 
-+# The dtc and fdtoverlay are automatically built unless DTC or FDTOVERLAY is
-+# provided.
-+DTC_INTREE := $(objtree)/scripts/dtc/dtc
-+DTC ?= $(DTC_INTREE)
-+
-+FDTOVERLAY_INTREE := $(objtree)/scripts/dtc/fdtoverlay
-+FDTOVERLAY ?= $(FDTOVERLAY_INTREE)
-+
- PHONY += scripts_dtc
- scripts_dtc: scripts_basic
--	$(Q)$(MAKE) $(build)=scripts/dtc
-+	$(Q)if [ "$(DTC)" = "$(DTC_INTREE)" ] || \
-+			[ "$(FDTOVERLAY)" = "$(FDTOVERLAY_INTREE)" ]; then \
-+		$(MAKE) $(build)=scripts/dtc; \
-+	fi
- 
- ifneq ($(filter dt_binding_check, $(MAKECMDGOALS)),)
- export CHECK_DTBS=y
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index fe3668dc4954..04ba30dadc8f 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -352,7 +352,6 @@ quiet_cmd_gzip = GZIP    $@
- 
- # DTC
- # ---------------------------------------------------------------------------
--DTC ?= $(objtree)/scripts/dtc/dtc
- DTC_FLAGS += \
- 	-Wno-unique_unit_address
- 
-@@ -415,10 +414,10 @@ DT_CHECK_CMD = $(DT_CHECKER) $(DT_CHECKER_FLAGS) -u $(srctree)/$(DT_BINDING_DIR)
- # recorded in the .*.cmd file.
- ifneq ($(CHECK_DTBS),)
- quiet_cmd_fdtoverlay = DTOVLCH $@
--      cmd_fdtoverlay = $(objtree)/scripts/dtc/fdtoverlay -o $@ -i $(filter %.dtb %.dtbo, $^) ; $(DT_CHECK_CMD) $@ || true
-+      cmd_fdtoverlay = $(objtree)/scripts/fdtoverlay.sh -o $@ -i $(filter %.dtb %.dtbo, $^) ; $(DT_CHECK_CMD) $@ || true
- else
- quiet_cmd_fdtoverlay = DTOVL   $@
--      cmd_fdtoverlay = $(objtree)/scripts/dtc/fdtoverlay -o $@ -i $(filter %.dtb %.dtbo, $^)
-+      cmd_fdtoverlay = $(objtree)/scripts/fdtoverlay.sh -o $@ -i $(filter %.dtb %.dtbo, $^)
- endif
- 
- $(multi-dtb-y): FORCE
-diff --git a/scripts/fdtoverlay.sh b/scripts/fdtoverlay.sh
-new file mode 100755
-index 000000000000..5bd07c47c22a
---- /dev/null
-+++ b/scripts/fdtoverlay.sh
-@@ -0,0 +1,7 @@
-+#!/bin/sh
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+# An fdtoverlay wrapper
-+# scripts/make_fit.py uses the name of this script as a special marker.
-+
-+exec "${FDTOVERLAY}" "$@"
-diff --git a/scripts/make_fit.py b/scripts/make_fit.py
-index 4a1bb2f55861..37c4e1c8d5c6 100755
---- a/scripts/make_fit.py
-+++ b/scripts/make_fit.py
-@@ -238,7 +238,7 @@ def process_dtb(fname, args):
-         with open(cmd_fname, 'r', encoding='ascii') as inf:
-             cmd = inf.read()
- 
--        if 'scripts/dtc/fdtoverlay' in cmd:
-+        if '/scripts/fdtoverlay.sh ' in cmd:
-             # This depends on the structure of the composite DTB command
-             files = cmd.split()
-             files = files[files.index('-i') + 1:]
-
-base-commit: 6b0f8db921abf0520081d779876d3a41069dab95
--- 
-2.45.1
-
+> ---
+> 
+> This patch is against kernel-next next-20240815 tag
+> 
+> v2:
+> - missing tags added
+> - commit message adjusted
+> 
+> ---
+>  tools/build/Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/tools/build/Makefile b/tools/build/Makefile
+> index fea3cf647f5b..18ad131f6ea7 100644
+> --- a/tools/build/Makefile
+> +++ b/tools/build/Makefile
+> @@ -44,4 +44,4 @@ ifneq ($(wildcard $(TMP_O)),)
+>  endif
+>  
+>  $(OUTPUT)fixdep: $(srctree)/tools/build/fixdep.c
+> -	$(QUIET_CC)$(HOSTCC) $(KBUILD_HOSTLDFLAGS) -o $@ $<
+> +	$(QUIET_CC)$(HOSTCC) $(KBUILD_HOSTCFLAGS) $(KBUILD_HOSTLDFLAGS) -o $@ $<
+> -- 
+> 2.43.0
+> 
+> 
 
