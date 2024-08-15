@@ -1,70 +1,70 @@
-Return-Path: <linux-kbuild+bounces-3018-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3019-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B997D95393C
-	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Aug 2024 19:42:40 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0918C95393E
+	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Aug 2024 19:42:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6941D282853
-	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Aug 2024 17:42:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7DF401F25EAA
+	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Aug 2024 17:42:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C074F1BE242;
-	Thu, 15 Aug 2024 17:39:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A56FF64CEC;
+	Thu, 15 Aug 2024 17:39:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="zHOvvhAy"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="a+C1CQ5g"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pg1-f201.google.com (mail-pg1-f201.google.com [209.85.215.201])
+Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69DD658AD0
-	for <linux-kbuild@vger.kernel.org>; Thu, 15 Aug 2024 17:39:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CB9B1BE22B
+	for <linux-kbuild@vger.kernel.org>; Thu, 15 Aug 2024 17:39:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723743579; cv=none; b=STntMxUAn35GUHXRd+dlOcfj6lpkrZopaEpPESbd08igL6Br8jRifprZk0qrrnf0fd2MsSg+IjDFzPUHvHwrfLz1qmInbwT80RfRLl2wwdulbV41a23rg2ys7wxScvMhBUidFvzdtbftaInFiNwUOfFAIBc5Ebx/GxoH8mmekrU=
+	t=1723743581; cv=none; b=stAs0ds1GEPQyAHYQW8sw/677wDa7RlGHq+6SaGl7hLsJsHrFDm0jTgwhb5roVsbeO5D5MX1SHV+RIhV9Su50Ee2LRqJFTdimkaNGVOnyrKOTYV75+fDCSNOIIRMiDJqoa27iKpjjUh5Hre5rrBZNZvhBBTDKottOlCR+nw5LTc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723743579; c=relaxed/simple;
-	bh=3OGd53ci+q4WoJQ7zoiq5FjPRZnrf/+Zl9zq4u0fJ80=;
+	s=arc-20240116; t=1723743581; c=relaxed/simple;
+	bh=b0pFv5khycwPrpj+Sp91w4FE2mSAFUzDjAXnCfWTad8=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=Um+MYjCc09pyC/rOe4BIbU8yIlG0XagrvrgRCb2nOzDYith9rQ+XAXNx/2vIiMWO5gqQZazfJqioV1ROF0G9Xv5kSQO4z6h460+iAsvAcWxJ7INY2w5O/OTTh4TcmKynq0GInjB3NlZylq5DWohqDu9jTR8cPmSDbZo4YHPPyoA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--samitolvanen.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=zHOvvhAy; arc=none smtp.client-ip=209.85.215.201
+	 To:Cc:Content-Type; b=mdTdS0KN7VO+kSJuruYVb5wQtqeYCvv3CKJBwsQTSdDcDi2Rwwz+IK+5zUKSKQsNHiSUmT2Lh6MZTyFAexaa2XhXUJcMryvRh5TTwgV+5weaq7kXSwb3ef0168+f/ieGCWvWh8GJWMPRFB/GS5gsDuECXyTn0P71ZIpp8ukMDZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--samitolvanen.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=a+C1CQ5g; arc=none smtp.client-ip=209.85.214.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--samitolvanen.bounces.google.com
-Received: by mail-pg1-f201.google.com with SMTP id 41be03b00d2f7-6e67742bee6so662515a12.1
-        for <linux-kbuild@vger.kernel.org>; Thu, 15 Aug 2024 10:39:37 -0700 (PDT)
+Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-1fc6db23c74so11075715ad.0
+        for <linux-kbuild@vger.kernel.org>; Thu, 15 Aug 2024 10:39:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1723743577; x=1724348377; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1723743578; x=1724348378; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=R0+ZG5cfBXWxYUBN+iDOhSdjTCyCSwKpy98HChPuRi4=;
-        b=zHOvvhAy8NrVa5Ur3z+Fwcj2vV0mJjZMOd2T43zbCL5N9LottMfeDQfm4uqctHdBXp
-         BrOrmRGYXUKxYC88lMPuLdDbh63rLfipdSJti2pnSqhDonFiiGkEY1zK8gLdP/6XU+rH
-         4uzNqpOlTTsrL3hnZtMrovkYY6Fx1uBz27EefoKkAG1D2x6VQ0oInJ26KC+Xtg6qiuEH
-         /zyhc5pHGwENjQFigF6DU9zslLzbH9HAN8q5jivR5HVUyhlMiPQ8Qs2pdVkXTXaWTRzy
-         TA23/KBZd0Gu/aECnkbyT3zAMG5JUP2dNlAJCCXmsvil8TAC3MMnTY0age94Z5d8CauY
-         8jwQ==
+        bh=YxqJQnTjz3Mvxi0XpqIt/w4r1X6ESLhfJAqdHv9SK3k=;
+        b=a+C1CQ5gX7oPW+wf7camqzqCA1kagAUSyYDj7R0/NXQJsZ1Z9DttAmFAq9TXd3xiSv
+         FZru5u/Kc63+o2NU71+ljMzmH9Mpu79E+05YRqZYuYPyoGNkn3l6mVmpW8QYYaKWoDxo
+         Xqd8O9Y5a/8jMnnalDXyRqbNaDYLRzph/fxfkwNz2CIfFGMUk3fr+0ZJA4I0lOOw/57+
+         vNrCUHwhyBF4TibbaPImZpzFFR1buo2rS3DzWGrPeif/zY7pfB9UwwZg4nU1v9qpTW45
+         vzEnvfO5YsLs6ZdxXtg1CKLwEi2dS2TNJ3fW9nN5QDuuPryf1/vUCxdu99G1jFM+nexd
+         mC7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723743577; x=1724348377;
+        d=1e100.net; s=20230601; t=1723743578; x=1724348378;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=R0+ZG5cfBXWxYUBN+iDOhSdjTCyCSwKpy98HChPuRi4=;
-        b=Gc0PHlKMx71/dCKyZlGEyaU4CwWV6l2P0Q4k8CxL+kWekqKwKFM8v7zAFv543Fv4k5
-         EFMXNrTxMCn2ZHQtksvFQQge4fYCktsZVaJ940ym1AuerzzI4sAsTmCkjyvnbAqxfNqC
-         s2JpnoxYAyF2c3JcTJJZ0isbSpdOzsFEkJkRgxrA85SUCCTiPFH1kggCI2z2VVGWdM4p
-         yf88QBmpo5rxEDABuN4YLCA9ybnwcUURw2jowOk9cgVWeXHpwFS1oUYoJPw5TdwYJzAB
-         Q7xR3actRGRk1hrSY8Al+wf5Ia4a8kPoGvZUo/jJtrd1UO7xTg5XY7zUOC3yoNKyU9Jj
-         jFuA==
-X-Forwarded-Encrypted: i=1; AJvYcCWDYJX8abti0nrImohSReaCjCMSpanxO7wy7v4bijhYCQa9eEvp0kDzEMhAjYOtjUvKXjoQhcWozKfbgk80IWVbnQza7rjdEKlakqpp
-X-Gm-Message-State: AOJu0YyPz9ChjAW9VFfK0wm4vlt5RZ1qKRNXFuUWniqx7H3gw312aTGq
-	XiFHEZxEPFsYWxGtc5eQhYL2/89KAeOS62Xe5JBuwbJaJ9/hMispeQ+aNHk7ZgbL0TPOc4p4dnK
-	C4uUnOQbBjZaVh2ZBxuhZ1CMXcQ==
-X-Google-Smtp-Source: AGHT+IEepXE2gDbPPAKQup7O1RDQKgqeMe4NyUQa83ZG0Cq67RXgdeF+09vux/MkGzQQSEDEiZkeA0UJvZni1RWq4M4=
+        bh=YxqJQnTjz3Mvxi0XpqIt/w4r1X6ESLhfJAqdHv9SK3k=;
+        b=UXccMKSHDHbEf9/4cm1bvuuD8J9cmZbyeAS9c86vPNdLSAhl/yRTrYY3ees0kLRkd5
+         H3xg2k9J/7MKe4SLSC1NpN1mhGmmPCEPxWsyigGig5I9TPvnCLdwNcyUjhpxrO6HcwcS
+         I6UTMpMlvvOtacX8BnY67TbOXcw2sVLP0/aNddeMP/jXI/UhNZ+dO+VKUZwSAiW8PBhl
+         0jjsCdE7v2+RNnl/KCJbitA5fz0O81IjmhLs5MUKls60UftRZEX4bNW0R0TkcXpPmyCy
+         /ZsoE8/PfyMajI8V4bsJmciaHJSNlrk0Ydsw5l+US2qFrbNCDfXoRzOQHQNL/TmS/fac
+         oWFg==
+X-Forwarded-Encrypted: i=1; AJvYcCV/vqVfqP4D+CyskhSUhDK7nava7TJmVKJ9aqgDa3jRMs14MawpJJQHGzj706WATv8ex2AWx0ONjnhV/mIGSbH2cgQuf6bewqP8glaK
+X-Gm-Message-State: AOJu0Yxrld5TMfglWGhKzCduP+dBdhz/eLx1xSKBAsjVGefAxiTzs7Jr
+	BR9zrgm6zlRIdo1Gex3SLW7pNNfiRWY6M/fjszgU8fP609XxNqALFf4leqd+Uqs5vJeKCOswnEr
+	VjFNzLROkCagMetJhlWjkwNdb2Q==
+X-Google-Smtp-Source: AGHT+IGF3I1u9mSx+8xCf1DA450XBvZOmSvJwKdoxJ1GRnRyz1OEjqQVcI5TNj2KVF0Ba1LZT+LRkrCRzG1G2A961vk=
 X-Received: from samitolvanen.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:4f92])
- (user=samitolvanen job=sendgmr) by 2002:a17:90b:19cf:b0:2d3:b3d3:9268 with
- SMTP id 98e67ed59e1d1-2d3dfac6178mr3402a91.0.1723743576435; Thu, 15 Aug 2024
- 10:39:36 -0700 (PDT)
-Date: Thu, 15 Aug 2024 17:39:17 +0000
+ (user=samitolvanen job=sendgmr) by 2002:a17:902:ce91:b0:1fb:57e7:5bbf with
+ SMTP id d9443c01a7336-20203f35821mr339605ad.11.1723743578505; Thu, 15 Aug
+ 2024 10:39:38 -0700 (PDT)
+Date: Thu, 15 Aug 2024 17:39:18 +0000
 In-Reply-To: <20240815173903.4172139-21-samitolvanen@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
@@ -74,19 +74,19 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20240815173903.4172139-21-samitolvanen@google.com>
 X-Developer-Key: i=samitolvanen@google.com; a=openpgp; fpr=35CCFB63B283D6D3AEB783944CB5F6848BBC56EE
-X-Developer-Signature: v=1; a=openpgp-sha256; l=19478; i=samitolvanen@google.com;
- h=from:subject; bh=3OGd53ci+q4WoJQ7zoiq5FjPRZnrf/+Zl9zq4u0fJ80=;
- b=owEB7QES/pANAwAKAUy19oSLvFbuAcsmYgBmvj05aX7jT8BakrBurFol6kOrSU66GOurimWs6
- hHHTgRIJ2aJAbMEAAEKAB0WIQQ1zPtjsoPW0663g5RMtfaEi7xW7gUCZr49OQAKCRBMtfaEi7xW
- 7ksSC/wJar82tdMdN5LwANOWeWbfeG8Ec0lJY4txtaBNntno/uLr2yeatJ8+//KE93k7EY5zted
- fmIfp56jRtaytcegBrL2CXrZeiWy85zecrQNsF7bAltiDgGLGOYonIGF4mQVrxQWZXPVALA9g+o
- Kpdct6Aahpy0UHLYEiMq9rAh92DqeC1ZC9GOg7YlkPPEZiipNGNfmXYd9IWZBsyM2tCxwcVR2jU
- qAQwhR7IC00bI4m6WaKGo6zGVOz8ANRMEfj3HwjsZTc7iCN/SNJRjBfOtaMrtZR27Zi3PxoNhWO
- dGvRx5dd/XxeEID3lnbfPT286/Md7M8+FBN5wSGkXngY4FoubjUrFJ9AeH23YVtHKNidBfLCza5
- xWuvqbraXKi1+AAd3y1l1J9E5Zb1qC/Yx845vakV0KtzuIdDQM+EJlmCX76+fkSlsXM0eyp7c7G rIsV3upLFnFtE7gKgu7Kin0Ptl6zTJbkn9xM6jlsEsutrqiLblqgBAX5QA/lhhM7ZTveA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=19079; i=samitolvanen@google.com;
+ h=from:subject; bh=b0pFv5khycwPrpj+Sp91w4FE2mSAFUzDjAXnCfWTad8=;
+ b=owEB7QES/pANAwAKAUy19oSLvFbuAcsmYgBmvj05IDIGHnL6HkFJ0lHzVWy/qfqDTrqWKCAAn
+ wzncuwsoq+JAbMEAAEKAB0WIQQ1zPtjsoPW0663g5RMtfaEi7xW7gUCZr49OQAKCRBMtfaEi7xW
+ 7nU3C/48GVfofDpfkjx+EcecVtIoLr+wvOn5J9Ks6YegliWjbSfiI+WXC8XKL7rZoeyIbN1ZhTc
+ kC/dRkyFXKtg4iyAEjeuN9ZQ6zdvh8UgVPo2A+Bn0a6bmgyBZNvpRLZi9i8w5yCHOT3jgb8as/W
+ vQmLP01/vBvaGaiq2fR+ZW0TNRoNGdggWojQzDp3FiLm7pd6twAL2sc9PxsgI0WdbwSj1AlKFzw
+ phDtvlhG+Ot928zpCuT2hKJH12/KIRf/TwIsIDBE81NZSy5Z3ki7a4o42e5zB1s15TbsPTy9ZDp
+ HsbdP06W5AAz8UJsSftWcQDjLkKB5oOtYsmMBGuOLhu4paULacgvv1sW7pGUVeb6zMrg8cgoQHW
+ ShLfv4R0Vws8j7Q3zxaRXU3hYfrktMDy3i1KZOk1UTnF6hm+bEXCA+lLyktt+Pt0oJOBME+K3eD kOv9irZT9n9lDhsht9OW/n5AJ/23VK5sdue06S8I9IOwIatjOo7o+f/fmmh4s+yWjoFXs=
 X-Mailer: git-send-email 2.46.0.184.g6999bdac58-goog
-Message-ID: <20240815173903.4172139-34-samitolvanen@google.com>
-Subject: [PATCH v2 13/19] gendwarfksyms: Add symtypes output
+Message-ID: <20240815173903.4172139-35-samitolvanen@google.com>
+Subject: [PATCH v2 14/19] gendwarfksyms: Add symbol versioning
 From: Sami Tolvanen <samitolvanen@google.com>
 To: Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
 	Miguel Ojeda <ojeda@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -98,762 +98,585 @@ Cc: Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>,
 	rust-for-linux@vger.kernel.org, Sami Tolvanen <samitolvanen@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Add support for producing genksyms-style symtypes files. Process
-die_map to find the longest expansions for each type, and use symtypes
-references in type definitions. The basic file format is similar to
-genksyms, with two notable exceptions:
-
-  1. Type names with spaces (common with Rust) in references are
-     wrapped in single quotes. E.g.:
-
-     s#'core::result::Result<u8, core::num::error::ParseIntError>'
-
-  2. The actual type definition is the simple parsed DWARF format we
-     output with --dump-dies, not the preprocessed C-style format
-     genksyms produces.
+Add a basic CRC32 implementation adapted from genksyms, and produce
+matching output from symtypes strings in type_map.
 
 Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
 ---
  scripts/gendwarfksyms/Makefile        |   1 +
- scripts/gendwarfksyms/die.c           |  13 +
- scripts/gendwarfksyms/dwarf.c         |  14 +-
- scripts/gendwarfksyms/gendwarfksyms.c |  28 +-
- scripts/gendwarfksyms/gendwarfksyms.h |  21 +-
- scripts/gendwarfksyms/symbols.c       |  11 +-
- scripts/gendwarfksyms/types.c         | 439 ++++++++++++++++++++++++++
- 7 files changed, 517 insertions(+), 10 deletions(-)
- create mode 100644 scripts/gendwarfksyms/types.c
+ scripts/gendwarfksyms/crc32.c         |  69 ++++++++++++++
+ scripts/gendwarfksyms/crc32.h         |  34 +++++++
+ scripts/gendwarfksyms/dwarf.c         |  47 ++++++++--
+ scripts/gendwarfksyms/gendwarfksyms.c |  10 ++-
+ scripts/gendwarfksyms/gendwarfksyms.h |  15 +++-
+ scripts/gendwarfksyms/symbols.c       |  65 ++++++++++++++
+ scripts/gendwarfksyms/types.c         | 124 +++++++++++++++++++++++++-
+ 8 files changed, 348 insertions(+), 17 deletions(-)
+ create mode 100644 scripts/gendwarfksyms/crc32.c
+ create mode 100644 scripts/gendwarfksyms/crc32.h
 
 diff --git a/scripts/gendwarfksyms/Makefile b/scripts/gendwarfksyms/Makefile
-index 681b42441840..4866a2fd0e46 100644
+index 4866a2fd0e46..2043601df736 100644
 --- a/scripts/gendwarfksyms/Makefile
 +++ b/scripts/gendwarfksyms/Makefile
-@@ -5,6 +5,7 @@ gendwarfksyms-objs += cache.o
+@@ -2,6 +2,7 @@ hostprogs-always-y += gendwarfksyms
+ 
+ gendwarfksyms-objs += gendwarfksyms.o
+ gendwarfksyms-objs += cache.o
++gendwarfksyms-objs += crc32.o
  gendwarfksyms-objs += die.o
  gendwarfksyms-objs += dwarf.o
  gendwarfksyms-objs += symbols.o
-+gendwarfksyms-objs += types.o
- 
- HOST_EXTRACFLAGS := -I $(srctree)/tools/include
- HOSTLDLIBS_gendwarfksyms := -ldw -lelf
-diff --git a/scripts/gendwarfksyms/die.c b/scripts/gendwarfksyms/die.c
-index fdd52df88fdd..e40f04b70f7f 100644
---- a/scripts/gendwarfksyms/die.c
-+++ b/scripts/gendwarfksyms/die.c
-@@ -85,6 +85,19 @@ static void reset_die(struct die *cd)
- 	cd->list = NULL;
- }
- 
-+int die_map_for_each(die_map_callback_t func, void *arg)
+diff --git a/scripts/gendwarfksyms/crc32.c b/scripts/gendwarfksyms/crc32.c
+new file mode 100644
+index 000000000000..23b328cd74f2
+--- /dev/null
++++ b/scripts/gendwarfksyms/crc32.c
+@@ -0,0 +1,69 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * Based on scripts/genksyms/genksyms.c, which has the following
++ * notice:
++ *
++ * Generate kernel symbol version hashes.
++ * Copyright 1996, 1997 Linux International.
++ *
++ * New implementation contributed by Richard Henderson <rth@tamu.edu>
++ * Based on original work by Bjorn Ekwall <bj0rn@blox.se>
++ *
++ * This file was part of the Linux modutils 2.4.22: moved back into the
++ * kernel sources by Rusty Russell/Kai Germaschewski.
++ */
++
++const unsigned int crctab32[] = {
++	0x00000000U, 0x77073096U, 0xee0e612cU, 0x990951baU, 0x076dc419U,
++	0x706af48fU, 0xe963a535U, 0x9e6495a3U, 0x0edb8832U, 0x79dcb8a4U,
++	0xe0d5e91eU, 0x97d2d988U, 0x09b64c2bU, 0x7eb17cbdU, 0xe7b82d07U,
++	0x90bf1d91U, 0x1db71064U, 0x6ab020f2U, 0xf3b97148U, 0x84be41deU,
++	0x1adad47dU, 0x6ddde4ebU, 0xf4d4b551U, 0x83d385c7U, 0x136c9856U,
++	0x646ba8c0U, 0xfd62f97aU, 0x8a65c9ecU, 0x14015c4fU, 0x63066cd9U,
++	0xfa0f3d63U, 0x8d080df5U, 0x3b6e20c8U, 0x4c69105eU, 0xd56041e4U,
++	0xa2677172U, 0x3c03e4d1U, 0x4b04d447U, 0xd20d85fdU, 0xa50ab56bU,
++	0x35b5a8faU, 0x42b2986cU, 0xdbbbc9d6U, 0xacbcf940U, 0x32d86ce3U,
++	0x45df5c75U, 0xdcd60dcfU, 0xabd13d59U, 0x26d930acU, 0x51de003aU,
++	0xc8d75180U, 0xbfd06116U, 0x21b4f4b5U, 0x56b3c423U, 0xcfba9599U,
++	0xb8bda50fU, 0x2802b89eU, 0x5f058808U, 0xc60cd9b2U, 0xb10be924U,
++	0x2f6f7c87U, 0x58684c11U, 0xc1611dabU, 0xb6662d3dU, 0x76dc4190U,
++	0x01db7106U, 0x98d220bcU, 0xefd5102aU, 0x71b18589U, 0x06b6b51fU,
++	0x9fbfe4a5U, 0xe8b8d433U, 0x7807c9a2U, 0x0f00f934U, 0x9609a88eU,
++	0xe10e9818U, 0x7f6a0dbbU, 0x086d3d2dU, 0x91646c97U, 0xe6635c01U,
++	0x6b6b51f4U, 0x1c6c6162U, 0x856530d8U, 0xf262004eU, 0x6c0695edU,
++	0x1b01a57bU, 0x8208f4c1U, 0xf50fc457U, 0x65b0d9c6U, 0x12b7e950U,
++	0x8bbeb8eaU, 0xfcb9887cU, 0x62dd1ddfU, 0x15da2d49U, 0x8cd37cf3U,
++	0xfbd44c65U, 0x4db26158U, 0x3ab551ceU, 0xa3bc0074U, 0xd4bb30e2U,
++	0x4adfa541U, 0x3dd895d7U, 0xa4d1c46dU, 0xd3d6f4fbU, 0x4369e96aU,
++	0x346ed9fcU, 0xad678846U, 0xda60b8d0U, 0x44042d73U, 0x33031de5U,
++	0xaa0a4c5fU, 0xdd0d7cc9U, 0x5005713cU, 0x270241aaU, 0xbe0b1010U,
++	0xc90c2086U, 0x5768b525U, 0x206f85b3U, 0xb966d409U, 0xce61e49fU,
++	0x5edef90eU, 0x29d9c998U, 0xb0d09822U, 0xc7d7a8b4U, 0x59b33d17U,
++	0x2eb40d81U, 0xb7bd5c3bU, 0xc0ba6cadU, 0xedb88320U, 0x9abfb3b6U,
++	0x03b6e20cU, 0x74b1d29aU, 0xead54739U, 0x9dd277afU, 0x04db2615U,
++	0x73dc1683U, 0xe3630b12U, 0x94643b84U, 0x0d6d6a3eU, 0x7a6a5aa8U,
++	0xe40ecf0bU, 0x9309ff9dU, 0x0a00ae27U, 0x7d079eb1U, 0xf00f9344U,
++	0x8708a3d2U, 0x1e01f268U, 0x6906c2feU, 0xf762575dU, 0x806567cbU,
++	0x196c3671U, 0x6e6b06e7U, 0xfed41b76U, 0x89d32be0U, 0x10da7a5aU,
++	0x67dd4accU, 0xf9b9df6fU, 0x8ebeeff9U, 0x17b7be43U, 0x60b08ed5U,
++	0xd6d6a3e8U, 0xa1d1937eU, 0x38d8c2c4U, 0x4fdff252U, 0xd1bb67f1U,
++	0xa6bc5767U, 0x3fb506ddU, 0x48b2364bU, 0xd80d2bdaU, 0xaf0a1b4cU,
++	0x36034af6U, 0x41047a60U, 0xdf60efc3U, 0xa867df55U, 0x316e8eefU,
++	0x4669be79U, 0xcb61b38cU, 0xbc66831aU, 0x256fd2a0U, 0x5268e236U,
++	0xcc0c7795U, 0xbb0b4703U, 0x220216b9U, 0x5505262fU, 0xc5ba3bbeU,
++	0xb2bd0b28U, 0x2bb45a92U, 0x5cb36a04U, 0xc2d7ffa7U, 0xb5d0cf31U,
++	0x2cd99e8bU, 0x5bdeae1dU, 0x9b64c2b0U, 0xec63f226U, 0x756aa39cU,
++	0x026d930aU, 0x9c0906a9U, 0xeb0e363fU, 0x72076785U, 0x05005713U,
++	0x95bf4a82U, 0xe2b87a14U, 0x7bb12baeU, 0x0cb61b38U, 0x92d28e9bU,
++	0xe5d5be0dU, 0x7cdcefb7U, 0x0bdbdf21U, 0x86d3d2d4U, 0xf1d4e242U,
++	0x68ddb3f8U, 0x1fda836eU, 0x81be16cdU, 0xf6b9265bU, 0x6fb077e1U,
++	0x18b74777U, 0x88085ae6U, 0xff0f6a70U, 0x66063bcaU, 0x11010b5cU,
++	0x8f659effU, 0xf862ae69U, 0x616bffd3U, 0x166ccf45U, 0xa00ae278U,
++	0xd70dd2eeU, 0x4e048354U, 0x3903b3c2U, 0xa7672661U, 0xd06016f7U,
++	0x4969474dU, 0x3e6e77dbU, 0xaed16a4aU, 0xd9d65adcU, 0x40df0b66U,
++	0x37d83bf0U, 0xa9bcae53U, 0xdebb9ec5U, 0x47b2cf7fU, 0x30b5ffe9U,
++	0xbdbdf21cU, 0xcabac28aU, 0x53b39330U, 0x24b4a3a6U, 0xbad03605U,
++	0xcdd70693U, 0x54de5729U, 0x23d967bfU, 0xb3667a2eU, 0xc4614ab8U,
++	0x5d681b02U, 0x2a6f2b94U, 0xb40bbe37U, 0xc30c8ea1U, 0x5a05df1bU,
++	0x2d02ef8dU
++};
+diff --git a/scripts/gendwarfksyms/crc32.h b/scripts/gendwarfksyms/crc32.h
+new file mode 100644
+index 000000000000..89e4454b2a70
+--- /dev/null
++++ b/scripts/gendwarfksyms/crc32.h
+@@ -0,0 +1,34 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/*
++ * Based on scripts/genksyms/genksyms.c, which has the following
++ * notice:
++ *
++ * Generate kernel symbol version hashes.
++ * Copyright 1996, 1997 Linux International.
++ *
++ * New implementation contributed by Richard Henderson <rth@tamu.edu>
++ * Based on original work by Bjorn Ekwall <bj0rn@blox.se>
++ *
++ * This file was part of the Linux modutils 2.4.22: moved back into the
++ * kernel sources by Rusty Russell/Kai Germaschewski.
++ */
++
++#ifndef __CRC32_H
++#define __CRC32_H
++
++extern const unsigned int crctab32[];
++
++static inline unsigned long partial_crc32_one(unsigned char c,
++					      unsigned long crc)
 +{
-+	struct die *cd;
-+	struct hlist_node *tmp;
-+	int i;
++	return crctab32[(crc ^ c) & 0xff] ^ (crc >> 8);
++}
 +
-+	hash_for_each_safe(die_map, i, tmp, cd, hash) {
-+		check(func(cd, arg));
-+	}
++static inline unsigned long partial_crc32(const char *s, unsigned long crc)
++{
++	while (*s)
++		crc = partial_crc32_one(*s++, crc);
++	return crc;
++}
 +
++#endif /* __CRC32_H */
+diff --git a/scripts/gendwarfksyms/dwarf.c b/scripts/gendwarfksyms/dwarf.c
+index 62241cc97a76..677190ae18ef 100644
+--- a/scripts/gendwarfksyms/dwarf.c
++++ b/scripts/gendwarfksyms/dwarf.c
+@@ -693,18 +693,51 @@ static int process_type(struct state *state, struct die *parent, Dwarf_Die *die)
+ /*
+  * Exported symbol processing
+  */
++static int get_symbol_cache(struct state *state, Dwarf_Die *die,
++			    struct die **cache)
++{
++	checkp(symbol_set_die(state->sym, die));
++	check(die_map_get(die, SYMBOL, cache));
++
++	if ((*cache)->state != INCOMPLETE)
++		return 1; /* We already processed a symbol for this DIE */
++
++	(*cache)->tag = dwarf_tag(die);
 +	return 0;
 +}
 +
- void die_map_free(void)
- {
- 	struct hlist_node *tmp;
-diff --git a/scripts/gendwarfksyms/dwarf.c b/scripts/gendwarfksyms/dwarf.c
-index 9bca21a71639..62241cc97a76 100644
---- a/scripts/gendwarfksyms/dwarf.c
-+++ b/scripts/gendwarfksyms/dwarf.c
-@@ -60,11 +60,11 @@ static bool is_export_symbol(struct state *state, Dwarf_Die *die)
- 	if (get_ref_die_attr(die, DW_AT_abstract_origin, &origin))
- 		source = &origin;
- 
--	state->sym = symbol_get(get_name(die));
-+	state->sym = symbol_get_unprocessed(get_name(die));
- 
- 	/* Look up using the origin name if there are no matches. */
- 	if (!state->sym && source != die)
--		state->sym = symbol_get(get_name(source));
-+		state->sym = symbol_get_unprocessed(get_name(source));
- 
- 	state->die = *source;
- 	return !!state->sym;
-@@ -384,6 +384,7 @@ static int process_subroutine_type(struct state *state, struct die *cache,
- 	return check(__process_subroutine_type(state, cache, die,
- 					       "subroutine_type"));
- }
-+
- static int process_variant_type(struct state *state, struct die *cache,
- 				Dwarf_Die *die)
- {
-@@ -695,14 +696,16 @@ static int process_type(struct state *state, struct die *parent, Dwarf_Die *die)
  static int process_subprogram(struct state *state, Dwarf_Die *die)
  {
- 	check(__process_subroutine_type(state, NULL, die, "subprogram"));
--	return check(process(state, NULL, ";\n"));
-+	state->sym->state = MAPPED;
-+	return 0;
+-	check(__process_subroutine_type(state, NULL, die, "subprogram"));
+-	state->sym->state = MAPPED;
++	struct die *cache;
++
++	if (checkp(get_symbol_cache(state, die, &cache)) > 0)
++		return 0;
++
++	debug("%s", state->sym->name);
++	check(__process_subroutine_type(state, cache, die, "subprogram"));
++	cache->state = SYMBOL;
++
++	if (dump_dies)
++		fputs("\n", stderr);
++
+ 	return 0;
  }
  
  static int process_variable(struct state *state, Dwarf_Die *die)
  {
- 	check(process(state, NULL, "variable "));
- 	check(process_type_attr(state, NULL, die));
--	return check(process(state, NULL, ";\n"));
-+	state->sym->state = MAPPED;
-+	return 0;
+-	check(process(state, NULL, "variable "));
+-	check(process_type_attr(state, NULL, die));
+-	state->sym->state = MAPPED;
++	struct die *cache;
++
++	if (checkp(get_symbol_cache(state, die, &cache)) > 0)
++		return 0;
++
++	debug("%s", state->sym->name);
++	check(process(state, cache, "variable "));
++	check(process_type_attr(state, cache, die));
++	cache->state = SYMBOL;
++
++	if (dump_dies)
++		fputs("\n", stderr);
++
+ 	return 0;
  }
  
- static int process_symbol_ptr(struct state *state, Dwarf_Die *die)
-@@ -757,6 +760,9 @@ static int process_exported_symbols(struct state *state, struct die *cache,
+@@ -750,7 +783,6 @@ static int process_exported_symbols(struct state *state, struct die *cache,
+ 		if (!is_export_symbol(state, die))
+ 			return 0;
+ 
+-		debug("%s", state->sym->name);
+ 		state_init(state);
+ 
+ 		if (is_symbol_ptr(get_name(&state->die)))
+@@ -760,9 +792,6 @@ static int process_exported_symbols(struct state *state, struct die *cache,
  		else
  			check(process_variable(state, &state->die));
  
-+		if (dump_dies)
-+			fputs("\n", stderr);
-+
+-		if (dump_dies)
+-			fputs("\n", stderr);
+-
  		cache_clear_expanded(&state->expansion_cache);
  		return 0;
  	default:
 diff --git a/scripts/gendwarfksyms/gendwarfksyms.c b/scripts/gendwarfksyms/gendwarfksyms.c
-index 1349e592783b..6a219a54c342 100644
+index 6a219a54c342..4a160d19d7df 100644
 --- a/scripts/gendwarfksyms/gendwarfksyms.c
 +++ b/scripts/gendwarfksyms/gendwarfksyms.c
-@@ -20,6 +20,11 @@ bool debug;
- bool dump_dies;
- /* Print out inline debugging information about die_map changes */
+@@ -22,6 +22,8 @@ bool dump_dies;
  bool dump_die_map;
-+/* Print out type_map contents */
-+bool dump_types;
-+/* Produce a symtypes file */
-+bool symtypes;
-+static const char *symtypes_file;
- 
- static const struct {
- 	const char *arg;
-@@ -29,6 +34,8 @@ static const struct {
- 	{ "--debug", &debug, NULL },
+ /* Print out type_map contents */
+ bool dump_types;
++/* Print out expanded type strings used for version calculations */
++bool dump_versions;
+ /* Produce a symtypes file */
+ bool symtypes;
+ static const char *symtypes_file;
+@@ -35,6 +37,7 @@ static const struct {
  	{ "--dump-dies", &dump_dies, NULL },
  	{ "--dump-die-map", &dump_die_map, NULL },
-+	{ "--dump-types", &dump_types, NULL },
-+	{ "--symtypes", &symtypes, &symtypes_file },
+ 	{ "--dump-types", &dump_types, NULL },
++	{ "--dump-versions", &dump_versions, NULL },
+ 	{ "--symtypes", &symtypes, &symtypes_file },
  };
  
- static int usage(void)
-@@ -79,6 +86,7 @@ static int process_modules(Dwfl_Module *mod, void **userdata, const char *name,
- 	Dwarf_Die cudie;
- 	Dwarf_CU *cu = NULL;
- 	Dwarf *dbg;
-+	FILE *symfile = arg;
- 	int res;
- 
- 	debug("%s", name);
-@@ -100,6 +108,10 @@ static int process_modules(Dwfl_Module *mod, void **userdata, const char *name,
- 		check(process_module(mod, dbg, &cudie));
+@@ -109,9 +112,10 @@ static int process_modules(Dwfl_Module *mod, void **userdata, const char *name,
  	} while (cu);
  
-+	/*
-+	 * Use die_map to expand type strings and write them to `symfile`.
-+	 */
-+	check(generate_symtypes(symfile));
+ 	/*
+-	 * Use die_map to expand type strings and write them to `symfile`.
++	 * Use die_map to expand type strings, write them to `symfile`, and
++	 * calculate symbol versions.
+ 	 */
+-	check(generate_symtypes(symfile));
++	check(generate_symtypes_and_versions(symfile));
  	die_map_free();
  
  	return DWARF_CB_OK;
-@@ -112,6 +124,7 @@ static const Dwfl_Callbacks callbacks = {
+@@ -187,5 +191,7 @@ int main(int argc, const char **argv)
+ 	if (symfile)
+ 		fclose(symfile);
  
- int main(int argc, const char **argv)
- {
-+	FILE *symfile = NULL;
- 	unsigned int n;
- 
- 	if (parse_options(argc, argv) < 0)
-@@ -122,6 +135,16 @@ int main(int argc, const char **argv)
- 
- 	check(symbol_read_exports(stdin));
- 
-+	if (symtypes_file) {
-+		symfile = fopen(symtypes_file, "w+");
-+
-+		if (!symfile) {
-+			error("fopen failed for '%s': %s", symtypes_file,
-+			      strerror(errno));
-+			return -1;
-+		}
-+	}
-+
- 	for (n = 0; n < object_count; n++) {
- 		Dwfl *dwfl;
- 		int fd;
-@@ -151,7 +174,7 @@ int main(int argc, const char **argv)
- 
- 		dwfl_report_end(dwfl, NULL, NULL);
- 
--		if (dwfl_getmodules(dwfl, &process_modules, NULL, 0)) {
-+		if (dwfl_getmodules(dwfl, &process_modules, symfile, 0)) {
- 			error("dwfl_getmodules failed for '%s'",
- 			      object_files[n]);
- 			return -1;
-@@ -161,5 +184,8 @@ int main(int argc, const char **argv)
- 		close(fd);
- 	}
- 
-+	if (symfile)
-+		fclose(symfile);
++	symbol_print_versions();
 +
  	return 0;
  }
 diff --git a/scripts/gendwarfksyms/gendwarfksyms.h b/scripts/gendwarfksyms/gendwarfksyms.h
-index 7cd907e3d5e3..6edbd6478e0f 100644
+index 6edbd6478e0f..f85e080a8634 100644
 --- a/scripts/gendwarfksyms/gendwarfksyms.h
 +++ b/scripts/gendwarfksyms/gendwarfksyms.h
-@@ -22,6 +22,8 @@
- extern bool debug;
+@@ -23,6 +23,7 @@ extern bool debug;
  extern bool dump_dies;
  extern bool dump_die_map;
-+extern bool dump_types;
-+extern bool symtypes;
+ extern bool dump_types;
++extern bool dump_versions;
+ extern bool symtypes;
  
  #define MAX_INPUT_FILES 128
+@@ -95,7 +96,7 @@ extern bool symtypes;
+ #define SYMBOL_DECLONLY_PREFIX "__gendwarfksyms_declonly_"
+ #define SYMBOL_DECLONLY_PREFIX_LEN (sizeof(SYMBOL_DECLONLY_PREFIX) - 1)
  
-@@ -89,6 +91,12 @@ extern bool dump_die_map;
- #define SYMBOL_PTR_PREFIX "__gendwarfksyms_ptr_"
- #define SYMBOL_PTR_PREFIX_LEN (sizeof(SYMBOL_PTR_PREFIX) - 1)
+-enum symbol_state { UNPROCESSED, MAPPED };
++enum symbol_state { UNPROCESSED, MAPPED, PROCESSED };
  
-+/* See dwarf.c:is_declaration */
-+#define SYMBOL_DECLONLY_PREFIX "__gendwarfksyms_declonly_"
-+#define SYMBOL_DECLONLY_PREFIX_LEN (sizeof(SYMBOL_DECLONLY_PREFIX) - 1)
-+
-+enum symbol_state { UNPROCESSED, MAPPED };
-+
  struct symbol_addr {
  	uint32_t section;
- 	Elf64_Addr address;
-@@ -109,12 +117,14 @@ struct symbol {
- 	struct symbol_addr addr;
- 	struct hlist_node addr_hash;
+@@ -119,18 +120,25 @@ struct symbol {
  	struct hlist_node name_hash;
-+	enum symbol_state state;
-+	uintptr_t die_addr;
+ 	enum symbol_state state;
+ 	uintptr_t die_addr;
++	unsigned long crc;
  };
  
++typedef int (*symbol_callback_t)(struct symbol *, void *arg);
++
  extern bool is_symbol_ptr(const char *name);
  extern int symbol_read_exports(FILE *file);
  extern int symbol_read_symtab(int fd);
--extern struct symbol *symbol_get(const char *name);
-+extern struct symbol *symbol_get_unprocessed(const char *name);
+ extern struct symbol *symbol_get_unprocessed(const char *name);
++extern int symbol_set_die(struct symbol *sym, Dwarf_Die *die);
++extern int symbol_set_crc(struct symbol *sym, unsigned long crc);
++extern int symbol_for_each(symbol_callback_t func, void *arg);
++extern void symbol_print_versions(void);
  
  /*
   * die.c
-@@ -157,12 +167,15 @@ struct die {
- 	struct hlist_node hash;
- };
+  */
  
-+typedef int (*die_map_callback_t)(struct die *, void *arg);
-+
- extern int __die_map_get(uintptr_t addr, enum die_state state,
- 			 struct die **res);
- extern int die_map_get(Dwarf_Die *die, enum die_state state, struct die **res);
- extern int die_map_add_string(struct die *pd, const char *str);
- extern int die_map_add_linebreak(struct die *pd, int linebreak);
- extern int die_map_add_die(struct die *pd, struct die *child);
-+extern int die_map_for_each(die_map_callback_t func, void *arg);
- extern void die_map_free(void);
+-enum die_state { INCOMPLETE, UNEXPANDED, COMPLETE, LAST = COMPLETE };
++enum die_state { INCOMPLETE, UNEXPANDED, COMPLETE, SYMBOL, LAST = SYMBOL };
+ enum die_fragment_type { EMPTY, STRING, LINEBREAK, DIE };
  
- /*
-@@ -222,4 +235,10 @@ extern int process_die_container(struct state *state, struct die *cache,
+ struct die_fragment {
+@@ -154,6 +162,7 @@ static inline const char *die_state_name(enum die_state state)
+ 	CASE_CONST_TO_STR(INCOMPLETE)
+ 	CASE_CONST_TO_STR(UNEXPANDED)
+ 	CASE_CONST_TO_STR(COMPLETE)
++	CASE_CONST_TO_STR(SYMBOL)
+ 	}
+ }
  
- extern int process_module(Dwfl_Module *mod, Dwarf *dbg, Dwarf_Die *cudie);
+@@ -239,6 +248,6 @@ extern int process_module(Dwfl_Module *mod, Dwarf *dbg, Dwarf_Die *cudie);
+  * types.c
+  */
  
-+/*
-+ * types.c
-+ */
-+
-+extern int generate_symtypes(FILE *file);
-+
+-extern int generate_symtypes(FILE *file);
++extern int generate_symtypes_and_versions(FILE *file);
+ 
  #endif /* __GENDWARFKSYMS_H */
 diff --git a/scripts/gendwarfksyms/symbols.c b/scripts/gendwarfksyms/symbols.c
-index d6d016458ae1..8cc04e6295a7 100644
+index 8cc04e6295a7..c9889cfa89c4 100644
 --- a/scripts/gendwarfksyms/symbols.c
 +++ b/scripts/gendwarfksyms/symbols.c
-@@ -117,6 +117,7 @@ int symbol_read_exports(FILE *file)
- 
- 		sym->name = name;
- 		sym->addr.section = SHN_UNDEF;
-+		sym->state = UNPROCESSED;
- 		name = NULL;
- 
- 		hash_add(symbol_names, &sym->name_hash, name_hash(sym->name));
-@@ -132,19 +133,21 @@ int symbol_read_exports(FILE *file)
+@@ -84,6 +84,38 @@ static int for_each(const char *name, bool name_only, symbol_callback_t func,
  	return 0;
  }
  
--static int get_symbol(struct symbol *sym, void *arg)
-+static int get_unprocessed(struct symbol *sym, void *arg)
- {
- 	struct symbol **res = arg;
- 
--	*res = sym;
-+	if (sym->state == UNPROCESSED)
-+		*res = sym;
-+
- 	return 0;
- }
- 
--struct symbol *symbol_get(const char *name)
-+struct symbol *symbol_get_unprocessed(const char *name)
- {
- 	struct symbol *sym = NULL;
- 
--	for_each(name, false, get_symbol, &sym);
-+	for_each(name, false, get_unprocessed, &sym);
- 	return sym;
- }
- 
-diff --git a/scripts/gendwarfksyms/types.c b/scripts/gendwarfksyms/types.c
-new file mode 100644
-index 000000000000..7b9997d8322d
---- /dev/null
-+++ b/scripts/gendwarfksyms/types.c
-@@ -0,0 +1,439 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Copyright (C) 2024 Google LLC
-+ */
-+
-+#include "gendwarfksyms.h"
-+#include "crc32.h"
-+
-+static struct expansion_cache expansion_cache;
-+
-+/*
-+ * A simple linked list of shared or owned strings to avoid copying strings
-+ * around when not necessary.
-+ */
-+struct type_list {
-+	const char *str;
-+	void *owned;
-+	struct type_list *next;
-+};
-+
-+static struct type_list *type_list_alloc(void)
++static int set_crc(struct symbol *sym, void *data)
 +{
-+	struct type_list *list;
++	unsigned long *crc = data;
 +
-+	list = calloc(1, sizeof(struct type_list));
-+	if (!list)
-+		error("calloc failed");
++	if (sym->state == PROCESSED && sym->crc != *crc)
++		warn("overriding version for symbol %s (crc %lx vs. %lx)",
++		     sym->name, sym->crc, *crc);
 +
-+	return list;
++	sym->state = PROCESSED;
++	sym->crc = *crc;
++	return 0;
 +}
 +
-+static void type_list_free(struct type_list *list)
++int symbol_set_crc(struct symbol *sym, unsigned long crc)
 +{
-+	struct type_list *tmp;
-+
-+	while (list) {
-+		if (list->owned)
-+			free(list->owned);
-+
-+		tmp = list;
-+		list = list->next;
-+		free(tmp);
-+	}
-+}
-+
-+static int type_list_append(struct type_list *list, const char *s, void *owned)
-+{
-+	if (!list || !s)
++	if (checkp(for_each(sym->name, false, set_crc, &crc)) > 0)
 +		return 0;
-+
-+	while (list->next)
-+		list = list->next;
-+
-+	if (list->str) {
-+		list->next = type_list_alloc();
-+
-+		if (!list->next) {
-+			error("type_list_alloc failed");
-+			return -1;
-+		}
-+
-+		list = list->next;
-+	}
-+
-+	list->str = s;
-+	list->owned = owned;
-+
-+	return strlen(list->str);
-+}
-+
-+static int type_list_write(struct type_list *list, FILE *file)
-+{
-+	while (list) {
-+		if (list->str)
-+			checkp(fputs(list->str, file));
-+		list = list->next;
-+	}
-+
-+	return 0;
-+}
-+
-+/*
-+ * An expanded type string in symtypes format.
-+ */
-+struct type_expansion {
-+	char *name;
-+	struct type_list *expanded;
-+	struct type_list *last;
-+	size_t len;
-+	struct hlist_node hash;
-+};
-+
-+static int type_expansion_init(struct type_expansion *type, bool alloc)
-+{
-+	memset(type, 0, sizeof(struct type_expansion));
-+	if (alloc) {
-+		type->expanded = type_list_alloc();
-+		if (!type->expanded)
-+			return -1;
-+
-+		type->last = type->expanded;
-+	}
-+	return 0;
-+}
-+
-+static inline void type_expansion_free(struct type_expansion *type)
-+{
-+	free(type->name);
-+	type_list_free(type->expanded);
-+	type_expansion_init(type, false);
-+}
-+
-+static int type_expansion_append(struct type_expansion *type, const char *s,
-+				 void *owned)
-+{
-+	type->len += checkp(type_list_append(type->last, s, owned));
-+
-+	if (type->last->next)
-+		type->last = type->last->next;
-+
-+	return 0;
-+}
-+
-+/*
-+ * type_map -- the longest expansions for each type.
-+ *
-+ * const char *name -> struct type_expansion *
-+ */
-+#define TYPE_HASH_BITS 16
-+static DEFINE_HASHTABLE(type_map, TYPE_HASH_BITS);
-+
-+static int type_map_get(const char *name, struct type_expansion **res)
-+{
-+	struct type_expansion *e;
-+
-+	hash_for_each_possible(type_map, e, hash, name_hash(name)) {
-+		if (!strcmp(name, e->name)) {
-+			*res = e;
-+			return 0;
-+		}
-+	}
-+
 +	return -1;
 +}
 +
-+static int type_map_add(const char *name, struct type_expansion *type)
++static int set_die(struct symbol *sym, void *data)
 +{
-+	struct type_expansion *e;
++	sym->die_addr = (uintptr_t)((Dwarf_Die *)data)->addr;
++	sym->state = MAPPED;
++	return 0;
++}
 +
-+	if (type_map_get(name, &e)) {
-+		e = malloc(sizeof(struct type_expansion));
-+		if (!e) {
-+			error("malloc failed");
-+			return -1;
-+		}
++int symbol_set_die(struct symbol *sym, Dwarf_Die *die)
++{
++	return checkp(for_each(sym->name, false, set_die, die));
++}
 +
-+		type_expansion_init(e, false);
+ static bool is_exported(const char *name)
+ {
+ 	return checkp(for_each(name, true, NULL, NULL)) > 0;
+@@ -151,6 +183,19 @@ struct symbol *symbol_get_unprocessed(const char *name)
+ 	return sym;
+ }
+ 
++int symbol_for_each(symbol_callback_t func, void *arg)
++{
++	struct hlist_node *tmp;
++	struct symbol *sym;
++	int i;
 +
-+		e->name = strdup(name);
-+		if (!e->name) {
-+			error("strdup failed");
-+			return -1;
-+		}
-+
-+		hash_add(type_map, &e->hash, name_hash(e->name));
-+
-+		if (dump_types)
-+			debug("adding %s", e->name);
-+	} else {
-+		/* Use the longest available expansion */
-+		if (type->len <= e->len)
-+			return 0;
-+
-+		type_list_free(e->expanded);
-+
-+		if (dump_types)
-+			debug("replacing %s", e->name);
-+	}
-+
-+	/* Take ownership of type->expanded */
-+	e->expanded = type->expanded;
-+	e->last = type->last;
-+	e->len = type->len;
-+	type->expanded = NULL;
-+	type->last = NULL;
-+	type->len = 0;
-+
-+	if (dump_types) {
-+		fputs(e->name, stderr);
-+		fputs(" ", stderr);
-+		type_list_write(e->expanded, stderr);
-+		fputs("\n", stderr);
++	hash_for_each_safe(symbol_names, i, tmp, sym, name_hash) {
++		check(func(sym, arg));
 +	}
 +
 +	return 0;
 +}
 +
-+static int type_map_write(FILE *file)
+ typedef int (*elf_symbol_callback_t)(const char *name, GElf_Sym *sym,
+ 				     Elf32_Word xndx, void *arg);
+ 
+@@ -264,3 +309,23 @@ int symbol_read_symtab(int fd)
+ {
+ 	return elf_for_each_symbol(fd, process_symbol, NULL);
+ }
++
++void symbol_print_versions(void)
 +{
-+	struct type_expansion *e;
 +	struct hlist_node *tmp;
++	struct symbol *sym;
 +	int i;
 +
-+	if (!file)
-+		return 0;
++	hash_for_each_safe(symbol_names, i, tmp, sym, name_hash) {
++		if (sym->state != PROCESSED)
++			warn("no information for symbol %s", sym->name);
 +
-+	hash_for_each_safe(type_map, i, tmp, e, hash) {
-+		checkp(fputs(e->name, file));
-+		checkp(fputs(" ", file));
-+		type_list_write(e->expanded, file);
-+		checkp(fputs("\n", file));
++		printf("#SYMVER %s 0x%08lx\n", sym->name, sym->crc);
++
++		free((void *)sym->name);
++		free(sym);
 +	}
 +
-+	return 0;
++	hash_init(symbol_addrs);
++	hash_init(symbol_names);
 +}
-+
-+static void type_map_free(void)
-+{
-+	struct type_expansion *e;
-+	struct hlist_node *tmp;
-+	int i;
-+
-+	hash_for_each_safe(type_map, i, tmp, e, hash) {
-+		type_expansion_free(e);
-+		free(e);
-+	}
-+
-+	hash_init(type_map);
-+}
-+
+diff --git a/scripts/gendwarfksyms/types.c b/scripts/gendwarfksyms/types.c
+index 7b9997d8322d..6411b1279a28 100644
+--- a/scripts/gendwarfksyms/types.c
++++ b/scripts/gendwarfksyms/types.c
+@@ -228,6 +228,34 @@ static void type_map_free(void)
+ 	hash_init(type_map);
+ }
+ 
 +/*
-+ * Type reference format: <prefix>#<name>, where prefix:
-+ * 	s -> structure
-+ * 	u -> union
-+ * 	e -> enum
-+ * 	t -> typedef
-+ *
-+ * Names with spaces are additionally wrapped in single quotes.
++ * CRC for a type, with an optional fully expanded type string for
++ * debugging.
 + */
-+static inline bool is_type_prefix(const char *s)
++struct version {
++	struct type_expansion type;
++	unsigned long crc;
++};
++
++static int version_init(struct version *version)
 +{
-+	return (s[0] == 's' || s[0] == 'u' || s[0] == 'e' || s[0] == 't') &&
-+	       s[1] == '#';
++	version->crc = 0xffffffff;
++	return check(type_expansion_init(&version->type, dump_versions));
 +}
 +
-+static char get_type_prefix(int tag)
++static void version_free(struct version *version)
 +{
-+	switch (tag) {
-+	case DW_TAG_class_type:
-+	case DW_TAG_structure_type:
-+		return 's';
-+	case DW_TAG_union_type:
-+		return 'u';
-+	case DW_TAG_enumeration_type:
-+		return 'e';
-+	case DW_TAG_typedef_type:
-+		return 't';
-+	default:
-+		return 0;
-+	}
++	type_expansion_free(&version->type);
 +}
 +
-+static char *get_type_name(struct die *cache)
++static int version_add(struct version *version, const char *s)
 +{
-+	const char *format;
-+	char prefix;
-+	char *name;
-+	size_t len;
-+
-+	if (cache->state == INCOMPLETE) {
-+		warn("found incomplete cache entry: %p", cache);
-+		return NULL;
-+	}
-+	if (!cache->fqn)
-+		return NULL;
-+
-+	prefix = get_type_prefix(cache->tag);
-+	if (!prefix)
-+		return NULL;
-+
-+	/* <prefix>#<type_name>\0 */
-+	len = 2 + strlen(cache->fqn) + 1;
-+
-+	/* Wrap names with spaces in single quotes */
-+	if (strstr(cache->fqn, " ")) {
-+		format = "%c#'%s'";
-+		len += 2;
-+	} else {
-+		format = "%c#%s";
-+	}
-+
-+	name = malloc(len);
-+	if (!name) {
-+		error("malloc failed");
-+		return NULL;
-+	}
-+
-+	if (snprintf(name, len, format, prefix, cache->fqn) >= len) {
-+		error("snprintf failed for '%s' (length %zu)", cache->fqn,
-+		      len);
-+		free(name);
-+		return NULL;
-+	}
-+
-+	return name;
-+}
-+
-+static int __type_expand(struct die *cache, struct type_expansion *type,
-+			 bool recursive);
-+
-+static int type_expand_child(struct die *cache, struct type_expansion *type,
-+			     bool recursive)
-+{
-+	struct type_expansion child;
-+	char *name;
-+
-+	name = get_type_name(cache);
-+	if (!name)
-+		return check(__type_expand(cache, type, recursive));
-+
-+	if (recursive && !__cache_was_expanded(&expansion_cache, cache->addr)) {
-+		check(__cache_mark_expanded(&expansion_cache, cache->addr));
-+		check(type_expansion_init(&child, true));
-+		check(__type_expand(cache, &child, true));
-+		check(type_map_add(name, &child));
-+		type_expansion_free(&child);
-+	}
-+
-+	check(type_expansion_append(type, name, name));
++	version->crc = partial_crc32(s, version->crc);
++	if (dump_versions)
++		checkp(type_expansion_append(&version->type, s, NULL));
 +	return 0;
 +}
 +
-+static int __type_expand(struct die *cache, struct type_expansion *type,
-+			 bool recursive)
+ /*
+  * Type reference format: <prefix>#<name>, where prefix:
+  * 	s -> structure
+@@ -271,7 +299,7 @@ static char *get_type_name(struct die *cache)
+ 		warn("found incomplete cache entry: %p", cache);
+ 		return NULL;
+ 	}
+-	if (!cache->fqn)
++	if (cache->state == SYMBOL || !cache->fqn)
+ 		return NULL;
+ 
+ 	prefix = get_type_prefix(cache->tag);
+@@ -305,6 +333,45 @@ static char *get_type_name(struct die *cache)
+ 	return name;
+ }
+ 
++static int __calculate_version(struct version *version, struct type_list *list)
 +{
-+	struct die_fragment *df = cache->list;
-+	struct die *child;
++	struct type_expansion *e;
 +
-+	while (df) {
-+		switch (df->type) {
-+		case STRING:
-+			check(type_expansion_append(type, df->data.str, NULL));
-+			break;
-+		case DIE:
-+			/* Use a complete die_map expansion if available */
-+			if (__die_map_get(df->data.addr, COMPLETE, &child) &&
-+			    __die_map_get(df->data.addr, UNEXPANDED, &child)) {
-+				error("unknown child: %" PRIxPTR,
-+				      df->data.addr);
-+				return -1;
-+			}
++	/* Calculate a CRC over an expanded type string */
++	while (list) {
++		if (is_type_prefix(list->str)) {
++			check(type_map_get(list->str, &e));
 +
-+			check(type_expand_child(child, type, recursive));
-+			break;
-+		case LINEBREAK:
 +			/*
-+			 * Keep whitespace in the symtypes format, but avoid
-+			 * repeated spaces.
++			 * It's sufficient to expand each type reference just
++			 * once to detect changes.
 +			 */
-+			if (!df->next || df->next->type != LINEBREAK)
-+				check(type_expansion_append(type, " ", NULL));
-+			break;
-+		default:
-+			error("empty die_fragment in %p", cache);
-+			return -1;
++			if (cache_was_expanded(&expansion_cache, e)) {
++				check(version_add(version, list->str));
++			} else {
++				check(cache_mark_expanded(&expansion_cache, e));
++				check(__calculate_version(version,
++							  e->expanded));
++			}
++		} else {
++			check(version_add(version, list->str));
 +		}
 +
-+		df = df->next;
++		list = list->next;
 +	}
 +
 +	return 0;
 +}
 +
-+static int type_expand(struct die *cache, struct type_expansion *type,
-+		       bool recursive)
++static int calculate_version(struct version *version, const char *name,
++			     struct type_list *list)
 +{
-+	check(type_expansion_init(type, true));
-+	check(__type_expand(cache, type, recursive));
++	check(version_init(version));
++	check(__calculate_version(version, list));
 +	cache_clear_expanded(&expansion_cache);
 +	return 0;
 +}
 +
-+static int expand_type(struct die *cache, void *arg)
+ static int __type_expand(struct die *cache, struct type_expansion *type,
+ 			 bool recursive);
+ 
+@@ -411,7 +478,51 @@ static int expand_type(struct die *cache, void *arg)
+ 	return 0;
+ }
+ 
+-int generate_symtypes(FILE *file)
++static int expand_symbol(struct symbol *sym, void *arg)
 +{
 +	struct type_expansion type;
-+	char *name;
++	struct version version;
++	struct die *cache;
 +
 +	/*
-+	 * Skip unexpanded die_map entries if there's a complete
-+	 * expansion available for this DIE.
++	 * No need to expand again unless we want a symtypes file entry
++	 * for the symbol. Note that this means `sym` has the same address
++	 * as another symbol that was already processed.
 +	 */
-+	if (cache->state == UNEXPANDED)
-+		__die_map_get(cache->addr, COMPLETE, &cache);
-+
-+	if (cache->mapped)
++	if (!symtypes && sym->state == PROCESSED)
 +		return 0;
 +
-+	cache->mapped = true;
++	if (__die_map_get(sym->die_addr, SYMBOL, &cache))
++		return 0; /* We'll warn about missing CRCs later. */
 +
-+	name = get_type_name(cache);
-+	if (!name)
-+		return 0;
++	check(type_expand(cache, &type, false));
 +
-+	debug("%s", name);
-+	check(type_expand(cache, &type, true));
-+	check(type_map_add(name, &type));
++	/* If the symbol already has a version, don't calculate it again. */
++	if (sym->state != PROCESSED) {
++		check(calculate_version(&version, sym->name, type.expanded));
++		check(symbol_set_crc(sym, version.crc));
++		debug("%s = %lx", sym->name, version.crc);
++
++		if (dump_versions) {
++			fputs(sym->name, stderr);
++			fputs(" ", stderr);
++			type_list_write(version.type.expanded, stderr);
++			fputs("\n", stderr);
++		}
++
++		version_free(&version);
++	}
++
++	/* These aren't needed in type_map unless we want a symtypes file. */
++	if (symtypes)
++		check(type_map_add(sym->name, &type));
 +
 +	type_expansion_free(&type);
-+	free(name);
 +
 +	return 0;
 +}
 +
-+int generate_symtypes(FILE *file)
-+{
-+	hash_init(expansion_cache.cache);
++int generate_symtypes_and_versions(FILE *file)
+ {
+ 	hash_init(expansion_cache.cache);
+ 
+@@ -429,7 +540,14 @@ int generate_symtypes(FILE *file)
+ 	check(die_map_for_each(expand_type, NULL));
+ 
+ 	/*
+-	 *   2. If a symtypes file is requested, write type_map contents to
++	 *   2. For each exported symbol, expand the die_cache type, and use
++	 *      type_map expansions to calculate a symbol version from the
++	 *      fully expanded type string.
++	 */
++	check(symbol_for_each(expand_symbol, NULL));
 +
 +	/*
-+	 * die_map processing:
-+	 *
-+	 *   1. die_map contains all types referenced in exported symbol
-+	 *      signatures, but can contain duplicates just like the original
-+	 *      DWARF, and some references may not be fully expanded depending
-+	 *      on how far we processed the DIE tree for that specific symbol.
-+	 *
-+	 *      For each die_map entry, find the longest available expansion,
-+	 *      and add it to type_map.
-+	 */
-+	check(die_map_for_each(expand_type, NULL));
-+
-+	/*
-+	 *   2. If a symtypes file is requested, write type_map contents to
-+	 *      the file.
-+	 */
-+	check(type_map_write(file));
-+	type_map_free();
-+
-+	return 0;
-+}
++	 *   3. If a symtypes file is requested, write type_map contents to
+ 	 *      the file.
+ 	 */
+ 	check(type_map_write(file));
 -- 
 2.46.0.184.g6999bdac58-goog
 
