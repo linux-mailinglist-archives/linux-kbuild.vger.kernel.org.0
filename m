@@ -1,150 +1,100 @@
-Return-Path: <linux-kbuild+bounces-3030-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3031-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A53EF953C40
-	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Aug 2024 22:58:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FBCB953C56
+	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Aug 2024 23:08:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 30B8E1F260B0
-	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Aug 2024 20:58:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BA85C1F220F1
+	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Aug 2024 21:08:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7F1214D457;
-	Thu, 15 Aug 2024 20:58:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A89FF81AC1;
+	Thu, 15 Aug 2024 21:08:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="kdWibJ47"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WO1YinDD"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A826414901F
-	for <linux-kbuild@vger.kernel.org>; Thu, 15 Aug 2024 20:58:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77C2CBA53;
+	Thu, 15 Aug 2024 21:08:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723755505; cv=none; b=MfgFY/x8cHV1ayBgVteDDPpP3yRBjxTubrrJFQbzxoOw/8C69NzbqYPOqvxv7FxMW+KqRso8oZmHXQ1f0m/JUgLhu98ugGhF1v+Bou71diRt4uEaxMIvK7ym7YizF8Bl7/l2aXD41xeRbic60iR9vMTuCBk8AZ5qHrIIzCTNgu4=
+	t=1723756082; cv=none; b=t2s/IDgIj9O4HCme914+GxtlBcMFOWkwwin6FgMfXlke63FkHIhwBVy2WLPsxtSIsHcgt0NiOm6SmW9PDJu6bAuGaz+0LGAT/8LOgdbaiZlwCBl74IaNIAkVRj9uX7vriOAL5k/JXZM/7o1WELCyBnSrAIa6yfLaR5tFuH/znbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723755505; c=relaxed/simple;
-	bh=8wln7XutcBzXNU1G/NmOPbT18PRKrrWwlo2AMVsQdN4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ccobzh2mU/Kf+FSExRGiy7SlfJowuZMPFqifDIMa+RwVPF8nbnUvdtx5VzDcQXrk9N2/gzJVSdXp/2h5lL17J2MNPvG8DU4FD50lxs+ccuuXF72JJ0MtNtQGRjIrzy7p3K7vsoMMoaOZcue/tAcbig1JrP4xwPUPtwBHz8tm6Oc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=kdWibJ47; arc=none smtp.client-ip=209.85.217.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-49299323d71so507757137.1
-        for <linux-kbuild@vger.kernel.org>; Thu, 15 Aug 2024 13:58:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1723755501; x=1724360301; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8wln7XutcBzXNU1G/NmOPbT18PRKrrWwlo2AMVsQdN4=;
-        b=kdWibJ4771XAaB3oZOmRlOa5RsWRQFeF8l/584zqTw8unzJlIVuFgoNEX1wRfd7xSc
-         HysTtKwBEwk3TWG0Eg3QS0m46eomPBZPX/9VVsWTZrQLPrfer8fAyh80s3M5qxAoe++7
-         z1c6JcJm1riR4NpBOEdhU1wDWtkZCg0jxh6M2ei9W3LrXCot56gv+rDo/X8xCTyswcwC
-         yPkLzJCFsMmXb8OOZeLcK7pbwQkrvB+nm+ac8VlqP5WV/91Ze5pA7T1SsPodpzPxrR8z
-         ob9Sc98K/vmu27Q6g5YSwKMVXcsY3pNgd0NbASrl1CAiD37BmpuWKrSIlHzJjojffH2j
-         CQQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723755501; x=1724360301;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8wln7XutcBzXNU1G/NmOPbT18PRKrrWwlo2AMVsQdN4=;
-        b=JYRbTW+gFZ6kA3J9yjBltusIYsJlRygdUtHoOYRTj4hjwrR0QrcJLyx3MHa+6wu6Hw
-         usuObn+Cn6mNBZuCXyXKrsJUohGtI1QXXsimyjDPtFiL3HsmBQJ00TNXLS04JsJmhdsR
-         scIrfZKyF7IeNdqGmnP8KFercSl4v8gVV/YbZeqYqyu3g2DJi9FcsFVtqA66FliK7ZjT
-         nyXrqPJbUA+N6CcjcXJnLvcX7LTxh7ovyJiiFJkYf41AgtsrnjkpxTolXMSGWzOpKUn0
-         +qyLPs9zHFqr3FRS1vFK86L6kNF3n5QM620tbvsh1I7xvddf3lnM5ZQIQ2kppMlRJ7+v
-         JE8g==
-X-Forwarded-Encrypted: i=1; AJvYcCVr/tCeAKkwoQuWDYb1f3SFxwv7GvWA5jWI7K1mLpsFZDf0oSxCQsvXRfYYvf/2cN3J9sDPKX0ieDiD8oVqWO+ZkdM1VYsmvvX39aY2
-X-Gm-Message-State: AOJu0YwflAc0Z85Os52eWU1By4lSSSX3uhsecxOh/4lY6Fw8mbm6d8xO
-	Q9IvFMZUD+sEa7+MjWNKmz4ir8T3rGKnqxgz7LBCxZWods5wV1BPwdFBxC77KDx+PzEKI4iKwuJ
-	V6V/KvEySK2KuQLMO2ay1ZeBeq05rZQKY9xXH
-X-Google-Smtp-Source: AGHT+IFUSrIEqWeN8wUF/yIuZkO3TaOdgNlBO3G3MbEevGKK4ytem985M3RMZ7a3GjfIZFQAPQhKhXURq+gF78oHAOc=
-X-Received: by 2002:a05:6102:419e:b0:48f:8e07:1c45 with SMTP id
- ada2fe7eead31-497798d0fa4mr1423973137.1.1723755501362; Thu, 15 Aug 2024
- 13:58:21 -0700 (PDT)
+	s=arc-20240116; t=1723756082; c=relaxed/simple;
+	bh=BgAKQ3CAkdssRwyCBidKG3WBViBdpcMz3i+/zGg1l4c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uY9o0dfTcYanhToIvWXl5B76sNkSKVLqPV9d0+MSYoW3QWO/FNDYKWGdMG35nxVAy5mBWdqTVv7MM7DxP+OCmDXiqOj40cNcgPCKdIkLI4eGqalpLR9XFkgOekq9IitNl9YDr27oD3xWysLMTgMK2KwsV9aD7Pm083yCGihRYn4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WO1YinDD; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7365DC32786;
+	Thu, 15 Aug 2024 21:08:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723756082;
+	bh=BgAKQ3CAkdssRwyCBidKG3WBViBdpcMz3i+/zGg1l4c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WO1YinDDjKKrMiCxosOq0lnLGAk1NDTUK6Y9o5e9q/qN9Ua23w/1z+lYAu4BXLsSj
+	 JWj3eVDDh10IZb6JONBooBdzga/lzyaoAbPxZq0ggmmnSmONye3YtqVWOyjgf6jnu0
+	 WVGbnHCqfuMeKoO4KpZ3PbwqEU8hKKfL4jZmYmpvsAeVrpJklCblUKIvdWOS7Pch2w
+	 H2B68z5ksZXjcUdGJlqIqlFtKeGLX0G23c5w/bu16mPHj7be8LYtO3/CzBhEeTVxKy
+	 brZNI/2xL7dqGEvqzDyVriFx9lWXpBlSYFwko2ew2yHvds6zZK+InyZWik35LrMrPd
+	 XlMkxGTc8bzjw==
+Date: Thu, 15 Aug 2024 18:07:58 -0300
+From: Arnaldo Carvalho de Melo <acme@kernel.org>
+To: Thorsten Leemhuis <linux@leemhuis.info>
+Cc: Alexander Gordeev <agordeev@linux.ibm.com>,
+	Brian Norris <briannorris@chromium.org>,
+	Arnaldo Carvalho de Melo <acme@redhat.com>,
+	linux-s390@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, bpf@vger.kernel.org
+Subject: Re: [PATCH] tools build: Provide consistent build options for fixdep
+Message-ID: <Zr5uLlWGUEMYaroE@x1>
+References: <20240814173021.3726785-1-agordeev@linux.ibm.com>
+ <CA+ASDXMafY_w5Cm5EWS+dUn59kL3d_h4ZBW9w_Hn=7OZ=5n8kQ@mail.gmail.com>
+ <ZrzvDb+gitYx3KLL@li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com>
+ <88a67613-9597-4770-b777-51975e163513@leemhuis.info>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240806212106.617164-1-mmaurer@google.com>
-In-Reply-To: <20240806212106.617164-1-mmaurer@google.com>
-From: Sami Tolvanen <samitolvanen@google.com>
-Date: Thu, 15 Aug 2024 20:57:45 +0000
-Message-ID: <CABCJKucPh3UA2JVn72B99T6xyTX+bs2o1G7WRXp__bx_zsecNg@mail.gmail.com>
-Subject: Re: [PATCH v3 00/16] Extended MODVERSIONS Support
-To: Matthew Maurer <mmaurer@google.com>
-Cc: masahiroy@kernel.org, ndesaulniers@google.com, ojeda@kernel.org, 
-	gary@garyguo.net, mcgrof@kernel.org, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Wedson Almeida Filho <wedsonaf@gmail.com>, rust-for-linux@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, neal@gompa.dev, 
-	marcan@marcan.st, j@jannau.net, asahi@lists.linux.dev, 
-	Boqun Feng <boqun.feng@gmail.com>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
-	Alice Ryhl <aliceryhl@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <88a67613-9597-4770-b777-51975e163513@leemhuis.info>
 
-Hi Matt,
+On Thu, Aug 15, 2024 at 09:03:58AM +0200, Thorsten Leemhuis wrote:
+> On 14.08.24 19:53, Alexander Gordeev wrote:
+> > On Wed, Aug 14, 2024 at 10:35:00AM -0700, Brian Norris wrote:
+> >
+> >> FWIW, I already fielded some reports about this, and proposed a very
+> >> similar (but not identical) fix:
+> >>
+> >> https://lore.kernel.org/lkml/20240814030436.2022155-1-briannorris@chromium.org/
+> >>
+> >> Frankly, I wasn't sure about HOSTxxFLAGS vs KBUILD_HOSTxxFLAGS -- and
+> >> that's the difference between yours and mine. If yours works, that
+> >> looks like the cleaner solution. So:
+> >>
+> >> Reviewed-by: Brian Norris <briannorris@chromium.org>
+> >>
+> >> Either way, it might be good to also include some of these tags if
+> >> this is committed:
+> >>
+> >> Closes: https://lore.kernel.org/lkml/99ae0d34-ed76-4ca0-a9fd-c337da33c9f9@leemhuis.info/
+> >> Fixes: ea974028a049 ("tools build: Avoid circular .fixdep-in.o.cmd issues")
+> > 
+> > Ah, I missed the issue was reported already - I would include these tags otherwise.
+> > 
+> > @Thorsten, would it be possible to test this fix?
+> 
+> Yeah, np. This one works as well, so feel free to add:
+> 
+> Tested-by: Thorsten Leemhuis <linux@leemhuis.info>
 
-On Tue, Aug 6, 2024 at 9:21=E2=80=AFPM Matthew Maurer <mmaurer@google.com> =
-wrote:
->
-> Previously MODVERSIONS + RUST Redux [1]
->
-> This patch series is intended for use alongside the Implement
-> MODVERSIONS for RUST [2] series as a replacement for the symbol name
-> hashing approach used there to enable RUST and MODVERSIONS at the same
-> time.
->
-> Elsewhere, we've seen a desire for long symbol name support for LTO
-> symbol names [3], and the previous series came up [4] as a possible
-> solution rather than hashing, which some have objected [5] to.
->
-> This series adds a MODVERSIONS format which uses a section per column.
-> This avoids userspace tools breaking if we need to make a similar change
-> to the format in the future - we would do so by adding a new section,
-> rather than editing the struct definition. In the new format, the name
-> section is formatted as a concatenated sequence of NUL-terminated
-> strings, which allows for arbitrary length names.
->
-> Currently, this series emits both the extended format and the current
-> format on all modules, and prefers the extended format when checking if
-> present. I'm open to various other policies via Kconfig knobs, but this
-> seemed like a good initial default.
->
-> The refactor to MODVERSIONS is prefixed to this series as result of an
-> explicit request [6] by Luis in response to the original patchset.
->
-> If you are testing this patch alongside RUST by manually removing the
-> !MODVERSIONS restriction (this series doesn't remove it, because the
-> CRCs don't mean what we'd want them to yet, we need the DWARF patch for
-> that) and have kernel hardening enabled, you may need the CPU
-> Mitigations [7] series. Without it, the foo.mod.o file produced by the
-> C compiler will reference __x86_return_thunk, but foo.o will not.
-> This means that the version table will not contain a version for
-> __x86_return_thunk, but foo.ko will reference it, which will result
-> in a version check failure.
+Thanks everybody, applied to perf-tools-next,
 
-Thanks for reviving this series!
-
-I tested your patches on top of my DWARF modversions series and it
-seems to work as expected. I confirmed that Rust modules have
-versions, the kernel verifies them correctly, loading the modules
-succeeds, and scripts/export_report.pl seems to produce correct output
-as well. Here's the tree I used, it includes the prerequisite patch
-sets you mentioned:
-
-https://github.com/samitolvanen/linux/commits/rustmodversions/
-
-With the minor comments I had about patch 14 addressed:
-
-Reviewed-by: Sami Tolvanen <samitolvanen@google.com>
-Tested-by: Sami Tolvanen <samitolvanen@google.com>
-
-Sami
+- Arnaldo
 
