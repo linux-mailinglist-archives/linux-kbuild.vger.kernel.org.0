@@ -1,57 +1,57 @@
-Return-Path: <linux-kbuild+bounces-3053-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3054-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B62295522B
-	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Aug 2024 23:00:19 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B875E95522D
+	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Aug 2024 23:00:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7D36C1C21628
-	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Aug 2024 21:00:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 619C41F22948
+	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Aug 2024 21:00:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94E3B75817;
-	Fri, 16 Aug 2024 21:00:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E14975817;
+	Fri, 16 Aug 2024 21:00:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XhbPqNzZ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mig1kES+"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A9016BB39;
-	Fri, 16 Aug 2024 21:00:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA40F55893;
+	Fri, 16 Aug 2024 21:00:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723842015; cv=none; b=irQ8tFWIlerpsWnydolqHe0kMqZhjFhSpViRMv8K8j7Fz1UQBasFykXu4KH54R3+5U5F+8IM0jx9cFX5oOyhvg4cNrYXXwwWBvLbx6VXXlS6tQXh4/CaMbvXtPqnLTiThEmMnf65mydj9feYdAtD8mQcWu4iPWqtJr9agcLP0cM=
+	t=1723842048; cv=none; b=qg+H9xvuWXGbPbx7ZKI5WYnNv81XxpnXkN9+ipxAENUSTC30xAPPTw5UsJtU/MSmB0lwu/VNRIfgGA1b2Wmr87RSOUTVGpPCHk9E71RS7xTrpy1c5yjqkItZdIN9p7M+aN5Bv2/oWU31OR110aWjjHmI8Mi5QQkr2fEVrMeuih0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723842015; c=relaxed/simple;
-	bh=ze9RuKlloztfH30hjiWNZ17Y8Wic2CNG135cUm76z1Y=;
+	s=arc-20240116; t=1723842048; c=relaxed/simple;
+	bh=fIStajP15lLR6F/+mRoFY5G6QrhrOR43neKxIyRLR+8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DKqusIshrRl7jsvfw0ibE6w8OSm/0FZOKOsECSpabEH2ofphJu0vPg/Ov/93+XDEXPxObJ41Fx129H1JaeRWZgHI4/1+2eMFKDiSRESnScKk1P9WtMXvsxnjJSR9IEzWAPrYPo4L1WObbNwHrAlntsdm2FWsly7MVCSXdxYWKxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XhbPqNzZ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9531EC32782;
-	Fri, 16 Aug 2024 21:00:14 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=G0q2YqYVKTF2OaxkN5DDiW/nPrRHiWCi5xt+eOvUmJ0TBe3Nr3wLFWI2kNY58ggdOc15FYwjKdDMyABBWx5dxbeOeHD6lrGf1c3P3ei6/UFxvUTIhI3OpbVbVJqBHtRcLVY+M7PiP0x3s5P7Sa8nxFO/7Yb5TosF4BOaJPMYdGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mig1kES+; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63472C32782;
+	Fri, 16 Aug 2024 21:00:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723842015;
-	bh=ze9RuKlloztfH30hjiWNZ17Y8Wic2CNG135cUm76z1Y=;
+	s=k20201202; t=1723842047;
+	bh=fIStajP15lLR6F/+mRoFY5G6QrhrOR43neKxIyRLR+8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XhbPqNzZksShjHclp0eNuMnvUzs2vRUXWTXAVAEfnaQND0y+STUkWJQaEmazRk2Cz
-	 vOvbyzQeHtQpXTn9iPESRaBvs2QZrLPcypnKTxtLTZgJaUji7+ECBfxPxULlnH6xGT
-	 c5AVvHy6Y8bf4QS++2U3wR82XSc+KAF8OZIC+E4/qQZDaN0QvCSusrcDyMYaxy/H0c
-	 Vxyoyc7Yld2kU0QujvBr1KmvHtvvXcDYJI7VtIAAvGUM4UKckwl34brG/empUlzVn4
-	 t750H9o1pzmXLsQpXzz9wmz/k2rL/iVZODGfmBs6ud+DASLk//zWnS3G7wg8Hhus9u
-	 B6EyYETdEHG3Q==
-Date: Fri, 16 Aug 2024 14:00:12 -0700
+	b=mig1kES+H3F/9M2uLJXvJdvaS6Xp0iPRa2pnla/YDqvELq1el0Co/hhVoS3LyOZlL
+	 IkbGvhF3SCk2x2qrdUFPPNPggBM1JGvZN2wZ6RVMSRI2nvzugFSPyr3Xny1D0xRv/Y
+	 BuvaQv1fHaSPn04GERfeg60lwCsmDzOTTbqlQrj928ocU1IedV6NwD6DqS7A9KwYTO
+	 qv6x0Zygc98UCDxZlqV8FGfLVVUHqnZbW33hA1HcoWcYZAuMCJ70BpwgKvJkwMh5VZ
+	 WtAi3Ot4nd2IQZVUHyDNwhAMM9o0A88b8UQQbE+IMU6GVfMAfLlhrsaNmzJSrFOyL9
+	 ndu1Ap3QsEOKw==
+Date: Fri, 16 Aug 2024 14:00:45 -0700
 From: Nathan Chancellor <nathan@kernel.org>
 To: Masahiro Yamada <masahiroy@kernel.org>
 Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
 	Christian Heusel <christian@heusel.eu>,
 	Nicolas Schier <nicolas@fjasle.eu>,
 	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Subject: Re: [PATCH 1/2] kbuild: pacman-pkg: move common commands to a
- separate function
-Message-ID: <20240816210012.GC3870443@thelio-3990X>
+Subject: Re: [PATCH 2/2] kbuild: pacman-pkg: do not override objtree
+Message-ID: <20240816210045.GD3870443@thelio-3990X>
 References: <20240816141844.1217356-1-masahiroy@kernel.org>
+ <20240816141844.1217356-2-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -60,15 +60,14 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240816141844.1217356-1-masahiroy@kernel.org>
+In-Reply-To: <20240816141844.1217356-2-masahiroy@kernel.org>
 
-On Fri, Aug 16, 2024 at 11:18:14PM +0900, Masahiro Yamada wrote:
-> All build and package functions share the following commands:
+On Fri, Aug 16, 2024 at 11:18:15PM +0900, Masahiro Yamada wrote:
+> objtree is defined and exported by the top-level Makefile. I prefer
+> not to override it.
 > 
->   export MAKEFLAGS="${KBUILD_MAKEFLAGS}"
->   cd "${objtree}"
-> 
-> Factor out the common code.
+> There is no need to pass the absolute pass of objtree. PKGBUILD can
+> detect it by itself.
 > 
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
@@ -76,66 +75,39 @@ Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
 > ---
 > 
->  scripts/package/PKGBUILD | 17 ++++++++++-------
->  1 file changed, 10 insertions(+), 7 deletions(-)
+>  scripts/Makefile.package | 3 +--
+>  scripts/package/PKGBUILD | 4 +++-
+>  2 files changed, 4 insertions(+), 3 deletions(-)
 > 
+> diff --git a/scripts/Makefile.package b/scripts/Makefile.package
+> index 4a80584ec771..2c261a0d42b0 100644
+> --- a/scripts/Makefile.package
+> +++ b/scripts/Makefile.package
+> @@ -147,8 +147,7 @@ snap-pkg:
+>  PHONY += pacman-pkg
+>  pacman-pkg:
+>  	@ln -srf $(srctree)/scripts/package/PKGBUILD $(objtree)/PKGBUILD
+> -	+objtree="$(realpath $(objtree))" \
+> -		BUILDDIR="$(realpath $(objtree))/pacman" \
+> +	BUILDDIR="$(realpath $(objtree))/pacman" \
+>  		CARCH="$(UTS_MACHINE)" \
+>  		KBUILD_MAKEFLAGS="$(MAKEFLAGS)" \
+>  		KBUILD_REVISION="$(shell $(srctree)/scripts/build-version)" \
 > diff --git a/scripts/package/PKGBUILD b/scripts/package/PKGBUILD
-> index fbd7eb10a52c..e2d9c2601ca9 100644
+> index e2d9c2601ca9..839cd5e634d2 100644
 > --- a/scripts/package/PKGBUILD
 > +++ b/scripts/package/PKGBUILD
-> @@ -36,11 +36,15 @@ makedepends=(
->  )
->  options=(!debug !strip !buildflags !makeflags)
->  
-> -build() {
-> +_prologue() {
+> @@ -40,7 +40,9 @@ _prologue() {
 >  	# MAKEFLAGS from makepkg.conf override the ones inherited from kbuild.
 >  	# Bypass this override with a custom variable.
 >  	export MAKEFLAGS="${KBUILD_MAKEFLAGS}"
->  	cd "${objtree}"
-> +}
+> -	cd "${objtree}"
 > +
-> +build() {
-> +	_prologue
->  
->  	${MAKE} KERNELRELEASE="${KERNELRELEASE}" KBUILD_BUILD_VERSION="${pkgrel}"
+> +	# Kbuild works in the output directory, where this PKGBUILD is located.
+> +	cd "$(dirname "${BASH_SOURCE[0]}")"
 >  }
-> @@ -48,10 +52,10 @@ build() {
->  _package() {
->  	pkgdesc="The ${pkgdesc} kernel and modules"
 >  
-> -	export MAKEFLAGS="${KBUILD_MAKEFLAGS}"
-> -	cd "${objtree}"
->  	local modulesdir="${pkgdir}/usr/${MODLIB}"
->  
-> +	_prologue
-> +
->  	echo "Installing boot image..."
->  	# systemd expects to find the kernel here to allow hibernation
->  	# https://github.com/systemd/systemd/commit/edda44605f06a41fb86b7ab8128dcf99161d2344
-> @@ -76,10 +80,10 @@ _package() {
->  _package-headers() {
->  	pkgdesc="Headers and scripts for building modules for the ${pkgdesc} kernel"
->  
-> -	export MAKEFLAGS="${KBUILD_MAKEFLAGS}"
-> -	cd "${objtree}"
->  	local builddir="${pkgdir}/usr/${MODLIB}/build"
->  
-> +	_prologue
-> +
->  	if grep -q CONFIG_MODULES=y include/config/auto.conf; then
->  		echo "Installing build files..."
->  		"${srctree}/scripts/package/install-extmod-build" "${builddir}"
-> @@ -100,8 +104,7 @@ _package-api-headers() {
->  	provides=(linux-api-headers)
->  	conflicts=(linux-api-headers)
->  
-> -	export MAKEFLAGS="${KBUILD_MAKEFLAGS}"
-> -	cd "${objtree}"
-> +	_prologue
->  
->  	${MAKE} headers_install INSTALL_HDR_PATH="${pkgdir}/usr"
->  }
+>  build() {
 > -- 
 > 2.43.0
 > 
