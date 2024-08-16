@@ -1,54 +1,57 @@
-Return-Path: <linux-kbuild+bounces-3052-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3053-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF8549551FD
-	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Aug 2024 22:45:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B62295522B
+	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Aug 2024 23:00:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F304F1C21628
-	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Aug 2024 20:45:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7D36C1C21628
+	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Aug 2024 21:00:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E050A139D0B;
-	Fri, 16 Aug 2024 20:45:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94E3B75817;
+	Fri, 16 Aug 2024 21:00:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m25jHj7Y"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XhbPqNzZ"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B800A8063C;
-	Fri, 16 Aug 2024 20:45:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A9016BB39;
+	Fri, 16 Aug 2024 21:00:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723841119; cv=none; b=fShhbxARYevDQLrkt2o/HBQ0Lry8FppMtXaQQdx61+Up16XwHmuoksZwmzFasTwiD3brkomG3RlaeHarrv8jO3loZo/nuSKYcdCEAltKiYxNly79T+/59X4LxI7liymxT5DbdHsWzkS/+0etyj4NrWj18P6Un7KDosPhnHHNRfM=
+	t=1723842015; cv=none; b=irQ8tFWIlerpsWnydolqHe0kMqZhjFhSpViRMv8K8j7Fz1UQBasFykXu4KH54R3+5U5F+8IM0jx9cFX5oOyhvg4cNrYXXwwWBvLbx6VXXlS6tQXh4/CaMbvXtPqnLTiThEmMnf65mydj9feYdAtD8mQcWu4iPWqtJr9agcLP0cM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723841119; c=relaxed/simple;
-	bh=N/JyokGH+tPr2BMzeR+H499TQsBvQFqmDh7BFpQM2co=;
+	s=arc-20240116; t=1723842015; c=relaxed/simple;
+	bh=ze9RuKlloztfH30hjiWNZ17Y8Wic2CNG135cUm76z1Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=myC2zp5FTMr3EJjT9vSoVycoiHQ9qF6i2I/BVArTQlc1t4hD4PWJKa+1MSge4uRXk9fodcwGEPvp9GFrhGpqhPNh+vpkp9BYwgtBfwEsUkD/nc86uPrWhxY+y9BDzHxOGUBexeoH/LlV8lMAUpETkuGuzoKKyz/sWXz9y5THXZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m25jHj7Y; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07F75C32782;
-	Fri, 16 Aug 2024 20:45:18 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=DKqusIshrRl7jsvfw0ibE6w8OSm/0FZOKOsECSpabEH2ofphJu0vPg/Ov/93+XDEXPxObJ41Fx129H1JaeRWZgHI4/1+2eMFKDiSRESnScKk1P9WtMXvsxnjJSR9IEzWAPrYPo4L1WObbNwHrAlntsdm2FWsly7MVCSXdxYWKxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XhbPqNzZ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9531EC32782;
+	Fri, 16 Aug 2024 21:00:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723841119;
-	bh=N/JyokGH+tPr2BMzeR+H499TQsBvQFqmDh7BFpQM2co=;
+	s=k20201202; t=1723842015;
+	bh=ze9RuKlloztfH30hjiWNZ17Y8Wic2CNG135cUm76z1Y=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=m25jHj7YDUN2OC6zQnru9WMygOq1Ip1iWJJ3FCGHwHn/MqND6xcxFTkBJNBVssmNs
-	 gSNX7Pab+3mmF088QAAbrFOItbCktrSoaWixa1bD3S9CcenINLurwMorAqARrSY4y6
-	 tqR98wnGJ8EK6kApoP//31gSBhj73/7FG7dF3j3/zMcCOSSY5zvsBl0AQs22l33wmd
-	 tRQ5nMSoBfgr8ORCW9XJUnPVz/9HiW9+PlExRywDcro2Vt7nraICdJyX13SC42MkDt
-	 YLeWCer2kf7tcfdzkFOj5HEdkc80WKIZaL0V+jHIad1CRu10Q6LNeEKKWxvir070oD
-	 mnDzcxMUFy86w==
-Date: Fri, 16 Aug 2024 13:45:17 -0700
+	b=XhbPqNzZksShjHclp0eNuMnvUzs2vRUXWTXAVAEfnaQND0y+STUkWJQaEmazRk2Cz
+	 vOvbyzQeHtQpXTn9iPESRaBvs2QZrLPcypnKTxtLTZgJaUji7+ECBfxPxULlnH6xGT
+	 c5AVvHy6Y8bf4QS++2U3wR82XSc+KAF8OZIC+E4/qQZDaN0QvCSusrcDyMYaxy/H0c
+	 Vxyoyc7Yld2kU0QujvBr1KmvHtvvXcDYJI7VtIAAvGUM4UKckwl34brG/empUlzVn4
+	 t750H9o1pzmXLsQpXzz9wmz/k2rL/iVZODGfmBs6ud+DASLk//zWnS3G7wg8Hhus9u
+	 B6EyYETdEHG3Q==
+Date: Fri, 16 Aug 2024 14:00:12 -0700
 From: Nathan Chancellor <nathan@kernel.org>
 To: Masahiro Yamada <masahiroy@kernel.org>
 Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Nicolas Schier <nicolas@fjasle.eu>
-Subject: Re: [PATCH v2] modpost: simplify modpost_log()
-Message-ID: <20240816204517.GB3870443@thelio-3990X>
-References: <20240816134443.1183732-1-masahiroy@kernel.org>
+	Christian Heusel <christian@heusel.eu>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Subject: Re: [PATCH 1/2] kbuild: pacman-pkg: move common commands to a
+ separate function
+Message-ID: <20240816210012.GC3870443@thelio-3990X>
+References: <20240816141844.1217356-1-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -57,12 +60,15 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240816134443.1183732-1-masahiroy@kernel.org>
+In-Reply-To: <20240816141844.1217356-1-masahiroy@kernel.org>
 
-On Fri, Aug 16, 2024 at 10:44:29PM +0900, Masahiro Yamada wrote:
-> With commit cda5f94e88b4 ("modpost: avoid using the alias attribute"),
-> only two log levels remain: LOG_WARN and LOG_ERROR. Simplify this by
-> making it a boolean variable.
+On Fri, Aug 16, 2024 at 11:18:14PM +0900, Masahiro Yamada wrote:
+> All build and package functions share the following commands:
+> 
+>   export MAKEFLAGS="${KBUILD_MAKEFLAGS}"
+>   cd "${objtree}"
+> 
+> Factor out the common code.
 > 
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
@@ -70,88 +76,66 @@ Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
 > ---
 > 
-> Changes in v2:
->  - Fix reversed logics
+>  scripts/package/PKGBUILD | 17 ++++++++++-------
+>  1 file changed, 10 insertions(+), 7 deletions(-)
 > 
->  scripts/mod/modpost.c | 17 ++++++-----------
->  scripts/mod/modpost.h | 11 +++--------
->  2 files changed, 9 insertions(+), 19 deletions(-)
-> 
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index 3e474291258c..a27d1b5ce3c6 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -67,20 +67,15 @@ static unsigned int nr_unresolved;
+> diff --git a/scripts/package/PKGBUILD b/scripts/package/PKGBUILD
+> index fbd7eb10a52c..e2d9c2601ca9 100644
+> --- a/scripts/package/PKGBUILD
+> +++ b/scripts/package/PKGBUILD
+> @@ -36,11 +36,15 @@ makedepends=(
+>  )
+>  options=(!debug !strip !buildflags !makeflags)
 >  
->  #define MODULE_NAME_LEN (64 - sizeof(Elf_Addr))
+> -build() {
+> +_prologue() {
+>  	# MAKEFLAGS from makepkg.conf override the ones inherited from kbuild.
+>  	# Bypass this override with a custom variable.
+>  	export MAKEFLAGS="${KBUILD_MAKEFLAGS}"
+>  	cd "${objtree}"
+> +}
+> +
+> +build() {
+> +	_prologue
 >  
-> -void modpost_log(enum loglevel loglevel, const char *fmt, ...)
-> +void modpost_log(bool is_error, const char *fmt, ...)
->  {
->  	va_list arglist;
+>  	${MAKE} KERNELRELEASE="${KERNELRELEASE}" KBUILD_BUILD_VERSION="${pkgrel}"
+>  }
+> @@ -48,10 +52,10 @@ build() {
+>  _package() {
+>  	pkgdesc="The ${pkgdesc} kernel and modules"
 >  
-> -	switch (loglevel) {
-> -	case LOG_WARN:
-> -		fprintf(stderr, "WARNING: ");
-> -		break;
-> -	case LOG_ERROR:
-> +	if (is_error) {
->  		fprintf(stderr, "ERROR: ");
->  		error_occurred = true;
-> -		break;
-> -	default: /* invalid loglevel, ignore */
-> -		break;
-> +	} else {
-> +		fprintf(stderr, "WARNING: ");
->  	}
+> -	export MAKEFLAGS="${KBUILD_MAKEFLAGS}"
+> -	cd "${objtree}"
+>  	local modulesdir="${pkgdir}/usr/${MODLIB}"
 >  
->  	fprintf(stderr, "modpost: ");
-> @@ -1697,7 +1692,7 @@ static void check_exports(struct module *mod)
->  		exp = find_symbol(s->name);
->  		if (!exp) {
->  			if (!s->weak && nr_unresolved++ < MAX_UNRESOLVED_REPORTS)
-> -				modpost_log(warn_unresolved ? LOG_WARN : LOG_ERROR,
-> +				modpost_log(!warn_unresolved,
->  					    "\"%s\" [%s.ko] undefined!\n",
->  					    s->name, mod->name);
->  			continue;
-> @@ -1720,7 +1715,7 @@ static void check_exports(struct module *mod)
->  			basename = mod->name;
+> +	_prologue
+> +
+>  	echo "Installing boot image..."
+>  	# systemd expects to find the kernel here to allow hibernation
+>  	# https://github.com/systemd/systemd/commit/edda44605f06a41fb86b7ab8128dcf99161d2344
+> @@ -76,10 +80,10 @@ _package() {
+>  _package-headers() {
+>  	pkgdesc="Headers and scripts for building modules for the ${pkgdesc} kernel"
 >  
->  		if (!contains_namespace(&mod->imported_namespaces, exp->namespace)) {
-> -			modpost_log(allow_missing_ns_imports ? LOG_WARN : LOG_ERROR,
-> +			modpost_log(!allow_missing_ns_imports,
->  				    "module %s uses symbol %s from namespace %s, but does not import it.\n",
->  				    basename, exp->name, exp->namespace);
->  			add_namespace(&mod->missing_namespaces, exp->namespace);
-> diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
-> index f756e6578b9e..6f418f0afd04 100644
-> --- a/scripts/mod/modpost.h
-> +++ b/scripts/mod/modpost.h
-> @@ -184,13 +184,8 @@ char *read_text_file(const char *filename);
->  char *get_line(char **stringp);
->  void *sym_get_data(const struct elf_info *info, const Elf_Sym *sym);
+> -	export MAKEFLAGS="${KBUILD_MAKEFLAGS}"
+> -	cd "${objtree}"
+>  	local builddir="${pkgdir}/usr/${MODLIB}/build"
 >  
-> -enum loglevel {
-> -	LOG_WARN,
-> -	LOG_ERROR,
-> -};
-> -
->  void __attribute__((format(printf, 2, 3)))
-> -modpost_log(enum loglevel loglevel, const char *fmt, ...);
-> +modpost_log(bool is_error, const char *fmt, ...);
+> +	_prologue
+> +
+>  	if grep -q CONFIG_MODULES=y include/config/auto.conf; then
+>  		echo "Installing build files..."
+>  		"${srctree}/scripts/package/install-extmod-build" "${builddir}"
+> @@ -100,8 +104,7 @@ _package-api-headers() {
+>  	provides=(linux-api-headers)
+>  	conflicts=(linux-api-headers)
 >  
->  /*
->   * warn - show the given message, then let modpost continue running, still
-> @@ -205,6 +200,6 @@ modpost_log(enum loglevel loglevel, const char *fmt, ...);
->   * fatal - show the given message, and bail out immediately. This should be
->   *         used when there is no point to continue running modpost.
->   */
-> -#define warn(fmt, args...)	modpost_log(LOG_WARN, fmt, ##args)
-> -#define error(fmt, args...)	modpost_log(LOG_ERROR, fmt, ##args)
-> +#define warn(fmt, args...)	modpost_log(false, fmt, ##args)
-> +#define error(fmt, args...)	modpost_log(true, fmt, ##args)
->  #define fatal(fmt, args...)	do { error(fmt, ##args); exit(1); } while (1)
+> -	export MAKEFLAGS="${KBUILD_MAKEFLAGS}"
+> -	cd "${objtree}"
+> +	_prologue
+>  
+>  	${MAKE} headers_install INSTALL_HDR_PATH="${pkgdir}/usr"
+>  }
 > -- 
 > 2.43.0
 > 
