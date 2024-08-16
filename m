@@ -1,123 +1,158 @@
-Return-Path: <linux-kbuild+bounces-3051-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3052-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94458955129
-	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Aug 2024 21:01:15 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF8549551FD
+	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Aug 2024 22:45:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 50E902854C2
-	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Aug 2024 19:01:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F304F1C21628
+	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Aug 2024 20:45:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADBB7824BB;
-	Fri, 16 Aug 2024 19:01:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E050A139D0B;
+	Fri, 16 Aug 2024 20:45:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="j9IDgbA9"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m25jHj7Y"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA6061C27;
-	Fri, 16 Aug 2024 19:01:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B800A8063C;
+	Fri, 16 Aug 2024 20:45:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723834870; cv=none; b=QBiNQxKG+puupc4b8TuLsL5TtY8tUJOQYPeGYVaQ0zMDDawTHQPHsLH9p3Ugd5r7/4trK4ic7nJyfZfPRayOjKXkbpIYxumFxDMaVwKC1IWrGVHCKLYRszZhPXUtPiLex8i2zTEWSL6dTd/uKesJCYCSjDSAPhS0uqmN4Jhzj0c=
+	t=1723841119; cv=none; b=fShhbxARYevDQLrkt2o/HBQ0Lry8FppMtXaQQdx61+Up16XwHmuoksZwmzFasTwiD3brkomG3RlaeHarrv8jO3loZo/nuSKYcdCEAltKiYxNly79T+/59X4LxI7liymxT5DbdHsWzkS/+0etyj4NrWj18P6Un7KDosPhnHHNRfM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723834870; c=relaxed/simple;
-	bh=Y7iG7kndNsaQxhGLsSPmbX9+y172qeuvSpqwF//M2EM=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=m0zP/4v8XwA4VQsS/THciwDCSHzrEOTYsHDjxPkcXoqGVXhMLJWS7pRfbvs0hg3Ez5xkgMVJRAh3ft2a3ErbybimX2ievKkL+PsU3j7aoEk+x6f8Ydr2tdYtoq51kwN+bHNcY0JjYZKdO48e6E0gVOTpcdBlZTx+/mmsToqqozE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=j9IDgbA9; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1723834864;
-	bh=Y7iG7kndNsaQxhGLsSPmbX9+y172qeuvSpqwF//M2EM=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=j9IDgbA9MFKnr14EpN0+AqQ3JPwF38iAPOiYlACxQtkHr9pj6/vo9taUIcQtgrC0J
-	 N2sAVOgBUcD/2LjJ074u9S0g5BjWePv3kjUiT4ipnzc7Jeqx3b5mIhD3ESQghGVOZQ
-	 oiOkjbNArBtCY8KDRPFDZ+NUOpBNGNkS3MhNAeTY=
-Date: Fri, 16 Aug 2024 21:01:02 +0200 (GMT+02:00)
-From: linux@weissschuh.net
+	s=arc-20240116; t=1723841119; c=relaxed/simple;
+	bh=N/JyokGH+tPr2BMzeR+H499TQsBvQFqmDh7BFpQM2co=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=myC2zp5FTMr3EJjT9vSoVycoiHQ9qF6i2I/BVArTQlc1t4hD4PWJKa+1MSge4uRXk9fodcwGEPvp9GFrhGpqhPNh+vpkp9BYwgtBfwEsUkD/nc86uPrWhxY+y9BDzHxOGUBexeoH/LlV8lMAUpETkuGuzoKKyz/sWXz9y5THXZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m25jHj7Y; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07F75C32782;
+	Fri, 16 Aug 2024 20:45:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723841119;
+	bh=N/JyokGH+tPr2BMzeR+H499TQsBvQFqmDh7BFpQM2co=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=m25jHj7YDUN2OC6zQnru9WMygOq1Ip1iWJJ3FCGHwHn/MqND6xcxFTkBJNBVssmNs
+	 gSNX7Pab+3mmF088QAAbrFOItbCktrSoaWixa1bD3S9CcenINLurwMorAqARrSY4y6
+	 tqR98wnGJ8EK6kApoP//31gSBhj73/7FG7dF3j3/zMcCOSSY5zvsBl0AQs22l33wmd
+	 tRQ5nMSoBfgr8ORCW9XJUnPVz/9HiW9+PlExRywDcro2Vt7nraICdJyX13SC42MkDt
+	 YLeWCer2kf7tcfdzkFOj5HEdkc80WKIZaL0V+jHIad1CRu10Q6LNeEKKWxvir070oD
+	 mnDzcxMUFy86w==
+Date: Fri, 16 Aug 2024 13:45:17 -0700
+From: Nathan Chancellor <nathan@kernel.org>
 To: Masahiro Yamada <masahiroy@kernel.org>
 Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Christian Heusel <christian@heusel.eu>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	=?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Message-ID: <72f2bb7f-8f4a-4dec-ae41-f87cef6182b3@weissschuh.net>
-In-Reply-To: <20240816141844.1217356-2-masahiroy@kernel.org>
-References: <20240816141844.1217356-1-masahiroy@kernel.org> <20240816141844.1217356-2-masahiroy@kernel.org>
-Subject: Re: [PATCH 2/2] kbuild: pacman-pkg: do not override objtree
+	Nicolas Schier <nicolas@fjasle.eu>
+Subject: Re: [PATCH v2] modpost: simplify modpost_log()
+Message-ID: <20240816204517.GB3870443@thelio-3990X>
+References: <20240816134443.1183732-1-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Correlation-ID: <72f2bb7f-8f4a-4dec-ae41-f87cef6182b3@weissschuh.net>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240816134443.1183732-1-masahiroy@kernel.org>
 
-Aug 16, 2024 16:18:56 Masahiro Yamada <masahiroy@kernel.org>:
-
-> objtree is defined and exported by the top-level Makefile. I prefer
-> not to override it.
->
-> There is no need to pass the absolute pass of objtree. PKGBUILD can
-
-s/pass/path/g
-
-> detect it by itself.
->
+On Fri, Aug 16, 2024 at 10:44:29PM +0900, Masahiro Yamada wrote:
+> With commit cda5f94e88b4 ("modpost: avoid using the alias attribute"),
+> only two log levels remain: LOG_WARN and LOG_ERROR. Simplify this by
+> making it a boolean variable.
+> 
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-Acked-by:=C2=A0 Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
-
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
 > ---
->
-> scripts/Makefile.package | 3 +--
-> scripts/package/PKGBUILD | 4 +++-
-> 2 files changed, 4 insertions(+), 3 deletions(-)
->
-> diff --git a/scripts/Makefile.package b/scripts/Makefile.package
-> index 4a80584ec771..2c261a0d42b0 100644
-> --- a/scripts/Makefile.package
-> +++ b/scripts/Makefile.package
-> @@ -147,8 +147,7 @@ snap-pkg:
-> PHONY +=3D pacman-pkg
-> pacman-pkg:
-> =C2=A0=C2=A0=C2=A0 @ln -srf $(srctree)/scripts/package/PKGBUILD $(objtree=
-)/PKGBUILD
-> -=C2=A0=C2=A0 +objtree=3D"$(realpath $(objtree))" \
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BUILDDIR=3D"$(realpath $(objtree))/=
-pacman" \
-> +=C2=A0=C2=A0 BUILDDIR=3D"$(realpath $(objtree))/pacman" \
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 CARCH=3D"$(UTS_MACHINE)" \
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 KBUILD_MAKEFLAGS=3D"$(MAKEFLAG=
-S)" \
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 KBUILD_REVISION=3D"$(shell $(s=
-rctree)/scripts/build-version)" \
-> diff --git a/scripts/package/PKGBUILD b/scripts/package/PKGBUILD
-> index e2d9c2601ca9..839cd5e634d2 100644
-> --- a/scripts/package/PKGBUILD
-> +++ b/scripts/package/PKGBUILD
-> @@ -40,7 +40,9 @@ _prologue() {
-> =C2=A0=C2=A0=C2=A0 # MAKEFLAGS from makepkg.conf override the ones inheri=
-ted from kbuild.
-> =C2=A0=C2=A0=C2=A0 # Bypass this override with a custom variable.
-> =C2=A0=C2=A0=C2=A0 export MAKEFLAGS=3D"${KBUILD_MAKEFLAGS}"
-> -=C2=A0=C2=A0 cd "${objtree}"
-> +
-> +=C2=A0=C2=A0 # Kbuild works in the output directory, where this PKGBUILD=
- is located.
-> +=C2=A0=C2=A0 cd "$(dirname "${BASH_SOURCE[0]}")"
-> }
->
-> build() {
-> --
+> 
+> Changes in v2:
+>  - Fix reversed logics
+> 
+>  scripts/mod/modpost.c | 17 ++++++-----------
+>  scripts/mod/modpost.h | 11 +++--------
+>  2 files changed, 9 insertions(+), 19 deletions(-)
+> 
+> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> index 3e474291258c..a27d1b5ce3c6 100644
+> --- a/scripts/mod/modpost.c
+> +++ b/scripts/mod/modpost.c
+> @@ -67,20 +67,15 @@ static unsigned int nr_unresolved;
+>  
+>  #define MODULE_NAME_LEN (64 - sizeof(Elf_Addr))
+>  
+> -void modpost_log(enum loglevel loglevel, const char *fmt, ...)
+> +void modpost_log(bool is_error, const char *fmt, ...)
+>  {
+>  	va_list arglist;
+>  
+> -	switch (loglevel) {
+> -	case LOG_WARN:
+> -		fprintf(stderr, "WARNING: ");
+> -		break;
+> -	case LOG_ERROR:
+> +	if (is_error) {
+>  		fprintf(stderr, "ERROR: ");
+>  		error_occurred = true;
+> -		break;
+> -	default: /* invalid loglevel, ignore */
+> -		break;
+> +	} else {
+> +		fprintf(stderr, "WARNING: ");
+>  	}
+>  
+>  	fprintf(stderr, "modpost: ");
+> @@ -1697,7 +1692,7 @@ static void check_exports(struct module *mod)
+>  		exp = find_symbol(s->name);
+>  		if (!exp) {
+>  			if (!s->weak && nr_unresolved++ < MAX_UNRESOLVED_REPORTS)
+> -				modpost_log(warn_unresolved ? LOG_WARN : LOG_ERROR,
+> +				modpost_log(!warn_unresolved,
+>  					    "\"%s\" [%s.ko] undefined!\n",
+>  					    s->name, mod->name);
+>  			continue;
+> @@ -1720,7 +1715,7 @@ static void check_exports(struct module *mod)
+>  			basename = mod->name;
+>  
+>  		if (!contains_namespace(&mod->imported_namespaces, exp->namespace)) {
+> -			modpost_log(allow_missing_ns_imports ? LOG_WARN : LOG_ERROR,
+> +			modpost_log(!allow_missing_ns_imports,
+>  				    "module %s uses symbol %s from namespace %s, but does not import it.\n",
+>  				    basename, exp->name, exp->namespace);
+>  			add_namespace(&mod->missing_namespaces, exp->namespace);
+> diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
+> index f756e6578b9e..6f418f0afd04 100644
+> --- a/scripts/mod/modpost.h
+> +++ b/scripts/mod/modpost.h
+> @@ -184,13 +184,8 @@ char *read_text_file(const char *filename);
+>  char *get_line(char **stringp);
+>  void *sym_get_data(const struct elf_info *info, const Elf_Sym *sym);
+>  
+> -enum loglevel {
+> -	LOG_WARN,
+> -	LOG_ERROR,
+> -};
+> -
+>  void __attribute__((format(printf, 2, 3)))
+> -modpost_log(enum loglevel loglevel, const char *fmt, ...);
+> +modpost_log(bool is_error, const char *fmt, ...);
+>  
+>  /*
+>   * warn - show the given message, then let modpost continue running, still
+> @@ -205,6 +200,6 @@ modpost_log(enum loglevel loglevel, const char *fmt, ...);
+>   * fatal - show the given message, and bail out immediately. This should be
+>   *         used when there is no point to continue running modpost.
+>   */
+> -#define warn(fmt, args...)	modpost_log(LOG_WARN, fmt, ##args)
+> -#define error(fmt, args...)	modpost_log(LOG_ERROR, fmt, ##args)
+> +#define warn(fmt, args...)	modpost_log(false, fmt, ##args)
+> +#define error(fmt, args...)	modpost_log(true, fmt, ##args)
+>  #define fatal(fmt, args...)	do { error(fmt, ##args); exit(1); } while (1)
+> -- 
 > 2.43.0
-
+> 
 
