@@ -1,131 +1,103 @@
-Return-Path: <linux-kbuild+bounces-3042-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3043-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2926B9548DB
-	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Aug 2024 14:37:04 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADD12954AA3
+	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Aug 2024 15:00:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C7E5D1F21893
-	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Aug 2024 12:37:03 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1BECFB20DB8
+	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Aug 2024 13:00:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4765D19FA91;
-	Fri, 16 Aug 2024 12:36:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D368383A3;
+	Fri, 16 Aug 2024 13:00:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dQa5pTak"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N67jfhC+"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1630317C9B0;
-	Fri, 16 Aug 2024 12:36:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 139BC1E4AF;
+	Fri, 16 Aug 2024 13:00:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723811819; cv=none; b=iLKHKmA021jxH6OFtjqAqaRzFR5Hyjz+sUmmWzjfxDsuAnlk4Ja6tbWlOYZqHLrSo7rhQuXaJPyCECCF2wK2O6H8OAB6H6e1acfbm11+PFF+ls4w/yVvGTbPuibxBBckY7Kl44pEUhmIxpPUJ79ITDT495e9AR3LfxXSqa4wFOY=
+	t=1723813242; cv=none; b=Ge/puFTWv90iVyzI1aDH6yJsowqAy4md4Elv/vrnktzPVd/DdnM17h6QBlcxoisGMXufy4H+7Q3FM/3gxVURjCCjtXsbLQRyFHvLTp6U5sTojRa2sUKqkfrCeM/A4Ewb4GEe7OP3f/py1j3CogYWe24EmnRWV7l5uq/YlA+8/eE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723811819; c=relaxed/simple;
-	bh=zBagcxbMa5+yvrzOOq552TNcqVadUlv9lYDaeZmbv7Q=;
+	s=arc-20240116; t=1723813242; c=relaxed/simple;
+	bh=8ZzCUc0Q4j63qS/946by6MfLfwHV0asep7O2WdEhceU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WdZiN51K2aPi7FiA6zzJJgm3ZLyGwOEc9CNBHpqLF46vApcXxs6lnsht9hdVWF5pcbLdD3zlc6dcElIRmMxvLW7RapasRl5GgSe63kYUTgZBCGaIX0NkkcGjVSLn5knMSY8fZZCHZz/zek7J6fmEGRnsfr17jWnWLYSxwoEkAcc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dQa5pTak; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A22EEC4AF0D;
-	Fri, 16 Aug 2024 12:36:58 +0000 (UTC)
+	 To:Cc:Content-Type; b=I1WKChJfv4OfvM6T3HT/Y/Yrv0lH+d/rhkW09OuFlj/u4ifTKLjhqIqG2AvhaiYaNF4o5qNquchAB+EpftHM2sFHB3P9P8PCy4GU6d4M5gXi3kdV5M7kF40JZoXFmC1gyGREqK15k6H/QvXhjkZ/Adab7D/LstdIerqWauF0Bfw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N67jfhC+; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84F09C4AF0C;
+	Fri, 16 Aug 2024 13:00:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723811818;
-	bh=zBagcxbMa5+yvrzOOq552TNcqVadUlv9lYDaeZmbv7Q=;
+	s=k20201202; t=1723813241;
+	bh=8ZzCUc0Q4j63qS/946by6MfLfwHV0asep7O2WdEhceU=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=dQa5pTakZSnGHRa4mHcVgxG8Vjw7FpWIrVuHynY7S6sNtkBmTbu1wutT+iiEiiOT5
-	 SP+w0tH6Tc+KNcMJbcmdX45kmcApsxGSSwesV0+BShQJYW7q3NZzWYEhQ+PwsKKI0W
-	 aPuZI4I7BQu/I4Mtapdeez7qHIrqQiApBkZQSVHhMQlCMzz/NPi6/HQZ2lykHhcG2i
-	 PpxkXSwnT0wfJ7Mj7woQHrW2Rf/D8Eeu+9UfNHeywKLS4RANfSd8qt/J9lpa+iFrPT
-	 rfSbAwSuGf+xDq589/Wwu8fvwGIxNW7v3OtnpLej7lWHolrPf80qkYKLOZFmLH7kg8
-	 /QPQE61HBpapw==
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-52f0277daa5so2602299e87.0;
-        Fri, 16 Aug 2024 05:36:58 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWXStWyAK8r1Vn990OLYBDDgXvU34lmPwbB3lwOYBu/VjxK4fhco9r8AQ7MaQE+dofw7Zx9cOFaoyTjCk0OjCCEQtt/rHGu8KSLDJ+iZI5V8cqcmNEFT6xfzzjLoGohOk3cBBD8ChnWWIj/Hs605BR82Qw2XVD6lHrTUrcJXpFOqwyRxPon
-X-Gm-Message-State: AOJu0Yx1B97B2yUGvCItsdy/mkJWJClmZwNMoRm1d0Yft4DkninVwy7R
-	I+TQ6HBAndWCHrieF2HI4Kl/I2UVdpxCAP/O2dvvwlahWtByHTgmrcwCJkII8jFuPjQB6QdlWn4
-	Cel6sbnv1q6YrEHZRYCf4nWsD+R8=
-X-Google-Smtp-Source: AGHT+IHi5JgLUaJv3Jn5lpXjTogg62a2Zasdhk/4mdX5PoCB/8KmqqDxU947adSSqytd0FItjd+3PM7H7jrcc+b9c2E=
-X-Received: by 2002:a05:6512:ad2:b0:52c:e4bf:d55d with SMTP id
- 2adb3069b0e04-5331c692a05mr2375669e87.8.1723811815934; Fri, 16 Aug 2024
- 05:36:55 -0700 (PDT)
+	b=N67jfhC+HeM5xBXsOcGfR6xaGfih4MXuMon4uX929X2/ieKQt55D/Aq48AaPcX0ZT
+	 HzoVB5IyO7WL5BMmTI8eKMzCX06kwSSBpRtksSDjqvvh6GvYqx2xok+M0N6gSF3tIa
+	 BnR1CJGIaDrxPXZ+RomDNg6T3JDydYnmpSbICkgr4dK4+D6BvhoYWAjRTGhnqeIhKd
+	 uq1DqWEJGBNL2Bq/lSGNXhl9GlrvBa7GW5mbxMYpUGHM0/JGXyjTmqi3ftD2iTjzvq
+	 zqirxCdmhMEzRdwFT6O4CNAvCSIDa6ExC2XKOAeWWXlPP6faChtTYSemZu9zlkJeSM
+	 u76UeDm/Qcm1g==
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-52f04c29588so2733448e87.3;
+        Fri, 16 Aug 2024 06:00:41 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCV0UIAKD2A9QRCFtztFREFROMRnqiHBqr/H7EFogYcKfPTVdTGbBT++V2JTl5n+qiIPTtrKLWQZKaWBeJMbPNkyhW0ZSsB18ABdOSgLJcvi5qtwWYbOmCujrDbayFh/r5pIHeu7pS4/uIJH
+X-Gm-Message-State: AOJu0YyT8072rlIbTmSRMdWNAnzDtoaj5oUVYs65xT2qpkzp0Qurea39
+	jyDSEEtJ/mKi18oSiL32r8eqywxtaVt1wVGrnGYRxFizt1jp4C4eShGRIBXWmh/ijOH46km61wU
+	9KYM/ua1UcKPP3lavtjyW7ymhCko=
+X-Google-Smtp-Source: AGHT+IEm9/zx0pqZikdBy5Q7oZpz/U7Kb8zxBTsQd+V5KNtWwPkneipv/spJVmybM2IBpUOF9iPZl955rc70DoLdhk4=
+X-Received: by 2002:a05:6512:3ca4:b0:52c:dc57:868b with SMTP id
+ 2adb3069b0e04-5331c696579mr2037950e87.13.1723813240194; Fri, 16 Aug 2024
+ 06:00:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240812-ccache-literal-code-block-v1-1-4f09de978667@gmail.com>
-In-Reply-To: <20240812-ccache-literal-code-block-v1-1-4f09de978667@gmail.com>
+References: <20240813011619.13857-1-jose.fernandez@linux.dev>
+In-Reply-To: <20240813011619.13857-1-jose.fernandez@linux.dev>
 From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Fri, 16 Aug 2024 21:36:19 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASnfqcZH7kO-04TvC0aswmC1CV22wm1N0onDM4ezqxcPA@mail.gmail.com>
-Message-ID: <CAK7LNASnfqcZH7kO-04TvC0aswmC1CV22wm1N0onDM4ezqxcPA@mail.gmail.com>
-Subject: Re: [PATCH] Documentation/llvm: turn make command for ccache into
- code block
-To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Jonathan Corbet <corbet@lwn.net>, llvm@lists.linux.dev, 
-	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org, 
+Date: Fri, 16 Aug 2024 22:00:02 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARmzmAVacXm4yTaa3sRbJ1tQq6OYqYTw_A6HsVG2-pomA@mail.gmail.com>
+Message-ID: <CAK7LNARmzmAVacXm4yTaa3sRbJ1tQq6OYqYTw_A6HsVG2-pomA@mail.gmail.com>
+Subject: Re: [PATCH V3] kbuild: control extra pacman packages with PACMAN_EXTRAPACKAGES
+To: Jose Fernandez <jose.fernandez@linux.dev>
+Cc: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+	Christian Heusel <christian@heusel.eu>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Peter Jung <ptr1337@cachyos.org>, linux-kbuild@vger.kernel.org, 
 	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 12, 2024 at 9:17=E2=80=AFPM Javier Carrasco
-<javier.carrasco.cruz@gmail.com> wrote:
+On Tue, Aug 13, 2024 at 10:17=E2=80=AFAM Jose Fernandez
+<jose.fernandez@linux.dev> wrote:
 >
-> The command provided to use ccache with clang is not a literal code
-> block. Once built, the documentation displays the '' symbols as a "
-> character, which is wrong, and the command can not be applied as
-> provided.
+> Introduce the PACMAN_EXTRAPACKAGES variable in PKGBUILD to allow users
+> to specify which additional packages are built by the pacman-pkg target.
 >
-> Turn the command into a literal code block.
+> Previously, the api-headers package was always included, and the headers
+> package was included only if CONFIG_MODULES=3Dy. With this change, both
+> headers and api-headers packages are included by default. Users can now
+> control this behavior by setting PACMAN_EXTRAPACKAGES to a
+> space-separated list of desired extra packages or leaving it empty to
+> exclude all.
 >
-> Signed-off-by: Javier Carrasco <javier.carrasco.cruz@gmail.com>
+> For example, to build only the base package without extras:
+>
+> make pacman-pkg PACMAN_EXTRAPACKAGES=3D""
+>
+> Signed-off-by: Jose Fernandez <jose.fernandez@linux.dev>
+> Reviewed-by: Peter Jung <ptr1337@cachyos.org>
 
 
-
-Applied to linux-kbuild/fixes.
+Applied to linux-kbuild.
 Thanks!
 
 
-> ---
->  Documentation/kbuild/llvm.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rs=
-t
-> index bb5c44f8bd1c..6dc66b4f31a7 100644
-> --- a/Documentation/kbuild/llvm.rst
-> +++ b/Documentation/kbuild/llvm.rst
-> @@ -126,7 +126,7 @@ Ccache
->
->  ``ccache`` can be used with ``clang`` to improve subsequent builds, (tho=
-ugh
->  KBUILD_BUILD_TIMESTAMP_ should be set to a deterministic value between b=
-uilds
-> -in order to avoid 100% cache misses, see Reproducible_builds_ for more i=
-nfo):
-> +in order to avoid 100% cache misses, see Reproducible_builds_ for more i=
-nfo)::
->
->         KBUILD_BUILD_TIMESTAMP=3D'' make LLVM=3D1 CC=3D"ccache clang"
->
->
-> ---
-> base-commit: 9e6869691724b12e1f43655eeedc35fade38120c
-> change-id: 20240812-ccache-literal-code-block-8462614e91e9
->
-> Best regards,
-> --
-> Javier Carrasco <javier.carrasco.cruz@gmail.com>
->
-
-
---=20
+--
 Best Regards
 Masahiro Yamada
 
