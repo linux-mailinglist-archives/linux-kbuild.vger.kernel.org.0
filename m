@@ -1,34 +1,34 @@
-Return-Path: <linux-kbuild+bounces-3061-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3062-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D25D49557E0
-	for <lists+linux-kbuild@lfdr.de>; Sat, 17 Aug 2024 14:43:26 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76A7E9557F1
+	for <lists+linux-kbuild@lfdr.de>; Sat, 17 Aug 2024 14:58:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 511481F224D8
-	for <lists+linux-kbuild@lfdr.de>; Sat, 17 Aug 2024 12:43:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A97301C212D4
+	for <lists+linux-kbuild@lfdr.de>; Sat, 17 Aug 2024 12:58:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB89914AD19;
-	Sat, 17 Aug 2024 12:42:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3EF8914A09F;
+	Sat, 17 Aug 2024 12:58:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b="UlSXQqN9"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b="CJexEdST"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 073CB14F115;
-	Sat, 17 Aug 2024 12:42:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 666E41514C8;
+	Sat, 17 Aug 2024 12:58:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.63.252.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723898577; cv=none; b=N47WLWuah8aJf5GBQ/UzOOvPuCWPipijbd5dKXnxawKHlXtq6p8F4TurQd7FbLSPnkhjrK9919aU+FXx3/OIsq1ghI9KqIM9ZN9bbHj1retONqayRczjGUW9z9jkg0RwccAPXNB9e89T2UzUZzO9P/onTxZ78YhtqCmClhlljWo=
+	t=1723899520; cv=none; b=k7Ea71xZ1f3wX311LoW0ilJ+hj4+c9N66YrgwW9zL65qQo3YX0TCM/Tu0Y2gmojFOFkYtQeB5T4cT7g1WaIrX0ki69e+P5Sh4L9v8+gUJRUV2SifHaM/kmBYEDnthL9qXn88YU3oZVrNvTXO7qTeeOwX49ca8cfjfB3EUfFFEso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723898577; c=relaxed/simple;
-	bh=Wj/DVctpez763JGpLUR53k3SJ0olWEe1ObuTxbhcrfY=;
+	s=arc-20240116; t=1723899520; c=relaxed/simple;
+	bh=PMrst1zCfDGFccXDTIT1lDpwj0hEe09Iih9yMCpjkUg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ahYgYx8vNdHQKSQRd9skfvxf44lgfQ3OuZiUCxuzKOkgn9gr2tZ8+PsAF9p1HoIVJzB7KBeoFlnU+MBaf0Ai24oQajkjTwgOp6EkdiGq465D6Mp3he46kSUIqlb93l6a388XesLkcrMjm3MAy7RnfFpZgwV54amTwbjDvIEE6n4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu; spf=pass smtp.mailfrom=fjasle.eu; dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b=UlSXQqN9; arc=none smtp.client-ip=194.63.252.55
+	 Content-Type:Content-Disposition:In-Reply-To; b=c+es6uAkN6lZOjA9y7c2/1m4X1LE0mclYjwi68RabhNgSrPng2w0zYLXQTKWlX1xnjPnu8OLaBit82Ncw5XVSXzxpr8V80yapOrsR9tlJDhu8YrfJ5OTkSa9lPstMj5k3dVqor3AMZR5xXuqE/mFKWrw51/w2pDaN2d2o32a1zs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu; spf=pass smtp.mailfrom=fjasle.eu; dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b=CJexEdST; arc=none smtp.client-ip=194.63.252.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fjasle.eu
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=fjasle.eu;
@@ -38,19 +38,19 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=fjasle.eu;
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
 	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
 	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=popLMSY8TBdy2nNJXIcgiSCPMgpZb7oW9Kq6UPjty04=; b=UlSXQqN9HMhG4c8QbCmvwdBIHh
-	Q7NSF+ZyxXJgN5fKZmJZS/2YbfcjFOZqhzjZIL+777FSZWoXX/Av3X8QJ/+++pH7XuoJOu4Wq6RY3
-	QbiN69cYaKhFTo2oWjeVVMSZC6uGsI66cbyERSDe0KcYTefJHuPqmu/mOrj/bOcM8xy3pmEOL+oNd
-	nh3TjKiKXmoiAZWDVrp8O9yUi13v6ilGc6DIx5FYBJvCHoD4X0SLSBg6kMnVOiPhc2BBXq5aF7G6k
-	a5Q9tbwDb4NJXtDN4xkEhOQl7kdx0Ki4oozx7gDZcShwl2nxtSlKEg8ne+bO9mLVVrRNjPpFQ3bq/
-	iTu0RJ8A==;
-Received: from [2001:9e8:9db:8201:3235:adff:fed0:37e6] (port=45834 helo=lindesnes.fjasle.eu)
+	bh=NBgNpsV3iSN5sqAH+5z8a2bc36aU5oe1kMspy42W3uw=; b=CJexEdSTpzpXyJ6WBjveloA02I
+	zlVDtuq7HV3A62zw+cH6xnJRw4EamRHOU6/nmLn9A9a0GN9lmRJ8BxqIf7PcfATJjgl9O/1XjTRIj
+	tZqWBocUnU5lOhBkcpnvTjBzxauUMIfuBW6KdZ3/zOxERXoUZUum7owRTu9V1RNUGt/Xpl3JCAjDG
+	WJpmkPpq5YF1eR3ecrCCtii57CvMOForRHhIW1z1v2cMRp6bblFBtLwbnnuzLN9arR9xTAJiFJWaZ
+	9u6RkGQ0jeI88nX7CqaoNMibb/je6QjOKPkVKaTbcONPMLb8IWb6w1F0bZ8k9no097iA4FfyZVJCo
+	a43A86rg==;
+Received: from [2001:9e8:9db:8201:3235:adff:fed0:37e6] (port=50764 helo=lindesnes.fjasle.eu)
 	by smtp.domeneshop.no with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.95)
 	(envelope-from <nicolas@fjasle.eu>)
-	id 1sfIlP-00DS5k-0s;
-	Sat, 17 Aug 2024 14:42:35 +0200
-Date: Sat, 17 Aug 2024 14:42:29 +0200
+	id 1sfJ0l-00DV8a-2P;
+	Sat, 17 Aug 2024 14:58:27 +0200
+Date: Sat, 17 Aug 2024 14:58:21 +0200
 From: Nicolas Schier <nicolas@fjasle.eu>
 To: Miguel Ojeda <ojeda@kernel.org>
 Cc: Alex Gaynor <alex.gaynor@gmail.com>,
@@ -63,10 +63,11 @@ Cc: Alex Gaynor <alex.gaynor@gmail.com>,
 	Alice Ryhl <aliceryhl@google.com>, rust-for-linux@vger.kernel.org,
 	Nathan Chancellor <nathan@kernel.org>, linux-kbuild@vger.kernel.org,
 	linux-kernel@vger.kernel.org, patches@lists.linux.dev
-Subject: Re: [PATCH 1/6] kbuild: rust: add `CONFIG_RUSTC_VERSION`
-Message-ID: <20240817-shaggy-adamant-warthog-be1167@lindesnes>
+Subject: Re: [PATCH 3/6] kbuild: rust: re-run Kconfig if the version text
+ changes
+Message-ID: <20240817-heavy-dancing-whale-6ae13d@lindesnes>
 References: <20240808221138.873750-1-ojeda@kernel.org>
- <20240808221138.873750-2-ojeda@kernel.org>
+ <20240808221138.873750-4-ojeda@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
@@ -75,86 +76,80 @@ List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240808221138.873750-2-ojeda@kernel.org>
+In-Reply-To: <20240808221138.873750-4-ojeda@kernel.org>
 
-On Fri, Aug 09, 2024 at 12:11:33AM +0200, Miguel Ojeda wrote:
-> Now that we support several Rust versions, introduce
-> `CONFIG_RUSTC_VERSION` so that it can be used in Kconfig to enable and
-> disable configuration options based on the `rustc` version.
+On Fri, Aug 09, 2024 at 12:11:35AM +0200, Miguel Ojeda wrote:
+> Re-run Kconfig if we detect the Rust compiler has changed via the version
+> text, like it is done for C.
 > 
-> The approach taken resembles `pahole`'s -- see commit 613fe1692377
-> ("kbuild: Add CONFIG_PAHOLE_VERSION"), i.e. a simple version parsing
-> without trying to identify several kinds of compilers, since so far
-> there is only one (`rustc`).
+> Unlike C, and unlike `RUSTC_VERSION`, the `RUSTC_VERSION_TEXT` is kept
+> under `depends on RUST`, since it should not be needed unless `RUST`
+> is enabled.
 > 
-> However, unlike `pahole`'s, we also print a zero if executing failed for
-> any reason, rather than checking if the command is found and executable
-> (which still leaves things like a file that exists and is executable,
-> but e.g. is built for another platform [1]). An equivalent approach to
-> the one here has also been submitted for `pahole` [2].
-> 
-> Link: https://lore.kernel.org/rust-for-linux/CANiq72=4vX_tJMJLE6e+bg7ZECHkS-AQpm8GBzuK75G1EB7+Nw@mail.gmail.com/ [1]
-> Link: https://lore.kernel.org/linux-kbuild/20240728125527.690726-1-ojeda@kernel.org/ [2]
 > Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 > ---
->  init/Kconfig             |  7 +++++++
->  scripts/rustc-version.sh | 26 ++++++++++++++++++++++++++
->  2 files changed, 33 insertions(+)
->  create mode 100755 scripts/rustc-version.sh
+> Masahiro: I think leaving the `depends on RUST` in `RUSTC_VERSION` is
+> OK, but since this is different from the C side, please let me know if
+> you prefer otherwise. Thanks!
 > 
+>  Makefile     | 5 +++--
+>  init/Kconfig | 4 +++-
+>  2 files changed, 6 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Makefile b/Makefile
+> index 8ad55d6e7b60..2b5f9f098b6f 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -648,9 +648,10 @@ endif
+> 
+>  # The expansion should be delayed until arch/$(SRCARCH)/Makefile is included.
+>  # Some architectures define CROSS_COMPILE in arch/$(SRCARCH)/Makefile.
+> -# CC_VERSION_TEXT is referenced from Kconfig (so it needs export),
+> +# CC_VERSION_TEXT and RUSTC_VERSION_TEXT are referenced from Kconfig (so they need export),
+>  # and from include/config/auto.conf.cmd to detect the compiler upgrade.
+
+If you send a v2, mind you consider reformatting so that this comment
+block stays <= 80 chars?
+
+>  CC_VERSION_TEXT = $(subst $(pound),,$(shell LC_ALL=C $(CC) --version 2>/dev/null | head -n 1))
+> +RUSTC_VERSION_TEXT = $(subst $(pound),,$(shell LC_ALL=C $(RUSTC) --version 2>/dev/null | head -n 1))
+> 
+>  ifneq ($(findstring clang,$(CC_VERSION_TEXT)),)
+>  include $(srctree)/scripts/Makefile.clang
+> @@ -671,7 +672,7 @@ ifdef config-build
+>  # KBUILD_DEFCONFIG may point out an alternative default configuration
+>  # used for 'make defconfig'
+>  include $(srctree)/arch/$(SRCARCH)/Makefile
+> -export KBUILD_DEFCONFIG KBUILD_KCONFIG CC_VERSION_TEXT
+> +export KBUILD_DEFCONFIG KBUILD_KCONFIG CC_VERSION_TEXT RUSTC_VERSION_TEXT
+> 
+>  config: outputmakefile scripts_basic FORCE
+>  	$(Q)$(MAKE) $(build)=scripts/kconfig $@
 > diff --git a/init/Kconfig b/init/Kconfig
-> index 3ada33b1d681..47e2c3227b99 100644
+> index 2f974f412374..b0238c4b6e79 100644
 > --- a/init/Kconfig
 > +++ b/init/Kconfig
-> @@ -60,6 +60,13 @@ config LLD_VERSION
->  	default $(ld-version) if LD_IS_LLD
->  	default 0
->  
-> +config RUSTC_VERSION
-> +	int
-> +	default $(shell,$(srctree)/scripts/rustc-version.sh $(RUSTC))
+> @@ -1926,7 +1926,9 @@ config RUST
+>  config RUSTC_VERSION_TEXT
+>  	string
+>  	depends on RUST
+> -	default "$(shell,LC_ALL=C $(RUSTC) --version 2>/dev/null | head -n 1)"
+> +	default "$(RUSTC_VERSION_TEXT)"
 > +	help
-> +	  It does not depend on `RUST` since that one may need to use the version
-> +	  in a `depends on`.
-> +
->  config RUST_IS_AVAILABLE
->  	def_bool $(success,$(srctree)/scripts/rust_is_available.sh)
->  	help
-> diff --git a/scripts/rustc-version.sh b/scripts/rustc-version.sh
-> new file mode 100755
-> index 000000000000..62ea510be71b
-> --- /dev/null
-> +++ b/scripts/rustc-version.sh
-> @@ -0,0 +1,26 @@
-> +#!/bin/sh
-> +# SPDX-License-Identifier: GPL-2.0
-> +#
-> +# Usage: $ ./rustc-version.sh rustc
-> +#
-> +# Print the Rust compiler name and its version in a 6 or 7-digit form.
-> +
-> +# Convert the version string x.y.z to a canonical up-to-7-digits form.
-> +#
-> +# Note that this function uses one more digit (compared to other
-> +# instances in other version scripts) to give a bit more space to
-> +# `rustc` since it will reach 1.100.0 in late 2026.
-> +get_canonical_version()
-> +{
-> +	IFS=.
-> +	set -- $1
-> +	echo $((100000 * $1 + 100 * $2 + $3))
-> +}
-> +
-> +if output=$("$@" --version 2>/dev/null); then
-> +	set -- $output
-> +	get_canonical_version $2
-> +else
-> +	echo 0
-> +	exit 1
-> +fi
-> -- 
-> 2.46.0
+> +	  See `CC_VERSION_TEXT`.
 > 
+>  config BINDGEN_VERSION_TEXT
+>  	string
+> --
+> 2.46.0
+
+Do we already support rust in external kernel modules?  In top-level
+Makefile's oot-kmod 'prepare' target we check that the compiler
+(version) is the same as when the kernel itself was built.  If rust
+modules are supported, adding a similar check might be helpful.
+
+
+Nevertheless,
 
 Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
 
