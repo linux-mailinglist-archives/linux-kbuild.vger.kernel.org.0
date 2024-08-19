@@ -1,144 +1,149 @@
-Return-Path: <linux-kbuild+bounces-3098-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3099-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AF59957494
-	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Aug 2024 21:39:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 494EC9576A5
+	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Aug 2024 23:36:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 428071F21A42
-	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Aug 2024 19:39:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C8A411F23304
+	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Aug 2024 21:36:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF33D1DC478;
-	Mon, 19 Aug 2024 19:38:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29B293BBF6;
+	Mon, 19 Aug 2024 21:35:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Jqy44aHK"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="d2iYOmyp"
 X-Original-To: linux-kbuild@vger.kernel.org
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-yw1-f201.google.com (mail-yw1-f201.google.com [209.85.128.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40B2B1DB45F
-	for <linux-kbuild@vger.kernel.org>; Mon, 19 Aug 2024 19:38:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DD1D1D6DA5
+	for <linux-kbuild@vger.kernel.org>; Mon, 19 Aug 2024 21:35:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724096337; cv=none; b=LCE0zXwCM401mPw3xWrPP5olKYLLLoHw4uKJhc2/7+I0haMp6qoyxsH1sNpsxl6l/HHmwxq4oWJr3K1ZqPBtbmAbggewvFgiFhuiufIWxl4axzfzBq7e0GZA4Q/FXvmr4QMaKTFB0jY2AKSs/MirX4G26iR80dmoGUnvBFs261c=
+	t=1724103346; cv=none; b=ABQq3+xxTjdgwwXQcUH0WgZRWWvjO3Om9Zz+9a/9bE4hyAJIodJxWZKXuis+uRAdaJGWmampJrOLrKdqeqIJOeKusYqdkV5XGuBLOdeaWB7/nEWcmxjhh9cDMO56P1jEDg3hq060fWGqmW9PGi97qjf/Zityf7CNjzbSUDeKpY4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724096337; c=relaxed/simple;
-	bh=F7wkcHJPXIPuDfH/klr4thKavbEnJmwxdbEiZYRhu1E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cKJqq1MmwYfwIn7L9Q7w28yXKfEtpjxWE3CLNCeEA8wRYJGZ+iDBYSpiWHwJpqIOy/n4LNv+LhztCh9wY6meyON3doZj+iLxNJEQy9s6XSms5ZDdqz3Q2mlwZFpZ/h7lfO0DoqUJzA9P12sb8BZvZoRcQNKTUUpB6IR2nE30Heo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Jqy44aHK; arc=none smtp.client-ip=209.85.214.171
+	s=arc-20240116; t=1724103346; c=relaxed/simple;
+	bh=uOhiT0jp1CouEzn/qv7waMQHRkLl2sOBHy2Im7EqXS4=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=UkHGe+9qGlNaRL8jWgAK0h4COChkPjTUrKZa0ECp8QEdnAR/W/Lx0Q1aevHC+JIdwA8TFTCTtWP2fWHmynxm6arYbOzKCk09/nKgex5z+zo7bQ05CVjGnEn9Ak7mj0NVEvHyzTyVhc+MrHOn6b16uTD55iM01HLatExdLIhmHRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--mmaurer.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=d2iYOmyp; arc=none smtp.client-ip=209.85.128.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-201fae21398so26461915ad.1
-        for <linux-kbuild@vger.kernel.org>; Mon, 19 Aug 2024 12:38:55 -0700 (PDT)
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--mmaurer.bounces.google.com
+Received: by mail-yw1-f201.google.com with SMTP id 00721157ae682-6ad26d5b061so81613827b3.2
+        for <linux-kbuild@vger.kernel.org>; Mon, 19 Aug 2024 14:35:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1724096335; x=1724701135; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=YeS++fCKemkXhDJMjat3ElWefP5AW5Wy1oKzA28CFNw=;
-        b=Jqy44aHKfCucjW6dSdgDbzaqx2bnXrzPEbfetshLmrEaw/8xyi0TxC5h7b8LHg8N/t
-         kouRMUJCIINWGrPLvd4Sca5u2B86Qpu1OApbkfFi9jPE4QPO7YgUqf48/pp/avbE7M1F
-         lXJKrVlyu8na4SVtkpsonw//DihGztrsDcWO8orF6NQltKwhUgETN4S6mzahBatvl4yK
-         UMKc7DJodi8BjCyDHN1sSBeQM4hD1rgsoVbAMCZPZst7QDHwCBS9MNExih6UbG4Uzp3E
-         K7W7VpffRMkE0tER85oamhTkLH2AFLpW0FSWfqnMxWZ7uyCW3dVhQkwozOJ+vYV/wb0k
-         fn4g==
+        d=google.com; s=20230601; t=1724103343; x=1724708143; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=dYHfB1jRSques99oHkY91uNPL3BC6i2xvsHR0qX5+O4=;
+        b=d2iYOmyp/cBcIKHY3r51ekQb7QPCyD2VGvhG2LIi7EIqd3/F9AiPqBZXwWqVa5DbiJ
+         bhbtMnxF9wpPcw3HZkGw6/EZfekomseyKKUV8sYcRfz6xDiYVH4zo8JHCRN441G1X+IP
+         a8uEyITezdde6MadzeVELezZhLcL5xUtvXEkxS4FaonmgwHaHoSg1pZciJRFz+SwtPOx
+         ROoXNyB4ZFjwdn1MiHO8jDvDDA6N2OVC1IjPR9UnCP1t336VprqrAE8pQ+7cozAyBOTD
+         vXxKaHSkG77NIZIPVDmxbFRlZf55rf73VRDALqqbbAI4I7ARxzCPgzbWLLisowyCYs7a
+         yduA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724096335; x=1724701135;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YeS++fCKemkXhDJMjat3ElWefP5AW5Wy1oKzA28CFNw=;
-        b=gnUSAS8lCFN/L181/hwJKUwVUvu95lqRcIcSkpOFELhwqh6ORhmK63qZOptvfj35yp
-         CPcOkt3MtuEyCjAWp9IaFCUHuybFbE4rvyp1nt4oDGUmhTNKNbNc1EJPenvwCh+jDOfP
-         Stw2txZAzrlQ0vxPpiQPf+Ove7jvIfOPZk2aqDVLboAB6qQE+Z7Mb7PbZuOxSzHIqucJ
-         Tdjq82Jxb4d9xtj/w2SjMNJmQFm5bH5UjUwmqmn2SYpAaOCFN4D24lJchPI+deqc7RWS
-         sk4CUoPs3/I3uD8TQibG3ZxQvPfRYf1PqdRP/PF8eoby84BojvJpjzza/YjOribLxLcD
-         8mDQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUzP0LVEkjhaniELToHXfJ/qYmYEJGp3dLrbZcHqnoQ+uHXw0EgPICzFprn6KnMAY8ovzpVlYReo9IZmU0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz69GNSFJJ6vWZuPcsMQwKr4R68XxVopEA9NmBzYJ0t/vPALvx4
-	PLKTxwiBUxHaxY1/VezKOKDnkIgSVZ3SB/RartTS0nJJ4WrO6pQEklhsQWm5oQ==
-X-Google-Smtp-Source: AGHT+IG8oRBHqBpvRvU+j9ijDv76wPfUzxrx1g+I09GD1WWcWllKaTLicpQtA41S0/MWaq3kkTtGZA==
-X-Received: by 2002:a17:903:188:b0:202:4d05:a24a with SMTP id d9443c01a7336-2024d05a587mr34136775ad.16.1724096334977;
-        Mon, 19 Aug 2024 12:38:54 -0700 (PDT)
-Received: from google.com (226.75.127.34.bc.googleusercontent.com. [34.127.75.226])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-201f03197b6sm65427305ad.69.2024.08.19.12.38.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Aug 2024 12:38:54 -0700 (PDT)
-Date: Mon, 19 Aug 2024 19:38:51 +0000
-From: Sami Tolvanen <samitolvanen@google.com>
-To: Benno Lossin <benno.lossin@proton.me>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Matthew Maurer <mmaurer@google.com>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Wedson Almeida Filho <wedsonaf@gmail.com>,
-	Gary Guo <gary@garyguo.net>, Petr Pavlu <petr.pavlu@suse.com>,
-	Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>,
-	Janne Grunau <j@jannau.net>, Asahi Linux <asahi@lists.linux.dev>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v2 16/19] gendwarfksyms: Add support for reserved
- structure fields
-Message-ID: <20240819193851.GA4809@google.com>
-References: <20240815173903.4172139-21-samitolvanen@google.com>
- <20240815173903.4172139-37-samitolvanen@google.com>
- <2024081600-grub-deskwork-4bae@gregkh>
- <CABCJKuedc3aCO2Or+_YBSzK_zp9zB8nFwjr-tK95EBM3La1AmA@mail.gmail.com>
- <2024081705-overarch-deceptive-6689@gregkh>
- <ef6f7294-0afe-46af-8714-ed4a4aaee558@proton.me>
+        d=1e100.net; s=20230601; t=1724103343; x=1724708143;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dYHfB1jRSques99oHkY91uNPL3BC6i2xvsHR0qX5+O4=;
+        b=iph2SLVAEchLk6qybylQWHmulAl18IJhTQYeXZka671482UMfk+GWtgujN3duXl9/H
+         y6kGQoVzWCAS2i4tnz2wMvJG4HDEvu7Tw+p97Uwk/CK6O58v5OWC+Fb1uXJwzgAkiWFy
+         E2ojmdaD4x0pHv5pPiiOxTemIRCzi1WPqtemYGS4I+gQeb3lr6ajkYOEi1kmrjOgR89o
+         oLgqt8iRC/H5uum1cUKhxjqDhjVeHPa4/1uuQBniw8KcEOrJvtEAhHYhJ197Fgvnt3QD
+         b1enOA4UKn4hZKi2jxF1HZtMgr5EdgJkWWazQUrQu7sY835s3DGxYmeTjpOBqcjYzTbm
+         3vmA==
+X-Forwarded-Encrypted: i=1; AJvYcCX8MC3paHuzNdsctpL7Covj/mGLIcN4HM8uYRM6xmMT/wjvORiq+kzHxR2OPnuIbW0O7t5/Z+GsgC1FQoDgAJtdPROzzIpL0oeL+fWI
+X-Gm-Message-State: AOJu0YxH0bZDCsXViGIR9WZLSfnyPvf/k/vyTaiveJ1a02avEolCdmjQ
+	79nwEO/8M6HFUB7wvQ7cdkDxF8F1l6WzHPvZy1yNnbwHGhlaH2/TpbXwcg1yxL65JQ/5DxtYQjb
+	6nbaAdA==
+X-Google-Smtp-Source: AGHT+IFwshO87RfhTzH1yMuE+dB46zbPZ1Eu9OzIlegM79V4EtZO9MXEpG14lmgTuz2TbiBW6ciN753E2AAE
+X-Received: from anyblade.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:1791])
+ (user=mmaurer job=sendgmr) by 2002:a05:690c:2912:b0:62f:f535:f41 with SMTP id
+ 00721157ae682-6b1bc5e4037mr4097737b3.9.1724103343636; Mon, 19 Aug 2024
+ 14:35:43 -0700 (PDT)
+Date: Mon, 19 Aug 2024 21:35:19 +0000
+In-Reply-To: <20240819213534.4080408-1-mmaurer@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kbuild@vger.kernel.org
 List-Id: <linux-kbuild.vger.kernel.org>
 List-Subscribe: <mailto:linux-kbuild+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-kbuild+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ef6f7294-0afe-46af-8714-ed4a4aaee558@proton.me>
+Mime-Version: 1.0
+References: <20240819213534.4080408-1-mmaurer@google.com>
+X-Mailer: git-send-email 2.46.0.184.g6999bdac58-goog
+Message-ID: <20240819213534.4080408-2-mmaurer@google.com>
+Subject: [PATCH v3 1/4] kbuild: rust: Define probing macros for rustc
+From: Matthew Maurer <mmaurer@google.com>
+To: dvyukov@google.com, ojeda@kernel.org, andreyknvl@gmail.com, 
+	Masahiro Yamada <masahiroy@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Wedson Almeida Filho <wedsonaf@gmail.com>, Nathan Chancellor <nathan@kernel.org>
+Cc: aliceryhl@google.com, samitolvanen@google.com, kasan-dev@googlegroups.com, 
+	linux-mm@kvack.org, glider@google.com, ryabinin.a.a@gmail.com, 
+	Matthew Maurer <mmaurer@google.com>, Nicolas Schier <nicolas@fjasle.eu>, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	"=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?=" <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>, 
+	Andreas Hindborg <a.hindborg@samsung.com>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Benno,
+Creates flag probe macro variants for `rustc`. These are helpful
+because:
 
-On Sat, Aug 17, 2024 at 01:19:55PM +0000, Benno Lossin wrote:
-> 
-> For this use-case (the one in the patch), I don't really know if we want
-> to copy the approach from C. Do we even support exporting kABI from
-> Rust? If yes, then we I would recommend we tag it in the source code
-> instead of using a union. Here the example from the patch adapted:
-> 
->     #[repr(C)] // needed for layout stability
->     pub struct Struct1 {
->         a: u64,
->         #[kabi_reserved(u64)] // this marker is new
->         _reserved: u64,
->     }
-> 
-> And then to use the reserved field, you would do this:
->     
->     #[repr(C)]
->     pub struct Struct1 {
->         a: u64,
->         #[kabi_reserved(u64)]
->         b: Struct2,
->     }
-> 
->     #[repr(C)]
->     pub struct Struct2 {
->         b: i32,
->         v: i32,
->     }
-> 
-> The attribute would check that the size of the two types match and
-> gendwarfksyms would use the type given in "()" instead of the actual
-> type.
+1. `rustc` support will soon be a minimum rather than a pinned version.
+2. We already support multiple LLVMs linked into `rustc`, and these are
+   needed to probe what LLVM parameters `rustc` will accept.
 
-This definitely looks cleaner than unions in Rust, but how would this
-scheme be visible in DWARF? You might also need to expand the annotation
-to allow replacing one reserved field with multiple smaller ones without
-using structs.
+Signed-off-by: Matthew Maurer <mmaurer@google.com>
+---
+ scripts/Kconfig.include   |  8 ++++++++
+ scripts/Makefile.compiler | 15 +++++++++++++++
+ 2 files changed, 23 insertions(+)
 
-Sami
+diff --git a/scripts/Kconfig.include b/scripts/Kconfig.include
+index 3ee8ecfb8c04..ffafe269fe9e 100644
+--- a/scripts/Kconfig.include
++++ b/scripts/Kconfig.include
+@@ -63,3 +63,11 @@ ld-version := $(shell,set -- $(ld-info) && echo $2)
+ cc-option-bit = $(if-success,$(CC) -Werror $(1) -E -x c /dev/null -o /dev/null,$(1))
+ m32-flag := $(cc-option-bit,-m32)
+ m64-flag := $(cc-option-bit,-m64)
++
++# $(rustc-option,<flag>)
++# Return y if the Rust compiler supports <flag>, n otherwise
++# Calls to this should be guarded so that they are not evaluated if
++# CONFIG_HAVE_RUST is not set.
++# If you are testing for unstable features, consider `rustc-min-version`
++# instead, as features may have different completeness while available.
++rustc-option = $(success,trap "rm -rf .tmp_$$" EXIT; mkdir .tmp_$$; $(RUSTC) $(1) --crate-type=rlib /dev/null -o .tmp_$$/tmp.rlib)
+diff --git a/scripts/Makefile.compiler b/scripts/Makefile.compiler
+index 92be0c9a13ee..485d66768a32 100644
+--- a/scripts/Makefile.compiler
++++ b/scripts/Makefile.compiler
+@@ -72,3 +72,18 @@ clang-min-version = $(call test-ge, $(CONFIG_CLANG_VERSION), $1)
+ # ld-option
+ # Usage: KBUILD_LDFLAGS += $(call ld-option, -X, -Y)
+ ld-option = $(call try-run, $(LD) $(KBUILD_LDFLAGS) $(1) -v,$(1),$(2),$(3))
++
++# __rustc-option
++# Usage: MY_RUSTFLAGS += $(call __rustc-option,$(RUSTC),$(MY_RUSTFLAGS),-Cinstrument-coverage,-Zinstrument-coverage)
++__rustc-option = $(call try-run,\
++	$(1) $(2) $(3) --crate-type=rlib /dev/null -o "$$TMP",$(3),$(4))
++
++# rustc-option
++# Usage: rustflags-y += $(call rustc-option,-Cinstrument-coverage,-Zinstrument-coverage)
++rustc-option = $(call __rustc-option, $(RUSTC),\
++	$(KBUILD_RUSTFLAGS),$(1),$(2))
++
++# rustc-option-yn
++# Usage: flag := $(call rustc-option-yn,-Cinstrument-coverage)
++rustc-option-yn = $(call try-run,\
++	$(RUSTC) $(KBUILD_RUSTFLAGS) $(1) --crate-type=rlib /dev/null -o "$$TMP",y,n)
+-- 
+2.46.0.184.g6999bdac58-goog
+
 
