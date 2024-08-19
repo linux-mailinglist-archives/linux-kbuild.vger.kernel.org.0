@@ -1,66 +1,66 @@
-Return-Path: <linux-kbuild+bounces-3095-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3096-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DE0B956FC5
-	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Aug 2024 18:08:00 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FF7F95700C
+	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Aug 2024 18:17:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E86F91F2310D
-	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Aug 2024 16:07:59 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1CBFFB290AA
+	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Aug 2024 16:08:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FD65187854;
-	Mon, 19 Aug 2024 16:04:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ABE93171E43;
+	Mon, 19 Aug 2024 16:04:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="JK6o8PGo"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="B5+Ydgci"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 044D316D4EA;
-	Mon, 19 Aug 2024 16:04:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B5BE17BED0;
+	Mon, 19 Aug 2024 16:04:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.177.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724083486; cv=none; b=hCaGG9zbzAe//H6KEpqOjzhEVaMF9n70I1Aseiv8jIGo1Yfuz9q7Sgahsb2lHf3yJKp4nDk0ZNbUbBeCnyPuq0l4Em/1xtfrGPfsooy+YgFJqv3uKIWE2G3LTKt6pZxKrqCdf1EFmn03H2i+s8zhM936Yo7LDB56EqgGmVwVcyY=
+	t=1724083492; cv=none; b=qHb61V+u0gL7gEjkvJap9Lf5V0LCD6hHAt7ujxQC8BYgGQbmNuqmV0grCdfzpiRZ/+51CDzT4yt3AP38rmUS1VqGoOAzQfiZ9oN8kCP5auzoF5UjxDY+xMDi26nkCkq0jEubJrqkUKUjInStNTA10DnZyK61Or4B1QiwEAi5UDM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724083486; c=relaxed/simple;
-	bh=iDgdDjvLeA3c1RUJaOpeZqGAnyV3W+vMth9fSp7FUKw=;
+	s=arc-20240116; t=1724083492; c=relaxed/simple;
+	bh=UROqIgc9Nq6hwnGbMe5qpcJ5S3JpUgYDfQ3zqb/R2lU=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=TRJyRdxFDbV0jLyoOzRA8yXaCuFbq4jfPMc3En6dIqH1JQM4YL8Rjs704nrRrspQbAr/sLs/zGWCZH2FZ8HrHnzF9GiDcwxZ+2ws8/0/8xSN6i4xqYkqFe+9WiKVAQ3CVvs7cYMvZ3MNj2m7USu116e+Pw/vgdvhw/moaXJophY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=JK6o8PGo; arc=none smtp.client-ip=205.220.177.32
+	 MIME-Version; b=LFkU65Vp68yDSXgQbJr6d0CUcCxkbi6bVi7VgBVyDDlt77QWXvnomRXm7jq/yJfoOJ7nVkF5dUigO9fqhgL2/cC1e7w2LCgJeVafVb8XQ+lkMlcaNUremupF+xn+UsM4geGhi0Pe2URhquDBPFmS9Nc6N1JyOa3vQsgk3N9YIa8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=B5+Ydgci; arc=none smtp.client-ip=205.220.177.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47JD6we5004698;
-	Mon, 19 Aug 2024 16:04:28 GMT
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47JD6vqf018670;
+	Mon, 19 Aug 2024 16:04:32 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
 	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding; s=corp-2023-11-20; bh=y
-	JAUYg+BxVCuyiXZyU2h1A/9sQ4OxkyC85U6c8PKAPQ=; b=JK6o8PGo5rARAg0MM
-	mxwVniuB1QUjQRtadLYbbYCQkZw8YUNKg1kW8oe+6shFfwpDFW9OsCJrZOOfa3lG
-	1fLD17VB1H1WouH74sttSQwjU7T+DTgbTqqvalA6m/Rw8amwqy3v9qaDfbEekanF
-	hJ95wiFd36iSDHv5GDCkvZKk/vT7lvppI70uo491Ba8kNKAVqG38Afy/B/1b8kYS
-	oiDrM++LUPr3iqCqEgswlwlG3dPKSz+9H51SD8rQSqHd3ZXSg0JIN1jd4eJD47qo
-	m3i+s/4t6KFzgNKfVngvZrcnW9/ismWZHWiCvjOtJnEaMHPcHpst/gnGWtv2c2qo
-	X1Gnw==
+	:mime-version:content-transfer-encoding; s=corp-2023-11-20; bh=o
+	UGJoOzcNlu4e1Btzz6EDrdKUE5D/s09/B09A0jdYhQ=; b=B5+Ydgcil8DBJ/7SE
+	4AQIQxYvzEfOq+aIQmzbr9p9JsbOq+mnF4dsxBIy9o9aLm7OlwMsJMSbu3oNUhZN
+	jgAqAUsE2jdWVUhwwbuAdQN8PSemZuEF8Oao9qFxKpsTBLChgr3DFKeAOns1q6ox
+	u+wFp9vqyF+PVNC5w6l8HpikOC0MZjYi5jUgT+q8r7aBqhxFNmWpviU9vt09VnH3
+	dSn5Edgdod7u9fihxuAXB4aszrXlBs0qC5+z/zAuTEpJuGccHFEDCDwNoHraOSl7
+	rpzI2yja+J5invp1N6VmK1JXkoB/u7l9pXKMbEg9tBtyYhTEFkL09dFELqQSUA6J
+	LQcyw==
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 412m2dayu5-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 412m3hjxw4-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 19 Aug 2024 16:04:28 +0000 (GMT)
+	Mon, 19 Aug 2024 16:04:32 +0000 (GMT)
 Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 47JEbHoe007842;
-	Mon, 19 Aug 2024 16:04:27 GMT
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 47JEbJJQ008119;
+	Mon, 19 Aug 2024 16:04:31 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 413h3pbba5-1
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 413h3pbbcx-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 19 Aug 2024 16:04:27 +0000
+	Mon, 19 Aug 2024 16:04:31 +0000
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 47JG3Fev014254;
-	Mon, 19 Aug 2024 16:04:26 GMT
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 47JG3Fex014254;
+	Mon, 19 Aug 2024 16:04:30 GMT
 Received: from localhost.localdomain (dhcp-10-175-39-147.vpn.oracle.com [10.175.39.147])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 413h3pb9w5-11;
-	Mon, 19 Aug 2024 16:04:26 +0000
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 413h3pb9w5-12;
+	Mon, 19 Aug 2024 16:04:30 +0000
 From: Vegard Nossum <vegard.nossum@oracle.com>
 To: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
 Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
@@ -71,9 +71,9 @@ Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
         James Bottomley <James.Bottomley@HansenPartnership.com>,
         Theodore Ts'o <tytso@mit.edu>, linux-hardening@vger.kernel.org,
         Vegard Nossum <vegard.nossum@oracle.com>
-Subject: [RFC PATCH 10/11] kbuild: don't test for file presence in --dry-run mode
-Date: Mon, 19 Aug 2024 18:03:07 +0200
-Message-Id: <20240819160309.2218114-11-vegard.nossum@oracle.com>
+Subject: [RFC PATCH 11/11] kbuild: suppress echoing of commands in --dry-run mode
+Date: Mon, 19 Aug 2024 18:03:08 +0200
+Message-Id: <20240819160309.2218114-12-vegard.nossum@oracle.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240819160309.2218114-1-vegard.nossum@oracle.com>
 References: <20240819160309.2218114-1-vegard.nossum@oracle.com>
@@ -91,43 +91,34 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 susp
  adultscore=0 spamscore=0 mlxscore=0 mlxlogscore=999 malwarescore=0
  bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2407110000 definitions=main-2408190107
-X-Proofpoint-GUID: y83bWz6pT--oiwbk3p3YrmU5sfo4WeNx
-X-Proofpoint-ORIG-GUID: y83bWz6pT--oiwbk3p3YrmU5sfo4WeNx
+X-Proofpoint-ORIG-GUID: 0NvHgeI2o8y5pGCXm_gQktbN_3koB2c4
+X-Proofpoint-GUID: 0NvHgeI2o8y5pGCXm_gQktbN_3koB2c4
 
-I'm not really sure if this is correct as I'm not sure under which
-circumstances the files tested for with $(wildcard) would NOT be
-present. I'm not even sure if this is the right approach to take.
-
-However, it _should_ keep working the same as before for regular
-'make' invocations and is necessary for 'make --dry-run' to work.
+If the user ran 'make -n' then we will already print all commands.
 
 Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
 ---
- scripts/Makefile.modpost | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Makefile | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
-index 65f2bdc702369..139fa0b087b6d 100644
---- a/scripts/Makefile.modpost
-+++ b/scripts/Makefile.modpost
-@@ -99,7 +99,7 @@ modpost-args += -t $(addprefix -u , $(ksym-wl))
- modpost-deps += $(ksym-wl)
+diff --git a/Makefile b/Makefile
+index d08ade5791c2e..a1a3e96a10ea2 100644
+--- a/Makefile
++++ b/Makefile
+@@ -96,9 +96,10 @@ ifneq ($(findstring 1, $(KBUILD_VERBOSE)),)
+   Q =
  endif
  
--ifeq ($(wildcard vmlinux.o),)
-+ifeq ($(or $(wildcard vmlinux.o), $(dry_run)),)
- missing-input := vmlinux.o
- output-symdump := modules-only.symvers
- else
-@@ -119,7 +119,7 @@ include $(kbuild-file)
- 
- output-symdump := $(KBUILD_EXTMOD)/Module.symvers
- 
--ifeq ($(wildcard Module.symvers),)
-+ifeq ($(or $(wildcard Module.symvers), $(dry_run)),)
- missing-input := Module.symvers
- else
- modpost-args += -i Module.symvers
+-# If the user is running make -s (silent mode), suppress echoing of
+-# commands
+-ifneq ($(findstring s,$(firstword -$(MAKEFLAGS))),)
++# If the user is running make -s (silent mode) or -n (dry run mode),
++# suppress echoing of commands
++ifneq (,$(or $(findstring s,$(firstword -$(MAKEFLAGS))), \
++	$(findstring n,$(firstword -$(MAKEFLAGS)))))
+ quiet=silent_
+ override KBUILD_VERBOSE :=
+ endif
 -- 
 2.34.1
 
