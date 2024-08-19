@@ -1,66 +1,66 @@
-Return-Path: <linux-kbuild+bounces-3093-lists+linux-kbuild=lfdr.de@vger.kernel.org>
+Return-Path: <linux-kbuild+bounces-3095-lists+linux-kbuild=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED9D8956FD7
-	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Aug 2024 18:10:50 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DE0B956FC5
+	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Aug 2024 18:08:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AC66AB28F08
-	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Aug 2024 16:07:57 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E86F91F2310D
+	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Aug 2024 16:07:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7846A187560;
-	Mon, 19 Aug 2024 16:04:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FD65187854;
+	Mon, 19 Aug 2024 16:04:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="IAJMv4XE"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="JK6o8PGo"
 X-Original-To: linux-kbuild@vger.kernel.org
 Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A98BA16D4EA;
-	Mon, 19 Aug 2024 16:04:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 044D316D4EA;
+	Mon, 19 Aug 2024 16:04:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.177.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724083484; cv=none; b=d1niIX1F+AWhpw/RAwjWyOBPuP4sEJscraTOuXR5ScM31qwaGGNl/Roh3XyCyGRfSdmJLmhSbcX8UrhaQ38o7nNCL4SxPQ6i+kyf74oYCa2HvCNwII0mWD2HbLVB1nMKjSdXLkedfG9NJYFwPMu3VRA7I4jEGcn/ZpM6uLlAAc4=
+	t=1724083486; cv=none; b=hCaGG9zbzAe//H6KEpqOjzhEVaMF9n70I1Aseiv8jIGo1Yfuz9q7Sgahsb2lHf3yJKp4nDk0ZNbUbBeCnyPuq0l4Em/1xtfrGPfsooy+YgFJqv3uKIWE2G3LTKt6pZxKrqCdf1EFmn03H2i+s8zhM936Yo7LDB56EqgGmVwVcyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724083484; c=relaxed/simple;
-	bh=j4nvRQqupybs8zsQ97VkdPp8rl05S+bMUkwomglK+gs=;
+	s=arc-20240116; t=1724083486; c=relaxed/simple;
+	bh=iDgdDjvLeA3c1RUJaOpeZqGAnyV3W+vMth9fSp7FUKw=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=VZWCJr7uNCPcjJAgyoVZ3AWDhf69aWSlXP45Kr1XXWqt3s4i2wd/vMzhcKYNGEm7D0OJe7rbcrWU3gefy/y2P7GJOZ+2OehWZr947krWfeoZN76O9cfTs5hHPblFxi2MthfVJSYc4jjOUn0iQM7sxZ3AhA1pZIg7MWzaVU3Hmug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=IAJMv4XE; arc=none smtp.client-ip=205.220.177.32
+	 MIME-Version; b=TRJyRdxFDbV0jLyoOzRA8yXaCuFbq4jfPMc3En6dIqH1JQM4YL8Rjs704nrRrspQbAr/sLs/zGWCZH2FZ8HrHnzF9GiDcwxZ+2ws8/0/8xSN6i4xqYkqFe+9WiKVAQ3CVvs7cYMvZ3MNj2m7USu116e+Pw/vgdvhw/moaXJophY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=JK6o8PGo; arc=none smtp.client-ip=205.220.177.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
-Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47JD6vLe022408;
-	Mon, 19 Aug 2024 16:04:24 GMT
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 47JD6we5004698;
+	Mon, 19 Aug 2024 16:04:28 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=
 	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding; s=corp-2023-11-20; bh=Q
-	FptFzk97EtGYovpo4SLZYT+QuG65DqlTOQxoV011pE=; b=IAJMv4XEMdI88g3ij
-	71Oa6Go2x3swu55ml2VkBbTlLGMXsh8AFMAQpimicFDeKZxQr9HpYH5vyMu7dVuQ
-	xBYYpIrtaOqccPuyfBQY4LPg9wcG6Jw/Vec+u70U/U2QTWPYck8J9VzqLMP+2aPJ
-	UrHCzuFeLe4jbeWT33P7zjX/ER9knQiHhH0/QWN75LM7jzgc0eDJhbkoH+p6XR7t
-	qKZnd0f/Lq8gPHYtBPDbkYTbX1y52gt66qhU4in40C1Z45KhwE7YV51LYXHzStpR
-	xMWIH3CxGNp4fX4ZS1FEY5Gmp248+Hb9mOsDcc4RfiVKAoexupKKvoLGN4czG3ta
-	4yMJg==
+	:mime-version:content-transfer-encoding; s=corp-2023-11-20; bh=y
+	JAUYg+BxVCuyiXZyU2h1A/9sQ4OxkyC85U6c8PKAPQ=; b=JK6o8PGo5rARAg0MM
+	mxwVniuB1QUjQRtadLYbbYCQkZw8YUNKg1kW8oe+6shFfwpDFW9OsCJrZOOfa3lG
+	1fLD17VB1H1WouH74sttSQwjU7T+DTgbTqqvalA6m/Rw8amwqy3v9qaDfbEekanF
+	hJ95wiFd36iSDHv5GDCkvZKk/vT7lvppI70uo491Ba8kNKAVqG38Afy/B/1b8kYS
+	oiDrM++LUPr3iqCqEgswlwlG3dPKSz+9H51SD8rQSqHd3ZXSg0JIN1jd4eJD47qo
+	m3i+s/4t6KFzgNKfVngvZrcnW9/ismWZHWiCvjOtJnEaMHPcHpst/gnGWtv2c2qo
+	X1Gnw==
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 412m3dk14x-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 412m2dayu5-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 19 Aug 2024 16:04:24 +0000 (GMT)
+	Mon, 19 Aug 2024 16:04:28 +0000 (GMT)
 Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 47JEbHhO007843;
-	Mon, 19 Aug 2024 16:04:23 GMT
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 47JEbHoe007842;
+	Mon, 19 Aug 2024 16:04:27 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 413h3pbb7h-1
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 413h3pbba5-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 19 Aug 2024 16:04:23 +0000
+	Mon, 19 Aug 2024 16:04:27 +0000
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 47JG3Fet014254;
-	Mon, 19 Aug 2024 16:04:22 GMT
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 47JG3Fev014254;
+	Mon, 19 Aug 2024 16:04:26 GMT
 Received: from localhost.localdomain (dhcp-10-175-39-147.vpn.oracle.com [10.175.39.147])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 413h3pb9w5-10;
-	Mon, 19 Aug 2024 16:04:22 +0000
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 413h3pb9w5-11;
+	Mon, 19 Aug 2024 16:04:26 +0000
 From: Vegard Nossum <vegard.nossum@oracle.com>
 To: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
 Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
@@ -71,9 +71,9 @@ Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
         James Bottomley <James.Bottomley@HansenPartnership.com>,
         Theodore Ts'o <tytso@mit.edu>, linux-hardening@vger.kernel.org,
         Vegard Nossum <vegard.nossum@oracle.com>
-Subject: [RFC PATCH 09/11] kbuild: simplify commands in --dry-run mode
-Date: Mon, 19 Aug 2024 18:03:06 +0200
-Message-Id: <20240819160309.2218114-10-vegard.nossum@oracle.com>
+Subject: [RFC PATCH 10/11] kbuild: don't test for file presence in --dry-run mode
+Date: Mon, 19 Aug 2024 18:03:07 +0200
+Message-Id: <20240819160309.2218114-11-vegard.nossum@oracle.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240819160309.2218114-1-vegard.nossum@oracle.com>
 References: <20240819160309.2218114-1-vegard.nossum@oracle.com>
@@ -91,100 +91,43 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 susp
  adultscore=0 spamscore=0 mlxscore=0 mlxlogscore=999 malwarescore=0
  bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2407110000 definitions=main-2408190107
-X-Proofpoint-ORIG-GUID: 2S5DyqFBWt4B_J4K_yjFpmQjqe900A57
-X-Proofpoint-GUID: 2S5DyqFBWt4B_J4K_yjFpmQjqe900A57
+X-Proofpoint-GUID: y83bWz6pT--oiwbk3p3YrmU5sfo4WeNx
+X-Proofpoint-ORIG-GUID: y83bWz6pT--oiwbk3p3YrmU5sfo4WeNx
 
-- $filechk is used to check if a file is up to date.
+I'm not really sure if this is correct as I'm not sure under which
+circumstances the files tested for with $(wildcard) would NOT be
+present. I'm not even sure if this is the right approach to take.
 
-- $cmd includes logic for echoing commands and deleting intermediate
-  files on interrupt. Skip all of that in --dry-run mode and just execute
-  the command.
-
-- $cmd_and_savecmd executes the command and echoes it into .<target>.cmd.
-
-- $if_changed_dep executes the command if any dependencies have changed.
-
-- $cmd_and_fixdep executes the command and updates .<target>.cmd.
-
-Skip all of that in --dry-run mode and just execute the command.
+However, it _should_ keep working the same as before for regular
+'make' invocations and is necessary for 'make --dry-run' to work.
 
 Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
 ---
- scripts/Kbuild.include | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+ scripts/Makefile.modpost | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
-index ed8a7493524b2..a1ef3b1828bb3 100644
---- a/scripts/Kbuild.include
-+++ b/scripts/Kbuild.include
-@@ -94,6 +94,7 @@ kecho := $($(quiet)kecho)
- # - If no file exist it is created
- # - If the content differ the new file is used
- # - If they are equal no change, and no timestamp update
-+ifndef dry_run
- define filechk
- 	$(check-FORCE)
- 	$(Q)set -e;						\
-@@ -105,6 +106,14 @@ define filechk
- 		mv -f $(tmp-target) $@;				\
- 	fi
- endef
-+else
-+# simplify and write the output directly if we're just printing
-+# the commands
-+define filechk
-+	mkdir -p $(dir $@)
-+	{ $(filechk_$(1)); } > $@
-+endef
-+endif
+diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
+index 65f2bdc702369..139fa0b087b6d 100644
+--- a/scripts/Makefile.modpost
++++ b/scripts/Makefile.modpost
+@@ -99,7 +99,7 @@ modpost-args += -t $(addprefix -u , $(ksym-wl))
+ modpost-deps += $(ksym-wl)
+ endif
  
- ###
- # Shorthand for $(Q)$(MAKE) -f scripts/Makefile.build obj=
-@@ -149,8 +158,13 @@ delete-on-interrupt = \
- 		$(foreach sig, HUP INT QUIT TERM PIPE, \
- 			trap 'rm -f $@; trap - $(sig); kill -s $(sig) $$$$' $(sig);))
+-ifeq ($(wildcard vmlinux.o),)
++ifeq ($(or $(wildcard vmlinux.o), $(dry_run)),)
+ missing-input := vmlinux.o
+ output-symdump := modules-only.symvers
+ else
+@@ -119,7 +119,7 @@ include $(kbuild-file)
  
-+ifndef dry_run
- # print and execute commands
- cmd = @$(if $(cmd_$(1)),set -e; $($(quiet)log_print) $(delete-on-interrupt) $(cmd_$(1)),:)
-+else
-+# just execute (...which will actually "just print" with make -n)
-+cmd = @$(if $(cmd_$(1)),$(cmd_$(1)),)
-+endif
+ output-symdump := $(KBUILD_EXTMOD)/Module.symvers
  
- ###
- # if_changed      - execute command if any prerequisite is newer than
-@@ -196,17 +210,30 @@ if-changed-cond = $(newer-prereqs)$(cmd-check)$(check-FORCE)
- # Execute command if command has changed or prerequisite(s) are updated.
- if_changed = $(if $(if-changed-cond),$(cmd_and_savecmd),@:)
- 
-+ifndef dry_run
- cmd_and_savecmd =                                                            \
- 	$(cmd);                                                              \
- 	printf '%s\n' 'savedcmd_$@ := $(make-cmd)' > $(dot-target).cmd
-+else
-+cmd_and_savecmd = $(cmd)
-+endif
- 
-+ifndef dry_run
- # Execute the command and also postprocess generated .d dependencies file.
- if_changed_dep = $(if $(if-changed-cond),$(cmd_and_fixdep),@:)
-+else
-+# Just execute the command directly
-+if_changed_dep = $(cmd)
-+endif
- 
-+ifndef dry_run
- cmd_and_fixdep =                                                             \
- 	$(cmd);                                                              \
- 	scripts/basic/fixdep $(depfile) $@ '$(make-cmd)' > $(dot-target).cmd;\
- 	rm -f $(depfile)
-+else
-+cmd_and_fixdep = $(cmd)
-+endif
- 
- # Usage: $(call if_changed_rule,foo)
- # Will check if $(cmd_foo) or any of the prerequisites changed,
+-ifeq ($(wildcard Module.symvers),)
++ifeq ($(or $(wildcard Module.symvers), $(dry_run)),)
+ missing-input := Module.symvers
+ else
+ modpost-args += -i Module.symvers
 -- 
 2.34.1
 
